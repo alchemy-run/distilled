@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -164,14 +164,77 @@ export type MetaDataKey = string;
 export type MetaDataValue = string;
 
 //# Schemas
+export type GroupingType = "ACCOUNT_BASED";
+export const GroupingType = S.Literal("ACCOUNT_BASED");
 export type ResourceList = string[];
 export const ResourceList = S.Array(S.String);
+export type Tier =
+  | "CUSTOM"
+  | "DEFAULT"
+  | "DOT_NET_CORE"
+  | "DOT_NET_WORKER"
+  | "DOT_NET_WEB_TIER"
+  | "DOT_NET_WEB"
+  | "SQL_SERVER"
+  | "SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP"
+  | "MYSQL"
+  | "POSTGRESQL"
+  | "JAVA_JMX"
+  | "ORACLE"
+  | "SAP_HANA_MULTI_NODE"
+  | "SAP_HANA_SINGLE_NODE"
+  | "SAP_HANA_HIGH_AVAILABILITY"
+  | "SAP_ASE_SINGLE_NODE"
+  | "SAP_ASE_HIGH_AVAILABILITY"
+  | "SQL_SERVER_FAILOVER_CLUSTER_INSTANCE"
+  | "SHAREPOINT"
+  | "ACTIVE_DIRECTORY"
+  | "SAP_NETWEAVER_STANDARD"
+  | "SAP_NETWEAVER_DISTRIBUTED"
+  | "SAP_NETWEAVER_HIGH_AVAILABILITY";
+export const Tier = S.Literal(
+  "CUSTOM",
+  "DEFAULT",
+  "DOT_NET_CORE",
+  "DOT_NET_WORKER",
+  "DOT_NET_WEB_TIER",
+  "DOT_NET_WEB",
+  "SQL_SERVER",
+  "SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP",
+  "MYSQL",
+  "POSTGRESQL",
+  "JAVA_JMX",
+  "ORACLE",
+  "SAP_HANA_MULTI_NODE",
+  "SAP_HANA_SINGLE_NODE",
+  "SAP_HANA_HIGH_AVAILABILITY",
+  "SAP_ASE_SINGLE_NODE",
+  "SAP_ASE_HIGH_AVAILABILITY",
+  "SQL_SERVER_FAILOVER_CLUSTER_INSTANCE",
+  "SHAREPOINT",
+  "ACTIVE_DIRECTORY",
+  "SAP_NETWEAVER_STANDARD",
+  "SAP_NETWEAVER_DISTRIBUTED",
+  "SAP_NETWEAVER_HIGH_AVAILABILITY",
+);
+export type RecommendationType = "INFRA_ONLY" | "WORKLOAD_ONLY" | "ALL";
+export const RecommendationType = S.Literal(
+  "INFRA_ONLY",
+  "WORKLOAD_ONLY",
+  "ALL",
+);
+export type ConfigurationEventStatus = "INFO" | "WARN" | "ERROR";
+export const ConfigurationEventStatus = S.Literal("INFO", "WARN", "ERROR");
+export type Visibility = "IGNORED" | "VISIBLE";
+export const Visibility = S.Literal("IGNORED", "VISIBLE");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type UpdateStatus = "RESOLVED";
+export const UpdateStatus = S.Literal("RESOLVED");
 export interface CreateComponentRequest {
   ResourceGroupName: string;
   ComponentName: string;
-  ResourceList: ResourceList;
+  ResourceList: string[];
 }
 export const CreateComponentRequest = S.suspend(() =>
   S.Struct({
@@ -314,18 +377,18 @@ export const DescribeComponentConfigurationRequest = S.suspend(() =>
 export interface DescribeComponentConfigurationRecommendationRequest {
   ResourceGroupName: string;
   ComponentName: string;
-  Tier: string;
+  Tier: Tier;
   WorkloadName?: string;
-  RecommendationType?: string;
+  RecommendationType?: RecommendationType;
 }
 export const DescribeComponentConfigurationRecommendationRequest = S.suspend(
   () =>
     S.Struct({
       ResourceGroupName: S.String,
       ComponentName: S.String,
-      Tier: S.String,
+      Tier: Tier,
       WorkloadName: S.optional(S.String),
-      RecommendationType: S.optional(S.String),
+      RecommendationType: S.optional(RecommendationType),
     }).pipe(
       T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
     ),
@@ -439,7 +502,7 @@ export interface ListConfigurationHistoryRequest {
   ResourceGroupName?: string;
   StartTime?: Date;
   EndTime?: Date;
-  EventStatus?: string;
+  EventStatus?: ConfigurationEventStatus;
   MaxResults?: number;
   NextToken?: string;
   AccountId?: string;
@@ -449,7 +512,7 @@ export const ListConfigurationHistoryRequest = S.suspend(() =>
     ResourceGroupName: S.optional(S.String),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EventStatus: S.optional(S.String),
+    EventStatus: S.optional(ConfigurationEventStatus),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     AccountId: S.optional(S.String),
@@ -505,7 +568,7 @@ export interface ListProblemsRequest {
   MaxResults?: number;
   NextToken?: string;
   ComponentName?: string;
-  Visibility?: string;
+  Visibility?: Visibility;
 }
 export const ListProblemsRequest = S.suspend(() =>
   S.Struct({
@@ -516,7 +579,7 @@ export const ListProblemsRequest = S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     ComponentName: S.optional(S.String),
-    Visibility: S.optional(S.String),
+    Visibility: S.optional(Visibility),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -584,7 +647,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagResourceRequest {
   ResourceARN: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
@@ -599,7 +662,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceARN: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
@@ -642,7 +705,7 @@ export interface UpdateComponentRequest {
   ResourceGroupName: string;
   ComponentName: string;
   NewComponentName?: string;
-  ResourceList?: ResourceList;
+  ResourceList?: string[];
 }
 export const UpdateComponentRequest = S.suspend(() =>
   S.Struct({
@@ -666,7 +729,7 @@ export interface UpdateComponentConfigurationRequest {
   ResourceGroupName: string;
   ComponentName: string;
   Monitor?: boolean;
-  Tier?: string;
+  Tier?: Tier;
   ComponentConfiguration?: string;
   AutoConfigEnabled?: boolean;
 }
@@ -675,7 +738,7 @@ export const UpdateComponentConfigurationRequest = S.suspend(() =>
     ResourceGroupName: S.String,
     ComponentName: S.String,
     Monitor: S.optional(S.Boolean),
-    Tier: S.optional(S.String),
+    Tier: S.optional(Tier),
     ComponentConfiguration: S.optional(S.String),
     AutoConfigEnabled: S.optional(S.Boolean),
   }).pipe(
@@ -712,14 +775,14 @@ export const UpdateLogPatternRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateLogPatternRequest>;
 export interface UpdateProblemRequest {
   ProblemId: string;
-  UpdateStatus?: string;
-  Visibility?: string;
+  UpdateStatus?: UpdateStatus;
+  Visibility?: Visibility;
 }
 export const UpdateProblemRequest = S.suspend(() =>
   S.Struct({
     ProblemId: S.String,
-    UpdateStatus: S.optional(S.String),
-    Visibility: S.optional(S.String),
+    UpdateStatus: S.optional(UpdateStatus),
+    Visibility: S.optional(Visibility),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -732,13 +795,13 @@ export const UpdateProblemResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UpdateProblemResponse>;
 export interface WorkloadConfiguration {
   WorkloadName?: string;
-  Tier?: string;
+  Tier?: Tier;
   Configuration?: string;
 }
 export const WorkloadConfiguration = S.suspend(() =>
   S.Struct({
     WorkloadName: S.optional(S.String),
-    Tier: S.optional(S.String),
+    Tier: S.optional(Tier),
     Configuration: S.optional(S.String),
   }),
 ).annotations({
@@ -762,6 +825,8 @@ export const UpdateWorkloadRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateWorkloadRequest",
 }) as any as S.Schema<UpdateWorkloadRequest>;
+export type DiscoveryType = "RESOURCE_GROUP_BASED" | "ACCOUNT_BASED";
+export const DiscoveryType = S.Literal("RESOURCE_GROUP_BASED", "ACCOUNT_BASED");
 export interface ApplicationInfo {
   AccountId?: string;
   ResourceGroupName?: string;
@@ -772,7 +837,7 @@ export interface ApplicationInfo {
   CWEMonitorEnabled?: boolean;
   Remarks?: string;
   AutoConfigEnabled?: boolean;
-  DiscoveryType?: string;
+  DiscoveryType?: DiscoveryType;
   AttachMissingPermission?: boolean;
 }
 export const ApplicationInfo = S.suspend(() =>
@@ -786,7 +851,7 @@ export const ApplicationInfo = S.suspend(() =>
     CWEMonitorEnabled: S.optional(S.Boolean),
     Remarks: S.optional(S.String),
     AutoConfigEnabled: S.optional(S.Boolean),
-    DiscoveryType: S.optional(S.String),
+    DiscoveryType: S.optional(DiscoveryType),
     AttachMissingPermission: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -794,29 +859,30 @@ export const ApplicationInfo = S.suspend(() =>
 }) as any as S.Schema<ApplicationInfo>;
 export type ApplicationInfoList = ApplicationInfo[];
 export const ApplicationInfoList = S.Array(ApplicationInfo);
+export type OsType = "WINDOWS" | "LINUX";
+export const OsType = S.Literal("WINDOWS", "LINUX");
 export type WorkloadMetaData = { [key: string]: string };
 export const WorkloadMetaData = S.Record({ key: S.String, value: S.String });
-export type DetectedWorkload = { [key: string]: WorkloadMetaData };
-export const DetectedWorkload = S.Record({
-  key: S.String,
-  value: WorkloadMetaData,
-});
+export type DetectedWorkload = { [key in Tier]?: { [key: string]: string } };
+export const DetectedWorkload = S.partial(
+  S.Record({ key: Tier, value: WorkloadMetaData }),
+);
 export interface ApplicationComponent {
   ComponentName?: string;
   ComponentRemarks?: string;
   ResourceType?: string;
-  OsType?: string;
-  Tier?: string;
+  OsType?: OsType;
+  Tier?: Tier;
   Monitor?: boolean;
-  DetectedWorkload?: DetectedWorkload;
+  DetectedWorkload?: { [key: string]: { [key: string]: string } };
 }
 export const ApplicationComponent = S.suspend(() =>
   S.Struct({
     ComponentName: S.optional(S.String),
     ComponentRemarks: S.optional(S.String),
     ResourceType: S.optional(S.String),
-    OsType: S.optional(S.String),
-    Tier: S.optional(S.String),
+    OsType: S.optional(OsType),
+    Tier: S.optional(Tier),
     Monitor: S.optional(S.Boolean),
     DetectedWorkload: S.optional(DetectedWorkload),
   }),
@@ -843,25 +909,48 @@ export type LogPatternList = LogPattern[];
 export const LogPatternList = S.Array(LogPattern);
 export type LogPatternSetList = string[];
 export const LogPatternSetList = S.Array(S.String);
-export type Feedback = { [key: string]: string };
-export const Feedback = S.Record({ key: S.String, value: S.String });
+export type Status =
+  | "IGNORE"
+  | "RESOLVED"
+  | "PENDING"
+  | "RECURRING"
+  | "RECOVERING";
+export const Status = S.Literal(
+  "IGNORE",
+  "RESOLVED",
+  "PENDING",
+  "RECURRING",
+  "RECOVERING",
+);
+export type SeverityLevel = "Informative" | "Low" | "Medium" | "High";
+export const SeverityLevel = S.Literal("Informative", "Low", "Medium", "High");
+export type FeedbackKey = "INSIGHTS_FEEDBACK";
+export const FeedbackKey = S.Literal("INSIGHTS_FEEDBACK");
+export type FeedbackValue = "NOT_SPECIFIED" | "USEFUL" | "NOT_USEFUL";
+export const FeedbackValue = S.Literal("NOT_SPECIFIED", "USEFUL", "NOT_USEFUL");
+export type Feedback = { [key in FeedbackKey]?: FeedbackValue };
+export const Feedback = S.partial(
+  S.Record({ key: FeedbackKey, value: FeedbackValue }),
+);
+export type ResolutionMethod = "MANUAL" | "AUTOMATIC" | "UNRESOLVED";
+export const ResolutionMethod = S.Literal("MANUAL", "AUTOMATIC", "UNRESOLVED");
 export interface Problem {
   Id?: string;
   Title?: string;
   ShortName?: string;
   Insights?: string;
-  Status?: string;
+  Status?: Status;
   AffectedResource?: string;
   StartTime?: Date;
   EndTime?: Date;
-  SeverityLevel?: string;
+  SeverityLevel?: SeverityLevel;
   AccountId?: string;
   ResourceGroupName?: string;
-  Feedback?: Feedback;
+  Feedback?: { [key: string]: FeedbackValue };
   RecurringCount?: number;
   LastRecurrenceTime?: Date;
-  Visibility?: string;
-  ResolutionMethod?: string;
+  Visibility?: Visibility;
+  ResolutionMethod?: ResolutionMethod;
 }
 export const Problem = S.suspend(() =>
   S.Struct({
@@ -869,11 +958,11 @@ export const Problem = S.suspend(() =>
     Title: S.optional(S.String),
     ShortName: S.optional(S.String),
     Insights: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(Status),
     AffectedResource: S.optional(S.String),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    SeverityLevel: S.optional(S.String),
+    SeverityLevel: S.optional(SeverityLevel),
     AccountId: S.optional(S.String),
     ResourceGroupName: S.optional(S.String),
     Feedback: S.optional(Feedback),
@@ -881,8 +970,8 @@ export const Problem = S.suspend(() =>
     LastRecurrenceTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    Visibility: S.optional(S.String),
-    ResolutionMethod: S.optional(S.String),
+    Visibility: S.optional(Visibility),
+    ResolutionMethod: S.optional(ResolutionMethod),
   }),
 ).annotations({ identifier: "Problem" }) as any as S.Schema<Problem>;
 export type ProblemList = Problem[];
@@ -909,10 +998,10 @@ export interface CreateApplicationRequest {
   CWEMonitorEnabled?: boolean;
   OpsItemSNSTopicArn?: string;
   SNSNotificationArn?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   AutoConfigEnabled?: boolean;
   AutoCreate?: boolean;
-  GroupingType?: string;
+  GroupingType?: GroupingType;
   AttachMissingPermission?: boolean;
 }
 export const CreateApplicationRequest = S.suspend(() =>
@@ -925,7 +1014,7 @@ export const CreateApplicationRequest = S.suspend(() =>
     Tags: S.optional(TagList),
     AutoConfigEnabled: S.optional(S.Boolean),
     AutoCreate: S.optional(S.Boolean),
-    GroupingType: S.optional(S.String),
+    GroupingType: S.optional(GroupingType),
     AttachMissingPermission: S.optional(S.Boolean),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -935,13 +1024,13 @@ export const CreateApplicationRequest = S.suspend(() =>
 }) as any as S.Schema<CreateApplicationRequest>;
 export interface DescribeComponentConfigurationResponse {
   Monitor?: boolean;
-  Tier?: string;
+  Tier?: Tier;
   ComponentConfiguration?: string;
 }
 export const DescribeComponentConfigurationResponse = S.suspend(() =>
   S.Struct({
     Monitor: S.optional(S.Boolean),
-    Tier: S.optional(S.String),
+    Tier: S.optional(Tier),
     ComponentConfiguration: S.optional(S.String),
   }),
 ).annotations({
@@ -984,7 +1073,7 @@ export const DescribeWorkloadResponse = S.suspend(() =>
   identifier: "DescribeWorkloadResponse",
 }) as any as S.Schema<DescribeWorkloadResponse>;
 export interface ListApplicationsResponse {
-  ApplicationInfoList?: ApplicationInfoList;
+  ApplicationInfoList?: ApplicationInfo[];
   NextToken?: string;
 }
 export const ListApplicationsResponse = S.suspend(() =>
@@ -996,7 +1085,7 @@ export const ListApplicationsResponse = S.suspend(() =>
   identifier: "ListApplicationsResponse",
 }) as any as S.Schema<ListApplicationsResponse>;
 export interface ListComponentsResponse {
-  ApplicationComponentList?: ApplicationComponentList;
+  ApplicationComponentList?: ApplicationComponent[];
   NextToken?: string;
 }
 export const ListComponentsResponse = S.suspend(() =>
@@ -1010,7 +1099,7 @@ export const ListComponentsResponse = S.suspend(() =>
 export interface ListLogPatternsResponse {
   ResourceGroupName?: string;
   AccountId?: string;
-  LogPatterns?: LogPatternList;
+  LogPatterns?: LogPattern[];
   NextToken?: string;
 }
 export const ListLogPatternsResponse = S.suspend(() =>
@@ -1026,7 +1115,7 @@ export const ListLogPatternsResponse = S.suspend(() =>
 export interface ListLogPatternSetsResponse {
   ResourceGroupName?: string;
   AccountId?: string;
-  LogPatternSets?: LogPatternSetList;
+  LogPatternSets?: string[];
   NextToken?: string;
 }
 export const ListLogPatternSetsResponse = S.suspend(() =>
@@ -1040,7 +1129,7 @@ export const ListLogPatternSetsResponse = S.suspend(() =>
   identifier: "ListLogPatternSetsResponse",
 }) as any as S.Schema<ListLogPatternSetsResponse>;
 export interface ListProblemsResponse {
-  ProblemList?: ProblemList;
+  ProblemList?: Problem[];
   NextToken?: string;
   ResourceGroupName?: string;
   AccountId?: string;
@@ -1056,7 +1145,7 @@ export const ListProblemsResponse = S.suspend(() =>
   identifier: "ListProblemsResponse",
 }) as any as S.Schema<ListProblemsResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }),
@@ -1095,6 +1184,15 @@ export const UpdateWorkloadResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateWorkloadResponse",
 }) as any as S.Schema<UpdateWorkloadResponse>;
+export type LogFilter = "ERROR" | "WARN" | "INFO";
+export const LogFilter = S.Literal("ERROR", "WARN", "INFO");
+export type CloudWatchEventSource = "EC2" | "CODE_DEPLOY" | "HEALTH" | "RDS";
+export const CloudWatchEventSource = S.Literal(
+  "EC2",
+  "CODE_DEPLOY",
+  "HEALTH",
+  "RDS",
+);
 export interface Observation {
   Id?: string;
   StartTime?: Date;
@@ -1104,13 +1202,13 @@ export interface Observation {
   LogGroup?: string;
   LineTime?: Date;
   LogText?: string;
-  LogFilter?: string;
+  LogFilter?: LogFilter;
   MetricNamespace?: string;
   MetricName?: string;
   Unit?: string;
   Value?: number;
   CloudWatchEventId?: string;
-  CloudWatchEventSource?: string;
+  CloudWatchEventSource?: CloudWatchEventSource;
   CloudWatchEventDetailType?: string;
   HealthEventArn?: string;
   HealthService?: string;
@@ -1152,13 +1250,13 @@ export const Observation = S.suspend(() =>
     LogGroup: S.optional(S.String),
     LineTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LogText: S.optional(S.String),
-    LogFilter: S.optional(S.String),
+    LogFilter: S.optional(LogFilter),
     MetricNamespace: S.optional(S.String),
     MetricName: S.optional(S.String),
     Unit: S.optional(S.String),
     Value: S.optional(S.Number),
     CloudWatchEventId: S.optional(S.String),
-    CloudWatchEventSource: S.optional(S.String),
+    CloudWatchEventSource: S.optional(CloudWatchEventSource),
     CloudWatchEventDetailType: S.optional(S.String),
     HealthEventArn: S.optional(S.String),
     HealthService: S.optional(S.String),
@@ -1193,8 +1291,19 @@ export const Observation = S.suspend(() =>
 ).annotations({ identifier: "Observation" }) as any as S.Schema<Observation>;
 export type ObservationList = Observation[];
 export const ObservationList = S.Array(Observation);
+export type ConfigurationEventResourceType =
+  | "CLOUDWATCH_ALARM"
+  | "CLOUDWATCH_LOG"
+  | "CLOUDFORMATION"
+  | "SSM_ASSOCIATION";
+export const ConfigurationEventResourceType = S.Literal(
+  "CLOUDWATCH_ALARM",
+  "CLOUDWATCH_LOG",
+  "CLOUDFORMATION",
+  "SSM_ASSOCIATION",
+);
 export interface RelatedObservations {
-  ObservationList?: ObservationList;
+  ObservationList?: Observation[];
 }
 export const RelatedObservations = S.suspend(() =>
   S.Struct({ ObservationList: S.optional(ObservationList) }),
@@ -1205,8 +1314,8 @@ export interface ConfigurationEvent {
   ResourceGroupName?: string;
   AccountId?: string;
   MonitoredResourceARN?: string;
-  EventStatus?: string;
-  EventResourceType?: string;
+  EventStatus?: ConfigurationEventStatus;
+  EventResourceType?: ConfigurationEventResourceType;
   EventTime?: Date;
   EventDetail?: string;
   EventResourceName?: string;
@@ -1216,8 +1325,8 @@ export const ConfigurationEvent = S.suspend(() =>
     ResourceGroupName: S.optional(S.String),
     AccountId: S.optional(S.String),
     MonitoredResourceARN: S.optional(S.String),
-    EventStatus: S.optional(S.String),
-    EventResourceType: S.optional(S.String),
+    EventStatus: S.optional(ConfigurationEventStatus),
+    EventResourceType: S.optional(ConfigurationEventResourceType),
     EventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EventDetail: S.optional(S.String),
     EventResourceName: S.optional(S.String),
@@ -1231,7 +1340,7 @@ export interface Workload {
   WorkloadId?: string;
   ComponentName?: string;
   WorkloadName?: string;
-  Tier?: string;
+  Tier?: Tier;
   WorkloadRemarks?: string;
   MissingWorkloadConfig?: boolean;
 }
@@ -1240,7 +1349,7 @@ export const Workload = S.suspend(() =>
     WorkloadId: S.optional(S.String),
     ComponentName: S.optional(S.String),
     WorkloadName: S.optional(S.String),
-    Tier: S.optional(S.String),
+    Tier: S.optional(Tier),
     WorkloadRemarks: S.optional(S.String),
     MissingWorkloadConfig: S.optional(S.Boolean),
   }),
@@ -1304,7 +1413,7 @@ export const DescribeProblemObservationsResponse = S.suspend(() =>
   identifier: "DescribeProblemObservationsResponse",
 }) as any as S.Schema<DescribeProblemObservationsResponse>;
 export interface ListConfigurationHistoryResponse {
-  EventList?: ConfigurationEventList;
+  EventList?: ConfigurationEvent[];
   NextToken?: string;
 }
 export const ListConfigurationHistoryResponse = S.suspend(() =>
@@ -1316,7 +1425,7 @@ export const ListConfigurationHistoryResponse = S.suspend(() =>
   identifier: "ListConfigurationHistoryResponse",
 }) as any as S.Schema<ListConfigurationHistoryResponse>;
 export interface ListWorkloadsResponse {
-  WorkloadList?: WorkloadList;
+  WorkloadList?: Workload[];
   NextToken?: string;
 }
 export const ListWorkloadsResponse = S.suspend(() =>
@@ -1341,7 +1450,7 @@ export const DescribeProblemResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeProblemResponse>;
 export interface DescribeComponentResponse {
   ApplicationComponent?: ApplicationComponent;
-  ResourceList?: ResourceList;
+  ResourceList?: string[];
 }
 export const DescribeComponentResponse = S.suspend(() =>
   S.Struct({
@@ -1399,21 +1508,21 @@ export class TagsAlreadyExistException extends S.TaggedError<TagsAlreadyExistExc
 export const listApplications: {
   (
     input: ListApplicationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListApplicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1442,7 +1551,7 @@ export const listApplications: {
 export const listConfigurationHistory: {
   (
     input: ListConfigurationHistoryRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConfigurationHistoryResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1452,7 +1561,7 @@ export const listConfigurationHistory: {
   >;
   pages: (
     input: ListConfigurationHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConfigurationHistoryResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1462,7 +1571,7 @@ export const listConfigurationHistory: {
   >;
   items: (
     input: ListConfigurationHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | ResourceNotFoundException
@@ -1490,7 +1599,7 @@ export const listConfigurationHistory: {
 export const listWorkloads: {
   (
     input: ListWorkloadsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkloadsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1500,7 +1609,7 @@ export const listWorkloads: {
   >;
   pages: (
     input: ListWorkloadsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkloadsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1510,7 +1619,7 @@ export const listWorkloads: {
   >;
   items: (
     input: ListWorkloadsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | ResourceNotFoundException
@@ -1545,7 +1654,7 @@ export const listWorkloads: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | ResourceNotFoundException
   | TooManyTagsException
@@ -1566,7 +1675,7 @@ export const tagResource: (
  */
 export const updateLogPattern: (
   input: UpdateLogPatternRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLogPatternResponse,
   | InternalServerException
   | ResourceInUseException
@@ -1590,7 +1699,7 @@ export const updateLogPattern: (
  */
 export const updateComponent: (
   input: UpdateComponentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateComponentResponse,
   | InternalServerException
   | ResourceInUseException
@@ -1615,7 +1724,7 @@ export const updateComponent: (
  */
 export const updateComponentConfiguration: (
   input: UpdateComponentConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateComponentConfigurationResponse,
   | InternalServerException
   | ResourceInUseException
@@ -1638,7 +1747,7 @@ export const updateComponentConfiguration: (
  */
 export const addWorkload: (
   input: AddWorkloadRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddWorkloadResponse,
   | InternalServerException
   | ResourceInUseException
@@ -1661,7 +1770,7 @@ export const addWorkload: (
  */
 export const updateApplication: (
   input: UpdateApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateApplicationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1682,7 +1791,7 @@ export const updateApplication: (
  */
 export const updateWorkload: (
   input: UpdateWorkloadRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkloadResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1705,7 +1814,7 @@ export const updateWorkload: (
  */
 export const deleteComponent: (
   input: DeleteComponentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteComponentResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1726,7 +1835,7 @@ export const deleteComponent: (
  */
 export const removeWorkload: (
   input: RemoveWorkloadRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveWorkloadResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1748,7 +1857,7 @@ export const removeWorkload: (
  */
 export const updateProblem: (
   input: UpdateProblemRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProblemResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1769,7 +1878,7 @@ export const updateProblem: (
  */
 export const deleteLogPattern: (
   input: DeleteLogPatternRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLogPatternResponse,
   | BadRequestException
   | InternalServerException
@@ -1792,7 +1901,7 @@ export const deleteLogPattern: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1807,7 +1916,7 @@ export const untagResource: (
  */
 export const deleteApplication: (
   input: DeleteApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApplicationResponse,
   | BadRequestException
   | InternalServerException
@@ -1830,7 +1939,7 @@ export const deleteApplication: (
  */
 export const describeComponentConfiguration: (
   input: DescribeComponentConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeComponentConfigurationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1851,7 +1960,7 @@ export const describeComponentConfiguration: (
  */
 export const describeComponentConfigurationRecommendation: (
   input: DescribeComponentConfigurationRecommendationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeComponentConfigurationRecommendationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1872,7 +1981,7 @@ export const describeComponentConfigurationRecommendation: (
  */
 export const describeLogPattern: (
   input: DescribeLogPatternRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeLogPatternResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1893,7 +2002,7 @@ export const describeLogPattern: (
  */
 export const describeWorkload: (
   input: DescribeWorkloadRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeWorkloadResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1915,7 +2024,7 @@ export const describeWorkload: (
 export const listComponents: {
   (
     input: ListComponentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListComponentsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1925,7 +2034,7 @@ export const listComponents: {
   >;
   pages: (
     input: ListComponentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListComponentsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1935,7 +2044,7 @@ export const listComponents: {
   >;
   items: (
     input: ListComponentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | ResourceNotFoundException
@@ -1963,7 +2072,7 @@ export const listComponents: {
 export const listLogPatterns: {
   (
     input: ListLogPatternsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLogPatternsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1973,7 +2082,7 @@ export const listLogPatterns: {
   >;
   pages: (
     input: ListLogPatternsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLogPatternsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1983,7 +2092,7 @@ export const listLogPatterns: {
   >;
   items: (
     input: ListLogPatternsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | ResourceNotFoundException
@@ -2011,7 +2120,7 @@ export const listLogPatterns: {
 export const listLogPatternSets: {
   (
     input: ListLogPatternSetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLogPatternSetsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -2021,7 +2130,7 @@ export const listLogPatternSets: {
   >;
   pages: (
     input: ListLogPatternSetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLogPatternSetsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -2031,7 +2140,7 @@ export const listLogPatternSets: {
   >;
   items: (
     input: ListLogPatternSetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | ResourceNotFoundException
@@ -2059,7 +2168,7 @@ export const listLogPatternSets: {
 export const listProblems: {
   (
     input: ListProblemsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProblemsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -2069,7 +2178,7 @@ export const listProblems: {
   >;
   pages: (
     input: ListProblemsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProblemsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -2079,7 +2188,7 @@ export const listProblems: {
   >;
   items: (
     input: ListProblemsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | ResourceNotFoundException
@@ -2111,7 +2220,7 @@ export const listProblems: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2125,7 +2234,7 @@ export const listTagsForResource: (
  */
 export const createComponent: (
   input: CreateComponentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateComponentResponse,
   | InternalServerException
   | ResourceInUseException
@@ -2148,7 +2257,7 @@ export const createComponent: (
  */
 export const createLogPattern: (
   input: CreateLogPatternRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLogPatternResponse,
   | InternalServerException
   | ResourceInUseException
@@ -2171,7 +2280,7 @@ export const createLogPattern: (
  */
 export const describeApplication: (
   input: DescribeApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeApplicationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2192,7 +2301,7 @@ export const describeApplication: (
  */
 export const describeObservation: (
   input: DescribeObservationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeObservationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2213,7 +2322,7 @@ export const describeObservation: (
  */
 export const describeProblemObservations: (
   input: DescribeProblemObservationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeProblemObservationsResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2234,7 +2343,7 @@ export const describeProblemObservations: (
  */
 export const describeProblem: (
   input: DescribeProblemRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeProblemResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2255,7 +2364,7 @@ export const describeProblem: (
  */
 export const createApplication: (
   input: CreateApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateApplicationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2283,7 +2392,7 @@ export const createApplication: (
  */
 export const describeComponent: (
   input: DescribeComponentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeComponentResponse,
   | InternalServerException
   | ResourceNotFoundException

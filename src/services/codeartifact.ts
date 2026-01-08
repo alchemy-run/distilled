@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -116,8 +116,6 @@ export type SHA256 = string;
 export type PolicyDocument = string;
 export type TagKey = string;
 export type TagValue = string;
-export type Integer = number;
-export type Long = number;
 export type String255 = string;
 export type LongOptional = number;
 export type ErrorMessage = string;
@@ -125,8 +123,65 @@ export type HashValue = string;
 export type RetryAfterSeconds = number;
 
 //# Schemas
+export type PackageFormat =
+  | "npm"
+  | "pypi"
+  | "maven"
+  | "nuget"
+  | "generic"
+  | "ruby"
+  | "swift"
+  | "cargo";
+export const PackageFormat = S.Literal(
+  "npm",
+  "pypi",
+  "maven",
+  "nuget",
+  "generic",
+  "ruby",
+  "swift",
+  "cargo",
+);
 export type PackageVersionList = string[];
 export const PackageVersionList = S.Array(S.String);
+export type PackageVersionStatus =
+  | "Published"
+  | "Unfinished"
+  | "Unlisted"
+  | "Archived"
+  | "Disposed"
+  | "Deleted";
+export const PackageVersionStatus = S.Literal(
+  "Published",
+  "Unfinished",
+  "Unlisted",
+  "Archived",
+  "Disposed",
+  "Deleted",
+);
+export type EndpointType = "dualstack" | "ipv4";
+export const EndpointType = S.Literal("dualstack", "ipv4");
+export type PackageGroupOriginRestrictionType =
+  | "EXTERNAL_UPSTREAM"
+  | "INTERNAL_UPSTREAM"
+  | "PUBLISH";
+export const PackageGroupOriginRestrictionType = S.Literal(
+  "EXTERNAL_UPSTREAM",
+  "INTERNAL_UPSTREAM",
+  "PUBLISH",
+);
+export type AllowPublish = "ALLOW" | "BLOCK";
+export const AllowPublish = S.Literal("ALLOW", "BLOCK");
+export type AllowUpstream = "ALLOW" | "BLOCK";
+export const AllowUpstream = S.Literal("ALLOW", "BLOCK");
+export type PackageVersionSortType = "PUBLISHED_TIME";
+export const PackageVersionSortType = S.Literal("PUBLISHED_TIME");
+export type PackageVersionOriginType = "INTERNAL" | "EXTERNAL" | "UNKNOWN";
+export const PackageVersionOriginType = S.Literal(
+  "INTERNAL",
+  "EXTERNAL",
+  "UNKNOWN",
+);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface AssociateExternalConnectionRequest {
@@ -169,7 +224,7 @@ export interface CreatePackageGroupRequest {
   packageGroup: string;
   contactInfo?: string;
   description?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreatePackageGroupRequest = S.suspend(() =>
   S.Struct({
@@ -240,7 +295,7 @@ export interface DeletePackageRequest {
   domain: string;
   domainOwner?: string;
   repository: string;
-  format: string;
+  format: PackageFormat;
   namespace?: string;
   package: string;
 }
@@ -249,7 +304,7 @@ export const DeletePackageRequest = S.suspend(() =>
     domain: S.String.pipe(T.HttpQuery("domain")),
     domainOwner: S.optional(S.String).pipe(T.HttpQuery("domain-owner")),
     repository: S.String.pipe(T.HttpQuery("repository")),
-    format: S.String.pipe(T.HttpQuery("format")),
+    format: PackageFormat.pipe(T.HttpQuery("format")),
     namespace: S.optional(S.String).pipe(T.HttpQuery("namespace")),
     package: S.String.pipe(T.HttpQuery("package")),
   }).pipe(
@@ -292,22 +347,22 @@ export interface DeletePackageVersionsRequest {
   domain: string;
   domainOwner?: string;
   repository: string;
-  format: string;
+  format: PackageFormat;
   namespace?: string;
   package: string;
-  versions: PackageVersionList;
-  expectedStatus?: string;
+  versions: string[];
+  expectedStatus?: PackageVersionStatus;
 }
 export const DeletePackageVersionsRequest = S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.HttpQuery("domain")),
     domainOwner: S.optional(S.String).pipe(T.HttpQuery("domain-owner")),
     repository: S.String.pipe(T.HttpQuery("repository")),
-    format: S.String.pipe(T.HttpQuery("format")),
+    format: PackageFormat.pipe(T.HttpQuery("format")),
     namespace: S.optional(S.String).pipe(T.HttpQuery("namespace")),
     package: S.String.pipe(T.HttpQuery("package")),
     versions: PackageVersionList,
-    expectedStatus: S.optional(S.String),
+    expectedStatus: S.optional(PackageVersionStatus),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/package/versions/delete" }),
@@ -394,7 +449,7 @@ export interface DescribePackageRequest {
   domain: string;
   domainOwner?: string;
   repository: string;
-  format: string;
+  format: PackageFormat;
   namespace?: string;
   package: string;
 }
@@ -403,7 +458,7 @@ export const DescribePackageRequest = S.suspend(() =>
     domain: S.String.pipe(T.HttpQuery("domain")),
     domainOwner: S.optional(S.String).pipe(T.HttpQuery("domain-owner")),
     repository: S.String.pipe(T.HttpQuery("repository")),
-    format: S.String.pipe(T.HttpQuery("format")),
+    format: PackageFormat.pipe(T.HttpQuery("format")),
     namespace: S.optional(S.String).pipe(T.HttpQuery("namespace")),
     package: S.String.pipe(T.HttpQuery("package")),
   }).pipe(
@@ -446,7 +501,7 @@ export interface DescribePackageVersionRequest {
   domain: string;
   domainOwner?: string;
   repository: string;
-  format: string;
+  format: PackageFormat;
   namespace?: string;
   package: string;
   packageVersion: string;
@@ -456,7 +511,7 @@ export const DescribePackageVersionRequest = S.suspend(() =>
     domain: S.String.pipe(T.HttpQuery("domain")),
     domainOwner: S.optional(S.String).pipe(T.HttpQuery("domain-owner")),
     repository: S.String.pipe(T.HttpQuery("repository")),
-    format: S.String.pipe(T.HttpQuery("format")),
+    format: PackageFormat.pipe(T.HttpQuery("format")),
     namespace: S.optional(S.String).pipe(T.HttpQuery("namespace")),
     package: S.String.pipe(T.HttpQuery("package")),
     packageVersion: S.String.pipe(T.HttpQuery("version")),
@@ -530,24 +585,24 @@ export interface DisposePackageVersionsRequest {
   domain: string;
   domainOwner?: string;
   repository: string;
-  format: string;
+  format: PackageFormat;
   namespace?: string;
   package: string;
-  versions: PackageVersionList;
-  versionRevisions?: PackageVersionRevisionMap;
-  expectedStatus?: string;
+  versions: string[];
+  versionRevisions?: { [key: string]: string };
+  expectedStatus?: PackageVersionStatus;
 }
 export const DisposePackageVersionsRequest = S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.HttpQuery("domain")),
     domainOwner: S.optional(S.String).pipe(T.HttpQuery("domain-owner")),
     repository: S.String.pipe(T.HttpQuery("repository")),
-    format: S.String.pipe(T.HttpQuery("format")),
+    format: PackageFormat.pipe(T.HttpQuery("format")),
     namespace: S.optional(S.String).pipe(T.HttpQuery("namespace")),
     package: S.String.pipe(T.HttpQuery("package")),
     versions: PackageVersionList,
     versionRevisions: S.optional(PackageVersionRevisionMap),
-    expectedStatus: S.optional(S.String),
+    expectedStatus: S.optional(PackageVersionStatus),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/package/versions/dispose" }),
@@ -564,7 +619,7 @@ export const DisposePackageVersionsRequest = S.suspend(() =>
 export interface GetAssociatedPackageGroupRequest {
   domain: string;
   domainOwner?: string;
-  format: string;
+  format: PackageFormat;
   namespace?: string;
   package: string;
 }
@@ -572,7 +627,7 @@ export const GetAssociatedPackageGroupRequest = S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.HttpQuery("domain")),
     domainOwner: S.optional(S.String).pipe(T.HttpQuery("domain-owner")),
-    format: S.String.pipe(T.HttpQuery("format")),
+    format: PackageFormat.pipe(T.HttpQuery("format")),
     namespace: S.optional(S.String).pipe(T.HttpQuery("namespace")),
     package: S.String.pipe(T.HttpQuery("package")),
   }).pipe(
@@ -636,7 +691,7 @@ export interface GetPackageVersionAssetRequest {
   domain: string;
   domainOwner?: string;
   repository: string;
-  format: string;
+  format: PackageFormat;
   namespace?: string;
   package: string;
   packageVersion: string;
@@ -648,7 +703,7 @@ export const GetPackageVersionAssetRequest = S.suspend(() =>
     domain: S.String.pipe(T.HttpQuery("domain")),
     domainOwner: S.optional(S.String).pipe(T.HttpQuery("domain-owner")),
     repository: S.String.pipe(T.HttpQuery("repository")),
-    format: S.String.pipe(T.HttpQuery("format")),
+    format: PackageFormat.pipe(T.HttpQuery("format")),
     namespace: S.optional(S.String).pipe(T.HttpQuery("namespace")),
     package: S.String.pipe(T.HttpQuery("package")),
     packageVersion: S.String.pipe(T.HttpQuery("version")),
@@ -671,7 +726,7 @@ export interface GetPackageVersionReadmeRequest {
   domain: string;
   domainOwner?: string;
   repository: string;
-  format: string;
+  format: PackageFormat;
   namespace?: string;
   package: string;
   packageVersion: string;
@@ -681,7 +736,7 @@ export const GetPackageVersionReadmeRequest = S.suspend(() =>
     domain: S.String.pipe(T.HttpQuery("domain")),
     domainOwner: S.optional(S.String).pipe(T.HttpQuery("domain-owner")),
     repository: S.String.pipe(T.HttpQuery("repository")),
-    format: S.String.pipe(T.HttpQuery("format")),
+    format: PackageFormat.pipe(T.HttpQuery("format")),
     namespace: S.optional(S.String).pipe(T.HttpQuery("namespace")),
     package: S.String.pipe(T.HttpQuery("package")),
     packageVersion: S.String.pipe(T.HttpQuery("version")),
@@ -702,16 +757,16 @@ export interface GetRepositoryEndpointRequest {
   domain: string;
   domainOwner?: string;
   repository: string;
-  format: string;
-  endpointType?: string;
+  format: PackageFormat;
+  endpointType?: EndpointType;
 }
 export const GetRepositoryEndpointRequest = S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.HttpQuery("domain")),
     domainOwner: S.optional(S.String).pipe(T.HttpQuery("domain-owner")),
     repository: S.String.pipe(T.HttpQuery("repository")),
-    format: S.String.pipe(T.HttpQuery("format")),
-    endpointType: S.optional(S.String).pipe(T.HttpQuery("endpointType")),
+    format: PackageFormat.pipe(T.HttpQuery("format")),
+    endpointType: S.optional(EndpointType).pipe(T.HttpQuery("endpointType")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/v1/repository/endpoint" }),
@@ -752,7 +807,7 @@ export interface ListAllowedRepositoriesForGroupRequest {
   domain: string;
   domainOwner?: string;
   packageGroup: string;
-  originRestrictionType: string;
+  originRestrictionType: PackageGroupOriginRestrictionType;
   maxResults?: number;
   nextToken?: string;
 }
@@ -761,7 +816,9 @@ export const ListAllowedRepositoriesForGroupRequest = S.suspend(() =>
     domain: S.String.pipe(T.HttpQuery("domain")),
     domainOwner: S.optional(S.String).pipe(T.HttpQuery("domain-owner")),
     packageGroup: S.String.pipe(T.HttpQuery("package-group")),
-    originRestrictionType: S.String.pipe(T.HttpQuery("originRestrictionType")),
+    originRestrictionType: PackageGroupOriginRestrictionType.pipe(
+      T.HttpQuery("originRestrictionType"),
+    ),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
   }).pipe(
@@ -858,26 +915,26 @@ export interface ListPackagesRequest {
   domain: string;
   domainOwner?: string;
   repository: string;
-  format?: string;
+  format?: PackageFormat;
   namespace?: string;
   packagePrefix?: string;
   maxResults?: number;
   nextToken?: string;
-  publish?: string;
-  upstream?: string;
+  publish?: AllowPublish;
+  upstream?: AllowUpstream;
 }
 export const ListPackagesRequest = S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.HttpQuery("domain")),
     domainOwner: S.optional(S.String).pipe(T.HttpQuery("domain-owner")),
     repository: S.String.pipe(T.HttpQuery("repository")),
-    format: S.optional(S.String).pipe(T.HttpQuery("format")),
+    format: S.optional(PackageFormat).pipe(T.HttpQuery("format")),
     namespace: S.optional(S.String).pipe(T.HttpQuery("namespace")),
     packagePrefix: S.optional(S.String).pipe(T.HttpQuery("package-prefix")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
-    publish: S.optional(S.String).pipe(T.HttpQuery("publish")),
-    upstream: S.optional(S.String).pipe(T.HttpQuery("upstream")),
+    publish: S.optional(AllowPublish).pipe(T.HttpQuery("publish")),
+    upstream: S.optional(AllowUpstream).pipe(T.HttpQuery("upstream")),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/packages" }),
@@ -895,7 +952,7 @@ export interface ListPackageVersionAssetsRequest {
   domain: string;
   domainOwner?: string;
   repository: string;
-  format: string;
+  format: PackageFormat;
   namespace?: string;
   package: string;
   packageVersion: string;
@@ -907,7 +964,7 @@ export const ListPackageVersionAssetsRequest = S.suspend(() =>
     domain: S.String.pipe(T.HttpQuery("domain")),
     domainOwner: S.optional(S.String).pipe(T.HttpQuery("domain-owner")),
     repository: S.String.pipe(T.HttpQuery("repository")),
-    format: S.String.pipe(T.HttpQuery("format")),
+    format: PackageFormat.pipe(T.HttpQuery("format")),
     namespace: S.optional(S.String).pipe(T.HttpQuery("namespace")),
     package: S.String.pipe(T.HttpQuery("package")),
     packageVersion: S.String.pipe(T.HttpQuery("version")),
@@ -930,7 +987,7 @@ export interface ListPackageVersionDependenciesRequest {
   domain: string;
   domainOwner?: string;
   repository: string;
-  format: string;
+  format: PackageFormat;
   namespace?: string;
   package: string;
   packageVersion: string;
@@ -941,7 +998,7 @@ export const ListPackageVersionDependenciesRequest = S.suspend(() =>
     domain: S.String.pipe(T.HttpQuery("domain")),
     domainOwner: S.optional(S.String).pipe(T.HttpQuery("domain-owner")),
     repository: S.String.pipe(T.HttpQuery("repository")),
-    format: S.String.pipe(T.HttpQuery("format")),
+    format: PackageFormat.pipe(T.HttpQuery("format")),
     namespace: S.optional(S.String).pipe(T.HttpQuery("namespace")),
     package: S.String.pipe(T.HttpQuery("package")),
     packageVersion: S.String.pipe(T.HttpQuery("version")),
@@ -963,28 +1020,30 @@ export interface ListPackageVersionsRequest {
   domain: string;
   domainOwner?: string;
   repository: string;
-  format: string;
+  format: PackageFormat;
   namespace?: string;
   package: string;
-  status?: string;
-  sortBy?: string;
+  status?: PackageVersionStatus;
+  sortBy?: PackageVersionSortType;
   maxResults?: number;
   nextToken?: string;
-  originType?: string;
+  originType?: PackageVersionOriginType;
 }
 export const ListPackageVersionsRequest = S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.HttpQuery("domain")),
     domainOwner: S.optional(S.String).pipe(T.HttpQuery("domain-owner")),
     repository: S.String.pipe(T.HttpQuery("repository")),
-    format: S.String.pipe(T.HttpQuery("format")),
+    format: PackageFormat.pipe(T.HttpQuery("format")),
     namespace: S.optional(S.String).pipe(T.HttpQuery("namespace")),
     package: S.String.pipe(T.HttpQuery("package")),
-    status: S.optional(S.String).pipe(T.HttpQuery("status")),
-    sortBy: S.optional(S.String).pipe(T.HttpQuery("sortBy")),
+    status: S.optional(PackageVersionStatus).pipe(T.HttpQuery("status")),
+    sortBy: S.optional(PackageVersionSortType).pipe(T.HttpQuery("sortBy")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
-    originType: S.optional(S.String).pipe(T.HttpQuery("originType")),
+    originType: S.optional(PackageVersionOriginType).pipe(
+      T.HttpQuery("originType"),
+    ),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/package/versions" }),
@@ -1104,7 +1163,7 @@ export interface PublishPackageVersionRequest {
   domain: string;
   domainOwner?: string;
   repository: string;
-  format: string;
+  format: PackageFormat;
   namespace?: string;
   package: string;
   packageVersion: string;
@@ -1118,7 +1177,7 @@ export const PublishPackageVersionRequest = S.suspend(() =>
     domain: S.String.pipe(T.HttpQuery("domain")),
     domainOwner: S.optional(S.String).pipe(T.HttpQuery("domain-owner")),
     repository: S.String.pipe(T.HttpQuery("repository")),
-    format: S.String.pipe(T.HttpQuery("format")),
+    format: PackageFormat.pipe(T.HttpQuery("format")),
     namespace: S.optional(S.String).pipe(T.HttpQuery("namespace")),
     package: S.String.pipe(T.HttpQuery("package")),
     packageVersion: S.String.pipe(T.HttpQuery("version")),
@@ -1193,7 +1252,7 @@ export const PutRepositoryPermissionsPolicyRequest = S.suspend(() =>
 }) as any as S.Schema<PutRepositoryPermissionsPolicyRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagList;
+  tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1218,7 +1277,7 @@ export const TagResourceResult = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResult>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1272,26 +1331,26 @@ export interface UpdatePackageVersionsStatusRequest {
   domain: string;
   domainOwner?: string;
   repository: string;
-  format: string;
+  format: PackageFormat;
   namespace?: string;
   package: string;
-  versions: PackageVersionList;
-  versionRevisions?: PackageVersionRevisionMap;
-  expectedStatus?: string;
-  targetStatus: string;
+  versions: string[];
+  versionRevisions?: { [key: string]: string };
+  expectedStatus?: PackageVersionStatus;
+  targetStatus: PackageVersionStatus;
 }
 export const UpdatePackageVersionsStatusRequest = S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.HttpQuery("domain")),
     domainOwner: S.optional(S.String).pipe(T.HttpQuery("domain-owner")),
     repository: S.String.pipe(T.HttpQuery("repository")),
-    format: S.String.pipe(T.HttpQuery("format")),
+    format: PackageFormat.pipe(T.HttpQuery("format")),
     namespace: S.optional(S.String).pipe(T.HttpQuery("namespace")),
     package: S.String.pipe(T.HttpQuery("package")),
     versions: PackageVersionList,
     versionRevisions: S.optional(PackageVersionRevisionMap),
-    expectedStatus: S.optional(S.String),
-    targetStatus: S.String,
+    expectedStatus: S.optional(PackageVersionStatus),
+    targetStatus: PackageVersionStatus,
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/package/versions/update_status" }),
@@ -1320,7 +1379,7 @@ export interface UpdateRepositoryRequest {
   domainOwner?: string;
   repository: string;
   description?: string;
-  upstreams?: UpstreamRepositoryList;
+  upstreams?: UpstreamRepository[];
 }
 export const UpdateRepositoryRequest = S.suspend(() =>
   S.Struct({
@@ -1342,14 +1401,27 @@ export const UpdateRepositoryRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateRepositoryRequest",
 }) as any as S.Schema<UpdateRepositoryRequest>;
+export type PackageGroupOriginRestrictionMode =
+  | "ALLOW"
+  | "ALLOW_SPECIFIC_REPOSITORIES"
+  | "BLOCK"
+  | "INHERIT";
+export const PackageGroupOriginRestrictionMode = S.Literal(
+  "ALLOW",
+  "ALLOW_SPECIFIC_REPOSITORIES",
+  "BLOCK",
+  "INHERIT",
+);
+export type PackageGroupAssociationType = "STRONG" | "WEAK";
+export const PackageGroupAssociationType = S.Literal("STRONG", "WEAK");
 export type RepositoryNameList = string[];
 export const RepositoryNameList = S.Array(S.String);
 export interface PackageOriginRestrictions {
-  publish: string;
-  upstream: string;
+  publish: AllowPublish;
+  upstream: AllowUpstream;
 }
 export const PackageOriginRestrictions = S.suspend(() =>
-  S.Struct({ publish: S.String, upstream: S.String }),
+  S.Struct({ publish: AllowPublish, upstream: AllowUpstream }),
 ).annotations({
   identifier: "PackageOriginRestrictions",
 }) as any as S.Schema<PackageOriginRestrictions>;
@@ -1362,14 +1434,14 @@ export const PackageOriginConfiguration = S.suspend(() =>
   identifier: "PackageOriginConfiguration",
 }) as any as S.Schema<PackageOriginConfiguration>;
 export interface PackageSummary {
-  format?: string;
+  format?: PackageFormat;
   namespace?: string;
   package?: string;
   originConfiguration?: PackageOriginConfiguration;
 }
 export const PackageSummary = S.suspend(() =>
   S.Struct({
-    format: S.optional(S.String),
+    format: S.optional(PackageFormat),
     namespace: S.optional(S.String),
     package: S.optional(S.String),
     originConfiguration: S.optional(PackageOriginConfiguration),
@@ -1379,16 +1451,23 @@ export const PackageSummary = S.suspend(() =>
 }) as any as S.Schema<PackageSummary>;
 export type PackageSummaryList = PackageSummary[];
 export const PackageSummaryList = S.Array(PackageSummary);
-export type OriginRestrictions = { [key: string]: string };
-export const OriginRestrictions = S.Record({ key: S.String, value: S.String });
+export type OriginRestrictions = {
+  [key in PackageGroupOriginRestrictionType]?: PackageGroupOriginRestrictionMode;
+};
+export const OriginRestrictions = S.partial(
+  S.Record({
+    key: PackageGroupOriginRestrictionType,
+    value: PackageGroupOriginRestrictionMode,
+  }),
+);
 export interface PackageGroupAllowedRepository {
   repositoryName?: string;
-  originRestrictionType?: string;
+  originRestrictionType?: PackageGroupOriginRestrictionType;
 }
 export const PackageGroupAllowedRepository = S.suspend(() =>
   S.Struct({
     repositoryName: S.optional(S.String),
-    originRestrictionType: S.optional(S.String),
+    originRestrictionType: S.optional(PackageGroupOriginRestrictionType),
   }),
 ).annotations({
   identifier: "PackageGroupAllowedRepository",
@@ -1402,11 +1481,11 @@ export interface CopyPackageVersionsRequest {
   domainOwner?: string;
   sourceRepository: string;
   destinationRepository: string;
-  format: string;
+  format: PackageFormat;
   namespace?: string;
   package: string;
-  versions?: PackageVersionList;
-  versionRevisions?: PackageVersionRevisionMap;
+  versions?: string[];
+  versionRevisions?: { [key: string]: string };
   allowOverwrite?: boolean;
   includeFromUpstream?: boolean;
 }
@@ -1416,7 +1495,7 @@ export const CopyPackageVersionsRequest = S.suspend(() =>
     domainOwner: S.optional(S.String).pipe(T.HttpQuery("domain-owner")),
     sourceRepository: S.String.pipe(T.HttpQuery("source-repository")),
     destinationRepository: S.String.pipe(T.HttpQuery("destination-repository")),
-    format: S.String.pipe(T.HttpQuery("format")),
+    format: PackageFormat.pipe(T.HttpQuery("format")),
     namespace: S.optional(S.String).pipe(T.HttpQuery("namespace")),
     package: S.String.pipe(T.HttpQuery("package")),
     versions: S.optional(PackageVersionList),
@@ -1439,7 +1518,7 @@ export const CopyPackageVersionsRequest = S.suspend(() =>
 export interface CreateDomainRequest {
   domain: string;
   encryptionKey?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateDomainRequest = S.suspend(() =>
   S.Struct({
@@ -1464,8 +1543,8 @@ export interface CreateRepositoryRequest {
   domainOwner?: string;
   repository: string;
   description?: string;
-  upstreams?: UpstreamRepositoryList;
-  tags?: TagList;
+  upstreams?: UpstreamRepository[];
+  tags?: Tag[];
 }
 export const CreateRepositoryRequest = S.suspend(() =>
   S.Struct({
@@ -1498,15 +1577,15 @@ export const PackageGroupReference = S.suspend(() =>
   identifier: "PackageGroupReference",
 }) as any as S.Schema<PackageGroupReference>;
 export interface PackageGroupOriginRestriction {
-  mode?: string;
-  effectiveMode?: string;
+  mode?: PackageGroupOriginRestrictionMode;
+  effectiveMode?: PackageGroupOriginRestrictionMode;
   inheritedFrom?: PackageGroupReference;
   repositoriesCount?: number;
 }
 export const PackageGroupOriginRestriction = S.suspend(() =>
   S.Struct({
-    mode: S.optional(S.String),
-    effectiveMode: S.optional(S.String),
+    mode: S.optional(PackageGroupOriginRestrictionMode),
+    effectiveMode: S.optional(PackageGroupOriginRestrictionMode),
     inheritedFrom: S.optional(PackageGroupReference),
     repositoriesCount: S.optional(S.Number),
   }),
@@ -1514,14 +1593,16 @@ export const PackageGroupOriginRestriction = S.suspend(() =>
   identifier: "PackageGroupOriginRestriction",
 }) as any as S.Schema<PackageGroupOriginRestriction>;
 export type PackageGroupOriginRestrictions = {
-  [key: string]: PackageGroupOriginRestriction;
+  [key in PackageGroupOriginRestrictionType]?: PackageGroupOriginRestriction;
 };
-export const PackageGroupOriginRestrictions = S.Record({
-  key: S.String,
-  value: PackageGroupOriginRestriction,
-});
+export const PackageGroupOriginRestrictions = S.partial(
+  S.Record({
+    key: PackageGroupOriginRestrictionType,
+    value: PackageGroupOriginRestriction,
+  }),
+);
 export interface PackageGroupOriginConfiguration {
-  restrictions?: PackageGroupOriginRestrictions;
+  restrictions?: { [key: string]: PackageGroupOriginRestriction };
 }
 export const PackageGroupOriginConfiguration = S.suspend(() =>
   S.Struct({ restrictions: S.optional(PackageGroupOriginRestrictions) }),
@@ -1572,16 +1653,18 @@ export const UpstreamRepositoryInfo = S.suspend(() =>
 }) as any as S.Schema<UpstreamRepositoryInfo>;
 export type UpstreamRepositoryInfoList = UpstreamRepositoryInfo[];
 export const UpstreamRepositoryInfoList = S.Array(UpstreamRepositoryInfo);
+export type ExternalConnectionStatus = "Available";
+export const ExternalConnectionStatus = S.Literal("Available");
 export interface RepositoryExternalConnectionInfo {
   externalConnectionName?: string;
-  packageFormat?: string;
-  status?: string;
+  packageFormat?: PackageFormat;
+  status?: ExternalConnectionStatus;
 }
 export const RepositoryExternalConnectionInfo = S.suspend(() =>
   S.Struct({
     externalConnectionName: S.optional(S.String),
-    packageFormat: S.optional(S.String),
-    status: S.optional(S.String),
+    packageFormat: S.optional(PackageFormat),
+    status: S.optional(ExternalConnectionStatus),
   }),
 ).annotations({
   identifier: "RepositoryExternalConnectionInfo",
@@ -1598,8 +1681,8 @@ export interface RepositoryDescription {
   domainOwner?: string;
   arn?: string;
   description?: string;
-  upstreams?: UpstreamRepositoryInfoList;
-  externalConnections?: RepositoryExternalConnectionInfoList;
+  upstreams?: UpstreamRepositoryInfo[];
+  externalConnections?: RepositoryExternalConnectionInfo[];
   createdTime?: Date;
 }
 export const RepositoryDescription = S.suspend(() =>
@@ -1647,11 +1730,13 @@ export const DeleteRepositoryPermissionsPolicyResult = S.suspend(() =>
 ).annotations({
   identifier: "DeleteRepositoryPermissionsPolicyResult",
 }) as any as S.Schema<DeleteRepositoryPermissionsPolicyResult>;
+export type DomainStatus = "Active" | "Deleted";
+export const DomainStatus = S.Literal("Active", "Deleted");
 export interface DomainDescription {
   name?: string;
   owner?: string;
   arn?: string;
-  status?: string;
+  status?: DomainStatus;
   createdTime?: Date;
   encryptionKey?: string;
   repositoryCount?: number;
@@ -1663,7 +1748,7 @@ export const DomainDescription = S.suspend(() =>
     name: S.optional(S.String),
     owner: S.optional(S.String),
     arn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(DomainStatus),
     createdTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     encryptionKey: S.optional(S.String),
     repositoryCount: S.optional(S.Number),
@@ -1707,10 +1792,13 @@ export const DisassociateExternalConnectionResult = S.suspend(() =>
 }) as any as S.Schema<DisassociateExternalConnectionResult>;
 export interface SuccessfulPackageVersionInfo {
   revision?: string;
-  status?: string;
+  status?: PackageVersionStatus;
 }
 export const SuccessfulPackageVersionInfo = S.suspend(() =>
-  S.Struct({ revision: S.optional(S.String), status: S.optional(S.String) }),
+  S.Struct({
+    revision: S.optional(S.String),
+    status: S.optional(PackageVersionStatus),
+  }),
 ).annotations({
   identifier: "SuccessfulPackageVersionInfo",
 }) as any as S.Schema<SuccessfulPackageVersionInfo>;
@@ -1721,13 +1809,28 @@ export const SuccessfulPackageVersionInfoMap = S.Record({
   key: S.String,
   value: SuccessfulPackageVersionInfo,
 });
+export type PackageVersionErrorCode =
+  | "ALREADY_EXISTS"
+  | "MISMATCHED_REVISION"
+  | "MISMATCHED_STATUS"
+  | "NOT_ALLOWED"
+  | "NOT_FOUND"
+  | "SKIPPED";
+export const PackageVersionErrorCode = S.Literal(
+  "ALREADY_EXISTS",
+  "MISMATCHED_REVISION",
+  "MISMATCHED_STATUS",
+  "NOT_ALLOWED",
+  "NOT_FOUND",
+  "SKIPPED",
+);
 export interface PackageVersionError {
-  errorCode?: string;
+  errorCode?: PackageVersionErrorCode;
   errorMessage?: string;
 }
 export const PackageVersionError = S.suspend(() =>
   S.Struct({
-    errorCode: S.optional(S.String),
+    errorCode: S.optional(PackageVersionErrorCode),
     errorMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -1739,8 +1842,8 @@ export const PackageVersionErrorMap = S.Record({
   value: PackageVersionError,
 });
 export interface DisposePackageVersionsResult {
-  successfulVersions?: SuccessfulPackageVersionInfoMap;
-  failedVersions?: PackageVersionErrorMap;
+  successfulVersions?: { [key: string]: SuccessfulPackageVersionInfo };
+  failedVersions?: { [key: string]: PackageVersionError };
 }
 export const DisposePackageVersionsResult = S.suspend(() =>
   S.Struct({
@@ -1752,12 +1855,12 @@ export const DisposePackageVersionsResult = S.suspend(() =>
 }) as any as S.Schema<DisposePackageVersionsResult>;
 export interface GetAssociatedPackageGroupResult {
   packageGroup?: PackageGroupDescription;
-  associationType?: string;
+  associationType?: PackageGroupAssociationType;
 }
 export const GetAssociatedPackageGroupResult = S.suspend(() =>
   S.Struct({
     packageGroup: S.optional(PackageGroupDescription),
-    associationType: S.optional(S.String),
+    associationType: S.optional(PackageGroupAssociationType),
   }),
 ).annotations({
   identifier: "GetAssociatedPackageGroupResult",
@@ -1801,7 +1904,7 @@ export const GetPackageVersionAssetResult = S.suspend(() =>
   identifier: "GetPackageVersionAssetResult",
 }) as any as S.Schema<GetPackageVersionAssetResult>;
 export interface GetPackageVersionReadmeResult {
-  format?: string;
+  format?: PackageFormat;
   namespace?: string;
   package?: string;
   version?: string;
@@ -1810,7 +1913,7 @@ export interface GetPackageVersionReadmeResult {
 }
 export const GetPackageVersionReadmeResult = S.suspend(() =>
   S.Struct({
-    format: S.optional(S.String),
+    format: S.optional(PackageFormat),
     namespace: S.optional(S.String),
     package: S.optional(S.String),
     version: S.optional(S.String),
@@ -1837,7 +1940,7 @@ export const GetRepositoryPermissionsPolicyResult = S.suspend(() =>
   identifier: "GetRepositoryPermissionsPolicyResult",
 }) as any as S.Schema<GetRepositoryPermissionsPolicyResult>;
 export interface ListAllowedRepositoriesForGroupResult {
-  allowedRepositories?: RepositoryNameList;
+  allowedRepositories?: string[];
   nextToken?: string;
 }
 export const ListAllowedRepositoriesForGroupResult = S.suspend(() =>
@@ -1849,7 +1952,7 @@ export const ListAllowedRepositoriesForGroupResult = S.suspend(() =>
   identifier: "ListAllowedRepositoriesForGroupResult",
 }) as any as S.Schema<ListAllowedRepositoriesForGroupResult>;
 export interface ListPackagesResult {
-  packages?: PackageSummaryList;
+  packages?: PackageSummary[];
   nextToken?: string;
 }
 export const ListPackagesResult = S.suspend(() =>
@@ -1885,7 +1988,7 @@ export const RepositorySummary = S.suspend(() =>
 export type RepositorySummaryList = RepositorySummary[];
 export const RepositorySummaryList = S.Array(RepositorySummary);
 export interface ListRepositoriesInDomainResult {
-  repositories?: RepositorySummaryList;
+  repositories?: RepositorySummary[];
   nextToken?: string;
 }
 export const ListRepositoriesInDomainResult = S.suspend(() =>
@@ -1925,7 +2028,7 @@ export const PackageGroupSummary = S.suspend(() =>
 export type PackageGroupSummaryList = PackageGroupSummary[];
 export const PackageGroupSummaryList = S.Array(PackageGroupSummary);
 export interface ListSubPackageGroupsResult {
-  packageGroups?: PackageGroupSummaryList;
+  packageGroups?: PackageGroupSummary[];
   nextToken?: string;
 }
 export const ListSubPackageGroupsResult = S.suspend(() =>
@@ -1937,19 +2040,23 @@ export const ListSubPackageGroupsResult = S.suspend(() =>
   identifier: "ListSubPackageGroupsResult",
 }) as any as S.Schema<ListSubPackageGroupsResult>;
 export interface ListTagsForResourceResult {
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const ListTagsForResourceResult = S.suspend(() =>
   S.Struct({ tags: S.optional(TagList) }),
 ).annotations({
   identifier: "ListTagsForResourceResult",
 }) as any as S.Schema<ListTagsForResourceResult>;
-export type AssetHashes = { [key: string]: string };
-export const AssetHashes = S.Record({ key: S.String, value: S.String });
+export type HashAlgorithm = "MD5" | "SHA-1" | "SHA-256" | "SHA-512";
+export const HashAlgorithm = S.Literal("MD5", "SHA-1", "SHA-256", "SHA-512");
+export type AssetHashes = { [key in HashAlgorithm]?: string };
+export const AssetHashes = S.partial(
+  S.Record({ key: HashAlgorithm, value: S.String }),
+);
 export interface AssetSummary {
   name: string;
   size?: number;
-  hashes?: AssetHashes;
+  hashes?: { [key: string]: string };
 }
 export const AssetSummary = S.suspend(() =>
   S.Struct({
@@ -1959,22 +2066,22 @@ export const AssetSummary = S.suspend(() =>
   }),
 ).annotations({ identifier: "AssetSummary" }) as any as S.Schema<AssetSummary>;
 export interface PublishPackageVersionResult {
-  format?: string;
+  format?: PackageFormat;
   namespace?: string;
   package?: string;
   version?: string;
   versionRevision?: string;
-  status?: string;
+  status?: PackageVersionStatus;
   asset?: AssetSummary;
 }
 export const PublishPackageVersionResult = S.suspend(() =>
   S.Struct({
-    format: S.optional(S.String),
+    format: S.optional(PackageFormat),
     namespace: S.optional(S.String),
     package: S.optional(S.String),
     version: S.optional(S.String),
     versionRevision: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(PackageVersionStatus),
     asset: S.optional(AssetSummary),
   }),
 ).annotations({
@@ -1992,7 +2099,7 @@ export interface PutPackageOriginConfigurationRequest {
   domain: string;
   domainOwner?: string;
   repository: string;
-  format: string;
+  format: PackageFormat;
   namespace?: string;
   package: string;
   restrictions: PackageOriginRestrictions;
@@ -2002,7 +2109,7 @@ export const PutPackageOriginConfigurationRequest = S.suspend(() =>
     domain: S.String.pipe(T.HttpQuery("domain")),
     domainOwner: S.optional(S.String).pipe(T.HttpQuery("domain-owner")),
     repository: S.String.pipe(T.HttpQuery("repository")),
-    format: S.String.pipe(T.HttpQuery("format")),
+    format: PackageFormat.pipe(T.HttpQuery("format")),
     namespace: S.optional(S.String).pipe(T.HttpQuery("namespace")),
     package: S.String.pipe(T.HttpQuery("package")),
     restrictions: PackageOriginRestrictions,
@@ -2039,9 +2146,9 @@ export interface UpdatePackageGroupOriginConfigurationRequest {
   domain: string;
   domainOwner?: string;
   packageGroup: string;
-  restrictions?: OriginRestrictions;
-  addAllowedRepositories?: PackageGroupAllowedRepositoryList;
-  removeAllowedRepositories?: PackageGroupAllowedRepositoryList;
+  restrictions?: { [key: string]: PackageGroupOriginRestrictionMode };
+  addAllowedRepositories?: PackageGroupAllowedRepository[];
+  removeAllowedRepositories?: PackageGroupAllowedRepository[];
 }
 export const UpdatePackageGroupOriginConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -2065,8 +2172,8 @@ export const UpdatePackageGroupOriginConfigurationRequest = S.suspend(() =>
   identifier: "UpdatePackageGroupOriginConfigurationRequest",
 }) as any as S.Schema<UpdatePackageGroupOriginConfigurationRequest>;
 export interface UpdatePackageVersionsStatusResult {
-  successfulVersions?: SuccessfulPackageVersionInfoMap;
-  failedVersions?: PackageVersionErrorMap;
+  successfulVersions?: { [key: string]: SuccessfulPackageVersionInfo };
+  failedVersions?: { [key: string]: PackageVersionError };
 }
 export const UpdatePackageVersionsStatusResult = S.suspend(() =>
   S.Struct({
@@ -2085,14 +2192,14 @@ export const UpdateRepositoryResult = S.suspend(() =>
   identifier: "UpdateRepositoryResult",
 }) as any as S.Schema<UpdateRepositoryResult>;
 export interface PackageDescription {
-  format?: string;
+  format?: PackageFormat;
   namespace?: string;
   name?: string;
   originConfiguration?: PackageOriginConfiguration;
 }
 export const PackageDescription = S.suspend(() =>
   S.Struct({
-    format: S.optional(S.String),
+    format: S.optional(PackageFormat),
     namespace: S.optional(S.String),
     name: S.optional(S.String),
     originConfiguration: S.optional(PackageOriginConfiguration),
@@ -2101,17 +2208,17 @@ export const PackageDescription = S.suspend(() =>
   identifier: "PackageDescription",
 }) as any as S.Schema<PackageDescription>;
 export interface AssociatedPackage {
-  format?: string;
+  format?: PackageFormat;
   namespace?: string;
   package?: string;
-  associationType?: string;
+  associationType?: PackageGroupAssociationType;
 }
 export const AssociatedPackage = S.suspend(() =>
   S.Struct({
-    format: S.optional(S.String),
+    format: S.optional(PackageFormat),
     namespace: S.optional(S.String),
     package: S.optional(S.String),
-    associationType: S.optional(S.String),
+    associationType: S.optional(PackageGroupAssociationType),
   }),
 ).annotations({
   identifier: "AssociatedPackage",
@@ -2122,7 +2229,7 @@ export interface DomainSummary {
   name?: string;
   owner?: string;
   arn?: string;
-  status?: string;
+  status?: DomainStatus;
   createdTime?: Date;
   encryptionKey?: string;
 }
@@ -2131,7 +2238,7 @@ export const DomainSummary = S.suspend(() =>
     name: S.optional(S.String),
     owner: S.optional(S.String),
     arn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(DomainStatus),
     createdTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     encryptionKey: S.optional(S.String),
   }),
@@ -2172,12 +2279,12 @@ export const DomainEntryPoint = S.suspend(() =>
 }) as any as S.Schema<DomainEntryPoint>;
 export interface PackageVersionOrigin {
   domainEntryPoint?: DomainEntryPoint;
-  originType?: string;
+  originType?: PackageVersionOriginType;
 }
 export const PackageVersionOrigin = S.suspend(() =>
   S.Struct({
     domainEntryPoint: S.optional(DomainEntryPoint),
-    originType: S.optional(S.String),
+    originType: S.optional(PackageVersionOriginType),
   }),
 ).annotations({
   identifier: "PackageVersionOrigin",
@@ -2185,14 +2292,14 @@ export const PackageVersionOrigin = S.suspend(() =>
 export interface PackageVersionSummary {
   version: string;
   revision?: string;
-  status: string;
+  status: PackageVersionStatus;
   origin?: PackageVersionOrigin;
 }
 export const PackageVersionSummary = S.suspend(() =>
   S.Struct({
     version: S.String,
     revision: S.optional(S.String),
-    status: S.String,
+    status: PackageVersionStatus,
     origin: S.optional(PackageVersionOrigin),
   }),
 ).annotations({
@@ -2200,9 +2307,22 @@ export const PackageVersionSummary = S.suspend(() =>
 }) as any as S.Schema<PackageVersionSummary>;
 export type PackageVersionSummaryList = PackageVersionSummary[];
 export const PackageVersionSummaryList = S.Array(PackageVersionSummary);
+export type ResourceType =
+  | "domain"
+  | "repository"
+  | "package"
+  | "package-version"
+  | "asset";
+export const ResourceType = S.Literal(
+  "domain",
+  "repository",
+  "package",
+  "package-version",
+  "asset",
+);
 export interface CopyPackageVersionsResult {
-  successfulVersions?: SuccessfulPackageVersionInfoMap;
-  failedVersions?: PackageVersionErrorMap;
+  successfulVersions?: { [key: string]: SuccessfulPackageVersionInfo };
+  failedVersions?: { [key: string]: PackageVersionError };
 }
 export const CopyPackageVersionsResult = S.suspend(() =>
   S.Struct({
@@ -2253,7 +2373,7 @@ export const DescribePackageResult = S.suspend(() =>
   identifier: "DescribePackageResult",
 }) as any as S.Schema<DescribePackageResult>;
 export interface ListAssociatedPackagesResult {
-  packages?: AssociatedPackageList;
+  packages?: AssociatedPackage[];
   nextToken?: string;
 }
 export const ListAssociatedPackagesResult = S.suspend(() =>
@@ -2265,7 +2385,7 @@ export const ListAssociatedPackagesResult = S.suspend(() =>
   identifier: "ListAssociatedPackagesResult",
 }) as any as S.Schema<ListAssociatedPackagesResult>;
 export interface ListDomainsResult {
-  domains?: DomainSummaryList;
+  domains?: DomainSummary[];
   nextToken?: string;
 }
 export const ListDomainsResult = S.suspend(() =>
@@ -2277,7 +2397,7 @@ export const ListDomainsResult = S.suspend(() =>
   identifier: "ListDomainsResult",
 }) as any as S.Schema<ListDomainsResult>;
 export interface ListPackageGroupsResult {
-  packageGroups?: PackageGroupSummaryList;
+  packageGroups?: PackageGroupSummary[];
   nextToken?: string;
 }
 export const ListPackageGroupsResult = S.suspend(() =>
@@ -2289,17 +2409,17 @@ export const ListPackageGroupsResult = S.suspend(() =>
   identifier: "ListPackageGroupsResult",
 }) as any as S.Schema<ListPackageGroupsResult>;
 export interface ListPackageVersionDependenciesResult {
-  format?: string;
+  format?: PackageFormat;
   namespace?: string;
   package?: string;
   version?: string;
   versionRevision?: string;
   nextToken?: string;
-  dependencies?: PackageDependencyList;
+  dependencies?: PackageDependency[];
 }
 export const ListPackageVersionDependenciesResult = S.suspend(() =>
   S.Struct({
-    format: S.optional(S.String),
+    format: S.optional(PackageFormat),
     namespace: S.optional(S.String),
     package: S.optional(S.String),
     version: S.optional(S.String),
@@ -2312,16 +2432,16 @@ export const ListPackageVersionDependenciesResult = S.suspend(() =>
 }) as any as S.Schema<ListPackageVersionDependenciesResult>;
 export interface ListPackageVersionsResult {
   defaultDisplayVersion?: string;
-  format?: string;
+  format?: PackageFormat;
   namespace?: string;
   package?: string;
-  versions?: PackageVersionSummaryList;
+  versions?: PackageVersionSummary[];
   nextToken?: string;
 }
 export const ListPackageVersionsResult = S.suspend(() =>
   S.Struct({
     defaultDisplayVersion: S.optional(S.String),
-    format: S.optional(S.String),
+    format: S.optional(PackageFormat),
     namespace: S.optional(S.String),
     package: S.optional(S.String),
     versions: S.optional(PackageVersionSummaryList),
@@ -2331,7 +2451,7 @@ export const ListPackageVersionsResult = S.suspend(() =>
   identifier: "ListPackageVersionsResult",
 }) as any as S.Schema<ListPackageVersionsResult>;
 export interface ListRepositoriesResult {
-  repositories?: RepositorySummaryList;
+  repositories?: RepositorySummary[];
   nextToken?: string;
 }
 export const ListRepositoriesResult = S.suspend(() =>
@@ -2361,6 +2481,24 @@ export type LicenseInfoList = LicenseInfo[];
 export const LicenseInfoList = S.Array(LicenseInfo);
 export type AssetSummaryList = AssetSummary[];
 export const AssetSummaryList = S.Array(AssetSummary);
+export type ValidationExceptionReason =
+  | "CANNOT_PARSE"
+  | "ENCRYPTION_KEY_ERROR"
+  | "FIELD_VALIDATION_FAILED"
+  | "UNKNOWN_OPERATION"
+  | "OTHER";
+export const ValidationExceptionReason = S.Literal(
+  "CANNOT_PARSE",
+  "ENCRYPTION_KEY_ERROR",
+  "FIELD_VALIDATION_FAILED",
+  "UNKNOWN_OPERATION",
+  "OTHER",
+);
+export type PackageGroupAllowedRepositoryUpdateType = "ADDED" | "REMOVED";
+export const PackageGroupAllowedRepositoryUpdateType = S.Literal(
+  "ADDED",
+  "REMOVED",
+);
 export interface AssociateExternalConnectionResult {
   repository?: RepositoryDescription;
 }
@@ -2378,8 +2516,8 @@ export const DeletePackageResult = S.suspend(() =>
   identifier: "DeletePackageResult",
 }) as any as S.Schema<DeletePackageResult>;
 export interface DeletePackageVersionsResult {
-  successfulVersions?: SuccessfulPackageVersionInfoMap;
-  failedVersions?: PackageVersionErrorMap;
+  successfulVersions?: { [key: string]: SuccessfulPackageVersionInfo };
+  failedVersions?: { [key: string]: PackageVersionError };
 }
 export const DeletePackageVersionsResult = S.suspend(() =>
   S.Struct({
@@ -2390,17 +2528,17 @@ export const DeletePackageVersionsResult = S.suspend(() =>
   identifier: "DeletePackageVersionsResult",
 }) as any as S.Schema<DeletePackageVersionsResult>;
 export interface ListPackageVersionAssetsResult {
-  format?: string;
+  format?: PackageFormat;
   namespace?: string;
   package?: string;
   version?: string;
   versionRevision?: string;
   nextToken?: string;
-  assets?: AssetSummaryList;
+  assets?: AssetSummary[];
 }
 export const ListPackageVersionAssetsResult = S.suspend(() =>
   S.Struct({
-    format: S.optional(S.String),
+    format: S.optional(PackageFormat),
     namespace: S.optional(S.String),
     package: S.optional(S.String),
     version: S.optional(S.String),
@@ -2412,14 +2550,16 @@ export const ListPackageVersionAssetsResult = S.suspend(() =>
   identifier: "ListPackageVersionAssetsResult",
 }) as any as S.Schema<ListPackageVersionAssetsResult>;
 export type PackageGroupAllowedRepositoryUpdate = {
-  [key: string]: RepositoryNameList;
+  [key in PackageGroupAllowedRepositoryUpdateType]?: string[];
 };
-export const PackageGroupAllowedRepositoryUpdate = S.Record({
-  key: S.String,
-  value: RepositoryNameList,
-});
+export const PackageGroupAllowedRepositoryUpdate = S.partial(
+  S.Record({
+    key: PackageGroupAllowedRepositoryUpdateType,
+    value: RepositoryNameList,
+  }),
+);
 export interface PackageVersionDescription {
-  format?: string;
+  format?: PackageFormat;
   namespace?: string;
   packageName?: string;
   displayName?: string;
@@ -2428,14 +2568,14 @@ export interface PackageVersionDescription {
   homePage?: string;
   sourceCodeRepository?: string;
   publishedTime?: Date;
-  licenses?: LicenseInfoList;
+  licenses?: LicenseInfo[];
   revision?: string;
-  status?: string;
+  status?: PackageVersionStatus;
   origin?: PackageVersionOrigin;
 }
 export const PackageVersionDescription = S.suspend(() =>
   S.Struct({
-    format: S.optional(S.String),
+    format: S.optional(PackageFormat),
     namespace: S.optional(S.String),
     packageName: S.optional(S.String),
     displayName: S.optional(S.String),
@@ -2446,19 +2586,21 @@ export const PackageVersionDescription = S.suspend(() =>
     publishedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     licenses: S.optional(LicenseInfoList),
     revision: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(PackageVersionStatus),
     origin: S.optional(PackageVersionOrigin),
   }),
 ).annotations({
   identifier: "PackageVersionDescription",
 }) as any as S.Schema<PackageVersionDescription>;
 export type PackageGroupAllowedRepositoryUpdates = {
-  [key: string]: PackageGroupAllowedRepositoryUpdate;
+  [key in PackageGroupOriginRestrictionType]?: { [key: string]: string[] };
 };
-export const PackageGroupAllowedRepositoryUpdates = S.Record({
-  key: S.String,
-  value: PackageGroupAllowedRepositoryUpdate,
-});
+export const PackageGroupAllowedRepositoryUpdates = S.partial(
+  S.Record({
+    key: PackageGroupOriginRestrictionType,
+    value: PackageGroupAllowedRepositoryUpdate,
+  }),
+);
 export interface DescribePackageVersionResult {
   packageVersion: PackageVersionDescription;
 }
@@ -2469,7 +2611,7 @@ export const DescribePackageVersionResult = S.suspend(() =>
 }) as any as S.Schema<DescribePackageVersionResult>;
 export interface UpdatePackageGroupOriginConfigurationResult {
   packageGroup?: PackageGroupDescription;
-  allowedRepositoryUpdates?: PackageGroupAllowedRepositoryUpdates;
+  allowedRepositoryUpdates?: { [key: string]: { [key: string]: string[] } };
 }
 export const UpdatePackageGroupOriginConfigurationResult = S.suspend(() =>
   S.Struct({
@@ -2498,7 +2640,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
   {
     message: S.String,
     resourceId: S.optional(S.String),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
   },
 ).pipe(C.withBadRequestError) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
@@ -2510,7 +2652,7 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
   {
     message: S.String,
     resourceId: S.optional(S.String),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
   },
 ).pipe(C.withConflictError) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
@@ -2518,7 +2660,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
   {
     message: S.String,
     resourceId: S.optional(S.String),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
   },
 ).pipe(C.withQuotaError) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
@@ -2530,7 +2672,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
 ).pipe(C.withThrottlingError) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  { message: S.String, reason: S.optional(S.String) },
+  { message: S.String, reason: S.optional(ValidationExceptionReason) },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
@@ -2545,7 +2687,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const getAssociatedPackageGroup: (
   input: GetAssociatedPackageGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAssociatedPackageGroupResult,
   | AccessDeniedException
   | InternalServerException
@@ -2568,7 +2710,7 @@ export const getAssociatedPackageGroup: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResult,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2591,7 +2733,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResult,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2616,7 +2758,7 @@ export const listTagsForResource: (
  */
 export const describeDomain: (
   input: DescribeDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDomainResult,
   | AccessDeniedException
   | InternalServerException
@@ -2642,7 +2784,7 @@ export const describeDomain: (
  */
 export const describePackageGroup: (
   input: DescribePackageGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePackageGroupResult,
   | AccessDeniedException
   | InternalServerException
@@ -2668,7 +2810,7 @@ export const describePackageGroup: (
  */
 export const describeRepository: (
   input: DescribeRepositoryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRepositoryResult,
   | AccessDeniedException
   | InternalServerException
@@ -2712,7 +2854,7 @@ export const describeRepository: (
  */
 export const getAuthorizationToken: (
   input: GetAuthorizationTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAuthorizationTokenResult,
   | AccessDeniedException
   | InternalServerException
@@ -2741,7 +2883,7 @@ export const getAuthorizationToken: (
  */
 export const getDomainPermissionsPolicy: (
   input: GetDomainPermissionsPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDomainPermissionsPolicyResult,
   | AccessDeniedException
   | InternalServerException
@@ -2768,7 +2910,7 @@ export const getDomainPermissionsPolicy: (
  */
 export const getPackageVersionReadme: (
   input: GetPackageVersionReadmeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPackageVersionReadmeResult,
   | AccessDeniedException
   | InternalServerException
@@ -2810,7 +2952,7 @@ export const getPackageVersionReadme: (
  */
 export const getRepositoryEndpoint: (
   input: GetRepositoryEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRepositoryEndpointResult,
   | AccessDeniedException
   | InternalServerException
@@ -2835,7 +2977,7 @@ export const getRepositoryEndpoint: (
  */
 export const getRepositoryPermissionsPolicy: (
   input: GetRepositoryPermissionsPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRepositoryPermissionsPolicyResult,
   | AccessDeniedException
   | InternalServerException
@@ -2863,7 +3005,7 @@ export const getRepositoryPermissionsPolicy: (
 export const listPackages: {
   (
     input: ListPackagesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPackagesResult,
     | AccessDeniedException
     | InternalServerException
@@ -2875,7 +3017,7 @@ export const listPackages: {
   >;
   pages: (
     input: ListPackagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPackagesResult,
     | AccessDeniedException
     | InternalServerException
@@ -2887,7 +3029,7 @@ export const listPackages: {
   >;
   items: (
     input: ListPackagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PackageSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2923,7 +3065,7 @@ export const listPackages: {
 export const listRepositoriesInDomain: {
   (
     input: ListRepositoriesInDomainRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRepositoriesInDomainResult,
     | AccessDeniedException
     | InternalServerException
@@ -2935,7 +3077,7 @@ export const listRepositoriesInDomain: {
   >;
   pages: (
     input: ListRepositoriesInDomainRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRepositoriesInDomainResult,
     | AccessDeniedException
     | InternalServerException
@@ -2947,7 +3089,7 @@ export const listRepositoriesInDomain: {
   >;
   items: (
     input: ListRepositoriesInDomainRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RepositorySummary,
     | AccessDeniedException
     | InternalServerException
@@ -2984,7 +3126,7 @@ export const listRepositoriesInDomain: {
 export const listSubPackageGroups: {
   (
     input: ListSubPackageGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSubPackageGroupsResult,
     | AccessDeniedException
     | InternalServerException
@@ -2996,7 +3138,7 @@ export const listSubPackageGroups: {
   >;
   pages: (
     input: ListSubPackageGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSubPackageGroupsResult,
     | AccessDeniedException
     | InternalServerException
@@ -3008,7 +3150,7 @@ export const listSubPackageGroups: {
   >;
   items: (
     input: ListSubPackageGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PackageGroupSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3042,7 +3184,7 @@ export const listSubPackageGroups: {
  */
 export const describePackage: (
   input: DescribePackageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePackageResult,
   | AccessDeniedException
   | InternalServerException
@@ -3070,7 +3212,7 @@ export const describePackage: (
 export const listDomains: {
   (
     input: ListDomainsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDomainsResult,
     | AccessDeniedException
     | InternalServerException
@@ -3081,7 +3223,7 @@ export const listDomains: {
   >;
   pages: (
     input: ListDomainsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDomainsResult,
     | AccessDeniedException
     | InternalServerException
@@ -3092,7 +3234,7 @@ export const listDomains: {
   >;
   items: (
     input: ListDomainsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DomainSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3123,7 +3265,7 @@ export const listDomains: {
 export const listPackageGroups: {
   (
     input: ListPackageGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPackageGroupsResult,
     | AccessDeniedException
     | InternalServerException
@@ -3135,7 +3277,7 @@ export const listPackageGroups: {
   >;
   pages: (
     input: ListPackageGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPackageGroupsResult,
     | AccessDeniedException
     | InternalServerException
@@ -3147,7 +3289,7 @@ export const listPackageGroups: {
   >;
   items: (
     input: ListPackageGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PackageGroupSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3183,7 +3325,7 @@ export const listPackageGroups: {
  */
 export const listPackageVersionDependencies: (
   input: ListPackageVersionDependenciesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListPackageVersionDependenciesResult,
   | AccessDeniedException
   | InternalServerException
@@ -3211,7 +3353,7 @@ export const listPackageVersionDependencies: (
 export const listPackageVersions: {
   (
     input: ListPackageVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPackageVersionsResult,
     | AccessDeniedException
     | InternalServerException
@@ -3223,7 +3365,7 @@ export const listPackageVersions: {
   >;
   pages: (
     input: ListPackageVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPackageVersionsResult,
     | AccessDeniedException
     | InternalServerException
@@ -3235,7 +3377,7 @@ export const listPackageVersions: {
   >;
   items: (
     input: ListPackageVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PackageVersionSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3271,7 +3413,7 @@ export const listPackageVersions: {
 export const listRepositories: {
   (
     input: ListRepositoriesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRepositoriesResult,
     | AccessDeniedException
     | InternalServerException
@@ -3282,7 +3424,7 @@ export const listRepositories: {
   >;
   pages: (
     input: ListRepositoriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRepositoriesResult,
     | AccessDeniedException
     | InternalServerException
@@ -3293,7 +3435,7 @@ export const listRepositories: {
   >;
   items: (
     input: ListRepositoriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RepositorySummary,
     | AccessDeniedException
     | InternalServerException
@@ -3332,7 +3474,7 @@ export const listRepositories: {
  */
 export const putPackageOriginConfiguration: (
   input: PutPackageOriginConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutPackageOriginConfigurationResult,
   | AccessDeniedException
   | InternalServerException
@@ -3357,7 +3499,7 @@ export const putPackageOriginConfiguration: (
  */
 export const deleteRepository: (
   input: DeleteRepositoryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRepositoryResult,
   | AccessDeniedException
   | ConflictException
@@ -3388,7 +3530,7 @@ export const deleteRepository: (
  */
 export const deleteRepositoryPermissionsPolicy: (
   input: DeleteRepositoryPermissionsPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRepositoryPermissionsPolicyResult,
   | AccessDeniedException
   | ConflictException
@@ -3422,7 +3564,7 @@ export const deleteRepositoryPermissionsPolicy: (
  */
 export const disposePackageVersions: (
   input: DisposePackageVersionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisposePackageVersionsResult,
   | AccessDeniedException
   | ConflictException
@@ -3451,7 +3593,7 @@ export const disposePackageVersions: (
  */
 export const getPackageVersionAsset: (
   input: GetPackageVersionAssetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPackageVersionAssetResult,
   | AccessDeniedException
   | ConflictException
@@ -3479,7 +3621,7 @@ export const getPackageVersionAsset: (
  */
 export const deleteDomain: (
   input: DeleteDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDomainResult,
   | AccessDeniedException
   | ConflictException
@@ -3504,7 +3646,7 @@ export const deleteDomain: (
  */
 export const deleteDomainPermissionsPolicy: (
   input: DeleteDomainPermissionsPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDomainPermissionsPolicyResult,
   | AccessDeniedException
   | ConflictException
@@ -3532,7 +3674,7 @@ export const deleteDomainPermissionsPolicy: (
  */
 export const deletePackage: (
   input: DeletePackageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePackageResult,
   | AccessDeniedException
   | ConflictException
@@ -3563,7 +3705,7 @@ export const deletePackage: (
  */
 export const deletePackageVersions: (
   input: DeletePackageVersionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePackageVersionsResult,
   | AccessDeniedException
   | ConflictException
@@ -3593,7 +3735,7 @@ export const deletePackageVersions: (
 export const listPackageVersionAssets: {
   (
     input: ListPackageVersionAssetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPackageVersionAssetsResult,
     | AccessDeniedException
     | InternalServerException
@@ -3605,7 +3747,7 @@ export const listPackageVersionAssets: {
   >;
   pages: (
     input: ListPackageVersionAssetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPackageVersionAssetsResult,
     | AccessDeniedException
     | InternalServerException
@@ -3617,7 +3759,7 @@ export const listPackageVersionAssets: {
   >;
   items: (
     input: ListPackageVersionAssetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AssetSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3649,7 +3791,7 @@ export const listPackageVersionAssets: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResult,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3677,7 +3819,7 @@ export const tagResource: (
 export const listAssociatedPackages: {
   (
     input: ListAssociatedPackagesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAssociatedPackagesResult,
     | AccessDeniedException
     | InternalServerException
@@ -3688,7 +3830,7 @@ export const listAssociatedPackages: {
   >;
   pages: (
     input: ListAssociatedPackagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAssociatedPackagesResult,
     | AccessDeniedException
     | InternalServerException
@@ -3699,7 +3841,7 @@ export const listAssociatedPackages: {
   >;
   items: (
     input: ListAssociatedPackagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AssociatedPackage,
     | AccessDeniedException
     | InternalServerException
@@ -3732,7 +3874,7 @@ export const listAssociatedPackages: {
  */
 export const updatePackageVersionsStatus: (
   input: UpdatePackageVersionsStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePackageVersionsStatusResult,
   | AccessDeniedException
   | ConflictException
@@ -3760,7 +3902,7 @@ export const updatePackageVersionsStatus: (
  */
 export const updatePackageGroup: (
   input: UpdatePackageGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePackageGroupResult,
   | AccessDeniedException
   | InternalServerException
@@ -3789,7 +3931,7 @@ export const updatePackageGroup: (
 export const listAllowedRepositoriesForGroup: {
   (
     input: ListAllowedRepositoriesForGroupRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAllowedRepositoriesForGroupResult,
     | AccessDeniedException
     | InternalServerException
@@ -3802,7 +3944,7 @@ export const listAllowedRepositoriesForGroup: {
   >;
   pages: (
     input: ListAllowedRepositoriesForGroupRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAllowedRepositoriesForGroupResult,
     | AccessDeniedException
     | InternalServerException
@@ -3815,7 +3957,7 @@ export const listAllowedRepositoriesForGroup: {
   >;
   items: (
     input: ListAllowedRepositoriesForGroupRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RepositoryName,
     | AccessDeniedException
     | InternalServerException
@@ -3849,7 +3991,7 @@ export const listAllowedRepositoriesForGroup: {
  */
 export const updateRepository: (
   input: UpdateRepositoryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRepositoryResult,
   | AccessDeniedException
   | ConflictException
@@ -3882,7 +4024,7 @@ export const updateRepository: (
  */
 export const deletePackageGroup: (
   input: DeletePackageGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePackageGroupResult,
   | AccessDeniedException
   | ConflictException
@@ -3911,7 +4053,7 @@ export const deletePackageGroup: (
  */
 export const disassociateExternalConnection: (
   input: DisassociateExternalConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateExternalConnectionResult,
   | AccessDeniedException
   | ConflictException
@@ -3949,7 +4091,7 @@ export const disassociateExternalConnection: (
  */
 export const publishPackageVersion: (
   input: PublishPackageVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PublishPackageVersionResult,
   | AccessDeniedException
   | ConflictException
@@ -3982,7 +4124,7 @@ export const publishPackageVersion: (
  */
 export const putDomainPermissionsPolicy: (
   input: PutDomainPermissionsPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutDomainPermissionsPolicyResult,
   | AccessDeniedException
   | ConflictException
@@ -4015,7 +4157,7 @@ export const putDomainPermissionsPolicy: (
  */
 export const putRepositoryPermissionsPolicy: (
   input: PutRepositoryPermissionsPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutRepositoryPermissionsPolicyResult,
   | AccessDeniedException
   | ConflictException
@@ -4046,7 +4188,7 @@ export const putRepositoryPermissionsPolicy: (
  */
 export const copyPackageVersions: (
   input: CopyPackageVersionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CopyPackageVersionsResult,
   | AccessDeniedException
   | ConflictException
@@ -4082,7 +4224,7 @@ export const copyPackageVersions: (
  */
 export const createDomain: (
   input: CreateDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDomainResult,
   | AccessDeniedException
   | ConflictException
@@ -4111,7 +4253,7 @@ export const createDomain: (
  */
 export const createRepository: (
   input: CreateRepositoryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRepositoryResult,
   | AccessDeniedException
   | ConflictException
@@ -4143,7 +4285,7 @@ export const createRepository: (
  */
 export const associateExternalConnection: (
   input: AssociateExternalConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateExternalConnectionResult,
   | AccessDeniedException
   | ConflictException
@@ -4174,7 +4316,7 @@ export const associateExternalConnection: (
  */
 export const describePackageVersion: (
   input: DescribePackageVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePackageVersionResult,
   | AccessDeniedException
   | ConflictException
@@ -4207,7 +4349,7 @@ export const describePackageVersion: (
  */
 export const updatePackageGroupOriginConfiguration: (
   input: UpdatePackageGroupOriginConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePackageGroupOriginConfigurationResult,
   | AccessDeniedException
   | InternalServerException
@@ -4234,7 +4376,7 @@ export const updatePackageGroupOriginConfiguration: (
  */
 export const createPackageGroup: (
   input: CreatePackageGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePackageGroupResult,
   | AccessDeniedException
   | ConflictException

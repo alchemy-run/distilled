@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -90,7 +90,7 @@ export type SourceRepositoryBranchString = string;
 export type FilterKey = string;
 export type ComparisonOperator = string;
 export type DevEnvironmentSessionType = string;
-export type AccessTokenSecret = string | Redacted.Redacted<string>;
+export type AccessTokenSecret = string | redacted.Redacted<string>;
 export type RegionString = string;
 export type DevEnvironmentStatus = string;
 export type StatusReason = string;
@@ -101,7 +101,7 @@ export type WorkflowRunStatus = string;
 export type OperationType = string;
 export type SourceRepositoryIdString = string;
 export type UserType = string;
-export type SensitiveString = string | Redacted.Redacted<string>;
+export type SensitiveString = string | redacted.Redacted<string>;
 
 //# Schemas
 export interface VerifySessionRequest {}
@@ -457,7 +457,7 @@ export interface UpdateDevEnvironmentRequest {
   projectName: string;
   id: string;
   alias?: string;
-  ides?: IdeConfigurationList;
+  ides?: IdeConfiguration[];
   instanceType?: string;
   inactivityTimeoutMinutes?: number;
   clientToken?: string;
@@ -548,7 +548,7 @@ export interface StartDevEnvironmentRequest {
   spaceName: string;
   projectName: string;
   id: string;
-  ides?: IdeConfigurationList;
+  ides?: IdeConfiguration[];
   instanceType?: string;
   inactivityTimeoutMinutes?: number;
 }
@@ -855,7 +855,7 @@ export interface ListWorkflowsRequest {
   projectName: string;
   nextToken?: string;
   maxResults?: number;
-  sortBy?: WorkflowSortCriteriaList;
+  sortBy?: WorkflowSortCriteria[];
 }
 export const ListWorkflowsRequest = S.suspend(() =>
   S.Struct({
@@ -940,7 +940,7 @@ export interface ListWorkflowRunsRequest {
   projectName: string;
   nextToken?: string;
   maxResults?: number;
-  sortBy?: WorkflowRunSortCriteriaList;
+  sortBy?: WorkflowRunSortCriteria[];
 }
 export const ListWorkflowRunsRequest = S.suspend(() =>
   S.Struct({
@@ -987,7 +987,7 @@ export type StringList = string[];
 export const StringList = S.Array(S.String);
 export interface Filter {
   key: string;
-  values: StringList;
+  values: string[];
   comparisonOperator?: string;
 }
 export const Filter = S.suspend(() =>
@@ -1001,7 +1001,7 @@ export type Filters = Filter[];
 export const Filters = S.Array(Filter);
 export interface ProjectListFilter {
   key: string;
-  values: StringList;
+  values: string[];
   comparisonOperator?: string;
 }
 export const ProjectListFilter = S.suspend(() =>
@@ -1045,7 +1045,7 @@ export const WorkflowRunStatusReasons = S.Array(WorkflowRunStatusReason);
 export type ExecuteCommandSessionConfigurationArguments = string[];
 export const ExecuteCommandSessionConfigurationArguments = S.Array(S.String);
 export interface CreateAccessTokenResponse {
-  secret: string | Redacted.Redacted<string>;
+  secret: string | redacted.Redacted<string>;
   name: string;
   expiresTime: Date;
   accessTokenId: string;
@@ -1102,7 +1102,7 @@ export const DeleteSpaceResponse = S.suspend(() =>
 export interface ListDevEnvironmentsRequest {
   spaceName: string;
   projectName?: string;
-  filters?: Filters;
+  filters?: Filter[];
   nextToken?: string;
   maxResults?: number;
 }
@@ -1192,7 +1192,7 @@ export interface ListProjectsRequest {
   spaceName: string;
   nextToken?: string;
   maxResults?: number;
-  filters?: ProjectListFilters;
+  filters?: ProjectListFilter[];
 }
 export const ListProjectsRequest = S.suspend(() =>
   S.Struct({
@@ -1216,10 +1216,10 @@ export const ListProjectsRequest = S.suspend(() =>
 export interface CreateDevEnvironmentRequest {
   spaceName: string;
   projectName: string;
-  repositories?: RepositoriesInput;
+  repositories?: RepositoryInput[];
   clientToken?: string;
   alias?: string;
-  ides?: IdeConfigurationList;
+  ides?: IdeConfiguration[];
   instanceType: string;
   inactivityTimeoutMinutes?: number;
   persistentStorage: PersistentStorageConfiguration;
@@ -1258,7 +1258,7 @@ export interface UpdateDevEnvironmentResponse {
   spaceName: string;
   projectName: string;
   alias?: string;
-  ides?: IdeConfigurationList;
+  ides?: IdeConfiguration[];
   instanceType?: string;
   inactivityTimeoutMinutes?: number;
   clientToken?: string;
@@ -1427,7 +1427,7 @@ export interface GetWorkflowRunResponse {
   id: string;
   workflowId: string;
   status: string;
-  statusReasons?: WorkflowRunStatusReasons;
+  statusReasons?: WorkflowRunStatusReason[];
   startTime: Date;
   endTime?: Date;
   lastUpdatedTime: Date;
@@ -1467,7 +1467,7 @@ export const GetSubscriptionResponse = S.suspend(() =>
 }) as any as S.Schema<GetSubscriptionResponse>;
 export interface ExecuteCommandSessionConfiguration {
   command: string;
-  arguments?: ExecuteCommandSessionConfigurationArguments;
+  arguments?: string[];
 }
 export const ExecuteCommandSessionConfiguration = S.suspend(() =>
   S.Struct({
@@ -1637,7 +1637,7 @@ export interface WorkflowRunSummary {
   workflowId: string;
   workflowName: string;
   status: string;
-  statusReasons?: WorkflowRunStatusReasons;
+  statusReasons?: WorkflowRunStatusReason[];
   startTime: Date;
   endTime?: Date;
   lastUpdatedTime: Date;
@@ -1677,7 +1677,7 @@ export const GetUserDetailsResponse = S.suspend(() =>
   identifier: "GetUserDetailsResponse",
 }) as any as S.Schema<GetUserDetailsResponse>;
 export interface ListAccessTokensResponse {
-  items: AccessTokenSummaries;
+  items: AccessTokenSummary[];
   nextToken?: string;
 }
 export const ListAccessTokensResponse = S.suspend(() =>
@@ -1687,7 +1687,7 @@ export const ListAccessTokensResponse = S.suspend(() =>
 }) as any as S.Schema<ListAccessTokensResponse>;
 export interface ListSpacesResponse {
   nextToken?: string;
-  items?: SpaceSummaries;
+  items?: SpaceSummary[];
 }
 export const ListSpacesResponse = S.suspend(() =>
   S.Struct({
@@ -1721,9 +1721,9 @@ export interface GetDevEnvironmentResponse {
   creatorId: string;
   status: string;
   statusReason?: string;
-  repositories: DevEnvironmentRepositorySummaries;
+  repositories: DevEnvironmentRepositorySummary[];
   alias?: string;
-  ides?: Ides;
+  ides?: Ide[];
   instanceType: string;
   inactivityTimeoutMinutes: number;
   persistentStorage: PersistentStorage;
@@ -1750,7 +1750,7 @@ export const GetDevEnvironmentResponse = S.suspend(() =>
   identifier: "GetDevEnvironmentResponse",
 }) as any as S.Schema<GetDevEnvironmentResponse>;
 export interface ListDevEnvironmentSessionsResponse {
-  items: DevEnvironmentSessionsSummaryList;
+  items: DevEnvironmentSessionSummary[];
   nextToken?: string;
 }
 export const ListDevEnvironmentSessionsResponse = S.suspend(() =>
@@ -1790,7 +1790,7 @@ export const StartDevEnvironmentSessionRequest = S.suspend(() =>
   identifier: "StartDevEnvironmentSessionRequest",
 }) as any as S.Schema<StartDevEnvironmentSessionRequest>;
 export interface ListSourceRepositoriesResponse {
-  items?: ListSourceRepositoriesItems;
+  items?: ListSourceRepositoriesItem[];
   nextToken?: string;
 }
 export const ListSourceRepositoriesResponse = S.suspend(() =>
@@ -1803,7 +1803,7 @@ export const ListSourceRepositoriesResponse = S.suspend(() =>
 }) as any as S.Schema<ListSourceRepositoriesResponse>;
 export interface ListSourceRepositoryBranchesResponse {
   nextToken?: string;
-  items: ListSourceRepositoryBranchesItems;
+  items: ListSourceRepositoryBranchesItem[];
 }
 export const ListSourceRepositoryBranchesResponse = S.suspend(() =>
   S.Struct({
@@ -1845,7 +1845,7 @@ export const GetWorkflowResponse = S.suspend(() =>
 }) as any as S.Schema<GetWorkflowResponse>;
 export interface ListWorkflowRunsResponse {
   nextToken?: string;
-  items?: WorkflowRunSummaries;
+  items?: WorkflowRunSummary[];
 }
 export const ListWorkflowRunsResponse = S.suspend(() =>
   S.Struct({
@@ -1901,9 +1901,9 @@ export interface DevEnvironmentSummary {
   creatorId: string;
   status: string;
   statusReason?: string;
-  repositories: DevEnvironmentRepositorySummaries;
+  repositories: DevEnvironmentRepositorySummary[];
   alias?: string;
-  ides?: Ides;
+  ides?: Ide[];
   instanceType: string;
   inactivityTimeoutMinutes: number;
   persistentStorage: PersistentStorage;
@@ -2016,7 +2016,7 @@ export const WorkflowSummary = S.suspend(() =>
 export type WorkflowSummaries = WorkflowSummary[];
 export const WorkflowSummaries = S.Array(WorkflowSummary);
 export interface ListDevEnvironmentsResponse {
-  items: DevEnvironmentSummaryList;
+  items: DevEnvironmentSummary[];
   nextToken?: string;
 }
 export const ListDevEnvironmentsResponse = S.suspend(() =>
@@ -2029,7 +2029,7 @@ export const ListDevEnvironmentsResponse = S.suspend(() =>
 }) as any as S.Schema<ListDevEnvironmentsResponse>;
 export interface ListEventLogsResponse {
   nextToken?: string;
-  items: EventLogEntries;
+  items: EventLogEntry[];
 }
 export const ListEventLogsResponse = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), items: EventLogEntries }),
@@ -2038,7 +2038,7 @@ export const ListEventLogsResponse = S.suspend(() =>
 }) as any as S.Schema<ListEventLogsResponse>;
 export interface ListProjectsResponse {
   nextToken?: string;
-  items?: ProjectSummaries;
+  items?: ProjectSummary[];
 }
 export const ListProjectsResponse = S.suspend(() =>
   S.Struct({
@@ -2050,7 +2050,7 @@ export const ListProjectsResponse = S.suspend(() =>
 }) as any as S.Schema<ListProjectsResponse>;
 export interface ListWorkflowsResponse {
   nextToken?: string;
-  items?: WorkflowSummaries;
+  items?: WorkflowSummary[];
 }
 export const ListWorkflowsResponse = S.suspend(() =>
   S.Struct({
@@ -2061,8 +2061,8 @@ export const ListWorkflowsResponse = S.suspend(() =>
   identifier: "ListWorkflowsResponse",
 }) as any as S.Schema<ListWorkflowsResponse>;
 export interface DevEnvironmentAccessDetails {
-  streamUrl: string | Redacted.Redacted<string>;
-  tokenValue: string | Redacted.Redacted<string>;
+  streamUrl: string | redacted.Redacted<string>;
+  tokenValue: string | redacted.Redacted<string>;
 }
 export const DevEnvironmentAccessDetails = S.suspend(() =>
   S.Struct({ streamUrl: SensitiveString, tokenValue: SensitiveString }),
@@ -2096,7 +2096,7 @@ export const StartDevEnvironmentSessionResponse = S.suspend(() =>
  */
 export const verifySession: (
   input: VerifySessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   VerifySessionResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2110,7 +2110,7 @@ export const verifySession: (
  */
 export const deleteAccessToken: (
   input: DeleteAccessTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccessTokenResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2128,7 +2128,7 @@ export const deleteAccessToken: (
  */
 export const createAccessToken: (
   input: CreateAccessTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAccessTokenResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2142,7 +2142,7 @@ export const createAccessToken: (
  */
 export const getSpace: (
   input: GetSpaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSpaceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2156,7 +2156,7 @@ export const getSpace: (
  */
 export const updateSpace: (
   input: UpdateSpaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSpaceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2172,7 +2172,7 @@ export const updateSpace: (
  */
 export const deleteSpace: (
   input: DeleteSpaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSpaceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2186,7 +2186,7 @@ export const deleteSpace: (
  */
 export const createProject: (
   input: CreateProjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProjectResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2200,7 +2200,7 @@ export const createProject: (
  */
 export const getProject: (
   input: GetProjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetProjectResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2214,7 +2214,7 @@ export const getProject: (
  */
 export const updateProject: (
   input: UpdateProjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProjectResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2228,7 +2228,7 @@ export const updateProject: (
  */
 export const deleteProject: (
   input: DeleteProjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProjectResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2242,7 +2242,7 @@ export const deleteProject: (
  */
 export const updateDevEnvironment: (
   input: UpdateDevEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDevEnvironmentResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2256,7 +2256,7 @@ export const updateDevEnvironment: (
  */
 export const deleteDevEnvironment: (
   input: DeleteDevEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDevEnvironmentResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2270,7 +2270,7 @@ export const deleteDevEnvironment: (
  */
 export const startDevEnvironment: (
   input: StartDevEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartDevEnvironmentResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2284,7 +2284,7 @@ export const startDevEnvironment: (
  */
 export const stopDevEnvironment: (
   input: StopDevEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopDevEnvironmentResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2298,7 +2298,7 @@ export const stopDevEnvironment: (
  */
 export const stopDevEnvironmentSession: (
   input: StopDevEnvironmentSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopDevEnvironmentSessionResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2313,7 +2313,7 @@ export const stopDevEnvironmentSession: (
  */
 export const createSourceRepository: (
   input: CreateSourceRepositoryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSourceRepositoryResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2327,7 +2327,7 @@ export const createSourceRepository: (
  */
 export const getSourceRepository: (
   input: GetSourceRepositoryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSourceRepositoryResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2341,7 +2341,7 @@ export const getSourceRepository: (
  */
 export const deleteSourceRepository: (
   input: DeleteSourceRepositoryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSourceRepositoryResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2356,7 +2356,7 @@ export const deleteSourceRepository: (
  */
 export const getSourceRepositoryCloneUrls: (
   input: GetSourceRepositoryCloneUrlsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSourceRepositoryCloneUrlsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2372,7 +2372,7 @@ export const getSourceRepositoryCloneUrls: (
  */
 export const createSourceRepositoryBranch: (
   input: CreateSourceRepositoryBranchRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSourceRepositoryBranchResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2386,7 +2386,7 @@ export const createSourceRepositoryBranch: (
  */
 export const startWorkflowRun: (
   input: StartWorkflowRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartWorkflowRunResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2400,7 +2400,7 @@ export const startWorkflowRun: (
  */
 export const getWorkflowRun: (
   input: GetWorkflowRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkflowRunResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2415,7 +2415,7 @@ export const getWorkflowRun: (
  */
 export const getSubscription: (
   input: GetSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSubscriptionResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2429,7 +2429,7 @@ export const getSubscription: (
  */
 export const getUserDetails: (
   input: GetUserDetailsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUserDetailsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2444,21 +2444,21 @@ export const getUserDetails: (
 export const listAccessTokens: {
   (
     input: ListAccessTokensRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccessTokensResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListAccessTokensRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccessTokensResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAccessTokensRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AccessTokenSummary,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2480,21 +2480,21 @@ export const listAccessTokens: {
 export const listSpaces: {
   (
     input: ListSpacesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSpacesResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSpacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSpacesResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSpacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SpaceSummary,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2518,7 +2518,7 @@ export const listSpaces: {
  */
 export const createDevEnvironment: (
   input: CreateDevEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDevEnvironmentResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2532,7 +2532,7 @@ export const createDevEnvironment: (
  */
 export const getDevEnvironment: (
   input: GetDevEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDevEnvironmentResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2547,21 +2547,21 @@ export const getDevEnvironment: (
 export const listDevEnvironmentSessions: {
   (
     input: ListDevEnvironmentSessionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDevEnvironmentSessionsResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListDevEnvironmentSessionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDevEnvironmentSessionsResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDevEnvironmentSessionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DevEnvironmentSessionSummary,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2583,21 +2583,21 @@ export const listDevEnvironmentSessions: {
 export const listSourceRepositories: {
   (
     input: ListSourceRepositoriesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSourceRepositoriesResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSourceRepositoriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSourceRepositoriesResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSourceRepositoriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSourceRepositoriesItem,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2619,21 +2619,21 @@ export const listSourceRepositories: {
 export const listSourceRepositoryBranches: {
   (
     input: ListSourceRepositoryBranchesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSourceRepositoryBranchesResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSourceRepositoryBranchesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSourceRepositoryBranchesResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSourceRepositoryBranchesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSourceRepositoryBranchesItem,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2654,7 +2654,7 @@ export const listSourceRepositoryBranches: {
  */
 export const getWorkflow: (
   input: GetWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkflowResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2669,21 +2669,21 @@ export const getWorkflow: (
 export const listWorkflowRuns: {
   (
     input: ListWorkflowRunsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkflowRunsResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListWorkflowRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkflowRunsResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkflowRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkflowRunSummary,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2705,21 +2705,21 @@ export const listWorkflowRuns: {
 export const listDevEnvironments: {
   (
     input: ListDevEnvironmentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDevEnvironmentsResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListDevEnvironmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDevEnvironmentsResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDevEnvironmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DevEnvironmentSummary,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2749,21 +2749,21 @@ export const listDevEnvironments: {
 export const listEventLogs: {
   (
     input: ListEventLogsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEventLogsResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListEventLogsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEventLogsResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEventLogsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EventLogEntry,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2785,21 +2785,21 @@ export const listEventLogs: {
 export const listProjects: {
   (
     input: ListProjectsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProjectsResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListProjectsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProjectsResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProjectsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProjectSummary,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2821,21 +2821,21 @@ export const listProjects: {
 export const listWorkflows: {
   (
     input: ListWorkflowsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkflowsResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListWorkflowsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkflowsResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkflowsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkflowSummary,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2856,7 +2856,7 @@ export const listWorkflows: {
  */
 export const startDevEnvironmentSession: (
   input: StartDevEnvironmentSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartDevEnvironmentSessionResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient

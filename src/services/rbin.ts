@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -101,6 +101,12 @@ export type ErrorMessage = string;
 export type UnlockDelayValue = number;
 
 //# Schemas
+export type ResourceType = "EBS_SNAPSHOT" | "EC2_IMAGE" | "EBS_VOLUME";
+export const ResourceType = S.Literal(
+  "EBS_SNAPSHOT",
+  "EC2_IMAGE",
+  "EBS_VOLUME",
+);
 export interface ResourceTag {
   ResourceTagKey: string;
   ResourceTagValue?: string;
@@ -113,6 +119,8 @@ export const ResourceTag = S.suspend(() =>
 ).annotations({ identifier: "ResourceTag" }) as any as S.Schema<ResourceTag>;
 export type ExcludeResourceTags = ResourceTag[];
 export const ExcludeResourceTags = S.Array(ResourceTag);
+export type LockState = "locked" | "pending_unlock" | "unlocked";
+export const LockState = S.Literal("locked", "pending_unlock", "unlocked");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface DeleteRuleRequest {
@@ -158,18 +166,18 @@ export const ResourceTags = S.Array(ResourceTag);
 export interface ListRulesRequest {
   MaxResults?: number;
   NextToken?: string;
-  ResourceType: string;
-  ResourceTags?: ResourceTags;
-  LockState?: string;
-  ExcludeResourceTags?: ExcludeResourceTags;
+  ResourceType: ResourceType;
+  ResourceTags?: ResourceTag[];
+  LockState?: LockState;
+  ExcludeResourceTags?: ResourceTag[];
 }
 export const ListRulesRequest = S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-    ResourceType: S.String,
+    ResourceType: ResourceType,
     ResourceTags: S.optional(ResourceTags),
-    LockState: S.optional(S.String),
+    LockState: S.optional(LockState),
     ExcludeResourceTags: S.optional(ExcludeResourceTags),
   }).pipe(
     T.all(
@@ -201,12 +209,14 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
+export type UnlockDelayUnit = "DAYS";
+export const UnlockDelayUnit = S.Literal("DAYS");
 export interface UnlockDelay {
   UnlockDelayValue: number;
-  UnlockDelayUnit: string;
+  UnlockDelayUnit: UnlockDelayUnit;
 }
 export const UnlockDelay = S.suspend(() =>
-  S.Struct({ UnlockDelayValue: S.Number, UnlockDelayUnit: S.String }),
+  S.Struct({ UnlockDelayValue: S.Number, UnlockDelayUnit: UnlockDelayUnit }),
 ).annotations({ identifier: "UnlockDelay" }) as any as S.Schema<UnlockDelay>;
 export interface LockConfiguration {
   UnlockDelay: UnlockDelay;
@@ -248,7 +258,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -290,7 +300,7 @@ export const UnlockRuleRequest = S.suspend(() =>
 }) as any as S.Schema<UnlockRuleRequest>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -313,12 +323,17 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
+export type RetentionPeriodUnit = "DAYS";
+export const RetentionPeriodUnit = S.Literal("DAYS");
 export interface RetentionPeriod {
   RetentionPeriodValue: number;
-  RetentionPeriodUnit: string;
+  RetentionPeriodUnit: RetentionPeriodUnit;
 }
 export const RetentionPeriod = S.suspend(() =>
-  S.Struct({ RetentionPeriodValue: S.Number, RetentionPeriodUnit: S.String }),
+  S.Struct({
+    RetentionPeriodValue: S.Number,
+    RetentionPeriodUnit: RetentionPeriodUnit,
+  }),
 ).annotations({
   identifier: "RetentionPeriod",
 }) as any as S.Schema<RetentionPeriod>;
@@ -326,16 +341,16 @@ export interface UpdateRuleRequest {
   Identifier: string;
   RetentionPeriod?: RetentionPeriod;
   Description?: string;
-  ResourceType?: string;
-  ResourceTags?: ResourceTags;
-  ExcludeResourceTags?: ExcludeResourceTags;
+  ResourceType?: ResourceType;
+  ResourceTags?: ResourceTag[];
+  ExcludeResourceTags?: ResourceTag[];
 }
 export const UpdateRuleRequest = S.suspend(() =>
   S.Struct({
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     RetentionPeriod: S.optional(RetentionPeriod),
     Description: S.optional(S.String),
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(ResourceType),
     ResourceTags: S.optional(ResourceTags),
     ExcludeResourceTags: S.optional(ExcludeResourceTags),
   }).pipe(
@@ -351,29 +366,33 @@ export const UpdateRuleRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateRuleRequest",
 }) as any as S.Schema<UpdateRuleRequest>;
+export type ConflictExceptionReason = "INVALID_RULE_STATE";
+export const ConflictExceptionReason = S.Literal("INVALID_RULE_STATE");
+export type RuleStatus = "pending" | "available";
+export const RuleStatus = S.Literal("pending", "available");
 export interface GetRuleResponse {
   Identifier?: string;
   Description?: string;
-  ResourceType?: string;
+  ResourceType?: ResourceType;
   RetentionPeriod?: RetentionPeriod;
-  ResourceTags?: ResourceTags;
-  Status?: string;
+  ResourceTags?: ResourceTag[];
+  Status?: RuleStatus;
   LockConfiguration?: LockConfiguration;
-  LockState?: string;
+  LockState?: LockState;
   LockEndTime?: Date;
   RuleArn?: string;
-  ExcludeResourceTags?: ExcludeResourceTags;
+  ExcludeResourceTags?: ResourceTag[];
 }
 export const GetRuleResponse = S.suspend(() =>
   S.Struct({
     Identifier: S.optional(S.String),
     Description: S.optional(S.String),
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(ResourceType),
     RetentionPeriod: S.optional(RetentionPeriod),
     ResourceTags: S.optional(ResourceTags),
-    Status: S.optional(S.String),
+    Status: S.optional(RuleStatus),
     LockConfiguration: S.optional(LockConfiguration),
-    LockState: S.optional(S.String),
+    LockState: S.optional(LockState),
     LockEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     RuleArn: S.optional(S.String),
     ExcludeResourceTags: S.optional(ExcludeResourceTags),
@@ -382,7 +401,7 @@ export const GetRuleResponse = S.suspend(() =>
   identifier: "GetRuleResponse",
 }) as any as S.Schema<GetRuleResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }),
@@ -392,25 +411,25 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 export interface LockRuleResponse {
   Identifier?: string;
   Description?: string;
-  ResourceType?: string;
+  ResourceType?: ResourceType;
   RetentionPeriod?: RetentionPeriod;
-  ResourceTags?: ResourceTags;
-  Status?: string;
+  ResourceTags?: ResourceTag[];
+  Status?: RuleStatus;
   LockConfiguration?: LockConfiguration;
-  LockState?: string;
+  LockState?: LockState;
   RuleArn?: string;
-  ExcludeResourceTags?: ExcludeResourceTags;
+  ExcludeResourceTags?: ResourceTag[];
 }
 export const LockRuleResponse = S.suspend(() =>
   S.Struct({
     Identifier: S.optional(S.String),
     Description: S.optional(S.String),
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(ResourceType),
     RetentionPeriod: S.optional(RetentionPeriod),
     ResourceTags: S.optional(ResourceTags),
-    Status: S.optional(S.String),
+    Status: S.optional(RuleStatus),
     LockConfiguration: S.optional(LockConfiguration),
-    LockState: S.optional(S.String),
+    LockState: S.optional(LockState),
     RuleArn: S.optional(S.String),
     ExcludeResourceTags: S.optional(ExcludeResourceTags),
   }),
@@ -420,26 +439,26 @@ export const LockRuleResponse = S.suspend(() =>
 export interface UnlockRuleResponse {
   Identifier?: string;
   Description?: string;
-  ResourceType?: string;
+  ResourceType?: ResourceType;
   RetentionPeriod?: RetentionPeriod;
-  ResourceTags?: ResourceTags;
-  Status?: string;
+  ResourceTags?: ResourceTag[];
+  Status?: RuleStatus;
   LockConfiguration?: LockConfiguration;
-  LockState?: string;
+  LockState?: LockState;
   LockEndTime?: Date;
   RuleArn?: string;
-  ExcludeResourceTags?: ExcludeResourceTags;
+  ExcludeResourceTags?: ResourceTag[];
 }
 export const UnlockRuleResponse = S.suspend(() =>
   S.Struct({
     Identifier: S.optional(S.String),
     Description: S.optional(S.String),
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(ResourceType),
     RetentionPeriod: S.optional(RetentionPeriod),
     ResourceTags: S.optional(ResourceTags),
-    Status: S.optional(S.String),
+    Status: S.optional(RuleStatus),
     LockConfiguration: S.optional(LockConfiguration),
-    LockState: S.optional(S.String),
+    LockState: S.optional(LockState),
     LockEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     RuleArn: S.optional(S.String),
     ExcludeResourceTags: S.optional(ExcludeResourceTags),
@@ -451,23 +470,23 @@ export interface UpdateRuleResponse {
   Identifier?: string;
   RetentionPeriod?: RetentionPeriod;
   Description?: string;
-  ResourceType?: string;
-  ResourceTags?: ResourceTags;
-  Status?: string;
-  LockState?: string;
+  ResourceType?: ResourceType;
+  ResourceTags?: ResourceTag[];
+  Status?: RuleStatus;
+  LockState?: LockState;
   LockEndTime?: Date;
   RuleArn?: string;
-  ExcludeResourceTags?: ExcludeResourceTags;
+  ExcludeResourceTags?: ResourceTag[];
 }
 export const UpdateRuleResponse = S.suspend(() =>
   S.Struct({
     Identifier: S.optional(S.String),
     RetentionPeriod: S.optional(RetentionPeriod),
     Description: S.optional(S.String),
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(ResourceType),
     ResourceTags: S.optional(ResourceTags),
-    Status: S.optional(S.String),
-    LockState: S.optional(S.String),
+    Status: S.optional(RuleStatus),
+    LockState: S.optional(LockState),
     LockEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     RuleArn: S.optional(S.String),
     ExcludeResourceTags: S.optional(ExcludeResourceTags),
@@ -479,7 +498,7 @@ export interface RuleSummary {
   Identifier?: string;
   Description?: string;
   RetentionPeriod?: RetentionPeriod;
-  LockState?: string;
+  LockState?: LockState;
   RuleArn?: string;
 }
 export const RuleSummary = S.suspend(() =>
@@ -487,27 +506,29 @@ export const RuleSummary = S.suspend(() =>
     Identifier: S.optional(S.String),
     Description: S.optional(S.String),
     RetentionPeriod: S.optional(RetentionPeriod),
-    LockState: S.optional(S.String),
+    LockState: S.optional(LockState),
     RuleArn: S.optional(S.String),
   }),
 ).annotations({ identifier: "RuleSummary" }) as any as S.Schema<RuleSummary>;
 export type RuleSummaryList = RuleSummary[];
 export const RuleSummaryList = S.Array(RuleSummary);
+export type ResourceNotFoundExceptionReason = "RULE_NOT_FOUND";
+export const ResourceNotFoundExceptionReason = S.Literal("RULE_NOT_FOUND");
 export interface CreateRuleRequest {
   RetentionPeriod: RetentionPeriod;
   Description?: string;
-  Tags?: TagList;
-  ResourceType: string;
-  ResourceTags?: ResourceTags;
+  Tags?: Tag[];
+  ResourceType: ResourceType;
+  ResourceTags?: ResourceTag[];
   LockConfiguration?: LockConfiguration;
-  ExcludeResourceTags?: ExcludeResourceTags;
+  ExcludeResourceTags?: ResourceTag[];
 }
 export const CreateRuleRequest = S.suspend(() =>
   S.Struct({
     RetentionPeriod: RetentionPeriod,
     Description: S.optional(S.String),
     Tags: S.optional(TagList),
-    ResourceType: S.String,
+    ResourceType: ResourceType,
     ResourceTags: S.optional(ResourceTags),
     LockConfiguration: S.optional(LockConfiguration),
     ExcludeResourceTags: S.optional(ExcludeResourceTags),
@@ -525,7 +546,7 @@ export const CreateRuleRequest = S.suspend(() =>
   identifier: "CreateRuleRequest",
 }) as any as S.Schema<CreateRuleRequest>;
 export interface ListRulesResponse {
-  Rules?: RuleSummaryList;
+  Rules?: RuleSummary[];
   NextToken?: string;
 }
 export const ListRulesResponse = S.suspend(() =>
@@ -536,18 +557,29 @@ export const ListRulesResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListRulesResponse",
 }) as any as S.Schema<ListRulesResponse>;
+export type ValidationExceptionReason =
+  | "INVALID_PAGE_TOKEN"
+  | "INVALID_PARAMETER_VALUE";
+export const ValidationExceptionReason = S.Literal(
+  "INVALID_PAGE_TOKEN",
+  "INVALID_PARAMETER_VALUE",
+);
+export type ServiceQuotaExceededExceptionReason = "SERVICE_QUOTA_EXCEEDED";
+export const ServiceQuotaExceededExceptionReason = S.Literal(
+  "SERVICE_QUOTA_EXCEEDED",
+);
 export interface CreateRuleResponse {
   Identifier?: string;
   RetentionPeriod?: RetentionPeriod;
   Description?: string;
-  Tags?: TagList;
-  ResourceType?: string;
-  ResourceTags?: ResourceTags;
-  Status?: string;
+  Tags?: Tag[];
+  ResourceType?: ResourceType;
+  ResourceTags?: ResourceTag[];
+  Status?: RuleStatus;
   LockConfiguration?: LockConfiguration;
-  LockState?: string;
+  LockState?: LockState;
   RuleArn?: string;
-  ExcludeResourceTags?: ExcludeResourceTags;
+  ExcludeResourceTags?: ResourceTag[];
 }
 export const CreateRuleResponse = S.suspend(() =>
   S.Struct({
@@ -555,11 +587,11 @@ export const CreateRuleResponse = S.suspend(() =>
     RetentionPeriod: S.optional(RetentionPeriod),
     Description: S.optional(S.String),
     Tags: S.optional(TagList),
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(ResourceType),
     ResourceTags: S.optional(ResourceTags),
-    Status: S.optional(S.String),
+    Status: S.optional(RuleStatus),
     LockConfiguration: S.optional(LockConfiguration),
-    LockState: S.optional(S.String),
+    LockState: S.optional(LockState),
     RuleArn: S.optional(S.String),
     ExcludeResourceTags: S.optional(ExcludeResourceTags),
   }),
@@ -570,7 +602,10 @@ export const CreateRuleResponse = S.suspend(() =>
 //# Errors
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+  {
+    Message: S.optional(S.String),
+    Reason: S.optional(ConflictExceptionReason),
+  },
 ).pipe(C.withConflictError) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
@@ -578,15 +613,24 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
 ).pipe(C.withServerError) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+  {
+    Message: S.optional(S.String),
+    Reason: S.optional(ResourceNotFoundExceptionReason),
+  },
 ).pipe(C.withBadRequestError) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+  {
+    Message: S.optional(S.String),
+    Reason: S.optional(ValidationExceptionReason),
+  },
 ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+  {
+    Message: S.optional(S.String),
+    Reason: S.optional(ServiceQuotaExceededExceptionReason),
+  },
 ).pipe(C.withQuotaError) {}
 
 //# Operations
@@ -596,21 +640,21 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export const listRules: {
   (
     input: ListRulesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRulesResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRulesResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RuleSummary,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -631,7 +675,7 @@ export const listRules: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -655,7 +699,7 @@ export const tagResource: (
  */
 export const unlockRule: (
   input: UnlockRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UnlockRuleResponse,
   | ConflictException
   | InternalServerException
@@ -678,7 +722,7 @@ export const unlockRule: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -700,7 +744,7 @@ export const untagResource: (
  */
 export const deleteRule: (
   input: DeleteRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRuleResponse,
   | ConflictException
   | InternalServerException
@@ -723,7 +767,7 @@ export const deleteRule: (
  */
 export const getRule: (
   input: GetRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRuleResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -744,7 +788,7 @@ export const getRule: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -769,7 +813,7 @@ export const listTagsForResource: (
  */
 export const lockRule: (
   input: LockRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   LockRuleResponse,
   | ConflictException
   | InternalServerException
@@ -795,7 +839,7 @@ export const lockRule: (
  */
 export const updateRule: (
   input: UpdateRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRuleResponse,
   | ConflictException
   | InternalServerException
@@ -835,7 +879,7 @@ export const updateRule: (
  */
 export const createRule: (
   input: CreateRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRuleResponse,
   | InternalServerException
   | ServiceQuotaExceededException

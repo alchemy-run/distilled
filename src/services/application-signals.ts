@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -157,13 +157,24 @@ export type ServiceLevelObjectiveIds = string[];
 export const ServiceLevelObjectiveIds = S.Array(S.String);
 export type Auditors = string[];
 export const Auditors = S.Array(S.String);
+export type DetailLevel = "BRIEF" | "DETAILED";
+export const DetailLevel = S.Literal("BRIEF", "DETAILED");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export type MetricSourceTypes = string[];
-export const MetricSourceTypes = S.Array(S.String);
+export type MetricSourceType =
+  | "ServiceOperation"
+  | "CloudWatchMetric"
+  | "ServiceDependency";
+export const MetricSourceType = S.Literal(
+  "ServiceOperation",
+  "CloudWatchMetric",
+  "ServiceDependency",
+);
+export type MetricSourceTypes = MetricSourceType[];
+export const MetricSourceTypes = S.Array(MetricSourceType);
 export interface BatchGetServiceLevelObjectiveBudgetReportInput {
   Timestamp: Date;
-  SloIds: ServiceLevelObjectiveIds;
+  SloIds: string[];
 }
 export const BatchGetServiceLevelObjectiveBudgetReportInput = S.suspend(() =>
   S.Struct({
@@ -185,7 +196,7 @@ export const BatchGetServiceLevelObjectiveBudgetReportInput = S.suspend(() =>
 export type Attributes = { [key: string]: string };
 export const Attributes = S.Record({ key: S.String, value: S.String });
 export interface ListEntityEventsInput {
-  Entity: Attributes;
+  Entity: { [key: string]: string };
   StartTime: Date;
   EndTime: Date;
   MaxResults?: number;
@@ -239,7 +250,7 @@ export const ListGroupingAttributeDefinitionsInput = S.suspend(() =>
 export interface ListServiceDependenciesInput {
   StartTime: Date;
   EndTime: Date;
-  KeyAttributes: Attributes;
+  KeyAttributes: { [key: string]: string };
   MaxResults?: number;
   NextToken?: string;
 }
@@ -270,7 +281,7 @@ export const ListServiceDependenciesInput = S.suspend(() =>
 export interface ListServiceDependentsInput {
   StartTime: Date;
   EndTime: Date;
-  KeyAttributes: Attributes;
+  KeyAttributes: { [key: string]: string };
   MaxResults?: number;
   NextToken?: string;
 }
@@ -324,7 +335,7 @@ export const ListServiceLevelObjectiveExclusionWindowsInput = S.suspend(() =>
 export interface ListServiceOperationsInput {
   StartTime: Date;
   EndTime: Date;
-  KeyAttributes: Attributes;
+  KeyAttributes: { [key: string]: string };
   MaxResults?: number;
   NextToken?: string;
 }
@@ -406,7 +417,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
@@ -443,6 +454,11 @@ export const GetServiceLevelObjectiveInput = S.suspend(() =>
 ).annotations({
   identifier: "GetServiceLevelObjectiveInput",
 }) as any as S.Schema<GetServiceLevelObjectiveInput>;
+export type ServiceLevelIndicatorMetricType = "LATENCY" | "AVAILABILITY";
+export const ServiceLevelIndicatorMetricType = S.Literal(
+  "LATENCY",
+  "AVAILABILITY",
+);
 export interface Dimension {
   Name: string;
   Value: string;
@@ -455,7 +471,7 @@ export const Dimensions = S.Array(Dimension);
 export interface Metric {
   Namespace?: string;
   MetricName?: string;
-  Dimensions?: Dimensions;
+  Dimensions?: Dimension[];
 }
 export const Metric = S.suspend(() =>
   S.Struct({
@@ -464,18 +480,75 @@ export const Metric = S.suspend(() =>
     Dimensions: S.optional(Dimensions),
   }),
 ).annotations({ identifier: "Metric" }) as any as S.Schema<Metric>;
+export type StandardUnit =
+  | "Microseconds"
+  | "Milliseconds"
+  | "Seconds"
+  | "Bytes"
+  | "Kilobytes"
+  | "Megabytes"
+  | "Gigabytes"
+  | "Terabytes"
+  | "Bits"
+  | "Kilobits"
+  | "Megabits"
+  | "Gigabits"
+  | "Terabits"
+  | "Percent"
+  | "Count"
+  | "Bytes/Second"
+  | "Kilobytes/Second"
+  | "Megabytes/Second"
+  | "Gigabytes/Second"
+  | "Terabytes/Second"
+  | "Bits/Second"
+  | "Kilobits/Second"
+  | "Megabits/Second"
+  | "Gigabits/Second"
+  | "Terabits/Second"
+  | "Count/Second"
+  | "None";
+export const StandardUnit = S.Literal(
+  "Microseconds",
+  "Milliseconds",
+  "Seconds",
+  "Bytes",
+  "Kilobytes",
+  "Megabytes",
+  "Gigabytes",
+  "Terabytes",
+  "Bits",
+  "Kilobits",
+  "Megabits",
+  "Gigabits",
+  "Terabits",
+  "Percent",
+  "Count",
+  "Bytes/Second",
+  "Kilobytes/Second",
+  "Megabytes/Second",
+  "Gigabytes/Second",
+  "Terabytes/Second",
+  "Bits/Second",
+  "Kilobits/Second",
+  "Megabits/Second",
+  "Gigabits/Second",
+  "Terabits/Second",
+  "Count/Second",
+  "None",
+);
 export interface MetricStat {
   Metric: Metric;
   Period: number;
   Stat: string;
-  Unit?: string;
+  Unit?: StandardUnit;
 }
 export const MetricStat = S.suspend(() =>
   S.Struct({
     Metric: Metric,
     Period: S.Number,
     Stat: S.String,
-    Unit: S.optional(S.String),
+    Unit: S.optional(StandardUnit),
   }),
 ).annotations({ identifier: "MetricStat" }) as any as S.Schema<MetricStat>;
 export interface MetricDataQuery {
@@ -503,7 +576,7 @@ export const MetricDataQuery = S.suspend(() =>
 export type MetricDataQueries = MetricDataQuery[];
 export const MetricDataQueries = S.Array(MetricDataQuery);
 export interface DependencyConfig {
-  DependencyKeyAttributes: Attributes;
+  DependencyKeyAttributes: { [key: string]: string };
   DependencyOperationName: string;
 }
 export const DependencyConfig = S.suspend(() =>
@@ -515,20 +588,20 @@ export const DependencyConfig = S.suspend(() =>
   identifier: "DependencyConfig",
 }) as any as S.Schema<DependencyConfig>;
 export interface ServiceLevelIndicatorMetricConfig {
-  KeyAttributes?: Attributes;
+  KeyAttributes?: { [key: string]: string };
   OperationName?: string;
-  MetricType?: string;
+  MetricType?: ServiceLevelIndicatorMetricType;
   MetricName?: string;
   Statistic?: string;
   PeriodSeconds?: number;
-  MetricDataQueries?: MetricDataQueries;
+  MetricDataQueries?: MetricDataQuery[];
   DependencyConfig?: DependencyConfig;
 }
 export const ServiceLevelIndicatorMetricConfig = S.suspend(() =>
   S.Struct({
     KeyAttributes: S.optional(Attributes),
     OperationName: S.optional(S.String),
-    MetricType: S.optional(S.String),
+    MetricType: S.optional(ServiceLevelIndicatorMetricType),
     MetricName: S.optional(S.String),
     Statistic: S.optional(S.String),
     PeriodSeconds: S.optional(S.Number),
@@ -538,40 +611,51 @@ export const ServiceLevelIndicatorMetricConfig = S.suspend(() =>
 ).annotations({
   identifier: "ServiceLevelIndicatorMetricConfig",
 }) as any as S.Schema<ServiceLevelIndicatorMetricConfig>;
+export type ServiceLevelIndicatorComparisonOperator =
+  | "GreaterThanOrEqualTo"
+  | "GreaterThan"
+  | "LessThan"
+  | "LessThanOrEqualTo";
+export const ServiceLevelIndicatorComparisonOperator = S.Literal(
+  "GreaterThanOrEqualTo",
+  "GreaterThan",
+  "LessThan",
+  "LessThanOrEqualTo",
+);
 export interface ServiceLevelIndicatorConfig {
   SliMetricConfig: ServiceLevelIndicatorMetricConfig;
   MetricThreshold: number;
-  ComparisonOperator: string;
+  ComparisonOperator: ServiceLevelIndicatorComparisonOperator;
 }
 export const ServiceLevelIndicatorConfig = S.suspend(() =>
   S.Struct({
     SliMetricConfig: ServiceLevelIndicatorMetricConfig,
     MetricThreshold: S.Number,
-    ComparisonOperator: S.String,
+    ComparisonOperator: ServiceLevelIndicatorComparisonOperator,
   }),
 ).annotations({
   identifier: "ServiceLevelIndicatorConfig",
 }) as any as S.Schema<ServiceLevelIndicatorConfig>;
 export type MonitoredRequestCountMetricDataQueries =
-  | { GoodCountMetric: MetricDataQueries }
-  | { BadCountMetric: MetricDataQueries };
+  | { GoodCountMetric: MetricDataQuery[] }
+  | { BadCountMetric: MetricDataQuery[] };
 export const MonitoredRequestCountMetricDataQueries = S.Union(
   S.Struct({ GoodCountMetric: MetricDataQueries }),
   S.Struct({ BadCountMetric: MetricDataQueries }),
 );
 export interface RequestBasedServiceLevelIndicatorMetricConfig {
-  KeyAttributes?: Attributes;
+  KeyAttributes?: { [key: string]: string };
   OperationName?: string;
-  MetricType?: string;
-  TotalRequestCountMetric?: MetricDataQueries;
-  MonitoredRequestCountMetric?: (typeof MonitoredRequestCountMetricDataQueries)["Type"];
+  MetricType?: ServiceLevelIndicatorMetricType;
+  TotalRequestCountMetric?: MetricDataQuery[];
+  MonitoredRequestCountMetric?: MonitoredRequestCountMetricDataQueries;
   DependencyConfig?: DependencyConfig;
 }
 export const RequestBasedServiceLevelIndicatorMetricConfig = S.suspend(() =>
   S.Struct({
     KeyAttributes: S.optional(Attributes),
     OperationName: S.optional(S.String),
-    MetricType: S.optional(S.String),
+    MetricType: S.optional(ServiceLevelIndicatorMetricType),
     TotalRequestCountMetric: S.optional(MetricDataQueries),
     MonitoredRequestCountMetric: S.optional(
       MonitoredRequestCountMetricDataQueries,
@@ -584,35 +668,37 @@ export const RequestBasedServiceLevelIndicatorMetricConfig = S.suspend(() =>
 export interface RequestBasedServiceLevelIndicatorConfig {
   RequestBasedSliMetricConfig: RequestBasedServiceLevelIndicatorMetricConfig;
   MetricThreshold?: number;
-  ComparisonOperator?: string;
+  ComparisonOperator?: ServiceLevelIndicatorComparisonOperator;
 }
 export const RequestBasedServiceLevelIndicatorConfig = S.suspend(() =>
   S.Struct({
     RequestBasedSliMetricConfig: RequestBasedServiceLevelIndicatorMetricConfig,
     MetricThreshold: S.optional(S.Number),
-    ComparisonOperator: S.optional(S.String),
+    ComparisonOperator: S.optional(ServiceLevelIndicatorComparisonOperator),
   }),
 ).annotations({
   identifier: "RequestBasedServiceLevelIndicatorConfig",
 }) as any as S.Schema<RequestBasedServiceLevelIndicatorConfig>;
+export type DurationUnit = "MINUTE" | "HOUR" | "DAY" | "MONTH";
+export const DurationUnit = S.Literal("MINUTE", "HOUR", "DAY", "MONTH");
 export interface RollingInterval {
-  DurationUnit: string;
+  DurationUnit: DurationUnit;
   Duration: number;
 }
 export const RollingInterval = S.suspend(() =>
-  S.Struct({ DurationUnit: S.String, Duration: S.Number }),
+  S.Struct({ DurationUnit: DurationUnit, Duration: S.Number }),
 ).annotations({
   identifier: "RollingInterval",
 }) as any as S.Schema<RollingInterval>;
 export interface CalendarInterval {
   StartTime: Date;
-  DurationUnit: string;
+  DurationUnit: DurationUnit;
   Duration: number;
 }
 export const CalendarInterval = S.suspend(() =>
   S.Struct({
     StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    DurationUnit: S.String,
+    DurationUnit: DurationUnit,
     Duration: S.Number,
   }),
 ).annotations({
@@ -626,7 +712,7 @@ export const Interval = S.Union(
   S.Struct({ CalendarInterval: CalendarInterval }),
 );
 export interface Goal {
-  Interval?: (typeof Interval)["Type"];
+  Interval?: Interval;
   AttainmentGoal?: number;
   WarningThreshold?: number;
 }
@@ -653,7 +739,7 @@ export interface UpdateServiceLevelObjectiveInput {
   SliConfig?: ServiceLevelIndicatorConfig;
   RequestBasedSliConfig?: RequestBasedServiceLevelIndicatorConfig;
   Goal?: Goal;
-  BurnRateConfigurations?: BurnRateConfigurations;
+  BurnRateConfigurations?: BurnRateConfiguration[];
 }
 export const UpdateServiceLevelObjectiveInput = S.suspend(() =>
   S.Struct({
@@ -705,7 +791,7 @@ export type GroupingSourceKeyStringList = string[];
 export const GroupingSourceKeyStringList = S.Array(S.String);
 export interface AttributeFilter {
   AttributeFilterName: string;
-  AttributeFilterValues: AttributeFilterValues;
+  AttributeFilterValues: string[];
 }
 export const AttributeFilter = S.suspend(() =>
   S.Struct({
@@ -719,7 +805,7 @@ export type AttributeFilters = AttributeFilter[];
 export const AttributeFilters = S.Array(AttributeFilter);
 export interface GroupingAttributeDefinition {
   GroupingName: string;
-  GroupingSourceKeys?: GroupingSourceKeyStringList;
+  GroupingSourceKeys?: string[];
   DefaultGroupingValue?: string;
 }
 export const GroupingAttributeDefinition = S.suspend(() =>
@@ -747,7 +833,7 @@ export const TagList = S.Array(Tag);
 export interface GetServiceInput {
   StartTime: Date;
   EndTime: Date;
-  KeyAttributes: Attributes;
+  KeyAttributes: { [key: string]: string };
 }
 export const GetServiceInput = S.suspend(() =>
   S.Struct({
@@ -772,7 +858,7 @@ export const GetServiceInput = S.suspend(() =>
   identifier: "GetServiceInput",
 }) as any as S.Schema<GetServiceInput>;
 export interface ListGroupingAttributeDefinitionsOutput {
-  GroupingAttributeDefinitions: GroupingAttributeDefinitions;
+  GroupingAttributeDefinitions: GroupingAttributeDefinition[];
   UpdatedAt?: Date;
   NextToken?: string;
 }
@@ -786,11 +872,11 @@ export const ListGroupingAttributeDefinitionsOutput = S.suspend(() =>
   identifier: "ListGroupingAttributeDefinitionsOutput",
 }) as any as S.Schema<ListGroupingAttributeDefinitionsOutput>;
 export interface Window {
-  DurationUnit: string;
+  DurationUnit: DurationUnit;
   Duration: number;
 }
 export const Window = S.suspend(() =>
-  S.Struct({ DurationUnit: S.String, Duration: S.Number }),
+  S.Struct({ DurationUnit: DurationUnit, Duration: S.Number }),
 ).annotations({ identifier: "Window" }) as any as S.Schema<Window>;
 export interface RecurrenceRule {
   Expression: string;
@@ -819,7 +905,7 @@ export const ExclusionWindow = S.suspend(() =>
 export type ExclusionWindows = ExclusionWindow[];
 export const ExclusionWindows = S.Array(ExclusionWindow);
 export interface ListServiceLevelObjectiveExclusionWindowsOutput {
-  ExclusionWindows: ExclusionWindows;
+  ExclusionWindows: ExclusionWindow[];
   NextToken?: string;
 }
 export const ListServiceLevelObjectiveExclusionWindowsOutput = S.suspend(() =>
@@ -837,7 +923,7 @@ export interface ListServiceStatesInput {
   NextToken?: string;
   IncludeLinkedAccounts?: boolean;
   AwsAccountId?: string;
-  AttributeFilters?: AttributeFilters;
+  AttributeFilters?: AttributeFilter[];
 }
 export const ListServiceStatesInput = S.suspend(() =>
   S.Struct({
@@ -862,7 +948,7 @@ export const ListServiceStatesInput = S.suspend(() =>
   identifier: "ListServiceStatesInput",
 }) as any as S.Schema<ListServiceStatesInput>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }),
@@ -870,7 +956,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface PutGroupingConfigurationInput {
-  GroupingAttributeDefinitions: GroupingAttributeDefinitions;
+  GroupingAttributeDefinitions: GroupingAttributeDefinition[];
 }
 export const PutGroupingConfigurationInput = S.suspend(() =>
   S.Struct({ GroupingAttributeDefinitions: GroupingAttributeDefinitions }).pipe(
@@ -888,7 +974,7 @@ export const PutGroupingConfigurationInput = S.suspend(() =>
 }) as any as S.Schema<PutGroupingConfigurationInput>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
@@ -909,17 +995,17 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface ServiceLevelIndicatorMetric {
-  KeyAttributes?: Attributes;
+  KeyAttributes?: { [key: string]: string };
   OperationName?: string;
-  MetricType?: string;
-  MetricDataQueries: MetricDataQueries;
+  MetricType?: ServiceLevelIndicatorMetricType;
+  MetricDataQueries: MetricDataQuery[];
   DependencyConfig?: DependencyConfig;
 }
 export const ServiceLevelIndicatorMetric = S.suspend(() =>
   S.Struct({
     KeyAttributes: S.optional(Attributes),
     OperationName: S.optional(S.String),
-    MetricType: S.optional(S.String),
+    MetricType: S.optional(ServiceLevelIndicatorMetricType),
     MetricDataQueries: MetricDataQueries,
     DependencyConfig: S.optional(DependencyConfig),
   }),
@@ -929,30 +1015,30 @@ export const ServiceLevelIndicatorMetric = S.suspend(() =>
 export interface ServiceLevelIndicator {
   SliMetric: ServiceLevelIndicatorMetric;
   MetricThreshold: number;
-  ComparisonOperator: string;
+  ComparisonOperator: ServiceLevelIndicatorComparisonOperator;
 }
 export const ServiceLevelIndicator = S.suspend(() =>
   S.Struct({
     SliMetric: ServiceLevelIndicatorMetric,
     MetricThreshold: S.Number,
-    ComparisonOperator: S.String,
+    ComparisonOperator: ServiceLevelIndicatorComparisonOperator,
   }),
 ).annotations({
   identifier: "ServiceLevelIndicator",
 }) as any as S.Schema<ServiceLevelIndicator>;
 export interface RequestBasedServiceLevelIndicatorMetric {
-  KeyAttributes?: Attributes;
+  KeyAttributes?: { [key: string]: string };
   OperationName?: string;
-  MetricType?: string;
-  TotalRequestCountMetric: MetricDataQueries;
-  MonitoredRequestCountMetric: (typeof MonitoredRequestCountMetricDataQueries)["Type"];
+  MetricType?: ServiceLevelIndicatorMetricType;
+  TotalRequestCountMetric: MetricDataQuery[];
+  MonitoredRequestCountMetric: MonitoredRequestCountMetricDataQueries;
   DependencyConfig?: DependencyConfig;
 }
 export const RequestBasedServiceLevelIndicatorMetric = S.suspend(() =>
   S.Struct({
     KeyAttributes: S.optional(Attributes),
     OperationName: S.optional(S.String),
-    MetricType: S.optional(S.String),
+    MetricType: S.optional(ServiceLevelIndicatorMetricType),
     TotalRequestCountMetric: MetricDataQueries,
     MonitoredRequestCountMetric: MonitoredRequestCountMetricDataQueries,
     DependencyConfig: S.optional(DependencyConfig),
@@ -963,17 +1049,19 @@ export const RequestBasedServiceLevelIndicatorMetric = S.suspend(() =>
 export interface RequestBasedServiceLevelIndicator {
   RequestBasedSliMetric: RequestBasedServiceLevelIndicatorMetric;
   MetricThreshold?: number;
-  ComparisonOperator?: string;
+  ComparisonOperator?: ServiceLevelIndicatorComparisonOperator;
 }
 export const RequestBasedServiceLevelIndicator = S.suspend(() =>
   S.Struct({
     RequestBasedSliMetric: RequestBasedServiceLevelIndicatorMetric,
     MetricThreshold: S.optional(S.Number),
-    ComparisonOperator: S.optional(S.String),
+    ComparisonOperator: S.optional(ServiceLevelIndicatorComparisonOperator),
   }),
 ).annotations({
   identifier: "RequestBasedServiceLevelIndicator",
 }) as any as S.Schema<RequestBasedServiceLevelIndicator>;
+export type EvaluationType = "PeriodBased" | "RequestBased";
+export const EvaluationType = S.Literal("PeriodBased", "RequestBased");
 export interface ServiceLevelObjective {
   Arn: string;
   Name: string;
@@ -982,10 +1070,10 @@ export interface ServiceLevelObjective {
   LastUpdatedTime: Date;
   Sli?: ServiceLevelIndicator;
   RequestBasedSli?: RequestBasedServiceLevelIndicator;
-  EvaluationType?: string;
+  EvaluationType?: EvaluationType;
   Goal: Goal;
-  BurnRateConfigurations?: BurnRateConfigurations;
-  MetricSourceType?: string;
+  BurnRateConfigurations?: BurnRateConfiguration[];
+  MetricSourceType?: MetricSourceType;
 }
 export const ServiceLevelObjective = S.suspend(() =>
   S.Struct({
@@ -996,10 +1084,10 @@ export const ServiceLevelObjective = S.suspend(() =>
     LastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     Sli: S.optional(ServiceLevelIndicator),
     RequestBasedSli: S.optional(RequestBasedServiceLevelIndicator),
-    EvaluationType: S.optional(S.String),
+    EvaluationType: S.optional(EvaluationType),
     Goal: Goal,
     BurnRateConfigurations: S.optional(BurnRateConfigurations),
-    MetricSourceType: S.optional(S.String),
+    MetricSourceType: S.optional(MetricSourceType),
   }),
 ).annotations({
   identifier: "ServiceLevelObjective",
@@ -1013,14 +1101,14 @@ export const UpdateServiceLevelObjectiveOutput = S.suspend(() =>
   identifier: "UpdateServiceLevelObjectiveOutput",
 }) as any as S.Schema<UpdateServiceLevelObjectiveOutput>;
 export interface ListServiceLevelObjectivesInput {
-  KeyAttributes?: Attributes;
+  KeyAttributes?: { [key: string]: string };
   OperationName?: string;
   DependencyConfig?: DependencyConfig;
   MaxResults?: number;
   NextToken?: string;
   IncludeLinkedAccounts?: boolean;
   SloOwnerAwsAccountId?: string;
-  MetricSourceTypes?: MetricSourceTypes;
+  MetricSourceTypes?: MetricSourceType[];
 }
 export const ListServiceLevelObjectivesInput = S.suspend(() =>
   S.Struct({
@@ -1049,6 +1137,19 @@ export const ListServiceLevelObjectivesInput = S.suspend(() =>
 ).annotations({
   identifier: "ListServiceLevelObjectivesInput",
 }) as any as S.Schema<ListServiceLevelObjectivesInput>;
+export type ServiceLevelObjectiveBudgetStatus =
+  | "OK"
+  | "WARNING"
+  | "BREACHED"
+  | "INSUFFICIENT_DATA";
+export const ServiceLevelObjectiveBudgetStatus = S.Literal(
+  "OK",
+  "WARNING",
+  "BREACHED",
+  "INSUFFICIENT_DATA",
+);
+export type ChangeEventType = "DEPLOYMENT" | "CONFIGURATION";
+export const ChangeEventType = S.Literal("DEPLOYMENT", "CONFIGURATION");
 export interface ServiceLevelObjectiveBudgetReportError {
   Name: string;
   Arn: string;
@@ -1070,14 +1171,14 @@ export type ServiceLevelObjectiveBudgetReportErrors =
 export const ServiceLevelObjectiveBudgetReportErrors = S.Array(
   ServiceLevelObjectiveBudgetReportError,
 );
-export type LogGroupReferences = Attributes[];
+export type LogGroupReferences = { [key: string]: string }[];
 export const LogGroupReferences = S.Array(Attributes);
 export interface ChangeEvent {
   Timestamp: Date;
   AccountId: string;
   Region: string;
-  Entity: Attributes;
-  ChangeEventType: string;
+  Entity: { [key: string]: string };
+  ChangeEventType: ChangeEventType;
   EventId: string;
   UserName?: string;
   EventName?: string;
@@ -1088,7 +1189,7 @@ export const ChangeEvent = S.suspend(() =>
     AccountId: S.String,
     Region: S.String,
     Entity: Attributes,
-    ChangeEventType: S.String,
+    ChangeEventType: ChangeEventType,
     EventId: S.String,
     UserName: S.optional(S.String),
     EventName: S.optional(S.String),
@@ -1099,7 +1200,7 @@ export const ChangeEvents = S.Array(ChangeEvent);
 export interface MetricReference {
   Namespace: string;
   MetricType: string;
-  Dimensions?: Dimensions;
+  Dimensions?: Dimension[];
   MetricName: string;
   AccountId?: string;
 }
@@ -1118,9 +1219,9 @@ export type MetricReferences = MetricReference[];
 export const MetricReferences = S.Array(MetricReference);
 export interface ServiceDependent {
   OperationName?: string;
-  DependentKeyAttributes: Attributes;
+  DependentKeyAttributes: { [key: string]: string };
   DependentOperationName?: string;
-  MetricReferences: MetricReferences;
+  MetricReferences: MetricReference[];
 }
 export const ServiceDependent = S.suspend(() =>
   S.Struct({
@@ -1136,7 +1237,7 @@ export type ServiceDependents = ServiceDependent[];
 export const ServiceDependents = S.Array(ServiceDependent);
 export interface ServiceOperation {
   Name: string;
-  MetricReferences: MetricReferences;
+  MetricReferences: MetricReference[];
 }
 export const ServiceOperation = S.suspend(() =>
   S.Struct({ Name: S.String, MetricReferences: MetricReferences }),
@@ -1191,9 +1292,9 @@ export const CanaryEntity = S.suspend(() =>
   S.Struct({ CanaryName: S.String }),
 ).annotations({ identifier: "CanaryEntity" }) as any as S.Schema<CanaryEntity>;
 export interface BatchUpdateExclusionWindowsInput {
-  SloIds: ServiceLevelObjectiveIds;
-  AddExclusionWindows?: ExclusionWindows;
-  RemoveExclusionWindows?: ExclusionWindows;
+  SloIds: string[];
+  AddExclusionWindows?: ExclusionWindow[];
+  RemoveExclusionWindows?: ExclusionWindow[];
 }
 export const BatchUpdateExclusionWindowsInput = S.suspend(() =>
   S.Struct({
@@ -1216,7 +1317,7 @@ export const BatchUpdateExclusionWindowsInput = S.suspend(() =>
 export interface ListEntityEventsOutput {
   StartTime: Date;
   EndTime: Date;
-  ChangeEvents: ChangeEvents;
+  ChangeEvents: ChangeEvent[];
   NextToken?: string;
 }
 export const ListEntityEventsOutput = S.suspend(() =>
@@ -1232,7 +1333,7 @@ export const ListEntityEventsOutput = S.suspend(() =>
 export interface ListServiceDependentsOutput {
   StartTime: Date;
   EndTime: Date;
-  ServiceDependents: ServiceDependents;
+  ServiceDependents: ServiceDependent[];
   NextToken?: string;
 }
 export const ListServiceDependentsOutput = S.suspend(() =>
@@ -1248,7 +1349,7 @@ export const ListServiceDependentsOutput = S.suspend(() =>
 export interface ListServiceOperationsOutput {
   StartTime: Date;
   EndTime: Date;
-  ServiceOperations: ServiceOperations;
+  ServiceOperations: ServiceOperation[];
   NextToken?: string;
 }
 export const ListServiceOperationsOutput = S.suspend(() =>
@@ -1282,7 +1383,7 @@ export const AuditTargetEntity = S.Union(
 );
 export type AttributeMap = { [key: string]: string };
 export const AttributeMap = S.Record({ key: S.String, value: S.String });
-export type AttributeMaps = AttributeMap[];
+export type AttributeMaps = { [key: string]: string }[];
 export const AttributeMaps = S.Array(AttributeMap);
 export interface ServiceGroup {
   GroupName: string;
@@ -1303,11 +1404,11 @@ export const ServiceGroups = S.Array(ServiceGroup);
 export type LatestChangeEvents = ChangeEvent[];
 export const LatestChangeEvents = S.Array(ChangeEvent);
 export interface Service {
-  KeyAttributes: Attributes;
-  AttributeMaps?: AttributeMaps;
-  ServiceGroups?: ServiceGroups;
-  MetricReferences: MetricReferences;
-  LogGroupReferences?: LogGroupReferences;
+  KeyAttributes: { [key: string]: string };
+  AttributeMaps?: { [key: string]: string }[];
+  ServiceGroups?: ServiceGroup[];
+  MetricReferences: MetricReference[];
+  LogGroupReferences?: { [key: string]: string }[];
 }
 export const Service = S.suspend(() =>
   S.Struct({
@@ -1320,7 +1421,7 @@ export const Service = S.suspend(() =>
 ).annotations({ identifier: "Service" }) as any as S.Schema<Service>;
 export interface AuditTarget {
   Type: string;
-  Data: (typeof AuditTargetEntity)["Type"];
+  Data: AuditTargetEntity;
 }
 export const AuditTarget = S.suspend(() =>
   S.Struct({ Type: S.String, Data: AuditTargetEntity }),
@@ -1328,10 +1429,10 @@ export const AuditTarget = S.suspend(() =>
 export type AuditTargets = AuditTarget[];
 export const AuditTargets = S.Array(AuditTarget);
 export interface ServiceSummary {
-  KeyAttributes: Attributes;
-  AttributeMaps?: AttributeMaps;
-  MetricReferences: MetricReferences;
-  ServiceGroups?: ServiceGroups;
+  KeyAttributes: { [key: string]: string };
+  AttributeMaps?: { [key: string]: string }[];
+  MetricReferences: MetricReference[];
+  ServiceGroups?: ServiceGroup[];
 }
 export const ServiceSummary = S.suspend(() =>
   S.Struct({
@@ -1346,9 +1447,9 @@ export const ServiceSummary = S.suspend(() =>
 export type ServiceSummaries = ServiceSummary[];
 export const ServiceSummaries = S.Array(ServiceSummary);
 export interface ServiceState {
-  AttributeFilters?: AttributeFilters;
-  Service: Attributes;
-  LatestChangeEvents: LatestChangeEvents;
+  AttributeFilters?: AttributeFilter[];
+  Service: { [key: string]: string };
+  LatestChangeEvents: ChangeEvent[];
 }
 export const ServiceState = S.suspend(() =>
   S.Struct({
@@ -1360,7 +1461,7 @@ export const ServiceState = S.suspend(() =>
 export type ServiceStates = ServiceState[];
 export const ServiceStates = S.Array(ServiceState);
 export interface GroupingConfiguration {
-  GroupingAttributeDefinitions: GroupingAttributeDefinitions;
+  GroupingAttributeDefinitions: GroupingAttributeDefinition[];
   UpdatedAt: Date;
 }
 export const GroupingConfiguration = S.suspend(() =>
@@ -1374,12 +1475,12 @@ export const GroupingConfiguration = S.suspend(() =>
 export interface ServiceLevelObjectiveSummary {
   Arn: string;
   Name: string;
-  KeyAttributes?: Attributes;
+  KeyAttributes?: { [key: string]: string };
   OperationName?: string;
   DependencyConfig?: DependencyConfig;
   CreatedTime?: Date;
-  EvaluationType?: string;
-  MetricSourceType?: string;
+  EvaluationType?: EvaluationType;
+  MetricSourceType?: MetricSourceType;
 }
 export const ServiceLevelObjectiveSummary = S.suspend(() =>
   S.Struct({
@@ -1389,8 +1490,8 @@ export const ServiceLevelObjectiveSummary = S.suspend(() =>
     OperationName: S.optional(S.String),
     DependencyConfig: S.optional(DependencyConfig),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EvaluationType: S.optional(S.String),
-    MetricSourceType: S.optional(S.String),
+    EvaluationType: S.optional(EvaluationType),
+    MetricSourceType: S.optional(MetricSourceType),
   }),
 ).annotations({
   identifier: "ServiceLevelObjectiveSummary",
@@ -1403,7 +1504,7 @@ export interface GetServiceOutput {
   Service: Service;
   StartTime: Date;
   EndTime: Date;
-  LogGroupReferences?: LogGroupReferences;
+  LogGroupReferences?: { [key: string]: string }[];
 }
 export const GetServiceOutput = S.suspend(() =>
   S.Struct({
@@ -1418,9 +1519,9 @@ export const GetServiceOutput = S.suspend(() =>
 export interface ListAuditFindingsInput {
   StartTime: Date;
   EndTime: Date;
-  Auditors?: Auditors;
-  AuditTargets: AuditTargets;
-  DetailLevel?: string;
+  Auditors?: string[];
+  AuditTargets: AuditTarget[];
+  DetailLevel?: DetailLevel;
   NextToken?: string;
   MaxResults?: number;
 }
@@ -1434,7 +1535,7 @@ export const ListAuditFindingsInput = S.suspend(() =>
     ),
     Auditors: S.optional(Auditors),
     AuditTargets: AuditTargets,
-    DetailLevel: S.optional(S.String),
+    DetailLevel: S.optional(DetailLevel),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
@@ -1453,7 +1554,7 @@ export const ListAuditFindingsInput = S.suspend(() =>
 export interface ListServicesOutput {
   StartTime: Date;
   EndTime: Date;
-  ServiceSummaries: ServiceSummaries;
+  ServiceSummaries: ServiceSummary[];
   NextToken?: string;
 }
 export const ListServicesOutput = S.suspend(() =>
@@ -1469,7 +1570,7 @@ export const ListServicesOutput = S.suspend(() =>
 export interface ListServiceStatesOutput {
   StartTime: Date;
   EndTime: Date;
-  ServiceStates: ServiceStates;
+  ServiceStates: ServiceState[];
   NextToken?: string;
 }
 export const ListServiceStatesOutput = S.suspend(() =>
@@ -1491,7 +1592,7 @@ export const PutGroupingConfigurationOutput = S.suspend(() =>
   identifier: "PutGroupingConfigurationOutput",
 }) as any as S.Schema<PutGroupingConfigurationOutput>;
 export interface ListServiceLevelObjectivesOutput {
-  SloSummaries?: ServiceLevelObjectiveSummaries;
+  SloSummaries?: ServiceLevelObjectiveSummary[];
   NextToken?: string;
 }
 export const ListServiceLevelObjectivesOutput = S.suspend(() =>
@@ -1505,8 +1606,8 @@ export const ListServiceLevelObjectivesOutput = S.suspend(() =>
 export interface ServiceLevelObjectiveBudgetReport {
   Arn: string;
   Name: string;
-  EvaluationType?: string;
-  BudgetStatus: string;
+  EvaluationType?: EvaluationType;
+  BudgetStatus: ServiceLevelObjectiveBudgetStatus;
   Attainment?: number;
   TotalBudgetSeconds?: number;
   BudgetSecondsRemaining?: number;
@@ -1520,8 +1621,8 @@ export const ServiceLevelObjectiveBudgetReport = S.suspend(() =>
   S.Struct({
     Arn: S.String,
     Name: S.String,
-    EvaluationType: S.optional(S.String),
-    BudgetStatus: S.String,
+    EvaluationType: S.optional(EvaluationType),
+    BudgetStatus: ServiceLevelObjectiveBudgetStatus,
     Attainment: S.optional(S.Number),
     TotalBudgetSeconds: S.optional(S.Number),
     BudgetSecondsRemaining: S.optional(S.Number),
@@ -1556,9 +1657,9 @@ export const BatchUpdateExclusionWindowsErrors = S.Array(
 );
 export interface ServiceDependency {
   OperationName: string;
-  DependencyKeyAttributes: Attributes;
+  DependencyKeyAttributes: { [key: string]: string };
   DependencyOperationName: string;
-  MetricReferences: MetricReferences;
+  MetricReferences: MetricReference[];
 }
 export const ServiceDependency = S.suspend(() =>
   S.Struct({
@@ -1574,8 +1675,8 @@ export type ServiceDependencies = ServiceDependency[];
 export const ServiceDependencies = S.Array(ServiceDependency);
 export interface BatchGetServiceLevelObjectiveBudgetReportOutput {
   Timestamp: Date;
-  Reports: ServiceLevelObjectiveBudgetReports;
-  Errors: ServiceLevelObjectiveBudgetReportErrors;
+  Reports: ServiceLevelObjectiveBudgetReport[];
+  Errors: ServiceLevelObjectiveBudgetReportError[];
 }
 export const BatchGetServiceLevelObjectiveBudgetReportOutput = S.suspend(() =>
   S.Struct({
@@ -1587,8 +1688,8 @@ export const BatchGetServiceLevelObjectiveBudgetReportOutput = S.suspend(() =>
   identifier: "BatchGetServiceLevelObjectiveBudgetReportOutput",
 }) as any as S.Schema<BatchGetServiceLevelObjectiveBudgetReportOutput>;
 export interface BatchUpdateExclusionWindowsOutput {
-  SloIds: ServiceLevelObjectiveIds;
-  Errors: BatchUpdateExclusionWindowsErrors;
+  SloIds: string[];
+  Errors: BatchUpdateExclusionWindowsError[];
 }
 export const BatchUpdateExclusionWindowsOutput = S.suspend(() =>
   S.Struct({
@@ -1601,7 +1702,7 @@ export const BatchUpdateExclusionWindowsOutput = S.suspend(() =>
 export interface ListServiceDependenciesOutput {
   StartTime: Date;
   EndTime: Date;
-  ServiceDependencies: ServiceDependencies;
+  ServiceDependencies: ServiceDependency[];
   NextToken?: string;
 }
 export const ListServiceDependenciesOutput = S.suspend(() =>
@@ -1614,14 +1715,16 @@ export const ListServiceDependenciesOutput = S.suspend(() =>
 ).annotations({
   identifier: "ListServiceDependenciesOutput",
 }) as any as S.Schema<ListServiceDependenciesOutput>;
+export type Severity = "CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | "NONE";
+export const Severity = S.Literal("CRITICAL", "HIGH", "MEDIUM", "LOW", "NONE");
 export interface CreateServiceLevelObjectiveInput {
   Name: string;
   Description?: string;
   SliConfig?: ServiceLevelIndicatorConfig;
   RequestBasedSliConfig?: RequestBasedServiceLevelIndicatorConfig;
   Goal?: Goal;
-  Tags?: TagList;
-  BurnRateConfigurations?: BurnRateConfigurations;
+  Tags?: Tag[];
+  BurnRateConfigurations?: BurnRateConfiguration[];
 }
 export const CreateServiceLevelObjectiveInput = S.suspend(() =>
   S.Struct({
@@ -1646,7 +1749,7 @@ export const CreateServiceLevelObjectiveInput = S.suspend(() =>
   identifier: "CreateServiceLevelObjectiveInput",
 }) as any as S.Schema<CreateServiceLevelObjectiveInput>;
 export interface MetricGraph {
-  MetricDataQueries?: MetricDataQueries;
+  MetricDataQueries?: MetricDataQuery[];
   StartTime?: Date;
   EndTime?: Date;
 }
@@ -1657,10 +1760,12 @@ export const MetricGraph = S.suspend(() =>
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({ identifier: "MetricGraph" }) as any as S.Schema<MetricGraph>;
+export type ConnectionType = "INDIRECT" | "DIRECT";
+export const ConnectionType = S.Literal("INDIRECT", "DIRECT");
 export type DataMap = { [key: string]: string };
 export const DataMap = S.Record({ key: S.String, value: S.String });
 export interface Node {
-  KeyAttributes: Attributes;
+  KeyAttributes: { [key: string]: string };
   Name: string;
   NodeId: string;
   Operation?: string;
@@ -1685,14 +1790,14 @@ export interface Edge {
   SourceNodeId?: string;
   DestinationNodeId?: string;
   Duration?: number;
-  ConnectionType?: string;
+  ConnectionType?: ConnectionType;
 }
 export const Edge = S.suspend(() =>
   S.Struct({
     SourceNodeId: S.optional(S.String),
     DestinationNodeId: S.optional(S.String),
     Duration: S.optional(S.Number),
-    ConnectionType: S.optional(S.String),
+    ConnectionType: S.optional(ConnectionType),
   }),
 ).annotations({ identifier: "Edge" }) as any as S.Schema<Edge>;
 export type Edges = Edge[];
@@ -1708,15 +1813,15 @@ export const CreateServiceLevelObjectiveOutput = S.suspend(() =>
 export interface AuditorResult {
   Auditor?: string;
   Description?: string;
-  Data?: DataMap;
-  Severity?: string;
+  Data?: { [key: string]: string };
+  Severity?: Severity;
 }
 export const AuditorResult = S.suspend(() =>
   S.Struct({
     Auditor: S.optional(S.String),
     Description: S.optional(S.String),
     Data: S.optional(DataMap),
-    Severity: S.optional(S.String),
+    Severity: S.optional(Severity),
   }),
 ).annotations({
   identifier: "AuditorResult",
@@ -1724,8 +1829,8 @@ export const AuditorResult = S.suspend(() =>
 export type AuditorResults = AuditorResult[];
 export const AuditorResults = S.Array(AuditorResult);
 export interface DependencyGraph {
-  Nodes?: Nodes;
-  Edges?: Edges;
+  Nodes?: Node[];
+  Edges?: Edge[];
 }
 export const DependencyGraph = S.suspend(() =>
   S.Struct({ Nodes: S.optional(Nodes), Edges: S.optional(Edges) }),
@@ -1733,8 +1838,8 @@ export const DependencyGraph = S.suspend(() =>
   identifier: "DependencyGraph",
 }) as any as S.Schema<DependencyGraph>;
 export interface AuditFinding {
-  KeyAttributes: Attributes;
-  AuditorResults?: AuditorResults;
+  KeyAttributes: { [key: string]: string };
+  AuditorResults?: AuditorResult[];
   Operation?: string;
   MetricGraph?: MetricGraph;
   DependencyGraph?: DependencyGraph;
@@ -1755,7 +1860,7 @@ export const AuditFindings = S.Array(AuditFinding);
 export interface ListAuditFindingsOutput {
   StartTime?: Date;
   EndTime?: Date;
-  AuditFindings: AuditFindings;
+  AuditFindings: AuditFinding[];
   NextToken?: string;
 }
 export const ListAuditFindingsOutput = S.suspend(() =>
@@ -1803,7 +1908,7 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   ResourceNotFoundException | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1817,7 +1922,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   ResourceNotFoundException | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1831,7 +1936,7 @@ export const listTagsForResource: (
  */
 export const deleteGroupingConfiguration: (
   input: DeleteGroupingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGroupingConfigurationOutput,
   | AccessDeniedException
   | ThrottlingException
@@ -1849,21 +1954,21 @@ export const deleteGroupingConfiguration: (
 export const listEntityEvents: {
   (
     input: ListEntityEventsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEntityEventsOutput,
     ThrottlingException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListEntityEventsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEntityEventsOutput,
     ThrottlingException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEntityEventsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ChangeEvent,
     ThrottlingException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1885,21 +1990,21 @@ export const listEntityEvents: {
 export const listServiceDependents: {
   (
     input: ListServiceDependentsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServiceDependentsOutput,
     ThrottlingException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListServiceDependentsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServiceDependentsOutput,
     ThrottlingException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServiceDependentsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServiceDependent,
     ThrottlingException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1921,21 +2026,21 @@ export const listServiceDependents: {
 export const listServiceOperations: {
   (
     input: ListServiceOperationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServiceOperationsOutput,
     ThrottlingException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListServiceOperationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServiceOperationsOutput,
     ThrottlingException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServiceOperationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServiceOperation,
     ThrottlingException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1956,7 +2061,7 @@ export const listServiceOperations: {
  */
 export const getServiceLevelObjective: (
   input: GetServiceLevelObjectiveInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceLevelObjectiveOutput,
   | ResourceNotFoundException
   | ThrottlingException
@@ -1973,7 +2078,7 @@ export const getServiceLevelObjective: (
  */
 export const listGroupingAttributeDefinitions: (
   input: ListGroupingAttributeDefinitionsInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListGroupingAttributeDefinitionsOutput,
   | AccessDeniedException
   | ThrottlingException
@@ -1992,7 +2097,7 @@ export const listGroupingAttributeDefinitions: (
  */
 export const updateServiceLevelObjective: (
   input: UpdateServiceLevelObjectiveInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateServiceLevelObjectiveOutput,
   | ResourceNotFoundException
   | ThrottlingException
@@ -2027,7 +2132,7 @@ export const updateServiceLevelObjective: (
  */
 export const startDiscovery: (
   input: StartDiscoveryInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartDiscoveryOutput,
   | AccessDeniedException
   | ThrottlingException
@@ -2044,7 +2149,7 @@ export const startDiscovery: (
  */
 export const deleteServiceLevelObjective: (
   input: DeleteServiceLevelObjectiveInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteServiceLevelObjectiveOutput,
   | ResourceNotFoundException
   | ThrottlingException
@@ -2062,7 +2167,7 @@ export const deleteServiceLevelObjective: (
 export const listServiceLevelObjectiveExclusionWindows: {
   (
     input: ListServiceLevelObjectiveExclusionWindowsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServiceLevelObjectiveExclusionWindowsOutput,
     | ResourceNotFoundException
     | ThrottlingException
@@ -2072,7 +2177,7 @@ export const listServiceLevelObjectiveExclusionWindows: {
   >;
   pages: (
     input: ListServiceLevelObjectiveExclusionWindowsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServiceLevelObjectiveExclusionWindowsOutput,
     | ResourceNotFoundException
     | ThrottlingException
@@ -2082,7 +2187,7 @@ export const listServiceLevelObjectiveExclusionWindows: {
   >;
   items: (
     input: ListServiceLevelObjectiveExclusionWindowsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExclusionWindow,
     | ResourceNotFoundException
     | ThrottlingException
@@ -2114,7 +2219,7 @@ export const listServiceLevelObjectiveExclusionWindows: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | ResourceNotFoundException
   | ServiceQuotaExceededException
@@ -2135,7 +2240,7 @@ export const tagResource: (
  */
 export const getService: (
   input: GetServiceInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceOutput,
   ThrottlingException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2150,21 +2255,21 @@ export const getService: (
 export const listServices: {
   (
     input: ListServicesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServicesOutput,
     ThrottlingException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListServicesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServicesOutput,
     ThrottlingException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServicesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServiceSummary,
     ThrottlingException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2186,21 +2291,21 @@ export const listServices: {
 export const listServiceStates: {
   (
     input: ListServiceStatesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServiceStatesOutput,
     ThrottlingException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListServiceStatesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServiceStatesOutput,
     ThrottlingException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServiceStatesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServiceState,
     ThrottlingException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2221,7 +2326,7 @@ export const listServiceStates: {
  */
 export const putGroupingConfiguration: (
   input: PutGroupingConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutGroupingConfigurationOutput,
   | AccessDeniedException
   | ThrottlingException
@@ -2239,21 +2344,21 @@ export const putGroupingConfiguration: (
 export const listServiceLevelObjectives: {
   (
     input: ListServiceLevelObjectivesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServiceLevelObjectivesOutput,
     ThrottlingException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListServiceLevelObjectivesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServiceLevelObjectivesOutput,
     ThrottlingException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServiceLevelObjectivesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServiceLevelObjectiveSummary,
     ThrottlingException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2280,7 +2385,7 @@ export const listServiceLevelObjectives: {
  */
 export const batchGetServiceLevelObjectiveBudgetReport: (
   input: BatchGetServiceLevelObjectiveBudgetReportInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetServiceLevelObjectiveBudgetReportOutput,
   ThrottlingException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2294,7 +2399,7 @@ export const batchGetServiceLevelObjectiveBudgetReport: (
  */
 export const batchUpdateExclusionWindows: (
   input: BatchUpdateExclusionWindowsInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchUpdateExclusionWindowsOutput,
   | ResourceNotFoundException
   | ThrottlingException
@@ -2312,21 +2417,21 @@ export const batchUpdateExclusionWindows: (
 export const listServiceDependencies: {
   (
     input: ListServiceDependenciesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServiceDependenciesOutput,
     ThrottlingException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListServiceDependenciesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServiceDependenciesOutput,
     ThrottlingException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServiceDependenciesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServiceDependency,
     ThrottlingException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2347,7 +2452,7 @@ export const listServiceDependencies: {
  */
 export const listAuditFindings: (
   input: ListAuditFindingsInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListAuditFindingsOutput,
   ThrottlingException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2403,7 +2508,7 @@ export const listAuditFindings: (
  */
 export const createServiceLevelObjective: (
   input: CreateServiceLevelObjectiveInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateServiceLevelObjectiveOutput,
   | AccessDeniedException
   | ConflictException

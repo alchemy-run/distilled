@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -112,6 +112,12 @@ export type RetryAfterSeconds = number;
 //# Schemas
 export type ApplicationIds = string[];
 export const ApplicationIds = S.Array(S.String);
+export type ApplicationStatus = "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED";
+export const ApplicationStatus = S.Literal(
+  "NOT_STARTED",
+  "IN_PROGRESS",
+  "COMPLETED",
+);
 export interface CreateProgressUpdateStreamRequest {
   ProgressUpdateStreamName: string;
   DryRun?: boolean;
@@ -271,7 +277,7 @@ export const ImportMigrationTaskResult = S.suspend(() =>
   identifier: "ImportMigrationTaskResult",
 }) as any as S.Schema<ImportMigrationTaskResult>;
 export interface ListApplicationStatesRequest {
-  ApplicationIds?: ApplicationIds;
+  ApplicationIds?: string[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -390,14 +396,14 @@ export const ListSourceResourcesRequest = S.suspend(() =>
 }) as any as S.Schema<ListSourceResourcesRequest>;
 export interface NotifyApplicationStateRequest {
   ApplicationId: string;
-  Status: string;
+  Status: ApplicationStatus;
   UpdateDateTime?: Date;
   DryRun?: boolean;
 }
 export const NotifyApplicationStateRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String,
-    Status: S.String,
+    Status: ApplicationStatus,
     UpdateDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DryRun: S.optional(S.Boolean),
   }).pipe(
@@ -412,6 +418,36 @@ export const NotifyApplicationStateResult = S.suspend(() =>
 ).annotations({
   identifier: "NotifyApplicationStateResult",
 }) as any as S.Schema<NotifyApplicationStateResult>;
+export type Status = "NOT_STARTED" | "IN_PROGRESS" | "FAILED" | "COMPLETED";
+export const Status = S.Literal(
+  "NOT_STARTED",
+  "IN_PROGRESS",
+  "FAILED",
+  "COMPLETED",
+);
+export type ResourceAttributeType =
+  | "IPV4_ADDRESS"
+  | "IPV6_ADDRESS"
+  | "MAC_ADDRESS"
+  | "FQDN"
+  | "VM_MANAGER_ID"
+  | "VM_MANAGED_OBJECT_REFERENCE"
+  | "VM_NAME"
+  | "VM_PATH"
+  | "BIOS_ID"
+  | "MOTHERBOARD_SERIAL_NUMBER";
+export const ResourceAttributeType = S.Literal(
+  "IPV4_ADDRESS",
+  "IPV6_ADDRESS",
+  "MAC_ADDRESS",
+  "FQDN",
+  "VM_MANAGER_ID",
+  "VM_MANAGED_OBJECT_REFERENCE",
+  "VM_NAME",
+  "VM_PATH",
+  "BIOS_ID",
+  "MOTHERBOARD_SERIAL_NUMBER",
+);
 export interface CreatedArtifact {
   Name: string;
   Description?: string;
@@ -451,23 +487,23 @@ export const DiscoveredResourceList = S.Array(DiscoveredResource);
 export type SourceResourceList = SourceResource[];
 export const SourceResourceList = S.Array(SourceResource);
 export interface Task {
-  Status: string;
+  Status: Status;
   StatusDetail?: string;
   ProgressPercent?: number;
 }
 export const Task = S.suspend(() =>
   S.Struct({
-    Status: S.String,
+    Status: Status,
     StatusDetail: S.optional(S.String),
     ProgressPercent: S.optional(S.Number),
   }),
 ).annotations({ identifier: "Task" }) as any as S.Schema<Task>;
 export interface ResourceAttribute {
-  Type: string;
+  Type: ResourceAttributeType;
   Value: string;
 }
 export const ResourceAttribute = S.suspend(() =>
-  S.Struct({ Type: S.String, Value: S.String }),
+  S.Struct({ Type: ResourceAttributeType, Value: S.String }),
 ).annotations({
   identifier: "ResourceAttribute",
 }) as any as S.Schema<ResourceAttribute>;
@@ -546,12 +582,12 @@ export const AssociateSourceResourceResult = S.suspend(() =>
   identifier: "AssociateSourceResourceResult",
 }) as any as S.Schema<AssociateSourceResourceResult>;
 export interface DescribeApplicationStateResult {
-  ApplicationStatus?: string;
+  ApplicationStatus?: ApplicationStatus;
   LastUpdatedTime?: Date;
 }
 export const DescribeApplicationStateResult = S.suspend(() =>
   S.Struct({
-    ApplicationStatus: S.optional(S.String),
+    ApplicationStatus: S.optional(ApplicationStatus),
     LastUpdatedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -561,7 +597,7 @@ export const DescribeApplicationStateResult = S.suspend(() =>
 }) as any as S.Schema<DescribeApplicationStateResult>;
 export interface ListCreatedArtifactsResult {
   NextToken?: string;
-  CreatedArtifactList?: CreatedArtifactList;
+  CreatedArtifactList?: CreatedArtifact[];
 }
 export const ListCreatedArtifactsResult = S.suspend(() =>
   S.Struct({
@@ -573,7 +609,7 @@ export const ListCreatedArtifactsResult = S.suspend(() =>
 }) as any as S.Schema<ListCreatedArtifactsResult>;
 export interface ListDiscoveredResourcesResult {
   NextToken?: string;
-  DiscoveredResourceList?: DiscoveredResourceList;
+  DiscoveredResourceList?: DiscoveredResource[];
 }
 export const ListDiscoveredResourcesResult = S.suspend(() =>
   S.Struct({
@@ -585,7 +621,7 @@ export const ListDiscoveredResourcesResult = S.suspend(() =>
 }) as any as S.Schema<ListDiscoveredResourcesResult>;
 export interface ListSourceResourcesResult {
   NextToken?: string;
-  SourceResourceList?: SourceResourceList;
+  SourceResourceList?: SourceResource[];
 }
 export const ListSourceResourcesResult = S.suspend(() =>
   S.Struct({
@@ -626,7 +662,7 @@ export const NotifyMigrationTaskStateResult = S.suspend(() =>
 export interface PutResourceAttributesRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
-  ResourceAttributeList: ResourceAttributeList;
+  ResourceAttributeList: ResourceAttribute[];
   DryRun?: boolean;
 }
 export const PutResourceAttributesRequest = S.suspend(() =>
@@ -649,12 +685,14 @@ export const PutResourceAttributesResult = S.suspend(() =>
 }) as any as S.Schema<PutResourceAttributesResult>;
 export type LatestResourceAttributeList = ResourceAttribute[];
 export const LatestResourceAttributeList = S.Array(ResourceAttribute);
+export type UpdateType = "MIGRATION_TASK_STATE_UPDATED";
+export const UpdateType = S.Literal("MIGRATION_TASK_STATE_UPDATED");
 export interface MigrationTask {
   ProgressUpdateStream?: string;
   MigrationTaskName?: string;
   Task?: Task;
   UpdateDateTime?: Date;
-  ResourceAttributeList?: LatestResourceAttributeList;
+  ResourceAttributeList?: ResourceAttribute[];
 }
 export const MigrationTask = S.suspend(() =>
   S.Struct({
@@ -669,13 +707,13 @@ export const MigrationTask = S.suspend(() =>
 }) as any as S.Schema<MigrationTask>;
 export interface ApplicationState {
   ApplicationId?: string;
-  ApplicationStatus?: string;
+  ApplicationStatus?: ApplicationStatus;
   LastUpdatedTime?: Date;
 }
 export const ApplicationState = S.suspend(() =>
   S.Struct({
     ApplicationId: S.optional(S.String),
-    ApplicationStatus: S.optional(S.String),
+    ApplicationStatus: S.optional(ApplicationStatus),
     LastUpdatedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -688,7 +726,7 @@ export const ApplicationStateList = S.Array(ApplicationState);
 export interface MigrationTaskSummary {
   ProgressUpdateStream?: string;
   MigrationTaskName?: string;
-  Status?: string;
+  Status?: Status;
   ProgressPercent?: number;
   StatusDetail?: string;
   UpdateDateTime?: Date;
@@ -697,7 +735,7 @@ export const MigrationTaskSummary = S.suspend(() =>
   S.Struct({
     ProgressUpdateStream: S.optional(S.String),
     MigrationTaskName: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(Status),
     ProgressPercent: S.optional(S.Number),
     StatusDetail: S.optional(S.String),
     UpdateDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -709,13 +747,13 @@ export type MigrationTaskSummaryList = MigrationTaskSummary[];
 export const MigrationTaskSummaryList = S.Array(MigrationTaskSummary);
 export interface MigrationTaskUpdate {
   UpdateDateTime?: Date;
-  UpdateType?: string;
+  UpdateType?: UpdateType;
   MigrationTaskState?: Task;
 }
 export const MigrationTaskUpdate = S.suspend(() =>
   S.Struct({
     UpdateDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdateType: S.optional(S.String),
+    UpdateType: S.optional(UpdateType),
     MigrationTaskState: S.optional(Task),
   }),
 ).annotations({
@@ -744,7 +782,7 @@ export const DescribeMigrationTaskResult = S.suspend(() =>
   identifier: "DescribeMigrationTaskResult",
 }) as any as S.Schema<DescribeMigrationTaskResult>;
 export interface ListApplicationStatesResult {
-  ApplicationStateList?: ApplicationStateList;
+  ApplicationStateList?: ApplicationState[];
   NextToken?: string;
 }
 export const ListApplicationStatesResult = S.suspend(() =>
@@ -757,7 +795,7 @@ export const ListApplicationStatesResult = S.suspend(() =>
 }) as any as S.Schema<ListApplicationStatesResult>;
 export interface ListMigrationTasksResult {
   NextToken?: string;
-  MigrationTaskSummaryList?: MigrationTaskSummaryList;
+  MigrationTaskSummaryList?: MigrationTaskSummary[];
 }
 export const ListMigrationTasksResult = S.suspend(() =>
   S.Struct({
@@ -769,7 +807,7 @@ export const ListMigrationTasksResult = S.suspend(() =>
 }) as any as S.Schema<ListMigrationTasksResult>;
 export interface ListMigrationTaskUpdatesResult {
   NextToken?: string;
-  MigrationTaskUpdateList?: MigrationTaskUpdateList;
+  MigrationTaskUpdateList?: MigrationTaskUpdate[];
 }
 export const ListMigrationTaskUpdatesResult = S.suspend(() =>
   S.Struct({
@@ -780,7 +818,7 @@ export const ListMigrationTaskUpdatesResult = S.suspend(() =>
   identifier: "ListMigrationTaskUpdatesResult",
 }) as any as S.Schema<ListMigrationTaskUpdatesResult>;
 export interface ListProgressUpdateStreamsResult {
-  ProgressUpdateStreamSummaryList?: ProgressUpdateStreamSummaryList;
+  ProgressUpdateStreamSummaryList?: ProgressUpdateStreamSummary[];
   NextToken?: string;
 }
 export const ListProgressUpdateStreamsResult = S.suspend(() =>
@@ -855,7 +893,7 @@ export class UnauthorizedOperation extends S.TaggedError<UnauthorizedOperation>(
 export const listCreatedArtifacts: {
   (
     input: ListCreatedArtifactsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCreatedArtifactsResult,
     | AccessDeniedException
     | HomeRegionNotSetException
@@ -869,7 +907,7 @@ export const listCreatedArtifacts: {
   >;
   pages: (
     input: ListCreatedArtifactsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCreatedArtifactsResult,
     | AccessDeniedException
     | HomeRegionNotSetException
@@ -883,7 +921,7 @@ export const listCreatedArtifacts: {
   >;
   items: (
     input: ListCreatedArtifactsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CreatedArtifact,
     | AccessDeniedException
     | HomeRegionNotSetException
@@ -920,7 +958,7 @@ export const listCreatedArtifacts: {
 export const listDiscoveredResources: {
   (
     input: ListDiscoveredResourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDiscoveredResourcesResult,
     | AccessDeniedException
     | HomeRegionNotSetException
@@ -934,7 +972,7 @@ export const listDiscoveredResources: {
   >;
   pages: (
     input: ListDiscoveredResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDiscoveredResourcesResult,
     | AccessDeniedException
     | HomeRegionNotSetException
@@ -948,7 +986,7 @@ export const listDiscoveredResources: {
   >;
   items: (
     input: ListDiscoveredResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DiscoveredResource,
     | AccessDeniedException
     | HomeRegionNotSetException
@@ -984,7 +1022,7 @@ export const listDiscoveredResources: {
  */
 export const describeMigrationTask: (
   input: DescribeMigrationTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeMigrationTaskResult,
   | AccessDeniedException
   | HomeRegionNotSetException
@@ -1015,7 +1053,7 @@ export const describeMigrationTask: (
 export const listMigrationTaskUpdates: {
   (
     input: ListMigrationTaskUpdatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMigrationTaskUpdatesResult,
     | AccessDeniedException
     | InternalServerError
@@ -1028,7 +1066,7 @@ export const listMigrationTaskUpdates: {
   >;
   pages: (
     input: ListMigrationTaskUpdatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMigrationTaskUpdatesResult,
     | AccessDeniedException
     | InternalServerError
@@ -1041,7 +1079,7 @@ export const listMigrationTaskUpdates: {
   >;
   items: (
     input: ListMigrationTaskUpdatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MigrationTaskUpdate,
     | AccessDeniedException
     | InternalServerError
@@ -1075,7 +1113,7 @@ export const listMigrationTaskUpdates: {
  */
 export const describeApplicationState: (
   input: DescribeApplicationStateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeApplicationStateResult,
   | AccessDeniedException
   | HomeRegionNotSetException
@@ -1115,7 +1153,7 @@ export const describeApplicationState: (
 export const listMigrationTasks: {
   (
     input: ListMigrationTasksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMigrationTasksResult,
     | AccessDeniedException
     | HomeRegionNotSetException
@@ -1130,7 +1168,7 @@ export const listMigrationTasks: {
   >;
   pages: (
     input: ListMigrationTasksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMigrationTasksResult,
     | AccessDeniedException
     | HomeRegionNotSetException
@@ -1145,7 +1183,7 @@ export const listMigrationTasks: {
   >;
   items: (
     input: ListMigrationTasksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MigrationTaskSummary,
     | AccessDeniedException
     | HomeRegionNotSetException
@@ -1186,7 +1224,7 @@ export const listMigrationTasks: {
 export const listApplicationStates: {
   (
     input: ListApplicationStatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationStatesResult,
     | AccessDeniedException
     | HomeRegionNotSetException
@@ -1199,7 +1237,7 @@ export const listApplicationStates: {
   >;
   pages: (
     input: ListApplicationStatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationStatesResult,
     | AccessDeniedException
     | HomeRegionNotSetException
@@ -1212,7 +1250,7 @@ export const listApplicationStates: {
   >;
   items: (
     input: ListApplicationStatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ApplicationState,
     | AccessDeniedException
     | HomeRegionNotSetException
@@ -1247,7 +1285,7 @@ export const listApplicationStates: {
 export const listProgressUpdateStreams: {
   (
     input: ListProgressUpdateStreamsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProgressUpdateStreamsResult,
     | AccessDeniedException
     | HomeRegionNotSetException
@@ -1260,7 +1298,7 @@ export const listProgressUpdateStreams: {
   >;
   pages: (
     input: ListProgressUpdateStreamsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProgressUpdateStreamsResult,
     | AccessDeniedException
     | HomeRegionNotSetException
@@ -1273,7 +1311,7 @@ export const listProgressUpdateStreams: {
   >;
   items: (
     input: ListProgressUpdateStreamsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProgressUpdateStreamSummary,
     | AccessDeniedException
     | HomeRegionNotSetException
@@ -1309,7 +1347,7 @@ export const listProgressUpdateStreams: {
 export const listSourceResources: {
   (
     input: ListSourceResourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSourceResourcesResult,
     | AccessDeniedException
     | InternalServerError
@@ -1322,7 +1360,7 @@ export const listSourceResources: {
   >;
   pages: (
     input: ListSourceResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSourceResourcesResult,
     | AccessDeniedException
     | InternalServerError
@@ -1335,7 +1373,7 @@ export const listSourceResources: {
   >;
   items: (
     input: ListSourceResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SourceResource,
     | AccessDeniedException
     | InternalServerError
@@ -1373,7 +1411,7 @@ export const listSourceResources: {
  */
 export const createProgressUpdateStream: (
   input: CreateProgressUpdateStreamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProgressUpdateStreamResult,
   | AccessDeniedException
   | DryRunOperation
@@ -1414,7 +1452,7 @@ export const createProgressUpdateStream: (
  */
 export const notifyMigrationTaskState: (
   input: NotifyMigrationTaskStateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   NotifyMigrationTaskStateResult,
   | AccessDeniedException
   | DryRunOperation
@@ -1464,7 +1502,7 @@ export const notifyMigrationTaskState: (
  */
 export const putResourceAttributes: (
   input: PutResourceAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourceAttributesResult,
   | AccessDeniedException
   | DryRunOperation
@@ -1519,7 +1557,7 @@ export const putResourceAttributes: (
  */
 export const deleteProgressUpdateStream: (
   input: DeleteProgressUpdateStreamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProgressUpdateStreamResult,
   | AccessDeniedException
   | DryRunOperation
@@ -1563,7 +1601,7 @@ export const deleteProgressUpdateStream: (
  */
 export const disassociateCreatedArtifact: (
   input: DisassociateCreatedArtifactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateCreatedArtifactResult,
   | AccessDeniedException
   | DryRunOperation
@@ -1597,7 +1635,7 @@ export const disassociateCreatedArtifact: (
  */
 export const disassociateDiscoveredResource: (
   input: DisassociateDiscoveredResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateDiscoveredResourceResult,
   | AccessDeniedException
   | DryRunOperation
@@ -1630,7 +1668,7 @@ export const disassociateDiscoveredResource: (
  */
 export const disassociateSourceResource: (
   input: DisassociateSourceResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateSourceResourceResult,
   | AccessDeniedException
   | DryRunOperation
@@ -1665,7 +1703,7 @@ export const disassociateSourceResource: (
  */
 export const importMigrationTask: (
   input: ImportMigrationTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ImportMigrationTaskResult,
   | AccessDeniedException
   | DryRunOperation
@@ -1710,7 +1748,7 @@ export const importMigrationTask: (
  */
 export const associateCreatedArtifact: (
   input: AssociateCreatedArtifactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateCreatedArtifactResult,
   | AccessDeniedException
   | DryRunOperation
@@ -1744,7 +1782,7 @@ export const associateCreatedArtifact: (
  */
 export const associateSourceResource: (
   input: AssociateSourceResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateSourceResourceResult,
   | AccessDeniedException
   | DryRunOperation
@@ -1776,7 +1814,7 @@ export const associateSourceResource: (
  */
 export const associateDiscoveredResource: (
   input: AssociateDiscoveredResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateDiscoveredResourceResult,
   | AccessDeniedException
   | DryRunOperation
@@ -1814,7 +1852,7 @@ export const associateDiscoveredResource: (
  */
 export const notifyApplicationState: (
   input: NotifyApplicationStateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   NotifyApplicationStateResult,
   | AccessDeniedException
   | DryRunOperation

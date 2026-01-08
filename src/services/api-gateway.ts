@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -88,12 +88,8 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type ProviderARN = string;
-export type NullableInteger = number;
 export type StatusCode = string;
-export type Double = number;
 export type DocumentationPartLocationStatusCode = string;
-export type Integer = number;
-export type Long = number;
 
 //# Schemas
 export interface GetAccountRequest {}
@@ -111,15 +107,182 @@ export const GetAccountRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetAccountRequest",
 }) as any as S.Schema<GetAccountRequest>;
+export type AuthorizerType = "TOKEN" | "REQUEST" | "COGNITO_USER_POOLS";
+export const AuthorizerType = S.Literal(
+  "TOKEN",
+  "REQUEST",
+  "COGNITO_USER_POOLS",
+);
 export type ListOfARNs = string[];
 export const ListOfARNs = S.Array(S.String);
+export type CacheClusterSize =
+  | "0.5"
+  | "1.6"
+  | "6.1"
+  | "13.5"
+  | "28.4"
+  | "58.2"
+  | "118"
+  | "237";
+export const CacheClusterSize = S.Literal(
+  "0.5",
+  "1.6",
+  "6.1",
+  "13.5",
+  "28.4",
+  "58.2",
+  "118",
+  "237",
+);
+export type SecurityPolicy =
+  | "TLS_1_0"
+  | "TLS_1_2"
+  | "SecurityPolicy_TLS13_1_3_2025_09"
+  | "SecurityPolicy_TLS13_1_3_FIPS_2025_09"
+  | "SecurityPolicy_TLS13_1_2_PFS_PQ_2025_09"
+  | "SecurityPolicy_TLS13_1_2_FIPS_PQ_2025_09"
+  | "SecurityPolicy_TLS13_1_2_PQ_2025_09"
+  | "SecurityPolicy_TLS13_1_2_2021_06"
+  | "SecurityPolicy_TLS13_2025_EDGE"
+  | "SecurityPolicy_TLS12_PFS_2025_EDGE"
+  | "SecurityPolicy_TLS12_2018_EDGE";
+export const SecurityPolicy = S.Literal(
+  "TLS_1_0",
+  "TLS_1_2",
+  "SecurityPolicy_TLS13_1_3_2025_09",
+  "SecurityPolicy_TLS13_1_3_FIPS_2025_09",
+  "SecurityPolicy_TLS13_1_2_PFS_PQ_2025_09",
+  "SecurityPolicy_TLS13_1_2_FIPS_PQ_2025_09",
+  "SecurityPolicy_TLS13_1_2_PQ_2025_09",
+  "SecurityPolicy_TLS13_1_2_2021_06",
+  "SecurityPolicy_TLS13_2025_EDGE",
+  "SecurityPolicy_TLS12_PFS_2025_EDGE",
+  "SecurityPolicy_TLS12_2018_EDGE",
+);
+export type EndpointAccessMode = "BASIC" | "STRICT";
+export const EndpointAccessMode = S.Literal("BASIC", "STRICT");
+export type RoutingMode =
+  | "BASE_PATH_MAPPING_ONLY"
+  | "ROUTING_RULE_ONLY"
+  | "ROUTING_RULE_THEN_BASE_PATH_MAPPING";
+export const RoutingMode = S.Literal(
+  "BASE_PATH_MAPPING_ONLY",
+  "ROUTING_RULE_ONLY",
+  "ROUTING_RULE_THEN_BASE_PATH_MAPPING",
+);
+export type AccessAssociationSourceType = "VPCE";
+export const AccessAssociationSourceType = S.Literal("VPCE");
 export type ListOfString = string[];
 export const ListOfString = S.Array(S.String);
+export type ApiKeySourceType = "HEADER" | "AUTHORIZER";
+export const ApiKeySourceType = S.Literal("HEADER", "AUTHORIZER");
+export type GatewayResponseType =
+  | "DEFAULT_4XX"
+  | "DEFAULT_5XX"
+  | "RESOURCE_NOT_FOUND"
+  | "UNAUTHORIZED"
+  | "INVALID_API_KEY"
+  | "ACCESS_DENIED"
+  | "AUTHORIZER_FAILURE"
+  | "AUTHORIZER_CONFIGURATION_ERROR"
+  | "INVALID_SIGNATURE"
+  | "EXPIRED_TOKEN"
+  | "MISSING_AUTHENTICATION_TOKEN"
+  | "INTEGRATION_FAILURE"
+  | "INTEGRATION_TIMEOUT"
+  | "API_CONFIGURATION_ERROR"
+  | "UNSUPPORTED_MEDIA_TYPE"
+  | "BAD_REQUEST_PARAMETERS"
+  | "BAD_REQUEST_BODY"
+  | "REQUEST_TOO_LARGE"
+  | "THROTTLED"
+  | "QUOTA_EXCEEDED"
+  | "WAF_FILTERED";
+export const GatewayResponseType = S.Literal(
+  "DEFAULT_4XX",
+  "DEFAULT_5XX",
+  "RESOURCE_NOT_FOUND",
+  "UNAUTHORIZED",
+  "INVALID_API_KEY",
+  "ACCESS_DENIED",
+  "AUTHORIZER_FAILURE",
+  "AUTHORIZER_CONFIGURATION_ERROR",
+  "INVALID_SIGNATURE",
+  "EXPIRED_TOKEN",
+  "MISSING_AUTHENTICATION_TOKEN",
+  "INTEGRATION_FAILURE",
+  "INTEGRATION_TIMEOUT",
+  "API_CONFIGURATION_ERROR",
+  "UNSUPPORTED_MEDIA_TYPE",
+  "BAD_REQUEST_PARAMETERS",
+  "BAD_REQUEST_BODY",
+  "REQUEST_TOO_LARGE",
+  "THROTTLED",
+  "QUOTA_EXCEEDED",
+  "WAF_FILTERED",
+);
+export type DocumentationPartType =
+  | "API"
+  | "AUTHORIZER"
+  | "MODEL"
+  | "RESOURCE"
+  | "METHOD"
+  | "PATH_PARAMETER"
+  | "QUERY_PARAMETER"
+  | "REQUEST_HEADER"
+  | "REQUEST_BODY"
+  | "RESPONSE"
+  | "RESPONSE_HEADER"
+  | "RESPONSE_BODY";
+export const DocumentationPartType = S.Literal(
+  "API",
+  "AUTHORIZER",
+  "MODEL",
+  "RESOURCE",
+  "METHOD",
+  "PATH_PARAMETER",
+  "QUERY_PARAMETER",
+  "REQUEST_HEADER",
+  "REQUEST_BODY",
+  "RESPONSE",
+  "RESPONSE_HEADER",
+  "RESPONSE_BODY",
+);
+export type LocationStatusType = "DOCUMENTED" | "UNDOCUMENTED";
+export const LocationStatusType = S.Literal("DOCUMENTED", "UNDOCUMENTED");
+export type ResourceOwner = "SELF" | "OTHER_ACCOUNTS";
+export const ResourceOwner = S.Literal("SELF", "OTHER_ACCOUNTS");
+export type ApiKeysFormat = "csv";
+export const ApiKeysFormat = S.Literal("csv");
+export type PutMode = "merge" | "overwrite";
+export const PutMode = S.Literal("merge", "overwrite");
+export type IntegrationType =
+  | "HTTP"
+  | "AWS"
+  | "MOCK"
+  | "HTTP_PROXY"
+  | "AWS_PROXY";
+export const IntegrationType = S.Literal(
+  "HTTP",
+  "AWS",
+  "MOCK",
+  "HTTP_PROXY",
+  "AWS_PROXY",
+);
+export type ConnectionType = "INTERNET" | "VPC_LINK";
+export const ConnectionType = S.Literal("INTERNET", "VPC_LINK");
+export type ContentHandlingStrategy = "CONVERT_TO_BINARY" | "CONVERT_TO_TEXT";
+export const ContentHandlingStrategy = S.Literal(
+  "CONVERT_TO_BINARY",
+  "CONVERT_TO_TEXT",
+);
+export type ResponseTransferMode = "BUFFERED" | "STREAM";
+export const ResponseTransferMode = S.Literal("BUFFERED", "STREAM");
 export interface CreateAuthorizerRequest {
   restApiId: string;
   name: string;
-  type: string;
-  providerARNs?: ListOfARNs;
+  type: AuthorizerType;
+  providerARNs?: string[];
   authType?: string;
   authorizerUri?: string;
   authorizerCredentials?: string;
@@ -131,7 +294,7 @@ export const CreateAuthorizerRequest = S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     name: S.String,
-    type: S.String,
+    type: AuthorizerType,
     providerARNs: S.optional(ListOfARNs),
     authType: S.optional(S.String),
     authorizerUri: S.optional(S.String),
@@ -214,14 +377,14 @@ export type MapOfStringToString = { [key: string]: string };
 export const MapOfStringToString = S.Record({ key: S.String, value: S.String });
 export interface CreateDomainNameAccessAssociationRequest {
   domainNameArn: string;
-  accessAssociationSourceType: string;
+  accessAssociationSourceType: AccessAssociationSourceType;
   accessAssociationSource: string;
-  tags?: MapOfStringToString;
+  tags?: { [key: string]: string };
 }
 export const CreateDomainNameAccessAssociationRequest = S.suspend(() =>
   S.Struct({
     domainNameArn: S.String,
-    accessAssociationSourceType: S.String,
+    accessAssociationSourceType: AccessAssociationSourceType,
     accessAssociationSource: S.String,
     tags: S.optional(MapOfStringToString),
   }).pipe(
@@ -318,17 +481,21 @@ export const CreateResourceRequest = S.suspend(() =>
 ).annotations({
   identifier: "CreateResourceRequest",
 }) as any as S.Schema<CreateResourceRequest>;
-export type ListOfEndpointType = string[];
-export const ListOfEndpointType = S.Array(S.String);
+export type EndpointType = "REGIONAL" | "EDGE" | "PRIVATE";
+export const EndpointType = S.Literal("REGIONAL", "EDGE", "PRIVATE");
+export type ListOfEndpointType = EndpointType[];
+export const ListOfEndpointType = S.Array(EndpointType);
+export type IpAddressType = "ipv4" | "dualstack";
+export const IpAddressType = S.Literal("ipv4", "dualstack");
 export interface EndpointConfiguration {
-  types?: ListOfEndpointType;
-  ipAddressType?: string;
-  vpcEndpointIds?: ListOfString;
+  types?: EndpointType[];
+  ipAddressType?: IpAddressType;
+  vpcEndpointIds?: string[];
 }
 export const EndpointConfiguration = S.suspend(() =>
   S.Struct({
     types: S.optional(ListOfEndpointType),
-    ipAddressType: S.optional(S.String),
+    ipAddressType: S.optional(IpAddressType),
     vpcEndpointIds: S.optional(ListOfString),
   }),
 ).annotations({
@@ -339,15 +506,15 @@ export interface CreateRestApiRequest {
   description?: string;
   version?: string;
   cloneFrom?: string;
-  binaryMediaTypes?: ListOfString;
+  binaryMediaTypes?: string[];
   minimumCompressionSize?: number;
-  apiKeySource?: string;
+  apiKeySource?: ApiKeySourceType;
   endpointConfiguration?: EndpointConfiguration;
   policy?: string;
-  tags?: MapOfStringToString;
+  tags?: { [key: string]: string };
   disableExecuteApiEndpoint?: boolean;
-  securityPolicy?: string;
-  endpointAccessMode?: string;
+  securityPolicy?: SecurityPolicy;
+  endpointAccessMode?: EndpointAccessMode;
 }
 export const CreateRestApiRequest = S.suspend(() =>
   S.Struct({
@@ -357,13 +524,13 @@ export const CreateRestApiRequest = S.suspend(() =>
     cloneFrom: S.optional(S.String),
     binaryMediaTypes: S.optional(ListOfString),
     minimumCompressionSize: S.optional(S.Number),
-    apiKeySource: S.optional(S.String),
+    apiKeySource: S.optional(ApiKeySourceType),
     endpointConfiguration: S.optional(EndpointConfiguration),
     policy: S.optional(S.String),
     tags: S.optional(MapOfStringToString),
     disableExecuteApiEndpoint: S.optional(S.Boolean),
-    securityPolicy: S.optional(S.String),
-    endpointAccessMode: S.optional(S.String),
+    securityPolicy: S.optional(SecurityPolicy),
+    endpointAccessMode: S.optional(EndpointAccessMode),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/restapis" }),
@@ -403,8 +570,8 @@ export const CreateUsagePlanKeyRequest = S.suspend(() =>
 export interface CreateVpcLinkRequest {
   name: string;
   description?: string;
-  targetArns: ListOfString;
-  tags?: MapOfStringToString;
+  targetArns: string[];
+  tags?: { [key: string]: string };
 }
 export const CreateVpcLinkRequest = S.suspend(() =>
   S.Struct({
@@ -685,12 +852,12 @@ export const DeleteDomainNameAccessAssociationResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteDomainNameAccessAssociationResponse>;
 export interface DeleteGatewayResponseRequest {
   restApiId: string;
-  responseType: string;
+  responseType: GatewayResponseType;
 }
 export const DeleteGatewayResponseRequest = S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    responseType: S.String.pipe(T.HttpLabel("responseType")),
+    responseType: GatewayResponseType.pipe(T.HttpLabel("responseType")),
   }).pipe(
     T.all(
       T.Http({
@@ -1114,7 +1281,7 @@ export const FlushStageCacheResponse = S.suspend(() =>
 }) as any as S.Schema<FlushStageCacheResponse>;
 export interface GenerateClientCertificateRequest {
   description?: string;
-  tags?: MapOfStringToString;
+  tags?: { [key: string]: string };
 }
 export const GenerateClientCertificateRequest = S.suspend(() =>
   S.Struct({
@@ -1148,7 +1315,7 @@ export const ThrottleSettings = S.suspend(() =>
 export interface Account {
   cloudwatchRoleArn?: string;
   throttleSettings?: ThrottleSettings;
-  features?: ListOfString;
+  features?: string[];
   apiKeyVersion?: string;
 }
 export const Account = S.suspend(() =>
@@ -1354,7 +1521,7 @@ export const GetClientCertificatesRequest = S.suspend(() =>
 export interface GetDeploymentRequest {
   restApiId: string;
   deploymentId: string;
-  embed?: ListOfString;
+  embed?: string[];
 }
 export const GetDeploymentRequest = S.suspend(() =>
   S.Struct({
@@ -1426,22 +1593,24 @@ export const GetDocumentationPartRequest = S.suspend(() =>
 }) as any as S.Schema<GetDocumentationPartRequest>;
 export interface GetDocumentationPartsRequest {
   restApiId: string;
-  type?: string;
+  type?: DocumentationPartType;
   nameQuery?: string;
   path?: string;
   position?: string;
   limit?: number;
-  locationStatus?: string;
+  locationStatus?: LocationStatusType;
 }
 export const GetDocumentationPartsRequest = S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    type: S.optional(S.String).pipe(T.HttpQuery("type")),
+    type: S.optional(DocumentationPartType).pipe(T.HttpQuery("type")),
     nameQuery: S.optional(S.String).pipe(T.HttpQuery("name")),
     path: S.optional(S.String).pipe(T.HttpQuery("path")),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-    locationStatus: S.optional(S.String).pipe(T.HttpQuery("locationStatus")),
+    locationStatus: S.optional(LocationStatusType).pipe(
+      T.HttpQuery("locationStatus"),
+    ),
   }).pipe(
     T.all(
       T.Http({
@@ -1532,13 +1701,13 @@ export const GetDomainNameRequest = S.suspend(() =>
 export interface GetDomainNameAccessAssociationsRequest {
   position?: string;
   limit?: number;
-  resourceOwner?: string;
+  resourceOwner?: ResourceOwner;
 }
 export const GetDomainNameAccessAssociationsRequest = S.suspend(() =>
   S.Struct({
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-    resourceOwner: S.optional(S.String).pipe(T.HttpQuery("resourceOwner")),
+    resourceOwner: S.optional(ResourceOwner).pipe(T.HttpQuery("resourceOwner")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/domainnameaccessassociations" }),
@@ -1555,13 +1724,13 @@ export const GetDomainNameAccessAssociationsRequest = S.suspend(() =>
 export interface GetDomainNamesRequest {
   position?: string;
   limit?: number;
-  resourceOwner?: string;
+  resourceOwner?: ResourceOwner;
 }
 export const GetDomainNamesRequest = S.suspend(() =>
   S.Struct({
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-    resourceOwner: S.optional(S.String).pipe(T.HttpQuery("resourceOwner")),
+    resourceOwner: S.optional(ResourceOwner).pipe(T.HttpQuery("resourceOwner")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/domainnames" }),
@@ -1579,7 +1748,7 @@ export interface GetExportRequest {
   restApiId: string;
   stageName: string;
   exportType: string;
-  parameters?: MapOfStringToString;
+  parameters?: { [key: string]: string };
   accepts?: string;
 }
 export const GetExportRequest = S.suspend(() =>
@@ -1607,12 +1776,12 @@ export const GetExportRequest = S.suspend(() =>
 }) as any as S.Schema<GetExportRequest>;
 export interface GetGatewayResponseRequest {
   restApiId: string;
-  responseType: string;
+  responseType: GatewayResponseType;
 }
 export const GetGatewayResponseRequest = S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    responseType: S.String.pipe(T.HttpLabel("responseType")),
+    responseType: GatewayResponseType.pipe(T.HttpLabel("responseType")),
   }).pipe(
     T.all(
       T.Http({
@@ -1883,7 +2052,7 @@ export const GetRequestValidatorsRequest = S.suspend(() =>
 export interface GetResourceRequest {
   restApiId: string;
   resourceId: string;
-  embed?: ListOfString;
+  embed?: string[];
 }
 export const GetResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1910,7 +2079,7 @@ export interface GetResourcesRequest {
   restApiId: string;
   position?: string;
   limit?: number;
-  embed?: ListOfString;
+  embed?: string[];
 }
 export const GetResourcesRequest = S.suspend(() =>
   S.Struct({
@@ -1973,7 +2142,7 @@ export interface GetSdkRequest {
   restApiId: string;
   stageName: string;
   sdkType: string;
-  parameters?: MapOfStringToString;
+  parameters?: { [key: string]: string };
 }
 export const GetSdkRequest = S.suspend(() =>
   S.Struct({
@@ -2258,13 +2427,13 @@ export const GetVpcLinksRequest = S.suspend(() =>
 }) as any as S.Schema<GetVpcLinksRequest>;
 export interface ImportApiKeysRequest {
   body: T.StreamingInputBody;
-  format: string;
+  format: ApiKeysFormat;
   failOnWarnings?: boolean;
 }
 export const ImportApiKeysRequest = S.suspend(() =>
   S.Struct({
     body: T.StreamingInput.pipe(T.HttpPayload()),
-    format: S.String.pipe(T.HttpQuery("format")),
+    format: ApiKeysFormat.pipe(T.HttpQuery("format")),
     failOnWarnings: S.optional(S.Boolean).pipe(T.HttpQuery("failonwarnings")),
   }).pipe(
     T.all(
@@ -2281,14 +2450,14 @@ export const ImportApiKeysRequest = S.suspend(() =>
 }) as any as S.Schema<ImportApiKeysRequest>;
 export interface ImportDocumentationPartsRequest {
   restApiId: string;
-  mode?: string;
+  mode?: PutMode;
   failOnWarnings?: boolean;
   body: T.StreamingInputBody;
 }
 export const ImportDocumentationPartsRequest = S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    mode: S.optional(S.String).pipe(T.HttpQuery("mode")),
+    mode: S.optional(PutMode).pipe(T.HttpQuery("mode")),
     failOnWarnings: S.optional(S.Boolean).pipe(T.HttpQuery("failonwarnings")),
     body: T.StreamingInput.pipe(T.HttpPayload()),
   }).pipe(
@@ -2309,7 +2478,7 @@ export const ImportDocumentationPartsRequest = S.suspend(() =>
 }) as any as S.Schema<ImportDocumentationPartsRequest>;
 export interface ImportRestApiRequest {
   failOnWarnings?: boolean;
-  parameters?: MapOfStringToString;
+  parameters?: { [key: string]: string };
   body: T.StreamingInputBody;
 }
 export const ImportRestApiRequest = S.suspend(() =>
@@ -2332,15 +2501,15 @@ export const ImportRestApiRequest = S.suspend(() =>
 }) as any as S.Schema<ImportRestApiRequest>;
 export interface PutGatewayResponseRequest {
   restApiId: string;
-  responseType: string;
+  responseType: GatewayResponseType;
   statusCode?: string;
-  responseParameters?: MapOfStringToString;
-  responseTemplates?: MapOfStringToString;
+  responseParameters?: { [key: string]: string };
+  responseTemplates?: { [key: string]: string };
 }
 export const PutGatewayResponseRequest = S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    responseType: S.String.pipe(T.HttpLabel("responseType")),
+    responseType: GatewayResponseType.pipe(T.HttpLabel("responseType")),
     statusCode: S.optional(S.String),
     responseParameters: S.optional(MapOfStringToString),
     responseTemplates: S.optional(MapOfStringToString),
@@ -2366,9 +2535,9 @@ export interface PutIntegrationResponseRequest {
   httpMethod: string;
   statusCode: string;
   selectionPattern?: string;
-  responseParameters?: MapOfStringToString;
-  responseTemplates?: MapOfStringToString;
-  contentHandling?: string;
+  responseParameters?: { [key: string]: string };
+  responseTemplates?: { [key: string]: string };
+  contentHandling?: ContentHandlingStrategy;
 }
 export const PutIntegrationResponseRequest = S.suspend(() =>
   S.Struct({
@@ -2379,7 +2548,7 @@ export const PutIntegrationResponseRequest = S.suspend(() =>
     selectionPattern: S.optional(S.String),
     responseParameters: S.optional(MapOfStringToString),
     responseTemplates: S.optional(MapOfStringToString),
-    contentHandling: S.optional(S.String),
+    contentHandling: S.optional(ContentHandlingStrategy),
   }).pipe(
     T.all(
       T.Http({
@@ -2406,8 +2575,8 @@ export interface PutMethodResponseRequest {
   resourceId: string;
   httpMethod: string;
   statusCode: string;
-  responseParameters?: MapOfStringToBoolean;
-  responseModels?: MapOfStringToString;
+  responseParameters?: { [key: string]: boolean };
+  responseModels?: { [key: string]: string };
 }
 export const PutMethodResponseRequest = S.suspend(() =>
   S.Struct({
@@ -2435,15 +2604,15 @@ export const PutMethodResponseRequest = S.suspend(() =>
 }) as any as S.Schema<PutMethodResponseRequest>;
 export interface PutRestApiRequest {
   restApiId: string;
-  mode?: string;
+  mode?: PutMode;
   failOnWarnings?: boolean;
-  parameters?: MapOfStringToString;
+  parameters?: { [key: string]: string };
   body: T.StreamingInputBody;
 }
 export const PutRestApiRequest = S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    mode: S.optional(S.String).pipe(T.HttpQuery("mode")),
+    mode: S.optional(PutMode).pipe(T.HttpQuery("mode")),
     failOnWarnings: S.optional(S.Boolean).pipe(T.HttpQuery("failonwarnings")),
     parameters: S.optional(MapOfStringToString).pipe(T.HttpQueryParams()),
     body: T.StreamingInput.pipe(T.HttpPayload()),
@@ -2491,7 +2660,7 @@ export const RejectDomainNameAccessAssociationResponse = S.suspend(() =>
 }) as any as S.Schema<RejectDomainNameAccessAssociationResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: MapOfStringToString;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -2514,7 +2683,7 @@ export interface TagResourceResponse {}
 export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
-export type MapOfStringToList = { [key: string]: ListOfString };
+export type MapOfStringToList = { [key: string]: string[] };
 export const MapOfStringToList = S.Record({
   key: S.String,
   value: ListOfString,
@@ -2525,10 +2694,10 @@ export interface TestInvokeMethodRequest {
   httpMethod: string;
   pathWithQueryString?: string;
   body?: string;
-  headers?: MapOfStringToString;
-  multiValueHeaders?: MapOfStringToList;
+  headers?: { [key: string]: string };
+  multiValueHeaders?: { [key: string]: string[] };
   clientCertificateId?: string;
-  stageVariables?: MapOfStringToString;
+  stageVariables?: { [key: string]: string };
 }
 export const TestInvokeMethodRequest = S.suspend(() =>
   S.Struct({
@@ -2559,7 +2728,7 @@ export const TestInvokeMethodRequest = S.suspend(() =>
 }) as any as S.Schema<TestInvokeMethodRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: ListOfString;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -2582,15 +2751,17 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
+export type Op = "add" | "remove" | "replace" | "move" | "copy" | "test";
+export const Op = S.Literal("add", "remove", "replace", "move", "copy", "test");
 export interface PatchOperation {
-  op?: string;
+  op?: Op;
   path?: string;
   value?: string;
   from?: string;
 }
 export const PatchOperation = S.suspend(() =>
   S.Struct({
-    op: S.optional(S.String),
+    op: S.optional(Op),
     path: S.optional(S.String),
     value: S.optional(S.String),
     from: S.optional(S.String),
@@ -2602,7 +2773,7 @@ export type ListOfPatchOperation = PatchOperation[];
 export const ListOfPatchOperation = S.Array(PatchOperation);
 export interface UpdateApiKeyRequest {
   apiKey: string;
-  patchOperations?: ListOfPatchOperation;
+  patchOperations?: PatchOperation[];
 }
 export const UpdateApiKeyRequest = S.suspend(() =>
   S.Struct({
@@ -2624,7 +2795,7 @@ export const UpdateApiKeyRequest = S.suspend(() =>
 export interface UpdateAuthorizerRequest {
   restApiId: string;
   authorizerId: string;
-  patchOperations?: ListOfPatchOperation;
+  patchOperations?: PatchOperation[];
 }
 export const UpdateAuthorizerRequest = S.suspend(() =>
   S.Struct({
@@ -2651,7 +2822,7 @@ export interface UpdateBasePathMappingRequest {
   domainName: string;
   domainNameId?: string;
   basePath: string;
-  patchOperations?: ListOfPatchOperation;
+  patchOperations?: PatchOperation[];
 }
 export const UpdateBasePathMappingRequest = S.suspend(() =>
   S.Struct({
@@ -2677,7 +2848,7 @@ export const UpdateBasePathMappingRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateBasePathMappingRequest>;
 export interface UpdateClientCertificateRequest {
   clientCertificateId: string;
-  patchOperations?: ListOfPatchOperation;
+  patchOperations?: PatchOperation[];
 }
 export const UpdateClientCertificateRequest = S.suspend(() =>
   S.Struct({
@@ -2702,7 +2873,7 @@ export const UpdateClientCertificateRequest = S.suspend(() =>
 export interface UpdateDeploymentRequest {
   restApiId: string;
   deploymentId: string;
-  patchOperations?: ListOfPatchOperation;
+  patchOperations?: PatchOperation[];
 }
 export const UpdateDeploymentRequest = S.suspend(() =>
   S.Struct({
@@ -2728,7 +2899,7 @@ export const UpdateDeploymentRequest = S.suspend(() =>
 export interface UpdateDocumentationPartRequest {
   restApiId: string;
   documentationPartId: string;
-  patchOperations?: ListOfPatchOperation;
+  patchOperations?: PatchOperation[];
 }
 export const UpdateDocumentationPartRequest = S.suspend(() =>
   S.Struct({
@@ -2754,7 +2925,7 @@ export const UpdateDocumentationPartRequest = S.suspend(() =>
 export interface UpdateDocumentationVersionRequest {
   restApiId: string;
   documentationVersion: string;
-  patchOperations?: ListOfPatchOperation;
+  patchOperations?: PatchOperation[];
 }
 export const UpdateDocumentationVersionRequest = S.suspend(() =>
   S.Struct({
@@ -2780,7 +2951,7 @@ export const UpdateDocumentationVersionRequest = S.suspend(() =>
 export interface UpdateDomainNameRequest {
   domainName: string;
   domainNameId?: string;
-  patchOperations?: ListOfPatchOperation;
+  patchOperations?: PatchOperation[];
 }
 export const UpdateDomainNameRequest = S.suspend(() =>
   S.Struct({
@@ -2802,13 +2973,13 @@ export const UpdateDomainNameRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateDomainNameRequest>;
 export interface UpdateGatewayResponseRequest {
   restApiId: string;
-  responseType: string;
-  patchOperations?: ListOfPatchOperation;
+  responseType: GatewayResponseType;
+  patchOperations?: PatchOperation[];
 }
 export const UpdateGatewayResponseRequest = S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    responseType: S.String.pipe(T.HttpLabel("responseType")),
+    responseType: GatewayResponseType.pipe(T.HttpLabel("responseType")),
     patchOperations: S.optional(ListOfPatchOperation),
   }).pipe(
     T.all(
@@ -2830,7 +3001,7 @@ export interface UpdateIntegrationRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
-  patchOperations?: ListOfPatchOperation;
+  patchOperations?: PatchOperation[];
 }
 export const UpdateIntegrationRequest = S.suspend(() =>
   S.Struct({
@@ -2859,7 +3030,7 @@ export interface UpdateIntegrationResponseRequest {
   resourceId: string;
   httpMethod: string;
   statusCode: string;
-  patchOperations?: ListOfPatchOperation;
+  patchOperations?: PatchOperation[];
 }
 export const UpdateIntegrationResponseRequest = S.suspend(() =>
   S.Struct({
@@ -2888,7 +3059,7 @@ export interface UpdateMethodRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
-  patchOperations?: ListOfPatchOperation;
+  patchOperations?: PatchOperation[];
 }
 export const UpdateMethodRequest = S.suspend(() =>
   S.Struct({
@@ -2917,7 +3088,7 @@ export interface UpdateMethodResponseRequest {
   resourceId: string;
   httpMethod: string;
   statusCode: string;
-  patchOperations?: ListOfPatchOperation;
+  patchOperations?: PatchOperation[];
 }
 export const UpdateMethodResponseRequest = S.suspend(() =>
   S.Struct({
@@ -2945,7 +3116,7 @@ export const UpdateMethodResponseRequest = S.suspend(() =>
 export interface UpdateModelRequest {
   restApiId: string;
   modelName: string;
-  patchOperations?: ListOfPatchOperation;
+  patchOperations?: PatchOperation[];
 }
 export const UpdateModelRequest = S.suspend(() =>
   S.Struct({
@@ -2971,7 +3142,7 @@ export const UpdateModelRequest = S.suspend(() =>
 export interface UpdateRequestValidatorRequest {
   restApiId: string;
   requestValidatorId: string;
-  patchOperations?: ListOfPatchOperation;
+  patchOperations?: PatchOperation[];
 }
 export const UpdateRequestValidatorRequest = S.suspend(() =>
   S.Struct({
@@ -2997,7 +3168,7 @@ export const UpdateRequestValidatorRequest = S.suspend(() =>
 export interface UpdateResourceRequest {
   restApiId: string;
   resourceId: string;
-  patchOperations?: ListOfPatchOperation;
+  patchOperations?: PatchOperation[];
 }
 export const UpdateResourceRequest = S.suspend(() =>
   S.Struct({
@@ -3022,7 +3193,7 @@ export const UpdateResourceRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateResourceRequest>;
 export interface UpdateRestApiRequest {
   restApiId: string;
-  patchOperations?: ListOfPatchOperation;
+  patchOperations?: PatchOperation[];
 }
 export const UpdateRestApiRequest = S.suspend(() =>
   S.Struct({
@@ -3044,7 +3215,7 @@ export const UpdateRestApiRequest = S.suspend(() =>
 export interface UpdateStageRequest {
   restApiId: string;
   stageName: string;
-  patchOperations?: ListOfPatchOperation;
+  patchOperations?: PatchOperation[];
 }
 export const UpdateStageRequest = S.suspend(() =>
   S.Struct({
@@ -3070,7 +3241,7 @@ export const UpdateStageRequest = S.suspend(() =>
 export interface UpdateUsageRequest {
   usagePlanId: string;
   keyId: string;
-  patchOperations?: ListOfPatchOperation;
+  patchOperations?: PatchOperation[];
 }
 export const UpdateUsageRequest = S.suspend(() =>
   S.Struct({
@@ -3095,7 +3266,7 @@ export const UpdateUsageRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateUsageRequest>;
 export interface UpdateUsagePlanRequest {
   usagePlanId: string;
-  patchOperations?: ListOfPatchOperation;
+  patchOperations?: PatchOperation[];
 }
 export const UpdateUsagePlanRequest = S.suspend(() =>
   S.Struct({
@@ -3116,7 +3287,7 @@ export const UpdateUsagePlanRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateUsagePlanRequest>;
 export interface UpdateVpcLinkRequest {
   vpcLinkId: string;
-  patchOperations?: ListOfPatchOperation;
+  patchOperations?: PatchOperation[];
 }
 export const UpdateVpcLinkRequest = S.suspend(() =>
   S.Struct({
@@ -3135,6 +3306,8 @@ export const UpdateVpcLinkRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateVpcLinkRequest",
 }) as any as S.Schema<UpdateVpcLinkRequest>;
+export type QuotaPeriodType = "DAY" | "WEEK" | "MONTH";
+export const QuotaPeriodType = S.Literal("DAY", "WEEK", "MONTH");
 export interface StageKey {
   restApiId?: string;
   stageName?: string;
@@ -3149,7 +3322,7 @@ export type ListOfStageKeys = StageKey[];
 export const ListOfStageKeys = S.Array(StageKey);
 export interface DeploymentCanarySettings {
   percentTraffic?: number;
-  stageVariableOverrides?: MapOfStringToString;
+  stageVariableOverrides?: { [key: string]: string };
   useStageCache?: boolean;
 }
 export const DeploymentCanarySettings = S.suspend(() =>
@@ -3162,7 +3335,7 @@ export const DeploymentCanarySettings = S.suspend(() =>
   identifier: "DeploymentCanarySettings",
 }) as any as S.Schema<DeploymentCanarySettings>;
 export interface DocumentationPartLocation {
-  type: string;
+  type: DocumentationPartType;
   path?: string;
   method?: string;
   statusCode?: string;
@@ -3170,7 +3343,7 @@ export interface DocumentationPartLocation {
 }
 export const DocumentationPartLocation = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: DocumentationPartType,
     path: S.optional(S.String),
     method: S.optional(S.String),
     statusCode: S.optional(S.String),
@@ -3191,10 +3364,17 @@ export const MutualTlsAuthenticationInput = S.suspend(() =>
 ).annotations({
   identifier: "MutualTlsAuthenticationInput",
 }) as any as S.Schema<MutualTlsAuthenticationInput>;
+export type ApiStatus = "UPDATING" | "AVAILABLE" | "PENDING" | "FAILED";
+export const ApiStatus = S.Literal(
+  "UPDATING",
+  "AVAILABLE",
+  "PENDING",
+  "FAILED",
+);
 export interface CanarySettings {
   percentTraffic?: number;
   deploymentId?: string;
-  stageVariableOverrides?: MapOfStringToString;
+  stageVariableOverrides?: { [key: string]: string };
   useStageCache?: boolean;
 }
 export const CanarySettings = S.suspend(() =>
@@ -3210,17 +3390,24 @@ export const CanarySettings = S.suspend(() =>
 export interface QuotaSettings {
   limit?: number;
   offset?: number;
-  period?: string;
+  period?: QuotaPeriodType;
 }
 export const QuotaSettings = S.suspend(() =>
   S.Struct({
     limit: S.optional(S.Number),
     offset: S.optional(S.Number),
-    period: S.optional(S.String),
+    period: S.optional(QuotaPeriodType),
   }),
 ).annotations({
   identifier: "QuotaSettings",
 }) as any as S.Schema<QuotaSettings>;
+export type VpcLinkStatus = "AVAILABLE" | "PENDING" | "DELETING" | "FAILED";
+export const VpcLinkStatus = S.Literal(
+  "AVAILABLE",
+  "PENDING",
+  "DELETING",
+  "FAILED",
+);
 export interface ApiKey {
   id?: string;
   value?: string;
@@ -3230,8 +3417,8 @@ export interface ApiKey {
   enabled?: boolean;
   createdDate?: Date;
   lastUpdatedDate?: Date;
-  stageKeys?: ListOfString;
-  tags?: MapOfStringToString;
+  stageKeys?: string[];
+  tags?: { [key: string]: string };
 }
 export const ApiKey = S.suspend(() =>
   S.Struct({
@@ -3254,8 +3441,8 @@ export const ListOfApiKey = S.Array(ApiKey);
 export interface Authorizer {
   id?: string;
   name?: string;
-  type?: string;
-  providerARNs?: ListOfARNs;
+  type?: AuthorizerType;
+  providerARNs?: string[];
   authType?: string;
   authorizerUri?: string;
   authorizerCredentials?: string;
@@ -3267,7 +3454,7 @@ export const Authorizer = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(AuthorizerType),
     providerARNs: S.optional(ListOfARNs),
     authType: S.optional(S.String),
     authorizerUri: S.optional(S.String),
@@ -3301,7 +3488,7 @@ export interface ClientCertificate {
   pemEncodedCertificate?: string;
   createdDate?: Date;
   expirationDate?: Date;
-  tags?: MapOfStringToString;
+  tags?: { [key: string]: string };
 }
 export const ClientCertificate = S.suspend(() =>
   S.Struct({
@@ -3334,7 +3521,9 @@ export const MapOfMethodSnapshot = S.Record({
   key: S.String,
   value: MethodSnapshot,
 });
-export type PathToMapOfMethodSnapshot = { [key: string]: MapOfMethodSnapshot };
+export type PathToMapOfMethodSnapshot = {
+  [key: string]: { [key: string]: MethodSnapshot };
+};
 export const PathToMapOfMethodSnapshot = S.Record({
   key: S.String,
   value: MapOfMethodSnapshot,
@@ -3343,7 +3532,7 @@ export interface Deployment {
   id?: string;
   description?: string;
   createdDate?: Date;
-  apiSummary?: PathToMapOfMethodSnapshot;
+  apiSummary?: { [key: string]: { [key: string]: MethodSnapshot } };
 }
 export const Deployment = S.suspend(() =>
   S.Struct({
@@ -3387,18 +3576,33 @@ export const DocumentationVersion = S.suspend(() =>
 }) as any as S.Schema<DocumentationVersion>;
 export type ListOfDocumentationVersion = DocumentationVersion[];
 export const ListOfDocumentationVersion = S.Array(DocumentationVersion);
+export type DomainNameStatus =
+  | "AVAILABLE"
+  | "UPDATING"
+  | "PENDING"
+  | "PENDING_CERTIFICATE_REIMPORT"
+  | "PENDING_OWNERSHIP_VERIFICATION"
+  | "FAILED";
+export const DomainNameStatus = S.Literal(
+  "AVAILABLE",
+  "UPDATING",
+  "PENDING",
+  "PENDING_CERTIFICATE_REIMPORT",
+  "PENDING_OWNERSHIP_VERIFICATION",
+  "FAILED",
+);
 export interface DomainNameAccessAssociation {
   domainNameAccessAssociationArn?: string;
   domainNameArn?: string;
-  accessAssociationSourceType?: string;
+  accessAssociationSourceType?: AccessAssociationSourceType;
   accessAssociationSource?: string;
-  tags?: MapOfStringToString;
+  tags?: { [key: string]: string };
 }
 export const DomainNameAccessAssociation = S.suspend(() =>
   S.Struct({
     domainNameAccessAssociationArn: S.optional(S.String),
     domainNameArn: S.optional(S.String),
-    accessAssociationSourceType: S.optional(S.String),
+    accessAssociationSourceType: S.optional(AccessAssociationSourceType),
     accessAssociationSource: S.optional(S.String),
     tags: S.optional(MapOfStringToString),
   }),
@@ -3412,7 +3616,7 @@ export const ListOfDomainNameAccessAssociation = S.Array(
 export interface MutualTlsAuthentication {
   truststoreUri?: string;
   truststoreVersion?: string;
-  truststoreWarnings?: ListOfString;
+  truststoreWarnings?: string[];
 }
 export const MutualTlsAuthentication = S.suspend(() =>
   S.Struct({
@@ -3437,16 +3641,16 @@ export interface DomainName {
   distributionDomainName?: string;
   distributionHostedZoneId?: string;
   endpointConfiguration?: EndpointConfiguration;
-  domainNameStatus?: string;
+  domainNameStatus?: DomainNameStatus;
   domainNameStatusMessage?: string;
-  securityPolicy?: string;
-  endpointAccessMode?: string;
-  tags?: MapOfStringToString;
+  securityPolicy?: SecurityPolicy;
+  endpointAccessMode?: EndpointAccessMode;
+  tags?: { [key: string]: string };
   mutualTlsAuthentication?: MutualTlsAuthentication;
   ownershipVerificationCertificateArn?: string;
   managementPolicy?: string;
   policy?: string;
-  routingMode?: string;
+  routingMode?: RoutingMode;
 }
 export const DomainName = S.suspend(() =>
   S.Struct({
@@ -3465,30 +3669,30 @@ export const DomainName = S.suspend(() =>
     distributionDomainName: S.optional(S.String),
     distributionHostedZoneId: S.optional(S.String),
     endpointConfiguration: S.optional(EndpointConfiguration),
-    domainNameStatus: S.optional(S.String),
+    domainNameStatus: S.optional(DomainNameStatus),
     domainNameStatusMessage: S.optional(S.String),
-    securityPolicy: S.optional(S.String),
-    endpointAccessMode: S.optional(S.String),
+    securityPolicy: S.optional(SecurityPolicy),
+    endpointAccessMode: S.optional(EndpointAccessMode),
     tags: S.optional(MapOfStringToString),
     mutualTlsAuthentication: S.optional(MutualTlsAuthentication),
     ownershipVerificationCertificateArn: S.optional(S.String),
     managementPolicy: S.optional(S.String),
     policy: S.optional(S.String),
-    routingMode: S.optional(S.String),
+    routingMode: S.optional(RoutingMode),
   }),
 ).annotations({ identifier: "DomainName" }) as any as S.Schema<DomainName>;
 export type ListOfDomainName = DomainName[];
 export const ListOfDomainName = S.Array(DomainName);
 export interface GatewayResponse {
-  responseType?: string;
+  responseType?: GatewayResponseType;
   statusCode?: string;
-  responseParameters?: MapOfStringToString;
-  responseTemplates?: MapOfStringToString;
+  responseParameters?: { [key: string]: string };
+  responseTemplates?: { [key: string]: string };
   defaultResponse?: boolean;
 }
 export const GatewayResponse = S.suspend(() =>
   S.Struct({
-    responseType: S.optional(S.String),
+    responseType: S.optional(GatewayResponseType),
     statusCode: S.optional(S.String),
     responseParameters: S.optional(MapOfStringToString),
     responseTemplates: S.optional(MapOfStringToString),
@@ -3537,8 +3741,8 @@ export type ListOfRequestValidator = RequestValidator[];
 export const ListOfRequestValidator = S.Array(RequestValidator);
 export interface MethodResponse {
   statusCode?: string;
-  responseParameters?: MapOfStringToBoolean;
-  responseModels?: MapOfStringToString;
+  responseParameters?: { [key: string]: boolean };
+  responseModels?: { [key: string]: string };
 }
 export const MethodResponse = S.suspend(() =>
   S.Struct({
@@ -3557,9 +3761,9 @@ export const MapOfMethodResponse = S.Record({
 export interface IntegrationResponse {
   statusCode?: string;
   selectionPattern?: string;
-  responseParameters?: MapOfStringToString;
-  responseTemplates?: MapOfStringToString;
-  contentHandling?: string;
+  responseParameters?: { [key: string]: string };
+  responseTemplates?: { [key: string]: string };
+  contentHandling?: ContentHandlingStrategy;
 }
 export const IntegrationResponse = S.suspend(() =>
   S.Struct({
@@ -3567,7 +3771,7 @@ export const IntegrationResponse = S.suspend(() =>
     selectionPattern: S.optional(S.String),
     responseParameters: S.optional(MapOfStringToString),
     responseTemplates: S.optional(MapOfStringToString),
-    contentHandling: S.optional(S.String),
+    contentHandling: S.optional(ContentHandlingStrategy),
   }),
 ).annotations({
   identifier: "IntegrationResponse",
@@ -3584,42 +3788,42 @@ export const TlsConfig = S.suspend(() =>
   S.Struct({ insecureSkipVerification: S.optional(S.Boolean) }),
 ).annotations({ identifier: "TlsConfig" }) as any as S.Schema<TlsConfig>;
 export interface Integration {
-  type?: string;
+  type?: IntegrationType;
   httpMethod?: string;
   uri?: string;
-  connectionType?: string;
+  connectionType?: ConnectionType;
   connectionId?: string;
   credentials?: string;
-  requestParameters?: MapOfStringToString;
-  requestTemplates?: MapOfStringToString;
+  requestParameters?: { [key: string]: string };
+  requestTemplates?: { [key: string]: string };
   passthroughBehavior?: string;
-  contentHandling?: string;
+  contentHandling?: ContentHandlingStrategy;
   timeoutInMillis?: number;
   cacheNamespace?: string;
-  cacheKeyParameters?: ListOfString;
-  integrationResponses?: MapOfIntegrationResponse;
+  cacheKeyParameters?: string[];
+  integrationResponses?: { [key: string]: IntegrationResponse };
   tlsConfig?: TlsConfig;
-  responseTransferMode?: string;
+  responseTransferMode?: ResponseTransferMode;
   integrationTarget?: string;
 }
 export const Integration = S.suspend(() =>
   S.Struct({
-    type: S.optional(S.String),
+    type: S.optional(IntegrationType),
     httpMethod: S.optional(S.String),
     uri: S.optional(S.String),
-    connectionType: S.optional(S.String),
+    connectionType: S.optional(ConnectionType),
     connectionId: S.optional(S.String),
     credentials: S.optional(S.String),
     requestParameters: S.optional(MapOfStringToString),
     requestTemplates: S.optional(MapOfStringToString),
     passthroughBehavior: S.optional(S.String),
-    contentHandling: S.optional(S.String),
+    contentHandling: S.optional(ContentHandlingStrategy),
     timeoutInMillis: S.optional(S.Number),
     cacheNamespace: S.optional(S.String),
     cacheKeyParameters: S.optional(ListOfString),
     integrationResponses: S.optional(MapOfIntegrationResponse),
     tlsConfig: S.optional(TlsConfig),
-    responseTransferMode: S.optional(S.String),
+    responseTransferMode: S.optional(ResponseTransferMode),
     integrationTarget: S.optional(S.String),
   }),
 ).annotations({ identifier: "Integration" }) as any as S.Schema<Integration>;
@@ -3630,11 +3834,11 @@ export interface Method {
   apiKeyRequired?: boolean;
   requestValidatorId?: string;
   operationName?: string;
-  requestParameters?: MapOfStringToBoolean;
-  requestModels?: MapOfStringToString;
-  methodResponses?: MapOfMethodResponse;
+  requestParameters?: { [key: string]: boolean };
+  requestModels?: { [key: string]: string };
+  methodResponses?: { [key: string]: MethodResponse };
   methodIntegration?: Integration;
-  authorizationScopes?: ListOfString;
+  authorizationScopes?: string[];
 }
 export const Method = S.suspend(() =>
   S.Struct({
@@ -3658,7 +3862,7 @@ export interface Resource {
   parentId?: string;
   pathPart?: string;
   path?: string;
-  resourceMethods?: MapOfMethod;
+  resourceMethods?: { [key: string]: Method };
 }
 export const Resource = S.suspend(() =>
   S.Struct({
@@ -3677,18 +3881,18 @@ export interface RestApi {
   description?: string;
   createdDate?: Date;
   version?: string;
-  warnings?: ListOfString;
-  binaryMediaTypes?: ListOfString;
+  warnings?: string[];
+  binaryMediaTypes?: string[];
   minimumCompressionSize?: number;
-  apiKeySource?: string;
+  apiKeySource?: ApiKeySourceType;
   endpointConfiguration?: EndpointConfiguration;
   policy?: string;
-  tags?: MapOfStringToString;
+  tags?: { [key: string]: string };
   disableExecuteApiEndpoint?: boolean;
   rootResourceId?: string;
-  securityPolicy?: string;
-  endpointAccessMode?: string;
-  apiStatus?: string;
+  securityPolicy?: SecurityPolicy;
+  endpointAccessMode?: EndpointAccessMode;
+  apiStatus?: ApiStatus;
   apiStatusMessage?: string;
 }
 export const RestApi = S.suspend(() =>
@@ -3701,15 +3905,15 @@ export const RestApi = S.suspend(() =>
     warnings: S.optional(ListOfString),
     binaryMediaTypes: S.optional(ListOfString),
     minimumCompressionSize: S.optional(S.Number),
-    apiKeySource: S.optional(S.String),
+    apiKeySource: S.optional(ApiKeySourceType),
     endpointConfiguration: S.optional(EndpointConfiguration),
     policy: S.optional(S.String),
     tags: S.optional(MapOfStringToString),
     disableExecuteApiEndpoint: S.optional(S.Boolean),
     rootResourceId: S.optional(S.String),
-    securityPolicy: S.optional(S.String),
-    endpointAccessMode: S.optional(S.String),
-    apiStatus: S.optional(S.String),
+    securityPolicy: S.optional(SecurityPolicy),
+    endpointAccessMode: S.optional(EndpointAccessMode),
+    apiStatus: S.optional(ApiStatus),
     apiStatusMessage: S.optional(S.String),
   }),
 ).annotations({ identifier: "RestApi" }) as any as S.Schema<RestApi>;
@@ -3739,7 +3943,7 @@ export interface SdkType {
   id?: string;
   friendlyName?: string;
   description?: string;
-  configurationProperties?: ListOfSdkConfigurationProperty;
+  configurationProperties?: SdkConfigurationProperty[];
 }
 export const SdkType = S.suspend(() =>
   S.Struct({
@@ -3751,6 +3955,28 @@ export const SdkType = S.suspend(() =>
 ).annotations({ identifier: "SdkType" }) as any as S.Schema<SdkType>;
 export type ListOfSdkType = SdkType[];
 export const ListOfSdkType = S.Array(SdkType);
+export type CacheClusterStatus =
+  | "CREATE_IN_PROGRESS"
+  | "AVAILABLE"
+  | "DELETE_IN_PROGRESS"
+  | "NOT_AVAILABLE"
+  | "FLUSH_IN_PROGRESS";
+export const CacheClusterStatus = S.Literal(
+  "CREATE_IN_PROGRESS",
+  "AVAILABLE",
+  "DELETE_IN_PROGRESS",
+  "NOT_AVAILABLE",
+  "FLUSH_IN_PROGRESS",
+);
+export type UnauthorizedCacheControlHeaderStrategy =
+  | "FAIL_WITH_403"
+  | "SUCCEED_WITH_RESPONSE_HEADER"
+  | "SUCCEED_WITHOUT_RESPONSE_HEADER";
+export const UnauthorizedCacheControlHeaderStrategy = S.Literal(
+  "FAIL_WITH_403",
+  "SUCCEED_WITH_RESPONSE_HEADER",
+  "SUCCEED_WITHOUT_RESPONSE_HEADER",
+);
 export interface MethodSetting {
   metricsEnabled?: boolean;
   loggingLevel?: string;
@@ -3761,7 +3987,7 @@ export interface MethodSetting {
   cacheTtlInSeconds?: number;
   cacheDataEncrypted?: boolean;
   requireAuthorizationForCacheControl?: boolean;
-  unauthorizedCacheControlHeaderStrategy?: string;
+  unauthorizedCacheControlHeaderStrategy?: UnauthorizedCacheControlHeaderStrategy;
 }
 export const MethodSetting = S.suspend(() =>
   S.Struct({
@@ -3774,7 +4000,9 @@ export const MethodSetting = S.suspend(() =>
     cacheTtlInSeconds: S.optional(S.Number),
     cacheDataEncrypted: S.optional(S.Boolean),
     requireAuthorizationForCacheControl: S.optional(S.Boolean),
-    unauthorizedCacheControlHeaderStrategy: S.optional(S.String),
+    unauthorizedCacheControlHeaderStrategy: S.optional(
+      UnauthorizedCacheControlHeaderStrategy,
+    ),
   }),
 ).annotations({
   identifier: "MethodSetting",
@@ -3802,16 +4030,16 @@ export interface Stage {
   stageName?: string;
   description?: string;
   cacheClusterEnabled?: boolean;
-  cacheClusterSize?: string;
-  cacheClusterStatus?: string;
-  methodSettings?: MapOfMethodSettings;
-  variables?: MapOfStringToString;
+  cacheClusterSize?: CacheClusterSize;
+  cacheClusterStatus?: CacheClusterStatus;
+  methodSettings?: { [key: string]: MethodSetting };
+  variables?: { [key: string]: string };
   documentationVersion?: string;
   accessLogSettings?: AccessLogSettings;
   canarySettings?: CanarySettings;
   tracingEnabled?: boolean;
   webAclArn?: string;
-  tags?: MapOfStringToString;
+  tags?: { [key: string]: string };
   createdDate?: Date;
   lastUpdatedDate?: Date;
 }
@@ -3822,8 +4050,8 @@ export const Stage = S.suspend(() =>
     stageName: S.optional(S.String),
     description: S.optional(S.String),
     cacheClusterEnabled: S.optional(S.Boolean),
-    cacheClusterSize: S.optional(S.String),
-    cacheClusterStatus: S.optional(S.String),
+    cacheClusterSize: S.optional(CacheClusterSize),
+    cacheClusterStatus: S.optional(CacheClusterStatus),
     methodSettings: S.optional(MapOfMethodSettings),
     variables: S.optional(MapOfStringToString),
     documentationVersion: S.optional(S.String),
@@ -3864,7 +4092,7 @@ export const MapOfApiStageThrottleSettings = S.Record({
 export interface ApiStage {
   apiId?: string;
   stage?: string;
-  throttle?: MapOfApiStageThrottleSettings;
+  throttle?: { [key: string]: ThrottleSettings };
 }
 export const ApiStage = S.suspend(() =>
   S.Struct({
@@ -3879,11 +4107,11 @@ export interface UsagePlan {
   id?: string;
   name?: string;
   description?: string;
-  apiStages?: ListOfApiStage;
+  apiStages?: ApiStage[];
   throttle?: ThrottleSettings;
   quota?: QuotaSettings;
   productCode?: string;
-  tags?: MapOfStringToString;
+  tags?: { [key: string]: string };
 }
 export const UsagePlan = S.suspend(() =>
   S.Struct({
@@ -3903,10 +4131,10 @@ export interface VpcLink {
   id?: string;
   name?: string;
   description?: string;
-  targetArns?: ListOfString;
-  status?: string;
+  targetArns?: string[];
+  status?: VpcLinkStatus;
   statusMessage?: string;
-  tags?: MapOfStringToString;
+  tags?: { [key: string]: string };
 }
 export const VpcLink = S.suspend(() =>
   S.Struct({
@@ -3914,7 +4142,7 @@ export const VpcLink = S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(S.String),
     targetArns: S.optional(ListOfString),
-    status: S.optional(S.String),
+    status: S.optional(VpcLinkStatus),
     statusMessage: S.optional(S.String),
     tags: S.optional(MapOfStringToString),
   }),
@@ -3927,9 +4155,9 @@ export interface CreateApiKeyRequest {
   enabled?: boolean;
   generateDistinctId?: boolean;
   value?: string;
-  stageKeys?: ListOfStageKeys;
+  stageKeys?: StageKey[];
   customerId?: string;
-  tags?: MapOfStringToString;
+  tags?: { [key: string]: string };
 }
 export const CreateApiKeyRequest = S.suspend(() =>
   S.Struct({
@@ -3960,8 +4188,8 @@ export interface CreateDeploymentRequest {
   stageDescription?: string;
   description?: string;
   cacheClusterEnabled?: boolean;
-  cacheClusterSize?: string;
-  variables?: MapOfStringToString;
+  cacheClusterSize?: CacheClusterSize;
+  variables?: { [key: string]: string };
   canarySettings?: DeploymentCanarySettings;
   tracingEnabled?: boolean;
 }
@@ -3972,7 +4200,7 @@ export const CreateDeploymentRequest = S.suspend(() =>
     stageDescription: S.optional(S.String),
     description: S.optional(S.String),
     cacheClusterEnabled: S.optional(S.Boolean),
-    cacheClusterSize: S.optional(S.String),
+    cacheClusterSize: S.optional(CacheClusterSize),
     variables: S.optional(MapOfStringToString),
     canarySettings: S.optional(DeploymentCanarySettings),
     tracingEnabled: S.optional(S.Boolean),
@@ -4025,13 +4253,13 @@ export interface CreateDomainNameRequest {
   regionalCertificateName?: string;
   regionalCertificateArn?: string;
   endpointConfiguration?: EndpointConfiguration;
-  tags?: MapOfStringToString;
-  securityPolicy?: string;
-  endpointAccessMode?: string;
+  tags?: { [key: string]: string };
+  securityPolicy?: SecurityPolicy;
+  endpointAccessMode?: EndpointAccessMode;
   mutualTlsAuthentication?: MutualTlsAuthenticationInput;
   ownershipVerificationCertificateArn?: string;
   policy?: string;
-  routingMode?: string;
+  routingMode?: RoutingMode;
 }
 export const CreateDomainNameRequest = S.suspend(() =>
   S.Struct({
@@ -4045,12 +4273,12 @@ export const CreateDomainNameRequest = S.suspend(() =>
     regionalCertificateArn: S.optional(S.String),
     endpointConfiguration: S.optional(EndpointConfiguration),
     tags: S.optional(MapOfStringToString),
-    securityPolicy: S.optional(S.String),
-    endpointAccessMode: S.optional(S.String),
+    securityPolicy: S.optional(SecurityPolicy),
+    endpointAccessMode: S.optional(EndpointAccessMode),
     mutualTlsAuthentication: S.optional(MutualTlsAuthenticationInput),
     ownershipVerificationCertificateArn: S.optional(S.String),
     policy: S.optional(S.String),
-    routingMode: S.optional(S.String),
+    routingMode: S.optional(RoutingMode),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/domainnames" }),
@@ -4070,12 +4298,12 @@ export interface CreateStageRequest {
   deploymentId: string;
   description?: string;
   cacheClusterEnabled?: boolean;
-  cacheClusterSize?: string;
-  variables?: MapOfStringToString;
+  cacheClusterSize?: CacheClusterSize;
+  variables?: { [key: string]: string };
   documentationVersion?: string;
   canarySettings?: CanarySettings;
   tracingEnabled?: boolean;
-  tags?: MapOfStringToString;
+  tags?: { [key: string]: string };
 }
 export const CreateStageRequest = S.suspend(() =>
   S.Struct({
@@ -4084,7 +4312,7 @@ export const CreateStageRequest = S.suspend(() =>
     deploymentId: S.String,
     description: S.optional(S.String),
     cacheClusterEnabled: S.optional(S.Boolean),
-    cacheClusterSize: S.optional(S.String),
+    cacheClusterSize: S.optional(CacheClusterSize),
     variables: S.optional(MapOfStringToString),
     documentationVersion: S.optional(S.String),
     canarySettings: S.optional(CanarySettings),
@@ -4104,8 +4332,8 @@ export const CreateStageRequest = S.suspend(() =>
   identifier: "CreateStageRequest",
 }) as any as S.Schema<CreateStageRequest>;
 export interface ApiKeys {
-  warnings?: ListOfString;
-  items?: ListOfApiKey;
+  warnings?: string[];
+  items?: ApiKey[];
   position?: string;
 }
 export const ApiKeys = S.suspend(() =>
@@ -4116,7 +4344,7 @@ export const ApiKeys = S.suspend(() =>
   }),
 ).annotations({ identifier: "ApiKeys" }) as any as S.Schema<ApiKeys>;
 export interface Authorizers {
-  items?: ListOfAuthorizer;
+  items?: Authorizer[];
   position?: string;
 }
 export const Authorizers = S.suspend(() =>
@@ -4126,7 +4354,7 @@ export const Authorizers = S.suspend(() =>
   }),
 ).annotations({ identifier: "Authorizers" }) as any as S.Schema<Authorizers>;
 export interface BasePathMappings {
-  items?: ListOfBasePathMapping;
+  items?: BasePathMapping[];
   position?: string;
 }
 export const BasePathMappings = S.suspend(() =>
@@ -4138,7 +4366,7 @@ export const BasePathMappings = S.suspend(() =>
   identifier: "BasePathMappings",
 }) as any as S.Schema<BasePathMappings>;
 export interface ClientCertificates {
-  items?: ListOfClientCertificate;
+  items?: ClientCertificate[];
   position?: string;
 }
 export const ClientCertificates = S.suspend(() =>
@@ -4150,7 +4378,7 @@ export const ClientCertificates = S.suspend(() =>
   identifier: "ClientCertificates",
 }) as any as S.Schema<ClientCertificates>;
 export interface Deployments {
-  items?: ListOfDeployment;
+  items?: Deployment[];
   position?: string;
 }
 export const Deployments = S.suspend(() =>
@@ -4160,7 +4388,7 @@ export const Deployments = S.suspend(() =>
   }),
 ).annotations({ identifier: "Deployments" }) as any as S.Schema<Deployments>;
 export interface DocumentationParts {
-  items?: ListOfDocumentationPart;
+  items?: DocumentationPart[];
   position?: string;
 }
 export const DocumentationParts = S.suspend(() =>
@@ -4172,7 +4400,7 @@ export const DocumentationParts = S.suspend(() =>
   identifier: "DocumentationParts",
 }) as any as S.Schema<DocumentationParts>;
 export interface DocumentationVersions {
-  items?: ListOfDocumentationVersion;
+  items?: DocumentationVersion[];
   position?: string;
 }
 export const DocumentationVersions = S.suspend(() =>
@@ -4184,7 +4412,7 @@ export const DocumentationVersions = S.suspend(() =>
   identifier: "DocumentationVersions",
 }) as any as S.Schema<DocumentationVersions>;
 export interface DomainNameAccessAssociations {
-  items?: ListOfDomainNameAccessAssociation;
+  items?: DomainNameAccessAssociation[];
   position?: string;
 }
 export const DomainNameAccessAssociations = S.suspend(() =>
@@ -4198,7 +4426,7 @@ export const DomainNameAccessAssociations = S.suspend(() =>
   identifier: "DomainNameAccessAssociations",
 }) as any as S.Schema<DomainNameAccessAssociations>;
 export interface DomainNames {
-  items?: ListOfDomainName;
+  items?: DomainName[];
   position?: string;
 }
 export const DomainNames = S.suspend(() =>
@@ -4224,7 +4452,7 @@ export const ExportResponse = S.suspend(() =>
   identifier: "ExportResponse",
 }) as any as S.Schema<ExportResponse>;
 export interface GatewayResponses {
-  items?: ListOfGatewayResponse;
+  items?: GatewayResponse[];
   position?: string;
 }
 export const GatewayResponses = S.suspend(() =>
@@ -4236,7 +4464,7 @@ export const GatewayResponses = S.suspend(() =>
   identifier: "GatewayResponses",
 }) as any as S.Schema<GatewayResponses>;
 export interface Models {
-  items?: ListOfModel;
+  items?: Model[];
   position?: string;
 }
 export const Models = S.suspend(() =>
@@ -4252,7 +4480,7 @@ export const Template = S.suspend(() =>
   S.Struct({ value: S.optional(S.String) }),
 ).annotations({ identifier: "Template" }) as any as S.Schema<Template>;
 export interface RequestValidators {
-  items?: ListOfRequestValidator;
+  items?: RequestValidator[];
   position?: string;
 }
 export const RequestValidators = S.suspend(() =>
@@ -4264,7 +4492,7 @@ export const RequestValidators = S.suspend(() =>
   identifier: "RequestValidators",
 }) as any as S.Schema<RequestValidators>;
 export interface Resources {
-  items?: ListOfResource;
+  items?: Resource[];
   position?: string;
 }
 export const Resources = S.suspend(() =>
@@ -4274,7 +4502,7 @@ export const Resources = S.suspend(() =>
   }),
 ).annotations({ identifier: "Resources" }) as any as S.Schema<Resources>;
 export interface RestApis {
-  items?: ListOfRestApi;
+  items?: RestApi[];
   position?: string;
 }
 export const RestApis = S.suspend(() =>
@@ -4298,25 +4526,25 @@ export const SdkResponse = S.suspend(() =>
   }),
 ).annotations({ identifier: "SdkResponse" }) as any as S.Schema<SdkResponse>;
 export interface SdkTypes {
-  items?: ListOfSdkType;
+  items?: SdkType[];
 }
 export const SdkTypes = S.suspend(() =>
   S.Struct({ items: S.optional(ListOfSdkType).pipe(T.JsonName("item")) }),
 ).annotations({ identifier: "SdkTypes" }) as any as S.Schema<SdkTypes>;
 export interface Stages {
-  item?: ListOfStage;
+  item?: Stage[];
 }
 export const Stages = S.suspend(() =>
   S.Struct({ item: S.optional(ListOfStage) }),
 ).annotations({ identifier: "Stages" }) as any as S.Schema<Stages>;
 export interface Tags {
-  tags?: MapOfStringToString;
+  tags?: { [key: string]: string };
 }
 export const Tags = S.suspend(() =>
   S.Struct({ tags: S.optional(MapOfStringToString) }),
 ).annotations({ identifier: "Tags" }) as any as S.Schema<Tags>;
 export interface UsagePlanKeys {
-  items?: ListOfUsagePlanKey;
+  items?: UsagePlanKey[];
   position?: string;
 }
 export const UsagePlanKeys = S.suspend(() =>
@@ -4328,7 +4556,7 @@ export const UsagePlanKeys = S.suspend(() =>
   identifier: "UsagePlanKeys",
 }) as any as S.Schema<UsagePlanKeys>;
 export interface UsagePlans {
-  items?: ListOfUsagePlan;
+  items?: UsagePlan[];
   position?: string;
 }
 export const UsagePlans = S.suspend(() =>
@@ -4338,7 +4566,7 @@ export const UsagePlans = S.suspend(() =>
   }),
 ).annotations({ identifier: "UsagePlans" }) as any as S.Schema<UsagePlans>;
 export interface VpcLinks {
-  items?: ListOfVpcLink;
+  items?: VpcLink[];
   position?: string;
 }
 export const VpcLinks = S.suspend(() =>
@@ -4348,8 +4576,8 @@ export const VpcLinks = S.suspend(() =>
   }),
 ).annotations({ identifier: "VpcLinks" }) as any as S.Schema<VpcLinks>;
 export interface ApiKeyIds {
-  ids?: ListOfString;
-  warnings?: ListOfString;
+  ids?: string[];
+  warnings?: string[];
 }
 export const ApiKeyIds = S.suspend(() =>
   S.Struct({
@@ -4358,8 +4586,8 @@ export const ApiKeyIds = S.suspend(() =>
   }),
 ).annotations({ identifier: "ApiKeyIds" }) as any as S.Schema<ApiKeyIds>;
 export interface DocumentationPartIds {
-  ids?: ListOfString;
-  warnings?: ListOfString;
+  ids?: string[];
+  warnings?: string[];
 }
 export const DocumentationPartIds = S.suspend(() =>
   S.Struct({
@@ -4373,21 +4601,21 @@ export interface PutIntegrationRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
-  type: string;
+  type: IntegrationType;
   integrationHttpMethod?: string;
   uri?: string;
-  connectionType?: string;
+  connectionType?: ConnectionType;
   connectionId?: string;
   credentials?: string;
-  requestParameters?: MapOfStringToString;
-  requestTemplates?: MapOfStringToString;
+  requestParameters?: { [key: string]: string };
+  requestTemplates?: { [key: string]: string };
   passthroughBehavior?: string;
   cacheNamespace?: string;
-  cacheKeyParameters?: ListOfString;
-  contentHandling?: string;
+  cacheKeyParameters?: string[];
+  contentHandling?: ContentHandlingStrategy;
   timeoutInMillis?: number;
   tlsConfig?: TlsConfig;
-  responseTransferMode?: string;
+  responseTransferMode?: ResponseTransferMode;
   integrationTarget?: string;
 }
 export const PutIntegrationRequest = S.suspend(() =>
@@ -4398,10 +4626,10 @@ export const PutIntegrationRequest = S.suspend(() =>
       T.HttpLabel("httpMethod"),
       T.JsonName("requestHttpMethod"),
     ),
-    type: S.String,
+    type: IntegrationType,
     integrationHttpMethod: S.optional(S.String).pipe(T.JsonName("httpMethod")),
     uri: S.optional(S.String),
-    connectionType: S.optional(S.String),
+    connectionType: S.optional(ConnectionType),
     connectionId: S.optional(S.String),
     credentials: S.optional(S.String),
     requestParameters: S.optional(MapOfStringToString),
@@ -4409,10 +4637,10 @@ export const PutIntegrationRequest = S.suspend(() =>
     passthroughBehavior: S.optional(S.String),
     cacheNamespace: S.optional(S.String),
     cacheKeyParameters: S.optional(ListOfString),
-    contentHandling: S.optional(S.String),
+    contentHandling: S.optional(ContentHandlingStrategy),
     timeoutInMillis: S.optional(S.Number),
     tlsConfig: S.optional(TlsConfig),
-    responseTransferMode: S.optional(S.String),
+    responseTransferMode: S.optional(ResponseTransferMode),
     integrationTarget: S.optional(S.String),
   }).pipe(
     T.all(
@@ -4438,10 +4666,10 @@ export interface PutMethodRequest {
   authorizerId?: string;
   apiKeyRequired?: boolean;
   operationName?: string;
-  requestParameters?: MapOfStringToBoolean;
-  requestModels?: MapOfStringToString;
+  requestParameters?: { [key: string]: boolean };
+  requestModels?: { [key: string]: string };
   requestValidatorId?: string;
-  authorizationScopes?: ListOfString;
+  authorizationScopes?: string[];
 }
 export const PutMethodRequest = S.suspend(() =>
   S.Struct({
@@ -4475,12 +4703,12 @@ export const PutMethodRequest = S.suspend(() =>
 export interface TestInvokeAuthorizerRequest {
   restApiId: string;
   authorizerId: string;
-  headers?: MapOfStringToString;
-  multiValueHeaders?: MapOfStringToList;
+  headers?: { [key: string]: string };
+  multiValueHeaders?: { [key: string]: string[] };
   pathWithQueryString?: string;
   body?: string;
-  stageVariables?: MapOfStringToString;
-  additionalContext?: MapOfStringToString;
+  stageVariables?: { [key: string]: string };
+  additionalContext?: { [key: string]: string };
 }
 export const TestInvokeAuthorizerRequest = S.suspend(() =>
   S.Struct({
@@ -4511,8 +4739,8 @@ export const TestInvokeAuthorizerRequest = S.suspend(() =>
 export interface TestInvokeMethodResponse {
   status?: number;
   body?: string;
-  headers?: MapOfStringToString;
-  multiValueHeaders?: MapOfStringToList;
+  headers?: { [key: string]: string };
+  multiValueHeaders?: { [key: string]: string[] };
   log?: string;
   latency?: number;
 }
@@ -4529,7 +4757,7 @@ export const TestInvokeMethodResponse = S.suspend(() =>
   identifier: "TestInvokeMethodResponse",
 }) as any as S.Schema<TestInvokeMethodResponse>;
 export interface UpdateAccountRequest {
-  patchOperations?: ListOfPatchOperation;
+  patchOperations?: PatchOperation[];
 }
 export const UpdateAccountRequest = S.suspend(() =>
   S.Struct({ patchOperations: S.optional(ListOfPatchOperation) }).pipe(
@@ -4547,17 +4775,17 @@ export const UpdateAccountRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateAccountRequest>;
 export type ListOfLong = number[];
 export const ListOfLong = S.Array(S.Number);
-export type ListOfUsage = ListOfLong[];
+export type ListOfUsage = number[][];
 export const ListOfUsage = S.Array(ListOfLong);
-export type MapOfKeyUsages = { [key: string]: ListOfUsage };
+export type MapOfKeyUsages = { [key: string]: number[][] };
 export const MapOfKeyUsages = S.Record({ key: S.String, value: ListOfUsage });
 export interface CreateUsagePlanRequest {
   name: string;
   description?: string;
-  apiStages?: ListOfApiStage;
+  apiStages?: ApiStage[];
   throttle?: ThrottleSettings;
   quota?: QuotaSettings;
-  tags?: MapOfStringToString;
+  tags?: { [key: string]: string };
 }
 export const CreateUsagePlanRequest = S.suspend(() =>
   S.Struct({
@@ -4584,7 +4812,7 @@ export interface Usage {
   usagePlanId?: string;
   startDate?: string;
   endDate?: string;
-  items?: MapOfKeyUsages;
+  items?: { [key: string]: number[][] };
   position?: string;
 }
 export const Usage = S.suspend(() =>
@@ -4602,8 +4830,8 @@ export interface TestInvokeAuthorizerResponse {
   latency?: number;
   principalId?: string;
   policy?: string;
-  authorization?: MapOfStringToList;
-  claims?: MapOfStringToString;
+  authorization?: { [key: string]: string[] };
+  claims?: { [key: string]: string };
 }
 export const TestInvokeAuthorizerResponse = S.suspend(() =>
   S.Struct({
@@ -4664,7 +4892,7 @@ export class UnauthorizedException extends S.TaggedError<UnauthorizedException>(
  */
 export const getDocumentationVersion: (
   input: GetDocumentationVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DocumentationVersion,
   | NotFoundException
   | TooManyRequestsException
@@ -4681,7 +4909,7 @@ export const getDocumentationVersion: (
  */
 export const getStage: (
   input: GetStageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Stage,
   | BadRequestException
   | ConflictException
@@ -4708,7 +4936,7 @@ export const getStage: (
  */
 export const getDomainName: (
   input: GetDomainNameRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DomainName,
   | BadRequestException
   | NotFoundException
@@ -4731,7 +4959,7 @@ export const getDomainName: (
  */
 export const getIntegration: (
   input: GetIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Integration,
   | BadRequestException
   | NotFoundException
@@ -4754,7 +4982,7 @@ export const getIntegration: (
  */
 export const getMethod: (
   input: GetMethodRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Method,
   | NotFoundException
   | TooManyRequestsException
@@ -4771,7 +4999,7 @@ export const getMethod: (
  */
 export const getSdkType: (
   input: GetSdkTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SdkType,
   | BadRequestException
   | NotFoundException
@@ -4795,7 +5023,7 @@ export const getSdkType: (
 export const getUsage: {
   (
     input: GetUsageRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     Usage,
     | BadRequestException
     | NotFoundException
@@ -4806,7 +5034,7 @@ export const getUsage: {
   >;
   pages: (
     input: GetUsageRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Usage,
     | BadRequestException
     | NotFoundException
@@ -4817,7 +5045,7 @@ export const getUsage: {
   >;
   items: (
     input: GetUsageRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | NotFoundException
@@ -4847,7 +5075,7 @@ export const getUsage: {
  */
 export const testInvokeAuthorizer: (
   input: TestInvokeAuthorizerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TestInvokeAuthorizerResponse,
   | BadRequestException
   | NotFoundException
@@ -4870,7 +5098,7 @@ export const testInvokeAuthorizer: (
  */
 export const getExport: (
   input: GetExportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ExportResponse,
   | BadRequestException
   | ConflictException
@@ -4897,7 +5125,7 @@ export const getExport: (
  */
 export const getSdk: (
   input: GetSdkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SdkResponse,
   | BadRequestException
   | ConflictException
@@ -4924,7 +5152,7 @@ export const getSdk: (
  */
 export const getStages: (
   input: GetStagesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Stages,
   | BadRequestException
   | ConflictException
@@ -4951,7 +5179,7 @@ export const getStages: (
  */
 export const importApiKeys: (
   input: ImportApiKeysRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ApiKeyIds,
   | BadRequestException
   | ConflictException
@@ -4978,7 +5206,7 @@ export const importApiKeys: (
  */
 export const importDocumentationParts: (
   input: ImportDocumentationPartsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DocumentationPartIds,
   | BadRequestException
   | ConflictException
@@ -5005,7 +5233,7 @@ export const importDocumentationParts: (
  */
 export const putIntegration: (
   input: PutIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Integration,
   | BadRequestException
   | ConflictException
@@ -5032,7 +5260,7 @@ export const putIntegration: (
  */
 export const putMethod: (
   input: PutMethodRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Method,
   | BadRequestException
   | ConflictException
@@ -5059,7 +5287,7 @@ export const putMethod: (
  */
 export const updateAccount: (
   input: UpdateAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Account,
   | BadRequestException
   | ConflictException
@@ -5086,7 +5314,7 @@ export const updateAccount: (
  */
 export const deleteDeployment: (
   input: DeleteDeploymentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDeploymentResponse,
   | BadRequestException
   | ConflictException
@@ -5113,7 +5341,7 @@ export const deleteDeployment: (
  */
 export const deleteStage: (
   input: DeleteStageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteStageResponse,
   | BadRequestException
   | ConflictException
@@ -5140,7 +5368,7 @@ export const deleteStage: (
  */
 export const flushStageAuthorizersCache: (
   input: FlushStageAuthorizersCacheRequest,
-) => Effect.Effect<
+) => effect.Effect<
   FlushStageAuthorizersCacheResponse,
   | BadRequestException
   | ConflictException
@@ -5167,7 +5395,7 @@ export const flushStageAuthorizersCache: (
  */
 export const flushStageCache: (
   input: FlushStageCacheRequest,
-) => Effect.Effect<
+) => effect.Effect<
   FlushStageCacheResponse,
   | BadRequestException
   | ConflictException
@@ -5194,7 +5422,7 @@ export const flushStageCache: (
  */
 export const importRestApi: (
   input: ImportRestApiRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RestApi,
   | BadRequestException
   | ConflictException
@@ -5221,7 +5449,7 @@ export const importRestApi: (
  */
 export const putGatewayResponse: (
   input: PutGatewayResponseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GatewayResponse,
   | BadRequestException
   | ConflictException
@@ -5248,7 +5476,7 @@ export const putGatewayResponse: (
  */
 export const putIntegrationResponse: (
   input: PutIntegrationResponseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   IntegrationResponse,
   | BadRequestException
   | ConflictException
@@ -5275,7 +5503,7 @@ export const putIntegrationResponse: (
  */
 export const putMethodResponse: (
   input: PutMethodResponseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   MethodResponse,
   | BadRequestException
   | ConflictException
@@ -5303,7 +5531,7 @@ export const putMethodResponse: (
  */
 export const putRestApi: (
   input: PutRestApiRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RestApi,
   | BadRequestException
   | ConflictException
@@ -5330,7 +5558,7 @@ export const putRestApi: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | BadRequestException
   | ConflictException
@@ -5357,7 +5585,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | BadRequestException
   | ConflictException
@@ -5384,7 +5612,7 @@ export const untagResource: (
  */
 export const updateApiKey: (
   input: UpdateApiKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ApiKey,
   | BadRequestException
   | ConflictException
@@ -5411,7 +5639,7 @@ export const updateApiKey: (
  */
 export const updateAuthorizer: (
   input: UpdateAuthorizerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Authorizer,
   | BadRequestException
   | ConflictException
@@ -5438,7 +5666,7 @@ export const updateAuthorizer: (
  */
 export const updateBasePathMapping: (
   input: UpdateBasePathMappingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BasePathMapping,
   | BadRequestException
   | ConflictException
@@ -5465,7 +5693,7 @@ export const updateBasePathMapping: (
  */
 export const updateClientCertificate: (
   input: UpdateClientCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ClientCertificate,
   | BadRequestException
   | ConflictException
@@ -5492,7 +5720,7 @@ export const updateClientCertificate: (
  */
 export const updateDocumentationPart: (
   input: UpdateDocumentationPartRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DocumentationPart,
   | BadRequestException
   | ConflictException
@@ -5519,7 +5747,7 @@ export const updateDocumentationPart: (
  */
 export const updateDocumentationVersion: (
   input: UpdateDocumentationVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DocumentationVersion,
   | BadRequestException
   | ConflictException
@@ -5546,7 +5774,7 @@ export const updateDocumentationVersion: (
  */
 export const updateDomainName: (
   input: UpdateDomainNameRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DomainName,
   | BadRequestException
   | ConflictException
@@ -5573,7 +5801,7 @@ export const updateDomainName: (
  */
 export const updateGatewayResponse: (
   input: UpdateGatewayResponseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GatewayResponse,
   | BadRequestException
   | ConflictException
@@ -5600,7 +5828,7 @@ export const updateGatewayResponse: (
  */
 export const updateIntegration: (
   input: UpdateIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Integration,
   | BadRequestException
   | ConflictException
@@ -5627,7 +5855,7 @@ export const updateIntegration: (
  */
 export const updateIntegrationResponse: (
   input: UpdateIntegrationResponseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   IntegrationResponse,
   | BadRequestException
   | ConflictException
@@ -5654,7 +5882,7 @@ export const updateIntegrationResponse: (
  */
 export const updateMethodResponse: (
   input: UpdateMethodResponseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   MethodResponse,
   | BadRequestException
   | ConflictException
@@ -5681,7 +5909,7 @@ export const updateMethodResponse: (
  */
 export const updateModel: (
   input: UpdateModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Model,
   | BadRequestException
   | ConflictException
@@ -5708,7 +5936,7 @@ export const updateModel: (
  */
 export const updateRequestValidator: (
   input: UpdateRequestValidatorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RequestValidator,
   | BadRequestException
   | ConflictException
@@ -5735,7 +5963,7 @@ export const updateRequestValidator: (
  */
 export const updateRestApi: (
   input: UpdateRestApiRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RestApi,
   | BadRequestException
   | ConflictException
@@ -5762,7 +5990,7 @@ export const updateRestApi: (
  */
 export const updateStage: (
   input: UpdateStageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Stage,
   | BadRequestException
   | ConflictException
@@ -5789,7 +6017,7 @@ export const updateStage: (
  */
 export const updateUsage: (
   input: UpdateUsageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Usage,
   | BadRequestException
   | ConflictException
@@ -5816,7 +6044,7 @@ export const updateUsage: (
  */
 export const updateUsagePlan: (
   input: UpdateUsagePlanRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UsagePlan,
   | BadRequestException
   | ConflictException
@@ -5843,7 +6071,7 @@ export const updateUsagePlan: (
  */
 export const updateVpcLink: (
   input: UpdateVpcLinkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   VpcLink,
   | BadRequestException
   | ConflictException
@@ -5870,7 +6098,7 @@ export const updateVpcLink: (
  */
 export const createApiKey: (
   input: CreateApiKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ApiKey,
   | BadRequestException
   | ConflictException
@@ -5897,7 +6125,7 @@ export const createApiKey: (
  */
 export const createAuthorizer: (
   input: CreateAuthorizerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Authorizer,
   | BadRequestException
   | ConflictException
@@ -5924,7 +6152,7 @@ export const createAuthorizer: (
  */
 export const createBasePathMapping: (
   input: CreateBasePathMappingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BasePathMapping,
   | BadRequestException
   | ConflictException
@@ -5951,7 +6179,7 @@ export const createBasePathMapping: (
  */
 export const createDocumentationPart: (
   input: CreateDocumentationPartRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DocumentationPart,
   | BadRequestException
   | ConflictException
@@ -5978,7 +6206,7 @@ export const createDocumentationPart: (
  */
 export const createDocumentationVersion: (
   input: CreateDocumentationVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DocumentationVersion,
   | BadRequestException
   | ConflictException
@@ -6005,7 +6233,7 @@ export const createDocumentationVersion: (
  */
 export const createDomainName: (
   input: CreateDomainNameRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DomainName,
   | BadRequestException
   | ConflictException
@@ -6031,7 +6259,7 @@ export const createDomainName: (
  */
 export const createDomainNameAccessAssociation: (
   input: CreateDomainNameAccessAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DomainNameAccessAssociation,
   | BadRequestException
   | ConflictException
@@ -6056,7 +6284,7 @@ export const createDomainNameAccessAssociation: (
  */
 export const createModel: (
   input: CreateModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Model,
   | BadRequestException
   | ConflictException
@@ -6083,7 +6311,7 @@ export const createModel: (
  */
 export const createRequestValidator: (
   input: CreateRequestValidatorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RequestValidator,
   | BadRequestException
   | ConflictException
@@ -6110,7 +6338,7 @@ export const createRequestValidator: (
  */
 export const createRestApi: (
   input: CreateRestApiRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RestApi,
   | BadRequestException
   | ConflictException
@@ -6135,7 +6363,7 @@ export const createRestApi: (
  */
 export const createStage: (
   input: CreateStageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Stage,
   | BadRequestException
   | ConflictException
@@ -6162,7 +6390,7 @@ export const createStage: (
  */
 export const createUsagePlanKey: (
   input: CreateUsagePlanKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UsagePlanKey,
   | BadRequestException
   | ConflictException
@@ -6189,7 +6417,7 @@ export const createUsagePlanKey: (
  */
 export const createVpcLink: (
   input: CreateVpcLinkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   VpcLink,
   | BadRequestException
   | ConflictException
@@ -6214,7 +6442,7 @@ export const createVpcLink: (
  */
 export const createResource: (
   input: CreateResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Resource,
   | BadRequestException
   | ConflictException
@@ -6241,7 +6469,7 @@ export const createResource: (
  */
 export const createUsagePlan: (
   input: CreateUsagePlanRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UsagePlan,
   | BadRequestException
   | ConflictException
@@ -6269,7 +6497,7 @@ export const createUsagePlan: (
 export const getDeployments: {
   (
     input: GetDeploymentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     Deployments,
     | BadRequestException
     | NotFoundException
@@ -6281,7 +6509,7 @@ export const getDeployments: {
   >;
   pages: (
     input: GetDeploymentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Deployments,
     | BadRequestException
     | NotFoundException
@@ -6293,7 +6521,7 @@ export const getDeployments: {
   >;
   items: (
     input: GetDeploymentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Deployment,
     | BadRequestException
     | NotFoundException
@@ -6325,7 +6553,7 @@ export const getDeployments: {
  */
 export const getDocumentationVersions: (
   input: GetDocumentationVersionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DocumentationVersions,
   | BadRequestException
   | NotFoundException
@@ -6348,7 +6576,7 @@ export const getDocumentationVersions: (
  */
 export const getDomainNameAccessAssociations: (
   input: GetDomainNameAccessAssociationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DomainNameAccessAssociations,
   | BadRequestException
   | NotFoundException
@@ -6372,7 +6600,7 @@ export const getDomainNameAccessAssociations: (
 export const getDomainNames: {
   (
     input: GetDomainNamesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DomainNames,
     | BadRequestException
     | NotFoundException
@@ -6383,7 +6611,7 @@ export const getDomainNames: {
   >;
   pages: (
     input: GetDomainNamesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DomainNames,
     | BadRequestException
     | NotFoundException
@@ -6394,7 +6622,7 @@ export const getDomainNames: {
   >;
   items: (
     input: GetDomainNamesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DomainName,
     | BadRequestException
     | NotFoundException
@@ -6424,7 +6652,7 @@ export const getDomainNames: {
  */
 export const getGatewayResponse: (
   input: GetGatewayResponseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GatewayResponse,
   | BadRequestException
   | NotFoundException
@@ -6447,7 +6675,7 @@ export const getGatewayResponse: (
  */
 export const getGatewayResponses: (
   input: GetGatewayResponsesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GatewayResponses,
   | BadRequestException
   | NotFoundException
@@ -6470,7 +6698,7 @@ export const getGatewayResponses: (
  */
 export const getIntegrationResponse: (
   input: GetIntegrationResponseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   IntegrationResponse,
   | BadRequestException
   | NotFoundException
@@ -6493,7 +6721,7 @@ export const getIntegrationResponse: (
  */
 export const getMethodResponse: (
   input: GetMethodResponseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   MethodResponse,
   | NotFoundException
   | TooManyRequestsException
@@ -6511,7 +6739,7 @@ export const getMethodResponse: (
 export const getModels: {
   (
     input: GetModelsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     Models,
     | BadRequestException
     | NotFoundException
@@ -6522,7 +6750,7 @@ export const getModels: {
   >;
   pages: (
     input: GetModelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Models,
     | BadRequestException
     | NotFoundException
@@ -6533,7 +6761,7 @@ export const getModels: {
   >;
   items: (
     input: GetModelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Model,
     | BadRequestException
     | NotFoundException
@@ -6563,7 +6791,7 @@ export const getModels: {
  */
 export const getModelTemplate: (
   input: GetModelTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Template,
   | BadRequestException
   | NotFoundException
@@ -6586,7 +6814,7 @@ export const getModelTemplate: (
  */
 export const getRequestValidators: (
   input: GetRequestValidatorsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RequestValidators,
   | BadRequestException
   | NotFoundException
@@ -6610,7 +6838,7 @@ export const getRequestValidators: (
 export const getResources: {
   (
     input: GetResourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     Resources,
     | BadRequestException
     | NotFoundException
@@ -6621,7 +6849,7 @@ export const getResources: {
   >;
   pages: (
     input: GetResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Resources,
     | BadRequestException
     | NotFoundException
@@ -6632,7 +6860,7 @@ export const getResources: {
   >;
   items: (
     input: GetResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Resource,
     | BadRequestException
     | NotFoundException
@@ -6663,7 +6891,7 @@ export const getResources: {
 export const getRestApis: {
   (
     input: GetRestApisRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     RestApis,
     | BadRequestException
     | NotFoundException
@@ -6674,7 +6902,7 @@ export const getRestApis: {
   >;
   pages: (
     input: GetRestApisRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RestApis,
     | BadRequestException
     | NotFoundException
@@ -6685,7 +6913,7 @@ export const getRestApis: {
   >;
   items: (
     input: GetRestApisRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RestApi,
     | BadRequestException
     | NotFoundException
@@ -6715,7 +6943,7 @@ export const getRestApis: {
  */
 export const getSdkTypes: (
   input: GetSdkTypesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SdkTypes,
   | BadRequestException
   | NotFoundException
@@ -6738,7 +6966,7 @@ export const getSdkTypes: (
  */
 export const getTags: (
   input: GetTagsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Tags,
   | BadRequestException
   | NotFoundException
@@ -6761,7 +6989,7 @@ export const getTags: (
  */
 export const getUsagePlan: (
   input: GetUsagePlanRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UsagePlan,
   | BadRequestException
   | NotFoundException
@@ -6785,7 +7013,7 @@ export const getUsagePlan: (
 export const getUsagePlanKeys: {
   (
     input: GetUsagePlanKeysRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     UsagePlanKeys,
     | BadRequestException
     | NotFoundException
@@ -6796,7 +7024,7 @@ export const getUsagePlanKeys: {
   >;
   pages: (
     input: GetUsagePlanKeysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     UsagePlanKeys,
     | BadRequestException
     | NotFoundException
@@ -6807,7 +7035,7 @@ export const getUsagePlanKeys: {
   >;
   items: (
     input: GetUsagePlanKeysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     UsagePlanKey,
     | BadRequestException
     | NotFoundException
@@ -6838,7 +7066,7 @@ export const getUsagePlanKeys: {
 export const getUsagePlans: {
   (
     input: GetUsagePlansRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     UsagePlans,
     | BadRequestException
     | NotFoundException
@@ -6849,7 +7077,7 @@ export const getUsagePlans: {
   >;
   pages: (
     input: GetUsagePlansRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     UsagePlans,
     | BadRequestException
     | NotFoundException
@@ -6860,7 +7088,7 @@ export const getUsagePlans: {
   >;
   items: (
     input: GetUsagePlansRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     UsagePlan,
     | BadRequestException
     | NotFoundException
@@ -6891,7 +7119,7 @@ export const getUsagePlans: {
 export const getVpcLinks: {
   (
     input: GetVpcLinksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     VpcLinks,
     | BadRequestException
     | NotFoundException
@@ -6902,7 +7130,7 @@ export const getVpcLinks: {
   >;
   pages: (
     input: GetVpcLinksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     VpcLinks,
     | BadRequestException
     | NotFoundException
@@ -6913,7 +7141,7 @@ export const getVpcLinks: {
   >;
   items: (
     input: GetVpcLinksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     VpcLink,
     | BadRequestException
     | NotFoundException
@@ -6943,7 +7171,7 @@ export const getVpcLinks: {
  */
 export const testInvokeMethod: (
   input: TestInvokeMethodRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TestInvokeMethodResponse,
   | BadRequestException
   | NotFoundException
@@ -6966,7 +7194,7 @@ export const testInvokeMethod: (
  */
 export const deleteAuthorizer: (
   input: DeleteAuthorizerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAuthorizerResponse,
   | BadRequestException
   | ConflictException
@@ -6991,7 +7219,7 @@ export const deleteAuthorizer: (
  */
 export const deleteBasePathMapping: (
   input: DeleteBasePathMappingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBasePathMappingResponse,
   | BadRequestException
   | ConflictException
@@ -7016,7 +7244,7 @@ export const deleteBasePathMapping: (
  */
 export const deleteClientCertificate: (
   input: DeleteClientCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteClientCertificateResponse,
   | BadRequestException
   | ConflictException
@@ -7041,7 +7269,7 @@ export const deleteClientCertificate: (
  */
 export const deleteDocumentationPart: (
   input: DeleteDocumentationPartRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDocumentationPartResponse,
   | BadRequestException
   | ConflictException
@@ -7066,7 +7294,7 @@ export const deleteDocumentationPart: (
  */
 export const deleteDocumentationVersion: (
   input: DeleteDocumentationVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDocumentationVersionResponse,
   | BadRequestException
   | ConflictException
@@ -7091,7 +7319,7 @@ export const deleteDocumentationVersion: (
  */
 export const deleteDomainName: (
   input: DeleteDomainNameRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDomainNameResponse,
   | BadRequestException
   | ConflictException
@@ -7118,7 +7346,7 @@ export const deleteDomainName: (
  */
 export const deleteDomainNameAccessAssociation: (
   input: DeleteDomainNameAccessAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDomainNameAccessAssociationResponse,
   | BadRequestException
   | ConflictException
@@ -7143,7 +7371,7 @@ export const deleteDomainNameAccessAssociation: (
  */
 export const deleteGatewayResponse: (
   input: DeleteGatewayResponseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGatewayResponseResponse,
   | BadRequestException
   | ConflictException
@@ -7168,7 +7396,7 @@ export const deleteGatewayResponse: (
  */
 export const deleteIntegration: (
   input: DeleteIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIntegrationResponse,
   | BadRequestException
   | ConflictException
@@ -7193,7 +7421,7 @@ export const deleteIntegration: (
  */
 export const deleteIntegrationResponse: (
   input: DeleteIntegrationResponseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIntegrationResponseResponse,
   | BadRequestException
   | ConflictException
@@ -7218,7 +7446,7 @@ export const deleteIntegrationResponse: (
  */
 export const deleteMethodResponse: (
   input: DeleteMethodResponseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMethodResponseResponse,
   | BadRequestException
   | ConflictException
@@ -7243,7 +7471,7 @@ export const deleteMethodResponse: (
  */
 export const deleteModel: (
   input: DeleteModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteModelResponse,
   | BadRequestException
   | ConflictException
@@ -7268,7 +7496,7 @@ export const deleteModel: (
  */
 export const deleteRequestValidator: (
   input: DeleteRequestValidatorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRequestValidatorResponse,
   | BadRequestException
   | ConflictException
@@ -7293,7 +7521,7 @@ export const deleteRequestValidator: (
  */
 export const deleteResource: (
   input: DeleteResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourceResponse,
   | BadRequestException
   | ConflictException
@@ -7318,7 +7546,7 @@ export const deleteResource: (
  */
 export const deleteRestApi: (
   input: DeleteRestApiRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRestApiResponse,
   | BadRequestException
   | ConflictException
@@ -7343,7 +7571,7 @@ export const deleteRestApi: (
  */
 export const deleteUsagePlan: (
   input: DeleteUsagePlanRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUsagePlanResponse,
   | BadRequestException
   | ConflictException
@@ -7368,7 +7596,7 @@ export const deleteUsagePlan: (
  */
 export const deleteUsagePlanKey: (
   input: DeleteUsagePlanKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUsagePlanKeyResponse,
   | BadRequestException
   | ConflictException
@@ -7393,7 +7621,7 @@ export const deleteUsagePlanKey: (
  */
 export const deleteVpcLink: (
   input: DeleteVpcLinkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVpcLinkResponse,
   | BadRequestException
   | ConflictException
@@ -7418,7 +7646,7 @@ export const deleteVpcLink: (
  */
 export const getAccount: (
   input: GetAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Account,
   | BadRequestException
   | NotFoundException
@@ -7441,7 +7669,7 @@ export const getAccount: (
  */
 export const getAuthorizer: (
   input: GetAuthorizerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Authorizer,
   | BadRequestException
   | NotFoundException
@@ -7464,7 +7692,7 @@ export const getAuthorizer: (
  */
 export const getBasePathMapping: (
   input: GetBasePathMappingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BasePathMapping,
   | BadRequestException
   | NotFoundException
@@ -7487,7 +7715,7 @@ export const getBasePathMapping: (
  */
 export const getClientCertificate: (
   input: GetClientCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ClientCertificate,
   | BadRequestException
   | NotFoundException
@@ -7510,7 +7738,7 @@ export const getClientCertificate: (
  */
 export const getModel: (
   input: GetModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Model,
   | BadRequestException
   | NotFoundException
@@ -7533,7 +7761,7 @@ export const getModel: (
  */
 export const getRequestValidator: (
   input: GetRequestValidatorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RequestValidator,
   | BadRequestException
   | NotFoundException
@@ -7556,7 +7784,7 @@ export const getRequestValidator: (
  */
 export const getRestApi: (
   input: GetRestApiRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RestApi,
   | BadRequestException
   | NotFoundException
@@ -7579,7 +7807,7 @@ export const getRestApi: (
  */
 export const getUsagePlanKey: (
   input: GetUsagePlanKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UsagePlanKey,
   | BadRequestException
   | NotFoundException
@@ -7602,7 +7830,7 @@ export const getUsagePlanKey: (
  */
 export const getVpcLink: (
   input: GetVpcLinkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   VpcLink,
   | BadRequestException
   | NotFoundException
@@ -7627,7 +7855,7 @@ export const getVpcLink: (
  */
 export const rejectDomainNameAccessAssociation: (
   input: RejectDomainNameAccessAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RejectDomainNameAccessAssociationResponse,
   | BadRequestException
   | ConflictException
@@ -7652,7 +7880,7 @@ export const rejectDomainNameAccessAssociation: (
  */
 export const updateMethod: (
   input: UpdateMethodRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Method,
   | BadRequestException
   | ConflictException
@@ -7677,7 +7905,7 @@ export const updateMethod: (
  */
 export const updateResource: (
   input: UpdateResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Resource,
   | BadRequestException
   | ConflictException
@@ -7702,7 +7930,7 @@ export const updateResource: (
  */
 export const deleteApiKey: (
   input: DeleteApiKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApiKeyResponse,
   | BadRequestException
   | ConflictException
@@ -7727,7 +7955,7 @@ export const deleteApiKey: (
  */
 export const getResource: (
   input: GetResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Resource,
   | NotFoundException
   | TooManyRequestsException
@@ -7744,7 +7972,7 @@ export const getResource: (
  */
 export const deleteMethod: (
   input: DeleteMethodRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMethodResponse,
   | ConflictException
   | NotFoundException
@@ -7767,7 +7995,7 @@ export const deleteMethod: (
  */
 export const getApiKey: (
   input: GetApiKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ApiKey,
   | BadRequestException
   | NotFoundException
@@ -7791,7 +8019,7 @@ export const getApiKey: (
 export const getApiKeys: {
   (
     input: GetApiKeysRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ApiKeys,
     | BadRequestException
     | NotFoundException
@@ -7802,7 +8030,7 @@ export const getApiKeys: {
   >;
   pages: (
     input: GetApiKeysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ApiKeys,
     | BadRequestException
     | NotFoundException
@@ -7813,7 +8041,7 @@ export const getApiKeys: {
   >;
   items: (
     input: GetApiKeysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ApiKey,
     | BadRequestException
     | NotFoundException
@@ -7843,7 +8071,7 @@ export const getApiKeys: {
  */
 export const getAuthorizers: (
   input: GetAuthorizersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Authorizers,
   | BadRequestException
   | NotFoundException
@@ -7867,7 +8095,7 @@ export const getAuthorizers: (
 export const getBasePathMappings: {
   (
     input: GetBasePathMappingsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     BasePathMappings,
     | BadRequestException
     | NotFoundException
@@ -7878,7 +8106,7 @@ export const getBasePathMappings: {
   >;
   pages: (
     input: GetBasePathMappingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BasePathMappings,
     | BadRequestException
     | NotFoundException
@@ -7889,7 +8117,7 @@ export const getBasePathMappings: {
   >;
   items: (
     input: GetBasePathMappingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BasePathMapping,
     | BadRequestException
     | NotFoundException
@@ -7920,7 +8148,7 @@ export const getBasePathMappings: {
 export const getClientCertificates: {
   (
     input: GetClientCertificatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ClientCertificates,
     | BadRequestException
     | NotFoundException
@@ -7931,7 +8159,7 @@ export const getClientCertificates: {
   >;
   pages: (
     input: GetClientCertificatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ClientCertificates,
     | BadRequestException
     | NotFoundException
@@ -7942,7 +8170,7 @@ export const getClientCertificates: {
   >;
   items: (
     input: GetClientCertificatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ClientCertificate,
     | BadRequestException
     | NotFoundException
@@ -7972,7 +8200,7 @@ export const getClientCertificates: {
  */
 export const getDocumentationPart: (
   input: GetDocumentationPartRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DocumentationPart,
   | BadRequestException
   | NotFoundException
@@ -7995,7 +8223,7 @@ export const getDocumentationPart: (
  */
 export const getDocumentationParts: (
   input: GetDocumentationPartsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DocumentationParts,
   | BadRequestException
   | NotFoundException
@@ -8018,7 +8246,7 @@ export const getDocumentationParts: (
  */
 export const generateClientCertificate: (
   input: GenerateClientCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ClientCertificate,
   | BadRequestException
   | ConflictException
@@ -8043,7 +8271,7 @@ export const generateClientCertificate: (
  */
 export const updateDeployment: (
   input: UpdateDeploymentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Deployment,
   | BadRequestException
   | ConflictException
@@ -8072,7 +8300,7 @@ export const updateDeployment: (
  */
 export const createDeployment: (
   input: CreateDeploymentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Deployment,
   | BadRequestException
   | ConflictException
@@ -8101,7 +8329,7 @@ export const createDeployment: (
  */
 export const getDeployment: (
   input: GetDeploymentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Deployment,
   | BadRequestException
   | NotFoundException

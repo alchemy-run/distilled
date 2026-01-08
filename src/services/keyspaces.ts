@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -389,9 +389,9 @@ export interface RestoreTableRequest {
   capacitySpecificationOverride?: CapacitySpecification;
   encryptionSpecificationOverride?: EncryptionSpecification;
   pointInTimeRecoveryOverride?: PointInTimeRecovery;
-  tagsOverride?: TagList;
+  tagsOverride?: Tag[];
   autoScalingSpecification?: AutoScalingSpecification;
-  replicaSpecifications?: ReplicaSpecificationList;
+  replicaSpecifications?: ReplicaSpecification[];
 }
 export const RestoreTableRequest = S.suspend(() =>
   S.Struct({
@@ -416,7 +416,7 @@ export const RestoreTableRequest = S.suspend(() =>
 }) as any as S.Schema<RestoreTableRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagList;
+  tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
@@ -431,7 +431,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tags: TagList;
+  tags: Tag[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
@@ -448,7 +448,7 @@ export type RegionList = string[];
 export const RegionList = S.Array(S.String);
 export interface ReplicationSpecification {
   replicationStrategy: string;
-  regionList?: RegionList;
+  regionList?: string[];
 }
 export const ReplicationSpecification = S.suspend(() =>
   S.Struct({
@@ -497,7 +497,7 @@ export const TimeToLive = S.suspend(() =>
 export interface CdcSpecification {
   status: string;
   viewType?: string;
-  tags?: TagList;
+  tags?: Tag[];
   propagateTags?: string;
 }
 export const CdcSpecification = S.suspend(() =>
@@ -538,7 +538,7 @@ export type ColumnDefinitionList = ColumnDefinition[];
 export const ColumnDefinitionList = S.Array(ColumnDefinition);
 export interface CreateKeyspaceRequest {
   keyspaceName: string;
-  tags?: TagList;
+  tags?: Tag[];
   replicationSpecification?: ReplicationSpecification;
 }
 export const CreateKeyspaceRequest = S.suspend(() =>
@@ -555,7 +555,7 @@ export const CreateKeyspaceRequest = S.suspend(() =>
 export interface CreateTypeRequest {
   keyspaceName: string;
   typeName: string;
-  fieldDefinitions: FieldList;
+  fieldDefinitions: FieldDefinition[];
 }
 export const CreateTypeRequest = S.suspend(() =>
   S.Struct({
@@ -580,11 +580,11 @@ export const DeleteTypeResponse = S.suspend(() =>
 export interface GetTypeResponse {
   keyspaceName: string;
   typeName: string;
-  fieldDefinitions?: FieldList;
+  fieldDefinitions?: FieldDefinition[];
   lastModifiedTimestamp?: Date;
   status?: string;
-  directReferringTables?: TableNameList;
-  directParentTypes?: TypeNameList;
+  directReferringTables?: string[];
+  directParentTypes?: string[];
   maxNestingDepth?: number;
   keyspaceArn: string;
 }
@@ -607,7 +607,7 @@ export const GetTypeResponse = S.suspend(() =>
 }) as any as S.Schema<GetTypeResponse>;
 export interface ListTagsForResourceResponse {
   nextToken?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), tags: S.optional(TagList) }),
@@ -616,7 +616,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListTypesResponse {
   nextToken?: string;
-  types: TypeNameList;
+  types: string[];
 }
 export const ListTypesResponse = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), types: TypeNameList }),
@@ -642,7 +642,7 @@ export const UpdateKeyspaceResponse = S.suspend(() =>
 export interface UpdateTableRequest {
   keyspaceName: string;
   tableName: string;
-  addColumns?: ColumnDefinitionList;
+  addColumns?: ColumnDefinition[];
   capacitySpecification?: CapacitySpecification;
   encryptionSpecification?: EncryptionSpecification;
   pointInTimeRecovery?: PointInTimeRecovery;
@@ -650,7 +650,7 @@ export interface UpdateTableRequest {
   defaultTimeToLive?: number;
   clientSideTimestamps?: ClientSideTimestamps;
   autoScalingSpecification?: AutoScalingSpecification;
-  replicaSpecifications?: ReplicaSpecificationList;
+  replicaSpecifications?: ReplicaSpecification[];
   cdcSpecification?: CdcSpecification;
 }
 export const UpdateTableRequest = S.suspend(() =>
@@ -701,10 +701,10 @@ export const StaticColumn = S.suspend(() =>
 export type StaticColumnList = StaticColumn[];
 export const StaticColumnList = S.Array(StaticColumn);
 export interface SchemaDefinition {
-  allColumns: ColumnDefinitionList;
-  partitionKeys: PartitionKeyList;
-  clusteringKeys?: ClusteringKeyList;
-  staticColumns?: StaticColumnList;
+  allColumns: ColumnDefinition[];
+  partitionKeys: PartitionKey[];
+  clusteringKeys?: ClusteringKey[];
+  staticColumns?: StaticColumn[];
 }
 export const SchemaDefinition = S.suspend(() =>
   S.Struct({
@@ -812,7 +812,7 @@ export interface KeyspaceSummary {
   keyspaceName: string;
   resourceArn: string;
   replicationStrategy: string;
-  replicationRegions?: RegionList;
+  replicationRegions?: string[];
 }
 export const KeyspaceSummary = S.suspend(() =>
   S.Struct({
@@ -861,8 +861,8 @@ export interface GetKeyspaceResponse {
   keyspaceName: string;
   resourceArn: string;
   replicationStrategy: string;
-  replicationRegions?: RegionList;
-  replicationGroupStatuses?: ReplicationGroupStatusList;
+  replicationRegions?: string[];
+  replicationGroupStatuses?: ReplicationGroupStatus[];
 }
 export const GetKeyspaceResponse = S.suspend(() =>
   S.Struct({
@@ -889,7 +889,7 @@ export interface GetTableResponse {
   defaultTimeToLive?: number;
   comment?: Comment;
   clientSideTimestamps?: ClientSideTimestamps;
-  replicaSpecifications?: ReplicaSpecificationSummaryList;
+  replicaSpecifications?: ReplicaSpecificationSummary[];
   latestStreamArn?: string;
   cdcSpecification?: CdcSpecificationSummary;
 }
@@ -922,7 +922,7 @@ export interface GetTableAutoScalingSettingsResponse {
   tableName: string;
   resourceArn: string;
   autoScalingSpecification?: AutoScalingSpecification;
-  replicaSpecifications?: ReplicaAutoScalingSpecificationList;
+  replicaSpecifications?: ReplicaAutoScalingSpecification[];
 }
 export const GetTableAutoScalingSettingsResponse = S.suspend(() =>
   S.Struct({
@@ -937,7 +937,7 @@ export const GetTableAutoScalingSettingsResponse = S.suspend(() =>
 }) as any as S.Schema<GetTableAutoScalingSettingsResponse>;
 export interface ListKeyspacesResponse {
   nextToken?: string;
-  keyspaces: KeyspaceSummaryList;
+  keyspaces: KeyspaceSummary[];
 }
 export const ListKeyspacesResponse = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), keyspaces: KeyspaceSummaryList }),
@@ -946,7 +946,7 @@ export const ListKeyspacesResponse = S.suspend(() =>
 }) as any as S.Schema<ListKeyspacesResponse>;
 export interface ListTablesResponse {
   nextToken?: string;
-  tables?: TableSummaryList;
+  tables?: TableSummary[];
 }
 export const ListTablesResponse = S.suspend(() =>
   S.Struct({
@@ -974,10 +974,10 @@ export interface CreateTableRequest {
   pointInTimeRecovery?: PointInTimeRecovery;
   ttl?: TimeToLive;
   defaultTimeToLive?: number;
-  tags?: TagList;
+  tags?: Tag[];
   clientSideTimestamps?: ClientSideTimestamps;
   autoScalingSpecification?: AutoScalingSpecification;
-  replicaSpecifications?: ReplicaSpecificationList;
+  replicaSpecifications?: ReplicaSpecification[];
   cdcSpecification?: CdcSpecification;
 }
 export const CreateTableRequest = S.suspend(() =>
@@ -1056,7 +1056,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const createKeyspace: (
   input: CreateKeyspaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateKeyspaceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1082,7 +1082,7 @@ export const createKeyspace: (
 export const listKeyspaces: {
   (
     input: ListKeyspacesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListKeyspacesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1094,7 +1094,7 @@ export const listKeyspaces: {
   >;
   pages: (
     input: ListKeyspacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListKeyspacesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1106,7 +1106,7 @@ export const listKeyspaces: {
   >;
   items: (
     input: ListKeyspacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     KeyspaceSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1141,7 +1141,7 @@ export const listKeyspaces: {
 export const listTables: {
   (
     input: ListTablesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTablesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1153,7 +1153,7 @@ export const listTables: {
   >;
   pages: (
     input: ListTablesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTablesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1165,7 +1165,7 @@ export const listTables: {
   >;
   items: (
     input: ListTablesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TableSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1197,7 +1197,7 @@ export const listTables: {
  */
 export const updateTable: (
   input: UpdateTableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTableResponse,
   | AccessDeniedException
   | ConflictException
@@ -1226,7 +1226,7 @@ export const updateTable: (
  */
 export const deleteType: (
   input: DeleteTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTypeResponse,
   | AccessDeniedException
   | ConflictException
@@ -1279,7 +1279,7 @@ export const deleteType: (
  */
 export const restoreTable: (
   input: RestoreTableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RestoreTableResponse,
   | AccessDeniedException
   | ConflictException
@@ -1346,7 +1346,7 @@ export const restoreTable: (
  */
 export const updateKeyspace: (
   input: UpdateKeyspaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateKeyspaceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1373,7 +1373,7 @@ export const updateKeyspace: (
  */
 export const deleteTable: (
   input: DeleteTableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTableResponse,
   | AccessDeniedException
   | ConflictException
@@ -1402,7 +1402,7 @@ export const deleteTable: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1429,7 +1429,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1460,7 +1460,7 @@ export const untagResource: (
  */
 export const createType: (
   input: CreateTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTypeResponse,
   | AccessDeniedException
   | ConflictException
@@ -1490,7 +1490,7 @@ export const createType: (
 export const listTagsForResource: {
   (
     input: ListTagsForResourceRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTagsForResourceResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1502,7 +1502,7 @@ export const listTagsForResource: {
   >;
   pages: (
     input: ListTagsForResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTagsForResourceResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1514,7 +1514,7 @@ export const listTagsForResource: {
   >;
   items: (
     input: ListTagsForResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Tag,
     | AccessDeniedException
     | InternalServerException
@@ -1549,7 +1549,7 @@ export const listTagsForResource: {
 export const listTypes: {
   (
     input: ListTypesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTypesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1561,7 +1561,7 @@ export const listTypes: {
   >;
   pages: (
     input: ListTypesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTypesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1573,7 +1573,7 @@ export const listTypes: {
   >;
   items: (
     input: ListTypesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TypeName,
     | AccessDeniedException
     | InternalServerException
@@ -1605,7 +1605,7 @@ export const listTypes: {
  */
 export const deleteKeyspace: (
   input: DeleteKeyspaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteKeyspaceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1632,7 +1632,7 @@ export const deleteKeyspace: (
  */
 export const getKeyspace: (
   input: GetKeyspaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetKeyspaceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1659,7 +1659,7 @@ export const getKeyspace: (
  */
 export const getTable: (
   input: GetTableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTableResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1694,7 +1694,7 @@ export const getTable: (
  */
 export const getTableAutoScalingSettings: (
   input: GetTableAutoScalingSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTableAutoScalingSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1721,7 +1721,7 @@ export const getTableAutoScalingSettings: (
  */
 export const getType: (
   input: GetTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTypeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1750,7 +1750,7 @@ export const getType: (
  */
 export const createTable: (
   input: CreateTableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTableResponse,
   | AccessDeniedException
   | ConflictException

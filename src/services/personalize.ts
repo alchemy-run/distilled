@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -94,14 +94,14 @@ export type RoleArn = string;
 export type TransactionsPerSecond = number;
 export type DatasetType = string;
 export type KmsKeyArn = string;
-export type FilterExpression = string | Redacted.Redacted<string>;
+export type FilterExpression = string | redacted.Redacted<string>;
 export type AvroSchema = string;
 export type EventType = string;
 export type NextToken = string;
 export type MaxResults = number;
-export type TagKey = string | Redacted.Redacted<string>;
+export type TagKey = string | redacted.Redacted<string>;
 export type MetricName = string;
-export type TagValue = string | Redacted.Redacted<string>;
+export type TagValue = string | redacted.Redacted<string>;
 export type S3Location = string;
 export type MetricExpression = string;
 export type EventValueThreshold = string;
@@ -116,7 +116,6 @@ export type SchedulingExpression = string;
 export type TrainingInputMode = string;
 export type FailureReason = string;
 export type Status = string;
-export type Integer = number;
 export type AccountId = string;
 export type Description = string;
 export type RecipeType = string;
@@ -135,13 +134,28 @@ export type ContinuousMaxValue = number;
 export type CategoricalValue = string;
 
 //# Schemas
-export type TagKeys = string | Redacted.Redacted<string>[];
+export type BatchInferenceJobMode = "BATCH_INFERENCE" | "THEME_GENERATION";
+export const BatchInferenceJobMode = S.Literal(
+  "BATCH_INFERENCE",
+  "THEME_GENERATION",
+);
+export type IngestionMode = "BULK" | "PUT" | "ALL";
+export const IngestionMode = S.Literal("BULK", "PUT", "ALL");
+export type Domain = "ECOMMERCE" | "VIDEO_ON_DEMAND";
+export const Domain = S.Literal("ECOMMERCE", "VIDEO_ON_DEMAND");
+export type ImportMode = "FULL" | "INCREMENTAL";
+export const ImportMode = S.Literal("FULL", "INCREMENTAL");
+export type TrainingMode = "FULL" | "UPDATE" | "AUTOTRAIN";
+export const TrainingMode = S.Literal("FULL", "UPDATE", "AUTOTRAIN");
+export type RecipeProvider = "SERVICE";
+export const RecipeProvider = S.Literal("SERVICE");
+export type TagKeys = string | redacted.Redacted<string>[];
 export const TagKeys = S.Array(SensitiveString);
 export type MetricAttributesNamesList = string[];
 export const MetricAttributesNamesList = S.Array(S.String);
 export interface Tag {
-  tagKey: string | Redacted.Redacted<string>;
-  tagValue: string | Redacted.Redacted<string>;
+  tagKey: string | redacted.Redacted<string>;
+  tagValue: string | redacted.Redacted<string>;
 }
 export const Tag = S.suspend(() =>
   S.Struct({ tagKey: SensitiveString, tagValue: SensitiveString }),
@@ -153,7 +167,7 @@ export interface CreateDatasetRequest {
   schemaArn: string;
   datasetGroupArn: string;
   datasetType: string;
-  tags?: Tags;
+  tags?: Tag[];
 }
 export const CreateDatasetRequest = S.suspend(() =>
   S.Struct({
@@ -172,15 +186,15 @@ export interface CreateDatasetGroupRequest {
   name: string;
   roleArn?: string;
   kmsKeyArn?: string;
-  domain?: string;
-  tags?: Tags;
+  domain?: Domain;
+  tags?: Tag[];
 }
 export const CreateDatasetGroupRequest = S.suspend(() =>
   S.Struct({
     name: S.String,
     roleArn: S.optional(S.String),
     kmsKeyArn: S.optional(S.String),
-    domain: S.optional(S.String),
+    domain: S.optional(Domain),
     tags: S.optional(Tags),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -199,8 +213,8 @@ export interface CreateDatasetImportJobRequest {
   datasetArn: string;
   dataSource: DataSource;
   roleArn?: string;
-  tags?: Tags;
-  importMode?: string;
+  tags?: Tag[];
+  importMode?: ImportMode;
   publishAttributionMetricsToS3?: boolean;
 }
 export const CreateDatasetImportJobRequest = S.suspend(() =>
@@ -210,7 +224,7 @@ export const CreateDatasetImportJobRequest = S.suspend(() =>
     dataSource: DataSource,
     roleArn: S.optional(S.String),
     tags: S.optional(Tags),
-    importMode: S.optional(S.String),
+    importMode: S.optional(ImportMode),
     publishAttributionMetricsToS3: S.optional(S.Boolean),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -221,7 +235,7 @@ export const CreateDatasetImportJobRequest = S.suspend(() =>
 export interface CreateEventTrackerRequest {
   name: string;
   datasetGroupArn: string;
-  tags?: Tags;
+  tags?: Tag[];
 }
 export const CreateEventTrackerRequest = S.suspend(() =>
   S.Struct({
@@ -237,8 +251,8 @@ export const CreateEventTrackerRequest = S.suspend(() =>
 export interface CreateFilterRequest {
   name: string;
   datasetGroupArn: string;
-  filterExpression: string | Redacted.Redacted<string>;
-  tags?: Tags;
+  filterExpression: string | redacted.Redacted<string>;
+  tags?: Tag[];
 }
 export const CreateFilterRequest = S.suspend(() =>
   S.Struct({
@@ -255,13 +269,13 @@ export const CreateFilterRequest = S.suspend(() =>
 export interface CreateSchemaRequest {
   name: string;
   schema: string;
-  domain?: string;
+  domain?: Domain;
 }
 export const CreateSchemaRequest = S.suspend(() =>
   S.Struct({
     name: S.String,
     schema: S.String,
-    domain: S.optional(S.String),
+    domain: S.optional(Domain),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -271,14 +285,14 @@ export const CreateSchemaRequest = S.suspend(() =>
 export interface CreateSolutionVersionRequest {
   name?: string;
   solutionArn: string;
-  trainingMode?: string;
-  tags?: Tags;
+  trainingMode?: TrainingMode;
+  tags?: Tag[];
 }
 export const CreateSolutionVersionRequest = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     solutionArn: S.String,
-    trainingMode: S.optional(S.String),
+    trainingMode: S.optional(TrainingMode),
     tags: S.optional(Tags),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -801,17 +815,17 @@ export const ListMetricAttributionsRequest = S.suspend(() =>
   identifier: "ListMetricAttributionsRequest",
 }) as any as S.Schema<ListMetricAttributionsRequest>;
 export interface ListRecipesRequest {
-  recipeProvider?: string;
+  recipeProvider?: RecipeProvider;
   nextToken?: string;
   maxResults?: number;
-  domain?: string;
+  domain?: Domain;
 }
 export const ListRecipesRequest = S.suspend(() =>
   S.Struct({
-    recipeProvider: S.optional(S.String),
+    recipeProvider: S.optional(RecipeProvider),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-    domain: S.optional(S.String),
+    domain: S.optional(Domain),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -928,7 +942,7 @@ export const StopSolutionVersionCreationResponse = S.suspend(() =>
 }) as any as S.Schema<StopSolutionVersionCreationResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: Tags;
+  tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: Tags }).pipe(
@@ -943,7 +957,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeys;
+  tagKeys: string | redacted.Redacted<string>[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeys }).pipe(
@@ -958,13 +972,17 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceResponse>;
 export type HyperParameters = { [key: string]: string };
 export const HyperParameters = S.Record({ key: S.String, value: S.String });
-export type RankingInfluence = { [key: string]: number };
-export const RankingInfluence = S.Record({ key: S.String, value: S.Number });
+export type RankingInfluenceType = "POPULARITY" | "FRESHNESS";
+export const RankingInfluenceType = S.Literal("POPULARITY", "FRESHNESS");
+export type RankingInfluence = { [key in RankingInfluenceType]?: number };
+export const RankingInfluence = S.partial(
+  S.Record({ key: RankingInfluenceType, value: S.Number }),
+);
 export interface CampaignConfig {
-  itemExplorationConfig?: HyperParameters;
+  itemExplorationConfig?: { [key: string]: string };
   enableMetadataWithRecommendations?: boolean;
   syncWithLatestSolutionVersion?: boolean;
-  rankingInfluence?: RankingInfluence;
+  rankingInfluence?: { [key: string]: number };
 }
 export const CampaignConfig = S.suspend(() =>
   S.Struct({
@@ -1034,8 +1052,8 @@ export const MetricAttributionOutput = S.suspend(() =>
   identifier: "MetricAttributionOutput",
 }) as any as S.Schema<MetricAttributionOutput>;
 export interface UpdateMetricAttributionRequest {
-  addMetrics?: MetricAttributes;
-  removeMetrics?: MetricAttributesNamesList;
+  addMetrics?: MetricAttribute[];
+  removeMetrics?: string[];
   metricsOutputConfig?: MetricAttributionOutput;
   metricAttributionArn?: string;
 }
@@ -1053,19 +1071,19 @@ export const UpdateMetricAttributionRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateMetricAttributionRequest>;
 export type ColumnNamesList = string[];
 export const ColumnNamesList = S.Array(S.String);
-export type ExcludedDatasetColumns = { [key: string]: ColumnNamesList };
+export type ExcludedDatasetColumns = { [key: string]: string[] };
 export const ExcludedDatasetColumns = S.Record({
   key: S.String,
   value: ColumnNamesList,
 });
-export type IncludedDatasetColumns = { [key: string]: ColumnNamesList };
+export type IncludedDatasetColumns = { [key: string]: string[] };
 export const IncludedDatasetColumns = S.Record({
   key: S.String,
   value: ColumnNamesList,
 });
 export interface TrainingDataConfig {
-  excludedDatasetColumns?: ExcludedDatasetColumns;
-  includedDatasetColumns?: IncludedDatasetColumns;
+  excludedDatasetColumns?: { [key: string]: string[] };
+  includedDatasetColumns?: { [key: string]: string[] };
 }
 export const TrainingDataConfig = S.suspend(() =>
   S.Struct({
@@ -1076,7 +1094,7 @@ export const TrainingDataConfig = S.suspend(() =>
   identifier: "TrainingDataConfig",
 }) as any as S.Schema<TrainingDataConfig>;
 export interface RecommenderConfig {
-  itemExplorationConfig?: HyperParameters;
+  itemExplorationConfig?: { [key: string]: string };
   minRecommendationRequestsPerSecond?: number;
   trainingDataConfig?: TrainingDataConfig;
   enableMetadataWithRecommendations?: boolean;
@@ -1162,7 +1180,7 @@ export const EventParameters = S.suspend(() =>
 export type EventParametersList = EventParameters[];
 export const EventParametersList = S.Array(EventParameters);
 export interface EventsConfig {
-  eventParametersList?: EventParametersList;
+  eventParametersList?: EventParameters[];
 }
 export const EventsConfig = S.suspend(() =>
   S.Struct({ eventParametersList: S.optional(EventParametersList) }),
@@ -1181,6 +1199,8 @@ export const SolutionUpdateConfig = S.suspend(() =>
 }) as any as S.Schema<SolutionUpdateConfig>;
 export type ArnList = string[];
 export const ArnList = S.Array(S.String);
+export type ObjectiveSensitivity = "LOW" | "MEDIUM" | "HIGH" | "OFF";
+export const ObjectiveSensitivity = S.Literal("LOW", "MEDIUM", "HIGH", "OFF");
 export interface CreateBatchSegmentJobRequest {
   jobName: string;
   solutionVersionArn: string;
@@ -1189,7 +1209,7 @@ export interface CreateBatchSegmentJobRequest {
   jobInput: BatchSegmentJobInput;
   jobOutput: BatchSegmentJobOutput;
   roleArn: string;
-  tags?: Tags;
+  tags?: Tag[];
 }
 export const CreateBatchSegmentJobRequest = S.suspend(() =>
   S.Struct({
@@ -1212,7 +1232,7 @@ export interface CreateCampaignRequest {
   solutionVersionArn: string;
   minProvisionedTPS?: number;
   campaignConfig?: CampaignConfig;
-  tags?: Tags;
+  tags?: Tag[];
 }
 export const CreateCampaignRequest = S.suspend(() =>
   S.Struct({
@@ -1232,7 +1252,7 @@ export interface CreateDataDeletionJobRequest {
   datasetGroupArn: string;
   dataSource: DataSource;
   roleArn: string;
-  tags?: Tags;
+  tags?: Tag[];
 }
 export const CreateDataDeletionJobRequest = S.suspend(() =>
   S.Struct({
@@ -1258,16 +1278,16 @@ export const CreateDatasetResponse = S.suspend(() =>
 export interface CreateDatasetExportJobRequest {
   jobName: string;
   datasetArn: string;
-  ingestionMode?: string;
+  ingestionMode?: IngestionMode;
   roleArn: string;
   jobOutput: DatasetExportJobOutput;
-  tags?: Tags;
+  tags?: Tag[];
 }
 export const CreateDatasetExportJobRequest = S.suspend(() =>
   S.Struct({
     jobName: S.String,
     datasetArn: S.String,
-    ingestionMode: S.optional(S.String),
+    ingestionMode: S.optional(IngestionMode),
     roleArn: S.String,
     jobOutput: DatasetExportJobOutput,
     tags: S.optional(Tags),
@@ -1279,12 +1299,12 @@ export const CreateDatasetExportJobRequest = S.suspend(() =>
 }) as any as S.Schema<CreateDatasetExportJobRequest>;
 export interface CreateDatasetGroupResponse {
   datasetGroupArn?: string;
-  domain?: string;
+  domain?: Domain;
 }
 export const CreateDatasetGroupResponse = S.suspend(() =>
   S.Struct({
     datasetGroupArn: S.optional(S.String),
-    domain: S.optional(S.String),
+    domain: S.optional(Domain),
   }),
 ).annotations({
   identifier: "CreateDatasetGroupResponse",
@@ -1320,7 +1340,7 @@ export const CreateFilterResponse = S.suspend(() =>
 export interface CreateMetricAttributionRequest {
   name: string;
   datasetGroupArn: string;
-  metrics: MetricAttributes;
+  metrics: MetricAttribute[];
   metricsOutputConfig: MetricAttributionOutput;
 }
 export const CreateMetricAttributionRequest = S.suspend(() =>
@@ -1352,7 +1372,7 @@ export const CreateSolutionVersionResponse = S.suspend(() =>
   identifier: "CreateSolutionVersionResponse",
 }) as any as S.Schema<CreateSolutionVersionResponse>;
 export interface ListMetricAttributionMetricsResponse {
-  metrics?: MetricAttributes;
+  metrics?: MetricAttribute[];
   nextToken?: string;
 }
 export const ListMetricAttributionMetricsResponse = S.suspend(() =>
@@ -1364,7 +1384,7 @@ export const ListMetricAttributionMetricsResponse = S.suspend(() =>
   identifier: "ListMetricAttributionMetricsResponse",
 }) as any as S.Schema<ListMetricAttributionMetricsResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: Tags;
+  tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -1452,7 +1472,7 @@ export const FeatureTransformationParameters = S.Record({
 });
 export interface AutoMLConfig {
   metricName?: string;
-  recipeList?: ArnList;
+  recipeList?: string[];
 }
 export const AutoMLConfig = S.suspend(() =>
   S.Struct({
@@ -1462,16 +1482,18 @@ export const AutoMLConfig = S.suspend(() =>
 ).annotations({ identifier: "AutoMLConfig" }) as any as S.Schema<AutoMLConfig>;
 export interface OptimizationObjective {
   itemAttribute?: string;
-  objectiveSensitivity?: string;
+  objectiveSensitivity?: ObjectiveSensitivity;
 }
 export const OptimizationObjective = S.suspend(() =>
   S.Struct({
     itemAttribute: S.optional(S.String),
-    objectiveSensitivity: S.optional(S.String),
+    objectiveSensitivity: S.optional(ObjectiveSensitivity),
   }),
 ).annotations({
   identifier: "OptimizationObjective",
 }) as any as S.Schema<OptimizationObjective>;
+export type TrainingType = "AUTOMATIC" | "MANUAL";
+export const TrainingType = S.Literal("AUTOMATIC", "MANUAL");
 export interface BatchInferenceJobInput {
   s3DataSource: S3DataConfig;
 }
@@ -1481,8 +1503,8 @@ export const BatchInferenceJobInput = S.suspend(() =>
   identifier: "BatchInferenceJobInput",
 }) as any as S.Schema<BatchInferenceJobInput>;
 export interface BatchInferenceJobConfig {
-  itemExplorationConfig?: HyperParameters;
-  rankingInfluence?: RankingInfluence;
+  itemExplorationConfig?: { [key: string]: string };
+  rankingInfluence?: { [key: string]: number };
 }
 export const BatchInferenceJobConfig = S.suspend(() =>
   S.Struct({
@@ -1511,7 +1533,7 @@ export interface BatchInferenceJob {
   jobOutput?: BatchInferenceJobOutput;
   batchInferenceJobConfig?: BatchInferenceJobConfig;
   roleArn?: string;
-  batchInferenceJobMode?: string;
+  batchInferenceJobMode?: BatchInferenceJobMode;
   themeGenerationConfig?: ThemeGenerationConfig;
   status?: string;
   creationDateTime?: Date;
@@ -1529,7 +1551,7 @@ export const BatchInferenceJob = S.suspend(() =>
     jobOutput: S.optional(BatchInferenceJobOutput),
     batchInferenceJobConfig: S.optional(BatchInferenceJobConfig),
     roleArn: S.optional(S.String),
-    batchInferenceJobMode: S.optional(S.String),
+    batchInferenceJobMode: S.optional(BatchInferenceJobMode),
     themeGenerationConfig: S.optional(ThemeGenerationConfig),
     status: S.optional(S.String),
     creationDateTime: S.optional(
@@ -1614,7 +1636,7 @@ export interface DatasetExportJob {
   jobName?: string;
   datasetExportJobArn?: string;
   datasetArn?: string;
-  ingestionMode?: string;
+  ingestionMode?: IngestionMode;
   roleArn?: string;
   status?: string;
   jobOutput?: DatasetExportJobOutput;
@@ -1627,7 +1649,7 @@ export const DatasetExportJob = S.suspend(() =>
     jobName: S.optional(S.String),
     datasetExportJobArn: S.optional(S.String),
     datasetArn: S.optional(S.String),
-    ingestionMode: S.optional(S.String),
+    ingestionMode: S.optional(IngestionMode),
     roleArn: S.optional(S.String),
     status: S.optional(S.String),
     jobOutput: S.optional(DatasetExportJobOutput),
@@ -1651,7 +1673,7 @@ export interface DatasetGroup {
   creationDateTime?: Date;
   lastUpdatedDateTime?: Date;
   failureReason?: string;
-  domain?: string;
+  domain?: Domain;
 }
 export const DatasetGroup = S.suspend(() =>
   S.Struct({
@@ -1667,7 +1689,7 @@ export const DatasetGroup = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     failureReason: S.optional(S.String),
-    domain: S.optional(S.String),
+    domain: S.optional(Domain),
   }),
 ).annotations({ identifier: "DatasetGroup" }) as any as S.Schema<DatasetGroup>;
 export interface DatasetImportJob {
@@ -1680,7 +1702,7 @@ export interface DatasetImportJob {
   creationDateTime?: Date;
   lastUpdatedDateTime?: Date;
   failureReason?: string;
-  importMode?: string;
+  importMode?: ImportMode;
   publishAttributionMetricsToS3?: boolean;
 }
 export const DatasetImportJob = S.suspend(() =>
@@ -1698,7 +1720,7 @@ export const DatasetImportJob = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     failureReason: S.optional(S.String),
-    importMode: S.optional(S.String),
+    importMode: S.optional(ImportMode),
     publishAttributionMetricsToS3: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -1737,7 +1759,7 @@ export interface Filter {
   lastUpdatedDateTime?: Date;
   datasetGroupArn?: string;
   failureReason?: string;
-  filterExpression?: string | Redacted.Redacted<string>;
+  filterExpression?: string | redacted.Redacted<string>;
   status?: string;
 }
 export const Filter = S.suspend(() =>
@@ -1818,7 +1840,7 @@ export interface DatasetSchema {
   schema?: string;
   creationDateTime?: Date;
   lastUpdatedDateTime?: Date;
-  domain?: string;
+  domain?: Domain;
 }
 export const DatasetSchema = S.suspend(() =>
   S.Struct({
@@ -1831,7 +1853,7 @@ export const DatasetSchema = S.suspend(() =>
     lastUpdatedDateTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    domain: S.optional(S.String),
+    domain: S.optional(Domain),
   }),
 ).annotations({
   identifier: "DatasetSchema",
@@ -1846,7 +1868,7 @@ export interface BatchInferenceJobSummary {
   lastUpdatedDateTime?: Date;
   failureReason?: string;
   solutionVersionArn?: string;
-  batchInferenceJobMode?: string;
+  batchInferenceJobMode?: BatchInferenceJobMode;
 }
 export const BatchInferenceJobSummary = S.suspend(() =>
   S.Struct({
@@ -1861,7 +1883,7 @@ export const BatchInferenceJobSummary = S.suspend(() =>
     ),
     failureReason: S.optional(S.String),
     solutionVersionArn: S.optional(S.String),
-    batchInferenceJobMode: S.optional(S.String),
+    batchInferenceJobMode: S.optional(BatchInferenceJobMode),
   }),
 ).annotations({
   identifier: "BatchInferenceJobSummary",
@@ -1983,7 +2005,7 @@ export interface DatasetGroupSummary {
   creationDateTime?: Date;
   lastUpdatedDateTime?: Date;
   failureReason?: string;
-  domain?: string;
+  domain?: Domain;
 }
 export const DatasetGroupSummary = S.suspend(() =>
   S.Struct({
@@ -1997,7 +2019,7 @@ export const DatasetGroupSummary = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     failureReason: S.optional(S.String),
-    domain: S.optional(S.String),
+    domain: S.optional(Domain),
   }),
 ).annotations({
   identifier: "DatasetGroupSummary",
@@ -2011,7 +2033,7 @@ export interface DatasetImportJobSummary {
   creationDateTime?: Date;
   lastUpdatedDateTime?: Date;
   failureReason?: string;
-  importMode?: string;
+  importMode?: ImportMode;
 }
 export const DatasetImportJobSummary = S.suspend(() =>
   S.Struct({
@@ -2025,7 +2047,7 @@ export const DatasetImportJobSummary = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     failureReason: S.optional(S.String),
-    importMode: S.optional(S.String),
+    importMode: S.optional(ImportMode),
   }),
 ).annotations({
   identifier: "DatasetImportJobSummary",
@@ -2142,7 +2164,7 @@ export interface RecipeSummary {
   status?: string;
   creationDateTime?: Date;
   lastUpdatedDateTime?: Date;
-  domain?: string;
+  domain?: Domain;
 }
 export const RecipeSummary = S.suspend(() =>
   S.Struct({
@@ -2155,7 +2177,7 @@ export const RecipeSummary = S.suspend(() =>
     lastUpdatedDateTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    domain: S.optional(S.String),
+    domain: S.optional(Domain),
   }),
 ).annotations({
   identifier: "RecipeSummary",
@@ -2197,7 +2219,7 @@ export interface DatasetSchemaSummary {
   schemaArn?: string;
   creationDateTime?: Date;
   lastUpdatedDateTime?: Date;
-  domain?: string;
+  domain?: Domain;
 }
 export const DatasetSchemaSummary = S.suspend(() =>
   S.Struct({
@@ -2209,7 +2231,7 @@ export const DatasetSchemaSummary = S.suspend(() =>
     lastUpdatedDateTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    domain: S.optional(S.String),
+    domain: S.optional(Domain),
   }),
 ).annotations({
   identifier: "DatasetSchemaSummary",
@@ -2245,8 +2267,8 @@ export const Solutions = S.Array(SolutionSummary);
 export interface SolutionVersionSummary {
   solutionVersionArn?: string;
   status?: string;
-  trainingMode?: string;
-  trainingType?: string;
+  trainingMode?: TrainingMode;
+  trainingType?: TrainingType;
   creationDateTime?: Date;
   lastUpdatedDateTime?: Date;
   failureReason?: string;
@@ -2255,8 +2277,8 @@ export const SolutionVersionSummary = S.suspend(() =>
   S.Struct({
     solutionVersionArn: S.optional(S.String),
     status: S.optional(S.String),
-    trainingMode: S.optional(S.String),
-    trainingType: S.optional(S.String),
+    trainingMode: S.optional(TrainingMode),
+    trainingType: S.optional(TrainingType),
     creationDateTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -2303,8 +2325,8 @@ export interface CreateBatchInferenceJobRequest {
   jobOutput: BatchInferenceJobOutput;
   roleArn: string;
   batchInferenceJobConfig?: BatchInferenceJobConfig;
-  tags?: Tags;
-  batchInferenceJobMode?: string;
+  tags?: Tag[];
+  batchInferenceJobMode?: BatchInferenceJobMode;
   themeGenerationConfig?: ThemeGenerationConfig;
 }
 export const CreateBatchInferenceJobRequest = S.suspend(() =>
@@ -2318,7 +2340,7 @@ export const CreateBatchInferenceJobRequest = S.suspend(() =>
     roleArn: S.String,
     batchInferenceJobConfig: S.optional(BatchInferenceJobConfig),
     tags: S.optional(Tags),
-    batchInferenceJobMode: S.optional(S.String),
+    batchInferenceJobMode: S.optional(BatchInferenceJobMode),
     themeGenerationConfig: S.optional(ThemeGenerationConfig),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -2458,7 +2480,7 @@ export const DescribeSchemaResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeSchemaResponse>;
 export interface GetSolutionMetricsResponse {
   solutionVersionArn?: string;
-  metrics?: Metrics;
+  metrics?: { [key: string]: number };
 }
 export const GetSolutionMetricsResponse = S.suspend(() =>
   S.Struct({
@@ -2469,7 +2491,7 @@ export const GetSolutionMetricsResponse = S.suspend(() =>
   identifier: "GetSolutionMetricsResponse",
 }) as any as S.Schema<GetSolutionMetricsResponse>;
 export interface ListBatchInferenceJobsResponse {
-  batchInferenceJobs?: BatchInferenceJobs;
+  batchInferenceJobs?: BatchInferenceJobSummary[];
   nextToken?: string;
 }
 export const ListBatchInferenceJobsResponse = S.suspend(() =>
@@ -2481,7 +2503,7 @@ export const ListBatchInferenceJobsResponse = S.suspend(() =>
   identifier: "ListBatchInferenceJobsResponse",
 }) as any as S.Schema<ListBatchInferenceJobsResponse>;
 export interface ListBatchSegmentJobsResponse {
-  batchSegmentJobs?: BatchSegmentJobs;
+  batchSegmentJobs?: BatchSegmentJobSummary[];
   nextToken?: string;
 }
 export const ListBatchSegmentJobsResponse = S.suspend(() =>
@@ -2493,7 +2515,7 @@ export const ListBatchSegmentJobsResponse = S.suspend(() =>
   identifier: "ListBatchSegmentJobsResponse",
 }) as any as S.Schema<ListBatchSegmentJobsResponse>;
 export interface ListCampaignsResponse {
-  campaigns?: Campaigns;
+  campaigns?: CampaignSummary[];
   nextToken?: string;
 }
 export const ListCampaignsResponse = S.suspend(() =>
@@ -2505,7 +2527,7 @@ export const ListCampaignsResponse = S.suspend(() =>
   identifier: "ListCampaignsResponse",
 }) as any as S.Schema<ListCampaignsResponse>;
 export interface ListDataDeletionJobsResponse {
-  dataDeletionJobs?: DataDeletionJobs;
+  dataDeletionJobs?: DataDeletionJobSummary[];
   nextToken?: string;
 }
 export const ListDataDeletionJobsResponse = S.suspend(() =>
@@ -2517,7 +2539,7 @@ export const ListDataDeletionJobsResponse = S.suspend(() =>
   identifier: "ListDataDeletionJobsResponse",
 }) as any as S.Schema<ListDataDeletionJobsResponse>;
 export interface ListDatasetExportJobsResponse {
-  datasetExportJobs?: DatasetExportJobs;
+  datasetExportJobs?: DatasetExportJobSummary[];
   nextToken?: string;
 }
 export const ListDatasetExportJobsResponse = S.suspend(() =>
@@ -2529,7 +2551,7 @@ export const ListDatasetExportJobsResponse = S.suspend(() =>
   identifier: "ListDatasetExportJobsResponse",
 }) as any as S.Schema<ListDatasetExportJobsResponse>;
 export interface ListDatasetGroupsResponse {
-  datasetGroups?: DatasetGroups;
+  datasetGroups?: DatasetGroupSummary[];
   nextToken?: string;
 }
 export const ListDatasetGroupsResponse = S.suspend(() =>
@@ -2541,7 +2563,7 @@ export const ListDatasetGroupsResponse = S.suspend(() =>
   identifier: "ListDatasetGroupsResponse",
 }) as any as S.Schema<ListDatasetGroupsResponse>;
 export interface ListDatasetImportJobsResponse {
-  datasetImportJobs?: DatasetImportJobs;
+  datasetImportJobs?: DatasetImportJobSummary[];
   nextToken?: string;
 }
 export const ListDatasetImportJobsResponse = S.suspend(() =>
@@ -2553,7 +2575,7 @@ export const ListDatasetImportJobsResponse = S.suspend(() =>
   identifier: "ListDatasetImportJobsResponse",
 }) as any as S.Schema<ListDatasetImportJobsResponse>;
 export interface ListDatasetsResponse {
-  datasets?: Datasets;
+  datasets?: DatasetSummary[];
   nextToken?: string;
 }
 export const ListDatasetsResponse = S.suspend(() =>
@@ -2562,7 +2584,7 @@ export const ListDatasetsResponse = S.suspend(() =>
   identifier: "ListDatasetsResponse",
 }) as any as S.Schema<ListDatasetsResponse>;
 export interface ListEventTrackersResponse {
-  eventTrackers?: EventTrackers;
+  eventTrackers?: EventTrackerSummary[];
   nextToken?: string;
 }
 export const ListEventTrackersResponse = S.suspend(() =>
@@ -2574,7 +2596,7 @@ export const ListEventTrackersResponse = S.suspend(() =>
   identifier: "ListEventTrackersResponse",
 }) as any as S.Schema<ListEventTrackersResponse>;
 export interface ListFiltersResponse {
-  Filters?: Filters;
+  Filters?: FilterSummary[];
   nextToken?: string;
 }
 export const ListFiltersResponse = S.suspend(() =>
@@ -2583,7 +2605,7 @@ export const ListFiltersResponse = S.suspend(() =>
   identifier: "ListFiltersResponse",
 }) as any as S.Schema<ListFiltersResponse>;
 export interface ListMetricAttributionsResponse {
-  metricAttributions?: MetricAttributions;
+  metricAttributions?: MetricAttributionSummary[];
   nextToken?: string;
 }
 export const ListMetricAttributionsResponse = S.suspend(() =>
@@ -2595,7 +2617,7 @@ export const ListMetricAttributionsResponse = S.suspend(() =>
   identifier: "ListMetricAttributionsResponse",
 }) as any as S.Schema<ListMetricAttributionsResponse>;
 export interface ListRecipesResponse {
-  recipes?: Recipes;
+  recipes?: RecipeSummary[];
   nextToken?: string;
 }
 export const ListRecipesResponse = S.suspend(() =>
@@ -2604,7 +2626,7 @@ export const ListRecipesResponse = S.suspend(() =>
   identifier: "ListRecipesResponse",
 }) as any as S.Schema<ListRecipesResponse>;
 export interface ListRecommendersResponse {
-  recommenders?: Recommenders;
+  recommenders?: RecommenderSummary[];
   nextToken?: string;
 }
 export const ListRecommendersResponse = S.suspend(() =>
@@ -2616,7 +2638,7 @@ export const ListRecommendersResponse = S.suspend(() =>
   identifier: "ListRecommendersResponse",
 }) as any as S.Schema<ListRecommendersResponse>;
 export interface ListSchemasResponse {
-  schemas?: Schemas;
+  schemas?: DatasetSchemaSummary[];
   nextToken?: string;
 }
 export const ListSchemasResponse = S.suspend(() =>
@@ -2625,7 +2647,7 @@ export const ListSchemasResponse = S.suspend(() =>
   identifier: "ListSchemasResponse",
 }) as any as S.Schema<ListSchemasResponse>;
 export interface ListSolutionsResponse {
-  solutions?: Solutions;
+  solutions?: SolutionSummary[];
   nextToken?: string;
 }
 export const ListSolutionsResponse = S.suspend(() =>
@@ -2637,7 +2659,7 @@ export const ListSolutionsResponse = S.suspend(() =>
   identifier: "ListSolutionsResponse",
 }) as any as S.Schema<ListSolutionsResponse>;
 export interface ListSolutionVersionsResponse {
-  solutionVersions?: SolutionVersions;
+  solutionVersions?: SolutionVersionSummary[];
   nextToken?: string;
 }
 export const ListSolutionVersionsResponse = S.suspend(() =>
@@ -2775,7 +2797,7 @@ export const SolutionUpdateSummary = S.suspend(() =>
   identifier: "SolutionUpdateSummary",
 }) as any as S.Schema<SolutionUpdateSummary>;
 export interface TunedHPOParams {
-  algorithmHyperParameters?: HyperParameters;
+  algorithmHyperParameters?: { [key: string]: string };
 }
 export const TunedHPOParams = S.suspend(() =>
   S.Struct({ algorithmHyperParameters: S.optional(HyperParameters) }),
@@ -2818,7 +2840,7 @@ export const ContinuousHyperParameterRanges = S.Array(
 );
 export interface CategoricalHyperParameterRange {
   name?: string;
-  values?: CategoricalValues;
+  values?: string[];
 }
 export const CategoricalHyperParameterRange = S.suspend(() =>
   S.Struct({
@@ -2895,7 +2917,7 @@ export const Dataset = S.suspend(() =>
 export interface FeatureTransformation {
   name?: string;
   featureTransformationArn?: string;
-  defaultParameters?: FeaturizationParameters;
+  defaultParameters?: { [key: string]: string };
   creationDateTime?: Date;
   lastUpdatedDateTime?: Date;
   status?: string;
@@ -2927,7 +2949,7 @@ export interface Recommender {
   status?: string;
   failureReason?: string;
   latestRecommenderUpdate?: RecommenderUpdateSummary;
-  modelMetrics?: Metrics;
+  modelMetrics?: { [key: string]: number };
 }
 export const Recommender = S.suspend(() =>
   S.Struct({
@@ -2949,9 +2971,9 @@ export const Recommender = S.suspend(() =>
   }),
 ).annotations({ identifier: "Recommender" }) as any as S.Schema<Recommender>;
 export interface HyperParameterRanges {
-  integerHyperParameterRanges?: IntegerHyperParameterRanges;
-  continuousHyperParameterRanges?: ContinuousHyperParameterRanges;
-  categoricalHyperParameterRanges?: CategoricalHyperParameterRanges;
+  integerHyperParameterRanges?: IntegerHyperParameterRange[];
+  continuousHyperParameterRanges?: ContinuousHyperParameterRange[];
+  categoricalHyperParameterRanges?: CategoricalHyperParameterRange[];
 }
 export const HyperParameterRanges = S.suspend(() =>
   S.Struct({
@@ -2979,8 +3001,8 @@ export const HPOConfig = S.suspend(() =>
 export interface SolutionConfig {
   eventValueThreshold?: string;
   hpoConfig?: HPOConfig;
-  algorithmHyperParameters?: HyperParameters;
-  featureTransformationParameters?: FeatureTransformationParameters;
+  algorithmHyperParameters?: { [key: string]: string };
+  featureTransformationParameters?: { [key: string]: string };
   autoMLConfig?: AutoMLConfig;
   eventsConfig?: EventsConfig;
   optimizationObjective?: OptimizationObjective;
@@ -3058,13 +3080,13 @@ export interface SolutionVersion {
   datasetGroupArn?: string;
   solutionConfig?: SolutionConfig;
   trainingHours?: number;
-  trainingMode?: string;
+  trainingMode?: TrainingMode;
   tunedHPOParams?: TunedHPOParams;
   status?: string;
   failureReason?: string;
   creationDateTime?: Date;
   lastUpdatedDateTime?: Date;
-  trainingType?: string;
+  trainingType?: TrainingType;
 }
 export const SolutionVersion = S.suspend(() =>
   S.Struct({
@@ -3079,7 +3101,7 @@ export const SolutionVersion = S.suspend(() =>
     datasetGroupArn: S.optional(S.String),
     solutionConfig: S.optional(SolutionConfig),
     trainingHours: S.optional(S.Number),
-    trainingMode: S.optional(S.String),
+    trainingMode: S.optional(TrainingMode),
     tunedHPOParams: S.optional(TunedHPOParams),
     status: S.optional(S.String),
     failureReason: S.optional(S.String),
@@ -3089,7 +3111,7 @@ export const SolutionVersion = S.suspend(() =>
     lastUpdatedDateTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    trainingType: S.optional(S.String),
+    trainingType: S.optional(TrainingType),
   }),
 ).annotations({
   identifier: "SolutionVersion",
@@ -3138,7 +3160,7 @@ export const DefaultContinuousHyperParameterRanges = S.Array(
 );
 export interface DefaultCategoricalHyperParameterRange {
   name?: string;
-  values?: CategoricalValues;
+  values?: string[];
   isTunable?: boolean;
 }
 export const DefaultCategoricalHyperParameterRange = S.suspend(() =>
@@ -3168,7 +3190,7 @@ export interface CreateRecommenderRequest {
   datasetGroupArn: string;
   recipeArn: string;
   recommenderConfig?: RecommenderConfig;
-  tags?: Tags;
+  tags?: Tag[];
 }
 export const CreateRecommenderRequest = S.suspend(() =>
   S.Struct({
@@ -3232,9 +3254,9 @@ export const DescribeSolutionVersionResponse = S.suspend(() =>
   identifier: "DescribeSolutionVersionResponse",
 }) as any as S.Schema<DescribeSolutionVersionResponse>;
 export interface DefaultHyperParameterRanges {
-  integerHyperParameterRanges?: DefaultIntegerHyperParameterRanges;
-  continuousHyperParameterRanges?: DefaultContinuousHyperParameterRanges;
-  categoricalHyperParameterRanges?: DefaultCategoricalHyperParameterRanges;
+  integerHyperParameterRanges?: DefaultIntegerHyperParameterRange[];
+  continuousHyperParameterRanges?: DefaultContinuousHyperParameterRange[];
+  categoricalHyperParameterRanges?: DefaultCategoricalHyperParameterRange[];
 }
 export const DefaultHyperParameterRanges = S.suspend(() =>
   S.Struct({
@@ -3253,9 +3275,9 @@ export interface Algorithm {
   name?: string;
   algorithmArn?: string;
   algorithmImage?: AlgorithmImage;
-  defaultHyperParameters?: HyperParameters;
+  defaultHyperParameters?: { [key: string]: string };
   defaultHyperParameterRanges?: DefaultHyperParameterRanges;
-  defaultResourceConfig?: ResourceConfig;
+  defaultResourceConfig?: { [key: string]: string };
   trainingInputMode?: string;
   roleArn?: string;
   creationDateTime?: Date;
@@ -3297,7 +3319,7 @@ export interface CreateSolutionRequest {
   datasetGroupArn: string;
   eventType?: string;
   solutionConfig?: SolutionConfig;
-  tags?: Tags;
+  tags?: Tag[];
 }
 export const CreateSolutionRequest = S.suspend(() =>
   S.Struct({
@@ -3375,21 +3397,21 @@ export class TooManyTagKeysException extends S.TaggedError<TooManyTagKeysExcepti
 export const listMetricAttributionMetrics: {
   (
     input: ListMetricAttributionMetricsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMetricAttributionMetricsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListMetricAttributionMetricsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMetricAttributionMetricsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMetricAttributionMetricsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MetricAttribute,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3411,21 +3433,21 @@ export const listMetricAttributionMetrics: {
 export const listMetricAttributions: {
   (
     input: ListMetricAttributionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMetricAttributionsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListMetricAttributionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMetricAttributionsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMetricAttributionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MetricAttributionSummary,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3448,21 +3470,21 @@ export const listMetricAttributions: {
 export const listRecipes: {
   (
     input: ListRecipesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRecipesResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListRecipesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRecipesResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRecipesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RecipeSummary,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3487,21 +3509,21 @@ export const listRecipes: {
 export const listRecommenders: {
   (
     input: ListRecommendersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRecommendersResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListRecommendersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRecommendersResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRecommendersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RecommenderSummary,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3525,21 +3547,21 @@ export const listRecommenders: {
 export const listSchemas: {
   (
     input: ListSchemasRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSchemasResponse,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSchemasRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSchemasResponse,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSchemasRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DatasetSchemaSummary,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3564,21 +3586,21 @@ export const listSchemas: {
 export const listSolutions: {
   (
     input: ListSolutionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSolutionsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSolutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSolutionsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSolutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SolutionSummary,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3601,21 +3623,21 @@ export const listSolutions: {
 export const listBatchInferenceJobs: {
   (
     input: ListBatchInferenceJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBatchInferenceJobsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListBatchInferenceJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBatchInferenceJobsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBatchInferenceJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BatchInferenceJobSummary,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3638,21 +3660,21 @@ export const listBatchInferenceJobs: {
 export const listBatchSegmentJobs: {
   (
     input: ListBatchSegmentJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBatchSegmentJobsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListBatchSegmentJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBatchSegmentJobsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBatchSegmentJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BatchSegmentJobSummary,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3677,21 +3699,21 @@ export const listBatchSegmentJobs: {
 export const listCampaigns: {
   (
     input: ListCampaignsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCampaignsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListCampaignsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCampaignsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCampaignsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CampaignSummary,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3718,7 +3740,7 @@ export const listCampaigns: {
  */
 export const listDataDeletionJobs: (
   input: ListDataDeletionJobsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDataDeletionJobsResponse,
   InvalidInputException | InvalidNextTokenException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3738,21 +3760,21 @@ export const listDataDeletionJobs: (
 export const listDatasetExportJobs: {
   (
     input: ListDatasetExportJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDatasetExportJobsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListDatasetExportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDatasetExportJobsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDatasetExportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DatasetExportJobSummary,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3776,21 +3798,21 @@ export const listDatasetExportJobs: {
 export const listDatasetGroups: {
   (
     input: ListDatasetGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDatasetGroupsResponse,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListDatasetGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDatasetGroupsResponse,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDatasetGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DatasetGroupSummary,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3817,21 +3839,21 @@ export const listDatasetGroups: {
 export const listDatasetImportJobs: {
   (
     input: ListDatasetImportJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDatasetImportJobsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListDatasetImportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDatasetImportJobsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDatasetImportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DatasetImportJobSummary,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3855,21 +3877,21 @@ export const listDatasetImportJobs: {
 export const listDatasets: {
   (
     input: ListDatasetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDatasetsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListDatasetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDatasetsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDatasetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DatasetSummary,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3894,21 +3916,21 @@ export const listDatasets: {
 export const listEventTrackers: {
   (
     input: ListEventTrackersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEventTrackersResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListEventTrackersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEventTrackersResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEventTrackersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EventTrackerSummary,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3930,21 +3952,21 @@ export const listEventTrackers: {
 export const listFilters: {
   (
     input: ListFiltersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFiltersResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListFiltersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFiltersResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFiltersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FilterSummary,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3979,7 +4001,7 @@ export const listFilters: {
  */
 export const createSchema: (
   input: CreateSchemaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSchemaResponse,
   | InvalidInputException
   | LimitExceededException
@@ -4005,7 +4027,7 @@ export const createSchema: (
  */
 export const deleteCampaign: (
   input: DeleteCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCampaignResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4037,7 +4059,7 @@ export const deleteCampaign: (
  */
 export const describeCampaign: (
   input: DescribeCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCampaignResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4052,7 +4074,7 @@ export const describeCampaign: (
  */
 export const describeDataset: (
   input: DescribeDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDatasetResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4066,7 +4088,7 @@ export const describeDataset: (
  */
 export const describeFeatureTransformation: (
   input: DescribeFeatureTransformationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeFeatureTransformationResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4096,7 +4118,7 @@ export const describeFeatureTransformation: (
  */
 export const describeRecommender: (
   input: DescribeRecommenderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRecommenderResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4111,7 +4133,7 @@ export const describeRecommender: (
  */
 export const describeSolution: (
   input: DescribeSolutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSolutionResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4125,7 +4147,7 @@ export const describeSolution: (
  */
 export const describeSolutionVersion: (
   input: DescribeSolutionVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSolutionVersionResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4141,7 +4163,7 @@ export const describeSolutionVersion: (
  */
 export const describeBatchInferenceJob: (
   input: DescribeBatchInferenceJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeBatchInferenceJobResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4157,7 +4179,7 @@ export const describeBatchInferenceJob: (
  */
 export const describeBatchSegmentJob: (
   input: DescribeBatchSegmentJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeBatchSegmentJobResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4171,7 +4193,7 @@ export const describeBatchSegmentJob: (
  */
 export const describeDataDeletionJob: (
   input: DescribeDataDeletionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDataDeletionJobResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4185,7 +4207,7 @@ export const describeDataDeletionJob: (
  */
 export const describeDatasetExportJob: (
   input: DescribeDatasetExportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDatasetExportJobResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4200,7 +4222,7 @@ export const describeDatasetExportJob: (
  */
 export const describeDatasetGroup: (
   input: DescribeDatasetGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDatasetGroupResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4214,7 +4236,7 @@ export const describeDatasetGroup: (
  */
 export const describeDatasetImportJob: (
   input: DescribeDatasetImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDatasetImportJobResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4230,7 +4252,7 @@ export const describeDatasetImportJob: (
  */
 export const describeEventTracker: (
   input: DescribeEventTrackerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEventTrackerResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4244,7 +4266,7 @@ export const describeEventTracker: (
  */
 export const describeFilter: (
   input: DescribeFilterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeFilterResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4258,7 +4280,7 @@ export const describeFilter: (
  */
 export const describeMetricAttribution: (
   input: DescribeMetricAttributionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeMetricAttributionResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4287,7 +4309,7 @@ export const describeMetricAttribution: (
  */
 export const describeRecipe: (
   input: DescribeRecipeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRecipeResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4302,7 +4324,7 @@ export const describeRecipe: (
  */
 export const describeSchema: (
   input: DescribeSchemaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSchemaResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4316,7 +4338,7 @@ export const describeSchema: (
  */
 export const getSolutionMetrics: (
   input: GetSolutionMetricsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSolutionMetricsResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4340,7 +4362,7 @@ export const getSolutionMetrics: (
 export const listSolutionVersions: {
   (
     input: ListSolutionVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSolutionVersionsResponse,
     | InvalidInputException
     | InvalidNextTokenException
@@ -4350,7 +4372,7 @@ export const listSolutionVersions: {
   >;
   pages: (
     input: ListSolutionVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSolutionVersionsResponse,
     | InvalidInputException
     | InvalidNextTokenException
@@ -4360,7 +4382,7 @@ export const listSolutionVersions: {
   >;
   items: (
     input: ListSolutionVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SolutionVersionSummary,
     | InvalidInputException
     | InvalidNextTokenException
@@ -4388,7 +4410,7 @@ export const listSolutionVersions: {
  */
 export const updateMetricAttribution: (
   input: UpdateMetricAttributionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMetricAttributionResponse,
   | InvalidInputException
   | ResourceAlreadyExistsException
@@ -4411,7 +4433,7 @@ export const updateMetricAttribution: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4433,7 +4455,7 @@ export const listTagsForResource: (
  */
 export const startRecommender: (
   input: StartRecommenderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartRecommenderResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4454,7 +4476,7 @@ export const startRecommender: (
  */
 export const stopRecommender: (
   input: StopRecommenderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopRecommenderResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4492,7 +4514,7 @@ export const stopRecommender: (
  */
 export const updateCampaign: (
   input: UpdateCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCampaignResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4513,7 +4535,7 @@ export const updateCampaign: (
  */
 export const updateDataset: (
   input: UpdateDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDatasetResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4540,7 +4562,7 @@ export const updateDataset: (
  */
 export const updateRecommender: (
   input: UpdateRecommenderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRecommenderResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4564,7 +4586,7 @@ export const updateRecommender: (
  */
 export const deleteDataset: (
   input: DeleteDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDatasetResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4592,7 +4614,7 @@ export const deleteDataset: (
  */
 export const deleteDatasetGroup: (
   input: DeleteDatasetGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDatasetGroupResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4615,7 +4637,7 @@ export const deleteDatasetGroup: (
  */
 export const deleteEventTracker: (
   input: DeleteEventTrackerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEventTrackerResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4636,7 +4658,7 @@ export const deleteEventTracker: (
  */
 export const deleteFilter: (
   input: DeleteFilterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFilterResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4657,7 +4679,7 @@ export const deleteFilter: (
  */
 export const deleteMetricAttribution: (
   input: DeleteMetricAttributionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMetricAttributionResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4679,7 +4701,7 @@ export const deleteMetricAttribution: (
  */
 export const deleteRecommender: (
   input: DeleteRecommenderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRecommenderResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4702,7 +4724,7 @@ export const deleteRecommender: (
  */
 export const deleteSchema: (
   input: DeleteSchemaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSchemaResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4729,7 +4751,7 @@ export const deleteSchema: (
  */
 export const deleteSolution: (
   input: DeleteSolutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSolutionResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4761,7 +4783,7 @@ export const deleteSolution: (
  */
 export const stopSolutionVersionCreation: (
   input: StopSolutionVersionCreationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopSolutionVersionCreationResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4784,7 +4806,7 @@ export const stopSolutionVersionCreation: (
  */
 export const createMetricAttribution: (
   input: CreateMetricAttributionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMetricAttributionResponse,
   | InvalidInputException
   | LimitExceededException
@@ -4821,7 +4843,7 @@ export const createMetricAttribution: (
  */
 export const updateSolution: (
   input: UpdateSolutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSolutionResponse,
   | InvalidInputException
   | LimitExceededException
@@ -4898,7 +4920,7 @@ export const updateSolution: (
  */
 export const createDatasetGroup: (
   input: CreateDatasetGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDatasetGroupResponse,
   | InvalidInputException
   | LimitExceededException
@@ -4921,7 +4943,7 @@ export const createDatasetGroup: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InvalidInputException
   | LimitExceededException
@@ -4983,7 +5005,7 @@ export const tagResource: (
  */
 export const createDataset: (
   input: CreateDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDatasetResponse,
   | InvalidInputException
   | LimitExceededException
@@ -5047,7 +5069,7 @@ export const createDataset: (
  */
 export const createDatasetImportJob: (
   input: CreateDatasetImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDatasetImportJobResponse,
   | InvalidInputException
   | LimitExceededException
@@ -5103,7 +5125,7 @@ export const createDatasetImportJob: (
  */
 export const createEventTracker: (
   input: CreateEventTrackerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEventTrackerResponse,
   | InvalidInputException
   | LimitExceededException
@@ -5130,7 +5152,7 @@ export const createEventTracker: (
  */
 export const createFilter: (
   input: CreateFilterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFilterResponse,
   | InvalidInputException
   | LimitExceededException
@@ -5194,7 +5216,7 @@ export const createFilter: (
  */
 export const createSolutionVersion: (
   input: CreateSolutionVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSolutionVersionResponse,
   | InvalidInputException
   | LimitExceededException
@@ -5223,7 +5245,7 @@ export const createSolutionVersion: (
  */
 export const createBatchSegmentJob: (
   input: CreateBatchSegmentJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBatchSegmentJobResponse,
   | InvalidInputException
   | LimitExceededException
@@ -5304,7 +5326,7 @@ export const createBatchSegmentJob: (
  */
 export const createCampaign: (
   input: CreateCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCampaignResponse,
   | InvalidInputException
   | LimitExceededException
@@ -5365,7 +5387,7 @@ export const createCampaign: (
  */
 export const createDataDeletionJob: (
   input: CreateDataDeletionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataDeletionJobResponse,
   | InvalidInputException
   | LimitExceededException
@@ -5408,7 +5430,7 @@ export const createDataDeletionJob: (
  */
 export const createDatasetExportJob: (
   input: CreateDatasetExportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDatasetExportJobResponse,
   | InvalidInputException
   | LimitExceededException
@@ -5454,7 +5476,7 @@ export const createDatasetExportJob: (
  */
 export const createBatchInferenceJob: (
   input: CreateBatchInferenceJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBatchInferenceJobResponse,
   | InvalidInputException
   | LimitExceededException
@@ -5534,7 +5556,7 @@ export const createBatchInferenceJob: (
  */
 export const createRecommender: (
   input: CreateRecommenderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRecommenderResponse,
   | InvalidInputException
   | LimitExceededException
@@ -5561,7 +5583,7 @@ export const createRecommender: (
  */
 export const describeAlgorithm: (
   input: DescribeAlgorithmRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAlgorithmResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5575,7 +5597,7 @@ export const describeAlgorithm: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -5654,7 +5676,7 @@ export const untagResource: (
  */
 export const createSolution: (
   input: CreateSolutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSolutionResponse,
   | InvalidInputException
   | LimitExceededException

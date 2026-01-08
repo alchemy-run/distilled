@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -94,10 +94,10 @@ export type iamRoleArn = string;
 export type wholeNumberVersionString = string;
 export type description = string;
 export type noDashIdentifier = string;
-export type Elements = string | Redacted.Redacted<string>;
+export type Elements = string | redacted.Redacted<string>;
 export type variableType = string;
 export type modelIdentifier = string;
-export type ruleExpression = string | Redacted.Redacted<string>;
+export type ruleExpression = string | redacted.Redacted<string>;
 export type sageMakerEndpointIdentifier = string;
 export type floatVersionString = string;
 export type DetectorVersionMaxResults = number;
@@ -125,16 +125,14 @@ export type tagKey = string;
 export type tagValue = string;
 export type entityRestrictedString = string;
 export type variableName = string;
-export type variableValue = string | Redacted.Redacted<string>;
+export type variableValue = string | redacted.Redacted<string>;
 export type filterString = string;
 export type modelInputTemplate = string;
 export type contentType = string;
 export type Integer2 = number;
-export type Integer = number;
-export type sensitiveString = string | Redacted.Redacted<string>;
+export type sensitiveString = string | redacted.Redacted<string>;
 export type attributeKey = string;
-export type attributeValue = string | Redacted.Redacted<string>;
-export type Long = number;
+export type attributeValue = string | redacted.Redacted<string>;
 export type float = number;
 
 //# Schemas
@@ -158,14 +156,62 @@ export type NameList = string[];
 export const NameList = S.Array(S.String);
 export type ListOfStrings = string[];
 export const ListOfStrings = S.Array(S.String);
-export type ElementsList = string | Redacted.Redacted<string>[];
+export type RuleExecutionMode = "ALL_MATCHED" | "FIRST_MATCHED";
+export const RuleExecutionMode = S.Literal("ALL_MATCHED", "FIRST_MATCHED");
+export type ElementsList = string | redacted.Redacted<string>[];
 export const ElementsList = S.Array(SensitiveString);
+export type ModelTypeEnum =
+  | "ONLINE_FRAUD_INSIGHTS"
+  | "TRANSACTION_FRAUD_INSIGHTS"
+  | "ACCOUNT_TAKEOVER_INSIGHTS";
+export const ModelTypeEnum = S.Literal(
+  "ONLINE_FRAUD_INSIGHTS",
+  "TRANSACTION_FRAUD_INSIGHTS",
+  "ACCOUNT_TAKEOVER_INSIGHTS",
+);
+export type TrainingDataSourceEnum = "EXTERNAL_EVENTS" | "INGESTED_EVENTS";
+export const TrainingDataSourceEnum = S.Literal(
+  "EXTERNAL_EVENTS",
+  "INGESTED_EVENTS",
+);
+export type Language = "DETECTORPL";
+export const Language = S.Literal("DETECTORPL");
 export type NonEmptyListOfStrings = string[];
 export const NonEmptyListOfStrings = S.Array(S.String);
+export type DataType = "STRING" | "INTEGER" | "FLOAT" | "BOOLEAN" | "DATETIME";
+export const DataType = S.Literal(
+  "STRING",
+  "INTEGER",
+  "FLOAT",
+  "BOOLEAN",
+  "DATETIME",
+);
+export type DataSource = "EVENT" | "MODEL_SCORE" | "EXTERNAL_MODEL_SCORE";
+export const DataSource = S.Literal(
+  "EVENT",
+  "MODEL_SCORE",
+  "EXTERNAL_MODEL_SCORE",
+);
+export type EventIngestion = "ENABLED" | "DISABLED";
+export const EventIngestion = S.Literal("ENABLED", "DISABLED");
+export type ModelSource = "SAGEMAKER";
+export const ModelSource = S.Literal("SAGEMAKER");
+export type ModelEndpointStatus = "ASSOCIATED" | "DISSOCIATED";
+export const ModelEndpointStatus = S.Literal("ASSOCIATED", "DISSOCIATED");
 export type tagKeyList = string[];
 export const tagKeyList = S.Array(S.String);
+export type DetectorVersionStatus = "DRAFT" | "ACTIVE" | "INACTIVE";
+export const DetectorVersionStatus = S.Literal("DRAFT", "ACTIVE", "INACTIVE");
+export type ListUpdateMode = "REPLACE" | "APPEND" | "REMOVE";
+export const ListUpdateMode = S.Literal("REPLACE", "APPEND", "REMOVE");
+export type ModelVersionStatus = "ACTIVE" | "INACTIVE" | "TRAINING_CANCELLED";
+export const ModelVersionStatus = S.Literal(
+  "ACTIVE",
+  "INACTIVE",
+  "TRAINING_CANCELLED",
+);
 export interface BatchGetVariableRequest {
-  names: NameList;
+  names: string[];
 }
 export const BatchGetVariableRequest = S.suspend(() =>
   S.Struct({ names: NameList }).pipe(
@@ -245,7 +291,7 @@ export interface CreateBatchImportJobRequest {
   outputPath: string;
   eventTypeName: string;
   iamRoleArn: string;
-  tags?: tagList;
+  tags?: Tag[];
 }
 export const CreateBatchImportJobRequest = S.suspend(() =>
   S.Struct({
@@ -283,7 +329,7 @@ export interface CreateBatchPredictionJobRequest {
   detectorName: string;
   detectorVersion?: string;
   iamRoleArn: string;
-  tags?: tagList;
+  tags?: Tag[];
 }
 export const CreateBatchPredictionJobRequest = S.suspend(() =>
   S.Struct({
@@ -317,10 +363,10 @@ export const CreateBatchPredictionJobResult = S.suspend(() =>
 }) as any as S.Schema<CreateBatchPredictionJobResult>;
 export interface CreateListRequest {
   name: string;
-  elements?: ElementsList;
+  elements?: string | redacted.Redacted<string>[];
   variableType?: string;
   description?: string;
-  tags?: tagList;
+  tags?: Tag[];
 }
 export const CreateListRequest = S.suspend(() =>
   S.Struct({
@@ -351,15 +397,15 @@ export const CreateListResult = S.suspend(() =>
 }) as any as S.Schema<CreateListResult>;
 export interface CreateModelRequest {
   modelId: string;
-  modelType: string;
+  modelType: ModelTypeEnum;
   description?: string;
   eventTypeName: string;
-  tags?: tagList;
+  tags?: Tag[];
 }
 export const CreateModelRequest = S.suspend(() =>
   S.Struct({
     modelId: S.String,
-    modelType: S.String,
+    modelType: ModelTypeEnum,
     description: S.optional(S.String),
     eventTypeName: S.String,
     tags: S.optional(tagList),
@@ -387,10 +433,10 @@ export interface CreateRuleRequest {
   ruleId: string;
   detectorId: string;
   description?: string;
-  expression: string | Redacted.Redacted<string>;
-  language: string;
-  outcomes: NonEmptyListOfStrings;
-  tags?: tagList;
+  expression: string | redacted.Redacted<string>;
+  language: Language;
+  outcomes: string[];
+  tags?: Tag[];
 }
 export const CreateRuleRequest = S.suspend(() =>
   S.Struct({
@@ -398,7 +444,7 @@ export const CreateRuleRequest = S.suspend(() =>
     detectorId: S.String,
     description: S.optional(S.String),
     expression: SensitiveString,
-    language: S.String,
+    language: Language,
     outcomes: NonEmptyListOfStrings,
     tags: S.optional(tagList),
   }).pipe(
@@ -417,18 +463,18 @@ export const CreateRuleRequest = S.suspend(() =>
 }) as any as S.Schema<CreateRuleRequest>;
 export interface CreateVariableRequest {
   name: string;
-  dataType: string;
-  dataSource: string;
+  dataType: DataType;
+  dataSource: DataSource;
   defaultValue: string;
   description?: string;
   variableType?: string;
-  tags?: tagList;
+  tags?: Tag[];
 }
 export const CreateVariableRequest = S.suspend(() =>
   S.Struct({
     name: S.String,
-    dataType: S.String,
-    dataSource: S.String,
+    dataType: DataType,
+    dataSource: DataSource,
     defaultValue: S.String,
     description: S.optional(S.String),
     variableType: S.optional(S.String),
@@ -720,10 +766,10 @@ export const DeleteListResult = S.suspend(() =>
 }) as any as S.Schema<DeleteListResult>;
 export interface DeleteModelRequest {
   modelId: string;
-  modelType: string;
+  modelType: ModelTypeEnum;
 }
 export const DeleteModelRequest = S.suspend(() =>
-  S.Struct({ modelId: S.String, modelType: S.String }).pipe(
+  S.Struct({ modelId: S.String, modelType: ModelTypeEnum }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -745,13 +791,13 @@ export const DeleteModelResult = S.suspend(() =>
 }) as any as S.Schema<DeleteModelResult>;
 export interface DeleteModelVersionRequest {
   modelId: string;
-  modelType: string;
+  modelType: ModelTypeEnum;
   modelVersionNumber: string;
 }
 export const DeleteModelVersionRequest = S.suspend(() =>
   S.Struct({
     modelId: S.String,
-    modelType: S.String,
+    modelType: ModelTypeEnum,
     modelVersionNumber: S.String,
   }).pipe(
     T.all(
@@ -880,7 +926,7 @@ export const DescribeDetectorRequest = S.suspend(() =>
 export interface DescribeModelVersionsRequest {
   modelId?: string;
   modelVersionNumber?: string;
-  modelType?: string;
+  modelType?: ModelTypeEnum;
   nextToken?: string;
   maxResults?: number;
 }
@@ -888,7 +934,7 @@ export const DescribeModelVersionsRequest = S.suspend(() =>
   S.Struct({
     modelId: S.optional(S.String),
     modelVersionNumber: S.optional(S.String),
-    modelType: S.optional(S.String),
+    modelType: S.optional(ModelTypeEnum),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
   }).pipe(
@@ -1207,14 +1253,14 @@ export const GetListsMetadataRequest = S.suspend(() =>
 }) as any as S.Schema<GetListsMetadataRequest>;
 export interface GetModelsRequest {
   modelId?: string;
-  modelType?: string;
+  modelType?: ModelTypeEnum;
   nextToken?: string;
   maxResults?: number;
 }
 export const GetModelsRequest = S.suspend(() =>
   S.Struct({
     modelId: S.optional(S.String),
-    modelType: S.optional(S.String),
+    modelType: S.optional(ModelTypeEnum),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
   }).pipe(
@@ -1233,13 +1279,13 @@ export const GetModelsRequest = S.suspend(() =>
 }) as any as S.Schema<GetModelsRequest>;
 export interface GetModelVersionRequest {
   modelId: string;
-  modelType: string;
+  modelType: ModelTypeEnum;
   modelVersionNumber: string;
 }
 export const GetModelVersionRequest = S.suspend(() =>
   S.Struct({
     modelId: S.String,
-    modelType: S.String,
+    modelType: ModelTypeEnum,
     modelVersionNumber: S.String,
   }).pipe(
     T.all(
@@ -1359,7 +1405,7 @@ export interface PutDetectorRequest {
   detectorId: string;
   description?: string;
   eventTypeName: string;
-  tags?: tagList;
+  tags?: Tag[];
 }
 export const PutDetectorRequest = S.suspend(() =>
   S.Struct({
@@ -1390,7 +1436,7 @@ export const PutDetectorResult = S.suspend(() =>
 export interface PutEntityTypeRequest {
   name: string;
   description?: string;
-  tags?: tagList;
+  tags?: Tag[];
 }
 export const PutEntityTypeRequest = S.suspend(() =>
   S.Struct({
@@ -1444,7 +1490,7 @@ export const PutKMSEncryptionKeyResult = S.suspend(() =>
 export interface PutLabelRequest {
   name: string;
   description?: string;
-  tags?: tagList;
+  tags?: Tag[];
 }
 export const PutLabelRequest = S.suspend(() =>
   S.Struct({
@@ -1474,7 +1520,7 @@ export const PutLabelResult = S.suspend(() =>
 export interface PutOutcomeRequest {
   name: string;
   description?: string;
-  tags?: tagList;
+  tags?: Tag[];
 }
 export const PutOutcomeRequest = S.suspend(() =>
   S.Struct({
@@ -1502,7 +1548,7 @@ export const PutOutcomeResult = S.suspend(() =>
   identifier: "PutOutcomeResult",
 }) as any as S.Schema<PutOutcomeResult>;
 export type EventVariableMap = {
-  [key: string]: string | Redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string>;
 };
 export const EventVariableMap = S.Record({
   key: S.String,
@@ -1521,10 +1567,10 @@ export interface SendEventRequest {
   eventId: string;
   eventTypeName: string;
   eventTimestamp: string;
-  eventVariables: EventVariableMap;
+  eventVariables: { [key: string]: string | redacted.Redacted<string> };
   assignedLabel?: string;
   labelTimestamp?: string;
-  entities: listOfEntities;
+  entities: Entity[];
 }
 export const SendEventRequest = S.suspend(() =>
   S.Struct({
@@ -1557,7 +1603,7 @@ export const SendEventResult = S.suspend(() =>
 }) as any as S.Schema<SendEventResult>;
 export interface TagResourceRequest {
   resourceARN: string;
-  tags: tagList;
+  tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceARN: S.String, tags: tagList }).pipe(
@@ -1582,7 +1628,7 @@ export const TagResourceResult = S.suspend(() =>
 }) as any as S.Schema<TagResourceResult>;
 export interface UntagResourceRequest {
   resourceARN: string;
-  tagKeys: tagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ resourceARN: S.String, tagKeys: tagKeyList }).pipe(
@@ -1609,14 +1655,14 @@ export type RuleList = Rule[];
 export const RuleList = S.Array(Rule);
 export interface ModelVersion {
   modelId: string;
-  modelType: string;
+  modelType: ModelTypeEnum;
   modelVersionNumber: string;
   arn?: string;
 }
 export const ModelVersion = S.suspend(() =>
   S.Struct({
     modelId: S.String,
-    modelType: S.String,
+    modelType: ModelTypeEnum,
     modelVersionNumber: S.String,
     arn: S.optional(S.String),
   }),
@@ -1626,11 +1672,11 @@ export const ListOfModelVersions = S.Array(ModelVersion);
 export interface UpdateDetectorVersionRequest {
   detectorId: string;
   detectorVersionId: string;
-  externalModelEndpoints: ListOfStrings;
-  rules: RuleList;
+  externalModelEndpoints: string[];
+  rules: Rule[];
   description?: string;
-  modelVersions?: ListOfModelVersions;
-  ruleExecutionMode?: string;
+  modelVersions?: ModelVersion[];
+  ruleExecutionMode?: RuleExecutionMode;
 }
 export const UpdateDetectorVersionRequest = S.suspend(() =>
   S.Struct({
@@ -1640,7 +1686,7 @@ export const UpdateDetectorVersionRequest = S.suspend(() =>
     rules: RuleList,
     description: S.optional(S.String),
     modelVersions: S.optional(ListOfModelVersions),
-    ruleExecutionMode: S.optional(S.String),
+    ruleExecutionMode: S.optional(RuleExecutionMode),
   }).pipe(
     T.all(
       ns,
@@ -1694,13 +1740,13 @@ export const UpdateDetectorVersionMetadataResult = S.suspend(() =>
 export interface UpdateDetectorVersionStatusRequest {
   detectorId: string;
   detectorVersionId: string;
-  status: string;
+  status: DetectorVersionStatus;
 }
 export const UpdateDetectorVersionStatusRequest = S.suspend(() =>
   S.Struct({
     detectorId: S.String,
     detectorVersionId: S.String,
-    status: S.String,
+    status: DetectorVersionStatus,
   }).pipe(
     T.all(
       ns,
@@ -1755,9 +1801,9 @@ export const UpdateEventLabelResult = S.suspend(() =>
 }) as any as S.Schema<UpdateEventLabelResult>;
 export interface UpdateListRequest {
   name: string;
-  elements?: ElementsList;
+  elements?: string | redacted.Redacted<string>[];
   description?: string;
-  updateMode?: string;
+  updateMode?: ListUpdateMode;
   variableType?: string;
 }
 export const UpdateListRequest = S.suspend(() =>
@@ -1765,7 +1811,7 @@ export const UpdateListRequest = S.suspend(() =>
     name: S.String,
     elements: S.optional(ElementsList),
     description: S.optional(S.String),
-    updateMode: S.optional(S.String),
+    updateMode: S.optional(ListUpdateMode),
     variableType: S.optional(S.String),
   }).pipe(
     T.all(
@@ -1789,13 +1835,13 @@ export const UpdateListResult = S.suspend(() =>
 }) as any as S.Schema<UpdateListResult>;
 export interface UpdateModelRequest {
   modelId: string;
-  modelType: string;
+  modelType: ModelTypeEnum;
   description?: string;
 }
 export const UpdateModelRequest = S.suspend(() =>
   S.Struct({
     modelId: S.String,
-    modelType: S.String,
+    modelType: ModelTypeEnum,
     description: S.optional(S.String),
   }).pipe(
     T.all(
@@ -1845,16 +1891,16 @@ export const IngestedEventsDetail = S.suspend(() =>
 }) as any as S.Schema<IngestedEventsDetail>;
 export interface UpdateModelVersionRequest {
   modelId: string;
-  modelType: string;
+  modelType: ModelTypeEnum;
   majorVersionNumber: string;
   externalEventsDetail?: ExternalEventsDetail;
   ingestedEventsDetail?: IngestedEventsDetail;
-  tags?: tagList;
+  tags?: Tag[];
 }
 export const UpdateModelVersionRequest = S.suspend(() =>
   S.Struct({
     modelId: S.String,
-    modelType: S.String,
+    modelType: ModelTypeEnum,
     majorVersionNumber: S.String,
     externalEventsDetail: S.optional(ExternalEventsDetail),
     ingestedEventsDetail: S.optional(IngestedEventsDetail),
@@ -1875,16 +1921,16 @@ export const UpdateModelVersionRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateModelVersionRequest>;
 export interface UpdateModelVersionStatusRequest {
   modelId: string;
-  modelType: string;
+  modelType: ModelTypeEnum;
   modelVersionNumber: string;
-  status: string;
+  status: ModelVersionStatus;
 }
 export const UpdateModelVersionStatusRequest = S.suspend(() =>
   S.Struct({
     modelId: S.String,
-    modelType: S.String,
+    modelType: ModelTypeEnum,
     modelVersionNumber: S.String,
-    status: S.String,
+    status: ModelVersionStatus,
   }).pipe(
     T.all(
       ns,
@@ -1933,17 +1979,17 @@ export const UpdateRuleMetadataResult = S.suspend(() =>
 export interface UpdateRuleVersionRequest {
   rule: Rule;
   description?: string;
-  expression: string | Redacted.Redacted<string>;
-  language: string;
-  outcomes: NonEmptyListOfStrings;
-  tags?: tagList;
+  expression: string | redacted.Redacted<string>;
+  language: Language;
+  outcomes: string[];
+  tags?: Tag[];
 }
 export const UpdateRuleVersionRequest = S.suspend(() =>
   S.Struct({
     rule: Rule,
     description: S.optional(S.String),
     expression: SensitiveString,
-    language: S.String,
+    language: Language,
     outcomes: NonEmptyListOfStrings,
     tags: S.optional(tagList),
   }).pipe(
@@ -1992,6 +2038,13 @@ export const UpdateVariableResult = S.suspend(() =>
 ).annotations({
   identifier: "UpdateVariableResult",
 }) as any as S.Schema<UpdateVariableResult>;
+export type ModelInputDataFormat = "TEXT_CSV" | "APPLICATION_JSON";
+export const ModelInputDataFormat = S.Literal("TEXT_CSV", "APPLICATION_JSON");
+export type ModelOutputDataFormat = "TEXT_CSV" | "APPLICATION_JSONLINES";
+export const ModelOutputDataFormat = S.Literal(
+  "TEXT_CSV",
+  "APPLICATION_JSONLINES",
+);
 export interface VariableEntry {
   name?: string;
   dataType?: string;
@@ -2014,6 +2067,21 @@ export const VariableEntry = S.suspend(() =>
 }) as any as S.Schema<VariableEntry>;
 export type VariableEntryList = VariableEntry[];
 export const VariableEntryList = S.Array(VariableEntry);
+export type AsyncJobStatus =
+  | "IN_PROGRESS_INITIALIZING"
+  | "IN_PROGRESS"
+  | "CANCEL_IN_PROGRESS"
+  | "CANCELED"
+  | "COMPLETE"
+  | "FAILED";
+export const AsyncJobStatus = S.Literal(
+  "IN_PROGRESS_INITIALIZING",
+  "IN_PROGRESS",
+  "CANCEL_IN_PROGRESS",
+  "CANCELED",
+  "COMPLETE",
+  "FAILED",
+);
 export interface KMSKey {
   kmsEncryptionKeyArn?: string;
 }
@@ -2047,7 +2115,7 @@ export const EventOrchestration = S.suspend(() =>
 }) as any as S.Schema<EventOrchestration>;
 export interface ModelInputConfiguration {
   eventTypeName?: string;
-  format?: string;
+  format?: ModelInputDataFormat;
   useEventVariables: boolean;
   jsonInputTemplate?: string;
   csvInputTemplate?: string;
@@ -2055,7 +2123,7 @@ export interface ModelInputConfiguration {
 export const ModelInputConfiguration = S.suspend(() =>
   S.Struct({
     eventTypeName: S.optional(S.String),
-    format: S.optional(S.String),
+    format: S.optional(ModelInputDataFormat),
     useEventVariables: S.Boolean,
     jsonInputTemplate: S.optional(S.String),
     csvInputTemplate: S.optional(S.String),
@@ -2063,9 +2131,16 @@ export const ModelInputConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ModelInputConfiguration",
 }) as any as S.Schema<ModelInputConfiguration>;
+export type UnlabeledEventsTreatment = "IGNORE" | "FRAUD" | "LEGIT" | "AUTO";
+export const UnlabeledEventsTreatment = S.Literal(
+  "IGNORE",
+  "FRAUD",
+  "LEGIT",
+  "AUTO",
+);
 export interface BatchCreateVariableRequest {
-  variableEntries: VariableEntryList;
-  tags?: tagList;
+  variableEntries: VariableEntry[];
+  tags?: Tag[];
 }
 export const BatchCreateVariableRequest = S.suspend(() =>
   S.Struct({
@@ -2088,11 +2163,11 @@ export const BatchCreateVariableRequest = S.suspend(() =>
 export interface CreateDetectorVersionRequest {
   detectorId: string;
   description?: string;
-  externalModelEndpoints?: ListOfStrings;
-  rules: RuleList;
-  modelVersions?: ListOfModelVersions;
-  ruleExecutionMode?: string;
-  tags?: tagList;
+  externalModelEndpoints?: string[];
+  rules: Rule[];
+  modelVersions?: ModelVersion[];
+  ruleExecutionMode?: RuleExecutionMode;
+  tags?: Tag[];
 }
 export const CreateDetectorVersionRequest = S.suspend(() =>
   S.Struct({
@@ -2101,7 +2176,7 @@ export const CreateDetectorVersionRequest = S.suspend(() =>
     externalModelEndpoints: S.optional(ListOfStrings),
     rules: RuleList,
     modelVersions: S.optional(ListOfModelVersions),
-    ruleExecutionMode: S.optional(S.String),
+    ruleExecutionMode: S.optional(RuleExecutionMode),
     tags: S.optional(tagList),
   }).pipe(
     T.all(
@@ -2139,12 +2214,12 @@ export const DeleteEventsByEventTypeResult = S.suspend(() =>
 }) as any as S.Schema<DeleteEventsByEventTypeResult>;
 export interface GetDeleteEventsByEventTypeStatusResult {
   eventTypeName?: string;
-  eventsDeletionStatus?: string;
+  eventsDeletionStatus?: AsyncJobStatus;
 }
 export const GetDeleteEventsByEventTypeStatusResult = S.suspend(() =>
   S.Struct({
     eventTypeName: S.optional(S.String),
-    eventsDeletionStatus: S.optional(S.String),
+    eventsDeletionStatus: S.optional(AsyncJobStatus),
   }).pipe(ns),
 ).annotations({
   identifier: "GetDeleteEventsByEventTypeStatusResult",
@@ -2153,13 +2228,13 @@ export interface GetDetectorVersionResult {
   detectorId?: string;
   detectorVersionId?: string;
   description?: string;
-  externalModelEndpoints?: ListOfStrings;
-  modelVersions?: ListOfModelVersions;
-  rules?: RuleList;
-  status?: string;
+  externalModelEndpoints?: string[];
+  modelVersions?: ModelVersion[];
+  rules?: Rule[];
+  status?: DetectorVersionStatus;
   lastUpdatedTime?: string;
   createdTime?: string;
-  ruleExecutionMode?: string;
+  ruleExecutionMode?: RuleExecutionMode;
   arn?: string;
 }
 export const GetDetectorVersionResult = S.suspend(() =>
@@ -2170,10 +2245,10 @@ export const GetDetectorVersionResult = S.suspend(() =>
     externalModelEndpoints: S.optional(ListOfStrings),
     modelVersions: S.optional(ListOfModelVersions),
     rules: S.optional(RuleList),
-    status: S.optional(S.String),
+    status: S.optional(DetectorVersionStatus),
     lastUpdatedTime: S.optional(S.String),
     createdTime: S.optional(S.String),
-    ruleExecutionMode: S.optional(S.String),
+    ruleExecutionMode: S.optional(RuleExecutionMode),
     arn: S.optional(S.String),
   }).pipe(ns),
 ).annotations({
@@ -2188,7 +2263,7 @@ export const GetKMSEncryptionKeyResult = S.suspend(() =>
   identifier: "GetKMSEncryptionKeyResult",
 }) as any as S.Schema<GetKMSEncryptionKeyResult>;
 export interface GetListElementsResult {
-  elements?: ElementsList;
+  elements?: string | redacted.Redacted<string>[];
   nextToken?: string;
 }
 export const GetListElementsResult = S.suspend(() =>
@@ -2199,20 +2274,20 @@ export const GetListElementsResult = S.suspend(() =>
 ).annotations({
   identifier: "GetListElementsResult",
 }) as any as S.Schema<GetListElementsResult>;
-export type labelMapper = { [key: string]: ListOfStrings };
+export type labelMapper = { [key: string]: string[] };
 export const labelMapper = S.Record({ key: S.String, value: ListOfStrings });
 export interface LabelSchema {
-  labelMapper?: labelMapper;
-  unlabeledEventsTreatment?: string;
+  labelMapper?: { [key: string]: string[] };
+  unlabeledEventsTreatment?: UnlabeledEventsTreatment;
 }
 export const LabelSchema = S.suspend(() =>
   S.Struct({
     labelMapper: S.optional(labelMapper),
-    unlabeledEventsTreatment: S.optional(S.String),
+    unlabeledEventsTreatment: S.optional(UnlabeledEventsTreatment),
   }),
 ).annotations({ identifier: "LabelSchema" }) as any as S.Schema<LabelSchema>;
 export interface TrainingDataSchema {
-  modelVariables: ListOfStrings;
+  modelVariables: string[];
   labelSchema?: LabelSchema;
 }
 export const TrainingDataSchema = S.suspend(() =>
@@ -2225,9 +2300,9 @@ export const TrainingDataSchema = S.suspend(() =>
 }) as any as S.Schema<TrainingDataSchema>;
 export interface GetModelVersionResult {
   modelId?: string;
-  modelType?: string;
+  modelType?: ModelTypeEnum;
   modelVersionNumber?: string;
-  trainingDataSource?: string;
+  trainingDataSource?: TrainingDataSourceEnum;
   trainingDataSchema?: TrainingDataSchema;
   externalEventsDetail?: ExternalEventsDetail;
   ingestedEventsDetail?: IngestedEventsDetail;
@@ -2237,9 +2312,9 @@ export interface GetModelVersionResult {
 export const GetModelVersionResult = S.suspend(() =>
   S.Struct({
     modelId: S.optional(S.String),
-    modelType: S.optional(S.String),
+    modelType: S.optional(ModelTypeEnum),
     modelVersionNumber: S.optional(S.String),
-    trainingDataSource: S.optional(S.String),
+    trainingDataSource: S.optional(TrainingDataSourceEnum),
     trainingDataSchema: S.optional(TrainingDataSchema),
     externalEventsDetail: S.optional(ExternalEventsDetail),
     ingestedEventsDetail: S.optional(IngestedEventsDetail),
@@ -2251,8 +2326,8 @@ export const GetModelVersionResult = S.suspend(() =>
 }) as any as S.Schema<GetModelVersionResult>;
 export interface Variable {
   name?: string;
-  dataType?: string;
-  dataSource?: string;
+  dataType?: DataType;
+  dataSource?: DataSource;
   defaultValue?: string;
   description?: string;
   variableType?: string;
@@ -2263,8 +2338,8 @@ export interface Variable {
 export const Variable = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    dataType: S.optional(S.String),
-    dataSource: S.optional(S.String),
+    dataType: S.optional(DataType),
+    dataSource: S.optional(DataSource),
     defaultValue: S.optional(S.String),
     description: S.optional(S.String),
     variableType: S.optional(S.String),
@@ -2276,7 +2351,7 @@ export const Variable = S.suspend(() =>
 export type VariableList = Variable[];
 export const VariableList = S.Array(Variable);
 export interface GetVariablesResult {
-  variables?: VariableList;
+  variables?: Variable[];
   nextToken?: string;
 }
 export const GetVariablesResult = S.suspend(() =>
@@ -2320,7 +2395,7 @@ export const ListEventPredictionsRequest = S.suspend(() =>
   identifier: "ListEventPredictionsRequest",
 }) as any as S.Schema<ListEventPredictionsRequest>;
 export interface ListTagsForResourceResult {
-  tags?: tagList;
+  tags?: Tag[];
   nextToken?: string;
 }
 export const ListTagsForResourceResult = S.suspend(() =>
@@ -2333,11 +2408,11 @@ export const ListTagsForResourceResult = S.suspend(() =>
 export interface PutEventTypeRequest {
   name: string;
   description?: string;
-  eventVariables: NonEmptyListOfStrings;
-  labels?: ListOfStrings;
-  entityTypes: NonEmptyListOfStrings;
-  eventIngestion?: string;
-  tags?: tagList;
+  eventVariables: string[];
+  labels?: string[];
+  entityTypes: string[];
+  eventIngestion?: EventIngestion;
+  tags?: Tag[];
   eventOrchestration?: EventOrchestration;
 }
 export const PutEventTypeRequest = S.suspend(() =>
@@ -2347,7 +2422,7 @@ export const PutEventTypeRequest = S.suspend(() =>
     eventVariables: NonEmptyListOfStrings,
     labels: S.optional(ListOfStrings),
     entityTypes: NonEmptyListOfStrings,
-    eventIngestion: S.optional(S.String),
+    eventIngestion: S.optional(EventIngestion),
     tags: S.optional(tagList),
     eventOrchestration: S.optional(EventOrchestration),
   }).pipe(
@@ -2372,14 +2447,14 @@ export const PutEventTypeResult = S.suspend(() =>
 }) as any as S.Schema<PutEventTypeResult>;
 export interface UpdateModelVersionResult {
   modelId?: string;
-  modelType?: string;
+  modelType?: ModelTypeEnum;
   modelVersionNumber?: string;
   status?: string;
 }
 export const UpdateModelVersionResult = S.suspend(() =>
   S.Struct({
     modelId: S.optional(S.String),
-    modelType: S.optional(S.String),
+    modelType: S.optional(ModelTypeEnum),
     modelVersionNumber: S.optional(S.String),
     status: S.optional(S.String),
   }).pipe(ns),
@@ -2434,14 +2509,14 @@ export type BatchGetVariableErrorList = BatchGetVariableError[];
 export const BatchGetVariableErrorList = S.Array(BatchGetVariableError);
 export interface DetectorVersionSummary {
   detectorVersionId?: string;
-  status?: string;
+  status?: DetectorVersionStatus;
   description?: string;
   lastUpdatedTime?: string;
 }
 export const DetectorVersionSummary = S.suspend(() =>
   S.Struct({
     detectorVersionId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(DetectorVersionStatus),
     description: S.optional(S.String),
     lastUpdatedTime: S.optional(S.String),
   }),
@@ -2452,7 +2527,7 @@ export type DetectorVersionSummaryList = DetectorVersionSummary[];
 export const DetectorVersionSummaryList = S.Array(DetectorVersionSummary);
 export interface BatchImport {
   jobId?: string;
-  status?: string;
+  status?: AsyncJobStatus;
   failureReason?: string;
   startTime?: string;
   completionTime?: string;
@@ -2468,7 +2543,7 @@ export interface BatchImport {
 export const BatchImport = S.suspend(() =>
   S.Struct({
     jobId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(AsyncJobStatus),
     failureReason: S.optional(S.String),
     startTime: S.optional(S.String),
     completionTime: S.optional(S.String),
@@ -2486,7 +2561,7 @@ export type BatchImportList = BatchImport[];
 export const BatchImportList = S.Array(BatchImport);
 export interface BatchPrediction {
   jobId?: string;
-  status?: string;
+  status?: AsyncJobStatus;
   failureReason?: string;
   startTime?: string;
   completionTime?: string;
@@ -2504,7 +2579,7 @@ export interface BatchPrediction {
 export const BatchPrediction = S.suspend(() =>
   S.Struct({
     jobId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(AsyncJobStatus),
     failureReason: S.optional(S.String),
     startTime: S.optional(S.String),
     completionTime: S.optional(S.String),
@@ -2570,9 +2645,9 @@ export const ExternalModelEndpointDataBlobMap = S.Record({
   value: ModelEndpointDataBlob,
 });
 export interface EventVariableSummary {
-  name?: string | Redacted.Redacted<string>;
-  value?: string | Redacted.Redacted<string>;
-  source?: string | Redacted.Redacted<string>;
+  name?: string | redacted.Redacted<string>;
+  value?: string | redacted.Redacted<string>;
+  source?: string | redacted.Redacted<string>;
 }
 export const EventVariableSummary = S.suspend(() =>
   S.Struct({
@@ -2588,9 +2663,9 @@ export const ListOfEventVariableSummaries = S.Array(EventVariableSummary);
 export interface EvaluatedRule {
   ruleId?: string;
   ruleVersion?: string;
-  expression?: string | Redacted.Redacted<string>;
-  expressionWithValues?: string | Redacted.Redacted<string>;
-  outcomes?: ListOfStrings;
+  expression?: string | redacted.Redacted<string>;
+  expressionWithValues?: string | redacted.Redacted<string>;
+  outcomes?: string[];
   evaluated?: boolean;
   matched?: boolean;
 }
@@ -2610,13 +2685,13 @@ export const EvaluatedRule = S.suspend(() =>
 export type EvaluatedRuleList = EvaluatedRule[];
 export const EvaluatedRuleList = S.Array(EvaluatedRule);
 export interface ModelOutputConfiguration {
-  format: string;
-  jsonKeyToVariableMap?: JsonKeyToVariableMap;
-  csvIndexToVariableMap?: CsvIndexToVariableMap;
+  format: ModelOutputDataFormat;
+  jsonKeyToVariableMap?: { [key: string]: string };
+  csvIndexToVariableMap?: { [key: string]: string };
 }
 export const ModelOutputConfiguration = S.suspend(() =>
   S.Struct({
-    format: S.String,
+    format: ModelOutputDataFormat,
     jsonKeyToVariableMap: S.optional(JsonKeyToVariableMap),
     csvIndexToVariableMap: S.optional(CsvIndexToVariableMap),
   }),
@@ -2625,11 +2700,11 @@ export const ModelOutputConfiguration = S.suspend(() =>
 }) as any as S.Schema<ModelOutputConfiguration>;
 export interface ExternalModel {
   modelEndpoint?: string;
-  modelSource?: string;
+  modelSource?: ModelSource;
   invokeModelEndpointRoleArn?: string;
   inputConfiguration?: ModelInputConfiguration;
   outputConfiguration?: ModelOutputConfiguration;
-  modelEndpointStatus?: string;
+  modelEndpointStatus?: ModelEndpointStatus;
   lastUpdatedTime?: string;
   createdTime?: string;
   arn?: string;
@@ -2637,11 +2712,11 @@ export interface ExternalModel {
 export const ExternalModel = S.suspend(() =>
   S.Struct({
     modelEndpoint: S.optional(S.String),
-    modelSource: S.optional(S.String),
+    modelSource: S.optional(ModelSource),
     invokeModelEndpointRoleArn: S.optional(S.String),
     inputConfiguration: S.optional(ModelInputConfiguration),
     outputConfiguration: S.optional(ModelOutputConfiguration),
-    modelEndpointStatus: S.optional(S.String),
+    modelEndpointStatus: S.optional(ModelEndpointStatus),
     lastUpdatedTime: S.optional(S.String),
     createdTime: S.optional(S.String),
     arn: S.optional(S.String),
@@ -2693,7 +2768,7 @@ export type AllowDenyLists = AllowDenyList[];
 export const AllowDenyLists = S.Array(AllowDenyList);
 export interface Model {
   modelId?: string;
-  modelType?: string;
+  modelType?: ModelTypeEnum;
   description?: string;
   eventTypeName?: string;
   createdTime?: string;
@@ -2703,7 +2778,7 @@ export interface Model {
 export const Model = S.suspend(() =>
   S.Struct({
     modelId: S.optional(S.String),
-    modelType: S.optional(S.String),
+    modelType: S.optional(ModelTypeEnum),
     description: S.optional(S.String),
     eventTypeName: S.optional(S.String),
     createdTime: S.optional(S.String),
@@ -2736,9 +2811,9 @@ export interface RuleDetail {
   description?: string;
   detectorId?: string;
   ruleVersion?: string;
-  expression?: string | Redacted.Redacted<string>;
-  language?: string;
-  outcomes?: NonEmptyListOfStrings;
+  expression?: string | redacted.Redacted<string>;
+  language?: Language;
+  outcomes?: string[];
   lastUpdatedTime?: string;
   createdTime?: string;
   arn?: string;
@@ -2750,7 +2825,7 @@ export const RuleDetail = S.suspend(() =>
     detectorId: S.optional(S.String),
     ruleVersion: S.optional(S.String),
     expression: S.optional(SensitiveString),
-    language: S.optional(S.String),
+    language: S.optional(Language),
     outcomes: S.optional(NonEmptyListOfStrings),
     lastUpdatedTime: S.optional(S.String),
     createdTime: S.optional(S.String),
@@ -2760,8 +2835,8 @@ export const RuleDetail = S.suspend(() =>
 export type RuleDetailList = RuleDetail[];
 export const RuleDetailList = S.Array(RuleDetail);
 export interface BatchGetVariableResult {
-  variables?: VariableList;
-  errors?: BatchGetVariableErrorList;
+  variables?: Variable[];
+  errors?: BatchGetVariableError[];
 }
 export const BatchGetVariableResult = S.suspend(() =>
   S.Struct({
@@ -2774,20 +2849,20 @@ export const BatchGetVariableResult = S.suspend(() =>
 export interface CreateDetectorVersionResult {
   detectorId?: string;
   detectorVersionId?: string;
-  status?: string;
+  status?: DetectorVersionStatus;
 }
 export const CreateDetectorVersionResult = S.suspend(() =>
   S.Struct({
     detectorId: S.optional(S.String),
     detectorVersionId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(DetectorVersionStatus),
   }).pipe(ns),
 ).annotations({
   identifier: "CreateDetectorVersionResult",
 }) as any as S.Schema<CreateDetectorVersionResult>;
 export interface DescribeDetectorResult {
   detectorId?: string;
-  detectorVersionSummaries?: DetectorVersionSummaryList;
+  detectorVersionSummaries?: DetectorVersionSummary[];
   nextToken?: string;
   arn?: string;
 }
@@ -2802,7 +2877,7 @@ export const DescribeDetectorResult = S.suspend(() =>
   identifier: "DescribeDetectorResult",
 }) as any as S.Schema<DescribeDetectorResult>;
 export interface GetBatchImportJobsResult {
-  batchImports?: BatchImportList;
+  batchImports?: BatchImport[];
   nextToken?: string;
 }
 export const GetBatchImportJobsResult = S.suspend(() =>
@@ -2814,7 +2889,7 @@ export const GetBatchImportJobsResult = S.suspend(() =>
   identifier: "GetBatchImportJobsResult",
 }) as any as S.Schema<GetBatchImportJobsResult>;
 export interface GetBatchPredictionJobsResult {
-  batchPredictions?: BatchPredictionList;
+  batchPredictions?: BatchPrediction[];
   nextToken?: string;
 }
 export const GetBatchPredictionJobsResult = S.suspend(() =>
@@ -2826,7 +2901,7 @@ export const GetBatchPredictionJobsResult = S.suspend(() =>
   identifier: "GetBatchPredictionJobsResult",
 }) as any as S.Schema<GetBatchPredictionJobsResult>;
 export interface GetDetectorsResult {
-  detectors?: DetectorList;
+  detectors?: Detector[];
   nextToken?: string;
 }
 export const GetDetectorsResult = S.suspend(() =>
@@ -2838,7 +2913,7 @@ export const GetDetectorsResult = S.suspend(() =>
   identifier: "GetDetectorsResult",
 }) as any as S.Schema<GetDetectorsResult>;
 export interface GetEntityTypesResult {
-  entityTypes?: entityTypeList;
+  entityTypes?: EntityType[];
   nextToken?: string;
 }
 export const GetEntityTypesResult = S.suspend(() =>
@@ -2854,10 +2929,10 @@ export interface GetEventPredictionRequest {
   detectorVersionId?: string;
   eventId: string;
   eventTypeName: string;
-  entities: listOfEntities;
+  entities: Entity[];
   eventTimestamp: string;
-  eventVariables: EventVariableMap;
-  externalModelEndpointDataBlobs?: ExternalModelEndpointDataBlobMap;
+  eventVariables: { [key: string]: string | redacted.Redacted<string> };
+  externalModelEndpointDataBlobs?: { [key: string]: ModelEndpointDataBlob };
 }
 export const GetEventPredictionRequest = S.suspend(() =>
   S.Struct({
@@ -2886,7 +2961,7 @@ export const GetEventPredictionRequest = S.suspend(() =>
   identifier: "GetEventPredictionRequest",
 }) as any as S.Schema<GetEventPredictionRequest>;
 export interface GetExternalModelsResult {
-  externalModels?: ExternalModelList;
+  externalModels?: ExternalModel[];
   nextToken?: string;
 }
 export const GetExternalModelsResult = S.suspend(() =>
@@ -2898,7 +2973,7 @@ export const GetExternalModelsResult = S.suspend(() =>
   identifier: "GetExternalModelsResult",
 }) as any as S.Schema<GetExternalModelsResult>;
 export interface GetLabelsResult {
-  labels?: labelList;
+  labels?: Label[];
   nextToken?: string;
 }
 export const GetLabelsResult = S.suspend(() =>
@@ -2910,7 +2985,7 @@ export const GetLabelsResult = S.suspend(() =>
   identifier: "GetLabelsResult",
 }) as any as S.Schema<GetLabelsResult>;
 export interface GetListsMetadataResult {
-  lists?: AllowDenyLists;
+  lists?: AllowDenyList[];
   nextToken?: string;
 }
 export const GetListsMetadataResult = S.suspend(() =>
@@ -2923,7 +2998,7 @@ export const GetListsMetadataResult = S.suspend(() =>
 }) as any as S.Schema<GetListsMetadataResult>;
 export interface GetModelsResult {
   nextToken?: string;
-  models?: modelList;
+  models?: Model[];
 }
 export const GetModelsResult = S.suspend(() =>
   S.Struct({
@@ -2934,7 +3009,7 @@ export const GetModelsResult = S.suspend(() =>
   identifier: "GetModelsResult",
 }) as any as S.Schema<GetModelsResult>;
 export interface GetOutcomesResult {
-  outcomes?: OutcomeList;
+  outcomes?: Outcome[];
   nextToken?: string;
 }
 export const GetOutcomesResult = S.suspend(() =>
@@ -2946,7 +3021,7 @@ export const GetOutcomesResult = S.suspend(() =>
   identifier: "GetOutcomesResult",
 }) as any as S.Schema<GetOutcomesResult>;
 export interface GetRulesResult {
-  ruleDetails?: RuleDetailList;
+  ruleDetails?: RuleDetail[];
   nextToken?: string;
 }
 export const GetRulesResult = S.suspend(() =>
@@ -2959,21 +3034,21 @@ export const GetRulesResult = S.suspend(() =>
 }) as any as S.Schema<GetRulesResult>;
 export interface PutExternalModelRequest {
   modelEndpoint: string;
-  modelSource: string;
+  modelSource: ModelSource;
   invokeModelEndpointRoleArn: string;
   inputConfiguration: ModelInputConfiguration;
   outputConfiguration: ModelOutputConfiguration;
-  modelEndpointStatus: string;
-  tags?: tagList;
+  modelEndpointStatus: ModelEndpointStatus;
+  tags?: Tag[];
 }
 export const PutExternalModelRequest = S.suspend(() =>
   S.Struct({
     modelEndpoint: S.String,
-    modelSource: S.String,
+    modelSource: ModelSource,
     invokeModelEndpointRoleArn: S.String,
     inputConfiguration: ModelInputConfiguration,
     outputConfiguration: ModelOutputConfiguration,
-    modelEndpointStatus: S.String,
+    modelEndpointStatus: ModelEndpointStatus,
     tags: S.optional(tagList),
   }).pipe(
     T.all(
@@ -2996,7 +3071,7 @@ export const PutExternalModelResult = S.suspend(() =>
   identifier: "PutExternalModelResult",
 }) as any as S.Schema<PutExternalModelResult>;
 export type EventAttributeMap = {
-  [key: string]: string | Redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string>;
 };
 export const EventAttributeMap = S.Record({
   key: S.String,
@@ -3042,10 +3117,10 @@ export interface Event {
   eventId?: string;
   eventTypeName?: string;
   eventTimestamp?: string;
-  eventVariables?: EventAttributeMap;
+  eventVariables?: { [key: string]: string | redacted.Redacted<string> };
   currentLabel?: string;
   labelTimestamp?: string;
-  entities?: listOfEntities;
+  entities?: Entity[];
 }
 export const Event = S.suspend(() =>
   S.Struct({
@@ -3061,8 +3136,8 @@ export const Event = S.suspend(() =>
 export interface EvaluatedExternalModel {
   modelEndpoint?: string;
   useEventVariables?: boolean;
-  inputVariables?: MapOfStrings;
-  outputVariables?: MapOfStrings;
+  inputVariables?: { [key: string]: string };
+  outputVariables?: { [key: string]: string };
 }
 export const EvaluatedExternalModel = S.suspend(() =>
   S.Struct({
@@ -3079,10 +3154,10 @@ export const ListOfEvaluatedExternalModels = S.Array(EvaluatedExternalModel);
 export interface EventType {
   name?: string;
   description?: string;
-  eventVariables?: ListOfStrings;
-  labels?: ListOfStrings;
-  entityTypes?: NonEmptyListOfStrings;
-  eventIngestion?: string;
+  eventVariables?: string[];
+  labels?: string[];
+  entityTypes?: string[];
+  eventIngestion?: EventIngestion;
   ingestedEventStatistics?: IngestedEventStatistics;
   lastUpdatedTime?: string;
   createdTime?: string;
@@ -3096,7 +3171,7 @@ export const EventType = S.suspend(() =>
     eventVariables: S.optional(ListOfStrings),
     labels: S.optional(ListOfStrings),
     entityTypes: S.optional(NonEmptyListOfStrings),
-    eventIngestion: S.optional(S.String),
+    eventIngestion: S.optional(EventIngestion),
     ingestedEventStatistics: S.optional(IngestedEventStatistics),
     lastUpdatedTime: S.optional(S.String),
     createdTime: S.optional(S.String),
@@ -3129,7 +3204,7 @@ export const EventPredictionSummary = S.suspend(() =>
 export type ListOfEventPredictionSummaries = EventPredictionSummary[];
 export const ListOfEventPredictionSummaries = S.Array(EventPredictionSummary);
 export interface BatchCreateVariableResult {
-  errors?: BatchCreateVariableErrorList;
+  errors?: BatchCreateVariableError[];
 }
 export const BatchCreateVariableResult = S.suspend(() =>
   S.Struct({ errors: S.optional(BatchCreateVariableErrorList) }).pipe(ns),
@@ -3138,18 +3213,18 @@ export const BatchCreateVariableResult = S.suspend(() =>
 }) as any as S.Schema<BatchCreateVariableResult>;
 export interface CreateModelVersionRequest {
   modelId: string;
-  modelType: string;
-  trainingDataSource: string;
+  modelType: ModelTypeEnum;
+  trainingDataSource: TrainingDataSourceEnum;
   trainingDataSchema: TrainingDataSchema;
   externalEventsDetail?: ExternalEventsDetail;
   ingestedEventsDetail?: IngestedEventsDetail;
-  tags?: tagList;
+  tags?: Tag[];
 }
 export const CreateModelVersionRequest = S.suspend(() =>
   S.Struct({
     modelId: S.String,
-    modelType: S.String,
-    trainingDataSource: S.String,
+    modelType: ModelTypeEnum,
+    trainingDataSource: TrainingDataSourceEnum,
     trainingDataSchema: TrainingDataSchema,
     externalEventsDetail: S.optional(ExternalEventsDetail),
     ingestedEventsDetail: S.optional(IngestedEventsDetail),
@@ -3177,7 +3252,7 @@ export const GetEventResult = S.suspend(() =>
   identifier: "GetEventResult",
 }) as any as S.Schema<GetEventResult>;
 export interface GetEventTypesResult {
-  eventTypes?: eventTypeList;
+  eventTypes?: EventType[];
   nextToken?: string;
 }
 export const GetEventTypesResult = S.suspend(() =>
@@ -3189,7 +3264,7 @@ export const GetEventTypesResult = S.suspend(() =>
   identifier: "GetEventTypesResult",
 }) as any as S.Schema<GetEventTypesResult>;
 export interface ListEventPredictionsResult {
-  eventPredictionSummaries?: ListOfEventPredictionSummaries;
+  eventPredictionSummaries?: EventPredictionSummary[];
   nextToken?: string;
 }
 export const ListEventPredictionsResult = S.suspend(() =>
@@ -3271,7 +3346,7 @@ export const LogOddsMetric = S.suspend(() =>
 export type ListOfLogOddsMetrics = LogOddsMetric[];
 export const ListOfLogOddsMetrics = S.Array(LogOddsMetric);
 export interface AggregatedLogOddsMetric {
-  variableNames: ListOfStrings;
+  variableNames: string[];
   aggregatedVariablesImportance: number;
 }
 export const AggregatedLogOddsMetric = S.suspend(() =>
@@ -3303,7 +3378,7 @@ export const listOfVariableImpactExplanations = S.Array(
   VariableImpactExplanation,
 );
 export interface AggregatedVariablesImpactExplanation {
-  eventVariableNames?: ListOfStrings;
+  eventVariableNames?: string[];
   relativeImpact?: string;
   logOddsImpact?: number;
 }
@@ -3323,7 +3398,7 @@ export const ListOfAggregatedVariablesImpactExplanations = S.Array(
 );
 export interface RuleResult {
   ruleId?: string;
-  outcomes?: ListOfStrings;
+  outcomes?: string[];
 }
 export const RuleResult = S.suspend(() =>
   S.Struct({
@@ -3334,8 +3409,8 @@ export const RuleResult = S.suspend(() =>
 export type ListOfRuleResults = RuleResult[];
 export const ListOfRuleResults = S.Array(RuleResult);
 export interface DataValidationMetrics {
-  fileLevelMessages?: fileValidationMessageList;
-  fieldLevelMessages?: fieldValidationMessageList;
+  fileLevelMessages?: FileValidationMessage[];
+  fieldLevelMessages?: FieldValidationMessage[];
 }
 export const DataValidationMetrics = S.suspend(() =>
   S.Struct({
@@ -3347,7 +3422,7 @@ export const DataValidationMetrics = S.suspend(() =>
 }) as any as S.Schema<DataValidationMetrics>;
 export interface TrainingMetrics {
   auc?: number;
-  metricDataPoints?: metricDataPointsList;
+  metricDataPoints?: MetricDataPoint[];
 }
 export const TrainingMetrics = S.suspend(() =>
   S.Struct({
@@ -3358,7 +3433,7 @@ export const TrainingMetrics = S.suspend(() =>
   identifier: "TrainingMetrics",
 }) as any as S.Schema<TrainingMetrics>;
 export interface VariableImportanceMetrics {
-  logOddsMetrics?: ListOfLogOddsMetrics;
+  logOddsMetrics?: LogOddsMetric[];
 }
 export const VariableImportanceMetrics = S.suspend(() =>
   S.Struct({ logOddsMetrics: S.optional(ListOfLogOddsMetrics) }),
@@ -3366,7 +3441,7 @@ export const VariableImportanceMetrics = S.suspend(() =>
   identifier: "VariableImportanceMetrics",
 }) as any as S.Schema<VariableImportanceMetrics>;
 export interface AggregatedVariablesImportanceMetrics {
-  logOddsMetrics?: ListOfAggregatedLogOddsMetrics;
+  logOddsMetrics?: AggregatedLogOddsMetric[];
 }
 export const AggregatedVariablesImportanceMetrics = S.suspend(() =>
   S.Struct({ logOddsMetrics: S.optional(ListOfAggregatedLogOddsMetrics) }),
@@ -3374,8 +3449,8 @@ export const AggregatedVariablesImportanceMetrics = S.suspend(() =>
   identifier: "AggregatedVariablesImportanceMetrics",
 }) as any as S.Schema<AggregatedVariablesImportanceMetrics>;
 export interface PredictionExplanations {
-  variableImpactExplanations?: listOfVariableImpactExplanations;
-  aggregatedVariablesImpactExplanations?: ListOfAggregatedVariablesImpactExplanations;
+  variableImpactExplanations?: VariableImpactExplanation[];
+  aggregatedVariablesImpactExplanations?: AggregatedVariablesImpactExplanation[];
 }
 export const PredictionExplanations = S.suspend(() =>
   S.Struct({
@@ -3389,14 +3464,14 @@ export const PredictionExplanations = S.suspend(() =>
 }) as any as S.Schema<PredictionExplanations>;
 export interface CreateModelVersionResult {
   modelId?: string;
-  modelType?: string;
+  modelType?: ModelTypeEnum;
   modelVersionNumber?: string;
   status?: string;
 }
 export const CreateModelVersionResult = S.suspend(() =>
   S.Struct({
     modelId: S.optional(S.String),
-    modelType: S.optional(S.String),
+    modelType: S.optional(ModelTypeEnum),
     modelVersionNumber: S.optional(S.String),
     status: S.optional(S.String),
   }).pipe(ns),
@@ -3504,12 +3579,12 @@ export type ModelPredictionMap = { [key: string]: number };
 export const ModelPredictionMap = S.Record({ key: S.String, value: S.Number });
 export interface ExternalModelSummary {
   modelEndpoint?: string;
-  modelSource?: string;
+  modelSource?: ModelSource;
 }
 export const ExternalModelSummary = S.suspend(() =>
   S.Struct({
     modelEndpoint: S.optional(S.String),
-    modelSource: S.optional(S.String),
+    modelSource: S.optional(ModelSource),
   }),
 ).annotations({
   identifier: "ExternalModelSummary",
@@ -3536,7 +3611,7 @@ export const ModelVersionEvaluation = S.suspend(() =>
 export type ListOfModelVersionEvaluations = ModelVersionEvaluation[];
 export const ListOfModelVersionEvaluations = S.Array(ModelVersionEvaluation);
 export interface TFITrainingMetricsValue {
-  metricDataPoints?: TFIMetricDataPointsList;
+  metricDataPoints?: TFIMetricDataPoint[];
   modelPerformance?: TFIModelPerformance;
 }
 export const TFITrainingMetricsValue = S.suspend(() =>
@@ -3548,7 +3623,7 @@ export const TFITrainingMetricsValue = S.suspend(() =>
   identifier: "TFITrainingMetricsValue",
 }) as any as S.Schema<TFITrainingMetricsValue>;
 export interface ATITrainingMetricsValue {
-  metricDataPoints?: ATIMetricDataPointsList;
+  metricDataPoints?: ATIMetricDataPoint[];
   modelPerformance?: ATIModelPerformance;
 }
 export const ATITrainingMetricsValue = S.suspend(() =>
@@ -3561,7 +3636,7 @@ export const ATITrainingMetricsValue = S.suspend(() =>
 }) as any as S.Schema<ATITrainingMetricsValue>;
 export interface ModelScores {
   modelVersion?: ModelVersion;
-  scores?: ModelPredictionMap;
+  scores?: { [key: string]: number };
 }
 export const ModelScores = S.suspend(() =>
   S.Struct({
@@ -3573,7 +3648,7 @@ export type ListOfModelScores = ModelScores[];
 export const ListOfModelScores = S.Array(ModelScores);
 export interface ExternalModelOutputs {
   externalModel?: ExternalModelSummary;
-  outputs?: ExternalModelPredictionMap;
+  outputs?: { [key: string]: string };
 }
 export const ExternalModelOutputs = S.suspend(() =>
   S.Struct({
@@ -3589,7 +3664,7 @@ export interface EvaluatedModelVersion {
   modelId?: string;
   modelVersion?: string;
   modelType?: string;
-  evaluations?: ListOfModelVersionEvaluations;
+  evaluations?: ModelVersionEvaluation[];
 }
 export const EvaluatedModelVersion = S.suspend(() =>
   S.Struct({
@@ -3616,9 +3691,9 @@ export const OFIModelPerformance = S.suspend(() =>
   identifier: "OFIModelPerformance",
 }) as any as S.Schema<OFIModelPerformance>;
 export interface GetEventPredictionResult {
-  modelScores?: ListOfModelScores;
-  ruleResults?: ListOfRuleResults;
-  externalModelOutputs?: ListOfExternalModelOutputs;
+  modelScores?: ModelScores[];
+  ruleResults?: RuleResult[];
+  externalModelOutputs?: ExternalModelOutputs[];
 }
 export const GetEventPredictionResult = S.suspend(() =>
   S.Struct({
@@ -3638,12 +3713,12 @@ export interface GetEventPredictionMetadataResult {
   detectorId?: string;
   detectorVersionId?: string;
   detectorVersionStatus?: string;
-  eventVariables?: ListOfEventVariableSummaries;
-  rules?: EvaluatedRuleList;
-  ruleExecutionMode?: string;
-  outcomes?: ListOfStrings;
-  evaluatedModelVersions?: ListOfEvaluatedModelVersions;
-  evaluatedExternalModels?: ListOfEvaluatedExternalModels;
+  eventVariables?: EventVariableSummary[];
+  rules?: EvaluatedRule[];
+  ruleExecutionMode?: RuleExecutionMode;
+  outcomes?: string[];
+  evaluatedModelVersions?: EvaluatedModelVersion[];
+  evaluatedExternalModels?: EvaluatedExternalModel[];
   predictionTimestamp?: string;
 }
 export const GetEventPredictionMetadataResult = S.suspend(() =>
@@ -3658,7 +3733,7 @@ export const GetEventPredictionMetadataResult = S.suspend(() =>
     detectorVersionStatus: S.optional(S.String),
     eventVariables: S.optional(ListOfEventVariableSummaries),
     rules: S.optional(EvaluatedRuleList),
-    ruleExecutionMode: S.optional(S.String),
+    ruleExecutionMode: S.optional(RuleExecutionMode),
     outcomes: S.optional(ListOfStrings),
     evaluatedModelVersions: S.optional(ListOfEvaluatedModelVersions),
     evaluatedExternalModels: S.optional(ListOfEvaluatedExternalModels),
@@ -3668,7 +3743,7 @@ export const GetEventPredictionMetadataResult = S.suspend(() =>
   identifier: "GetEventPredictionMetadataResult",
 }) as any as S.Schema<GetEventPredictionMetadataResult>;
 export interface OFITrainingMetricsValue {
-  metricDataPoints?: OFIMetricDataPointsList;
+  metricDataPoints?: OFIMetricDataPoint[];
   modelPerformance?: OFIModelPerformance;
 }
 export const OFITrainingMetricsValue = S.suspend(() =>
@@ -3713,10 +3788,10 @@ export const TrainingResultV2 = S.suspend(() =>
 }) as any as S.Schema<TrainingResultV2>;
 export interface ModelVersionDetail {
   modelId?: string;
-  modelType?: string;
+  modelType?: ModelTypeEnum;
   modelVersionNumber?: string;
   status?: string;
-  trainingDataSource?: string;
+  trainingDataSource?: TrainingDataSourceEnum;
   trainingDataSchema?: TrainingDataSchema;
   externalEventsDetail?: ExternalEventsDetail;
   ingestedEventsDetail?: IngestedEventsDetail;
@@ -3729,10 +3804,10 @@ export interface ModelVersionDetail {
 export const ModelVersionDetail = S.suspend(() =>
   S.Struct({
     modelId: S.optional(S.String),
-    modelType: S.optional(S.String),
+    modelType: S.optional(ModelTypeEnum),
     modelVersionNumber: S.optional(S.String),
     status: S.optional(S.String),
-    trainingDataSource: S.optional(S.String),
+    trainingDataSource: S.optional(TrainingDataSourceEnum),
     trainingDataSchema: S.optional(TrainingDataSchema),
     externalEventsDetail: S.optional(ExternalEventsDetail),
     ingestedEventsDetail: S.optional(IngestedEventsDetail),
@@ -3748,7 +3823,7 @@ export const ModelVersionDetail = S.suspend(() =>
 export type modelVersionDetailList = ModelVersionDetail[];
 export const modelVersionDetailList = S.Array(ModelVersionDetail);
 export interface DescribeModelVersionsResult {
-  modelVersionDetails?: modelVersionDetailList;
+  modelVersionDetails?: ModelVersionDetail[];
   nextToken?: string;
 }
 export const DescribeModelVersionsResult = S.suspend(() =>
@@ -3796,7 +3871,7 @@ export class ResourceUnavailableException extends S.TaggedError<ResourceUnavaila
  */
 export const getKMSEncryptionKey: (
   input: GetKMSEncryptionKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetKMSEncryptionKeyResult,
   | AccessDeniedException
   | InternalServerException
@@ -3822,7 +3897,7 @@ export const getKMSEncryptionKey: (
 export const listTagsForResource: {
   (
     input: ListTagsForResourceRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTagsForResourceResult,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -3833,7 +3908,7 @@ export const listTagsForResource: {
   >;
   pages: (
     input: ListTagsForResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTagsForResourceResult,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -3844,7 +3919,7 @@ export const listTagsForResource: {
   >;
   items: (
     input: ListTagsForResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -3873,7 +3948,7 @@ export const listTagsForResource: {
  */
 export const putExternalModel: (
   input: PutExternalModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutExternalModelResult,
   | AccessDeniedException
   | ConflictException
@@ -3898,7 +3973,7 @@ export const putExternalModel: (
  */
 export const createRule: (
   input: CreateRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRuleResult,
   | AccessDeniedException
   | InternalServerException
@@ -3927,7 +4002,7 @@ export const createRule: (
  */
 export const deleteLabel: (
   input: DeleteLabelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLabelResult,
   | ConflictException
   | InternalServerException
@@ -3950,7 +4025,7 @@ export const deleteLabel: (
  */
 export const getDeleteEventsByEventTypeStatus: (
   input: GetDeleteEventsByEventTypeStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDeleteEventsByEventTypeStatusResult,
   | AccessDeniedException
   | InternalServerException
@@ -3975,7 +4050,7 @@ export const getDeleteEventsByEventTypeStatus: (
  */
 export const getDetectorVersion: (
   input: GetDetectorVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDetectorVersionResult,
   | AccessDeniedException
   | InternalServerException
@@ -4001,7 +4076,7 @@ export const getDetectorVersion: (
 export const getListElements: {
   (
     input: GetListElementsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetListElementsResult,
     | AccessDeniedException
     | InternalServerException
@@ -4013,7 +4088,7 @@ export const getListElements: {
   >;
   pages: (
     input: GetListElementsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetListElementsResult,
     | AccessDeniedException
     | InternalServerException
@@ -4025,7 +4100,7 @@ export const getListElements: {
   >;
   items: (
     input: GetListElementsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -4056,7 +4131,7 @@ export const getListElements: {
  */
 export const getModelVersion: (
   input: GetModelVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetModelVersionResult,
   | AccessDeniedException
   | InternalServerException
@@ -4087,7 +4162,7 @@ export const getModelVersion: (
 export const getVariables: {
   (
     input: GetVariablesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetVariablesResult,
     | AccessDeniedException
     | InternalServerException
@@ -4099,7 +4174,7 @@ export const getVariables: {
   >;
   pages: (
     input: GetVariablesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetVariablesResult,
     | AccessDeniedException
     | InternalServerException
@@ -4111,7 +4186,7 @@ export const getVariables: {
   >;
   items: (
     input: GetVariablesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -4142,7 +4217,7 @@ export const getVariables: {
  */
 export const putEventType: (
   input: PutEventTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutEventTypeResult,
   | AccessDeniedException
   | ConflictException
@@ -4167,7 +4242,7 @@ export const putEventType: (
  */
 export const updateModelVersion: (
   input: UpdateModelVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateModelVersionResult,
   | AccessDeniedException
   | ConflictException
@@ -4194,7 +4269,7 @@ export const updateModelVersion: (
  */
 export const updateRuleVersion: (
   input: UpdateRuleVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRuleVersionResult,
   | AccessDeniedException
   | ConflictException
@@ -4221,7 +4296,7 @@ export const updateRuleVersion: (
  */
 export const cancelBatchPredictionJob: (
   input: CancelBatchPredictionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelBatchPredictionJobResult,
   | AccessDeniedException
   | InternalServerException
@@ -4246,7 +4321,7 @@ export const cancelBatchPredictionJob: (
  */
 export const createBatchImportJob: (
   input: CreateBatchImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBatchImportJobResult,
   | AccessDeniedException
   | InternalServerException
@@ -4271,7 +4346,7 @@ export const createBatchImportJob: (
  */
 export const createBatchPredictionJob: (
   input: CreateBatchPredictionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBatchPredictionJobResult,
   | AccessDeniedException
   | InternalServerException
@@ -4299,7 +4374,7 @@ export const createBatchPredictionJob: (
  */
 export const createList: (
   input: CreateListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateListResult,
   | AccessDeniedException
   | InternalServerException
@@ -4322,7 +4397,7 @@ export const createList: (
  */
 export const createModel: (
   input: CreateModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateModelResult,
   | AccessDeniedException
   | InternalServerException
@@ -4345,7 +4420,7 @@ export const createModel: (
  */
 export const createVariable: (
   input: CreateVariableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVariableResult,
   | AccessDeniedException
   | InternalServerException
@@ -4368,7 +4443,7 @@ export const createVariable: (
  */
 export const deleteBatchImportJob: (
   input: DeleteBatchImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBatchImportJobResult,
   | AccessDeniedException
   | InternalServerException
@@ -4391,7 +4466,7 @@ export const deleteBatchImportJob: (
  */
 export const deleteBatchPredictionJob: (
   input: DeleteBatchPredictionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBatchPredictionJobResult,
   | AccessDeniedException
   | InternalServerException
@@ -4416,7 +4491,7 @@ export const deleteBatchPredictionJob: (
  */
 export const deleteDetector: (
   input: DeleteDetectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDetectorResult,
   | AccessDeniedException
   | ConflictException
@@ -4443,7 +4518,7 @@ export const deleteDetector: (
  */
 export const deleteDetectorVersion: (
   input: DeleteDetectorVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDetectorVersionResult,
   | AccessDeniedException
   | ConflictException
@@ -4474,7 +4549,7 @@ export const deleteDetectorVersion: (
  */
 export const deleteEntityType: (
   input: DeleteEntityTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEntityTypeResult,
   | AccessDeniedException
   | ConflictException
@@ -4502,7 +4577,7 @@ export const deleteEntityType: (
  */
 export const deleteEvent: (
   input: DeleteEventRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEventResult,
   | AccessDeniedException
   | InternalServerException
@@ -4529,7 +4604,7 @@ export const deleteEvent: (
  */
 export const deleteEventType: (
   input: DeleteEventTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEventTypeResult,
   | AccessDeniedException
   | ConflictException
@@ -4556,7 +4631,7 @@ export const deleteEventType: (
  */
 export const deleteExternalModel: (
   input: DeleteExternalModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteExternalModelResult,
   | AccessDeniedException
   | ConflictException
@@ -4583,7 +4658,7 @@ export const deleteExternalModel: (
  */
 export const deleteList: (
   input: DeleteListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteListResult,
   | AccessDeniedException
   | ConflictException
@@ -4612,7 +4687,7 @@ export const deleteList: (
  */
 export const deleteModel: (
   input: DeleteModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteModelResult,
   | AccessDeniedException
   | ConflictException
@@ -4641,7 +4716,7 @@ export const deleteModel: (
  */
 export const deleteModelVersion: (
   input: DeleteModelVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteModelVersionResult,
   | AccessDeniedException
   | ConflictException
@@ -4670,7 +4745,7 @@ export const deleteModelVersion: (
  */
 export const deleteOutcome: (
   input: DeleteOutcomeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteOutcomeResult,
   | AccessDeniedException
   | ConflictException
@@ -4697,7 +4772,7 @@ export const deleteOutcome: (
  */
 export const deleteRule: (
   input: DeleteRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRuleResult,
   | AccessDeniedException
   | ConflictException
@@ -4728,7 +4803,7 @@ export const deleteRule: (
  */
 export const deleteVariable: (
   input: DeleteVariableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVariableResult,
   | AccessDeniedException
   | ConflictException
@@ -4753,7 +4828,7 @@ export const deleteVariable: (
  */
 export const putDetector: (
   input: PutDetectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutDetectorResult,
   | AccessDeniedException
   | ConflictException
@@ -4778,7 +4853,7 @@ export const putDetector: (
  */
 export const putEntityType: (
   input: PutEntityTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutEntityTypeResult,
   | AccessDeniedException
   | ConflictException
@@ -4803,7 +4878,7 @@ export const putEntityType: (
  */
 export const putKMSEncryptionKey: (
   input: PutKMSEncryptionKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutKMSEncryptionKeyResult,
   | AccessDeniedException
   | ConflictException
@@ -4830,7 +4905,7 @@ export const putKMSEncryptionKey: (
  */
 export const putLabel: (
   input: PutLabelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutLabelResult,
   | AccessDeniedException
   | ConflictException
@@ -4855,7 +4930,7 @@ export const putLabel: (
  */
 export const putOutcome: (
   input: PutOutcomeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutOutcomeResult,
   | AccessDeniedException
   | ConflictException
@@ -4880,7 +4955,7 @@ export const putOutcome: (
  */
 export const sendEvent: (
   input: SendEventRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendEventResult,
   | AccessDeniedException
   | ConflictException
@@ -4907,7 +4982,7 @@ export const sendEvent: (
  */
 export const updateDetectorVersion: (
   input: UpdateDetectorVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDetectorVersionResult,
   | AccessDeniedException
   | ConflictException
@@ -4935,7 +5010,7 @@ export const updateDetectorVersion: (
  */
 export const updateDetectorVersionMetadata: (
   input: UpdateDetectorVersionMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDetectorVersionMetadataResult,
   | AccessDeniedException
   | ConflictException
@@ -4961,7 +5036,7 @@ export const updateDetectorVersionMetadata: (
  */
 export const updateDetectorVersionStatus: (
   input: UpdateDetectorVersionStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDetectorVersionStatusResult,
   | AccessDeniedException
   | ConflictException
@@ -4988,7 +5063,7 @@ export const updateDetectorVersionStatus: (
  */
 export const updateEventLabel: (
   input: UpdateEventLabelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEventLabelResult,
   | AccessDeniedException
   | ConflictException
@@ -5015,7 +5090,7 @@ export const updateEventLabel: (
  */
 export const updateList: (
   input: UpdateListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateListResult,
   | AccessDeniedException
   | ConflictException
@@ -5042,7 +5117,7 @@ export const updateList: (
  */
 export const updateModel: (
   input: UpdateModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateModelResult,
   | AccessDeniedException
   | ConflictException
@@ -5077,7 +5152,7 @@ export const updateModel: (
  */
 export const updateModelVersionStatus: (
   input: UpdateModelVersionStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateModelVersionStatusResult,
   | AccessDeniedException
   | ConflictException
@@ -5104,7 +5179,7 @@ export const updateModelVersionStatus: (
  */
 export const updateRuleMetadata: (
   input: UpdateRuleMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRuleMetadataResult,
   | AccessDeniedException
   | ConflictException
@@ -5131,7 +5206,7 @@ export const updateRuleMetadata: (
  */
 export const updateVariable: (
   input: UpdateVariableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateVariableResult,
   | AccessDeniedException
   | ConflictException
@@ -5158,7 +5233,7 @@ export const updateVariable: (
  */
 export const deleteEventsByEventType: (
   input: DeleteEventsByEventTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEventsByEventTypeResult,
   | AccessDeniedException
   | ConflictException
@@ -5185,7 +5260,7 @@ export const deleteEventsByEventType: (
  */
 export const batchGetVariable: (
   input: BatchGetVariableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetVariableResult,
   | AccessDeniedException
   | InternalServerException
@@ -5208,7 +5283,7 @@ export const batchGetVariable: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResult,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -5231,7 +5306,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResult,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -5254,7 +5329,7 @@ export const untagResource: (
  */
 export const cancelBatchImportJob: (
   input: CancelBatchImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelBatchImportJobResult,
   | AccessDeniedException
   | InternalServerException
@@ -5279,7 +5354,7 @@ export const cancelBatchImportJob: (
  */
 export const createDetectorVersion: (
   input: CreateDetectorVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDetectorVersionResult,
   | AccessDeniedException
   | InternalServerException
@@ -5304,7 +5379,7 @@ export const createDetectorVersion: (
  */
 export const describeDetector: (
   input: DescribeDetectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDetectorResult,
   | AccessDeniedException
   | InternalServerException
@@ -5333,7 +5408,7 @@ export const describeDetector: (
 export const getBatchImportJobs: {
   (
     input: GetBatchImportJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetBatchImportJobsResult,
     | AccessDeniedException
     | InternalServerException
@@ -5345,7 +5420,7 @@ export const getBatchImportJobs: {
   >;
   pages: (
     input: GetBatchImportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetBatchImportJobsResult,
     | AccessDeniedException
     | InternalServerException
@@ -5357,7 +5432,7 @@ export const getBatchImportJobs: {
   >;
   items: (
     input: GetBatchImportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5389,7 +5464,7 @@ export const getBatchImportJobs: {
 export const getBatchPredictionJobs: {
   (
     input: GetBatchPredictionJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetBatchPredictionJobsResult,
     | AccessDeniedException
     | InternalServerException
@@ -5401,7 +5476,7 @@ export const getBatchPredictionJobs: {
   >;
   pages: (
     input: GetBatchPredictionJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetBatchPredictionJobsResult,
     | AccessDeniedException
     | InternalServerException
@@ -5413,7 +5488,7 @@ export const getBatchPredictionJobs: {
   >;
   items: (
     input: GetBatchPredictionJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5450,7 +5525,7 @@ export const getBatchPredictionJobs: {
 export const getDetectors: {
   (
     input: GetDetectorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetDetectorsResult,
     | AccessDeniedException
     | InternalServerException
@@ -5462,7 +5537,7 @@ export const getDetectors: {
   >;
   pages: (
     input: GetDetectorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetDetectorsResult,
     | AccessDeniedException
     | InternalServerException
@@ -5474,7 +5549,7 @@ export const getDetectors: {
   >;
   items: (
     input: GetDetectorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5511,7 +5586,7 @@ export const getDetectors: {
 export const getEntityTypes: {
   (
     input: GetEntityTypesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetEntityTypesResult,
     | AccessDeniedException
     | InternalServerException
@@ -5523,7 +5598,7 @@ export const getEntityTypes: {
   >;
   pages: (
     input: GetEntityTypesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetEntityTypesResult,
     | AccessDeniedException
     | InternalServerException
@@ -5535,7 +5610,7 @@ export const getEntityTypes: {
   >;
   items: (
     input: GetEntityTypesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5572,7 +5647,7 @@ export const getEntityTypes: {
 export const getExternalModels: {
   (
     input: GetExternalModelsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetExternalModelsResult,
     | AccessDeniedException
     | InternalServerException
@@ -5584,7 +5659,7 @@ export const getExternalModels: {
   >;
   pages: (
     input: GetExternalModelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetExternalModelsResult,
     | AccessDeniedException
     | InternalServerException
@@ -5596,7 +5671,7 @@ export const getExternalModels: {
   >;
   items: (
     input: GetExternalModelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5633,7 +5708,7 @@ export const getExternalModels: {
 export const getLabels: {
   (
     input: GetLabelsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetLabelsResult,
     | AccessDeniedException
     | InternalServerException
@@ -5645,7 +5720,7 @@ export const getLabels: {
   >;
   pages: (
     input: GetLabelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetLabelsResult,
     | AccessDeniedException
     | InternalServerException
@@ -5657,7 +5732,7 @@ export const getLabels: {
   >;
   items: (
     input: GetLabelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5689,7 +5764,7 @@ export const getLabels: {
 export const getListsMetadata: {
   (
     input: GetListsMetadataRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetListsMetadataResult,
     | AccessDeniedException
     | InternalServerException
@@ -5701,7 +5776,7 @@ export const getListsMetadata: {
   >;
   pages: (
     input: GetListsMetadataRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetListsMetadataResult,
     | AccessDeniedException
     | InternalServerException
@@ -5713,7 +5788,7 @@ export const getListsMetadata: {
   >;
   items: (
     input: GetListsMetadataRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5752,7 +5827,7 @@ export const getListsMetadata: {
 export const getModels: {
   (
     input: GetModelsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetModelsResult,
     | AccessDeniedException
     | InternalServerException
@@ -5764,7 +5839,7 @@ export const getModels: {
   >;
   pages: (
     input: GetModelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetModelsResult,
     | AccessDeniedException
     | InternalServerException
@@ -5776,7 +5851,7 @@ export const getModels: {
   >;
   items: (
     input: GetModelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5813,7 +5888,7 @@ export const getModels: {
 export const getOutcomes: {
   (
     input: GetOutcomesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetOutcomesResult,
     | AccessDeniedException
     | InternalServerException
@@ -5825,7 +5900,7 @@ export const getOutcomes: {
   >;
   pages: (
     input: GetOutcomesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetOutcomesResult,
     | AccessDeniedException
     | InternalServerException
@@ -5837,7 +5912,7 @@ export const getOutcomes: {
   >;
   items: (
     input: GetOutcomesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5871,7 +5946,7 @@ export const getOutcomes: {
 export const getRules: {
   (
     input: GetRulesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetRulesResult,
     | AccessDeniedException
     | InternalServerException
@@ -5883,7 +5958,7 @@ export const getRules: {
   >;
   pages: (
     input: GetRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetRulesResult,
     | AccessDeniedException
     | InternalServerException
@@ -5895,7 +5970,7 @@ export const getRules: {
   >;
   items: (
     input: GetRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5926,7 +6001,7 @@ export const getRules: {
  */
 export const batchCreateVariable: (
   input: BatchCreateVariableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchCreateVariableResult,
   | AccessDeniedException
   | InternalServerException
@@ -5949,7 +6024,7 @@ export const batchCreateVariable: (
  */
 export const getEvent: (
   input: GetEventRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEventResult,
   | AccessDeniedException
   | InternalServerException
@@ -5980,7 +6055,7 @@ export const getEvent: (
 export const getEventTypes: {
   (
     input: GetEventTypesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetEventTypesResult,
     | AccessDeniedException
     | InternalServerException
@@ -5992,7 +6067,7 @@ export const getEventTypes: {
   >;
   pages: (
     input: GetEventTypesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetEventTypesResult,
     | AccessDeniedException
     | InternalServerException
@@ -6004,7 +6079,7 @@ export const getEventTypes: {
   >;
   items: (
     input: GetEventTypesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -6047,7 +6122,7 @@ export const getEventTypes: {
 export const listEventPredictions: {
   (
     input: ListEventPredictionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEventPredictionsResult,
     | AccessDeniedException
     | InternalServerException
@@ -6058,7 +6133,7 @@ export const listEventPredictions: {
   >;
   pages: (
     input: ListEventPredictionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEventPredictionsResult,
     | AccessDeniedException
     | InternalServerException
@@ -6069,7 +6144,7 @@ export const listEventPredictions: {
   >;
   items: (
     input: ListEventPredictionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -6098,7 +6173,7 @@ export const listEventPredictions: {
  */
 export const createModelVersion: (
   input: CreateModelVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateModelVersionResult,
   | AccessDeniedException
   | InternalServerException
@@ -6123,7 +6198,7 @@ export const createModelVersion: (
  */
 export const getEventPredictionMetadata: (
   input: GetEventPredictionMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEventPredictionMetadataResult,
   | AccessDeniedException
   | InternalServerException
@@ -6148,7 +6223,7 @@ export const getEventPredictionMetadata: (
  */
 export const getEventPrediction: (
   input: GetEventPredictionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEventPredictionResult,
   | AccessDeniedException
   | ConflictException
@@ -6178,7 +6253,7 @@ export const getEventPrediction: (
 export const describeModelVersions: {
   (
     input: DescribeModelVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeModelVersionsResult,
     | AccessDeniedException
     | InternalServerException
@@ -6190,7 +6265,7 @@ export const describeModelVersions: {
   >;
   pages: (
     input: DescribeModelVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeModelVersionsResult,
     | AccessDeniedException
     | InternalServerException
@@ -6202,7 +6277,7 @@ export const describeModelVersions: {
   >;
   items: (
     input: DescribeModelVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException

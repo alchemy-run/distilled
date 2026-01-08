@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -92,10 +92,10 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type Name = string;
-export type Definition = string | Redacted.Redacted<string>;
+export type Definition = string | redacted.Redacted<string>;
 export type Arn = string;
-export type VersionDescription = string | Redacted.Redacted<string>;
-export type AliasDescription = string | Redacted.Redacted<string>;
+export type VersionDescription = string | redacted.Redacted<string>;
+export type AliasDescription = string | redacted.Redacted<string>;
 export type CharacterRestrictedName = string;
 export type LongArn = string;
 export type PageSize = number;
@@ -104,11 +104,11 @@ export type ListExecutionsPageToken = string;
 export type RevisionId = string;
 export type ClientToken = string;
 export type TaskToken = string;
-export type SensitiveError = string | Redacted.Redacted<string>;
-export type SensitiveCause = string | Redacted.Redacted<string>;
-export type SensitiveData = string | Redacted.Redacted<string>;
+export type SensitiveError = string | redacted.Redacted<string>;
+export type SensitiveCause = string | redacted.Redacted<string>;
+export type SensitiveData = string | redacted.Redacted<string>;
 export type TraceHeader = string;
-export type TestStateStateName = string | Redacted.Redacted<string>;
+export type TestStateStateName = string | redacted.Redacted<string>;
 export type TagKey = string;
 export type MaxConcurrency = number;
 export type ToleratedFailurePercentage = number;
@@ -123,29 +123,29 @@ export type MapIterationFailureCount = number;
 export type ErrorMessage = string;
 export type RedriveCount = number;
 export type MapRunLabel = string;
-export type SensitiveDataJobInput = string | Redacted.Redacted<string>;
+export type SensitiveDataJobInput = string | redacted.Redacted<string>;
 export type UnsignedLong = number;
 export type LongObject = number;
 export type StateName = string;
-export type VariableName = string | Redacted.Redacted<string>;
+export type VariableName = string | redacted.Redacted<string>;
 export type EventId = number;
 export type UnsignedInteger = number;
 export type BilledMemoryUsed = number;
 export type BilledDuration = number;
 export type ValidateStateMachineDefinitionCode =
   | string
-  | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
 export type ValidateStateMachineDefinitionMessage =
   | string
-  | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
 export type ValidateStateMachineDefinitionLocation =
   | string
-  | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
 export type TimeoutInSeconds = number;
 export type Identity = string;
-export type ConnectorParameters = string | Redacted.Redacted<string>;
-export type EvaluationFailureLocation = string | Redacted.Redacted<string>;
-export type VariableValue = string | Redacted.Redacted<string>;
+export type ConnectorParameters = string | redacted.Redacted<string>;
+export type EvaluationFailureLocation = string | redacted.Redacted<string>;
+export type VariableValue = string | redacted.Redacted<string>;
 export type InspectionToleratedFailureCount = number;
 export type InspectionToleratedFailurePercentage = number;
 export type InspectionMaxConcurrency = number;
@@ -160,8 +160,36 @@ export type ExceptionHandlerIndex = number;
 export type RetryBackoffIntervalSeconds = number;
 
 //# Schemas
+export type StateMachineType = "STANDARD" | "EXPRESS";
+export const StateMachineType = S.Literal("STANDARD", "EXPRESS");
+export type IncludedData = "ALL_DATA" | "METADATA_ONLY";
+export const IncludedData = S.Literal("ALL_DATA", "METADATA_ONLY");
+export type ExecutionStatus =
+  | "RUNNING"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "TIMED_OUT"
+  | "ABORTED"
+  | "PENDING_REDRIVE";
+export const ExecutionStatus = S.Literal(
+  "RUNNING",
+  "SUCCEEDED",
+  "FAILED",
+  "TIMED_OUT",
+  "ABORTED",
+  "PENDING_REDRIVE",
+);
+export type ExecutionRedriveFilter = "REDRIVEN" | "NOT_REDRIVEN";
+export const ExecutionRedriveFilter = S.Literal("REDRIVEN", "NOT_REDRIVEN");
+export type InspectionLevel = "INFO" | "DEBUG" | "TRACE";
+export const InspectionLevel = S.Literal("INFO", "DEBUG", "TRACE");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type ValidateStateMachineDefinitionSeverity = "ERROR" | "WARNING";
+export const ValidateStateMachineDefinitionSeverity = S.Literal(
+  "ERROR",
+  "WARNING",
+);
 export interface DeleteActivityInput {
   activityArn: string;
 }
@@ -278,10 +306,13 @@ export const DescribeActivityInput = S.suspend(() =>
 }) as any as S.Schema<DescribeActivityInput>;
 export interface DescribeExecutionInput {
   executionArn: string;
-  includedData?: string;
+  includedData?: IncludedData;
 }
 export const DescribeExecutionInput = S.suspend(() =>
-  S.Struct({ executionArn: S.String, includedData: S.optional(S.String) }).pipe(
+  S.Struct({
+    executionArn: S.String,
+    includedData: S.optional(IncludedData),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -315,12 +346,12 @@ export const DescribeMapRunInput = S.suspend(() =>
 }) as any as S.Schema<DescribeMapRunInput>;
 export interface DescribeStateMachineInput {
   stateMachineArn: string;
-  includedData?: string;
+  includedData?: IncludedData;
 }
 export const DescribeStateMachineInput = S.suspend(() =>
   S.Struct({
     stateMachineArn: S.String,
-    includedData: S.optional(S.String),
+    includedData: S.optional(IncludedData),
   }).pipe(
     T.all(
       ns,
@@ -355,10 +386,13 @@ export const DescribeStateMachineAliasInput = S.suspend(() =>
 }) as any as S.Schema<DescribeStateMachineAliasInput>;
 export interface DescribeStateMachineForExecutionInput {
   executionArn: string;
-  includedData?: string;
+  includedData?: IncludedData;
 }
 export const DescribeStateMachineForExecutionInput = S.suspend(() =>
-  S.Struct({ executionArn: S.String, includedData: S.optional(S.String) }).pipe(
+  S.Struct({
+    executionArn: S.String,
+    includedData: S.optional(IncludedData),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -443,20 +477,20 @@ export const ListActivitiesInput = S.suspend(() =>
 }) as any as S.Schema<ListActivitiesInput>;
 export interface ListExecutionsInput {
   stateMachineArn?: string;
-  statusFilter?: string;
+  statusFilter?: ExecutionStatus;
   maxResults?: number;
   nextToken?: string;
   mapRunArn?: string;
-  redriveFilter?: string;
+  redriveFilter?: ExecutionRedriveFilter;
 }
 export const ListExecutionsInput = S.suspend(() =>
   S.Struct({
     stateMachineArn: S.optional(S.String),
-    statusFilter: S.optional(S.String),
+    statusFilter: S.optional(ExecutionStatus),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
     mapRunArn: S.optional(S.String),
-    redriveFilter: S.optional(S.String),
+    redriveFilter: S.optional(ExecutionRedriveFilter),
   }).pipe(
     T.all(
       ns,
@@ -586,7 +620,7 @@ export const ListTagsForResourceInput = S.suspend(() =>
 export interface PublishStateMachineVersionInput {
   stateMachineArn: string;
   revisionId?: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
 }
 export const PublishStateMachineVersionInput = S.suspend(() =>
   S.Struct({
@@ -628,8 +662,8 @@ export const RedriveExecutionInput = S.suspend(() =>
 }) as any as S.Schema<RedriveExecutionInput>;
 export interface SendTaskFailureInput {
   taskToken: string;
-  error?: string | Redacted.Redacted<string>;
-  cause?: string | Redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string>;
+  cause?: string | redacted.Redacted<string>;
 }
 export const SendTaskFailureInput = S.suspend(() =>
   S.Struct({
@@ -682,7 +716,7 @@ export const SendTaskHeartbeatOutput = S.suspend(() =>
 }) as any as S.Schema<SendTaskHeartbeatOutput>;
 export interface SendTaskSuccessInput {
   taskToken: string;
-  output: string | Redacted.Redacted<string>;
+  output: string | redacted.Redacted<string>;
 }
 export const SendTaskSuccessInput = S.suspend(() =>
   S.Struct({ taskToken: S.String, output: SensitiveString }).pipe(
@@ -708,7 +742,7 @@ export const SendTaskSuccessOutput = S.suspend(() =>
 export interface StartExecutionInput {
   stateMachineArn: string;
   name?: string;
-  input?: string | Redacted.Redacted<string>;
+  input?: string | redacted.Redacted<string>;
   traceHeader?: string;
 }
 export const StartExecutionInput = S.suspend(() =>
@@ -734,9 +768,9 @@ export const StartExecutionInput = S.suspend(() =>
 export interface StartSyncExecutionInput {
   stateMachineArn: string;
   name?: string;
-  input?: string | Redacted.Redacted<string>;
+  input?: string | redacted.Redacted<string>;
   traceHeader?: string;
-  includedData?: string;
+  includedData?: IncludedData;
 }
 export const StartSyncExecutionInput = S.suspend(() =>
   S.Struct({
@@ -744,7 +778,7 @@ export const StartSyncExecutionInput = S.suspend(() =>
     name: S.optional(S.String),
     input: S.optional(SensitiveString),
     traceHeader: S.optional(S.String),
-    includedData: S.optional(S.String),
+    includedData: S.optional(IncludedData),
   }).pipe(
     T.all(
       ns,
@@ -761,8 +795,8 @@ export const StartSyncExecutionInput = S.suspend(() =>
 }) as any as S.Schema<StartSyncExecutionInput>;
 export interface StopExecutionInput {
   executionArn: string;
-  error?: string | Redacted.Redacted<string>;
-  cause?: string | Redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string>;
+  cause?: string | redacted.Redacted<string>;
 }
 export const StopExecutionInput = S.suspend(() =>
   S.Struct({
@@ -794,7 +828,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagResourceInput {
   resourceArn: string;
-  tags: TagList;
+  tags: Tag[];
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
@@ -819,7 +853,7 @@ export const TagResourceOutput = S.suspend(() =>
 }) as any as S.Schema<TagResourceOutput>;
 export interface UntagResourceInput {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
@@ -874,6 +908,8 @@ export const UpdateMapRunOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateMapRunOutput",
 }) as any as S.Schema<UpdateMapRunOutput>;
+export type LogLevel = "ALL" | "ERROR" | "FATAL" | "OFF";
+export const LogLevel = S.Literal("ALL", "ERROR", "FATAL", "OFF");
 export interface CloudWatchLogsLogGroup {
   logGroupArn?: string;
 }
@@ -893,13 +929,13 @@ export const LogDestination = S.suspend(() =>
 export type LogDestinationList = LogDestination[];
 export const LogDestinationList = S.Array(LogDestination);
 export interface LoggingConfiguration {
-  level?: string;
+  level?: LogLevel;
   includeExecutionData?: boolean;
-  destinations?: LogDestinationList;
+  destinations?: LogDestination[];
 }
 export const LoggingConfiguration = S.suspend(() =>
   S.Struct({
-    level: S.optional(S.String),
+    level: S.optional(LogLevel),
     includeExecutionData: S.optional(S.Boolean),
     destinations: S.optional(LogDestinationList),
   }),
@@ -914,28 +950,33 @@ export const TracingConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "TracingConfiguration",
 }) as any as S.Schema<TracingConfiguration>;
+export type EncryptionType = "AWS_OWNED_KEY" | "CUSTOMER_MANAGED_KMS_KEY";
+export const EncryptionType = S.Literal(
+  "AWS_OWNED_KEY",
+  "CUSTOMER_MANAGED_KMS_KEY",
+);
 export interface EncryptionConfiguration {
   kmsKeyId?: string;
   kmsDataKeyReusePeriodSeconds?: number;
-  type: string;
+  type: EncryptionType;
 }
 export const EncryptionConfiguration = S.suspend(() =>
   S.Struct({
     kmsKeyId: S.optional(S.String),
     kmsDataKeyReusePeriodSeconds: S.optional(S.Number),
-    type: S.String,
+    type: EncryptionType,
   }),
 ).annotations({
   identifier: "EncryptionConfiguration",
 }) as any as S.Schema<EncryptionConfiguration>;
 export interface UpdateStateMachineInput {
   stateMachineArn: string;
-  definition?: string | Redacted.Redacted<string>;
+  definition?: string | redacted.Redacted<string>;
   roleArn?: string;
   loggingConfiguration?: LoggingConfiguration;
   tracingConfiguration?: TracingConfiguration;
   publish?: boolean;
-  versionDescription?: string | Redacted.Redacted<string>;
+  versionDescription?: string | redacted.Redacted<string>;
   encryptionConfiguration?: EncryptionConfiguration;
 }
 export const UpdateStateMachineInput = S.suspend(() =>
@@ -975,8 +1016,8 @@ export type RoutingConfigurationList = RoutingConfigurationListItem[];
 export const RoutingConfigurationList = S.Array(RoutingConfigurationListItem);
 export interface UpdateStateMachineAliasInput {
   stateMachineAliasArn: string;
-  description?: string | Redacted.Redacted<string>;
-  routingConfiguration?: RoutingConfigurationList;
+  description?: string | redacted.Redacted<string>;
+  routingConfiguration?: RoutingConfigurationListItem[];
 }
 export const UpdateStateMachineAliasInput = S.suspend(() =>
   S.Struct({
@@ -998,16 +1039,16 @@ export const UpdateStateMachineAliasInput = S.suspend(() =>
   identifier: "UpdateStateMachineAliasInput",
 }) as any as S.Schema<UpdateStateMachineAliasInput>;
 export interface ValidateStateMachineDefinitionInput {
-  definition: string | Redacted.Redacted<string>;
-  type?: string;
-  severity?: string;
+  definition: string | redacted.Redacted<string>;
+  type?: StateMachineType;
+  severity?: ValidateStateMachineDefinitionSeverity;
   maxResults?: number;
 }
 export const ValidateStateMachineDefinitionInput = S.suspend(() =>
   S.Struct({
     definition: SensitiveString,
-    type: S.optional(S.String),
-    severity: S.optional(S.String),
+    type: S.optional(StateMachineType),
+    severity: S.optional(ValidateStateMachineDefinitionSeverity),
     maxResults: S.optional(S.Number),
   }).pipe(
     T.all(
@@ -1023,11 +1064,41 @@ export const ValidateStateMachineDefinitionInput = S.suspend(() =>
 ).annotations({
   identifier: "ValidateStateMachineDefinitionInput",
 }) as any as S.Schema<ValidateStateMachineDefinitionInput>;
+export type MockResponseValidationMode = "STRICT" | "PRESENT" | "NONE";
+export const MockResponseValidationMode = S.Literal(
+  "STRICT",
+  "PRESENT",
+  "NONE",
+);
+export type ExecutionRedriveStatus =
+  | "REDRIVABLE"
+  | "NOT_REDRIVABLE"
+  | "REDRIVABLE_BY_MAP_RUN";
+export const ExecutionRedriveStatus = S.Literal(
+  "REDRIVABLE",
+  "NOT_REDRIVABLE",
+  "REDRIVABLE_BY_MAP_RUN",
+);
+export type MapRunStatus = "RUNNING" | "SUCCEEDED" | "FAILED" | "ABORTED";
+export const MapRunStatus = S.Literal(
+  "RUNNING",
+  "SUCCEEDED",
+  "FAILED",
+  "ABORTED",
+);
+export type StateMachineStatus = "ACTIVE" | "DELETING";
+export const StateMachineStatus = S.Literal("ACTIVE", "DELETING");
+export type SyncExecutionStatus = "SUCCEEDED" | "FAILED" | "TIMED_OUT";
+export const SyncExecutionStatus = S.Literal(
+  "SUCCEEDED",
+  "FAILED",
+  "TIMED_OUT",
+);
 export interface TestStateConfiguration {
   retrierRetryCount?: number;
-  errorCausedByState?: string | Redacted.Redacted<string>;
+  errorCausedByState?: string | redacted.Redacted<string>;
   mapIterationFailureCount?: number;
-  mapItemReaderData?: string | Redacted.Redacted<string>;
+  mapItemReaderData?: string | redacted.Redacted<string>;
 }
 export const TestStateConfiguration = S.suspend(() =>
   S.Struct({
@@ -1039,9 +1110,11 @@ export const TestStateConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "TestStateConfiguration",
 }) as any as S.Schema<TestStateConfiguration>;
+export type ValidateStateMachineDefinitionResultCode = "OK" | "FAIL";
+export const ValidateStateMachineDefinitionResultCode = S.Literal("OK", "FAIL");
 export interface CreateActivityInput {
   name: string;
-  tags?: TagList;
+  tags?: Tag[];
   encryptionConfiguration?: EncryptionConfiguration;
 }
 export const CreateActivityInput = S.suspend(() =>
@@ -1064,9 +1137,9 @@ export const CreateActivityInput = S.suspend(() =>
   identifier: "CreateActivityInput",
 }) as any as S.Schema<CreateActivityInput>;
 export interface CreateStateMachineAliasInput {
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   name: string;
-  routingConfiguration: RoutingConfigurationList;
+  routingConfiguration: RoutingConfigurationListItem[];
 }
 export const CreateStateMachineAliasInput = S.suspend(() =>
   S.Struct({
@@ -1106,8 +1179,8 @@ export const DescribeActivityOutput = S.suspend(() =>
 export interface DescribeStateMachineAliasOutput {
   stateMachineAliasArn?: string;
   name?: string;
-  description?: string | Redacted.Redacted<string>;
-  routingConfiguration?: RoutingConfigurationList;
+  description?: string | redacted.Redacted<string>;
+  routingConfiguration?: RoutingConfigurationListItem[];
   creationDate?: Date;
   updateDate?: Date;
 }
@@ -1123,9 +1196,11 @@ export const DescribeStateMachineAliasOutput = S.suspend(() =>
 ).annotations({
   identifier: "DescribeStateMachineAliasOutput",
 }) as any as S.Schema<DescribeStateMachineAliasOutput>;
-export type VariableNameList = string | Redacted.Redacted<string>[];
+export type VariableNameList = string | redacted.Redacted<string>[];
 export const VariableNameList = S.Array(SensitiveString);
-export type VariableReferences = { [key: string]: VariableNameList };
+export type VariableReferences = {
+  [key: string]: string | redacted.Redacted<string>[];
+};
 export const VariableReferences = S.Record({
   key: S.String,
   value: VariableNameList,
@@ -1133,7 +1208,7 @@ export const VariableReferences = S.Record({
 export interface DescribeStateMachineForExecutionOutput {
   stateMachineArn: string;
   name: string;
-  definition: string | Redacted.Redacted<string>;
+  definition: string | redacted.Redacted<string>;
   roleArn: string;
   updateDate: Date;
   loggingConfiguration?: LoggingConfiguration;
@@ -1142,7 +1217,7 @@ export interface DescribeStateMachineForExecutionOutput {
   label?: string;
   revisionId?: string;
   encryptionConfiguration?: EncryptionConfiguration;
-  variableReferences?: VariableReferences;
+  variableReferences?: { [key: string]: string | redacted.Redacted<string>[] };
 }
 export const DescribeStateMachineForExecutionOutput = S.suspend(() =>
   S.Struct({
@@ -1164,7 +1239,7 @@ export const DescribeStateMachineForExecutionOutput = S.suspend(() =>
 }) as any as S.Schema<DescribeStateMachineForExecutionOutput>;
 export interface GetActivityTaskOutput {
   taskToken?: string;
-  input?: string | Redacted.Redacted<string>;
+  input?: string | redacted.Redacted<string>;
 }
 export const GetActivityTaskOutput = S.suspend(() =>
   S.Struct({
@@ -1175,7 +1250,7 @@ export const GetActivityTaskOutput = S.suspend(() =>
   identifier: "GetActivityTaskOutput",
 }) as any as S.Schema<GetActivityTaskOutput>;
 export interface ListTagsForResourceOutput {
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: S.optional(TagList) }).pipe(ns),
@@ -1250,9 +1325,136 @@ export const UpdateStateMachineAliasOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateStateMachineAliasOutput",
 }) as any as S.Schema<UpdateStateMachineAliasOutput>;
+export type HistoryEventType =
+  | "ActivityFailed"
+  | "ActivityScheduled"
+  | "ActivityScheduleFailed"
+  | "ActivityStarted"
+  | "ActivitySucceeded"
+  | "ActivityTimedOut"
+  | "ChoiceStateEntered"
+  | "ChoiceStateExited"
+  | "ExecutionAborted"
+  | "ExecutionFailed"
+  | "ExecutionStarted"
+  | "ExecutionSucceeded"
+  | "ExecutionTimedOut"
+  | "FailStateEntered"
+  | "LambdaFunctionFailed"
+  | "LambdaFunctionScheduled"
+  | "LambdaFunctionScheduleFailed"
+  | "LambdaFunctionStarted"
+  | "LambdaFunctionStartFailed"
+  | "LambdaFunctionSucceeded"
+  | "LambdaFunctionTimedOut"
+  | "MapIterationAborted"
+  | "MapIterationFailed"
+  | "MapIterationStarted"
+  | "MapIterationSucceeded"
+  | "MapStateAborted"
+  | "MapStateEntered"
+  | "MapStateExited"
+  | "MapStateFailed"
+  | "MapStateStarted"
+  | "MapStateSucceeded"
+  | "ParallelStateAborted"
+  | "ParallelStateEntered"
+  | "ParallelStateExited"
+  | "ParallelStateFailed"
+  | "ParallelStateStarted"
+  | "ParallelStateSucceeded"
+  | "PassStateEntered"
+  | "PassStateExited"
+  | "SucceedStateEntered"
+  | "SucceedStateExited"
+  | "TaskFailed"
+  | "TaskScheduled"
+  | "TaskStarted"
+  | "TaskStartFailed"
+  | "TaskStateAborted"
+  | "TaskStateEntered"
+  | "TaskStateExited"
+  | "TaskSubmitFailed"
+  | "TaskSubmitted"
+  | "TaskSucceeded"
+  | "TaskTimedOut"
+  | "WaitStateAborted"
+  | "WaitStateEntered"
+  | "WaitStateExited"
+  | "MapRunAborted"
+  | "MapRunFailed"
+  | "MapRunStarted"
+  | "MapRunSucceeded"
+  | "ExecutionRedriven"
+  | "MapRunRedriven"
+  | "EvaluationFailed";
+export const HistoryEventType = S.Literal(
+  "ActivityFailed",
+  "ActivityScheduled",
+  "ActivityScheduleFailed",
+  "ActivityStarted",
+  "ActivitySucceeded",
+  "ActivityTimedOut",
+  "ChoiceStateEntered",
+  "ChoiceStateExited",
+  "ExecutionAborted",
+  "ExecutionFailed",
+  "ExecutionStarted",
+  "ExecutionSucceeded",
+  "ExecutionTimedOut",
+  "FailStateEntered",
+  "LambdaFunctionFailed",
+  "LambdaFunctionScheduled",
+  "LambdaFunctionScheduleFailed",
+  "LambdaFunctionStarted",
+  "LambdaFunctionStartFailed",
+  "LambdaFunctionSucceeded",
+  "LambdaFunctionTimedOut",
+  "MapIterationAborted",
+  "MapIterationFailed",
+  "MapIterationStarted",
+  "MapIterationSucceeded",
+  "MapStateAborted",
+  "MapStateEntered",
+  "MapStateExited",
+  "MapStateFailed",
+  "MapStateStarted",
+  "MapStateSucceeded",
+  "ParallelStateAborted",
+  "ParallelStateEntered",
+  "ParallelStateExited",
+  "ParallelStateFailed",
+  "ParallelStateStarted",
+  "ParallelStateSucceeded",
+  "PassStateEntered",
+  "PassStateExited",
+  "SucceedStateEntered",
+  "SucceedStateExited",
+  "TaskFailed",
+  "TaskScheduled",
+  "TaskStarted",
+  "TaskStartFailed",
+  "TaskStateAborted",
+  "TaskStateEntered",
+  "TaskStateExited",
+  "TaskSubmitFailed",
+  "TaskSubmitted",
+  "TaskSucceeded",
+  "TaskTimedOut",
+  "WaitStateAborted",
+  "WaitStateEntered",
+  "WaitStateExited",
+  "MapRunAborted",
+  "MapRunFailed",
+  "MapRunStarted",
+  "MapRunSucceeded",
+  "ExecutionRedriven",
+  "MapRunRedriven",
+  "EvaluationFailed",
+);
 export interface MockErrorOutput {
-  error?: string | Redacted.Redacted<string>;
-  cause?: string | Redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string>;
+  cause?: string | redacted.Redacted<string>;
 }
 export const MockErrorOutput = S.suspend(() =>
   S.Struct({
@@ -1346,7 +1548,7 @@ export interface ExecutionListItem {
   executionArn: string;
   stateMachineArn: string;
   name: string;
-  status: string;
+  status: ExecutionStatus;
   startDate: Date;
   stopDate?: Date;
   mapRunArn?: string;
@@ -1361,7 +1563,7 @@ export const ExecutionListItem = S.suspend(() =>
     executionArn: S.String,
     stateMachineArn: S.String,
     name: S.String,
-    status: S.String,
+    status: ExecutionStatus,
     startDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     stopDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     mapRunArn: S.optional(S.String),
@@ -1413,14 +1615,14 @@ export const StateMachineAliasList = S.Array(StateMachineAliasListItem);
 export interface StateMachineListItem {
   stateMachineArn: string;
   name: string;
-  type: string;
+  type: StateMachineType;
   creationDate: Date;
 }
 export const StateMachineListItem = S.suspend(() =>
   S.Struct({
     stateMachineArn: S.String,
     name: S.String,
-    type: S.String,
+    type: StateMachineType,
     creationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
 ).annotations({
@@ -1455,26 +1657,26 @@ export const BillingDetails = S.suspend(() =>
   identifier: "BillingDetails",
 }) as any as S.Schema<BillingDetails>;
 export interface MockInput {
-  result?: string | Redacted.Redacted<string>;
+  result?: string | redacted.Redacted<string>;
   errorOutput?: MockErrorOutput;
-  fieldValidationMode?: string;
+  fieldValidationMode?: MockResponseValidationMode;
 }
 export const MockInput = S.suspend(() =>
   S.Struct({
     result: S.optional(SensitiveString),
     errorOutput: S.optional(MockErrorOutput),
-    fieldValidationMode: S.optional(S.String),
+    fieldValidationMode: S.optional(MockResponseValidationMode),
   }),
 ).annotations({ identifier: "MockInput" }) as any as S.Schema<MockInput>;
 export interface ValidateStateMachineDefinitionDiagnostic {
-  severity: string;
-  code: string | Redacted.Redacted<string>;
-  message: string | Redacted.Redacted<string>;
-  location?: string | Redacted.Redacted<string>;
+  severity: ValidateStateMachineDefinitionSeverity;
+  code: string | redacted.Redacted<string>;
+  message: string | redacted.Redacted<string>;
+  location?: string | redacted.Redacted<string>;
 }
 export const ValidateStateMachineDefinitionDiagnostic = S.suspend(() =>
   S.Struct({
-    severity: S.String,
+    severity: ValidateStateMachineDefinitionSeverity,
     code: SensitiveString,
     message: SensitiveString,
     location: S.optional(SensitiveString),
@@ -1486,6 +1688,17 @@ export type ValidateStateMachineDefinitionDiagnosticList =
   ValidateStateMachineDefinitionDiagnostic[];
 export const ValidateStateMachineDefinitionDiagnosticList = S.Array(
   ValidateStateMachineDefinitionDiagnostic,
+);
+export type ValidationExceptionReason =
+  | "API_DOES_NOT_SUPPORT_LABELED_ARNS"
+  | "MISSING_REQUIRED_PARAMETER"
+  | "CANNOT_UPDATE_COMPLETED_MAP_RUN"
+  | "INVALID_ROUTING_CONFIGURATION";
+export const ValidationExceptionReason = S.Literal(
+  "API_DOES_NOT_SUPPORT_LABELED_ARNS",
+  "MISSING_REQUIRED_PARAMETER",
+  "CANNOT_UPDATE_COMPLETED_MAP_RUN",
+  "INVALID_ROUTING_CONFIGURATION",
 );
 export interface CreateActivityOutput {
   activityArn: string;
@@ -1515,30 +1728,30 @@ export interface DescribeExecutionOutput {
   executionArn: string;
   stateMachineArn: string;
   name?: string;
-  status: string;
+  status: ExecutionStatus;
   startDate: Date;
   stopDate?: Date;
-  input?: string | Redacted.Redacted<string>;
+  input?: string | redacted.Redacted<string>;
   inputDetails?: CloudWatchEventsExecutionDataDetails;
-  output?: string | Redacted.Redacted<string>;
+  output?: string | redacted.Redacted<string>;
   outputDetails?: CloudWatchEventsExecutionDataDetails;
   traceHeader?: string;
   mapRunArn?: string;
-  error?: string | Redacted.Redacted<string>;
-  cause?: string | Redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string>;
+  cause?: string | redacted.Redacted<string>;
   stateMachineVersionArn?: string;
   stateMachineAliasArn?: string;
   redriveCount?: number;
   redriveDate?: Date;
-  redriveStatus?: string;
-  redriveStatusReason?: string | Redacted.Redacted<string>;
+  redriveStatus?: ExecutionRedriveStatus;
+  redriveStatusReason?: string | redacted.Redacted<string>;
 }
 export const DescribeExecutionOutput = S.suspend(() =>
   S.Struct({
     executionArn: S.String,
     stateMachineArn: S.String,
     name: S.optional(S.String),
-    status: S.String,
+    status: ExecutionStatus,
     startDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     stopDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     input: S.optional(SensitiveString),
@@ -1553,7 +1766,7 @@ export const DescribeExecutionOutput = S.suspend(() =>
     stateMachineAliasArn: S.optional(S.String),
     redriveCount: S.optional(S.Number),
     redriveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    redriveStatus: S.optional(S.String),
+    redriveStatus: S.optional(ExecutionRedriveStatus),
     redriveStatusReason: S.optional(SensitiveString),
   }).pipe(ns),
 ).annotations({
@@ -1562,7 +1775,7 @@ export const DescribeExecutionOutput = S.suspend(() =>
 export interface DescribeMapRunOutput {
   mapRunArn: string;
   executionArn: string;
-  status: string;
+  status: MapRunStatus;
   startDate: Date;
   stopDate?: Date;
   maxConcurrency: number;
@@ -1577,7 +1790,7 @@ export const DescribeMapRunOutput = S.suspend(() =>
   S.Struct({
     mapRunArn: S.String,
     executionArn: S.String,
-    status: S.String,
+    status: MapRunStatus,
     startDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     stopDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     maxConcurrency: S.Number,
@@ -1594,27 +1807,27 @@ export const DescribeMapRunOutput = S.suspend(() =>
 export interface DescribeStateMachineOutput {
   stateMachineArn: string;
   name: string;
-  status?: string;
-  definition: string | Redacted.Redacted<string>;
+  status?: StateMachineStatus;
+  definition: string | redacted.Redacted<string>;
   roleArn: string;
-  type: string;
+  type: StateMachineType;
   creationDate: Date;
   loggingConfiguration?: LoggingConfiguration;
   tracingConfiguration?: TracingConfiguration;
   label?: string;
   revisionId?: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   encryptionConfiguration?: EncryptionConfiguration;
-  variableReferences?: VariableReferences;
+  variableReferences?: { [key: string]: string | redacted.Redacted<string>[] };
 }
 export const DescribeStateMachineOutput = S.suspend(() =>
   S.Struct({
     stateMachineArn: S.String,
     name: S.String,
-    status: S.optional(S.String),
+    status: S.optional(StateMachineStatus),
     definition: SensitiveString,
     roleArn: S.String,
-    type: S.String,
+    type: StateMachineType,
     creationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     loggingConfiguration: S.optional(LoggingConfiguration),
     tracingConfiguration: S.optional(TracingConfiguration),
@@ -1628,7 +1841,7 @@ export const DescribeStateMachineOutput = S.suspend(() =>
   identifier: "DescribeStateMachineOutput",
 }) as any as S.Schema<DescribeStateMachineOutput>;
 export interface ListActivitiesOutput {
-  activities: ActivityList;
+  activities: ActivityListItem[];
   nextToken?: string;
 }
 export const ListActivitiesOutput = S.suspend(() =>
@@ -1639,7 +1852,7 @@ export const ListActivitiesOutput = S.suspend(() =>
   identifier: "ListActivitiesOutput",
 }) as any as S.Schema<ListActivitiesOutput>;
 export interface ListExecutionsOutput {
-  executions: ExecutionList;
+  executions: ExecutionListItem[];
   nextToken?: string;
 }
 export const ListExecutionsOutput = S.suspend(() =>
@@ -1650,7 +1863,7 @@ export const ListExecutionsOutput = S.suspend(() =>
   identifier: "ListExecutionsOutput",
 }) as any as S.Schema<ListExecutionsOutput>;
 export interface ListMapRunsOutput {
-  mapRuns: MapRunList;
+  mapRuns: MapRunListItem[];
   nextToken?: string;
 }
 export const ListMapRunsOutput = S.suspend(() =>
@@ -1659,7 +1872,7 @@ export const ListMapRunsOutput = S.suspend(() =>
   identifier: "ListMapRunsOutput",
 }) as any as S.Schema<ListMapRunsOutput>;
 export interface ListStateMachineAliasesOutput {
-  stateMachineAliases: StateMachineAliasList;
+  stateMachineAliases: StateMachineAliasListItem[];
   nextToken?: string;
 }
 export const ListStateMachineAliasesOutput = S.suspend(() =>
@@ -1671,7 +1884,7 @@ export const ListStateMachineAliasesOutput = S.suspend(() =>
   identifier: "ListStateMachineAliasesOutput",
 }) as any as S.Schema<ListStateMachineAliasesOutput>;
 export interface ListStateMachinesOutput {
-  stateMachines: StateMachineList;
+  stateMachines: StateMachineListItem[];
   nextToken?: string;
 }
 export const ListStateMachinesOutput = S.suspend(() =>
@@ -1683,7 +1896,7 @@ export const ListStateMachinesOutput = S.suspend(() =>
   identifier: "ListStateMachinesOutput",
 }) as any as S.Schema<ListStateMachinesOutput>;
 export interface ListStateMachineVersionsOutput {
-  stateMachineVersions: StateMachineVersionList;
+  stateMachineVersions: StateMachineVersionListItem[];
   nextToken?: string;
 }
 export const ListStateMachineVersionsOutput = S.suspend(() =>
@@ -1700,12 +1913,12 @@ export interface StartSyncExecutionOutput {
   name?: string;
   startDate: Date;
   stopDate: Date;
-  status: string;
-  error?: string | Redacted.Redacted<string>;
-  cause?: string | Redacted.Redacted<string>;
-  input?: string | Redacted.Redacted<string>;
+  status: SyncExecutionStatus;
+  error?: string | redacted.Redacted<string>;
+  cause?: string | redacted.Redacted<string>;
+  input?: string | redacted.Redacted<string>;
   inputDetails?: CloudWatchEventsExecutionDataDetails;
-  output?: string | Redacted.Redacted<string>;
+  output?: string | redacted.Redacted<string>;
   outputDetails?: CloudWatchEventsExecutionDataDetails;
   traceHeader?: string;
   billingDetails?: BillingDetails;
@@ -1717,7 +1930,7 @@ export const StartSyncExecutionOutput = S.suspend(() =>
     name: S.optional(S.String),
     startDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     stopDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    status: S.String,
+    status: SyncExecutionStatus,
     error: S.optional(SensitiveString),
     cause: S.optional(SensitiveString),
     input: S.optional(SensitiveString),
@@ -1731,15 +1944,15 @@ export const StartSyncExecutionOutput = S.suspend(() =>
   identifier: "StartSyncExecutionOutput",
 }) as any as S.Schema<StartSyncExecutionOutput>;
 export interface TestStateInput {
-  definition: string | Redacted.Redacted<string>;
+  definition: string | redacted.Redacted<string>;
   roleArn?: string;
-  input?: string | Redacted.Redacted<string>;
-  inspectionLevel?: string;
+  input?: string | redacted.Redacted<string>;
+  inspectionLevel?: InspectionLevel;
   revealSecrets?: boolean;
-  variables?: string | Redacted.Redacted<string>;
-  stateName?: string | Redacted.Redacted<string>;
+  variables?: string | redacted.Redacted<string>;
+  stateName?: string | redacted.Redacted<string>;
   mock?: MockInput;
-  context?: string | Redacted.Redacted<string>;
+  context?: string | redacted.Redacted<string>;
   stateConfiguration?: TestStateConfiguration;
 }
 export const TestStateInput = S.suspend(() =>
@@ -1747,7 +1960,7 @@ export const TestStateInput = S.suspend(() =>
     definition: SensitiveString,
     roleArn: S.optional(S.String),
     input: S.optional(SensitiveString),
-    inspectionLevel: S.optional(S.String),
+    inspectionLevel: S.optional(InspectionLevel),
     revealSecrets: S.optional(S.Boolean),
     variables: S.optional(SensitiveString),
     stateName: S.optional(SensitiveString),
@@ -1769,13 +1982,13 @@ export const TestStateInput = S.suspend(() =>
   identifier: "TestStateInput",
 }) as any as S.Schema<TestStateInput>;
 export interface ValidateStateMachineDefinitionOutput {
-  result: string;
-  diagnostics: ValidateStateMachineDefinitionDiagnosticList;
+  result: ValidateStateMachineDefinitionResultCode;
+  diagnostics: ValidateStateMachineDefinitionDiagnostic[];
   truncated?: boolean;
 }
 export const ValidateStateMachineDefinitionOutput = S.suspend(() =>
   S.Struct({
-    result: S.String,
+    result: ValidateStateMachineDefinitionResultCode,
     diagnostics: ValidateStateMachineDefinitionDiagnosticList,
     truncated: S.optional(S.Boolean),
   }).pipe(ns),
@@ -1783,8 +1996,8 @@ export const ValidateStateMachineDefinitionOutput = S.suspend(() =>
   identifier: "ValidateStateMachineDefinitionOutput",
 }) as any as S.Schema<ValidateStateMachineDefinitionOutput>;
 export interface ActivityFailedEventDetails {
-  error?: string | Redacted.Redacted<string>;
-  cause?: string | Redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string>;
+  cause?: string | redacted.Redacted<string>;
 }
 export const ActivityFailedEventDetails = S.suspend(() =>
   S.Struct({
@@ -1795,8 +2008,8 @@ export const ActivityFailedEventDetails = S.suspend(() =>
   identifier: "ActivityFailedEventDetails",
 }) as any as S.Schema<ActivityFailedEventDetails>;
 export interface ActivityScheduleFailedEventDetails {
-  error?: string | Redacted.Redacted<string>;
-  cause?: string | Redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string>;
+  cause?: string | redacted.Redacted<string>;
 }
 export const ActivityScheduleFailedEventDetails = S.suspend(() =>
   S.Struct({
@@ -1823,7 +2036,7 @@ export const HistoryEventExecutionDataDetails = S.suspend(() =>
   identifier: "HistoryEventExecutionDataDetails",
 }) as any as S.Schema<HistoryEventExecutionDataDetails>;
 export interface ActivitySucceededEventDetails {
-  output?: string | Redacted.Redacted<string>;
+  output?: string | redacted.Redacted<string>;
   outputDetails?: HistoryEventExecutionDataDetails;
 }
 export const ActivitySucceededEventDetails = S.suspend(() =>
@@ -1835,8 +2048,8 @@ export const ActivitySucceededEventDetails = S.suspend(() =>
   identifier: "ActivitySucceededEventDetails",
 }) as any as S.Schema<ActivitySucceededEventDetails>;
 export interface ActivityTimedOutEventDetails {
-  error?: string | Redacted.Redacted<string>;
-  cause?: string | Redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string>;
+  cause?: string | redacted.Redacted<string>;
 }
 export const ActivityTimedOutEventDetails = S.suspend(() =>
   S.Struct({
@@ -1849,8 +2062,8 @@ export const ActivityTimedOutEventDetails = S.suspend(() =>
 export interface TaskFailedEventDetails {
   resourceType: string;
   resource: string;
-  error?: string | Redacted.Redacted<string>;
-  cause?: string | Redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string>;
+  cause?: string | redacted.Redacted<string>;
 }
 export const TaskFailedEventDetails = S.suspend(() =>
   S.Struct({
@@ -1865,8 +2078,8 @@ export const TaskFailedEventDetails = S.suspend(() =>
 export interface TaskStartFailedEventDetails {
   resourceType: string;
   resource: string;
-  error?: string | Redacted.Redacted<string>;
-  cause?: string | Redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string>;
+  cause?: string | redacted.Redacted<string>;
 }
 export const TaskStartFailedEventDetails = S.suspend(() =>
   S.Struct({
@@ -1890,8 +2103,8 @@ export const TaskStartedEventDetails = S.suspend(() =>
 export interface TaskSubmitFailedEventDetails {
   resourceType: string;
   resource: string;
-  error?: string | Redacted.Redacted<string>;
-  cause?: string | Redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string>;
+  cause?: string | redacted.Redacted<string>;
 }
 export const TaskSubmitFailedEventDetails = S.suspend(() =>
   S.Struct({
@@ -1906,7 +2119,7 @@ export const TaskSubmitFailedEventDetails = S.suspend(() =>
 export interface TaskSubmittedEventDetails {
   resourceType: string;
   resource: string;
-  output?: string | Redacted.Redacted<string>;
+  output?: string | redacted.Redacted<string>;
   outputDetails?: HistoryEventExecutionDataDetails;
 }
 export const TaskSubmittedEventDetails = S.suspend(() =>
@@ -1922,7 +2135,7 @@ export const TaskSubmittedEventDetails = S.suspend(() =>
 export interface TaskSucceededEventDetails {
   resourceType: string;
   resource: string;
-  output?: string | Redacted.Redacted<string>;
+  output?: string | redacted.Redacted<string>;
   outputDetails?: HistoryEventExecutionDataDetails;
 }
 export const TaskSucceededEventDetails = S.suspend(() =>
@@ -1938,8 +2151,8 @@ export const TaskSucceededEventDetails = S.suspend(() =>
 export interface TaskTimedOutEventDetails {
   resourceType: string;
   resource: string;
-  error?: string | Redacted.Redacted<string>;
-  cause?: string | Redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string>;
+  cause?: string | redacted.Redacted<string>;
 }
 export const TaskTimedOutEventDetails = S.suspend(() =>
   S.Struct({
@@ -1952,8 +2165,8 @@ export const TaskTimedOutEventDetails = S.suspend(() =>
   identifier: "TaskTimedOutEventDetails",
 }) as any as S.Schema<TaskTimedOutEventDetails>;
 export interface ExecutionFailedEventDetails {
-  error?: string | Redacted.Redacted<string>;
-  cause?: string | Redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string>;
+  cause?: string | redacted.Redacted<string>;
 }
 export const ExecutionFailedEventDetails = S.suspend(() =>
   S.Struct({
@@ -1964,7 +2177,7 @@ export const ExecutionFailedEventDetails = S.suspend(() =>
   identifier: "ExecutionFailedEventDetails",
 }) as any as S.Schema<ExecutionFailedEventDetails>;
 export interface ExecutionStartedEventDetails {
-  input?: string | Redacted.Redacted<string>;
+  input?: string | redacted.Redacted<string>;
   inputDetails?: HistoryEventExecutionDataDetails;
   roleArn?: string;
   stateMachineAliasArn?: string;
@@ -1982,7 +2195,7 @@ export const ExecutionStartedEventDetails = S.suspend(() =>
   identifier: "ExecutionStartedEventDetails",
 }) as any as S.Schema<ExecutionStartedEventDetails>;
 export interface ExecutionSucceededEventDetails {
-  output?: string | Redacted.Redacted<string>;
+  output?: string | redacted.Redacted<string>;
   outputDetails?: HistoryEventExecutionDataDetails;
 }
 export const ExecutionSucceededEventDetails = S.suspend(() =>
@@ -1994,8 +2207,8 @@ export const ExecutionSucceededEventDetails = S.suspend(() =>
   identifier: "ExecutionSucceededEventDetails",
 }) as any as S.Schema<ExecutionSucceededEventDetails>;
 export interface ExecutionAbortedEventDetails {
-  error?: string | Redacted.Redacted<string>;
-  cause?: string | Redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string>;
+  cause?: string | redacted.Redacted<string>;
 }
 export const ExecutionAbortedEventDetails = S.suspend(() =>
   S.Struct({
@@ -2006,8 +2219,8 @@ export const ExecutionAbortedEventDetails = S.suspend(() =>
   identifier: "ExecutionAbortedEventDetails",
 }) as any as S.Schema<ExecutionAbortedEventDetails>;
 export interface ExecutionTimedOutEventDetails {
-  error?: string | Redacted.Redacted<string>;
-  cause?: string | Redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string>;
+  cause?: string | redacted.Redacted<string>;
 }
 export const ExecutionTimedOutEventDetails = S.suspend(() =>
   S.Struct({
@@ -2043,8 +2256,8 @@ export const MapIterationEventDetails = S.suspend(() =>
   identifier: "MapIterationEventDetails",
 }) as any as S.Schema<MapIterationEventDetails>;
 export interface LambdaFunctionFailedEventDetails {
-  error?: string | Redacted.Redacted<string>;
-  cause?: string | Redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string>;
+  cause?: string | redacted.Redacted<string>;
 }
 export const LambdaFunctionFailedEventDetails = S.suspend(() =>
   S.Struct({
@@ -2055,8 +2268,8 @@ export const LambdaFunctionFailedEventDetails = S.suspend(() =>
   identifier: "LambdaFunctionFailedEventDetails",
 }) as any as S.Schema<LambdaFunctionFailedEventDetails>;
 export interface LambdaFunctionScheduleFailedEventDetails {
-  error?: string | Redacted.Redacted<string>;
-  cause?: string | Redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string>;
+  cause?: string | redacted.Redacted<string>;
 }
 export const LambdaFunctionScheduleFailedEventDetails = S.suspend(() =>
   S.Struct({
@@ -2076,7 +2289,7 @@ export const TaskCredentials = S.suspend(() =>
 }) as any as S.Schema<TaskCredentials>;
 export interface LambdaFunctionScheduledEventDetails {
   resource: string;
-  input?: string | Redacted.Redacted<string>;
+  input?: string | redacted.Redacted<string>;
   inputDetails?: HistoryEventExecutionDataDetails;
   timeoutInSeconds?: number;
   taskCredentials?: TaskCredentials;
@@ -2093,8 +2306,8 @@ export const LambdaFunctionScheduledEventDetails = S.suspend(() =>
   identifier: "LambdaFunctionScheduledEventDetails",
 }) as any as S.Schema<LambdaFunctionScheduledEventDetails>;
 export interface LambdaFunctionStartFailedEventDetails {
-  error?: string | Redacted.Redacted<string>;
-  cause?: string | Redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string>;
+  cause?: string | redacted.Redacted<string>;
 }
 export const LambdaFunctionStartFailedEventDetails = S.suspend(() =>
   S.Struct({
@@ -2105,7 +2318,7 @@ export const LambdaFunctionStartFailedEventDetails = S.suspend(() =>
   identifier: "LambdaFunctionStartFailedEventDetails",
 }) as any as S.Schema<LambdaFunctionStartFailedEventDetails>;
 export interface LambdaFunctionSucceededEventDetails {
-  output?: string | Redacted.Redacted<string>;
+  output?: string | redacted.Redacted<string>;
   outputDetails?: HistoryEventExecutionDataDetails;
 }
 export const LambdaFunctionSucceededEventDetails = S.suspend(() =>
@@ -2117,8 +2330,8 @@ export const LambdaFunctionSucceededEventDetails = S.suspend(() =>
   identifier: "LambdaFunctionSucceededEventDetails",
 }) as any as S.Schema<LambdaFunctionSucceededEventDetails>;
 export interface LambdaFunctionTimedOutEventDetails {
-  error?: string | Redacted.Redacted<string>;
-  cause?: string | Redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string>;
+  cause?: string | redacted.Redacted<string>;
 }
 export const LambdaFunctionTimedOutEventDetails = S.suspend(() =>
   S.Struct({
@@ -2130,7 +2343,7 @@ export const LambdaFunctionTimedOutEventDetails = S.suspend(() =>
 }) as any as S.Schema<LambdaFunctionTimedOutEventDetails>;
 export interface StateEnteredEventDetails {
   name: string;
-  input?: string | Redacted.Redacted<string>;
+  input?: string | redacted.Redacted<string>;
   inputDetails?: HistoryEventExecutionDataDetails;
 }
 export const StateEnteredEventDetails = S.suspend(() =>
@@ -2151,8 +2364,8 @@ export const MapRunStartedEventDetails = S.suspend(() =>
   identifier: "MapRunStartedEventDetails",
 }) as any as S.Schema<MapRunStartedEventDetails>;
 export interface MapRunFailedEventDetails {
-  error?: string | Redacted.Redacted<string>;
-  cause?: string | Redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string>;
+  cause?: string | redacted.Redacted<string>;
 }
 export const MapRunFailedEventDetails = S.suspend(() =>
   S.Struct({
@@ -2175,9 +2388,9 @@ export const MapRunRedrivenEventDetails = S.suspend(() =>
   identifier: "MapRunRedrivenEventDetails",
 }) as any as S.Schema<MapRunRedrivenEventDetails>;
 export interface EvaluationFailedEventDetails {
-  error?: string | Redacted.Redacted<string>;
-  cause?: string | Redacted.Redacted<string>;
-  location?: string | Redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string>;
+  cause?: string | redacted.Redacted<string>;
+  location?: string | redacted.Redacted<string>;
   state: string;
 }
 export const EvaluationFailedEventDetails = S.suspend(() =>
@@ -2190,8 +2403,32 @@ export const EvaluationFailedEventDetails = S.suspend(() =>
 ).annotations({
   identifier: "EvaluationFailedEventDetails",
 }) as any as S.Schema<EvaluationFailedEventDetails>;
+export type KmsKeyState =
+  | "DISABLED"
+  | "PENDING_DELETION"
+  | "PENDING_IMPORT"
+  | "UNAVAILABLE"
+  | "CREATING";
+export const KmsKeyState = S.Literal(
+  "DISABLED",
+  "PENDING_DELETION",
+  "PENDING_IMPORT",
+  "UNAVAILABLE",
+  "CREATING",
+);
+export type TestExecutionStatus =
+  | "SUCCEEDED"
+  | "FAILED"
+  | "RETRIABLE"
+  | "CAUGHT_ERROR";
+export const TestExecutionStatus = S.Literal(
+  "SUCCEEDED",
+  "FAILED",
+  "RETRIABLE",
+  "CAUGHT_ERROR",
+);
 export type AssignedVariables = {
-  [key: string]: string | Redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string>;
 };
 export const AssignedVariables = S.Record({
   key: S.String,
@@ -2207,14 +2444,14 @@ export const AssignedVariablesDetails = S.suspend(() =>
 }) as any as S.Schema<AssignedVariablesDetails>;
 export interface CreateStateMachineInput {
   name: string;
-  definition: string | Redacted.Redacted<string>;
+  definition: string | redacted.Redacted<string>;
   roleArn: string;
-  type?: string;
+  type?: StateMachineType;
   loggingConfiguration?: LoggingConfiguration;
-  tags?: TagList;
+  tags?: Tag[];
   tracingConfiguration?: TracingConfiguration;
   publish?: boolean;
-  versionDescription?: string | Redacted.Redacted<string>;
+  versionDescription?: string | redacted.Redacted<string>;
   encryptionConfiguration?: EncryptionConfiguration;
 }
 export const CreateStateMachineInput = S.suspend(() =>
@@ -2222,7 +2459,7 @@ export const CreateStateMachineInput = S.suspend(() =>
     name: S.String,
     definition: SensitiveString,
     roleArn: S.String,
-    type: S.optional(S.String),
+    type: S.optional(StateMachineType),
     loggingConfiguration: S.optional(LoggingConfiguration),
     tags: S.optional(TagList),
     tracingConfiguration: S.optional(TracingConfiguration),
@@ -2245,7 +2482,7 @@ export const CreateStateMachineInput = S.suspend(() =>
 }) as any as S.Schema<CreateStateMachineInput>;
 export interface ActivityScheduledEventDetails {
   resource: string;
-  input?: string | Redacted.Redacted<string>;
+  input?: string | redacted.Redacted<string>;
   inputDetails?: HistoryEventExecutionDataDetails;
   timeoutInSeconds?: number;
   heartbeatInSeconds?: number;
@@ -2265,7 +2502,7 @@ export interface TaskScheduledEventDetails {
   resourceType: string;
   resource: string;
   region: string;
-  parameters: string | Redacted.Redacted<string>;
+  parameters: string | redacted.Redacted<string>;
   timeoutInSeconds?: number;
   heartbeatInSeconds?: number;
   taskCredentials?: TaskCredentials;
@@ -2285,9 +2522,9 @@ export const TaskScheduledEventDetails = S.suspend(() =>
 }) as any as S.Schema<TaskScheduledEventDetails>;
 export interface StateExitedEventDetails {
   name: string;
-  output?: string | Redacted.Redacted<string>;
+  output?: string | redacted.Redacted<string>;
   outputDetails?: HistoryEventExecutionDataDetails;
-  assignedVariables?: AssignedVariables;
+  assignedVariables?: { [key: string]: string | redacted.Redacted<string> };
   assignedVariablesDetails?: AssignedVariablesDetails;
 }
 export const StateExitedEventDetails = S.suspend(() =>
@@ -2303,7 +2540,7 @@ export const StateExitedEventDetails = S.suspend(() =>
 }) as any as S.Schema<StateExitedEventDetails>;
 export interface HistoryEvent {
   timestamp: Date;
-  type: string;
+  type: HistoryEventType;
   id: number;
   previousEventId?: number;
   activityFailedEventDetails?: ActivityFailedEventDetails;
@@ -2347,7 +2584,7 @@ export interface HistoryEvent {
 export const HistoryEvent = S.suspend(() =>
   S.Struct({
     timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    type: S.String,
+    type: HistoryEventType,
     id: S.Number,
     previousEventId: S.optional(S.Number),
     activityFailedEventDetails: S.optional(ActivityFailedEventDetails),
@@ -2420,7 +2657,7 @@ export const CreateStateMachineOutput = S.suspend(() =>
   identifier: "CreateStateMachineOutput",
 }) as any as S.Schema<CreateStateMachineOutput>;
 export interface GetExecutionHistoryOutput {
-  events: HistoryEventList;
+  events: HistoryEvent[];
   nextToken?: string;
 }
 export const GetExecutionHistoryOutput = S.suspend(() =>
@@ -2481,21 +2718,21 @@ export const InspectionErrorDetails = S.suspend(() =>
   identifier: "InspectionErrorDetails",
 }) as any as S.Schema<InspectionErrorDetails>;
 export interface InspectionData {
-  input?: string | Redacted.Redacted<string>;
-  afterArguments?: string | Redacted.Redacted<string>;
-  afterInputPath?: string | Redacted.Redacted<string>;
-  afterParameters?: string | Redacted.Redacted<string>;
-  result?: string | Redacted.Redacted<string>;
-  afterResultSelector?: string | Redacted.Redacted<string>;
-  afterResultPath?: string | Redacted.Redacted<string>;
+  input?: string | redacted.Redacted<string>;
+  afterArguments?: string | redacted.Redacted<string>;
+  afterInputPath?: string | redacted.Redacted<string>;
+  afterParameters?: string | redacted.Redacted<string>;
+  result?: string | redacted.Redacted<string>;
+  afterResultSelector?: string | redacted.Redacted<string>;
+  afterResultPath?: string | redacted.Redacted<string>;
   request?: InspectionDataRequest;
   response?: InspectionDataResponse;
-  variables?: string | Redacted.Redacted<string>;
+  variables?: string | redacted.Redacted<string>;
   errorDetails?: InspectionErrorDetails;
-  afterItemsPath?: string | Redacted.Redacted<string>;
-  afterItemSelector?: string | Redacted.Redacted<string>;
-  afterItemBatcher?: string | Redacted.Redacted<string>;
-  afterItemsPointer?: string | Redacted.Redacted<string>;
+  afterItemsPath?: string | redacted.Redacted<string>;
+  afterItemSelector?: string | redacted.Redacted<string>;
+  afterItemBatcher?: string | redacted.Redacted<string>;
+  afterItemsPointer?: string | redacted.Redacted<string>;
   toleratedFailureCount?: number;
   toleratedFailurePercentage?: number;
   maxConcurrency?: number;
@@ -2525,12 +2762,12 @@ export const InspectionData = S.suspend(() =>
   identifier: "InspectionData",
 }) as any as S.Schema<InspectionData>;
 export interface TestStateOutput {
-  output?: string | Redacted.Redacted<string>;
-  error?: string | Redacted.Redacted<string>;
-  cause?: string | Redacted.Redacted<string>;
+  output?: string | redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string>;
+  cause?: string | redacted.Redacted<string>;
   inspectionData?: InspectionData;
   nextState?: string;
-  status?: string;
+  status?: TestExecutionStatus;
 }
 export const TestStateOutput = S.suspend(() =>
   S.Struct({
@@ -2539,7 +2776,7 @@ export const TestStateOutput = S.suspend(() =>
     cause: S.optional(SensitiveString),
     inspectionData: S.optional(InspectionData),
     nextState: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(TestExecutionStatus),
   }).pipe(ns),
 ).annotations({
   identifier: "TestStateOutput",
@@ -2591,7 +2828,10 @@ export class InvalidDefinition extends S.TaggedError<InvalidDefinition>()(
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  { message: S.optional(S.String), reason: S.optional(S.String) },
+  {
+    message: S.optional(S.String),
+    reason: S.optional(ValidationExceptionReason),
+  },
 ).pipe(C.withBadRequestError) {}
 export class TaskDoesNotExist extends S.TaggedError<TaskDoesNotExist>()(
   "TaskDoesNotExist",
@@ -2614,7 +2854,7 @@ export class StateMachineDeleting extends S.TaggedError<StateMachineDeleting>()(
 ) {}
 export class KmsInvalidStateException extends S.TaggedError<KmsInvalidStateException>()(
   "KmsInvalidStateException",
-  { kmsKeyState: S.optional(S.String), message: S.optional(S.String) },
+  { kmsKeyState: S.optional(KmsKeyState), message: S.optional(S.String) },
 ) {}
 export class ExecutionLimitExceeded extends S.TaggedError<ExecutionLimitExceeded>()(
   "ExecutionLimitExceeded",
@@ -2683,7 +2923,7 @@ export class StateMachineLimitExceeded extends S.TaggedError<StateMachineLimitEx
  */
 export const deleteActivity: (
   input: DeleteActivityInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteActivityOutput,
   InvalidArn | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2699,7 +2939,7 @@ export const deleteActivity: (
  */
 export const describeActivity: (
   input: DescribeActivityInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeActivityOutput,
   ActivityDoesNotExist | InvalidArn | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2713,7 +2953,7 @@ export const describeActivity: (
  */
 export const describeMapRun: (
   input: DescribeMapRunInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeMapRunOutput,
   InvalidArn | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2733,21 +2973,21 @@ export const describeMapRun: (
 export const listActivities: {
   (
     input: ListActivitiesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListActivitiesOutput,
     InvalidToken | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListActivitiesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListActivitiesOutput,
     InvalidToken | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListActivitiesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ActivityListItem,
     InvalidToken | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2769,21 +3009,21 @@ export const listActivities: {
 export const listMapRuns: {
   (
     input: ListMapRunsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMapRunsOutput,
     ExecutionDoesNotExist | InvalidArn | InvalidToken | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListMapRunsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMapRunsOutput,
     ExecutionDoesNotExist | InvalidArn | InvalidToken | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMapRunsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MapRunListItem,
     ExecutionDoesNotExist | InvalidArn | InvalidToken | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2810,21 +3050,21 @@ export const listMapRuns: {
 export const listStateMachines: {
   (
     input: ListStateMachinesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStateMachinesOutput,
     InvalidToken | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListStateMachinesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStateMachinesOutput,
     InvalidToken | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStateMachinesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     StateMachineListItem,
     InvalidToken | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2866,7 +3106,7 @@ export const listStateMachines: {
  */
 export const deleteStateMachine: (
   input: DeleteStateMachineInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteStateMachineOutput,
   InvalidArn | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2890,7 +3130,7 @@ export const deleteStateMachine: (
  */
 export const describeStateMachineAlias: (
   input: DescribeStateMachineAliasInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeStateMachineAliasOutput,
   InvalidArn | ResourceNotFound | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2906,7 +3146,7 @@ export const describeStateMachineAlias: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   InvalidArn | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2920,7 +3160,7 @@ export const listTagsForResource: (
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   InvalidArn | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2934,7 +3174,7 @@ export const untagResource: (
  */
 export const updateMapRun: (
   input: UpdateMapRunInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMapRunOutput,
   InvalidArn | ResourceNotFound | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2960,7 +3200,7 @@ export const updateMapRun: (
  */
 export const deleteStateMachineVersion: (
   input: DeleteStateMachineVersionInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteStateMachineVersionOutput,
   ConflictException | InvalidArn | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2988,7 +3228,7 @@ export const deleteStateMachineVersion: (
  */
 export const deleteStateMachineAlias: (
   input: DeleteStateMachineAliasInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteStateMachineAliasOutput,
   | ConflictException
   | InvalidArn
@@ -3022,7 +3262,7 @@ export const deleteStateMachineAlias: (
  */
 export const listStateMachineVersions: (
   input: ListStateMachineVersionsInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListStateMachineVersionsOutput,
   InvalidArn | InvalidToken | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3067,7 +3307,7 @@ export const listStateMachineVersions: (
  */
 export const validateStateMachineDefinition: (
   input: ValidateStateMachineDefinitionInput,
-) => Effect.Effect<
+) => effect.Effect<
   ValidateStateMachineDefinitionOutput,
   ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3096,7 +3336,7 @@ export const validateStateMachineDefinition: (
  */
 export const listStateMachineAliases: (
   input: ListStateMachineAliasesInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListStateMachineAliasesOutput,
   | InvalidArn
   | InvalidToken
@@ -3128,7 +3368,7 @@ export const listStateMachineAliases: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   InvalidArn | ResourceNotFound | TooManyTags | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3160,7 +3400,7 @@ export const tagResource: (
  */
 export const publishStateMachineVersion: (
   input: PublishStateMachineVersionInput,
-) => Effect.Effect<
+) => effect.Effect<
   PublishStateMachineVersionOutput,
   | ConflictException
   | InvalidArn
@@ -3209,7 +3449,7 @@ export const publishStateMachineVersion: (
  */
 export const updateStateMachineAlias: (
   input: UpdateStateMachineAliasInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateStateMachineAliasOutput,
   | ConflictException
   | InvalidArn
@@ -3262,7 +3502,7 @@ export const updateStateMachineAlias: (
  */
 export const createStateMachineAlias: (
   input: CreateStateMachineAliasInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateStateMachineAliasOutput,
   | ConflictException
   | InvalidArn
@@ -3304,7 +3544,7 @@ export const createStateMachineAlias: (
  */
 export const sendTaskHeartbeat: (
   input: SendTaskHeartbeatInput,
-) => Effect.Effect<
+) => effect.Effect<
   SendTaskHeartbeatOutput,
   InvalidToken | TaskDoesNotExist | TaskTimedOut | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3331,7 +3571,7 @@ export const sendTaskHeartbeat: (
 export const listExecutions: {
   (
     input: ListExecutionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListExecutionsOutput,
     | InvalidArn
     | InvalidToken
@@ -3344,7 +3584,7 @@ export const listExecutions: {
   >;
   pages: (
     input: ListExecutionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListExecutionsOutput,
     | InvalidArn
     | InvalidToken
@@ -3357,7 +3597,7 @@ export const listExecutions: {
   >;
   items: (
     input: ListExecutionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExecutionListItem,
     | InvalidArn
     | InvalidToken
@@ -3396,7 +3636,7 @@ export const listExecutions: {
  */
 export const sendTaskFailure: (
   input: SendTaskFailureInput,
-) => Effect.Effect<
+) => effect.Effect<
   SendTaskFailureOutput,
   | InvalidToken
   | KmsAccessDeniedException
@@ -3432,7 +3672,7 @@ export const sendTaskFailure: (
  */
 export const startSyncExecution: (
   input: StartSyncExecutionInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartSyncExecutionOutput,
   | InvalidArn
   | InvalidExecutionInput
@@ -3479,7 +3719,7 @@ export const startSyncExecution: (
  */
 export const getActivityTask: (
   input: GetActivityTaskInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetActivityTaskOutput,
   | ActivityDoesNotExist
   | ActivityWorkerLimitExceeded
@@ -3512,7 +3752,7 @@ export const getActivityTask: (
  */
 export const stopExecution: (
   input: StopExecutionInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopExecutionOutput,
   | ExecutionDoesNotExist
   | InvalidArn
@@ -3546,7 +3786,7 @@ export const stopExecution: (
  */
 export const describeExecution: (
   input: DescribeExecutionInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeExecutionOutput,
   | ExecutionDoesNotExist
   | InvalidArn
@@ -3573,7 +3813,7 @@ export const describeExecution: (
  */
 export const sendTaskSuccess: (
   input: SendTaskSuccessInput,
-) => Effect.Effect<
+) => effect.Effect<
   SendTaskSuccessOutput,
   | InvalidOutput
   | InvalidToken
@@ -3627,7 +3867,7 @@ export const sendTaskSuccess: (
  */
 export const describeStateMachine: (
   input: DescribeStateMachineInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeStateMachineOutput,
   | InvalidArn
   | KmsAccessDeniedException
@@ -3659,7 +3899,7 @@ export const describeStateMachine: (
  */
 export const describeStateMachineForExecution: (
   input: DescribeStateMachineForExecutionInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeStateMachineForExecutionOutput,
   | ExecutionDoesNotExist
   | InvalidArn
@@ -3717,7 +3957,7 @@ export const describeStateMachineForExecution: (
  */
 export const startExecution: (
   input: StartExecutionInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartExecutionOutput,
   | ExecutionAlreadyExists
   | ExecutionLimitExceeded
@@ -3767,7 +4007,7 @@ export const startExecution: (
  */
 export const createActivity: (
   input: CreateActivityInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateActivityOutput,
   | ActivityAlreadyExists
   | ActivityLimitExceeded
@@ -3804,7 +4044,7 @@ export const createActivity: (
 export const getExecutionHistory: {
   (
     input: GetExecutionHistoryInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetExecutionHistoryOutput,
     | ExecutionDoesNotExist
     | InvalidArn
@@ -3817,7 +4057,7 @@ export const getExecutionHistory: {
   >;
   pages: (
     input: GetExecutionHistoryInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetExecutionHistoryOutput,
     | ExecutionDoesNotExist
     | InvalidArn
@@ -3830,7 +4070,7 @@ export const getExecutionHistory: {
   >;
   items: (
     input: GetExecutionHistoryInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     HistoryEvent,
     | ExecutionDoesNotExist
     | InvalidArn
@@ -3882,7 +4122,7 @@ export const getExecutionHistory: {
  */
 export const redriveExecution: (
   input: RedriveExecutionInput,
-) => Effect.Effect<
+) => effect.Effect<
   RedriveExecutionOutput,
   | ExecutionDoesNotExist
   | ExecutionLimitExceeded
@@ -3934,7 +4174,7 @@ export const redriveExecution: (
  */
 export const testState: (
   input: TestStateInput,
-) => Effect.Effect<
+) => effect.Effect<
   TestStateOutput,
   | InvalidArn
   | InvalidDefinition
@@ -3994,7 +4234,7 @@ export const testState: (
  */
 export const updateStateMachine: (
   input: UpdateStateMachineInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateStateMachineOutput,
   | ConflictException
   | InvalidArn
@@ -4056,7 +4296,7 @@ export const updateStateMachine: (
  */
 export const createStateMachine: (
   input: CreateStateMachineInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateStateMachineOutput,
   | ConflictException
   | InvalidArn

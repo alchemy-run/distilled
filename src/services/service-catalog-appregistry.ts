@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -123,10 +123,30 @@ export const GetConfigurationRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetConfigurationRequest",
 }) as any as S.Schema<GetConfigurationRequest>;
-export type Options = string[];
-export const Options = S.Array(S.String);
-export type GetAssociatedResourceFilter = string[];
-export const GetAssociatedResourceFilter = S.Array(S.String);
+export type ResourceType = "CFN_STACK" | "RESOURCE_TAG_VALUE";
+export const ResourceType = S.Literal("CFN_STACK", "RESOURCE_TAG_VALUE");
+export type AssociationOption =
+  | "APPLY_APPLICATION_TAG"
+  | "SKIP_APPLICATION_TAG";
+export const AssociationOption = S.Literal(
+  "APPLY_APPLICATION_TAG",
+  "SKIP_APPLICATION_TAG",
+);
+export type Options = AssociationOption[];
+export const Options = S.Array(AssociationOption);
+export type ResourceItemStatus =
+  | "SUCCESS"
+  | "FAILED"
+  | "IN_PROGRESS"
+  | "SKIPPED";
+export const ResourceItemStatus = S.Literal(
+  "SUCCESS",
+  "FAILED",
+  "IN_PROGRESS",
+  "SKIPPED",
+);
+export type GetAssociatedResourceFilter = ResourceItemStatus[];
+export const GetAssociatedResourceFilter = S.Array(ResourceItemStatus);
 export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
 export interface AssociateAttributeGroupRequest {
@@ -155,14 +175,14 @@ export const AssociateAttributeGroupRequest = S.suspend(() =>
 }) as any as S.Schema<AssociateAttributeGroupRequest>;
 export interface AssociateResourceRequest {
   application: string;
-  resourceType: string;
+  resourceType: ResourceType;
   resource: string;
-  options?: Options;
+  options?: AssociationOption[];
 }
 export const AssociateResourceRequest = S.suspend(() =>
   S.Struct({
     application: S.String.pipe(T.HttpLabel("application")),
-    resourceType: S.String.pipe(T.HttpLabel("resourceType")),
+    resourceType: ResourceType.pipe(T.HttpLabel("resourceType")),
     resource: S.String.pipe(T.HttpLabel("resource")),
     options: S.optional(Options),
   }).pipe(
@@ -187,7 +207,7 @@ export interface CreateAttributeGroupRequest {
   name: string;
   description?: string;
   attributes: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   clientToken: string;
 }
 export const CreateAttributeGroupRequest = S.suspend(() =>
@@ -272,13 +292,13 @@ export const DisassociateAttributeGroupRequest = S.suspend(() =>
 }) as any as S.Schema<DisassociateAttributeGroupRequest>;
 export interface DisassociateResourceRequest {
   application: string;
-  resourceType: string;
+  resourceType: ResourceType;
   resource: string;
 }
 export const DisassociateResourceRequest = S.suspend(() =>
   S.Struct({
     application: S.String.pipe(T.HttpLabel("application")),
-    resourceType: S.String.pipe(T.HttpLabel("resourceType")),
+    resourceType: ResourceType.pipe(T.HttpLabel("resourceType")),
     resource: S.String.pipe(T.HttpLabel("resource")),
   }).pipe(
     T.all(
@@ -315,16 +335,16 @@ export const GetApplicationRequest = S.suspend(() =>
 }) as any as S.Schema<GetApplicationRequest>;
 export interface GetAssociatedResourceRequest {
   application: string;
-  resourceType: string;
+  resourceType: ResourceType;
   resource: string;
   nextToken?: string;
-  resourceTagStatus?: GetAssociatedResourceFilter;
+  resourceTagStatus?: ResourceItemStatus[];
   maxResults?: number;
 }
 export const GetAssociatedResourceRequest = S.suspend(() =>
   S.Struct({
     application: S.String.pipe(T.HttpLabel("application")),
-    resourceType: S.String.pipe(T.HttpLabel("resourceType")),
+    resourceType: ResourceType.pipe(T.HttpLabel("resourceType")),
     resource: S.String.pipe(T.HttpLabel("resource")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     resourceTagStatus: S.optional(GetAssociatedResourceFilter).pipe(
@@ -540,12 +560,12 @@ export const PutConfigurationResponse = S.suspend(() =>
   identifier: "PutConfigurationResponse",
 }) as any as S.Schema<PutConfigurationResponse>;
 export interface SyncResourceRequest {
-  resourceType: string;
+  resourceType: ResourceType;
   resource: string;
 }
 export const SyncResourceRequest = S.suspend(() =>
   S.Struct({
-    resourceType: S.String.pipe(T.HttpLabel("resourceType")),
+    resourceType: ResourceType.pipe(T.HttpLabel("resourceType")),
     resource: S.String.pipe(T.HttpLabel("resource")),
   }).pipe(
     T.all(
@@ -562,7 +582,7 @@ export const SyncResourceRequest = S.suspend(() =>
 }) as any as S.Schema<SyncResourceRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: Tags;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -587,7 +607,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeys;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -706,6 +726,8 @@ export const AttributeGroupSummary = S.suspend(() =>
 }) as any as S.Schema<AttributeGroupSummary>;
 export type AttributeGroupSummaries = AttributeGroupSummary[];
 export const AttributeGroupSummaries = S.Array(AttributeGroupSummary);
+export type SyncAction = "START_SYNC" | "NO_ACTION";
+export const SyncAction = S.Literal("START_SYNC", "NO_ACTION");
 export interface AssociateAttributeGroupResponse {
   applicationArn?: string;
   attributeGroupArn?: string;
@@ -721,7 +743,7 @@ export const AssociateAttributeGroupResponse = S.suspend(() =>
 export interface AssociateResourceResponse {
   applicationArn?: string;
   resourceArn?: string;
-  options?: Options;
+  options?: AssociationOption[];
 }
 export const AssociateResourceResponse = S.suspend(() =>
   S.Struct({
@@ -735,7 +757,7 @@ export const AssociateResourceResponse = S.suspend(() =>
 export interface CreateApplicationRequest {
   name: string;
   description?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   clientToken: string;
 }
 export const CreateApplicationRequest = S.suspend(() =>
@@ -789,7 +811,7 @@ export interface GetAttributeGroupResponse {
   attributes?: string;
   creationTime?: Date;
   lastUpdateTime?: Date;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   createdBy?: string;
 }
 export const GetAttributeGroupResponse = S.suspend(() =>
@@ -808,7 +830,7 @@ export const GetAttributeGroupResponse = S.suspend(() =>
   identifier: "GetAttributeGroupResponse",
 }) as any as S.Schema<GetAttributeGroupResponse>;
 export interface ListApplicationsResponse {
-  applications?: ApplicationSummaries;
+  applications?: ApplicationSummary[];
   nextToken?: string;
 }
 export const ListApplicationsResponse = S.suspend(() =>
@@ -820,7 +842,7 @@ export const ListApplicationsResponse = S.suspend(() =>
   identifier: "ListApplicationsResponse",
 }) as any as S.Schema<ListApplicationsResponse>;
 export interface ListAssociatedAttributeGroupsResponse {
-  attributeGroups?: AttributeGroupIds;
+  attributeGroups?: string[];
   nextToken?: string;
 }
 export const ListAssociatedAttributeGroupsResponse = S.suspend(() =>
@@ -832,7 +854,7 @@ export const ListAssociatedAttributeGroupsResponse = S.suspend(() =>
   identifier: "ListAssociatedAttributeGroupsResponse",
 }) as any as S.Schema<ListAssociatedAttributeGroupsResponse>;
 export interface ListAttributeGroupsResponse {
-  attributeGroups?: AttributeGroupSummaries;
+  attributeGroups?: AttributeGroupSummary[];
   nextToken?: string;
 }
 export const ListAttributeGroupsResponse = S.suspend(() =>
@@ -844,7 +866,7 @@ export const ListAttributeGroupsResponse = S.suspend(() =>
   identifier: "ListAttributeGroupsResponse",
 }) as any as S.Schema<ListAttributeGroupsResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -854,13 +876,13 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 export interface SyncResourceResponse {
   applicationArn?: string;
   resourceArn?: string;
-  actionTaken?: string;
+  actionTaken?: SyncAction;
 }
 export const SyncResourceResponse = S.suspend(() =>
   S.Struct({
     applicationArn: S.optional(S.String),
     resourceArn: S.optional(S.String),
-    actionTaken: S.optional(S.String),
+    actionTaken: S.optional(SyncAction),
   }),
 ).annotations({
   identifier: "SyncResourceResponse",
@@ -872,7 +894,7 @@ export interface AttributeGroup {
   description?: string;
   creationTime?: Date;
   lastUpdateTime?: Date;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const AttributeGroup = S.suspend(() =>
   S.Struct({
@@ -895,6 +917,12 @@ export const UpdateAttributeGroupResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateAttributeGroupResponse",
 }) as any as S.Schema<UpdateAttributeGroupResponse>;
+export type ApplicationTagStatus = "IN_PROGRESS" | "SUCCESS" | "FAILURE";
+export const ApplicationTagStatus = S.Literal(
+  "IN_PROGRESS",
+  "SUCCESS",
+  "FAILURE",
+);
 export type ApplicationTagDefinition = { [key: string]: string };
 export const ApplicationTagDefinition = S.Record({
   key: S.String,
@@ -925,8 +953,8 @@ export interface Application {
   description?: string;
   creationTime?: Date;
   lastUpdateTime?: Date;
-  tags?: Tags;
-  applicationTag?: ApplicationTagDefinition;
+  tags?: { [key: string]: string };
+  applicationTag?: { [key: string]: string };
 }
 export const Application = S.suspend(() =>
   S.Struct({
@@ -940,6 +968,21 @@ export const Application = S.suspend(() =>
     applicationTag: S.optional(ApplicationTagDefinition),
   }),
 ).annotations({ identifier: "Application" }) as any as S.Schema<Application>;
+export type ResourceGroupState =
+  | "CREATING"
+  | "CREATE_COMPLETE"
+  | "CREATE_FAILED"
+  | "UPDATING"
+  | "UPDATE_COMPLETE"
+  | "UPDATE_FAILED";
+export const ResourceGroupState = S.Literal(
+  "CREATING",
+  "CREATE_COMPLETE",
+  "CREATE_FAILED",
+  "UPDATING",
+  "UPDATE_COMPLETE",
+  "UPDATE_FAILED",
+);
 export interface CreateApplicationResponse {
   application?: Application;
 }
@@ -981,7 +1024,7 @@ export const GetConfigurationResponse = S.suspend(() =>
   identifier: "GetConfigurationResponse",
 }) as any as S.Schema<GetConfigurationResponse>;
 export interface ListAttributeGroupsForApplicationResponse {
-  attributeGroupsDetails?: AttributeGroupDetailsList;
+  attributeGroupsDetails?: AttributeGroupDetails[];
   nextToken?: string;
 }
 export const ListAttributeGroupsForApplicationResponse = S.suspend(() =>
@@ -1001,13 +1044,13 @@ export const UpdateApplicationResponse = S.suspend(() =>
   identifier: "UpdateApplicationResponse",
 }) as any as S.Schema<UpdateApplicationResponse>;
 export interface ResourceGroup {
-  state?: string;
+  state?: ResourceGroupState;
   arn?: string;
   errorMessage?: string;
 }
 export const ResourceGroup = S.suspend(() =>
   S.Struct({
-    state: S.optional(S.String),
+    state: S.optional(ResourceGroupState),
     arn: S.optional(S.String),
     errorMessage: S.optional(S.String),
   }),
@@ -1073,14 +1116,14 @@ export const Resource = S.suspend(() =>
   }),
 ).annotations({ identifier: "Resource" }) as any as S.Schema<Resource>;
 export interface ApplicationTagResult {
-  applicationTagStatus?: string;
+  applicationTagStatus?: ApplicationTagStatus;
   errorMessage?: string;
-  resources?: ResourcesList;
+  resources?: ResourcesListItem[];
   nextToken?: string;
 }
 export const ApplicationTagResult = S.suspend(() =>
   S.Struct({
-    applicationTagStatus: S.optional(S.String),
+    applicationTagStatus: S.optional(ApplicationTagStatus),
     errorMessage: S.optional(S.String),
     resources: S.optional(ResourcesList),
     nextToken: S.optional(S.String),
@@ -1091,15 +1134,15 @@ export const ApplicationTagResult = S.suspend(() =>
 export interface ResourceInfo {
   name?: string;
   arn?: string;
-  resourceType?: string;
+  resourceType?: ResourceType;
   resourceDetails?: ResourceDetails;
-  options?: Options;
+  options?: AssociationOption[];
 }
 export const ResourceInfo = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     arn: S.optional(S.String),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     resourceDetails: S.optional(ResourceDetails),
     options: S.optional(Options),
   }),
@@ -1114,9 +1157,9 @@ export interface GetApplicationResponse {
   creationTime?: Date;
   lastUpdateTime?: Date;
   associatedResourceCount?: number;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   integrations?: Integrations;
-  applicationTag?: ApplicationTagDefinition;
+  applicationTag?: { [key: string]: string };
 }
 export const GetApplicationResponse = S.suspend(() =>
   S.Struct({
@@ -1136,7 +1179,7 @@ export const GetApplicationResponse = S.suspend(() =>
 }) as any as S.Schema<GetApplicationResponse>;
 export interface GetAssociatedResourceResponse {
   resource?: Resource;
-  options?: Options;
+  options?: AssociationOption[];
   applicationTagResult?: ApplicationTagResult;
 }
 export const GetAssociatedResourceResponse = S.suspend(() =>
@@ -1149,7 +1192,7 @@ export const GetAssociatedResourceResponse = S.suspend(() =>
   identifier: "GetAssociatedResourceResponse",
 }) as any as S.Schema<GetAssociatedResourceResponse>;
 export interface ListAssociatedResourcesResponse {
-  resources?: Resources;
+  resources?: ResourceInfo[];
   nextToken?: string;
 }
 export const ListAssociatedResourcesResponse = S.suspend(() =>
@@ -1194,7 +1237,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
  */
 export const getConfiguration: (
   input: GetConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConfigurationResponse,
   InternalServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1209,21 +1252,21 @@ export const getConfiguration: (
 export const listApplications: {
   (
     input: ListApplicationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListApplicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ApplicationSummary,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1244,7 +1287,7 @@ export const listApplications: {
  */
 export const updateAttributeGroup: (
   input: UpdateAttributeGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAttributeGroupResponse,
   | ConflictException
   | InternalServerException
@@ -1270,7 +1313,7 @@ export const updateAttributeGroup: (
  */
 export const getAttributeGroup: (
   input: GetAttributeGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAttributeGroupResponse,
   | ConflictException
   | InternalServerException
@@ -1295,7 +1338,7 @@ export const getAttributeGroup: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1316,7 +1359,7 @@ export const untagResource: (
  */
 export const disassociateAttributeGroup: (
   input: DisassociateAttributeGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateAttributeGroupResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1338,7 +1381,7 @@ export const disassociateAttributeGroup: (
 export const listAssociatedAttributeGroups: {
   (
     input: ListAssociatedAttributeGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAssociatedAttributeGroupsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1348,7 +1391,7 @@ export const listAssociatedAttributeGroups: {
   >;
   pages: (
     input: ListAssociatedAttributeGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAssociatedAttributeGroupsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1358,7 +1401,7 @@ export const listAssociatedAttributeGroups: {
   >;
   items: (
     input: ListAssociatedAttributeGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AttributeGroupId,
     | InternalServerException
     | ResourceNotFoundException
@@ -1386,7 +1429,7 @@ export const listAssociatedAttributeGroups: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1407,7 +1450,7 @@ export const listTagsForResource: (
  */
 export const deleteApplication: (
   input: DeleteApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApplicationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1428,7 +1471,7 @@ export const deleteApplication: (
  */
 export const deleteAttributeGroup: (
   input: DeleteAttributeGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAttributeGroupResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1450,7 +1493,7 @@ export const deleteAttributeGroup: (
 export const listAttributeGroupsForApplication: {
   (
     input: ListAttributeGroupsForApplicationRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAttributeGroupsForApplicationResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1460,7 +1503,7 @@ export const listAttributeGroupsForApplication: {
   >;
   pages: (
     input: ListAttributeGroupsForApplicationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAttributeGroupsForApplicationResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1470,7 +1513,7 @@ export const listAttributeGroupsForApplication: {
   >;
   items: (
     input: ListAttributeGroupsForApplicationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AttributeGroupDetails,
     | InternalServerException
     | ResourceNotFoundException
@@ -1499,21 +1542,21 @@ export const listAttributeGroupsForApplication: {
 export const listAttributeGroups: {
   (
     input: ListAttributeGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAttributeGroupsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListAttributeGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAttributeGroupsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAttributeGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AttributeGroupSummary,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1535,7 +1578,7 @@ export const listAttributeGroups: {
  */
 export const putConfiguration: (
   input: PutConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutConfigurationResponse,
   | ConflictException
   | InternalServerException
@@ -1556,7 +1599,7 @@ export const putConfiguration: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1593,7 +1636,7 @@ export const tagResource: (
  */
 export const getApplication: (
   input: GetApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetApplicationResponse,
   | ConflictException
   | InternalServerException
@@ -1616,7 +1659,7 @@ export const getApplication: (
  */
 export const getAssociatedResource: (
   input: GetAssociatedResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAssociatedResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1653,7 +1696,7 @@ export const getAssociatedResource: (
 export const listAssociatedResources: {
   (
     input: ListAssociatedResourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAssociatedResourcesResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1663,7 +1706,7 @@ export const listAssociatedResources: {
   >;
   pages: (
     input: ListAssociatedResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAssociatedResourcesResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1673,7 +1716,7 @@ export const listAssociatedResources: {
   >;
   items: (
     input: ListAssociatedResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResourceInfo,
     | InternalServerException
     | ResourceNotFoundException
@@ -1701,7 +1744,7 @@ export const listAssociatedResources: {
  */
 export const updateApplication: (
   input: UpdateApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateApplicationResponse,
   | ConflictException
   | InternalServerException
@@ -1729,7 +1772,7 @@ export const updateApplication: (
  */
 export const createAttributeGroup: (
   input: CreateAttributeGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAttributeGroupResponse,
   | ConflictException
   | InternalServerException
@@ -1754,7 +1797,7 @@ export const createAttributeGroup: (
  */
 export const associateAttributeGroup: (
   input: AssociateAttributeGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateAttributeGroupResponse,
   | ConflictException
   | InternalServerException
@@ -1801,7 +1844,7 @@ export const associateAttributeGroup: (
  */
 export const associateResource: (
   input: AssociateResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateResourceResponse,
   | ConflictException
   | InternalServerException
@@ -1849,7 +1892,7 @@ export const associateResource: (
  */
 export const disassociateResource: (
   input: DisassociateResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1874,7 +1917,7 @@ export const disassociateResource: (
  */
 export const syncResource: (
   input: SyncResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SyncResourceResponse,
   | ConflictException
   | InternalServerException
@@ -1899,7 +1942,7 @@ export const syncResource: (
  */
 export const createApplication: (
   input: CreateApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateApplicationResponse,
   | ConflictException
   | InternalServerException

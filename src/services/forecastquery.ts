@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -94,8 +94,6 @@ export type LongArn = string;
 export type AttributeName = string;
 export type AttributeValue = string;
 export type Statistic = string;
-export type Timestamp = string;
-export type Double = number;
 export type ErrorMessage = string;
 
 //# Schemas
@@ -105,7 +103,7 @@ export interface QueryWhatIfForecastRequest {
   WhatIfForecastArn: string;
   StartDate?: string;
   EndDate?: string;
-  Filters: Filters;
+  Filters: { [key: string]: string };
   NextToken?: string;
 }
 export const QueryWhatIfForecastRequest = S.suspend(() =>
@@ -125,7 +123,7 @@ export interface QueryForecastRequest {
   ForecastArn: string;
   StartDate?: string;
   EndDate?: string;
-  Filters: Filters;
+  Filters: { [key: string]: string };
   NextToken?: string;
 }
 export const QueryForecastRequest = S.suspend(() =>
@@ -150,10 +148,10 @@ export const DataPoint = S.suspend(() =>
 ).annotations({ identifier: "DataPoint" }) as any as S.Schema<DataPoint>;
 export type TimeSeries = DataPoint[];
 export const TimeSeries = S.Array(DataPoint);
-export type Predictions = { [key: string]: TimeSeries };
+export type Predictions = { [key: string]: DataPoint[] };
 export const Predictions = S.Record({ key: S.String, value: TimeSeries });
 export interface Forecast {
-  Predictions?: Predictions;
+  Predictions?: { [key: string]: DataPoint[] };
 }
 export const Forecast = S.suspend(() =>
   S.Struct({ Predictions: S.optional(Predictions) }),
@@ -216,7 +214,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
  */
 export const queryForecast: (
   input: QueryForecastRequest,
-) => Effect.Effect<
+) => effect.Effect<
   QueryForecastResponse,
   | InvalidInputException
   | InvalidNextTokenException
@@ -241,7 +239,7 @@ export const queryForecast: (
  */
 export const queryWhatIfForecast: (
   input: QueryWhatIfForecastRequest,
-) => Effect.Effect<
+) => effect.Effect<
   QueryWhatIfForecastResponse,
   | InvalidInputException
   | InvalidNextTokenException

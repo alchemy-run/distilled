@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -196,6 +196,45 @@ export const StopAutoManagementResponse = S.suspend(() =>
 ).annotations({
   identifier: "StopAutoManagementResponse",
 }) as any as S.Schema<StopAutoManagementResponse>;
+export type ServiceQuotaTemplateAssociationStatus =
+  | "ASSOCIATED"
+  | "DISASSOCIATED";
+export const ServiceQuotaTemplateAssociationStatus = S.Literal(
+  "ASSOCIATED",
+  "DISASSOCIATED",
+);
+export type OptInLevel = "ACCOUNT";
+export const OptInLevel = S.Literal("ACCOUNT");
+export type OptInType = "NotifyOnly" | "NotifyAndAdjust";
+export const OptInType = S.Literal("NotifyOnly", "NotifyAndAdjust");
+export type OptInStatus = "ENABLED" | "DISABLED";
+export const OptInStatus = S.Literal("ENABLED", "DISABLED");
+export type RequestStatus =
+  | "PENDING"
+  | "CASE_OPENED"
+  | "APPROVED"
+  | "DENIED"
+  | "CASE_CLOSED"
+  | "NOT_APPROVED"
+  | "INVALID_REQUEST";
+export const RequestStatus = S.Literal(
+  "PENDING",
+  "CASE_OPENED",
+  "APPROVED",
+  "DENIED",
+  "CASE_CLOSED",
+  "NOT_APPROVED",
+  "INVALID_REQUEST",
+);
+export type AppliedLevelEnum = "ACCOUNT" | "RESOURCE" | "ALL";
+export const AppliedLevelEnum = S.Literal("ACCOUNT", "RESOURCE", "ALL");
+export type ReportStatus = "PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED";
+export const ReportStatus = S.Literal(
+  "PENDING",
+  "IN_PROGRESS",
+  "COMPLETED",
+  "FAILED",
+);
 export type InputTagKeys = string[];
 export const InputTagKeys = S.Array(S.String);
 export interface CreateSupportCaseRequest {
@@ -238,10 +277,14 @@ export const DeleteServiceQuotaIncreaseRequestFromTemplateResponse = S.suspend(
   identifier: "DeleteServiceQuotaIncreaseRequestFromTemplateResponse",
 }) as any as S.Schema<DeleteServiceQuotaIncreaseRequestFromTemplateResponse>;
 export interface GetAssociationForServiceQuotaTemplateResponse {
-  ServiceQuotaTemplateAssociationStatus?: string;
+  ServiceQuotaTemplateAssociationStatus?: ServiceQuotaTemplateAssociationStatus;
 }
 export const GetAssociationForServiceQuotaTemplateResponse = S.suspend(() =>
-  S.Struct({ ServiceQuotaTemplateAssociationStatus: S.optional(S.String) }),
+  S.Struct({
+    ServiceQuotaTemplateAssociationStatus: S.optional(
+      ServiceQuotaTemplateAssociationStatus,
+    ),
+  }),
 ).annotations({
   identifier: "GetAssociationForServiceQuotaTemplateResponse",
 }) as any as S.Schema<GetAssociationForServiceQuotaTemplateResponse>;
@@ -332,18 +375,18 @@ export const ListAWSDefaultServiceQuotasRequest = S.suspend(() =>
 }) as any as S.Schema<ListAWSDefaultServiceQuotasRequest>;
 export interface ListRequestedServiceQuotaChangeHistoryRequest {
   ServiceCode?: string;
-  Status?: string;
+  Status?: RequestStatus;
   NextToken?: string;
   MaxResults?: number;
-  QuotaRequestedAtLevel?: string;
+  QuotaRequestedAtLevel?: AppliedLevelEnum;
 }
 export const ListRequestedServiceQuotaChangeHistoryRequest = S.suspend(() =>
   S.Struct({
     ServiceCode: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(RequestStatus),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-    QuotaRequestedAtLevel: S.optional(S.String),
+    QuotaRequestedAtLevel: S.optional(AppliedLevelEnum),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -353,20 +396,20 @@ export const ListRequestedServiceQuotaChangeHistoryRequest = S.suspend(() =>
 export interface ListRequestedServiceQuotaChangeHistoryByQuotaRequest {
   ServiceCode: string;
   QuotaCode: string;
-  Status?: string;
+  Status?: RequestStatus;
   NextToken?: string;
   MaxResults?: number;
-  QuotaRequestedAtLevel?: string;
+  QuotaRequestedAtLevel?: AppliedLevelEnum;
 }
 export const ListRequestedServiceQuotaChangeHistoryByQuotaRequest = S.suspend(
   () =>
     S.Struct({
       ServiceCode: S.String,
       QuotaCode: S.String,
-      Status: S.optional(S.String),
+      Status: S.optional(RequestStatus),
       NextToken: S.optional(S.String),
       MaxResults: S.optional(S.Number),
-      QuotaRequestedAtLevel: S.optional(S.String),
+      QuotaRequestedAtLevel: S.optional(AppliedLevelEnum),
     }).pipe(
       T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
     ),
@@ -396,7 +439,7 @@ export interface ListServiceQuotasRequest {
   NextToken?: string;
   MaxResults?: number;
   QuotaCode?: string;
-  QuotaAppliedAtLevel?: string;
+  QuotaAppliedAtLevel?: AppliedLevelEnum;
 }
 export const ListServiceQuotasRequest = S.suspend(() =>
   S.Struct({
@@ -404,7 +447,7 @@ export const ListServiceQuotasRequest = S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     QuotaCode: S.optional(S.String),
-    QuotaAppliedAtLevel: S.optional(S.String),
+    QuotaAppliedAtLevel: S.optional(AppliedLevelEnum),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -475,13 +518,13 @@ export const RequestServiceQuotaIncreaseRequest = S.suspend(() =>
 }) as any as S.Schema<RequestServiceQuotaIncreaseRequest>;
 export interface StartQuotaUtilizationReportResponse {
   ReportId?: string;
-  Status?: string;
+  Status?: ReportStatus;
   Message?: string;
 }
 export const StartQuotaUtilizationReportResponse = S.suspend(() =>
   S.Struct({
     ReportId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ReportStatus),
     Message: S.optional(S.String),
   }),
 ).annotations({
@@ -489,7 +532,7 @@ export const StartQuotaUtilizationReportResponse = S.suspend(() =>
 }) as any as S.Schema<StartQuotaUtilizationReportResponse>;
 export interface UntagResourceRequest {
   ResourceARN: string;
-  TagKeys: InputTagKeys;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: InputTagKeys }).pipe(
@@ -504,19 +547,19 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceResponse>;
 export type ExcludedQuotaList = string[];
 export const ExcludedQuotaList = S.Array(S.String);
-export type ExclusionList = { [key: string]: ExcludedQuotaList };
+export type ExclusionList = { [key: string]: string[] };
 export const ExclusionList = S.Record({
   key: S.String,
   value: ExcludedQuotaList,
 });
 export interface UpdateAutoManagementRequest {
-  OptInType?: string;
+  OptInType?: OptInType;
   NotificationArn?: string;
-  ExclusionList?: ExclusionList;
+  ExclusionList?: { [key: string]: string[] };
 }
 export const UpdateAutoManagementRequest = S.suspend(() =>
   S.Struct({
-    OptInType: S.optional(S.String),
+    OptInType: S.optional(OptInType),
     NotificationArn: S.optional(S.String),
     ExclusionList: S.optional(ExclusionList),
   }).pipe(
@@ -539,7 +582,7 @@ export const MetricDimensionsMapDefinition = S.Record({
 export interface MetricInfo {
   MetricNamespace?: string;
   MetricName?: string;
-  MetricDimensions?: MetricDimensionsMapDefinition;
+  MetricDimensions?: { [key: string]: string };
   MetricStatisticRecommendation?: string;
 }
 export const MetricInfo = S.suspend(() =>
@@ -550,34 +593,64 @@ export const MetricInfo = S.suspend(() =>
     MetricStatisticRecommendation: S.optional(S.String),
   }),
 ).annotations({ identifier: "MetricInfo" }) as any as S.Schema<MetricInfo>;
+export type PeriodUnit =
+  | "MICROSECOND"
+  | "MILLISECOND"
+  | "SECOND"
+  | "MINUTE"
+  | "HOUR"
+  | "DAY"
+  | "WEEK";
+export const PeriodUnit = S.Literal(
+  "MICROSECOND",
+  "MILLISECOND",
+  "SECOND",
+  "MINUTE",
+  "HOUR",
+  "DAY",
+  "WEEK",
+);
 export interface QuotaPeriod {
   PeriodValue?: number;
-  PeriodUnit?: string;
+  PeriodUnit?: PeriodUnit;
 }
 export const QuotaPeriod = S.suspend(() =>
   S.Struct({
     PeriodValue: S.optional(S.Number),
-    PeriodUnit: S.optional(S.String),
+    PeriodUnit: S.optional(PeriodUnit),
   }),
 ).annotations({ identifier: "QuotaPeriod" }) as any as S.Schema<QuotaPeriod>;
+export type ErrorCode =
+  | "DEPENDENCY_ACCESS_DENIED_ERROR"
+  | "DEPENDENCY_THROTTLING_ERROR"
+  | "DEPENDENCY_SERVICE_ERROR"
+  | "SERVICE_QUOTA_NOT_AVAILABLE_ERROR";
+export const ErrorCode = S.Literal(
+  "DEPENDENCY_ACCESS_DENIED_ERROR",
+  "DEPENDENCY_THROTTLING_ERROR",
+  "DEPENDENCY_SERVICE_ERROR",
+  "SERVICE_QUOTA_NOT_AVAILABLE_ERROR",
+);
 export interface ErrorReason {
-  ErrorCode?: string;
+  ErrorCode?: ErrorCode;
   ErrorMessage?: string;
 }
 export const ErrorReason = S.suspend(() =>
   S.Struct({
-    ErrorCode: S.optional(S.String),
+    ErrorCode: S.optional(ErrorCode),
     ErrorMessage: S.optional(S.String),
   }),
 ).annotations({ identifier: "ErrorReason" }) as any as S.Schema<ErrorReason>;
+export type QuotaContextScope = "RESOURCE" | "ACCOUNT";
+export const QuotaContextScope = S.Literal("RESOURCE", "ACCOUNT");
 export interface QuotaContextInfo {
-  ContextScope?: string;
+  ContextScope?: QuotaContextScope;
   ContextScopeType?: string;
   ContextId?: string;
 }
 export const QuotaContextInfo = S.suspend(() =>
   S.Struct({
-    ContextScope: S.optional(S.String),
+    ContextScope: S.optional(QuotaContextScope),
     ContextScopeType: S.optional(S.String),
     ContextId: S.optional(S.String),
   }),
@@ -597,7 +670,7 @@ export interface ServiceQuota {
   UsageMetric?: MetricInfo;
   Period?: QuotaPeriod;
   ErrorReason?: ErrorReason;
-  QuotaAppliedAtLevel?: string;
+  QuotaAppliedAtLevel?: AppliedLevelEnum;
   QuotaContext?: QuotaContextInfo;
   Description?: string;
 }
@@ -615,50 +688,52 @@ export const ServiceQuota = S.suspend(() =>
     UsageMetric: S.optional(MetricInfo),
     Period: S.optional(QuotaPeriod),
     ErrorReason: S.optional(ErrorReason),
-    QuotaAppliedAtLevel: S.optional(S.String),
+    QuotaAppliedAtLevel: S.optional(AppliedLevelEnum),
     QuotaContext: S.optional(QuotaContextInfo),
     Description: S.optional(S.String),
   }),
 ).annotations({ identifier: "ServiceQuota" }) as any as S.Schema<ServiceQuota>;
 export type ServiceQuotaListDefinition = ServiceQuota[];
 export const ServiceQuotaListDefinition = S.Array(ServiceQuota);
+export type RequestType = "AutomaticManagement";
+export const RequestType = S.Literal("AutomaticManagement");
 export interface RequestedServiceQuotaChange {
   Id?: string;
-  RequestType?: string;
+  RequestType?: RequestType;
   CaseId?: string;
   ServiceCode?: string;
   ServiceName?: string;
   QuotaCode?: string;
   QuotaName?: string;
   DesiredValue?: number;
-  Status?: string;
+  Status?: RequestStatus;
   Created?: Date;
   LastUpdated?: Date;
   Requester?: string;
   QuotaArn?: string;
   GlobalQuota?: boolean;
   Unit?: string;
-  QuotaRequestedAtLevel?: string;
+  QuotaRequestedAtLevel?: AppliedLevelEnum;
   QuotaContext?: QuotaContextInfo;
 }
 export const RequestedServiceQuotaChange = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
-    RequestType: S.optional(S.String),
+    RequestType: S.optional(RequestType),
     CaseId: S.optional(S.String),
     ServiceCode: S.optional(S.String),
     ServiceName: S.optional(S.String),
     QuotaCode: S.optional(S.String),
     QuotaName: S.optional(S.String),
     DesiredValue: S.optional(S.Number),
-    Status: S.optional(S.String),
+    Status: S.optional(RequestStatus),
     Created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Requester: S.optional(S.String),
     QuotaArn: S.optional(S.String),
     GlobalQuota: S.optional(S.Boolean),
     Unit: S.optional(S.String),
-    QuotaRequestedAtLevel: S.optional(S.String),
+    QuotaRequestedAtLevel: S.optional(AppliedLevelEnum),
     QuotaContext: S.optional(QuotaContextInfo),
   }),
 ).annotations({
@@ -719,7 +794,7 @@ export const GetServiceQuotaResponse = S.suspend(() =>
 }) as any as S.Schema<GetServiceQuotaResponse>;
 export interface ListAWSDefaultServiceQuotasResponse {
   NextToken?: string;
-  Quotas?: ServiceQuotaListDefinition;
+  Quotas?: ServiceQuota[];
 }
 export const ListAWSDefaultServiceQuotasResponse = S.suspend(() =>
   S.Struct({
@@ -731,7 +806,7 @@ export const ListAWSDefaultServiceQuotasResponse = S.suspend(() =>
 }) as any as S.Schema<ListAWSDefaultServiceQuotasResponse>;
 export interface ListRequestedServiceQuotaChangeHistoryResponse {
   NextToken?: string;
-  RequestedQuotas?: RequestedServiceQuotaChangeHistoryListDefinition;
+  RequestedQuotas?: RequestedServiceQuotaChange[];
 }
 export const ListRequestedServiceQuotaChangeHistoryResponse = S.suspend(() =>
   S.Struct({
@@ -745,7 +820,7 @@ export const ListRequestedServiceQuotaChangeHistoryResponse = S.suspend(() =>
 }) as any as S.Schema<ListRequestedServiceQuotaChangeHistoryResponse>;
 export interface ListRequestedServiceQuotaChangeHistoryByQuotaResponse {
   NextToken?: string;
-  RequestedQuotas?: RequestedServiceQuotaChangeHistoryListDefinition;
+  RequestedQuotas?: RequestedServiceQuotaChange[];
 }
 export const ListRequestedServiceQuotaChangeHistoryByQuotaResponse = S.suspend(
   () =>
@@ -759,7 +834,7 @@ export const ListRequestedServiceQuotaChangeHistoryByQuotaResponse = S.suspend(
   identifier: "ListRequestedServiceQuotaChangeHistoryByQuotaResponse",
 }) as any as S.Schema<ListRequestedServiceQuotaChangeHistoryByQuotaResponse>;
 export interface ListServiceQuotaIncreaseRequestsInTemplateResponse {
-  ServiceQuotaIncreaseRequestInTemplateList?: ServiceQuotaIncreaseRequestInTemplateList;
+  ServiceQuotaIncreaseRequestInTemplateList?: ServiceQuotaIncreaseRequestInTemplate[];
   NextToken?: string;
 }
 export const ListServiceQuotaIncreaseRequestsInTemplateResponse = S.suspend(
@@ -775,7 +850,7 @@ export const ListServiceQuotaIncreaseRequestsInTemplateResponse = S.suspend(
 }) as any as S.Schema<ListServiceQuotaIncreaseRequestsInTemplateResponse>;
 export interface ListServiceQuotasResponse {
   NextToken?: string;
-  Quotas?: ServiceQuotaListDefinition;
+  Quotas?: ServiceQuota[];
 }
 export const ListServiceQuotasResponse = S.suspend(() =>
   S.Struct({
@@ -786,7 +861,7 @@ export const ListServiceQuotasResponse = S.suspend(() =>
   identifier: "ListServiceQuotasResponse",
 }) as any as S.Schema<ListServiceQuotasResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: OutputTags;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(OutputTags) }),
@@ -815,15 +890,15 @@ export const RequestServiceQuotaIncreaseResponse = S.suspend(() =>
   identifier: "RequestServiceQuotaIncreaseResponse",
 }) as any as S.Schema<RequestServiceQuotaIncreaseResponse>;
 export interface StartAutoManagementRequest {
-  OptInLevel: string;
-  OptInType: string;
+  OptInLevel: OptInLevel;
+  OptInType: OptInType;
   NotificationArn?: string;
-  ExclusionList?: ExclusionList;
+  ExclusionList?: { [key: string]: string[] };
 }
 export const StartAutoManagementRequest = S.suspend(() =>
   S.Struct({
-    OptInLevel: S.String,
-    OptInType: S.String,
+    OptInLevel: OptInLevel,
+    OptInType: OptInType,
     NotificationArn: S.optional(S.String),
     ExclusionList: S.optional(ExclusionList),
   }).pipe(
@@ -840,7 +915,7 @@ export const StartAutoManagementResponse = S.suspend(() =>
 }) as any as S.Schema<StartAutoManagementResponse>;
 export interface TagResourceRequest {
   ResourceARN: string;
-  Tags: InputTags;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: InputTags }).pipe(
@@ -865,7 +940,7 @@ export const QuotaInfo = S.suspend(() =>
 ).annotations({ identifier: "QuotaInfo" }) as any as S.Schema<QuotaInfo>;
 export type QuotaInfoList = QuotaInfo[];
 export const QuotaInfoList = S.Array(QuotaInfo);
-export type ExclusionQuotaList = { [key: string]: QuotaInfoList };
+export type ExclusionQuotaList = { [key: string]: QuotaInfo[] };
 export const ExclusionQuotaList = S.Record({
   key: S.String,
   value: QuotaInfoList,
@@ -911,18 +986,18 @@ export const ServiceInfo = S.suspend(() =>
 export type ServiceInfoListDefinition = ServiceInfo[];
 export const ServiceInfoListDefinition = S.Array(ServiceInfo);
 export interface GetAutoManagementConfigurationResponse {
-  OptInLevel?: string;
-  OptInType?: string;
+  OptInLevel?: OptInLevel;
+  OptInType?: OptInType;
   NotificationArn?: string;
-  OptInStatus?: string;
-  ExclusionList?: ExclusionQuotaList;
+  OptInStatus?: OptInStatus;
+  ExclusionList?: { [key: string]: QuotaInfo[] };
 }
 export const GetAutoManagementConfigurationResponse = S.suspend(() =>
   S.Struct({
-    OptInLevel: S.optional(S.String),
-    OptInType: S.optional(S.String),
+    OptInLevel: S.optional(OptInLevel),
+    OptInType: S.optional(OptInType),
     NotificationArn: S.optional(S.String),
-    OptInStatus: S.optional(S.String),
+    OptInStatus: S.optional(OptInStatus),
     ExclusionList: S.optional(ExclusionQuotaList),
   }),
 ).annotations({
@@ -930,10 +1005,10 @@ export const GetAutoManagementConfigurationResponse = S.suspend(() =>
 }) as any as S.Schema<GetAutoManagementConfigurationResponse>;
 export interface GetQuotaUtilizationReportResponse {
   ReportId?: string;
-  Status?: string;
+  Status?: ReportStatus;
   GeneratedAt?: Date;
   TotalCount?: number;
-  Quotas?: QuotaUtilizationInfoList;
+  Quotas?: QuotaUtilizationInfo[];
   NextToken?: string;
   ErrorCode?: string;
   ErrorMessage?: string;
@@ -941,7 +1016,7 @@ export interface GetQuotaUtilizationReportResponse {
 export const GetQuotaUtilizationReportResponse = S.suspend(() =>
   S.Struct({
     ReportId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ReportStatus),
     GeneratedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     TotalCount: S.optional(S.Number),
     Quotas: S.optional(QuotaUtilizationInfoList),
@@ -975,7 +1050,7 @@ export const GetServiceQuotaIncreaseRequestFromTemplateResponse = S.suspend(
 }) as any as S.Schema<GetServiceQuotaIncreaseRequestFromTemplateResponse>;
 export interface ListServicesResponse {
   NextToken?: string;
-  Services?: ServiceInfoListDefinition;
+  Services?: ServiceInfo[];
 }
 export const ListServicesResponse = S.suspend(() =>
   S.Struct({
@@ -1071,7 +1146,7 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
  */
 export const createSupportCase: (
   input: CreateSupportCaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSupportCaseResponse,
   | AccessDeniedException
   | DependencyAccessDeniedException
@@ -1103,7 +1178,7 @@ export const createSupportCase: (
  */
 export const deleteServiceQuotaIncreaseRequestFromTemplate: (
   input: DeleteServiceQuotaIncreaseRequestFromTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteServiceQuotaIncreaseRequestFromTemplateResponse,
   | AccessDeniedException
   | AWSServiceAccessNotEnabledException
@@ -1136,7 +1211,7 @@ export const deleteServiceQuotaIncreaseRequestFromTemplate: (
  */
 export const getAssociationForServiceQuotaTemplate: (
   input: GetAssociationForServiceQuotaTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAssociationForServiceQuotaTemplateResponse,
   | AccessDeniedException
   | AWSServiceAccessNotEnabledException
@@ -1169,7 +1244,7 @@ export const getAssociationForServiceQuotaTemplate: (
 export const listAWSDefaultServiceQuotas: {
   (
     input: ListAWSDefaultServiceQuotasRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAWSDefaultServiceQuotasResponse,
     | AccessDeniedException
     | IllegalArgumentException
@@ -1182,7 +1257,7 @@ export const listAWSDefaultServiceQuotas: {
   >;
   pages: (
     input: ListAWSDefaultServiceQuotasRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAWSDefaultServiceQuotasResponse,
     | AccessDeniedException
     | IllegalArgumentException
@@ -1195,7 +1270,7 @@ export const listAWSDefaultServiceQuotas: {
   >;
   items: (
     input: ListAWSDefaultServiceQuotasRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServiceQuota,
     | AccessDeniedException
     | IllegalArgumentException
@@ -1232,7 +1307,7 @@ export const listAWSDefaultServiceQuotas: {
 export const listRequestedServiceQuotaChangeHistory: {
   (
     input: ListRequestedServiceQuotaChangeHistoryRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRequestedServiceQuotaChangeHistoryResponse,
     | AccessDeniedException
     | IllegalArgumentException
@@ -1245,7 +1320,7 @@ export const listRequestedServiceQuotaChangeHistory: {
   >;
   pages: (
     input: ListRequestedServiceQuotaChangeHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRequestedServiceQuotaChangeHistoryResponse,
     | AccessDeniedException
     | IllegalArgumentException
@@ -1258,7 +1333,7 @@ export const listRequestedServiceQuotaChangeHistory: {
   >;
   items: (
     input: ListRequestedServiceQuotaChangeHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RequestedServiceQuotaChange,
     | AccessDeniedException
     | IllegalArgumentException
@@ -1294,7 +1369,7 @@ export const listRequestedServiceQuotaChangeHistory: {
 export const listRequestedServiceQuotaChangeHistoryByQuota: {
   (
     input: ListRequestedServiceQuotaChangeHistoryByQuotaRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRequestedServiceQuotaChangeHistoryByQuotaResponse,
     | AccessDeniedException
     | IllegalArgumentException
@@ -1307,7 +1382,7 @@ export const listRequestedServiceQuotaChangeHistoryByQuota: {
   >;
   pages: (
     input: ListRequestedServiceQuotaChangeHistoryByQuotaRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRequestedServiceQuotaChangeHistoryByQuotaResponse,
     | AccessDeniedException
     | IllegalArgumentException
@@ -1320,7 +1395,7 @@ export const listRequestedServiceQuotaChangeHistoryByQuota: {
   >;
   items: (
     input: ListRequestedServiceQuotaChangeHistoryByQuotaRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RequestedServiceQuotaChange,
     | AccessDeniedException
     | IllegalArgumentException
@@ -1358,7 +1433,7 @@ export const listRequestedServiceQuotaChangeHistoryByQuota: {
 export const listServiceQuotas: {
   (
     input: ListServiceQuotasRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServiceQuotasResponse,
     | AccessDeniedException
     | IllegalArgumentException
@@ -1371,7 +1446,7 @@ export const listServiceQuotas: {
   >;
   pages: (
     input: ListServiceQuotasRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServiceQuotasResponse,
     | AccessDeniedException
     | IllegalArgumentException
@@ -1384,7 +1459,7 @@ export const listServiceQuotas: {
   >;
   items: (
     input: ListServiceQuotasRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServiceQuota,
     | AccessDeniedException
     | IllegalArgumentException
@@ -1419,7 +1494,7 @@ export const listServiceQuotas: {
 export const listServices: {
   (
     input: ListServicesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServicesResponse,
     | AccessDeniedException
     | IllegalArgumentException
@@ -1431,7 +1506,7 @@ export const listServices: {
   >;
   pages: (
     input: ListServicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServicesResponse,
     | AccessDeniedException
     | IllegalArgumentException
@@ -1443,7 +1518,7 @@ export const listServices: {
   >;
   items: (
     input: ListServicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServiceInfo,
     | AccessDeniedException
     | IllegalArgumentException
@@ -1476,7 +1551,7 @@ export const listServices: {
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | IllegalArgumentException
@@ -1503,7 +1578,7 @@ export const untagResource: (
  */
 export const updateAutoManagement: (
   input: UpdateAutoManagementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAutoManagementResponse,
   | AccessDeniedException
   | IllegalArgumentException
@@ -1530,7 +1605,7 @@ export const updateAutoManagement: (
  */
 export const stopAutoManagement: (
   input: StopAutoManagementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopAutoManagementResponse,
   | AccessDeniedException
   | IllegalArgumentException
@@ -1557,7 +1632,7 @@ export const stopAutoManagement: (
  */
 export const getServiceQuota: (
   input: GetServiceQuotaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceQuotaResponse,
   | AccessDeniedException
   | IllegalArgumentException
@@ -1582,7 +1657,7 @@ export const getServiceQuota: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | IllegalArgumentException
@@ -1609,7 +1684,7 @@ export const listTagsForResource: (
  */
 export const startAutoManagement: (
   input: StartAutoManagementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartAutoManagementResponse,
   | AccessDeniedException
   | IllegalArgumentException
@@ -1635,7 +1710,7 @@ export const startAutoManagement: (
  */
 export const getAutoManagementConfiguration: (
   input: GetAutoManagementConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAutoManagementConfigurationResponse,
   | AccessDeniedException
   | IllegalArgumentException
@@ -1671,7 +1746,7 @@ export const getAutoManagementConfiguration: (
  */
 export const getQuotaUtilizationReport: (
   input: GetQuotaUtilizationReportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetQuotaUtilizationReportResponse,
   | AccessDeniedException
   | IllegalArgumentException
@@ -1696,7 +1771,7 @@ export const getQuotaUtilizationReport: (
  */
 export const getRequestedServiceQuotaChange: (
   input: GetRequestedServiceQuotaChangeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRequestedServiceQuotaChangeResponse,
   | AccessDeniedException
   | IllegalArgumentException
@@ -1727,7 +1802,7 @@ export const getRequestedServiceQuotaChange: (
  */
 export const startQuotaUtilizationReport: (
   input: StartQuotaUtilizationReportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartQuotaUtilizationReportResponse,
   | AccessDeniedException
   | IllegalArgumentException
@@ -1755,7 +1830,7 @@ export const startQuotaUtilizationReport: (
  */
 export const requestServiceQuotaIncrease: (
   input: RequestServiceQuotaIncreaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RequestServiceQuotaIncreaseResponse,
   | AccessDeniedException
   | DependencyAccessDeniedException
@@ -1789,7 +1864,7 @@ export const requestServiceQuotaIncrease: (
  */
 export const getAWSDefaultServiceQuota: (
   input: GetAWSDefaultServiceQuotaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAWSDefaultServiceQuotaResponse,
   | AccessDeniedException
   | IllegalArgumentException
@@ -1815,7 +1890,7 @@ export const getAWSDefaultServiceQuota: (
 export const listServiceQuotaIncreaseRequestsInTemplate: {
   (
     input: ListServiceQuotaIncreaseRequestsInTemplateRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServiceQuotaIncreaseRequestsInTemplateResponse,
     | AccessDeniedException
     | AWSServiceAccessNotEnabledException
@@ -1830,7 +1905,7 @@ export const listServiceQuotaIncreaseRequestsInTemplate: {
   >;
   pages: (
     input: ListServiceQuotaIncreaseRequestsInTemplateRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServiceQuotaIncreaseRequestsInTemplateResponse,
     | AccessDeniedException
     | AWSServiceAccessNotEnabledException
@@ -1845,7 +1920,7 @@ export const listServiceQuotaIncreaseRequestsInTemplate: {
   >;
   items: (
     input: ListServiceQuotaIncreaseRequestsInTemplateRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServiceQuotaIncreaseRequestInTemplate,
     | AccessDeniedException
     | AWSServiceAccessNotEnabledException
@@ -1884,7 +1959,7 @@ export const listServiceQuotaIncreaseRequestsInTemplate: {
  */
 export const getServiceQuotaIncreaseRequestFromTemplate: (
   input: GetServiceQuotaIncreaseRequestFromTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceQuotaIncreaseRequestFromTemplateResponse,
   | AccessDeniedException
   | AWSServiceAccessNotEnabledException
@@ -1920,7 +1995,7 @@ export const getServiceQuotaIncreaseRequestFromTemplate: (
  */
 export const associateServiceQuotaTemplate: (
   input: AssociateServiceQuotaTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateServiceQuotaTemplateResponse,
   | AccessDeniedException
   | AWSServiceAccessNotEnabledException
@@ -1951,7 +2026,7 @@ export const associateServiceQuotaTemplate: (
  */
 export const putServiceQuotaIncreaseRequestIntoTemplate: (
   input: PutServiceQuotaIncreaseRequestIntoTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutServiceQuotaIncreaseRequestIntoTemplateResponse,
   | AccessDeniedException
   | AWSServiceAccessNotEnabledException
@@ -1988,7 +2063,7 @@ export const putServiceQuotaIncreaseRequestIntoTemplate: (
  */
 export const disassociateServiceQuotaTemplate: (
   input: DisassociateServiceQuotaTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateServiceQuotaTemplateResponse,
   | AccessDeniedException
   | AWSServiceAccessNotEnabledException
@@ -2020,7 +2095,7 @@ export const disassociateServiceQuotaTemplate: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | IllegalArgumentException

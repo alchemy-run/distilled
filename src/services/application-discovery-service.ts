@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -95,13 +95,11 @@ export type ApplicationName = string;
 export type ApplicationDescription = string;
 export type ApplicationWave = string;
 export type AgentId = string;
-export type Integer = number;
 export type NextToken = string;
 export type UUID = string;
 export type ConfigurationsExportId = string;
 export type DescribeContinuousExportsMaxResults = number;
 export type DescribeImportTasksMaxResults = number;
-export type Long = number;
 export type S3Bucket = string;
 export type ClientRequestToken = string;
 export type ImportTaskName = string;
@@ -191,11 +189,28 @@ export type ContinuousExportIds = string[];
 export const ContinuousExportIds = S.Array(S.String);
 export type ExportIds = string[];
 export const ExportIds = S.Array(S.String);
-export type ExportDataFormats = string[];
-export const ExportDataFormats = S.Array(S.String);
+export type ConfigurationItemType =
+  | "SERVER"
+  | "PROCESS"
+  | "CONNECTION"
+  | "APPLICATION";
+export const ConfigurationItemType = S.Literal(
+  "SERVER",
+  "PROCESS",
+  "CONNECTION",
+  "APPLICATION",
+);
+export type DeletionConfigurationItemType = "SERVER";
+export const DeletionConfigurationItemType = S.Literal("SERVER");
+export type DataSource = "AGENT";
+export const DataSource = S.Literal("AGENT");
+export type ExportDataFormat = "CSV";
+export const ExportDataFormat = S.Literal("CSV");
+export type ExportDataFormats = ExportDataFormat[];
+export const ExportDataFormats = S.Array(ExportDataFormat);
 export interface AssociateConfigurationItemsToApplicationRequest {
   applicationConfigurationId: string;
-  configurationIds: ConfigurationIdList;
+  configurationIds: string[];
 }
 export const AssociateConfigurationItemsToApplicationRequest = S.suspend(() =>
   S.Struct({
@@ -222,7 +237,7 @@ export const AssociateConfigurationItemsToApplicationResponse = S.suspend(() =>
   identifier: "AssociateConfigurationItemsToApplicationResponse",
 }) as any as S.Schema<AssociateConfigurationItemsToApplicationResponse>;
 export interface BatchDeleteImportDataRequest {
-  importTaskIds: ToDeleteIdentifierList;
+  importTaskIds: string[];
   deleteHistory?: boolean;
 }
 export const BatchDeleteImportDataRequest = S.suspend(() =>
@@ -268,7 +283,7 @@ export const CreateApplicationRequest = S.suspend(() =>
   identifier: "CreateApplicationRequest",
 }) as any as S.Schema<CreateApplicationRequest>;
 export interface DeleteApplicationsRequest {
-  configurationIds: ApplicationIdsList;
+  configurationIds: string[];
 }
 export const DeleteApplicationsRequest = S.suspend(() =>
   S.Struct({ configurationIds: ApplicationIdsList }).pipe(
@@ -303,8 +318,8 @@ export const TagSet = S.Array(
   Tag.pipe(T.XmlName("item")).annotations({ identifier: "Tag" }),
 );
 export interface DeleteTagsRequest {
-  configurationIds: ConfigurationIdList;
-  tags?: TagSet;
+  configurationIds: string[];
+  tags?: Tag[];
 }
 export const DeleteTagsRequest = S.suspend(() =>
   S.Struct({
@@ -349,7 +364,7 @@ export const DescribeBatchDeleteConfigurationTaskRequest = S.suspend(() =>
   identifier: "DescribeBatchDeleteConfigurationTaskRequest",
 }) as any as S.Schema<DescribeBatchDeleteConfigurationTaskRequest>;
 export interface DescribeConfigurationsRequest {
-  configurationIds: ConfigurationIdList;
+  configurationIds: string[];
 }
 export const DescribeConfigurationsRequest = S.suspend(() =>
   S.Struct({ configurationIds: ConfigurationIdList }).pipe(
@@ -367,7 +382,7 @@ export const DescribeConfigurationsRequest = S.suspend(() =>
   identifier: "DescribeConfigurationsRequest",
 }) as any as S.Schema<DescribeConfigurationsRequest>;
 export interface DescribeContinuousExportsRequest {
-  exportIds?: ContinuousExportIds;
+  exportIds?: string[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -391,7 +406,7 @@ export const DescribeContinuousExportsRequest = S.suspend(() =>
   identifier: "DescribeContinuousExportsRequest",
 }) as any as S.Schema<DescribeContinuousExportsRequest>;
 export interface DescribeExportConfigurationsRequest {
-  exportIds?: ExportIds;
+  exportIds?: string[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -416,7 +431,7 @@ export const DescribeExportConfigurationsRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeExportConfigurationsRequest>;
 export interface DisassociateConfigurationItemsFromApplicationRequest {
   applicationConfigurationId: string;
-  configurationIds: ConfigurationIdList;
+  configurationIds: string[];
 }
 export const DisassociateConfigurationItemsFromApplicationRequest = S.suspend(
   () =>
@@ -454,7 +469,7 @@ export const ExportConfigurationsResponse = S.suspend(() =>
 export interface ListServerNeighborsRequest {
   configurationId: string;
   portInformationNeeded?: boolean;
-  neighborConfigurationIds?: ConfigurationIdList;
+  neighborConfigurationIds?: string[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -480,12 +495,12 @@ export const ListServerNeighborsRequest = S.suspend(() =>
   identifier: "ListServerNeighborsRequest",
 }) as any as S.Schema<ListServerNeighborsRequest>;
 export interface StartBatchDeleteConfigurationTaskRequest {
-  configurationType: string;
-  configurationIds: ConfigurationIdList;
+  configurationType: DeletionConfigurationItemType;
+  configurationIds: string[];
 }
 export const StartBatchDeleteConfigurationTaskRequest = S.suspend(() =>
   S.Struct({
-    configurationType: S.String,
+    configurationType: DeletionConfigurationItemType,
     configurationIds: ConfigurationIdList,
   }).pipe(
     T.all(
@@ -502,7 +517,7 @@ export const StartBatchDeleteConfigurationTaskRequest = S.suspend(() =>
   identifier: "StartBatchDeleteConfigurationTaskRequest",
 }) as any as S.Schema<StartBatchDeleteConfigurationTaskRequest>;
 export interface StartDataCollectionByAgentIdsRequest {
-  agentIds: AgentIds;
+  agentIds: string[];
 }
 export const StartDataCollectionByAgentIdsRequest = S.suspend(() =>
   S.Struct({ agentIds: AgentIds }).pipe(
@@ -562,7 +577,7 @@ export const StopContinuousExportRequest = S.suspend(() =>
   identifier: "StopContinuousExportRequest",
 }) as any as S.Schema<StopContinuousExportRequest>;
 export interface StopDataCollectionByAgentIdsRequest {
-  agentIds: AgentIds;
+  agentIds: string[];
 }
 export const StopDataCollectionByAgentIdsRequest = S.suspend(() =>
   S.Struct({ agentIds: AgentIds }).pipe(
@@ -613,8 +628,21 @@ export const UpdateApplicationResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateApplicationResponse>;
 export type FilterValues = string[];
 export const FilterValues = S.Array(S.String.pipe(T.XmlName("item")));
+export type ImportTaskFilterName =
+  | "IMPORT_TASK_ID"
+  | "STATUS"
+  | "NAME"
+  | "FILE_CLASSIFICATION";
+export const ImportTaskFilterName = S.Literal(
+  "IMPORT_TASK_ID",
+  "STATUS",
+  "NAME",
+  "FILE_CLASSIFICATION",
+);
 export type ImportTaskFilterValueList = string[];
 export const ImportTaskFilterValueList = S.Array(S.String);
+export type orderString = "ASC" | "DESC";
+export const orderString = S.Literal("ASC", "DESC");
 export interface DeleteAgent {
   agentId: string;
   force?: boolean;
@@ -626,7 +654,7 @@ export type DeleteAgents = DeleteAgent[];
 export const DeleteAgents = S.Array(DeleteAgent);
 export interface Filter {
   name: string;
-  values: FilterValues;
+  values: string[];
   condition: string;
 }
 export const Filter = S.suspend(() =>
@@ -636,7 +664,7 @@ export type Filters = Filter[];
 export const Filters = S.Array(Filter);
 export interface ExportFilter {
   name: string;
-  values: FilterValues;
+  values: string[];
   condition: string;
 }
 export const ExportFilter = S.suspend(() =>
@@ -645,12 +673,12 @@ export const ExportFilter = S.suspend(() =>
 export type ExportFilters = ExportFilter[];
 export const ExportFilters = S.Array(ExportFilter);
 export interface ImportTaskFilter {
-  name?: string;
-  values?: ImportTaskFilterValueList;
+  name?: ImportTaskFilterName;
+  values?: string[];
 }
 export const ImportTaskFilter = S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
+    name: S.optional(ImportTaskFilterName),
     values: S.optional(ImportTaskFilterValueList),
   }),
 ).annotations({
@@ -660,7 +688,7 @@ export type DescribeImportTasksFilterList = ImportTaskFilter[];
 export const DescribeImportTasksFilterList = S.Array(ImportTaskFilter);
 export interface TagFilter {
   name: string;
-  values: FilterValues;
+  values: string[];
 }
 export const TagFilter = S.suspend(() =>
   S.Struct({ name: S.String, values: FilterValues }),
@@ -757,10 +785,10 @@ export const CustomerAgentlessCollectorInfo = S.suspend(() =>
 }) as any as S.Schema<CustomerAgentlessCollectorInfo>;
 export interface OrderByElement {
   fieldName: string;
-  sortOrder?: string;
+  sortOrder?: orderString;
 }
 export const OrderByElement = S.suspend(() =>
-  S.Struct({ fieldName: S.String, sortOrder: S.optional(S.String) }),
+  S.Struct({ fieldName: S.String, sortOrder: S.optional(orderString) }),
 ).annotations({
   identifier: "OrderByElement",
 }) as any as S.Schema<OrderByElement>;
@@ -768,10 +796,12 @@ export type OrderByList = OrderByElement[];
 export const OrderByList = S.Array(OrderByElement);
 export type SchemaStorageConfig = { [key: string]: string };
 export const SchemaStorageConfig = S.Record({ key: S.String, value: S.String });
+export type Tenancy = "DEDICATED" | "SHARED";
+export const Tenancy = S.Literal("DEDICATED", "SHARED");
 export type ExcludedInstanceTypes = string[];
 export const ExcludedInstanceTypes = S.Array(S.String);
 export interface BatchDeleteAgentsRequest {
-  deleteAgents: DeleteAgents;
+  deleteAgents: DeleteAgent[];
 }
 export const BatchDeleteAgentsRequest = S.suspend(() =>
   S.Struct({ deleteAgents: DeleteAgents }).pipe(
@@ -797,8 +827,8 @@ export const CreateApplicationResponse = S.suspend(() =>
   identifier: "CreateApplicationResponse",
 }) as any as S.Schema<CreateApplicationResponse>;
 export interface CreateTagsRequest {
-  configurationIds: ConfigurationIdList;
-  tags: TagSet;
+  configurationIds: string[];
+  tags: Tag[];
 }
 export const CreateTagsRequest = S.suspend(() =>
   S.Struct({ configurationIds: ConfigurationIdList, tags: TagSet }).pipe(
@@ -822,8 +852,8 @@ export const CreateTagsResponse = S.suspend(() =>
   identifier: "CreateTagsResponse",
 }) as any as S.Schema<CreateTagsResponse>;
 export interface DescribeAgentsRequest {
-  agentIds?: AgentIds;
-  filters?: Filters;
+  agentIds?: string[];
+  filters?: Filter[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -848,8 +878,8 @@ export const DescribeAgentsRequest = S.suspend(() =>
   identifier: "DescribeAgentsRequest",
 }) as any as S.Schema<DescribeAgentsRequest>;
 export interface DescribeExportTasksRequest {
-  exportIds?: ExportIds;
-  filters?: ExportFilters;
+  exportIds?: string[];
+  filters?: ExportFilter[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -874,7 +904,7 @@ export const DescribeExportTasksRequest = S.suspend(() =>
   identifier: "DescribeExportTasksRequest",
 }) as any as S.Schema<DescribeExportTasksRequest>;
 export interface DescribeImportTasksRequest {
-  filters?: DescribeImportTasksFilterList;
+  filters?: ImportTaskFilter[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -898,7 +928,7 @@ export const DescribeImportTasksRequest = S.suspend(() =>
   identifier: "DescribeImportTasksRequest",
 }) as any as S.Schema<DescribeImportTasksRequest>;
 export interface DescribeTagsRequest {
-  filters?: TagFilters;
+  filters?: TagFilter[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -946,15 +976,15 @@ export const GetDiscoverySummaryResponse = S.suspend(() =>
   identifier: "GetDiscoverySummaryResponse",
 }) as any as S.Schema<GetDiscoverySummaryResponse>;
 export interface ListConfigurationsRequest {
-  configurationType: string;
-  filters?: Filters;
+  configurationType: ConfigurationItemType;
+  filters?: Filter[];
   maxResults?: number;
   nextToken?: string;
-  orderBy?: OrderByList;
+  orderBy?: OrderByElement[];
 }
 export const ListConfigurationsRequest = S.suspend(() =>
   S.Struct({
-    configurationType: S.String,
+    configurationType: ConfigurationItemType,
     filters: S.optional(Filters),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
@@ -985,15 +1015,15 @@ export interface StartContinuousExportResponse {
   exportId?: string;
   s3Bucket?: string;
   startTime?: Date;
-  dataSource?: string;
-  schemaStorageConfig?: SchemaStorageConfig;
+  dataSource?: DataSource;
+  schemaStorageConfig?: { [key: string]: string };
 }
 export const StartContinuousExportResponse = S.suspend(() =>
   S.Struct({
     exportId: S.optional(S.String),
     s3Bucket: S.optional(S.String),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    dataSource: S.optional(S.String),
+    dataSource: S.optional(DataSource),
     schemaStorageConfig: S.optional(SchemaStorageConfig),
   }).pipe(ns),
 ).annotations({
@@ -1028,7 +1058,7 @@ export const AgentConfigurationStatus = S.suspend(() =>
 export type AgentConfigurationStatusList = AgentConfigurationStatus[];
 export const AgentConfigurationStatusList = S.Array(AgentConfigurationStatus);
 export interface StopDataCollectionByAgentIdsResponse {
-  agentsConfigurationStatus?: AgentConfigurationStatusList;
+  agentsConfigurationStatus?: AgentConfigurationStatus[];
 }
 export const StopDataCollectionByAgentIdsResponse = S.suspend(() =>
   S.Struct({
@@ -1037,15 +1067,104 @@ export const StopDataCollectionByAgentIdsResponse = S.suspend(() =>
 ).annotations({
   identifier: "StopDataCollectionByAgentIdsResponse",
 }) as any as S.Schema<StopDataCollectionByAgentIdsResponse>;
+export type BatchDeleteImportDataErrorCode =
+  | "NOT_FOUND"
+  | "INTERNAL_SERVER_ERROR"
+  | "OVER_LIMIT";
+export const BatchDeleteImportDataErrorCode = S.Literal(
+  "NOT_FOUND",
+  "INTERNAL_SERVER_ERROR",
+  "OVER_LIMIT",
+);
+export type BatchDeleteConfigurationTaskStatus =
+  | "INITIALIZING"
+  | "VALIDATING"
+  | "DELETING"
+  | "COMPLETED"
+  | "FAILED";
+export const BatchDeleteConfigurationTaskStatus = S.Literal(
+  "INITIALIZING",
+  "VALIDATING",
+  "DELETING",
+  "COMPLETED",
+  "FAILED",
+);
+export type ContinuousExportStatus =
+  | "START_IN_PROGRESS"
+  | "START_FAILED"
+  | "ACTIVE"
+  | "ERROR"
+  | "STOP_IN_PROGRESS"
+  | "STOP_FAILED"
+  | "INACTIVE";
+export const ContinuousExportStatus = S.Literal(
+  "START_IN_PROGRESS",
+  "START_FAILED",
+  "ACTIVE",
+  "ERROR",
+  "STOP_IN_PROGRESS",
+  "STOP_FAILED",
+  "INACTIVE",
+);
+export type ExportStatus = "FAILED" | "SUCCEEDED" | "IN_PROGRESS";
+export const ExportStatus = S.Literal("FAILED", "SUCCEEDED", "IN_PROGRESS");
+export type ImportStatus =
+  | "IMPORT_IN_PROGRESS"
+  | "IMPORT_COMPLETE"
+  | "IMPORT_COMPLETE_WITH_ERRORS"
+  | "IMPORT_FAILED"
+  | "IMPORT_FAILED_SERVER_LIMIT_EXCEEDED"
+  | "IMPORT_FAILED_RECORD_LIMIT_EXCEEDED"
+  | "IMPORT_FAILED_UNSUPPORTED_FILE_TYPE"
+  | "DELETE_IN_PROGRESS"
+  | "DELETE_COMPLETE"
+  | "DELETE_FAILED"
+  | "DELETE_FAILED_LIMIT_EXCEEDED"
+  | "INTERNAL_ERROR";
+export const ImportStatus = S.Literal(
+  "IMPORT_IN_PROGRESS",
+  "IMPORT_COMPLETE",
+  "IMPORT_COMPLETE_WITH_ERRORS",
+  "IMPORT_FAILED",
+  "IMPORT_FAILED_SERVER_LIMIT_EXCEEDED",
+  "IMPORT_FAILED_RECORD_LIMIT_EXCEEDED",
+  "IMPORT_FAILED_UNSUPPORTED_FILE_TYPE",
+  "DELETE_IN_PROGRESS",
+  "DELETE_COMPLETE",
+  "DELETE_FAILED",
+  "DELETE_FAILED_LIMIT_EXCEEDED",
+  "INTERNAL_ERROR",
+);
+export type FileClassification =
+  | "MODELIZEIT_EXPORT"
+  | "RVTOOLS_EXPORT"
+  | "VMWARE_NSX_EXPORT"
+  | "IMPORT_TEMPLATE";
+export const FileClassification = S.Literal(
+  "MODELIZEIT_EXPORT",
+  "RVTOOLS_EXPORT",
+  "VMWARE_NSX_EXPORT",
+  "IMPORT_TEMPLATE",
+);
+export type PurchasingOption = "ALL_UPFRONT" | "PARTIAL_UPFRONT" | "NO_UPFRONT";
+export const PurchasingOption = S.Literal(
+  "ALL_UPFRONT",
+  "PARTIAL_UPFRONT",
+  "NO_UPFRONT",
+);
+export type OfferingClass = "STANDARD" | "CONVERTIBLE";
+export const OfferingClass = S.Literal("STANDARD", "CONVERTIBLE");
+export type TermLength = "ONE_YEAR" | "THREE_YEAR";
+export const TermLength = S.Literal("ONE_YEAR", "THREE_YEAR");
 export interface BatchDeleteImportDataError {
   importTaskId?: string;
-  errorCode?: string;
+  errorCode?: BatchDeleteImportDataErrorCode;
   errorDescription?: string;
 }
 export const BatchDeleteImportDataError = S.suspend(() =>
   S.Struct({
     importTaskId: S.optional(S.String),
-    errorCode: S.optional(S.String),
+    errorCode: S.optional(BatchDeleteImportDataErrorCode),
     errorDescription: S.optional(S.String),
   }),
 ).annotations({
@@ -1060,30 +1179,29 @@ export const DescribeConfigurationsAttribute = S.Record({
   key: S.String,
   value: S.String,
 });
-export type DescribeConfigurationsAttributes =
-  DescribeConfigurationsAttribute[];
+export type DescribeConfigurationsAttributes = { [key: string]: string }[];
 export const DescribeConfigurationsAttributes = S.Array(
   DescribeConfigurationsAttribute,
 );
 export interface ContinuousExportDescription {
   exportId?: string;
-  status?: string;
+  status?: ContinuousExportStatus;
   statusDetail?: string;
   s3Bucket?: string;
   startTime?: Date;
   stopTime?: Date;
-  dataSource?: string;
-  schemaStorageConfig?: SchemaStorageConfig;
+  dataSource?: DataSource;
+  schemaStorageConfig?: { [key: string]: string };
 }
 export const ContinuousExportDescription = S.suspend(() =>
   S.Struct({
     exportId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ContinuousExportStatus),
     statusDetail: S.optional(S.String),
     s3Bucket: S.optional(S.String),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     stopTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    dataSource: S.optional(S.String),
+    dataSource: S.optional(DataSource),
     schemaStorageConfig: S.optional(SchemaStorageConfig),
   }),
 ).annotations({
@@ -1095,7 +1213,7 @@ export const ContinuousExportDescriptions = S.Array(
 );
 export interface ExportInfo {
   exportId: string;
-  exportStatus: string;
+  exportStatus: ExportStatus;
   statusMessage: string;
   configurationsDownloadUrl?: string;
   exportRequestTime: Date;
@@ -1106,7 +1224,7 @@ export interface ExportInfo {
 export const ExportInfo = S.suspend(() =>
   S.Struct({
     exportId: S.String,
-    exportStatus: S.String,
+    exportStatus: ExportStatus,
     statusMessage: S.String,
     configurationsDownloadUrl: S.optional(S.String),
     exportRequestTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1126,11 +1244,11 @@ export interface ImportTask {
   clientRequestToken?: string;
   name?: string;
   importUrl?: string;
-  status?: string;
+  status?: ImportStatus;
   importRequestTime?: Date;
   importCompletionTime?: Date;
   importDeletedTime?: Date;
-  fileClassification?: string;
+  fileClassification?: FileClassification;
   serverImportSuccess?: number;
   serverImportFailure?: number;
   applicationImportSuccess?: number;
@@ -1143,7 +1261,7 @@ export const ImportTask = S.suspend(() =>
     clientRequestToken: S.optional(S.String),
     name: S.optional(S.String),
     importUrl: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ImportStatus),
     importRequestTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1153,7 +1271,7 @@ export const ImportTask = S.suspend(() =>
     importDeletedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    fileClassification: S.optional(S.String),
+    fileClassification: S.optional(FileClassification),
     serverImportSuccess: S.optional(S.Number),
     serverImportFailure: S.optional(S.Number),
     applicationImportSuccess: S.optional(S.Number),
@@ -1196,21 +1314,21 @@ export const UsageMetricBasis = S.suspend(() =>
   identifier: "UsageMetricBasis",
 }) as any as S.Schema<UsageMetricBasis>;
 export interface ReservedInstanceOptions {
-  purchasingOption: string;
-  offeringClass: string;
-  termLength: string;
+  purchasingOption: PurchasingOption;
+  offeringClass: OfferingClass;
+  termLength: TermLength;
 }
 export const ReservedInstanceOptions = S.suspend(() =>
   S.Struct({
-    purchasingOption: S.String,
-    offeringClass: S.String,
-    termLength: S.String,
+    purchasingOption: PurchasingOption,
+    offeringClass: OfferingClass,
+    termLength: TermLength,
   }),
 ).annotations({
   identifier: "ReservedInstanceOptions",
 }) as any as S.Schema<ReservedInstanceOptions>;
 export interface BatchDeleteImportDataResponse {
-  errors?: BatchDeleteImportDataErrorList;
+  errors?: BatchDeleteImportDataError[];
 }
 export const BatchDeleteImportDataResponse = S.suspend(() =>
   S.Struct({ errors: S.optional(BatchDeleteImportDataErrorList) }).pipe(ns),
@@ -1218,7 +1336,7 @@ export const BatchDeleteImportDataResponse = S.suspend(() =>
   identifier: "BatchDeleteImportDataResponse",
 }) as any as S.Schema<BatchDeleteImportDataResponse>;
 export interface DescribeConfigurationsResponse {
-  configurations?: DescribeConfigurationsAttributes;
+  configurations?: { [key: string]: string }[];
 }
 export const DescribeConfigurationsResponse = S.suspend(() =>
   S.Struct({
@@ -1228,7 +1346,7 @@ export const DescribeConfigurationsResponse = S.suspend(() =>
   identifier: "DescribeConfigurationsResponse",
 }) as any as S.Schema<DescribeConfigurationsResponse>;
 export interface DescribeContinuousExportsResponse {
-  descriptions?: ContinuousExportDescriptions;
+  descriptions?: ContinuousExportDescription[];
   nextToken?: string;
 }
 export const DescribeContinuousExportsResponse = S.suspend(() =>
@@ -1240,7 +1358,7 @@ export const DescribeContinuousExportsResponse = S.suspend(() =>
   identifier: "DescribeContinuousExportsResponse",
 }) as any as S.Schema<DescribeContinuousExportsResponse>;
 export interface DescribeExportConfigurationsResponse {
-  exportsInfo?: ExportsInfo;
+  exportsInfo?: ExportInfo[];
   nextToken?: string;
 }
 export const DescribeExportConfigurationsResponse = S.suspend(() =>
@@ -1252,7 +1370,7 @@ export const DescribeExportConfigurationsResponse = S.suspend(() =>
   identifier: "DescribeExportConfigurationsResponse",
 }) as any as S.Schema<DescribeExportConfigurationsResponse>;
 export interface DescribeExportTasksResponse {
-  exportsInfo?: ExportsInfo;
+  exportsInfo?: ExportInfo[];
   nextToken?: string;
 }
 export const DescribeExportTasksResponse = S.suspend(() =>
@@ -1265,7 +1383,7 @@ export const DescribeExportTasksResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeExportTasksResponse>;
 export interface DescribeImportTasksResponse {
   nextToken?: string;
-  tasks?: ImportTaskList;
+  tasks?: ImportTask[];
 }
 export const DescribeImportTasksResponse = S.suspend(() =>
   S.Struct({
@@ -1276,7 +1394,7 @@ export const DescribeImportTasksResponse = S.suspend(() =>
   identifier: "DescribeImportTasksResponse",
 }) as any as S.Schema<DescribeImportTasksResponse>;
 export interface ListServerNeighborsResponse {
-  neighbors: NeighborDetailsList;
+  neighbors: NeighborConnectionDetail[];
   nextToken?: string;
   knownDependencyCount?: number;
 }
@@ -1290,7 +1408,7 @@ export const ListServerNeighborsResponse = S.suspend(() =>
   identifier: "ListServerNeighborsResponse",
 }) as any as S.Schema<ListServerNeighborsResponse>;
 export interface StartDataCollectionByAgentIdsResponse {
-  agentsConfigurationStatus?: AgentConfigurationStatusList;
+  agentsConfigurationStatus?: AgentConfigurationStatus[];
 }
 export const StartDataCollectionByAgentIdsResponse = S.suspend(() =>
   S.Struct({
@@ -1307,6 +1425,30 @@ export const StartImportTaskResponse = S.suspend(() =>
 ).annotations({
   identifier: "StartImportTaskResponse",
 }) as any as S.Schema<StartImportTaskResponse>;
+export type DeleteAgentErrorCode =
+  | "NOT_FOUND"
+  | "INTERNAL_SERVER_ERROR"
+  | "AGENT_IN_USE";
+export const DeleteAgentErrorCode = S.Literal(
+  "NOT_FOUND",
+  "INTERNAL_SERVER_ERROR",
+  "AGENT_IN_USE",
+);
+export type AgentStatus =
+  | "HEALTHY"
+  | "UNHEALTHY"
+  | "RUNNING"
+  | "UNKNOWN"
+  | "BLACKLISTED"
+  | "SHUTDOWN";
+export const AgentStatus = S.Literal(
+  "HEALTHY",
+  "UNHEALTHY",
+  "RUNNING",
+  "UNKNOWN",
+  "BLACKLISTED",
+  "SHUTDOWN",
+);
 export interface FailedConfiguration {
   configurationId?: string;
   errorStatusCode?: number;
@@ -1343,8 +1485,8 @@ export interface Ec2RecommendationsExportPreferences {
   enabled?: boolean;
   cpuPerformanceMetricBasis?: UsageMetricBasis;
   ramPerformanceMetricBasis?: UsageMetricBasis;
-  tenancy?: string;
-  excludedInstanceTypes?: ExcludedInstanceTypes;
+  tenancy?: Tenancy;
+  excludedInstanceTypes?: string[];
   preferredRegion?: string;
   reservedInstanceOptions?: ReservedInstanceOptions;
 }
@@ -1353,7 +1495,7 @@ export const Ec2RecommendationsExportPreferences = S.suspend(() =>
     enabled: S.optional(S.Boolean),
     cpuPerformanceMetricBasis: S.optional(UsageMetricBasis),
     ramPerformanceMetricBasis: S.optional(UsageMetricBasis),
-    tenancy: S.optional(S.String),
+    tenancy: S.optional(Tenancy),
     excludedInstanceTypes: S.optional(ExcludedInstanceTypes),
     preferredRegion: S.optional(S.String),
     reservedInstanceOptions: S.optional(ReservedInstanceOptions),
@@ -1364,10 +1506,14 @@ export const Ec2RecommendationsExportPreferences = S.suspend(() =>
 export interface BatchDeleteAgentError {
   agentId: string;
   errorMessage: string;
-  errorCode: string;
+  errorCode: DeleteAgentErrorCode;
 }
 export const BatchDeleteAgentError = S.suspend(() =>
-  S.Struct({ agentId: S.String, errorMessage: S.String, errorCode: S.String }),
+  S.Struct({
+    agentId: S.String,
+    errorMessage: S.String,
+    errorCode: DeleteAgentErrorCode,
+  }),
 ).annotations({
   identifier: "BatchDeleteAgentError",
 }) as any as S.Schema<BatchDeleteAgentError>;
@@ -1375,22 +1521,22 @@ export type BatchDeleteAgentErrors = BatchDeleteAgentError[];
 export const BatchDeleteAgentErrors = S.Array(BatchDeleteAgentError);
 export interface BatchDeleteConfigurationTask {
   taskId?: string;
-  status?: string;
+  status?: BatchDeleteConfigurationTaskStatus;
   startTime?: Date;
   endTime?: Date;
-  configurationType?: string;
-  requestedConfigurations?: ConfigurationIdList;
-  deletedConfigurations?: ConfigurationIdList;
-  failedConfigurations?: FailedConfigurationList;
-  deletionWarnings?: DeletionWarningsList;
+  configurationType?: DeletionConfigurationItemType;
+  requestedConfigurations?: string[];
+  deletedConfigurations?: string[];
+  failedConfigurations?: FailedConfiguration[];
+  deletionWarnings?: DeletionWarning[];
 }
 export const BatchDeleteConfigurationTask = S.suspend(() =>
   S.Struct({
     taskId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(BatchDeleteConfigurationTaskStatus),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    configurationType: S.optional(S.String),
+    configurationType: S.optional(DeletionConfigurationItemType),
     requestedConfigurations: S.optional(ConfigurationIdList),
     deletedConfigurations: S.optional(ConfigurationIdList),
     failedConfigurations: S.optional(FailedConfigurationList),
@@ -1400,7 +1546,7 @@ export const BatchDeleteConfigurationTask = S.suspend(() =>
   identifier: "BatchDeleteConfigurationTask",
 }) as any as S.Schema<BatchDeleteConfigurationTask>;
 export interface ConfigurationTag {
-  configurationType?: string;
+  configurationType?: ConfigurationItemType;
   configurationId?: string;
   key?: string;
   value?: string;
@@ -1408,7 +1554,7 @@ export interface ConfigurationTag {
 }
 export const ConfigurationTag = S.suspend(() =>
   S.Struct({
-    configurationType: S.optional(S.String),
+    configurationType: S.optional(ConfigurationItemType),
     configurationId: S.optional(S.String),
     key: S.optional(S.String),
     value: S.optional(S.String),
@@ -1425,7 +1571,7 @@ export const ConfigurationTagSet = S.Array(
 );
 export type Configuration = { [key: string]: string };
 export const Configuration = S.Record({ key: S.String, value: S.String });
-export type Configurations = Configuration[];
+export type Configurations = { [key: string]: string }[];
 export const Configurations = S.Array(Configuration);
 export type ExportPreferences = {
   ec2RecommendationsPreferences: Ec2RecommendationsExportPreferences;
@@ -1436,7 +1582,7 @@ export const ExportPreferences = S.Union(
   }),
 );
 export interface BatchDeleteAgentsResponse {
-  errors?: BatchDeleteAgentErrors;
+  errors?: BatchDeleteAgentError[];
 }
 export const BatchDeleteAgentsResponse = S.suspend(() =>
   S.Struct({ errors: S.optional(BatchDeleteAgentErrors) }).pipe(ns),
@@ -1452,7 +1598,7 @@ export const DescribeBatchDeleteConfigurationTaskResponse = S.suspend(() =>
   identifier: "DescribeBatchDeleteConfigurationTaskResponse",
 }) as any as S.Schema<DescribeBatchDeleteConfigurationTaskResponse>;
 export interface DescribeTagsResponse {
-  tags?: ConfigurationTagSet;
+  tags?: ConfigurationTag[];
   nextToken?: string;
 }
 export const DescribeTagsResponse = S.suspend(() =>
@@ -1464,7 +1610,7 @@ export const DescribeTagsResponse = S.suspend(() =>
   identifier: "DescribeTagsResponse",
 }) as any as S.Schema<DescribeTagsResponse>;
 export interface ListConfigurationsResponse {
-  configurations?: Configurations;
+  configurations?: { [key: string]: string }[];
   nextToken?: string;
 }
 export const ListConfigurationsResponse = S.suspend(() =>
@@ -1476,11 +1622,11 @@ export const ListConfigurationsResponse = S.suspend(() =>
   identifier: "ListConfigurationsResponse",
 }) as any as S.Schema<ListConfigurationsResponse>;
 export interface StartExportTaskRequest {
-  exportDataFormat?: ExportDataFormats;
-  filters?: ExportFilters;
+  exportDataFormat?: ExportDataFormat[];
+  filters?: ExportFilter[];
   startTime?: Date;
   endTime?: Date;
-  preferences?: (typeof ExportPreferences)["Type"];
+  preferences?: ExportPreferences;
 }
 export const StartExportTaskRequest = S.suspend(() =>
   S.Struct({
@@ -1520,10 +1666,10 @@ export const AgentNetworkInfoList = S.Array(AgentNetworkInfo);
 export interface AgentInfo {
   agentId?: string;
   hostName?: string;
-  agentNetworkInfoList?: AgentNetworkInfoList;
+  agentNetworkInfoList?: AgentNetworkInfo[];
   connectorId?: string;
   version?: string;
-  health?: string;
+  health?: AgentStatus;
   lastHealthPingTime?: string;
   collectionStatus?: string;
   agentType?: string;
@@ -1536,7 +1682,7 @@ export const AgentInfo = S.suspend(() =>
     agentNetworkInfoList: S.optional(AgentNetworkInfoList),
     connectorId: S.optional(S.String),
     version: S.optional(S.String),
-    health: S.optional(S.String),
+    health: S.optional(AgentStatus),
     lastHealthPingTime: S.optional(S.String),
     collectionStatus: S.optional(S.String),
     agentType: S.optional(S.String),
@@ -1546,7 +1692,7 @@ export const AgentInfo = S.suspend(() =>
 export type AgentsInfo = AgentInfo[];
 export const AgentsInfo = S.Array(AgentInfo);
 export interface DescribeAgentsResponse {
-  agentsInfo?: AgentsInfo;
+  agentsInfo?: AgentInfo[];
   nextToken?: string;
 }
 export const DescribeAgentsResponse = S.suspend(() =>
@@ -1614,7 +1760,7 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
  */
 export const associateConfigurationItemsToApplication: (
   input: AssociateConfigurationItemsToApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateConfigurationItemsToApplicationResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -1662,7 +1808,7 @@ export const associateConfigurationItemsToApplication: (
  */
 export const startExportTask: (
   input: StartExportTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartExportTaskResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -1702,7 +1848,7 @@ export const startExportTask: (
 export const describeTags: {
   (
     input: DescribeTagsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeTagsResponse,
     | AuthorizationErrorException
     | HomeRegionNotSetException
@@ -1715,7 +1861,7 @@ export const describeTags: {
   >;
   pages: (
     input: DescribeTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeTagsResponse,
     | AuthorizationErrorException
     | HomeRegionNotSetException
@@ -1728,7 +1874,7 @@ export const describeTags: {
   >;
   items: (
     input: DescribeTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConfigurationTag,
     | AuthorizationErrorException
     | HomeRegionNotSetException
@@ -1789,7 +1935,7 @@ export const describeTags: {
  */
 export const startImportTask: (
   input: StartImportTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartImportTaskResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -1817,7 +1963,7 @@ export const startImportTask: (
  */
 export const startBatchDeleteConfigurationTask: (
   input: StartBatchDeleteConfigurationTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartBatchDeleteConfigurationTaskResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -1849,7 +1995,7 @@ export const startBatchDeleteConfigurationTask: (
 export const describeAgents: {
   (
     input: DescribeAgentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeAgentsResponse,
     | AuthorizationErrorException
     | HomeRegionNotSetException
@@ -1861,7 +2007,7 @@ export const describeAgents: {
   >;
   pages: (
     input: DescribeAgentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeAgentsResponse,
     | AuthorizationErrorException
     | HomeRegionNotSetException
@@ -1873,7 +2019,7 @@ export const describeAgents: {
   >;
   items: (
     input: DescribeAgentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AgentInfo,
     | AuthorizationErrorException
     | HomeRegionNotSetException
@@ -1907,7 +2053,7 @@ export const describeAgents: {
  */
 export const batchDeleteAgents: (
   input: BatchDeleteAgentsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDeleteAgentsResponse,
   | AuthorizationErrorException
   | InvalidParameterException
@@ -1930,7 +2076,7 @@ export const batchDeleteAgents: (
  */
 export const describeBatchDeleteConfigurationTask: (
   input: DescribeBatchDeleteConfigurationTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeBatchDeleteConfigurationTaskResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -1960,7 +2106,7 @@ export const describeBatchDeleteConfigurationTask: (
  */
 export const batchDeleteImportData: (
   input: BatchDeleteImportDataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDeleteImportDataResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -2003,7 +2149,7 @@ export const batchDeleteImportData: (
  */
 export const describeConfigurations: (
   input: DescribeConfigurationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeConfigurationsResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -2030,7 +2176,7 @@ export const describeConfigurations: (
 export const describeExportTasks: {
   (
     input: DescribeExportTasksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeExportTasksResponse,
     | AuthorizationErrorException
     | HomeRegionNotSetException
@@ -2042,7 +2188,7 @@ export const describeExportTasks: {
   >;
   pages: (
     input: DescribeExportTasksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeExportTasksResponse,
     | AuthorizationErrorException
     | HomeRegionNotSetException
@@ -2054,7 +2200,7 @@ export const describeExportTasks: {
   >;
   items: (
     input: DescribeExportTasksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExportInfo,
     | AuthorizationErrorException
     | HomeRegionNotSetException
@@ -2088,7 +2234,7 @@ export const describeExportTasks: {
 export const describeImportTasks: {
   (
     input: DescribeImportTasksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeImportTasksResponse,
     | AuthorizationErrorException
     | HomeRegionNotSetException
@@ -2100,7 +2246,7 @@ export const describeImportTasks: {
   >;
   pages: (
     input: DescribeImportTasksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeImportTasksResponse,
     | AuthorizationErrorException
     | HomeRegionNotSetException
@@ -2112,7 +2258,7 @@ export const describeImportTasks: {
   >;
   items: (
     input: DescribeImportTasksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ImportTask,
     | AuthorizationErrorException
     | HomeRegionNotSetException
@@ -2145,7 +2291,7 @@ export const describeImportTasks: {
  */
 export const listServerNeighbors: (
   input: ListServerNeighborsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListServerNeighborsResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -2170,7 +2316,7 @@ export const listServerNeighbors: (
  */
 export const startDataCollectionByAgentIds: (
   input: StartDataCollectionByAgentIdsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartDataCollectionByAgentIdsResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -2195,7 +2341,7 @@ export const startDataCollectionByAgentIds: (
  */
 export const createApplication: (
   input: CreateApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateApplicationResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -2223,7 +2369,7 @@ export const createApplication: (
  */
 export const getDiscoverySummary: (
   input: GetDiscoverySummaryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDiscoverySummaryResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -2248,7 +2394,7 @@ export const getDiscoverySummary: (
  */
 export const stopDataCollectionByAgentIds: (
   input: StopDataCollectionByAgentIdsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopDataCollectionByAgentIdsResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -2274,7 +2420,7 @@ export const stopDataCollectionByAgentIds: (
  */
 export const deleteApplications: (
   input: DeleteApplicationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApplicationsResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -2299,7 +2445,7 @@ export const deleteApplications: (
  */
 export const disassociateConfigurationItemsFromApplication: (
   input: DisassociateConfigurationItemsFromApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateConfigurationItemsFromApplicationResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -2324,7 +2470,7 @@ export const disassociateConfigurationItemsFromApplication: (
  */
 export const updateApplication: (
   input: UpdateApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateApplicationResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -2352,7 +2498,7 @@ export const updateApplication: (
 export const describeContinuousExports: {
   (
     input: DescribeContinuousExportsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeContinuousExportsResponse,
     | AuthorizationErrorException
     | HomeRegionNotSetException
@@ -2366,7 +2512,7 @@ export const describeContinuousExports: {
   >;
   pages: (
     input: DescribeContinuousExportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeContinuousExportsResponse,
     | AuthorizationErrorException
     | HomeRegionNotSetException
@@ -2380,7 +2526,7 @@ export const describeContinuousExports: {
   >;
   items: (
     input: DescribeContinuousExportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ContinuousExportDescription,
     | AuthorizationErrorException
     | HomeRegionNotSetException
@@ -2416,7 +2562,7 @@ export const describeContinuousExports: {
  */
 export const startContinuousExport: (
   input: StartContinuousExportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartContinuousExportResponse,
   | AuthorizationErrorException
   | ConflictErrorException
@@ -2447,7 +2593,7 @@ export const startContinuousExport: (
  */
 export const stopContinuousExport: (
   input: StopContinuousExportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopContinuousExportResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -2484,7 +2630,7 @@ export const stopContinuousExport: (
  */
 export const exportConfigurations: (
   input: ExportConfigurationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ExportConfigurationsResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -2514,7 +2660,7 @@ export const exportConfigurations: (
 export const listConfigurations: {
   (
     input: ListConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConfigurationsResponse,
     | AuthorizationErrorException
     | HomeRegionNotSetException
@@ -2527,7 +2673,7 @@ export const listConfigurations: {
   >;
   pages: (
     input: ListConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConfigurationsResponse,
     | AuthorizationErrorException
     | HomeRegionNotSetException
@@ -2540,8 +2686,8 @@ export const listConfigurations: {
   >;
   items: (
     input: ListConfigurationsRequest,
-  ) => Stream.Stream<
-    S.Schema.Type<typeof Configuration>,
+  ) => stream.Stream<
+    { [key: string]: string },
     | AuthorizationErrorException
     | HomeRegionNotSetException
     | InvalidParameterException
@@ -2575,7 +2721,7 @@ export const listConfigurations: {
 export const describeExportConfigurations: {
   (
     input: DescribeExportConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeExportConfigurationsResponse,
     | AuthorizationErrorException
     | HomeRegionNotSetException
@@ -2588,7 +2734,7 @@ export const describeExportConfigurations: {
   >;
   pages: (
     input: DescribeExportConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeExportConfigurationsResponse,
     | AuthorizationErrorException
     | HomeRegionNotSetException
@@ -2601,7 +2747,7 @@ export const describeExportConfigurations: {
   >;
   items: (
     input: DescribeExportConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExportInfo,
     | AuthorizationErrorException
     | HomeRegionNotSetException
@@ -2638,7 +2784,7 @@ export const describeExportConfigurations: {
  */
 export const createTags: (
   input: CreateTagsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTagsResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -2666,7 +2812,7 @@ export const createTags: (
  */
 export const deleteTags: (
   input: DeleteTagsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTagsResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException

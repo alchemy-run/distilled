@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -122,17 +122,25 @@ export type RetryAttempt = number;
 export type VpcId = string;
 
 //# Schemas
-export type ResourceList = string[];
-export const ResourceList = S.Array(S.String);
+export type ResourceToTag = "lambda-function";
+export const ResourceToTag = S.Literal("lambda-function");
+export type ResourceList = ResourceToTag[];
+export const ResourceList = S.Array(ResourceToTag);
+export type ProvisionedResourceCleanupSetting = "AUTOMATIC" | "OFF";
+export const ProvisionedResourceCleanupSetting = S.Literal("AUTOMATIC", "OFF");
 export type DescribeCanariesNameFilter = string[];
 export const DescribeCanariesNameFilter = S.Array(S.String);
 export type DescribeCanariesLastRunNameFilter = string[];
 export const DescribeCanariesLastRunNameFilter = S.Array(S.String);
+export type BrowserType = "CHROME" | "FIREFOX";
+export const BrowserType = S.Literal("CHROME", "FIREFOX");
+export type RunType = "CANARY_RUN" | "DRY_RUN";
+export const RunType = S.Literal("CANARY_RUN", "DRY_RUN");
 export type BaseScreenshotIgnoreCoordinates = string[];
 export const BaseScreenshotIgnoreCoordinates = S.Array(S.String);
 export interface BaseScreenshot {
   ScreenshotName: string;
-  IgnoreCoordinates?: BaseScreenshotIgnoreCoordinates;
+  IgnoreCoordinates?: string[];
 }
 export const BaseScreenshot = S.suspend(() =>
   S.Struct({
@@ -145,15 +153,15 @@ export const BaseScreenshot = S.suspend(() =>
 export type BaseScreenshots = BaseScreenshot[];
 export const BaseScreenshots = S.Array(BaseScreenshot);
 export interface VisualReferenceInput {
-  BaseScreenshots?: BaseScreenshots;
+  BaseScreenshots?: BaseScreenshot[];
   BaseCanaryRunId: string;
-  BrowserType?: string;
+  BrowserType?: BrowserType;
 }
 export const VisualReferenceInput = S.suspend(() =>
   S.Struct({
     BaseScreenshots: S.optional(BaseScreenshots),
     BaseCanaryRunId: S.String,
-    BrowserType: S.optional(S.String),
+    BrowserType: S.optional(BrowserType),
   }),
 ).annotations({
   identifier: "VisualReferenceInput",
@@ -193,7 +201,7 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface CreateGroupRequest {
   Name: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateGroupRequest = S.suspend(() =>
   S.Struct({ Name: S.String, Tags: S.optional(TagMap) }).pipe(
@@ -260,7 +268,7 @@ export const DeleteGroupResponse = S.suspend(() => S.Struct({})).annotations({
 export interface DescribeCanariesRequest {
   NextToken?: string;
   MaxResults?: number;
-  Names?: DescribeCanariesNameFilter;
+  Names?: string[];
 }
 export const DescribeCanariesRequest = S.suspend(() =>
   S.Struct({
@@ -283,15 +291,15 @@ export const DescribeCanariesRequest = S.suspend(() =>
 export interface DescribeCanariesLastRunRequest {
   NextToken?: string;
   MaxResults?: number;
-  Names?: DescribeCanariesLastRunNameFilter;
-  BrowserType?: string;
+  Names?: string[];
+  BrowserType?: BrowserType;
 }
 export const DescribeCanariesLastRunRequest = S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     Names: S.optional(DescribeCanariesLastRunNameFilter),
-    BrowserType: S.optional(S.String),
+    BrowserType: S.optional(BrowserType),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/canaries/last-run" }),
@@ -379,7 +387,7 @@ export interface GetCanaryRunsRequest {
   NextToken?: string;
   MaxResults?: number;
   DryRunId?: string;
-  RunType?: string;
+  RunType?: RunType;
 }
 export const GetCanaryRunsRequest = S.suspend(() =>
   S.Struct({
@@ -387,7 +395,7 @@ export const GetCanaryRunsRequest = S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     DryRunId: S.optional(S.String),
-    RunType: S.optional(S.String),
+    RunType: S.optional(RunType),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/canary/{Name}/runs" }),
@@ -548,7 +556,7 @@ export const StopCanaryResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<StopCanaryResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagMap;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -573,7 +581,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -598,12 +606,14 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceResponse>;
 export type BlueprintTypes = string[];
 export const BlueprintTypes = S.Array(S.String);
+export type DependencyType = "LambdaLayer";
+export const DependencyType = S.Literal("LambdaLayer");
 export interface Dependency {
-  Type?: string;
+  Type?: DependencyType;
   Reference: string;
 }
 export const Dependency = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String), Reference: S.String }),
+  S.Struct({ Type: S.optional(DependencyType), Reference: S.String }),
 ).annotations({ identifier: "Dependency" }) as any as S.Schema<Dependency>;
 export type Dependencies = Dependency[];
 export const Dependencies = S.Array(Dependency);
@@ -613,8 +623,8 @@ export interface CanaryCodeInput {
   S3Version?: string;
   ZipFile?: Uint8Array;
   Handler?: string;
-  BlueprintTypes?: BlueprintTypes;
-  Dependencies?: Dependencies;
+  BlueprintTypes?: string[];
+  Dependencies?: Dependency[];
 }
 export const CanaryCodeInput = S.suspend(() =>
   S.Struct({
@@ -660,7 +670,7 @@ export interface CanaryRunConfigInput {
   TimeoutInSeconds?: number;
   MemoryInMB?: number;
   ActiveTracing?: boolean;
-  EnvironmentVariables?: EnvironmentVariablesMap;
+  EnvironmentVariables?: { [key: string]: string };
   EphemeralStorage?: number;
 }
 export const CanaryRunConfigInput = S.suspend(() =>
@@ -679,8 +689,8 @@ export const SubnetIds = S.Array(S.String);
 export type SecurityGroupIds = string[];
 export const SecurityGroupIds = S.Array(S.String);
 export interface VpcConfigInput {
-  SubnetIds?: SubnetIds;
-  SecurityGroupIds?: SecurityGroupIds;
+  SubnetIds?: string[];
+  SecurityGroupIds?: string[];
   Ipv6AllowedForDualStack?: boolean;
 }
 export const VpcConfigInput = S.suspend(() =>
@@ -692,13 +702,15 @@ export const VpcConfigInput = S.suspend(() =>
 ).annotations({
   identifier: "VpcConfigInput",
 }) as any as S.Schema<VpcConfigInput>;
+export type EncryptionMode = "SSE_S3" | "SSE_KMS";
+export const EncryptionMode = S.Literal("SSE_S3", "SSE_KMS");
 export interface S3EncryptionConfig {
-  EncryptionMode?: string;
+  EncryptionMode?: EncryptionMode;
   KmsKeyArn?: string;
 }
 export const S3EncryptionConfig = S.suspend(() =>
   S.Struct({
-    EncryptionMode: S.optional(S.String),
+    EncryptionMode: S.optional(EncryptionMode),
     KmsKeyArn: S.optional(S.String),
   }),
 ).annotations({
@@ -713,10 +725,10 @@ export const ArtifactConfigInput = S.suspend(() =>
   identifier: "ArtifactConfigInput",
 }) as any as S.Schema<ArtifactConfigInput>;
 export interface BrowserConfig {
-  BrowserType?: string;
+  BrowserType?: BrowserType;
 }
 export const BrowserConfig = S.suspend(() =>
-  S.Struct({ BrowserType: S.optional(S.String) }),
+  S.Struct({ BrowserType: S.optional(BrowserType) }),
 ).annotations({
   identifier: "BrowserConfig",
 }) as any as S.Schema<BrowserConfig>;
@@ -735,10 +747,10 @@ export interface UpdateCanaryRequest {
   VisualReference?: VisualReferenceInput;
   ArtifactS3Location?: string;
   ArtifactConfig?: ArtifactConfigInput;
-  ProvisionedResourceCleanup?: string;
+  ProvisionedResourceCleanup?: ProvisionedResourceCleanupSetting;
   DryRunId?: string;
-  VisualReferences?: VisualReferences;
-  BrowserConfigs?: BrowserConfigs;
+  VisualReferences?: VisualReferenceInput[];
+  BrowserConfigs?: BrowserConfig[];
 }
 export const UpdateCanaryRequest = S.suspend(() =>
   S.Struct({
@@ -754,7 +766,7 @@ export const UpdateCanaryRequest = S.suspend(() =>
     VisualReference: S.optional(VisualReferenceInput),
     ArtifactS3Location: S.optional(S.String),
     ArtifactConfig: S.optional(ArtifactConfigInput),
-    ProvisionedResourceCleanup: S.optional(S.String),
+    ProvisionedResourceCleanup: S.optional(ProvisionedResourceCleanupSetting),
     DryRunId: S.optional(S.String),
     VisualReferences: S.optional(VisualReferences),
     BrowserConfigs: S.optional(BrowserConfigs),
@@ -780,8 +792,8 @@ export const StringList = S.Array(S.String);
 export interface CanaryCodeOutput {
   SourceLocationArn?: string;
   Handler?: string;
-  BlueprintTypes?: BlueprintTypes;
-  Dependencies?: Dependencies;
+  BlueprintTypes?: string[];
+  Dependencies?: Dependency[];
 }
 export const CanaryCodeOutput = S.suspend(() =>
   S.Struct({
@@ -831,16 +843,64 @@ export const CanaryRunConfigOutput = S.suspend(() =>
 ).annotations({
   identifier: "CanaryRunConfigOutput",
 }) as any as S.Schema<CanaryRunConfigOutput>;
+export type CanaryState =
+  | "CREATING"
+  | "READY"
+  | "STARTING"
+  | "RUNNING"
+  | "UPDATING"
+  | "STOPPING"
+  | "STOPPED"
+  | "ERROR"
+  | "DELETING";
+export const CanaryState = S.Literal(
+  "CREATING",
+  "READY",
+  "STARTING",
+  "RUNNING",
+  "UPDATING",
+  "STOPPING",
+  "STOPPED",
+  "ERROR",
+  "DELETING",
+);
+export type CanaryStateReasonCode =
+  | "INVALID_PERMISSIONS"
+  | "CREATE_PENDING"
+  | "CREATE_IN_PROGRESS"
+  | "CREATE_FAILED"
+  | "UPDATE_PENDING"
+  | "UPDATE_IN_PROGRESS"
+  | "UPDATE_COMPLETE"
+  | "ROLLBACK_COMPLETE"
+  | "ROLLBACK_FAILED"
+  | "DELETE_IN_PROGRESS"
+  | "DELETE_FAILED"
+  | "SYNC_DELETE_IN_PROGRESS";
+export const CanaryStateReasonCode = S.Literal(
+  "INVALID_PERMISSIONS",
+  "CREATE_PENDING",
+  "CREATE_IN_PROGRESS",
+  "CREATE_FAILED",
+  "UPDATE_PENDING",
+  "UPDATE_IN_PROGRESS",
+  "UPDATE_COMPLETE",
+  "ROLLBACK_COMPLETE",
+  "ROLLBACK_FAILED",
+  "DELETE_IN_PROGRESS",
+  "DELETE_FAILED",
+  "SYNC_DELETE_IN_PROGRESS",
+);
 export interface CanaryStatus {
-  State?: string;
+  State?: CanaryState;
   StateReason?: string;
-  StateReasonCode?: string;
+  StateReasonCode?: CanaryStateReasonCode;
 }
 export const CanaryStatus = S.suspend(() =>
   S.Struct({
-    State: S.optional(S.String),
+    State: S.optional(CanaryState),
     StateReason: S.optional(S.String),
-    StateReasonCode: S.optional(S.String),
+    StateReasonCode: S.optional(CanaryStateReasonCode),
   }),
 ).annotations({ identifier: "CanaryStatus" }) as any as S.Schema<CanaryStatus>;
 export interface CanaryTimeline {
@@ -861,8 +921,8 @@ export const CanaryTimeline = S.suspend(() =>
 }) as any as S.Schema<CanaryTimeline>;
 export interface VpcConfigOutput {
   VpcId?: string;
-  SubnetIds?: SubnetIds;
-  SecurityGroupIds?: SecurityGroupIds;
+  SubnetIds?: string[];
+  SecurityGroupIds?: string[];
   Ipv6AllowedForDualStack?: boolean;
 }
 export const VpcConfigOutput = S.suspend(() =>
@@ -876,27 +936,27 @@ export const VpcConfigOutput = S.suspend(() =>
   identifier: "VpcConfigOutput",
 }) as any as S.Schema<VpcConfigOutput>;
 export interface VisualReferenceOutput {
-  BaseScreenshots?: BaseScreenshots;
+  BaseScreenshots?: BaseScreenshot[];
   BaseCanaryRunId?: string;
-  BrowserType?: string;
+  BrowserType?: BrowserType;
 }
 export const VisualReferenceOutput = S.suspend(() =>
   S.Struct({
     BaseScreenshots: S.optional(BaseScreenshots),
     BaseCanaryRunId: S.optional(S.String),
-    BrowserType: S.optional(S.String),
+    BrowserType: S.optional(BrowserType),
   }),
 ).annotations({
   identifier: "VisualReferenceOutput",
 }) as any as S.Schema<VisualReferenceOutput>;
 export interface EngineConfig {
   EngineArn?: string;
-  BrowserType?: string;
+  BrowserType?: BrowserType;
 }
 export const EngineConfig = S.suspend(() =>
   S.Struct({
     EngineArn: S.optional(S.String),
-    BrowserType: S.optional(S.String),
+    BrowserType: S.optional(BrowserType),
   }),
 ).annotations({ identifier: "EngineConfig" }) as any as S.Schema<EngineConfig>;
 export type EngineConfigs = EngineConfig[];
@@ -939,11 +999,11 @@ export interface Canary {
   RuntimeVersion?: string;
   VpcConfig?: VpcConfigOutput;
   VisualReference?: VisualReferenceOutput;
-  ProvisionedResourceCleanup?: string;
-  BrowserConfigs?: BrowserConfigs;
-  EngineConfigs?: EngineConfigs;
-  VisualReferences?: VisualReferencesOutput;
-  Tags?: TagMap;
+  ProvisionedResourceCleanup?: ProvisionedResourceCleanupSetting;
+  BrowserConfigs?: BrowserConfig[];
+  EngineConfigs?: EngineConfig[];
+  VisualReferences?: VisualReferenceOutput[];
+  Tags?: { [key: string]: string };
   ArtifactConfig?: ArtifactConfigOutput;
   DryRunConfig?: DryRunConfigOutput;
 }
@@ -964,7 +1024,7 @@ export const Canary = S.suspend(() =>
     RuntimeVersion: S.optional(S.String),
     VpcConfig: S.optional(VpcConfigOutput),
     VisualReference: S.optional(VisualReferenceOutput),
-    ProvisionedResourceCleanup: S.optional(S.String),
+    ProvisionedResourceCleanup: S.optional(ProvisionedResourceCleanupSetting),
     BrowserConfigs: S.optional(BrowserConfigs),
     EngineConfigs: S.optional(EngineConfigs),
     VisualReferences: S.optional(VisualReferencesOutput),
@@ -985,7 +1045,7 @@ export interface Group {
   Id?: string;
   Name?: string;
   Arn?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   CreatedTime?: Date;
   LastModifiedTime?: Date;
 }
@@ -1010,7 +1070,7 @@ export const GetGroupResponse = S.suspend(() =>
   identifier: "GetGroupResponse",
 }) as any as S.Schema<GetGroupResponse>;
 export interface ListGroupResourcesResponse {
-  Resources?: StringList;
+  Resources?: string[];
   NextToken?: string;
 }
 export const ListGroupResourcesResponse = S.suspend(() =>
@@ -1036,7 +1096,7 @@ export const GroupSummary = S.suspend(() =>
 export type GroupSummaryList = GroupSummary[];
 export const GroupSummaryList = S.Array(GroupSummary);
 export interface ListGroupsResponse {
-  Groups?: GroupSummaryList;
+  Groups?: GroupSummary[];
   NextToken?: string;
 }
 export const ListGroupsResponse = S.suspend(() =>
@@ -1048,25 +1108,34 @@ export const ListGroupsResponse = S.suspend(() =>
   identifier: "ListGroupsResponse",
 }) as any as S.Schema<ListGroupsResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
 ).annotations({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
+export type CanaryRunState = "RUNNING" | "PASSED" | "FAILED";
+export const CanaryRunState = S.Literal("RUNNING", "PASSED", "FAILED");
+export type CanaryRunStateReasonCode = "CANARY_FAILURE" | "EXECUTION_FAILURE";
+export const CanaryRunStateReasonCode = S.Literal(
+  "CANARY_FAILURE",
+  "EXECUTION_FAILURE",
+);
+export type CanaryRunTestResult = "PASSED" | "FAILED" | "UNKNOWN";
+export const CanaryRunTestResult = S.Literal("PASSED", "FAILED", "UNKNOWN");
 export interface CanaryRunStatus {
-  State?: string;
+  State?: CanaryRunState;
   StateReason?: string;
-  StateReasonCode?: string;
-  TestResult?: string;
+  StateReasonCode?: CanaryRunStateReasonCode;
+  TestResult?: CanaryRunTestResult;
 }
 export const CanaryRunStatus = S.suspend(() =>
   S.Struct({
-    State: S.optional(S.String),
+    State: S.optional(CanaryRunState),
     StateReason: S.optional(S.String),
-    StateReasonCode: S.optional(S.String),
-    TestResult: S.optional(S.String),
+    StateReasonCode: S.optional(CanaryRunStateReasonCode),
+    TestResult: S.optional(CanaryRunTestResult),
   }),
 ).annotations({
   identifier: "CanaryRunStatus",
@@ -1104,7 +1173,7 @@ export interface CanaryRun {
   Timeline?: CanaryRunTimeline;
   ArtifactS3Location?: string;
   DryRunConfig?: CanaryDryRunConfigOutput;
-  BrowserType?: string;
+  BrowserType?: BrowserType;
 }
 export const CanaryRun = S.suspend(() =>
   S.Struct({
@@ -1116,7 +1185,7 @@ export const CanaryRun = S.suspend(() =>
     Timeline: S.optional(CanaryRunTimeline),
     ArtifactS3Location: S.optional(S.String),
     DryRunConfig: S.optional(CanaryDryRunConfigOutput),
-    BrowserType: S.optional(S.String),
+    BrowserType: S.optional(BrowserType),
   }),
 ).annotations({ identifier: "CanaryRun" }) as any as S.Schema<CanaryRun>;
 export interface CanaryLastRun {
@@ -1164,10 +1233,10 @@ export interface CreateCanaryRequest {
   FailureRetentionPeriodInDays?: number;
   RuntimeVersion: string;
   VpcConfig?: VpcConfigInput;
-  ResourcesToReplicateTags?: ResourceList;
-  ProvisionedResourceCleanup?: string;
-  BrowserConfigs?: BrowserConfigs;
-  Tags?: TagMap;
+  ResourcesToReplicateTags?: ResourceToTag[];
+  ProvisionedResourceCleanup?: ProvisionedResourceCleanupSetting;
+  BrowserConfigs?: BrowserConfig[];
+  Tags?: { [key: string]: string };
   ArtifactConfig?: ArtifactConfigInput;
 }
 export const CreateCanaryRequest = S.suspend(() =>
@@ -1183,7 +1252,7 @@ export const CreateCanaryRequest = S.suspend(() =>
     RuntimeVersion: S.String,
     VpcConfig: S.optional(VpcConfigInput),
     ResourcesToReplicateTags: S.optional(ResourceList),
-    ProvisionedResourceCleanup: S.optional(S.String),
+    ProvisionedResourceCleanup: S.optional(ProvisionedResourceCleanupSetting),
     BrowserConfigs: S.optional(BrowserConfigs),
     Tags: S.optional(TagMap),
     ArtifactConfig: S.optional(ArtifactConfigInput),
@@ -1209,7 +1278,7 @@ export const CreateGroupResponse = S.suspend(() =>
   identifier: "CreateGroupResponse",
 }) as any as S.Schema<CreateGroupResponse>;
 export interface DescribeCanariesLastRunResponse {
-  CanariesLastRun?: CanariesLastRun;
+  CanariesLastRun?: CanaryLastRun[];
   NextToken?: string;
 }
 export const DescribeCanariesLastRunResponse = S.suspend(() =>
@@ -1221,7 +1290,7 @@ export const DescribeCanariesLastRunResponse = S.suspend(() =>
   identifier: "DescribeCanariesLastRunResponse",
 }) as any as S.Schema<DescribeCanariesLastRunResponse>;
 export interface DescribeRuntimeVersionsResponse {
-  RuntimeVersions?: RuntimeVersionList;
+  RuntimeVersions?: RuntimeVersion[];
   NextToken?: string;
 }
 export const DescribeRuntimeVersionsResponse = S.suspend(() =>
@@ -1233,7 +1302,7 @@ export const DescribeRuntimeVersionsResponse = S.suspend(() =>
   identifier: "DescribeRuntimeVersionsResponse",
 }) as any as S.Schema<DescribeRuntimeVersionsResponse>;
 export interface ListAssociatedGroupsResponse {
-  Groups?: GroupSummaryList;
+  Groups?: GroupSummary[];
   NextToken?: string;
 }
 export const ListAssociatedGroupsResponse = S.suspend(() =>
@@ -1256,9 +1325,9 @@ export interface StartCanaryDryRunRequest {
   VisualReference?: VisualReferenceInput;
   ArtifactS3Location?: string;
   ArtifactConfig?: ArtifactConfigInput;
-  ProvisionedResourceCleanup?: string;
-  BrowserConfigs?: BrowserConfigs;
-  VisualReferences?: VisualReferences;
+  ProvisionedResourceCleanup?: ProvisionedResourceCleanupSetting;
+  BrowserConfigs?: BrowserConfig[];
+  VisualReferences?: VisualReferenceInput[];
 }
 export const StartCanaryDryRunRequest = S.suspend(() =>
   S.Struct({
@@ -1273,7 +1342,7 @@ export const StartCanaryDryRunRequest = S.suspend(() =>
     VisualReference: S.optional(VisualReferenceInput),
     ArtifactS3Location: S.optional(S.String),
     ArtifactConfig: S.optional(ArtifactConfigInput),
-    ProvisionedResourceCleanup: S.optional(S.String),
+    ProvisionedResourceCleanup: S.optional(ProvisionedResourceCleanupSetting),
     BrowserConfigs: S.optional(BrowserConfigs),
     VisualReferences: S.optional(VisualReferences),
   }).pipe(
@@ -1300,7 +1369,7 @@ export const CreateCanaryResponse = S.suspend(() =>
   identifier: "CreateCanaryResponse",
 }) as any as S.Schema<CreateCanaryResponse>;
 export interface GetCanaryRunsResponse {
-  CanaryRuns?: CanaryRuns;
+  CanaryRuns?: CanaryRun[];
   NextToken?: string;
 }
 export const GetCanaryRunsResponse = S.suspend(() =>
@@ -1322,7 +1391,7 @@ export const StartCanaryDryRunResponse = S.suspend(() =>
 export type Canaries = Canary[];
 export const Canaries = S.Array(Canary);
 export interface DescribeCanariesResponse {
-  Canaries?: Canaries;
+  Canaries?: Canary[];
   NextToken?: string;
 }
 export const DescribeCanariesResponse = S.suspend(() =>
@@ -1394,21 +1463,21 @@ export class TooManyRequestsException extends S.TaggedError<TooManyRequestsExcep
 export const describeCanariesLastRun: {
   (
     input: DescribeCanariesLastRunRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeCanariesLastRunResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeCanariesLastRunRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeCanariesLastRunResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeCanariesLastRunRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1429,7 +1498,7 @@ export const describeCanariesLastRun: {
 export const getCanaryRuns: {
   (
     input: GetCanaryRunsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetCanaryRunsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1439,7 +1508,7 @@ export const getCanaryRuns: {
   >;
   pages: (
     input: GetCanaryRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetCanaryRunsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1449,7 +1518,7 @@ export const getCanaryRuns: {
   >;
   items: (
     input: GetCanaryRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | ResourceNotFoundException
@@ -1476,7 +1545,7 @@ export const getCanaryRuns: {
  */
 export const startCanaryDryRun: (
   input: StartCanaryDryRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartCanaryDryRunResponse,
   | AccessDeniedException
   | ConflictException
@@ -1512,7 +1581,7 @@ export const startCanaryDryRun: (
  */
 export const updateCanary: (
   input: UpdateCanaryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCanaryResponse,
   | AccessDeniedException
   | ConflictException
@@ -1541,7 +1610,7 @@ export const updateCanary: (
 export const listAssociatedGroups: {
   (
     input: ListAssociatedGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAssociatedGroupsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1551,7 +1620,7 @@ export const listAssociatedGroups: {
   >;
   pages: (
     input: ListAssociatedGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAssociatedGroupsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1561,7 +1630,7 @@ export const listAssociatedGroups: {
   >;
   items: (
     input: ListAssociatedGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | ResourceNotFoundException
@@ -1589,7 +1658,7 @@ export const listAssociatedGroups: {
  */
 export const getGroup: (
   input: GetGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetGroupResponse,
   | ConflictException
   | InternalServerException
@@ -1613,7 +1682,7 @@ export const getGroup: (
 export const listGroupResources: {
   (
     input: ListGroupResourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGroupResourcesResponse,
     | ConflictException
     | InternalServerException
@@ -1624,7 +1693,7 @@ export const listGroupResources: {
   >;
   pages: (
     input: ListGroupResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGroupResourcesResponse,
     | ConflictException
     | InternalServerException
@@ -1635,7 +1704,7 @@ export const listGroupResources: {
   >;
   items: (
     input: ListGroupResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | ConflictException
     | InternalServerException
@@ -1689,7 +1758,7 @@ export const listGroupResources: {
  */
 export const deleteCanary: (
   input: DeleteCanaryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCanaryResponse,
   | ConflictException
   | InternalServerException
@@ -1716,7 +1785,7 @@ export const deleteCanary: (
  */
 export const deleteGroup: (
   input: DeleteGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGroupResponse,
   | ConflictException
   | InternalServerException
@@ -1739,7 +1808,7 @@ export const deleteGroup: (
  */
 export const disassociateResource: (
   input: DisassociateResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateResourceResponse,
   | ConflictException
   | InternalServerException
@@ -1764,7 +1833,7 @@ export const disassociateResource: (
  */
 export const startCanary: (
   input: StartCanaryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartCanaryResponse,
   | ConflictException
   | InternalServerException
@@ -1792,7 +1861,7 @@ export const startCanary: (
  */
 export const stopCanary: (
   input: StopCanaryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopCanaryResponse,
   | ConflictException
   | InternalServerException
@@ -1819,7 +1888,7 @@ export const stopCanary: (
  */
 export const associateResource: (
   input: AssociateResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateResourceResponse,
   | ConflictException
   | InternalServerException
@@ -1847,21 +1916,21 @@ export const associateResource: (
 export const describeRuntimeVersions: {
   (
     input: DescribeRuntimeVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeRuntimeVersionsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeRuntimeVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeRuntimeVersionsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeRuntimeVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1883,7 +1952,7 @@ export const describeRuntimeVersions: {
  */
 export const getCanary: (
   input: GetCanaryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCanaryResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1899,21 +1968,21 @@ export const getCanary: (
 export const listGroups: {
   (
     input: ListGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGroupsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGroupsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1948,7 +2017,7 @@ export const listGroups: {
  */
 export const createGroup: (
   input: CreateGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGroupResponse,
   | ConflictException
   | InternalServerException
@@ -1987,7 +2056,7 @@ export const createGroup: (
  */
 export const createCanary: (
   input: CreateCanaryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCanaryResponse,
   | InternalServerException
   | RequestEntityTooLargeException
@@ -2020,21 +2089,21 @@ export const createCanary: (
 export const describeCanaries: {
   (
     input: DescribeCanariesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeCanariesResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeCanariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeCanariesResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeCanariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2069,7 +2138,7 @@ export const describeCanaries: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | BadRequestException
   | ConflictException
@@ -2094,7 +2163,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | BadRequestException
   | ConflictException
@@ -2119,7 +2188,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | BadRequestException
   | ConflictException

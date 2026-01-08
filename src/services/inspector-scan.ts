@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -87,12 +87,18 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Schemas
+export type OutputFormat = "CYCLONE_DX_1_5" | "INSPECTOR" | "INSPECTOR_ALT";
+export const OutputFormat = S.Literal(
+  "CYCLONE_DX_1_5",
+  "INSPECTOR",
+  "INSPECTOR_ALT",
+);
 export interface ScanSbomRequest {
   sbom: any;
-  outputFormat?: string;
+  outputFormat?: OutputFormat;
 }
 export const ScanSbomRequest = S.suspend(() =>
-  S.Struct({ sbom: S.Any, outputFormat: S.optional(S.String) }).pipe(
+  S.Struct({ sbom: S.Any, outputFormat: S.optional(OutputFormat) }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/scan/sbom" }),
       svc,
@@ -113,6 +119,24 @@ export const ScanSbomResponse = S.suspend(() =>
 ).annotations({
   identifier: "ScanSbomResponse",
 }) as any as S.Schema<ScanSbomResponse>;
+export type InternalServerExceptionReason = "FAILED_TO_GENERATE_SBOM" | "OTHER";
+export const InternalServerExceptionReason = S.Literal(
+  "FAILED_TO_GENERATE_SBOM",
+  "OTHER",
+);
+export type ValidationExceptionReason =
+  | "UNKNOWN_OPERATION"
+  | "CANNOT_PARSE"
+  | "FIELD_VALIDATION_FAILED"
+  | "UNSUPPORTED_SBOM_TYPE"
+  | "OTHER";
+export const ValidationExceptionReason = S.Literal(
+  "UNKNOWN_OPERATION",
+  "CANNOT_PARSE",
+  "FIELD_VALIDATION_FAILED",
+  "UNSUPPORTED_SBOM_TYPE",
+  "OTHER",
+);
 export interface ValidationExceptionField {
   name: string;
   message: string;
@@ -134,7 +158,7 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   {
     message: S.String,
-    reason: S.String,
+    reason: InternalServerExceptionReason,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable(),
@@ -151,7 +175,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     message: S.String,
-    reason: S.String,
+    reason: ValidationExceptionReason,
     fields: S.optional(ValidationExceptionFields),
   },
 ).pipe(C.withBadRequestError) {}
@@ -164,7 +188,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const scanSbom: (
   input: ScanSbomRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ScanSbomResponse,
   | AccessDeniedException
   | InternalServerException

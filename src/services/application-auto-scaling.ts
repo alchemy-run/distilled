@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -131,22 +131,115 @@ export type PredictiveScalingMetricDimensionName = string;
 export type PredictiveScalingMetricDimensionValue = string;
 
 //# Schemas
+export type ServiceNamespace =
+  | "ecs"
+  | "elasticmapreduce"
+  | "ec2"
+  | "appstream"
+  | "dynamodb"
+  | "rds"
+  | "sagemaker"
+  | "custom-resource"
+  | "comprehend"
+  | "lambda"
+  | "cassandra"
+  | "kafka"
+  | "elasticache"
+  | "neptune"
+  | "workspaces";
+export const ServiceNamespace = S.Literal(
+  "ecs",
+  "elasticmapreduce",
+  "ec2",
+  "appstream",
+  "dynamodb",
+  "rds",
+  "sagemaker",
+  "custom-resource",
+  "comprehend",
+  "lambda",
+  "cassandra",
+  "kafka",
+  "elasticache",
+  "neptune",
+  "workspaces",
+);
+export type ScalableDimension =
+  | "ecs:service:DesiredCount"
+  | "ec2:spot-fleet-request:TargetCapacity"
+  | "elasticmapreduce:instancegroup:InstanceCount"
+  | "appstream:fleet:DesiredCapacity"
+  | "dynamodb:table:ReadCapacityUnits"
+  | "dynamodb:table:WriteCapacityUnits"
+  | "dynamodb:index:ReadCapacityUnits"
+  | "dynamodb:index:WriteCapacityUnits"
+  | "rds:cluster:ReadReplicaCount"
+  | "sagemaker:variant:DesiredInstanceCount"
+  | "custom-resource:ResourceType:Property"
+  | "comprehend:document-classifier-endpoint:DesiredInferenceUnits"
+  | "comprehend:entity-recognizer-endpoint:DesiredInferenceUnits"
+  | "lambda:function:ProvisionedConcurrency"
+  | "cassandra:table:ReadCapacityUnits"
+  | "cassandra:table:WriteCapacityUnits"
+  | "kafka:broker-storage:VolumeSize"
+  | "elasticache:cache-cluster:Nodes"
+  | "elasticache:replication-group:NodeGroups"
+  | "elasticache:replication-group:Replicas"
+  | "neptune:cluster:ReadReplicaCount"
+  | "sagemaker:variant:DesiredProvisionedConcurrency"
+  | "sagemaker:inference-component:DesiredCopyCount"
+  | "workspaces:workspacespool:DesiredUserSessions";
+export const ScalableDimension = S.Literal(
+  "ecs:service:DesiredCount",
+  "ec2:spot-fleet-request:TargetCapacity",
+  "elasticmapreduce:instancegroup:InstanceCount",
+  "appstream:fleet:DesiredCapacity",
+  "dynamodb:table:ReadCapacityUnits",
+  "dynamodb:table:WriteCapacityUnits",
+  "dynamodb:index:ReadCapacityUnits",
+  "dynamodb:index:WriteCapacityUnits",
+  "rds:cluster:ReadReplicaCount",
+  "sagemaker:variant:DesiredInstanceCount",
+  "custom-resource:ResourceType:Property",
+  "comprehend:document-classifier-endpoint:DesiredInferenceUnits",
+  "comprehend:entity-recognizer-endpoint:DesiredInferenceUnits",
+  "lambda:function:ProvisionedConcurrency",
+  "cassandra:table:ReadCapacityUnits",
+  "cassandra:table:WriteCapacityUnits",
+  "kafka:broker-storage:VolumeSize",
+  "elasticache:cache-cluster:Nodes",
+  "elasticache:replication-group:NodeGroups",
+  "elasticache:replication-group:Replicas",
+  "neptune:cluster:ReadReplicaCount",
+  "sagemaker:variant:DesiredProvisionedConcurrency",
+  "sagemaker:inference-component:DesiredCopyCount",
+  "workspaces:workspacespool:DesiredUserSessions",
+);
 export type ResourceIdsMaxLen1600 = string[];
 export const ResourceIdsMaxLen1600 = S.Array(S.String);
+export type PolicyType =
+  | "StepScaling"
+  | "TargetTrackingScaling"
+  | "PredictiveScaling";
+export const PolicyType = S.Literal(
+  "StepScaling",
+  "TargetTrackingScaling",
+  "PredictiveScaling",
+);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface DeleteScalingPolicyRequest {
   PolicyName: string;
-  ServiceNamespace: string;
+  ServiceNamespace: ServiceNamespace;
   ResourceId: string;
-  ScalableDimension: string;
+  ScalableDimension: ScalableDimension;
 }
 export const DeleteScalingPolicyRequest = S.suspend(() =>
   S.Struct({
     PolicyName: S.String,
-    ServiceNamespace: S.String,
+    ServiceNamespace: ServiceNamespace,
     ResourceId: S.String,
-    ScalableDimension: S.String,
+    ScalableDimension: ScalableDimension,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -160,17 +253,17 @@ export const DeleteScalingPolicyResponse = S.suspend(() =>
   identifier: "DeleteScalingPolicyResponse",
 }) as any as S.Schema<DeleteScalingPolicyResponse>;
 export interface DeleteScheduledActionRequest {
-  ServiceNamespace: string;
+  ServiceNamespace: ServiceNamespace;
   ScheduledActionName: string;
   ResourceId: string;
-  ScalableDimension: string;
+  ScalableDimension: ScalableDimension;
 }
 export const DeleteScheduledActionRequest = S.suspend(() =>
   S.Struct({
-    ServiceNamespace: S.String,
+    ServiceNamespace: ServiceNamespace,
     ScheduledActionName: S.String,
     ResourceId: S.String,
-    ScalableDimension: S.String,
+    ScalableDimension: ScalableDimension,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -184,15 +277,15 @@ export const DeleteScheduledActionResponse = S.suspend(() =>
   identifier: "DeleteScheduledActionResponse",
 }) as any as S.Schema<DeleteScheduledActionResponse>;
 export interface DeregisterScalableTargetRequest {
-  ServiceNamespace: string;
+  ServiceNamespace: ServiceNamespace;
   ResourceId: string;
-  ScalableDimension: string;
+  ScalableDimension: ScalableDimension;
 }
 export const DeregisterScalableTargetRequest = S.suspend(() =>
   S.Struct({
-    ServiceNamespace: S.String,
+    ServiceNamespace: ServiceNamespace,
     ResourceId: S.String,
-    ScalableDimension: S.String,
+    ScalableDimension: ScalableDimension,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -206,17 +299,17 @@ export const DeregisterScalableTargetResponse = S.suspend(() =>
   identifier: "DeregisterScalableTargetResponse",
 }) as any as S.Schema<DeregisterScalableTargetResponse>;
 export interface DescribeScalableTargetsRequest {
-  ServiceNamespace: string;
-  ResourceIds?: ResourceIdsMaxLen1600;
-  ScalableDimension?: string;
+  ServiceNamespace: ServiceNamespace;
+  ResourceIds?: string[];
+  ScalableDimension?: ScalableDimension;
   MaxResults?: number;
   NextToken?: string;
 }
 export const DescribeScalableTargetsRequest = S.suspend(() =>
   S.Struct({
-    ServiceNamespace: S.String,
+    ServiceNamespace: ServiceNamespace,
     ResourceIds: S.optional(ResourceIdsMaxLen1600),
-    ScalableDimension: S.optional(S.String),
+    ScalableDimension: S.optional(ScalableDimension),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -226,18 +319,18 @@ export const DescribeScalableTargetsRequest = S.suspend(() =>
   identifier: "DescribeScalableTargetsRequest",
 }) as any as S.Schema<DescribeScalableTargetsRequest>;
 export interface DescribeScalingActivitiesRequest {
-  ServiceNamespace: string;
+  ServiceNamespace: ServiceNamespace;
   ResourceId?: string;
-  ScalableDimension?: string;
+  ScalableDimension?: ScalableDimension;
   MaxResults?: number;
   NextToken?: string;
   IncludeNotScaledActivities?: boolean;
 }
 export const DescribeScalingActivitiesRequest = S.suspend(() =>
   S.Struct({
-    ServiceNamespace: S.String,
+    ServiceNamespace: ServiceNamespace,
     ResourceId: S.optional(S.String),
-    ScalableDimension: S.optional(S.String),
+    ScalableDimension: S.optional(ScalableDimension),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     IncludeNotScaledActivities: S.optional(S.Boolean),
@@ -248,19 +341,19 @@ export const DescribeScalingActivitiesRequest = S.suspend(() =>
   identifier: "DescribeScalingActivitiesRequest",
 }) as any as S.Schema<DescribeScalingActivitiesRequest>;
 export interface DescribeScalingPoliciesRequest {
-  PolicyNames?: ResourceIdsMaxLen1600;
-  ServiceNamespace: string;
+  PolicyNames?: string[];
+  ServiceNamespace: ServiceNamespace;
   ResourceId?: string;
-  ScalableDimension?: string;
+  ScalableDimension?: ScalableDimension;
   MaxResults?: number;
   NextToken?: string;
 }
 export const DescribeScalingPoliciesRequest = S.suspend(() =>
   S.Struct({
     PolicyNames: S.optional(ResourceIdsMaxLen1600),
-    ServiceNamespace: S.String,
+    ServiceNamespace: ServiceNamespace,
     ResourceId: S.optional(S.String),
-    ScalableDimension: S.optional(S.String),
+    ScalableDimension: S.optional(ScalableDimension),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -270,19 +363,19 @@ export const DescribeScalingPoliciesRequest = S.suspend(() =>
   identifier: "DescribeScalingPoliciesRequest",
 }) as any as S.Schema<DescribeScalingPoliciesRequest>;
 export interface DescribeScheduledActionsRequest {
-  ScheduledActionNames?: ResourceIdsMaxLen1600;
-  ServiceNamespace: string;
+  ScheduledActionNames?: string[];
+  ServiceNamespace: ServiceNamespace;
   ResourceId?: string;
-  ScalableDimension?: string;
+  ScalableDimension?: ScalableDimension;
   MaxResults?: number;
   NextToken?: string;
 }
 export const DescribeScheduledActionsRequest = S.suspend(() =>
   S.Struct({
     ScheduledActionNames: S.optional(ResourceIdsMaxLen1600),
-    ServiceNamespace: S.String,
+    ServiceNamespace: ServiceNamespace,
     ResourceId: S.optional(S.String),
-    ScalableDimension: S.optional(S.String),
+    ScalableDimension: S.optional(ScalableDimension),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -292,18 +385,18 @@ export const DescribeScheduledActionsRequest = S.suspend(() =>
   identifier: "DescribeScheduledActionsRequest",
 }) as any as S.Schema<DescribeScheduledActionsRequest>;
 export interface GetPredictiveScalingForecastRequest {
-  ServiceNamespace: string;
+  ServiceNamespace: ServiceNamespace;
   ResourceId: string;
-  ScalableDimension: string;
+  ScalableDimension: ScalableDimension;
   PolicyName: string;
   StartTime: Date;
   EndTime: Date;
 }
 export const GetPredictiveScalingForecastRequest = S.suspend(() =>
   S.Struct({
-    ServiceNamespace: S.String,
+    ServiceNamespace: ServiceNamespace,
     ResourceId: S.String,
-    ScalableDimension: S.String,
+    ScalableDimension: ScalableDimension,
     PolicyName: S.String,
     StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -327,7 +420,7 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface TagResourceRequest {
   ResourceARN: string;
-  Tags: TagMap;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagMap }).pipe(
@@ -342,7 +435,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceARN: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
@@ -355,6 +448,29 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
+export type AdjustmentType =
+  | "ChangeInCapacity"
+  | "PercentChangeInCapacity"
+  | "ExactCapacity";
+export const AdjustmentType = S.Literal(
+  "ChangeInCapacity",
+  "PercentChangeInCapacity",
+  "ExactCapacity",
+);
+export type MetricAggregationType = "Average" | "Minimum" | "Maximum";
+export const MetricAggregationType = S.Literal("Average", "Minimum", "Maximum");
+export type PredictiveScalingMode = "ForecastOnly" | "ForecastAndScale";
+export const PredictiveScalingMode = S.Literal(
+  "ForecastOnly",
+  "ForecastAndScale",
+);
+export type PredictiveScalingMaxCapacityBreachBehavior =
+  | "HonorMaxCapacity"
+  | "IncreaseMaxCapacity";
+export const PredictiveScalingMaxCapacityBreachBehavior = S.Literal(
+  "HonorMaxCapacity",
+  "IncreaseMaxCapacity",
+);
 export interface ScalableTargetAction {
   MinCapacity?: number;
   MaxCapacity?: number;
@@ -381,8 +497,82 @@ export const SuspendedState = S.suspend(() =>
 ).annotations({
   identifier: "SuspendedState",
 }) as any as S.Schema<SuspendedState>;
+export type MetricType =
+  | "DynamoDBReadCapacityUtilization"
+  | "DynamoDBWriteCapacityUtilization"
+  | "ALBRequestCountPerTarget"
+  | "RDSReaderAverageCPUUtilization"
+  | "RDSReaderAverageDatabaseConnections"
+  | "EC2SpotFleetRequestAverageCPUUtilization"
+  | "EC2SpotFleetRequestAverageNetworkIn"
+  | "EC2SpotFleetRequestAverageNetworkOut"
+  | "SageMakerVariantInvocationsPerInstance"
+  | "ECSServiceAverageCPUUtilization"
+  | "ECSServiceAverageMemoryUtilization"
+  | "AppStreamAverageCapacityUtilization"
+  | "ComprehendInferenceUtilization"
+  | "LambdaProvisionedConcurrencyUtilization"
+  | "CassandraReadCapacityUtilization"
+  | "CassandraWriteCapacityUtilization"
+  | "KafkaBrokerStorageUtilization"
+  | "ElastiCacheEngineCPUUtilization"
+  | "ElastiCacheDatabaseMemoryUsagePercentage"
+  | "ElastiCachePrimaryEngineCPUUtilization"
+  | "ElastiCacheReplicaEngineCPUUtilization"
+  | "ElastiCacheDatabaseMemoryUsageCountedForEvictPercentage"
+  | "NeptuneReaderAverageCPUUtilization"
+  | "SageMakerVariantProvisionedConcurrencyUtilization"
+  | "ElastiCacheDatabaseCapacityUsageCountedForEvictPercentage"
+  | "SageMakerInferenceComponentInvocationsPerCopy"
+  | "WorkSpacesAverageUserSessionsCapacityUtilization"
+  | "SageMakerInferenceComponentConcurrentRequestsPerCopyHighResolution"
+  | "SageMakerVariantConcurrentRequestsPerModelHighResolution";
+export const MetricType = S.Literal(
+  "DynamoDBReadCapacityUtilization",
+  "DynamoDBWriteCapacityUtilization",
+  "ALBRequestCountPerTarget",
+  "RDSReaderAverageCPUUtilization",
+  "RDSReaderAverageDatabaseConnections",
+  "EC2SpotFleetRequestAverageCPUUtilization",
+  "EC2SpotFleetRequestAverageNetworkIn",
+  "EC2SpotFleetRequestAverageNetworkOut",
+  "SageMakerVariantInvocationsPerInstance",
+  "ECSServiceAverageCPUUtilization",
+  "ECSServiceAverageMemoryUtilization",
+  "AppStreamAverageCapacityUtilization",
+  "ComprehendInferenceUtilization",
+  "LambdaProvisionedConcurrencyUtilization",
+  "CassandraReadCapacityUtilization",
+  "CassandraWriteCapacityUtilization",
+  "KafkaBrokerStorageUtilization",
+  "ElastiCacheEngineCPUUtilization",
+  "ElastiCacheDatabaseMemoryUsagePercentage",
+  "ElastiCachePrimaryEngineCPUUtilization",
+  "ElastiCacheReplicaEngineCPUUtilization",
+  "ElastiCacheDatabaseMemoryUsageCountedForEvictPercentage",
+  "NeptuneReaderAverageCPUUtilization",
+  "SageMakerVariantProvisionedConcurrencyUtilization",
+  "ElastiCacheDatabaseCapacityUsageCountedForEvictPercentage",
+  "SageMakerInferenceComponentInvocationsPerCopy",
+  "WorkSpacesAverageUserSessionsCapacityUtilization",
+  "SageMakerInferenceComponentConcurrentRequestsPerCopyHighResolution",
+  "SageMakerVariantConcurrentRequestsPerModelHighResolution",
+);
+export type MetricStatistic =
+  | "Average"
+  | "Minimum"
+  | "Maximum"
+  | "SampleCount"
+  | "Sum";
+export const MetricStatistic = S.Literal(
+  "Average",
+  "Minimum",
+  "Maximum",
+  "SampleCount",
+  "Sum",
+);
 export interface ListTagsForResourceResponse {
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -390,24 +580,24 @@ export const ListTagsForResourceResponse = S.suspend(() =>
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface PutScheduledActionRequest {
-  ServiceNamespace: string;
+  ServiceNamespace: ServiceNamespace;
   Schedule?: string;
   Timezone?: string;
   ScheduledActionName: string;
   ResourceId: string;
-  ScalableDimension: string;
+  ScalableDimension: ScalableDimension;
   StartTime?: Date;
   EndTime?: Date;
   ScalableTargetAction?: ScalableTargetAction;
 }
 export const PutScheduledActionRequest = S.suspend(() =>
   S.Struct({
-    ServiceNamespace: S.String,
+    ServiceNamespace: ServiceNamespace,
     Schedule: S.optional(S.String),
     Timezone: S.optional(S.String),
     ScheduledActionName: S.String,
     ResourceId: S.String,
-    ScalableDimension: S.String,
+    ScalableDimension: ScalableDimension,
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ScalableTargetAction: S.optional(ScalableTargetAction),
@@ -424,20 +614,20 @@ export const PutScheduledActionResponse = S.suspend(() =>
   identifier: "PutScheduledActionResponse",
 }) as any as S.Schema<PutScheduledActionResponse>;
 export interface RegisterScalableTargetRequest {
-  ServiceNamespace: string;
+  ServiceNamespace: ServiceNamespace;
   ResourceId: string;
-  ScalableDimension: string;
+  ScalableDimension: ScalableDimension;
   MinCapacity?: number;
   MaxCapacity?: number;
   RoleARN?: string;
   SuspendedState?: SuspendedState;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const RegisterScalableTargetRequest = S.suspend(() =>
   S.Struct({
-    ServiceNamespace: S.String,
+    ServiceNamespace: ServiceNamespace,
     ResourceId: S.String,
-    ScalableDimension: S.String,
+    ScalableDimension: ScalableDimension,
     MinCapacity: S.optional(S.Number),
     MaxCapacity: S.optional(S.Number),
     RoleARN: S.optional(S.String),
@@ -449,6 +639,21 @@ export const RegisterScalableTargetRequest = S.suspend(() =>
 ).annotations({
   identifier: "RegisterScalableTargetRequest",
 }) as any as S.Schema<RegisterScalableTargetRequest>;
+export type ScalingActivityStatusCode =
+  | "Pending"
+  | "InProgress"
+  | "Successful"
+  | "Overridden"
+  | "Unfulfilled"
+  | "Failed";
+export const ScalingActivityStatusCode = S.Literal(
+  "Pending",
+  "InProgress",
+  "Successful",
+  "Overridden",
+  "Unfulfilled",
+  "Failed",
+);
 export type PredictiveScalingForecastTimestamps = Date[];
 export const PredictiveScalingForecastTimestamps = S.Array(
   S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -472,21 +677,21 @@ export const StepAdjustment = S.suspend(() =>
 export type StepAdjustments = StepAdjustment[];
 export const StepAdjustments = S.Array(StepAdjustment);
 export interface PredefinedMetricSpecification {
-  PredefinedMetricType: string;
+  PredefinedMetricType: MetricType;
   ResourceLabel?: string;
 }
 export const PredefinedMetricSpecification = S.suspend(() =>
   S.Struct({
-    PredefinedMetricType: S.String,
+    PredefinedMetricType: MetricType,
     ResourceLabel: S.optional(S.String),
   }),
 ).annotations({
   identifier: "PredefinedMetricSpecification",
 }) as any as S.Schema<PredefinedMetricSpecification>;
 export interface ScalableTarget {
-  ServiceNamespace: string;
+  ServiceNamespace: ServiceNamespace;
   ResourceId: string;
-  ScalableDimension: string;
+  ScalableDimension: ScalableDimension;
   MinCapacity: number;
   MaxCapacity: number;
   PredictedCapacity?: number;
@@ -497,9 +702,9 @@ export interface ScalableTarget {
 }
 export const ScalableTarget = S.suspend(() =>
   S.Struct({
-    ServiceNamespace: S.String,
+    ServiceNamespace: ServiceNamespace,
     ResourceId: S.String,
-    ScalableDimension: S.String,
+    ScalableDimension: ScalableDimension,
     MinCapacity: S.Number,
     MaxCapacity: S.Number,
     PredictedCapacity: S.optional(S.Number),
@@ -516,11 +721,11 @@ export const ScalableTargets = S.Array(ScalableTarget);
 export interface ScheduledAction {
   ScheduledActionName: string;
   ScheduledActionARN: string;
-  ServiceNamespace: string;
+  ServiceNamespace: ServiceNamespace;
   Schedule: string;
   Timezone?: string;
   ResourceId: string;
-  ScalableDimension?: string;
+  ScalableDimension?: ScalableDimension;
   StartTime?: Date;
   EndTime?: Date;
   ScalableTargetAction?: ScalableTargetAction;
@@ -530,11 +735,11 @@ export const ScheduledAction = S.suspend(() =>
   S.Struct({
     ScheduledActionName: S.String,
     ScheduledActionARN: S.String,
-    ServiceNamespace: S.String,
+    ServiceNamespace: ServiceNamespace,
     Schedule: S.String,
     Timezone: S.optional(S.String),
     ResourceId: S.String,
-    ScalableDimension: S.optional(S.String),
+    ScalableDimension: S.optional(ScalableDimension),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ScalableTargetAction: S.optional(ScalableTargetAction),
@@ -599,7 +804,7 @@ export const PredictiveScalingMetricDimensions = S.Array(
   PredictiveScalingMetricDimension,
 );
 export interface PredictiveScalingMetric {
-  Dimensions?: PredictiveScalingMetricDimensions;
+  Dimensions?: PredictiveScalingMetricDimension[];
   MetricName?: string;
   Namespace?: string;
 }
@@ -650,7 +855,7 @@ export const PredictiveScalingMetricDataQueries = S.Array(
   PredictiveScalingMetricDataQuery,
 );
 export interface PredictiveScalingCustomizedMetricSpecification {
-  MetricDataQueries: PredictiveScalingMetricDataQueries;
+  MetricDataQueries: PredictiveScalingMetricDataQuery[];
 }
 export const PredictiveScalingCustomizedMetricSpecification = S.suspend(() =>
   S.Struct({ MetricDataQueries: PredictiveScalingMetricDataQueries }),
@@ -692,8 +897,8 @@ export const PredictiveScalingMetricSpecification = S.suspend(() =>
   identifier: "PredictiveScalingMetricSpecification",
 }) as any as S.Schema<PredictiveScalingMetricSpecification>;
 export interface LoadForecast {
-  Timestamps: PredictiveScalingForecastTimestamps;
-  Values: PredictiveScalingForecastValues;
+  Timestamps: Date[];
+  Values: number[];
   MetricSpecification: PredictiveScalingMetricSpecification;
 }
 export const LoadForecast = S.suspend(() =>
@@ -706,8 +911,8 @@ export const LoadForecast = S.suspend(() =>
 export type LoadForecasts = LoadForecast[];
 export const LoadForecasts = S.Array(LoadForecast);
 export interface CapacityForecast {
-  Timestamps: PredictiveScalingForecastTimestamps;
-  Values: PredictiveScalingForecastValues;
+  Timestamps: Date[];
+  Values: number[];
 }
 export const CapacityForecast = S.suspend(() =>
   S.Struct({
@@ -718,19 +923,19 @@ export const CapacityForecast = S.suspend(() =>
   identifier: "CapacityForecast",
 }) as any as S.Schema<CapacityForecast>;
 export interface StepScalingPolicyConfiguration {
-  AdjustmentType?: string;
-  StepAdjustments?: StepAdjustments;
+  AdjustmentType?: AdjustmentType;
+  StepAdjustments?: StepAdjustment[];
   MinAdjustmentMagnitude?: number;
   Cooldown?: number;
-  MetricAggregationType?: string;
+  MetricAggregationType?: MetricAggregationType;
 }
 export const StepScalingPolicyConfiguration = S.suspend(() =>
   S.Struct({
-    AdjustmentType: S.optional(S.String),
+    AdjustmentType: S.optional(AdjustmentType),
     StepAdjustments: S.optional(StepAdjustments),
     MinAdjustmentMagnitude: S.optional(S.Number),
     Cooldown: S.optional(S.Number),
-    MetricAggregationType: S.optional(S.String),
+    MetricAggregationType: S.optional(MetricAggregationType),
   }),
 ).annotations({
   identifier: "StepScalingPolicyConfiguration",
@@ -747,7 +952,7 @@ export const MetricDimension = S.suspend(() =>
 export type MetricDimensions = MetricDimension[];
 export const MetricDimensions = S.Array(MetricDimension);
 export interface DescribeScalableTargetsResponse {
-  ScalableTargets?: ScalableTargets;
+  ScalableTargets?: ScalableTarget[];
   NextToken?: string;
 }
 export const DescribeScalableTargetsResponse = S.suspend(() =>
@@ -759,7 +964,7 @@ export const DescribeScalableTargetsResponse = S.suspend(() =>
   identifier: "DescribeScalableTargetsResponse",
 }) as any as S.Schema<DescribeScalableTargetsResponse>;
 export interface DescribeScheduledActionsResponse {
-  ScheduledActions?: ScheduledActions;
+  ScheduledActions?: ScheduledAction[];
   NextToken?: string;
 }
 export const DescribeScheduledActionsResponse = S.suspend(() =>
@@ -771,7 +976,7 @@ export const DescribeScheduledActionsResponse = S.suspend(() =>
   identifier: "DescribeScheduledActionsResponse",
 }) as any as S.Schema<DescribeScheduledActionsResponse>;
 export interface GetPredictiveScalingForecastResponse {
-  LoadForecast?: LoadForecasts;
+  LoadForecast?: LoadForecast[];
   CapacityForecast?: CapacityForecast;
   UpdateTime?: Date;
 }
@@ -821,29 +1026,29 @@ export type Alarms = Alarm[];
 export const Alarms = S.Array(Alarm);
 export interface ScalingActivity {
   ActivityId: string;
-  ServiceNamespace: string;
+  ServiceNamespace: ServiceNamespace;
   ResourceId: string;
-  ScalableDimension: string;
+  ScalableDimension: ScalableDimension;
   Description: string;
   Cause: string;
   StartTime: Date;
   EndTime?: Date;
-  StatusCode: string;
+  StatusCode: ScalingActivityStatusCode;
   StatusMessage?: string;
   Details?: string;
-  NotScaledReasons?: NotScaledReasons;
+  NotScaledReasons?: NotScaledReason[];
 }
 export const ScalingActivity = S.suspend(() =>
   S.Struct({
     ActivityId: S.String,
-    ServiceNamespace: S.String,
+    ServiceNamespace: ServiceNamespace,
     ResourceId: S.String,
-    ScalableDimension: S.String,
+    ScalableDimension: ScalableDimension,
     Description: S.String,
     Cause: S.String,
     StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    StatusCode: S.String,
+    StatusCode: ScalingActivityStatusCode,
     StatusMessage: S.optional(S.String),
     Details: S.optional(S.String),
     NotScaledReasons: S.optional(NotScaledReasons),
@@ -867,7 +1072,7 @@ export const TargetTrackingMetricDimensions = S.Array(
   TargetTrackingMetricDimension,
 );
 export interface TargetTrackingMetric {
-  Dimensions?: TargetTrackingMetricDimensions;
+  Dimensions?: TargetTrackingMetricDimension[];
   MetricName?: string;
   Namespace?: string;
 }
@@ -919,17 +1124,17 @@ export const TargetTrackingMetricDataQueries = S.Array(
 export interface CustomizedMetricSpecification {
   MetricName?: string;
   Namespace?: string;
-  Dimensions?: MetricDimensions;
-  Statistic?: string;
+  Dimensions?: MetricDimension[];
+  Statistic?: MetricStatistic;
   Unit?: string;
-  Metrics?: TargetTrackingMetricDataQueries;
+  Metrics?: TargetTrackingMetricDataQuery[];
 }
 export const CustomizedMetricSpecification = S.suspend(() =>
   S.Struct({
     MetricName: S.optional(S.String),
     Namespace: S.optional(S.String),
     Dimensions: S.optional(MetricDimensions),
-    Statistic: S.optional(S.String),
+    Statistic: S.optional(MetricStatistic),
     Unit: S.optional(S.String),
     Metrics: S.optional(TargetTrackingMetricDataQueries),
   }),
@@ -962,18 +1167,20 @@ export const PredictiveScalingMetricSpecifications = S.Array(
   PredictiveScalingMetricSpecification,
 );
 export interface PredictiveScalingPolicyConfiguration {
-  MetricSpecifications: PredictiveScalingMetricSpecifications;
-  Mode?: string;
+  MetricSpecifications: PredictiveScalingMetricSpecification[];
+  Mode?: PredictiveScalingMode;
   SchedulingBufferTime?: number;
-  MaxCapacityBreachBehavior?: string;
+  MaxCapacityBreachBehavior?: PredictiveScalingMaxCapacityBreachBehavior;
   MaxCapacityBuffer?: number;
 }
 export const PredictiveScalingPolicyConfiguration = S.suspend(() =>
   S.Struct({
     MetricSpecifications: PredictiveScalingMetricSpecifications,
-    Mode: S.optional(S.String),
+    Mode: S.optional(PredictiveScalingMode),
     SchedulingBufferTime: S.optional(S.Number),
-    MaxCapacityBreachBehavior: S.optional(S.String),
+    MaxCapacityBreachBehavior: S.optional(
+      PredictiveScalingMaxCapacityBreachBehavior,
+    ),
     MaxCapacityBuffer: S.optional(S.Number),
   }),
 ).annotations({
@@ -982,24 +1189,24 @@ export const PredictiveScalingPolicyConfiguration = S.suspend(() =>
 export interface ScalingPolicy {
   PolicyARN: string;
   PolicyName: string;
-  ServiceNamespace: string;
+  ServiceNamespace: ServiceNamespace;
   ResourceId: string;
-  ScalableDimension: string;
-  PolicyType: string;
+  ScalableDimension: ScalableDimension;
+  PolicyType: PolicyType;
   StepScalingPolicyConfiguration?: StepScalingPolicyConfiguration;
   TargetTrackingScalingPolicyConfiguration?: TargetTrackingScalingPolicyConfiguration;
   PredictiveScalingPolicyConfiguration?: PredictiveScalingPolicyConfiguration;
-  Alarms?: Alarms;
+  Alarms?: Alarm[];
   CreationTime: Date;
 }
 export const ScalingPolicy = S.suspend(() =>
   S.Struct({
     PolicyARN: S.String,
     PolicyName: S.String,
-    ServiceNamespace: S.String,
+    ServiceNamespace: ServiceNamespace,
     ResourceId: S.String,
-    ScalableDimension: S.String,
-    PolicyType: S.String,
+    ScalableDimension: ScalableDimension,
+    PolicyType: PolicyType,
     StepScalingPolicyConfiguration: S.optional(StepScalingPolicyConfiguration),
     TargetTrackingScalingPolicyConfiguration: S.optional(
       TargetTrackingScalingPolicyConfiguration,
@@ -1016,7 +1223,7 @@ export const ScalingPolicy = S.suspend(() =>
 export type ScalingPolicies = ScalingPolicy[];
 export const ScalingPolicies = S.Array(ScalingPolicy);
 export interface DescribeScalingActivitiesResponse {
-  ScalingActivities?: ScalingActivities;
+  ScalingActivities?: ScalingActivity[];
   NextToken?: string;
 }
 export const DescribeScalingActivitiesResponse = S.suspend(() =>
@@ -1028,7 +1235,7 @@ export const DescribeScalingActivitiesResponse = S.suspend(() =>
   identifier: "DescribeScalingActivitiesResponse",
 }) as any as S.Schema<DescribeScalingActivitiesResponse>;
 export interface DescribeScalingPoliciesResponse {
-  ScalingPolicies?: ScalingPolicies;
+  ScalingPolicies?: ScalingPolicy[];
   NextToken?: string;
 }
 export const DescribeScalingPoliciesResponse = S.suspend(() =>
@@ -1041,10 +1248,10 @@ export const DescribeScalingPoliciesResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeScalingPoliciesResponse>;
 export interface PutScalingPolicyRequest {
   PolicyName: string;
-  ServiceNamespace: string;
+  ServiceNamespace: ServiceNamespace;
   ResourceId: string;
-  ScalableDimension: string;
-  PolicyType?: string;
+  ScalableDimension: ScalableDimension;
+  PolicyType?: PolicyType;
   StepScalingPolicyConfiguration?: StepScalingPolicyConfiguration;
   TargetTrackingScalingPolicyConfiguration?: TargetTrackingScalingPolicyConfiguration;
   PredictiveScalingPolicyConfiguration?: PredictiveScalingPolicyConfiguration;
@@ -1052,10 +1259,10 @@ export interface PutScalingPolicyRequest {
 export const PutScalingPolicyRequest = S.suspend(() =>
   S.Struct({
     PolicyName: S.String,
-    ServiceNamespace: S.String,
+    ServiceNamespace: ServiceNamespace,
     ResourceId: S.String,
-    ScalableDimension: S.String,
-    PolicyType: S.optional(S.String),
+    ScalableDimension: ScalableDimension,
+    PolicyType: S.optional(PolicyType),
     StepScalingPolicyConfiguration: S.optional(StepScalingPolicyConfiguration),
     TargetTrackingScalingPolicyConfiguration: S.optional(
       TargetTrackingScalingPolicyConfiguration,
@@ -1071,7 +1278,7 @@ export const PutScalingPolicyRequest = S.suspend(() =>
 }) as any as S.Schema<PutScalingPolicyRequest>;
 export interface PutScalingPolicyResponse {
   PolicyARN: string;
-  Alarms?: Alarms;
+  Alarms?: Alarm[];
 }
 export const PutScalingPolicyResponse = S.suspend(() =>
   S.Struct({ PolicyARN: S.String, Alarms: S.optional(Alarms) }),
@@ -1136,7 +1343,7 @@ export class FailedResourceAccessException extends S.TaggedError<FailedResourceA
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1151,7 +1358,7 @@ export const listTagsForResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1173,7 +1380,7 @@ export const untagResource: (
  */
 export const getPredictiveScalingForecast: (
   input: GetPredictiveScalingForecastRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPredictiveScalingForecastResponse,
   InternalServiceException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1203,7 +1410,7 @@ export const getPredictiveScalingForecast: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | ResourceNotFoundException
   | TooManyTagsException
@@ -1231,7 +1438,7 @@ export const tagResource: (
  */
 export const deleteScalingPolicy: (
   input: DeleteScalingPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteScalingPolicyResponse,
   | ConcurrentUpdateException
   | InternalServiceException
@@ -1258,7 +1465,7 @@ export const deleteScalingPolicy: (
 export const describeScalableTargets: {
   (
     input: DescribeScalableTargetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeScalableTargetsResponse,
     | ConcurrentUpdateException
     | InternalServiceException
@@ -1269,7 +1476,7 @@ export const describeScalableTargets: {
   >;
   pages: (
     input: DescribeScalableTargetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeScalableTargetsResponse,
     | ConcurrentUpdateException
     | InternalServiceException
@@ -1280,7 +1487,7 @@ export const describeScalableTargets: {
   >;
   items: (
     input: DescribeScalableTargetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ScalableTarget,
     | ConcurrentUpdateException
     | InternalServiceException
@@ -1317,7 +1524,7 @@ export const describeScalableTargets: {
 export const describeScalingActivities: {
   (
     input: DescribeScalingActivitiesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeScalingActivitiesResponse,
     | ConcurrentUpdateException
     | InternalServiceException
@@ -1328,7 +1535,7 @@ export const describeScalingActivities: {
   >;
   pages: (
     input: DescribeScalingActivitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeScalingActivitiesResponse,
     | ConcurrentUpdateException
     | InternalServiceException
@@ -1339,7 +1546,7 @@ export const describeScalingActivities: {
   >;
   items: (
     input: DescribeScalingActivitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ScalingActivity,
     | ConcurrentUpdateException
     | InternalServiceException
@@ -1405,7 +1612,7 @@ export const describeScalingActivities: {
  */
 export const registerScalableTarget: (
   input: RegisterScalableTargetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterScalableTargetResponse,
   | ConcurrentUpdateException
   | InternalServiceException
@@ -1430,7 +1637,7 @@ export const registerScalableTarget: (
  */
 export const deleteScheduledAction: (
   input: DeleteScheduledActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteScheduledActionResponse,
   | ConcurrentUpdateException
   | InternalServiceException
@@ -1457,7 +1664,7 @@ export const deleteScheduledAction: (
  */
 export const deregisterScalableTarget: (
   input: DeregisterScalableTargetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterScalableTargetResponse,
   | ConcurrentUpdateException
   | InternalServiceException
@@ -1486,7 +1693,7 @@ export const deregisterScalableTarget: (
 export const describeScheduledActions: {
   (
     input: DescribeScheduledActionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeScheduledActionsResponse,
     | ConcurrentUpdateException
     | InternalServiceException
@@ -1497,7 +1704,7 @@ export const describeScheduledActions: {
   >;
   pages: (
     input: DescribeScheduledActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeScheduledActionsResponse,
     | ConcurrentUpdateException
     | InternalServiceException
@@ -1508,7 +1715,7 @@ export const describeScheduledActions: {
   >;
   items: (
     input: DescribeScheduledActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ScheduledAction,
     | ConcurrentUpdateException
     | InternalServiceException
@@ -1555,7 +1762,7 @@ export const describeScheduledActions: {
  */
 export const putScheduledAction: (
   input: PutScheduledActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutScheduledActionResponse,
   | ConcurrentUpdateException
   | InternalServiceException
@@ -1586,7 +1793,7 @@ export const putScheduledAction: (
 export const describeScalingPolicies: {
   (
     input: DescribeScalingPoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeScalingPoliciesResponse,
     | ConcurrentUpdateException
     | FailedResourceAccessException
@@ -1598,7 +1805,7 @@ export const describeScalingPolicies: {
   >;
   pages: (
     input: DescribeScalingPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeScalingPoliciesResponse,
     | ConcurrentUpdateException
     | FailedResourceAccessException
@@ -1610,7 +1817,7 @@ export const describeScalingPolicies: {
   >;
   items: (
     input: DescribeScalingPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ScalingPolicy,
     | ConcurrentUpdateException
     | FailedResourceAccessException
@@ -1670,7 +1877,7 @@ export const describeScalingPolicies: {
  */
 export const putScalingPolicy: (
   input: PutScalingPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutScalingPolicyResponse,
   | ConcurrentUpdateException
   | FailedResourceAccessException

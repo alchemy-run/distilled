@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -120,10 +120,18 @@ export type DestinationAddresses = string[];
 export const DestinationAddresses = S.Array(S.String);
 export type DestinationPorts = number[];
 export const DestinationPorts = S.Array(S.Number);
+export type IpAddressType = "IPV4" | "DUAL_STACK";
+export const IpAddressType = S.Literal("IPV4", "DUAL_STACK");
 export type IpAddresses = string[];
 export const IpAddresses = S.Array(S.String);
 export type Principals = string[];
 export const Principals = S.Array(S.String);
+export type HealthCheckProtocol = "TCP" | "HTTP" | "HTTPS";
+export const HealthCheckProtocol = S.Literal("TCP", "HTTP", "HTTPS");
+export type Protocol = "TCP" | "UDP";
+export const Protocol = S.Literal("TCP", "UDP");
+export type ClientAffinity = "NONE" | "SOURCE_IP";
+export const ClientAffinity = S.Literal("NONE", "SOURCE_IP");
 export type AwsAccountIds = string[];
 export const AwsAccountIds = S.Array(S.String);
 export type EndpointIds = string[];
@@ -143,8 +151,8 @@ export const AdvertiseByoipCidrRequest = S.suspend(() =>
 export interface AllowCustomRoutingTrafficRequest {
   EndpointGroupArn: string;
   EndpointId: string;
-  DestinationAddresses?: DestinationAddresses;
-  DestinationPorts?: DestinationPorts;
+  DestinationAddresses?: string[];
+  DestinationPorts?: number[];
   AllowAllTrafficToEndpoint?: boolean;
 }
 export const AllowCustomRoutingTrafficRequest = S.suspend(() =>
@@ -177,16 +185,16 @@ export type Tags = Tag[];
 export const Tags = S.Array(Tag);
 export interface CreateCustomRoutingAcceleratorRequest {
   Name: string;
-  IpAddressType?: string;
-  IpAddresses?: IpAddresses;
+  IpAddressType?: IpAddressType;
+  IpAddresses?: string[];
   Enabled?: boolean;
   IdempotencyToken: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreateCustomRoutingAcceleratorRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    IpAddressType: S.optional(S.String),
+    IpAddressType: S.optional(IpAddressType),
     IpAddresses: S.optional(IpAddresses),
     Enabled: S.optional(S.Boolean),
     IdempotencyToken: S.String,
@@ -208,17 +216,17 @@ export type PortRanges = PortRange[];
 export const PortRanges = S.Array(PortRange);
 export interface CreateListenerRequest {
   AcceleratorArn: string;
-  PortRanges: PortRanges;
-  Protocol: string;
-  ClientAffinity?: string;
+  PortRanges: PortRange[];
+  Protocol: Protocol;
+  ClientAffinity?: ClientAffinity;
   IdempotencyToken: string;
 }
 export const CreateListenerRequest = S.suspend(() =>
   S.Struct({
     AcceleratorArn: S.String,
     PortRanges: PortRanges,
-    Protocol: S.String,
-    ClientAffinity: S.optional(S.String),
+    Protocol: Protocol,
+    ClientAffinity: S.optional(ClientAffinity),
     IdempotencyToken: S.String,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -339,8 +347,8 @@ export const DeleteListenerResponse = S.suspend(() => S.Struct({})).annotations(
 export interface DenyCustomRoutingTrafficRequest {
   EndpointGroupArn: string;
   EndpointId: string;
-  DestinationAddresses?: DestinationAddresses;
-  DestinationPorts?: DestinationPorts;
+  DestinationAddresses?: string[];
+  DestinationPorts?: number[];
   DenyAllTrafficToEndpoint?: boolean;
 }
 export const DenyCustomRoutingTrafficRequest = S.suspend(() =>
@@ -505,7 +513,7 @@ export const ListCrossAccountAttachmentsRequest = S.suspend(() =>
   identifier: "ListCrossAccountAttachmentsRequest",
 }) as any as S.Schema<ListCrossAccountAttachmentsRequest>;
 export interface ListCrossAccountResourceAccountsResponse {
-  ResourceOwnerAwsAccountIds?: AwsAccountIds;
+  ResourceOwnerAwsAccountIds?: string[];
 }
 export const ListCrossAccountResourceAccountsResponse = S.suspend(() =>
   S.Struct({ ResourceOwnerAwsAccountIds: S.optional(AwsAccountIds) }),
@@ -655,7 +663,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface RemoveCustomRoutingEndpointsRequest {
-  EndpointIds: EndpointIds;
+  EndpointIds: string[];
   EndpointGroupArn: string;
 }
 export const RemoveCustomRoutingEndpointsRequest = S.suspend(() =>
@@ -673,7 +681,7 @@ export const RemoveCustomRoutingEndpointsResponse = S.suspend(() =>
 }) as any as S.Schema<RemoveCustomRoutingEndpointsResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: Tags;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: Tags }).pipe(
@@ -688,7 +696,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeys;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeys }).pipe(
@@ -704,15 +712,15 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 export interface UpdateAcceleratorRequest {
   AcceleratorArn: string;
   Name?: string;
-  IpAddressType?: string;
-  IpAddresses?: IpAddresses;
+  IpAddressType?: IpAddressType;
+  IpAddresses?: string[];
   Enabled?: boolean;
 }
 export const UpdateAcceleratorRequest = S.suspend(() =>
   S.Struct({
     AcceleratorArn: S.String,
     Name: S.optional(S.String),
-    IpAddressType: S.optional(S.String),
+    IpAddressType: S.optional(IpAddressType),
     IpAddresses: S.optional(IpAddresses),
     Enabled: S.optional(S.Boolean),
   }).pipe(
@@ -756,10 +764,10 @@ export const Resources = S.Array(Resource);
 export interface UpdateCrossAccountAttachmentRequest {
   AttachmentArn: string;
   Name?: string;
-  AddPrincipals?: Principals;
-  RemovePrincipals?: Principals;
-  AddResources?: Resources;
-  RemoveResources?: Resources;
+  AddPrincipals?: string[];
+  RemovePrincipals?: string[];
+  AddResources?: Resource[];
+  RemoveResources?: Resource[];
 }
 export const UpdateCrossAccountAttachmentRequest = S.suspend(() =>
   S.Struct({
@@ -778,15 +786,15 @@ export const UpdateCrossAccountAttachmentRequest = S.suspend(() =>
 export interface UpdateCustomRoutingAcceleratorRequest {
   AcceleratorArn: string;
   Name?: string;
-  IpAddressType?: string;
-  IpAddresses?: IpAddresses;
+  IpAddressType?: IpAddressType;
+  IpAddresses?: string[];
   Enabled?: boolean;
 }
 export const UpdateCustomRoutingAcceleratorRequest = S.suspend(() =>
   S.Struct({
     AcceleratorArn: S.String,
     Name: S.optional(S.String),
-    IpAddressType: S.optional(S.String),
+    IpAddressType: S.optional(IpAddressType),
     IpAddresses: S.optional(IpAddresses),
     Enabled: S.optional(S.Boolean),
   }).pipe(
@@ -815,7 +823,7 @@ export const UpdateCustomRoutingAcceleratorAttributesRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateCustomRoutingAcceleratorAttributesRequest>;
 export interface UpdateCustomRoutingListenerRequest {
   ListenerArn: string;
-  PortRanges: PortRanges;
+  PortRanges: PortRange[];
 }
 export const UpdateCustomRoutingListenerRequest = S.suspend(() =>
   S.Struct({ ListenerArn: S.String, PortRanges: PortRanges }).pipe(
@@ -856,14 +864,14 @@ export type PortOverrides = PortOverride[];
 export const PortOverrides = S.Array(PortOverride);
 export interface UpdateEndpointGroupRequest {
   EndpointGroupArn: string;
-  EndpointConfigurations?: EndpointConfigurations;
+  EndpointConfigurations?: EndpointConfiguration[];
   TrafficDialPercentage?: number;
   HealthCheckPort?: number;
-  HealthCheckProtocol?: string;
+  HealthCheckProtocol?: HealthCheckProtocol;
   HealthCheckPath?: string;
   HealthCheckIntervalSeconds?: number;
   ThresholdCount?: number;
-  PortOverrides?: PortOverrides;
+  PortOverrides?: PortOverride[];
 }
 export const UpdateEndpointGroupRequest = S.suspend(() =>
   S.Struct({
@@ -871,7 +879,7 @@ export const UpdateEndpointGroupRequest = S.suspend(() =>
     EndpointConfigurations: S.optional(EndpointConfigurations),
     TrafficDialPercentage: S.optional(S.Number),
     HealthCheckPort: S.optional(S.Number),
-    HealthCheckProtocol: S.optional(S.String),
+    HealthCheckProtocol: S.optional(HealthCheckProtocol),
     HealthCheckPath: S.optional(S.String),
     HealthCheckIntervalSeconds: S.optional(S.Number),
     ThresholdCount: S.optional(S.Number),
@@ -884,16 +892,16 @@ export const UpdateEndpointGroupRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateEndpointGroupRequest>;
 export interface UpdateListenerRequest {
   ListenerArn: string;
-  PortRanges?: PortRanges;
-  Protocol?: string;
-  ClientAffinity?: string;
+  PortRanges?: PortRange[];
+  Protocol?: Protocol;
+  ClientAffinity?: ClientAffinity;
 }
 export const UpdateListenerRequest = S.suspend(() =>
   S.Struct({
     ListenerArn: S.String,
     PortRanges: S.optional(PortRanges),
-    Protocol: S.optional(S.String),
-    ClientAffinity: S.optional(S.String),
+    Protocol: S.optional(Protocol),
+    ClientAffinity: S.optional(ClientAffinity),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -910,8 +918,10 @@ export const WithdrawByoipCidrRequest = S.suspend(() =>
 ).annotations({
   identifier: "WithdrawByoipCidrRequest",
 }) as any as S.Schema<WithdrawByoipCidrRequest>;
-export type CustomRoutingProtocols = string[];
-export const CustomRoutingProtocols = S.Array(S.String);
+export type CustomRoutingProtocol = "TCP" | "UDP";
+export const CustomRoutingProtocol = S.Literal("TCP", "UDP");
+export type CustomRoutingProtocols = CustomRoutingProtocol[];
+export const CustomRoutingProtocols = S.Array(CustomRoutingProtocol);
 export interface CustomRoutingEndpointConfiguration {
   EndpointId?: string;
   AttachmentArn?: string;
@@ -932,7 +942,7 @@ export const CustomRoutingEndpointConfigurations = S.Array(
 export interface CustomRoutingDestinationConfiguration {
   FromPort: number;
   ToPort: number;
-  Protocols: CustomRoutingProtocols;
+  Protocols: CustomRoutingProtocol[];
 }
 export const CustomRoutingDestinationConfiguration = S.suspend(() =>
   S.Struct({
@@ -948,20 +958,24 @@ export type CustomRoutingDestinationConfigurations =
 export const CustomRoutingDestinationConfigurations = S.Array(
   CustomRoutingDestinationConfiguration,
 );
+export type IpAddressFamily = "IPv4" | "IPv6";
+export const IpAddressFamily = S.Literal("IPv4", "IPv6");
 export interface IpSet {
   IpFamily?: string;
-  IpAddresses?: IpAddresses;
-  IpAddressFamily?: string;
+  IpAddresses?: string[];
+  IpAddressFamily?: IpAddressFamily;
 }
 export const IpSet = S.suspend(() =>
   S.Struct({
     IpFamily: S.optional(S.String),
     IpAddresses: S.optional(IpAddresses),
-    IpAddressFamily: S.optional(S.String),
+    IpAddressFamily: S.optional(IpAddressFamily),
   }),
 ).annotations({ identifier: "IpSet" }) as any as S.Schema<IpSet>;
 export type IpSets = IpSet[];
 export const IpSets = S.Array(IpSet);
+export type AcceleratorStatus = "DEPLOYED" | "IN_PROGRESS";
+export const AcceleratorStatus = S.Literal("DEPLOYED", "IN_PROGRESS");
 export interface AcceleratorEvent {
   Message?: string;
   Timestamp?: Date;
@@ -979,25 +993,25 @@ export const AcceleratorEvents = S.Array(AcceleratorEvent);
 export interface Accelerator {
   AcceleratorArn?: string;
   Name?: string;
-  IpAddressType?: string;
+  IpAddressType?: IpAddressType;
   Enabled?: boolean;
-  IpSets?: IpSets;
+  IpSets?: IpSet[];
   DnsName?: string;
-  Status?: string;
+  Status?: AcceleratorStatus;
   CreatedTime?: Date;
   LastModifiedTime?: Date;
   DualStackDnsName?: string;
-  Events?: AcceleratorEvents;
+  Events?: AcceleratorEvent[];
 }
 export const Accelerator = S.suspend(() =>
   S.Struct({
     AcceleratorArn: S.optional(S.String),
     Name: S.optional(S.String),
-    IpAddressType: S.optional(S.String),
+    IpAddressType: S.optional(IpAddressType),
     Enabled: S.optional(S.Boolean),
     IpSets: S.optional(IpSets),
     DnsName: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(AcceleratorStatus),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1008,6 +1022,31 @@ export const Accelerator = S.suspend(() =>
 ).annotations({ identifier: "Accelerator" }) as any as S.Schema<Accelerator>;
 export type Accelerators = Accelerator[];
 export const Accelerators = S.Array(Accelerator);
+export type ByoipCidrState =
+  | "PENDING_PROVISIONING"
+  | "READY"
+  | "PENDING_ADVERTISING"
+  | "ADVERTISING"
+  | "PENDING_WITHDRAWING"
+  | "PENDING_DEPROVISIONING"
+  | "DEPROVISIONED"
+  | "FAILED_PROVISION"
+  | "FAILED_ADVERTISING"
+  | "FAILED_WITHDRAW"
+  | "FAILED_DEPROVISION";
+export const ByoipCidrState = S.Literal(
+  "PENDING_PROVISIONING",
+  "READY",
+  "PENDING_ADVERTISING",
+  "ADVERTISING",
+  "PENDING_WITHDRAWING",
+  "PENDING_DEPROVISIONING",
+  "DEPROVISIONED",
+  "FAILED_PROVISION",
+  "FAILED_ADVERTISING",
+  "FAILED_WITHDRAW",
+  "FAILED_DEPROVISION",
+);
 export interface ByoipCidrEvent {
   Message?: string;
   Timestamp?: Date;
@@ -1024,13 +1063,13 @@ export type ByoipCidrEvents = ByoipCidrEvent[];
 export const ByoipCidrEvents = S.Array(ByoipCidrEvent);
 export interface ByoipCidr {
   Cidr?: string;
-  State?: string;
-  Events?: ByoipCidrEvents;
+  State?: ByoipCidrState;
+  Events?: ByoipCidrEvent[];
 }
 export const ByoipCidr = S.suspend(() =>
   S.Struct({
     Cidr: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(ByoipCidrState),
     Events: S.optional(ByoipCidrEvents),
   }),
 ).annotations({ identifier: "ByoipCidr" }) as any as S.Schema<ByoipCidr>;
@@ -1039,8 +1078,8 @@ export const ByoipCidrs = S.Array(ByoipCidr);
 export interface Attachment {
   AttachmentArn?: string;
   Name?: string;
-  Principals?: Principals;
-  Resources?: Resources;
+  Principals?: string[];
+  Resources?: Resource[];
   LastModifiedTime?: Date;
   CreatedTime?: Date;
 }
@@ -1058,14 +1097,19 @@ export const Attachment = S.suspend(() =>
 ).annotations({ identifier: "Attachment" }) as any as S.Schema<Attachment>;
 export type Attachments = Attachment[];
 export const Attachments = S.Array(Attachment);
+export type CustomRoutingAcceleratorStatus = "DEPLOYED" | "IN_PROGRESS";
+export const CustomRoutingAcceleratorStatus = S.Literal(
+  "DEPLOYED",
+  "IN_PROGRESS",
+);
 export interface CustomRoutingAccelerator {
   AcceleratorArn?: string;
   Name?: string;
-  IpAddressType?: string;
+  IpAddressType?: IpAddressType;
   Enabled?: boolean;
-  IpSets?: IpSets;
+  IpSets?: IpSet[];
   DnsName?: string;
-  Status?: string;
+  Status?: CustomRoutingAcceleratorStatus;
   CreatedTime?: Date;
   LastModifiedTime?: Date;
 }
@@ -1073,11 +1117,11 @@ export const CustomRoutingAccelerator = S.suspend(() =>
   S.Struct({
     AcceleratorArn: S.optional(S.String),
     Name: S.optional(S.String),
-    IpAddressType: S.optional(S.String),
+    IpAddressType: S.optional(IpAddressType),
     Enabled: S.optional(S.Boolean),
     IpSets: S.optional(IpSets),
     DnsName: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(CustomRoutingAcceleratorStatus),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1088,12 +1132,12 @@ export const CustomRoutingAccelerator = S.suspend(() =>
 }) as any as S.Schema<CustomRoutingAccelerator>;
 export type CustomRoutingAccelerators = CustomRoutingAccelerator[];
 export const CustomRoutingAccelerators = S.Array(CustomRoutingAccelerator);
-export type Protocols = string[];
-export const Protocols = S.Array(S.String);
+export type Protocols = Protocol[];
+export const Protocols = S.Array(Protocol);
 export interface CustomRoutingDestinationDescription {
   FromPort?: number;
   ToPort?: number;
-  Protocols?: Protocols;
+  Protocols?: Protocol[];
 }
 export const CustomRoutingDestinationDescription = S.suspend(() =>
   S.Struct({
@@ -1125,8 +1169,8 @@ export const CustomRoutingEndpointDescriptions = S.Array(
 export interface CustomRoutingEndpointGroup {
   EndpointGroupArn?: string;
   EndpointGroupRegion?: string;
-  DestinationDescriptions?: CustomRoutingDestinationDescriptions;
-  EndpointDescriptions?: CustomRoutingEndpointDescriptions;
+  DestinationDescriptions?: CustomRoutingDestinationDescription[];
+  EndpointDescriptions?: CustomRoutingEndpointDescription[];
 }
 export const CustomRoutingEndpointGroup = S.suspend(() =>
   S.Struct({
@@ -1142,7 +1186,7 @@ export type CustomRoutingEndpointGroups = CustomRoutingEndpointGroup[];
 export const CustomRoutingEndpointGroups = S.Array(CustomRoutingEndpointGroup);
 export interface CustomRoutingListener {
   ListenerArn?: string;
-  PortRanges?: PortRanges;
+  PortRanges?: PortRange[];
 }
 export const CustomRoutingListener = S.suspend(() =>
   S.Struct({
@@ -1154,10 +1198,12 @@ export const CustomRoutingListener = S.suspend(() =>
 }) as any as S.Schema<CustomRoutingListener>;
 export type CustomRoutingListeners = CustomRoutingListener[];
 export const CustomRoutingListeners = S.Array(CustomRoutingListener);
+export type HealthState = "INITIAL" | "HEALTHY" | "UNHEALTHY";
+export const HealthState = S.Literal("INITIAL", "HEALTHY", "UNHEALTHY");
 export interface EndpointDescription {
   EndpointId?: string;
   Weight?: number;
-  HealthState?: string;
+  HealthState?: HealthState;
   HealthReason?: string;
   ClientIPPreservationEnabled?: boolean;
 }
@@ -1165,7 +1211,7 @@ export const EndpointDescription = S.suspend(() =>
   S.Struct({
     EndpointId: S.optional(S.String),
     Weight: S.optional(S.Number),
-    HealthState: S.optional(S.String),
+    HealthState: S.optional(HealthState),
     HealthReason: S.optional(S.String),
     ClientIPPreservationEnabled: S.optional(S.Boolean),
   }),
@@ -1177,14 +1223,14 @@ export const EndpointDescriptions = S.Array(EndpointDescription);
 export interface EndpointGroup {
   EndpointGroupArn?: string;
   EndpointGroupRegion?: string;
-  EndpointDescriptions?: EndpointDescriptions;
+  EndpointDescriptions?: EndpointDescription[];
   TrafficDialPercentage?: number;
   HealthCheckPort?: number;
-  HealthCheckProtocol?: string;
+  HealthCheckProtocol?: HealthCheckProtocol;
   HealthCheckPath?: string;
   HealthCheckIntervalSeconds?: number;
   ThresholdCount?: number;
-  PortOverrides?: PortOverrides;
+  PortOverrides?: PortOverride[];
 }
 export const EndpointGroup = S.suspend(() =>
   S.Struct({
@@ -1193,7 +1239,7 @@ export const EndpointGroup = S.suspend(() =>
     EndpointDescriptions: S.optional(EndpointDescriptions),
     TrafficDialPercentage: S.optional(S.Number),
     HealthCheckPort: S.optional(S.Number),
-    HealthCheckProtocol: S.optional(S.String),
+    HealthCheckProtocol: S.optional(HealthCheckProtocol),
     HealthCheckPath: S.optional(S.String),
     HealthCheckIntervalSeconds: S.optional(S.Number),
     ThresholdCount: S.optional(S.Number),
@@ -1206,16 +1252,16 @@ export type EndpointGroups = EndpointGroup[];
 export const EndpointGroups = S.Array(EndpointGroup);
 export interface Listener {
   ListenerArn?: string;
-  PortRanges?: PortRanges;
-  Protocol?: string;
-  ClientAffinity?: string;
+  PortRanges?: PortRange[];
+  Protocol?: Protocol;
+  ClientAffinity?: ClientAffinity;
 }
 export const Listener = S.suspend(() =>
   S.Struct({
     ListenerArn: S.optional(S.String),
     PortRanges: S.optional(PortRanges),
-    Protocol: S.optional(S.String),
-    ClientAffinity: S.optional(S.String),
+    Protocol: S.optional(Protocol),
+    ClientAffinity: S.optional(ClientAffinity),
   }),
 ).annotations({ identifier: "Listener" }) as any as S.Schema<Listener>;
 export type Listeners = Listener[];
@@ -1244,7 +1290,7 @@ export const EndpointIdentifier = S.suspend(() =>
 export type EndpointIdentifiers = EndpointIdentifier[];
 export const EndpointIdentifiers = S.Array(EndpointIdentifier);
 export interface AddCustomRoutingEndpointsRequest {
-  EndpointConfigurations: CustomRoutingEndpointConfigurations;
+  EndpointConfigurations: CustomRoutingEndpointConfiguration[];
   EndpointGroupArn: string;
 }
 export const AddCustomRoutingEndpointsRequest = S.suspend(() =>
@@ -1258,7 +1304,7 @@ export const AddCustomRoutingEndpointsRequest = S.suspend(() =>
   identifier: "AddCustomRoutingEndpointsRequest",
 }) as any as S.Schema<AddCustomRoutingEndpointsRequest>;
 export interface AddEndpointsRequest {
-  EndpointConfigurations: EndpointConfigurations;
+  EndpointConfigurations: EndpointConfiguration[];
   EndpointGroupArn: string;
 }
 export const AddEndpointsRequest = S.suspend(() =>
@@ -1273,16 +1319,16 @@ export const AddEndpointsRequest = S.suspend(() =>
 }) as any as S.Schema<AddEndpointsRequest>;
 export interface CreateAcceleratorRequest {
   Name: string;
-  IpAddressType?: string;
-  IpAddresses?: IpAddresses;
+  IpAddressType?: IpAddressType;
+  IpAddresses?: string[];
   Enabled?: boolean;
   IdempotencyToken: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreateAcceleratorRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    IpAddressType: S.optional(S.String),
+    IpAddressType: S.optional(IpAddressType),
     IpAddresses: S.optional(IpAddresses),
     Enabled: S.optional(S.Boolean),
     IdempotencyToken: S.String,
@@ -1295,10 +1341,10 @@ export const CreateAcceleratorRequest = S.suspend(() =>
 }) as any as S.Schema<CreateAcceleratorRequest>;
 export interface CreateCrossAccountAttachmentRequest {
   Name: string;
-  Principals?: Principals;
-  Resources?: Resources;
+  Principals?: string[];
+  Resources?: Resource[];
   IdempotencyToken: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreateCrossAccountAttachmentRequest = S.suspend(() =>
   S.Struct({
@@ -1316,7 +1362,7 @@ export const CreateCrossAccountAttachmentRequest = S.suspend(() =>
 export interface CreateCustomRoutingEndpointGroupRequest {
   ListenerArn: string;
   EndpointGroupRegion: string;
-  DestinationConfigurations: CustomRoutingDestinationConfigurations;
+  DestinationConfigurations: CustomRoutingDestinationConfiguration[];
   IdempotencyToken: string;
 }
 export const CreateCustomRoutingEndpointGroupRequest = S.suspend(() =>
@@ -1333,7 +1379,7 @@ export const CreateCustomRoutingEndpointGroupRequest = S.suspend(() =>
 }) as any as S.Schema<CreateCustomRoutingEndpointGroupRequest>;
 export interface CreateCustomRoutingListenerRequest {
   AcceleratorArn: string;
-  PortRanges: PortRanges;
+  PortRanges: PortRange[];
   IdempotencyToken: string;
 }
 export const CreateCustomRoutingListenerRequest = S.suspend(() =>
@@ -1350,15 +1396,15 @@ export const CreateCustomRoutingListenerRequest = S.suspend(() =>
 export interface CreateEndpointGroupRequest {
   ListenerArn: string;
   EndpointGroupRegion: string;
-  EndpointConfigurations?: EndpointConfigurations;
+  EndpointConfigurations?: EndpointConfiguration[];
   TrafficDialPercentage?: number;
   HealthCheckPort?: number;
-  HealthCheckProtocol?: string;
+  HealthCheckProtocol?: HealthCheckProtocol;
   HealthCheckPath?: string;
   HealthCheckIntervalSeconds?: number;
   ThresholdCount?: number;
   IdempotencyToken: string;
-  PortOverrides?: PortOverrides;
+  PortOverrides?: PortOverride[];
 }
 export const CreateEndpointGroupRequest = S.suspend(() =>
   S.Struct({
@@ -1367,7 +1413,7 @@ export const CreateEndpointGroupRequest = S.suspend(() =>
     EndpointConfigurations: S.optional(EndpointConfigurations),
     TrafficDialPercentage: S.optional(S.Number),
     HealthCheckPort: S.optional(S.Number),
-    HealthCheckProtocol: S.optional(S.String),
+    HealthCheckProtocol: S.optional(HealthCheckProtocol),
     HealthCheckPath: S.optional(S.String),
     HealthCheckIntervalSeconds: S.optional(S.Number),
     ThresholdCount: S.optional(S.Number),
@@ -1404,7 +1450,7 @@ export const DescribeListenerResponse = S.suspend(() =>
   identifier: "DescribeListenerResponse",
 }) as any as S.Schema<DescribeListenerResponse>;
 export interface ListAcceleratorsResponse {
-  Accelerators?: Accelerators;
+  Accelerators?: Accelerator[];
   NextToken?: string;
 }
 export const ListAcceleratorsResponse = S.suspend(() =>
@@ -1416,7 +1462,7 @@ export const ListAcceleratorsResponse = S.suspend(() =>
   identifier: "ListAcceleratorsResponse",
 }) as any as S.Schema<ListAcceleratorsResponse>;
 export interface ListByoipCidrsResponse {
-  ByoipCidrs?: ByoipCidrs;
+  ByoipCidrs?: ByoipCidr[];
   NextToken?: string;
 }
 export const ListByoipCidrsResponse = S.suspend(() =>
@@ -1428,7 +1474,7 @@ export const ListByoipCidrsResponse = S.suspend(() =>
   identifier: "ListByoipCidrsResponse",
 }) as any as S.Schema<ListByoipCidrsResponse>;
 export interface ListCrossAccountAttachmentsResponse {
-  CrossAccountAttachments?: Attachments;
+  CrossAccountAttachments?: Attachment[];
   NextToken?: string;
 }
 export const ListCrossAccountAttachmentsResponse = S.suspend(() =>
@@ -1440,7 +1486,7 @@ export const ListCrossAccountAttachmentsResponse = S.suspend(() =>
   identifier: "ListCrossAccountAttachmentsResponse",
 }) as any as S.Schema<ListCrossAccountAttachmentsResponse>;
 export interface ListCustomRoutingAcceleratorsResponse {
-  Accelerators?: CustomRoutingAccelerators;
+  Accelerators?: CustomRoutingAccelerator[];
   NextToken?: string;
 }
 export const ListCustomRoutingAcceleratorsResponse = S.suspend(() =>
@@ -1452,7 +1498,7 @@ export const ListCustomRoutingAcceleratorsResponse = S.suspend(() =>
   identifier: "ListCustomRoutingAcceleratorsResponse",
 }) as any as S.Schema<ListCustomRoutingAcceleratorsResponse>;
 export interface ListCustomRoutingEndpointGroupsResponse {
-  EndpointGroups?: CustomRoutingEndpointGroups;
+  EndpointGroups?: CustomRoutingEndpointGroup[];
   NextToken?: string;
 }
 export const ListCustomRoutingEndpointGroupsResponse = S.suspend(() =>
@@ -1464,7 +1510,7 @@ export const ListCustomRoutingEndpointGroupsResponse = S.suspend(() =>
   identifier: "ListCustomRoutingEndpointGroupsResponse",
 }) as any as S.Schema<ListCustomRoutingEndpointGroupsResponse>;
 export interface ListCustomRoutingListenersResponse {
-  Listeners?: CustomRoutingListeners;
+  Listeners?: CustomRoutingListener[];
   NextToken?: string;
 }
 export const ListCustomRoutingListenersResponse = S.suspend(() =>
@@ -1476,7 +1522,7 @@ export const ListCustomRoutingListenersResponse = S.suspend(() =>
   identifier: "ListCustomRoutingListenersResponse",
 }) as any as S.Schema<ListCustomRoutingListenersResponse>;
 export interface ListEndpointGroupsResponse {
-  EndpointGroups?: EndpointGroups;
+  EndpointGroups?: EndpointGroup[];
   NextToken?: string;
 }
 export const ListEndpointGroupsResponse = S.suspend(() =>
@@ -1488,7 +1534,7 @@ export const ListEndpointGroupsResponse = S.suspend(() =>
   identifier: "ListEndpointGroupsResponse",
 }) as any as S.Schema<ListEndpointGroupsResponse>;
 export interface ListListenersResponse {
-  Listeners?: Listeners;
+  Listeners?: Listener[];
   NextToken?: string;
 }
 export const ListListenersResponse = S.suspend(() =>
@@ -1500,7 +1546,7 @@ export const ListListenersResponse = S.suspend(() =>
   identifier: "ListListenersResponse",
 }) as any as S.Schema<ListListenersResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }),
@@ -1522,7 +1568,7 @@ export const ProvisionByoipCidrRequest = S.suspend(() =>
   identifier: "ProvisionByoipCidrRequest",
 }) as any as S.Schema<ProvisionByoipCidrRequest>;
 export interface RemoveEndpointsRequest {
-  EndpointIdentifiers: EndpointIdentifiers;
+  EndpointIdentifiers: EndpointIdentifier[];
   EndpointGroupArn: string;
 }
 export const RemoveEndpointsRequest = S.suspend(() =>
@@ -1643,6 +1689,8 @@ export const WithdrawByoipCidrResponse = S.suspend(() =>
 ).annotations({
   identifier: "WithdrawByoipCidrResponse",
 }) as any as S.Schema<WithdrawByoipCidrResponse>;
+export type CustomRoutingDestinationTrafficState = "ALLOW" | "DENY";
+export const CustomRoutingDestinationTrafficState = S.Literal("ALLOW", "DENY");
 export interface SocketAddress {
   IpAddress?: string;
   Port?: number;
@@ -1672,13 +1720,13 @@ export type CrossAccountResources = CrossAccountResource[];
 export const CrossAccountResources = S.Array(CrossAccountResource);
 export interface DestinationPortMapping {
   AcceleratorArn?: string;
-  AcceleratorSocketAddresses?: SocketAddresses;
+  AcceleratorSocketAddresses?: SocketAddress[];
   EndpointGroupArn?: string;
   EndpointId?: string;
   EndpointGroupRegion?: string;
   DestinationSocketAddress?: SocketAddress;
-  IpAddressType?: string;
-  DestinationTrafficState?: string;
+  IpAddressType?: IpAddressType;
+  DestinationTrafficState?: CustomRoutingDestinationTrafficState;
 }
 export const DestinationPortMapping = S.suspend(() =>
   S.Struct({
@@ -1688,8 +1736,8 @@ export const DestinationPortMapping = S.suspend(() =>
     EndpointId: S.optional(S.String),
     EndpointGroupRegion: S.optional(S.String),
     DestinationSocketAddress: S.optional(SocketAddress),
-    IpAddressType: S.optional(S.String),
-    DestinationTrafficState: S.optional(S.String),
+    IpAddressType: S.optional(IpAddressType),
+    DestinationTrafficState: S.optional(CustomRoutingDestinationTrafficState),
   }),
 ).annotations({
   identifier: "DestinationPortMapping",
@@ -1697,7 +1745,7 @@ export const DestinationPortMapping = S.suspend(() =>
 export type DestinationPortMappings = DestinationPortMapping[];
 export const DestinationPortMappings = S.Array(DestinationPortMapping);
 export interface AddCustomRoutingEndpointsResponse {
-  EndpointDescriptions?: CustomRoutingEndpointDescriptions;
+  EndpointDescriptions?: CustomRoutingEndpointDescription[];
   EndpointGroupArn?: string;
 }
 export const AddCustomRoutingEndpointsResponse = S.suspend(() =>
@@ -1709,7 +1757,7 @@ export const AddCustomRoutingEndpointsResponse = S.suspend(() =>
   identifier: "AddCustomRoutingEndpointsResponse",
 }) as any as S.Schema<AddCustomRoutingEndpointsResponse>;
 export interface AddEndpointsResponse {
-  EndpointDescriptions?: EndpointDescriptions;
+  EndpointDescriptions?: EndpointDescription[];
   EndpointGroupArn?: string;
 }
 export const AddEndpointsResponse = S.suspend(() =>
@@ -1804,7 +1852,7 @@ export const DescribeCustomRoutingListenerResponse = S.suspend(() =>
   identifier: "DescribeCustomRoutingListenerResponse",
 }) as any as S.Schema<DescribeCustomRoutingListenerResponse>;
 export interface ListCrossAccountResourcesResponse {
-  CrossAccountResources?: CrossAccountResources;
+  CrossAccountResources?: CrossAccountResource[];
   NextToken?: string;
 }
 export const ListCrossAccountResourcesResponse = S.suspend(() =>
@@ -1816,7 +1864,7 @@ export const ListCrossAccountResourcesResponse = S.suspend(() =>
   identifier: "ListCrossAccountResourcesResponse",
 }) as any as S.Schema<ListCrossAccountResourcesResponse>;
 export interface ListCustomRoutingPortMappingsByDestinationResponse {
-  DestinationPortMappings?: DestinationPortMappings;
+  DestinationPortMappings?: DestinationPortMapping[];
   NextToken?: string;
 }
 export const ListCustomRoutingPortMappingsByDestinationResponse = S.suspend(
@@ -1841,8 +1889,8 @@ export interface PortMapping {
   EndpointGroupArn?: string;
   EndpointId?: string;
   DestinationSocketAddress?: SocketAddress;
-  Protocols?: CustomRoutingProtocols;
-  DestinationTrafficState?: string;
+  Protocols?: CustomRoutingProtocol[];
+  DestinationTrafficState?: CustomRoutingDestinationTrafficState;
 }
 export const PortMapping = S.suspend(() =>
   S.Struct({
@@ -1851,7 +1899,7 @@ export const PortMapping = S.suspend(() =>
     EndpointId: S.optional(S.String),
     DestinationSocketAddress: S.optional(SocketAddress),
     Protocols: S.optional(CustomRoutingProtocols),
-    DestinationTrafficState: S.optional(S.String),
+    DestinationTrafficState: S.optional(CustomRoutingDestinationTrafficState),
   }),
 ).annotations({ identifier: "PortMapping" }) as any as S.Schema<PortMapping>;
 export type PortMappings = PortMapping[];
@@ -1897,7 +1945,7 @@ export const DescribeEndpointGroupResponse = S.suspend(() =>
   identifier: "DescribeEndpointGroupResponse",
 }) as any as S.Schema<DescribeEndpointGroupResponse>;
 export interface ListCustomRoutingPortMappingsResponse {
-  PortMappings?: PortMappings;
+  PortMappings?: PortMapping[];
   NextToken?: string;
 }
 export const ListCustomRoutingPortMappingsResponse = S.suspend(() =>
@@ -2001,7 +2049,7 @@ export class ListenerNotFoundException extends S.TaggedError<ListenerNotFoundExc
  */
 export const listCrossAccountResourceAccounts: (
   input: ListCrossAccountResourceAccountsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListCrossAccountResourceAccountsResponse,
   AccessDeniedException | InternalServiceErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2021,7 +2069,7 @@ export const listCrossAccountResourceAccounts: (
  */
 export const allowCustomRoutingTraffic: (
   input: AllowCustomRoutingTrafficRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AllowCustomRoutingTrafficResponse,
   | EndpointGroupNotFoundException
   | InternalServiceErrorException
@@ -2049,7 +2097,7 @@ export const allowCustomRoutingTraffic: (
  */
 export const deprovisionByoipCidr: (
   input: DeprovisionByoipCidrRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeprovisionByoipCidrResponse,
   | AccessDeniedException
   | ByoipCidrNotFoundException
@@ -2074,7 +2122,7 @@ export const deprovisionByoipCidr: (
  */
 export const describeAccelerator: (
   input: DescribeAcceleratorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAcceleratorResponse,
   | AcceleratorNotFoundException
   | InternalServiceErrorException
@@ -2095,7 +2143,7 @@ export const describeAccelerator: (
  */
 export const describeCustomRoutingEndpointGroup: (
   input: DescribeCustomRoutingEndpointGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCustomRoutingEndpointGroupResponse,
   | EndpointGroupNotFoundException
   | InternalServiceErrorException
@@ -2116,7 +2164,7 @@ export const describeCustomRoutingEndpointGroup: (
  */
 export const describeEndpointGroup: (
   input: DescribeEndpointGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEndpointGroupResponse,
   | EndpointGroupNotFoundException
   | InternalServiceErrorException
@@ -2137,7 +2185,7 @@ export const describeEndpointGroup: (
  */
 export const describeAcceleratorAttributes: (
   input: DescribeAcceleratorAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAcceleratorAttributesResponse,
   | AcceleratorNotFoundException
   | InternalServiceErrorException
@@ -2158,7 +2206,7 @@ export const describeAcceleratorAttributes: (
  */
 export const describeCrossAccountAttachment: (
   input: DescribeCrossAccountAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCrossAccountAttachmentResponse,
   | AccessDeniedException
   | AttachmentNotFoundException
@@ -2181,7 +2229,7 @@ export const describeCrossAccountAttachment: (
  */
 export const describeCustomRoutingAcceleratorAttributes: (
   input: DescribeCustomRoutingAcceleratorAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCustomRoutingAcceleratorAttributesResponse,
   | AcceleratorNotFoundException
   | InternalServiceErrorException
@@ -2205,7 +2253,7 @@ export const describeCustomRoutingAcceleratorAttributes: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AcceleratorNotFoundException
   | InternalServiceErrorException
@@ -2226,7 +2274,7 @@ export const tagResource: (
  */
 export const deleteCustomRoutingEndpointGroup: (
   input: DeleteCustomRoutingEndpointGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCustomRoutingEndpointGroupResponse,
   | EndpointGroupNotFoundException
   | InternalServiceErrorException
@@ -2247,7 +2295,7 @@ export const deleteCustomRoutingEndpointGroup: (
  */
 export const deleteEndpointGroup: (
   input: DeleteEndpointGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEndpointGroupResponse,
   | EndpointGroupNotFoundException
   | InternalServiceErrorException
@@ -2274,7 +2322,7 @@ export const deleteEndpointGroup: (
  */
 export const denyCustomRoutingTraffic: (
   input: DenyCustomRoutingTrafficRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DenyCustomRoutingTrafficResponse,
   | EndpointGroupNotFoundException
   | InternalServiceErrorException
@@ -2299,7 +2347,7 @@ export const denyCustomRoutingTraffic: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AcceleratorNotFoundException
   | InternalServiceErrorException
@@ -2320,7 +2368,7 @@ export const untagResource: (
  */
 export const describeCustomRoutingAccelerator: (
   input: DescribeCustomRoutingAcceleratorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCustomRoutingAcceleratorResponse,
   | AcceleratorNotFoundException
   | InternalServiceErrorException
@@ -2349,7 +2397,7 @@ export const describeCustomRoutingAccelerator: (
  */
 export const withdrawByoipCidr: (
   input: WithdrawByoipCidrRequest,
-) => Effect.Effect<
+) => effect.Effect<
   WithdrawByoipCidrResponse,
   | AccessDeniedException
   | ByoipCidrNotFoundException
@@ -2382,7 +2430,7 @@ export const withdrawByoipCidr: (
  */
 export const advertiseByoipCidr: (
   input: AdvertiseByoipCidrRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AdvertiseByoipCidrResponse,
   | AccessDeniedException
   | ByoipCidrNotFoundException
@@ -2407,7 +2455,7 @@ export const advertiseByoipCidr: (
  */
 export const removeCustomRoutingEndpoints: (
   input: RemoveCustomRoutingEndpointsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveCustomRoutingEndpointsResponse,
   | AccessDeniedException
   | ConflictException
@@ -2445,7 +2493,7 @@ export const removeCustomRoutingEndpoints: (
 export const listCustomRoutingPortMappings: {
   (
     input: ListCustomRoutingPortMappingsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCustomRoutingPortMappingsResponse,
     | AcceleratorNotFoundException
     | EndpointGroupNotFoundException
@@ -2457,7 +2505,7 @@ export const listCustomRoutingPortMappings: {
   >;
   pages: (
     input: ListCustomRoutingPortMappingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCustomRoutingPortMappingsResponse,
     | AcceleratorNotFoundException
     | EndpointGroupNotFoundException
@@ -2469,7 +2517,7 @@ export const listCustomRoutingPortMappings: {
   >;
   items: (
     input: ListCustomRoutingPortMappingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PortMapping,
     | AcceleratorNotFoundException
     | EndpointGroupNotFoundException
@@ -2507,7 +2555,7 @@ export const listCustomRoutingPortMappings: {
  */
 export const deleteCrossAccountAttachment: (
   input: DeleteCrossAccountAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCrossAccountAttachmentResponse,
   | AccessDeniedException
   | AttachmentNotFoundException
@@ -2532,7 +2580,7 @@ export const deleteCrossAccountAttachment: (
  */
 export const describeCustomRoutingListener: (
   input: DescribeCustomRoutingListenerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCustomRoutingListenerResponse,
   | InternalServiceErrorException
   | InvalidArgumentException
@@ -2558,7 +2606,7 @@ export const describeCustomRoutingListener: (
  */
 export const createAccelerator: (
   input: CreateAcceleratorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAcceleratorResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2602,7 +2650,7 @@ export const createAccelerator: (
  */
 export const createCrossAccountAttachment: (
   input: CreateCrossAccountAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCrossAccountAttachmentResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2627,7 +2675,7 @@ export const createCrossAccountAttachment: (
  */
 export const updateEndpointGroup: (
   input: UpdateEndpointGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEndpointGroupResponse,
   | AccessDeniedException
   | EndpointGroupNotFoundException
@@ -2669,7 +2717,7 @@ export const updateEndpointGroup: (
  */
 export const addEndpoints: (
   input: AddEndpointsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddEndpointsResponse,
   | AccessDeniedException
   | EndpointGroupNotFoundException
@@ -2702,7 +2750,7 @@ export const addEndpoints: (
  */
 export const updateCrossAccountAttachment: (
   input: UpdateCrossAccountAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCrossAccountAttachmentResponse,
   | AccessDeniedException
   | AttachmentNotFoundException
@@ -2734,7 +2782,7 @@ export const updateCrossAccountAttachment: (
  */
 export const createEndpointGroup: (
   input: CreateEndpointGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEndpointGroupResponse,
   | AcceleratorNotFoundException
   | AccessDeniedException
@@ -2769,7 +2817,7 @@ export const createEndpointGroup: (
  */
 export const provisionByoipCidr: (
   input: ProvisionByoipCidrRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ProvisionByoipCidrResponse,
   | AccessDeniedException
   | IncorrectCidrStateException
@@ -2807,7 +2855,7 @@ export const provisionByoipCidr: (
  */
 export const addCustomRoutingEndpoints: (
   input: AddCustomRoutingEndpointsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddCustomRoutingEndpointsResponse,
   | AccessDeniedException
   | ConflictException
@@ -2837,7 +2885,7 @@ export const addCustomRoutingEndpoints: (
  */
 export const createCustomRoutingListener: (
   input: CreateCustomRoutingListenerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCustomRoutingListenerResponse,
   | AcceleratorNotFoundException
   | InternalServiceErrorException
@@ -2863,7 +2911,7 @@ export const createCustomRoutingListener: (
  */
 export const createListener: (
   input: CreateListenerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateListenerResponse,
   | AcceleratorNotFoundException
   | InternalServiceErrorException
@@ -2888,7 +2936,7 @@ export const createListener: (
  */
 export const updateCustomRoutingListener: (
   input: UpdateCustomRoutingListenerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCustomRoutingListenerResponse,
   | InternalServiceErrorException
   | InvalidArgumentException
@@ -2913,7 +2961,7 @@ export const updateCustomRoutingListener: (
  */
 export const updateListener: (
   input: UpdateListenerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateListenerResponse,
   | InternalServiceErrorException
   | InvalidArgumentException
@@ -2942,7 +2990,7 @@ export const updateListener: (
 export const listCustomRoutingPortMappingsByDestination: {
   (
     input: ListCustomRoutingPortMappingsByDestinationRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCustomRoutingPortMappingsByDestinationResponse,
     | EndpointNotFoundException
     | InternalServiceErrorException
@@ -2953,7 +3001,7 @@ export const listCustomRoutingPortMappingsByDestination: {
   >;
   pages: (
     input: ListCustomRoutingPortMappingsByDestinationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCustomRoutingPortMappingsByDestinationResponse,
     | EndpointNotFoundException
     | InternalServiceErrorException
@@ -2964,7 +3012,7 @@ export const listCustomRoutingPortMappingsByDestination: {
   >;
   items: (
     input: ListCustomRoutingPortMappingsByDestinationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DestinationPortMapping,
     | EndpointNotFoundException
     | InternalServiceErrorException
@@ -2995,7 +3043,7 @@ export const listCustomRoutingPortMappingsByDestination: {
 export const listCrossAccountResources: {
   (
     input: ListCrossAccountResourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCrossAccountResourcesResponse,
     | AcceleratorNotFoundException
     | AccessDeniedException
@@ -3007,7 +3055,7 @@ export const listCrossAccountResources: {
   >;
   pages: (
     input: ListCrossAccountResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCrossAccountResourcesResponse,
     | AcceleratorNotFoundException
     | AccessDeniedException
@@ -3019,7 +3067,7 @@ export const listCrossAccountResources: {
   >;
   items: (
     input: ListCrossAccountResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CrossAccountResource,
     | AcceleratorNotFoundException
     | AccessDeniedException
@@ -3052,7 +3100,7 @@ export const listCrossAccountResources: {
 export const listAccelerators: {
   (
     input: ListAcceleratorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAcceleratorsResponse,
     | InternalServiceErrorException
     | InvalidArgumentException
@@ -3062,7 +3110,7 @@ export const listAccelerators: {
   >;
   pages: (
     input: ListAcceleratorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAcceleratorsResponse,
     | InternalServiceErrorException
     | InvalidArgumentException
@@ -3072,7 +3120,7 @@ export const listAccelerators: {
   >;
   items: (
     input: ListAcceleratorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Accelerator,
     | InternalServiceErrorException
     | InvalidArgumentException
@@ -3102,7 +3150,7 @@ export const listAccelerators: {
 export const listByoipCidrs: {
   (
     input: ListByoipCidrsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListByoipCidrsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -3113,7 +3161,7 @@ export const listByoipCidrs: {
   >;
   pages: (
     input: ListByoipCidrsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListByoipCidrsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -3124,7 +3172,7 @@ export const listByoipCidrs: {
   >;
   items: (
     input: ListByoipCidrsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ByoipCidr,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -3155,7 +3203,7 @@ export const listByoipCidrs: {
 export const listCrossAccountAttachments: {
   (
     input: ListCrossAccountAttachmentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCrossAccountAttachmentsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -3166,7 +3214,7 @@ export const listCrossAccountAttachments: {
   >;
   pages: (
     input: ListCrossAccountAttachmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCrossAccountAttachmentsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -3177,7 +3225,7 @@ export const listCrossAccountAttachments: {
   >;
   items: (
     input: ListCrossAccountAttachmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Attachment,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -3208,7 +3256,7 @@ export const listCrossAccountAttachments: {
 export const listCustomRoutingAccelerators: {
   (
     input: ListCustomRoutingAcceleratorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCustomRoutingAcceleratorsResponse,
     | InternalServiceErrorException
     | InvalidArgumentException
@@ -3218,7 +3266,7 @@ export const listCustomRoutingAccelerators: {
   >;
   pages: (
     input: ListCustomRoutingAcceleratorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCustomRoutingAcceleratorsResponse,
     | InternalServiceErrorException
     | InvalidArgumentException
@@ -3228,7 +3276,7 @@ export const listCustomRoutingAccelerators: {
   >;
   items: (
     input: ListCustomRoutingAcceleratorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CustomRoutingAccelerator,
     | InternalServiceErrorException
     | InvalidArgumentException
@@ -3257,7 +3305,7 @@ export const listCustomRoutingAccelerators: {
 export const listCustomRoutingEndpointGroups: {
   (
     input: ListCustomRoutingEndpointGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCustomRoutingEndpointGroupsResponse,
     | InternalServiceErrorException
     | InvalidArgumentException
@@ -3268,7 +3316,7 @@ export const listCustomRoutingEndpointGroups: {
   >;
   pages: (
     input: ListCustomRoutingEndpointGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCustomRoutingEndpointGroupsResponse,
     | InternalServiceErrorException
     | InvalidArgumentException
@@ -3279,7 +3327,7 @@ export const listCustomRoutingEndpointGroups: {
   >;
   items: (
     input: ListCustomRoutingEndpointGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CustomRoutingEndpointGroup,
     | InternalServiceErrorException
     | InvalidArgumentException
@@ -3310,7 +3358,7 @@ export const listCustomRoutingEndpointGroups: {
 export const listEndpointGroups: {
   (
     input: ListEndpointGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEndpointGroupsResponse,
     | InternalServiceErrorException
     | InvalidArgumentException
@@ -3321,7 +3369,7 @@ export const listEndpointGroups: {
   >;
   pages: (
     input: ListEndpointGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEndpointGroupsResponse,
     | InternalServiceErrorException
     | InvalidArgumentException
@@ -3332,7 +3380,7 @@ export const listEndpointGroups: {
   >;
   items: (
     input: ListEndpointGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EndpointGroup,
     | InternalServiceErrorException
     | InvalidArgumentException
@@ -3363,7 +3411,7 @@ export const listEndpointGroups: {
 export const listCustomRoutingListeners: {
   (
     input: ListCustomRoutingListenersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCustomRoutingListenersResponse,
     | AcceleratorNotFoundException
     | InternalServiceErrorException
@@ -3374,7 +3422,7 @@ export const listCustomRoutingListeners: {
   >;
   pages: (
     input: ListCustomRoutingListenersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCustomRoutingListenersResponse,
     | AcceleratorNotFoundException
     | InternalServiceErrorException
@@ -3385,7 +3433,7 @@ export const listCustomRoutingListeners: {
   >;
   items: (
     input: ListCustomRoutingListenersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CustomRoutingListener,
     | AcceleratorNotFoundException
     | InternalServiceErrorException
@@ -3416,7 +3464,7 @@ export const listCustomRoutingListeners: {
 export const listListeners: {
   (
     input: ListListenersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListListenersResponse,
     | AcceleratorNotFoundException
     | InternalServiceErrorException
@@ -3427,7 +3475,7 @@ export const listListeners: {
   >;
   pages: (
     input: ListListenersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListListenersResponse,
     | AcceleratorNotFoundException
     | InternalServiceErrorException
@@ -3438,7 +3486,7 @@ export const listListeners: {
   >;
   items: (
     input: ListListenersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Listener,
     | AcceleratorNotFoundException
     | InternalServiceErrorException
@@ -3484,7 +3532,7 @@ export const listListeners: {
  */
 export const updateAccelerator: (
   input: UpdateAcceleratorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAcceleratorResponse,
   | AcceleratorNotFoundException
   | AccessDeniedException
@@ -3524,7 +3572,7 @@ export const updateAccelerator: (
  */
 export const removeEndpoints: (
   input: RemoveEndpointsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveEndpointsResponse,
   | AccessDeniedException
   | EndpointGroupNotFoundException
@@ -3549,7 +3597,7 @@ export const removeEndpoints: (
  */
 export const updateAcceleratorAttributes: (
   input: UpdateAcceleratorAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAcceleratorAttributesResponse,
   | AcceleratorNotFoundException
   | AccessDeniedException
@@ -3574,7 +3622,7 @@ export const updateAcceleratorAttributes: (
  */
 export const updateCustomRoutingAcceleratorAttributes: (
   input: UpdateCustomRoutingAcceleratorAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCustomRoutingAcceleratorAttributesResponse,
   | AcceleratorNotFoundException
   | AccessDeniedException
@@ -3611,7 +3659,7 @@ export const updateCustomRoutingAcceleratorAttributes: (
  */
 export const deleteCustomRoutingAccelerator: (
   input: DeleteCustomRoutingAcceleratorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCustomRoutingAcceleratorResponse,
   | AcceleratorNotDisabledException
   | AcceleratorNotFoundException
@@ -3638,7 +3686,7 @@ export const deleteCustomRoutingAccelerator: (
  */
 export const updateCustomRoutingAccelerator: (
   input: UpdateCustomRoutingAcceleratorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCustomRoutingAcceleratorResponse,
   | AcceleratorNotFoundException
   | ConflictException
@@ -3675,7 +3723,7 @@ export const updateCustomRoutingAccelerator: (
  */
 export const deleteAccelerator: (
   input: DeleteAcceleratorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAcceleratorResponse,
   | AcceleratorNotDisabledException
   | AcceleratorNotFoundException
@@ -3712,7 +3760,7 @@ export const deleteAccelerator: (
  */
 export const createCustomRoutingAccelerator: (
   input: CreateCustomRoutingAcceleratorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCustomRoutingAcceleratorResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -3737,7 +3785,7 @@ export const createCustomRoutingAccelerator: (
  */
 export const deleteCustomRoutingListener: (
   input: DeleteCustomRoutingListenerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCustomRoutingListenerResponse,
   | AssociatedEndpointGroupFoundException
   | InternalServiceErrorException
@@ -3760,7 +3808,7 @@ export const deleteCustomRoutingListener: (
  */
 export const describeListener: (
   input: DescribeListenerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeListenerResponse,
   | InternalServiceErrorException
   | InvalidArgumentException
@@ -3781,7 +3829,7 @@ export const describeListener: (
  */
 export const deleteListener: (
   input: DeleteListenerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteListenerResponse,
   | AssociatedEndpointGroupFoundException
   | InternalServiceErrorException
@@ -3807,7 +3855,7 @@ export const deleteListener: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AcceleratorNotFoundException
   | AttachmentNotFoundException
@@ -3836,7 +3884,7 @@ export const listTagsForResource: (
  */
 export const createCustomRoutingEndpointGroup: (
   input: CreateCustomRoutingEndpointGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCustomRoutingEndpointGroupResponse,
   | AcceleratorNotFoundException
   | AccessDeniedException

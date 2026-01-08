@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Strm from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -64,6 +64,17 @@ export type TableName = string;
 export type StreamArnToken = string;
 
 //# Schemas
+export type ShardIteratorType =
+  | "TRIM_HORIZON"
+  | "LATEST"
+  | "AT_SEQUENCE_NUMBER"
+  | "AFTER_SEQUENCE_NUMBER";
+export const ShardIteratorType = S.Literal(
+  "TRIM_HORIZON",
+  "LATEST",
+  "AT_SEQUENCE_NUMBER",
+  "AFTER_SEQUENCE_NUMBER",
+);
 export interface GetRecordsInput {
   shardIterator: string;
   maxResults?: number;
@@ -78,14 +89,14 @@ export const GetRecordsInput = S.suspend(() =>
 export interface GetShardIteratorInput {
   streamArn: string;
   shardId: string;
-  shardIteratorType: string;
+  shardIteratorType: ShardIteratorType;
   sequenceNumber?: string;
 }
 export const GetShardIteratorInput = S.suspend(() =>
   S.Struct({
     streamArn: S.String,
     shardId: S.String,
-    shardIteratorType: S.String,
+    shardIteratorType: ShardIteratorType,
     sequenceNumber: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -111,12 +122,17 @@ export const ListStreamsInput = S.suspend(() =>
 ).annotations({
   identifier: "ListStreamsInput",
 }) as any as S.Schema<ListStreamsInput>;
+export type ShardFilterType = "CHILD_SHARDS";
+export const ShardFilterType = S.Literal("CHILD_SHARDS");
 export interface ShardFilter {
-  type?: string;
+  type?: ShardFilterType;
   shardId?: string;
 }
 export const ShardFilter = S.suspend(() =>
-  S.Struct({ type: S.optional(S.String), shardId: S.optional(S.String) }),
+  S.Struct({
+    type: S.optional(ShardFilterType),
+    shardId: S.optional(S.String),
+  }),
 ).annotations({ identifier: "ShardFilter" }) as any as S.Schema<ShardFilter>;
 export interface GetShardIteratorOutput {
   shardIterator?: string;
@@ -144,6 +160,26 @@ export const GetStreamInput = S.suspend(() =>
 ).annotations({
   identifier: "GetStreamInput",
 }) as any as S.Schema<GetStreamInput>;
+export type OriginType = "USER" | "REPLICATION" | "TTL";
+export const OriginType = S.Literal("USER", "REPLICATION", "TTL");
+export type StreamStatus = "ENABLING" | "ENABLED" | "DISABLING" | "DISABLED";
+export const StreamStatus = S.Literal(
+  "ENABLING",
+  "ENABLED",
+  "DISABLING",
+  "DISABLED",
+);
+export type StreamViewType =
+  | "NEW_IMAGE"
+  | "OLD_IMAGE"
+  | "NEW_AND_OLD_IMAGES"
+  | "KEYS_ONLY";
+export const StreamViewType = S.Literal(
+  "NEW_IMAGE",
+  "OLD_IMAGE",
+  "NEW_AND_OLD_IMAGES",
+  "KEYS_ONLY",
+);
 export interface Stream {
   streamArn: string;
   keyspaceName: string;
@@ -161,7 +197,7 @@ export const Stream = S.suspend(() =>
 export type StreamList = Stream[];
 export const StreamList = S.Array(Stream);
 export interface ListStreamsOutput {
-  streams?: StreamList;
+  streams?: Stream[];
   nextToken?: string;
 }
 export const ListStreamsOutput = S.suspend(() =>
@@ -210,8 +246,8 @@ export const KeyspacesCells = S.Record({
   ).annotations({ identifier: "KeyspacesCell" }),
 });
 export interface KeyspacesRow {
-  valueCells?: KeyspacesCells;
-  staticCells?: KeyspacesCells;
+  valueCells?: { [key: string]: KeyspacesCell };
+  staticCells?: { [key: string]: KeyspacesCell };
   rowMetadata?: KeyspacesMetadata;
 }
 export const KeyspacesRow = S.suspend(() =>
@@ -277,7 +313,7 @@ export const KeyspacesUdtMap = S.Record({
 export interface Shard {
   shardId?: string;
   sequenceNumberRange?: SequenceNumberRange;
-  parentShardIds?: ShardIdList;
+  parentShardIds?: string[];
 }
 export const Shard = S.suspend(() =>
   S.Struct({
@@ -300,20 +336,20 @@ export type KeyspacesCellValue =
   | { floatT: string }
   | { inetT: string }
   | { intT: string }
-  | { listT: KeyspacesCellList }
-  | { mapT: KeyspacesCellMap }
-  | { setT: KeyspacesCellList }
+  | { listT: KeyspacesCell[] }
+  | { mapT: KeyspacesCellMapDefinition[] }
+  | { setT: KeyspacesCell[] }
   | { smallintT: string }
   | { textT: string }
   | { timeT: string }
   | { timestampT: string }
   | { timeuuidT: string }
   | { tinyintT: string }
-  | { tupleT: KeyspacesCellList }
+  | { tupleT: KeyspacesCell[] }
   | { uuidT: string }
   | { varcharT: string }
   | { varintT: string }
-  | { udtT: KeyspacesUdtMap };
+  | { udtT: { [key: string]: KeyspacesCell } };
 export const KeyspacesCellValue = S.Union(
   S.Struct({ asciiT: S.String }),
   S.Struct({ bigintT: S.String }),
@@ -364,20 +400,20 @@ export const KeyspacesCellValue = S.Union(
 export interface GetStreamOutput {
   streamArn: string;
   streamLabel: string;
-  streamStatus: string;
-  streamViewType: string;
+  streamStatus: StreamStatus;
+  streamViewType: StreamViewType;
   creationRequestDateTime: Date;
   keyspaceName: string;
   tableName: string;
-  shards?: ShardDescriptionList;
+  shards?: Shard[];
   nextToken?: string;
 }
 export const GetStreamOutput = S.suspend(() =>
   S.Struct({
     streamArn: S.String,
     streamLabel: S.String,
-    streamStatus: S.String,
-    streamViewType: S.String,
+    streamStatus: StreamStatus,
+    streamViewType: StreamViewType,
     creationRequestDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     keyspaceName: S.String,
     tableName: S.String,
@@ -397,9 +433,9 @@ export const KeyspacesKeysMap = S.Record({
 export interface Record {
   eventVersion?: string;
   createdAt?: Date;
-  origin?: string;
-  partitionKeys?: KeyspacesKeysMap;
-  clusteringKeys?: KeyspacesKeysMap;
+  origin?: OriginType;
+  partitionKeys?: { [key: string]: KeyspacesCellValue };
+  clusteringKeys?: { [key: string]: KeyspacesCellValue };
   newImage?: KeyspacesRow;
   oldImage?: KeyspacesRow;
   sequenceNumber?: string;
@@ -408,7 +444,7 @@ export const Record = S.suspend(() =>
   S.Struct({
     eventVersion: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    origin: S.optional(S.String),
+    origin: S.optional(OriginType),
     partitionKeys: S.optional(KeyspacesKeysMap),
     clusteringKeys: S.optional(KeyspacesKeysMap),
     newImage: S.optional(KeyspacesRow),
@@ -419,7 +455,7 @@ export const Record = S.suspend(() =>
 export type RecordList = Record[];
 export const RecordList = S.Array(Record);
 export interface GetRecordsOutput {
-  changeRecords?: RecordList;
+  changeRecords?: Record[];
   nextShardIterator?: string;
 }
 export const GetRecordsOutput = S.suspend(() =>
@@ -430,6 +466,17 @@ export const GetRecordsOutput = S.suspend(() =>
 ).annotations({
   identifier: "GetRecordsOutput",
 }) as any as S.Schema<GetRecordsOutput>;
+export type ValidationExceptionType =
+  | "InvalidFormat"
+  | "TrimmedDataAccess"
+  | "ExpiredIterator"
+  | "ExpiredNextToken";
+export const ValidationExceptionType = S.Literal(
+  "InvalidFormat",
+  "TrimmedDataAccess",
+  "ExpiredIterator",
+  "ExpiredNextToken",
+);
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
@@ -454,7 +501,10 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
 ).pipe(C.withThrottlingError) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  { message: S.optional(S.String), errorCode: S.optional(S.String) },
+  {
+    message: S.optional(S.String),
+    errorCode: S.optional(ValidationExceptionType),
+  },
   T.AwsQueryError({ code: "ValidationException", httpResponseCode: 400 }),
 ).pipe(C.withBadRequestError) {}
 
@@ -464,7 +514,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const getShardIterator: (
   input: GetShardIteratorInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetShardIteratorOutput,
   | AccessDeniedException
   | InternalServerException
@@ -490,7 +540,7 @@ export const getShardIterator: (
 export const getStream: {
   (
     input: GetStreamInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetStreamOutput,
     | AccessDeniedException
     | InternalServerException
@@ -502,7 +552,7 @@ export const getStream: {
   >;
   pages: (
     input: GetStreamInput,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     GetStreamOutput,
     | AccessDeniedException
     | InternalServerException
@@ -514,7 +564,7 @@ export const getStream: {
   >;
   items: (
     input: GetStreamInput,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     Shard,
     | AccessDeniedException
     | InternalServerException
@@ -547,7 +597,7 @@ export const getStream: {
 export const listStreams: {
   (
     input: ListStreamsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStreamsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -559,7 +609,7 @@ export const listStreams: {
   >;
   pages: (
     input: ListStreamsInput,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListStreamsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -571,7 +621,7 @@ export const listStreams: {
   >;
   items: (
     input: ListStreamsInput,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     Stream,
     | AccessDeniedException
     | InternalServerException
@@ -603,7 +653,7 @@ export const listStreams: {
  */
 export const getRecords: (
   input: GetRecordsInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetRecordsOutput,
   | AccessDeniedException
   | InternalServerException

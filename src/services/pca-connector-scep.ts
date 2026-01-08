@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -93,7 +93,7 @@ export type ChallengeArn = string;
 export type MaxResults = number;
 export type NextToken = string;
 export type CertificateAuthorityArn = string;
-export type SensitiveString = string | Redacted.Redacted<string>;
+export type SensitiveString = string | redacted.Redacted<string>;
 export type AzureApplicationId = string;
 export type AzureDomain = string;
 
@@ -119,7 +119,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -147,7 +147,7 @@ export const Tags = S.Record({ key: S.String, value: S.String });
 export interface CreateChallengeRequest {
   ConnectorArn: string;
   ClientToken?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const CreateChallengeRequest = S.suspend(() =>
   S.Struct({
@@ -309,7 +309,7 @@ export const ListConnectorsRequest = S.suspend(() =>
   identifier: "ListConnectorsRequest",
 }) as any as S.Schema<ListConnectorsRequest>;
 export interface ListTagsForResourceResponse {
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }),
@@ -318,7 +318,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: Tags;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -342,7 +342,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface GetChallengePasswordResponse {
-  Password?: string | Redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
 }
 export const GetChallengePasswordResponse = S.suspend(() =>
   S.Struct({ Password: S.optional(SensitiveString) }),
@@ -358,12 +358,32 @@ export const IntuneConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "IntuneConfiguration",
 }) as any as S.Schema<IntuneConfiguration>;
+export type ConnectorType = "GENERAL_PURPOSE" | "INTUNE";
+export const ConnectorType = S.Literal("GENERAL_PURPOSE", "INTUNE");
+export type ConnectorStatus = "CREATING" | "ACTIVE" | "DELETING" | "FAILED";
+export const ConnectorStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "DELETING",
+  "FAILED",
+);
+export type ConnectorStatusReason =
+  | "INTERNAL_FAILURE"
+  | "PRIVATECA_ACCESS_DENIED"
+  | "PRIVATECA_INVALID_STATE"
+  | "PRIVATECA_RESOURCE_NOT_FOUND";
+export const ConnectorStatusReason = S.Literal(
+  "INTERNAL_FAILURE",
+  "PRIVATECA_ACCESS_DENIED",
+  "PRIVATECA_INVALID_STATE",
+  "PRIVATECA_RESOURCE_NOT_FOUND",
+);
 export interface Challenge {
   Arn?: string;
   ConnectorArn?: string;
   CreatedAt?: Date;
   UpdatedAt?: Date;
-  Password?: string | Redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
 }
 export const Challenge = S.suspend(() =>
   S.Struct({
@@ -429,11 +449,11 @@ export const OpenIdConfiguration = S.suspend(() =>
 export interface ConnectorSummary {
   Arn?: string;
   CertificateAuthorityArn?: string;
-  Type?: string;
-  MobileDeviceManagement?: (typeof MobileDeviceManagement)["Type"];
+  Type?: ConnectorType;
+  MobileDeviceManagement?: MobileDeviceManagement;
   OpenIdConfiguration?: OpenIdConfiguration;
-  Status?: string;
-  StatusReason?: string;
+  Status?: ConnectorStatus;
+  StatusReason?: ConnectorStatusReason;
   Endpoint?: string;
   CreatedAt?: Date;
   UpdatedAt?: Date;
@@ -442,11 +462,11 @@ export const ConnectorSummary = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     CertificateAuthorityArn: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(ConnectorType),
     MobileDeviceManagement: S.optional(MobileDeviceManagement),
     OpenIdConfiguration: S.optional(OpenIdConfiguration),
-    Status: S.optional(S.String),
-    StatusReason: S.optional(S.String),
+    Status: S.optional(ConnectorStatus),
+    StatusReason: S.optional(ConnectorStatusReason),
     Endpoint: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -473,7 +493,7 @@ export const GetChallengeMetadataResponse = S.suspend(() =>
   identifier: "GetChallengeMetadataResponse",
 }) as any as S.Schema<GetChallengeMetadataResponse>;
 export interface ListChallengeMetadataResponse {
-  Challenges?: ChallengeMetadataList;
+  Challenges?: ChallengeMetadataSummary[];
   NextToken?: string;
 }
 export const ListChallengeMetadataResponse = S.suspend(() =>
@@ -486,9 +506,9 @@ export const ListChallengeMetadataResponse = S.suspend(() =>
 }) as any as S.Schema<ListChallengeMetadataResponse>;
 export interface CreateConnectorRequest {
   CertificateAuthorityArn: string;
-  MobileDeviceManagement?: (typeof MobileDeviceManagement)["Type"];
+  MobileDeviceManagement?: MobileDeviceManagement;
   ClientToken?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const CreateConnectorRequest = S.suspend(() =>
   S.Struct({
@@ -510,7 +530,7 @@ export const CreateConnectorRequest = S.suspend(() =>
   identifier: "CreateConnectorRequest",
 }) as any as S.Schema<CreateConnectorRequest>;
 export interface ListConnectorsResponse {
-  Connectors?: ConnectorList;
+  Connectors?: ConnectorSummary[];
   NextToken?: string;
 }
 export const ListConnectorsResponse = S.suspend(() =>
@@ -524,11 +544,11 @@ export const ListConnectorsResponse = S.suspend(() =>
 export interface Connector {
   Arn?: string;
   CertificateAuthorityArn?: string;
-  Type?: string;
-  MobileDeviceManagement?: (typeof MobileDeviceManagement)["Type"];
+  Type?: ConnectorType;
+  MobileDeviceManagement?: MobileDeviceManagement;
   OpenIdConfiguration?: OpenIdConfiguration;
-  Status?: string;
-  StatusReason?: string;
+  Status?: ConnectorStatus;
+  StatusReason?: ConnectorStatusReason;
   Endpoint?: string;
   CreatedAt?: Date;
   UpdatedAt?: Date;
@@ -537,11 +557,11 @@ export const Connector = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     CertificateAuthorityArn: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(ConnectorType),
     MobileDeviceManagement: S.optional(MobileDeviceManagement),
     OpenIdConfiguration: S.optional(OpenIdConfiguration),
-    Status: S.optional(S.String),
-    StatusReason: S.optional(S.String),
+    Status: S.optional(ConnectorStatus),
+    StatusReason: S.optional(ConnectorStatusReason),
     Endpoint: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -563,6 +583,23 @@ export const GetConnectorResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetConnectorResponse",
 }) as any as S.Schema<GetConnectorResponse>;
+export type ValidationExceptionReason =
+  | "CA_CERT_VALIDITY_TOO_SHORT"
+  | "INVALID_CA_USAGE_MODE"
+  | "INVALID_CONNECTOR_TYPE"
+  | "INVALID_STATE"
+  | "NO_CLIENT_TOKEN"
+  | "UNKNOWN_OPERATION"
+  | "OTHER";
+export const ValidationExceptionReason = S.Literal(
+  "CA_CERT_VALIDITY_TOO_SHORT",
+  "INVALID_CA_USAGE_MODE",
+  "INVALID_CONNECTOR_TYPE",
+  "INVALID_STATE",
+  "NO_CLIENT_TOKEN",
+  "UNKNOWN_OPERATION",
+  "OTHER",
+);
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
@@ -602,7 +639,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 ).pipe(C.withQuotaError) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  { Message: S.String, Reason: S.optional(S.String) },
+  { Message: S.String, Reason: S.optional(ValidationExceptionReason) },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
@@ -612,7 +649,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listConnectors: {
   (
     input: ListConnectorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConnectorsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -623,7 +660,7 @@ export const listConnectors: {
   >;
   pages: (
     input: ListConnectorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConnectorsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -634,7 +671,7 @@ export const listConnectors: {
   >;
   items: (
     input: ListConnectorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConnectorSummary,
     | AccessDeniedException
     | InternalServerException
@@ -664,7 +701,7 @@ export const listConnectors: {
  */
 export const createConnector: (
   input: CreateConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConnectorResponse,
   | AccessDeniedException
   | ConflictException
@@ -693,7 +730,7 @@ export const createConnector: (
  */
 export const getChallengeMetadata: (
   input: GetChallengeMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetChallengeMetadataResponse,
   | AccessDeniedException
   | InternalServerException
@@ -719,7 +756,7 @@ export const getChallengeMetadata: (
 export const listChallengeMetadata: {
   (
     input: ListChallengeMetadataRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListChallengeMetadataResponse,
     | AccessDeniedException
     | InternalServerException
@@ -731,7 +768,7 @@ export const listChallengeMetadata: {
   >;
   pages: (
     input: ListChallengeMetadataRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListChallengeMetadataResponse,
     | AccessDeniedException
     | InternalServerException
@@ -743,7 +780,7 @@ export const listChallengeMetadata: {
   >;
   items: (
     input: ListChallengeMetadataRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ChallengeMetadataSummary,
     | AccessDeniedException
     | InternalServerException
@@ -775,7 +812,7 @@ export const listChallengeMetadata: {
  */
 export const deleteChallenge: (
   input: DeleteChallengeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteChallengeResponse,
   | AccessDeniedException
   | ConflictException
@@ -802,7 +839,7 @@ export const deleteChallenge: (
  */
 export const getChallengePassword: (
   input: GetChallengePasswordRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetChallengePasswordResponse,
   | AccessDeniedException
   | InternalServerException
@@ -831,7 +868,7 @@ export const getChallengePassword: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -856,7 +893,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -881,7 +918,7 @@ export const tagResource: (
  */
 export const deleteConnector: (
   input: DeleteConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConnectorResponse,
   | AccessDeniedException
   | ConflictException
@@ -908,7 +945,7 @@ export const deleteConnector: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -933,7 +970,7 @@ export const untagResource: (
  */
 export const getConnector: (
   input: GetConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConnectorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -960,7 +997,7 @@ export const getConnector: (
  */
 export const createChallenge: (
   input: CreateChallengeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateChallengeResponse,
   | AccessDeniedException
   | BadRequestException

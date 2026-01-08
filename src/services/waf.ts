@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -158,6 +158,8 @@ export const GetChangeTokenRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetChangeTokenRequest",
 }) as any as S.Schema<GetChangeTokenRequest>;
+export type RateKey = "IP";
+export const RateKey = S.Literal("IP");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface CreateByteMatchSetRequest {
@@ -268,7 +270,7 @@ export interface CreateRuleRequest {
   Name: string;
   MetricName: string;
   ChangeToken: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateRuleRequest = S.suspend(() =>
   S.Struct({
@@ -294,7 +296,7 @@ export interface CreateRuleGroupRequest {
   Name: string;
   MetricName: string;
   ChangeToken: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateRuleGroupRequest = S.suspend(() =>
   S.Struct({
@@ -1353,7 +1355,7 @@ export const PutPermissionPolicyResponse = S.suspend(() =>
 }) as any as S.Schema<PutPermissionPolicyResponse>;
 export interface TagResourceRequest {
   ResourceARN: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
@@ -1378,7 +1380,7 @@ export const TagResourceResponse = S.suspend(() =>
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceARN: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
@@ -1401,27 +1403,46 @@ export const UntagResourceResponse = S.suspend(() =>
 ).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
+export type ChangeAction = "INSERT" | "DELETE";
+export const ChangeAction = S.Literal("INSERT", "DELETE");
+export type PredicateType =
+  | "IPMatch"
+  | "ByteMatch"
+  | "SqlInjectionMatch"
+  | "GeoMatch"
+  | "SizeConstraint"
+  | "XssMatch"
+  | "RegexMatch";
+export const PredicateType = S.Literal(
+  "IPMatch",
+  "ByteMatch",
+  "SqlInjectionMatch",
+  "GeoMatch",
+  "SizeConstraint",
+  "XssMatch",
+  "RegexMatch",
+);
 export interface Predicate {
   Negated: boolean;
-  Type: string;
+  Type: PredicateType;
   DataId: string;
 }
 export const Predicate = S.suspend(() =>
-  S.Struct({ Negated: S.Boolean, Type: S.String, DataId: S.String }),
+  S.Struct({ Negated: S.Boolean, Type: PredicateType, DataId: S.String }),
 ).annotations({ identifier: "Predicate" }) as any as S.Schema<Predicate>;
 export interface RuleUpdate {
-  Action: string;
+  Action: ChangeAction;
   Predicate: Predicate;
 }
 export const RuleUpdate = S.suspend(() =>
-  S.Struct({ Action: S.String, Predicate: Predicate }),
+  S.Struct({ Action: ChangeAction, Predicate: Predicate }),
 ).annotations({ identifier: "RuleUpdate" }) as any as S.Schema<RuleUpdate>;
 export type RuleUpdates = RuleUpdate[];
 export const RuleUpdates = S.Array(RuleUpdate);
 export interface UpdateRuleRequest {
   RuleId: string;
   ChangeToken: string;
-  Updates: RuleUpdates;
+  Updates: RuleUpdate[];
 }
 export const UpdateRuleRequest = S.suspend(() =>
   S.Struct({
@@ -1442,14 +1463,18 @@ export const UpdateRuleRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateRuleRequest",
 }) as any as S.Schema<UpdateRuleRequest>;
+export type WafActionType = "BLOCK" | "ALLOW" | "COUNT";
+export const WafActionType = S.Literal("BLOCK", "ALLOW", "COUNT");
 export type LogDestinationConfigs = string[];
 export const LogDestinationConfigs = S.Array(S.String);
 export interface WafAction {
-  Type: string;
+  Type: WafActionType;
 }
 export const WafAction = S.suspend(() =>
-  S.Struct({ Type: S.String }),
+  S.Struct({ Type: WafActionType }),
 ).annotations({ identifier: "WafAction" }) as any as S.Schema<WafAction>;
+export type ChangeTokenStatus = "PROVISIONED" | "PENDING" | "INSYNC";
+export const ChangeTokenStatus = S.Literal("PROVISIONED", "PENDING", "INSYNC");
 export type ManagedKeys = string[];
 export const ManagedKeys = S.Array(S.String);
 export interface TimeWindow {
@@ -1462,14 +1487,18 @@ export const TimeWindow = S.suspend(() =>
     EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
 ).annotations({ identifier: "TimeWindow" }) as any as S.Schema<TimeWindow>;
+export type WafOverrideActionType = "NONE" | "COUNT";
+export const WafOverrideActionType = S.Literal("NONE", "COUNT");
 export interface WafOverrideAction {
-  Type: string;
+  Type: WafOverrideActionType;
 }
 export const WafOverrideAction = S.suspend(() =>
-  S.Struct({ Type: S.String }),
+  S.Struct({ Type: WafOverrideActionType }),
 ).annotations({
   identifier: "WafOverrideAction",
 }) as any as S.Schema<WafOverrideAction>;
+export type WafRuleType = "REGULAR" | "RATE_BASED" | "GROUP";
+export const WafRuleType = S.Literal("REGULAR", "RATE_BASED", "GROUP");
 export interface ExcludedRule {
   RuleId: string;
 }
@@ -1483,8 +1512,8 @@ export interface ActivatedRule {
   RuleId: string;
   Action?: WafAction;
   OverrideAction?: WafOverrideAction;
-  Type?: string;
-  ExcludedRules?: ExcludedRules;
+  Type?: WafRuleType;
+  ExcludedRules?: ExcludedRule[];
 }
 export const ActivatedRule = S.suspend(() =>
   S.Struct({
@@ -1492,7 +1521,7 @@ export const ActivatedRule = S.suspend(() =>
     RuleId: S.String,
     Action: S.optional(WafAction),
     OverrideAction: S.optional(WafOverrideAction),
-    Type: S.optional(S.String),
+    Type: S.optional(WafRuleType),
     ExcludedRules: S.optional(ExcludedRules),
   }),
 ).annotations({
@@ -1500,19 +1529,36 @@ export const ActivatedRule = S.suspend(() =>
 }) as any as S.Schema<ActivatedRule>;
 export type ActivatedRules = ActivatedRule[];
 export const ActivatedRules = S.Array(ActivatedRule);
+export type MatchFieldType =
+  | "URI"
+  | "QUERY_STRING"
+  | "HEADER"
+  | "METHOD"
+  | "BODY"
+  | "SINGLE_QUERY_ARG"
+  | "ALL_QUERY_ARGS";
+export const MatchFieldType = S.Literal(
+  "URI",
+  "QUERY_STRING",
+  "HEADER",
+  "METHOD",
+  "BODY",
+  "SINGLE_QUERY_ARG",
+  "ALL_QUERY_ARGS",
+);
 export interface FieldToMatch {
-  Type: string;
+  Type: MatchFieldType;
   Data?: string;
 }
 export const FieldToMatch = S.suspend(() =>
-  S.Struct({ Type: S.String, Data: S.optional(S.String) }),
+  S.Struct({ Type: MatchFieldType, Data: S.optional(S.String) }),
 ).annotations({ identifier: "FieldToMatch" }) as any as S.Schema<FieldToMatch>;
 export type RedactedFields = FieldToMatch[];
 export const RedactedFields = S.Array(FieldToMatch);
 export interface LoggingConfiguration {
   ResourceArn: string;
-  LogDestinationConfigs: LogDestinationConfigs;
-  RedactedFields?: RedactedFields;
+  LogDestinationConfigs: string[];
+  RedactedFields?: FieldToMatch[];
 }
 export const LoggingConfiguration = S.suspend(() =>
   S.Struct({
@@ -1526,38 +1572,573 @@ export const LoggingConfiguration = S.suspend(() =>
 export type LoggingConfigurations = LoggingConfiguration[];
 export const LoggingConfigurations = S.Array(LoggingConfiguration);
 export interface RegexPatternSetUpdate {
-  Action: string;
+  Action: ChangeAction;
   RegexPatternString: string;
 }
 export const RegexPatternSetUpdate = S.suspend(() =>
-  S.Struct({ Action: S.String, RegexPatternString: S.String }),
+  S.Struct({ Action: ChangeAction, RegexPatternString: S.String }),
 ).annotations({
   identifier: "RegexPatternSetUpdate",
 }) as any as S.Schema<RegexPatternSetUpdate>;
 export type RegexPatternSetUpdates = RegexPatternSetUpdate[];
 export const RegexPatternSetUpdates = S.Array(RegexPatternSetUpdate);
 export interface WebACLUpdate {
-  Action: string;
+  Action: ChangeAction;
   ActivatedRule: ActivatedRule;
 }
 export const WebACLUpdate = S.suspend(() =>
-  S.Struct({ Action: S.String, ActivatedRule: ActivatedRule }),
+  S.Struct({ Action: ChangeAction, ActivatedRule: ActivatedRule }),
 ).annotations({ identifier: "WebACLUpdate" }) as any as S.Schema<WebACLUpdate>;
 export type WebACLUpdates = WebACLUpdate[];
 export const WebACLUpdates = S.Array(WebACLUpdate);
+export type TextTransformation =
+  | "NONE"
+  | "COMPRESS_WHITE_SPACE"
+  | "HTML_ENTITY_DECODE"
+  | "LOWERCASE"
+  | "CMD_LINE"
+  | "URL_DECODE";
+export const TextTransformation = S.Literal(
+  "NONE",
+  "COMPRESS_WHITE_SPACE",
+  "HTML_ENTITY_DECODE",
+  "LOWERCASE",
+  "CMD_LINE",
+  "URL_DECODE",
+);
+export type PositionalConstraint =
+  | "EXACTLY"
+  | "STARTS_WITH"
+  | "ENDS_WITH"
+  | "CONTAINS"
+  | "CONTAINS_WORD";
+export const PositionalConstraint = S.Literal(
+  "EXACTLY",
+  "STARTS_WITH",
+  "ENDS_WITH",
+  "CONTAINS",
+  "CONTAINS_WORD",
+);
+export type GeoMatchConstraintType = "Country";
+export const GeoMatchConstraintType = S.Literal("Country");
+export type GeoMatchConstraintValue =
+  | "AF"
+  | "AX"
+  | "AL"
+  | "DZ"
+  | "AS"
+  | "AD"
+  | "AO"
+  | "AI"
+  | "AQ"
+  | "AG"
+  | "AR"
+  | "AM"
+  | "AW"
+  | "AU"
+  | "AT"
+  | "AZ"
+  | "BS"
+  | "BH"
+  | "BD"
+  | "BB"
+  | "BY"
+  | "BE"
+  | "BZ"
+  | "BJ"
+  | "BM"
+  | "BT"
+  | "BO"
+  | "BQ"
+  | "BA"
+  | "BW"
+  | "BV"
+  | "BR"
+  | "IO"
+  | "BN"
+  | "BG"
+  | "BF"
+  | "BI"
+  | "KH"
+  | "CM"
+  | "CA"
+  | "CV"
+  | "KY"
+  | "CF"
+  | "TD"
+  | "CL"
+  | "CN"
+  | "CX"
+  | "CC"
+  | "CO"
+  | "KM"
+  | "CG"
+  | "CD"
+  | "CK"
+  | "CR"
+  | "CI"
+  | "HR"
+  | "CU"
+  | "CW"
+  | "CY"
+  | "CZ"
+  | "DK"
+  | "DJ"
+  | "DM"
+  | "DO"
+  | "EC"
+  | "EG"
+  | "SV"
+  | "GQ"
+  | "ER"
+  | "EE"
+  | "ET"
+  | "FK"
+  | "FO"
+  | "FJ"
+  | "FI"
+  | "FR"
+  | "GF"
+  | "PF"
+  | "TF"
+  | "GA"
+  | "GM"
+  | "GE"
+  | "DE"
+  | "GH"
+  | "GI"
+  | "GR"
+  | "GL"
+  | "GD"
+  | "GP"
+  | "GU"
+  | "GT"
+  | "GG"
+  | "GN"
+  | "GW"
+  | "GY"
+  | "HT"
+  | "HM"
+  | "VA"
+  | "HN"
+  | "HK"
+  | "HU"
+  | "IS"
+  | "IN"
+  | "ID"
+  | "IR"
+  | "IQ"
+  | "IE"
+  | "IM"
+  | "IL"
+  | "IT"
+  | "JM"
+  | "JP"
+  | "JE"
+  | "JO"
+  | "KZ"
+  | "KE"
+  | "KI"
+  | "KP"
+  | "KR"
+  | "KW"
+  | "KG"
+  | "LA"
+  | "LV"
+  | "LB"
+  | "LS"
+  | "LR"
+  | "LY"
+  | "LI"
+  | "LT"
+  | "LU"
+  | "MO"
+  | "MK"
+  | "MG"
+  | "MW"
+  | "MY"
+  | "MV"
+  | "ML"
+  | "MT"
+  | "MH"
+  | "MQ"
+  | "MR"
+  | "MU"
+  | "YT"
+  | "MX"
+  | "FM"
+  | "MD"
+  | "MC"
+  | "MN"
+  | "ME"
+  | "MS"
+  | "MA"
+  | "MZ"
+  | "MM"
+  | "NA"
+  | "NR"
+  | "NP"
+  | "NL"
+  | "NC"
+  | "NZ"
+  | "NI"
+  | "NE"
+  | "NG"
+  | "NU"
+  | "NF"
+  | "MP"
+  | "NO"
+  | "OM"
+  | "PK"
+  | "PW"
+  | "PS"
+  | "PA"
+  | "PG"
+  | "PY"
+  | "PE"
+  | "PH"
+  | "PN"
+  | "PL"
+  | "PT"
+  | "PR"
+  | "QA"
+  | "RE"
+  | "RO"
+  | "RU"
+  | "RW"
+  | "BL"
+  | "SH"
+  | "KN"
+  | "LC"
+  | "MF"
+  | "PM"
+  | "VC"
+  | "WS"
+  | "SM"
+  | "ST"
+  | "SA"
+  | "SN"
+  | "RS"
+  | "SC"
+  | "SL"
+  | "SG"
+  | "SX"
+  | "SK"
+  | "SI"
+  | "SB"
+  | "SO"
+  | "ZA"
+  | "GS"
+  | "SS"
+  | "ES"
+  | "LK"
+  | "SD"
+  | "SR"
+  | "SJ"
+  | "SZ"
+  | "SE"
+  | "CH"
+  | "SY"
+  | "TW"
+  | "TJ"
+  | "TZ"
+  | "TH"
+  | "TL"
+  | "TG"
+  | "TK"
+  | "TO"
+  | "TT"
+  | "TN"
+  | "TR"
+  | "TM"
+  | "TC"
+  | "TV"
+  | "UG"
+  | "UA"
+  | "AE"
+  | "GB"
+  | "US"
+  | "UM"
+  | "UY"
+  | "UZ"
+  | "VU"
+  | "VE"
+  | "VN"
+  | "VG"
+  | "VI"
+  | "WF"
+  | "EH"
+  | "YE"
+  | "ZM"
+  | "ZW";
+export const GeoMatchConstraintValue = S.Literal(
+  "AF",
+  "AX",
+  "AL",
+  "DZ",
+  "AS",
+  "AD",
+  "AO",
+  "AI",
+  "AQ",
+  "AG",
+  "AR",
+  "AM",
+  "AW",
+  "AU",
+  "AT",
+  "AZ",
+  "BS",
+  "BH",
+  "BD",
+  "BB",
+  "BY",
+  "BE",
+  "BZ",
+  "BJ",
+  "BM",
+  "BT",
+  "BO",
+  "BQ",
+  "BA",
+  "BW",
+  "BV",
+  "BR",
+  "IO",
+  "BN",
+  "BG",
+  "BF",
+  "BI",
+  "KH",
+  "CM",
+  "CA",
+  "CV",
+  "KY",
+  "CF",
+  "TD",
+  "CL",
+  "CN",
+  "CX",
+  "CC",
+  "CO",
+  "KM",
+  "CG",
+  "CD",
+  "CK",
+  "CR",
+  "CI",
+  "HR",
+  "CU",
+  "CW",
+  "CY",
+  "CZ",
+  "DK",
+  "DJ",
+  "DM",
+  "DO",
+  "EC",
+  "EG",
+  "SV",
+  "GQ",
+  "ER",
+  "EE",
+  "ET",
+  "FK",
+  "FO",
+  "FJ",
+  "FI",
+  "FR",
+  "GF",
+  "PF",
+  "TF",
+  "GA",
+  "GM",
+  "GE",
+  "DE",
+  "GH",
+  "GI",
+  "GR",
+  "GL",
+  "GD",
+  "GP",
+  "GU",
+  "GT",
+  "GG",
+  "GN",
+  "GW",
+  "GY",
+  "HT",
+  "HM",
+  "VA",
+  "HN",
+  "HK",
+  "HU",
+  "IS",
+  "IN",
+  "ID",
+  "IR",
+  "IQ",
+  "IE",
+  "IM",
+  "IL",
+  "IT",
+  "JM",
+  "JP",
+  "JE",
+  "JO",
+  "KZ",
+  "KE",
+  "KI",
+  "KP",
+  "KR",
+  "KW",
+  "KG",
+  "LA",
+  "LV",
+  "LB",
+  "LS",
+  "LR",
+  "LY",
+  "LI",
+  "LT",
+  "LU",
+  "MO",
+  "MK",
+  "MG",
+  "MW",
+  "MY",
+  "MV",
+  "ML",
+  "MT",
+  "MH",
+  "MQ",
+  "MR",
+  "MU",
+  "YT",
+  "MX",
+  "FM",
+  "MD",
+  "MC",
+  "MN",
+  "ME",
+  "MS",
+  "MA",
+  "MZ",
+  "MM",
+  "NA",
+  "NR",
+  "NP",
+  "NL",
+  "NC",
+  "NZ",
+  "NI",
+  "NE",
+  "NG",
+  "NU",
+  "NF",
+  "MP",
+  "NO",
+  "OM",
+  "PK",
+  "PW",
+  "PS",
+  "PA",
+  "PG",
+  "PY",
+  "PE",
+  "PH",
+  "PN",
+  "PL",
+  "PT",
+  "PR",
+  "QA",
+  "RE",
+  "RO",
+  "RU",
+  "RW",
+  "BL",
+  "SH",
+  "KN",
+  "LC",
+  "MF",
+  "PM",
+  "VC",
+  "WS",
+  "SM",
+  "ST",
+  "SA",
+  "SN",
+  "RS",
+  "SC",
+  "SL",
+  "SG",
+  "SX",
+  "SK",
+  "SI",
+  "SB",
+  "SO",
+  "ZA",
+  "GS",
+  "SS",
+  "ES",
+  "LK",
+  "SD",
+  "SR",
+  "SJ",
+  "SZ",
+  "SE",
+  "CH",
+  "SY",
+  "TW",
+  "TJ",
+  "TZ",
+  "TH",
+  "TL",
+  "TG",
+  "TK",
+  "TO",
+  "TT",
+  "TN",
+  "TR",
+  "TM",
+  "TC",
+  "TV",
+  "UG",
+  "UA",
+  "AE",
+  "GB",
+  "US",
+  "UM",
+  "UY",
+  "UZ",
+  "VU",
+  "VE",
+  "VN",
+  "VG",
+  "VI",
+  "WF",
+  "EH",
+  "YE",
+  "ZM",
+  "ZW",
+);
+export type IPSetDescriptorType = "IPV4" | "IPV6";
+export const IPSetDescriptorType = S.Literal("IPV4", "IPV6");
+export type ComparisonOperator = "EQ" | "NE" | "LE" | "LT" | "GE" | "GT";
+export const ComparisonOperator = S.Literal("EQ", "NE", "LE", "LT", "GE", "GT");
 export interface CreateRateBasedRuleRequest {
   Name: string;
   MetricName: string;
-  RateKey: string;
+  RateKey: RateKey;
   RateLimit: number;
   ChangeToken: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateRateBasedRuleRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
     MetricName: S.String,
-    RateKey: S.String,
+    RateKey: RateKey,
     RateLimit: S.Number,
     ChangeToken: S.String,
     Tags: S.optional(TagList),
@@ -1580,7 +2161,7 @@ export interface CreateWebACLRequest {
   MetricName: string;
   DefaultAction: WafAction;
   ChangeToken: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateWebACLRequest = S.suspend(() =>
   S.Struct({
@@ -1710,15 +2291,15 @@ export const DeleteXssMatchSetResponse = S.suspend(() =>
 export interface ByteMatchTuple {
   FieldToMatch: FieldToMatch;
   TargetString: Uint8Array;
-  TextTransformation: string;
-  PositionalConstraint: string;
+  TextTransformation: TextTransformation;
+  PositionalConstraint: PositionalConstraint;
 }
 export const ByteMatchTuple = S.suspend(() =>
   S.Struct({
     FieldToMatch: FieldToMatch,
     TargetString: T.Blob,
-    TextTransformation: S.String,
-    PositionalConstraint: S.String,
+    TextTransformation: TextTransformation,
+    PositionalConstraint: PositionalConstraint,
   }),
 ).annotations({
   identifier: "ByteMatchTuple",
@@ -1728,7 +2309,7 @@ export const ByteMatchTuples = S.Array(ByteMatchTuple);
 export interface ByteMatchSet {
   ByteMatchSetId: string;
   Name?: string;
-  ByteMatchTuples: ByteMatchTuples;
+  ByteMatchTuples: ByteMatchTuple[];
 }
 export const ByteMatchSet = S.suspend(() =>
   S.Struct({
@@ -1746,19 +2327,19 @@ export const GetByteMatchSetResponse = S.suspend(() =>
   identifier: "GetByteMatchSetResponse",
 }) as any as S.Schema<GetByteMatchSetResponse>;
 export interface GetChangeTokenStatusResponse {
-  ChangeTokenStatus?: string;
+  ChangeTokenStatus?: ChangeTokenStatus;
 }
 export const GetChangeTokenStatusResponse = S.suspend(() =>
-  S.Struct({ ChangeTokenStatus: S.optional(S.String) }).pipe(ns),
+  S.Struct({ ChangeTokenStatus: S.optional(ChangeTokenStatus) }).pipe(ns),
 ).annotations({
   identifier: "GetChangeTokenStatusResponse",
 }) as any as S.Schema<GetChangeTokenStatusResponse>;
 export interface GeoMatchConstraint {
-  Type: string;
-  Value: string;
+  Type: GeoMatchConstraintType;
+  Value: GeoMatchConstraintValue;
 }
 export const GeoMatchConstraint = S.suspend(() =>
-  S.Struct({ Type: S.String, Value: S.String }),
+  S.Struct({ Type: GeoMatchConstraintType, Value: GeoMatchConstraintValue }),
 ).annotations({
   identifier: "GeoMatchConstraint",
 }) as any as S.Schema<GeoMatchConstraint>;
@@ -1767,7 +2348,7 @@ export const GeoMatchConstraints = S.Array(GeoMatchConstraint);
 export interface GeoMatchSet {
   GeoMatchSetId: string;
   Name?: string;
-  GeoMatchConstraints: GeoMatchConstraints;
+  GeoMatchConstraints: GeoMatchConstraint[];
 }
 export const GeoMatchSet = S.suspend(() =>
   S.Struct({
@@ -1785,11 +2366,11 @@ export const GetGeoMatchSetResponse = S.suspend(() =>
   identifier: "GetGeoMatchSetResponse",
 }) as any as S.Schema<GetGeoMatchSetResponse>;
 export interface IPSetDescriptor {
-  Type: string;
+  Type: IPSetDescriptorType;
   Value: string;
 }
 export const IPSetDescriptor = S.suspend(() =>
-  S.Struct({ Type: S.String, Value: S.String }),
+  S.Struct({ Type: IPSetDescriptorType, Value: S.String }),
 ).annotations({
   identifier: "IPSetDescriptor",
 }) as any as S.Schema<IPSetDescriptor>;
@@ -1798,7 +2379,7 @@ export const IPSetDescriptors = S.Array(IPSetDescriptor);
 export interface IPSet {
   IPSetId: string;
   Name?: string;
-  IPSetDescriptors: IPSetDescriptors;
+  IPSetDescriptors: IPSetDescriptor[];
 }
 export const IPSet = S.suspend(() =>
   S.Struct({
@@ -1832,7 +2413,7 @@ export const GetPermissionPolicyResponse = S.suspend(() =>
   identifier: "GetPermissionPolicyResponse",
 }) as any as S.Schema<GetPermissionPolicyResponse>;
 export interface GetRateBasedRuleManagedKeysResponse {
-  ManagedKeys?: ManagedKeys;
+  ManagedKeys?: string[];
   NextMarker?: string;
 }
 export const GetRateBasedRuleManagedKeysResponse = S.suspend(() =>
@@ -1845,13 +2426,13 @@ export const GetRateBasedRuleManagedKeysResponse = S.suspend(() =>
 }) as any as S.Schema<GetRateBasedRuleManagedKeysResponse>;
 export interface RegexMatchTuple {
   FieldToMatch: FieldToMatch;
-  TextTransformation: string;
+  TextTransformation: TextTransformation;
   RegexPatternSetId: string;
 }
 export const RegexMatchTuple = S.suspend(() =>
   S.Struct({
     FieldToMatch: FieldToMatch,
-    TextTransformation: S.String,
+    TextTransformation: TextTransformation,
     RegexPatternSetId: S.String,
   }),
 ).annotations({
@@ -1862,7 +2443,7 @@ export const RegexMatchTuples = S.Array(RegexMatchTuple);
 export interface RegexMatchSet {
   RegexMatchSetId?: string;
   Name?: string;
-  RegexMatchTuples?: RegexMatchTuples;
+  RegexMatchTuples?: RegexMatchTuple[];
 }
 export const RegexMatchSet = S.suspend(() =>
   S.Struct({
@@ -1886,7 +2467,7 @@ export const RegexPatternStrings = S.Array(S.String);
 export interface RegexPatternSet {
   RegexPatternSetId: string;
   Name?: string;
-  RegexPatternStrings: RegexPatternStrings;
+  RegexPatternStrings: string[];
 }
 export const RegexPatternSet = S.suspend(() =>
   S.Struct({
@@ -1911,7 +2492,7 @@ export interface Rule {
   RuleId: string;
   Name?: string;
   MetricName?: string;
-  Predicates: Predicates;
+  Predicates: Predicate[];
 }
 export const Rule = S.suspend(() =>
   S.Struct({
@@ -1977,15 +2558,15 @@ export const GetSampledRequestsRequest = S.suspend(() =>
 }) as any as S.Schema<GetSampledRequestsRequest>;
 export interface SizeConstraint {
   FieldToMatch: FieldToMatch;
-  TextTransformation: string;
-  ComparisonOperator: string;
+  TextTransformation: TextTransformation;
+  ComparisonOperator: ComparisonOperator;
   Size: number;
 }
 export const SizeConstraint = S.suspend(() =>
   S.Struct({
     FieldToMatch: FieldToMatch,
-    TextTransformation: S.String,
-    ComparisonOperator: S.String,
+    TextTransformation: TextTransformation,
+    ComparisonOperator: ComparisonOperator,
     Size: S.Number,
   }),
 ).annotations({
@@ -1996,7 +2577,7 @@ export const SizeConstraints = S.Array(SizeConstraint);
 export interface SizeConstraintSet {
   SizeConstraintSetId: string;
   Name?: string;
-  SizeConstraints: SizeConstraints;
+  SizeConstraints: SizeConstraint[];
 }
 export const SizeConstraintSet = S.suspend(() =>
   S.Struct({
@@ -2017,10 +2598,13 @@ export const GetSizeConstraintSetResponse = S.suspend(() =>
 }) as any as S.Schema<GetSizeConstraintSetResponse>;
 export interface SqlInjectionMatchTuple {
   FieldToMatch: FieldToMatch;
-  TextTransformation: string;
+  TextTransformation: TextTransformation;
 }
 export const SqlInjectionMatchTuple = S.suspend(() =>
-  S.Struct({ FieldToMatch: FieldToMatch, TextTransformation: S.String }),
+  S.Struct({
+    FieldToMatch: FieldToMatch,
+    TextTransformation: TextTransformation,
+  }),
 ).annotations({
   identifier: "SqlInjectionMatchTuple",
 }) as any as S.Schema<SqlInjectionMatchTuple>;
@@ -2029,7 +2613,7 @@ export const SqlInjectionMatchTuples = S.Array(SqlInjectionMatchTuple);
 export interface SqlInjectionMatchSet {
   SqlInjectionMatchSetId: string;
   Name?: string;
-  SqlInjectionMatchTuples: SqlInjectionMatchTuples;
+  SqlInjectionMatchTuples: SqlInjectionMatchTuple[];
 }
 export const SqlInjectionMatchSet = S.suspend(() =>
   S.Struct({
@@ -2050,10 +2634,13 @@ export const GetSqlInjectionMatchSetResponse = S.suspend(() =>
 }) as any as S.Schema<GetSqlInjectionMatchSetResponse>;
 export interface XssMatchTuple {
   FieldToMatch: FieldToMatch;
-  TextTransformation: string;
+  TextTransformation: TextTransformation;
 }
 export const XssMatchTuple = S.suspend(() =>
-  S.Struct({ FieldToMatch: FieldToMatch, TextTransformation: S.String }),
+  S.Struct({
+    FieldToMatch: FieldToMatch,
+    TextTransformation: TextTransformation,
+  }),
 ).annotations({
   identifier: "XssMatchTuple",
 }) as any as S.Schema<XssMatchTuple>;
@@ -2062,7 +2649,7 @@ export const XssMatchTuples = S.Array(XssMatchTuple);
 export interface XssMatchSet {
   XssMatchSetId: string;
   Name?: string;
-  XssMatchTuples: XssMatchTuples;
+  XssMatchTuples: XssMatchTuple[];
 }
 export const XssMatchSet = S.suspend(() =>
   S.Struct({
@@ -2081,7 +2668,7 @@ export const GetXssMatchSetResponse = S.suspend(() =>
 }) as any as S.Schema<GetXssMatchSetResponse>;
 export interface ListActivatedRulesInRuleGroupResponse {
   NextMarker?: string;
-  ActivatedRules?: ActivatedRules;
+  ActivatedRules?: ActivatedRule[];
 }
 export const ListActivatedRulesInRuleGroupResponse = S.suspend(() =>
   S.Struct({
@@ -2092,7 +2679,7 @@ export const ListActivatedRulesInRuleGroupResponse = S.suspend(() =>
   identifier: "ListActivatedRulesInRuleGroupResponse",
 }) as any as S.Schema<ListActivatedRulesInRuleGroupResponse>;
 export interface ListLoggingConfigurationsResponse {
-  LoggingConfigurations?: LoggingConfigurations;
+  LoggingConfigurations?: LoggingConfiguration[];
   NextMarker?: string;
 }
 export const ListLoggingConfigurationsResponse = S.suspend(() =>
@@ -2114,7 +2701,7 @@ export type RuleSummaries = RuleSummary[];
 export const RuleSummaries = S.Array(RuleSummary);
 export interface ListRulesResponse {
   NextMarker?: string;
-  Rules?: RuleSummaries;
+  Rules?: RuleSummary[];
 }
 export const ListRulesResponse = S.suspend(() =>
   S.Struct({
@@ -2126,7 +2713,7 @@ export const ListRulesResponse = S.suspend(() =>
 }) as any as S.Schema<ListRulesResponse>;
 export interface UpdateRegexPatternSetRequest {
   RegexPatternSetId: string;
-  Updates: RegexPatternSetUpdates;
+  Updates: RegexPatternSetUpdate[];
   ChangeToken: string;
 }
 export const UpdateRegexPatternSetRequest = S.suspend(() =>
@@ -2159,7 +2746,7 @@ export const UpdateRuleResponse = S.suspend(() =>
 export interface UpdateWebACLRequest {
   WebACLId: string;
   ChangeToken: string;
-  Updates?: WebACLUpdates;
+  Updates?: WebACLUpdate[];
   DefaultAction?: WafAction;
 }
 export const UpdateWebACLRequest = S.suspend(() =>
@@ -2182,12 +2769,29 @@ export const UpdateWebACLRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateWebACLRequest",
 }) as any as S.Schema<UpdateWebACLRequest>;
+export type MigrationErrorType =
+  | "ENTITY_NOT_SUPPORTED"
+  | "ENTITY_NOT_FOUND"
+  | "S3_BUCKET_NO_PERMISSION"
+  | "S3_BUCKET_NOT_ACCESSIBLE"
+  | "S3_BUCKET_NOT_FOUND"
+  | "S3_BUCKET_INVALID_REGION"
+  | "S3_INTERNAL_ERROR";
+export const MigrationErrorType = S.Literal(
+  "ENTITY_NOT_SUPPORTED",
+  "ENTITY_NOT_FOUND",
+  "S3_BUCKET_NO_PERMISSION",
+  "S3_BUCKET_NOT_ACCESSIBLE",
+  "S3_BUCKET_NOT_FOUND",
+  "S3_BUCKET_INVALID_REGION",
+  "S3_INTERNAL_ERROR",
+);
 export interface RateBasedRule {
   RuleId: string;
   Name?: string;
   MetricName?: string;
-  MatchPredicates: Predicates;
-  RateKey: string;
+  MatchPredicates: Predicate[];
+  RateKey: RateKey;
   RateLimit: number;
 }
 export const RateBasedRule = S.suspend(() =>
@@ -2196,18 +2800,68 @@ export const RateBasedRule = S.suspend(() =>
     Name: S.optional(S.String),
     MetricName: S.optional(S.String),
     MatchPredicates: Predicates,
-    RateKey: S.String,
+    RateKey: RateKey,
     RateLimit: S.Number,
   }),
 ).annotations({
   identifier: "RateBasedRule",
 }) as any as S.Schema<RateBasedRule>;
+export type ParameterExceptionField =
+  | "CHANGE_ACTION"
+  | "WAF_ACTION"
+  | "WAF_OVERRIDE_ACTION"
+  | "PREDICATE_TYPE"
+  | "IPSET_TYPE"
+  | "BYTE_MATCH_FIELD_TYPE"
+  | "SQL_INJECTION_MATCH_FIELD_TYPE"
+  | "BYTE_MATCH_TEXT_TRANSFORMATION"
+  | "BYTE_MATCH_POSITIONAL_CONSTRAINT"
+  | "SIZE_CONSTRAINT_COMPARISON_OPERATOR"
+  | "GEO_MATCH_LOCATION_TYPE"
+  | "GEO_MATCH_LOCATION_VALUE"
+  | "RATE_KEY"
+  | "RULE_TYPE"
+  | "NEXT_MARKER"
+  | "RESOURCE_ARN"
+  | "TAGS"
+  | "TAG_KEYS";
+export const ParameterExceptionField = S.Literal(
+  "CHANGE_ACTION",
+  "WAF_ACTION",
+  "WAF_OVERRIDE_ACTION",
+  "PREDICATE_TYPE",
+  "IPSET_TYPE",
+  "BYTE_MATCH_FIELD_TYPE",
+  "SQL_INJECTION_MATCH_FIELD_TYPE",
+  "BYTE_MATCH_TEXT_TRANSFORMATION",
+  "BYTE_MATCH_POSITIONAL_CONSTRAINT",
+  "SIZE_CONSTRAINT_COMPARISON_OPERATOR",
+  "GEO_MATCH_LOCATION_TYPE",
+  "GEO_MATCH_LOCATION_VALUE",
+  "RATE_KEY",
+  "RULE_TYPE",
+  "NEXT_MARKER",
+  "RESOURCE_ARN",
+  "TAGS",
+  "TAG_KEYS",
+);
+export type ParameterExceptionReason =
+  | "INVALID_OPTION"
+  | "ILLEGAL_COMBINATION"
+  | "ILLEGAL_ARGUMENT"
+  | "INVALID_TAG_KEY";
+export const ParameterExceptionReason = S.Literal(
+  "INVALID_OPTION",
+  "ILLEGAL_COMBINATION",
+  "ILLEGAL_ARGUMENT",
+  "INVALID_TAG_KEY",
+);
 export interface WebACL {
   WebACLId: string;
   Name?: string;
   MetricName?: string;
   DefaultAction: WafAction;
-  Rules: ActivatedRules;
+  Rules: ActivatedRule[];
   WebACLArn?: string;
 }
 export const WebACL = S.suspend(() =>
@@ -2322,7 +2976,7 @@ export type SubscribedRuleGroupSummaries = SubscribedRuleGroupSummary[];
 export const SubscribedRuleGroupSummaries = S.Array(SubscribedRuleGroupSummary);
 export interface TagInfoForResource {
   ResourceARN?: string;
-  TagList?: TagList;
+  TagList?: Tag[];
 }
 export const TagInfoForResource = S.suspend(() =>
   S.Struct({ ResourceARN: S.optional(S.String), TagList: S.optional(TagList) }),
@@ -2352,65 +3006,65 @@ export const XssMatchSetSummary = S.suspend(() =>
 export type XssMatchSetSummaries = XssMatchSetSummary[];
 export const XssMatchSetSummaries = S.Array(XssMatchSetSummary);
 export interface ByteMatchSetUpdate {
-  Action: string;
+  Action: ChangeAction;
   ByteMatchTuple: ByteMatchTuple;
 }
 export const ByteMatchSetUpdate = S.suspend(() =>
-  S.Struct({ Action: S.String, ByteMatchTuple: ByteMatchTuple }),
+  S.Struct({ Action: ChangeAction, ByteMatchTuple: ByteMatchTuple }),
 ).annotations({
   identifier: "ByteMatchSetUpdate",
 }) as any as S.Schema<ByteMatchSetUpdate>;
 export type ByteMatchSetUpdates = ByteMatchSetUpdate[];
 export const ByteMatchSetUpdates = S.Array(ByteMatchSetUpdate);
 export interface GeoMatchSetUpdate {
-  Action: string;
+  Action: ChangeAction;
   GeoMatchConstraint: GeoMatchConstraint;
 }
 export const GeoMatchSetUpdate = S.suspend(() =>
-  S.Struct({ Action: S.String, GeoMatchConstraint: GeoMatchConstraint }),
+  S.Struct({ Action: ChangeAction, GeoMatchConstraint: GeoMatchConstraint }),
 ).annotations({
   identifier: "GeoMatchSetUpdate",
 }) as any as S.Schema<GeoMatchSetUpdate>;
 export type GeoMatchSetUpdates = GeoMatchSetUpdate[];
 export const GeoMatchSetUpdates = S.Array(GeoMatchSetUpdate);
 export interface IPSetUpdate {
-  Action: string;
+  Action: ChangeAction;
   IPSetDescriptor: IPSetDescriptor;
 }
 export const IPSetUpdate = S.suspend(() =>
-  S.Struct({ Action: S.String, IPSetDescriptor: IPSetDescriptor }),
+  S.Struct({ Action: ChangeAction, IPSetDescriptor: IPSetDescriptor }),
 ).annotations({ identifier: "IPSetUpdate" }) as any as S.Schema<IPSetUpdate>;
 export type IPSetUpdates = IPSetUpdate[];
 export const IPSetUpdates = S.Array(IPSetUpdate);
 export interface RegexMatchSetUpdate {
-  Action: string;
+  Action: ChangeAction;
   RegexMatchTuple: RegexMatchTuple;
 }
 export const RegexMatchSetUpdate = S.suspend(() =>
-  S.Struct({ Action: S.String, RegexMatchTuple: RegexMatchTuple }),
+  S.Struct({ Action: ChangeAction, RegexMatchTuple: RegexMatchTuple }),
 ).annotations({
   identifier: "RegexMatchSetUpdate",
 }) as any as S.Schema<RegexMatchSetUpdate>;
 export type RegexMatchSetUpdates = RegexMatchSetUpdate[];
 export const RegexMatchSetUpdates = S.Array(RegexMatchSetUpdate);
 export interface SizeConstraintSetUpdate {
-  Action: string;
+  Action: ChangeAction;
   SizeConstraint: SizeConstraint;
 }
 export const SizeConstraintSetUpdate = S.suspend(() =>
-  S.Struct({ Action: S.String, SizeConstraint: SizeConstraint }),
+  S.Struct({ Action: ChangeAction, SizeConstraint: SizeConstraint }),
 ).annotations({
   identifier: "SizeConstraintSetUpdate",
 }) as any as S.Schema<SizeConstraintSetUpdate>;
 export type SizeConstraintSetUpdates = SizeConstraintSetUpdate[];
 export const SizeConstraintSetUpdates = S.Array(SizeConstraintSetUpdate);
 export interface SqlInjectionMatchSetUpdate {
-  Action: string;
+  Action: ChangeAction;
   SqlInjectionMatchTuple: SqlInjectionMatchTuple;
 }
 export const SqlInjectionMatchSetUpdate = S.suspend(() =>
   S.Struct({
-    Action: S.String,
+    Action: ChangeAction,
     SqlInjectionMatchTuple: SqlInjectionMatchTuple,
   }),
 ).annotations({
@@ -2419,11 +3073,11 @@ export const SqlInjectionMatchSetUpdate = S.suspend(() =>
 export type SqlInjectionMatchSetUpdates = SqlInjectionMatchSetUpdate[];
 export const SqlInjectionMatchSetUpdates = S.Array(SqlInjectionMatchSetUpdate);
 export interface XssMatchSetUpdate {
-  Action: string;
+  Action: ChangeAction;
   XssMatchTuple: XssMatchTuple;
 }
 export const XssMatchSetUpdate = S.suspend(() =>
-  S.Struct({ Action: S.String, XssMatchTuple: XssMatchTuple }),
+  S.Struct({ Action: ChangeAction, XssMatchTuple: XssMatchTuple }),
 ).annotations({
   identifier: "XssMatchSetUpdate",
 }) as any as S.Schema<XssMatchSetUpdate>;
@@ -2590,7 +3244,7 @@ export const GetWebACLResponse = S.suspend(() =>
 }) as any as S.Schema<GetWebACLResponse>;
 export interface ListByteMatchSetsResponse {
   NextMarker?: string;
-  ByteMatchSets?: ByteMatchSetSummaries;
+  ByteMatchSets?: ByteMatchSetSummary[];
 }
 export const ListByteMatchSetsResponse = S.suspend(() =>
   S.Struct({
@@ -2602,7 +3256,7 @@ export const ListByteMatchSetsResponse = S.suspend(() =>
 }) as any as S.Schema<ListByteMatchSetsResponse>;
 export interface ListGeoMatchSetsResponse {
   NextMarker?: string;
-  GeoMatchSets?: GeoMatchSetSummaries;
+  GeoMatchSets?: GeoMatchSetSummary[];
 }
 export const ListGeoMatchSetsResponse = S.suspend(() =>
   S.Struct({
@@ -2614,7 +3268,7 @@ export const ListGeoMatchSetsResponse = S.suspend(() =>
 }) as any as S.Schema<ListGeoMatchSetsResponse>;
 export interface ListIPSetsResponse {
   NextMarker?: string;
-  IPSets?: IPSetSummaries;
+  IPSets?: IPSetSummary[];
 }
 export const ListIPSetsResponse = S.suspend(() =>
   S.Struct({
@@ -2626,7 +3280,7 @@ export const ListIPSetsResponse = S.suspend(() =>
 }) as any as S.Schema<ListIPSetsResponse>;
 export interface ListRateBasedRulesResponse {
   NextMarker?: string;
-  Rules?: RuleSummaries;
+  Rules?: RuleSummary[];
 }
 export const ListRateBasedRulesResponse = S.suspend(() =>
   S.Struct({
@@ -2638,7 +3292,7 @@ export const ListRateBasedRulesResponse = S.suspend(() =>
 }) as any as S.Schema<ListRateBasedRulesResponse>;
 export interface ListRegexMatchSetsResponse {
   NextMarker?: string;
-  RegexMatchSets?: RegexMatchSetSummaries;
+  RegexMatchSets?: RegexMatchSetSummary[];
 }
 export const ListRegexMatchSetsResponse = S.suspend(() =>
   S.Struct({
@@ -2650,7 +3304,7 @@ export const ListRegexMatchSetsResponse = S.suspend(() =>
 }) as any as S.Schema<ListRegexMatchSetsResponse>;
 export interface ListRegexPatternSetsResponse {
   NextMarker?: string;
-  RegexPatternSets?: RegexPatternSetSummaries;
+  RegexPatternSets?: RegexPatternSetSummary[];
 }
 export const ListRegexPatternSetsResponse = S.suspend(() =>
   S.Struct({
@@ -2662,7 +3316,7 @@ export const ListRegexPatternSetsResponse = S.suspend(() =>
 }) as any as S.Schema<ListRegexPatternSetsResponse>;
 export interface ListRuleGroupsResponse {
   NextMarker?: string;
-  RuleGroups?: RuleGroupSummaries;
+  RuleGroups?: RuleGroupSummary[];
 }
 export const ListRuleGroupsResponse = S.suspend(() =>
   S.Struct({
@@ -2674,7 +3328,7 @@ export const ListRuleGroupsResponse = S.suspend(() =>
 }) as any as S.Schema<ListRuleGroupsResponse>;
 export interface ListSizeConstraintSetsResponse {
   NextMarker?: string;
-  SizeConstraintSets?: SizeConstraintSetSummaries;
+  SizeConstraintSets?: SizeConstraintSetSummary[];
 }
 export const ListSizeConstraintSetsResponse = S.suspend(() =>
   S.Struct({
@@ -2686,7 +3340,7 @@ export const ListSizeConstraintSetsResponse = S.suspend(() =>
 }) as any as S.Schema<ListSizeConstraintSetsResponse>;
 export interface ListSqlInjectionMatchSetsResponse {
   NextMarker?: string;
-  SqlInjectionMatchSets?: SqlInjectionMatchSetSummaries;
+  SqlInjectionMatchSets?: SqlInjectionMatchSetSummary[];
 }
 export const ListSqlInjectionMatchSetsResponse = S.suspend(() =>
   S.Struct({
@@ -2698,7 +3352,7 @@ export const ListSqlInjectionMatchSetsResponse = S.suspend(() =>
 }) as any as S.Schema<ListSqlInjectionMatchSetsResponse>;
 export interface ListSubscribedRuleGroupsResponse {
   NextMarker?: string;
-  RuleGroups?: SubscribedRuleGroupSummaries;
+  RuleGroups?: SubscribedRuleGroupSummary[];
 }
 export const ListSubscribedRuleGroupsResponse = S.suspend(() =>
   S.Struct({
@@ -2722,7 +3376,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListWebACLsResponse {
   NextMarker?: string;
-  WebACLs?: WebACLSummaries;
+  WebACLs?: WebACLSummary[];
 }
 export const ListWebACLsResponse = S.suspend(() =>
   S.Struct({
@@ -2734,7 +3388,7 @@ export const ListWebACLsResponse = S.suspend(() =>
 }) as any as S.Schema<ListWebACLsResponse>;
 export interface ListXssMatchSetsResponse {
   NextMarker?: string;
-  XssMatchSets?: XssMatchSetSummaries;
+  XssMatchSets?: XssMatchSetSummary[];
 }
 export const ListXssMatchSetsResponse = S.suspend(() =>
   S.Struct({
@@ -2765,7 +3419,7 @@ export const PutLoggingConfigurationRequest = S.suspend(() =>
 export interface UpdateByteMatchSetRequest {
   ByteMatchSetId: string;
   ChangeToken: string;
-  Updates: ByteMatchSetUpdates;
+  Updates: ByteMatchSetUpdate[];
 }
 export const UpdateByteMatchSetRequest = S.suspend(() =>
   S.Struct({
@@ -2789,7 +3443,7 @@ export const UpdateByteMatchSetRequest = S.suspend(() =>
 export interface UpdateGeoMatchSetRequest {
   GeoMatchSetId: string;
   ChangeToken: string;
-  Updates: GeoMatchSetUpdates;
+  Updates: GeoMatchSetUpdate[];
 }
 export const UpdateGeoMatchSetRequest = S.suspend(() =>
   S.Struct({
@@ -2813,7 +3467,7 @@ export const UpdateGeoMatchSetRequest = S.suspend(() =>
 export interface UpdateIPSetRequest {
   IPSetId: string;
   ChangeToken: string;
-  Updates: IPSetUpdates;
+  Updates: IPSetUpdate[];
 }
 export const UpdateIPSetRequest = S.suspend(() =>
   S.Struct({
@@ -2837,7 +3491,7 @@ export const UpdateIPSetRequest = S.suspend(() =>
 export interface UpdateRateBasedRuleRequest {
   RuleId: string;
   ChangeToken: string;
-  Updates: RuleUpdates;
+  Updates: RuleUpdate[];
   RateLimit: number;
 }
 export const UpdateRateBasedRuleRequest = S.suspend(() =>
@@ -2862,7 +3516,7 @@ export const UpdateRateBasedRuleRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateRateBasedRuleRequest>;
 export interface UpdateRegexMatchSetRequest {
   RegexMatchSetId: string;
-  Updates: RegexMatchSetUpdates;
+  Updates: RegexMatchSetUpdate[];
   ChangeToken: string;
 }
 export const UpdateRegexMatchSetRequest = S.suspend(() =>
@@ -2895,7 +3549,7 @@ export const UpdateRegexPatternSetResponse = S.suspend(() =>
 export interface UpdateSizeConstraintSetRequest {
   SizeConstraintSetId: string;
   ChangeToken: string;
-  Updates: SizeConstraintSetUpdates;
+  Updates: SizeConstraintSetUpdate[];
 }
 export const UpdateSizeConstraintSetRequest = S.suspend(() =>
   S.Struct({
@@ -2919,7 +3573,7 @@ export const UpdateSizeConstraintSetRequest = S.suspend(() =>
 export interface UpdateSqlInjectionMatchSetRequest {
   SqlInjectionMatchSetId: string;
   ChangeToken: string;
-  Updates: SqlInjectionMatchSetUpdates;
+  Updates: SqlInjectionMatchSetUpdate[];
 }
 export const UpdateSqlInjectionMatchSetRequest = S.suspend(() =>
   S.Struct({
@@ -2951,7 +3605,7 @@ export const UpdateWebACLResponse = S.suspend(() =>
 export interface UpdateXssMatchSetRequest {
   XssMatchSetId: string;
   ChangeToken: string;
-  Updates: XssMatchSetUpdates;
+  Updates: XssMatchSetUpdate[];
 }
 export const UpdateXssMatchSetRequest = S.suspend(() =>
   S.Struct({
@@ -2973,11 +3627,11 @@ export const UpdateXssMatchSetRequest = S.suspend(() =>
   identifier: "UpdateXssMatchSetRequest",
 }) as any as S.Schema<UpdateXssMatchSetRequest>;
 export interface RuleGroupUpdate {
-  Action: string;
+  Action: ChangeAction;
   ActivatedRule: ActivatedRule;
 }
 export const RuleGroupUpdate = S.suspend(() =>
-  S.Struct({ Action: S.String, ActivatedRule: ActivatedRule }),
+  S.Struct({ Action: ChangeAction, ActivatedRule: ActivatedRule }),
 ).annotations({
   identifier: "RuleGroupUpdate",
 }) as any as S.Schema<RuleGroupUpdate>;
@@ -3033,7 +3687,7 @@ export const UpdateRegexMatchSetResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateRegexMatchSetResponse>;
 export interface UpdateRuleGroupRequest {
   RuleGroupId: string;
-  Updates: RuleGroupUpdates;
+  Updates: RuleGroupUpdate[];
   ChangeToken: string;
 }
 export const UpdateRuleGroupRequest = S.suspend(() =>
@@ -3102,7 +3756,7 @@ export interface HTTPRequest {
   URI?: string;
   Method?: string;
   HTTPVersion?: string;
-  Headers?: HTTPHeaders;
+  Headers?: HTTPHeader[];
 }
 export const HTTPRequest = S.suspend(() =>
   S.Struct({
@@ -3135,7 +3789,7 @@ export const SampledHTTPRequest = S.suspend(() =>
 export type SampledHTTPRequests = SampledHTTPRequest[];
 export const SampledHTTPRequests = S.Array(SampledHTTPRequest);
 export interface GetSampledRequestsResponse {
-  SampledRequests?: SampledHTTPRequests;
+  SampledRequests?: SampledHTTPRequest[];
   PopulationSize?: number;
   TimeWindow?: TimeWindow;
 }
@@ -3166,7 +3820,7 @@ export class WAFEntityMigrationException extends S.TaggedError<WAFEntityMigratio
   "WAFEntityMigrationException",
   {
     message: S.optional(S.String),
-    MigrationErrorType: S.optional(S.String),
+    MigrationErrorType: S.optional(MigrationErrorType),
     MigrationErrorReason: S.optional(S.String),
   },
 ) {}
@@ -3185,9 +3839,9 @@ export class WAFInvalidOperationException extends S.TaggedError<WAFInvalidOperat
 export class WAFInvalidParameterException extends S.TaggedError<WAFInvalidParameterException>()(
   "WAFInvalidParameterException",
   {
-    field: S.optional(S.String),
+    field: S.optional(ParameterExceptionField),
     parameter: S.optional(S.String),
-    reason: S.optional(S.String),
+    reason: S.optional(ParameterExceptionReason),
   },
 ) {}
 export class WAFInvalidPermissionPolicyException extends S.TaggedError<WAFInvalidPermissionPolicyException>()(
@@ -3248,7 +3902,7 @@ export class WAFSubscriptionNotFoundException extends S.TaggedError<WAFSubscript
  */
 export const listRules: (
   input: ListRulesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListRulesResponse,
   WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3277,7 +3931,7 @@ export const listRules: (
  */
 export const getChangeToken: (
   input: GetChangeTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetChangeTokenResponse,
   WAFInternalErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3300,7 +3954,7 @@ export const getChangeToken: (
  */
 export const getRateBasedRule: (
   input: GetRateBasedRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRateBasedRuleResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -3330,7 +3984,7 @@ export const getRateBasedRule: (
  */
 export const getRateBasedRuleManagedKeys: (
   input: GetRateBasedRuleManagedKeysRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRateBasedRuleManagedKeysResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -3360,7 +4014,7 @@ export const getRateBasedRuleManagedKeys: (
  */
 export const getWebACL: (
   input: GetWebACLRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWebACLResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -3388,7 +4042,7 @@ export const getWebACL: (
  */
 export const listByteMatchSets: (
   input: ListByteMatchSetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListByteMatchSetsResponse,
   WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3409,7 +4063,7 @@ export const listByteMatchSets: (
  */
 export const listGeoMatchSets: (
   input: ListGeoMatchSetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListGeoMatchSetsResponse,
   WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3430,7 +4084,7 @@ export const listGeoMatchSets: (
  */
 export const listIPSets: (
   input: ListIPSetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListIPSetsResponse,
   WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3451,7 +4105,7 @@ export const listIPSets: (
  */
 export const listRateBasedRules: (
   input: ListRateBasedRulesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListRateBasedRulesResponse,
   WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3472,7 +4126,7 @@ export const listRateBasedRules: (
  */
 export const listRegexMatchSets: (
   input: ListRegexMatchSetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListRegexMatchSetsResponse,
   WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3493,7 +4147,7 @@ export const listRegexMatchSets: (
  */
 export const listRegexPatternSets: (
   input: ListRegexPatternSetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListRegexPatternSetsResponse,
   WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3514,7 +4168,7 @@ export const listRegexPatternSets: (
  */
 export const listRuleGroups: (
   input: ListRuleGroupsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListRuleGroupsResponse,
   WAFInternalErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3535,7 +4189,7 @@ export const listRuleGroups: (
  */
 export const listSizeConstraintSets: (
   input: ListSizeConstraintSetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListSizeConstraintSetsResponse,
   WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3556,7 +4210,7 @@ export const listSizeConstraintSets: (
  */
 export const listSqlInjectionMatchSets: (
   input: ListSqlInjectionMatchSetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListSqlInjectionMatchSetsResponse,
   WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3577,7 +4231,7 @@ export const listSqlInjectionMatchSets: (
  */
 export const listSubscribedRuleGroups: (
   input: ListSubscribedRuleGroupsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListSubscribedRuleGroupsResponse,
   WAFInternalErrorException | WAFNonexistentItemException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3598,7 +4252,7 @@ export const listSubscribedRuleGroups: (
  */
 export const listWebACLs: (
   input: ListWebACLsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListWebACLsResponse,
   WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3619,7 +4273,7 @@ export const listWebACLs: (
  */
 export const listXssMatchSets: (
   input: ListXssMatchSetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListXssMatchSetsResponse,
   WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3640,7 +4294,7 @@ export const listXssMatchSets: (
  */
 export const getByteMatchSet: (
   input: GetByteMatchSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetByteMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -3676,7 +4330,7 @@ export const getByteMatchSet: (
  */
 export const getChangeTokenStatus: (
   input: GetChangeTokenStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetChangeTokenStatusResponse,
   WAFInternalErrorException | WAFNonexistentItemException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3697,7 +4351,7 @@ export const getChangeTokenStatus: (
  */
 export const getGeoMatchSet: (
   input: GetGeoMatchSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetGeoMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -3725,7 +4379,7 @@ export const getGeoMatchSet: (
  */
 export const getIPSet: (
   input: GetIPSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIPSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -3753,7 +4407,7 @@ export const getIPSet: (
  */
 export const getLoggingConfiguration: (
   input: GetLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLoggingConfigurationResponse,
   WAFInternalErrorException | WAFNonexistentItemException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3774,7 +4428,7 @@ export const getLoggingConfiguration: (
  */
 export const getPermissionPolicy: (
   input: GetPermissionPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPermissionPolicyResponse,
   WAFInternalErrorException | WAFNonexistentItemException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3795,7 +4449,7 @@ export const getPermissionPolicy: (
  */
 export const getRegexMatchSet: (
   input: GetRegexMatchSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRegexMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -3823,7 +4477,7 @@ export const getRegexMatchSet: (
  */
 export const getRegexPatternSet: (
   input: GetRegexPatternSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRegexPatternSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -3851,7 +4505,7 @@ export const getRegexPatternSet: (
  */
 export const getRule: (
   input: GetRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRuleResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -3881,7 +4535,7 @@ export const getRule: (
  */
 export const getRuleGroup: (
   input: GetRuleGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRuleGroupResponse,
   WAFInternalErrorException | WAFNonexistentItemException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3902,7 +4556,7 @@ export const getRuleGroup: (
  */
 export const getSizeConstraintSet: (
   input: GetSizeConstraintSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSizeConstraintSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -3930,7 +4584,7 @@ export const getSizeConstraintSet: (
  */
 export const getSqlInjectionMatchSet: (
   input: GetSqlInjectionMatchSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSqlInjectionMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -3958,7 +4612,7 @@ export const getSqlInjectionMatchSet: (
  */
 export const getXssMatchSet: (
   input: GetXssMatchSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetXssMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -3987,7 +4641,7 @@ export const getXssMatchSet: (
  */
 export const createWebACLMigrationStack: (
   input: CreateWebACLMigrationStackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWebACLMigrationStackResponse,
   | WAFEntityMigrationException
   | WAFInternalErrorException
@@ -4019,7 +4673,7 @@ export const createWebACLMigrationStack: (
  */
 export const listActivatedRulesInRuleGroup: (
   input: ListActivatedRulesInRuleGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListActivatedRulesInRuleGroupResponse,
   | WAFInternalErrorException
   | WAFInvalidParameterException
@@ -4047,7 +4701,7 @@ export const listActivatedRulesInRuleGroup: (
  */
 export const listLoggingConfigurations: (
   input: ListLoggingConfigurationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListLoggingConfigurationsResponse,
   | WAFInternalErrorException
   | WAFInvalidParameterException
@@ -4076,7 +4730,7 @@ export const listLoggingConfigurations: (
  */
 export const deleteLoggingConfiguration: (
   input: DeleteLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLoggingConfigurationResponse,
   | WAFInternalErrorException
   | WAFNonexistentItemException
@@ -4120,7 +4774,7 @@ export const deleteLoggingConfiguration: (
  */
 export const createGeoMatchSet: (
   input: CreateGeoMatchSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGeoMatchSetResponse,
   | WAFDisallowedNameException
   | WAFInternalErrorException
@@ -4175,7 +4829,7 @@ export const createGeoMatchSet: (
  */
 export const createIPSet: (
   input: CreateIPSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateIPSetResponse,
   | WAFDisallowedNameException
   | WAFInternalErrorException
@@ -4228,7 +4882,7 @@ export const createIPSet: (
  */
 export const createRegexMatchSet: (
   input: CreateRegexMatchSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRegexMatchSetResponse,
   | WAFDisallowedNameException
   | WAFInternalErrorException
@@ -4273,7 +4927,7 @@ export const createRegexMatchSet: (
  */
 export const createRegexPatternSet: (
   input: CreateRegexPatternSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRegexPatternSetResponse,
   | WAFDisallowedNameException
   | WAFInternalErrorException
@@ -4322,7 +4976,7 @@ export const createRegexPatternSet: (
  */
 export const createSizeConstraintSet: (
   input: CreateSizeConstraintSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSizeConstraintSetResponse,
   | WAFDisallowedNameException
   | WAFInternalErrorException
@@ -4373,7 +5027,7 @@ export const createSizeConstraintSet: (
  */
 export const createSqlInjectionMatchSet: (
   input: CreateSqlInjectionMatchSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSqlInjectionMatchSetResponse,
   | WAFDisallowedNameException
   | WAFInternalErrorException
@@ -4424,7 +5078,7 @@ export const createSqlInjectionMatchSet: (
  */
 export const createXssMatchSet: (
   input: CreateXssMatchSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateXssMatchSetResponse,
   | WAFDisallowedNameException
   | WAFInternalErrorException
@@ -4480,7 +5134,7 @@ export const createXssMatchSet: (
  */
 export const putPermissionPolicy: (
   input: PutPermissionPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutPermissionPolicyResponse,
   | WAFInternalErrorException
   | WAFInvalidPermissionPolicyException
@@ -4512,7 +5166,7 @@ export const putPermissionPolicy: (
  */
 export const deletePermissionPolicy: (
   input: DeletePermissionPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePermissionPolicyResponse,
   | WAFInternalErrorException
   | WAFNonexistentItemException
@@ -4552,7 +5206,7 @@ export const deletePermissionPolicy: (
  */
 export const deleteRegexMatchSet: (
   input: DeleteRegexMatchSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRegexMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -4587,7 +5241,7 @@ export const deleteRegexMatchSet: (
  */
 export const deleteRegexPatternSet: (
   input: DeleteRegexPatternSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRegexPatternSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -4633,7 +5287,7 @@ export const deleteRegexPatternSet: (
  */
 export const deleteSizeConstraintSet: (
   input: DeleteSizeConstraintSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSizeConstraintSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -4680,7 +5334,7 @@ export const deleteSizeConstraintSet: (
  */
 export const deleteSqlInjectionMatchSet: (
   input: DeleteSqlInjectionMatchSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSqlInjectionMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -4727,7 +5381,7 @@ export const deleteSqlInjectionMatchSet: (
  */
 export const deleteXssMatchSet: (
   input: DeleteXssMatchSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteXssMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -4773,7 +5427,7 @@ export const deleteXssMatchSet: (
  */
 export const deleteByteMatchSet: (
   input: DeleteByteMatchSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteByteMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -4819,7 +5473,7 @@ export const deleteByteMatchSet: (
  */
 export const deleteGeoMatchSet: (
   input: DeleteGeoMatchSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGeoMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -4865,7 +5519,7 @@ export const deleteGeoMatchSet: (
  */
 export const deleteIPSet: (
   input: DeleteIPSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIPSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -4918,7 +5572,7 @@ export const deleteIPSet: (
  */
 export const createByteMatchSet: (
   input: CreateByteMatchSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateByteMatchSetResponse,
   | WAFDisallowedNameException
   | WAFInternalErrorException
@@ -4954,7 +5608,7 @@ export const createByteMatchSet: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | WAFBadRequestException
   | WAFInternalErrorException
@@ -5002,7 +5656,7 @@ export const listTagsForResource: (
  */
 export const putLoggingConfiguration: (
   input: PutLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutLoggingConfigurationResponse,
   | WAFInternalErrorException
   | WAFNonexistentItemException
@@ -5099,7 +5753,7 @@ export const putLoggingConfiguration: (
  */
 export const createRateBasedRule: (
   input: CreateRateBasedRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRateBasedRuleResponse,
   | WAFBadRequestException
   | WAFDisallowedNameException
@@ -5170,7 +5824,7 @@ export const createRateBasedRule: (
  */
 export const createRule: (
   input: CreateRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRuleResponse,
   | WAFBadRequestException
   | WAFDisallowedNameException
@@ -5219,7 +5873,7 @@ export const createRule: (
  */
 export const createRuleGroup: (
   input: CreateRuleGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRuleGroupResponse,
   | WAFBadRequestException
   | WAFDisallowedNameException
@@ -5281,7 +5935,7 @@ export const createRuleGroup: (
  */
 export const createWebACL: (
   input: CreateWebACLRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWebACLResponse,
   | WAFBadRequestException
   | WAFDisallowedNameException
@@ -5333,7 +5987,7 @@ export const createWebACL: (
  */
 export const deleteRuleGroup: (
   input: DeleteRuleGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRuleGroupResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5383,7 +6037,7 @@ export const deleteRuleGroup: (
  */
 export const deleteRule: (
   input: DeleteRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRuleResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -5430,7 +6084,7 @@ export const deleteRule: (
  */
 export const deleteWebACL: (
   input: DeleteWebACLRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWebACLResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -5466,7 +6120,7 @@ export const deleteWebACL: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | WAFBadRequestException
   | WAFInternalErrorException
@@ -5516,7 +6170,7 @@ export const untagResource: (
  */
 export const deleteRateBasedRule: (
   input: DeleteRateBasedRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRateBasedRuleResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -5556,7 +6210,7 @@ export const deleteRateBasedRule: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | WAFBadRequestException
   | WAFInternalErrorException
@@ -5626,7 +6280,7 @@ export const tagResource: (
  */
 export const updateXssMatchSet: (
   input: UpdateXssMatchSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateXssMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -5697,7 +6351,7 @@ export const updateXssMatchSet: (
  */
 export const updateRule: (
   input: UpdateRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRuleResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -5766,7 +6420,7 @@ export const updateRule: (
  */
 export const updateByteMatchSet: (
   input: UpdateByteMatchSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateByteMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -5826,7 +6480,7 @@ export const updateByteMatchSet: (
  */
 export const updateGeoMatchSet: (
   input: UpdateGeoMatchSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGeoMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -5922,7 +6576,7 @@ export const updateGeoMatchSet: (
  */
 export const updateIPSet: (
   input: UpdateIPSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateIPSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -5999,7 +6653,7 @@ export const updateIPSet: (
  */
 export const updateRateBasedRule: (
   input: UpdateRateBasedRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRateBasedRuleResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -6065,7 +6719,7 @@ export const updateRateBasedRule: (
  */
 export const updateRegexMatchSet: (
   input: UpdateRegexMatchSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRegexMatchSetResponse,
   | WAFDisallowedNameException
   | WAFInternalErrorException
@@ -6130,7 +6784,7 @@ export const updateRegexMatchSet: (
  */
 export const updateRegexPatternSet: (
   input: UpdateRegexPatternSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRegexPatternSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -6202,7 +6856,7 @@ export const updateRegexPatternSet: (
  */
 export const updateSizeConstraintSet: (
   input: UpdateSizeConstraintSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSizeConstraintSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -6274,7 +6928,7 @@ export const updateSizeConstraintSet: (
  */
 export const updateSqlInjectionMatchSet: (
   input: UpdateSqlInjectionMatchSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSqlInjectionMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -6333,7 +6987,7 @@ export const updateSqlInjectionMatchSet: (
  */
 export const updateRuleGroup: (
   input: UpdateRuleGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRuleGroupResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -6373,7 +7027,7 @@ export const updateRuleGroup: (
  */
 export const getSampledRequests: (
   input: GetSampledRequestsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSampledRequestsResponse,
   WAFInternalErrorException | WAFNonexistentItemException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6455,7 +7109,7 @@ export const getSampledRequests: (
  */
 export const updateWebACL: (
   input: UpdateWebACLRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWebACLResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException

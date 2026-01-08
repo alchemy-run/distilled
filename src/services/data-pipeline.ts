@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -106,6 +106,8 @@ export type idList = string[];
 export const idList = S.Array(S.String);
 export type stringList = string[];
 export const stringList = S.Array(S.String);
+export type TaskStatus = "FINISHED" | "FAILED" | "FALSE";
+export const TaskStatus = S.Literal("FINISHED", "FAILED", "FALSE");
 export interface Tag {
   key: string;
   value: string;
@@ -119,7 +121,7 @@ export interface CreatePipelineInput {
   name: string;
   uniqueId: string;
   description?: string;
-  tags?: tagList;
+  tags?: Tag[];
 }
 export const CreatePipelineInput = S.suspend(() =>
   S.Struct({
@@ -192,7 +194,7 @@ export const DeletePipelineResponse = S.suspend(() =>
 }) as any as S.Schema<DeletePipelineResponse>;
 export interface DescribeObjectsInput {
   pipelineId: string;
-  objectIds: idList;
+  objectIds: string[];
   evaluateExpressions?: boolean;
   marker?: string;
 }
@@ -217,7 +219,7 @@ export const DescribeObjectsInput = S.suspend(() =>
   identifier: "DescribeObjectsInput",
 }) as any as S.Schema<DescribeObjectsInput>;
 export interface DescribePipelinesInput {
-  pipelineIds: idList;
+  pipelineIds: string[];
 }
 export const DescribePipelinesInput = S.suspend(() =>
   S.Struct({ pipelineIds: idList }).pipe(
@@ -297,7 +299,7 @@ export const ListPipelinesInput = S.suspend(() =>
 }) as any as S.Schema<ListPipelinesInput>;
 export interface RemoveTagsInput {
   pipelineId: string;
-  tagKeys: stringList;
+  tagKeys: string[];
 }
 export const RemoveTagsInput = S.suspend(() =>
   S.Struct({ pipelineId: S.String, tagKeys: stringList }).pipe(
@@ -346,7 +348,7 @@ export const ReportTaskRunnerHeartbeatInput = S.suspend(() =>
 }) as any as S.Schema<ReportTaskRunnerHeartbeatInput>;
 export interface SetStatusInput {
   pipelineId: string;
-  objectIds: idList;
+  objectIds: string[];
   status: string;
 }
 export const SetStatusInput = S.suspend(() =>
@@ -372,7 +374,7 @@ export const SetStatusResponse = S.suspend(() =>
 }) as any as S.Schema<SetStatusResponse>;
 export interface SetTaskStatusInput {
   taskId: string;
-  taskStatus: string;
+  taskStatus: TaskStatus;
   errorId?: string;
   errorMessage?: string;
   errorStackTrace?: string;
@@ -380,7 +382,7 @@ export interface SetTaskStatusInput {
 export const SetTaskStatusInput = S.suspend(() =>
   S.Struct({
     taskId: S.String,
-    taskStatus: S.String,
+    taskStatus: TaskStatus,
     errorId: S.optional(S.String),
     errorMessage: S.optional(S.String),
     errorStackTrace: S.optional(S.String),
@@ -421,7 +423,7 @@ export const fieldList = S.Array(Field);
 export interface PipelineObject {
   id: string;
   name: string;
-  fields: fieldList;
+  fields: Field[];
 }
 export const PipelineObject = S.suspend(() =>
   S.Struct({ id: S.String, name: S.String, fields: fieldList }),
@@ -443,7 +445,7 @@ export type ParameterAttributeList = ParameterAttribute[];
 export const ParameterAttributeList = S.Array(ParameterAttribute);
 export interface ParameterObject {
   id: string;
-  attributes: ParameterAttributeList;
+  attributes: ParameterAttribute[];
 }
 export const ParameterObject = S.suspend(() =>
   S.Struct({ id: S.String, attributes: ParameterAttributeList }),
@@ -465,9 +467,9 @@ export type ParameterValueList = ParameterValue[];
 export const ParameterValueList = S.Array(ParameterValue);
 export interface ValidatePipelineDefinitionInput {
   pipelineId: string;
-  pipelineObjects: PipelineObjectList;
-  parameterObjects?: ParameterObjectList;
-  parameterValues?: ParameterValueList;
+  pipelineObjects: PipelineObject[];
+  parameterObjects?: ParameterObject[];
+  parameterValues?: ParameterValue[];
 }
 export const ValidatePipelineDefinitionInput = S.suspend(() =>
   S.Struct({
@@ -500,7 +502,7 @@ export const InstanceIdentity = S.suspend(() =>
 }) as any as S.Schema<InstanceIdentity>;
 export interface ActivatePipelineInput {
   pipelineId: string;
-  parameterValues?: ParameterValueList;
+  parameterValues?: ParameterValue[];
   startTimestamp?: Date;
 }
 export const ActivatePipelineInput = S.suspend(() =>
@@ -530,7 +532,7 @@ export const ActivatePipelineOutput = S.suspend(() =>
 }) as any as S.Schema<ActivatePipelineOutput>;
 export interface AddTagsInput {
   pipelineId: string;
-  tags: tagList;
+  tags: Tag[];
 }
 export const AddTagsInput = S.suspend(() =>
   S.Struct({ pipelineId: S.String, tags: tagList }).pipe(
@@ -558,7 +560,7 @@ export const CreatePipelineOutput = S.suspend(() =>
   identifier: "CreatePipelineOutput",
 }) as any as S.Schema<CreatePipelineOutput>;
 export interface DescribeObjectsOutput {
-  pipelineObjects: PipelineObjectList;
+  pipelineObjects: PipelineObject[];
   marker?: string;
   hasMoreResults?: boolean;
 }
@@ -580,9 +582,9 @@ export const EvaluateExpressionOutput = S.suspend(() =>
   identifier: "EvaluateExpressionOutput",
 }) as any as S.Schema<EvaluateExpressionOutput>;
 export interface GetPipelineDefinitionOutput {
-  pipelineObjects?: PipelineObjectList;
-  parameterObjects?: ParameterObjectList;
-  parameterValues?: ParameterValueList;
+  pipelineObjects?: PipelineObject[];
+  parameterObjects?: ParameterObject[];
+  parameterValues?: ParameterValue[];
 }
 export const GetPipelineDefinitionOutput = S.suspend(() =>
   S.Struct({
@@ -619,7 +621,7 @@ export const PollForTaskInput = S.suspend(() =>
 }) as any as S.Schema<PollForTaskInput>;
 export interface ReportTaskProgressInput {
   taskId: string;
-  fields?: fieldList;
+  fields?: Field[];
 }
 export const ReportTaskProgressInput = S.suspend(() =>
   S.Struct({ taskId: S.String, fields: S.optional(fieldList) }).pipe(
@@ -646,12 +648,14 @@ export const ReportTaskRunnerHeartbeatOutput = S.suspend(() =>
 }) as any as S.Schema<ReportTaskRunnerHeartbeatOutput>;
 export type validationMessages = string[];
 export const validationMessages = S.Array(S.String);
+export type OperatorType = "EQ" | "REF_EQ" | "LE" | "GE" | "BETWEEN";
+export const OperatorType = S.Literal("EQ", "REF_EQ", "LE", "GE", "BETWEEN");
 export interface PipelineDescription {
   pipelineId: string;
   name: string;
-  fields: fieldList;
+  fields: Field[];
   description?: string;
-  tags?: tagList;
+  tags?: Tag[];
 }
 export const PipelineDescription = S.suspend(() =>
   S.Struct({
@@ -679,7 +683,7 @@ export type pipelineList = PipelineIdName[];
 export const pipelineList = S.Array(PipelineIdName);
 export interface ValidationError {
   id?: string;
-  errors?: validationMessages;
+  errors?: string[];
 }
 export const ValidationError = S.suspend(() =>
   S.Struct({
@@ -693,7 +697,7 @@ export type ValidationErrors = ValidationError[];
 export const ValidationErrors = S.Array(ValidationError);
 export interface ValidationWarning {
   id?: string;
-  warnings?: validationMessages;
+  warnings?: string[];
 }
 export const ValidationWarning = S.suspend(() =>
   S.Struct({
@@ -706,14 +710,14 @@ export const ValidationWarning = S.suspend(() =>
 export type ValidationWarnings = ValidationWarning[];
 export const ValidationWarnings = S.Array(ValidationWarning);
 export interface Operator {
-  type?: string;
-  values?: stringList;
+  type?: OperatorType;
+  values?: string[];
 }
 export const Operator = S.suspend(() =>
-  S.Struct({ type: S.optional(S.String), values: S.optional(stringList) }),
+  S.Struct({ type: S.optional(OperatorType), values: S.optional(stringList) }),
 ).annotations({ identifier: "Operator" }) as any as S.Schema<Operator>;
 export interface DescribePipelinesOutput {
-  pipelineDescriptionList: PipelineDescriptionList;
+  pipelineDescriptionList: PipelineDescription[];
 }
 export const DescribePipelinesOutput = S.suspend(() =>
   S.Struct({ pipelineDescriptionList: PipelineDescriptionList }).pipe(ns),
@@ -721,7 +725,7 @@ export const DescribePipelinesOutput = S.suspend(() =>
   identifier: "DescribePipelinesOutput",
 }) as any as S.Schema<DescribePipelinesOutput>;
 export interface ListPipelinesOutput {
-  pipelineIdList: pipelineList;
+  pipelineIdList: PipelineIdName[];
   marker?: string;
   hasMoreResults?: boolean;
 }
@@ -736,9 +740,9 @@ export const ListPipelinesOutput = S.suspend(() =>
 }) as any as S.Schema<ListPipelinesOutput>;
 export interface PutPipelineDefinitionInput {
   pipelineId: string;
-  pipelineObjects: PipelineObjectList;
-  parameterObjects?: ParameterObjectList;
-  parameterValues?: ParameterValueList;
+  pipelineObjects: PipelineObject[];
+  parameterObjects?: ParameterObject[];
+  parameterValues?: ParameterValue[];
 }
 export const PutPipelineDefinitionInput = S.suspend(() =>
   S.Struct({
@@ -769,8 +773,8 @@ export const ReportTaskProgressOutput = S.suspend(() =>
   identifier: "ReportTaskProgressOutput",
 }) as any as S.Schema<ReportTaskProgressOutput>;
 export interface ValidatePipelineDefinitionOutput {
-  validationErrors?: ValidationErrors;
-  validationWarnings?: ValidationWarnings;
+  validationErrors?: ValidationError[];
+  validationWarnings?: ValidationWarning[];
   errored: boolean;
 }
 export const ValidatePipelineDefinitionOutput = S.suspend(() =>
@@ -792,14 +796,14 @@ export const Selector = S.suspend(() =>
 export type SelectorList = Selector[];
 export const SelectorList = S.Array(Selector);
 export interface Query {
-  selectors?: SelectorList;
+  selectors?: Selector[];
 }
 export const Query = S.suspend(() =>
   S.Struct({ selectors: S.optional(SelectorList) }),
 ).annotations({ identifier: "Query" }) as any as S.Schema<Query>;
 export interface PutPipelineDefinitionOutput {
-  validationErrors?: ValidationErrors;
-  validationWarnings?: ValidationWarnings;
+  validationErrors?: ValidationError[];
+  validationWarnings?: ValidationWarning[];
   errored: boolean;
 }
 export const PutPipelineDefinitionOutput = S.suspend(() =>
@@ -848,7 +852,7 @@ export interface TaskObject {
   taskId?: string;
   pipelineId?: string;
   attemptId?: string;
-  objects?: PipelineObjectMap;
+  objects?: { [key: string]: PipelineObject };
 }
 export const TaskObject = S.suspend(() =>
   S.Struct({
@@ -867,7 +871,7 @@ export const PollForTaskOutput = S.suspend(() =>
   identifier: "PollForTaskOutput",
 }) as any as S.Schema<PollForTaskOutput>;
 export interface QueryObjectsOutput {
-  ids?: idList;
+  ids?: string[];
   marker?: string;
   hasMoreResults?: boolean;
 }
@@ -935,21 +939,21 @@ export class TaskNotFoundException extends S.TaggedError<TaskNotFoundException>(
 export const listPipelines: {
   (
     input: ListPipelinesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPipelinesOutput,
     InternalServiceError | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListPipelinesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPipelinesOutput,
     InternalServiceError | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPipelinesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PipelineIdName,
     InternalServiceError | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -991,7 +995,7 @@ export const listPipelines: {
  */
 export const reportTaskRunnerHeartbeat: (
   input: ReportTaskRunnerHeartbeatInput,
-) => Effect.Effect<
+) => effect.Effect<
   ReportTaskRunnerHeartbeatOutput,
   InternalServiceError | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1025,7 +1029,7 @@ export const reportTaskRunnerHeartbeat: (
  */
 export const createPipeline: (
   input: CreatePipelineInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePipelineOutput,
   InternalServiceError | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1061,7 +1065,7 @@ export const createPipeline: (
  */
 export const deletePipeline: (
   input: DeletePipelineInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePipelineResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -1135,7 +1139,7 @@ export const deletePipeline: (
  */
 export const describePipelines: (
   input: DescribePipelinesInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePipelinesOutput,
   | InternalServiceError
   | InvalidRequestException
@@ -1289,7 +1293,7 @@ export const describePipelines: (
  */
 export const validatePipelineDefinition: (
   input: ValidatePipelineDefinitionInput,
-) => Effect.Effect<
+) => effect.Effect<
   ValidatePipelineDefinitionOutput,
   | InternalServiceError
   | InvalidRequestException
@@ -1361,7 +1365,7 @@ export const validatePipelineDefinition: (
 export const describeObjects: {
   (
     input: DescribeObjectsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeObjectsOutput,
     | InternalServiceError
     | InvalidRequestException
@@ -1372,7 +1376,7 @@ export const describeObjects: {
   >;
   pages: (
     input: DescribeObjectsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeObjectsOutput,
     | InternalServiceError
     | InvalidRequestException
@@ -1383,7 +1387,7 @@ export const describeObjects: {
   >;
   items: (
     input: DescribeObjectsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PipelineObject,
     | InternalServiceError
     | InvalidRequestException
@@ -1466,7 +1470,7 @@ export const describeObjects: {
  */
 export const getPipelineDefinition: (
   input: GetPipelineDefinitionInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetPipelineDefinitionOutput,
   | InternalServiceError
   | InvalidRequestException
@@ -1489,7 +1493,7 @@ export const getPipelineDefinition: (
  */
 export const removeTags: (
   input: RemoveTagsInput,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveTagsOutput,
   | InternalServiceError
   | InvalidRequestException
@@ -1534,7 +1538,7 @@ export const removeTags: (
  */
 export const setStatus: (
   input: SetStatusInput,
-) => Effect.Effect<
+) => effect.Effect<
   SetStatusResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -1581,7 +1585,7 @@ export const setStatus: (
  */
 export const activatePipeline: (
   input: ActivatePipelineInput,
-) => Effect.Effect<
+) => effect.Effect<
   ActivatePipelineOutput,
   | InternalServiceError
   | InvalidRequestException
@@ -1604,7 +1608,7 @@ export const activatePipeline: (
  */
 export const addTags: (
   input: AddTagsInput,
-) => Effect.Effect<
+) => effect.Effect<
   AddTagsOutput,
   | InternalServiceError
   | InvalidRequestException
@@ -1631,7 +1635,7 @@ export const addTags: (
  */
 export const deactivatePipeline: (
   input: DeactivatePipelineInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeactivatePipelineOutput,
   | InternalServiceError
   | InvalidRequestException
@@ -1793,7 +1797,7 @@ export const deactivatePipeline: (
  */
 export const putPipelineDefinition: (
   input: PutPipelineDefinitionInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutPipelineDefinitionOutput,
   | InternalServiceError
   | InvalidRequestException
@@ -1845,7 +1849,7 @@ export const putPipelineDefinition: (
 export const queryObjects: {
   (
     input: QueryObjectsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     QueryObjectsOutput,
     | InternalServiceError
     | InvalidRequestException
@@ -1856,7 +1860,7 @@ export const queryObjects: {
   >;
   pages: (
     input: QueryObjectsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     QueryObjectsOutput,
     | InternalServiceError
     | InvalidRequestException
@@ -1867,7 +1871,7 @@ export const queryObjects: {
   >;
   items: (
     input: QueryObjectsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     id,
     | InternalServiceError
     | InvalidRequestException
@@ -1926,7 +1930,7 @@ export const queryObjects: {
  */
 export const reportTaskProgress: (
   input: ReportTaskProgressInput,
-) => Effect.Effect<
+) => effect.Effect<
   ReportTaskProgressOutput,
   | InternalServiceError
   | InvalidRequestException
@@ -1971,7 +1975,7 @@ export const reportTaskProgress: (
  */
 export const evaluateExpression: (
   input: EvaluateExpressionInput,
-) => Effect.Effect<
+) => effect.Effect<
   EvaluateExpressionOutput,
   | InternalServiceError
   | InvalidRequestException
@@ -2016,7 +2020,7 @@ export const evaluateExpression: (
  */
 export const setTaskStatus: (
   input: SetTaskStatusInput,
-) => Effect.Effect<
+) => effect.Effect<
   SetTaskStatusOutput,
   | InternalServiceError
   | InvalidRequestException
@@ -2109,7 +2113,7 @@ export const setTaskStatus: (
  */
 export const pollForTask: (
   input: PollForTaskInput,
-) => Effect.Effect<
+) => effect.Effect<
   PollForTaskOutput,
   | InternalServiceError
   | InvalidRequestException

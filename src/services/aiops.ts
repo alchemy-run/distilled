@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -91,7 +91,7 @@ export type Retention = number;
 export type InvestigationGroupIdentifier = string;
 export type SensitiveStringWithLengthLimits =
   | string
-  | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
 export type InvestigationGroupPolicyDocument = string;
 export type TagValue = string;
 export type KmsKeyId = string;
@@ -124,7 +124,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeys;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -164,20 +164,28 @@ export const GetInvestigationGroupRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetInvestigationGroupRequest",
 }) as any as S.Schema<GetInvestigationGroupRequest>;
+export type EncryptionConfigurationType =
+  | "AWS_OWNED_KEY"
+  | "CUSTOMER_MANAGED_KMS_KEY";
+export const EncryptionConfigurationType = S.Literal(
+  "AWS_OWNED_KEY",
+  "CUSTOMER_MANAGED_KMS_KEY",
+);
 export interface EncryptionConfiguration {
-  type?: string;
+  type?: EncryptionConfigurationType;
   kmsKeyId?: string;
 }
 export const EncryptionConfiguration = S.suspend(() =>
-  S.Struct({ type: S.optional(S.String), kmsKeyId: S.optional(S.String) }),
+  S.Struct({
+    type: S.optional(EncryptionConfigurationType),
+    kmsKeyId: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "EncryptionConfiguration",
 }) as any as S.Schema<EncryptionConfiguration>;
 export type ChatConfigurationArns = string[];
 export const ChatConfigurationArns = S.Array(S.String);
-export type ChatbotNotificationChannel = {
-  [key: string]: ChatConfigurationArns;
-};
+export type ChatbotNotificationChannel = { [key: string]: string[] };
 export const ChatbotNotificationChannel = S.Record({
   key: S.String,
   value: ChatConfigurationArns,
@@ -196,10 +204,10 @@ export interface UpdateInvestigationGroupRequest {
   identifier: string;
   roleArn?: string;
   encryptionConfiguration?: EncryptionConfiguration;
-  tagKeyBoundaries?: TagKeyBoundaries;
-  chatbotNotificationChannel?: ChatbotNotificationChannel;
+  tagKeyBoundaries?: string[];
+  chatbotNotificationChannel?: { [key: string]: string[] };
   isCloudTrailEventHistoryEnabled?: boolean;
-  crossAccountConfigurations?: CrossAccountConfigurations;
+  crossAccountConfigurations?: CrossAccountConfiguration[];
 }
 export const UpdateInvestigationGroupRequest = S.suspend(() =>
   S.Struct({
@@ -253,7 +261,7 @@ export const DeleteInvestigationGroupResponse = S.suspend(() =>
   identifier: "DeleteInvestigationGroupResponse",
 }) as any as S.Schema<DeleteInvestigationGroupResponse>;
 export interface ListInvestigationGroupsInput {
-  nextToken?: string | Redacted.Redacted<string>;
+  nextToken?: string | redacted.Redacted<string>;
   maxResults?: number;
 }
 export const ListInvestigationGroupsInput = S.suspend(() =>
@@ -346,7 +354,7 @@ export const DeleteInvestigationGroupPolicyOutput = S.suspend(() =>
 export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
 export interface ListTagsForResourceOutput {
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -355,7 +363,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: Tags;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -383,11 +391,11 @@ export interface CreateInvestigationGroupInput {
   roleArn: string;
   encryptionConfiguration?: EncryptionConfiguration;
   retentionInDays?: number;
-  tags?: Tags;
-  tagKeyBoundaries?: TagKeyBoundaries;
-  chatbotNotificationChannel?: ChatbotNotificationChannel;
+  tags?: { [key: string]: string };
+  tagKeyBoundaries?: string[];
+  chatbotNotificationChannel?: { [key: string]: string[] };
   isCloudTrailEventHistoryEnabled?: boolean;
-  crossAccountConfigurations?: CrossAccountConfigurations;
+  crossAccountConfigurations?: CrossAccountConfiguration[];
 }
 export const CreateInvestigationGroupInput = S.suspend(() =>
   S.Struct({
@@ -423,10 +431,10 @@ export interface GetInvestigationGroupResponse {
   roleArn?: string;
   encryptionConfiguration?: EncryptionConfiguration;
   retentionInDays?: number;
-  chatbotNotificationChannel?: ChatbotNotificationChannel;
-  tagKeyBoundaries?: TagKeyBoundaries;
+  chatbotNotificationChannel?: { [key: string]: string[] };
+  tagKeyBoundaries?: string[];
   isCloudTrailEventHistoryEnabled?: boolean;
-  crossAccountConfigurations?: CrossAccountConfigurations;
+  crossAccountConfigurations?: CrossAccountConfiguration[];
 }
 export const GetInvestigationGroupResponse = S.suspend(() =>
   S.Struct({
@@ -487,8 +495,8 @@ export const CreateInvestigationGroupOutput = S.suspend(() =>
   identifier: "CreateInvestigationGroupOutput",
 }) as any as S.Schema<CreateInvestigationGroupOutput>;
 export interface ListInvestigationGroupsOutput {
-  nextToken?: string | Redacted.Redacted<string>;
-  investigationGroups?: InvestigationGroups;
+  nextToken?: string | redacted.Redacted<string>;
+  investigationGroups?: ListInvestigationGroupsModel[];
 }
 export const ListInvestigationGroupsOutput = S.suspend(() =>
   S.Struct({
@@ -542,7 +550,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export const listInvestigationGroups: {
   (
     input: ListInvestigationGroupsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInvestigationGroupsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -552,7 +560,7 @@ export const listInvestigationGroups: {
   >;
   pages: (
     input: ListInvestigationGroupsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInvestigationGroupsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -562,7 +570,7 @@ export const listInvestigationGroups: {
   >;
   items: (
     input: ListInvestigationGroupsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInvestigationGroupsModel,
     | AccessDeniedException
     | InternalServerException
@@ -586,7 +594,7 @@ export const listInvestigationGroups: {
  */
 export const deleteInvestigationGroup: (
   input: DeleteInvestigationGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteInvestigationGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -609,7 +617,7 @@ export const deleteInvestigationGroup: (
  */
 export const getInvestigationGroup: (
   input: GetInvestigationGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInvestigationGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -636,7 +644,7 @@ export const getInvestigationGroup: (
  */
 export const putInvestigationGroupPolicy: (
   input: PutInvestigationGroupPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutInvestigationGroupPolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -679,7 +687,7 @@ export const putInvestigationGroupPolicy: (
  */
 export const createInvestigationGroup: (
   input: CreateInvestigationGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateInvestigationGroupOutput,
   | AccessDeniedException
   | ConflictException
@@ -708,7 +716,7 @@ export const createInvestigationGroup: (
  */
 export const updateInvestigationGroup: (
   input: UpdateInvestigationGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateInvestigationGroupOutput,
   | AccessDeniedException
   | ConflictException
@@ -735,7 +743,7 @@ export const updateInvestigationGroup: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -768,7 +776,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -795,7 +803,7 @@ export const tagResource: (
  */
 export const getInvestigationGroupPolicy: (
   input: GetInvestigationGroupPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInvestigationGroupPolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -820,7 +828,7 @@ export const getInvestigationGroupPolicy: (
  */
 export const deleteInvestigationGroupPolicy: (
   input: DeleteInvestigationGroupPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteInvestigationGroupPolicyOutput,
   | AccessDeniedException
   | InternalServerException
@@ -845,7 +853,7 @@ export const deleteInvestigationGroupPolicy: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException

@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -109,7 +109,7 @@ export const AuditEvent = S.suspend(() =>
 export type AuditEvents = AuditEvent[];
 export const AuditEvents = S.Array(AuditEvent);
 export interface PutAuditEventsRequest {
-  auditEvents: AuditEvents;
+  auditEvents: AuditEvent[];
   channelArn: string;
   externalId?: string;
 }
@@ -155,8 +155,8 @@ export const ResultErrorEntry = S.suspend(() =>
 export type ResultErrorEntries = ResultErrorEntry[];
 export const ResultErrorEntries = S.Array(ResultErrorEntry);
 export interface PutAuditEventsResponse {
-  successful: AuditEventResultEntries;
-  failed: ResultErrorEntries;
+  successful: AuditEventResultEntry[];
+  failed: ResultErrorEntry[];
 }
 export const PutAuditEventsResponse = S.suspend(() =>
   S.Struct({ successful: AuditEventResultEntries, failed: ResultErrorEntries }),
@@ -200,7 +200,7 @@ export class UnsupportedOperationException extends S.TaggedError<UnsupportedOper
  */
 export const putAuditEvents: (
   input: PutAuditEventsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAuditEventsResponse,
   | ChannelInsufficientPermission
   | ChannelNotFound

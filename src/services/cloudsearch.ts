@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -96,8 +96,6 @@ export type ExpressionValue = string;
 export type APIVersion = string;
 export type UIntValue = number;
 export type FieldName = string;
-export type Long = number;
-export type Double = number;
 export type FieldValue = string;
 export type Word = string;
 export type FieldNameCommaList = string;
@@ -267,7 +265,7 @@ export const DeleteSuggesterRequest = S.suspend(() =>
 }) as any as S.Schema<DeleteSuggesterRequest>;
 export interface DescribeAnalysisSchemesRequest {
   DomainName: string;
-  AnalysisSchemeNames?: StandardNameList;
+  AnalysisSchemeNames?: string[];
   Deployed?: boolean;
 }
 export const DescribeAnalysisSchemesRequest = S.suspend(() =>
@@ -328,7 +326,7 @@ export const DescribeDomainEndpointOptionsRequest = S.suspend(() =>
   identifier: "DescribeDomainEndpointOptionsRequest",
 }) as any as S.Schema<DescribeDomainEndpointOptionsRequest>;
 export interface DescribeDomainsRequest {
-  DomainNames?: DomainNameList;
+  DomainNames?: string[];
 }
 export const DescribeDomainsRequest = S.suspend(() =>
   S.Struct({ DomainNames: S.optional(DomainNameList) }).pipe(
@@ -347,7 +345,7 @@ export const DescribeDomainsRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeDomainsRequest>;
 export interface DescribeExpressionsRequest {
   DomainName: string;
-  ExpressionNames?: StandardNameList;
+  ExpressionNames?: string[];
   Deployed?: boolean;
 }
 export const DescribeExpressionsRequest = S.suspend(() =>
@@ -371,7 +369,7 @@ export const DescribeExpressionsRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeExpressionsRequest>;
 export interface DescribeIndexFieldsRequest {
   DomainName: string;
-  FieldNames?: DynamicFieldNameList;
+  FieldNames?: string[];
   Deployed?: boolean;
 }
 export const DescribeIndexFieldsRequest = S.suspend(() =>
@@ -432,7 +430,7 @@ export const DescribeServiceAccessPoliciesRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeServiceAccessPoliciesRequest>;
 export interface DescribeSuggestersRequest {
   DomainName: string;
-  SuggesterNames?: StandardNameList;
+  SuggesterNames?: string[];
   Deployed?: boolean;
 }
 export const DescribeSuggestersRequest = S.suspend(() =>
@@ -510,6 +508,148 @@ export const UpdateServiceAccessPoliciesRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateServiceAccessPoliciesRequest",
 }) as any as S.Schema<UpdateServiceAccessPoliciesRequest>;
+export type AnalysisSchemeLanguage =
+  | "ar"
+  | "bg"
+  | "ca"
+  | "cs"
+  | "da"
+  | "de"
+  | "el"
+  | "en"
+  | "es"
+  | "eu"
+  | "fa"
+  | "fi"
+  | "fr"
+  | "ga"
+  | "gl"
+  | "he"
+  | "hi"
+  | "hu"
+  | "hy"
+  | "id"
+  | "it"
+  | "ja"
+  | "ko"
+  | "lv"
+  | "mul"
+  | "nl"
+  | "no"
+  | "pt"
+  | "ro"
+  | "ru"
+  | "sv"
+  | "th"
+  | "tr"
+  | "zh-Hans"
+  | "zh-Hant";
+export const AnalysisSchemeLanguage = S.Literal(
+  "ar",
+  "bg",
+  "ca",
+  "cs",
+  "da",
+  "de",
+  "el",
+  "en",
+  "es",
+  "eu",
+  "fa",
+  "fi",
+  "fr",
+  "ga",
+  "gl",
+  "he",
+  "hi",
+  "hu",
+  "hy",
+  "id",
+  "it",
+  "ja",
+  "ko",
+  "lv",
+  "mul",
+  "nl",
+  "no",
+  "pt",
+  "ro",
+  "ru",
+  "sv",
+  "th",
+  "tr",
+  "zh-Hans",
+  "zh-Hant",
+);
+export type IndexFieldType =
+  | "int"
+  | "double"
+  | "literal"
+  | "text"
+  | "date"
+  | "latlon"
+  | "int-array"
+  | "double-array"
+  | "literal-array"
+  | "text-array"
+  | "date-array";
+export const IndexFieldType = S.Literal(
+  "int",
+  "double",
+  "literal",
+  "text",
+  "date",
+  "latlon",
+  "int-array",
+  "double-array",
+  "literal-array",
+  "text-array",
+  "date-array",
+);
+export type TLSSecurityPolicy =
+  | "Policy-Min-TLS-1-0-2019-07"
+  | "Policy-Min-TLS-1-2-2019-07";
+export const TLSSecurityPolicy = S.Literal(
+  "Policy-Min-TLS-1-0-2019-07",
+  "Policy-Min-TLS-1-2-2019-07",
+);
+export type PartitionInstanceType =
+  | "search.m1.small"
+  | "search.m1.large"
+  | "search.m2.xlarge"
+  | "search.m2.2xlarge"
+  | "search.m3.medium"
+  | "search.m3.large"
+  | "search.m3.xlarge"
+  | "search.m3.2xlarge"
+  | "search.small"
+  | "search.medium"
+  | "search.large"
+  | "search.xlarge"
+  | "search.2xlarge"
+  | "search.previousgeneration.small"
+  | "search.previousgeneration.large"
+  | "search.previousgeneration.xlarge"
+  | "search.previousgeneration.2xlarge";
+export const PartitionInstanceType = S.Literal(
+  "search.m1.small",
+  "search.m1.large",
+  "search.m2.xlarge",
+  "search.m2.2xlarge",
+  "search.m3.medium",
+  "search.m3.large",
+  "search.m3.xlarge",
+  "search.m3.2xlarge",
+  "search.small",
+  "search.medium",
+  "search.large",
+  "search.xlarge",
+  "search.2xlarge",
+  "search.previousgeneration.small",
+  "search.previousgeneration.large",
+  "search.previousgeneration.xlarge",
+  "search.previousgeneration.2xlarge",
+);
 export type FieldNameList = string[];
 export const FieldNameList = S.Array(S.String);
 export interface Expression {
@@ -519,12 +659,19 @@ export interface Expression {
 export const Expression = S.suspend(() =>
   S.Struct({ ExpressionName: S.String, ExpressionValue: S.String }),
 ).annotations({ identifier: "Expression" }) as any as S.Schema<Expression>;
+export type AlgorithmicStemming = "none" | "minimal" | "light" | "full";
+export const AlgorithmicStemming = S.Literal(
+  "none",
+  "minimal",
+  "light",
+  "full",
+);
 export interface AnalysisOptions {
   Synonyms?: string;
   Stopwords?: string;
   StemmingDictionary?: string;
   JapaneseTokenizationDictionary?: string;
-  AlgorithmicStemming?: string;
+  AlgorithmicStemming?: AlgorithmicStemming;
 }
 export const AnalysisOptions = S.suspend(() =>
   S.Struct({
@@ -532,30 +679,41 @@ export const AnalysisOptions = S.suspend(() =>
     Stopwords: S.optional(S.String),
     StemmingDictionary: S.optional(S.String),
     JapaneseTokenizationDictionary: S.optional(S.String),
-    AlgorithmicStemming: S.optional(S.String),
+    AlgorithmicStemming: S.optional(AlgorithmicStemming),
   }),
 ).annotations({
   identifier: "AnalysisOptions",
 }) as any as S.Schema<AnalysisOptions>;
 export interface AnalysisScheme {
   AnalysisSchemeName: string;
-  AnalysisSchemeLanguage: string;
+  AnalysisSchemeLanguage: AnalysisSchemeLanguage;
   AnalysisOptions?: AnalysisOptions;
 }
 export const AnalysisScheme = S.suspend(() =>
   S.Struct({
     AnalysisSchemeName: S.String,
-    AnalysisSchemeLanguage: S.String,
+    AnalysisSchemeLanguage: AnalysisSchemeLanguage,
     AnalysisOptions: S.optional(AnalysisOptions),
   }),
 ).annotations({
   identifier: "AnalysisScheme",
 }) as any as S.Schema<AnalysisScheme>;
+export type OptionState =
+  | "RequiresIndexDocuments"
+  | "Processing"
+  | "Active"
+  | "FailedToValidate";
+export const OptionState = S.Literal(
+  "RequiresIndexDocuments",
+  "Processing",
+  "Active",
+  "FailedToValidate",
+);
 export interface OptionStatus {
   CreationDate: Date;
   UpdateDate: Date;
   UpdateVersion?: number;
-  State: string;
+  State: OptionState;
   PendingDeletion?: boolean;
 }
 export const OptionStatus = S.suspend(() =>
@@ -563,7 +721,7 @@ export const OptionStatus = S.suspend(() =>
     CreationDate: S.Date.pipe(T.TimestampFormat("date-time")),
     UpdateDate: S.Date.pipe(T.TimestampFormat("date-time")),
     UpdateVersion: S.optional(S.Number),
-    State: S.String,
+    State: OptionState,
     PendingDeletion: S.optional(S.Boolean),
   }),
 ).annotations({ identifier: "OptionStatus" }) as any as S.Schema<OptionStatus>;
@@ -847,7 +1005,7 @@ export const DateArrayOptions = S.suspend(() =>
 }) as any as S.Schema<DateArrayOptions>;
 export interface IndexField {
   IndexFieldName: string;
-  IndexFieldType: string;
+  IndexFieldType: IndexFieldType;
   IntOptions?: IntOptions;
   DoubleOptions?: DoubleOptions;
   LiteralOptions?: LiteralOptions;
@@ -863,7 +1021,7 @@ export interface IndexField {
 export const IndexField = S.suspend(() =>
   S.Struct({
     IndexFieldName: S.String,
-    IndexFieldType: S.String,
+    IndexFieldType: IndexFieldType,
     IntOptions: S.optional(IntOptions),
     DoubleOptions: S.optional(DoubleOptions),
     LiteralOptions: S.optional(LiteralOptions),
@@ -888,15 +1046,17 @@ export const IndexFieldStatus = S.suspend(() =>
 }) as any as S.Schema<IndexFieldStatus>;
 export type IndexFieldStatusList = IndexFieldStatus[];
 export const IndexFieldStatusList = S.Array(IndexFieldStatus);
+export type SuggesterFuzzyMatching = "none" | "low" | "high";
+export const SuggesterFuzzyMatching = S.Literal("none", "low", "high");
 export interface DocumentSuggesterOptions {
   SourceField: string;
-  FuzzyMatching?: string;
+  FuzzyMatching?: SuggesterFuzzyMatching;
   SortExpression?: string;
 }
 export const DocumentSuggesterOptions = S.suspend(() =>
   S.Struct({
     SourceField: S.String,
-    FuzzyMatching: S.optional(S.String),
+    FuzzyMatching: S.optional(SuggesterFuzzyMatching),
     SortExpression: S.optional(S.String),
   }),
 ).annotations({
@@ -927,24 +1087,24 @@ export type DomainNameMap = { [key: string]: string };
 export const DomainNameMap = S.Record({ key: S.String, value: S.String });
 export interface DomainEndpointOptions {
   EnforceHTTPS?: boolean;
-  TLSSecurityPolicy?: string;
+  TLSSecurityPolicy?: TLSSecurityPolicy;
 }
 export const DomainEndpointOptions = S.suspend(() =>
   S.Struct({
     EnforceHTTPS: S.optional(S.Boolean),
-    TLSSecurityPolicy: S.optional(S.String),
+    TLSSecurityPolicy: S.optional(TLSSecurityPolicy),
   }),
 ).annotations({
   identifier: "DomainEndpointOptions",
 }) as any as S.Schema<DomainEndpointOptions>;
 export interface ScalingParameters {
-  DesiredInstanceType?: string;
+  DesiredInstanceType?: PartitionInstanceType;
   DesiredReplicationCount?: number;
   DesiredPartitionCount?: number;
 }
 export const ScalingParameters = S.suspend(() =>
   S.Struct({
-    DesiredInstanceType: S.optional(S.String),
+    DesiredInstanceType: S.optional(PartitionInstanceType),
     DesiredReplicationCount: S.optional(S.Number),
     DesiredPartitionCount: S.optional(S.Number),
   }),
@@ -952,7 +1112,7 @@ export const ScalingParameters = S.suspend(() =>
   identifier: "ScalingParameters",
 }) as any as S.Schema<ScalingParameters>;
 export interface BuildSuggestersResponse {
-  FieldNames?: FieldNameList;
+  FieldNames?: string[];
 }
 export const BuildSuggestersResponse = S.suspend(() =>
   S.Struct({ FieldNames: S.optional(FieldNameList) }).pipe(ns),
@@ -987,7 +1147,7 @@ export const DeleteDomainResponse = S.suspend(() =>
   identifier: "DeleteDomainResponse",
 }) as any as S.Schema<DeleteDomainResponse>;
 export interface DescribeAnalysisSchemesResponse {
-  AnalysisSchemes: AnalysisSchemeStatusList;
+  AnalysisSchemes: AnalysisSchemeStatus[];
 }
 export const DescribeAnalysisSchemesResponse = S.suspend(() =>
   S.Struct({ AnalysisSchemes: AnalysisSchemeStatusList }).pipe(ns),
@@ -995,7 +1155,7 @@ export const DescribeAnalysisSchemesResponse = S.suspend(() =>
   identifier: "DescribeAnalysisSchemesResponse",
 }) as any as S.Schema<DescribeAnalysisSchemesResponse>;
 export interface DescribeDomainsResponse {
-  DomainStatusList: DomainStatusList;
+  DomainStatusList: DomainStatus[];
 }
 export const DescribeDomainsResponse = S.suspend(() =>
   S.Struct({ DomainStatusList: DomainStatusList }).pipe(ns),
@@ -1003,7 +1163,7 @@ export const DescribeDomainsResponse = S.suspend(() =>
   identifier: "DescribeDomainsResponse",
 }) as any as S.Schema<DescribeDomainsResponse>;
 export interface DescribeExpressionsResponse {
-  Expressions: ExpressionStatusList;
+  Expressions: ExpressionStatus[];
 }
 export const DescribeExpressionsResponse = S.suspend(() =>
   S.Struct({ Expressions: ExpressionStatusList }).pipe(ns),
@@ -1011,7 +1171,7 @@ export const DescribeExpressionsResponse = S.suspend(() =>
   identifier: "DescribeExpressionsResponse",
 }) as any as S.Schema<DescribeExpressionsResponse>;
 export interface DescribeIndexFieldsResponse {
-  IndexFields: IndexFieldStatusList;
+  IndexFields: IndexFieldStatus[];
 }
 export const DescribeIndexFieldsResponse = S.suspend(() =>
   S.Struct({ IndexFields: IndexFieldStatusList }).pipe(ns),
@@ -1019,7 +1179,7 @@ export const DescribeIndexFieldsResponse = S.suspend(() =>
   identifier: "DescribeIndexFieldsResponse",
 }) as any as S.Schema<DescribeIndexFieldsResponse>;
 export interface DescribeSuggestersResponse {
-  Suggesters: SuggesterStatusList;
+  Suggesters: SuggesterStatus[];
 }
 export const DescribeSuggestersResponse = S.suspend(() =>
   S.Struct({ Suggesters: SuggesterStatusList }).pipe(ns),
@@ -1027,7 +1187,7 @@ export const DescribeSuggestersResponse = S.suspend(() =>
   identifier: "DescribeSuggestersResponse",
 }) as any as S.Schema<DescribeSuggestersResponse>;
 export interface IndexDocumentsResponse {
-  FieldNames?: FieldNameList;
+  FieldNames?: string[];
 }
 export const IndexDocumentsResponse = S.suspend(() =>
   S.Struct({ FieldNames: S.optional(FieldNameList) }).pipe(ns),
@@ -1035,7 +1195,7 @@ export const IndexDocumentsResponse = S.suspend(() =>
   identifier: "IndexDocumentsResponse",
 }) as any as S.Schema<IndexDocumentsResponse>;
 export interface ListDomainNamesResponse {
-  DomainNames?: DomainNameMap;
+  DomainNames?: { [key: string]: string };
 }
 export const ListDomainNamesResponse = S.suspend(() =>
   S.Struct({ DomainNames: S.optional(DomainNameMap) }).pipe(ns),
@@ -1367,7 +1527,7 @@ export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlread
  */
 export const listDomainNames: (
   input: ListDomainNamesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDomainNamesResponse,
   BaseException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1382,7 +1542,7 @@ export const listDomainNames: (
  */
 export const deleteDomain: (
   input: DeleteDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDomainResponse,
   BaseException | InternalException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1398,7 +1558,7 @@ export const deleteDomain: (
  */
 export const describeDomains: (
   input: DescribeDomainsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDomainsResponse,
   BaseException | InternalException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1412,7 +1572,7 @@ export const describeDomains: (
  */
 export const describeScalingParameters: (
   input: DescribeScalingParametersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeScalingParametersResponse,
   BaseException | InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1427,7 +1587,7 @@ export const describeScalingParameters: (
  */
 export const describeServiceAccessPolicies: (
   input: DescribeServiceAccessPoliciesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeServiceAccessPoliciesResponse,
   BaseException | InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1441,7 +1601,7 @@ export const describeServiceAccessPolicies: (
  */
 export const describeAnalysisSchemes: (
   input: DescribeAnalysisSchemesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAnalysisSchemesResponse,
   BaseException | InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1455,7 +1615,7 @@ export const describeAnalysisSchemes: (
  */
 export const describeExpressions: (
   input: DescribeExpressionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeExpressionsResponse,
   BaseException | InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1471,7 +1631,7 @@ export const describeExpressions: (
  */
 export const describeIndexFields: (
   input: DescribeIndexFieldsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeIndexFieldsResponse,
   BaseException | InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1485,7 +1645,7 @@ export const describeIndexFields: (
  */
 export const describeSuggesters: (
   input: DescribeSuggestersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSuggestersResponse,
   BaseException | InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1499,7 +1659,7 @@ export const describeSuggesters: (
  */
 export const describeDomainEndpointOptions: (
   input: DescribeDomainEndpointOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDomainEndpointOptionsResponse,
   | BaseException
   | DisabledOperationException
@@ -1524,7 +1684,7 @@ export const describeDomainEndpointOptions: (
  */
 export const describeAvailabilityOptions: (
   input: DescribeAvailabilityOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAvailabilityOptionsResponse,
   | BaseException
   | DisabledOperationException
@@ -1551,7 +1711,7 @@ export const describeAvailabilityOptions: (
  */
 export const buildSuggesters: (
   input: BuildSuggestersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BuildSuggestersResponse,
   | BaseException
   | InternalException
@@ -1575,7 +1735,7 @@ export const buildSuggesters: (
  */
 export const createDomain: (
   input: CreateDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDomainResponse,
   | BaseException
   | InternalException
@@ -1600,7 +1760,7 @@ export const createDomain: (
  */
 export const defineAnalysisScheme: (
   input: DefineAnalysisSchemeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DefineAnalysisSchemeResponse,
   | BaseException
   | InternalException
@@ -1627,7 +1787,7 @@ export const defineAnalysisScheme: (
  */
 export const indexDocuments: (
   input: IndexDocumentsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   IndexDocumentsResponse,
   | BaseException
   | InternalException
@@ -1650,7 +1810,7 @@ export const indexDocuments: (
  */
 export const defineIndexField: (
   input: DefineIndexFieldRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DefineIndexFieldResponse,
   | BaseException
   | InternalException
@@ -1677,7 +1837,7 @@ export const defineIndexField: (
  */
 export const defineSuggester: (
   input: DefineSuggesterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DefineSuggesterResponse,
   | BaseException
   | InternalException
@@ -1704,7 +1864,7 @@ export const defineSuggester: (
  */
 export const deleteAnalysisScheme: (
   input: DeleteAnalysisSchemeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAnalysisSchemeResponse,
   | BaseException
   | InternalException
@@ -1729,7 +1889,7 @@ export const deleteAnalysisScheme: (
  */
 export const defineExpression: (
   input: DefineExpressionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DefineExpressionResponse,
   | BaseException
   | InternalException
@@ -1756,7 +1916,7 @@ export const defineExpression: (
  */
 export const deleteExpression: (
   input: DeleteExpressionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteExpressionResponse,
   | BaseException
   | InternalException
@@ -1781,7 +1941,7 @@ export const deleteExpression: (
  */
 export const deleteIndexField: (
   input: DeleteIndexFieldRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIndexFieldResponse,
   | BaseException
   | InternalException
@@ -1806,7 +1966,7 @@ export const deleteIndexField: (
  */
 export const deleteSuggester: (
   input: DeleteSuggesterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSuggesterResponse,
   | BaseException
   | InternalException
@@ -1831,7 +1991,7 @@ export const deleteSuggester: (
  */
 export const updateScalingParameters: (
   input: UpdateScalingParametersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateScalingParametersResponse,
   | BaseException
   | InternalException
@@ -1860,7 +2020,7 @@ export const updateScalingParameters: (
  */
 export const updateServiceAccessPolicies: (
   input: UpdateServiceAccessPoliciesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateServiceAccessPoliciesResponse,
   | BaseException
   | InternalException
@@ -1887,7 +2047,7 @@ export const updateServiceAccessPolicies: (
  */
 export const updateDomainEndpointOptions: (
   input: UpdateDomainEndpointOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDomainEndpointOptionsResponse,
   | BaseException
   | DisabledOperationException
@@ -1916,7 +2076,7 @@ export const updateDomainEndpointOptions: (
  */
 export const updateAvailabilityOptions: (
   input: UpdateAvailabilityOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAvailabilityOptionsResponse,
   | BaseException
   | DisabledOperationException

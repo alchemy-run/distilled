@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -103,11 +103,9 @@ export type StepId = string;
 export type Marker = string;
 export type InstanceGroupId = string;
 export type InstanceFleetId = string;
-export type Integer = number;
 export type WholeNumber = number;
 export type InstanceType = string;
 export type InstanceId = string;
-export type Long = number;
 export type UtilizationPerformanceIndexInteger = number;
 export type IAMRoleArn = string;
 export type UriString = string;
@@ -116,7 +114,6 @@ export type ErrorMessage = string;
 export type NonNegativeDouble = number;
 export type Port = number;
 export type OptionalArnType = string;
-export type Float = number;
 export type ThroughputVal = number;
 
 //# Schemas
@@ -138,34 +135,168 @@ export const GetBlockPublicAccessConfigurationInput = S.suspend(() =>
 }) as any as S.Schema<GetBlockPublicAccessConfigurationInput>;
 export type StepIdsList = string[];
 export const StepIdsList = S.Array(S.String);
+export type StepCancellationOption = "SEND_INTERRUPT" | "TERMINATE_PROCESS";
+export const StepCancellationOption = S.Literal(
+  "SEND_INTERRUPT",
+  "TERMINATE_PROCESS",
+);
+export type ProfilerType = "SHS" | "TEZUI" | "YTS";
+export const ProfilerType = S.Literal("SHS", "TEZUI", "YTS");
+export type AuthMode = "SSO" | "IAM";
+export const AuthMode = S.Literal("SSO", "IAM");
 export type SubnetIdList = string[];
 export const SubnetIdList = S.Array(S.String);
+export type IdcUserAssignment = "REQUIRED" | "OPTIONAL";
+export const IdcUserAssignment = S.Literal("REQUIRED", "OPTIONAL");
+export type IdentityType = "USER" | "GROUP";
+export const IdentityType = S.Literal("USER", "GROUP");
 export type XmlStringList = string[];
 export const XmlStringList = S.Array(S.String);
-export type JobFlowExecutionStateList = string[];
-export const JobFlowExecutionStateList = S.Array(S.String);
-export type ClusterStateList = string[];
-export const ClusterStateList = S.Array(S.String);
-export type InstanceGroupTypeList = string[];
-export const InstanceGroupTypeList = S.Array(S.String);
-export type InstanceStateList = string[];
-export const InstanceStateList = S.Array(S.String);
-export type StepStateList = string[];
-export const StepStateList = S.Array(S.String);
+export type JobFlowExecutionState =
+  | "STARTING"
+  | "BOOTSTRAPPING"
+  | "RUNNING"
+  | "WAITING"
+  | "SHUTTING_DOWN"
+  | "TERMINATED"
+  | "COMPLETED"
+  | "FAILED";
+export const JobFlowExecutionState = S.Literal(
+  "STARTING",
+  "BOOTSTRAPPING",
+  "RUNNING",
+  "WAITING",
+  "SHUTTING_DOWN",
+  "TERMINATED",
+  "COMPLETED",
+  "FAILED",
+);
+export type JobFlowExecutionStateList = JobFlowExecutionState[];
+export const JobFlowExecutionStateList = S.Array(JobFlowExecutionState);
+export type OnClusterAppUIType =
+  | "SparkHistoryServer"
+  | "YarnTimelineService"
+  | "TezUI"
+  | "ApplicationMaster"
+  | "JobHistoryServer"
+  | "ResourceManager";
+export const OnClusterAppUIType = S.Literal(
+  "SparkHistoryServer",
+  "YarnTimelineService",
+  "TezUI",
+  "ApplicationMaster",
+  "JobHistoryServer",
+  "ResourceManager",
+);
+export type PersistentAppUIType = "SHS" | "TEZ" | "YTS";
+export const PersistentAppUIType = S.Literal("SHS", "TEZ", "YTS");
+export type ClusterState =
+  | "STARTING"
+  | "BOOTSTRAPPING"
+  | "RUNNING"
+  | "WAITING"
+  | "TERMINATING"
+  | "TERMINATED"
+  | "TERMINATED_WITH_ERRORS";
+export const ClusterState = S.Literal(
+  "STARTING",
+  "BOOTSTRAPPING",
+  "RUNNING",
+  "WAITING",
+  "TERMINATING",
+  "TERMINATED",
+  "TERMINATED_WITH_ERRORS",
+);
+export type ClusterStateList = ClusterState[];
+export const ClusterStateList = S.Array(ClusterState);
+export type InstanceGroupType = "MASTER" | "CORE" | "TASK";
+export const InstanceGroupType = S.Literal("MASTER", "CORE", "TASK");
+export type InstanceGroupTypeList = InstanceGroupType[];
+export const InstanceGroupTypeList = S.Array(InstanceGroupType);
+export type InstanceFleetType = "MASTER" | "CORE" | "TASK";
+export const InstanceFleetType = S.Literal("MASTER", "CORE", "TASK");
+export type InstanceState =
+  | "AWAITING_FULFILLMENT"
+  | "PROVISIONING"
+  | "BOOTSTRAPPING"
+  | "RUNNING"
+  | "TERMINATED";
+export const InstanceState = S.Literal(
+  "AWAITING_FULFILLMENT",
+  "PROVISIONING",
+  "BOOTSTRAPPING",
+  "RUNNING",
+  "TERMINATED",
+);
+export type InstanceStateList = InstanceState[];
+export const InstanceStateList = S.Array(InstanceState);
+export type NotebookExecutionStatus =
+  | "START_PENDING"
+  | "STARTING"
+  | "RUNNING"
+  | "FINISHING"
+  | "FINISHED"
+  | "FAILING"
+  | "FAILED"
+  | "STOP_PENDING"
+  | "STOPPING"
+  | "STOPPED";
+export const NotebookExecutionStatus = S.Literal(
+  "START_PENDING",
+  "STARTING",
+  "RUNNING",
+  "FINISHING",
+  "FINISHED",
+  "FAILING",
+  "FAILED",
+  "STOP_PENDING",
+  "STOPPING",
+  "STOPPED",
+);
+export type StepState =
+  | "PENDING"
+  | "CANCEL_PENDING"
+  | "RUNNING"
+  | "COMPLETED"
+  | "CANCELLED"
+  | "FAILED"
+  | "INTERRUPTED";
+export const StepState = S.Literal(
+  "PENDING",
+  "CANCEL_PENDING",
+  "RUNNING",
+  "COMPLETED",
+  "CANCELLED",
+  "FAILED",
+  "INTERRUPTED",
+);
+export type StepStateList = StepState[];
+export const StepStateList = S.Array(StepState);
 export type StringList = string[];
 export const StringList = S.Array(S.String);
 export type SupportedProductsList = string[];
 export const SupportedProductsList = S.Array(S.String);
+export type ScaleDownBehavior =
+  | "TERMINATE_AT_INSTANCE_HOUR"
+  | "TERMINATE_AT_TASK_COMPLETION";
+export const ScaleDownBehavior = S.Literal(
+  "TERMINATE_AT_INSTANCE_HOUR",
+  "TERMINATE_AT_TASK_COMPLETION",
+);
+export type RepoUpgradeOnBoot = "SECURITY" | "NONE";
+export const RepoUpgradeOnBoot = S.Literal("SECURITY", "NONE");
+export type OutputNotebookFormat = "HTML";
+export const OutputNotebookFormat = S.Literal("HTML");
 export interface CancelStepsInput {
-  ClusterId: string;
-  StepIds: StepIdsList;
-  StepCancellationOption?: string;
+  ClusterId?: string;
+  StepIds?: string[];
+  StepCancellationOption?: StepCancellationOption;
 }
 export const CancelStepsInput = S.suspend(() =>
   S.Struct({
-    ClusterId: S.String,
-    StepIds: StepIdsList,
-    StepCancellationOption: S.optional(S.String),
+    ClusterId: S.optional(S.String),
+    StepIds: S.optional(StepIdsList),
+    StepCancellationOption: S.optional(StepCancellationOption),
   }).pipe(
     T.all(
       ns,
@@ -181,11 +312,14 @@ export const CancelStepsInput = S.suspend(() =>
   identifier: "CancelStepsInput",
 }) as any as S.Schema<CancelStepsInput>;
 export interface CreateSecurityConfigurationInput {
-  Name: string;
-  SecurityConfiguration: string;
+  Name?: string;
+  SecurityConfiguration?: string;
 }
 export const CreateSecurityConfigurationInput = S.suspend(() =>
-  S.Struct({ Name: S.String, SecurityConfiguration: S.String }).pipe(
+  S.Struct({
+    Name: S.optional(S.String),
+    SecurityConfiguration: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -209,41 +343,41 @@ export const Tag = S.suspend(() =>
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface CreateStudioInput {
-  Name: string;
+  Name?: string;
   Description?: string;
-  AuthMode: string;
-  VpcId: string;
-  SubnetIds: SubnetIdList;
-  ServiceRole: string;
+  AuthMode?: AuthMode;
+  VpcId?: string;
+  SubnetIds?: string[];
+  ServiceRole?: string;
   UserRole?: string;
-  WorkspaceSecurityGroupId: string;
-  EngineSecurityGroupId: string;
-  DefaultS3Location: string;
+  WorkspaceSecurityGroupId?: string;
+  EngineSecurityGroupId?: string;
+  DefaultS3Location?: string;
   IdpAuthUrl?: string;
   IdpRelayStateParameterName?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   TrustedIdentityPropagationEnabled?: boolean;
-  IdcUserAssignment?: string;
+  IdcUserAssignment?: IdcUserAssignment;
   IdcInstanceArn?: string;
   EncryptionKeyArn?: string;
 }
 export const CreateStudioInput = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: S.optional(S.String),
     Description: S.optional(S.String),
-    AuthMode: S.String,
-    VpcId: S.String,
-    SubnetIds: SubnetIdList,
-    ServiceRole: S.String,
+    AuthMode: S.optional(AuthMode),
+    VpcId: S.optional(S.String),
+    SubnetIds: S.optional(SubnetIdList),
+    ServiceRole: S.optional(S.String),
     UserRole: S.optional(S.String),
-    WorkspaceSecurityGroupId: S.String,
-    EngineSecurityGroupId: S.String,
-    DefaultS3Location: S.String,
+    WorkspaceSecurityGroupId: S.optional(S.String),
+    EngineSecurityGroupId: S.optional(S.String),
+    DefaultS3Location: S.optional(S.String),
     IdpAuthUrl: S.optional(S.String),
     IdpRelayStateParameterName: S.optional(S.String),
     Tags: S.optional(TagList),
     TrustedIdentityPropagationEnabled: S.optional(S.Boolean),
-    IdcUserAssignment: S.optional(S.String),
+    IdcUserAssignment: S.optional(IdcUserAssignment),
     IdcInstanceArn: S.optional(S.String),
     EncryptionKeyArn: S.optional(S.String),
   }).pipe(
@@ -261,19 +395,19 @@ export const CreateStudioInput = S.suspend(() =>
   identifier: "CreateStudioInput",
 }) as any as S.Schema<CreateStudioInput>;
 export interface CreateStudioSessionMappingInput {
-  StudioId: string;
+  StudioId?: string;
   IdentityId?: string;
   IdentityName?: string;
-  IdentityType: string;
-  SessionPolicyArn: string;
+  IdentityType?: IdentityType;
+  SessionPolicyArn?: string;
 }
 export const CreateStudioSessionMappingInput = S.suspend(() =>
   S.Struct({
-    StudioId: S.String,
+    StudioId: S.optional(S.String),
     IdentityId: S.optional(S.String),
     IdentityName: S.optional(S.String),
-    IdentityType: S.String,
-    SessionPolicyArn: S.String,
+    IdentityType: S.optional(IdentityType),
+    SessionPolicyArn: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -295,10 +429,10 @@ export const CreateStudioSessionMappingResponse = S.suspend(() =>
   identifier: "CreateStudioSessionMappingResponse",
 }) as any as S.Schema<CreateStudioSessionMappingResponse>;
 export interface DeleteSecurityConfigurationInput {
-  Name: string;
+  Name?: string;
 }
 export const DeleteSecurityConfigurationInput = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
+  S.Struct({ Name: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -319,10 +453,10 @@ export const DeleteSecurityConfigurationOutput = S.suspend(() =>
   identifier: "DeleteSecurityConfigurationOutput",
 }) as any as S.Schema<DeleteSecurityConfigurationOutput>;
 export interface DeleteStudioInput {
-  StudioId: string;
+  StudioId?: string;
 }
 export const DeleteStudioInput = S.suspend(() =>
-  S.Struct({ StudioId: S.String }).pipe(
+  S.Struct({ StudioId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -343,17 +477,17 @@ export const DeleteStudioResponse = S.suspend(() =>
   identifier: "DeleteStudioResponse",
 }) as any as S.Schema<DeleteStudioResponse>;
 export interface DeleteStudioSessionMappingInput {
-  StudioId: string;
+  StudioId?: string;
   IdentityId?: string;
   IdentityName?: string;
-  IdentityType: string;
+  IdentityType?: IdentityType;
 }
 export const DeleteStudioSessionMappingInput = S.suspend(() =>
   S.Struct({
-    StudioId: S.String,
+    StudioId: S.optional(S.String),
     IdentityId: S.optional(S.String),
     IdentityName: S.optional(S.String),
-    IdentityType: S.String,
+    IdentityType: S.optional(IdentityType),
   }).pipe(
     T.all(
       ns,
@@ -375,10 +509,10 @@ export const DeleteStudioSessionMappingResponse = S.suspend(() =>
   identifier: "DeleteStudioSessionMappingResponse",
 }) as any as S.Schema<DeleteStudioSessionMappingResponse>;
 export interface DescribeClusterInput {
-  ClusterId: string;
+  ClusterId?: string;
 }
 export const DescribeClusterInput = S.suspend(() =>
-  S.Struct({ ClusterId: S.String }).pipe(
+  S.Struct({ ClusterId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -395,8 +529,8 @@ export const DescribeClusterInput = S.suspend(() =>
 export interface DescribeJobFlowsInput {
   CreatedAfter?: Date;
   CreatedBefore?: Date;
-  JobFlowIds?: XmlStringList;
-  JobFlowStates?: JobFlowExecutionStateList;
+  JobFlowIds?: string[];
+  JobFlowStates?: JobFlowExecutionState[];
 }
 export const DescribeJobFlowsInput = S.suspend(() =>
   S.Struct({
@@ -419,10 +553,10 @@ export const DescribeJobFlowsInput = S.suspend(() =>
   identifier: "DescribeJobFlowsInput",
 }) as any as S.Schema<DescribeJobFlowsInput>;
 export interface DescribeNotebookExecutionInput {
-  NotebookExecutionId: string;
+  NotebookExecutionId?: string;
 }
 export const DescribeNotebookExecutionInput = S.suspend(() =>
-  S.Struct({ NotebookExecutionId: S.String }).pipe(
+  S.Struct({ NotebookExecutionId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -437,10 +571,10 @@ export const DescribeNotebookExecutionInput = S.suspend(() =>
   identifier: "DescribeNotebookExecutionInput",
 }) as any as S.Schema<DescribeNotebookExecutionInput>;
 export interface DescribePersistentAppUIInput {
-  PersistentAppUIId: string;
+  PersistentAppUIId?: string;
 }
 export const DescribePersistentAppUIInput = S.suspend(() =>
-  S.Struct({ PersistentAppUIId: S.String }).pipe(
+  S.Struct({ PersistentAppUIId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -479,10 +613,10 @@ export const DescribeReleaseLabelInput = S.suspend(() =>
   identifier: "DescribeReleaseLabelInput",
 }) as any as S.Schema<DescribeReleaseLabelInput>;
 export interface DescribeSecurityConfigurationInput {
-  Name: string;
+  Name?: string;
 }
 export const DescribeSecurityConfigurationInput = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
+  S.Struct({ Name: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -497,11 +631,14 @@ export const DescribeSecurityConfigurationInput = S.suspend(() =>
   identifier: "DescribeSecurityConfigurationInput",
 }) as any as S.Schema<DescribeSecurityConfigurationInput>;
 export interface DescribeStepInput {
-  ClusterId: string;
-  StepId: string;
+  ClusterId?: string;
+  StepId?: string;
 }
 export const DescribeStepInput = S.suspend(() =>
-  S.Struct({ ClusterId: S.String, StepId: S.String }).pipe(
+  S.Struct({
+    ClusterId: S.optional(S.String),
+    StepId: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -516,10 +653,10 @@ export const DescribeStepInput = S.suspend(() =>
   identifier: "DescribeStepInput",
 }) as any as S.Schema<DescribeStepInput>;
 export interface DescribeStudioInput {
-  StudioId: string;
+  StudioId?: string;
 }
 export const DescribeStudioInput = S.suspend(() =>
-  S.Struct({ StudioId: S.String }).pipe(
+  S.Struct({ StudioId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -534,10 +671,10 @@ export const DescribeStudioInput = S.suspend(() =>
   identifier: "DescribeStudioInput",
 }) as any as S.Schema<DescribeStudioInput>;
 export interface GetAutoTerminationPolicyInput {
-  ClusterId: string;
+  ClusterId?: string;
 }
 export const GetAutoTerminationPolicyInput = S.suspend(() =>
-  S.Struct({ ClusterId: S.String }).pipe(
+  S.Struct({ ClusterId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -552,12 +689,12 @@ export const GetAutoTerminationPolicyInput = S.suspend(() =>
   identifier: "GetAutoTerminationPolicyInput",
 }) as any as S.Schema<GetAutoTerminationPolicyInput>;
 export interface GetClusterSessionCredentialsInput {
-  ClusterId: string;
+  ClusterId?: string;
   ExecutionRoleArn?: string;
 }
 export const GetClusterSessionCredentialsInput = S.suspend(() =>
   S.Struct({
-    ClusterId: S.String,
+    ClusterId: S.optional(S.String),
     ExecutionRoleArn: S.optional(S.String),
   }).pipe(
     T.all(
@@ -574,10 +711,10 @@ export const GetClusterSessionCredentialsInput = S.suspend(() =>
   identifier: "GetClusterSessionCredentialsInput",
 }) as any as S.Schema<GetClusterSessionCredentialsInput>;
 export interface GetManagedScalingPolicyInput {
-  ClusterId: string;
+  ClusterId?: string;
 }
 export const GetManagedScalingPolicyInput = S.suspend(() =>
-  S.Struct({ ClusterId: S.String }).pipe(
+  S.Struct({ ClusterId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -592,16 +729,16 @@ export const GetManagedScalingPolicyInput = S.suspend(() =>
   identifier: "GetManagedScalingPolicyInput",
 }) as any as S.Schema<GetManagedScalingPolicyInput>;
 export interface GetOnClusterAppUIPresignedURLInput {
-  ClusterId: string;
-  OnClusterAppUIType?: string;
+  ClusterId?: string;
+  OnClusterAppUIType?: OnClusterAppUIType;
   ApplicationId?: string;
   DryRun?: boolean;
   ExecutionRoleArn?: string;
 }
 export const GetOnClusterAppUIPresignedURLInput = S.suspend(() =>
   S.Struct({
-    ClusterId: S.String,
-    OnClusterAppUIType: S.optional(S.String),
+    ClusterId: S.optional(S.String),
+    OnClusterAppUIType: S.optional(OnClusterAppUIType),
     ApplicationId: S.optional(S.String),
     DryRun: S.optional(S.Boolean),
     ExecutionRoleArn: S.optional(S.String),
@@ -620,16 +757,16 @@ export const GetOnClusterAppUIPresignedURLInput = S.suspend(() =>
   identifier: "GetOnClusterAppUIPresignedURLInput",
 }) as any as S.Schema<GetOnClusterAppUIPresignedURLInput>;
 export interface GetPersistentAppUIPresignedURLInput {
-  PersistentAppUIId: string;
-  PersistentAppUIType?: string;
+  PersistentAppUIId?: string;
+  PersistentAppUIType?: PersistentAppUIType;
   ApplicationId?: string;
   AuthProxyCall?: boolean;
   ExecutionRoleArn?: string;
 }
 export const GetPersistentAppUIPresignedURLInput = S.suspend(() =>
   S.Struct({
-    PersistentAppUIId: S.String,
-    PersistentAppUIType: S.optional(S.String),
+    PersistentAppUIId: S.optional(S.String),
+    PersistentAppUIType: S.optional(PersistentAppUIType),
     ApplicationId: S.optional(S.String),
     AuthProxyCall: S.optional(S.Boolean),
     ExecutionRoleArn: S.optional(S.String),
@@ -648,17 +785,17 @@ export const GetPersistentAppUIPresignedURLInput = S.suspend(() =>
   identifier: "GetPersistentAppUIPresignedURLInput",
 }) as any as S.Schema<GetPersistentAppUIPresignedURLInput>;
 export interface GetStudioSessionMappingInput {
-  StudioId: string;
+  StudioId?: string;
   IdentityId?: string;
   IdentityName?: string;
-  IdentityType: string;
+  IdentityType?: IdentityType;
 }
 export const GetStudioSessionMappingInput = S.suspend(() =>
   S.Struct({
-    StudioId: S.String,
+    StudioId: S.optional(S.String),
     IdentityId: S.optional(S.String),
     IdentityName: S.optional(S.String),
-    IdentityType: S.String,
+    IdentityType: S.optional(IdentityType),
   }).pipe(
     T.all(
       ns,
@@ -674,11 +811,14 @@ export const GetStudioSessionMappingInput = S.suspend(() =>
   identifier: "GetStudioSessionMappingInput",
 }) as any as S.Schema<GetStudioSessionMappingInput>;
 export interface ListBootstrapActionsInput {
-  ClusterId: string;
+  ClusterId?: string;
   Marker?: string;
 }
 export const ListBootstrapActionsInput = S.suspend(() =>
-  S.Struct({ ClusterId: S.String, Marker: S.optional(S.String) }).pipe(
+  S.Struct({
+    ClusterId: S.optional(S.String),
+    Marker: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -695,7 +835,7 @@ export const ListBootstrapActionsInput = S.suspend(() =>
 export interface ListClustersInput {
   CreatedAfter?: Date;
   CreatedBefore?: Date;
-  ClusterStates?: ClusterStateList;
+  ClusterStates?: ClusterState[];
   Marker?: string;
 }
 export const ListClustersInput = S.suspend(() =>
@@ -719,11 +859,14 @@ export const ListClustersInput = S.suspend(() =>
   identifier: "ListClustersInput",
 }) as any as S.Schema<ListClustersInput>;
 export interface ListInstanceFleetsInput {
-  ClusterId: string;
+  ClusterId?: string;
   Marker?: string;
 }
 export const ListInstanceFleetsInput = S.suspend(() =>
-  S.Struct({ ClusterId: S.String, Marker: S.optional(S.String) }).pipe(
+  S.Struct({
+    ClusterId: S.optional(S.String),
+    Marker: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -738,11 +881,14 @@ export const ListInstanceFleetsInput = S.suspend(() =>
   identifier: "ListInstanceFleetsInput",
 }) as any as S.Schema<ListInstanceFleetsInput>;
 export interface ListInstanceGroupsInput {
-  ClusterId: string;
+  ClusterId?: string;
   Marker?: string;
 }
 export const ListInstanceGroupsInput = S.suspend(() =>
-  S.Struct({ ClusterId: S.String, Marker: S.optional(S.String) }).pipe(
+  S.Struct({
+    ClusterId: S.optional(S.String),
+    Marker: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -757,21 +903,21 @@ export const ListInstanceGroupsInput = S.suspend(() =>
   identifier: "ListInstanceGroupsInput",
 }) as any as S.Schema<ListInstanceGroupsInput>;
 export interface ListInstancesInput {
-  ClusterId: string;
+  ClusterId?: string;
   InstanceGroupId?: string;
-  InstanceGroupTypes?: InstanceGroupTypeList;
+  InstanceGroupTypes?: InstanceGroupType[];
   InstanceFleetId?: string;
-  InstanceFleetType?: string;
-  InstanceStates?: InstanceStateList;
+  InstanceFleetType?: InstanceFleetType;
+  InstanceStates?: InstanceState[];
   Marker?: string;
 }
 export const ListInstancesInput = S.suspend(() =>
   S.Struct({
-    ClusterId: S.String,
+    ClusterId: S.optional(S.String),
     InstanceGroupId: S.optional(S.String),
     InstanceGroupTypes: S.optional(InstanceGroupTypeList),
     InstanceFleetId: S.optional(S.String),
-    InstanceFleetType: S.optional(S.String),
+    InstanceFleetType: S.optional(InstanceFleetType),
     InstanceStates: S.optional(InstanceStateList),
     Marker: S.optional(S.String),
   }).pipe(
@@ -790,7 +936,7 @@ export const ListInstancesInput = S.suspend(() =>
 }) as any as S.Schema<ListInstancesInput>;
 export interface ListNotebookExecutionsInput {
   EditorId?: string;
-  Status?: string;
+  Status?: NotebookExecutionStatus;
   From?: Date;
   To?: Date;
   Marker?: string;
@@ -799,7 +945,7 @@ export interface ListNotebookExecutionsInput {
 export const ListNotebookExecutionsInput = S.suspend(() =>
   S.Struct({
     EditorId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(NotebookExecutionStatus),
     From: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     To: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Marker: S.optional(S.String),
@@ -837,14 +983,14 @@ export const ListSecurityConfigurationsInput = S.suspend(() =>
   identifier: "ListSecurityConfigurationsInput",
 }) as any as S.Schema<ListSecurityConfigurationsInput>;
 export interface ListStepsInput {
-  ClusterId: string;
-  StepStates?: StepStateList;
-  StepIds?: XmlStringList;
+  ClusterId?: string;
+  StepStates?: StepState[];
+  StepIds?: string[];
   Marker?: string;
 }
 export const ListStepsInput = S.suspend(() =>
   S.Struct({
-    ClusterId: S.String,
+    ClusterId: S.optional(S.String),
     StepStates: S.optional(StepStateList),
     StepIds: S.optional(XmlStringList),
     Marker: S.optional(S.String),
@@ -882,13 +1028,13 @@ export const ListStudiosInput = S.suspend(() =>
 }) as any as S.Schema<ListStudiosInput>;
 export interface ListStudioSessionMappingsInput {
   StudioId?: string;
-  IdentityType?: string;
+  IdentityType?: IdentityType;
   Marker?: string;
 }
 export const ListStudioSessionMappingsInput = S.suspend(() =>
   S.Struct({
     StudioId: S.optional(S.String),
-    IdentityType: S.optional(S.String),
+    IdentityType: S.optional(IdentityType),
     Marker: S.optional(S.String),
   }).pipe(
     T.all(
@@ -905,11 +1051,14 @@ export const ListStudioSessionMappingsInput = S.suspend(() =>
   identifier: "ListStudioSessionMappingsInput",
 }) as any as S.Schema<ListStudioSessionMappingsInput>;
 export interface ListSupportedInstanceTypesInput {
-  ReleaseLabel: string;
+  ReleaseLabel?: string;
   Marker?: string;
 }
 export const ListSupportedInstanceTypesInput = S.suspend(() =>
-  S.Struct({ ReleaseLabel: S.String, Marker: S.optional(S.String) }).pipe(
+  S.Struct({
+    ReleaseLabel: S.optional(S.String),
+    Marker: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -924,13 +1073,13 @@ export const ListSupportedInstanceTypesInput = S.suspend(() =>
   identifier: "ListSupportedInstanceTypesInput",
 }) as any as S.Schema<ListSupportedInstanceTypesInput>;
 export interface ModifyClusterInput {
-  ClusterId: string;
+  ClusterId?: string;
   StepConcurrencyLevel?: number;
   ExtendedSupport?: boolean;
 }
 export const ModifyClusterInput = S.suspend(() =>
   S.Struct({
-    ClusterId: S.String,
+    ClusterId: S.optional(S.String),
     StepConcurrencyLevel: S.optional(S.Number),
     ExtendedSupport: S.optional(S.Boolean),
   }).pipe(
@@ -948,11 +1097,11 @@ export const ModifyClusterInput = S.suspend(() =>
   identifier: "ModifyClusterInput",
 }) as any as S.Schema<ModifyClusterInput>;
 export interface PortRange {
-  MinRange: number;
+  MinRange?: number;
   MaxRange?: number;
 }
 export const PortRange = S.suspend(() =>
-  S.Struct({ MinRange: S.Number, MaxRange: S.optional(S.Number) }),
+  S.Struct({ MinRange: S.optional(S.Number), MaxRange: S.optional(S.Number) }),
 ).annotations({ identifier: "PortRange" }) as any as S.Schema<PortRange>;
 export type PortRanges = PortRange[];
 export const PortRanges = S.Array(PortRange);
@@ -965,15 +1114,15 @@ export const ConfigurationList = S.Array(
 export type StringMap = { [key: string]: string };
 export const StringMap = S.Record({ key: S.String, value: S.String });
 export interface BlockPublicAccessConfiguration {
-  BlockPublicSecurityGroupRules: boolean;
-  PermittedPublicSecurityGroupRuleRanges?: PortRanges;
+  BlockPublicSecurityGroupRules?: boolean;
+  PermittedPublicSecurityGroupRuleRanges?: PortRange[];
   Classification?: string;
-  Configurations?: ConfigurationList;
-  Properties?: StringMap;
+  Configurations?: Configuration[];
+  Properties?: { [key: string]: string };
 }
 export const BlockPublicAccessConfiguration = S.suspend(() =>
   S.Struct({
-    BlockPublicSecurityGroupRules: S.Boolean,
+    BlockPublicSecurityGroupRules: S.optional(S.Boolean),
     PermittedPublicSecurityGroupRuleRanges: S.optional(PortRanges),
     Classification: S.optional(S.String),
     Configurations: S.optional(ConfigurationList),
@@ -983,11 +1132,11 @@ export const BlockPublicAccessConfiguration = S.suspend(() =>
   identifier: "BlockPublicAccessConfiguration",
 }) as any as S.Schema<BlockPublicAccessConfiguration>;
 export interface PutBlockPublicAccessConfigurationInput {
-  BlockPublicAccessConfiguration: BlockPublicAccessConfiguration;
+  BlockPublicAccessConfiguration?: BlockPublicAccessConfiguration;
 }
 export const PutBlockPublicAccessConfigurationInput = S.suspend(() =>
   S.Struct({
-    BlockPublicAccessConfiguration: BlockPublicAccessConfiguration,
+    BlockPublicAccessConfiguration: S.optional(BlockPublicAccessConfiguration),
   }).pipe(
     T.all(
       ns,
@@ -1009,11 +1158,14 @@ export const PutBlockPublicAccessConfigurationOutput = S.suspend(() =>
   identifier: "PutBlockPublicAccessConfigurationOutput",
 }) as any as S.Schema<PutBlockPublicAccessConfigurationOutput>;
 export interface RemoveAutoScalingPolicyInput {
-  ClusterId: string;
-  InstanceGroupId: string;
+  ClusterId?: string;
+  InstanceGroupId?: string;
 }
 export const RemoveAutoScalingPolicyInput = S.suspend(() =>
-  S.Struct({ ClusterId: S.String, InstanceGroupId: S.String }).pipe(
+  S.Struct({
+    ClusterId: S.optional(S.String),
+    InstanceGroupId: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1034,10 +1186,10 @@ export const RemoveAutoScalingPolicyOutput = S.suspend(() =>
   identifier: "RemoveAutoScalingPolicyOutput",
 }) as any as S.Schema<RemoveAutoScalingPolicyOutput>;
 export interface RemoveAutoTerminationPolicyInput {
-  ClusterId: string;
+  ClusterId?: string;
 }
 export const RemoveAutoTerminationPolicyInput = S.suspend(() =>
-  S.Struct({ ClusterId: S.String }).pipe(
+  S.Struct({ ClusterId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1058,10 +1210,10 @@ export const RemoveAutoTerminationPolicyOutput = S.suspend(() =>
   identifier: "RemoveAutoTerminationPolicyOutput",
 }) as any as S.Schema<RemoveAutoTerminationPolicyOutput>;
 export interface RemoveManagedScalingPolicyInput {
-  ClusterId: string;
+  ClusterId?: string;
 }
 export const RemoveManagedScalingPolicyInput = S.suspend(() =>
-  S.Struct({ ClusterId: S.String }).pipe(
+  S.Struct({ ClusterId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1082,11 +1234,14 @@ export const RemoveManagedScalingPolicyOutput = S.suspend(() =>
   identifier: "RemoveManagedScalingPolicyOutput",
 }) as any as S.Schema<RemoveManagedScalingPolicyOutput>;
 export interface RemoveTagsInput {
-  ResourceId: string;
-  TagKeys: StringList;
+  ResourceId?: string;
+  TagKeys?: string[];
 }
 export const RemoveTagsInput = S.suspend(() =>
-  S.Struct({ ResourceId: S.String, TagKeys: StringList }).pipe(
+  S.Struct({
+    ResourceId: S.optional(S.String),
+    TagKeys: S.optional(StringList),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1107,13 +1262,13 @@ export const RemoveTagsOutput = S.suspend(() =>
   identifier: "RemoveTagsOutput",
 }) as any as S.Schema<RemoveTagsOutput>;
 export interface SetKeepJobFlowAliveWhenNoStepsInput {
-  JobFlowIds: XmlStringList;
-  KeepJobFlowAliveWhenNoSteps: boolean;
+  JobFlowIds?: string[];
+  KeepJobFlowAliveWhenNoSteps?: boolean;
 }
 export const SetKeepJobFlowAliveWhenNoStepsInput = S.suspend(() =>
   S.Struct({
-    JobFlowIds: XmlStringList,
-    KeepJobFlowAliveWhenNoSteps: S.Boolean,
+    JobFlowIds: S.optional(XmlStringList),
+    KeepJobFlowAliveWhenNoSteps: S.optional(S.Boolean),
   }).pipe(
     T.all(
       ns,
@@ -1135,11 +1290,14 @@ export const SetKeepJobFlowAliveWhenNoStepsResponse = S.suspend(() =>
   identifier: "SetKeepJobFlowAliveWhenNoStepsResponse",
 }) as any as S.Schema<SetKeepJobFlowAliveWhenNoStepsResponse>;
 export interface SetTerminationProtectionInput {
-  JobFlowIds: XmlStringList;
-  TerminationProtected: boolean;
+  JobFlowIds?: string[];
+  TerminationProtected?: boolean;
 }
 export const SetTerminationProtectionInput = S.suspend(() =>
-  S.Struct({ JobFlowIds: XmlStringList, TerminationProtected: S.Boolean }).pipe(
+  S.Struct({
+    JobFlowIds: S.optional(XmlStringList),
+    TerminationProtected: S.optional(S.Boolean),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1160,13 +1318,13 @@ export const SetTerminationProtectionResponse = S.suspend(() =>
   identifier: "SetTerminationProtectionResponse",
 }) as any as S.Schema<SetTerminationProtectionResponse>;
 export interface SetUnhealthyNodeReplacementInput {
-  JobFlowIds: XmlStringList;
-  UnhealthyNodeReplacement: boolean;
+  JobFlowIds?: string[];
+  UnhealthyNodeReplacement?: boolean;
 }
 export const SetUnhealthyNodeReplacementInput = S.suspend(() =>
   S.Struct({
-    JobFlowIds: XmlStringList,
-    UnhealthyNodeReplacement: S.Boolean,
+    JobFlowIds: S.optional(XmlStringList),
+    UnhealthyNodeReplacement: S.optional(S.Boolean),
   }).pipe(
     T.all(
       ns,
@@ -1188,11 +1346,14 @@ export const SetUnhealthyNodeReplacementResponse = S.suspend(() =>
   identifier: "SetUnhealthyNodeReplacementResponse",
 }) as any as S.Schema<SetUnhealthyNodeReplacementResponse>;
 export interface SetVisibleToAllUsersInput {
-  JobFlowIds: XmlStringList;
-  VisibleToAllUsers: boolean;
+  JobFlowIds?: string[];
+  VisibleToAllUsers?: boolean;
 }
 export const SetVisibleToAllUsersInput = S.suspend(() =>
-  S.Struct({ JobFlowIds: XmlStringList, VisibleToAllUsers: S.Boolean }).pipe(
+  S.Struct({
+    JobFlowIds: S.optional(XmlStringList),
+    VisibleToAllUsers: S.optional(S.Boolean),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1213,10 +1374,10 @@ export const SetVisibleToAllUsersResponse = S.suspend(() =>
   identifier: "SetVisibleToAllUsersResponse",
 }) as any as S.Schema<SetVisibleToAllUsersResponse>;
 export interface StopNotebookExecutionInput {
-  NotebookExecutionId: string;
+  NotebookExecutionId?: string;
 }
 export const StopNotebookExecutionInput = S.suspend(() =>
-  S.Struct({ NotebookExecutionId: S.String }).pipe(
+  S.Struct({ NotebookExecutionId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1237,10 +1398,10 @@ export const StopNotebookExecutionResponse = S.suspend(() =>
   identifier: "StopNotebookExecutionResponse",
 }) as any as S.Schema<StopNotebookExecutionResponse>;
 export interface TerminateJobFlowsInput {
-  JobFlowIds: XmlStringList;
+  JobFlowIds?: string[];
 }
 export const TerminateJobFlowsInput = S.suspend(() =>
-  S.Struct({ JobFlowIds: XmlStringList }).pipe(
+  S.Struct({ JobFlowIds: S.optional(XmlStringList) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1261,16 +1422,16 @@ export const TerminateJobFlowsResponse = S.suspend(() =>
   identifier: "TerminateJobFlowsResponse",
 }) as any as S.Schema<TerminateJobFlowsResponse>;
 export interface UpdateStudioInput {
-  StudioId: string;
+  StudioId?: string;
   Name?: string;
   Description?: string;
-  SubnetIds?: SubnetIdList;
+  SubnetIds?: string[];
   DefaultS3Location?: string;
   EncryptionKeyArn?: string;
 }
 export const UpdateStudioInput = S.suspend(() =>
   S.Struct({
-    StudioId: S.String,
+    StudioId: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     SubnetIds: S.optional(SubnetIdList),
@@ -1297,19 +1458,19 @@ export const UpdateStudioResponse = S.suspend(() =>
   identifier: "UpdateStudioResponse",
 }) as any as S.Schema<UpdateStudioResponse>;
 export interface UpdateStudioSessionMappingInput {
-  StudioId: string;
+  StudioId?: string;
   IdentityId?: string;
   IdentityName?: string;
-  IdentityType: string;
-  SessionPolicyArn: string;
+  IdentityType?: IdentityType;
+  SessionPolicyArn?: string;
 }
 export const UpdateStudioSessionMappingInput = S.suspend(() =>
   S.Struct({
-    StudioId: S.String,
+    StudioId: S.optional(S.String),
     IdentityId: S.optional(S.String),
     IdentityName: S.optional(S.String),
-    IdentityType: S.String,
-    SessionPolicyArn: S.String,
+    IdentityType: S.optional(IdentityType),
+    SessionPolicyArn: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -1330,31 +1491,50 @@ export const UpdateStudioSessionMappingResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateStudioSessionMappingResponse",
 }) as any as S.Schema<UpdateStudioSessionMappingResponse>;
+export type MarketType = "ON_DEMAND" | "SPOT";
+export const MarketType = S.Literal("ON_DEMAND", "SPOT");
+export type InstanceRoleType = "MASTER" | "CORE" | "TASK";
+export const InstanceRoleType = S.Literal("MASTER", "CORE", "TASK");
+export type ActionOnFailure =
+  | "TERMINATE_JOB_FLOW"
+  | "TERMINATE_CLUSTER"
+  | "CANCEL_AND_WAIT"
+  | "CONTINUE";
+export const ActionOnFailure = S.Literal(
+  "TERMINATE_JOB_FLOW",
+  "TERMINATE_CLUSTER",
+  "CANCEL_AND_WAIT",
+  "CONTINUE",
+);
 export type EC2InstanceIdsToTerminateList = string[];
 export const EC2InstanceIdsToTerminateList = S.Array(S.String);
+export type ReconfigurationType = "OVERWRITE" | "MERGE";
+export const ReconfigurationType = S.Literal("OVERWRITE", "MERGE");
+export type ScalingStrategy = "DEFAULT" | "ADVANCED";
+export const ScalingStrategy = S.Literal("DEFAULT", "ADVANCED");
 export interface VolumeSpecification {
-  VolumeType: string;
+  VolumeType?: string;
   Iops?: number;
-  SizeInGB: number;
+  SizeInGB?: number;
   Throughput?: number;
 }
 export const VolumeSpecification = S.suspend(() =>
   S.Struct({
-    VolumeType: S.String,
+    VolumeType: S.optional(S.String),
     Iops: S.optional(S.Number),
-    SizeInGB: S.Number,
+    SizeInGB: S.optional(S.Number),
     Throughput: S.optional(S.Number),
   }),
 ).annotations({
   identifier: "VolumeSpecification",
 }) as any as S.Schema<VolumeSpecification>;
 export interface EbsBlockDeviceConfig {
-  VolumeSpecification: VolumeSpecification;
+  VolumeSpecification?: VolumeSpecification;
   VolumesPerInstance?: number;
 }
 export const EbsBlockDeviceConfig = S.suspend(() =>
   S.Struct({
-    VolumeSpecification: VolumeSpecification,
+    VolumeSpecification: S.optional(VolumeSpecification),
     VolumesPerInstance: S.optional(S.Number),
   }),
 ).annotations({
@@ -1363,7 +1543,7 @@ export const EbsBlockDeviceConfig = S.suspend(() =>
 export type EbsBlockDeviceConfigList = EbsBlockDeviceConfig[];
 export const EbsBlockDeviceConfigList = S.Array(EbsBlockDeviceConfig);
 export interface EbsConfiguration {
-  EbsBlockDeviceConfigs?: EbsBlockDeviceConfigList;
+  EbsBlockDeviceConfigs?: EbsBlockDeviceConfig[];
   EbsOptimized?: boolean;
 }
 export const EbsConfiguration = S.suspend(() =>
@@ -1375,18 +1555,18 @@ export const EbsConfiguration = S.suspend(() =>
   identifier: "EbsConfiguration",
 }) as any as S.Schema<EbsConfiguration>;
 export interface InstanceTypeConfig {
-  InstanceType: string;
+  InstanceType?: string;
   WeightedCapacity?: number;
   BidPrice?: string;
   BidPriceAsPercentageOfOnDemandPrice?: number;
   EbsConfiguration?: EbsConfiguration;
-  Configurations?: ConfigurationList;
+  Configurations?: Configuration[];
   CustomAmiId?: string;
   Priority?: number;
 }
 export const InstanceTypeConfig = S.suspend(() =>
   S.Struct({
-    InstanceType: S.String,
+    InstanceType: S.optional(S.String),
     WeightedCapacity: S.optional(S.Number),
     BidPrice: S.optional(S.String),
     BidPriceAsPercentageOfOnDemandPrice: S.optional(S.Number),
@@ -1400,43 +1580,79 @@ export const InstanceTypeConfig = S.suspend(() =>
 }) as any as S.Schema<InstanceTypeConfig>;
 export type InstanceTypeConfigList = InstanceTypeConfig[];
 export const InstanceTypeConfigList = S.Array(InstanceTypeConfig);
+export type SpotProvisioningTimeoutAction =
+  | "SWITCH_TO_ON_DEMAND"
+  | "TERMINATE_CLUSTER";
+export const SpotProvisioningTimeoutAction = S.Literal(
+  "SWITCH_TO_ON_DEMAND",
+  "TERMINATE_CLUSTER",
+);
+export type SpotProvisioningAllocationStrategy =
+  | "capacity-optimized"
+  | "price-capacity-optimized"
+  | "lowest-price"
+  | "diversified"
+  | "capacity-optimized-prioritized";
+export const SpotProvisioningAllocationStrategy = S.Literal(
+  "capacity-optimized",
+  "price-capacity-optimized",
+  "lowest-price",
+  "diversified",
+  "capacity-optimized-prioritized",
+);
 export interface SpotProvisioningSpecification {
-  TimeoutDurationMinutes: number;
-  TimeoutAction: string;
+  TimeoutDurationMinutes?: number;
+  TimeoutAction?: SpotProvisioningTimeoutAction;
   BlockDurationMinutes?: number;
-  AllocationStrategy?: string;
+  AllocationStrategy?: SpotProvisioningAllocationStrategy;
 }
 export const SpotProvisioningSpecification = S.suspend(() =>
   S.Struct({
-    TimeoutDurationMinutes: S.Number,
-    TimeoutAction: S.String,
+    TimeoutDurationMinutes: S.optional(S.Number),
+    TimeoutAction: S.optional(SpotProvisioningTimeoutAction),
     BlockDurationMinutes: S.optional(S.Number),
-    AllocationStrategy: S.optional(S.String),
+    AllocationStrategy: S.optional(SpotProvisioningAllocationStrategy),
   }),
 ).annotations({
   identifier: "SpotProvisioningSpecification",
 }) as any as S.Schema<SpotProvisioningSpecification>;
+export type OnDemandProvisioningAllocationStrategy =
+  | "lowest-price"
+  | "prioritized";
+export const OnDemandProvisioningAllocationStrategy = S.Literal(
+  "lowest-price",
+  "prioritized",
+);
+export type OnDemandCapacityReservationUsageStrategy =
+  "use-capacity-reservations-first";
+export const OnDemandCapacityReservationUsageStrategy = S.Literal(
+  "use-capacity-reservations-first",
+);
+export type OnDemandCapacityReservationPreference = "open" | "none";
+export const OnDemandCapacityReservationPreference = S.Literal("open", "none");
 export interface OnDemandCapacityReservationOptions {
-  UsageStrategy?: string;
-  CapacityReservationPreference?: string;
+  UsageStrategy?: OnDemandCapacityReservationUsageStrategy;
+  CapacityReservationPreference?: OnDemandCapacityReservationPreference;
   CapacityReservationResourceGroupArn?: string;
 }
 export const OnDemandCapacityReservationOptions = S.suspend(() =>
   S.Struct({
-    UsageStrategy: S.optional(S.String),
-    CapacityReservationPreference: S.optional(S.String),
+    UsageStrategy: S.optional(OnDemandCapacityReservationUsageStrategy),
+    CapacityReservationPreference: S.optional(
+      OnDemandCapacityReservationPreference,
+    ),
     CapacityReservationResourceGroupArn: S.optional(S.String),
   }),
 ).annotations({
   identifier: "OnDemandCapacityReservationOptions",
 }) as any as S.Schema<OnDemandCapacityReservationOptions>;
 export interface OnDemandProvisioningSpecification {
-  AllocationStrategy: string;
+  AllocationStrategy?: OnDemandProvisioningAllocationStrategy;
   CapacityReservationOptions?: OnDemandCapacityReservationOptions;
 }
 export const OnDemandProvisioningSpecification = S.suspend(() =>
   S.Struct({
-    AllocationStrategy: S.String,
+    AllocationStrategy: S.optional(OnDemandProvisioningAllocationStrategy),
     CapacityReservationOptions: S.optional(OnDemandCapacityReservationOptions),
   }),
 ).annotations({
@@ -1456,25 +1672,25 @@ export const InstanceFleetProvisioningSpecifications = S.suspend(() =>
 }) as any as S.Schema<InstanceFleetProvisioningSpecifications>;
 export interface SpotResizingSpecification {
   TimeoutDurationMinutes?: number;
-  AllocationStrategy?: string;
+  AllocationStrategy?: SpotProvisioningAllocationStrategy;
 }
 export const SpotResizingSpecification = S.suspend(() =>
   S.Struct({
     TimeoutDurationMinutes: S.optional(S.Number),
-    AllocationStrategy: S.optional(S.String),
+    AllocationStrategy: S.optional(SpotProvisioningAllocationStrategy),
   }),
 ).annotations({
   identifier: "SpotResizingSpecification",
 }) as any as S.Schema<SpotResizingSpecification>;
 export interface OnDemandResizingSpecification {
   TimeoutDurationMinutes?: number;
-  AllocationStrategy?: string;
+  AllocationStrategy?: OnDemandProvisioningAllocationStrategy;
   CapacityReservationOptions?: OnDemandCapacityReservationOptions;
 }
 export const OnDemandResizingSpecification = S.suspend(() =>
   S.Struct({
     TimeoutDurationMinutes: S.optional(S.Number),
-    AllocationStrategy: S.optional(S.String),
+    AllocationStrategy: S.optional(OnDemandProvisioningAllocationStrategy),
     CapacityReservationOptions: S.optional(OnDemandCapacityReservationOptions),
   }),
 ).annotations({
@@ -1494,10 +1710,10 @@ export const InstanceFleetResizingSpecifications = S.suspend(() =>
 }) as any as S.Schema<InstanceFleetResizingSpecifications>;
 export interface InstanceFleetConfig {
   Name?: string;
-  InstanceFleetType: string;
+  InstanceFleetType?: InstanceFleetType;
   TargetOnDemandCapacity?: number;
   TargetSpotCapacity?: number;
-  InstanceTypeConfigs?: InstanceTypeConfigList;
+  InstanceTypeConfigs?: InstanceTypeConfig[];
   LaunchSpecifications?: InstanceFleetProvisioningSpecifications;
   ResizeSpecifications?: InstanceFleetResizingSpecifications;
   Context?: string;
@@ -1505,7 +1721,7 @@ export interface InstanceFleetConfig {
 export const InstanceFleetConfig = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    InstanceFleetType: S.String,
+    InstanceFleetType: S.optional(InstanceFleetType),
     TargetOnDemandCapacity: S.optional(S.Number),
     TargetSpotCapacity: S.optional(S.Number),
     InstanceTypeConfigs: S.optional(InstanceTypeConfigList),
@@ -1522,6 +1738,19 @@ export type XmlStringMaxLen256List = string[];
 export const XmlStringMaxLen256List = S.Array(S.String);
 export type SecurityGroupsList = string[];
 export const SecurityGroupsList = S.Array(S.String);
+export type PlacementGroupStrategy =
+  | "SPREAD"
+  | "PARTITION"
+  | "CLUSTER"
+  | "NONE";
+export const PlacementGroupStrategy = S.Literal(
+  "SPREAD",
+  "PARTITION",
+  "CLUSTER",
+  "NONE",
+);
+export type ExecutionEngineType = "EMR";
+export const ExecutionEngineType = S.Literal("EMR");
 export interface EMRContainersConfig {
   JobRunId?: string;
 }
@@ -1531,13 +1760,15 @@ export const EMRContainersConfig = S.suspend(() =>
   identifier: "EMRContainersConfig",
 }) as any as S.Schema<EMRContainersConfig>;
 export interface BlockPublicAccessConfigurationMetadata {
-  CreationDateTime: Date;
-  CreatedByArn: string;
+  CreationDateTime?: Date;
+  CreatedByArn?: string;
 }
 export const BlockPublicAccessConfigurationMetadata = S.suspend(() =>
   S.Struct({
-    CreationDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    CreatedByArn: S.String,
+    CreationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    CreatedByArn: S.optional(S.String),
   }),
 ).annotations({
   identifier: "BlockPublicAccessConfigurationMetadata",
@@ -1552,16 +1783,16 @@ export const ReleaseLabelFilter = S.suspend(() =>
   identifier: "ReleaseLabelFilter",
 }) as any as S.Schema<ReleaseLabelFilter>;
 export interface InstanceFleetModifyConfig {
-  InstanceFleetId: string;
+  InstanceFleetId?: string;
   TargetOnDemandCapacity?: number;
   TargetSpotCapacity?: number;
   ResizeSpecifications?: InstanceFleetResizingSpecifications;
-  InstanceTypeConfigs?: InstanceTypeConfigList;
+  InstanceTypeConfigs?: InstanceTypeConfig[];
   Context?: string;
 }
 export const InstanceFleetModifyConfig = S.suspend(() =>
   S.Struct({
-    InstanceFleetId: S.String,
+    InstanceFleetId: S.optional(S.String),
     TargetOnDemandCapacity: S.optional(S.Number),
     TargetSpotCapacity: S.optional(S.Number),
     ResizeSpecifications: S.optional(InstanceFleetResizingSpecifications),
@@ -1581,7 +1812,7 @@ export const AutoTerminationPolicy = S.suspend(() =>
 }) as any as S.Schema<AutoTerminationPolicy>;
 export interface SupportedProductConfig {
   Name?: string;
-  Args?: XmlStringList;
+  Args?: string[];
 }
 export const SupportedProductConfig = S.suspend(() =>
   S.Struct({ Name: S.optional(S.String), Args: S.optional(XmlStringList) }),
@@ -1593,8 +1824,8 @@ export const NewSupportedProductsList = S.Array(SupportedProductConfig);
 export interface Application {
   Name?: string;
   Version?: string;
-  Args?: StringList;
-  AdditionalInfo?: StringMap;
+  Args?: string[];
+  AdditionalInfo?: { [key: string]: string };
 }
 export const Application = S.suspend(() =>
   S.Struct({
@@ -1608,8 +1839,8 @@ export type ApplicationList = Application[];
 export const ApplicationList = S.Array(Application);
 export interface Configuration {
   Classification?: string;
-  Configurations?: ConfigurationList;
-  Properties?: StringMap;
+  Configurations?: Configuration[];
+  Properties?: { [key: string]: string };
 }
 export const Configuration = S.suspend(() =>
   S.Struct({
@@ -1625,16 +1856,16 @@ export const Configuration = S.suspend(() =>
   identifier: "Configuration",
 }) as any as S.Schema<Configuration>;
 export interface KerberosAttributes {
-  Realm: string;
-  KdcAdminPassword: string;
+  Realm?: string;
+  KdcAdminPassword?: string;
   CrossRealmTrustPrincipalPassword?: string;
   ADDomainJoinUser?: string;
   ADDomainJoinPassword?: string;
 }
 export const KerberosAttributes = S.suspend(() =>
   S.Struct({
-    Realm: S.String,
-    KdcAdminPassword: S.String,
+    Realm: S.optional(S.String),
+    KdcAdminPassword: S.optional(S.String),
     CrossRealmTrustPrincipalPassword: S.optional(S.String),
     ADDomainJoinUser: S.optional(S.String),
     ADDomainJoinPassword: S.optional(S.String),
@@ -1643,26 +1874,29 @@ export const KerberosAttributes = S.suspend(() =>
   identifier: "KerberosAttributes",
 }) as any as S.Schema<KerberosAttributes>;
 export interface PlacementGroupConfig {
-  InstanceRole: string;
-  PlacementStrategy?: string;
+  InstanceRole?: InstanceRoleType;
+  PlacementStrategy?: PlacementGroupStrategy;
 }
 export const PlacementGroupConfig = S.suspend(() =>
-  S.Struct({ InstanceRole: S.String, PlacementStrategy: S.optional(S.String) }),
+  S.Struct({
+    InstanceRole: S.optional(InstanceRoleType),
+    PlacementStrategy: S.optional(PlacementGroupStrategy),
+  }),
 ).annotations({
   identifier: "PlacementGroupConfig",
 }) as any as S.Schema<PlacementGroupConfig>;
 export type PlacementGroupConfigList = PlacementGroupConfig[];
 export const PlacementGroupConfigList = S.Array(PlacementGroupConfig);
 export interface ExecutionEngineConfig {
-  Id: string;
-  Type?: string;
+  Id?: string;
+  Type?: ExecutionEngineType;
   MasterInstanceSecurityGroupId?: string;
   ExecutionRoleArn?: string;
 }
 export const ExecutionEngineConfig = S.suspend(() =>
   S.Struct({
-    Id: S.String,
-    Type: S.optional(S.String),
+    Id: S.optional(S.String),
+    Type: S.optional(ExecutionEngineType),
     MasterInstanceSecurityGroupId: S.optional(S.String),
     ExecutionRoleArn: S.optional(S.String),
   }),
@@ -1692,12 +1926,21 @@ export const EnvironmentVariablesMap = S.Record({
   key: S.String,
   value: S.String,
 });
+export type ComputeLimitsUnitType = "InstanceFleetUnits" | "Instances" | "VCPU";
+export const ComputeLimitsUnitType = S.Literal(
+  "InstanceFleetUnits",
+  "Instances",
+  "VCPU",
+);
 export interface AddTagsInput {
-  ResourceId: string;
-  Tags: TagList;
+  ResourceId?: string;
+  Tags?: Tag[];
 }
 export const AddTagsInput = S.suspend(() =>
-  S.Struct({ ResourceId: S.String, Tags: TagList }).pipe(
+  S.Struct({
+    ResourceId: S.optional(S.String),
+    Tags: S.optional(TagList),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1714,19 +1957,19 @@ export const AddTagsOutput = S.suspend(() => S.Struct({}).pipe(ns)).annotations(
   { identifier: "AddTagsOutput" },
 ) as any as S.Schema<AddTagsOutput>;
 export interface CreatePersistentAppUIInput {
-  TargetResourceArn: string;
+  TargetResourceArn?: string;
   EMRContainersConfig?: EMRContainersConfig;
-  Tags?: TagList;
+  Tags?: Tag[];
   XReferer?: string;
-  ProfilerType?: string;
+  ProfilerType?: ProfilerType;
 }
 export const CreatePersistentAppUIInput = S.suspend(() =>
   S.Struct({
-    TargetResourceArn: S.String,
+    TargetResourceArn: S.optional(S.String),
     EMRContainersConfig: S.optional(EMRContainersConfig),
     Tags: S.optional(TagList),
     XReferer: S.optional(S.String),
-    ProfilerType: S.optional(S.String),
+    ProfilerType: S.optional(ProfilerType),
   }).pipe(
     T.all(
       ns,
@@ -1742,13 +1985,15 @@ export const CreatePersistentAppUIInput = S.suspend(() =>
   identifier: "CreatePersistentAppUIInput",
 }) as any as S.Schema<CreatePersistentAppUIInput>;
 export interface CreateSecurityConfigurationOutput {
-  Name: string;
-  CreationDateTime: Date;
+  Name?: string;
+  CreationDateTime?: Date;
 }
 export const CreateSecurityConfigurationOutput = S.suspend(() =>
   S.Struct({
-    Name: S.String,
-    CreationDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    Name: S.optional(S.String),
+    CreationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
   }).pipe(ns),
 ).annotations({
   identifier: "CreateSecurityConfigurationOutput",
@@ -1791,17 +2036,17 @@ export const GetAutoTerminationPolicyOutput = S.suspend(() =>
   identifier: "GetAutoTerminationPolicyOutput",
 }) as any as S.Schema<GetAutoTerminationPolicyOutput>;
 export interface ComputeLimits {
-  UnitType: string;
-  MinimumCapacityUnits: number;
-  MaximumCapacityUnits: number;
+  UnitType?: ComputeLimitsUnitType;
+  MinimumCapacityUnits?: number;
+  MaximumCapacityUnits?: number;
   MaximumOnDemandCapacityUnits?: number;
   MaximumCoreCapacityUnits?: number;
 }
 export const ComputeLimits = S.suspend(() =>
   S.Struct({
-    UnitType: S.String,
-    MinimumCapacityUnits: S.Number,
-    MaximumCapacityUnits: S.Number,
+    UnitType: S.optional(ComputeLimitsUnitType),
+    MinimumCapacityUnits: S.optional(S.Number),
+    MaximumCapacityUnits: S.optional(S.Number),
     MaximumOnDemandCapacityUnits: S.optional(S.Number),
     MaximumCoreCapacityUnits: S.optional(S.Number),
   }),
@@ -1811,13 +2056,13 @@ export const ComputeLimits = S.suspend(() =>
 export interface ManagedScalingPolicy {
   ComputeLimits?: ComputeLimits;
   UtilizationPerformanceIndex?: number;
-  ScalingStrategy?: string;
+  ScalingStrategy?: ScalingStrategy;
 }
 export const ManagedScalingPolicy = S.suspend(() =>
   S.Struct({
     ComputeLimits: S.optional(ComputeLimits),
     UtilizationPerformanceIndex: S.optional(S.Number),
-    ScalingStrategy: S.optional(S.String),
+    ScalingStrategy: S.optional(ScalingStrategy),
   }),
 ).annotations({
   identifier: "ManagedScalingPolicy",
@@ -1891,13 +2136,13 @@ export const ModifyClusterOutput = S.suspend(() =>
   identifier: "ModifyClusterOutput",
 }) as any as S.Schema<ModifyClusterOutput>;
 export interface ModifyInstanceFleetInput {
-  ClusterId: string;
-  InstanceFleet: InstanceFleetModifyConfig;
+  ClusterId?: string;
+  InstanceFleet?: InstanceFleetModifyConfig;
 }
 export const ModifyInstanceFleetInput = S.suspend(() =>
   S.Struct({
-    ClusterId: S.String,
-    InstanceFleet: InstanceFleetModifyConfig,
+    ClusterId: S.optional(S.String),
+    InstanceFleet: S.optional(InstanceFleetModifyConfig),
   }).pipe(
     T.all(
       ns,
@@ -1919,12 +2164,12 @@ export const ModifyInstanceFleetResponse = S.suspend(() =>
   identifier: "ModifyInstanceFleetResponse",
 }) as any as S.Schema<ModifyInstanceFleetResponse>;
 export interface PutAutoTerminationPolicyInput {
-  ClusterId: string;
+  ClusterId?: string;
   AutoTerminationPolicy?: AutoTerminationPolicy;
 }
 export const PutAutoTerminationPolicyInput = S.suspend(() =>
   S.Struct({
-    ClusterId: S.String,
+    ClusterId: S.optional(S.String),
     AutoTerminationPolicy: S.optional(AutoTerminationPolicy),
   }).pipe(
     T.all(
@@ -1951,14 +2196,14 @@ export interface StartNotebookExecutionInput {
   RelativePath?: string;
   NotebookExecutionName?: string;
   NotebookParams?: string;
-  ExecutionEngine: ExecutionEngineConfig;
-  ServiceRole: string;
+  ExecutionEngine?: ExecutionEngineConfig;
+  ServiceRole?: string;
   NotebookInstanceSecurityGroupId?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   NotebookS3Location?: NotebookS3LocationFromInput;
   OutputNotebookS3Location?: OutputNotebookS3LocationFromInput;
-  OutputNotebookFormat?: string;
-  EnvironmentVariables?: EnvironmentVariablesMap;
+  OutputNotebookFormat?: OutputNotebookFormat;
+  EnvironmentVariables?: { [key: string]: string };
 }
 export const StartNotebookExecutionInput = S.suspend(() =>
   S.Struct({
@@ -1966,13 +2211,13 @@ export const StartNotebookExecutionInput = S.suspend(() =>
     RelativePath: S.optional(S.String),
     NotebookExecutionName: S.optional(S.String),
     NotebookParams: S.optional(S.String),
-    ExecutionEngine: ExecutionEngineConfig,
-    ServiceRole: S.String,
+    ExecutionEngine: S.optional(ExecutionEngineConfig),
+    ServiceRole: S.optional(S.String),
     NotebookInstanceSecurityGroupId: S.optional(S.String),
     Tags: S.optional(TagList),
     NotebookS3Location: S.optional(NotebookS3LocationFromInput),
     OutputNotebookS3Location: S.optional(OutputNotebookS3LocationFromInput),
-    OutputNotebookFormat: S.optional(S.String),
+    OutputNotebookFormat: S.optional(OutputNotebookFormat),
     EnvironmentVariables: S.optional(EnvironmentVariablesMap),
   }).pipe(
     T.all(
@@ -1988,20 +2233,30 @@ export const StartNotebookExecutionInput = S.suspend(() =>
 ).annotations({
   identifier: "StartNotebookExecutionInput",
 }) as any as S.Schema<StartNotebookExecutionInput>;
-export type PersistentAppUITypeList = string[];
-export const PersistentAppUITypeList = S.Array(S.String);
+export type CancelStepsRequestStatus = "SUBMITTED" | "FAILED";
+export const CancelStepsRequestStatus = S.Literal("SUBMITTED", "FAILED");
+export type InstanceCollectionType = "INSTANCE_FLEET" | "INSTANCE_GROUP";
+export const InstanceCollectionType = S.Literal(
+  "INSTANCE_FLEET",
+  "INSTANCE_GROUP",
+);
+export type PersistentAppUITypeList = PersistentAppUIType[];
+export const PersistentAppUITypeList = S.Array(PersistentAppUIType);
 export interface ScalingConstraints {
-  MinCapacity: number;
-  MaxCapacity: number;
+  MinCapacity?: number;
+  MaxCapacity?: number;
 }
 export const ScalingConstraints = S.suspend(() =>
-  S.Struct({ MinCapacity: S.Number, MaxCapacity: S.Number }),
+  S.Struct({
+    MinCapacity: S.optional(S.Number),
+    MaxCapacity: S.optional(S.Number),
+  }),
 ).annotations({
   identifier: "ScalingConstraints",
 }) as any as S.Schema<ScalingConstraints>;
 export interface PlacementType {
   AvailabilityZone?: string;
-  AvailabilityZones?: XmlStringMaxLen256List;
+  AvailabilityZones?: string[];
 }
 export const PlacementType = S.suspend(() =>
   S.Struct({
@@ -2012,11 +2267,11 @@ export const PlacementType = S.suspend(() =>
   identifier: "PlacementType",
 }) as any as S.Schema<PlacementType>;
 export interface ScriptBootstrapActionConfig {
-  Path: string;
-  Args?: XmlStringList;
+  Path?: string;
+  Args?: string[];
 }
 export const ScriptBootstrapActionConfig = S.suspend(() =>
-  S.Struct({ Path: S.String, Args: S.optional(XmlStringList) }),
+  S.Struct({ Path: S.optional(S.String), Args: S.optional(XmlStringList) }),
 ).annotations({
   identifier: "ScriptBootstrapActionConfig",
 }) as any as S.Schema<ScriptBootstrapActionConfig>;
@@ -2024,13 +2279,13 @@ export type EC2InstanceIdsList = string[];
 export const EC2InstanceIdsList = S.Array(S.String);
 export interface CancelStepsInfo {
   StepId?: string;
-  Status?: string;
+  Status?: CancelStepsRequestStatus;
   Reason?: string;
 }
 export const CancelStepsInfo = S.suspend(() =>
   S.Struct({
     StepId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(CancelStepsRequestStatus),
     Reason: S.optional(S.String),
   }),
 ).annotations({
@@ -2040,13 +2295,13 @@ export type CancelStepsInfoList = CancelStepsInfo[];
 export const CancelStepsInfoList = S.Array(CancelStepsInfo);
 export interface PersistentAppUI {
   PersistentAppUIId?: string;
-  PersistentAppUITypeList?: PersistentAppUITypeList;
+  PersistentAppUITypeList?: PersistentAppUIType[];
   PersistentAppUIStatus?: string;
   AuthorId?: string;
   CreationTime?: Date;
   LastModifiedTime?: Date;
   LastStateChangeReason?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const PersistentAppUI = S.suspend(() =>
   S.Struct({
@@ -2088,9 +2343,9 @@ export interface Studio {
   StudioArn?: string;
   Name?: string;
   Description?: string;
-  AuthMode?: string;
+  AuthMode?: AuthMode;
   VpcId?: string;
-  SubnetIds?: SubnetIdList;
+  SubnetIds?: string[];
   ServiceRole?: string;
   UserRole?: string;
   WorkspaceSecurityGroupId?: string;
@@ -2100,10 +2355,10 @@ export interface Studio {
   DefaultS3Location?: string;
   IdpAuthUrl?: string;
   IdpRelayStateParameterName?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   IdcInstanceArn?: string;
   TrustedIdentityPropagationEnabled?: boolean;
-  IdcUserAssignment?: string;
+  IdcUserAssignment?: IdcUserAssignment;
   EncryptionKeyArn?: string;
 }
 export const Studio = S.suspend(() =>
@@ -2112,7 +2367,7 @@ export const Studio = S.suspend(() =>
     StudioArn: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    AuthMode: S.optional(S.String),
+    AuthMode: S.optional(AuthMode),
     VpcId: S.optional(S.String),
     SubnetIds: S.optional(SubnetIdList),
     ServiceRole: S.optional(S.String),
@@ -2127,7 +2382,7 @@ export const Studio = S.suspend(() =>
     Tags: S.optional(TagList),
     IdcInstanceArn: S.optional(S.String),
     TrustedIdentityPropagationEnabled: S.optional(S.Boolean),
-    IdcUserAssignment: S.optional(S.String),
+    IdcUserAssignment: S.optional(IdcUserAssignment),
     EncryptionKeyArn: S.optional(S.String),
   }),
 ).annotations({ identifier: "Studio" }) as any as S.Schema<Studio>;
@@ -2135,7 +2390,7 @@ export interface SessionMappingDetail {
   StudioId?: string;
   IdentityId?: string;
   IdentityName?: string;
-  IdentityType?: string;
+  IdentityType?: IdentityType;
   SessionPolicyArn?: string;
   CreationTime?: Date;
   LastModifiedTime?: Date;
@@ -2145,7 +2400,7 @@ export const SessionMappingDetail = S.suspend(() =>
     StudioId: S.optional(S.String),
     IdentityId: S.optional(S.String),
     IdentityName: S.optional(S.String),
-    IdentityType: S.optional(S.String),
+    IdentityType: S.optional(IdentityType),
     SessionPolicyArn: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedTime: S.optional(
@@ -2158,7 +2413,7 @@ export const SessionMappingDetail = S.suspend(() =>
 export interface Command {
   Name?: string;
   ScriptPath?: string;
-  Args?: StringList;
+  Args?: string[];
 }
 export const Command = S.suspend(() =>
   S.Struct({
@@ -2169,12 +2424,34 @@ export const Command = S.suspend(() =>
 ).annotations({ identifier: "Command" }) as any as S.Schema<Command>;
 export type CommandList = Command[];
 export const CommandList = S.Array(Command);
+export type ClusterStateChangeReasonCode =
+  | "INTERNAL_ERROR"
+  | "VALIDATION_ERROR"
+  | "INSTANCE_FAILURE"
+  | "INSTANCE_FLEET_TIMEOUT"
+  | "BOOTSTRAP_FAILURE"
+  | "USER_REQUEST"
+  | "STEP_FAILURE"
+  | "ALL_STEPS_COMPLETED";
+export const ClusterStateChangeReasonCode = S.Literal(
+  "INTERNAL_ERROR",
+  "VALIDATION_ERROR",
+  "INSTANCE_FAILURE",
+  "INSTANCE_FLEET_TIMEOUT",
+  "BOOTSTRAP_FAILURE",
+  "USER_REQUEST",
+  "STEP_FAILURE",
+  "ALL_STEPS_COMPLETED",
+);
 export interface ClusterStateChangeReason {
-  Code?: string;
+  Code?: ClusterStateChangeReasonCode;
   Message?: string;
 }
 export const ClusterStateChangeReason = S.suspend(() =>
-  S.Struct({ Code: S.optional(S.String), Message: S.optional(S.String) }),
+  S.Struct({
+    Code: S.optional(ClusterStateChangeReasonCode),
+    Message: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "ClusterStateChangeReason",
 }) as any as S.Schema<ClusterStateChangeReason>;
@@ -2194,11 +2471,11 @@ export const ClusterTimeline = S.suspend(() =>
 ).annotations({
   identifier: "ClusterTimeline",
 }) as any as S.Schema<ClusterTimeline>;
-export type ErrorData = StringMap[];
+export type ErrorData = { [key: string]: string }[];
 export const ErrorData = S.Array(StringMap);
 export interface ErrorDetail {
   ErrorCode?: string;
-  ErrorData?: ErrorData;
+  ErrorData?: { [key: string]: string }[];
   ErrorMessage?: string;
 }
 export const ErrorDetail = S.suspend(() =>
@@ -2211,14 +2488,14 @@ export const ErrorDetail = S.suspend(() =>
 export type ErrorDetailList = ErrorDetail[];
 export const ErrorDetailList = S.Array(ErrorDetail);
 export interface ClusterStatus {
-  State?: string;
+  State?: ClusterState;
   StateChangeReason?: ClusterStateChangeReason;
   Timeline?: ClusterTimeline;
-  ErrorDetails?: ErrorDetailList;
+  ErrorDetails?: ErrorDetail[];
 }
 export const ClusterStatus = S.suspend(() =>
   S.Struct({
-    State: S.optional(S.String),
+    State: S.optional(ClusterState),
     StateChangeReason: S.optional(ClusterStateChangeReason),
     Timeline: S.optional(ClusterTimeline),
     ErrorDetails: S.optional(ErrorDetailList),
@@ -2261,7 +2538,7 @@ export interface NotebookExecutionSummary {
   NotebookExecutionId?: string;
   EditorId?: string;
   NotebookExecutionName?: string;
-  Status?: string;
+  Status?: NotebookExecutionStatus;
   StartTime?: Date;
   EndTime?: Date;
   NotebookS3Location?: NotebookS3LocationForOutput;
@@ -2272,7 +2549,7 @@ export const NotebookExecutionSummary = S.suspend(() =>
     NotebookExecutionId: S.optional(S.String),
     EditorId: S.optional(S.String),
     NotebookExecutionName: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(NotebookExecutionStatus),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     NotebookS3Location: S.optional(NotebookS3LocationForOutput),
@@ -2301,9 +2578,9 @@ export type SecurityConfigurationList = SecurityConfigurationSummary[];
 export const SecurityConfigurationList = S.Array(SecurityConfigurationSummary);
 export interface HadoopStepConfig {
   Jar?: string;
-  Properties?: StringMap;
+  Properties?: { [key: string]: string };
   MainClass?: string;
-  Args?: StringList;
+  Args?: string[];
 }
 export const HadoopStepConfig = S.suspend(() =>
   S.Struct({
@@ -2315,12 +2592,17 @@ export const HadoopStepConfig = S.suspend(() =>
 ).annotations({
   identifier: "HadoopStepConfig",
 }) as any as S.Schema<HadoopStepConfig>;
+export type StepStateChangeReasonCode = "NONE";
+export const StepStateChangeReasonCode = S.Literal("NONE");
 export interface StepStateChangeReason {
-  Code?: string;
+  Code?: StepStateChangeReasonCode;
   Message?: string;
 }
 export const StepStateChangeReason = S.suspend(() =>
-  S.Struct({ Code: S.optional(S.String), Message: S.optional(S.String) }),
+  S.Struct({
+    Code: S.optional(StepStateChangeReasonCode),
+    Message: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "StepStateChangeReason",
 }) as any as S.Schema<StepStateChangeReason>;
@@ -2353,14 +2635,14 @@ export const StepTimeline = S.suspend(() =>
   }),
 ).annotations({ identifier: "StepTimeline" }) as any as S.Schema<StepTimeline>;
 export interface StepStatus {
-  State?: string;
+  State?: StepState;
   StateChangeReason?: StepStateChangeReason;
   FailureDetails?: FailureDetails;
   Timeline?: StepTimeline;
 }
 export const StepStatus = S.suspend(() =>
   S.Struct({
-    State: S.optional(S.String),
+    State: S.optional(StepState),
     StateChangeReason: S.optional(StepStateChangeReason),
     FailureDetails: S.optional(FailureDetails),
     Timeline: S.optional(StepTimeline),
@@ -2370,7 +2652,7 @@ export interface StepSummary {
   Id?: string;
   Name?: string;
   Config?: HadoopStepConfig;
-  ActionOnFailure?: string;
+  ActionOnFailure?: ActionOnFailure;
   Status?: StepStatus;
   LogUri?: string;
   EncryptionKeyArn?: string;
@@ -2380,7 +2662,7 @@ export const StepSummary = S.suspend(() =>
     Id: S.optional(S.String),
     Name: S.optional(S.String),
     Config: S.optional(HadoopStepConfig),
-    ActionOnFailure: S.optional(S.String),
+    ActionOnFailure: S.optional(ActionOnFailure),
     Status: S.optional(StepStatus),
     LogUri: S.optional(S.String),
     EncryptionKeyArn: S.optional(S.String),
@@ -2394,7 +2676,7 @@ export interface StudioSummary {
   VpcId?: string;
   Description?: string;
   Url?: string;
-  AuthMode?: string;
+  AuthMode?: AuthMode;
   CreationTime?: Date;
 }
 export const StudioSummary = S.suspend(() =>
@@ -2404,7 +2686,7 @@ export const StudioSummary = S.suspend(() =>
     VpcId: S.optional(S.String),
     Description: S.optional(S.String),
     Url: S.optional(S.String),
-    AuthMode: S.optional(S.String),
+    AuthMode: S.optional(AuthMode),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({
@@ -2416,7 +2698,7 @@ export interface SessionMappingSummary {
   StudioId?: string;
   IdentityId?: string;
   IdentityName?: string;
-  IdentityType?: string;
+  IdentityType?: IdentityType;
   SessionPolicyArn?: string;
   CreationTime?: Date;
 }
@@ -2425,7 +2707,7 @@ export const SessionMappingSummary = S.suspend(() =>
     StudioId: S.optional(S.String),
     IdentityId: S.optional(S.String),
     IdentityName: S.optional(S.String),
-    IdentityType: S.optional(S.String),
+    IdentityType: S.optional(IdentityType),
     SessionPolicyArn: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -2466,32 +2748,124 @@ export const SupportedInstanceType = S.suspend(() =>
 }) as any as S.Schema<SupportedInstanceType>;
 export type SupportedInstanceTypesList = SupportedInstanceType[];
 export const SupportedInstanceTypesList = S.Array(SupportedInstanceType);
+export type AdjustmentType =
+  | "CHANGE_IN_CAPACITY"
+  | "PERCENT_CHANGE_IN_CAPACITY"
+  | "EXACT_CAPACITY";
+export const AdjustmentType = S.Literal(
+  "CHANGE_IN_CAPACITY",
+  "PERCENT_CHANGE_IN_CAPACITY",
+  "EXACT_CAPACITY",
+);
 export interface SimpleScalingPolicyConfiguration {
-  AdjustmentType?: string;
-  ScalingAdjustment: number;
+  AdjustmentType?: AdjustmentType;
+  ScalingAdjustment?: number;
   CoolDown?: number;
 }
 export const SimpleScalingPolicyConfiguration = S.suspend(() =>
   S.Struct({
-    AdjustmentType: S.optional(S.String),
-    ScalingAdjustment: S.Number,
+    AdjustmentType: S.optional(AdjustmentType),
+    ScalingAdjustment: S.optional(S.Number),
     CoolDown: S.optional(S.Number),
   }),
 ).annotations({
   identifier: "SimpleScalingPolicyConfiguration",
 }) as any as S.Schema<SimpleScalingPolicyConfiguration>;
 export interface ScalingAction {
-  Market?: string;
-  SimpleScalingPolicyConfiguration: SimpleScalingPolicyConfiguration;
+  Market?: MarketType;
+  SimpleScalingPolicyConfiguration?: SimpleScalingPolicyConfiguration;
 }
 export const ScalingAction = S.suspend(() =>
   S.Struct({
-    Market: S.optional(S.String),
-    SimpleScalingPolicyConfiguration: SimpleScalingPolicyConfiguration,
+    Market: S.optional(MarketType),
+    SimpleScalingPolicyConfiguration: S.optional(
+      SimpleScalingPolicyConfiguration,
+    ),
   }),
 ).annotations({
   identifier: "ScalingAction",
 }) as any as S.Schema<ScalingAction>;
+export type ComparisonOperator =
+  | "GREATER_THAN_OR_EQUAL"
+  | "GREATER_THAN"
+  | "LESS_THAN"
+  | "LESS_THAN_OR_EQUAL";
+export const ComparisonOperator = S.Literal(
+  "GREATER_THAN_OR_EQUAL",
+  "GREATER_THAN",
+  "LESS_THAN",
+  "LESS_THAN_OR_EQUAL",
+);
+export type Statistic =
+  | "SAMPLE_COUNT"
+  | "AVERAGE"
+  | "SUM"
+  | "MINIMUM"
+  | "MAXIMUM";
+export const Statistic = S.Literal(
+  "SAMPLE_COUNT",
+  "AVERAGE",
+  "SUM",
+  "MINIMUM",
+  "MAXIMUM",
+);
+export type Unit =
+  | "NONE"
+  | "SECONDS"
+  | "MICRO_SECONDS"
+  | "MILLI_SECONDS"
+  | "BYTES"
+  | "KILO_BYTES"
+  | "MEGA_BYTES"
+  | "GIGA_BYTES"
+  | "TERA_BYTES"
+  | "BITS"
+  | "KILO_BITS"
+  | "MEGA_BITS"
+  | "GIGA_BITS"
+  | "TERA_BITS"
+  | "PERCENT"
+  | "COUNT"
+  | "BYTES_PER_SECOND"
+  | "KILO_BYTES_PER_SECOND"
+  | "MEGA_BYTES_PER_SECOND"
+  | "GIGA_BYTES_PER_SECOND"
+  | "TERA_BYTES_PER_SECOND"
+  | "BITS_PER_SECOND"
+  | "KILO_BITS_PER_SECOND"
+  | "MEGA_BITS_PER_SECOND"
+  | "GIGA_BITS_PER_SECOND"
+  | "TERA_BITS_PER_SECOND"
+  | "COUNT_PER_SECOND";
+export const Unit = S.Literal(
+  "NONE",
+  "SECONDS",
+  "MICRO_SECONDS",
+  "MILLI_SECONDS",
+  "BYTES",
+  "KILO_BYTES",
+  "MEGA_BYTES",
+  "GIGA_BYTES",
+  "TERA_BYTES",
+  "BITS",
+  "KILO_BITS",
+  "MEGA_BITS",
+  "GIGA_BITS",
+  "TERA_BITS",
+  "PERCENT",
+  "COUNT",
+  "BYTES_PER_SECOND",
+  "KILO_BYTES_PER_SECOND",
+  "MEGA_BYTES_PER_SECOND",
+  "GIGA_BYTES_PER_SECOND",
+  "TERA_BYTES_PER_SECOND",
+  "BITS_PER_SECOND",
+  "KILO_BITS_PER_SECOND",
+  "MEGA_BITS_PER_SECOND",
+  "GIGA_BITS_PER_SECOND",
+  "TERA_BITS_PER_SECOND",
+  "COUNT_PER_SECOND",
+);
 export interface MetricDimension {
   Key?: string;
   Value?: string;
@@ -2504,72 +2878,77 @@ export const MetricDimension = S.suspend(() =>
 export type MetricDimensionList = MetricDimension[];
 export const MetricDimensionList = S.Array(MetricDimension);
 export interface CloudWatchAlarmDefinition {
-  ComparisonOperator: string;
+  ComparisonOperator?: ComparisonOperator;
   EvaluationPeriods?: number;
-  MetricName: string;
+  MetricName?: string;
   Namespace?: string;
-  Period: number;
-  Statistic?: string;
-  Threshold: number;
-  Unit?: string;
-  Dimensions?: MetricDimensionList;
+  Period?: number;
+  Statistic?: Statistic;
+  Threshold?: number;
+  Unit?: Unit;
+  Dimensions?: MetricDimension[];
 }
 export const CloudWatchAlarmDefinition = S.suspend(() =>
   S.Struct({
-    ComparisonOperator: S.String,
+    ComparisonOperator: S.optional(ComparisonOperator),
     EvaluationPeriods: S.optional(S.Number),
-    MetricName: S.String,
+    MetricName: S.optional(S.String),
     Namespace: S.optional(S.String),
-    Period: S.Number,
-    Statistic: S.optional(S.String),
-    Threshold: S.Number,
-    Unit: S.optional(S.String),
+    Period: S.optional(S.Number),
+    Statistic: S.optional(Statistic),
+    Threshold: S.optional(S.Number),
+    Unit: S.optional(Unit),
     Dimensions: S.optional(MetricDimensionList),
   }),
 ).annotations({
   identifier: "CloudWatchAlarmDefinition",
 }) as any as S.Schema<CloudWatchAlarmDefinition>;
 export interface ScalingTrigger {
-  CloudWatchAlarmDefinition: CloudWatchAlarmDefinition;
+  CloudWatchAlarmDefinition?: CloudWatchAlarmDefinition;
 }
 export const ScalingTrigger = S.suspend(() =>
-  S.Struct({ CloudWatchAlarmDefinition: CloudWatchAlarmDefinition }),
+  S.Struct({
+    CloudWatchAlarmDefinition: S.optional(CloudWatchAlarmDefinition),
+  }),
 ).annotations({
   identifier: "ScalingTrigger",
 }) as any as S.Schema<ScalingTrigger>;
 export interface ScalingRule {
-  Name: string;
+  Name?: string;
   Description?: string;
-  Action: ScalingAction;
-  Trigger: ScalingTrigger;
+  Action?: ScalingAction;
+  Trigger?: ScalingTrigger;
 }
 export const ScalingRule = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: S.optional(S.String),
     Description: S.optional(S.String),
-    Action: ScalingAction,
-    Trigger: ScalingTrigger,
+    Action: S.optional(ScalingAction),
+    Trigger: S.optional(ScalingTrigger),
   }),
 ).annotations({ identifier: "ScalingRule" }) as any as S.Schema<ScalingRule>;
 export type ScalingRuleList = ScalingRule[];
 export const ScalingRuleList = S.Array(ScalingRule);
 export interface AutoScalingPolicy {
-  Constraints: ScalingConstraints;
-  Rules: ScalingRuleList;
+  Constraints?: ScalingConstraints;
+  Rules?: ScalingRule[];
 }
 export const AutoScalingPolicy = S.suspend(() =>
-  S.Struct({ Constraints: ScalingConstraints, Rules: ScalingRuleList }),
+  S.Struct({
+    Constraints: S.optional(ScalingConstraints),
+    Rules: S.optional(ScalingRuleList),
+  }),
 ).annotations({
   identifier: "AutoScalingPolicy",
 }) as any as S.Schema<AutoScalingPolicy>;
 export interface InstanceGroupConfig {
   Name?: string;
-  Market?: string;
-  InstanceRole: string;
+  Market?: MarketType;
+  InstanceRole?: InstanceRoleType;
   BidPrice?: string;
-  InstanceType: string;
-  InstanceCount: number;
-  Configurations?: ConfigurationList;
+  InstanceType?: string;
+  InstanceCount?: number;
+  Configurations?: Configuration[];
   EbsConfiguration?: EbsConfiguration;
   AutoScalingPolicy?: AutoScalingPolicy;
   CustomAmiId?: string;
@@ -2577,11 +2956,11 @@ export interface InstanceGroupConfig {
 export const InstanceGroupConfig = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    Market: S.optional(S.String),
-    InstanceRole: S.String,
+    Market: S.optional(MarketType),
+    InstanceRole: S.optional(InstanceRoleType),
     BidPrice: S.optional(S.String),
-    InstanceType: S.String,
-    InstanceCount: S.Number,
+    InstanceType: S.optional(S.String),
+    InstanceCount: S.optional(S.Number),
     Configurations: S.optional(ConfigurationList),
     EbsConfiguration: S.optional(EbsConfiguration),
     AutoScalingPolicy: S.optional(AutoScalingPolicy),
@@ -2596,8 +2975,8 @@ export interface JobFlowInstancesConfig {
   MasterInstanceType?: string;
   SlaveInstanceType?: string;
   InstanceCount?: number;
-  InstanceGroups?: InstanceGroupConfigList;
-  InstanceFleets?: InstanceFleetConfigList;
+  InstanceGroups?: InstanceGroupConfig[];
+  InstanceFleets?: InstanceFleetConfig[];
   Ec2KeyName?: string;
   Placement?: PlacementType;
   KeepJobFlowAliveWhenNoSteps?: boolean;
@@ -2605,12 +2984,12 @@ export interface JobFlowInstancesConfig {
   UnhealthyNodeReplacement?: boolean;
   HadoopVersion?: string;
   Ec2SubnetId?: string;
-  Ec2SubnetIds?: XmlStringMaxLen256List;
+  Ec2SubnetIds?: string[];
   EmrManagedMasterSecurityGroup?: string;
   EmrManagedSlaveSecurityGroup?: string;
   ServiceAccessSecurityGroup?: string;
-  AdditionalMasterSecurityGroups?: SecurityGroupsList;
-  AdditionalSlaveSecurityGroups?: SecurityGroupsList;
+  AdditionalMasterSecurityGroups?: string[];
+  AdditionalSlaveSecurityGroups?: string[];
 }
 export const JobFlowInstancesConfig = S.suspend(() =>
   S.Struct({
@@ -2637,13 +3016,13 @@ export const JobFlowInstancesConfig = S.suspend(() =>
   identifier: "JobFlowInstancesConfig",
 }) as any as S.Schema<JobFlowInstancesConfig>;
 export interface BootstrapActionConfig {
-  Name: string;
-  ScriptBootstrapAction: ScriptBootstrapActionConfig;
+  Name?: string;
+  ScriptBootstrapAction?: ScriptBootstrapActionConfig;
 }
 export const BootstrapActionConfig = S.suspend(() =>
   S.Struct({
-    Name: S.String,
-    ScriptBootstrapAction: ScriptBootstrapActionConfig,
+    Name: S.optional(S.String),
+    ScriptBootstrapAction: S.optional(ScriptBootstrapActionConfig),
   }),
 ).annotations({
   identifier: "BootstrapActionConfig",
@@ -2671,9 +3050,53 @@ export const S3MonitoringConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "S3MonitoringConfiguration",
 }) as any as S.Schema<S3MonitoringConfiguration>;
+export type InstanceFleetState =
+  | "PROVISIONING"
+  | "BOOTSTRAPPING"
+  | "RUNNING"
+  | "RESIZING"
+  | "RECONFIGURING"
+  | "SUSPENDED"
+  | "TERMINATING"
+  | "TERMINATED";
+export const InstanceFleetState = S.Literal(
+  "PROVISIONING",
+  "BOOTSTRAPPING",
+  "RUNNING",
+  "RESIZING",
+  "RECONFIGURING",
+  "SUSPENDED",
+  "TERMINATING",
+  "TERMINATED",
+);
+export type InstanceGroupState =
+  | "PROVISIONING"
+  | "BOOTSTRAPPING"
+  | "RUNNING"
+  | "RECONFIGURING"
+  | "RESIZING"
+  | "SUSPENDED"
+  | "TERMINATING"
+  | "TERMINATED"
+  | "ARRESTED"
+  | "SHUTTING_DOWN"
+  | "ENDED";
+export const InstanceGroupState = S.Literal(
+  "PROVISIONING",
+  "BOOTSTRAPPING",
+  "RUNNING",
+  "RECONFIGURING",
+  "RESIZING",
+  "SUSPENDED",
+  "TERMINATING",
+  "TERMINATED",
+  "ARRESTED",
+  "SHUTTING_DOWN",
+  "ENDED",
+);
 export interface InstanceResizePolicy {
-  InstancesToTerminate?: EC2InstanceIdsList;
-  InstancesToProtect?: EC2InstanceIdsList;
+  InstancesToTerminate?: string[];
+  InstancesToProtect?: string[];
   InstanceTerminationTimeout?: number;
 }
 export const InstanceResizePolicy = S.suspend(() =>
@@ -2685,10 +3108,10 @@ export const InstanceResizePolicy = S.suspend(() =>
 ).annotations({
   identifier: "InstanceResizePolicy",
 }) as any as S.Schema<InstanceResizePolicy>;
-export type LogTypesMap = { [key: string]: XmlStringList };
+export type LogTypesMap = { [key: string]: string[] };
 export const LogTypesMap = S.Record({ key: S.String, value: XmlStringList });
 export interface CancelStepsOutput {
-  CancelStepsInfoList?: CancelStepsInfoList;
+  CancelStepsInfoList?: CancelStepsInfo[];
 }
 export const CancelStepsOutput = S.suspend(() =>
   S.Struct({ CancelStepsInfoList: S.optional(CancelStepsInfoList) }).pipe(ns),
@@ -2717,9 +3140,9 @@ export const DescribePersistentAppUIOutput = S.suspend(() =>
 }) as any as S.Schema<DescribePersistentAppUIOutput>;
 export interface DescribeReleaseLabelOutput {
   ReleaseLabel?: string;
-  Applications?: SimplifiedApplicationList;
+  Applications?: SimplifiedApplication[];
   NextToken?: string;
-  AvailableOSReleases?: OSReleaseList;
+  AvailableOSReleases?: OSRelease[];
 }
 export const DescribeReleaseLabelOutput = S.suspend(() =>
   S.Struct({
@@ -2740,14 +3163,15 @@ export const DescribeStudioOutput = S.suspend(() =>
   identifier: "DescribeStudioOutput",
 }) as any as S.Schema<DescribeStudioOutput>;
 export interface GetBlockPublicAccessConfigurationOutput {
-  BlockPublicAccessConfiguration: BlockPublicAccessConfiguration;
-  BlockPublicAccessConfigurationMetadata: BlockPublicAccessConfigurationMetadata;
+  BlockPublicAccessConfiguration?: BlockPublicAccessConfiguration;
+  BlockPublicAccessConfigurationMetadata?: BlockPublicAccessConfigurationMetadata;
 }
 export const GetBlockPublicAccessConfigurationOutput = S.suspend(() =>
   S.Struct({
-    BlockPublicAccessConfiguration: BlockPublicAccessConfiguration,
-    BlockPublicAccessConfigurationMetadata:
+    BlockPublicAccessConfiguration: S.optional(BlockPublicAccessConfiguration),
+    BlockPublicAccessConfigurationMetadata: S.optional(
       BlockPublicAccessConfigurationMetadata,
+    ),
   }).pipe(ns),
 ).annotations({
   identifier: "GetBlockPublicAccessConfigurationOutput",
@@ -2761,7 +3185,7 @@ export const GetStudioSessionMappingOutput = S.suspend(() =>
   identifier: "GetStudioSessionMappingOutput",
 }) as any as S.Schema<GetStudioSessionMappingOutput>;
 export interface ListBootstrapActionsOutput {
-  BootstrapActions?: CommandList;
+  BootstrapActions?: Command[];
   Marker?: string;
 }
 export const ListBootstrapActionsOutput = S.suspend(() =>
@@ -2773,7 +3197,7 @@ export const ListBootstrapActionsOutput = S.suspend(() =>
   identifier: "ListBootstrapActionsOutput",
 }) as any as S.Schema<ListBootstrapActionsOutput>;
 export interface ListClustersOutput {
-  Clusters?: ClusterSummaryList;
+  Clusters?: ClusterSummary[];
   Marker?: string;
 }
 export const ListClustersOutput = S.suspend(() =>
@@ -2785,7 +3209,7 @@ export const ListClustersOutput = S.suspend(() =>
   identifier: "ListClustersOutput",
 }) as any as S.Schema<ListClustersOutput>;
 export interface ListNotebookExecutionsOutput {
-  NotebookExecutions?: NotebookExecutionSummaryList;
+  NotebookExecutions?: NotebookExecutionSummary[];
   Marker?: string;
 }
 export const ListNotebookExecutionsOutput = S.suspend(() =>
@@ -2797,7 +3221,7 @@ export const ListNotebookExecutionsOutput = S.suspend(() =>
   identifier: "ListNotebookExecutionsOutput",
 }) as any as S.Schema<ListNotebookExecutionsOutput>;
 export interface ListReleaseLabelsOutput {
-  ReleaseLabels?: StringList;
+  ReleaseLabels?: string[];
   NextToken?: string;
 }
 export const ListReleaseLabelsOutput = S.suspend(() =>
@@ -2809,7 +3233,7 @@ export const ListReleaseLabelsOutput = S.suspend(() =>
   identifier: "ListReleaseLabelsOutput",
 }) as any as S.Schema<ListReleaseLabelsOutput>;
 export interface ListSecurityConfigurationsOutput {
-  SecurityConfigurations?: SecurityConfigurationList;
+  SecurityConfigurations?: SecurityConfigurationSummary[];
   Marker?: string;
 }
 export const ListSecurityConfigurationsOutput = S.suspend(() =>
@@ -2821,7 +3245,7 @@ export const ListSecurityConfigurationsOutput = S.suspend(() =>
   identifier: "ListSecurityConfigurationsOutput",
 }) as any as S.Schema<ListSecurityConfigurationsOutput>;
 export interface ListStepsOutput {
-  Steps?: StepSummaryList;
+  Steps?: StepSummary[];
   Marker?: string;
 }
 export const ListStepsOutput = S.suspend(() =>
@@ -2833,7 +3257,7 @@ export const ListStepsOutput = S.suspend(() =>
   identifier: "ListStepsOutput",
 }) as any as S.Schema<ListStepsOutput>;
 export interface ListStudiosOutput {
-  Studios?: StudioSummaryList;
+  Studios?: StudioSummary[];
   Marker?: string;
 }
 export const ListStudiosOutput = S.suspend(() =>
@@ -2845,7 +3269,7 @@ export const ListStudiosOutput = S.suspend(() =>
   identifier: "ListStudiosOutput",
 }) as any as S.Schema<ListStudiosOutput>;
 export interface ListStudioSessionMappingsOutput {
-  SessionMappings?: SessionMappingSummaryList;
+  SessionMappings?: SessionMappingSummary[];
   Marker?: string;
 }
 export const ListStudioSessionMappingsOutput = S.suspend(() =>
@@ -2857,7 +3281,7 @@ export const ListStudioSessionMappingsOutput = S.suspend(() =>
   identifier: "ListStudioSessionMappingsOutput",
 }) as any as S.Schema<ListStudioSessionMappingsOutput>;
 export interface ListSupportedInstanceTypesOutput {
-  SupportedInstanceTypes?: SupportedInstanceTypesList;
+  SupportedInstanceTypes?: SupportedInstanceType[];
   Marker?: string;
 }
 export const ListSupportedInstanceTypesOutput = S.suspend(() =>
@@ -2869,13 +3293,13 @@ export const ListSupportedInstanceTypesOutput = S.suspend(() =>
   identifier: "ListSupportedInstanceTypesOutput",
 }) as any as S.Schema<ListSupportedInstanceTypesOutput>;
 export interface PutManagedScalingPolicyInput {
-  ClusterId: string;
-  ManagedScalingPolicy: ManagedScalingPolicy;
+  ClusterId?: string;
+  ManagedScalingPolicy?: ManagedScalingPolicy;
 }
 export const PutManagedScalingPolicyInput = S.suspend(() =>
   S.Struct({
-    ClusterId: S.String,
-    ManagedScalingPolicy: ManagedScalingPolicy,
+    ClusterId: S.optional(S.String),
+    ManagedScalingPolicy: S.optional(ManagedScalingPolicy),
   }).pipe(
     T.all(
       ns,
@@ -2905,15 +3329,15 @@ export const StartNotebookExecutionOutput = S.suspend(() =>
   identifier: "StartNotebookExecutionOutput",
 }) as any as S.Schema<StartNotebookExecutionOutput>;
 export interface HadoopJarStepConfig {
-  Properties?: KeyValueList;
-  Jar: string;
+  Properties?: KeyValue[];
+  Jar?: string;
   MainClass?: string;
-  Args?: XmlStringList;
+  Args?: string[];
 }
 export const HadoopJarStepConfig = S.suspend(() =>
   S.Struct({
     Properties: S.optional(KeyValueList),
-    Jar: S.String,
+    Jar: S.optional(S.String),
     MainClass: S.optional(S.String),
     Args: S.optional(XmlStringList),
   }),
@@ -2933,15 +3357,15 @@ export const StepMonitoringConfiguration = S.suspend(() =>
 export interface Ec2InstanceAttributes {
   Ec2KeyName?: string;
   Ec2SubnetId?: string;
-  RequestedEc2SubnetIds?: XmlStringMaxLen256List;
+  RequestedEc2SubnetIds?: string[];
   Ec2AvailabilityZone?: string;
-  RequestedEc2AvailabilityZones?: XmlStringMaxLen256List;
+  RequestedEc2AvailabilityZones?: string[];
   IamInstanceProfile?: string;
   EmrManagedMasterSecurityGroup?: string;
   EmrManagedSlaveSecurityGroup?: string;
   ServiceAccessSecurityGroup?: string;
-  AdditionalMasterSecurityGroups?: StringList;
-  AdditionalSlaveSecurityGroups?: StringList;
+  AdditionalMasterSecurityGroups?: string[];
+  AdditionalSlaveSecurityGroups?: string[];
 }
 export const Ec2InstanceAttributes = S.suspend(() =>
   S.Struct({
@@ -2961,8 +3385,8 @@ export const Ec2InstanceAttributes = S.suspend(() =>
   identifier: "Ec2InstanceAttributes",
 }) as any as S.Schema<Ec2InstanceAttributes>;
 export interface JobFlowExecutionStatusDetail {
-  State: string;
-  CreationDateTime: Date;
+  State?: JobFlowExecutionState;
+  CreationDateTime?: Date;
   StartDateTime?: Date;
   ReadyDateTime?: Date;
   EndDateTime?: Date;
@@ -2970,8 +3394,10 @@ export interface JobFlowExecutionStatusDetail {
 }
 export const JobFlowExecutionStatusDetail = S.suspend(() =>
   S.Struct({
-    State: S.String,
-    CreationDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    State: S.optional(JobFlowExecutionState),
+    CreationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
     StartDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ReadyDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -3027,8 +3453,8 @@ export interface InstanceTypeSpecification {
   WeightedCapacity?: number;
   BidPrice?: string;
   BidPriceAsPercentageOfOnDemandPrice?: number;
-  Configurations?: ConfigurationList;
-  EbsBlockDevices?: EbsBlockDeviceList;
+  Configurations?: Configuration[];
+  EbsBlockDevices?: EbsBlockDevice[];
   EbsOptimized?: boolean;
   CustomAmiId?: string;
   Priority?: number;
@@ -3070,15 +3496,15 @@ export const ShrinkPolicy = S.suspend(() =>
   }),
 ).annotations({ identifier: "ShrinkPolicy" }) as any as S.Schema<ShrinkPolicy>;
 export interface CloudWatchLogConfiguration {
-  Enabled: boolean;
+  Enabled?: boolean;
   LogGroupName?: string;
   LogStreamNamePrefix?: string;
   EncryptionKeyArn?: string;
-  LogTypes?: LogTypesMap;
+  LogTypes?: { [key: string]: string[] };
 }
 export const CloudWatchLogConfiguration = S.suspend(() =>
   S.Struct({
-    Enabled: S.Boolean,
+    Enabled: S.optional(S.Boolean),
     LogGroupName: S.optional(S.String),
     LogStreamNamePrefix: S.optional(S.String),
     EncryptionKeyArn: S.optional(S.String),
@@ -3087,17 +3513,84 @@ export const CloudWatchLogConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "CloudWatchLogConfiguration",
 }) as any as S.Schema<CloudWatchLogConfiguration>;
+export type StepExecutionState =
+  | "PENDING"
+  | "RUNNING"
+  | "CONTINUE"
+  | "COMPLETED"
+  | "CANCELLED"
+  | "FAILED"
+  | "INTERRUPTED";
+export const StepExecutionState = S.Literal(
+  "PENDING",
+  "RUNNING",
+  "CONTINUE",
+  "COMPLETED",
+  "CANCELLED",
+  "FAILED",
+  "INTERRUPTED",
+);
+export type InstanceFleetStateChangeReasonCode =
+  | "INTERNAL_ERROR"
+  | "VALIDATION_ERROR"
+  | "INSTANCE_FAILURE"
+  | "CLUSTER_TERMINATED";
+export const InstanceFleetStateChangeReasonCode = S.Literal(
+  "INTERNAL_ERROR",
+  "VALIDATION_ERROR",
+  "INSTANCE_FAILURE",
+  "CLUSTER_TERMINATED",
+);
+export type InstanceGroupStateChangeReasonCode =
+  | "INTERNAL_ERROR"
+  | "VALIDATION_ERROR"
+  | "INSTANCE_FAILURE"
+  | "CLUSTER_TERMINATED";
+export const InstanceGroupStateChangeReasonCode = S.Literal(
+  "INTERNAL_ERROR",
+  "VALIDATION_ERROR",
+  "INSTANCE_FAILURE",
+  "CLUSTER_TERMINATED",
+);
+export type AutoScalingPolicyState =
+  | "PENDING"
+  | "ATTACHING"
+  | "ATTACHED"
+  | "DETACHING"
+  | "DETACHED"
+  | "FAILED";
+export const AutoScalingPolicyState = S.Literal(
+  "PENDING",
+  "ATTACHING",
+  "ATTACHED",
+  "DETACHING",
+  "DETACHED",
+  "FAILED",
+);
+export type InstanceStateChangeReasonCode =
+  | "INTERNAL_ERROR"
+  | "VALIDATION_ERROR"
+  | "INSTANCE_FAILURE"
+  | "BOOTSTRAP_FAILURE"
+  | "CLUSTER_TERMINATED";
+export const InstanceStateChangeReasonCode = S.Literal(
+  "INTERNAL_ERROR",
+  "VALIDATION_ERROR",
+  "INSTANCE_FAILURE",
+  "BOOTSTRAP_FAILURE",
+  "CLUSTER_TERMINATED",
+);
 export interface StepConfig {
-  Name: string;
-  ActionOnFailure?: string;
-  HadoopJarStep: HadoopJarStepConfig;
+  Name?: string;
+  ActionOnFailure?: ActionOnFailure;
+  HadoopJarStep?: HadoopJarStepConfig;
   StepMonitoringConfiguration?: StepMonitoringConfiguration;
 }
 export const StepConfig = S.suspend(() =>
   S.Struct({
-    Name: S.String,
-    ActionOnFailure: S.optional(S.String),
-    HadoopJarStep: HadoopJarStepConfig,
+    Name: S.optional(S.String),
+    ActionOnFailure: S.optional(ActionOnFailure),
+    HadoopJarStep: S.optional(HadoopJarStepConfig),
     StepMonitoringConfiguration: S.optional(StepMonitoringConfiguration),
   }),
 ).annotations({ identifier: "StepConfig" }) as any as S.Schema<StepConfig>;
@@ -3109,18 +3602,18 @@ export interface NotebookExecution {
   ExecutionEngine?: ExecutionEngineConfig;
   NotebookExecutionName?: string;
   NotebookParams?: string;
-  Status?: string;
+  Status?: NotebookExecutionStatus;
   StartTime?: Date;
   EndTime?: Date;
   Arn?: string;
   OutputNotebookURI?: string;
   LastStateChangeReason?: string;
   NotebookInstanceSecurityGroupId?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   NotebookS3Location?: NotebookS3LocationForOutput;
   OutputNotebookS3Location?: OutputNotebookS3LocationForOutput;
-  OutputNotebookFormat?: string;
-  EnvironmentVariables?: EnvironmentVariablesMap;
+  OutputNotebookFormat?: OutputNotebookFormat;
+  EnvironmentVariables?: { [key: string]: string };
 }
 export const NotebookExecution = S.suspend(() =>
   S.Struct({
@@ -3129,7 +3622,7 @@ export const NotebookExecution = S.suspend(() =>
     ExecutionEngine: S.optional(ExecutionEngineConfig),
     NotebookExecutionName: S.optional(S.String),
     NotebookParams: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(NotebookExecutionStatus),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Arn: S.optional(S.String),
@@ -3139,7 +3632,7 @@ export const NotebookExecution = S.suspend(() =>
     Tags: S.optional(TagList),
     NotebookS3Location: S.optional(NotebookS3LocationForOutput),
     OutputNotebookS3Location: S.optional(OutputNotebookS3LocationForOutput),
-    OutputNotebookFormat: S.optional(S.String),
+    OutputNotebookFormat: S.optional(OutputNotebookFormat),
     EnvironmentVariables: S.optional(EnvironmentVariablesMap),
   }),
 ).annotations({
@@ -3150,20 +3643,20 @@ export const Credentials = S.Union(
   S.Struct({ UsernamePassword: UsernamePassword }),
 );
 export interface InstanceGroupModifyConfig {
-  InstanceGroupId: string;
+  InstanceGroupId?: string;
   InstanceCount?: number;
-  EC2InstanceIdsToTerminate?: EC2InstanceIdsToTerminateList;
+  EC2InstanceIdsToTerminate?: string[];
   ShrinkPolicy?: ShrinkPolicy;
-  ReconfigurationType?: string;
-  Configurations?: ConfigurationList;
+  ReconfigurationType?: ReconfigurationType;
+  Configurations?: Configuration[];
 }
 export const InstanceGroupModifyConfig = S.suspend(() =>
   S.Struct({
-    InstanceGroupId: S.String,
+    InstanceGroupId: S.optional(S.String),
     InstanceCount: S.optional(S.Number),
     EC2InstanceIdsToTerminate: S.optional(EC2InstanceIdsToTerminateList),
     ShrinkPolicy: S.optional(ShrinkPolicy),
-    ReconfigurationType: S.optional(S.String),
+    ReconfigurationType: S.optional(ReconfigurationType),
     Configurations: S.optional(ConfigurationList),
   }),
 ).annotations({
@@ -3184,15 +3677,15 @@ export const MonitoringConfiguration = S.suspend(() =>
 export interface InstanceGroupDetail {
   InstanceGroupId?: string;
   Name?: string;
-  Market: string;
-  InstanceRole: string;
+  Market?: MarketType;
+  InstanceRole?: InstanceRoleType;
   BidPrice?: string;
-  InstanceType: string;
-  InstanceRequestCount: number;
-  InstanceRunningCount: number;
-  State: string;
+  InstanceType?: string;
+  InstanceRequestCount?: number;
+  InstanceRunningCount?: number;
+  State?: InstanceGroupState;
   LastStateChangeReason?: string;
-  CreationDateTime: Date;
+  CreationDateTime?: Date;
   StartDateTime?: Date;
   ReadyDateTime?: Date;
   EndDateTime?: Date;
@@ -3202,15 +3695,17 @@ export const InstanceGroupDetail = S.suspend(() =>
   S.Struct({
     InstanceGroupId: S.optional(S.String),
     Name: S.optional(S.String),
-    Market: S.String,
-    InstanceRole: S.String,
+    Market: S.optional(MarketType),
+    InstanceRole: S.optional(InstanceRoleType),
     BidPrice: S.optional(S.String),
-    InstanceType: S.String,
-    InstanceRequestCount: S.Number,
-    InstanceRunningCount: S.Number,
-    State: S.String,
+    InstanceType: S.optional(S.String),
+    InstanceRequestCount: S.optional(S.Number),
+    InstanceRunningCount: S.optional(S.Number),
+    State: S.optional(InstanceGroupState),
     LastStateChangeReason: S.optional(S.String),
-    CreationDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    CreationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
     StartDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ReadyDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -3222,16 +3717,18 @@ export const InstanceGroupDetail = S.suspend(() =>
 export type InstanceGroupDetailList = InstanceGroupDetail[];
 export const InstanceGroupDetailList = S.Array(InstanceGroupDetail);
 export interface StepExecutionStatusDetail {
-  State: string;
-  CreationDateTime: Date;
+  State?: StepExecutionState;
+  CreationDateTime?: Date;
   StartDateTime?: Date;
   EndDateTime?: Date;
   LastStateChangeReason?: string;
 }
 export const StepExecutionStatusDetail = S.suspend(() =>
   S.Struct({
-    State: S.String,
-    CreationDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    State: S.optional(StepExecutionState),
+    CreationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
     StartDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastStateChangeReason: S.optional(S.String),
@@ -3240,11 +3737,14 @@ export const StepExecutionStatusDetail = S.suspend(() =>
   identifier: "StepExecutionStatusDetail",
 }) as any as S.Schema<StepExecutionStatusDetail>;
 export interface InstanceFleetStateChangeReason {
-  Code?: string;
+  Code?: InstanceFleetStateChangeReasonCode;
   Message?: string;
 }
 export const InstanceFleetStateChangeReason = S.suspend(() =>
-  S.Struct({ Code: S.optional(S.String), Message: S.optional(S.String) }),
+  S.Struct({
+    Code: S.optional(InstanceFleetStateChangeReasonCode),
+    Message: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "InstanceFleetStateChangeReason",
 }) as any as S.Schema<InstanceFleetStateChangeReason>;
@@ -3265,11 +3765,14 @@ export const InstanceFleetTimeline = S.suspend(() =>
   identifier: "InstanceFleetTimeline",
 }) as any as S.Schema<InstanceFleetTimeline>;
 export interface InstanceGroupStateChangeReason {
-  Code?: string;
+  Code?: InstanceGroupStateChangeReasonCode;
   Message?: string;
 }
 export const InstanceGroupStateChangeReason = S.suspend(() =>
-  S.Struct({ Code: S.optional(S.String), Message: S.optional(S.String) }),
+  S.Struct({
+    Code: S.optional(InstanceGroupStateChangeReasonCode),
+    Message: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "InstanceGroupStateChangeReason",
 }) as any as S.Schema<InstanceGroupStateChangeReason>;
@@ -3290,11 +3793,14 @@ export const InstanceGroupTimeline = S.suspend(() =>
   identifier: "InstanceGroupTimeline",
 }) as any as S.Schema<InstanceGroupTimeline>;
 export interface InstanceStateChangeReason {
-  Code?: string;
+  Code?: InstanceStateChangeReasonCode;
   Message?: string;
 }
 export const InstanceStateChangeReason = S.suspend(() =>
-  S.Struct({ Code: S.optional(S.String), Message: S.optional(S.String) }),
+  S.Struct({
+    Code: S.optional(InstanceStateChangeReasonCode),
+    Message: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "InstanceStateChangeReason",
 }) as any as S.Schema<InstanceStateChangeReason>;
@@ -3315,14 +3821,14 @@ export const InstanceTimeline = S.suspend(() =>
   identifier: "InstanceTimeline",
 }) as any as S.Schema<InstanceTimeline>;
 export interface AddJobFlowStepsInput {
-  JobFlowId: string;
-  Steps: StepConfigList;
+  JobFlowId?: string;
+  Steps?: StepConfig[];
   ExecutionRoleArn?: string;
 }
 export const AddJobFlowStepsInput = S.suspend(() =>
   S.Struct({
-    JobFlowId: S.String,
-    Steps: StepConfigList,
+    JobFlowId: S.optional(S.String),
+    Steps: S.optional(StepConfigList),
     ExecutionRoleArn: S.optional(S.String),
   }).pipe(
     T.all(
@@ -3347,7 +3853,7 @@ export const DescribeNotebookExecutionOutput = S.suspend(() =>
   identifier: "DescribeNotebookExecutionOutput",
 }) as any as S.Schema<DescribeNotebookExecutionOutput>;
 export interface GetClusterSessionCredentialsOutput {
-  Credentials?: (typeof Credentials)["Type"];
+  Credentials?: Credentials;
   ExpiresAt?: Date;
 }
 export const GetClusterSessionCredentialsOutput = S.suspend(() =>
@@ -3358,9 +3864,18 @@ export const GetClusterSessionCredentialsOutput = S.suspend(() =>
 ).annotations({
   identifier: "GetClusterSessionCredentialsOutput",
 }) as any as S.Schema<GetClusterSessionCredentialsOutput>;
+export type AutoScalingPolicyStateChangeReasonCode =
+  | "USER_REQUEST"
+  | "PROVISION_FAILURE"
+  | "CLEANUP_FAILURE";
+export const AutoScalingPolicyStateChangeReasonCode = S.Literal(
+  "USER_REQUEST",
+  "PROVISION_FAILURE",
+  "CLEANUP_FAILURE",
+);
 export interface ModifyInstanceGroupsInput {
   ClusterId?: string;
-  InstanceGroups?: InstanceGroupModifyConfigList;
+  InstanceGroups?: InstanceGroupModifyConfig[];
 }
 export const ModifyInstanceGroupsInput = S.suspend(() =>
   S.Struct({
@@ -3387,33 +3902,33 @@ export const ModifyInstanceGroupsResponse = S.suspend(() =>
   identifier: "ModifyInstanceGroupsResponse",
 }) as any as S.Schema<ModifyInstanceGroupsResponse>;
 export interface RunJobFlowInput {
-  Name: string;
+  Name?: string;
   LogUri?: string;
   LogEncryptionKmsKeyId?: string;
   AdditionalInfo?: string;
   AmiVersion?: string;
   ReleaseLabel?: string;
-  Instances: JobFlowInstancesConfig;
-  Steps?: StepConfigList;
-  BootstrapActions?: BootstrapActionConfigList;
-  SupportedProducts?: SupportedProductsList;
-  NewSupportedProducts?: NewSupportedProductsList;
-  Applications?: ApplicationList;
-  Configurations?: ConfigurationList;
+  Instances?: JobFlowInstancesConfig;
+  Steps?: StepConfig[];
+  BootstrapActions?: BootstrapActionConfig[];
+  SupportedProducts?: string[];
+  NewSupportedProducts?: SupportedProductConfig[];
+  Applications?: Application[];
+  Configurations?: Configuration[];
   VisibleToAllUsers?: boolean;
   JobFlowRole?: string;
   ServiceRole?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   SecurityConfiguration?: string;
   AutoScalingRole?: string;
-  ScaleDownBehavior?: string;
+  ScaleDownBehavior?: ScaleDownBehavior;
   CustomAmiId?: string;
   EbsRootVolumeSize?: number;
-  RepoUpgradeOnBoot?: string;
+  RepoUpgradeOnBoot?: RepoUpgradeOnBoot;
   KerberosAttributes?: KerberosAttributes;
   StepConcurrencyLevel?: number;
   ManagedScalingPolicy?: ManagedScalingPolicy;
-  PlacementGroupConfigs?: PlacementGroupConfigList;
+  PlacementGroupConfigs?: PlacementGroupConfig[];
   AutoTerminationPolicy?: AutoTerminationPolicy;
   OSReleaseLabel?: string;
   EbsRootVolumeIops?: number;
@@ -3423,13 +3938,13 @@ export interface RunJobFlowInput {
 }
 export const RunJobFlowInput = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: S.optional(S.String),
     LogUri: S.optional(S.String),
     LogEncryptionKmsKeyId: S.optional(S.String),
     AdditionalInfo: S.optional(S.String),
     AmiVersion: S.optional(S.String),
     ReleaseLabel: S.optional(S.String),
-    Instances: JobFlowInstancesConfig,
+    Instances: S.optional(JobFlowInstancesConfig),
     Steps: S.optional(StepConfigList),
     BootstrapActions: S.optional(BootstrapActionConfigList),
     SupportedProducts: S.optional(SupportedProductsList),
@@ -3442,10 +3957,10 @@ export const RunJobFlowInput = S.suspend(() =>
     Tags: S.optional(TagList),
     SecurityConfiguration: S.optional(S.String),
     AutoScalingRole: S.optional(S.String),
-    ScaleDownBehavior: S.optional(S.String),
+    ScaleDownBehavior: S.optional(ScaleDownBehavior),
     CustomAmiId: S.optional(S.String),
     EbsRootVolumeSize: S.optional(S.Number),
-    RepoUpgradeOnBoot: S.optional(S.String),
+    RepoUpgradeOnBoot: S.optional(RepoUpgradeOnBoot),
     KerberosAttributes: S.optional(KerberosAttributes),
     StepConcurrencyLevel: S.optional(S.Number),
     ManagedScalingPolicy: S.optional(ManagedScalingPolicy),
@@ -3471,12 +3986,12 @@ export const RunJobFlowInput = S.suspend(() =>
   identifier: "RunJobFlowInput",
 }) as any as S.Schema<RunJobFlowInput>;
 export interface JobFlowInstancesDetail {
-  MasterInstanceType: string;
+  MasterInstanceType?: string;
   MasterPublicDnsName?: string;
   MasterInstanceId?: string;
-  SlaveInstanceType: string;
-  InstanceCount: number;
-  InstanceGroups?: InstanceGroupDetailList;
+  SlaveInstanceType?: string;
+  InstanceCount?: number;
+  InstanceGroups?: InstanceGroupDetail[];
   NormalizedInstanceHours?: number;
   Ec2KeyName?: string;
   Ec2SubnetId?: string;
@@ -3488,11 +4003,11 @@ export interface JobFlowInstancesDetail {
 }
 export const JobFlowInstancesDetail = S.suspend(() =>
   S.Struct({
-    MasterInstanceType: S.String,
+    MasterInstanceType: S.optional(S.String),
     MasterPublicDnsName: S.optional(S.String),
     MasterInstanceId: S.optional(S.String),
-    SlaveInstanceType: S.String,
-    InstanceCount: S.Number,
+    SlaveInstanceType: S.optional(S.String),
+    InstanceCount: S.optional(S.Number),
     InstanceGroups: S.optional(InstanceGroupDetailList),
     NormalizedInstanceHours: S.optional(S.Number),
     Ec2KeyName: S.optional(S.String),
@@ -3507,25 +4022,25 @@ export const JobFlowInstancesDetail = S.suspend(() =>
   identifier: "JobFlowInstancesDetail",
 }) as any as S.Schema<JobFlowInstancesDetail>;
 export interface StepDetail {
-  StepConfig: StepConfig;
-  ExecutionStatusDetail: StepExecutionStatusDetail;
+  StepConfig?: StepConfig;
+  ExecutionStatusDetail?: StepExecutionStatusDetail;
 }
 export const StepDetail = S.suspend(() =>
   S.Struct({
-    StepConfig: StepConfig,
-    ExecutionStatusDetail: StepExecutionStatusDetail,
+    StepConfig: S.optional(StepConfig),
+    ExecutionStatusDetail: S.optional(StepExecutionStatusDetail),
   }),
 ).annotations({ identifier: "StepDetail" }) as any as S.Schema<StepDetail>;
 export type StepDetailList = StepDetail[];
 export const StepDetailList = S.Array(StepDetail);
 export interface InstanceFleetStatus {
-  State?: string;
+  State?: InstanceFleetState;
   StateChangeReason?: InstanceFleetStateChangeReason;
   Timeline?: InstanceFleetTimeline;
 }
 export const InstanceFleetStatus = S.suspend(() =>
   S.Struct({
-    State: S.optional(S.String),
+    State: S.optional(InstanceFleetState),
     StateChangeReason: S.optional(InstanceFleetStateChangeReason),
     Timeline: S.optional(InstanceFleetTimeline),
   }),
@@ -3533,13 +4048,13 @@ export const InstanceFleetStatus = S.suspend(() =>
   identifier: "InstanceFleetStatus",
 }) as any as S.Schema<InstanceFleetStatus>;
 export interface InstanceGroupStatus {
-  State?: string;
+  State?: InstanceGroupState;
   StateChangeReason?: InstanceGroupStateChangeReason;
   Timeline?: InstanceGroupTimeline;
 }
 export const InstanceGroupStatus = S.suspend(() =>
   S.Struct({
-    State: S.optional(S.String),
+    State: S.optional(InstanceGroupState),
     StateChangeReason: S.optional(InstanceGroupStateChangeReason),
     Timeline: S.optional(InstanceGroupTimeline),
   }),
@@ -3547,13 +4062,13 @@ export const InstanceGroupStatus = S.suspend(() =>
   identifier: "InstanceGroupStatus",
 }) as any as S.Schema<InstanceGroupStatus>;
 export interface InstanceStatus {
-  State?: string;
+  State?: InstanceState;
   StateChangeReason?: InstanceStateChangeReason;
   Timeline?: InstanceTimeline;
 }
 export const InstanceStatus = S.suspend(() =>
   S.Struct({
-    State: S.optional(S.String),
+    State: S.optional(InstanceState),
     StateChangeReason: S.optional(InstanceStateChangeReason),
     Timeline: S.optional(InstanceTimeline),
   }),
@@ -3561,11 +4076,14 @@ export const InstanceStatus = S.suspend(() =>
   identifier: "InstanceStatus",
 }) as any as S.Schema<InstanceStatus>;
 export interface AutoScalingPolicyStateChangeReason {
-  Code?: string;
+  Code?: AutoScalingPolicyStateChangeReasonCode;
   Message?: string;
 }
 export const AutoScalingPolicyStateChangeReason = S.suspend(() =>
-  S.Struct({ Code: S.optional(S.String), Message: S.optional(S.String) }),
+  S.Struct({
+    Code: S.optional(AutoScalingPolicyStateChangeReasonCode),
+    Message: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "AutoScalingPolicyStateChangeReason",
 }) as any as S.Schema<AutoScalingPolicyStateChangeReason>;
@@ -3574,7 +4092,7 @@ export interface Cluster {
   Name?: string;
   Status?: ClusterStatus;
   Ec2InstanceAttributes?: Ec2InstanceAttributes;
-  InstanceCollectionType?: string;
+  InstanceCollectionType?: InstanceCollectionType;
   LogUri?: string;
   LogEncryptionKmsKeyId?: string;
   RequestedAmiVersion?: string;
@@ -3584,23 +4102,23 @@ export interface Cluster {
   TerminationProtected?: boolean;
   UnhealthyNodeReplacement?: boolean;
   VisibleToAllUsers?: boolean;
-  Applications?: ApplicationList;
-  Tags?: TagList;
+  Applications?: Application[];
+  Tags?: Tag[];
   ServiceRole?: string;
   NormalizedInstanceHours?: number;
   MasterPublicDnsName?: string;
-  Configurations?: ConfigurationList;
+  Configurations?: Configuration[];
   SecurityConfiguration?: string;
   AutoScalingRole?: string;
-  ScaleDownBehavior?: string;
+  ScaleDownBehavior?: ScaleDownBehavior;
   CustomAmiId?: string;
   EbsRootVolumeSize?: number;
-  RepoUpgradeOnBoot?: string;
+  RepoUpgradeOnBoot?: RepoUpgradeOnBoot;
   KerberosAttributes?: KerberosAttributes;
   ClusterArn?: string;
   OutpostArn?: string;
   StepConcurrencyLevel?: number;
-  PlacementGroups?: PlacementGroupConfigList;
+  PlacementGroups?: PlacementGroupConfig[];
   OSReleaseLabel?: string;
   EbsRootVolumeIops?: number;
   EbsRootVolumeThroughput?: number;
@@ -3613,7 +4131,7 @@ export const Cluster = S.suspend(() =>
     Name: S.optional(S.String),
     Status: S.optional(ClusterStatus),
     Ec2InstanceAttributes: S.optional(Ec2InstanceAttributes),
-    InstanceCollectionType: S.optional(S.String),
+    InstanceCollectionType: S.optional(InstanceCollectionType),
     LogUri: S.optional(S.String),
     LogEncryptionKmsKeyId: S.optional(S.String),
     RequestedAmiVersion: S.optional(S.String),
@@ -3631,10 +4149,10 @@ export const Cluster = S.suspend(() =>
     Configurations: S.optional(ConfigurationList),
     SecurityConfiguration: S.optional(S.String),
     AutoScalingRole: S.optional(S.String),
-    ScaleDownBehavior: S.optional(S.String),
+    ScaleDownBehavior: S.optional(ScaleDownBehavior),
     CustomAmiId: S.optional(S.String),
     EbsRootVolumeSize: S.optional(S.Number),
-    RepoUpgradeOnBoot: S.optional(S.String),
+    RepoUpgradeOnBoot: S.optional(RepoUpgradeOnBoot),
     KerberosAttributes: S.optional(KerberosAttributes),
     ClusterArn: S.optional(S.String),
     OutpostArn: S.optional(S.String),
@@ -3648,31 +4166,31 @@ export const Cluster = S.suspend(() =>
   }),
 ).annotations({ identifier: "Cluster" }) as any as S.Schema<Cluster>;
 export interface JobFlowDetail {
-  JobFlowId: string;
-  Name: string;
+  JobFlowId?: string;
+  Name?: string;
   LogUri?: string;
   LogEncryptionKmsKeyId?: string;
   AmiVersion?: string;
-  ExecutionStatusDetail: JobFlowExecutionStatusDetail;
-  Instances: JobFlowInstancesDetail;
-  Steps?: StepDetailList;
-  BootstrapActions?: BootstrapActionDetailList;
-  SupportedProducts?: SupportedProductsList;
+  ExecutionStatusDetail?: JobFlowExecutionStatusDetail;
+  Instances?: JobFlowInstancesDetail;
+  Steps?: StepDetail[];
+  BootstrapActions?: BootstrapActionDetail[];
+  SupportedProducts?: string[];
   VisibleToAllUsers?: boolean;
   JobFlowRole?: string;
   ServiceRole?: string;
   AutoScalingRole?: string;
-  ScaleDownBehavior?: string;
+  ScaleDownBehavior?: ScaleDownBehavior;
 }
 export const JobFlowDetail = S.suspend(() =>
   S.Struct({
-    JobFlowId: S.String,
-    Name: S.String,
+    JobFlowId: S.optional(S.String),
+    Name: S.optional(S.String),
     LogUri: S.optional(S.String),
     LogEncryptionKmsKeyId: S.optional(S.String),
     AmiVersion: S.optional(S.String),
-    ExecutionStatusDetail: JobFlowExecutionStatusDetail,
-    Instances: JobFlowInstancesDetail,
+    ExecutionStatusDetail: S.optional(JobFlowExecutionStatusDetail),
+    Instances: S.optional(JobFlowInstancesDetail),
     Steps: S.optional(StepDetailList),
     BootstrapActions: S.optional(BootstrapActionDetailList),
     SupportedProducts: S.optional(SupportedProductsList),
@@ -3680,7 +4198,7 @@ export const JobFlowDetail = S.suspend(() =>
     JobFlowRole: S.optional(S.String),
     ServiceRole: S.optional(S.String),
     AutoScalingRole: S.optional(S.String),
-    ScaleDownBehavior: S.optional(S.String),
+    ScaleDownBehavior: S.optional(ScaleDownBehavior),
   }),
 ).annotations({
   identifier: "JobFlowDetail",
@@ -3691,7 +4209,7 @@ export interface Step {
   Id?: string;
   Name?: string;
   Config?: HadoopStepConfig;
-  ActionOnFailure?: string;
+  ActionOnFailure?: ActionOnFailure;
   Status?: StepStatus;
   ExecutionRoleArn?: string;
   LogUri?: string;
@@ -3702,7 +4220,7 @@ export const Step = S.suspend(() =>
     Id: S.optional(S.String),
     Name: S.optional(S.String),
     Config: S.optional(HadoopStepConfig),
-    ActionOnFailure: S.optional(S.String),
+    ActionOnFailure: S.optional(ActionOnFailure),
     Status: S.optional(StepStatus),
     ExecutionRoleArn: S.optional(S.String),
     LogUri: S.optional(S.String),
@@ -3713,12 +4231,12 @@ export interface InstanceFleet {
   Id?: string;
   Name?: string;
   Status?: InstanceFleetStatus;
-  InstanceFleetType?: string;
+  InstanceFleetType?: InstanceFleetType;
   TargetOnDemandCapacity?: number;
   TargetSpotCapacity?: number;
   ProvisionedOnDemandCapacity?: number;
   ProvisionedSpotCapacity?: number;
-  InstanceTypeSpecifications?: InstanceTypeSpecificationList;
+  InstanceTypeSpecifications?: InstanceTypeSpecification[];
   LaunchSpecifications?: InstanceFleetProvisioningSpecifications;
   ResizeSpecifications?: InstanceFleetResizingSpecifications;
   Context?: string;
@@ -3728,7 +4246,7 @@ export const InstanceFleet = S.suspend(() =>
     Id: S.optional(S.String),
     Name: S.optional(S.String),
     Status: S.optional(InstanceFleetStatus),
-    InstanceFleetType: S.optional(S.String),
+    InstanceFleetType: S.optional(InstanceFleetType),
     TargetOnDemandCapacity: S.optional(S.Number),
     TargetSpotCapacity: S.optional(S.Number),
     ProvisionedOnDemandCapacity: S.optional(S.Number),
@@ -3753,9 +4271,9 @@ export interface Instance {
   Status?: InstanceStatus;
   InstanceGroupId?: string;
   InstanceFleetId?: string;
-  Market?: string;
+  Market?: MarketType;
   InstanceType?: string;
-  EbsVolumes?: EbsVolumeList;
+  EbsVolumes?: EbsVolume[];
 }
 export const Instance = S.suspend(() =>
   S.Struct({
@@ -3768,7 +4286,7 @@ export const Instance = S.suspend(() =>
     Status: S.optional(InstanceStatus),
     InstanceGroupId: S.optional(S.String),
     InstanceFleetId: S.optional(S.String),
-    Market: S.optional(S.String),
+    Market: S.optional(MarketType),
     InstanceType: S.optional(S.String),
     EbsVolumes: S.optional(EbsVolumeList),
   }),
@@ -3776,23 +4294,26 @@ export const Instance = S.suspend(() =>
 export type InstanceList = Instance[];
 export const InstanceList = S.Array(Instance);
 export interface AutoScalingPolicyStatus {
-  State?: string;
+  State?: AutoScalingPolicyState;
   StateChangeReason?: AutoScalingPolicyStateChangeReason;
 }
 export const AutoScalingPolicyStatus = S.suspend(() =>
   S.Struct({
-    State: S.optional(S.String),
+    State: S.optional(AutoScalingPolicyState),
     StateChangeReason: S.optional(AutoScalingPolicyStateChangeReason),
   }),
 ).annotations({
   identifier: "AutoScalingPolicyStatus",
 }) as any as S.Schema<AutoScalingPolicyStatus>;
 export interface AddInstanceFleetInput {
-  ClusterId: string;
-  InstanceFleet: InstanceFleetConfig;
+  ClusterId?: string;
+  InstanceFleet?: InstanceFleetConfig;
 }
 export const AddInstanceFleetInput = S.suspend(() =>
-  S.Struct({ ClusterId: S.String, InstanceFleet: InstanceFleetConfig }).pipe(
+  S.Struct({
+    ClusterId: S.optional(S.String),
+    InstanceFleet: S.optional(InstanceFleetConfig),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -3807,13 +4328,13 @@ export const AddInstanceFleetInput = S.suspend(() =>
   identifier: "AddInstanceFleetInput",
 }) as any as S.Schema<AddInstanceFleetInput>;
 export interface AddInstanceGroupsInput {
-  InstanceGroups: InstanceGroupConfigList;
-  JobFlowId: string;
+  InstanceGroups?: InstanceGroupConfig[];
+  JobFlowId?: string;
 }
 export const AddInstanceGroupsInput = S.suspend(() =>
   S.Struct({
-    InstanceGroups: InstanceGroupConfigList,
-    JobFlowId: S.String,
+    InstanceGroups: S.optional(InstanceGroupConfigList),
+    JobFlowId: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -3829,7 +4350,7 @@ export const AddInstanceGroupsInput = S.suspend(() =>
   identifier: "AddInstanceGroupsInput",
 }) as any as S.Schema<AddInstanceGroupsInput>;
 export interface AddJobFlowStepsOutput {
-  StepIds?: StepIdsList;
+  StepIds?: string[];
 }
 export const AddJobFlowStepsOutput = S.suspend(() =>
   S.Struct({ StepIds: S.optional(StepIdsList) }).pipe(ns),
@@ -3845,7 +4366,7 @@ export const DescribeClusterOutput = S.suspend(() =>
   identifier: "DescribeClusterOutput",
 }) as any as S.Schema<DescribeClusterOutput>;
 export interface DescribeJobFlowsOutput {
-  JobFlows?: JobFlowDetailList;
+  JobFlows?: JobFlowDetail[];
 }
 export const DescribeJobFlowsOutput = S.suspend(() =>
   S.Struct({ JobFlows: S.optional(JobFlowDetailList) }).pipe(ns),
@@ -3861,7 +4382,7 @@ export const DescribeStepOutput = S.suspend(() =>
   identifier: "DescribeStepOutput",
 }) as any as S.Schema<DescribeStepOutput>;
 export interface ListInstanceFleetsOutput {
-  InstanceFleets?: InstanceFleetList;
+  InstanceFleets?: InstanceFleet[];
   Marker?: string;
 }
 export const ListInstanceFleetsOutput = S.suspend(() =>
@@ -3873,7 +4394,7 @@ export const ListInstanceFleetsOutput = S.suspend(() =>
   identifier: "ListInstanceFleetsOutput",
 }) as any as S.Schema<ListInstanceFleetsOutput>;
 export interface ListInstancesOutput {
-  Instances?: InstanceList;
+  Instances?: Instance[];
   Marker?: string;
 }
 export const ListInstancesOutput = S.suspend(() =>
@@ -3899,7 +4420,7 @@ export const RunJobFlowOutput = S.suspend(() =>
 export interface AutoScalingPolicyDescription {
   Status?: AutoScalingPolicyStatus;
   Constraints?: ScalingConstraints;
-  Rules?: ScalingRuleList;
+  Rules?: ScalingRule[];
 }
 export const AutoScalingPolicyDescription = S.suspend(() =>
   S.Struct({
@@ -3915,18 +4436,18 @@ export const InstanceGroupIdsList = S.Array(S.String);
 export interface InstanceGroup {
   Id?: string;
   Name?: string;
-  Market?: string;
-  InstanceGroupType?: string;
+  Market?: MarketType;
+  InstanceGroupType?: InstanceGroupType;
   BidPrice?: string;
   InstanceType?: string;
   RequestedInstanceCount?: number;
   RunningInstanceCount?: number;
   Status?: InstanceGroupStatus;
-  Configurations?: ConfigurationList;
+  Configurations?: Configuration[];
   ConfigurationsVersion?: number;
-  LastSuccessfullyAppliedConfigurations?: ConfigurationList;
+  LastSuccessfullyAppliedConfigurations?: Configuration[];
   LastSuccessfullyAppliedConfigurationsVersion?: number;
-  EbsBlockDevices?: EbsBlockDeviceList;
+  EbsBlockDevices?: EbsBlockDevice[];
   EbsOptimized?: boolean;
   ShrinkPolicy?: ShrinkPolicy;
   AutoScalingPolicy?: AutoScalingPolicyDescription;
@@ -3936,8 +4457,8 @@ export const InstanceGroup = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Name: S.optional(S.String),
-    Market: S.optional(S.String),
-    InstanceGroupType: S.optional(S.String),
+    Market: S.optional(MarketType),
+    InstanceGroupType: S.optional(InstanceGroupType),
     BidPrice: S.optional(S.String),
     InstanceType: S.optional(S.String),
     RequestedInstanceCount: S.optional(S.Number),
@@ -3974,7 +4495,7 @@ export const AddInstanceFleetOutput = S.suspend(() =>
 }) as any as S.Schema<AddInstanceFleetOutput>;
 export interface AddInstanceGroupsOutput {
   JobFlowId?: string;
-  InstanceGroupIds?: InstanceGroupIdsList;
+  InstanceGroupIds?: string[];
   ClusterArn?: string;
 }
 export const AddInstanceGroupsOutput = S.suspend(() =>
@@ -3987,7 +4508,7 @@ export const AddInstanceGroupsOutput = S.suspend(() =>
   identifier: "AddInstanceGroupsOutput",
 }) as any as S.Schema<AddInstanceGroupsOutput>;
 export interface ListInstanceGroupsOutput {
-  InstanceGroups?: InstanceGroupList;
+  InstanceGroups?: InstanceGroup[];
   Marker?: string;
 }
 export const ListInstanceGroupsOutput = S.suspend(() =>
@@ -3999,15 +4520,15 @@ export const ListInstanceGroupsOutput = S.suspend(() =>
   identifier: "ListInstanceGroupsOutput",
 }) as any as S.Schema<ListInstanceGroupsOutput>;
 export interface PutAutoScalingPolicyInput {
-  ClusterId: string;
-  InstanceGroupId: string;
-  AutoScalingPolicy: AutoScalingPolicy;
+  ClusterId?: string;
+  InstanceGroupId?: string;
+  AutoScalingPolicy?: AutoScalingPolicy;
 }
 export const PutAutoScalingPolicyInput = S.suspend(() =>
   S.Struct({
-    ClusterId: S.String,
-    InstanceGroupId: S.String,
-    AutoScalingPolicy: AutoScalingPolicy,
+    ClusterId: S.optional(S.String),
+    InstanceGroupId: S.optional(S.String),
+    AutoScalingPolicy: S.optional(AutoScalingPolicy),
   }).pipe(
     T.all(
       ns,
@@ -4060,7 +4581,7 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
  */
 export const removeAutoScalingPolicy: (
   input: RemoveAutoScalingPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveAutoScalingPolicyOutput,
   CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4074,7 +4595,7 @@ export const removeAutoScalingPolicy: (
  */
 export const removeAutoTerminationPolicy: (
   input: RemoveAutoTerminationPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveAutoTerminationPolicyOutput,
   CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4088,7 +4609,7 @@ export const removeAutoTerminationPolicy: (
  */
 export const removeManagedScalingPolicy: (
   input: RemoveManagedScalingPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveManagedScalingPolicyOutput,
   CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4106,7 +4627,7 @@ export const removeManagedScalingPolicy: (
  */
 export const setKeepJobFlowAliveWhenNoSteps: (
   input: SetKeepJobFlowAliveWhenNoStepsInput,
-) => Effect.Effect<
+) => effect.Effect<
   SetKeepJobFlowAliveWhenNoStepsResponse,
   InternalServerError | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4138,7 +4659,7 @@ export const setKeepJobFlowAliveWhenNoSteps: (
  */
 export const setTerminationProtection: (
   input: SetTerminationProtectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   SetTerminationProtectionResponse,
   InternalServerError | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4165,7 +4686,7 @@ export const setTerminationProtection: (
  */
 export const setUnhealthyNodeReplacement: (
   input: SetUnhealthyNodeReplacementInput,
-) => Effect.Effect<
+) => effect.Effect<
   SetUnhealthyNodeReplacementResponse,
   InternalServerError | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4192,7 +4713,7 @@ export const setUnhealthyNodeReplacement: (
  */
 export const setVisibleToAllUsers: (
   input: SetVisibleToAllUsersInput,
-) => Effect.Effect<
+) => effect.Effect<
   SetVisibleToAllUsersResponse,
   InternalServerError | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4213,7 +4734,7 @@ export const setVisibleToAllUsers: (
  */
 export const terminateJobFlows: (
   input: TerminateJobFlowsInput,
-) => Effect.Effect<
+) => effect.Effect<
   TerminateJobFlowsResponse,
   InternalServerError | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4231,7 +4752,7 @@ export const terminateJobFlows: (
  */
 export const createStudioSessionMapping: (
   input: CreateStudioSessionMappingInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateStudioSessionMappingResponse,
   InternalServerError | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4245,7 +4766,7 @@ export const createStudioSessionMapping: (
  */
 export const deleteSecurityConfiguration: (
   input: DeleteSecurityConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSecurityConfigurationOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4260,7 +4781,7 @@ export const deleteSecurityConfiguration: (
  */
 export const describeSecurityConfiguration: (
   input: DescribeSecurityConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSecurityConfigurationOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4274,7 +4795,7 @@ export const describeSecurityConfiguration: (
  */
 export const getAutoTerminationPolicy: (
   input: GetAutoTerminationPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetAutoTerminationPolicyOutput,
   CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4288,7 +4809,7 @@ export const getAutoTerminationPolicy: (
  */
 export const getManagedScalingPolicy: (
   input: GetManagedScalingPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetManagedScalingPolicyOutput,
   CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4302,7 +4823,7 @@ export const getManagedScalingPolicy: (
  */
 export const getOnClusterAppUIPresignedURL: (
   input: GetOnClusterAppUIPresignedURLInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetOnClusterAppUIPresignedURLOutput,
   InternalServerError | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4316,7 +4837,7 @@ export const getOnClusterAppUIPresignedURL: (
  */
 export const getPersistentAppUIPresignedURL: (
   input: GetPersistentAppUIPresignedURLInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetPersistentAppUIPresignedURLOutput,
   InternalServerError | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4331,7 +4852,7 @@ export const getPersistentAppUIPresignedURL: (
  */
 export const modifyCluster: (
   input: ModifyClusterInput,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyClusterOutput,
   InternalServerError | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4350,7 +4871,7 @@ export const modifyCluster: (
  */
 export const modifyInstanceFleet: (
   input: ModifyInstanceFleetInput,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyInstanceFleetResponse,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4371,7 +4892,7 @@ export const modifyInstanceFleet: (
  */
 export const putAutoTerminationPolicy: (
   input: PutAutoTerminationPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutAutoTerminationPolicyOutput,
   CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4385,7 +4906,7 @@ export const putAutoTerminationPolicy: (
  */
 export const deleteStudioSessionMapping: (
   input: DeleteStudioSessionMappingInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteStudioSessionMappingResponse,
   InternalServerError | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4399,7 +4920,7 @@ export const deleteStudioSessionMapping: (
  */
 export const stopNotebookExecution: (
   input: StopNotebookExecutionInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopNotebookExecutionResponse,
   InternalServerError | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4413,7 +4934,7 @@ export const stopNotebookExecution: (
  */
 export const updateStudioSessionMapping: (
   input: UpdateStudioSessionMappingInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateStudioSessionMappingResponse,
   InternalServerError | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4427,7 +4948,7 @@ export const updateStudioSessionMapping: (
  */
 export const deleteStudio: (
   input: DeleteStudioInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteStudioResponse,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4444,7 +4965,7 @@ export const deleteStudio: (
  */
 export const putBlockPublicAccessConfiguration: (
   input: PutBlockPublicAccessConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutBlockPublicAccessConfigurationOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4463,7 +4984,7 @@ export const putBlockPublicAccessConfiguration: (
  */
 export const removeTags: (
   input: RemoveTagsInput,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveTagsOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4478,7 +4999,7 @@ export const removeTags: (
  */
 export const updateStudio: (
   input: UpdateStudioInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateStudioResponse,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4496,7 +5017,7 @@ export const updateStudio: (
  */
 export const addTags: (
   input: AddTagsInput,
-) => Effect.Effect<
+) => effect.Effect<
   AddTagsOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4511,7 +5032,7 @@ export const addTags: (
  */
 export const createSecurityConfiguration: (
   input: CreateSecurityConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSecurityConfigurationOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4525,7 +5046,7 @@ export const createSecurityConfiguration: (
  */
 export const createStudio: (
   input: CreateStudioInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateStudioOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4543,7 +5064,7 @@ export const createStudio: (
  */
 export const cancelSteps: (
   input: CancelStepsInput,
-) => Effect.Effect<
+) => effect.Effect<
   CancelStepsOutput,
   InternalServerError | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4557,7 +5078,7 @@ export const cancelSteps: (
  */
 export const createPersistentAppUI: (
   input: CreatePersistentAppUIInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePersistentAppUIOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4571,7 +5092,7 @@ export const createPersistentAppUI: (
  */
 export const describePersistentAppUI: (
   input: DescribePersistentAppUIInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePersistentAppUIOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4587,7 +5108,7 @@ export const describePersistentAppUI: (
  */
 export const describeReleaseLabel: (
   input: DescribeReleaseLabelInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeReleaseLabelOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4602,7 +5123,7 @@ export const describeReleaseLabel: (
  */
 export const describeStudio: (
   input: DescribeStudioInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeStudioOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4618,7 +5139,7 @@ export const describeStudio: (
  */
 export const getBlockPublicAccessConfiguration: (
   input: GetBlockPublicAccessConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetBlockPublicAccessConfigurationOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4633,7 +5154,7 @@ export const getBlockPublicAccessConfiguration: (
  */
 export const getStudioSessionMapping: (
   input: GetStudioSessionMappingInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetStudioSessionMappingOutput,
   InternalServerError | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4648,21 +5169,21 @@ export const getStudioSessionMapping: (
 export const listBootstrapActions: {
   (
     input: ListBootstrapActionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBootstrapActionsOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListBootstrapActionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBootstrapActionsOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBootstrapActionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Command,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
@@ -4687,21 +5208,21 @@ export const listBootstrapActions: {
 export const listClusters: {
   (
     input: ListClustersInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListClustersOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListClustersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListClustersOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListClustersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ClusterSummary,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
@@ -4725,21 +5246,21 @@ export const listClusters: {
 export const listNotebookExecutions: {
   (
     input: ListNotebookExecutionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListNotebookExecutionsOutput,
     InternalServerError | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListNotebookExecutionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListNotebookExecutionsOutput,
     InternalServerError | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListNotebookExecutionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NotebookExecutionSummary,
     InternalServerError | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
@@ -4761,21 +5282,21 @@ export const listNotebookExecutions: {
 export const listReleaseLabels: {
   (
     input: ListReleaseLabelsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReleaseLabelsOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListReleaseLabelsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReleaseLabelsOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListReleaseLabelsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
@@ -4799,21 +5320,21 @@ export const listReleaseLabels: {
 export const listSecurityConfigurations: {
   (
     input: ListSecurityConfigurationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSecurityConfigurationsOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSecurityConfigurationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSecurityConfigurationsOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSecurityConfigurationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SecurityConfigurationSummary,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
@@ -4839,21 +5360,21 @@ export const listSecurityConfigurations: {
 export const listSteps: {
   (
     input: ListStepsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStepsOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListStepsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStepsOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStepsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     StepSummary,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
@@ -4875,21 +5396,21 @@ export const listSteps: {
 export const listStudios: {
   (
     input: ListStudiosInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStudiosOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListStudiosInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStudiosOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStudiosInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     StudioSummary,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
@@ -4911,21 +5432,21 @@ export const listStudios: {
 export const listStudioSessionMappings: {
   (
     input: ListStudioSessionMappingsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStudioSessionMappingsOutput,
     InternalServerError | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListStudioSessionMappingsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStudioSessionMappingsOutput,
     InternalServerError | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStudioSessionMappingsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SessionMappingSummary,
     InternalServerError | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
@@ -4947,21 +5468,21 @@ export const listStudioSessionMappings: {
 export const listSupportedInstanceTypes: {
   (
     input: ListSupportedInstanceTypesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSupportedInstanceTypesOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSupportedInstanceTypesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSupportedInstanceTypesOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSupportedInstanceTypesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
@@ -4980,7 +5501,7 @@ export const listSupportedInstanceTypes: {
  */
 export const putManagedScalingPolicy: (
   input: PutManagedScalingPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutManagedScalingPolicyOutput,
   CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4994,7 +5515,7 @@ export const putManagedScalingPolicy: (
  */
 export const startNotebookExecution: (
   input: StartNotebookExecutionInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartNotebookExecutionOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5008,7 +5529,7 @@ export const startNotebookExecution: (
  */
 export const describeNotebookExecution: (
   input: DescribeNotebookExecutionInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeNotebookExecutionOutput,
   InternalServerError | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5025,7 +5546,7 @@ export const describeNotebookExecution: (
  */
 export const getClusterSessionCredentials: (
   input: GetClusterSessionCredentialsInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetClusterSessionCredentialsOutput,
   InternalServerError | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5041,7 +5562,7 @@ export const getClusterSessionCredentials: (
  */
 export const modifyInstanceGroups: (
   input: ModifyInstanceGroupsInput,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyInstanceGroupsResponse,
   InternalServerError | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5076,7 +5597,7 @@ export const modifyInstanceGroups: (
  */
 export const addJobFlowSteps: (
   input: AddJobFlowStepsInput,
-) => Effect.Effect<
+) => effect.Effect<
   AddJobFlowStepsOutput,
   InternalServerError | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5091,7 +5612,7 @@ export const addJobFlowSteps: (
  */
 export const describeCluster: (
   input: DescribeClusterInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeClusterOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5124,7 +5645,7 @@ export const describeCluster: (
  */
 export const describeJobFlows: (
   input: DescribeJobFlowsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeJobFlowsOutput,
   InternalServerError | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5138,7 +5659,7 @@ export const describeJobFlows: (
  */
 export const describeStep: (
   input: DescribeStepInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeStepOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5156,21 +5677,21 @@ export const describeStep: (
 export const listInstanceFleets: {
   (
     input: ListInstanceFleetsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInstanceFleetsOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListInstanceFleetsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInstanceFleetsOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInstanceFleetsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     InstanceFleet,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
@@ -5194,21 +5715,21 @@ export const listInstanceFleets: {
 export const listInstances: {
   (
     input: ListInstancesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInstancesOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListInstancesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInstancesOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInstancesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Instance,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
@@ -5252,7 +5773,7 @@ export const listInstances: {
  */
 export const runJobFlow: (
   input: RunJobFlowInput,
-) => Effect.Effect<
+) => effect.Effect<
   RunJobFlowOutput,
   InternalServerError | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5269,7 +5790,7 @@ export const runJobFlow: (
  */
 export const addInstanceFleet: (
   input: AddInstanceFleetInput,
-) => Effect.Effect<
+) => effect.Effect<
   AddInstanceFleetOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5283,7 +5804,7 @@ export const addInstanceFleet: (
  */
 export const addInstanceGroups: (
   input: AddInstanceGroupsInput,
-) => Effect.Effect<
+) => effect.Effect<
   AddInstanceGroupsOutput,
   InternalServerError | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5298,21 +5819,21 @@ export const addInstanceGroups: (
 export const listInstanceGroups: {
   (
     input: ListInstanceGroupsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInstanceGroupsOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListInstanceGroupsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInstanceGroupsOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInstanceGroupsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     InstanceGroup,
     InternalServerException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
@@ -5335,7 +5856,7 @@ export const listInstanceGroups: {
  */
 export const putAutoScalingPolicy: (
   input: PutAutoScalingPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutAutoScalingPolicyOutput,
   CommonErrors,
   Creds | Region | HttpClient.HttpClient

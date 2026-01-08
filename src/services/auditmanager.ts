@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -89,23 +89,23 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type UUID = string;
 export type ControlSetId = string;
-export type AssessmentName = string | Redacted.Redacted<string>;
-export type AssessmentDescription = string | Redacted.Redacted<string>;
+export type AssessmentName = string | redacted.Redacted<string>;
+export type AssessmentDescription = string | redacted.Redacted<string>;
 export type FrameworkName = string;
 export type FrameworkDescription = string;
-export type ComplianceType = string | Redacted.Redacted<string>;
+export type ComplianceType = string | redacted.Redacted<string>;
 export type AssessmentReportName = string;
-export type AssessmentReportDescription = string | Redacted.Redacted<string>;
+export type AssessmentReportDescription = string | redacted.Redacted<string>;
 export type QueryStatement = string;
 export type ControlName = string;
-export type ControlDescription = string | Redacted.Redacted<string>;
-export type TestingInformation = string | Redacted.Redacted<string>;
-export type ActionPlanTitle = string | Redacted.Redacted<string>;
-export type ActionPlanInstructions = string | Redacted.Redacted<string>;
+export type ControlDescription = string | redacted.Redacted<string>;
+export type TestingInformation = string | redacted.Redacted<string>;
+export type ActionPlanTitle = string | redacted.Redacted<string>;
+export type ActionPlanInstructions = string | redacted.Redacted<string>;
 export type AccountId = string;
 export type Token = string;
 export type MaxResults = number;
-export type ManualEvidenceLocalFileName = string | Redacted.Redacted<string>;
+export type ManualEvidenceLocalFileName = string | redacted.Redacted<string>;
 export type organizationId = string;
 export type ControlDomainId = string;
 export type ControlCatalogId = string;
@@ -114,36 +114,34 @@ export type KmsKey = string;
 export type Region = string;
 export type ShareRequestComment = string;
 export type TagKey = string;
-export type ControlCommentBody = string | Redacted.Redacted<string>;
-export type DelegationComment = string | Redacted.Redacted<string>;
+export type ControlCommentBody = string | redacted.Redacted<string>;
+export type DelegationComment = string | redacted.Redacted<string>;
 export type SnsArn = string;
 export type S3Url = string;
 export type IamArn = string;
-export type ManualEvidenceTextResponse = string | Redacted.Redacted<string>;
+export type ManualEvidenceTextResponse = string | redacted.Redacted<string>;
 export type TagValue = string;
 export type ControlSetName = string;
 export type SourceName = string;
 export type SourceDescription = string;
-export type TroubleshootingText = string | Redacted.Redacted<string>;
-export type NullableInteger = number;
+export type TroubleshootingText = string | redacted.Redacted<string>;
 export type AWSServiceName = string;
 export type NonEmptyString = string;
 export type KeywordValue = string;
-export type EmailAddress = string | Redacted.Redacted<string>;
+export type EmailAddress = string | redacted.Redacted<string>;
 export type AccountName = string;
 export type ErrorCode = string;
 export type ErrorMessage = string;
-export type Username = string | Redacted.Redacted<string>;
+export type Username = string | redacted.Redacted<string>;
 export type Filename = string;
 export type ControlSources = string;
-export type CreatedBy = string | Redacted.Redacted<string>;
-export type LastUpdatedBy = string | Redacted.Redacted<string>;
+export type CreatedBy = string | redacted.Redacted<string>;
+export type LastUpdatedBy = string | redacted.Redacted<string>;
 export type HyperlinkName = string;
 export type UrlLink = string;
 export type EventName = string;
 export type AssessmentEvidenceFolderName = string;
-export type Integer = number;
-export type SNSTopic = string | Redacted.Redacted<string>;
+export type SNSTopic = string | redacted.Redacted<string>;
 export type ControlsCount = number;
 export type ControlSetsCount = number;
 export type TimestampUUID = string;
@@ -233,8 +231,60 @@ export type EvidenceIds = string[];
 export const EvidenceIds = S.Array(S.String);
 export type DelegationIds = string[];
 export const DelegationIds = S.Array(S.String);
+export type ShareRequestType = "SENT" | "RECEIVED";
+export const ShareRequestType = S.Literal("SENT", "RECEIVED");
+export type AccountStatus = "ACTIVE" | "INACTIVE" | "PENDING_ACTIVATION";
+export const AccountStatus = S.Literal(
+  "ACTIVE",
+  "INACTIVE",
+  "PENDING_ACTIVATION",
+);
+export type SettingAttribute =
+  | "ALL"
+  | "IS_AWS_ORG_ENABLED"
+  | "SNS_TOPIC"
+  | "DEFAULT_ASSESSMENT_REPORTS_DESTINATION"
+  | "DEFAULT_PROCESS_OWNERS"
+  | "EVIDENCE_FINDER_ENABLEMENT"
+  | "DEREGISTRATION_POLICY"
+  | "DEFAULT_EXPORT_DESTINATION";
+export const SettingAttribute = S.Literal(
+  "ALL",
+  "IS_AWS_ORG_ENABLED",
+  "SNS_TOPIC",
+  "DEFAULT_ASSESSMENT_REPORTS_DESTINATION",
+  "DEFAULT_PROCESS_OWNERS",
+  "EVIDENCE_FINDER_ENABLEMENT",
+  "DEREGISTRATION_POLICY",
+  "DEFAULT_EXPORT_DESTINATION",
+);
+export type FrameworkType = "Standard" | "Custom";
+export const FrameworkType = S.Literal("Standard", "Custom");
+export type AssessmentStatus = "ACTIVE" | "INACTIVE";
+export const AssessmentStatus = S.Literal("ACTIVE", "INACTIVE");
+export type ControlType = "Standard" | "Custom" | "Core";
+export const ControlType = S.Literal("Standard", "Custom", "Core");
+export type DataSourceType =
+  | "AWS_Cloudtrail"
+  | "AWS_Config"
+  | "AWS_Security_Hub"
+  | "AWS_API_Call"
+  | "MANUAL";
+export const DataSourceType = S.Literal(
+  "AWS_Cloudtrail",
+  "AWS_Config",
+  "AWS_Security_Hub",
+  "AWS_API_Call",
+  "MANUAL",
+);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type ControlStatus = "UNDER_REVIEW" | "REVIEWED" | "INACTIVE";
+export const ControlStatus = S.Literal("UNDER_REVIEW", "REVIEWED", "INACTIVE");
+export type ControlSetStatus = "ACTIVE" | "UNDER_REVIEW" | "REVIEWED";
+export const ControlSetStatus = S.Literal("ACTIVE", "UNDER_REVIEW", "REVIEWED");
+export type ShareRequestAction = "ACCEPT" | "DECLINE" | "REVOKE";
+export const ShareRequestAction = S.Literal("ACCEPT", "DECLINE", "REVOKE");
 export interface AssociateAssessmentReportEvidenceFolderRequest {
   assessmentId: string;
   evidenceFolderId: string;
@@ -268,7 +318,7 @@ export const AssociateAssessmentReportEvidenceFolderResponse = S.suspend(() =>
 export interface BatchAssociateAssessmentReportEvidenceRequest {
   assessmentId: string;
   evidenceFolderId: string;
-  evidenceIds: EvidenceIds;
+  evidenceIds: string[];
 }
 export const BatchAssociateAssessmentReportEvidenceRequest = S.suspend(() =>
   S.Struct({
@@ -292,7 +342,7 @@ export const BatchAssociateAssessmentReportEvidenceRequest = S.suspend(() =>
   identifier: "BatchAssociateAssessmentReportEvidenceRequest",
 }) as any as S.Schema<BatchAssociateAssessmentReportEvidenceRequest>;
 export interface BatchDeleteDelegationByAssessmentRequest {
-  delegationIds: DelegationIds;
+  delegationIds: string[];
   assessmentId: string;
 }
 export const BatchDeleteDelegationByAssessmentRequest = S.suspend(() =>
@@ -315,7 +365,7 @@ export const BatchDeleteDelegationByAssessmentRequest = S.suspend(() =>
 export interface BatchDisassociateAssessmentReportEvidenceRequest {
   assessmentId: string;
   evidenceFolderId: string;
-  evidenceIds: EvidenceIds;
+  evidenceIds: string[];
 }
 export const BatchDisassociateAssessmentReportEvidenceRequest = S.suspend(() =>
   S.Struct({
@@ -340,7 +390,7 @@ export const BatchDisassociateAssessmentReportEvidenceRequest = S.suspend(() =>
 }) as any as S.Schema<BatchDisassociateAssessmentReportEvidenceRequest>;
 export interface CreateAssessmentReportRequest {
   name: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   assessmentId: string;
   queryStatement?: string;
 }
@@ -411,12 +461,12 @@ export const DeleteAssessmentFrameworkResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteAssessmentFrameworkResponse>;
 export interface DeleteAssessmentFrameworkShareRequest {
   requestId: string;
-  requestType: string;
+  requestType: ShareRequestType;
 }
 export const DeleteAssessmentFrameworkShareRequest = S.suspend(() =>
   S.Struct({
     requestId: S.String.pipe(T.HttpLabel("requestId")),
-    requestType: S.String.pipe(T.HttpQuery("requestType")),
+    requestType: ShareRequestType.pipe(T.HttpQuery("requestType")),
   }).pipe(
     T.all(
       T.Http({
@@ -491,10 +541,10 @@ export const DeleteControlResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "DeleteControlResponse",
 }) as any as S.Schema<DeleteControlResponse>;
 export interface DeregisterAccountResponse {
-  status?: string;
+  status?: AccountStatus;
 }
 export const DeregisterAccountResponse = S.suspend(() =>
-  S.Struct({ status: S.optional(S.String) }),
+  S.Struct({ status: S.optional(AccountStatus) }),
 ).annotations({
   identifier: "DeregisterAccountResponse",
 }) as any as S.Schema<DeregisterAccountResponse>;
@@ -555,10 +605,10 @@ export const DisassociateAssessmentReportEvidenceFolderResponse = S.suspend(
   identifier: "DisassociateAssessmentReportEvidenceFolderResponse",
 }) as any as S.Schema<DisassociateAssessmentReportEvidenceFolderResponse>;
 export interface GetAccountStatusResponse {
-  status?: string;
+  status?: AccountStatus;
 }
 export const GetAccountStatusResponse = S.suspend(() =>
-  S.Struct({ status: S.optional(S.String) }),
+  S.Struct({ status: S.optional(AccountStatus) }),
 ).annotations({
   identifier: "GetAccountStatusResponse",
 }) as any as S.Schema<GetAccountStatusResponse>;
@@ -744,7 +794,7 @@ export const GetEvidenceByEvidenceFolderRequest = S.suspend(() =>
   identifier: "GetEvidenceByEvidenceFolderRequest",
 }) as any as S.Schema<GetEvidenceByEvidenceFolderRequest>;
 export interface GetEvidenceFileUploadUrlRequest {
-  fileName: string | Redacted.Redacted<string>;
+  fileName: string | redacted.Redacted<string>;
 }
 export const GetEvidenceFileUploadUrlRequest = S.suspend(() =>
   S.Struct({ fileName: SensitiveString.pipe(T.HttpQuery("fileName")) }).pipe(
@@ -872,10 +922,10 @@ export const GetOrganizationAdminAccountResponse = S.suspend(() =>
   identifier: "GetOrganizationAdminAccountResponse",
 }) as any as S.Schema<GetOrganizationAdminAccountResponse>;
 export interface GetSettingsRequest {
-  attribute: string;
+  attribute: SettingAttribute;
 }
 export const GetSettingsRequest = S.suspend(() =>
-  S.Struct({ attribute: S.String.pipe(T.HttpLabel("attribute")) }).pipe(
+  S.Struct({ attribute: SettingAttribute.pipe(T.HttpLabel("attribute")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/settings/{attribute}" }),
       svc,
@@ -915,13 +965,13 @@ export const ListAssessmentControlInsightsByControlDomainRequest = S.suspend(
   identifier: "ListAssessmentControlInsightsByControlDomainRequest",
 }) as any as S.Schema<ListAssessmentControlInsightsByControlDomainRequest>;
 export interface ListAssessmentFrameworksRequest {
-  frameworkType: string;
+  frameworkType: FrameworkType;
   nextToken?: string;
   maxResults?: number;
 }
 export const ListAssessmentFrameworksRequest = S.suspend(() =>
   S.Struct({
-    frameworkType: S.String.pipe(T.HttpQuery("frameworkType")),
+    frameworkType: FrameworkType.pipe(T.HttpQuery("frameworkType")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
@@ -938,13 +988,13 @@ export const ListAssessmentFrameworksRequest = S.suspend(() =>
   identifier: "ListAssessmentFrameworksRequest",
 }) as any as S.Schema<ListAssessmentFrameworksRequest>;
 export interface ListAssessmentFrameworkShareRequestsRequest {
-  requestType: string;
+  requestType: ShareRequestType;
   nextToken?: string;
   maxResults?: number;
 }
 export const ListAssessmentFrameworkShareRequestsRequest = S.suspend(() =>
   S.Struct({
-    requestType: S.String.pipe(T.HttpQuery("requestType")),
+    requestType: ShareRequestType.pipe(T.HttpQuery("requestType")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
@@ -982,13 +1032,13 @@ export const ListAssessmentReportsRequest = S.suspend(() =>
   identifier: "ListAssessmentReportsRequest",
 }) as any as S.Schema<ListAssessmentReportsRequest>;
 export interface ListAssessmentsRequest {
-  status?: string;
+  status?: AssessmentStatus;
   nextToken?: string;
   maxResults?: number;
 }
 export const ListAssessmentsRequest = S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String).pipe(T.HttpQuery("status")),
+    status: S.optional(AssessmentStatus).pipe(T.HttpQuery("status")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
@@ -1072,14 +1122,14 @@ export const ListControlInsightsByControlDomainRequest = S.suspend(() =>
   identifier: "ListControlInsightsByControlDomainRequest",
 }) as any as S.Schema<ListControlInsightsByControlDomainRequest>;
 export interface ListControlsRequest {
-  controlType: string;
+  controlType: ControlType;
   nextToken?: string;
   maxResults?: number;
   controlCatalogId?: string;
 }
 export const ListControlsRequest = S.suspend(() =>
   S.Struct({
-    controlType: S.String.pipe(T.HttpQuery("controlType")),
+    controlType: ControlType.pipe(T.HttpQuery("controlType")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     controlCatalogId: S.optional(S.String).pipe(
@@ -1099,13 +1149,13 @@ export const ListControlsRequest = S.suspend(() =>
   identifier: "ListControlsRequest",
 }) as any as S.Schema<ListControlsRequest>;
 export interface ListKeywordsForDataSourceRequest {
-  source: string;
+  source: DataSourceType;
   nextToken?: string;
   maxResults?: number;
 }
 export const ListKeywordsForDataSourceRequest = S.suspend(() =>
   S.Struct({
-    source: S.String.pipe(T.HttpQuery("source")),
+    source: DataSourceType.pipe(T.HttpQuery("source")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
@@ -1232,7 +1282,7 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1257,7 +1307,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1282,7 +1332,7 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceResponse>;
 export interface AWSAccount {
   id?: string;
-  emailAddress?: string | Redacted.Redacted<string>;
+  emailAddress?: string | redacted.Redacted<string>;
   name?: string;
 }
 export const AWSAccount = S.suspend(() =>
@@ -1303,8 +1353,8 @@ export const AWSService = S.suspend(() =>
 export type AWSServices = AWSService[];
 export const AWSServices = S.Array(AWSService);
 export interface Scope {
-  awsAccounts?: AWSAccounts;
-  awsServices?: AWSServices;
+  awsAccounts?: AWSAccount[];
+  awsServices?: AWSService[];
 }
 export const Scope = S.suspend(() =>
   S.Struct({
@@ -1312,34 +1362,38 @@ export const Scope = S.suspend(() =>
     awsServices: S.optional(AWSServices),
   }),
 ).annotations({ identifier: "Scope" }) as any as S.Schema<Scope>;
+export type AssessmentReportDestinationType = "S3";
+export const AssessmentReportDestinationType = S.Literal("S3");
 export interface AssessmentReportsDestination {
-  destinationType?: string;
+  destinationType?: AssessmentReportDestinationType;
   destination?: string;
 }
 export const AssessmentReportsDestination = S.suspend(() =>
   S.Struct({
-    destinationType: S.optional(S.String),
+    destinationType: S.optional(AssessmentReportDestinationType),
     destination: S.optional(S.String),
   }),
 ).annotations({
   identifier: "AssessmentReportsDestination",
 }) as any as S.Schema<AssessmentReportsDestination>;
+export type RoleType = "PROCESS_OWNER" | "RESOURCE_OWNER";
+export const RoleType = S.Literal("PROCESS_OWNER", "RESOURCE_OWNER");
 export interface Role {
-  roleType: string;
+  roleType: RoleType;
   roleArn: string;
 }
 export const Role = S.suspend(() =>
-  S.Struct({ roleType: S.String, roleArn: S.String }),
+  S.Struct({ roleType: RoleType, roleArn: S.String }),
 ).annotations({ identifier: "Role" }) as any as S.Schema<Role>;
 export type Roles = Role[];
 export const Roles = S.Array(Role);
 export interface UpdateAssessmentRequest {
   assessmentId: string;
-  assessmentName?: string | Redacted.Redacted<string>;
-  assessmentDescription?: string | Redacted.Redacted<string>;
+  assessmentName?: string | redacted.Redacted<string>;
+  assessmentDescription?: string | redacted.Redacted<string>;
   scope: Scope;
   assessmentReportsDestination?: AssessmentReportsDestination;
-  roles?: Roles;
+  roles?: Role[];
 }
 export const UpdateAssessmentRequest = S.suspend(() =>
   S.Struct({
@@ -1366,15 +1420,15 @@ export interface UpdateAssessmentControlRequest {
   assessmentId: string;
   controlSetId: string;
   controlId: string;
-  controlStatus?: string;
-  commentBody?: string | Redacted.Redacted<string>;
+  controlStatus?: ControlStatus;
+  commentBody?: string | redacted.Redacted<string>;
 }
 export const UpdateAssessmentControlRequest = S.suspend(() =>
   S.Struct({
     assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     controlSetId: S.String.pipe(T.HttpLabel("controlSetId")),
     controlId: S.String.pipe(T.HttpLabel("controlId")),
-    controlStatus: S.optional(S.String),
+    controlStatus: S.optional(ControlStatus),
     commentBody: S.optional(SensitiveString),
   }).pipe(
     T.all(
@@ -1395,14 +1449,14 @@ export const UpdateAssessmentControlRequest = S.suspend(() =>
 export interface UpdateAssessmentControlSetStatusRequest {
   assessmentId: string;
   controlSetId: string;
-  status: string;
-  comment: string | Redacted.Redacted<string>;
+  status: ControlSetStatus;
+  comment: string | redacted.Redacted<string>;
 }
 export const UpdateAssessmentControlSetStatusRequest = S.suspend(() =>
   S.Struct({
     assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     controlSetId: S.String.pipe(T.HttpLabel("controlSetId")),
-    status: S.String,
+    status: ControlSetStatus,
     comment: SensitiveString,
   }).pipe(
     T.all(
@@ -1422,14 +1476,14 @@ export const UpdateAssessmentControlSetStatusRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateAssessmentControlSetStatusRequest>;
 export interface UpdateAssessmentFrameworkShareRequest {
   requestId: string;
-  requestType: string;
-  action: string;
+  requestType: ShareRequestType;
+  action: ShareRequestAction;
 }
 export const UpdateAssessmentFrameworkShareRequest = S.suspend(() =>
   S.Struct({
     requestId: S.String.pipe(T.HttpLabel("requestId")),
-    requestType: S.String,
-    action: S.String,
+    requestType: ShareRequestType,
+    action: ShareRequestAction,
   }).pipe(
     T.all(
       T.Http({
@@ -1448,12 +1502,12 @@ export const UpdateAssessmentFrameworkShareRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateAssessmentFrameworkShareRequest>;
 export interface UpdateAssessmentStatusRequest {
   assessmentId: string;
-  status: string;
+  status: AssessmentStatus;
 }
 export const UpdateAssessmentStatusRequest = S.suspend(() =>
   S.Struct({
     assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
-    status: S.String,
+    status: AssessmentStatus,
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/assessments/{assessmentId}/status" }),
@@ -1484,18 +1538,48 @@ export const ValidateAssessmentReportIntegrityRequest = S.suspend(() =>
 ).annotations({
   identifier: "ValidateAssessmentReportIntegrityRequest",
 }) as any as S.Schema<ValidateAssessmentReportIntegrityRequest>;
+export type SourceSetUpOption =
+  | "System_Controls_Mapping"
+  | "Procedural_Controls_Mapping";
+export const SourceSetUpOption = S.Literal(
+  "System_Controls_Mapping",
+  "Procedural_Controls_Mapping",
+);
+export type SourceType =
+  | "AWS_Cloudtrail"
+  | "AWS_Config"
+  | "AWS_Security_Hub"
+  | "AWS_API_Call"
+  | "MANUAL"
+  | "Common_Control"
+  | "Core_Control";
+export const SourceType = S.Literal(
+  "AWS_Cloudtrail",
+  "AWS_Config",
+  "AWS_Security_Hub",
+  "AWS_API_Call",
+  "MANUAL",
+  "Common_Control",
+  "Core_Control",
+);
+export type SourceFrequency = "DAILY" | "WEEKLY" | "MONTHLY";
+export const SourceFrequency = S.Literal("DAILY", "WEEKLY", "MONTHLY");
+export type DeleteResources = "ALL" | "DEFAULT";
+export const DeleteResources = S.Literal("ALL", "DEFAULT");
+export type ExportDestinationType = "S3";
+export const ExportDestinationType = S.Literal("S3");
 export interface CreateDelegationRequest {
-  comment?: string | Redacted.Redacted<string>;
+  comment?: string | redacted.Redacted<string>;
   controlSetId?: string;
   roleArn?: string;
-  roleType?: string;
+  roleType?: RoleType;
 }
 export const CreateDelegationRequest = S.suspend(() =>
   S.Struct({
     comment: S.optional(SensitiveString),
     controlSetId: S.optional(S.String),
     roleArn: S.optional(S.String),
-    roleType: S.optional(S.String),
+    roleType: S.optional(RoleType),
   }),
 ).annotations({
   identifier: "CreateDelegationRequest",
@@ -1504,8 +1588,8 @@ export type CreateDelegationRequests = CreateDelegationRequest[];
 export const CreateDelegationRequests = S.Array(CreateDelegationRequest);
 export interface ManualEvidence {
   s3ResourcePath?: string;
-  textResponse?: string | Redacted.Redacted<string>;
-  evidenceFileName?: string | Redacted.Redacted<string>;
+  textResponse?: string | redacted.Redacted<string>;
+  evidenceFileName?: string | redacted.Redacted<string>;
 }
 export const ManualEvidence = S.suspend(() =>
   S.Struct({
@@ -1541,8 +1625,8 @@ export interface Evidence {
   eventSource?: string;
   eventName?: string;
   evidenceByType?: string;
-  resourcesIncluded?: Resources;
-  attributes?: EvidenceAttributes;
+  resourcesIncluded?: Resource[];
+  attributes?: { [key: string]: string };
   iamId?: string;
   complianceCheck?: string;
   awsOrganization?: string;
@@ -1674,7 +1758,7 @@ export const CreateAssessmentFrameworkControls = S.Array(
 export interface UpdateAssessmentFrameworkControlSet {
   id?: string;
   name: string;
-  controls: CreateAssessmentFrameworkControls;
+  controls: CreateAssessmentFrameworkControl[];
 }
 export const UpdateAssessmentFrameworkControlSet = S.suspend(() =>
   S.Struct({
@@ -1690,13 +1774,22 @@ export type UpdateAssessmentFrameworkControlSets =
 export const UpdateAssessmentFrameworkControlSets = S.Array(
   UpdateAssessmentFrameworkControlSet,
 );
+export type KeywordInputType =
+  | "SELECT_FROM_LIST"
+  | "UPLOAD_FILE"
+  | "INPUT_TEXT";
+export const KeywordInputType = S.Literal(
+  "SELECT_FROM_LIST",
+  "UPLOAD_FILE",
+  "INPUT_TEXT",
+);
 export interface SourceKeyword {
-  keywordInputType?: string;
+  keywordInputType?: KeywordInputType;
   keywordValue?: string;
 }
 export const SourceKeyword = S.suspend(() =>
   S.Struct({
-    keywordInputType: S.optional(S.String),
+    keywordInputType: S.optional(KeywordInputType),
     keywordValue: S.optional(S.String),
   }),
 ).annotations({
@@ -1706,21 +1799,21 @@ export interface ControlMappingSource {
   sourceId?: string;
   sourceName?: string;
   sourceDescription?: string;
-  sourceSetUpOption?: string;
-  sourceType?: string;
+  sourceSetUpOption?: SourceSetUpOption;
+  sourceType?: SourceType;
   sourceKeyword?: SourceKeyword;
-  sourceFrequency?: string;
-  troubleshootingText?: string | Redacted.Redacted<string>;
+  sourceFrequency?: SourceFrequency;
+  troubleshootingText?: string | redacted.Redacted<string>;
 }
 export const ControlMappingSource = S.suspend(() =>
   S.Struct({
     sourceId: S.optional(S.String),
     sourceName: S.optional(S.String),
     sourceDescription: S.optional(S.String),
-    sourceSetUpOption: S.optional(S.String),
-    sourceType: S.optional(S.String),
+    sourceSetUpOption: S.optional(SourceSetUpOption),
+    sourceType: S.optional(SourceType),
     sourceKeyword: S.optional(SourceKeyword),
-    sourceFrequency: S.optional(S.String),
+    sourceFrequency: S.optional(SourceFrequency),
     troubleshootingText: S.optional(SensitiveString),
   }),
 ).annotations({
@@ -1729,20 +1822,20 @@ export const ControlMappingSource = S.suspend(() =>
 export type ControlMappingSources = ControlMappingSource[];
 export const ControlMappingSources = S.Array(ControlMappingSource);
 export interface DeregistrationPolicy {
-  deleteResources?: string;
+  deleteResources?: DeleteResources;
 }
 export const DeregistrationPolicy = S.suspend(() =>
-  S.Struct({ deleteResources: S.optional(S.String) }),
+  S.Struct({ deleteResources: S.optional(DeleteResources) }),
 ).annotations({
   identifier: "DeregistrationPolicy",
 }) as any as S.Schema<DeregistrationPolicy>;
 export interface DefaultExportDestination {
-  destinationType?: string;
+  destinationType?: ExportDestinationType;
   destination?: string;
 }
 export const DefaultExportDestination = S.suspend(() =>
   S.Struct({
-    destinationType: S.optional(S.String),
+    destinationType: S.optional(ExportDestinationType),
     destination: S.optional(S.String),
   }),
 ).annotations({
@@ -1751,7 +1844,7 @@ export const DefaultExportDestination = S.suspend(() =>
 export type ValidationErrors = string[];
 export const ValidationErrors = S.Array(S.String);
 export interface BatchCreateDelegationByAssessmentRequest {
-  createDelegationRequests: CreateDelegationRequests;
+  createDelegationRequests: CreateDelegationRequest[];
   assessmentId: string;
 }
 export const BatchCreateDelegationByAssessmentRequest = S.suspend(() =>
@@ -1793,8 +1886,8 @@ export const AssessmentReportEvidenceErrors = S.Array(
   AssessmentReportEvidenceError,
 );
 export interface BatchDisassociateAssessmentReportEvidenceResponse {
-  evidenceIds?: EvidenceIds;
-  errors?: AssessmentReportEvidenceErrors;
+  evidenceIds?: string[];
+  errors?: AssessmentReportEvidenceError[];
 }
 export const BatchDisassociateAssessmentReportEvidenceResponse = S.suspend(() =>
   S.Struct({
@@ -1808,7 +1901,7 @@ export interface BatchImportEvidenceToAssessmentControlRequest {
   assessmentId: string;
   controlSetId: string;
   controlId: string;
-  manualEvidence: ManualEvidenceList;
+  manualEvidence: ManualEvidence[];
 }
 export const BatchImportEvidenceToAssessmentControlRequest = S.suspend(() =>
   S.Struct({
@@ -1833,7 +1926,7 @@ export const BatchImportEvidenceToAssessmentControlRequest = S.suspend(() =>
   identifier: "BatchImportEvidenceToAssessmentControlRequest",
 }) as any as S.Schema<BatchImportEvidenceToAssessmentControlRequest>;
 export interface GetEvidenceByEvidenceFolderResponse {
-  evidence?: EvidenceList;
+  evidence?: Evidence[];
   nextToken?: string;
 }
 export const GetEvidenceByEvidenceFolderResponse = S.suspend(() =>
@@ -1857,7 +1950,7 @@ export const GetEvidenceFileUploadUrlResponse = S.suspend(() =>
   identifier: "GetEvidenceFileUploadUrlResponse",
 }) as any as S.Schema<GetEvidenceFileUploadUrlResponse>;
 export interface GetEvidenceFoldersByAssessmentResponse {
-  evidenceFolders?: AssessmentEvidenceFolders;
+  evidenceFolders?: AssessmentEvidenceFolder[];
   nextToken?: string;
 }
 export const GetEvidenceFoldersByAssessmentResponse = S.suspend(() =>
@@ -1869,7 +1962,7 @@ export const GetEvidenceFoldersByAssessmentResponse = S.suspend(() =>
   identifier: "GetEvidenceFoldersByAssessmentResponse",
 }) as any as S.Schema<GetEvidenceFoldersByAssessmentResponse>;
 export interface GetEvidenceFoldersByAssessmentControlResponse {
-  evidenceFolders?: AssessmentEvidenceFolders;
+  evidenceFolders?: AssessmentEvidenceFolder[];
   nextToken?: string;
 }
 export const GetEvidenceFoldersByAssessmentControlResponse = S.suspend(() =>
@@ -1889,7 +1982,7 @@ export const GetInsightsResponse = S.suspend(() =>
   identifier: "GetInsightsResponse",
 }) as any as S.Schema<GetInsightsResponse>;
 export interface GetServicesInScopeResponse {
-  serviceMetadata?: ServiceMetadataList;
+  serviceMetadata?: ServiceMetadata[];
 }
 export const GetServicesInScopeResponse = S.suspend(() =>
   S.Struct({ serviceMetadata: S.optional(ServiceMetadataList) }),
@@ -1933,7 +2026,7 @@ export const ControlDomainInsights = S.suspend(() =>
 export type ControlDomainInsightsList = ControlDomainInsights[];
 export const ControlDomainInsightsList = S.Array(ControlDomainInsights);
 export interface ListControlDomainInsightsByAssessmentResponse {
-  controlDomainInsights?: ControlDomainInsightsList;
+  controlDomainInsights?: ControlDomainInsights[];
   nextToken?: string;
 }
 export const ListControlDomainInsightsByAssessmentResponse = S.suspend(() =>
@@ -1945,7 +2038,7 @@ export const ListControlDomainInsightsByAssessmentResponse = S.suspend(() =>
   identifier: "ListControlDomainInsightsByAssessmentResponse",
 }) as any as S.Schema<ListControlDomainInsightsByAssessmentResponse>;
 export interface ListKeywordsForDataSourceResponse {
-  keywords?: Keywords;
+  keywords?: string[];
   nextToken?: string;
 }
 export const ListKeywordsForDataSourceResponse = S.suspend(() =>
@@ -1954,7 +2047,7 @@ export const ListKeywordsForDataSourceResponse = S.suspend(() =>
   identifier: "ListKeywordsForDataSourceResponse",
 }) as any as S.Schema<ListKeywordsForDataSourceResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -1962,10 +2055,10 @@ export const ListTagsForResourceResponse = S.suspend(() =>
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface RegisterAccountResponse {
-  status?: string;
+  status?: AccountStatus;
 }
 export const RegisterAccountResponse = S.suspend(() =>
-  S.Struct({ status: S.optional(S.String) }),
+  S.Struct({ status: S.optional(AccountStatus) }),
 ).annotations({
   identifier: "RegisterAccountResponse",
 }) as any as S.Schema<RegisterAccountResponse>;
@@ -1981,12 +2074,31 @@ export const RegisterOrganizationAdminAccountResponse = S.suspend(() =>
 ).annotations({
   identifier: "RegisterOrganizationAdminAccountResponse",
 }) as any as S.Schema<RegisterOrganizationAdminAccountResponse>;
+export type ShareRequestStatus =
+  | "ACTIVE"
+  | "REPLICATING"
+  | "SHARED"
+  | "EXPIRING"
+  | "FAILED"
+  | "EXPIRED"
+  | "DECLINED"
+  | "REVOKED";
+export const ShareRequestStatus = S.Literal(
+  "ACTIVE",
+  "REPLICATING",
+  "SHARED",
+  "EXPIRING",
+  "FAILED",
+  "EXPIRED",
+  "DECLINED",
+  "REVOKED",
+);
 export interface AssessmentFrameworkShareRequest {
   id?: string;
   frameworkId?: string;
   frameworkName?: string;
   frameworkDescription?: string;
-  status?: string;
+  status?: ShareRequestStatus;
   sourceAccount?: string;
   destinationAccount?: string;
   destinationRegion?: string;
@@ -1996,7 +2108,7 @@ export interface AssessmentFrameworkShareRequest {
   comment?: string;
   standardControlsCount?: number;
   customControlsCount?: number;
-  complianceType?: string | Redacted.Redacted<string>;
+  complianceType?: string | redacted.Redacted<string>;
 }
 export const AssessmentFrameworkShareRequest = S.suspend(() =>
   S.Struct({
@@ -2004,7 +2116,7 @@ export const AssessmentFrameworkShareRequest = S.suspend(() =>
     frameworkId: S.optional(S.String),
     frameworkName: S.optional(S.String),
     frameworkDescription: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ShareRequestStatus),
     sourceAccount: S.optional(S.String),
     destinationAccount: S.optional(S.String),
     destinationRegion: S.optional(S.String),
@@ -2031,27 +2143,33 @@ export const StartAssessmentFrameworkShareResponse = S.suspend(() =>
 ).annotations({
   identifier: "StartAssessmentFrameworkShareResponse",
 }) as any as S.Schema<StartAssessmentFrameworkShareResponse>;
+export type DelegationStatus = "IN_PROGRESS" | "UNDER_REVIEW" | "COMPLETE";
+export const DelegationStatus = S.Literal(
+  "IN_PROGRESS",
+  "UNDER_REVIEW",
+  "COMPLETE",
+);
 export interface Delegation {
   id?: string;
-  assessmentName?: string | Redacted.Redacted<string>;
+  assessmentName?: string | redacted.Redacted<string>;
   assessmentId?: string;
-  status?: string;
+  status?: DelegationStatus;
   roleArn?: string;
-  roleType?: string;
+  roleType?: RoleType;
   creationTime?: Date;
   lastUpdated?: Date;
   controlSetId?: string;
-  comment?: string | Redacted.Redacted<string>;
-  createdBy?: string | Redacted.Redacted<string>;
+  comment?: string | redacted.Redacted<string>;
+  createdBy?: string | redacted.Redacted<string>;
 }
 export const Delegation = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     assessmentName: S.optional(SensitiveString),
     assessmentId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(DelegationStatus),
     roleArn: S.optional(S.String),
-    roleType: S.optional(S.String),
+    roleType: S.optional(RoleType),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     controlSetId: S.optional(S.String),
@@ -2062,15 +2180,15 @@ export const Delegation = S.suspend(() =>
 export type Delegations = Delegation[];
 export const Delegations = S.Array(Delegation);
 export interface AssessmentMetadata {
-  name?: string | Redacted.Redacted<string>;
+  name?: string | redacted.Redacted<string>;
   id?: string;
-  description?: string | Redacted.Redacted<string>;
-  complianceType?: string | Redacted.Redacted<string>;
-  status?: string;
+  description?: string | redacted.Redacted<string>;
+  complianceType?: string | redacted.Redacted<string>;
+  status?: AssessmentStatus;
   assessmentReportsDestination?: AssessmentReportsDestination;
   scope?: Scope;
-  roles?: Roles;
-  delegations?: Delegations;
+  roles?: Role[];
+  delegations?: Delegation[];
   creationTime?: Date;
   lastUpdated?: Date;
 }
@@ -2080,7 +2198,7 @@ export const AssessmentMetadata = S.suspend(() =>
     id: S.optional(S.String),
     description: S.optional(SensitiveString),
     complianceType: S.optional(SensitiveString),
-    status: S.optional(S.String),
+    status: S.optional(AssessmentStatus),
     assessmentReportsDestination: S.optional(AssessmentReportsDestination),
     scope: S.optional(Scope),
     roles: S.optional(Roles),
@@ -2092,10 +2210,10 @@ export const AssessmentMetadata = S.suspend(() =>
   identifier: "AssessmentMetadata",
 }) as any as S.Schema<AssessmentMetadata>;
 export interface FrameworkMetadata {
-  name?: string | Redacted.Redacted<string>;
+  name?: string | redacted.Redacted<string>;
   description?: string;
   logo?: string;
-  complianceType?: string | Redacted.Redacted<string>;
+  complianceType?: string | redacted.Redacted<string>;
 }
 export const FrameworkMetadata = S.suspend(() =>
   S.Struct({
@@ -2107,9 +2225,16 @@ export const FrameworkMetadata = S.suspend(() =>
 ).annotations({
   identifier: "FrameworkMetadata",
 }) as any as S.Schema<FrameworkMetadata>;
+export type ControlResponse = "MANUAL" | "AUTOMATE" | "DEFER" | "IGNORE";
+export const ControlResponse = S.Literal(
+  "MANUAL",
+  "AUTOMATE",
+  "DEFER",
+  "IGNORE",
+);
 export interface ControlComment {
-  authorName?: string | Redacted.Redacted<string>;
-  commentBody?: string | Redacted.Redacted<string>;
+  authorName?: string | redacted.Redacted<string>;
+  commentBody?: string | redacted.Redacted<string>;
   postedDate?: Date;
 }
 export const ControlComment = S.suspend(() =>
@@ -2128,11 +2253,11 @@ export const EvidenceSources = S.Array(S.String);
 export interface AssessmentControl {
   id?: string;
   name?: string;
-  description?: string | Redacted.Redacted<string>;
-  status?: string;
-  response?: string;
-  comments?: ControlComments;
-  evidenceSources?: EvidenceSources;
+  description?: string | redacted.Redacted<string>;
+  status?: ControlStatus;
+  response?: ControlResponse;
+  comments?: ControlComment[];
+  evidenceSources?: string[];
   evidenceCount?: number;
   assessmentReportEvidenceCount?: number;
 }
@@ -2141,8 +2266,8 @@ export const AssessmentControl = S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(SensitiveString),
-    status: S.optional(S.String),
-    response: S.optional(S.String),
+    status: S.optional(ControlStatus),
+    response: S.optional(ControlResponse),
     comments: S.optional(ControlComments),
     evidenceSources: S.optional(EvidenceSources),
     evidenceCount: S.optional(S.Number),
@@ -2156,10 +2281,10 @@ export const AssessmentControls = S.Array(AssessmentControl);
 export interface AssessmentControlSet {
   id?: string;
   description?: string;
-  status?: string;
-  roles?: Roles;
-  controls?: AssessmentControls;
-  delegations?: Delegations;
+  status?: ControlSetStatus;
+  roles?: Role[];
+  controls?: AssessmentControl[];
+  delegations?: Delegation[];
   systemEvidenceCount?: number;
   manualEvidenceCount?: number;
 }
@@ -2167,7 +2292,7 @@ export const AssessmentControlSet = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     description: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ControlSetStatus),
     roles: S.optional(Roles),
     controls: S.optional(AssessmentControls),
     delegations: S.optional(Delegations),
@@ -2183,7 +2308,7 @@ export interface AssessmentFramework {
   id?: string;
   arn?: string;
   metadata?: FrameworkMetadata;
-  controlSets?: AssessmentControlSets;
+  controlSets?: AssessmentControlSet[];
 }
 export const AssessmentFramework = S.suspend(() =>
   S.Struct({
@@ -2200,7 +2325,7 @@ export interface Assessment {
   awsAccount?: AWSAccount;
   metadata?: AssessmentMetadata;
   framework?: AssessmentFramework;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const Assessment = S.suspend(() =>
   S.Struct({
@@ -2223,8 +2348,8 @@ export interface UpdateAssessmentFrameworkRequest {
   frameworkId: string;
   name: string;
   description?: string;
-  complianceType?: string | Redacted.Redacted<string>;
-  controlSets: UpdateAssessmentFrameworkControlSets;
+  complianceType?: string | redacted.Redacted<string>;
+  controlSets: UpdateAssessmentFrameworkControlSet[];
 }
 export const UpdateAssessmentFrameworkRequest = S.suspend(() =>
   S.Struct({
@@ -2269,11 +2394,11 @@ export const UpdateAssessmentStatusResponse = S.suspend(() =>
 export interface UpdateControlRequest {
   controlId: string;
   name: string;
-  description?: string | Redacted.Redacted<string>;
-  testingInformation?: string | Redacted.Redacted<string>;
-  actionPlanTitle?: string | Redacted.Redacted<string>;
-  actionPlanInstructions?: string | Redacted.Redacted<string>;
-  controlMappingSources: ControlMappingSources;
+  description?: string | redacted.Redacted<string>;
+  testingInformation?: string | redacted.Redacted<string>;
+  actionPlanTitle?: string | redacted.Redacted<string>;
+  actionPlanInstructions?: string | redacted.Redacted<string>;
+  controlMappingSources: ControlMappingSource[];
 }
 export const UpdateControlRequest = S.suspend(() =>
   S.Struct({
@@ -2300,7 +2425,7 @@ export const UpdateControlRequest = S.suspend(() =>
 export interface UpdateSettingsRequest {
   snsTopic?: string;
   defaultAssessmentReportsDestination?: AssessmentReportsDestination;
-  defaultProcessOwners?: Roles;
+  defaultProcessOwners?: Role[];
   kmsKey?: string;
   evidenceFinderEnabled?: boolean;
   deregistrationPolicy?: DeregistrationPolicy;
@@ -2335,7 +2460,7 @@ export interface ValidateAssessmentReportIntegrityResponse {
   signatureAlgorithm?: string;
   signatureDateTime?: string;
   signatureKeyId?: string;
-  validationErrors?: ValidationErrors;
+  validationErrors?: string[];
 }
 export const ValidateAssessmentReportIntegrityResponse = S.suspend(() =>
   S.Struct({
@@ -2348,6 +2473,46 @@ export const ValidateAssessmentReportIntegrityResponse = S.suspend(() =>
 ).annotations({
   identifier: "ValidateAssessmentReportIntegrityResponse",
 }) as any as S.Schema<ValidateAssessmentReportIntegrityResponse>;
+export type AssessmentReportStatus = "COMPLETE" | "IN_PROGRESS" | "FAILED";
+export const AssessmentReportStatus = S.Literal(
+  "COMPLETE",
+  "IN_PROGRESS",
+  "FAILED",
+);
+export type ObjectTypeEnum =
+  | "ASSESSMENT"
+  | "CONTROL_SET"
+  | "CONTROL"
+  | "DELEGATION"
+  | "ASSESSMENT_REPORT";
+export const ObjectTypeEnum = S.Literal(
+  "ASSESSMENT",
+  "CONTROL_SET",
+  "CONTROL",
+  "DELEGATION",
+  "ASSESSMENT_REPORT",
+);
+export type ActionEnum =
+  | "CREATE"
+  | "UPDATE_METADATA"
+  | "ACTIVE"
+  | "INACTIVE"
+  | "DELETE"
+  | "UNDER_REVIEW"
+  | "REVIEWED"
+  | "IMPORT_EVIDENCE";
+export const ActionEnum = S.Literal(
+  "CREATE",
+  "UPDATE_METADATA",
+  "ACTIVE",
+  "INACTIVE",
+  "DELETE",
+  "UNDER_REVIEW",
+  "REVIEWED",
+  "IMPORT_EVIDENCE",
+);
+export type ControlState = "ACTIVE" | "END_OF_SUPPORT";
+export const ControlState = S.Literal("ACTIVE", "END_OF_SUPPORT");
 export interface BatchDeleteDelegationByAssessmentError {
   delegationId?: string;
   errorCode?: string;
@@ -2369,7 +2534,7 @@ export const BatchDeleteDelegationByAssessmentErrors = S.Array(
 );
 export interface CreateAssessmentFrameworkControlSet {
   name: string;
-  controls?: CreateAssessmentFrameworkControls;
+  controls?: CreateAssessmentFrameworkControl[];
 }
 export const CreateAssessmentFrameworkControlSet = S.suspend(() =>
   S.Struct({
@@ -2387,12 +2552,12 @@ export const CreateAssessmentFrameworkControlSets = S.Array(
 export interface AssessmentReport {
   id?: string;
   name?: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   awsAccountId?: string;
   assessmentId?: string;
-  assessmentName?: string | Redacted.Redacted<string>;
-  author?: string | Redacted.Redacted<string>;
-  status?: string;
+  assessmentName?: string | redacted.Redacted<string>;
+  author?: string | redacted.Redacted<string>;
+  status?: AssessmentReportStatus;
   creationTime?: Date;
 }
 export const AssessmentReport = S.suspend(() =>
@@ -2404,7 +2569,7 @@ export const AssessmentReport = S.suspend(() =>
     assessmentId: S.optional(S.String),
     assessmentName: S.optional(SensitiveString),
     author: S.optional(SensitiveString),
-    status: S.optional(S.String),
+    status: S.optional(AssessmentReportStatus),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({
@@ -2413,20 +2578,20 @@ export const AssessmentReport = S.suspend(() =>
 export interface CreateControlMappingSource {
   sourceName?: string;
   sourceDescription?: string;
-  sourceSetUpOption?: string;
-  sourceType?: string;
+  sourceSetUpOption?: SourceSetUpOption;
+  sourceType?: SourceType;
   sourceKeyword?: SourceKeyword;
-  sourceFrequency?: string;
-  troubleshootingText?: string | Redacted.Redacted<string>;
+  sourceFrequency?: SourceFrequency;
+  troubleshootingText?: string | redacted.Redacted<string>;
 }
 export const CreateControlMappingSource = S.suspend(() =>
   S.Struct({
     sourceName: S.optional(S.String),
     sourceDescription: S.optional(S.String),
-    sourceSetUpOption: S.optional(S.String),
-    sourceType: S.optional(S.String),
+    sourceSetUpOption: S.optional(SourceSetUpOption),
+    sourceType: S.optional(SourceType),
     sourceKeyword: S.optional(SourceKeyword),
-    sourceFrequency: S.optional(S.String),
+    sourceFrequency: S.optional(SourceFrequency),
     troubleshootingText: S.optional(SensitiveString),
   }),
 ).annotations({
@@ -2442,17 +2607,17 @@ export const URL = S.suspend(() =>
   S.Struct({ hyperlinkName: S.optional(S.String), link: S.optional(S.String) }),
 ).annotations({ identifier: "URL" }) as any as S.Schema<URL>;
 export interface ChangeLog {
-  objectType?: string;
+  objectType?: ObjectTypeEnum;
   objectName?: string;
-  action?: string;
+  action?: ActionEnum;
   createdAt?: Date;
   createdBy?: string;
 }
 export const ChangeLog = S.suspend(() =>
   S.Struct({
-    objectType: S.optional(S.String),
+    objectType: S.optional(ObjectTypeEnum),
     objectName: S.optional(S.String),
-    action: S.optional(S.String),
+    action: S.optional(ActionEnum),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     createdBy: S.optional(S.String),
   }),
@@ -2462,26 +2627,26 @@ export const ChangeLogs = S.Array(ChangeLog);
 export interface Control {
   arn?: string;
   id?: string;
-  type?: string;
+  type?: ControlType;
   name?: string;
-  description?: string | Redacted.Redacted<string>;
-  testingInformation?: string | Redacted.Redacted<string>;
-  actionPlanTitle?: string | Redacted.Redacted<string>;
-  actionPlanInstructions?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  testingInformation?: string | redacted.Redacted<string>;
+  actionPlanTitle?: string | redacted.Redacted<string>;
+  actionPlanInstructions?: string | redacted.Redacted<string>;
   controlSources?: string;
-  controlMappingSources?: ControlMappingSources;
+  controlMappingSources?: ControlMappingSource[];
   createdAt?: Date;
   lastUpdatedAt?: Date;
-  createdBy?: string | Redacted.Redacted<string>;
-  lastUpdatedBy?: string | Redacted.Redacted<string>;
-  tags?: TagMap;
-  state?: string;
+  createdBy?: string | redacted.Redacted<string>;
+  lastUpdatedBy?: string | redacted.Redacted<string>;
+  tags?: { [key: string]: string };
+  state?: ControlState;
 }
 export const Control = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     id: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(ControlType),
     name: S.optional(S.String),
     description: S.optional(SensitiveString),
     testingInformation: S.optional(SensitiveString),
@@ -2494,14 +2659,14 @@ export const Control = S.suspend(() =>
     createdBy: S.optional(SensitiveString),
     lastUpdatedBy: S.optional(SensitiveString),
     tags: S.optional(TagMap),
-    state: S.optional(S.String),
+    state: S.optional(ControlState),
   }),
 ).annotations({ identifier: "Control" }) as any as S.Schema<Control>;
 export interface DelegationMetadata {
   id?: string;
-  assessmentName?: string | Redacted.Redacted<string>;
+  assessmentName?: string | redacted.Redacted<string>;
   assessmentId?: string;
-  status?: string;
+  status?: DelegationStatus;
   roleArn?: string;
   creationTime?: Date;
   controlSetName?: string;
@@ -2511,7 +2676,7 @@ export const DelegationMetadata = S.suspend(() =>
     id: S.optional(S.String),
     assessmentName: S.optional(SensitiveString),
     assessmentId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(DelegationStatus),
     roleArn: S.optional(S.String),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     controlSetName: S.optional(S.String),
@@ -2541,14 +2706,25 @@ export const InsightsByAssessment = S.suspend(() =>
 ).annotations({
   identifier: "InsightsByAssessment",
 }) as any as S.Schema<InsightsByAssessment>;
+export type ValidationExceptionReason =
+  | "unknownOperation"
+  | "cannotParse"
+  | "fieldValidationFailed"
+  | "other";
+export const ValidationExceptionReason = S.Literal(
+  "unknownOperation",
+  "cannotParse",
+  "fieldValidationFailed",
+  "other",
+);
 export interface AssessmentFrameworkMetadata {
   arn?: string;
   id?: string;
-  type?: string;
+  type?: FrameworkType;
   name?: string;
   description?: string;
   logo?: string;
-  complianceType?: string | Redacted.Redacted<string>;
+  complianceType?: string | redacted.Redacted<string>;
   controlsCount?: number;
   controlSetsCount?: number;
   createdAt?: Date;
@@ -2558,7 +2734,7 @@ export const AssessmentFrameworkMetadata = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     id: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(FrameworkType),
     name: S.optional(S.String),
     description: S.optional(S.String),
     logo: S.optional(S.String),
@@ -2581,11 +2757,11 @@ export const AssessmentFrameworkShareRequestList = S.Array(
 export interface AssessmentReportMetadata {
   id?: string;
   name?: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   assessmentId?: string;
-  assessmentName?: string | Redacted.Redacted<string>;
-  author?: string | Redacted.Redacted<string>;
-  status?: string;
+  assessmentName?: string | redacted.Redacted<string>;
+  author?: string | redacted.Redacted<string>;
+  status?: AssessmentReportStatus;
   creationTime?: Date;
 }
 export const AssessmentReportMetadata = S.suspend(() =>
@@ -2596,7 +2772,7 @@ export const AssessmentReportMetadata = S.suspend(() =>
     assessmentId: S.optional(S.String),
     assessmentName: S.optional(SensitiveString),
     author: S.optional(SensitiveString),
-    status: S.optional(S.String),
+    status: S.optional(AssessmentReportStatus),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({
@@ -2647,7 +2823,7 @@ export const ControlMetadataList = S.Array(ControlMetadata);
 export interface Notification {
   id?: string;
   assessmentId?: string;
-  assessmentName?: string | Redacted.Redacted<string>;
+  assessmentName?: string | redacted.Redacted<string>;
   controlSetId?: string;
   controlSetName?: string;
   description?: string;
@@ -2670,9 +2846,29 @@ export type Notifications = Notification[];
 export const Notifications = S.Array(Notification);
 export type Controls = Control[];
 export const Controls = S.Array(Control);
+export type EvidenceFinderEnablementStatus =
+  | "ENABLED"
+  | "DISABLED"
+  | "ENABLE_IN_PROGRESS"
+  | "DISABLE_IN_PROGRESS";
+export const EvidenceFinderEnablementStatus = S.Literal(
+  "ENABLED",
+  "DISABLED",
+  "ENABLE_IN_PROGRESS",
+  "DISABLE_IN_PROGRESS",
+);
+export type EvidenceFinderBackfillStatus =
+  | "NOT_STARTED"
+  | "IN_PROGRESS"
+  | "COMPLETED";
+export const EvidenceFinderBackfillStatus = S.Literal(
+  "NOT_STARTED",
+  "IN_PROGRESS",
+  "COMPLETED",
+);
 export interface BatchAssociateAssessmentReportEvidenceResponse {
-  evidenceIds?: EvidenceIds;
-  errors?: AssessmentReportEvidenceErrors;
+  evidenceIds?: string[];
+  errors?: AssessmentReportEvidenceError[];
 }
 export const BatchAssociateAssessmentReportEvidenceResponse = S.suspend(() =>
   S.Struct({
@@ -2683,7 +2879,7 @@ export const BatchAssociateAssessmentReportEvidenceResponse = S.suspend(() =>
   identifier: "BatchAssociateAssessmentReportEvidenceResponse",
 }) as any as S.Schema<BatchAssociateAssessmentReportEvidenceResponse>;
 export interface BatchDeleteDelegationByAssessmentResponse {
-  errors?: BatchDeleteDelegationByAssessmentErrors;
+  errors?: BatchDeleteDelegationByAssessmentError[];
 }
 export const BatchDeleteDelegationByAssessmentResponse = S.suspend(() =>
   S.Struct({ errors: S.optional(BatchDeleteDelegationByAssessmentErrors) }),
@@ -2691,13 +2887,13 @@ export const BatchDeleteDelegationByAssessmentResponse = S.suspend(() =>
   identifier: "BatchDeleteDelegationByAssessmentResponse",
 }) as any as S.Schema<BatchDeleteDelegationByAssessmentResponse>;
 export interface CreateAssessmentRequest {
-  name: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  name: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   assessmentReportsDestination: AssessmentReportsDestination;
   scope: Scope;
-  roles: Roles;
+  roles: Role[];
   frameworkId: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateAssessmentRequest = S.suspend(() =>
   S.Struct({
@@ -2724,9 +2920,9 @@ export const CreateAssessmentRequest = S.suspend(() =>
 export interface CreateAssessmentFrameworkRequest {
   name: string;
   description?: string;
-  complianceType?: string | Redacted.Redacted<string>;
-  controlSets: CreateAssessmentFrameworkControlSets;
-  tags?: TagMap;
+  complianceType?: string | redacted.Redacted<string>;
+  controlSets: CreateAssessmentFrameworkControlSet[];
+  tags?: { [key: string]: string };
 }
 export const CreateAssessmentFrameworkRequest = S.suspend(() =>
   S.Struct({
@@ -2758,12 +2954,12 @@ export const CreateAssessmentReportResponse = S.suspend(() =>
 }) as any as S.Schema<CreateAssessmentReportResponse>;
 export interface CreateControlRequest {
   name: string;
-  description?: string | Redacted.Redacted<string>;
-  testingInformation?: string | Redacted.Redacted<string>;
-  actionPlanTitle?: string | Redacted.Redacted<string>;
-  actionPlanInstructions?: string | Redacted.Redacted<string>;
-  controlMappingSources: CreateControlMappingSources;
-  tags?: TagMap;
+  description?: string | redacted.Redacted<string>;
+  testingInformation?: string | redacted.Redacted<string>;
+  actionPlanTitle?: string | redacted.Redacted<string>;
+  actionPlanInstructions?: string | redacted.Redacted<string>;
+  controlMappingSources: CreateControlMappingSource[];
+  tags?: { [key: string]: string };
 }
 export const CreateControlRequest = S.suspend(() =>
   S.Struct({
@@ -2796,7 +2992,7 @@ export const GetAssessmentReportUrlResponse = S.suspend(() =>
   identifier: "GetAssessmentReportUrlResponse",
 }) as any as S.Schema<GetAssessmentReportUrlResponse>;
 export interface GetChangeLogsResponse {
-  changeLogs?: ChangeLogs;
+  changeLogs?: ChangeLog[];
   nextToken?: string;
 }
 export const GetChangeLogsResponse = S.suspend(() =>
@@ -2816,7 +3012,7 @@ export const GetControlResponse = S.suspend(() =>
   identifier: "GetControlResponse",
 }) as any as S.Schema<GetControlResponse>;
 export interface GetDelegationsResponse {
-  delegations?: DelegationMetadataList;
+  delegations?: DelegationMetadata[];
   nextToken?: string;
 }
 export const GetDelegationsResponse = S.suspend(() =>
@@ -2844,7 +3040,7 @@ export const GetInsightsByAssessmentResponse = S.suspend(() =>
   identifier: "GetInsightsByAssessmentResponse",
 }) as any as S.Schema<GetInsightsByAssessmentResponse>;
 export interface ListAssessmentFrameworksResponse {
-  frameworkMetadataList?: FrameworkMetadataList;
+  frameworkMetadataList?: AssessmentFrameworkMetadata[];
   nextToken?: string;
 }
 export const ListAssessmentFrameworksResponse = S.suspend(() =>
@@ -2856,7 +3052,7 @@ export const ListAssessmentFrameworksResponse = S.suspend(() =>
   identifier: "ListAssessmentFrameworksResponse",
 }) as any as S.Schema<ListAssessmentFrameworksResponse>;
 export interface ListAssessmentFrameworkShareRequestsResponse {
-  assessmentFrameworkShareRequests?: AssessmentFrameworkShareRequestList;
+  assessmentFrameworkShareRequests?: AssessmentFrameworkShareRequest[];
   nextToken?: string;
 }
 export const ListAssessmentFrameworkShareRequestsResponse = S.suspend(() =>
@@ -2870,7 +3066,7 @@ export const ListAssessmentFrameworkShareRequestsResponse = S.suspend(() =>
   identifier: "ListAssessmentFrameworkShareRequestsResponse",
 }) as any as S.Schema<ListAssessmentFrameworkShareRequestsResponse>;
 export interface ListAssessmentReportsResponse {
-  assessmentReports?: AssessmentReportsMetadata;
+  assessmentReports?: AssessmentReportMetadata[];
   nextToken?: string;
 }
 export const ListAssessmentReportsResponse = S.suspend(() =>
@@ -2882,7 +3078,7 @@ export const ListAssessmentReportsResponse = S.suspend(() =>
   identifier: "ListAssessmentReportsResponse",
 }) as any as S.Schema<ListAssessmentReportsResponse>;
 export interface ListControlDomainInsightsResponse {
-  controlDomainInsights?: ControlDomainInsightsList;
+  controlDomainInsights?: ControlDomainInsights[];
   nextToken?: string;
 }
 export const ListControlDomainInsightsResponse = S.suspend(() =>
@@ -2894,7 +3090,7 @@ export const ListControlDomainInsightsResponse = S.suspend(() =>
   identifier: "ListControlDomainInsightsResponse",
 }) as any as S.Schema<ListControlDomainInsightsResponse>;
 export interface ListControlInsightsByControlDomainResponse {
-  controlInsightsMetadata?: ControlInsightsMetadata;
+  controlInsightsMetadata?: ControlInsightsMetadataItem[];
   nextToken?: string;
 }
 export const ListControlInsightsByControlDomainResponse = S.suspend(() =>
@@ -2906,7 +3102,7 @@ export const ListControlInsightsByControlDomainResponse = S.suspend(() =>
   identifier: "ListControlInsightsByControlDomainResponse",
 }) as any as S.Schema<ListControlInsightsByControlDomainResponse>;
 export interface ListControlsResponse {
-  controlMetadataList?: ControlMetadataList;
+  controlMetadataList?: ControlMetadata[];
   nextToken?: string;
 }
 export const ListControlsResponse = S.suspend(() =>
@@ -2918,7 +3114,7 @@ export const ListControlsResponse = S.suspend(() =>
   identifier: "ListControlsResponse",
 }) as any as S.Schema<ListControlsResponse>;
 export interface ListNotificationsResponse {
-  notifications?: Notifications;
+  notifications?: Notification[];
   nextToken?: string;
 }
 export const ListNotificationsResponse = S.suspend(() =>
@@ -2940,7 +3136,7 @@ export const UpdateAssessmentControlSetStatusResponse = S.suspend(() =>
 export interface ControlSet {
   id?: string;
   name?: string;
-  controls?: Controls;
+  controls?: Control[];
 }
 export const ControlSet = S.suspend(() =>
   S.Struct({
@@ -2955,24 +3151,24 @@ export interface Framework {
   arn?: string;
   id?: string;
   name?: string;
-  type?: string;
-  complianceType?: string | Redacted.Redacted<string>;
+  type?: FrameworkType;
+  complianceType?: string | redacted.Redacted<string>;
   description?: string;
   logo?: string;
   controlSources?: string;
-  controlSets?: ControlSets;
+  controlSets?: ControlSet[];
   createdAt?: Date;
   lastUpdatedAt?: Date;
-  createdBy?: string | Redacted.Redacted<string>;
-  lastUpdatedBy?: string | Redacted.Redacted<string>;
-  tags?: TagMap;
+  createdBy?: string | redacted.Redacted<string>;
+  lastUpdatedBy?: string | redacted.Redacted<string>;
+  tags?: { [key: string]: string };
 }
 export const Framework = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     id: S.optional(S.String),
     name: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(FrameworkType),
     complianceType: S.optional(SensitiveString),
     description: S.optional(S.String),
     logo: S.optional(S.String),
@@ -3003,15 +3199,15 @@ export const UpdateControlResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateControlResponse>;
 export interface EvidenceFinderEnablement {
   eventDataStoreArn?: string;
-  enablementStatus?: string;
-  backfillStatus?: string;
+  enablementStatus?: EvidenceFinderEnablementStatus;
+  backfillStatus?: EvidenceFinderBackfillStatus;
   error?: string;
 }
 export const EvidenceFinderEnablement = S.suspend(() =>
   S.Struct({
     eventDataStoreArn: S.optional(S.String),
-    enablementStatus: S.optional(S.String),
-    backfillStatus: S.optional(S.String),
+    enablementStatus: S.optional(EvidenceFinderEnablementStatus),
+    backfillStatus: S.optional(EvidenceFinderBackfillStatus),
     error: S.optional(S.String),
   }),
 ).annotations({
@@ -3019,9 +3215,9 @@ export const EvidenceFinderEnablement = S.suspend(() =>
 }) as any as S.Schema<EvidenceFinderEnablement>;
 export interface Settings {
   isAwsOrgEnabled?: boolean;
-  snsTopic?: string | Redacted.Redacted<string>;
+  snsTopic?: string | redacted.Redacted<string>;
   defaultAssessmentReportsDestination?: AssessmentReportsDestination;
-  defaultProcessOwners?: Roles;
+  defaultProcessOwners?: Role[];
   kmsKey?: string;
   evidenceFinderEnablement?: EvidenceFinderEnablement;
   deregistrationPolicy?: DeregistrationPolicy;
@@ -3122,12 +3318,12 @@ export const ControlInsightsMetadataByAssessment = S.Array(
   ControlInsightsMetadataByAssessmentItem,
 );
 export interface AssessmentMetadataItem {
-  name?: string | Redacted.Redacted<string>;
+  name?: string | redacted.Redacted<string>;
   id?: string;
-  complianceType?: string | Redacted.Redacted<string>;
-  status?: string;
-  roles?: Roles;
-  delegations?: Delegations;
+  complianceType?: string | redacted.Redacted<string>;
+  status?: AssessmentStatus;
+  roles?: Role[];
+  delegations?: Delegation[];
   creationTime?: Date;
   lastUpdated?: Date;
 }
@@ -3136,7 +3332,7 @@ export const AssessmentMetadataItem = S.suspend(() =>
     name: S.optional(SensitiveString),
     id: S.optional(S.String),
     complianceType: S.optional(SensitiveString),
-    status: S.optional(S.String),
+    status: S.optional(AssessmentStatus),
     roles: S.optional(Roles),
     delegations: S.optional(Delegations),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -3148,8 +3344,8 @@ export const AssessmentMetadataItem = S.suspend(() =>
 export type ListAssessmentMetadata = AssessmentMetadataItem[];
 export const ListAssessmentMetadata = S.Array(AssessmentMetadataItem);
 export interface BatchCreateDelegationByAssessmentResponse {
-  delegations?: Delegations;
-  errors?: BatchCreateDelegationByAssessmentErrors;
+  delegations?: Delegation[];
+  errors?: BatchCreateDelegationByAssessmentError[];
 }
 export const BatchCreateDelegationByAssessmentResponse = S.suspend(() =>
   S.Struct({
@@ -3160,7 +3356,7 @@ export const BatchCreateDelegationByAssessmentResponse = S.suspend(() =>
   identifier: "BatchCreateDelegationByAssessmentResponse",
 }) as any as S.Schema<BatchCreateDelegationByAssessmentResponse>;
 export interface BatchImportEvidenceToAssessmentControlResponse {
-  errors?: BatchImportEvidenceToAssessmentControlErrors;
+  errors?: BatchImportEvidenceToAssessmentControlError[];
 }
 export const BatchImportEvidenceToAssessmentControlResponse = S.suspend(() =>
   S.Struct({
@@ -3218,7 +3414,7 @@ export const GetSettingsResponse = S.suspend(() =>
   identifier: "GetSettingsResponse",
 }) as any as S.Schema<GetSettingsResponse>;
 export interface ListAssessmentControlInsightsByControlDomainResponse {
-  controlInsightsByAssessment?: ControlInsightsMetadataByAssessment;
+  controlInsightsByAssessment?: ControlInsightsMetadataByAssessmentItem[];
   nextToken?: string;
 }
 export const ListAssessmentControlInsightsByControlDomainResponse = S.suspend(
@@ -3233,7 +3429,7 @@ export const ListAssessmentControlInsightsByControlDomainResponse = S.suspend(
   identifier: "ListAssessmentControlInsightsByControlDomainResponse",
 }) as any as S.Schema<ListAssessmentControlInsightsByControlDomainResponse>;
 export interface ListAssessmentsResponse {
-  assessmentMetadata?: ListAssessmentMetadata;
+  assessmentMetadata?: AssessmentMetadataItem[];
   nextToken?: string;
 }
 export const ListAssessmentsResponse = S.suspend(() =>
@@ -3283,7 +3479,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     message: S.String,
-    reason: S.optional(S.String),
+    reason: S.optional(ValidationExceptionReason),
     fields: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
@@ -3298,7 +3494,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  */
 export const getAccountStatus: (
   input: GetAccountStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccountStatusResponse,
   InternalServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3312,7 +3508,7 @@ export const getAccountStatus: (
  */
 export const getInsights: (
   input: GetInsightsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInsightsResponse,
   AccessDeniedException | InternalServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3337,7 +3533,7 @@ export const getInsights: (
  */
 export const getServicesInScope: (
   input: GetServicesInScopeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetServicesInScopeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3354,7 +3550,7 @@ export const getServicesInScope: (
  */
 export const getSettings: (
   input: GetSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSettingsResponse,
   AccessDeniedException | InternalServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3375,7 +3571,7 @@ export const getSettings: (
 export const listAssessmentControlInsightsByControlDomain: {
   (
     input: ListAssessmentControlInsightsByControlDomainRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAssessmentControlInsightsByControlDomainResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3386,7 +3582,7 @@ export const listAssessmentControlInsightsByControlDomain: {
   >;
   pages: (
     input: ListAssessmentControlInsightsByControlDomainRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAssessmentControlInsightsByControlDomainResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3397,7 +3593,7 @@ export const listAssessmentControlInsightsByControlDomain: {
   >;
   items: (
     input: ListAssessmentControlInsightsByControlDomainRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3427,7 +3623,7 @@ export const listAssessmentControlInsightsByControlDomain: {
 export const listAssessments: {
   (
     input: ListAssessmentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAssessmentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3437,7 +3633,7 @@ export const listAssessments: {
   >;
   pages: (
     input: ListAssessmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAssessmentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3447,7 +3643,7 @@ export const listAssessments: {
   >;
   items: (
     input: ListAssessmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3470,7 +3666,7 @@ export const listAssessments: {
  */
 export const updateAssessmentControl: (
   input: UpdateAssessmentControlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAssessmentControlResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3493,7 +3689,7 @@ export const updateAssessmentControl: (
  */
 export const updateAssessmentFramework: (
   input: UpdateAssessmentFrameworkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAssessmentFrameworkResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3520,7 +3716,7 @@ export const updateAssessmentFramework: (
 export const listKeywordsForDataSource: {
   (
     input: ListKeywordsForDataSourceRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListKeywordsForDataSourceResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3530,7 +3726,7 @@ export const listKeywordsForDataSource: {
   >;
   pages: (
     input: ListKeywordsForDataSourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListKeywordsForDataSourceResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3540,7 +3736,7 @@ export const listKeywordsForDataSource: {
   >;
   items: (
     input: ListKeywordsForDataSourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3564,7 +3760,7 @@ export const listKeywordsForDataSource: {
 export const getDelegations: {
   (
     input: GetDelegationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetDelegationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3574,7 +3770,7 @@ export const getDelegations: {
   >;
   pages: (
     input: GetDelegationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetDelegationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3584,7 +3780,7 @@ export const getDelegations: {
   >;
   items: (
     input: GetDelegationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3608,7 +3804,7 @@ export const getDelegations: {
 export const getEvidenceByEvidenceFolder: {
   (
     input: GetEvidenceByEvidenceFolderRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetEvidenceByEvidenceFolderResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3619,7 +3815,7 @@ export const getEvidenceByEvidenceFolder: {
   >;
   pages: (
     input: GetEvidenceByEvidenceFolderRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetEvidenceByEvidenceFolderResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3630,7 +3826,7 @@ export const getEvidenceByEvidenceFolder: {
   >;
   items: (
     input: GetEvidenceByEvidenceFolderRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3672,7 +3868,7 @@ export const getEvidenceByEvidenceFolder: {
  */
 export const getEvidenceFileUploadUrl: (
   input: GetEvidenceFileUploadUrlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEvidenceFileUploadUrlResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3695,7 +3891,7 @@ export const getEvidenceFileUploadUrl: (
  */
 export const getEvidenceFolder: (
   input: GetEvidenceFolderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEvidenceFolderResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3718,7 +3914,7 @@ export const getEvidenceFolder: (
  */
 export const getInsightsByAssessment: (
   input: GetInsightsByAssessmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInsightsByAssessmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3743,7 +3939,7 @@ export const getInsightsByAssessment: (
 export const listAssessmentFrameworks: {
   (
     input: ListAssessmentFrameworksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAssessmentFrameworksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3753,7 +3949,7 @@ export const listAssessmentFrameworks: {
   >;
   pages: (
     input: ListAssessmentFrameworksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAssessmentFrameworksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3763,7 +3959,7 @@ export const listAssessmentFrameworks: {
   >;
   items: (
     input: ListAssessmentFrameworksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3787,7 +3983,7 @@ export const listAssessmentFrameworks: {
 export const listAssessmentFrameworkShareRequests: {
   (
     input: ListAssessmentFrameworkShareRequestsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAssessmentFrameworkShareRequestsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3797,7 +3993,7 @@ export const listAssessmentFrameworkShareRequests: {
   >;
   pages: (
     input: ListAssessmentFrameworkShareRequestsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAssessmentFrameworkShareRequestsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3807,7 +4003,7 @@ export const listAssessmentFrameworkShareRequests: {
   >;
   items: (
     input: ListAssessmentFrameworkShareRequestsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3831,7 +4027,7 @@ export const listAssessmentFrameworkShareRequests: {
 export const listAssessmentReports: {
   (
     input: ListAssessmentReportsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAssessmentReportsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3841,7 +4037,7 @@ export const listAssessmentReports: {
   >;
   pages: (
     input: ListAssessmentReportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAssessmentReportsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3851,7 +4047,7 @@ export const listAssessmentReports: {
   >;
   items: (
     input: ListAssessmentReportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3888,7 +4084,7 @@ export const listAssessmentReports: {
 export const listControlDomainInsights: {
   (
     input: ListControlDomainInsightsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListControlDomainInsightsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3899,7 +4095,7 @@ export const listControlDomainInsights: {
   >;
   pages: (
     input: ListControlDomainInsightsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListControlDomainInsightsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3910,7 +4106,7 @@ export const listControlDomainInsights: {
   >;
   items: (
     input: ListControlDomainInsightsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3946,7 +4142,7 @@ export const listControlDomainInsights: {
 export const listControlInsightsByControlDomain: {
   (
     input: ListControlInsightsByControlDomainRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListControlInsightsByControlDomainResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3957,7 +4153,7 @@ export const listControlInsightsByControlDomain: {
   >;
   pages: (
     input: ListControlInsightsByControlDomainRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListControlInsightsByControlDomainResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3968,7 +4164,7 @@ export const listControlInsightsByControlDomain: {
   >;
   items: (
     input: ListControlInsightsByControlDomainRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3998,7 +4194,7 @@ export const listControlInsightsByControlDomain: {
 export const listControls: {
   (
     input: ListControlsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListControlsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4008,7 +4204,7 @@ export const listControls: {
   >;
   pages: (
     input: ListControlsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListControlsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4018,7 +4214,7 @@ export const listControls: {
   >;
   items: (
     input: ListControlsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -4042,7 +4238,7 @@ export const listControls: {
 export const listNotifications: {
   (
     input: ListNotificationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListNotificationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4052,7 +4248,7 @@ export const listNotifications: {
   >;
   pages: (
     input: ListNotificationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListNotificationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4062,7 +4258,7 @@ export const listNotifications: {
   >;
   items: (
     input: ListNotificationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -4085,7 +4281,7 @@ export const listNotifications: {
  */
 export const updateAssessmentControlSetStatus: (
   input: UpdateAssessmentControlSetStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAssessmentControlSetStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4108,7 +4304,7 @@ export const updateAssessmentControlSetStatus: (
  */
 export const updateControl: (
   input: UpdateControlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateControlResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4131,7 +4327,7 @@ export const updateControl: (
  */
 export const updateSettings: (
   input: UpdateSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4149,7 +4345,7 @@ export const updateSettings: (
 export const getEvidenceFoldersByAssessment: {
   (
     input: GetEvidenceFoldersByAssessmentRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetEvidenceFoldersByAssessmentResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4160,7 +4356,7 @@ export const getEvidenceFoldersByAssessment: {
   >;
   pages: (
     input: GetEvidenceFoldersByAssessmentRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetEvidenceFoldersByAssessmentResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4171,7 +4367,7 @@ export const getEvidenceFoldersByAssessment: {
   >;
   items: (
     input: GetEvidenceFoldersByAssessmentRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -4202,7 +4398,7 @@ export const getEvidenceFoldersByAssessment: {
 export const getEvidenceFoldersByAssessmentControl: {
   (
     input: GetEvidenceFoldersByAssessmentControlRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetEvidenceFoldersByAssessmentControlResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4213,7 +4409,7 @@ export const getEvidenceFoldersByAssessmentControl: {
   >;
   pages: (
     input: GetEvidenceFoldersByAssessmentControlRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetEvidenceFoldersByAssessmentControlResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4224,7 +4420,7 @@ export const getEvidenceFoldersByAssessmentControl: {
   >;
   items: (
     input: GetEvidenceFoldersByAssessmentControlRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -4266,7 +4462,7 @@ export const getEvidenceFoldersByAssessmentControl: {
 export const listControlDomainInsightsByAssessment: {
   (
     input: ListControlDomainInsightsByAssessmentRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListControlDomainInsightsByAssessmentResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4277,7 +4473,7 @@ export const listControlDomainInsightsByAssessment: {
   >;
   pages: (
     input: ListControlDomainInsightsByAssessmentRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListControlDomainInsightsByAssessmentResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4288,7 +4484,7 @@ export const listControlDomainInsightsByAssessment: {
   >;
   items: (
     input: ListControlDomainInsightsByAssessmentRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -4317,7 +4513,7 @@ export const listControlDomainInsightsByAssessment: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -4338,7 +4534,7 @@ export const listTagsForResource: (
  */
 export const registerAccount: (
   input: RegisterAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterAccountResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4364,7 +4560,7 @@ export const registerAccount: (
  */
 export const registerOrganizationAdminAccount: (
   input: RegisterOrganizationAdminAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterOrganizationAdminAccountResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4423,7 +4619,7 @@ export const registerOrganizationAdminAccount: (
  */
 export const startAssessmentFrameworkShare: (
   input: StartAssessmentFrameworkShareRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartAssessmentFrameworkShareResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4446,7 +4642,7 @@ export const startAssessmentFrameworkShare: (
  */
 export const validateAssessmentReportIntegrity: (
   input: ValidateAssessmentReportIntegrityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ValidateAssessmentReportIntegrityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4469,7 +4665,7 @@ export const validateAssessmentReportIntegrity: (
  */
 export const deleteAssessment: (
   input: DeleteAssessmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAssessmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4492,7 +4688,7 @@ export const deleteAssessment: (
  */
 export const deleteAssessmentFramework: (
   input: DeleteAssessmentFrameworkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAssessmentFrameworkResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4515,7 +4711,7 @@ export const deleteAssessmentFramework: (
  */
 export const deleteAssessmentFrameworkShare: (
   input: DeleteAssessmentFrameworkShareRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAssessmentFrameworkShareResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4558,7 +4754,7 @@ export const deleteAssessmentFrameworkShare: (
  */
 export const deleteAssessmentReport: (
   input: DeleteAssessmentReportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAssessmentReportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4586,7 +4782,7 @@ export const deleteAssessmentReport: (
  */
 export const deleteControl: (
   input: DeleteControlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteControlResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4617,7 +4813,7 @@ export const deleteControl: (
  */
 export const deregisterAccount: (
   input: DeregisterAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterAccountResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4692,7 +4888,7 @@ export const deregisterAccount: (
  */
 export const deregisterOrganizationAdminAccount: (
   input: DeregisterOrganizationAdminAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterOrganizationAdminAccountResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4715,7 +4911,7 @@ export const deregisterOrganizationAdminAccount: (
  */
 export const disassociateAssessmentReportEvidenceFolder: (
   input: DisassociateAssessmentReportEvidenceFolderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateAssessmentReportEvidenceFolderResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4739,7 +4935,7 @@ export const disassociateAssessmentReportEvidenceFolder: (
  */
 export const getOrganizationAdminAccount: (
   input: GetOrganizationAdminAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetOrganizationAdminAccountResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4762,7 +4958,7 @@ export const getOrganizationAdminAccount: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -4783,7 +4979,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -4805,7 +5001,7 @@ export const untagResource: (
  */
 export const associateAssessmentReportEvidenceFolder: (
   input: AssociateAssessmentReportEvidenceFolderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateAssessmentReportEvidenceFolderResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4828,7 +5024,7 @@ export const associateAssessmentReportEvidenceFolder: (
  */
 export const batchDisassociateAssessmentReportEvidence: (
   input: BatchDisassociateAssessmentReportEvidenceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDisassociateAssessmentReportEvidenceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4852,7 +5048,7 @@ export const batchDisassociateAssessmentReportEvidence: (
  */
 export const batchAssociateAssessmentReportEvidence: (
   input: BatchAssociateAssessmentReportEvidenceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchAssociateAssessmentReportEvidenceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4875,7 +5071,7 @@ export const batchAssociateAssessmentReportEvidence: (
  */
 export const batchDeleteDelegationByAssessment: (
   input: BatchDeleteDelegationByAssessmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDeleteDelegationByAssessmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4898,7 +5094,7 @@ export const batchDeleteDelegationByAssessment: (
  */
 export const createAssessmentReport: (
   input: CreateAssessmentReportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAssessmentReportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4921,7 +5117,7 @@ export const createAssessmentReport: (
  */
 export const getAssessmentReportUrl: (
   input: GetAssessmentReportUrlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAssessmentReportUrlResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4945,7 +5141,7 @@ export const getAssessmentReportUrl: (
 export const getChangeLogs: {
   (
     input: GetChangeLogsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetChangeLogsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4956,7 +5152,7 @@ export const getChangeLogs: {
   >;
   pages: (
     input: GetChangeLogsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetChangeLogsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4967,7 +5163,7 @@ export const getChangeLogs: {
   >;
   items: (
     input: GetChangeLogsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -4996,7 +5192,7 @@ export const getChangeLogs: {
  */
 export const getControl: (
   input: GetControlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetControlResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5019,7 +5215,7 @@ export const getControl: (
  */
 export const batchCreateDelegationByAssessment: (
   input: BatchCreateDelegationByAssessmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchCreateDelegationByAssessmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5061,7 +5257,7 @@ export const batchCreateDelegationByAssessment: (
  */
 export const batchImportEvidenceToAssessmentControl: (
   input: BatchImportEvidenceToAssessmentControlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchImportEvidenceToAssessmentControlResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5086,7 +5282,7 @@ export const batchImportEvidenceToAssessmentControl: (
  */
 export const getAssessmentFramework: (
   input: GetAssessmentFrameworkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAssessmentFrameworkResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5109,7 +5305,7 @@ export const getAssessmentFramework: (
  */
 export const getEvidence: (
   input: GetEvidenceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEvidenceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5132,7 +5328,7 @@ export const getEvidence: (
  */
 export const updateAssessment: (
   input: UpdateAssessmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAssessmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5159,7 +5355,7 @@ export const updateAssessment: (
  */
 export const updateAssessmentFrameworkShare: (
   input: UpdateAssessmentFrameworkShareRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAssessmentFrameworkShareResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5184,7 +5380,7 @@ export const updateAssessmentFrameworkShare: (
  */
 export const updateAssessmentStatus: (
   input: UpdateAssessmentStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAssessmentStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5209,7 +5405,7 @@ export const updateAssessmentStatus: (
  */
 export const createAssessment: (
   input: CreateAssessmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAssessmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5236,7 +5432,7 @@ export const createAssessment: (
  */
 export const createAssessmentFramework: (
   input: CreateAssessmentFrameworkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAssessmentFrameworkResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5261,7 +5457,7 @@ export const createAssessmentFramework: (
  */
 export const createControl: (
   input: CreateControlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateControlResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5286,7 +5482,7 @@ export const createControl: (
  */
 export const getAssessment: (
   input: GetAssessmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAssessmentResponse,
   | AccessDeniedException
   | InternalServerException

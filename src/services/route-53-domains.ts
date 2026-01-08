@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -91,11 +91,10 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type DomainName = string;
-export type Password = string | Redacted.Redacted<string>;
+export type Password = string | redacted.Redacted<string>;
 export type LangCode = string;
-export type DomainAuthCode = string | Redacted.Redacted<string>;
+export type DomainAuthCode = string | redacted.Redacted<string>;
 export type TagKey = string;
-export type Integer = number;
 export type OperationId = string;
 export type PageMarker = string;
 export type PageMaxItems = number;
@@ -105,17 +104,16 @@ export type Label = string;
 export type DurationInYears = number;
 export type CurrentExpiryYear = number;
 export type AccountId = string;
-export type FIAuthKey = string | Redacted.Redacted<string>;
-export type NullableInteger = number;
+export type FIAuthKey = string | redacted.Redacted<string>;
 export type DnssecPublicKey = string;
 export type Value = string;
-export type ContactName = string | Redacted.Redacted<string>;
-export type AddressLine = string | Redacted.Redacted<string>;
-export type City = string | Redacted.Redacted<string>;
-export type State = string | Redacted.Redacted<string>;
-export type ZipCode = string | Redacted.Redacted<string>;
-export type ContactNumber = string | Redacted.Redacted<string>;
-export type Email = string | Redacted.Redacted<string>;
+export type ContactName = string | redacted.Redacted<string>;
+export type AddressLine = string | redacted.Redacted<string>;
+export type City = string | redacted.Redacted<string>;
+export type State = string | redacted.Redacted<string>;
+export type ZipCode = string | redacted.Redacted<string>;
+export type ContactNumber = string | redacted.Redacted<string>;
+export type Email = string | redacted.Redacted<string>;
 export type HostName = string;
 export type GlueIp = string;
 export type Price = number;
@@ -130,7 +128,7 @@ export type RegistryDomainId = string;
 export type Reseller = string;
 export type DNSSec = string;
 export type DomainStatus = string;
-export type ExtraParamValue = string | Redacted.Redacted<string>;
+export type ExtraParamValue = string | redacted.Redacted<string>;
 export type DomainPriceName = string;
 export type InvoiceId = string;
 export type RequestId = string;
@@ -138,13 +136,75 @@ export type RequestId = string;
 //# Schemas
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export type OperationStatusList = string[];
-export const OperationStatusList = S.Array(S.String);
-export type OperationTypeList = string[];
-export const OperationTypeList = S.Array(S.String);
+export type OperationStatus =
+  | "SUBMITTED"
+  | "IN_PROGRESS"
+  | "ERROR"
+  | "SUCCESSFUL"
+  | "FAILED";
+export const OperationStatus = S.Literal(
+  "SUBMITTED",
+  "IN_PROGRESS",
+  "ERROR",
+  "SUCCESSFUL",
+  "FAILED",
+);
+export type OperationStatusList = OperationStatus[];
+export const OperationStatusList = S.Array(OperationStatus);
+export type OperationType =
+  | "REGISTER_DOMAIN"
+  | "DELETE_DOMAIN"
+  | "TRANSFER_IN_DOMAIN"
+  | "UPDATE_DOMAIN_CONTACT"
+  | "UPDATE_NAMESERVER"
+  | "CHANGE_PRIVACY_PROTECTION"
+  | "DOMAIN_LOCK"
+  | "ENABLE_AUTORENEW"
+  | "DISABLE_AUTORENEW"
+  | "ADD_DNSSEC"
+  | "REMOVE_DNSSEC"
+  | "EXPIRE_DOMAIN"
+  | "TRANSFER_OUT_DOMAIN"
+  | "CHANGE_DOMAIN_OWNER"
+  | "RENEW_DOMAIN"
+  | "PUSH_DOMAIN"
+  | "INTERNAL_TRANSFER_OUT_DOMAIN"
+  | "INTERNAL_TRANSFER_IN_DOMAIN"
+  | "RELEASE_TO_GANDI"
+  | "TRANSFER_ON_RENEW"
+  | "RESTORE_DOMAIN";
+export const OperationType = S.Literal(
+  "REGISTER_DOMAIN",
+  "DELETE_DOMAIN",
+  "TRANSFER_IN_DOMAIN",
+  "UPDATE_DOMAIN_CONTACT",
+  "UPDATE_NAMESERVER",
+  "CHANGE_PRIVACY_PROTECTION",
+  "DOMAIN_LOCK",
+  "ENABLE_AUTORENEW",
+  "DISABLE_AUTORENEW",
+  "ADD_DNSSEC",
+  "REMOVE_DNSSEC",
+  "EXPIRE_DOMAIN",
+  "TRANSFER_OUT_DOMAIN",
+  "CHANGE_DOMAIN_OWNER",
+  "RENEW_DOMAIN",
+  "PUSH_DOMAIN",
+  "INTERNAL_TRANSFER_OUT_DOMAIN",
+  "INTERNAL_TRANSFER_IN_DOMAIN",
+  "RELEASE_TO_GANDI",
+  "TRANSFER_ON_RENEW",
+  "RESTORE_DOMAIN",
+);
+export type OperationTypeList = OperationType[];
+export const OperationTypeList = S.Array(OperationType);
+export type ListOperationsSortAttributeName = "SubmittedDate";
+export const ListOperationsSortAttributeName = S.Literal("SubmittedDate");
+export type SortOrder = "ASC" | "DESC";
+export const SortOrder = S.Literal("ASC", "DESC");
 export interface AcceptDomainTransferFromAnotherAwsAccountRequest {
   DomainName: string;
-  Password: string | Redacted.Redacted<string>;
+  Password: string | redacted.Redacted<string>;
 }
 export const AcceptDomainTransferFromAnotherAwsAccountRequest = S.suspend(() =>
   S.Struct({ DomainName: S.String, Password: SensitiveString }).pipe(
@@ -200,7 +260,7 @@ export const CheckDomainAvailabilityRequest = S.suspend(() =>
 }) as any as S.Schema<CheckDomainAvailabilityRequest>;
 export interface CheckDomainTransferabilityRequest {
   DomainName: string;
-  AuthCode?: string | Redacted.Redacted<string>;
+  AuthCode?: string | redacted.Redacted<string>;
 }
 export const CheckDomainTransferabilityRequest = S.suspend(() =>
   S.Struct({
@@ -240,7 +300,7 @@ export const DeleteDomainRequest = S.suspend(() =>
 }) as any as S.Schema<DeleteDomainRequest>;
 export interface DeleteTagsForDomainRequest {
   DomainName: string;
-  TagsToDelete: TagKeyList;
+  TagsToDelete: string[];
 }
 export const DeleteTagsForDomainRequest = S.suspend(() =>
   S.Struct({ DomainName: S.String, TagsToDelete: TagKeyList }).pipe(
@@ -448,10 +508,10 @@ export interface ListOperationsRequest {
   SubmittedSince?: Date;
   Marker?: string;
   MaxItems?: number;
-  Status?: OperationStatusList;
-  Type?: OperationTypeList;
-  SortBy?: string;
-  SortOrder?: string;
+  Status?: OperationStatus[];
+  Type?: OperationType[];
+  SortBy?: ListOperationsSortAttributeName;
+  SortOrder?: SortOrder;
 }
 export const ListOperationsRequest = S.suspend(() =>
   S.Struct({
@@ -460,8 +520,8 @@ export const ListOperationsRequest = S.suspend(() =>
     MaxItems: S.optional(S.Number),
     Status: S.optional(OperationStatusList),
     Type: S.optional(OperationTypeList),
-    SortBy: S.optional(S.String),
-    SortOrder: S.optional(S.String),
+    SortBy: S.optional(ListOperationsSortAttributeName),
+    SortOrder: S.optional(SortOrder),
   }).pipe(
     T.all(
       ns,
@@ -696,7 +756,7 @@ export type GlueIpList = string[];
 export const GlueIpList = S.Array(S.String);
 export interface Nameserver {
   Name: string;
-  GlueIps?: GlueIpList;
+  GlueIps?: string[];
 }
 export const Nameserver = S.suspend(() =>
   S.Struct({ Name: S.String, GlueIps: S.optional(GlueIpList) }),
@@ -705,8 +765,8 @@ export type NameserverList = Nameserver[];
 export const NameserverList = S.Array(Nameserver);
 export interface UpdateDomainNameserversRequest {
   DomainName: string;
-  FIAuthKey?: string | Redacted.Redacted<string>;
-  Nameservers: NameserverList;
+  FIAuthKey?: string | redacted.Redacted<string>;
+  Nameservers: Nameserver[];
 }
 export const UpdateDomainNameserversRequest = S.suspend(() =>
   S.Struct({
@@ -753,8 +813,530 @@ export const ViewBillingRequest = S.suspend(() =>
 ).annotations({
   identifier: "ViewBillingRequest",
 }) as any as S.Schema<ViewBillingRequest>;
+export type ListDomainsAttributeName = "DomainName" | "Expiry";
+export const ListDomainsAttributeName = S.Literal("DomainName", "Expiry");
+export type Operator = "LE" | "GE" | "BEGINS_WITH";
+export const Operator = S.Literal("LE", "GE", "BEGINS_WITH");
 export type Values = string[];
 export const Values = S.Array(S.String);
+export type ContactType =
+  | "PERSON"
+  | "COMPANY"
+  | "ASSOCIATION"
+  | "PUBLIC_BODY"
+  | "RESELLER";
+export const ContactType = S.Literal(
+  "PERSON",
+  "COMPANY",
+  "ASSOCIATION",
+  "PUBLIC_BODY",
+  "RESELLER",
+);
+export type CountryCode =
+  | "AC"
+  | "AD"
+  | "AE"
+  | "AF"
+  | "AG"
+  | "AI"
+  | "AL"
+  | "AM"
+  | "AN"
+  | "AO"
+  | "AQ"
+  | "AR"
+  | "AS"
+  | "AT"
+  | "AU"
+  | "AW"
+  | "AX"
+  | "AZ"
+  | "BA"
+  | "BB"
+  | "BD"
+  | "BE"
+  | "BF"
+  | "BG"
+  | "BH"
+  | "BI"
+  | "BJ"
+  | "BL"
+  | "BM"
+  | "BN"
+  | "BO"
+  | "BQ"
+  | "BR"
+  | "BS"
+  | "BT"
+  | "BV"
+  | "BW"
+  | "BY"
+  | "BZ"
+  | "CA"
+  | "CC"
+  | "CD"
+  | "CF"
+  | "CG"
+  | "CH"
+  | "CI"
+  | "CK"
+  | "CL"
+  | "CM"
+  | "CN"
+  | "CO"
+  | "CR"
+  | "CU"
+  | "CV"
+  | "CW"
+  | "CX"
+  | "CY"
+  | "CZ"
+  | "DE"
+  | "DJ"
+  | "DK"
+  | "DM"
+  | "DO"
+  | "DZ"
+  | "EC"
+  | "EE"
+  | "EG"
+  | "EH"
+  | "ER"
+  | "ES"
+  | "ET"
+  | "FI"
+  | "FJ"
+  | "FK"
+  | "FM"
+  | "FO"
+  | "FR"
+  | "GA"
+  | "GB"
+  | "GD"
+  | "GE"
+  | "GF"
+  | "GG"
+  | "GH"
+  | "GI"
+  | "GL"
+  | "GM"
+  | "GN"
+  | "GP"
+  | "GQ"
+  | "GR"
+  | "GS"
+  | "GT"
+  | "GU"
+  | "GW"
+  | "GY"
+  | "HK"
+  | "HM"
+  | "HN"
+  | "HR"
+  | "HT"
+  | "HU"
+  | "ID"
+  | "IE"
+  | "IL"
+  | "IM"
+  | "IN"
+  | "IO"
+  | "IQ"
+  | "IR"
+  | "IS"
+  | "IT"
+  | "JE"
+  | "JM"
+  | "JO"
+  | "JP"
+  | "KE"
+  | "KG"
+  | "KH"
+  | "KI"
+  | "KM"
+  | "KN"
+  | "KP"
+  | "KR"
+  | "KW"
+  | "KY"
+  | "KZ"
+  | "LA"
+  | "LB"
+  | "LC"
+  | "LI"
+  | "LK"
+  | "LR"
+  | "LS"
+  | "LT"
+  | "LU"
+  | "LV"
+  | "LY"
+  | "MA"
+  | "MC"
+  | "MD"
+  | "ME"
+  | "MF"
+  | "MG"
+  | "MH"
+  | "MK"
+  | "ML"
+  | "MM"
+  | "MN"
+  | "MO"
+  | "MP"
+  | "MQ"
+  | "MR"
+  | "MS"
+  | "MT"
+  | "MU"
+  | "MV"
+  | "MW"
+  | "MX"
+  | "MY"
+  | "MZ"
+  | "NA"
+  | "NC"
+  | "NE"
+  | "NF"
+  | "NG"
+  | "NI"
+  | "NL"
+  | "NO"
+  | "NP"
+  | "NR"
+  | "NU"
+  | "NZ"
+  | "OM"
+  | "PA"
+  | "PE"
+  | "PF"
+  | "PG"
+  | "PH"
+  | "PK"
+  | "PL"
+  | "PM"
+  | "PN"
+  | "PR"
+  | "PS"
+  | "PT"
+  | "PW"
+  | "PY"
+  | "QA"
+  | "RE"
+  | "RO"
+  | "RS"
+  | "RU"
+  | "RW"
+  | "SA"
+  | "SB"
+  | "SC"
+  | "SD"
+  | "SE"
+  | "SG"
+  | "SH"
+  | "SI"
+  | "SJ"
+  | "SK"
+  | "SL"
+  | "SM"
+  | "SN"
+  | "SO"
+  | "SR"
+  | "SS"
+  | "ST"
+  | "SV"
+  | "SX"
+  | "SY"
+  | "SZ"
+  | "TC"
+  | "TD"
+  | "TF"
+  | "TG"
+  | "TH"
+  | "TJ"
+  | "TK"
+  | "TL"
+  | "TM"
+  | "TN"
+  | "TO"
+  | "TP"
+  | "TR"
+  | "TT"
+  | "TV"
+  | "TW"
+  | "TZ"
+  | "UA"
+  | "UG"
+  | "US"
+  | "UY"
+  | "UZ"
+  | "VA"
+  | "VC"
+  | "VE"
+  | "VG"
+  | "VI"
+  | "VN"
+  | "VU"
+  | "WF"
+  | "WS"
+  | "YE"
+  | "YT"
+  | "ZA"
+  | "ZM"
+  | "ZW";
+export const CountryCode = S.Literal(
+  "AC",
+  "AD",
+  "AE",
+  "AF",
+  "AG",
+  "AI",
+  "AL",
+  "AM",
+  "AN",
+  "AO",
+  "AQ",
+  "AR",
+  "AS",
+  "AT",
+  "AU",
+  "AW",
+  "AX",
+  "AZ",
+  "BA",
+  "BB",
+  "BD",
+  "BE",
+  "BF",
+  "BG",
+  "BH",
+  "BI",
+  "BJ",
+  "BL",
+  "BM",
+  "BN",
+  "BO",
+  "BQ",
+  "BR",
+  "BS",
+  "BT",
+  "BV",
+  "BW",
+  "BY",
+  "BZ",
+  "CA",
+  "CC",
+  "CD",
+  "CF",
+  "CG",
+  "CH",
+  "CI",
+  "CK",
+  "CL",
+  "CM",
+  "CN",
+  "CO",
+  "CR",
+  "CU",
+  "CV",
+  "CW",
+  "CX",
+  "CY",
+  "CZ",
+  "DE",
+  "DJ",
+  "DK",
+  "DM",
+  "DO",
+  "DZ",
+  "EC",
+  "EE",
+  "EG",
+  "EH",
+  "ER",
+  "ES",
+  "ET",
+  "FI",
+  "FJ",
+  "FK",
+  "FM",
+  "FO",
+  "FR",
+  "GA",
+  "GB",
+  "GD",
+  "GE",
+  "GF",
+  "GG",
+  "GH",
+  "GI",
+  "GL",
+  "GM",
+  "GN",
+  "GP",
+  "GQ",
+  "GR",
+  "GS",
+  "GT",
+  "GU",
+  "GW",
+  "GY",
+  "HK",
+  "HM",
+  "HN",
+  "HR",
+  "HT",
+  "HU",
+  "ID",
+  "IE",
+  "IL",
+  "IM",
+  "IN",
+  "IO",
+  "IQ",
+  "IR",
+  "IS",
+  "IT",
+  "JE",
+  "JM",
+  "JO",
+  "JP",
+  "KE",
+  "KG",
+  "KH",
+  "KI",
+  "KM",
+  "KN",
+  "KP",
+  "KR",
+  "KW",
+  "KY",
+  "KZ",
+  "LA",
+  "LB",
+  "LC",
+  "LI",
+  "LK",
+  "LR",
+  "LS",
+  "LT",
+  "LU",
+  "LV",
+  "LY",
+  "MA",
+  "MC",
+  "MD",
+  "ME",
+  "MF",
+  "MG",
+  "MH",
+  "MK",
+  "ML",
+  "MM",
+  "MN",
+  "MO",
+  "MP",
+  "MQ",
+  "MR",
+  "MS",
+  "MT",
+  "MU",
+  "MV",
+  "MW",
+  "MX",
+  "MY",
+  "MZ",
+  "NA",
+  "NC",
+  "NE",
+  "NF",
+  "NG",
+  "NI",
+  "NL",
+  "NO",
+  "NP",
+  "NR",
+  "NU",
+  "NZ",
+  "OM",
+  "PA",
+  "PE",
+  "PF",
+  "PG",
+  "PH",
+  "PK",
+  "PL",
+  "PM",
+  "PN",
+  "PR",
+  "PS",
+  "PT",
+  "PW",
+  "PY",
+  "QA",
+  "RE",
+  "RO",
+  "RS",
+  "RU",
+  "RW",
+  "SA",
+  "SB",
+  "SC",
+  "SD",
+  "SE",
+  "SG",
+  "SH",
+  "SI",
+  "SJ",
+  "SK",
+  "SL",
+  "SM",
+  "SN",
+  "SO",
+  "SR",
+  "SS",
+  "ST",
+  "SV",
+  "SX",
+  "SY",
+  "SZ",
+  "TC",
+  "TD",
+  "TF",
+  "TG",
+  "TH",
+  "TJ",
+  "TK",
+  "TL",
+  "TM",
+  "TN",
+  "TO",
+  "TP",
+  "TR",
+  "TT",
+  "TV",
+  "TW",
+  "TZ",
+  "UA",
+  "UG",
+  "US",
+  "UY",
+  "UZ",
+  "VA",
+  "VC",
+  "VE",
+  "VG",
+  "VI",
+  "VN",
+  "VU",
+  "WF",
+  "WS",
+  "YE",
+  "YT",
+  "ZA",
+  "ZM",
+  "ZW",
+);
 export interface DnssecSigningAttributes {
   Algorithm?: number;
   Flags?: number;
@@ -769,26 +1351,68 @@ export const DnssecSigningAttributes = S.suspend(() =>
 ).annotations({
   identifier: "DnssecSigningAttributes",
 }) as any as S.Schema<DnssecSigningAttributes>;
+export type DomainAvailability =
+  | "AVAILABLE"
+  | "AVAILABLE_RESERVED"
+  | "AVAILABLE_PREORDER"
+  | "UNAVAILABLE"
+  | "UNAVAILABLE_PREMIUM"
+  | "UNAVAILABLE_RESTRICTED"
+  | "RESERVED"
+  | "DONT_KNOW"
+  | "INVALID_NAME_FOR_TLD"
+  | "PENDING";
+export const DomainAvailability = S.Literal(
+  "AVAILABLE",
+  "AVAILABLE_RESERVED",
+  "AVAILABLE_PREORDER",
+  "UNAVAILABLE",
+  "UNAVAILABLE_PREMIUM",
+  "UNAVAILABLE_RESTRICTED",
+  "RESERVED",
+  "DONT_KNOW",
+  "INVALID_NAME_FOR_TLD",
+  "PENDING",
+);
+export type ReachabilityStatus = "PENDING" | "DONE" | "EXPIRED";
+export const ReachabilityStatus = S.Literal("PENDING", "DONE", "EXPIRED");
 export type DomainStatusList = string[];
 export const DomainStatusList = S.Array(S.String);
+export type StatusFlag =
+  | "PENDING_ACCEPTANCE"
+  | "PENDING_CUSTOMER_ACTION"
+  | "PENDING_AUTHORIZATION"
+  | "PENDING_PAYMENT_VERIFICATION"
+  | "PENDING_SUPPORT_CASE";
+export const StatusFlag = S.Literal(
+  "PENDING_ACCEPTANCE",
+  "PENDING_CUSTOMER_ACTION",
+  "PENDING_AUTHORIZATION",
+  "PENDING_PAYMENT_VERIFICATION",
+  "PENDING_SUPPORT_CASE",
+);
 export interface FilterCondition {
-  Name: string;
-  Operator: string;
-  Values: Values;
+  Name: ListDomainsAttributeName;
+  Operator: Operator;
+  Values: string[];
 }
 export const FilterCondition = S.suspend(() =>
-  S.Struct({ Name: S.String, Operator: S.String, Values: Values }),
+  S.Struct({
+    Name: ListDomainsAttributeName,
+    Operator: Operator,
+    Values: Values,
+  }),
 ).annotations({
   identifier: "FilterCondition",
 }) as any as S.Schema<FilterCondition>;
 export type FilterConditions = FilterCondition[];
 export const FilterConditions = S.Array(FilterCondition);
 export interface SortCondition {
-  Name: string;
-  SortOrder: string;
+  Name: ListDomainsAttributeName;
+  SortOrder: SortOrder;
 }
 export const SortCondition = S.suspend(() =>
-  S.Struct({ Name: S.String, SortOrder: S.String }),
+  S.Struct({ Name: ListDomainsAttributeName, SortOrder: SortOrder }),
 ).annotations({
   identifier: "SortCondition",
 }) as any as S.Schema<SortCondition>;
@@ -808,6 +1432,77 @@ export const Tag = S.suspend(() =>
 ).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);
+export type ExtraParamName =
+  | "DUNS_NUMBER"
+  | "BRAND_NUMBER"
+  | "BIRTH_DEPARTMENT"
+  | "BIRTH_DATE_IN_YYYY_MM_DD"
+  | "BIRTH_COUNTRY"
+  | "BIRTH_CITY"
+  | "DOCUMENT_NUMBER"
+  | "AU_ID_NUMBER"
+  | "AU_ID_TYPE"
+  | "CA_LEGAL_TYPE"
+  | "CA_BUSINESS_ENTITY_TYPE"
+  | "CA_LEGAL_REPRESENTATIVE"
+  | "CA_LEGAL_REPRESENTATIVE_CAPACITY"
+  | "ES_IDENTIFICATION"
+  | "ES_IDENTIFICATION_TYPE"
+  | "ES_LEGAL_FORM"
+  | "FI_BUSINESS_NUMBER"
+  | "FI_ID_NUMBER"
+  | "FI_NATIONALITY"
+  | "FI_ORGANIZATION_TYPE"
+  | "IT_NATIONALITY"
+  | "IT_PIN"
+  | "IT_REGISTRANT_ENTITY_TYPE"
+  | "RU_PASSPORT_DATA"
+  | "SE_ID_NUMBER"
+  | "SG_ID_NUMBER"
+  | "VAT_NUMBER"
+  | "UK_CONTACT_TYPE"
+  | "UK_COMPANY_NUMBER"
+  | "EU_COUNTRY_OF_CITIZENSHIP"
+  | "AU_PRIORITY_TOKEN"
+  | "AU_ELIGIBILITY_TYPE"
+  | "AU_POLICY_REASON"
+  | "AU_REGISTRANT_NAME";
+export const ExtraParamName = S.Literal(
+  "DUNS_NUMBER",
+  "BRAND_NUMBER",
+  "BIRTH_DEPARTMENT",
+  "BIRTH_DATE_IN_YYYY_MM_DD",
+  "BIRTH_COUNTRY",
+  "BIRTH_CITY",
+  "DOCUMENT_NUMBER",
+  "AU_ID_NUMBER",
+  "AU_ID_TYPE",
+  "CA_LEGAL_TYPE",
+  "CA_BUSINESS_ENTITY_TYPE",
+  "CA_LEGAL_REPRESENTATIVE",
+  "CA_LEGAL_REPRESENTATIVE_CAPACITY",
+  "ES_IDENTIFICATION",
+  "ES_IDENTIFICATION_TYPE",
+  "ES_LEGAL_FORM",
+  "FI_BUSINESS_NUMBER",
+  "FI_ID_NUMBER",
+  "FI_NATIONALITY",
+  "FI_ORGANIZATION_TYPE",
+  "IT_NATIONALITY",
+  "IT_PIN",
+  "IT_REGISTRANT_ENTITY_TYPE",
+  "RU_PASSPORT_DATA",
+  "SE_ID_NUMBER",
+  "SG_ID_NUMBER",
+  "VAT_NUMBER",
+  "UK_CONTACT_TYPE",
+  "UK_COMPANY_NUMBER",
+  "EU_COUNTRY_OF_CITIZENSHIP",
+  "AU_PRIORITY_TOKEN",
+  "AU_ELIGIBILITY_TYPE",
+  "AU_POLICY_REASON",
+  "AU_REGISTRANT_NAME",
+);
 export interface AcceptDomainTransferFromAnotherAwsAccountResponse {
   OperationId?: string;
 }
@@ -847,10 +1542,10 @@ export const CancelDomainTransferToAnotherAwsAccountResponse = S.suspend(() =>
   identifier: "CancelDomainTransferToAnotherAwsAccountResponse",
 }) as any as S.Schema<CancelDomainTransferToAnotherAwsAccountResponse>;
 export interface CheckDomainAvailabilityResponse {
-  Availability?: string;
+  Availability?: DomainAvailability;
 }
 export const CheckDomainAvailabilityResponse = S.suspend(() =>
-  S.Struct({ Availability: S.optional(S.String) }).pipe(ns),
+  S.Struct({ Availability: S.optional(DomainAvailability) }).pipe(ns),
 ).annotations({
   identifier: "CheckDomainAvailabilityResponse",
 }) as any as S.Schema<CheckDomainAvailabilityResponse>;
@@ -888,44 +1583,44 @@ export const EnableDomainTransferLockResponse = S.suspend(() =>
 }) as any as S.Schema<EnableDomainTransferLockResponse>;
 export interface GetContactReachabilityStatusResponse {
   domainName?: string;
-  status?: string;
+  status?: ReachabilityStatus;
 }
 export const GetContactReachabilityStatusResponse = S.suspend(() =>
   S.Struct({
     domainName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ReachabilityStatus),
   }).pipe(ns),
 ).annotations({
   identifier: "GetContactReachabilityStatusResponse",
 }) as any as S.Schema<GetContactReachabilityStatusResponse>;
 export interface GetOperationDetailResponse {
   OperationId?: string;
-  Status?: string;
+  Status?: OperationStatus;
   Message?: string;
   DomainName?: string;
-  Type?: string;
+  Type?: OperationType;
   SubmittedDate?: Date;
   LastUpdatedDate?: Date;
-  StatusFlag?: string;
+  StatusFlag?: StatusFlag;
 }
 export const GetOperationDetailResponse = S.suspend(() =>
   S.Struct({
     OperationId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(OperationStatus),
     Message: S.optional(S.String),
     DomainName: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(OperationType),
     SubmittedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    StatusFlag: S.optional(S.String),
+    StatusFlag: S.optional(StatusFlag),
   }).pipe(ns),
 ).annotations({
   identifier: "GetOperationDetailResponse",
 }) as any as S.Schema<GetOperationDetailResponse>;
 export interface ListDomainsRequest {
-  FilterConditions?: FilterConditions;
+  FilterConditions?: FilterCondition[];
   SortCondition?: SortCondition;
   Marker?: string;
   MaxItems?: number;
@@ -951,7 +1646,7 @@ export const ListDomainsRequest = S.suspend(() =>
   identifier: "ListDomainsRequest",
 }) as any as S.Schema<ListDomainsRequest>;
 export interface ListTagsForDomainResponse {
-  TagList?: TagList;
+  TagList?: Tag[];
 }
 export const ListTagsForDomainResponse = S.suspend(() =>
   S.Struct({ TagList: S.optional(TagList) }).pipe(ns),
@@ -976,7 +1671,7 @@ export const RenewDomainResponse = S.suspend(() =>
 }) as any as S.Schema<RenewDomainResponse>;
 export interface ResendContactReachabilityEmailResponse {
   domainName?: string;
-  emailAddress?: string | Redacted.Redacted<string>;
+  emailAddress?: string | redacted.Redacted<string>;
   isAlreadyVerified?: boolean;
 }
 export const ResendContactReachabilityEmailResponse = S.suspend(() =>
@@ -989,7 +1684,7 @@ export const ResendContactReachabilityEmailResponse = S.suspend(() =>
   identifier: "ResendContactReachabilityEmailResponse",
 }) as any as S.Schema<ResendContactReachabilityEmailResponse>;
 export interface RetrieveDomainAuthCodeResponse {
-  AuthCode?: string | Redacted.Redacted<string>;
+  AuthCode?: string | redacted.Redacted<string>;
 }
 export const RetrieveDomainAuthCodeResponse = S.suspend(() =>
   S.Struct({ AuthCode: S.optional(SensitiveString) }).pipe(ns),
@@ -997,41 +1692,41 @@ export const RetrieveDomainAuthCodeResponse = S.suspend(() =>
   identifier: "RetrieveDomainAuthCodeResponse",
 }) as any as S.Schema<RetrieveDomainAuthCodeResponse>;
 export interface ExtraParam {
-  Name: string;
-  Value: string | Redacted.Redacted<string>;
+  Name: ExtraParamName;
+  Value: string | redacted.Redacted<string>;
 }
 export const ExtraParam = S.suspend(() =>
-  S.Struct({ Name: S.String, Value: SensitiveString }),
+  S.Struct({ Name: ExtraParamName, Value: SensitiveString }),
 ).annotations({ identifier: "ExtraParam" }) as any as S.Schema<ExtraParam>;
 export type ExtraParamList = ExtraParam[];
 export const ExtraParamList = S.Array(ExtraParam);
 export interface ContactDetail {
-  FirstName?: string | Redacted.Redacted<string>;
-  LastName?: string | Redacted.Redacted<string>;
-  ContactType?: string;
-  OrganizationName?: string | Redacted.Redacted<string>;
-  AddressLine1?: string | Redacted.Redacted<string>;
-  AddressLine2?: string | Redacted.Redacted<string>;
-  City?: string | Redacted.Redacted<string>;
-  State?: string | Redacted.Redacted<string>;
-  CountryCode?: string;
-  ZipCode?: string | Redacted.Redacted<string>;
-  PhoneNumber?: string | Redacted.Redacted<string>;
-  Email?: string | Redacted.Redacted<string>;
-  Fax?: string | Redacted.Redacted<string>;
-  ExtraParams?: ExtraParamList;
+  FirstName?: string | redacted.Redacted<string>;
+  LastName?: string | redacted.Redacted<string>;
+  ContactType?: ContactType;
+  OrganizationName?: string | redacted.Redacted<string>;
+  AddressLine1?: string | redacted.Redacted<string>;
+  AddressLine2?: string | redacted.Redacted<string>;
+  City?: string | redacted.Redacted<string>;
+  State?: string | redacted.Redacted<string>;
+  CountryCode?: CountryCode;
+  ZipCode?: string | redacted.Redacted<string>;
+  PhoneNumber?: string | redacted.Redacted<string>;
+  Email?: string | redacted.Redacted<string>;
+  Fax?: string | redacted.Redacted<string>;
+  ExtraParams?: ExtraParam[];
 }
 export const ContactDetail = S.suspend(() =>
   S.Struct({
     FirstName: S.optional(SensitiveString),
     LastName: S.optional(SensitiveString),
-    ContactType: S.optional(S.String),
+    ContactType: S.optional(ContactType),
     OrganizationName: S.optional(SensitiveString),
     AddressLine1: S.optional(SensitiveString),
     AddressLine2: S.optional(SensitiveString),
     City: S.optional(SensitiveString),
     State: S.optional(SensitiveString),
-    CountryCode: S.optional(S.String),
+    CountryCode: S.optional(CountryCode),
     ZipCode: S.optional(SensitiveString),
     PhoneNumber: S.optional(SensitiveString),
     Email: S.optional(SensitiveString),
@@ -1045,8 +1740,8 @@ export interface TransferDomainRequest {
   DomainName: string;
   IdnLangCode?: string;
   DurationInYears: number;
-  Nameservers?: NameserverList;
-  AuthCode?: string | Redacted.Redacted<string>;
+  Nameservers?: Nameserver[];
+  AuthCode?: string | redacted.Redacted<string>;
   AutoRenew?: boolean;
   AdminContact: ContactDetail;
   RegistrantContact: ContactDetail;
@@ -1089,7 +1784,7 @@ export const TransferDomainRequest = S.suspend(() =>
 }) as any as S.Schema<TransferDomainRequest>;
 export interface TransferDomainToAnotherAwsAccountResponse {
   OperationId?: string;
-  Password?: string | Redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
 }
 export const TransferDomainToAnotherAwsAccountResponse = S.suspend(() =>
   S.Struct({
@@ -1147,7 +1842,7 @@ export const UpdateDomainNameserversResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateDomainNameserversResponse>;
 export interface UpdateTagsForDomainRequest {
   DomainName: string;
-  TagsToUpdate?: TagList;
+  TagsToUpdate?: Tag[];
 }
 export const UpdateTagsForDomainRequest = S.suspend(() =>
   S.Struct({ DomainName: S.String, TagsToUpdate: S.optional(TagList) }).pipe(
@@ -1170,11 +1865,26 @@ export const UpdateTagsForDomainResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateTagsForDomainResponse",
 }) as any as S.Schema<UpdateTagsForDomainResponse>;
+export type Transferable =
+  | "TRANSFERABLE"
+  | "UNTRANSFERABLE"
+  | "DONT_KNOW"
+  | "DOMAIN_IN_OWN_ACCOUNT"
+  | "DOMAIN_IN_ANOTHER_ACCOUNT"
+  | "PREMIUM_DOMAIN";
+export const Transferable = S.Literal(
+  "TRANSFERABLE",
+  "UNTRANSFERABLE",
+  "DONT_KNOW",
+  "DOMAIN_IN_OWN_ACCOUNT",
+  "DOMAIN_IN_ANOTHER_ACCOUNT",
+  "PREMIUM_DOMAIN",
+);
 export interface DomainTransferability {
-  Transferable?: string;
+  Transferable?: Transferable;
 }
 export const DomainTransferability = S.suspend(() =>
-  S.Struct({ Transferable: S.optional(S.String) }),
+  S.Struct({ Transferable: S.optional(Transferable) }),
 ).annotations({
   identifier: "DomainTransferability",
 }) as any as S.Schema<DomainTransferability>;
@@ -1216,23 +1926,23 @@ export type DomainSuggestionsList = DomainSuggestion[];
 export const DomainSuggestionsList = S.Array(DomainSuggestion);
 export interface OperationSummary {
   OperationId?: string;
-  Status?: string;
-  Type?: string;
+  Status?: OperationStatus;
+  Type?: OperationType;
   SubmittedDate?: Date;
   DomainName?: string;
   Message?: string;
-  StatusFlag?: string;
+  StatusFlag?: StatusFlag;
   LastUpdatedDate?: Date;
 }
 export const OperationSummary = S.suspend(() =>
   S.Struct({
     OperationId: S.optional(S.String),
-    Status: S.optional(S.String),
-    Type: S.optional(S.String),
+    Status: S.optional(OperationStatus),
+    Type: S.optional(OperationType),
     SubmittedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DomainName: S.optional(S.String),
     Message: S.optional(S.String),
-    StatusFlag: S.optional(S.String),
+    StatusFlag: S.optional(StatusFlag),
     LastUpdatedDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1244,7 +1954,7 @@ export type OperationSummaryList = OperationSummary[];
 export const OperationSummaryList = S.Array(OperationSummary);
 export interface BillingRecord {
   DomainName?: string;
-  Operation?: string;
+  Operation?: OperationType;
   InvoiceId?: string;
   BillDate?: Date;
   Price?: number;
@@ -1252,7 +1962,7 @@ export interface BillingRecord {
 export const BillingRecord = S.suspend(() =>
   S.Struct({
     DomainName: S.optional(S.String),
-    Operation: S.optional(S.String),
+    Operation: S.optional(OperationType),
     InvoiceId: S.optional(S.String),
     BillDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Price: S.optional(S.Number),
@@ -1284,7 +1994,7 @@ export const CheckDomainTransferabilityResponse = S.suspend(() =>
 }) as any as S.Schema<CheckDomainTransferabilityResponse>;
 export interface GetDomainDetailResponse {
   DomainName?: string;
-  Nameservers?: NameserverList;
+  Nameservers?: Nameserver[];
   AutoRenew?: boolean;
   AdminContact?: ContactDetail;
   RegistrantContact?: ContactDetail;
@@ -1295,16 +2005,16 @@ export interface GetDomainDetailResponse {
   RegistrarName?: string;
   WhoIsServer?: string;
   RegistrarUrl?: string;
-  AbuseContactEmail?: string | Redacted.Redacted<string>;
-  AbuseContactPhone?: string | Redacted.Redacted<string>;
+  AbuseContactEmail?: string | redacted.Redacted<string>;
+  AbuseContactPhone?: string | redacted.Redacted<string>;
   RegistryDomainId?: string;
   CreationDate?: Date;
   UpdatedDate?: Date;
   ExpirationDate?: Date;
   Reseller?: string;
   DnsSec?: string;
-  StatusList?: DomainStatusList;
-  DnssecKeys?: DnssecKeyList;
+  StatusList?: string[];
+  DnssecKeys?: DnssecKey[];
   BillingContact?: ContactDetail;
   BillingPrivacy?: boolean;
 }
@@ -1339,7 +2049,7 @@ export const GetDomainDetailResponse = S.suspend(() =>
   identifier: "GetDomainDetailResponse",
 }) as any as S.Schema<GetDomainDetailResponse>;
 export interface GetDomainSuggestionsResponse {
-  SuggestionsList?: DomainSuggestionsList;
+  SuggestionsList?: DomainSuggestion[];
 }
 export const GetDomainSuggestionsResponse = S.suspend(() =>
   S.Struct({ SuggestionsList: S.optional(DomainSuggestionsList) }).pipe(ns),
@@ -1347,7 +2057,7 @@ export const GetDomainSuggestionsResponse = S.suspend(() =>
   identifier: "GetDomainSuggestionsResponse",
 }) as any as S.Schema<GetDomainSuggestionsResponse>;
 export interface ListOperationsResponse {
-  Operations?: OperationSummaryList;
+  Operations?: OperationSummary[];
   NextPageMarker?: string;
 }
 export const ListOperationsResponse = S.suspend(() =>
@@ -1418,7 +2128,7 @@ export const UpdateDomainContactResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateDomainContactResponse>;
 export interface ViewBillingResponse {
   NextPageMarker?: string;
-  BillingRecords?: BillingRecords;
+  BillingRecords?: BillingRecord[];
 }
 export const ViewBillingResponse = S.suspend(() =>
   S.Struct({
@@ -1476,7 +2186,7 @@ export const DomainPrice = S.suspend(() =>
 export type DomainPriceList = DomainPrice[];
 export const DomainPriceList = S.Array(DomainPrice);
 export interface ListDomainsResponse {
-  Domains?: DomainSummaryList;
+  Domains?: DomainSummary[];
   NextPageMarker?: string;
 }
 export const ListDomainsResponse = S.suspend(() =>
@@ -1488,7 +2198,7 @@ export const ListDomainsResponse = S.suspend(() =>
   identifier: "ListDomainsResponse",
 }) as any as S.Schema<ListDomainsResponse>;
 export interface ListPricesResponse {
-  Prices?: DomainPriceList;
+  Prices?: DomainPrice[];
   NextPageMarker?: string;
 }
 export const ListPricesResponse = S.suspend(() =>
@@ -1545,7 +2255,7 @@ export class DnssecLimitExceeded extends S.TaggedError<DnssecLimitExceeded>()(
  */
 export const getOperationDetail: (
   input: GetOperationDetailRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetOperationDetailResponse,
   InvalidInput | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1559,7 +2269,7 @@ export const getOperationDetail: (
  */
 export const resendOperationAuthorization: (
   input: ResendOperationAuthorizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResendOperationAuthorizationResponse,
   InvalidInput | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1577,21 +2287,21 @@ export const resendOperationAuthorization: (
 export const listOperations: {
   (
     input: ListOperationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOperationsResponse,
     InvalidInput | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListOperationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOperationsResponse,
     InvalidInput | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOperationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OperationSummary,
     InvalidInput | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1613,7 +2323,7 @@ export const listOperations: {
  */
 export const retrieveDomainAuthCode: (
   input: RetrieveDomainAuthCodeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RetrieveDomainAuthCodeResponse,
   InvalidInput | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1628,21 +2338,21 @@ export const retrieveDomainAuthCode: (
 export const viewBilling: {
   (
     input: ViewBillingRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ViewBillingResponse,
     InvalidInput | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ViewBillingRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ViewBillingResponse,
     InvalidInput | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ViewBillingRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BillingRecord,
     InvalidInput | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1682,7 +2392,7 @@ export const viewBilling: {
  */
 export const transferDomainToAnotherAwsAccount: (
   input: TransferDomainToAnotherAwsAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TransferDomainToAnotherAwsAccountResponse,
   | DuplicateRequest
   | InvalidInput
@@ -1713,7 +2423,7 @@ export const transferDomainToAnotherAwsAccount: (
  */
 export const enableDomainAutoRenew: (
   input: EnableDomainAutoRenewRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableDomainAutoRenewResponse,
   InvalidInput | TLDRulesViolation | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1732,7 +2442,7 @@ export const enableDomainAutoRenew: (
  */
 export const getContactReachabilityStatus: (
   input: GetContactReachabilityStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContactReachabilityStatusResponse,
   InvalidInput | OperationLimitExceeded | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1750,7 +2460,7 @@ export const getContactReachabilityStatus: (
  */
 export const listTagsForDomain: (
   input: ListTagsForDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForDomainResponse,
   InvalidInput | OperationLimitExceeded | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1768,7 +2478,7 @@ export const listTagsForDomain: (
  */
 export const rejectDomainTransferFromAnotherAwsAccount: (
   input: RejectDomainTransferFromAnotherAwsAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RejectDomainTransferFromAnotherAwsAccountResponse,
   InvalidInput | OperationLimitExceeded | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1784,7 +2494,7 @@ export const rejectDomainTransferFromAnotherAwsAccount: (
  */
 export const resendContactReachabilityEmail: (
   input: ResendContactReachabilityEmailRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResendContactReachabilityEmailResponse,
   InvalidInput | OperationLimitExceeded | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1801,7 +2511,7 @@ export const resendContactReachabilityEmail: (
  */
 export const updateTagsForDomain: (
   input: UpdateTagsForDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTagsForDomainResponse,
   InvalidInput | OperationLimitExceeded | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1820,7 +2530,7 @@ export const updateTagsForDomain: (
  */
 export const pushDomain: (
   input: PushDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PushDomainResponse,
   InvalidInput | OperationLimitExceeded | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1841,7 +2551,7 @@ export const pushDomain: (
  */
 export const cancelDomainTransferToAnotherAwsAccount: (
   input: CancelDomainTransferToAnotherAwsAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelDomainTransferToAnotherAwsAccountResponse,
   InvalidInput | OperationLimitExceeded | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1863,7 +2573,7 @@ export const cancelDomainTransferToAnotherAwsAccount: (
  */
 export const acceptDomainTransferFromAnotherAwsAccount: (
   input: AcceptDomainTransferFromAnotherAwsAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AcceptDomainTransferFromAnotherAwsAccountResponse,
   | DomainLimitExceeded
   | InvalidInput
@@ -1887,7 +2597,7 @@ export const acceptDomainTransferFromAnotherAwsAccount: (
  */
 export const disableDomainAutoRenew: (
   input: DisableDomainAutoRenewRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisableDomainAutoRenewResponse,
   InvalidInput | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1903,7 +2613,7 @@ export const disableDomainAutoRenew: (
  */
 export const checkDomainAvailability: (
   input: CheckDomainAvailabilityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CheckDomainAvailabilityResponse,
   InvalidInput | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1917,7 +2627,7 @@ export const checkDomainAvailability: (
  */
 export const checkDomainTransferability: (
   input: CheckDomainTransferabilityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CheckDomainTransferabilityResponse,
   InvalidInput | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1934,7 +2644,7 @@ export const checkDomainTransferability: (
  */
 export const deleteTagsForDomain: (
   input: DeleteTagsForDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTagsForDomainResponse,
   InvalidInput | OperationLimitExceeded | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1950,7 +2660,7 @@ export const deleteTagsForDomain: (
  */
 export const getDomainDetail: (
   input: GetDomainDetailRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDomainDetailResponse,
   InvalidInput | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1964,7 +2674,7 @@ export const getDomainDetail: (
  */
 export const getDomainSuggestions: (
   input: GetDomainSuggestionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDomainSuggestionsResponse,
   InvalidInput | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1994,7 +2704,7 @@ export const getDomainSuggestions: (
  */
 export const deleteDomain: (
   input: DeleteDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDomainResponse,
   | DuplicateRequest
   | InvalidInput
@@ -2045,7 +2755,7 @@ export const deleteDomain: (
  */
 export const transferDomain: (
   input: TransferDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TransferDomainResponse,
   | DomainLimitExceeded
   | DuplicateRequest
@@ -2078,7 +2788,7 @@ export const transferDomain: (
  */
 export const updateDomainContact: (
   input: UpdateDomainContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDomainContactResponse,
   | DuplicateRequest
   | InvalidInput
@@ -2108,7 +2818,7 @@ export const updateDomainContact: (
  */
 export const disableDomainTransferLock: (
   input: DisableDomainTransferLockRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisableDomainTransferLockResponse,
   | DuplicateRequest
   | InvalidInput
@@ -2134,7 +2844,7 @@ export const disableDomainTransferLock: (
  */
 export const disassociateDelegationSignerFromDomain: (
   input: DisassociateDelegationSignerFromDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateDelegationSignerFromDomainResponse,
   | DuplicateRequest
   | InvalidInput
@@ -2163,7 +2873,7 @@ export const disassociateDelegationSignerFromDomain: (
  */
 export const enableDomainTransferLock: (
   input: EnableDomainTransferLockRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableDomainTransferLockResponse,
   | DuplicateRequest
   | InvalidInput
@@ -2195,7 +2905,7 @@ export const enableDomainTransferLock: (
  */
 export const renewDomain: (
   input: RenewDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RenewDomainResponse,
   | DuplicateRequest
   | InvalidInput
@@ -2240,7 +2950,7 @@ export const renewDomain: (
  */
 export const updateDomainContactPrivacy: (
   input: UpdateDomainContactPrivacyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDomainContactPrivacyResponse,
   | DuplicateRequest
   | InvalidInput
@@ -2271,7 +2981,7 @@ export const updateDomainContactPrivacy: (
  */
 export const updateDomainNameservers: (
   input: UpdateDomainNameserversRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDomainNameserversResponse,
   | DuplicateRequest
   | InvalidInput
@@ -2304,7 +3014,7 @@ export const updateDomainNameservers: (
  */
 export const associateDelegationSignerToDomain: (
   input: AssociateDelegationSignerToDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateDelegationSignerToDomainResponse,
   | DnssecLimitExceeded
   | DuplicateRequest
@@ -2333,21 +3043,21 @@ export const associateDelegationSignerToDomain: (
 export const listDomains: {
   (
     input: ListDomainsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDomainsResponse,
     InvalidInput | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListDomainsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDomainsResponse,
     InvalidInput | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDomainsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DomainSummary,
     InvalidInput | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2380,21 +3090,21 @@ export const listDomains: {
 export const listPrices: {
   (
     input: ListPricesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPricesResponse,
     InvalidInput | UnsupportedTLD | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListPricesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPricesResponse,
     InvalidInput | UnsupportedTLD | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPricesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DomainPrice,
     InvalidInput | UnsupportedTLD | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2442,7 +3152,7 @@ export const listPrices: {
  */
 export const registerDomain: (
   input: RegisterDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterDomainResponse,
   | DomainLimitExceeded
   | DuplicateRequest

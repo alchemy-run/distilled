@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -142,6 +142,8 @@ export type __stringMin1Max128PatternAZaZ09 = string;
 export type __stringMin1Max32PatternS = string;
 
 //# Schemas
+export type NetworkType = "IPV4" | "DUALSTACK";
+export const NetworkType = S.Literal("IPV4", "DUALSTACK");
 export type __listOf__string = string[];
 export const __listOf__string = S.Array(S.String);
 export type __mapOf__stringMin0Max256PatternS = { [key: string]: string };
@@ -151,15 +153,15 @@ export const __mapOf__stringMin0Max256PatternS = S.Record({
 });
 export interface CreateControlPanelRequest {
   ClientToken?: string;
-  ClusterArn: string;
-  ControlPanelName: string;
-  Tags?: __mapOf__stringMin0Max256PatternS;
+  ClusterArn?: string;
+  ControlPanelName?: string;
+  Tags?: { [key: string]: string };
 }
 export const CreateControlPanelRequest = S.suspend(() =>
   S.Struct({
     ClientToken: S.optional(S.String),
-    ClusterArn: S.String,
-    ControlPanelName: S.String,
+    ClusterArn: S.optional(S.String),
+    ControlPanelName: S.optional(S.String),
     Tags: S.optional(__mapOf__stringMin0Max256PatternS),
   }).pipe(
     T.all(
@@ -176,16 +178,16 @@ export const CreateControlPanelRequest = S.suspend(() =>
 }) as any as S.Schema<CreateControlPanelRequest>;
 export interface CreateRoutingControlRequest {
   ClientToken?: string;
-  ClusterArn: string;
+  ClusterArn?: string;
   ControlPanelArn?: string;
-  RoutingControlName: string;
+  RoutingControlName?: string;
 }
 export const CreateRoutingControlRequest = S.suspend(() =>
   S.Struct({
     ClientToken: S.optional(S.String),
-    ClusterArn: S.String,
+    ClusterArn: S.optional(S.String),
     ControlPanelArn: S.optional(S.String),
-    RoutingControlName: S.String,
+    RoutingControlName: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/routingcontrol" }),
@@ -523,12 +525,12 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: __mapOf__stringMin0Max256PatternS;
+  Tags?: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: __mapOf__stringMin0Max256PatternS,
+    Tags: S.optional(__mapOf__stringMin0Max256PatternS),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
@@ -548,12 +550,12 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: __listOf__string;
+  TagKeys?: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    TagKeys: __listOf__string.pipe(T.HttpQuery("TagKeys")),
+    TagKeys: S.optional(__listOf__string).pipe(T.HttpQuery("TagKeys")),
   }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
@@ -572,11 +574,14 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateClusterRequest {
-  ClusterArn: string;
-  NetworkType: string;
+  ClusterArn?: string;
+  NetworkType?: NetworkType;
 }
 export const UpdateClusterRequest = S.suspend(() =>
-  S.Struct({ ClusterArn: S.String, NetworkType: S.String }).pipe(
+  S.Struct({
+    ClusterArn: S.optional(S.String),
+    NetworkType: S.optional(NetworkType),
+  }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/cluster" }),
       svc,
@@ -590,11 +595,14 @@ export const UpdateClusterRequest = S.suspend(() =>
   identifier: "UpdateClusterRequest",
 }) as any as S.Schema<UpdateClusterRequest>;
 export interface UpdateControlPanelRequest {
-  ControlPanelArn: string;
-  ControlPanelName: string;
+  ControlPanelArn?: string;
+  ControlPanelName?: string;
 }
 export const UpdateControlPanelRequest = S.suspend(() =>
-  S.Struct({ ControlPanelArn: S.String, ControlPanelName: S.String }).pipe(
+  S.Struct({
+    ControlPanelArn: S.optional(S.String),
+    ControlPanelName: S.optional(S.String),
+  }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/controlpanel" }),
       svc,
@@ -608,11 +616,14 @@ export const UpdateControlPanelRequest = S.suspend(() =>
   identifier: "UpdateControlPanelRequest",
 }) as any as S.Schema<UpdateControlPanelRequest>;
 export interface UpdateRoutingControlRequest {
-  RoutingControlArn: string;
-  RoutingControlName: string;
+  RoutingControlArn?: string;
+  RoutingControlName?: string;
 }
 export const UpdateRoutingControlRequest = S.suspend(() =>
-  S.Struct({ RoutingControlArn: S.String, RoutingControlName: S.String }).pipe(
+  S.Struct({
+    RoutingControlArn: S.optional(S.String),
+    RoutingControlName: S.optional(S.String),
+  }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/routingcontrol" }),
       svc,
@@ -627,30 +638,36 @@ export const UpdateRoutingControlRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateRoutingControlRequest>;
 export type __listOf__stringMin1Max256PatternAZaZ09 = string[];
 export const __listOf__stringMin1Max256PatternAZaZ09 = S.Array(S.String);
+export type RuleType = "ATLEAST" | "AND" | "OR";
+export const RuleType = S.Literal("ATLEAST", "AND", "OR");
 export interface RuleConfig {
-  Inverted: boolean;
-  Threshold: number;
-  Type: string;
+  Inverted?: boolean;
+  Threshold?: number;
+  Type?: RuleType;
 }
 export const RuleConfig = S.suspend(() =>
-  S.Struct({ Inverted: S.Boolean, Threshold: S.Number, Type: S.String }),
+  S.Struct({
+    Inverted: S.optional(S.Boolean),
+    Threshold: S.optional(S.Number),
+    Type: S.optional(RuleType),
+  }),
 ).annotations({ identifier: "RuleConfig" }) as any as S.Schema<RuleConfig>;
 export interface NewGatingRule {
-  ControlPanelArn: string;
-  GatingControls: __listOf__stringMin1Max256PatternAZaZ09;
-  Name: string;
-  RuleConfig: RuleConfig;
-  TargetControls: __listOf__stringMin1Max256PatternAZaZ09;
-  WaitPeriodMs: number;
+  ControlPanelArn?: string;
+  GatingControls?: string[];
+  Name?: string;
+  RuleConfig?: RuleConfig;
+  TargetControls?: string[];
+  WaitPeriodMs?: number;
 }
 export const NewGatingRule = S.suspend(() =>
   S.Struct({
-    ControlPanelArn: S.String,
-    GatingControls: __listOf__stringMin1Max256PatternAZaZ09,
-    Name: S.String,
-    RuleConfig: RuleConfig,
-    TargetControls: __listOf__stringMin1Max256PatternAZaZ09,
-    WaitPeriodMs: S.Number,
+    ControlPanelArn: S.optional(S.String),
+    GatingControls: S.optional(__listOf__stringMin1Max256PatternAZaZ09),
+    Name: S.optional(S.String),
+    RuleConfig: S.optional(RuleConfig),
+    TargetControls: S.optional(__listOf__stringMin1Max256PatternAZaZ09),
+    WaitPeriodMs: S.optional(S.Number),
   }),
 ).annotations({
   identifier: "NewGatingRule",
@@ -668,22 +685,24 @@ export const ClusterEndpoint = S.suspend(() =>
 }) as any as S.Schema<ClusterEndpoint>;
 export type __listOfClusterEndpoint = ClusterEndpoint[];
 export const __listOfClusterEndpoint = S.Array(ClusterEndpoint);
+export type Status = "PENDING" | "DEPLOYED" | "PENDING_DELETION";
+export const Status = S.Literal("PENDING", "DEPLOYED", "PENDING_DELETION");
 export interface Cluster {
   ClusterArn?: string;
-  ClusterEndpoints?: __listOfClusterEndpoint;
+  ClusterEndpoints?: ClusterEndpoint[];
   Name?: string;
-  Status?: string;
+  Status?: Status;
   Owner?: string;
-  NetworkType?: string;
+  NetworkType?: NetworkType;
 }
 export const Cluster = S.suspend(() =>
   S.Struct({
     ClusterArn: S.optional(S.String),
     ClusterEndpoints: S.optional(__listOfClusterEndpoint),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(Status),
     Owner: S.optional(S.String),
-    NetworkType: S.optional(S.String),
+    NetworkType: S.optional(NetworkType),
   }),
 ).annotations({ identifier: "Cluster" }) as any as S.Schema<Cluster>;
 export type __listOfCluster = Cluster[];
@@ -694,7 +713,7 @@ export interface ControlPanel {
   DefaultControlPanel?: boolean;
   Name?: string;
   RoutingControlCount?: number;
-  Status?: string;
+  Status?: Status;
   Owner?: string;
 }
 export const ControlPanel = S.suspend(() =>
@@ -704,7 +723,7 @@ export const ControlPanel = S.suspend(() =>
     DefaultControlPanel: S.optional(S.Boolean),
     Name: S.optional(S.String),
     RoutingControlCount: S.optional(S.Number),
-    Status: S.optional(S.String),
+    Status: S.optional(Status),
     Owner: S.optional(S.String),
   }),
 ).annotations({ identifier: "ControlPanel" }) as any as S.Schema<ControlPanel>;
@@ -714,7 +733,7 @@ export interface RoutingControl {
   ControlPanelArn?: string;
   Name?: string;
   RoutingControlArn?: string;
-  Status?: string;
+  Status?: Status;
   Owner?: string;
 }
 export const RoutingControl = S.suspend(() =>
@@ -722,7 +741,7 @@ export const RoutingControl = S.suspend(() =>
     ControlPanelArn: S.optional(S.String),
     Name: S.optional(S.String),
     RoutingControlArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(Status),
     Owner: S.optional(S.String),
   }),
 ).annotations({
@@ -731,37 +750,45 @@ export const RoutingControl = S.suspend(() =>
 export type __listOfRoutingControl = RoutingControl[];
 export const __listOfRoutingControl = S.Array(RoutingControl);
 export interface AssertionRuleUpdate {
-  Name: string;
-  SafetyRuleArn: string;
-  WaitPeriodMs: number;
+  Name?: string;
+  SafetyRuleArn?: string;
+  WaitPeriodMs?: number;
 }
 export const AssertionRuleUpdate = S.suspend(() =>
-  S.Struct({ Name: S.String, SafetyRuleArn: S.String, WaitPeriodMs: S.Number }),
+  S.Struct({
+    Name: S.optional(S.String),
+    SafetyRuleArn: S.optional(S.String),
+    WaitPeriodMs: S.optional(S.Number),
+  }),
 ).annotations({
   identifier: "AssertionRuleUpdate",
 }) as any as S.Schema<AssertionRuleUpdate>;
 export interface GatingRuleUpdate {
-  Name: string;
-  SafetyRuleArn: string;
-  WaitPeriodMs: number;
+  Name?: string;
+  SafetyRuleArn?: string;
+  WaitPeriodMs?: number;
 }
 export const GatingRuleUpdate = S.suspend(() =>
-  S.Struct({ Name: S.String, SafetyRuleArn: S.String, WaitPeriodMs: S.Number }),
+  S.Struct({
+    Name: S.optional(S.String),
+    SafetyRuleArn: S.optional(S.String),
+    WaitPeriodMs: S.optional(S.Number),
+  }),
 ).annotations({
   identifier: "GatingRuleUpdate",
 }) as any as S.Schema<GatingRuleUpdate>;
 export interface CreateClusterRequest {
   ClientToken?: string;
-  ClusterName: string;
-  Tags?: __mapOf__stringMin0Max256PatternS;
-  NetworkType?: string;
+  ClusterName?: string;
+  Tags?: { [key: string]: string };
+  NetworkType?: NetworkType;
 }
 export const CreateClusterRequest = S.suspend(() =>
   S.Struct({
     ClientToken: S.optional(S.String),
-    ClusterName: S.String,
+    ClusterName: S.optional(S.String),
     Tags: S.optional(__mapOf__stringMin0Max256PatternS),
-    NetworkType: S.optional(S.String),
+    NetworkType: S.optional(NetworkType),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/cluster" }),
@@ -800,7 +827,7 @@ export const GetResourcePolicyResponse = S.suspend(() =>
   identifier: "GetResourcePolicyResponse",
 }) as any as S.Schema<GetResourcePolicyResponse>;
 export interface ListAssociatedRoute53HealthChecksResponse {
-  HealthCheckIds?: __listOf__stringMax36PatternS;
+  HealthCheckIds?: string[];
   NextToken?: string;
 }
 export const ListAssociatedRoute53HealthChecksResponse = S.suspend(() =>
@@ -812,7 +839,7 @@ export const ListAssociatedRoute53HealthChecksResponse = S.suspend(() =>
   identifier: "ListAssociatedRoute53HealthChecksResponse",
 }) as any as S.Schema<ListAssociatedRoute53HealthChecksResponse>;
 export interface ListClustersResponse {
-  Clusters?: __listOfCluster;
+  Clusters?: Cluster[];
   NextToken?: string;
 }
 export const ListClustersResponse = S.suspend(() =>
@@ -824,7 +851,7 @@ export const ListClustersResponse = S.suspend(() =>
   identifier: "ListClustersResponse",
 }) as any as S.Schema<ListClustersResponse>;
 export interface ListControlPanelsResponse {
-  ControlPanels?: __listOfControlPanel;
+  ControlPanels?: ControlPanel[];
   NextToken?: string;
 }
 export const ListControlPanelsResponse = S.suspend(() =>
@@ -837,7 +864,7 @@ export const ListControlPanelsResponse = S.suspend(() =>
 }) as any as S.Schema<ListControlPanelsResponse>;
 export interface ListRoutingControlsResponse {
   NextToken?: string;
-  RoutingControls?: __listOfRoutingControl;
+  RoutingControls?: RoutingControl[];
 }
 export const ListRoutingControlsResponse = S.suspend(() =>
   S.Struct({
@@ -848,7 +875,7 @@ export const ListRoutingControlsResponse = S.suspend(() =>
   identifier: "ListRoutingControlsResponse",
 }) as any as S.Schema<ListRoutingControlsResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: __mapOf__stringMin0Max256PatternS;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(__mapOf__stringMin0Max256PatternS) }),
@@ -901,68 +928,68 @@ export const UpdateSafetyRuleRequest = S.suspend(() =>
   identifier: "UpdateSafetyRuleRequest",
 }) as any as S.Schema<UpdateSafetyRuleRequest>;
 export interface NewAssertionRule {
-  AssertedControls: __listOf__stringMin1Max256PatternAZaZ09;
-  ControlPanelArn: string;
-  Name: string;
-  RuleConfig: RuleConfig;
-  WaitPeriodMs: number;
+  AssertedControls?: string[];
+  ControlPanelArn?: string;
+  Name?: string;
+  RuleConfig?: RuleConfig;
+  WaitPeriodMs?: number;
 }
 export const NewAssertionRule = S.suspend(() =>
   S.Struct({
-    AssertedControls: __listOf__stringMin1Max256PatternAZaZ09,
-    ControlPanelArn: S.String,
-    Name: S.String,
-    RuleConfig: RuleConfig,
-    WaitPeriodMs: S.Number,
+    AssertedControls: S.optional(__listOf__stringMin1Max256PatternAZaZ09),
+    ControlPanelArn: S.optional(S.String),
+    Name: S.optional(S.String),
+    RuleConfig: S.optional(RuleConfig),
+    WaitPeriodMs: S.optional(S.Number),
   }),
 ).annotations({
   identifier: "NewAssertionRule",
 }) as any as S.Schema<NewAssertionRule>;
 export interface AssertionRule {
-  AssertedControls: __listOf__stringMin1Max256PatternAZaZ09;
-  ControlPanelArn: string;
-  Name: string;
-  RuleConfig: RuleConfig;
-  SafetyRuleArn: string;
-  Status: string;
-  WaitPeriodMs: number;
+  AssertedControls?: string[];
+  ControlPanelArn?: string;
+  Name?: string;
+  RuleConfig?: RuleConfig;
+  SafetyRuleArn?: string;
+  Status?: Status;
+  WaitPeriodMs?: number;
   Owner?: string;
 }
 export const AssertionRule = S.suspend(() =>
   S.Struct({
-    AssertedControls: __listOf__stringMin1Max256PatternAZaZ09,
-    ControlPanelArn: S.String,
-    Name: S.String,
-    RuleConfig: RuleConfig,
-    SafetyRuleArn: S.String,
-    Status: S.String,
-    WaitPeriodMs: S.Number,
+    AssertedControls: S.optional(__listOf__stringMin1Max256PatternAZaZ09),
+    ControlPanelArn: S.optional(S.String),
+    Name: S.optional(S.String),
+    RuleConfig: S.optional(RuleConfig),
+    SafetyRuleArn: S.optional(S.String),
+    Status: S.optional(Status),
+    WaitPeriodMs: S.optional(S.Number),
     Owner: S.optional(S.String),
   }),
 ).annotations({
   identifier: "AssertionRule",
 }) as any as S.Schema<AssertionRule>;
 export interface GatingRule {
-  ControlPanelArn: string;
-  GatingControls: __listOf__stringMin1Max256PatternAZaZ09;
-  Name: string;
-  RuleConfig: RuleConfig;
-  SafetyRuleArn: string;
-  Status: string;
-  TargetControls: __listOf__stringMin1Max256PatternAZaZ09;
-  WaitPeriodMs: number;
+  ControlPanelArn?: string;
+  GatingControls?: string[];
+  Name?: string;
+  RuleConfig?: RuleConfig;
+  SafetyRuleArn?: string;
+  Status?: Status;
+  TargetControls?: string[];
+  WaitPeriodMs?: number;
   Owner?: string;
 }
 export const GatingRule = S.suspend(() =>
   S.Struct({
-    ControlPanelArn: S.String,
-    GatingControls: __listOf__stringMin1Max256PatternAZaZ09,
-    Name: S.String,
-    RuleConfig: RuleConfig,
-    SafetyRuleArn: S.String,
-    Status: S.String,
-    TargetControls: __listOf__stringMin1Max256PatternAZaZ09,
-    WaitPeriodMs: S.Number,
+    ControlPanelArn: S.optional(S.String),
+    GatingControls: S.optional(__listOf__stringMin1Max256PatternAZaZ09),
+    Name: S.optional(S.String),
+    RuleConfig: S.optional(RuleConfig),
+    SafetyRuleArn: S.optional(S.String),
+    Status: S.optional(Status),
+    TargetControls: S.optional(__listOf__stringMin1Max256PatternAZaZ09),
+    WaitPeriodMs: S.optional(S.Number),
     Owner: S.optional(S.String),
   }),
 ).annotations({ identifier: "GatingRule" }) as any as S.Schema<GatingRule>;
@@ -1006,7 +1033,7 @@ export interface CreateSafetyRuleRequest {
   AssertionRule?: NewAssertionRule;
   ClientToken?: string;
   GatingRule?: NewGatingRule;
-  Tags?: __mapOf__stringMin0Max256PatternS;
+  Tags?: { [key: string]: string };
 }
 export const CreateSafetyRuleRequest = S.suspend(() =>
   S.Struct({
@@ -1041,7 +1068,7 @@ export const DescribeSafetyRuleResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeSafetyRuleResponse>;
 export interface ListSafetyRulesResponse {
   NextToken?: string;
-  SafetyRules?: __listOfRule;
+  SafetyRules?: Rule[];
 }
 export const ListSafetyRulesResponse = S.suspend(() =>
   S.Struct({
@@ -1087,31 +1114,31 @@ export const DescribeClusterResponse = S.suspend(() =>
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  { Message: S.String.pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ).pipe(C.withAuthError) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  { Message: S.String.pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ).pipe(C.withServerError) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  { Message: S.String.pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ).pipe(C.withConflictError) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  { Message: S.String.pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ).pipe(C.withBadRequestError) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  { Message: S.String.pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ).pipe(C.withBadRequestError) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  { Message: S.String.pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ).pipe(C.withThrottlingError) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  { Message: S.String.pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ).pipe(C.withQuotaError) {}
 
 //# Operations
@@ -1120,7 +1147,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  */
 export const getResourcePolicy: (
   input: GetResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourcePolicyResponse,
   InternalServerException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1135,7 +1162,7 @@ export const getResourcePolicy: (
  */
 export const deleteSafetyRule: (
   input: DeleteSafetyRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSafetyRuleResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1157,7 +1184,7 @@ export const deleteSafetyRule: (
 export const listSafetyRules: {
   (
     input: ListSafetyRulesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSafetyRulesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1169,7 +1196,7 @@ export const listSafetyRules: {
   >;
   pages: (
     input: ListSafetyRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSafetyRulesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1181,7 +1208,7 @@ export const listSafetyRules: {
   >;
   items: (
     input: ListSafetyRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Rule,
     | AccessDeniedException
     | InternalServerException
@@ -1213,7 +1240,7 @@ export const listSafetyRules: {
  */
 export const createCluster: (
   input: CreateClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateClusterResponse,
   | AccessDeniedException
   | ConflictException
@@ -1242,7 +1269,7 @@ export const createCluster: (
  */
 export const describeSafetyRule: (
   input: DescribeSafetyRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSafetyRuleResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1256,7 +1283,7 @@ export const describeSafetyRule: (
  */
 export const updateSafetyRule: (
   input: UpdateSafetyRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSafetyRuleResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1278,7 +1305,7 @@ export const updateSafetyRule: (
 export const listAssociatedRoute53HealthChecks: {
   (
     input: ListAssociatedRoute53HealthChecksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAssociatedRoute53HealthChecksResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1288,7 +1315,7 @@ export const listAssociatedRoute53HealthChecks: {
   >;
   pages: (
     input: ListAssociatedRoute53HealthChecksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAssociatedRoute53HealthChecksResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1298,7 +1325,7 @@ export const listAssociatedRoute53HealthChecks: {
   >;
   items: (
     input: ListAssociatedRoute53HealthChecksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     __stringMax36PatternS,
     | InternalServerException
     | ResourceNotFoundException
@@ -1326,7 +1353,7 @@ export const listAssociatedRoute53HealthChecks: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1347,7 +1374,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1368,7 +1395,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1397,7 +1424,7 @@ export const untagResource: (
  */
 export const createSafetyRule: (
   input: CreateSafetyRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSafetyRuleResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1411,7 +1438,7 @@ export const createSafetyRule: (
  */
 export const describeControlPanel: (
   input: DescribeControlPanelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeControlPanelResponse,
   | AccessDeniedException
   | ConflictException
@@ -1440,7 +1467,7 @@ export const describeControlPanel: (
  */
 export const describeRoutingControl: (
   input: DescribeRoutingControlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRoutingControlResponse,
   | AccessDeniedException
   | ConflictException
@@ -1467,7 +1494,7 @@ export const describeRoutingControl: (
  */
 export const updateCluster: (
   input: UpdateClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateClusterResponse,
   | AccessDeniedException
   | ConflictException
@@ -1494,7 +1521,7 @@ export const updateCluster: (
  */
 export const updateControlPanel: (
   input: UpdateControlPanelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateControlPanelResponse,
   | AccessDeniedException
   | ConflictException
@@ -1521,7 +1548,7 @@ export const updateControlPanel: (
  */
 export const updateRoutingControl: (
   input: UpdateRoutingControlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRoutingControlResponse,
   | AccessDeniedException
   | ConflictException
@@ -1548,7 +1575,7 @@ export const updateRoutingControl: (
  */
 export const deleteControlPanel: (
   input: DeleteControlPanelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteControlPanelResponse,
   | AccessDeniedException
   | ConflictException
@@ -1575,7 +1602,7 @@ export const deleteControlPanel: (
  */
 export const deleteRoutingControl: (
   input: DeleteRoutingControlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRoutingControlResponse,
   | AccessDeniedException
   | ConflictException
@@ -1603,7 +1630,7 @@ export const deleteRoutingControl: (
 export const listClusters: {
   (
     input: ListClustersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListClustersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1615,7 +1642,7 @@ export const listClusters: {
   >;
   pages: (
     input: ListClustersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListClustersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1627,7 +1654,7 @@ export const listClusters: {
   >;
   items: (
     input: ListClustersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Cluster,
     | AccessDeniedException
     | InternalServerException
@@ -1660,7 +1687,7 @@ export const listClusters: {
 export const listControlPanels: {
   (
     input: ListControlPanelsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListControlPanelsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1672,7 +1699,7 @@ export const listControlPanels: {
   >;
   pages: (
     input: ListControlPanelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListControlPanelsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1684,7 +1711,7 @@ export const listControlPanels: {
   >;
   items: (
     input: ListControlPanelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ControlPanel,
     | AccessDeniedException
     | InternalServerException
@@ -1717,7 +1744,7 @@ export const listControlPanels: {
 export const listRoutingControls: {
   (
     input: ListRoutingControlsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRoutingControlsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1729,7 +1756,7 @@ export const listRoutingControls: {
   >;
   pages: (
     input: ListRoutingControlsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRoutingControlsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1741,7 +1768,7 @@ export const listRoutingControls: {
   >;
   items: (
     input: ListRoutingControlsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RoutingControl,
     | AccessDeniedException
     | InternalServerException
@@ -1773,7 +1800,7 @@ export const listRoutingControls: {
  */
 export const deleteCluster: (
   input: DeleteClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteClusterResponse,
   | AccessDeniedException
   | ConflictException
@@ -1800,7 +1827,7 @@ export const deleteCluster: (
  */
 export const describeCluster: (
   input: DescribeClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeClusterResponse,
   | AccessDeniedException
   | ConflictException
@@ -1827,7 +1854,7 @@ export const describeCluster: (
  */
 export const createControlPanel: (
   input: CreateControlPanelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateControlPanelResponse,
   | AccessDeniedException
   | ConflictException
@@ -1860,7 +1887,7 @@ export const createControlPanel: (
  */
 export const createRoutingControl: (
   input: CreateRoutingControlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRoutingControlResponse,
   | AccessDeniedException
   | ConflictException

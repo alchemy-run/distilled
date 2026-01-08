@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -173,13 +173,26 @@ export const ListPriceListsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListPriceListsRequest",
 }) as any as S.Schema<ListPriceListsRequest>;
+export type FilterType =
+  | "TERM_MATCH"
+  | "EQUALS"
+  | "CONTAINS"
+  | "ANY_OF"
+  | "NONE_OF";
+export const FilterType = S.Literal(
+  "TERM_MATCH",
+  "EQUALS",
+  "CONTAINS",
+  "ANY_OF",
+  "NONE_OF",
+);
 export interface Filter {
-  Type: string;
+  Type: FilterType;
   Field: string;
   Value: string;
 }
 export const Filter = S.suspend(() =>
-  S.Struct({ Type: S.String, Field: S.String, Value: S.String }),
+  S.Struct({ Type: FilterType, Field: S.String, Value: S.String }),
 ).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type Filters = Filter[];
 export const Filters = S.Array(Filter);
@@ -193,7 +206,7 @@ export const GetPriceListFileUrlResponse = S.suspend(() =>
 }) as any as S.Schema<GetPriceListFileUrlResponse>;
 export interface GetProductsRequest {
   ServiceCode: string;
-  Filters?: Filters;
+  Filters?: Filter[];
   FormatVersion?: string;
   NextToken?: string;
   MaxResults?: number;
@@ -217,7 +230,7 @@ export type FileFormats = string[];
 export const FileFormats = S.Array(S.String);
 export interface Service {
   ServiceCode: string;
-  AttributeNames?: AttributeNameList;
+  AttributeNames?: string[];
 }
 export const Service = S.suspend(() =>
   S.Struct({
@@ -243,7 +256,7 @@ export interface PriceList {
   PriceListArn?: string;
   RegionCode?: string;
   CurrencyCode?: string;
-  FileFormats?: FileFormats;
+  FileFormats?: string[];
 }
 export const PriceList = S.suspend(() =>
   S.Struct({
@@ -256,7 +269,7 @@ export const PriceList = S.suspend(() =>
 export type PriceLists = PriceList[];
 export const PriceLists = S.Array(PriceList);
 export interface DescribeServicesResponse {
-  Services?: ServiceList;
+  Services?: Service[];
   FormatVersion?: string;
   NextToken?: string;
 }
@@ -270,7 +283,7 @@ export const DescribeServicesResponse = S.suspend(() =>
   identifier: "DescribeServicesResponse",
 }) as any as S.Schema<DescribeServicesResponse>;
 export interface GetAttributeValuesResponse {
-  AttributeValues?: AttributeValueList;
+  AttributeValues?: AttributeValue[];
   NextToken?: string;
 }
 export const GetAttributeValuesResponse = S.suspend(() =>
@@ -283,7 +296,7 @@ export const GetAttributeValuesResponse = S.suspend(() =>
 }) as any as S.Schema<GetAttributeValuesResponse>;
 export interface GetProductsResponse {
   FormatVersion?: string;
-  PriceList?: PriceListJsonItems;
+  PriceList?: string[];
   NextToken?: string;
 }
 export const GetProductsResponse = S.suspend(() =>
@@ -296,7 +309,7 @@ export const GetProductsResponse = S.suspend(() =>
   identifier: "GetProductsResponse",
 }) as any as S.Schema<GetProductsResponse>;
 export interface ListPriceListsResponse {
-  PriceLists?: PriceLists;
+  PriceLists?: PriceList[];
   NextToken?: string;
 }
 export const ListPriceListsResponse = S.suspend(() =>
@@ -354,7 +367,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
 export const getAttributeValues: {
   (
     input: GetAttributeValuesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetAttributeValuesResponse,
     | ExpiredNextTokenException
     | InternalErrorException
@@ -367,7 +380,7 @@ export const getAttributeValues: {
   >;
   pages: (
     input: GetAttributeValuesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetAttributeValuesResponse,
     | ExpiredNextTokenException
     | InternalErrorException
@@ -380,7 +393,7 @@ export const getAttributeValues: {
   >;
   items: (
     input: GetAttributeValuesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AttributeValue,
     | ExpiredNextTokenException
     | InternalErrorException
@@ -423,7 +436,7 @@ export const getAttributeValues: {
 export const listPriceLists: {
   (
     input: ListPriceListsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPriceListsResponse,
     | AccessDeniedException
     | ExpiredNextTokenException
@@ -438,7 +451,7 @@ export const listPriceLists: {
   >;
   pages: (
     input: ListPriceListsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPriceListsResponse,
     | AccessDeniedException
     | ExpiredNextTokenException
@@ -453,7 +466,7 @@ export const listPriceLists: {
   >;
   items: (
     input: ListPriceListsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PriceList,
     | AccessDeniedException
     | ExpiredNextTokenException
@@ -492,7 +505,7 @@ export const listPriceLists: {
 export const getProducts: {
   (
     input: GetProductsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetProductsResponse,
     | ExpiredNextTokenException
     | InternalErrorException
@@ -505,7 +518,7 @@ export const getProducts: {
   >;
   pages: (
     input: GetProductsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetProductsResponse,
     | ExpiredNextTokenException
     | InternalErrorException
@@ -518,7 +531,7 @@ export const getProducts: {
   >;
   items: (
     input: GetProductsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SynthesizedJsonPriceListJsonItem,
     | ExpiredNextTokenException
     | InternalErrorException
@@ -559,7 +572,7 @@ export const getProducts: {
 export const describeServices: {
   (
     input: DescribeServicesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeServicesResponse,
     | ExpiredNextTokenException
     | InternalErrorException
@@ -572,7 +585,7 @@ export const describeServices: {
   >;
   pages: (
     input: DescribeServicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeServicesResponse,
     | ExpiredNextTokenException
     | InternalErrorException
@@ -585,7 +598,7 @@ export const describeServices: {
   >;
   items: (
     input: DescribeServicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Service,
     | ExpiredNextTokenException
     | InternalErrorException
@@ -623,7 +636,7 @@ export const describeServices: {
  */
 export const getPriceListFileUrl: (
   input: GetPriceListFileUrlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPriceListFileUrlResponse,
   | AccessDeniedException
   | InternalErrorException

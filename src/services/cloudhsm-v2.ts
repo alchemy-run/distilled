@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -125,6 +125,10 @@ export type VpcId = string;
 //# Schemas
 export type SubnetIds = string[];
 export const SubnetIds = S.Array(S.String);
+export type NetworkType = "IPV4" | "DUALSTACK";
+export const NetworkType = S.Literal("IPV4", "DUALSTACK");
+export type ClusterMode = "FIPS" | "NON_FIPS";
+export const ClusterMode = S.Literal("FIPS", "NON_FIPS");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface CreateHsmRequest {
@@ -193,10 +197,10 @@ export const DeleteResourcePolicyRequest = S.suspend(() =>
 }) as any as S.Schema<DeleteResourcePolicyRequest>;
 export type Strings = string[];
 export const Strings = S.Array(S.String);
-export type Filters = { [key: string]: Strings };
+export type Filters = { [key: string]: string[] };
 export const Filters = S.Record({ key: S.String, value: Strings });
 export interface DescribeClustersRequest {
-  Filters?: Filters;
+  Filters?: { [key: string]: string[] };
   NextToken?: string;
   MaxResults?: number;
 }
@@ -264,12 +268,17 @@ export const ModifyBackupAttributesRequest = S.suspend(() =>
 ).annotations({
   identifier: "ModifyBackupAttributesRequest",
 }) as any as S.Schema<ModifyBackupAttributesRequest>;
+export type BackupRetentionType = "DAYS";
+export const BackupRetentionType = S.Literal("DAYS");
 export interface BackupRetentionPolicy {
-  Type?: string;
+  Type?: BackupRetentionType;
   Value?: string;
 }
 export const BackupRetentionPolicy = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String), Value: S.optional(S.String) }),
+  S.Struct({
+    Type: S.optional(BackupRetentionType),
+    Value: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "BackupRetentionPolicy",
 }) as any as S.Schema<BackupRetentionPolicy>;
@@ -324,7 +333,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagResourceRequest {
   ResourceId: string;
-  TagList: TagList;
+  TagList: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceId: S.String, TagList: TagList }).pipe(
@@ -339,7 +348,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceId: string;
-  TagKeyList: TagKeyList;
+  TagKeyList: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceId: S.String, TagKeyList: TagKeyList }).pipe(
@@ -352,6 +361,21 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
+export type BackupPolicy = "DEFAULT";
+export const BackupPolicy = S.Literal("DEFAULT");
+export type HsmState =
+  | "CREATE_IN_PROGRESS"
+  | "ACTIVE"
+  | "DEGRADED"
+  | "DELETE_IN_PROGRESS"
+  | "DELETED";
+export const HsmState = S.Literal(
+  "CREATE_IN_PROGRESS",
+  "ACTIVE",
+  "DEGRADED",
+  "DELETE_IN_PROGRESS",
+  "DELETED",
+);
 export interface Hsm {
   AvailabilityZone?: string;
   ClusterId?: string;
@@ -361,7 +385,7 @@ export interface Hsm {
   EniIpV6?: string;
   HsmId: string;
   HsmType?: string;
-  State?: string;
+  State?: HsmState;
   StateMessage?: string;
 }
 export const Hsm = S.suspend(() =>
@@ -374,12 +398,37 @@ export const Hsm = S.suspend(() =>
     EniIpV6: S.optional(S.String),
     HsmId: S.String,
     HsmType: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(HsmState),
     StateMessage: S.optional(S.String),
   }),
 ).annotations({ identifier: "Hsm" }) as any as S.Schema<Hsm>;
 export type Hsms = Hsm[];
 export const Hsms = S.Array(Hsm);
+export type ClusterState =
+  | "CREATE_IN_PROGRESS"
+  | "UNINITIALIZED"
+  | "INITIALIZE_IN_PROGRESS"
+  | "INITIALIZED"
+  | "ACTIVE"
+  | "UPDATE_IN_PROGRESS"
+  | "MODIFY_IN_PROGRESS"
+  | "ROLLBACK_IN_PROGRESS"
+  | "DELETE_IN_PROGRESS"
+  | "DELETED"
+  | "DEGRADED";
+export const ClusterState = S.Literal(
+  "CREATE_IN_PROGRESS",
+  "UNINITIALIZED",
+  "INITIALIZE_IN_PROGRESS",
+  "INITIALIZED",
+  "ACTIVE",
+  "UPDATE_IN_PROGRESS",
+  "MODIFY_IN_PROGRESS",
+  "ROLLBACK_IN_PROGRESS",
+  "DELETE_IN_PROGRESS",
+  "DELETED",
+  "DEGRADED",
+);
 export type ExternalSubnetMapping = { [key: string]: string };
 export const ExternalSubnetMapping = S.Record({
   key: S.String,
@@ -402,28 +451,28 @@ export const Certificates = S.suspend(() =>
   }),
 ).annotations({ identifier: "Certificates" }) as any as S.Schema<Certificates>;
 export interface Cluster {
-  BackupPolicy?: string;
+  BackupPolicy?: BackupPolicy;
   BackupRetentionPolicy?: BackupRetentionPolicy;
   ClusterId?: string;
   CreateTimestamp?: Date;
-  Hsms?: Hsms;
+  Hsms?: Hsm[];
   HsmType?: string;
   HsmTypeRollbackExpiration?: Date;
   PreCoPassword?: string;
   SecurityGroup?: string;
   SourceBackupId?: string;
-  State?: string;
+  State?: ClusterState;
   StateMessage?: string;
-  SubnetMapping?: ExternalSubnetMapping;
+  SubnetMapping?: { [key: string]: string };
   VpcId?: string;
-  NetworkType?: string;
+  NetworkType?: NetworkType;
   Certificates?: Certificates;
-  TagList?: TagList;
-  Mode?: string;
+  TagList?: Tag[];
+  Mode?: ClusterMode;
 }
 export const Cluster = S.suspend(() =>
   S.Struct({
-    BackupPolicy: S.optional(S.String),
+    BackupPolicy: S.optional(BackupPolicy),
     BackupRetentionPolicy: S.optional(BackupRetentionPolicy),
     ClusterId: S.optional(S.String),
     CreateTimestamp: S.optional(
@@ -437,14 +486,14 @@ export const Cluster = S.suspend(() =>
     PreCoPassword: S.optional(S.String),
     SecurityGroup: S.optional(S.String),
     SourceBackupId: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(ClusterState),
     StateMessage: S.optional(S.String),
     SubnetMapping: S.optional(ExternalSubnetMapping),
     VpcId: S.optional(S.String),
-    NetworkType: S.optional(S.String),
+    NetworkType: S.optional(NetworkType),
     Certificates: S.optional(Certificates),
     TagList: S.optional(TagList),
-    Mode: S.optional(S.String),
+    Mode: S.optional(ClusterMode),
   }),
 ).annotations({ identifier: "Cluster" }) as any as S.Schema<Cluster>;
 export type Clusters = Cluster[];
@@ -452,7 +501,7 @@ export const Clusters = S.Array(Cluster);
 export interface CopyBackupToRegionRequest {
   DestinationRegion: string;
   BackupId: string;
-  TagList?: TagList;
+  TagList?: Tag[];
 }
 export const CopyBackupToRegionRequest = S.suspend(() =>
   S.Struct({
@@ -469,10 +518,10 @@ export interface CreateClusterRequest {
   BackupRetentionPolicy?: BackupRetentionPolicy;
   HsmType: string;
   SourceBackupId?: string;
-  SubnetIds: SubnetIds;
-  NetworkType?: string;
-  TagList?: TagList;
-  Mode?: string;
+  SubnetIds: string[];
+  NetworkType?: NetworkType;
+  TagList?: Tag[];
+  Mode?: ClusterMode;
 }
 export const CreateClusterRequest = S.suspend(() =>
   S.Struct({
@@ -480,9 +529,9 @@ export const CreateClusterRequest = S.suspend(() =>
     HsmType: S.String,
     SourceBackupId: S.optional(S.String),
     SubnetIds: SubnetIds,
-    NetworkType: S.optional(S.String),
+    NetworkType: S.optional(NetworkType),
     TagList: S.optional(TagList),
-    Mode: S.optional(S.String),
+    Mode: S.optional(ClusterMode),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -509,7 +558,7 @@ export const DeleteResourcePolicyResponse = S.suspend(() =>
 export interface DescribeBackupsRequest {
   NextToken?: string;
   MaxResults?: number;
-  Filters?: Filters;
+  Filters?: { [key: string]: string[] };
   Shared?: boolean;
   SortAscending?: boolean;
 }
@@ -527,7 +576,7 @@ export const DescribeBackupsRequest = S.suspend(() =>
   identifier: "DescribeBackupsRequest",
 }) as any as S.Schema<DescribeBackupsRequest>;
 export interface DescribeClustersResponse {
-  Clusters?: Clusters;
+  Clusters?: Cluster[];
   NextToken?: string;
 }
 export const DescribeClustersResponse = S.suspend(() =>
@@ -544,16 +593,19 @@ export const GetResourcePolicyResponse = S.suspend(() =>
   identifier: "GetResourcePolicyResponse",
 }) as any as S.Schema<GetResourcePolicyResponse>;
 export interface InitializeClusterResponse {
-  State?: string;
+  State?: ClusterState;
   StateMessage?: string;
 }
 export const InitializeClusterResponse = S.suspend(() =>
-  S.Struct({ State: S.optional(S.String), StateMessage: S.optional(S.String) }),
+  S.Struct({
+    State: S.optional(ClusterState),
+    StateMessage: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "InitializeClusterResponse",
 }) as any as S.Schema<InitializeClusterResponse>;
 export interface ListTagsResponse {
-  TagList: TagList;
+  TagList: Tag[];
   NextToken?: string;
 }
 export const ListTagsResponse = S.suspend(() =>
@@ -561,10 +613,21 @@ export const ListTagsResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListTagsResponse",
 }) as any as S.Schema<ListTagsResponse>;
+export type BackupState =
+  | "CREATE_IN_PROGRESS"
+  | "READY"
+  | "DELETED"
+  | "PENDING_DELETION";
+export const BackupState = S.Literal(
+  "CREATE_IN_PROGRESS",
+  "READY",
+  "DELETED",
+  "PENDING_DELETION",
+);
 export interface Backup {
   BackupId: string;
   BackupArn?: string;
-  BackupState?: string;
+  BackupState?: BackupState;
   ClusterId?: string;
   CreateTimestamp?: Date;
   CopyTimestamp?: Date;
@@ -573,15 +636,15 @@ export interface Backup {
   SourceBackup?: string;
   SourceCluster?: string;
   DeleteTimestamp?: Date;
-  TagList?: TagList;
+  TagList?: Tag[];
   HsmType?: string;
-  Mode?: string;
+  Mode?: ClusterMode;
 }
 export const Backup = S.suspend(() =>
   S.Struct({
     BackupId: S.String,
     BackupArn: S.optional(S.String),
-    BackupState: S.optional(S.String),
+    BackupState: S.optional(BackupState),
     ClusterId: S.optional(S.String),
     CreateTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -596,7 +659,7 @@ export const Backup = S.suspend(() =>
     ),
     TagList: S.optional(TagList),
     HsmType: S.optional(S.String),
-    Mode: S.optional(S.String),
+    Mode: S.optional(ClusterMode),
   }),
 ).annotations({ identifier: "Backup" }) as any as S.Schema<Backup>;
 export interface ModifyBackupAttributesResponse {
@@ -659,7 +722,7 @@ export const DeleteBackupResponse = S.suspend(() =>
   identifier: "DeleteBackupResponse",
 }) as any as S.Schema<DeleteBackupResponse>;
 export interface DescribeBackupsResponse {
-  Backups?: Backups;
+  Backups?: Backup[];
   NextToken?: string;
 }
 export const DescribeBackupsResponse = S.suspend(() =>
@@ -742,7 +805,7 @@ export class CloudHsmTagException extends S.TaggedError<CloudHsmTagException>()(
  */
 export const deleteHsm: (
   input: DeleteHsmRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteHsmResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -771,7 +834,7 @@ export const deleteHsm: (
  */
 export const deleteResourcePolicy: (
   input: DeleteResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourcePolicyResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -798,7 +861,7 @@ export const deleteResourcePolicy: (
  */
 export const getResourcePolicy: (
   input: GetResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourcePolicyResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -828,7 +891,7 @@ export const getResourcePolicy: (
  */
 export const initializeCluster: (
   input: InitializeClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   InitializeClusterResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -855,7 +918,7 @@ export const initializeCluster: (
  */
 export const modifyBackupAttributes: (
   input: ModifyBackupAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyBackupAttributesResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -882,7 +945,7 @@ export const modifyBackupAttributes: (
  */
 export const modifyCluster: (
   input: ModifyClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyClusterResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -923,7 +986,7 @@ export const modifyCluster: (
  */
 export const putResourcePolicy: (
   input: PutResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourcePolicyResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -952,7 +1015,7 @@ export const putResourcePolicy: (
  */
 export const restoreBackup: (
   input: RestoreBackupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RestoreBackupResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -980,7 +1043,7 @@ export const restoreBackup: (
  */
 export const createHsm: (
   input: CreateHsmRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateHsmResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -1009,7 +1072,7 @@ export const createHsm: (
  */
 export const deleteBackup: (
   input: DeleteBackupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBackupResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -1043,7 +1106,7 @@ export const deleteBackup: (
 export const describeClusters: {
   (
     input: DescribeClustersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeClustersResponse,
     | CloudHsmAccessDeniedException
     | CloudHsmInternalFailureException
@@ -1055,7 +1118,7 @@ export const describeClusters: {
   >;
   pages: (
     input: DescribeClustersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeClustersResponse,
     | CloudHsmAccessDeniedException
     | CloudHsmInternalFailureException
@@ -1067,7 +1130,7 @@ export const describeClusters: {
   >;
   items: (
     input: DescribeClustersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | CloudHsmAccessDeniedException
     | CloudHsmInternalFailureException
@@ -1107,7 +1170,7 @@ export const describeClusters: {
 export const listTags: {
   (
     input: ListTagsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTagsResponse,
     | CloudHsmAccessDeniedException
     | CloudHsmInternalFailureException
@@ -1120,7 +1183,7 @@ export const listTags: {
   >;
   pages: (
     input: ListTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTagsResponse,
     | CloudHsmAccessDeniedException
     | CloudHsmInternalFailureException
@@ -1133,7 +1196,7 @@ export const listTags: {
   >;
   items: (
     input: ListTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | CloudHsmAccessDeniedException
     | CloudHsmInternalFailureException
@@ -1169,7 +1232,7 @@ export const listTags: {
  */
 export const createCluster: (
   input: CreateClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateClusterResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -1205,7 +1268,7 @@ export const createCluster: (
 export const describeBackups: {
   (
     input: DescribeBackupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeBackupsResponse,
     | CloudHsmAccessDeniedException
     | CloudHsmInternalFailureException
@@ -1218,7 +1281,7 @@ export const describeBackups: {
   >;
   pages: (
     input: DescribeBackupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeBackupsResponse,
     | CloudHsmAccessDeniedException
     | CloudHsmInternalFailureException
@@ -1231,7 +1294,7 @@ export const describeBackups: {
   >;
   items: (
     input: DescribeBackupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | CloudHsmAccessDeniedException
     | CloudHsmInternalFailureException
@@ -1266,7 +1329,7 @@ export const describeBackups: {
  */
 export const copyBackupToRegion: (
   input: CopyBackupToRegionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CopyBackupToRegionResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -1296,7 +1359,7 @@ export const copyBackupToRegion: (
  */
 export const deleteCluster: (
   input: DeleteClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteClusterResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -1325,7 +1388,7 @@ export const deleteCluster: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -1356,7 +1419,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException

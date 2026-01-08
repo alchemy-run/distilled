@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -95,7 +95,7 @@ export type ScanNameArn = string;
 export type TagKey = string;
 export type TagValue = string;
 export type KmsKeyArn = string;
-export type S3Url = string | Redacted.Redacted<string>;
+export type S3Url = string | redacted.Redacted<string>;
 export type ErrorMessage = string;
 export type HeaderKey = string;
 export type HeaderValue = string;
@@ -116,6 +116,12 @@ export const GetAccountConfigurationRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetAccountConfigurationRequest",
 }) as any as S.Schema<GetAccountConfigurationRequest>;
+export type ScanType = "Standard" | "Express";
+export const ScanType = S.Literal("Standard", "Express");
+export type AnalysisType = "Security" | "All";
+export const AnalysisType = S.Literal("Security", "All");
+export type Status = "Closed" | "Open" | "All";
+export const Status = S.Literal("Closed", "Open", "All");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface CreateUploadUrlRequest {
@@ -139,14 +145,14 @@ export interface GetFindingsRequest {
   scanName: string;
   nextToken?: string;
   maxResults?: number;
-  status?: string;
+  status?: Status;
 }
 export const GetFindingsRequest = S.suspend(() =>
   S.Struct({
     scanName: S.String.pipe(T.HttpLabel("scanName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    status: S.optional(S.String).pipe(T.HttpQuery("status")),
+    status: S.optional(Status).pipe(T.HttpQuery("status")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/findings/{scanName}" }),
@@ -273,7 +279,7 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -298,7 +304,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -359,8 +365,10 @@ export type FindingIdentifiers = FindingIdentifier[];
 export const FindingIdentifiers = S.Array(FindingIdentifier);
 export type ResourceId = { codeArtifactId: string };
 export const ResourceId = S.Union(S.Struct({ codeArtifactId: S.String }));
+export type ScanState = "InProgress" | "Successful" | "Failed";
+export const ScanState = S.Literal("InProgress", "Successful", "Failed");
 export interface BatchGetFindingsRequest {
-  findingIdentifiers: FindingIdentifiers;
+  findingIdentifiers: FindingIdentifier[];
 }
 export const BatchGetFindingsRequest = S.suspend(() =>
   S.Struct({ findingIdentifiers: FindingIdentifiers }).pipe(
@@ -378,19 +386,19 @@ export const BatchGetFindingsRequest = S.suspend(() =>
 }) as any as S.Schema<BatchGetFindingsRequest>;
 export interface CreateScanRequest {
   clientToken?: string;
-  resourceId: (typeof ResourceId)["Type"];
+  resourceId: ResourceId;
   scanName: string;
-  scanType?: string;
-  analysisType?: string;
-  tags?: TagMap;
+  scanType?: ScanType;
+  analysisType?: AnalysisType;
+  tags?: { [key: string]: string };
 }
 export const CreateScanRequest = S.suspend(() =>
   S.Struct({
     clientToken: S.optional(S.String),
     resourceId: ResourceId,
     scanName: S.String,
-    scanType: S.optional(S.String),
-    analysisType: S.optional(S.String),
+    scanType: S.optional(ScanType),
+    analysisType: S.optional(AnalysisType),
     tags: S.optional(TagMap),
   }).pipe(
     T.all(
@@ -416,9 +424,9 @@ export const GetAccountConfigurationResponse = S.suspend(() =>
 export interface GetScanResponse {
   scanName: string;
   runId: string;
-  scanState: string;
+  scanState: ScanState;
   createdAt: Date;
-  analysisType: string;
+  analysisType: AnalysisType;
   updatedAt?: Date;
   numberOfRevisions?: number;
   scanNameArn?: string;
@@ -428,9 +436,9 @@ export const GetScanResponse = S.suspend(() =>
   S.Struct({
     scanName: S.String,
     runId: S.String,
-    scanState: S.String,
+    scanState: ScanState,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    analysisType: S.String,
+    analysisType: AnalysisType,
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     numberOfRevisions: S.optional(S.Number),
     scanNameArn: S.optional(S.String),
@@ -440,7 +448,7 @@ export const GetScanResponse = S.suspend(() =>
   identifier: "GetScanResponse",
 }) as any as S.Schema<GetScanResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -455,6 +463,8 @@ export const UpdateAccountConfigurationResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateAccountConfigurationResponse",
 }) as any as S.Schema<UpdateAccountConfigurationResponse>;
+export type Severity = "Critical" | "High" | "Medium" | "Low" | "Info";
+export const Severity = S.Literal("Critical", "High", "Medium", "Low", "Info");
 export type DetectorTags = string[];
 export const DetectorTags = S.Array(S.String);
 export interface ScanNameWithFindingNum {
@@ -514,7 +524,7 @@ export const AccountFindingsMetric = S.suspend(() =>
 export type FindingsMetricList = AccountFindingsMetric[];
 export const FindingsMetricList = S.Array(AccountFindingsMetric);
 export interface ScanSummary {
-  scanState: string;
+  scanState: ScanState;
   createdAt: Date;
   updatedAt?: Date;
   scanName: string;
@@ -523,7 +533,7 @@ export interface ScanSummary {
 }
 export const ScanSummary = S.suspend(() =>
   S.Struct({
-    scanState: S.String,
+    scanState: ScanState,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     scanName: S.String,
@@ -540,8 +550,8 @@ export const RelatedVulnerabilities = S.Array(S.String);
 export interface CreateScanResponse {
   scanName: string;
   runId: string;
-  resourceId: (typeof ResourceId)["Type"];
-  scanState: string;
+  resourceId: ResourceId;
+  scanState: ScanState;
   scanNameArn?: string;
 }
 export const CreateScanResponse = S.suspend(() =>
@@ -549,15 +559,15 @@ export const CreateScanResponse = S.suspend(() =>
     scanName: S.String,
     runId: S.String,
     resourceId: ResourceId,
-    scanState: S.String,
+    scanState: ScanState,
     scanNameArn: S.optional(S.String),
   }),
 ).annotations({
   identifier: "CreateScanResponse",
 }) as any as S.Schema<CreateScanResponse>;
 export interface CreateUploadUrlResponse {
-  s3Url: string | Redacted.Redacted<string>;
-  requestHeaders: RequestHeaderMap;
+  s3Url: string | redacted.Redacted<string>;
+  requestHeaders: { [key: string]: string };
   codeArtifactId: string;
 }
 export const CreateUploadUrlResponse = S.suspend(() =>
@@ -570,7 +580,7 @@ export const CreateUploadUrlResponse = S.suspend(() =>
   identifier: "CreateUploadUrlResponse",
 }) as any as S.Schema<CreateUploadUrlResponse>;
 export interface ListFindingsMetricsResponse {
-  findingsMetrics?: FindingsMetricList;
+  findingsMetrics?: AccountFindingsMetric[];
   nextToken?: string;
 }
 export const ListFindingsMetricsResponse = S.suspend(() =>
@@ -582,7 +592,7 @@ export const ListFindingsMetricsResponse = S.suspend(() =>
   identifier: "ListFindingsMetricsResponse",
 }) as any as S.Schema<ListFindingsMetricsResponse>;
 export interface ListScansResponse {
-  summaries?: ScanSummaries;
+  summaries?: ScanSummary[];
   nextToken?: string;
 }
 export const ListScansResponse = S.suspend(() =>
@@ -593,6 +603,19 @@ export const ListScansResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListScansResponse",
 }) as any as S.Schema<ListScansResponse>;
+export type ErrorCode =
+  | "DUPLICATE_IDENTIFIER"
+  | "ITEM_DOES_NOT_EXIST"
+  | "INTERNAL_ERROR"
+  | "INVALID_FINDING_ID"
+  | "INVALID_SCAN_NAME";
+export const ErrorCode = S.Literal(
+  "DUPLICATE_IDENTIFIER",
+  "ITEM_DOES_NOT_EXIST",
+  "INTERNAL_ERROR",
+  "INVALID_FINDING_ID",
+  "INVALID_SCAN_NAME",
+);
 export interface Resource {
   id?: string;
   subResourceId?: string;
@@ -619,14 +642,14 @@ export const ScansWithMostOpenFindings = S.Array(ScanNameWithFindingNum);
 export interface BatchGetFindingsError {
   scanName: string;
   findingId: string;
-  errorCode: string;
+  errorCode: ErrorCode;
   message: string;
 }
 export const BatchGetFindingsError = S.suspend(() =>
   S.Struct({
     scanName: S.String,
     findingId: S.String,
-    errorCode: S.String,
+    errorCode: ErrorCode,
     message: S.String,
   }),
 ).annotations({
@@ -637,9 +660,9 @@ export const BatchGetFindingsErrors = S.Array(BatchGetFindingsError);
 export interface MetricsSummary {
   date?: Date;
   openFindings?: FindingMetricsValuePerSeverity;
-  categoriesWithMostFindings?: CategoriesWithMostFindings;
-  scansWithMostOpenFindings?: ScansWithMostOpenFindings;
-  scansWithMostOpenCriticalFindings?: ScansWithMostOpenCriticalFindings;
+  categoriesWithMostFindings?: CategoryWithFindingNum[];
+  scansWithMostOpenFindings?: ScanNameWithFindingNum[];
+  scansWithMostOpenCriticalFindings?: ScanNameWithFindingNum[];
 }
 export const MetricsSummary = S.suspend(() =>
   S.Struct({
@@ -686,7 +709,7 @@ export interface FilePath {
   path?: string;
   startLine?: number;
   endLine?: number;
-  codeSnippet?: CodeSnippet;
+  codeSnippet?: CodeLine[];
 }
 export const FilePath = S.suspend(() =>
   S.Struct({
@@ -698,8 +721,8 @@ export const FilePath = S.suspend(() =>
   }),
 ).annotations({ identifier: "FilePath" }) as any as S.Schema<FilePath>;
 export interface Vulnerability {
-  referenceUrls?: ReferenceUrls;
-  relatedVulnerabilities?: RelatedVulnerabilities;
+  referenceUrls?: string[];
+  relatedVulnerabilities?: string[];
   id?: string;
   filePath?: FilePath;
   itemCount?: number;
@@ -717,7 +740,7 @@ export const Vulnerability = S.suspend(() =>
 }) as any as S.Schema<Vulnerability>;
 export interface Remediation {
   recommendation?: Recommendation;
-  suggestedFixes?: SuggestedFixes;
+  suggestedFixes?: SuggestedFix[];
 }
 export const Remediation = S.suspend(() =>
   S.Struct({
@@ -732,13 +755,13 @@ export interface Finding {
   id?: string;
   updatedAt?: Date;
   type?: string;
-  status?: string;
+  status?: Status;
   resource?: Resource;
   vulnerability?: Vulnerability;
-  severity?: string;
+  severity?: Severity;
   remediation?: Remediation;
   title?: string;
-  detectorTags?: DetectorTags;
+  detectorTags?: string[];
   detectorId?: string;
   detectorName?: string;
   ruleId?: string;
@@ -751,10 +774,10 @@ export const Finding = S.suspend(() =>
     id: S.optional(S.String),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     type: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(Status),
     resource: S.optional(Resource),
     vulnerability: S.optional(Vulnerability),
-    severity: S.optional(S.String),
+    severity: S.optional(Severity),
     remediation: S.optional(Remediation),
     title: S.optional(S.String),
     detectorTags: S.optional(DetectorTags),
@@ -766,8 +789,8 @@ export const Finding = S.suspend(() =>
 export type Findings = Finding[];
 export const Findings = S.Array(Finding);
 export interface BatchGetFindingsResponse {
-  findings: Findings;
-  failedFindings: BatchGetFindingsErrors;
+  findings: Finding[];
+  failedFindings: BatchGetFindingsError[];
 }
 export const BatchGetFindingsResponse = S.suspend(() =>
   S.Struct({ findings: Findings, failedFindings: BatchGetFindingsErrors }),
@@ -782,6 +805,19 @@ export const GetMetricsSummaryResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetMetricsSummaryResponse",
 }) as any as S.Schema<GetMetricsSummaryResponse>;
+export type ValidationExceptionReason =
+  | "unknownOperation"
+  | "cannotParse"
+  | "fieldValidationFailed"
+  | "other"
+  | "lambdaCodeShaMisMatch";
+export const ValidationExceptionReason = S.Literal(
+  "unknownOperation",
+  "cannotParse",
+  "fieldValidationFailed",
+  "other",
+  "lambdaCodeShaMisMatch",
+);
 export interface ValidationExceptionField {
   name: string;
   message: string;
@@ -794,7 +830,7 @@ export const ValidationExceptionField = S.suspend(() =>
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export interface GetFindingsResponse {
-  findings?: Findings;
+  findings?: Finding[];
   nextToken?: string;
 }
 export const GetFindingsResponse = S.suspend(() =>
@@ -851,7 +887,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   {
     errorCode: S.String,
     message: S.String,
-    reason: S.String,
+    reason: ValidationExceptionReason,
     fieldList: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
@@ -862,7 +898,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const getAccountConfiguration: (
   input: GetAccountConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccountConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -885,7 +921,7 @@ export const getAccountConfiguration: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -912,7 +948,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -939,7 +975,7 @@ export const listTagsForResource: (
  */
 export const createScan: (
   input: CreateScanRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateScanResponse,
   | AccessDeniedException
   | ConflictException
@@ -966,7 +1002,7 @@ export const createScan: (
  */
 export const getScan: (
   input: GetScanRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetScanResponse,
   | AccessDeniedException
   | InternalServerException
@@ -991,7 +1027,7 @@ export const getScan: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1020,7 +1056,7 @@ export const tagResource: (
  */
 export const createUploadUrl: (
   input: CreateUploadUrlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUploadUrlResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1044,7 +1080,7 @@ export const createUploadUrl: (
 export const listFindingsMetrics: {
   (
     input: ListFindingsMetricsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFindingsMetricsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1055,7 +1091,7 @@ export const listFindingsMetrics: {
   >;
   pages: (
     input: ListFindingsMetricsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFindingsMetricsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1066,7 +1102,7 @@ export const listFindingsMetrics: {
   >;
   items: (
     input: ListFindingsMetricsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AccountFindingsMetric,
     | AccessDeniedException
     | InternalServerException
@@ -1097,7 +1133,7 @@ export const listFindingsMetrics: {
 export const listScans: {
   (
     input: ListScansRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListScansResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1108,7 +1144,7 @@ export const listScans: {
   >;
   pages: (
     input: ListScansRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListScansResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1119,7 +1155,7 @@ export const listScans: {
   >;
   items: (
     input: ListScansRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ScanSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1149,7 +1185,7 @@ export const listScans: {
  */
 export const batchGetFindings: (
   input: BatchGetFindingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetFindingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1172,7 +1208,7 @@ export const batchGetFindings: (
  */
 export const getMetricsSummary: (
   input: GetMetricsSummaryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMetricsSummaryResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1195,7 +1231,7 @@ export const getMetricsSummary: (
  */
 export const updateAccountConfiguration: (
   input: UpdateAccountConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAccountConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1221,7 +1257,7 @@ export const updateAccountConfiguration: (
 export const getFindings: {
   (
     input: GetFindingsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetFindingsResponse,
     | AccessDeniedException
     | ConflictException
@@ -1234,7 +1270,7 @@ export const getFindings: {
   >;
   pages: (
     input: GetFindingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetFindingsResponse,
     | AccessDeniedException
     | ConflictException
@@ -1247,7 +1283,7 @@ export const getFindings: {
   >;
   items: (
     input: GetFindingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Finding,
     | AccessDeniedException
     | ConflictException

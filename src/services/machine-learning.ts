@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -120,11 +120,11 @@ export type MLModelName = string;
 export type RDSInstanceIdentifier = string;
 export type RDSDatabaseName = string;
 export type RDSDatabaseUsername = string;
-export type RDSDatabasePassword = string | Redacted.Redacted<string>;
+export type RDSDatabasePassword = string | redacted.Redacted<string>;
 export type RedshiftDatabaseName = string;
 export type RedshiftClusterIdentifier = string;
 export type RedshiftDatabaseUsername = string;
-export type RedshiftDatabasePassword = string | Redacted.Redacted<string>;
+export type RedshiftDatabasePassword = string | redacted.Redacted<string>;
 export type IntegerType = number;
 export type EDPPipelineId = string;
 export type ErrorMessage = string;
@@ -137,8 +137,99 @@ export type ScoreValue = number;
 export type DetailsValue = string;
 
 //# Schemas
+export type TaggableResourceType =
+  | "BatchPrediction"
+  | "DataSource"
+  | "Evaluation"
+  | "MLModel";
+export const TaggableResourceType = S.Literal(
+  "BatchPrediction",
+  "DataSource",
+  "Evaluation",
+  "MLModel",
+);
+export type MLModelType = "REGRESSION" | "BINARY" | "MULTICLASS";
+export const MLModelType = S.Literal("REGRESSION", "BINARY", "MULTICLASS");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type BatchPredictionFilterVariable =
+  | "CreatedAt"
+  | "LastUpdatedAt"
+  | "Status"
+  | "Name"
+  | "IAMUser"
+  | "MLModelId"
+  | "DataSourceId"
+  | "DataURI";
+export const BatchPredictionFilterVariable = S.Literal(
+  "CreatedAt",
+  "LastUpdatedAt",
+  "Status",
+  "Name",
+  "IAMUser",
+  "MLModelId",
+  "DataSourceId",
+  "DataURI",
+);
+export type SortOrder = "asc" | "dsc";
+export const SortOrder = S.Literal("asc", "dsc");
+export type DataSourceFilterVariable =
+  | "CreatedAt"
+  | "LastUpdatedAt"
+  | "Status"
+  | "Name"
+  | "DataLocationS3"
+  | "IAMUser";
+export const DataSourceFilterVariable = S.Literal(
+  "CreatedAt",
+  "LastUpdatedAt",
+  "Status",
+  "Name",
+  "DataLocationS3",
+  "IAMUser",
+);
+export type EvaluationFilterVariable =
+  | "CreatedAt"
+  | "LastUpdatedAt"
+  | "Status"
+  | "Name"
+  | "IAMUser"
+  | "MLModelId"
+  | "DataSourceId"
+  | "DataURI";
+export const EvaluationFilterVariable = S.Literal(
+  "CreatedAt",
+  "LastUpdatedAt",
+  "Status",
+  "Name",
+  "IAMUser",
+  "MLModelId",
+  "DataSourceId",
+  "DataURI",
+);
+export type MLModelFilterVariable =
+  | "CreatedAt"
+  | "LastUpdatedAt"
+  | "Status"
+  | "Name"
+  | "IAMUser"
+  | "TrainingDataSourceId"
+  | "RealtimeEndpointStatus"
+  | "MLModelType"
+  | "Algorithm"
+  | "TrainingDataURI";
+export const MLModelFilterVariable = S.Literal(
+  "CreatedAt",
+  "LastUpdatedAt",
+  "Status",
+  "Name",
+  "IAMUser",
+  "TrainingDataSourceId",
+  "RealtimeEndpointStatus",
+  "MLModelType",
+  "Algorithm",
+  "TrainingDataURI",
+);
 export interface CreateBatchPredictionInput {
   BatchPredictionId: string;
   BatchPredictionName?: string;
@@ -302,15 +393,15 @@ export const DeleteRealtimeEndpointInput = S.suspend(() =>
   identifier: "DeleteRealtimeEndpointInput",
 }) as any as S.Schema<DeleteRealtimeEndpointInput>;
 export interface DeleteTagsInput {
-  TagKeys: TagKeyList;
+  TagKeys: string[];
   ResourceId: string;
-  ResourceType: string;
+  ResourceType: TaggableResourceType;
 }
 export const DeleteTagsInput = S.suspend(() =>
   S.Struct({
     TagKeys: TagKeyList,
     ResourceId: S.String,
-    ResourceType: S.String,
+    ResourceType: TaggableResourceType,
   }).pipe(
     T.all(
       ns,
@@ -326,7 +417,7 @@ export const DeleteTagsInput = S.suspend(() =>
   identifier: "DeleteTagsInput",
 }) as any as S.Schema<DeleteTagsInput>;
 export interface DescribeBatchPredictionsInput {
-  FilterVariable?: string;
+  FilterVariable?: BatchPredictionFilterVariable;
   EQ?: string;
   GT?: string;
   LT?: string;
@@ -334,13 +425,13 @@ export interface DescribeBatchPredictionsInput {
   LE?: string;
   NE?: string;
   Prefix?: string;
-  SortOrder?: string;
+  SortOrder?: SortOrder;
   NextToken?: string;
   Limit?: number;
 }
 export const DescribeBatchPredictionsInput = S.suspend(() =>
   S.Struct({
-    FilterVariable: S.optional(S.String),
+    FilterVariable: S.optional(BatchPredictionFilterVariable),
     EQ: S.optional(S.String),
     GT: S.optional(S.String),
     LT: S.optional(S.String),
@@ -348,7 +439,7 @@ export const DescribeBatchPredictionsInput = S.suspend(() =>
     LE: S.optional(S.String),
     NE: S.optional(S.String),
     Prefix: S.optional(S.String),
-    SortOrder: S.optional(S.String),
+    SortOrder: S.optional(SortOrder),
     NextToken: S.optional(S.String),
     Limit: S.optional(S.Number),
   }).pipe(
@@ -366,7 +457,7 @@ export const DescribeBatchPredictionsInput = S.suspend(() =>
   identifier: "DescribeBatchPredictionsInput",
 }) as any as S.Schema<DescribeBatchPredictionsInput>;
 export interface DescribeDataSourcesInput {
-  FilterVariable?: string;
+  FilterVariable?: DataSourceFilterVariable;
   EQ?: string;
   GT?: string;
   LT?: string;
@@ -374,13 +465,13 @@ export interface DescribeDataSourcesInput {
   LE?: string;
   NE?: string;
   Prefix?: string;
-  SortOrder?: string;
+  SortOrder?: SortOrder;
   NextToken?: string;
   Limit?: number;
 }
 export const DescribeDataSourcesInput = S.suspend(() =>
   S.Struct({
-    FilterVariable: S.optional(S.String),
+    FilterVariable: S.optional(DataSourceFilterVariable),
     EQ: S.optional(S.String),
     GT: S.optional(S.String),
     LT: S.optional(S.String),
@@ -388,7 +479,7 @@ export const DescribeDataSourcesInput = S.suspend(() =>
     LE: S.optional(S.String),
     NE: S.optional(S.String),
     Prefix: S.optional(S.String),
-    SortOrder: S.optional(S.String),
+    SortOrder: S.optional(SortOrder),
     NextToken: S.optional(S.String),
     Limit: S.optional(S.Number),
   }).pipe(
@@ -406,7 +497,7 @@ export const DescribeDataSourcesInput = S.suspend(() =>
   identifier: "DescribeDataSourcesInput",
 }) as any as S.Schema<DescribeDataSourcesInput>;
 export interface DescribeEvaluationsInput {
-  FilterVariable?: string;
+  FilterVariable?: EvaluationFilterVariable;
   EQ?: string;
   GT?: string;
   LT?: string;
@@ -414,13 +505,13 @@ export interface DescribeEvaluationsInput {
   LE?: string;
   NE?: string;
   Prefix?: string;
-  SortOrder?: string;
+  SortOrder?: SortOrder;
   NextToken?: string;
   Limit?: number;
 }
 export const DescribeEvaluationsInput = S.suspend(() =>
   S.Struct({
-    FilterVariable: S.optional(S.String),
+    FilterVariable: S.optional(EvaluationFilterVariable),
     EQ: S.optional(S.String),
     GT: S.optional(S.String),
     LT: S.optional(S.String),
@@ -428,7 +519,7 @@ export const DescribeEvaluationsInput = S.suspend(() =>
     LE: S.optional(S.String),
     NE: S.optional(S.String),
     Prefix: S.optional(S.String),
-    SortOrder: S.optional(S.String),
+    SortOrder: S.optional(SortOrder),
     NextToken: S.optional(S.String),
     Limit: S.optional(S.Number),
   }).pipe(
@@ -446,7 +537,7 @@ export const DescribeEvaluationsInput = S.suspend(() =>
   identifier: "DescribeEvaluationsInput",
 }) as any as S.Schema<DescribeEvaluationsInput>;
 export interface DescribeMLModelsInput {
-  FilterVariable?: string;
+  FilterVariable?: MLModelFilterVariable;
   EQ?: string;
   GT?: string;
   LT?: string;
@@ -454,13 +545,13 @@ export interface DescribeMLModelsInput {
   LE?: string;
   NE?: string;
   Prefix?: string;
-  SortOrder?: string;
+  SortOrder?: SortOrder;
   NextToken?: string;
   Limit?: number;
 }
 export const DescribeMLModelsInput = S.suspend(() =>
   S.Struct({
-    FilterVariable: S.optional(S.String),
+    FilterVariable: S.optional(MLModelFilterVariable),
     EQ: S.optional(S.String),
     GT: S.optional(S.String),
     LT: S.optional(S.String),
@@ -468,7 +559,7 @@ export const DescribeMLModelsInput = S.suspend(() =>
     LE: S.optional(S.String),
     NE: S.optional(S.String),
     Prefix: S.optional(S.String),
-    SortOrder: S.optional(S.String),
+    SortOrder: S.optional(SortOrder),
     NextToken: S.optional(S.String),
     Limit: S.optional(S.Number),
   }).pipe(
@@ -487,10 +578,10 @@ export const DescribeMLModelsInput = S.suspend(() =>
 }) as any as S.Schema<DescribeMLModelsInput>;
 export interface DescribeTagsInput {
   ResourceId: string;
-  ResourceType: string;
+  ResourceType: TaggableResourceType;
 }
 export const DescribeTagsInput = S.suspend(() =>
-  S.Struct({ ResourceId: S.String, ResourceType: S.String }).pipe(
+  S.Struct({ ResourceId: S.String, ResourceType: TaggableResourceType }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -686,18 +777,31 @@ export const S3DataSpec = S.suspend(() =>
 ).annotations({ identifier: "S3DataSpec" }) as any as S.Schema<S3DataSpec>;
 export type TrainingParameters = { [key: string]: string };
 export const TrainingParameters = S.Record({ key: S.String, value: S.String });
+export type EntityStatus =
+  | "PENDING"
+  | "INPROGRESS"
+  | "FAILED"
+  | "COMPLETED"
+  | "DELETED";
+export const EntityStatus = S.Literal(
+  "PENDING",
+  "INPROGRESS",
+  "FAILED",
+  "COMPLETED",
+  "DELETED",
+);
 export type Record = { [key: string]: string };
 export const Record = S.Record({ key: S.String, value: S.String });
 export interface AddTagsInput {
-  Tags: TagList;
+  Tags: Tag[];
   ResourceId: string;
-  ResourceType: string;
+  ResourceType: TaggableResourceType;
 }
 export const AddTagsInput = S.suspend(() =>
   S.Struct({
     Tags: TagList,
     ResourceId: S.String,
-    ResourceType: S.String,
+    ResourceType: TaggableResourceType,
   }).pipe(
     T.all(
       ns,
@@ -755,8 +859,8 @@ export const CreateEvaluationOutput = S.suspend(() =>
 export interface CreateMLModelInput {
   MLModelId: string;
   MLModelName?: string;
-  MLModelType: string;
-  Parameters?: TrainingParameters;
+  MLModelType: MLModelType;
+  Parameters?: { [key: string]: string };
   TrainingDataSourceId: string;
   Recipe?: string;
   RecipeUri?: string;
@@ -765,7 +869,7 @@ export const CreateMLModelInput = S.suspend(() =>
   S.Struct({
     MLModelId: S.String,
     MLModelName: S.optional(S.String),
-    MLModelType: S.String,
+    MLModelType: MLModelType,
     Parameters: S.optional(TrainingParameters),
     TrainingDataSourceId: S.String,
     Recipe: S.optional(S.String),
@@ -816,18 +920,25 @@ export const DeleteMLModelOutput = S.suspend(() =>
 ).annotations({
   identifier: "DeleteMLModelOutput",
 }) as any as S.Schema<DeleteMLModelOutput>;
+export type RealtimeEndpointStatus = "NONE" | "READY" | "UPDATING" | "FAILED";
+export const RealtimeEndpointStatus = S.Literal(
+  "NONE",
+  "READY",
+  "UPDATING",
+  "FAILED",
+);
 export interface RealtimeEndpointInfo {
   PeakRequestsPerSecond?: number;
   CreatedAt?: Date;
   EndpointUrl?: string;
-  EndpointStatus?: string;
+  EndpointStatus?: RealtimeEndpointStatus;
 }
 export const RealtimeEndpointInfo = S.suspend(() =>
   S.Struct({
     PeakRequestsPerSecond: S.optional(S.Number),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndpointUrl: S.optional(S.String),
-    EndpointStatus: S.optional(S.String),
+    EndpointStatus: S.optional(RealtimeEndpointStatus),
   }),
 ).annotations({
   identifier: "RealtimeEndpointInfo",
@@ -846,25 +957,25 @@ export const DeleteRealtimeEndpointOutput = S.suspend(() =>
 }) as any as S.Schema<DeleteRealtimeEndpointOutput>;
 export interface DeleteTagsOutput {
   ResourceId?: string;
-  ResourceType?: string;
+  ResourceType?: TaggableResourceType;
 }
 export const DeleteTagsOutput = S.suspend(() =>
   S.Struct({
     ResourceId: S.optional(S.String),
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(TaggableResourceType),
   }).pipe(ns),
 ).annotations({
   identifier: "DeleteTagsOutput",
 }) as any as S.Schema<DeleteTagsOutput>;
 export interface DescribeTagsOutput {
   ResourceId?: string;
-  ResourceType?: string;
-  Tags?: TagList;
+  ResourceType?: TaggableResourceType;
+  Tags?: Tag[];
 }
 export const DescribeTagsOutput = S.suspend(() =>
   S.Struct({
     ResourceId: S.optional(S.String),
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(TaggableResourceType),
     Tags: S.optional(TagList),
   }).pipe(ns),
 ).annotations({
@@ -879,7 +990,7 @@ export interface GetBatchPredictionOutput {
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
   Name?: string;
-  Status?: string;
+  Status?: EntityStatus;
   OutputUri?: string;
   LogUri?: string;
   Message?: string;
@@ -899,7 +1010,7 @@ export const GetBatchPredictionOutput = S.suspend(() =>
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(EntityStatus),
     OutputUri: S.optional(S.String),
     LogUri: S.optional(S.String),
     Message: S.optional(S.String),
@@ -919,12 +1030,12 @@ export interface GetMLModelOutput {
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
   Name?: string;
-  Status?: string;
+  Status?: EntityStatus;
   SizeInBytes?: number;
   EndpointInfo?: RealtimeEndpointInfo;
-  TrainingParameters?: TrainingParameters;
+  TrainingParameters?: { [key: string]: string };
   InputDataLocationS3?: string;
-  MLModelType?: string;
+  MLModelType?: MLModelType;
   ScoreThreshold?: number;
   ScoreThresholdLastUpdatedAt?: Date;
   LogUri?: string;
@@ -943,12 +1054,12 @@ export const GetMLModelOutput = S.suspend(() =>
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(EntityStatus),
     SizeInBytes: S.optional(S.Number),
     EndpointInfo: S.optional(RealtimeEndpointInfo),
     TrainingParameters: S.optional(TrainingParameters),
     InputDataLocationS3: S.optional(S.String),
-    MLModelType: S.optional(S.String),
+    MLModelType: S.optional(MLModelType),
     ScoreThreshold: S.optional(S.Number),
     ScoreThresholdLastUpdatedAt: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -966,7 +1077,7 @@ export const GetMLModelOutput = S.suspend(() =>
 }) as any as S.Schema<GetMLModelOutput>;
 export interface PredictInput {
   MLModelId: string;
-  Record: Record;
+  Record: { [key: string]: string };
   PredictEndpoint: string;
 }
 export const PredictInput = S.suspend(() =>
@@ -1027,7 +1138,7 @@ export const RDSDatabase = S.suspend(() =>
 ).annotations({ identifier: "RDSDatabase" }) as any as S.Schema<RDSDatabase>;
 export interface RDSDatabaseCredentials {
   Username: string;
-  Password: string | Redacted.Redacted<string>;
+  Password: string | redacted.Redacted<string>;
 }
 export const RDSDatabaseCredentials = S.suspend(() =>
   S.Struct({ Username: S.String, Password: SensitiveString }),
@@ -1045,13 +1156,15 @@ export const RedshiftDatabase = S.suspend(() =>
 }) as any as S.Schema<RedshiftDatabase>;
 export interface RedshiftDatabaseCredentials {
   Username: string;
-  Password: string | Redacted.Redacted<string>;
+  Password: string | redacted.Redacted<string>;
 }
 export const RedshiftDatabaseCredentials = S.suspend(() =>
   S.Struct({ Username: S.String, Password: SensitiveString }),
 ).annotations({
   identifier: "RedshiftDatabaseCredentials",
 }) as any as S.Schema<RedshiftDatabaseCredentials>;
+export type Algorithm = "sgd";
+export const Algorithm = S.Literal("sgd");
 export interface RDSDataSpec {
   DatabaseInformation: RDSDatabase;
   SelectSqlQuery: string;
@@ -1063,7 +1176,7 @@ export interface RDSDataSpec {
   ResourceRole: string;
   ServiceRole: string;
   SubnetId: string;
-  SecurityGroupIds: EDPSecurityGroupIds;
+  SecurityGroupIds: string[];
 }
 export const RDSDataSpec = S.suspend(() =>
   S.Struct({
@@ -1111,7 +1224,7 @@ export interface BatchPrediction {
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
   Name?: string;
-  Status?: string;
+  Status?: EntityStatus;
   OutputUri?: string;
   Message?: string;
   ComputeTime?: number;
@@ -1130,7 +1243,7 @@ export const BatchPrediction = S.suspend(() =>
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(EntityStatus),
     OutputUri: S.optional(S.String),
     Message: S.optional(S.String),
     ComputeTime: S.optional(S.Number),
@@ -1186,7 +1299,7 @@ export interface DataSource {
   DataSizeInBytes?: number;
   NumberOfFiles?: number;
   Name?: string;
-  Status?: string;
+  Status?: EntityStatus;
   Message?: string;
   RedshiftMetadata?: RedshiftMetadata;
   RDSMetadata?: RDSMetadata;
@@ -1207,7 +1320,7 @@ export const DataSource = S.suspend(() =>
     DataSizeInBytes: S.optional(S.Number),
     NumberOfFiles: S.optional(S.Number),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(EntityStatus),
     Message: S.optional(S.String),
     RedshiftMetadata: S.optional(RedshiftMetadata),
     RDSMetadata: S.optional(RDSMetadata),
@@ -1226,7 +1339,7 @@ export const PerformanceMetricsProperties = S.Record({
   value: S.String,
 });
 export interface PerformanceMetrics {
-  Properties?: PerformanceMetricsProperties;
+  Properties?: { [key: string]: string };
 }
 export const PerformanceMetrics = S.suspend(() =>
   S.Struct({ Properties: S.optional(PerformanceMetricsProperties) }),
@@ -1242,7 +1355,7 @@ export interface Evaluation {
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
   Name?: string;
-  Status?: string;
+  Status?: EntityStatus;
   PerformanceMetrics?: PerformanceMetrics;
   Message?: string;
   ComputeTime?: number;
@@ -1259,7 +1372,7 @@ export const Evaluation = S.suspend(() =>
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(EntityStatus),
     PerformanceMetrics: S.optional(PerformanceMetrics),
     Message: S.optional(S.String),
     ComputeTime: S.optional(S.Number),
@@ -1276,13 +1389,13 @@ export interface MLModel {
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
   Name?: string;
-  Status?: string;
+  Status?: EntityStatus;
   SizeInBytes?: number;
   EndpointInfo?: RealtimeEndpointInfo;
-  TrainingParameters?: TrainingParameters;
+  TrainingParameters?: { [key: string]: string };
   InputDataLocationS3?: string;
-  Algorithm?: string;
-  MLModelType?: string;
+  Algorithm?: Algorithm;
+  MLModelType?: MLModelType;
   ScoreThreshold?: number;
   ScoreThresholdLastUpdatedAt?: Date;
   Message?: string;
@@ -1298,13 +1411,13 @@ export const MLModel = S.suspend(() =>
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(EntityStatus),
     SizeInBytes: S.optional(S.Number),
     EndpointInfo: S.optional(RealtimeEndpointInfo),
     TrainingParameters: S.optional(TrainingParameters),
     InputDataLocationS3: S.optional(S.String),
-    Algorithm: S.optional(S.String),
-    MLModelType: S.optional(S.String),
+    Algorithm: S.optional(Algorithm),
+    MLModelType: S.optional(MLModelType),
     ScoreThreshold: S.optional(S.Number),
     ScoreThresholdLastUpdatedAt: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1319,12 +1432,12 @@ export type MLModels = MLModel[];
 export const MLModels = S.Array(MLModel);
 export interface AddTagsOutput {
   ResourceId?: string;
-  ResourceType?: string;
+  ResourceType?: TaggableResourceType;
 }
 export const AddTagsOutput = S.suspend(() =>
   S.Struct({
     ResourceId: S.optional(S.String),
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(TaggableResourceType),
   }).pipe(ns),
 ).annotations({
   identifier: "AddTagsOutput",
@@ -1414,7 +1527,7 @@ export const CreateRealtimeEndpointOutput = S.suspend(() =>
   identifier: "CreateRealtimeEndpointOutput",
 }) as any as S.Schema<CreateRealtimeEndpointOutput>;
 export interface DescribeBatchPredictionsOutput {
-  Results?: BatchPredictions;
+  Results?: BatchPrediction[];
   NextToken?: string;
 }
 export const DescribeBatchPredictionsOutput = S.suspend(() =>
@@ -1426,7 +1539,7 @@ export const DescribeBatchPredictionsOutput = S.suspend(() =>
   identifier: "DescribeBatchPredictionsOutput",
 }) as any as S.Schema<DescribeBatchPredictionsOutput>;
 export interface DescribeDataSourcesOutput {
-  Results?: DataSources;
+  Results?: DataSource[];
   NextToken?: string;
 }
 export const DescribeDataSourcesOutput = S.suspend(() =>
@@ -1438,7 +1551,7 @@ export const DescribeDataSourcesOutput = S.suspend(() =>
   identifier: "DescribeDataSourcesOutput",
 }) as any as S.Schema<DescribeDataSourcesOutput>;
 export interface DescribeEvaluationsOutput {
-  Results?: Evaluations;
+  Results?: Evaluation[];
   NextToken?: string;
 }
 export const DescribeEvaluationsOutput = S.suspend(() =>
@@ -1450,7 +1563,7 @@ export const DescribeEvaluationsOutput = S.suspend(() =>
   identifier: "DescribeEvaluationsOutput",
 }) as any as S.Schema<DescribeEvaluationsOutput>;
 export interface DescribeMLModelsOutput {
-  Results?: MLModels;
+  Results?: MLModel[];
   NextToken?: string;
 }
 export const DescribeMLModelsOutput = S.suspend(() =>
@@ -1471,7 +1584,7 @@ export interface GetDataSourceOutput {
   DataSizeInBytes?: number;
   NumberOfFiles?: number;
   Name?: string;
-  Status?: string;
+  Status?: EntityStatus;
   LogUri?: string;
   Message?: string;
   RedshiftMetadata?: RedshiftMetadata;
@@ -1494,7 +1607,7 @@ export const GetDataSourceOutput = S.suspend(() =>
     DataSizeInBytes: S.optional(S.Number),
     NumberOfFiles: S.optional(S.Number),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(EntityStatus),
     LogUri: S.optional(S.String),
     Message: S.optional(S.String),
     RedshiftMetadata: S.optional(RedshiftMetadata),
@@ -1509,6 +1622,8 @@ export const GetDataSourceOutput = S.suspend(() =>
 ).annotations({
   identifier: "GetDataSourceOutput",
 }) as any as S.Schema<GetDataSourceOutput>;
+export type DetailsAttributes = "PredictiveModelType" | "Algorithm";
+export const DetailsAttributes = S.Literal("PredictiveModelType", "Algorithm");
 export interface CreateDataSourceFromRDSOutput {
   DataSourceId?: string;
 }
@@ -1534,7 +1649,7 @@ export interface GetEvaluationOutput {
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
   Name?: string;
-  Status?: string;
+  Status?: EntityStatus;
   PerformanceMetrics?: PerformanceMetrics;
   LogUri?: string;
   Message?: string;
@@ -1552,7 +1667,7 @@ export const GetEvaluationOutput = S.suspend(() =>
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(EntityStatus),
     PerformanceMetrics: S.optional(PerformanceMetrics),
     LogUri: S.optional(S.String),
     Message: S.optional(S.String),
@@ -1568,13 +1683,15 @@ export const ScoreValuePerLabelMap = S.Record({
   key: S.String,
   value: S.Number,
 });
-export type DetailsMap = { [key: string]: string };
-export const DetailsMap = S.Record({ key: S.String, value: S.String });
+export type DetailsMap = { [key in DetailsAttributes]?: string };
+export const DetailsMap = S.partial(
+  S.Record({ key: DetailsAttributes, value: S.String }),
+);
 export interface Prediction {
   predictedLabel?: string;
   predictedValue?: number;
-  predictedScores?: ScoreValuePerLabelMap;
-  details?: DetailsMap;
+  predictedScores?: { [key: string]: number };
+  details?: { [key: string]: string };
 }
 export const Prediction = S.suspend(() =>
   S.Struct({
@@ -1634,21 +1751,21 @@ export class PredictorNotMountedException extends S.TaggedError<PredictorNotMoun
 export const describeBatchPredictions: {
   (
     input: DescribeBatchPredictionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeBatchPredictionsOutput,
     InternalServerException | InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeBatchPredictionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeBatchPredictionsOutput,
     InternalServerException | InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeBatchPredictionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BatchPrediction,
     InternalServerException | InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1670,21 +1787,21 @@ export const describeBatchPredictions: {
 export const describeDataSources: {
   (
     input: DescribeDataSourcesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeDataSourcesOutput,
     InternalServerException | InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDataSourcesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeDataSourcesOutput,
     InternalServerException | InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDataSourcesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataSource,
     InternalServerException | InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1706,21 +1823,21 @@ export const describeDataSources: {
 export const describeEvaluations: {
   (
     input: DescribeEvaluationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeEvaluationsOutput,
     InternalServerException | InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeEvaluationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeEvaluationsOutput,
     InternalServerException | InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEvaluationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Evaluation,
     InternalServerException | InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1742,21 +1859,21 @@ export const describeEvaluations: {
 export const describeMLModels: {
   (
     input: DescribeMLModelsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeMLModelsOutput,
     InternalServerException | InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeMLModelsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeMLModelsOutput,
     InternalServerException | InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMLModelsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MLModel,
     InternalServerException | InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1786,7 +1903,7 @@ export const describeMLModels: {
  */
 export const createEvaluation: (
   input: CreateEvaluationInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEvaluationOutput,
   | IdempotentParameterMismatchException
   | InternalServerException
@@ -1816,7 +1933,7 @@ export const createEvaluation: (
  */
 export const createBatchPrediction: (
   input: CreateBatchPredictionInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBatchPredictionOutput,
   | IdempotentParameterMismatchException
   | InternalServerException
@@ -1867,7 +1984,7 @@ export const createBatchPrediction: (
  */
 export const createDataSourceFromS3: (
   input: CreateDataSourceFromS3Input,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataSourceFromS3Output,
   | IdempotentParameterMismatchException
   | InternalServerException
@@ -1907,7 +2024,7 @@ export const createDataSourceFromS3: (
  */
 export const createMLModel: (
   input: CreateMLModelInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMLModelOutput,
   | IdempotentParameterMismatchException
   | InternalServerException
@@ -1936,7 +2053,7 @@ export const createMLModel: (
  */
 export const createDataSourceFromRDS: (
   input: CreateDataSourceFromRDSInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataSourceFromRDSOutput,
   | IdempotentParameterMismatchException
   | InternalServerException
@@ -1986,7 +2103,7 @@ export const createDataSourceFromRDS: (
  */
 export const createDataSourceFromRedshift: (
   input: CreateDataSourceFromRedshiftInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataSourceFromRedshiftOutput,
   | IdempotentParameterMismatchException
   | InternalServerException
@@ -2012,7 +2129,7 @@ export const createDataSourceFromRedshift: (
  */
 export const deleteBatchPrediction: (
   input: DeleteBatchPredictionInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBatchPredictionOutput,
   | InternalServerException
   | InvalidInputException
@@ -2035,7 +2152,7 @@ export const deleteBatchPrediction: (
  */
 export const deleteTags: (
   input: DeleteTagsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTagsOutput,
   | InternalServerException
   | InvalidInputException
@@ -2058,7 +2175,7 @@ export const deleteTags: (
  */
 export const getEvaluation: (
   input: GetEvaluationInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetEvaluationOutput,
   | InternalServerException
   | InvalidInputException
@@ -2082,7 +2199,7 @@ export const getEvaluation: (
  */
 export const getDataSource: (
   input: GetDataSourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataSourceOutput,
   | InternalServerException
   | InvalidInputException
@@ -2107,7 +2224,7 @@ export const getDataSource: (
  */
 export const deleteDataSource: (
   input: DeleteDataSourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDataSourceOutput,
   | InternalServerException
   | InvalidInputException
@@ -2133,7 +2250,7 @@ export const deleteDataSource: (
  */
 export const deleteEvaluation: (
   input: DeleteEvaluationInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEvaluationOutput,
   | InternalServerException
   | InvalidInputException
@@ -2159,7 +2276,7 @@ export const deleteEvaluation: (
  */
 export const deleteMLModel: (
   input: DeleteMLModelInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMLModelOutput,
   | InternalServerException
   | InvalidInputException
@@ -2180,7 +2297,7 @@ export const deleteMLModel: (
  */
 export const deleteRealtimeEndpoint: (
   input: DeleteRealtimeEndpointInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRealtimeEndpointOutput,
   | InternalServerException
   | InvalidInputException
@@ -2201,7 +2318,7 @@ export const deleteRealtimeEndpoint: (
  */
 export const describeTags: (
   input: DescribeTagsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeTagsOutput,
   | InternalServerException
   | InvalidInputException
@@ -2223,7 +2340,7 @@ export const describeTags: (
  */
 export const getBatchPrediction: (
   input: GetBatchPredictionInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetBatchPredictionOutput,
   | InternalServerException
   | InvalidInputException
@@ -2246,7 +2363,7 @@ export const getBatchPrediction: (
  */
 export const getMLModel: (
   input: GetMLModelInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetMLModelOutput,
   | InternalServerException
   | InvalidInputException
@@ -2269,7 +2386,7 @@ export const getMLModel: (
  */
 export const updateBatchPrediction: (
   input: UpdateBatchPredictionInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateBatchPredictionOutput,
   | InternalServerException
   | InvalidInputException
@@ -2292,7 +2409,7 @@ export const updateBatchPrediction: (
  */
 export const updateDataSource: (
   input: UpdateDataSourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDataSourceOutput,
   | InternalServerException
   | InvalidInputException
@@ -2315,7 +2432,7 @@ export const updateDataSource: (
  */
 export const updateEvaluation: (
   input: UpdateEvaluationInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEvaluationOutput,
   | InternalServerException
   | InvalidInputException
@@ -2338,7 +2455,7 @@ export const updateEvaluation: (
  */
 export const updateMLModel: (
   input: UpdateMLModelInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMLModelOutput,
   | InternalServerException
   | InvalidInputException
@@ -2359,7 +2476,7 @@ export const updateMLModel: (
  */
 export const createRealtimeEndpoint: (
   input: CreateRealtimeEndpointInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRealtimeEndpointOutput,
   | InternalServerException
   | InvalidInputException
@@ -2382,7 +2499,7 @@ export const createRealtimeEndpoint: (
  */
 export const addTags: (
   input: AddTagsInput,
-) => Effect.Effect<
+) => effect.Effect<
   AddTagsOutput,
   | InternalServerException
   | InvalidInputException
@@ -2410,7 +2527,7 @@ export const addTags: (
  */
 export const predict: (
   input: PredictInput,
-) => Effect.Effect<
+) => effect.Effect<
   PredictOutput,
   | InternalServerException
   | InvalidInputException

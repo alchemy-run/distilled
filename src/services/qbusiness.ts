@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -99,7 +99,6 @@ export type MaxResultsIntegerForGetTopicConfigurations = number;
 export type NextToken = string;
 export type MediaId = string;
 export type MaxResultsIntegerForListAttachments = number;
-export type Integer = number;
 export type MaxResultsIntegerForListConversations = number;
 export type MaxResultsIntegerForListDataSourcesSyncJobs = number;
 export type MaxResultsIntegerForListDocuments = number;
@@ -121,7 +120,7 @@ export type InstanceArn = string;
 export type ClientIdForOIDC = string;
 export type Description = string;
 export type MaxResultsIntegerForListApplications = number;
-export type DataAccessorName = string | Redacted.Redacted<string>;
+export type DataAccessorName = string | redacted.Redacted<string>;
 export type DataAccessorId = string;
 export type NextToken1500 = string;
 export type MaxResultsIntegerForListDataAccessors = number;
@@ -155,7 +154,7 @@ export type SystemMessageOverride = string;
 export type TopicConfigurationName = string;
 export type TopicDescription = string;
 export type ExampleChatMessage = string;
-export type KmsKeyId = string | Redacted.Redacted<string>;
+export type KmsKeyId = string | redacted.Redacted<string>;
 export type ClientNamespace = string;
 export type DataAccessorExternalId = string;
 export type IndexCapacityInteger = number;
@@ -188,8 +187,7 @@ export type S3BucketName = string;
 export type S3ObjectKey = string;
 export type LambdaArn = string;
 export type SecretArn = string;
-export type Payload = string | Redacted.Redacted<string>;
-export type Long = number;
+export type Payload = string | redacted.Redacted<string>;
 export type KendraIndexId = string;
 export type SamlAuthenticationUrl = string;
 export type SamlMetadataXML = string;
@@ -212,12 +210,109 @@ export type QIamActions = string[];
 export const QIamActions = S.Array(S.String);
 export type UserGroups = string[];
 export const UserGroups = S.Array(S.String);
+export type ChatMode = "RETRIEVAL_MODE" | "CREATOR_MODE" | "PLUGIN_MODE";
+export const ChatMode = S.Literal(
+  "RETRIEVAL_MODE",
+  "CREATOR_MODE",
+  "PLUGIN_MODE",
+);
+export type SubscriptionType = "Q_LITE" | "Q_BUSINESS";
+export const SubscriptionType = S.Literal("Q_LITE", "Q_BUSINESS");
+export type OutputFormat = "RAW" | "EXTRACTED";
+export const OutputFormat = S.Literal("RAW", "EXTRACTED");
+export type DataSourceSyncJobStatus =
+  | "FAILED"
+  | "SUCCEEDED"
+  | "SYNCING"
+  | "INCOMPLETE"
+  | "STOPPING"
+  | "ABORTED"
+  | "SYNCING_INDEXING";
+export const DataSourceSyncJobStatus = S.Literal(
+  "FAILED",
+  "SUCCEEDED",
+  "SYNCING",
+  "INCOMPLETE",
+  "STOPPING",
+  "ABORTED",
+  "SYNCING_INDEXING",
+);
 export type DataSourceIds = string[];
 export const DataSourceIds = S.Array(S.String);
+export type PluginType =
+  | "SERVICE_NOW"
+  | "SALESFORCE"
+  | "JIRA"
+  | "ZENDESK"
+  | "CUSTOM"
+  | "QUICKSIGHT"
+  | "SERVICENOW_NOW_PLATFORM"
+  | "JIRA_CLOUD"
+  | "SALESFORCE_CRM"
+  | "ZENDESK_SUITE"
+  | "ATLASSIAN_CONFLUENCE"
+  | "GOOGLE_CALENDAR"
+  | "MICROSOFT_TEAMS"
+  | "MICROSOFT_EXCHANGE"
+  | "PAGERDUTY_ADVANCE"
+  | "SMARTSHEET"
+  | "ASANA";
+export const PluginType = S.Literal(
+  "SERVICE_NOW",
+  "SALESFORCE",
+  "JIRA",
+  "ZENDESK",
+  "CUSTOM",
+  "QUICKSIGHT",
+  "SERVICENOW_NOW_PLATFORM",
+  "JIRA_CLOUD",
+  "SALESFORCE_CRM",
+  "ZENDESK_SUITE",
+  "ATLASSIAN_CONFLUENCE",
+  "GOOGLE_CALENDAR",
+  "MICROSOFT_TEAMS",
+  "MICROSOFT_EXCHANGE",
+  "PAGERDUTY_ADVANCE",
+  "SMARTSHEET",
+  "ASANA",
+);
+export type MembershipType = "INDEX" | "DATASOURCE";
+export const MembershipType = S.Literal("INDEX", "DATASOURCE");
 export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
+export type ResponseScope =
+  | "ENTERPRISE_CONTENT_ONLY"
+  | "EXTENDED_KNOWLEDGE_ENABLED";
+export const ResponseScope = S.Literal(
+  "ENTERPRISE_CONTENT_ONLY",
+  "EXTENDED_KNOWLEDGE_ENABLED",
+);
+export type IdentityType =
+  | "AWS_IAM_IDP_SAML"
+  | "AWS_IAM_IDP_OIDC"
+  | "AWS_IAM_IDC"
+  | "AWS_QUICKSIGHT_IDP"
+  | "ANONYMOUS";
+export const IdentityType = S.Literal(
+  "AWS_IAM_IDP_SAML",
+  "AWS_IAM_IDP_OIDC",
+  "AWS_IAM_IDC",
+  "AWS_QUICKSIGHT_IDP",
+  "ANONYMOUS",
+);
 export type ClientIdsForOIDC = string[];
 export const ClientIdsForOIDC = S.Array(S.String);
+export type IndexType = "ENTERPRISE" | "STARTER";
+export const IndexType = S.Literal("ENTERPRISE", "STARTER");
+export type PluginState = "ENABLED" | "DISABLED";
+export const PluginState = S.Literal("ENABLED", "DISABLED");
+export type RetrieverType = "NATIVE_INDEX" | "KENDRA_INDEX";
+export const RetrieverType = S.Literal("NATIVE_INDEX", "KENDRA_INDEX");
+export type WebExperienceSamplePromptsControlMode = "ENABLED" | "DISABLED";
+export const WebExperienceSamplePromptsControlMode = S.Literal(
+  "ENABLED",
+  "DISABLED",
+);
 export type WebExperienceOrigins = string[];
 export const WebExperienceOrigins = S.Array(S.String);
 export interface CancelSubscriptionRequest {
@@ -571,7 +666,7 @@ export interface GetDocumentContentRequest {
   indexId: string;
   dataSourceId?: string;
   documentId: string;
-  outputFormat?: string;
+  outputFormat?: OutputFormat;
 }
 export const GetDocumentContentRequest = S.suspend(() =>
   S.Struct({
@@ -579,7 +674,7 @@ export const GetDocumentContentRequest = S.suspend(() =>
     indexId: S.String.pipe(T.HttpLabel("indexId")),
     dataSourceId: S.optional(S.String).pipe(T.HttpQuery("dataSourceId")),
     documentId: S.String.pipe(T.HttpLabel("documentId")),
-    outputFormat: S.optional(S.String).pipe(T.HttpQuery("outputFormat")),
+    outputFormat: S.optional(OutputFormat).pipe(T.HttpQuery("outputFormat")),
   }).pipe(
     T.all(
       T.Http({
@@ -785,7 +880,7 @@ export interface ListDataSourceSyncJobsRequest {
   maxResults?: number;
   startTime?: Date;
   endTime?: Date;
-  statusFilter?: string;
+  statusFilter?: DataSourceSyncJobStatus;
 }
 export const ListDataSourceSyncJobsRequest = S.suspend(() =>
   S.Struct({
@@ -800,7 +895,9 @@ export const ListDataSourceSyncJobsRequest = S.suspend(() =>
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
       T.HttpQuery("endTime"),
     ),
-    statusFilter: S.optional(S.String).pipe(T.HttpQuery("syncStatus")),
+    statusFilter: S.optional(DataSourceSyncJobStatus).pipe(
+      T.HttpQuery("syncStatus"),
+    ),
   }).pipe(
     T.all(
       T.Http({
@@ -820,7 +917,7 @@ export const ListDataSourceSyncJobsRequest = S.suspend(() =>
 export interface ListDocumentsRequest {
   applicationId: string;
   indexId: string;
-  dataSourceIds?: DataSourceIds;
+  dataSourceIds?: string[];
   nextToken?: string;
   maxResults?: number;
 }
@@ -940,13 +1037,13 @@ export const ListPluginActionsRequest = S.suspend(() =>
   identifier: "ListPluginActionsRequest",
 }) as any as S.Schema<ListPluginActionsRequest>;
 export interface ListPluginTypeActionsRequest {
-  pluginType: string;
+  pluginType: PluginType;
   nextToken?: string;
   maxResults?: number;
 }
 export const ListPluginTypeActionsRequest = S.suspend(() =>
   S.Struct({
-    pluginType: S.String.pipe(T.HttpLabel("pluginType")),
+    pluginType: PluginType.pipe(T.HttpLabel("pluginType")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
@@ -1095,7 +1192,7 @@ export type Tags = Tag[];
 export const Tags = S.Array(Tag);
 export interface TagResourceRequest {
   resourceARN: string;
-  tags: Tags;
+  tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1120,7 +1217,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceARN: string;
-  tagKeys: TagKeys;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1143,6 +1240,8 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
+export type ResponseConfigurationType = "ALL";
+export const ResponseConfigurationType = S.Literal("ALL");
 export interface InstructionCollection {
   responseLength?: string;
   targetAudience?: string;
@@ -1175,16 +1274,17 @@ export const ResponseConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ResponseConfiguration",
 }) as any as S.Schema<ResponseConfiguration>;
-export type ResponseConfigurations = { [key: string]: ResponseConfiguration };
-export const ResponseConfigurations = S.Record({
-  key: S.String,
-  value: ResponseConfiguration,
-});
+export type ResponseConfigurations = {
+  [key in ResponseConfigurationType]?: ResponseConfiguration;
+};
+export const ResponseConfigurations = S.partial(
+  S.Record({ key: ResponseConfigurationType, value: ResponseConfiguration }),
+);
 export interface UpdateChatResponseConfigurationRequest {
   applicationId: string;
   chatResponseConfigurationId: string;
   displayName?: string;
-  responseConfigurations: ResponseConfigurations;
+  responseConfigurations: { [key: string]: ResponseConfiguration };
   clientToken?: string;
 }
 export const UpdateChatResponseConfigurationRequest = S.suspend(() =>
@@ -1221,13 +1321,13 @@ export const UpdateChatResponseConfigurationResponse = S.suspend(() =>
 export interface UpdateSubscriptionRequest {
   applicationId: string;
   subscriptionId: string;
-  type: string;
+  type: SubscriptionType;
 }
 export const UpdateSubscriptionRequest = S.suspend(() =>
   S.Struct({
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     subscriptionId: S.String.pipe(T.HttpLabel("subscriptionId")),
-    type: S.String,
+    type: SubscriptionType,
   }).pipe(
     T.all(
       T.Http({
@@ -1261,8 +1361,8 @@ export const UserAliases = S.Array(UserAlias);
 export interface UpdateUserRequest {
   applicationId: string;
   userId: string;
-  userAliasesToUpdate?: UserAliases;
-  userAliasesToDelete?: UserAliases;
+  userAliasesToUpdate?: UserAlias[];
+  userAliasesToDelete?: UserAlias[];
 }
 export const UpdateUserRequest = S.suspend(() =>
   S.Struct({
@@ -1375,7 +1475,7 @@ export type DocumentAttributeStringListValue = string[];
 export const DocumentAttributeStringListValue = S.Array(S.String);
 export type DocumentAttributeValue =
   | { stringValue: string }
-  | { stringListValue: DocumentAttributeStringListValue }
+  | { stringListValue: string[] }
   | { longValue: number }
   | { dateValue: Date };
 export const DocumentAttributeValue = S.Union(
@@ -1386,7 +1486,7 @@ export const DocumentAttributeValue = S.Union(
 );
 export interface DocumentAttribute {
   name: string;
-  value: (typeof DocumentAttributeValue)["Type"];
+  value: DocumentAttributeValue;
 }
 export const DocumentAttribute = S.suspend(() =>
   S.Struct({ name: S.String, value: DocumentAttributeValue }),
@@ -1394,8 +1494,8 @@ export const DocumentAttribute = S.suspend(() =>
   identifier: "DocumentAttribute",
 }) as any as S.Schema<DocumentAttribute>;
 export interface AttributeFilter {
-  andAllFilters?: AttributeFilters;
-  orAllFilters?: AttributeFilters;
+  andAllFilters?: AttributeFilter[];
+  orAllFilters?: AttributeFilter[];
   notFilter?: AttributeFilter;
   equalsTo?: DocumentAttribute;
   containsAll?: DocumentAttribute;
@@ -1455,6 +1555,13 @@ export const ActionConfiguration = S.suspend(() =>
 }) as any as S.Schema<ActionConfiguration>;
 export type ActionConfigurationList = ActionConfiguration[];
 export const ActionConfigurationList = S.Array(ActionConfiguration);
+export type DataAccessorAuthenticationType =
+  | "AWS_IAM_IDC_TTI"
+  | "AWS_IAM_IDC_AUTH_CODE";
+export const DataAccessorAuthenticationType = S.Literal(
+  "AWS_IAM_IDC_TTI",
+  "AWS_IAM_IDC_AUTH_CODE",
+);
 export interface DataAccessorIdcTrustedTokenIssuerConfiguration {
   idcTrustedTokenIssuerArn: string;
 }
@@ -1475,13 +1582,13 @@ export const DataAccessorAuthenticationConfiguration = S.Union(
 export type DataAccessorExternalIds = string[];
 export const DataAccessorExternalIds = S.Array(S.String);
 export interface DataAccessorAuthenticationDetail {
-  authenticationType: string;
-  authenticationConfiguration?: (typeof DataAccessorAuthenticationConfiguration)["Type"];
-  externalIds?: DataAccessorExternalIds;
+  authenticationType: DataAccessorAuthenticationType;
+  authenticationConfiguration?: DataAccessorAuthenticationConfiguration;
+  externalIds?: string[];
 }
 export const DataAccessorAuthenticationDetail = S.suspend(() =>
   S.Struct({
-    authenticationType: S.String,
+    authenticationType: DataAccessorAuthenticationType,
     authenticationConfiguration: S.optional(
       DataAccessorAuthenticationConfiguration,
     ),
@@ -1493,9 +1600,9 @@ export const DataAccessorAuthenticationDetail = S.suspend(() =>
 export interface UpdateDataAccessorRequest {
   applicationId: string;
   dataAccessorId: string;
-  actionConfigurations: ActionConfigurationList;
+  actionConfigurations: ActionConfiguration[];
   authenticationDetail?: DataAccessorAuthenticationDetail;
-  displayName?: string | Redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string>;
 }
 export const UpdateDataAccessorRequest = S.suspend(() =>
   S.Struct({
@@ -1688,52 +1795,81 @@ export const SubnetIds = S.Array(S.String);
 export type SecurityGroupIds = string[];
 export const SecurityGroupIds = S.Array(S.String);
 export interface DataSourceVpcConfiguration {
-  subnetIds: SubnetIds;
-  securityGroupIds: SecurityGroupIds;
+  subnetIds: string[];
+  securityGroupIds: string[];
 }
 export const DataSourceVpcConfiguration = S.suspend(() =>
   S.Struct({ subnetIds: SubnetIds, securityGroupIds: SecurityGroupIds }),
 ).annotations({
   identifier: "DataSourceVpcConfiguration",
 }) as any as S.Schema<DataSourceVpcConfiguration>;
+export type DocumentEnrichmentConditionOperator =
+  | "GREATER_THAN"
+  | "GREATER_THAN_OR_EQUALS"
+  | "LESS_THAN"
+  | "LESS_THAN_OR_EQUALS"
+  | "EQUALS"
+  | "NOT_EQUALS"
+  | "CONTAINS"
+  | "NOT_CONTAINS"
+  | "EXISTS"
+  | "NOT_EXISTS"
+  | "BEGINS_WITH";
+export const DocumentEnrichmentConditionOperator = S.Literal(
+  "GREATER_THAN",
+  "GREATER_THAN_OR_EQUALS",
+  "LESS_THAN",
+  "LESS_THAN_OR_EQUALS",
+  "EQUALS",
+  "NOT_EQUALS",
+  "CONTAINS",
+  "NOT_CONTAINS",
+  "EXISTS",
+  "NOT_EXISTS",
+  "BEGINS_WITH",
+);
 export interface DocumentAttributeCondition {
   key: string;
-  operator: string;
-  value?: (typeof DocumentAttributeValue)["Type"];
+  operator: DocumentEnrichmentConditionOperator;
+  value?: DocumentAttributeValue;
 }
 export const DocumentAttributeCondition = S.suspend(() =>
   S.Struct({
     key: S.String,
-    operator: S.String,
+    operator: DocumentEnrichmentConditionOperator,
     value: S.optional(DocumentAttributeValue),
   }),
 ).annotations({
   identifier: "DocumentAttributeCondition",
 }) as any as S.Schema<DocumentAttributeCondition>;
+export type AttributeValueOperator = "DELETE";
+export const AttributeValueOperator = S.Literal("DELETE");
 export interface DocumentAttributeTarget {
   key: string;
-  value?: (typeof DocumentAttributeValue)["Type"];
-  attributeValueOperator?: string;
+  value?: DocumentAttributeValue;
+  attributeValueOperator?: AttributeValueOperator;
 }
 export const DocumentAttributeTarget = S.suspend(() =>
   S.Struct({
     key: S.String,
     value: S.optional(DocumentAttributeValue),
-    attributeValueOperator: S.optional(S.String),
+    attributeValueOperator: S.optional(AttributeValueOperator),
   }),
 ).annotations({
   identifier: "DocumentAttributeTarget",
 }) as any as S.Schema<DocumentAttributeTarget>;
+export type DocumentContentOperator = "DELETE";
+export const DocumentContentOperator = S.Literal("DELETE");
 export interface InlineDocumentEnrichmentConfiguration {
   condition?: DocumentAttributeCondition;
   target?: DocumentAttributeTarget;
-  documentContentOperator?: string;
+  documentContentOperator?: DocumentContentOperator;
 }
 export const InlineDocumentEnrichmentConfiguration = S.suspend(() =>
   S.Struct({
     condition: S.optional(DocumentAttributeCondition),
     target: S.optional(DocumentAttributeTarget),
-    documentContentOperator: S.optional(S.String),
+    documentContentOperator: S.optional(DocumentContentOperator),
   }),
 ).annotations({
   identifier: "InlineDocumentEnrichmentConfiguration",
@@ -1760,7 +1896,7 @@ export const HookConfiguration = S.suspend(() =>
   identifier: "HookConfiguration",
 }) as any as S.Schema<HookConfiguration>;
 export interface DocumentEnrichmentConfiguration {
-  inlineConfigurations?: InlineDocumentEnrichmentConfigurations;
+  inlineConfigurations?: InlineDocumentEnrichmentConfiguration[];
   preExtractionHookConfiguration?: HookConfiguration;
   postExtractionHookConfiguration?: HookConfiguration;
 }
@@ -1773,27 +1909,33 @@ export const DocumentEnrichmentConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "DocumentEnrichmentConfiguration",
 }) as any as S.Schema<DocumentEnrichmentConfiguration>;
+export type ImageExtractionStatus = "ENABLED" | "DISABLED";
+export const ImageExtractionStatus = S.Literal("ENABLED", "DISABLED");
 export interface ImageExtractionConfiguration {
-  imageExtractionStatus: string;
+  imageExtractionStatus: ImageExtractionStatus;
 }
 export const ImageExtractionConfiguration = S.suspend(() =>
-  S.Struct({ imageExtractionStatus: S.String }),
+  S.Struct({ imageExtractionStatus: ImageExtractionStatus }),
 ).annotations({
   identifier: "ImageExtractionConfiguration",
 }) as any as S.Schema<ImageExtractionConfiguration>;
+export type AudioExtractionStatus = "ENABLED" | "DISABLED";
+export const AudioExtractionStatus = S.Literal("ENABLED", "DISABLED");
 export interface AudioExtractionConfiguration {
-  audioExtractionStatus: string;
+  audioExtractionStatus: AudioExtractionStatus;
 }
 export const AudioExtractionConfiguration = S.suspend(() =>
-  S.Struct({ audioExtractionStatus: S.String }),
+  S.Struct({ audioExtractionStatus: AudioExtractionStatus }),
 ).annotations({
   identifier: "AudioExtractionConfiguration",
 }) as any as S.Schema<AudioExtractionConfiguration>;
+export type VideoExtractionStatus = "ENABLED" | "DISABLED";
+export const VideoExtractionStatus = S.Literal("ENABLED", "DISABLED");
 export interface VideoExtractionConfiguration {
-  videoExtractionStatus: string;
+  videoExtractionStatus: VideoExtractionStatus;
 }
 export const VideoExtractionConfiguration = S.suspend(() =>
-  S.Struct({ videoExtractionStatus: S.String }),
+  S.Struct({ videoExtractionStatus: VideoExtractionStatus }),
 ).annotations({
   identifier: "VideoExtractionConfiguration",
 }) as any as S.Schema<VideoExtractionConfiguration>;
@@ -1945,6 +2087,8 @@ export const GetPluginRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetPluginRequest",
 }) as any as S.Schema<GetPluginRequest>;
+export type APISchemaType = "OPEN_API_V3";
+export const APISchemaType = S.Literal("OPEN_API_V3");
 export interface S3 {
   bucket: string;
   key: string;
@@ -1953,7 +2097,7 @@ export const S3 = S.suspend(() =>
   S.Struct({ bucket: S.String, key: S.String }),
 ).annotations({ identifier: "S3" }) as any as S.Schema<S3>;
 export type APISchema =
-  | { payload: string | Redacted.Redacted<string> }
+  | { payload: string | redacted.Redacted<string> }
   | { s3: S3 };
 export const APISchema = S.Union(
   S.Struct({ payload: SensitiveString }),
@@ -1961,13 +2105,13 @@ export const APISchema = S.Union(
 );
 export interface CustomPluginConfiguration {
   description: string;
-  apiSchemaType: string;
-  apiSchema?: (typeof APISchema)["Type"];
+  apiSchemaType: APISchemaType;
+  apiSchema?: APISchema;
 }
 export const CustomPluginConfiguration = S.suspend(() =>
   S.Struct({
     description: S.String,
-    apiSchemaType: S.String,
+    apiSchemaType: APISchemaType,
     apiSchema: S.optional(APISchema),
   }),
 ).annotations({
@@ -2028,17 +2172,17 @@ export interface UpdatePluginRequest {
   applicationId: string;
   pluginId: string;
   displayName?: string;
-  state?: string;
+  state?: PluginState;
   serverUrl?: string;
   customPluginConfiguration?: CustomPluginConfiguration;
-  authConfiguration?: (typeof PluginAuthConfiguration)["Type"];
+  authConfiguration?: PluginAuthConfiguration;
 }
 export const UpdatePluginRequest = S.suspend(() =>
   S.Struct({
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     pluginId: S.String.pipe(T.HttpLabel("pluginId")),
     displayName: S.optional(S.String),
-    state: S.optional(S.String),
+    state: S.optional(PluginState),
     serverUrl: S.optional(S.String),
     customPluginConfiguration: S.optional(CustomPluginConfiguration),
     authConfiguration: S.optional(PluginAuthConfiguration),
@@ -2137,49 +2281,99 @@ export const GetRetrieverRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetRetrieverRequest",
 }) as any as S.Schema<GetRetrieverRequest>;
+export type DocumentAttributeBoostingLevel =
+  | "NONE"
+  | "LOW"
+  | "MEDIUM"
+  | "HIGH"
+  | "VERY_HIGH"
+  | "ONE"
+  | "TWO";
+export const DocumentAttributeBoostingLevel = S.Literal(
+  "NONE",
+  "LOW",
+  "MEDIUM",
+  "HIGH",
+  "VERY_HIGH",
+  "ONE",
+  "TWO",
+);
+export type NumberAttributeBoostingType =
+  | "PRIORITIZE_LARGER_VALUES"
+  | "PRIORITIZE_SMALLER_VALUES";
+export const NumberAttributeBoostingType = S.Literal(
+  "PRIORITIZE_LARGER_VALUES",
+  "PRIORITIZE_SMALLER_VALUES",
+);
 export interface NumberAttributeBoostingConfiguration {
-  boostingLevel: string;
-  boostingType?: string;
+  boostingLevel: DocumentAttributeBoostingLevel;
+  boostingType?: NumberAttributeBoostingType;
 }
 export const NumberAttributeBoostingConfiguration = S.suspend(() =>
-  S.Struct({ boostingLevel: S.String, boostingType: S.optional(S.String) }),
+  S.Struct({
+    boostingLevel: DocumentAttributeBoostingLevel,
+    boostingType: S.optional(NumberAttributeBoostingType),
+  }),
 ).annotations({
   identifier: "NumberAttributeBoostingConfiguration",
 }) as any as S.Schema<NumberAttributeBoostingConfiguration>;
-export type StringAttributeValueBoosting = { [key: string]: string };
+export type StringAttributeValueBoostingLevel =
+  | "LOW"
+  | "MEDIUM"
+  | "HIGH"
+  | "VERY_HIGH"
+  | "ONE"
+  | "TWO"
+  | "THREE"
+  | "FOUR"
+  | "FIVE";
+export const StringAttributeValueBoostingLevel = S.Literal(
+  "LOW",
+  "MEDIUM",
+  "HIGH",
+  "VERY_HIGH",
+  "ONE",
+  "TWO",
+  "THREE",
+  "FOUR",
+  "FIVE",
+);
+export type StringAttributeValueBoosting = {
+  [key: string]: StringAttributeValueBoostingLevel;
+};
 export const StringAttributeValueBoosting = S.Record({
   key: S.String,
-  value: S.String,
+  value: StringAttributeValueBoostingLevel,
 });
 export interface StringAttributeBoostingConfiguration {
-  boostingLevel: string;
-  attributeValueBoosting?: StringAttributeValueBoosting;
+  boostingLevel: DocumentAttributeBoostingLevel;
+  attributeValueBoosting?: { [key: string]: StringAttributeValueBoostingLevel };
 }
 export const StringAttributeBoostingConfiguration = S.suspend(() =>
   S.Struct({
-    boostingLevel: S.String,
+    boostingLevel: DocumentAttributeBoostingLevel,
     attributeValueBoosting: S.optional(StringAttributeValueBoosting),
   }),
 ).annotations({
   identifier: "StringAttributeBoostingConfiguration",
 }) as any as S.Schema<StringAttributeBoostingConfiguration>;
 export interface DateAttributeBoostingConfiguration {
-  boostingLevel: string;
+  boostingLevel: DocumentAttributeBoostingLevel;
   boostingDurationInSeconds?: number;
 }
 export const DateAttributeBoostingConfiguration = S.suspend(() =>
   S.Struct({
-    boostingLevel: S.String,
+    boostingLevel: DocumentAttributeBoostingLevel,
     boostingDurationInSeconds: S.optional(S.Number),
   }),
 ).annotations({
   identifier: "DateAttributeBoostingConfiguration",
 }) as any as S.Schema<DateAttributeBoostingConfiguration>;
 export interface StringListAttributeBoostingConfiguration {
-  boostingLevel: string;
+  boostingLevel: DocumentAttributeBoostingLevel;
 }
 export const StringListAttributeBoostingConfiguration = S.suspend(() =>
-  S.Struct({ boostingLevel: S.String }),
+  S.Struct({ boostingLevel: DocumentAttributeBoostingLevel }),
 ).annotations({
   identifier: "StringListAttributeBoostingConfiguration",
 }) as any as S.Schema<StringListAttributeBoostingConfiguration>;
@@ -2197,7 +2391,7 @@ export const DocumentAttributeBoostingConfiguration = S.Union(
   }),
 );
 export type DocumentAttributeBoostingOverrideMap = {
-  [key: string]: (typeof DocumentAttributeBoostingConfiguration)["Type"];
+  [key: string]: DocumentAttributeBoostingConfiguration;
 };
 export const DocumentAttributeBoostingOverrideMap = S.Record({
   key: S.String,
@@ -2206,7 +2400,7 @@ export const DocumentAttributeBoostingOverrideMap = S.Record({
 export interface NativeIndexConfiguration {
   indexId: string;
   version?: number;
-  boostingOverride?: DocumentAttributeBoostingOverrideMap;
+  boostingOverride?: { [key: string]: DocumentAttributeBoostingConfiguration };
 }
 export const NativeIndexConfiguration = S.suspend(() =>
   S.Struct({
@@ -2235,7 +2429,7 @@ export const RetrieverConfiguration = S.Union(
 export interface UpdateRetrieverRequest {
   applicationId: string;
   retrieverId: string;
-  configuration?: (typeof RetrieverConfiguration)["Type"];
+  configuration?: RetrieverConfiguration;
   displayName?: string;
   roleArn?: string;
 }
@@ -2404,8 +2598,37 @@ export const ListWebExperiencesRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListWebExperiencesRequest",
 }) as any as S.Schema<ListWebExperiencesRequest>;
+export type PermissionConditionOperator = "StringEquals";
+export const PermissionConditionOperator = S.Literal("StringEquals");
 export type PermissionConditionValues = string[];
 export const PermissionConditionValues = S.Array(S.String);
+export type ContentType =
+  | "PDF"
+  | "HTML"
+  | "MS_WORD"
+  | "PLAIN_TEXT"
+  | "PPT"
+  | "RTF"
+  | "XML"
+  | "XSLT"
+  | "MS_EXCEL"
+  | "CSV"
+  | "JSON"
+  | "MD";
+export const ContentType = S.Literal(
+  "PDF",
+  "HTML",
+  "MS_WORD",
+  "PLAIN_TEXT",
+  "PPT",
+  "RTF",
+  "XML",
+  "XSLT",
+  "MS_EXCEL",
+  "CSV",
+  "JSON",
+  "MD",
+);
 export interface EndOfInputEvent {}
 export const EndOfInputEvent = S.suspend(() => S.Struct({})).annotations({
   identifier: "EndOfInputEvent",
@@ -2416,20 +2639,72 @@ export const AttributeFilters = S.Array(
     identifier: "AttributeFilter",
   }),
 ) as any as S.Schema<AttributeFilters>;
+export type MessageUsefulness = "USEFUL" | "NOT_USEFUL";
+export const MessageUsefulness = S.Literal("USEFUL", "NOT_USEFUL");
+export type MessageUsefulnessReason =
+  | "NOT_FACTUALLY_CORRECT"
+  | "HARMFUL_OR_UNSAFE"
+  | "INCORRECT_OR_MISSING_SOURCES"
+  | "NOT_HELPFUL"
+  | "FACTUALLY_CORRECT"
+  | "COMPLETE"
+  | "RELEVANT_SOURCES"
+  | "HELPFUL"
+  | "NOT_BASED_ON_DOCUMENTS"
+  | "NOT_COMPLETE"
+  | "NOT_CONCISE"
+  | "OTHER";
+export const MessageUsefulnessReason = S.Literal(
+  "NOT_FACTUALLY_CORRECT",
+  "HARMFUL_OR_UNSAFE",
+  "INCORRECT_OR_MISSING_SOURCES",
+  "NOT_HELPFUL",
+  "FACTUALLY_CORRECT",
+  "COMPLETE",
+  "RELEVANT_SOURCES",
+  "HELPFUL",
+  "NOT_BASED_ON_DOCUMENTS",
+  "NOT_COMPLETE",
+  "NOT_CONCISE",
+  "OTHER",
+);
+export type OrchestrationControl = "ENABLED" | "DISABLED";
+export const OrchestrationControl = S.Literal("ENABLED", "DISABLED");
 export type BlockedPhrases = string[];
 export const BlockedPhrases = S.Array(S.String);
 export type ExampleChatMessages = string[];
 export const ExampleChatMessages = S.Array(S.String);
+export type CreatorModeControl = "ENABLED" | "DISABLED";
+export const CreatorModeControl = S.Literal("ENABLED", "DISABLED");
+export type HallucinationReductionControl = "ENABLED" | "DISABLED";
+export const HallucinationReductionControl = S.Literal("ENABLED", "DISABLED");
+export type AttachmentsControlMode = "ENABLED" | "DISABLED";
+export const AttachmentsControlMode = S.Literal("ENABLED", "DISABLED");
+export type QAppsControlMode = "ENABLED" | "DISABLED";
+export const QAppsControlMode = S.Literal("ENABLED", "DISABLED");
+export type PersonalizationControlMode = "ENABLED" | "DISABLED";
+export const PersonalizationControlMode = S.Literal("ENABLED", "DISABLED");
+export type AutoSubscriptionStatus = "ENABLED" | "DISABLED";
+export const AutoSubscriptionStatus = S.Literal("ENABLED", "DISABLED");
+export type AttributeType = "STRING" | "STRING_LIST" | "NUMBER" | "DATE";
+export const AttributeType = S.Literal(
+  "STRING",
+  "STRING_LIST",
+  "NUMBER",
+  "DATE",
+);
+export type Status = "ENABLED" | "DISABLED";
+export const Status = S.Literal("ENABLED", "DISABLED");
 export type BrowserExtensionList = string[];
 export const BrowserExtensionList = S.Array(S.String);
 export interface PermissionCondition {
-  conditionOperator: string;
+  conditionOperator: PermissionConditionOperator;
   conditionKey: string;
-  conditionValues: PermissionConditionValues;
+  conditionValues: string[];
 }
 export const PermissionCondition = S.suspend(() =>
   S.Struct({
-    conditionOperator: S.String,
+    conditionOperator: PermissionConditionOperator,
     conditionKey: S.String,
     conditionValues: PermissionConditionValues,
   }),
@@ -2453,24 +2728,48 @@ export const SubscriptionPrincipal = S.Union(
   S.Struct({ user: S.String }),
   S.Struct({ group: S.String }),
 );
+export type GroupStatus =
+  | "FAILED"
+  | "SUCCEEDED"
+  | "PROCESSING"
+  | "DELETING"
+  | "DELETED";
+export const GroupStatus = S.Literal(
+  "FAILED",
+  "SUCCEEDED",
+  "PROCESSING",
+  "DELETING",
+  "DELETED",
+);
+export type ErrorCode =
+  | "InternalError"
+  | "InvalidRequest"
+  | "ResourceInactive"
+  | "ResourceNotFound";
+export const ErrorCode = S.Literal(
+  "InternalError",
+  "InvalidRequest",
+  "ResourceInactive",
+  "ResourceNotFound",
+);
 export interface ErrorDetail {
   errorMessage?: string;
-  errorCode?: string;
+  errorCode?: ErrorCode;
 }
 export const ErrorDetail = S.suspend(() =>
   S.Struct({
     errorMessage: S.optional(S.String),
-    errorCode: S.optional(S.String),
+    errorCode: S.optional(ErrorCode),
   }),
 ).annotations({ identifier: "ErrorDetail" }) as any as S.Schema<ErrorDetail>;
 export interface GroupStatusDetail {
-  status?: string;
+  status?: GroupStatus;
   lastUpdatedAt?: Date;
   errorDetail?: ErrorDetail;
 }
 export const GroupStatusDetail = S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String),
+    status: S.optional(GroupStatus),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     errorDetail: S.optional(ErrorDetail),
   }),
@@ -2480,15 +2779,15 @@ export const GroupStatusDetail = S.suspend(() =>
 export type GroupStatusDetails = GroupStatusDetail[];
 export const GroupStatusDetails = S.Array(GroupStatusDetail);
 export interface MessageUsefulnessFeedback {
-  usefulness: string;
-  reason?: string;
+  usefulness: MessageUsefulness;
+  reason?: MessageUsefulnessReason;
   comment?: string;
   submittedAt: Date;
 }
 export const MessageUsefulnessFeedback = S.suspend(() =>
   S.Struct({
-    usefulness: S.String,
-    reason: S.optional(S.String),
+    usefulness: MessageUsefulness,
+    reason: S.optional(MessageUsefulnessReason),
     comment: S.optional(S.String),
     submittedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
@@ -2496,16 +2795,16 @@ export const MessageUsefulnessFeedback = S.suspend(() =>
   identifier: "MessageUsefulnessFeedback",
 }) as any as S.Schema<MessageUsefulnessFeedback>;
 export interface OrchestrationConfiguration {
-  control: string;
+  control: OrchestrationControl;
 }
 export const OrchestrationConfiguration = S.suspend(() =>
-  S.Struct({ control: S.String }),
+  S.Struct({ control: OrchestrationControl }),
 ).annotations({
   identifier: "OrchestrationConfiguration",
 }) as any as S.Schema<OrchestrationConfiguration>;
 export interface BlockedPhrasesConfigurationUpdate {
-  blockedPhrasesToCreateOrUpdate?: BlockedPhrases;
-  blockedPhrasesToDelete?: BlockedPhrases;
+  blockedPhrasesToCreateOrUpdate?: string[];
+  blockedPhrasesToDelete?: string[];
   systemMessageOverride?: string;
 }
 export const BlockedPhrasesConfigurationUpdate = S.suspend(() =>
@@ -2518,23 +2817,25 @@ export const BlockedPhrasesConfigurationUpdate = S.suspend(() =>
   identifier: "BlockedPhrasesConfigurationUpdate",
 }) as any as S.Schema<BlockedPhrasesConfigurationUpdate>;
 export interface CreatorModeConfiguration {
-  creatorModeControl: string;
+  creatorModeControl: CreatorModeControl;
 }
 export const CreatorModeConfiguration = S.suspend(() =>
-  S.Struct({ creatorModeControl: S.String }),
+  S.Struct({ creatorModeControl: CreatorModeControl }),
 ).annotations({
   identifier: "CreatorModeConfiguration",
 }) as any as S.Schema<CreatorModeConfiguration>;
 export interface HallucinationReductionConfiguration {
-  hallucinationReductionControl?: string;
+  hallucinationReductionControl?: HallucinationReductionControl;
 }
 export const HallucinationReductionConfiguration = S.suspend(() =>
-  S.Struct({ hallucinationReductionControl: S.optional(S.String) }),
+  S.Struct({
+    hallucinationReductionControl: S.optional(HallucinationReductionControl),
+  }),
 ).annotations({
   identifier: "HallucinationReductionConfiguration",
 }) as any as S.Schema<HallucinationReductionConfiguration>;
 export interface EncryptionConfiguration {
-  kmsKeyId?: string | Redacted.Redacted<string>;
+  kmsKeyId?: string | redacted.Redacted<string>;
 }
 export const EncryptionConfiguration = S.suspend(() =>
   S.Struct({ kmsKeyId: S.optional(SensitiveString) }),
@@ -2542,26 +2843,26 @@ export const EncryptionConfiguration = S.suspend(() =>
   identifier: "EncryptionConfiguration",
 }) as any as S.Schema<EncryptionConfiguration>;
 export interface AttachmentsConfiguration {
-  attachmentsControlMode: string;
+  attachmentsControlMode: AttachmentsControlMode;
 }
 export const AttachmentsConfiguration = S.suspend(() =>
-  S.Struct({ attachmentsControlMode: S.String }),
+  S.Struct({ attachmentsControlMode: AttachmentsControlMode }),
 ).annotations({
   identifier: "AttachmentsConfiguration",
 }) as any as S.Schema<AttachmentsConfiguration>;
 export interface QAppsConfiguration {
-  qAppsControlMode: string;
+  qAppsControlMode: QAppsControlMode;
 }
 export const QAppsConfiguration = S.suspend(() =>
-  S.Struct({ qAppsControlMode: S.String }),
+  S.Struct({ qAppsControlMode: QAppsControlMode }),
 ).annotations({
   identifier: "QAppsConfiguration",
 }) as any as S.Schema<QAppsConfiguration>;
 export interface PersonalizationConfiguration {
-  personalizationControlMode: string;
+  personalizationControlMode: PersonalizationControlMode;
 }
 export const PersonalizationConfiguration = S.suspend(() =>
-  S.Struct({ personalizationControlMode: S.String }),
+  S.Struct({ personalizationControlMode: PersonalizationControlMode }),
 ).annotations({
   identifier: "PersonalizationConfiguration",
 }) as any as S.Schema<PersonalizationConfiguration>;
@@ -2573,14 +2874,27 @@ export const QuickSightConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "QuickSightConfiguration",
 }) as any as S.Schema<QuickSightConfiguration>;
+export type ApplicationStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "DELETING"
+  | "FAILED"
+  | "UPDATING";
+export const ApplicationStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "DELETING",
+  "FAILED",
+  "UPDATING",
+);
 export interface AutoSubscriptionConfiguration {
-  autoSubscribe: string;
-  defaultSubscriptionType?: string;
+  autoSubscribe: AutoSubscriptionStatus;
+  defaultSubscriptionType?: SubscriptionType;
 }
 export const AutoSubscriptionConfiguration = S.suspend(() =>
   S.Struct({
-    autoSubscribe: S.String,
-    defaultSubscriptionType: S.optional(S.String),
+    autoSubscribe: AutoSubscriptionStatus,
+    defaultSubscriptionType: S.optional(SubscriptionType),
   }),
 ).annotations({
   identifier: "AutoSubscriptionConfiguration",
@@ -2593,16 +2907,29 @@ export const IndexCapacityConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "IndexCapacityConfiguration",
 }) as any as S.Schema<IndexCapacityConfiguration>;
+export type IndexStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "DELETING"
+  | "FAILED"
+  | "UPDATING";
+export const IndexStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "DELETING",
+  "FAILED",
+  "UPDATING",
+);
 export interface DocumentAttributeConfiguration {
   name?: string;
-  type?: string;
-  search?: string;
+  type?: AttributeType;
+  search?: Status;
 }
 export const DocumentAttributeConfiguration = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    type: S.optional(S.String),
-    search: S.optional(S.String),
+    type: S.optional(AttributeType),
+    search: S.optional(Status),
   }),
 ).annotations({
   identifier: "DocumentAttributeConfiguration",
@@ -2611,8 +2938,42 @@ export type DocumentAttributeConfigurations = DocumentAttributeConfiguration[];
 export const DocumentAttributeConfigurations = S.Array(
   DocumentAttributeConfiguration,
 );
+export type DataSourceStatus =
+  | "PENDING_CREATION"
+  | "CREATING"
+  | "ACTIVE"
+  | "DELETING"
+  | "FAILED"
+  | "UPDATING";
+export const DataSourceStatus = S.Literal(
+  "PENDING_CREATION",
+  "CREATING",
+  "ACTIVE",
+  "DELETING",
+  "FAILED",
+  "UPDATING",
+);
+export type PluginBuildStatus =
+  | "READY"
+  | "CREATE_IN_PROGRESS"
+  | "CREATE_FAILED"
+  | "UPDATE_IN_PROGRESS"
+  | "UPDATE_FAILED"
+  | "DELETE_IN_PROGRESS"
+  | "DELETE_FAILED";
+export const PluginBuildStatus = S.Literal(
+  "READY",
+  "CREATE_IN_PROGRESS",
+  "CREATE_FAILED",
+  "UPDATE_IN_PROGRESS",
+  "UPDATE_FAILED",
+  "DELETE_IN_PROGRESS",
+  "DELETE_FAILED",
+);
+export type RetrieverStatus = "CREATING" | "ACTIVE" | "FAILED";
+export const RetrieverStatus = S.Literal("CREATING", "ACTIVE", "FAILED");
 export interface BrowserExtensionConfiguration {
-  enabledBrowserExtensions: BrowserExtensionList;
+  enabledBrowserExtensions: string[];
 }
 export const BrowserExtensionConfiguration = S.suspend(() =>
   S.Struct({ enabledBrowserExtensions: BrowserExtensionList }),
@@ -2635,11 +2996,31 @@ export const CustomizationConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "CustomizationConfiguration",
 }) as any as S.Schema<CustomizationConfiguration>;
+export type WebExperienceStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "DELETING"
+  | "FAILED"
+  | "PENDING_AUTH_CONFIG";
+export const WebExperienceStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "DELETING",
+  "FAILED",
+  "PENDING_AUTH_CONFIG",
+);
+export type MemberRelation = "AND" | "OR";
+export const MemberRelation = S.Literal("AND", "OR");
+export type RuleType = "CONTENT_BLOCKER_RULE" | "CONTENT_RETRIEVAL_RULE";
+export const RuleType = S.Literal(
+  "CONTENT_BLOCKER_RULE",
+  "CONTENT_RETRIEVAL_RULE",
+);
 export interface AssociatePermissionRequest {
   applicationId: string;
   statementId: string;
-  actions: QIamActions;
-  conditions?: PermissionConditions;
+  actions: string[];
+  conditions?: PermissionCondition[];
   principal: string;
 }
 export const AssociatePermissionRequest = S.suspend(() =>
@@ -2665,7 +3046,7 @@ export const AssociatePermissionRequest = S.suspend(() =>
 export interface BatchDeleteDocumentRequest {
   applicationId: string;
   indexId: string;
-  documents: DeleteDocuments;
+  documents: DeleteDocument[];
   dataSourceSyncId?: string;
 }
 export const BatchDeleteDocumentRequest = S.suspend(() =>
@@ -2700,15 +3081,15 @@ export const CreateAnonymousWebExperienceUrlResponse = S.suspend(() =>
 }) as any as S.Schema<CreateAnonymousWebExperienceUrlResponse>;
 export interface CreateSubscriptionRequest {
   applicationId: string;
-  principal: (typeof SubscriptionPrincipal)["Type"];
-  type: string;
+  principal: SubscriptionPrincipal;
+  type: SubscriptionType;
   clientToken?: string;
 }
 export const CreateSubscriptionRequest = S.suspend(() =>
   S.Struct({
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     principal: SubscriptionPrincipal,
-    type: S.String,
+    type: SubscriptionType,
     clientToken: S.optional(S.String),
   }).pipe(
     T.all(
@@ -2729,7 +3110,7 @@ export const CreateSubscriptionRequest = S.suspend(() =>
 export interface CreateUserRequest {
   applicationId: string;
   userId: string;
-  userAliases?: UserAliases;
+  userAliases?: UserAlias[];
   clientToken?: string;
 }
 export const CreateUserRequest = S.suspend(() =>
@@ -2785,7 +3166,7 @@ export const GetPolicyResponse = S.suspend(() =>
   identifier: "GetPolicyResponse",
 }) as any as S.Schema<GetPolicyResponse>;
 export interface GetUserResponse {
-  userAliases?: UserAliases;
+  userAliases?: UserAlias[];
 }
 export const GetUserResponse = S.suspend(() =>
   S.Struct({ userAliases: S.optional(UserAliases) }),
@@ -2812,7 +3193,7 @@ export type Actions = ActionSummary[];
 export const Actions = S.Array(ActionSummary);
 export interface ListPluginTypeActionsResponse {
   nextToken?: string;
-  items?: Actions;
+  items?: ActionSummary[];
 }
 export const ListPluginTypeActionsResponse = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), items: S.optional(Actions) }),
@@ -2820,7 +3201,7 @@ export const ListPluginTypeActionsResponse = S.suspend(() =>
   identifier: "ListPluginTypeActionsResponse",
 }) as any as S.Schema<ListPluginTypeActionsResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: Tags;
+  tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -2874,10 +3255,10 @@ export const StartDataSourceSyncJobResponse = S.suspend(() =>
   identifier: "StartDataSourceSyncJobResponse",
 }) as any as S.Schema<StartDataSourceSyncJobResponse>;
 export interface SubscriptionDetails {
-  type?: string;
+  type?: SubscriptionType;
 }
 export const SubscriptionDetails = S.suspend(() =>
-  S.Struct({ type: S.optional(S.String) }),
+  S.Struct({ type: S.optional(SubscriptionType) }),
 ).annotations({
   identifier: "SubscriptionDetails",
 }) as any as S.Schema<SubscriptionDetails>;
@@ -2896,9 +3277,9 @@ export const UpdateSubscriptionResponse = S.suspend(() =>
   identifier: "UpdateSubscriptionResponse",
 }) as any as S.Schema<UpdateSubscriptionResponse>;
 export interface UpdateUserResponse {
-  userAliasesAdded?: UserAliases;
-  userAliasesUpdated?: UserAliases;
-  userAliasesDeleted?: UserAliases;
+  userAliasesAdded?: UserAlias[];
+  userAliasesUpdated?: UserAlias[];
+  userAliasesDeleted?: UserAlias[];
 }
 export const UpdateUserResponse = S.suspend(() =>
   S.Struct({
@@ -2912,13 +3293,13 @@ export const UpdateUserResponse = S.suspend(() =>
 export interface CreateApplicationRequest {
   displayName: string;
   roleArn?: string;
-  identityType?: string;
+  identityType?: IdentityType;
   iamIdentityProviderArn?: string;
   identityCenterInstanceArn?: string;
-  clientIdsForOIDC?: ClientIdsForOIDC;
+  clientIdsForOIDC?: string[];
   description?: string;
   encryptionConfiguration?: EncryptionConfiguration;
-  tags?: Tags;
+  tags?: Tag[];
   clientToken?: string;
   attachmentsConfiguration?: AttachmentsConfiguration;
   qAppsConfiguration?: QAppsConfiguration;
@@ -2929,7 +3310,7 @@ export const CreateApplicationRequest = S.suspend(() =>
   S.Struct({
     displayName: S.String,
     roleArn: S.optional(S.String),
-    identityType: S.optional(S.String),
+    identityType: S.optional(IdentityType),
     iamIdentityProviderArn: S.optional(S.String),
     identityCenterInstanceArn: S.optional(S.String),
     clientIdsForOIDC: S.optional(ClientIdsForOIDC),
@@ -2996,13 +3377,13 @@ export const UpdateApplicationResponse = S.suspend(() =>
   identifier: "UpdateApplicationResponse",
 }) as any as S.Schema<UpdateApplicationResponse>;
 export interface GetDataAccessorResponse {
-  displayName?: string | Redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string>;
   dataAccessorId?: string;
   dataAccessorArn?: string;
   applicationId?: string;
   idcApplicationArn?: string;
   principal?: string;
-  actionConfigurations?: ActionConfigurationList;
+  actionConfigurations?: ActionConfiguration[];
   authenticationDetail?: DataAccessorAuthenticationDetail;
   createdAt?: Date;
   updatedAt?: Date;
@@ -3027,8 +3408,8 @@ export interface CreateIndexRequest {
   applicationId: string;
   displayName: string;
   description?: string;
-  type?: string;
-  tags?: Tags;
+  type?: IndexType;
+  tags?: Tag[];
   capacityConfiguration?: IndexCapacityConfiguration;
   clientToken?: string;
 }
@@ -3037,7 +3418,7 @@ export const CreateIndexRequest = S.suspend(() =>
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     displayName: S.String,
     description: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(IndexType),
     tags: S.optional(Tags),
     capacityConfiguration: S.optional(IndexCapacityConfiguration),
     clientToken: S.optional(S.String),
@@ -3060,7 +3441,7 @@ export interface UpdateIndexRequest {
   displayName?: string;
   description?: string;
   capacityConfiguration?: IndexCapacityConfiguration;
-  documentAttributeConfigurations?: DocumentAttributeConfigurations;
+  documentAttributeConfigurations?: DocumentAttributeConfiguration[];
 }
 export const UpdateIndexRequest = S.suspend(() =>
   S.Struct({
@@ -3104,7 +3485,7 @@ export interface GetDataSourceResponse {
   createdAt?: Date;
   updatedAt?: Date;
   description?: string;
-  status?: string;
+  status?: DataSourceStatus;
   syncSchedule?: string;
   roleArn?: string;
   error?: ErrorDetail;
@@ -3124,7 +3505,7 @@ export const GetDataSourceResponse = S.suspend(() =>
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     description: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(DataSourceStatus),
     syncSchedule: S.optional(S.String),
     roleArn: S.optional(S.String),
     error: S.optional(ErrorDetail),
@@ -3140,13 +3521,13 @@ export interface GetPluginResponse {
   applicationId?: string;
   pluginId?: string;
   displayName?: string;
-  type?: string;
+  type?: PluginType;
   serverUrl?: string;
-  authConfiguration?: (typeof PluginAuthConfiguration)["Type"];
+  authConfiguration?: PluginAuthConfiguration;
   customPluginConfiguration?: CustomPluginConfiguration;
-  buildStatus?: string;
+  buildStatus?: PluginBuildStatus;
   pluginArn?: string;
-  state?: string;
+  state?: PluginState;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -3155,13 +3536,13 @@ export const GetPluginResponse = S.suspend(() =>
     applicationId: S.optional(S.String),
     pluginId: S.optional(S.String),
     displayName: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(PluginType),
     serverUrl: S.optional(S.String),
     authConfiguration: S.optional(PluginAuthConfiguration),
     customPluginConfiguration: S.optional(CustomPluginConfiguration),
-    buildStatus: S.optional(S.String),
+    buildStatus: S.optional(PluginBuildStatus),
     pluginArn: S.optional(S.String),
-    state: S.optional(S.String),
+    state: S.optional(PluginState),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -3172,10 +3553,10 @@ export interface GetRetrieverResponse {
   applicationId?: string;
   retrieverId?: string;
   retrieverArn?: string;
-  type?: string;
-  status?: string;
+  type?: RetrieverType;
+  status?: RetrieverStatus;
   displayName?: string;
-  configuration?: (typeof RetrieverConfiguration)["Type"];
+  configuration?: RetrieverConfiguration;
   roleArn?: string;
   createdAt?: Date;
   updatedAt?: Date;
@@ -3185,8 +3566,8 @@ export const GetRetrieverResponse = S.suspend(() =>
     applicationId: S.optional(S.String),
     retrieverId: S.optional(S.String),
     retrieverArn: S.optional(S.String),
-    type: S.optional(S.String),
-    status: S.optional(S.String),
+    type: S.optional(RetrieverType),
+    status: S.optional(RetrieverStatus),
     displayName: S.optional(S.String),
     configuration: S.optional(RetrieverConfiguration),
     roleArn: S.optional(S.String),
@@ -3247,17 +3628,17 @@ export interface GetWebExperienceResponse {
   webExperienceId?: string;
   webExperienceArn?: string;
   defaultEndpoint?: string;
-  status?: string;
+  status?: WebExperienceStatus;
   createdAt?: Date;
   updatedAt?: Date;
   title?: string;
   subtitle?: string;
   welcomeMessage?: string;
-  samplePromptsControlMode?: string;
-  origins?: WebExperienceOrigins;
+  samplePromptsControlMode?: WebExperienceSamplePromptsControlMode;
+  origins?: string[];
   roleArn?: string;
-  identityProviderConfiguration?: (typeof IdentityProviderConfiguration)["Type"];
-  authenticationConfiguration?: (typeof WebExperienceAuthConfiguration)["Type"];
+  identityProviderConfiguration?: IdentityProviderConfiguration;
+  authenticationConfiguration?: WebExperienceAuthConfiguration;
   error?: ErrorDetail;
   browserExtensionConfiguration?: BrowserExtensionConfiguration;
   customizationConfiguration?: CustomizationConfiguration;
@@ -3268,13 +3649,13 @@ export const GetWebExperienceResponse = S.suspend(() =>
     webExperienceId: S.optional(S.String),
     webExperienceArn: S.optional(S.String),
     defaultEndpoint: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(WebExperienceStatus),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     title: S.optional(S.String),
     subtitle: S.optional(S.String),
     welcomeMessage: S.optional(S.String),
-    samplePromptsControlMode: S.optional(S.String),
+    samplePromptsControlMode: S.optional(WebExperienceSamplePromptsControlMode),
     origins: S.optional(WebExperienceOrigins),
     roleArn: S.optional(S.String),
     identityProviderConfiguration: S.optional(IdentityProviderConfiguration),
@@ -3306,13 +3687,13 @@ export const ChatModeConfiguration = S.Union(
   S.Struct({ pluginConfiguration: PluginConfiguration }),
 );
 export interface ConfigurationEvent {
-  chatMode?: string;
-  chatModeConfiguration?: (typeof ChatModeConfiguration)["Type"];
+  chatMode?: ChatMode;
+  chatModeConfiguration?: ChatModeConfiguration;
   attributeFilter?: AttributeFilter;
 }
 export const ConfigurationEvent = S.suspend(() =>
   S.Struct({
-    chatMode: S.optional(S.String),
+    chatMode: S.optional(ChatMode),
     chatModeConfiguration: S.optional(ChatModeConfiguration),
     attributeFilter: S.optional(AttributeFilter),
   }),
@@ -3343,7 +3724,7 @@ export const CopyFromSource = S.Union(
 export interface AttachmentInput {
   data?: Uint8Array;
   name?: string;
-  copyFrom?: (typeof CopyFromSource)["Type"];
+  copyFrom?: CopyFromSource;
 }
 export const AttachmentInput = S.suspend(() =>
   S.Struct({
@@ -3379,7 +3760,7 @@ export const ActionExecutionPayload = S.Record({
 });
 export interface ActionExecutionEvent {
   pluginId: string;
-  payload: ActionExecutionPayload;
+  payload: { [key: string]: ActionExecutionPayloadField };
   payloadFieldNameSeparator: string;
 }
 export const ActionExecutionEvent = S.suspend(() =>
@@ -3397,28 +3778,75 @@ export const AuthorizationResponseMap = S.Record({
   value: S.String,
 });
 export interface AuthChallengeResponseEvent {
-  responseMap: AuthorizationResponseMap;
+  responseMap: { [key: string]: string };
 }
 export const AuthChallengeResponseEvent = S.suspend(() =>
   S.Struct({ responseMap: AuthorizationResponseMap }),
 ).annotations({
   identifier: "AuthChallengeResponseEvent",
 }) as any as S.Schema<AuthChallengeResponseEvent>;
+export type ChatResponseConfigurationStatus =
+  | "CREATING"
+  | "UPDATING"
+  | "FAILED"
+  | "ACTIVE";
+export const ChatResponseConfigurationStatus = S.Literal(
+  "CREATING",
+  "UPDATING",
+  "FAILED",
+  "ACTIVE",
+);
+export type AttachmentStatus = "FAILED" | "SUCCESS";
+export const AttachmentStatus = S.Literal("FAILED", "SUCCESS");
+export type DocumentStatus =
+  | "RECEIVED"
+  | "PROCESSING"
+  | "INDEXED"
+  | "UPDATED"
+  | "FAILED"
+  | "DELETING"
+  | "DELETED"
+  | "DOCUMENT_FAILED_TO_INDEX";
+export const DocumentStatus = S.Literal(
+  "RECEIVED",
+  "PROCESSING",
+  "INDEXED",
+  "UPDATED",
+  "FAILED",
+  "DELETING",
+  "DELETED",
+  "DOCUMENT_FAILED_TO_INDEX",
+);
+export type MessageType = "USER" | "SYSTEM";
+export const MessageType = S.Literal("USER", "SYSTEM");
+export type PluginTypeCategory =
+  | "Customer relationship management (CRM)"
+  | "Project management"
+  | "Communication"
+  | "Productivity"
+  | "Ticketing and incident management";
+export const PluginTypeCategory = S.Literal(
+  "Customer relationship management (CRM)",
+  "Project management",
+  "Communication",
+  "Productivity",
+  "Ticketing and incident management",
+);
 export interface MemberGroup {
   groupName: string;
-  type?: string;
+  type?: MembershipType;
 }
 export const MemberGroup = S.suspend(() =>
-  S.Struct({ groupName: S.String, type: S.optional(S.String) }),
+  S.Struct({ groupName: S.String, type: S.optional(MembershipType) }),
 ).annotations({ identifier: "MemberGroup" }) as any as S.Schema<MemberGroup>;
 export type MemberGroups = MemberGroup[];
 export const MemberGroups = S.Array(MemberGroup);
 export interface MemberUser {
   userId: string;
-  type?: string;
+  type?: MembershipType;
 }
 export const MemberUser = S.suspend(() =>
-  S.Struct({ userId: S.String, type: S.optional(S.String) }),
+  S.Struct({ userId: S.String, type: S.optional(MembershipType) }),
 ).annotations({ identifier: "MemberUser" }) as any as S.Schema<MemberUser>;
 export type MemberUsers = MemberUser[];
 export const MemberUsers = S.Array(MemberUser);
@@ -3432,6 +3860,13 @@ export const RetrieverContentSource = S.suspend(() =>
 }) as any as S.Schema<RetrieverContentSource>;
 export type UserIds = string[];
 export const UserIds = S.Array(S.String);
+export type ChatInputStream =
+  | { configurationEvent: ConfigurationEvent }
+  | { textEvent: TextInputEvent }
+  | { attachmentEvent: AttachmentInputEvent }
+  | { actionExecutionEvent: ActionExecutionEvent }
+  | { endOfInputEvent: EndOfInputEvent }
+  | { authChallengeResponseEvent: AuthChallengeResponseEvent };
 export const ChatInputStream = T.InputEventStream(
   S.Union(
     S.Struct({ configurationEvent: ConfigurationEvent }),
@@ -3441,9 +3876,9 @@ export const ChatInputStream = T.InputEventStream(
     S.Struct({ endOfInputEvent: EndOfInputEvent }),
     S.Struct({ authChallengeResponseEvent: AuthChallengeResponseEvent }),
   ),
-);
+) as any as S.Schema<stream.Stream<ChatInputStream, Error, never>>;
 export interface AuthChallengeResponse {
-  responseMap: AuthorizationResponseMap;
+  responseMap: { [key: string]: string };
 }
 export const AuthChallengeResponse = S.suspend(() =>
   S.Struct({ responseMap: AuthorizationResponseMap }),
@@ -3452,10 +3887,10 @@ export const AuthChallengeResponse = S.suspend(() =>
 }) as any as S.Schema<AuthChallengeResponse>;
 export interface AssociatedGroup {
   name?: string;
-  type?: string;
+  type?: MembershipType;
 }
 export const AssociatedGroup = S.suspend(() =>
-  S.Struct({ name: S.optional(S.String), type: S.optional(S.String) }),
+  S.Struct({ name: S.optional(S.String), type: S.optional(MembershipType) }),
 ).annotations({
   identifier: "AssociatedGroup",
 }) as any as S.Schema<AssociatedGroup>;
@@ -3463,25 +3898,25 @@ export type AssociatedGroups = AssociatedGroup[];
 export const AssociatedGroups = S.Array(AssociatedGroup);
 export interface AssociatedUser {
   id?: string;
-  type?: string;
+  type?: MembershipType;
 }
 export const AssociatedUser = S.suspend(() =>
-  S.Struct({ id: S.optional(S.String), type: S.optional(S.String) }),
+  S.Struct({ id: S.optional(S.String), type: S.optional(MembershipType) }),
 ).annotations({
   identifier: "AssociatedUser",
 }) as any as S.Schema<AssociatedUser>;
 export type AssociatedUsers = AssociatedUser[];
 export const AssociatedUsers = S.Array(AssociatedUser);
 export interface AppliedOrchestrationConfiguration {
-  control: string;
+  control: OrchestrationControl;
 }
 export const AppliedOrchestrationConfiguration = S.suspend(() =>
-  S.Struct({ control: S.String }),
+  S.Struct({ control: OrchestrationControl }),
 ).annotations({
   identifier: "AppliedOrchestrationConfiguration",
 }) as any as S.Schema<AppliedOrchestrationConfiguration>;
 export interface BlockedPhrasesConfiguration {
-  blockedPhrases?: BlockedPhrases;
+  blockedPhrases?: string[];
   systemMessageOverride?: string;
 }
 export const BlockedPhrasesConfiguration = S.suspend(() =>
@@ -3493,17 +3928,17 @@ export const BlockedPhrasesConfiguration = S.suspend(() =>
   identifier: "BlockedPhrasesConfiguration",
 }) as any as S.Schema<BlockedPhrasesConfiguration>;
 export interface AppliedCreatorModeConfiguration {
-  creatorModeControl: string;
+  creatorModeControl: CreatorModeControl;
 }
 export const AppliedCreatorModeConfiguration = S.suspend(() =>
-  S.Struct({ creatorModeControl: S.String }),
+  S.Struct({ creatorModeControl: CreatorModeControl }),
 ).annotations({
   identifier: "AppliedCreatorModeConfiguration",
 }) as any as S.Schema<AppliedCreatorModeConfiguration>;
 export interface ChatResponseConfigurationDetail {
-  responseConfigurations?: ResponseConfigurations;
+  responseConfigurations?: { [key: string]: ResponseConfiguration };
   responseConfigurationSummary?: string;
-  status?: string;
+  status?: ChatResponseConfigurationStatus;
   error?: ErrorDetail;
   updatedAt?: Date;
 }
@@ -3511,7 +3946,7 @@ export const ChatResponseConfigurationDetail = S.suspend(() =>
   S.Struct({
     responseConfigurations: S.optional(ResponseConfigurations),
     responseConfigurationSummary: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ChatResponseConfigurationStatus),
     error: S.optional(ErrorDetail),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -3522,12 +3957,12 @@ export interface Attachment {
   attachmentId?: string;
   conversationId?: string;
   name?: string;
-  copyFrom?: (typeof CopyFromSource)["Type"];
+  copyFrom?: CopyFromSource;
   fileType?: string;
   fileSize?: number;
   md5chksum?: string;
   createdAt?: Date;
-  status?: string;
+  status?: AttachmentStatus;
   error?: ErrorDetail;
 }
 export const Attachment = S.suspend(() =>
@@ -3540,7 +3975,7 @@ export const Attachment = S.suspend(() =>
     fileSize: S.optional(S.Number),
     md5chksum: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(S.String),
+    status: S.optional(AttachmentStatus),
     error: S.optional(ErrorDetail),
   }),
 ).annotations({ identifier: "Attachment" }) as any as S.Schema<Attachment>;
@@ -3551,7 +3986,7 @@ export interface ChatResponseConfiguration {
   chatResponseConfigurationArn: string;
   displayName: string;
   responseConfigurationSummary?: string;
-  status: string;
+  status: ChatResponseConfigurationStatus;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -3561,7 +3996,7 @@ export const ChatResponseConfiguration = S.suspend(() =>
     chatResponseConfigurationArn: S.String,
     displayName: S.String,
     responseConfigurationSummary: S.optional(S.String),
-    status: S.String,
+    status: ChatResponseConfigurationStatus,
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -3586,7 +4021,7 @@ export type Conversations = Conversation[];
 export const Conversations = S.Array(Conversation);
 export interface DocumentDetails {
   documentId?: string;
-  status?: string;
+  status?: DocumentStatus;
   error?: ErrorDetail;
   createdAt?: Date;
   updatedAt?: Date;
@@ -3594,7 +4029,7 @@ export interface DocumentDetails {
 export const DocumentDetails = S.suspend(() =>
   S.Struct({
     documentId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(DocumentStatus),
     error: S.optional(ErrorDetail),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -3613,14 +4048,14 @@ export const GroupSummary = S.suspend(() =>
 export type GroupSummaryList = GroupSummary[];
 export const GroupSummaryList = S.Array(GroupSummary);
 export interface PluginTypeMetadataSummary {
-  type?: string;
-  category?: string;
+  type?: PluginType;
+  category?: PluginTypeCategory;
   description?: string;
 }
 export const PluginTypeMetadataSummary = S.suspend(() =>
   S.Struct({
-    type: S.optional(S.String),
-    category: S.optional(S.String),
+    type: S.optional(PluginType),
+    category: S.optional(PluginTypeCategory),
     description: S.optional(S.String),
   }),
 ).annotations({
@@ -3633,7 +4068,7 @@ export const ListPluginTypeMetadataSummaries = S.Array(
 export interface Subscription {
   subscriptionId?: string;
   subscriptionArn?: string;
-  principal?: (typeof SubscriptionPrincipal)["Type"];
+  principal?: SubscriptionPrincipal;
   currentSubscription?: SubscriptionDetails;
   nextSubscription?: SubscriptionDetails;
 }
@@ -3649,8 +4084,8 @@ export const Subscription = S.suspend(() =>
 export type Subscriptions = Subscription[];
 export const Subscriptions = S.Array(Subscription);
 export interface GroupMembers {
-  memberGroups?: MemberGroups;
-  memberUsers?: MemberUsers;
+  memberGroups?: MemberGroup[];
+  memberUsers?: MemberUser[];
   s3PathForGroupMembers?: S3;
 }
 export const GroupMembers = S.suspend(() =>
@@ -3665,10 +4100,10 @@ export const ContentSource = S.Union(
   S.Struct({ retriever: RetrieverContentSource }),
 );
 export interface AppliedAttachmentsConfiguration {
-  attachmentsControlMode?: string;
+  attachmentsControlMode?: AttachmentsControlMode;
 }
 export const AppliedAttachmentsConfiguration = S.suspend(() =>
-  S.Struct({ attachmentsControlMode: S.optional(S.String) }),
+  S.Struct({ attachmentsControlMode: S.optional(AttachmentsControlMode) }),
 ).annotations({
   identifier: "AppliedAttachmentsConfiguration",
 }) as any as S.Schema<AppliedAttachmentsConfiguration>;
@@ -3677,8 +4112,8 @@ export interface Application {
   applicationId?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  status?: string;
-  identityType?: string;
+  status?: ApplicationStatus;
+  identityType?: IdentityType;
   quickSightConfiguration?: QuickSightConfiguration;
 }
 export const Application = S.suspend(() =>
@@ -3687,15 +4122,15 @@ export const Application = S.suspend(() =>
     applicationId: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(S.String),
-    identityType: S.optional(S.String),
+    status: S.optional(ApplicationStatus),
+    identityType: S.optional(IdentityType),
     quickSightConfiguration: S.optional(QuickSightConfiguration),
   }),
 ).annotations({ identifier: "Application" }) as any as S.Schema<Application>;
 export type Applications = Application[];
 export const Applications = S.Array(Application);
 export interface DataAccessor {
-  displayName?: string | Redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string>;
   dataAccessorId?: string;
   dataAccessorArn?: string;
   idcApplicationArn?: string;
@@ -3723,7 +4158,7 @@ export interface Index {
   indexId?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  status?: string;
+  status?: IndexStatus;
 }
 export const Index = S.suspend(() =>
   S.Struct({
@@ -3731,7 +4166,7 @@ export const Index = S.suspend(() =>
     indexId: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(S.String),
+    status: S.optional(IndexStatus),
   }),
 ).annotations({ identifier: "Index" }) as any as S.Schema<Index>;
 export type Indices = Index[];
@@ -3742,7 +4177,7 @@ export interface DataSource {
   type?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  status?: string;
+  status?: DataSourceStatus;
 }
 export const DataSource = S.suspend(() =>
   S.Struct({
@@ -3751,7 +4186,7 @@ export const DataSource = S.suspend(() =>
     type: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(S.String),
+    status: S.optional(DataSourceStatus),
   }),
 ).annotations({ identifier: "DataSource" }) as any as S.Schema<DataSource>;
 export type DataSources = DataSource[];
@@ -3759,10 +4194,10 @@ export const DataSources = S.Array(DataSource);
 export interface Plugin {
   pluginId?: string;
   displayName?: string;
-  type?: string;
+  type?: PluginType;
   serverUrl?: string;
-  state?: string;
-  buildStatus?: string;
+  state?: PluginState;
+  buildStatus?: PluginBuildStatus;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -3770,10 +4205,10 @@ export const Plugin = S.suspend(() =>
   S.Struct({
     pluginId: S.optional(S.String),
     displayName: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(PluginType),
     serverUrl: S.optional(S.String),
-    state: S.optional(S.String),
-    buildStatus: S.optional(S.String),
+    state: S.optional(PluginState),
+    buildStatus: S.optional(PluginBuildStatus),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -3783,16 +4218,16 @@ export const Plugins = S.Array(Plugin);
 export interface Retriever {
   applicationId?: string;
   retrieverId?: string;
-  type?: string;
-  status?: string;
+  type?: RetrieverType;
+  status?: RetrieverStatus;
   displayName?: string;
 }
 export const Retriever = S.suspend(() =>
   S.Struct({
     applicationId: S.optional(S.String),
     retrieverId: S.optional(S.String),
-    type: S.optional(S.String),
-    status: S.optional(S.String),
+    type: S.optional(RetrieverType),
+    status: S.optional(RetrieverStatus),
     displayName: S.optional(S.String),
   }),
 ).annotations({ identifier: "Retriever" }) as any as S.Schema<Retriever>;
@@ -3803,7 +4238,7 @@ export interface WebExperience {
   createdAt?: Date;
   updatedAt?: Date;
   defaultEndpoint?: string;
-  status?: string;
+  status?: WebExperienceStatus;
 }
 export const WebExperience = S.suspend(() =>
   S.Struct({
@@ -3811,7 +4246,7 @@ export const WebExperience = S.suspend(() =>
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     defaultEndpoint: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(WebExperienceStatus),
   }),
 ).annotations({
   identifier: "WebExperience",
@@ -3819,8 +4254,8 @@ export const WebExperience = S.suspend(() =>
 export type WebExperiences = WebExperience[];
 export const WebExperiences = S.Array(WebExperience);
 export interface UsersAndGroups {
-  userIds?: UserIds;
-  userGroups?: UserGroups;
+  userIds?: string[];
+  userGroups?: string[];
 }
 export const UsersAndGroups = S.suspend(() =>
   S.Struct({
@@ -3855,11 +4290,11 @@ export const CancelSubscriptionResponse = S.suspend(() =>
 export interface ChatInput {
   applicationId: string;
   userId?: string;
-  userGroups?: UserGroups;
+  userGroups?: string[];
   conversationId?: string;
   parentMessageId?: string;
   clientToken?: string;
-  inputStream?: (typeof ChatInputStream)["Type"];
+  inputStream?: stream.Stream<ChatInputStream, Error, never>;
 }
 export const ChatInput = S.suspend(() =>
   S.Struct({
@@ -3923,7 +4358,7 @@ export const EligibleDataSource = S.suspend(() =>
 export type EligibleDataSources = EligibleDataSource[];
 export const EligibleDataSources = S.Array(EligibleDataSource);
 export interface ContentRetrievalRule {
-  eligibleDataSources?: EligibleDataSources;
+  eligibleDataSources?: EligibleDataSource[];
 }
 export const ContentRetrievalRule = S.suspend(() =>
   S.Struct({ eligibleDataSources: S.optional(EligibleDataSources) }),
@@ -3940,14 +4375,14 @@ export const RuleConfiguration = S.Union(
 export interface Rule {
   includedUsersAndGroups?: UsersAndGroups;
   excludedUsersAndGroups?: UsersAndGroups;
-  ruleType: string;
-  ruleConfiguration?: (typeof RuleConfiguration)["Type"];
+  ruleType: RuleType;
+  ruleConfiguration?: RuleConfiguration;
 }
 export const Rule = S.suspend(() =>
   S.Struct({
     includedUsersAndGroups: S.optional(UsersAndGroups),
     excludedUsersAndGroups: S.optional(UsersAndGroups),
-    ruleType: S.String,
+    ruleType: RuleType,
     ruleConfiguration: S.optional(RuleConfiguration),
   }),
 ).annotations({ identifier: "Rule" }) as any as S.Schema<Rule>;
@@ -3956,8 +4391,8 @@ export const Rules = S.Array(Rule);
 export interface TopicConfiguration {
   name: string;
   description?: string;
-  exampleChatMessages?: ExampleChatMessages;
-  rules: Rules;
+  exampleChatMessages?: string[];
+  rules: Rule[];
 }
 export const TopicConfiguration = S.suspend(() =>
   S.Struct({
@@ -3972,17 +4407,17 @@ export const TopicConfiguration = S.suspend(() =>
 export type TopicConfigurations = TopicConfiguration[];
 export const TopicConfigurations = S.Array(TopicConfiguration);
 export interface GetChatControlsConfigurationResponse {
-  responseScope?: string;
+  responseScope?: ResponseScope;
   orchestrationConfiguration?: AppliedOrchestrationConfiguration;
   blockedPhrases?: BlockedPhrasesConfiguration;
-  topicConfigurations?: TopicConfigurations;
+  topicConfigurations?: TopicConfiguration[];
   creatorModeConfiguration?: AppliedCreatorModeConfiguration;
   nextToken?: string;
   hallucinationReductionConfiguration?: HallucinationReductionConfiguration;
 }
 export const GetChatControlsConfigurationResponse = S.suspend(() =>
   S.Struct({
-    responseScope: S.optional(S.String),
+    responseScope: S.optional(ResponseScope),
     orchestrationConfiguration: S.optional(AppliedOrchestrationConfiguration),
     blockedPhrases: S.optional(BlockedPhrasesConfiguration),
     topicConfigurations: S.optional(TopicConfigurations),
@@ -4017,7 +4452,7 @@ export const GetChatResponseConfigurationResponse = S.suspend(() =>
 }) as any as S.Schema<GetChatResponseConfigurationResponse>;
 export interface GetGroupResponse {
   status?: GroupStatusDetail;
-  statusHistory?: GroupStatusDetails;
+  statusHistory?: GroupStatusDetail[];
 }
 export const GetGroupResponse = S.suspend(() =>
   S.Struct({
@@ -4028,7 +4463,7 @@ export const GetGroupResponse = S.suspend(() =>
   identifier: "GetGroupResponse",
 }) as any as S.Schema<GetGroupResponse>;
 export interface ListAttachmentsResponse {
-  attachments?: AttachmentList;
+  attachments?: Attachment[];
   nextToken?: string;
 }
 export const ListAttachmentsResponse = S.suspend(() =>
@@ -4040,7 +4475,7 @@ export const ListAttachmentsResponse = S.suspend(() =>
   identifier: "ListAttachmentsResponse",
 }) as any as S.Schema<ListAttachmentsResponse>;
 export interface ListChatResponseConfigurationsResponse {
-  chatResponseConfigurations?: ChatResponseConfigurations;
+  chatResponseConfigurations?: ChatResponseConfiguration[];
   nextToken?: string;
 }
 export const ListChatResponseConfigurationsResponse = S.suspend(() =>
@@ -4053,7 +4488,7 @@ export const ListChatResponseConfigurationsResponse = S.suspend(() =>
 }) as any as S.Schema<ListChatResponseConfigurationsResponse>;
 export interface ListConversationsResponse {
   nextToken?: string;
-  conversations?: Conversations;
+  conversations?: Conversation[];
 }
 export const ListConversationsResponse = S.suspend(() =>
   S.Struct({
@@ -4064,7 +4499,7 @@ export const ListConversationsResponse = S.suspend(() =>
   identifier: "ListConversationsResponse",
 }) as any as S.Schema<ListConversationsResponse>;
 export interface ListDocumentsResponse {
-  documentDetailList?: DocumentDetailList;
+  documentDetailList?: DocumentDetails[];
   nextToken?: string;
 }
 export const ListDocumentsResponse = S.suspend(() =>
@@ -4077,7 +4512,7 @@ export const ListDocumentsResponse = S.suspend(() =>
 }) as any as S.Schema<ListDocumentsResponse>;
 export interface ListGroupsResponse {
   nextToken?: string;
-  items?: GroupSummaryList;
+  items?: GroupSummary[];
 }
 export const ListGroupsResponse = S.suspend(() =>
   S.Struct({
@@ -4089,7 +4524,7 @@ export const ListGroupsResponse = S.suspend(() =>
 }) as any as S.Schema<ListGroupsResponse>;
 export interface ListPluginActionsResponse {
   nextToken?: string;
-  items?: Actions;
+  items?: ActionSummary[];
 }
 export const ListPluginActionsResponse = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), items: S.optional(Actions) }),
@@ -4098,7 +4533,7 @@ export const ListPluginActionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListPluginActionsResponse>;
 export interface ListPluginTypeMetadataResponse {
   nextToken?: string;
-  items?: ListPluginTypeMetadataSummaries;
+  items?: PluginTypeMetadataSummary[];
 }
 export const ListPluginTypeMetadataResponse = S.suspend(() =>
   S.Struct({
@@ -4110,7 +4545,7 @@ export const ListPluginTypeMetadataResponse = S.suspend(() =>
 }) as any as S.Schema<ListPluginTypeMetadataResponse>;
 export interface ListSubscriptionsResponse {
   nextToken?: string;
-  subscriptions?: Subscriptions;
+  subscriptions?: Subscription[];
 }
 export const ListSubscriptionsResponse = S.suspend(() =>
   S.Struct({
@@ -4125,7 +4560,7 @@ export interface PutGroupRequest {
   indexId: string;
   groupName: string;
   dataSourceId?: string;
-  type: string;
+  type: MembershipType;
   groupMembers: GroupMembers;
   roleArn?: string;
 }
@@ -4135,7 +4570,7 @@ export const PutGroupRequest = S.suspend(() =>
     indexId: S.String.pipe(T.HttpLabel("indexId")),
     groupName: S.String,
     dataSourceId: S.optional(S.String),
-    type: S.String,
+    type: MembershipType,
     groupMembers: GroupMembers,
     roleArn: S.optional(S.String),
   }).pipe(
@@ -4161,7 +4596,7 @@ export const PutGroupResponse = S.suspend(() => S.Struct({})).annotations({
 export interface SearchRelevantContentRequest {
   applicationId: string;
   queryText: string;
-  contentSource: (typeof ContentSource)["Type"];
+  contentSource: ContentSource;
   attributeFilter?: AttributeFilter;
   maxResults?: number;
   nextToken?: string;
@@ -4206,11 +4641,11 @@ export interface GetApplicationResponse {
   displayName?: string;
   applicationId?: string;
   applicationArn?: string;
-  identityType?: string;
+  identityType?: IdentityType;
   iamIdentityProviderArn?: string;
   identityCenterApplicationArn?: string;
   roleArn?: string;
-  status?: string;
+  status?: ApplicationStatus;
   description?: string;
   encryptionConfiguration?: EncryptionConfiguration;
   createdAt?: Date;
@@ -4220,7 +4655,7 @@ export interface GetApplicationResponse {
   qAppsConfiguration?: QAppsConfiguration;
   personalizationConfiguration?: PersonalizationConfiguration;
   autoSubscriptionConfiguration?: AutoSubscriptionConfiguration;
-  clientIdsForOIDC?: ClientIdsForOIDC;
+  clientIdsForOIDC?: string[];
   quickSightConfiguration?: QuickSightConfiguration;
 }
 export const GetApplicationResponse = S.suspend(() =>
@@ -4228,11 +4663,11 @@ export const GetApplicationResponse = S.suspend(() =>
     displayName: S.optional(S.String),
     applicationId: S.optional(S.String),
     applicationArn: S.optional(S.String),
-    identityType: S.optional(S.String),
+    identityType: S.optional(IdentityType),
     iamIdentityProviderArn: S.optional(S.String),
     identityCenterApplicationArn: S.optional(S.String),
     roleArn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ApplicationStatus),
     description: S.optional(S.String),
     encryptionConfiguration: S.optional(EncryptionConfiguration),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -4250,7 +4685,7 @@ export const GetApplicationResponse = S.suspend(() =>
 }) as any as S.Schema<GetApplicationResponse>;
 export interface ListApplicationsResponse {
   nextToken?: string;
-  applications?: Applications;
+  applications?: Application[];
 }
 export const ListApplicationsResponse = S.suspend(() =>
   S.Struct({
@@ -4261,7 +4696,7 @@ export const ListApplicationsResponse = S.suspend(() =>
   identifier: "ListApplicationsResponse",
 }) as any as S.Schema<ListApplicationsResponse>;
 export interface ListDataAccessorsResponse {
-  dataAccessors?: DataAccessors;
+  dataAccessors?: DataAccessor[];
   nextToken?: string;
 }
 export const ListDataAccessorsResponse = S.suspend(() =>
@@ -4283,7 +4718,7 @@ export const CreateIndexResponse = S.suspend(() =>
 }) as any as S.Schema<CreateIndexResponse>;
 export interface ListIndicesResponse {
   nextToken?: string;
-  indices?: Indices;
+  indices?: Index[];
 }
 export const ListIndicesResponse = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), indices: S.optional(Indices) }),
@@ -4291,7 +4726,7 @@ export const ListIndicesResponse = S.suspend(() =>
   identifier: "ListIndicesResponse",
 }) as any as S.Schema<ListIndicesResponse>;
 export interface ListDataSourcesResponse {
-  dataSources?: DataSources;
+  dataSources?: DataSource[];
   nextToken?: string;
 }
 export const ListDataSourcesResponse = S.suspend(() =>
@@ -4305,18 +4740,18 @@ export const ListDataSourcesResponse = S.suspend(() =>
 export interface CreatePluginRequest {
   applicationId: string;
   displayName: string;
-  type: string;
-  authConfiguration: (typeof PluginAuthConfiguration)["Type"];
+  type: PluginType;
+  authConfiguration: PluginAuthConfiguration;
   serverUrl?: string;
   customPluginConfiguration?: CustomPluginConfiguration;
-  tags?: Tags;
+  tags?: Tag[];
   clientToken?: string;
 }
 export const CreatePluginRequest = S.suspend(() =>
   S.Struct({
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     displayName: S.String,
-    type: S.String,
+    type: PluginType,
     authConfiguration: PluginAuthConfiguration,
     serverUrl: S.optional(S.String),
     customPluginConfiguration: S.optional(CustomPluginConfiguration),
@@ -4337,7 +4772,7 @@ export const CreatePluginRequest = S.suspend(() =>
 }) as any as S.Schema<CreatePluginRequest>;
 export interface ListPluginsResponse {
   nextToken?: string;
-  plugins?: Plugins;
+  plugins?: Plugin[];
 }
 export const ListPluginsResponse = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), plugins: S.optional(Plugins) }),
@@ -4345,7 +4780,7 @@ export const ListPluginsResponse = S.suspend(() =>
   identifier: "ListPluginsResponse",
 }) as any as S.Schema<ListPluginsResponse>;
 export interface ListRetrieversResponse {
-  retrievers?: Retrievers;
+  retrievers?: Retriever[];
   nextToken?: string;
 }
 export const ListRetrieversResponse = S.suspend(() =>
@@ -4361,12 +4796,12 @@ export interface CreateWebExperienceRequest {
   title?: string;
   subtitle?: string;
   welcomeMessage?: string;
-  samplePromptsControlMode?: string;
-  origins?: WebExperienceOrigins;
+  samplePromptsControlMode?: WebExperienceSamplePromptsControlMode;
+  origins?: string[];
   roleArn?: string;
-  tags?: Tags;
+  tags?: Tag[];
   clientToken?: string;
-  identityProviderConfiguration?: (typeof IdentityProviderConfiguration)["Type"];
+  identityProviderConfiguration?: IdentityProviderConfiguration;
   browserExtensionConfiguration?: BrowserExtensionConfiguration;
   customizationConfiguration?: CustomizationConfiguration;
 }
@@ -4376,7 +4811,7 @@ export const CreateWebExperienceRequest = S.suspend(() =>
     title: S.optional(S.String),
     subtitle: S.optional(S.String),
     welcomeMessage: S.optional(S.String),
-    samplePromptsControlMode: S.optional(S.String),
+    samplePromptsControlMode: S.optional(WebExperienceSamplePromptsControlMode),
     origins: S.optional(WebExperienceOrigins),
     roleArn: S.optional(S.String),
     tags: S.optional(Tags),
@@ -4404,13 +4839,13 @@ export interface UpdateWebExperienceRequest {
   applicationId: string;
   webExperienceId: string;
   roleArn?: string;
-  authenticationConfiguration?: (typeof WebExperienceAuthConfiguration)["Type"];
+  authenticationConfiguration?: WebExperienceAuthConfiguration;
   title?: string;
   subtitle?: string;
   welcomeMessage?: string;
-  samplePromptsControlMode?: string;
-  identityProviderConfiguration?: (typeof IdentityProviderConfiguration)["Type"];
-  origins?: WebExperienceOrigins;
+  samplePromptsControlMode?: WebExperienceSamplePromptsControlMode;
+  identityProviderConfiguration?: IdentityProviderConfiguration;
+  origins?: string[];
   browserExtensionConfiguration?: BrowserExtensionConfiguration;
   customizationConfiguration?: CustomizationConfiguration;
 }
@@ -4423,7 +4858,7 @@ export const UpdateWebExperienceRequest = S.suspend(() =>
     title: S.optional(S.String),
     subtitle: S.optional(S.String),
     welcomeMessage: S.optional(S.String),
-    samplePromptsControlMode: S.optional(S.String),
+    samplePromptsControlMode: S.optional(WebExperienceSamplePromptsControlMode),
     identityProviderConfiguration: S.optional(IdentityProviderConfiguration),
     origins: S.optional(WebExperienceOrigins),
     browserExtensionConfiguration: S.optional(BrowserExtensionConfiguration),
@@ -4451,7 +4886,7 @@ export const UpdateWebExperienceResponse = S.suspend(() =>
   identifier: "UpdateWebExperienceResponse",
 }) as any as S.Schema<UpdateWebExperienceResponse>;
 export interface ListWebExperiencesResponse {
-  webExperiences?: WebExperiences;
+  webExperiences?: WebExperience[];
   nextToken?: string;
 }
 export const ListWebExperiencesResponse = S.suspend(() =>
@@ -4484,7 +4919,7 @@ export const DataSourceSyncJobMetrics = S.suspend(() =>
 }) as any as S.Schema<DataSourceSyncJobMetrics>;
 export interface AttachmentOutput {
   name?: string;
-  status?: string;
+  status?: AttachmentStatus;
   error?: ErrorDetail;
   attachmentId?: string;
   conversationId?: string;
@@ -4492,7 +4927,7 @@ export interface AttachmentOutput {
 export const AttachmentOutput = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(AttachmentStatus),
     error: S.optional(ErrorDetail),
     attachmentId: S.optional(S.String),
     conversationId: S.optional(S.String),
@@ -4530,11 +4965,13 @@ export const FailedDocument = S.suspend(() =>
 }) as any as S.Schema<FailedDocument>;
 export type FailedDocuments = FailedDocument[];
 export const FailedDocuments = S.Array(FailedDocument);
+export type ReadAccessType = "ALLOW" | "DENY";
+export const ReadAccessType = S.Literal("ALLOW", "DENY");
 export type AttachmentsInput = AttachmentInput[];
 export const AttachmentsInput = S.Array(AttachmentInput);
 export interface ActionExecution {
   pluginId: string;
-  payload: ActionExecutionPayload;
+  payload: { [key: string]: ActionExecutionPayloadField };
   payloadFieldNameSeparator: string;
 }
 export const ActionExecution = S.suspend(() =>
@@ -4550,7 +4987,7 @@ export interface DataSourceSyncJob {
   executionId?: string;
   startTime?: Date;
   endTime?: Date;
-  status?: string;
+  status?: DataSourceSyncJobStatus;
   error?: ErrorDetail;
   dataSourceErrorCode?: string;
   metrics?: DataSourceSyncJobMetrics;
@@ -4560,7 +4997,7 @@ export const DataSourceSyncJob = S.suspend(() =>
     executionId: S.optional(S.String),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(S.String),
+    status: S.optional(DataSourceSyncJobStatus),
     error: S.optional(ErrorDetail),
     dataSourceErrorCode: S.optional(S.String),
     metrics: S.optional(DataSourceSyncJobMetrics),
@@ -4579,7 +5016,7 @@ export const IndexStatistics = S.suspend(() =>
   identifier: "IndexStatistics",
 }) as any as S.Schema<IndexStatistics>;
 export interface BatchDeleteDocumentResponse {
-  failedDocuments?: FailedDocuments;
+  failedDocuments?: FailedDocument[];
 }
 export const BatchDeleteDocumentResponse = S.suspend(() =>
   S.Struct({ failedDocuments: S.optional(FailedDocuments) }),
@@ -4588,28 +5025,28 @@ export const BatchDeleteDocumentResponse = S.suspend(() =>
 }) as any as S.Schema<BatchDeleteDocumentResponse>;
 export interface PrincipalUser {
   id?: string;
-  access: string;
-  membershipType?: string;
+  access: ReadAccessType;
+  membershipType?: MembershipType;
 }
 export const PrincipalUser = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
-    access: S.String,
-    membershipType: S.optional(S.String),
+    access: ReadAccessType,
+    membershipType: S.optional(MembershipType),
   }),
 ).annotations({
   identifier: "PrincipalUser",
 }) as any as S.Schema<PrincipalUser>;
 export interface PrincipalGroup {
   name?: string;
-  access: string;
-  membershipType?: string;
+  access: ReadAccessType;
+  membershipType?: MembershipType;
 }
 export const PrincipalGroup = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    access: S.String,
-    membershipType: S.optional(S.String),
+    access: ReadAccessType,
+    membershipType: S.optional(MembershipType),
   }),
 ).annotations({
   identifier: "PrincipalGroup",
@@ -4617,16 +5054,16 @@ export const PrincipalGroup = S.suspend(() =>
 export interface ChatSyncInput {
   applicationId: string;
   userId?: string;
-  userGroups?: UserGroups;
+  userGroups?: string[];
   userMessage?: string;
-  attachments?: AttachmentsInput;
+  attachments?: AttachmentInput[];
   actionExecution?: ActionExecution;
   authChallengeResponse?: AuthChallengeResponse;
   conversationId?: string;
   parentMessageId?: string;
   attributeFilter?: AttributeFilter;
-  chatMode?: string;
-  chatModeConfiguration?: (typeof ChatModeConfiguration)["Type"];
+  chatMode?: ChatMode;
+  chatModeConfiguration?: ChatModeConfiguration;
   clientToken?: string;
 }
 export const ChatSyncInput = S.suspend(() =>
@@ -4641,7 +5078,7 @@ export const ChatSyncInput = S.suspend(() =>
     conversationId: S.optional(S.String),
     parentMessageId: S.optional(S.String),
     attributeFilter: S.optional(AttributeFilter),
-    chatMode: S.optional(S.String),
+    chatMode: S.optional(ChatMode),
     chatModeConfiguration: S.optional(ChatModeConfiguration),
     clientToken: S.optional(S.String),
   }).pipe(
@@ -4664,8 +5101,8 @@ export interface CreateChatResponseConfigurationRequest {
   applicationId: string;
   displayName: string;
   clientToken?: string;
-  responseConfigurations: ResponseConfigurations;
-  tags?: Tags;
+  responseConfigurations: { [key: string]: ResponseConfiguration };
+  tags?: Tag[];
 }
 export const CreateChatResponseConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -4691,7 +5128,7 @@ export const CreateChatResponseConfigurationRequest = S.suspend(() =>
   identifier: "CreateChatResponseConfigurationRequest",
 }) as any as S.Schema<CreateChatResponseConfigurationRequest>;
 export interface ListDataSourceSyncJobsResponse {
-  history?: DataSourceSyncJobs;
+  history?: DataSourceSyncJob[];
   nextToken?: string;
 }
 export const ListDataSourceSyncJobsResponse = S.suspend(() =>
@@ -4702,14 +5139,21 @@ export const ListDataSourceSyncJobsResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListDataSourceSyncJobsResponse",
 }) as any as S.Schema<ListDataSourceSyncJobsResponse>;
+export type ActionPayloadFieldType = "STRING" | "NUMBER" | "ARRAY" | "BOOLEAN";
+export const ActionPayloadFieldType = S.Literal(
+  "STRING",
+  "NUMBER",
+  "ARRAY",
+  "BOOLEAN",
+);
 export interface CreateDataAccessorRequest {
   applicationId: string;
   principal: string;
-  actionConfigurations: ActionConfigurationList;
+  actionConfigurations: ActionConfiguration[];
   clientToken?: string;
-  displayName: string | Redacted.Redacted<string>;
+  displayName: string | redacted.Redacted<string>;
   authenticationDetail?: DataAccessorAuthenticationDetail;
-  tags?: Tags;
+  tags?: Tag[];
 }
 export const CreateDataAccessorRequest = S.suspend(() =>
   S.Struct({
@@ -4741,13 +5185,13 @@ export interface GetIndexResponse {
   indexId?: string;
   displayName?: string;
   indexArn?: string;
-  status?: string;
-  type?: string;
+  status?: IndexStatus;
+  type?: IndexType;
   description?: string;
   createdAt?: Date;
   updatedAt?: Date;
   capacityConfiguration?: IndexCapacityConfiguration;
-  documentAttributeConfigurations?: DocumentAttributeConfigurations;
+  documentAttributeConfigurations?: DocumentAttributeConfiguration[];
   error?: ErrorDetail;
   indexStatistics?: IndexStatistics;
 }
@@ -4757,8 +5201,8 @@ export const GetIndexResponse = S.suspend(() =>
     indexId: S.optional(S.String),
     displayName: S.optional(S.String),
     indexArn: S.optional(S.String),
-    status: S.optional(S.String),
-    type: S.optional(S.String),
+    status: S.optional(IndexStatus),
+    type: S.optional(IndexType),
     description: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -4779,7 +5223,7 @@ export interface CreateDataSourceRequest {
   configuration: any;
   vpcConfiguration?: DataSourceVpcConfiguration;
   description?: string;
-  tags?: Tags;
+  tags?: Tag[];
   syncSchedule?: string;
   roleArn?: string;
   clientToken?: string;
@@ -4821,13 +5265,13 @@ export const CreateDataSourceRequest = S.suspend(() =>
 export interface CreatePluginResponse {
   pluginId?: string;
   pluginArn?: string;
-  buildStatus?: string;
+  buildStatus?: PluginBuildStatus;
 }
 export const CreatePluginResponse = S.suspend(() =>
   S.Struct({
     pluginId: S.optional(S.String),
     pluginArn: S.optional(S.String),
-    buildStatus: S.optional(S.String),
+    buildStatus: S.optional(PluginBuildStatus),
   }),
 ).annotations({
   identifier: "CreatePluginResponse",
@@ -4849,14 +5293,14 @@ export const Principal = S.Union(
   S.Struct({ user: PrincipalUser }),
   S.Struct({ group: PrincipalGroup }),
 );
-export type Principals = (typeof Principal)["Type"][];
+export type Principals = Principal[];
 export const Principals = S.Array(Principal);
 export interface DocumentAclUser {
   id?: string;
-  type?: string;
+  type?: MembershipType;
 }
 export const DocumentAclUser = S.suspend(() =>
-  S.Struct({ id: S.optional(S.String), type: S.optional(S.String) }),
+  S.Struct({ id: S.optional(S.String), type: S.optional(MembershipType) }),
 ).annotations({
   identifier: "DocumentAclUser",
 }) as any as S.Schema<DocumentAclUser>;
@@ -4864,10 +5308,10 @@ export type DocumentAclUsers = DocumentAclUser[];
 export const DocumentAclUsers = S.Array(DocumentAclUser);
 export interface DocumentAclGroup {
   name?: string;
-  type?: string;
+  type?: MembershipType;
 }
 export const DocumentAclGroup = S.suspend(() =>
-  S.Struct({ name: S.optional(S.String), type: S.optional(S.String) }),
+  S.Struct({ name: S.optional(S.String), type: S.optional(MembershipType) }),
 ).annotations({
   identifier: "DocumentAclGroup",
 }) as any as S.Schema<DocumentAclGroup>;
@@ -4881,25 +5325,43 @@ export const SnippetExcerpt = S.suspend(() =>
 ).annotations({
   identifier: "SnippetExcerpt",
 }) as any as S.Schema<SnippetExcerpt>;
+export type AudioExtractionType = "TRANSCRIPT" | "SUMMARY";
+export const AudioExtractionType = S.Literal("TRANSCRIPT", "SUMMARY");
+export type VideoExtractionType = "TRANSCRIPT" | "SUMMARY";
+export const VideoExtractionType = S.Literal("TRANSCRIPT", "SUMMARY");
+export type ValidationExceptionReason =
+  | "CANNOT_PARSE"
+  | "FIELD_VALIDATION_FAILED"
+  | "UNKNOWN_OPERATION";
+export const ValidationExceptionReason = S.Literal(
+  "CANNOT_PARSE",
+  "FIELD_VALIDATION_FAILED",
+  "UNKNOWN_OPERATION",
+);
 export interface AccessControl {
-  principals: Principals;
-  memberRelation?: string;
+  principals: Principal[];
+  memberRelation?: MemberRelation;
 }
 export const AccessControl = S.suspend(() =>
-  S.Struct({ principals: Principals, memberRelation: S.optional(S.String) }),
+  S.Struct({
+    principals: Principals,
+    memberRelation: S.optional(MemberRelation),
+  }),
 ).annotations({
   identifier: "AccessControl",
 }) as any as S.Schema<AccessControl>;
 export type AccessControls = AccessControl[];
 export const AccessControls = S.Array(AccessControl);
+export type SystemMessageType = "RESPONSE" | "GROUNDED_RESPONSE";
+export const SystemMessageType = S.Literal("RESPONSE", "GROUNDED_RESPONSE");
 export interface DocumentAclCondition {
-  memberRelation?: string;
-  users?: DocumentAclUsers;
-  groups?: DocumentAclGroups;
+  memberRelation?: MemberRelation;
+  users?: DocumentAclUser[];
+  groups?: DocumentAclGroup[];
 }
 export const DocumentAclCondition = S.suspend(() =>
   S.Struct({
-    memberRelation: S.optional(S.String),
+    memberRelation: S.optional(MemberRelation),
     users: S.optional(DocumentAclUsers),
     groups: S.optional(DocumentAclGroups),
   }),
@@ -4908,6 +5370,19 @@ export const DocumentAclCondition = S.suspend(() =>
 }) as any as S.Schema<DocumentAclCondition>;
 export type DocumentAclConditions = DocumentAclCondition[];
 export const DocumentAclConditions = S.Array(DocumentAclCondition);
+export type ScoreConfidence =
+  | "VERY_HIGH"
+  | "HIGH"
+  | "MEDIUM"
+  | "LOW"
+  | "NOT_AVAILABLE";
+export const ScoreConfidence = S.Literal(
+  "VERY_HIGH",
+  "HIGH",
+  "MEDIUM",
+  "LOW",
+  "NOT_AVAILABLE",
+);
 export interface CreateChatResponseConfigurationResponse {
   chatResponseConfigurationId: string;
   chatResponseConfigurationArn: string;
@@ -4937,7 +5412,7 @@ export interface AudioSourceDetails {
   mediaMimeType?: string;
   startTimeMilliseconds?: number;
   endTimeMilliseconds?: number;
-  audioExtractionType?: string;
+  audioExtractionType?: AudioExtractionType;
 }
 export const AudioSourceDetails = S.suspend(() =>
   S.Struct({
@@ -4945,7 +5420,7 @@ export const AudioSourceDetails = S.suspend(() =>
     mediaMimeType: S.optional(S.String),
     startTimeMilliseconds: S.optional(S.Number),
     endTimeMilliseconds: S.optional(S.Number),
-    audioExtractionType: S.optional(S.String),
+    audioExtractionType: S.optional(AudioExtractionType),
   }),
 ).annotations({
   identifier: "AudioSourceDetails",
@@ -4955,7 +5430,7 @@ export interface VideoSourceDetails {
   mediaMimeType?: string;
   startTimeMilliseconds?: number;
   endTimeMilliseconds?: number;
-  videoExtractionType?: string;
+  videoExtractionType?: VideoExtractionType;
 }
 export const VideoSourceDetails = S.suspend(() =>
   S.Struct({
@@ -4963,7 +5438,7 @@ export const VideoSourceDetails = S.suspend(() =>
     mediaMimeType: S.optional(S.String),
     startTimeMilliseconds: S.optional(S.Number),
     endTimeMilliseconds: S.optional(S.Number),
-    videoExtractionType: S.optional(S.String),
+    videoExtractionType: S.optional(VideoExtractionType),
   }),
 ).annotations({
   identifier: "VideoSourceDetails",
@@ -5009,19 +5484,19 @@ export const CreateDataSourceResponse = S.suspend(() =>
   identifier: "CreateDataSourceResponse",
 }) as any as S.Schema<CreateDataSourceResponse>;
 export interface AccessConfiguration {
-  accessControls: AccessControls;
-  memberRelation?: string;
+  accessControls: AccessControl[];
+  memberRelation?: MemberRelation;
 }
 export const AccessConfiguration = S.suspend(() =>
   S.Struct({
     accessControls: AccessControls,
-    memberRelation: S.optional(S.String),
+    memberRelation: S.optional(MemberRelation),
   }),
 ).annotations({
   identifier: "AccessConfiguration",
 }) as any as S.Schema<AccessConfiguration>;
 export interface TextOutputEvent {
-  systemMessageType?: string;
+  systemMessageType?: SystemMessageType;
   conversationId?: string;
   userMessageId?: string;
   systemMessageId?: string;
@@ -5029,7 +5504,7 @@ export interface TextOutputEvent {
 }
 export const TextOutputEvent = S.suspend(() =>
   S.Struct({
-    systemMessageType: S.optional(S.String),
+    systemMessageType: S.optional(SystemMessageType),
     conversationId: S.optional(S.String),
     userMessageId: S.optional(S.String),
     systemMessageId: S.optional(S.String),
@@ -5053,7 +5528,7 @@ export interface TextSegment {
   snippetExcerpt?: SnippetExcerpt;
   mediaId?: string;
   mediaMimeType?: string;
-  sourceDetails?: (typeof SourceDetails)["Type"];
+  sourceDetails?: SourceDetails;
 }
 export const TextSegment = S.suspend(() =>
   S.Struct({
@@ -5073,7 +5548,7 @@ export interface SourceAttribution {
   url?: string;
   citationNumber?: number;
   updatedAt?: Date;
-  textMessageSegments?: TextSegmentList;
+  textMessageSegments?: TextSegment[];
   documentId?: string;
   indexId?: string;
   datasourceId?: string;
@@ -5099,7 +5574,7 @@ export interface MetadataEvent {
   conversationId?: string;
   userMessageId?: string;
   systemMessageId?: string;
-  sourceAttributions?: SourceAttributions;
+  sourceAttributions?: SourceAttribution[];
   finalTextMessage?: string;
 }
 export const MetadataEvent = S.suspend(() =>
@@ -5117,9 +5592,9 @@ export interface ActionReviewPayloadField {
   displayName?: string;
   displayOrder?: number;
   displayDescription?: string;
-  type?: string;
+  type?: ActionPayloadFieldType;
   value?: any;
-  allowedValues?: ActionReviewPayloadFieldAllowedValues;
+  allowedValues?: ActionReviewPayloadFieldAllowedValue[];
   allowedFormat?: string;
   arrayItemJsonSchema?: any;
   required?: boolean;
@@ -5129,7 +5604,7 @@ export const ActionReviewPayloadField = S.suspend(() =>
     displayName: S.optional(S.String),
     displayOrder: S.optional(S.Number),
     displayDescription: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(ActionPayloadFieldType),
     value: S.optional(S.Any),
     allowedValues: S.optional(ActionReviewPayloadFieldAllowedValues),
     allowedFormat: S.optional(S.String),
@@ -5149,8 +5624,8 @@ export interface ActionReviewEvent {
   userMessageId?: string;
   systemMessageId?: string;
   pluginId?: string;
-  pluginType?: string;
-  payload?: ActionReviewPayload;
+  pluginType?: PluginType;
+  payload?: { [key: string]: ActionReviewPayloadField };
   payloadFieldNameSeparator?: string;
 }
 export const ActionReviewEvent = S.suspend(() =>
@@ -5159,7 +5634,7 @@ export const ActionReviewEvent = S.suspend(() =>
     userMessageId: S.optional(S.String),
     systemMessageId: S.optional(S.String),
     pluginId: S.optional(S.String),
-    pluginType: S.optional(S.String),
+    pluginType: S.optional(PluginType),
     payload: S.optional(ActionReviewPayload),
     payloadFieldNameSeparator: S.optional(S.String),
   }),
@@ -5191,30 +5666,30 @@ export const AuthChallengeRequestEvent = S.suspend(() =>
   identifier: "AuthChallengeRequestEvent",
 }) as any as S.Schema<AuthChallengeRequestEvent>;
 export interface DocumentAclMembership {
-  memberRelation?: string;
-  conditions?: DocumentAclConditions;
+  memberRelation?: MemberRelation;
+  conditions?: DocumentAclCondition[];
 }
 export const DocumentAclMembership = S.suspend(() =>
   S.Struct({
-    memberRelation: S.optional(S.String),
+    memberRelation: S.optional(MemberRelation),
     conditions: S.optional(DocumentAclConditions),
   }),
 ).annotations({
   identifier: "DocumentAclMembership",
 }) as any as S.Schema<DocumentAclMembership>;
 export interface ScoreAttributes {
-  scoreConfidence?: string;
+  scoreConfidence?: ScoreConfidence;
 }
 export const ScoreAttributes = S.suspend(() =>
-  S.Struct({ scoreConfidence: S.optional(S.String) }),
+  S.Struct({ scoreConfidence: S.optional(ScoreConfidence) }),
 ).annotations({
   identifier: "ScoreAttributes",
 }) as any as S.Schema<ScoreAttributes>;
 export interface Document {
   id: string;
-  attributes?: DocumentAttributes;
-  content?: (typeof DocumentContent)["Type"];
-  contentType?: string;
+  attributes?: DocumentAttribute[];
+  content?: DocumentContent;
+  contentType?: ContentType;
   title?: string;
   accessConfiguration?: AccessConfiguration;
   documentEnrichmentConfiguration?: DocumentEnrichmentConfiguration;
@@ -5225,7 +5700,7 @@ export const Document = S.suspend(() =>
     id: S.String,
     attributes: S.optional(DocumentAttributes),
     content: S.optional(DocumentContent),
-    contentType: S.optional(S.String),
+    contentType: S.optional(ContentType),
     title: S.optional(S.String),
     accessConfiguration: S.optional(AccessConfiguration),
     documentEnrichmentConfiguration: S.optional(
@@ -5236,6 +5711,12 @@ export const Document = S.suspend(() =>
 ).annotations({ identifier: "Document" }) as any as S.Schema<Document>;
 export type Documents = Document[];
 export const Documents = S.Array(Document);
+export type ChatOutputStream =
+  | { textEvent: TextOutputEvent }
+  | { metadataEvent: MetadataEvent }
+  | { actionReviewEvent: ActionReviewEvent }
+  | { failedAttachmentEvent: FailedAttachmentEvent }
+  | { authChallengeRequestEvent: AuthChallengeRequestEvent };
 export const ChatOutputStream = T.EventStream(
   S.Union(
     S.Struct({ textEvent: TextOutputEvent }),
@@ -5244,7 +5725,7 @@ export const ChatOutputStream = T.EventStream(
     S.Struct({ failedAttachmentEvent: FailedAttachmentEvent }),
     S.Struct({ authChallengeRequestEvent: AuthChallengeRequestEvent }),
   ),
-);
+) as any as S.Schema<stream.Stream<ChatOutputStream, Error, never>>;
 export interface AuthChallengeRequest {
   authorizationUrl: string;
 }
@@ -5279,7 +5760,7 @@ export interface RelevantContent {
   documentId?: string;
   documentTitle?: string;
   documentUri?: string;
-  documentAttributes?: DocumentAttributes;
+  documentAttributes?: DocumentAttribute[];
   scoreAttributes?: ScoreAttributes;
 }
 export const RelevantContent = S.suspend(() =>
@@ -5299,7 +5780,7 @@ export const RelevantContentList = S.Array(RelevantContent);
 export interface BatchPutDocumentRequest {
   applicationId: string;
   indexId: string;
-  documents: Documents;
+  documents: Document[];
   roleArn?: string;
   dataSourceSyncId?: string;
 }
@@ -5327,7 +5808,7 @@ export const BatchPutDocumentRequest = S.suspend(() =>
   identifier: "BatchPutDocumentRequest",
 }) as any as S.Schema<BatchPutDocumentRequest>;
 export interface ChatOutput {
-  outputStream?: (typeof ChatOutputStream)["Type"];
+  outputStream?: stream.Stream<ChatOutputStream, Error, never>;
 }
 export const ChatOutput = S.suspend(() =>
   S.Struct({
@@ -5336,14 +5817,14 @@ export const ChatOutput = S.suspend(() =>
 ).annotations({ identifier: "ChatOutput" }) as any as S.Schema<ChatOutput>;
 export interface ActionReview {
   pluginId?: string;
-  pluginType?: string;
-  payload?: ActionReviewPayload;
+  pluginType?: PluginType;
+  payload?: { [key: string]: ActionReviewPayloadField };
   payloadFieldNameSeparator?: string;
 }
 export const ActionReview = S.suspend(() =>
   S.Struct({
     pluginId: S.optional(S.String),
-    pluginType: S.optional(S.String),
+    pluginType: S.optional(PluginType),
     payload: S.optional(ActionReviewPayload),
     payloadFieldNameSeparator: S.optional(S.String),
   }),
@@ -5355,8 +5836,8 @@ export interface ChatSyncOutput {
   userMessageId?: string;
   actionReview?: ActionReview;
   authChallengeRequest?: AuthChallengeRequest;
-  sourceAttributions?: SourceAttributions;
-  failedAttachments?: AttachmentsOutput;
+  sourceAttributions?: SourceAttribution[];
+  failedAttachments?: AttachmentOutput[];
 }
 export const ChatSyncOutput = S.suspend(() =>
   S.Struct({
@@ -5373,8 +5854,8 @@ export const ChatSyncOutput = S.suspend(() =>
   identifier: "ChatSyncOutput",
 }) as any as S.Schema<ChatSyncOutput>;
 export interface CheckDocumentAccessResponse {
-  userGroups?: AssociatedGroups;
-  userAliases?: AssociatedUsers;
+  userGroups?: AssociatedGroup[];
+  userAliases?: AssociatedUser[];
   hasAccess?: boolean;
   documentAcl?: DocumentAcl;
 }
@@ -5389,7 +5870,7 @@ export const CheckDocumentAccessResponse = S.suspend(() =>
   identifier: "CheckDocumentAccessResponse",
 }) as any as S.Schema<CheckDocumentAccessResponse>;
 export interface SearchRelevantContentResponse {
-  relevantContent?: RelevantContentList;
+  relevantContent?: RelevantContent[];
   nextToken?: string;
 }
 export const SearchRelevantContentResponse = S.suspend(() =>
@@ -5403,11 +5884,11 @@ export const SearchRelevantContentResponse = S.suspend(() =>
 export interface UpdateChatControlsConfigurationRequest {
   applicationId: string;
   clientToken?: string;
-  responseScope?: string;
+  responseScope?: ResponseScope;
   orchestrationConfiguration?: OrchestrationConfiguration;
   blockedPhrasesConfigurationUpdate?: BlockedPhrasesConfigurationUpdate;
-  topicConfigurationsToCreateOrUpdate?: TopicConfigurations;
-  topicConfigurationsToDelete?: TopicConfigurations;
+  topicConfigurationsToCreateOrUpdate?: TopicConfiguration[];
+  topicConfigurationsToDelete?: TopicConfiguration[];
   creatorModeConfiguration?: CreatorModeConfiguration;
   hallucinationReductionConfiguration?: HallucinationReductionConfiguration;
 }
@@ -5415,7 +5896,7 @@ export const UpdateChatControlsConfigurationRequest = S.suspend(() =>
   S.Struct({
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     clientToken: S.optional(S.String),
-    responseScope: S.optional(S.String),
+    responseScope: S.optional(ResponseScope),
     orchestrationConfiguration: S.optional(OrchestrationConfiguration),
     blockedPhrasesConfigurationUpdate: S.optional(
       BlockedPhrasesConfigurationUpdate,
@@ -5452,9 +5933,9 @@ export interface Message {
   messageId?: string;
   body?: string;
   time?: Date;
-  type?: string;
-  attachments?: AttachmentsOutput;
-  sourceAttribution?: SourceAttributions;
+  type?: MessageType;
+  attachments?: AttachmentOutput[];
+  sourceAttribution?: SourceAttribution[];
   actionReview?: ActionReview;
   actionExecution?: ActionExecution;
 }
@@ -5463,7 +5944,7 @@ export const Message = S.suspend(() =>
     messageId: S.optional(S.String),
     body: S.optional(S.String),
     time: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    type: S.optional(S.String),
+    type: S.optional(MessageType),
     attachments: S.optional(AttachmentsOutput),
     sourceAttribution: S.optional(SourceAttributions),
     actionReview: S.optional(ActionReview),
@@ -5473,7 +5954,7 @@ export const Message = S.suspend(() =>
 export type Messages = Message[];
 export const Messages = S.Array(Message);
 export interface BatchPutDocumentResponse {
-  failedDocuments?: FailedDocuments;
+  failedDocuments?: FailedDocument[];
 }
 export const BatchPutDocumentResponse = S.suspend(() =>
   S.Struct({ failedDocuments: S.optional(FailedDocuments) }),
@@ -5481,7 +5962,7 @@ export const BatchPutDocumentResponse = S.suspend(() =>
   identifier: "BatchPutDocumentResponse",
 }) as any as S.Schema<BatchPutDocumentResponse>;
 export interface ListMessagesResponse {
-  messages?: Messages;
+  messages?: Message[];
   nextToken?: string;
 }
 export const ListMessagesResponse = S.suspend(() =>
@@ -5491,17 +5972,17 @@ export const ListMessagesResponse = S.suspend(() =>
 }) as any as S.Schema<ListMessagesResponse>;
 export interface CreateRetrieverRequest {
   applicationId: string;
-  type: string;
+  type: RetrieverType;
   displayName: string;
-  configuration: (typeof RetrieverConfiguration)["Type"];
+  configuration: RetrieverConfiguration;
   roleArn?: string;
   clientToken?: string;
-  tags?: Tags;
+  tags?: Tag[];
 }
 export const CreateRetrieverRequest = S.suspend(() =>
   S.Struct({
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
-    type: S.String,
+    type: RetrieverType,
     displayName: S.String,
     configuration: RetrieverConfiguration,
     roleArn: S.optional(S.String),
@@ -5573,7 +6054,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     message: S.String,
-    reason: S.String,
+    reason: ValidationExceptionReason,
     fields: S.optional(ValidationExceptionFields),
   },
 ).pipe(C.withBadRequestError) {}
@@ -5589,7 +6070,7 @@ export class ExternalResourceException extends S.TaggedError<ExternalResourceExc
 export const listPluginTypeMetadata: {
   (
     input: ListPluginTypeMetadataRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPluginTypeMetadataResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5600,7 +6081,7 @@ export const listPluginTypeMetadata: {
   >;
   pages: (
     input: ListPluginTypeMetadataRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPluginTypeMetadataResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5611,7 +6092,7 @@ export const listPluginTypeMetadata: {
   >;
   items: (
     input: ListPluginTypeMetadataRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PluginTypeMetadataSummary,
     | AccessDeniedException
     | InternalServerException
@@ -5642,7 +6123,7 @@ export const listPluginTypeMetadata: {
 export const searchRelevantContent: {
   (
     input: SearchRelevantContentRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchRelevantContentResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5655,7 +6136,7 @@ export const searchRelevantContent: {
   >;
   pages: (
     input: SearchRelevantContentRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchRelevantContentResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5668,7 +6149,7 @@ export const searchRelevantContent: {
   >;
   items: (
     input: SearchRelevantContentRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RelevantContent,
     | AccessDeniedException
     | InternalServerException
@@ -5702,7 +6183,7 @@ export const searchRelevantContent: {
  */
 export const updateChatControlsConfiguration: (
   input: UpdateChatControlsConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateChatControlsConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5731,7 +6212,7 @@ export const updateChatControlsConfiguration: (
  */
 export const getIndex: (
   input: GetIndexRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIndexResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5757,7 +6238,7 @@ export const getIndex: (
 export const listAttachments: {
   (
     input: ListAttachmentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAttachmentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5770,7 +6251,7 @@ export const listAttachments: {
   >;
   pages: (
     input: ListAttachmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAttachmentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5783,7 +6264,7 @@ export const listAttachments: {
   >;
   items: (
     input: ListAttachmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Attachment,
     | AccessDeniedException
     | InternalServerException
@@ -5818,7 +6299,7 @@ export const listAttachments: {
 export const listConversations: {
   (
     input: ListConversationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConversationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5831,7 +6312,7 @@ export const listConversations: {
   >;
   pages: (
     input: ListConversationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConversationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5844,7 +6325,7 @@ export const listConversations: {
   >;
   items: (
     input: ListConversationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Conversation,
     | AccessDeniedException
     | InternalServerException
@@ -5878,7 +6359,7 @@ export const listConversations: {
  */
 export const deleteConversation: (
   input: DeleteConversationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConversationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5907,7 +6388,7 @@ export const deleteConversation: (
  */
 export const getChatResponseConfiguration: (
   input: GetChatResponseConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetChatResponseConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5932,7 +6413,7 @@ export const getChatResponseConfiguration: (
  */
 export const getUser: (
   input: GetUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUserResponse,
   | AccessDeniedException
   | ConflictException
@@ -5960,7 +6441,7 @@ export const getUser: (
 export const listChatResponseConfigurations: {
   (
     input: ListChatResponseConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListChatResponseConfigurationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5972,7 +6453,7 @@ export const listChatResponseConfigurations: {
   >;
   pages: (
     input: ListChatResponseConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListChatResponseConfigurationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5984,7 +6465,7 @@ export const listChatResponseConfigurations: {
   >;
   items: (
     input: ListChatResponseConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ChatResponseConfiguration,
     | AccessDeniedException
     | InternalServerException
@@ -6017,7 +6498,7 @@ export const listChatResponseConfigurations: {
 export const listDocuments: {
   (
     input: ListDocumentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDocumentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6029,7 +6510,7 @@ export const listDocuments: {
   >;
   pages: (
     input: ListDocumentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDocumentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6041,7 +6522,7 @@ export const listDocuments: {
   >;
   items: (
     input: ListDocumentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DocumentDetails,
     | AccessDeniedException
     | InternalServerException
@@ -6074,7 +6555,7 @@ export const listDocuments: {
 export const listGroups: {
   (
     input: ListGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGroupsResponse,
     | AccessDeniedException
     | ConflictException
@@ -6087,7 +6568,7 @@ export const listGroups: {
   >;
   pages: (
     input: ListGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGroupsResponse,
     | AccessDeniedException
     | ConflictException
@@ -6100,7 +6581,7 @@ export const listGroups: {
   >;
   items: (
     input: ListGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GroupSummary,
     | AccessDeniedException
     | ConflictException
@@ -6135,7 +6616,7 @@ export const listGroups: {
 export const listPluginActions: {
   (
     input: ListPluginActionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPluginActionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6147,7 +6628,7 @@ export const listPluginActions: {
   >;
   pages: (
     input: ListPluginActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPluginActionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6159,7 +6640,7 @@ export const listPluginActions: {
   >;
   items: (
     input: ListPluginActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ActionSummary,
     | AccessDeniedException
     | InternalServerException
@@ -6192,7 +6673,7 @@ export const listPluginActions: {
 export const listSubscriptions: {
   (
     input: ListSubscriptionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSubscriptionsResponse,
     | AccessDeniedException
     | ConflictException
@@ -6205,7 +6686,7 @@ export const listSubscriptions: {
   >;
   pages: (
     input: ListSubscriptionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSubscriptionsResponse,
     | AccessDeniedException
     | ConflictException
@@ -6218,7 +6699,7 @@ export const listSubscriptions: {
   >;
   items: (
     input: ListSubscriptionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Subscription,
     | AccessDeniedException
     | ConflictException
@@ -6252,7 +6733,7 @@ export const listSubscriptions: {
  */
 export const getApplication: (
   input: GetApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetApplicationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6278,7 +6759,7 @@ export const getApplication: (
 export const listDataAccessors: {
   (
     input: ListDataAccessorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataAccessorsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6290,7 +6771,7 @@ export const listDataAccessors: {
   >;
   pages: (
     input: ListDataAccessorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataAccessorsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6302,7 +6783,7 @@ export const listDataAccessors: {
   >;
   items: (
     input: ListDataAccessorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataAccessor,
     | AccessDeniedException
     | InternalServerException
@@ -6335,7 +6816,7 @@ export const listDataAccessors: {
 export const listIndices: {
   (
     input: ListIndicesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListIndicesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6347,7 +6828,7 @@ export const listIndices: {
   >;
   pages: (
     input: ListIndicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListIndicesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6359,7 +6840,7 @@ export const listIndices: {
   >;
   items: (
     input: ListIndicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Index,
     | AccessDeniedException
     | InternalServerException
@@ -6392,7 +6873,7 @@ export const listIndices: {
 export const listDataSources: {
   (
     input: ListDataSourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataSourcesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6404,7 +6885,7 @@ export const listDataSources: {
   >;
   pages: (
     input: ListDataSourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataSourcesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6416,7 +6897,7 @@ export const listDataSources: {
   >;
   items: (
     input: ListDataSourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataSource,
     | AccessDeniedException
     | InternalServerException
@@ -6449,7 +6930,7 @@ export const listDataSources: {
 export const listPlugins: {
   (
     input: ListPluginsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPluginsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6461,7 +6942,7 @@ export const listPlugins: {
   >;
   pages: (
     input: ListPluginsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPluginsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6473,7 +6954,7 @@ export const listPlugins: {
   >;
   items: (
     input: ListPluginsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Plugin,
     | AccessDeniedException
     | InternalServerException
@@ -6506,7 +6987,7 @@ export const listPlugins: {
 export const listRetrievers: {
   (
     input: ListRetrieversRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRetrieversResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6518,7 +6999,7 @@ export const listRetrievers: {
   >;
   pages: (
     input: ListRetrieversRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRetrieversResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6530,7 +7011,7 @@ export const listRetrievers: {
   >;
   items: (
     input: ListRetrieversRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Retriever,
     | AccessDeniedException
     | InternalServerException
@@ -6562,7 +7043,7 @@ export const listRetrievers: {
  */
 export const updateWebExperience: (
   input: UpdateWebExperienceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWebExperienceResponse,
   | AccessDeniedException
   | ConflictException
@@ -6590,7 +7071,7 @@ export const updateWebExperience: (
 export const listWebExperiences: {
   (
     input: ListWebExperiencesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWebExperiencesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6602,7 +7083,7 @@ export const listWebExperiences: {
   >;
   pages: (
     input: ListWebExperiencesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWebExperiencesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6614,7 +7095,7 @@ export const listWebExperiences: {
   >;
   items: (
     input: ListWebExperiencesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WebExperience,
     | AccessDeniedException
     | InternalServerException
@@ -6646,7 +7127,7 @@ export const listWebExperiences: {
  */
 export const getDocumentContent: (
   input: GetDocumentContentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDocumentContentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6671,7 +7152,7 @@ export const getDocumentContent: (
  */
 export const getPolicy: (
   input: GetPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6696,7 +7177,7 @@ export const getPolicy: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6721,7 +7202,7 @@ export const listTagsForResource: (
  */
 export const putFeedback: (
   input: PutFeedbackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutFeedbackResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6746,7 +7227,7 @@ export const putFeedback: (
  */
 export const getDataAccessor: (
   input: GetDataAccessorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataAccessorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6771,7 +7252,7 @@ export const getDataAccessor: (
  */
 export const getDataSource: (
   input: GetDataSourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataSourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6796,7 +7277,7 @@ export const getDataSource: (
  */
 export const getPlugin: (
   input: GetPluginRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPluginResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6821,7 +7302,7 @@ export const getPlugin: (
  */
 export const getRetriever: (
   input: GetRetrieverRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRetrieverResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6846,7 +7327,7 @@ export const getRetriever: (
  */
 export const getWebExperience: (
   input: GetWebExperienceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWebExperienceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6871,7 +7352,7 @@ export const getWebExperience: (
  */
 export const deleteChatControlsConfiguration: (
   input: DeleteChatControlsConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteChatControlsConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6896,7 +7377,7 @@ export const deleteChatControlsConfiguration: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6921,7 +7402,7 @@ export const untagResource: (
  */
 export const cancelSubscription: (
   input: CancelSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelSubscriptionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6946,7 +7427,7 @@ export const cancelSubscription: (
  */
 export const updateSubscription: (
   input: UpdateSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSubscriptionResponse,
   | AccessDeniedException
   | ConflictException
@@ -6977,7 +7458,7 @@ export const updateSubscription: (
  */
 export const updateApplication: (
   input: UpdateApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -7004,7 +7485,7 @@ export const updateApplication: (
  */
 export const deleteChatResponseConfiguration: (
   input: DeleteChatResponseConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteChatResponseConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -7033,7 +7514,7 @@ export const deleteChatResponseConfiguration: (
  */
 export const deleteGroup: (
   input: DeleteGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -7060,7 +7541,7 @@ export const deleteGroup: (
  */
 export const deleteUser: (
   input: DeleteUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUserResponse,
   | AccessDeniedException
   | ConflictException
@@ -7087,7 +7568,7 @@ export const deleteUser: (
  */
 export const disassociatePermission: (
   input: DisassociatePermissionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociatePermissionResponse,
   | AccessDeniedException
   | ConflictException
@@ -7114,7 +7595,7 @@ export const disassociatePermission: (
  */
 export const stopDataSourceSyncJob: (
   input: StopDataSourceSyncJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopDataSourceSyncJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -7141,7 +7622,7 @@ export const stopDataSourceSyncJob: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -7168,7 +7649,7 @@ export const tagResource: (
  */
 export const updateChatResponseConfiguration: (
   input: UpdateChatResponseConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateChatResponseConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -7195,7 +7676,7 @@ export const updateChatResponseConfiguration: (
  */
 export const deleteApplication: (
   input: DeleteApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -7222,7 +7703,7 @@ export const deleteApplication: (
  */
 export const updateDataAccessor: (
   input: UpdateDataAccessorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDataAccessorResponse,
   | AccessDeniedException
   | ConflictException
@@ -7249,7 +7730,7 @@ export const updateDataAccessor: (
  */
 export const deleteDataAccessor: (
   input: DeleteDataAccessorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDataAccessorResponse,
   | AccessDeniedException
   | ConflictException
@@ -7276,7 +7757,7 @@ export const deleteDataAccessor: (
  */
 export const deleteIndex: (
   input: DeleteIndexRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIndexResponse,
   | AccessDeniedException
   | ConflictException
@@ -7303,7 +7784,7 @@ export const deleteIndex: (
  */
 export const updateDataSource: (
   input: UpdateDataSourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDataSourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -7330,7 +7811,7 @@ export const updateDataSource: (
  */
 export const deleteDataSource: (
   input: DeleteDataSourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDataSourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -7357,7 +7838,7 @@ export const deleteDataSource: (
  */
 export const deletePlugin: (
   input: DeletePluginRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePluginResponse,
   | AccessDeniedException
   | ConflictException
@@ -7384,7 +7865,7 @@ export const deletePlugin: (
  */
 export const deleteRetriever: (
   input: DeleteRetrieverRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRetrieverResponse,
   | AccessDeniedException
   | ConflictException
@@ -7411,7 +7892,7 @@ export const deleteRetriever: (
  */
 export const deleteWebExperience: (
   input: DeleteWebExperienceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWebExperienceResponse,
   | AccessDeniedException
   | ConflictException
@@ -7442,7 +7923,7 @@ export const deleteWebExperience: (
  */
 export const createSubscription: (
   input: CreateSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSubscriptionResponse,
   | AccessDeniedException
   | ConflictException
@@ -7469,7 +7950,7 @@ export const createSubscription: (
  */
 export const getGroup: (
   input: GetGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -7498,7 +7979,7 @@ export const getGroup: (
  */
 export const batchDeleteDocument: (
   input: BatchDeleteDocumentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDeleteDocumentResponse,
   | AccessDeniedException
   | ConflictException
@@ -7525,7 +8006,7 @@ export const batchDeleteDocument: (
  */
 export const deleteAttachment: (
   input: DeleteAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAttachmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7555,7 +8036,7 @@ export const deleteAttachment: (
 export const listApplications: {
   (
     input: ListApplicationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7566,7 +8047,7 @@ export const listApplications: {
   >;
   pages: (
     input: ListApplicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7577,7 +8058,7 @@ export const listApplications: {
   >;
   items: (
     input: ListApplicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Application,
     | AccessDeniedException
     | InternalServerException
@@ -7608,7 +8089,7 @@ export const listApplications: {
 export const listPluginTypeActions: {
   (
     input: ListPluginTypeActionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPluginTypeActionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7619,7 +8100,7 @@ export const listPluginTypeActions: {
   >;
   pages: (
     input: ListPluginTypeActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPluginTypeActionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7630,7 +8111,7 @@ export const listPluginTypeActions: {
   >;
   items: (
     input: ListPluginTypeActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ActionSummary,
     | AccessDeniedException
     | InternalServerException
@@ -7661,7 +8142,7 @@ export const listPluginTypeActions: {
 export const getChatControlsConfiguration: {
   (
     input: GetChatControlsConfigurationRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetChatControlsConfigurationResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7673,7 +8154,7 @@ export const getChatControlsConfiguration: {
   >;
   pages: (
     input: GetChatControlsConfigurationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetChatControlsConfigurationResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7685,7 +8166,7 @@ export const getChatControlsConfiguration: {
   >;
   items: (
     input: GetChatControlsConfigurationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TopicConfiguration,
     | AccessDeniedException
     | InternalServerException
@@ -7718,7 +8199,7 @@ export const getChatControlsConfiguration: {
 export const listDataSourceSyncJobs: {
   (
     input: ListDataSourceSyncJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataSourceSyncJobsResponse,
     | AccessDeniedException
     | ConflictException
@@ -7731,7 +8212,7 @@ export const listDataSourceSyncJobs: {
   >;
   pages: (
     input: ListDataSourceSyncJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataSourceSyncJobsResponse,
     | AccessDeniedException
     | ConflictException
@@ -7744,7 +8225,7 @@ export const listDataSourceSyncJobs: {
   >;
   items: (
     input: ListDataSourceSyncJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataSourceSyncJob,
     | AccessDeniedException
     | ConflictException
@@ -7778,7 +8259,7 @@ export const listDataSourceSyncJobs: {
  */
 export const createPlugin: (
   input: CreatePluginRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePluginResponse,
   | AccessDeniedException
   | ConflictException
@@ -7809,7 +8290,7 @@ export const createPlugin: (
  */
 export const getMedia: (
   input: GetMediaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMediaResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7838,7 +8319,7 @@ export const getMedia: (
  */
 export const createWebExperience: (
   input: CreateWebExperienceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWebExperienceResponse,
   | AccessDeniedException
   | ConflictException
@@ -7871,7 +8352,7 @@ export const createWebExperience: (
  */
 export const putGroup: (
   input: PutGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -7906,7 +8387,7 @@ export const putGroup: (
  */
 export const createApplication: (
   input: CreateApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -7939,7 +8420,7 @@ export const createApplication: (
  */
 export const createIndex: (
   input: CreateIndexRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateIndexResponse,
   | AccessDeniedException
   | ConflictException
@@ -7968,7 +8449,7 @@ export const createIndex: (
  */
 export const createAnonymousWebExperienceUrl: (
   input: CreateAnonymousWebExperienceUrlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAnonymousWebExperienceUrlResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7995,7 +8476,7 @@ export const createAnonymousWebExperienceUrl: (
  */
 export const startDataSourceSyncJob: (
   input: StartDataSourceSyncJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartDataSourceSyncJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -8024,7 +8505,7 @@ export const startDataSourceSyncJob: (
  */
 export const updateUser: (
   input: UpdateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserResponse,
   | AccessDeniedException
   | ConflictException
@@ -8053,7 +8534,7 @@ export const updateUser: (
  */
 export const updateIndex: (
   input: UpdateIndexRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateIndexResponse,
   | AccessDeniedException
   | ConflictException
@@ -8082,7 +8563,7 @@ export const updateIndex: (
  */
 export const updatePlugin: (
   input: UpdatePluginRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePluginResponse,
   | AccessDeniedException
   | ConflictException
@@ -8111,7 +8592,7 @@ export const updatePlugin: (
  */
 export const updateRetriever: (
   input: UpdateRetrieverRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRetrieverResponse,
   | AccessDeniedException
   | ConflictException
@@ -8140,7 +8621,7 @@ export const updateRetriever: (
  */
 export const createUser: (
   input: CreateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUserResponse,
   | AccessDeniedException
   | ConflictException
@@ -8169,7 +8650,7 @@ export const createUser: (
  */
 export const associatePermission: (
   input: AssociatePermissionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociatePermissionResponse,
   | AccessDeniedException
   | ConflictException
@@ -8198,7 +8679,7 @@ export const associatePermission: (
  */
 export const createChatResponseConfiguration: (
   input: CreateChatResponseConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateChatResponseConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -8227,7 +8708,7 @@ export const createChatResponseConfiguration: (
  */
 export const createDataAccessor: (
   input: CreateDataAccessorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataAccessorResponse,
   | AccessDeniedException
   | ConflictException
@@ -8258,7 +8739,7 @@ export const createDataAccessor: (
  */
 export const createDataSource: (
   input: CreateDataSourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataSourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -8287,7 +8768,7 @@ export const createDataSource: (
  */
 export const checkDocumentAccess: (
   input: CheckDocumentAccessRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CheckDocumentAccessResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8322,7 +8803,7 @@ export const checkDocumentAccess: (
  */
 export const batchPutDocument: (
   input: BatchPutDocumentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchPutDocumentResponse,
   | AccessDeniedException
   | ConflictException
@@ -8351,7 +8832,7 @@ export const batchPutDocument: (
  */
 export const chat: (
   input: ChatInput,
-) => Effect.Effect<
+) => effect.Effect<
   ChatOutput,
   | AccessDeniedException
   | ConflictException
@@ -8383,7 +8864,7 @@ export const chat: (
 export const listMessages: {
   (
     input: ListMessagesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMessagesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8396,7 +8877,7 @@ export const listMessages: {
   >;
   pages: (
     input: ListMessagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMessagesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8409,7 +8890,7 @@ export const listMessages: {
   >;
   items: (
     input: ListMessagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Message,
     | AccessDeniedException
     | InternalServerException
@@ -8443,7 +8924,7 @@ export const listMessages: {
  */
 export const chatSync: (
   input: ChatSyncInput,
-) => Effect.Effect<
+) => effect.Effect<
   ChatSyncOutput,
   | AccessDeniedException
   | ConflictException
@@ -8474,7 +8955,7 @@ export const chatSync: (
  */
 export const createRetriever: (
   input: CreateRetrieverRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRetrieverResponse,
   | AccessDeniedException
   | ConflictException

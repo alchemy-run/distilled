@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -130,13 +130,81 @@ export type TleLineTwo = string;
 //# Schemas
 export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
-export type StatusList = string[];
-export const StatusList = S.Array(S.String);
-export type EphemerisStatusList = string[];
-export const EphemerisStatusList = S.Array(S.String);
+export type ConfigCapabilityType =
+  | "antenna-downlink"
+  | "antenna-downlink-demod-decode"
+  | "tracking"
+  | "dataflow-endpoint"
+  | "antenna-uplink"
+  | "uplink-echo"
+  | "s3-recording";
+export const ConfigCapabilityType = S.Literal(
+  "antenna-downlink",
+  "antenna-downlink-demod-decode",
+  "tracking",
+  "dataflow-endpoint",
+  "antenna-uplink",
+  "uplink-echo",
+  "s3-recording",
+);
+export type ContactStatus =
+  | "SCHEDULING"
+  | "FAILED_TO_SCHEDULE"
+  | "SCHEDULED"
+  | "CANCELLED"
+  | "AWS_CANCELLED"
+  | "PREPASS"
+  | "PASS"
+  | "POSTPASS"
+  | "COMPLETED"
+  | "FAILED"
+  | "AVAILABLE"
+  | "CANCELLING"
+  | "AWS_FAILED";
+export const ContactStatus = S.Literal(
+  "SCHEDULING",
+  "FAILED_TO_SCHEDULE",
+  "SCHEDULED",
+  "CANCELLED",
+  "AWS_CANCELLED",
+  "PREPASS",
+  "PASS",
+  "POSTPASS",
+  "COMPLETED",
+  "FAILED",
+  "AVAILABLE",
+  "CANCELLING",
+  "AWS_FAILED",
+);
+export type StatusList = ContactStatus[];
+export const StatusList = S.Array(ContactStatus);
+export type EphemerisType = "TLE" | "OEM" | "AZ_EL" | "SERVICE_MANAGED";
+export const EphemerisType = S.Literal(
+  "TLE",
+  "OEM",
+  "AZ_EL",
+  "SERVICE_MANAGED",
+);
+export type EphemerisStatus =
+  | "VALIDATING"
+  | "INVALID"
+  | "ERROR"
+  | "ENABLED"
+  | "DISABLED"
+  | "EXPIRED";
+export const EphemerisStatus = S.Literal(
+  "VALIDATING",
+  "INVALID",
+  "ERROR",
+  "ENABLED",
+  "DISABLED",
+  "EXPIRED",
+);
+export type EphemerisStatusList = EphemerisStatus[];
+export const EphemerisStatusList = S.Array(EphemerisStatus);
 export type DataflowEdge = string[];
 export const DataflowEdge = S.Array(S.String);
-export type DataflowEdgeList = DataflowEdge[];
+export type DataflowEdgeList = string[][];
 export const DataflowEdgeList = S.Array(DataflowEdge);
 export interface GetAgentTaskResponseUrlRequest {
   agentId: string;
@@ -196,7 +264,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeys;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -238,12 +306,12 @@ export const GetAgentConfigurationRequest = S.suspend(() =>
 }) as any as S.Schema<GetAgentConfigurationRequest>;
 export interface GetConfigRequest {
   configId: string;
-  configType: string;
+  configType: ConfigCapabilityType;
 }
 export const GetConfigRequest = S.suspend(() =>
   S.Struct({
     configId: S.String.pipe(T.HttpLabel("configId")),
-    configType: S.String.pipe(T.HttpLabel("configType")),
+    configType: ConfigCapabilityType.pipe(T.HttpLabel("configType")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/config/{configType}/{configId}" }),
@@ -257,32 +325,38 @@ export const GetConfigRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetConfigRequest",
 }) as any as S.Schema<GetConfigRequest>;
+export type FrequencyUnits = "GHz" | "MHz" | "kHz";
+export const FrequencyUnits = S.Literal("GHz", "MHz", "kHz");
 export interface Frequency {
   value: number;
-  units: string;
+  units: FrequencyUnits;
 }
 export const Frequency = S.suspend(() =>
-  S.Struct({ value: S.Number, units: S.String }),
+  S.Struct({ value: S.Number, units: FrequencyUnits }),
 ).annotations({ identifier: "Frequency" }) as any as S.Schema<Frequency>;
+export type BandwidthUnits = "GHz" | "MHz" | "kHz";
+export const BandwidthUnits = S.Literal("GHz", "MHz", "kHz");
 export interface FrequencyBandwidth {
   value: number;
-  units: string;
+  units: BandwidthUnits;
 }
 export const FrequencyBandwidth = S.suspend(() =>
-  S.Struct({ value: S.Number, units: S.String }),
+  S.Struct({ value: S.Number, units: BandwidthUnits }),
 ).annotations({
   identifier: "FrequencyBandwidth",
 }) as any as S.Schema<FrequencyBandwidth>;
+export type Polarization = "RIGHT_HAND" | "LEFT_HAND" | "NONE";
+export const Polarization = S.Literal("RIGHT_HAND", "LEFT_HAND", "NONE");
 export interface SpectrumConfig {
   centerFrequency: Frequency;
   bandwidth: FrequencyBandwidth;
-  polarization?: string;
+  polarization?: Polarization;
 }
 export const SpectrumConfig = S.suspend(() =>
   S.Struct({
     centerFrequency: Frequency,
     bandwidth: FrequencyBandwidth,
-    polarization: S.optional(S.String),
+    polarization: S.optional(Polarization),
   }),
 ).annotations({
   identifier: "SpectrumConfig",
@@ -295,11 +369,13 @@ export const AntennaDownlinkConfig = S.suspend(() =>
 ).annotations({
   identifier: "AntennaDownlinkConfig",
 }) as any as S.Schema<AntennaDownlinkConfig>;
+export type Criticality = "REQUIRED" | "PREFERRED" | "REMOVED";
+export const Criticality = S.Literal("REQUIRED", "PREFERRED", "REMOVED");
 export interface TrackingConfig {
-  autotrack: string;
+  autotrack: Criticality;
 }
 export const TrackingConfig = S.suspend(() =>
-  S.Struct({ autotrack: S.String }),
+  S.Struct({ autotrack: Criticality }),
 ).annotations({
   identifier: "TrackingConfig",
 }) as any as S.Schema<TrackingConfig>;
@@ -345,19 +421,24 @@ export const AntennaDownlinkDemodDecodeConfig = S.suspend(() =>
 }) as any as S.Schema<AntennaDownlinkDemodDecodeConfig>;
 export interface UplinkSpectrumConfig {
   centerFrequency: Frequency;
-  polarization?: string;
+  polarization?: Polarization;
 }
 export const UplinkSpectrumConfig = S.suspend(() =>
-  S.Struct({ centerFrequency: Frequency, polarization: S.optional(S.String) }),
+  S.Struct({
+    centerFrequency: Frequency,
+    polarization: S.optional(Polarization),
+  }),
 ).annotations({
   identifier: "UplinkSpectrumConfig",
 }) as any as S.Schema<UplinkSpectrumConfig>;
+export type EirpUnits = "dBW";
+export const EirpUnits = S.Literal("dBW");
 export interface Eirp {
   value: number;
-  units: string;
+  units: EirpUnits;
 }
 export const Eirp = S.suspend(() =>
-  S.Struct({ value: S.Number, units: S.String }),
+  S.Struct({ value: S.Number, units: EirpUnits }),
 ).annotations({ identifier: "Eirp" }) as any as S.Schema<Eirp>;
 export interface AntennaUplinkConfig {
   transmitDisabled?: boolean;
@@ -418,14 +499,14 @@ export const ConfigTypeData = S.Union(
 export interface UpdateConfigRequest {
   configId: string;
   name: string;
-  configType: string;
-  configData: (typeof ConfigTypeData)["Type"];
+  configType: ConfigCapabilityType;
+  configData: ConfigTypeData;
 }
 export const UpdateConfigRequest = S.suspend(() =>
   S.Struct({
     configId: S.String.pipe(T.HttpLabel("configId")),
     name: S.String,
-    configType: S.String.pipe(T.HttpLabel("configType")),
+    configType: ConfigCapabilityType.pipe(T.HttpLabel("configType")),
     configData: ConfigTypeData,
   }).pipe(
     T.all(
@@ -442,12 +523,12 @@ export const UpdateConfigRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateConfigRequest>;
 export interface DeleteConfigRequest {
   configId: string;
-  configType: string;
+  configType: ConfigCapabilityType;
 }
 export const DeleteConfigRequest = S.suspend(() =>
   S.Struct({
     configId: S.String.pipe(T.HttpLabel("configId")),
-    configType: S.String.pipe(T.HttpLabel("configType")),
+    configType: ConfigCapabilityType.pipe(T.HttpLabel("configType")),
   }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/config/{configType}/{configId}" }),
@@ -646,17 +727,17 @@ export const DeleteEphemerisRequest = S.suspend(() =>
 }) as any as S.Schema<DeleteEphemerisRequest>;
 export interface ListEphemeridesRequest {
   satelliteId?: string;
-  ephemerisType?: string;
+  ephemerisType?: EphemerisType;
   startTime: Date;
   endTime: Date;
-  statusList?: EphemerisStatusList;
+  statusList?: EphemerisStatus[];
   maxResults?: number;
   nextToken?: string;
 }
 export const ListEphemeridesRequest = S.suspend(() =>
   S.Struct({
     satelliteId: S.optional(S.String),
-    ephemerisType: S.optional(S.String),
+    ephemerisType: S.optional(EphemerisType),
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     statusList: S.optional(EphemerisStatusList),
@@ -732,9 +813,9 @@ export interface UpdateMissionProfileRequest {
   contactPrePassDurationSeconds?: number;
   contactPostPassDurationSeconds?: number;
   minimumViableContactDurationSeconds?: number;
-  dataflowEdges?: DataflowEdgeList;
+  dataflowEdges?: string[][];
   trackingConfigArn?: string;
-  streamsKmsKey?: (typeof KmsKey)["Type"];
+  streamsKmsKey?: KmsKey;
   streamsKmsRole?: string;
 }
 export const UpdateMissionProfileRequest = S.suspend(() =>
@@ -845,14 +926,35 @@ export type CapabilityArnList = string[];
 export const CapabilityArnList = S.Array(S.String);
 export type AgentCpuCoresList = number[];
 export const AgentCpuCoresList = S.Array(S.Number);
-export type CapabilityHealthReasonList = string[];
-export const CapabilityHealthReasonList = S.Array(S.String);
+export type AgentStatus = "SUCCESS" | "FAILED" | "ACTIVE" | "INACTIVE";
+export const AgentStatus = S.Literal("SUCCESS", "FAILED", "ACTIVE", "INACTIVE");
+export type CapabilityHealth = "HEALTHY" | "UNHEALTHY";
+export const CapabilityHealth = S.Literal("HEALTHY", "UNHEALTHY");
+export type CapabilityHealthReason =
+  | "NO_REGISTERED_AGENT"
+  | "INVALID_IP_OWNERSHIP"
+  | "NOT_AUTHORIZED_TO_CREATE_SLR"
+  | "UNVERIFIED_IP_OWNERSHIP"
+  | "INITIALIZING_DATAPLANE"
+  | "DATAPLANE_FAILURE"
+  | "HEALTHY";
+export const CapabilityHealthReason = S.Literal(
+  "NO_REGISTERED_AGENT",
+  "INVALID_IP_OWNERSHIP",
+  "NOT_AUTHORIZED_TO_CREATE_SLR",
+  "UNVERIFIED_IP_OWNERSHIP",
+  "INITIALIZING_DATAPLANE",
+  "DATAPLANE_FAILURE",
+  "HEALTHY",
+);
+export type CapabilityHealthReasonList = CapabilityHealthReason[];
+export const CapabilityHealthReasonList = S.Array(CapabilityHealthReason);
 export type TagsMap = { [key: string]: string };
 export const TagsMap = S.Record({ key: S.String, value: S.String });
 export interface DiscoveryData {
-  publicIpAddresses: IpAddressList;
-  privateIpAddresses: IpAddressList;
-  capabilityArns: CapabilityArnList;
+  publicIpAddresses: string[];
+  privateIpAddresses: string[];
+  capabilityArns: string[];
 }
 export const DiscoveryData = S.suspend(() =>
   S.Struct({
@@ -866,7 +968,7 @@ export const DiscoveryData = S.suspend(() =>
 export interface ComponentStatusData {
   componentType: string;
   capabilityArn: string;
-  status: string;
+  status: AgentStatus;
   bytesSent?: number;
   bytesReceived?: number;
   packetsDropped?: number;
@@ -876,7 +978,7 @@ export const ComponentStatusData = S.suspend(() =>
   S.Struct({
     componentType: S.String,
     capabilityArn: S.String,
-    status: S.String,
+    status: AgentStatus,
     bytesSent: S.optional(S.Number),
     bytesReceived: S.optional(S.Number),
     packetsDropped: S.optional(S.Number),
@@ -887,6 +989,19 @@ export const ComponentStatusData = S.suspend(() =>
 }) as any as S.Schema<ComponentStatusData>;
 export type ComponentStatusList = ComponentStatusData[];
 export const ComponentStatusList = S.Array(ComponentStatusData);
+export type EphemerisInvalidReason =
+  | "METADATA_INVALID"
+  | "TIME_RANGE_INVALID"
+  | "TRAJECTORY_INVALID"
+  | "KMS_KEY_INVALID"
+  | "VALIDATION_ERROR";
+export const EphemerisInvalidReason = S.Literal(
+  "METADATA_INVALID",
+  "TIME_RANGE_INVALID",
+  "TRAJECTORY_INVALID",
+  "KMS_KEY_INVALID",
+  "VALIDATION_ERROR",
+);
 export type GroundStationIdList = string[];
 export const GroundStationIdList = S.Array(S.String);
 export type VersionStringList = string[];
@@ -895,6 +1010,21 @@ export type SubnetList = string[];
 export const SubnetList = S.Array(S.String);
 export type SecurityGroupIdList = string[];
 export const SecurityGroupIdList = S.Array(S.String);
+export type EndpointStatus =
+  | "created"
+  | "creating"
+  | "deleted"
+  | "deleting"
+  | "failed";
+export const EndpointStatus = S.Literal(
+  "created",
+  "creating",
+  "deleted",
+  "deleting",
+  "failed",
+);
+export type AuditResults = "HEALTHY" | "UNHEALTHY";
+export const AuditResults = S.Literal("HEALTHY", "UNHEALTHY");
 export interface GetAgentTaskResponseUrlResponse {
   agentId: string;
   taskId: string;
@@ -924,7 +1054,7 @@ export const GetMinuteUsageResponse = S.suspend(() =>
   identifier: "GetMinuteUsageResponse",
 }) as any as S.Schema<GetMinuteUsageResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagsMap) }),
@@ -933,7 +1063,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagsMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -972,16 +1102,16 @@ export interface GetConfigResponse {
   configId: string;
   configArn: string;
   name: string;
-  configType?: string;
-  configData: (typeof ConfigTypeData)["Type"];
-  tags?: TagsMap;
+  configType?: ConfigCapabilityType;
+  configData: ConfigTypeData;
+  tags?: { [key: string]: string };
 }
 export const GetConfigResponse = S.suspend(() =>
   S.Struct({
     configId: S.String,
     configArn: S.String,
     name: S.String,
-    configType: S.optional(S.String),
+    configType: S.optional(ConfigCapabilityType),
     configData: ConfigTypeData,
     tags: S.optional(TagsMap),
   }),
@@ -990,13 +1120,13 @@ export const GetConfigResponse = S.suspend(() =>
 }) as any as S.Schema<GetConfigResponse>;
 export interface ConfigIdResponse {
   configId?: string;
-  configType?: string;
+  configType?: ConfigCapabilityType;
   configArn?: string;
 }
 export const ConfigIdResponse = S.suspend(() =>
   S.Struct({
     configId: S.optional(S.String),
-    configType: S.optional(S.String),
+    configType: S.optional(ConfigCapabilityType),
     configArn: S.optional(S.String),
   }),
 ).annotations({
@@ -1011,8 +1141,8 @@ export const ContactIdResponse = S.suspend(() =>
   identifier: "ContactIdResponse",
 }) as any as S.Schema<ContactIdResponse>;
 export interface SecurityDetails {
-  subnetIds: SubnetList;
-  securityGroupIds: SecurityGroupIdList;
+  subnetIds: string[];
+  securityGroupIds: string[];
   roleArn: string;
 }
 export const SecurityDetails = S.suspend(() =>
@@ -1036,14 +1166,14 @@ export const SocketAddress = S.suspend(() =>
 export interface DataflowEndpoint {
   name?: string;
   address?: SocketAddress;
-  status?: string;
+  status?: EndpointStatus;
   mtu?: number;
 }
 export const DataflowEndpoint = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     address: S.optional(SocketAddress),
-    status: S.optional(S.String),
+    status: S.optional(EndpointStatus),
     mtu: S.optional(S.Number),
   }),
 ).annotations({
@@ -1087,16 +1217,16 @@ export interface AwsGroundStationAgentEndpoint {
   name: string;
   egressAddress: ConnectionDetails;
   ingressAddress: RangedConnectionDetails;
-  agentStatus?: string;
-  auditResults?: string;
+  agentStatus?: AgentStatus;
+  auditResults?: AuditResults;
 }
 export const AwsGroundStationAgentEndpoint = S.suspend(() =>
   S.Struct({
     name: S.String,
     egressAddress: ConnectionDetails,
     ingressAddress: RangedConnectionDetails,
-    agentStatus: S.optional(S.String),
-    auditResults: S.optional(S.String),
+    agentStatus: S.optional(AgentStatus),
+    auditResults: S.optional(AuditResults),
   }),
 ).annotations({
   identifier: "AwsGroundStationAgentEndpoint",
@@ -1121,16 +1251,16 @@ export const UplinkDataflowDetails = S.Union(
 );
 export interface UplinkAwsGroundStationAgentEndpointDetails {
   name: string;
-  dataflowDetails: (typeof UplinkDataflowDetails)["Type"];
-  agentStatus?: string;
-  auditResults?: string;
+  dataflowDetails: UplinkDataflowDetails;
+  agentStatus?: AgentStatus;
+  auditResults?: AuditResults;
 }
 export const UplinkAwsGroundStationAgentEndpointDetails = S.suspend(() =>
   S.Struct({
     name: S.String,
     dataflowDetails: UplinkDataflowDetails,
-    agentStatus: S.optional(S.String),
-    auditResults: S.optional(S.String),
+    agentStatus: S.optional(AgentStatus),
+    auditResults: S.optional(AuditResults),
   }),
 ).annotations({
   identifier: "UplinkAwsGroundStationAgentEndpointDetails",
@@ -1155,16 +1285,16 @@ export const DownlinkDataflowDetails = S.Union(
 );
 export interface DownlinkAwsGroundStationAgentEndpointDetails {
   name: string;
-  dataflowDetails: (typeof DownlinkDataflowDetails)["Type"];
-  agentStatus?: string;
-  auditResults?: string;
+  dataflowDetails: DownlinkDataflowDetails;
+  agentStatus?: AgentStatus;
+  auditResults?: AuditResults;
 }
 export const DownlinkAwsGroundStationAgentEndpointDetails = S.suspend(() =>
   S.Struct({
     name: S.String,
     dataflowDetails: DownlinkDataflowDetails,
-    agentStatus: S.optional(S.String),
-    auditResults: S.optional(S.String),
+    agentStatus: S.optional(AgentStatus),
+    auditResults: S.optional(AuditResults),
   }),
 ).annotations({
   identifier: "DownlinkAwsGroundStationAgentEndpointDetails",
@@ -1175,8 +1305,8 @@ export interface EndpointDetails {
   awsGroundStationAgentEndpoint?: AwsGroundStationAgentEndpoint;
   uplinkAwsGroundStationAgentEndpoint?: UplinkAwsGroundStationAgentEndpointDetails;
   downlinkAwsGroundStationAgentEndpoint?: DownlinkAwsGroundStationAgentEndpointDetails;
-  healthStatus?: string;
-  healthReasons?: CapabilityHealthReasonList;
+  healthStatus?: CapabilityHealth;
+  healthReasons?: CapabilityHealthReason[];
 }
 export const EndpointDetails = S.suspend(() =>
   S.Struct({
@@ -1189,7 +1319,7 @@ export const EndpointDetails = S.suspend(() =>
     downlinkAwsGroundStationAgentEndpoint: S.optional(
       DownlinkAwsGroundStationAgentEndpointDetails,
     ),
-    healthStatus: S.optional(S.String),
+    healthStatus: S.optional(CapabilityHealth),
     healthReasons: S.optional(CapabilityHealthReasonList),
   }),
 ).annotations({
@@ -1200,8 +1330,8 @@ export const EndpointDetailsList = S.Array(EndpointDetails);
 export interface GetDataflowEndpointGroupResponse {
   dataflowEndpointGroupId?: string;
   dataflowEndpointGroupArn?: string;
-  endpointsDetails?: EndpointDetailsList;
-  tags?: TagsMap;
+  endpointsDetails?: EndpointDetails[];
+  tags?: { [key: string]: string };
   contactPrePassDurationSeconds?: number;
   contactPostPassDurationSeconds?: number;
 }
@@ -1238,10 +1368,10 @@ export interface CreateMissionProfileRequest {
   contactPrePassDurationSeconds?: number;
   contactPostPassDurationSeconds?: number;
   minimumViableContactDurationSeconds: number;
-  dataflowEdges: DataflowEdgeList;
+  dataflowEdges: string[][];
   trackingConfigArn: string;
-  tags?: TagsMap;
-  streamsKmsKey?: (typeof KmsKey)["Type"];
+  tags?: { [key: string]: string };
+  streamsKmsKey?: KmsKey;
   streamsKmsRole?: string;
 }
 export const CreateMissionProfileRequest = S.suspend(() =>
@@ -1276,10 +1406,10 @@ export interface GetMissionProfileResponse {
   contactPrePassDurationSeconds?: number;
   contactPostPassDurationSeconds?: number;
   minimumViableContactDurationSeconds?: number;
-  dataflowEdges?: DataflowEdgeList;
+  dataflowEdges?: string[][];
   trackingConfigArn?: string;
-  tags?: TagsMap;
-  streamsKmsKey?: (typeof KmsKey)["Type"];
+  tags?: { [key: string]: string };
+  streamsKmsKey?: KmsKey;
   streamsKmsRole?: string;
 }
 export const GetMissionProfileResponse = S.suspend(() =>
@@ -1310,7 +1440,7 @@ export const MissionProfileIdResponse = S.suspend(() =>
 }) as any as S.Schema<MissionProfileIdResponse>;
 export interface ComponentVersion {
   componentType: string;
-  versions: VersionStringList;
+  versions: string[];
 }
 export const ComponentVersion = S.suspend(() =>
   S.Struct({ componentType: S.String, versions: VersionStringList }),
@@ -1321,6 +1451,8 @@ export type ComponentVersionList = ComponentVersion[];
 export const ComponentVersionList = S.Array(ComponentVersion);
 export type SignatureMap = { [key: string]: boolean };
 export const SignatureMap = S.Record({ key: S.String, value: S.Boolean });
+export type AngleUnits = "DEGREE_ANGLE" | "RADIAN";
+export const AngleUnits = S.Literal("DEGREE_ANGLE", "RADIAN");
 export interface AzElEphemerisFilter {
   id: string;
 }
@@ -1331,7 +1463,7 @@ export const AzElEphemerisFilter = S.suspend(() =>
 }) as any as S.Schema<AzElEphemerisFilter>;
 export interface UplinkAwsGroundStationAgentEndpoint {
   name: string;
-  dataflowDetails: (typeof UplinkDataflowDetails)["Type"];
+  dataflowDetails: UplinkDataflowDetails;
 }
 export const UplinkAwsGroundStationAgentEndpoint = S.suspend(() =>
   S.Struct({ name: S.String, dataflowDetails: UplinkDataflowDetails }),
@@ -1340,7 +1472,7 @@ export const UplinkAwsGroundStationAgentEndpoint = S.suspend(() =>
 }) as any as S.Schema<UplinkAwsGroundStationAgentEndpoint>;
 export interface DownlinkAwsGroundStationAgentEndpoint {
   name: string;
-  dataflowDetails: (typeof DownlinkDataflowDetails)["Type"];
+  dataflowDetails: DownlinkDataflowDetails;
 }
 export const DownlinkAwsGroundStationAgentEndpoint = S.suspend(() =>
   S.Struct({ name: S.String, dataflowDetails: DownlinkDataflowDetails }),
@@ -1366,13 +1498,94 @@ export interface OEMEphemeris {
 export const OEMEphemeris = S.suspend(() =>
   S.Struct({ s3Object: S.optional(S3Object), oemData: S.optional(S.String) }),
 ).annotations({ identifier: "OEMEphemeris" }) as any as S.Schema<OEMEphemeris>;
+export type EphemerisErrorCode =
+  | "INTERNAL_ERROR"
+  | "MISMATCHED_SATCAT_ID"
+  | "OEM_VERSION_UNSUPPORTED"
+  | "ORIGINATOR_MISSING"
+  | "CREATION_DATE_MISSING"
+  | "OBJECT_NAME_MISSING"
+  | "OBJECT_ID_MISSING"
+  | "REF_FRAME_UNSUPPORTED"
+  | "REF_FRAME_EPOCH_UNSUPPORTED"
+  | "TIME_SYSTEM_UNSUPPORTED"
+  | "CENTER_BODY_UNSUPPORTED"
+  | "INTERPOLATION_MISSING"
+  | "INTERPOLATION_DEGREE_INVALID"
+  | "AZ_EL_SEGMENT_LIST_MISSING"
+  | "INSUFFICIENT_TIME_AZ_EL"
+  | "START_TIME_IN_FUTURE"
+  | "END_TIME_IN_PAST"
+  | "EXPIRATION_TIME_TOO_EARLY"
+  | "START_TIME_METADATA_TOO_EARLY"
+  | "STOP_TIME_METADATA_TOO_LATE"
+  | "AZ_EL_SEGMENT_END_TIME_BEFORE_START_TIME"
+  | "AZ_EL_SEGMENT_TIMES_OVERLAP"
+  | "AZ_EL_SEGMENTS_OUT_OF_ORDER"
+  | "TIME_AZ_EL_ITEMS_OUT_OF_ORDER"
+  | "MEAN_MOTION_INVALID"
+  | "TIME_AZ_EL_AZ_RADIAN_RANGE_INVALID"
+  | "TIME_AZ_EL_EL_RADIAN_RANGE_INVALID"
+  | "TIME_AZ_EL_AZ_DEGREE_RANGE_INVALID"
+  | "TIME_AZ_EL_EL_DEGREE_RANGE_INVALID"
+  | "TIME_AZ_EL_ANGLE_UNITS_INVALID"
+  | "INSUFFICIENT_KMS_PERMISSIONS"
+  | "FILE_FORMAT_INVALID"
+  | "AZ_EL_SEGMENT_REFERENCE_EPOCH_INVALID"
+  | "AZ_EL_SEGMENT_START_TIME_INVALID"
+  | "AZ_EL_SEGMENT_END_TIME_INVALID"
+  | "AZ_EL_SEGMENT_VALID_TIME_RANGE_INVALID"
+  | "AZ_EL_SEGMENT_END_TIME_TOO_LATE"
+  | "AZ_EL_TOTAL_DURATION_EXCEEDED";
+export const EphemerisErrorCode = S.Literal(
+  "INTERNAL_ERROR",
+  "MISMATCHED_SATCAT_ID",
+  "OEM_VERSION_UNSUPPORTED",
+  "ORIGINATOR_MISSING",
+  "CREATION_DATE_MISSING",
+  "OBJECT_NAME_MISSING",
+  "OBJECT_ID_MISSING",
+  "REF_FRAME_UNSUPPORTED",
+  "REF_FRAME_EPOCH_UNSUPPORTED",
+  "TIME_SYSTEM_UNSUPPORTED",
+  "CENTER_BODY_UNSUPPORTED",
+  "INTERPOLATION_MISSING",
+  "INTERPOLATION_DEGREE_INVALID",
+  "AZ_EL_SEGMENT_LIST_MISSING",
+  "INSUFFICIENT_TIME_AZ_EL",
+  "START_TIME_IN_FUTURE",
+  "END_TIME_IN_PAST",
+  "EXPIRATION_TIME_TOO_EARLY",
+  "START_TIME_METADATA_TOO_EARLY",
+  "STOP_TIME_METADATA_TOO_LATE",
+  "AZ_EL_SEGMENT_END_TIME_BEFORE_START_TIME",
+  "AZ_EL_SEGMENT_TIMES_OVERLAP",
+  "AZ_EL_SEGMENTS_OUT_OF_ORDER",
+  "TIME_AZ_EL_ITEMS_OUT_OF_ORDER",
+  "MEAN_MOTION_INVALID",
+  "TIME_AZ_EL_AZ_RADIAN_RANGE_INVALID",
+  "TIME_AZ_EL_EL_RADIAN_RANGE_INVALID",
+  "TIME_AZ_EL_AZ_DEGREE_RANGE_INVALID",
+  "TIME_AZ_EL_EL_DEGREE_RANGE_INVALID",
+  "TIME_AZ_EL_ANGLE_UNITS_INVALID",
+  "INSUFFICIENT_KMS_PERMISSIONS",
+  "FILE_FORMAT_INVALID",
+  "AZ_EL_SEGMENT_REFERENCE_EPOCH_INVALID",
+  "AZ_EL_SEGMENT_START_TIME_INVALID",
+  "AZ_EL_SEGMENT_END_TIME_INVALID",
+  "AZ_EL_SEGMENT_VALID_TIME_RANGE_INVALID",
+  "AZ_EL_SEGMENT_END_TIME_TOO_LATE",
+  "AZ_EL_TOTAL_DURATION_EXCEEDED",
+);
+export type EphemerisSource = "CUSTOMER_PROVIDED" | "SPACE_TRACK";
+export const EphemerisSource = S.Literal("CUSTOMER_PROVIDED", "SPACE_TRACK");
 export interface AgentDetails {
   agentVersion: string;
   instanceId: string;
   instanceType: string;
-  reservedCpuCores?: AgentCpuCoresList;
-  agentCpuCores?: AgentCpuCoresList;
-  componentVersions: ComponentVersionList;
+  reservedCpuCores?: number[];
+  agentCpuCores?: number[];
+  componentVersions: ComponentVersion[];
 }
 export const AgentDetails = S.suspend(() =>
   S.Struct({
@@ -1385,24 +1598,24 @@ export const AgentDetails = S.suspend(() =>
   }),
 ).annotations({ identifier: "AgentDetails" }) as any as S.Schema<AgentDetails>;
 export interface AggregateStatus {
-  status: string;
-  signatureMap?: SignatureMap;
+  status: AgentStatus;
+  signatureMap?: { [key: string]: boolean };
 }
 export const AggregateStatus = S.suspend(() =>
-  S.Struct({ status: S.String, signatureMap: S.optional(SignatureMap) }),
+  S.Struct({ status: AgentStatus, signatureMap: S.optional(SignatureMap) }),
 ).annotations({
   identifier: "AggregateStatus",
 }) as any as S.Schema<AggregateStatus>;
 export interface ConfigListItem {
   configId?: string;
-  configType?: string;
+  configType?: ConfigCapabilityType;
   configArn?: string;
   name?: string;
 }
 export const ConfigListItem = S.suspend(() =>
   S.Struct({
     configId: S.optional(S.String),
-    configType: S.optional(S.String),
+    configType: S.optional(ConfigCapabilityType),
     configArn: S.optional(S.String),
     name: S.optional(S.String),
   }),
@@ -1413,17 +1626,17 @@ export type ConfigList = ConfigListItem[];
 export const ConfigList = S.Array(ConfigListItem);
 export interface Elevation {
   value: number;
-  unit: string;
+  unit: AngleUnits;
 }
 export const Elevation = S.suspend(() =>
-  S.Struct({ value: S.Number, unit: S.String }),
+  S.Struct({ value: S.Number, unit: AngleUnits }),
 ).annotations({ identifier: "Elevation" }) as any as S.Schema<Elevation>;
 export interface EphemerisResponseData {
   ephemerisId?: string;
-  ephemerisType: string;
+  ephemerisType: EphemerisType;
 }
 export const EphemerisResponseData = S.suspend(() =>
-  S.Struct({ ephemerisId: S.optional(S.String), ephemerisType: S.String }),
+  S.Struct({ ephemerisId: S.optional(S.String), ephemerisType: EphemerisType }),
 ).annotations({
   identifier: "EphemerisResponseData",
 }) as any as S.Schema<EphemerisResponseData>;
@@ -1457,15 +1670,14 @@ export const CreateEndpointDetails = S.Union(
       DownlinkAwsGroundStationAgentEndpoint,
   }),
 );
-export type CreateEndpointDetailsList =
-  (typeof CreateEndpointDetails)["Type"][];
+export type CreateEndpointDetailsList = CreateEndpointDetails[];
 export const CreateEndpointDetailsList = S.Array(CreateEndpointDetails);
 export interface EphemerisErrorReason {
-  errorCode: string;
+  errorCode: EphemerisErrorCode;
   errorMessage: string;
 }
 export const EphemerisErrorReason = S.suspend(() =>
-  S.Struct({ errorCode: S.String, errorMessage: S.String }),
+  S.Struct({ errorCode: EphemerisErrorCode, errorMessage: S.String }),
 ).annotations({
   identifier: "EphemerisErrorReason",
 }) as any as S.Schema<EphemerisErrorReason>;
@@ -1473,8 +1685,8 @@ export type EphemerisErrorReasonList = EphemerisErrorReason[];
 export const EphemerisErrorReasonList = S.Array(EphemerisErrorReason);
 export interface EphemerisItem {
   ephemerisId?: string;
-  ephemerisType?: string;
-  status?: string;
+  ephemerisType?: EphemerisType;
+  status?: EphemerisStatus;
   priority?: number;
   enabled?: boolean;
   creationTime?: Date;
@@ -1484,8 +1696,8 @@ export interface EphemerisItem {
 export const EphemerisItem = S.suspend(() =>
   S.Struct({
     ephemerisId: S.optional(S.String),
-    ephemerisType: S.optional(S.String),
-    status: S.optional(S.String),
+    ephemerisType: S.optional(EphemerisType),
+    status: S.optional(EphemerisStatus),
     priority: S.optional(S.Number),
     enabled: S.optional(S.Boolean),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1532,14 +1744,14 @@ export const MissionProfileListItem = S.suspend(() =>
 export type MissionProfileList = MissionProfileListItem[];
 export const MissionProfileList = S.Array(MissionProfileListItem);
 export interface EphemerisMetaData {
-  source: string;
+  source: EphemerisSource;
   ephemerisId?: string;
   epoch?: Date;
   name?: string;
 }
 export const EphemerisMetaData = S.suspend(() =>
   S.Struct({
-    source: S.String,
+    source: EphemerisSource,
     ephemerisId: S.optional(S.String),
     epoch: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     name: S.optional(S.String),
@@ -1551,7 +1763,7 @@ export interface SatelliteListItem {
   satelliteId?: string;
   satelliteArn?: string;
   noradSatelliteID?: number;
-  groundStations?: GroundStationIdList;
+  groundStations?: string[];
   currentEphemeris?: EphemerisMetaData;
 }
 export const SatelliteListItem = S.suspend(() =>
@@ -1578,7 +1790,7 @@ export const AzElProgramTrackSettings = S.suspend(() =>
 export interface RegisterAgentRequest {
   discoveryData: DiscoveryData;
   agentDetails: AgentDetails;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const RegisterAgentRequest = S.suspend(() =>
   S.Struct({
@@ -1602,7 +1814,7 @@ export interface UpdateAgentStatusRequest {
   agentId: string;
   taskId: string;
   aggregateStatus: AggregateStatus;
-  componentStatuses: ComponentStatusList;
+  componentStatuses: ComponentStatusData[];
 }
 export const UpdateAgentStatusRequest = S.suspend(() =>
   S.Struct({
@@ -1625,7 +1837,7 @@ export const UpdateAgentStatusRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateAgentStatusRequest>;
 export interface ListConfigsResponse {
   nextToken?: string;
-  configList?: ConfigList;
+  configList?: ConfigListItem[];
 }
 export const ListConfigsResponse = S.suspend(() =>
   S.Struct({
@@ -1638,13 +1850,13 @@ export const ListConfigsResponse = S.suspend(() =>
 export interface ListContactsRequest {
   maxResults?: number;
   nextToken?: string;
-  statusList: StatusList;
+  statusList: ContactStatus[];
   startTime: Date;
   endTime: Date;
   groundStation?: string;
   satelliteArn?: string;
   missionProfileArn?: string;
-  ephemeris?: (typeof EphemerisFilter)["Type"];
+  ephemeris?: EphemerisFilter;
 }
 export const ListContactsRequest = S.suspend(() =>
   S.Struct({
@@ -1672,7 +1884,7 @@ export const ListContactsRequest = S.suspend(() =>
 }) as any as S.Schema<ListContactsRequest>;
 export interface ListDataflowEndpointGroupsResponse {
   nextToken?: string;
-  dataflowEndpointGroupList?: DataflowEndpointGroupList;
+  dataflowEndpointGroupList?: DataflowEndpointListItem[];
 }
 export const ListDataflowEndpointGroupsResponse = S.suspend(() =>
   S.Struct({
@@ -1683,10 +1895,10 @@ export const ListDataflowEndpointGroupsResponse = S.suspend(() =>
   identifier: "ListDataflowEndpointGroupsResponse",
 }) as any as S.Schema<ListDataflowEndpointGroupsResponse>;
 export interface CreateDataflowEndpointGroupV2Request {
-  endpoints: CreateEndpointDetailsList;
+  endpoints: CreateEndpointDetails[];
   contactPrePassDurationSeconds?: number;
   contactPostPassDurationSeconds?: number;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const CreateDataflowEndpointGroupV2Request = S.suspend(() =>
   S.Struct({
@@ -1709,7 +1921,7 @@ export const CreateDataflowEndpointGroupV2Request = S.suspend(() =>
 }) as any as S.Schema<CreateDataflowEndpointGroupV2Request>;
 export interface ListEphemeridesResponse {
   nextToken?: string;
-  ephemerides?: EphemeridesList;
+  ephemerides?: EphemerisItem[];
 }
 export const ListEphemeridesResponse = S.suspend(() =>
   S.Struct({
@@ -1721,7 +1933,7 @@ export const ListEphemeridesResponse = S.suspend(() =>
 }) as any as S.Schema<ListEphemeridesResponse>;
 export interface ListGroundStationsResponse {
   nextToken?: string;
-  groundStationList?: GroundStationList;
+  groundStationList?: GroundStationData[];
 }
 export const ListGroundStationsResponse = S.suspend(() =>
   S.Struct({
@@ -1733,7 +1945,7 @@ export const ListGroundStationsResponse = S.suspend(() =>
 }) as any as S.Schema<ListGroundStationsResponse>;
 export interface ListMissionProfilesResponse {
   nextToken?: string;
-  missionProfileList?: MissionProfileList;
+  missionProfileList?: MissionProfileListItem[];
 }
 export const ListMissionProfilesResponse = S.suspend(() =>
   S.Struct({
@@ -1747,7 +1959,7 @@ export interface GetSatelliteResponse {
   satelliteId?: string;
   satelliteArn?: string;
   noradSatelliteID?: number;
-  groundStations?: GroundStationIdList;
+  groundStations?: string[];
   currentEphemeris?: EphemerisMetaData;
 }
 export const GetSatelliteResponse = S.suspend(() =>
@@ -1763,7 +1975,7 @@ export const GetSatelliteResponse = S.suspend(() =>
 }) as any as S.Schema<GetSatelliteResponse>;
 export interface ListSatellitesResponse {
   nextToken?: string;
-  satellites?: SatelliteList;
+  satellites?: SatelliteListItem[];
 }
 export const ListSatellitesResponse = S.suspend(() =>
   S.Struct({
@@ -1807,14 +2019,14 @@ export const ConfigDetails = S.Union(
   S.Struct({ s3RecordingDetails: S3RecordingDetails }),
 );
 export interface Destination {
-  configType?: string;
+  configType?: ConfigCapabilityType;
   configId?: string;
-  configDetails?: (typeof ConfigDetails)["Type"];
+  configDetails?: ConfigDetails;
   dataflowDestinationRegion?: string;
 }
 export const Destination = S.suspend(() =>
   S.Struct({
-    configType: S.optional(S.String),
+    configType: S.optional(ConfigCapabilityType),
     configId: S.optional(S.String),
     configDetails: S.optional(ConfigDetails),
     dataflowDestinationRegion: S.optional(S.String),
@@ -1843,7 +2055,7 @@ export const TimeRange = S.suspend(() =>
   }),
 ).annotations({ identifier: "TimeRange" }) as any as S.Schema<TimeRange>;
 export interface TrackingOverrides {
-  programTrackSettings: (typeof ProgramTrackSettings)["Type"];
+  programTrackSettings: ProgramTrackSettings;
 }
 export const TrackingOverrides = S.suspend(() =>
   S.Struct({ programTrackSettings: ProgramTrackSettings }),
@@ -1895,7 +2107,7 @@ export interface ReserveContactRequest {
   startTime: Date;
   endTime: Date;
   groundStation: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   trackingOverrides?: TrackingOverrides;
 }
 export const ReserveContactRequest = S.suspend(() =>
@@ -1931,28 +2143,28 @@ export const CreateDataflowEndpointGroupV2Response = S.suspend(() =>
 export interface DescribeEphemerisResponse {
   ephemerisId?: string;
   satelliteId?: string;
-  status?: string;
+  status?: EphemerisStatus;
   priority?: number;
   creationTime?: Date;
   enabled?: boolean;
   name?: string;
-  tags?: TagsMap;
-  suppliedData?: (typeof EphemerisTypeDescription)["Type"];
-  invalidReason?: string;
-  errorReasons?: EphemerisErrorReasonList;
+  tags?: { [key: string]: string };
+  suppliedData?: EphemerisTypeDescription;
+  invalidReason?: EphemerisInvalidReason;
+  errorReasons?: EphemerisErrorReason[];
 }
 export const DescribeEphemerisResponse = S.suspend(() =>
   S.Struct({
     ephemerisId: S.optional(S.String),
     satelliteId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(EphemerisStatus),
     priority: S.optional(S.Number),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     enabled: S.optional(S.Boolean),
     name: S.optional(S.String),
     tags: S.optional(TagsMap),
     suppliedData: S.optional(EphemerisTypeDescription),
-    invalidReason: S.optional(S.String),
+    invalidReason: S.optional(EphemerisInvalidReason),
     errorReasons: S.optional(EphemerisErrorReasonList),
   }),
 ).annotations({
@@ -1960,7 +2172,7 @@ export const DescribeEphemerisResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeEphemerisResponse>;
 export interface TLEEphemeris {
   s3Object?: S3Object;
-  tleData?: TLEDataList;
+  tleData?: TLEData[];
 }
 export const TLEEphemeris = S.suspend(() =>
   S.Struct({
@@ -1977,11 +2189,11 @@ export interface ContactData {
   prePassStartTime?: Date;
   postPassEndTime?: Date;
   groundStation?: string;
-  contactStatus?: string;
+  contactStatus?: ContactStatus;
   errorMessage?: string;
   maximumElevation?: Elevation;
   region?: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   visibilityStartTime?: Date;
   visibilityEndTime?: Date;
   ephemeris?: EphemerisResponseData;
@@ -2000,7 +2212,7 @@ export const ContactData = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     groundStation: S.optional(S.String),
-    contactStatus: S.optional(S.String),
+    contactStatus: S.optional(ContactStatus),
     errorMessage: S.optional(S.String),
     maximumElevation: S.optional(Elevation),
     region: S.optional(S.String),
@@ -2040,8 +2252,8 @@ export type TimeAzElList = TimeAzEl[];
 export const TimeAzElList = S.Array(TimeAzEl);
 export interface CreateConfigRequest {
   name: string;
-  configData: (typeof ConfigTypeData)["Type"];
-  tags?: TagsMap;
+  configData: ConfigTypeData;
+  tags?: { [key: string]: string };
 }
 export const CreateConfigRequest = S.suspend(() =>
   S.Struct({
@@ -2063,7 +2275,7 @@ export const CreateConfigRequest = S.suspend(() =>
 }) as any as S.Schema<CreateConfigRequest>;
 export interface ListContactsResponse {
   nextToken?: string;
-  contactList?: ContactList;
+  contactList?: ContactData[];
 }
 export const ListContactsResponse = S.suspend(() =>
   S.Struct({
@@ -2076,7 +2288,7 @@ export const ListContactsResponse = S.suspend(() =>
 export interface AzElSegment {
   referenceEpoch: Date;
   validTimeRange: ISO8601TimeRange;
-  azElList: TimeAzElList;
+  azElList: TimeAzEl[];
 }
 export const AzElSegment = S.suspend(() =>
   S.Struct({
@@ -2088,25 +2300,25 @@ export const AzElSegment = S.suspend(() =>
 export type AzElSegmentList = AzElSegment[];
 export const AzElSegmentList = S.Array(AzElSegment);
 export interface Source {
-  configType?: string;
+  configType?: ConfigCapabilityType;
   configId?: string;
-  configDetails?: (typeof ConfigDetails)["Type"];
+  configDetails?: ConfigDetails;
   dataflowSourceRegion?: string;
 }
 export const Source = S.suspend(() =>
   S.Struct({
-    configType: S.optional(S.String),
+    configType: S.optional(ConfigCapabilityType),
     configId: S.optional(S.String),
     configDetails: S.optional(ConfigDetails),
     dataflowSourceRegion: S.optional(S.String),
   }),
 ).annotations({ identifier: "Source" }) as any as S.Schema<Source>;
 export interface AzElSegments {
-  angleUnit: string;
-  azElSegmentList: AzElSegmentList;
+  angleUnit: AngleUnits;
+  azElSegmentList: AzElSegment[];
 }
 export const AzElSegments = S.suspend(() =>
-  S.Struct({ angleUnit: S.String, azElSegmentList: AzElSegmentList }),
+  S.Struct({ angleUnit: AngleUnits, azElSegmentList: AzElSegmentList }),
 ).annotations({ identifier: "AzElSegments" }) as any as S.Schema<AzElSegments>;
 export interface DataflowDetail {
   source?: Source;
@@ -2140,12 +2352,12 @@ export interface DescribeContactResponse {
   prePassStartTime?: Date;
   postPassEndTime?: Date;
   groundStation?: string;
-  contactStatus?: string;
+  contactStatus?: ContactStatus;
   errorMessage?: string;
   maximumElevation?: Elevation;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   region?: string;
-  dataflowList?: DataflowList;
+  dataflowList?: DataflowDetail[];
   visibilityStartTime?: Date;
   visibilityEndTime?: Date;
   trackingOverrides?: TrackingOverrides;
@@ -2165,7 +2377,7 @@ export const DescribeContactResponse = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     groundStation: S.optional(S.String),
-    contactStatus: S.optional(S.String),
+    contactStatus: S.optional(ContactStatus),
     errorMessage: S.optional(S.String),
     maximumElevation: S.optional(Elevation),
     tags: S.optional(TagsMap),
@@ -2184,8 +2396,8 @@ export const DescribeContactResponse = S.suspend(() =>
   identifier: "DescribeContactResponse",
 }) as any as S.Schema<DescribeContactResponse>;
 export interface CreateDataflowEndpointGroupRequest {
-  endpointDetails: EndpointDetailsList;
-  tags?: TagsMap;
+  endpointDetails: EndpointDetails[];
+  tags?: { [key: string]: string };
   contactPrePassDurationSeconds?: number;
   contactPostPassDurationSeconds?: number;
 }
@@ -2210,7 +2422,7 @@ export const CreateDataflowEndpointGroupRequest = S.suspend(() =>
 }) as any as S.Schema<CreateDataflowEndpointGroupRequest>;
 export interface AzElEphemeris {
   groundStation: string;
-  data: (typeof AzElSegmentsData)["Type"];
+  data: AzElSegmentsData;
 }
 export const AzElEphemeris = S.suspend(() =>
   S.Struct({ groundStation: S.String, data: AzElSegmentsData }),
@@ -2233,8 +2445,8 @@ export interface CreateEphemerisRequest {
   expirationTime?: Date;
   name: string;
   kmsKeyArn?: string;
-  ephemeris?: (typeof EphemerisData)["Type"];
-  tags?: TagsMap;
+  ephemeris?: EphemerisData;
+  tags?: { [key: string]: string };
 }
 export const CreateEphemerisRequest = S.suspend(() =>
   S.Struct({
@@ -2292,7 +2504,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | DependencyException
   | InvalidParameterException
@@ -2315,7 +2527,7 @@ export const untagResource: (
  */
 export const registerAgent: (
   input: RegisterAgentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterAgentResponse,
   | DependencyException
   | InvalidParameterException
@@ -2338,7 +2550,7 @@ export const registerAgent: (
  */
 export const updateAgentStatus: (
   input: UpdateAgentStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAgentStatusResponse,
   | DependencyException
   | InvalidParameterException
@@ -2359,7 +2571,7 @@ export const updateAgentStatus: (
  */
 export const describeEphemeris: (
   input: DescribeEphemerisRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEphemerisResponse,
   | DependencyException
   | InvalidParameterException
@@ -2380,7 +2592,7 @@ export const describeEphemeris: (
  */
 export const deleteEphemeris: (
   input: DeleteEphemerisRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EphemerisIdResponse,
   | DependencyException
   | InvalidParameterException
@@ -2404,7 +2616,7 @@ export const deleteEphemeris: (
 export const listConfigs: {
   (
     input: ListConfigsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConfigsResponse,
     | DependencyException
     | InvalidParameterException
@@ -2414,7 +2626,7 @@ export const listConfigs: {
   >;
   pages: (
     input: ListConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConfigsResponse,
     | DependencyException
     | InvalidParameterException
@@ -2424,7 +2636,7 @@ export const listConfigs: {
   >;
   items: (
     input: ListConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConfigListItem,
     | DependencyException
     | InvalidParameterException
@@ -2453,7 +2665,7 @@ export const listConfigs: {
 export const listDataflowEndpointGroups: {
   (
     input: ListDataflowEndpointGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataflowEndpointGroupsResponse,
     | DependencyException
     | InvalidParameterException
@@ -2463,7 +2675,7 @@ export const listDataflowEndpointGroups: {
   >;
   pages: (
     input: ListDataflowEndpointGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataflowEndpointGroupsResponse,
     | DependencyException
     | InvalidParameterException
@@ -2473,7 +2685,7 @@ export const listDataflowEndpointGroups: {
   >;
   items: (
     input: ListDataflowEndpointGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataflowEndpointListItem,
     | DependencyException
     | InvalidParameterException
@@ -2502,7 +2714,7 @@ export const listDataflowEndpointGroups: {
 export const listEphemerides: {
   (
     input: ListEphemeridesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEphemeridesResponse,
     | DependencyException
     | InvalidParameterException
@@ -2512,7 +2724,7 @@ export const listEphemerides: {
   >;
   pages: (
     input: ListEphemeridesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEphemeridesResponse,
     | DependencyException
     | InvalidParameterException
@@ -2522,7 +2734,7 @@ export const listEphemerides: {
   >;
   items: (
     input: ListEphemeridesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EphemerisItem,
     | DependencyException
     | InvalidParameterException
@@ -2551,7 +2763,7 @@ export const listEphemerides: {
 export const listGroundStations: {
   (
     input: ListGroundStationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGroundStationsResponse,
     | DependencyException
     | InvalidParameterException
@@ -2561,7 +2773,7 @@ export const listGroundStations: {
   >;
   pages: (
     input: ListGroundStationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGroundStationsResponse,
     | DependencyException
     | InvalidParameterException
@@ -2571,7 +2783,7 @@ export const listGroundStations: {
   >;
   items: (
     input: ListGroundStationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GroundStationData,
     | DependencyException
     | InvalidParameterException
@@ -2600,7 +2812,7 @@ export const listGroundStations: {
 export const listMissionProfiles: {
   (
     input: ListMissionProfilesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMissionProfilesResponse,
     | DependencyException
     | InvalidParameterException
@@ -2610,7 +2822,7 @@ export const listMissionProfiles: {
   >;
   pages: (
     input: ListMissionProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMissionProfilesResponse,
     | DependencyException
     | InvalidParameterException
@@ -2620,7 +2832,7 @@ export const listMissionProfiles: {
   >;
   items: (
     input: ListMissionProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MissionProfileListItem,
     | DependencyException
     | InvalidParameterException
@@ -2648,7 +2860,7 @@ export const listMissionProfiles: {
  */
 export const getSatellite: (
   input: GetSatelliteRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSatelliteResponse,
   | DependencyException
   | InvalidParameterException
@@ -2670,7 +2882,7 @@ export const getSatellite: (
 export const listSatellites: {
   (
     input: ListSatellitesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSatellitesResponse,
     | DependencyException
     | InvalidParameterException
@@ -2680,7 +2892,7 @@ export const listSatellites: {
   >;
   pages: (
     input: ListSatellitesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSatellitesResponse,
     | DependencyException
     | InvalidParameterException
@@ -2690,7 +2902,7 @@ export const listSatellites: {
   >;
   items: (
     input: ListSatellitesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SatelliteListItem,
     | DependencyException
     | InvalidParameterException
@@ -2720,7 +2932,7 @@ export const listSatellites: {
  */
 export const getAgentConfiguration: (
   input: GetAgentConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAgentConfigurationResponse,
   | DependencyException
   | InvalidParameterException
@@ -2743,7 +2955,7 @@ export const getAgentConfiguration: (
  */
 export const getConfig: (
   input: GetConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConfigResponse,
   | DependencyException
   | InvalidParameterException
@@ -2766,7 +2978,7 @@ export const getConfig: (
  */
 export const updateConfig: (
   input: UpdateConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ConfigIdResponse,
   | DependencyException
   | InvalidParameterException
@@ -2787,7 +2999,7 @@ export const updateConfig: (
  */
 export const cancelContact: (
   input: CancelContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ContactIdResponse,
   | DependencyException
   | InvalidParameterException
@@ -2808,7 +3020,7 @@ export const cancelContact: (
  */
 export const getDataflowEndpointGroup: (
   input: GetDataflowEndpointGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataflowEndpointGroupResponse,
   | DependencyException
   | InvalidParameterException
@@ -2829,7 +3041,7 @@ export const getDataflowEndpointGroup: (
  */
 export const deleteDataflowEndpointGroup: (
   input: DeleteDataflowEndpointGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DataflowEndpointGroupIdResponse,
   | DependencyException
   | InvalidParameterException
@@ -2850,7 +3062,7 @@ export const deleteDataflowEndpointGroup: (
  */
 export const updateEphemeris: (
   input: UpdateEphemerisRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EphemerisIdResponse,
   | DependencyException
   | InvalidParameterException
@@ -2873,7 +3085,7 @@ export const updateEphemeris: (
  */
 export const createMissionProfile: (
   input: CreateMissionProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   MissionProfileIdResponse,
   | DependencyException
   | InvalidParameterException
@@ -2894,7 +3106,7 @@ export const createMissionProfile: (
  */
 export const getMissionProfile: (
   input: GetMissionProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMissionProfileResponse,
   | DependencyException
   | InvalidParameterException
@@ -2917,7 +3129,7 @@ export const getMissionProfile: (
  */
 export const updateMissionProfile: (
   input: UpdateMissionProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   MissionProfileIdResponse,
   | DependencyException
   | InvalidParameterException
@@ -2938,7 +3150,7 @@ export const updateMissionProfile: (
  */
 export const deleteConfig: (
   input: DeleteConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ConfigIdResponse,
   | DependencyException
   | InvalidParameterException
@@ -2959,7 +3171,7 @@ export const deleteConfig: (
  */
 export const deleteMissionProfile: (
   input: DeleteMissionProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   MissionProfileIdResponse,
   | DependencyException
   | InvalidParameterException
@@ -2982,7 +3194,7 @@ export const deleteMissionProfile: (
  */
 export const getAgentTaskResponseUrl: (
   input: GetAgentTaskResponseUrlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAgentTaskResponseUrlResponse,
   | DependencyException
   | InvalidParameterException
@@ -3003,7 +3215,7 @@ export const getAgentTaskResponseUrl: (
  */
 export const getMinuteUsage: (
   input: GetMinuteUsageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMinuteUsageResponse,
   | DependencyException
   | InvalidParameterException
@@ -3024,7 +3236,7 @@ export const getMinuteUsage: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | DependencyException
   | InvalidParameterException
@@ -3045,7 +3257,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | DependencyException
   | InvalidParameterException
@@ -3066,7 +3278,7 @@ export const tagResource: (
  */
 export const reserveContact: (
   input: ReserveContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ContactIdResponse,
   | DependencyException
   | InvalidParameterException
@@ -3092,7 +3304,7 @@ export const reserveContact: (
 export const listContacts: {
   (
     input: ListContactsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListContactsResponse,
     | DependencyException
     | InvalidParameterException
@@ -3102,7 +3314,7 @@ export const listContacts: {
   >;
   pages: (
     input: ListContactsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListContactsResponse,
     | DependencyException
     | InvalidParameterException
@@ -3112,7 +3324,7 @@ export const listContacts: {
   >;
   items: (
     input: ListContactsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ContactData,
     | DependencyException
     | InvalidParameterException
@@ -3144,7 +3356,7 @@ export const listContacts: {
  */
 export const createDataflowEndpointGroupV2: (
   input: CreateDataflowEndpointGroupV2Request,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataflowEndpointGroupV2Response,
   | DependencyException
   | InvalidParameterException
@@ -3169,7 +3381,7 @@ export const createDataflowEndpointGroupV2: (
  */
 export const createConfig: (
   input: CreateConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ConfigIdResponse,
   | DependencyException
   | InvalidParameterException
@@ -3192,7 +3404,7 @@ export const createConfig: (
  */
 export const describeContact: (
   input: DescribeContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeContactResponse,
   | DependencyException
   | InvalidParameterException
@@ -3217,7 +3429,7 @@ export const describeContact: (
  */
 export const createDataflowEndpointGroup: (
   input: CreateDataflowEndpointGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DataflowEndpointGroupIdResponse,
   | DependencyException
   | InvalidParameterException
@@ -3238,7 +3450,7 @@ export const createDataflowEndpointGroup: (
  */
 export const createEphemeris: (
   input: CreateEphemerisRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EphemerisIdResponse,
   | DependencyException
   | InvalidParameterException

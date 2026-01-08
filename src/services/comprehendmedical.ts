@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -100,10 +100,10 @@ export type S3Key = string;
 export type AnyLengthString = string;
 export type ManifestFilePath = string;
 export type ModelVersion = string;
-export type Integer = number;
-export type Float = number;
 
 //# Schemas
+export type LanguageCode = "en";
+export const LanguageCode = S.Literal("en");
 export interface DescribeEntitiesDetectionV2JobRequest {
   JobId: string;
 }
@@ -214,16 +214,33 @@ export const InferSNOMEDCTRequest = S.suspend(() =>
 ).annotations({
   identifier: "InferSNOMEDCTRequest",
 }) as any as S.Schema<InferSNOMEDCTRequest>;
+export type JobStatus =
+  | "SUBMITTED"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "PARTIAL_SUCCESS"
+  | "FAILED"
+  | "STOP_REQUESTED"
+  | "STOPPED";
+export const JobStatus = S.Literal(
+  "SUBMITTED",
+  "IN_PROGRESS",
+  "COMPLETED",
+  "PARTIAL_SUCCESS",
+  "FAILED",
+  "STOP_REQUESTED",
+  "STOPPED",
+);
 export interface ComprehendMedicalAsyncJobFilter {
   JobName?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   SubmitTimeBefore?: Date;
   SubmitTimeAfter?: Date;
 }
 export const ComprehendMedicalAsyncJobFilter = S.suspend(() =>
   S.Struct({
     JobName: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     SubmitTimeBefore: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -323,7 +340,7 @@ export interface StartICD10CMInferenceJobRequest {
   JobName?: string;
   ClientRequestToken?: string;
   KMSKey?: string;
-  LanguageCode: string;
+  LanguageCode: LanguageCode;
 }
 export const StartICD10CMInferenceJobRequest = S.suspend(() =>
   S.Struct({
@@ -333,7 +350,7 @@ export const StartICD10CMInferenceJobRequest = S.suspend(() =>
     JobName: S.optional(S.String),
     ClientRequestToken: S.optional(S.String),
     KMSKey: S.optional(S.String),
-    LanguageCode: S.String,
+    LanguageCode: LanguageCode,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -347,7 +364,7 @@ export interface StartPHIDetectionJobRequest {
   JobName?: string;
   ClientRequestToken?: string;
   KMSKey?: string;
-  LanguageCode: string;
+  LanguageCode: LanguageCode;
 }
 export const StartPHIDetectionJobRequest = S.suspend(() =>
   S.Struct({
@@ -357,7 +374,7 @@ export const StartPHIDetectionJobRequest = S.suspend(() =>
     JobName: S.optional(S.String),
     ClientRequestToken: S.optional(S.String),
     KMSKey: S.optional(S.String),
-    LanguageCode: S.String,
+    LanguageCode: LanguageCode,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -371,7 +388,7 @@ export interface StartRxNormInferenceJobRequest {
   JobName?: string;
   ClientRequestToken?: string;
   KMSKey?: string;
-  LanguageCode: string;
+  LanguageCode: LanguageCode;
 }
 export const StartRxNormInferenceJobRequest = S.suspend(() =>
   S.Struct({
@@ -381,7 +398,7 @@ export const StartRxNormInferenceJobRequest = S.suspend(() =>
     JobName: S.optional(S.String),
     ClientRequestToken: S.optional(S.String),
     KMSKey: S.optional(S.String),
-    LanguageCode: S.String,
+    LanguageCode: LanguageCode,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -395,7 +412,7 @@ export interface StartSNOMEDCTInferenceJobRequest {
   JobName?: string;
   ClientRequestToken?: string;
   KMSKey?: string;
-  LanguageCode: string;
+  LanguageCode: LanguageCode;
 }
 export const StartSNOMEDCTInferenceJobRequest = S.suspend(() =>
   S.Struct({
@@ -405,7 +422,7 @@ export const StartSNOMEDCTInferenceJobRequest = S.suspend(() =>
     JobName: S.optional(S.String),
     ClientRequestToken: S.optional(S.String),
     KMSKey: S.optional(S.String),
-    LanguageCode: S.String,
+    LanguageCode: LanguageCode,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -465,14 +482,14 @@ export const StopSNOMEDCTInferenceJobRequest = S.suspend(() =>
 export interface ComprehendMedicalAsyncJobProperties {
   JobId?: string;
   JobName?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   Message?: string;
   SubmitTime?: Date;
   EndTime?: Date;
   ExpirationTime?: Date;
   InputDataConfig?: InputDataConfig;
   OutputDataConfig?: OutputDataConfig;
-  LanguageCode?: string;
+  LanguageCode?: LanguageCode;
   DataAccessRoleArn?: string;
   ManifestFilePath?: string;
   KMSKey?: string;
@@ -482,14 +499,14 @@ export const ComprehendMedicalAsyncJobProperties = S.suspend(() =>
   S.Struct({
     JobId: S.optional(S.String),
     JobName: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     Message: S.optional(S.String),
     SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     InputDataConfig: S.optional(InputDataConfig),
     OutputDataConfig: S.optional(OutputDataConfig),
-    LanguageCode: S.optional(S.String),
+    LanguageCode: S.optional(LanguageCode),
     DataAccessRoleArn: S.optional(S.String),
     ManifestFilePath: S.optional(S.String),
     KMSKey: S.optional(S.String),
@@ -551,38 +568,216 @@ export const DescribeSNOMEDCTInferenceJobResponse = S.suspend(() =>
 ).annotations({
   identifier: "DescribeSNOMEDCTInferenceJobResponse",
 }) as any as S.Schema<DescribeSNOMEDCTInferenceJobResponse>;
+export type EntityType =
+  | "MEDICATION"
+  | "MEDICAL_CONDITION"
+  | "PROTECTED_HEALTH_INFORMATION"
+  | "TEST_TREATMENT_PROCEDURE"
+  | "ANATOMY"
+  | "TIME_EXPRESSION"
+  | "BEHAVIORAL_ENVIRONMENTAL_SOCIAL";
+export const EntityType = S.Literal(
+  "MEDICATION",
+  "MEDICAL_CONDITION",
+  "PROTECTED_HEALTH_INFORMATION",
+  "TEST_TREATMENT_PROCEDURE",
+  "ANATOMY",
+  "TIME_EXPRESSION",
+  "BEHAVIORAL_ENVIRONMENTAL_SOCIAL",
+);
+export type EntitySubType =
+  | "NAME"
+  | "DX_NAME"
+  | "DOSAGE"
+  | "ROUTE_OR_MODE"
+  | "FORM"
+  | "FREQUENCY"
+  | "DURATION"
+  | "GENERIC_NAME"
+  | "BRAND_NAME"
+  | "STRENGTH"
+  | "RATE"
+  | "ACUITY"
+  | "TEST_NAME"
+  | "TEST_VALUE"
+  | "TEST_UNITS"
+  | "TEST_UNIT"
+  | "PROCEDURE_NAME"
+  | "TREATMENT_NAME"
+  | "DATE"
+  | "AGE"
+  | "CONTACT_POINT"
+  | "PHONE_OR_FAX"
+  | "EMAIL"
+  | "IDENTIFIER"
+  | "ID"
+  | "URL"
+  | "ADDRESS"
+  | "PROFESSION"
+  | "SYSTEM_ORGAN_SITE"
+  | "DIRECTION"
+  | "QUALITY"
+  | "QUANTITY"
+  | "TIME_EXPRESSION"
+  | "TIME_TO_MEDICATION_NAME"
+  | "TIME_TO_DX_NAME"
+  | "TIME_TO_TEST_NAME"
+  | "TIME_TO_PROCEDURE_NAME"
+  | "TIME_TO_TREATMENT_NAME"
+  | "AMOUNT"
+  | "GENDER"
+  | "RACE_ETHNICITY"
+  | "ALLERGIES"
+  | "TOBACCO_USE"
+  | "ALCOHOL_CONSUMPTION"
+  | "REC_DRUG_USE";
+export const EntitySubType = S.Literal(
+  "NAME",
+  "DX_NAME",
+  "DOSAGE",
+  "ROUTE_OR_MODE",
+  "FORM",
+  "FREQUENCY",
+  "DURATION",
+  "GENERIC_NAME",
+  "BRAND_NAME",
+  "STRENGTH",
+  "RATE",
+  "ACUITY",
+  "TEST_NAME",
+  "TEST_VALUE",
+  "TEST_UNITS",
+  "TEST_UNIT",
+  "PROCEDURE_NAME",
+  "TREATMENT_NAME",
+  "DATE",
+  "AGE",
+  "CONTACT_POINT",
+  "PHONE_OR_FAX",
+  "EMAIL",
+  "IDENTIFIER",
+  "ID",
+  "URL",
+  "ADDRESS",
+  "PROFESSION",
+  "SYSTEM_ORGAN_SITE",
+  "DIRECTION",
+  "QUALITY",
+  "QUANTITY",
+  "TIME_EXPRESSION",
+  "TIME_TO_MEDICATION_NAME",
+  "TIME_TO_DX_NAME",
+  "TIME_TO_TEST_NAME",
+  "TIME_TO_PROCEDURE_NAME",
+  "TIME_TO_TREATMENT_NAME",
+  "AMOUNT",
+  "GENDER",
+  "RACE_ETHNICITY",
+  "ALLERGIES",
+  "TOBACCO_USE",
+  "ALCOHOL_CONSUMPTION",
+  "REC_DRUG_USE",
+);
+export type AttributeName =
+  | "SIGN"
+  | "SYMPTOM"
+  | "DIAGNOSIS"
+  | "NEGATION"
+  | "PERTAINS_TO_FAMILY"
+  | "HYPOTHETICAL"
+  | "LOW_CONFIDENCE"
+  | "PAST_HISTORY"
+  | "FUTURE";
+export const AttributeName = S.Literal(
+  "SIGN",
+  "SYMPTOM",
+  "DIAGNOSIS",
+  "NEGATION",
+  "PERTAINS_TO_FAMILY",
+  "HYPOTHETICAL",
+  "LOW_CONFIDENCE",
+  "PAST_HISTORY",
+  "FUTURE",
+);
 export interface Trait {
-  Name?: string;
+  Name?: AttributeName;
   Score?: number;
 }
 export const Trait = S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Score: S.optional(S.Number) }),
+  S.Struct({ Name: S.optional(AttributeName), Score: S.optional(S.Number) }),
 ).annotations({ identifier: "Trait" }) as any as S.Schema<Trait>;
 export type TraitList = Trait[];
 export const TraitList = S.Array(Trait);
+export type RelationshipType =
+  | "EVERY"
+  | "WITH_DOSAGE"
+  | "ADMINISTERED_VIA"
+  | "FOR"
+  | "NEGATIVE"
+  | "OVERLAP"
+  | "DOSAGE"
+  | "ROUTE_OR_MODE"
+  | "FORM"
+  | "FREQUENCY"
+  | "DURATION"
+  | "STRENGTH"
+  | "RATE"
+  | "ACUITY"
+  | "TEST_VALUE"
+  | "TEST_UNITS"
+  | "TEST_UNIT"
+  | "DIRECTION"
+  | "SYSTEM_ORGAN_SITE"
+  | "AMOUNT"
+  | "USAGE"
+  | "QUALITY";
+export const RelationshipType = S.Literal(
+  "EVERY",
+  "WITH_DOSAGE",
+  "ADMINISTERED_VIA",
+  "FOR",
+  "NEGATIVE",
+  "OVERLAP",
+  "DOSAGE",
+  "ROUTE_OR_MODE",
+  "FORM",
+  "FREQUENCY",
+  "DURATION",
+  "STRENGTH",
+  "RATE",
+  "ACUITY",
+  "TEST_VALUE",
+  "TEST_UNITS",
+  "TEST_UNIT",
+  "DIRECTION",
+  "SYSTEM_ORGAN_SITE",
+  "AMOUNT",
+  "USAGE",
+  "QUALITY",
+);
 export interface Attribute {
-  Type?: string;
+  Type?: EntitySubType;
   Score?: number;
   RelationshipScore?: number;
-  RelationshipType?: string;
+  RelationshipType?: RelationshipType;
   Id?: number;
   BeginOffset?: number;
   EndOffset?: number;
   Text?: string;
-  Category?: string;
-  Traits?: TraitList;
+  Category?: EntityType;
+  Traits?: Trait[];
 }
 export const Attribute = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String),
+    Type: S.optional(EntitySubType),
     Score: S.optional(S.Number),
     RelationshipScore: S.optional(S.Number),
-    RelationshipType: S.optional(S.String),
+    RelationshipType: S.optional(RelationshipType),
     Id: S.optional(S.Number),
     BeginOffset: S.optional(S.Number),
     EndOffset: S.optional(S.Number),
     Text: S.optional(S.String),
-    Category: S.optional(S.String),
+    Category: S.optional(EntityType),
     Traits: S.optional(TraitList),
   }),
 ).annotations({ identifier: "Attribute" }) as any as S.Schema<Attribute>;
@@ -594,10 +789,10 @@ export interface Entity {
   EndOffset?: number;
   Score?: number;
   Text?: string;
-  Category?: string;
-  Type?: string;
-  Traits?: TraitList;
-  Attributes?: AttributeList;
+  Category?: EntityType;
+  Type?: EntitySubType;
+  Traits?: Trait[];
+  Attributes?: Attribute[];
 }
 export const Entity = S.suspend(() =>
   S.Struct({
@@ -606,8 +801,8 @@ export const Entity = S.suspend(() =>
     EndOffset: S.optional(S.Number),
     Score: S.optional(S.Number),
     Text: S.optional(S.String),
-    Category: S.optional(S.String),
-    Type: S.optional(S.String),
+    Category: S.optional(EntityType),
+    Type: S.optional(EntitySubType),
     Traits: S.optional(TraitList),
     Attributes: S.optional(AttributeList),
   }),
@@ -615,19 +810,19 @@ export const Entity = S.suspend(() =>
 export type EntityList = Entity[];
 export const EntityList = S.Array(Entity);
 export interface UnmappedAttribute {
-  Type?: string;
+  Type?: EntityType;
   Attribute?: Attribute;
 }
 export const UnmappedAttribute = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String), Attribute: S.optional(Attribute) }),
+  S.Struct({ Type: S.optional(EntityType), Attribute: S.optional(Attribute) }),
 ).annotations({
   identifier: "UnmappedAttribute",
 }) as any as S.Schema<UnmappedAttribute>;
 export type UnmappedAttributeList = UnmappedAttribute[];
 export const UnmappedAttributeList = S.Array(UnmappedAttribute);
 export interface DetectEntitiesV2Response {
-  Entities: EntityList;
-  UnmappedAttributes?: UnmappedAttributeList;
+  Entities: Entity[];
+  UnmappedAttributes?: UnmappedAttribute[];
   PaginationToken?: string;
   ModelVersion: string;
 }
@@ -642,7 +837,7 @@ export const DetectEntitiesV2Response = S.suspend(() =>
   identifier: "DetectEntitiesV2Response",
 }) as any as S.Schema<DetectEntitiesV2Response>;
 export interface DetectPHIResponse {
-  Entities: EntityList;
+  Entities: Entity[];
   PaginationToken?: string;
   ModelVersion: string;
 }
@@ -672,7 +867,7 @@ export const ListEntitiesDetectionV2JobsRequest = S.suspend(() =>
   identifier: "ListEntitiesDetectionV2JobsRequest",
 }) as any as S.Schema<ListEntitiesDetectionV2JobsRequest>;
 export interface ListICD10CMInferenceJobsResponse {
-  ComprehendMedicalAsyncJobPropertiesList?: ComprehendMedicalAsyncJobPropertiesList;
+  ComprehendMedicalAsyncJobPropertiesList?: ComprehendMedicalAsyncJobProperties[];
   NextToken?: string;
 }
 export const ListICD10CMInferenceJobsResponse = S.suspend(() =>
@@ -686,7 +881,7 @@ export const ListICD10CMInferenceJobsResponse = S.suspend(() =>
   identifier: "ListICD10CMInferenceJobsResponse",
 }) as any as S.Schema<ListICD10CMInferenceJobsResponse>;
 export interface ListPHIDetectionJobsResponse {
-  ComprehendMedicalAsyncJobPropertiesList?: ComprehendMedicalAsyncJobPropertiesList;
+  ComprehendMedicalAsyncJobPropertiesList?: ComprehendMedicalAsyncJobProperties[];
   NextToken?: string;
 }
 export const ListPHIDetectionJobsResponse = S.suspend(() =>
@@ -700,7 +895,7 @@ export const ListPHIDetectionJobsResponse = S.suspend(() =>
   identifier: "ListPHIDetectionJobsResponse",
 }) as any as S.Schema<ListPHIDetectionJobsResponse>;
 export interface ListRxNormInferenceJobsResponse {
-  ComprehendMedicalAsyncJobPropertiesList?: ComprehendMedicalAsyncJobPropertiesList;
+  ComprehendMedicalAsyncJobPropertiesList?: ComprehendMedicalAsyncJobProperties[];
   NextToken?: string;
 }
 export const ListRxNormInferenceJobsResponse = S.suspend(() =>
@@ -714,7 +909,7 @@ export const ListRxNormInferenceJobsResponse = S.suspend(() =>
   identifier: "ListRxNormInferenceJobsResponse",
 }) as any as S.Schema<ListRxNormInferenceJobsResponse>;
 export interface ListSNOMEDCTInferenceJobsResponse {
-  ComprehendMedicalAsyncJobPropertiesList?: ComprehendMedicalAsyncJobPropertiesList;
+  ComprehendMedicalAsyncJobPropertiesList?: ComprehendMedicalAsyncJobProperties[];
   NextToken?: string;
 }
 export const ListSNOMEDCTInferenceJobsResponse = S.suspend(() =>
@@ -734,7 +929,7 @@ export interface StartEntitiesDetectionV2JobRequest {
   JobName?: string;
   ClientRequestToken?: string;
   KMSKey?: string;
-  LanguageCode: string;
+  LanguageCode: LanguageCode;
 }
 export const StartEntitiesDetectionV2JobRequest = S.suspend(() =>
   S.Struct({
@@ -744,7 +939,7 @@ export const StartEntitiesDetectionV2JobRequest = S.suspend(() =>
     JobName: S.optional(S.String),
     ClientRequestToken: S.optional(S.String),
     KMSKey: S.optional(S.String),
-    LanguageCode: S.String,
+    LanguageCode: LanguageCode,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -823,6 +1018,34 @@ export const StopSNOMEDCTInferenceJobResponse = S.suspend(() =>
 ).annotations({
   identifier: "StopSNOMEDCTInferenceJobResponse",
 }) as any as S.Schema<StopSNOMEDCTInferenceJobResponse>;
+export type ICD10CMEntityCategory = "MEDICAL_CONDITION";
+export const ICD10CMEntityCategory = S.Literal("MEDICAL_CONDITION");
+export type ICD10CMEntityType = "DX_NAME" | "TIME_EXPRESSION";
+export const ICD10CMEntityType = S.Literal("DX_NAME", "TIME_EXPRESSION");
+export type RxNormEntityCategory = "MEDICATION";
+export const RxNormEntityCategory = S.Literal("MEDICATION");
+export type RxNormEntityType = "BRAND_NAME" | "GENERIC_NAME";
+export const RxNormEntityType = S.Literal("BRAND_NAME", "GENERIC_NAME");
+export type SNOMEDCTEntityCategory =
+  | "MEDICAL_CONDITION"
+  | "ANATOMY"
+  | "TEST_TREATMENT_PROCEDURE";
+export const SNOMEDCTEntityCategory = S.Literal(
+  "MEDICAL_CONDITION",
+  "ANATOMY",
+  "TEST_TREATMENT_PROCEDURE",
+);
+export type SNOMEDCTEntityType =
+  | "DX_NAME"
+  | "TEST_NAME"
+  | "PROCEDURE_NAME"
+  | "TREATMENT_NAME";
+export const SNOMEDCTEntityType = S.Literal(
+  "DX_NAME",
+  "TEST_NAME",
+  "PROCEDURE_NAME",
+  "TREATMENT_NAME",
+);
 export interface SNOMEDCTDetails {
   Edition?: string;
   Language?: string;
@@ -843,6 +1066,121 @@ export interface Characters {
 export const Characters = S.suspend(() =>
   S.Struct({ OriginalTextCharacters: S.optional(S.Number) }),
 ).annotations({ identifier: "Characters" }) as any as S.Schema<Characters>;
+export type ICD10CMAttributeType =
+  | "ACUITY"
+  | "DIRECTION"
+  | "SYSTEM_ORGAN_SITE"
+  | "QUALITY"
+  | "QUANTITY"
+  | "TIME_TO_DX_NAME"
+  | "TIME_EXPRESSION";
+export const ICD10CMAttributeType = S.Literal(
+  "ACUITY",
+  "DIRECTION",
+  "SYSTEM_ORGAN_SITE",
+  "QUALITY",
+  "QUANTITY",
+  "TIME_TO_DX_NAME",
+  "TIME_EXPRESSION",
+);
+export type ICD10CMRelationshipType =
+  | "OVERLAP"
+  | "SYSTEM_ORGAN_SITE"
+  | "QUALITY";
+export const ICD10CMRelationshipType = S.Literal(
+  "OVERLAP",
+  "SYSTEM_ORGAN_SITE",
+  "QUALITY",
+);
+export type ICD10CMTraitName =
+  | "NEGATION"
+  | "DIAGNOSIS"
+  | "SIGN"
+  | "SYMPTOM"
+  | "PERTAINS_TO_FAMILY"
+  | "HYPOTHETICAL"
+  | "LOW_CONFIDENCE";
+export const ICD10CMTraitName = S.Literal(
+  "NEGATION",
+  "DIAGNOSIS",
+  "SIGN",
+  "SYMPTOM",
+  "PERTAINS_TO_FAMILY",
+  "HYPOTHETICAL",
+  "LOW_CONFIDENCE",
+);
+export type RxNormAttributeType =
+  | "DOSAGE"
+  | "DURATION"
+  | "FORM"
+  | "FREQUENCY"
+  | "RATE"
+  | "ROUTE_OR_MODE"
+  | "STRENGTH";
+export const RxNormAttributeType = S.Literal(
+  "DOSAGE",
+  "DURATION",
+  "FORM",
+  "FREQUENCY",
+  "RATE",
+  "ROUTE_OR_MODE",
+  "STRENGTH",
+);
+export type RxNormTraitName = "NEGATION" | "PAST_HISTORY";
+export const RxNormTraitName = S.Literal("NEGATION", "PAST_HISTORY");
+export type SNOMEDCTAttributeType =
+  | "ACUITY"
+  | "QUALITY"
+  | "DIRECTION"
+  | "SYSTEM_ORGAN_SITE"
+  | "TEST_VALUE"
+  | "TEST_UNIT";
+export const SNOMEDCTAttributeType = S.Literal(
+  "ACUITY",
+  "QUALITY",
+  "DIRECTION",
+  "SYSTEM_ORGAN_SITE",
+  "TEST_VALUE",
+  "TEST_UNIT",
+);
+export type SNOMEDCTRelationshipType =
+  | "ACUITY"
+  | "QUALITY"
+  | "TEST_VALUE"
+  | "TEST_UNITS"
+  | "DIRECTION"
+  | "SYSTEM_ORGAN_SITE"
+  | "TEST_UNIT";
+export const SNOMEDCTRelationshipType = S.Literal(
+  "ACUITY",
+  "QUALITY",
+  "TEST_VALUE",
+  "TEST_UNITS",
+  "DIRECTION",
+  "SYSTEM_ORGAN_SITE",
+  "TEST_UNIT",
+);
+export type SNOMEDCTTraitName =
+  | "NEGATION"
+  | "DIAGNOSIS"
+  | "SIGN"
+  | "SYMPTOM"
+  | "PERTAINS_TO_FAMILY"
+  | "HYPOTHETICAL"
+  | "LOW_CONFIDENCE"
+  | "PAST_HISTORY"
+  | "FUTURE";
+export const SNOMEDCTTraitName = S.Literal(
+  "NEGATION",
+  "DIAGNOSIS",
+  "SIGN",
+  "SYMPTOM",
+  "PERTAINS_TO_FAMILY",
+  "HYPOTHETICAL",
+  "LOW_CONFIDENCE",
+  "PAST_HISTORY",
+  "FUTURE",
+);
 export interface DescribeEntitiesDetectionV2JobResponse {
   ComprehendMedicalAsyncJobProperties?: ComprehendMedicalAsyncJobProperties;
 }
@@ -856,7 +1194,7 @@ export const DescribeEntitiesDetectionV2JobResponse = S.suspend(() =>
   identifier: "DescribeEntitiesDetectionV2JobResponse",
 }) as any as S.Schema<DescribeEntitiesDetectionV2JobResponse>;
 export interface ListEntitiesDetectionV2JobsResponse {
-  ComprehendMedicalAsyncJobPropertiesList?: ComprehendMedicalAsyncJobPropertiesList;
+  ComprehendMedicalAsyncJobPropertiesList?: ComprehendMedicalAsyncJobProperties[];
   NextToken?: string;
 }
 export const ListEntitiesDetectionV2JobsResponse = S.suspend(() =>
@@ -878,29 +1216,29 @@ export const StartEntitiesDetectionV2JobResponse = S.suspend(() =>
   identifier: "StartEntitiesDetectionV2JobResponse",
 }) as any as S.Schema<StartEntitiesDetectionV2JobResponse>;
 export interface ICD10CMTrait {
-  Name?: string;
+  Name?: ICD10CMTraitName;
   Score?: number;
 }
 export const ICD10CMTrait = S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Score: S.optional(S.Number) }),
+  S.Struct({ Name: S.optional(ICD10CMTraitName), Score: S.optional(S.Number) }),
 ).annotations({ identifier: "ICD10CMTrait" }) as any as S.Schema<ICD10CMTrait>;
 export type ICD10CMTraitList = ICD10CMTrait[];
 export const ICD10CMTraitList = S.Array(ICD10CMTrait);
 export interface ICD10CMAttribute {
-  Type?: string;
+  Type?: ICD10CMAttributeType;
   Score?: number;
   RelationshipScore?: number;
   Id?: number;
   BeginOffset?: number;
   EndOffset?: number;
   Text?: string;
-  Traits?: ICD10CMTraitList;
-  Category?: string;
-  RelationshipType?: string;
+  Traits?: ICD10CMTrait[];
+  Category?: ICD10CMEntityType;
+  RelationshipType?: ICD10CMRelationshipType;
 }
 export const ICD10CMAttribute = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String),
+    Type: S.optional(ICD10CMAttributeType),
     Score: S.optional(S.Number),
     RelationshipScore: S.optional(S.Number),
     Id: S.optional(S.Number),
@@ -908,8 +1246,8 @@ export const ICD10CMAttribute = S.suspend(() =>
     EndOffset: S.optional(S.Number),
     Text: S.optional(S.String),
     Traits: S.optional(ICD10CMTraitList),
-    Category: S.optional(S.String),
-    RelationshipType: S.optional(S.String),
+    Category: S.optional(ICD10CMEntityType),
+    RelationshipType: S.optional(ICD10CMRelationshipType),
   }),
 ).annotations({
   identifier: "ICD10CMAttribute",
@@ -933,27 +1271,27 @@ export const ICD10CMConcept = S.suspend(() =>
 export type ICD10CMConceptList = ICD10CMConcept[];
 export const ICD10CMConceptList = S.Array(ICD10CMConcept);
 export interface RxNormTrait {
-  Name?: string;
+  Name?: RxNormTraitName;
   Score?: number;
 }
 export const RxNormTrait = S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Score: S.optional(S.Number) }),
+  S.Struct({ Name: S.optional(RxNormTraitName), Score: S.optional(S.Number) }),
 ).annotations({ identifier: "RxNormTrait" }) as any as S.Schema<RxNormTrait>;
 export type RxNormTraitList = RxNormTrait[];
 export const RxNormTraitList = S.Array(RxNormTrait);
 export interface RxNormAttribute {
-  Type?: string;
+  Type?: RxNormAttributeType;
   Score?: number;
   RelationshipScore?: number;
   Id?: number;
   BeginOffset?: number;
   EndOffset?: number;
   Text?: string;
-  Traits?: RxNormTraitList;
+  Traits?: RxNormTrait[];
 }
 export const RxNormAttribute = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String),
+    Type: S.optional(RxNormAttributeType),
     Score: S.optional(S.Number),
     RelationshipScore: S.optional(S.Number),
     Id: S.optional(S.Number),
@@ -984,11 +1322,14 @@ export const RxNormConcept = S.suspend(() =>
 export type RxNormConceptList = RxNormConcept[];
 export const RxNormConceptList = S.Array(RxNormConcept);
 export interface SNOMEDCTTrait {
-  Name?: string;
+  Name?: SNOMEDCTTraitName;
   Score?: number;
 }
 export const SNOMEDCTTrait = S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Score: S.optional(S.Number) }),
+  S.Struct({
+    Name: S.optional(SNOMEDCTTraitName),
+    Score: S.optional(S.Number),
+  }),
 ).annotations({
   identifier: "SNOMEDCTTrait",
 }) as any as S.Schema<SNOMEDCTTrait>;
@@ -1011,25 +1352,25 @@ export const SNOMEDCTConcept = S.suspend(() =>
 export type SNOMEDCTConceptList = SNOMEDCTConcept[];
 export const SNOMEDCTConceptList = S.Array(SNOMEDCTConcept);
 export interface SNOMEDCTAttribute {
-  Category?: string;
-  Type?: string;
+  Category?: SNOMEDCTEntityCategory;
+  Type?: SNOMEDCTAttributeType;
   Score?: number;
   RelationshipScore?: number;
-  RelationshipType?: string;
+  RelationshipType?: SNOMEDCTRelationshipType;
   Id?: number;
   BeginOffset?: number;
   EndOffset?: number;
   Text?: string;
-  Traits?: SNOMEDCTTraitList;
-  SNOMEDCTConcepts?: SNOMEDCTConceptList;
+  Traits?: SNOMEDCTTrait[];
+  SNOMEDCTConcepts?: SNOMEDCTConcept[];
 }
 export const SNOMEDCTAttribute = S.suspend(() =>
   S.Struct({
-    Category: S.optional(S.String),
-    Type: S.optional(S.String),
+    Category: S.optional(SNOMEDCTEntityCategory),
+    Type: S.optional(SNOMEDCTAttributeType),
     Score: S.optional(S.Number),
     RelationshipScore: S.optional(S.Number),
-    RelationshipType: S.optional(S.String),
+    RelationshipType: S.optional(SNOMEDCTRelationshipType),
     Id: S.optional(S.Number),
     BeginOffset: S.optional(S.Number),
     EndOffset: S.optional(S.Number),
@@ -1045,21 +1386,21 @@ export const SNOMEDCTAttributeList = S.Array(SNOMEDCTAttribute);
 export interface ICD10CMEntity {
   Id?: number;
   Text?: string;
-  Category?: string;
-  Type?: string;
+  Category?: ICD10CMEntityCategory;
+  Type?: ICD10CMEntityType;
   Score?: number;
   BeginOffset?: number;
   EndOffset?: number;
-  Attributes?: ICD10CMAttributeList;
-  Traits?: ICD10CMTraitList;
-  ICD10CMConcepts?: ICD10CMConceptList;
+  Attributes?: ICD10CMAttribute[];
+  Traits?: ICD10CMTrait[];
+  ICD10CMConcepts?: ICD10CMConcept[];
 }
 export const ICD10CMEntity = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.Number),
     Text: S.optional(S.String),
-    Category: S.optional(S.String),
-    Type: S.optional(S.String),
+    Category: S.optional(ICD10CMEntityCategory),
+    Type: S.optional(ICD10CMEntityType),
     Score: S.optional(S.Number),
     BeginOffset: S.optional(S.Number),
     EndOffset: S.optional(S.Number),
@@ -1075,21 +1416,21 @@ export const ICD10CMEntityList = S.Array(ICD10CMEntity);
 export interface RxNormEntity {
   Id?: number;
   Text?: string;
-  Category?: string;
-  Type?: string;
+  Category?: RxNormEntityCategory;
+  Type?: RxNormEntityType;
   Score?: number;
   BeginOffset?: number;
   EndOffset?: number;
-  Attributes?: RxNormAttributeList;
-  Traits?: RxNormTraitList;
-  RxNormConcepts?: RxNormConceptList;
+  Attributes?: RxNormAttribute[];
+  Traits?: RxNormTrait[];
+  RxNormConcepts?: RxNormConcept[];
 }
 export const RxNormEntity = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.Number),
     Text: S.optional(S.String),
-    Category: S.optional(S.String),
-    Type: S.optional(S.String),
+    Category: S.optional(RxNormEntityCategory),
+    Type: S.optional(RxNormEntityType),
     Score: S.optional(S.Number),
     BeginOffset: S.optional(S.Number),
     EndOffset: S.optional(S.Number),
@@ -1103,21 +1444,21 @@ export const RxNormEntityList = S.Array(RxNormEntity);
 export interface SNOMEDCTEntity {
   Id?: number;
   Text?: string;
-  Category?: string;
-  Type?: string;
+  Category?: SNOMEDCTEntityCategory;
+  Type?: SNOMEDCTEntityType;
   Score?: number;
   BeginOffset?: number;
   EndOffset?: number;
-  Attributes?: SNOMEDCTAttributeList;
-  Traits?: SNOMEDCTTraitList;
-  SNOMEDCTConcepts?: SNOMEDCTConceptList;
+  Attributes?: SNOMEDCTAttribute[];
+  Traits?: SNOMEDCTTrait[];
+  SNOMEDCTConcepts?: SNOMEDCTConcept[];
 }
 export const SNOMEDCTEntity = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.Number),
     Text: S.optional(S.String),
-    Category: S.optional(S.String),
-    Type: S.optional(S.String),
+    Category: S.optional(SNOMEDCTEntityCategory),
+    Type: S.optional(SNOMEDCTEntityType),
     Score: S.optional(S.Number),
     BeginOffset: S.optional(S.Number),
     EndOffset: S.optional(S.Number),
@@ -1131,8 +1472,8 @@ export const SNOMEDCTEntity = S.suspend(() =>
 export type SNOMEDCTEntityList = SNOMEDCTEntity[];
 export const SNOMEDCTEntityList = S.Array(SNOMEDCTEntity);
 export interface DetectEntitiesResponse {
-  Entities: EntityList;
-  UnmappedAttributes?: UnmappedAttributeList;
+  Entities: Entity[];
+  UnmappedAttributes?: UnmappedAttribute[];
   PaginationToken?: string;
   ModelVersion: string;
 }
@@ -1147,7 +1488,7 @@ export const DetectEntitiesResponse = S.suspend(() =>
   identifier: "DetectEntitiesResponse",
 }) as any as S.Schema<DetectEntitiesResponse>;
 export interface InferICD10CMResponse {
-  Entities: ICD10CMEntityList;
+  Entities: ICD10CMEntity[];
   PaginationToken?: string;
   ModelVersion?: string;
 }
@@ -1161,7 +1502,7 @@ export const InferICD10CMResponse = S.suspend(() =>
   identifier: "InferICD10CMResponse",
 }) as any as S.Schema<InferICD10CMResponse>;
 export interface InferRxNormResponse {
-  Entities: RxNormEntityList;
+  Entities: RxNormEntity[];
   PaginationToken?: string;
   ModelVersion?: string;
 }
@@ -1175,7 +1516,7 @@ export const InferRxNormResponse = S.suspend(() =>
   identifier: "InferRxNormResponse",
 }) as any as S.Schema<InferRxNormResponse>;
 export interface InferSNOMEDCTResponse {
-  Entities: SNOMEDCTEntityList;
+  Entities: SNOMEDCTEntity[];
   PaginationToken?: string;
   ModelVersion?: string;
   SNOMEDCTDetails?: SNOMEDCTDetails;
@@ -1234,7 +1575,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const startEntitiesDetectionV2Job: (
   input: StartEntitiesDetectionV2JobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartEntitiesDetectionV2JobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1258,7 +1599,7 @@ export const startEntitiesDetectionV2Job: (
  */
 export const describePHIDetectionJob: (
   input: DescribePHIDetectionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePHIDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1282,7 +1623,7 @@ export const describePHIDetectionJob: (
  */
 export const describeRxNormInferenceJob: (
   input: DescribeRxNormInferenceJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRxNormInferenceJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1305,7 +1646,7 @@ export const describeRxNormInferenceJob: (
  */
 export const describeSNOMEDCTInferenceJob: (
   input: DescribeSNOMEDCTInferenceJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSNOMEDCTInferenceJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1330,7 +1671,7 @@ export const describeSNOMEDCTInferenceJob: (
  */
 export const startICD10CMInferenceJob: (
   input: StartICD10CMInferenceJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartICD10CMInferenceJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1354,7 +1695,7 @@ export const startICD10CMInferenceJob: (
  */
 export const startPHIDetectionJob: (
   input: StartPHIDetectionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartPHIDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1379,7 +1720,7 @@ export const startPHIDetectionJob: (
  */
 export const startRxNormInferenceJob: (
   input: StartRxNormInferenceJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartRxNormInferenceJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1402,7 +1743,7 @@ export const startRxNormInferenceJob: (
  */
 export const startSNOMEDCTInferenceJob: (
   input: StartSNOMEDCTInferenceJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartSNOMEDCTInferenceJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1425,7 +1766,7 @@ export const startSNOMEDCTInferenceJob: (
  */
 export const stopEntitiesDetectionV2Job: (
   input: StopEntitiesDetectionV2JobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopEntitiesDetectionV2JobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1446,7 +1787,7 @@ export const stopEntitiesDetectionV2Job: (
  */
 export const stopICD10CMInferenceJob: (
   input: StopICD10CMInferenceJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopICD10CMInferenceJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1467,7 +1808,7 @@ export const stopICD10CMInferenceJob: (
  */
 export const stopPHIDetectionJob: (
   input: StopPHIDetectionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopPHIDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1488,7 +1829,7 @@ export const stopPHIDetectionJob: (
  */
 export const stopRxNormInferenceJob: (
   input: StopRxNormInferenceJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopRxNormInferenceJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1509,7 +1850,7 @@ export const stopRxNormInferenceJob: (
  */
 export const stopSNOMEDCTInferenceJob: (
   input: StopSNOMEDCTInferenceJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopSNOMEDCTInferenceJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1533,7 +1874,7 @@ export const stopSNOMEDCTInferenceJob: (
  */
 export const describeEntitiesDetectionV2Job: (
   input: DescribeEntitiesDetectionV2JobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEntitiesDetectionV2JobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1557,7 +1898,7 @@ export const describeEntitiesDetectionV2Job: (
  */
 export const describeICD10CMInferenceJob: (
   input: DescribeICD10CMInferenceJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeICD10CMInferenceJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1591,7 +1932,7 @@ export const describeICD10CMInferenceJob: (
  */
 export const detectEntitiesV2: (
   input: DetectEntitiesV2Request,
-) => Effect.Effect<
+) => effect.Effect<
   DetectEntitiesV2Response,
   | InternalServerException
   | InvalidEncodingException
@@ -1618,7 +1959,7 @@ export const detectEntitiesV2: (
  */
 export const listEntitiesDetectionV2Jobs: (
   input: ListEntitiesDetectionV2JobsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListEntitiesDetectionV2JobsResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1643,7 +1984,7 @@ export const listEntitiesDetectionV2Jobs: (
  */
 export const detectPHI: (
   input: DetectPHIRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetectPHIResponse,
   | InternalServerException
   | InvalidEncodingException
@@ -1674,7 +2015,7 @@ export const detectPHI: (
  */
 export const detectEntities: (
   input: DetectEntitiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetectEntitiesResponse,
   | InternalServerException
   | InvalidEncodingException
@@ -1704,7 +2045,7 @@ export const detectEntities: (
  */
 export const inferICD10CM: (
   input: InferICD10CMRequest,
-) => Effect.Effect<
+) => effect.Effect<
   InferICD10CMResponse,
   | InternalServerException
   | InvalidEncodingException
@@ -1733,7 +2074,7 @@ export const inferICD10CM: (
  */
 export const inferRxNorm: (
   input: InferRxNormRequest,
-) => Effect.Effect<
+) => effect.Effect<
   InferRxNormResponse,
   | InternalServerException
   | InvalidEncodingException
@@ -1760,7 +2101,7 @@ export const inferRxNorm: (
  */
 export const inferSNOMEDCT: (
   input: InferSNOMEDCTRequest,
-) => Effect.Effect<
+) => effect.Effect<
   InferSNOMEDCTResponse,
   | InternalServerException
   | InvalidEncodingException
@@ -1787,7 +2128,7 @@ export const inferSNOMEDCT: (
  */
 export const listICD10CMInferenceJobs: (
   input: ListICD10CMInferenceJobsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListICD10CMInferenceJobsResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1811,7 +2152,7 @@ export const listICD10CMInferenceJobs: (
  */
 export const listPHIDetectionJobs: (
   input: ListPHIDetectionJobsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListPHIDetectionJobsResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1834,7 +2175,7 @@ export const listPHIDetectionJobs: (
  */
 export const listRxNormInferenceJobs: (
   input: ListRxNormInferenceJobsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListRxNormInferenceJobsResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1857,7 +2198,7 @@ export const listRxNormInferenceJobs: (
  */
 export const listSNOMEDCTInferenceJobs: (
   input: ListSNOMEDCTInferenceJobsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListSNOMEDCTInferenceJobsResponse,
   | InternalServerException
   | InvalidRequestException

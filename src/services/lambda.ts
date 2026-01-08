@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -155,14 +155,12 @@ export type PositiveInteger = number;
 export type OperationId = string;
 export type OperationName = string;
 export type OperationSubType = string;
-export type OperationPayload = string | Redacted.Redacted<string>;
-export type Long = number;
-export type Integer = number;
+export type OperationPayload = string | redacted.Redacted<string>;
 export type UnreservedConcurrentExecutions = number;
-export type ErrorMessage = string | Redacted.Redacted<string>;
-export type ErrorType = string | Redacted.Redacted<string>;
-export type ErrorData = string | Redacted.Redacted<string>;
-export type StackTraceEntry = string | Redacted.Redacted<string>;
+export type ErrorMessage = string | redacted.Redacted<string>;
+export type ErrorType = string | redacted.Redacted<string>;
+export type ErrorData = string | redacted.Redacted<string>;
+export type StackTraceEntry = string | redacted.Redacted<string>;
 export type TagValue = string;
 export type SubnetId = string;
 export type SecurityGroupId = string;
@@ -189,13 +187,12 @@ export type Origin = string;
 export type MaxAge = number;
 export type FunctionScalingConfigExecutionEnvironments = number;
 export type NameSpacedFunctionArn = string;
-export type InputPayload = string | Redacted.Redacted<string>;
-export type OutputPayload = string | Redacted.Redacted<string>;
+export type InputPayload = string | redacted.Redacted<string>;
+export type OutputPayload = string | redacted.Redacted<string>;
 export type FunctionArn = string;
 export type CapacityProviderArn = string;
 export type EventSourceMappingArn = string;
 export type FunctionUrl = string;
-export type Timestamp = string;
 export type Version = string;
 export type StateReason = string;
 export type LastUpdateStatusReason = string;
@@ -208,8 +205,8 @@ export type MetricTargetValue = number;
 export type Pattern = string;
 export type Endpoint = string;
 export type SchemaRegistryUri = string;
-export type EnvironmentVariableName = string | Redacted.Redacted<string>;
-export type EnvironmentVariableValue = string | Redacted.Redacted<string>;
+export type EnvironmentVariableName = string | redacted.Redacted<string>;
+export type EnvironmentVariableValue = string | redacted.Redacted<string>;
 export type PerExecutionEnvironmentMaxConcurrency = number;
 export type ExecutionEnvironmentMemoryGiBPerVCpu = number;
 export type AdditionalVersion = string;
@@ -223,7 +220,7 @@ export type VpcId = string;
 export type TagsErrorCode = string;
 export type TagsErrorMessage = string;
 export type AttemptCount = number;
-export type SensitiveString = string | Redacted.Redacted<string>;
+export type SensitiveString = string | redacted.Redacted<string>;
 
 //# Schemas
 export interface GetAccountSettingsRequest {}
@@ -241,24 +238,174 @@ export const GetAccountSettingsRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetAccountSettingsRequest",
 }) as any as S.Schema<GetAccountSettingsRequest>;
-export type ExecutionStatusList = string[];
-export const ExecutionStatusList = S.Array(S.String);
+export type ExecutionStatus =
+  | "RUNNING"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "TIMED_OUT"
+  | "STOPPED";
+export const ExecutionStatus = S.Literal(
+  "RUNNING",
+  "SUCCEEDED",
+  "FAILED",
+  "TIMED_OUT",
+  "STOPPED",
+);
+export type ExecutionStatusList = ExecutionStatus[];
+export const ExecutionStatusList = S.Array(ExecutionStatus);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type CapacityProviderState =
+  | "Pending"
+  | "Active"
+  | "Failed"
+  | "Deleting";
+export const CapacityProviderState = S.Literal(
+  "Pending",
+  "Active",
+  "Failed",
+  "Deleting",
+);
+export type EventSourcePosition = "TRIM_HORIZON" | "LATEST" | "AT_TIMESTAMP";
+export const EventSourcePosition = S.Literal(
+  "TRIM_HORIZON",
+  "LATEST",
+  "AT_TIMESTAMP",
+);
 export type Topics = string[];
 export const Topics = S.Array(S.String);
 export type Queues = string[];
 export const Queues = S.Array(S.String);
-export type FunctionResponseTypeList = string[];
-export const FunctionResponseTypeList = S.Array(S.String);
+export type FunctionResponseType = "ReportBatchItemFailures";
+export const FunctionResponseType = S.Literal("ReportBatchItemFailures");
+export type FunctionResponseTypeList = FunctionResponseType[];
+export const FunctionResponseTypeList = S.Array(FunctionResponseType);
+export type Runtime =
+  | "nodejs"
+  | "nodejs4.3"
+  | "nodejs6.10"
+  | "nodejs8.10"
+  | "nodejs10.x"
+  | "nodejs12.x"
+  | "nodejs14.x"
+  | "nodejs16.x"
+  | "java8"
+  | "java8.al2"
+  | "java11"
+  | "python2.7"
+  | "python3.6"
+  | "python3.7"
+  | "python3.8"
+  | "python3.9"
+  | "dotnetcore1.0"
+  | "dotnetcore2.0"
+  | "dotnetcore2.1"
+  | "dotnetcore3.1"
+  | "dotnet6"
+  | "dotnet8"
+  | "nodejs4.3-edge"
+  | "go1.x"
+  | "ruby2.5"
+  | "ruby2.7"
+  | "provided"
+  | "provided.al2"
+  | "nodejs18.x"
+  | "python3.10"
+  | "java17"
+  | "ruby3.2"
+  | "ruby3.3"
+  | "ruby3.4"
+  | "python3.11"
+  | "nodejs20.x"
+  | "provided.al2023"
+  | "python3.12"
+  | "java21"
+  | "python3.13"
+  | "nodejs22.x"
+  | "nodejs24.x"
+  | "python3.14"
+  | "java25"
+  | "dotnet10";
+export const Runtime = S.Literal(
+  "nodejs",
+  "nodejs4.3",
+  "nodejs6.10",
+  "nodejs8.10",
+  "nodejs10.x",
+  "nodejs12.x",
+  "nodejs14.x",
+  "nodejs16.x",
+  "java8",
+  "java8.al2",
+  "java11",
+  "python2.7",
+  "python3.6",
+  "python3.7",
+  "python3.8",
+  "python3.9",
+  "dotnetcore1.0",
+  "dotnetcore2.0",
+  "dotnetcore2.1",
+  "dotnetcore3.1",
+  "dotnet6",
+  "dotnet8",
+  "nodejs4.3-edge",
+  "go1.x",
+  "ruby2.5",
+  "ruby2.7",
+  "provided",
+  "provided.al2",
+  "nodejs18.x",
+  "python3.10",
+  "java17",
+  "ruby3.2",
+  "ruby3.3",
+  "ruby3.4",
+  "python3.11",
+  "nodejs20.x",
+  "provided.al2023",
+  "python3.12",
+  "java21",
+  "python3.13",
+  "nodejs22.x",
+  "nodejs24.x",
+  "python3.14",
+  "java25",
+  "dotnet10",
+);
+export type PackageType = "Zip" | "Image";
+export const PackageType = S.Literal("Zip", "Image");
 export type LayerList = string[];
 export const LayerList = S.Array(S.String);
-export type ArchitecturesList = string[];
-export const ArchitecturesList = S.Array(S.String);
-export type CompatibleRuntimes = string[];
-export const CompatibleRuntimes = S.Array(S.String);
-export type CompatibleArchitectures = string[];
-export const CompatibleArchitectures = S.Array(S.String);
+export type Architecture = "x86_64" | "arm64";
+export const Architecture = S.Literal("x86_64", "arm64");
+export type ArchitecturesList = Architecture[];
+export const ArchitecturesList = S.Array(Architecture);
+export type FunctionVersionLatestPublished = "LATEST_PUBLISHED";
+export const FunctionVersionLatestPublished = S.Literal("LATEST_PUBLISHED");
+export type FunctionVersion = "ALL";
+export const FunctionVersion = S.Literal("ALL");
+export type FunctionUrlAuthType = "NONE" | "AWS_IAM";
+export const FunctionUrlAuthType = S.Literal("NONE", "AWS_IAM");
+export type InvokeMode = "BUFFERED" | "RESPONSE_STREAM";
+export const InvokeMode = S.Literal("BUFFERED", "RESPONSE_STREAM");
+export type InvocationType = "Event" | "RequestResponse" | "DryRun";
+export const InvocationType = S.Literal("Event", "RequestResponse", "DryRun");
+export type LogType = "None" | "Tail";
+export const LogType = S.Literal("None", "Tail");
+export type ResponseStreamingInvocationType = "RequestResponse" | "DryRun";
+export const ResponseStreamingInvocationType = S.Literal(
+  "RequestResponse",
+  "DryRun",
+);
+export type RecursiveLoop = "Allow" | "Terminate";
+export const RecursiveLoop = S.Literal("Allow", "Terminate");
+export type UpdateRuntimeOn = "Auto" | "Manual" | "FunctionUpdate";
+export const UpdateRuntimeOn = S.Literal("Auto", "Manual", "FunctionUpdate");
+export type CompatibleRuntimes = Runtime[];
+export const CompatibleRuntimes = S.Array(Runtime);
+export type CompatibleArchitectures = Architecture[];
+export const CompatibleArchitectures = S.Array(Architecture);
 export interface DeleteFunctionRequest {
   FunctionName: string;
   Qualifier?: string;
@@ -420,7 +567,7 @@ export interface ListDurableExecutionsByFunctionRequest {
   FunctionName: string;
   Qualifier?: string;
   DurableExecutionName?: string;
-  Statuses?: ExecutionStatusList;
+  Statuses?: ExecutionStatus[];
   StartedAfter?: Date;
   StartedBefore?: Date;
   ReverseOrder?: boolean;
@@ -559,13 +706,13 @@ export const SendDurableExecutionCallbackSuccessResponse = S.suspend(() =>
 ).annotations({
   identifier: "SendDurableExecutionCallbackSuccessResponse",
 }) as any as S.Schema<SendDurableExecutionCallbackSuccessResponse>;
-export type StackTraceEntries = string | Redacted.Redacted<string>[];
+export type StackTraceEntries = string | redacted.Redacted<string>[];
 export const StackTraceEntries = S.Array(SensitiveString);
 export interface ErrorObject {
-  ErrorMessage?: string | Redacted.Redacted<string>;
-  ErrorType?: string | Redacted.Redacted<string>;
-  ErrorData?: string | Redacted.Redacted<string>;
-  StackTrace?: StackTraceEntries;
+  ErrorMessage?: string | redacted.Redacted<string>;
+  ErrorType?: string | redacted.Redacted<string>;
+  ErrorData?: string | redacted.Redacted<string>;
+  StackTrace?: string | redacted.Redacted<string>[];
 }
 export const ErrorObject = S.suspend(() =>
   S.Struct({
@@ -603,7 +750,7 @@ export const StopDurableExecutionRequest = S.suspend(() =>
 }) as any as S.Schema<StopDurableExecutionRequest>;
 export interface UntagResourceRequest {
   Resource: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -702,12 +849,22 @@ export const GetCapacityProviderRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetCapacityProviderRequest",
 }) as any as S.Schema<GetCapacityProviderRequest>;
+export type CapacityProviderScalingMode = "Auto" | "Manual";
+export const CapacityProviderScalingMode = S.Literal("Auto", "Manual");
+export type CapacityProviderPredefinedMetricType =
+  "LambdaCapacityProviderAverageCPUUtilization";
+export const CapacityProviderPredefinedMetricType = S.Literal(
+  "LambdaCapacityProviderAverageCPUUtilization",
+);
 export interface TargetTrackingScalingPolicy {
-  PredefinedMetricType: string;
+  PredefinedMetricType: CapacityProviderPredefinedMetricType;
   TargetValue: number;
 }
 export const TargetTrackingScalingPolicy = S.suspend(() =>
-  S.Struct({ PredefinedMetricType: S.String, TargetValue: S.Number }),
+  S.Struct({
+    PredefinedMetricType: CapacityProviderPredefinedMetricType,
+    TargetValue: S.Number,
+  }),
 ).annotations({
   identifier: "TargetTrackingScalingPolicy",
 }) as any as S.Schema<TargetTrackingScalingPolicy>;
@@ -717,13 +874,13 @@ export const CapacityProviderScalingPoliciesList = S.Array(
 );
 export interface CapacityProviderScalingConfig {
   MaxVCpuCount?: number;
-  ScalingMode?: string;
-  ScalingPolicies?: CapacityProviderScalingPoliciesList;
+  ScalingMode?: CapacityProviderScalingMode;
+  ScalingPolicies?: TargetTrackingScalingPolicy[];
 }
 export const CapacityProviderScalingConfig = S.suspend(() =>
   S.Struct({
     MaxVCpuCount: S.optional(S.Number),
-    ScalingMode: S.optional(S.String),
+    ScalingMode: S.optional(CapacityProviderScalingMode),
     ScalingPolicies: S.optional(CapacityProviderScalingPoliciesList),
   }),
 ).annotations({
@@ -776,13 +933,13 @@ export const DeleteCapacityProviderRequest = S.suspend(() =>
   identifier: "DeleteCapacityProviderRequest",
 }) as any as S.Schema<DeleteCapacityProviderRequest>;
 export interface ListCapacityProvidersRequest {
-  State?: string;
+  State?: CapacityProviderState;
   Marker?: string;
   MaxItems?: number;
 }
 export const ListCapacityProvidersRequest = S.suspend(() =>
   S.Struct({
-    State: S.optional(S.String).pipe(T.HttpQuery("State")),
+    State: S.optional(CapacityProviderState).pipe(T.HttpQuery("State")),
     Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
   }).pipe(
@@ -924,18 +1081,20 @@ export const ListFunctionsByCodeSigningConfigRequest = S.suspend(() =>
 export type SigningProfileVersionArns = string[];
 export const SigningProfileVersionArns = S.Array(S.String);
 export interface AllowedPublishers {
-  SigningProfileVersionArns: SigningProfileVersionArns;
+  SigningProfileVersionArns: string[];
 }
 export const AllowedPublishers = S.suspend(() =>
   S.Struct({ SigningProfileVersionArns: SigningProfileVersionArns }),
 ).annotations({
   identifier: "AllowedPublishers",
 }) as any as S.Schema<AllowedPublishers>;
+export type CodeSigningPolicy = "Warn" | "Enforce";
+export const CodeSigningPolicy = S.Literal("Warn", "Enforce");
 export interface CodeSigningPolicies {
-  UntrustedArtifactOnDeployment?: string;
+  UntrustedArtifactOnDeployment?: CodeSigningPolicy;
 }
 export const CodeSigningPolicies = S.suspend(() =>
-  S.Struct({ UntrustedArtifactOnDeployment: S.optional(S.String) }),
+  S.Struct({ UntrustedArtifactOnDeployment: S.optional(CodeSigningPolicy) }),
 ).annotations({
   identifier: "CodeSigningPolicies",
 }) as any as S.Schema<CodeSigningPolicies>;
@@ -996,19 +1155,38 @@ export const Filter = S.suspend(() =>
 export type FilterList = Filter[];
 export const FilterList = S.Array(Filter);
 export interface FilterCriteria {
-  Filters?: FilterList;
+  Filters?: Filter[];
 }
 export const FilterCriteria = S.suspend(() =>
   S.Struct({ Filters: S.optional(FilterList) }),
 ).annotations({
   identifier: "FilterCriteria",
 }) as any as S.Schema<FilterCriteria>;
+export type SourceAccessType =
+  | "BASIC_AUTH"
+  | "VPC_SUBNET"
+  | "VPC_SECURITY_GROUP"
+  | "SASL_SCRAM_512_AUTH"
+  | "SASL_SCRAM_256_AUTH"
+  | "VIRTUAL_HOST"
+  | "CLIENT_CERTIFICATE_TLS_AUTH"
+  | "SERVER_ROOT_CA_CERTIFICATE";
+export const SourceAccessType = S.Literal(
+  "BASIC_AUTH",
+  "VPC_SUBNET",
+  "VPC_SECURITY_GROUP",
+  "SASL_SCRAM_512_AUTH",
+  "SASL_SCRAM_256_AUTH",
+  "VIRTUAL_HOST",
+  "CLIENT_CERTIFICATE_TLS_AUTH",
+  "SERVER_ROOT_CA_CERTIFICATE",
+);
 export interface SourceAccessConfiguration {
-  Type?: string;
+  Type?: SourceAccessType;
   URI?: string;
 }
 export const SourceAccessConfiguration = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String), URI: S.optional(S.String) }),
+  S.Struct({ Type: S.optional(SourceAccessType), URI: S.optional(S.String) }),
 ).annotations({
   identifier: "SourceAccessConfiguration",
 }) as any as S.Schema<SourceAccessConfiguration>;
@@ -1022,12 +1200,26 @@ export const ScalingConfig = S.suspend(() =>
 ).annotations({
   identifier: "ScalingConfig",
 }) as any as S.Schema<ScalingConfig>;
+export type SchemaRegistryEventRecordFormat = "JSON" | "SOURCE";
+export const SchemaRegistryEventRecordFormat = S.Literal("JSON", "SOURCE");
+export type KafkaSchemaRegistryAuthType =
+  | "BASIC_AUTH"
+  | "CLIENT_CERTIFICATE_TLS_AUTH"
+  | "SERVER_ROOT_CA_CERTIFICATE";
+export const KafkaSchemaRegistryAuthType = S.Literal(
+  "BASIC_AUTH",
+  "CLIENT_CERTIFICATE_TLS_AUTH",
+  "SERVER_ROOT_CA_CERTIFICATE",
+);
 export interface KafkaSchemaRegistryAccessConfig {
-  Type?: string;
+  Type?: KafkaSchemaRegistryAuthType;
   URI?: string;
 }
 export const KafkaSchemaRegistryAccessConfig = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String), URI: S.optional(S.String) }),
+  S.Struct({
+    Type: S.optional(KafkaSchemaRegistryAuthType),
+    URI: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "KafkaSchemaRegistryAccessConfig",
 }) as any as S.Schema<KafkaSchemaRegistryAccessConfig>;
@@ -1036,11 +1228,13 @@ export type KafkaSchemaRegistryAccessConfigList =
 export const KafkaSchemaRegistryAccessConfigList = S.Array(
   KafkaSchemaRegistryAccessConfig,
 );
+export type KafkaSchemaValidationAttribute = "KEY" | "VALUE";
+export const KafkaSchemaValidationAttribute = S.Literal("KEY", "VALUE");
 export interface KafkaSchemaValidationConfig {
-  Attribute?: string;
+  Attribute?: KafkaSchemaValidationAttribute;
 }
 export const KafkaSchemaValidationConfig = S.suspend(() =>
-  S.Struct({ Attribute: S.optional(S.String) }),
+  S.Struct({ Attribute: S.optional(KafkaSchemaValidationAttribute) }),
 ).annotations({
   identifier: "KafkaSchemaValidationConfig",
 }) as any as S.Schema<KafkaSchemaValidationConfig>;
@@ -1050,14 +1244,14 @@ export const KafkaSchemaValidationConfigList = S.Array(
 );
 export interface KafkaSchemaRegistryConfig {
   SchemaRegistryURI?: string;
-  EventRecordFormat?: string;
-  AccessConfigs?: KafkaSchemaRegistryAccessConfigList;
-  SchemaValidationConfigs?: KafkaSchemaValidationConfigList;
+  EventRecordFormat?: SchemaRegistryEventRecordFormat;
+  AccessConfigs?: KafkaSchemaRegistryAccessConfig[];
+  SchemaValidationConfigs?: KafkaSchemaValidationConfig[];
 }
 export const KafkaSchemaRegistryConfig = S.suspend(() =>
   S.Struct({
     SchemaRegistryURI: S.optional(S.String),
-    EventRecordFormat: S.optional(S.String),
+    EventRecordFormat: S.optional(SchemaRegistryEventRecordFormat),
     AccessConfigs: S.optional(KafkaSchemaRegistryAccessConfigList),
     SchemaValidationConfigs: S.optional(KafkaSchemaValidationConfigList),
   }),
@@ -1088,24 +1282,28 @@ export const SelfManagedKafkaEventSourceConfig = S.suspend(() =>
 ).annotations({
   identifier: "SelfManagedKafkaEventSourceConfig",
 }) as any as S.Schema<SelfManagedKafkaEventSourceConfig>;
+export type FullDocument = "UpdateLookup" | "Default";
+export const FullDocument = S.Literal("UpdateLookup", "Default");
 export interface DocumentDBEventSourceConfig {
   DatabaseName?: string;
   CollectionName?: string;
-  FullDocument?: string;
+  FullDocument?: FullDocument;
 }
 export const DocumentDBEventSourceConfig = S.suspend(() =>
   S.Struct({
     DatabaseName: S.optional(S.String),
     CollectionName: S.optional(S.String),
-    FullDocument: S.optional(S.String),
+    FullDocument: S.optional(FullDocument),
   }),
 ).annotations({
   identifier: "DocumentDBEventSourceConfig",
 }) as any as S.Schema<DocumentDBEventSourceConfig>;
-export type EventSourceMappingMetricList = string[];
-export const EventSourceMappingMetricList = S.Array(S.String);
+export type EventSourceMappingMetric = "EventCount";
+export const EventSourceMappingMetric = S.Literal("EventCount");
+export type EventSourceMappingMetricList = EventSourceMappingMetric[];
+export const EventSourceMappingMetricList = S.Array(EventSourceMappingMetric);
 export interface EventSourceMappingMetricsConfig {
-  Metrics?: EventSourceMappingMetricList;
+  Metrics?: EventSourceMappingMetric[];
 }
 export const EventSourceMappingMetricsConfig = S.suspend(() =>
   S.Struct({ Metrics: S.optional(EventSourceMappingMetricList) }),
@@ -1138,9 +1336,9 @@ export interface UpdateEventSourceMappingRequest {
   BisectBatchOnFunctionError?: boolean;
   MaximumRetryAttempts?: number;
   ParallelizationFactor?: number;
-  SourceAccessConfigurations?: SourceAccessConfigurations;
+  SourceAccessConfigurations?: SourceAccessConfiguration[];
   TumblingWindowInSeconds?: number;
-  FunctionResponseTypes?: FunctionResponseTypeList;
+  FunctionResponseTypes?: FunctionResponseType[];
   ScalingConfig?: ScalingConfig;
   AmazonManagedKafkaEventSourceConfig?: AmazonManagedKafkaEventSourceConfig;
   SelfManagedKafkaEventSourceConfig?: SelfManagedKafkaEventSourceConfig;
@@ -1239,14 +1437,16 @@ export const ListEventSourceMappingsRequest = S.suspend(() =>
 }) as any as S.Schema<ListEventSourceMappingsRequest>;
 export interface ListFunctionsRequest {
   MasterRegion?: string;
-  FunctionVersion?: string;
+  FunctionVersion?: FunctionVersion;
   Marker?: string;
   MaxItems?: number;
 }
 export const ListFunctionsRequest = S.suspend(() =>
   S.Struct({
     MasterRegion: S.optional(S.String).pipe(T.HttpQuery("MasterRegion")),
-    FunctionVersion: S.optional(S.String).pipe(T.HttpQuery("FunctionVersion")),
+    FunctionVersion: S.optional(FunctionVersion).pipe(
+      T.HttpQuery("FunctionVersion"),
+    ),
     Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
   }).pipe(
@@ -1440,7 +1640,7 @@ export const PutFunctionConcurrencyRequest = S.suspend(() =>
 }) as any as S.Schema<PutFunctionConcurrencyRequest>;
 export interface UpdateFunctionCodeRequest {
   FunctionName: string;
-  ZipFile?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  ZipFile?: Uint8Array | redacted.Redacted<Uint8Array>;
   S3Bucket?: string;
   S3Key?: string;
   S3ObjectVersion?: string;
@@ -1448,9 +1648,9 @@ export interface UpdateFunctionCodeRequest {
   Publish?: boolean;
   DryRun?: boolean;
   RevisionId?: string;
-  Architectures?: ArchitecturesList;
+  Architectures?: Architecture[];
   SourceKMSKeyArn?: string;
-  PublishTo?: string;
+  PublishTo?: FunctionVersionLatestPublished;
 }
 export const UpdateFunctionCodeRequest = S.suspend(() =>
   S.Struct({
@@ -1465,7 +1665,7 @@ export const UpdateFunctionCodeRequest = S.suspend(() =>
     RevisionId: S.optional(S.String),
     Architectures: S.optional(ArchitecturesList),
     SourceKMSKeyArn: S.optional(S.String),
-    PublishTo: S.optional(S.String),
+    PublishTo: S.optional(FunctionVersionLatestPublished),
   }).pipe(
     T.all(
       T.Http({
@@ -1487,8 +1687,8 @@ export const SubnetIds = S.Array(S.String);
 export type SecurityGroupIds = string[];
 export const SecurityGroupIds = S.Array(S.String);
 export interface VpcConfig {
-  SubnetIds?: SubnetIds;
-  SecurityGroupIds?: SecurityGroupIds;
+  SubnetIds?: string[];
+  SecurityGroupIds?: string[];
   Ipv6AllowedForDualStack?: boolean;
 }
 export const VpcConfig = S.suspend(() =>
@@ -1499,14 +1699,14 @@ export const VpcConfig = S.suspend(() =>
   }),
 ).annotations({ identifier: "VpcConfig" }) as any as S.Schema<VpcConfig>;
 export type EnvironmentVariables = {
-  [key: string]: string | Redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string>;
 };
 export const EnvironmentVariables = S.Record({
   key: S.String,
   value: SensitiveString,
 });
 export interface Environment {
-  Variables?: EnvironmentVariables;
+  Variables?: { [key: string]: string | redacted.Redacted<string> };
 }
 export const Environment = S.suspend(() =>
   S.Struct({ Variables: S.optional(EnvironmentVariables) }),
@@ -1519,11 +1719,13 @@ export const DeadLetterConfig = S.suspend(() =>
 ).annotations({
   identifier: "DeadLetterConfig",
 }) as any as S.Schema<DeadLetterConfig>;
+export type TracingMode = "Active" | "PassThrough";
+export const TracingMode = S.Literal("Active", "PassThrough");
 export interface TracingConfig {
-  Mode?: string;
+  Mode?: TracingMode;
 }
 export const TracingConfig = S.suspend(() =>
-  S.Struct({ Mode: S.optional(S.String) }),
+  S.Struct({ Mode: S.optional(TracingMode) }),
 ).annotations({
   identifier: "TracingConfig",
 }) as any as S.Schema<TracingConfig>;
@@ -1541,8 +1743,8 @@ export const FileSystemConfigList = S.Array(FileSystemConfig);
 export type StringList = string[];
 export const StringList = S.Array(S.String);
 export interface ImageConfig {
-  EntryPoint?: StringList;
-  Command?: StringList;
+  EntryPoint?: string[];
+  Command?: string[];
   WorkingDirectory?: string;
 }
 export const ImageConfig = S.suspend(() =>
@@ -1560,23 +1762,44 @@ export const EphemeralStorage = S.suspend(() =>
 ).annotations({
   identifier: "EphemeralStorage",
 }) as any as S.Schema<EphemeralStorage>;
+export type SnapStartApplyOn = "PublishedVersions" | "None";
+export const SnapStartApplyOn = S.Literal("PublishedVersions", "None");
 export interface SnapStart {
-  ApplyOn?: string;
+  ApplyOn?: SnapStartApplyOn;
 }
 export const SnapStart = S.suspend(() =>
-  S.Struct({ ApplyOn: S.optional(S.String) }),
+  S.Struct({ ApplyOn: S.optional(SnapStartApplyOn) }),
 ).annotations({ identifier: "SnapStart" }) as any as S.Schema<SnapStart>;
+export type LogFormat = "JSON" | "Text";
+export const LogFormat = S.Literal("JSON", "Text");
+export type ApplicationLogLevel =
+  | "TRACE"
+  | "DEBUG"
+  | "INFO"
+  | "WARN"
+  | "ERROR"
+  | "FATAL";
+export const ApplicationLogLevel = S.Literal(
+  "TRACE",
+  "DEBUG",
+  "INFO",
+  "WARN",
+  "ERROR",
+  "FATAL",
+);
+export type SystemLogLevel = "DEBUG" | "INFO" | "WARN";
+export const SystemLogLevel = S.Literal("DEBUG", "INFO", "WARN");
 export interface LoggingConfig {
-  LogFormat?: string;
-  ApplicationLogLevel?: string;
-  SystemLogLevel?: string;
+  LogFormat?: LogFormat;
+  ApplicationLogLevel?: ApplicationLogLevel;
+  SystemLogLevel?: SystemLogLevel;
   LogGroup?: string;
 }
 export const LoggingConfig = S.suspend(() =>
   S.Struct({
-    LogFormat: S.optional(S.String),
-    ApplicationLogLevel: S.optional(S.String),
-    SystemLogLevel: S.optional(S.String),
+    LogFormat: S.optional(LogFormat),
+    ApplicationLogLevel: S.optional(ApplicationLogLevel),
+    SystemLogLevel: S.optional(SystemLogLevel),
     LogGroup: S.optional(S.String),
   }),
 ).annotations({
@@ -1628,13 +1851,13 @@ export interface UpdateFunctionConfigurationRequest {
   MemorySize?: number;
   VpcConfig?: VpcConfig;
   Environment?: Environment;
-  Runtime?: string;
+  Runtime?: Runtime;
   DeadLetterConfig?: DeadLetterConfig;
   KMSKeyArn?: string;
   TracingConfig?: TracingConfig;
   RevisionId?: string;
-  Layers?: LayerList;
-  FileSystemConfigs?: FileSystemConfigList;
+  Layers?: string[];
+  FileSystemConfigs?: FileSystemConfig[];
   ImageConfig?: ImageConfig;
   EphemeralStorage?: EphemeralStorage;
   SnapStart?: SnapStart;
@@ -1652,7 +1875,7 @@ export const UpdateFunctionConfigurationRequest = S.suspend(() =>
     MemorySize: S.optional(S.Number),
     VpcConfig: S.optional(VpcConfig),
     Environment: S.optional(Environment),
-    Runtime: S.optional(S.String),
+    Runtime: S.optional(Runtime),
     DeadLetterConfig: S.optional(DeadLetterConfig),
     KMSKeyArn: S.optional(S.String),
     TracingConfig: S.optional(TracingConfig),
@@ -1689,10 +1912,10 @@ export type AllowOriginsList = string[];
 export const AllowOriginsList = S.Array(S.String);
 export interface Cors {
   AllowCredentials?: boolean;
-  AllowHeaders?: HeadersList;
-  AllowMethods?: AllowMethodsList;
-  AllowOrigins?: AllowOriginsList;
-  ExposeHeaders?: HeadersList;
+  AllowHeaders?: string[];
+  AllowMethods?: string[];
+  AllowOrigins?: string[];
+  ExposeHeaders?: string[];
   MaxAge?: number;
 }
 export const Cors = S.suspend(() =>
@@ -1708,17 +1931,17 @@ export const Cors = S.suspend(() =>
 export interface UpdateFunctionUrlConfigRequest {
   FunctionName: string;
   Qualifier?: string;
-  AuthType?: string;
+  AuthType?: FunctionUrlAuthType;
   Cors?: Cors;
-  InvokeMode?: string;
+  InvokeMode?: InvokeMode;
 }
 export const UpdateFunctionUrlConfigRequest = S.suspend(() =>
   S.Struct({
     FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
-    AuthType: S.optional(S.String),
+    AuthType: S.optional(FunctionUrlAuthType),
     Cors: S.optional(Cors),
-    InvokeMode: S.optional(S.String),
+    InvokeMode: S.optional(InvokeMode),
   }).pipe(
     T.all(
       T.Http({
@@ -1920,8 +2143,8 @@ export const GetRuntimeManagementConfigRequest = S.suspend(() =>
 }) as any as S.Schema<GetRuntimeManagementConfigRequest>;
 export interface InvocationRequest {
   FunctionName: string;
-  InvocationType?: string;
-  LogType?: string;
+  InvocationType?: InvocationType;
+  LogType?: LogType;
   ClientContext?: string;
   DurableExecutionName?: string;
   Payload?: T.StreamingInputBody;
@@ -1931,10 +2154,10 @@ export interface InvocationRequest {
 export const InvocationRequest = S.suspend(() =>
   S.Struct({
     FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
-    InvocationType: S.optional(S.String).pipe(
+    InvocationType: S.optional(InvocationType).pipe(
       T.HttpHeader("X-Amz-Invocation-Type"),
     ),
-    LogType: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Log-Type")),
+    LogType: S.optional(LogType).pipe(T.HttpHeader("X-Amz-Log-Type")),
     ClientContext: S.optional(S.String).pipe(
       T.HttpHeader("X-Amz-Client-Context"),
     ),
@@ -1986,8 +2209,8 @@ export const InvokeAsyncRequest = S.suspend(() =>
 }) as any as S.Schema<InvokeAsyncRequest>;
 export interface InvokeWithResponseStreamRequest {
   FunctionName: string;
-  InvocationType?: string;
-  LogType?: string;
+  InvocationType?: ResponseStreamingInvocationType;
+  LogType?: LogType;
   ClientContext?: string;
   Qualifier?: string;
   Payload?: T.StreamingInputBody;
@@ -1996,10 +2219,10 @@ export interface InvokeWithResponseStreamRequest {
 export const InvokeWithResponseStreamRequest = S.suspend(() =>
   S.Struct({
     FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
-    InvocationType: S.optional(S.String).pipe(
+    InvocationType: S.optional(ResponseStreamingInvocationType).pipe(
       T.HttpHeader("X-Amz-Invocation-Type"),
     ),
-    LogType: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Log-Type")),
+    LogType: S.optional(LogType).pipe(T.HttpHeader("X-Amz-Log-Type")),
     ClientContext: S.optional(S.String).pipe(
       T.HttpHeader("X-Amz-Client-Context"),
     ),
@@ -2048,12 +2271,12 @@ export const PutFunctionCodeSigningConfigRequest = S.suspend(() =>
 }) as any as S.Schema<PutFunctionCodeSigningConfigRequest>;
 export interface PutFunctionRecursionConfigRequest {
   FunctionName: string;
-  RecursiveLoop: string;
+  RecursiveLoop: RecursiveLoop;
 }
 export const PutFunctionRecursionConfigRequest = S.suspend(() =>
   S.Struct({
     FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
-    RecursiveLoop: S.String,
+    RecursiveLoop: RecursiveLoop,
   }).pipe(
     T.all(
       T.Http({
@@ -2073,14 +2296,14 @@ export const PutFunctionRecursionConfigRequest = S.suspend(() =>
 export interface PutRuntimeManagementConfigRequest {
   FunctionName: string;
   Qualifier?: string;
-  UpdateRuntimeOn: string;
+  UpdateRuntimeOn: UpdateRuntimeOn;
   RuntimeVersionArn?: string;
 }
 export const PutRuntimeManagementConfigRequest = S.suspend(() =>
   S.Struct({
     FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
-    UpdateRuntimeOn: S.String,
+    UpdateRuntimeOn: UpdateRuntimeOn,
     RuntimeVersionArn: S.optional(S.String),
   }).pipe(
     T.all(
@@ -2128,7 +2351,7 @@ export const AdditionalVersionWeights = S.Record({
   value: S.Number,
 });
 export interface AliasRoutingConfiguration {
-  AdditionalVersionWeights?: AdditionalVersionWeights;
+  AdditionalVersionWeights?: { [key: string]: number };
 }
 export const AliasRoutingConfiguration = S.suspend(() =>
   S.Struct({ AdditionalVersionWeights: S.optional(AdditionalVersionWeights) }),
@@ -2228,7 +2451,7 @@ export interface PublishVersionRequest {
   CodeSha256?: string;
   Description?: string;
   RevisionId?: string;
-  PublishTo?: string;
+  PublishTo?: FunctionVersionLatestPublished;
 }
 export const PublishVersionRequest = S.suspend(() =>
   S.Struct({
@@ -2236,7 +2459,7 @@ export const PublishVersionRequest = S.suspend(() =>
     CodeSha256: S.optional(S.String),
     Description: S.optional(S.String),
     RevisionId: S.optional(S.String),
-    PublishTo: S.optional(S.String),
+    PublishTo: S.optional(FunctionVersionLatestPublished),
   }).pipe(
     T.all(
       T.Http({
@@ -2280,19 +2503,19 @@ export const ListVersionsByFunctionRequest = S.suspend(() =>
   identifier: "ListVersionsByFunctionRequest",
 }) as any as S.Schema<ListVersionsByFunctionRequest>;
 export interface ListLayersRequest {
-  CompatibleRuntime?: string;
+  CompatibleRuntime?: Runtime;
   Marker?: string;
   MaxItems?: number;
-  CompatibleArchitecture?: string;
+  CompatibleArchitecture?: Architecture;
 }
 export const ListLayersRequest = S.suspend(() =>
   S.Struct({
-    CompatibleRuntime: S.optional(S.String).pipe(
+    CompatibleRuntime: S.optional(Runtime).pipe(
       T.HttpQuery("CompatibleRuntime"),
     ),
     Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-    CompatibleArchitecture: S.optional(S.String).pipe(
+    CompatibleArchitecture: S.optional(Architecture).pipe(
       T.HttpQuery("CompatibleArchitecture"),
     ),
   }).pipe(
@@ -2309,21 +2532,21 @@ export const ListLayersRequest = S.suspend(() =>
   identifier: "ListLayersRequest",
 }) as any as S.Schema<ListLayersRequest>;
 export interface ListLayerVersionsRequest {
-  CompatibleRuntime?: string;
+  CompatibleRuntime?: Runtime;
   LayerName: string;
   Marker?: string;
   MaxItems?: number;
-  CompatibleArchitecture?: string;
+  CompatibleArchitecture?: Architecture;
 }
 export const ListLayerVersionsRequest = S.suspend(() =>
   S.Struct({
-    CompatibleRuntime: S.optional(S.String).pipe(
+    CompatibleRuntime: S.optional(Runtime).pipe(
       T.HttpQuery("CompatibleRuntime"),
     ),
     LayerName: S.String.pipe(T.HttpLabel("LayerName")),
     Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-    CompatibleArchitecture: S.optional(S.String).pipe(
+    CompatibleArchitecture: S.optional(Architecture).pipe(
       T.HttpQuery("CompatibleArchitecture"),
     ),
   }).pipe(
@@ -2513,7 +2736,7 @@ export interface AddPermissionRequest {
   Qualifier?: string;
   RevisionId?: string;
   PrincipalOrgID?: string;
-  FunctionUrlAuthType?: string;
+  FunctionUrlAuthType?: FunctionUrlAuthType;
   InvokedViaFunctionUrl?: boolean;
 }
 export const AddPermissionRequest = S.suspend(() =>
@@ -2528,7 +2751,7 @@ export const AddPermissionRequest = S.suspend(() =>
     Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
     RevisionId: S.optional(S.String),
     PrincipalOrgID: S.optional(S.String),
-    FunctionUrlAuthType: S.optional(S.String),
+    FunctionUrlAuthType: S.optional(FunctionUrlAuthType),
     InvokedViaFunctionUrl: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -2660,12 +2883,37 @@ export const DeleteProvisionedConcurrencyConfigResponse = S.suspend(() =>
 ).annotations({
   identifier: "DeleteProvisionedConcurrencyConfigResponse",
 }) as any as S.Schema<DeleteProvisionedConcurrencyConfigResponse>;
+export type OperationType =
+  | "EXECUTION"
+  | "CONTEXT"
+  | "STEP"
+  | "WAIT"
+  | "CALLBACK"
+  | "CHAINED_INVOKE";
+export const OperationType = S.Literal(
+  "EXECUTION",
+  "CONTEXT",
+  "STEP",
+  "WAIT",
+  "CALLBACK",
+  "CHAINED_INVOKE",
+);
+export type OperationAction = "START" | "SUCCEED" | "FAIL" | "RETRY" | "CANCEL";
+export const OperationAction = S.Literal(
+  "START",
+  "SUCCEED",
+  "FAIL",
+  "RETRY",
+  "CANCEL",
+);
 export type CapacityProviderSubnetIds = string[];
 export const CapacityProviderSubnetIds = S.Array(S.String);
 export type CapacityProviderSecurityGroupIds = string[];
 export const CapacityProviderSecurityGroupIds = S.Array(S.String);
 export type InstanceTypeSet = string[];
 export const InstanceTypeSet = S.Array(S.String);
+export type TenantIsolationMode = "PER_TENANT";
+export const TenantIsolationMode = S.Literal("PER_TENANT");
 export interface AccountLimit {
   TotalCodeSize?: number;
   CodeSizeUnzipped?: number;
@@ -2715,8 +2963,8 @@ export const FunctionEventInvokeConfigList = S.Array(FunctionEventInvokeConfig);
 export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
 export interface CapacityProviderVpcConfig {
-  SubnetIds: CapacityProviderSubnetIds;
-  SecurityGroupIds: CapacityProviderSecurityGroupIds;
+  SubnetIds: string[];
+  SecurityGroupIds: string[];
 }
 export const CapacityProviderVpcConfig = S.suspend(() =>
   S.Struct({
@@ -2735,9 +2983,9 @@ export const CapacityProviderPermissionsConfig = S.suspend(() =>
   identifier: "CapacityProviderPermissionsConfig",
 }) as any as S.Schema<CapacityProviderPermissionsConfig>;
 export interface InstanceRequirements {
-  Architectures?: ArchitecturesList;
-  AllowedInstanceTypes?: InstanceTypeSet;
-  ExcludedInstanceTypes?: InstanceTypeSet;
+  Architectures?: Architecture[];
+  AllowedInstanceTypes?: string[];
+  ExcludedInstanceTypes?: string[];
 }
 export const InstanceRequirements = S.suspend(() =>
   S.Struct({
@@ -2750,7 +2998,7 @@ export const InstanceRequirements = S.suspend(() =>
 }) as any as S.Schema<InstanceRequirements>;
 export interface CapacityProvider {
   CapacityProviderArn: string;
-  State: string;
+  State: CapacityProviderState;
   VpcConfig: CapacityProviderVpcConfig;
   PermissionsConfig: CapacityProviderPermissionsConfig;
   InstanceRequirements?: InstanceRequirements;
@@ -2761,7 +3009,7 @@ export interface CapacityProvider {
 export const CapacityProvider = S.suspend(() =>
   S.Struct({
     CapacityProviderArn: S.String,
-    State: S.String,
+    State: CapacityProviderState,
     VpcConfig: CapacityProviderVpcConfig,
     PermissionsConfig: CapacityProviderPermissionsConfig,
     InstanceRequirements: S.optional(InstanceRequirements),
@@ -2776,12 +3024,16 @@ export type CapacityProvidersList = CapacityProvider[];
 export const CapacityProvidersList = S.Array(CapacityProvider);
 export type FunctionArnList = string[];
 export const FunctionArnList = S.Array(S.String);
+export type EndPointType = "KAFKA_BOOTSTRAP_SERVERS";
+export const EndPointType = S.Literal("KAFKA_BOOTSTRAP_SERVERS");
 export type EndpointLists = string[];
 export const EndpointLists = S.Array(S.String);
-export type Endpoints = { [key: string]: EndpointLists };
-export const Endpoints = S.Record({ key: S.String, value: EndpointLists });
+export type Endpoints = { [key in EndPointType]?: string[] };
+export const Endpoints = S.partial(
+  S.Record({ key: EndPointType, value: EndpointLists }),
+);
 export interface SelfManagedEventSource {
-  Endpoints?: Endpoints;
+  Endpoints?: { [key: string]: string[] };
 }
 export const SelfManagedEventSource = S.suspend(() =>
   S.Struct({ Endpoints: S.optional(Endpoints) }),
@@ -2799,7 +3051,7 @@ export const FilterCriteriaError = S.suspend(() =>
 }) as any as S.Schema<FilterCriteriaError>;
 export interface EventSourceMappingConfiguration {
   UUID?: string;
-  StartingPosition?: string;
+  StartingPosition?: EventSourcePosition;
   StartingPositionTimestamp?: Date;
   BatchSize?: number;
   MaximumBatchingWindowInSeconds?: number;
@@ -2812,15 +3064,15 @@ export interface EventSourceMappingConfiguration {
   State?: string;
   StateTransitionReason?: string;
   DestinationConfig?: DestinationConfig;
-  Topics?: Topics;
-  Queues?: Queues;
-  SourceAccessConfigurations?: SourceAccessConfigurations;
+  Topics?: string[];
+  Queues?: string[];
+  SourceAccessConfigurations?: SourceAccessConfiguration[];
   SelfManagedEventSource?: SelfManagedEventSource;
   MaximumRecordAgeInSeconds?: number;
   BisectBatchOnFunctionError?: boolean;
   MaximumRetryAttempts?: number;
   TumblingWindowInSeconds?: number;
-  FunctionResponseTypes?: FunctionResponseTypeList;
+  FunctionResponseTypes?: FunctionResponseType[];
   AmazonManagedKafkaEventSourceConfig?: AmazonManagedKafkaEventSourceConfig;
   SelfManagedKafkaEventSourceConfig?: SelfManagedKafkaEventSourceConfig;
   ScalingConfig?: ScalingConfig;
@@ -2834,7 +3086,7 @@ export interface EventSourceMappingConfiguration {
 export const EventSourceMappingConfiguration = S.suspend(() =>
   S.Struct({
     UUID: S.optional(S.String),
-    StartingPosition: S.optional(S.String),
+    StartingPosition: S.optional(EventSourcePosition),
     StartingPositionTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -2878,7 +3130,7 @@ export const EventSourceMappingConfiguration = S.suspend(() =>
 export type EventSourceMappingsList = EventSourceMappingConfiguration[];
 export const EventSourceMappingsList = S.Array(EventSourceMappingConfiguration);
 export interface FunctionCode {
-  ZipFile?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  ZipFile?: Uint8Array | redacted.Redacted<Uint8Array>;
   S3Bucket?: string;
   S3Key?: string;
   S3ObjectVersion?: string;
@@ -2896,16 +3148,16 @@ export const FunctionCode = S.suspend(() =>
   }),
 ).annotations({ identifier: "FunctionCode" }) as any as S.Schema<FunctionCode>;
 export interface TenancyConfig {
-  TenantIsolationMode: string;
+  TenantIsolationMode: TenantIsolationMode;
 }
 export const TenancyConfig = S.suspend(() =>
-  S.Struct({ TenantIsolationMode: S.String }),
+  S.Struct({ TenantIsolationMode: TenantIsolationMode }),
 ).annotations({
   identifier: "TenancyConfig",
 }) as any as S.Schema<TenancyConfig>;
 export interface VpcConfigResponse {
-  SubnetIds?: SubnetIds;
-  SecurityGroupIds?: SecurityGroupIds;
+  SubnetIds?: string[];
+  SecurityGroupIds?: string[];
   VpcId?: string;
   Ipv6AllowedForDualStack?: boolean;
 }
@@ -2921,7 +3173,7 @@ export const VpcConfigResponse = S.suspend(() =>
 }) as any as S.Schema<VpcConfigResponse>;
 export interface EnvironmentError {
   ErrorCode?: string;
-  Message?: string | Redacted.Redacted<string>;
+  Message?: string | redacted.Redacted<string>;
 }
 export const EnvironmentError = S.suspend(() =>
   S.Struct({
@@ -2932,7 +3184,7 @@ export const EnvironmentError = S.suspend(() =>
   identifier: "EnvironmentError",
 }) as any as S.Schema<EnvironmentError>;
 export interface EnvironmentResponse {
-  Variables?: EnvironmentVariables;
+  Variables?: { [key: string]: string | redacted.Redacted<string> };
   Error?: EnvironmentError;
 }
 export const EnvironmentResponse = S.suspend(() =>
@@ -2944,10 +3196,10 @@ export const EnvironmentResponse = S.suspend(() =>
   identifier: "EnvironmentResponse",
 }) as any as S.Schema<EnvironmentResponse>;
 export interface TracingConfigResponse {
-  Mode?: string;
+  Mode?: TracingMode;
 }
 export const TracingConfigResponse = S.suspend(() =>
-  S.Struct({ Mode: S.optional(S.String) }),
+  S.Struct({ Mode: S.optional(TracingMode) }),
 ).annotations({
   identifier: "TracingConfigResponse",
 }) as any as S.Schema<TracingConfigResponse>;
@@ -2967,9 +3219,184 @@ export const Layer = S.suspend(() =>
 ).annotations({ identifier: "Layer" }) as any as S.Schema<Layer>;
 export type LayersReferenceList = Layer[];
 export const LayersReferenceList = S.Array(Layer);
+export type State =
+  | "Pending"
+  | "Active"
+  | "Inactive"
+  | "Failed"
+  | "Deactivating"
+  | "Deactivated"
+  | "ActiveNonInvocable"
+  | "Deleting";
+export const State = S.Literal(
+  "Pending",
+  "Active",
+  "Inactive",
+  "Failed",
+  "Deactivating",
+  "Deactivated",
+  "ActiveNonInvocable",
+  "Deleting",
+);
+export type StateReasonCode =
+  | "Idle"
+  | "Creating"
+  | "Restoring"
+  | "EniLimitExceeded"
+  | "InsufficientRolePermissions"
+  | "InvalidConfiguration"
+  | "InternalError"
+  | "SubnetOutOfIPAddresses"
+  | "InvalidSubnet"
+  | "InvalidSecurityGroup"
+  | "ImageDeleted"
+  | "ImageAccessDenied"
+  | "InvalidImage"
+  | "KMSKeyAccessDenied"
+  | "KMSKeyNotFound"
+  | "InvalidStateKMSKey"
+  | "DisabledKMSKey"
+  | "EFSIOError"
+  | "EFSMountConnectivityError"
+  | "EFSMountFailure"
+  | "EFSMountTimeout"
+  | "InvalidRuntime"
+  | "InvalidZipFileException"
+  | "FunctionError"
+  | "DrainingDurableExecutions"
+  | "VcpuLimitExceeded"
+  | "CapacityProviderScalingLimitExceeded"
+  | "InsufficientCapacity"
+  | "EC2RequestLimitExceeded"
+  | "FunctionError.InitTimeout"
+  | "FunctionError.RuntimeInitError"
+  | "FunctionError.ExtensionInitError"
+  | "FunctionError.InvalidEntryPoint"
+  | "FunctionError.InvalidWorkingDirectory"
+  | "FunctionError.PermissionDenied"
+  | "FunctionError.TooManyExtensions"
+  | "FunctionError.InitResourceExhausted"
+  | "DisallowedByVpcEncryptionControl"
+  | "Creating";
+export const StateReasonCode = S.Literal(
+  "Idle",
+  "Creating",
+  "Restoring",
+  "EniLimitExceeded",
+  "InsufficientRolePermissions",
+  "InvalidConfiguration",
+  "InternalError",
+  "SubnetOutOfIPAddresses",
+  "InvalidSubnet",
+  "InvalidSecurityGroup",
+  "ImageDeleted",
+  "ImageAccessDenied",
+  "InvalidImage",
+  "KMSKeyAccessDenied",
+  "KMSKeyNotFound",
+  "InvalidStateKMSKey",
+  "DisabledKMSKey",
+  "EFSIOError",
+  "EFSMountConnectivityError",
+  "EFSMountFailure",
+  "EFSMountTimeout",
+  "InvalidRuntime",
+  "InvalidZipFileException",
+  "FunctionError",
+  "DrainingDurableExecutions",
+  "VcpuLimitExceeded",
+  "CapacityProviderScalingLimitExceeded",
+  "InsufficientCapacity",
+  "EC2RequestLimitExceeded",
+  "FunctionError.InitTimeout",
+  "FunctionError.RuntimeInitError",
+  "FunctionError.ExtensionInitError",
+  "FunctionError.InvalidEntryPoint",
+  "FunctionError.InvalidWorkingDirectory",
+  "FunctionError.PermissionDenied",
+  "FunctionError.TooManyExtensions",
+  "FunctionError.InitResourceExhausted",
+  "DisallowedByVpcEncryptionControl",
+  "Creating",
+);
+export type LastUpdateStatus = "Successful" | "Failed" | "InProgress";
+export const LastUpdateStatus = S.Literal("Successful", "Failed", "InProgress");
+export type LastUpdateStatusReasonCode =
+  | "EniLimitExceeded"
+  | "InsufficientRolePermissions"
+  | "InvalidConfiguration"
+  | "InternalError"
+  | "SubnetOutOfIPAddresses"
+  | "InvalidSubnet"
+  | "InvalidSecurityGroup"
+  | "ImageDeleted"
+  | "ImageAccessDenied"
+  | "InvalidImage"
+  | "KMSKeyAccessDenied"
+  | "KMSKeyNotFound"
+  | "InvalidStateKMSKey"
+  | "DisabledKMSKey"
+  | "EFSIOError"
+  | "EFSMountConnectivityError"
+  | "EFSMountFailure"
+  | "EFSMountTimeout"
+  | "InvalidRuntime"
+  | "InvalidZipFileException"
+  | "FunctionError"
+  | "VcpuLimitExceeded"
+  | "CapacityProviderScalingLimitExceeded"
+  | "InsufficientCapacity"
+  | "EC2RequestLimitExceeded"
+  | "FunctionError.InitTimeout"
+  | "FunctionError.RuntimeInitError"
+  | "FunctionError.ExtensionInitError"
+  | "FunctionError.InvalidEntryPoint"
+  | "FunctionError.InvalidWorkingDirectory"
+  | "FunctionError.PermissionDenied"
+  | "FunctionError.TooManyExtensions"
+  | "FunctionError.InitResourceExhausted"
+  | "DisallowedByVpcEncryptionControl"
+  | "Creating";
+export const LastUpdateStatusReasonCode = S.Literal(
+  "EniLimitExceeded",
+  "InsufficientRolePermissions",
+  "InvalidConfiguration",
+  "InternalError",
+  "SubnetOutOfIPAddresses",
+  "InvalidSubnet",
+  "InvalidSecurityGroup",
+  "ImageDeleted",
+  "ImageAccessDenied",
+  "InvalidImage",
+  "KMSKeyAccessDenied",
+  "KMSKeyNotFound",
+  "InvalidStateKMSKey",
+  "DisabledKMSKey",
+  "EFSIOError",
+  "EFSMountConnectivityError",
+  "EFSMountFailure",
+  "EFSMountTimeout",
+  "InvalidRuntime",
+  "InvalidZipFileException",
+  "FunctionError",
+  "VcpuLimitExceeded",
+  "CapacityProviderScalingLimitExceeded",
+  "InsufficientCapacity",
+  "EC2RequestLimitExceeded",
+  "FunctionError.InitTimeout",
+  "FunctionError.RuntimeInitError",
+  "FunctionError.ExtensionInitError",
+  "FunctionError.InvalidEntryPoint",
+  "FunctionError.InvalidWorkingDirectory",
+  "FunctionError.PermissionDenied",
+  "FunctionError.TooManyExtensions",
+  "FunctionError.InitResourceExhausted",
+  "DisallowedByVpcEncryptionControl",
+  "Creating",
+);
 export interface ImageConfigError {
   ErrorCode?: string;
-  Message?: string | Redacted.Redacted<string>;
+  Message?: string | redacted.Redacted<string>;
 }
 export const ImageConfigError = S.suspend(() =>
   S.Struct({
@@ -2991,21 +3418,23 @@ export const ImageConfigResponse = S.suspend(() =>
 ).annotations({
   identifier: "ImageConfigResponse",
 }) as any as S.Schema<ImageConfigResponse>;
+export type SnapStartOptimizationStatus = "On" | "Off";
+export const SnapStartOptimizationStatus = S.Literal("On", "Off");
 export interface SnapStartResponse {
-  ApplyOn?: string;
-  OptimizationStatus?: string;
+  ApplyOn?: SnapStartApplyOn;
+  OptimizationStatus?: SnapStartOptimizationStatus;
 }
 export const SnapStartResponse = S.suspend(() =>
   S.Struct({
-    ApplyOn: S.optional(S.String),
-    OptimizationStatus: S.optional(S.String),
+    ApplyOn: S.optional(SnapStartApplyOn),
+    OptimizationStatus: S.optional(SnapStartOptimizationStatus),
   }),
 ).annotations({
   identifier: "SnapStartResponse",
 }) as any as S.Schema<SnapStartResponse>;
 export interface RuntimeVersionError {
   ErrorCode?: string;
-  Message?: string | Redacted.Redacted<string>;
+  Message?: string | redacted.Redacted<string>;
 }
 export const RuntimeVersionError = S.suspend(() =>
   S.Struct({
@@ -3030,7 +3459,7 @@ export const RuntimeVersionConfig = S.suspend(() =>
 export interface FunctionConfiguration {
   FunctionName?: string;
   FunctionArn?: string;
-  Runtime?: string;
+  Runtime?: Runtime;
   Role?: string;
   Handler?: string;
   CodeSize?: number;
@@ -3047,19 +3476,19 @@ export interface FunctionConfiguration {
   TracingConfig?: TracingConfigResponse;
   MasterArn?: string;
   RevisionId?: string;
-  Layers?: LayersReferenceList;
-  State?: string;
+  Layers?: Layer[];
+  State?: State;
   StateReason?: string;
-  StateReasonCode?: string;
-  LastUpdateStatus?: string;
+  StateReasonCode?: StateReasonCode;
+  LastUpdateStatus?: LastUpdateStatus;
   LastUpdateStatusReason?: string;
-  LastUpdateStatusReasonCode?: string;
-  FileSystemConfigs?: FileSystemConfigList;
-  PackageType?: string;
+  LastUpdateStatusReasonCode?: LastUpdateStatusReasonCode;
+  FileSystemConfigs?: FileSystemConfig[];
+  PackageType?: PackageType;
   ImageConfigResponse?: ImageConfigResponse;
   SigningProfileVersionArn?: string;
   SigningJobArn?: string;
-  Architectures?: ArchitecturesList;
+  Architectures?: Architecture[];
   EphemeralStorage?: EphemeralStorage;
   SnapStart?: SnapStartResponse;
   RuntimeVersionConfig?: RuntimeVersionConfig;
@@ -3073,7 +3502,7 @@ export const FunctionConfiguration = S.suspend(() =>
   S.Struct({
     FunctionName: S.optional(S.String),
     FunctionArn: S.optional(S.String),
-    Runtime: S.optional(S.String),
+    Runtime: S.optional(Runtime),
     Role: S.optional(S.String),
     Handler: S.optional(S.String),
     CodeSize: S.optional(S.Number),
@@ -3091,14 +3520,14 @@ export const FunctionConfiguration = S.suspend(() =>
     MasterArn: S.optional(S.String),
     RevisionId: S.optional(S.String),
     Layers: S.optional(LayersReferenceList),
-    State: S.optional(S.String),
+    State: S.optional(State),
     StateReason: S.optional(S.String),
-    StateReasonCode: S.optional(S.String),
-    LastUpdateStatus: S.optional(S.String),
+    StateReasonCode: S.optional(StateReasonCode),
+    LastUpdateStatus: S.optional(LastUpdateStatus),
     LastUpdateStatusReason: S.optional(S.String),
-    LastUpdateStatusReasonCode: S.optional(S.String),
+    LastUpdateStatusReasonCode: S.optional(LastUpdateStatusReasonCode),
     FileSystemConfigs: S.optional(FileSystemConfigList),
-    PackageType: S.optional(S.String),
+    PackageType: S.optional(PackageType),
     ImageConfigResponse: S.optional(ImageConfigResponse),
     SigningProfileVersionArn: S.optional(S.String),
     SigningJobArn: S.optional(S.String),
@@ -3155,7 +3584,7 @@ export interface LayerVersionContentInput {
   S3Bucket?: string;
   S3Key?: string;
   S3ObjectVersion?: string;
-  ZipFile?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  ZipFile?: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export const LayerVersionContentInput = S.suspend(() =>
   S.Struct({
@@ -3167,6 +3596,15 @@ export const LayerVersionContentInput = S.suspend(() =>
 ).annotations({
   identifier: "LayerVersionContentInput",
 }) as any as S.Schema<LayerVersionContentInput>;
+export type ProvisionedConcurrencyStatusEnum =
+  | "IN_PROGRESS"
+  | "READY"
+  | "FAILED";
+export const ProvisionedConcurrencyStatusEnum = S.Literal(
+  "IN_PROGRESS",
+  "READY",
+  "FAILED",
+);
 export interface DeleteFunctionResponse {
   StatusCode?: number;
 }
@@ -3188,7 +3626,7 @@ export const GetAccountSettingsResponse = S.suspend(() =>
   identifier: "GetAccountSettingsResponse",
 }) as any as S.Schema<GetAccountSettingsResponse>;
 export interface ListFunctionEventInvokeConfigsResponse {
-  FunctionEventInvokeConfigs?: FunctionEventInvokeConfigList;
+  FunctionEventInvokeConfigs?: FunctionEventInvokeConfig[];
   NextMarker?: string;
 }
 export const ListFunctionEventInvokeConfigsResponse = S.suspend(() =>
@@ -3200,7 +3638,7 @@ export const ListFunctionEventInvokeConfigsResponse = S.suspend(() =>
   identifier: "ListFunctionEventInvokeConfigsResponse",
 }) as any as S.Schema<ListFunctionEventInvokeConfigsResponse>;
 export interface ListTagsResponse {
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }),
@@ -3249,7 +3687,7 @@ export const StopDurableExecutionResponse = S.suspend(() =>
 }) as any as S.Schema<StopDurableExecutionResponse>;
 export interface TagResourceRequest {
   Resource: string;
-  Tags: Tags;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -3289,7 +3727,7 @@ export const DeleteCapacityProviderResponse = S.suspend(() =>
   identifier: "DeleteCapacityProviderResponse",
 }) as any as S.Schema<DeleteCapacityProviderResponse>;
 export interface ListCapacityProvidersResponse {
-  CapacityProviders: CapacityProvidersList;
+  CapacityProviders: CapacityProvider[];
   NextMarker?: string;
 }
 export const ListCapacityProvidersResponse = S.suspend(() =>
@@ -3304,7 +3742,7 @@ export interface CreateCodeSigningConfigRequest {
   Description?: string;
   AllowedPublishers: AllowedPublishers;
   CodeSigningPolicies?: CodeSigningPolicies;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const CreateCodeSigningConfigRequest = S.suspend(() =>
   S.Struct({
@@ -3355,7 +3793,7 @@ export const GetCodeSigningConfigResponse = S.suspend(() =>
 }) as any as S.Schema<GetCodeSigningConfigResponse>;
 export interface ListFunctionsByCodeSigningConfigResponse {
   NextMarker?: string;
-  FunctionArns?: FunctionArnList;
+  FunctionArns?: string[];
 }
 export const ListFunctionsByCodeSigningConfigResponse = S.suspend(() =>
   S.Struct({
@@ -3375,7 +3813,7 @@ export const UpdateCodeSigningConfigResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateCodeSigningConfigResponse>;
 export interface ListEventSourceMappingsResponse {
   NextMarker?: string;
-  EventSourceMappings?: EventSourceMappingsList;
+  EventSourceMappings?: EventSourceMappingConfiguration[];
 }
 export const ListEventSourceMappingsResponse = S.suspend(() =>
   S.Struct({
@@ -3387,7 +3825,7 @@ export const ListEventSourceMappingsResponse = S.suspend(() =>
 }) as any as S.Schema<ListEventSourceMappingsResponse>;
 export interface ListFunctionsResponse {
   NextMarker?: string;
-  Functions?: FunctionList;
+  Functions?: FunctionConfiguration[];
 }
 export const ListFunctionsResponse = S.suspend(() =>
   S.Struct({
@@ -3400,17 +3838,17 @@ export const ListFunctionsResponse = S.suspend(() =>
 export interface CreateFunctionUrlConfigRequest {
   FunctionName: string;
   Qualifier?: string;
-  AuthType: string;
+  AuthType: FunctionUrlAuthType;
   Cors?: Cors;
-  InvokeMode?: string;
+  InvokeMode?: InvokeMode;
 }
 export const CreateFunctionUrlConfigRequest = S.suspend(() =>
   S.Struct({
     FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
-    AuthType: S.String,
+    AuthType: FunctionUrlAuthType,
     Cors: S.optional(Cors),
-    InvokeMode: S.optional(S.String),
+    InvokeMode: S.optional(InvokeMode),
   }).pipe(
     T.all(
       T.Http({
@@ -3438,21 +3876,21 @@ export const GetFunctionConcurrencyResponse = S.suspend(() =>
 export interface GetFunctionUrlConfigResponse {
   FunctionUrl: string;
   FunctionArn: string;
-  AuthType: string;
+  AuthType: FunctionUrlAuthType;
   Cors?: Cors;
   CreationTime: string;
   LastModifiedTime: string;
-  InvokeMode?: string;
+  InvokeMode?: InvokeMode;
 }
 export const GetFunctionUrlConfigResponse = S.suspend(() =>
   S.Struct({
     FunctionUrl: S.String,
     FunctionArn: S.String,
-    AuthType: S.String,
+    AuthType: FunctionUrlAuthType,
     Cors: S.optional(Cors),
     CreationTime: S.String,
     LastModifiedTime: S.String,
-    InvokeMode: S.optional(S.String),
+    InvokeMode: S.optional(InvokeMode),
   }),
 ).annotations({
   identifier: "GetFunctionUrlConfigResponse",
@@ -3466,21 +3904,21 @@ export const Concurrency = S.suspend(() =>
 export interface UpdateFunctionUrlConfigResponse {
   FunctionUrl: string;
   FunctionArn: string;
-  AuthType: string;
+  AuthType: FunctionUrlAuthType;
   Cors?: Cors;
   CreationTime: string;
   LastModifiedTime: string;
-  InvokeMode?: string;
+  InvokeMode?: InvokeMode;
 }
 export const UpdateFunctionUrlConfigResponse = S.suspend(() =>
   S.Struct({
     FunctionUrl: S.String,
     FunctionArn: S.String,
-    AuthType: S.String,
+    AuthType: FunctionUrlAuthType,
     Cors: S.optional(Cors),
     CreationTime: S.String,
     LastModifiedTime: S.String,
-    InvokeMode: S.optional(S.String),
+    InvokeMode: S.optional(InvokeMode),
   }),
 ).annotations({
   identifier: "UpdateFunctionUrlConfigResponse",
@@ -3495,10 +3933,10 @@ export const GetFunctionCodeSigningConfigResponse = S.suspend(() =>
   identifier: "GetFunctionCodeSigningConfigResponse",
 }) as any as S.Schema<GetFunctionCodeSigningConfigResponse>;
 export interface GetFunctionRecursionConfigResponse {
-  RecursiveLoop?: string;
+  RecursiveLoop?: RecursiveLoop;
 }
 export const GetFunctionRecursionConfigResponse = S.suspend(() =>
-  S.Struct({ RecursiveLoop: S.optional(S.String) }),
+  S.Struct({ RecursiveLoop: S.optional(RecursiveLoop) }),
 ).annotations({
   identifier: "GetFunctionRecursionConfigResponse",
 }) as any as S.Schema<GetFunctionRecursionConfigResponse>;
@@ -3526,13 +3964,13 @@ export const GetPolicyResponse = S.suspend(() =>
   identifier: "GetPolicyResponse",
 }) as any as S.Schema<GetPolicyResponse>;
 export interface GetRuntimeManagementConfigResponse {
-  UpdateRuntimeOn?: string;
+  UpdateRuntimeOn?: UpdateRuntimeOn;
   RuntimeVersionArn?: string;
   FunctionArn?: string;
 }
 export const GetRuntimeManagementConfigResponse = S.suspend(() =>
   S.Struct({
-    UpdateRuntimeOn: S.optional(S.String),
+    UpdateRuntimeOn: S.optional(UpdateRuntimeOn),
     RuntimeVersionArn: S.optional(S.String),
     FunctionArn: S.optional(S.String),
   }),
@@ -3583,10 +4021,10 @@ export const PutFunctionCodeSigningConfigResponse = S.suspend(() =>
   identifier: "PutFunctionCodeSigningConfigResponse",
 }) as any as S.Schema<PutFunctionCodeSigningConfigResponse>;
 export interface PutFunctionRecursionConfigResponse {
-  RecursiveLoop?: string;
+  RecursiveLoop?: RecursiveLoop;
 }
 export const PutFunctionRecursionConfigResponse = S.suspend(() =>
-  S.Struct({ RecursiveLoop: S.optional(S.String) }),
+  S.Struct({ RecursiveLoop: S.optional(RecursiveLoop) }),
 ).annotations({
   identifier: "PutFunctionRecursionConfigResponse",
 }) as any as S.Schema<PutFunctionRecursionConfigResponse>;
@@ -3617,13 +4055,13 @@ export const PutFunctionScalingConfigRequest = S.suspend(() =>
   identifier: "PutFunctionScalingConfigRequest",
 }) as any as S.Schema<PutFunctionScalingConfigRequest>;
 export interface PutRuntimeManagementConfigResponse {
-  UpdateRuntimeOn: string;
+  UpdateRuntimeOn: UpdateRuntimeOn;
   FunctionArn: string;
   RuntimeVersionArn?: string;
 }
 export const PutRuntimeManagementConfigResponse = S.suspend(() =>
   S.Struct({
-    UpdateRuntimeOn: S.String,
+    UpdateRuntimeOn: UpdateRuntimeOn,
     FunctionArn: S.String,
     RuntimeVersionArn: S.optional(S.String),
   }),
@@ -3632,7 +4070,7 @@ export const PutRuntimeManagementConfigResponse = S.suspend(() =>
 }) as any as S.Schema<PutRuntimeManagementConfigResponse>;
 export interface ListAliasesResponse {
   NextMarker?: string;
-  Aliases?: AliasList;
+  Aliases?: AliasConfiguration[];
 }
 export const ListAliasesResponse = S.suspend(() =>
   S.Struct({
@@ -3644,7 +4082,7 @@ export const ListAliasesResponse = S.suspend(() =>
 }) as any as S.Schema<ListAliasesResponse>;
 export interface ListVersionsByFunctionResponse {
   NextMarker?: string;
-  Versions?: FunctionList;
+  Versions?: FunctionConfiguration[];
 }
 export const ListVersionsByFunctionResponse = S.suspend(() =>
   S.Struct({
@@ -3679,9 +4117,9 @@ export interface PublishLayerVersionRequest {
   LayerName: string;
   Description?: string;
   Content: LayerVersionContentInput;
-  CompatibleRuntimes?: CompatibleRuntimes;
+  CompatibleRuntimes?: Runtime[];
   LicenseInfo?: string;
-  CompatibleArchitectures?: CompatibleArchitectures;
+  CompatibleArchitectures?: Architecture[];
 }
 export const PublishLayerVersionRequest = S.suspend(() =>
   S.Struct({
@@ -3719,7 +4157,7 @@ export interface PutProvisionedConcurrencyConfigResponse {
   RequestedProvisionedConcurrentExecutions?: number;
   AvailableProvisionedConcurrentExecutions?: number;
   AllocatedProvisionedConcurrentExecutions?: number;
-  Status?: string;
+  Status?: ProvisionedConcurrencyStatusEnum;
   StatusReason?: string;
   LastModified?: string;
 }
@@ -3728,7 +4166,7 @@ export const PutProvisionedConcurrencyConfigResponse = S.suspend(() =>
     RequestedProvisionedConcurrentExecutions: S.optional(S.Number),
     AvailableProvisionedConcurrentExecutions: S.optional(S.Number),
     AllocatedProvisionedConcurrentExecutions: S.optional(S.Number),
-    Status: S.optional(S.String),
+    Status: S.optional(ProvisionedConcurrencyStatusEnum),
     StatusReason: S.optional(S.String),
     LastModified: S.optional(S.String),
   }),
@@ -3739,7 +4177,7 @@ export interface GetProvisionedConcurrencyConfigResponse {
   RequestedProvisionedConcurrentExecutions?: number;
   AvailableProvisionedConcurrentExecutions?: number;
   AllocatedProvisionedConcurrentExecutions?: number;
-  Status?: string;
+  Status?: ProvisionedConcurrencyStatusEnum;
   StatusReason?: string;
   LastModified?: string;
 }
@@ -3748,7 +4186,7 @@ export const GetProvisionedConcurrencyConfigResponse = S.suspend(() =>
     RequestedProvisionedConcurrentExecutions: S.optional(S.Number),
     AvailableProvisionedConcurrentExecutions: S.optional(S.Number),
     AllocatedProvisionedConcurrentExecutions: S.optional(S.Number),
-    Status: S.optional(S.String),
+    Status: S.optional(ProvisionedConcurrencyStatusEnum),
     StatusReason: S.optional(S.String),
     LastModified: S.optional(S.String),
   }),
@@ -3796,6 +4234,57 @@ export const ChainedInvokeOptions = S.suspend(() =>
 ).annotations({
   identifier: "ChainedInvokeOptions",
 }) as any as S.Schema<ChainedInvokeOptions>;
+export type EventType =
+  | "ExecutionStarted"
+  | "ExecutionSucceeded"
+  | "ExecutionFailed"
+  | "ExecutionTimedOut"
+  | "ExecutionStopped"
+  | "ContextStarted"
+  | "ContextSucceeded"
+  | "ContextFailed"
+  | "WaitStarted"
+  | "WaitSucceeded"
+  | "WaitCancelled"
+  | "StepStarted"
+  | "StepSucceeded"
+  | "StepFailed"
+  | "ChainedInvokeStarted"
+  | "ChainedInvokeSucceeded"
+  | "ChainedInvokeFailed"
+  | "ChainedInvokeTimedOut"
+  | "ChainedInvokeStopped"
+  | "CallbackStarted"
+  | "CallbackSucceeded"
+  | "CallbackFailed"
+  | "CallbackTimedOut"
+  | "InvocationCompleted";
+export const EventType = S.Literal(
+  "ExecutionStarted",
+  "ExecutionSucceeded",
+  "ExecutionFailed",
+  "ExecutionTimedOut",
+  "ExecutionStopped",
+  "ContextStarted",
+  "ContextSucceeded",
+  "ContextFailed",
+  "WaitStarted",
+  "WaitSucceeded",
+  "WaitCancelled",
+  "StepStarted",
+  "StepSucceeded",
+  "StepFailed",
+  "ChainedInvokeStarted",
+  "ChainedInvokeSucceeded",
+  "ChainedInvokeFailed",
+  "ChainedInvokeTimedOut",
+  "ChainedInvokeStopped",
+  "CallbackStarted",
+  "CallbackSucceeded",
+  "CallbackFailed",
+  "CallbackTimedOut",
+  "InvocationCompleted",
+);
 export interface ContextStartedDetails {}
 export const ContextStartedDetails = S.suspend(() => S.Struct({})).annotations({
   identifier: "ContextStartedDetails",
@@ -3804,14 +4293,33 @@ export interface StepStartedDetails {}
 export const StepStartedDetails = S.suspend(() => S.Struct({})).annotations({
   identifier: "StepStartedDetails",
 }) as any as S.Schema<StepStartedDetails>;
+export type OperationStatus =
+  | "STARTED"
+  | "PENDING"
+  | "READY"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "CANCELLED"
+  | "TIMED_OUT"
+  | "STOPPED";
+export const OperationStatus = S.Literal(
+  "STARTED",
+  "PENDING",
+  "READY",
+  "SUCCEEDED",
+  "FAILED",
+  "CANCELLED",
+  "TIMED_OUT",
+  "STOPPED",
+);
 export interface OperationUpdate {
   Id: string;
   ParentId?: string;
   Name?: string;
-  Type: string;
+  Type: OperationType;
   SubType?: string;
-  Action: string;
-  Payload?: string | Redacted.Redacted<string>;
+  Action: OperationAction;
+  Payload?: string | redacted.Redacted<string>;
   Error?: ErrorObject;
   ContextOptions?: ContextOptions;
   StepOptions?: StepOptions;
@@ -3824,9 +4332,9 @@ export const OperationUpdate = S.suspend(() =>
     Id: S.String,
     ParentId: S.optional(S.String),
     Name: S.optional(S.String),
-    Type: S.String,
+    Type: OperationType,
     SubType: S.optional(S.String),
-    Action: S.String,
+    Action: OperationAction,
     Payload: S.optional(SensitiveString),
     Error: S.optional(ErrorObject),
     ContextOptions: S.optional(ContextOptions),
@@ -3850,7 +4358,7 @@ export interface Execution {
   DurableExecutionArn: string;
   DurableExecutionName: string;
   FunctionArn: string;
-  Status: string;
+  Status: ExecutionStatus;
   StartTimestamp: Date;
   EndTimestamp?: Date;
 }
@@ -3859,7 +4367,7 @@ export const Execution = S.suspend(() =>
     DurableExecutionArn: S.String,
     DurableExecutionName: S.String,
     FunctionArn: S.String,
-    Status: S.String,
+    Status: ExecutionStatus,
     StartTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     EndTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -3868,10 +4376,10 @@ export type DurableExecutions = Execution[];
 export const DurableExecutions = S.Array(Execution);
 export interface FunctionVersionsByCapacityProviderListItem {
   FunctionArn: string;
-  State: string;
+  State: State;
 }
 export const FunctionVersionsByCapacityProviderListItem = S.suspend(() =>
-  S.Struct({ FunctionArn: S.String, State: S.String }),
+  S.Struct({ FunctionArn: S.String, State: State }),
 ).annotations({
   identifier: "FunctionVersionsByCapacityProviderListItem",
 }) as any as S.Schema<FunctionVersionsByCapacityProviderListItem>;
@@ -3888,8 +4396,8 @@ export interface FunctionUrlConfig {
   CreationTime: string;
   LastModifiedTime: string;
   Cors?: Cors;
-  AuthType: string;
-  InvokeMode?: string;
+  AuthType: FunctionUrlAuthType;
+  InvokeMode?: InvokeMode;
 }
 export const FunctionUrlConfig = S.suspend(() =>
   S.Struct({
@@ -3898,8 +4406,8 @@ export const FunctionUrlConfig = S.suspend(() =>
     CreationTime: S.String,
     LastModifiedTime: S.String,
     Cors: S.optional(Cors),
-    AuthType: S.String,
-    InvokeMode: S.optional(S.String),
+    AuthType: FunctionUrlAuthType,
+    InvokeMode: S.optional(InvokeMode),
   }),
 ).annotations({
   identifier: "FunctionUrlConfig",
@@ -3911,7 +4419,7 @@ export interface ProvisionedConcurrencyConfigListItem {
   RequestedProvisionedConcurrentExecutions?: number;
   AvailableProvisionedConcurrentExecutions?: number;
   AllocatedProvisionedConcurrentExecutions?: number;
-  Status?: string;
+  Status?: ProvisionedConcurrencyStatusEnum;
   StatusReason?: string;
   LastModified?: string;
 }
@@ -3921,7 +4429,7 @@ export const ProvisionedConcurrencyConfigListItem = S.suspend(() =>
     RequestedProvisionedConcurrentExecutions: S.optional(S.Number),
     AvailableProvisionedConcurrentExecutions: S.optional(S.Number),
     AllocatedProvisionedConcurrentExecutions: S.optional(S.Number),
-    Status: S.optional(S.String),
+    Status: S.optional(ProvisionedConcurrencyStatusEnum),
     StatusReason: S.optional(S.String),
     LastModified: S.optional(S.String),
   }),
@@ -3963,9 +4471,9 @@ export interface LayerVersionsListItem {
   Version?: number;
   Description?: string;
   CreatedDate?: string;
-  CompatibleRuntimes?: CompatibleRuntimes;
+  CompatibleRuntimes?: Runtime[];
   LicenseInfo?: string;
-  CompatibleArchitectures?: CompatibleArchitectures;
+  CompatibleArchitectures?: Architecture[];
 }
 export const LayerVersionsListItem = S.suspend(() =>
   S.Struct({
@@ -3998,6 +4506,21 @@ export type LayersList = LayersListItem[];
 export const LayersList = S.Array(LayersListItem);
 export type LayerVersionsList = LayerVersionsListItem[];
 export const LayerVersionsList = S.Array(LayerVersionsListItem);
+export type ThrottleReason =
+  | "ConcurrentInvocationLimitExceeded"
+  | "FunctionInvocationRateLimitExceeded"
+  | "ReservedFunctionConcurrentInvocationLimitExceeded"
+  | "ReservedFunctionInvocationRateLimitExceeded"
+  | "CallerRateLimitExceeded"
+  | "ConcurrentSnapshotCreateLimitExceeded";
+export const ThrottleReason = S.Literal(
+  "ConcurrentInvocationLimitExceeded",
+  "FunctionInvocationRateLimitExceeded",
+  "ReservedFunctionConcurrentInvocationLimitExceeded",
+  "ReservedFunctionInvocationRateLimitExceeded",
+  "CallerRateLimitExceeded",
+  "ConcurrentSnapshotCreateLimitExceeded",
+);
 export interface LayerVersionContentOutput {
   Location?: string;
   CodeSha256?: string;
@@ -4019,7 +4542,7 @@ export const LayerVersionContentOutput = S.suspend(() =>
 export interface CheckpointDurableExecutionRequest {
   DurableExecutionArn: string;
   CheckpointToken: string;
-  Updates?: OperationUpdates;
+  Updates?: OperationUpdate[];
   ClientToken?: string;
 }
 export const CheckpointDurableExecutionRequest = S.suspend(() =>
@@ -4048,11 +4571,11 @@ export interface GetDurableExecutionResponse {
   DurableExecutionArn: string;
   DurableExecutionName: string;
   FunctionArn: string;
-  InputPayload?: string | Redacted.Redacted<string>;
-  Result?: string | Redacted.Redacted<string>;
+  InputPayload?: string | redacted.Redacted<string>;
+  Result?: string | redacted.Redacted<string>;
   Error?: ErrorObject;
   StartTimestamp: Date;
-  Status: string;
+  Status: ExecutionStatus;
   EndTimestamp?: Date;
   Version?: string;
   TraceHeader?: TraceHeader;
@@ -4066,7 +4589,7 @@ export const GetDurableExecutionResponse = S.suspend(() =>
     Result: S.optional(SensitiveString),
     Error: S.optional(ErrorObject),
     StartTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Status: S.String,
+    Status: ExecutionStatus,
     EndTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Version: S.optional(S.String),
     TraceHeader: S.optional(TraceHeader),
@@ -4075,7 +4598,7 @@ export const GetDurableExecutionResponse = S.suspend(() =>
   identifier: "GetDurableExecutionResponse",
 }) as any as S.Schema<GetDurableExecutionResponse>;
 export interface ListDurableExecutionsByFunctionResponse {
-  DurableExecutions?: DurableExecutions;
+  DurableExecutions?: Execution[];
   NextMarker?: string;
 }
 export const ListDurableExecutionsByFunctionResponse = S.suspend(() =>
@@ -4123,7 +4646,7 @@ export interface CreateCapacityProviderRequest {
   InstanceRequirements?: InstanceRequirements;
   CapacityProviderScalingConfig?: CapacityProviderScalingConfig;
   KmsKeyArn?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const CreateCapacityProviderRequest = S.suspend(() =>
   S.Struct({
@@ -4157,7 +4680,7 @@ export const GetCapacityProviderResponse = S.suspend(() =>
 }) as any as S.Schema<GetCapacityProviderResponse>;
 export interface ListFunctionVersionsByCapacityProviderResponse {
   CapacityProviderArn: string;
-  FunctionVersions: FunctionVersionsByCapacityProviderList;
+  FunctionVersions: FunctionVersionsByCapacityProviderListItem[];
   NextMarker?: string;
 }
 export const ListFunctionVersionsByCapacityProviderResponse = S.suspend(() =>
@@ -4179,7 +4702,7 @@ export const CreateCodeSigningConfigResponse = S.suspend(() =>
 }) as any as S.Schema<CreateCodeSigningConfigResponse>;
 export interface ListCodeSigningConfigsResponse {
   NextMarker?: string;
-  CodeSigningConfigs?: CodeSigningConfigList;
+  CodeSigningConfigs?: CodeSigningConfig[];
 }
 export const ListCodeSigningConfigsResponse = S.suspend(() =>
   S.Struct({
@@ -4191,7 +4714,7 @@ export const ListCodeSigningConfigsResponse = S.suspend(() =>
 }) as any as S.Schema<ListCodeSigningConfigsResponse>;
 export interface CreateFunctionRequest {
   FunctionName: string;
-  Runtime?: string;
+  Runtime?: Runtime;
   Role: string;
   Handler?: string;
   Code: FunctionCode;
@@ -4200,29 +4723,29 @@ export interface CreateFunctionRequest {
   MemorySize?: number;
   Publish?: boolean;
   VpcConfig?: VpcConfig;
-  PackageType?: string;
+  PackageType?: PackageType;
   DeadLetterConfig?: DeadLetterConfig;
   Environment?: Environment;
   KMSKeyArn?: string;
   TracingConfig?: TracingConfig;
-  Tags?: Tags;
-  Layers?: LayerList;
-  FileSystemConfigs?: FileSystemConfigList;
+  Tags?: { [key: string]: string };
+  Layers?: string[];
+  FileSystemConfigs?: FileSystemConfig[];
   ImageConfig?: ImageConfig;
   CodeSigningConfigArn?: string;
-  Architectures?: ArchitecturesList;
+  Architectures?: Architecture[];
   EphemeralStorage?: EphemeralStorage;
   SnapStart?: SnapStart;
   LoggingConfig?: LoggingConfig;
   CapacityProviderConfig?: CapacityProviderConfig;
-  PublishTo?: string;
+  PublishTo?: FunctionVersionLatestPublished;
   DurableConfig?: DurableConfig;
   TenancyConfig?: TenancyConfig;
 }
 export const CreateFunctionRequest = S.suspend(() =>
   S.Struct({
     FunctionName: S.String,
-    Runtime: S.optional(S.String),
+    Runtime: S.optional(Runtime),
     Role: S.String,
     Handler: S.optional(S.String),
     Code: FunctionCode,
@@ -4231,7 +4754,7 @@ export const CreateFunctionRequest = S.suspend(() =>
     MemorySize: S.optional(S.Number),
     Publish: S.optional(S.Boolean),
     VpcConfig: S.optional(VpcConfig),
-    PackageType: S.optional(S.String),
+    PackageType: S.optional(PackageType),
     DeadLetterConfig: S.optional(DeadLetterConfig),
     Environment: S.optional(Environment),
     KMSKeyArn: S.optional(S.String),
@@ -4246,7 +4769,7 @@ export const CreateFunctionRequest = S.suspend(() =>
     SnapStart: S.optional(SnapStart),
     LoggingConfig: S.optional(LoggingConfig),
     CapacityProviderConfig: S.optional(CapacityProviderConfig),
-    PublishTo: S.optional(S.String),
+    PublishTo: S.optional(FunctionVersionLatestPublished),
     DurableConfig: S.optional(DurableConfig),
     TenancyConfig: S.optional(TenancyConfig),
   }).pipe(
@@ -4265,25 +4788,25 @@ export const CreateFunctionRequest = S.suspend(() =>
 export interface CreateFunctionUrlConfigResponse {
   FunctionUrl: string;
   FunctionArn: string;
-  AuthType: string;
+  AuthType: FunctionUrlAuthType;
   Cors?: Cors;
   CreationTime: string;
-  InvokeMode?: string;
+  InvokeMode?: InvokeMode;
 }
 export const CreateFunctionUrlConfigResponse = S.suspend(() =>
   S.Struct({
     FunctionUrl: S.String,
     FunctionArn: S.String,
-    AuthType: S.String,
+    AuthType: FunctionUrlAuthType,
     Cors: S.optional(Cors),
     CreationTime: S.String,
-    InvokeMode: S.optional(S.String),
+    InvokeMode: S.optional(InvokeMode),
   }),
 ).annotations({
   identifier: "CreateFunctionUrlConfigResponse",
 }) as any as S.Schema<CreateFunctionUrlConfigResponse>;
 export interface ListFunctionUrlConfigsResponse {
-  FunctionUrlConfigs: FunctionUrlConfigList;
+  FunctionUrlConfigs: FunctionUrlConfig[];
   NextMarker?: string;
 }
 export const ListFunctionUrlConfigsResponse = S.suspend(() =>
@@ -4295,7 +4818,7 @@ export const ListFunctionUrlConfigsResponse = S.suspend(() =>
   identifier: "ListFunctionUrlConfigsResponse",
 }) as any as S.Schema<ListFunctionUrlConfigsResponse>;
 export interface ListProvisionedConcurrencyConfigsResponse {
-  ProvisionedConcurrencyConfigs?: ProvisionedConcurrencyConfigList;
+  ProvisionedConcurrencyConfigs?: ProvisionedConcurrencyConfigListItem[];
   NextMarker?: string;
 }
 export const ListProvisionedConcurrencyConfigsResponse = S.suspend(() =>
@@ -4309,7 +4832,7 @@ export const ListProvisionedConcurrencyConfigsResponse = S.suspend(() =>
 export interface GetFunctionResponse {
   Configuration?: FunctionConfiguration;
   Code?: FunctionCodeLocation;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
   TagsError?: TagsError;
   Concurrency?: Concurrency;
 }
@@ -4325,10 +4848,10 @@ export const GetFunctionResponse = S.suspend(() =>
   identifier: "GetFunctionResponse",
 }) as any as S.Schema<GetFunctionResponse>;
 export interface PutFunctionScalingConfigResponse {
-  FunctionState?: string;
+  FunctionState?: State;
 }
 export const PutFunctionScalingConfigResponse = S.suspend(() =>
-  S.Struct({ FunctionState: S.optional(S.String) }),
+  S.Struct({ FunctionState: S.optional(State) }),
 ).annotations({
   identifier: "PutFunctionScalingConfigResponse",
 }) as any as S.Schema<PutFunctionScalingConfigResponse>;
@@ -4364,7 +4887,7 @@ export const CreateAliasRequest = S.suspend(() =>
 }) as any as S.Schema<CreateAliasRequest>;
 export interface ListLayersResponse {
   NextMarker?: string;
-  Layers?: LayersList;
+  Layers?: LayersListItem[];
 }
 export const ListLayersResponse = S.suspend(() =>
   S.Struct({
@@ -4376,7 +4899,7 @@ export const ListLayersResponse = S.suspend(() =>
 }) as any as S.Schema<ListLayersResponse>;
 export interface ListLayerVersionsResponse {
   NextMarker?: string;
-  LayerVersions?: LayerVersionsList;
+  LayerVersions?: LayerVersionsListItem[];
 }
 export const ListLayerVersionsResponse = S.suspend(() =>
   S.Struct({
@@ -4393,9 +4916,9 @@ export interface GetLayerVersionResponse {
   Description?: string;
   CreatedDate?: string;
   Version?: number;
-  CompatibleRuntimes?: CompatibleRuntimes;
+  CompatibleRuntimes?: Runtime[];
   LicenseInfo?: string;
-  CompatibleArchitectures?: CompatibleArchitectures;
+  CompatibleArchitectures?: Architecture[];
 }
 export const GetLayerVersionResponse = S.suspend(() =>
   S.Struct({
@@ -4419,9 +4942,9 @@ export interface PublishLayerVersionResponse {
   Description?: string;
   CreatedDate?: string;
   Version?: number;
-  CompatibleRuntimes?: CompatibleRuntimes;
+  CompatibleRuntimes?: Runtime[];
   LicenseInfo?: string;
-  CompatibleArchitectures?: CompatibleArchitectures;
+  CompatibleArchitectures?: Architecture[];
 }
 export const PublishLayerVersionResponse = S.suspend(() =>
   S.Struct({
@@ -4465,7 +4988,7 @@ export const ExecutionStoppedDetails = S.suspend(() =>
   identifier: "ExecutionStoppedDetails",
 }) as any as S.Schema<ExecutionStoppedDetails>;
 export interface EventResult {
-  Payload?: string | Redacted.Redacted<string>;
+  Payload?: string | redacted.Redacted<string>;
   Truncated?: boolean;
 }
 export const EventResult = S.suspend(() =>
@@ -4538,7 +5061,7 @@ export const StepFailedDetails = S.suspend(() =>
   identifier: "StepFailedDetails",
 }) as any as S.Schema<StepFailedDetails>;
 export interface EventInput {
-  Payload?: string | Redacted.Redacted<string>;
+  Payload?: string | redacted.Redacted<string>;
   Truncated?: boolean;
 }
 export const EventInput = S.suspend(() =>
@@ -4652,7 +5175,7 @@ export const InvocationCompletedDetails = S.suspend(() =>
   identifier: "InvocationCompletedDetails",
 }) as any as S.Schema<InvocationCompletedDetails>;
 export interface ExecutionDetails {
-  InputPayload?: string | Redacted.Redacted<string>;
+  InputPayload?: string | redacted.Redacted<string>;
 }
 export const ExecutionDetails = S.suspend(() =>
   S.Struct({ InputPayload: S.optional(SensitiveString) }),
@@ -4661,7 +5184,7 @@ export const ExecutionDetails = S.suspend(() =>
 }) as any as S.Schema<ExecutionDetails>;
 export interface ContextDetails {
   ReplayChildren?: boolean;
-  Result?: string | Redacted.Redacted<string>;
+  Result?: string | redacted.Redacted<string>;
   Error?: ErrorObject;
 }
 export const ContextDetails = S.suspend(() =>
@@ -4676,7 +5199,7 @@ export const ContextDetails = S.suspend(() =>
 export interface StepDetails {
   Attempt?: number;
   NextAttemptTimestamp?: Date;
-  Result?: string | Redacted.Redacted<string>;
+  Result?: string | redacted.Redacted<string>;
   Error?: ErrorObject;
 }
 export const StepDetails = S.suspend(() =>
@@ -4701,7 +5224,7 @@ export const WaitDetails = S.suspend(() =>
 ).annotations({ identifier: "WaitDetails" }) as any as S.Schema<WaitDetails>;
 export interface CallbackDetails {
   CallbackId?: string;
-  Result?: string | Redacted.Redacted<string>;
+  Result?: string | redacted.Redacted<string>;
   Error?: ErrorObject;
 }
 export const CallbackDetails = S.suspend(() =>
@@ -4714,7 +5237,7 @@ export const CallbackDetails = S.suspend(() =>
   identifier: "CallbackDetails",
 }) as any as S.Schema<CallbackDetails>;
 export interface ChainedInvokeDetails {
-  Result?: string | Redacted.Redacted<string>;
+  Result?: string | redacted.Redacted<string>;
   Error?: ErrorObject;
 }
 export const ChainedInvokeDetails = S.suspend(() =>
@@ -4726,7 +5249,7 @@ export const ChainedInvokeDetails = S.suspend(() =>
   identifier: "ChainedInvokeDetails",
 }) as any as S.Schema<ChainedInvokeDetails>;
 export interface InvokeResponseStreamUpdate {
-  Payload?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  Payload?: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export const InvokeResponseStreamUpdate = S.suspend(() =>
   S.Struct({ Payload: S.optional(SensitiveBlob).pipe(T.EventPayload()) }),
@@ -4751,11 +5274,11 @@ export interface Operation {
   Id: string;
   ParentId?: string;
   Name?: string;
-  Type: string;
+  Type: OperationType;
   SubType?: string;
   StartTimestamp: Date;
   EndTimestamp?: Date;
-  Status: string;
+  Status: OperationStatus;
   ExecutionDetails?: ExecutionDetails;
   ContextDetails?: ContextDetails;
   StepDetails?: StepDetails;
@@ -4768,11 +5291,11 @@ export const Operation = S.suspend(() =>
     Id: S.String,
     ParentId: S.optional(S.String),
     Name: S.optional(S.String),
-    Type: S.String,
+    Type: OperationType,
     SubType: S.optional(S.String),
     StartTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     EndTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.String,
+    Status: OperationStatus,
     ExecutionDetails: S.optional(ExecutionDetails),
     ContextDetails: S.optional(ContextDetails),
     StepDetails: S.optional(StepDetails),
@@ -4783,14 +5306,19 @@ export const Operation = S.suspend(() =>
 ).annotations({ identifier: "Operation" }) as any as S.Schema<Operation>;
 export type Operations = Operation[];
 export const Operations = S.Array(Operation);
+export type InvokeWithResponseStreamResponseEvent =
+  | { PayloadChunk: InvokeResponseStreamUpdate }
+  | { InvokeComplete: InvokeWithResponseStreamCompleteEvent };
 export const InvokeWithResponseStreamResponseEvent = T.EventStream(
   S.Union(
     S.Struct({ PayloadChunk: InvokeResponseStreamUpdate }),
     S.Struct({ InvokeComplete: InvokeWithResponseStreamCompleteEvent }),
   ),
-);
+) as any as S.Schema<
+  stream.Stream<InvokeWithResponseStreamResponseEvent, Error, never>
+>;
 export interface GetDurableExecutionStateResponse {
-  Operations: Operations;
+  Operations: Operation[];
   NextMarker?: string;
 }
 export const GetDurableExecutionStateResponse = S.suspend(() =>
@@ -4814,19 +5342,19 @@ export interface CreateEventSourceMappingRequest {
   FilterCriteria?: FilterCriteria;
   MaximumBatchingWindowInSeconds?: number;
   ParallelizationFactor?: number;
-  StartingPosition?: string;
+  StartingPosition?: EventSourcePosition;
   StartingPositionTimestamp?: Date;
   DestinationConfig?: DestinationConfig;
   MaximumRecordAgeInSeconds?: number;
   BisectBatchOnFunctionError?: boolean;
   MaximumRetryAttempts?: number;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
   TumblingWindowInSeconds?: number;
-  Topics?: Topics;
-  Queues?: Queues;
-  SourceAccessConfigurations?: SourceAccessConfigurations;
+  Topics?: string[];
+  Queues?: string[];
+  SourceAccessConfigurations?: SourceAccessConfiguration[];
   SelfManagedEventSource?: SelfManagedEventSource;
-  FunctionResponseTypes?: FunctionResponseTypeList;
+  FunctionResponseTypes?: FunctionResponseType[];
   AmazonManagedKafkaEventSourceConfig?: AmazonManagedKafkaEventSourceConfig;
   SelfManagedKafkaEventSourceConfig?: SelfManagedKafkaEventSourceConfig;
   ScalingConfig?: ScalingConfig;
@@ -4844,7 +5372,7 @@ export const CreateEventSourceMappingRequest = S.suspend(() =>
     FilterCriteria: S.optional(FilterCriteria),
     MaximumBatchingWindowInSeconds: S.optional(S.Number),
     ParallelizationFactor: S.optional(S.Number),
-    StartingPosition: S.optional(S.String),
+    StartingPosition: S.optional(EventSourcePosition),
     StartingPositionTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -4886,7 +5414,11 @@ export const CreateEventSourceMappingRequest = S.suspend(() =>
 export interface InvokeWithResponseStreamResponse {
   StatusCode?: number;
   ExecutedVersion?: string;
-  EventStream?: (typeof InvokeWithResponseStreamResponseEvent)["Type"];
+  EventStream?: stream.Stream<
+    InvokeWithResponseStreamResponseEvent,
+    Error,
+    never
+  >;
   ResponseStreamContentType?: string;
 }
 export const InvokeWithResponseStreamResponse = S.suspend(() =>
@@ -4940,7 +5472,7 @@ export const StepSucceededDetails = S.suspend(() =>
   identifier: "StepSucceededDetails",
 }) as any as S.Schema<StepSucceededDetails>;
 export interface CheckpointUpdatedExecutionState {
-  Operations?: Operations;
+  Operations?: Operation[];
   NextMarker?: string;
 }
 export const CheckpointUpdatedExecutionState = S.suspend(() =>
@@ -4952,7 +5484,7 @@ export const CheckpointUpdatedExecutionState = S.suspend(() =>
   identifier: "CheckpointUpdatedExecutionState",
 }) as any as S.Schema<CheckpointUpdatedExecutionState>;
 export interface Event {
-  EventType?: string;
+  EventType?: EventType;
   SubType?: string;
   EventId?: number;
   Id?: string;
@@ -4986,7 +5518,7 @@ export interface Event {
 }
 export const Event = S.suspend(() =>
   S.Struct({
-    EventType: S.optional(S.String),
+    EventType: S.optional(EventType),
     SubType: S.optional(S.String),
     EventId: S.optional(S.Number),
     Id: S.optional(S.String),
@@ -5034,7 +5566,7 @@ export const CheckpointDurableExecutionResponse = S.suspend(() =>
   identifier: "CheckpointDurableExecutionResponse",
 }) as any as S.Schema<CheckpointDurableExecutionResponse>;
 export interface GetDurableExecutionHistoryResponse {
-  Events: Events;
+  Events: Event[];
   NextMarker?: string;
 }
 export const GetDurableExecutionHistoryResponse = S.suspend(() =>
@@ -5098,7 +5630,7 @@ export class TooManyRequestsException extends S.TaggedError<TooManyRequestsExcep
     retryAfterSeconds: S.optional(S.String).pipe(T.HttpHeader("Retry-After")),
     Type: S.optional(S.String),
     message: S.optional(S.String),
-    Reason: S.optional(S.String),
+    Reason: S.optional(ThrottleReason),
   },
 ).pipe(C.withThrottlingError) {}
 export class ParseError extends S.TaggedError<ParseError>()("ParseError", {}) {}
@@ -5237,7 +5769,7 @@ export class UnsupportedMediaTypeException extends S.TaggedError<UnsupportedMedi
  */
 export const createCodeSigningConfig: (
   input: CreateCodeSigningConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCodeSigningConfigResponse,
   InvalidParameterValueException | ServiceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5252,21 +5784,21 @@ export const createCodeSigningConfig: (
 export const listCodeSigningConfigs: {
   (
     input: ListCodeSigningConfigsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCodeSigningConfigsResponse,
     InvalidParameterValueException | ServiceException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListCodeSigningConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCodeSigningConfigsResponse,
     InvalidParameterValueException | ServiceException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCodeSigningConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CodeSigningConfig,
     InvalidParameterValueException | ServiceException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -5287,7 +5819,7 @@ export const listCodeSigningConfigs: {
  */
 export const deleteLayerVersion: (
   input: DeleteLayerVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLayerVersionResponse,
   ServiceException | TooManyRequestsException | ParseError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5301,7 +5833,7 @@ export const deleteLayerVersion: (
  */
 export const getLayerVersion: (
   input: GetLayerVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLayerVersionResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -5328,7 +5860,7 @@ export const getLayerVersion: (
  */
 export const publishLayerVersion: (
   input: PublishLayerVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PublishLayerVersionResponse,
   | CodeStorageExceededException
   | InvalidParameterValueException
@@ -5355,7 +5887,7 @@ export const publishLayerVersion: (
  */
 export const getProvisionedConcurrencyConfig: (
   input: GetProvisionedConcurrencyConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetProvisionedConcurrencyConfigResponse,
   | InvalidParameterValueException
   | ProvisionedConcurrencyConfigNotFoundException
@@ -5428,7 +5960,7 @@ export const getProvisionedConcurrencyConfig: (
  */
 export const updateEventSourceMapping: (
   input: UpdateEventSourceMappingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EventSourceMappingConfiguration,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -5457,7 +5989,7 @@ export const updateEventSourceMapping: (
  */
 export const updateAlias: (
   input: UpdateAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AliasConfiguration,
   | InvalidParameterValueException
   | PreconditionFailedException
@@ -5489,7 +6021,7 @@ export const updateAlias: (
 export const listFunctionEventInvokeConfigs: {
   (
     input: ListFunctionEventInvokeConfigsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFunctionEventInvokeConfigsResponse,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -5501,7 +6033,7 @@ export const listFunctionEventInvokeConfigs: {
   >;
   pages: (
     input: ListFunctionEventInvokeConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFunctionEventInvokeConfigsResponse,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -5513,7 +6045,7 @@ export const listFunctionEventInvokeConfigs: {
   >;
   items: (
     input: ListFunctionEventInvokeConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FunctionEventInvokeConfig,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -5545,7 +6077,7 @@ export const listFunctionEventInvokeConfigs: {
  */
 export const listTags: (
   input: ListTagsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -5570,7 +6102,7 @@ export const listTags: (
  */
 export const stopDurableExecution: (
   input: StopDurableExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopDurableExecutionResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -5593,7 +6125,7 @@ export const stopDurableExecution: (
  */
 export const getCodeSigningConfig: (
   input: GetCodeSigningConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCodeSigningConfigResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -5617,7 +6149,7 @@ export const getCodeSigningConfig: (
 export const listFunctionsByCodeSigningConfig: {
   (
     input: ListFunctionsByCodeSigningConfigRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFunctionsByCodeSigningConfigResponse,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -5627,7 +6159,7 @@ export const listFunctionsByCodeSigningConfig: {
   >;
   pages: (
     input: ListFunctionsByCodeSigningConfigRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFunctionsByCodeSigningConfigResponse,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -5637,7 +6169,7 @@ export const listFunctionsByCodeSigningConfig: {
   >;
   items: (
     input: ListFunctionsByCodeSigningConfigRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FunctionArn,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -5665,7 +6197,7 @@ export const listFunctionsByCodeSigningConfig: {
  */
 export const updateCodeSigningConfig: (
   input: UpdateCodeSigningConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCodeSigningConfigResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -5687,7 +6219,7 @@ export const updateCodeSigningConfig: (
 export const listEventSourceMappings: {
   (
     input: ListEventSourceMappingsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEventSourceMappingsResponse,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -5698,7 +6230,7 @@ export const listEventSourceMappings: {
   >;
   pages: (
     input: ListEventSourceMappingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEventSourceMappingsResponse,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -5709,7 +6241,7 @@ export const listEventSourceMappings: {
   >;
   items: (
     input: ListEventSourceMappingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EventSourceMappingConfiguration,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -5739,7 +6271,7 @@ export const listEventSourceMappings: {
  */
 export const deleteFunctionUrlConfig: (
   input: DeleteFunctionUrlConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFunctionUrlConfigResponse,
   | ResourceConflictException
   | ResourceNotFoundException
@@ -5764,7 +6296,7 @@ export const deleteFunctionUrlConfig: (
  */
 export const getFunctionConcurrency: (
   input: GetFunctionConcurrencyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFunctionConcurrencyResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -5789,7 +6321,7 @@ export const getFunctionConcurrency: (
  */
 export const getFunctionUrlConfig: (
   input: GetFunctionUrlConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFunctionUrlConfigResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -5816,7 +6348,7 @@ export const getFunctionUrlConfig: (
  */
 export const putFunctionConcurrency: (
   input: PutFunctionConcurrencyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Concurrency,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -5843,7 +6375,7 @@ export const putFunctionConcurrency: (
  */
 export const updateFunctionUrlConfig: (
   input: UpdateFunctionUrlConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFunctionUrlConfigResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -5870,7 +6402,7 @@ export const updateFunctionUrlConfig: (
  */
 export const getFunctionCodeSigningConfig: (
   input: GetFunctionCodeSigningConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFunctionCodeSigningConfigResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -5893,7 +6425,7 @@ export const getFunctionCodeSigningConfig: (
  */
 export const getFunctionRecursionConfig: (
   input: GetFunctionRecursionConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFunctionRecursionConfigResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -5918,7 +6450,7 @@ export const getFunctionRecursionConfig: (
  */
 export const getFunctionScalingConfig: (
   input: GetFunctionScalingConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFunctionScalingConfigResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -5941,7 +6473,7 @@ export const getFunctionScalingConfig: (
  */
 export const getPolicy: (
   input: GetPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPolicyResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -5964,7 +6496,7 @@ export const getPolicy: (
  */
 export const getRuntimeManagementConfig: (
   input: GetRuntimeManagementConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRuntimeManagementConfigResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -5987,7 +6519,7 @@ export const getRuntimeManagementConfig: (
  */
 export const putFunctionCodeSigningConfig: (
   input: PutFunctionCodeSigningConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutFunctionCodeSigningConfigResponse,
   | CodeSigningConfigNotFoundException
   | InvalidParameterValueException
@@ -6020,7 +6552,7 @@ export const putFunctionCodeSigningConfig: (
  */
 export const putFunctionRecursionConfig: (
   input: PutFunctionRecursionConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutFunctionRecursionConfigResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -6047,7 +6579,7 @@ export const putFunctionRecursionConfig: (
  */
 export const putRuntimeManagementConfig: (
   input: PutRuntimeManagementConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutRuntimeManagementConfigResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -6072,7 +6604,7 @@ export const putRuntimeManagementConfig: (
  */
 export const getAlias: (
   input: GetAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AliasConfiguration,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -6096,7 +6628,7 @@ export const getAlias: (
 export const listAliases: {
   (
     input: ListAliasesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAliasesResponse,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -6107,7 +6639,7 @@ export const listAliases: {
   >;
   pages: (
     input: ListAliasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAliasesResponse,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -6118,7 +6650,7 @@ export const listAliases: {
   >;
   items: (
     input: ListAliasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AliasConfiguration,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -6149,7 +6681,7 @@ export const listAliases: {
 export const listVersionsByFunction: {
   (
     input: ListVersionsByFunctionRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVersionsByFunctionResponse,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -6160,7 +6692,7 @@ export const listVersionsByFunction: {
   >;
   pages: (
     input: ListVersionsByFunctionRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVersionsByFunctionResponse,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -6171,7 +6703,7 @@ export const listVersionsByFunction: {
   >;
   items: (
     input: ListVersionsByFunctionRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FunctionConfiguration,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -6201,7 +6733,7 @@ export const listVersionsByFunction: {
  */
 export const getLayerVersionPolicy: (
   input: GetLayerVersionPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLayerVersionPolicyResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -6226,7 +6758,7 @@ export const getLayerVersionPolicy: (
  */
 export const putProvisionedConcurrencyConfig: (
   input: PutProvisionedConcurrencyConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutProvisionedConcurrencyConfigResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -6253,7 +6785,7 @@ export const putProvisionedConcurrencyConfig: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -6282,7 +6814,7 @@ export const untagResource: (
  */
 export const updateFunctionEventInvokeConfig: (
   input: UpdateFunctionEventInvokeConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   FunctionEventInvokeConfig,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -6307,7 +6839,7 @@ export const updateFunctionEventInvokeConfig: (
  */
 export const deleteCodeSigningConfig: (
   input: DeleteCodeSigningConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCodeSigningConfigResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -6332,7 +6864,7 @@ export const deleteCodeSigningConfig: (
  */
 export const deleteFunctionConcurrency: (
   input: DeleteFunctionConcurrencyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFunctionConcurrencyResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -6361,7 +6893,7 @@ export const deleteFunctionConcurrency: (
  */
 export const getFunctionConfiguration: (
   input: GetFunctionConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   FunctionConfiguration,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -6384,7 +6916,7 @@ export const getFunctionConfiguration: (
  */
 export const getLayerVersionByArn: (
   input: GetLayerVersionByArnRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLayerVersionResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -6407,7 +6939,7 @@ export const getLayerVersionByArn: (
  */
 export const deleteProvisionedConcurrencyConfig: (
   input: DeleteProvisionedConcurrencyConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProvisionedConcurrencyConfigResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -6438,7 +6970,7 @@ export const deleteProvisionedConcurrencyConfig: (
  */
 export const deleteFunction: (
   input: DeleteFunctionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFunctionResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -6465,7 +6997,7 @@ export const deleteFunction: (
  */
 export const deleteFunctionEventInvokeConfig: (
   input: DeleteFunctionEventInvokeConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFunctionEventInvokeConfigResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -6492,7 +7024,7 @@ export const deleteFunctionEventInvokeConfig: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -6519,7 +7051,7 @@ export const tagResource: (
  */
 export const updateCapacityProvider: (
   input: UpdateCapacityProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCapacityProviderResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -6544,7 +7076,7 @@ export const updateCapacityProvider: (
  */
 export const deleteCapacityProvider: (
   input: DeleteCapacityProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCapacityProviderResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -6569,7 +7101,7 @@ export const deleteCapacityProvider: (
  */
 export const deleteFunctionCodeSigningConfig: (
   input: DeleteFunctionCodeSigningConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFunctionCodeSigningConfigResponse,
   | CodeSigningConfigNotFoundException
   | InvalidParameterValueException
@@ -6596,7 +7128,7 @@ export const deleteFunctionCodeSigningConfig: (
  */
 export const getDurableExecution: (
   input: GetDurableExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDurableExecutionResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -6623,7 +7155,7 @@ export const getDurableExecution: (
  */
 export const addPermission: (
   input: AddPermissionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddPermissionResponse,
   | InvalidParameterValueException
   | PolicyLengthExceededException
@@ -6654,7 +7186,7 @@ export const addPermission: (
  */
 export const deleteAlias: (
   input: DeleteAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAliasResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -6679,7 +7211,7 @@ export const deleteAlias: (
  */
 export const sendDurableExecutionCallbackSuccess: (
   input: SendDurableExecutionCallbackSuccessRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendDurableExecutionCallbackSuccessResponse,
   | CallbackTimeoutException
   | InvalidParameterValueException
@@ -6702,7 +7234,7 @@ export const sendDurableExecutionCallbackSuccess: (
  */
 export const sendDurableExecutionCallbackFailure: (
   input: SendDurableExecutionCallbackFailureRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendDurableExecutionCallbackFailureResponse,
   | CallbackTimeoutException
   | InvalidParameterValueException
@@ -6725,7 +7257,7 @@ export const sendDurableExecutionCallbackFailure: (
  */
 export const getAccountSettings: (
   input: GetAccountSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccountSettingsResponse,
   ServiceException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6739,7 +7271,7 @@ export const getAccountSettings: (
  */
 export const sendDurableExecutionCallbackHeartbeat: (
   input: SendDurableExecutionCallbackHeartbeatRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendDurableExecutionCallbackHeartbeatResponse,
   | CallbackTimeoutException
   | InvalidParameterValueException
@@ -6763,7 +7295,7 @@ export const sendDurableExecutionCallbackHeartbeat: (
 export const listCapacityProviders: {
   (
     input: ListCapacityProvidersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCapacityProvidersResponse,
     | InvalidParameterValueException
     | ServiceException
@@ -6773,7 +7305,7 @@ export const listCapacityProviders: {
   >;
   pages: (
     input: ListCapacityProvidersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCapacityProvidersResponse,
     | InvalidParameterValueException
     | ServiceException
@@ -6783,7 +7315,7 @@ export const listCapacityProviders: {
   >;
   items: (
     input: ListCapacityProvidersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CapacityProvider,
     | InvalidParameterValueException
     | ServiceException
@@ -6816,7 +7348,7 @@ export const listCapacityProviders: {
 export const listFunctions: {
   (
     input: ListFunctionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFunctionsResponse,
     | InvalidParameterValueException
     | ServiceException
@@ -6826,7 +7358,7 @@ export const listFunctions: {
   >;
   pages: (
     input: ListFunctionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFunctionsResponse,
     | InvalidParameterValueException
     | ServiceException
@@ -6836,7 +7368,7 @@ export const listFunctions: {
   >;
   items: (
     input: ListFunctionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FunctionConfiguration,
     | InvalidParameterValueException
     | ServiceException
@@ -6866,7 +7398,7 @@ export const listFunctions: {
  */
 export const getFunctionEventInvokeConfig: (
   input: GetFunctionEventInvokeConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   FunctionEventInvokeConfig,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -6892,7 +7424,7 @@ export const getFunctionEventInvokeConfig: (
 export const listDurableExecutionsByFunction: {
   (
     input: ListDurableExecutionsByFunctionRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDurableExecutionsByFunctionResponse,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -6903,7 +7435,7 @@ export const listDurableExecutionsByFunction: {
   >;
   pages: (
     input: ListDurableExecutionsByFunctionRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDurableExecutionsByFunctionResponse,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -6914,7 +7446,7 @@ export const listDurableExecutionsByFunction: {
   >;
   items: (
     input: ListDurableExecutionsByFunctionRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Execution,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -6950,7 +7482,7 @@ export const listDurableExecutionsByFunction: {
  */
 export const putFunctionEventInvokeConfig: (
   input: PutFunctionEventInvokeConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   FunctionEventInvokeConfig,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -6977,7 +7509,7 @@ export const putFunctionEventInvokeConfig: (
  */
 export const getCapacityProvider: (
   input: GetCapacityProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCapacityProviderResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -7001,7 +7533,7 @@ export const getCapacityProvider: (
 export const listFunctionVersionsByCapacityProvider: {
   (
     input: ListFunctionVersionsByCapacityProviderRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFunctionVersionsByCapacityProviderResponse,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -7012,7 +7544,7 @@ export const listFunctionVersionsByCapacityProvider: {
   >;
   pages: (
     input: ListFunctionVersionsByCapacityProviderRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFunctionVersionsByCapacityProviderResponse,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -7023,7 +7555,7 @@ export const listFunctionVersionsByCapacityProvider: {
   >;
   items: (
     input: ListFunctionVersionsByCapacityProviderRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FunctionVersionsByCapacityProviderListItem,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -7053,7 +7585,7 @@ export const listFunctionVersionsByCapacityProvider: {
  */
 export const getEventSourceMapping: (
   input: GetEventSourceMappingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EventSourceMappingConfiguration,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -7076,7 +7608,7 @@ export const getEventSourceMapping: (
  */
 export const createFunctionUrlConfig: (
   input: CreateFunctionUrlConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFunctionUrlConfigResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -7104,7 +7636,7 @@ export const createFunctionUrlConfig: (
 export const listFunctionUrlConfigs: {
   (
     input: ListFunctionUrlConfigsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFunctionUrlConfigsResponse,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -7115,7 +7647,7 @@ export const listFunctionUrlConfigs: {
   >;
   pages: (
     input: ListFunctionUrlConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFunctionUrlConfigsResponse,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -7126,7 +7658,7 @@ export const listFunctionUrlConfigs: {
   >;
   items: (
     input: ListFunctionUrlConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FunctionUrlConfig,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -7157,7 +7689,7 @@ export const listFunctionUrlConfigs: {
 export const listProvisionedConcurrencyConfigs: {
   (
     input: ListProvisionedConcurrencyConfigsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProvisionedConcurrencyConfigsResponse,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -7169,7 +7701,7 @@ export const listProvisionedConcurrencyConfigs: {
   >;
   pages: (
     input: ListProvisionedConcurrencyConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProvisionedConcurrencyConfigsResponse,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -7181,7 +7713,7 @@ export const listProvisionedConcurrencyConfigs: {
   >;
   items: (
     input: ListProvisionedConcurrencyConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProvisionedConcurrencyConfigListItem,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -7213,7 +7745,7 @@ export const listProvisionedConcurrencyConfigs: {
  */
 export const getFunction: (
   input: GetFunctionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFunctionResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -7236,7 +7768,7 @@ export const getFunction: (
  */
 export const putFunctionScalingConfig: (
   input: PutFunctionScalingConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutFunctionScalingConfigResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -7263,7 +7795,7 @@ export const putFunctionScalingConfig: (
  */
 export const createAlias: (
   input: CreateAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AliasConfiguration,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -7291,7 +7823,7 @@ export const createAlias: (
 export const listLayers: {
   (
     input: ListLayersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLayersResponse,
     | InvalidParameterValueException
     | ServiceException
@@ -7301,7 +7833,7 @@ export const listLayers: {
   >;
   pages: (
     input: ListLayersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLayersResponse,
     | InvalidParameterValueException
     | ServiceException
@@ -7311,7 +7843,7 @@ export const listLayers: {
   >;
   items: (
     input: ListLayersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LayersListItem,
     | InvalidParameterValueException
     | ServiceException
@@ -7340,7 +7872,7 @@ export const listLayers: {
 export const listLayerVersions: {
   (
     input: ListLayerVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLayerVersionsResponse,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -7352,7 +7884,7 @@ export const listLayerVersions: {
   >;
   pages: (
     input: ListLayerVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLayerVersionsResponse,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -7364,7 +7896,7 @@ export const listLayerVersions: {
   >;
   items: (
     input: ListLayerVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LayerVersionsListItem,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -7398,7 +7930,7 @@ export const listLayerVersions: {
  */
 export const deleteEventSourceMapping: (
   input: DeleteEventSourceMappingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EventSourceMappingConfiguration,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -7425,7 +7957,7 @@ export const deleteEventSourceMapping: (
  */
 export const removeLayerVersionPermission: (
   input: RemoveLayerVersionPermissionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveLayerVersionPermissionResponse,
   | InvalidParameterValueException
   | PreconditionFailedException
@@ -7452,7 +7984,7 @@ export const removeLayerVersionPermission: (
  */
 export const removePermission: (
   input: RemovePermissionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemovePermissionResponse,
   | InvalidParameterValueException
   | PreconditionFailedException
@@ -7481,7 +8013,7 @@ export const removePermission: (
  */
 export const publishVersion: (
   input: PublishVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   FunctionConfiguration,
   | CodeStorageExceededException
   | FunctionVersionsPerCapacityProviderLimitExceededException
@@ -7516,7 +8048,7 @@ export const publishVersion: (
  */
 export const addLayerVersionPermission: (
   input: AddLayerVersionPermissionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddLayerVersionPermissionResponse,
   | InvalidParameterValueException
   | PolicyLengthExceededException
@@ -7550,7 +8082,7 @@ export const addLayerVersionPermission: (
 export const getDurableExecutionState: {
   (
     input: GetDurableExecutionStateRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetDurableExecutionStateResponse,
     | InvalidParameterValueException
     | ServiceException
@@ -7560,7 +8092,7 @@ export const getDurableExecutionState: {
   >;
   pages: (
     input: GetDurableExecutionStateRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetDurableExecutionStateResponse,
     | InvalidParameterValueException
     | ServiceException
@@ -7570,7 +8102,7 @@ export const getDurableExecutionState: {
   >;
   items: (
     input: GetDurableExecutionStateRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Operation,
     | InvalidParameterValueException
     | ServiceException
@@ -7644,7 +8176,7 @@ export const getDurableExecutionState: {
  */
 export const createEventSourceMapping: (
   input: CreateEventSourceMappingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EventSourceMappingConfiguration,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -7677,7 +8209,7 @@ export const createEventSourceMapping: (
  */
 export const updateFunctionConfiguration: (
   input: UpdateFunctionConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   FunctionConfiguration,
   | CodeSigningConfigNotFoundException
   | CodeVerificationFailedException
@@ -7718,7 +8250,7 @@ export const updateFunctionConfiguration: (
  */
 export const invokeAsync: (
   input: InvokeAsyncRequest,
-) => Effect.Effect<
+) => effect.Effect<
   InvokeAsyncResponse,
   | InvalidRequestContentException
   | InvalidRuntimeException
@@ -7759,7 +8291,7 @@ export const invokeAsync: (
  */
 export const createFunction: (
   input: CreateFunctionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   FunctionConfiguration,
   | CodeSigningConfigNotFoundException
   | CodeStorageExceededException
@@ -7804,7 +8336,7 @@ export const createFunction: (
  */
 export const updateFunctionCode: (
   input: UpdateFunctionCodeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   FunctionConfiguration,
   | CodeSigningConfigNotFoundException
   | CodeStorageExceededException
@@ -7843,7 +8375,7 @@ export const updateFunctionCode: (
  */
 export const checkpointDurableExecution: (
   input: CheckpointDurableExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CheckpointDurableExecutionResponse,
   | InvalidParameterValueException
   | ServiceException
@@ -7867,7 +8399,7 @@ export const checkpointDurableExecution: (
 export const getDurableExecutionHistory: {
   (
     input: GetDurableExecutionHistoryRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetDurableExecutionHistoryResponse,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -7878,7 +8410,7 @@ export const getDurableExecutionHistory: {
   >;
   pages: (
     input: GetDurableExecutionHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetDurableExecutionHistoryResponse,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -7889,7 +8421,7 @@ export const getDurableExecutionHistory: {
   >;
   items: (
     input: GetDurableExecutionHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Event,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -7919,7 +8451,7 @@ export const getDurableExecutionHistory: {
  */
 export const createCapacityProvider: (
   input: CreateCapacityProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCapacityProviderResponse,
   | CapacityProviderLimitExceededException
   | InvalidParameterValueException
@@ -7958,7 +8490,7 @@ export const createCapacityProvider: (
  */
 export const invoke: (
   input: InvocationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   InvocationResponse,
   | DurableExecutionAlreadyStartedException
   | EC2AccessDeniedException
@@ -8043,7 +8575,7 @@ export const invoke: (
  */
 export const invokeWithResponseStream: (
   input: InvokeWithResponseStreamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   InvokeWithResponseStreamResponse,
   | EC2AccessDeniedException
   | EC2ThrottledException

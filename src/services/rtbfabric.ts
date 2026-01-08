@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -100,7 +100,7 @@ export type TagValue = string;
 export type CustomerProvidedId = string;
 export type Version = string;
 export type FlowModuleName = string;
-export type Base64EncodedCertificateChain = string | Redacted.Redacted<string>;
+export type Base64EncodedCertificateChain = string | redacted.Redacted<string>;
 export type AutoScalingGroupName = string;
 export type KubernetesEndpointsResourceName = string;
 export type KubernetesNamespace = string;
@@ -114,6 +114,8 @@ export type SubnetIdList = string[];
 export const SubnetIdList = S.Array(S.String);
 export type SecurityGroupIdList = string[];
 export const SecurityGroupIdList = S.Array(S.String);
+export type Protocol = "HTTP" | "HTTPS";
+export const Protocol = S.Literal("HTTP", "HTTPS");
 export interface ListRequesterGatewaysRequest {
   maxResults?: number;
   nextToken?: string;
@@ -175,7 +177,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -263,18 +265,29 @@ export const ListLinksRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListLinksRequest",
 }) as any as S.Schema<ListLinksRequest>;
-export type ResponderErrorMaskingLoggingTypes = string[];
-export const ResponderErrorMaskingLoggingTypes = S.Array(S.String);
+export type ResponderErrorMaskingAction = "NO_BID" | "PASSTHROUGH";
+export const ResponderErrorMaskingAction = S.Literal("NO_BID", "PASSTHROUGH");
+export type ResponderErrorMaskingLoggingType = "NONE" | "METRIC" | "RESPONSE";
+export const ResponderErrorMaskingLoggingType = S.Literal(
+  "NONE",
+  "METRIC",
+  "RESPONSE",
+);
+export type ResponderErrorMaskingLoggingTypes =
+  ResponderErrorMaskingLoggingType[];
+export const ResponderErrorMaskingLoggingTypes = S.Array(
+  ResponderErrorMaskingLoggingType,
+);
 export interface ResponderErrorMaskingForHttpCode {
   httpCode: string;
-  action: string;
-  loggingTypes: ResponderErrorMaskingLoggingTypes;
+  action: ResponderErrorMaskingAction;
+  loggingTypes: ResponderErrorMaskingLoggingType[];
   responseLoggingPercentage?: number;
 }
 export const ResponderErrorMaskingForHttpCode = S.suspend(() =>
   S.Struct({
     httpCode: S.String,
-    action: S.String,
+    action: ResponderErrorMaskingAction,
     loggingTypes: ResponderErrorMaskingLoggingTypes,
     responseLoggingPercentage: S.optional(S.Number),
   }),
@@ -284,7 +297,7 @@ export const ResponderErrorMaskingForHttpCode = S.suspend(() =>
 export type ResponderErrorMasking = ResponderErrorMaskingForHttpCode[];
 export const ResponderErrorMasking = S.Array(ResponderErrorMaskingForHttpCode);
 export interface LinkAttributes {
-  responderErrorMasking?: ResponderErrorMasking;
+  responderErrorMasking?: ResponderErrorMaskingForHttpCode[];
   customerProvidedId?: string;
 }
 export const LinkAttributes = S.suspend(() =>
@@ -399,11 +412,11 @@ export type TagsMap = { [key: string]: string };
 export const TagsMap = S.Record({ key: S.String, value: S.String });
 export interface CreateRequesterGatewayRequest {
   vpcId: string;
-  subnetIds: SubnetIdList;
-  securityGroupIds: SecurityGroupIdList;
+  subnetIds: string[];
+  securityGroupIds: string[];
   clientToken: string;
   description?: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const CreateRequesterGatewayRequest = S.suspend(() =>
   S.Struct({
@@ -489,7 +502,7 @@ export interface CreateOutboundExternalLinkRequest {
   attributes?: LinkAttributes;
   publicEndpoint: string;
   logSettings: LinkLogSettings;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const CreateOutboundExternalLinkRequest = S.suspend(() =>
   S.Struct({
@@ -599,10 +612,10 @@ export const DeleteResponderGatewayRequest = S.suspend(() =>
 }) as any as S.Schema<DeleteResponderGatewayRequest>;
 export type CertificateAuthorityCertificates =
   | string
-  | Redacted.Redacted<string>[];
+  | redacted.Redacted<string>[];
 export const CertificateAuthorityCertificates = S.Array(SensitiveString);
 export interface TrustStoreConfiguration {
-  certificateAuthorityCertificates: CertificateAuthorityCertificates;
+  certificateAuthorityCertificates: string | redacted.Redacted<string>[];
 }
 export const TrustStoreConfiguration = S.suspend(() =>
   S.Struct({
@@ -614,7 +627,7 @@ export const TrustStoreConfiguration = S.suspend(() =>
 export type AutoScalingGroupNameList = string[];
 export const AutoScalingGroupNameList = S.Array(S.String);
 export interface AutoScalingGroupsConfiguration {
-  autoScalingGroupNames: AutoScalingGroupNameList;
+  autoScalingGroupNames: string[];
   roleArn: string;
 }
 export const AutoScalingGroupsConfiguration = S.suspend(() =>
@@ -629,7 +642,7 @@ export interface EksEndpointsConfiguration {
   endpointsResourceName: string;
   endpointsResourceNamespace: string;
   clusterApiServerEndpointUri: string;
-  clusterApiServerCaCertificateChain: string | Redacted.Redacted<string>;
+  clusterApiServerCaCertificateChain: string | redacted.Redacted<string>;
   clusterName: string;
   roleArn: string;
 }
@@ -655,9 +668,9 @@ export const ManagedEndpointConfiguration = S.Union(
 export interface UpdateResponderGatewayRequest {
   domainName?: string;
   port: number;
-  protocol: string;
+  protocol: Protocol;
   trustStoreConfiguration?: TrustStoreConfiguration;
-  managedEndpointConfiguration?: (typeof ManagedEndpointConfiguration)["Type"];
+  managedEndpointConfiguration?: ManagedEndpointConfiguration;
   clientToken: string;
   gatewayId: string;
   description?: string;
@@ -666,7 +679,7 @@ export const UpdateResponderGatewayRequest = S.suspend(() =>
   S.Struct({
     domainName: S.optional(S.String),
     port: S.Number,
-    protocol: S.String,
+    protocol: Protocol,
     trustStoreConfiguration: S.optional(TrustStoreConfiguration),
     managedEndpointConfiguration: S.optional(ManagedEndpointConfiguration),
     clientToken: S.String,
@@ -690,7 +703,7 @@ export interface CreateInboundExternalLinkRequest {
   gatewayId: string;
   attributes?: LinkAttributes;
   logSettings: LinkLogSettings;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const CreateInboundExternalLinkRequest = S.suspend(() =>
   S.Struct({
@@ -767,8 +780,81 @@ export type FlowModuleNameList = string[];
 export const FlowModuleNameList = S.Array(S.String);
 export type GatewayIdList = string[];
 export const GatewayIdList = S.Array(S.String);
+export type LinkStatus =
+  | "PENDING_CREATION"
+  | "PENDING_REQUEST"
+  | "REQUESTED"
+  | "ACCEPTED"
+  | "ACTIVE"
+  | "REJECTED"
+  | "FAILED"
+  | "PENDING_DELETION"
+  | "DELETED"
+  | "PENDING_UPDATE"
+  | "PENDING_ISOLATION"
+  | "ISOLATED"
+  | "PENDING_RESTORATION";
+export const LinkStatus = S.Literal(
+  "PENDING_CREATION",
+  "PENDING_REQUEST",
+  "REQUESTED",
+  "ACCEPTED",
+  "ACTIVE",
+  "REJECTED",
+  "FAILED",
+  "PENDING_DELETION",
+  "DELETED",
+  "PENDING_UPDATE",
+  "PENDING_ISOLATION",
+  "ISOLATED",
+  "PENDING_RESTORATION",
+);
+export type LinkDirection = "RESPONSE" | "REQUEST";
+export const LinkDirection = S.Literal("RESPONSE", "REQUEST");
+export type RequesterGatewayStatus =
+  | "PENDING_CREATION"
+  | "ACTIVE"
+  | "PENDING_DELETION"
+  | "DELETED"
+  | "ERROR"
+  | "PENDING_UPDATE"
+  | "ISOLATED"
+  | "PENDING_ISOLATION"
+  | "PENDING_RESTORATION";
+export const RequesterGatewayStatus = S.Literal(
+  "PENDING_CREATION",
+  "ACTIVE",
+  "PENDING_DELETION",
+  "DELETED",
+  "ERROR",
+  "PENDING_UPDATE",
+  "ISOLATED",
+  "PENDING_ISOLATION",
+  "PENDING_RESTORATION",
+);
+export type ResponderGatewayStatus =
+  | "PENDING_CREATION"
+  | "ACTIVE"
+  | "PENDING_DELETION"
+  | "DELETED"
+  | "ERROR"
+  | "PENDING_UPDATE"
+  | "ISOLATED"
+  | "PENDING_ISOLATION"
+  | "PENDING_RESTORATION";
+export const ResponderGatewayStatus = S.Literal(
+  "PENDING_CREATION",
+  "ACTIVE",
+  "PENDING_DELETION",
+  "DELETED",
+  "ERROR",
+  "PENDING_UPDATE",
+  "ISOLATED",
+  "PENDING_ISOLATION",
+  "PENDING_RESTORATION",
+);
 export interface ListRequesterGatewaysResponse {
-  gatewayIds?: GatewayIdList;
+  gatewayIds?: string[];
   nextToken?: string;
 }
 export const ListRequesterGatewaysResponse = S.suspend(() =>
@@ -780,7 +866,7 @@ export const ListRequesterGatewaysResponse = S.suspend(() =>
   identifier: "ListRequesterGatewaysResponse",
 }) as any as S.Schema<ListRequesterGatewaysResponse>;
 export interface ListResponderGatewaysResponse {
-  gatewayIds?: GatewayIdList;
+  gatewayIds?: string[];
   nextToken?: string;
 }
 export const ListResponderGatewaysResponse = S.suspend(() =>
@@ -792,7 +878,7 @@ export const ListResponderGatewaysResponse = S.suspend(() =>
   identifier: "ListResponderGatewaysResponse",
 }) as any as S.Schema<ListResponderGatewaysResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagsMap) }),
@@ -801,7 +887,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagsMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -838,11 +924,13 @@ export const NoBidModuleParameters = S.suspend(() =>
 ).annotations({
   identifier: "NoBidModuleParameters",
 }) as any as S.Schema<NoBidModuleParameters>;
+export type FilterType = "INCLUDE" | "EXCLUDE";
+export const FilterType = S.Literal("INCLUDE", "EXCLUDE");
 export type ValueList = string[];
 export const ValueList = S.Array(S.String);
 export interface FilterCriterion {
   path: string;
-  values: ValueList;
+  values: string[];
 }
 export const FilterCriterion = S.suspend(() =>
   S.Struct({ path: S.String, values: ValueList }),
@@ -852,7 +940,7 @@ export const FilterCriterion = S.suspend(() =>
 export type FilterCriteria = FilterCriterion[];
 export const FilterCriteria = S.Array(FilterCriterion);
 export interface Filter {
-  criteria: FilterCriteria;
+  criteria: FilterCriterion[];
 }
 export const Filter = S.suspend(() =>
   S.Struct({ criteria: FilterCriteria }),
@@ -880,14 +968,14 @@ export const Action = S.Union(
   S.Struct({ headerTag: HeaderTagAction }),
 );
 export interface OpenRtbAttributeModuleParameters {
-  filterType: string;
-  filterConfiguration: FilterConfiguration;
-  action: (typeof Action)["Type"];
+  filterType: FilterType;
+  filterConfiguration: Filter[];
+  action: Action;
   holdbackPercentage: number;
 }
 export const OpenRtbAttributeModuleParameters = S.suspend(() =>
   S.Struct({
-    filterType: S.String,
+    filterType: FilterType,
     filterConfiguration: FilterConfiguration,
     action: Action,
     holdbackPercentage: S.Number,
@@ -915,8 +1003,8 @@ export const ModuleParameters = S.Union(
 export interface ModuleConfiguration {
   version?: string;
   name: string;
-  dependsOn?: FlowModuleNameList;
-  moduleParameters?: (typeof ModuleParameters)["Type"];
+  dependsOn?: string[];
+  moduleParameters?: ModuleParameters;
 }
 export const ModuleConfiguration = S.suspend(() =>
   S.Struct({
@@ -933,25 +1021,25 @@ export const ModuleConfigurationList = S.Array(ModuleConfiguration);
 export interface GetLinkResponse {
   gatewayId: string;
   peerGatewayId: string;
-  status: string;
+  status: LinkStatus;
   createdAt: Date;
   updatedAt: Date;
-  direction?: string;
-  flowModules?: ModuleConfigurationList;
-  pendingFlowModules?: ModuleConfigurationList;
+  direction?: LinkDirection;
+  flowModules?: ModuleConfiguration[];
+  pendingFlowModules?: ModuleConfiguration[];
   attributes?: LinkAttributes;
   linkId: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   logSettings?: LinkLogSettings;
 }
 export const GetLinkResponse = S.suspend(() =>
   S.Struct({
     gatewayId: S.String,
     peerGatewayId: S.String,
-    status: S.String,
+    status: LinkStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    direction: S.optional(S.String),
+    direction: S.optional(LinkDirection),
     flowModules: S.optional(ModuleConfigurationList),
     pendingFlowModules: S.optional(ModuleConfigurationList),
     attributes: S.optional(LinkAttributes),
@@ -964,22 +1052,22 @@ export const GetLinkResponse = S.suspend(() =>
 }) as any as S.Schema<GetLinkResponse>;
 export interface DeleteLinkResponse {
   linkId: string;
-  status: string;
+  status: LinkStatus;
 }
 export const DeleteLinkResponse = S.suspend(() =>
-  S.Struct({ linkId: S.String, status: S.String }),
+  S.Struct({ linkId: S.String, status: LinkStatus }),
 ).annotations({
   identifier: "DeleteLinkResponse",
 }) as any as S.Schema<DeleteLinkResponse>;
 export interface AcceptLinkResponse {
   gatewayId: string;
   peerGatewayId: string;
-  status: string;
+  status: LinkStatus;
   createdAt: Date;
   updatedAt: Date;
-  direction?: string;
-  flowModules?: ModuleConfigurationList;
-  pendingFlowModules?: ModuleConfigurationList;
+  direction?: LinkDirection;
+  flowModules?: ModuleConfiguration[];
+  pendingFlowModules?: ModuleConfiguration[];
   attributes?: LinkAttributes;
   linkId: string;
 }
@@ -987,10 +1075,10 @@ export const AcceptLinkResponse = S.suspend(() =>
   S.Struct({
     gatewayId: S.String,
     peerGatewayId: S.String,
-    status: S.String,
+    status: LinkStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    direction: S.optional(S.String),
+    direction: S.optional(LinkDirection),
     flowModules: S.optional(ModuleConfigurationList),
     pendingFlowModules: S.optional(ModuleConfigurationList),
     attributes: S.optional(LinkAttributes),
@@ -1002,12 +1090,12 @@ export const AcceptLinkResponse = S.suspend(() =>
 export interface RejectLinkResponse {
   gatewayId: string;
   peerGatewayId: string;
-  status: string;
+  status: LinkStatus;
   createdAt: Date;
   updatedAt: Date;
-  direction?: string;
-  flowModules?: ModuleConfigurationList;
-  pendingFlowModules?: ModuleConfigurationList;
+  direction?: LinkDirection;
+  flowModules?: ModuleConfiguration[];
+  pendingFlowModules?: ModuleConfiguration[];
   attributes?: LinkAttributes;
   linkId: string;
 }
@@ -1015,10 +1103,10 @@ export const RejectLinkResponse = S.suspend(() =>
   S.Struct({
     gatewayId: S.String,
     peerGatewayId: S.String,
-    status: S.String,
+    status: LinkStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    direction: S.optional(S.String),
+    direction: S.optional(LinkDirection),
     flowModules: S.optional(ModuleConfigurationList),
     pendingFlowModules: S.optional(ModuleConfigurationList),
     attributes: S.optional(LinkAttributes),
@@ -1029,40 +1117,44 @@ export const RejectLinkResponse = S.suspend(() =>
 }) as any as S.Schema<RejectLinkResponse>;
 export interface UpdateLinkResponse {
   linkId: string;
-  status: string;
+  status: LinkStatus;
 }
 export const UpdateLinkResponse = S.suspend(() =>
-  S.Struct({ linkId: S.String, status: S.String }),
+  S.Struct({ linkId: S.String, status: LinkStatus }),
 ).annotations({
   identifier: "UpdateLinkResponse",
 }) as any as S.Schema<UpdateLinkResponse>;
 export interface CreateRequesterGatewayResponse {
   gatewayId: string;
   domainName: string;
-  status: string;
+  status: RequesterGatewayStatus;
 }
 export const CreateRequesterGatewayResponse = S.suspend(() =>
-  S.Struct({ gatewayId: S.String, domainName: S.String, status: S.String }),
+  S.Struct({
+    gatewayId: S.String,
+    domainName: S.String,
+    status: RequesterGatewayStatus,
+  }),
 ).annotations({
   identifier: "CreateRequesterGatewayResponse",
 }) as any as S.Schema<CreateRequesterGatewayResponse>;
 export interface GetRequesterGatewayResponse {
-  status: string;
+  status: RequesterGatewayStatus;
   domainName: string;
   description?: string;
   createdAt?: Date;
   updatedAt?: Date;
   vpcId: string;
-  subnetIds: SubnetIdList;
-  securityGroupIds: SecurityGroupIdList;
+  subnetIds: string[];
+  securityGroupIds: string[];
   gatewayId: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   activeLinksCount?: number;
   totalLinksCount?: number;
 }
 export const GetRequesterGatewayResponse = S.suspend(() =>
   S.Struct({
-    status: S.String,
+    status: RequesterGatewayStatus,
     domainName: S.String,
     description: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1080,56 +1172,56 @@ export const GetRequesterGatewayResponse = S.suspend(() =>
 }) as any as S.Schema<GetRequesterGatewayResponse>;
 export interface DeleteRequesterGatewayResponse {
   gatewayId: string;
-  status: string;
+  status: RequesterGatewayStatus;
 }
 export const DeleteRequesterGatewayResponse = S.suspend(() =>
-  S.Struct({ gatewayId: S.String, status: S.String }),
+  S.Struct({ gatewayId: S.String, status: RequesterGatewayStatus }),
 ).annotations({
   identifier: "DeleteRequesterGatewayResponse",
 }) as any as S.Schema<DeleteRequesterGatewayResponse>;
 export interface UpdateRequesterGatewayResponse {
   gatewayId: string;
-  status: string;
+  status: RequesterGatewayStatus;
 }
 export const UpdateRequesterGatewayResponse = S.suspend(() =>
-  S.Struct({ gatewayId: S.String, status: S.String }),
+  S.Struct({ gatewayId: S.String, status: RequesterGatewayStatus }),
 ).annotations({
   identifier: "UpdateRequesterGatewayResponse",
 }) as any as S.Schema<UpdateRequesterGatewayResponse>;
 export interface CreateOutboundExternalLinkResponse {
   gatewayId: string;
   linkId: string;
-  status: string;
+  status: LinkStatus;
 }
 export const CreateOutboundExternalLinkResponse = S.suspend(() =>
-  S.Struct({ gatewayId: S.String, linkId: S.String, status: S.String }),
+  S.Struct({ gatewayId: S.String, linkId: S.String, status: LinkStatus }),
 ).annotations({
   identifier: "CreateOutboundExternalLinkResponse",
 }) as any as S.Schema<CreateOutboundExternalLinkResponse>;
 export interface DeleteOutboundExternalLinkResponse {
   linkId: string;
-  status: string;
+  status: LinkStatus;
 }
 export const DeleteOutboundExternalLinkResponse = S.suspend(() =>
-  S.Struct({ linkId: S.String, status: S.String }),
+  S.Struct({ linkId: S.String, status: LinkStatus }),
 ).annotations({
   identifier: "DeleteOutboundExternalLinkResponse",
 }) as any as S.Schema<DeleteOutboundExternalLinkResponse>;
 export interface GetOutboundExternalLinkResponse {
   gatewayId: string;
   linkId: string;
-  status: string;
+  status: LinkStatus;
   publicEndpoint: string;
   createdAt?: Date;
   updatedAt?: Date;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   logSettings?: LinkLogSettings;
 }
 export const GetOutboundExternalLinkResponse = S.suspend(() =>
   S.Struct({
     gatewayId: S.String,
     linkId: S.String,
-    status: S.String,
+    status: LinkStatus,
     publicEndpoint: S.String,
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1141,19 +1233,19 @@ export const GetOutboundExternalLinkResponse = S.suspend(() =>
 }) as any as S.Schema<GetOutboundExternalLinkResponse>;
 export interface GetResponderGatewayResponse {
   vpcId: string;
-  subnetIds: SubnetIdList;
-  securityGroupIds: SecurityGroupIdList;
-  status: string;
+  subnetIds: string[];
+  securityGroupIds: string[];
+  status: ResponderGatewayStatus;
   description?: string;
   createdAt?: Date;
   updatedAt?: Date;
   domainName?: string;
   port: number;
-  protocol: string;
+  protocol: Protocol;
   trustStoreConfiguration?: TrustStoreConfiguration;
-  managedEndpointConfiguration?: (typeof ManagedEndpointConfiguration)["Type"];
+  managedEndpointConfiguration?: ManagedEndpointConfiguration;
   gatewayId: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   activeLinksCount?: number;
   totalLinksCount?: number;
   inboundLinksCount?: number;
@@ -1163,13 +1255,13 @@ export const GetResponderGatewayResponse = S.suspend(() =>
     vpcId: S.String,
     subnetIds: SubnetIdList,
     securityGroupIds: SecurityGroupIdList,
-    status: S.String,
+    status: ResponderGatewayStatus,
     description: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     domainName: S.optional(S.String),
     port: S.Number,
-    protocol: S.String,
+    protocol: Protocol,
     trustStoreConfiguration: S.optional(TrustStoreConfiguration),
     managedEndpointConfiguration: S.optional(ManagedEndpointConfiguration),
     gatewayId: S.String,
@@ -1183,33 +1275,33 @@ export const GetResponderGatewayResponse = S.suspend(() =>
 }) as any as S.Schema<GetResponderGatewayResponse>;
 export interface DeleteResponderGatewayResponse {
   gatewayId: string;
-  status: string;
+  status: ResponderGatewayStatus;
 }
 export const DeleteResponderGatewayResponse = S.suspend(() =>
-  S.Struct({ gatewayId: S.String, status: S.String }),
+  S.Struct({ gatewayId: S.String, status: ResponderGatewayStatus }),
 ).annotations({
   identifier: "DeleteResponderGatewayResponse",
 }) as any as S.Schema<DeleteResponderGatewayResponse>;
 export interface UpdateResponderGatewayResponse {
   gatewayId: string;
-  status: string;
+  status: ResponderGatewayStatus;
 }
 export const UpdateResponderGatewayResponse = S.suspend(() =>
-  S.Struct({ gatewayId: S.String, status: S.String }),
+  S.Struct({ gatewayId: S.String, status: ResponderGatewayStatus }),
 ).annotations({
   identifier: "UpdateResponderGatewayResponse",
 }) as any as S.Schema<UpdateResponderGatewayResponse>;
 export interface CreateInboundExternalLinkResponse {
   gatewayId: string;
   linkId: string;
-  status: string;
+  status: LinkStatus;
   domainName: string;
 }
 export const CreateInboundExternalLinkResponse = S.suspend(() =>
   S.Struct({
     gatewayId: S.String,
     linkId: S.String,
-    status: S.String,
+    status: LinkStatus,
     domainName: S.String,
   }),
 ).annotations({
@@ -1217,31 +1309,31 @@ export const CreateInboundExternalLinkResponse = S.suspend(() =>
 }) as any as S.Schema<CreateInboundExternalLinkResponse>;
 export interface DeleteInboundExternalLinkResponse {
   linkId: string;
-  status: string;
+  status: LinkStatus;
 }
 export const DeleteInboundExternalLinkResponse = S.suspend(() =>
-  S.Struct({ linkId: S.String, status: S.String }),
+  S.Struct({ linkId: S.String, status: LinkStatus }),
 ).annotations({
   identifier: "DeleteInboundExternalLinkResponse",
 }) as any as S.Schema<DeleteInboundExternalLinkResponse>;
 export interface GetInboundExternalLinkResponse {
   gatewayId: string;
   linkId: string;
-  status: string;
+  status: LinkStatus;
   domainName: string;
-  flowModules?: ModuleConfigurationList;
-  pendingFlowModules?: ModuleConfigurationList;
+  flowModules?: ModuleConfiguration[];
+  pendingFlowModules?: ModuleConfiguration[];
   attributes?: LinkAttributes;
   createdAt?: Date;
   updatedAt?: Date;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   logSettings?: LinkLogSettings;
 }
 export const GetInboundExternalLinkResponse = S.suspend(() =>
   S.Struct({
     gatewayId: S.String,
     linkId: S.String,
-    status: S.String,
+    status: LinkStatus,
     domainName: S.String,
     flowModules: S.optional(ModuleConfigurationList),
     pendingFlowModules: S.optional(ModuleConfigurationList),
@@ -1257,24 +1349,24 @@ export const GetInboundExternalLinkResponse = S.suspend(() =>
 export interface ListLinksResponseStructure {
   gatewayId: string;
   peerGatewayId: string;
-  status: string;
+  status: LinkStatus;
   createdAt: Date;
   updatedAt: Date;
-  direction?: string;
-  flowModules?: ModuleConfigurationList;
-  pendingFlowModules?: ModuleConfigurationList;
+  direction?: LinkDirection;
+  flowModules?: ModuleConfiguration[];
+  pendingFlowModules?: ModuleConfiguration[];
   attributes?: LinkAttributes;
   linkId: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const ListLinksResponseStructure = S.suspend(() =>
   S.Struct({
     gatewayId: S.String,
     peerGatewayId: S.String,
-    status: S.String,
+    status: LinkStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    direction: S.optional(S.String),
+    direction: S.optional(LinkDirection),
     flowModules: S.optional(ModuleConfigurationList),
     pendingFlowModules: S.optional(ModuleConfigurationList),
     attributes: S.optional(LinkAttributes),
@@ -1287,7 +1379,7 @@ export const ListLinksResponseStructure = S.suspend(() =>
 export type LinkList = ListLinksResponseStructure[];
 export const LinkList = S.Array(ListLinksResponseStructure);
 export interface ListLinksResponse {
-  links?: LinkList;
+  links?: ListLinksResponseStructure[];
   nextToken?: string;
 }
 export const ListLinksResponse = S.suspend(() =>
@@ -1297,16 +1389,16 @@ export const ListLinksResponse = S.suspend(() =>
 }) as any as S.Schema<ListLinksResponse>;
 export interface CreateResponderGatewayRequest {
   vpcId: string;
-  subnetIds: SubnetIdList;
-  securityGroupIds: SecurityGroupIdList;
+  subnetIds: string[];
+  securityGroupIds: string[];
   domainName?: string;
   port: number;
-  protocol: string;
+  protocol: Protocol;
   trustStoreConfiguration?: TrustStoreConfiguration;
-  managedEndpointConfiguration?: (typeof ManagedEndpointConfiguration)["Type"];
+  managedEndpointConfiguration?: ManagedEndpointConfiguration;
   clientToken: string;
   description?: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const CreateResponderGatewayRequest = S.suspend(() =>
   S.Struct({
@@ -1315,7 +1407,7 @@ export const CreateResponderGatewayRequest = S.suspend(() =>
     securityGroupIds: SecurityGroupIdList,
     domainName: S.optional(S.String),
     port: S.Number,
-    protocol: S.String,
+    protocol: Protocol,
     trustStoreConfiguration: S.optional(TrustStoreConfiguration),
     managedEndpointConfiguration: S.optional(ManagedEndpointConfiguration),
     clientToken: S.String,
@@ -1339,7 +1431,7 @@ export interface CreateLinkRequest {
   peerGatewayId: string;
   attributes?: LinkAttributes;
   httpResponderAllowed?: boolean;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   logSettings: LinkLogSettings;
 }
 export const CreateLinkRequest = S.suspend(() =>
@@ -1365,22 +1457,22 @@ export const CreateLinkRequest = S.suspend(() =>
 }) as any as S.Schema<CreateLinkRequest>;
 export interface CreateResponderGatewayResponse {
   gatewayId: string;
-  status: string;
+  status: ResponderGatewayStatus;
 }
 export const CreateResponderGatewayResponse = S.suspend(() =>
-  S.Struct({ gatewayId: S.String, status: S.String }),
+  S.Struct({ gatewayId: S.String, status: ResponderGatewayStatus }),
 ).annotations({
   identifier: "CreateResponderGatewayResponse",
 }) as any as S.Schema<CreateResponderGatewayResponse>;
 export interface CreateLinkResponse {
   gatewayId: string;
   peerGatewayId: string;
-  status: string;
+  status: LinkStatus;
   createdAt: Date;
   updatedAt: Date;
-  direction?: string;
-  flowModules?: ModuleConfigurationList;
-  pendingFlowModules?: ModuleConfigurationList;
+  direction?: LinkDirection;
+  flowModules?: ModuleConfiguration[];
+  pendingFlowModules?: ModuleConfiguration[];
   attributes?: LinkAttributes;
   linkId: string;
   customerProvidedId?: string;
@@ -1389,10 +1481,10 @@ export const CreateLinkResponse = S.suspend(() =>
   S.Struct({
     gatewayId: S.String,
     peerGatewayId: S.String,
-    status: S.String,
+    status: LinkStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    direction: S.optional(S.String),
+    direction: S.optional(LinkDirection),
     flowModules: S.optional(ModuleConfigurationList),
     pendingFlowModules: S.optional(ModuleConfigurationList),
     attributes: S.optional(LinkAttributes),
@@ -1406,7 +1498,7 @@ export interface UpdateLinkModuleFlowRequest {
   clientToken: string;
   gatewayId: string;
   linkId: string;
-  modules: ModuleConfigurationList;
+  modules: ModuleConfiguration[];
 }
 export const UpdateLinkModuleFlowRequest = S.suspend(() =>
   S.Struct({
@@ -1433,10 +1525,10 @@ export const UpdateLinkModuleFlowRequest = S.suspend(() =>
 export interface UpdateLinkModuleFlowResponse {
   gatewayId: string;
   linkId: string;
-  status: string;
+  status: LinkStatus;
 }
 export const UpdateLinkModuleFlowResponse = S.suspend(() =>
-  S.Struct({ gatewayId: S.String, linkId: S.String, status: S.String }),
+  S.Struct({ gatewayId: S.String, linkId: S.String, status: LinkStatus }),
 ).annotations({
   identifier: "UpdateLinkModuleFlowResponse",
 }) as any as S.Schema<UpdateLinkModuleFlowResponse>;
@@ -1480,21 +1572,21 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export const listRequesterGateways: {
   (
     input: ListRequesterGatewaysRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRequesterGatewaysResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListRequesterGatewaysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRequesterGatewaysResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRequesterGatewaysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GatewayId,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1516,21 +1608,21 @@ export const listRequesterGateways: {
 export const listResponderGateways: {
   (
     input: ListResponderGatewaysRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResponderGatewaysResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListResponderGatewaysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResponderGatewaysResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResponderGatewaysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GatewayId,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1553,7 +1645,7 @@ export const listResponderGateways: {
  */
 export const getLink: (
   input: GetLinkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -1582,7 +1674,7 @@ export const getLink: (
  */
 export const createResponderGateway: (
   input: CreateResponderGatewayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateResponderGatewayResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1612,7 +1704,7 @@ export const createResponderGateway: (
 export const listLinks: {
   (
     input: ListLinksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLinksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1624,7 +1716,7 @@ export const listLinks: {
   >;
   pages: (
     input: ListLinksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLinksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1636,7 +1728,7 @@ export const listLinks: {
   >;
   items: (
     input: ListLinksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLinksResponseStructure,
     | AccessDeniedException
     | InternalServerException
@@ -1668,7 +1760,7 @@ export const listLinks: {
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1693,7 +1785,7 @@ export const untagResource: (
  */
 export const getRequesterGateway: (
   input: GetRequesterGatewayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRequesterGatewayResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1718,7 +1810,7 @@ export const getRequesterGateway: (
  */
 export const deleteRequesterGateway: (
   input: DeleteRequesterGatewayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRequesterGatewayResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1743,7 +1835,7 @@ export const deleteRequesterGateway: (
  */
 export const getOutboundExternalLink: (
   input: GetOutboundExternalLinkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetOutboundExternalLinkResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1768,7 +1860,7 @@ export const getOutboundExternalLink: (
  */
 export const getResponderGateway: (
   input: GetResponderGatewayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResponderGatewayResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1793,7 +1885,7 @@ export const getResponderGateway: (
  */
 export const deleteResponderGateway: (
   input: DeleteResponderGatewayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResponderGatewayResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1818,7 +1910,7 @@ export const deleteResponderGateway: (
  */
 export const getInboundExternalLink: (
   input: GetInboundExternalLinkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInboundExternalLinkResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1843,7 +1935,7 @@ export const getInboundExternalLink: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1868,7 +1960,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1895,7 +1987,7 @@ export const tagResource: (
  */
 export const deleteLink: (
   input: DeleteLinkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -1924,7 +2016,7 @@ export const deleteLink: (
  */
 export const acceptLink: (
   input: AcceptLinkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AcceptLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -1953,7 +2045,7 @@ export const acceptLink: (
  */
 export const rejectLink: (
   input: RejectLinkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RejectLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -1982,7 +2074,7 @@ export const rejectLink: (
  */
 export const updateLink: (
   input: UpdateLinkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -2009,7 +2101,7 @@ export const updateLink: (
  */
 export const updateRequesterGateway: (
   input: UpdateRequesterGatewayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRequesterGatewayResponse,
   | AccessDeniedException
   | ConflictException
@@ -2036,7 +2128,7 @@ export const updateRequesterGateway: (
  */
 export const deleteOutboundExternalLink: (
   input: DeleteOutboundExternalLinkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteOutboundExternalLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -2063,7 +2155,7 @@ export const deleteOutboundExternalLink: (
  */
 export const updateResponderGateway: (
   input: UpdateResponderGatewayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateResponderGatewayResponse,
   | AccessDeniedException
   | ConflictException
@@ -2090,7 +2182,7 @@ export const updateResponderGateway: (
  */
 export const deleteInboundExternalLink: (
   input: DeleteInboundExternalLinkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteInboundExternalLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -2117,7 +2209,7 @@ export const deleteInboundExternalLink: (
  */
 export const createRequesterGateway: (
   input: CreateRequesterGatewayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRequesterGatewayResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2144,7 +2236,7 @@ export const createRequesterGateway: (
  */
 export const createOutboundExternalLink: (
   input: CreateOutboundExternalLinkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateOutboundExternalLinkResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2171,7 +2263,7 @@ export const createOutboundExternalLink: (
  */
 export const createInboundExternalLink: (
   input: CreateInboundExternalLinkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateInboundExternalLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -2202,7 +2294,7 @@ export const createInboundExternalLink: (
  */
 export const createLink: (
   input: CreateLinkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -2231,7 +2323,7 @@ export const createLink: (
  */
 export const updateLinkModuleFlow: (
   input: UpdateLinkModuleFlowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLinkModuleFlowResponse,
   | AccessDeniedException
   | ConflictException

@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -420,10 +420,171 @@ export const GetTrafficPolicyInstanceCountRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetTrafficPolicyInstanceCountRequest",
 }) as any as S.Schema<GetTrafficPolicyInstanceCountRequest>;
+export type TagResourceType = "healthcheck" | "hostedzone";
+export const TagResourceType = S.Literal("healthcheck", "hostedzone");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String.pipe(T.XmlName("Key")));
+export type AccountLimitType =
+  | "MAX_HEALTH_CHECKS_BY_OWNER"
+  | "MAX_HOSTED_ZONES_BY_OWNER"
+  | "MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER"
+  | "MAX_REUSABLE_DELEGATION_SETS_BY_OWNER"
+  | "MAX_TRAFFIC_POLICIES_BY_OWNER";
+export const AccountLimitType = S.Literal(
+  "MAX_HEALTH_CHECKS_BY_OWNER",
+  "MAX_HOSTED_ZONES_BY_OWNER",
+  "MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER",
+  "MAX_REUSABLE_DELEGATION_SETS_BY_OWNER",
+  "MAX_TRAFFIC_POLICIES_BY_OWNER",
+);
 export type CheckerIpRanges = string[];
 export const CheckerIpRanges = S.Array(S.String);
+export type HostedZoneLimitType =
+  | "MAX_RRSETS_BY_ZONE"
+  | "MAX_VPCS_ASSOCIATED_BY_ZONE";
+export const HostedZoneLimitType = S.Literal(
+  "MAX_RRSETS_BY_ZONE",
+  "MAX_VPCS_ASSOCIATED_BY_ZONE",
+);
+export type ReusableDelegationSetLimitType =
+  "MAX_ZONES_BY_REUSABLE_DELEGATION_SET";
+export const ReusableDelegationSetLimitType = S.Literal(
+  "MAX_ZONES_BY_REUSABLE_DELEGATION_SET",
+);
+export type HostedZoneType = "PrivateHostedZone";
+export const HostedZoneType = S.Literal("PrivateHostedZone");
+export type VPCRegion =
+  | "us-east-1"
+  | "us-east-2"
+  | "us-west-1"
+  | "us-west-2"
+  | "eu-west-1"
+  | "eu-west-2"
+  | "eu-west-3"
+  | "eu-central-1"
+  | "eu-central-2"
+  | "ap-east-1"
+  | "me-south-1"
+  | "us-gov-west-1"
+  | "us-gov-east-1"
+  | "us-iso-east-1"
+  | "us-iso-west-1"
+  | "us-isob-east-1"
+  | "me-central-1"
+  | "ap-southeast-1"
+  | "ap-southeast-2"
+  | "ap-southeast-3"
+  | "ap-south-1"
+  | "ap-south-2"
+  | "ap-northeast-1"
+  | "ap-northeast-2"
+  | "ap-northeast-3"
+  | "eu-north-1"
+  | "sa-east-1"
+  | "ca-central-1"
+  | "cn-north-1"
+  | "cn-northwest-1"
+  | "af-south-1"
+  | "eu-south-1"
+  | "eu-south-2"
+  | "ap-southeast-4"
+  | "il-central-1"
+  | "ca-west-1"
+  | "ap-southeast-5"
+  | "mx-central-1"
+  | "us-isof-south-1"
+  | "us-isof-east-1"
+  | "ap-southeast-7"
+  | "ap-east-2"
+  | "eu-isoe-west-1"
+  | "ap-southeast-6"
+  | "us-isob-west-1"
+  | "eusc-de-east-1";
+export const VPCRegion = S.Literal(
+  "us-east-1",
+  "us-east-2",
+  "us-west-1",
+  "us-west-2",
+  "eu-west-1",
+  "eu-west-2",
+  "eu-west-3",
+  "eu-central-1",
+  "eu-central-2",
+  "ap-east-1",
+  "me-south-1",
+  "us-gov-west-1",
+  "us-gov-east-1",
+  "us-iso-east-1",
+  "us-iso-west-1",
+  "us-isob-east-1",
+  "me-central-1",
+  "ap-southeast-1",
+  "ap-southeast-2",
+  "ap-southeast-3",
+  "ap-south-1",
+  "ap-south-2",
+  "ap-northeast-1",
+  "ap-northeast-2",
+  "ap-northeast-3",
+  "eu-north-1",
+  "sa-east-1",
+  "ca-central-1",
+  "cn-north-1",
+  "cn-northwest-1",
+  "af-south-1",
+  "eu-south-1",
+  "eu-south-2",
+  "ap-southeast-4",
+  "il-central-1",
+  "ca-west-1",
+  "ap-southeast-5",
+  "mx-central-1",
+  "us-isof-south-1",
+  "us-isof-east-1",
+  "ap-southeast-7",
+  "ap-east-2",
+  "eu-isoe-west-1",
+  "ap-southeast-6",
+  "us-isob-west-1",
+  "eusc-de-east-1",
+);
+export type RRType =
+  | "SOA"
+  | "A"
+  | "TXT"
+  | "NS"
+  | "CNAME"
+  | "MX"
+  | "NAPTR"
+  | "PTR"
+  | "SRV"
+  | "SPF"
+  | "AAAA"
+  | "CAA"
+  | "DS"
+  | "TLSA"
+  | "SSHFP"
+  | "SVCB"
+  | "HTTPS";
+export const RRType = S.Literal(
+  "SOA",
+  "A",
+  "TXT",
+  "NS",
+  "CNAME",
+  "MX",
+  "NAPTR",
+  "PTR",
+  "SRV",
+  "SPF",
+  "AAAA",
+  "CAA",
+  "DS",
+  "TLSA",
+  "SSHFP",
+  "SVCB",
+  "HTTPS",
+);
 export type TagResourceIdList = string[];
 export const TagResourceIdList = S.Array(
   S.String.pipe(T.XmlName("ResourceId")),
@@ -432,13 +593,52 @@ export type ChildHealthCheckList = string[];
 export const ChildHealthCheckList = S.Array(
   S.String.pipe(T.XmlName("ChildHealthCheck")),
 );
-export type HealthCheckRegionList = string[];
-export const HealthCheckRegionList = S.Array(
-  S.String.pipe(T.XmlName("Region")),
+export type HealthCheckRegion =
+  | "us-east-1"
+  | "us-west-1"
+  | "us-west-2"
+  | "eu-west-1"
+  | "ap-southeast-1"
+  | "ap-southeast-2"
+  | "ap-northeast-1"
+  | "sa-east-1";
+export const HealthCheckRegion = S.Literal(
+  "us-east-1",
+  "us-west-1",
+  "us-west-2",
+  "eu-west-1",
+  "ap-southeast-1",
+  "ap-southeast-2",
+  "ap-northeast-1",
+  "sa-east-1",
 );
-export type ResettableElementNameList = string[];
+export type HealthCheckRegionList = HealthCheckRegion[];
+export const HealthCheckRegionList = S.Array(
+  HealthCheckRegion.pipe(T.XmlName("Region")),
+);
+export type InsufficientDataHealthStatus =
+  | "Healthy"
+  | "Unhealthy"
+  | "LastKnownStatus";
+export const InsufficientDataHealthStatus = S.Literal(
+  "Healthy",
+  "Unhealthy",
+  "LastKnownStatus",
+);
+export type ResettableElementName =
+  | "FullyQualifiedDomainName"
+  | "Regions"
+  | "ResourcePath"
+  | "ChildHealthChecks";
+export const ResettableElementName = S.Literal(
+  "FullyQualifiedDomainName",
+  "Regions",
+  "ResourcePath",
+  "ChildHealthChecks",
+);
+export type ResettableElementNameList = ResettableElementName[];
 export const ResettableElementNameList = S.Array(
-  S.String.pipe(T.XmlName("ResettableElementName")),
+  ResettableElementName.pipe(T.XmlName("ResettableElementName")),
 );
 export interface ActivateKeySigningKeyRequest {
   HostedZoneId: string;
@@ -633,11 +833,11 @@ export const CreateTrafficPolicyVersionRequest = S.suspend(() =>
   identifier: "CreateTrafficPolicyVersionRequest",
 }) as any as S.Schema<CreateTrafficPolicyVersionRequest>;
 export interface VPC {
-  VPCRegion?: string;
+  VPCRegion?: VPCRegion;
   VPCId?: string;
 }
 export const VPC = S.suspend(() =>
-  S.Struct({ VPCRegion: S.optional(S.String), VPCId: S.optional(S.String) }),
+  S.Struct({ VPCRegion: S.optional(VPCRegion), VPCId: S.optional(S.String) }),
 ).annotations({ identifier: "VPC" }) as any as S.Schema<VPC>;
 export interface CreateVPCAssociationAuthorizationRequest {
   HostedZoneId: string;
@@ -990,10 +1190,10 @@ export const EnableHostedZoneDNSSECRequest = S.suspend(() =>
   identifier: "EnableHostedZoneDNSSECRequest",
 }) as any as S.Schema<EnableHostedZoneDNSSECRequest>;
 export interface GetAccountLimitRequest {
-  Type: string;
+  Type: AccountLimitType;
 }
 export const GetAccountLimitRequest = S.suspend(() =>
-  S.Struct({ Type: S.String.pipe(T.HttpLabel("Type")) }).pipe(
+  S.Struct({ Type: AccountLimitType.pipe(T.HttpLabel("Type")) }).pipe(
     T.all(
       ns,
       T.Http({ method: "GET", uri: "/2013-04-01/accountlimit/{Type}" }),
@@ -1026,7 +1226,7 @@ export const GetChangeRequest = S.suspend(() =>
   identifier: "GetChangeRequest",
 }) as any as S.Schema<GetChangeRequest>;
 export interface GetCheckerIpRangesResponse {
-  CheckerIpRanges: CheckerIpRanges;
+  CheckerIpRanges: string[];
 }
 export const GetCheckerIpRangesResponse = S.suspend(() =>
   S.Struct({ CheckerIpRanges: CheckerIpRanges }).pipe(ns),
@@ -1173,12 +1373,12 @@ export const GetHostedZoneCountResponse = S.suspend(() =>
   identifier: "GetHostedZoneCountResponse",
 }) as any as S.Schema<GetHostedZoneCountResponse>;
 export interface GetHostedZoneLimitRequest {
-  Type: string;
+  Type: HostedZoneLimitType;
   HostedZoneId: string;
 }
 export const GetHostedZoneLimitRequest = S.suspend(() =>
   S.Struct({
-    Type: S.String.pipe(T.HttpLabel("Type")),
+    Type: HostedZoneLimitType.pipe(T.HttpLabel("Type")),
     HostedZoneId: S.String.pipe(T.HttpLabel("HostedZoneId")),
   }).pipe(
     T.all(
@@ -1234,12 +1434,12 @@ export const GetReusableDelegationSetRequest = S.suspend(() =>
   identifier: "GetReusableDelegationSetRequest",
 }) as any as S.Schema<GetReusableDelegationSetRequest>;
 export interface GetReusableDelegationSetLimitRequest {
-  Type: string;
+  Type: ReusableDelegationSetLimitType;
   DelegationSetId: string;
 }
 export const GetReusableDelegationSetLimitRequest = S.suspend(() =>
   S.Struct({
-    Type: S.String.pipe(T.HttpLabel("Type")),
+    Type: ReusableDelegationSetLimitType.pipe(T.HttpLabel("Type")),
     DelegationSetId: S.String.pipe(T.HttpLabel("DelegationSetId")),
   }).pipe(
     T.all(
@@ -1445,14 +1645,16 @@ export interface ListHostedZonesRequest {
   Marker?: string;
   MaxItems?: number;
   DelegationSetId?: string;
-  HostedZoneType?: string;
+  HostedZoneType?: HostedZoneType;
 }
 export const ListHostedZonesRequest = S.suspend(() =>
   S.Struct({
     Marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("maxitems")),
     DelegationSetId: S.optional(S.String).pipe(T.HttpQuery("delegationsetid")),
-    HostedZoneType: S.optional(S.String).pipe(T.HttpQuery("hostedzonetype")),
+    HostedZoneType: S.optional(HostedZoneType).pipe(
+      T.HttpQuery("hostedzonetype"),
+    ),
   }).pipe(
     T.all(
       ns,
@@ -1493,14 +1695,14 @@ export const ListHostedZonesByNameRequest = S.suspend(() =>
 }) as any as S.Schema<ListHostedZonesByNameRequest>;
 export interface ListHostedZonesByVPCRequest {
   VPCId: string;
-  VPCRegion: string;
+  VPCRegion: VPCRegion;
   MaxItems?: number;
   NextToken?: string;
 }
 export const ListHostedZonesByVPCRequest = S.suspend(() =>
   S.Struct({
     VPCId: S.String.pipe(T.HttpQuery("vpcid")),
-    VPCRegion: S.String.pipe(T.HttpQuery("vpcregion")),
+    VPCRegion: VPCRegion.pipe(T.HttpQuery("vpcregion")),
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("maxitems")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nexttoken")),
   }).pipe(
@@ -1544,7 +1746,7 @@ export const ListQueryLoggingConfigsRequest = S.suspend(() =>
 export interface ListResourceRecordSetsRequest {
   HostedZoneId: string;
   StartRecordName?: string;
-  StartRecordType?: string;
+  StartRecordType?: RRType;
   StartRecordIdentifier?: string;
   MaxItems?: number;
 }
@@ -1552,7 +1754,7 @@ export const ListResourceRecordSetsRequest = S.suspend(() =>
   S.Struct({
     HostedZoneId: S.String.pipe(T.HttpLabel("HostedZoneId")),
     StartRecordName: S.optional(S.String).pipe(T.HttpQuery("name")),
-    StartRecordType: S.optional(S.String).pipe(T.HttpQuery("type")),
+    StartRecordType: S.optional(RRType).pipe(T.HttpQuery("type")),
     StartRecordIdentifier: S.optional(S.String).pipe(T.HttpQuery("identifier")),
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("maxitems")),
   }).pipe(
@@ -1595,12 +1797,12 @@ export const ListReusableDelegationSetsRequest = S.suspend(() =>
   identifier: "ListReusableDelegationSetsRequest",
 }) as any as S.Schema<ListReusableDelegationSetsRequest>;
 export interface ListTagsForResourceRequest {
-  ResourceType: string;
+  ResourceType: TagResourceType;
   ResourceId: string;
 }
 export const ListTagsForResourceRequest = S.suspend(() =>
   S.Struct({
-    ResourceType: S.String.pipe(T.HttpLabel("ResourceType")),
+    ResourceType: TagResourceType.pipe(T.HttpLabel("ResourceType")),
     ResourceId: S.String.pipe(T.HttpLabel("ResourceId")),
   }).pipe(
     T.all(
@@ -1620,12 +1822,12 @@ export const ListTagsForResourceRequest = S.suspend(() =>
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourcesRequest {
-  ResourceType: string;
-  ResourceIds: TagResourceIdList;
+  ResourceType: TagResourceType;
+  ResourceIds: string[];
 }
 export const ListTagsForResourcesRequest = S.suspend(() =>
   S.Struct({
-    ResourceType: S.String.pipe(T.HttpLabel("ResourceType")),
+    ResourceType: TagResourceType.pipe(T.HttpLabel("ResourceType")),
     ResourceIds: TagResourceIdList,
   }).pipe(
     T.all(
@@ -1668,7 +1870,7 @@ export const ListTrafficPoliciesRequest = S.suspend(() =>
 export interface ListTrafficPolicyInstancesRequest {
   HostedZoneIdMarker?: string;
   TrafficPolicyInstanceNameMarker?: string;
-  TrafficPolicyInstanceTypeMarker?: string;
+  TrafficPolicyInstanceTypeMarker?: RRType;
   MaxItems?: number;
 }
 export const ListTrafficPolicyInstancesRequest = S.suspend(() =>
@@ -1677,7 +1879,7 @@ export const ListTrafficPolicyInstancesRequest = S.suspend(() =>
     TrafficPolicyInstanceNameMarker: S.optional(S.String).pipe(
       T.HttpQuery("trafficpolicyinstancename"),
     ),
-    TrafficPolicyInstanceTypeMarker: S.optional(S.String).pipe(
+    TrafficPolicyInstanceTypeMarker: S.optional(RRType).pipe(
       T.HttpQuery("trafficpolicyinstancetype"),
     ),
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("maxitems")),
@@ -1698,7 +1900,7 @@ export const ListTrafficPolicyInstancesRequest = S.suspend(() =>
 export interface ListTrafficPolicyInstancesByHostedZoneRequest {
   HostedZoneId: string;
   TrafficPolicyInstanceNameMarker?: string;
-  TrafficPolicyInstanceTypeMarker?: string;
+  TrafficPolicyInstanceTypeMarker?: RRType;
   MaxItems?: number;
 }
 export const ListTrafficPolicyInstancesByHostedZoneRequest = S.suspend(() =>
@@ -1707,7 +1909,7 @@ export const ListTrafficPolicyInstancesByHostedZoneRequest = S.suspend(() =>
     TrafficPolicyInstanceNameMarker: S.optional(S.String).pipe(
       T.HttpQuery("trafficpolicyinstancename"),
     ),
-    TrafficPolicyInstanceTypeMarker: S.optional(S.String).pipe(
+    TrafficPolicyInstanceTypeMarker: S.optional(RRType).pipe(
       T.HttpQuery("trafficpolicyinstancetype"),
     ),
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("maxitems")),
@@ -1733,7 +1935,7 @@ export interface ListTrafficPolicyInstancesByPolicyRequest {
   TrafficPolicyVersion: number;
   HostedZoneIdMarker?: string;
   TrafficPolicyInstanceNameMarker?: string;
-  TrafficPolicyInstanceTypeMarker?: string;
+  TrafficPolicyInstanceTypeMarker?: RRType;
   MaxItems?: number;
 }
 export const ListTrafficPolicyInstancesByPolicyRequest = S.suspend(() =>
@@ -1744,7 +1946,7 @@ export const ListTrafficPolicyInstancesByPolicyRequest = S.suspend(() =>
     TrafficPolicyInstanceNameMarker: S.optional(S.String).pipe(
       T.HttpQuery("trafficpolicyinstancename"),
     ),
-    TrafficPolicyInstanceTypeMarker: S.optional(S.String).pipe(
+    TrafficPolicyInstanceTypeMarker: S.optional(RRType).pipe(
       T.HttpQuery("trafficpolicyinstancetype"),
     ),
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("maxitems")),
@@ -1824,7 +2026,7 @@ export const ListVPCAssociationAuthorizationsRequest = S.suspend(() =>
 export interface TestDNSAnswerRequest {
   HostedZoneId: string;
   RecordName: string;
-  RecordType: string;
+  RecordType: RRType;
   ResolverIP?: string;
   EDNS0ClientSubnetIP?: string;
   EDNS0ClientSubnetMask?: string;
@@ -1833,7 +2035,7 @@ export const TestDNSAnswerRequest = S.suspend(() =>
   S.Struct({
     HostedZoneId: S.String.pipe(T.HttpQuery("hostedzoneid")),
     RecordName: S.String.pipe(T.HttpQuery("recordname")),
-    RecordType: S.String.pipe(T.HttpQuery("recordtype")),
+    RecordType: RRType.pipe(T.HttpQuery("recordtype")),
     ResolverIP: S.optional(S.String).pipe(T.HttpQuery("resolverip")),
     EDNS0ClientSubnetIP: S.optional(S.String).pipe(
       T.HttpQuery("edns0clientsubnetip"),
@@ -1961,15 +2163,135 @@ export const UpdateTrafficPolicyInstanceRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateTrafficPolicyInstanceRequest",
 }) as any as S.Schema<UpdateTrafficPolicyInstanceRequest>;
+export type CidrCollectionChangeAction = "PUT" | "DELETE_IF_EXISTS";
+export const CidrCollectionChangeAction = S.Literal("PUT", "DELETE_IF_EXISTS");
 export type CidrList = string[];
 export const CidrList = S.Array(S.String.pipe(T.XmlName("Cidr")));
+export type HealthCheckType =
+  | "HTTP"
+  | "HTTPS"
+  | "HTTP_STR_MATCH"
+  | "HTTPS_STR_MATCH"
+  | "TCP"
+  | "CALCULATED"
+  | "CLOUDWATCH_METRIC"
+  | "RECOVERY_CONTROL";
+export const HealthCheckType = S.Literal(
+  "HTTP",
+  "HTTPS",
+  "HTTP_STR_MATCH",
+  "HTTPS_STR_MATCH",
+  "TCP",
+  "CALCULATED",
+  "CLOUDWATCH_METRIC",
+  "RECOVERY_CONTROL",
+);
+export type CloudWatchRegion =
+  | "us-east-1"
+  | "us-east-2"
+  | "us-west-1"
+  | "us-west-2"
+  | "ca-central-1"
+  | "eu-central-1"
+  | "eu-central-2"
+  | "eu-west-1"
+  | "eu-west-2"
+  | "eu-west-3"
+  | "ap-east-1"
+  | "me-south-1"
+  | "me-central-1"
+  | "ap-south-1"
+  | "ap-south-2"
+  | "ap-southeast-1"
+  | "ap-southeast-2"
+  | "ap-southeast-3"
+  | "ap-northeast-1"
+  | "ap-northeast-2"
+  | "ap-northeast-3"
+  | "eu-north-1"
+  | "sa-east-1"
+  | "cn-northwest-1"
+  | "cn-north-1"
+  | "af-south-1"
+  | "eu-south-1"
+  | "eu-south-2"
+  | "us-gov-west-1"
+  | "us-gov-east-1"
+  | "us-iso-east-1"
+  | "us-iso-west-1"
+  | "us-isob-east-1"
+  | "ap-southeast-4"
+  | "il-central-1"
+  | "ca-west-1"
+  | "ap-southeast-5"
+  | "mx-central-1"
+  | "us-isof-south-1"
+  | "us-isof-east-1"
+  | "ap-southeast-7"
+  | "ap-east-2"
+  | "eu-isoe-west-1"
+  | "ap-southeast-6"
+  | "us-isob-west-1"
+  | "eusc-de-east-1";
+export const CloudWatchRegion = S.Literal(
+  "us-east-1",
+  "us-east-2",
+  "us-west-1",
+  "us-west-2",
+  "ca-central-1",
+  "eu-central-1",
+  "eu-central-2",
+  "eu-west-1",
+  "eu-west-2",
+  "eu-west-3",
+  "ap-east-1",
+  "me-south-1",
+  "me-central-1",
+  "ap-south-1",
+  "ap-south-2",
+  "ap-southeast-1",
+  "ap-southeast-2",
+  "ap-southeast-3",
+  "ap-northeast-1",
+  "ap-northeast-2",
+  "ap-northeast-3",
+  "eu-north-1",
+  "sa-east-1",
+  "cn-northwest-1",
+  "cn-north-1",
+  "af-south-1",
+  "eu-south-1",
+  "eu-south-2",
+  "us-gov-west-1",
+  "us-gov-east-1",
+  "us-iso-east-1",
+  "us-iso-west-1",
+  "us-isob-east-1",
+  "ap-southeast-4",
+  "il-central-1",
+  "ca-west-1",
+  "ap-southeast-5",
+  "mx-central-1",
+  "us-isof-south-1",
+  "us-isof-east-1",
+  "ap-southeast-7",
+  "ap-east-2",
+  "eu-isoe-west-1",
+  "ap-southeast-6",
+  "us-isob-west-1",
+  "eusc-de-east-1",
+);
 export interface CidrCollectionChange {
   LocationName: string;
-  Action: string;
-  CidrList: CidrList;
+  Action: CidrCollectionChangeAction;
+  CidrList: string[];
 }
 export const CidrCollectionChange = S.suspend(() =>
-  S.Struct({ LocationName: S.String, Action: S.String, CidrList: CidrList }),
+  S.Struct({
+    LocationName: S.String,
+    Action: CidrCollectionChangeAction,
+    CidrList: CidrList,
+  }),
 ).annotations({
   identifier: "CidrCollectionChange",
 }) as any as S.Schema<CidrCollectionChange>;
@@ -1987,18 +2309,18 @@ export const TagList = S.Array(
   Tag.pipe(T.XmlName("Tag")).annotations({ identifier: "Tag" }),
 );
 export interface AlarmIdentifier {
-  Region: string;
+  Region: CloudWatchRegion;
   Name: string;
 }
 export const AlarmIdentifier = S.suspend(() =>
-  S.Struct({ Region: S.String, Name: S.String }),
+  S.Struct({ Region: CloudWatchRegion, Name: S.String }),
 ).annotations({
   identifier: "AlarmIdentifier",
 }) as any as S.Schema<AlarmIdentifier>;
 export interface HealthCheckConfig {
   IPAddress?: string;
   Port?: number;
-  Type: string;
+  Type: HealthCheckType;
   ResourcePath?: string;
   FullyQualifiedDomainName?: string;
   SearchString?: string;
@@ -2008,18 +2330,18 @@ export interface HealthCheckConfig {
   Inverted?: boolean;
   Disabled?: boolean;
   HealthThreshold?: number;
-  ChildHealthChecks?: ChildHealthCheckList;
+  ChildHealthChecks?: string[];
   EnableSNI?: boolean;
-  Regions?: HealthCheckRegionList;
+  Regions?: HealthCheckRegion[];
   AlarmIdentifier?: AlarmIdentifier;
-  InsufficientDataHealthStatus?: string;
+  InsufficientDataHealthStatus?: InsufficientDataHealthStatus;
   RoutingControlArn?: string;
 }
 export const HealthCheckConfig = S.suspend(() =>
   S.Struct({
     IPAddress: S.optional(S.String),
     Port: S.optional(S.Number),
-    Type: S.String,
+    Type: HealthCheckType,
     ResourcePath: S.optional(S.String),
     FullyQualifiedDomainName: S.optional(S.String),
     SearchString: S.optional(S.String),
@@ -2033,7 +2355,7 @@ export const HealthCheckConfig = S.suspend(() =>
     EnableSNI: S.optional(S.Boolean),
     Regions: S.optional(HealthCheckRegionList),
     AlarmIdentifier: S.optional(AlarmIdentifier),
-    InsufficientDataHealthStatus: S.optional(S.String),
+    InsufficientDataHealthStatus: S.optional(InsufficientDataHealthStatus),
     RoutingControlArn: S.optional(S.String),
   }),
 ).annotations({
@@ -2135,6 +2457,30 @@ export const LinkedService = S.suspend(() =>
 ).annotations({
   identifier: "LinkedService",
 }) as any as S.Schema<LinkedService>;
+export type ComparisonOperator =
+  | "GreaterThanOrEqualToThreshold"
+  | "GreaterThanThreshold"
+  | "LessThanThreshold"
+  | "LessThanOrEqualToThreshold";
+export const ComparisonOperator = S.Literal(
+  "GreaterThanOrEqualToThreshold",
+  "GreaterThanThreshold",
+  "LessThanThreshold",
+  "LessThanOrEqualToThreshold",
+);
+export type Statistic =
+  | "Average"
+  | "Sum"
+  | "SampleCount"
+  | "Maximum"
+  | "Minimum";
+export const Statistic = S.Literal(
+  "Average",
+  "Sum",
+  "SampleCount",
+  "Maximum",
+  "Minimum",
+);
 export interface Dimension {
   Name: string;
   Value: string;
@@ -2151,22 +2497,22 @@ export const DimensionList = S.Array(
 export interface CloudWatchAlarmConfiguration {
   EvaluationPeriods: number;
   Threshold: number;
-  ComparisonOperator: string;
+  ComparisonOperator: ComparisonOperator;
   Period: number;
   MetricName: string;
   Namespace: string;
-  Statistic: string;
-  Dimensions?: DimensionList;
+  Statistic: Statistic;
+  Dimensions?: Dimension[];
 }
 export const CloudWatchAlarmConfiguration = S.suspend(() =>
   S.Struct({
     EvaluationPeriods: S.Number,
     Threshold: S.Number,
-    ComparisonOperator: S.String,
+    ComparisonOperator: ComparisonOperator,
     Period: S.Number,
     MetricName: S.String,
     Namespace: S.String,
-    Statistic: S.String,
+    Statistic: Statistic,
     Dimensions: S.optional(DimensionList),
   }),
 ).annotations({
@@ -2196,6 +2542,25 @@ export const HealthChecks = S.Array(
     identifier: "HealthCheck",
   }),
 );
+export type AcceleratedRecoveryStatus =
+  | "ENABLING"
+  | "ENABLE_FAILED"
+  | "ENABLING_HOSTED_ZONE_LOCKED"
+  | "ENABLED"
+  | "DISABLING"
+  | "DISABLE_FAILED"
+  | "DISABLED"
+  | "DISABLING_HOSTED_ZONE_LOCKED";
+export const AcceleratedRecoveryStatus = S.Literal(
+  "ENABLING",
+  "ENABLE_FAILED",
+  "ENABLING_HOSTED_ZONE_LOCKED",
+  "ENABLED",
+  "DISABLING",
+  "DISABLE_FAILED",
+  "DISABLED",
+  "DISABLING_HOSTED_ZONE_LOCKED",
+);
 export interface HostedZoneFailureReasons {
   AcceleratedRecovery?: string;
 }
@@ -2205,12 +2570,12 @@ export const HostedZoneFailureReasons = S.suspend(() =>
   identifier: "HostedZoneFailureReasons",
 }) as any as S.Schema<HostedZoneFailureReasons>;
 export interface HostedZoneFeatures {
-  AcceleratedRecoveryStatus?: string;
+  AcceleratedRecoveryStatus?: AcceleratedRecoveryStatus;
   FailureReasons?: HostedZoneFailureReasons;
 }
 export const HostedZoneFeatures = S.suspend(() =>
   S.Struct({
-    AcceleratedRecoveryStatus: S.optional(S.String),
+    AcceleratedRecoveryStatus: S.optional(AcceleratedRecoveryStatus),
     FailureReasons: S.optional(HostedZoneFailureReasons),
   }),
 ).annotations({
@@ -2269,7 +2634,7 @@ export const DelegationSetNameServers = S.Array(
 export interface DelegationSet {
   Id?: string;
   CallerReference?: string;
-  NameServers: DelegationSetNameServers;
+  NameServers: string[];
 }
 export const DelegationSet = S.suspend(() =>
   S.Struct({
@@ -2287,13 +2652,13 @@ export const DelegationSets = S.Array(
   }),
 );
 export interface ResourceTagSet {
-  ResourceType?: string;
+  ResourceType?: TagResourceType;
   ResourceId?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ResourceTagSet = S.suspend(() =>
   S.Struct({
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(TagResourceType),
     ResourceId: S.optional(S.String),
     Tags: S.optional(TagList),
   }),
@@ -2315,7 +2680,7 @@ export interface TrafficPolicyInstance {
   Message: string;
   TrafficPolicyId: string;
   TrafficPolicyVersion: number;
-  TrafficPolicyType: string;
+  TrafficPolicyType: RRType;
 }
 export const TrafficPolicyInstance = S.suspend(() =>
   S.Struct({
@@ -2327,7 +2692,7 @@ export const TrafficPolicyInstance = S.suspend(() =>
     Message: S.String,
     TrafficPolicyId: S.String,
     TrafficPolicyVersion: S.Number,
-    TrafficPolicyType: S.String,
+    TrafficPolicyType: RRType,
   }),
 ).annotations({
   identifier: "TrafficPolicyInstance",
@@ -2342,7 +2707,7 @@ export interface TrafficPolicy {
   Id: string;
   Version: number;
   Name: string;
-  Type: string;
+  Type: RRType;
   Document: string;
   Comment?: string;
 }
@@ -2351,7 +2716,7 @@ export const TrafficPolicy = S.suspend(() =>
     Id: S.String,
     Version: S.Number,
     Name: S.String,
-    Type: S.String,
+    Type: RRType,
     Document: S.String,
     Comment: S.optional(S.String),
   }),
@@ -2366,6 +2731,8 @@ export const TrafficPolicies = S.Array(
 );
 export type RecordData = string[];
 export const RecordData = S.Array(S.String.pipe(T.XmlName("RecordDataEntry")));
+export type ChangeAction = "CREATE" | "DELETE" | "UPSERT";
+export const ChangeAction = S.Literal("CREATE", "DELETE", "UPSERT");
 export interface AssociateVPCWithHostedZoneRequest {
   HostedZoneId: string;
   VPC: VPC;
@@ -2396,7 +2763,7 @@ export const AssociateVPCWithHostedZoneRequest = S.suspend(() =>
 export interface ChangeCidrCollectionRequest {
   Id: string;
   CollectionVersion?: number;
-  Changes: CidrCollectionChanges;
+  Changes: CidrCollectionChange[];
 }
 export const ChangeCidrCollectionRequest = S.suspend(() =>
   S.Struct({
@@ -2418,14 +2785,14 @@ export const ChangeCidrCollectionRequest = S.suspend(() =>
   identifier: "ChangeCidrCollectionRequest",
 }) as any as S.Schema<ChangeCidrCollectionRequest>;
 export interface ChangeTagsForResourceRequest {
-  ResourceType: string;
+  ResourceType: TagResourceType;
   ResourceId: string;
-  AddTags?: TagList;
-  RemoveTagKeys?: TagKeyList;
+  AddTags?: Tag[];
+  RemoveTagKeys?: string[];
 }
 export const ChangeTagsForResourceRequest = S.suspend(() =>
   S.Struct({
-    ResourceType: S.String.pipe(T.HttpLabel("ResourceType")),
+    ResourceType: TagResourceType.pipe(T.HttpLabel("ResourceType")),
     ResourceId: S.String.pipe(T.HttpLabel("ResourceId")),
     AddTags: S.optional(TagList),
     RemoveTagKeys: S.optional(TagKeyList),
@@ -2523,16 +2890,18 @@ export const CreateVPCAssociationAuthorizationResponse = S.suspend(() =>
 ).annotations({
   identifier: "CreateVPCAssociationAuthorizationResponse",
 }) as any as S.Schema<CreateVPCAssociationAuthorizationResponse>;
+export type ChangeStatus = "PENDING" | "INSYNC";
+export const ChangeStatus = S.Literal("PENDING", "INSYNC");
 export interface ChangeInfo {
   Id: string;
-  Status: string;
+  Status: ChangeStatus;
   SubmittedAt: Date;
   Comment?: string;
 }
 export const ChangeInfo = S.suspend(() =>
   S.Struct({
     Id: S.String,
-    Status: S.String,
+    Status: ChangeStatus,
     SubmittedAt: S.Date,
     Comment: S.optional(S.String),
   }),
@@ -2601,13 +2970,13 @@ export const StatusReport = S.suspend(() =>
   S.Struct({ Status: S.optional(S.String), CheckedTime: S.optional(S.Date) }),
 ).annotations({ identifier: "StatusReport" }) as any as S.Schema<StatusReport>;
 export interface HealthCheckObservation {
-  Region?: string;
+  Region?: HealthCheckRegion;
   IPAddress?: string;
   StatusReport?: StatusReport;
 }
 export const HealthCheckObservation = S.suspend(() =>
   S.Struct({
-    Region: S.optional(S.String),
+    Region: S.optional(HealthCheckRegion),
     IPAddress: S.optional(S.String),
     StatusReport: S.optional(StatusReport),
   }),
@@ -2621,7 +2990,7 @@ export const HealthCheckObservations = S.Array(
   }),
 );
 export interface GetHealthCheckStatusResponse {
-  HealthCheckObservations: HealthCheckObservations;
+  HealthCheckObservations: HealthCheckObservation[];
 }
 export const GetHealthCheckStatusResponse = S.suspend(() =>
   S.Struct({ HealthCheckObservations: HealthCheckObservations }).pipe(ns),
@@ -2661,7 +3030,7 @@ export const GetTrafficPolicyInstanceResponse = S.suspend(() =>
   identifier: "GetTrafficPolicyInstanceResponse",
 }) as any as S.Schema<GetTrafficPolicyInstanceResponse>;
 export interface ListGeoLocationsResponse {
-  GeoLocationDetailsList: GeoLocationDetailsList;
+  GeoLocationDetailsList: GeoLocationDetails[];
   IsTruncated: boolean;
   NextContinentCode?: string;
   NextCountryCode?: string;
@@ -2681,7 +3050,7 @@ export const ListGeoLocationsResponse = S.suspend(() =>
   identifier: "ListGeoLocationsResponse",
 }) as any as S.Schema<ListGeoLocationsResponse>;
 export interface ListHealthChecksResponse {
-  HealthChecks: HealthChecks;
+  HealthChecks: HealthCheck[];
   Marker: string;
   IsTruncated: boolean;
   NextMarker?: string;
@@ -2699,7 +3068,7 @@ export const ListHealthChecksResponse = S.suspend(() =>
   identifier: "ListHealthChecksResponse",
 }) as any as S.Schema<ListHealthChecksResponse>;
 export interface ListHostedZonesResponse {
-  HostedZones: HostedZones;
+  HostedZones: HostedZone[];
   Marker: string;
   IsTruncated: boolean;
   NextMarker?: string;
@@ -2717,7 +3086,7 @@ export const ListHostedZonesResponse = S.suspend(() =>
   identifier: "ListHostedZonesResponse",
 }) as any as S.Schema<ListHostedZonesResponse>;
 export interface ListHostedZonesByNameResponse {
-  HostedZones: HostedZones;
+  HostedZones: HostedZone[];
   DNSName?: string;
   HostedZoneId?: string;
   IsTruncated: boolean;
@@ -2739,7 +3108,7 @@ export const ListHostedZonesByNameResponse = S.suspend(() =>
   identifier: "ListHostedZonesByNameResponse",
 }) as any as S.Schema<ListHostedZonesByNameResponse>;
 export interface ListQueryLoggingConfigsResponse {
-  QueryLoggingConfigs: QueryLoggingConfigs;
+  QueryLoggingConfigs: QueryLoggingConfig[];
   NextToken?: string;
 }
 export const ListQueryLoggingConfigsResponse = S.suspend(() =>
@@ -2751,7 +3120,7 @@ export const ListQueryLoggingConfigsResponse = S.suspend(() =>
   identifier: "ListQueryLoggingConfigsResponse",
 }) as any as S.Schema<ListQueryLoggingConfigsResponse>;
 export interface ListReusableDelegationSetsResponse {
-  DelegationSets: DelegationSets;
+  DelegationSets: DelegationSet[];
   Marker: string;
   IsTruncated: boolean;
   NextMarker?: string;
@@ -2769,7 +3138,7 @@ export const ListReusableDelegationSetsResponse = S.suspend(() =>
   identifier: "ListReusableDelegationSetsResponse",
 }) as any as S.Schema<ListReusableDelegationSetsResponse>;
 export interface ListTagsForResourcesResponse {
-  ResourceTagSets: ResourceTagSetList;
+  ResourceTagSets: ResourceTagSet[];
 }
 export const ListTagsForResourcesResponse = S.suspend(() =>
   S.Struct({ ResourceTagSets: ResourceTagSetList }).pipe(ns),
@@ -2777,10 +3146,10 @@ export const ListTagsForResourcesResponse = S.suspend(() =>
   identifier: "ListTagsForResourcesResponse",
 }) as any as S.Schema<ListTagsForResourcesResponse>;
 export interface ListTrafficPolicyInstancesResponse {
-  TrafficPolicyInstances: TrafficPolicyInstances;
+  TrafficPolicyInstances: TrafficPolicyInstance[];
   HostedZoneIdMarker?: string;
   TrafficPolicyInstanceNameMarker?: string;
-  TrafficPolicyInstanceTypeMarker?: string;
+  TrafficPolicyInstanceTypeMarker?: RRType;
   IsTruncated: boolean;
   MaxItems: number;
 }
@@ -2789,7 +3158,7 @@ export const ListTrafficPolicyInstancesResponse = S.suspend(() =>
     TrafficPolicyInstances: TrafficPolicyInstances,
     HostedZoneIdMarker: S.optional(S.String),
     TrafficPolicyInstanceNameMarker: S.optional(S.String),
-    TrafficPolicyInstanceTypeMarker: S.optional(S.String),
+    TrafficPolicyInstanceTypeMarker: S.optional(RRType),
     IsTruncated: S.Boolean,
     MaxItems: S.Number,
   }).pipe(ns),
@@ -2797,9 +3166,9 @@ export const ListTrafficPolicyInstancesResponse = S.suspend(() =>
   identifier: "ListTrafficPolicyInstancesResponse",
 }) as any as S.Schema<ListTrafficPolicyInstancesResponse>;
 export interface ListTrafficPolicyInstancesByHostedZoneResponse {
-  TrafficPolicyInstances: TrafficPolicyInstances;
+  TrafficPolicyInstances: TrafficPolicyInstance[];
   TrafficPolicyInstanceNameMarker?: string;
-  TrafficPolicyInstanceTypeMarker?: string;
+  TrafficPolicyInstanceTypeMarker?: RRType;
   IsTruncated: boolean;
   MaxItems: number;
 }
@@ -2807,7 +3176,7 @@ export const ListTrafficPolicyInstancesByHostedZoneResponse = S.suspend(() =>
   S.Struct({
     TrafficPolicyInstances: TrafficPolicyInstances,
     TrafficPolicyInstanceNameMarker: S.optional(S.String),
-    TrafficPolicyInstanceTypeMarker: S.optional(S.String),
+    TrafficPolicyInstanceTypeMarker: S.optional(RRType),
     IsTruncated: S.Boolean,
     MaxItems: S.Number,
   }).pipe(ns),
@@ -2815,10 +3184,10 @@ export const ListTrafficPolicyInstancesByHostedZoneResponse = S.suspend(() =>
   identifier: "ListTrafficPolicyInstancesByHostedZoneResponse",
 }) as any as S.Schema<ListTrafficPolicyInstancesByHostedZoneResponse>;
 export interface ListTrafficPolicyInstancesByPolicyResponse {
-  TrafficPolicyInstances: TrafficPolicyInstances;
+  TrafficPolicyInstances: TrafficPolicyInstance[];
   HostedZoneIdMarker?: string;
   TrafficPolicyInstanceNameMarker?: string;
-  TrafficPolicyInstanceTypeMarker?: string;
+  TrafficPolicyInstanceTypeMarker?: RRType;
   IsTruncated: boolean;
   MaxItems: number;
 }
@@ -2827,7 +3196,7 @@ export const ListTrafficPolicyInstancesByPolicyResponse = S.suspend(() =>
     TrafficPolicyInstances: TrafficPolicyInstances,
     HostedZoneIdMarker: S.optional(S.String),
     TrafficPolicyInstanceNameMarker: S.optional(S.String),
-    TrafficPolicyInstanceTypeMarker: S.optional(S.String),
+    TrafficPolicyInstanceTypeMarker: S.optional(RRType),
     IsTruncated: S.Boolean,
     MaxItems: S.Number,
   }).pipe(ns),
@@ -2835,7 +3204,7 @@ export const ListTrafficPolicyInstancesByPolicyResponse = S.suspend(() =>
   identifier: "ListTrafficPolicyInstancesByPolicyResponse",
 }) as any as S.Schema<ListTrafficPolicyInstancesByPolicyResponse>;
 export interface ListTrafficPolicyVersionsResponse {
-  TrafficPolicies: TrafficPolicies;
+  TrafficPolicies: TrafficPolicy[];
   IsTruncated: boolean;
   TrafficPolicyVersionMarker: string;
   MaxItems: number;
@@ -2853,7 +3222,7 @@ export const ListTrafficPolicyVersionsResponse = S.suspend(() =>
 export interface ListVPCAssociationAuthorizationsResponse {
   HostedZoneId: string;
   NextToken?: string;
-  VPCs: VPCs;
+  VPCs: VPC[];
 }
 export const ListVPCAssociationAuthorizationsResponse = S.suspend(() =>
   S.Struct({
@@ -2867,8 +3236,8 @@ export const ListVPCAssociationAuthorizationsResponse = S.suspend(() =>
 export interface TestDNSAnswerResponse {
   Nameserver: string;
   RecordName: string;
-  RecordType: string;
-  RecordData: RecordData;
+  RecordType: RRType;
+  RecordData: string[];
   ResponseCode: string;
   Protocol: string;
 }
@@ -2876,7 +3245,7 @@ export const TestDNSAnswerResponse = S.suspend(() =>
   S.Struct({
     Nameserver: S.String,
     RecordName: S.String,
-    RecordType: S.String,
+    RecordType: RRType,
     RecordData: RecordData,
     ResponseCode: S.String,
     Protocol: S.String,
@@ -2896,12 +3265,12 @@ export interface UpdateHealthCheckRequest {
   Inverted?: boolean;
   Disabled?: boolean;
   HealthThreshold?: number;
-  ChildHealthChecks?: ChildHealthCheckList;
+  ChildHealthChecks?: string[];
   EnableSNI?: boolean;
-  Regions?: HealthCheckRegionList;
+  Regions?: HealthCheckRegion[];
   AlarmIdentifier?: AlarmIdentifier;
-  InsufficientDataHealthStatus?: string;
-  ResetElements?: ResettableElementNameList;
+  InsufficientDataHealthStatus?: InsufficientDataHealthStatus;
+  ResetElements?: ResettableElementName[];
 }
 export const UpdateHealthCheckRequest = S.suspend(() =>
   S.Struct({
@@ -2920,7 +3289,7 @@ export const UpdateHealthCheckRequest = S.suspend(() =>
     EnableSNI: S.optional(S.Boolean),
     Regions: S.optional(HealthCheckRegionList),
     AlarmIdentifier: S.optional(AlarmIdentifier),
-    InsufficientDataHealthStatus: S.optional(S.String),
+    InsufficientDataHealthStatus: S.optional(InsufficientDataHealthStatus),
     ResetElements: S.optional(ResettableElementNameList),
   }).pipe(
     T.all(
@@ -2963,6 +3332,87 @@ export const UpdateTrafficPolicyInstanceResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateTrafficPolicyInstanceResponse",
 }) as any as S.Schema<UpdateTrafficPolicyInstanceResponse>;
+export type ResourceRecordSetRegion =
+  | "us-east-1"
+  | "us-east-2"
+  | "us-west-1"
+  | "us-west-2"
+  | "ca-central-1"
+  | "eu-west-1"
+  | "eu-west-2"
+  | "eu-west-3"
+  | "eu-central-1"
+  | "eu-central-2"
+  | "ap-southeast-1"
+  | "ap-southeast-2"
+  | "ap-southeast-3"
+  | "ap-northeast-1"
+  | "ap-northeast-2"
+  | "ap-northeast-3"
+  | "eu-north-1"
+  | "sa-east-1"
+  | "cn-north-1"
+  | "cn-northwest-1"
+  | "ap-east-1"
+  | "me-south-1"
+  | "me-central-1"
+  | "ap-south-1"
+  | "ap-south-2"
+  | "af-south-1"
+  | "eu-south-1"
+  | "eu-south-2"
+  | "ap-southeast-4"
+  | "il-central-1"
+  | "ca-west-1"
+  | "ap-southeast-5"
+  | "mx-central-1"
+  | "ap-southeast-7"
+  | "us-gov-east-1"
+  | "us-gov-west-1"
+  | "ap-east-2"
+  | "ap-southeast-6"
+  | "eusc-de-east-1";
+export const ResourceRecordSetRegion = S.Literal(
+  "us-east-1",
+  "us-east-2",
+  "us-west-1",
+  "us-west-2",
+  "ca-central-1",
+  "eu-west-1",
+  "eu-west-2",
+  "eu-west-3",
+  "eu-central-1",
+  "eu-central-2",
+  "ap-southeast-1",
+  "ap-southeast-2",
+  "ap-southeast-3",
+  "ap-northeast-1",
+  "ap-northeast-2",
+  "ap-northeast-3",
+  "eu-north-1",
+  "sa-east-1",
+  "cn-north-1",
+  "cn-northwest-1",
+  "ap-east-1",
+  "me-south-1",
+  "me-central-1",
+  "ap-south-1",
+  "ap-south-2",
+  "af-south-1",
+  "eu-south-1",
+  "eu-south-2",
+  "ap-southeast-4",
+  "il-central-1",
+  "ca-west-1",
+  "ap-southeast-5",
+  "mx-central-1",
+  "ap-southeast-7",
+  "us-gov-east-1",
+  "us-gov-west-1",
+  "ap-east-2",
+  "ap-southeast-6",
+  "eusc-de-east-1",
+);
 export interface GeoLocation {
   ContinentCode?: string;
   CountryCode?: string;
@@ -2975,6 +3425,8 @@ export const GeoLocation = S.suspend(() =>
     SubdivisionCode: S.optional(S.String),
   }),
 ).annotations({ identifier: "GeoLocation" }) as any as S.Schema<GeoLocation>;
+export type ResourceRecordSetFailover = "PRIMARY" | "SECONDARY";
+export const ResourceRecordSetFailover = S.Literal("PRIMARY", "SECONDARY");
 export interface ResourceRecord {
   Value: string;
 }
@@ -3035,15 +3487,15 @@ export const GeoProximityLocation = S.suspend(() =>
 }) as any as S.Schema<GeoProximityLocation>;
 export interface ResourceRecordSet {
   Name: string;
-  Type: string;
+  Type: RRType;
   SetIdentifier?: string;
   Weight?: number;
-  Region?: string;
+  Region?: ResourceRecordSetRegion;
   GeoLocation?: GeoLocation;
-  Failover?: string;
+  Failover?: ResourceRecordSetFailover;
   MultiValueAnswer?: boolean;
   TTL?: number;
-  ResourceRecords?: ResourceRecords;
+  ResourceRecords?: ResourceRecord[];
   AliasTarget?: AliasTarget;
   HealthCheckId?: string;
   TrafficPolicyInstanceId?: string;
@@ -3053,12 +3505,12 @@ export interface ResourceRecordSet {
 export const ResourceRecordSet = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Type: S.String,
+    Type: RRType,
     SetIdentifier: S.optional(S.String),
     Weight: S.optional(S.Number),
-    Region: S.optional(S.String),
+    Region: S.optional(ResourceRecordSetRegion),
     GeoLocation: S.optional(GeoLocation),
-    Failover: S.optional(S.String),
+    Failover: S.optional(ResourceRecordSetFailover),
     MultiValueAnswer: S.optional(S.Boolean),
     TTL: S.optional(S.Number),
     ResourceRecords: S.optional(ResourceRecords),
@@ -3072,11 +3524,11 @@ export const ResourceRecordSet = S.suspend(() =>
   identifier: "ResourceRecordSet",
 }) as any as S.Schema<ResourceRecordSet>;
 export interface Change {
-  Action: string;
+  Action: ChangeAction;
   ResourceRecordSet: ResourceRecordSet;
 }
 export const Change = S.suspend(() =>
-  S.Struct({ Action: S.String, ResourceRecordSet: ResourceRecordSet }),
+  S.Struct({ Action: ChangeAction, ResourceRecordSet: ResourceRecordSet }),
 ).annotations({ identifier: "Change" }) as any as S.Schema<Change>;
 export type Changes = Change[];
 export const Changes = S.Array(
@@ -3084,7 +3536,7 @@ export const Changes = S.Array(
 );
 export interface ChangeBatch {
   Comment?: string;
-  Changes: Changes;
+  Changes: Change[];
 }
 export const ChangeBatch = S.suspend(() =>
   S.Struct({ Comment: S.optional(S.String), Changes: Changes }),
@@ -3106,11 +3558,11 @@ export const CidrCollection = S.suspend(() =>
   identifier: "CidrCollection",
 }) as any as S.Schema<CidrCollection>;
 export interface AccountLimit {
-  Type: string;
+  Type: AccountLimitType;
   Value: number;
 }
 export const AccountLimit = S.suspend(() =>
-  S.Struct({ Type: S.String, Value: S.Number }),
+  S.Struct({ Type: AccountLimitType, Value: S.Number }),
 ).annotations({ identifier: "AccountLimit" }) as any as S.Schema<AccountLimit>;
 export interface DNSSECStatus {
   ServeSignature?: string;
@@ -3123,20 +3575,20 @@ export const DNSSECStatus = S.suspend(() =>
   }),
 ).annotations({ identifier: "DNSSECStatus" }) as any as S.Schema<DNSSECStatus>;
 export interface HostedZoneLimit {
-  Type: string;
+  Type: HostedZoneLimitType;
   Value: number;
 }
 export const HostedZoneLimit = S.suspend(() =>
-  S.Struct({ Type: S.String, Value: S.Number }),
+  S.Struct({ Type: HostedZoneLimitType, Value: S.Number }),
 ).annotations({
   identifier: "HostedZoneLimit",
 }) as any as S.Schema<HostedZoneLimit>;
 export interface ReusableDelegationSetLimit {
-  Type: string;
+  Type: ReusableDelegationSetLimitType;
   Value: number;
 }
 export const ReusableDelegationSetLimit = S.suspend(() =>
-  S.Struct({ Type: S.String, Value: S.Number }),
+  S.Struct({ Type: ReusableDelegationSetLimitType, Value: S.Number }),
 ).annotations({
   identifier: "ReusableDelegationSetLimit",
 }) as any as S.Schema<ReusableDelegationSetLimit>;
@@ -3185,7 +3637,7 @@ export const LocationSummaries = S.Array(LocationSummary);
 export interface TrafficPolicySummary {
   Id: string;
   Name: string;
-  Type: string;
+  Type: RRType;
   LatestVersion: number;
   TrafficPolicyCount: number;
 }
@@ -3193,7 +3645,7 @@ export const TrafficPolicySummary = S.suspend(() =>
   S.Struct({
     Id: S.String,
     Name: S.String,
-    Type: S.String,
+    Type: RRType,
     LatestVersion: S.Number,
     TrafficPolicyCount: S.Number,
   }),
@@ -3370,7 +3822,7 @@ export const GetAccountLimitResponse = S.suspend(() =>
 }) as any as S.Schema<GetAccountLimitResponse>;
 export interface GetDNSSECResponse {
   Status: DNSSECStatus;
-  KeySigningKeys: KeySigningKeys;
+  KeySigningKeys: KeySigningKey[];
 }
 export const GetDNSSECResponse = S.suspend(() =>
   S.Struct({ Status: DNSSECStatus, KeySigningKeys: KeySigningKeys }).pipe(ns),
@@ -3405,7 +3857,7 @@ export const GetReusableDelegationSetLimitResponse = S.suspend(() =>
 }) as any as S.Schema<GetReusableDelegationSetLimitResponse>;
 export interface ListCidrBlocksResponse {
   NextToken?: string;
-  CidrBlocks?: CidrBlockSummaries;
+  CidrBlocks?: CidrBlockSummary[];
 }
 export const ListCidrBlocksResponse = S.suspend(() =>
   S.Struct({
@@ -3417,7 +3869,7 @@ export const ListCidrBlocksResponse = S.suspend(() =>
 }) as any as S.Schema<ListCidrBlocksResponse>;
 export interface ListCidrCollectionsResponse {
   NextToken?: string;
-  CidrCollections?: CollectionSummaries;
+  CidrCollections?: CollectionSummary[];
 }
 export const ListCidrCollectionsResponse = S.suspend(() =>
   S.Struct({
@@ -3429,7 +3881,7 @@ export const ListCidrCollectionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListCidrCollectionsResponse>;
 export interface ListCidrLocationsResponse {
   NextToken?: string;
-  CidrLocations?: LocationSummaries;
+  CidrLocations?: LocationSummary[];
 }
 export const ListCidrLocationsResponse = S.suspend(() =>
   S.Struct({
@@ -3448,7 +3900,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListTrafficPoliciesResponse {
-  TrafficPolicySummaries: TrafficPolicySummaries;
+  TrafficPolicySummaries: TrafficPolicySummary[];
   IsTruncated: boolean;
   TrafficPolicyIdMarker: string;
   MaxItems: number;
@@ -3508,7 +3960,7 @@ export const ChangeResourceRecordSetsResponse = S.suspend(() =>
   identifier: "ChangeResourceRecordSetsResponse",
 }) as any as S.Schema<ChangeResourceRecordSetsResponse>;
 export interface GetHealthCheckLastFailureReasonResponse {
-  HealthCheckObservations: HealthCheckObservations;
+  HealthCheckObservations: HealthCheckObservation[];
 }
 export const GetHealthCheckLastFailureReasonResponse = S.suspend(() =>
   S.Struct({ HealthCheckObservations: HealthCheckObservations }).pipe(ns),
@@ -3516,7 +3968,7 @@ export const GetHealthCheckLastFailureReasonResponse = S.suspend(() =>
   identifier: "GetHealthCheckLastFailureReasonResponse",
 }) as any as S.Schema<GetHealthCheckLastFailureReasonResponse>;
 export interface ListHostedZonesByVPCResponse {
-  HostedZoneSummaries: HostedZoneSummaries;
+  HostedZoneSummaries: HostedZoneSummary[];
   MaxItems: number;
   NextToken?: string;
 }
@@ -3548,7 +4000,7 @@ export const GetHealthCheckResponse = S.suspend(() =>
 export interface GetHostedZoneResponse {
   HostedZone: HostedZone;
   DelegationSet?: DelegationSet;
-  VPCs?: VPCs;
+  VPCs?: VPC[];
 }
 export const GetHostedZoneResponse = S.suspend(() =>
   S.Struct({
@@ -3560,10 +4012,10 @@ export const GetHostedZoneResponse = S.suspend(() =>
   identifier: "GetHostedZoneResponse",
 }) as any as S.Schema<GetHostedZoneResponse>;
 export interface ListResourceRecordSetsResponse {
-  ResourceRecordSets: ResourceRecordSets;
+  ResourceRecordSets: ResourceRecordSet[];
   IsTruncated: boolean;
   NextRecordName?: string;
-  NextRecordType?: string;
+  NextRecordType?: RRType;
   NextRecordIdentifier?: string;
   MaxItems: number;
 }
@@ -3572,7 +4024,7 @@ export const ListResourceRecordSetsResponse = S.suspend(() =>
     ResourceRecordSets: ResourceRecordSets,
     IsTruncated: S.Boolean,
     NextRecordName: S.optional(S.String),
-    NextRecordType: S.optional(S.String),
+    NextRecordType: S.optional(RRType),
     NextRecordIdentifier: S.optional(S.String),
     MaxItems: S.Number,
   }).pipe(ns),
@@ -3871,7 +4323,7 @@ export class TooManyHostedZones extends S.TaggedError<TooManyHostedZones>()(
  */
 export const getCheckerIpRanges: (
   input: GetCheckerIpRangesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCheckerIpRangesResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3885,7 +4337,7 @@ export const getCheckerIpRanges: (
  */
 export const getHealthCheckCount: (
   input: GetHealthCheckCountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetHealthCheckCountResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3900,7 +4352,7 @@ export const getHealthCheckCount: (
  */
 export const getTrafficPolicyInstanceCount: (
   input: GetTrafficPolicyInstanceCountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTrafficPolicyInstanceCountResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3925,7 +4377,7 @@ export const getTrafficPolicyInstanceCount: (
  */
 export const listGeoLocations: (
   input: ListGeoLocationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListGeoLocationsResponse,
   InvalidInput | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3940,7 +4392,7 @@ export const listGeoLocations: (
  */
 export const listReusableDelegationSets: (
   input: ListReusableDelegationSetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListReusableDelegationSetsResponse,
   InvalidInput | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3954,7 +4406,7 @@ export const listReusableDelegationSets: (
  */
 export const getHostedZoneCount: (
   input: GetHostedZoneCountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetHostedZoneCountResponse,
   InvalidInput | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3976,7 +4428,7 @@ export const getHostedZoneCount: (
  */
 export const getAccountLimit: (
   input: GetAccountLimitRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccountLimitResponse,
   InvalidInput | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3998,7 +4450,7 @@ export const getAccountLimit: (
  */
 export const getChange: (
   input: GetChangeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetChangeResponse,
   InvalidInput | NoSuchChange | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4016,7 +4468,7 @@ export const getChange: (
  */
 export const getHealthCheckStatus: (
   input: GetHealthCheckStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetHealthCheckStatusResponse,
   InvalidInput | NoSuchHealthCheck | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4033,7 +4485,7 @@ export const getHealthCheckStatus: (
  */
 export const getQueryLoggingConfig: (
   input: GetQueryLoggingConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetQueryLoggingConfigResponse,
   InvalidInput | NoSuchQueryLoggingConfig | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4050,7 +4502,7 @@ export const getQueryLoggingConfig: (
  */
 export const getTrafficPolicy: (
   input: GetTrafficPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTrafficPolicyResponse,
   InvalidInput | NoSuchTrafficPolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4066,21 +4518,21 @@ export const getTrafficPolicy: (
 export const listCidrCollections: {
   (
     input: ListCidrCollectionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCidrCollectionsResponse,
     InvalidInput | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListCidrCollectionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCidrCollectionsResponse,
     InvalidInput | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCidrCollectionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CollectionSummary,
     InvalidInput | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -4102,21 +4554,21 @@ export const listCidrCollections: {
 export const listHealthChecks: {
   (
     input: ListHealthChecksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListHealthChecksResponse,
     IncompatibleVersion | InvalidInput | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListHealthChecksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListHealthChecksResponse,
     IncompatibleVersion | InvalidInput | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListHealthChecksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     HealthCheck,
     IncompatibleVersion | InvalidInput | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -4189,7 +4641,7 @@ export const listHealthChecks: {
  */
 export const listHostedZonesByName: (
   input: ListHostedZonesByNameRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListHostedZonesByNameResponse,
   InvalidDomainName | InvalidInput | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4208,7 +4660,7 @@ export const listHostedZonesByName: (
  */
 export const listTrafficPolicies: (
   input: ListTrafficPoliciesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTrafficPoliciesResponse,
   InvalidInput | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4233,7 +4685,7 @@ export const listTrafficPolicies: (
  */
 export const listTrafficPolicyInstancesByHostedZone: (
   input: ListTrafficPolicyInstancesByHostedZoneRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTrafficPolicyInstancesByHostedZoneResponse,
   InvalidInput | NoSuchHostedZone | NoSuchTrafficPolicyInstance | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4248,7 +4700,7 @@ export const listTrafficPolicyInstancesByHostedZone: (
  */
 export const deleteCidrCollection: (
   input: DeleteCidrCollectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCidrCollectionResponse,
   | CidrCollectionInUseException
   | ConcurrentModification
@@ -4279,7 +4731,7 @@ export const deleteCidrCollection: (
  */
 export const getTrafficPolicyInstance: (
   input: GetTrafficPolicyInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTrafficPolicyInstanceResponse,
   InvalidInput | NoSuchTrafficPolicyInstance | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4303,7 +4755,7 @@ export const getTrafficPolicyInstance: (
  */
 export const listTrafficPolicyInstances: (
   input: ListTrafficPolicyInstancesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTrafficPolicyInstancesResponse,
   InvalidInput | NoSuchTrafficPolicyInstance | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4331,7 +4783,7 @@ export const listTrafficPolicyInstances: (
  */
 export const deleteHealthCheck: (
   input: DeleteHealthCheckRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteHealthCheckResponse,
   HealthCheckInUse | InvalidInput | NoSuchHealthCheck | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4349,7 +4801,7 @@ export const deleteHealthCheck: (
  */
 export const deleteQueryLoggingConfig: (
   input: DeleteQueryLoggingConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteQueryLoggingConfigResponse,
   | ConcurrentModification
   | InvalidInput
@@ -4377,7 +4829,7 @@ export const deleteQueryLoggingConfig: (
  */
 export const listTrafficPolicyInstancesByPolicy: (
   input: ListTrafficPolicyInstancesByPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTrafficPolicyInstancesByPolicyResponse,
   | InvalidInput
   | NoSuchTrafficPolicy
@@ -4397,7 +4849,7 @@ export const listTrafficPolicyInstancesByPolicy: (
  */
 export const listTrafficPolicyVersions: (
   input: ListTrafficPolicyVersionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTrafficPolicyVersionsResponse,
   InvalidInput | NoSuchTrafficPolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4411,7 +4863,7 @@ export const listTrafficPolicyVersions: (
  */
 export const updateTrafficPolicyComment: (
   input: UpdateTrafficPolicyCommentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTrafficPolicyCommentResponse,
   ConcurrentModification | InvalidInput | NoSuchTrafficPolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4430,7 +4882,7 @@ export const updateTrafficPolicyComment: (
  */
 export const listVPCAssociationAuthorizations: (
   input: ListVPCAssociationAuthorizationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListVPCAssociationAuthorizationsResponse,
   InvalidInput | InvalidPaginationToken | NoSuchHostedZone | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4453,7 +4905,7 @@ export const listVPCAssociationAuthorizations: (
  */
 export const testDNSAnswer: (
   input: TestDNSAnswerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TestDNSAnswerResponse,
   InvalidInput | NoSuchHostedZone | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4474,21 +4926,21 @@ export const testDNSAnswer: (
 export const listQueryLoggingConfigs: {
   (
     input: ListQueryLoggingConfigsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListQueryLoggingConfigsResponse,
     InvalidInput | InvalidPaginationToken | NoSuchHostedZone | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListQueryLoggingConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListQueryLoggingConfigsResponse,
     InvalidInput | InvalidPaginationToken | NoSuchHostedZone | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListQueryLoggingConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     QueryLoggingConfig,
     InvalidInput | InvalidPaginationToken | NoSuchHostedZone | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -4511,21 +4963,21 @@ export const listQueryLoggingConfigs: {
 export const listCidrLocations: {
   (
     input: ListCidrLocationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCidrLocationsResponse,
     InvalidInput | NoSuchCidrCollectionException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListCidrLocationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCidrLocationsResponse,
     InvalidInput | NoSuchCidrCollectionException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCidrLocationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LocationSummary,
     InvalidInput | NoSuchCidrCollectionException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -4546,7 +4998,7 @@ export const listCidrLocations: {
  */
 export const createCidrCollection: (
   input: CreateCidrCollectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCidrCollectionResponse,
   | CidrCollectionAlreadyExistsException
   | ConcurrentModification
@@ -4576,7 +5028,7 @@ export const createCidrCollection: (
  */
 export const deleteReusableDelegationSet: (
   input: DeleteReusableDelegationSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteReusableDelegationSetResponse,
   | DelegationSetInUse
   | DelegationSetNotReusable
@@ -4603,7 +5055,7 @@ export const deleteReusableDelegationSet: (
  */
 export const deleteTrafficPolicyInstance: (
   input: DeleteTrafficPolicyInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTrafficPolicyInstanceResponse,
   | InvalidInput
   | NoSuchTrafficPolicyInstance
@@ -4643,7 +5095,7 @@ export const deleteTrafficPolicyInstance: (
  */
 export const getGeoLocation: (
   input: GetGeoLocationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetGeoLocationResponse,
   InvalidInput | NoSuchGeoLocation | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4657,7 +5109,7 @@ export const getGeoLocation: (
  */
 export const getHealthCheckLastFailureReason: (
   input: GetHealthCheckLastFailureReasonRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetHealthCheckLastFailureReasonResponse,
   InvalidInput | NoSuchHealthCheck | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4676,7 +5128,7 @@ export const getHealthCheckLastFailureReason: (
  */
 export const getHostedZoneLimit: (
   input: GetHostedZoneLimitRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetHostedZoneLimitResponse,
   HostedZoneNotPrivate | InvalidInput | NoSuchHostedZone | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4721,7 +5173,7 @@ export const getHostedZoneLimit: (
  */
 export const listHostedZonesByVPC: (
   input: ListHostedZonesByVPCRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListHostedZonesByVPCResponse,
   InvalidInput | InvalidPaginationToken | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4739,7 +5191,7 @@ export const listHostedZonesByVPC: (
  */
 export const updateHealthCheck: (
   input: UpdateHealthCheckRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateHealthCheckResponse,
   HealthCheckVersionMismatch | InvalidInput | NoSuchHealthCheck | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4754,7 +5206,7 @@ export const updateHealthCheck: (
  */
 export const getDNSSEC: (
   input: GetDNSSECRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDNSSECResponse,
   InvalidArgument | InvalidInput | NoSuchHostedZone | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4774,7 +5226,7 @@ export const getDNSSEC: (
  */
 export const createTrafficPolicyVersion: (
   input: CreateTrafficPolicyVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTrafficPolicyVersionResponse,
   | ConcurrentModification
   | InvalidInput
@@ -4804,7 +5256,7 @@ export const createTrafficPolicyVersion: (
  */
 export const getReusableDelegationSetLimit: (
   input: GetReusableDelegationSetLimitRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetReusableDelegationSetLimitResponse,
   InvalidInput | NoSuchDelegationSet | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4819,7 +5271,7 @@ export const getReusableDelegationSetLimit: (
  */
 export const getReusableDelegationSet: (
   input: GetReusableDelegationSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetReusableDelegationSetResponse,
   DelegationSetNotReusable | InvalidInput | NoSuchDelegationSet | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4840,7 +5292,7 @@ export const getReusableDelegationSet: (
 export const listHostedZones: {
   (
     input: ListHostedZonesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListHostedZonesResponse,
     | DelegationSetNotReusable
     | InvalidInput
@@ -4850,7 +5302,7 @@ export const listHostedZones: {
   >;
   pages: (
     input: ListHostedZonesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListHostedZonesResponse,
     | DelegationSetNotReusable
     | InvalidInput
@@ -4860,7 +5312,7 @@ export const listHostedZones: {
   >;
   items: (
     input: ListHostedZonesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     HostedZone,
     | DelegationSetNotReusable
     | InvalidInput
@@ -4906,7 +5358,7 @@ export const listHostedZones: {
  */
 export const updateTrafficPolicyInstance: (
   input: UpdateTrafficPolicyInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTrafficPolicyInstanceResponse,
   | ConflictingTypes
   | InvalidInput
@@ -4933,7 +5385,7 @@ export const updateTrafficPolicyInstance: (
  */
 export const updateHostedZoneFeatures: (
   input: UpdateHostedZoneFeaturesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateHostedZoneFeaturesResponse,
   | InvalidInput
   | LimitsExceeded
@@ -4997,7 +5449,7 @@ export const updateHostedZoneFeatures: (
  */
 export const deleteHostedZone: (
   input: DeleteHostedZoneRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteHostedZoneResponse,
   | HostedZoneNotEmpty
   | InvalidDomainName
@@ -5022,7 +5474,7 @@ export const deleteHostedZone: (
  */
 export const updateHostedZoneComment: (
   input: UpdateHostedZoneCommentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateHostedZoneCommentResponse,
   InvalidInput | NoSuchHostedZone | PriorRequestNotComplete | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5046,7 +5498,7 @@ export const updateHostedZoneComment: (
  */
 export const deleteVPCAssociationAuthorization: (
   input: DeleteVPCAssociationAuthorizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVPCAssociationAuthorizationResponse,
   | ConcurrentModification
   | InvalidInput
@@ -5080,7 +5532,7 @@ export const deleteVPCAssociationAuthorization: (
  */
 export const createVPCAssociationAuthorization: (
   input: CreateVPCAssociationAuthorizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVPCAssociationAuthorizationResponse,
   | ConcurrentModification
   | InvalidInput
@@ -5116,7 +5568,7 @@ export const createVPCAssociationAuthorization: (
  */
 export const deleteTrafficPolicy: (
   input: DeleteTrafficPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTrafficPolicyResponse,
   | ConcurrentModification
   | InvalidInput
@@ -5140,7 +5592,7 @@ export const deleteTrafficPolicy: (
 export const listCidrBlocks: {
   (
     input: ListCidrBlocksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCidrBlocksResponse,
     | InvalidInput
     | NoSuchCidrCollectionException
@@ -5150,7 +5602,7 @@ export const listCidrBlocks: {
   >;
   pages: (
     input: ListCidrBlocksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCidrBlocksResponse,
     | InvalidInput
     | NoSuchCidrCollectionException
@@ -5160,7 +5612,7 @@ export const listCidrBlocks: {
   >;
   items: (
     input: ListCidrBlocksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CidrBlockSummary,
     | InvalidInput
     | NoSuchCidrCollectionException
@@ -5207,7 +5659,7 @@ export const listCidrBlocks: {
  */
 export const changeCidrCollection: (
   input: ChangeCidrCollectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ChangeCidrCollectionResponse,
   | CidrBlockInUseException
   | CidrCollectionVersionMismatchException
@@ -5317,7 +5769,7 @@ export const changeCidrCollection: (
  */
 export const changeResourceRecordSets: (
   input: ChangeResourceRecordSetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ChangeResourceRecordSetsResponse,
   | InvalidChangeBatch
   | InvalidInput
@@ -5372,7 +5824,7 @@ export const changeResourceRecordSets: (
  */
 export const createHealthCheck: (
   input: CreateHealthCheckRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateHealthCheckResponse,
   HealthCheckAlreadyExists | InvalidInput | TooManyHealthChecks | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5422,7 +5874,7 @@ export const createHealthCheck: (
  */
 export const disassociateVPCFromHostedZone: (
   input: DisassociateVPCFromHostedZoneRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateVPCFromHostedZoneResponse,
   | InvalidInput
   | InvalidVPCId
@@ -5447,7 +5899,7 @@ export const disassociateVPCFromHostedZone: (
  */
 export const getHealthCheck: (
   input: GetHealthCheckRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetHealthCheckResponse,
   IncompatibleVersion | InvalidInput | NoSuchHealthCheck | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5465,7 +5917,7 @@ export const getHealthCheck: (
  */
 export const getHostedZone: (
   input: GetHostedZoneRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetHostedZoneResponse,
   InvalidInput | NoSuchHostedZone | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5548,7 +6000,7 @@ export const getHostedZone: (
  */
 export const listResourceRecordSets: (
   input: ListResourceRecordSetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListResourceRecordSetsResponse,
   InvalidInput | NoSuchHostedZone | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5565,7 +6017,7 @@ export const listResourceRecordSets: (
  */
 export const listTagsForResources: (
   input: ListTagsForResourcesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourcesResponse,
   | InvalidInput
   | NoSuchHealthCheck
@@ -5602,7 +6054,7 @@ export const listTagsForResources: (
  */
 export const createTrafficPolicyInstance: (
   input: CreateTrafficPolicyInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTrafficPolicyInstanceResponse,
   | InvalidInput
   | NoSuchHostedZone
@@ -5629,7 +6081,7 @@ export const createTrafficPolicyInstance: (
  */
 export const createTrafficPolicy: (
   input: CreateTrafficPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTrafficPolicyResponse,
   | InvalidInput
   | InvalidTrafficPolicyDocument
@@ -5659,7 +6111,7 @@ export const createTrafficPolicy: (
  */
 export const deleteKeySigningKey: (
   input: DeleteKeySigningKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteKeySigningKeyResponse,
   | ConcurrentModification
   | InvalidInput
@@ -5687,7 +6139,7 @@ export const deleteKeySigningKey: (
  */
 export const disableHostedZoneDNSSEC: (
   input: DisableHostedZoneDNSSECRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisableHostedZoneDNSSECResponse,
   | ConcurrentModification
   | DNSSECNotFound
@@ -5721,7 +6173,7 @@ export const disableHostedZoneDNSSEC: (
  */
 export const changeTagsForResource: (
   input: ChangeTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ChangeTagsForResourceResponse,
   | InvalidInput
   | NoSuchHealthCheck
@@ -5749,7 +6201,7 @@ export const changeTagsForResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InvalidInput
   | NoSuchHealthCheck
@@ -5774,7 +6226,7 @@ export const listTagsForResource: (
  */
 export const enableHostedZoneDNSSEC: (
   input: EnableHostedZoneDNSSECRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableHostedZoneDNSSECResponse,
   | ConcurrentModification
   | DNSSECNotFound
@@ -5808,7 +6260,7 @@ export const enableHostedZoneDNSSEC: (
  */
 export const activateKeySigningKey: (
   input: ActivateKeySigningKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ActivateKeySigningKeyResponse,
   | ConcurrentModification
   | InvalidInput
@@ -5859,7 +6311,7 @@ export const activateKeySigningKey: (
  */
 export const associateVPCWithHostedZone: (
   input: AssociateVPCWithHostedZoneRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateVPCWithHostedZoneResponse,
   | ConflictingDomainExists
   | InvalidInput
@@ -6030,7 +6482,7 @@ export const associateVPCWithHostedZone: (
  */
 export const createQueryLoggingConfig: (
   input: CreateQueryLoggingConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateQueryLoggingConfigResponse,
   | ConcurrentModification
   | InsufficientCloudWatchLogsResourcePolicy
@@ -6058,7 +6510,7 @@ export const createQueryLoggingConfig: (
  */
 export const deactivateKeySigningKey: (
   input: DeactivateKeySigningKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeactivateKeySigningKeyResponse,
   | ConcurrentModification
   | InvalidInput
@@ -6134,7 +6586,7 @@ export const deactivateKeySigningKey: (
  */
 export const createReusableDelegationSet: (
   input: CreateReusableDelegationSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateReusableDelegationSetResponse,
   | DelegationSetAlreadyCreated
   | DelegationSetAlreadyReusable
@@ -6164,7 +6616,7 @@ export const createReusableDelegationSet: (
  */
 export const createKeySigningKey: (
   input: CreateKeySigningKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateKeySigningKeyResponse,
   | ConcurrentModification
   | InvalidArgument
@@ -6253,7 +6705,7 @@ export const createKeySigningKey: (
  */
 export const createHostedZone: (
   input: CreateHostedZoneRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateHostedZoneResponse,
   | ConflictingDomainExists
   | DelegationSetNotAvailable

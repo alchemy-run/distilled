@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -144,7 +144,7 @@ export interface CreateEnvironmentRequest {
   Name: string;
   Description?: string;
   NetworkFabricType: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   ClientToken?: string;
 }
 export const CreateEnvironmentRequest = S.suspend(() =>
@@ -572,7 +572,7 @@ export const PutResourcePolicyResponse = S.suspend(() =>
 }) as any as S.Schema<PutResourcePolicyResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagMap;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -597,7 +597,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeys;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -673,7 +673,7 @@ export const DefaultRouteInput = S.suspend(() =>
 export interface UriPathRouteInput {
   SourcePath: string;
   ActivationState: string;
-  Methods?: HttpMethods;
+  Methods?: string[];
   IncludeChildPaths?: boolean;
   AppendSourcePath?: boolean;
 }
@@ -711,7 +711,7 @@ export interface CreateApplicationRequest {
   VpcId: string;
   ProxyType: string;
   ApiGatewayProxy?: ApiGatewayProxyInput;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   ClientToken?: string;
 }
 export const CreateApplicationRequest = S.suspend(() =>
@@ -747,7 +747,7 @@ export interface CreateEnvironmentResponse {
   NetworkFabricType?: string;
   OwnerAccountId?: string;
   State?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   LastUpdatedTime?: Date;
   CreatedTime?: Date;
 }
@@ -776,7 +776,7 @@ export interface CreateRouteRequest {
   RouteType: string;
   DefaultRoute?: DefaultRouteInput;
   UriPathRoute?: UriPathRouteInput;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   ClientToken?: string;
 }
 export const CreateRouteRequest = S.suspend(() =>
@@ -814,7 +814,7 @@ export interface CreateServiceRequest {
   EndpointType: string;
   UrlEndpoint?: UrlEndpointInput;
   LambdaEndpoint?: LambdaEndpointInput;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   ClientToken?: string;
 }
 export const CreateServiceRequest = S.suspend(() =>
@@ -941,7 +941,7 @@ export interface ErrorResponse {
   AccountId?: string;
   ResourceIdentifier?: string;
   ResourceType?: string;
-  AdditionalDetails?: AdditionalDetails;
+  AdditionalDetails?: { [key: string]: string };
 }
 export const ErrorResponse = S.suspend(() =>
   S.Struct({
@@ -964,7 +964,7 @@ export interface GetEnvironmentResponse {
   OwnerAccountId?: string;
   TransitGatewayId?: string;
   State?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   Error?: ErrorResponse;
   LastUpdatedTime?: Date;
   CreatedTime?: Date;
@@ -998,7 +998,7 @@ export const GetResourcePolicyResponse = S.suspend(() =>
   identifier: "GetResourcePolicyResponse",
 }) as any as S.Schema<GetResourcePolicyResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -1079,7 +1079,7 @@ export interface EnvironmentSummary {
   OwnerAccountId?: string;
   TransitGatewayId?: string;
   State?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   Error?: ErrorResponse;
   LastUpdatedTime?: Date;
   CreatedTime?: Date;
@@ -1110,7 +1110,7 @@ export interface EnvironmentVpc {
   EnvironmentId?: string;
   VpcId?: string;
   AccountId?: string;
-  CidrBlocks?: CidrBlocks;
+  CidrBlocks?: string[];
   VpcName?: string;
   LastUpdatedTime?: Date;
   CreatedTime?: Date;
@@ -1142,11 +1142,11 @@ export interface RouteSummary {
   ApplicationId?: string;
   EnvironmentId?: string;
   SourcePath?: string;
-  Methods?: HttpMethods;
+  Methods?: string[];
   IncludeChildPaths?: boolean;
-  PathResourceToId?: PathResourceToId;
+  PathResourceToId?: { [key: string]: string };
   State?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   Error?: ErrorResponse;
   LastUpdatedTime?: Date;
   CreatedTime?: Date;
@@ -1189,7 +1189,7 @@ export interface CreateApplicationResponse {
   ProxyType?: string;
   ApiGatewayProxy?: ApiGatewayProxyInput;
   State?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   LastUpdatedTime?: Date;
   CreatedTime?: Date;
 }
@@ -1224,7 +1224,7 @@ export interface CreateRouteResponse {
   ApplicationId?: string;
   UriPathRoute?: UriPathRouteInput;
   State?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   LastUpdatedTime?: Date;
   CreatedTime?: Date;
 }
@@ -1262,7 +1262,7 @@ export interface CreateServiceResponse {
   UrlEndpoint?: UrlEndpointInput;
   LambdaEndpoint?: LambdaEndpointInput;
   State?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   LastUpdatedTime?: Date;
   CreatedTime?: Date;
 }
@@ -1300,11 +1300,11 @@ export interface GetRouteResponse {
   ApplicationId?: string;
   EnvironmentId?: string;
   SourcePath?: string;
-  Methods?: HttpMethods;
+  Methods?: string[];
   IncludeChildPaths?: boolean;
-  PathResourceToId?: PathResourceToId;
+  PathResourceToId?: { [key: string]: string };
   State?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   Error?: ErrorResponse;
   LastUpdatedTime?: Date;
   CreatedTime?: Date;
@@ -1350,7 +1350,7 @@ export interface GetServiceResponse {
   UrlEndpoint?: UrlEndpointConfig;
   LambdaEndpoint?: LambdaEndpointConfig;
   State?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   Error?: ErrorResponse;
   LastUpdatedTime?: Date;
   CreatedTime?: Date;
@@ -1381,7 +1381,7 @@ export const GetServiceResponse = S.suspend(() =>
   identifier: "GetServiceResponse",
 }) as any as S.Schema<GetServiceResponse>;
 export interface ListEnvironmentsResponse {
-  EnvironmentSummaryList?: EnvironmentSummaries;
+  EnvironmentSummaryList?: EnvironmentSummary[];
   NextToken?: string;
 }
 export const ListEnvironmentsResponse = S.suspend(() =>
@@ -1393,7 +1393,7 @@ export const ListEnvironmentsResponse = S.suspend(() =>
   identifier: "ListEnvironmentsResponse",
 }) as any as S.Schema<ListEnvironmentsResponse>;
 export interface ListEnvironmentVpcsResponse {
-  EnvironmentVpcList?: EnvironmentVpcs;
+  EnvironmentVpcList?: EnvironmentVpc[];
   NextToken?: string;
 }
 export const ListEnvironmentVpcsResponse = S.suspend(() =>
@@ -1405,7 +1405,7 @@ export const ListEnvironmentVpcsResponse = S.suspend(() =>
   identifier: "ListEnvironmentVpcsResponse",
 }) as any as S.Schema<ListEnvironmentVpcsResponse>;
 export interface ListRoutesResponse {
-  RouteSummaryList?: RouteSummaries;
+  RouteSummaryList?: RouteSummary[];
   NextToken?: string;
 }
 export const ListRoutesResponse = S.suspend(() =>
@@ -1466,7 +1466,7 @@ export interface ApplicationSummary {
   ProxyType?: string;
   ApiGatewayProxy?: ApiGatewayProxySummary;
   State?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   Error?: ErrorResponse;
   LastUpdatedTime?: Date;
   CreatedTime?: Date;
@@ -1509,7 +1509,7 @@ export interface ServiceSummary {
   UrlEndpoint?: UrlEndpointSummary;
   LambdaEndpoint?: LambdaEndpointSummary;
   State?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   Error?: ErrorResponse;
   LastUpdatedTime?: Date;
   CreatedTime?: Date;
@@ -1552,7 +1552,7 @@ export interface GetApplicationResponse {
   ProxyType?: string;
   ApiGatewayProxy?: ApiGatewayProxyConfig;
   State?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   Error?: ErrorResponse;
   LastUpdatedTime?: Date;
   CreatedTime?: Date;
@@ -1580,7 +1580,7 @@ export const GetApplicationResponse = S.suspend(() =>
   identifier: "GetApplicationResponse",
 }) as any as S.Schema<GetApplicationResponse>;
 export interface ListApplicationsResponse {
-  ApplicationSummaryList?: ApplicationSummaries;
+  ApplicationSummaryList?: ApplicationSummary[];
   NextToken?: string;
 }
 export const ListApplicationsResponse = S.suspend(() =>
@@ -1592,7 +1592,7 @@ export const ListApplicationsResponse = S.suspend(() =>
   identifier: "ListApplicationsResponse",
 }) as any as S.Schema<ListApplicationsResponse>;
 export interface ListServicesResponse {
-  ServiceSummaryList?: ServiceSummaries;
+  ServiceSummaryList?: ServiceSummary[];
   NextToken?: string;
 }
 export const ListServicesResponse = S.suspend(() =>
@@ -1660,7 +1660,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1684,7 +1684,7 @@ export const tagResource: (
  */
 export const putResourcePolicy: (
   input: PutResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1721,7 +1721,7 @@ export const putResourcePolicy: (
  */
 export const createEnvironment: (
   input: CreateEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEnvironmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -1752,7 +1752,7 @@ export const createEnvironment: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1774,7 +1774,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1795,7 +1795,7 @@ export const listTagsForResource: (
  */
 export const deleteService: (
   input: DeleteServiceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteServiceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1823,7 +1823,7 @@ export const deleteService: (
  */
 export const deleteApplication: (
   input: DeleteApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1851,7 +1851,7 @@ export const deleteApplication: (
  */
 export const deleteEnvironment: (
   input: DeleteEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEnvironmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -1878,7 +1878,7 @@ export const deleteEnvironment: (
  */
 export const updateRoute: (
   input: UpdateRouteRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRouteResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1903,7 +1903,7 @@ export const updateRoute: (
  */
 export const deleteResourcePolicy: (
   input: DeleteResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1928,7 +1928,7 @@ export const deleteResourcePolicy: (
  */
 export const getEnvironment: (
   input: GetEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEnvironmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1953,7 +1953,7 @@ export const getEnvironment: (
  */
 export const getResourcePolicy: (
   input: GetResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1978,7 +1978,7 @@ export const getResourcePolicy: (
  */
 export const deleteRoute: (
   input: DeleteRouteRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRouteResponse,
   | AccessDeniedException
   | ConflictException
@@ -2005,7 +2005,7 @@ export const deleteRoute: (
  */
 export const getRoute: (
   input: GetRouteRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRouteResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2030,7 +2030,7 @@ export const getRoute: (
  */
 export const getService: (
   input: GetServiceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2057,7 +2057,7 @@ export const getService: (
 export const listEnvironments: {
   (
     input: ListEnvironmentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEnvironmentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2069,7 +2069,7 @@ export const listEnvironments: {
   >;
   pages: (
     input: ListEnvironmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEnvironmentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2081,7 +2081,7 @@ export const listEnvironments: {
   >;
   items: (
     input: ListEnvironmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EnvironmentSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2115,7 +2115,7 @@ export const listEnvironments: {
 export const listEnvironmentVpcs: {
   (
     input: ListEnvironmentVpcsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEnvironmentVpcsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2127,7 +2127,7 @@ export const listEnvironmentVpcs: {
   >;
   pages: (
     input: ListEnvironmentVpcsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEnvironmentVpcsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2139,7 +2139,7 @@ export const listEnvironmentVpcs: {
   >;
   items: (
     input: ListEnvironmentVpcsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EnvironmentVpc,
     | AccessDeniedException
     | InternalServerException
@@ -2171,7 +2171,7 @@ export const listEnvironmentVpcs: {
  */
 export const getApplication: (
   input: GetApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetApplicationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2205,7 +2205,7 @@ export const getApplication: (
  */
 export const createApplication: (
   input: CreateApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2301,7 +2301,7 @@ export const createApplication: (
  */
 export const createRoute: (
   input: CreateRouteRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRouteResponse,
   | AccessDeniedException
   | ConflictException
@@ -2338,7 +2338,7 @@ export const createRoute: (
  */
 export const createService: (
   input: CreateServiceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateServiceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2368,7 +2368,7 @@ export const createService: (
 export const listRoutes: {
   (
     input: ListRoutesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRoutesResponse,
     | AccessDeniedException
     | ConflictException
@@ -2382,7 +2382,7 @@ export const listRoutes: {
   >;
   pages: (
     input: ListRoutesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRoutesResponse,
     | AccessDeniedException
     | ConflictException
@@ -2396,7 +2396,7 @@ export const listRoutes: {
   >;
   items: (
     input: ListRoutesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RouteSummary,
     | AccessDeniedException
     | ConflictException
@@ -2433,7 +2433,7 @@ export const listRoutes: {
 export const listApplications: {
   (
     input: ListApplicationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationsResponse,
     | AccessDeniedException
     | ConflictException
@@ -2447,7 +2447,7 @@ export const listApplications: {
   >;
   pages: (
     input: ListApplicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationsResponse,
     | AccessDeniedException
     | ConflictException
@@ -2461,7 +2461,7 @@ export const listApplications: {
   >;
   items: (
     input: ListApplicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ApplicationSummary,
     | AccessDeniedException
     | ConflictException
@@ -2498,7 +2498,7 @@ export const listApplications: {
 export const listServices: {
   (
     input: ListServicesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServicesResponse,
     | AccessDeniedException
     | ConflictException
@@ -2512,7 +2512,7 @@ export const listServices: {
   >;
   pages: (
     input: ListServicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServicesResponse,
     | AccessDeniedException
     | ConflictException
@@ -2526,7 +2526,7 @@ export const listServices: {
   >;
   items: (
     input: ListServicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServiceSummary,
     | AccessDeniedException
     | ConflictException

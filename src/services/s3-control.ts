@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -1128,9 +1128,9 @@ export type JobArn = string;
 export type SuspendedCause = string;
 export type AsyncRequestStatus = string;
 export type ObjectLambdaAccessPointAliasValue = string;
-export type AccessKeyId = string | Redacted.Redacted<string>;
-export type SecretAccessKey = string | Redacted.Redacted<string>;
-export type SessionToken = string | Redacted.Redacted<string>;
+export type AccessKeyId = string | redacted.Redacted<string>;
+export type SecretAccessKey = string | redacted.Redacted<string>;
+export type SessionToken = string | redacted.Redacted<string>;
 export type MultiRegionAccessPointAlias = string;
 export type ObjectLambdaAccessPointArn = string;
 export type S3RegionalBucketArn = string;
@@ -1161,10 +1161,64 @@ export type StorageLensPrefixLevelMaxDepth = number;
 export type MinStorageBytesPercentage = number;
 
 //# Schemas
-export type JobStatusList = string[];
-export const JobStatusList = S.Array(S.String);
+export type Permission = "READ" | "WRITE" | "READWRITE";
+export const Permission = S.Literal("READ", "WRITE", "READWRITE");
+export type S3PrefixType = "Object";
+export const S3PrefixType = S.Literal("Object");
+export type BucketCannedACL =
+  | "private"
+  | "public-read"
+  | "public-read-write"
+  | "authenticated-read";
+export const BucketCannedACL = S.Literal(
+  "private",
+  "public-read",
+  "public-read-write",
+  "authenticated-read",
+);
+export type Privilege = "Minimal" | "Default";
+export const Privilege = S.Literal("Minimal", "Default");
+export type GranteeType = "DIRECTORY_USER" | "DIRECTORY_GROUP" | "IAM";
+export const GranteeType = S.Literal(
+  "DIRECTORY_USER",
+  "DIRECTORY_GROUP",
+  "IAM",
+);
+export type JobStatus =
+  | "Active"
+  | "Cancelled"
+  | "Cancelling"
+  | "Complete"
+  | "Completing"
+  | "Failed"
+  | "Failing"
+  | "New"
+  | "Paused"
+  | "Pausing"
+  | "Preparing"
+  | "Ready"
+  | "Suspended";
+export const JobStatus = S.Literal(
+  "Active",
+  "Cancelled",
+  "Cancelling",
+  "Complete",
+  "Completing",
+  "Failed",
+  "Failing",
+  "New",
+  "Paused",
+  "Pausing",
+  "Preparing",
+  "Ready",
+  "Suspended",
+);
+export type JobStatusList = JobStatus[];
+export const JobStatusList = S.Array(JobStatus);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type RequestedJobStatus = "Cancelled" | "Ready";
+export const RequestedJobStatus = S.Literal("Cancelled", "Ready");
 export interface AssociateAccessGrantsIdentityCenterRequest {
   AccountId: string;
   IdentityCenterArn: string;
@@ -1215,7 +1269,7 @@ export const TagList = S.Array(
 export interface CreateAccessGrantsInstanceRequest {
   AccountId: string;
   IdentityCenterArn?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateAccessGrantsInstanceRequest = S.suspend(() =>
   S.Struct({
@@ -1245,7 +1299,7 @@ export interface CreateAccessGrantsLocationRequest {
   AccountId: string;
   LocationScope: string;
   IAMRoleArn: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateAccessGrantsLocationRequest = S.suspend(() =>
   S.Struct({
@@ -2563,10 +2617,10 @@ export const GetBucketVersioningRequest = S.suspend(() =>
 export interface GetDataAccessRequest {
   AccountId: string;
   Target: string;
-  Permission: string;
+  Permission: Permission;
   DurationSeconds?: number;
-  Privilege?: string;
-  TargetType?: string;
+  Privilege?: Privilege;
+  TargetType?: S3PrefixType;
 }
 export const GetDataAccessRequest = S.suspend(() =>
   S.Struct({
@@ -2576,10 +2630,10 @@ export const GetDataAccessRequest = S.suspend(() =>
       T.HostLabel(),
     ),
     Target: S.String.pipe(T.HttpQuery("target")),
-    Permission: S.String.pipe(T.HttpQuery("permission")),
+    Permission: Permission.pipe(T.HttpQuery("permission")),
     DurationSeconds: S.optional(S.Number).pipe(T.HttpQuery("durationSeconds")),
-    Privilege: S.optional(S.String).pipe(T.HttpQuery("privilege")),
-    TargetType: S.optional(S.String).pipe(T.HttpQuery("targetType")),
+    Privilege: S.optional(Privilege).pipe(T.HttpQuery("privilege")),
+    TargetType: S.optional(S3PrefixType).pipe(T.HttpQuery("targetType")),
   }).pipe(
     T.all(
       ns,
@@ -2858,9 +2912,9 @@ export interface ListAccessGrantsRequest {
   AccountId: string;
   NextToken?: string;
   MaxResults?: number;
-  GranteeType?: string;
+  GranteeType?: GranteeType;
   GranteeIdentifier?: string;
-  Permission?: string;
+  Permission?: Permission;
   GrantScope?: string;
   ApplicationArn?: string;
 }
@@ -2873,11 +2927,11 @@ export const ListAccessGrantsRequest = S.suspend(() =>
     ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    GranteeType: S.optional(S.String).pipe(T.HttpQuery("granteetype")),
+    GranteeType: S.optional(GranteeType).pipe(T.HttpQuery("granteetype")),
     GranteeIdentifier: S.optional(S.String).pipe(
       T.HttpQuery("granteeidentifier"),
     ),
-    Permission: S.optional(S.String).pipe(T.HttpQuery("permission")),
+    Permission: S.optional(Permission).pipe(T.HttpQuery("permission")),
     GrantScope: S.optional(S.String).pipe(T.HttpQuery("grantscope")),
     ApplicationArn: S.optional(S.String).pipe(T.HttpQuery("application_arn")),
   }).pipe(
@@ -3099,7 +3153,7 @@ export const ListCallerAccessGrantsRequest = S.suspend(() =>
 }) as any as S.Schema<ListCallerAccessGrantsRequest>;
 export interface ListJobsRequest {
   AccountId: string;
-  JobStatuses?: JobStatusList;
+  JobStatuses?: JobStatus[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -3307,13 +3361,36 @@ export const PutAccessGrantsInstanceResourcePolicyRequest = S.suspend(() =>
 ).annotations({
   identifier: "PutAccessGrantsInstanceResourcePolicyRequest",
 }) as any as S.Schema<PutAccessGrantsInstanceResourcePolicyRequest>;
-export type ObjectLambdaAllowedFeaturesList = string[];
-export const ObjectLambdaAllowedFeaturesList = S.Array(
-  S.String.pipe(T.XmlName("AllowedFeature")),
+export type ObjectLambdaAllowedFeature =
+  | "GetObject-Range"
+  | "GetObject-PartNumber"
+  | "HeadObject-Range"
+  | "HeadObject-PartNumber";
+export const ObjectLambdaAllowedFeature = S.Literal(
+  "GetObject-Range",
+  "GetObject-PartNumber",
+  "HeadObject-Range",
+  "HeadObject-PartNumber",
 );
-export type ObjectLambdaTransformationConfigurationActionsList = string[];
+export type ObjectLambdaAllowedFeaturesList = ObjectLambdaAllowedFeature[];
+export const ObjectLambdaAllowedFeaturesList = S.Array(
+  ObjectLambdaAllowedFeature.pipe(T.XmlName("AllowedFeature")),
+);
+export type ObjectLambdaTransformationConfigurationAction =
+  | "GetObject"
+  | "HeadObject"
+  | "ListObjects"
+  | "ListObjectsV2";
+export const ObjectLambdaTransformationConfigurationAction = S.Literal(
+  "GetObject",
+  "HeadObject",
+  "ListObjects",
+  "ListObjectsV2",
+);
+export type ObjectLambdaTransformationConfigurationActionsList =
+  ObjectLambdaTransformationConfigurationAction[];
 export const ObjectLambdaTransformationConfigurationActionsList = S.Array(
-  S.String.pipe(T.XmlName("Action")),
+  ObjectLambdaTransformationConfigurationAction.pipe(T.XmlName("Action")),
 );
 export interface AwsLambdaTransformation {
   FunctionArn: string;
@@ -3331,8 +3408,8 @@ export const ObjectLambdaContentTransformation = S.Union(
   S.Struct({ AwsLambda: AwsLambdaTransformation }),
 );
 export interface ObjectLambdaTransformationConfiguration {
-  Actions: ObjectLambdaTransformationConfigurationActionsList;
-  ContentTransformation: (typeof ObjectLambdaContentTransformation)["Type"];
+  Actions: ObjectLambdaTransformationConfigurationAction[];
+  ContentTransformation: ObjectLambdaContentTransformation;
 }
 export const ObjectLambdaTransformationConfiguration = S.suspend(() =>
   S.Struct({
@@ -3352,8 +3429,8 @@ export const ObjectLambdaTransformationConfigurationsList = S.Array(
 export interface ObjectLambdaConfiguration {
   SupportingAccessPoint: string;
   CloudWatchMetricsEnabled?: boolean;
-  AllowedFeatures?: ObjectLambdaAllowedFeaturesList;
-  TransformationConfigurations: ObjectLambdaTransformationConfigurationsList;
+  AllowedFeatures?: ObjectLambdaAllowedFeature[];
+  TransformationConfigurations: ObjectLambdaTransformationConfiguration[];
 }
 export const ObjectLambdaConfiguration = S.suspend(() =>
   S.Struct({
@@ -3478,13 +3555,32 @@ export const PutAccessPointPolicyForObjectLambdaResponse = S.suspend(() =>
 }) as any as S.Schema<PutAccessPointPolicyForObjectLambdaResponse>;
 export type PrefixesList = string[];
 export const PrefixesList = S.Array(S.String.pipe(T.XmlName("Prefix")));
-export type ScopePermissionList = string[];
+export type ScopePermission =
+  | "GetObject"
+  | "GetObjectAttributes"
+  | "ListMultipartUploadParts"
+  | "ListBucket"
+  | "ListBucketMultipartUploads"
+  | "PutObject"
+  | "DeleteObject"
+  | "AbortMultipartUpload";
+export const ScopePermission = S.Literal(
+  "GetObject",
+  "GetObjectAttributes",
+  "ListMultipartUploadParts",
+  "ListBucket",
+  "ListBucketMultipartUploads",
+  "PutObject",
+  "DeleteObject",
+  "AbortMultipartUpload",
+);
+export type ScopePermissionList = ScopePermission[];
 export const ScopePermissionList = S.Array(
-  S.String.pipe(T.XmlName("Permission")),
+  ScopePermission.pipe(T.XmlName("Permission")),
 );
 export interface Scope {
-  Prefixes?: PrefixesList;
-  Permissions?: ScopePermissionList;
+  Prefixes?: string[];
+  Permissions?: ScopePermission[];
 }
 export const Scope = S.suspend(() =>
   S.Struct({
@@ -3581,7 +3677,7 @@ export const S3TagSet = S.Array(S3Tag);
 export interface PutJobTaggingRequest {
   AccountId: string;
   JobId: string;
-  Tags: S3TagSet;
+  Tags: S3Tag[];
 }
 export const PutJobTaggingRequest = S.suspend(() =>
   S.Struct({
@@ -3690,7 +3786,7 @@ export const StorageLensTags = S.Array(
 export interface PutStorageLensConfigurationTaggingRequest {
   ConfigId: string;
   AccountId: string;
-  Tags: StorageLensTags;
+  Tags: StorageLensTag[];
 }
 export const PutStorageLensConfigurationTaggingRequest = S.suspend(() =>
   S.Struct({
@@ -3728,7 +3824,7 @@ export const PutStorageLensConfigurationTaggingResult = S.suspend(() =>
 export interface TagResourceRequest {
   AccountId: string;
   ResourceArn: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -3766,7 +3862,7 @@ export const TagResourceResult = S.suspend(() =>
 export interface UntagResourceRequest {
   AccountId: string;
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -3867,7 +3963,7 @@ export const UpdateJobPriorityRequest = S.suspend(() =>
 export interface UpdateJobStatusRequest {
   AccountId: string;
   JobId: string;
-  RequestedJobStatus: string;
+  RequestedJobStatus: RequestedJobStatus;
   StatusUpdateReason?: string;
 }
 export const UpdateJobStatusRequest = S.suspend(() =>
@@ -3878,7 +3974,9 @@ export const UpdateJobStatusRequest = S.suspend(() =>
       T.HostLabel(),
     ),
     JobId: S.String.pipe(T.HttpLabel("JobId")),
-    RequestedJobStatus: S.String.pipe(T.HttpQuery("requestedJobStatus")),
+    RequestedJobStatus: RequestedJobStatus.pipe(
+      T.HttpQuery("requestedJobStatus"),
+    ),
     StatusUpdateReason: S.optional(S.String).pipe(
       T.HttpQuery("statusUpdateReason"),
     ),
@@ -3930,9 +4028,9 @@ export const MatchObjectSize = S.suspend(() =>
   identifier: "MatchObjectSize",
 }) as any as S.Schema<MatchObjectSize>;
 export interface StorageLensGroupAndOperator {
-  MatchAnyPrefix?: MatchAnyPrefix;
-  MatchAnySuffix?: MatchAnySuffix;
-  MatchAnyTag?: MatchAnyTag;
+  MatchAnyPrefix?: string[];
+  MatchAnySuffix?: string[];
+  MatchAnyTag?: S3Tag[];
   MatchObjectAge?: MatchObjectAge;
   MatchObjectSize?: MatchObjectSize;
 }
@@ -3948,9 +4046,9 @@ export const StorageLensGroupAndOperator = S.suspend(() =>
   identifier: "StorageLensGroupAndOperator",
 }) as any as S.Schema<StorageLensGroupAndOperator>;
 export interface StorageLensGroupOrOperator {
-  MatchAnyPrefix?: MatchAnyPrefix;
-  MatchAnySuffix?: MatchAnySuffix;
-  MatchAnyTag?: MatchAnyTag;
+  MatchAnyPrefix?: string[];
+  MatchAnySuffix?: string[];
+  MatchAnyTag?: S3Tag[];
   MatchObjectAge?: MatchObjectAge;
   MatchObjectSize?: MatchObjectSize;
 }
@@ -3966,9 +4064,9 @@ export const StorageLensGroupOrOperator = S.suspend(() =>
   identifier: "StorageLensGroupOrOperator",
 }) as any as S.Schema<StorageLensGroupOrOperator>;
 export interface StorageLensGroupFilter {
-  MatchAnyPrefix?: MatchAnyPrefix;
-  MatchAnySuffix?: MatchAnySuffix;
-  MatchAnyTag?: MatchAnyTag;
+  MatchAnyPrefix?: string[];
+  MatchAnySuffix?: string[];
+  MatchAnyTag?: S3Tag[];
   MatchObjectAge?: MatchObjectAge;
   MatchObjectSize?: MatchObjectSize;
   And?: StorageLensGroupAndOperator;
@@ -4036,6 +4134,31 @@ export const UpdateStorageLensGroupResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateStorageLensGroupResponse",
 }) as any as S.Schema<UpdateStorageLensGroupResponse>;
+export type BucketLocationConstraint =
+  | "EU"
+  | "eu-west-1"
+  | "us-west-1"
+  | "us-west-2"
+  | "ap-south-1"
+  | "ap-southeast-1"
+  | "ap-southeast-2"
+  | "ap-northeast-1"
+  | "sa-east-1"
+  | "cn-north-1"
+  | "eu-central-1";
+export const BucketLocationConstraint = S.Literal(
+  "EU",
+  "eu-west-1",
+  "us-west-1",
+  "us-west-2",
+  "ap-south-1",
+  "ap-southeast-1",
+  "ap-southeast-2",
+  "ap-northeast-1",
+  "sa-east-1",
+  "cn-north-1",
+  "eu-central-1",
+);
 export interface S3DeleteObjectTaggingOperation {}
 export const S3DeleteObjectTaggingOperation = S.suspend(() =>
   S.Struct({}),
@@ -4048,6 +4171,14 @@ export const S3ReplicateObjectOperation = S.suspend(() =>
 ).annotations({
   identifier: "S3ReplicateObjectOperation",
 }) as any as S.Schema<S3ReplicateObjectOperation>;
+export type JobReportFormat = "Report_CSV_20180820";
+export const JobReportFormat = S.Literal("Report_CSV_20180820");
+export type JobReportScope = "AllTasks" | "FailedTasksOnly";
+export const JobReportScope = S.Literal("AllTasks", "FailedTasksOnly");
+export type MFADelete = "Enabled" | "Disabled";
+export const MFADelete = S.Literal("Enabled", "Disabled");
+export type BucketVersioningStatus = "Enabled" | "Suspended";
+export const BucketVersioningStatus = S.Literal("Enabled", "Suspended");
 export interface AccessGrantsLocationConfiguration {
   S3SubPrefix?: string;
 }
@@ -4057,12 +4188,12 @@ export const AccessGrantsLocationConfiguration = S.suspend(() =>
   identifier: "AccessGrantsLocationConfiguration",
 }) as any as S.Schema<AccessGrantsLocationConfiguration>;
 export interface Grantee {
-  GranteeType?: string;
+  GranteeType?: GranteeType;
   GranteeIdentifier?: string;
 }
 export const Grantee = S.suspend(() =>
   S.Struct({
-    GranteeType: S.optional(S.String),
+    GranteeType: S.optional(GranteeType),
     GranteeIdentifier: S.optional(S.String),
   }),
 ).annotations({ identifier: "Grantee" }) as any as S.Schema<Grantee>;
@@ -4075,28 +4206,28 @@ export const VpcConfiguration = S.suspend(() =>
   identifier: "VpcConfiguration",
 }) as any as S.Schema<VpcConfiguration>;
 export interface CreateBucketConfiguration {
-  LocationConstraint?: string;
+  LocationConstraint?: BucketLocationConstraint;
 }
 export const CreateBucketConfiguration = S.suspend(() =>
-  S.Struct({ LocationConstraint: S.optional(S.String) }),
+  S.Struct({ LocationConstraint: S.optional(BucketLocationConstraint) }),
 ).annotations({
   identifier: "CreateBucketConfiguration",
 }) as any as S.Schema<CreateBucketConfiguration>;
 export interface JobReport {
   Bucket?: string;
-  Format?: string;
+  Format?: JobReportFormat;
   Enabled: boolean;
   Prefix?: string;
-  ReportScope?: string;
+  ReportScope?: JobReportScope;
   ExpectedBucketOwner?: string;
 }
 export const JobReport = S.suspend(() =>
   S.Struct({
     Bucket: S.optional(S.String),
-    Format: S.optional(S.String),
+    Format: S.optional(JobReportFormat),
     Enabled: S.Boolean,
     Prefix: S.optional(S.String),
-    ReportScope: S.optional(S.String),
+    ReportScope: S.optional(JobReportScope),
     ExpectedBucketOwner: S.optional(S.String),
   }),
 ).annotations({ identifier: "JobReport" }) as any as S.Schema<JobReport>;
@@ -4108,6 +4239,25 @@ export const DeleteMultiRegionAccessPointInput = S.suspend(() =>
 ).annotations({
   identifier: "DeleteMultiRegionAccessPointInput",
 }) as any as S.Schema<DeleteMultiRegionAccessPointInput>;
+export type NetworkOrigin = "Internet" | "VPC";
+export const NetworkOrigin = S.Literal("Internet", "VPC");
+export type MFADeleteStatus = "Enabled" | "Disabled";
+export const MFADeleteStatus = S.Literal("Enabled", "Disabled");
+export type MultiRegionAccessPointStatus =
+  | "READY"
+  | "INCONSISTENT_ACROSS_REGIONS"
+  | "CREATING"
+  | "PARTIALLY_CREATED"
+  | "PARTIALLY_DELETED"
+  | "DELETING";
+export const MultiRegionAccessPointStatus = S.Literal(
+  "READY",
+  "INCONSISTENT_ACROSS_REGIONS",
+  "CREATING",
+  "PARTIALLY_CREATED",
+  "PARTIALLY_DELETED",
+  "DELETING",
+);
 export interface RegionReport {
   Bucket?: string;
   Region?: string;
@@ -4131,8 +4281,8 @@ export interface MultiRegionAccessPointReport {
   Alias?: string;
   CreatedAt?: Date;
   PublicAccessBlock?: PublicAccessBlockConfiguration;
-  Status?: string;
-  Regions?: RegionReportList;
+  Status?: MultiRegionAccessPointStatus;
+  Regions?: RegionReport[];
 }
 export const MultiRegionAccessPointReport = S.suspend(() =>
   S.Struct({
@@ -4140,7 +4290,7 @@ export const MultiRegionAccessPointReport = S.suspend(() =>
     Alias: S.optional(S.String),
     CreatedAt: S.optional(S.Date),
     PublicAccessBlock: S.optional(PublicAccessBlockConfiguration),
-    Status: S.optional(S.String),
+    Status: S.optional(MultiRegionAccessPointStatus),
     Regions: S.optional(RegionReportList),
   }),
 ).annotations({
@@ -4153,19 +4303,19 @@ export const MultiRegionAccessPointReportList = S.Array(
   }),
 );
 export interface Tagging {
-  TagSet: S3TagSet;
+  TagSet: S3Tag[];
 }
 export const Tagging = S.suspend(() =>
   S.Struct({ TagSet: S3TagSet }),
 ).annotations({ identifier: "Tagging" }) as any as S.Schema<Tagging>;
 export interface VersioningConfiguration {
-  MFADelete?: string;
-  Status?: string;
+  MFADelete?: MFADelete;
+  Status?: BucketVersioningStatus;
 }
 export const VersioningConfiguration = S.suspend(() =>
   S.Struct({
-    MFADelete: S.optional(S.String).pipe(T.XmlName("MfaDelete")),
-    Status: S.optional(S.String),
+    MFADelete: S.optional(MFADelete).pipe(T.XmlName("MfaDelete")),
+    Status: S.optional(BucketVersioningStatus),
   }),
 ).annotations({
   identifier: "VersioningConfiguration",
@@ -4199,8 +4349,98 @@ export const RouteList = S.Array(
     identifier: "MultiRegionAccessPointRoute",
   }),
 );
-export type JobManifestFieldList = string[];
-export const JobManifestFieldList = S.Array(S.String);
+export type S3CannedAccessControlList =
+  | "private"
+  | "public-read"
+  | "public-read-write"
+  | "aws-exec-read"
+  | "authenticated-read"
+  | "bucket-owner-read"
+  | "bucket-owner-full-control";
+export const S3CannedAccessControlList = S.Literal(
+  "private",
+  "public-read",
+  "public-read-write",
+  "aws-exec-read",
+  "authenticated-read",
+  "bucket-owner-read",
+  "bucket-owner-full-control",
+);
+export type S3MetadataDirective = "COPY" | "REPLACE";
+export const S3MetadataDirective = S.Literal("COPY", "REPLACE");
+export type S3StorageClass =
+  | "STANDARD"
+  | "STANDARD_IA"
+  | "ONEZONE_IA"
+  | "GLACIER"
+  | "INTELLIGENT_TIERING"
+  | "DEEP_ARCHIVE"
+  | "GLACIER_IR";
+export const S3StorageClass = S.Literal(
+  "STANDARD",
+  "STANDARD_IA",
+  "ONEZONE_IA",
+  "GLACIER",
+  "INTELLIGENT_TIERING",
+  "DEEP_ARCHIVE",
+  "GLACIER_IR",
+);
+export type S3ObjectLockLegalHoldStatus = "OFF" | "ON";
+export const S3ObjectLockLegalHoldStatus = S.Literal("OFF", "ON");
+export type S3ObjectLockMode = "COMPLIANCE" | "GOVERNANCE";
+export const S3ObjectLockMode = S.Literal("COMPLIANCE", "GOVERNANCE");
+export type S3ChecksumAlgorithm =
+  | "CRC32"
+  | "CRC32C"
+  | "SHA1"
+  | "SHA256"
+  | "CRC64NVME";
+export const S3ChecksumAlgorithm = S.Literal(
+  "CRC32",
+  "CRC32C",
+  "SHA1",
+  "SHA256",
+  "CRC64NVME",
+);
+export type S3GlacierJobTier = "BULK" | "STANDARD";
+export const S3GlacierJobTier = S.Literal("BULK", "STANDARD");
+export type ComputeObjectChecksumAlgorithm =
+  | "CRC32"
+  | "CRC32C"
+  | "CRC64NVME"
+  | "MD5"
+  | "SHA1"
+  | "SHA256";
+export const ComputeObjectChecksumAlgorithm = S.Literal(
+  "CRC32",
+  "CRC32C",
+  "CRC64NVME",
+  "MD5",
+  "SHA1",
+  "SHA256",
+);
+export type ComputeObjectChecksumType = "FULL_OBJECT" | "COMPOSITE";
+export const ComputeObjectChecksumType = S.Literal("FULL_OBJECT", "COMPOSITE");
+export type JobManifestFormat =
+  | "S3BatchOperations_CSV_20180820"
+  | "S3InventoryReport_CSV_20161130";
+export const JobManifestFormat = S.Literal(
+  "S3BatchOperations_CSV_20180820",
+  "S3InventoryReport_CSV_20161130",
+);
+export type JobManifestFieldName = "Ignore" | "Bucket" | "Key" | "VersionId";
+export const JobManifestFieldName = S.Literal(
+  "Ignore",
+  "Bucket",
+  "Key",
+  "VersionId",
+);
+export type JobManifestFieldList = JobManifestFieldName[];
+export const JobManifestFieldList = S.Array(JobManifestFieldName);
+export type ExpirationStatus = "Enabled" | "Disabled";
+export const ExpirationStatus = S.Literal("Enabled", "Disabled");
+export type ReplicationRuleStatus = "Enabled" | "Disabled";
+export const ReplicationRuleStatus = S.Literal("Enabled", "Disabled");
 export type Buckets = string[];
 export const Buckets = S.Array(S.String.pipe(T.XmlName("Arn")));
 export type Regions = string[];
@@ -4210,10 +4450,10 @@ export interface CreateAccessGrantRequest {
   AccessGrantsLocationId: string;
   AccessGrantsLocationConfiguration?: AccessGrantsLocationConfiguration;
   Grantee: Grantee;
-  Permission: string;
+  Permission: Permission;
   ApplicationArn?: string;
-  S3PrefixType?: string;
-  Tags?: TagList;
+  S3PrefixType?: S3PrefixType;
+  Tags?: Tag[];
 }
 export const CreateAccessGrantRequest = S.suspend(() =>
   S.Struct({
@@ -4227,9 +4467,9 @@ export const CreateAccessGrantRequest = S.suspend(() =>
       AccessGrantsLocationConfiguration,
     ),
     Grantee: Grantee,
-    Permission: S.String,
+    Permission: Permission,
     ApplicationArn: S.optional(S.String),
-    S3PrefixType: S.optional(S.String),
+    S3PrefixType: S.optional(S3PrefixType),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -4292,7 +4532,7 @@ export interface CreateAccessPointRequest {
   PublicAccessBlockConfiguration?: PublicAccessBlockConfiguration;
   BucketAccountId?: string;
   Scope?: Scope;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateAccessPointRequest = S.suspend(() =>
   S.Struct({
@@ -4324,7 +4564,7 @@ export const CreateAccessPointRequest = S.suspend(() =>
   identifier: "CreateAccessPointRequest",
 }) as any as S.Schema<CreateAccessPointRequest>;
 export interface CreateBucketRequest {
-  ACL?: string;
+  ACL?: BucketCannedACL;
   Bucket: string;
   CreateBucketConfiguration?: CreateBucketConfiguration;
   GrantFullControl?: string;
@@ -4337,7 +4577,7 @@ export interface CreateBucketRequest {
 }
 export const CreateBucketRequest = S.suspend(() =>
   S.Struct({
-    ACL: S.optional(S.String).pipe(T.HttpHeader("x-amz-acl")),
+    ACL: S.optional(BucketCannedACL).pipe(T.HttpHeader("x-amz-acl")),
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     CreateBucketConfiguration: S.optional(CreateBucketConfiguration)
       .pipe(T.HttpPayload(), T.XmlName("CreateBucketConfiguration"))
@@ -4408,7 +4648,7 @@ export interface GetAccessGrantResult {
   AccessGrantId?: string;
   AccessGrantArn?: string;
   Grantee?: Grantee;
-  Permission?: string;
+  Permission?: Permission;
   AccessGrantsLocationId?: string;
   AccessGrantsLocationConfiguration?: AccessGrantsLocationConfiguration;
   GrantScope?: string;
@@ -4420,7 +4660,7 @@ export const GetAccessGrantResult = S.suspend(() =>
     AccessGrantId: S.optional(S.String),
     AccessGrantArn: S.optional(S.String),
     Grantee: S.optional(Grantee),
-    Permission: S.optional(S.String),
+    Permission: S.optional(Permission),
     AccessGrantsLocationId: S.optional(S.String),
     AccessGrantsLocationConfiguration: S.optional(
       AccessGrantsLocationConfiguration,
@@ -4571,7 +4811,7 @@ export const LifecycleExpiration = S.suspend(() =>
 }) as any as S.Schema<LifecycleExpiration>;
 export interface LifecycleRuleAndOperator {
   Prefix?: string;
-  Tags?: S3TagSet;
+  Tags?: S3Tag[];
   ObjectSizeGreaterThan?: number;
   ObjectSizeLessThan?: number;
 }
@@ -4603,16 +4843,29 @@ export const LifecycleRuleFilter = S.suspend(() =>
 ).annotations({
   identifier: "LifecycleRuleFilter",
 }) as any as S.Schema<LifecycleRuleFilter>;
+export type TransitionStorageClass =
+  | "GLACIER"
+  | "STANDARD_IA"
+  | "ONEZONE_IA"
+  | "INTELLIGENT_TIERING"
+  | "DEEP_ARCHIVE";
+export const TransitionStorageClass = S.Literal(
+  "GLACIER",
+  "STANDARD_IA",
+  "ONEZONE_IA",
+  "INTELLIGENT_TIERING",
+  "DEEP_ARCHIVE",
+);
 export interface Transition {
   Date?: Date;
   Days?: number;
-  StorageClass?: string;
+  StorageClass?: TransitionStorageClass;
 }
 export const Transition = S.suspend(() =>
   S.Struct({
     Date: S.optional(S.Date),
     Days: S.optional(S.Number),
-    StorageClass: S.optional(S.String),
+    StorageClass: S.optional(TransitionStorageClass),
   }),
 ).annotations({ identifier: "Transition" }) as any as S.Schema<Transition>;
 export type TransitionList = Transition[];
@@ -4623,12 +4876,12 @@ export const TransitionList = S.Array(
 );
 export interface NoncurrentVersionTransition {
   NoncurrentDays?: number;
-  StorageClass?: string;
+  StorageClass?: TransitionStorageClass;
 }
 export const NoncurrentVersionTransition = S.suspend(() =>
   S.Struct({
     NoncurrentDays: S.optional(S.Number),
-    StorageClass: S.optional(S.String),
+    StorageClass: S.optional(TransitionStorageClass),
   }),
 ).annotations({
   identifier: "NoncurrentVersionTransition",
@@ -4663,9 +4916,9 @@ export interface LifecycleRule {
   Expiration?: LifecycleExpiration;
   ID?: string;
   Filter?: LifecycleRuleFilter;
-  Status: string;
-  Transitions?: TransitionList;
-  NoncurrentVersionTransitions?: NoncurrentVersionTransitionList;
+  Status: ExpirationStatus;
+  Transitions?: Transition[];
+  NoncurrentVersionTransitions?: NoncurrentVersionTransition[];
   NoncurrentVersionExpiration?: NoncurrentVersionExpiration;
   AbortIncompleteMultipartUpload?: AbortIncompleteMultipartUpload;
 }
@@ -4674,7 +4927,7 @@ export const LifecycleRule = S.suspend(() =>
     Expiration: S.optional(LifecycleExpiration),
     ID: S.optional(S.String),
     Filter: S.optional(LifecycleRuleFilter),
-    Status: S.String,
+    Status: ExpirationStatus,
     Transitions: S.optional(TransitionList),
     NoncurrentVersionTransitions: S.optional(NoncurrentVersionTransitionList),
     NoncurrentVersionExpiration: S.optional(NoncurrentVersionExpiration),
@@ -4690,7 +4943,7 @@ export const LifecycleRules = S.Array(
   }),
 );
 export interface GetBucketLifecycleConfigurationResult {
-  Rules?: LifecycleRules;
+  Rules?: LifecycleRule[];
 }
 export const GetBucketLifecycleConfigurationResult = S.suspend(() =>
   S.Struct({ Rules: S.optional(LifecycleRules) }).pipe(ns),
@@ -4707,7 +4960,7 @@ export const GetBucketPolicyResult = S.suspend(() =>
 }) as any as S.Schema<GetBucketPolicyResult>;
 export interface ReplicationRuleAndOperator {
   Prefix?: string;
-  Tags?: S3TagSet;
+  Tags?: S3Tag[];
 }
 export const ReplicationRuleAndOperator = S.suspend(() =>
   S.Struct({ Prefix: S.optional(S.String), Tags: S.optional(S3TagSet) }),
@@ -4728,19 +4981,23 @@ export const ReplicationRuleFilter = S.suspend(() =>
 ).annotations({
   identifier: "ReplicationRuleFilter",
 }) as any as S.Schema<ReplicationRuleFilter>;
+export type SseKmsEncryptedObjectsStatus = "Enabled" | "Disabled";
+export const SseKmsEncryptedObjectsStatus = S.Literal("Enabled", "Disabled");
 export interface SseKmsEncryptedObjects {
-  Status: string;
+  Status: SseKmsEncryptedObjectsStatus;
 }
 export const SseKmsEncryptedObjects = S.suspend(() =>
-  S.Struct({ Status: S.String }),
+  S.Struct({ Status: SseKmsEncryptedObjectsStatus }),
 ).annotations({
   identifier: "SseKmsEncryptedObjects",
 }) as any as S.Schema<SseKmsEncryptedObjects>;
+export type ReplicaModificationsStatus = "Enabled" | "Disabled";
+export const ReplicaModificationsStatus = S.Literal("Enabled", "Disabled");
 export interface ReplicaModifications {
-  Status: string;
+  Status: ReplicaModificationsStatus;
 }
 export const ReplicaModifications = S.suspend(() =>
-  S.Struct({ Status: S.String }),
+  S.Struct({ Status: ReplicaModificationsStatus }),
 ).annotations({
   identifier: "ReplicaModifications",
 }) as any as S.Schema<ReplicaModifications>;
@@ -4756,14 +5013,18 @@ export const SourceSelectionCriteria = S.suspend(() =>
 ).annotations({
   identifier: "SourceSelectionCriteria",
 }) as any as S.Schema<SourceSelectionCriteria>;
+export type ExistingObjectReplicationStatus = "Enabled" | "Disabled";
+export const ExistingObjectReplicationStatus = S.Literal("Enabled", "Disabled");
 export interface ExistingObjectReplication {
-  Status: string;
+  Status: ExistingObjectReplicationStatus;
 }
 export const ExistingObjectReplication = S.suspend(() =>
-  S.Struct({ Status: S.String }),
+  S.Struct({ Status: ExistingObjectReplicationStatus }),
 ).annotations({
   identifier: "ExistingObjectReplication",
 }) as any as S.Schema<ExistingObjectReplication>;
+export type ReplicationTimeStatus = "Enabled" | "Disabled";
+export const ReplicationTimeStatus = S.Literal("Enabled", "Disabled");
 export interface ReplicationTimeValue {
   Minutes?: number;
 }
@@ -4773,19 +5034,21 @@ export const ReplicationTimeValue = S.suspend(() =>
   identifier: "ReplicationTimeValue",
 }) as any as S.Schema<ReplicationTimeValue>;
 export interface ReplicationTime {
-  Status: string;
+  Status: ReplicationTimeStatus;
   Time: ReplicationTimeValue;
 }
 export const ReplicationTime = S.suspend(() =>
-  S.Struct({ Status: S.String, Time: ReplicationTimeValue }),
+  S.Struct({ Status: ReplicationTimeStatus, Time: ReplicationTimeValue }),
 ).annotations({
   identifier: "ReplicationTime",
 }) as any as S.Schema<ReplicationTime>;
+export type OwnerOverride = "Destination";
+export const OwnerOverride = S.Literal("Destination");
 export interface AccessControlTranslation {
-  Owner: string;
+  Owner: OwnerOverride;
 }
 export const AccessControlTranslation = S.suspend(() =>
-  S.Struct({ Owner: S.String }),
+  S.Struct({ Owner: OwnerOverride }),
 ).annotations({
   identifier: "AccessControlTranslation",
 }) as any as S.Schema<AccessControlTranslation>;
@@ -4797,16 +5060,39 @@ export const EncryptionConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "EncryptionConfiguration",
 }) as any as S.Schema<EncryptionConfiguration>;
+export type MetricsStatus = "Enabled" | "Disabled";
+export const MetricsStatus = S.Literal("Enabled", "Disabled");
 export interface Metrics {
-  Status: string;
+  Status: MetricsStatus;
   EventThreshold?: ReplicationTimeValue;
 }
 export const Metrics = S.suspend(() =>
   S.Struct({
-    Status: S.String,
+    Status: MetricsStatus,
     EventThreshold: S.optional(ReplicationTimeValue),
   }),
 ).annotations({ identifier: "Metrics" }) as any as S.Schema<Metrics>;
+export type ReplicationStorageClass =
+  | "STANDARD"
+  | "REDUCED_REDUNDANCY"
+  | "STANDARD_IA"
+  | "ONEZONE_IA"
+  | "INTELLIGENT_TIERING"
+  | "GLACIER"
+  | "DEEP_ARCHIVE"
+  | "OUTPOSTS"
+  | "GLACIER_IR";
+export const ReplicationStorageClass = S.Literal(
+  "STANDARD",
+  "REDUCED_REDUNDANCY",
+  "STANDARD_IA",
+  "ONEZONE_IA",
+  "INTELLIGENT_TIERING",
+  "GLACIER",
+  "DEEP_ARCHIVE",
+  "OUTPOSTS",
+  "GLACIER_IR",
+);
 export interface Destination {
   Account?: string;
   Bucket: string;
@@ -4814,7 +5100,7 @@ export interface Destination {
   AccessControlTranslation?: AccessControlTranslation;
   EncryptionConfiguration?: EncryptionConfiguration;
   Metrics?: Metrics;
-  StorageClass?: string;
+  StorageClass?: ReplicationStorageClass;
 }
 export const Destination = S.suspend(() =>
   S.Struct({
@@ -4824,14 +5110,16 @@ export const Destination = S.suspend(() =>
     AccessControlTranslation: S.optional(AccessControlTranslation),
     EncryptionConfiguration: S.optional(EncryptionConfiguration),
     Metrics: S.optional(Metrics),
-    StorageClass: S.optional(S.String),
+    StorageClass: S.optional(ReplicationStorageClass),
   }),
 ).annotations({ identifier: "Destination" }) as any as S.Schema<Destination>;
+export type DeleteMarkerReplicationStatus = "Enabled" | "Disabled";
+export const DeleteMarkerReplicationStatus = S.Literal("Enabled", "Disabled");
 export interface DeleteMarkerReplication {
-  Status: string;
+  Status: DeleteMarkerReplicationStatus;
 }
 export const DeleteMarkerReplication = S.suspend(() =>
-  S.Struct({ Status: S.String }),
+  S.Struct({ Status: DeleteMarkerReplicationStatus }),
 ).annotations({
   identifier: "DeleteMarkerReplication",
 }) as any as S.Schema<DeleteMarkerReplication>;
@@ -4840,7 +5128,7 @@ export interface ReplicationRule {
   Priority?: number;
   Prefix?: string;
   Filter?: ReplicationRuleFilter;
-  Status: string;
+  Status: ReplicationRuleStatus;
   SourceSelectionCriteria?: SourceSelectionCriteria;
   ExistingObjectReplication?: ExistingObjectReplication;
   Destination: Destination;
@@ -4853,7 +5141,7 @@ export const ReplicationRule = S.suspend(() =>
     Priority: S.optional(S.Number),
     Prefix: S.optional(S.String),
     Filter: S.optional(ReplicationRuleFilter),
-    Status: S.String,
+    Status: ReplicationRuleStatus,
     SourceSelectionCriteria: S.optional(SourceSelectionCriteria),
     ExistingObjectReplication: S.optional(ExistingObjectReplication),
     Destination: Destination,
@@ -4871,7 +5159,7 @@ export const ReplicationRules = S.Array(
 );
 export interface ReplicationConfiguration {
   Role: string;
-  Rules: ReplicationRules;
+  Rules: ReplicationRule[];
 }
 export const ReplicationConfiguration = S.suspend(() =>
   S.Struct({ Role: S.String, Rules: ReplicationRules }),
@@ -4889,7 +5177,7 @@ export const GetBucketReplicationResult = S.suspend(() =>
   identifier: "GetBucketReplicationResult",
 }) as any as S.Schema<GetBucketReplicationResult>;
 export interface GetBucketTaggingResult {
-  TagSet: S3TagSet;
+  TagSet: S3Tag[];
 }
 export const GetBucketTaggingResult = S.suspend(() =>
   S.Struct({ TagSet: S3TagSet }).pipe(ns),
@@ -4897,19 +5185,19 @@ export const GetBucketTaggingResult = S.suspend(() =>
   identifier: "GetBucketTaggingResult",
 }) as any as S.Schema<GetBucketTaggingResult>;
 export interface GetBucketVersioningResult {
-  Status?: string;
-  MFADelete?: string;
+  Status?: BucketVersioningStatus;
+  MFADelete?: MFADeleteStatus;
 }
 export const GetBucketVersioningResult = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
-    MFADelete: S.optional(S.String).pipe(T.XmlName("MfaDelete")),
+    Status: S.optional(BucketVersioningStatus),
+    MFADelete: S.optional(MFADeleteStatus).pipe(T.XmlName("MfaDelete")),
   }).pipe(ns),
 ).annotations({
   identifier: "GetBucketVersioningResult",
 }) as any as S.Schema<GetBucketVersioningResult>;
 export interface GetJobTaggingResult {
-  Tags?: S3TagSet;
+  Tags?: S3Tag[];
 }
 export const GetJobTaggingResult = S.suspend(() =>
   S.Struct({ Tags: S.optional(S3TagSet) }).pipe(ns),
@@ -4926,7 +5214,7 @@ export const GetMultiRegionAccessPointPolicyStatusResult = S.suspend(() =>
 }) as any as S.Schema<GetMultiRegionAccessPointPolicyStatusResult>;
 export interface GetMultiRegionAccessPointRoutesResult {
   Mrap?: string;
-  Routes?: RouteList;
+  Routes?: MultiRegionAccessPointRoute[];
 }
 export const GetMultiRegionAccessPointRoutesResult = S.suspend(() =>
   S.Struct({ Mrap: S.optional(S.String), Routes: S.optional(RouteList) }).pipe(
@@ -5048,8 +5336,8 @@ export const StorageLensGroupLevelExclude = S.Array(
   S.String.pipe(T.XmlName("Arn")),
 );
 export interface StorageLensGroupLevelSelectionCriteria {
-  Include?: StorageLensGroupLevelInclude;
-  Exclude?: StorageLensGroupLevelExclude;
+  Include?: string[];
+  Exclude?: string[];
 }
 export const StorageLensGroupLevelSelectionCriteria = S.suspend(() =>
   S.Struct({
@@ -5092,19 +5380,23 @@ export const AccountLevel = S.suspend(() =>
   }),
 ).annotations({ identifier: "AccountLevel" }) as any as S.Schema<AccountLevel>;
 export interface Include {
-  Buckets?: Buckets;
-  Regions?: Regions;
+  Buckets?: string[];
+  Regions?: string[];
 }
 export const Include = S.suspend(() =>
   S.Struct({ Buckets: S.optional(Buckets), Regions: S.optional(Regions) }),
 ).annotations({ identifier: "Include" }) as any as S.Schema<Include>;
 export interface Exclude {
-  Buckets?: Buckets;
-  Regions?: Regions;
+  Buckets?: string[];
+  Regions?: string[];
 }
 export const Exclude = S.suspend(() =>
   S.Struct({ Buckets: S.optional(Buckets), Regions: S.optional(Regions) }),
 ).annotations({ identifier: "Exclude" }) as any as S.Schema<Exclude>;
+export type Format = "CSV" | "Parquet";
+export const Format = S.Literal("CSV", "Parquet");
+export type OutputSchemaVersion = "V_1";
+export const OutputSchemaVersion = S.Literal("V_1");
 export interface SSES3 {}
 export const SSES3 = S.suspend(() =>
   S.Struct({}).pipe(T.XmlName("SSE-S3")),
@@ -5132,8 +5424,8 @@ export const StorageLensDataExportEncryption = S.suspend(() =>
   identifier: "StorageLensDataExportEncryption",
 }) as any as S.Schema<StorageLensDataExportEncryption>;
 export interface S3BucketDestination {
-  Format: string;
-  OutputSchemaVersion: string;
+  Format: Format;
+  OutputSchemaVersion: OutputSchemaVersion;
   AccountId: string;
   Arn: string;
   Prefix?: string;
@@ -5141,8 +5433,8 @@ export interface S3BucketDestination {
 }
 export const S3BucketDestination = S.suspend(() =>
   S.Struct({
-    Format: S.String,
-    OutputSchemaVersion: S.String,
+    Format: Format,
+    OutputSchemaVersion: OutputSchemaVersion,
     AccountId: S.String,
     Arn: S.String,
     Prefix: S.optional(S.String),
@@ -5248,7 +5540,7 @@ export const GetStorageLensConfigurationResult = S.suspend(() =>
   identifier: "GetStorageLensConfigurationResult",
 }) as any as S.Schema<GetStorageLensConfigurationResult>;
 export interface GetStorageLensConfigurationTaggingResult {
-  Tags?: StorageLensTags;
+  Tags?: StorageLensTag[];
 }
 export const GetStorageLensConfigurationTaggingResult = S.suspend(() =>
   S.Struct({ Tags: S.optional(StorageLensTags) }).pipe(ns),
@@ -5269,7 +5561,7 @@ export const GetStorageLensGroupResult = S.suspend(() =>
 }) as any as S.Schema<GetStorageLensGroupResult>;
 export interface AccessPoint {
   Name: string;
-  NetworkOrigin: string;
+  NetworkOrigin: NetworkOrigin;
   VpcConfiguration?: VpcConfiguration;
   Bucket: string;
   AccessPointArn?: string;
@@ -5281,7 +5573,7 @@ export interface AccessPoint {
 export const AccessPoint = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    NetworkOrigin: S.String,
+    NetworkOrigin: NetworkOrigin,
     VpcConfiguration: S.optional(VpcConfiguration),
     Bucket: S.String,
     AccessPointArn: S.optional(S.String),
@@ -5298,7 +5590,7 @@ export const AccessPointList = S.Array(
   }),
 );
 export interface ListAccessPointsForDirectoryBucketsResult {
-  AccessPointList?: AccessPointList;
+  AccessPointList?: AccessPoint[];
   NextToken?: string;
 }
 export const ListAccessPointsForDirectoryBucketsResult = S.suspend(() =>
@@ -5310,7 +5602,7 @@ export const ListAccessPointsForDirectoryBucketsResult = S.suspend(() =>
   identifier: "ListAccessPointsForDirectoryBucketsResult",
 }) as any as S.Schema<ListAccessPointsForDirectoryBucketsResult>;
 export interface ListMultiRegionAccessPointsResult {
-  AccessPoints?: MultiRegionAccessPointReportList;
+  AccessPoints?: MultiRegionAccessPointReport[];
   NextToken?: string;
 }
 export const ListMultiRegionAccessPointsResult = S.suspend(() =>
@@ -5322,7 +5614,7 @@ export const ListMultiRegionAccessPointsResult = S.suspend(() =>
   identifier: "ListMultiRegionAccessPointsResult",
 }) as any as S.Schema<ListMultiRegionAccessPointsResult>;
 export interface ListTagsForResourceResult {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResult = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
@@ -5455,7 +5747,7 @@ export const PutMultiRegionAccessPointPolicyRequest = S.suspend(() =>
 export interface SubmitMultiRegionAccessPointRoutesRequest {
   AccountId: string;
   Mrap: string;
-  RouteUpdates: RouteList;
+  RouteUpdates: MultiRegionAccessPointRoute[];
 }
 export const SubmitMultiRegionAccessPointRoutesRequest = S.suspend(() =>
   S.Struct({
@@ -5519,20 +5811,20 @@ export const UpdateJobPriorityResult = S.suspend(() =>
 }) as any as S.Schema<UpdateJobPriorityResult>;
 export interface UpdateJobStatusResult {
   JobId?: string;
-  Status?: string;
+  Status?: JobStatus;
   StatusUpdateReason?: string;
 }
 export const UpdateJobStatusResult = S.suspend(() =>
   S.Struct({
     JobId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(JobStatus),
     StatusUpdateReason: S.optional(S.String),
   }).pipe(ns),
 ).annotations({
   identifier: "UpdateJobStatusResult",
 }) as any as S.Schema<UpdateJobStatusResult>;
 export interface S3SetObjectTaggingOperation {
-  TagSet?: S3TagSet;
+  TagSet?: S3Tag[];
 }
 export const S3SetObjectTaggingOperation = S.suspend(() =>
   S.Struct({ TagSet: S.optional(S3TagSet) }),
@@ -5541,34 +5833,37 @@ export const S3SetObjectTaggingOperation = S.suspend(() =>
 }) as any as S.Schema<S3SetObjectTaggingOperation>;
 export interface S3InitiateRestoreObjectOperation {
   ExpirationInDays?: number;
-  GlacierJobTier?: string;
+  GlacierJobTier?: S3GlacierJobTier;
 }
 export const S3InitiateRestoreObjectOperation = S.suspend(() =>
   S.Struct({
     ExpirationInDays: S.optional(S.Number),
-    GlacierJobTier: S.optional(S.String),
+    GlacierJobTier: S.optional(S3GlacierJobTier),
   }),
 ).annotations({
   identifier: "S3InitiateRestoreObjectOperation",
 }) as any as S.Schema<S3InitiateRestoreObjectOperation>;
 export interface S3ComputeObjectChecksumOperation {
-  ChecksumAlgorithm?: string;
-  ChecksumType?: string;
+  ChecksumAlgorithm?: ComputeObjectChecksumAlgorithm;
+  ChecksumType?: ComputeObjectChecksumType;
 }
 export const S3ComputeObjectChecksumOperation = S.suspend(() =>
   S.Struct({
-    ChecksumAlgorithm: S.optional(S.String),
-    ChecksumType: S.optional(S.String),
+    ChecksumAlgorithm: S.optional(ComputeObjectChecksumAlgorithm),
+    ChecksumType: S.optional(ComputeObjectChecksumType),
   }),
 ).annotations({
   identifier: "S3ComputeObjectChecksumOperation",
 }) as any as S.Schema<S3ComputeObjectChecksumOperation>;
 export interface JobManifestSpec {
-  Format: string;
-  Fields?: JobManifestFieldList;
+  Format: JobManifestFormat;
+  Fields?: JobManifestFieldName[];
 }
 export const JobManifestSpec = S.suspend(() =>
-  S.Struct({ Format: S.String, Fields: S.optional(JobManifestFieldList) }),
+  S.Struct({
+    Format: JobManifestFormat,
+    Fields: S.optional(JobManifestFieldList),
+  }),
 ).annotations({
   identifier: "JobManifestSpec",
 }) as any as S.Schema<JobManifestSpec>;
@@ -5597,10 +5892,75 @@ export type RegionCreationList = Region[];
 export const RegionCreationList = S.Array(
   Region.pipe(T.XmlName("Region")).annotations({ identifier: "Region" }),
 );
-export type ReplicationStatusFilterList = string[];
-export const ReplicationStatusFilterList = S.Array(S.String);
-export type StorageClassList = string[];
-export const StorageClassList = S.Array(S.String);
+export type AsyncOperationName =
+  | "CreateMultiRegionAccessPoint"
+  | "DeleteMultiRegionAccessPoint"
+  | "PutMultiRegionAccessPointPolicy";
+export const AsyncOperationName = S.Literal(
+  "CreateMultiRegionAccessPoint",
+  "DeleteMultiRegionAccessPoint",
+  "PutMultiRegionAccessPointPolicy",
+);
+export type ObjectLambdaAccessPointAliasStatus = "PROVISIONING" | "READY";
+export const ObjectLambdaAccessPointAliasStatus = S.Literal(
+  "PROVISIONING",
+  "READY",
+);
+export type OperationName =
+  | "LambdaInvoke"
+  | "S3PutObjectCopy"
+  | "S3PutObjectAcl"
+  | "S3PutObjectTagging"
+  | "S3DeleteObjectTagging"
+  | "S3InitiateRestoreObject"
+  | "S3PutObjectLegalHold"
+  | "S3PutObjectRetention"
+  | "S3ReplicateObject"
+  | "S3ComputeObjectChecksum";
+export const OperationName = S.Literal(
+  "LambdaInvoke",
+  "S3PutObjectCopy",
+  "S3PutObjectAcl",
+  "S3PutObjectTagging",
+  "S3DeleteObjectTagging",
+  "S3InitiateRestoreObject",
+  "S3PutObjectLegalHold",
+  "S3PutObjectRetention",
+  "S3ReplicateObject",
+  "S3ComputeObjectChecksum",
+);
+export type S3Permission =
+  | "FULL_CONTROL"
+  | "READ"
+  | "WRITE"
+  | "READ_ACP"
+  | "WRITE_ACP";
+export const S3Permission = S.Literal(
+  "FULL_CONTROL",
+  "READ",
+  "WRITE",
+  "READ_ACP",
+  "WRITE_ACP",
+);
+export type S3SSEAlgorithm = "AES256" | "KMS";
+export const S3SSEAlgorithm = S.Literal("AES256", "KMS");
+export type S3ObjectLockRetentionMode = "COMPLIANCE" | "GOVERNANCE";
+export const S3ObjectLockRetentionMode = S.Literal("COMPLIANCE", "GOVERNANCE");
+export type GeneratedManifestFormat = "S3InventoryReport_CSV_20211130";
+export const GeneratedManifestFormat = S.Literal(
+  "S3InventoryReport_CSV_20211130",
+);
+export type ReplicationStatus = "COMPLETED" | "FAILED" | "REPLICA" | "NONE";
+export const ReplicationStatus = S.Literal(
+  "COMPLETED",
+  "FAILED",
+  "REPLICA",
+  "NONE",
+);
+export type ReplicationStatusFilterList = ReplicationStatus[];
+export const ReplicationStatusFilterList = S.Array(ReplicationStatus);
+export type StorageClassList = S3StorageClass[];
+export const StorageClassList = S.Array(S3StorageClass);
 export interface JobManifest {
   Spec: JobManifestSpec;
   Location: JobManifestLocation;
@@ -5611,7 +5971,7 @@ export const JobManifest = S.suspend(() =>
 export interface CreateMultiRegionAccessPointInput {
   Name: string;
   PublicAccessBlock?: PublicAccessBlockConfiguration;
-  Regions: RegionCreationList;
+  Regions: Region[];
 }
 export const CreateMultiRegionAccessPointInput = S.suspend(() =>
   S.Struct({
@@ -5626,17 +5986,20 @@ export type Endpoints = { [key: string]: string };
 export const Endpoints = S.Record({ key: S.String, value: S.String });
 export interface ObjectLambdaAccessPointAlias {
   Value?: string;
-  Status?: string;
+  Status?: ObjectLambdaAccessPointAliasStatus;
 }
 export const ObjectLambdaAccessPointAlias = S.suspend(() =>
-  S.Struct({ Value: S.optional(S.String), Status: S.optional(S.String) }),
+  S.Struct({
+    Value: S.optional(S.String),
+    Status: S.optional(ObjectLambdaAccessPointAliasStatus),
+  }),
 ).annotations({
   identifier: "ObjectLambdaAccessPointAlias",
 }) as any as S.Schema<ObjectLambdaAccessPointAlias>;
 export interface Credentials {
-  AccessKeyId?: string | Redacted.Redacted<string>;
-  SecretAccessKey?: string | Redacted.Redacted<string>;
-  SessionToken?: string | Redacted.Redacted<string>;
+  AccessKeyId?: string | redacted.Redacted<string>;
+  SecretAccessKey?: string | redacted.Redacted<string>;
+  SessionToken?: string | redacted.Redacted<string>;
   Expiration?: Date;
 }
 export const Credentials = S.suspend(() =>
@@ -5652,7 +6015,7 @@ export interface ListAccessGrantEntry {
   AccessGrantId?: string;
   AccessGrantArn?: string;
   Grantee?: Grantee;
-  Permission?: string;
+  Permission?: Permission;
   AccessGrantsLocationId?: string;
   AccessGrantsLocationConfiguration?: AccessGrantsLocationConfiguration;
   GrantScope?: string;
@@ -5664,7 +6027,7 @@ export const ListAccessGrantEntry = S.suspend(() =>
     AccessGrantId: S.optional(S.String),
     AccessGrantArn: S.optional(S.String),
     Grantee: S.optional(Grantee),
-    Permission: S.optional(S.String),
+    Permission: S.optional(Permission),
     AccessGrantsLocationId: S.optional(S.String),
     AccessGrantsLocationConfiguration: S.optional(
       AccessGrantsLocationConfiguration,
@@ -5752,13 +6115,13 @@ export const ObjectLambdaAccessPointList = S.Array(
   ).annotations({ identifier: "ObjectLambdaAccessPoint" }),
 );
 export interface ListCallerAccessGrantsEntry {
-  Permission?: string;
+  Permission?: Permission;
   GrantScope?: string;
   ApplicationArn?: string;
 }
 export const ListCallerAccessGrantsEntry = S.suspend(() =>
   S.Struct({
-    Permission: S.optional(S.String),
+    Permission: S.optional(Permission),
     GrantScope: S.optional(S.String),
     ApplicationArn: S.optional(S.String),
   }),
@@ -5796,9 +6159,9 @@ export const JobProgressSummary = S.suspend(() =>
 export interface JobListDescriptor {
   JobId?: string;
   Description?: string;
-  Operation?: string;
+  Operation?: OperationName;
   Priority?: number;
-  Status?: string;
+  Status?: JobStatus;
   CreationTime?: Date;
   TerminationDate?: Date;
   ProgressSummary?: JobProgressSummary;
@@ -5807,9 +6170,9 @@ export const JobListDescriptor = S.suspend(() =>
   S.Struct({
     JobId: S.optional(S.String),
     Description: S.optional(S.String),
-    Operation: S.optional(S.String),
+    Operation: S.optional(OperationName),
     Priority: S.optional(S.Number),
-    Status: S.optional(S.String),
+    Status: S.optional(JobStatus),
     CreationTime: S.optional(S.Date),
     TerminationDate: S.optional(S.Date),
     ProgressSummary: S.optional(JobProgressSummary),
@@ -5888,19 +6251,22 @@ export const StorageLensGroupList = S.Array(
 export type UserArguments = { [key: string]: string };
 export const UserArguments = S.Record({ key: S.String, value: S.String });
 export interface S3ObjectLockLegalHold {
-  Status: string;
+  Status: S3ObjectLockLegalHoldStatus;
 }
 export const S3ObjectLockLegalHold = S.suspend(() =>
-  S.Struct({ Status: S.String }),
+  S.Struct({ Status: S3ObjectLockLegalHoldStatus }),
 ).annotations({
   identifier: "S3ObjectLockLegalHold",
 }) as any as S.Schema<S3ObjectLockLegalHold>;
 export interface S3Retention {
   RetainUntilDate?: Date;
-  Mode?: string;
+  Mode?: S3ObjectLockRetentionMode;
 }
 export const S3Retention = S.suspend(() =>
-  S.Struct({ RetainUntilDate: S.optional(S.Date), Mode: S.optional(S.String) }),
+  S.Struct({
+    RetainUntilDate: S.optional(S.Date),
+    Mode: S.optional(S3ObjectLockRetentionMode),
+  }),
 ).annotations({ identifier: "S3Retention" }) as any as S.Schema<S3Retention>;
 export interface CreateAccessGrantResult {
   CreatedAt?: Date;
@@ -5909,7 +6275,7 @@ export interface CreateAccessGrantResult {
   Grantee?: Grantee;
   AccessGrantsLocationId?: string;
   AccessGrantsLocationConfiguration?: AccessGrantsLocationConfiguration;
-  Permission?: string;
+  Permission?: Permission;
   ApplicationArn?: string;
   GrantScope?: string;
 }
@@ -5923,7 +6289,7 @@ export const CreateAccessGrantResult = S.suspend(() =>
     AccessGrantsLocationConfiguration: S.optional(
       AccessGrantsLocationConfiguration,
     ),
-    Permission: S.optional(S.String),
+    Permission: S.optional(Permission),
     ApplicationArn: S.optional(S.String),
     GrantScope: S.optional(S.String),
   }).pipe(ns),
@@ -5954,6 +6320,8 @@ export const CreateBucketResult = S.suspend(() =>
 ).annotations({
   identifier: "CreateBucketResult",
 }) as any as S.Schema<CreateBucketResult>;
+export type S3GranteeTypeIdentifier = "id" | "emailAddress" | "uri";
+export const S3GranteeTypeIdentifier = S.Literal("id", "emailAddress", "uri");
 export interface SSES3Encryption {}
 export const SSES3Encryption = S.suspend(() =>
   S.Struct({}).pipe(T.XmlName("SSE-S3")),
@@ -6014,13 +6382,13 @@ export const DeleteMultiRegionAccessPointResult = S.suspend(() =>
 export interface GetAccessPointResult {
   Name?: string;
   Bucket?: string;
-  NetworkOrigin?: string;
+  NetworkOrigin?: NetworkOrigin;
   VpcConfiguration?: VpcConfiguration;
   PublicAccessBlockConfiguration?: PublicAccessBlockConfiguration;
   CreationDate?: Date;
   Alias?: string;
   AccessPointArn?: string;
-  Endpoints?: Endpoints;
+  Endpoints?: { [key: string]: string };
   BucketAccountId?: string;
   DataSourceId?: string;
   DataSourceType?: string;
@@ -6029,7 +6397,7 @@ export const GetAccessPointResult = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     Bucket: S.optional(S.String),
-    NetworkOrigin: S.optional(S.String),
+    NetworkOrigin: S.optional(NetworkOrigin),
     VpcConfiguration: S.optional(VpcConfiguration),
     PublicAccessBlockConfiguration: S.optional(PublicAccessBlockConfiguration),
     CreationDate: S.optional(S.Date),
@@ -6083,7 +6451,7 @@ export const GetDataAccessResult = S.suspend(() =>
 }) as any as S.Schema<GetDataAccessResult>;
 export interface ListAccessGrantsResult {
   NextToken?: string;
-  AccessGrantsList?: AccessGrantsList;
+  AccessGrantsList?: ListAccessGrantEntry[];
 }
 export const ListAccessGrantsResult = S.suspend(() =>
   S.Struct({
@@ -6095,7 +6463,7 @@ export const ListAccessGrantsResult = S.suspend(() =>
 }) as any as S.Schema<ListAccessGrantsResult>;
 export interface ListAccessGrantsInstancesResult {
   NextToken?: string;
-  AccessGrantsInstancesList?: AccessGrantsInstancesList;
+  AccessGrantsInstancesList?: ListAccessGrantsInstanceEntry[];
 }
 export const ListAccessGrantsInstancesResult = S.suspend(() =>
   S.Struct({
@@ -6107,7 +6475,7 @@ export const ListAccessGrantsInstancesResult = S.suspend(() =>
 }) as any as S.Schema<ListAccessGrantsInstancesResult>;
 export interface ListAccessGrantsLocationsResult {
   NextToken?: string;
-  AccessGrantsLocationsList?: AccessGrantsLocationsList;
+  AccessGrantsLocationsList?: ListAccessGrantsLocationsEntry[];
 }
 export const ListAccessGrantsLocationsResult = S.suspend(() =>
   S.Struct({
@@ -6118,7 +6486,7 @@ export const ListAccessGrantsLocationsResult = S.suspend(() =>
   identifier: "ListAccessGrantsLocationsResult",
 }) as any as S.Schema<ListAccessGrantsLocationsResult>;
 export interface ListAccessPointsResult {
-  AccessPointList?: AccessPointList;
+  AccessPointList?: AccessPoint[];
   NextToken?: string;
 }
 export const ListAccessPointsResult = S.suspend(() =>
@@ -6130,7 +6498,7 @@ export const ListAccessPointsResult = S.suspend(() =>
   identifier: "ListAccessPointsResult",
 }) as any as S.Schema<ListAccessPointsResult>;
 export interface ListAccessPointsForObjectLambdaResult {
-  ObjectLambdaAccessPointList?: ObjectLambdaAccessPointList;
+  ObjectLambdaAccessPointList?: ObjectLambdaAccessPoint[];
   NextToken?: string;
 }
 export const ListAccessPointsForObjectLambdaResult = S.suspend(() =>
@@ -6143,7 +6511,7 @@ export const ListAccessPointsForObjectLambdaResult = S.suspend(() =>
 }) as any as S.Schema<ListAccessPointsForObjectLambdaResult>;
 export interface ListCallerAccessGrantsResult {
   NextToken?: string;
-  CallerAccessGrantsList?: CallerAccessGrantsList;
+  CallerAccessGrantsList?: ListCallerAccessGrantsEntry[];
 }
 export const ListCallerAccessGrantsResult = S.suspend(() =>
   S.Struct({
@@ -6155,7 +6523,7 @@ export const ListCallerAccessGrantsResult = S.suspend(() =>
 }) as any as S.Schema<ListCallerAccessGrantsResult>;
 export interface ListJobsResult {
   NextToken?: string;
-  Jobs?: JobListDescriptorList;
+  Jobs?: JobListDescriptor[];
 }
 export const ListJobsResult = S.suspend(() =>
   S.Struct({
@@ -6166,7 +6534,7 @@ export const ListJobsResult = S.suspend(() =>
   identifier: "ListJobsResult",
 }) as any as S.Schema<ListJobsResult>;
 export interface ListRegionalBucketsResult {
-  RegionalBucketList?: RegionalBucketList;
+  RegionalBucketList?: RegionalBucket[];
   NextToken?: string;
 }
 export const ListRegionalBucketsResult = S.suspend(() =>
@@ -6179,7 +6547,7 @@ export const ListRegionalBucketsResult = S.suspend(() =>
 }) as any as S.Schema<ListRegionalBucketsResult>;
 export interface ListStorageLensConfigurationsResult {
   NextToken?: string;
-  StorageLensConfigurationList?: StorageLensConfigurationList;
+  StorageLensConfigurationList?: ListStorageLensConfigurationEntry[];
 }
 export const ListStorageLensConfigurationsResult = S.suspend(() =>
   S.Struct({
@@ -6194,7 +6562,7 @@ export const ListStorageLensConfigurationsResult = S.suspend(() =>
 }) as any as S.Schema<ListStorageLensConfigurationsResult>;
 export interface ListStorageLensGroupsResult {
   NextToken?: string;
-  StorageLensGroupList?: StorageLensGroupList;
+  StorageLensGroupList?: ListStorageLensGroupEntry[];
 }
 export const ListStorageLensGroupsResult = S.suspend(() =>
   S.Struct({
@@ -6218,7 +6586,7 @@ export const PutMultiRegionAccessPointPolicyResult = S.suspend(() =>
 export interface LambdaInvokeOperation {
   FunctionArn?: string;
   InvocationSchemaVersion?: string;
-  UserArguments?: UserArguments;
+  UserArguments?: { [key: string]: string };
 }
 export const LambdaInvokeOperation = S.suspend(() =>
   S.Struct({
@@ -6262,12 +6630,12 @@ export const JobFailure = S.suspend(() =>
 export type JobFailureList = JobFailure[];
 export const JobFailureList = S.Array(JobFailure);
 export interface S3GeneratedManifestDescriptor {
-  Format?: string;
+  Format?: GeneratedManifestFormat;
   Location?: JobManifestLocation;
 }
 export const S3GeneratedManifestDescriptor = S.suspend(() =>
   S.Struct({
-    Format: S.optional(S.String),
+    Format: S.optional(GeneratedManifestFormat),
     Location: S.optional(JobManifestLocation),
   }),
 ).annotations({
@@ -6310,13 +6678,13 @@ export const ProposedMultiRegionAccessPointPolicy = S.suspend(() =>
   identifier: "ProposedMultiRegionAccessPointPolicy",
 }) as any as S.Schema<ProposedMultiRegionAccessPointPolicy>;
 export interface S3Grantee {
-  TypeIdentifier?: string;
+  TypeIdentifier?: S3GranteeTypeIdentifier;
   Identifier?: string;
   DisplayName?: string;
 }
 export const S3Grantee = S.suspend(() =>
   S.Struct({
-    TypeIdentifier: S.optional(S.String),
+    TypeIdentifier: S.optional(S3GranteeTypeIdentifier),
     Identifier: S.optional(S.String),
     DisplayName: S.optional(S.String),
   }),
@@ -6324,9 +6692,9 @@ export const S3Grantee = S.suspend(() =>
 export type S3UserMetadata = { [key: string]: string };
 export const S3UserMetadata = S.Record({ key: S.String, value: S.String });
 export interface KeyNameConstraint {
-  MatchAnyPrefix?: NonEmptyMaxLength1024StringList;
-  MatchAnySuffix?: NonEmptyMaxLength1024StringList;
-  MatchAnySubstring?: NonEmptyMaxLength1024StringList;
+  MatchAnyPrefix?: string[];
+  MatchAnySuffix?: string[];
+  MatchAnySubstring?: string[];
 }
 export const KeyNameConstraint = S.suspend(() =>
   S.Struct({
@@ -6351,12 +6719,12 @@ export const MultiRegionAccessPointPolicyDocument = S.suspend(() =>
 }) as any as S.Schema<MultiRegionAccessPointPolicyDocument>;
 export interface S3Grant {
   Grantee?: S3Grantee;
-  Permission?: string;
+  Permission?: S3Permission;
 }
 export const S3Grant = S.suspend(() =>
   S.Struct({
     Grantee: S.optional(S3Grantee),
-    Permission: S.optional(S.String),
+    Permission: S.optional(S3Permission),
   }),
 ).annotations({ identifier: "S3Grant" }) as any as S.Schema<S3Grant>;
 export type S3GrantList = S3Grant[];
@@ -6366,13 +6734,13 @@ export interface S3ObjectMetadata {
   ContentDisposition?: string;
   ContentEncoding?: string;
   ContentLanguage?: string;
-  UserMetadata?: S3UserMetadata;
+  UserMetadata?: { [key: string]: string };
   ContentLength?: number;
   ContentMD5?: string;
   ContentType?: string;
   HttpExpiresDate?: Date;
   RequesterCharged?: boolean;
-  SSEAlgorithm?: string;
+  SSEAlgorithm?: S3SSEAlgorithm;
 }
 export const S3ObjectMetadata = S.suspend(() =>
   S.Struct({
@@ -6386,7 +6754,7 @@ export const S3ObjectMetadata = S.suspend(() =>
     ContentType: S.optional(S.String),
     HttpExpiresDate: S.optional(S.Date),
     RequesterCharged: S.optional(S.Boolean),
-    SSEAlgorithm: S.optional(S.String),
+    SSEAlgorithm: S.optional(S3SSEAlgorithm),
   }),
 ).annotations({
   identifier: "S3ObjectMetadata",
@@ -6453,7 +6821,7 @@ export const CreateMultiRegionAccessPointResult = S.suspend(() =>
 export interface CreateStorageLensGroupRequest {
   AccountId: string;
   StorageLensGroup: StorageLensGroup;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateStorageLensGroupRequest = S.suspend(() =>
   S.Struct({
@@ -6505,51 +6873,51 @@ export const GetMultiRegionAccessPointPolicyResult = S.suspend(() =>
 }) as any as S.Schema<GetMultiRegionAccessPointPolicyResult>;
 export interface S3CopyObjectOperation {
   TargetResource?: string;
-  CannedAccessControlList?: string;
-  AccessControlGrants?: S3GrantList;
-  MetadataDirective?: string;
+  CannedAccessControlList?: S3CannedAccessControlList;
+  AccessControlGrants?: S3Grant[];
+  MetadataDirective?: S3MetadataDirective;
   ModifiedSinceConstraint?: Date;
   NewObjectMetadata?: S3ObjectMetadata;
-  NewObjectTagging?: S3TagSet;
+  NewObjectTagging?: S3Tag[];
   RedirectLocation?: string;
   RequesterPays?: boolean;
-  StorageClass?: string;
+  StorageClass?: S3StorageClass;
   UnModifiedSinceConstraint?: Date;
   SSEAwsKmsKeyId?: string;
   TargetKeyPrefix?: string;
-  ObjectLockLegalHoldStatus?: string;
-  ObjectLockMode?: string;
+  ObjectLockLegalHoldStatus?: S3ObjectLockLegalHoldStatus;
+  ObjectLockMode?: S3ObjectLockMode;
   ObjectLockRetainUntilDate?: Date;
   BucketKeyEnabled?: boolean;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: S3ChecksumAlgorithm;
 }
 export const S3CopyObjectOperation = S.suspend(() =>
   S.Struct({
     TargetResource: S.optional(S.String),
-    CannedAccessControlList: S.optional(S.String),
+    CannedAccessControlList: S.optional(S3CannedAccessControlList),
     AccessControlGrants: S.optional(S3GrantList),
-    MetadataDirective: S.optional(S.String),
+    MetadataDirective: S.optional(S3MetadataDirective),
     ModifiedSinceConstraint: S.optional(S.Date),
     NewObjectMetadata: S.optional(S3ObjectMetadata),
     NewObjectTagging: S.optional(S3TagSet),
     RedirectLocation: S.optional(S.String),
     RequesterPays: S.optional(S.Boolean),
-    StorageClass: S.optional(S.String),
+    StorageClass: S.optional(S3StorageClass),
     UnModifiedSinceConstraint: S.optional(S.Date),
     SSEAwsKmsKeyId: S.optional(S.String),
     TargetKeyPrefix: S.optional(S.String),
-    ObjectLockLegalHoldStatus: S.optional(S.String),
-    ObjectLockMode: S.optional(S.String),
+    ObjectLockLegalHoldStatus: S.optional(S3ObjectLockLegalHoldStatus),
+    ObjectLockMode: S.optional(S3ObjectLockMode),
     ObjectLockRetainUntilDate: S.optional(S.Date),
     BucketKeyEnabled: S.optional(S.Boolean),
-    ChecksumAlgorithm: S.optional(S.String),
+    ChecksumAlgorithm: S.optional(S3ChecksumAlgorithm),
   }),
 ).annotations({
   identifier: "S3CopyObjectOperation",
 }) as any as S.Schema<S3CopyObjectOperation>;
 export interface S3AccessControlList {
   Owner: S3ObjectOwner;
-  Grants?: S3GrantList;
+  Grants?: S3Grant[];
 }
 export const S3AccessControlList = S.suspend(() =>
   S.Struct({ Owner: S3ObjectOwner, Grants: S.optional(S3GrantList) }),
@@ -6605,8 +6973,7 @@ export const ObjectEncryptionFilter = S.Union(
     }),
   }),
 );
-export type ObjectEncryptionFilterList =
-  (typeof ObjectEncryptionFilter)["Type"][];
+export type ObjectEncryptionFilterList = ObjectEncryptionFilter[];
 export const ObjectEncryptionFilterList = S.Array(
   ObjectEncryptionFilter.pipe(T.XmlName("ObjectEncryption")),
 );
@@ -6628,12 +6995,12 @@ export const MultiRegionAccessPointRegionalResponseList = S.Array(
 );
 export interface S3AccessControlPolicy {
   AccessControlList?: S3AccessControlList;
-  CannedAccessControlList?: string;
+  CannedAccessControlList?: S3CannedAccessControlList;
 }
 export const S3AccessControlPolicy = S.suspend(() =>
   S.Struct({
     AccessControlList: S.optional(S3AccessControlList),
-    CannedAccessControlList: S.optional(S.String),
+    CannedAccessControlList: S.optional(S3CannedAccessControlList),
   }),
 ).annotations({
   identifier: "S3AccessControlPolicy",
@@ -6677,7 +7044,7 @@ export interface S3ManifestOutputLocation {
   Bucket: string;
   ManifestPrefix?: string;
   ManifestEncryption?: GeneratedManifestEncryption;
-  ManifestFormat: string;
+  ManifestFormat: GeneratedManifestFormat;
 }
 export const S3ManifestOutputLocation = S.suspend(() =>
   S.Struct({
@@ -6685,7 +7052,7 @@ export const S3ManifestOutputLocation = S.suspend(() =>
     Bucket: S.String,
     ManifestPrefix: S.optional(S.String),
     ManifestEncryption: S.optional(GeneratedManifestEncryption),
-    ManifestFormat: S.String,
+    ManifestFormat: GeneratedManifestFormat,
   }),
 ).annotations({
   identifier: "S3ManifestOutputLocation",
@@ -6694,12 +7061,12 @@ export interface JobManifestGeneratorFilter {
   EligibleForReplication?: boolean;
   CreatedAfter?: Date;
   CreatedBefore?: Date;
-  ObjectReplicationStatuses?: ReplicationStatusFilterList;
+  ObjectReplicationStatuses?: ReplicationStatus[];
   KeyNameConstraint?: KeyNameConstraint;
   ObjectSizeGreaterThanBytes?: number;
   ObjectSizeLessThanBytes?: number;
-  MatchAnyStorageClass?: StorageClassList;
-  MatchAnyObjectEncryption?: ObjectEncryptionFilterList;
+  MatchAnyStorageClass?: S3StorageClass[];
+  MatchAnyObjectEncryption?: ObjectEncryptionFilter[];
 }
 export const JobManifestGeneratorFilter = S.suspend(() =>
   S.Struct({
@@ -6745,20 +7112,20 @@ export interface JobDescriptor {
   ConfirmationRequired?: boolean;
   Description?: string;
   JobArn?: string;
-  Status?: string;
+  Status?: JobStatus;
   Manifest?: JobManifest;
   Operation?: JobOperation;
   Priority?: number;
   ProgressSummary?: JobProgressSummary;
   StatusUpdateReason?: string;
-  FailureReasons?: JobFailureList;
+  FailureReasons?: JobFailure[];
   Report?: JobReport;
   CreationTime?: Date;
   TerminationDate?: Date;
   RoleArn?: string;
   SuspendedDate?: Date;
   SuspendedCause?: string;
-  ManifestGenerator?: (typeof JobManifestGenerator)["Type"];
+  ManifestGenerator?: JobManifestGenerator;
   GeneratedManifestDescriptor?: S3GeneratedManifestDescriptor;
 }
 export const JobDescriptor = S.suspend(() =>
@@ -6767,7 +7134,7 @@ export const JobDescriptor = S.suspend(() =>
     ConfirmationRequired: S.optional(S.Boolean),
     Description: S.optional(S.String),
     JobArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(JobStatus),
     Manifest: S.optional(JobManifest),
     Operation: S.optional(JobOperation),
     Priority: S.optional(S.Number),
@@ -6787,7 +7154,7 @@ export const JobDescriptor = S.suspend(() =>
   identifier: "JobDescriptor",
 }) as any as S.Schema<JobDescriptor>;
 export interface LifecycleConfiguration {
-  Rules?: LifecycleRules;
+  Rules?: LifecycleRule[];
 }
 export const LifecycleConfiguration = S.suspend(() =>
   S.Struct({ Rules: S.optional(LifecycleRules) }),
@@ -6795,7 +7162,7 @@ export const LifecycleConfiguration = S.suspend(() =>
   identifier: "LifecycleConfiguration",
 }) as any as S.Schema<LifecycleConfiguration>;
 export interface MultiRegionAccessPointsAsyncResponse {
-  Regions?: MultiRegionAccessPointRegionalResponseList;
+  Regions?: MultiRegionAccessPointRegionalResponse[];
 }
 export const MultiRegionAccessPointsAsyncResponse = S.suspend(() =>
   S.Struct({ Regions: S.optional(MultiRegionAccessPointRegionalResponseList) }),
@@ -6898,7 +7265,7 @@ export const AsyncResponseDetails = S.suspend(() =>
 }) as any as S.Schema<AsyncResponseDetails>;
 export interface AsyncOperation {
   CreationTime?: Date;
-  Operation?: string;
+  Operation?: AsyncOperationName;
   RequestTokenARN?: string;
   RequestParameters?: AsyncRequestParameters;
   RequestStatus?: string;
@@ -6907,7 +7274,7 @@ export interface AsyncOperation {
 export const AsyncOperation = S.suspend(() =>
   S.Struct({
     CreationTime: S.optional(S.Date),
-    Operation: S.optional(S.String),
+    Operation: S.optional(AsyncOperationName),
     RequestTokenARN: S.optional(S.String),
     RequestParameters: S.optional(AsyncRequestParameters),
     RequestStatus: S.optional(S.String),
@@ -6938,8 +7305,8 @@ export interface CreateJobRequest {
   Description?: string;
   Priority: number;
   RoleArn: string;
-  Tags?: S3TagSet;
-  ManifestGenerator?: (typeof JobManifestGenerator)["Type"];
+  Tags?: S3Tag[];
+  ManifestGenerator?: JobManifestGenerator;
 }
 export const CreateJobRequest = S.suspend(() =>
   S.Struct({
@@ -7031,7 +7398,7 @@ export interface PutStorageLensConfigurationRequest {
   ConfigId: string;
   AccountId: string;
   StorageLensConfiguration: StorageLensConfiguration;
-  Tags?: StorageLensTags;
+  Tags?: StorageLensTag[];
 }
 export const PutStorageLensConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -7129,7 +7496,7 @@ export class IdempotencyException extends S.TaggedError<IdempotencyException>()(
  */
 export const associateAccessGrantsIdentityCenter: (
   input: AssociateAccessGrantsIdentityCenterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateAccessGrantsIdentityCenterResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7147,7 +7514,7 @@ export const associateAccessGrantsIdentityCenter: (
  */
 export const deleteAccessGrant: (
   input: DeleteAccessGrantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccessGrantResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7165,7 +7532,7 @@ export const deleteAccessGrant: (
  */
 export const deleteAccessGrantsInstance: (
   input: DeleteAccessGrantsInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccessGrantsInstanceResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7183,7 +7550,7 @@ export const deleteAccessGrantsInstance: (
  */
 export const deleteAccessGrantsInstanceResourcePolicy: (
   input: DeleteAccessGrantsInstanceResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccessGrantsInstanceResourcePolicyResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7201,7 +7568,7 @@ export const deleteAccessGrantsInstanceResourcePolicy: (
  */
 export const deleteAccessGrantsLocation: (
   input: DeleteAccessGrantsLocationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccessGrantsLocationResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7225,7 +7592,7 @@ export const deleteAccessGrantsLocation: (
  */
 export const deleteAccessPoint: (
   input: DeleteAccessPointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccessPointResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7250,7 +7617,7 @@ export const deleteAccessPoint: (
  */
 export const deleteAccessPointForObjectLambda: (
   input: DeleteAccessPointForObjectLambdaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccessPointForObjectLambdaResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7272,7 +7639,7 @@ export const deleteAccessPointForObjectLambda: (
  */
 export const deleteAccessPointPolicy: (
   input: DeleteAccessPointPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccessPointPolicyResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7295,7 +7662,7 @@ export const deleteAccessPointPolicy: (
  */
 export const deleteAccessPointPolicyForObjectLambda: (
   input: DeleteAccessPointPolicyForObjectLambdaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccessPointPolicyForObjectLambdaResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7316,7 +7683,7 @@ export const deleteAccessPointPolicyForObjectLambda: (
  */
 export const deleteAccessPointScope: (
   input: DeleteAccessPointScopeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccessPointScopeResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7345,7 +7712,7 @@ export const deleteAccessPointScope: (
  */
 export const deleteBucket: (
   input: DeleteBucketRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBucketResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7382,7 +7749,7 @@ export const deleteBucket: (
  */
 export const deleteBucketLifecycleConfiguration: (
   input: DeleteBucketLifecycleConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBucketLifecycleConfigurationResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7425,7 +7792,7 @@ export const deleteBucketLifecycleConfiguration: (
  */
 export const deleteBucketPolicy: (
   input: DeleteBucketPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBucketPolicyResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7467,7 +7834,7 @@ export const deleteBucketPolicy: (
  */
 export const deleteBucketReplication: (
   input: DeleteBucketReplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBucketReplicationResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7497,7 +7864,7 @@ export const deleteBucketReplication: (
  */
 export const deleteBucketTagging: (
   input: DeleteBucketTaggingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBucketTaggingResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7525,7 +7892,7 @@ export const deleteBucketTagging: (
  */
 export const deletePublicAccessBlock: (
   input: DeletePublicAccessBlockRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePublicAccessBlockResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7548,7 +7915,7 @@ export const deletePublicAccessBlock: (
  */
 export const deleteStorageLensConfiguration: (
   input: DeleteStorageLensConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteStorageLensConfigurationResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7572,7 +7939,7 @@ export const deleteStorageLensConfiguration: (
  */
 export const deleteStorageLensConfigurationTagging: (
   input: DeleteStorageLensConfigurationTaggingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteStorageLensConfigurationTaggingResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7593,7 +7960,7 @@ export const deleteStorageLensConfigurationTagging: (
  */
 export const deleteStorageLensGroup: (
   input: DeleteStorageLensGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteStorageLensGroupResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7615,7 +7982,7 @@ export const deleteStorageLensGroup: (
  */
 export const dissociateAccessGrantsIdentityCenter: (
   input: DissociateAccessGrantsIdentityCenterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DissociateAccessGrantsIdentityCenterResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7636,7 +8003,7 @@ export const dissociateAccessGrantsIdentityCenter: (
  */
 export const putAccessPointConfigurationForObjectLambda: (
   input: PutAccessPointConfigurationForObjectLambdaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAccessPointConfigurationForObjectLambdaResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7660,7 +8027,7 @@ export const putAccessPointConfigurationForObjectLambda: (
  */
 export const putAccessPointPolicy: (
   input: PutAccessPointPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAccessPointPolicyResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7683,7 +8050,7 @@ export const putAccessPointPolicy: (
  */
 export const putAccessPointPolicyForObjectLambda: (
   input: PutAccessPointPolicyForObjectLambdaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAccessPointPolicyForObjectLambdaResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7704,7 +8071,7 @@ export const putAccessPointPolicyForObjectLambda: (
  */
 export const putAccessPointScope: (
   input: PutAccessPointScopeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAccessPointScopeResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7748,7 +8115,7 @@ export const putAccessPointScope: (
  */
 export const putBucketPolicy: (
   input: PutBucketPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutBucketPolicyResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7777,7 +8144,7 @@ export const putBucketPolicy: (
  */
 export const putPublicAccessBlock: (
   input: PutPublicAccessBlockRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutPublicAccessBlockResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7800,7 +8167,7 @@ export const putPublicAccessBlock: (
  */
 export const putStorageLensConfigurationTagging: (
   input: PutStorageLensConfigurationTaggingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutStorageLensConfigurationTaggingResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7842,7 +8209,7 @@ export const putStorageLensConfigurationTagging: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7885,7 +8252,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7906,7 +8273,7 @@ export const untagResource: (
  */
 export const updateStorageLensGroup: (
   input: UpdateStorageLensGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateStorageLensGroupResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7928,7 +8295,7 @@ export const updateStorageLensGroup: (
  */
 export const createAccessGrantsInstance: (
   input: CreateAccessGrantsInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAccessGrantsInstanceResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7958,7 +8325,7 @@ export const createAccessGrantsInstance: (
  */
 export const createAccessGrantsLocation: (
   input: CreateAccessGrantsLocationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAccessGrantsLocationResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7976,7 +8343,7 @@ export const createAccessGrantsLocation: (
  */
 export const getAccessGrant: (
   input: GetAccessGrantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccessGrantResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7996,7 +8363,7 @@ export const getAccessGrant: (
  */
 export const getAccessGrantsInstance: (
   input: GetAccessGrantsInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccessGrantsInstanceResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8018,7 +8385,7 @@ export const getAccessGrantsInstance: (
  */
 export const getAccessGrantsInstanceForPrefix: (
   input: GetAccessGrantsInstanceForPrefixRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccessGrantsInstanceForPrefixResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8036,7 +8403,7 @@ export const getAccessGrantsInstanceForPrefix: (
  */
 export const getAccessGrantsInstanceResourcePolicy: (
   input: GetAccessGrantsInstanceResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccessGrantsInstanceResourcePolicyResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8054,7 +8421,7 @@ export const getAccessGrantsInstanceResourcePolicy: (
  */
 export const getAccessGrantsLocation: (
   input: GetAccessGrantsLocationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccessGrantsLocationResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8075,7 +8442,7 @@ export const getAccessGrantsLocation: (
  */
 export const getAccessPointConfigurationForObjectLambda: (
   input: GetAccessPointConfigurationForObjectLambdaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccessPointConfigurationForObjectLambdaResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8095,7 +8462,7 @@ export const getAccessPointConfigurationForObjectLambda: (
  */
 export const getAccessPointPolicy: (
   input: GetAccessPointPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccessPointPolicyResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8118,7 +8485,7 @@ export const getAccessPointPolicy: (
  */
 export const getAccessPointPolicyForObjectLambda: (
   input: GetAccessPointPolicyForObjectLambdaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccessPointPolicyForObjectLambdaResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8134,7 +8501,7 @@ export const getAccessPointPolicyForObjectLambda: (
  */
 export const getAccessPointPolicyStatusForObjectLambda: (
   input: GetAccessPointPolicyStatusForObjectLambdaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccessPointPolicyStatusForObjectLambdaResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8153,7 +8520,7 @@ export const getAccessPointPolicyStatusForObjectLambda: (
  */
 export const getAccessPointScope: (
   input: GetAccessPointScopeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccessPointScopeResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8188,7 +8555,7 @@ export const getAccessPointScope: (
  */
 export const getBucket: (
   input: GetBucketRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8233,7 +8600,7 @@ export const getBucket: (
  */
 export const getBucketLifecycleConfiguration: (
   input: GetBucketLifecycleConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketLifecycleConfigurationResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8279,7 +8646,7 @@ export const getBucketLifecycleConfiguration: (
  */
 export const getBucketPolicy: (
   input: GetBucketPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketPolicyResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8329,7 +8696,7 @@ export const getBucketPolicy: (
  */
 export const getBucketReplication: (
   input: GetBucketReplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketReplicationResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8366,7 +8733,7 @@ export const getBucketReplication: (
  */
 export const getBucketTagging: (
   input: GetBucketTaggingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketTaggingResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8409,7 +8776,7 @@ export const getBucketTagging: (
  */
 export const getBucketVersioning: (
   input: GetBucketVersioningRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketVersioningResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8437,7 +8804,7 @@ export const getBucketVersioning: (
  */
 export const getMultiRegionAccessPointPolicyStatus: (
   input: GetMultiRegionAccessPointPolicyStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMultiRegionAccessPointPolicyStatusResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8467,7 +8834,7 @@ export const getMultiRegionAccessPointPolicyStatus: (
  */
 export const getMultiRegionAccessPointRoutes: (
   input: GetMultiRegionAccessPointRoutesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMultiRegionAccessPointRoutesResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8489,7 +8856,7 @@ export const getMultiRegionAccessPointRoutes: (
  */
 export const getStorageLensConfiguration: (
   input: GetStorageLensConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetStorageLensConfigurationResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8513,7 +8880,7 @@ export const getStorageLensConfiguration: (
  */
 export const getStorageLensConfigurationTagging: (
   input: GetStorageLensConfigurationTaggingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetStorageLensConfigurationTaggingResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8534,7 +8901,7 @@ export const getStorageLensConfigurationTagging: (
  */
 export const getStorageLensGroup: (
   input: GetStorageLensGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetStorageLensGroupResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8556,21 +8923,21 @@ export const getStorageLensGroup: (
 export const listAccessPointsForDirectoryBuckets: {
   (
     input: ListAccessPointsForDirectoryBucketsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccessPointsForDirectoryBucketsResult,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListAccessPointsForDirectoryBucketsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccessPointsForDirectoryBucketsResult,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAccessPointsForDirectoryBucketsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AccessPoint,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
@@ -8610,21 +8977,21 @@ export const listAccessPointsForDirectoryBuckets: {
 export const listMultiRegionAccessPoints: {
   (
     input: ListMultiRegionAccessPointsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMultiRegionAccessPointsResult,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListMultiRegionAccessPointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMultiRegionAccessPointsResult,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListMultiRegionAccessPointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
@@ -8672,7 +9039,7 @@ export const listMultiRegionAccessPoints: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8690,7 +9057,7 @@ export const listTagsForResource: (
  */
 export const putAccessGrantsInstanceResourcePolicy: (
   input: PutAccessGrantsInstanceResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAccessGrantsInstanceResourcePolicyResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8758,7 +9125,7 @@ export const putAccessGrantsInstanceResourcePolicy: (
  */
 export const putBucketTagging: (
   input: PutBucketTaggingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutBucketTaggingResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8821,7 +9188,7 @@ export const putBucketTagging: (
  */
 export const putBucketVersioning: (
   input: PutBucketVersioningRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutBucketVersioningResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8863,7 +9230,7 @@ export const putBucketVersioning: (
  */
 export const submitMultiRegionAccessPointRoutes: (
   input: SubmitMultiRegionAccessPointRoutesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SubmitMultiRegionAccessPointRoutesResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8885,7 +9252,7 @@ export const submitMultiRegionAccessPointRoutes: (
  */
 export const updateAccessGrantsLocation: (
   input: UpdateAccessGrantsLocationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAccessGrantsLocationResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8911,7 +9278,7 @@ export const updateAccessGrantsLocation: (
  */
 export const createAccessGrant: (
   input: CreateAccessGrantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAccessGrantResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8950,7 +9317,7 @@ export const createAccessGrant: (
  */
 export const createAccessPoint: (
   input: CreateAccessPointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAccessPointResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9000,7 +9367,7 @@ export const createAccessPoint: (
  */
 export const createBucket: (
   input: CreateBucketRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBucketResult,
   BucketAlreadyExists | BucketAlreadyOwnedByYou | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9036,7 +9403,7 @@ export const createBucket: (
  */
 export const deleteMultiRegionAccessPoint: (
   input: DeleteMultiRegionAccessPointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMultiRegionAccessPointResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9060,7 +9427,7 @@ export const deleteMultiRegionAccessPoint: (
  */
 export const getAccessPoint: (
   input: GetAccessPointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccessPointResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9084,7 +9451,7 @@ export const getAccessPoint: (
  */
 export const getAccessPointForObjectLambda: (
   input: GetAccessPointForObjectLambdaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccessPointForObjectLambdaResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9102,7 +9469,7 @@ export const getAccessPointForObjectLambda: (
  */
 export const getAccessPointPolicyStatus: (
   input: GetAccessPointPolicyStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccessPointPolicyStatusResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9124,7 +9491,7 @@ export const getAccessPointPolicyStatus: (
  */
 export const getDataAccess: (
   input: GetDataAccessRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataAccessResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9149,7 +9516,7 @@ export const getDataAccess: (
  */
 export const getPublicAccessBlock: (
   input: GetPublicAccessBlockRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPublicAccessBlockOutput,
   NoSuchPublicAccessBlockConfiguration | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9168,21 +9535,21 @@ export const getPublicAccessBlock: (
 export const listAccessGrants: {
   (
     input: ListAccessGrantsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccessGrantsResult,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListAccessGrantsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccessGrantsResult,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAccessGrantsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
@@ -9207,21 +9574,21 @@ export const listAccessGrants: {
 export const listAccessGrantsInstances: {
   (
     input: ListAccessGrantsInstancesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccessGrantsInstancesResult,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListAccessGrantsInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccessGrantsInstancesResult,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAccessGrantsInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
@@ -9246,21 +9613,21 @@ export const listAccessGrantsInstances: {
 export const listAccessGrantsLocations: {
   (
     input: ListAccessGrantsLocationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccessGrantsLocationsResult,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListAccessGrantsLocationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccessGrantsLocationsResult,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAccessGrantsLocationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
@@ -9299,21 +9666,21 @@ export const listAccessGrantsLocations: {
 export const listAccessPoints: {
   (
     input: ListAccessPointsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccessPointsResult,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListAccessPointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccessPointsResult,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAccessPointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
@@ -9347,21 +9714,21 @@ export const listAccessPoints: {
 export const listAccessPointsForObjectLambda: {
   (
     input: ListAccessPointsForObjectLambdaRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccessPointsForObjectLambdaResult,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListAccessPointsForObjectLambdaRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccessPointsForObjectLambdaResult,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAccessPointsForObjectLambdaRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ObjectLambdaAccessPoint,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
@@ -9387,21 +9754,21 @@ export const listAccessPointsForObjectLambda: {
 export const listCallerAccessGrants: {
   (
     input: ListCallerAccessGrantsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCallerAccessGrantsResult,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListCallerAccessGrantsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCallerAccessGrantsResult,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListCallerAccessGrantsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCallerAccessGrantsEntry,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
@@ -9430,21 +9797,21 @@ export const listCallerAccessGrants: {
 export const listRegionalBuckets: {
   (
     input: ListRegionalBucketsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRegionalBucketsResult,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListRegionalBucketsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRegionalBucketsResult,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListRegionalBucketsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
@@ -9475,21 +9842,21 @@ export const listRegionalBuckets: {
 export const listStorageLensConfigurations: {
   (
     input: ListStorageLensConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStorageLensConfigurationsResult,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListStorageLensConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStorageLensConfigurationsResult,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListStorageLensConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
@@ -9513,21 +9880,21 @@ export const listStorageLensConfigurations: {
 export const listStorageLensGroups: {
   (
     input: ListStorageLensGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStorageLensGroupsResult,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListStorageLensGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStorageLensGroupsResult,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListStorageLensGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
@@ -9558,7 +9925,7 @@ export const listStorageLensGroups: {
  */
 export const putMultiRegionAccessPointPolicy: (
   input: PutMultiRegionAccessPointPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutMultiRegionAccessPointPolicyResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9594,7 +9961,7 @@ export const putMultiRegionAccessPointPolicy: (
  */
 export const createMultiRegionAccessPoint: (
   input: CreateMultiRegionAccessPointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMultiRegionAccessPointResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9622,7 +9989,7 @@ export const createMultiRegionAccessPoint: (
  */
 export const createStorageLensGroup: (
   input: CreateStorageLensGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateStorageLensGroupResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9652,7 +10019,7 @@ export const createStorageLensGroup: (
  */
 export const deleteJobTagging: (
   input: DeleteJobTaggingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteJobTaggingResult,
   | InternalServiceException
   | NotFoundException
@@ -9689,7 +10056,7 @@ export const deleteJobTagging: (
  */
 export const getMultiRegionAccessPoint: (
   input: GetMultiRegionAccessPointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMultiRegionAccessPointResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9716,7 +10083,7 @@ export const getMultiRegionAccessPoint: (
  */
 export const getMultiRegionAccessPointPolicy: (
   input: GetMultiRegionAccessPointPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMultiRegionAccessPointPolicyResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9746,7 +10113,7 @@ export const getMultiRegionAccessPointPolicy: (
  */
 export const updateJobPriority: (
   input: UpdateJobPriorityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateJobPriorityResult,
   | BadRequestException
   | InternalServiceException
@@ -9785,7 +10152,7 @@ export const updateJobPriority: (
  */
 export const getJobTagging: (
   input: GetJobTaggingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetJobTaggingResult,
   | InternalServiceException
   | NotFoundException
@@ -9823,7 +10190,7 @@ export const getJobTagging: (
  */
 export const updateJobStatus: (
   input: UpdateJobStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateJobStatusResult,
   | BadRequestException
   | InternalServiceException
@@ -9863,7 +10230,7 @@ export const updateJobStatus: (
  */
 export const describeJob: (
   input: DescribeJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeJobResult,
   | BadRequestException
   | InternalServiceException
@@ -9904,7 +10271,7 @@ export const describeJob: (
 export const listJobs: {
   (
     input: ListJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListJobsResult,
     | InternalServiceException
     | InvalidNextTokenException
@@ -9914,7 +10281,7 @@ export const listJobs: {
   >;
   pages: (
     input: ListJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListJobsResult,
     | InternalServiceException
     | InvalidNextTokenException
@@ -9924,7 +10291,7 @@ export const listJobs: {
   >;
   items: (
     input: ListJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServiceException
     | InvalidNextTokenException
@@ -9966,7 +10333,7 @@ export const listJobs: {
  */
 export const putBucketLifecycleConfiguration: (
   input: PutBucketLifecycleConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutBucketLifecycleConfigurationResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -10023,7 +10390,7 @@ export const putBucketLifecycleConfiguration: (
  */
 export const putJobTagging: (
   input: PutJobTaggingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutJobTaggingResult,
   | InternalServiceException
   | NotFoundException
@@ -10058,7 +10425,7 @@ export const putJobTagging: (
  */
 export const createAccessPointForObjectLambda: (
   input: CreateAccessPointForObjectLambdaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAccessPointForObjectLambdaResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -10085,7 +10452,7 @@ export const createAccessPointForObjectLambda: (
  */
 export const describeMultiRegionAccessPointOperation: (
   input: DescribeMultiRegionAccessPointOperationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeMultiRegionAccessPointOperationResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -10171,7 +10538,7 @@ export const describeMultiRegionAccessPointOperation: (
  */
 export const putBucketReplication: (
   input: PutBucketReplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutBucketReplicationResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -10192,7 +10559,7 @@ export const putBucketReplication: (
  */
 export const putStorageLensConfiguration: (
   input: PutStorageLensConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutStorageLensConfigurationResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -10227,7 +10594,7 @@ export const putStorageLensConfiguration: (
  */
 export const createJob: (
   input: CreateJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateJobResult,
   | BadRequestException
   | IdempotencyException

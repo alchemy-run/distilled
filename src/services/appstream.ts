@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -98,11 +98,9 @@ export type Name = string;
 export type RegionName = string;
 export type Description = string;
 export type DisplayName = string;
-export type Long = number;
 export type DirectoryName = string;
 export type OrganizationalUnitDistinguishedName = string;
 export type AmiName = string;
-export type Integer = number;
 export type UsbDeviceFilterString = string;
 export type AppstreamAgentVersion = string;
 export type PhotonAmiId = string;
@@ -113,8 +111,8 @@ export type FeedbackURL = string;
 export type EmbedHostDomain = string;
 export type StreamingUrlUserId = string;
 export type ThemeTitleText = string;
-export type Username = string | Redacted.Redacted<string>;
-export type UserAttributeValue = string | Redacted.Redacted<string>;
+export type Username = string | redacted.Redacted<string>;
+export type UserAttributeValue = string | redacted.Redacted<string>;
 export type AwsAccountId = string;
 export type ErrorMessage = string;
 export type MaxResults = number;
@@ -125,13 +123,13 @@ export type TagKey = string;
 export type S3Bucket = string;
 export type S3Key = string;
 export type TagValue = string;
-export type AccountName = string | Redacted.Redacted<string>;
-export type AccountPassword = string | Redacted.Redacted<string>;
+export type AccountName = string | redacted.Redacted<string>;
+export type AccountPassword = string | redacted.Redacted<string>;
 export type InstanceType = string;
 export type AppName = string;
 export type AppDisplayName = string;
-export type FilePath = string | Redacted.Redacted<string>;
-export type LaunchParameters = string | Redacted.Redacted<string>;
+export type FilePath = string | redacted.Redacted<string>;
+export type LaunchParameters = string | redacted.Redacted<string>;
 export type ResourceIdentifier = string;
 export type Domain = string;
 export type SettingsGroup = string;
@@ -165,64 +163,185 @@ export const DeleteUsageReportSubscriptionResult = S.suspend(() =>
 }) as any as S.Schema<DeleteUsageReportSubscriptionResult>;
 export type StringList = string[];
 export const StringList = S.Array(S.String);
-export type Platforms = string[];
-export const Platforms = S.Array(S.String);
+export type PackagingType = "CUSTOM" | "APPSTREAM2";
+export const PackagingType = S.Literal("CUSTOM", "APPSTREAM2");
+export type AppBlockBuilderPlatformType = "WINDOWS_SERVER_2019";
+export const AppBlockBuilderPlatformType = S.Literal("WINDOWS_SERVER_2019");
+export type PlatformType =
+  | "WINDOWS"
+  | "WINDOWS_SERVER_2016"
+  | "WINDOWS_SERVER_2019"
+  | "WINDOWS_SERVER_2022"
+  | "WINDOWS_SERVER_2025"
+  | "AMAZON_LINUX2"
+  | "RHEL8"
+  | "ROCKY_LINUX8"
+  | "UBUNTU_PRO_2404";
+export const PlatformType = S.Literal(
+  "WINDOWS",
+  "WINDOWS_SERVER_2016",
+  "WINDOWS_SERVER_2019",
+  "WINDOWS_SERVER_2022",
+  "WINDOWS_SERVER_2025",
+  "AMAZON_LINUX2",
+  "RHEL8",
+  "ROCKY_LINUX8",
+  "UBUNTU_PRO_2404",
+);
+export type Platforms = PlatformType[];
+export const Platforms = S.Array(PlatformType);
 export type OrganizationalUnitDistinguishedNamesList = string[];
 export const OrganizationalUnitDistinguishedNamesList = S.Array(S.String);
+export type AppVisibility = "ALL" | "ASSOCIATED";
+export const AppVisibility = S.Literal("ALL", "ASSOCIATED");
+export type FleetType = "ALWAYS_ON" | "ON_DEMAND" | "ELASTIC";
+export const FleetType = S.Literal("ALWAYS_ON", "ON_DEMAND", "ELASTIC");
+export type StreamView = "APP" | "DESKTOP";
+export const StreamView = S.Literal("APP", "DESKTOP");
 export type UsbDeviceFilterStrings = string[];
 export const UsbDeviceFilterStrings = S.Array(S.String);
+export type AgentSoftwareVersion = "CURRENT_LATEST" | "ALWAYS_LATEST";
+export const AgentSoftwareVersion = S.Literal(
+  "CURRENT_LATEST",
+  "ALWAYS_LATEST",
+);
 export type EmbedHostDomains = string[];
 export const EmbedHostDomains = S.Array(S.String);
+export type ThemeStyling = "LIGHT_BLUE" | "BLUE" | "PINK" | "RED";
+export const ThemeStyling = S.Literal("LIGHT_BLUE", "BLUE", "PINK", "RED");
+export type UsageReportSchedule = "DAILY";
+export const UsageReportSchedule = S.Literal("DAILY");
+export type MessageAction = "SUPPRESS" | "RESEND";
+export const MessageAction = S.Literal("SUPPRESS", "RESEND");
+export type AuthenticationType = "API" | "SAML" | "USERPOOL" | "AWS_AD";
+export const AuthenticationType = S.Literal(
+  "API",
+  "SAML",
+  "USERPOOL",
+  "AWS_AD",
+);
 export type ArnList = string[];
 export const ArnList = S.Array(S.String);
 export type DirectoryNameList = string[];
 export const DirectoryNameList = S.Array(S.String);
 export type AwsAccountIdList = string[];
 export const AwsAccountIdList = S.Array(S.String);
+export type VisibilityType = "PUBLIC" | "PRIVATE" | "SHARED";
+export const VisibilityType = S.Literal("PUBLIC", "PRIVATE", "SHARED");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export type AppBlockBuilderAttributes = string[];
-export const AppBlockBuilderAttributes = S.Array(S.String);
-export type ApplicationAttributes = string[];
-export const ApplicationAttributes = S.Array(S.String);
-export type FleetAttributes = string[];
-export const FleetAttributes = S.Array(S.String);
-export type StackAttributes = string[];
-export const StackAttributes = S.Array(S.String);
-export type ThemeAttributes = string[];
-export const ThemeAttributes = S.Array(S.String);
+export type AppBlockBuilderAttribute =
+  | "IAM_ROLE_ARN"
+  | "ACCESS_ENDPOINTS"
+  | "VPC_CONFIGURATION_SECURITY_GROUP_IDS";
+export const AppBlockBuilderAttribute = S.Literal(
+  "IAM_ROLE_ARN",
+  "ACCESS_ENDPOINTS",
+  "VPC_CONFIGURATION_SECURITY_GROUP_IDS",
+);
+export type AppBlockBuilderAttributes = AppBlockBuilderAttribute[];
+export const AppBlockBuilderAttributes = S.Array(AppBlockBuilderAttribute);
+export type ApplicationAttribute = "LAUNCH_PARAMETERS" | "WORKING_DIRECTORY";
+export const ApplicationAttribute = S.Literal(
+  "LAUNCH_PARAMETERS",
+  "WORKING_DIRECTORY",
+);
+export type ApplicationAttributes = ApplicationAttribute[];
+export const ApplicationAttributes = S.Array(ApplicationAttribute);
+export type FleetAttribute =
+  | "VPC_CONFIGURATION"
+  | "VPC_CONFIGURATION_SECURITY_GROUP_IDS"
+  | "DOMAIN_JOIN_INFO"
+  | "IAM_ROLE_ARN"
+  | "USB_DEVICE_FILTER_STRINGS"
+  | "SESSION_SCRIPT_S3_LOCATION"
+  | "MAX_SESSIONS_PER_INSTANCE"
+  | "VOLUME_CONFIGURATION";
+export const FleetAttribute = S.Literal(
+  "VPC_CONFIGURATION",
+  "VPC_CONFIGURATION_SECURITY_GROUP_IDS",
+  "DOMAIN_JOIN_INFO",
+  "IAM_ROLE_ARN",
+  "USB_DEVICE_FILTER_STRINGS",
+  "SESSION_SCRIPT_S3_LOCATION",
+  "MAX_SESSIONS_PER_INSTANCE",
+  "VOLUME_CONFIGURATION",
+);
+export type FleetAttributes = FleetAttribute[];
+export const FleetAttributes = S.Array(FleetAttribute);
+export type StackAttribute =
+  | "STORAGE_CONNECTORS"
+  | "STORAGE_CONNECTOR_HOMEFOLDERS"
+  | "STORAGE_CONNECTOR_GOOGLE_DRIVE"
+  | "STORAGE_CONNECTOR_ONE_DRIVE"
+  | "REDIRECT_URL"
+  | "FEEDBACK_URL"
+  | "THEME_NAME"
+  | "USER_SETTINGS"
+  | "EMBED_HOST_DOMAINS"
+  | "IAM_ROLE_ARN"
+  | "ACCESS_ENDPOINTS"
+  | "STREAMING_EXPERIENCE_SETTINGS";
+export const StackAttribute = S.Literal(
+  "STORAGE_CONNECTORS",
+  "STORAGE_CONNECTOR_HOMEFOLDERS",
+  "STORAGE_CONNECTOR_GOOGLE_DRIVE",
+  "STORAGE_CONNECTOR_ONE_DRIVE",
+  "REDIRECT_URL",
+  "FEEDBACK_URL",
+  "THEME_NAME",
+  "USER_SETTINGS",
+  "EMBED_HOST_DOMAINS",
+  "IAM_ROLE_ARN",
+  "ACCESS_ENDPOINTS",
+  "STREAMING_EXPERIENCE_SETTINGS",
+);
+export type StackAttributes = StackAttribute[];
+export const StackAttributes = S.Array(StackAttribute);
+export type ThemeState = "ENABLED" | "DISABLED";
+export const ThemeState = S.Literal("ENABLED", "DISABLED");
+export type ThemeAttribute = "FOOTER_LINKS";
+export const ThemeAttribute = S.Literal("FOOTER_LINKS");
+export type ThemeAttributes = ThemeAttribute[];
+export const ThemeAttributes = S.Array(ThemeAttribute);
 export interface AssociateAppBlockBuilderAppBlockRequest {
-  AppBlockArn: string;
-  AppBlockBuilderName: string;
+  AppBlockArn?: string;
+  AppBlockBuilderName?: string;
 }
 export const AssociateAppBlockBuilderAppBlockRequest = S.suspend(() =>
-  S.Struct({ AppBlockArn: S.String, AppBlockBuilderName: S.String }).pipe(
+  S.Struct({
+    AppBlockArn: S.optional(S.String),
+    AppBlockBuilderName: S.optional(S.String),
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "AssociateAppBlockBuilderAppBlockRequest",
 }) as any as S.Schema<AssociateAppBlockBuilderAppBlockRequest>;
 export interface AssociateApplicationFleetRequest {
-  FleetName: string;
-  ApplicationArn: string;
+  FleetName?: string;
+  ApplicationArn?: string;
 }
 export const AssociateApplicationFleetRequest = S.suspend(() =>
-  S.Struct({ FleetName: S.String, ApplicationArn: S.String }).pipe(
+  S.Struct({
+    FleetName: S.optional(S.String),
+    ApplicationArn: S.optional(S.String),
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "AssociateApplicationFleetRequest",
 }) as any as S.Schema<AssociateApplicationFleetRequest>;
 export interface AssociateApplicationToEntitlementRequest {
-  StackName: string;
-  EntitlementName: string;
-  ApplicationIdentifier: string;
+  StackName?: string;
+  EntitlementName?: string;
+  ApplicationIdentifier?: string;
 }
 export const AssociateApplicationToEntitlementRequest = S.suspend(() =>
   S.Struct({
-    StackName: S.String,
-    EntitlementName: S.String,
-    ApplicationIdentifier: S.String,
+    StackName: S.optional(S.String),
+    EntitlementName: S.optional(S.String),
+    ApplicationIdentifier: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -236,11 +355,14 @@ export const AssociateApplicationToEntitlementResult = S.suspend(() =>
   identifier: "AssociateApplicationToEntitlementResult",
 }) as any as S.Schema<AssociateApplicationToEntitlementResult>;
 export interface AssociateFleetRequest {
-  FleetName: string;
-  StackName: string;
+  FleetName?: string;
+  StackName?: string;
 }
 export const AssociateFleetRequest = S.suspend(() =>
-  S.Struct({ FleetName: S.String, StackName: S.String }).pipe(
+  S.Struct({
+    FleetName: S.optional(S.String),
+    StackName: S.optional(S.String),
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -251,11 +373,14 @@ export const AssociateFleetResult = S.suspend(() => S.Struct({})).annotations({
   identifier: "AssociateFleetResult",
 }) as any as S.Schema<AssociateFleetResult>;
 export interface AssociateSoftwareToImageBuilderRequest {
-  ImageBuilderName: string;
-  SoftwareNames: StringList;
+  ImageBuilderName?: string;
+  SoftwareNames?: string[];
 }
 export const AssociateSoftwareToImageBuilderRequest = S.suspend(() =>
-  S.Struct({ ImageBuilderName: S.String, SoftwareNames: StringList }).pipe(
+  S.Struct({
+    ImageBuilderName: S.optional(S.String),
+    SoftwareNames: S.optional(StringList),
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -268,16 +393,16 @@ export const AssociateSoftwareToImageBuilderResult = S.suspend(() =>
   identifier: "AssociateSoftwareToImageBuilderResult",
 }) as any as S.Schema<AssociateSoftwareToImageBuilderResult>;
 export interface UserStackAssociation {
-  StackName: string;
-  UserName: string | Redacted.Redacted<string>;
-  AuthenticationType: string;
+  StackName?: string;
+  UserName?: string | redacted.Redacted<string>;
+  AuthenticationType?: AuthenticationType;
   SendEmailNotification?: boolean;
 }
 export const UserStackAssociation = S.suspend(() =>
   S.Struct({
-    StackName: S.String,
-    UserName: SensitiveString,
-    AuthenticationType: S.String,
+    StackName: S.optional(S.String),
+    UserName: S.optional(SensitiveString),
+    AuthenticationType: S.optional(AuthenticationType),
     SendEmailNotification: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -286,26 +411,28 @@ export const UserStackAssociation = S.suspend(() =>
 export type UserStackAssociationList = UserStackAssociation[];
 export const UserStackAssociationList = S.Array(UserStackAssociation);
 export interface BatchDisassociateUserStackRequest {
-  UserStackAssociations: UserStackAssociationList;
+  UserStackAssociations?: UserStackAssociation[];
 }
 export const BatchDisassociateUserStackRequest = S.suspend(() =>
-  S.Struct({ UserStackAssociations: UserStackAssociationList }).pipe(
+  S.Struct({
+    UserStackAssociations: S.optional(UserStackAssociationList),
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "BatchDisassociateUserStackRequest",
 }) as any as S.Schema<BatchDisassociateUserStackRequest>;
 export interface CopyImageRequest {
-  SourceImageName: string;
-  DestinationImageName: string;
-  DestinationRegion: string;
+  SourceImageName?: string;
+  DestinationImageName?: string;
+  DestinationRegion?: string;
   DestinationImageDescription?: string;
 }
 export const CopyImageRequest = S.suspend(() =>
   S.Struct({
-    SourceImageName: S.String,
-    DestinationImageName: S.String,
-    DestinationRegion: S.String,
+    SourceImageName: S.optional(S.String),
+    DestinationImageName: S.optional(S.String),
+    DestinationRegion: S.optional(S.String),
     DestinationImageDescription: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -314,12 +441,12 @@ export const CopyImageRequest = S.suspend(() =>
   identifier: "CopyImageRequest",
 }) as any as S.Schema<CopyImageRequest>;
 export interface CreateAppBlockBuilderStreamingURLRequest {
-  AppBlockBuilderName: string;
+  AppBlockBuilderName?: string;
   Validity?: number;
 }
 export const CreateAppBlockBuilderStreamingURLRequest = S.suspend(() =>
   S.Struct({
-    AppBlockBuilderName: S.String,
+    AppBlockBuilderName: S.optional(S.String),
     Validity: S.optional(S.Number),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -328,39 +455,39 @@ export const CreateAppBlockBuilderStreamingURLRequest = S.suspend(() =>
   identifier: "CreateAppBlockBuilderStreamingURLRequest",
 }) as any as S.Schema<CreateAppBlockBuilderStreamingURLRequest>;
 export interface S3Location {
-  S3Bucket: string;
+  S3Bucket?: string;
   S3Key?: string;
 }
 export const S3Location = S.suspend(() =>
-  S.Struct({ S3Bucket: S.String, S3Key: S.optional(S.String) }),
+  S.Struct({ S3Bucket: S.optional(S.String), S3Key: S.optional(S.String) }),
 ).annotations({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
 export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
 export interface CreateApplicationRequest {
-  Name: string;
+  Name?: string;
   DisplayName?: string;
   Description?: string;
-  IconS3Location: S3Location;
-  LaunchPath: string;
+  IconS3Location?: S3Location;
+  LaunchPath?: string;
   WorkingDirectory?: string;
   LaunchParameters?: string;
-  Platforms: Platforms;
-  InstanceFamilies: StringList;
-  AppBlockArn: string;
-  Tags?: Tags;
+  Platforms?: PlatformType[];
+  InstanceFamilies?: string[];
+  AppBlockArn?: string;
+  Tags?: { [key: string]: string };
 }
 export const CreateApplicationRequest = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: S.optional(S.String),
     DisplayName: S.optional(S.String),
     Description: S.optional(S.String),
-    IconS3Location: S3Location,
-    LaunchPath: S.String,
+    IconS3Location: S.optional(S3Location),
+    LaunchPath: S.optional(S.String),
     WorkingDirectory: S.optional(S.String),
     LaunchParameters: S.optional(S.String),
-    Platforms: Platforms,
-    InstanceFamilies: StringList,
-    AppBlockArn: S.String,
+    Platforms: S.optional(Platforms),
+    InstanceFamilies: S.optional(StringList),
+    AppBlockArn: S.optional(S.String),
     Tags: S.optional(Tags),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -369,17 +496,17 @@ export const CreateApplicationRequest = S.suspend(() =>
   identifier: "CreateApplicationRequest",
 }) as any as S.Schema<CreateApplicationRequest>;
 export interface CreateExportImageTaskRequest {
-  ImageName: string;
-  AmiName: string;
-  IamRoleArn: string;
-  TagSpecifications?: Tags;
+  ImageName?: string;
+  AmiName?: string;
+  IamRoleArn?: string;
+  TagSpecifications?: { [key: string]: string };
   AmiDescription?: string;
 }
 export const CreateExportImageTaskRequest = S.suspend(() =>
   S.Struct({
-    ImageName: S.String,
-    AmiName: S.String,
-    IamRoleArn: S.String,
+    ImageName: S.optional(S.String),
+    AmiName: S.optional(S.String),
+    IamRoleArn: S.optional(S.String),
     TagSpecifications: S.optional(Tags),
     AmiDescription: S.optional(S.String),
   }).pipe(
@@ -393,8 +520,8 @@ export const SubnetIdList = S.Array(S.String);
 export type SecurityGroupIdList = string[];
 export const SecurityGroupIdList = S.Array(S.String);
 export interface VpcConfig {
-  SubnetIds?: SubnetIdList;
-  SecurityGroupIds?: SecurityGroupIdList;
+  SubnetIds?: string[];
+  SecurityGroupIds?: string[];
 }
 export const VpcConfig = S.suspend(() =>
   S.Struct({
@@ -414,12 +541,17 @@ export const DomainJoinInfo = S.suspend(() =>
 ).annotations({
   identifier: "DomainJoinInfo",
 }) as any as S.Schema<DomainJoinInfo>;
+export type AccessEndpointType = "STREAMING";
+export const AccessEndpointType = S.Literal("STREAMING");
 export interface AccessEndpoint {
-  EndpointType: string;
+  EndpointType?: AccessEndpointType;
   VpceId?: string;
 }
 export const AccessEndpoint = S.suspend(() =>
-  S.Struct({ EndpointType: S.String, VpceId: S.optional(S.String) }),
+  S.Struct({
+    EndpointType: S.optional(AccessEndpointType),
+    VpceId: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "AccessEndpoint",
 }) as any as S.Schema<AccessEndpoint>;
@@ -432,10 +564,10 @@ export const VolumeConfig = S.suspend(() =>
   S.Struct({ VolumeSizeInGb: S.optional(S.Number) }),
 ).annotations({ identifier: "VolumeConfig" }) as any as S.Schema<VolumeConfig>;
 export interface CreateImageBuilderRequest {
-  Name: string;
+  Name?: string;
   ImageName?: string;
   ImageArn?: string;
-  InstanceType: string;
+  InstanceType?: string;
   Description?: string;
   DisplayName?: string;
   VpcConfig?: VpcConfig;
@@ -443,18 +575,18 @@ export interface CreateImageBuilderRequest {
   EnableDefaultInternetAccess?: boolean;
   DomainJoinInfo?: DomainJoinInfo;
   AppstreamAgentVersion?: string;
-  Tags?: Tags;
-  AccessEndpoints?: AccessEndpointList;
+  Tags?: { [key: string]: string };
+  AccessEndpoints?: AccessEndpoint[];
   RootVolumeConfig?: VolumeConfig;
-  SoftwaresToInstall?: StringList;
-  SoftwaresToUninstall?: StringList;
+  SoftwaresToInstall?: string[];
+  SoftwaresToUninstall?: string[];
 }
 export const CreateImageBuilderRequest = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: S.optional(S.String),
     ImageName: S.optional(S.String),
     ImageArn: S.optional(S.String),
-    InstanceType: S.String,
+    InstanceType: S.optional(S.String),
     Description: S.optional(S.String),
     DisplayName: S.optional(S.String),
     VpcConfig: S.optional(VpcConfig),
@@ -474,29 +606,29 @@ export const CreateImageBuilderRequest = S.suspend(() =>
   identifier: "CreateImageBuilderRequest",
 }) as any as S.Schema<CreateImageBuilderRequest>;
 export interface CreateImageBuilderStreamingURLRequest {
-  Name: string;
+  Name?: string;
   Validity?: number;
 }
 export const CreateImageBuilderStreamingURLRequest = S.suspend(() =>
-  S.Struct({ Name: S.String, Validity: S.optional(S.Number) }).pipe(
+  S.Struct({ Name: S.optional(S.String), Validity: S.optional(S.Number) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "CreateImageBuilderStreamingURLRequest",
 }) as any as S.Schema<CreateImageBuilderStreamingURLRequest>;
 export interface CreateStreamingURLRequest {
-  StackName: string;
-  FleetName: string;
-  UserId: string;
+  StackName?: string;
+  FleetName?: string;
+  UserId?: string;
   ApplicationId?: string;
   Validity?: number;
   SessionContext?: string;
 }
 export const CreateStreamingURLRequest = S.suspend(() =>
   S.Struct({
-    StackName: S.String,
-    FleetName: S.String,
-    UserId: S.String,
+    StackName: S.optional(S.String),
+    FleetName: S.optional(S.String),
+    UserId: S.optional(S.String),
     ApplicationId: S.optional(S.String),
     Validity: S.optional(S.Number),
     SessionContext: S.optional(S.String),
@@ -507,17 +639,17 @@ export const CreateStreamingURLRequest = S.suspend(() =>
   identifier: "CreateStreamingURLRequest",
 }) as any as S.Schema<CreateStreamingURLRequest>;
 export interface CreateUpdatedImageRequest {
-  existingImageName: string;
-  newImageName: string;
+  existingImageName?: string;
+  newImageName?: string;
   newImageDescription?: string;
   newImageDisplayName?: string;
-  newImageTags?: Tags;
+  newImageTags?: { [key: string]: string };
   dryRun?: boolean;
 }
 export const CreateUpdatedImageRequest = S.suspend(() =>
   S.Struct({
-    existingImageName: S.String,
-    newImageName: S.String,
+    existingImageName: S.optional(S.String),
+    newImageName: S.optional(S.String),
     newImageDescription: S.optional(S.String),
     newImageDisplayName: S.optional(S.String),
     newImageTags: S.optional(Tags),
@@ -530,30 +662,30 @@ export const CreateUpdatedImageRequest = S.suspend(() =>
 }) as any as S.Schema<CreateUpdatedImageRequest>;
 export interface CreateUsageReportSubscriptionResult {
   S3BucketName?: string;
-  Schedule?: string;
+  Schedule?: UsageReportSchedule;
 }
 export const CreateUsageReportSubscriptionResult = S.suspend(() =>
   S.Struct({
     S3BucketName: S.optional(S.String),
-    Schedule: S.optional(S.String),
+    Schedule: S.optional(UsageReportSchedule),
   }),
 ).annotations({
   identifier: "CreateUsageReportSubscriptionResult",
 }) as any as S.Schema<CreateUsageReportSubscriptionResult>;
 export interface CreateUserRequest {
-  UserName: string | Redacted.Redacted<string>;
-  MessageAction?: string;
-  FirstName?: string | Redacted.Redacted<string>;
-  LastName?: string | Redacted.Redacted<string>;
-  AuthenticationType: string;
+  UserName?: string | redacted.Redacted<string>;
+  MessageAction?: MessageAction;
+  FirstName?: string | redacted.Redacted<string>;
+  LastName?: string | redacted.Redacted<string>;
+  AuthenticationType?: AuthenticationType;
 }
 export const CreateUserRequest = S.suspend(() =>
   S.Struct({
-    UserName: SensitiveString,
-    MessageAction: S.optional(S.String),
+    UserName: S.optional(SensitiveString),
+    MessageAction: S.optional(MessageAction),
     FirstName: S.optional(SensitiveString),
     LastName: S.optional(SensitiveString),
-    AuthenticationType: S.String,
+    AuthenticationType: S.optional(AuthenticationType),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -565,10 +697,10 @@ export const CreateUserResult = S.suspend(() => S.Struct({})).annotations({
   identifier: "CreateUserResult",
 }) as any as S.Schema<CreateUserResult>;
 export interface DeleteAppBlockRequest {
-  Name: string;
+  Name?: string;
 }
 export const DeleteAppBlockRequest = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
+  S.Struct({ Name: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -579,10 +711,10 @@ export const DeleteAppBlockResult = S.suspend(() => S.Struct({})).annotations({
   identifier: "DeleteAppBlockResult",
 }) as any as S.Schema<DeleteAppBlockResult>;
 export interface DeleteAppBlockBuilderRequest {
-  Name: string;
+  Name?: string;
 }
 export const DeleteAppBlockBuilderRequest = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
+  S.Struct({ Name: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -595,10 +727,10 @@ export const DeleteAppBlockBuilderResult = S.suspend(() =>
   identifier: "DeleteAppBlockBuilderResult",
 }) as any as S.Schema<DeleteAppBlockBuilderResult>;
 export interface DeleteApplicationRequest {
-  Name: string;
+  Name?: string;
 }
 export const DeleteApplicationRequest = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
+  S.Struct({ Name: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -611,10 +743,10 @@ export const DeleteApplicationResult = S.suspend(() =>
   identifier: "DeleteApplicationResult",
 }) as any as S.Schema<DeleteApplicationResult>;
 export interface DeleteDirectoryConfigRequest {
-  DirectoryName: string;
+  DirectoryName?: string;
 }
 export const DeleteDirectoryConfigRequest = S.suspend(() =>
-  S.Struct({ DirectoryName: S.String }).pipe(
+  S.Struct({ DirectoryName: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -627,11 +759,14 @@ export const DeleteDirectoryConfigResult = S.suspend(() =>
   identifier: "DeleteDirectoryConfigResult",
 }) as any as S.Schema<DeleteDirectoryConfigResult>;
 export interface DeleteEntitlementRequest {
-  Name: string;
-  StackName: string;
+  Name?: string;
+  StackName?: string;
 }
 export const DeleteEntitlementRequest = S.suspend(() =>
-  S.Struct({ Name: S.String, StackName: S.String }).pipe(
+  S.Struct({
+    Name: S.optional(S.String),
+    StackName: S.optional(S.String),
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -644,10 +779,10 @@ export const DeleteEntitlementResult = S.suspend(() =>
   identifier: "DeleteEntitlementResult",
 }) as any as S.Schema<DeleteEntitlementResult>;
 export interface DeleteFleetRequest {
-  Name: string;
+  Name?: string;
 }
 export const DeleteFleetRequest = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
+  S.Struct({ Name: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -658,31 +793,34 @@ export const DeleteFleetResult = S.suspend(() => S.Struct({})).annotations({
   identifier: "DeleteFleetResult",
 }) as any as S.Schema<DeleteFleetResult>;
 export interface DeleteImageRequest {
-  Name: string;
+  Name?: string;
 }
 export const DeleteImageRequest = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
+  S.Struct({ Name: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "DeleteImageRequest",
 }) as any as S.Schema<DeleteImageRequest>;
 export interface DeleteImageBuilderRequest {
-  Name: string;
+  Name?: string;
 }
 export const DeleteImageBuilderRequest = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
+  S.Struct({ Name: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "DeleteImageBuilderRequest",
 }) as any as S.Schema<DeleteImageBuilderRequest>;
 export interface DeleteImagePermissionsRequest {
-  Name: string;
-  SharedAccountId: string;
+  Name?: string;
+  SharedAccountId?: string;
 }
 export const DeleteImagePermissionsRequest = S.suspend(() =>
-  S.Struct({ Name: S.String, SharedAccountId: S.String }).pipe(
+  S.Struct({
+    Name: S.optional(S.String),
+    SharedAccountId: S.optional(S.String),
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -695,10 +833,10 @@ export const DeleteImagePermissionsResult = S.suspend(() =>
   identifier: "DeleteImagePermissionsResult",
 }) as any as S.Schema<DeleteImagePermissionsResult>;
 export interface DeleteStackRequest {
-  Name: string;
+  Name?: string;
 }
 export const DeleteStackRequest = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
+  S.Struct({ Name: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -709,10 +847,10 @@ export const DeleteStackResult = S.suspend(() => S.Struct({})).annotations({
   identifier: "DeleteStackResult",
 }) as any as S.Schema<DeleteStackResult>;
 export interface DeleteThemeForStackRequest {
-  StackName: string;
+  StackName?: string;
 }
 export const DeleteThemeForStackRequest = S.suspend(() =>
-  S.Struct({ StackName: S.String }).pipe(
+  S.Struct({ StackName: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -725,11 +863,14 @@ export const DeleteThemeForStackResult = S.suspend(() =>
   identifier: "DeleteThemeForStackResult",
 }) as any as S.Schema<DeleteThemeForStackResult>;
 export interface DeleteUserRequest {
-  UserName: string | Redacted.Redacted<string>;
-  AuthenticationType: string;
+  UserName?: string | redacted.Redacted<string>;
+  AuthenticationType?: AuthenticationType;
 }
 export const DeleteUserRequest = S.suspend(() =>
-  S.Struct({ UserName: SensitiveString, AuthenticationType: S.String }).pipe(
+  S.Struct({
+    UserName: S.optional(SensitiveString),
+    AuthenticationType: S.optional(AuthenticationType),
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -759,7 +900,7 @@ export const DescribeAppBlockBuilderAppBlockAssociationsRequest = S.suspend(
   identifier: "DescribeAppBlockBuilderAppBlockAssociationsRequest",
 }) as any as S.Schema<DescribeAppBlockBuilderAppBlockAssociationsRequest>;
 export interface DescribeAppBlockBuildersRequest {
-  Names?: StringList;
+  Names?: string[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -775,7 +916,7 @@ export const DescribeAppBlockBuildersRequest = S.suspend(() =>
   identifier: "DescribeAppBlockBuildersRequest",
 }) as any as S.Schema<DescribeAppBlockBuildersRequest>;
 export interface DescribeAppBlocksRequest {
-  Arns?: ArnList;
+  Arns?: string[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -809,7 +950,7 @@ export const DescribeApplicationFleetAssociationsRequest = S.suspend(() =>
   identifier: "DescribeApplicationFleetAssociationsRequest",
 }) as any as S.Schema<DescribeApplicationFleetAssociationsRequest>;
 export interface DescribeApplicationsRequest {
-  Arns?: ArnList;
+  Arns?: string[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -825,13 +966,13 @@ export const DescribeApplicationsRequest = S.suspend(() =>
   identifier: "DescribeApplicationsRequest",
 }) as any as S.Schema<DescribeApplicationsRequest>;
 export interface DescribeAppLicenseUsageRequest {
-  BillingPeriod: string;
+  BillingPeriod?: string;
   MaxResults?: number;
   NextToken?: string;
 }
 export const DescribeAppLicenseUsageRequest = S.suspend(() =>
   S.Struct({
-    BillingPeriod: S.String,
+    BillingPeriod: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -841,7 +982,7 @@ export const DescribeAppLicenseUsageRequest = S.suspend(() =>
   identifier: "DescribeAppLicenseUsageRequest",
 }) as any as S.Schema<DescribeAppLicenseUsageRequest>;
 export interface DescribeDirectoryConfigsRequest {
-  DirectoryNames?: DirectoryNameList;
+  DirectoryNames?: string[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -858,14 +999,14 @@ export const DescribeDirectoryConfigsRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeDirectoryConfigsRequest>;
 export interface DescribeEntitlementsRequest {
   Name?: string;
-  StackName: string;
+  StackName?: string;
   NextToken?: string;
   MaxResults?: number;
 }
 export const DescribeEntitlementsRequest = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    StackName: S.String,
+    StackName: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
@@ -875,7 +1016,7 @@ export const DescribeEntitlementsRequest = S.suspend(() =>
   identifier: "DescribeEntitlementsRequest",
 }) as any as S.Schema<DescribeEntitlementsRequest>;
 export interface DescribeFleetsRequest {
-  Names?: StringList;
+  Names?: string[];
   NextToken?: string;
 }
 export const DescribeFleetsRequest = S.suspend(() =>
@@ -889,7 +1030,7 @@ export const DescribeFleetsRequest = S.suspend(() =>
   identifier: "DescribeFleetsRequest",
 }) as any as S.Schema<DescribeFleetsRequest>;
 export interface DescribeImageBuildersRequest {
-  Names?: StringList;
+  Names?: string[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -905,14 +1046,14 @@ export const DescribeImageBuildersRequest = S.suspend(() =>
   identifier: "DescribeImageBuildersRequest",
 }) as any as S.Schema<DescribeImageBuildersRequest>;
 export interface DescribeImagePermissionsRequest {
-  Name: string;
+  Name?: string;
   MaxResults?: number;
-  SharedAwsAccountIds?: AwsAccountIdList;
+  SharedAwsAccountIds?: string[];
   NextToken?: string;
 }
 export const DescribeImagePermissionsRequest = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     SharedAwsAccountIds: S.optional(AwsAccountIdList),
     NextToken: S.optional(S.String),
@@ -923,9 +1064,9 @@ export const DescribeImagePermissionsRequest = S.suspend(() =>
   identifier: "DescribeImagePermissionsRequest",
 }) as any as S.Schema<DescribeImagePermissionsRequest>;
 export interface DescribeImagesRequest {
-  Names?: StringList;
-  Arns?: ArnList;
-  Type?: string;
+  Names?: string[];
+  Arns?: string[];
+  Type?: VisibilityType;
   NextToken?: string;
   MaxResults?: number;
 }
@@ -933,7 +1074,7 @@ export const DescribeImagesRequest = S.suspend(() =>
   S.Struct({
     Names: S.optional(StringList),
     Arns: S.optional(ArnList),
-    Type: S.optional(S.String),
+    Type: S.optional(VisibilityType),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
@@ -943,22 +1084,22 @@ export const DescribeImagesRequest = S.suspend(() =>
   identifier: "DescribeImagesRequest",
 }) as any as S.Schema<DescribeImagesRequest>;
 export interface DescribeSessionsRequest {
-  StackName: string;
-  FleetName: string;
+  StackName?: string;
+  FleetName?: string;
   UserId?: string;
   NextToken?: string;
   Limit?: number;
-  AuthenticationType?: string;
+  AuthenticationType?: AuthenticationType;
   InstanceId?: string;
 }
 export const DescribeSessionsRequest = S.suspend(() =>
   S.Struct({
-    StackName: S.String,
-    FleetName: S.String,
+    StackName: S.optional(S.String),
+    FleetName: S.optional(S.String),
     UserId: S.optional(S.String),
     NextToken: S.optional(S.String),
     Limit: S.optional(S.Number),
-    AuthenticationType: S.optional(S.String),
+    AuthenticationType: S.optional(AuthenticationType),
     InstanceId: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -967,13 +1108,13 @@ export const DescribeSessionsRequest = S.suspend(() =>
   identifier: "DescribeSessionsRequest",
 }) as any as S.Schema<DescribeSessionsRequest>;
 export interface DescribeSoftwareAssociationsRequest {
-  AssociatedResource: string;
+  AssociatedResource?: string;
   MaxResults?: number;
   NextToken?: string;
 }
 export const DescribeSoftwareAssociationsRequest = S.suspend(() =>
   S.Struct({
-    AssociatedResource: S.String,
+    AssociatedResource: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -983,7 +1124,7 @@ export const DescribeSoftwareAssociationsRequest = S.suspend(() =>
   identifier: "DescribeSoftwareAssociationsRequest",
 }) as any as S.Schema<DescribeSoftwareAssociationsRequest>;
 export interface DescribeStacksRequest {
-  Names?: StringList;
+  Names?: string[];
   NextToken?: string;
 }
 export const DescribeStacksRequest = S.suspend(() =>
@@ -997,10 +1138,10 @@ export const DescribeStacksRequest = S.suspend(() =>
   identifier: "DescribeStacksRequest",
 }) as any as S.Schema<DescribeStacksRequest>;
 export interface DescribeThemeForStackRequest {
-  StackName: string;
+  StackName?: string;
 }
 export const DescribeThemeForStackRequest = S.suspend(() =>
-  S.Struct({ StackName: S.String }).pipe(
+  S.Struct({ StackName: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -1021,13 +1162,13 @@ export const DescribeUsageReportSubscriptionsRequest = S.suspend(() =>
   identifier: "DescribeUsageReportSubscriptionsRequest",
 }) as any as S.Schema<DescribeUsageReportSubscriptionsRequest>;
 export interface DescribeUsersRequest {
-  AuthenticationType: string;
+  AuthenticationType?: AuthenticationType;
   MaxResults?: number;
   NextToken?: string;
 }
 export const DescribeUsersRequest = S.suspend(() =>
   S.Struct({
-    AuthenticationType: S.String,
+    AuthenticationType: S.optional(AuthenticationType),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -1038,8 +1179,8 @@ export const DescribeUsersRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeUsersRequest>;
 export interface DescribeUserStackAssociationsRequest {
   StackName?: string;
-  UserName?: string | Redacted.Redacted<string>;
-  AuthenticationType?: string;
+  UserName?: string | redacted.Redacted<string>;
+  AuthenticationType?: AuthenticationType;
   MaxResults?: number;
   NextToken?: string;
 }
@@ -1047,7 +1188,7 @@ export const DescribeUserStackAssociationsRequest = S.suspend(() =>
   S.Struct({
     StackName: S.optional(S.String),
     UserName: S.optional(SensitiveString),
-    AuthenticationType: S.optional(S.String),
+    AuthenticationType: S.optional(AuthenticationType),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -1057,11 +1198,14 @@ export const DescribeUserStackAssociationsRequest = S.suspend(() =>
   identifier: "DescribeUserStackAssociationsRequest",
 }) as any as S.Schema<DescribeUserStackAssociationsRequest>;
 export interface DisableUserRequest {
-  UserName: string | Redacted.Redacted<string>;
-  AuthenticationType: string;
+  UserName?: string | redacted.Redacted<string>;
+  AuthenticationType?: AuthenticationType;
 }
 export const DisableUserRequest = S.suspend(() =>
-  S.Struct({ UserName: SensitiveString, AuthenticationType: S.String }).pipe(
+  S.Struct({
+    UserName: S.optional(SensitiveString),
+    AuthenticationType: S.optional(AuthenticationType),
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -1072,11 +1216,14 @@ export const DisableUserResult = S.suspend(() => S.Struct({})).annotations({
   identifier: "DisableUserResult",
 }) as any as S.Schema<DisableUserResult>;
 export interface DisassociateAppBlockBuilderAppBlockRequest {
-  AppBlockArn: string;
-  AppBlockBuilderName: string;
+  AppBlockArn?: string;
+  AppBlockBuilderName?: string;
 }
 export const DisassociateAppBlockBuilderAppBlockRequest = S.suspend(() =>
-  S.Struct({ AppBlockArn: S.String, AppBlockBuilderName: S.String }).pipe(
+  S.Struct({
+    AppBlockArn: S.optional(S.String),
+    AppBlockBuilderName: S.optional(S.String),
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -1089,11 +1236,14 @@ export const DisassociateAppBlockBuilderAppBlockResult = S.suspend(() =>
   identifier: "DisassociateAppBlockBuilderAppBlockResult",
 }) as any as S.Schema<DisassociateAppBlockBuilderAppBlockResult>;
 export interface DisassociateApplicationFleetRequest {
-  FleetName: string;
-  ApplicationArn: string;
+  FleetName?: string;
+  ApplicationArn?: string;
 }
 export const DisassociateApplicationFleetRequest = S.suspend(() =>
-  S.Struct({ FleetName: S.String, ApplicationArn: S.String }).pipe(
+  S.Struct({
+    FleetName: S.optional(S.String),
+    ApplicationArn: S.optional(S.String),
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -1106,15 +1256,15 @@ export const DisassociateApplicationFleetResult = S.suspend(() =>
   identifier: "DisassociateApplicationFleetResult",
 }) as any as S.Schema<DisassociateApplicationFleetResult>;
 export interface DisassociateApplicationFromEntitlementRequest {
-  StackName: string;
-  EntitlementName: string;
-  ApplicationIdentifier: string;
+  StackName?: string;
+  EntitlementName?: string;
+  ApplicationIdentifier?: string;
 }
 export const DisassociateApplicationFromEntitlementRequest = S.suspend(() =>
   S.Struct({
-    StackName: S.String,
-    EntitlementName: S.String,
-    ApplicationIdentifier: S.String,
+    StackName: S.optional(S.String),
+    EntitlementName: S.optional(S.String),
+    ApplicationIdentifier: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -1128,11 +1278,14 @@ export const DisassociateApplicationFromEntitlementResult = S.suspend(() =>
   identifier: "DisassociateApplicationFromEntitlementResult",
 }) as any as S.Schema<DisassociateApplicationFromEntitlementResult>;
 export interface DisassociateFleetRequest {
-  FleetName: string;
-  StackName: string;
+  FleetName?: string;
+  StackName?: string;
 }
 export const DisassociateFleetRequest = S.suspend(() =>
-  S.Struct({ FleetName: S.String, StackName: S.String }).pipe(
+  S.Struct({
+    FleetName: S.optional(S.String),
+    StackName: S.optional(S.String),
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -1145,11 +1298,14 @@ export const DisassociateFleetResult = S.suspend(() =>
   identifier: "DisassociateFleetResult",
 }) as any as S.Schema<DisassociateFleetResult>;
 export interface DisassociateSoftwareFromImageBuilderRequest {
-  ImageBuilderName: string;
-  SoftwareNames: StringList;
+  ImageBuilderName?: string;
+  SoftwareNames?: string[];
 }
 export const DisassociateSoftwareFromImageBuilderRequest = S.suspend(() =>
-  S.Struct({ ImageBuilderName: S.String, SoftwareNames: StringList }).pipe(
+  S.Struct({
+    ImageBuilderName: S.optional(S.String),
+    SoftwareNames: S.optional(StringList),
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -1162,11 +1318,14 @@ export const DisassociateSoftwareFromImageBuilderResult = S.suspend(() =>
   identifier: "DisassociateSoftwareFromImageBuilderResult",
 }) as any as S.Schema<DisassociateSoftwareFromImageBuilderResult>;
 export interface EnableUserRequest {
-  UserName: string | Redacted.Redacted<string>;
-  AuthenticationType: string;
+  UserName?: string | redacted.Redacted<string>;
+  AuthenticationType?: AuthenticationType;
 }
 export const EnableUserRequest = S.suspend(() =>
-  S.Struct({ UserName: SensitiveString, AuthenticationType: S.String }).pipe(
+  S.Struct({
+    UserName: S.optional(SensitiveString),
+    AuthenticationType: S.optional(AuthenticationType),
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -1177,10 +1336,10 @@ export const EnableUserResult = S.suspend(() => S.Struct({})).annotations({
   identifier: "EnableUserResult",
 }) as any as S.Schema<EnableUserResult>;
 export interface ExpireSessionRequest {
-  SessionId: string;
+  SessionId?: string;
 }
 export const ExpireSessionRequest = S.suspend(() =>
-  S.Struct({ SessionId: S.String }).pipe(
+  S.Struct({ SessionId: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -1201,37 +1360,43 @@ export const GetExportImageTaskRequest = S.suspend(() =>
   identifier: "GetExportImageTaskRequest",
 }) as any as S.Schema<GetExportImageTaskRequest>;
 export interface ListAssociatedFleetsRequest {
-  StackName: string;
+  StackName?: string;
   NextToken?: string;
 }
 export const ListAssociatedFleetsRequest = S.suspend(() =>
-  S.Struct({ StackName: S.String, NextToken: S.optional(S.String) }).pipe(
+  S.Struct({
+    StackName: S.optional(S.String),
+    NextToken: S.optional(S.String),
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "ListAssociatedFleetsRequest",
 }) as any as S.Schema<ListAssociatedFleetsRequest>;
 export interface ListAssociatedStacksRequest {
-  FleetName: string;
+  FleetName?: string;
   NextToken?: string;
 }
 export const ListAssociatedStacksRequest = S.suspend(() =>
-  S.Struct({ FleetName: S.String, NextToken: S.optional(S.String) }).pipe(
+  S.Struct({
+    FleetName: S.optional(S.String),
+    NextToken: S.optional(S.String),
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "ListAssociatedStacksRequest",
 }) as any as S.Schema<ListAssociatedStacksRequest>;
 export interface ListEntitledApplicationsRequest {
-  StackName: string;
-  EntitlementName: string;
+  StackName?: string;
+  EntitlementName?: string;
   NextToken?: string;
   MaxResults?: number;
 }
 export const ListEntitledApplicationsRequest = S.suspend(() =>
   S.Struct({
-    StackName: S.String,
-    EntitlementName: S.String,
+    StackName: S.optional(S.String),
+    EntitlementName: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
@@ -1241,30 +1406,30 @@ export const ListEntitledApplicationsRequest = S.suspend(() =>
   identifier: "ListEntitledApplicationsRequest",
 }) as any as S.Schema<ListEntitledApplicationsRequest>;
 export interface ListTagsForResourceRequest {
-  ResourceArn: string;
+  ResourceArn?: string;
 }
 export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
+  S.Struct({ ResourceArn: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface StartAppBlockBuilderRequest {
-  Name: string;
+  Name?: string;
 }
 export const StartAppBlockBuilderRequest = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
+  S.Struct({ Name: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "StartAppBlockBuilderRequest",
 }) as any as S.Schema<StartAppBlockBuilderRequest>;
 export interface StartFleetRequest {
-  Name: string;
+  Name?: string;
 }
 export const StartFleetRequest = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
+  S.Struct({ Name: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -1275,12 +1440,12 @@ export const StartFleetResult = S.suspend(() => S.Struct({})).annotations({
   identifier: "StartFleetResult",
 }) as any as S.Schema<StartFleetResult>;
 export interface StartImageBuilderRequest {
-  Name: string;
+  Name?: string;
   AppstreamAgentVersion?: string;
 }
 export const StartImageBuilderRequest = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: S.optional(S.String),
     AppstreamAgentVersion: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -1289,12 +1454,12 @@ export const StartImageBuilderRequest = S.suspend(() =>
   identifier: "StartImageBuilderRequest",
 }) as any as S.Schema<StartImageBuilderRequest>;
 export interface StartSoftwareDeploymentToImageBuilderRequest {
-  ImageBuilderName: string;
+  ImageBuilderName?: string;
   RetryFailedDeployments?: boolean;
 }
 export const StartSoftwareDeploymentToImageBuilderRequest = S.suspend(() =>
   S.Struct({
-    ImageBuilderName: S.String,
+    ImageBuilderName: S.optional(S.String),
     RetryFailedDeployments: S.optional(S.Boolean),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -1309,20 +1474,20 @@ export const StartSoftwareDeploymentToImageBuilderResult = S.suspend(() =>
   identifier: "StartSoftwareDeploymentToImageBuilderResult",
 }) as any as S.Schema<StartSoftwareDeploymentToImageBuilderResult>;
 export interface StopAppBlockBuilderRequest {
-  Name: string;
+  Name?: string;
 }
 export const StopAppBlockBuilderRequest = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
+  S.Struct({ Name: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "StopAppBlockBuilderRequest",
 }) as any as S.Schema<StopAppBlockBuilderRequest>;
 export interface StopFleetRequest {
-  Name: string;
+  Name?: string;
 }
 export const StopFleetRequest = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
+  S.Struct({ Name: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -1333,21 +1498,21 @@ export const StopFleetResult = S.suspend(() => S.Struct({})).annotations({
   identifier: "StopFleetResult",
 }) as any as S.Schema<StopFleetResult>;
 export interface StopImageBuilderRequest {
-  Name: string;
+  Name?: string;
 }
 export const StopImageBuilderRequest = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
+  S.Struct({ Name: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "StopImageBuilderRequest",
 }) as any as S.Schema<StopImageBuilderRequest>;
 export interface TagResourceRequest {
-  ResourceArn: string;
-  Tags: Tags;
+  ResourceArn?: string;
+  Tags?: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, Tags: Tags }).pipe(
+  S.Struct({ ResourceArn: S.optional(S.String), Tags: S.optional(Tags) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -1358,11 +1523,14 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
-  ResourceArn: string;
-  TagKeys: TagKeyList;
+  ResourceArn?: string;
+  TagKeys?: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
+  S.Struct({
+    ResourceArn: S.optional(S.String),
+    TagKeys: S.optional(TagKeyList),
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -1373,23 +1541,23 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAppBlockBuilderRequest {
-  Name: string;
+  Name?: string;
   Description?: string;
   DisplayName?: string;
-  Platform?: string;
+  Platform?: PlatformType;
   InstanceType?: string;
   VpcConfig?: VpcConfig;
   EnableDefaultInternetAccess?: boolean;
   IamRoleArn?: string;
-  AccessEndpoints?: AccessEndpointList;
-  AttributesToDelete?: AppBlockBuilderAttributes;
+  AccessEndpoints?: AccessEndpoint[];
+  AttributesToDelete?: AppBlockBuilderAttribute[];
 }
 export const UpdateAppBlockBuilderRequest = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: S.optional(S.String),
     Description: S.optional(S.String),
     DisplayName: S.optional(S.String),
-    Platform: S.optional(S.String),
+    Platform: S.optional(PlatformType),
     InstanceType: S.optional(S.String),
     VpcConfig: S.optional(VpcConfig),
     EnableDefaultInternetAccess: S.optional(S.Boolean),
@@ -1403,7 +1571,7 @@ export const UpdateAppBlockBuilderRequest = S.suspend(() =>
   identifier: "UpdateAppBlockBuilderRequest",
 }) as any as S.Schema<UpdateAppBlockBuilderRequest>;
 export interface UpdateApplicationRequest {
-  Name: string;
+  Name?: string;
   DisplayName?: string;
   Description?: string;
   IconS3Location?: S3Location;
@@ -1411,11 +1579,11 @@ export interface UpdateApplicationRequest {
   WorkingDirectory?: string;
   LaunchParameters?: string;
   AppBlockArn?: string;
-  AttributesToDelete?: ApplicationAttributes;
+  AttributesToDelete?: ApplicationAttribute[];
 }
 export const UpdateApplicationRequest = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: S.optional(S.String),
     DisplayName: S.optional(S.String),
     Description: S.optional(S.String),
     IconS3Location: S.optional(S3Location),
@@ -1431,35 +1599,47 @@ export const UpdateApplicationRequest = S.suspend(() =>
   identifier: "UpdateApplicationRequest",
 }) as any as S.Schema<UpdateApplicationRequest>;
 export interface ServiceAccountCredentials {
-  AccountName: string | Redacted.Redacted<string>;
-  AccountPassword: string | Redacted.Redacted<string>;
+  AccountName?: string | redacted.Redacted<string>;
+  AccountPassword?: string | redacted.Redacted<string>;
 }
 export const ServiceAccountCredentials = S.suspend(() =>
-  S.Struct({ AccountName: SensitiveString, AccountPassword: SensitiveString }),
+  S.Struct({
+    AccountName: S.optional(SensitiveString),
+    AccountPassword: S.optional(SensitiveString),
+  }),
 ).annotations({
   identifier: "ServiceAccountCredentials",
 }) as any as S.Schema<ServiceAccountCredentials>;
+export type CertificateBasedAuthStatus =
+  | "DISABLED"
+  | "ENABLED"
+  | "ENABLED_NO_DIRECTORY_LOGIN_FALLBACK";
+export const CertificateBasedAuthStatus = S.Literal(
+  "DISABLED",
+  "ENABLED",
+  "ENABLED_NO_DIRECTORY_LOGIN_FALLBACK",
+);
 export interface CertificateBasedAuthProperties {
-  Status?: string;
+  Status?: CertificateBasedAuthStatus;
   CertificateAuthorityArn?: string;
 }
 export const CertificateBasedAuthProperties = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(CertificateBasedAuthStatus),
     CertificateAuthorityArn: S.optional(S.String),
   }),
 ).annotations({
   identifier: "CertificateBasedAuthProperties",
 }) as any as S.Schema<CertificateBasedAuthProperties>;
 export interface UpdateDirectoryConfigRequest {
-  DirectoryName: string;
-  OrganizationalUnitDistinguishedNames?: OrganizationalUnitDistinguishedNamesList;
+  DirectoryName?: string;
+  OrganizationalUnitDistinguishedNames?: string[];
   ServiceAccountCredentials?: ServiceAccountCredentials;
   CertificateBasedAuthProperties?: CertificateBasedAuthProperties;
 }
 export const UpdateDirectoryConfigRequest = S.suspend(() =>
   S.Struct({
-    DirectoryName: S.String,
+    DirectoryName: S.optional(S.String),
     OrganizationalUnitDistinguishedNames: S.optional(
       OrganizationalUnitDistinguishedNamesList,
     ),
@@ -1472,29 +1652,29 @@ export const UpdateDirectoryConfigRequest = S.suspend(() =>
   identifier: "UpdateDirectoryConfigRequest",
 }) as any as S.Schema<UpdateDirectoryConfigRequest>;
 export interface EntitlementAttribute {
-  Name: string;
-  Value: string;
+  Name?: string;
+  Value?: string;
 }
 export const EntitlementAttribute = S.suspend(() =>
-  S.Struct({ Name: S.String, Value: S.String }),
+  S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
 ).annotations({
   identifier: "EntitlementAttribute",
 }) as any as S.Schema<EntitlementAttribute>;
 export type EntitlementAttributeList = EntitlementAttribute[];
 export const EntitlementAttributeList = S.Array(EntitlementAttribute);
 export interface UpdateEntitlementRequest {
-  Name: string;
-  StackName: string;
+  Name?: string;
+  StackName?: string;
   Description?: string;
-  AppVisibility?: string;
-  Attributes?: EntitlementAttributeList;
+  AppVisibility?: AppVisibility;
+  Attributes?: EntitlementAttribute[];
 }
 export const UpdateEntitlementRequest = S.suspend(() =>
   S.Struct({
-    Name: S.String,
-    StackName: S.String,
+    Name: S.optional(S.String),
+    StackName: S.optional(S.String),
     Description: S.optional(S.String),
-    AppVisibility: S.optional(S.String),
+    AppVisibility: S.optional(AppVisibility),
     Attributes: S.optional(EntitlementAttributeList),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -1529,12 +1709,12 @@ export interface UpdateFleetRequest {
   EnableDefaultInternetAccess?: boolean;
   DomainJoinInfo?: DomainJoinInfo;
   IdleDisconnectTimeoutInSeconds?: number;
-  AttributesToDelete?: FleetAttributes;
+  AttributesToDelete?: FleetAttribute[];
   IamRoleArn?: string;
-  StreamView?: string;
-  Platform?: string;
+  StreamView?: StreamView;
+  Platform?: PlatformType;
   MaxConcurrentSessions?: number;
-  UsbDeviceFilterStrings?: UsbDeviceFilterStrings;
+  UsbDeviceFilterStrings?: string[];
   SessionScriptS3Location?: S3Location;
   MaxSessionsPerInstance?: number;
   RootVolumeConfig?: VolumeConfig;
@@ -1557,8 +1737,8 @@ export const UpdateFleetRequest = S.suspend(() =>
     IdleDisconnectTimeoutInSeconds: S.optional(S.Number),
     AttributesToDelete: S.optional(FleetAttributes),
     IamRoleArn: S.optional(S.String),
-    StreamView: S.optional(S.String),
-    Platform: S.optional(S.String),
+    StreamView: S.optional(StreamView),
+    Platform: S.optional(PlatformType),
     MaxConcurrentSessions: S.optional(S.Number),
     UsbDeviceFilterStrings: S.optional(UsbDeviceFilterStrings),
     SessionScriptS3Location: S.optional(S3Location),
@@ -1570,17 +1750,23 @@ export const UpdateFleetRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateFleetRequest",
 }) as any as S.Schema<UpdateFleetRequest>;
+export type StorageConnectorType = "HOMEFOLDERS" | "GOOGLE_DRIVE" | "ONE_DRIVE";
+export const StorageConnectorType = S.Literal(
+  "HOMEFOLDERS",
+  "GOOGLE_DRIVE",
+  "ONE_DRIVE",
+);
 export type DomainList = string[];
 export const DomainList = S.Array(S.String);
 export interface StorageConnector {
-  ConnectorType: string;
+  ConnectorType?: StorageConnectorType;
   ResourceIdentifier?: string;
-  Domains?: DomainList;
-  DomainsRequireAdminConsent?: DomainList;
+  Domains?: string[];
+  DomainsRequireAdminConsent?: string[];
 }
 export const StorageConnector = S.suspend(() =>
   S.Struct({
-    ConnectorType: S.String,
+    ConnectorType: S.optional(StorageConnectorType),
     ResourceIdentifier: S.optional(S.String),
     Domains: S.optional(DomainList),
     DomainsRequireAdminConsent: S.optional(DomainList),
@@ -1590,57 +1776,83 @@ export const StorageConnector = S.suspend(() =>
 }) as any as S.Schema<StorageConnector>;
 export type StorageConnectorList = StorageConnector[];
 export const StorageConnectorList = S.Array(StorageConnector);
+export type Action =
+  | "CLIPBOARD_COPY_FROM_LOCAL_DEVICE"
+  | "CLIPBOARD_COPY_TO_LOCAL_DEVICE"
+  | "FILE_UPLOAD"
+  | "FILE_DOWNLOAD"
+  | "PRINTING_TO_LOCAL_DEVICE"
+  | "DOMAIN_PASSWORD_SIGNIN"
+  | "DOMAIN_SMART_CARD_SIGNIN"
+  | "AUTO_TIME_ZONE_REDIRECTION";
+export const Action = S.Literal(
+  "CLIPBOARD_COPY_FROM_LOCAL_DEVICE",
+  "CLIPBOARD_COPY_TO_LOCAL_DEVICE",
+  "FILE_UPLOAD",
+  "FILE_DOWNLOAD",
+  "PRINTING_TO_LOCAL_DEVICE",
+  "DOMAIN_PASSWORD_SIGNIN",
+  "DOMAIN_SMART_CARD_SIGNIN",
+  "AUTO_TIME_ZONE_REDIRECTION",
+);
+export type Permission = "ENABLED" | "DISABLED";
+export const Permission = S.Literal("ENABLED", "DISABLED");
 export interface UserSetting {
-  Action: string;
-  Permission: string;
+  Action?: Action;
+  Permission?: Permission;
   MaximumLength?: number;
 }
 export const UserSetting = S.suspend(() =>
   S.Struct({
-    Action: S.String,
-    Permission: S.String,
+    Action: S.optional(Action),
+    Permission: S.optional(Permission),
     MaximumLength: S.optional(S.Number),
   }),
 ).annotations({ identifier: "UserSetting" }) as any as S.Schema<UserSetting>;
 export type UserSettingList = UserSetting[];
 export const UserSettingList = S.Array(UserSetting);
 export interface ApplicationSettings {
-  Enabled: boolean;
+  Enabled?: boolean;
   SettingsGroup?: string;
 }
 export const ApplicationSettings = S.suspend(() =>
-  S.Struct({ Enabled: S.Boolean, SettingsGroup: S.optional(S.String) }),
+  S.Struct({
+    Enabled: S.optional(S.Boolean),
+    SettingsGroup: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "ApplicationSettings",
 }) as any as S.Schema<ApplicationSettings>;
+export type PreferredProtocol = "TCP" | "UDP";
+export const PreferredProtocol = S.Literal("TCP", "UDP");
 export interface StreamingExperienceSettings {
-  PreferredProtocol?: string;
+  PreferredProtocol?: PreferredProtocol;
 }
 export const StreamingExperienceSettings = S.suspend(() =>
-  S.Struct({ PreferredProtocol: S.optional(S.String) }),
+  S.Struct({ PreferredProtocol: S.optional(PreferredProtocol) }),
 ).annotations({
   identifier: "StreamingExperienceSettings",
 }) as any as S.Schema<StreamingExperienceSettings>;
 export interface UpdateStackRequest {
   DisplayName?: string;
   Description?: string;
-  Name: string;
-  StorageConnectors?: StorageConnectorList;
+  Name?: string;
+  StorageConnectors?: StorageConnector[];
   DeleteStorageConnectors?: boolean;
   RedirectURL?: string;
   FeedbackURL?: string;
-  AttributesToDelete?: StackAttributes;
-  UserSettings?: UserSettingList;
+  AttributesToDelete?: StackAttribute[];
+  UserSettings?: UserSetting[];
   ApplicationSettings?: ApplicationSettings;
-  AccessEndpoints?: AccessEndpointList;
-  EmbedHostDomains?: EmbedHostDomains;
+  AccessEndpoints?: AccessEndpoint[];
+  EmbedHostDomains?: string[];
   StreamingExperienceSettings?: StreamingExperienceSettings;
 }
 export const UpdateStackRequest = S.suspend(() =>
   S.Struct({
     DisplayName: S.optional(S.String),
     Description: S.optional(S.String),
-    Name: S.String,
+    Name: S.optional(S.String),
     StorageConnectors: S.optional(StorageConnectorList),
     DeleteStorageConnectors: S.optional(S.Boolean),
     RedirectURL: S.optional(S.String),
@@ -1672,24 +1884,24 @@ export const ThemeFooterLink = S.suspend(() =>
 export type ThemeFooterLinks = ThemeFooterLink[];
 export const ThemeFooterLinks = S.Array(ThemeFooterLink);
 export interface UpdateThemeForStackRequest {
-  StackName: string;
-  FooterLinks?: ThemeFooterLinks;
+  StackName?: string;
+  FooterLinks?: ThemeFooterLink[];
   TitleText?: string;
-  ThemeStyling?: string;
+  ThemeStyling?: ThemeStyling;
   OrganizationLogoS3Location?: S3Location;
   FaviconS3Location?: S3Location;
-  State?: string;
-  AttributesToDelete?: ThemeAttributes;
+  State?: ThemeState;
+  AttributesToDelete?: ThemeAttribute[];
 }
 export const UpdateThemeForStackRequest = S.suspend(() =>
   S.Struct({
-    StackName: S.String,
+    StackName: S.optional(S.String),
     FooterLinks: S.optional(ThemeFooterLinks),
     TitleText: S.optional(S.String),
-    ThemeStyling: S.optional(S.String),
+    ThemeStyling: S.optional(ThemeStyling),
     OrganizationLogoS3Location: S.optional(S3Location),
     FaviconS3Location: S.optional(S3Location),
-    State: S.optional(S.String),
+    State: S.optional(ThemeState),
     AttributesToDelete: S.optional(ThemeAttributes),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -1700,17 +1912,17 @@ export const UpdateThemeForStackRequest = S.suspend(() =>
 export type FilterValues = string[];
 export const FilterValues = S.Array(S.String);
 export interface ScriptDetails {
-  ScriptS3Location: S3Location;
-  ExecutablePath: string;
+  ScriptS3Location?: S3Location;
+  ExecutablePath?: string;
   ExecutableParameters?: string;
-  TimeoutInSeconds: number;
+  TimeoutInSeconds?: number;
 }
 export const ScriptDetails = S.suspend(() =>
   S.Struct({
-    ScriptS3Location: S3Location,
-    ExecutablePath: S.String,
+    ScriptS3Location: S.optional(S3Location),
+    ExecutablePath: S.optional(S.String),
     ExecutableParameters: S.optional(S.String),
-    TimeoutInSeconds: S.Number,
+    TimeoutInSeconds: S.optional(S.Number),
   }),
 ).annotations({
   identifier: "ScriptDetails",
@@ -1724,19 +1936,19 @@ export const RuntimeValidationConfig = S.suspend(() =>
   identifier: "RuntimeValidationConfig",
 }) as any as S.Schema<RuntimeValidationConfig>;
 export interface ApplicationConfig {
-  Name: string;
+  Name?: string;
   DisplayName?: string;
-  AbsoluteAppPath: string | Redacted.Redacted<string>;
-  AbsoluteIconPath?: string | Redacted.Redacted<string>;
-  AbsoluteManifestPath?: string | Redacted.Redacted<string>;
-  WorkingDirectory?: string | Redacted.Redacted<string>;
-  LaunchParameters?: string | Redacted.Redacted<string>;
+  AbsoluteAppPath?: string | redacted.Redacted<string>;
+  AbsoluteIconPath?: string | redacted.Redacted<string>;
+  AbsoluteManifestPath?: string | redacted.Redacted<string>;
+  WorkingDirectory?: string | redacted.Redacted<string>;
+  LaunchParameters?: string | redacted.Redacted<string>;
 }
 export const ApplicationConfig = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: S.optional(S.String),
     DisplayName: S.optional(S.String),
-    AbsoluteAppPath: SensitiveString,
+    AbsoluteAppPath: S.optional(SensitiveString),
     AbsoluteIconPath: S.optional(SensitiveString),
     AbsoluteManifestPath: S.optional(SensitiveString),
     WorkingDirectory: S.optional(SensitiveString),
@@ -1748,11 +1960,14 @@ export const ApplicationConfig = S.suspend(() =>
 export type AppCatalogConfig = ApplicationConfig[];
 export const AppCatalogConfig = S.Array(ApplicationConfig);
 export interface AppBlockBuilderAppBlockAssociation {
-  AppBlockArn: string;
-  AppBlockBuilderName: string;
+  AppBlockArn?: string;
+  AppBlockBuilderName?: string;
 }
 export const AppBlockBuilderAppBlockAssociation = S.suspend(() =>
-  S.Struct({ AppBlockArn: S.String, AppBlockBuilderName: S.String }),
+  S.Struct({
+    AppBlockArn: S.optional(S.String),
+    AppBlockBuilderName: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "AppBlockBuilderAppBlockAssociation",
 }) as any as S.Schema<AppBlockBuilderAppBlockAssociation>;
@@ -1762,11 +1977,14 @@ export const AppBlockBuilderAppBlockAssociationsList = S.Array(
   AppBlockBuilderAppBlockAssociation,
 );
 export interface ApplicationFleetAssociation {
-  FleetName: string;
-  ApplicationArn: string;
+  FleetName?: string;
+  ApplicationArn?: string;
 }
 export const ApplicationFleetAssociation = S.suspend(() =>
-  S.Struct({ FleetName: S.String, ApplicationArn: S.String }),
+  S.Struct({
+    FleetName: S.optional(S.String),
+    ApplicationArn: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "ApplicationFleetAssociation",
 }) as any as S.Schema<ApplicationFleetAssociation>;
@@ -1783,14 +2001,14 @@ export interface Application {
   LaunchPath?: string;
   LaunchParameters?: string;
   Enabled?: boolean;
-  Metadata?: Metadata;
+  Metadata?: { [key: string]: string };
   WorkingDirectory?: string;
   Description?: string;
   Arn?: string;
   AppBlockArn?: string;
   IconS3Location?: S3Location;
-  Platforms?: Platforms;
-  InstanceFamilies?: StringList;
+  Platforms?: PlatformType[];
+  InstanceFamilies?: string[];
   CreatedTime?: Date;
 }
 export const Application = S.suspend(() =>
@@ -1814,18 +2032,59 @@ export const Application = S.suspend(() =>
 ).annotations({ identifier: "Application" }) as any as S.Schema<Application>;
 export type Applications = Application[];
 export const Applications = S.Array(Application);
+export type ImageBuilderState =
+  | "PENDING"
+  | "UPDATING_AGENT"
+  | "RUNNING"
+  | "STOPPING"
+  | "STOPPED"
+  | "REBOOTING"
+  | "SNAPSHOTTING"
+  | "DELETING"
+  | "FAILED"
+  | "UPDATING"
+  | "PENDING_QUALIFICATION"
+  | "PENDING_SYNCING_APPS"
+  | "SYNCING_APPS"
+  | "PENDING_IMAGE_IMPORT";
+export const ImageBuilderState = S.Literal(
+  "PENDING",
+  "UPDATING_AGENT",
+  "RUNNING",
+  "STOPPING",
+  "STOPPED",
+  "REBOOTING",
+  "SNAPSHOTTING",
+  "DELETING",
+  "FAILED",
+  "UPDATING",
+  "PENDING_QUALIFICATION",
+  "PENDING_SYNCING_APPS",
+  "SYNCING_APPS",
+  "PENDING_IMAGE_IMPORT",
+);
+export type ImageBuilderStateChangeReasonCode =
+  | "INTERNAL_ERROR"
+  | "IMAGE_UNAVAILABLE";
+export const ImageBuilderStateChangeReasonCode = S.Literal(
+  "INTERNAL_ERROR",
+  "IMAGE_UNAVAILABLE",
+);
 export interface ImageBuilderStateChangeReason {
-  Code?: string;
+  Code?: ImageBuilderStateChangeReasonCode;
   Message?: string;
 }
 export const ImageBuilderStateChangeReason = S.suspend(() =>
-  S.Struct({ Code: S.optional(S.String), Message: S.optional(S.String) }),
+  S.Struct({
+    Code: S.optional(ImageBuilderStateChangeReasonCode),
+    Message: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "ImageBuilderStateChangeReason",
 }) as any as S.Schema<ImageBuilderStateChangeReason>;
 export interface NetworkAccessConfiguration {
   EniPrivateIpAddress?: string;
-  EniIpv6Addresses?: StringList;
+  EniIpv6Addresses?: string[];
   EniId?: string;
 }
 export const NetworkAccessConfiguration = S.suspend(() =>
@@ -1837,14 +2096,79 @@ export const NetworkAccessConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "NetworkAccessConfiguration",
 }) as any as S.Schema<NetworkAccessConfiguration>;
+export type FleetErrorCode =
+  | "IAM_SERVICE_ROLE_MISSING_ENI_DESCRIBE_ACTION"
+  | "IAM_SERVICE_ROLE_MISSING_ENI_CREATE_ACTION"
+  | "IAM_SERVICE_ROLE_MISSING_ENI_DELETE_ACTION"
+  | "NETWORK_INTERFACE_LIMIT_EXCEEDED"
+  | "INTERNAL_SERVICE_ERROR"
+  | "IAM_SERVICE_ROLE_IS_MISSING"
+  | "MACHINE_ROLE_IS_MISSING"
+  | "STS_DISABLED_IN_REGION"
+  | "SUBNET_HAS_INSUFFICIENT_IP_ADDRESSES"
+  | "IAM_SERVICE_ROLE_MISSING_DESCRIBE_SUBNET_ACTION"
+  | "SUBNET_NOT_FOUND"
+  | "IMAGE_NOT_FOUND"
+  | "INVALID_SUBNET_CONFIGURATION"
+  | "SECURITY_GROUPS_NOT_FOUND"
+  | "IGW_NOT_ATTACHED"
+  | "IAM_SERVICE_ROLE_MISSING_DESCRIBE_SECURITY_GROUPS_ACTION"
+  | "FLEET_STOPPED"
+  | "FLEET_INSTANCE_PROVISIONING_FAILURE"
+  | "DOMAIN_JOIN_ERROR_FILE_NOT_FOUND"
+  | "DOMAIN_JOIN_ERROR_ACCESS_DENIED"
+  | "DOMAIN_JOIN_ERROR_LOGON_FAILURE"
+  | "DOMAIN_JOIN_ERROR_INVALID_PARAMETER"
+  | "DOMAIN_JOIN_ERROR_MORE_DATA"
+  | "DOMAIN_JOIN_ERROR_NO_SUCH_DOMAIN"
+  | "DOMAIN_JOIN_ERROR_NOT_SUPPORTED"
+  | "DOMAIN_JOIN_NERR_INVALID_WORKGROUP_NAME"
+  | "DOMAIN_JOIN_NERR_WORKSTATION_NOT_STARTED"
+  | "DOMAIN_JOIN_ERROR_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED"
+  | "DOMAIN_JOIN_NERR_PASSWORD_EXPIRED"
+  | "DOMAIN_JOIN_INTERNAL_SERVICE_ERROR"
+  | "VALIDATION_ERROR";
+export const FleetErrorCode = S.Literal(
+  "IAM_SERVICE_ROLE_MISSING_ENI_DESCRIBE_ACTION",
+  "IAM_SERVICE_ROLE_MISSING_ENI_CREATE_ACTION",
+  "IAM_SERVICE_ROLE_MISSING_ENI_DELETE_ACTION",
+  "NETWORK_INTERFACE_LIMIT_EXCEEDED",
+  "INTERNAL_SERVICE_ERROR",
+  "IAM_SERVICE_ROLE_IS_MISSING",
+  "MACHINE_ROLE_IS_MISSING",
+  "STS_DISABLED_IN_REGION",
+  "SUBNET_HAS_INSUFFICIENT_IP_ADDRESSES",
+  "IAM_SERVICE_ROLE_MISSING_DESCRIBE_SUBNET_ACTION",
+  "SUBNET_NOT_FOUND",
+  "IMAGE_NOT_FOUND",
+  "INVALID_SUBNET_CONFIGURATION",
+  "SECURITY_GROUPS_NOT_FOUND",
+  "IGW_NOT_ATTACHED",
+  "IAM_SERVICE_ROLE_MISSING_DESCRIBE_SECURITY_GROUPS_ACTION",
+  "FLEET_STOPPED",
+  "FLEET_INSTANCE_PROVISIONING_FAILURE",
+  "DOMAIN_JOIN_ERROR_FILE_NOT_FOUND",
+  "DOMAIN_JOIN_ERROR_ACCESS_DENIED",
+  "DOMAIN_JOIN_ERROR_LOGON_FAILURE",
+  "DOMAIN_JOIN_ERROR_INVALID_PARAMETER",
+  "DOMAIN_JOIN_ERROR_MORE_DATA",
+  "DOMAIN_JOIN_ERROR_NO_SUCH_DOMAIN",
+  "DOMAIN_JOIN_ERROR_NOT_SUPPORTED",
+  "DOMAIN_JOIN_NERR_INVALID_WORKGROUP_NAME",
+  "DOMAIN_JOIN_NERR_WORKSTATION_NOT_STARTED",
+  "DOMAIN_JOIN_ERROR_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED",
+  "DOMAIN_JOIN_NERR_PASSWORD_EXPIRED",
+  "DOMAIN_JOIN_INTERNAL_SERVICE_ERROR",
+  "VALIDATION_ERROR",
+);
 export interface ResourceError {
-  ErrorCode?: string;
+  ErrorCode?: FleetErrorCode;
   ErrorMessage?: string;
   ErrorTimestamp?: Date;
 }
 export const ResourceError = S.suspend(() =>
   S.Struct({
-    ErrorCode: S.optional(S.String),
+    ErrorCode: S.optional(FleetErrorCode),
     ErrorMessage: S.optional(S.String),
     ErrorTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -1853,40 +2177,42 @@ export const ResourceError = S.suspend(() =>
 }) as any as S.Schema<ResourceError>;
 export type ResourceErrors = ResourceError[];
 export const ResourceErrors = S.Array(ResourceError);
+export type LatestAppstreamAgentVersion = "TRUE" | "FALSE";
+export const LatestAppstreamAgentVersion = S.Literal("TRUE", "FALSE");
 export interface ImageBuilder {
-  Name: string;
+  Name?: string;
   Arn?: string;
   ImageArn?: string;
   Description?: string;
   DisplayName?: string;
   VpcConfig?: VpcConfig;
   InstanceType?: string;
-  Platform?: string;
+  Platform?: PlatformType;
   IamRoleArn?: string;
-  State?: string;
+  State?: ImageBuilderState;
   StateChangeReason?: ImageBuilderStateChangeReason;
   CreatedTime?: Date;
   EnableDefaultInternetAccess?: boolean;
   DomainJoinInfo?: DomainJoinInfo;
   NetworkAccessConfiguration?: NetworkAccessConfiguration;
-  ImageBuilderErrors?: ResourceErrors;
+  ImageBuilderErrors?: ResourceError[];
   AppstreamAgentVersion?: string;
-  AccessEndpoints?: AccessEndpointList;
+  AccessEndpoints?: AccessEndpoint[];
   RootVolumeConfig?: VolumeConfig;
-  LatestAppstreamAgentVersion?: string;
+  LatestAppstreamAgentVersion?: LatestAppstreamAgentVersion;
 }
 export const ImageBuilder = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: S.optional(S.String),
     Arn: S.optional(S.String),
     ImageArn: S.optional(S.String),
     Description: S.optional(S.String),
     DisplayName: S.optional(S.String),
     VpcConfig: S.optional(VpcConfig),
     InstanceType: S.optional(S.String),
-    Platform: S.optional(S.String),
+    Platform: S.optional(PlatformType),
     IamRoleArn: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(ImageBuilderState),
     StateChangeReason: S.optional(ImageBuilderStateChangeReason),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EnableDefaultInternetAccess: S.optional(S.Boolean),
@@ -1896,17 +2222,52 @@ export const ImageBuilder = S.suspend(() =>
     AppstreamAgentVersion: S.optional(S.String),
     AccessEndpoints: S.optional(AccessEndpointList),
     RootVolumeConfig: S.optional(VolumeConfig),
-    LatestAppstreamAgentVersion: S.optional(S.String),
+    LatestAppstreamAgentVersion: S.optional(LatestAppstreamAgentVersion),
   }),
 ).annotations({ identifier: "ImageBuilder" }) as any as S.Schema<ImageBuilder>;
 export type ImageBuilderList = ImageBuilder[];
 export const ImageBuilderList = S.Array(ImageBuilder);
+export type ImageState =
+  | "PENDING"
+  | "AVAILABLE"
+  | "FAILED"
+  | "COPYING"
+  | "DELETING"
+  | "CREATING"
+  | "IMPORTING"
+  | "VALIDATING";
+export const ImageState = S.Literal(
+  "PENDING",
+  "AVAILABLE",
+  "FAILED",
+  "COPYING",
+  "DELETING",
+  "CREATING",
+  "IMPORTING",
+  "VALIDATING",
+);
+export type ImageStateChangeReasonCode =
+  | "INTERNAL_ERROR"
+  | "IMAGE_BUILDER_NOT_AVAILABLE"
+  | "IMAGE_COPY_FAILURE"
+  | "IMAGE_UPDATE_FAILURE"
+  | "IMAGE_IMPORT_FAILURE";
+export const ImageStateChangeReasonCode = S.Literal(
+  "INTERNAL_ERROR",
+  "IMAGE_BUILDER_NOT_AVAILABLE",
+  "IMAGE_COPY_FAILURE",
+  "IMAGE_UPDATE_FAILURE",
+  "IMAGE_IMPORT_FAILURE",
+);
 export interface ImageStateChangeReason {
-  Code?: string;
+  Code?: ImageStateChangeReasonCode;
   Message?: string;
 }
 export const ImageStateChangeReason = S.suspend(() =>
-  S.Struct({ Code: S.optional(S.String), Message: S.optional(S.String) }),
+  S.Struct({
+    Code: S.optional(ImageStateChangeReasonCode),
+    Message: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "ImageStateChangeReason",
 }) as any as S.Schema<ImageStateChangeReason>;
@@ -1922,42 +2283,48 @@ export const ImagePermissions = S.suspend(() =>
 ).annotations({
   identifier: "ImagePermissions",
 }) as any as S.Schema<ImagePermissions>;
+export type DynamicAppProvidersEnabled = "ENABLED" | "DISABLED";
+export const DynamicAppProvidersEnabled = S.Literal("ENABLED", "DISABLED");
+export type ImageSharedWithOthers = "TRUE" | "FALSE";
+export const ImageSharedWithOthers = S.Literal("TRUE", "FALSE");
+export type ImageType = "CUSTOM" | "NATIVE";
+export const ImageType = S.Literal("CUSTOM", "NATIVE");
 export interface Image {
-  Name: string;
+  Name?: string;
   Arn?: string;
   BaseImageArn?: string;
   DisplayName?: string;
-  State?: string;
-  Visibility?: string;
+  State?: ImageState;
+  Visibility?: VisibilityType;
   ImageBuilderSupported?: boolean;
   ImageBuilderName?: string;
-  Platform?: string;
+  Platform?: PlatformType;
   Description?: string;
   StateChangeReason?: ImageStateChangeReason;
-  Applications?: Applications;
+  Applications?: Application[];
   CreatedTime?: Date;
   PublicBaseImageReleasedDate?: Date;
   AppstreamAgentVersion?: string;
   ImagePermissions?: ImagePermissions;
-  ImageErrors?: ResourceErrors;
-  LatestAppstreamAgentVersion?: string;
-  SupportedInstanceFamilies?: StringList;
-  DynamicAppProvidersEnabled?: string;
-  ImageSharedWithOthers?: string;
+  ImageErrors?: ResourceError[];
+  LatestAppstreamAgentVersion?: LatestAppstreamAgentVersion;
+  SupportedInstanceFamilies?: string[];
+  DynamicAppProvidersEnabled?: DynamicAppProvidersEnabled;
+  ImageSharedWithOthers?: ImageSharedWithOthers;
   ManagedSoftwareIncluded?: boolean;
-  ImageType?: string;
+  ImageType?: ImageType;
 }
 export const Image = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: S.optional(S.String),
     Arn: S.optional(S.String),
     BaseImageArn: S.optional(S.String),
     DisplayName: S.optional(S.String),
-    State: S.optional(S.String),
-    Visibility: S.optional(S.String),
+    State: S.optional(ImageState),
+    Visibility: S.optional(VisibilityType),
     ImageBuilderSupported: S.optional(S.Boolean),
     ImageBuilderName: S.optional(S.String),
-    Platform: S.optional(S.String),
+    Platform: S.optional(PlatformType),
     Description: S.optional(S.String),
     StateChangeReason: S.optional(ImageStateChangeReason),
     Applications: S.optional(Applications),
@@ -1968,30 +2335,32 @@ export const Image = S.suspend(() =>
     AppstreamAgentVersion: S.optional(S.String),
     ImagePermissions: S.optional(ImagePermissions),
     ImageErrors: S.optional(ResourceErrors),
-    LatestAppstreamAgentVersion: S.optional(S.String),
+    LatestAppstreamAgentVersion: S.optional(LatestAppstreamAgentVersion),
     SupportedInstanceFamilies: S.optional(StringList),
-    DynamicAppProvidersEnabled: S.optional(S.String),
-    ImageSharedWithOthers: S.optional(S.String),
+    DynamicAppProvidersEnabled: S.optional(DynamicAppProvidersEnabled),
+    ImageSharedWithOthers: S.optional(ImageSharedWithOthers),
     ManagedSoftwareIncluded: S.optional(S.Boolean),
-    ImageType: S.optional(S.String),
+    ImageType: S.optional(ImageType),
   }),
 ).annotations({ identifier: "Image" }) as any as S.Schema<Image>;
 export type ImageList = Image[];
 export const ImageList = S.Array(Image);
 export interface Filter {
-  Name: string;
-  Values: FilterValues;
+  Name?: string;
+  Values?: string[];
 }
 export const Filter = S.suspend(() =>
-  S.Struct({ Name: S.String, Values: FilterValues }),
+  S.Struct({ Name: S.optional(S.String), Values: S.optional(FilterValues) }),
 ).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type Filters = Filter[];
 export const Filters = S.Array(Filter);
 export interface BatchAssociateUserStackRequest {
-  UserStackAssociations: UserStackAssociationList;
+  UserStackAssociations?: UserStackAssociation[];
 }
 export const BatchAssociateUserStackRequest = S.suspend(() =>
-  S.Struct({ UserStackAssociations: UserStackAssociationList }).pipe(
+  S.Struct({
+    UserStackAssociations: S.optional(UserStackAssociationList),
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -2006,25 +2375,25 @@ export const CopyImageResponse = S.suspend(() =>
   identifier: "CopyImageResponse",
 }) as any as S.Schema<CopyImageResponse>;
 export interface CreateAppBlockRequest {
-  Name: string;
+  Name?: string;
   Description?: string;
   DisplayName?: string;
-  SourceS3Location: S3Location;
+  SourceS3Location?: S3Location;
   SetupScriptDetails?: ScriptDetails;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
   PostSetupScriptDetails?: ScriptDetails;
-  PackagingType?: string;
+  PackagingType?: PackagingType;
 }
 export const CreateAppBlockRequest = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: S.optional(S.String),
     Description: S.optional(S.String),
     DisplayName: S.optional(S.String),
-    SourceS3Location: S3Location,
+    SourceS3Location: S.optional(S3Location),
     SetupScriptDetails: S.optional(ScriptDetails),
     Tags: S.optional(Tags),
     PostSetupScriptDetails: S.optional(ScriptDetails),
-    PackagingType: S.optional(S.String),
+    PackagingType: S.optional(PackagingType),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -2032,26 +2401,26 @@ export const CreateAppBlockRequest = S.suspend(() =>
   identifier: "CreateAppBlockRequest",
 }) as any as S.Schema<CreateAppBlockRequest>;
 export interface CreateAppBlockBuilderRequest {
-  Name: string;
+  Name?: string;
   Description?: string;
   DisplayName?: string;
-  Tags?: Tags;
-  Platform: string;
-  InstanceType: string;
-  VpcConfig: VpcConfig;
+  Tags?: { [key: string]: string };
+  Platform?: AppBlockBuilderPlatformType;
+  InstanceType?: string;
+  VpcConfig?: VpcConfig;
   EnableDefaultInternetAccess?: boolean;
   IamRoleArn?: string;
-  AccessEndpoints?: AccessEndpointList;
+  AccessEndpoints?: AccessEndpoint[];
 }
 export const CreateAppBlockBuilderRequest = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: S.optional(S.String),
     Description: S.optional(S.String),
     DisplayName: S.optional(S.String),
     Tags: S.optional(Tags),
-    Platform: S.String,
-    InstanceType: S.String,
-    VpcConfig: VpcConfig,
+    Platform: S.optional(AppBlockBuilderPlatformType),
+    InstanceType: S.optional(S.String),
+    VpcConfig: S.optional(VpcConfig),
     EnableDefaultInternetAccess: S.optional(S.Boolean),
     IamRoleArn: S.optional(S.String),
     AccessEndpoints: S.optional(AccessEndpointList),
@@ -2074,16 +2443,17 @@ export const CreateAppBlockBuilderStreamingURLResult = S.suspend(() =>
   identifier: "CreateAppBlockBuilderStreamingURLResult",
 }) as any as S.Schema<CreateAppBlockBuilderStreamingURLResult>;
 export interface CreateDirectoryConfigRequest {
-  DirectoryName: string;
-  OrganizationalUnitDistinguishedNames: OrganizationalUnitDistinguishedNamesList;
+  DirectoryName?: string;
+  OrganizationalUnitDistinguishedNames?: string[];
   ServiceAccountCredentials?: ServiceAccountCredentials;
   CertificateBasedAuthProperties?: CertificateBasedAuthProperties;
 }
 export const CreateDirectoryConfigRequest = S.suspend(() =>
   S.Struct({
-    DirectoryName: S.String,
-    OrganizationalUnitDistinguishedNames:
+    DirectoryName: S.optional(S.String),
+    OrganizationalUnitDistinguishedNames: S.optional(
       OrganizationalUnitDistinguishedNamesList,
+    ),
     ServiceAccountCredentials: S.optional(ServiceAccountCredentials),
     CertificateBasedAuthProperties: S.optional(CertificateBasedAuthProperties),
   }).pipe(
@@ -2093,19 +2463,19 @@ export const CreateDirectoryConfigRequest = S.suspend(() =>
   identifier: "CreateDirectoryConfigRequest",
 }) as any as S.Schema<CreateDirectoryConfigRequest>;
 export interface CreateEntitlementRequest {
-  Name: string;
-  StackName: string;
+  Name?: string;
+  StackName?: string;
   Description?: string;
-  AppVisibility: string;
-  Attributes: EntitlementAttributeList;
+  AppVisibility?: AppVisibility;
+  Attributes?: EntitlementAttribute[];
 }
 export const CreateEntitlementRequest = S.suspend(() =>
   S.Struct({
-    Name: S.String,
-    StackName: S.String,
+    Name: S.optional(S.String),
+    StackName: S.optional(S.String),
     Description: S.optional(S.String),
-    AppVisibility: S.String,
-    Attributes: EntitlementAttributeList,
+    AppVisibility: S.optional(AppVisibility),
+    Attributes: S.optional(EntitlementAttributeList),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -2113,11 +2483,11 @@ export const CreateEntitlementRequest = S.suspend(() =>
   identifier: "CreateEntitlementRequest",
 }) as any as S.Schema<CreateEntitlementRequest>;
 export interface CreateFleetRequest {
-  Name: string;
+  Name?: string;
   ImageName?: string;
   ImageArn?: string;
-  InstanceType: string;
-  FleetType?: string;
+  InstanceType?: string;
+  FleetType?: FleetType;
   ComputeCapacity?: ComputeCapacity;
   VpcConfig?: VpcConfig;
   MaxUserDurationInSeconds?: number;
@@ -2126,24 +2496,24 @@ export interface CreateFleetRequest {
   DisplayName?: string;
   EnableDefaultInternetAccess?: boolean;
   DomainJoinInfo?: DomainJoinInfo;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
   IdleDisconnectTimeoutInSeconds?: number;
   IamRoleArn?: string;
-  StreamView?: string;
-  Platform?: string;
+  StreamView?: StreamView;
+  Platform?: PlatformType;
   MaxConcurrentSessions?: number;
-  UsbDeviceFilterStrings?: UsbDeviceFilterStrings;
+  UsbDeviceFilterStrings?: string[];
   SessionScriptS3Location?: S3Location;
   MaxSessionsPerInstance?: number;
   RootVolumeConfig?: VolumeConfig;
 }
 export const CreateFleetRequest = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: S.optional(S.String),
     ImageName: S.optional(S.String),
     ImageArn: S.optional(S.String),
-    InstanceType: S.String,
-    FleetType: S.optional(S.String),
+    InstanceType: S.optional(S.String),
+    FleetType: S.optional(FleetType),
     ComputeCapacity: S.optional(ComputeCapacity),
     VpcConfig: S.optional(VpcConfig),
     MaxUserDurationInSeconds: S.optional(S.Number),
@@ -2155,8 +2525,8 @@ export const CreateFleetRequest = S.suspend(() =>
     Tags: S.optional(Tags),
     IdleDisconnectTimeoutInSeconds: S.optional(S.Number),
     IamRoleArn: S.optional(S.String),
-    StreamView: S.optional(S.String),
-    Platform: S.optional(S.String),
+    StreamView: S.optional(StreamView),
+    Platform: S.optional(PlatformType),
     MaxConcurrentSessions: S.optional(S.Number),
     UsbDeviceFilterStrings: S.optional(UsbDeviceFilterStrings),
     SessionScriptS3Location: S.optional(S3Location),
@@ -2181,27 +2551,27 @@ export const CreateImageBuilderStreamingURLResult = S.suspend(() =>
   identifier: "CreateImageBuilderStreamingURLResult",
 }) as any as S.Schema<CreateImageBuilderStreamingURLResult>;
 export interface CreateImportedImageRequest {
-  Name: string;
-  SourceAmiId: string;
-  IamRoleArn: string;
+  Name?: string;
+  SourceAmiId?: string;
+  IamRoleArn?: string;
   Description?: string;
   DisplayName?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
   RuntimeValidationConfig?: RuntimeValidationConfig;
-  AgentSoftwareVersion?: string;
-  AppCatalogConfig?: AppCatalogConfig;
+  AgentSoftwareVersion?: AgentSoftwareVersion;
+  AppCatalogConfig?: ApplicationConfig[];
   DryRun?: boolean;
 }
 export const CreateImportedImageRequest = S.suspend(() =>
   S.Struct({
-    Name: S.String,
-    SourceAmiId: S.String,
-    IamRoleArn: S.String,
+    Name: S.optional(S.String),
+    SourceAmiId: S.optional(S.String),
+    IamRoleArn: S.optional(S.String),
     Description: S.optional(S.String),
     DisplayName: S.optional(S.String),
     Tags: S.optional(Tags),
     RuntimeValidationConfig: S.optional(RuntimeValidationConfig),
-    AgentSoftwareVersion: S.optional(S.String),
+    AgentSoftwareVersion: S.optional(AgentSoftwareVersion),
     AppCatalogConfig: S.optional(AppCatalogConfig),
     DryRun: S.optional(S.Boolean),
   }).pipe(
@@ -2211,22 +2581,22 @@ export const CreateImportedImageRequest = S.suspend(() =>
   identifier: "CreateImportedImageRequest",
 }) as any as S.Schema<CreateImportedImageRequest>;
 export interface CreateStackRequest {
-  Name: string;
+  Name?: string;
   Description?: string;
   DisplayName?: string;
-  StorageConnectors?: StorageConnectorList;
+  StorageConnectors?: StorageConnector[];
   RedirectURL?: string;
   FeedbackURL?: string;
-  UserSettings?: UserSettingList;
+  UserSettings?: UserSetting[];
   ApplicationSettings?: ApplicationSettings;
-  Tags?: Tags;
-  AccessEndpoints?: AccessEndpointList;
-  EmbedHostDomains?: EmbedHostDomains;
+  Tags?: { [key: string]: string };
+  AccessEndpoints?: AccessEndpoint[];
+  EmbedHostDomains?: string[];
   StreamingExperienceSettings?: StreamingExperienceSettings;
 }
 export const CreateStackRequest = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: S.optional(S.String),
     Description: S.optional(S.String),
     DisplayName: S.optional(S.String),
     StorageConnectors: S.optional(StorageConnectorList),
@@ -2257,21 +2627,21 @@ export const CreateStreamingURLResult = S.suspend(() =>
   identifier: "CreateStreamingURLResult",
 }) as any as S.Schema<CreateStreamingURLResult>;
 export interface CreateThemeForStackRequest {
-  StackName: string;
-  FooterLinks?: ThemeFooterLinks;
-  TitleText: string;
-  ThemeStyling: string;
-  OrganizationLogoS3Location: S3Location;
-  FaviconS3Location: S3Location;
+  StackName?: string;
+  FooterLinks?: ThemeFooterLink[];
+  TitleText?: string;
+  ThemeStyling?: ThemeStyling;
+  OrganizationLogoS3Location?: S3Location;
+  FaviconS3Location?: S3Location;
 }
 export const CreateThemeForStackRequest = S.suspend(() =>
   S.Struct({
-    StackName: S.String,
+    StackName: S.optional(S.String),
     FooterLinks: S.optional(ThemeFooterLinks),
-    TitleText: S.String,
-    ThemeStyling: S.String,
-    OrganizationLogoS3Location: S3Location,
-    FaviconS3Location: S3Location,
+    TitleText: S.optional(S.String),
+    ThemeStyling: S.optional(ThemeStyling),
+    OrganizationLogoS3Location: S.optional(S3Location),
+    FaviconS3Location: S.optional(S3Location),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -2295,7 +2665,7 @@ export const DeleteImageBuilderResult = S.suspend(() =>
   identifier: "DeleteImageBuilderResult",
 }) as any as S.Schema<DeleteImageBuilderResult>;
 export interface DescribeAppBlockBuilderAppBlockAssociationsResult {
-  AppBlockBuilderAppBlockAssociations?: AppBlockBuilderAppBlockAssociationsList;
+  AppBlockBuilderAppBlockAssociations?: AppBlockBuilderAppBlockAssociation[];
   NextToken?: string;
 }
 export const DescribeAppBlockBuilderAppBlockAssociationsResult = S.suspend(() =>
@@ -2309,7 +2679,7 @@ export const DescribeAppBlockBuilderAppBlockAssociationsResult = S.suspend(() =>
   identifier: "DescribeAppBlockBuilderAppBlockAssociationsResult",
 }) as any as S.Schema<DescribeAppBlockBuilderAppBlockAssociationsResult>;
 export interface DescribeApplicationFleetAssociationsResult {
-  ApplicationFleetAssociations?: ApplicationFleetAssociationList;
+  ApplicationFleetAssociations?: ApplicationFleetAssociation[];
   NextToken?: string;
 }
 export const DescribeApplicationFleetAssociationsResult = S.suspend(() =>
@@ -2321,7 +2691,7 @@ export const DescribeApplicationFleetAssociationsResult = S.suspend(() =>
   identifier: "DescribeApplicationFleetAssociationsResult",
 }) as any as S.Schema<DescribeApplicationFleetAssociationsResult>;
 export interface DescribeApplicationsResult {
-  Applications?: Applications;
+  Applications?: Application[];
   NextToken?: string;
 }
 export const DescribeApplicationsResult = S.suspend(() =>
@@ -2333,7 +2703,7 @@ export const DescribeApplicationsResult = S.suspend(() =>
   identifier: "DescribeApplicationsResult",
 }) as any as S.Schema<DescribeApplicationsResult>;
 export interface DescribeImageBuildersResult {
-  ImageBuilders?: ImageBuilderList;
+  ImageBuilders?: ImageBuilder[];
   NextToken?: string;
 }
 export const DescribeImageBuildersResult = S.suspend(() =>
@@ -2345,7 +2715,7 @@ export const DescribeImageBuildersResult = S.suspend(() =>
   identifier: "DescribeImageBuildersResult",
 }) as any as S.Schema<DescribeImageBuildersResult>;
 export interface DescribeImagesResult {
-  Images?: ImageList;
+  Images?: Image[];
   NextToken?: string;
 }
 export const DescribeImagesResult = S.suspend(() =>
@@ -2354,7 +2724,7 @@ export const DescribeImagesResult = S.suspend(() =>
   identifier: "DescribeImagesResult",
 }) as any as S.Schema<DescribeImagesResult>;
 export interface DescribeUserStackAssociationsResult {
-  UserStackAssociations?: UserStackAssociationList;
+  UserStackAssociations?: UserStackAssociation[];
   NextToken?: string;
 }
 export const DescribeUserStackAssociationsResult = S.suspend(() =>
@@ -2365,6 +2735,12 @@ export const DescribeUserStackAssociationsResult = S.suspend(() =>
 ).annotations({
   identifier: "DescribeUserStackAssociationsResult",
 }) as any as S.Schema<DescribeUserStackAssociationsResult>;
+export type ExportImageTaskState = "EXPORTING" | "COMPLETED" | "FAILED";
+export const ExportImageTaskState = S.Literal(
+  "EXPORTING",
+  "COMPLETED",
+  "FAILED",
+);
 export interface ErrorDetails {
   ErrorCode?: string;
   ErrorMessage?: string;
@@ -2378,24 +2754,24 @@ export const ErrorDetails = S.suspend(() =>
 export type ErrorDetailsList = ErrorDetails[];
 export const ErrorDetailsList = S.Array(ErrorDetails);
 export interface ExportImageTask {
-  TaskId: string;
-  ImageArn: string;
-  AmiName: string;
-  CreatedDate: Date;
+  TaskId?: string;
+  ImageArn?: string;
+  AmiName?: string;
+  CreatedDate?: Date;
   AmiDescription?: string;
-  State?: string;
+  State?: ExportImageTaskState;
   AmiId?: string;
-  TagSpecifications?: Tags;
-  ErrorDetails?: ErrorDetailsList;
+  TagSpecifications?: { [key: string]: string };
+  ErrorDetails?: ErrorDetails[];
 }
 export const ExportImageTask = S.suspend(() =>
   S.Struct({
-    TaskId: S.String,
-    ImageArn: S.String,
-    AmiName: S.String,
-    CreatedDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    TaskId: S.optional(S.String),
+    ImageArn: S.optional(S.String),
+    AmiName: S.optional(S.String),
+    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     AmiDescription: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(ExportImageTaskState),
     AmiId: S.optional(S.String),
     TagSpecifications: S.optional(Tags),
     ErrorDetails: S.optional(ErrorDetailsList),
@@ -2412,7 +2788,7 @@ export const GetExportImageTaskResult = S.suspend(() =>
   identifier: "GetExportImageTaskResult",
 }) as any as S.Schema<GetExportImageTaskResult>;
 export interface ListAssociatedFleetsResult {
-  Names?: StringList;
+  Names?: string[];
   NextToken?: string;
 }
 export const ListAssociatedFleetsResult = S.suspend(() =>
@@ -2421,7 +2797,7 @@ export const ListAssociatedFleetsResult = S.suspend(() =>
   identifier: "ListAssociatedFleetsResult",
 }) as any as S.Schema<ListAssociatedFleetsResult>;
 export interface ListAssociatedStacksResult {
-  Names?: StringList;
+  Names?: string[];
   NextToken?: string;
 }
 export const ListAssociatedStacksResult = S.suspend(() =>
@@ -2430,7 +2806,7 @@ export const ListAssociatedStacksResult = S.suspend(() =>
   identifier: "ListAssociatedStacksResult",
 }) as any as S.Schema<ListAssociatedStacksResult>;
 export interface ListExportImageTasksRequest {
-  Filters?: Filters;
+  Filters?: Filter[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -2446,50 +2822,66 @@ export const ListExportImageTasksRequest = S.suspend(() =>
   identifier: "ListExportImageTasksRequest",
 }) as any as S.Schema<ListExportImageTasksRequest>;
 export interface ListTagsForResourceResponse {
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }),
 ).annotations({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
+export type AppBlockBuilderState =
+  | "STARTING"
+  | "RUNNING"
+  | "STOPPING"
+  | "STOPPED";
+export const AppBlockBuilderState = S.Literal(
+  "STARTING",
+  "RUNNING",
+  "STOPPING",
+  "STOPPED",
+);
+export type AppBlockBuilderStateChangeReasonCode = "INTERNAL_ERROR";
+export const AppBlockBuilderStateChangeReasonCode = S.Literal("INTERNAL_ERROR");
 export interface AppBlockBuilderStateChangeReason {
-  Code?: string;
+  Code?: AppBlockBuilderStateChangeReasonCode;
   Message?: string;
 }
 export const AppBlockBuilderStateChangeReason = S.suspend(() =>
-  S.Struct({ Code: S.optional(S.String), Message: S.optional(S.String) }),
+  S.Struct({
+    Code: S.optional(AppBlockBuilderStateChangeReasonCode),
+    Message: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "AppBlockBuilderStateChangeReason",
 }) as any as S.Schema<AppBlockBuilderStateChangeReason>;
 export interface AppBlockBuilder {
-  Arn: string;
-  Name: string;
+  Arn?: string;
+  Name?: string;
   DisplayName?: string;
   Description?: string;
-  Platform: string;
-  InstanceType: string;
+  Platform?: AppBlockBuilderPlatformType;
+  InstanceType?: string;
   EnableDefaultInternetAccess?: boolean;
   IamRoleArn?: string;
-  VpcConfig: VpcConfig;
-  State: string;
+  VpcConfig?: VpcConfig;
+  State?: AppBlockBuilderState;
   CreatedTime?: Date;
-  AppBlockBuilderErrors?: ResourceErrors;
+  AppBlockBuilderErrors?: ResourceError[];
   StateChangeReason?: AppBlockBuilderStateChangeReason;
-  AccessEndpoints?: AccessEndpointList;
+  AccessEndpoints?: AccessEndpoint[];
 }
 export const AppBlockBuilder = S.suspend(() =>
   S.Struct({
-    Arn: S.String,
-    Name: S.String,
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
     DisplayName: S.optional(S.String),
     Description: S.optional(S.String),
-    Platform: S.String,
-    InstanceType: S.String,
+    Platform: S.optional(AppBlockBuilderPlatformType),
+    InstanceType: S.optional(S.String),
     EnableDefaultInternetAccess: S.optional(S.Boolean),
     IamRoleArn: S.optional(S.String),
-    VpcConfig: VpcConfig,
-    State: S.String,
+    VpcConfig: S.optional(VpcConfig),
+    State: S.optional(AppBlockBuilderState),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     AppBlockBuilderErrors: S.optional(ResourceErrors),
     StateChangeReason: S.optional(AppBlockBuilderStateChangeReason),
@@ -2547,15 +2939,15 @@ export const UpdateApplicationResult = S.suspend(() =>
   identifier: "UpdateApplicationResult",
 }) as any as S.Schema<UpdateApplicationResult>;
 export interface DirectoryConfig {
-  DirectoryName: string;
-  OrganizationalUnitDistinguishedNames?: OrganizationalUnitDistinguishedNamesList;
+  DirectoryName?: string;
+  OrganizationalUnitDistinguishedNames?: string[];
   ServiceAccountCredentials?: ServiceAccountCredentials;
   CreatedTime?: Date;
   CertificateBasedAuthProperties?: CertificateBasedAuthProperties;
 }
 export const DirectoryConfig = S.suspend(() =>
   S.Struct({
-    DirectoryName: S.String,
+    DirectoryName: S.optional(S.String),
     OrganizationalUnitDistinguishedNames: S.optional(
       OrganizationalUnitDistinguishedNamesList,
     ),
@@ -2575,21 +2967,21 @@ export const UpdateDirectoryConfigResult = S.suspend(() =>
   identifier: "UpdateDirectoryConfigResult",
 }) as any as S.Schema<UpdateDirectoryConfigResult>;
 export interface Entitlement {
-  Name: string;
-  StackName: string;
+  Name?: string;
+  StackName?: string;
   Description?: string;
-  AppVisibility: string;
-  Attributes: EntitlementAttributeList;
+  AppVisibility?: AppVisibility;
+  Attributes?: EntitlementAttribute[];
   CreatedTime?: Date;
   LastModifiedTime?: Date;
 }
 export const Entitlement = S.suspend(() =>
   S.Struct({
-    Name: S.String,
-    StackName: S.String,
+    Name: S.optional(S.String),
+    StackName: S.optional(S.String),
     Description: S.optional(S.String),
-    AppVisibility: S.String,
-    Attributes: EntitlementAttributeList,
+    AppVisibility: S.optional(AppVisibility),
+    Attributes: S.optional(EntitlementAttributeList),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -2605,7 +2997,7 @@ export const UpdateEntitlementResult = S.suspend(() =>
   identifier: "UpdateEntitlementResult",
 }) as any as S.Schema<UpdateEntitlementResult>;
 export interface ComputeCapacityStatus {
-  Desired: number;
+  Desired?: number;
   Running?: number;
   InUse?: number;
   Available?: number;
@@ -2616,7 +3008,7 @@ export interface ComputeCapacityStatus {
 }
 export const ComputeCapacityStatus = S.suspend(() =>
   S.Struct({
-    Desired: S.Number,
+    Desired: S.optional(S.Number),
     Running: S.optional(S.Number),
     InUse: S.optional(S.Number),
     Available: S.optional(S.Number),
@@ -2628,60 +3020,67 @@ export const ComputeCapacityStatus = S.suspend(() =>
 ).annotations({
   identifier: "ComputeCapacityStatus",
 }) as any as S.Schema<ComputeCapacityStatus>;
+export type FleetState = "STARTING" | "RUNNING" | "STOPPING" | "STOPPED";
+export const FleetState = S.Literal(
+  "STARTING",
+  "RUNNING",
+  "STOPPING",
+  "STOPPED",
+);
 export interface FleetError {
-  ErrorCode?: string;
+  ErrorCode?: FleetErrorCode;
   ErrorMessage?: string;
 }
 export const FleetError = S.suspend(() =>
   S.Struct({
-    ErrorCode: S.optional(S.String),
+    ErrorCode: S.optional(FleetErrorCode),
     ErrorMessage: S.optional(S.String),
   }),
 ).annotations({ identifier: "FleetError" }) as any as S.Schema<FleetError>;
 export type FleetErrors = FleetError[];
 export const FleetErrors = S.Array(FleetError);
 export interface Fleet {
-  Arn: string;
-  Name: string;
+  Arn?: string;
+  Name?: string;
   DisplayName?: string;
   Description?: string;
   ImageName?: string;
   ImageArn?: string;
-  InstanceType: string;
-  FleetType?: string;
-  ComputeCapacityStatus: ComputeCapacityStatus;
+  InstanceType?: string;
+  FleetType?: FleetType;
+  ComputeCapacityStatus?: ComputeCapacityStatus;
   MaxUserDurationInSeconds?: number;
   DisconnectTimeoutInSeconds?: number;
-  State: string;
+  State?: FleetState;
   VpcConfig?: VpcConfig;
   CreatedTime?: Date;
-  FleetErrors?: FleetErrors;
+  FleetErrors?: FleetError[];
   EnableDefaultInternetAccess?: boolean;
   DomainJoinInfo?: DomainJoinInfo;
   IdleDisconnectTimeoutInSeconds?: number;
   IamRoleArn?: string;
-  StreamView?: string;
-  Platform?: string;
+  StreamView?: StreamView;
+  Platform?: PlatformType;
   MaxConcurrentSessions?: number;
-  UsbDeviceFilterStrings?: UsbDeviceFilterStrings;
+  UsbDeviceFilterStrings?: string[];
   SessionScriptS3Location?: S3Location;
   MaxSessionsPerInstance?: number;
   RootVolumeConfig?: VolumeConfig;
 }
 export const Fleet = S.suspend(() =>
   S.Struct({
-    Arn: S.String,
-    Name: S.String,
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
     DisplayName: S.optional(S.String),
     Description: S.optional(S.String),
     ImageName: S.optional(S.String),
     ImageArn: S.optional(S.String),
-    InstanceType: S.String,
-    FleetType: S.optional(S.String),
-    ComputeCapacityStatus: ComputeCapacityStatus,
+    InstanceType: S.optional(S.String),
+    FleetType: S.optional(FleetType),
+    ComputeCapacityStatus: S.optional(ComputeCapacityStatus),
     MaxUserDurationInSeconds: S.optional(S.Number),
     DisconnectTimeoutInSeconds: S.optional(S.Number),
-    State: S.String,
+    State: S.optional(FleetState),
     VpcConfig: S.optional(VpcConfig),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     FleetErrors: S.optional(FleetErrors),
@@ -2689,8 +3088,8 @@ export const Fleet = S.suspend(() =>
     DomainJoinInfo: S.optional(DomainJoinInfo),
     IdleDisconnectTimeoutInSeconds: S.optional(S.Number),
     IamRoleArn: S.optional(S.String),
-    StreamView: S.optional(S.String),
-    Platform: S.optional(S.String),
+    StreamView: S.optional(StreamView),
+    Platform: S.optional(PlatformType),
     MaxConcurrentSessions: S.optional(S.Number),
     UsbDeviceFilterStrings: S.optional(UsbDeviceFilterStrings),
     SessionScriptS3Location: S.optional(S3Location),
@@ -2707,15 +3106,15 @@ export const UpdateFleetResult = S.suspend(() =>
   identifier: "UpdateFleetResult",
 }) as any as S.Schema<UpdateFleetResult>;
 export interface UpdateImagePermissionsRequest {
-  Name: string;
-  SharedAccountId: string;
-  ImagePermissions: ImagePermissions;
+  Name?: string;
+  SharedAccountId?: string;
+  ImagePermissions?: ImagePermissions;
 }
 export const UpdateImagePermissionsRequest = S.suspend(() =>
   S.Struct({
-    Name: S.String,
-    SharedAccountId: S.String,
-    ImagePermissions: ImagePermissions,
+    Name: S.optional(S.String),
+    SharedAccountId: S.optional(S.String),
+    ImagePermissions: S.optional(ImagePermissions),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -2728,13 +3127,20 @@ export const UpdateImagePermissionsResult = S.suspend(() =>
 ).annotations({
   identifier: "UpdateImagePermissionsResult",
 }) as any as S.Schema<UpdateImagePermissionsResult>;
+export type StackErrorCode =
+  | "STORAGE_CONNECTOR_ERROR"
+  | "INTERNAL_SERVICE_ERROR";
+export const StackErrorCode = S.Literal(
+  "STORAGE_CONNECTOR_ERROR",
+  "INTERNAL_SERVICE_ERROR",
+);
 export interface StackError {
-  ErrorCode?: string;
+  ErrorCode?: StackErrorCode;
   ErrorMessage?: string;
 }
 export const StackError = S.suspend(() =>
   S.Struct({
-    ErrorCode: S.optional(S.String),
+    ErrorCode: S.optional(StackErrorCode),
     ErrorMessage: S.optional(S.String),
   }),
 ).annotations({ identifier: "StackError" }) as any as S.Schema<StackError>;
@@ -2756,24 +3162,24 @@ export const ApplicationSettingsResponse = S.suspend(() =>
 }) as any as S.Schema<ApplicationSettingsResponse>;
 export interface Stack {
   Arn?: string;
-  Name: string;
+  Name?: string;
   Description?: string;
   DisplayName?: string;
   CreatedTime?: Date;
-  StorageConnectors?: StorageConnectorList;
+  StorageConnectors?: StorageConnector[];
   RedirectURL?: string;
   FeedbackURL?: string;
-  StackErrors?: StackErrors;
-  UserSettings?: UserSettingList;
+  StackErrors?: StackError[];
+  UserSettings?: UserSetting[];
   ApplicationSettings?: ApplicationSettingsResponse;
-  AccessEndpoints?: AccessEndpointList;
-  EmbedHostDomains?: EmbedHostDomains;
+  AccessEndpoints?: AccessEndpoint[];
+  EmbedHostDomains?: string[];
   StreamingExperienceSettings?: StreamingExperienceSettings;
 }
 export const Stack = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
-    Name: S.String,
+    Name: S.optional(S.String),
     Description: S.optional(S.String),
     DisplayName: S.optional(S.String),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2798,10 +3204,10 @@ export const UpdateStackResult = S.suspend(() =>
 }) as any as S.Schema<UpdateStackResult>;
 export interface Theme {
   StackName?: string;
-  State?: string;
+  State?: ThemeState;
   ThemeTitleText?: string;
-  ThemeStyling?: string;
-  ThemeFooterLinks?: ThemeFooterLinks;
+  ThemeStyling?: ThemeStyling;
+  ThemeFooterLinks?: ThemeFooterLink[];
   ThemeOrganizationLogoURL?: string;
   ThemeFaviconURL?: string;
   CreatedTime?: Date;
@@ -2809,9 +3215,9 @@ export interface Theme {
 export const Theme = S.suspend(() =>
   S.Struct({
     StackName: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(ThemeState),
     ThemeTitleText: S.optional(S.String),
-    ThemeStyling: S.optional(S.String),
+    ThemeStyling: S.optional(ThemeStyling),
     ThemeFooterLinks: S.optional(ThemeFooterLinks),
     ThemeOrganizationLogoURL: S.optional(S.String),
     ThemeFaviconURL: S.optional(S.String),
@@ -2826,15 +3232,49 @@ export const UpdateThemeForStackResult = S.suspend(() =>
 ).annotations({
   identifier: "UpdateThemeForStackResult",
 }) as any as S.Schema<UpdateThemeForStackResult>;
+export type UserStackAssociationErrorCode =
+  | "STACK_NOT_FOUND"
+  | "USER_NAME_NOT_FOUND"
+  | "DIRECTORY_NOT_FOUND"
+  | "INTERNAL_ERROR";
+export const UserStackAssociationErrorCode = S.Literal(
+  "STACK_NOT_FOUND",
+  "USER_NAME_NOT_FOUND",
+  "DIRECTORY_NOT_FOUND",
+  "INTERNAL_ERROR",
+);
+export type AppBlockState = "INACTIVE" | "ACTIVE";
+export const AppBlockState = S.Literal("INACTIVE", "ACTIVE");
+export type SessionState = "ACTIVE" | "PENDING" | "EXPIRED";
+export const SessionState = S.Literal("ACTIVE", "PENDING", "EXPIRED");
+export type SessionConnectionState = "CONNECTED" | "NOT_CONNECTED";
+export const SessionConnectionState = S.Literal("CONNECTED", "NOT_CONNECTED");
+export type SoftwareDeploymentStatus =
+  | "STAGED_FOR_INSTALLATION"
+  | "PENDING_INSTALLATION"
+  | "INSTALLED"
+  | "STAGED_FOR_UNINSTALLATION"
+  | "PENDING_UNINSTALLATION"
+  | "FAILED_TO_INSTALL"
+  | "FAILED_TO_UNINSTALL";
+export const SoftwareDeploymentStatus = S.Literal(
+  "STAGED_FOR_INSTALLATION",
+  "PENDING_INSTALLATION",
+  "INSTALLED",
+  "STAGED_FOR_UNINSTALLATION",
+  "PENDING_UNINSTALLATION",
+  "FAILED_TO_INSTALL",
+  "FAILED_TO_UNINSTALL",
+);
 export interface UserStackAssociationError {
   UserStackAssociation?: UserStackAssociation;
-  ErrorCode?: string;
+  ErrorCode?: UserStackAssociationErrorCode;
   ErrorMessage?: string;
 }
 export const UserStackAssociationError = S.suspend(() =>
   S.Struct({
     UserStackAssociation: S.optional(UserStackAssociation),
-    ErrorCode: S.optional(S.String),
+    ErrorCode: S.optional(UserStackAssociationErrorCode),
     ErrorMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -2843,53 +3283,57 @@ export const UserStackAssociationError = S.suspend(() =>
 export type UserStackAssociationErrorList = UserStackAssociationError[];
 export const UserStackAssociationErrorList = S.Array(UserStackAssociationError);
 export interface AppBlock {
-  Name: string;
-  Arn: string;
+  Name?: string;
+  Arn?: string;
   Description?: string;
   DisplayName?: string;
   SourceS3Location?: S3Location;
   SetupScriptDetails?: ScriptDetails;
   CreatedTime?: Date;
   PostSetupScriptDetails?: ScriptDetails;
-  PackagingType?: string;
-  State?: string;
-  AppBlockErrors?: ErrorDetailsList;
+  PackagingType?: PackagingType;
+  State?: AppBlockState;
+  AppBlockErrors?: ErrorDetails[];
 }
 export const AppBlock = S.suspend(() =>
   S.Struct({
-    Name: S.String,
-    Arn: S.String,
+    Name: S.optional(S.String),
+    Arn: S.optional(S.String),
     Description: S.optional(S.String),
     DisplayName: S.optional(S.String),
     SourceS3Location: S.optional(S3Location),
     SetupScriptDetails: S.optional(ScriptDetails),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     PostSetupScriptDetails: S.optional(ScriptDetails),
-    PackagingType: S.optional(S.String),
-    State: S.optional(S.String),
+    PackagingType: S.optional(PackagingType),
+    State: S.optional(AppBlockState),
     AppBlockErrors: S.optional(ErrorDetailsList),
   }),
 ).annotations({ identifier: "AppBlock" }) as any as S.Schema<AppBlock>;
 export type AppBlocks = AppBlock[];
 export const AppBlocks = S.Array(AppBlock);
 export interface AdminAppLicenseUsageRecord {
-  UserArn: string;
-  BillingPeriod: string;
-  OwnerAWSAccountId: string;
-  SubscriptionFirstUsedDate: Date;
-  SubscriptionLastUsedDate: Date;
-  LicenseType: string;
-  UserId: string;
+  UserArn?: string;
+  BillingPeriod?: string;
+  OwnerAWSAccountId?: string;
+  SubscriptionFirstUsedDate?: Date;
+  SubscriptionLastUsedDate?: Date;
+  LicenseType?: string;
+  UserId?: string;
 }
 export const AdminAppLicenseUsageRecord = S.suspend(() =>
   S.Struct({
-    UserArn: S.String,
-    BillingPeriod: S.String,
-    OwnerAWSAccountId: S.String,
-    SubscriptionFirstUsedDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    SubscriptionLastUsedDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    LicenseType: S.String,
-    UserId: S.String,
+    UserArn: S.optional(S.String),
+    BillingPeriod: S.optional(S.String),
+    OwnerAWSAccountId: S.optional(S.String),
+    SubscriptionFirstUsedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SubscriptionLastUsedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LicenseType: S.optional(S.String),
+    UserId: S.optional(S.String),
   }),
 ).annotations({
   identifier: "AdminAppLicenseUsageRecord",
@@ -2901,42 +3345,45 @@ export const DirectoryConfigList = S.Array(DirectoryConfig);
 export type EntitlementList = Entitlement[];
 export const EntitlementList = S.Array(Entitlement);
 export interface SharedImagePermissions {
-  sharedAccountId: string;
-  imagePermissions: ImagePermissions;
+  sharedAccountId?: string;
+  imagePermissions?: ImagePermissions;
 }
 export const SharedImagePermissions = S.suspend(() =>
-  S.Struct({ sharedAccountId: S.String, imagePermissions: ImagePermissions }),
+  S.Struct({
+    sharedAccountId: S.optional(S.String),
+    imagePermissions: S.optional(ImagePermissions),
+  }),
 ).annotations({
   identifier: "SharedImagePermissions",
 }) as any as S.Schema<SharedImagePermissions>;
 export type SharedImagePermissionsList = SharedImagePermissions[];
 export const SharedImagePermissionsList = S.Array(SharedImagePermissions);
 export interface Session {
-  Id: string;
-  UserId: string;
-  StackName: string;
-  FleetName: string;
-  State: string;
-  ConnectionState?: string;
+  Id?: string;
+  UserId?: string;
+  StackName?: string;
+  FleetName?: string;
+  State?: SessionState;
+  ConnectionState?: SessionConnectionState;
   StartTime?: Date;
   MaxExpirationTime?: Date;
-  AuthenticationType?: string;
+  AuthenticationType?: AuthenticationType;
   NetworkAccessConfiguration?: NetworkAccessConfiguration;
   InstanceId?: string;
 }
 export const Session = S.suspend(() =>
   S.Struct({
-    Id: S.String,
-    UserId: S.String,
-    StackName: S.String,
-    FleetName: S.String,
-    State: S.String,
-    ConnectionState: S.optional(S.String),
+    Id: S.optional(S.String),
+    UserId: S.optional(S.String),
+    StackName: S.optional(S.String),
+    FleetName: S.optional(S.String),
+    State: S.optional(SessionState),
+    ConnectionState: S.optional(SessionConnectionState),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     MaxExpirationTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    AuthenticationType: S.optional(S.String),
+    AuthenticationType: S.optional(AuthenticationType),
     NetworkAccessConfiguration: S.optional(NetworkAccessConfiguration),
     InstanceId: S.optional(S.String),
   }),
@@ -2945,13 +3392,13 @@ export type SessionList = Session[];
 export const SessionList = S.Array(Session);
 export interface SoftwareAssociations {
   SoftwareName?: string;
-  Status?: string;
-  DeploymentError?: ErrorDetailsList;
+  Status?: SoftwareDeploymentStatus;
+  DeploymentError?: ErrorDetails[];
 }
 export const SoftwareAssociations = S.suspend(() =>
   S.Struct({
     SoftwareName: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(SoftwareDeploymentStatus),
     DeploymentError: S.optional(ErrorDetailsList),
   }),
 ).annotations({
@@ -2961,13 +3408,13 @@ export type SoftwareAssociationsList = SoftwareAssociations[];
 export const SoftwareAssociationsList = S.Array(SoftwareAssociations);
 export interface User {
   Arn?: string;
-  UserName?: string | Redacted.Redacted<string>;
+  UserName?: string | redacted.Redacted<string>;
   Enabled?: boolean;
   Status?: string;
-  FirstName?: string | Redacted.Redacted<string>;
-  LastName?: string | Redacted.Redacted<string>;
+  FirstName?: string | redacted.Redacted<string>;
+  LastName?: string | redacted.Redacted<string>;
   CreatedTime?: Date;
-  AuthenticationType: string;
+  AuthenticationType?: AuthenticationType;
 }
 export const User = S.suspend(() =>
   S.Struct({
@@ -2978,16 +3425,16 @@ export const User = S.suspend(() =>
     FirstName: S.optional(SensitiveString),
     LastName: S.optional(SensitiveString),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    AuthenticationType: S.String,
+    AuthenticationType: S.optional(AuthenticationType),
   }),
 ).annotations({ identifier: "User" }) as any as S.Schema<User>;
 export type UserList = User[];
 export const UserList = S.Array(User);
 export interface EntitledApplication {
-  ApplicationIdentifier: string;
+  ApplicationIdentifier?: string;
 }
 export const EntitledApplication = S.suspend(() =>
-  S.Struct({ ApplicationIdentifier: S.String }),
+  S.Struct({ ApplicationIdentifier: S.optional(S.String) }),
 ).annotations({
   identifier: "EntitledApplication",
 }) as any as S.Schema<EntitledApplication>;
@@ -2995,6 +3442,15 @@ export type EntitledApplicationList = EntitledApplication[];
 export const EntitledApplicationList = S.Array(EntitledApplication);
 export type ExportImageTasks = ExportImageTask[];
 export const ExportImageTasks = S.Array(ExportImageTask);
+export type UsageReportExecutionErrorCode =
+  | "RESOURCE_NOT_FOUND"
+  | "ACCESS_DENIED"
+  | "INTERNAL_SERVICE_ERROR";
+export const UsageReportExecutionErrorCode = S.Literal(
+  "RESOURCE_NOT_FOUND",
+  "ACCESS_DENIED",
+  "INTERNAL_SERVICE_ERROR",
+);
 export interface AssociateAppBlockBuilderAppBlockResult {
   AppBlockBuilderAppBlockAssociation?: AppBlockBuilderAppBlockAssociation;
 }
@@ -3018,7 +3474,7 @@ export const AssociateApplicationFleetResult = S.suspend(() =>
   identifier: "AssociateApplicationFleetResult",
 }) as any as S.Schema<AssociateApplicationFleetResult>;
 export interface BatchAssociateUserStackResult {
-  errors?: UserStackAssociationErrorList;
+  errors?: UserStackAssociationError[];
 }
 export const BatchAssociateUserStackResult = S.suspend(() =>
   S.Struct({ errors: S.optional(UserStackAssociationErrorList) }),
@@ -3026,7 +3482,7 @@ export const BatchAssociateUserStackResult = S.suspend(() =>
   identifier: "BatchAssociateUserStackResult",
 }) as any as S.Schema<BatchAssociateUserStackResult>;
 export interface BatchDisassociateUserStackResult {
-  errors?: UserStackAssociationErrorList;
+  errors?: UserStackAssociationError[];
 }
 export const BatchDisassociateUserStackResult = S.suspend(() =>
   S.Struct({ errors: S.optional(UserStackAssociationErrorList) }),
@@ -3098,7 +3554,7 @@ export const CreateThemeForStackResult = S.suspend(() =>
   identifier: "CreateThemeForStackResult",
 }) as any as S.Schema<CreateThemeForStackResult>;
 export interface DescribeAppBlocksResult {
-  AppBlocks?: AppBlocks;
+  AppBlocks?: AppBlock[];
   NextToken?: string;
 }
 export const DescribeAppBlocksResult = S.suspend(() =>
@@ -3110,7 +3566,7 @@ export const DescribeAppBlocksResult = S.suspend(() =>
   identifier: "DescribeAppBlocksResult",
 }) as any as S.Schema<DescribeAppBlocksResult>;
 export interface DescribeAppLicenseUsageResult {
-  AppLicenseUsages?: AdminAppLicenseUsageList;
+  AppLicenseUsages?: AdminAppLicenseUsageRecord[];
   NextToken?: string;
 }
 export const DescribeAppLicenseUsageResult = S.suspend(() =>
@@ -3122,7 +3578,7 @@ export const DescribeAppLicenseUsageResult = S.suspend(() =>
   identifier: "DescribeAppLicenseUsageResult",
 }) as any as S.Schema<DescribeAppLicenseUsageResult>;
 export interface DescribeDirectoryConfigsResult {
-  DirectoryConfigs?: DirectoryConfigList;
+  DirectoryConfigs?: DirectoryConfig[];
   NextToken?: string;
 }
 export const DescribeDirectoryConfigsResult = S.suspend(() =>
@@ -3134,7 +3590,7 @@ export const DescribeDirectoryConfigsResult = S.suspend(() =>
   identifier: "DescribeDirectoryConfigsResult",
 }) as any as S.Schema<DescribeDirectoryConfigsResult>;
 export interface DescribeEntitlementsResult {
-  Entitlements?: EntitlementList;
+  Entitlements?: Entitlement[];
   NextToken?: string;
 }
 export const DescribeEntitlementsResult = S.suspend(() =>
@@ -3147,7 +3603,7 @@ export const DescribeEntitlementsResult = S.suspend(() =>
 }) as any as S.Schema<DescribeEntitlementsResult>;
 export interface DescribeImagePermissionsResult {
   Name?: string;
-  SharedImagePermissionsList?: SharedImagePermissionsList;
+  SharedImagePermissionsList?: SharedImagePermissions[];
   NextToken?: string;
 }
 export const DescribeImagePermissionsResult = S.suspend(() =>
@@ -3160,7 +3616,7 @@ export const DescribeImagePermissionsResult = S.suspend(() =>
   identifier: "DescribeImagePermissionsResult",
 }) as any as S.Schema<DescribeImagePermissionsResult>;
 export interface DescribeSessionsResult {
-  Sessions?: SessionList;
+  Sessions?: Session[];
   NextToken?: string;
 }
 export const DescribeSessionsResult = S.suspend(() =>
@@ -3173,7 +3629,7 @@ export const DescribeSessionsResult = S.suspend(() =>
 }) as any as S.Schema<DescribeSessionsResult>;
 export interface DescribeSoftwareAssociationsResult {
   AssociatedResource?: string;
-  SoftwareAssociations?: SoftwareAssociationsList;
+  SoftwareAssociations?: SoftwareAssociations[];
   NextToken?: string;
 }
 export const DescribeSoftwareAssociationsResult = S.suspend(() =>
@@ -3194,7 +3650,7 @@ export const DescribeThemeForStackResult = S.suspend(() =>
   identifier: "DescribeThemeForStackResult",
 }) as any as S.Schema<DescribeThemeForStackResult>;
 export interface DescribeUsersResult {
-  Users?: UserList;
+  Users?: User[];
   NextToken?: string;
 }
 export const DescribeUsersResult = S.suspend(() =>
@@ -3203,7 +3659,7 @@ export const DescribeUsersResult = S.suspend(() =>
   identifier: "DescribeUsersResult",
 }) as any as S.Schema<DescribeUsersResult>;
 export interface ListEntitledApplicationsResult {
-  EntitledApplications?: EntitledApplicationList;
+  EntitledApplications?: EntitledApplication[];
   NextToken?: string;
 }
 export const ListEntitledApplicationsResult = S.suspend(() =>
@@ -3215,7 +3671,7 @@ export const ListEntitledApplicationsResult = S.suspend(() =>
   identifier: "ListEntitledApplicationsResult",
 }) as any as S.Schema<ListEntitledApplicationsResult>;
 export interface ListExportImageTasksResult {
-  ExportImageTasks?: ExportImageTasks;
+  ExportImageTasks?: ExportImageTask[];
   NextToken?: string;
 }
 export const ListExportImageTasksResult = S.suspend(() =>
@@ -3227,12 +3683,12 @@ export const ListExportImageTasksResult = S.suspend(() =>
   identifier: "ListExportImageTasksResult",
 }) as any as S.Schema<ListExportImageTasksResult>;
 export interface LastReportGenerationExecutionError {
-  ErrorCode?: string;
+  ErrorCode?: UsageReportExecutionErrorCode;
   ErrorMessage?: string;
 }
 export const LastReportGenerationExecutionError = S.suspend(() =>
   S.Struct({
-    ErrorCode: S.optional(S.String),
+    ErrorCode: S.optional(UsageReportExecutionErrorCode),
     ErrorMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -3251,14 +3707,14 @@ export type StackList = Stack[];
 export const StackList = S.Array(Stack);
 export interface UsageReportSubscription {
   S3BucketName?: string;
-  Schedule?: string;
+  Schedule?: UsageReportSchedule;
   LastGeneratedReportDate?: Date;
-  SubscriptionErrors?: LastReportGenerationExecutionErrors;
+  SubscriptionErrors?: LastReportGenerationExecutionError[];
 }
 export const UsageReportSubscription = S.suspend(() =>
   S.Struct({
     S3BucketName: S.optional(S.String),
-    Schedule: S.optional(S.String),
+    Schedule: S.optional(UsageReportSchedule),
     LastGeneratedReportDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -3303,7 +3759,7 @@ export const CreateUpdatedImageResult = S.suspend(() =>
   identifier: "CreateUpdatedImageResult",
 }) as any as S.Schema<CreateUpdatedImageResult>;
 export interface DescribeAppBlockBuildersResult {
-  AppBlockBuilders?: AppBlockBuilderList;
+  AppBlockBuilders?: AppBlockBuilder[];
   NextToken?: string;
 }
 export const DescribeAppBlockBuildersResult = S.suspend(() =>
@@ -3315,7 +3771,7 @@ export const DescribeAppBlockBuildersResult = S.suspend(() =>
   identifier: "DescribeAppBlockBuildersResult",
 }) as any as S.Schema<DescribeAppBlockBuildersResult>;
 export interface DescribeFleetsResult {
-  Fleets?: FleetList;
+  Fleets?: Fleet[];
   NextToken?: string;
 }
 export const DescribeFleetsResult = S.suspend(() =>
@@ -3324,7 +3780,7 @@ export const DescribeFleetsResult = S.suspend(() =>
   identifier: "DescribeFleetsResult",
 }) as any as S.Schema<DescribeFleetsResult>;
 export interface DescribeStacksResult {
-  Stacks?: StackList;
+  Stacks?: Stack[];
   NextToken?: string;
 }
 export const DescribeStacksResult = S.suspend(() =>
@@ -3333,7 +3789,7 @@ export const DescribeStacksResult = S.suspend(() =>
   identifier: "DescribeStacksResult",
 }) as any as S.Schema<DescribeStacksResult>;
 export interface DescribeUsageReportSubscriptionsResult {
-  UsageReportSubscriptions?: UsageReportSubscriptionList;
+  UsageReportSubscriptions?: UsageReportSubscription[];
   NextToken?: string;
 }
 export const DescribeUsageReportSubscriptionsResult = S.suspend(() =>
@@ -3413,7 +3869,7 @@ export class DryRunOperationException extends S.TaggedError<DryRunOperationExcep
  */
 export const expireSession: (
   input: ExpireSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ExpireSessionResult,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3427,7 +3883,7 @@ export const expireSession: (
  */
 export const deleteUsageReportSubscription: (
   input: DeleteUsageReportSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUsageReportSubscriptionResult,
   InvalidAccountStatusException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3441,7 +3897,7 @@ export const deleteUsageReportSubscription: (
  */
 export const describeImageBuilders: (
   input: DescribeImageBuildersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeImageBuildersResult,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3455,7 +3911,7 @@ export const describeImageBuilders: (
  */
 export const listAssociatedFleets: (
   input: ListAssociatedFleetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListAssociatedFleetsResult,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3469,7 +3925,7 @@ export const listAssociatedFleets: (
  */
 export const listAssociatedStacks: (
   input: ListAssociatedStacksRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListAssociatedStacksResult,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3485,7 +3941,7 @@ export const listAssociatedStacks: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3507,7 +3963,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InvalidAccountStatusException
   | LimitExceededException
@@ -3528,7 +3984,7 @@ export const tagResource: (
  */
 export const updateImagePermissions: (
   input: UpdateImagePermissionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateImagePermissionsResult,
   | LimitExceededException
   | ResourceNotAvailableException
@@ -3549,7 +4005,7 @@ export const updateImagePermissions: (
  */
 export const deleteAppBlock: (
   input: DeleteAppBlockRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAppBlockResult,
   | ConcurrentModificationException
   | ResourceInUseException
@@ -3570,7 +4026,7 @@ export const deleteAppBlock: (
  */
 export const deleteFleet: (
   input: DeleteFleetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFleetResult,
   | ConcurrentModificationException
   | ResourceInUseException
@@ -3591,7 +4047,7 @@ export const deleteFleet: (
  */
 export const stopFleet: (
   input: StopFleetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopFleetResult,
   ConcurrentModificationException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3605,7 +4061,7 @@ export const stopFleet: (
  */
 export const createUsageReportSubscription: (
   input: CreateUsageReportSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUsageReportSubscriptionResult,
   | InvalidAccountStatusException
   | InvalidRoleException
@@ -3626,7 +4082,7 @@ export const createUsageReportSubscription: (
  */
 export const deleteUser: (
   input: DeleteUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUserResult,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3640,7 +4096,7 @@ export const deleteUser: (
  */
 export const disableUser: (
   input: DisableUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisableUserResult,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3654,7 +4110,7 @@ export const disableUser: (
  */
 export const enableUser: (
   input: EnableUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableUserResult,
   InvalidAccountStatusException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3672,7 +4128,7 @@ export const enableUser: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3686,7 +4142,7 @@ export const untagResource: (
  */
 export const deleteDirectoryConfig: (
   input: DeleteDirectoryConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDirectoryConfigResult,
   ResourceInUseException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3700,7 +4156,7 @@ export const deleteDirectoryConfig: (
  */
 export const deleteImagePermissions: (
   input: DeleteImagePermissionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteImagePermissionsResult,
   ResourceNotAvailableException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3715,7 +4171,7 @@ export const deleteImagePermissions: (
 export const describeImages: {
   (
     input: DescribeImagesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeImagesResult,
     | InvalidParameterCombinationException
     | ResourceNotFoundException
@@ -3724,7 +4180,7 @@ export const describeImages: {
   >;
   pages: (
     input: DescribeImagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeImagesResult,
     | InvalidParameterCombinationException
     | ResourceNotFoundException
@@ -3733,7 +4189,7 @@ export const describeImages: {
   >;
   items: (
     input: DescribeImagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidParameterCombinationException
     | ResourceNotFoundException
@@ -3755,7 +4211,7 @@ export const describeImages: {
  */
 export const createAppBlockBuilderStreamingURL: (
   input: CreateAppBlockBuilderStreamingURLRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAppBlockBuilderStreamingURLResult,
   OperationNotPermittedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3769,7 +4225,7 @@ export const createAppBlockBuilderStreamingURL: (
  */
 export const describeAppBlocks: (
   input: DescribeAppBlocksRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAppBlocksResult,
   OperationNotPermittedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3783,7 +4239,7 @@ export const describeAppBlocks: (
  */
 export const describeAppLicenseUsage: (
   input: DescribeAppLicenseUsageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAppLicenseUsageResult,
   | InvalidParameterCombinationException
   | OperationNotPermittedException
@@ -3806,7 +4262,7 @@ export const describeAppLicenseUsage: (
  */
 export const describeDirectoryConfigs: (
   input: DescribeDirectoryConfigsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDirectoryConfigsResult,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3820,7 +4276,7 @@ export const describeDirectoryConfigs: (
  */
 export const describeEntitlements: (
   input: DescribeEntitlementsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEntitlementsResult,
   | EntitlementNotFoundException
   | OperationNotPermittedException
@@ -3842,21 +4298,21 @@ export const describeEntitlements: (
 export const describeImagePermissions: {
   (
     input: DescribeImagePermissionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeImagePermissionsResult,
     ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeImagePermissionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeImagePermissionsResult,
     ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeImagePermissionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3878,7 +4334,7 @@ export const describeImagePermissions: {
  */
 export const describeSessions: (
   input: DescribeSessionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSessionsResult,
   InvalidParameterCombinationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3892,7 +4348,7 @@ export const describeSessions: (
  */
 export const describeSoftwareAssociations: (
   input: DescribeSoftwareAssociationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSoftwareAssociationsResult,
   OperationNotPermittedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3906,7 +4362,7 @@ export const describeSoftwareAssociations: (
  */
 export const describeThemeForStack: (
   input: DescribeThemeForStackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeThemeForStackResult,
   OperationNotPermittedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3920,7 +4376,7 @@ export const describeThemeForStack: (
  */
 export const describeUsers: (
   input: DescribeUsersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeUsersResult,
   | InvalidParameterCombinationException
   | OperationNotPermittedException
@@ -3941,7 +4397,7 @@ export const describeUsers: (
  */
 export const listEntitledApplications: (
   input: ListEntitledApplicationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListEntitledApplicationsResult,
   | EntitlementNotFoundException
   | OperationNotPermittedException
@@ -3962,7 +4418,7 @@ export const listEntitledApplications: (
  */
 export const listExportImageTasks: (
   input: ListExportImageTasksRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListExportImageTasksResult,
   OperationNotPermittedException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3976,7 +4432,7 @@ export const listExportImageTasks: (
  */
 export const startImageBuilder: (
   input: StartImageBuilderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartImageBuilderResult,
   | ConcurrentModificationException
   | IncompatibleImageException
@@ -4001,7 +4457,7 @@ export const startImageBuilder: (
  */
 export const updateDirectoryConfig: (
   input: UpdateDirectoryConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDirectoryConfigResult,
   | ConcurrentModificationException
   | IncompatibleImageException
@@ -4028,7 +4484,7 @@ export const updateDirectoryConfig: (
  */
 export const updateStack: (
   input: UpdateStackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateStackResult,
   | ConcurrentModificationException
   | IncompatibleImageException
@@ -4061,7 +4517,7 @@ export const updateStack: (
  */
 export const associateSoftwareToImageBuilder: (
   input: AssociateSoftwareToImageBuilderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateSoftwareToImageBuilderResult,
   | ConcurrentModificationException
   | IncompatibleImageException
@@ -4086,7 +4542,7 @@ export const associateSoftwareToImageBuilder: (
  */
 export const createImageBuilderStreamingURL: (
   input: CreateImageBuilderStreamingURLRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateImageBuilderStreamingURLResult,
   OperationNotPermittedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4101,7 +4557,7 @@ export const createImageBuilderStreamingURL: (
  */
 export const deleteImage: (
   input: DeleteImageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteImageResult,
   | ConcurrentModificationException
   | OperationNotPermittedException
@@ -4124,7 +4580,7 @@ export const deleteImage: (
  */
 export const deleteImageBuilder: (
   input: DeleteImageBuilderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteImageBuilderResult,
   | ConcurrentModificationException
   | OperationNotPermittedException
@@ -4145,7 +4601,7 @@ export const deleteImageBuilder: (
  */
 export const describeApplications: (
   input: DescribeApplicationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeApplicationsResult,
   OperationNotPermittedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4159,7 +4615,7 @@ export const describeApplications: (
  */
 export const getExportImageTask: (
   input: GetExportImageTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetExportImageTaskResult,
   OperationNotPermittedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4176,7 +4632,7 @@ export const getExportImageTask: (
  */
 export const stopAppBlockBuilder: (
   input: StopAppBlockBuilderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopAppBlockBuilderResult,
   | ConcurrentModificationException
   | OperationNotPermittedException
@@ -4197,7 +4653,7 @@ export const stopAppBlockBuilder: (
  */
 export const stopImageBuilder: (
   input: StopImageBuilderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopImageBuilderResult,
   | ConcurrentModificationException
   | OperationNotPermittedException
@@ -4218,7 +4674,7 @@ export const stopImageBuilder: (
  */
 export const updateApplication: (
   input: UpdateApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateApplicationResult,
   | ConcurrentModificationException
   | OperationNotPermittedException
@@ -4239,7 +4695,7 @@ export const updateApplication: (
  */
 export const updateEntitlement: (
   input: UpdateEntitlementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEntitlementResult,
   | ConcurrentModificationException
   | EntitlementNotFoundException
@@ -4262,7 +4718,7 @@ export const updateEntitlement: (
  */
 export const disassociateApplicationFromEntitlement: (
   input: DisassociateApplicationFromEntitlementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateApplicationFromEntitlementResult,
   | EntitlementNotFoundException
   | OperationNotPermittedException
@@ -4286,7 +4742,7 @@ export const disassociateApplicationFromEntitlement: (
  */
 export const deleteAppBlockBuilder: (
   input: DeleteAppBlockBuilderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAppBlockBuilderResult,
   | ConcurrentModificationException
   | OperationNotPermittedException
@@ -4309,7 +4765,7 @@ export const deleteAppBlockBuilder: (
  */
 export const deleteApplication: (
   input: DeleteApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApplicationResult,
   | ConcurrentModificationException
   | OperationNotPermittedException
@@ -4332,7 +4788,7 @@ export const deleteApplication: (
  */
 export const deleteEntitlement: (
   input: DeleteEntitlementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEntitlementResult,
   | ConcurrentModificationException
   | EntitlementNotFoundException
@@ -4355,7 +4811,7 @@ export const deleteEntitlement: (
  */
 export const deleteStack: (
   input: DeleteStackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteStackResult,
   | ConcurrentModificationException
   | OperationNotPermittedException
@@ -4378,7 +4834,7 @@ export const deleteStack: (
  */
 export const deleteThemeForStack: (
   input: DeleteThemeForStackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteThemeForStackResult,
   | ConcurrentModificationException
   | OperationNotPermittedException
@@ -4399,7 +4855,7 @@ export const deleteThemeForStack: (
  */
 export const disassociateFleet: (
   input: DisassociateFleetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateFleetResult,
   | ConcurrentModificationException
   | OperationNotPermittedException
@@ -4422,7 +4878,7 @@ export const disassociateFleet: (
  */
 export const startSoftwareDeploymentToImageBuilder: (
   input: StartSoftwareDeploymentToImageBuilderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartSoftwareDeploymentToImageBuilderResult,
   | ConcurrentModificationException
   | OperationNotPermittedException
@@ -4443,7 +4899,7 @@ export const startSoftwareDeploymentToImageBuilder: (
  */
 export const associateApplicationToEntitlement: (
   input: AssociateApplicationToEntitlementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateApplicationToEntitlementResult,
   | EntitlementNotFoundException
   | LimitExceededException
@@ -4466,7 +4922,7 @@ export const associateApplicationToEntitlement: (
  */
 export const createStreamingURL: (
   input: CreateStreamingURLRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateStreamingURLResult,
   | InvalidParameterCombinationException
   | OperationNotPermittedException
@@ -4490,7 +4946,7 @@ export const createStreamingURL: (
 export const describeAppBlockBuilderAppBlockAssociations: {
   (
     input: DescribeAppBlockBuilderAppBlockAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeAppBlockBuilderAppBlockAssociationsResult,
     | InvalidParameterCombinationException
     | OperationNotPermittedException
@@ -4499,7 +4955,7 @@ export const describeAppBlockBuilderAppBlockAssociations: {
   >;
   pages: (
     input: DescribeAppBlockBuilderAppBlockAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeAppBlockBuilderAppBlockAssociationsResult,
     | InvalidParameterCombinationException
     | OperationNotPermittedException
@@ -4508,7 +4964,7 @@ export const describeAppBlockBuilderAppBlockAssociations: {
   >;
   items: (
     input: DescribeAppBlockBuilderAppBlockAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidParameterCombinationException
     | OperationNotPermittedException
@@ -4533,7 +4989,7 @@ export const describeAppBlockBuilderAppBlockAssociations: {
  */
 export const describeApplicationFleetAssociations: (
   input: DescribeApplicationFleetAssociationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeApplicationFleetAssociationsResult,
   | InvalidParameterCombinationException
   | OperationNotPermittedException
@@ -4556,7 +5012,7 @@ export const describeApplicationFleetAssociations: (
  */
 export const describeUserStackAssociations: (
   input: DescribeUserStackAssociationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeUserStackAssociationsResult,
   | InvalidParameterCombinationException
   | OperationNotPermittedException
@@ -4575,7 +5031,7 @@ export const describeUserStackAssociations: (
  */
 export const updateThemeForStack: (
   input: UpdateThemeForStackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateThemeForStackResult,
   | ConcurrentModificationException
   | InvalidAccountStatusException
@@ -4602,7 +5058,7 @@ export const updateThemeForStack: (
  */
 export const disassociateAppBlockBuilderAppBlock: (
   input: DisassociateAppBlockBuilderAppBlockRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateAppBlockBuilderAppBlockResult,
   | ConcurrentModificationException
   | InvalidParameterCombinationException
@@ -4625,7 +5081,7 @@ export const disassociateAppBlockBuilderAppBlock: (
  */
 export const disassociateApplicationFleet: (
   input: DisassociateApplicationFleetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateApplicationFleetResult,
   | ConcurrentModificationException
   | InvalidParameterCombinationException
@@ -4646,7 +5102,7 @@ export const disassociateApplicationFleet: (
  */
 export const disassociateSoftwareFromImageBuilder: (
   input: DisassociateSoftwareFromImageBuilderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateSoftwareFromImageBuilderResult,
   | ConcurrentModificationException
   | InvalidParameterCombinationException
@@ -4669,7 +5125,7 @@ export const disassociateSoftwareFromImageBuilder: (
  */
 export const associateAppBlockBuilderAppBlock: (
   input: AssociateAppBlockBuilderAppBlockRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateAppBlockBuilderAppBlockResult,
   | ConcurrentModificationException
   | InvalidParameterCombinationException
@@ -4694,7 +5150,7 @@ export const associateAppBlockBuilderAppBlock: (
  */
 export const associateApplicationFleet: (
   input: AssociateApplicationFleetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateApplicationFleetResult,
   | ConcurrentModificationException
   | InvalidParameterCombinationException
@@ -4719,7 +5175,7 @@ export const associateApplicationFleet: (
  */
 export const associateFleet: (
   input: AssociateFleetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateFleetResult,
   | ConcurrentModificationException
   | IncompatibleImageException
@@ -4746,7 +5202,7 @@ export const associateFleet: (
  */
 export const batchAssociateUserStack: (
   input: BatchAssociateUserStackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchAssociateUserStackResult,
   | InvalidParameterCombinationException
   | OperationNotPermittedException
@@ -4765,7 +5221,7 @@ export const batchAssociateUserStack: (
  */
 export const batchDisassociateUserStack: (
   input: BatchDisassociateUserStackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDisassociateUserStackResult,
   | InvalidParameterCombinationException
   | OperationNotPermittedException
@@ -4784,7 +5240,7 @@ export const batchDisassociateUserStack: (
  */
 export const createDirectoryConfig: (
   input: CreateDirectoryConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDirectoryConfigResult,
   | InvalidAccountStatusException
   | InvalidRoleException
@@ -4816,7 +5272,7 @@ export const createDirectoryConfig: (
  */
 export const createEntitlement: (
   input: CreateEntitlementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEntitlementResult,
   | EntitlementAlreadyExistsException
   | LimitExceededException
@@ -4839,7 +5295,7 @@ export const createEntitlement: (
  */
 export const createExportImageTask: (
   input: CreateExportImageTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateExportImageTaskResult,
   | ConcurrentModificationException
   | InvalidAccountStatusException
@@ -4868,7 +5324,7 @@ export const createExportImageTask: (
  */
 export const createFleet: (
   input: CreateFleetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFleetResult,
   | ConcurrentModificationException
   | IncompatibleImageException
@@ -4907,7 +5363,7 @@ export const createFleet: (
  */
 export const createImageBuilder: (
   input: CreateImageBuilderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateImageBuilderResult,
   | ConcurrentModificationException
   | IncompatibleImageException
@@ -4944,7 +5400,7 @@ export const createImageBuilder: (
  */
 export const createImportedImage: (
   input: CreateImportedImageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateImportedImageResult,
   | DryRunOperationException
   | IncompatibleImageException
@@ -4978,7 +5434,7 @@ export const createImportedImage: (
  */
 export const createUpdatedImage: (
   input: CreateUpdatedImageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUpdatedImageResult,
   | ConcurrentModificationException
   | IncompatibleImageException
@@ -5008,21 +5464,21 @@ export const createUpdatedImage: (
 export const describeAppBlockBuilders: {
   (
     input: DescribeAppBlockBuildersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeAppBlockBuildersResult,
     OperationNotPermittedException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeAppBlockBuildersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeAppBlockBuildersResult,
     OperationNotPermittedException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAppBlockBuildersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     OperationNotPermittedException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -5042,7 +5498,7 @@ export const describeAppBlockBuilders: {
  */
 export const describeFleets: (
   input: DescribeFleetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeFleetsResult,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5056,7 +5512,7 @@ export const describeFleets: (
  */
 export const describeStacks: (
   input: DescribeStacksRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeStacksResult,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5070,7 +5526,7 @@ export const describeStacks: (
  */
 export const describeUsageReportSubscriptions: (
   input: DescribeUsageReportSubscriptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeUsageReportSubscriptionsResult,
   InvalidAccountStatusException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5084,7 +5540,7 @@ export const describeUsageReportSubscriptions: (
  */
 export const createStack: (
   input: CreateStackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateStackResult,
   | ConcurrentModificationException
   | InvalidAccountStatusException
@@ -5115,7 +5571,7 @@ export const createStack: (
  */
 export const createThemeForStack: (
   input: CreateThemeForStackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateThemeForStackResult,
   | ConcurrentModificationException
   | InvalidAccountStatusException
@@ -5142,7 +5598,7 @@ export const createThemeForStack: (
  */
 export const copyImage: (
   input: CopyImageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CopyImageResponse,
   | IncompatibleImageException
   | InvalidAccountStatusException
@@ -5169,7 +5625,7 @@ export const copyImage: (
  */
 export const createUser: (
   input: CreateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUserResult,
   | InvalidAccountStatusException
   | InvalidParameterCombinationException
@@ -5202,7 +5658,7 @@ export const createUser: (
  */
 export const createAppBlock: (
   input: CreateAppBlockRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAppBlockResult,
   | ConcurrentModificationException
   | LimitExceededException
@@ -5233,7 +5689,7 @@ export const createAppBlock: (
  */
 export const createApplication: (
   input: CreateApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateApplicationResult,
   | ConcurrentModificationException
   | LimitExceededException
@@ -5280,7 +5736,7 @@ export const createApplication: (
  */
 export const updateFleet: (
   input: UpdateFleetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFleetResult,
   | ConcurrentModificationException
   | IncompatibleImageException
@@ -5323,7 +5779,7 @@ export const updateFleet: (
  */
 export const startAppBlockBuilder: (
   input: StartAppBlockBuilderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartAppBlockBuilderResult,
   | ConcurrentModificationException
   | InvalidAccountStatusException
@@ -5352,7 +5808,7 @@ export const startAppBlockBuilder: (
  */
 export const startFleet: (
   input: StartFleetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartFleetResult,
   | ConcurrentModificationException
   | InvalidAccountStatusException
@@ -5388,7 +5844,7 @@ export const startFleet: (
  */
 export const updateAppBlockBuilder: (
   input: UpdateAppBlockBuilderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAppBlockBuilderResult,
   | ConcurrentModificationException
   | InvalidAccountStatusException
@@ -5423,7 +5879,7 @@ export const updateAppBlockBuilder: (
  */
 export const createAppBlockBuilder: (
   input: CreateAppBlockBuilderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAppBlockBuilderResult,
   | ConcurrentModificationException
   | InvalidAccountStatusException

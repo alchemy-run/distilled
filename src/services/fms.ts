@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -182,8 +182,28 @@ export const GetNotificationChannelRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetNotificationChannelRequest",
 }) as any as S.Schema<GetNotificationChannelRequest>;
+export type ThirdPartyFirewall =
+  | "PALO_ALTO_NETWORKS_CLOUD_NGFW"
+  | "FORTIGATE_CLOUD_NATIVE_FIREWALL";
+export const ThirdPartyFirewall = S.Literal(
+  "PALO_ALTO_NETWORKS_CLOUD_NGFW",
+  "FORTIGATE_CLOUD_NATIVE_FIREWALL",
+);
 export type IdentifierList = string[];
 export const IdentifierList = S.Array(S.String);
+export type AccountRoleStatus =
+  | "READY"
+  | "CREATING"
+  | "PENDING_DELETION"
+  | "DELETING"
+  | "DELETED";
+export const AccountRoleStatus = S.Literal(
+  "READY",
+  "CREATING",
+  "PENDING_DELETION",
+  "DELETING",
+  "DELETED",
+);
 export type AWSAccountIdList = string[];
 export const AWSAccountIdList = S.Array(S.String);
 export type TagKeyList = string[];
@@ -205,10 +225,10 @@ export const AssociateAdminAccountResponse = S.suspend(() =>
   identifier: "AssociateAdminAccountResponse",
 }) as any as S.Schema<AssociateAdminAccountResponse>;
 export interface AssociateThirdPartyFirewallRequest {
-  ThirdPartyFirewall: string;
+  ThirdPartyFirewall: ThirdPartyFirewall;
 }
 export const AssociateThirdPartyFirewallRequest = S.suspend(() =>
-  S.Struct({ ThirdPartyFirewall: S.String }).pipe(
+  S.Struct({ ThirdPartyFirewall: ThirdPartyFirewall }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -216,7 +236,7 @@ export const AssociateThirdPartyFirewallRequest = S.suspend(() =>
 }) as any as S.Schema<AssociateThirdPartyFirewallRequest>;
 export interface BatchAssociateResourceRequest {
   ResourceSetIdentifier: string;
-  Items: IdentifierList;
+  Items: string[];
 }
 export const BatchAssociateResourceRequest = S.suspend(() =>
   S.Struct({ ResourceSetIdentifier: S.String, Items: IdentifierList }).pipe(
@@ -227,7 +247,7 @@ export const BatchAssociateResourceRequest = S.suspend(() =>
 }) as any as S.Schema<BatchAssociateResourceRequest>;
 export interface BatchDisassociateResourceRequest {
   ResourceSetIdentifier: string;
-  Items: IdentifierList;
+  Items: string[];
 }
 export const BatchDisassociateResourceRequest = S.suspend(() =>
   S.Struct({ ResourceSetIdentifier: S.String, Items: IdentifierList }).pipe(
@@ -301,10 +321,10 @@ export const DeleteResourceSetResponse = S.suspend(() =>
   identifier: "DeleteResourceSetResponse",
 }) as any as S.Schema<DeleteResourceSetResponse>;
 export interface DisassociateThirdPartyFirewallRequest {
-  ThirdPartyFirewall: string;
+  ThirdPartyFirewall: ThirdPartyFirewall;
 }
 export const DisassociateThirdPartyFirewallRequest = S.suspend(() =>
-  S.Struct({ ThirdPartyFirewall: S.String }).pipe(
+  S.Struct({ ThirdPartyFirewall: ThirdPartyFirewall }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -312,12 +332,12 @@ export const DisassociateThirdPartyFirewallRequest = S.suspend(() =>
 }) as any as S.Schema<DisassociateThirdPartyFirewallRequest>;
 export interface GetAdminAccountResponse {
   AdminAccount?: string;
-  RoleStatus?: string;
+  RoleStatus?: AccountRoleStatus;
 }
 export const GetAdminAccountResponse = S.suspend(() =>
   S.Struct({
     AdminAccount: S.optional(S.String),
-    RoleStatus: S.optional(S.String),
+    RoleStatus: S.optional(AccountRoleStatus),
   }),
 ).annotations({
   identifier: "GetAdminAccountResponse",
@@ -420,10 +440,10 @@ export const GetResourceSetRequest = S.suspend(() =>
   identifier: "GetResourceSetRequest",
 }) as any as S.Schema<GetResourceSetRequest>;
 export interface GetThirdPartyFirewallAssociationStatusRequest {
-  ThirdPartyFirewall: string;
+  ThirdPartyFirewall: ThirdPartyFirewall;
 }
 export const GetThirdPartyFirewallAssociationStatusRequest = S.suspend(() =>
-  S.Struct({ ThirdPartyFirewall: S.String }).pipe(
+  S.Struct({ ThirdPartyFirewall: ThirdPartyFirewall }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -508,7 +528,7 @@ export const ListComplianceStatusRequest = S.suspend(() =>
   identifier: "ListComplianceStatusRequest",
 }) as any as S.Schema<ListComplianceStatusRequest>;
 export interface ListDiscoveredResourcesRequest {
-  MemberAccountIds: AWSAccountIdList;
+  MemberAccountIds: string[];
   ResourceType: string;
   MaxResults?: number;
   NextToken?: string;
@@ -610,13 +630,13 @@ export const ListTagsForResourceRequest = S.suspend(() =>
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListThirdPartyFirewallFirewallPoliciesRequest {
-  ThirdPartyFirewall: string;
+  ThirdPartyFirewall: ThirdPartyFirewall;
   NextToken?: string;
   MaxResults: number;
 }
 export const ListThirdPartyFirewallFirewallPoliciesRequest = S.suspend(() =>
   S.Struct({
-    ThirdPartyFirewall: S.String,
+    ThirdPartyFirewall: ThirdPartyFirewall,
     NextToken: S.optional(S.String),
     MaxResults: S.Number,
   }).pipe(
@@ -653,7 +673,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagResourceRequest {
   ResourceArn: string;
-  TagList: TagList;
+  TagList: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagList: TagList }).pipe(
@@ -668,7 +688,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
@@ -685,8 +705,72 @@ export type ResourceTypeList = string[];
 export const ResourceTypeList = S.Array(S.String);
 export type ResourceSetIds = string[];
 export const ResourceSetIds = S.Array(S.String);
+export type CustomerPolicyStatus = "ACTIVE" | "OUT_OF_ADMIN_SCOPE";
+export const CustomerPolicyStatus = S.Literal("ACTIVE", "OUT_OF_ADMIN_SCOPE");
+export type ResourceTagLogicalOperator = "AND" | "OR";
+export const ResourceTagLogicalOperator = S.Literal("AND", "OR");
 export type ProtocolsList = string[];
 export const ProtocolsList = S.Array(S.String);
+export type ResourceSetStatus = "ACTIVE" | "OUT_OF_ADMIN_SCOPE";
+export const ResourceSetStatus = S.Literal("ACTIVE", "OUT_OF_ADMIN_SCOPE");
+export type ThirdPartyFirewallAssociationStatus =
+  | "ONBOARDING"
+  | "ONBOARD_COMPLETE"
+  | "OFFBOARDING"
+  | "OFFBOARD_COMPLETE"
+  | "NOT_EXIST";
+export const ThirdPartyFirewallAssociationStatus = S.Literal(
+  "ONBOARDING",
+  "ONBOARD_COMPLETE",
+  "OFFBOARDING",
+  "OFFBOARD_COMPLETE",
+  "NOT_EXIST",
+);
+export type OrganizationStatus =
+  | "ONBOARDING"
+  | "ONBOARDING_COMPLETE"
+  | "OFFBOARDING"
+  | "OFFBOARDING_COMPLETE";
+export const OrganizationStatus = S.Literal(
+  "ONBOARDING",
+  "ONBOARDING_COMPLETE",
+  "OFFBOARDING",
+  "OFFBOARDING_COMPLETE",
+);
+export type SecurityServiceType =
+  | "WAF"
+  | "WAFV2"
+  | "SHIELD_ADVANCED"
+  | "SECURITY_GROUPS_COMMON"
+  | "SECURITY_GROUPS_CONTENT_AUDIT"
+  | "SECURITY_GROUPS_USAGE_AUDIT"
+  | "NETWORK_FIREWALL"
+  | "DNS_FIREWALL"
+  | "THIRD_PARTY_FIREWALL"
+  | "IMPORT_NETWORK_FIREWALL"
+  | "NETWORK_ACL_COMMON";
+export const SecurityServiceType = S.Literal(
+  "WAF",
+  "WAFV2",
+  "SHIELD_ADVANCED",
+  "SECURITY_GROUPS_COMMON",
+  "SECURITY_GROUPS_CONTENT_AUDIT",
+  "SECURITY_GROUPS_USAGE_AUDIT",
+  "NETWORK_FIREWALL",
+  "DNS_FIREWALL",
+  "THIRD_PARTY_FIREWALL",
+  "IMPORT_NETWORK_FIREWALL",
+  "NETWORK_ACL_COMMON",
+);
+export type MarketplaceSubscriptionOnboardingStatus =
+  | "NO_SUBSCRIPTION"
+  | "NOT_COMPLETE"
+  | "COMPLETE";
+export const MarketplaceSubscriptionOnboardingStatus = S.Literal(
+  "NO_SUBSCRIPTION",
+  "NOT_COMPLETE",
+  "COMPLETE",
+);
 export type AccountIdList = string[];
 export const AccountIdList = S.Array(S.String);
 export type MemberAccounts = string[];
@@ -696,9 +780,9 @@ export interface ResourceSet {
   Name: string;
   Description?: string;
   UpdateToken?: string;
-  ResourceTypeList: ResourceTypeList;
+  ResourceTypeList: string[];
   LastUpdateTime?: Date;
-  ResourceSetStatus?: string;
+  ResourceSetStatus?: ResourceSetStatus;
 }
 export const ResourceSet = S.suspend(() =>
   S.Struct({
@@ -708,37 +792,56 @@ export const ResourceSet = S.suspend(() =>
     UpdateToken: S.optional(S.String),
     ResourceTypeList: ResourceTypeList,
     LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ResourceSetStatus: S.optional(S.String),
+    ResourceSetStatus: S.optional(ResourceSetStatus),
   }),
 ).annotations({ identifier: "ResourceSet" }) as any as S.Schema<ResourceSet>;
 export type OrganizationalUnitIdList = string[];
 export const OrganizationalUnitIdList = S.Array(S.String);
 export type AWSRegionList = string[];
 export const AWSRegionList = S.Array(S.String);
-export type SecurityServiceTypeList = string[];
-export const SecurityServiceTypeList = S.Array(S.String);
+export type SecurityServiceTypeList = SecurityServiceType[];
+export const SecurityServiceTypeList = S.Array(SecurityServiceType);
+export type CustomerPolicyScopeIdType = "ACCOUNT" | "ORG_UNIT";
+export const CustomerPolicyScopeIdType = S.Literal("ACCOUNT", "ORG_UNIT");
 export type CustomerPolicyScopeIdList = string[];
 export const CustomerPolicyScopeIdList = S.Array(S.String);
 export interface AssociateThirdPartyFirewallResponse {
-  ThirdPartyFirewallStatus?: string;
+  ThirdPartyFirewallStatus?: ThirdPartyFirewallAssociationStatus;
 }
 export const AssociateThirdPartyFirewallResponse = S.suspend(() =>
-  S.Struct({ ThirdPartyFirewallStatus: S.optional(S.String) }),
+  S.Struct({
+    ThirdPartyFirewallStatus: S.optional(ThirdPartyFirewallAssociationStatus),
+  }),
 ).annotations({
   identifier: "AssociateThirdPartyFirewallResponse",
 }) as any as S.Schema<AssociateThirdPartyFirewallResponse>;
+export type FailedItemReason =
+  | "NOT_VALID_ARN"
+  | "NOT_VALID_PARTITION"
+  | "NOT_VALID_REGION"
+  | "NOT_VALID_SERVICE"
+  | "NOT_VALID_RESOURCE_TYPE"
+  | "NOT_VALID_ACCOUNT_ID";
+export const FailedItemReason = S.Literal(
+  "NOT_VALID_ARN",
+  "NOT_VALID_PARTITION",
+  "NOT_VALID_REGION",
+  "NOT_VALID_SERVICE",
+  "NOT_VALID_RESOURCE_TYPE",
+  "NOT_VALID_ACCOUNT_ID",
+);
 export interface FailedItem {
   URI?: string;
-  Reason?: string;
+  Reason?: FailedItemReason;
 }
 export const FailedItem = S.suspend(() =>
-  S.Struct({ URI: S.optional(S.String), Reason: S.optional(S.String) }),
+  S.Struct({ URI: S.optional(S.String), Reason: S.optional(FailedItemReason) }),
 ).annotations({ identifier: "FailedItem" }) as any as S.Schema<FailedItem>;
 export type FailedItemList = FailedItem[];
 export const FailedItemList = S.Array(FailedItem);
 export interface BatchDisassociateResourceResponse {
   ResourceSetIdentifier: string;
-  FailedItems: FailedItemList;
+  FailedItems: FailedItem[];
 }
 export const BatchDisassociateResourceResponse = S.suspend(() =>
   S.Struct({ ResourceSetIdentifier: S.String, FailedItems: FailedItemList }),
@@ -746,15 +849,17 @@ export const BatchDisassociateResourceResponse = S.suspend(() =>
   identifier: "BatchDisassociateResourceResponse",
 }) as any as S.Schema<BatchDisassociateResourceResponse>;
 export interface DisassociateThirdPartyFirewallResponse {
-  ThirdPartyFirewallStatus?: string;
+  ThirdPartyFirewallStatus?: ThirdPartyFirewallAssociationStatus;
 }
 export const DisassociateThirdPartyFirewallResponse = S.suspend(() =>
-  S.Struct({ ThirdPartyFirewallStatus: S.optional(S.String) }),
+  S.Struct({
+    ThirdPartyFirewallStatus: S.optional(ThirdPartyFirewallAssociationStatus),
+  }),
 ).annotations({
   identifier: "DisassociateThirdPartyFirewallResponse",
 }) as any as S.Schema<DisassociateThirdPartyFirewallResponse>;
 export interface AccountScope {
-  Accounts?: AccountIdList;
+  Accounts?: string[];
   AllAccountsEnabled?: boolean;
   ExcludeSpecifiedAccounts?: boolean;
 }
@@ -766,7 +871,7 @@ export const AccountScope = S.suspend(() =>
   }),
 ).annotations({ identifier: "AccountScope" }) as any as S.Schema<AccountScope>;
 export interface OrganizationalUnitScope {
-  OrganizationalUnits?: OrganizationalUnitIdList;
+  OrganizationalUnits?: string[];
   AllOrganizationalUnitsEnabled?: boolean;
   ExcludeSpecifiedOrganizationalUnits?: boolean;
 }
@@ -780,7 +885,7 @@ export const OrganizationalUnitScope = S.suspend(() =>
   identifier: "OrganizationalUnitScope",
 }) as any as S.Schema<OrganizationalUnitScope>;
 export interface RegionScope {
-  Regions?: AWSRegionList;
+  Regions?: string[];
   AllRegionsEnabled?: boolean;
 }
 export const RegionScope = S.suspend(() =>
@@ -790,7 +895,7 @@ export const RegionScope = S.suspend(() =>
   }),
 ).annotations({ identifier: "RegionScope" }) as any as S.Schema<RegionScope>;
 export interface PolicyTypeScope {
-  PolicyTypes?: SecurityServiceTypeList;
+  PolicyTypes?: SecurityServiceType[];
   AllPolicyTypesEnabled?: boolean;
 }
 export const PolicyTypeScope = S.suspend(() =>
@@ -817,12 +922,12 @@ export const AdminScope = S.suspend(() =>
 ).annotations({ identifier: "AdminScope" }) as any as S.Schema<AdminScope>;
 export interface GetAdminScopeResponse {
   AdminScope?: AdminScope;
-  Status?: string;
+  Status?: OrganizationStatus;
 }
 export const GetAdminScopeResponse = S.suspend(() =>
   S.Struct({
     AdminScope: S.optional(AdminScope),
-    Status: S.optional(S.String),
+    Status: S.optional(OrganizationStatus),
   }),
 ).annotations({
   identifier: "GetAdminScopeResponse",
@@ -837,7 +942,7 @@ export const App = S.suspend(() =>
 ).annotations({ identifier: "App" }) as any as S.Schema<App>;
 export type AppsList = App[];
 export const AppsList = S.Array(App);
-export type PreviousAppsList = { [key: string]: AppsList };
+export type PreviousAppsList = { [key: string]: App[] };
 export const PreviousAppsList = S.Record({ key: S.String, value: AppsList });
 export interface AppsListData {
   ListId?: string;
@@ -845,8 +950,8 @@ export interface AppsListData {
   ListUpdateToken?: string;
   CreateTime?: Date;
   LastUpdateTime?: Date;
-  AppsList: AppsList;
-  PreviousAppsList?: PreviousAppsList;
+  AppsList: App[];
+  PreviousAppsList?: { [key: string]: App[] };
 }
 export const AppsListData = S.suspend(() =>
   S.Struct({
@@ -871,19 +976,21 @@ export const GetAppsListResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetAppsListResponse",
 }) as any as S.Schema<GetAppsListResponse>;
+export type FirewallDeploymentModel = "CENTRALIZED" | "DISTRIBUTED";
+export const FirewallDeploymentModel = S.Literal("CENTRALIZED", "DISTRIBUTED");
 export interface NetworkFirewallPolicy {
-  FirewallDeploymentModel?: string;
+  FirewallDeploymentModel?: FirewallDeploymentModel;
 }
 export const NetworkFirewallPolicy = S.suspend(() =>
-  S.Struct({ FirewallDeploymentModel: S.optional(S.String) }),
+  S.Struct({ FirewallDeploymentModel: S.optional(FirewallDeploymentModel) }),
 ).annotations({
   identifier: "NetworkFirewallPolicy",
 }) as any as S.Schema<NetworkFirewallPolicy>;
 export interface ThirdPartyFirewallPolicy {
-  FirewallDeploymentModel?: string;
+  FirewallDeploymentModel?: FirewallDeploymentModel;
 }
 export const ThirdPartyFirewallPolicy = S.suspend(() =>
-  S.Struct({ FirewallDeploymentModel: S.optional(S.String) }),
+  S.Struct({ FirewallDeploymentModel: S.optional(FirewallDeploymentModel) }),
 ).annotations({
   identifier: "ThirdPartyFirewallPolicy",
 }) as any as S.Schema<ThirdPartyFirewallPolicy>;
@@ -905,13 +1012,15 @@ export const NetworkAclPortRange = S.suspend(() =>
 ).annotations({
   identifier: "NetworkAclPortRange",
 }) as any as S.Schema<NetworkAclPortRange>;
+export type NetworkAclRuleAction = "allow" | "deny";
+export const NetworkAclRuleAction = S.Literal("allow", "deny");
 export interface NetworkAclEntry {
   IcmpTypeCode?: NetworkAclIcmpTypeCode;
   Protocol: string;
   PortRange?: NetworkAclPortRange;
   CidrBlock?: string;
   Ipv6CidrBlock?: string;
-  RuleAction: string;
+  RuleAction: NetworkAclRuleAction;
   Egress: boolean;
 }
 export const NetworkAclEntry = S.suspend(() =>
@@ -921,7 +1030,7 @@ export const NetworkAclEntry = S.suspend(() =>
     PortRange: S.optional(NetworkAclPortRange),
     CidrBlock: S.optional(S.String),
     Ipv6CidrBlock: S.optional(S.String),
-    RuleAction: S.String,
+    RuleAction: NetworkAclRuleAction,
     Egress: S.Boolean,
   }),
 ).annotations({
@@ -930,9 +1039,9 @@ export const NetworkAclEntry = S.suspend(() =>
 export type NetworkAclEntries = NetworkAclEntry[];
 export const NetworkAclEntries = S.Array(NetworkAclEntry);
 export interface NetworkAclEntrySet {
-  FirstEntries?: NetworkAclEntries;
+  FirstEntries?: NetworkAclEntry[];
   ForceRemediateForFirstEntries: boolean;
-  LastEntries?: NetworkAclEntries;
+  LastEntries?: NetworkAclEntry[];
   ForceRemediateForLastEntries: boolean;
 }
 export const NetworkAclEntrySet = S.suspend(() =>
@@ -966,13 +1075,13 @@ export const PolicyOption = S.suspend(() =>
   }),
 ).annotations({ identifier: "PolicyOption" }) as any as S.Schema<PolicyOption>;
 export interface SecurityServicePolicyData {
-  Type: string;
+  Type: SecurityServiceType;
   ManagedServiceData?: string;
   PolicyOption?: PolicyOption;
 }
 export const SecurityServicePolicyData = S.suspend(() =>
   S.Struct({
-    Type: S.String,
+    Type: SecurityServiceType,
     ManagedServiceData: S.optional(S.String),
     PolicyOption: S.optional(PolicyOption),
   }),
@@ -989,29 +1098,31 @@ export const ResourceTag = S.suspend(() =>
 export type ResourceTags = ResourceTag[];
 export const ResourceTags = S.Array(ResourceTag);
 export type CustomerPolicyScopeMap = {
-  [key: string]: CustomerPolicyScopeIdList;
+  [key in CustomerPolicyScopeIdType]?: string[];
 };
-export const CustomerPolicyScopeMap = S.Record({
-  key: S.String,
-  value: CustomerPolicyScopeIdList,
-});
+export const CustomerPolicyScopeMap = S.partial(
+  S.Record({
+    key: CustomerPolicyScopeIdType,
+    value: CustomerPolicyScopeIdList,
+  }),
+);
 export interface Policy {
   PolicyId?: string;
   PolicyName: string;
   PolicyUpdateToken?: string;
   SecurityServicePolicyData: SecurityServicePolicyData;
   ResourceType: string;
-  ResourceTypeList?: ResourceTypeList;
-  ResourceTags?: ResourceTags;
+  ResourceTypeList?: string[];
+  ResourceTags?: ResourceTag[];
   ExcludeResourceTags: boolean;
   RemediationEnabled: boolean;
   DeleteUnusedFMManagedResources?: boolean;
-  IncludeMap?: CustomerPolicyScopeMap;
-  ExcludeMap?: CustomerPolicyScopeMap;
-  ResourceSetIds?: ResourceSetIds;
+  IncludeMap?: { [key: string]: string[] };
+  ExcludeMap?: { [key: string]: string[] };
+  ResourceSetIds?: string[];
   PolicyDescription?: string;
-  PolicyStatus?: string;
-  ResourceTagLogicalOperator?: string;
+  PolicyStatus?: CustomerPolicyStatus;
+  ResourceTagLogicalOperator?: ResourceTagLogicalOperator;
 }
 export const Policy = S.suspend(() =>
   S.Struct({
@@ -1029,8 +1140,8 @@ export const Policy = S.suspend(() =>
     ExcludeMap: S.optional(CustomerPolicyScopeMap),
     ResourceSetIds: S.optional(ResourceSetIds),
     PolicyDescription: S.optional(S.String),
-    PolicyStatus: S.optional(S.String),
-    ResourceTagLogicalOperator: S.optional(S.String),
+    PolicyStatus: S.optional(CustomerPolicyStatus),
+    ResourceTagLogicalOperator: S.optional(ResourceTagLogicalOperator),
   }),
 ).annotations({ identifier: "Policy" }) as any as S.Schema<Policy>;
 export interface GetPolicyResponse {
@@ -1044,21 +1155,21 @@ export const GetPolicyResponse = S.suspend(() =>
 }) as any as S.Schema<GetPolicyResponse>;
 export interface GetProtectionStatusResponse {
   AdminAccountId?: string;
-  ServiceType?: string;
+  ServiceType?: SecurityServiceType;
   Data?: string;
   NextToken?: string;
 }
 export const GetProtectionStatusResponse = S.suspend(() =>
   S.Struct({
     AdminAccountId: S.optional(S.String),
-    ServiceType: S.optional(S.String),
+    ServiceType: S.optional(SecurityServiceType),
     Data: S.optional(S.String),
     NextToken: S.optional(S.String),
   }),
 ).annotations({
   identifier: "GetProtectionStatusResponse",
 }) as any as S.Schema<GetProtectionStatusResponse>;
-export type PreviousProtocolsList = { [key: string]: ProtocolsList };
+export type PreviousProtocolsList = { [key: string]: string[] };
 export const PreviousProtocolsList = S.Record({
   key: S.String,
   value: ProtocolsList,
@@ -1069,8 +1180,8 @@ export interface ProtocolsListData {
   ListUpdateToken?: string;
   CreateTime?: Date;
   LastUpdateTime?: Date;
-  ProtocolsList: ProtocolsList;
-  PreviousProtocolsList?: PreviousProtocolsList;
+  ProtocolsList: string[];
+  PreviousProtocolsList?: { [key: string]: string[] };
 }
 export const ProtocolsListData = S.suspend(() =>
   S.Struct({
@@ -1107,19 +1218,21 @@ export const GetResourceSetResponse = S.suspend(() =>
   identifier: "GetResourceSetResponse",
 }) as any as S.Schema<GetResourceSetResponse>;
 export interface GetThirdPartyFirewallAssociationStatusResponse {
-  ThirdPartyFirewallStatus?: string;
-  MarketplaceOnboardingStatus?: string;
+  ThirdPartyFirewallStatus?: ThirdPartyFirewallAssociationStatus;
+  MarketplaceOnboardingStatus?: MarketplaceSubscriptionOnboardingStatus;
 }
 export const GetThirdPartyFirewallAssociationStatusResponse = S.suspend(() =>
   S.Struct({
-    ThirdPartyFirewallStatus: S.optional(S.String),
-    MarketplaceOnboardingStatus: S.optional(S.String),
+    ThirdPartyFirewallStatus: S.optional(ThirdPartyFirewallAssociationStatus),
+    MarketplaceOnboardingStatus: S.optional(
+      MarketplaceSubscriptionOnboardingStatus,
+    ),
   }),
 ).annotations({
   identifier: "GetThirdPartyFirewallAssociationStatusResponse",
 }) as any as S.Schema<GetThirdPartyFirewallAssociationStatusResponse>;
 export interface ListAdminsManagingAccountResponse {
-  AdminAccounts?: AccountIdList;
+  AdminAccounts?: string[];
   NextToken?: string;
 }
 export const ListAdminsManagingAccountResponse = S.suspend(() =>
@@ -1131,7 +1244,7 @@ export const ListAdminsManagingAccountResponse = S.suspend(() =>
   identifier: "ListAdminsManagingAccountResponse",
 }) as any as S.Schema<ListAdminsManagingAccountResponse>;
 export interface ListMemberAccountsResponse {
-  MemberAccounts?: MemberAccounts;
+  MemberAccounts?: string[];
   NextToken?: string;
 }
 export const ListMemberAccountsResponse = S.suspend(() =>
@@ -1143,7 +1256,7 @@ export const ListMemberAccountsResponse = S.suspend(() =>
   identifier: "ListMemberAccountsResponse",
 }) as any as S.Schema<ListMemberAccountsResponse>;
 export interface ListTagsForResourceResponse {
-  TagList?: TagList;
+  TagList?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ TagList: S.optional(TagList) }),
@@ -1152,7 +1265,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface PutResourceSetRequest {
   ResourceSet: ResourceSet;
-  TagList?: TagList;
+  TagList?: Tag[];
 }
 export const PutResourceSetRequest = S.suspend(() =>
   S.Struct({ ResourceSet: ResourceSet, TagList: S.optional(TagList) }).pipe(
@@ -1164,13 +1277,13 @@ export const PutResourceSetRequest = S.suspend(() =>
 export interface AdminAccountSummary {
   AdminAccount?: string;
   DefaultAdmin?: boolean;
-  Status?: string;
+  Status?: OrganizationStatus;
 }
 export const AdminAccountSummary = S.suspend(() =>
   S.Struct({
     AdminAccount: S.optional(S.String),
     DefaultAdmin: S.optional(S.Boolean),
-    Status: S.optional(S.String),
+    Status: S.optional(OrganizationStatus),
   }),
 ).annotations({
   identifier: "AdminAccountSummary",
@@ -1181,7 +1294,7 @@ export interface AppsListDataSummary {
   ListArn?: string;
   ListId?: string;
   ListName?: string;
-  AppsList?: AppsList;
+  AppsList?: App[];
 }
 export const AppsListDataSummary = S.suspend(() =>
   S.Struct({
@@ -1218,10 +1331,10 @@ export interface PolicySummary {
   PolicyId?: string;
   PolicyName?: string;
   ResourceType?: string;
-  SecurityServiceType?: string;
+  SecurityServiceType?: SecurityServiceType;
   RemediationEnabled?: boolean;
   DeleteUnusedFMManagedResources?: boolean;
-  PolicyStatus?: string;
+  PolicyStatus?: CustomerPolicyStatus;
 }
 export const PolicySummary = S.suspend(() =>
   S.Struct({
@@ -1229,10 +1342,10 @@ export const PolicySummary = S.suspend(() =>
     PolicyId: S.optional(S.String),
     PolicyName: S.optional(S.String),
     ResourceType: S.optional(S.String),
-    SecurityServiceType: S.optional(S.String),
+    SecurityServiceType: S.optional(SecurityServiceType),
     RemediationEnabled: S.optional(S.Boolean),
     DeleteUnusedFMManagedResources: S.optional(S.Boolean),
-    PolicyStatus: S.optional(S.String),
+    PolicyStatus: S.optional(CustomerPolicyStatus),
   }),
 ).annotations({
   identifier: "PolicySummary",
@@ -1243,7 +1356,7 @@ export interface ProtocolsListDataSummary {
   ListArn?: string;
   ListId?: string;
   ListName?: string;
-  ProtocolsList?: ProtocolsList;
+  ProtocolsList?: string[];
 }
 export const ProtocolsListDataSummary = S.suspend(() =>
   S.Struct({
@@ -1271,7 +1384,7 @@ export interface ResourceSetSummary {
   Name?: string;
   Description?: string;
   LastUpdateTime?: Date;
-  ResourceSetStatus?: string;
+  ResourceSetStatus?: ResourceSetStatus;
 }
 export const ResourceSetSummary = S.suspend(() =>
   S.Struct({
@@ -1279,7 +1392,7 @@ export const ResourceSetSummary = S.suspend(() =>
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ResourceSetStatus: S.optional(S.String),
+    ResourceSetStatus: S.optional(ResourceSetStatus),
   }),
 ).annotations({
   identifier: "ResourceSetSummary",
@@ -1303,9 +1416,88 @@ export type ThirdPartyFirewallFirewallPolicies =
 export const ThirdPartyFirewallFirewallPolicies = S.Array(
   ThirdPartyFirewallFirewallPolicy,
 );
+export type ViolationReason =
+  | "WEB_ACL_MISSING_RULE_GROUP"
+  | "RESOURCE_MISSING_WEB_ACL"
+  | "RESOURCE_INCORRECT_WEB_ACL"
+  | "RESOURCE_MISSING_SHIELD_PROTECTION"
+  | "RESOURCE_MISSING_WEB_ACL_OR_SHIELD_PROTECTION"
+  | "RESOURCE_MISSING_SECURITY_GROUP"
+  | "RESOURCE_VIOLATES_AUDIT_SECURITY_GROUP"
+  | "SECURITY_GROUP_UNUSED"
+  | "SECURITY_GROUP_REDUNDANT"
+  | "FMS_CREATED_SECURITY_GROUP_EDITED"
+  | "MISSING_FIREWALL"
+  | "MISSING_FIREWALL_SUBNET_IN_AZ"
+  | "MISSING_EXPECTED_ROUTE_TABLE"
+  | "NETWORK_FIREWALL_POLICY_MODIFIED"
+  | "FIREWALL_SUBNET_IS_OUT_OF_SCOPE"
+  | "INTERNET_GATEWAY_MISSING_EXPECTED_ROUTE"
+  | "FIREWALL_SUBNET_MISSING_EXPECTED_ROUTE"
+  | "UNEXPECTED_FIREWALL_ROUTES"
+  | "UNEXPECTED_TARGET_GATEWAY_ROUTES"
+  | "TRAFFIC_INSPECTION_CROSSES_AZ_BOUNDARY"
+  | "INVALID_ROUTE_CONFIGURATION"
+  | "MISSING_TARGET_GATEWAY"
+  | "INTERNET_TRAFFIC_NOT_INSPECTED"
+  | "BLACK_HOLE_ROUTE_DETECTED"
+  | "BLACK_HOLE_ROUTE_DETECTED_IN_FIREWALL_SUBNET"
+  | "RESOURCE_MISSING_DNS_FIREWALL"
+  | "ROUTE_HAS_OUT_OF_SCOPE_ENDPOINT"
+  | "FIREWALL_SUBNET_MISSING_VPCE_ENDPOINT"
+  | "INVALID_NETWORK_ACL_ENTRY"
+  | "WEB_ACL_CONFIGURATION_OR_SCOPE_OF_USE";
+export const ViolationReason = S.Literal(
+  "WEB_ACL_MISSING_RULE_GROUP",
+  "RESOURCE_MISSING_WEB_ACL",
+  "RESOURCE_INCORRECT_WEB_ACL",
+  "RESOURCE_MISSING_SHIELD_PROTECTION",
+  "RESOURCE_MISSING_WEB_ACL_OR_SHIELD_PROTECTION",
+  "RESOURCE_MISSING_SECURITY_GROUP",
+  "RESOURCE_VIOLATES_AUDIT_SECURITY_GROUP",
+  "SECURITY_GROUP_UNUSED",
+  "SECURITY_GROUP_REDUNDANT",
+  "FMS_CREATED_SECURITY_GROUP_EDITED",
+  "MISSING_FIREWALL",
+  "MISSING_FIREWALL_SUBNET_IN_AZ",
+  "MISSING_EXPECTED_ROUTE_TABLE",
+  "NETWORK_FIREWALL_POLICY_MODIFIED",
+  "FIREWALL_SUBNET_IS_OUT_OF_SCOPE",
+  "INTERNET_GATEWAY_MISSING_EXPECTED_ROUTE",
+  "FIREWALL_SUBNET_MISSING_EXPECTED_ROUTE",
+  "UNEXPECTED_FIREWALL_ROUTES",
+  "UNEXPECTED_TARGET_GATEWAY_ROUTES",
+  "TRAFFIC_INSPECTION_CROSSES_AZ_BOUNDARY",
+  "INVALID_ROUTE_CONFIGURATION",
+  "MISSING_TARGET_GATEWAY",
+  "INTERNET_TRAFFIC_NOT_INSPECTED",
+  "BLACK_HOLE_ROUTE_DETECTED",
+  "BLACK_HOLE_ROUTE_DETECTED_IN_FIREWALL_SUBNET",
+  "RESOURCE_MISSING_DNS_FIREWALL",
+  "ROUTE_HAS_OUT_OF_SCOPE_ENDPOINT",
+  "FIREWALL_SUBNET_MISSING_VPCE_ENDPOINT",
+  "INVALID_NETWORK_ACL_ENTRY",
+  "WEB_ACL_CONFIGURATION_OR_SCOPE_OF_USE",
+);
+export type DependentServiceName =
+  | "AWSCONFIG"
+  | "AWSWAF"
+  | "AWSSHIELD_ADVANCED"
+  | "AWSVPC";
+export const DependentServiceName = S.Literal(
+  "AWSCONFIG",
+  "AWSWAF",
+  "AWSSHIELD_ADVANCED",
+  "AWSVPC",
+);
+export type PolicyComplianceStatusType = "COMPLIANT" | "NON_COMPLIANT";
+export const PolicyComplianceStatusType = S.Literal(
+  "COMPLIANT",
+  "NON_COMPLIANT",
+);
 export interface BatchAssociateResourceResponse {
   ResourceSetIdentifier: string;
-  FailedItems: FailedItemList;
+  FailedItems: FailedItem[];
 }
 export const BatchAssociateResourceResponse = S.suspend(() =>
   S.Struct({ ResourceSetIdentifier: S.String, FailedItems: FailedItemList }),
@@ -1313,7 +1505,7 @@ export const BatchAssociateResourceResponse = S.suspend(() =>
   identifier: "BatchAssociateResourceResponse",
 }) as any as S.Schema<BatchAssociateResourceResponse>;
 export interface ListAdminAccountsForOrganizationResponse {
-  AdminAccounts?: AdminAccountSummaryList;
+  AdminAccounts?: AdminAccountSummary[];
   NextToken?: string;
 }
 export const ListAdminAccountsForOrganizationResponse = S.suspend(() =>
@@ -1325,7 +1517,7 @@ export const ListAdminAccountsForOrganizationResponse = S.suspend(() =>
   identifier: "ListAdminAccountsForOrganizationResponse",
 }) as any as S.Schema<ListAdminAccountsForOrganizationResponse>;
 export interface ListAppsListsResponse {
-  AppsLists?: AppsListsData;
+  AppsLists?: AppsListDataSummary[];
   NextToken?: string;
 }
 export const ListAppsListsResponse = S.suspend(() =>
@@ -1337,7 +1529,7 @@ export const ListAppsListsResponse = S.suspend(() =>
   identifier: "ListAppsListsResponse",
 }) as any as S.Schema<ListAppsListsResponse>;
 export interface ListDiscoveredResourcesResponse {
-  Items?: DiscoveredResourceList;
+  Items?: DiscoveredResource[];
   NextToken?: string;
 }
 export const ListDiscoveredResourcesResponse = S.suspend(() =>
@@ -1349,7 +1541,7 @@ export const ListDiscoveredResourcesResponse = S.suspend(() =>
   identifier: "ListDiscoveredResourcesResponse",
 }) as any as S.Schema<ListDiscoveredResourcesResponse>;
 export interface ListPoliciesResponse {
-  PolicyList?: PolicySummaryList;
+  PolicyList?: PolicySummary[];
   NextToken?: string;
 }
 export const ListPoliciesResponse = S.suspend(() =>
@@ -1361,7 +1553,7 @@ export const ListPoliciesResponse = S.suspend(() =>
   identifier: "ListPoliciesResponse",
 }) as any as S.Schema<ListPoliciesResponse>;
 export interface ListProtocolsListsResponse {
-  ProtocolsLists?: ProtocolsListsData;
+  ProtocolsLists?: ProtocolsListDataSummary[];
   NextToken?: string;
 }
 export const ListProtocolsListsResponse = S.suspend(() =>
@@ -1373,7 +1565,7 @@ export const ListProtocolsListsResponse = S.suspend(() =>
   identifier: "ListProtocolsListsResponse",
 }) as any as S.Schema<ListProtocolsListsResponse>;
 export interface ListResourceSetResourcesResponse {
-  Items: ResourceList;
+  Items: Resource[];
   NextToken?: string;
 }
 export const ListResourceSetResourcesResponse = S.suspend(() =>
@@ -1382,7 +1574,7 @@ export const ListResourceSetResourcesResponse = S.suspend(() =>
   identifier: "ListResourceSetResourcesResponse",
 }) as any as S.Schema<ListResourceSetResourcesResponse>;
 export interface ListResourceSetsResponse {
-  ResourceSets?: ResourceSetSummaryList;
+  ResourceSets?: ResourceSetSummary[];
   NextToken?: string;
 }
 export const ListResourceSetsResponse = S.suspend(() =>
@@ -1394,7 +1586,7 @@ export const ListResourceSetsResponse = S.suspend(() =>
   identifier: "ListResourceSetsResponse",
 }) as any as S.Schema<ListResourceSetsResponse>;
 export interface ListThirdPartyFirewallFirewallPoliciesResponse {
-  ThirdPartyFirewallFirewallPolicies?: ThirdPartyFirewallFirewallPolicies;
+  ThirdPartyFirewallFirewallPolicies?: ThirdPartyFirewallFirewallPolicy[];
   NextToken?: string;
 }
 export const ListThirdPartyFirewallFirewallPoliciesResponse = S.suspend(() =>
@@ -1426,7 +1618,7 @@ export const PutAdminAccountResponse = S.suspend(() =>
 }) as any as S.Schema<PutAdminAccountResponse>;
 export interface PutAppsListRequest {
   AppsList: AppsListData;
-  TagList?: TagList;
+  TagList?: Tag[];
 }
 export const PutAppsListRequest = S.suspend(() =>
   S.Struct({ AppsList: AppsListData, TagList: S.optional(TagList) }).pipe(
@@ -1437,7 +1629,7 @@ export const PutAppsListRequest = S.suspend(() =>
 }) as any as S.Schema<PutAppsListRequest>;
 export interface PutProtocolsListRequest {
   ProtocolsList: ProtocolsListData;
-  TagList?: TagList;
+  TagList?: Tag[];
 }
 export const PutProtocolsListRequest = S.suspend(() =>
   S.Struct({
@@ -1458,16 +1650,18 @@ export const PutResourceSetResponse = S.suspend(() =>
 ).annotations({
   identifier: "PutResourceSetResponse",
 }) as any as S.Schema<PutResourceSetResponse>;
-export type IssueInfoMap = { [key: string]: string };
-export const IssueInfoMap = S.Record({ key: S.String, value: S.String });
+export type IssueInfoMap = { [key in DependentServiceName]?: string };
+export const IssueInfoMap = S.partial(
+  S.Record({ key: DependentServiceName, value: S.String }),
+);
 export interface EvaluationResult {
-  ComplianceStatus?: string;
+  ComplianceStatus?: PolicyComplianceStatusType;
   ViolatorCount?: number;
   EvaluationLimitExceeded?: boolean;
 }
 export const EvaluationResult = S.suspend(() =>
   S.Struct({
-    ComplianceStatus: S.optional(S.String),
+    ComplianceStatus: S.optional(PolicyComplianceStatusType),
     ViolatorCount: S.optional(S.Number),
     EvaluationLimitExceeded: S.optional(S.Boolean),
   }),
@@ -1480,7 +1674,7 @@ export type ResourceIdList = string[];
 export const ResourceIdList = S.Array(S.String);
 export interface AwsEc2NetworkInterfaceViolation {
   ViolationTarget?: string;
-  ViolatingSecurityGroups?: ResourceIdList;
+  ViolatingSecurityGroups?: string[];
 }
 export const AwsEc2NetworkInterfaceViolation = S.suspend(() =>
   S.Struct({
@@ -1504,9 +1698,9 @@ export interface PolicyComplianceStatus {
   PolicyId?: string;
   PolicyName?: string;
   MemberAccount?: string;
-  EvaluationResults?: EvaluationResults;
+  EvaluationResults?: EvaluationResult[];
   LastUpdated?: Date;
-  IssueInfoMap?: IssueInfoMap;
+  IssueInfoMap?: { [key: string]: string };
 }
 export const PolicyComplianceStatus = S.suspend(() =>
   S.Struct({
@@ -1530,7 +1724,7 @@ export const ComplianceViolatorMetadata = S.Record({
 });
 export interface AwsEc2InstanceViolation {
   ViolationTarget?: string;
-  AwsEc2NetworkInterfaceViolations?: AwsEc2NetworkInterfaceViolations;
+  AwsEc2NetworkInterfaceViolations?: AwsEc2NetworkInterfaceViolation[];
 }
 export const AwsEc2InstanceViolation = S.suspend(() =>
   S.Struct({
@@ -1592,16 +1786,41 @@ export const NetworkFirewallMissingExpectedRTViolation = S.suspend(() =>
 ).annotations({
   identifier: "NetworkFirewallMissingExpectedRTViolation",
 }) as any as S.Schema<NetworkFirewallMissingExpectedRTViolation>;
+export type DestinationType = "IPV4" | "IPV6" | "PREFIX_LIST";
+export const DestinationType = S.Literal("IPV4", "IPV6", "PREFIX_LIST");
+export type TargetType =
+  | "GATEWAY"
+  | "CARRIER_GATEWAY"
+  | "INSTANCE"
+  | "LOCAL_GATEWAY"
+  | "NAT_GATEWAY"
+  | "NETWORK_INTERFACE"
+  | "VPC_ENDPOINT"
+  | "VPC_PEERING_CONNECTION"
+  | "EGRESS_ONLY_INTERNET_GATEWAY"
+  | "TRANSIT_GATEWAY";
+export const TargetType = S.Literal(
+  "GATEWAY",
+  "CARRIER_GATEWAY",
+  "INSTANCE",
+  "LOCAL_GATEWAY",
+  "NAT_GATEWAY",
+  "NETWORK_INTERFACE",
+  "VPC_ENDPOINT",
+  "VPC_PEERING_CONNECTION",
+  "EGRESS_ONLY_INTERNET_GATEWAY",
+  "TRANSIT_GATEWAY",
+);
 export interface Route {
-  DestinationType?: string;
-  TargetType?: string;
+  DestinationType?: DestinationType;
+  TargetType?: TargetType;
   Destination?: string;
   Target?: string;
 }
 export const Route = S.suspend(() =>
   S.Struct({
-    DestinationType: S.optional(S.String),
-    TargetType: S.optional(S.String),
+    DestinationType: S.optional(DestinationType),
+    TargetType: S.optional(TargetType),
     Destination: S.optional(S.String),
     Target: S.optional(S.String),
   }),
@@ -1612,8 +1831,8 @@ export interface ExpectedRoute {
   IpV4Cidr?: string;
   PrefixListId?: string;
   IpV6Cidr?: string;
-  ContributingSubnets?: ResourceIdList;
-  AllowedTargets?: LengthBoundedStringList;
+  ContributingSubnets?: string[];
+  AllowedTargets?: string[];
   RouteTableId?: string;
 }
 export const ExpectedRoute = S.suspend(() =>
@@ -1633,7 +1852,7 @@ export const ExpectedRoutes = S.Array(ExpectedRoute);
 export type Routes = Route[];
 export const Routes = S.Array(Route);
 export interface NetworkFirewallInvalidRouteConfigurationViolation {
-  AffectedSubnets?: ResourceIdList;
+  AffectedSubnets?: string[];
   RouteTableId?: string;
   IsRouteTableUsedInDifferentAZ?: boolean;
   ViolatingRoute?: Route;
@@ -1642,12 +1861,12 @@ export interface NetworkFirewallInvalidRouteConfigurationViolation {
   ActualFirewallEndpoint?: string;
   ExpectedFirewallSubnetId?: string;
   ActualFirewallSubnetId?: string;
-  ExpectedFirewallSubnetRoutes?: ExpectedRoutes;
-  ActualFirewallSubnetRoutes?: Routes;
+  ExpectedFirewallSubnetRoutes?: ExpectedRoute[];
+  ActualFirewallSubnetRoutes?: Route[];
   InternetGatewayId?: string;
   CurrentInternetGatewayRouteTable?: string;
-  ExpectedInternetGatewayRoutes?: ExpectedRoutes;
-  ActualInternetGatewayRoutes?: Routes;
+  ExpectedInternetGatewayRoutes?: ExpectedRoute[];
+  ActualInternetGatewayRoutes?: Route[];
   VpcId?: string;
 }
 export const NetworkFirewallInvalidRouteConfigurationViolation = S.suspend(() =>
@@ -1676,7 +1895,7 @@ export interface NetworkFirewallBlackHoleRouteDetectedViolation {
   ViolationTarget?: string;
   RouteTableId?: string;
   VpcId?: string;
-  ViolatingRoutes?: Routes;
+  ViolatingRoutes?: Route[];
 }
 export const NetworkFirewallBlackHoleRouteDetectedViolation = S.suspend(() =>
   S.Struct({
@@ -1690,7 +1909,7 @@ export const NetworkFirewallBlackHoleRouteDetectedViolation = S.suspend(() =>
 }) as any as S.Schema<NetworkFirewallBlackHoleRouteDetectedViolation>;
 export interface NetworkFirewallUnexpectedFirewallRoutesViolation {
   FirewallSubnetId?: string;
-  ViolatingRoutes?: Routes;
+  ViolatingRoutes?: Route[];
   RouteTableId?: string;
   FirewallEndpoint?: string;
   VpcId?: string;
@@ -1708,7 +1927,7 @@ export const NetworkFirewallUnexpectedFirewallRoutesViolation = S.suspend(() =>
 }) as any as S.Schema<NetworkFirewallUnexpectedFirewallRoutesViolation>;
 export interface NetworkFirewallUnexpectedGatewayRoutesViolation {
   GatewayId?: string;
-  ViolatingRoutes?: Routes;
+  ViolatingRoutes?: Route[];
   RouteTableId?: string;
   VpcId?: string;
 }
@@ -1724,7 +1943,7 @@ export const NetworkFirewallUnexpectedGatewayRoutesViolation = S.suspend(() =>
 }) as any as S.Schema<NetworkFirewallUnexpectedGatewayRoutesViolation>;
 export interface NetworkFirewallMissingExpectedRoutesViolation {
   ViolationTarget?: string;
-  ExpectedRoutes?: ExpectedRoutes;
+  ExpectedRoutes?: ExpectedRoute[];
   VpcId?: string;
 }
 export const NetworkFirewallMissingExpectedRoutesViolation = S.suspend(() =>
@@ -1741,7 +1960,7 @@ export interface DnsRuleGroupPriorityConflictViolation {
   ViolationTargetDescription?: string;
   ConflictingPriority?: number;
   ConflictingPolicyId?: string;
-  UnavailablePriorities?: DnsRuleGroupPriorities;
+  UnavailablePriorities?: number[];
 }
 export const DnsRuleGroupPriorityConflictViolation = S.suspend(() =>
   S.Struct({
@@ -1802,15 +2021,15 @@ export interface RouteHasOutOfScopeEndpointViolation {
   SubnetId?: string;
   VpcId?: string;
   RouteTableId?: string;
-  ViolatingRoutes?: Routes;
+  ViolatingRoutes?: Route[];
   SubnetAvailabilityZone?: string;
   SubnetAvailabilityZoneId?: string;
   CurrentFirewallSubnetRouteTable?: string;
   FirewallSubnetId?: string;
-  FirewallSubnetRoutes?: Routes;
+  FirewallSubnetRoutes?: Route[];
   InternetGatewayId?: string;
   CurrentInternetGatewayRouteTable?: string;
-  InternetGatewayRoutes?: Routes;
+  InternetGatewayRoutes?: Route[];
 }
 export const RouteHasOutOfScopeEndpointViolation = S.suspend(() =>
   S.Struct({
@@ -1911,7 +2130,7 @@ export const WebACLHasIncompatibleConfigurationViolation = S.suspend(() =>
 }) as any as S.Schema<WebACLHasIncompatibleConfigurationViolation>;
 export interface WebACLHasOutOfScopeResourcesViolation {
   WebACLArn?: string;
-  OutOfScopeResourceList?: ResourceArnList;
+  OutOfScopeResourceList?: string[];
 }
 export const WebACLHasOutOfScopeResourcesViolation = S.suspend(() =>
   S.Struct({
@@ -1923,28 +2142,48 @@ export const WebACLHasOutOfScopeResourcesViolation = S.suspend(() =>
 }) as any as S.Schema<WebACLHasOutOfScopeResourcesViolation>;
 export type TargetViolationReasons = string[];
 export const TargetViolationReasons = S.Array(S.String);
+export type RemediationActionType = "REMOVE" | "MODIFY";
+export const RemediationActionType = S.Literal("REMOVE", "MODIFY");
 export type NetworkFirewallActionList = string[];
 export const NetworkFirewallActionList = S.Array(S.String);
+export type EntryType =
+  | "FMS_MANAGED_FIRST_ENTRY"
+  | "FMS_MANAGED_LAST_ENTRY"
+  | "CUSTOM_ENTRY";
+export const EntryType = S.Literal(
+  "FMS_MANAGED_FIRST_ENTRY",
+  "FMS_MANAGED_LAST_ENTRY",
+  "CUSTOM_ENTRY",
+);
 export interface EntryDescription {
   EntryDetail?: NetworkAclEntry;
   EntryRuleNumber?: number;
-  EntryType?: string;
+  EntryType?: EntryType;
 }
 export const EntryDescription = S.suspend(() =>
   S.Struct({
     EntryDetail: S.optional(NetworkAclEntry),
     EntryRuleNumber: S.optional(S.Number),
-    EntryType: S.optional(S.String),
+    EntryType: S.optional(EntryType),
   }),
 ).annotations({
   identifier: "EntryDescription",
 }) as any as S.Schema<EntryDescription>;
 export type EntriesWithConflicts = EntryDescription[];
 export const EntriesWithConflicts = S.Array(EntryDescription);
-export type EntryViolationReasons = string[];
-export const EntryViolationReasons = S.Array(S.String);
+export type EntryViolationReason =
+  | "MISSING_EXPECTED_ENTRY"
+  | "INCORRECT_ENTRY_ORDER"
+  | "ENTRY_CONFLICT";
+export const EntryViolationReason = S.Literal(
+  "MISSING_EXPECTED_ENTRY",
+  "INCORRECT_ENTRY_ORDER",
+  "ENTRY_CONFLICT",
+);
+export type EntryViolationReasons = EntryViolationReason[];
+export const EntryViolationReasons = S.Array(EntryViolationReason);
 export interface ListComplianceStatusResponse {
-  PolicyComplianceStatusList?: PolicyComplianceStatusList;
+  PolicyComplianceStatusList?: PolicyComplianceStatus[];
   NextToken?: string;
 }
 export const ListComplianceStatusResponse = S.suspend(() =>
@@ -1981,14 +2220,14 @@ export const PutProtocolsListResponse = S.suspend(() =>
 }) as any as S.Schema<PutProtocolsListResponse>;
 export interface ComplianceViolator {
   ResourceId?: string;
-  ViolationReason?: string;
+  ViolationReason?: ViolationReason;
   ResourceType?: string;
-  Metadata?: ComplianceViolatorMetadata;
+  Metadata?: { [key: string]: string };
 }
 export const ComplianceViolator = S.suspend(() =>
   S.Struct({
     ResourceId: S.optional(S.String),
-    ViolationReason: S.optional(S.String),
+    ViolationReason: S.optional(ViolationReason),
     ResourceType: S.optional(S.String),
     Metadata: S.optional(ComplianceViolatorMetadata),
   }),
@@ -1999,7 +2238,7 @@ export type ComplianceViolators = ComplianceViolator[];
 export const ComplianceViolators = S.Array(ComplianceViolator);
 export interface PartialMatch {
   Reference?: string;
-  TargetViolationReasons?: TargetViolationReasons;
+  TargetViolationReasons?: string[];
 }
 export const PartialMatch = S.suspend(() =>
   S.Struct({
@@ -2013,10 +2252,10 @@ export interface PolicyComplianceDetail {
   PolicyOwner?: string;
   PolicyId?: string;
   MemberAccount?: string;
-  Violators?: ComplianceViolators;
+  Violators?: ComplianceViolator[];
   EvaluationLimitExceeded?: boolean;
   ExpiredAt?: Date;
-  IssueInfoMap?: IssueInfoMap;
+  IssueInfoMap?: { [key: string]: string };
 }
 export const PolicyComplianceDetail = S.suspend(() =>
   S.Struct({
@@ -2031,21 +2270,34 @@ export const PolicyComplianceDetail = S.suspend(() =>
 ).annotations({
   identifier: "PolicyComplianceDetail",
 }) as any as S.Schema<PolicyComplianceDetail>;
+export type RuleOrder = "STRICT_ORDER" | "DEFAULT_ACTION_ORDER";
+export const RuleOrder = S.Literal("STRICT_ORDER", "DEFAULT_ACTION_ORDER");
+export type StreamExceptionPolicy =
+  | "DROP"
+  | "CONTINUE"
+  | "REJECT"
+  | "FMS_IGNORE";
+export const StreamExceptionPolicy = S.Literal(
+  "DROP",
+  "CONTINUE",
+  "REJECT",
+  "FMS_IGNORE",
+);
 export interface NetworkFirewallInternetTrafficNotInspectedViolation {
   SubnetId?: string;
   SubnetAvailabilityZone?: string;
   RouteTableId?: string;
-  ViolatingRoutes?: Routes;
+  ViolatingRoutes?: Route[];
   IsRouteTableUsedInDifferentAZ?: boolean;
   CurrentFirewallSubnetRouteTable?: string;
   ExpectedFirewallEndpoint?: string;
   FirewallSubnetId?: string;
-  ExpectedFirewallSubnetRoutes?: ExpectedRoutes;
-  ActualFirewallSubnetRoutes?: Routes;
+  ExpectedFirewallSubnetRoutes?: ExpectedRoute[];
+  ActualFirewallSubnetRoutes?: Route[];
   InternetGatewayId?: string;
   CurrentInternetGatewayRouteTable?: string;
-  ExpectedInternetGatewayRoutes?: ExpectedRoutes;
-  ActualInternetGatewayRoutes?: Routes;
+  ExpectedInternetGatewayRoutes?: ExpectedRoute[];
+  ActualInternetGatewayRoutes?: Route[];
   VpcId?: string;
 }
 export const NetworkFirewallInternetTrafficNotInspectedViolation = S.suspend(
@@ -2115,26 +2367,28 @@ export const StatelessRuleGroup = S.suspend(() =>
 export type StatelessRuleGroupList = StatelessRuleGroup[];
 export const StatelessRuleGroupList = S.Array(StatelessRuleGroup);
 export interface StatefulEngineOptions {
-  RuleOrder?: string;
-  StreamExceptionPolicy?: string;
+  RuleOrder?: RuleOrder;
+  StreamExceptionPolicy?: StreamExceptionPolicy;
 }
 export const StatefulEngineOptions = S.suspend(() =>
   S.Struct({
-    RuleOrder: S.optional(S.String),
-    StreamExceptionPolicy: S.optional(S.String),
+    RuleOrder: S.optional(RuleOrder),
+    StreamExceptionPolicy: S.optional(StreamExceptionPolicy),
   }),
 ).annotations({
   identifier: "StatefulEngineOptions",
 }) as any as S.Schema<StatefulEngineOptions>;
+export type NetworkFirewallOverrideAction = "DROP_TO_ALERT";
+export const NetworkFirewallOverrideAction = S.Literal("DROP_TO_ALERT");
 export interface SecurityGroupRemediationAction {
-  RemediationActionType?: string;
+  RemediationActionType?: RemediationActionType;
   Description?: string;
   RemediationResult?: SecurityGroupRuleDescription;
   IsDefaultAction?: boolean;
 }
 export const SecurityGroupRemediationAction = S.suspend(() =>
   S.Struct({
-    RemediationActionType: S.optional(S.String),
+    RemediationActionType: S.optional(RemediationActionType),
     Description: S.optional(S.String),
     RemediationResult: S.optional(SecurityGroupRuleDescription),
     IsDefaultAction: S.optional(S.Boolean),
@@ -2151,8 +2405,8 @@ export interface EntryViolation {
   ExpectedEvaluationOrder?: string;
   ActualEvaluationOrder?: string;
   EntryAtExpectedEvaluationOrder?: EntryDescription;
-  EntriesWithConflicts?: EntriesWithConflicts;
-  EntryViolationReasons?: EntryViolationReasons;
+  EntriesWithConflicts?: EntryDescription[];
+  EntryViolationReasons?: EntryViolationReason[];
 }
 export const EntryViolation = S.suspend(() =>
   S.Struct({
@@ -2169,18 +2423,18 @@ export const EntryViolation = S.suspend(() =>
 export type EntryViolations = EntryViolation[];
 export const EntryViolations = S.Array(EntryViolation);
 export interface NetworkFirewallStatefulRuleGroupOverride {
-  Action?: string;
+  Action?: NetworkFirewallOverrideAction;
 }
 export const NetworkFirewallStatefulRuleGroupOverride = S.suspend(() =>
-  S.Struct({ Action: S.optional(S.String) }),
+  S.Struct({ Action: S.optional(NetworkFirewallOverrideAction) }),
 ).annotations({
   identifier: "NetworkFirewallStatefulRuleGroupOverride",
 }) as any as S.Schema<NetworkFirewallStatefulRuleGroupOverride>;
 export interface AwsVPCSecurityGroupViolation {
   ViolationTarget?: string;
   ViolationTargetDescription?: string;
-  PartialMatches?: PartialMatches;
-  PossibleSecurityGroupRemediationActions?: SecurityGroupRemediationActions;
+  PartialMatches?: PartialMatch[];
+  PossibleSecurityGroupRemediationActions?: SecurityGroupRemediationAction[];
 }
 export const AwsVPCSecurityGroupViolation = S.suspend(() =>
   S.Struct({
@@ -2199,7 +2453,7 @@ export interface InvalidNetworkAclEntriesViolation {
   Subnet?: string;
   SubnetAvailabilityZone?: string;
   CurrentAssociatedNetworkAcl?: string;
-  EntryViolations?: EntryViolations;
+  EntryViolations?: EntryViolation[];
 }
 export const InvalidNetworkAclEntriesViolation = S.suspend(() =>
   S.Struct({
@@ -2378,7 +2632,7 @@ export const ReplaceNetworkAclAssociationAction = S.suspend(() =>
 export interface CreateNetworkAclEntriesAction {
   Description?: string;
   NetworkAclId?: ActionTarget;
-  NetworkAclEntriesToBeCreated?: EntriesDescription;
+  NetworkAclEntriesToBeCreated?: EntryDescription[];
   FMSCanRemediate?: boolean;
 }
 export const CreateNetworkAclEntriesAction = S.suspend(() =>
@@ -2394,7 +2648,7 @@ export const CreateNetworkAclEntriesAction = S.suspend(() =>
 export interface DeleteNetworkAclEntriesAction {
   Description?: string;
   NetworkAclId?: ActionTarget;
-  NetworkAclEntriesToBeDeleted?: EntriesDescription;
+  NetworkAclEntriesToBeDeleted?: EntryDescription[];
   FMSCanRemediate?: boolean;
 }
 export const DeleteNetworkAclEntriesAction = S.suspend(() =>
@@ -2408,12 +2662,12 @@ export const DeleteNetworkAclEntriesAction = S.suspend(() =>
   identifier: "DeleteNetworkAclEntriesAction",
 }) as any as S.Schema<DeleteNetworkAclEntriesAction>;
 export interface NetworkFirewallPolicyDescription {
-  StatelessRuleGroups?: StatelessRuleGroupList;
-  StatelessDefaultActions?: NetworkFirewallActionList;
-  StatelessFragmentDefaultActions?: NetworkFirewallActionList;
-  StatelessCustomActions?: NetworkFirewallActionList;
-  StatefulRuleGroups?: StatefulRuleGroupList;
-  StatefulDefaultActions?: NetworkFirewallActionList;
+  StatelessRuleGroups?: StatelessRuleGroup[];
+  StatelessDefaultActions?: string[];
+  StatelessFragmentDefaultActions?: string[];
+  StatelessCustomActions?: string[];
+  StatefulRuleGroups?: StatefulRuleGroup[];
+  StatefulDefaultActions?: string[];
   StatefulEngineOptions?: StatefulEngineOptions;
 }
 export const NetworkFirewallPolicyDescription = S.suspend(() =>
@@ -2521,7 +2775,7 @@ export type OrderedRemediationActions = RemediationActionWithOrder[];
 export const OrderedRemediationActions = S.Array(RemediationActionWithOrder);
 export interface PutPolicyRequest {
   Policy: Policy;
-  TagList?: TagList;
+  TagList?: Tag[];
 }
 export const PutPolicyRequest = S.suspend(() =>
   S.Struct({ Policy: Policy, TagList: S.optional(TagList) }).pipe(
@@ -2532,7 +2786,7 @@ export const PutPolicyRequest = S.suspend(() =>
 }) as any as S.Schema<PutPolicyRequest>;
 export interface PossibleRemediationAction {
   Description?: string;
-  OrderedRemediationActions: OrderedRemediationActions;
+  OrderedRemediationActions: RemediationActionWithOrder[];
   IsDefaultAction?: boolean;
 }
 export const PossibleRemediationAction = S.suspend(() =>
@@ -2548,7 +2802,7 @@ export type PossibleRemediationActionList = PossibleRemediationAction[];
 export const PossibleRemediationActionList = S.Array(PossibleRemediationAction);
 export interface PossibleRemediationActions {
   Description?: string;
-  Actions?: PossibleRemediationActionList;
+  Actions?: PossibleRemediationAction[];
 }
 export const PossibleRemediationActions = S.suspend(() =>
   S.Struct({
@@ -2678,8 +2932,8 @@ export interface ViolationDetail {
   MemberAccount: string;
   ResourceId: string;
   ResourceType: string;
-  ResourceViolations: ResourceViolations;
-  ResourceTags?: TagList;
+  ResourceViolations: ResourceViolation[];
+  ResourceTags?: Tag[];
   ResourceDescription?: string;
 }
 export const ViolationDetail = S.suspend(() =>
@@ -2737,7 +2991,7 @@ export class InvalidTypeException extends S.TaggedError<InvalidTypeException>()(
  */
 export const deleteNotificationChannel: (
   input: DeleteNotificationChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteNotificationChannelResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -2758,7 +3012,7 @@ export const deleteNotificationChannel: (
  */
 export const deletePolicy: (
   input: DeletePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePolicyResponse,
   | InternalErrorException
   | InvalidInputException
@@ -2783,7 +3037,7 @@ export const deletePolicy: (
  */
 export const getPolicy: (
   input: GetPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPolicyResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -2809,7 +3063,7 @@ export const getPolicy: (
 export const listAdminAccountsForOrganization: {
   (
     input: ListAdminAccountsForOrganizationRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAdminAccountsForOrganizationResponse,
     | InternalErrorException
     | InvalidOperationException
@@ -2820,7 +3074,7 @@ export const listAdminAccountsForOrganization: {
   >;
   pages: (
     input: ListAdminAccountsForOrganizationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAdminAccountsForOrganizationResponse,
     | InternalErrorException
     | InvalidOperationException
@@ -2831,7 +3085,7 @@ export const listAdminAccountsForOrganization: {
   >;
   items: (
     input: ListAdminAccountsForOrganizationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AdminAccountSummary,
     | InternalErrorException
     | InvalidOperationException
@@ -2862,7 +3116,7 @@ export const listAdminAccountsForOrganization: {
 export const listAppsLists: {
   (
     input: ListAppsListsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAppsListsResponse,
     | InternalErrorException
     | InvalidOperationException
@@ -2873,7 +3127,7 @@ export const listAppsLists: {
   >;
   pages: (
     input: ListAppsListsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAppsListsResponse,
     | InternalErrorException
     | InvalidOperationException
@@ -2884,7 +3138,7 @@ export const listAppsLists: {
   >;
   items: (
     input: ListAppsListsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AppsListDataSummary,
     | InternalErrorException
     | InvalidOperationException
@@ -2914,7 +3168,7 @@ export const listAppsLists: {
  */
 export const listDiscoveredResources: (
   input: ListDiscoveredResourcesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDiscoveredResourcesResponse,
   | InternalErrorException
   | InvalidInputException
@@ -2936,7 +3190,7 @@ export const listDiscoveredResources: (
 export const listPolicies: {
   (
     input: ListPoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPoliciesResponse,
     | InternalErrorException
     | InvalidOperationException
@@ -2947,7 +3201,7 @@ export const listPolicies: {
   >;
   pages: (
     input: ListPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPoliciesResponse,
     | InternalErrorException
     | InvalidOperationException
@@ -2958,7 +3212,7 @@ export const listPolicies: {
   >;
   items: (
     input: ListPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PolicySummary,
     | InternalErrorException
     | InvalidOperationException
@@ -2989,7 +3243,7 @@ export const listPolicies: {
 export const listProtocolsLists: {
   (
     input: ListProtocolsListsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProtocolsListsResponse,
     | InternalErrorException
     | InvalidOperationException
@@ -2999,7 +3253,7 @@ export const listProtocolsLists: {
   >;
   pages: (
     input: ListProtocolsListsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProtocolsListsResponse,
     | InternalErrorException
     | InvalidOperationException
@@ -3009,7 +3263,7 @@ export const listProtocolsLists: {
   >;
   items: (
     input: ListProtocolsListsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProtocolsListDataSummary,
     | InternalErrorException
     | InvalidOperationException
@@ -3037,7 +3291,7 @@ export const listProtocolsLists: {
  */
 export const listResourceSetResources: (
   input: ListResourceSetResourcesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListResourceSetResourcesResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3060,7 +3314,7 @@ export const listResourceSetResources: (
  */
 export const listResourceSets: (
   input: ListResourceSetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListResourceSetsResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3082,7 +3336,7 @@ export const listResourceSets: (
 export const listThirdPartyFirewallFirewallPolicies: {
   (
     input: ListThirdPartyFirewallFirewallPoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListThirdPartyFirewallFirewallPoliciesResponse,
     | InternalErrorException
     | InvalidInputException
@@ -3093,7 +3347,7 @@ export const listThirdPartyFirewallFirewallPolicies: {
   >;
   pages: (
     input: ListThirdPartyFirewallFirewallPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListThirdPartyFirewallFirewallPoliciesResponse,
     | InternalErrorException
     | InvalidInputException
@@ -3104,7 +3358,7 @@ export const listThirdPartyFirewallFirewallPolicies: {
   >;
   items: (
     input: ListThirdPartyFirewallFirewallPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ThirdPartyFirewallFirewallPolicy,
     | InternalErrorException
     | InvalidInputException
@@ -3135,7 +3389,7 @@ export const listThirdPartyFirewallFirewallPolicies: {
  */
 export const putAdminAccount: (
   input: PutAdminAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAdminAccountResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3160,7 +3414,7 @@ export const putAdminAccount: (
  */
 export const putResourceSet: (
   input: PutResourceSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourceSetResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3183,7 +3437,7 @@ export const putResourceSet: (
  */
 export const disassociateThirdPartyFirewall: (
   input: DisassociateThirdPartyFirewallRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateThirdPartyFirewallResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3206,7 +3460,7 @@ export const disassociateThirdPartyFirewall: (
  */
 export const getAppsList: (
   input: GetAppsListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAppsListResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -3228,7 +3482,7 @@ export const getAppsList: (
  */
 export const getProtectionStatus: (
   input: GetProtectionStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetProtectionStatusResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3249,7 +3503,7 @@ export const getProtectionStatus: (
  */
 export const getProtocolsList: (
   input: GetProtocolsListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetProtocolsListResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -3270,7 +3524,7 @@ export const getProtocolsList: (
  */
 export const getResourceSet: (
   input: GetResourceSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourceSetResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3293,7 +3547,7 @@ export const getResourceSet: (
  */
 export const getThirdPartyFirewallAssociationStatus: (
   input: GetThirdPartyFirewallAssociationStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetThirdPartyFirewallAssociationStatusResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3317,7 +3571,7 @@ export const getThirdPartyFirewallAssociationStatus: (
 export const listAdminsManagingAccount: {
   (
     input: ListAdminsManagingAccountRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAdminsManagingAccountResponse,
     | InternalErrorException
     | InvalidInputException
@@ -3327,7 +3581,7 @@ export const listAdminsManagingAccount: {
   >;
   pages: (
     input: ListAdminsManagingAccountRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAdminsManagingAccountResponse,
     | InternalErrorException
     | InvalidInputException
@@ -3337,7 +3591,7 @@ export const listAdminsManagingAccount: {
   >;
   items: (
     input: ListAdminsManagingAccountRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AWSAccountId,
     | InternalErrorException
     | InvalidInputException
@@ -3369,21 +3623,21 @@ export const listAdminsManagingAccount: {
 export const listMemberAccounts: {
   (
     input: ListMemberAccountsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMemberAccountsResponse,
     InternalErrorException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListMemberAccountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMemberAccountsResponse,
     InternalErrorException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMemberAccountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AWSAccountId,
     InternalErrorException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3404,7 +3658,7 @@ export const listMemberAccounts: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3427,7 +3681,7 @@ export const listTagsForResource: (
  */
 export const deleteProtocolsList: (
   input: DeleteProtocolsListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProtocolsListResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -3449,7 +3703,7 @@ export const deleteProtocolsList: (
  */
 export const getAdminAccount: (
   input: GetAdminAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAdminAccountResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -3472,7 +3726,7 @@ export const getAdminAccount: (
  */
 export const getNotificationChannel: (
   input: GetNotificationChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetNotificationChannelResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -3497,7 +3751,7 @@ export const getNotificationChannel: (
  */
 export const putNotificationChannel: (
   input: PutNotificationChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutNotificationChannelResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -3520,7 +3774,7 @@ export const putNotificationChannel: (
  */
 export const disassociateAdminAccount: (
   input: DisassociateAdminAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateAdminAccountResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -3541,7 +3795,7 @@ export const disassociateAdminAccount: (
  */
 export const deleteAppsList: (
   input: DeleteAppsListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAppsListResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -3562,7 +3816,7 @@ export const deleteAppsList: (
  */
 export const deleteResourceSet: (
   input: DeleteResourceSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourceSetResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3585,7 +3839,7 @@ export const deleteResourceSet: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3608,7 +3862,7 @@ export const untagResource: (
  */
 export const associateThirdPartyFirewall: (
   input: AssociateThirdPartyFirewallRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateThirdPartyFirewallResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3631,7 +3885,7 @@ export const associateThirdPartyFirewall: (
  */
 export const batchDisassociateResource: (
   input: BatchDisassociateResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDisassociateResourceResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3654,7 +3908,7 @@ export const batchDisassociateResource: (
  */
 export const getAdminScope: (
   input: GetAdminScopeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAdminScopeResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3679,7 +3933,7 @@ export const getAdminScope: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3706,7 +3960,7 @@ export const tagResource: (
  */
 export const associateAdminAccount: (
   input: AssociateAdminAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateAdminAccountResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3731,7 +3985,7 @@ export const associateAdminAccount: (
  */
 export const batchAssociateResource: (
   input: BatchAssociateResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchAssociateResourceResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3759,21 +4013,21 @@ export const batchAssociateResource: (
 export const listComplianceStatus: {
   (
     input: ListComplianceStatusRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListComplianceStatusResponse,
     InternalErrorException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListComplianceStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListComplianceStatusResponse,
     InternalErrorException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListComplianceStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PolicyComplianceStatus,
     InternalErrorException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3794,7 +4048,7 @@ export const listComplianceStatus: {
  */
 export const putAppsList: (
   input: PutAppsListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAppsListResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3819,7 +4073,7 @@ export const putAppsList: (
  */
 export const putProtocolsList: (
   input: PutProtocolsListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutProtocolsListResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3847,7 +4101,7 @@ export const putProtocolsList: (
  */
 export const getComplianceDetail: (
   input: GetComplianceDetailRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetComplianceDetailResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3907,7 +4161,7 @@ export const getComplianceDetail: (
  */
 export const putPolicy: (
   input: PutPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutPolicyResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3934,7 +4188,7 @@ export const putPolicy: (
  */
 export const getViolationDetails: (
   input: GetViolationDetailsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetViolationDetailsResponse,
   | InternalErrorException
   | InvalidInputException

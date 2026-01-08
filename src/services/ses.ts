@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -246,6 +246,8 @@ export const ListVerifiedEmailAddressesRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListVerifiedEmailAddressesRequest",
 }) as any as S.Schema<ListVerifiedEmailAddressesRequest>;
+export type TlsPolicy = "Require" | "Optional";
+export const TlsPolicy = S.Literal("Require", "Optional");
 export type RecipientsList = string[];
 export const RecipientsList = S.Array(S.String);
 export interface S3Action {
@@ -289,24 +291,28 @@ export const WorkmailAction = S.suspend(() =>
 ).annotations({
   identifier: "WorkmailAction",
 }) as any as S.Schema<WorkmailAction>;
+export type InvocationType = "Event" | "RequestResponse";
+export const InvocationType = S.Literal("Event", "RequestResponse");
 export interface LambdaAction {
   TopicArn?: string;
   FunctionArn: string;
-  InvocationType?: string;
+  InvocationType?: InvocationType;
 }
 export const LambdaAction = S.suspend(() =>
   S.Struct({
     TopicArn: S.optional(S.String),
     FunctionArn: S.String,
-    InvocationType: S.optional(S.String),
+    InvocationType: S.optional(InvocationType),
   }),
 ).annotations({ identifier: "LambdaAction" }) as any as S.Schema<LambdaAction>;
+export type StopScope = "RuleSet";
+export const StopScope = S.Literal("RuleSet");
 export interface StopAction {
-  Scope: string;
+  Scope: StopScope;
   TopicArn?: string;
 }
 export const StopAction = S.suspend(() =>
-  S.Struct({ Scope: S.String, TopicArn: S.optional(S.String) }),
+  S.Struct({ Scope: StopScope, TopicArn: S.optional(S.String) }),
 ).annotations({ identifier: "StopAction" }) as any as S.Schema<StopAction>;
 export interface AddHeaderAction {
   HeaderName: string;
@@ -317,12 +323,14 @@ export const AddHeaderAction = S.suspend(() =>
 ).annotations({
   identifier: "AddHeaderAction",
 }) as any as S.Schema<AddHeaderAction>;
+export type SNSActionEncoding = "UTF-8" | "Base64";
+export const SNSActionEncoding = S.Literal("UTF-8", "Base64");
 export interface SNSAction {
   TopicArn: string;
-  Encoding?: string;
+  Encoding?: SNSActionEncoding;
 }
 export const SNSAction = S.suspend(() =>
-  S.Struct({ TopicArn: S.String, Encoding: S.optional(S.String) }),
+  S.Struct({ TopicArn: S.String, Encoding: S.optional(SNSActionEncoding) }),
 ).annotations({ identifier: "SNSAction" }) as any as S.Schema<SNSAction>;
 export interface ConnectAction {
   InstanceARN: string;
@@ -362,16 +370,16 @@ export const ReceiptActionsList = S.Array(ReceiptAction);
 export interface ReceiptRule {
   Name: string;
   Enabled?: boolean;
-  TlsPolicy?: string;
-  Recipients?: RecipientsList;
-  Actions?: ReceiptActionsList;
+  TlsPolicy?: TlsPolicy;
+  Recipients?: string[];
+  Actions?: ReceiptAction[];
   ScanEnabled?: boolean;
 }
 export const ReceiptRule = S.suspend(() =>
   S.Struct({
     Name: S.String,
     Enabled: S.optional(S.Boolean),
-    TlsPolicy: S.optional(S.String),
+    TlsPolicy: S.optional(TlsPolicy),
     Recipients: S.optional(RecipientsList),
     Actions: S.optional(ReceiptActionsList),
     ScanEnabled: S.optional(S.Boolean),
@@ -379,18 +387,33 @@ export const ReceiptRule = S.suspend(() =>
 ).annotations({ identifier: "ReceiptRule" }) as any as S.Schema<ReceiptRule>;
 export type ReceiptRulesList = ReceiptRule[];
 export const ReceiptRulesList = S.Array(ReceiptRule);
-export type ConfigurationSetAttributeList = string[];
-export const ConfigurationSetAttributeList = S.Array(S.String);
+export type ConfigurationSetAttribute =
+  | "eventDestinations"
+  | "trackingOptions"
+  | "deliveryOptions"
+  | "reputationOptions";
+export const ConfigurationSetAttribute = S.Literal(
+  "eventDestinations",
+  "trackingOptions",
+  "deliveryOptions",
+  "reputationOptions",
+);
+export type ConfigurationSetAttributeList = ConfigurationSetAttribute[];
+export const ConfigurationSetAttributeList = S.Array(ConfigurationSetAttribute);
 export type IdentityList = string[];
 export const IdentityList = S.Array(S.String);
 export type PolicyNameList = string[];
 export const PolicyNameList = S.Array(S.String);
+export type IdentityType = "EmailAddress" | "Domain";
+export const IdentityType = S.Literal("EmailAddress", "Domain");
+export type ReceiptFilterPolicy = "Block" | "Allow";
+export const ReceiptFilterPolicy = S.Literal("Block", "Allow");
 export interface ReceiptIpFilter {
-  Policy: string;
+  Policy: ReceiptFilterPolicy;
   Cidr: string;
 }
 export const ReceiptIpFilter = S.suspend(() =>
-  S.Struct({ Policy: S.String, Cidr: S.String }),
+  S.Struct({ Policy: ReceiptFilterPolicy, Cidr: S.String }),
 ).annotations({
   identifier: "ReceiptIpFilter",
 }) as any as S.Schema<ReceiptIpFilter>;
@@ -409,6 +432,13 @@ export type AddressList = string[];
 export const AddressList = S.Array(S.String);
 export type ReceiptRuleNamesList = string[];
 export const ReceiptRuleNamesList = S.Array(S.String);
+export type NotificationType = "Bounce" | "Complaint" | "Delivery";
+export const NotificationType = S.Literal("Bounce", "Complaint", "Delivery");
+export type BehaviorOnMXFailure = "UseDefaultValue" | "RejectMessage";
+export const BehaviorOnMXFailure = S.Literal(
+  "UseDefaultValue",
+  "RejectMessage",
+);
 export interface CloneReceiptRuleSetRequest {
   RuleSetName: string;
   OriginalRuleSetName: string;
@@ -766,7 +796,7 @@ export const DeleteVerifiedEmailAddressResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteVerifiedEmailAddressResponse>;
 export interface DescribeConfigurationSetRequest {
   ConfigurationSetName: string;
-  ConfigurationSetAttributeNames?: ConfigurationSetAttributeList;
+  ConfigurationSetAttributeNames?: ConfigurationSetAttribute[];
 }
 export const DescribeConfigurationSetRequest = S.suspend(() =>
   S.Struct({
@@ -850,7 +880,7 @@ export const GetCustomVerificationEmailTemplateRequest = S.suspend(() =>
   identifier: "GetCustomVerificationEmailTemplateRequest",
 }) as any as S.Schema<GetCustomVerificationEmailTemplateRequest>;
 export interface GetIdentityDkimAttributesRequest {
-  Identities: IdentityList;
+  Identities: string[];
 }
 export const GetIdentityDkimAttributesRequest = S.suspend(() =>
   S.Struct({ Identities: IdentityList }).pipe(
@@ -868,7 +898,7 @@ export const GetIdentityDkimAttributesRequest = S.suspend(() =>
   identifier: "GetIdentityDkimAttributesRequest",
 }) as any as S.Schema<GetIdentityDkimAttributesRequest>;
 export interface GetIdentityMailFromDomainAttributesRequest {
-  Identities: IdentityList;
+  Identities: string[];
 }
 export const GetIdentityMailFromDomainAttributesRequest = S.suspend(() =>
   S.Struct({ Identities: IdentityList }).pipe(
@@ -886,7 +916,7 @@ export const GetIdentityMailFromDomainAttributesRequest = S.suspend(() =>
   identifier: "GetIdentityMailFromDomainAttributesRequest",
 }) as any as S.Schema<GetIdentityMailFromDomainAttributesRequest>;
 export interface GetIdentityNotificationAttributesRequest {
-  Identities: IdentityList;
+  Identities: string[];
 }
 export const GetIdentityNotificationAttributesRequest = S.suspend(() =>
   S.Struct({ Identities: IdentityList }).pipe(
@@ -905,7 +935,7 @@ export const GetIdentityNotificationAttributesRequest = S.suspend(() =>
 }) as any as S.Schema<GetIdentityNotificationAttributesRequest>;
 export interface GetIdentityPoliciesRequest {
   Identity: string;
-  PolicyNames: PolicyNameList;
+  PolicyNames: string[];
 }
 export const GetIdentityPoliciesRequest = S.suspend(() =>
   S.Struct({ Identity: S.String, PolicyNames: PolicyNameList }).pipe(
@@ -923,7 +953,7 @@ export const GetIdentityPoliciesRequest = S.suspend(() =>
   identifier: "GetIdentityPoliciesRequest",
 }) as any as S.Schema<GetIdentityPoliciesRequest>;
 export interface GetIdentityVerificationAttributesRequest {
-  Identities: IdentityList;
+  Identities: string[];
 }
 export const GetIdentityVerificationAttributesRequest = S.suspend(() =>
   S.Struct({ Identities: IdentityList }).pipe(
@@ -1017,13 +1047,13 @@ export const ListCustomVerificationEmailTemplatesRequest = S.suspend(() =>
   identifier: "ListCustomVerificationEmailTemplatesRequest",
 }) as any as S.Schema<ListCustomVerificationEmailTemplatesRequest>;
 export interface ListIdentitiesRequest {
-  IdentityType?: string;
+  IdentityType?: IdentityType;
   NextToken?: string;
   MaxItems?: number;
 }
 export const ListIdentitiesRequest = S.suspend(() =>
   S.Struct({
-    IdentityType: S.optional(S.String),
+    IdentityType: S.optional(IdentityType),
     NextToken: S.optional(S.String),
     MaxItems: S.optional(S.Number),
   }).pipe(
@@ -1059,7 +1089,7 @@ export const ListIdentityPoliciesRequest = S.suspend(() =>
   identifier: "ListIdentityPoliciesRequest",
 }) as any as S.Schema<ListIdentityPoliciesRequest>;
 export interface ListReceiptFiltersResponse {
-  Filters?: ReceiptFilterList;
+  Filters?: ReceiptFilter[];
 }
 export const ListReceiptFiltersResponse = S.suspend(() =>
   S.Struct({ Filters: S.optional(ReceiptFilterList) }).pipe(ns),
@@ -1107,7 +1137,7 @@ export const ListTemplatesRequest = S.suspend(() =>
   identifier: "ListTemplatesRequest",
 }) as any as S.Schema<ListTemplatesRequest>;
 export interface ListVerifiedEmailAddressesResponse {
-  VerifiedEmailAddresses?: AddressList;
+  VerifiedEmailAddresses?: string[];
 }
 export const ListVerifiedEmailAddressesResponse = S.suspend(() =>
   S.Struct({ VerifiedEmailAddresses: S.optional(AddressList) }).pipe(ns),
@@ -1142,7 +1172,7 @@ export const PutIdentityPolicyResponse = S.suspend(() =>
 }) as any as S.Schema<PutIdentityPolicyResponse>;
 export interface ReorderReceiptRuleSetRequest {
   RuleSetName: string;
-  RuleNames: ReceiptRuleNamesList;
+  RuleNames: string[];
 }
 export const ReorderReceiptRuleSetRequest = S.suspend(() =>
   S.Struct({ RuleSetName: S.String, RuleNames: ReceiptRuleNamesList }).pipe(
@@ -1190,9 +1220,9 @@ export const SendCustomVerificationEmailRequest = S.suspend(() =>
   identifier: "SendCustomVerificationEmailRequest",
 }) as any as S.Schema<SendCustomVerificationEmailRequest>;
 export interface Destination {
-  ToAddresses?: AddressList;
-  CcAddresses?: AddressList;
-  BccAddresses?: AddressList;
+  ToAddresses?: string[];
+  CcAddresses?: string[];
+  BccAddresses?: string[];
 }
 export const Destination = S.suspend(() =>
   S.Struct({
@@ -1213,11 +1243,11 @@ export const MessageTagList = S.Array(MessageTag);
 export interface SendTemplatedEmailRequest {
   Source: string;
   Destination: Destination;
-  ReplyToAddresses?: AddressList;
+  ReplyToAddresses?: string[];
   ReturnPath?: string;
   SourceArn?: string;
   ReturnPathArn?: string;
-  Tags?: MessageTagList;
+  Tags?: MessageTag[];
   ConfigurationSetName?: string;
   Template: string;
   TemplateArn?: string;
@@ -1326,13 +1356,13 @@ export const SetIdentityFeedbackForwardingEnabledResponse = S.suspend(() =>
 }) as any as S.Schema<SetIdentityFeedbackForwardingEnabledResponse>;
 export interface SetIdentityHeadersInNotificationsEnabledRequest {
   Identity: string;
-  NotificationType: string;
+  NotificationType: NotificationType;
   Enabled: boolean;
 }
 export const SetIdentityHeadersInNotificationsEnabledRequest = S.suspend(() =>
   S.Struct({
     Identity: S.String,
-    NotificationType: S.String,
+    NotificationType: NotificationType,
     Enabled: S.Boolean,
   }).pipe(
     T.all(
@@ -1357,13 +1387,13 @@ export const SetIdentityHeadersInNotificationsEnabledResponse = S.suspend(() =>
 export interface SetIdentityMailFromDomainRequest {
   Identity: string;
   MailFromDomain?: string;
-  BehaviorOnMXFailure?: string;
+  BehaviorOnMXFailure?: BehaviorOnMXFailure;
 }
 export const SetIdentityMailFromDomainRequest = S.suspend(() =>
   S.Struct({
     Identity: S.String,
     MailFromDomain: S.optional(S.String),
-    BehaviorOnMXFailure: S.optional(S.String),
+    BehaviorOnMXFailure: S.optional(BehaviorOnMXFailure),
   }).pipe(
     T.all(
       ns,
@@ -1386,13 +1416,13 @@ export const SetIdentityMailFromDomainResponse = S.suspend(() =>
 }) as any as S.Schema<SetIdentityMailFromDomainResponse>;
 export interface SetIdentityNotificationTopicRequest {
   Identity: string;
-  NotificationType: string;
+  NotificationType: NotificationType;
   SnsTopic?: string;
 }
 export const SetIdentityNotificationTopicRequest = S.suspend(() =>
   S.Struct({
     Identity: S.String,
-    NotificationType: S.String,
+    NotificationType: NotificationType,
     SnsTopic: S.optional(S.String),
   }).pipe(
     T.all(
@@ -1487,8 +1517,27 @@ export const UpdateAccountSendingEnabledResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateAccountSendingEnabledResponse",
 }) as any as S.Schema<UpdateAccountSendingEnabledResponse>;
-export type EventTypes = string[];
-export const EventTypes = S.Array(S.String);
+export type EventType =
+  | "send"
+  | "reject"
+  | "bounce"
+  | "complaint"
+  | "delivery"
+  | "open"
+  | "click"
+  | "renderingFailure";
+export const EventType = S.Literal(
+  "send",
+  "reject",
+  "bounce",
+  "complaint",
+  "delivery",
+  "open",
+  "click",
+  "renderingFailure",
+);
+export type EventTypes = EventType[];
+export const EventTypes = S.Array(EventType);
 export interface KinesisFirehoseDestination {
   IAMRoleARN: string;
   DeliveryStreamARN: string;
@@ -1498,15 +1547,21 @@ export const KinesisFirehoseDestination = S.suspend(() =>
 ).annotations({
   identifier: "KinesisFirehoseDestination",
 }) as any as S.Schema<KinesisFirehoseDestination>;
+export type DimensionValueSource = "messageTag" | "emailHeader" | "linkTag";
+export const DimensionValueSource = S.Literal(
+  "messageTag",
+  "emailHeader",
+  "linkTag",
+);
 export interface CloudWatchDimensionConfiguration {
   DimensionName: string;
-  DimensionValueSource: string;
+  DimensionValueSource: DimensionValueSource;
   DefaultDimensionValue: string;
 }
 export const CloudWatchDimensionConfiguration = S.suspend(() =>
   S.Struct({
     DimensionName: S.String,
-    DimensionValueSource: S.String,
+    DimensionValueSource: DimensionValueSource,
     DefaultDimensionValue: S.String,
   }),
 ).annotations({
@@ -1518,7 +1573,7 @@ export const CloudWatchDimensionConfigurations = S.Array(
   CloudWatchDimensionConfiguration,
 );
 export interface CloudWatchDestination {
-  DimensionConfigurations: CloudWatchDimensionConfigurations;
+  DimensionConfigurations: CloudWatchDimensionConfiguration[];
 }
 export const CloudWatchDestination = S.suspend(() =>
   S.Struct({ DimensionConfigurations: CloudWatchDimensionConfigurations }),
@@ -1536,7 +1591,7 @@ export const SNSDestination = S.suspend(() =>
 export interface EventDestination {
   Name: string;
   Enabled?: boolean;
-  MatchingEventTypes: EventTypes;
+  MatchingEventTypes: EventType[];
   KinesisFirehoseDestination?: KinesisFirehoseDestination;
   CloudWatchDestination?: CloudWatchDestination;
   SNSDestination?: SNSDestination;
@@ -1851,6 +1906,21 @@ export const VerifyEmailIdentityResponse = S.suspend(() =>
 ).annotations({
   identifier: "VerifyEmailIdentityResponse",
 }) as any as S.Schema<VerifyEmailIdentityResponse>;
+export type BounceType =
+  | "DoesNotExist"
+  | "MessageTooLarge"
+  | "ExceededQuota"
+  | "ContentRejected"
+  | "Undefined"
+  | "TemporaryFailure";
+export const BounceType = S.Literal(
+  "DoesNotExist",
+  "MessageTooLarge",
+  "ExceededQuota",
+  "ContentRejected",
+  "Undefined",
+  "TemporaryFailure",
+);
 export interface ConfigurationSet {
   Name: string;
 }
@@ -1898,16 +1968,16 @@ export const ConfigurationSets = S.Array(ConfigurationSet);
 export type ReceiptRuleSetsLists = ReceiptRuleSetMetadata[];
 export const ReceiptRuleSetsLists = S.Array(ReceiptRuleSetMetadata);
 export interface DeliveryOptions {
-  TlsPolicy?: string;
+  TlsPolicy?: TlsPolicy;
 }
 export const DeliveryOptions = S.suspend(() =>
-  S.Struct({ TlsPolicy: S.optional(S.String) }),
+  S.Struct({ TlsPolicy: S.optional(TlsPolicy) }),
 ).annotations({
   identifier: "DeliveryOptions",
 }) as any as S.Schema<DeliveryOptions>;
 export interface BulkEmailDestination {
   Destination: Destination;
-  ReplacementTags?: MessageTagList;
+  ReplacementTags?: MessageTag[];
   ReplacementTemplateData?: string;
 }
 export const BulkEmailDestination = S.suspend(() =>
@@ -1929,6 +1999,19 @@ export const RawMessage = S.suspend(() =>
 ).annotations({ identifier: "RawMessage" }) as any as S.Schema<RawMessage>;
 export type VerificationTokenList = string[];
 export const VerificationTokenList = S.Array(S.String);
+export type DsnAction =
+  | "failed"
+  | "delayed"
+  | "delivered"
+  | "relayed"
+  | "expanded";
+export const DsnAction = S.Literal(
+  "failed",
+  "delayed",
+  "delivered",
+  "relayed",
+  "expanded",
+);
 export interface CreateConfigurationSetRequest {
   ConfigurationSet: ConfigurationSet;
 }
@@ -2007,7 +2090,7 @@ export const CreateTemplateResponse = S.suspend(() =>
 }) as any as S.Schema<CreateTemplateResponse>;
 export interface DescribeActiveReceiptRuleSetResponse {
   Metadata?: ReceiptRuleSetMetadata;
-  Rules?: ReceiptRulesList;
+  Rules?: ReceiptRule[];
 }
 export const DescribeActiveReceiptRuleSetResponse = S.suspend(() =>
   S.Struct({
@@ -2027,7 +2110,7 @@ export const DescribeReceiptRuleResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeReceiptRuleResponse>;
 export interface DescribeReceiptRuleSetResponse {
   Metadata?: ReceiptRuleSetMetadata;
-  Rules?: ReceiptRulesList;
+  Rules?: ReceiptRule[];
 }
 export const DescribeReceiptRuleSetResponse = S.suspend(() =>
   S.Struct({
@@ -2058,7 +2141,7 @@ export const GetCustomVerificationEmailTemplateResponse = S.suspend(() =>
   identifier: "GetCustomVerificationEmailTemplateResponse",
 }) as any as S.Schema<GetCustomVerificationEmailTemplateResponse>;
 export interface GetSendStatisticsResponse {
-  SendDataPoints?: SendDataPointList;
+  SendDataPoints?: SendDataPoint[];
 }
 export const GetSendStatisticsResponse = S.suspend(() =>
   S.Struct({ SendDataPoints: S.optional(SendDataPointList) }).pipe(ns),
@@ -2074,7 +2157,7 @@ export const GetTemplateResponse = S.suspend(() =>
   identifier: "GetTemplateResponse",
 }) as any as S.Schema<GetTemplateResponse>;
 export interface ListConfigurationSetsResponse {
-  ConfigurationSets?: ConfigurationSets;
+  ConfigurationSets?: ConfigurationSet[];
   NextToken?: string;
 }
 export const ListConfigurationSetsResponse = S.suspend(() =>
@@ -2086,7 +2169,7 @@ export const ListConfigurationSetsResponse = S.suspend(() =>
   identifier: "ListConfigurationSetsResponse",
 }) as any as S.Schema<ListConfigurationSetsResponse>;
 export interface ListIdentitiesResponse {
-  Identities: IdentityList;
+  Identities: string[];
   NextToken?: string;
 }
 export const ListIdentitiesResponse = S.suspend(() =>
@@ -2097,7 +2180,7 @@ export const ListIdentitiesResponse = S.suspend(() =>
   identifier: "ListIdentitiesResponse",
 }) as any as S.Schema<ListIdentitiesResponse>;
 export interface ListIdentityPoliciesResponse {
-  PolicyNames: PolicyNameList;
+  PolicyNames: string[];
 }
 export const ListIdentityPoliciesResponse = S.suspend(() =>
   S.Struct({ PolicyNames: PolicyNameList }).pipe(ns),
@@ -2105,7 +2188,7 @@ export const ListIdentityPoliciesResponse = S.suspend(() =>
   identifier: "ListIdentityPoliciesResponse",
 }) as any as S.Schema<ListIdentityPoliciesResponse>;
 export interface ListReceiptRuleSetsResponse {
-  RuleSets?: ReceiptRuleSetsLists;
+  RuleSets?: ReceiptRuleSetMetadata[];
   NextToken?: string;
 }
 export const ListReceiptRuleSetsResponse = S.suspend(() =>
@@ -2147,15 +2230,15 @@ export const PutConfigurationSetDeliveryOptionsResponse = S.suspend(() =>
 export interface SendBulkTemplatedEmailRequest {
   Source: string;
   SourceArn?: string;
-  ReplyToAddresses?: AddressList;
+  ReplyToAddresses?: string[];
   ReturnPath?: string;
   ReturnPathArn?: string;
   ConfigurationSetName?: string;
-  DefaultTags?: MessageTagList;
+  DefaultTags?: MessageTag[];
   Template: string;
   TemplateArn?: string;
   DefaultTemplateData: string;
-  Destinations: BulkEmailDestinationList;
+  Destinations: BulkEmailDestination[];
 }
 export const SendBulkTemplatedEmailRequest = S.suspend(() =>
   S.Struct({
@@ -2194,12 +2277,12 @@ export const SendCustomVerificationEmailResponse = S.suspend(() =>
 }) as any as S.Schema<SendCustomVerificationEmailResponse>;
 export interface SendRawEmailRequest {
   Source?: string;
-  Destinations?: AddressList;
+  Destinations?: string[];
   RawMessage: RawMessage;
   FromArn?: string;
   SourceArn?: string;
   ReturnPathArn?: string;
-  Tags?: MessageTagList;
+  Tags?: MessageTag[];
   ConfigurationSetName?: string;
 }
 export const SendRawEmailRequest = S.suspend(() =>
@@ -2243,7 +2326,7 @@ export const TestRenderTemplateResponse = S.suspend(() =>
   identifier: "TestRenderTemplateResponse",
 }) as any as S.Schema<TestRenderTemplateResponse>;
 export interface VerifyDomainDkimResponse {
-  DkimTokens: VerificationTokenList;
+  DkimTokens: string[];
 }
 export const VerifyDomainDkimResponse = S.suspend(() =>
   S.Struct({ DkimTokens: VerificationTokenList }).pipe(ns),
@@ -2271,17 +2354,17 @@ export type ExtensionFieldList = ExtensionField[];
 export const ExtensionFieldList = S.Array(ExtensionField);
 export interface RecipientDsnFields {
   FinalRecipient?: string;
-  Action: string;
+  Action: DsnAction;
   RemoteMta?: string;
   Status: string;
   DiagnosticCode?: string;
   LastAttemptDate?: Date;
-  ExtensionFields?: ExtensionFieldList;
+  ExtensionFields?: ExtensionField[];
 }
 export const RecipientDsnFields = S.suspend(() =>
   S.Struct({
     FinalRecipient: S.optional(S.String),
-    Action: S.String,
+    Action: DsnAction,
     RemoteMta: S.optional(S.String),
     Status: S.String,
     DiagnosticCode: S.optional(S.String),
@@ -2361,7 +2444,7 @@ export const TemplateMetadataList = S.Array(TemplateMetadata);
 export interface MessageDsn {
   ReportingMta: string;
   ArrivalDate?: Date;
-  ExtensionFields?: ExtensionFieldList;
+  ExtensionFields?: ExtensionField[];
 }
 export const MessageDsn = S.suspend(() =>
   S.Struct({
@@ -2373,14 +2456,14 @@ export const MessageDsn = S.suspend(() =>
 export interface BouncedRecipientInfo {
   Recipient: string;
   RecipientArn?: string;
-  BounceType?: string;
+  BounceType?: BounceType;
   RecipientDsnFields?: RecipientDsnFields;
 }
 export const BouncedRecipientInfo = S.suspend(() =>
   S.Struct({
     Recipient: S.String,
     RecipientArn: S.optional(S.String),
-    BounceType: S.optional(S.String),
+    BounceType: S.optional(BounceType),
     RecipientDsnFields: S.optional(RecipientDsnFields),
   }),
 ).annotations({
@@ -2395,6 +2478,30 @@ export interface Message {
 export const Message = S.suspend(() =>
   S.Struct({ Subject: Content, Body: Body }),
 ).annotations({ identifier: "Message" }) as any as S.Schema<Message>;
+export type VerificationStatus =
+  | "Pending"
+  | "Success"
+  | "Failed"
+  | "TemporaryFailure"
+  | "NotStarted";
+export const VerificationStatus = S.Literal(
+  "Pending",
+  "Success",
+  "Failed",
+  "TemporaryFailure",
+  "NotStarted",
+);
+export type CustomMailFromStatus =
+  | "Pending"
+  | "Success"
+  | "Failed"
+  | "TemporaryFailure";
+export const CustomMailFromStatus = S.Literal(
+  "Pending",
+  "Success",
+  "Failed",
+  "TemporaryFailure",
+);
 export interface CreateReceiptFilterRequest {
   Filter: ReceiptFilter;
 }
@@ -2421,7 +2528,7 @@ export const CreateReceiptFilterResponse = S.suspend(() =>
 }) as any as S.Schema<CreateReceiptFilterResponse>;
 export interface DescribeConfigurationSetResponse {
   ConfigurationSet?: ConfigurationSet;
-  EventDestinations?: EventDestinations;
+  EventDestinations?: EventDestination[];
   TrackingOptions?: TrackingOptions;
   DeliveryOptions?: DeliveryOptions;
   ReputationOptions?: ReputationOptions;
@@ -2438,7 +2545,7 @@ export const DescribeConfigurationSetResponse = S.suspend(() =>
   identifier: "DescribeConfigurationSetResponse",
 }) as any as S.Schema<DescribeConfigurationSetResponse>;
 export interface GetIdentityPoliciesResponse {
-  Policies: PolicyMap;
+  Policies: { [key: string]: string };
 }
 export const GetIdentityPoliciesResponse = S.suspend(() =>
   S.Struct({ Policies: PolicyMap }).pipe(ns),
@@ -2446,7 +2553,7 @@ export const GetIdentityPoliciesResponse = S.suspend(() =>
   identifier: "GetIdentityPoliciesResponse",
 }) as any as S.Schema<GetIdentityPoliciesResponse>;
 export interface ListCustomVerificationEmailTemplatesResponse {
-  CustomVerificationEmailTemplates?: CustomVerificationEmailTemplates;
+  CustomVerificationEmailTemplates?: CustomVerificationEmailTemplate[];
   NextToken?: string;
 }
 export const ListCustomVerificationEmailTemplatesResponse = S.suspend(() =>
@@ -2460,7 +2567,7 @@ export const ListCustomVerificationEmailTemplatesResponse = S.suspend(() =>
   identifier: "ListCustomVerificationEmailTemplatesResponse",
 }) as any as S.Schema<ListCustomVerificationEmailTemplatesResponse>;
 export interface ListTemplatesResponse {
-  TemplatesMetadata?: TemplateMetadataList;
+  TemplatesMetadata?: TemplateMetadata[];
   NextToken?: string;
 }
 export const ListTemplatesResponse = S.suspend(() =>
@@ -2476,7 +2583,7 @@ export interface SendBounceRequest {
   BounceSender: string;
   Explanation?: string;
   MessageDsn?: MessageDsn;
-  BouncedRecipientInfoList: BouncedRecipientInfoList;
+  BouncedRecipientInfoList: BouncedRecipientInfo[];
   BounceSenderArn?: string;
 }
 export const SendBounceRequest = S.suspend(() =>
@@ -2505,11 +2612,11 @@ export interface SendEmailRequest {
   Source: string;
   Destination: Destination;
   Message: Message;
-  ReplyToAddresses?: AddressList;
+  ReplyToAddresses?: string[];
   ReturnPath?: string;
   SourceArn?: string;
   ReturnPathArn?: string;
-  Tags?: MessageTagList;
+  Tags?: MessageTag[];
   ConfigurationSetName?: string;
 }
 export const SendEmailRequest = S.suspend(() =>
@@ -2547,13 +2654,13 @@ export const SendRawEmailResponse = S.suspend(() =>
 }) as any as S.Schema<SendRawEmailResponse>;
 export interface IdentityDkimAttributes {
   DkimEnabled: boolean;
-  DkimVerificationStatus: string;
-  DkimTokens?: VerificationTokenList;
+  DkimVerificationStatus: VerificationStatus;
+  DkimTokens?: string[];
 }
 export const IdentityDkimAttributes = S.suspend(() =>
   S.Struct({
     DkimEnabled: S.Boolean,
-    DkimVerificationStatus: S.String,
+    DkimVerificationStatus: VerificationStatus,
     DkimTokens: S.optional(VerificationTokenList),
   }),
 ).annotations({
@@ -2561,14 +2668,14 @@ export const IdentityDkimAttributes = S.suspend(() =>
 }) as any as S.Schema<IdentityDkimAttributes>;
 export interface IdentityMailFromDomainAttributes {
   MailFromDomain: string;
-  MailFromDomainStatus: string;
-  BehaviorOnMXFailure: string;
+  MailFromDomainStatus: CustomMailFromStatus;
+  BehaviorOnMXFailure: BehaviorOnMXFailure;
 }
 export const IdentityMailFromDomainAttributes = S.suspend(() =>
   S.Struct({
     MailFromDomain: S.String,
-    MailFromDomainStatus: S.String,
-    BehaviorOnMXFailure: S.String,
+    MailFromDomainStatus: CustomMailFromStatus,
+    BehaviorOnMXFailure: BehaviorOnMXFailure,
   }),
 ).annotations({
   identifier: "IdentityMailFromDomainAttributes",
@@ -2596,17 +2703,48 @@ export const IdentityNotificationAttributes = S.suspend(() =>
   identifier: "IdentityNotificationAttributes",
 }) as any as S.Schema<IdentityNotificationAttributes>;
 export interface IdentityVerificationAttributes {
-  VerificationStatus: string;
+  VerificationStatus: VerificationStatus;
   VerificationToken?: string;
 }
 export const IdentityVerificationAttributes = S.suspend(() =>
   S.Struct({
-    VerificationStatus: S.String,
+    VerificationStatus: VerificationStatus,
     VerificationToken: S.optional(S.String),
   }),
 ).annotations({
   identifier: "IdentityVerificationAttributes",
 }) as any as S.Schema<IdentityVerificationAttributes>;
+export type BulkEmailStatus =
+  | "Success"
+  | "MessageRejected"
+  | "MailFromDomainNotVerified"
+  | "ConfigurationSetDoesNotExist"
+  | "TemplateDoesNotExist"
+  | "AccountSuspended"
+  | "AccountThrottled"
+  | "AccountDailyQuotaExceeded"
+  | "InvalidSendingPoolName"
+  | "AccountSendingPaused"
+  | "ConfigurationSetSendingPaused"
+  | "InvalidParameterValue"
+  | "TransientFailure"
+  | "Failed";
+export const BulkEmailStatus = S.Literal(
+  "Success",
+  "MessageRejected",
+  "MailFromDomainNotVerified",
+  "ConfigurationSetDoesNotExist",
+  "TemplateDoesNotExist",
+  "AccountSuspended",
+  "AccountThrottled",
+  "AccountDailyQuotaExceeded",
+  "InvalidSendingPoolName",
+  "AccountSendingPaused",
+  "ConfigurationSetSendingPaused",
+  "InvalidParameterValue",
+  "TransientFailure",
+  "Failed",
+);
 export type DkimAttributes = { [key: string]: IdentityDkimAttributes };
 export const DkimAttributes = S.Record({
   key: S.String,
@@ -2634,13 +2772,13 @@ export const VerificationAttributes = S.Record({
   value: IdentityVerificationAttributes,
 });
 export interface BulkEmailDestinationStatus {
-  Status?: string;
+  Status?: BulkEmailStatus;
   Error?: string;
   MessageId?: string;
 }
 export const BulkEmailDestinationStatus = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(BulkEmailStatus),
     Error: S.optional(S.String),
     MessageId: S.optional(S.String),
   }),
@@ -2710,7 +2848,7 @@ export const CreateReceiptRuleResponse = S.suspend(() =>
   identifier: "CreateReceiptRuleResponse",
 }) as any as S.Schema<CreateReceiptRuleResponse>;
 export interface GetIdentityDkimAttributesResponse {
-  DkimAttributes: DkimAttributes;
+  DkimAttributes: { [key: string]: IdentityDkimAttributes };
 }
 export const GetIdentityDkimAttributesResponse = S.suspend(() =>
   S.Struct({ DkimAttributes: DkimAttributes }).pipe(ns),
@@ -2718,7 +2856,7 @@ export const GetIdentityDkimAttributesResponse = S.suspend(() =>
   identifier: "GetIdentityDkimAttributesResponse",
 }) as any as S.Schema<GetIdentityDkimAttributesResponse>;
 export interface GetIdentityMailFromDomainAttributesResponse {
-  MailFromDomainAttributes: MailFromDomainAttributes;
+  MailFromDomainAttributes: { [key: string]: IdentityMailFromDomainAttributes };
 }
 export const GetIdentityMailFromDomainAttributesResponse = S.suspend(() =>
   S.Struct({ MailFromDomainAttributes: MailFromDomainAttributes }).pipe(ns),
@@ -2726,7 +2864,7 @@ export const GetIdentityMailFromDomainAttributesResponse = S.suspend(() =>
   identifier: "GetIdentityMailFromDomainAttributesResponse",
 }) as any as S.Schema<GetIdentityMailFromDomainAttributesResponse>;
 export interface GetIdentityNotificationAttributesResponse {
-  NotificationAttributes: NotificationAttributes;
+  NotificationAttributes: { [key: string]: IdentityNotificationAttributes };
 }
 export const GetIdentityNotificationAttributesResponse = S.suspend(() =>
   S.Struct({ NotificationAttributes: NotificationAttributes }).pipe(ns),
@@ -2734,7 +2872,7 @@ export const GetIdentityNotificationAttributesResponse = S.suspend(() =>
   identifier: "GetIdentityNotificationAttributesResponse",
 }) as any as S.Schema<GetIdentityNotificationAttributesResponse>;
 export interface GetIdentityVerificationAttributesResponse {
-  VerificationAttributes: VerificationAttributes;
+  VerificationAttributes: { [key: string]: IdentityVerificationAttributes };
 }
 export const GetIdentityVerificationAttributesResponse = S.suspend(() =>
   S.Struct({ VerificationAttributes: VerificationAttributes }).pipe(ns),
@@ -2750,7 +2888,7 @@ export const SendBounceResponse = S.suspend(() =>
   identifier: "SendBounceResponse",
 }) as any as S.Schema<SendBounceResponse>;
 export interface SendBulkTemplatedEmailResponse {
-  Status: BulkEmailDestinationStatusList;
+  Status: BulkEmailDestinationStatus[];
 }
 export const SendBulkTemplatedEmailResponse = S.suspend(() =>
   S.Struct({ Status: BulkEmailDestinationStatusList }).pipe(ns),
@@ -3024,7 +3162,7 @@ export class InvalidSNSDestinationException extends S.TaggedError<InvalidSNSDest
  */
 export const deleteCustomVerificationEmailTemplate: (
   input: DeleteCustomVerificationEmailTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCustomVerificationEmailTemplateResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3041,7 +3179,7 @@ export const deleteCustomVerificationEmailTemplate: (
  */
 export const deleteIdentity: (
   input: DeleteIdentityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIdentityResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3067,7 +3205,7 @@ export const deleteIdentity: (
  */
 export const deleteIdentityPolicy: (
   input: DeleteIdentityPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIdentityPolicyResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3086,7 +3224,7 @@ export const deleteIdentityPolicy: (
  */
 export const deleteReceiptFilter: (
   input: DeleteReceiptFilterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteReceiptFilterResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3102,7 +3240,7 @@ export const deleteReceiptFilter: (
  */
 export const deleteTemplate: (
   input: DeleteTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTemplateResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3117,7 +3255,7 @@ export const deleteTemplate: (
  */
 export const deleteVerifiedEmailAddress: (
   input: DeleteVerifiedEmailAddressRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVerifiedEmailAddressResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3133,7 +3271,7 @@ export const deleteVerifiedEmailAddress: (
  */
 export const getAccountSendingEnabled: (
   input: GetAccountSendingEnabledRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccountSendingEnabledResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3149,7 +3287,7 @@ export const getAccountSendingEnabled: (
  */
 export const getSendQuota: (
   input: GetSendQuotaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSendQuotaResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3169,7 +3307,7 @@ export const getSendQuota: (
  */
 export const listReceiptFilters: (
   input: ListReceiptFiltersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListReceiptFiltersResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3184,7 +3322,7 @@ export const listReceiptFilters: (
  */
 export const listVerifiedEmailAddresses: (
   input: ListVerifiedEmailAddressesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListVerifiedEmailAddressesResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3213,7 +3351,7 @@ export const listVerifiedEmailAddresses: (
  */
 export const setIdentityDkimEnabled: (
   input: SetIdentityDkimEnabledRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetIdentityDkimEnabledResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3238,7 +3376,7 @@ export const setIdentityDkimEnabled: (
  */
 export const setIdentityFeedbackForwardingEnabled: (
   input: SetIdentityFeedbackForwardingEnabledRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetIdentityFeedbackForwardingEnabledResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3259,7 +3397,7 @@ export const setIdentityFeedbackForwardingEnabled: (
  */
 export const setIdentityHeadersInNotificationsEnabled: (
   input: SetIdentityHeadersInNotificationsEnabledRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetIdentityHeadersInNotificationsEnabledResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3281,7 +3419,7 @@ export const setIdentityHeadersInNotificationsEnabled: (
  */
 export const setIdentityMailFromDomain: (
   input: SetIdentityMailFromDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetIdentityMailFromDomainResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3305,7 +3443,7 @@ export const setIdentityMailFromDomain: (
  */
 export const setIdentityNotificationTopic: (
   input: SetIdentityNotificationTopicRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetIdentityNotificationTopicResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3325,7 +3463,7 @@ export const setIdentityNotificationTopic: (
  */
 export const updateAccountSendingEnabled: (
   input: UpdateAccountSendingEnabledRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAccountSendingEnabledResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3340,7 +3478,7 @@ export const updateAccountSendingEnabled: (
  */
 export const verifyEmailAddress: (
   input: VerifyEmailAddressRequest,
-) => Effect.Effect<
+) => effect.Effect<
   VerifyEmailAddressResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3358,7 +3496,7 @@ export const verifyEmailAddress: (
  */
 export const verifyEmailIdentity: (
   input: VerifyEmailIdentityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   VerifyEmailIdentityResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3376,7 +3514,7 @@ export const verifyEmailIdentity: (
  */
 export const deleteConfigurationSet: (
   input: DeleteConfigurationSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConfigurationSetResponse,
   ConfigurationSetDoesNotExistException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3395,7 +3533,7 @@ export const deleteConfigurationSet: (
  */
 export const deleteReceiptRule: (
   input: DeleteReceiptRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteReceiptRuleResponse,
   RuleSetDoesNotExistException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3417,7 +3555,7 @@ export const deleteReceiptRule: (
  */
 export const deleteReceiptRuleSet: (
   input: DeleteReceiptRuleSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteReceiptRuleSetResponse,
   CannotDeleteException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3436,7 +3574,7 @@ export const deleteReceiptRuleSet: (
  */
 export const describeActiveReceiptRuleSet: (
   input: DescribeActiveReceiptRuleSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeActiveReceiptRuleSetResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3455,7 +3593,7 @@ export const describeActiveReceiptRuleSet: (
  */
 export const describeReceiptRuleSet: (
   input: DescribeReceiptRuleSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeReceiptRuleSetResponse,
   RuleSetDoesNotExistException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3473,7 +3611,7 @@ export const describeReceiptRuleSet: (
  */
 export const getSendStatistics: (
   input: GetSendStatisticsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSendStatisticsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3497,7 +3635,7 @@ export const getSendStatistics: (
  */
 export const listConfigurationSets: (
   input: ListConfigurationSetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListConfigurationSetsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3524,21 +3662,21 @@ export const listConfigurationSets: (
 export const listIdentities: {
   (
     input: ListIdentitiesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListIdentitiesResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListIdentitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListIdentitiesResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIdentitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Identity,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3571,7 +3709,7 @@ export const listIdentities: {
  */
 export const listIdentityPolicies: (
   input: ListIdentityPoliciesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListIdentityPoliciesResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3593,7 +3731,7 @@ export const listIdentityPolicies: (
  */
 export const listReceiptRuleSets: (
   input: ListReceiptRuleSetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListReceiptRuleSetsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3618,7 +3756,7 @@ export const listReceiptRuleSets: (
  */
 export const putIdentityPolicy: (
   input: PutIdentityPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutIdentityPolicyResponse,
   InvalidPolicyException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3640,7 +3778,7 @@ export const putIdentityPolicy: (
  */
 export const reorderReceiptRuleSet: (
   input: ReorderReceiptRuleSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ReorderReceiptRuleSetResponse,
   RuleDoesNotExistException | RuleSetDoesNotExistException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3686,7 +3824,7 @@ export const reorderReceiptRuleSet: (
  */
 export const verifyDomainDkim: (
   input: VerifyDomainDkimRequest,
-) => Effect.Effect<
+) => effect.Effect<
   VerifyDomainDkimResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3705,7 +3843,7 @@ export const verifyDomainDkim: (
  */
 export const verifyDomainIdentity: (
   input: VerifyDomainIdentityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   VerifyDomainIdentityResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3724,7 +3862,7 @@ export const verifyDomainIdentity: (
  */
 export const updateConfigurationSetReputationMetricsEnabled: (
   input: UpdateConfigurationSetReputationMetricsEnabledRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConfigurationSetReputationMetricsEnabledResponse,
   ConfigurationSetDoesNotExistException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3744,7 +3882,7 @@ export const updateConfigurationSetReputationMetricsEnabled: (
  */
 export const updateConfigurationSetSendingEnabled: (
   input: UpdateConfigurationSetSendingEnabledRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConfigurationSetSendingEnabledResponse,
   ConfigurationSetDoesNotExistException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3766,7 +3904,7 @@ export const updateConfigurationSetSendingEnabled: (
  */
 export const setActiveReceiptRuleSet: (
   input: SetActiveReceiptRuleSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetActiveReceiptRuleSetResponse,
   RuleSetDoesNotExistException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3785,7 +3923,7 @@ export const setActiveReceiptRuleSet: (
  */
 export const setReceiptRulePosition: (
   input: SetReceiptRulePositionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetReceiptRulePositionResponse,
   RuleDoesNotExistException | RuleSetDoesNotExistException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3804,7 +3942,7 @@ export const setReceiptRulePosition: (
  */
 export const describeReceiptRule: (
   input: DescribeReceiptRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeReceiptRuleResponse,
   RuleDoesNotExistException | RuleSetDoesNotExistException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3824,7 +3962,7 @@ export const describeReceiptRule: (
  */
 export const cloneReceiptRuleSet: (
   input: CloneReceiptRuleSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CloneReceiptRuleSetResponse,
   | AlreadyExistsException
   | LimitExceededException
@@ -3850,7 +3988,7 @@ export const cloneReceiptRuleSet: (
  */
 export const createReceiptFilter: (
   input: CreateReceiptFilterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateReceiptFilterResponse,
   AlreadyExistsException | LimitExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3868,7 +4006,7 @@ export const createReceiptFilter: (
  */
 export const describeConfigurationSet: (
   input: DescribeConfigurationSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeConfigurationSetResponse,
   ConfigurationSetDoesNotExistException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3889,7 +4027,7 @@ export const describeConfigurationSet: (
  */
 export const getCustomVerificationEmailTemplate: (
   input: GetCustomVerificationEmailTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCustomVerificationEmailTemplateResponse,
   CustomVerificationEmailTemplateDoesNotExistException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3915,7 +4053,7 @@ export const getCustomVerificationEmailTemplate: (
  */
 export const getIdentityPolicies: (
   input: GetIdentityPoliciesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIdentityPoliciesResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3932,7 +4070,7 @@ export const getIdentityPolicies: (
  */
 export const getTemplate: (
   input: GetTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTemplateResponse,
   TemplateDoesNotExistException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3954,21 +4092,21 @@ export const getTemplate: (
 export const listCustomVerificationEmailTemplates: {
   (
     input: ListCustomVerificationEmailTemplatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCustomVerificationEmailTemplatesResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListCustomVerificationEmailTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCustomVerificationEmailTemplatesResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCustomVerificationEmailTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3991,7 +4129,7 @@ export const listCustomVerificationEmailTemplates: {
  */
 export const listTemplates: (
   input: ListTemplatesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTemplatesResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4005,7 +4143,7 @@ export const listTemplates: (
  */
 export const putConfigurationSetDeliveryOptions: (
   input: PutConfigurationSetDeliveryOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutConfigurationSetDeliveryOptionsResponse,
   | ConfigurationSetDoesNotExistException
   | InvalidDeliveryOptionsException
@@ -4028,7 +4166,7 @@ export const putConfigurationSetDeliveryOptions: (
  */
 export const createReceiptRuleSet: (
   input: CreateReceiptRuleSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateReceiptRuleSetResponse,
   AlreadyExistsException | LimitExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4046,7 +4184,7 @@ export const createReceiptRuleSet: (
  */
 export const createTemplate: (
   input: CreateTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTemplateResponse,
   | AlreadyExistsException
   | InvalidTemplateException
@@ -4072,7 +4210,7 @@ export const createTemplate: (
  */
 export const deleteConfigurationSetEventDestination: (
   input: DeleteConfigurationSetEventDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConfigurationSetEventDestinationResponse,
   | ConfigurationSetDoesNotExistException
   | EventDestinationDoesNotExistException
@@ -4100,7 +4238,7 @@ export const deleteConfigurationSetEventDestination: (
  */
 export const deleteConfigurationSetTrackingOptions: (
   input: DeleteConfigurationSetTrackingOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConfigurationSetTrackingOptionsResponse,
   | ConfigurationSetDoesNotExistException
   | TrackingOptionsDoesNotExistException
@@ -4124,7 +4262,7 @@ export const deleteConfigurationSetTrackingOptions: (
  */
 export const updateConfigurationSetTrackingOptions: (
   input: UpdateConfigurationSetTrackingOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConfigurationSetTrackingOptionsResponse,
   | ConfigurationSetDoesNotExistException
   | InvalidTrackingOptionsException
@@ -4149,7 +4287,7 @@ export const updateConfigurationSetTrackingOptions: (
  */
 export const updateTemplate: (
   input: UpdateTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTemplateResponse,
   InvalidTemplateException | TemplateDoesNotExistException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4169,7 +4307,7 @@ export const updateTemplate: (
  */
 export const createConfigurationSet: (
   input: CreateConfigurationSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConfigurationSetResponse,
   | ConfigurationSetAlreadyExistsException
   | InvalidConfigurationSetException
@@ -4196,7 +4334,7 @@ export const createConfigurationSet: (
  */
 export const createCustomVerificationEmailTemplate: (
   input: CreateCustomVerificationEmailTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCustomVerificationEmailTemplateResponse,
   | CustomVerificationEmailInvalidContentException
   | CustomVerificationEmailTemplateAlreadyExistsException
@@ -4240,7 +4378,7 @@ export const createCustomVerificationEmailTemplate: (
  */
 export const getIdentityDkimAttributes: (
   input: GetIdentityDkimAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIdentityDkimAttributesResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4258,7 +4396,7 @@ export const getIdentityDkimAttributes: (
  */
 export const getIdentityMailFromDomainAttributes: (
   input: GetIdentityMailFromDomainAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIdentityMailFromDomainAttributesResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4279,7 +4417,7 @@ export const getIdentityMailFromDomainAttributes: (
  */
 export const getIdentityNotificationAttributes: (
   input: GetIdentityNotificationAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIdentityNotificationAttributesResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4311,7 +4449,7 @@ export const getIdentityNotificationAttributes: (
  */
 export const getIdentityVerificationAttributes: (
   input: GetIdentityVerificationAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIdentityVerificationAttributesResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4328,7 +4466,7 @@ export const getIdentityVerificationAttributes: (
  */
 export const testRenderTemplate: (
   input: TestRenderTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TestRenderTemplateResponse,
   | InvalidRenderingParameterException
   | MissingRenderingAttributeException
@@ -4354,7 +4492,7 @@ export const testRenderTemplate: (
  */
 export const updateReceiptRule: (
   input: UpdateReceiptRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateReceiptRuleResponse,
   | InvalidLambdaFunctionException
   | InvalidS3ConfigurationException
@@ -4387,7 +4525,7 @@ export const updateReceiptRule: (
  */
 export const updateCustomVerificationEmailTemplate: (
   input: UpdateCustomVerificationEmailTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCustomVerificationEmailTemplateResponse,
   | CustomVerificationEmailInvalidContentException
   | CustomVerificationEmailTemplateDoesNotExistException
@@ -4413,7 +4551,7 @@ export const updateCustomVerificationEmailTemplate: (
  */
 export const createReceiptRule: (
   input: CreateReceiptRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateReceiptRuleResponse,
   | AlreadyExistsException
   | InvalidLambdaFunctionException
@@ -4447,7 +4585,7 @@ export const createReceiptRule: (
  */
 export const createConfigurationSetTrackingOptions: (
   input: CreateConfigurationSetTrackingOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConfigurationSetTrackingOptionsResponse,
   | ConfigurationSetDoesNotExistException
   | InvalidTrackingOptionsException
@@ -4478,7 +4616,7 @@ export const createConfigurationSetTrackingOptions: (
  */
 export const sendBounce: (
   input: SendBounceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendBounceResponse,
   MessageRejected | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4532,7 +4670,7 @@ export const sendBounce: (
  */
 export const sendTemplatedEmail: (
   input: SendTemplatedEmailRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendTemplatedEmailResponse,
   | AccountSendingPausedException
   | ConfigurationSetDoesNotExistException
@@ -4636,7 +4774,7 @@ export const sendTemplatedEmail: (
  */
 export const sendRawEmail: (
   input: SendRawEmailRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendRawEmailResponse,
   | AccountSendingPausedException
   | ConfigurationSetDoesNotExistException
@@ -4694,7 +4832,7 @@ export const sendRawEmail: (
  */
 export const sendBulkTemplatedEmail: (
   input: SendBulkTemplatedEmailRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendBulkTemplatedEmailResponse,
   | AccountSendingPausedException
   | ConfigurationSetDoesNotExistException
@@ -4753,7 +4891,7 @@ export const sendBulkTemplatedEmail: (
  */
 export const sendEmail: (
   input: SendEmailRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendEmailResponse,
   | AccountSendingPausedException
   | ConfigurationSetDoesNotExistException
@@ -4788,7 +4926,7 @@ export const sendEmail: (
  */
 export const sendCustomVerificationEmail: (
   input: SendCustomVerificationEmailRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendCustomVerificationEmailResponse,
   | ConfigurationSetDoesNotExistException
   | CustomVerificationEmailTemplateDoesNotExistException
@@ -4823,7 +4961,7 @@ export const sendCustomVerificationEmail: (
  */
 export const updateConfigurationSetEventDestination: (
   input: UpdateConfigurationSetEventDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConfigurationSetEventDestinationResponse,
   | ConfigurationSetDoesNotExistException
   | EventDestinationDoesNotExistException
@@ -4858,7 +4996,7 @@ export const updateConfigurationSetEventDestination: (
  */
 export const createConfigurationSetEventDestination: (
   input: CreateConfigurationSetEventDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConfigurationSetEventDestinationResponse,
   | ConfigurationSetDoesNotExistException
   | EventDestinationAlreadyExistsException

@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -88,7 +88,7 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type EnvironmentName = string;
-export type EnvironmentDescription = string | Redacted.Redacted<string>;
+export type EnvironmentDescription = string | redacted.Redacted<string>;
 export type ClientRequestToken = string;
 export type InstanceType = string;
 export type SubnetId = string;
@@ -98,27 +98,34 @@ export type UserArn = string;
 export type EnvironmentId = string;
 export type MaxResults = number;
 export type EnvironmentArn = string;
-export type TagKey = string | Redacted.Redacted<string>;
-export type TagValue = string | Redacted.Redacted<string>;
-export type Integer = number;
+export type TagKey = string | redacted.Redacted<string>;
+export type TagValue = string | redacted.Redacted<string>;
 
 //# Schemas
-export type PermissionsList = string[];
-export const PermissionsList = S.Array(S.String);
+export type ConnectionType = "CONNECT_SSH" | "CONNECT_SSM";
+export const ConnectionType = S.Literal("CONNECT_SSH", "CONNECT_SSM");
+export type MemberPermissions = "read-write" | "read-only";
+export const MemberPermissions = S.Literal("read-write", "read-only");
+export type Permissions = "owner" | "read-write" | "read-only";
+export const Permissions = S.Literal("owner", "read-write", "read-only");
+export type PermissionsList = Permissions[];
+export const PermissionsList = S.Array(Permissions);
 export type BoundedEnvironmentIdList = string[];
 export const BoundedEnvironmentIdList = S.Array(S.String);
-export type TagKeyList = string | Redacted.Redacted<string>[];
+export type TagKeyList = string | redacted.Redacted<string>[];
 export const TagKeyList = S.Array(SensitiveString);
+export type ManagedCredentialsAction = "ENABLE" | "DISABLE";
+export const ManagedCredentialsAction = S.Literal("ENABLE", "DISABLE");
 export interface CreateEnvironmentMembershipRequest {
   environmentId: string;
   userArn: string;
-  permissions: string;
+  permissions: MemberPermissions;
 }
 export const CreateEnvironmentMembershipRequest = S.suspend(() =>
   S.Struct({
     environmentId: S.String,
     userArn: S.String,
-    permissions: S.String,
+    permissions: MemberPermissions,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -161,7 +168,7 @@ export const DeleteEnvironmentMembershipResult = S.suspend(() =>
 export interface DescribeEnvironmentMembershipsRequest {
   userArn?: string;
   environmentId?: string;
-  permissions?: PermissionsList;
+  permissions?: Permissions[];
   nextToken?: string;
   maxResults?: number;
 }
@@ -179,7 +186,7 @@ export const DescribeEnvironmentMembershipsRequest = S.suspend(() =>
   identifier: "DescribeEnvironmentMembershipsRequest",
 }) as any as S.Schema<DescribeEnvironmentMembershipsRequest>;
 export interface DescribeEnvironmentsRequest {
-  environmentIds: BoundedEnvironmentIdList;
+  environmentIds: string[];
 }
 export const DescribeEnvironmentsRequest = S.suspend(() =>
   S.Struct({ environmentIds: BoundedEnvironmentIdList }).pipe(
@@ -223,8 +230,8 @@ export const ListTagsForResourceRequest = S.suspend(() =>
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface Tag {
-  Key: string | Redacted.Redacted<string>;
-  Value: string | Redacted.Redacted<string>;
+  Key: string | redacted.Redacted<string>;
+  Value: string | redacted.Redacted<string>;
 }
 export const Tag = S.suspend(() =>
   S.Struct({ Key: SensitiveString, Value: SensitiveString }),
@@ -233,7 +240,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagResourceRequest {
   ResourceARN: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
@@ -248,7 +255,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceARN: string;
-  TagKeys: TagKeyList;
+  TagKeys: string | redacted.Redacted<string>[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
@@ -264,15 +271,15 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 export interface UpdateEnvironmentRequest {
   environmentId: string;
   name?: string;
-  description?: string | Redacted.Redacted<string>;
-  managedCredentialsAction?: string;
+  description?: string | redacted.Redacted<string>;
+  managedCredentialsAction?: ManagedCredentialsAction;
 }
 export const UpdateEnvironmentRequest = S.suspend(() =>
   S.Struct({
     environmentId: S.String,
     name: S.optional(S.String),
     description: S.optional(SensitiveString),
-    managedCredentialsAction: S.optional(S.String),
+    managedCredentialsAction: S.optional(ManagedCredentialsAction),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -288,13 +295,13 @@ export const UpdateEnvironmentResult = S.suspend(() =>
 export interface UpdateEnvironmentMembershipRequest {
   environmentId: string;
   userArn: string;
-  permissions: string;
+  permissions: MemberPermissions;
 }
 export const UpdateEnvironmentMembershipRequest = S.suspend(() =>
   S.Struct({
     environmentId: S.String,
     userArn: S.String,
-    permissions: S.String,
+    permissions: MemberPermissions,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -302,7 +309,7 @@ export const UpdateEnvironmentMembershipRequest = S.suspend(() =>
   identifier: "UpdateEnvironmentMembershipRequest",
 }) as any as S.Schema<UpdateEnvironmentMembershipRequest>;
 export interface EnvironmentMember {
-  permissions: string;
+  permissions: Permissions;
   userId: string;
   userArn: string;
   environmentId: string;
@@ -310,7 +317,7 @@ export interface EnvironmentMember {
 }
 export const EnvironmentMember = S.suspend(() =>
   S.Struct({
-    permissions: S.String,
+    permissions: Permissions,
     userId: S.String,
     userArn: S.String,
     environmentId: S.String,
@@ -321,19 +328,36 @@ export const EnvironmentMember = S.suspend(() =>
 }) as any as S.Schema<EnvironmentMember>;
 export type EnvironmentMembersList = EnvironmentMember[];
 export const EnvironmentMembersList = S.Array(EnvironmentMember);
+export type EnvironmentStatus =
+  | "error"
+  | "creating"
+  | "connecting"
+  | "ready"
+  | "stopping"
+  | "stopped"
+  | "deleting";
+export const EnvironmentStatus = S.Literal(
+  "error",
+  "creating",
+  "connecting",
+  "ready",
+  "stopping",
+  "stopped",
+  "deleting",
+);
 export type EnvironmentIdList = string[];
 export const EnvironmentIdList = S.Array(S.String);
 export interface CreateEnvironmentEC2Request {
   name: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   clientRequestToken?: string;
   instanceType: string;
   subnetId?: string;
   imageId: string;
   automaticStopTimeMinutes?: number;
   ownerArn?: string;
-  tags?: TagList;
-  connectionType?: string;
+  tags?: Tag[];
+  connectionType?: ConnectionType;
   dryRun?: boolean;
 }
 export const CreateEnvironmentEC2Request = S.suspend(() =>
@@ -347,7 +371,7 @@ export const CreateEnvironmentEC2Request = S.suspend(() =>
     automaticStopTimeMinutes: S.optional(S.Number),
     ownerArn: S.optional(S.String),
     tags: S.optional(TagList),
-    connectionType: S.optional(S.String),
+    connectionType: S.optional(ConnectionType),
     dryRun: S.optional(S.Boolean),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -356,7 +380,7 @@ export const CreateEnvironmentEC2Request = S.suspend(() =>
   identifier: "CreateEnvironmentEC2Request",
 }) as any as S.Schema<CreateEnvironmentEC2Request>;
 export interface DescribeEnvironmentMembershipsResult {
-  memberships?: EnvironmentMembersList;
+  memberships?: EnvironmentMember[];
   nextToken?: string;
 }
 export const DescribeEnvironmentMembershipsResult = S.suspend(() =>
@@ -368,17 +392,17 @@ export const DescribeEnvironmentMembershipsResult = S.suspend(() =>
   identifier: "DescribeEnvironmentMembershipsResult",
 }) as any as S.Schema<DescribeEnvironmentMembershipsResult>;
 export interface DescribeEnvironmentStatusResult {
-  status: string;
+  status: EnvironmentStatus;
   message: string;
 }
 export const DescribeEnvironmentStatusResult = S.suspend(() =>
-  S.Struct({ status: S.String, message: S.String }),
+  S.Struct({ status: EnvironmentStatus, message: S.String }),
 ).annotations({
   identifier: "DescribeEnvironmentStatusResult",
 }) as any as S.Schema<DescribeEnvironmentStatusResult>;
 export interface ListEnvironmentsResult {
   nextToken?: string;
-  environmentIds?: EnvironmentIdList;
+  environmentIds?: string[];
 }
 export const ListEnvironmentsResult = S.suspend(() =>
   S.Struct({
@@ -389,7 +413,7 @@ export const ListEnvironmentsResult = S.suspend(() =>
   identifier: "ListEnvironmentsResult",
 }) as any as S.Schema<ListEnvironmentsResult>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }),
@@ -404,6 +428,46 @@ export const UpdateEnvironmentMembershipResult = S.suspend(() =>
 ).annotations({
   identifier: "UpdateEnvironmentMembershipResult",
 }) as any as S.Schema<UpdateEnvironmentMembershipResult>;
+export type EnvironmentType = "ssh" | "ec2";
+export const EnvironmentType = S.Literal("ssh", "ec2");
+export type ManagedCredentialsStatus =
+  | "ENABLED_ON_CREATE"
+  | "ENABLED_BY_OWNER"
+  | "DISABLED_BY_DEFAULT"
+  | "DISABLED_BY_OWNER"
+  | "DISABLED_BY_COLLABORATOR"
+  | "PENDING_REMOVAL_BY_COLLABORATOR"
+  | "PENDING_START_REMOVAL_BY_COLLABORATOR"
+  | "PENDING_REMOVAL_BY_OWNER"
+  | "PENDING_START_REMOVAL_BY_OWNER"
+  | "FAILED_REMOVAL_BY_COLLABORATOR"
+  | "FAILED_REMOVAL_BY_OWNER";
+export const ManagedCredentialsStatus = S.Literal(
+  "ENABLED_ON_CREATE",
+  "ENABLED_BY_OWNER",
+  "DISABLED_BY_DEFAULT",
+  "DISABLED_BY_OWNER",
+  "DISABLED_BY_COLLABORATOR",
+  "PENDING_REMOVAL_BY_COLLABORATOR",
+  "PENDING_START_REMOVAL_BY_COLLABORATOR",
+  "PENDING_REMOVAL_BY_OWNER",
+  "PENDING_START_REMOVAL_BY_OWNER",
+  "FAILED_REMOVAL_BY_COLLABORATOR",
+  "FAILED_REMOVAL_BY_OWNER",
+);
+export type EnvironmentLifecycleStatus =
+  | "CREATING"
+  | "CREATED"
+  | "CREATE_FAILED"
+  | "DELETING"
+  | "DELETE_FAILED";
+export const EnvironmentLifecycleStatus = S.Literal(
+  "CREATING",
+  "CREATED",
+  "CREATE_FAILED",
+  "DELETING",
+  "DELETE_FAILED",
+);
 export interface CreateEnvironmentEC2Result {
   environmentId?: string;
 }
@@ -421,13 +485,13 @@ export const CreateEnvironmentMembershipResult = S.suspend(() =>
   identifier: "CreateEnvironmentMembershipResult",
 }) as any as S.Schema<CreateEnvironmentMembershipResult>;
 export interface EnvironmentLifecycle {
-  status?: string;
+  status?: EnvironmentLifecycleStatus;
   reason?: string;
   failureResource?: string;
 }
 export const EnvironmentLifecycle = S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String),
+    status: S.optional(EnvironmentLifecycleStatus),
     reason: S.optional(S.String),
     failureResource: S.optional(S.String),
   }),
@@ -437,31 +501,31 @@ export const EnvironmentLifecycle = S.suspend(() =>
 export interface Environment {
   id?: string;
   name?: string;
-  description?: string | Redacted.Redacted<string>;
-  type: string;
-  connectionType?: string;
+  description?: string | redacted.Redacted<string>;
+  type: EnvironmentType;
+  connectionType?: ConnectionType;
   arn: string;
   ownerArn: string;
   lifecycle?: EnvironmentLifecycle;
-  managedCredentialsStatus?: string;
+  managedCredentialsStatus?: ManagedCredentialsStatus;
 }
 export const Environment = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(SensitiveString),
-    type: S.String,
-    connectionType: S.optional(S.String),
+    type: EnvironmentType,
+    connectionType: S.optional(ConnectionType),
     arn: S.String,
     ownerArn: S.String,
     lifecycle: S.optional(EnvironmentLifecycle),
-    managedCredentialsStatus: S.optional(S.String),
+    managedCredentialsStatus: S.optional(ManagedCredentialsStatus),
   }),
 ).annotations({ identifier: "Environment" }) as any as S.Schema<Environment>;
 export type EnvironmentList = Environment[];
 export const EnvironmentList = S.Array(Environment);
 export interface DescribeEnvironmentsResult {
-  environments?: EnvironmentList;
+  environments?: Environment[];
 }
 export const DescribeEnvironmentsResult = S.suspend(() =>
   S.Struct({ environments: S.optional(EnvironmentList) }),
@@ -545,7 +609,7 @@ export class TooManyRequestsException extends S.TaggedError<TooManyRequestsExcep
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | BadRequestException
   | InternalServerErrorException
@@ -573,7 +637,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | BadRequestException
   | ConcurrentAccessException
@@ -600,7 +664,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | BadRequestException
   | ConcurrentAccessException
@@ -628,7 +692,7 @@ export const untagResource: (
  */
 export const deleteEnvironment: (
   input: DeleteEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEnvironmentResult,
   | BadRequestException
   | ConflictException
@@ -661,7 +725,7 @@ export const deleteEnvironment: (
  */
 export const describeEnvironments: (
   input: DescribeEnvironmentsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEnvironmentsResult,
   | BadRequestException
   | ConflictException
@@ -695,7 +759,7 @@ export const describeEnvironments: (
 export const describeEnvironmentMemberships: {
   (
     input: DescribeEnvironmentMembershipsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeEnvironmentMembershipsResult,
     | BadRequestException
     | ConflictException
@@ -709,7 +773,7 @@ export const describeEnvironmentMemberships: {
   >;
   pages: (
     input: DescribeEnvironmentMembershipsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeEnvironmentMembershipsResult,
     | BadRequestException
     | ConflictException
@@ -723,7 +787,7 @@ export const describeEnvironmentMemberships: {
   >;
   items: (
     input: DescribeEnvironmentMembershipsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ConflictException
@@ -762,7 +826,7 @@ export const describeEnvironmentMemberships: {
  */
 export const describeEnvironmentStatus: (
   input: DescribeEnvironmentStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEnvironmentStatusResult,
   | BadRequestException
   | ConflictException
@@ -800,7 +864,7 @@ export const describeEnvironmentStatus: (
 export const listEnvironments: {
   (
     input: ListEnvironmentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEnvironmentsResult,
     | BadRequestException
     | ConflictException
@@ -814,7 +878,7 @@ export const listEnvironments: {
   >;
   pages: (
     input: ListEnvironmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEnvironmentsResult,
     | BadRequestException
     | ConflictException
@@ -828,7 +892,7 @@ export const listEnvironments: {
   >;
   items: (
     input: ListEnvironmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ConflictException
@@ -868,7 +932,7 @@ export const listEnvironments: {
  */
 export const updateEnvironmentMembership: (
   input: UpdateEnvironmentMembershipRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEnvironmentMembershipResult,
   | BadRequestException
   | ConflictException
@@ -901,7 +965,7 @@ export const updateEnvironmentMembership: (
  */
 export const deleteEnvironmentMembership: (
   input: DeleteEnvironmentMembershipRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEnvironmentMembershipResult,
   | BadRequestException
   | ConflictException
@@ -934,7 +998,7 @@ export const deleteEnvironmentMembership: (
  */
 export const updateEnvironment: (
   input: UpdateEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEnvironmentResult,
   | BadRequestException
   | ConflictException
@@ -968,7 +1032,7 @@ export const updateEnvironment: (
  */
 export const createEnvironmentEC2: (
   input: CreateEnvironmentEC2Request,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEnvironmentEC2Result,
   | BadRequestException
   | ConflictException
@@ -1001,7 +1065,7 @@ export const createEnvironmentEC2: (
  */
 export const createEnvironmentMembership: (
   input: CreateEnvironmentMembershipRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEnvironmentMembershipResult,
   | BadRequestException
   | ConflictException

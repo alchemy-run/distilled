@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -392,7 +392,7 @@ export const PutResourcePolicyResponse = S.suspend(() =>
 }) as any as S.Schema<PutResourcePolicyResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeys;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -422,7 +422,7 @@ export interface CreateAccessLogSubscriptionRequest {
   resourceIdentifier: string;
   destinationArn: string;
   serviceNetworkLogType?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateAccessLogSubscriptionRequest = S.suspend(() =>
   S.Struct({
@@ -550,7 +550,7 @@ export const ListAccessLogSubscriptionsRequest = S.suspend(() =>
 export interface StartDomainVerificationRequest {
   clientToken?: string;
   domainName: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const StartDomainVerificationRequest = S.suspend(() =>
   S.Struct({
@@ -681,7 +681,7 @@ export const WeightedTargetGroup = S.suspend(() =>
 export type WeightedTargetGroupList = WeightedTargetGroup[];
 export const WeightedTargetGroupList = S.Array(WeightedTargetGroup);
 export interface ForwardAction {
-  targetGroups: WeightedTargetGroupList;
+  targetGroups: WeightedTargetGroup[];
 }
 export const ForwardAction = S.suspend(() =>
   S.Struct({ targetGroups: WeightedTargetGroupList }),
@@ -706,7 +706,7 @@ export const RuleAction = S.Union(
 export interface UpdateListenerRequest {
   serviceIdentifier: string;
   listenerIdentifier: string;
-  defaultAction: (typeof RuleAction)["Type"];
+  defaultAction: RuleAction;
 }
 export const UpdateListenerRequest = S.suspend(() =>
   S.Struct({
@@ -837,9 +837,9 @@ export const ResourceConfigurationDefinition = S.Union(
 );
 export interface UpdateResourceConfigurationRequest {
   resourceConfigurationIdentifier: string;
-  resourceConfigurationDefinition?: (typeof ResourceConfigurationDefinition)["Type"];
+  resourceConfigurationDefinition?: ResourceConfigurationDefinition;
   allowAssociationToShareableServiceNetwork?: boolean;
-  portRanges?: PortRangeList;
+  portRanges?: string[];
 }
 export const UpdateResourceConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -993,11 +993,11 @@ export interface CreateResourceGatewayRequest {
   clientToken?: string;
   name: string;
   vpcIdentifier?: string;
-  subnetIds?: SubnetList;
-  securityGroupIds?: SecurityGroupList;
+  subnetIds?: string[];
+  securityGroupIds?: string[];
   ipAddressType?: string;
   ipv4AddressesPerEni?: number;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateResourceGatewayRequest = S.suspend(() =>
   S.Struct({
@@ -1048,7 +1048,7 @@ export const GetResourceGatewayRequest = S.suspend(() =>
 }) as any as S.Schema<GetResourceGatewayRequest>;
 export interface UpdateResourceGatewayRequest {
   resourceGatewayIdentifier: string;
-  securityGroupIds?: SecurityGroupList;
+  securityGroupIds?: string[];
 }
 export const UpdateResourceGatewayRequest = S.suspend(() =>
   S.Struct({
@@ -1149,7 +1149,7 @@ export const PathMatchType = S.Union(
   S.Struct({ prefix: S.String }),
 );
 export interface PathMatch {
-  match: (typeof PathMatchType)["Type"];
+  match: PathMatchType;
   caseSensitive?: boolean;
 }
 export const PathMatch = S.suspend(() =>
@@ -1166,7 +1166,7 @@ export const HeaderMatchType = S.Union(
 );
 export interface HeaderMatch {
   name: string;
-  match: (typeof HeaderMatchType)["Type"];
+  match: HeaderMatchType;
   caseSensitive?: boolean;
 }
 export const HeaderMatch = S.suspend(() =>
@@ -1181,7 +1181,7 @@ export const HeaderMatchList = S.Array(HeaderMatch);
 export interface HttpMatch {
   method?: string;
   pathMatch?: PathMatch;
-  headerMatches?: HeaderMatchList;
+  headerMatches?: HeaderMatch[];
 }
 export const HttpMatch = S.suspend(() =>
   S.Struct({
@@ -1196,9 +1196,9 @@ export interface UpdateRuleRequest {
   serviceIdentifier: string;
   listenerIdentifier: string;
   ruleIdentifier: string;
-  match?: (typeof RuleMatch)["Type"];
+  match?: RuleMatch;
   priority?: number;
-  action?: (typeof RuleAction)["Type"];
+  action?: RuleAction;
 }
 export const UpdateRuleRequest = S.suspend(() =>
   S.Struct({
@@ -1285,7 +1285,7 @@ export const ListRulesRequest = S.suspend(() =>
 export interface CreateServiceRequest {
   clientToken?: string;
   name: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   customDomainName?: string;
   certificateArn?: string;
   authType?: string;
@@ -1499,7 +1499,7 @@ export interface CreateServiceNetworkResourceAssociationRequest {
   resourceConfigurationIdentifier: string;
   serviceNetworkIdentifier: string;
   privateDnsEnabled?: boolean;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateServiceNetworkResourceAssociationRequest = S.suspend(() =>
   S.Struct({
@@ -1604,7 +1604,7 @@ export interface CreateServiceNetworkServiceAssociationRequest {
   clientToken?: string;
   serviceIdentifier: string;
   serviceNetworkIdentifier: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateServiceNetworkServiceAssociationRequest = S.suspend(() =>
   S.Struct({
@@ -1728,7 +1728,7 @@ export const GetServiceNetworkVpcAssociationRequest = S.suspend(() =>
 }) as any as S.Schema<GetServiceNetworkVpcAssociationRequest>;
 export interface UpdateServiceNetworkVpcAssociationRequest {
   serviceNetworkVpcAssociationIdentifier: string;
-  securityGroupIds: SecurityGroupList;
+  securityGroupIds: string[];
 }
 export const UpdateServiceNetworkVpcAssociationRequest = S.suspend(() =>
   S.Struct({
@@ -1882,7 +1882,7 @@ export interface ListTargetsRequest {
   targetGroupIdentifier: string;
   maxResults?: number;
   nextToken?: string;
-  targets?: TargetList;
+  targets?: Target[];
 }
 export const ListTargetsRequest = S.suspend(() =>
   S.Struct({
@@ -1908,7 +1908,7 @@ export const ListTargetsRequest = S.suspend(() =>
 }) as any as S.Schema<ListTargetsRequest>;
 export interface RegisterTargetsRequest {
   targetGroupIdentifier: string;
-  targets: TargetList;
+  targets: Target[];
 }
 export const RegisterTargetsRequest = S.suspend(() =>
   S.Struct({
@@ -1934,9 +1934,9 @@ export type PrivateDnsSpecifiedDomainsList = string[];
 export const PrivateDnsSpecifiedDomainsList = S.Array(S.String);
 export interface RuleUpdate {
   ruleIdentifier: string;
-  match?: (typeof RuleMatch)["Type"];
+  match?: RuleMatch;
   priority?: number;
-  action?: (typeof RuleAction)["Type"];
+  action?: RuleAction;
 }
 export const RuleUpdate = S.suspend(() =>
   S.Struct({
@@ -1958,7 +1958,7 @@ export const SharingConfig = S.suspend(() =>
 }) as any as S.Schema<SharingConfig>;
 export interface DnsOptions {
   privateDnsPreference?: string;
-  privateDnsSpecifiedDomains?: PrivateDnsSpecifiedDomainsList;
+  privateDnsSpecifiedDomains?: string[];
 }
 export const DnsOptions = S.suspend(() =>
   S.Struct({
@@ -1978,7 +1978,7 @@ export interface HealthCheckConfig {
   healthCheckTimeoutSeconds?: number;
   healthyThresholdCount?: number;
   unhealthyThresholdCount?: number;
-  matcher?: (typeof Matcher)["Type"];
+  matcher?: Matcher;
 }
 export const HealthCheckConfig = S.suspend(() =>
   S.Struct({
@@ -2023,7 +2023,7 @@ export const ServiceArnList = S.Array(S.String);
 export interface BatchUpdateRuleRequest {
   serviceIdentifier: string;
   listenerIdentifier: string;
-  rules: RuleUpdateList;
+  rules: RuleUpdate[];
 }
 export const BatchUpdateRuleRequest = S.suspend(() =>
   S.Struct({
@@ -2071,7 +2071,7 @@ export const GetResourcePolicyResponse = S.suspend(() =>
   identifier: "GetResourcePolicyResponse",
 }) as any as S.Schema<GetResourcePolicyResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -2089,7 +2089,7 @@ export const PutAuthPolicyResponse = S.suspend(() =>
 }) as any as S.Schema<PutAuthPolicyResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -2191,7 +2191,7 @@ export interface GetDomainVerificationResponse {
   txtMethodConfig?: TxtMethodConfig;
   createdAt: Date;
   lastVerifiedTime?: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const GetDomainVerificationResponse = S.suspend(() =>
   S.Struct({
@@ -2215,7 +2215,7 @@ export interface GetListenerResponse {
   port?: number;
   serviceArn?: string;
   serviceId?: string;
-  defaultAction?: (typeof RuleAction)["Type"];
+  defaultAction?: RuleAction;
   createdAt?: Date;
   lastUpdatedAt?: Date;
 }
@@ -2243,7 +2243,7 @@ export interface UpdateListenerResponse {
   port?: number;
   serviceArn?: string;
   serviceId?: string;
-  defaultAction?: (typeof RuleAction)["Type"];
+  defaultAction?: RuleAction;
 }
 export const UpdateListenerResponse = S.suspend(() =>
   S.Struct({
@@ -2267,11 +2267,11 @@ export interface GetResourceConfigurationResponse {
   resourceConfigurationGroupId?: string;
   type?: string;
   allowAssociationToShareableServiceNetwork?: boolean;
-  portRanges?: PortRangeList;
+  portRanges?: string[];
   protocol?: string;
   customDomainName?: string;
   status?: string;
-  resourceConfigurationDefinition?: (typeof ResourceConfigurationDefinition)["Type"];
+  resourceConfigurationDefinition?: ResourceConfigurationDefinition;
   createdAt?: Date;
   amazonManaged?: boolean;
   failureReason?: string;
@@ -2316,11 +2316,11 @@ export interface UpdateResourceConfigurationResponse {
   resourceGatewayId?: string;
   resourceConfigurationGroupId?: string;
   type?: string;
-  portRanges?: PortRangeList;
+  portRanges?: string[];
   allowAssociationToShareableServiceNetwork?: boolean;
   protocol?: string;
   status?: string;
-  resourceConfigurationDefinition?: (typeof ResourceConfigurationDefinition)["Type"];
+  resourceConfigurationDefinition?: ResourceConfigurationDefinition;
 }
 export const UpdateResourceConfigurationResponse = S.suspend(() =>
   S.Struct({
@@ -2365,8 +2365,8 @@ export interface CreateResourceGatewayResponse {
   arn?: string;
   status?: string;
   vpcIdentifier?: string;
-  subnetIds?: SubnetList;
-  securityGroupIds?: SecurityGroupList;
+  subnetIds?: string[];
+  securityGroupIds?: string[];
   ipAddressType?: string;
   ipv4AddressesPerEni?: number;
 }
@@ -2391,8 +2391,8 @@ export interface GetResourceGatewayResponse {
   arn?: string;
   status?: string;
   vpcId?: string;
-  subnetIds?: SubnetList;
-  securityGroupIds?: SecurityGroupList;
+  subnetIds?: string[];
+  securityGroupIds?: string[];
   ipAddressType?: string;
   ipv4AddressesPerEni?: number;
   createdAt?: Date;
@@ -2421,8 +2421,8 @@ export interface UpdateResourceGatewayResponse {
   arn?: string;
   status?: string;
   vpcId?: string;
-  subnetIds?: SubnetList;
-  securityGroupIds?: SecurityGroupList;
+  subnetIds?: string[];
+  securityGroupIds?: string[];
   ipAddressType?: string;
 }
 export const UpdateResourceGatewayResponse = S.suspend(() =>
@@ -2460,9 +2460,9 @@ export interface GetRuleResponse {
   id?: string;
   name?: string;
   isDefault?: boolean;
-  match?: (typeof RuleMatch)["Type"];
+  match?: RuleMatch;
   priority?: number;
-  action?: (typeof RuleAction)["Type"];
+  action?: RuleAction;
   createdAt?: Date;
   lastUpdatedAt?: Date;
 }
@@ -2486,9 +2486,9 @@ export interface UpdateRuleResponse {
   id?: string;
   name?: string;
   isDefault?: boolean;
-  match?: (typeof RuleMatch)["Type"];
+  match?: RuleMatch;
   priority?: number;
-  action?: (typeof RuleAction)["Type"];
+  action?: RuleAction;
 }
 export const UpdateRuleResponse = S.suspend(() =>
   S.Struct({
@@ -2585,7 +2585,7 @@ export interface CreateServiceNetworkRequest {
   clientToken?: string;
   name: string;
   authType?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   sharingConfig?: SharingConfig;
 }
 export const CreateServiceNetworkRequest = S.suspend(() =>
@@ -2805,8 +2805,8 @@ export interface CreateServiceNetworkVpcAssociationRequest {
   serviceNetworkIdentifier: string;
   vpcIdentifier: string;
   privateDnsEnabled?: boolean;
-  securityGroupIds?: SecurityGroupList;
-  tags?: TagMap;
+  securityGroupIds?: string[];
+  tags?: { [key: string]: string };
   dnsOptions?: DnsOptions;
 }
 export const CreateServiceNetworkVpcAssociationRequest = S.suspend(() =>
@@ -2841,7 +2841,7 @@ export interface GetServiceNetworkVpcAssociationResponse {
   serviceNetworkName?: string;
   serviceNetworkArn?: string;
   vpcId?: string;
-  securityGroupIds?: SecurityGroupList;
+  securityGroupIds?: string[];
   privateDnsEnabled?: boolean;
   failureMessage?: string;
   failureCode?: string;
@@ -2874,7 +2874,7 @@ export interface UpdateServiceNetworkVpcAssociationResponse {
   arn?: string;
   status?: string;
   createdBy?: string;
-  securityGroupIds?: SecurityGroupList;
+  securityGroupIds?: string[];
 }
 export const UpdateServiceNetworkVpcAssociationResponse = S.suspend(() =>
   S.Struct({
@@ -2906,7 +2906,7 @@ export interface CreateTargetGroupRequest {
   type: string;
   config?: TargetGroupConfig;
   clientToken?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateTargetGroupRequest = S.suspend(() =>
   S.Struct({
@@ -2937,7 +2937,7 @@ export interface GetTargetGroupResponse {
   createdAt?: Date;
   lastUpdatedAt?: Date;
   status?: string;
-  serviceArns?: ServiceArnList;
+  serviceArns?: string[];
   failureMessage?: string;
   failureCode?: string;
 }
@@ -2974,7 +2974,7 @@ export const DeleteTargetGroupResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteTargetGroupResponse>;
 export interface DeregisterTargetsRequest {
   targetGroupIdentifier: string;
-  targets: TargetList;
+  targets: Target[];
 }
 export const DeregisterTargetsRequest = S.suspend(() =>
   S.Struct({
@@ -3057,7 +3057,7 @@ export interface DomainVerificationSummary {
   txtMethodConfig?: TxtMethodConfig;
   createdAt: Date;
   lastVerifiedTime?: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const DomainVerificationSummary = S.suspend(() =>
   S.Struct({
@@ -3174,8 +3174,8 @@ export interface ResourceGatewaySummary {
   arn?: string;
   status?: string;
   vpcIdentifier?: string;
-  subnetIds?: SubnetList;
-  securityGroupIds?: SecurityGroupList;
+  subnetIds?: string[];
+  securityGroupIds?: string[];
   ipAddressType?: string;
   ipv4AddressesPerEni?: number;
   createdAt?: Date;
@@ -3407,7 +3407,7 @@ export interface TargetGroupSummary {
   vpcIdentifier?: string;
   lastUpdatedAt?: Date;
   status?: string;
-  serviceArns?: ServiceArnList;
+  serviceArns?: string[];
   lambdaEventStructureVersion?: string;
 }
 export const TargetGroupSummary = S.suspend(() =>
@@ -3468,7 +3468,7 @@ export const TargetFailure = S.suspend(() =>
 export type TargetFailureList = TargetFailure[];
 export const TargetFailureList = S.Array(TargetFailure);
 export interface ListServiceNetworkVpcEndpointAssociationsResponse {
-  items: ServiceNetworkVpcEndpointAssociationList;
+  items: ServiceNetworkEndpointAssociation[];
   nextToken?: string;
 }
 export const ListServiceNetworkVpcEndpointAssociationsResponse = S.suspend(() =>
@@ -3480,7 +3480,7 @@ export const ListServiceNetworkVpcEndpointAssociationsResponse = S.suspend(() =>
   identifier: "ListServiceNetworkVpcEndpointAssociationsResponse",
 }) as any as S.Schema<ListServiceNetworkVpcEndpointAssociationsResponse>;
 export interface ListAccessLogSubscriptionsResponse {
-  items: AccessLogSubscriptionList;
+  items: AccessLogSubscriptionSummary[];
   nextToken?: string;
 }
 export const ListAccessLogSubscriptionsResponse = S.suspend(() =>
@@ -3510,7 +3510,7 @@ export const StartDomainVerificationResponse = S.suspend(() =>
   identifier: "StartDomainVerificationResponse",
 }) as any as S.Schema<StartDomainVerificationResponse>;
 export interface ListDomainVerificationsResponse {
-  items: DomainVerificationList;
+  items: DomainVerificationSummary[];
   nextToken?: string;
 }
 export const ListDomainVerificationsResponse = S.suspend(() =>
@@ -3519,7 +3519,7 @@ export const ListDomainVerificationsResponse = S.suspend(() =>
   identifier: "ListDomainVerificationsResponse",
 }) as any as S.Schema<ListDomainVerificationsResponse>;
 export interface ListListenersResponse {
-  items: ListenerSummaryList;
+  items: ListenerSummary[];
   nextToken?: string;
 }
 export const ListListenersResponse = S.suspend(() =>
@@ -3530,17 +3530,17 @@ export const ListListenersResponse = S.suspend(() =>
 export interface CreateResourceConfigurationRequest {
   name: string;
   type: string;
-  portRanges?: PortRangeList;
+  portRanges?: string[];
   protocol?: string;
   resourceGatewayIdentifier?: string;
   resourceConfigurationGroupIdentifier?: string;
-  resourceConfigurationDefinition?: (typeof ResourceConfigurationDefinition)["Type"];
+  resourceConfigurationDefinition?: ResourceConfigurationDefinition;
   allowAssociationToShareableServiceNetwork?: boolean;
   customDomainName?: string;
   groupDomain?: string;
   domainVerificationIdentifier?: string;
   clientToken?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateResourceConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -3573,7 +3573,7 @@ export const CreateResourceConfigurationRequest = S.suspend(() =>
   identifier: "CreateResourceConfigurationRequest",
 }) as any as S.Schema<CreateResourceConfigurationRequest>;
 export interface ListResourceConfigurationsResponse {
-  items?: ResourceConfigurationSummaryList;
+  items?: ResourceConfigurationSummary[];
   nextToken?: string;
 }
 export const ListResourceConfigurationsResponse = S.suspend(() =>
@@ -3585,7 +3585,7 @@ export const ListResourceConfigurationsResponse = S.suspend(() =>
   identifier: "ListResourceConfigurationsResponse",
 }) as any as S.Schema<ListResourceConfigurationsResponse>;
 export interface ListResourceEndpointAssociationsResponse {
-  items: ResourceEndpointAssociationList;
+  items: ResourceEndpointAssociationSummary[];
   nextToken?: string;
 }
 export const ListResourceEndpointAssociationsResponse = S.suspend(() =>
@@ -3597,7 +3597,7 @@ export const ListResourceEndpointAssociationsResponse = S.suspend(() =>
   identifier: "ListResourceEndpointAssociationsResponse",
 }) as any as S.Schema<ListResourceEndpointAssociationsResponse>;
 export interface ListResourceGatewaysResponse {
-  items?: ResourceGatewayList;
+  items?: ResourceGatewaySummary[];
   nextToken?: string;
 }
 export const ListResourceGatewaysResponse = S.suspend(() =>
@@ -3609,7 +3609,7 @@ export const ListResourceGatewaysResponse = S.suspend(() =>
   identifier: "ListResourceGatewaysResponse",
 }) as any as S.Schema<ListResourceGatewaysResponse>;
 export interface ListRulesResponse {
-  items: RuleSummaryList;
+  items: RuleSummary[];
   nextToken?: string;
 }
 export const ListRulesResponse = S.suspend(() =>
@@ -3642,7 +3642,7 @@ export const CreateServiceResponse = S.suspend(() =>
   identifier: "CreateServiceResponse",
 }) as any as S.Schema<CreateServiceResponse>;
 export interface ListServicesResponse {
-  items?: ServiceList;
+  items?: ServiceSummary[];
   nextToken?: string;
 }
 export const ListServicesResponse = S.suspend(() =>
@@ -3669,7 +3669,7 @@ export const CreateServiceNetworkResponse = S.suspend(() =>
   identifier: "CreateServiceNetworkResponse",
 }) as any as S.Schema<CreateServiceNetworkResponse>;
 export interface ListServiceNetworksResponse {
-  items: ServiceNetworkList;
+  items: ServiceNetworkSummary[];
   nextToken?: string;
 }
 export const ListServiceNetworksResponse = S.suspend(() =>
@@ -3678,7 +3678,7 @@ export const ListServiceNetworksResponse = S.suspend(() =>
   identifier: "ListServiceNetworksResponse",
 }) as any as S.Schema<ListServiceNetworksResponse>;
 export interface ListServiceNetworkResourceAssociationsResponse {
-  items: ServiceNetworkResourceAssociationList;
+  items: ServiceNetworkResourceAssociationSummary[];
   nextToken?: string;
 }
 export const ListServiceNetworkResourceAssociationsResponse = S.suspend(() =>
@@ -3690,7 +3690,7 @@ export const ListServiceNetworkResourceAssociationsResponse = S.suspend(() =>
   identifier: "ListServiceNetworkResourceAssociationsResponse",
 }) as any as S.Schema<ListServiceNetworkResourceAssociationsResponse>;
 export interface ListServiceNetworkServiceAssociationsResponse {
-  items: ServiceNetworkServiceAssociationList;
+  items: ServiceNetworkServiceAssociationSummary[];
   nextToken?: string;
 }
 export const ListServiceNetworkServiceAssociationsResponse = S.suspend(() =>
@@ -3706,7 +3706,7 @@ export interface CreateServiceNetworkVpcAssociationResponse {
   status?: string;
   arn?: string;
   createdBy?: string;
-  securityGroupIds?: SecurityGroupList;
+  securityGroupIds?: string[];
   privateDnsEnabled?: boolean;
   dnsOptions?: DnsOptions;
 }
@@ -3724,7 +3724,7 @@ export const CreateServiceNetworkVpcAssociationResponse = S.suspend(() =>
   identifier: "CreateServiceNetworkVpcAssociationResponse",
 }) as any as S.Schema<CreateServiceNetworkVpcAssociationResponse>;
 export interface ListServiceNetworkVpcAssociationsResponse {
-  items: ServiceNetworkVpcAssociationList;
+  items: ServiceNetworkVpcAssociationSummary[];
   nextToken?: string;
 }
 export const ListServiceNetworkVpcAssociationsResponse = S.suspend(() =>
@@ -3777,7 +3777,7 @@ export const UpdateTargetGroupRequest = S.suspend(() =>
   identifier: "UpdateTargetGroupRequest",
 }) as any as S.Schema<UpdateTargetGroupRequest>;
 export interface ListTargetGroupsResponse {
-  items?: TargetGroupList;
+  items?: TargetGroupSummary[];
   nextToken?: string;
 }
 export const ListTargetGroupsResponse = S.suspend(() =>
@@ -3789,8 +3789,8 @@ export const ListTargetGroupsResponse = S.suspend(() =>
   identifier: "ListTargetGroupsResponse",
 }) as any as S.Schema<ListTargetGroupsResponse>;
 export interface DeregisterTargetsResponse {
-  successful?: TargetList;
-  unsuccessful?: TargetFailureList;
+  successful?: Target[];
+  unsuccessful?: TargetFailure[];
 }
 export const DeregisterTargetsResponse = S.suspend(() =>
   S.Struct({
@@ -3801,7 +3801,7 @@ export const DeregisterTargetsResponse = S.suspend(() =>
   identifier: "DeregisterTargetsResponse",
 }) as any as S.Schema<DeregisterTargetsResponse>;
 export interface ListTargetsResponse {
-  items: TargetSummaryList;
+  items: TargetSummary[];
   nextToken?: string;
 }
 export const ListTargetsResponse = S.suspend(() =>
@@ -3810,8 +3810,8 @@ export const ListTargetsResponse = S.suspend(() =>
   identifier: "ListTargetsResponse",
 }) as any as S.Schema<ListTargetsResponse>;
 export interface RegisterTargetsResponse {
-  successful?: TargetList;
-  unsuccessful?: TargetFailureList;
+  successful?: Target[];
+  unsuccessful?: TargetFailure[];
 }
 export const RegisterTargetsResponse = S.suspend(() =>
   S.Struct({
@@ -3826,9 +3826,9 @@ export interface RuleUpdateSuccess {
   id?: string;
   name?: string;
   isDefault?: boolean;
-  match?: (typeof RuleMatch)["Type"];
+  match?: RuleMatch;
   priority?: number;
-  action?: (typeof RuleAction)["Type"];
+  action?: RuleAction;
 }
 export const RuleUpdateSuccess = S.suspend(() =>
   S.Struct({
@@ -3862,8 +3862,8 @@ export const RuleUpdateFailure = S.suspend(() =>
 export type RuleUpdateFailureList = RuleUpdateFailure[];
 export const RuleUpdateFailureList = S.Array(RuleUpdateFailure);
 export interface BatchUpdateRuleResponse {
-  successful?: RuleUpdateSuccessList;
-  unsuccessful?: RuleUpdateFailureList;
+  successful?: RuleUpdateSuccess[];
+  unsuccessful?: RuleUpdateFailure[];
 }
 export const BatchUpdateRuleResponse = S.suspend(() =>
   S.Struct({
@@ -3878,9 +3878,9 @@ export interface CreateListenerRequest {
   name: string;
   protocol: string;
   port?: number;
-  defaultAction: (typeof RuleAction)["Type"];
+  defaultAction: RuleAction;
   clientToken?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateListenerRequest = S.suspend(() =>
   S.Struct({
@@ -3914,10 +3914,10 @@ export interface CreateResourceConfigurationResponse {
   resourceGatewayId?: string;
   resourceConfigurationGroupId?: string;
   type?: string;
-  portRanges?: PortRangeList;
+  portRanges?: string[];
   protocol?: string;
   status?: string;
-  resourceConfigurationDefinition?: (typeof ResourceConfigurationDefinition)["Type"];
+  resourceConfigurationDefinition?: ResourceConfigurationDefinition;
   allowAssociationToShareableServiceNetwork?: boolean;
   createdAt?: Date;
   failureReason?: string;
@@ -3979,7 +3979,7 @@ export interface CreateListenerResponse {
   port?: number;
   serviceArn?: string;
   serviceId?: string;
-  defaultAction?: (typeof RuleAction)["Type"];
+  defaultAction?: RuleAction;
 }
 export const CreateListenerResponse = S.suspend(() =>
   S.Struct({
@@ -3999,11 +3999,11 @@ export interface CreateRuleRequest {
   serviceIdentifier: string;
   listenerIdentifier: string;
   name: string;
-  match: (typeof RuleMatch)["Type"];
+  match: RuleMatch;
   priority: number;
-  action: (typeof RuleAction)["Type"];
+  action: RuleAction;
   clientToken?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateRuleRequest = S.suspend(() =>
   S.Struct({
@@ -4046,9 +4046,9 @@ export interface CreateRuleResponse {
   arn?: string;
   id?: string;
   name?: string;
-  match?: (typeof RuleMatch)["Type"];
+  match?: RuleMatch;
   priority?: number;
-  action?: (typeof RuleAction)["Type"];
+  action?: RuleAction;
 }
 export const CreateRuleResponse = S.suspend(() =>
   S.Struct({
@@ -4120,7 +4120,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listServiceNetworkVpcEndpointAssociations: {
   (
     input: ListServiceNetworkVpcEndpointAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServiceNetworkVpcEndpointAssociationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4131,7 +4131,7 @@ export const listServiceNetworkVpcEndpointAssociations: {
   >;
   pages: (
     input: ListServiceNetworkVpcEndpointAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServiceNetworkVpcEndpointAssociationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4142,7 +4142,7 @@ export const listServiceNetworkVpcEndpointAssociations: {
   >;
   items: (
     input: ListServiceNetworkVpcEndpointAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServiceNetworkEndpointAssociation,
     | AccessDeniedException
     | InternalServerException
@@ -4172,7 +4172,7 @@ export const listServiceNetworkVpcEndpointAssociations: {
  */
 export const createRule: (
   input: CreateRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRuleResponse,
   | AccessDeniedException
   | ConflictException
@@ -4201,7 +4201,7 @@ export const createRule: (
  */
 export const startDomainVerification: (
   input: StartDomainVerificationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartDomainVerificationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4228,7 +4228,7 @@ export const startDomainVerification: (
  */
 export const createResourceConfiguration: (
   input: CreateResourceConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateResourceConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4257,7 +4257,7 @@ export const createResourceConfiguration: (
  */
 export const updateTargetGroup: (
   input: UpdateTargetGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTargetGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -4286,7 +4286,7 @@ export const updateTargetGroup: (
  */
 export const createAccessLogSubscription: (
   input: CreateAccessLogSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAccessLogSubscriptionResponse,
   | AccessDeniedException
   | ConflictException
@@ -4314,7 +4314,7 @@ export const createAccessLogSubscription: (
 export const listDomainVerifications: {
   (
     input: ListDomainVerificationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDomainVerificationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4326,7 +4326,7 @@ export const listDomainVerifications: {
   >;
   pages: (
     input: ListDomainVerificationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDomainVerificationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4338,7 +4338,7 @@ export const listDomainVerifications: {
   >;
   items: (
     input: ListDomainVerificationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DomainVerificationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -4371,7 +4371,7 @@ export const listDomainVerifications: {
 export const listListeners: {
   (
     input: ListListenersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListListenersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4383,7 +4383,7 @@ export const listListeners: {
   >;
   pages: (
     input: ListListenersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListListenersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4395,7 +4395,7 @@ export const listListeners: {
   >;
   items: (
     input: ListListenersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListenerSummary,
     | AccessDeniedException
     | InternalServerException
@@ -4428,7 +4428,7 @@ export const listListeners: {
 export const listRules: {
   (
     input: ListRulesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRulesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4440,7 +4440,7 @@ export const listRules: {
   >;
   pages: (
     input: ListRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRulesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4452,7 +4452,7 @@ export const listRules: {
   >;
   items: (
     input: ListRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RuleSummary,
     | AccessDeniedException
     | InternalServerException
@@ -4486,7 +4486,7 @@ export const listRules: {
  */
 export const createService: (
   input: CreateServiceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateServiceResponse,
   | AccessDeniedException
   | ConflictException
@@ -4517,7 +4517,7 @@ export const createService: (
  */
 export const createServiceNetwork: (
   input: CreateServiceNetworkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateServiceNetworkResponse,
   | AccessDeniedException
   | ConflictException
@@ -4552,7 +4552,7 @@ export const createServiceNetwork: (
  */
 export const createServiceNetworkVpcAssociation: (
   input: CreateServiceNetworkVpcAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateServiceNetworkVpcAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4583,7 +4583,7 @@ export const createServiceNetworkVpcAssociation: (
  */
 export const createTargetGroup: (
   input: CreateTargetGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTargetGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -4612,7 +4612,7 @@ export const createTargetGroup: (
  */
 export const deregisterTargets: (
   input: DeregisterTargetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterTargetsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4640,7 +4640,7 @@ export const deregisterTargets: (
 export const listTargets: {
   (
     input: ListTargetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTargetsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4652,7 +4652,7 @@ export const listTargets: {
   >;
   pages: (
     input: ListTargetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTargetsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4664,7 +4664,7 @@ export const listTargets: {
   >;
   items: (
     input: ListTargetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TargetSummary,
     | AccessDeniedException
     | InternalServerException
@@ -4696,7 +4696,7 @@ export const listTargets: {
  */
 export const registerTargets: (
   input: RegisterTargetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterTargetsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4725,7 +4725,7 @@ export const registerTargets: (
  */
 export const getAuthPolicy: (
   input: GetAuthPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAuthPolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4750,7 +4750,7 @@ export const getAuthPolicy: (
  */
 export const getResourcePolicy: (
   input: GetResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4775,7 +4775,7 @@ export const getResourcePolicy: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4800,7 +4800,7 @@ export const listTagsForResource: (
  */
 export const putAuthPolicy: (
   input: PutAuthPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAuthPolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4825,7 +4825,7 @@ export const putAuthPolicy: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4850,7 +4850,7 @@ export const tagResource: (
  */
 export const getAccessLogSubscription: (
   input: GetAccessLogSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccessLogSubscriptionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4875,7 +4875,7 @@ export const getAccessLogSubscription: (
  */
 export const getDomainVerification: (
   input: GetDomainVerificationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDomainVerificationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4900,7 +4900,7 @@ export const getDomainVerification: (
  */
 export const getListener: (
   input: GetListenerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetListenerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4925,7 +4925,7 @@ export const getListener: (
  */
 export const getResourceConfiguration: (
   input: GetResourceConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourceConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4950,7 +4950,7 @@ export const getResourceConfiguration: (
  */
 export const updateResourceConfiguration: (
   input: UpdateResourceConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateResourceConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4977,7 +4977,7 @@ export const updateResourceConfiguration: (
  */
 export const deleteResourceEndpointAssociation: (
   input: DeleteResourceEndpointAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourceEndpointAssociationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5002,7 +5002,7 @@ export const deleteResourceEndpointAssociation: (
  */
 export const getResourceGateway: (
   input: GetResourceGatewayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourceGatewayResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5027,7 +5027,7 @@ export const getResourceGateway: (
  */
 export const getRule: (
   input: GetRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRuleResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5052,7 +5052,7 @@ export const getRule: (
  */
 export const getService: (
   input: GetServiceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5077,7 +5077,7 @@ export const getService: (
  */
 export const getServiceNetwork: (
   input: GetServiceNetworkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceNetworkResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5102,7 +5102,7 @@ export const getServiceNetwork: (
  */
 export const getServiceNetworkResourceAssociation: (
   input: GetServiceNetworkResourceAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceNetworkResourceAssociationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5127,7 +5127,7 @@ export const getServiceNetworkResourceAssociation: (
  */
 export const getServiceNetworkServiceAssociation: (
   input: GetServiceNetworkServiceAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceNetworkServiceAssociationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5152,7 +5152,7 @@ export const getServiceNetworkServiceAssociation: (
  */
 export const getServiceNetworkVpcAssociation: (
   input: GetServiceNetworkVpcAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceNetworkVpcAssociationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5177,7 +5177,7 @@ export const getServiceNetworkVpcAssociation: (
  */
 export const getTargetGroup: (
   input: GetTargetGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTargetGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5202,7 +5202,7 @@ export const getTargetGroup: (
  */
 export const deleteResourcePolicy: (
   input: DeleteResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5227,7 +5227,7 @@ export const deleteResourcePolicy: (
  */
 export const putResourcePolicy: (
   input: PutResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5252,7 +5252,7 @@ export const putResourcePolicy: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5275,7 +5275,7 @@ export const untagResource: (
  */
 export const deleteAccessLogSubscription: (
   input: DeleteAccessLogSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccessLogSubscriptionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5300,7 +5300,7 @@ export const deleteAccessLogSubscription: (
  */
 export const deleteDomainVerification: (
   input: DeleteDomainVerificationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDomainVerificationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5325,7 +5325,7 @@ export const deleteDomainVerification: (
  */
 export const updateAccessLogSubscription: (
   input: UpdateAccessLogSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAccessLogSubscriptionResponse,
   | AccessDeniedException
   | ConflictException
@@ -5352,7 +5352,7 @@ export const updateAccessLogSubscription: (
  */
 export const updateListener: (
   input: UpdateListenerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateListenerResponse,
   | AccessDeniedException
   | ConflictException
@@ -5381,7 +5381,7 @@ export const updateListener: (
  */
 export const createResourceGateway: (
   input: CreateResourceGatewayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateResourceGatewayResponse,
   | AccessDeniedException
   | ConflictException
@@ -5410,7 +5410,7 @@ export const createResourceGateway: (
  */
 export const updateResourceGateway: (
   input: UpdateResourceGatewayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateResourceGatewayResponse,
   | AccessDeniedException
   | ConflictException
@@ -5437,7 +5437,7 @@ export const updateResourceGateway: (
  */
 export const deleteResourceGateway: (
   input: DeleteResourceGatewayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourceGatewayResponse,
   | AccessDeniedException
   | ConflictException
@@ -5464,7 +5464,7 @@ export const deleteResourceGateway: (
  */
 export const updateRule: (
   input: UpdateRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRuleResponse,
   | AccessDeniedException
   | ConflictException
@@ -5493,7 +5493,7 @@ export const updateRule: (
  */
 export const updateService: (
   input: UpdateServiceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateServiceResponse,
   | AccessDeniedException
   | ConflictException
@@ -5522,7 +5522,7 @@ export const updateService: (
  */
 export const deleteService: (
   input: DeleteServiceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteServiceResponse,
   | AccessDeniedException
   | ConflictException
@@ -5549,7 +5549,7 @@ export const deleteService: (
  */
 export const updateServiceNetwork: (
   input: UpdateServiceNetworkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateServiceNetworkResponse,
   | AccessDeniedException
   | ConflictException
@@ -5576,7 +5576,7 @@ export const updateServiceNetwork: (
  */
 export const createServiceNetworkResourceAssociation: (
   input: CreateServiceNetworkResourceAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateServiceNetworkResourceAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5605,7 +5605,7 @@ export const createServiceNetworkResourceAssociation: (
  */
 export const deleteServiceNetworkResourceAssociation: (
   input: DeleteServiceNetworkResourceAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteServiceNetworkResourceAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5638,7 +5638,7 @@ export const deleteServiceNetworkResourceAssociation: (
  */
 export const createServiceNetworkServiceAssociation: (
   input: CreateServiceNetworkServiceAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateServiceNetworkServiceAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5667,7 +5667,7 @@ export const createServiceNetworkServiceAssociation: (
  */
 export const deleteServiceNetworkServiceAssociation: (
   input: DeleteServiceNetworkServiceAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteServiceNetworkServiceAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5694,7 +5694,7 @@ export const deleteServiceNetworkServiceAssociation: (
  */
 export const updateServiceNetworkVpcAssociation: (
   input: UpdateServiceNetworkVpcAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateServiceNetworkVpcAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5721,7 +5721,7 @@ export const updateServiceNetworkVpcAssociation: (
  */
 export const deleteServiceNetworkVpcAssociation: (
   input: DeleteServiceNetworkVpcAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteServiceNetworkVpcAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5748,7 +5748,7 @@ export const deleteServiceNetworkVpcAssociation: (
  */
 export const deleteTargetGroup: (
   input: DeleteTargetGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTargetGroupResponse,
   | ConflictException
   | InternalServerException
@@ -5773,7 +5773,7 @@ export const deleteTargetGroup: (
  */
 export const deleteListener: (
   input: DeleteListenerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteListenerResponse,
   | AccessDeniedException
   | ConflictException
@@ -5800,7 +5800,7 @@ export const deleteListener: (
  */
 export const deleteResourceConfiguration: (
   input: DeleteResourceConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourceConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5829,7 +5829,7 @@ export const deleteResourceConfiguration: (
  */
 export const deleteRule: (
   input: DeleteRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRuleResponse,
   | AccessDeniedException
   | ConflictException
@@ -5856,7 +5856,7 @@ export const deleteRule: (
  */
 export const deleteServiceNetwork: (
   input: DeleteServiceNetworkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteServiceNetworkResponse,
   | AccessDeniedException
   | ConflictException
@@ -5887,7 +5887,7 @@ export const deleteServiceNetwork: (
  */
 export const batchUpdateRule: (
   input: BatchUpdateRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchUpdateRuleResponse,
   | AccessDeniedException
   | ConflictException
@@ -5915,7 +5915,7 @@ export const batchUpdateRule: (
 export const listAccessLogSubscriptions: {
   (
     input: ListAccessLogSubscriptionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccessLogSubscriptionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5926,7 +5926,7 @@ export const listAccessLogSubscriptions: {
   >;
   pages: (
     input: ListAccessLogSubscriptionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccessLogSubscriptionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5937,7 +5937,7 @@ export const listAccessLogSubscriptions: {
   >;
   items: (
     input: ListAccessLogSubscriptionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AccessLogSubscriptionSummary,
     | AccessDeniedException
     | InternalServerException
@@ -5968,7 +5968,7 @@ export const listAccessLogSubscriptions: {
 export const listResourceConfigurations: {
   (
     input: ListResourceConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResourceConfigurationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5979,7 +5979,7 @@ export const listResourceConfigurations: {
   >;
   pages: (
     input: ListResourceConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResourceConfigurationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5990,7 +5990,7 @@ export const listResourceConfigurations: {
   >;
   items: (
     input: ListResourceConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResourceConfigurationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -6021,7 +6021,7 @@ export const listResourceConfigurations: {
 export const listResourceEndpointAssociations: {
   (
     input: ListResourceEndpointAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResourceEndpointAssociationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6032,7 +6032,7 @@ export const listResourceEndpointAssociations: {
   >;
   pages: (
     input: ListResourceEndpointAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResourceEndpointAssociationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6043,7 +6043,7 @@ export const listResourceEndpointAssociations: {
   >;
   items: (
     input: ListResourceEndpointAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResourceEndpointAssociationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -6074,7 +6074,7 @@ export const listResourceEndpointAssociations: {
 export const listResourceGateways: {
   (
     input: ListResourceGatewaysRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResourceGatewaysResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6085,7 +6085,7 @@ export const listResourceGateways: {
   >;
   pages: (
     input: ListResourceGatewaysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResourceGatewaysResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6096,7 +6096,7 @@ export const listResourceGateways: {
   >;
   items: (
     input: ListResourceGatewaysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResourceGatewaySummary,
     | AccessDeniedException
     | InternalServerException
@@ -6127,7 +6127,7 @@ export const listResourceGateways: {
 export const listServices: {
   (
     input: ListServicesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServicesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6138,7 +6138,7 @@ export const listServices: {
   >;
   pages: (
     input: ListServicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServicesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6149,7 +6149,7 @@ export const listServices: {
   >;
   items: (
     input: ListServicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServiceSummary,
     | AccessDeniedException
     | InternalServerException
@@ -6180,7 +6180,7 @@ export const listServices: {
 export const listServiceNetworks: {
   (
     input: ListServiceNetworksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServiceNetworksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6191,7 +6191,7 @@ export const listServiceNetworks: {
   >;
   pages: (
     input: ListServiceNetworksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServiceNetworksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6202,7 +6202,7 @@ export const listServiceNetworks: {
   >;
   items: (
     input: ListServiceNetworksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServiceNetworkSummary,
     | AccessDeniedException
     | InternalServerException
@@ -6233,7 +6233,7 @@ export const listServiceNetworks: {
 export const listServiceNetworkResourceAssociations: {
   (
     input: ListServiceNetworkResourceAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServiceNetworkResourceAssociationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6244,7 +6244,7 @@ export const listServiceNetworkResourceAssociations: {
   >;
   pages: (
     input: ListServiceNetworkResourceAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServiceNetworkResourceAssociationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6255,7 +6255,7 @@ export const listServiceNetworkResourceAssociations: {
   >;
   items: (
     input: ListServiceNetworkResourceAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServiceNetworkResourceAssociationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -6288,7 +6288,7 @@ export const listServiceNetworkResourceAssociations: {
 export const listServiceNetworkServiceAssociations: {
   (
     input: ListServiceNetworkServiceAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServiceNetworkServiceAssociationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6299,7 +6299,7 @@ export const listServiceNetworkServiceAssociations: {
   >;
   pages: (
     input: ListServiceNetworkServiceAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServiceNetworkServiceAssociationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6310,7 +6310,7 @@ export const listServiceNetworkServiceAssociations: {
   >;
   items: (
     input: ListServiceNetworkServiceAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServiceNetworkServiceAssociationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -6341,7 +6341,7 @@ export const listServiceNetworkServiceAssociations: {
 export const listServiceNetworkVpcAssociations: {
   (
     input: ListServiceNetworkVpcAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServiceNetworkVpcAssociationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6352,7 +6352,7 @@ export const listServiceNetworkVpcAssociations: {
   >;
   pages: (
     input: ListServiceNetworkVpcAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServiceNetworkVpcAssociationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6363,7 +6363,7 @@ export const listServiceNetworkVpcAssociations: {
   >;
   items: (
     input: ListServiceNetworkVpcAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServiceNetworkVpcAssociationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -6394,7 +6394,7 @@ export const listServiceNetworkVpcAssociations: {
 export const listTargetGroups: {
   (
     input: ListTargetGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTargetGroupsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6405,7 +6405,7 @@ export const listTargetGroups: {
   >;
   pages: (
     input: ListTargetGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTargetGroupsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6416,7 +6416,7 @@ export const listTargetGroups: {
   >;
   items: (
     input: ListTargetGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TargetGroupSummary,
     | AccessDeniedException
     | InternalServerException
@@ -6446,7 +6446,7 @@ export const listTargetGroups: {
  */
 export const deleteAuthPolicy: (
   input: DeleteAuthPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAuthPolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6471,7 +6471,7 @@ export const deleteAuthPolicy: (
  */
 export const createListener: (
   input: CreateListenerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateListenerResponse,
   | AccessDeniedException
   | ConflictException

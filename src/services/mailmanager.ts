@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -90,7 +90,7 @@ const rules = T.EndpointResolver((p, _) => {
 export type IdempotencyToken = string;
 export type AddressListId = string;
 export type JobName = string;
-export type Address = string | Redacted.Redacted<string>;
+export type Address = string | redacted.Redacted<string>;
 export type JobId = string;
 export type ExportId = string;
 export type ArchivedMessageId = string;
@@ -121,13 +121,13 @@ export type RelayId = string;
 export type RuleSetName = string;
 export type TrafficPolicyName = string;
 export type MaxMessageSizeBytes = number;
-export type AddressPrefix = string | Redacted.Redacted<string>;
+export type AddressPrefix = string | redacted.Redacted<string>;
 export type TagValue = string;
-export type SmtpPassword = string | Redacted.Redacted<string>;
+export type SmtpPassword = string | redacted.Redacted<string>;
 export type SecretArn = string;
 export type RuleName = string;
 export type ErrorMessage = string;
-export type PreSignedUrl = string | Redacted.Redacted<string>;
+export type PreSignedUrl = string | redacted.Redacted<string>;
 export type JobItemsCount = number;
 export type S3PresignedURL = string;
 export type AddonInstanceArn = string;
@@ -141,7 +141,7 @@ export type RuleSetArn = string;
 export type TrafficPolicyArn = string;
 export type S3Location = string;
 export type VpcEndpointId = string;
-export type SenderIpAddress = string | Redacted.Redacted<string>;
+export type SenderIpAddress = string | redacted.Redacted<string>;
 export type StringValue = string;
 export type RuleStringValue = string;
 export type RuleIpStringValue = string;
@@ -153,7 +153,7 @@ export type S3Prefix = string;
 export type KmsKeyId = string;
 export type HeaderName = string;
 export type HeaderValue = string;
-export type EmailAddress = string | Redacted.Redacted<string>;
+export type EmailAddress = string | redacted.Redacted<string>;
 export type QBusinessApplicationId = string;
 export type QBusinessIndexId = string;
 export type SnsTopicArn = string;
@@ -166,9 +166,15 @@ export type ResultField = string;
 //# Schemas
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type IngressPointType = "OPEN" | "AUTH";
+export const IngressPointType = S.Literal("OPEN", "AUTH");
+export type IngressPointStatusToUpdate = "ACTIVE" | "CLOSED";
+export const IngressPointStatusToUpdate = S.Literal("ACTIVE", "CLOSED");
+export type AcceptAction = "ALLOW" | "DENY";
+export const AcceptAction = S.Literal("ALLOW", "DENY");
 export interface DeregisterMemberFromAddressListRequest {
   AddressListId: string;
-  Address: string | Redacted.Redacted<string>;
+  Address: string | redacted.Redacted<string>;
 }
 export const DeregisterMemberFromAddressListRequest = S.suspend(() =>
   S.Struct({ AddressListId: S.String, Address: SensitiveString }).pipe(
@@ -245,7 +251,7 @@ export const GetArchiveSearchResultsRequest = S.suspend(() =>
 }) as any as S.Schema<GetArchiveSearchResultsRequest>;
 export interface GetMemberOfAddressListRequest {
   AddressListId: string;
-  Address: string | Redacted.Redacted<string>;
+  Address: string | redacted.Redacted<string>;
 }
 export const GetMemberOfAddressListRequest = S.suspend(() =>
   S.Struct({ AddressListId: S.String, Address: SensitiveString }).pipe(
@@ -314,7 +320,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface RegisterMemberToAddressListRequest {
   AddressListId: string;
-  Address: string | Redacted.Redacted<string>;
+  Address: string | redacted.Redacted<string>;
 }
 export const RegisterMemberToAddressListRequest = S.suspend(() =>
   S.Struct({ AddressListId: S.String, Address: SensitiveString }).pipe(
@@ -345,36 +351,64 @@ export const StartAddressListImportJobResponse = S.suspend(() =>
 ).annotations({
   identifier: "StartAddressListImportJobResponse",
 }) as any as S.Schema<StartAddressListImportJobResponse>;
-export type ArchiveStringToEvaluate = { Attribute: string };
-export const ArchiveStringToEvaluate = S.Union(
-  S.Struct({ Attribute: S.String }),
+export type ArchiveStringEmailAttribute =
+  | "TO"
+  | "FROM"
+  | "CC"
+  | "SUBJECT"
+  | "ENVELOPE_TO"
+  | "ENVELOPE_FROM";
+export const ArchiveStringEmailAttribute = S.Literal(
+  "TO",
+  "FROM",
+  "CC",
+  "SUBJECT",
+  "ENVELOPE_TO",
+  "ENVELOPE_FROM",
 );
+export type ArchiveStringToEvaluate = {
+  Attribute: ArchiveStringEmailAttribute;
+};
+export const ArchiveStringToEvaluate = S.Union(
+  S.Struct({ Attribute: ArchiveStringEmailAttribute }),
+);
+export type ArchiveStringOperator = "CONTAINS";
+export const ArchiveStringOperator = S.Literal("CONTAINS");
 export type StringValueList = string[];
 export const StringValueList = S.Array(S.String);
 export interface ArchiveStringExpression {
-  Evaluate: (typeof ArchiveStringToEvaluate)["Type"];
-  Operator: string;
-  Values: StringValueList;
+  Evaluate: ArchiveStringToEvaluate;
+  Operator: ArchiveStringOperator;
+  Values: string[];
 }
 export const ArchiveStringExpression = S.suspend(() =>
   S.Struct({
     Evaluate: ArchiveStringToEvaluate,
-    Operator: S.String,
+    Operator: ArchiveStringOperator,
     Values: StringValueList,
   }),
 ).annotations({
   identifier: "ArchiveStringExpression",
 }) as any as S.Schema<ArchiveStringExpression>;
-export type ArchiveBooleanToEvaluate = { Attribute: string };
+export type ArchiveBooleanEmailAttribute = "HAS_ATTACHMENTS";
+export const ArchiveBooleanEmailAttribute = S.Literal("HAS_ATTACHMENTS");
+export type ArchiveBooleanToEvaluate = {
+  Attribute: ArchiveBooleanEmailAttribute;
+};
 export const ArchiveBooleanToEvaluate = S.Union(
-  S.Struct({ Attribute: S.String }),
+  S.Struct({ Attribute: ArchiveBooleanEmailAttribute }),
 );
+export type ArchiveBooleanOperator = "IS_TRUE" | "IS_FALSE";
+export const ArchiveBooleanOperator = S.Literal("IS_TRUE", "IS_FALSE");
 export interface ArchiveBooleanExpression {
-  Evaluate: (typeof ArchiveBooleanToEvaluate)["Type"];
-  Operator: string;
+  Evaluate: ArchiveBooleanToEvaluate;
+  Operator: ArchiveBooleanOperator;
 }
 export const ArchiveBooleanExpression = S.suspend(() =>
-  S.Struct({ Evaluate: ArchiveBooleanToEvaluate, Operator: S.String }),
+  S.Struct({
+    Evaluate: ArchiveBooleanToEvaluate,
+    Operator: ArchiveBooleanOperator,
+  }),
 ).annotations({
   identifier: "ArchiveBooleanExpression",
 }) as any as S.Schema<ArchiveBooleanExpression>;
@@ -385,11 +419,11 @@ export const ArchiveFilterCondition = S.Union(
   S.Struct({ StringExpression: ArchiveStringExpression }),
   S.Struct({ BooleanExpression: ArchiveBooleanExpression }),
 );
-export type ArchiveFilterConditions = (typeof ArchiveFilterCondition)["Type"][];
+export type ArchiveFilterConditions = ArchiveFilterCondition[];
 export const ArchiveFilterConditions = S.Array(ArchiveFilterCondition);
 export interface ArchiveFilters {
-  Include?: ArchiveFilterConditions;
-  Unless?: ArchiveFilterConditions;
+  Include?: ArchiveFilterCondition[];
+  Unless?: ArchiveFilterCondition[];
 }
 export const ArchiveFilters = S.suspend(() =>
   S.Struct({
@@ -469,7 +503,7 @@ export const StopArchiveSearchResponse = S.suspend(() =>
 }) as any as S.Schema<StopArchiveSearchResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
@@ -494,7 +528,7 @@ export const TagList = S.Array(Tag);
 export interface CreateAddonInstanceRequest {
   ClientToken?: string;
   AddonSubscriptionId: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateAddonInstanceRequest = S.suspend(() =>
   S.Struct({
@@ -550,7 +584,7 @@ export const ListAddonInstancesRequest = S.suspend(() =>
 export interface CreateAddonSubscriptionRequest {
   ClientToken?: string;
   AddonName: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateAddonSubscriptionRequest = S.suspend(() =>
   S.Struct({
@@ -606,7 +640,7 @@ export const ListAddonSubscriptionsRequest = S.suspend(() =>
 export interface CreateAddressListRequest {
   ClientToken?: string;
   AddressListName: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateAddressListRequest = S.suspend(() =>
   S.Struct({
@@ -669,14 +703,49 @@ export const GetArchiveRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetArchiveRequest",
 }) as any as S.Schema<GetArchiveRequest>;
-export type ArchiveRetention = { RetentionPeriod: string };
+export type RetentionPeriod =
+  | "THREE_MONTHS"
+  | "SIX_MONTHS"
+  | "NINE_MONTHS"
+  | "ONE_YEAR"
+  | "EIGHTEEN_MONTHS"
+  | "TWO_YEARS"
+  | "THIRTY_MONTHS"
+  | "THREE_YEARS"
+  | "FOUR_YEARS"
+  | "FIVE_YEARS"
+  | "SIX_YEARS"
+  | "SEVEN_YEARS"
+  | "EIGHT_YEARS"
+  | "NINE_YEARS"
+  | "TEN_YEARS"
+  | "PERMANENT";
+export const RetentionPeriod = S.Literal(
+  "THREE_MONTHS",
+  "SIX_MONTHS",
+  "NINE_MONTHS",
+  "ONE_YEAR",
+  "EIGHTEEN_MONTHS",
+  "TWO_YEARS",
+  "THIRTY_MONTHS",
+  "THREE_YEARS",
+  "FOUR_YEARS",
+  "FIVE_YEARS",
+  "SIX_YEARS",
+  "SEVEN_YEARS",
+  "EIGHT_YEARS",
+  "NINE_YEARS",
+  "TEN_YEARS",
+  "PERMANENT",
+);
+export type ArchiveRetention = { RetentionPeriod: RetentionPeriod };
 export const ArchiveRetention = S.Union(
-  S.Struct({ RetentionPeriod: S.String }),
+  S.Struct({ RetentionPeriod: RetentionPeriod }),
 );
 export interface UpdateArchiveRequest {
   ArchiveId: string;
   ArchiveName?: string;
-  Retention?: (typeof ArchiveRetention)["Type"];
+  Retention?: ArchiveRetention;
 }
 export const UpdateArchiveRequest = S.suspend(() =>
   S.Struct({
@@ -732,7 +801,7 @@ export const GetIngressPointRequest = S.suspend(() =>
   identifier: "GetIngressPointRequest",
 }) as any as S.Schema<GetIngressPointRequest>;
 export type IngressPointConfiguration =
-  | { SmtpPassword: string | Redacted.Redacted<string> }
+  | { SmtpPassword: string | redacted.Redacted<string> }
   | { SecretArn: string };
 export const IngressPointConfiguration = S.Union(
   S.Struct({ SmtpPassword: SensitiveString }),
@@ -741,16 +810,16 @@ export const IngressPointConfiguration = S.Union(
 export interface UpdateIngressPointRequest {
   IngressPointId: string;
   IngressPointName?: string;
-  StatusToUpdate?: string;
+  StatusToUpdate?: IngressPointStatusToUpdate;
   RuleSetId?: string;
   TrafficPolicyId?: string;
-  IngressPointConfiguration?: (typeof IngressPointConfiguration)["Type"];
+  IngressPointConfiguration?: IngressPointConfiguration;
 }
 export const UpdateIngressPointRequest = S.suspend(() =>
   S.Struct({
     IngressPointId: S.String,
     IngressPointName: S.optional(S.String),
-    StatusToUpdate: S.optional(S.String),
+    StatusToUpdate: S.optional(IngressPointStatusToUpdate),
     RuleSetId: S.optional(S.String),
     TrafficPolicyId: S.optional(S.String),
     IngressPointConfiguration: S.optional(IngressPointConfiguration),
@@ -822,7 +891,7 @@ export interface UpdateRelayRequest {
   RelayName?: string;
   ServerName?: string;
   ServerPort?: number;
-  Authentication?: (typeof RelayAuthentication)["Type"];
+  Authentication?: RelayAuthentication;
 }
 export const UpdateRelayRequest = S.suspend(() =>
   S.Struct({
@@ -879,6 +948,15 @@ export const GetRuleSetRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetRuleSetRequest",
 }) as any as S.Schema<GetRuleSetRequest>;
+export type RuleBooleanEmailAttribute =
+  | "READ_RECEIPT_REQUESTED"
+  | "TLS"
+  | "TLS_WRAPPED";
+export const RuleBooleanEmailAttribute = S.Literal(
+  "READ_RECEIPT_REQUESTED",
+  "TLS",
+  "TLS_WRAPPED",
+);
 export interface Analysis {
   Analyzer: string;
   ResultField: string;
@@ -886,125 +964,217 @@ export interface Analysis {
 export const Analysis = S.suspend(() =>
   S.Struct({ Analyzer: S.String, ResultField: S.String }),
 ).annotations({ identifier: "Analysis" }) as any as S.Schema<Analysis>;
+export type RuleAddressListEmailAttribute =
+  | "RECIPIENT"
+  | "MAIL_FROM"
+  | "SENDER"
+  | "FROM"
+  | "TO"
+  | "CC";
+export const RuleAddressListEmailAttribute = S.Literal(
+  "RECIPIENT",
+  "MAIL_FROM",
+  "SENDER",
+  "FROM",
+  "TO",
+  "CC",
+);
 export type RuleAddressListArnList = string[];
 export const RuleAddressListArnList = S.Array(S.String);
 export interface RuleIsInAddressList {
-  Attribute: string;
-  AddressLists: RuleAddressListArnList;
+  Attribute: RuleAddressListEmailAttribute;
+  AddressLists: string[];
 }
 export const RuleIsInAddressList = S.suspend(() =>
-  S.Struct({ Attribute: S.String, AddressLists: RuleAddressListArnList }),
+  S.Struct({
+    Attribute: RuleAddressListEmailAttribute,
+    AddressLists: RuleAddressListArnList,
+  }),
 ).annotations({
   identifier: "RuleIsInAddressList",
 }) as any as S.Schema<RuleIsInAddressList>;
 export type RuleBooleanToEvaluate =
-  | { Attribute: string }
+  | { Attribute: RuleBooleanEmailAttribute }
   | { Analysis: Analysis }
   | { IsInAddressList: RuleIsInAddressList };
 export const RuleBooleanToEvaluate = S.Union(
-  S.Struct({ Attribute: S.String }),
+  S.Struct({ Attribute: RuleBooleanEmailAttribute }),
   S.Struct({ Analysis: Analysis }),
   S.Struct({ IsInAddressList: RuleIsInAddressList }),
 );
+export type RuleBooleanOperator = "IS_TRUE" | "IS_FALSE";
+export const RuleBooleanOperator = S.Literal("IS_TRUE", "IS_FALSE");
 export interface RuleBooleanExpression {
-  Evaluate: (typeof RuleBooleanToEvaluate)["Type"];
-  Operator: string;
+  Evaluate: RuleBooleanToEvaluate;
+  Operator: RuleBooleanOperator;
 }
 export const RuleBooleanExpression = S.suspend(() =>
-  S.Struct({ Evaluate: RuleBooleanToEvaluate, Operator: S.String }),
+  S.Struct({ Evaluate: RuleBooleanToEvaluate, Operator: RuleBooleanOperator }),
 ).annotations({
   identifier: "RuleBooleanExpression",
 }) as any as S.Schema<RuleBooleanExpression>;
+export type RuleStringEmailAttribute =
+  | "MAIL_FROM"
+  | "HELO"
+  | "RECIPIENT"
+  | "SENDER"
+  | "FROM"
+  | "SUBJECT"
+  | "TO"
+  | "CC";
+export const RuleStringEmailAttribute = S.Literal(
+  "MAIL_FROM",
+  "HELO",
+  "RECIPIENT",
+  "SENDER",
+  "FROM",
+  "SUBJECT",
+  "TO",
+  "CC",
+);
 export type RuleStringToEvaluate =
-  | { Attribute: string }
+  | { Attribute: RuleStringEmailAttribute }
   | { MimeHeaderAttribute: string }
   | { Analysis: Analysis };
 export const RuleStringToEvaluate = S.Union(
-  S.Struct({ Attribute: S.String }),
+  S.Struct({ Attribute: RuleStringEmailAttribute }),
   S.Struct({ MimeHeaderAttribute: S.String }),
   S.Struct({ Analysis: Analysis }),
+);
+export type RuleStringOperator =
+  | "EQUALS"
+  | "NOT_EQUALS"
+  | "STARTS_WITH"
+  | "ENDS_WITH"
+  | "CONTAINS";
+export const RuleStringOperator = S.Literal(
+  "EQUALS",
+  "NOT_EQUALS",
+  "STARTS_WITH",
+  "ENDS_WITH",
+  "CONTAINS",
 );
 export type RuleStringList = string[];
 export const RuleStringList = S.Array(S.String);
 export interface RuleStringExpression {
-  Evaluate: (typeof RuleStringToEvaluate)["Type"];
-  Operator: string;
-  Values: RuleStringList;
+  Evaluate: RuleStringToEvaluate;
+  Operator: RuleStringOperator;
+  Values: string[];
 }
 export const RuleStringExpression = S.suspend(() =>
   S.Struct({
     Evaluate: RuleStringToEvaluate,
-    Operator: S.String,
+    Operator: RuleStringOperator,
     Values: RuleStringList,
   }),
 ).annotations({
   identifier: "RuleStringExpression",
 }) as any as S.Schema<RuleStringExpression>;
-export type RuleNumberToEvaluate = { Attribute: string };
-export const RuleNumberToEvaluate = S.Union(S.Struct({ Attribute: S.String }));
+export type RuleNumberEmailAttribute = "MESSAGE_SIZE";
+export const RuleNumberEmailAttribute = S.Literal("MESSAGE_SIZE");
+export type RuleNumberToEvaluate = { Attribute: RuleNumberEmailAttribute };
+export const RuleNumberToEvaluate = S.Union(
+  S.Struct({ Attribute: RuleNumberEmailAttribute }),
+);
+export type RuleNumberOperator =
+  | "EQUALS"
+  | "NOT_EQUALS"
+  | "LESS_THAN"
+  | "GREATER_THAN"
+  | "LESS_THAN_OR_EQUAL"
+  | "GREATER_THAN_OR_EQUAL";
+export const RuleNumberOperator = S.Literal(
+  "EQUALS",
+  "NOT_EQUALS",
+  "LESS_THAN",
+  "GREATER_THAN",
+  "LESS_THAN_OR_EQUAL",
+  "GREATER_THAN_OR_EQUAL",
+);
 export interface RuleNumberExpression {
-  Evaluate: (typeof RuleNumberToEvaluate)["Type"];
-  Operator: string;
+  Evaluate: RuleNumberToEvaluate;
+  Operator: RuleNumberOperator;
   Value: number;
 }
 export const RuleNumberExpression = S.suspend(() =>
   S.Struct({
     Evaluate: RuleNumberToEvaluate,
-    Operator: S.String,
+    Operator: RuleNumberOperator,
     Value: S.Number,
   }),
 ).annotations({
   identifier: "RuleNumberExpression",
 }) as any as S.Schema<RuleNumberExpression>;
-export type RuleIpToEvaluate = { Attribute: string };
-export const RuleIpToEvaluate = S.Union(S.Struct({ Attribute: S.String }));
+export type RuleIpEmailAttribute = "SOURCE_IP";
+export const RuleIpEmailAttribute = S.Literal("SOURCE_IP");
+export type RuleIpToEvaluate = { Attribute: RuleIpEmailAttribute };
+export const RuleIpToEvaluate = S.Union(
+  S.Struct({ Attribute: RuleIpEmailAttribute }),
+);
+export type RuleIpOperator = "CIDR_MATCHES" | "NOT_CIDR_MATCHES";
+export const RuleIpOperator = S.Literal("CIDR_MATCHES", "NOT_CIDR_MATCHES");
 export type RuleIpValueList = string[];
 export const RuleIpValueList = S.Array(S.String);
 export interface RuleIpExpression {
-  Evaluate: (typeof RuleIpToEvaluate)["Type"];
-  Operator: string;
-  Values: RuleIpValueList;
+  Evaluate: RuleIpToEvaluate;
+  Operator: RuleIpOperator;
+  Values: string[];
 }
 export const RuleIpExpression = S.suspend(() =>
   S.Struct({
     Evaluate: RuleIpToEvaluate,
-    Operator: S.String,
+    Operator: RuleIpOperator,
     Values: RuleIpValueList,
   }),
 ).annotations({
   identifier: "RuleIpExpression",
 }) as any as S.Schema<RuleIpExpression>;
+export type RuleVerdictAttribute = "SPF" | "DKIM";
+export const RuleVerdictAttribute = S.Literal("SPF", "DKIM");
 export type RuleVerdictToEvaluate =
-  | { Attribute: string }
+  | { Attribute: RuleVerdictAttribute }
   | { Analysis: Analysis };
 export const RuleVerdictToEvaluate = S.Union(
-  S.Struct({ Attribute: S.String }),
+  S.Struct({ Attribute: RuleVerdictAttribute }),
   S.Struct({ Analysis: Analysis }),
 );
-export type RuleVerdictValueList = string[];
-export const RuleVerdictValueList = S.Array(S.String);
+export type RuleVerdictOperator = "EQUALS" | "NOT_EQUALS";
+export const RuleVerdictOperator = S.Literal("EQUALS", "NOT_EQUALS");
+export type RuleVerdict = "PASS" | "FAIL" | "GRAY" | "PROCESSING_FAILED";
+export const RuleVerdict = S.Literal(
+  "PASS",
+  "FAIL",
+  "GRAY",
+  "PROCESSING_FAILED",
+);
+export type RuleVerdictValueList = RuleVerdict[];
+export const RuleVerdictValueList = S.Array(RuleVerdict);
 export interface RuleVerdictExpression {
-  Evaluate: (typeof RuleVerdictToEvaluate)["Type"];
-  Operator: string;
-  Values: RuleVerdictValueList;
+  Evaluate: RuleVerdictToEvaluate;
+  Operator: RuleVerdictOperator;
+  Values: RuleVerdict[];
 }
 export const RuleVerdictExpression = S.suspend(() =>
   S.Struct({
     Evaluate: RuleVerdictToEvaluate,
-    Operator: S.String,
+    Operator: RuleVerdictOperator,
     Values: RuleVerdictValueList,
   }),
 ).annotations({
   identifier: "RuleVerdictExpression",
 }) as any as S.Schema<RuleVerdictExpression>;
-export type RuleDmarcValueList = string[];
-export const RuleDmarcValueList = S.Array(S.String);
+export type RuleDmarcOperator = "EQUALS" | "NOT_EQUALS";
+export const RuleDmarcOperator = S.Literal("EQUALS", "NOT_EQUALS");
+export type RuleDmarcPolicy = "NONE" | "QUARANTINE" | "REJECT";
+export const RuleDmarcPolicy = S.Literal("NONE", "QUARANTINE", "REJECT");
+export type RuleDmarcValueList = RuleDmarcPolicy[];
+export const RuleDmarcValueList = S.Array(RuleDmarcPolicy);
 export interface RuleDmarcExpression {
-  Operator: string;
-  Values: RuleDmarcValueList;
+  Operator: RuleDmarcOperator;
+  Values: RuleDmarcPolicy[];
 }
 export const RuleDmarcExpression = S.suspend(() =>
-  S.Struct({ Operator: S.String, Values: RuleDmarcValueList }),
+  S.Struct({ Operator: RuleDmarcOperator, Values: RuleDmarcValueList }),
 ).annotations({
   identifier: "RuleDmarcExpression",
 }) as any as S.Schema<RuleDmarcExpression>;
@@ -1023,38 +1193,42 @@ export const RuleCondition = S.Union(
   S.Struct({ VerdictExpression: RuleVerdictExpression }),
   S.Struct({ DmarcExpression: RuleDmarcExpression }),
 );
-export type RuleConditions = (typeof RuleCondition)["Type"][];
+export type RuleConditions = RuleCondition[];
 export const RuleConditions = S.Array(RuleCondition);
 export interface DropAction {}
 export const DropAction = S.suspend(() => S.Struct({})).annotations({
   identifier: "DropAction",
 }) as any as S.Schema<DropAction>;
+export type ActionFailurePolicy = "CONTINUE" | "DROP";
+export const ActionFailurePolicy = S.Literal("CONTINUE", "DROP");
+export type MailFrom = "REPLACE" | "PRESERVE";
+export const MailFrom = S.Literal("REPLACE", "PRESERVE");
 export interface RelayAction {
-  ActionFailurePolicy?: string;
+  ActionFailurePolicy?: ActionFailurePolicy;
   Relay: string;
-  MailFrom?: string;
+  MailFrom?: MailFrom;
 }
 export const RelayAction = S.suspend(() =>
   S.Struct({
-    ActionFailurePolicy: S.optional(S.String),
+    ActionFailurePolicy: S.optional(ActionFailurePolicy),
     Relay: S.String,
-    MailFrom: S.optional(S.String),
+    MailFrom: S.optional(MailFrom),
   }),
 ).annotations({ identifier: "RelayAction" }) as any as S.Schema<RelayAction>;
 export interface ArchiveAction {
-  ActionFailurePolicy?: string;
+  ActionFailurePolicy?: ActionFailurePolicy;
   TargetArchive: string;
 }
 export const ArchiveAction = S.suspend(() =>
   S.Struct({
-    ActionFailurePolicy: S.optional(S.String),
+    ActionFailurePolicy: S.optional(ActionFailurePolicy),
     TargetArchive: S.String,
   }),
 ).annotations({
   identifier: "ArchiveAction",
 }) as any as S.Schema<ArchiveAction>;
 export interface S3Action {
-  ActionFailurePolicy?: string;
+  ActionFailurePolicy?: ActionFailurePolicy;
   RoleArn: string;
   S3Bucket: string;
   S3Prefix?: string;
@@ -1062,7 +1236,7 @@ export interface S3Action {
 }
 export const S3Action = S.suspend(() =>
   S.Struct({
-    ActionFailurePolicy: S.optional(S.String),
+    ActionFailurePolicy: S.optional(ActionFailurePolicy),
     RoleArn: S.String,
     S3Bucket: S.String,
     S3Prefix: S.optional(S.String),
@@ -1070,11 +1244,14 @@ export const S3Action = S.suspend(() =>
   }),
 ).annotations({ identifier: "S3Action" }) as any as S.Schema<S3Action>;
 export interface SendAction {
-  ActionFailurePolicy?: string;
+  ActionFailurePolicy?: ActionFailurePolicy;
   RoleArn: string;
 }
 export const SendAction = S.suspend(() =>
-  S.Struct({ ActionFailurePolicy: S.optional(S.String), RoleArn: S.String }),
+  S.Struct({
+    ActionFailurePolicy: S.optional(ActionFailurePolicy),
+    RoleArn: S.String,
+  }),
 ).annotations({ identifier: "SendAction" }) as any as S.Schema<SendAction>;
 export interface AddHeaderAction {
   HeaderName: string;
@@ -1085,10 +1262,10 @@ export const AddHeaderAction = S.suspend(() =>
 ).annotations({
   identifier: "AddHeaderAction",
 }) as any as S.Schema<AddHeaderAction>;
-export type Recipients = string | Redacted.Redacted<string>[];
+export type Recipients = string | redacted.Redacted<string>[];
 export const Recipients = S.Array(SensitiveString);
 export interface ReplaceRecipientAction {
-  ReplaceWith?: Recipients;
+  ReplaceWith?: string | redacted.Redacted<string>[];
 }
 export const ReplaceRecipientAction = S.suspend(() =>
   S.Struct({ ReplaceWith: S.optional(Recipients) }),
@@ -1096,13 +1273,13 @@ export const ReplaceRecipientAction = S.suspend(() =>
   identifier: "ReplaceRecipientAction",
 }) as any as S.Schema<ReplaceRecipientAction>;
 export interface DeliverToMailboxAction {
-  ActionFailurePolicy?: string;
+  ActionFailurePolicy?: ActionFailurePolicy;
   MailboxArn: string;
   RoleArn: string;
 }
 export const DeliverToMailboxAction = S.suspend(() =>
   S.Struct({
-    ActionFailurePolicy: S.optional(S.String),
+    ActionFailurePolicy: S.optional(ActionFailurePolicy),
     MailboxArn: S.String,
     RoleArn: S.String,
   }),
@@ -1110,14 +1287,14 @@ export const DeliverToMailboxAction = S.suspend(() =>
   identifier: "DeliverToMailboxAction",
 }) as any as S.Schema<DeliverToMailboxAction>;
 export interface DeliverToQBusinessAction {
-  ActionFailurePolicy?: string;
+  ActionFailurePolicy?: ActionFailurePolicy;
   ApplicationId: string;
   IndexId: string;
   RoleArn: string;
 }
 export const DeliverToQBusinessAction = S.suspend(() =>
   S.Struct({
-    ActionFailurePolicy: S.optional(S.String),
+    ActionFailurePolicy: S.optional(ActionFailurePolicy),
     ApplicationId: S.String,
     IndexId: S.String,
     RoleArn: S.String,
@@ -1125,20 +1302,24 @@ export const DeliverToQBusinessAction = S.suspend(() =>
 ).annotations({
   identifier: "DeliverToQBusinessAction",
 }) as any as S.Schema<DeliverToQBusinessAction>;
+export type SnsNotificationEncoding = "UTF-8" | "BASE64";
+export const SnsNotificationEncoding = S.Literal("UTF-8", "BASE64");
+export type SnsNotificationPayloadType = "HEADERS" | "CONTENT";
+export const SnsNotificationPayloadType = S.Literal("HEADERS", "CONTENT");
 export interface SnsAction {
-  ActionFailurePolicy?: string;
+  ActionFailurePolicy?: ActionFailurePolicy;
   TopicArn: string;
   RoleArn: string;
-  Encoding?: string;
-  PayloadType?: string;
+  Encoding?: SnsNotificationEncoding;
+  PayloadType?: SnsNotificationPayloadType;
 }
 export const SnsAction = S.suspend(() =>
   S.Struct({
-    ActionFailurePolicy: S.optional(S.String),
+    ActionFailurePolicy: S.optional(ActionFailurePolicy),
     TopicArn: S.String,
     RoleArn: S.String,
-    Encoding: S.optional(S.String),
-    PayloadType: S.optional(S.String),
+    Encoding: S.optional(SnsNotificationEncoding),
+    PayloadType: S.optional(SnsNotificationPayloadType),
   }),
 ).annotations({ identifier: "SnsAction" }) as any as S.Schema<SnsAction>;
 export type RuleAction =
@@ -1164,13 +1345,13 @@ export const RuleAction = S.Union(
   S.Struct({ DeliverToQBusiness: DeliverToQBusinessAction }),
   S.Struct({ PublishToSns: SnsAction }),
 );
-export type RuleActions = (typeof RuleAction)["Type"][];
+export type RuleActions = RuleAction[];
 export const RuleActions = S.Array(RuleAction);
 export interface Rule {
   Name?: string;
-  Conditions?: RuleConditions;
-  Unless?: RuleConditions;
-  Actions: RuleActions;
+  Conditions?: RuleCondition[];
+  Unless?: RuleCondition[];
+  Actions: RuleAction[];
 }
 export const Rule = S.suspend(() =>
   S.Struct({
@@ -1185,7 +1366,7 @@ export const Rules = S.Array(Rule);
 export interface UpdateRuleSetRequest {
   RuleSetId: string;
   RuleSetName?: string;
-  Rules?: Rules;
+  Rules?: Rule[];
 }
 export const UpdateRuleSetRequest = S.suspend(() =>
   S.Struct({
@@ -1240,6 +1421,8 @@ export const GetTrafficPolicyRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetTrafficPolicyRequest",
 }) as any as S.Schema<GetTrafficPolicyRequest>;
+export type IngressStringEmailAttribute = "RECIPIENT";
+export const IngressStringEmailAttribute = S.Literal("RECIPIENT");
 export interface IngressAnalysis {
   Analyzer: string;
   ResultField: string;
@@ -1250,90 +1433,127 @@ export const IngressAnalysis = S.suspend(() =>
   identifier: "IngressAnalysis",
 }) as any as S.Schema<IngressAnalysis>;
 export type IngressStringToEvaluate =
-  | { Attribute: string }
+  | { Attribute: IngressStringEmailAttribute }
   | { Analysis: IngressAnalysis };
 export const IngressStringToEvaluate = S.Union(
-  S.Struct({ Attribute: S.String }),
+  S.Struct({ Attribute: IngressStringEmailAttribute }),
   S.Struct({ Analysis: IngressAnalysis }),
+);
+export type IngressStringOperator =
+  | "EQUALS"
+  | "NOT_EQUALS"
+  | "STARTS_WITH"
+  | "ENDS_WITH"
+  | "CONTAINS";
+export const IngressStringOperator = S.Literal(
+  "EQUALS",
+  "NOT_EQUALS",
+  "STARTS_WITH",
+  "ENDS_WITH",
+  "CONTAINS",
 );
 export type StringList = string[];
 export const StringList = S.Array(S.String);
 export interface IngressStringExpression {
-  Evaluate: (typeof IngressStringToEvaluate)["Type"];
-  Operator: string;
-  Values: StringList;
+  Evaluate: IngressStringToEvaluate;
+  Operator: IngressStringOperator;
+  Values: string[];
 }
 export const IngressStringExpression = S.suspend(() =>
   S.Struct({
     Evaluate: IngressStringToEvaluate,
-    Operator: S.String,
+    Operator: IngressStringOperator,
     Values: StringList,
   }),
 ).annotations({
   identifier: "IngressStringExpression",
 }) as any as S.Schema<IngressStringExpression>;
-export type IngressIpToEvaluate = { Attribute: string };
-export const IngressIpToEvaluate = S.Union(S.Struct({ Attribute: S.String }));
+export type IngressIpv4Attribute = "SENDER_IP";
+export const IngressIpv4Attribute = S.Literal("SENDER_IP");
+export type IngressIpToEvaluate = { Attribute: IngressIpv4Attribute };
+export const IngressIpToEvaluate = S.Union(
+  S.Struct({ Attribute: IngressIpv4Attribute }),
+);
+export type IngressIpOperator = "CIDR_MATCHES" | "NOT_CIDR_MATCHES";
+export const IngressIpOperator = S.Literal("CIDR_MATCHES", "NOT_CIDR_MATCHES");
 export type Ipv4Cidrs = string[];
 export const Ipv4Cidrs = S.Array(S.String);
 export interface IngressIpv4Expression {
-  Evaluate: (typeof IngressIpToEvaluate)["Type"];
-  Operator: string;
-  Values: Ipv4Cidrs;
+  Evaluate: IngressIpToEvaluate;
+  Operator: IngressIpOperator;
+  Values: string[];
 }
 export const IngressIpv4Expression = S.suspend(() =>
   S.Struct({
     Evaluate: IngressIpToEvaluate,
-    Operator: S.String,
+    Operator: IngressIpOperator,
     Values: Ipv4Cidrs,
   }),
 ).annotations({
   identifier: "IngressIpv4Expression",
 }) as any as S.Schema<IngressIpv4Expression>;
-export type IngressIpv6ToEvaluate = { Attribute: string };
-export const IngressIpv6ToEvaluate = S.Union(S.Struct({ Attribute: S.String }));
+export type IngressIpv6Attribute = "SENDER_IPV6";
+export const IngressIpv6Attribute = S.Literal("SENDER_IPV6");
+export type IngressIpv6ToEvaluate = { Attribute: IngressIpv6Attribute };
+export const IngressIpv6ToEvaluate = S.Union(
+  S.Struct({ Attribute: IngressIpv6Attribute }),
+);
 export type Ipv6Cidrs = string[];
 export const Ipv6Cidrs = S.Array(S.String);
 export interface IngressIpv6Expression {
-  Evaluate: (typeof IngressIpv6ToEvaluate)["Type"];
-  Operator: string;
-  Values: Ipv6Cidrs;
+  Evaluate: IngressIpv6ToEvaluate;
+  Operator: IngressIpOperator;
+  Values: string[];
 }
 export const IngressIpv6Expression = S.suspend(() =>
   S.Struct({
     Evaluate: IngressIpv6ToEvaluate,
-    Operator: S.String,
+    Operator: IngressIpOperator,
     Values: Ipv6Cidrs,
   }),
 ).annotations({
   identifier: "IngressIpv6Expression",
 }) as any as S.Schema<IngressIpv6Expression>;
-export type IngressTlsProtocolToEvaluate = { Attribute: string };
+export type IngressTlsAttribute = "TLS_PROTOCOL";
+export const IngressTlsAttribute = S.Literal("TLS_PROTOCOL");
+export type IngressTlsProtocolToEvaluate = { Attribute: IngressTlsAttribute };
 export const IngressTlsProtocolToEvaluate = S.Union(
-  S.Struct({ Attribute: S.String }),
+  S.Struct({ Attribute: IngressTlsAttribute }),
 );
+export type IngressTlsProtocolOperator = "MINIMUM_TLS_VERSION" | "IS";
+export const IngressTlsProtocolOperator = S.Literal(
+  "MINIMUM_TLS_VERSION",
+  "IS",
+);
+export type IngressTlsProtocolAttribute = "TLS1_2" | "TLS1_3";
+export const IngressTlsProtocolAttribute = S.Literal("TLS1_2", "TLS1_3");
 export interface IngressTlsProtocolExpression {
-  Evaluate: (typeof IngressTlsProtocolToEvaluate)["Type"];
-  Operator: string;
-  Value: string;
+  Evaluate: IngressTlsProtocolToEvaluate;
+  Operator: IngressTlsProtocolOperator;
+  Value: IngressTlsProtocolAttribute;
 }
 export const IngressTlsProtocolExpression = S.suspend(() =>
   S.Struct({
     Evaluate: IngressTlsProtocolToEvaluate,
-    Operator: S.String,
-    Value: S.String,
+    Operator: IngressTlsProtocolOperator,
+    Value: IngressTlsProtocolAttribute,
   }),
 ).annotations({
   identifier: "IngressTlsProtocolExpression",
 }) as any as S.Schema<IngressTlsProtocolExpression>;
+export type IngressAddressListEmailAttribute = "RECIPIENT";
+export const IngressAddressListEmailAttribute = S.Literal("RECIPIENT");
 export type IngressAddressListArnList = string[];
 export const IngressAddressListArnList = S.Array(S.String);
 export interface IngressIsInAddressList {
-  Attribute: string;
-  AddressLists: IngressAddressListArnList;
+  Attribute: IngressAddressListEmailAttribute;
+  AddressLists: string[];
 }
 export const IngressIsInAddressList = S.suspend(() =>
-  S.Struct({ Attribute: S.String, AddressLists: IngressAddressListArnList }),
+  S.Struct({
+    Attribute: IngressAddressListEmailAttribute,
+    AddressLists: IngressAddressListArnList,
+  }),
 ).annotations({
   identifier: "IngressIsInAddressList",
 }) as any as S.Schema<IngressIsInAddressList>;
@@ -1344,12 +1564,17 @@ export const IngressBooleanToEvaluate = S.Union(
   S.Struct({ Analysis: IngressAnalysis }),
   S.Struct({ IsInAddressList: IngressIsInAddressList }),
 );
+export type IngressBooleanOperator = "IS_TRUE" | "IS_FALSE";
+export const IngressBooleanOperator = S.Literal("IS_TRUE", "IS_FALSE");
 export interface IngressBooleanExpression {
-  Evaluate: (typeof IngressBooleanToEvaluate)["Type"];
-  Operator: string;
+  Evaluate: IngressBooleanToEvaluate;
+  Operator: IngressBooleanOperator;
 }
 export const IngressBooleanExpression = S.suspend(() =>
-  S.Struct({ Evaluate: IngressBooleanToEvaluate, Operator: S.String }),
+  S.Struct({
+    Evaluate: IngressBooleanToEvaluate,
+    Operator: IngressBooleanOperator,
+  }),
 ).annotations({
   identifier: "IngressBooleanExpression",
 }) as any as S.Schema<IngressBooleanExpression>;
@@ -1366,14 +1591,14 @@ export const PolicyCondition = S.Union(
   S.Struct({ TlsExpression: IngressTlsProtocolExpression }),
   S.Struct({ BooleanExpression: IngressBooleanExpression }),
 );
-export type PolicyConditions = (typeof PolicyCondition)["Type"][];
+export type PolicyConditions = PolicyCondition[];
 export const PolicyConditions = S.Array(PolicyCondition);
 export interface PolicyStatement {
-  Conditions: PolicyConditions;
-  Action: string;
+  Conditions: PolicyCondition[];
+  Action: AcceptAction;
 }
 export const PolicyStatement = S.suspend(() =>
-  S.Struct({ Conditions: PolicyConditions, Action: S.String }),
+  S.Struct({ Conditions: PolicyConditions, Action: AcceptAction }),
 ).annotations({
   identifier: "PolicyStatement",
 }) as any as S.Schema<PolicyStatement>;
@@ -1382,8 +1607,8 @@ export const PolicyStatementList = S.Array(PolicyStatement);
 export interface UpdateTrafficPolicyRequest {
   TrafficPolicyId: string;
   TrafficPolicyName?: string;
-  PolicyStatements?: PolicyStatementList;
-  DefaultAction?: string;
+  PolicyStatements?: PolicyStatement[];
+  DefaultAction?: AcceptAction;
   MaxMessageSizeBytes?: number;
 }
 export const UpdateTrafficPolicyRequest = S.suspend(() =>
@@ -1391,7 +1616,7 @@ export const UpdateTrafficPolicyRequest = S.suspend(() =>
     TrafficPolicyId: S.String,
     TrafficPolicyName: S.optional(S.String),
     PolicyStatements: S.optional(PolicyStatementList),
-    DefaultAction: S.optional(S.String),
+    DefaultAction: S.optional(AcceptAction),
     MaxMessageSizeBytes: S.optional(S.Number),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -1435,22 +1660,56 @@ export const ListTrafficPoliciesRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListTrafficPoliciesRequest",
 }) as any as S.Schema<ListTrafficPoliciesRequest>;
+export type ImportDataType = "CSV" | "JSON";
+export const ImportDataType = S.Literal("CSV", "JSON");
 export interface ImportDataFormat {
-  ImportDataType: string;
+  ImportDataType: ImportDataType;
 }
 export const ImportDataFormat = S.suspend(() =>
-  S.Struct({ ImportDataType: S.String }),
+  S.Struct({ ImportDataType: ImportDataType }),
 ).annotations({
   identifier: "ImportDataFormat",
 }) as any as S.Schema<ImportDataFormat>;
+export type ImportJobStatus =
+  | "CREATED"
+  | "PROCESSING"
+  | "COMPLETED"
+  | "FAILED"
+  | "STOPPED";
+export const ImportJobStatus = S.Literal(
+  "CREATED",
+  "PROCESSING",
+  "COMPLETED",
+  "FAILED",
+  "STOPPED",
+);
 export interface AddressFilter {
-  AddressPrefix?: string | Redacted.Redacted<string>;
+  AddressPrefix?: string | redacted.Redacted<string>;
 }
 export const AddressFilter = S.suspend(() =>
   S.Struct({ AddressPrefix: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "AddressFilter",
 }) as any as S.Schema<AddressFilter>;
+export type ArchiveState = "ACTIVE" | "PENDING_DELETION";
+export const ArchiveState = S.Literal("ACTIVE", "PENDING_DELETION");
+export type IngressPointStatus =
+  | "PROVISIONING"
+  | "DEPROVISIONING"
+  | "UPDATING"
+  | "ACTIVE"
+  | "CLOSED"
+  | "FAILED";
+export const IngressPointStatus = S.Literal(
+  "PROVISIONING",
+  "DEPROVISIONING",
+  "UPDATING",
+  "ACTIVE",
+  "CLOSED",
+  "FAILED",
+);
+export type IpType = "IPV4" | "DUAL_STACK";
+export const IpType = S.Literal("IPV4", "DUAL_STACK");
 export interface CreateAddressListImportJobRequest {
   ClientToken?: string;
   AddressListId: string;
@@ -1472,8 +1731,8 @@ export const CreateAddressListImportJobRequest = S.suspend(() =>
 export interface GetAddressListImportJobResponse {
   JobId: string;
   Name: string;
-  Status: string;
-  PreSignedUrl: string | Redacted.Redacted<string>;
+  Status: ImportJobStatus;
+  PreSignedUrl: string | redacted.Redacted<string>;
   ImportedItemsCount?: number;
   FailedItemsCount?: number;
   ImportDataFormat: ImportDataFormat;
@@ -1487,7 +1746,7 @@ export const GetAddressListImportJobResponse = S.suspend(() =>
   S.Struct({
     JobId: S.String,
     Name: S.String,
-    Status: S.String,
+    Status: ImportJobStatus,
     PreSignedUrl: SensitiveString,
     ImportedItemsCount: S.optional(S.Number),
     FailedItemsCount: S.optional(S.Number),
@@ -1504,7 +1763,7 @@ export const GetAddressListImportJobResponse = S.suspend(() =>
   identifier: "GetAddressListImportJobResponse",
 }) as any as S.Schema<GetAddressListImportJobResponse>;
 export interface GetMemberOfAddressListResponse {
-  Address: string | Redacted.Redacted<string>;
+  Address: string | redacted.Redacted<string>;
   CreatedTimestamp: Date;
 }
 export const GetMemberOfAddressListResponse = S.suspend(() =>
@@ -1534,7 +1793,7 @@ export const ListMembersOfAddressListRequest = S.suspend(() =>
   identifier: "ListMembersOfAddressListRequest",
 }) as any as S.Schema<ListMembersOfAddressListRequest>;
 export interface ListTagsForResourceResponse {
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: TagList }),
@@ -1551,7 +1810,7 @@ export const StartArchiveSearchResponse = S.suspend(() =>
 }) as any as S.Schema<StartArchiveSearchResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
@@ -1643,9 +1902,9 @@ export const GetAddressListResponse = S.suspend(() =>
 export interface CreateArchiveRequest {
   ClientToken?: string;
   ArchiveName: string;
-  Retention?: (typeof ArchiveRetention)["Type"];
+  Retention?: ArchiveRetention;
   KmsKeyArn?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateArchiveRequest = S.suspend(() =>
   S.Struct({
@@ -1664,8 +1923,8 @@ export interface GetArchiveResponse {
   ArchiveId: string;
   ArchiveName: string;
   ArchiveArn: string;
-  ArchiveState: string;
-  Retention: (typeof ArchiveRetention)["Type"];
+  ArchiveState: ArchiveState;
+  Retention: ArchiveRetention;
   CreatedTimestamp?: Date;
   LastUpdatedTimestamp?: Date;
   KmsKeyArn?: string;
@@ -1675,7 +1934,7 @@ export const GetArchiveResponse = S.suspend(() =>
     ArchiveId: S.String,
     ArchiveName: S.String,
     ArchiveArn: S.String,
-    ArchiveState: S.String,
+    ArchiveState: ArchiveState,
     Retention: ArchiveRetention,
     CreatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1693,8 +1952,8 @@ export interface CreateRelayRequest {
   RelayName: string;
   ServerName: string;
   ServerPort: number;
-  Authentication: (typeof RelayAuthentication)["Type"];
-  Tags?: TagList;
+  Authentication: RelayAuthentication;
+  Tags?: Tag[];
 }
 export const CreateRelayRequest = S.suspend(() =>
   S.Struct({
@@ -1716,7 +1975,7 @@ export interface GetRelayResponse {
   RelayName?: string;
   ServerName?: string;
   ServerPort?: number;
-  Authentication?: (typeof RelayAuthentication)["Type"];
+  Authentication?: RelayAuthentication;
   CreatedTimestamp?: Date;
   LastModifiedTimestamp?: Date;
 }
@@ -1744,7 +2003,7 @@ export interface GetRuleSetResponse {
   RuleSetName: string;
   CreatedDate: Date;
   LastModificationDate: Date;
-  Rules: Rules;
+  Rules: Rule[];
 }
 export const GetRuleSetResponse = S.suspend(() =>
   S.Struct({
@@ -1762,9 +2021,9 @@ export interface GetTrafficPolicyResponse {
   TrafficPolicyName: string;
   TrafficPolicyId: string;
   TrafficPolicyArn?: string;
-  PolicyStatements?: PolicyStatementList;
+  PolicyStatements?: PolicyStatement[];
   MaxMessageSizeBytes?: number;
-  DefaultAction?: string;
+  DefaultAction?: AcceptAction;
   CreatedTimestamp?: Date;
   LastUpdatedTimestamp?: Date;
 }
@@ -1775,7 +2034,7 @@ export const GetTrafficPolicyResponse = S.suspend(() =>
     TrafficPolicyArn: S.optional(S.String),
     PolicyStatements: S.optional(PolicyStatementList),
     MaxMessageSizeBytes: S.optional(S.Number),
-    DefaultAction: S.optional(S.String),
+    DefaultAction: S.optional(AcceptAction),
     CreatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1786,6 +2045,34 @@ export const GetTrafficPolicyResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetTrafficPolicyResponse",
 }) as any as S.Schema<GetTrafficPolicyResponse>;
+export type ExportState =
+  | "QUEUED"
+  | "PREPROCESSING"
+  | "PROCESSING"
+  | "COMPLETED"
+  | "FAILED"
+  | "CANCELLED";
+export const ExportState = S.Literal(
+  "QUEUED",
+  "PREPROCESSING",
+  "PROCESSING",
+  "COMPLETED",
+  "FAILED",
+  "CANCELLED",
+);
+export type SearchState =
+  | "QUEUED"
+  | "RUNNING"
+  | "COMPLETED"
+  | "FAILED"
+  | "CANCELLED";
+export const SearchState = S.Literal(
+  "QUEUED",
+  "RUNNING",
+  "COMPLETED",
+  "FAILED",
+  "CANCELLED",
+);
 export type EmailReceivedHeadersList = string[];
 export const EmailReceivedHeadersList = S.Array(S.String);
 export interface S3ExportDestinationConfiguration {
@@ -1797,10 +2084,10 @@ export const S3ExportDestinationConfiguration = S.suspend(() =>
   identifier: "S3ExportDestinationConfiguration",
 }) as any as S.Schema<S3ExportDestinationConfiguration>;
 export interface PublicNetworkConfiguration {
-  IpType: string;
+  IpType: IpType;
 }
 export const PublicNetworkConfiguration = S.suspend(() =>
-  S.Struct({ IpType: S.String }),
+  S.Struct({ IpType: IpType }),
 ).annotations({
   identifier: "PublicNetworkConfiguration",
 }) as any as S.Schema<PublicNetworkConfiguration>;
@@ -1815,7 +2102,7 @@ export const PrivateNetworkConfiguration = S.suspend(() =>
 export interface ExportStatus {
   SubmissionTimestamp?: Date;
   CompletionTimestamp?: Date;
-  State?: string;
+  State?: ExportState;
   ErrorMessage?: string;
 }
 export const ExportStatus = S.suspend(() =>
@@ -1826,7 +2113,7 @@ export const ExportStatus = S.suspend(() =>
     CompletionTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    State: S.optional(S.String),
+    State: S.optional(ExportState),
     ErrorMessage: S.optional(S.String),
   }),
 ).annotations({ identifier: "ExportStatus" }) as any as S.Schema<ExportStatus>;
@@ -1836,7 +2123,7 @@ export interface Metadata {
   TrafficPolicyId?: string;
   RuleSetId?: string;
   SenderHostname?: string;
-  SenderIpAddress?: string | Redacted.Redacted<string>;
+  SenderIpAddress?: string | redacted.Redacted<string>;
   TlsCipherSuite?: string;
   TlsProtocol?: string;
   SendingMethod?: string;
@@ -1865,7 +2152,7 @@ export const Metadata = S.suspend(() =>
 export interface Envelope {
   Helo?: string;
   From?: string;
-  To?: StringList;
+  To?: string[];
 }
 export const Envelope = S.suspend(() =>
   S.Struct({
@@ -1889,7 +2176,7 @@ export const MessageBody = S.suspend(() =>
 export interface SearchStatus {
   SubmissionTimestamp?: Date;
   CompletionTimestamp?: Date;
-  State?: string;
+  State?: SearchState;
   ErrorMessage?: string;
 }
 export const SearchStatus = S.suspend(() =>
@@ -1900,7 +2187,7 @@ export const SearchStatus = S.suspend(() =>
     CompletionTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    State: S.optional(S.String),
+    State: S.optional(SearchState),
     ErrorMessage: S.optional(S.String),
   }),
 ).annotations({ identifier: "SearchStatus" }) as any as S.Schema<SearchStatus>;
@@ -1914,14 +2201,14 @@ export interface Row {
   Subject?: string;
   MessageId?: string;
   HasAttachments?: boolean;
-  ReceivedHeaders?: EmailReceivedHeadersList;
+  ReceivedHeaders?: string[];
   InReplyTo?: string;
   XMailer?: string;
   XOriginalMailer?: string;
   XPriority?: string;
   IngressPointId?: string;
   SenderHostname?: string;
-  SenderIpAddress?: string | Redacted.Redacted<string>;
+  SenderIpAddress?: string | redacted.Redacted<string>;
   Envelope?: Envelope;
   SourceArn?: string;
 }
@@ -1955,8 +2242,8 @@ export const RowsList = S.Array(Row);
 export interface ImportJob {
   JobId: string;
   Name: string;
-  Status: string;
-  PreSignedUrl: string | Redacted.Redacted<string>;
+  Status: ImportJobStatus;
+  PreSignedUrl: string | redacted.Redacted<string>;
   ImportedItemsCount?: number;
   FailedItemsCount?: number;
   ImportDataFormat: ImportDataFormat;
@@ -1970,7 +2257,7 @@ export const ImportJob = S.suspend(() =>
   S.Struct({
     JobId: S.String,
     Name: S.String,
-    Status: S.String,
+    Status: ImportJobStatus,
     PreSignedUrl: SensitiveString,
     ImportedItemsCount: S.optional(S.Number),
     FailedItemsCount: S.optional(S.Number),
@@ -2083,14 +2370,14 @@ export const AddressLists = S.Array(AddressList);
 export interface Archive {
   ArchiveId: string;
   ArchiveName?: string;
-  ArchiveState?: string;
+  ArchiveState?: ArchiveState;
   LastUpdatedTimestamp?: Date;
 }
 export const Archive = S.suspend(() =>
   S.Struct({
     ArchiveId: S.String,
     ArchiveName: S.optional(S.String),
-    ArchiveState: S.optional(S.String),
+    ArchiveState: S.optional(ArchiveState),
     LastUpdatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -2108,16 +2395,16 @@ export const NetworkConfiguration = S.Union(
 export interface IngressPoint {
   IngressPointName: string;
   IngressPointId: string;
-  Status: string;
-  Type: string;
+  Status: IngressPointStatus;
+  Type: IngressPointType;
   ARecord?: string;
 }
 export const IngressPoint = S.suspend(() =>
   S.Struct({
     IngressPointName: S.String,
     IngressPointId: S.String,
-    Status: S.String,
-    Type: S.String,
+    Status: IngressPointStatus,
+    Type: IngressPointType,
     ARecord: S.optional(S.String),
   }),
 ).annotations({ identifier: "IngressPoint" }) as any as S.Schema<IngressPoint>;
@@ -2158,13 +2445,13 @@ export const RuleSets = S.Array(RuleSet);
 export interface TrafficPolicy {
   TrafficPolicyName: string;
   TrafficPolicyId: string;
-  DefaultAction: string;
+  DefaultAction: AcceptAction;
 }
 export const TrafficPolicy = S.suspend(() =>
   S.Struct({
     TrafficPolicyName: S.String,
     TrafficPolicyId: S.String,
-    DefaultAction: S.String,
+    DefaultAction: AcceptAction,
   }),
 ).annotations({
   identifier: "TrafficPolicy",
@@ -2173,7 +2460,7 @@ export type TrafficPolicyList = TrafficPolicy[];
 export const TrafficPolicyList = S.Array(TrafficPolicy);
 export interface CreateAddressListImportJobResponse {
   JobId: string;
-  PreSignedUrl: string | Redacted.Redacted<string>;
+  PreSignedUrl: string | redacted.Redacted<string>;
 }
 export const CreateAddressListImportJobResponse = S.suspend(() =>
   S.Struct({ JobId: S.String, PreSignedUrl: SensitiveString }),
@@ -2186,7 +2473,7 @@ export interface GetArchiveExportResponse {
   FromTimestamp?: Date;
   ToTimestamp?: Date;
   MaxResults?: number;
-  ExportDestinationConfiguration?: (typeof ExportDestinationConfiguration)["Type"];
+  ExportDestinationConfiguration?: ExportDestinationConfiguration;
   Status?: ExportStatus;
 }
 export const GetArchiveExportResponse = S.suspend(() =>
@@ -2245,7 +2532,7 @@ export const GetArchiveSearchResponse = S.suspend(() =>
   identifier: "GetArchiveSearchResponse",
 }) as any as S.Schema<GetArchiveSearchResponse>;
 export interface GetArchiveSearchResultsResponse {
-  Rows?: RowsList;
+  Rows?: Row[];
 }
 export const GetArchiveSearchResultsResponse = S.suspend(() =>
   S.Struct({ Rows: S.optional(RowsList) }),
@@ -2253,7 +2540,7 @@ export const GetArchiveSearchResultsResponse = S.suspend(() =>
   identifier: "GetArchiveSearchResultsResponse",
 }) as any as S.Schema<GetArchiveSearchResultsResponse>;
 export interface ListAddressListImportJobsResponse {
-  ImportJobs: ImportJobs;
+  ImportJobs: ImportJob[];
   NextToken?: string;
 }
 export const ListAddressListImportJobsResponse = S.suspend(() =>
@@ -2262,7 +2549,7 @@ export const ListAddressListImportJobsResponse = S.suspend(() =>
   identifier: "ListAddressListImportJobsResponse",
 }) as any as S.Schema<ListAddressListImportJobsResponse>;
 export interface ListArchiveExportsResponse {
-  Exports?: ExportSummaryList;
+  Exports?: ExportSummary[];
   NextToken?: string;
 }
 export const ListArchiveExportsResponse = S.suspend(() =>
@@ -2274,7 +2561,7 @@ export const ListArchiveExportsResponse = S.suspend(() =>
   identifier: "ListArchiveExportsResponse",
 }) as any as S.Schema<ListArchiveExportsResponse>;
 export interface ListArchiveSearchesResponse {
-  Searches?: SearchSummaryList;
+  Searches?: SearchSummary[];
   NextToken?: string;
 }
 export const ListArchiveSearchesResponse = S.suspend(() =>
@@ -2286,7 +2573,7 @@ export const ListArchiveSearchesResponse = S.suspend(() =>
   identifier: "ListArchiveSearchesResponse",
 }) as any as S.Schema<ListArchiveSearchesResponse>;
 export interface ListAddonInstancesResponse {
-  AddonInstances?: AddonInstances;
+  AddonInstances?: AddonInstance[];
   NextToken?: string;
 }
 export const ListAddonInstancesResponse = S.suspend(() =>
@@ -2298,7 +2585,7 @@ export const ListAddonInstancesResponse = S.suspend(() =>
   identifier: "ListAddonInstancesResponse",
 }) as any as S.Schema<ListAddonInstancesResponse>;
 export interface ListAddonSubscriptionsResponse {
-  AddonSubscriptions?: AddonSubscriptions;
+  AddonSubscriptions?: AddonSubscription[];
   NextToken?: string;
 }
 export const ListAddonSubscriptionsResponse = S.suspend(() =>
@@ -2310,7 +2597,7 @@ export const ListAddonSubscriptionsResponse = S.suspend(() =>
   identifier: "ListAddonSubscriptionsResponse",
 }) as any as S.Schema<ListAddonSubscriptionsResponse>;
 export interface ListAddressListsResponse {
-  AddressLists: AddressLists;
+  AddressLists: AddressList[];
   NextToken?: string;
 }
 export const ListAddressListsResponse = S.suspend(() =>
@@ -2327,7 +2614,7 @@ export const CreateArchiveResponse = S.suspend(() =>
   identifier: "CreateArchiveResponse",
 }) as any as S.Schema<CreateArchiveResponse>;
 export interface ListArchivesResponse {
-  Archives: ArchivesList;
+  Archives: Archive[];
   NextToken?: string;
 }
 export const ListArchivesResponse = S.suspend(() =>
@@ -2338,18 +2625,18 @@ export const ListArchivesResponse = S.suspend(() =>
 export interface CreateIngressPointRequest {
   ClientToken?: string;
   IngressPointName: string;
-  Type: string;
+  Type: IngressPointType;
   RuleSetId: string;
   TrafficPolicyId: string;
-  IngressPointConfiguration?: (typeof IngressPointConfiguration)["Type"];
-  NetworkConfiguration?: (typeof NetworkConfiguration)["Type"];
-  Tags?: TagList;
+  IngressPointConfiguration?: IngressPointConfiguration;
+  NetworkConfiguration?: NetworkConfiguration;
+  Tags?: Tag[];
 }
 export const CreateIngressPointRequest = S.suspend(() =>
   S.Struct({
     ClientToken: S.optional(S.String),
     IngressPointName: S.String,
-    Type: S.String,
+    Type: IngressPointType,
     RuleSetId: S.String,
     TrafficPolicyId: S.String,
     IngressPointConfiguration: S.optional(IngressPointConfiguration),
@@ -2362,7 +2649,7 @@ export const CreateIngressPointRequest = S.suspend(() =>
   identifier: "CreateIngressPointRequest",
 }) as any as S.Schema<CreateIngressPointRequest>;
 export interface ListIngressPointsResponse {
-  IngressPoints?: IngressPointsList;
+  IngressPoints?: IngressPoint[];
   NextToken?: string;
 }
 export const ListIngressPointsResponse = S.suspend(() =>
@@ -2382,7 +2669,7 @@ export const CreateRelayResponse = S.suspend(() =>
   identifier: "CreateRelayResponse",
 }) as any as S.Schema<CreateRelayResponse>;
 export interface ListRelaysResponse {
-  Relays: Relays;
+  Relays: Relay[];
   NextToken?: string;
 }
 export const ListRelaysResponse = S.suspend(() =>
@@ -2391,7 +2678,7 @@ export const ListRelaysResponse = S.suspend(() =>
   identifier: "ListRelaysResponse",
 }) as any as S.Schema<ListRelaysResponse>;
 export interface ListRuleSetsResponse {
-  RuleSets: RuleSets;
+  RuleSets: RuleSet[];
   NextToken?: string;
 }
 export const ListRuleSetsResponse = S.suspend(() =>
@@ -2400,7 +2687,7 @@ export const ListRuleSetsResponse = S.suspend(() =>
   identifier: "ListRuleSetsResponse",
 }) as any as S.Schema<ListRuleSetsResponse>;
 export interface ListTrafficPoliciesResponse {
-  TrafficPolicies?: TrafficPolicyList;
+  TrafficPolicies?: TrafficPolicy[];
   NextToken?: string;
 }
 export const ListTrafficPoliciesResponse = S.suspend(() =>
@@ -2428,7 +2715,7 @@ export const IngressPointPasswordConfiguration = S.suspend(() =>
   identifier: "IngressPointPasswordConfiguration",
 }) as any as S.Schema<IngressPointPasswordConfiguration>;
 export interface SavedAddress {
-  Address: string | Redacted.Redacted<string>;
+  Address: string | redacted.Redacted<string>;
   CreatedTimestamp: Date;
 }
 export const SavedAddress = S.suspend(() =>
@@ -2454,7 +2741,7 @@ export const IngressPointAuthConfiguration = S.suspend(() =>
   identifier: "IngressPointAuthConfiguration",
 }) as any as S.Schema<IngressPointAuthConfiguration>;
 export interface ListMembersOfAddressListResponse {
-  Addresses: SavedAddresses;
+  Addresses: SavedAddress[];
   NextToken?: string;
 }
 export const ListMembersOfAddressListResponse = S.suspend(() =>
@@ -2474,13 +2761,13 @@ export interface GetIngressPointResponse {
   IngressPointId: string;
   IngressPointName: string;
   IngressPointArn?: string;
-  Status?: string;
-  Type?: string;
+  Status?: IngressPointStatus;
+  Type?: IngressPointType;
   ARecord?: string;
   RuleSetId?: string;
   TrafficPolicyId?: string;
   IngressPointAuthConfiguration?: IngressPointAuthConfiguration;
-  NetworkConfiguration?: (typeof NetworkConfiguration)["Type"];
+  NetworkConfiguration?: NetworkConfiguration;
   CreatedTimestamp?: Date;
   LastUpdatedTimestamp?: Date;
 }
@@ -2489,8 +2776,8 @@ export const GetIngressPointResponse = S.suspend(() =>
     IngressPointId: S.String,
     IngressPointName: S.String,
     IngressPointArn: S.optional(S.String),
-    Status: S.optional(S.String),
-    Type: S.optional(S.String),
+    Status: S.optional(IngressPointStatus),
+    Type: S.optional(IngressPointType),
     ARecord: S.optional(S.String),
     RuleSetId: S.optional(S.String),
     TrafficPolicyId: S.optional(S.String),
@@ -2512,7 +2799,7 @@ export interface StartArchiveExportRequest {
   FromTimestamp: Date;
   ToTimestamp: Date;
   MaxResults?: number;
-  ExportDestinationConfiguration: (typeof ExportDestinationConfiguration)["Type"];
+  ExportDestinationConfiguration: ExportDestinationConfiguration;
   IncludeMetadata?: boolean;
 }
 export const StartArchiveExportRequest = S.suspend(() =>
@@ -2541,8 +2828,8 @@ export const StartArchiveExportResponse = S.suspend(() =>
 export interface CreateRuleSetRequest {
   ClientToken?: string;
   RuleSetName: string;
-  Rules: Rules;
-  Tags?: TagList;
+  Rules: Rule[];
+  Tags?: Tag[];
 }
 export const CreateRuleSetRequest = S.suspend(() =>
   S.Struct({
@@ -2559,17 +2846,17 @@ export const CreateRuleSetRequest = S.suspend(() =>
 export interface CreateTrafficPolicyRequest {
   ClientToken?: string;
   TrafficPolicyName: string;
-  PolicyStatements: PolicyStatementList;
-  DefaultAction: string;
+  PolicyStatements: PolicyStatement[];
+  DefaultAction: AcceptAction;
   MaxMessageSizeBytes?: number;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateTrafficPolicyRequest = S.suspend(() =>
   S.Struct({
     ClientToken: S.optional(S.String),
     TrafficPolicyName: S.String,
     PolicyStatements: PolicyStatementList,
-    DefaultAction: S.String,
+    DefaultAction: AcceptAction,
     MaxMessageSizeBytes: S.optional(S.Number),
     Tags: S.optional(TagList),
   }).pipe(
@@ -2627,7 +2914,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const deleteAddonInstance: (
   input: DeleteAddonInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAddonInstanceResponse,
   ConflictException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2641,7 +2928,7 @@ export const deleteAddonInstance: (
  */
 export const createAddressList: (
   input: CreateAddressListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAddressListResponse,
   | AccessDeniedException
   | ConflictException
@@ -2666,7 +2953,7 @@ export const createAddressList: (
  */
 export const stopArchiveSearch: (
   input: StopArchiveSearchRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopArchiveSearchResponse,
   | AccessDeniedException
   | ThrottlingException
@@ -2683,7 +2970,7 @@ export const stopArchiveSearch: (
  */
 export const deleteAddressList: (
   input: DeleteAddressListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAddressListResponse,
   | AccessDeniedException
   | ConflictException
@@ -2700,7 +2987,7 @@ export const deleteAddressList: (
  */
 export const deleteArchive: (
   input: DeleteArchiveRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteArchiveResponse,
   | AccessDeniedException
   | ConflictException
@@ -2723,7 +3010,7 @@ export const deleteArchive: (
  */
 export const deregisterMemberFromAddressList: (
   input: DeregisterMemberFromAddressListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterMemberFromAddressListResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2746,7 +3033,7 @@ export const deregisterMemberFromAddressList: (
  */
 export const getArchiveExport: (
   input: GetArchiveExportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetArchiveExportResponse,
   | AccessDeniedException
   | ThrottlingException
@@ -2763,7 +3050,7 @@ export const getArchiveExport: (
  */
 export const getArchiveMessage: (
   input: GetArchiveMessageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetArchiveMessageResponse,
   | AccessDeniedException
   | ThrottlingException
@@ -2780,7 +3067,7 @@ export const getArchiveMessage: (
  */
 export const getArchiveMessageContent: (
   input: GetArchiveMessageContentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetArchiveMessageContentResponse,
   | AccessDeniedException
   | ThrottlingException
@@ -2797,7 +3084,7 @@ export const getArchiveMessageContent: (
  */
 export const getArchiveSearch: (
   input: GetArchiveSearchRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetArchiveSearchResponse,
   | AccessDeniedException
   | ThrottlingException
@@ -2814,7 +3101,7 @@ export const getArchiveSearch: (
  */
 export const getArchiveSearchResults: (
   input: GetArchiveSearchResultsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetArchiveSearchResultsResponse,
   | AccessDeniedException
   | ConflictException
@@ -2838,7 +3125,7 @@ export const getArchiveSearchResults: (
 export const listAddressListImportJobs: {
   (
     input: ListAddressListImportJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAddressListImportJobsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2849,7 +3136,7 @@ export const listAddressListImportJobs: {
   >;
   pages: (
     input: ListAddressListImportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAddressListImportJobsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2860,7 +3147,7 @@ export const listAddressListImportJobs: {
   >;
   items: (
     input: ListAddressListImportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ImportJob,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2891,7 +3178,7 @@ export const listAddressListImportJobs: {
 export const listArchiveExports: {
   (
     input: ListArchiveExportsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListArchiveExportsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2902,7 +3189,7 @@ export const listArchiveExports: {
   >;
   pages: (
     input: ListArchiveExportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListArchiveExportsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2913,7 +3200,7 @@ export const listArchiveExports: {
   >;
   items: (
     input: ListArchiveExportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExportSummary,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2944,7 +3231,7 @@ export const listArchiveExports: {
 export const listArchiveSearches: {
   (
     input: ListArchiveSearchesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListArchiveSearchesResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2955,7 +3242,7 @@ export const listArchiveSearches: {
   >;
   pages: (
     input: ListArchiveSearchesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListArchiveSearchesResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2966,7 +3253,7 @@ export const listArchiveSearches: {
   >;
   items: (
     input: ListArchiveSearchesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchSummary,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2997,7 +3284,7 @@ export const listArchiveSearches: {
 export const listAddressLists: {
   (
     input: ListAddressListsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAddressListsResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -3007,7 +3294,7 @@ export const listAddressLists: {
   >;
   pages: (
     input: ListAddressListsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAddressListsResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -3017,7 +3304,7 @@ export const listAddressLists: {
   >;
   items: (
     input: ListAddressListsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AddressList,
     | AccessDeniedException
     | ThrottlingException
@@ -3041,7 +3328,7 @@ export const listAddressLists: {
  */
 export const createArchive: (
   input: CreateArchiveRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateArchiveResponse,
   | AccessDeniedException
   | ConflictException
@@ -3067,7 +3354,7 @@ export const createArchive: (
 export const listArchives: {
   (
     input: ListArchivesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListArchivesResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -3077,7 +3364,7 @@ export const listArchives: {
   >;
   pages: (
     input: ListArchivesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListArchivesResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -3087,7 +3374,7 @@ export const listArchives: {
   >;
   items: (
     input: ListArchivesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Archive,
     | AccessDeniedException
     | ThrottlingException
@@ -3111,7 +3398,7 @@ export const listArchives: {
  */
 export const deleteAddonSubscription: (
   input: DeleteAddonSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAddonSubscriptionResponse,
   ConflictException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3125,7 +3412,7 @@ export const deleteAddonSubscription: (
  */
 export const deleteRuleSet: (
   input: DeleteRuleSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRuleSetResponse,
   ConflictException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3140,21 +3427,21 @@ export const deleteRuleSet: (
 export const listAddonInstances: {
   (
     input: ListAddonInstancesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAddonInstancesResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListAddonInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAddonInstancesResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAddonInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AddonInstance,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3175,7 +3462,7 @@ export const listAddonInstances: {
  */
 export const createAddonSubscription: (
   input: CreateAddonSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAddonSubscriptionResponse,
   | ConflictException
   | ServiceQuotaExceededException
@@ -3197,21 +3484,21 @@ export const createAddonSubscription: (
 export const listAddonSubscriptions: {
   (
     input: ListAddonSubscriptionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAddonSubscriptionsResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListAddonSubscriptionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAddonSubscriptionsResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAddonSubscriptionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AddonSubscription,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3233,21 +3520,21 @@ export const listAddonSubscriptions: {
 export const listIngressPoints: {
   (
     input: ListIngressPointsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListIngressPointsResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListIngressPointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListIngressPointsResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIngressPointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     IngressPoint,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3268,7 +3555,7 @@ export const listIngressPoints: {
  */
 export const createRelay: (
   input: CreateRelayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRelayResponse,
   | ConflictException
   | ServiceQuotaExceededException
@@ -3290,21 +3577,21 @@ export const createRelay: (
 export const listRelays: {
   (
     input: ListRelaysRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRelaysResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListRelaysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRelaysResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRelaysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Relay,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3326,21 +3613,21 @@ export const listRelays: {
 export const listRuleSets: {
   (
     input: ListRuleSetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRuleSetsResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListRuleSetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRuleSetsResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRuleSetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RuleSet,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3362,21 +3649,21 @@ export const listRuleSets: {
 export const listTrafficPolicies: {
   (
     input: ListTrafficPoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTrafficPoliciesResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListTrafficPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTrafficPoliciesResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTrafficPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TrafficPolicy,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3397,7 +3684,7 @@ export const listTrafficPolicies: {
  */
 export const stopArchiveExport: (
   input: StopArchiveExportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopArchiveExportResponse,
   | AccessDeniedException
   | ThrottlingException
@@ -3414,7 +3701,7 @@ export const stopArchiveExport: (
  */
 export const getAddressListImportJob: (
   input: GetAddressListImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAddressListImportJobResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3437,7 +3724,7 @@ export const getAddressListImportJob: (
  */
 export const getMemberOfAddressList: (
   input: GetMemberOfAddressListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMemberOfAddressListResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3460,7 +3747,7 @@ export const getMemberOfAddressList: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3474,7 +3761,7 @@ export const listTagsForResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -3491,7 +3778,7 @@ export const untagResource: (
  */
 export const createAddonInstance: (
   input: CreateAddonInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAddonInstanceResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -3514,7 +3801,7 @@ export const createAddonInstance: (
  */
 export const getAddonInstance: (
   input: GetAddonInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAddonInstanceResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3528,7 +3815,7 @@ export const getAddonInstance: (
  */
 export const getAddonSubscription: (
   input: GetAddonSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAddonSubscriptionResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3542,7 +3829,7 @@ export const getAddonSubscription: (
  */
 export const getAddressList: (
   input: GetAddressListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAddressListResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3565,7 +3852,7 @@ export const getAddressList: (
  */
 export const getArchive: (
   input: GetArchiveRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetArchiveResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3588,7 +3875,7 @@ export const getArchive: (
  */
 export const getRelay: (
   input: GetRelayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRelayResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3602,7 +3889,7 @@ export const getRelay: (
  */
 export const getRuleSet: (
   input: GetRuleSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRuleSetResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3616,7 +3903,7 @@ export const getRuleSet: (
  */
 export const getTrafficPolicy: (
   input: GetTrafficPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTrafficPolicyResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3630,7 +3917,7 @@ export const getTrafficPolicy: (
  */
 export const registerMemberToAddressList: (
   input: RegisterMemberToAddressListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterMemberToAddressListResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3655,7 +3942,7 @@ export const registerMemberToAddressList: (
  */
 export const startAddressListImportJob: (
   input: StartAddressListImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartAddressListImportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -3682,7 +3969,7 @@ export const startAddressListImportJob: (
  */
 export const stopAddressListImportJob: (
   input: StopAddressListImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopAddressListImportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -3707,7 +3994,7 @@ export const stopAddressListImportJob: (
  */
 export const updateArchive: (
   input: UpdateArchiveRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateArchiveResponse,
   | AccessDeniedException
   | ConflictException
@@ -3734,7 +4021,7 @@ export const updateArchive: (
  */
 export const updateIngressPoint: (
   input: UpdateIngressPointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateIngressPointResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -3751,7 +4038,7 @@ export const updateIngressPoint: (
  */
 export const deleteIngressPoint: (
   input: DeleteIngressPointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIngressPointResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -3768,7 +4055,7 @@ export const deleteIngressPoint: (
  */
 export const updateRelay: (
   input: UpdateRelayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRelayResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -3785,7 +4072,7 @@ export const updateRelay: (
  */
 export const deleteRelay: (
   input: DeleteRelayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRelayResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -3802,7 +4089,7 @@ export const deleteRelay: (
  */
 export const updateRuleSet: (
   input: UpdateRuleSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRuleSetResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -3819,7 +4106,7 @@ export const updateRuleSet: (
  */
 export const updateTrafficPolicy: (
   input: UpdateTrafficPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTrafficPolicyResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -3836,7 +4123,7 @@ export const updateTrafficPolicy: (
  */
 export const deleteTrafficPolicy: (
   input: DeleteTrafficPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTrafficPolicyResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -3853,7 +4140,7 @@ export const deleteTrafficPolicy: (
  */
 export const startArchiveSearch: (
   input: StartArchiveSearchRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartArchiveSearchResponse,
   | AccessDeniedException
   | ConflictException
@@ -3880,7 +4167,7 @@ export const startArchiveSearch: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -3903,7 +4190,7 @@ export const tagResource: (
  */
 export const createAddressListImportJob: (
   input: CreateAddressListImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAddressListImportJobResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3927,7 +4214,7 @@ export const createAddressListImportJob: (
 export const listMembersOfAddressList: {
   (
     input: ListMembersOfAddressListRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMembersOfAddressListResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -3938,7 +4225,7 @@ export const listMembersOfAddressList: {
   >;
   pages: (
     input: ListMembersOfAddressListRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMembersOfAddressListResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -3949,7 +4236,7 @@ export const listMembersOfAddressList: {
   >;
   items: (
     input: ListMembersOfAddressListRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SavedAddress,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -3979,7 +4266,7 @@ export const listMembersOfAddressList: {
  */
 export const createIngressPoint: (
   input: CreateIngressPointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateIngressPointResponse,
   | ConflictException
   | ServiceQuotaExceededException
@@ -4000,7 +4287,7 @@ export const createIngressPoint: (
  */
 export const getIngressPoint: (
   input: GetIngressPointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIngressPointResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4014,7 +4301,7 @@ export const getIngressPoint: (
  */
 export const startArchiveExport: (
   input: StartArchiveExportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartArchiveExportResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4039,7 +4326,7 @@ export const startArchiveExport: (
  */
 export const createRuleSet: (
   input: CreateRuleSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRuleSetResponse,
   | ConflictException
   | ServiceQuotaExceededException
@@ -4060,7 +4347,7 @@ export const createRuleSet: (
  */
 export const createTrafficPolicy: (
   input: CreateTrafficPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTrafficPolicyResponse,
   | ConflictException
   | ServiceQuotaExceededException

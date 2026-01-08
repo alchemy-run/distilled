@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -100,7 +100,6 @@ export type RevocationReasonString = string;
 export type ClientRequestToken = string;
 export type TagKey = string;
 export type CertificateArn = string;
-export type Integer = number;
 export type SigningParameterKey = string;
 export type SigningParameterValue = string;
 export type TagValue = string;
@@ -118,8 +117,12 @@ export type Prefix = string;
 //# Schemas
 export type CertificateHashes = string[];
 export const CertificateHashes = S.Array(S.String);
-export type Statuses = string[];
-export const Statuses = S.Array(S.String);
+export type SigningStatus = "InProgress" | "Failed" | "Succeeded";
+export const SigningStatus = S.Literal("InProgress", "Failed", "Succeeded");
+export type SigningProfileStatus = "Active" | "Canceled" | "Revoked";
+export const SigningProfileStatus = S.Literal("Active", "Canceled", "Revoked");
+export type Statuses = SigningProfileStatus[];
+export const Statuses = S.Array(SigningProfileStatus);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface AddProfilePermissionRequest {
@@ -199,7 +202,7 @@ export interface GetRevocationStatusRequest {
   platformId: string;
   profileVersionArn: string;
   jobArn: string;
-  certificateHashes: CertificateHashes;
+  certificateHashes: string[];
 }
 export const GetRevocationStatusRequest = S.suspend(() =>
   S.Struct({
@@ -286,7 +289,7 @@ export const ListProfilePermissionsRequest = S.suspend(() =>
   identifier: "ListProfilePermissionsRequest",
 }) as any as S.Schema<ListProfilePermissionsRequest>;
 export interface ListSigningJobsRequest {
-  status?: string;
+  status?: SigningStatus;
   platformId?: string;
   requestedBy?: string;
   maxResults?: number;
@@ -298,7 +301,7 @@ export interface ListSigningJobsRequest {
 }
 export const ListSigningJobsRequest = S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String).pipe(T.HttpQuery("status")),
+    status: S.optional(SigningStatus).pipe(T.HttpQuery("status")),
     platformId: S.optional(S.String).pipe(T.HttpQuery("platformId")),
     requestedBy: S.optional(S.String).pipe(T.HttpQuery("requestedBy")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -356,7 +359,7 @@ export interface ListSigningProfilesRequest {
   maxResults?: number;
   nextToken?: string;
   platformId?: string;
-  statuses?: Statuses;
+  statuses?: SigningProfileStatus[];
 }
 export const ListSigningProfilesRequest = S.suspend(() =>
   S.Struct({
@@ -510,7 +513,7 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -535,7 +538,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -558,8 +561,14 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
+export type ValidityType = "DAYS" | "MONTHS" | "YEARS";
+export const ValidityType = S.Literal("DAYS", "MONTHS", "YEARS");
+export type ImageFormat = "JSON" | "JSONEmbedded" | "JSONDetached";
+export const ImageFormat = S.Literal("JSON", "JSONEmbedded", "JSONDetached");
 export type RevokedEntities = string[];
 export const RevokedEntities = S.Array(S.String);
+export type Category = "AWSIoT";
+export const Category = S.Literal("AWSIoT");
 export interface SigningMaterial {
   certificateArn: string;
 }
@@ -570,15 +579,19 @@ export const SigningMaterial = S.suspend(() =>
 }) as any as S.Schema<SigningMaterial>;
 export interface SignatureValidityPeriod {
   value?: number;
-  type?: string;
+  type?: ValidityType;
 }
 export const SignatureValidityPeriod = S.suspend(() =>
-  S.Struct({ value: S.optional(S.Number), type: S.optional(S.String) }),
+  S.Struct({ value: S.optional(S.Number), type: S.optional(ValidityType) }),
 ).annotations({
   identifier: "SignatureValidityPeriod",
 }) as any as S.Schema<SignatureValidityPeriod>;
 export type SigningParameters = { [key: string]: string };
 export const SigningParameters = S.Record({ key: S.String, value: S.String });
+export type EncryptionAlgorithm = "RSA" | "ECDSA";
+export const EncryptionAlgorithm = S.Literal("RSA", "ECDSA");
+export type HashAlgorithm = "SHA1" | "SHA256";
+export const HashAlgorithm = S.Literal("SHA1", "SHA256");
 export interface AddProfilePermissionResponse {
   revisionId?: string;
 }
@@ -588,7 +601,7 @@ export const AddProfilePermissionResponse = S.suspend(() =>
   identifier: "AddProfilePermissionResponse",
 }) as any as S.Schema<AddProfilePermissionResponse>;
 export interface GetRevocationStatusResponse {
-  revokedEntities?: RevokedEntities;
+  revokedEntities?: string[];
 }
 export const GetRevocationStatusResponse = S.suspend(() =>
   S.Struct({ revokedEntities: S.optional(RevokedEntities) }),
@@ -596,7 +609,7 @@ export const GetRevocationStatusResponse = S.suspend(() =>
   identifier: "GetRevocationStatusResponse",
 }) as any as S.Schema<GetRevocationStatusResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -611,16 +624,16 @@ export const RemoveProfilePermissionResponse = S.suspend(() =>
 ).annotations({
   identifier: "RemoveProfilePermissionResponse",
 }) as any as S.Schema<RemoveProfilePermissionResponse>;
-export type ImageFormats = string[];
-export const ImageFormats = S.Array(S.String);
+export type ImageFormats = ImageFormat[];
+export const ImageFormats = S.Array(ImageFormat);
 export interface SigningConfigurationOverrides {
-  encryptionAlgorithm?: string;
-  hashAlgorithm?: string;
+  encryptionAlgorithm?: EncryptionAlgorithm;
+  hashAlgorithm?: HashAlgorithm;
 }
 export const SigningConfigurationOverrides = S.suspend(() =>
   S.Struct({
-    encryptionAlgorithm: S.optional(S.String),
-    hashAlgorithm: S.optional(S.String),
+    encryptionAlgorithm: S.optional(EncryptionAlgorithm),
+    hashAlgorithm: S.optional(HashAlgorithm),
   }),
 ).annotations({
   identifier: "SigningConfigurationOverrides",
@@ -657,11 +670,11 @@ export const SigningJobRevocationRecord = S.suspend(() =>
   identifier: "SigningJobRevocationRecord",
 }) as any as S.Schema<SigningJobRevocationRecord>;
 export interface SigningImageFormat {
-  supportedFormats: ImageFormats;
-  defaultFormat: string;
+  supportedFormats: ImageFormat[];
+  defaultFormat: ImageFormat;
 }
 export const SigningImageFormat = S.suspend(() =>
-  S.Struct({ supportedFormats: ImageFormats, defaultFormat: S.String }),
+  S.Struct({ supportedFormats: ImageFormats, defaultFormat: ImageFormat }),
 ).annotations({
   identifier: "SigningImageFormat",
 }) as any as S.Schema<SigningImageFormat>;
@@ -724,7 +737,7 @@ export interface SigningJob {
   signedObject?: SignedObject;
   signingMaterial?: SigningMaterial;
   createdAt?: Date;
-  status?: string;
+  status?: SigningStatus;
   isRevoked?: boolean;
   profileName?: string;
   profileVersion?: string;
@@ -741,7 +754,7 @@ export const SigningJob = S.suspend(() =>
     signedObject: S.optional(SignedObject),
     signingMaterial: S.optional(SigningMaterial),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(S.String),
+    status: S.optional(SigningStatus),
     isRevoked: S.optional(S.Boolean),
     profileName: S.optional(S.String),
     profileVersion: S.optional(S.String),
@@ -756,25 +769,28 @@ export const SigningJob = S.suspend(() =>
 ).annotations({ identifier: "SigningJob" }) as any as S.Schema<SigningJob>;
 export type SigningJobs = SigningJob[];
 export const SigningJobs = S.Array(SigningJob);
-export type EncryptionAlgorithms = string[];
-export const EncryptionAlgorithms = S.Array(S.String);
+export type EncryptionAlgorithms = EncryptionAlgorithm[];
+export const EncryptionAlgorithms = S.Array(EncryptionAlgorithm);
 export interface EncryptionAlgorithmOptions {
-  allowedValues: EncryptionAlgorithms;
-  defaultValue: string;
+  allowedValues: EncryptionAlgorithm[];
+  defaultValue: EncryptionAlgorithm;
 }
 export const EncryptionAlgorithmOptions = S.suspend(() =>
-  S.Struct({ allowedValues: EncryptionAlgorithms, defaultValue: S.String }),
+  S.Struct({
+    allowedValues: EncryptionAlgorithms,
+    defaultValue: EncryptionAlgorithm,
+  }),
 ).annotations({
   identifier: "EncryptionAlgorithmOptions",
 }) as any as S.Schema<EncryptionAlgorithmOptions>;
-export type HashAlgorithms = string[];
-export const HashAlgorithms = S.Array(S.String);
+export type HashAlgorithms = HashAlgorithm[];
+export const HashAlgorithms = S.Array(HashAlgorithm);
 export interface HashAlgorithmOptions {
-  allowedValues: HashAlgorithms;
-  defaultValue: string;
+  allowedValues: HashAlgorithm[];
+  defaultValue: HashAlgorithm;
 }
 export const HashAlgorithmOptions = S.suspend(() =>
-  S.Struct({ allowedValues: HashAlgorithms, defaultValue: S.String }),
+  S.Struct({ allowedValues: HashAlgorithms, defaultValue: HashAlgorithm }),
 ).annotations({
   identifier: "HashAlgorithmOptions",
 }) as any as S.Schema<HashAlgorithmOptions>;
@@ -795,7 +811,7 @@ export interface SigningPlatform {
   displayName?: string;
   partner?: string;
   target?: string;
-  category?: string;
+  category?: Category;
   signingConfiguration?: SigningConfiguration;
   signingImageFormat?: SigningImageFormat;
   maxSizeInMB?: number;
@@ -807,7 +823,7 @@ export const SigningPlatform = S.suspend(() =>
     displayName: S.optional(S.String),
     partner: S.optional(S.String),
     target: S.optional(S.String),
-    category: S.optional(S.String),
+    category: S.optional(Category),
     signingConfiguration: S.optional(SigningConfiguration),
     signingImageFormat: S.optional(SigningImageFormat),
     maxSizeInMB: S.optional(S.Number),
@@ -826,10 +842,10 @@ export interface SigningProfile {
   signatureValidityPeriod?: SignatureValidityPeriod;
   platformId?: string;
   platformDisplayName?: string;
-  signingParameters?: SigningParameters;
-  status?: string;
+  signingParameters?: { [key: string]: string };
+  status?: SigningProfileStatus;
   arn?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const SigningProfile = S.suspend(() =>
   S.Struct({
@@ -841,7 +857,7 @@ export const SigningProfile = S.suspend(() =>
     platformId: S.optional(S.String),
     platformDisplayName: S.optional(S.String),
     signingParameters: S.optional(SigningParameters),
-    status: S.optional(S.String),
+    status: S.optional(SigningProfileStatus),
     arn: S.optional(S.String),
     tags: S.optional(TagMap),
   }),
@@ -852,12 +868,12 @@ export type SigningProfiles = SigningProfile[];
 export const SigningProfiles = S.Array(SigningProfile);
 export interface SigningPlatformOverrides {
   signingConfiguration?: SigningConfigurationOverrides;
-  signingImageFormat?: string;
+  signingImageFormat?: ImageFormat;
 }
 export const SigningPlatformOverrides = S.suspend(() =>
   S.Struct({
     signingConfiguration: S.optional(SigningConfigurationOverrides),
-    signingImageFormat: S.optional(S.String),
+    signingImageFormat: S.optional(ImageFormat),
   }),
 ).annotations({
   identifier: "SigningPlatformOverrides",
@@ -880,11 +896,11 @@ export interface GetSigningProfileResponse {
   platformDisplayName?: string;
   signatureValidityPeriod?: SignatureValidityPeriod;
   overrides?: SigningPlatformOverrides;
-  signingParameters?: SigningParameters;
-  status?: string;
+  signingParameters?: { [key: string]: string };
+  status?: SigningProfileStatus;
   statusReason?: string;
   arn?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const GetSigningProfileResponse = S.suspend(() =>
   S.Struct({
@@ -898,7 +914,7 @@ export const GetSigningProfileResponse = S.suspend(() =>
     signatureValidityPeriod: S.optional(SignatureValidityPeriod),
     overrides: S.optional(SigningPlatformOverrides),
     signingParameters: S.optional(SigningParameters),
-    status: S.optional(S.String),
+    status: S.optional(SigningProfileStatus),
     statusReason: S.optional(S.String),
     arn: S.optional(S.String),
     tags: S.optional(TagMap),
@@ -909,7 +925,7 @@ export const GetSigningProfileResponse = S.suspend(() =>
 export interface ListProfilePermissionsResponse {
   revisionId?: string;
   policySizeBytes?: number;
-  permissions?: Permissions;
+  permissions?: Permission[];
   nextToken?: string;
 }
 export const ListProfilePermissionsResponse = S.suspend(() =>
@@ -923,7 +939,7 @@ export const ListProfilePermissionsResponse = S.suspend(() =>
   identifier: "ListProfilePermissionsResponse",
 }) as any as S.Schema<ListProfilePermissionsResponse>;
 export interface ListSigningJobsResponse {
-  jobs?: SigningJobs;
+  jobs?: SigningJob[];
   nextToken?: string;
 }
 export const ListSigningJobsResponse = S.suspend(() =>
@@ -932,7 +948,7 @@ export const ListSigningJobsResponse = S.suspend(() =>
   identifier: "ListSigningJobsResponse",
 }) as any as S.Schema<ListSigningJobsResponse>;
 export interface ListSigningPlatformsResponse {
-  platforms?: SigningPlatforms;
+  platforms?: SigningPlatform[];
   nextToken?: string;
 }
 export const ListSigningPlatformsResponse = S.suspend(() =>
@@ -944,7 +960,7 @@ export const ListSigningPlatformsResponse = S.suspend(() =>
   identifier: "ListSigningPlatformsResponse",
 }) as any as S.Schema<ListSigningPlatformsResponse>;
 export interface ListSigningProfilesResponse {
-  profiles?: SigningProfiles;
+  profiles?: SigningProfile[];
   nextToken?: string;
 }
 export const ListSigningProfilesResponse = S.suspend(() =>
@@ -961,8 +977,8 @@ export interface PutSigningProfileRequest {
   signatureValidityPeriod?: SignatureValidityPeriod;
   platformId: string;
   overrides?: SigningPlatformOverrides;
-  signingParameters?: SigningParameters;
-  tags?: TagMap;
+  signingParameters?: { [key: string]: string };
+  tags?: { [key: string]: string };
 }
 export const PutSigningProfileRequest = S.suspend(() =>
   S.Struct({
@@ -989,7 +1005,7 @@ export const PutSigningProfileRequest = S.suspend(() =>
 export interface SignPayloadResponse {
   jobId?: string;
   jobOwner?: string;
-  metadata?: Metadata;
+  metadata?: { [key: string]: string };
   signature?: Uint8Array;
 }
 export const SignPayloadResponse = S.suspend(() =>
@@ -1038,12 +1054,12 @@ export interface DescribeSigningJobResponse {
   profileName?: string;
   profileVersion?: string;
   overrides?: SigningPlatformOverrides;
-  signingParameters?: SigningParameters;
+  signingParameters?: { [key: string]: string };
   createdAt?: Date;
   completedAt?: Date;
   signatureExpiresAt?: Date;
   requestedBy?: string;
-  status?: string;
+  status?: SigningStatus;
   statusReason?: string;
   revocationRecord?: SigningJobRevocationRecord;
   signedObject?: SignedObject;
@@ -1067,7 +1083,7 @@ export const DescribeSigningJobResponse = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     requestedBy: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(SigningStatus),
     statusReason: S.optional(S.String),
     revocationRecord: S.optional(SigningJobRevocationRecord),
     signedObject: S.optional(SignedObject),
@@ -1082,7 +1098,7 @@ export interface GetSigningPlatformResponse {
   displayName?: string;
   partner?: string;
   target?: string;
-  category?: string;
+  category?: Category;
   signingConfiguration?: SigningConfiguration;
   signingImageFormat?: SigningImageFormat;
   maxSizeInMB?: number;
@@ -1094,7 +1110,7 @@ export const GetSigningPlatformResponse = S.suspend(() =>
     displayName: S.optional(S.String),
     partner: S.optional(S.String),
     target: S.optional(S.String),
-    category: S.optional(S.String),
+    category: S.optional(Category),
     signingConfiguration: S.optional(SigningConfiguration),
     signingImageFormat: S.optional(SigningImageFormat),
     maxSizeInMB: S.optional(S.Number),
@@ -1178,7 +1194,7 @@ export class ServiceLimitExceededException extends S.TaggedError<ServiceLimitExc
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | BadRequestException
   | InternalServiceErrorException
@@ -1201,7 +1217,7 @@ export const tagResource: (
  */
 export const getSigningProfile: (
   input: GetSigningProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSigningProfileResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1232,7 +1248,7 @@ export const getSigningProfile: (
 export const listSigningProfiles: {
   (
     input: ListSigningProfilesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSigningProfilesResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -1242,7 +1258,7 @@ export const listSigningProfiles: {
   >;
   pages: (
     input: ListSigningProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSigningProfilesResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -1252,7 +1268,7 @@ export const listSigningProfiles: {
   >;
   items: (
     input: ListSigningProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -1281,7 +1297,7 @@ export const listSigningProfiles: {
  */
 export const cancelSigningProfile: (
   input: CancelSigningProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelSigningProfileResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1306,7 +1322,7 @@ export const cancelSigningProfile: (
  */
 export const describeSigningJob: (
   input: DescribeSigningJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSigningJobResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1329,7 +1345,7 @@ export const describeSigningJob: (
  */
 export const getSigningPlatform: (
   input: GetSigningPlatformRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSigningPlatformResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1353,7 +1369,7 @@ export const getSigningPlatform: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | BadRequestException
   | InternalServiceErrorException
@@ -1376,7 +1392,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | BadRequestException
   | InternalServiceErrorException
@@ -1406,7 +1422,7 @@ export const listTagsForResource: (
 export const listSigningJobs: {
   (
     input: ListSigningJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSigningJobsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -1417,7 +1433,7 @@ export const listSigningJobs: {
   >;
   pages: (
     input: ListSigningJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSigningJobsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -1428,7 +1444,7 @@ export const listSigningJobs: {
   >;
   items: (
     input: ListSigningJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -1478,7 +1494,7 @@ export const listSigningJobs: {
  */
 export const startSigningJob: (
   input: StartSigningJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartSigningJobResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1505,7 +1521,7 @@ export const startSigningJob: (
  */
 export const addProfilePermission: (
   input: AddProfilePermissionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddProfilePermissionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1535,7 +1551,7 @@ export const addProfilePermission: (
  */
 export const putSigningProfile: (
   input: PutSigningProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutSigningProfileResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1560,7 +1576,7 @@ export const putSigningProfile: (
  */
 export const listProfilePermissions: (
   input: ListProfilePermissionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListProfilePermissionsResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1585,7 +1601,7 @@ export const listProfilePermissions: (
  */
 export const removeProfilePermission: (
   input: RemoveProfilePermissionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveProfilePermissionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1612,7 +1628,7 @@ export const removeProfilePermission: (
  */
 export const signPayload: (
   input: SignPayloadRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SignPayloadResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1638,7 +1654,7 @@ export const signPayload: (
  */
 export const revokeSignature: (
   input: RevokeSignatureRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RevokeSignatureResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1667,7 +1683,7 @@ export const revokeSignature: (
  */
 export const revokeSigningProfile: (
   input: RevokeSigningProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RevokeSigningProfileResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1699,7 +1715,7 @@ export const revokeSigningProfile: (
 export const listSigningPlatforms: {
   (
     input: ListSigningPlatformsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSigningPlatformsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -1710,7 +1726,7 @@ export const listSigningPlatforms: {
   >;
   pages: (
     input: ListSigningPlatformsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSigningPlatformsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -1721,7 +1737,7 @@ export const listSigningPlatforms: {
   >;
   items: (
     input: ListSigningPlatformsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -1751,7 +1767,7 @@ export const listSigningPlatforms: {
  */
 export const getRevocationStatus: (
   input: GetRevocationStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRevocationStatusResponse,
   | AccessDeniedException
   | InternalServiceErrorException

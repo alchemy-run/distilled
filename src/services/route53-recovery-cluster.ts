@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -96,6 +96,8 @@ export type Owner = string;
 export type RetryAfterSeconds = number;
 
 //# Schemas
+export type RoutingControlState = "On" | "Off";
+export const RoutingControlState = S.Literal("On", "Off");
 export type Arns = string[];
 export const Arns = S.Array(S.String);
 export interface GetRoutingControlStateRequest {
@@ -126,13 +128,13 @@ export const ListRoutingControlsRequest = S.suspend(() =>
 }) as any as S.Schema<ListRoutingControlsRequest>;
 export interface UpdateRoutingControlStateRequest {
   RoutingControlArn: string;
-  RoutingControlState: string;
-  SafetyRulesToOverride?: Arns;
+  RoutingControlState: RoutingControlState;
+  SafetyRulesToOverride?: string[];
 }
 export const UpdateRoutingControlStateRequest = S.suspend(() =>
   S.Struct({
     RoutingControlArn: S.String,
-    RoutingControlState: S.String,
+    RoutingControlState: RoutingControlState,
     SafetyRulesToOverride: S.optional(Arns),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -148,10 +150,13 @@ export const UpdateRoutingControlStateResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateRoutingControlStateResponse>;
 export interface UpdateRoutingControlStateEntry {
   RoutingControlArn: string;
-  RoutingControlState: string;
+  RoutingControlState: RoutingControlState;
 }
 export const UpdateRoutingControlStateEntry = S.suspend(() =>
-  S.Struct({ RoutingControlArn: S.String, RoutingControlState: S.String }),
+  S.Struct({
+    RoutingControlArn: S.String,
+    RoutingControlState: RoutingControlState,
+  }),
 ).annotations({
   identifier: "UpdateRoutingControlStateEntry",
 }) as any as S.Schema<UpdateRoutingControlStateEntry>;
@@ -161,21 +166,21 @@ export const UpdateRoutingControlStateEntries = S.Array(
 );
 export interface GetRoutingControlStateResponse {
   RoutingControlArn: string;
-  RoutingControlState: string;
+  RoutingControlState: RoutingControlState;
   RoutingControlName?: string;
 }
 export const GetRoutingControlStateResponse = S.suspend(() =>
   S.Struct({
     RoutingControlArn: S.String,
-    RoutingControlState: S.String,
+    RoutingControlState: RoutingControlState,
     RoutingControlName: S.optional(S.String),
   }),
 ).annotations({
   identifier: "GetRoutingControlStateResponse",
 }) as any as S.Schema<GetRoutingControlStateResponse>;
 export interface UpdateRoutingControlStatesRequest {
-  UpdateRoutingControlStateEntries: UpdateRoutingControlStateEntries;
-  SafetyRulesToOverride?: Arns;
+  UpdateRoutingControlStateEntries: UpdateRoutingControlStateEntry[];
+  SafetyRulesToOverride?: string[];
 }
 export const UpdateRoutingControlStatesRequest = S.suspend(() =>
   S.Struct({
@@ -198,7 +203,7 @@ export interface RoutingControl {
   ControlPanelName?: string;
   RoutingControlArn?: string;
   RoutingControlName?: string;
-  RoutingControlState?: string;
+  RoutingControlState?: RoutingControlState;
   Owner?: string;
 }
 export const RoutingControl = S.suspend(() =>
@@ -207,7 +212,7 @@ export const RoutingControl = S.suspend(() =>
     ControlPanelName: S.optional(S.String),
     RoutingControlArn: S.optional(S.String),
     RoutingControlName: S.optional(S.String),
-    RoutingControlState: S.optional(S.String),
+    RoutingControlState: S.optional(RoutingControlState),
     Owner: S.optional(S.String),
   }),
 ).annotations({
@@ -216,7 +221,7 @@ export const RoutingControl = S.suspend(() =>
 export type RoutingControls = RoutingControl[];
 export const RoutingControls = S.Array(RoutingControl);
 export interface ListRoutingControlsResponse {
-  RoutingControls: RoutingControls;
+  RoutingControls: RoutingControl[];
   NextToken?: string;
 }
 export const ListRoutingControlsResponse = S.suspend(() =>
@@ -227,6 +232,17 @@ export const ListRoutingControlsResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListRoutingControlsResponse",
 }) as any as S.Schema<ListRoutingControlsResponse>;
+export type ValidationExceptionReason =
+  | "unknownOperation"
+  | "cannotParse"
+  | "fieldValidationFailed"
+  | "other";
+export const ValidationExceptionReason = S.Literal(
+  "unknownOperation",
+  "cannotParse",
+  "fieldValidationFailed",
+  "other",
+);
 export interface ValidationExceptionField {
   name: string;
   message: string;
@@ -284,7 +300,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     message: S.String,
-    reason: S.optional(S.String),
+    reason: S.optional(ValidationExceptionReason),
     fields: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
@@ -319,7 +335,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const getRoutingControlState: (
   input: GetRoutingControlStateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRoutingControlStateResponse,
   | AccessDeniedException
   | EndpointTemporarilyUnavailableException
@@ -373,7 +389,7 @@ export const getRoutingControlState: (
  */
 export const updateRoutingControlStates: (
   input: UpdateRoutingControlStatesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRoutingControlStatesResponse,
   | AccessDeniedException
   | ConflictException
@@ -430,7 +446,7 @@ export const updateRoutingControlStates: (
 export const listRoutingControls: {
   (
     input: ListRoutingControlsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRoutingControlsResponse,
     | AccessDeniedException
     | EndpointTemporarilyUnavailableException
@@ -443,7 +459,7 @@ export const listRoutingControls: {
   >;
   pages: (
     input: ListRoutingControlsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRoutingControlsResponse,
     | AccessDeniedException
     | EndpointTemporarilyUnavailableException
@@ -456,7 +472,7 @@ export const listRoutingControls: {
   >;
   items: (
     input: ListRoutingControlsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RoutingControl,
     | AccessDeniedException
     | EndpointTemporarilyUnavailableException
@@ -517,7 +533,7 @@ export const listRoutingControls: {
  */
 export const updateRoutingControlState: (
   input: UpdateRoutingControlStateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRoutingControlStateResponse,
   | AccessDeniedException
   | ConflictException

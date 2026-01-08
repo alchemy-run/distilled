@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -179,9 +179,9 @@ export type ServicePrincipal = string;
 export type RuleExecutionId = string;
 export type RuleName = string;
 export type LastUpdatedBy = string;
-export type AccessKeyId = string | Redacted.Redacted<string>;
-export type SecretAccessKey = string | Redacted.Redacted<string>;
-export type SessionToken = string | Redacted.Redacted<string>;
+export type AccessKeyId = string | redacted.Redacted<string>;
+export type SecretAccessKey = string | redacted.Redacted<string>;
+export type SessionToken = string | redacted.Redacted<string>;
 export type ActionExecutionToken = string;
 export type LogStreamARN = string;
 export type RuleTimeout = number;
@@ -199,6 +199,33 @@ export type S3Bucket = string;
 export type S3Key = string;
 
 //# Schemas
+export type ActionCategory =
+  | "Source"
+  | "Build"
+  | "Deploy"
+  | "Test"
+  | "Invoke"
+  | "Approval"
+  | "Compute";
+export const ActionCategory = S.Literal(
+  "Source",
+  "Build",
+  "Deploy",
+  "Test",
+  "Invoke",
+  "Approval",
+  "Compute",
+);
+export type StageTransitionType = "Inbound" | "Outbound";
+export const StageTransitionType = S.Literal("Inbound", "Outbound");
+export type ActionOwner = "AWS" | "ThirdParty" | "Custom";
+export const ActionOwner = S.Literal("AWS", "ThirdParty", "Custom");
+export type RuleOwner = "AWS";
+export const RuleOwner = S.Literal("AWS");
+export type ConditionType = "BEFORE_ENTRY" | "ON_SUCCESS";
+export const ConditionType = S.Literal("BEFORE_ENTRY", "ON_SUCCESS");
+export type StageRetryMode = "FAILED_ACTIONS" | "ALL_ACTIONS";
+export const StageRetryMode = S.Literal("FAILED_ACTIONS", "ALL_ACTIONS");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface AcknowledgeJobInput {
@@ -241,12 +268,16 @@ export const AcknowledgeThirdPartyJobInput = S.suspend(() =>
   identifier: "AcknowledgeThirdPartyJobInput",
 }) as any as S.Schema<AcknowledgeThirdPartyJobInput>;
 export interface DeleteCustomActionTypeInput {
-  category: string;
+  category: ActionCategory;
   provider: string;
   version: string;
 }
 export const DeleteCustomActionTypeInput = S.suspend(() =>
-  S.Struct({ category: S.String, provider: S.String, version: S.String }).pipe(
+  S.Struct({
+    category: ActionCategory,
+    provider: S.String,
+    version: S.String,
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -341,14 +372,14 @@ export const DeregisterWebhookWithThirdPartyOutput = S.suspend(() =>
 export interface DisableStageTransitionInput {
   pipelineName: string;
   stageName: string;
-  transitionType: string;
+  transitionType: StageTransitionType;
   reason: string;
 }
 export const DisableStageTransitionInput = S.suspend(() =>
   S.Struct({
     pipelineName: S.String,
     stageName: S.String,
-    transitionType: S.String,
+    transitionType: StageTransitionType,
     reason: S.String,
   }).pipe(
     T.all(
@@ -373,13 +404,13 @@ export const DisableStageTransitionResponse = S.suspend(() =>
 export interface EnableStageTransitionInput {
   pipelineName: string;
   stageName: string;
-  transitionType: string;
+  transitionType: StageTransitionType;
 }
 export const EnableStageTransitionInput = S.suspend(() =>
   S.Struct({
     pipelineName: S.String,
     stageName: S.String,
-    transitionType: S.String,
+    transitionType: StageTransitionType,
   }).pipe(
     T.all(
       ns,
@@ -401,14 +432,14 @@ export const EnableStageTransitionResponse = S.suspend(() =>
   identifier: "EnableStageTransitionResponse",
 }) as any as S.Schema<EnableStageTransitionResponse>;
 export interface GetActionTypeInput {
-  category: string;
+  category: ActionCategory;
   owner: string;
   provider: string;
   version: string;
 }
 export const GetActionTypeInput = S.suspend(() =>
   S.Struct({
-    category: S.String,
+    category: ActionCategory,
     owner: S.String,
     provider: S.String,
     version: S.String,
@@ -520,13 +551,13 @@ export const GetThirdPartyJobDetailsInput = S.suspend(() =>
   identifier: "GetThirdPartyJobDetailsInput",
 }) as any as S.Schema<GetThirdPartyJobDetailsInput>;
 export interface ListActionTypesInput {
-  actionOwnerFilter?: string;
+  actionOwnerFilter?: ActionOwner;
   nextToken?: string;
   regionFilter?: string;
 }
 export const ListActionTypesInput = S.suspend(() =>
   S.Struct({
-    actionOwnerFilter: S.optional(S.String),
+    actionOwnerFilter: S.optional(ActionOwner),
     nextToken: S.optional(S.String),
     regionFilter: S.optional(S.String),
   }).pipe(
@@ -566,12 +597,12 @@ export const ListPipelinesInput = S.suspend(() =>
   identifier: "ListPipelinesInput",
 }) as any as S.Schema<ListPipelinesInput>;
 export interface ListRuleTypesInput {
-  ruleOwnerFilter?: string;
+  ruleOwnerFilter?: RuleOwner;
   regionFilter?: string;
 }
 export const ListRuleTypesInput = S.suspend(() =>
   S.Struct({
-    ruleOwnerFilter: S.optional(S.String),
+    ruleOwnerFilter: S.optional(RuleOwner),
     regionFilter: S.optional(S.String),
   }).pipe(
     T.all(
@@ -637,14 +668,14 @@ export interface OverrideStageConditionInput {
   pipelineName: string;
   stageName: string;
   pipelineExecutionId: string;
-  conditionType: string;
+  conditionType: ConditionType;
 }
 export const OverrideStageConditionInput = S.suspend(() =>
   S.Struct({
     pipelineName: S.String,
     stageName: S.String,
     pipelineExecutionId: S.String,
-    conditionType: S.String,
+    conditionType: ConditionType,
   }).pipe(
     T.all(
       ns,
@@ -666,15 +697,15 @@ export const OverrideStageConditionResponse = S.suspend(() =>
   identifier: "OverrideStageConditionResponse",
 }) as any as S.Schema<OverrideStageConditionResponse>;
 export interface ActionTypeId {
-  category: string;
-  owner: string;
+  category: ActionCategory;
+  owner: ActionOwner;
   provider: string;
   version: string;
 }
 export const ActionTypeId = S.suspend(() =>
   S.Struct({
-    category: S.String,
-    owner: S.String,
+    category: ActionCategory,
+    owner: ActionOwner,
     provider: S.String,
     version: S.String,
   }),
@@ -701,14 +732,29 @@ export const PollForThirdPartyJobsInput = S.suspend(() =>
 ).annotations({
   identifier: "PollForThirdPartyJobsInput",
 }) as any as S.Schema<PollForThirdPartyJobsInput>;
+export type FailureType =
+  | "JobFailed"
+  | "ConfigurationError"
+  | "PermissionError"
+  | "RevisionOutOfSync"
+  | "RevisionUnavailable"
+  | "SystemUnavailable";
+export const FailureType = S.Literal(
+  "JobFailed",
+  "ConfigurationError",
+  "PermissionError",
+  "RevisionOutOfSync",
+  "RevisionUnavailable",
+  "SystemUnavailable",
+);
 export interface FailureDetails {
-  type: string;
+  type: FailureType;
   message: string;
   externalExecutionId?: string;
 }
 export const FailureDetails = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: FailureType,
     message: S.String,
     externalExecutionId: S.optional(S.String),
   }),
@@ -837,14 +883,14 @@ export interface RetryStageExecutionInput {
   pipelineName: string;
   stageName: string;
   pipelineExecutionId: string;
-  retryMode: string;
+  retryMode: StageRetryMode;
 }
 export const RetryStageExecutionInput = S.suspend(() =>
   S.Struct({
     pipelineName: S.String,
     stageName: S.String,
     pipelineExecutionId: S.String,
-    retryMode: S.String,
+    retryMode: StageRetryMode,
   }).pipe(
     T.all(
       ns,
@@ -920,7 +966,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagResourceInput {
   resourceArn: string;
-  tags: TagList;
+  tags: Tag[];
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
@@ -945,7 +991,7 @@ export const TagResourceOutput = S.suspend(() =>
 }) as any as S.Schema<TagResourceOutput>;
 export interface UntagResourceInput {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
@@ -968,23 +1014,27 @@ export const UntagResourceOutput = S.suspend(() =>
 ).annotations({
   identifier: "UntagResourceOutput",
 }) as any as S.Schema<UntagResourceOutput>;
+export type ArtifactStoreType = "S3";
+export const ArtifactStoreType = S.Literal("S3");
+export type EncryptionKeyType = "KMS";
+export const EncryptionKeyType = S.Literal("KMS");
 export interface EncryptionKey {
   id: string;
-  type: string;
+  type: EncryptionKeyType;
 }
 export const EncryptionKey = S.suspend(() =>
-  S.Struct({ id: S.String, type: S.String }),
+  S.Struct({ id: S.String, type: EncryptionKeyType }),
 ).annotations({
   identifier: "EncryptionKey",
 }) as any as S.Schema<EncryptionKey>;
 export interface ArtifactStore {
-  type: string;
+  type: ArtifactStoreType;
   location: string;
   encryptionKey?: EncryptionKey;
 }
 export const ArtifactStore = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: ArtifactStoreType,
     location: S.String,
     encryptionKey: S.optional(EncryptionKey),
   }),
@@ -996,12 +1046,14 @@ export const ArtifactStoreMap = S.Record({
   key: S.String,
   value: ArtifactStore,
 });
+export type BlockerType = "Schedule";
+export const BlockerType = S.Literal("Schedule");
 export interface BlockerDeclaration {
   name: string;
-  type: string;
+  type: BlockerType;
 }
 export const BlockerDeclaration = S.suspend(() =>
-  S.Struct({ name: S.String, type: S.String }),
+  S.Struct({ name: S.String, type: BlockerType }),
 ).annotations({
   identifier: "BlockerDeclaration",
 }) as any as S.Schema<BlockerDeclaration>;
@@ -1018,7 +1070,7 @@ export type FilePathList = string[];
 export const FilePathList = S.Array(S.String);
 export interface OutputArtifact {
   name: string;
-  files?: FilePathList;
+  files?: string[];
 }
 export const OutputArtifact = S.suspend(() =>
   S.Struct({ name: S.String, files: S.optional(FilePathList) }),
@@ -1039,13 +1091,22 @@ export type InputArtifactList = InputArtifact[];
 export const InputArtifactList = S.Array(InputArtifact);
 export type OutputVariableList = string[];
 export const OutputVariableList = S.Array(S.String);
+export type EnvironmentVariableType = "PLAINTEXT" | "SECRETS_MANAGER";
+export const EnvironmentVariableType = S.Literal(
+  "PLAINTEXT",
+  "SECRETS_MANAGER",
+);
 export interface EnvironmentVariable {
   name: string;
   value: string;
-  type?: string;
+  type?: EnvironmentVariableType;
 }
 export const EnvironmentVariable = S.suspend(() =>
-  S.Struct({ name: S.String, value: S.String, type: S.optional(S.String) }),
+  S.Struct({
+    name: S.String,
+    value: S.String,
+    type: S.optional(EnvironmentVariableType),
+  }),
 ).annotations({
   identifier: "EnvironmentVariable",
 }) as any as S.Schema<EnvironmentVariable>;
@@ -1055,16 +1116,16 @@ export interface ActionDeclaration {
   name: string;
   actionTypeId: ActionTypeId;
   runOrder?: number;
-  configuration?: ActionConfigurationMap;
-  commands?: CommandList;
-  outputArtifacts?: OutputArtifactList;
-  inputArtifacts?: InputArtifactList;
-  outputVariables?: OutputVariableList;
+  configuration?: { [key: string]: string };
+  commands?: string[];
+  outputArtifacts?: OutputArtifact[];
+  inputArtifacts?: InputArtifact[];
+  outputVariables?: string[];
   roleArn?: string;
   region?: string;
   namespace?: string;
   timeoutInMinutes?: number;
-  environmentVariables?: EnvironmentVariableList;
+  environmentVariables?: EnvironmentVariable[];
 }
 export const ActionDeclaration = S.suspend(() =>
   S.Struct({
@@ -1087,24 +1148,28 @@ export const ActionDeclaration = S.suspend(() =>
 }) as any as S.Schema<ActionDeclaration>;
 export type StageActionDeclarationList = ActionDeclaration[];
 export const StageActionDeclarationList = S.Array(ActionDeclaration);
+export type Result = "ROLLBACK" | "FAIL" | "RETRY" | "SKIP";
+export const Result = S.Literal("ROLLBACK", "FAIL", "RETRY", "SKIP");
 export interface RetryConfiguration {
-  retryMode?: string;
+  retryMode?: StageRetryMode;
 }
 export const RetryConfiguration = S.suspend(() =>
-  S.Struct({ retryMode: S.optional(S.String) }),
+  S.Struct({ retryMode: S.optional(StageRetryMode) }),
 ).annotations({
   identifier: "RetryConfiguration",
 }) as any as S.Schema<RetryConfiguration>;
+export type RuleCategory = "Rule";
+export const RuleCategory = S.Literal("Rule");
 export interface RuleTypeId {
-  category: string;
-  owner?: string;
+  category: RuleCategory;
+  owner?: RuleOwner;
   provider: string;
   version?: string;
 }
 export const RuleTypeId = S.suspend(() =>
   S.Struct({
-    category: S.String,
-    owner: S.optional(S.String),
+    category: RuleCategory,
+    owner: S.optional(RuleOwner),
     provider: S.String,
     version: S.optional(S.String),
   }),
@@ -1117,9 +1182,9 @@ export const RuleConfigurationMap = S.Record({
 export interface RuleDeclaration {
   name: string;
   ruleTypeId: RuleTypeId;
-  configuration?: RuleConfigurationMap;
-  commands?: CommandList;
-  inputArtifacts?: InputArtifactList;
+  configuration?: { [key: string]: string };
+  commands?: string[];
+  inputArtifacts?: InputArtifact[];
   roleArn?: string;
   region?: string;
   timeoutInMinutes?: number;
@@ -1141,25 +1206,25 @@ export const RuleDeclaration = S.suspend(() =>
 export type RuleDeclarationList = RuleDeclaration[];
 export const RuleDeclarationList = S.Array(RuleDeclaration);
 export interface Condition {
-  result?: string;
-  rules?: RuleDeclarationList;
+  result?: Result;
+  rules?: RuleDeclaration[];
 }
 export const Condition = S.suspend(() =>
   S.Struct({
-    result: S.optional(S.String),
+    result: S.optional(Result),
     rules: S.optional(RuleDeclarationList),
   }),
 ).annotations({ identifier: "Condition" }) as any as S.Schema<Condition>;
 export type ConditionList = Condition[];
 export const ConditionList = S.Array(Condition);
 export interface FailureConditions {
-  result?: string;
+  result?: Result;
   retryConfiguration?: RetryConfiguration;
-  conditions?: ConditionList;
+  conditions?: Condition[];
 }
 export const FailureConditions = S.suspend(() =>
   S.Struct({
-    result: S.optional(S.String),
+    result: S.optional(Result),
     retryConfiguration: S.optional(RetryConfiguration),
     conditions: S.optional(ConditionList),
   }),
@@ -1167,7 +1232,7 @@ export const FailureConditions = S.suspend(() =>
   identifier: "FailureConditions",
 }) as any as S.Schema<FailureConditions>;
 export interface SuccessConditions {
-  conditions: ConditionList;
+  conditions: Condition[];
 }
 export const SuccessConditions = S.suspend(() =>
   S.Struct({ conditions: ConditionList }),
@@ -1175,7 +1240,7 @@ export const SuccessConditions = S.suspend(() =>
   identifier: "SuccessConditions",
 }) as any as S.Schema<SuccessConditions>;
 export interface BeforeEntryConditions {
-  conditions: ConditionList;
+  conditions: Condition[];
 }
 export const BeforeEntryConditions = S.suspend(() =>
   S.Struct({ conditions: ConditionList }),
@@ -1184,8 +1249,8 @@ export const BeforeEntryConditions = S.suspend(() =>
 }) as any as S.Schema<BeforeEntryConditions>;
 export interface StageDeclaration {
   name: string;
-  blockers?: StageBlockerDeclarationList;
-  actions: StageActionDeclarationList;
+  blockers?: BlockerDeclaration[];
+  actions: ActionDeclaration[];
   onFailure?: FailureConditions;
   onSuccess?: SuccessConditions;
   beforeEntry?: BeforeEntryConditions;
@@ -1204,6 +1269,10 @@ export const StageDeclaration = S.suspend(() =>
 }) as any as S.Schema<StageDeclaration>;
 export type PipelineStageDeclarationList = StageDeclaration[];
 export const PipelineStageDeclarationList = S.Array(StageDeclaration);
+export type ExecutionMode = "QUEUED" | "SUPERSEDED" | "PARALLEL";
+export const ExecutionMode = S.Literal("QUEUED", "SUPERSEDED", "PARALLEL");
+export type PipelineType = "V1" | "V2";
+export const PipelineType = S.Literal("V1", "V2");
 export interface PipelineVariableDeclaration {
   name: string;
   defaultValue?: string;
@@ -1222,11 +1291,15 @@ export type PipelineVariableDeclarationList = PipelineVariableDeclaration[];
 export const PipelineVariableDeclarationList = S.Array(
   PipelineVariableDeclaration,
 );
+export type PipelineTriggerProviderType = "CodeStarSourceConnection";
+export const PipelineTriggerProviderType = S.Literal(
+  "CodeStarSourceConnection",
+);
 export type GitTagPatternList = string[];
 export const GitTagPatternList = S.Array(S.String);
 export interface GitTagFilterCriteria {
-  includes?: GitTagPatternList;
-  excludes?: GitTagPatternList;
+  includes?: string[];
+  excludes?: string[];
 }
 export const GitTagFilterCriteria = S.suspend(() =>
   S.Struct({
@@ -1239,8 +1312,8 @@ export const GitTagFilterCriteria = S.suspend(() =>
 export type GitBranchPatternList = string[];
 export const GitBranchPatternList = S.Array(S.String);
 export interface GitBranchFilterCriteria {
-  includes?: GitBranchPatternList;
-  excludes?: GitBranchPatternList;
+  includes?: string[];
+  excludes?: string[];
 }
 export const GitBranchFilterCriteria = S.suspend(() =>
   S.Struct({
@@ -1253,8 +1326,8 @@ export const GitBranchFilterCriteria = S.suspend(() =>
 export type GitFilePathPatternList = string[];
 export const GitFilePathPatternList = S.Array(S.String);
 export interface GitFilePathFilterCriteria {
-  includes?: GitFilePathPatternList;
-  excludes?: GitFilePathPatternList;
+  includes?: string[];
+  excludes?: string[];
 }
 export const GitFilePathFilterCriteria = S.suspend(() =>
   S.Struct({
@@ -1280,10 +1353,12 @@ export const GitPushFilter = S.suspend(() =>
 }) as any as S.Schema<GitPushFilter>;
 export type GitPushFilterList = GitPushFilter[];
 export const GitPushFilterList = S.Array(GitPushFilter);
-export type GitPullRequestEventTypeList = string[];
-export const GitPullRequestEventTypeList = S.Array(S.String);
+export type GitPullRequestEventType = "OPEN" | "UPDATED" | "CLOSED";
+export const GitPullRequestEventType = S.Literal("OPEN", "UPDATED", "CLOSED");
+export type GitPullRequestEventTypeList = GitPullRequestEventType[];
+export const GitPullRequestEventTypeList = S.Array(GitPullRequestEventType);
 export interface GitPullRequestFilter {
-  events?: GitPullRequestEventTypeList;
+  events?: GitPullRequestEventType[];
   branches?: GitBranchFilterCriteria;
   filePaths?: GitFilePathFilterCriteria;
 }
@@ -1300,8 +1375,8 @@ export type GitPullRequestFilterList = GitPullRequestFilter[];
 export const GitPullRequestFilterList = S.Array(GitPullRequestFilter);
 export interface GitConfiguration {
   sourceActionName: string;
-  push?: GitPushFilterList;
-  pullRequest?: GitPullRequestFilterList;
+  push?: GitPushFilter[];
+  pullRequest?: GitPullRequestFilter[];
 }
 export const GitConfiguration = S.suspend(() =>
   S.Struct({
@@ -1313,11 +1388,14 @@ export const GitConfiguration = S.suspend(() =>
   identifier: "GitConfiguration",
 }) as any as S.Schema<GitConfiguration>;
 export interface PipelineTriggerDeclaration {
-  providerType: string;
+  providerType: PipelineTriggerProviderType;
   gitConfiguration: GitConfiguration;
 }
 export const PipelineTriggerDeclaration = S.suspend(() =>
-  S.Struct({ providerType: S.String, gitConfiguration: GitConfiguration }),
+  S.Struct({
+    providerType: PipelineTriggerProviderType,
+    gitConfiguration: GitConfiguration,
+  }),
 ).annotations({
   identifier: "PipelineTriggerDeclaration",
 }) as any as S.Schema<PipelineTriggerDeclaration>;
@@ -1329,13 +1407,13 @@ export interface PipelineDeclaration {
   name: string;
   roleArn: string;
   artifactStore?: ArtifactStore;
-  artifactStores?: ArtifactStoreMap;
-  stages: PipelineStageDeclarationList;
+  artifactStores?: { [key: string]: ArtifactStore };
+  stages: StageDeclaration[];
   version?: number;
-  executionMode?: string;
-  pipelineType?: string;
-  variables?: PipelineVariableDeclarationList;
-  triggers?: PipelineTriggerDeclarationList;
+  executionMode?: ExecutionMode;
+  pipelineType?: PipelineType;
+  variables?: PipelineVariableDeclaration[];
+  triggers?: PipelineTriggerDeclaration[];
 }
 export const PipelineDeclaration = S.suspend(() =>
   S.Struct({
@@ -1345,8 +1423,8 @@ export const PipelineDeclaration = S.suspend(() =>
     artifactStores: S.optional(ArtifactStoreMap),
     stages: PipelineStageDeclarationList,
     version: S.optional(S.Number),
-    executionMode: S.optional(S.String),
-    pipelineType: S.optional(S.String),
+    executionMode: S.optional(ExecutionMode),
+    pipelineType: S.optional(PipelineType),
     variables: S.optional(PipelineVariableDeclarationList),
     triggers: S.optional(PipelineTriggerDeclarationList),
   }),
@@ -1371,8 +1449,55 @@ export const UpdatePipelineInput = S.suspend(() =>
 ).annotations({
   identifier: "UpdatePipelineInput",
 }) as any as S.Schema<UpdatePipelineInput>;
+export type ActionConfigurationPropertyType = "String" | "Number" | "Boolean";
+export const ActionConfigurationPropertyType = S.Literal(
+  "String",
+  "Number",
+  "Boolean",
+);
+export type TargetFilterName = "TARGET_STATUS";
+export const TargetFilterName = S.Literal("TARGET_STATUS");
 export type TargetFilterValueList = string[];
 export const TargetFilterValueList = S.Array(S.String);
+export type ApprovalStatus = "Approved" | "Rejected";
+export const ApprovalStatus = S.Literal("Approved", "Rejected");
+export type WebhookAuthenticationType =
+  | "GITHUB_HMAC"
+  | "IP"
+  | "UNAUTHENTICATED";
+export const WebhookAuthenticationType = S.Literal(
+  "GITHUB_HMAC",
+  "IP",
+  "UNAUTHENTICATED",
+);
+export type SourceRevisionType =
+  | "COMMIT_ID"
+  | "IMAGE_DIGEST"
+  | "S3_OBJECT_VERSION_ID"
+  | "S3_OBJECT_KEY";
+export const SourceRevisionType = S.Literal(
+  "COMMIT_ID",
+  "IMAGE_DIGEST",
+  "S3_OBJECT_VERSION_ID",
+  "S3_OBJECT_KEY",
+);
+export type JobStatus =
+  | "Created"
+  | "Queued"
+  | "Dispatched"
+  | "InProgress"
+  | "TimedOut"
+  | "Succeeded"
+  | "Failed";
+export const JobStatus = S.Literal(
+  "Created",
+  "Queued",
+  "Dispatched",
+  "InProgress",
+  "TimedOut",
+  "Succeeded",
+  "Failed",
+);
 export interface ActionTypeSettings {
   thirdPartyConfigurationUrl?: string;
   entityUrlTemplate?: string;
@@ -1396,7 +1521,7 @@ export interface ActionConfigurationProperty {
   secret: boolean;
   queryable?: boolean;
   description?: string;
-  type?: string;
+  type?: ActionConfigurationPropertyType;
 }
 export const ActionConfigurationProperty = S.suspend(() =>
   S.Struct({
@@ -1406,7 +1531,7 @@ export const ActionConfigurationProperty = S.suspend(() =>
     secret: S.Boolean,
     queryable: S.optional(S.Boolean),
     description: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(ActionConfigurationPropertyType),
   }),
 ).annotations({
   identifier: "ActionConfigurationProperty",
@@ -1425,23 +1550,25 @@ export const ArtifactDetails = S.suspend(() =>
   identifier: "ArtifactDetails",
 }) as any as S.Schema<ArtifactDetails>;
 export interface TargetFilter {
-  name?: string;
-  values?: TargetFilterValueList;
+  name?: TargetFilterName;
+  values?: string[];
 }
 export const TargetFilter = S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
+    name: S.optional(TargetFilterName),
     values: S.optional(TargetFilterValueList),
   }),
 ).annotations({ identifier: "TargetFilter" }) as any as S.Schema<TargetFilter>;
 export type TargetFilterList = TargetFilter[];
 export const TargetFilterList = S.Array(TargetFilter);
+export type StartTimeRange = "Latest" | "All";
+export const StartTimeRange = S.Literal("Latest", "All");
 export interface LatestInPipelineExecutionFilter {
   pipelineExecutionId: string;
-  startTimeRange: string;
+  startTimeRange: StartTimeRange;
 }
 export const LatestInPipelineExecutionFilter = S.suspend(() =>
-  S.Struct({ pipelineExecutionId: S.String, startTimeRange: S.String }),
+  S.Struct({ pipelineExecutionId: S.String, startTimeRange: StartTimeRange }),
 ).annotations({
   identifier: "LatestInPipelineExecutionFilter",
 }) as any as S.Schema<LatestInPipelineExecutionFilter>;
@@ -1475,10 +1602,10 @@ export const ActionRevision = S.suspend(() =>
 }) as any as S.Schema<ActionRevision>;
 export interface ApprovalResult {
   summary: string;
-  status: string;
+  status: ApprovalStatus;
 }
 export const ApprovalResult = S.suspend(() =>
-  S.Struct({ summary: S.String, status: S.String }),
+  S.Struct({ summary: S.String, status: ApprovalStatus }),
 ).annotations({
   identifier: "ApprovalResult",
 }) as any as S.Schema<ApprovalResult>;
@@ -1497,13 +1624,13 @@ export type PipelineVariableList = PipelineVariable[];
 export const PipelineVariableList = S.Array(PipelineVariable);
 export interface SourceRevisionOverride {
   actionName: string;
-  revisionType: string;
+  revisionType: SourceRevisionType;
   revisionValue: string;
 }
 export const SourceRevisionOverride = S.suspend(() =>
   S.Struct({
     actionName: S.String,
-    revisionType: S.String,
+    revisionType: SourceRevisionType,
     revisionValue: S.String,
   }),
 ).annotations({
@@ -1511,37 +1638,39 @@ export const SourceRevisionOverride = S.suspend(() =>
 }) as any as S.Schema<SourceRevisionOverride>;
 export type SourceRevisionOverrideList = SourceRevisionOverride[];
 export const SourceRevisionOverrideList = S.Array(SourceRevisionOverride);
+export type ExecutorType = "JobWorker" | "Lambda";
+export const ExecutorType = S.Literal("JobWorker", "Lambda");
 export type AllowedAccounts = string[];
 export const AllowedAccounts = S.Array(S.String);
 export interface AcknowledgeJobOutput {
-  status?: string;
+  status?: JobStatus;
 }
 export const AcknowledgeJobOutput = S.suspend(() =>
-  S.Struct({ status: S.optional(S.String) }).pipe(ns),
+  S.Struct({ status: S.optional(JobStatus) }).pipe(ns),
 ).annotations({
   identifier: "AcknowledgeJobOutput",
 }) as any as S.Schema<AcknowledgeJobOutput>;
 export interface AcknowledgeThirdPartyJobOutput {
-  status?: string;
+  status?: JobStatus;
 }
 export const AcknowledgeThirdPartyJobOutput = S.suspend(() =>
-  S.Struct({ status: S.optional(S.String) }).pipe(ns),
+  S.Struct({ status: S.optional(JobStatus) }).pipe(ns),
 ).annotations({
   identifier: "AcknowledgeThirdPartyJobOutput",
 }) as any as S.Schema<AcknowledgeThirdPartyJobOutput>;
 export interface CreateCustomActionTypeInput {
-  category: string;
+  category: ActionCategory;
   provider: string;
   version: string;
   settings?: ActionTypeSettings;
-  configurationProperties?: ActionConfigurationPropertyList;
+  configurationProperties?: ActionConfigurationProperty[];
   inputArtifactDetails: ArtifactDetails;
   outputArtifactDetails: ArtifactDetails;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateCustomActionTypeInput = S.suspend(() =>
   S.Struct({
-    category: S.String,
+    category: ActionCategory,
     provider: S.String,
     version: S.String,
     settings: S.optional(ActionTypeSettings),
@@ -1576,8 +1705,8 @@ export const PollingAccountList = S.Array(S.String);
 export type PollingServicePrincipalList = string[];
 export const PollingServicePrincipalList = S.Array(S.String);
 export interface JobWorkerExecutorConfiguration {
-  pollingAccounts?: PollingAccountList;
-  pollingServicePrincipals?: PollingServicePrincipalList;
+  pollingAccounts?: string[];
+  pollingServicePrincipals?: string[];
 }
 export const JobWorkerExecutorConfiguration = S.suspend(() =>
   S.Struct({
@@ -1601,14 +1730,14 @@ export const ExecutorConfiguration = S.suspend(() =>
 }) as any as S.Schema<ExecutorConfiguration>;
 export interface ActionTypeExecutor {
   configuration: ExecutorConfiguration;
-  type: string;
+  type: ExecutorType;
   policyStatementsTemplate?: string;
   jobTimeout?: number;
 }
 export const ActionTypeExecutor = S.suspend(() =>
   S.Struct({
     configuration: ExecutorConfiguration,
-    type: S.String,
+    type: ExecutorType,
     policyStatementsTemplate: S.optional(S.String),
     jobTimeout: S.optional(S.Number),
   }),
@@ -1616,14 +1745,14 @@ export const ActionTypeExecutor = S.suspend(() =>
   identifier: "ActionTypeExecutor",
 }) as any as S.Schema<ActionTypeExecutor>;
 export interface ActionTypeIdentifier {
-  category: string;
+  category: ActionCategory;
   owner: string;
   provider: string;
   version: string;
 }
 export const ActionTypeIdentifier = S.suspend(() =>
   S.Struct({
-    category: S.String,
+    category: ActionCategory,
     owner: S.String,
     provider: S.String,
     version: S.String,
@@ -1641,7 +1770,7 @@ export const ActionTypeArtifactDetails = S.suspend(() =>
   identifier: "ActionTypeArtifactDetails",
 }) as any as S.Schema<ActionTypeArtifactDetails>;
 export interface ActionTypePermissions {
-  allowedAccounts: AllowedAccounts;
+  allowedAccounts: string[];
 }
 export const ActionTypePermissions = S.suspend(() =>
   S.Struct({ allowedAccounts: AllowedAccounts }),
@@ -1693,7 +1822,7 @@ export interface ActionTypeDeclaration {
   inputArtifactDetails: ActionTypeArtifactDetails;
   outputArtifactDetails: ActionTypeArtifactDetails;
   permissions?: ActionTypePermissions;
-  properties?: ActionTypeProperties;
+  properties?: ActionTypeProperty[];
   urls?: ActionTypeUrls;
 }
 export const ActionTypeDeclaration = S.suspend(() =>
@@ -1721,7 +1850,7 @@ export const GetActionTypeOutput = S.suspend(() =>
 export interface ListDeployActionExecutionTargetsInput {
   pipelineName?: string;
   actionExecutionId: string;
-  filters?: TargetFilterList;
+  filters?: TargetFilter[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -1773,7 +1902,7 @@ export const ListRuleExecutionsInput = S.suspend(() =>
   identifier: "ListRuleExecutionsInput",
 }) as any as S.Schema<ListRuleExecutionsInput>;
 export interface ListTagsForResourceOutput {
-  tags?: TagList;
+  tags?: Tag[];
   nextToken?: string;
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
@@ -1786,7 +1915,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 export interface PollForJobsInput {
   actionTypeId: ActionTypeId;
   maxBatchSize?: number;
-  queryParam?: QueryParamMap;
+  queryParam?: { [key: string]: string };
 }
 export const PollForJobsInput = S.suspend(() =>
   S.Struct({
@@ -1891,7 +2020,7 @@ export interface PutJobSuccessResultInput {
   currentRevision?: CurrentRevision;
   continuationToken?: string;
   executionDetails?: ExecutionDetails;
-  outputVariables?: OutputVariablesMap;
+  outputVariables?: { [key: string]: string };
 }
 export const PutJobSuccessResultInput = S.suspend(() =>
   S.Struct({
@@ -1938,9 +2067,9 @@ export const RollbackStageOutput = S.suspend(() =>
 }) as any as S.Schema<RollbackStageOutput>;
 export interface StartPipelineExecutionInput {
   name: string;
-  variables?: PipelineVariableList;
+  variables?: PipelineVariable[];
   clientRequestToken?: string;
-  sourceRevisions?: SourceRevisionOverrideList;
+  sourceRevisions?: SourceRevisionOverride[];
 }
 export const StartPipelineExecutionInput = S.suspend(() =>
   S.Struct({
@@ -1978,16 +2107,52 @@ export const UpdatePipelineOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdatePipelineOutput",
 }) as any as S.Schema<UpdatePipelineOutput>;
+export type PipelineExecutionStatus =
+  | "Cancelled"
+  | "InProgress"
+  | "Stopped"
+  | "Stopping"
+  | "Succeeded"
+  | "Superseded"
+  | "Failed";
+export const PipelineExecutionStatus = S.Literal(
+  "Cancelled",
+  "InProgress",
+  "Stopped",
+  "Stopping",
+  "Succeeded",
+  "Superseded",
+  "Failed",
+);
+export type ExecutionType = "STANDARD" | "ROLLBACK";
+export const ExecutionType = S.Literal("STANDARD", "ROLLBACK");
+export type StageExecutionStatus =
+  | "Cancelled"
+  | "InProgress"
+  | "Failed"
+  | "Stopped"
+  | "Stopping"
+  | "Succeeded"
+  | "Skipped";
+export const StageExecutionStatus = S.Literal(
+  "Cancelled",
+  "InProgress",
+  "Failed",
+  "Stopped",
+  "Stopping",
+  "Succeeded",
+  "Skipped",
+);
 export interface StageExecution {
   pipelineExecutionId: string;
-  status: string;
-  type?: string;
+  status: StageExecutionStatus;
+  type?: ExecutionType;
 }
 export const StageExecution = S.suspend(() =>
   S.Struct({
     pipelineExecutionId: S.String,
-    status: S.String,
-    type: S.optional(S.String),
+    status: StageExecutionStatus,
+    type: S.optional(ExecutionType),
   }),
 ).annotations({
   identifier: "StageExecution",
@@ -2058,7 +2223,7 @@ export const ActionExecutionFilter = S.suspend(() =>
 export interface ActionType {
   id: ActionTypeId;
   settings?: ActionTypeSettings;
-  actionConfigurationProperties?: ActionConfigurationPropertyList;
+  actionConfigurationProperties?: ActionConfigurationProperty[];
   inputArtifactDetails: ArtifactDetails;
   outputArtifactDetails: ArtifactDetails;
 }
@@ -2084,8 +2249,8 @@ export const PipelineExecutionFilter = S.suspend(() =>
 export interface PipelineSummary {
   name?: string;
   version?: number;
-  pipelineType?: string;
-  executionMode?: string;
+  pipelineType?: PipelineType;
+  executionMode?: ExecutionMode;
   created?: Date;
   updated?: Date;
 }
@@ -2093,8 +2258,8 @@ export const PipelineSummary = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     version: S.optional(S.Number),
-    pipelineType: S.optional(S.String),
-    executionMode: S.optional(S.String),
+    pipelineType: S.optional(PipelineType),
+    executionMode: S.optional(ExecutionMode),
     created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -2107,8 +2272,8 @@ export interface WebhookDefinition {
   name: string;
   targetPipeline: string;
   targetAction: string;
-  filters: WebhookFilters;
-  authentication: string;
+  filters: WebhookFilterRule[];
+  authentication: WebhookAuthenticationType;
   authenticationConfiguration: WebhookAuthConfiguration;
 }
 export const WebhookDefinition = S.suspend(() =>
@@ -2117,7 +2282,7 @@ export const WebhookDefinition = S.suspend(() =>
     targetPipeline: S.String,
     targetAction: S.String,
     filters: WebhookFilters,
-    authentication: S.String,
+    authentication: WebhookAuthenticationType,
     authenticationConfiguration: WebhookAuthConfiguration,
   }),
 ).annotations({
@@ -2130,7 +2295,7 @@ export interface ListWebhookItem {
   errorCode?: string;
   lastTriggered?: Date;
   arn?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const ListWebhookItem = S.suspend(() =>
   S.Struct({
@@ -2158,9 +2323,41 @@ export const ThirdPartyJob = S.suspend(() =>
 }) as any as S.Schema<ThirdPartyJob>;
 export type ThirdPartyJobList = ThirdPartyJob[];
 export const ThirdPartyJobList = S.Array(ThirdPartyJob);
+export type TriggerType =
+  | "CreatePipeline"
+  | "StartPipelineExecution"
+  | "PollForSourceChanges"
+  | "Webhook"
+  | "CloudWatchEvent"
+  | "PutActionRevision"
+  | "WebhookV2"
+  | "ManualRollback"
+  | "AutomatedRollback";
+export const TriggerType = S.Literal(
+  "CreatePipeline",
+  "StartPipelineExecution",
+  "PollForSourceChanges",
+  "Webhook",
+  "CloudWatchEvent",
+  "PutActionRevision",
+  "WebhookV2",
+  "ManualRollback",
+  "AutomatedRollback",
+);
+export type RetryTrigger = "AutomatedStageRetry" | "ManualStageRetry";
+export const RetryTrigger = S.Literal(
+  "AutomatedStageRetry",
+  "ManualStageRetry",
+);
+export type RuleConfigurationPropertyType = "String" | "Number" | "Boolean";
+export const RuleConfigurationPropertyType = S.Literal(
+  "String",
+  "Number",
+  "Boolean",
+);
 export interface CreateCustomActionTypeOutput {
   actionType: ActionType;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateCustomActionTypeOutput = S.suspend(() =>
   S.Struct({ actionType: ActionType, tags: S.optional(TagList) }).pipe(ns),
@@ -2206,7 +2403,7 @@ export const ListActionExecutionsInput = S.suspend(() =>
   identifier: "ListActionExecutionsInput",
 }) as any as S.Schema<ListActionExecutionsInput>;
 export interface ListActionTypesOutput {
-  actionTypes: ActionTypeList;
+  actionTypes: ActionType[];
   nextToken?: string;
 }
 export const ListActionTypesOutput = S.suspend(() =>
@@ -2244,7 +2441,7 @@ export const ListPipelineExecutionsInput = S.suspend(() =>
   identifier: "ListPipelineExecutionsInput",
 }) as any as S.Schema<ListPipelineExecutionsInput>;
 export interface ListPipelinesOutput {
-  pipelines?: PipelineList;
+  pipelines?: PipelineSummary[];
   nextToken?: string;
 }
 export const ListPipelinesOutput = S.suspend(() =>
@@ -2256,7 +2453,7 @@ export const ListPipelinesOutput = S.suspend(() =>
   identifier: "ListPipelinesOutput",
 }) as any as S.Schema<ListPipelinesOutput>;
 export interface ListWebhooksOutput {
-  webhooks?: WebhookList;
+  webhooks?: ListWebhookItem[];
   NextToken?: string;
 }
 export const ListWebhooksOutput = S.suspend(() =>
@@ -2268,7 +2465,7 @@ export const ListWebhooksOutput = S.suspend(() =>
   identifier: "ListWebhooksOutput",
 }) as any as S.Schema<ListWebhooksOutput>;
 export interface PollForThirdPartyJobsOutput {
-  jobs?: ThirdPartyJobList;
+  jobs?: ThirdPartyJob[];
 }
 export const PollForThirdPartyJobsOutput = S.suspend(() =>
   S.Struct({ jobs: S.optional(ThirdPartyJobList) }).pipe(ns),
@@ -2299,7 +2496,7 @@ export const PutApprovalResultOutput = S.suspend(() =>
 }) as any as S.Schema<PutApprovalResultOutput>;
 export interface PutWebhookInput {
   webhook: WebhookDefinition;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const PutWebhookInput = S.suspend(() =>
   S.Struct({ webhook: WebhookDefinition, tags: S.optional(TagList) }).pipe(
@@ -2358,12 +2555,12 @@ export const ResolvedPipelineVariable = S.suspend(() =>
 export type ResolvedPipelineVariableList = ResolvedPipelineVariable[];
 export const ResolvedPipelineVariableList = S.Array(ResolvedPipelineVariable);
 export interface ExecutionTrigger {
-  triggerType?: string;
+  triggerType?: TriggerType;
   triggerDetail?: string;
 }
 export const ExecutionTrigger = S.suspend(() =>
   S.Struct({
-    triggerType: S.optional(S.String),
+    triggerType: S.optional(TriggerType),
     triggerDetail: S.optional(S.String),
   }),
 ).annotations({
@@ -2396,19 +2593,19 @@ export const TransitionState = S.suspend(() =>
 export interface RetryStageMetadata {
   autoStageRetryAttempt?: number;
   manualStageRetryAttempt?: number;
-  latestRetryTrigger?: string;
+  latestRetryTrigger?: RetryTrigger;
 }
 export const RetryStageMetadata = S.suspend(() =>
   S.Struct({
     autoStageRetryAttempt: S.optional(S.Number),
     manualStageRetryAttempt: S.optional(S.Number),
-    latestRetryTrigger: S.optional(S.String),
+    latestRetryTrigger: S.optional(RetryTrigger),
   }),
 ).annotations({
   identifier: "RetryStageMetadata",
 }) as any as S.Schema<RetryStageMetadata>;
 export interface ActionConfiguration {
-  configuration?: ActionConfigurationMap;
+  configuration?: { [key: string]: string };
 }
 export const ActionConfiguration = S.suspend(() =>
   S.Struct({ configuration: S.optional(ActionConfigurationMap) }),
@@ -2451,6 +2648,8 @@ export const PipelineContext = S.suspend(() =>
 ).annotations({
   identifier: "PipelineContext",
 }) as any as S.Schema<PipelineContext>;
+export type ArtifactLocationType = "S3";
+export const ArtifactLocationType = S.Literal("S3");
 export interface S3ArtifactLocation {
   bucketName: string;
   objectKey: string;
@@ -2461,12 +2660,12 @@ export const S3ArtifactLocation = S.suspend(() =>
   identifier: "S3ArtifactLocation",
 }) as any as S.Schema<S3ArtifactLocation>;
 export interface ArtifactLocation {
-  type?: string;
+  type?: ArtifactLocationType;
   s3Location?: S3ArtifactLocation;
 }
 export const ArtifactLocation = S.suspend(() =>
   S.Struct({
-    type: S.optional(S.String),
+    type: S.optional(ArtifactLocationType),
     s3Location: S.optional(S3ArtifactLocation),
   }),
 ).annotations({
@@ -2487,9 +2686,9 @@ export const Artifact = S.suspend(() =>
 export type ArtifactList = Artifact[];
 export const ArtifactList = S.Array(Artifact);
 export interface AWSSessionCredentials {
-  accessKeyId: string | Redacted.Redacted<string>;
-  secretAccessKey: string | Redacted.Redacted<string>;
-  sessionToken: string | Redacted.Redacted<string>;
+  accessKeyId: string | redacted.Redacted<string>;
+  secretAccessKey: string | redacted.Redacted<string>;
+  sessionToken: string | redacted.Redacted<string>;
 }
 export const AWSSessionCredentials = S.suspend(() =>
   S.Struct({
@@ -2504,8 +2703,8 @@ export interface ThirdPartyJobData {
   actionTypeId?: ActionTypeId;
   actionConfiguration?: ActionConfiguration;
   pipelineContext?: PipelineContext;
-  inputArtifacts?: ArtifactList;
-  outputArtifacts?: ArtifactList;
+  inputArtifacts?: Artifact[];
+  outputArtifacts?: Artifact[];
   artifactCredentials?: AWSSessionCredentials;
   continuationToken?: string;
   encryptionKey?: EncryptionKey;
@@ -2524,6 +2723,17 @@ export const ThirdPartyJobData = S.suspend(() =>
 ).annotations({
   identifier: "ThirdPartyJobData",
 }) as any as S.Schema<ThirdPartyJobData>;
+export type RuleExecutionStatus =
+  | "InProgress"
+  | "Abandoned"
+  | "Succeeded"
+  | "Failed";
+export const RuleExecutionStatus = S.Literal(
+  "InProgress",
+  "Abandoned",
+  "Succeeded",
+  "Failed",
+);
 export interface RuleTypeSettings {
   thirdPartyConfigurationUrl?: string;
   entityUrlTemplate?: string;
@@ -2547,7 +2757,7 @@ export interface RuleConfigurationProperty {
   secret: boolean;
   queryable?: boolean;
   description?: string;
-  type?: string;
+  type?: RuleConfigurationPropertyType;
 }
 export const RuleConfigurationProperty = S.suspend(() =>
   S.Struct({
@@ -2557,24 +2767,52 @@ export const RuleConfigurationProperty = S.suspend(() =>
     secret: S.Boolean,
     queryable: S.optional(S.Boolean),
     description: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(RuleConfigurationPropertyType),
   }),
 ).annotations({
   identifier: "RuleConfigurationProperty",
 }) as any as S.Schema<RuleConfigurationProperty>;
 export type RuleConfigurationPropertyList = RuleConfigurationProperty[];
 export const RuleConfigurationPropertyList = S.Array(RuleConfigurationProperty);
+export type ActionExecutionStatus =
+  | "InProgress"
+  | "Abandoned"
+  | "Succeeded"
+  | "Failed";
+export const ActionExecutionStatus = S.Literal(
+  "InProgress",
+  "Abandoned",
+  "Succeeded",
+  "Failed",
+);
+export type ConditionExecutionStatus =
+  | "InProgress"
+  | "Failed"
+  | "Errored"
+  | "Succeeded"
+  | "Cancelled"
+  | "Abandoned"
+  | "Overridden";
+export const ConditionExecutionStatus = S.Literal(
+  "InProgress",
+  "Failed",
+  "Errored",
+  "Succeeded",
+  "Cancelled",
+  "Abandoned",
+  "Overridden",
+);
 export interface PipelineExecution {
   pipelineName?: string;
   pipelineVersion?: number;
   pipelineExecutionId?: string;
-  status?: string;
+  status?: PipelineExecutionStatus;
   statusSummary?: string;
-  artifactRevisions?: ArtifactRevisionList;
-  variables?: ResolvedPipelineVariableList;
+  artifactRevisions?: ArtifactRevision[];
+  variables?: ResolvedPipelineVariable[];
   trigger?: ExecutionTrigger;
-  executionMode?: string;
-  executionType?: string;
+  executionMode?: ExecutionMode;
+  executionType?: ExecutionType;
   rollbackMetadata?: PipelineRollbackMetadata;
 }
 export const PipelineExecution = S.suspend(() =>
@@ -2582,13 +2820,13 @@ export const PipelineExecution = S.suspend(() =>
     pipelineName: S.optional(S.String),
     pipelineVersion: S.optional(S.Number),
     pipelineExecutionId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(PipelineExecutionStatus),
     statusSummary: S.optional(S.String),
     artifactRevisions: S.optional(ArtifactRevisionList),
     variables: S.optional(ResolvedPipelineVariableList),
     trigger: S.optional(ExecutionTrigger),
-    executionMode: S.optional(S.String),
-    executionType: S.optional(S.String),
+    executionMode: S.optional(ExecutionMode),
+    executionType: S.optional(ExecutionType),
     rollbackMetadata: S.optional(PipelineRollbackMetadata),
   }),
 ).annotations({
@@ -2611,7 +2849,7 @@ export const ThirdPartyJobDetails = S.suspend(() =>
 export interface RuleType {
   id: RuleTypeId;
   settings?: RuleTypeSettings;
-  ruleConfigurationProperties?: RuleConfigurationPropertyList;
+  ruleConfigurationProperties?: RuleConfigurationProperty[];
   inputArtifactDetails: ArtifactDetails;
 }
 export const RuleType = S.suspend(() =>
@@ -2628,8 +2866,8 @@ export interface JobData {
   actionTypeId?: ActionTypeId;
   actionConfiguration?: ActionConfiguration;
   pipelineContext?: PipelineContext;
-  inputArtifacts?: ArtifactList;
-  outputArtifacts?: ArtifactList;
+  inputArtifacts?: Artifact[];
+  outputArtifacts?: Artifact[];
   artifactCredentials?: AWSSessionCredentials;
   continuationToken?: string;
   encryptionKey?: EncryptionKey;
@@ -2663,11 +2901,14 @@ export const Job = S.suspend(() =>
 export type JobList = Job[];
 export const JobList = S.Array(Job);
 export interface StageConditionsExecution {
-  status?: string;
+  status?: ConditionExecutionStatus;
   summary?: string;
 }
 export const StageConditionsExecution = S.suspend(() =>
-  S.Struct({ status: S.optional(S.String), summary: S.optional(S.String) }),
+  S.Struct({
+    status: S.optional(ConditionExecutionStatus),
+    summary: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "StageConditionsExecution",
 }) as any as S.Schema<StageConditionsExecution>;
@@ -2688,7 +2929,7 @@ export const GetThirdPartyJobDetailsOutput = S.suspend(() =>
   identifier: "GetThirdPartyJobDetailsOutput",
 }) as any as S.Schema<GetThirdPartyJobDetailsOutput>;
 export interface ListRuleTypesOutput {
-  ruleTypes: RuleTypeList;
+  ruleTypes: RuleType[];
 }
 export const ListRuleTypesOutput = S.suspend(() =>
   S.Struct({ ruleTypes: RuleTypeList }).pipe(ns),
@@ -2696,7 +2937,7 @@ export const ListRuleTypesOutput = S.suspend(() =>
   identifier: "ListRuleTypesOutput",
 }) as any as S.Schema<ListRuleTypesOutput>;
 export interface PollForJobsOutput {
-  jobs?: JobList;
+  jobs?: Job[];
 }
 export const PollForJobsOutput = S.suspend(() =>
   S.Struct({ jobs: S.optional(JobList) }).pipe(ns),
@@ -2719,13 +2960,13 @@ export const ErrorDetails = S.suspend(() =>
   S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
 ).annotations({ identifier: "ErrorDetails" }) as any as S.Schema<ErrorDetails>;
 export interface ConditionExecution {
-  status?: string;
+  status?: ConditionExecutionStatus;
   summary?: string;
   lastStatusChange?: Date;
 }
 export const ConditionExecution = S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String),
+    status: S.optional(ConditionExecutionStatus),
     summary: S.optional(S.String),
     lastStatusChange: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -2736,7 +2977,7 @@ export const ConditionExecution = S.suspend(() =>
 }) as any as S.Schema<ConditionExecution>;
 export interface ActionExecution {
   actionExecutionId?: string;
-  status?: string;
+  status?: ActionExecutionStatus;
   summary?: string;
   lastStatusChange?: Date;
   token?: string;
@@ -2750,7 +2991,7 @@ export interface ActionExecution {
 export const ActionExecution = S.suspend(() =>
   S.Struct({
     actionExecutionId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ActionExecutionStatus),
     summary: S.optional(S.String),
     lastStatusChange: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -2813,7 +3054,7 @@ export const RuleRevision = S.suspend(() =>
 ).annotations({ identifier: "RuleRevision" }) as any as S.Schema<RuleRevision>;
 export interface RuleExecution {
   ruleExecutionId?: string;
-  status?: string;
+  status?: RuleExecutionStatus;
   summary?: string;
   lastStatusChange?: Date;
   token?: string;
@@ -2825,7 +3066,7 @@ export interface RuleExecution {
 export const RuleExecution = S.suspend(() =>
   S.Struct({
     ruleExecutionId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(RuleExecutionStatus),
     summary: S.optional(S.String),
     lastStatusChange: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -2966,7 +3207,7 @@ export interface DeployActionExecutionTarget {
   status?: string;
   startTime?: Date;
   endTime?: Date;
-  events?: DeployTargetEventList;
+  events?: DeployTargetEvent[];
 }
 export const DeployActionExecutionTarget = S.suspend(() =>
   S.Struct({
@@ -2986,29 +3227,29 @@ export const DeployActionExecutionTargetList = S.Array(
 );
 export interface PipelineExecutionSummary {
   pipelineExecutionId?: string;
-  status?: string;
+  status?: PipelineExecutionStatus;
   statusSummary?: string;
   startTime?: Date;
   lastUpdateTime?: Date;
-  sourceRevisions?: SourceRevisionList;
+  sourceRevisions?: SourceRevision[];
   trigger?: ExecutionTrigger;
   stopTrigger?: StopExecutionTrigger;
-  executionMode?: string;
-  executionType?: string;
+  executionMode?: ExecutionMode;
+  executionType?: ExecutionType;
   rollbackMetadata?: PipelineRollbackMetadata;
 }
 export const PipelineExecutionSummary = S.suspend(() =>
   S.Struct({
     pipelineExecutionId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(PipelineExecutionStatus),
     statusSummary: S.optional(S.String),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     sourceRevisions: S.optional(SourceRevisionList),
     trigger: S.optional(ExecutionTrigger),
     stopTrigger: S.optional(StopExecutionTrigger),
-    executionMode: S.optional(S.String),
-    executionType: S.optional(S.String),
+    executionMode: S.optional(ExecutionMode),
+    executionType: S.optional(ExecutionType),
     rollbackMetadata: S.optional(PipelineRollbackMetadata),
   }),
 ).annotations({
@@ -3018,7 +3259,7 @@ export type PipelineExecutionSummaryList = PipelineExecutionSummary[];
 export const PipelineExecutionSummaryList = S.Array(PipelineExecutionSummary);
 export interface ConditionState {
   latestExecution?: ConditionExecution;
-  ruleStates?: RuleStateList;
+  ruleStates?: RuleState[];
 }
 export const ConditionState = S.suspend(() =>
   S.Struct({
@@ -3065,7 +3306,7 @@ export const ArtifactDetail = S.suspend(() =>
 export type ArtifactDetailList = ArtifactDetail[];
 export const ArtifactDetailList = S.Array(ArtifactDetail);
 export interface ListDeployActionExecutionTargetsOutput {
-  targets?: DeployActionExecutionTargetList;
+  targets?: DeployActionExecutionTarget[];
   nextToken?: string;
 }
 export const ListDeployActionExecutionTargetsOutput = S.suspend(() =>
@@ -3077,7 +3318,7 @@ export const ListDeployActionExecutionTargetsOutput = S.suspend(() =>
   identifier: "ListDeployActionExecutionTargetsOutput",
 }) as any as S.Schema<ListDeployActionExecutionTargetsOutput>;
 export interface ListPipelineExecutionsOutput {
-  pipelineExecutionSummaries?: PipelineExecutionSummaryList;
+  pipelineExecutionSummaries?: PipelineExecutionSummary[];
   nextToken?: string;
 }
 export const ListPipelineExecutionsOutput = S.suspend(() =>
@@ -3090,7 +3331,7 @@ export const ListPipelineExecutionsOutput = S.suspend(() =>
 }) as any as S.Schema<ListPipelineExecutionsOutput>;
 export interface StageConditionState {
   latestExecution?: StageConditionsExecution;
-  conditionStates?: ConditionStateList;
+  conditionStates?: ConditionState[];
 }
 export const StageConditionState = S.suspend(() =>
   S.Struct({
@@ -3102,11 +3343,11 @@ export const StageConditionState = S.suspend(() =>
 }) as any as S.Schema<StageConditionState>;
 export interface ActionExecutionInput {
   actionTypeId?: ActionTypeId;
-  configuration?: ActionConfigurationMap;
-  resolvedConfiguration?: ResolvedActionConfigurationMap;
+  configuration?: { [key: string]: string };
+  resolvedConfiguration?: { [key: string]: string };
   roleArn?: string;
   region?: string;
-  inputArtifacts?: ArtifactDetailList;
+  inputArtifacts?: ArtifactDetail[];
   namespace?: string;
 }
 export const ActionExecutionInput = S.suspend(() =>
@@ -3123,9 +3364,9 @@ export const ActionExecutionInput = S.suspend(() =>
   identifier: "ActionExecutionInput",
 }) as any as S.Schema<ActionExecutionInput>;
 export interface ActionExecutionOutput {
-  outputArtifacts?: ArtifactDetailList;
+  outputArtifacts?: ArtifactDetail[];
   executionResult?: ActionExecutionResult;
-  outputVariables?: OutputVariablesMap;
+  outputVariables?: { [key: string]: string };
 }
 export const ActionExecutionOutput = S.suspend(() =>
   S.Struct({
@@ -3138,11 +3379,11 @@ export const ActionExecutionOutput = S.suspend(() =>
 }) as any as S.Schema<ActionExecutionOutput>;
 export interface RuleExecutionInput {
   ruleTypeId?: RuleTypeId;
-  configuration?: RuleConfigurationMap;
-  resolvedConfiguration?: ResolvedRuleConfigurationMap;
+  configuration?: { [key: string]: string };
+  resolvedConfiguration?: { [key: string]: string };
   roleArn?: string;
   region?: string;
-  inputArtifacts?: ArtifactDetailList;
+  inputArtifacts?: ArtifactDetail[];
 }
 export const RuleExecutionInput = S.suspend(() =>
   S.Struct({
@@ -3171,9 +3412,9 @@ export const JobDetails = S.suspend(() =>
 export interface StageState {
   stageName?: string;
   inboundExecution?: StageExecution;
-  inboundExecutions?: StageExecutionList;
+  inboundExecutions?: StageExecution[];
   inboundTransitionState?: TransitionState;
-  actionStates?: ActionStateList;
+  actionStates?: ActionState[];
   latestExecution?: StageExecution;
   beforeEntryConditionState?: StageConditionState;
   onSuccessConditionState?: StageConditionState;
@@ -3205,7 +3446,7 @@ export interface ActionExecutionDetail {
   startTime?: Date;
   lastUpdateTime?: Date;
   updatedBy?: string;
-  status?: string;
+  status?: ActionExecutionStatus;
   input?: ActionExecutionInput;
   output?: ActionExecutionOutput;
 }
@@ -3219,7 +3460,7 @@ export const ActionExecutionDetail = S.suspend(() =>
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updatedBy: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ActionExecutionStatus),
     input: S.optional(ActionExecutionInput),
     output: S.optional(ActionExecutionOutput),
   }),
@@ -3237,7 +3478,7 @@ export interface RuleExecutionDetail {
   startTime?: Date;
   lastUpdateTime?: Date;
   updatedBy?: string;
-  status?: string;
+  status?: RuleExecutionStatus;
   input?: RuleExecutionInput;
   output?: RuleExecutionOutput;
 }
@@ -3251,7 +3492,7 @@ export const RuleExecutionDetail = S.suspend(() =>
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updatedBy: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(RuleExecutionStatus),
     input: S.optional(RuleExecutionInput),
     output: S.optional(RuleExecutionOutput),
   }),
@@ -3262,7 +3503,7 @@ export type RuleExecutionDetailList = RuleExecutionDetail[];
 export const RuleExecutionDetailList = S.Array(RuleExecutionDetail);
 export interface CreatePipelineInput {
   pipeline: PipelineDeclaration;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreatePipelineInput = S.suspend(() =>
   S.Struct({ pipeline: PipelineDeclaration, tags: S.optional(TagList) }).pipe(
@@ -3290,7 +3531,7 @@ export const GetJobDetailsOutput = S.suspend(() =>
 export interface GetPipelineStateOutput {
   pipelineName?: string;
   pipelineVersion?: number;
-  stageStates?: StageStateList;
+  stageStates?: StageState[];
   created?: Date;
   updated?: Date;
 }
@@ -3306,7 +3547,7 @@ export const GetPipelineStateOutput = S.suspend(() =>
   identifier: "GetPipelineStateOutput",
 }) as any as S.Schema<GetPipelineStateOutput>;
 export interface ListActionExecutionsOutput {
-  actionExecutionDetails?: ActionExecutionDetailList;
+  actionExecutionDetails?: ActionExecutionDetail[];
   nextToken?: string;
 }
 export const ListActionExecutionsOutput = S.suspend(() =>
@@ -3318,7 +3559,7 @@ export const ListActionExecutionsOutput = S.suspend(() =>
   identifier: "ListActionExecutionsOutput",
 }) as any as S.Schema<ListActionExecutionsOutput>;
 export interface ListRuleExecutionsOutput {
-  ruleExecutionDetails?: RuleExecutionDetailList;
+  ruleExecutionDetails?: RuleExecutionDetail[];
   nextToken?: string;
 }
 export const ListRuleExecutionsOutput = S.suspend(() =>
@@ -3331,7 +3572,7 @@ export const ListRuleExecutionsOutput = S.suspend(() =>
 }) as any as S.Schema<ListRuleExecutionsOutput>;
 export interface CreatePipelineOutput {
   pipeline?: PipelineDeclaration;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreatePipelineOutput = S.suspend(() =>
   S.Struct({
@@ -3516,7 +3757,7 @@ export class PipelineNameInUseException extends S.TaggedError<PipelineNameInUseE
  */
 export const deregisterWebhookWithThirdParty: (
   input: DeregisterWebhookWithThirdPartyInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterWebhookWithThirdPartyOutput,
   ValidationException | WebhookNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3530,7 +3771,7 @@ export const deregisterWebhookWithThirdParty: (
  */
 export const deletePipeline: (
   input: DeletePipelineInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePipelineResponse,
   ConcurrentModificationException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3547,7 +3788,7 @@ export const deletePipeline: (
  */
 export const deleteWebhook: (
   input: DeleteWebhookInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWebhookOutput,
   ConcurrentModificationException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3562,7 +3803,7 @@ export const deleteWebhook: (
  */
 export const registerWebhookWithThirdParty: (
   input: RegisterWebhookWithThirdPartyInput,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterWebhookWithThirdPartyOutput,
   ValidationException | WebhookNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3583,7 +3824,7 @@ export const registerWebhookWithThirdParty: (
  */
 export const deleteCustomActionType: (
   input: DeleteCustomActionTypeInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCustomActionTypeResponse,
   ConcurrentModificationException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3598,7 +3839,7 @@ export const deleteCustomActionType: (
  */
 export const disableStageTransition: (
   input: DisableStageTransitionInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisableStageTransitionResponse,
   | PipelineNotFoundException
   | StageNotFoundException
@@ -3621,7 +3862,7 @@ export const disableStageTransition: (
  */
 export const getActionType: (
   input: GetActionTypeInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetActionTypeOutput,
   ActionTypeNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3640,7 +3881,7 @@ export const getActionType: (
  */
 export const pollForThirdPartyJobs: (
   input: PollForThirdPartyJobsInput,
-) => Effect.Effect<
+) => effect.Effect<
   PollForThirdPartyJobsOutput,
   ActionTypeNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3655,7 +3896,7 @@ export const pollForThirdPartyJobs: (
  */
 export const startPipelineExecution: (
   input: StartPipelineExecutionInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartPipelineExecutionOutput,
   | ConcurrentPipelineExecutionsLimitExceededException
   | ConflictException
@@ -3678,7 +3919,7 @@ export const startPipelineExecution: (
  */
 export const enableStageTransition: (
   input: EnableStageTransitionInput,
-) => Effect.Effect<
+) => effect.Effect<
   EnableStageTransitionResponse,
   | PipelineNotFoundException
   | StageNotFoundException
@@ -3700,7 +3941,7 @@ export const enableStageTransition: (
  */
 export const acknowledgeJob: (
   input: AcknowledgeJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   AcknowledgeJobOutput,
   | InvalidNonceException
   | JobNotFoundException
@@ -3719,7 +3960,7 @@ export const acknowledgeJob: (
  */
 export const getPipeline: (
   input: GetPipelineInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetPipelineOutput,
   | PipelineNotFoundException
   | PipelineVersionNotFoundException
@@ -3742,21 +3983,21 @@ export const getPipeline: (
 export const listActionTypes: {
   (
     input: ListActionTypesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListActionTypesOutput,
     InvalidNextTokenException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListActionTypesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListActionTypesOutput,
     InvalidNextTokenException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListActionTypesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ActionType,
     InvalidNextTokenException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3778,7 +4019,7 @@ export const listActionTypes: {
  */
 export const listRuleTypes: (
   input: ListRuleTypesInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListRuleTypesOutput,
   InvalidNextTokenException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3800,7 +4041,7 @@ export const listRuleTypes: (
  */
 export const pollForJobs: (
   input: PollForJobsInput,
-) => Effect.Effect<
+) => effect.Effect<
   PollForJobsOutput,
   ActionTypeNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3815,7 +4056,7 @@ export const pollForJobs: (
  */
 export const putActionRevision: (
   input: PutActionRevisionInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutActionRevisionOutput,
   | ActionNotFoundException
   | ConcurrentPipelineExecutionsLimitExceededException
@@ -3841,7 +4082,7 @@ export const putActionRevision: (
  */
 export const putJobFailureResult: (
   input: PutJobFailureResultInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutJobFailureResultResponse,
   | InvalidJobStateException
   | JobNotFoundException
@@ -3859,7 +4100,7 @@ export const putJobFailureResult: (
  */
 export const acknowledgeThirdPartyJob: (
   input: AcknowledgeThirdPartyJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   AcknowledgeThirdPartyJobOutput,
   | InvalidClientTokenException
   | InvalidNonceException
@@ -3883,7 +4124,7 @@ export const acknowledgeThirdPartyJob: (
  */
 export const putThirdPartyJobFailureResult: (
   input: PutThirdPartyJobFailureResultInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutThirdPartyJobFailureResultResponse,
   | InvalidClientTokenException
   | InvalidJobStateException
@@ -3907,7 +4148,7 @@ export const putThirdPartyJobFailureResult: (
  */
 export const putThirdPartyJobSuccessResult: (
   input: PutThirdPartyJobSuccessResultInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutThirdPartyJobSuccessResultResponse,
   | InvalidClientTokenException
   | InvalidJobStateException
@@ -3931,21 +4172,21 @@ export const putThirdPartyJobSuccessResult: (
 export const listPipelines: {
   (
     input: ListPipelinesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPipelinesOutput,
     InvalidNextTokenException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListPipelinesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPipelinesOutput,
     InvalidNextTokenException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPipelinesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PipelineSummary,
     InvalidNextTokenException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3971,21 +4212,21 @@ export const listPipelines: {
 export const listWebhooks: {
   (
     input: ListWebhooksInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWebhooksOutput,
     InvalidNextTokenException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListWebhooksInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWebhooksOutput,
     InvalidNextTokenException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWebhooksInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWebhookItem,
     InvalidNextTokenException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -4008,7 +4249,7 @@ export const listWebhooks: {
  */
 export const overrideStageCondition: (
   input: OverrideStageConditionInput,
-) => Effect.Effect<
+) => effect.Effect<
   OverrideStageConditionResponse,
   | ConcurrentPipelineExecutionsLimitExceededException
   | ConditionNotOverridableException
@@ -4039,7 +4280,7 @@ export const overrideStageCondition: (
  */
 export const getPipelineExecution: (
   input: GetPipelineExecutionInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetPipelineExecutionOutput,
   | PipelineExecutionNotFoundException
   | PipelineNotFoundException
@@ -4066,7 +4307,7 @@ export const getPipelineExecution: (
  */
 export const getThirdPartyJobDetails: (
   input: GetThirdPartyJobDetailsInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetThirdPartyJobDetailsOutput,
   | InvalidClientTokenException
   | InvalidJobException
@@ -4096,7 +4337,7 @@ export const getThirdPartyJobDetails: (
  */
 export const retryStageExecution: (
   input: RetryStageExecutionInput,
-) => Effect.Effect<
+) => effect.Effect<
   RetryStageExecutionOutput,
   | ConcurrentPipelineExecutionsLimitExceededException
   | ConflictException
@@ -4126,7 +4367,7 @@ export const retryStageExecution: (
  */
 export const putJobSuccessResult: (
   input: PutJobSuccessResultInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutJobSuccessResultResponse,
   | InvalidJobStateException
   | JobNotFoundException
@@ -4154,7 +4395,7 @@ export const putJobSuccessResult: (
  */
 export const stopPipelineExecution: (
   input: StopPipelineExecutionInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopPipelineExecutionOutput,
   | ConflictException
   | DuplicatedStopRequestException
@@ -4179,7 +4420,7 @@ export const stopPipelineExecution: (
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   | ConcurrentModificationException
   | InvalidArnException
@@ -4206,7 +4447,7 @@ export const untagResource: (
 export const listTagsForResource: {
   (
     input: ListTagsForResourceInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTagsForResourceOutput,
     | InvalidArnException
     | InvalidNextTokenException
@@ -4217,7 +4458,7 @@ export const listTagsForResource: {
   >;
   pages: (
     input: ListTagsForResourceInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTagsForResourceOutput,
     | InvalidArnException
     | InvalidNextTokenException
@@ -4228,7 +4469,7 @@ export const listTagsForResource: {
   >;
   items: (
     input: ListTagsForResourceInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Tag,
     | InvalidArnException
     | InvalidNextTokenException
@@ -4259,7 +4500,7 @@ export const listTagsForResource: {
  */
 export const createCustomActionType: (
   input: CreateCustomActionTypeInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCustomActionTypeOutput,
   | ConcurrentModificationException
   | InvalidTagsException
@@ -4289,7 +4530,7 @@ export const createCustomActionType: (
 export const listPipelineExecutions: {
   (
     input: ListPipelineExecutionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPipelineExecutionsOutput,
     | InvalidNextTokenException
     | PipelineNotFoundException
@@ -4299,7 +4540,7 @@ export const listPipelineExecutions: {
   >;
   pages: (
     input: ListPipelineExecutionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPipelineExecutionsOutput,
     | InvalidNextTokenException
     | PipelineNotFoundException
@@ -4309,7 +4550,7 @@ export const listPipelineExecutions: {
   >;
   items: (
     input: ListPipelineExecutionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PipelineExecutionSummary,
     | InvalidNextTokenException
     | PipelineNotFoundException
@@ -4354,7 +4595,7 @@ export const listPipelineExecutions: {
  */
 export const putWebhook: (
   input: PutWebhookInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutWebhookOutput,
   | ConcurrentModificationException
   | InvalidTagsException
@@ -4388,7 +4629,7 @@ export const putWebhook: (
  */
 export const updateActionType: (
   input: UpdateActionTypeInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateActionTypeResponse,
   | ActionTypeNotFoundException
   | RequestFailedException
@@ -4412,7 +4653,7 @@ export const updateActionType: (
  */
 export const updatePipeline: (
   input: UpdatePipelineInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePipelineOutput,
   | InvalidActionDeclarationException
   | InvalidBlockerDeclarationException
@@ -4440,7 +4681,7 @@ export const updatePipeline: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   | ConcurrentModificationException
   | InvalidArnException
@@ -4468,7 +4709,7 @@ export const tagResource: (
  */
 export const putApprovalResult: (
   input: PutApprovalResultInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutApprovalResultOutput,
   | ActionNotFoundException
   | ApprovalAlreadyCompletedException
@@ -4495,7 +4736,7 @@ export const putApprovalResult: (
  */
 export const rollbackStage: (
   input: RollbackStageInput,
-) => Effect.Effect<
+) => effect.Effect<
   RollbackStageOutput,
   | ConflictException
   | PipelineExecutionNotFoundException
@@ -4529,7 +4770,7 @@ export const rollbackStage: (
  */
 export const getJobDetails: (
   input: GetJobDetailsInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetJobDetailsOutput,
   JobNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4548,7 +4789,7 @@ export const getJobDetails: (
  */
 export const getPipelineState: (
   input: GetPipelineStateInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetPipelineStateOutput,
   PipelineNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4563,7 +4804,7 @@ export const getPipelineState: (
 export const listActionExecutions: {
   (
     input: ListActionExecutionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListActionExecutionsOutput,
     | InvalidNextTokenException
     | PipelineExecutionNotFoundException
@@ -4574,7 +4815,7 @@ export const listActionExecutions: {
   >;
   pages: (
     input: ListActionExecutionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListActionExecutionsOutput,
     | InvalidNextTokenException
     | PipelineExecutionNotFoundException
@@ -4585,7 +4826,7 @@ export const listActionExecutions: {
   >;
   items: (
     input: ListActionExecutionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ActionExecutionDetail,
     | InvalidNextTokenException
     | PipelineExecutionNotFoundException
@@ -4616,7 +4857,7 @@ export const listActionExecutions: {
 export const listDeployActionExecutionTargets: {
   (
     input: ListDeployActionExecutionTargetsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDeployActionExecutionTargetsOutput,
     | ActionExecutionNotFoundException
     | InvalidNextTokenException
@@ -4627,7 +4868,7 @@ export const listDeployActionExecutionTargets: {
   >;
   pages: (
     input: ListDeployActionExecutionTargetsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDeployActionExecutionTargetsOutput,
     | ActionExecutionNotFoundException
     | InvalidNextTokenException
@@ -4638,7 +4879,7 @@ export const listDeployActionExecutionTargets: {
   >;
   items: (
     input: ListDeployActionExecutionTargetsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DeployActionExecutionTarget,
     | ActionExecutionNotFoundException
     | InvalidNextTokenException
@@ -4670,7 +4911,7 @@ export const listDeployActionExecutionTargets: {
 export const listRuleExecutions: {
   (
     input: ListRuleExecutionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRuleExecutionsOutput,
     | InvalidNextTokenException
     | PipelineExecutionNotFoundException
@@ -4681,7 +4922,7 @@ export const listRuleExecutions: {
   >;
   pages: (
     input: ListRuleExecutionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRuleExecutionsOutput,
     | InvalidNextTokenException
     | PipelineExecutionNotFoundException
@@ -4692,7 +4933,7 @@ export const listRuleExecutions: {
   >;
   items: (
     input: ListRuleExecutionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RuleExecutionDetail,
     | InvalidNextTokenException
     | PipelineExecutionNotFoundException
@@ -4727,7 +4968,7 @@ export const listRuleExecutions: {
  */
 export const createPipeline: (
   input: CreatePipelineInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePipelineOutput,
   | ConcurrentModificationException
   | InvalidActionDeclarationException

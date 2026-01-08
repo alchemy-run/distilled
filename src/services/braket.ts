@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -144,7 +144,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeys;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -186,7 +186,7 @@ export const GetDeviceRequest = S.suspend(() =>
 }) as any as S.Schema<GetDeviceRequest>;
 export interface GetJobRequest {
   jobArn: string;
-  additionalAttributeNames?: HybridJobAdditionalAttributeNamesList;
+  additionalAttributeNames?: string[];
 }
 export const GetJobRequest = S.suspend(() =>
   S.Struct({
@@ -226,7 +226,7 @@ export const CancelJobRequest = S.suspend(() =>
 }) as any as S.Schema<CancelJobRequest>;
 export interface GetQuantumTaskRequest {
   quantumTaskArn: string;
-  additionalAttributeNames?: QuantumTaskAdditionalAttributeNamesList;
+  additionalAttributeNames?: string[];
 }
 export const GetQuantumTaskRequest = S.suspend(() =>
   S.Struct({
@@ -346,7 +346,7 @@ export type TagsMap = { [key: string]: string };
 export const TagsMap = S.Record({ key: S.String, value: S.String });
 export interface SearchDevicesFilter {
   name: string;
-  values: String256List;
+  values: string[];
 }
 export const SearchDevicesFilter = S.suspend(() =>
   S.Struct({ name: S.String, values: String256List }),
@@ -414,7 +414,7 @@ export type Associations = Association[];
 export const Associations = S.Array(Association);
 export interface SearchJobsFilter {
   name: string;
-  values: String256List;
+  values: string[];
   operator: string;
 }
 export const SearchJobsFilter = S.suspend(() =>
@@ -430,7 +430,7 @@ export const ExperimentalCapabilities = S.Union(
 );
 export interface SearchQuantumTasksFilter {
   name: string;
-  values: String256List;
+  values: string[];
   operator: string;
 }
 export const SearchQuantumTasksFilter = S.suspend(() =>
@@ -442,7 +442,7 @@ export type SearchQuantumTasksFilterList = SearchQuantumTasksFilter[];
 export const SearchQuantumTasksFilterList = S.Array(SearchQuantumTasksFilter);
 export interface SearchSpendingLimitsFilter {
   name: string;
-  values: String256List;
+  values: string[];
   operator: string;
 }
 export const SearchSpendingLimitsFilter = S.suspend(() =>
@@ -455,7 +455,7 @@ export const SearchSpendingLimitsFilterList = S.Array(
   SearchSpendingLimitsFilter,
 );
 export interface ListTagsForResourceResponse {
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagsMap) }),
@@ -464,7 +464,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagsMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -490,7 +490,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 export interface SearchDevicesRequest {
   nextToken?: string;
   maxResults?: number;
-  filters: SearchDevicesFilterList;
+  filters: SearchDevicesFilter[];
 }
 export const SearchDevicesRequest = S.suspend(() =>
   S.Struct({
@@ -522,7 +522,7 @@ export const CancelJobResponse = S.suspend(() =>
 export interface SearchJobsRequest {
   nextToken?: string;
   maxResults?: number;
-  filters: SearchJobsFilterList;
+  filters: SearchJobsFilter[];
 }
 export const SearchJobsRequest = S.suspend(() =>
   S.Struct({
@@ -550,10 +550,10 @@ export interface CreateQuantumTaskRequest {
   outputS3Bucket: string;
   outputS3KeyPrefix: string;
   action: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   jobToken?: string;
-  associations?: Associations;
-  experimentalCapabilities?: (typeof ExperimentalCapabilities)["Type"];
+  associations?: Association[];
+  experimentalCapabilities?: ExperimentalCapabilities;
 }
 export const CreateQuantumTaskRequest = S.suspend(() =>
   S.Struct({
@@ -593,7 +593,7 @@ export const CancelQuantumTaskResponse = S.suspend(() =>
 export interface SearchQuantumTasksRequest {
   nextToken?: string;
   maxResults?: number;
-  filters: SearchQuantumTasksFilterList;
+  filters: SearchQuantumTasksFilter[];
 }
 export const SearchQuantumTasksRequest = S.suspend(() =>
   S.Struct({
@@ -618,7 +618,7 @@ export interface CreateSpendingLimitRequest {
   deviceArn: string;
   spendingLimit: string;
   timePeriod?: TimePeriod;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const CreateSpendingLimitRequest = S.suspend(() =>
   S.Struct({
@@ -643,7 +643,7 @@ export const CreateSpendingLimitRequest = S.suspend(() =>
 export interface SearchSpendingLimitsRequest {
   nextToken?: string;
   maxResults?: number;
-  filters?: SearchSpendingLimitsFilterList;
+  filters?: SearchSpendingLimitsFilter[];
 }
 export const SearchSpendingLimitsRequest = S.suspend(() =>
   S.Struct({
@@ -786,7 +786,7 @@ export interface GetDeviceResponse {
   deviceType: string;
   deviceStatus: string;
   deviceCapabilities: string;
-  deviceQueueInfo?: DeviceQueueInfoList;
+  deviceQueueInfo?: DeviceQueueInfo[];
 }
 export const GetDeviceResponse = S.suspend(() =>
   S.Struct({
@@ -829,8 +829,8 @@ export interface GetJobResponse {
   roleArn: string;
   failureReason?: string;
   jobName: string;
-  hyperParameters?: HyperParameters;
-  inputDataConfig?: InputConfigList;
+  hyperParameters?: { [key: string]: string };
+  inputDataConfig?: InputFileConfig[];
   outputDataConfig: JobOutputDataConfig;
   stoppingCondition?: JobStoppingCondition;
   checkpointConfig?: JobCheckpointConfig;
@@ -841,10 +841,10 @@ export interface GetJobResponse {
   endedAt?: Date;
   billableDuration?: number;
   deviceConfig?: DeviceConfig;
-  events?: JobEvents;
-  tags?: TagsMap;
+  events?: JobEventDetails[];
+  tags?: { [key: string]: string };
   queueInfo?: HybridJobQueueInfo;
-  associations?: Associations;
+  associations?: Association[];
 }
 export const GetJobResponse = S.suspend(() =>
   S.Struct({
@@ -892,13 +892,13 @@ export interface GetQuantumTaskResponse {
   outputS3Directory: string;
   createdAt: Date;
   endedAt?: Date;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   jobArn?: string;
   queueInfo?: QuantumTaskQueueInfo;
-  associations?: Associations;
+  associations?: Association[];
   numSuccessfulShots?: number;
   actionMetadata?: ActionMetadata;
-  experimentalCapabilities?: (typeof ExperimentalCapabilities)["Type"];
+  experimentalCapabilities?: ExperimentalCapabilities;
 }
 export const GetQuantumTaskResponse = S.suspend(() =>
   S.Struct({
@@ -959,7 +959,7 @@ export interface JobSummary {
   createdAt: Date;
   startedAt?: Date;
   endedAt?: Date;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const JobSummary = S.suspend(() =>
   S.Struct({
@@ -984,7 +984,7 @@ export interface QuantumTaskSummary {
   outputS3Directory: string;
   createdAt: Date;
   endedAt?: Date;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const QuantumTaskSummary = S.suspend(() =>
   S.Struct({
@@ -1012,7 +1012,7 @@ export interface SpendingLimitSummary {
   totalSpend: string;
   createdAt: Date;
   updatedAt: Date;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const SpendingLimitSummary = S.suspend(() =>
   S.Struct({
@@ -1032,7 +1032,7 @@ export const SpendingLimitSummary = S.suspend(() =>
 export type SpendingLimitSummaryList = SpendingLimitSummary[];
 export const SpendingLimitSummaryList = S.Array(SpendingLimitSummary);
 export interface SearchDevicesResponse {
-  devices: DeviceSummaryList;
+  devices: DeviceSummary[];
   nextToken?: string;
 }
 export const SearchDevicesResponse = S.suspend(() =>
@@ -1043,17 +1043,17 @@ export const SearchDevicesResponse = S.suspend(() =>
 export interface CreateJobRequest {
   clientToken: string;
   algorithmSpecification: AlgorithmSpecification;
-  inputDataConfig?: InputConfigList;
+  inputDataConfig?: InputFileConfig[];
   outputDataConfig: JobOutputDataConfig;
   checkpointConfig?: JobCheckpointConfig;
   jobName: string;
   roleArn: string;
   stoppingCondition?: JobStoppingCondition;
   instanceConfig: InstanceConfig;
-  hyperParameters?: HyperParameters;
+  hyperParameters?: { [key: string]: string };
   deviceConfig: DeviceConfig;
-  tags?: TagsMap;
-  associations?: Associations;
+  tags?: { [key: string]: string };
+  associations?: Association[];
 }
 export const CreateJobRequest = S.suspend(() =>
   S.Struct({
@@ -1084,7 +1084,7 @@ export const CreateJobRequest = S.suspend(() =>
   identifier: "CreateJobRequest",
 }) as any as S.Schema<CreateJobRequest>;
 export interface SearchJobsResponse {
-  jobs: JobSummaryList;
+  jobs: JobSummary[];
   nextToken?: string;
 }
 export const SearchJobsResponse = S.suspend(() =>
@@ -1093,7 +1093,7 @@ export const SearchJobsResponse = S.suspend(() =>
   identifier: "SearchJobsResponse",
 }) as any as S.Schema<SearchJobsResponse>;
 export interface SearchQuantumTasksResponse {
-  quantumTasks: QuantumTaskSummaryList;
+  quantumTasks: QuantumTaskSummary[];
   nextToken?: string;
 }
 export const SearchQuantumTasksResponse = S.suspend(() =>
@@ -1105,7 +1105,7 @@ export const SearchQuantumTasksResponse = S.suspend(() =>
   identifier: "SearchQuantumTasksResponse",
 }) as any as S.Schema<SearchQuantumTasksResponse>;
 export interface SearchSpendingLimitsResponse {
-  spendingLimits: SpendingLimitSummaryList;
+  spendingLimits: SpendingLimitSummary[];
   nextToken?: string;
 }
 export const SearchSpendingLimitsResponse = S.suspend(() =>
@@ -1121,7 +1121,7 @@ export const ProgramValidationFailuresList = S.Array(S.String);
 export interface ProgramSetValidationFailure {
   programIndex: number;
   inputsIndex?: number;
-  errors?: ProgramValidationFailuresList;
+  errors?: string[];
 }
 export const ProgramSetValidationFailure = S.suspend(() =>
   S.Struct({
@@ -1193,7 +1193,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServiceException
   | ResourceNotFoundException
@@ -1214,7 +1214,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServiceException
   | ResourceNotFoundException
@@ -1235,7 +1235,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServiceException
   | ResourceNotFoundException
@@ -1258,7 +1258,7 @@ export const tagResource: (
  */
 export const getDevice: (
   input: GetDeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDeviceResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -1284,7 +1284,7 @@ export const getDevice: (
 export const searchDevices: {
   (
     input: SearchDevicesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchDevicesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -1295,7 +1295,7 @@ export const searchDevices: {
   >;
   pages: (
     input: SearchDevicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchDevicesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -1306,7 +1306,7 @@ export const searchDevices: {
   >;
   items: (
     input: SearchDevicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DeviceSummary,
     | AccessDeniedException
     | InternalServiceException
@@ -1337,7 +1337,7 @@ export const searchDevices: {
 export const searchJobs: {
   (
     input: SearchJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchJobsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -1348,7 +1348,7 @@ export const searchJobs: {
   >;
   pages: (
     input: SearchJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchJobsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -1359,7 +1359,7 @@ export const searchJobs: {
   >;
   items: (
     input: SearchJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     JobSummary,
     | AccessDeniedException
     | InternalServiceException
@@ -1390,7 +1390,7 @@ export const searchJobs: {
 export const searchQuantumTasks: {
   (
     input: SearchQuantumTasksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchQuantumTasksResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -1401,7 +1401,7 @@ export const searchQuantumTasks: {
   >;
   pages: (
     input: SearchQuantumTasksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchQuantumTasksResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -1412,7 +1412,7 @@ export const searchQuantumTasks: {
   >;
   items: (
     input: SearchQuantumTasksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     QuantumTaskSummary,
     | AccessDeniedException
     | InternalServiceException
@@ -1442,7 +1442,7 @@ export const searchQuantumTasks: {
  */
 export const createSpendingLimit: (
   input: CreateSpendingLimitRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSpendingLimitResponse,
   | AccessDeniedException
   | DeviceRetiredException
@@ -1468,7 +1468,7 @@ export const createSpendingLimit: (
 export const searchSpendingLimits: {
   (
     input: SearchSpendingLimitsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchSpendingLimitsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -1479,7 +1479,7 @@ export const searchSpendingLimits: {
   >;
   pages: (
     input: SearchSpendingLimitsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchSpendingLimitsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -1490,7 +1490,7 @@ export const searchSpendingLimits: {
   >;
   items: (
     input: SearchSpendingLimitsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SpendingLimitSummary,
     | AccessDeniedException
     | InternalServiceException
@@ -1520,7 +1520,7 @@ export const searchSpendingLimits: {
  */
 export const getJob: (
   input: GetJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetJobResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -1545,7 +1545,7 @@ export const getJob: (
  */
 export const getQuantumTask: (
   input: GetQuantumTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetQuantumTaskResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -1570,7 +1570,7 @@ export const getQuantumTask: (
  */
 export const updateSpendingLimit: (
   input: UpdateSpendingLimitRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSpendingLimitResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -1595,7 +1595,7 @@ export const updateSpendingLimit: (
  */
 export const deleteSpendingLimit: (
   input: DeleteSpendingLimitRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSpendingLimitResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -1620,7 +1620,7 @@ export const deleteSpendingLimit: (
  */
 export const cancelJob: (
   input: CancelJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -1647,7 +1647,7 @@ export const cancelJob: (
  */
 export const cancelQuantumTask: (
   input: CancelQuantumTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelQuantumTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -1674,7 +1674,7 @@ export const cancelQuantumTask: (
  */
 export const createQuantumTask: (
   input: CreateQuantumTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateQuantumTaskResponse,
   | AccessDeniedException
   | DeviceOfflineException
@@ -1703,7 +1703,7 @@ export const createQuantumTask: (
  */
 export const createJob: (
   input: CreateJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateJobResponse,
   | AccessDeniedException
   | ConflictException

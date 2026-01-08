@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -115,6 +115,21 @@ export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export type NamespaceList = string[];
 export const NamespaceList = S.Array(S.String);
+export type TableBucketType = "customer" | "aws";
+export const TableBucketType = S.Literal("customer", "aws");
+export type TableBucketMaintenanceType = "icebergUnreferencedFileRemoval";
+export const TableBucketMaintenanceType = S.Literal(
+  "icebergUnreferencedFileRemoval",
+);
+export type OpenTableFormat = "ICEBERG";
+export const OpenTableFormat = S.Literal("ICEBERG");
+export type TableMaintenanceType =
+  | "icebergCompaction"
+  | "icebergSnapshotManagement";
+export const TableMaintenanceType = S.Literal(
+  "icebergCompaction",
+  "icebergSnapshotManagement",
+);
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
@@ -134,7 +149,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -159,7 +174,7 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceResponse>;
 export interface CreateNamespaceRequest {
   tableBucketARN: string;
-  namespace: NamespaceList;
+  namespace: string[];
 }
 export const CreateNamespaceRequest = S.suspend(() =>
   S.Struct({
@@ -550,7 +565,7 @@ export interface ListTableBucketsRequest {
   prefix?: string;
   continuationToken?: string;
   maxBuckets?: number;
-  type?: string;
+  type?: TableBucketType;
 }
 export const ListTableBucketsRequest = S.suspend(() =>
   S.Struct({
@@ -559,7 +574,7 @@ export const ListTableBucketsRequest = S.suspend(() =>
       T.HttpQuery("continuationToken"),
     ),
     maxBuckets: S.optional(S.Number).pipe(T.HttpQuery("maxBuckets")),
-    type: S.optional(S.String).pipe(T.HttpQuery("type")),
+    type: S.optional(TableBucketType).pipe(T.HttpQuery("type")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/buckets" }),
@@ -598,11 +613,13 @@ export const PutTableBucketMetricsConfigurationResponse = S.suspend(() =>
 ).annotations({
   identifier: "PutTableBucketMetricsConfigurationResponse",
 }) as any as S.Schema<PutTableBucketMetricsConfigurationResponse>;
+export type StorageClass = "STANDARD" | "INTELLIGENT_TIERING";
+export const StorageClass = S.Literal("STANDARD", "INTELLIGENT_TIERING");
 export interface StorageClassConfiguration {
-  storageClass: string;
+  storageClass: StorageClass;
 }
 export const StorageClassConfiguration = S.suspend(() =>
-  S.Struct({ storageClass: S.String }),
+  S.Struct({ storageClass: StorageClass }),
 ).annotations({
   identifier: "StorageClassConfiguration",
 }) as any as S.Schema<StorageClassConfiguration>;
@@ -1100,19 +1117,38 @@ export const UpdateTableMetadataLocationRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateTableMetadataLocationRequest",
 }) as any as S.Schema<UpdateTableMetadataLocationRequest>;
+export type SSEAlgorithm = "AES256" | "aws:kms";
+export const SSEAlgorithm = S.Literal("AES256", "aws:kms");
+export type MaintenanceStatus = "enabled" | "disabled";
+export const MaintenanceStatus = S.Literal("enabled", "disabled");
+export type TableRecordExpirationStatus = "enabled" | "disabled";
+export const TableRecordExpirationStatus = S.Literal("enabled", "disabled");
 export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
 export interface EncryptionConfiguration {
-  sseAlgorithm: string;
+  sseAlgorithm: SSEAlgorithm;
   kmsKeyArn?: string;
 }
 export const EncryptionConfiguration = S.suspend(() =>
-  S.Struct({ sseAlgorithm: S.String, kmsKeyArn: S.optional(S.String) }),
+  S.Struct({ sseAlgorithm: SSEAlgorithm, kmsKeyArn: S.optional(S.String) }),
 ).annotations({
   identifier: "EncryptionConfiguration",
 }) as any as S.Schema<EncryptionConfiguration>;
+export type TableType = "customer" | "aws";
+export const TableType = S.Literal("customer", "aws");
+export type TableRecordExpirationJobStatus =
+  | "NotYetRun"
+  | "Successful"
+  | "Failed"
+  | "Disabled";
+export const TableRecordExpirationJobStatus = S.Literal(
+  "NotYetRun",
+  "Successful",
+  "Failed",
+  "Disabled",
+);
 export interface ListTagsForResourceResponse {
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -1121,7 +1157,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: Tags;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1146,7 +1182,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface CreateNamespaceResponse {
   tableBucketARN: string;
-  namespace: NamespaceList;
+  namespace: string[];
 }
 export const CreateNamespaceResponse = S.suspend(() =>
   S.Struct({ tableBucketARN: S.String, namespace: NamespaceList }),
@@ -1154,7 +1190,7 @@ export const CreateNamespaceResponse = S.suspend(() =>
   identifier: "CreateNamespaceResponse",
 }) as any as S.Schema<CreateNamespaceResponse>;
 export interface GetNamespaceResponse {
-  namespace: NamespaceList;
+  namespace: string[];
   createdAt: Date;
   createdBy: string;
   ownerAccountId: string;
@@ -1227,7 +1263,7 @@ export const ReplicationDestination = S.suspend(() =>
 export type ReplicationDestinations = ReplicationDestination[];
 export const ReplicationDestinations = S.Array(ReplicationDestination);
 export interface TableBucketReplicationRule {
-  destinations: ReplicationDestinations;
+  destinations: ReplicationDestination[];
 }
 export const TableBucketReplicationRule = S.suspend(() =>
   S.Struct({ destinations: ReplicationDestinations }),
@@ -1238,7 +1274,7 @@ export type TableBucketReplicationRules = TableBucketReplicationRule[];
 export const TableBucketReplicationRules = S.Array(TableBucketReplicationRule);
 export interface TableBucketReplicationConfiguration {
   role: string;
-  rules: TableBucketReplicationRules;
+  rules: TableBucketReplicationRule[];
 }
 export const TableBucketReplicationConfiguration = S.suspend(() =>
   S.Struct({ role: S.String, rules: TableBucketReplicationRules }),
@@ -1261,7 +1297,7 @@ export interface CreateTableBucketRequest {
   name: string;
   encryptionConfiguration?: EncryptionConfiguration;
   storageClassConfiguration?: StorageClassConfiguration;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateTableBucketRequest = S.suspend(() =>
   S.Struct({
@@ -1288,7 +1324,7 @@ export interface GetTableBucketResponse {
   ownerAccountId: string;
   createdAt: Date;
   tableBucketId?: string;
-  type?: string;
+  type?: TableBucketType;
 }
 export const GetTableBucketResponse = S.suspend(() =>
   S.Struct({
@@ -1297,7 +1333,7 @@ export const GetTableBucketResponse = S.suspend(() =>
     ownerAccountId: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     tableBucketId: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(TableBucketType),
   }),
 ).annotations({
   identifier: "GetTableBucketResponse",
@@ -1336,7 +1372,7 @@ export const GetTablePolicyResponse = S.suspend(() =>
   identifier: "GetTablePolicyResponse",
 }) as any as S.Schema<GetTablePolicyResponse>;
 export interface TableReplicationRule {
-  destinations: ReplicationDestinations;
+  destinations: ReplicationDestination[];
 }
 export const TableReplicationRule = S.suspend(() =>
   S.Struct({ destinations: ReplicationDestinations }),
@@ -1347,7 +1383,7 @@ export type TableReplicationRules = TableReplicationRule[];
 export const TableReplicationRules = S.Array(TableReplicationRule);
 export interface TableReplicationConfiguration {
   role: string;
-  rules: TableReplicationRules;
+  rules: TableReplicationRule[];
 }
 export const TableReplicationConfiguration = S.suspend(() =>
   S.Struct({ role: S.String, rules: TableReplicationRules }),
@@ -1389,12 +1425,12 @@ export const TableRecordExpirationSettings = S.suspend(() =>
   identifier: "TableRecordExpirationSettings",
 }) as any as S.Schema<TableRecordExpirationSettings>;
 export interface TableRecordExpirationConfigurationValue {
-  status?: string;
+  status?: TableRecordExpirationStatus;
   settings?: TableRecordExpirationSettings;
 }
 export const TableRecordExpirationConfigurationValue = S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String),
+    status: S.optional(TableRecordExpirationStatus),
     settings: S.optional(TableRecordExpirationSettings),
   }),
 ).annotations({
@@ -1419,7 +1455,7 @@ export const GetTableStorageClassResponse = S.suspend(() =>
 export interface UpdateTableMetadataLocationResponse {
   name: string;
   tableARN: string;
-  namespace: NamespaceList;
+  namespace: string[];
   versionToken: string;
   metadataLocation: string;
 }
@@ -1434,8 +1470,26 @@ export const UpdateTableMetadataLocationResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateTableMetadataLocationResponse",
 }) as any as S.Schema<UpdateTableMetadataLocationResponse>;
+export type ReplicationStatus = "pending" | "completed" | "failed";
+export const ReplicationStatus = S.Literal("pending", "completed", "failed");
+export type TableMaintenanceJobType =
+  | "icebergCompaction"
+  | "icebergSnapshotManagement"
+  | "icebergUnreferencedFileRemoval";
+export const TableMaintenanceJobType = S.Literal(
+  "icebergCompaction",
+  "icebergSnapshotManagement",
+  "icebergUnreferencedFileRemoval",
+);
+export type IcebergCompactionStrategy = "auto" | "binpack" | "sort" | "z-order";
+export const IcebergCompactionStrategy = S.Literal(
+  "auto",
+  "binpack",
+  "sort",
+  "z-order",
+);
 export interface NamespaceSummary {
-  namespace: NamespaceList;
+  namespace: string[];
   createdAt: Date;
   createdBy: string;
   ownerAccountId: string;
@@ -1477,31 +1531,33 @@ export const TableBucketMaintenanceSettings = S.Union(
   }),
 );
 export interface TableBucketMaintenanceConfigurationValue {
-  status?: string;
-  settings?: (typeof TableBucketMaintenanceSettings)["Type"];
+  status?: MaintenanceStatus;
+  settings?: TableBucketMaintenanceSettings;
 }
 export const TableBucketMaintenanceConfigurationValue = S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String),
+    status: S.optional(MaintenanceStatus),
     settings: S.optional(TableBucketMaintenanceSettings),
   }),
 ).annotations({
   identifier: "TableBucketMaintenanceConfigurationValue",
 }) as any as S.Schema<TableBucketMaintenanceConfigurationValue>;
 export type TableBucketMaintenanceConfiguration = {
-  [key: string]: TableBucketMaintenanceConfigurationValue;
+  [key in TableBucketMaintenanceType]?: TableBucketMaintenanceConfigurationValue;
 };
-export const TableBucketMaintenanceConfiguration = S.Record({
-  key: S.String,
-  value: TableBucketMaintenanceConfigurationValue,
-});
+export const TableBucketMaintenanceConfiguration = S.partial(
+  S.Record({
+    key: TableBucketMaintenanceType,
+    value: TableBucketMaintenanceConfigurationValue,
+  }),
+);
 export interface TableBucketSummary {
   arn: string;
   name: string;
   ownerAccountId: string;
   createdAt: Date;
   tableBucketId?: string;
-  type?: string;
+  type?: TableBucketType;
 }
 export const TableBucketSummary = S.suspend(() =>
   S.Struct({
@@ -1510,7 +1566,7 @@ export const TableBucketSummary = S.suspend(() =>
     ownerAccountId: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     tableBucketId: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(TableBucketType),
   }),
 ).annotations({
   identifier: "TableBucketSummary",
@@ -1519,12 +1575,12 @@ export type TableBucketSummaryList = TableBucketSummary[];
 export const TableBucketSummaryList = S.Array(TableBucketSummary);
 export interface IcebergCompactionSettings {
   targetFileSizeMB?: number;
-  strategy?: string;
+  strategy?: IcebergCompactionStrategy;
 }
 export const IcebergCompactionSettings = S.suspend(() =>
   S.Struct({
     targetFileSizeMB: S.optional(S.Number),
-    strategy: S.optional(S.String),
+    strategy: S.optional(IcebergCompactionStrategy),
   }),
 ).annotations({
   identifier: "IcebergCompactionSettings",
@@ -1549,24 +1605,26 @@ export const TableMaintenanceSettings = S.Union(
   S.Struct({ icebergSnapshotManagement: IcebergSnapshotManagementSettings }),
 );
 export interface TableMaintenanceConfigurationValue {
-  status?: string;
-  settings?: (typeof TableMaintenanceSettings)["Type"];
+  status?: MaintenanceStatus;
+  settings?: TableMaintenanceSettings;
 }
 export const TableMaintenanceConfigurationValue = S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String),
+    status: S.optional(MaintenanceStatus),
     settings: S.optional(TableMaintenanceSettings),
   }),
 ).annotations({
   identifier: "TableMaintenanceConfigurationValue",
 }) as any as S.Schema<TableMaintenanceConfigurationValue>;
 export type TableMaintenanceConfiguration = {
-  [key: string]: TableMaintenanceConfigurationValue;
+  [key in TableMaintenanceType]?: TableMaintenanceConfigurationValue;
 };
-export const TableMaintenanceConfiguration = S.Record({
-  key: S.String,
-  value: TableMaintenanceConfigurationValue,
-});
+export const TableMaintenanceConfiguration = S.partial(
+  S.Record({
+    key: TableMaintenanceType,
+    value: TableMaintenanceConfigurationValue,
+  }),
+);
 export interface TableRecordExpirationJobMetrics {
   deletedDataFiles?: number;
   deletedRecords?: number;
@@ -1582,9 +1640,9 @@ export const TableRecordExpirationJobMetrics = S.suspend(() =>
   identifier: "TableRecordExpirationJobMetrics",
 }) as any as S.Schema<TableRecordExpirationJobMetrics>;
 export interface TableSummary {
-  namespace: NamespaceList;
+  namespace: string[];
   name: string;
-  type: string;
+  type: TableType;
   tableARN: string;
   createdAt: Date;
   modifiedAt: Date;
@@ -1596,7 +1654,7 @@ export const TableSummary = S.suspend(() =>
   S.Struct({
     namespace: NamespaceList,
     name: S.String,
-    type: S.String,
+    type: TableType,
     tableARN: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     modifiedAt: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -1609,8 +1667,15 @@ export type TableSummaryList = TableSummary[];
 export const TableSummaryList = S.Array(TableSummary);
 export type TableProperties = { [key: string]: string };
 export const TableProperties = S.Record({ key: S.String, value: S.String });
+export type JobStatus = "Not_Yet_Run" | "Successful" | "Failed" | "Disabled";
+export const JobStatus = S.Literal(
+  "Not_Yet_Run",
+  "Successful",
+  "Failed",
+  "Disabled",
+);
 export interface ListNamespacesResponse {
-  namespaces: NamespaceSummaryList;
+  namespaces: NamespaceSummary[];
   continuationToken?: string;
 }
 export const ListNamespacesResponse = S.suspend(() =>
@@ -1631,7 +1696,7 @@ export const CreateTableBucketResponse = S.suspend(() =>
 }) as any as S.Schema<CreateTableBucketResponse>;
 export interface GetTableBucketMaintenanceConfigurationResponse {
   tableBucketARN: string;
-  configuration: TableBucketMaintenanceConfiguration;
+  configuration: { [key: string]: TableBucketMaintenanceConfigurationValue };
 }
 export const GetTableBucketMaintenanceConfigurationResponse = S.suspend(() =>
   S.Struct({
@@ -1642,7 +1707,7 @@ export const GetTableBucketMaintenanceConfigurationResponse = S.suspend(() =>
   identifier: "GetTableBucketMaintenanceConfigurationResponse",
 }) as any as S.Schema<GetTableBucketMaintenanceConfigurationResponse>;
 export interface ListTableBucketsResponse {
-  tableBuckets: TableBucketSummaryList;
+  tableBuckets: TableBucketSummary[];
   continuationToken?: string;
 }
 export const ListTableBucketsResponse = S.suspend(() =>
@@ -1678,7 +1743,7 @@ export const PutTableReplicationRequest = S.suspend(() =>
 }) as any as S.Schema<PutTableReplicationRequest>;
 export interface GetTableMaintenanceConfigurationResponse {
   tableARN: string;
-  configuration: TableMaintenanceConfiguration;
+  configuration: { [key: string]: TableMaintenanceConfigurationValue };
 }
 export const GetTableMaintenanceConfigurationResponse = S.suspend(() =>
   S.Struct({
@@ -1689,14 +1754,14 @@ export const GetTableMaintenanceConfigurationResponse = S.suspend(() =>
   identifier: "GetTableMaintenanceConfigurationResponse",
 }) as any as S.Schema<GetTableMaintenanceConfigurationResponse>;
 export interface GetTableRecordExpirationJobStatusResponse {
-  status: string;
+  status: TableRecordExpirationJobStatus;
   lastRunTimestamp?: Date;
   failureMessage?: string;
   metrics?: TableRecordExpirationJobMetrics;
 }
 export const GetTableRecordExpirationJobStatusResponse = S.suspend(() =>
   S.Struct({
-    status: S.String,
+    status: TableRecordExpirationJobStatus,
     lastRunTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     failureMessage: S.optional(S.String),
     metrics: S.optional(TableRecordExpirationJobMetrics),
@@ -1705,7 +1770,7 @@ export const GetTableRecordExpirationJobStatusResponse = S.suspend(() =>
   identifier: "GetTableRecordExpirationJobStatusResponse",
 }) as any as S.Schema<GetTableRecordExpirationJobStatusResponse>;
 export interface ListTablesResponse {
-  tables: TableSummaryList;
+  tables: TableSummary[];
   continuationToken?: string;
 }
 export const ListTablesResponse = S.suspend(() =>
@@ -1764,13 +1829,13 @@ export const ReplicationInformation = S.suspend(() =>
   identifier: "ReplicationInformation",
 }) as any as S.Schema<ReplicationInformation>;
 export interface TableMaintenanceJobStatusValue {
-  status: string;
+  status: JobStatus;
   lastRunTimestamp?: Date;
   failureMessage?: string;
 }
 export const TableMaintenanceJobStatusValue = S.suspend(() =>
   S.Struct({
-    status: S.String,
+    status: JobStatus,
     lastRunTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     failureMessage: S.optional(S.String),
   }),
@@ -1788,7 +1853,7 @@ export const SchemaField = S.suspend(() =>
 export type SchemaFieldList = SchemaField[];
 export const SchemaFieldList = S.Array(SchemaField);
 export interface ReplicationDestinationStatusModel {
-  replicationStatus: string;
+  replicationStatus: ReplicationStatus;
   destinationTableBucketArn: string;
   destinationTableArn?: string;
   lastSuccessfulReplicatedUpdate?: LastSuccessfulReplicatedUpdate;
@@ -1796,7 +1861,7 @@ export interface ReplicationDestinationStatusModel {
 }
 export const ReplicationDestinationStatusModel = S.suspend(() =>
   S.Struct({
-    replicationStatus: S.String,
+    replicationStatus: ReplicationStatus,
     destinationTableBucketArn: S.String,
     destinationTableArn: S.optional(S.String),
     lastSuccessfulReplicatedUpdate: S.optional(LastSuccessfulReplicatedUpdate),
@@ -1819,14 +1884,16 @@ export const ManagedTableInformation = S.suspend(() =>
   identifier: "ManagedTableInformation",
 }) as any as S.Schema<ManagedTableInformation>;
 export type TableMaintenanceJobStatus = {
-  [key: string]: TableMaintenanceJobStatusValue;
+  [key in TableMaintenanceJobType]?: TableMaintenanceJobStatusValue;
 };
-export const TableMaintenanceJobStatus = S.Record({
-  key: S.String,
-  value: TableMaintenanceJobStatusValue,
-});
+export const TableMaintenanceJobStatus = S.partial(
+  S.Record({
+    key: TableMaintenanceJobType,
+    value: TableMaintenanceJobStatusValue,
+  }),
+);
 export interface IcebergSchema {
-  fields: SchemaFieldList;
+  fields: SchemaField[];
 }
 export const IcebergSchema = S.suspend(() =>
   S.Struct({ fields: SchemaFieldList }),
@@ -1858,13 +1925,13 @@ export const PutTableBucketReplicationRequest = S.suspend(() =>
 }) as any as S.Schema<PutTableBucketReplicationRequest>;
 export interface PutTableBucketMaintenanceConfigurationRequest {
   tableBucketARN: string;
-  type: string;
+  type: TableBucketMaintenanceType;
   value: TableBucketMaintenanceConfigurationValue;
 }
 export const PutTableBucketMaintenanceConfigurationRequest = S.suspend(() =>
   S.Struct({
     tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
-    type: S.String.pipe(T.HttpLabel("type")),
+    type: TableBucketMaintenanceType.pipe(T.HttpLabel("type")),
     value: TableBucketMaintenanceConfigurationValue,
   }).pipe(
     T.all(
@@ -1890,7 +1957,7 @@ export const PutTableBucketMaintenanceConfigurationResponse = S.suspend(() =>
 }) as any as S.Schema<PutTableBucketMaintenanceConfigurationResponse>;
 export interface GetTableReplicationStatusResponse {
   sourceTableArn: string;
-  destinations: ReplicationDestinationStatuses;
+  destinations: ReplicationDestinationStatusModel[];
 }
 export const GetTableReplicationStatusResponse = S.suspend(() =>
   S.Struct({
@@ -1911,9 +1978,9 @@ export const PutTableReplicationResponse = S.suspend(() =>
 }) as any as S.Schema<PutTableReplicationResponse>;
 export interface GetTableResponse {
   name: string;
-  type: string;
+  type: TableType;
   tableARN: string;
-  namespace: NamespaceList;
+  namespace: string[];
   namespaceId?: string;
   versionToken: string;
   metadataLocation?: string;
@@ -1924,14 +1991,14 @@ export interface GetTableResponse {
   modifiedAt: Date;
   modifiedBy: string;
   ownerAccountId: string;
-  format: string;
+  format: OpenTableFormat;
   tableBucketId?: string;
   managedTableInformation?: ManagedTableInformation;
 }
 export const GetTableResponse = S.suspend(() =>
   S.Struct({
     name: S.String,
-    type: S.String,
+    type: TableType,
     tableARN: S.String,
     namespace: NamespaceList,
     namespaceId: S.optional(S.String),
@@ -1944,7 +2011,7 @@ export const GetTableResponse = S.suspend(() =>
     modifiedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     modifiedBy: S.String,
     ownerAccountId: S.String,
-    format: S.String,
+    format: OpenTableFormat,
     tableBucketId: S.optional(S.String),
     managedTableInformation: S.optional(ManagedTableInformation),
   }),
@@ -1953,7 +2020,7 @@ export const GetTableResponse = S.suspend(() =>
 }) as any as S.Schema<GetTableResponse>;
 export interface GetTableMaintenanceJobStatusResponse {
   tableARN: string;
-  status: TableMaintenanceJobStatus;
+  status: { [key: string]: TableMaintenanceJobStatusValue };
 }
 export const GetTableMaintenanceJobStatusResponse = S.suspend(() =>
   S.Struct({ tableARN: S.String, status: TableMaintenanceJobStatus }),
@@ -1964,7 +2031,7 @@ export interface PutTableMaintenanceConfigurationRequest {
   tableBucketARN: string;
   namespace: string;
   name: string;
-  type: string;
+  type: TableMaintenanceType;
   value: TableMaintenanceConfigurationValue;
 }
 export const PutTableMaintenanceConfigurationRequest = S.suspend(() =>
@@ -1972,7 +2039,7 @@ export const PutTableMaintenanceConfigurationRequest = S.suspend(() =>
     tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     namespace: S.String.pipe(T.HttpLabel("namespace")),
     name: S.String.pipe(T.HttpLabel("name")),
-    type: S.String.pipe(T.HttpLabel("type")),
+    type: TableMaintenanceType.pipe(T.HttpLabel("type")),
     value: TableMaintenanceConfigurationValue,
   }).pipe(
     T.all(
@@ -1998,7 +2065,7 @@ export const PutTableMaintenanceConfigurationResponse = S.suspend(() =>
 }) as any as S.Schema<PutTableMaintenanceConfigurationResponse>;
 export interface IcebergMetadata {
   schema: IcebergSchema;
-  properties?: TableProperties;
+  properties?: { [key: string]: string };
 }
 export const IcebergMetadata = S.suspend(() =>
   S.Struct({ schema: IcebergSchema, properties: S.optional(TableProperties) }),
@@ -2020,18 +2087,18 @@ export interface CreateTableRequest {
   tableBucketARN: string;
   namespace: string;
   name: string;
-  format: string;
-  metadata?: (typeof TableMetadata)["Type"];
+  format: OpenTableFormat;
+  metadata?: TableMetadata;
   encryptionConfiguration?: EncryptionConfiguration;
   storageClassConfiguration?: StorageClassConfiguration;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateTableRequest = S.suspend(() =>
   S.Struct({
     tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     namespace: S.String.pipe(T.HttpLabel("namespace")),
     name: S.String,
-    format: S.String,
+    format: OpenTableFormat,
     metadata: S.optional(TableMetadata),
     encryptionConfiguration: S.optional(EncryptionConfiguration),
     storageClassConfiguration: S.optional(StorageClassConfiguration),
@@ -2103,7 +2170,7 @@ export class TooManyRequestsException extends S.TaggedError<TooManyRequestsExcep
  */
 export const getTableBucketStorageClass: (
   input: GetTableBucketStorageClassRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTableBucketStorageClassResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2144,7 +2211,7 @@ export const getTableBucketStorageClass: (
  */
 export const createTable: (
   input: CreateTableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTableResponse,
   | BadRequestException
   | ConflictException
@@ -2175,7 +2242,7 @@ export const createTable: (
  */
 export const getTableRecordExpirationJobStatus: (
   input: GetTableRecordExpirationJobStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTableRecordExpirationJobStatusResponse,
   | BadRequestException
   | ForbiddenException
@@ -2206,7 +2273,7 @@ export const getTableRecordExpirationJobStatus: (
  */
 export const putTableBucketMaintenanceConfiguration: (
   input: PutTableBucketMaintenanceConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutTableBucketMaintenanceConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -2237,7 +2304,7 @@ export const putTableBucketMaintenanceConfiguration: (
  */
 export const getTableReplicationStatus: (
   input: GetTableReplicationStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTableReplicationStatusResponse,
   | BadRequestException
   | ConflictException
@@ -2282,7 +2349,7 @@ export const getTableReplicationStatus: (
  */
 export const putTableReplication: (
   input: PutTableReplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutTableReplicationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2315,7 +2382,7 @@ export const putTableReplication: (
  */
 export const getTable: (
   input: GetTableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTableResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2348,7 +2415,7 @@ export const getTable: (
  */
 export const getTableMaintenanceJobStatus: (
   input: GetTableMaintenanceJobStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTableMaintenanceJobStatusResponse,
   | BadRequestException
   | ConflictException
@@ -2379,7 +2446,7 @@ export const getTableMaintenanceJobStatus: (
  */
 export const putTableMaintenanceConfiguration: (
   input: PutTableMaintenanceConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutTableMaintenanceConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -2411,7 +2478,7 @@ export const putTableMaintenanceConfiguration: (
 export const listTableBuckets: {
   (
     input: ListTableBucketsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTableBucketsResponse,
     | AccessDeniedException
     | BadRequestException
@@ -2425,7 +2492,7 @@ export const listTableBuckets: {
   >;
   pages: (
     input: ListTableBucketsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTableBucketsResponse,
     | AccessDeniedException
     | BadRequestException
@@ -2439,7 +2506,7 @@ export const listTableBuckets: {
   >;
   items: (
     input: ListTableBucketsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TableBucketSummary,
     | AccessDeniedException
     | BadRequestException
@@ -2481,7 +2548,7 @@ export const listTableBuckets: {
  */
 export const getTableMaintenanceConfiguration: (
   input: GetTableMaintenanceConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTableMaintenanceConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -2513,7 +2580,7 @@ export const getTableMaintenanceConfiguration: (
 export const listTables: {
   (
     input: ListTablesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTablesResponse,
     | BadRequestException
     | ConflictException
@@ -2526,7 +2593,7 @@ export const listTables: {
   >;
   pages: (
     input: ListTablesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTablesResponse,
     | BadRequestException
     | ConflictException
@@ -2539,7 +2606,7 @@ export const listTables: {
   >;
   items: (
     input: ListTablesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TableSummary,
     | BadRequestException
     | ConflictException
@@ -2577,7 +2644,7 @@ export const listTables: {
  */
 export const createNamespace: (
   input: CreateNamespaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateNamespaceResponse,
   | BadRequestException
   | ConflictException
@@ -2610,7 +2677,7 @@ export const createNamespace: (
  */
 export const putTableBucketEncryption: (
   input: PutTableBucketEncryptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutTableBucketEncryptionResponse,
   | BadRequestException
   | ConflictException
@@ -2641,7 +2708,7 @@ export const putTableBucketEncryption: (
  */
 export const getTableBucketPolicy: (
   input: GetTableBucketPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTableBucketPolicyResponse,
   | BadRequestException
   | ConflictException
@@ -2672,7 +2739,7 @@ export const getTableBucketPolicy: (
  */
 export const deleteTableBucketReplication: (
   input: DeleteTableBucketReplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTableBucketReplicationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2705,7 +2772,7 @@ export const deleteTableBucketReplication: (
  */
 export const getTableBucketReplication: (
   input: GetTableBucketReplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTableBucketReplicationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2738,7 +2805,7 @@ export const getTableBucketReplication: (
  */
 export const getTableBucket: (
   input: GetTableBucketRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTableBucketResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2771,7 +2838,7 @@ export const getTableBucket: (
  */
 export const getTableBucketMetricsConfiguration: (
   input: GetTableBucketMetricsConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTableBucketMetricsConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -2802,7 +2869,7 @@ export const getTableBucketMetricsConfiguration: (
  */
 export const getTablePolicy: (
   input: GetTablePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTablePolicyResponse,
   | BadRequestException
   | ConflictException
@@ -2833,7 +2900,7 @@ export const getTablePolicy: (
  */
 export const getTableReplication: (
   input: GetTableReplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTableReplicationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2866,7 +2933,7 @@ export const getTableReplication: (
  */
 export const getTableMetadataLocation: (
   input: GetTableMetadataLocationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTableMetadataLocationResponse,
   | BadRequestException
   | ConflictException
@@ -2897,7 +2964,7 @@ export const getTableMetadataLocation: (
  */
 export const updateTableMetadataLocation: (
   input: UpdateTableMetadataLocationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTableMetadataLocationResponse,
   | BadRequestException
   | ConflictException
@@ -2928,7 +2995,7 @@ export const updateTableMetadataLocation: (
  */
 export const deleteNamespace: (
   input: DeleteNamespaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteNamespaceResponse,
   | BadRequestException
   | ConflictException
@@ -2959,7 +3026,7 @@ export const deleteNamespace: (
  */
 export const deleteTableBucketEncryption: (
   input: DeleteTableBucketEncryptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTableBucketEncryptionResponse,
   | BadRequestException
   | ConflictException
@@ -2990,7 +3057,7 @@ export const deleteTableBucketEncryption: (
  */
 export const deleteTableBucketPolicy: (
   input: DeleteTableBucketPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTableBucketPolicyResponse,
   | BadRequestException
   | ConflictException
@@ -3021,7 +3088,7 @@ export const deleteTableBucketPolicy: (
  */
 export const putTableBucketPolicy: (
   input: PutTableBucketPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutTableBucketPolicyResponse,
   | BadRequestException
   | ConflictException
@@ -3052,7 +3119,7 @@ export const putTableBucketPolicy: (
  */
 export const deleteTableBucket: (
   input: DeleteTableBucketRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTableBucketResponse,
   | BadRequestException
   | ConflictException
@@ -3083,7 +3150,7 @@ export const deleteTableBucket: (
  */
 export const deleteTableBucketMetricsConfiguration: (
   input: DeleteTableBucketMetricsConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTableBucketMetricsConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -3114,7 +3181,7 @@ export const deleteTableBucketMetricsConfiguration: (
  */
 export const putTableBucketMetricsConfiguration: (
   input: PutTableBucketMetricsConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutTableBucketMetricsConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -3145,7 +3212,7 @@ export const putTableBucketMetricsConfiguration: (
  */
 export const putTableBucketStorageClass: (
   input: PutTableBucketStorageClassRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutTableBucketStorageClassResponse,
   | BadRequestException
   | ConflictException
@@ -3176,7 +3243,7 @@ export const putTableBucketStorageClass: (
  */
 export const deleteTablePolicy: (
   input: DeleteTablePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTablePolicyResponse,
   | BadRequestException
   | ConflictException
@@ -3207,7 +3274,7 @@ export const deleteTablePolicy: (
  */
 export const putTablePolicy: (
   input: PutTablePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutTablePolicyResponse,
   | BadRequestException
   | ConflictException
@@ -3238,7 +3305,7 @@ export const putTablePolicy: (
  */
 export const deleteTable: (
   input: DeleteTableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTableResponse,
   | BadRequestException
   | ConflictException
@@ -3269,7 +3336,7 @@ export const deleteTable: (
  */
 export const renameTable: (
   input: RenameTableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RenameTableResponse,
   | BadRequestException
   | ConflictException
@@ -3302,7 +3369,7 @@ export const renameTable: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | BadRequestException
   | ConflictException
@@ -3335,7 +3402,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | BadRequestException
   | ConflictException
@@ -3366,7 +3433,7 @@ export const tagResource: (
  */
 export const deleteTableReplication: (
   input: DeleteTableReplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTableReplicationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -3399,7 +3466,7 @@ export const deleteTableReplication: (
  */
 export const getNamespace: (
   input: GetNamespaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetNamespaceResponse,
   | AccessDeniedException
   | BadRequestException
@@ -3432,7 +3499,7 @@ export const getNamespace: (
  */
 export const getTableEncryption: (
   input: GetTableEncryptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTableEncryptionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -3463,7 +3530,7 @@ export const getTableEncryption: (
  */
 export const getTableStorageClass: (
   input: GetTableStorageClassRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTableStorageClassResponse,
   | AccessDeniedException
   | BadRequestException
@@ -3494,7 +3561,7 @@ export const getTableStorageClass: (
  */
 export const getTableBucketEncryption: (
   input: GetTableBucketEncryptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTableBucketEncryptionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -3527,7 +3594,7 @@ export const getTableBucketEncryption: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | BadRequestException
   | ConflictException
@@ -3559,7 +3626,7 @@ export const untagResource: (
 export const listNamespaces: {
   (
     input: ListNamespacesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListNamespacesResponse,
     | AccessDeniedException
     | BadRequestException
@@ -3573,7 +3640,7 @@ export const listNamespaces: {
   >;
   pages: (
     input: ListNamespacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListNamespacesResponse,
     | AccessDeniedException
     | BadRequestException
@@ -3587,7 +3654,7 @@ export const listNamespaces: {
   >;
   items: (
     input: ListNamespacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NamespaceSummary,
     | AccessDeniedException
     | BadRequestException
@@ -3633,7 +3700,7 @@ export const listNamespaces: {
  */
 export const createTableBucket: (
   input: CreateTableBucketRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTableBucketResponse,
   | BadRequestException
   | ConflictException
@@ -3664,7 +3731,7 @@ export const createTableBucket: (
  */
 export const getTableBucketMaintenanceConfiguration: (
   input: GetTableBucketMaintenanceConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTableBucketMaintenanceConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -3711,7 +3778,7 @@ export const getTableBucketMaintenanceConfiguration: (
  */
 export const putTableBucketReplication: (
   input: PutTableBucketReplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutTableBucketReplicationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -3744,7 +3811,7 @@ export const putTableBucketReplication: (
  */
 export const putTableRecordExpirationConfiguration: (
   input: PutTableRecordExpirationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutTableRecordExpirationConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -3775,7 +3842,7 @@ export const putTableRecordExpirationConfiguration: (
  */
 export const getTableRecordExpirationConfiguration: (
   input: GetTableRecordExpirationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTableRecordExpirationConfigurationResponse,
   | BadRequestException
   | ForbiddenException

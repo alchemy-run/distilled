@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -97,25 +97,25 @@ export type Id = string;
 export type DistanceUnit = string;
 export type SpeedUnit = string;
 export type LargeToken = string;
-export type ApiKey = string | Redacted.Redacted<string>;
-export type SensitiveString = string | Redacted.Redacted<string>;
-export type PlaceId = string | Redacted.Redacted<string>;
+export type ApiKey = string | redacted.Redacted<string>;
+export type SensitiveString = string | redacted.Redacted<string>;
+export type PlaceId = string | redacted.Redacted<string>;
 export type LanguageTag = string;
 export type PlaceIndexSearchResultLimit = number;
-export type CountryCode3 = string | Redacted.Redacted<string>;
-export type PlaceCategory = string | Redacted.Redacted<string>;
+export type CountryCode3 = string | redacted.Redacted<string>;
+export type PlaceCategory = string | redacted.Redacted<string>;
 export type TravelMode = string;
 export type OptimizationMode = string;
 export type PositionFiltering = string;
 export type ApiKeyAction = string;
 export type GeoArnV2 = string;
-export type RefererPattern = string | Redacted.Redacted<string>;
+export type RefererPattern = string | redacted.Redacted<string>;
 export type TagKey = string;
 export type TagValue = string;
 export type Status = string;
 export type MapStyle = string;
 export type CustomLayer = string;
-export type CountryCode3OrEmpty = string | Redacted.Redacted<string>;
+export type CountryCode3OrEmpty = string | redacted.Redacted<string>;
 export type IntendedUse = string;
 export type GeoArn = string;
 export type AndroidPackageName = string;
@@ -124,7 +124,7 @@ export type AppleBundleId = string;
 export type SensitiveDouble = number;
 export type DimensionUnit = string;
 export type VehicleWeightUnit = string;
-export type PlaceSupplementalCategory = string | Redacted.Redacted<string>;
+export type PlaceSupplementalCategory = string | redacted.Redacted<string>;
 export type EutranCellId = number;
 export type Rsrp = number;
 export type Rsrq = number;
@@ -147,13 +147,13 @@ export type Position = number[];
 export const Position = S.Array(S.Number);
 export type BoundingBox = number[];
 export const BoundingBox = S.Array(S.Number);
-export type CountryCodeList = string | Redacted.Redacted<string>[];
+export type CountryCodeList = string | redacted.Redacted<string>[];
 export const CountryCodeList = S.Array(SensitiveString);
-export type FilterPlaceCategoryList = string | Redacted.Redacted<string>[];
+export type FilterPlaceCategoryList = string | redacted.Redacted<string>[];
 export const FilterPlaceCategoryList = S.Array(SensitiveString);
-export type WaypointPositionList = Position[];
+export type WaypointPositionList = number[][];
 export const WaypointPositionList = S.Array(Position);
-export type PositionList = Position[];
+export type PositionList = number[][];
 export const PositionList = S.Array(Position);
 export type DeviceIdsList = string[];
 export const DeviceIdsList = S.Array(S.String);
@@ -178,7 +178,7 @@ export type ApiKeyActionList = string[];
 export const ApiKeyActionList = S.Array(S.String);
 export type GeoArnList = string[];
 export const GeoArnList = S.Array(S.String);
-export type RefererPatternList = string | Redacted.Redacted<string>[];
+export type RefererPatternList = string | redacted.Redacted<string>[];
 export const RefererPatternList = S.Array(SensitiveString);
 export interface AndroidApp {
   Package: string;
@@ -198,11 +198,11 @@ export const AppleApp = S.suspend(() =>
 export type AppleAppList = AppleApp[];
 export const AppleAppList = S.Array(AppleApp);
 export interface ApiKeyRestrictions {
-  AllowActions: ApiKeyActionList;
-  AllowResources: GeoArnList;
-  AllowReferers?: RefererPatternList;
-  AllowAndroidApps?: AndroidAppList;
-  AllowAppleApps?: AppleAppList;
+  AllowActions: string[];
+  AllowResources: string[];
+  AllowReferers?: string | redacted.Redacted<string>[];
+  AllowAndroidApps?: AndroidApp[];
+  AllowAppleApps?: AppleApp[];
 }
 export const ApiKeyRestrictions = S.suspend(() =>
   S.Struct({
@@ -290,7 +290,7 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagMap;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -315,7 +315,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeys;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -343,7 +343,7 @@ export interface CreateGeofenceCollectionRequest {
   PricingPlan?: string;
   PricingPlanDataSource?: string;
   Description?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   KmsKeyId?: string;
 }
 export const CreateGeofenceCollectionRequest = S.suspend(() =>
@@ -468,7 +468,7 @@ export const ListGeofenceCollectionsRequest = S.suspend(() =>
 }) as any as S.Schema<ListGeofenceCollectionsRequest>;
 export interface BatchDeleteGeofenceRequest {
   CollectionName: string;
-  GeofenceIds: IdList;
+  GeofenceIds: string[];
 }
 export const BatchDeleteGeofenceRequest = S.suspend(() =>
   S.Struct({
@@ -603,7 +603,7 @@ export interface GetMapGlyphsRequest {
   MapName: string;
   FontStack: string;
   FontUnicodeRange: string;
-  Key?: string | Redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string>;
 }
 export const GetMapGlyphsRequest = S.suspend(() =>
   S.Struct({
@@ -630,7 +630,7 @@ export const GetMapGlyphsRequest = S.suspend(() =>
 export interface GetMapSpritesRequest {
   MapName: string;
   FileName: string;
-  Key?: string | Redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string>;
 }
 export const GetMapSpritesRequest = S.suspend(() =>
   S.Struct({
@@ -655,7 +655,7 @@ export const GetMapSpritesRequest = S.suspend(() =>
 }) as any as S.Schema<GetMapSpritesRequest>;
 export interface GetMapStyleDescriptorRequest {
   MapName: string;
-  Key?: string | Redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string>;
 }
 export const GetMapStyleDescriptorRequest = S.suspend(() =>
   S.Struct({
@@ -679,10 +679,10 @@ export const GetMapStyleDescriptorRequest = S.suspend(() =>
 }) as any as S.Schema<GetMapStyleDescriptorRequest>;
 export interface GetMapTileRequest {
   MapName: string;
-  Z: string | Redacted.Redacted<string>;
-  X: string | Redacted.Redacted<string>;
-  Y: string | Redacted.Redacted<string>;
-  Key?: string | Redacted.Redacted<string>;
+  Z: string | redacted.Redacted<string>;
+  X: string | redacted.Redacted<string>;
+  Y: string | redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string>;
 }
 export const GetMapTileRequest = S.suspend(() =>
   S.Struct({
@@ -803,9 +803,9 @@ export const ListPlaceIndexesRequest = S.suspend(() =>
 }) as any as S.Schema<ListPlaceIndexesRequest>;
 export interface GetPlaceRequest {
   IndexName: string;
-  PlaceId: string | Redacted.Redacted<string>;
+  PlaceId: string | redacted.Redacted<string>;
   Language?: string;
-  Key?: string | Redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string>;
 }
 export const GetPlaceRequest = S.suspend(() =>
   S.Struct({
@@ -831,10 +831,10 @@ export const GetPlaceRequest = S.suspend(() =>
 }) as any as S.Schema<GetPlaceRequest>;
 export interface SearchPlaceIndexForPositionRequest {
   IndexName: string;
-  Position: Position;
+  Position: number[];
   MaxResults?: number;
   Language?: string;
-  Key?: string | Redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string>;
 }
 export const SearchPlaceIndexForPositionRequest = S.suspend(() =>
   S.Struct({
@@ -861,14 +861,14 @@ export const SearchPlaceIndexForPositionRequest = S.suspend(() =>
 }) as any as S.Schema<SearchPlaceIndexForPositionRequest>;
 export interface SearchPlaceIndexForSuggestionsRequest {
   IndexName: string;
-  Text: string | Redacted.Redacted<string>;
-  BiasPosition?: Position;
-  FilterBBox?: BoundingBox;
-  FilterCountries?: CountryCodeList;
+  Text: string | redacted.Redacted<string>;
+  BiasPosition?: number[];
+  FilterBBox?: number[];
+  FilterCountries?: string | redacted.Redacted<string>[];
   MaxResults?: number;
   Language?: string;
-  FilterCategories?: FilterPlaceCategoryList;
-  Key?: string | Redacted.Redacted<string>;
+  FilterCategories?: string | redacted.Redacted<string>[];
+  Key?: string | redacted.Redacted<string>;
 }
 export const SearchPlaceIndexForSuggestionsRequest = S.suspend(() =>
   S.Struct({
@@ -899,14 +899,14 @@ export const SearchPlaceIndexForSuggestionsRequest = S.suspend(() =>
 }) as any as S.Schema<SearchPlaceIndexForSuggestionsRequest>;
 export interface SearchPlaceIndexForTextRequest {
   IndexName: string;
-  Text: string | Redacted.Redacted<string>;
-  BiasPosition?: Position;
-  FilterBBox?: BoundingBox;
-  FilterCountries?: CountryCodeList;
+  Text: string | redacted.Redacted<string>;
+  BiasPosition?: number[];
+  FilterBBox?: number[];
+  FilterCountries?: string | redacted.Redacted<string>[];
   MaxResults?: number;
   Language?: string;
-  FilterCategories?: FilterPlaceCategoryList;
-  Key?: string | Redacted.Redacted<string>;
+  FilterCategories?: string | redacted.Redacted<string>[];
+  Key?: string | redacted.Redacted<string>;
 }
 export const SearchPlaceIndexForTextRequest = S.suspend(() =>
   S.Struct({
@@ -940,7 +940,7 @@ export interface CreateRouteCalculatorRequest {
   DataSource: string;
   PricingPlan?: string;
   Description?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateRouteCalculatorRequest = S.suspend(() =>
   S.Struct({
@@ -1109,15 +1109,15 @@ export const CalculateRouteTruckModeOptions = S.suspend(() =>
 }) as any as S.Schema<CalculateRouteTruckModeOptions>;
 export interface CalculateRouteMatrixRequest {
   CalculatorName: string;
-  DeparturePositions: PositionList;
-  DestinationPositions: PositionList;
+  DeparturePositions: number[][];
+  DestinationPositions: number[][];
   TravelMode?: string;
   DepartureTime?: Date;
   DepartNow?: boolean;
   DistanceUnit?: string;
   CarModeOptions?: CalculateRouteCarModeOptions;
   TruckModeOptions?: CalculateRouteTruckModeOptions;
-  Key?: string | Redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string>;
 }
 export const CalculateRouteMatrixRequest = S.suspend(() =>
   S.Struct({
@@ -1153,7 +1153,7 @@ export interface CreateTrackerRequest {
   KmsKeyId?: string;
   PricingPlanDataSource?: string;
   Description?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   PositionFiltering?: string;
   EventBridgeEnabled?: boolean;
   KmsKeyEnableGeospatialQueries?: boolean;
@@ -1304,7 +1304,7 @@ export const AssociateTrackerConsumerResponse = S.suspend(() =>
 }) as any as S.Schema<AssociateTrackerConsumerResponse>;
 export interface BatchDeleteDevicePositionHistoryRequest {
   TrackerName: string;
-  DeviceIds: DeviceIdsList;
+  DeviceIds: string[];
 }
 export const BatchDeleteDevicePositionHistoryRequest = S.suspend(() =>
   S.Struct({
@@ -1328,7 +1328,7 @@ export const BatchDeleteDevicePositionHistoryRequest = S.suspend(() =>
 }) as any as S.Schema<BatchDeleteDevicePositionHistoryRequest>;
 export interface BatchGetDevicePositionRequest {
   TrackerName: string;
-  DeviceIds: IdList;
+  DeviceIds: string[];
 }
 export const BatchGetDevicePositionRequest = S.suspend(() =>
   S.Struct({
@@ -1363,9 +1363,9 @@ export const PositionPropertyMap = S.Record({ key: S.String, value: S.String });
 export interface DevicePositionUpdate {
   DeviceId: string;
   SampleTime: Date;
-  Position: Position;
+  Position: number[];
   Accuracy?: PositionalAccuracy;
-  PositionProperties?: PositionPropertyMap;
+  PositionProperties?: { [key: string]: string };
 }
 export const DevicePositionUpdate = S.suspend(() =>
   S.Struct({
@@ -1382,7 +1382,7 @@ export type DevicePositionUpdateList = DevicePositionUpdate[];
 export const DevicePositionUpdateList = S.Array(DevicePositionUpdate);
 export interface BatchUpdateDevicePositionRequest {
   TrackerName: string;
-  Updates: DevicePositionUpdateList;
+  Updates: DevicePositionUpdate[];
 }
 export const BatchUpdateDevicePositionRequest = S.suspend(() =>
   S.Struct({
@@ -1516,11 +1516,11 @@ export const ListTrackerConsumersRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListTrackerConsumersRequest",
 }) as any as S.Schema<ListTrackerConsumersRequest>;
-export type LinearRing = Position[];
+export type LinearRing = number[][];
 export const LinearRing = S.Array(Position);
-export type LinearRings = LinearRing[];
+export type LinearRings = number[][][];
 export const LinearRings = S.Array(LinearRing);
-export type MultiLinearRings = LinearRings[];
+export type MultiLinearRings = number[][][][];
 export const MultiLinearRings = S.Array(LinearRings);
 export type CustomLayerList = string[];
 export const CustomLayerList = S.Array(S.String);
@@ -1531,17 +1531,17 @@ export const ApiKeyFilter = S.suspend(() =>
   S.Struct({ KeyStatus: S.optional(S.String) }),
 ).annotations({ identifier: "ApiKeyFilter" }) as any as S.Schema<ApiKeyFilter>;
 export interface Circle {
-  Center: Position;
+  Center: number[];
   Radius: number;
 }
 export const Circle = S.suspend(() =>
   S.Struct({ Center: Position, Radius: S.Number }),
 ).annotations({ identifier: "Circle" }) as any as S.Schema<Circle>;
 export interface GeofenceGeometry {
-  Polygon?: LinearRings;
+  Polygon?: number[][][];
   Circle?: Circle;
-  Geobuf?: Uint8Array | Redacted.Redacted<Uint8Array>;
-  MultiPolygon?: MultiLinearRings;
+  Geobuf?: Uint8Array | redacted.Redacted<Uint8Array>;
+  MultiPolygon?: number[][][][];
 }
 export const GeofenceGeometry = S.suspend(() =>
   S.Struct({
@@ -1558,7 +1558,7 @@ export const PropertyMap = S.Record({ key: S.String, value: S.String });
 export interface BatchPutGeofenceRequestEntry {
   GeofenceId: string;
   Geometry: GeofenceGeometry;
-  GeofenceProperties?: PropertyMap;
+  GeofenceProperties?: { [key: string]: string };
 }
 export const BatchPutGeofenceRequestEntry = S.suspend(() =>
   S.Struct({
@@ -1574,7 +1574,7 @@ export const BatchPutGeofenceRequestEntryList = S.Array(
   BatchPutGeofenceRequestEntry,
 );
 export interface ForecastGeofenceEventsDeviceState {
-  Position: Position;
+  Position: number[];
   Speed?: number;
 }
 export const ForecastGeofenceEventsDeviceState = S.suspend(() =>
@@ -1584,8 +1584,8 @@ export const ForecastGeofenceEventsDeviceState = S.suspend(() =>
 }) as any as S.Schema<ForecastGeofenceEventsDeviceState>;
 export interface MapConfiguration {
   Style: string;
-  PoliticalView?: string | Redacted.Redacted<string>;
-  CustomLayers?: CustomLayerList;
+  PoliticalView?: string | redacted.Redacted<string>;
+  CustomLayers?: string[];
 }
 export const MapConfiguration = S.suspend(() =>
   S.Struct({
@@ -1597,8 +1597,8 @@ export const MapConfiguration = S.suspend(() =>
   identifier: "MapConfiguration",
 }) as any as S.Schema<MapConfiguration>;
 export interface MapConfigurationUpdate {
-  PoliticalView?: string | Redacted.Redacted<string>;
-  CustomLayers?: CustomLayerList;
+  PoliticalView?: string | redacted.Redacted<string>;
+  CustomLayers?: string[];
 }
 export const MapConfigurationUpdate = S.suspend(() =>
   S.Struct({
@@ -1609,7 +1609,7 @@ export const MapConfigurationUpdate = S.suspend(() =>
   identifier: "MapConfigurationUpdate",
 }) as any as S.Schema<MapConfigurationUpdate>;
 export interface TrackingFilterGeometry {
-  Polygon?: LinearRings;
+  Polygon?: number[][][];
 }
 export const TrackingFilterGeometry = S.suspend(() =>
   S.Struct({ Polygon: S.optional(LinearRings) }),
@@ -1619,7 +1619,7 @@ export const TrackingFilterGeometry = S.suspend(() =>
 export type ArnList = string[];
 export const ArnList = S.Array(S.String);
 export interface DescribeKeyResponse {
-  Key: string | Redacted.Redacted<string>;
+  Key: string | redacted.Redacted<string>;
   KeyArn: string;
   KeyName: string;
   Restrictions: ApiKeyRestrictions;
@@ -1627,7 +1627,7 @@ export interface DescribeKeyResponse {
   ExpireTime: Date;
   UpdateTime: Date;
   Description?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const DescribeKeyResponse = S.suspend(() =>
   S.Struct({
@@ -1682,7 +1682,7 @@ export const ListKeysRequest = S.suspend(() =>
   identifier: "ListKeysRequest",
 }) as any as S.Schema<ListKeysRequest>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -1710,7 +1710,7 @@ export interface DescribeGeofenceCollectionResponse {
   PricingPlan?: string;
   PricingPlanDataSource?: string;
   KmsKeyId?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   CreateTime: Date;
   UpdateTime: Date;
   GeofenceCount?: number;
@@ -1747,7 +1747,7 @@ export const UpdateGeofenceCollectionResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateGeofenceCollectionResponse>;
 export interface BatchPutGeofenceRequest {
   CollectionName: string;
-  Entries: BatchPutGeofenceRequestEntryList;
+  Entries: BatchPutGeofenceRequestEntry[];
 }
 export const BatchPutGeofenceRequest = S.suspend(() =>
   S.Struct({
@@ -1809,7 +1809,7 @@ export interface GetGeofenceResponse {
   Status: string;
   CreateTime: Date;
   UpdateTime: Date;
-  GeofenceProperties?: PropertyMap;
+  GeofenceProperties?: { [key: string]: string };
 }
 export const GetGeofenceResponse = S.suspend(() =>
   S.Struct({
@@ -1828,7 +1828,7 @@ export interface CreateMapRequest {
   Configuration: MapConfiguration;
   PricingPlan?: string;
   Description?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateMapRequest = S.suspend(() =>
   S.Struct({
@@ -1857,7 +1857,7 @@ export interface DescribeMapResponse {
   DataSource: string;
   Configuration: MapConfiguration;
   Description: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   CreateTime: Date;
   UpdateTime: Date;
 }
@@ -1963,7 +1963,7 @@ export interface CreatePlaceIndexRequest {
   PricingPlan?: string;
   Description?: string;
   DataSourceConfiguration?: DataSourceConfiguration;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreatePlaceIndexRequest = S.suspend(() =>
   S.Struct({
@@ -1995,7 +1995,7 @@ export interface DescribePlaceIndexResponse {
   UpdateTime: Date;
   DataSource: string;
   DataSourceConfiguration: DataSourceConfiguration;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const DescribePlaceIndexResponse = S.suspend(() =>
   S.Struct({
@@ -2048,7 +2048,7 @@ export interface DescribeRouteCalculatorResponse {
   CreateTime: Date;
   UpdateTime: Date;
   DataSource: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const DescribeRouteCalculatorResponse = S.suspend(() =>
   S.Struct({
@@ -2098,7 +2098,7 @@ export interface DescribeTrackerResponse {
   Description: string;
   PricingPlan?: string;
   PricingPlanDataSource?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   CreateTime: Date;
   UpdateTime: Date;
   KmsKeyId?: string;
@@ -2142,9 +2142,9 @@ export interface GetDevicePositionResponse {
   DeviceId?: string;
   SampleTime: Date;
   ReceivedTime: Date;
-  Position: Position;
+  Position: number[];
   Accuracy?: PositionalAccuracy;
-  PositionProperties?: PositionPropertyMap;
+  PositionProperties?: { [key: string]: string };
 }
 export const GetDevicePositionResponse = S.suspend(() =>
   S.Struct({
@@ -2162,9 +2162,9 @@ export interface DevicePosition {
   DeviceId?: string;
   SampleTime: Date;
   ReceivedTime: Date;
-  Position: Position;
+  Position: number[];
   Accuracy?: PositionalAccuracy;
-  PositionProperties?: PositionPropertyMap;
+  PositionProperties?: { [key: string]: string };
 }
 export const DevicePosition = S.suspend(() =>
   S.Struct({
@@ -2181,7 +2181,7 @@ export const DevicePosition = S.suspend(() =>
 export type DevicePositionList = DevicePosition[];
 export const DevicePositionList = S.Array(DevicePosition);
 export interface GetDevicePositionHistoryResponse {
-  DevicePositions: DevicePositionList;
+  DevicePositions: DevicePosition[];
   NextToken?: string;
 }
 export const GetDevicePositionHistoryResponse = S.suspend(() =>
@@ -2221,7 +2221,7 @@ export const ListDevicePositionsRequest = S.suspend(() =>
   identifier: "ListDevicePositionsRequest",
 }) as any as S.Schema<ListDevicePositionsRequest>;
 export interface ListTrackerConsumersResponse {
-  ConsumerArns: ArnList;
+  ConsumerArns: string[];
   NextToken?: string;
 }
 export const ListTrackerConsumersResponse = S.suspend(() =>
@@ -2229,11 +2229,11 @@ export const ListTrackerConsumersResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListTrackerConsumersResponse",
 }) as any as S.Schema<ListTrackerConsumersResponse>;
-export type PlaceCategoryList = string | Redacted.Redacted<string>[];
+export type PlaceCategoryList = string | redacted.Redacted<string>[];
 export const PlaceCategoryList = S.Array(SensitiveString);
 export type PlaceSupplementalCategoryList =
   | string
-  | Redacted.Redacted<string>[];
+  | redacted.Redacted<string>[];
 export const PlaceSupplementalCategoryList = S.Array(SensitiveString);
 export interface WiFiAccessPoint {
   MacAddress: string;
@@ -2277,7 +2277,7 @@ export interface ListGeofenceResponseEntry {
   Status: string;
   CreateTime: Date;
   UpdateTime: Date;
-  GeofenceProperties?: PropertyMap;
+  GeofenceProperties?: { [key: string]: string };
 }
 export const ListGeofenceResponseEntry = S.suspend(() =>
   S.Struct({
@@ -2340,7 +2340,7 @@ export const ListPlaceIndexesResponseEntryList = S.Array(
   ListPlaceIndexesResponseEntry,
 );
 export interface SearchPlaceIndexForPositionSummary {
-  Position: Position;
+  Position: number[];
   MaxResults?: number;
   DataSource: string;
   Language?: string;
@@ -2356,7 +2356,7 @@ export const SearchPlaceIndexForPositionSummary = S.suspend(() =>
   identifier: "SearchPlaceIndexForPositionSummary",
 }) as any as S.Schema<SearchPlaceIndexForPositionSummary>;
 export interface PlaceGeometry {
-  Point?: Position;
+  Point?: number[];
 }
 export const PlaceGeometry = S.suspend(() =>
   S.Struct({ Point: S.optional(Position) }),
@@ -2364,30 +2364,30 @@ export const PlaceGeometry = S.suspend(() =>
   identifier: "PlaceGeometry",
 }) as any as S.Schema<PlaceGeometry>;
 export interface TimeZone {
-  Name: string | Redacted.Redacted<string>;
+  Name: string | redacted.Redacted<string>;
   Offset?: number;
 }
 export const TimeZone = S.suspend(() =>
   S.Struct({ Name: SensitiveString, Offset: S.optional(S.Number) }),
 ).annotations({ identifier: "TimeZone" }) as any as S.Schema<TimeZone>;
 export interface Place {
-  Label?: string | Redacted.Redacted<string>;
+  Label?: string | redacted.Redacted<string>;
   Geometry: PlaceGeometry;
-  AddressNumber?: string | Redacted.Redacted<string>;
-  Street?: string | Redacted.Redacted<string>;
-  Neighborhood?: string | Redacted.Redacted<string>;
-  Municipality?: string | Redacted.Redacted<string>;
-  SubRegion?: string | Redacted.Redacted<string>;
-  Region?: string | Redacted.Redacted<string>;
-  Country?: string | Redacted.Redacted<string>;
-  PostalCode?: string | Redacted.Redacted<string>;
+  AddressNumber?: string | redacted.Redacted<string>;
+  Street?: string | redacted.Redacted<string>;
+  Neighborhood?: string | redacted.Redacted<string>;
+  Municipality?: string | redacted.Redacted<string>;
+  SubRegion?: string | redacted.Redacted<string>;
+  Region?: string | redacted.Redacted<string>;
+  Country?: string | redacted.Redacted<string>;
+  PostalCode?: string | redacted.Redacted<string>;
   Interpolated?: boolean;
   TimeZone?: TimeZone;
-  UnitType?: string | Redacted.Redacted<string>;
-  UnitNumber?: string | Redacted.Redacted<string>;
-  Categories?: PlaceCategoryList;
-  SupplementalCategories?: PlaceSupplementalCategoryList;
-  SubMunicipality?: string | Redacted.Redacted<string>;
+  UnitType?: string | redacted.Redacted<string>;
+  UnitNumber?: string | redacted.Redacted<string>;
+  Categories?: string | redacted.Redacted<string>[];
+  SupplementalCategories?: string | redacted.Redacted<string>[];
+  SubMunicipality?: string | redacted.Redacted<string>;
 }
 export const Place = S.suspend(() =>
   S.Struct({
@@ -2413,7 +2413,7 @@ export const Place = S.suspend(() =>
 export interface SearchForPositionResult {
   Place: Place;
   Distance: number;
-  PlaceId?: string | Redacted.Redacted<string>;
+  PlaceId?: string | redacted.Redacted<string>;
 }
 export const SearchForPositionResult = S.suspend(() =>
   S.Struct({
@@ -2427,14 +2427,14 @@ export const SearchForPositionResult = S.suspend(() =>
 export type SearchForPositionResultList = SearchForPositionResult[];
 export const SearchForPositionResultList = S.Array(SearchForPositionResult);
 export interface SearchPlaceIndexForSuggestionsSummary {
-  Text: string | Redacted.Redacted<string>;
-  BiasPosition?: Position;
-  FilterBBox?: BoundingBox;
-  FilterCountries?: CountryCodeList;
+  Text: string | redacted.Redacted<string>;
+  BiasPosition?: number[];
+  FilterBBox?: number[];
+  FilterCountries?: string | redacted.Redacted<string>[];
   MaxResults?: number;
   DataSource: string;
   Language?: string;
-  FilterCategories?: FilterPlaceCategoryList;
+  FilterCategories?: string | redacted.Redacted<string>[];
 }
 export const SearchPlaceIndexForSuggestionsSummary = S.suspend(() =>
   S.Struct({
@@ -2451,10 +2451,10 @@ export const SearchPlaceIndexForSuggestionsSummary = S.suspend(() =>
   identifier: "SearchPlaceIndexForSuggestionsSummary",
 }) as any as S.Schema<SearchPlaceIndexForSuggestionsSummary>;
 export interface SearchForSuggestionsResult {
-  Text: string | Redacted.Redacted<string>;
-  PlaceId?: string | Redacted.Redacted<string>;
-  Categories?: PlaceCategoryList;
-  SupplementalCategories?: PlaceSupplementalCategoryList;
+  Text: string | redacted.Redacted<string>;
+  PlaceId?: string | redacted.Redacted<string>;
+  Categories?: string | redacted.Redacted<string>[];
+  SupplementalCategories?: string | redacted.Redacted<string>[];
 }
 export const SearchForSuggestionsResult = S.suspend(() =>
   S.Struct({
@@ -2471,15 +2471,15 @@ export const SearchForSuggestionsResultList = S.Array(
   SearchForSuggestionsResult,
 );
 export interface SearchPlaceIndexForTextSummary {
-  Text: string | Redacted.Redacted<string>;
-  BiasPosition?: Position;
-  FilterBBox?: BoundingBox;
-  FilterCountries?: CountryCodeList;
+  Text: string | redacted.Redacted<string>;
+  BiasPosition?: number[];
+  FilterBBox?: number[];
+  FilterCountries?: string | redacted.Redacted<string>[];
   MaxResults?: number;
-  ResultBBox?: BoundingBox;
+  ResultBBox?: number[];
   DataSource: string;
   Language?: string;
-  FilterCategories?: FilterPlaceCategoryList;
+  FilterCategories?: string | redacted.Redacted<string>[];
 }
 export const SearchPlaceIndexForTextSummary = S.suspend(() =>
   S.Struct({
@@ -2500,7 +2500,7 @@ export interface SearchForTextResult {
   Place: Place;
   Distance?: number;
   Relevance?: number;
-  PlaceId?: string | Redacted.Redacted<string>;
+  PlaceId?: string | redacted.Redacted<string>;
 }
 export const SearchForTextResult = S.suspend(() =>
   S.Struct({
@@ -2638,7 +2638,7 @@ export interface CreateKeyRequest {
   Description?: string;
   ExpireTime?: Date;
   NoExpiry?: boolean;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateKeyRequest = S.suspend(() =>
   S.Struct({
@@ -2662,7 +2662,7 @@ export const CreateKeyRequest = S.suspend(() =>
   identifier: "CreateKeyRequest",
 }) as any as S.Schema<CreateKeyRequest>;
 export interface ListGeofenceCollectionsResponse {
-  Entries: ListGeofenceCollectionsResponseEntryList;
+  Entries: ListGeofenceCollectionsResponseEntry[];
   NextToken?: string;
 }
 export const ListGeofenceCollectionsResponse = S.suspend(() =>
@@ -2675,7 +2675,7 @@ export const ListGeofenceCollectionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListGeofenceCollectionsResponse>;
 export interface BatchEvaluateGeofencesRequest {
   CollectionName: string;
-  DevicePositionUpdates: DevicePositionUpdateList;
+  DevicePositionUpdates: DevicePositionUpdate[];
 }
 export const BatchEvaluateGeofencesRequest = S.suspend(() =>
   S.Struct({
@@ -2698,7 +2698,7 @@ export const BatchEvaluateGeofencesRequest = S.suspend(() =>
   identifier: "BatchEvaluateGeofencesRequest",
 }) as any as S.Schema<BatchEvaluateGeofencesRequest>;
 export interface ListGeofencesResponse {
-  Entries: ListGeofenceResponseEntryList;
+  Entries: ListGeofenceResponseEntry[];
   NextToken?: string;
 }
 export const ListGeofencesResponse = S.suspend(() =>
@@ -2713,7 +2713,7 @@ export interface PutGeofenceRequest {
   CollectionName: string;
   GeofenceId: string;
   Geometry: GeofenceGeometry;
-  GeofenceProperties?: PropertyMap;
+  GeofenceProperties?: { [key: string]: string };
 }
 export const PutGeofenceRequest = S.suspend(() =>
   S.Struct({
@@ -2766,7 +2766,7 @@ export const UpdateMapResponse = S.suspend(() =>
   identifier: "UpdateMapResponse",
 }) as any as S.Schema<UpdateMapResponse>;
 export interface ListMapsResponse {
-  Entries: ListMapsResponseEntryList;
+  Entries: ListMapsResponseEntry[];
   NextToken?: string;
 }
 export const ListMapsResponse = S.suspend(() =>
@@ -2792,7 +2792,7 @@ export const CreatePlaceIndexResponse = S.suspend(() =>
   identifier: "CreatePlaceIndexResponse",
 }) as any as S.Schema<CreatePlaceIndexResponse>;
 export interface ListPlaceIndexesResponse {
-  Entries: ListPlaceIndexesResponseEntryList;
+  Entries: ListPlaceIndexesResponseEntry[];
   NextToken?: string;
 }
 export const ListPlaceIndexesResponse = S.suspend(() =>
@@ -2805,7 +2805,7 @@ export const ListPlaceIndexesResponse = S.suspend(() =>
 }) as any as S.Schema<ListPlaceIndexesResponse>;
 export interface SearchPlaceIndexForPositionResponse {
   Summary: SearchPlaceIndexForPositionSummary;
-  Results: SearchForPositionResultList;
+  Results: SearchForPositionResult[];
 }
 export const SearchPlaceIndexForPositionResponse = S.suspend(() =>
   S.Struct({
@@ -2817,7 +2817,7 @@ export const SearchPlaceIndexForPositionResponse = S.suspend(() =>
 }) as any as S.Schema<SearchPlaceIndexForPositionResponse>;
 export interface SearchPlaceIndexForSuggestionsResponse {
   Summary: SearchPlaceIndexForSuggestionsSummary;
-  Results: SearchForSuggestionsResultList;
+  Results: SearchForSuggestionsResult[];
 }
 export const SearchPlaceIndexForSuggestionsResponse = S.suspend(() =>
   S.Struct({
@@ -2829,7 +2829,7 @@ export const SearchPlaceIndexForSuggestionsResponse = S.suspend(() =>
 }) as any as S.Schema<SearchPlaceIndexForSuggestionsResponse>;
 export interface SearchPlaceIndexForTextResponse {
   Summary: SearchPlaceIndexForTextSummary;
-  Results: SearchForTextResultList;
+  Results: SearchForTextResult[];
 }
 export const SearchPlaceIndexForTextResponse = S.suspend(() =>
   S.Struct({
@@ -2840,7 +2840,7 @@ export const SearchPlaceIndexForTextResponse = S.suspend(() =>
   identifier: "SearchPlaceIndexForTextResponse",
 }) as any as S.Schema<SearchPlaceIndexForTextResponse>;
 export interface ListRouteCalculatorsResponse {
-  Entries: ListRouteCalculatorsResponseEntryList;
+  Entries: ListRouteCalculatorsResponseEntry[];
   NextToken?: string;
 }
 export const ListRouteCalculatorsResponse = S.suspend(() =>
@@ -2853,9 +2853,9 @@ export const ListRouteCalculatorsResponse = S.suspend(() =>
 }) as any as S.Schema<ListRouteCalculatorsResponse>;
 export interface CalculateRouteRequest {
   CalculatorName: string;
-  DeparturePosition: Position;
-  DestinationPosition: Position;
-  WaypointPositions?: WaypointPositionList;
+  DeparturePosition: number[];
+  DestinationPosition: number[];
+  WaypointPositions?: number[][];
   TravelMode?: string;
   DepartureTime?: Date;
   DepartNow?: boolean;
@@ -2865,7 +2865,7 @@ export interface CalculateRouteRequest {
   TruckModeOptions?: CalculateRouteTruckModeOptions;
   ArrivalTime?: Date;
   OptimizeFor?: string;
-  Key?: string | Redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string>;
 }
 export const CalculateRouteRequest = S.suspend(() =>
   S.Struct({
@@ -2900,7 +2900,7 @@ export const CalculateRouteRequest = S.suspend(() =>
   identifier: "CalculateRouteRequest",
 }) as any as S.Schema<CalculateRouteRequest>;
 export interface ListTrackersResponse {
-  Entries: ListTrackersResponseEntryList;
+  Entries: ListTrackersResponseEntry[];
   NextToken?: string;
 }
 export const ListTrackersResponse = S.suspend(() =>
@@ -2912,7 +2912,7 @@ export const ListTrackersResponse = S.suspend(() =>
   identifier: "ListTrackersResponse",
 }) as any as S.Schema<ListTrackersResponse>;
 export interface BatchDeleteDevicePositionHistoryResponse {
-  Errors: BatchDeleteDevicePositionHistoryErrorList;
+  Errors: BatchDeleteDevicePositionHistoryError[];
 }
 export const BatchDeleteDevicePositionHistoryResponse = S.suspend(() =>
   S.Struct({ Errors: BatchDeleteDevicePositionHistoryErrorList }),
@@ -2920,8 +2920,8 @@ export const BatchDeleteDevicePositionHistoryResponse = S.suspend(() =>
   identifier: "BatchDeleteDevicePositionHistoryResponse",
 }) as any as S.Schema<BatchDeleteDevicePositionHistoryResponse>;
 export interface BatchGetDevicePositionResponse {
-  Errors: BatchGetDevicePositionErrorList;
-  DevicePositions: DevicePositionList;
+  Errors: BatchGetDevicePositionError[];
+  DevicePositions: DevicePosition[];
 }
 export const BatchGetDevicePositionResponse = S.suspend(() =>
   S.Struct({
@@ -2932,7 +2932,7 @@ export const BatchGetDevicePositionResponse = S.suspend(() =>
   identifier: "BatchGetDevicePositionResponse",
 }) as any as S.Schema<BatchGetDevicePositionResponse>;
 export interface BatchUpdateDevicePositionResponse {
-  Errors: BatchUpdateDevicePositionErrorList;
+  Errors: BatchUpdateDevicePositionError[];
 }
 export const BatchUpdateDevicePositionResponse = S.suspend(() =>
   S.Struct({ Errors: BatchUpdateDevicePositionErrorList }),
@@ -3042,7 +3042,7 @@ export interface ForecastedEvent {
   NearestDistance: number;
   EventType: string;
   ForecastedBreachTime?: Date;
-  GeofenceProperties?: PropertyMap;
+  GeofenceProperties?: { [key: string]: string };
 }
 export const ForecastedEvent = S.suspend(() =>
   S.Struct({
@@ -3077,14 +3077,14 @@ export const RouteMatrixEntry = S.suspend(() =>
 }) as any as S.Schema<RouteMatrixEntry>;
 export type RouteMatrixRow = RouteMatrixEntry[];
 export const RouteMatrixRow = S.Array(RouteMatrixEntry);
-export type RouteMatrix = RouteMatrixRow[];
+export type RouteMatrix = RouteMatrixEntry[][];
 export const RouteMatrix = S.Array(RouteMatrixRow);
 export interface ListDevicePositionsResponseEntry {
   DeviceId: string;
   SampleTime: Date;
-  Position: Position;
+  Position: number[];
   Accuracy?: PositionalAccuracy;
-  PositionProperties?: PositionPropertyMap;
+  PositionProperties?: { [key: string]: string };
 }
 export const ListDevicePositionsResponseEntry = S.suspend(() =>
   S.Struct({
@@ -3107,7 +3107,7 @@ export interface LteCellDetails {
   Mcc: number;
   Mnc: number;
   LocalId?: LteLocalId;
-  NetworkMeasurements?: LteNetworkMeasurementsList;
+  NetworkMeasurements?: LteNetworkMeasurements[];
   TimingAdvance?: number;
   NrCapable?: boolean;
   Rsrp?: number;
@@ -3133,7 +3133,7 @@ export const LteCellDetails = S.suspend(() =>
 export type LteCellDetailsList = LteCellDetails[];
 export const LteCellDetailsList = S.Array(LteCellDetails);
 export interface CreateKeyResponse {
-  Key: string | Redacted.Redacted<string>;
+  Key: string | redacted.Redacted<string>;
   KeyArn: string;
   KeyName: string;
   CreateTime: Date;
@@ -3149,7 +3149,7 @@ export const CreateKeyResponse = S.suspend(() =>
   identifier: "CreateKeyResponse",
 }) as any as S.Schema<CreateKeyResponse>;
 export interface ListKeysResponse {
-  Entries: ListKeysResponseEntryList;
+  Entries: ListKeysResponseEntry[];
   NextToken?: string;
 }
 export const ListKeysResponse = S.suspend(() =>
@@ -3161,7 +3161,7 @@ export const ListKeysResponse = S.suspend(() =>
   identifier: "ListKeysResponse",
 }) as any as S.Schema<ListKeysResponse>;
 export interface BatchDeleteGeofenceResponse {
-  Errors: BatchDeleteGeofenceErrorList;
+  Errors: BatchDeleteGeofenceError[];
 }
 export const BatchDeleteGeofenceResponse = S.suspend(() =>
   S.Struct({ Errors: BatchDeleteGeofenceErrorList }),
@@ -3169,8 +3169,8 @@ export const BatchDeleteGeofenceResponse = S.suspend(() =>
   identifier: "BatchDeleteGeofenceResponse",
 }) as any as S.Schema<BatchDeleteGeofenceResponse>;
 export interface BatchPutGeofenceResponse {
-  Successes: BatchPutGeofenceSuccessList;
-  Errors: BatchPutGeofenceErrorList;
+  Successes: BatchPutGeofenceSuccess[];
+  Errors: BatchPutGeofenceError[];
 }
 export const BatchPutGeofenceResponse = S.suspend(() =>
   S.Struct({
@@ -3181,7 +3181,7 @@ export const BatchPutGeofenceResponse = S.suspend(() =>
   identifier: "BatchPutGeofenceResponse",
 }) as any as S.Schema<BatchPutGeofenceResponse>;
 export interface ForecastGeofenceEventsResponse {
-  ForecastedEvents: ForecastedEventsList;
+  ForecastedEvents: ForecastedEvent[];
   NextToken?: string;
   DistanceUnit: string;
   SpeedUnit: string;
@@ -3219,9 +3219,9 @@ export const GetPlaceResponse = S.suspend(() =>
   identifier: "GetPlaceResponse",
 }) as any as S.Schema<GetPlaceResponse>;
 export interface CalculateRouteMatrixResponse {
-  RouteMatrix: RouteMatrix;
-  SnappedDeparturePositions?: PositionList;
-  SnappedDestinationPositions?: PositionList;
+  RouteMatrix: RouteMatrixEntry[][];
+  SnappedDeparturePositions?: number[][];
+  SnappedDestinationPositions?: number[][];
   Summary: CalculateRouteMatrixSummary;
 }
 export const CalculateRouteMatrixResponse = S.suspend(() =>
@@ -3235,7 +3235,7 @@ export const CalculateRouteMatrixResponse = S.suspend(() =>
   identifier: "CalculateRouteMatrixResponse",
 }) as any as S.Schema<CalculateRouteMatrixResponse>;
 export interface ListDevicePositionsResponse {
-  Entries: ListDevicePositionsResponseEntryList;
+  Entries: ListDevicePositionsResponseEntry[];
   NextToken?: string;
 }
 export const ListDevicePositionsResponse = S.suspend(() =>
@@ -3247,7 +3247,7 @@ export const ListDevicePositionsResponse = S.suspend(() =>
   identifier: "ListDevicePositionsResponse",
 }) as any as S.Schema<ListDevicePositionsResponse>;
 export interface CellSignals {
-  LteCellDetails: LteCellDetailsList;
+  LteCellDetails: LteCellDetails[];
 }
 export const CellSignals = S.suspend(() =>
   S.Struct({ LteCellDetails: LteCellDetailsList }),
@@ -3271,7 +3271,7 @@ export const BatchEvaluateGeofencesErrorList = S.Array(
   BatchEvaluateGeofencesError,
 );
 export interface CalculateRouteSummary {
-  RouteBBox: BoundingBox;
+  RouteBBox: number[];
   DataSource: string;
   Distance: number;
   DurationSeconds: number;
@@ -3291,10 +3291,10 @@ export const CalculateRouteSummary = S.suspend(() =>
 export interface DeviceState {
   DeviceId: string;
   SampleTime: Date;
-  Position: Position;
+  Position: number[];
   Accuracy?: PositionalAccuracy;
   Ipv4Address?: string;
-  WiFiAccessPoints?: WiFiAccessPointList;
+  WiFiAccessPoints?: WiFiAccessPoint[];
   CellSignals?: CellSignals;
 }
 export const DeviceState = S.suspend(() =>
@@ -3308,10 +3308,10 @@ export const DeviceState = S.suspend(() =>
     CellSignals: S.optional(CellSignals),
   }),
 ).annotations({ identifier: "DeviceState" }) as any as S.Schema<DeviceState>;
-export type LineString = Position[];
+export type LineString = number[][];
 export const LineString = S.Array(Position);
 export interface BatchEvaluateGeofencesResponse {
-  Errors: BatchEvaluateGeofencesErrorList;
+  Errors: BatchEvaluateGeofencesError[];
 }
 export const BatchEvaluateGeofencesResponse = S.suspend(() =>
   S.Struct({ Errors: BatchEvaluateGeofencesErrorList }),
@@ -3345,14 +3345,14 @@ export const VerifyDevicePositionRequest = S.suspend(() =>
   identifier: "VerifyDevicePositionRequest",
 }) as any as S.Schema<VerifyDevicePositionRequest>;
 export interface LegGeometry {
-  LineString?: LineString;
+  LineString?: number[][];
 }
 export const LegGeometry = S.suspend(() =>
   S.Struct({ LineString: S.optional(LineString) }),
 ).annotations({ identifier: "LegGeometry" }) as any as S.Schema<LegGeometry>;
 export interface Step {
-  StartPosition: Position;
-  EndPosition: Position;
+  StartPosition: number[];
+  EndPosition: number[];
   Distance: number;
   DurationSeconds: number;
   GeometryOffset?: number;
@@ -3383,12 +3383,12 @@ export const ValidationExceptionField = S.suspend(() =>
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export interface Leg {
-  StartPosition: Position;
-  EndPosition: Position;
+  StartPosition: number[];
+  EndPosition: number[];
   Distance: number;
   DurationSeconds: number;
   Geometry?: LegGeometry;
-  Steps: StepList;
+  Steps: Step[];
 }
 export const Leg = S.suspend(() =>
   S.Struct({
@@ -3403,7 +3403,7 @@ export const Leg = S.suspend(() =>
 export type LegList = Leg[];
 export const LegList = S.Array(Leg);
 export interface CalculateRouteResponse {
-  Legs: LegList;
+  Legs: Leg[];
   Summary: CalculateRouteSummary;
 }
 export const CalculateRouteResponse = S.suspend(() =>
@@ -3412,7 +3412,7 @@ export const CalculateRouteResponse = S.suspend(() =>
   identifier: "CalculateRouteResponse",
 }) as any as S.Schema<CalculateRouteResponse>;
 export interface InferredState {
-  Position?: Position;
+  Position?: number[];
   Accuracy?: PositionalAccuracy;
   DeviationDistance?: number;
   ProxyDetected: boolean;
@@ -3489,7 +3489,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listGeofenceCollections: {
   (
     input: ListGeofenceCollectionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGeofenceCollectionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3500,7 +3500,7 @@ export const listGeofenceCollections: {
   >;
   pages: (
     input: ListGeofenceCollectionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGeofenceCollectionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3511,7 +3511,7 @@ export const listGeofenceCollections: {
   >;
   items: (
     input: ListGeofenceCollectionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGeofenceCollectionsResponseEntry,
     | AccessDeniedException
     | InternalServerException
@@ -3563,7 +3563,7 @@ export const listGeofenceCollections: {
  */
 export const calculateRoute: (
   input: CalculateRouteRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CalculateRouteResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3590,7 +3590,7 @@ export const calculateRoute: (
  */
 export const batchDeleteGeofence: (
   input: BatchDeleteGeofenceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDeleteGeofenceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3615,7 +3615,7 @@ export const batchDeleteGeofence: (
  */
 export const batchPutGeofence: (
   input: BatchPutGeofenceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchPutGeofenceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3649,7 +3649,7 @@ export const batchPutGeofence: (
 export const forecastGeofenceEvents: {
   (
     input: ForecastGeofenceEventsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ForecastGeofenceEventsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3661,7 +3661,7 @@ export const forecastGeofenceEvents: {
   >;
   pages: (
     input: ForecastGeofenceEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ForecastGeofenceEventsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3673,7 +3673,7 @@ export const forecastGeofenceEvents: {
   >;
   items: (
     input: ForecastGeofenceEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ForecastedEvent,
     | AccessDeniedException
     | InternalServerException
@@ -3705,7 +3705,7 @@ export const forecastGeofenceEvents: {
  */
 export const putGeofence: (
   input: PutGeofenceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutGeofenceResponse,
   | AccessDeniedException
   | ConflictException
@@ -3754,7 +3754,7 @@ export const putGeofence: (
  */
 export const getPlace: (
   input: GetPlaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPlaceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3805,7 +3805,7 @@ export const getPlace: (
  */
 export const calculateRouteMatrix: (
   input: CalculateRouteMatrixRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CalculateRouteMatrixResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3831,7 +3831,7 @@ export const calculateRouteMatrix: (
 export const listDevicePositions: {
   (
     input: ListDevicePositionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDevicePositionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3842,7 +3842,7 @@ export const listDevicePositions: {
   >;
   pages: (
     input: ListDevicePositionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDevicePositionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3853,7 +3853,7 @@ export const listDevicePositions: {
   >;
   items: (
     input: ListDevicePositionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDevicePositionsResponseEntry,
     | AccessDeniedException
     | InternalServerException
@@ -3884,7 +3884,7 @@ export const listDevicePositions: {
 export const listGeofences: {
   (
     input: ListGeofencesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGeofencesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3896,7 +3896,7 @@ export const listGeofences: {
   >;
   pages: (
     input: ListGeofencesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGeofencesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3908,7 +3908,7 @@ export const listGeofences: {
   >;
   items: (
     input: ListGeofencesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGeofenceResponseEntry,
     | AccessDeniedException
     | InternalServerException
@@ -3952,7 +3952,7 @@ export const listGeofences: {
  */
 export const updateMap: (
   input: UpdateMapRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMapResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3987,7 +3987,7 @@ export const updateMap: (
  */
 export const searchPlaceIndexForPosition: (
   input: SearchPlaceIndexForPositionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SearchPlaceIndexForPositionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4026,7 +4026,7 @@ export const searchPlaceIndexForPosition: (
  */
 export const searchPlaceIndexForSuggestions: (
   input: SearchPlaceIndexForSuggestionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SearchPlaceIndexForSuggestionsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4067,7 +4067,7 @@ export const searchPlaceIndexForSuggestions: (
  */
 export const searchPlaceIndexForText: (
   input: SearchPlaceIndexForTextRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SearchPlaceIndexForTextResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4092,7 +4092,7 @@ export const searchPlaceIndexForText: (
  */
 export const batchDeleteDevicePositionHistory: (
   input: BatchDeleteDevicePositionHistoryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDeleteDevicePositionHistoryResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4117,7 +4117,7 @@ export const batchDeleteDevicePositionHistory: (
  */
 export const batchGetDevicePosition: (
   input: BatchGetDevicePositionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetDevicePositionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4148,7 +4148,7 @@ export const batchGetDevicePosition: (
  */
 export const batchUpdateDevicePosition: (
   input: BatchUpdateDevicePositionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchUpdateDevicePositionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4173,7 +4173,7 @@ export const batchUpdateDevicePosition: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4198,7 +4198,7 @@ export const listTagsForResource: (
  */
 export const describeGeofenceCollection: (
   input: DescribeGeofenceCollectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeGeofenceCollectionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4223,7 +4223,7 @@ export const describeGeofenceCollection: (
  */
 export const updateGeofenceCollection: (
   input: UpdateGeofenceCollectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGeofenceCollectionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4250,7 +4250,7 @@ export const updateGeofenceCollection: (
  */
 export const getGeofence: (
   input: GetGeofenceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetGeofenceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4287,7 +4287,7 @@ export const getGeofence: (
  */
 export const describeMap: (
   input: DescribeMapRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeMapResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4324,7 +4324,7 @@ export const describeMap: (
  */
 export const getMapGlyphs: (
   input: GetMapGlyphsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMapGlyphsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4361,7 +4361,7 @@ export const getMapGlyphs: (
  */
 export const getMapSprites: (
   input: GetMapSpritesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMapSpritesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4400,7 +4400,7 @@ export const getMapSprites: (
  */
 export const getMapStyleDescriptor: (
   input: GetMapStyleDescriptorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMapStyleDescriptorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4439,7 +4439,7 @@ export const getMapStyleDescriptor: (
  */
 export const getMapTile: (
   input: GetMapTileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMapTileResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4476,7 +4476,7 @@ export const getMapTile: (
  */
 export const describePlaceIndex: (
   input: DescribePlaceIndexRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePlaceIndexResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4513,7 +4513,7 @@ export const describePlaceIndex: (
  */
 export const updatePlaceIndex: (
   input: UpdatePlaceIndexRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePlaceIndexResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4550,7 +4550,7 @@ export const updatePlaceIndex: (
  */
 export const describeRouteCalculator: (
   input: DescribeRouteCalculatorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRouteCalculatorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4587,7 +4587,7 @@ export const describeRouteCalculator: (
  */
 export const updateRouteCalculator: (
   input: UpdateRouteCalculatorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRouteCalculatorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4612,7 +4612,7 @@ export const updateRouteCalculator: (
  */
 export const describeTracker: (
   input: DescribeTrackerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeTrackerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4637,7 +4637,7 @@ export const describeTracker: (
  */
 export const updateTracker: (
   input: UpdateTrackerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTrackerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4664,7 +4664,7 @@ export const updateTracker: (
  */
 export const getDevicePosition: (
   input: GetDevicePositionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDevicePositionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4692,7 +4692,7 @@ export const getDevicePosition: (
 export const getDevicePositionHistory: {
   (
     input: GetDevicePositionHistoryRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetDevicePositionHistoryResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4704,7 +4704,7 @@ export const getDevicePositionHistory: {
   >;
   pages: (
     input: GetDevicePositionHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetDevicePositionHistoryResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4716,7 +4716,7 @@ export const getDevicePositionHistory: {
   >;
   items: (
     input: GetDevicePositionHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DevicePosition,
     | AccessDeniedException
     | InternalServerException
@@ -4749,7 +4749,7 @@ export const getDevicePositionHistory: {
 export const listTrackerConsumers: {
   (
     input: ListTrackerConsumersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTrackerConsumersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4761,7 +4761,7 @@ export const listTrackerConsumers: {
   >;
   pages: (
     input: ListTrackerConsumersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTrackerConsumersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4773,7 +4773,7 @@ export const listTrackerConsumers: {
   >;
   items: (
     input: ListTrackerConsumersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Arn,
     | AccessDeniedException
     | InternalServerException
@@ -4811,7 +4811,7 @@ export const listTrackerConsumers: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4836,7 +4836,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4863,7 +4863,7 @@ export const untagResource: (
  */
 export const deleteGeofenceCollection: (
   input: DeleteGeofenceCollectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGeofenceCollectionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4902,7 +4902,7 @@ export const deleteGeofenceCollection: (
  */
 export const deleteMap: (
   input: DeleteMapRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMapResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4941,7 +4941,7 @@ export const deleteMap: (
  */
 export const deletePlaceIndex: (
   input: DeletePlaceIndexRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePlaceIndexResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4980,7 +4980,7 @@ export const deletePlaceIndex: (
  */
 export const deleteRouteCalculator: (
   input: DeleteRouteCalculatorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRouteCalculatorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5007,7 +5007,7 @@ export const deleteRouteCalculator: (
  */
 export const deleteTracker: (
   input: DeleteTrackerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTrackerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5034,7 +5034,7 @@ export const deleteTracker: (
  */
 export const disassociateTrackerConsumer: (
   input: DisassociateTrackerConsumerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateTrackerConsumerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5061,7 +5061,7 @@ export const disassociateTrackerConsumer: (
  */
 export const describeKey: (
   input: DescribeKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeKeyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5086,7 +5086,7 @@ export const describeKey: (
  */
 export const updateKey: (
   input: UpdateKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateKeyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5115,7 +5115,7 @@ export const updateKey: (
  */
 export const associateTrackerConsumer: (
   input: AssociateTrackerConsumerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateTrackerConsumerResponse,
   | AccessDeniedException
   | ConflictException
@@ -5158,7 +5158,7 @@ export const associateTrackerConsumer: (
  */
 export const createMap: (
   input: CreateMapRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMapResponse,
   | AccessDeniedException
   | ConflictException
@@ -5199,7 +5199,7 @@ export const createMap: (
  */
 export const createPlaceIndex: (
   input: CreatePlaceIndexRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePlaceIndexResponse,
   | AccessDeniedException
   | ConflictException
@@ -5242,7 +5242,7 @@ export const createPlaceIndex: (
  */
 export const createRouteCalculator: (
   input: CreateRouteCalculatorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRouteCalculatorResponse,
   | AccessDeniedException
   | ConflictException
@@ -5269,7 +5269,7 @@ export const createRouteCalculator: (
  */
 export const createTracker: (
   input: CreateTrackerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTrackerResponse,
   | AccessDeniedException
   | ConflictException
@@ -5298,7 +5298,7 @@ export const createTracker: (
  */
 export const createKey: (
   input: CreateKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateKeyResponse,
   | AccessDeniedException
   | ConflictException
@@ -5338,7 +5338,7 @@ export const createKey: (
 export const listMaps: {
   (
     input: ListMapsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMapsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5349,7 +5349,7 @@ export const listMaps: {
   >;
   pages: (
     input: ListMapsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMapsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5360,7 +5360,7 @@ export const listMaps: {
   >;
   items: (
     input: ListMapsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMapsResponseEntry,
     | AccessDeniedException
     | InternalServerException
@@ -5403,7 +5403,7 @@ export const listMaps: {
 export const listPlaceIndexes: {
   (
     input: ListPlaceIndexesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPlaceIndexesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5414,7 +5414,7 @@ export const listPlaceIndexes: {
   >;
   pages: (
     input: ListPlaceIndexesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPlaceIndexesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5425,7 +5425,7 @@ export const listPlaceIndexes: {
   >;
   items: (
     input: ListPlaceIndexesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPlaceIndexesResponseEntry,
     | AccessDeniedException
     | InternalServerException
@@ -5468,7 +5468,7 @@ export const listPlaceIndexes: {
 export const listRouteCalculators: {
   (
     input: ListRouteCalculatorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRouteCalculatorsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5479,7 +5479,7 @@ export const listRouteCalculators: {
   >;
   pages: (
     input: ListRouteCalculatorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRouteCalculatorsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5490,7 +5490,7 @@ export const listRouteCalculators: {
   >;
   items: (
     input: ListRouteCalculatorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRouteCalculatorsResponseEntry,
     | AccessDeniedException
     | InternalServerException
@@ -5521,7 +5521,7 @@ export const listRouteCalculators: {
 export const listTrackers: {
   (
     input: ListTrackersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTrackersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5532,7 +5532,7 @@ export const listTrackers: {
   >;
   pages: (
     input: ListTrackersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTrackersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5543,7 +5543,7 @@ export const listTrackers: {
   >;
   items: (
     input: ListTrackersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTrackersResponseEntry,
     | AccessDeniedException
     | InternalServerException
@@ -5575,7 +5575,7 @@ export const listTrackers: {
  */
 export const deleteKey: (
   input: DeleteKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteKeyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5603,7 +5603,7 @@ export const deleteKey: (
 export const listKeys: {
   (
     input: ListKeysRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListKeysResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5614,7 +5614,7 @@ export const listKeys: {
   >;
   pages: (
     input: ListKeysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListKeysResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5625,7 +5625,7 @@ export const listKeys: {
   >;
   items: (
     input: ListKeysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListKeysResponseEntry,
     | AccessDeniedException
     | InternalServerException
@@ -5655,7 +5655,7 @@ export const listKeys: {
  */
 export const createGeofenceCollection: (
   input: CreateGeofenceCollectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGeofenceCollectionResponse,
   | AccessDeniedException
   | ConflictException
@@ -5694,7 +5694,7 @@ export const createGeofenceCollection: (
  */
 export const batchEvaluateGeofences: (
   input: BatchEvaluateGeofencesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchEvaluateGeofencesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5721,7 +5721,7 @@ export const batchEvaluateGeofences: (
  */
 export const verifyDevicePosition: (
   input: VerifyDevicePositionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   VerifyDevicePositionResponse,
   | AccessDeniedException
   | InternalServerException

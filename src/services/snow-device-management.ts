@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -129,7 +129,7 @@ export const ListTagsForResourceInput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceInput>;
 export interface UntagResourceInput {
   resourceArn: string;
-  tagKeys: TagKeys;
+  tagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({
@@ -199,7 +199,7 @@ export const ListDevicesInput = S.suspend(() =>
 }) as any as S.Schema<ListDevicesInput>;
 export interface DescribeDeviceEc2Input {
   managedDeviceId: string;
-  instanceIds: InstanceIdsList;
+  instanceIds: string[];
 }
 export const DescribeDeviceEc2Input = S.suspend(() =>
   S.Struct({
@@ -371,7 +371,7 @@ export const Command = S.Union(
   S.Struct({ reboot: Reboot }),
 );
 export interface ListTagsForResourceOutput {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -380,7 +380,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -404,10 +404,10 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface CreateTaskInput {
-  targets: TargetList;
-  command: (typeof Command)["Type"];
+  targets: string[];
+  command: Command;
   description?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   clientToken?: string;
 }
 export const CreateTaskInput = S.suspend(() =>
@@ -433,13 +433,13 @@ export const CreateTaskInput = S.suspend(() =>
 export interface DescribeTaskOutput {
   taskId?: string;
   taskArn?: string;
-  targets?: TargetList;
+  targets?: string[];
   state?: string;
   createdAt?: Date;
   lastUpdatedAt?: Date;
   completedAt?: Date;
   description?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const DescribeTaskOutput = S.suspend(() =>
   S.Struct({
@@ -544,7 +544,7 @@ export interface DeviceSummary {
   managedDeviceId?: string;
   managedDeviceArn?: string;
   associatedWithJob?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const DeviceSummary = S.suspend(() =>
   S.Struct({
@@ -578,7 +578,7 @@ export interface TaskSummary {
   taskId: string;
   taskArn?: string;
   state?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const TaskSummary = S.suspend(() =>
   S.Struct({
@@ -611,14 +611,14 @@ export const ExecutionSummaryList = S.Array(ExecutionSummary);
 export interface DescribeDeviceOutput {
   lastReachedOutAt?: Date;
   lastUpdatedAt?: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   managedDeviceId?: string;
   managedDeviceArn?: string;
   deviceType?: string;
   associatedWithJob?: string;
   deviceState?: string;
-  physicalNetworkInterfaces?: PhysicalNetworkInterfaceList;
-  deviceCapacities?: CapacityList;
+  physicalNetworkInterfaces?: PhysicalNetworkInterface[];
+  deviceCapacities?: Capacity[];
   software?: SoftwareInformation;
 }
 export const DescribeDeviceOutput = S.suspend(() =>
@@ -641,7 +641,7 @@ export const DescribeDeviceOutput = S.suspend(() =>
   identifier: "DescribeDeviceOutput",
 }) as any as S.Schema<DescribeDeviceOutput>;
 export interface ListDevicesOutput {
-  devices?: DeviceSummaryList;
+  devices?: DeviceSummary[];
   nextToken?: string;
 }
 export const ListDevicesOutput = S.suspend(() =>
@@ -653,7 +653,7 @@ export const ListDevicesOutput = S.suspend(() =>
   identifier: "ListDevicesOutput",
 }) as any as S.Schema<ListDevicesOutput>;
 export interface ListDeviceResourcesOutput {
-  resources?: ResourceSummaryList;
+  resources?: ResourceSummary[];
   nextToken?: string;
 }
 export const ListDeviceResourcesOutput = S.suspend(() =>
@@ -674,7 +674,7 @@ export const CreateTaskOutput = S.suspend(() =>
   identifier: "CreateTaskOutput",
 }) as any as S.Schema<CreateTaskOutput>;
 export interface ListTasksOutput {
-  tasks?: TaskSummaryList;
+  tasks?: TaskSummary[];
   nextToken?: string;
 }
 export const ListTasksOutput = S.suspend(() =>
@@ -686,7 +686,7 @@ export const ListTasksOutput = S.suspend(() =>
   identifier: "ListTasksOutput",
 }) as any as S.Schema<ListTasksOutput>;
 export interface ListExecutionsOutput {
-  executions?: ExecutionSummaryList;
+  executions?: ExecutionSummary[];
   nextToken?: string;
 }
 export const ListExecutionsOutput = S.suspend(() =>
@@ -769,8 +769,8 @@ export interface Instance {
   publicIpAddress?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  blockDeviceMappings?: InstanceBlockDeviceMappingList;
-  securityGroups?: SecurityGroupIdentifierList;
+  blockDeviceMappings?: InstanceBlockDeviceMapping[];
+  securityGroups?: SecurityGroupIdentifier[];
   cpuOptions?: CpuOptions;
   rootDeviceName?: string;
 }
@@ -806,7 +806,7 @@ export const InstanceSummary = S.suspend(() =>
 export type InstanceSummaryList = InstanceSummary[];
 export const InstanceSummaryList = S.Array(InstanceSummary);
 export interface DescribeDeviceEc2Output {
-  instances?: InstanceSummaryList;
+  instances?: InstanceSummary[];
 }
 export const DescribeDeviceEc2Output = S.suspend(() =>
   S.Struct({ instances: S.optional(InstanceSummaryList) }),
@@ -848,7 +848,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -869,7 +869,7 @@ export const untagResource: (
  */
 export const describeTask: (
   input: DescribeTaskInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeTaskOutput,
   | AccessDeniedException
   | InternalServerException
@@ -894,7 +894,7 @@ export const describeTask: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -915,7 +915,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -936,7 +936,7 @@ export const tagResource: (
  */
 export const createTask: (
   input: CreateTaskInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTaskOutput,
   | AccessDeniedException
   | InternalServerException
@@ -964,7 +964,7 @@ export const createTask: (
 export const listTasks: {
   (
     input: ListTasksInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTasksOutput,
     | AccessDeniedException
     | InternalServerException
@@ -975,7 +975,7 @@ export const listTasks: {
   >;
   pages: (
     input: ListTasksInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTasksOutput,
     | AccessDeniedException
     | InternalServerException
@@ -986,7 +986,7 @@ export const listTasks: {
   >;
   items: (
     input: ListTasksInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TaskSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1017,7 +1017,7 @@ export const listTasks: {
 export const listExecutions: {
   (
     input: ListExecutionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListExecutionsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1029,7 +1029,7 @@ export const listExecutions: {
   >;
   pages: (
     input: ListExecutionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListExecutionsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1041,7 +1041,7 @@ export const listExecutions: {
   >;
   items: (
     input: ListExecutionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExecutionSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1077,7 +1077,7 @@ export const listExecutions: {
  */
 export const cancelTask: (
   input: CancelTaskInput,
-) => Effect.Effect<
+) => effect.Effect<
   CancelTaskOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1102,7 +1102,7 @@ export const cancelTask: (
  */
 export const describeExecution: (
   input: DescribeExecutionInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeExecutionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1128,7 +1128,7 @@ export const describeExecution: (
  */
 export const describeDevice: (
   input: DescribeDeviceInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDeviceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1155,7 +1155,7 @@ export const describeDevice: (
 export const listDevices: {
   (
     input: ListDevicesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDevicesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1166,7 +1166,7 @@ export const listDevices: {
   >;
   pages: (
     input: ListDevicesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDevicesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1177,7 +1177,7 @@ export const listDevices: {
   >;
   items: (
     input: ListDevicesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DeviceSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1208,7 +1208,7 @@ export const listDevices: {
 export const listDeviceResources: {
   (
     input: ListDeviceResourcesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDeviceResourcesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1220,7 +1220,7 @@ export const listDeviceResources: {
   >;
   pages: (
     input: ListDeviceResourcesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDeviceResourcesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1232,7 +1232,7 @@ export const listDeviceResources: {
   >;
   items: (
     input: ListDeviceResourcesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResourceSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1266,7 +1266,7 @@ export const listDeviceResources: {
  */
 export const describeDeviceEc2Instances: (
   input: DescribeDeviceEc2Input,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDeviceEc2Output,
   | AccessDeniedException
   | InternalServerException

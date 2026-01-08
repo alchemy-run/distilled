@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -203,28 +203,139 @@ export const DescribeAccountRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeAccountRequest>;
 export type IpGroupIdList = string[];
 export const IpGroupIdList = S.Array(S.String);
-export type ClientDeviceTypeList = string[];
-export const ClientDeviceTypeList = S.Array(S.String);
+export type PoolsRunningMode = "AUTO_STOP" | "ALWAYS_ON";
+export const PoolsRunningMode = S.Literal("AUTO_STOP", "ALWAYS_ON");
+export type ClientDeviceType =
+  | "DeviceTypeWindows"
+  | "DeviceTypeOsx"
+  | "DeviceTypeAndroid"
+  | "DeviceTypeIos"
+  | "DeviceTypeLinux"
+  | "DeviceTypeWeb";
+export const ClientDeviceType = S.Literal(
+  "DeviceTypeWindows",
+  "DeviceTypeOsx",
+  "DeviceTypeAndroid",
+  "DeviceTypeIos",
+  "DeviceTypeLinux",
+  "DeviceTypeWeb",
+);
+export type ClientDeviceTypeList = ClientDeviceType[];
+export const ClientDeviceTypeList = S.Array(ClientDeviceType);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export type ApplicationAssociatedResourceTypeList = string[];
-export const ApplicationAssociatedResourceTypeList = S.Array(S.String);
+export type DedicatedTenancySupportResultEnum = "ENABLED" | "DISABLED";
+export const DedicatedTenancySupportResultEnum = S.Literal(
+  "ENABLED",
+  "DISABLED",
+);
+export type DedicatedTenancyAccountType = "SOURCE_ACCOUNT" | "TARGET_ACCOUNT";
+export const DedicatedTenancyAccountType = S.Literal(
+  "SOURCE_ACCOUNT",
+  "TARGET_ACCOUNT",
+);
+export type ApplicationAssociatedResourceType =
+  | "WORKSPACE"
+  | "BUNDLE"
+  | "IMAGE";
+export const ApplicationAssociatedResourceType = S.Literal(
+  "WORKSPACE",
+  "BUNDLE",
+  "IMAGE",
+);
+export type ApplicationAssociatedResourceTypeList =
+  ApplicationAssociatedResourceType[];
+export const ApplicationAssociatedResourceTypeList = S.Array(
+  ApplicationAssociatedResourceType,
+);
 export type WorkSpaceApplicationIdList = string[];
 export const WorkSpaceApplicationIdList = S.Array(S.String);
-export type ComputeList = string[];
-export const ComputeList = S.Array(S.String);
-export type OperatingSystemNameList = string[];
-export const OperatingSystemNameList = S.Array(S.String);
-export type BundleAssociatedResourceTypeList = string[];
-export const BundleAssociatedResourceTypeList = S.Array(S.String);
+export type Compute =
+  | "VALUE"
+  | "STANDARD"
+  | "PERFORMANCE"
+  | "POWER"
+  | "GRAPHICS"
+  | "POWERPRO"
+  | "GENERALPURPOSE_4XLARGE"
+  | "GENERALPURPOSE_8XLARGE"
+  | "GRAPHICSPRO"
+  | "GRAPHICS_G4DN"
+  | "GRAPHICSPRO_G4DN";
+export const Compute = S.Literal(
+  "VALUE",
+  "STANDARD",
+  "PERFORMANCE",
+  "POWER",
+  "GRAPHICS",
+  "POWERPRO",
+  "GENERALPURPOSE_4XLARGE",
+  "GENERALPURPOSE_8XLARGE",
+  "GRAPHICSPRO",
+  "GRAPHICS_G4DN",
+  "GRAPHICSPRO_G4DN",
+);
+export type ComputeList = Compute[];
+export const ComputeList = S.Array(Compute);
+export type WorkSpaceApplicationLicenseType = "LICENSED" | "UNLICENSED";
+export const WorkSpaceApplicationLicenseType = S.Literal(
+  "LICENSED",
+  "UNLICENSED",
+);
+export type OperatingSystemName =
+  | "AMAZON_LINUX_2"
+  | "UBUNTU_18_04"
+  | "UBUNTU_20_04"
+  | "UBUNTU_22_04"
+  | "UNKNOWN"
+  | "WINDOWS_10"
+  | "WINDOWS_11"
+  | "WINDOWS_7"
+  | "WINDOWS_SERVER_2016"
+  | "WINDOWS_SERVER_2019"
+  | "WINDOWS_SERVER_2022"
+  | "RHEL_8"
+  | "ROCKY_8";
+export const OperatingSystemName = S.Literal(
+  "AMAZON_LINUX_2",
+  "UBUNTU_18_04",
+  "UBUNTU_20_04",
+  "UBUNTU_22_04",
+  "UNKNOWN",
+  "WINDOWS_10",
+  "WINDOWS_11",
+  "WINDOWS_7",
+  "WINDOWS_SERVER_2016",
+  "WINDOWS_SERVER_2019",
+  "WINDOWS_SERVER_2022",
+  "RHEL_8",
+  "ROCKY_8",
+);
+export type OperatingSystemNameList = OperatingSystemName[];
+export const OperatingSystemNameList = S.Array(OperatingSystemName);
+export type BundleAssociatedResourceType = "APPLICATION";
+export const BundleAssociatedResourceType = S.Literal("APPLICATION");
+export type BundleAssociatedResourceTypeList = BundleAssociatedResourceType[];
+export const BundleAssociatedResourceTypeList = S.Array(
+  BundleAssociatedResourceType,
+);
 export type ResourceIdList = string[];
 export const ResourceIdList = S.Array(S.String);
 export type ConnectionAliasIdList = string[];
 export const ConnectionAliasIdList = S.Array(S.String);
-export type ImageAssociatedResourceTypeList = string[];
-export const ImageAssociatedResourceTypeList = S.Array(S.String);
-export type WorkSpaceAssociatedResourceTypeList = string[];
-export const WorkSpaceAssociatedResourceTypeList = S.Array(S.String);
+export type ImageAssociatedResourceType = "APPLICATION";
+export const ImageAssociatedResourceType = S.Literal("APPLICATION");
+export type ImageAssociatedResourceTypeList = ImageAssociatedResourceType[];
+export const ImageAssociatedResourceTypeList = S.Array(
+  ImageAssociatedResourceType,
+);
+export type WorkSpaceAssociatedResourceType = "APPLICATION";
+export const WorkSpaceAssociatedResourceType = S.Literal("APPLICATION");
+export type WorkSpaceAssociatedResourceTypeList =
+  WorkSpaceAssociatedResourceType[];
+export const WorkSpaceAssociatedResourceTypeList = S.Array(
+  WorkSpaceAssociatedResourceType,
+);
 export type BundleIdList = string[];
 export const BundleIdList = S.Array(S.String);
 export type DirectoryIdList = string[];
@@ -233,20 +344,106 @@ export type WorkspaceDirectoryNameList = string[];
 export const WorkspaceDirectoryNameList = S.Array(S.String);
 export type WorkspaceImageIdList = string[];
 export const WorkspaceImageIdList = S.Array(S.String);
+export type ImageType = "OWNED" | "SHARED";
+export const ImageType = S.Literal("OWNED", "SHARED");
 export type WorkspaceIdList = string[];
 export const WorkspaceIdList = S.Array(S.String);
 export type WorkspacesPoolIds = string[];
 export const WorkspacesPoolIds = S.Array(S.String);
-export type ApplicationList = string[];
-export const ApplicationList = S.Array(S.String);
-export type LinkStatusFilterList = string[];
-export const LinkStatusFilterList = S.Array(S.String);
-export type DeletableCertificateBasedAuthPropertiesList = string[];
-export const DeletableCertificateBasedAuthPropertiesList = S.Array(S.String);
-export type DeletableSamlPropertiesList = string[];
-export const DeletableSamlPropertiesList = S.Array(S.String);
+export type ImageComputeType = "BASE" | "GRAPHICS_G4DN";
+export const ImageComputeType = S.Literal("BASE", "GRAPHICS_G4DN");
+export type CustomImageProtocol = "PCOIP" | "DCV" | "BYOP";
+export const CustomImageProtocol = S.Literal("PCOIP", "DCV", "BYOP");
+export type Platform = "WINDOWS";
+export const Platform = S.Literal("WINDOWS");
+export type OSVersion = "Windows_10" | "Windows_11";
+export const OSVersion = S.Literal("Windows_10", "Windows_11");
+export type WorkspaceImageIngestionProcess =
+  | "BYOL_REGULAR"
+  | "BYOL_GRAPHICS"
+  | "BYOL_GRAPHICSPRO"
+  | "BYOL_GRAPHICS_G4DN"
+  | "BYOL_REGULAR_WSP"
+  | "BYOL_GRAPHICS_G4DN_WSP"
+  | "BYOL_REGULAR_BYOP"
+  | "BYOL_GRAPHICS_G4DN_BYOP";
+export const WorkspaceImageIngestionProcess = S.Literal(
+  "BYOL_REGULAR",
+  "BYOL_GRAPHICS",
+  "BYOL_GRAPHICSPRO",
+  "BYOL_GRAPHICS_G4DN",
+  "BYOL_REGULAR_WSP",
+  "BYOL_GRAPHICS_G4DN_WSP",
+  "BYOL_REGULAR_BYOP",
+  "BYOL_GRAPHICS_G4DN_BYOP",
+);
+export type Application = "Microsoft_Office_2016" | "Microsoft_Office_2019";
+export const Application = S.Literal(
+  "Microsoft_Office_2016",
+  "Microsoft_Office_2019",
+);
+export type ApplicationList = Application[];
+export const ApplicationList = S.Array(Application);
+export type AccountLinkStatusEnum =
+  | "LINKED"
+  | "LINKING_FAILED"
+  | "LINK_NOT_FOUND"
+  | "PENDING_ACCEPTANCE_BY_TARGET_ACCOUNT"
+  | "REJECTED";
+export const AccountLinkStatusEnum = S.Literal(
+  "LINKED",
+  "LINKING_FAILED",
+  "LINK_NOT_FOUND",
+  "PENDING_ACCEPTANCE_BY_TARGET_ACCOUNT",
+  "REJECTED",
+);
+export type LinkStatusFilterList = AccountLinkStatusEnum[];
+export const LinkStatusFilterList = S.Array(AccountLinkStatusEnum);
+export type DedicatedTenancySupportEnum = "ENABLED";
+export const DedicatedTenancySupportEnum = S.Literal("ENABLED");
+export type DeletableCertificateBasedAuthProperty =
+  "CERTIFICATE_BASED_AUTH_PROPERTIES_CERTIFICATE_AUTHORITY_ARN";
+export const DeletableCertificateBasedAuthProperty = S.Literal(
+  "CERTIFICATE_BASED_AUTH_PROPERTIES_CERTIFICATE_AUTHORITY_ARN",
+);
+export type DeletableCertificateBasedAuthPropertiesList =
+  DeletableCertificateBasedAuthProperty[];
+export const DeletableCertificateBasedAuthPropertiesList = S.Array(
+  DeletableCertificateBasedAuthProperty,
+);
+export type EndpointEncryptionMode = "STANDARD_TLS" | "FIPS_VALIDATED";
+export const EndpointEncryptionMode = S.Literal(
+  "STANDARD_TLS",
+  "FIPS_VALIDATED",
+);
+export type DeletableSamlProperty =
+  | "SAML_PROPERTIES_USER_ACCESS_URL"
+  | "SAML_PROPERTIES_RELAY_STATE_PARAMETER_NAME";
+export const DeletableSamlProperty = S.Literal(
+  "SAML_PROPERTIES_USER_ACCESS_URL",
+  "SAML_PROPERTIES_RELAY_STATE_PARAMETER_NAME",
+);
+export type DeletableSamlPropertiesList = DeletableSamlProperty[];
+export const DeletableSamlPropertiesList = S.Array(DeletableSamlProperty);
+export type DataReplication = "NO_REPLICATION" | "PRIMARY_AS_SOURCE";
+export const DataReplication = S.Literal("NO_REPLICATION", "PRIMARY_AS_SOURCE");
+export type TargetWorkspaceState = "AVAILABLE" | "ADMIN_MAINTENANCE";
+export const TargetWorkspaceState = S.Literal("AVAILABLE", "ADMIN_MAINTENANCE");
 export type SubnetIds = string[];
 export const SubnetIds = S.Array(S.String);
+export type Tenancy = "DEDICATED" | "SHARED";
+export const Tenancy = S.Literal("DEDICATED", "SHARED");
+export type UserIdentityType =
+  | "CUSTOMER_MANAGED"
+  | "AWS_DIRECTORY_SERVICE"
+  | "AWS_IAM_IDENTITY_CENTER";
+export const UserIdentityType = S.Literal(
+  "CUSTOMER_MANAGED",
+  "AWS_DIRECTORY_SERVICE",
+  "AWS_IAM_IDENTITY_CENTER",
+);
+export type WorkspaceType = "PERSONAL" | "POOLS";
+export const WorkspaceType = S.Literal("PERSONAL", "POOLS");
 export type IpRevokedRuleList = string[];
 export const IpRevokedRuleList = S.Array(S.String);
 export interface AcceptAccountLinkInvitationRequest {
@@ -289,7 +486,7 @@ export const AssociateConnectionAliasRequest = S.suspend(() =>
 }) as any as S.Schema<AssociateConnectionAliasRequest>;
 export interface AssociateIpGroupsRequest {
   DirectoryId: string;
-  GroupIds: IpGroupIdList;
+  GroupIds: string[];
 }
 export const AssociateIpGroupsRequest = S.suspend(() =>
   S.Struct({ DirectoryId: S.String, GroupIds: IpGroupIdList }).pipe(
@@ -384,7 +581,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface CreateConnectionAliasRequest {
   ConnectionString: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateConnectionAliasRequest = S.suspend(() =>
   S.Struct({ ConnectionString: S.String, Tags: S.optional(TagList) }).pipe(
@@ -413,8 +610,8 @@ export const IpRuleList = S.Array(IpRuleItem);
 export interface CreateIpGroupRequest {
   GroupName: string;
   GroupDesc?: string;
-  UserRules?: IpRuleList;
-  Tags?: TagList;
+  UserRules?: IpRuleItem[];
+  Tags?: Tag[];
 }
 export const CreateIpGroupRequest = S.suspend(() =>
   S.Struct({
@@ -438,7 +635,7 @@ export const CreateIpGroupRequest = S.suspend(() =>
 }) as any as S.Schema<CreateIpGroupRequest>;
 export interface CreateTagsRequest {
   ResourceId: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const CreateTagsRequest = S.suspend(() =>
   S.Struct({ ResourceId: S.String, Tags: TagList }).pipe(
@@ -465,7 +662,7 @@ export interface CreateUpdatedWorkspaceImageRequest {
   Name: string;
   Description: string;
   SourceImageId: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateUpdatedWorkspaceImageRequest = S.suspend(() =>
   S.Struct({
@@ -491,7 +688,7 @@ export interface CreateWorkspaceImageRequest {
   Name: string;
   Description: string;
   WorkspaceId: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateWorkspaceImageRequest = S.suspend(() =>
   S.Struct({
@@ -534,7 +731,7 @@ export const DeleteAccountLinkInvitationRequest = S.suspend(() =>
 }) as any as S.Schema<DeleteAccountLinkInvitationRequest>;
 export interface DeleteClientBrandingRequest {
   ResourceId: string;
-  Platforms: ClientDeviceTypeList;
+  Platforms: ClientDeviceType[];
 }
 export const DeleteClientBrandingRequest = S.suspend(() =>
   S.Struct({ ResourceId: S.String, Platforms: ClientDeviceTypeList }).pipe(
@@ -632,7 +829,7 @@ export const DeleteIpGroupResult = S.suspend(() =>
 }) as any as S.Schema<DeleteIpGroupResult>;
 export interface DeleteTagsRequest {
   ResourceId: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const DeleteTagsRequest = S.suspend(() =>
   S.Struct({ ResourceId: S.String, TagKeys: TagKeyList }).pipe(
@@ -747,16 +944,16 @@ export const DeregisterWorkspaceDirectoryResult = S.suspend(() =>
   identifier: "DeregisterWorkspaceDirectoryResult",
 }) as any as S.Schema<DeregisterWorkspaceDirectoryResult>;
 export interface DescribeAccountResult {
-  DedicatedTenancySupport?: string;
+  DedicatedTenancySupport?: DedicatedTenancySupportResultEnum;
   DedicatedTenancyManagementCidrRange?: string;
-  DedicatedTenancyAccountType?: string;
+  DedicatedTenancyAccountType?: DedicatedTenancyAccountType;
   Message?: string;
 }
 export const DescribeAccountResult = S.suspend(() =>
   S.Struct({
-    DedicatedTenancySupport: S.optional(S.String),
+    DedicatedTenancySupport: S.optional(DedicatedTenancySupportResultEnum),
     DedicatedTenancyManagementCidrRange: S.optional(S.String),
-    DedicatedTenancyAccountType: S.optional(S.String),
+    DedicatedTenancyAccountType: S.optional(DedicatedTenancyAccountType),
     Message: S.optional(S.String),
   }).pipe(ns),
 ).annotations({
@@ -784,7 +981,7 @@ export interface DescribeApplicationAssociationsRequest {
   MaxResults?: number;
   NextToken?: string;
   ApplicationId: string;
-  AssociatedResourceTypes: ApplicationAssociatedResourceTypeList;
+  AssociatedResourceTypes: ApplicationAssociatedResourceType[];
 }
 export const DescribeApplicationAssociationsRequest = S.suspend(() =>
   S.Struct({
@@ -807,10 +1004,10 @@ export const DescribeApplicationAssociationsRequest = S.suspend(() =>
   identifier: "DescribeApplicationAssociationsRequest",
 }) as any as S.Schema<DescribeApplicationAssociationsRequest>;
 export interface DescribeApplicationsRequest {
-  ApplicationIds?: WorkSpaceApplicationIdList;
-  ComputeTypeNames?: ComputeList;
-  LicenseType?: string;
-  OperatingSystemNames?: OperatingSystemNameList;
+  ApplicationIds?: string[];
+  ComputeTypeNames?: Compute[];
+  LicenseType?: WorkSpaceApplicationLicenseType;
+  OperatingSystemNames?: OperatingSystemName[];
   Owner?: string;
   MaxResults?: number;
   NextToken?: string;
@@ -819,7 +1016,7 @@ export const DescribeApplicationsRequest = S.suspend(() =>
   S.Struct({
     ApplicationIds: S.optional(WorkSpaceApplicationIdList),
     ComputeTypeNames: S.optional(ComputeList),
-    LicenseType: S.optional(S.String),
+    LicenseType: S.optional(WorkSpaceApplicationLicenseType),
     OperatingSystemNames: S.optional(OperatingSystemNameList),
     Owner: S.optional(S.String),
     MaxResults: S.optional(S.Number),
@@ -840,7 +1037,7 @@ export const DescribeApplicationsRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeApplicationsRequest>;
 export interface DescribeBundleAssociationsRequest {
   BundleId: string;
-  AssociatedResourceTypes: BundleAssociatedResourceTypeList;
+  AssociatedResourceTypes: BundleAssociatedResourceType[];
 }
 export const DescribeBundleAssociationsRequest = S.suspend(() =>
   S.Struct({
@@ -879,7 +1076,7 @@ export const DescribeClientBrandingRequest = S.suspend(() =>
   identifier: "DescribeClientBrandingRequest",
 }) as any as S.Schema<DescribeClientBrandingRequest>;
 export interface DescribeClientPropertiesRequest {
-  ResourceIds: ResourceIdList;
+  ResourceIds: string[];
 }
 export const DescribeClientPropertiesRequest = S.suspend(() =>
   S.Struct({ ResourceIds: ResourceIdList }).pipe(
@@ -921,7 +1118,7 @@ export const DescribeConnectClientAddInsRequest = S.suspend(() =>
   identifier: "DescribeConnectClientAddInsRequest",
 }) as any as S.Schema<DescribeConnectClientAddInsRequest>;
 export interface DescribeConnectionAliasesRequest {
-  AliasIds?: ConnectionAliasIdList;
+  AliasIds?: string[];
   ResourceId?: string;
   Limit?: number;
   NextToken?: string;
@@ -990,7 +1187,7 @@ export const DescribeCustomWorkspaceImageImportRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeCustomWorkspaceImageImportRequest>;
 export interface DescribeImageAssociationsRequest {
   ImageId: string;
-  AssociatedResourceTypes: ImageAssociatedResourceTypeList;
+  AssociatedResourceTypes: ImageAssociatedResourceType[];
 }
 export const DescribeImageAssociationsRequest = S.suspend(() =>
   S.Struct({
@@ -1011,7 +1208,7 @@ export const DescribeImageAssociationsRequest = S.suspend(() =>
   identifier: "DescribeImageAssociationsRequest",
 }) as any as S.Schema<DescribeImageAssociationsRequest>;
 export interface DescribeIpGroupsRequest {
-  GroupIds?: IpGroupIdList;
+  GroupIds?: string[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -1054,7 +1251,7 @@ export const DescribeTagsRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeTagsRequest>;
 export interface DescribeWorkspaceAssociationsRequest {
   WorkspaceId: string;
-  AssociatedResourceTypes: WorkSpaceAssociatedResourceTypeList;
+  AssociatedResourceTypes: WorkSpaceAssociatedResourceType[];
 }
 export const DescribeWorkspaceAssociationsRequest = S.suspend(() =>
   S.Struct({
@@ -1075,7 +1272,7 @@ export const DescribeWorkspaceAssociationsRequest = S.suspend(() =>
   identifier: "DescribeWorkspaceAssociationsRequest",
 }) as any as S.Schema<DescribeWorkspaceAssociationsRequest>;
 export interface DescribeWorkspaceBundlesRequest {
-  BundleIds?: BundleIdList;
+  BundleIds?: string[];
   Owner?: string;
   NextToken?: string;
 }
@@ -1123,15 +1320,15 @@ export const DescribeWorkspaceImagePermissionsRequest = S.suspend(() =>
   identifier: "DescribeWorkspaceImagePermissionsRequest",
 }) as any as S.Schema<DescribeWorkspaceImagePermissionsRequest>;
 export interface DescribeWorkspaceImagesRequest {
-  ImageIds?: WorkspaceImageIdList;
-  ImageType?: string;
+  ImageIds?: string[];
+  ImageType?: ImageType;
   NextToken?: string;
   MaxResults?: number;
 }
 export const DescribeWorkspaceImagesRequest = S.suspend(() =>
   S.Struct({
     ImageIds: S.optional(WorkspaceImageIdList),
-    ImageType: S.optional(S.String),
+    ImageType: S.optional(ImageType),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
@@ -1149,7 +1346,7 @@ export const DescribeWorkspaceImagesRequest = S.suspend(() =>
   identifier: "DescribeWorkspaceImagesRequest",
 }) as any as S.Schema<DescribeWorkspaceImagesRequest>;
 export interface DescribeWorkspacesRequest {
-  WorkspaceIds?: WorkspaceIdList;
+  WorkspaceIds?: string[];
   DirectoryId?: string;
   UserName?: string;
   BundleId?: string;
@@ -1181,7 +1378,7 @@ export const DescribeWorkspacesRequest = S.suspend(() =>
   identifier: "DescribeWorkspacesRequest",
 }) as any as S.Schema<DescribeWorkspacesRequest>;
 export interface DescribeWorkspacesConnectionStatusRequest {
-  WorkspaceIds?: WorkspaceIdList;
+  WorkspaceIds?: string[];
   NextToken?: string;
 }
 export const DescribeWorkspacesConnectionStatusRequest = S.suspend(() =>
@@ -1272,7 +1469,7 @@ export const DisassociateConnectionAliasResult = S.suspend(() =>
 }) as any as S.Schema<DisassociateConnectionAliasResult>;
 export interface DisassociateIpGroupsRequest {
   DirectoryId: string;
-  GroupIds: IpGroupIdList;
+  GroupIds: string[];
 }
 export const DisassociateIpGroupsRequest = S.suspend(() =>
   S.Struct({ DirectoryId: S.String, GroupIds: IpGroupIdList }).pipe(
@@ -1338,16 +1535,16 @@ export const GetAccountLinkRequest = S.suspend(() =>
 }) as any as S.Schema<GetAccountLinkRequest>;
 export interface ImportWorkspaceImageRequest {
   Ec2ImageId: string;
-  IngestionProcess: string;
+  IngestionProcess: WorkspaceImageIngestionProcess;
   ImageName: string;
   ImageDescription: string;
-  Tags?: TagList;
-  Applications?: ApplicationList;
+  Tags?: Tag[];
+  Applications?: Application[];
 }
 export const ImportWorkspaceImageRequest = S.suspend(() =>
   S.Struct({
     Ec2ImageId: S.String,
-    IngestionProcess: S.String,
+    IngestionProcess: WorkspaceImageIngestionProcess,
     ImageName: S.String,
     ImageDescription: S.String,
     Tags: S.optional(TagList),
@@ -1367,7 +1564,7 @@ export const ImportWorkspaceImageRequest = S.suspend(() =>
   identifier: "ImportWorkspaceImageRequest",
 }) as any as S.Schema<ImportWorkspaceImageRequest>;
 export interface ListAccountLinksRequest {
-  LinkStatusFilter?: LinkStatusFilterList;
+  LinkStatusFilter?: AccountLinkStatusEnum[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -1434,12 +1631,12 @@ export const MigrateWorkspaceRequest = S.suspend(() =>
   identifier: "MigrateWorkspaceRequest",
 }) as any as S.Schema<MigrateWorkspaceRequest>;
 export interface ModifyAccountRequest {
-  DedicatedTenancySupport?: string;
+  DedicatedTenancySupport?: DedicatedTenancySupportEnum;
   DedicatedTenancyManagementCidrRange?: string;
 }
 export const ModifyAccountRequest = S.suspend(() =>
   S.Struct({
-    DedicatedTenancySupport: S.optional(S.String),
+    DedicatedTenancySupport: S.optional(DedicatedTenancySupportEnum),
     DedicatedTenancyManagementCidrRange: S.optional(S.String),
   }).pipe(
     T.all(
@@ -1457,10 +1654,13 @@ export const ModifyAccountRequest = S.suspend(() =>
 }) as any as S.Schema<ModifyAccountRequest>;
 export interface ModifyEndpointEncryptionModeRequest {
   DirectoryId: string;
-  EndpointEncryptionMode: string;
+  EndpointEncryptionMode: EndpointEncryptionMode;
 }
 export const ModifyEndpointEncryptionModeRequest = S.suspend(() =>
-  S.Struct({ DirectoryId: S.String, EndpointEncryptionMode: S.String }).pipe(
+  S.Struct({
+    DirectoryId: S.String,
+    EndpointEncryptionMode: EndpointEncryptionMode,
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1482,10 +1682,13 @@ export const ModifyEndpointEncryptionModeResponse = S.suspend(() =>
 }) as any as S.Schema<ModifyEndpointEncryptionModeResponse>;
 export interface ModifyWorkspaceStateRequest {
   WorkspaceId: string;
-  WorkspaceState: string;
+  WorkspaceState: TargetWorkspaceState;
 }
 export const ModifyWorkspaceStateRequest = S.suspend(() =>
-  S.Struct({ WorkspaceId: S.String, WorkspaceState: S.String }).pipe(
+  S.Struct({
+    WorkspaceId: S.String,
+    WorkspaceState: TargetWorkspaceState,
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1550,7 +1753,7 @@ export const RestoreWorkspaceResult = S.suspend(() =>
 }) as any as S.Schema<RestoreWorkspaceResult>;
 export interface RevokeIpRulesRequest {
   GroupId: string;
-  UserRules: IpRevokedRuleList;
+  UserRules: string[];
 }
 export const RevokeIpRulesRequest = S.suspend(() =>
   S.Struct({ GroupId: S.String, UserRules: IpRevokedRuleList }).pipe(
@@ -1703,7 +1906,7 @@ export const UpdateConnectClientAddInResult = S.suspend(() =>
 }) as any as S.Schema<UpdateConnectClientAddInResult>;
 export interface UpdateRulesOfIpGroupRequest {
   GroupId: string;
-  UserRules: IpRuleList;
+  UserRules: IpRuleItem[];
 }
 export const UpdateRulesOfIpGroupRequest = S.suspend(() =>
   S.Struct({ GroupId: S.String, UserRules: IpRuleList }).pipe(
@@ -1790,12 +1993,17 @@ export interface Capacity {
 export const Capacity = S.suspend(() =>
   S.Struct({ DesiredUserSessions: S.Number }),
 ).annotations({ identifier: "Capacity" }) as any as S.Schema<Capacity>;
+export type ApplicationSettingsStatusEnum = "DISABLED" | "ENABLED";
+export const ApplicationSettingsStatusEnum = S.Literal("DISABLED", "ENABLED");
 export interface ApplicationSettingsRequest {
-  Status: string;
+  Status: ApplicationSettingsStatusEnum;
   SettingsGroup?: string;
 }
 export const ApplicationSettingsRequest = S.suspend(() =>
-  S.Struct({ Status: S.String, SettingsGroup: S.optional(S.String) }),
+  S.Struct({
+    Status: ApplicationSettingsStatusEnum,
+    SettingsGroup: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "ApplicationSettingsRequest",
 }) as any as S.Schema<ApplicationSettingsRequest>;
@@ -1821,7 +2029,7 @@ export interface UpdateWorkspacesPoolRequest {
   Capacity?: Capacity;
   ApplicationSettings?: ApplicationSettingsRequest;
   TimeoutSettings?: TimeoutSettings;
-  RunningMode?: string;
+  RunningMode?: PoolsRunningMode;
 }
 export const UpdateWorkspacesPoolRequest = S.suspend(() =>
   S.Struct({
@@ -1832,7 +2040,7 @@ export const UpdateWorkspacesPoolRequest = S.suspend(() =>
     Capacity: S.optional(Capacity),
     ApplicationSettings: S.optional(ApplicationSettingsRequest),
     TimeoutSettings: S.optional(TimeoutSettings),
-    RunningMode: S.optional(S.String),
+    RunningMode: S.optional(PoolsRunningMode),
   }).pipe(
     T.all(
       ns,
@@ -1847,18 +2055,61 @@ export const UpdateWorkspacesPoolRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateWorkspacesPoolRequest",
 }) as any as S.Schema<UpdateWorkspacesPoolRequest>;
+export type DescribeWorkspaceDirectoriesFilterName =
+  | "USER_IDENTITY_TYPE"
+  | "WORKSPACE_TYPE";
+export const DescribeWorkspaceDirectoriesFilterName = S.Literal(
+  "USER_IDENTITY_TYPE",
+  "WORKSPACE_TYPE",
+);
 export type DescribeWorkspaceDirectoriesFilterValues = string[];
 export const DescribeWorkspaceDirectoriesFilterValues = S.Array(S.String);
+export type DescribeWorkspacesPoolsFilterName = "PoolName";
+export const DescribeWorkspacesPoolsFilterName = S.Literal("PoolName");
 export type DescribeWorkspacesPoolsFilterValues = string[];
 export const DescribeWorkspacesPoolsFilterValues = S.Array(S.String);
-export type ProtocolList = string[];
-export const ProtocolList = S.Array(S.String);
+export type DescribeWorkspacesPoolsFilterOperator =
+  | "EQUALS"
+  | "NOTEQUALS"
+  | "CONTAINS"
+  | "NOTCONTAINS";
+export const DescribeWorkspacesPoolsFilterOperator = S.Literal(
+  "EQUALS",
+  "NOTEQUALS",
+  "CONTAINS",
+  "NOTCONTAINS",
+);
+export type CertificateBasedAuthStatusEnum = "DISABLED" | "ENABLED";
+export const CertificateBasedAuthStatusEnum = S.Literal("DISABLED", "ENABLED");
+export type ReconnectEnum = "ENABLED" | "DISABLED";
+export const ReconnectEnum = S.Literal("ENABLED", "DISABLED");
+export type LogUploadEnum = "ENABLED" | "DISABLED";
+export const LogUploadEnum = S.Literal("ENABLED", "DISABLED");
+export type SamlStatusEnum =
+  | "DISABLED"
+  | "ENABLED"
+  | "ENABLED_WITH_DIRECTORY_LOGIN_FALLBACK";
+export const SamlStatusEnum = S.Literal(
+  "DISABLED",
+  "ENABLED",
+  "ENABLED_WITH_DIRECTORY_LOGIN_FALLBACK",
+);
+export type StreamingExperiencePreferredProtocolEnum = "TCP" | "UDP";
+export const StreamingExperiencePreferredProtocolEnum = S.Literal("TCP", "UDP");
+export type AccessPropertyValue = "ALLOW" | "DENY";
+export const AccessPropertyValue = S.Literal("ALLOW", "DENY");
+export type RunningMode = "AUTO_STOP" | "ALWAYS_ON" | "MANUAL";
+export const RunningMode = S.Literal("AUTO_STOP", "ALWAYS_ON", "MANUAL");
+export type Protocol = "PCOIP" | "WSP";
+export const Protocol = S.Literal("PCOIP", "WSP");
+export type ProtocolList = Protocol[];
+export const ProtocolList = S.Array(Protocol);
 export interface StandbyWorkspace {
   PrimaryWorkspaceId: string;
   VolumeEncryptionKey?: string;
   DirectoryId: string;
-  Tags?: TagList;
-  DataReplication?: string;
+  Tags?: Tag[];
+  DataReplication?: DataReplication;
 }
 export const StandbyWorkspace = S.suspend(() =>
   S.Struct({
@@ -1866,7 +2117,7 @@ export const StandbyWorkspace = S.suspend(() =>
     VolumeEncryptionKey: S.optional(S.String),
     DirectoryId: S.String,
     Tags: S.optional(TagList),
-    DataReplication: S.optional(S.String),
+    DataReplication: S.optional(DataReplication),
   }),
 ).annotations({
   identifier: "StandbyWorkspace",
@@ -1874,10 +2125,10 @@ export const StandbyWorkspace = S.suspend(() =>
 export type StandbyWorkspacesList = StandbyWorkspace[];
 export const StandbyWorkspacesList = S.Array(StandbyWorkspace);
 export interface ComputeType {
-  Name?: string;
+  Name?: Compute;
 }
 export const ComputeType = S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String) }),
+  S.Struct({ Name: S.optional(Compute) }),
 ).annotations({ identifier: "ComputeType" }) as any as S.Schema<ComputeType>;
 export interface UserStorage {
   Capacity: string;
@@ -1891,34 +2142,53 @@ export interface RootStorage {
 export const RootStorage = S.suspend(() =>
   S.Struct({ Capacity: S.String }),
 ).annotations({ identifier: "RootStorage" }) as any as S.Schema<RootStorage>;
+export type WorkspaceImageState = "AVAILABLE" | "PENDING" | "ERROR";
+export const WorkspaceImageState = S.Literal("AVAILABLE", "PENDING", "ERROR");
+export type WorkspaceImageRequiredTenancy = "DEFAULT" | "DEDICATED";
+export const WorkspaceImageRequiredTenancy = S.Literal("DEFAULT", "DEDICATED");
+export type AGAModeForWorkSpaceEnum = "ENABLED_AUTO" | "DISABLED" | "INHERITED";
+export const AGAModeForWorkSpaceEnum = S.Literal(
+  "ENABLED_AUTO",
+  "DISABLED",
+  "INHERITED",
+);
+export type AGAPreferredProtocolForWorkSpace = "TCP" | "NONE" | "INHERITED";
+export const AGAPreferredProtocolForWorkSpace = S.Literal(
+  "TCP",
+  "NONE",
+  "INHERITED",
+);
 export interface GlobalAcceleratorForWorkSpace {
-  Mode: string;
-  PreferredProtocol?: string;
+  Mode: AGAModeForWorkSpaceEnum;
+  PreferredProtocol?: AGAPreferredProtocolForWorkSpace;
 }
 export const GlobalAcceleratorForWorkSpace = S.suspend(() =>
-  S.Struct({ Mode: S.String, PreferredProtocol: S.optional(S.String) }),
+  S.Struct({
+    Mode: AGAModeForWorkSpaceEnum,
+    PreferredProtocol: S.optional(AGAPreferredProtocolForWorkSpace),
+  }),
 ).annotations({
   identifier: "GlobalAcceleratorForWorkSpace",
 }) as any as S.Schema<GlobalAcceleratorForWorkSpace>;
 export interface WorkspaceProperties {
-  RunningMode?: string;
+  RunningMode?: RunningMode;
   RunningModeAutoStopTimeoutInMinutes?: number;
   RootVolumeSizeGib?: number;
   UserVolumeSizeGib?: number;
-  ComputeTypeName?: string;
-  Protocols?: ProtocolList;
-  OperatingSystemName?: string;
+  ComputeTypeName?: Compute;
+  Protocols?: Protocol[];
+  OperatingSystemName?: OperatingSystemName;
   GlobalAccelerator?: GlobalAcceleratorForWorkSpace;
 }
 export const WorkspaceProperties = S.suspend(() =>
   S.Struct({
-    RunningMode: S.optional(S.String),
+    RunningMode: S.optional(RunningMode),
     RunningModeAutoStopTimeoutInMinutes: S.optional(S.Number),
     RootVolumeSizeGib: S.optional(S.Number),
     UserVolumeSizeGib: S.optional(S.Number),
-    ComputeTypeName: S.optional(S.String),
+    ComputeTypeName: S.optional(Compute),
     Protocols: S.optional(ProtocolList),
-    OperatingSystemName: S.optional(S.String),
+    OperatingSystemName: S.optional(OperatingSystemName),
     GlobalAccelerator: S.optional(GlobalAcceleratorForWorkSpace),
   }),
 ).annotations({
@@ -1932,7 +2202,7 @@ export interface WorkspaceRequest {
   UserVolumeEncryptionEnabled?: boolean;
   RootVolumeEncryptionEnabled?: boolean;
   WorkspaceProperties?: WorkspaceProperties;
-  Tags?: TagList;
+  Tags?: Tag[];
   WorkspaceName?: string;
   Ipv6Address?: string;
 }
@@ -1965,13 +2235,58 @@ export const ConnectionAliasPermission = S.suspend(() =>
 }) as any as S.Schema<ConnectionAliasPermission>;
 export type ConnectionAliasPermissions = ConnectionAliasPermission[];
 export const ConnectionAliasPermissions = S.Array(ConnectionAliasPermission);
+export type CustomWorkspaceImageImportState =
+  | "PENDING"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "ERROR";
+export const CustomWorkspaceImageImportState = S.Literal(
+  "PENDING",
+  "IN_PROGRESS",
+  "COMPLETED",
+  "ERROR",
+);
+export type AssociationState =
+  | "PENDING_INSTALL"
+  | "PENDING_INSTALL_DEPLOYMENT"
+  | "PENDING_UNINSTALL"
+  | "PENDING_UNINSTALL_DEPLOYMENT"
+  | "INSTALLING"
+  | "UNINSTALLING"
+  | "ERROR"
+  | "COMPLETED"
+  | "REMOVED";
+export const AssociationState = S.Literal(
+  "PENDING_INSTALL",
+  "PENDING_INSTALL_DEPLOYMENT",
+  "PENDING_UNINSTALL",
+  "PENDING_UNINSTALL_DEPLOYMENT",
+  "INSTALLING",
+  "UNINSTALLING",
+  "ERROR",
+  "COMPLETED",
+  "REMOVED",
+);
+export type AssociationErrorCode =
+  | "ValidationError.InsufficientDiskSpace"
+  | "ValidationError.InsufficientMemory"
+  | "ValidationError.UnsupportedOperatingSystem"
+  | "DeploymentError.InternalServerError"
+  | "DeploymentError.WorkspaceUnreachable";
+export const AssociationErrorCode = S.Literal(
+  "ValidationError.InsufficientDiskSpace",
+  "ValidationError.InsufficientMemory",
+  "ValidationError.UnsupportedOperatingSystem",
+  "DeploymentError.InternalServerError",
+  "DeploymentError.WorkspaceUnreachable",
+);
 export interface AssociationStateReason {
-  ErrorCode?: string;
+  ErrorCode?: AssociationErrorCode;
   ErrorMessage?: string;
 }
 export const AssociationStateReason = S.suspend(() =>
   S.Struct({
-    ErrorCode: S.optional(S.String),
+    ErrorCode: S.optional(AssociationErrorCode),
     ErrorMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -1979,22 +2294,22 @@ export const AssociationStateReason = S.suspend(() =>
 }) as any as S.Schema<AssociationStateReason>;
 export interface WorkspaceResourceAssociation {
   AssociatedResourceId?: string;
-  AssociatedResourceType?: string;
+  AssociatedResourceType?: WorkSpaceAssociatedResourceType;
   Created?: Date;
   LastUpdatedTime?: Date;
-  State?: string;
+  State?: AssociationState;
   StateReason?: AssociationStateReason;
   WorkspaceId?: string;
 }
 export const WorkspaceResourceAssociation = S.suspend(() =>
   S.Struct({
     AssociatedResourceId: S.optional(S.String),
-    AssociatedResourceType: S.optional(S.String),
+    AssociatedResourceType: S.optional(WorkSpaceAssociatedResourceType),
     Created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    State: S.optional(S.String),
+    State: S.optional(AssociationState),
     StateReason: S.optional(AssociationStateReason),
     WorkspaceId: S.optional(S.String),
   }),
@@ -2006,12 +2321,12 @@ export const WorkspaceResourceAssociationList = S.Array(
   WorkspaceResourceAssociation,
 );
 export interface DescribeWorkspaceDirectoriesFilter {
-  Name: string;
-  Values: DescribeWorkspaceDirectoriesFilterValues;
+  Name: DescribeWorkspaceDirectoriesFilterName;
+  Values: string[];
 }
 export const DescribeWorkspaceDirectoriesFilter = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: DescribeWorkspaceDirectoriesFilterName,
     Values: DescribeWorkspaceDirectoriesFilterValues,
   }),
 ).annotations({
@@ -2023,15 +2338,15 @@ export const DescribeWorkspaceDirectoriesFilterList = S.Array(
   DescribeWorkspaceDirectoriesFilter,
 );
 export interface DescribeWorkspacesPoolsFilter {
-  Name: string;
-  Values: DescribeWorkspacesPoolsFilterValues;
-  Operator: string;
+  Name: DescribeWorkspacesPoolsFilterName;
+  Values: string[];
+  Operator: DescribeWorkspacesPoolsFilterOperator;
 }
 export const DescribeWorkspacesPoolsFilter = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: DescribeWorkspacesPoolsFilterName,
     Values: DescribeWorkspacesPoolsFilterValues,
-    Operator: S.String,
+    Operator: DescribeWorkspacesPoolsFilterOperator,
   }),
 ).annotations({
   identifier: "DescribeWorkspacesPoolsFilter",
@@ -2049,7 +2364,7 @@ export interface IosImportClientBrandingAttributes {
   SupportEmail?: string;
   SupportLink?: string;
   ForgotPasswordLink?: string;
-  LoginMessage?: LoginMessage;
+  LoginMessage?: { [key: string]: string };
 }
 export const IosImportClientBrandingAttributes = S.suspend(() =>
   S.Struct({
@@ -2075,14 +2390,14 @@ export const ImageSourceIdentifier = S.Union(
 );
 export interface AccountLink {
   AccountLinkId?: string;
-  AccountLinkStatus?: string;
+  AccountLinkStatus?: AccountLinkStatusEnum;
   SourceAccountId?: string;
   TargetAccountId?: string;
 }
 export const AccountLink = S.suspend(() =>
   S.Struct({
     AccountLinkId: S.optional(S.String),
-    AccountLinkStatus: S.optional(S.String),
+    AccountLinkStatus: S.optional(AccountLinkStatusEnum),
     SourceAccountId: S.optional(S.String),
     TargetAccountId: S.optional(S.String),
   }),
@@ -2092,37 +2407,37 @@ export const AccountLinkList = S.Array(AccountLink);
 export type DedicatedTenancyCidrRangeList = string[];
 export const DedicatedTenancyCidrRangeList = S.Array(S.String);
 export interface CertificateBasedAuthProperties {
-  Status?: string;
+  Status?: CertificateBasedAuthStatusEnum;
   CertificateAuthorityArn?: string;
 }
 export const CertificateBasedAuthProperties = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(CertificateBasedAuthStatusEnum),
     CertificateAuthorityArn: S.optional(S.String),
   }),
 ).annotations({
   identifier: "CertificateBasedAuthProperties",
 }) as any as S.Schema<CertificateBasedAuthProperties>;
 export interface ClientProperties {
-  ReconnectEnabled?: string;
-  LogUploadEnabled?: string;
+  ReconnectEnabled?: ReconnectEnum;
+  LogUploadEnabled?: LogUploadEnum;
 }
 export const ClientProperties = S.suspend(() =>
   S.Struct({
-    ReconnectEnabled: S.optional(S.String),
-    LogUploadEnabled: S.optional(S.String),
+    ReconnectEnabled: S.optional(ReconnectEnum),
+    LogUploadEnabled: S.optional(LogUploadEnum),
   }),
 ).annotations({
   identifier: "ClientProperties",
 }) as any as S.Schema<ClientProperties>;
 export interface SamlProperties {
-  Status?: string;
+  Status?: SamlStatusEnum;
   UserAccessUrl?: string;
   RelayStateParameterName?: string;
 }
 export const SamlProperties = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(SamlStatusEnum),
     UserAccessUrl: S.optional(S.String),
     RelayStateParameterName: S.optional(S.String),
   }),
@@ -2130,19 +2445,19 @@ export const SamlProperties = S.suspend(() =>
   identifier: "SamlProperties",
 }) as any as S.Schema<SamlProperties>;
 export interface SelfservicePermissions {
-  RestartWorkspace?: string;
-  IncreaseVolumeSize?: string;
-  ChangeComputeType?: string;
-  SwitchRunningMode?: string;
-  RebuildWorkspace?: string;
+  RestartWorkspace?: ReconnectEnum;
+  IncreaseVolumeSize?: ReconnectEnum;
+  ChangeComputeType?: ReconnectEnum;
+  SwitchRunningMode?: ReconnectEnum;
+  RebuildWorkspace?: ReconnectEnum;
 }
 export const SelfservicePermissions = S.suspend(() =>
   S.Struct({
-    RestartWorkspace: S.optional(S.String),
-    IncreaseVolumeSize: S.optional(S.String),
-    ChangeComputeType: S.optional(S.String),
-    SwitchRunningMode: S.optional(S.String),
-    RebuildWorkspace: S.optional(S.String),
+    RestartWorkspace: S.optional(ReconnectEnum),
+    IncreaseVolumeSize: S.optional(ReconnectEnum),
+    ChangeComputeType: S.optional(ReconnectEnum),
+    SwitchRunningMode: S.optional(ReconnectEnum),
+    RebuildWorkspace: S.optional(ReconnectEnum),
   }),
 ).annotations({
   identifier: "SelfservicePermissions",
@@ -2234,8 +2549,31 @@ export const TerminateRequest = S.suspend(() =>
 }) as any as S.Schema<TerminateRequest>;
 export type TerminateWorkspaceRequests = TerminateRequest[];
 export const TerminateWorkspaceRequests = S.Array(TerminateRequest);
-export type InternetFallbackProtocolList = string[];
-export const InternetFallbackProtocolList = S.Array(S.String);
+export type UserSettingActionEnum =
+  | "CLIPBOARD_COPY_FROM_LOCAL_DEVICE"
+  | "CLIPBOARD_COPY_TO_LOCAL_DEVICE"
+  | "PRINTING_TO_LOCAL_DEVICE"
+  | "SMART_CARD";
+export const UserSettingActionEnum = S.Literal(
+  "CLIPBOARD_COPY_FROM_LOCAL_DEVICE",
+  "CLIPBOARD_COPY_TO_LOCAL_DEVICE",
+  "PRINTING_TO_LOCAL_DEVICE",
+  "SMART_CARD",
+);
+export type UserSettingPermissionEnum = "ENABLED" | "DISABLED";
+export const UserSettingPermissionEnum = S.Literal("ENABLED", "DISABLED");
+export type StorageConnectorTypeEnum = "HOME_FOLDER";
+export const StorageConnectorTypeEnum = S.Literal("HOME_FOLDER");
+export type StorageConnectorStatusEnum = "ENABLED" | "DISABLED";
+export const StorageConnectorStatusEnum = S.Literal("ENABLED", "DISABLED");
+export type AGAModeForDirectoryEnum = "ENABLED_AUTO" | "DISABLED";
+export const AGAModeForDirectoryEnum = S.Literal("ENABLED_AUTO", "DISABLED");
+export type AGAPreferredProtocolForDirectory = "TCP" | "NONE";
+export const AGAPreferredProtocolForDirectory = S.Literal("TCP", "NONE");
+export type InternetFallbackProtocol = "PCOIP";
+export const InternetFallbackProtocol = S.Literal("PCOIP");
+export type InternetFallbackProtocolList = InternetFallbackProtocol[];
+export const InternetFallbackProtocolList = S.Array(InternetFallbackProtocol);
 export interface AssociateConnectionAliasResult {
   ConnectionIdentifier?: string;
 }
@@ -2246,7 +2584,7 @@ export const AssociateConnectionAliasResult = S.suspend(() =>
 }) as any as S.Schema<AssociateConnectionAliasResult>;
 export interface AuthorizeIpRulesRequest {
   GroupId: string;
-  UserRules: IpRuleList;
+  UserRules: IpRuleItem[];
 }
 export const AuthorizeIpRulesRequest = S.suspend(() =>
   S.Struct({ GroupId: S.String, UserRules: IpRuleList }).pipe(
@@ -2274,7 +2612,7 @@ export interface CopyWorkspaceImageRequest {
   Description?: string;
   SourceImageId: string;
   SourceRegion: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CopyWorkspaceImageRequest = S.suspend(() =>
   S.Struct({
@@ -2331,7 +2669,7 @@ export const CreateIpGroupResult = S.suspend(() =>
 }) as any as S.Schema<CreateIpGroupResult>;
 export interface CreateStandbyWorkspacesRequest {
   PrimaryRegion: string;
-  StandbyWorkspaces: StandbyWorkspacesList;
+  StandbyWorkspaces: StandbyWorkspace[];
 }
 export const CreateStandbyWorkspacesRequest = S.suspend(() =>
   S.Struct({
@@ -2366,7 +2704,7 @@ export interface CreateWorkspaceBundleRequest {
   ComputeType: ComputeType;
   UserStorage: UserStorage;
   RootStorage?: RootStorage;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateWorkspaceBundleRequest = S.suspend(() =>
   S.Struct({
@@ -2392,7 +2730,7 @@ export const CreateWorkspaceBundleRequest = S.suspend(() =>
   identifier: "CreateWorkspaceBundleRequest",
 }) as any as S.Schema<CreateWorkspaceBundleRequest>;
 export interface CreateWorkspacesRequest {
-  Workspaces: WorkspaceRequestList;
+  Workspaces: WorkspaceRequest[];
 }
 export const CreateWorkspacesRequest = S.suspend(() =>
   S.Struct({ Workspaces: WorkspaceRequestList }).pipe(
@@ -2415,10 +2753,10 @@ export interface CreateWorkspacesPoolRequest {
   BundleId: string;
   DirectoryId: string;
   Capacity: Capacity;
-  Tags?: TagList;
+  Tags?: Tag[];
   ApplicationSettings?: ApplicationSettingsRequest;
   TimeoutSettings?: TimeoutSettings;
-  RunningMode?: string;
+  RunningMode?: PoolsRunningMode;
 }
 export const CreateWorkspacesPoolRequest = S.suspend(() =>
   S.Struct({
@@ -2430,7 +2768,7 @@ export const CreateWorkspacesPoolRequest = S.suspend(() =>
     Tags: S.optional(TagList),
     ApplicationSettings: S.optional(ApplicationSettingsRequest),
     TimeoutSettings: S.optional(TimeoutSettings),
-    RunningMode: S.optional(S.String),
+    RunningMode: S.optional(PoolsRunningMode),
   }).pipe(
     T.all(
       ns,
@@ -2455,7 +2793,7 @@ export const DeleteAccountLinkInvitationResult = S.suspend(() =>
 }) as any as S.Schema<DeleteAccountLinkInvitationResult>;
 export interface DescribeConnectionAliasPermissionsResult {
   AliasId?: string;
-  ConnectionAliasPermissions?: ConnectionAliasPermissions;
+  ConnectionAliasPermissions?: ConnectionAliasPermission[];
   NextToken?: string;
 }
 export const DescribeConnectionAliasPermissionsResult = S.suspend(() =>
@@ -2468,7 +2806,7 @@ export const DescribeConnectionAliasPermissionsResult = S.suspend(() =>
   identifier: "DescribeConnectionAliasPermissionsResult",
 }) as any as S.Schema<DescribeConnectionAliasPermissionsResult>;
 export interface DescribeTagsResult {
-  TagList?: TagList;
+  TagList?: Tag[];
 }
 export const DescribeTagsResult = S.suspend(() =>
   S.Struct({ TagList: S.optional(TagList) }).pipe(ns),
@@ -2476,7 +2814,7 @@ export const DescribeTagsResult = S.suspend(() =>
   identifier: "DescribeTagsResult",
 }) as any as S.Schema<DescribeTagsResult>;
 export interface DescribeWorkspaceAssociationsResult {
-  Associations?: WorkspaceResourceAssociationList;
+  Associations?: WorkspaceResourceAssociation[];
 }
 export const DescribeWorkspaceAssociationsResult = S.suspend(() =>
   S.Struct({ Associations: S.optional(WorkspaceResourceAssociationList) }).pipe(
@@ -2486,11 +2824,11 @@ export const DescribeWorkspaceAssociationsResult = S.suspend(() =>
   identifier: "DescribeWorkspaceAssociationsResult",
 }) as any as S.Schema<DescribeWorkspaceAssociationsResult>;
 export interface DescribeWorkspaceDirectoriesRequest {
-  DirectoryIds?: DirectoryIdList;
-  WorkspaceDirectoryNames?: WorkspaceDirectoryNameList;
+  DirectoryIds?: string[];
+  WorkspaceDirectoryNames?: string[];
   Limit?: number;
   NextToken?: string;
-  Filters?: DescribeWorkspaceDirectoriesFilterList;
+  Filters?: DescribeWorkspaceDirectoriesFilter[];
 }
 export const DescribeWorkspaceDirectoriesRequest = S.suspend(() =>
   S.Struct({
@@ -2514,8 +2852,8 @@ export const DescribeWorkspaceDirectoriesRequest = S.suspend(() =>
   identifier: "DescribeWorkspaceDirectoriesRequest",
 }) as any as S.Schema<DescribeWorkspaceDirectoriesRequest>;
 export interface DescribeWorkspacesPoolsRequest {
-  PoolIds?: WorkspacesPoolIds;
-  Filters?: DescribeWorkspacesPoolsFilters;
+  PoolIds?: string[];
+  Filters?: DescribeWorkspacesPoolsFilter[];
   Limit?: number;
   NextToken?: string;
 }
@@ -2558,24 +2896,24 @@ export const GetAccountLinkResult = S.suspend(() =>
 export interface ImportCustomWorkspaceImageRequest {
   ImageName: string;
   ImageDescription: string;
-  ComputeType: string;
-  Protocol: string;
-  ImageSource: (typeof ImageSourceIdentifier)["Type"];
+  ComputeType: ImageComputeType;
+  Protocol: CustomImageProtocol;
+  ImageSource: ImageSourceIdentifier;
   InfrastructureConfigurationArn: string;
-  Platform: string;
-  OsVersion: string;
-  Tags?: TagList;
+  Platform: Platform;
+  OsVersion: OSVersion;
+  Tags?: Tag[];
 }
 export const ImportCustomWorkspaceImageRequest = S.suspend(() =>
   S.Struct({
     ImageName: S.String,
     ImageDescription: S.String,
-    ComputeType: S.String,
-    Protocol: S.String,
+    ComputeType: ImageComputeType,
+    Protocol: CustomImageProtocol,
     ImageSource: ImageSourceIdentifier,
     InfrastructureConfigurationArn: S.String,
-    Platform: S.String,
-    OsVersion: S.String,
+    Platform: Platform,
+    OsVersion: OSVersion,
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -2600,7 +2938,7 @@ export const ImportWorkspaceImageResult = S.suspend(() =>
   identifier: "ImportWorkspaceImageResult",
 }) as any as S.Schema<ImportWorkspaceImageResult>;
 export interface ListAccountLinksResult {
-  AccountLinks?: AccountLinkList;
+  AccountLinks?: AccountLink[];
   NextToken?: string;
 }
 export const ListAccountLinksResult = S.suspend(() =>
@@ -2612,7 +2950,7 @@ export const ListAccountLinksResult = S.suspend(() =>
   identifier: "ListAccountLinksResult",
 }) as any as S.Schema<ListAccountLinksResult>;
 export interface ListAvailableManagementCidrRangesResult {
-  ManagementCidrRanges?: DedicatedTenancyCidrRangeList;
+  ManagementCidrRanges?: string[];
   NextToken?: string;
 }
 export const ListAvailableManagementCidrRangesResult = S.suspend(() =>
@@ -2646,7 +2984,7 @@ export const ModifyAccountResult = S.suspend(() =>
 export interface ModifyCertificateBasedAuthPropertiesRequest {
   ResourceId: string;
   CertificateBasedAuthProperties?: CertificateBasedAuthProperties;
-  PropertiesToDelete?: DeletableCertificateBasedAuthPropertiesList;
+  PropertiesToDelete?: DeletableCertificateBasedAuthProperty[];
 }
 export const ModifyCertificateBasedAuthPropertiesRequest = S.suspend(() =>
   S.Struct({
@@ -2701,7 +3039,7 @@ export const ModifyClientPropertiesResult = S.suspend(() =>
 export interface ModifySamlPropertiesRequest {
   ResourceId: string;
   SamlProperties?: SamlProperties;
-  PropertiesToDelete?: DeletableSamlPropertiesList;
+  PropertiesToDelete?: DeletableSamlProperty[];
 }
 export const ModifySamlPropertiesRequest = S.suspend(() =>
   S.Struct({
@@ -2785,7 +3123,7 @@ export const ModifyWorkspaceCreationPropertiesResult = S.suspend(() =>
   identifier: "ModifyWorkspaceCreationPropertiesResult",
 }) as any as S.Schema<ModifyWorkspaceCreationPropertiesResult>;
 export interface RebootWorkspacesRequest {
-  RebootWorkspaceRequests: RebootWorkspaceRequests;
+  RebootWorkspaceRequests: RebootRequest[];
 }
 export const RebootWorkspacesRequest = S.suspend(() =>
   S.Struct({ RebootWorkspaceRequests: RebootWorkspaceRequests }).pipe(
@@ -2803,7 +3141,7 @@ export const RebootWorkspacesRequest = S.suspend(() =>
   identifier: "RebootWorkspacesRequest",
 }) as any as S.Schema<RebootWorkspacesRequest>;
 export interface RebuildWorkspacesRequest {
-  RebuildWorkspaceRequests: RebuildWorkspaceRequests;
+  RebuildWorkspaceRequests: RebuildRequest[];
 }
 export const RebuildWorkspacesRequest = S.suspend(() =>
   S.Struct({ RebuildWorkspaceRequests: RebuildWorkspaceRequests }).pipe(
@@ -2822,16 +3160,16 @@ export const RebuildWorkspacesRequest = S.suspend(() =>
 }) as any as S.Schema<RebuildWorkspacesRequest>;
 export interface RegisterWorkspaceDirectoryRequest {
   DirectoryId?: string;
-  SubnetIds?: SubnetIds;
+  SubnetIds?: string[];
   EnableSelfService?: boolean;
-  Tenancy?: string;
-  Tags?: TagList;
+  Tenancy?: Tenancy;
+  Tags?: Tag[];
   WorkspaceDirectoryName?: string;
   WorkspaceDirectoryDescription?: string;
-  UserIdentityType?: string;
+  UserIdentityType?: UserIdentityType;
   IdcInstanceArn?: string;
   MicrosoftEntraConfig?: MicrosoftEntraConfig;
-  WorkspaceType?: string;
+  WorkspaceType?: WorkspaceType;
   ActiveDirectoryConfig?: ActiveDirectoryConfig;
 }
 export const RegisterWorkspaceDirectoryRequest = S.suspend(() =>
@@ -2839,14 +3177,14 @@ export const RegisterWorkspaceDirectoryRequest = S.suspend(() =>
     DirectoryId: S.optional(S.String),
     SubnetIds: S.optional(SubnetIds),
     EnableSelfService: S.optional(S.Boolean),
-    Tenancy: S.optional(S.String),
+    Tenancy: S.optional(Tenancy),
     Tags: S.optional(TagList),
     WorkspaceDirectoryName: S.optional(S.String),
     WorkspaceDirectoryDescription: S.optional(S.String),
-    UserIdentityType: S.optional(S.String),
+    UserIdentityType: S.optional(UserIdentityType),
     IdcInstanceArn: S.optional(S.String),
     MicrosoftEntraConfig: S.optional(MicrosoftEntraConfig),
-    WorkspaceType: S.optional(S.String),
+    WorkspaceType: S.optional(WorkspaceType),
     ActiveDirectoryConfig: S.optional(ActiveDirectoryConfig),
   }).pipe(
     T.all(
@@ -2871,7 +3209,7 @@ export const RejectAccountLinkInvitationResult = S.suspend(() =>
   identifier: "RejectAccountLinkInvitationResult",
 }) as any as S.Schema<RejectAccountLinkInvitationResult>;
 export interface StartWorkspacesRequest {
-  StartWorkspaceRequests: StartWorkspaceRequests;
+  StartWorkspaceRequests: StartRequest[];
 }
 export const StartWorkspacesRequest = S.suspend(() =>
   S.Struct({ StartWorkspaceRequests: StartWorkspaceRequests }).pipe(
@@ -2889,7 +3227,7 @@ export const StartWorkspacesRequest = S.suspend(() =>
   identifier: "StartWorkspacesRequest",
 }) as any as S.Schema<StartWorkspacesRequest>;
 export interface StopWorkspacesRequest {
-  StopWorkspaceRequests: StopWorkspaceRequests;
+  StopWorkspaceRequests: StopRequest[];
 }
 export const StopWorkspacesRequest = S.suspend(() =>
   S.Struct({ StopWorkspaceRequests: StopWorkspaceRequests }).pipe(
@@ -2907,7 +3245,7 @@ export const StopWorkspacesRequest = S.suspend(() =>
   identifier: "StopWorkspacesRequest",
 }) as any as S.Schema<StopWorkspacesRequest>;
 export interface TerminateWorkspacesRequest {
-  TerminateWorkspaceRequests: TerminateWorkspaceRequests;
+  TerminateWorkspaceRequests: TerminateRequest[];
 }
 export const TerminateWorkspacesRequest = S.suspend(() =>
   S.Struct({ TerminateWorkspaceRequests: TerminateWorkspaceRequests }).pipe(
@@ -2952,50 +3290,154 @@ export const UpdateConnectionAliasPermissionResult = S.suspend(() =>
 ).annotations({
   identifier: "UpdateConnectionAliasPermissionResult",
 }) as any as S.Schema<UpdateConnectionAliasPermissionResult>;
+export type OperatingSystemType = "WINDOWS" | "LINUX";
+export const OperatingSystemType = S.Literal("WINDOWS", "LINUX");
+export type DedicatedTenancyModificationStateEnum =
+  | "PENDING"
+  | "COMPLETED"
+  | "FAILED";
+export const DedicatedTenancyModificationStateEnum = S.Literal(
+  "PENDING",
+  "COMPLETED",
+  "FAILED",
+);
+export type WorkSpaceApplicationState =
+  | "PENDING"
+  | "ERROR"
+  | "AVAILABLE"
+  | "UNINSTALL_ONLY";
+export const WorkSpaceApplicationState = S.Literal(
+  "PENDING",
+  "ERROR",
+  "AVAILABLE",
+  "UNINSTALL_ONLY",
+);
+export type ConnectionAliasState = "CREATING" | "CREATED" | "DELETING";
+export const ConnectionAliasState = S.Literal(
+  "CREATING",
+  "CREATED",
+  "DELETING",
+);
+export type WorkspaceBundleState = "AVAILABLE" | "PENDING" | "ERROR";
+export const WorkspaceBundleState = S.Literal("AVAILABLE", "PENDING", "ERROR");
+export type BundleType = "REGULAR" | "STANDBY";
+export const BundleType = S.Literal("REGULAR", "STANDBY");
+export type WorkspaceState =
+  | "PENDING"
+  | "AVAILABLE"
+  | "IMPAIRED"
+  | "UNHEALTHY"
+  | "REBOOTING"
+  | "STARTING"
+  | "REBUILDING"
+  | "RESTORING"
+  | "MAINTENANCE"
+  | "ADMIN_MAINTENANCE"
+  | "TERMINATING"
+  | "TERMINATED"
+  | "SUSPENDED"
+  | "UPDATING"
+  | "STOPPING"
+  | "STOPPED"
+  | "ERROR";
+export const WorkspaceState = S.Literal(
+  "PENDING",
+  "AVAILABLE",
+  "IMPAIRED",
+  "UNHEALTHY",
+  "REBOOTING",
+  "STARTING",
+  "REBUILDING",
+  "RESTORING",
+  "MAINTENANCE",
+  "ADMIN_MAINTENANCE",
+  "TERMINATING",
+  "TERMINATED",
+  "SUSPENDED",
+  "UPDATING",
+  "STOPPING",
+  "STOPPED",
+  "ERROR",
+);
+export type ConnectionState = "CONNECTED" | "DISCONNECTED" | "UNKNOWN";
+export const ConnectionState = S.Literal(
+  "CONNECTED",
+  "DISCONNECTED",
+  "UNKNOWN",
+);
+export type AuthenticationType = "SAML";
+export const AuthenticationType = S.Literal("SAML");
+export type SessionConnectionState = "CONNECTED" | "NOT_CONNECTED";
+export const SessionConnectionState = S.Literal("CONNECTED", "NOT_CONNECTED");
 export interface UserSetting {
-  Action: string;
-  Permission: string;
+  Action: UserSettingActionEnum;
+  Permission: UserSettingPermissionEnum;
   MaximumLength?: number;
 }
 export const UserSetting = S.suspend(() =>
   S.Struct({
-    Action: S.String,
-    Permission: S.String,
+    Action: UserSettingActionEnum,
+    Permission: UserSettingPermissionEnum,
     MaximumLength: S.optional(S.Number),
   }),
 ).annotations({ identifier: "UserSetting" }) as any as S.Schema<UserSetting>;
 export type UserSettings = UserSetting[];
 export const UserSettings = S.Array(UserSetting);
 export interface StorageConnector {
-  ConnectorType: string;
-  Status: string;
+  ConnectorType: StorageConnectorTypeEnum;
+  Status: StorageConnectorStatusEnum;
 }
 export const StorageConnector = S.suspend(() =>
-  S.Struct({ ConnectorType: S.String, Status: S.String }),
+  S.Struct({
+    ConnectorType: StorageConnectorTypeEnum,
+    Status: StorageConnectorStatusEnum,
+  }),
 ).annotations({
   identifier: "StorageConnector",
 }) as any as S.Schema<StorageConnector>;
 export type StorageConnectors = StorageConnector[];
 export const StorageConnectors = S.Array(StorageConnector);
 export interface GlobalAcceleratorForDirectory {
-  Mode: string;
-  PreferredProtocol?: string;
+  Mode: AGAModeForDirectoryEnum;
+  PreferredProtocol?: AGAPreferredProtocolForDirectory;
 }
 export const GlobalAcceleratorForDirectory = S.suspend(() =>
-  S.Struct({ Mode: S.String, PreferredProtocol: S.optional(S.String) }),
+  S.Struct({
+    Mode: AGAModeForDirectoryEnum,
+    PreferredProtocol: S.optional(AGAPreferredProtocolForDirectory),
+  }),
 ).annotations({
   identifier: "GlobalAcceleratorForDirectory",
 }) as any as S.Schema<GlobalAcceleratorForDirectory>;
+export type WorkspacesPoolState =
+  | "CREATING"
+  | "DELETING"
+  | "RUNNING"
+  | "STARTING"
+  | "STOPPED"
+  | "STOPPING"
+  | "UPDATING";
+export const WorkspacesPoolState = S.Literal(
+  "CREATING",
+  "DELETING",
+  "RUNNING",
+  "STARTING",
+  "STOPPED",
+  "STOPPING",
+  "UPDATING",
+);
+export type AccessEndpointType = "STREAMING_WSP";
+export const AccessEndpointType = S.Literal("STREAMING_WSP");
 export interface OperatingSystem {
-  Type?: string;
+  Type?: OperatingSystemType;
 }
 export const OperatingSystem = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String) }),
+  S.Struct({ Type: S.optional(OperatingSystemType) }),
 ).annotations({
   identifier: "OperatingSystem",
 }) as any as S.Schema<OperatingSystem>;
 export interface WorkSpaceApplicationDeployment {
-  Associations?: WorkspaceResourceAssociationList;
+  Associations?: WorkspaceResourceAssociation[];
 }
 export const WorkSpaceApplicationDeployment = S.suspend(() =>
   S.Struct({ Associations: S.optional(WorkspaceResourceAssociationList) }),
@@ -3003,8 +3445,8 @@ export const WorkSpaceApplicationDeployment = S.suspend(() =>
   identifier: "WorkSpaceApplicationDeployment",
 }) as any as S.Schema<WorkSpaceApplicationDeployment>;
 export interface AccountModification {
-  ModificationState?: string;
-  DedicatedTenancySupport?: string;
+  ModificationState?: DedicatedTenancyModificationStateEnum;
+  DedicatedTenancySupport?: DedicatedTenancySupportResultEnum;
   DedicatedTenancyManagementCidrRange?: string;
   StartTime?: Date;
   ErrorCode?: string;
@@ -3012,8 +3454,8 @@ export interface AccountModification {
 }
 export const AccountModification = S.suspend(() =>
   S.Struct({
-    ModificationState: S.optional(S.String),
-    DedicatedTenancySupport: S.optional(S.String),
+    ModificationState: S.optional(DedicatedTenancyModificationStateEnum),
+    DedicatedTenancySupport: S.optional(DedicatedTenancySupportResultEnum),
     DedicatedTenancyManagementCidrRange: S.optional(S.String),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ErrorCode: S.optional(S.String),
@@ -3027,22 +3469,22 @@ export const AccountModificationList = S.Array(AccountModification);
 export interface ApplicationResourceAssociation {
   ApplicationId?: string;
   AssociatedResourceId?: string;
-  AssociatedResourceType?: string;
+  AssociatedResourceType?: ApplicationAssociatedResourceType;
   Created?: Date;
   LastUpdatedTime?: Date;
-  State?: string;
+  State?: AssociationState;
   StateReason?: AssociationStateReason;
 }
 export const ApplicationResourceAssociation = S.suspend(() =>
   S.Struct({
     ApplicationId: S.optional(S.String),
     AssociatedResourceId: S.optional(S.String),
-    AssociatedResourceType: S.optional(S.String),
+    AssociatedResourceType: S.optional(ApplicationAssociatedResourceType),
     Created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    State: S.optional(S.String),
+    State: S.optional(AssociationState),
     StateReason: S.optional(AssociationStateReason),
   }),
 ).annotations({
@@ -3057,22 +3499,22 @@ export interface WorkSpaceApplication {
   ApplicationId?: string;
   Created?: Date;
   Description?: string;
-  LicenseType?: string;
+  LicenseType?: WorkSpaceApplicationLicenseType;
   Name?: string;
   Owner?: string;
-  State?: string;
-  SupportedComputeTypeNames?: ComputeList;
-  SupportedOperatingSystemNames?: OperatingSystemNameList;
+  State?: WorkSpaceApplicationState;
+  SupportedComputeTypeNames?: Compute[];
+  SupportedOperatingSystemNames?: OperatingSystemName[];
 }
 export const WorkSpaceApplication = S.suspend(() =>
   S.Struct({
     ApplicationId: S.optional(S.String),
     Created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Description: S.optional(S.String),
-    LicenseType: S.optional(S.String),
+    LicenseType: S.optional(WorkSpaceApplicationLicenseType),
     Name: S.optional(S.String),
     Owner: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(WorkSpaceApplicationState),
     SupportedComputeTypeNames: S.optional(ComputeList),
     SupportedOperatingSystemNames: S.optional(OperatingSystemNameList),
   }),
@@ -3083,23 +3525,23 @@ export type WorkSpaceApplicationList = WorkSpaceApplication[];
 export const WorkSpaceApplicationList = S.Array(WorkSpaceApplication);
 export interface BundleResourceAssociation {
   AssociatedResourceId?: string;
-  AssociatedResourceType?: string;
+  AssociatedResourceType?: BundleAssociatedResourceType;
   BundleId?: string;
   Created?: Date;
   LastUpdatedTime?: Date;
-  State?: string;
+  State?: AssociationState;
   StateReason?: AssociationStateReason;
 }
 export const BundleResourceAssociation = S.suspend(() =>
   S.Struct({
     AssociatedResourceId: S.optional(S.String),
-    AssociatedResourceType: S.optional(S.String),
+    AssociatedResourceType: S.optional(BundleAssociatedResourceType),
     BundleId: S.optional(S.String),
     Created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    State: S.optional(S.String),
+    State: S.optional(AssociationState),
     StateReason: S.optional(AssociationStateReason),
   }),
 ).annotations({
@@ -3112,7 +3554,7 @@ export interface DefaultClientBrandingAttributes {
   SupportEmail?: string;
   SupportLink?: string;
   ForgotPasswordLink?: string;
-  LoginMessage?: LoginMessage;
+  LoginMessage?: { [key: string]: string };
 }
 export const DefaultClientBrandingAttributes = S.suspend(() =>
   S.Struct({
@@ -3132,7 +3574,7 @@ export interface IosClientBrandingAttributes {
   SupportEmail?: string;
   SupportLink?: string;
   ForgotPasswordLink?: string;
-  LoginMessage?: LoginMessage;
+  LoginMessage?: { [key: string]: string };
 }
 export const IosClientBrandingAttributes = S.suspend(() =>
   S.Struct({
@@ -3198,23 +3640,23 @@ export const CustomWorkspaceImageImportErrorDetailsList = S.Array(
 );
 export interface ImageResourceAssociation {
   AssociatedResourceId?: string;
-  AssociatedResourceType?: string;
+  AssociatedResourceType?: ImageAssociatedResourceType;
   Created?: Date;
   LastUpdatedTime?: Date;
   ImageId?: string;
-  State?: string;
+  State?: AssociationState;
   StateReason?: AssociationStateReason;
 }
 export const ImageResourceAssociation = S.suspend(() =>
   S.Struct({
     AssociatedResourceId: S.optional(S.String),
-    AssociatedResourceType: S.optional(S.String),
+    AssociatedResourceType: S.optional(ImageAssociatedResourceType),
     Created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     ImageId: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(AssociationState),
     StateReason: S.optional(AssociationStateReason),
   }),
 ).annotations({
@@ -3226,7 +3668,7 @@ export interface WorkspacesIpGroup {
   groupId?: string;
   groupName?: string;
   groupDesc?: string;
-  userRules?: IpRuleList;
+  userRules?: IpRuleItem[];
 }
 export const WorkspacesIpGroup = S.suspend(() =>
   S.Struct({
@@ -3251,8 +3693,8 @@ export interface WorkspaceBundle {
   ComputeType?: ComputeType;
   LastUpdatedTime?: Date;
   CreationTime?: Date;
-  State?: string;
-  BundleType?: string;
+  State?: WorkspaceBundleState;
+  BundleType?: BundleType;
 }
 export const WorkspaceBundle = S.suspend(() =>
   S.Struct({
@@ -3268,8 +3710,8 @@ export const WorkspaceBundle = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    State: S.optional(S.String),
-    BundleType: S.optional(S.String),
+    State: S.optional(WorkspaceBundleState),
+    BundleType: S.optional(BundleType),
   }),
 ).annotations({
   identifier: "WorkspaceBundle",
@@ -3288,14 +3730,14 @@ export type ImagePermissions = ImagePermission[];
 export const ImagePermissions = S.Array(ImagePermission);
 export interface WorkspaceConnectionStatus {
   WorkspaceId?: string;
-  ConnectionState?: string;
+  ConnectionState?: ConnectionState;
   ConnectionStateCheckTimestamp?: Date;
   LastKnownUserConnectionTimestamp?: Date;
 }
 export const WorkspaceConnectionStatus = S.suspend(() =>
   S.Struct({
     WorkspaceId: S.optional(S.String),
-    ConnectionState: S.optional(S.String),
+    ConnectionState: S.optional(ConnectionState),
     ConnectionStateCheckTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -3334,13 +3776,96 @@ export const CapacityStatus = S.suspend(() =>
 ).annotations({
   identifier: "CapacityStatus",
 }) as any as S.Schema<CapacityStatus>;
+export type WorkspacesPoolErrorCode =
+  | "IAM_SERVICE_ROLE_IS_MISSING"
+  | "IAM_SERVICE_ROLE_MISSING_ENI_DESCRIBE_ACTION"
+  | "IAM_SERVICE_ROLE_MISSING_ENI_CREATE_ACTION"
+  | "IAM_SERVICE_ROLE_MISSING_ENI_DELETE_ACTION"
+  | "NETWORK_INTERFACE_LIMIT_EXCEEDED"
+  | "INTERNAL_SERVICE_ERROR"
+  | "MACHINE_ROLE_IS_MISSING"
+  | "STS_DISABLED_IN_REGION"
+  | "SUBNET_HAS_INSUFFICIENT_IP_ADDRESSES"
+  | "IAM_SERVICE_ROLE_MISSING_DESCRIBE_SUBNET_ACTION"
+  | "SUBNET_NOT_FOUND"
+  | "IMAGE_NOT_FOUND"
+  | "INVALID_SUBNET_CONFIGURATION"
+  | "SECURITY_GROUPS_NOT_FOUND"
+  | "IGW_NOT_ATTACHED"
+  | "IAM_SERVICE_ROLE_MISSING_DESCRIBE_SECURITY_GROUPS_ACTION"
+  | "WORKSPACES_POOL_STOPPED"
+  | "WORKSPACES_POOL_INSTANCE_PROVISIONING_FAILURE"
+  | "DOMAIN_JOIN_ERROR_FILE_NOT_FOUND"
+  | "DOMAIN_JOIN_ERROR_ACCESS_DENIED"
+  | "DOMAIN_JOIN_ERROR_LOGON_FAILURE"
+  | "DOMAIN_JOIN_ERROR_INVALID_PARAMETER"
+  | "DOMAIN_JOIN_ERROR_MORE_DATA"
+  | "DOMAIN_JOIN_ERROR_NO_SUCH_DOMAIN"
+  | "DOMAIN_JOIN_ERROR_NOT_SUPPORTED"
+  | "DOMAIN_JOIN_NERR_INVALID_WORKGROUP_NAME"
+  | "DOMAIN_JOIN_NERR_WORKSTATION_NOT_STARTED"
+  | "DOMAIN_JOIN_ERROR_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED"
+  | "DOMAIN_JOIN_NERR_PASSWORD_EXPIRED"
+  | "DOMAIN_JOIN_INTERNAL_SERVICE_ERROR"
+  | "DOMAIN_JOIN_ERROR_SECRET_ACTION_PERMISSION_IS_MISSING"
+  | "DOMAIN_JOIN_ERROR_SECRET_DECRYPTION_FAILURE"
+  | "DOMAIN_JOIN_ERROR_SECRET_STATE_INVALID"
+  | "DOMAIN_JOIN_ERROR_SECRET_NOT_FOUND"
+  | "DOMAIN_JOIN_ERROR_SECRET_VALUE_KEY_NOT_FOUND"
+  | "DOMAIN_JOIN_ERROR_SECRET_INVALID"
+  | "BUNDLE_NOT_FOUND"
+  | "DIRECTORY_NOT_FOUND"
+  | "INSUFFICIENT_PERMISSIONS_ERROR"
+  | "DEFAULT_OU_IS_MISSING";
+export const WorkspacesPoolErrorCode = S.Literal(
+  "IAM_SERVICE_ROLE_IS_MISSING",
+  "IAM_SERVICE_ROLE_MISSING_ENI_DESCRIBE_ACTION",
+  "IAM_SERVICE_ROLE_MISSING_ENI_CREATE_ACTION",
+  "IAM_SERVICE_ROLE_MISSING_ENI_DELETE_ACTION",
+  "NETWORK_INTERFACE_LIMIT_EXCEEDED",
+  "INTERNAL_SERVICE_ERROR",
+  "MACHINE_ROLE_IS_MISSING",
+  "STS_DISABLED_IN_REGION",
+  "SUBNET_HAS_INSUFFICIENT_IP_ADDRESSES",
+  "IAM_SERVICE_ROLE_MISSING_DESCRIBE_SUBNET_ACTION",
+  "SUBNET_NOT_FOUND",
+  "IMAGE_NOT_FOUND",
+  "INVALID_SUBNET_CONFIGURATION",
+  "SECURITY_GROUPS_NOT_FOUND",
+  "IGW_NOT_ATTACHED",
+  "IAM_SERVICE_ROLE_MISSING_DESCRIBE_SECURITY_GROUPS_ACTION",
+  "WORKSPACES_POOL_STOPPED",
+  "WORKSPACES_POOL_INSTANCE_PROVISIONING_FAILURE",
+  "DOMAIN_JOIN_ERROR_FILE_NOT_FOUND",
+  "DOMAIN_JOIN_ERROR_ACCESS_DENIED",
+  "DOMAIN_JOIN_ERROR_LOGON_FAILURE",
+  "DOMAIN_JOIN_ERROR_INVALID_PARAMETER",
+  "DOMAIN_JOIN_ERROR_MORE_DATA",
+  "DOMAIN_JOIN_ERROR_NO_SUCH_DOMAIN",
+  "DOMAIN_JOIN_ERROR_NOT_SUPPORTED",
+  "DOMAIN_JOIN_NERR_INVALID_WORKGROUP_NAME",
+  "DOMAIN_JOIN_NERR_WORKSTATION_NOT_STARTED",
+  "DOMAIN_JOIN_ERROR_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED",
+  "DOMAIN_JOIN_NERR_PASSWORD_EXPIRED",
+  "DOMAIN_JOIN_INTERNAL_SERVICE_ERROR",
+  "DOMAIN_JOIN_ERROR_SECRET_ACTION_PERMISSION_IS_MISSING",
+  "DOMAIN_JOIN_ERROR_SECRET_DECRYPTION_FAILURE",
+  "DOMAIN_JOIN_ERROR_SECRET_STATE_INVALID",
+  "DOMAIN_JOIN_ERROR_SECRET_NOT_FOUND",
+  "DOMAIN_JOIN_ERROR_SECRET_VALUE_KEY_NOT_FOUND",
+  "DOMAIN_JOIN_ERROR_SECRET_INVALID",
+  "BUNDLE_NOT_FOUND",
+  "DIRECTORY_NOT_FOUND",
+  "INSUFFICIENT_PERMISSIONS_ERROR",
+  "DEFAULT_OU_IS_MISSING",
+);
 export interface WorkspacesPoolError {
-  ErrorCode?: string;
+  ErrorCode?: WorkspacesPoolErrorCode;
   ErrorMessage?: string;
 }
 export const WorkspacesPoolError = S.suspend(() =>
   S.Struct({
-    ErrorCode: S.optional(S.String),
+    ErrorCode: S.optional(WorkspacesPoolErrorCode),
     ErrorMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -3349,13 +3874,13 @@ export const WorkspacesPoolError = S.suspend(() =>
 export type WorkspacesPoolErrors = WorkspacesPoolError[];
 export const WorkspacesPoolErrors = S.Array(WorkspacesPoolError);
 export interface ApplicationSettingsResponse {
-  Status: string;
+  Status: ApplicationSettingsStatusEnum;
   SettingsGroup?: string;
   S3BucketName?: string;
 }
 export const ApplicationSettingsResponse = S.suspend(() =>
   S.Struct({
-    Status: S.String,
+    Status: ApplicationSettingsStatusEnum,
     SettingsGroup: S.optional(S.String),
     S3BucketName: S.optional(S.String),
   }),
@@ -3368,14 +3893,14 @@ export interface WorkspacesPool {
   CapacityStatus: CapacityStatus;
   PoolName: string;
   Description?: string;
-  State: string;
+  State: WorkspacesPoolState;
   CreatedAt: Date;
   BundleId: string;
   DirectoryId: string;
-  Errors?: WorkspacesPoolErrors;
+  Errors?: WorkspacesPoolError[];
   ApplicationSettings?: ApplicationSettingsResponse;
   TimeoutSettings?: TimeoutSettings;
-  RunningMode: string;
+  RunningMode: PoolsRunningMode;
 }
 export const WorkspacesPool = S.suspend(() =>
   S.Struct({
@@ -3384,14 +3909,14 @@ export const WorkspacesPool = S.suspend(() =>
     CapacityStatus: CapacityStatus,
     PoolName: S.String,
     Description: S.optional(S.String),
-    State: S.String,
+    State: WorkspacesPoolState,
     CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     BundleId: S.String,
     DirectoryId: S.String,
     Errors: S.optional(WorkspacesPoolErrors),
     ApplicationSettings: S.optional(ApplicationSettingsResponse),
     TimeoutSettings: S.optional(TimeoutSettings),
-    RunningMode: S.String,
+    RunningMode: PoolsRunningMode,
   }),
 ).annotations({
   identifier: "WorkspacesPool",
@@ -3403,7 +3928,7 @@ export interface DefaultImportClientBrandingAttributes {
   SupportEmail?: string;
   SupportLink?: string;
   ForgotPasswordLink?: string;
-  LoginMessage?: LoginMessage;
+  LoginMessage?: { [key: string]: string };
 }
 export const DefaultImportClientBrandingAttributes = S.suspend(() =>
   S.Struct({
@@ -3417,14 +3942,16 @@ export const DefaultImportClientBrandingAttributes = S.suspend(() =>
   identifier: "DefaultImportClientBrandingAttributes",
 }) as any as S.Schema<DefaultImportClientBrandingAttributes>;
 export interface StreamingProperties {
-  StreamingExperiencePreferredProtocol?: string;
-  UserSettings?: UserSettings;
-  StorageConnectors?: StorageConnectors;
+  StreamingExperiencePreferredProtocol?: StreamingExperiencePreferredProtocolEnum;
+  UserSettings?: UserSetting[];
+  StorageConnectors?: StorageConnector[];
   GlobalAccelerator?: GlobalAcceleratorForDirectory;
 }
 export const StreamingProperties = S.suspend(() =>
   S.Struct({
-    StreamingExperiencePreferredProtocol: S.optional(S.String),
+    StreamingExperiencePreferredProtocol: S.optional(
+      StreamingExperiencePreferredProtocolEnum,
+    ),
     UserSettings: S.optional(UserSettings),
     StorageConnectors: S.optional(StorageConnectors),
     GlobalAccelerator: S.optional(GlobalAcceleratorForDirectory),
@@ -3450,6 +3977,19 @@ export type FailedRebuildWorkspaceRequests = FailedWorkspaceChangeRequest[];
 export const FailedRebuildWorkspaceRequests = S.Array(
   FailedWorkspaceChangeRequest,
 );
+export type WorkspaceDirectoryState =
+  | "REGISTERING"
+  | "REGISTERED"
+  | "DEREGISTERING"
+  | "DEREGISTERED"
+  | "ERROR";
+export const WorkspaceDirectoryState = S.Literal(
+  "REGISTERING",
+  "REGISTERED",
+  "DEREGISTERING",
+  "DEREGISTERED",
+  "ERROR",
+);
 export type FailedStartWorkspaceRequests = FailedWorkspaceChangeRequest[];
 export const FailedStartWorkspaceRequests = S.Array(
   FailedWorkspaceChangeRequest,
@@ -3462,13 +4002,141 @@ export type FailedTerminateWorkspaceRequests = FailedWorkspaceChangeRequest[];
 export const FailedTerminateWorkspaceRequests = S.Array(
   FailedWorkspaceChangeRequest,
 );
+export type AssociationStatus =
+  | "NOT_ASSOCIATED"
+  | "ASSOCIATED_WITH_OWNER_ACCOUNT"
+  | "ASSOCIATED_WITH_SHARED_ACCOUNT"
+  | "PENDING_ASSOCIATION"
+  | "PENDING_DISASSOCIATION";
+export const AssociationStatus = S.Literal(
+  "NOT_ASSOCIATED",
+  "ASSOCIATED_WITH_OWNER_ACCOUNT",
+  "ASSOCIATED_WITH_SHARED_ACCOUNT",
+  "PENDING_ASSOCIATION",
+  "PENDING_DISASSOCIATION",
+);
+export type WorkspaceImageErrorDetailCode =
+  | "OutdatedPowershellVersion"
+  | "OfficeInstalled"
+  | "PCoIPAgentInstalled"
+  | "WindowsUpdatesEnabled"
+  | "AutoMountDisabled"
+  | "WorkspacesBYOLAccountNotFound"
+  | "WorkspacesBYOLAccountDisabled"
+  | "DHCPDisabled"
+  | "DiskFreeSpace"
+  | "AdditionalDrivesAttached"
+  | "OSNotSupported"
+  | "DomainJoined"
+  | "AzureDomainJoined"
+  | "FirewallEnabled"
+  | "VMWareToolsInstalled"
+  | "DiskSizeExceeded"
+  | "IncompatiblePartitioning"
+  | "PendingReboot"
+  | "AutoLogonEnabled"
+  | "RealTimeUniversalDisabled"
+  | "MultipleBootPartition"
+  | "Requires64BitOS"
+  | "ZeroRearmCount"
+  | "InPlaceUpgrade"
+  | "AntiVirusInstalled"
+  | "UEFINotSupported"
+  | "UnknownError"
+  | "AppXPackagesInstalled"
+  | "ReservedStorageInUse"
+  | "AdditionalDrivesPresent"
+  | "WindowsUpdatesRequired"
+  | "SysPrepFileMissing"
+  | "UserProfileMissing"
+  | "InsufficientDiskSpace"
+  | "EnvironmentVariablesPathMissingEntries"
+  | "DomainAccountServicesFound"
+  | "InvalidIp"
+  | "RemoteDesktopServicesDisabled"
+  | "WindowsModulesInstallerDisabled"
+  | "AmazonSsmAgentEnabled"
+  | "UnsupportedSecurityProtocol"
+  | "MultipleUserProfiles"
+  | "StagedAppxPackage"
+  | "UnsupportedOsUpgrade"
+  | "InsufficientRearmCount"
+  | "ProtocolOSIncompatibility"
+  | "MemoryIntegrityIncompatibility"
+  | "RestrictedDriveLetterInUse";
+export const WorkspaceImageErrorDetailCode = S.Literal(
+  "OutdatedPowershellVersion",
+  "OfficeInstalled",
+  "PCoIPAgentInstalled",
+  "WindowsUpdatesEnabled",
+  "AutoMountDisabled",
+  "WorkspacesBYOLAccountNotFound",
+  "WorkspacesBYOLAccountDisabled",
+  "DHCPDisabled",
+  "DiskFreeSpace",
+  "AdditionalDrivesAttached",
+  "OSNotSupported",
+  "DomainJoined",
+  "AzureDomainJoined",
+  "FirewallEnabled",
+  "VMWareToolsInstalled",
+  "DiskSizeExceeded",
+  "IncompatiblePartitioning",
+  "PendingReboot",
+  "AutoLogonEnabled",
+  "RealTimeUniversalDisabled",
+  "MultipleBootPartition",
+  "Requires64BitOS",
+  "ZeroRearmCount",
+  "InPlaceUpgrade",
+  "AntiVirusInstalled",
+  "UEFINotSupported",
+  "UnknownError",
+  "AppXPackagesInstalled",
+  "ReservedStorageInUse",
+  "AdditionalDrivesPresent",
+  "WindowsUpdatesRequired",
+  "SysPrepFileMissing",
+  "UserProfileMissing",
+  "InsufficientDiskSpace",
+  "EnvironmentVariablesPathMissingEntries",
+  "DomainAccountServicesFound",
+  "InvalidIp",
+  "RemoteDesktopServicesDisabled",
+  "WindowsModulesInstallerDisabled",
+  "AmazonSsmAgentEnabled",
+  "UnsupportedSecurityProtocol",
+  "MultipleUserProfiles",
+  "StagedAppxPackage",
+  "UnsupportedOsUpgrade",
+  "InsufficientRearmCount",
+  "ProtocolOSIncompatibility",
+  "MemoryIntegrityIncompatibility",
+  "RestrictedDriveLetterInUse",
+);
+export type ModificationResourceEnum =
+  | "ROOT_VOLUME"
+  | "USER_VOLUME"
+  | "COMPUTE_TYPE";
+export const ModificationResourceEnum = S.Literal(
+  "ROOT_VOLUME",
+  "USER_VOLUME",
+  "COMPUTE_TYPE",
+);
+export type ModificationStateEnum = "UPDATE_INITIATED" | "UPDATE_IN_PROGRESS";
+export const ModificationStateEnum = S.Literal(
+  "UPDATE_INITIATED",
+  "UPDATE_IN_PROGRESS",
+);
+export type StandbyWorkspaceRelationshipType = "PRIMARY" | "STANDBY";
+export const StandbyWorkspaceRelationshipType = S.Literal("PRIMARY", "STANDBY");
 export interface AccessEndpoint {
-  AccessEndpointType?: string;
+  AccessEndpointType?: AccessEndpointType;
   VpcEndpointId?: string;
 }
 export const AccessEndpoint = S.suspend(() =>
   S.Struct({
-    AccessEndpointType: S.optional(S.String),
+    AccessEndpointType: S.optional(AccessEndpointType),
     VpcEndpointId: S.optional(S.String),
   }),
 ).annotations({
@@ -3505,8 +4173,8 @@ export interface CreateWorkspaceImageResult {
   Name?: string;
   Description?: string;
   OperatingSystem?: OperatingSystem;
-  State?: string;
-  RequiredTenancy?: string;
+  State?: WorkspaceImageState;
+  RequiredTenancy?: WorkspaceImageRequiredTenancy;
   Created?: Date;
   OwnerAccountId?: string;
 }
@@ -3516,8 +4184,8 @@ export const CreateWorkspaceImageResult = S.suspend(() =>
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     OperatingSystem: S.optional(OperatingSystem),
-    State: S.optional(S.String),
-    RequiredTenancy: S.optional(S.String),
+    State: S.optional(WorkspaceImageState),
+    RequiredTenancy: S.optional(WorkspaceImageRequiredTenancy),
     Created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     OwnerAccountId: S.optional(S.String),
   }).pipe(ns),
@@ -3541,7 +4209,7 @@ export const DeployWorkspaceApplicationsResult = S.suspend(() =>
   identifier: "DeployWorkspaceApplicationsResult",
 }) as any as S.Schema<DeployWorkspaceApplicationsResult>;
 export interface DescribeAccountModificationsResult {
-  AccountModifications?: AccountModificationList;
+  AccountModifications?: AccountModification[];
   NextToken?: string;
 }
 export const DescribeAccountModificationsResult = S.suspend(() =>
@@ -3553,7 +4221,7 @@ export const DescribeAccountModificationsResult = S.suspend(() =>
   identifier: "DescribeAccountModificationsResult",
 }) as any as S.Schema<DescribeAccountModificationsResult>;
 export interface DescribeApplicationAssociationsResult {
-  Associations?: ApplicationResourceAssociationList;
+  Associations?: ApplicationResourceAssociation[];
   NextToken?: string;
 }
 export const DescribeApplicationAssociationsResult = S.suspend(() =>
@@ -3565,7 +4233,7 @@ export const DescribeApplicationAssociationsResult = S.suspend(() =>
   identifier: "DescribeApplicationAssociationsResult",
 }) as any as S.Schema<DescribeApplicationAssociationsResult>;
 export interface DescribeApplicationsResult {
-  Applications?: WorkSpaceApplicationList;
+  Applications?: WorkSpaceApplication[];
   NextToken?: string;
 }
 export const DescribeApplicationsResult = S.suspend(() =>
@@ -3577,7 +4245,7 @@ export const DescribeApplicationsResult = S.suspend(() =>
   identifier: "DescribeApplicationsResult",
 }) as any as S.Schema<DescribeApplicationsResult>;
 export interface DescribeBundleAssociationsResult {
-  Associations?: BundleResourceAssociationList;
+  Associations?: BundleResourceAssociation[];
 }
 export const DescribeBundleAssociationsResult = S.suspend(() =>
   S.Struct({ Associations: S.optional(BundleResourceAssociationList) }).pipe(
@@ -3607,7 +4275,7 @@ export const DescribeClientBrandingResult = S.suspend(() =>
   identifier: "DescribeClientBrandingResult",
 }) as any as S.Schema<DescribeClientBrandingResult>;
 export interface DescribeClientPropertiesResult {
-  ClientPropertiesList?: ClientPropertiesList;
+  ClientPropertiesList?: ClientPropertiesResult[];
 }
 export const DescribeClientPropertiesResult = S.suspend(() =>
   S.Struct({ ClientPropertiesList: S.optional(ClientPropertiesList) }).pipe(ns),
@@ -3615,7 +4283,7 @@ export const DescribeClientPropertiesResult = S.suspend(() =>
   identifier: "DescribeClientPropertiesResult",
 }) as any as S.Schema<DescribeClientPropertiesResult>;
 export interface DescribeConnectClientAddInsResult {
-  AddIns?: ConnectClientAddInList;
+  AddIns?: ConnectClientAddIn[];
   NextToken?: string;
 }
 export const DescribeConnectClientAddInsResult = S.suspend(() =>
@@ -3629,18 +4297,18 @@ export const DescribeConnectClientAddInsResult = S.suspend(() =>
 export interface DescribeCustomWorkspaceImageImportResult {
   ImageId?: string;
   InfrastructureConfigurationArn?: string;
-  State?: string;
+  State?: CustomWorkspaceImageImportState;
   Created?: Date;
   LastUpdatedTime?: Date;
-  ImageSource?: (typeof ImageSourceIdentifier)["Type"];
+  ImageSource?: ImageSourceIdentifier;
   ImageBuilderInstanceId?: string;
-  ErrorDetails?: CustomWorkspaceImageImportErrorDetailsList;
+  ErrorDetails?: CustomWorkspaceImageImportErrorDetails[];
 }
 export const DescribeCustomWorkspaceImageImportResult = S.suspend(() =>
   S.Struct({
     ImageId: S.optional(S.String),
     InfrastructureConfigurationArn: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(CustomWorkspaceImageImportState),
     Created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -3653,7 +4321,7 @@ export const DescribeCustomWorkspaceImageImportResult = S.suspend(() =>
   identifier: "DescribeCustomWorkspaceImageImportResult",
 }) as any as S.Schema<DescribeCustomWorkspaceImageImportResult>;
 export interface DescribeImageAssociationsResult {
-  Associations?: ImageResourceAssociationList;
+  Associations?: ImageResourceAssociation[];
 }
 export const DescribeImageAssociationsResult = S.suspend(() =>
   S.Struct({ Associations: S.optional(ImageResourceAssociationList) }).pipe(ns),
@@ -3661,7 +4329,7 @@ export const DescribeImageAssociationsResult = S.suspend(() =>
   identifier: "DescribeImageAssociationsResult",
 }) as any as S.Schema<DescribeImageAssociationsResult>;
 export interface DescribeIpGroupsResult {
-  Result?: WorkspacesIpGroupsList;
+  Result?: WorkspacesIpGroup[];
   NextToken?: string;
 }
 export const DescribeIpGroupsResult = S.suspend(() =>
@@ -3673,7 +4341,7 @@ export const DescribeIpGroupsResult = S.suspend(() =>
   identifier: "DescribeIpGroupsResult",
 }) as any as S.Schema<DescribeIpGroupsResult>;
 export interface DescribeWorkspaceBundlesResult {
-  Bundles?: BundleList;
+  Bundles?: WorkspaceBundle[];
   NextToken?: string;
 }
 export const DescribeWorkspaceBundlesResult = S.suspend(() =>
@@ -3686,7 +4354,7 @@ export const DescribeWorkspaceBundlesResult = S.suspend(() =>
 }) as any as S.Schema<DescribeWorkspaceBundlesResult>;
 export interface DescribeWorkspaceImagePermissionsResult {
   ImageId?: string;
-  ImagePermissions?: ImagePermissions;
+  ImagePermissions?: ImagePermission[];
   NextToken?: string;
 }
 export const DescribeWorkspaceImagePermissionsResult = S.suspend(() =>
@@ -3699,7 +4367,7 @@ export const DescribeWorkspaceImagePermissionsResult = S.suspend(() =>
   identifier: "DescribeWorkspaceImagePermissionsResult",
 }) as any as S.Schema<DescribeWorkspaceImagePermissionsResult>;
 export interface DescribeWorkspacesConnectionStatusResult {
-  WorkspacesConnectionStatus?: WorkspaceConnectionStatusList;
+  WorkspacesConnectionStatus?: WorkspaceConnectionStatus[];
   NextToken?: string;
 }
 export const DescribeWorkspacesConnectionStatusResult = S.suspend(() =>
@@ -3711,8 +4379,8 @@ export const DescribeWorkspacesConnectionStatusResult = S.suspend(() =>
   identifier: "DescribeWorkspacesConnectionStatusResult",
 }) as any as S.Schema<DescribeWorkspacesConnectionStatusResult>;
 export interface DescribeWorkspaceSnapshotsResult {
-  RebuildSnapshots?: SnapshotList;
-  RestoreSnapshots?: SnapshotList;
+  RebuildSnapshots?: Snapshot[];
+  RestoreSnapshots?: Snapshot[];
 }
 export const DescribeWorkspaceSnapshotsResult = S.suspend(() =>
   S.Struct({
@@ -3723,7 +4391,7 @@ export const DescribeWorkspaceSnapshotsResult = S.suspend(() =>
   identifier: "DescribeWorkspaceSnapshotsResult",
 }) as any as S.Schema<DescribeWorkspaceSnapshotsResult>;
 export interface DescribeWorkspacesPoolsResult {
-  WorkspacesPools?: WorkspacesPools;
+  WorkspacesPools?: WorkspacesPool[];
   NextToken?: string;
 }
 export const DescribeWorkspacesPoolsResult = S.suspend(() =>
@@ -3768,12 +4436,13 @@ export const ImportClientBrandingRequest = S.suspend(() =>
 }) as any as S.Schema<ImportClientBrandingRequest>;
 export interface ImportCustomWorkspaceImageResult {
   ImageId?: string;
-  State?: string;
+  State?: CustomWorkspaceImageImportState;
 }
 export const ImportCustomWorkspaceImageResult = S.suspend(() =>
-  S.Struct({ ImageId: S.optional(S.String), State: S.optional(S.String) }).pipe(
-    ns,
-  ),
+  S.Struct({
+    ImageId: S.optional(S.String),
+    State: S.optional(CustomWorkspaceImageImportState),
+  }).pipe(ns),
 ).annotations({
   identifier: "ImportCustomWorkspaceImageResult",
 }) as any as S.Schema<ImportCustomWorkspaceImageResult>;
@@ -3808,13 +4477,13 @@ export const ModifyStreamingPropertiesResult = S.suspend(() =>
 export interface ModifyWorkspacePropertiesRequest {
   WorkspaceId: string;
   WorkspaceProperties?: WorkspaceProperties;
-  DataReplication?: string;
+  DataReplication?: DataReplication;
 }
 export const ModifyWorkspacePropertiesRequest = S.suspend(() =>
   S.Struct({
     WorkspaceId: S.String,
     WorkspaceProperties: S.optional(WorkspaceProperties),
-    DataReplication: S.optional(S.String),
+    DataReplication: S.optional(DataReplication),
   }).pipe(
     T.all(
       ns,
@@ -3836,7 +4505,7 @@ export const ModifyWorkspacePropertiesResult = S.suspend(() =>
   identifier: "ModifyWorkspacePropertiesResult",
 }) as any as S.Schema<ModifyWorkspacePropertiesResult>;
 export interface RebuildWorkspacesResult {
-  FailedRequests?: FailedRebuildWorkspaceRequests;
+  FailedRequests?: FailedWorkspaceChangeRequest[];
 }
 export const RebuildWorkspacesResult = S.suspend(() =>
   S.Struct({ FailedRequests: S.optional(FailedRebuildWorkspaceRequests) }).pipe(
@@ -3847,18 +4516,18 @@ export const RebuildWorkspacesResult = S.suspend(() =>
 }) as any as S.Schema<RebuildWorkspacesResult>;
 export interface RegisterWorkspaceDirectoryResult {
   DirectoryId?: string;
-  State?: string;
+  State?: WorkspaceDirectoryState;
 }
 export const RegisterWorkspaceDirectoryResult = S.suspend(() =>
   S.Struct({
     DirectoryId: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(WorkspaceDirectoryState),
   }).pipe(ns),
 ).annotations({
   identifier: "RegisterWorkspaceDirectoryResult",
 }) as any as S.Schema<RegisterWorkspaceDirectoryResult>;
 export interface StartWorkspacesResult {
-  FailedRequests?: FailedStartWorkspaceRequests;
+  FailedRequests?: FailedWorkspaceChangeRequest[];
 }
 export const StartWorkspacesResult = S.suspend(() =>
   S.Struct({ FailedRequests: S.optional(FailedStartWorkspaceRequests) }).pipe(
@@ -3868,7 +4537,7 @@ export const StartWorkspacesResult = S.suspend(() =>
   identifier: "StartWorkspacesResult",
 }) as any as S.Schema<StartWorkspacesResult>;
 export interface StopWorkspacesResult {
-  FailedRequests?: FailedStopWorkspaceRequests;
+  FailedRequests?: FailedWorkspaceChangeRequest[];
 }
 export const StopWorkspacesResult = S.suspend(() =>
   S.Struct({ FailedRequests: S.optional(FailedStopWorkspaceRequests) }).pipe(
@@ -3878,7 +4547,7 @@ export const StopWorkspacesResult = S.suspend(() =>
   identifier: "StopWorkspacesResult",
 }) as any as S.Schema<StopWorkspacesResult>;
 export interface TerminateWorkspacesResult {
-  FailedRequests?: FailedTerminateWorkspaceRequests;
+  FailedRequests?: FailedWorkspaceChangeRequest[];
 }
 export const TerminateWorkspacesResult = S.suspend(() =>
   S.Struct({
@@ -3888,14 +4557,14 @@ export const TerminateWorkspacesResult = S.suspend(() =>
   identifier: "TerminateWorkspacesResult",
 }) as any as S.Schema<TerminateWorkspacesResult>;
 export interface ConnectionAliasAssociation {
-  AssociationStatus?: string;
+  AssociationStatus?: AssociationStatus;
   AssociatedAccountId?: string;
   ResourceId?: string;
   ConnectionIdentifier?: string;
 }
 export const ConnectionAliasAssociation = S.suspend(() =>
   S.Struct({
-    AssociationStatus: S.optional(S.String),
+    AssociationStatus: S.optional(AssociationStatus),
     AssociatedAccountId: S.optional(S.String),
     ResourceId: S.optional(S.String),
     ConnectionIdentifier: S.optional(S.String),
@@ -3911,6 +4580,17 @@ export type DnsIpAddresses = string[];
 export const DnsIpAddresses = S.Array(S.String);
 export type DnsIpv6Addresses = string[];
 export const DnsIpv6Addresses = S.Array(S.String);
+export type WorkspaceDirectoryType =
+  | "SIMPLE_AD"
+  | "AD_CONNECTOR"
+  | "CUSTOMER_MANAGED"
+  | "AWS_IAM_IDENTITY_CENTER";
+export const WorkspaceDirectoryType = S.Literal(
+  "SIMPLE_AD",
+  "AD_CONNECTOR",
+  "CUSTOMER_MANAGED",
+  "AWS_IAM_IDENTITY_CENTER",
+);
 export interface UpdateResult {
   UpdateAvailable?: boolean;
   Description?: string;
@@ -3922,23 +4602,26 @@ export const UpdateResult = S.suspend(() =>
   }),
 ).annotations({ identifier: "UpdateResult" }) as any as S.Schema<UpdateResult>;
 export interface ErrorDetails {
-  ErrorCode?: string;
+  ErrorCode?: WorkspaceImageErrorDetailCode;
   ErrorMessage?: string;
 }
 export const ErrorDetails = S.suspend(() =>
   S.Struct({
-    ErrorCode: S.optional(S.String),
+    ErrorCode: S.optional(WorkspaceImageErrorDetailCode),
     ErrorMessage: S.optional(S.String),
   }),
 ).annotations({ identifier: "ErrorDetails" }) as any as S.Schema<ErrorDetails>;
 export type ErrorDetailsList = ErrorDetails[];
 export const ErrorDetailsList = S.Array(ErrorDetails);
 export interface ModificationState {
-  Resource?: string;
-  State?: string;
+  Resource?: ModificationResourceEnum;
+  State?: ModificationStateEnum;
 }
 export const ModificationState = S.suspend(() =>
-  S.Struct({ Resource: S.optional(S.String), State: S.optional(S.String) }),
+  S.Struct({
+    Resource: S.optional(ModificationResourceEnum),
+    State: S.optional(ModificationStateEnum),
+  }),
 ).annotations({
   identifier: "ModificationState",
 }) as any as S.Schema<ModificationState>;
@@ -3947,15 +4630,15 @@ export const ModificationStateList = S.Array(ModificationState);
 export interface RelatedWorkspaceProperties {
   WorkspaceId?: string;
   Region?: string;
-  State?: string;
-  Type?: string;
+  State?: WorkspaceState;
+  Type?: StandbyWorkspaceRelationshipType;
 }
 export const RelatedWorkspaceProperties = S.suspend(() =>
   S.Struct({
     WorkspaceId: S.optional(S.String),
     Region: S.optional(S.String),
-    State: S.optional(S.String),
-    Type: S.optional(S.String),
+    State: S.optional(WorkspaceState),
+    Type: S.optional(StandbyWorkspaceRelationshipType),
   }),
 ).annotations({
   identifier: "RelatedWorkspaceProperties",
@@ -3963,12 +4646,12 @@ export const RelatedWorkspaceProperties = S.suspend(() =>
 export type RelatedWorkspaces = RelatedWorkspaceProperties[];
 export const RelatedWorkspaces = S.Array(RelatedWorkspaceProperties);
 export interface DataReplicationSettings {
-  DataReplication?: string;
+  DataReplication?: DataReplication;
   RecoverySnapshotTime?: Date;
 }
 export const DataReplicationSettings = S.suspend(() =>
   S.Struct({
-    DataReplication: S.optional(S.String),
+    DataReplication: S.optional(DataReplication),
     RecoverySnapshotTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -3978,13 +4661,13 @@ export const DataReplicationSettings = S.suspend(() =>
 }) as any as S.Schema<DataReplicationSettings>;
 export interface StandbyWorkspacesProperties {
   StandbyWorkspaceId?: string;
-  DataReplication?: string;
+  DataReplication?: DataReplication;
   RecoverySnapshotTime?: Date;
 }
 export const StandbyWorkspacesProperties = S.suspend(() =>
   S.Struct({
     StandbyWorkspaceId: S.optional(S.String),
-    DataReplication: S.optional(S.String),
+    DataReplication: S.optional(DataReplication),
     RecoverySnapshotTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -4009,8 +4692,8 @@ export const NetworkAccessConfiguration = S.suspend(() =>
   identifier: "NetworkAccessConfiguration",
 }) as any as S.Schema<NetworkAccessConfiguration>;
 export interface AccessEndpointConfig {
-  AccessEndpoints: AccessEndpointList;
-  InternetFallbackProtocols?: InternetFallbackProtocolList;
+  AccessEndpoints: AccessEndpoint[];
+  InternetFallbackProtocols?: InternetFallbackProtocol[];
 }
 export const AccessEndpointConfig = S.suspend(() =>
   S.Struct({
@@ -4042,14 +4725,14 @@ export const FailedCreateStandbyWorkspacesRequestList = S.Array(
 export interface PendingCreateStandbyWorkspacesRequest {
   UserName?: string;
   DirectoryId?: string;
-  State?: string;
+  State?: WorkspaceState;
   WorkspaceId?: string;
 }
 export const PendingCreateStandbyWorkspacesRequest = S.suspend(() =>
   S.Struct({
     UserName: S.optional(S.String),
     DirectoryId: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(WorkspaceState),
     WorkspaceId: S.optional(S.String),
   }),
 ).annotations({
@@ -4081,15 +4764,15 @@ export const FailedCreateWorkspaceRequests = S.Array(
 export interface ConnectionAlias {
   ConnectionString?: string;
   AliasId?: string;
-  State?: string;
+  State?: ConnectionAliasState;
   OwnerAccountId?: string;
-  Associations?: ConnectionAliasAssociationList;
+  Associations?: ConnectionAliasAssociation[];
 }
 export const ConnectionAlias = S.suspend(() =>
   S.Struct({
     ConnectionString: S.optional(S.String),
     AliasId: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(ConnectionAliasState),
     OwnerAccountId: S.optional(S.String),
     Associations: S.optional(ConnectionAliasAssociationList),
   }),
@@ -4103,14 +4786,14 @@ export interface WorkspaceImage {
   Name?: string;
   Description?: string;
   OperatingSystem?: OperatingSystem;
-  State?: string;
-  RequiredTenancy?: string;
+  State?: WorkspaceImageState;
+  RequiredTenancy?: WorkspaceImageRequiredTenancy;
   ErrorCode?: string;
   ErrorMessage?: string;
   Created?: Date;
   OwnerAccountId?: string;
   Updates?: UpdateResult;
-  ErrorDetails?: ErrorDetailsList;
+  ErrorDetails?: ErrorDetails[];
 }
 export const WorkspaceImage = S.suspend(() =>
   S.Struct({
@@ -4118,8 +4801,8 @@ export const WorkspaceImage = S.suspend(() =>
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     OperatingSystem: S.optional(OperatingSystem),
-    State: S.optional(S.String),
-    RequiredTenancy: S.optional(S.String),
+    State: S.optional(WorkspaceImageState),
+    RequiredTenancy: S.optional(WorkspaceImageRequiredTenancy),
     ErrorCode: S.optional(S.String),
     ErrorMessage: S.optional(S.String),
     Created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -4138,7 +4821,7 @@ export interface Workspace {
   UserName?: string;
   IpAddress?: string;
   Ipv6Address?: string;
-  State?: string;
+  State?: WorkspaceState;
   BundleId?: string;
   SubnetId?: string;
   ErrorMessage?: string;
@@ -4149,10 +4832,10 @@ export interface Workspace {
   RootVolumeEncryptionEnabled?: boolean;
   WorkspaceName?: string;
   WorkspaceProperties?: WorkspaceProperties;
-  ModificationStates?: ModificationStateList;
-  RelatedWorkspaces?: RelatedWorkspaces;
+  ModificationStates?: ModificationState[];
+  RelatedWorkspaces?: RelatedWorkspaceProperties[];
   DataReplicationSettings?: DataReplicationSettings;
-  StandbyWorkspacesProperties?: StandbyWorkspacesPropertiesList;
+  StandbyWorkspacesProperties?: StandbyWorkspacesProperties[];
 }
 export const Workspace = S.suspend(() =>
   S.Struct({
@@ -4161,7 +4844,7 @@ export const Workspace = S.suspend(() =>
     UserName: S.optional(S.String),
     IpAddress: S.optional(S.String),
     Ipv6Address: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(WorkspaceState),
     BundleId: S.optional(S.String),
     SubnetId: S.optional(S.String),
     ErrorMessage: S.optional(S.String),
@@ -4181,8 +4864,8 @@ export const Workspace = S.suspend(() =>
 export type WorkspaceList = Workspace[];
 export const WorkspaceList = S.Array(Workspace);
 export interface WorkspacesPoolSession {
-  AuthenticationType?: string;
-  ConnectionState?: string;
+  AuthenticationType?: AuthenticationType;
+  ConnectionState?: SessionConnectionState;
   SessionId: string;
   InstanceId?: string;
   PoolId: string;
@@ -4193,8 +4876,8 @@ export interface WorkspacesPoolSession {
 }
 export const WorkspacesPoolSession = S.suspend(() =>
   S.Struct({
-    AuthenticationType: S.optional(S.String),
-    ConnectionState: S.optional(S.String),
+    AuthenticationType: S.optional(AuthenticationType),
+    ConnectionState: S.optional(SessionConnectionState),
     SessionId: S.String,
     InstanceId: S.optional(S.String),
     PoolId: S.String,
@@ -4209,28 +4892,28 @@ export const WorkspacesPoolSession = S.suspend(() =>
 export type WorkspacesPoolSessions = WorkspacesPoolSession[];
 export const WorkspacesPoolSessions = S.Array(WorkspacesPoolSession);
 export interface WorkspaceAccessProperties {
-  DeviceTypeWindows?: string;
-  DeviceTypeOsx?: string;
-  DeviceTypeWeb?: string;
-  DeviceTypeIos?: string;
-  DeviceTypeAndroid?: string;
-  DeviceTypeChromeOs?: string;
-  DeviceTypeZeroClient?: string;
-  DeviceTypeLinux?: string;
-  DeviceTypeWorkSpacesThinClient?: string;
+  DeviceTypeWindows?: AccessPropertyValue;
+  DeviceTypeOsx?: AccessPropertyValue;
+  DeviceTypeWeb?: AccessPropertyValue;
+  DeviceTypeIos?: AccessPropertyValue;
+  DeviceTypeAndroid?: AccessPropertyValue;
+  DeviceTypeChromeOs?: AccessPropertyValue;
+  DeviceTypeZeroClient?: AccessPropertyValue;
+  DeviceTypeLinux?: AccessPropertyValue;
+  DeviceTypeWorkSpacesThinClient?: AccessPropertyValue;
   AccessEndpointConfig?: AccessEndpointConfig;
 }
 export const WorkspaceAccessProperties = S.suspend(() =>
   S.Struct({
-    DeviceTypeWindows: S.optional(S.String),
-    DeviceTypeOsx: S.optional(S.String),
-    DeviceTypeWeb: S.optional(S.String),
-    DeviceTypeIos: S.optional(S.String),
-    DeviceTypeAndroid: S.optional(S.String),
-    DeviceTypeChromeOs: S.optional(S.String),
-    DeviceTypeZeroClient: S.optional(S.String),
-    DeviceTypeLinux: S.optional(S.String),
-    DeviceTypeWorkSpacesThinClient: S.optional(S.String),
+    DeviceTypeWindows: S.optional(AccessPropertyValue),
+    DeviceTypeOsx: S.optional(AccessPropertyValue),
+    DeviceTypeWeb: S.optional(AccessPropertyValue),
+    DeviceTypeIos: S.optional(AccessPropertyValue),
+    DeviceTypeAndroid: S.optional(AccessPropertyValue),
+    DeviceTypeChromeOs: S.optional(AccessPropertyValue),
+    DeviceTypeZeroClient: S.optional(AccessPropertyValue),
+    DeviceTypeLinux: S.optional(AccessPropertyValue),
+    DeviceTypeWorkSpacesThinClient: S.optional(AccessPropertyValue),
     AccessEndpointConfig: S.optional(AccessEndpointConfig),
   }),
 ).annotations({
@@ -4249,8 +4932,8 @@ export const AssociateWorkspaceApplicationResult = S.suspend(() =>
   identifier: "AssociateWorkspaceApplicationResult",
 }) as any as S.Schema<AssociateWorkspaceApplicationResult>;
 export interface CreateStandbyWorkspacesResult {
-  FailedStandbyRequests?: FailedCreateStandbyWorkspacesRequestList;
-  PendingStandbyRequests?: PendingCreateStandbyWorkspacesRequestList;
+  FailedStandbyRequests?: FailedCreateStandbyWorkspacesRequest[];
+  PendingStandbyRequests?: PendingCreateStandbyWorkspacesRequest[];
 }
 export const CreateStandbyWorkspacesResult = S.suspend(() =>
   S.Struct({
@@ -4263,8 +4946,8 @@ export const CreateStandbyWorkspacesResult = S.suspend(() =>
   identifier: "CreateStandbyWorkspacesResult",
 }) as any as S.Schema<CreateStandbyWorkspacesResult>;
 export interface CreateWorkspacesResult {
-  FailedRequests?: FailedCreateWorkspaceRequests;
-  PendingRequests?: WorkspaceList;
+  FailedRequests?: FailedCreateWorkspaceRequest[];
+  PendingRequests?: Workspace[];
 }
 export const CreateWorkspacesResult = S.suspend(() =>
   S.Struct({
@@ -4275,7 +4958,7 @@ export const CreateWorkspacesResult = S.suspend(() =>
   identifier: "CreateWorkspacesResult",
 }) as any as S.Schema<CreateWorkspacesResult>;
 export interface DescribeConnectionAliasesResult {
-  ConnectionAliases?: ConnectionAliasList;
+  ConnectionAliases?: ConnectionAlias[];
   NextToken?: string;
 }
 export const DescribeConnectionAliasesResult = S.suspend(() =>
@@ -4287,7 +4970,7 @@ export const DescribeConnectionAliasesResult = S.suspend(() =>
   identifier: "DescribeConnectionAliasesResult",
 }) as any as S.Schema<DescribeConnectionAliasesResult>;
 export interface DescribeWorkspaceImagesResult {
-  Images?: WorkspaceImageList;
+  Images?: WorkspaceImage[];
   NextToken?: string;
 }
 export const DescribeWorkspaceImagesResult = S.suspend(() =>
@@ -4299,7 +4982,7 @@ export const DescribeWorkspaceImagesResult = S.suspend(() =>
   identifier: "DescribeWorkspaceImagesResult",
 }) as any as S.Schema<DescribeWorkspaceImagesResult>;
 export interface DescribeWorkspacesResult {
-  Workspaces?: WorkspaceList;
+  Workspaces?: Workspace[];
   NextToken?: string;
 }
 export const DescribeWorkspacesResult = S.suspend(() =>
@@ -4311,7 +4994,7 @@ export const DescribeWorkspacesResult = S.suspend(() =>
   identifier: "DescribeWorkspacesResult",
 }) as any as S.Schema<DescribeWorkspacesResult>;
 export interface DescribeWorkspacesPoolSessionsResult {
-  Sessions?: WorkspacesPoolSessions;
+  Sessions?: WorkspacesPoolSession[];
   NextToken?: string;
 }
 export const DescribeWorkspacesPoolSessionsResult = S.suspend(() =>
@@ -4371,7 +5054,7 @@ export const ModifyWorkspaceAccessPropertiesResult = S.suspend(() =>
   identifier: "ModifyWorkspaceAccessPropertiesResult",
 }) as any as S.Schema<ModifyWorkspaceAccessPropertiesResult>;
 export interface RebootWorkspacesResult {
-  FailedRequests?: FailedRebootWorkspaceRequests;
+  FailedRequests?: FailedWorkspaceChangeRequest[];
 }
 export const RebootWorkspacesResult = S.suspend(() =>
   S.Struct({ FailedRequests: S.optional(FailedRebootWorkspaceRequests) }).pipe(
@@ -4423,27 +5106,27 @@ export interface WorkspaceDirectory {
   Alias?: string;
   DirectoryName?: string;
   RegistrationCode?: string;
-  SubnetIds?: SubnetIds;
-  DnsIpAddresses?: DnsIpAddresses;
-  DnsIpv6Addresses?: DnsIpv6Addresses;
+  SubnetIds?: string[];
+  DnsIpAddresses?: string[];
+  DnsIpv6Addresses?: string[];
   CustomerUserName?: string;
   IamRoleId?: string;
-  DirectoryType?: string;
+  DirectoryType?: WorkspaceDirectoryType;
   WorkspaceSecurityGroupId?: string;
-  State?: string;
+  State?: WorkspaceDirectoryState;
   WorkspaceCreationProperties?: DefaultWorkspaceCreationProperties;
-  ipGroupIds?: IpGroupIdList;
+  ipGroupIds?: string[];
   WorkspaceAccessProperties?: WorkspaceAccessProperties;
-  Tenancy?: string;
+  Tenancy?: Tenancy;
   SelfservicePermissions?: SelfservicePermissions;
   SamlProperties?: SamlProperties;
   CertificateBasedAuthProperties?: CertificateBasedAuthProperties;
-  EndpointEncryptionMode?: string;
+  EndpointEncryptionMode?: EndpointEncryptionMode;
   MicrosoftEntraConfig?: MicrosoftEntraConfig;
   WorkspaceDirectoryName?: string;
   WorkspaceDirectoryDescription?: string;
-  UserIdentityType?: string;
-  WorkspaceType?: string;
+  UserIdentityType?: UserIdentityType;
+  WorkspaceType?: WorkspaceType;
   IDCConfig?: IDCConfig;
   ActiveDirectoryConfig?: ActiveDirectoryConfig;
   StreamingProperties?: StreamingProperties;
@@ -4460,22 +5143,22 @@ export const WorkspaceDirectory = S.suspend(() =>
     DnsIpv6Addresses: S.optional(DnsIpv6Addresses),
     CustomerUserName: S.optional(S.String),
     IamRoleId: S.optional(S.String),
-    DirectoryType: S.optional(S.String),
+    DirectoryType: S.optional(WorkspaceDirectoryType),
     WorkspaceSecurityGroupId: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(WorkspaceDirectoryState),
     WorkspaceCreationProperties: S.optional(DefaultWorkspaceCreationProperties),
     ipGroupIds: S.optional(IpGroupIdList),
     WorkspaceAccessProperties: S.optional(WorkspaceAccessProperties),
-    Tenancy: S.optional(S.String),
+    Tenancy: S.optional(Tenancy),
     SelfservicePermissions: S.optional(SelfservicePermissions),
     SamlProperties: S.optional(SamlProperties),
     CertificateBasedAuthProperties: S.optional(CertificateBasedAuthProperties),
-    EndpointEncryptionMode: S.optional(S.String),
+    EndpointEncryptionMode: S.optional(EndpointEncryptionMode),
     MicrosoftEntraConfig: S.optional(MicrosoftEntraConfig),
     WorkspaceDirectoryName: S.optional(S.String),
     WorkspaceDirectoryDescription: S.optional(S.String),
-    UserIdentityType: S.optional(S.String),
-    WorkspaceType: S.optional(S.String),
+    UserIdentityType: S.optional(UserIdentityType),
+    WorkspaceType: S.optional(WorkspaceType),
     IDCConfig: S.optional(IDCConfig),
     ActiveDirectoryConfig: S.optional(ActiveDirectoryConfig),
     StreamingProperties: S.optional(StreamingProperties),
@@ -4487,7 +5170,7 @@ export const WorkspaceDirectory = S.suspend(() =>
 export type DirectoryList = WorkspaceDirectory[];
 export const DirectoryList = S.Array(WorkspaceDirectory);
 export interface DescribeWorkspaceDirectoriesResult {
-  Directories?: DirectoryList;
+  Directories?: WorkspaceDirectory[];
   NextToken?: string;
 }
 export const DescribeWorkspaceDirectoriesResult = S.suspend(() =>
@@ -4608,7 +5291,7 @@ export class WorkspacesDefaultRoleNotFoundException extends S.TaggedError<Worksp
  */
 export const listAvailableManagementCidrRanges: (
   input: ListAvailableManagementCidrRangesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListAvailableManagementCidrRangesResult,
   AccessDeniedException | InvalidParameterValuesException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4623,7 +5306,7 @@ export const listAvailableManagementCidrRanges: (
  */
 export const describeAccount: (
   input: DescribeAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAccountResult,
   AccessDeniedException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4638,7 +5321,7 @@ export const describeAccount: (
  */
 export const describeAccountModifications: (
   input: DescribeAccountModificationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAccountModificationsResult,
   AccessDeniedException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4652,7 +5335,7 @@ export const describeAccountModifications: (
  */
 export const describeIpGroups: (
   input: DescribeIpGroupsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeIpGroupsResult,
   AccessDeniedException | InvalidParameterValuesException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4666,7 +5349,7 @@ export const describeIpGroups: (
  */
 export const describeTags: (
   input: DescribeTagsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeTagsResult,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4683,21 +5366,21 @@ export const describeTags: (
 export const describeWorkspaceBundles: {
   (
     input: DescribeWorkspaceBundlesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeWorkspaceBundlesResult,
     InvalidParameterValuesException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeWorkspaceBundlesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeWorkspaceBundlesResult,
     InvalidParameterValuesException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeWorkspaceBundlesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkspaceBundle,
     InvalidParameterValuesException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -4717,7 +5400,7 @@ export const describeWorkspaceBundles: {
  */
 export const describeWorkspaceImagePermissions: (
   input: DescribeWorkspaceImagePermissionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeWorkspaceImagePermissionsResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -4738,7 +5421,7 @@ export const describeWorkspaceImagePermissions: (
  */
 export const describeWorkspacesConnectionStatus: (
   input: DescribeWorkspacesConnectionStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeWorkspacesConnectionStatusResult,
   InvalidParameterValuesException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4752,7 +5435,7 @@ export const describeWorkspacesConnectionStatus: (
  */
 export const describeWorkspaceSnapshots: (
   input: DescribeWorkspaceSnapshotsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeWorkspaceSnapshotsResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -4773,7 +5456,7 @@ export const describeWorkspaceSnapshots: (
  */
 export const describeWorkspacesPools: (
   input: DescribeWorkspacesPoolsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeWorkspacesPoolsResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -4794,7 +5477,7 @@ export const describeWorkspacesPools: (
  */
 export const modifyStreamingProperties: (
   input: ModifyStreamingPropertiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyStreamingPropertiesResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -4828,7 +5511,7 @@ export const modifyStreamingProperties: (
  */
 export const rebuildWorkspaces: (
   input: RebuildWorkspacesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RebuildWorkspacesResult,
   OperationNotSupportedException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4845,7 +5528,7 @@ export const rebuildWorkspaces: (
  */
 export const startWorkspaces: (
   input: StartWorkspacesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartWorkspacesResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4863,7 +5546,7 @@ export const startWorkspaces: (
  */
 export const stopWorkspaces: (
   input: StopWorkspacesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopWorkspacesResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4902,7 +5585,7 @@ export const stopWorkspaces: (
  */
 export const terminateWorkspaces: (
   input: TerminateWorkspacesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TerminateWorkspacesResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4918,7 +5601,7 @@ export const terminateWorkspaces: (
  */
 export const deleteIpGroup: (
   input: DeleteIpGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIpGroupResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -4956,7 +5639,7 @@ export const deleteIpGroup: (
  */
 export const updateConnectionAliasPermission: (
   input: UpdateConnectionAliasPermissionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConnectionAliasPermissionResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -4997,7 +5680,7 @@ export const updateConnectionAliasPermission: (
  */
 export const deleteConnectionAlias: (
   input: DeleteConnectionAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConnectionAliasResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5026,7 +5709,7 @@ export const deleteConnectionAlias: (
  */
 export const deleteWorkspaceImage: (
   input: DeleteWorkspaceImageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkspaceImageResult,
   | AccessDeniedException
   | InvalidResourceStateException
@@ -5060,7 +5743,7 @@ export const deleteWorkspaceImage: (
  */
 export const deregisterWorkspaceDirectory: (
   input: DeregisterWorkspaceDirectoryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterWorkspaceDirectoryResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5092,7 +5775,7 @@ export const deregisterWorkspaceDirectory: (
  */
 export const disassociateConnectionAlias: (
   input: DisassociateConnectionAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateConnectionAliasResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5117,7 +5800,7 @@ export const disassociateConnectionAlias: (
  */
 export const disassociateIpGroups: (
   input: DisassociateIpGroupsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateIpGroupsResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5142,7 +5825,7 @@ export const disassociateIpGroups: (
  */
 export const revokeIpRules: (
   input: RevokeIpRulesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RevokeIpRulesResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5168,7 +5851,7 @@ export const revokeIpRules: (
  */
 export const startWorkspacesPool: (
   input: StartWorkspacesPoolRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartWorkspacesPoolResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5200,7 +5883,7 @@ export const startWorkspacesPool: (
  */
 export const stopWorkspacesPool: (
   input: StopWorkspacesPoolRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopWorkspacesPoolResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5225,7 +5908,7 @@ export const stopWorkspacesPool: (
  */
 export const terminateWorkspacesPool: (
   input: TerminateWorkspacesPoolRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TerminateWorkspacesPoolResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5251,7 +5934,7 @@ export const terminateWorkspacesPool: (
  */
 export const updateRulesOfIpGroup: (
   input: UpdateRulesOfIpGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRulesOfIpGroupResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5282,7 +5965,7 @@ export const updateRulesOfIpGroup: (
  */
 export const associateConnectionAlias: (
   input: AssociateConnectionAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateConnectionAliasResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5315,7 +5998,7 @@ export const associateConnectionAlias: (
  */
 export const modifyWorkspaceState: (
   input: ModifyWorkspaceStateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyWorkspaceStateResult,
   | InvalidParameterValuesException
   | InvalidResourceStateException
@@ -5338,7 +6021,7 @@ export const modifyWorkspaceState: (
  */
 export const associateIpGroups: (
   input: AssociateIpGroupsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateIpGroupsResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5368,7 +6051,7 @@ export const associateIpGroups: (
  */
 export const authorizeIpRules: (
   input: AuthorizeIpRulesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AuthorizeIpRulesResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5395,7 +6078,7 @@ export const authorizeIpRules: (
  */
 export const createConnectionAlias: (
   input: CreateConnectionAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConnectionAliasResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5422,7 +6105,7 @@ export const createConnectionAlias: (
  */
 export const describeWorkspaceAssociations: (
   input: DescribeWorkspaceAssociationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeWorkspaceAssociationsResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5449,7 +6132,7 @@ export const describeWorkspaceAssociations: (
  */
 export const importWorkspaceImage: (
   input: ImportWorkspaceImageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ImportWorkspaceImageResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5477,7 +6160,7 @@ export const importWorkspaceImage: (
  */
 export const modifyCertificateBasedAuthProperties: (
   input: ModifyCertificateBasedAuthPropertiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyCertificateBasedAuthPropertiesResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5500,7 +6183,7 @@ export const modifyCertificateBasedAuthProperties: (
  */
 export const modifyClientProperties: (
   input: ModifyClientPropertiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyClientPropertiesResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5525,7 +6208,7 @@ export const modifyClientProperties: (
  */
 export const modifySamlProperties: (
   input: ModifySamlPropertiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ModifySamlPropertiesResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5549,7 +6232,7 @@ export const modifySamlProperties: (
  */
 export const modifySelfservicePermissions: (
   input: ModifySelfservicePermissionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ModifySelfservicePermissionsResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5572,7 +6255,7 @@ export const modifySelfservicePermissions: (
  */
 export const modifyWorkspaceCreationProperties: (
   input: ModifyWorkspaceCreationPropertiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyWorkspaceCreationPropertiesResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5596,7 +6279,7 @@ export const modifyWorkspaceCreationProperties: (
  */
 export const modifyEndpointEncryptionMode: (
   input: ModifyEndpointEncryptionModeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyEndpointEncryptionModeResponse,
   | AccessDeniedException
   | OperationNotSupportedException
@@ -5627,7 +6310,7 @@ export const modifyEndpointEncryptionMode: (
  */
 export const restoreWorkspace: (
   input: RestoreWorkspaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RestoreWorkspaceResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5665,7 +6348,7 @@ export const restoreWorkspace: (
  */
 export const createUpdatedWorkspaceImage: (
   input: CreateUpdatedWorkspaceImageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUpdatedWorkspaceImageResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5694,7 +6377,7 @@ export const createUpdatedWorkspaceImage: (
  */
 export const createWorkspaceImage: (
   input: CreateWorkspaceImageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkspaceImageResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5723,7 +6406,7 @@ export const createWorkspaceImage: (
  */
 export const createWorkspacesPool: (
   input: CreateWorkspacesPoolRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkspacesPoolResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5751,7 +6434,7 @@ export const createWorkspacesPool: (
 export const describeApplicationAssociations: {
   (
     input: DescribeApplicationAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeApplicationAssociationsResult,
     | AccessDeniedException
     | InvalidParameterValuesException
@@ -5762,7 +6445,7 @@ export const describeApplicationAssociations: {
   >;
   pages: (
     input: DescribeApplicationAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeApplicationAssociationsResult,
     | AccessDeniedException
     | InvalidParameterValuesException
@@ -5773,7 +6456,7 @@ export const describeApplicationAssociations: {
   >;
   items: (
     input: DescribeApplicationAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InvalidParameterValuesException
@@ -5803,7 +6486,7 @@ export const describeApplicationAssociations: {
 export const describeApplications: {
   (
     input: DescribeApplicationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeApplicationsResult,
     | AccessDeniedException
     | InvalidParameterValuesException
@@ -5814,7 +6497,7 @@ export const describeApplications: {
   >;
   pages: (
     input: DescribeApplicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeApplicationsResult,
     | AccessDeniedException
     | InvalidParameterValuesException
@@ -5825,7 +6508,7 @@ export const describeApplications: {
   >;
   items: (
     input: DescribeApplicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InvalidParameterValuesException
@@ -5854,7 +6537,7 @@ export const describeApplications: {
  */
 export const describeBundleAssociations: (
   input: DescribeBundleAssociationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeBundleAssociationsResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5883,7 +6566,7 @@ export const describeBundleAssociations: (
  */
 export const deleteClientBranding: (
   input: DeleteClientBrandingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteClientBrandingResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5905,7 +6588,7 @@ export const deleteClientBranding: (
  */
 export const deleteConnectClientAddIn: (
   input: DeleteConnectClientAddInRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConnectClientAddInResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5927,7 +6610,7 @@ export const deleteConnectClientAddIn: (
  */
 export const updateConnectClientAddIn: (
   input: UpdateConnectClientAddInRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConnectClientAddInResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5948,7 +6631,7 @@ export const updateConnectClientAddIn: (
  */
 export const deleteTags: (
   input: DeleteTagsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTagsResult,
   InvalidParameterValuesException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5962,7 +6645,7 @@ export const deleteTags: (
  */
 export const createTags: (
   input: CreateTagsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTagsResult,
   | InvalidParameterValuesException
   | ResourceLimitExceededException
@@ -5989,7 +6672,7 @@ export const createTags: (
  */
 export const describeClientBranding: (
   input: DescribeClientBrandingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeClientBrandingResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6010,7 +6693,7 @@ export const describeClientBranding: (
  */
 export const describeClientProperties: (
   input: DescribeClientPropertiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeClientPropertiesResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6031,7 +6714,7 @@ export const describeClientProperties: (
  */
 export const describeConnectClientAddIns: (
   input: DescribeConnectClientAddInsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeConnectClientAddInsResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6055,7 +6738,7 @@ export const describeConnectClientAddIns: (
  */
 export const describeConnectionAliasPermissions: (
   input: DescribeConnectionAliasPermissionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeConnectionAliasPermissionsResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6078,7 +6761,7 @@ export const describeConnectionAliasPermissions: (
  */
 export const describeCustomWorkspaceImageImport: (
   input: DescribeCustomWorkspaceImageImportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCustomWorkspaceImageImportResult,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6092,7 +6775,7 @@ export const describeCustomWorkspaceImageImport: (
  */
 export const describeImageAssociations: (
   input: DescribeImageAssociationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeImageAssociationsResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6115,7 +6798,7 @@ export const describeImageAssociations: (
  */
 export const terminateWorkspacesPoolSession: (
   input: TerminateWorkspacesPoolSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TerminateWorkspacesPoolSessionResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6142,7 +6825,7 @@ export const terminateWorkspacesPoolSession: (
  */
 export const deleteWorkspaceBundle: (
   input: DeleteWorkspaceBundleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkspaceBundleResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6169,7 +6852,7 @@ export const deleteWorkspaceBundle: (
  */
 export const importCustomWorkspaceImage: (
   input: ImportCustomWorkspaceImageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ImportCustomWorkspaceImageResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6196,7 +6879,7 @@ export const importCustomWorkspaceImage: (
  */
 export const createStandbyWorkspaces: (
   input: CreateStandbyWorkspacesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateStandbyWorkspacesResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6239,7 +6922,7 @@ export const createStandbyWorkspaces: (
  */
 export const createWorkspaces: (
   input: CreateWorkspacesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkspacesResult,
   | InvalidParameterValuesException
   | ResourceLimitExceededException
@@ -6257,7 +6940,7 @@ export const createWorkspaces: (
  */
 export const describeConnectionAliases: (
   input: DescribeConnectionAliasesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeConnectionAliasesResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6279,7 +6962,7 @@ export const describeConnectionAliases: (
  */
 export const describeWorkspaceImages: (
   input: DescribeWorkspaceImagesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeWorkspaceImagesResult,
   AccessDeniedException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6293,7 +6976,7 @@ export const describeWorkspaceImages: (
  */
 export const describeWorkspacesPoolSessions: (
   input: DescribeWorkspacesPoolSessionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeWorkspacesPoolSessionsResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6314,7 +6997,7 @@ export const describeWorkspacesPoolSessions: (
  */
 export const getAccountLink: (
   input: GetAccountLinkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccountLinkResult,
   | AccessDeniedException
   | InternalServerException
@@ -6357,7 +7040,7 @@ export const getAccountLink: (
  */
 export const importClientBranding: (
   input: ImportClientBrandingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ImportClientBrandingResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6392,7 +7075,7 @@ export const importClientBranding: (
  */
 export const migrateWorkspace: (
   input: MigrateWorkspaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   MigrateWorkspaceResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6425,7 +7108,7 @@ export const migrateWorkspace: (
  */
 export const rebootWorkspaces: (
   input: RebootWorkspacesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RebootWorkspacesResult,
   OperationNotSupportedException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6439,7 +7122,7 @@ export const rebootWorkspaces: (
  */
 export const updateWorkspacesPool: (
   input: UpdateWorkspacesPoolRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkspacesPoolResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6471,7 +7154,7 @@ export const updateWorkspacesPool: (
  */
 export const createConnectClientAddIn: (
   input: CreateConnectClientAddInRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConnectClientAddInResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6496,7 +7179,7 @@ export const createConnectClientAddIn: (
  */
 export const disassociateWorkspaceApplication: (
   input: DisassociateWorkspaceApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateWorkspaceApplicationResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6521,7 +7204,7 @@ export const disassociateWorkspaceApplication: (
  */
 export const deleteAccountLinkInvitation: (
   input: DeleteAccountLinkInvitationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccountLinkInvitationResult,
   | AccessDeniedException
   | ConflictException
@@ -6546,7 +7229,7 @@ export const deleteAccountLinkInvitation: (
  */
 export const rejectAccountLinkInvitation: (
   input: RejectAccountLinkInvitationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RejectAccountLinkInvitationResult,
   | AccessDeniedException
   | ConflictException
@@ -6573,7 +7256,7 @@ export const rejectAccountLinkInvitation: (
  */
 export const acceptAccountLinkInvitation: (
   input: AcceptAccountLinkInvitationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AcceptAccountLinkInvitationResult,
   | AccessDeniedException
   | ConflictException
@@ -6599,7 +7282,7 @@ export const acceptAccountLinkInvitation: (
 export const listAccountLinks: {
   (
     input: ListAccountLinksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccountLinksResult,
     | AccessDeniedException
     | InternalServerException
@@ -6609,7 +7292,7 @@ export const listAccountLinks: {
   >;
   pages: (
     input: ListAccountLinksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccountLinksResult,
     | AccessDeniedException
     | InternalServerException
@@ -6619,7 +7302,7 @@ export const listAccountLinks: {
   >;
   items: (
     input: ListAccountLinksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AccountLink,
     | AccessDeniedException
     | InternalServerException
@@ -6643,7 +7326,7 @@ export const listAccountLinks: {
  */
 export const createAccountLinkInvitation: (
   input: CreateAccountLinkInvitationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAccountLinkInvitationResult,
   | AccessDeniedException
   | ConflictException
@@ -6667,7 +7350,7 @@ export const createAccountLinkInvitation: (
  */
 export const modifyAccount: (
   input: ModifyAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyAccountResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6698,7 +7381,7 @@ export const modifyAccount: (
  */
 export const updateWorkspaceBundle: (
   input: UpdateWorkspaceBundleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkspaceBundleResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6743,7 +7426,7 @@ export const updateWorkspaceBundle: (
  */
 export const updateWorkspaceImagePermission: (
   input: UpdateWorkspaceImagePermissionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkspaceImagePermissionResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6778,7 +7461,7 @@ export const updateWorkspaceImagePermission: (
  */
 export const copyWorkspaceImage: (
   input: CopyWorkspaceImageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CopyWorkspaceImageResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6809,7 +7492,7 @@ export const copyWorkspaceImage: (
  */
 export const createWorkspaceBundle: (
   input: CreateWorkspaceBundleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkspaceBundleResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6840,7 +7523,7 @@ export const createWorkspaceBundle: (
 export const describeWorkspaces: {
   (
     input: DescribeWorkspacesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeWorkspacesResult,
     | InvalidParameterValuesException
     | ResourceUnavailableException
@@ -6849,7 +7532,7 @@ export const describeWorkspaces: {
   >;
   pages: (
     input: DescribeWorkspacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeWorkspacesResult,
     | InvalidParameterValuesException
     | ResourceUnavailableException
@@ -6858,7 +7541,7 @@ export const describeWorkspaces: {
   >;
   items: (
     input: DescribeWorkspacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Workspace,
     | InvalidParameterValuesException
     | ResourceUnavailableException
@@ -6891,7 +7574,7 @@ export const describeWorkspaces: {
  */
 export const createIpGroup: (
   input: CreateIpGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateIpGroupResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6916,7 +7599,7 @@ export const createIpGroup: (
  */
 export const deployWorkspaceApplications: (
   input: DeployWorkspaceApplicationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeployWorkspaceApplicationsResult,
   | AccessDeniedException
   | IncompatibleApplicationsException
@@ -6943,7 +7626,7 @@ export const deployWorkspaceApplications: (
  */
 export const associateWorkspaceApplication: (
   input: AssociateWorkspaceApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateWorkspaceApplicationResult,
   | AccessDeniedException
   | ApplicationNotSupportedException
@@ -6979,21 +7662,21 @@ export const associateWorkspaceApplication: (
 export const describeWorkspaceDirectories: {
   (
     input: DescribeWorkspaceDirectoriesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeWorkspaceDirectoriesResult,
     InvalidParameterValuesException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeWorkspaceDirectoriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeWorkspaceDirectoriesResult,
     InvalidParameterValuesException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeWorkspaceDirectoriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkspaceDirectory,
     InvalidParameterValuesException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -7015,7 +7698,7 @@ export const describeWorkspaceDirectories: {
  */
 export const modifyWorkspaceAccessProperties: (
   input: ModifyWorkspaceAccessPropertiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyWorkspaceAccessPropertiesResult,
   | AccessDeniedException
   | InvalidParameterCombinationException
@@ -7046,7 +7729,7 @@ export const modifyWorkspaceAccessProperties: (
  */
 export const modifyWorkspaceProperties: (
   input: ModifyWorkspacePropertiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyWorkspacePropertiesResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -7079,7 +7762,7 @@ export const modifyWorkspaceProperties: (
  */
 export const registerWorkspaceDirectory: (
   input: RegisterWorkspaceDirectoryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterWorkspaceDirectoryResult,
   | AccessDeniedException
   | InvalidParameterValuesException

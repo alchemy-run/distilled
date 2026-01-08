@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -95,8 +95,8 @@ export type Description = string;
 export type Version = string;
 export type MaxResults = number;
 export type NextToken = string;
-export type CollaborationInstruction = string | Redacted.Redacted<string>;
-export type Instruction = string | Redacted.Redacted<string>;
+export type CollaborationInstruction = string | redacted.Redacted<string>;
+export type Instruction = string | redacted.Redacted<string>;
 export type ModelIdentifier = string;
 export type SessionTTL = number;
 export type AgentRoleArn = string;
@@ -116,7 +116,7 @@ export type PromptIdentifier = string;
 export type TaggableResourcesArn = string;
 export type TagKey = string;
 export type LambdaArn = string;
-export type Payload = string | Redacted.Redacted<string>;
+export type Payload = string | redacted.Redacted<string>;
 export type AgentAliasArn = string;
 export type TagValue = string;
 export type GuardrailIdentifier = string;
@@ -137,10 +137,10 @@ export type FlowConnectionName = string;
 export type S3BucketName = string;
 export type S3ObjectKey = string;
 export type FunctionDescription = string;
-export type BasePromptTemplate = string | Redacted.Redacted<string>;
+export type BasePromptTemplate = string | redacted.Redacted<string>;
 export type MaxRecentSessions = number;
 export type S3BucketArn = string;
-export type S3Prefix = string | Redacted.Redacted<string>;
+export type S3Prefix = string | redacted.Redacted<string>;
 export type BucketOwnerAccountId = string;
 export type S3BucketUri = string;
 export type BedrockEmbeddingModelArn = string;
@@ -151,7 +151,7 @@ export type OpenSearchManagedClusterDomainEndpoint = string;
 export type OpenSearchManagedClusterDomainArn = string;
 export type OpenSearchManagedClusterIndexName =
   | string
-  | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
 export type PineconeConnectionString = string;
 export type SecretArn = string;
 export type PineconeNamespace = string;
@@ -165,56 +165,56 @@ export type MongoDbAtlasDatabaseName = string;
 export type MongoDbAtlasCollectionName = string;
 export type MongoDbAtlasIndexName = string;
 export type MongoDbAtlasEndpointServiceName = string;
-export type GraphArn = string | Redacted.Redacted<string>;
-export type VectorBucketArn = string | Redacted.Redacted<string>;
-export type IndexArn = string | Redacted.Redacted<string>;
-export type IndexName = string | Redacted.Redacted<string>;
-export type PromptMetadataKey = string | Redacted.Redacted<string>;
-export type PromptMetadataValue = string | Redacted.Redacted<string>;
+export type GraphArn = string | redacted.Redacted<string>;
+export type VectorBucketArn = string | redacted.Redacted<string>;
+export type IndexArn = string | redacted.Redacted<string>;
+export type IndexName = string | redacted.Redacted<string>;
+export type PromptMetadataKey = string | redacted.Redacted<string>;
+export type PromptMetadataValue = string | redacted.Redacted<string>;
 export type AgentArn = string;
 export type FailureReason = string;
 export type RecommendedAction = string;
 export type KnowledgeBaseArn = string;
 export type FlowNodeInputName = string;
-export type FlowNodeInputExpression = string | Redacted.Redacted<string>;
+export type FlowNodeInputExpression = string | redacted.Redacted<string>;
 export type FlowNodeOutputName = string;
 export type Temperature = number;
 export type TopP = number;
 export type TopK = number;
 export type MaximumLength = number;
-export type FilterPattern = string | Redacted.Redacted<string>;
-export type UserAgent = string | Redacted.Redacted<string>;
-export type UserAgentHeader = string | Redacted.Redacted<string>;
+export type FilterPattern = string | redacted.Redacted<string>;
+export type UserAgent = string | redacted.Redacted<string>;
+export type UserAgentHeader = string | redacted.Redacted<string>;
 export type HttpsUrl = string;
 export type Microsoft365TenantId = string;
 export type SharePointDomain = string;
 export type BedrockModelArn = string;
-export type Key = string | Redacted.Redacted<string>;
+export type Key = string | redacted.Redacted<string>;
 export type S3ObjectUri = string;
 export type FieldName = string;
 export type ColumnName = string;
-export type TextPrompt = string | Redacted.Redacted<string>;
+export type TextPrompt = string | redacted.Redacted<string>;
 export type FlowKnowledgeBaseId = string;
 export type KnowledgeBaseModelIdentifier = string;
 export type FlowLexBotAliasArn = string;
 export type FlowLexBotLocaleId = string;
 export type FlowLambdaArn = string;
 export type FlowAgentAliasArn = string;
-export type InlineCode = string | Redacted.Redacted<string>;
+export type InlineCode = string | redacted.Redacted<string>;
 export type FlowConditionName = string;
 export type ParameterDescription = string;
 export type ParsingPromptText = string;
 export type NumberValue = number;
-export type StringValue = string | Redacted.Redacted<string>;
+export type StringValue = string | redacted.Redacted<string>;
 export type Dimensions = number;
 export type QueryExecutionTimeoutSeconds = number;
 export type PromptInputVariableName = string;
 export type NonEmptyString = string;
-export type FlowConditionExpression = string | Redacted.Redacted<string>;
+export type FlowConditionExpression = string | redacted.Redacted<string>;
 export type ErrorMessage = string;
-export type KnowledgeBaseTextPrompt = string | Redacted.Redacted<string>;
+export type KnowledgeBaseTextPrompt = string | redacted.Redacted<string>;
 export type Url = string;
-export type Data = string | Redacted.Redacted<string>;
+export type Data = string | redacted.Redacted<string>;
 export type AwsDataCatalogTableName = string;
 export type RedshiftDatabase = string;
 export type WorkgroupArn = string;
@@ -223,7 +223,7 @@ export type AdditionalModelRequestFieldsKey = string;
 export type FlowPromptArn = string;
 export type FlowPromptModelIdentifier = string;
 export type FlowS3BucketName = string;
-export type FilteredObjectType = string | Redacted.Redacted<string>;
+export type FilteredObjectType = string | redacted.Redacted<string>;
 export type QueryGenerationTableName = string;
 export type DescriptionString = string;
 export type NaturalLanguageString = string;
@@ -233,6 +233,46 @@ export type BedrockRerankingModelArn = string;
 export type QueryGenerationColumnName = string;
 
 //# Schemas
+export type ActionGroupSignature =
+  | "AMAZON.UserInput"
+  | "AMAZON.CodeInterpreter"
+  | "ANTHROPIC.Computer"
+  | "ANTHROPIC.Bash"
+  | "ANTHROPIC.TextEditor";
+export const ActionGroupSignature = S.Literal(
+  "AMAZON.UserInput",
+  "AMAZON.CodeInterpreter",
+  "ANTHROPIC.Computer",
+  "ANTHROPIC.Bash",
+  "ANTHROPIC.TextEditor",
+);
+export type ActionGroupState = "ENABLED" | "DISABLED";
+export const ActionGroupState = S.Literal("ENABLED", "DISABLED");
+export type RelayConversationHistory = "TO_COLLABORATOR" | "DISABLED";
+export const RelayConversationHistory = S.Literal(
+  "TO_COLLABORATOR",
+  "DISABLED",
+);
+export type OrchestrationType = "DEFAULT" | "CUSTOM_ORCHESTRATION";
+export const OrchestrationType = S.Literal("DEFAULT", "CUSTOM_ORCHESTRATION");
+export type AgentCollaboration =
+  | "SUPERVISOR"
+  | "SUPERVISOR_ROUTER"
+  | "DISABLED";
+export const AgentCollaboration = S.Literal(
+  "SUPERVISOR",
+  "SUPERVISOR_ROUTER",
+  "DISABLED",
+);
+export type AliasInvocationState = "ACCEPT_INVOCATIONS" | "REJECT_INVOCATIONS";
+export const AliasInvocationState = S.Literal(
+  "ACCEPT_INVOCATIONS",
+  "REJECT_INVOCATIONS",
+);
+export type DataDeletionPolicy = "RETAIN" | "DELETE";
+export const DataDeletionPolicy = S.Literal("RETAIN", "DELETE");
+export type KnowledgeBaseState = "ENABLED" | "DISABLED";
+export const KnowledgeBaseState = S.Literal("ENABLED", "DISABLED");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface DeleteAgentActionGroupRequest {
@@ -330,12 +370,14 @@ export const ActionGroupSignatureParams = S.Record({
   key: S.String,
   value: S.String,
 });
+export type CustomControlMethod = "RETURN_CONTROL";
+export const CustomControlMethod = S.Literal("RETURN_CONTROL");
 export type ActionGroupExecutor =
   | { lambda: string }
-  | { customControl: string };
+  | { customControl: CustomControlMethod };
 export const ActionGroupExecutor = S.Union(
   S.Struct({ lambda: S.String }),
-  S.Struct({ customControl: S.String }),
+  S.Struct({ customControl: CustomControlMethod }),
 );
 export interface S3Identifier {
   s3BucketName?: string;
@@ -349,20 +391,28 @@ export const S3Identifier = S.suspend(() =>
 ).annotations({ identifier: "S3Identifier" }) as any as S.Schema<S3Identifier>;
 export type APISchema =
   | { s3: S3Identifier }
-  | { payload: string | Redacted.Redacted<string> };
+  | { payload: string | redacted.Redacted<string> };
 export const APISchema = S.Union(
   S.Struct({ s3: S3Identifier }),
   S.Struct({ payload: SensitiveString }),
 );
+export type Type = "string" | "number" | "integer" | "boolean" | "array";
+export const Type = S.Literal(
+  "string",
+  "number",
+  "integer",
+  "boolean",
+  "array",
+);
 export interface ParameterDetail {
   description?: string;
-  type: string;
+  type: Type;
   required?: boolean;
 }
 export const ParameterDetail = S.suspend(() =>
   S.Struct({
     description: S.optional(S.String),
-    type: S.String,
+    type: Type,
     required: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -370,23 +420,25 @@ export const ParameterDetail = S.suspend(() =>
 }) as any as S.Schema<ParameterDetail>;
 export type ParameterMap = { [key: string]: ParameterDetail };
 export const ParameterMap = S.Record({ key: S.String, value: ParameterDetail });
+export type RequireConfirmation = "ENABLED" | "DISABLED";
+export const RequireConfirmation = S.Literal("ENABLED", "DISABLED");
 export interface Function {
   name: string;
   description?: string;
-  parameters?: ParameterMap;
-  requireConfirmation?: string;
+  parameters?: { [key: string]: ParameterDetail };
+  requireConfirmation?: RequireConfirmation;
 }
 export const Function = S.suspend(() =>
   S.Struct({
     name: S.String,
     description: S.optional(S.String),
     parameters: S.optional(ParameterMap),
-    requireConfirmation: S.optional(S.String),
+    requireConfirmation: S.optional(RequireConfirmation),
   }),
 ).annotations({ identifier: "Function" }) as any as S.Schema<Function>;
 export type Functions = Function[];
 export const Functions = S.Array(Function);
-export type FunctionSchema = { functions: Functions };
+export type FunctionSchema = { functions: Function[] };
 export const FunctionSchema = S.Union(S.Struct({ functions: Functions }));
 export interface UpdateAgentActionGroupRequest {
   agentId: string;
@@ -394,12 +446,12 @@ export interface UpdateAgentActionGroupRequest {
   actionGroupId: string;
   actionGroupName: string;
   description?: string;
-  parentActionGroupSignature?: string;
-  parentActionGroupSignatureParams?: ActionGroupSignatureParams;
-  actionGroupExecutor?: (typeof ActionGroupExecutor)["Type"];
-  actionGroupState?: string;
-  apiSchema?: (typeof APISchema)["Type"];
-  functionSchema?: (typeof FunctionSchema)["Type"];
+  parentActionGroupSignature?: ActionGroupSignature;
+  parentActionGroupSignatureParams?: { [key: string]: string };
+  actionGroupExecutor?: ActionGroupExecutor;
+  actionGroupState?: ActionGroupState;
+  apiSchema?: APISchema;
+  functionSchema?: FunctionSchema;
 }
 export const UpdateAgentActionGroupRequest = S.suspend(() =>
   S.Struct({
@@ -408,10 +460,10 @@ export const UpdateAgentActionGroupRequest = S.suspend(() =>
     actionGroupId: S.String.pipe(T.HttpLabel("actionGroupId")),
     actionGroupName: S.String,
     description: S.optional(S.String),
-    parentActionGroupSignature: S.optional(S.String),
+    parentActionGroupSignature: S.optional(ActionGroupSignature),
     parentActionGroupSignatureParams: S.optional(ActionGroupSignatureParams),
     actionGroupExecutor: S.optional(ActionGroupExecutor),
-    actionGroupState: S.optional(S.String),
+    actionGroupState: S.optional(ActionGroupState),
     apiSchema: S.optional(APISchema),
     functionSchema: S.optional(FunctionSchema),
   }).pipe(
@@ -530,8 +582,8 @@ export interface UpdateAgentCollaboratorRequest {
   collaboratorId: string;
   agentDescriptor: AgentDescriptor;
   collaboratorName: string;
-  collaborationInstruction: string | Redacted.Redacted<string>;
-  relayConversationHistory?: string;
+  collaborationInstruction: string | redacted.Redacted<string>;
+  relayConversationHistory?: RelayConversationHistory;
 }
 export const UpdateAgentCollaboratorRequest = S.suspend(() =>
   S.Struct({
@@ -541,7 +593,7 @@ export const UpdateAgentCollaboratorRequest = S.suspend(() =>
     agentDescriptor: AgentDescriptor,
     collaboratorName: S.String,
     collaborationInstruction: SensitiveString,
-    relayConversationHistory: S.optional(S.String),
+    relayConversationHistory: S.optional(RelayConversationHistory),
   }).pipe(
     T.all(
       T.Http({
@@ -639,13 +691,30 @@ export const PrepareAgentRequest = S.suspend(() =>
 export type OrchestrationExecutor = { lambda: string };
 export const OrchestrationExecutor = S.Union(S.Struct({ lambda: S.String }));
 export interface CustomOrchestration {
-  executor?: (typeof OrchestrationExecutor)["Type"];
+  executor?: OrchestrationExecutor;
 }
 export const CustomOrchestration = S.suspend(() =>
   S.Struct({ executor: S.optional(OrchestrationExecutor) }),
 ).annotations({
   identifier: "CustomOrchestration",
 }) as any as S.Schema<CustomOrchestration>;
+export type PromptType =
+  | "PRE_PROCESSING"
+  | "ORCHESTRATION"
+  | "POST_PROCESSING"
+  | "KNOWLEDGE_BASE_RESPONSE_GENERATION"
+  | "MEMORY_SUMMARIZATION";
+export const PromptType = S.Literal(
+  "PRE_PROCESSING",
+  "ORCHESTRATION",
+  "POST_PROCESSING",
+  "KNOWLEDGE_BASE_RESPONSE_GENERATION",
+  "MEMORY_SUMMARIZATION",
+);
+export type CreationMode = "DEFAULT" | "OVERRIDDEN";
+export const CreationMode = S.Literal("DEFAULT", "OVERRIDDEN");
+export type PromptState = "ENABLED" | "DISABLED";
+export const PromptState = S.Literal("ENABLED", "DISABLED");
 export type StopSequences = string[];
 export const StopSequences = S.Array(S.String);
 export interface InferenceConfiguration {
@@ -653,7 +722,7 @@ export interface InferenceConfiguration {
   topP?: number;
   topK?: number;
   maximumLength?: number;
-  stopSequences?: StopSequences;
+  stopSequences?: string[];
 }
 export const InferenceConfiguration = S.suspend(() =>
   S.Struct({
@@ -667,23 +736,23 @@ export const InferenceConfiguration = S.suspend(() =>
   identifier: "InferenceConfiguration",
 }) as any as S.Schema<InferenceConfiguration>;
 export interface PromptConfiguration {
-  promptType?: string;
-  promptCreationMode?: string;
-  promptState?: string;
-  basePromptTemplate?: string | Redacted.Redacted<string>;
+  promptType?: PromptType;
+  promptCreationMode?: CreationMode;
+  promptState?: PromptState;
+  basePromptTemplate?: string | redacted.Redacted<string>;
   inferenceConfiguration?: InferenceConfiguration;
-  parserMode?: string;
+  parserMode?: CreationMode;
   foundationModel?: string;
   additionalModelRequestFields?: any;
 }
 export const PromptConfiguration = S.suspend(() =>
   S.Struct({
-    promptType: S.optional(S.String),
-    promptCreationMode: S.optional(S.String),
-    promptState: S.optional(S.String),
+    promptType: S.optional(PromptType),
+    promptCreationMode: S.optional(CreationMode),
+    promptState: S.optional(PromptState),
     basePromptTemplate: S.optional(SensitiveString),
     inferenceConfiguration: S.optional(InferenceConfiguration),
-    parserMode: S.optional(S.String),
+    parserMode: S.optional(CreationMode),
     foundationModel: S.optional(S.String),
     additionalModelRequestFields: S.optional(S.Any),
   }),
@@ -693,7 +762,7 @@ export const PromptConfiguration = S.suspend(() =>
 export type PromptConfigurations = PromptConfiguration[];
 export const PromptConfigurations = S.Array(PromptConfiguration);
 export interface PromptOverrideConfiguration {
-  promptConfigurations: PromptConfigurations;
+  promptConfigurations: PromptConfiguration[];
   overrideLambda?: string;
 }
 export const PromptOverrideConfiguration = S.suspend(() =>
@@ -716,8 +785,10 @@ export const GuardrailConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "GuardrailConfiguration",
 }) as any as S.Schema<GuardrailConfiguration>;
-export type EnabledMemoryTypes = string[];
-export const EnabledMemoryTypes = S.Array(S.String);
+export type MemoryType = "SESSION_SUMMARY";
+export const MemoryType = S.Literal("SESSION_SUMMARY");
+export type EnabledMemoryTypes = MemoryType[];
+export const EnabledMemoryTypes = S.Array(MemoryType);
 export interface SessionSummaryConfiguration {
   maxRecentSessions?: number;
 }
@@ -727,7 +798,7 @@ export const SessionSummaryConfiguration = S.suspend(() =>
   identifier: "SessionSummaryConfiguration",
 }) as any as S.Schema<SessionSummaryConfiguration>;
 export interface MemoryConfiguration {
-  enabledMemoryTypes: EnabledMemoryTypes;
+  enabledMemoryTypes: MemoryType[];
   storageDays?: number;
   sessionSummaryConfiguration?: SessionSummaryConfiguration;
 }
@@ -743,10 +814,10 @@ export const MemoryConfiguration = S.suspend(() =>
 export interface UpdateAgentRequest {
   agentId: string;
   agentName: string;
-  instruction?: string | Redacted.Redacted<string>;
-  foundationModel: string;
+  instruction?: string | redacted.Redacted<string>;
+  foundationModel?: string;
   description?: string;
-  orchestrationType?: string;
+  orchestrationType?: OrchestrationType;
   customOrchestration?: CustomOrchestration;
   idleSessionTTLInSeconds?: number;
   agentResourceRoleArn: string;
@@ -754,16 +825,16 @@ export interface UpdateAgentRequest {
   promptOverrideConfiguration?: PromptOverrideConfiguration;
   guardrailConfiguration?: GuardrailConfiguration;
   memoryConfiguration?: MemoryConfiguration;
-  agentCollaboration?: string;
+  agentCollaboration?: AgentCollaboration;
 }
 export const UpdateAgentRequest = S.suspend(() =>
   S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentName: S.String,
     instruction: S.optional(SensitiveString),
-    foundationModel: S.String,
+    foundationModel: S.optional(S.String),
     description: S.optional(S.String),
-    orchestrationType: S.optional(S.String),
+    orchestrationType: S.optional(OrchestrationType),
     customOrchestration: S.optional(CustomOrchestration),
     idleSessionTTLInSeconds: S.optional(S.Number),
     agentResourceRoleArn: S.String,
@@ -771,7 +842,7 @@ export const UpdateAgentRequest = S.suspend(() =>
     promptOverrideConfiguration: S.optional(PromptOverrideConfiguration),
     guardrailConfiguration: S.optional(GuardrailConfiguration),
     memoryConfiguration: S.optional(MemoryConfiguration),
-    agentCollaboration: S.optional(S.String),
+    agentCollaboration: S.optional(AgentCollaboration),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/agents/{agentId}/" }),
@@ -878,8 +949,8 @@ export interface UpdateAgentAliasRequest {
   agentAliasId: string;
   agentAliasName: string;
   description?: string;
-  routingConfiguration?: AgentAliasRoutingConfiguration;
-  aliasInvocationState?: string;
+  routingConfiguration?: AgentAliasRoutingConfigurationListItem[];
+  aliasInvocationState?: AliasInvocationState;
 }
 export const UpdateAgentAliasRequest = S.suspend(() =>
   S.Struct({
@@ -888,7 +959,7 @@ export const UpdateAgentAliasRequest = S.suspend(() =>
     agentAliasName: S.String,
     description: S.optional(S.String),
     routingConfiguration: S.optional(AgentAliasRoutingConfiguration),
-    aliasInvocationState: S.optional(S.String),
+    aliasInvocationState: S.optional(AliasInvocationState),
   }).pipe(
     T.all(
       T.Http({
@@ -979,11 +1050,28 @@ export const ListDataSourcesRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListDataSourcesRequest",
 }) as any as S.Schema<ListDataSourcesRequest>;
-export type S3Prefixes = string | Redacted.Redacted<string>[];
+export type DataSourceType =
+  | "S3"
+  | "WEB"
+  | "CONFLUENCE"
+  | "SALESFORCE"
+  | "SHAREPOINT"
+  | "CUSTOM"
+  | "REDSHIFT_METADATA";
+export const DataSourceType = S.Literal(
+  "S3",
+  "WEB",
+  "CONFLUENCE",
+  "SALESFORCE",
+  "SHAREPOINT",
+  "CUSTOM",
+  "REDSHIFT_METADATA",
+);
+export type S3Prefixes = string | redacted.Redacted<string>[];
 export const S3Prefixes = S.Array(SensitiveString);
 export interface S3DataSourceConfiguration {
   bucketArn: string;
-  inclusionPrefixes?: S3Prefixes;
+  inclusionPrefixes?: string | redacted.Redacted<string>[];
   bucketOwnerAccountId?: string;
 }
 export const S3DataSourceConfiguration = S.suspend(() =>
@@ -1004,7 +1092,7 @@ export const SeedUrl = S.suspend(() =>
 export type SeedUrls = SeedUrl[];
 export const SeedUrls = S.Array(SeedUrl);
 export interface UrlConfiguration {
-  seedUrls?: SeedUrls;
+  seedUrls?: SeedUrl[];
 }
 export const UrlConfiguration = S.suspend(() =>
   S.Struct({ seedUrls: S.optional(SeedUrls) }),
@@ -1028,22 +1116,24 @@ export const WebCrawlerLimits = S.suspend(() =>
 ).annotations({
   identifier: "WebCrawlerLimits",
 }) as any as S.Schema<WebCrawlerLimits>;
-export type FilterList = string | Redacted.Redacted<string>[];
+export type FilterList = string | redacted.Redacted<string>[];
 export const FilterList = S.Array(SensitiveString);
+export type WebScopeType = "HOST_ONLY" | "SUBDOMAINS";
+export const WebScopeType = S.Literal("HOST_ONLY", "SUBDOMAINS");
 export interface WebCrawlerConfiguration {
   crawlerLimits?: WebCrawlerLimits;
-  inclusionFilters?: FilterList;
-  exclusionFilters?: FilterList;
-  scope?: string;
-  userAgent?: string | Redacted.Redacted<string>;
-  userAgentHeader?: string | Redacted.Redacted<string>;
+  inclusionFilters?: string | redacted.Redacted<string>[];
+  exclusionFilters?: string | redacted.Redacted<string>[];
+  scope?: WebScopeType;
+  userAgent?: string | redacted.Redacted<string>;
+  userAgentHeader?: string | redacted.Redacted<string>;
 }
 export const WebCrawlerConfiguration = S.suspend(() =>
   S.Struct({
     crawlerLimits: S.optional(WebCrawlerLimits),
     inclusionFilters: S.optional(FilterList),
     exclusionFilters: S.optional(FilterList),
-    scope: S.optional(S.String),
+    scope: S.optional(WebScopeType),
     userAgent: S.optional(SensitiveString),
     userAgentHeader: S.optional(SensitiveString),
   }),
@@ -1062,26 +1152,35 @@ export const WebDataSourceConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "WebDataSourceConfiguration",
 }) as any as S.Schema<WebDataSourceConfiguration>;
+export type ConfluenceHostType = "SAAS";
+export const ConfluenceHostType = S.Literal("SAAS");
+export type ConfluenceAuthType = "BASIC" | "OAUTH2_CLIENT_CREDENTIALS";
+export const ConfluenceAuthType = S.Literal(
+  "BASIC",
+  "OAUTH2_CLIENT_CREDENTIALS",
+);
 export interface ConfluenceSourceConfiguration {
   hostUrl: string;
-  hostType: string;
-  authType: string;
+  hostType: ConfluenceHostType;
+  authType: ConfluenceAuthType;
   credentialsSecretArn: string;
 }
 export const ConfluenceSourceConfiguration = S.suspend(() =>
   S.Struct({
     hostUrl: S.String,
-    hostType: S.String,
-    authType: S.String,
+    hostType: ConfluenceHostType,
+    authType: ConfluenceAuthType,
     credentialsSecretArn: S.String,
   }),
 ).annotations({
   identifier: "ConfluenceSourceConfiguration",
 }) as any as S.Schema<ConfluenceSourceConfiguration>;
+export type CrawlFilterConfigurationType = "PATTERN";
+export const CrawlFilterConfigurationType = S.Literal("PATTERN");
 export interface PatternObjectFilter {
-  objectType: string | Redacted.Redacted<string>;
-  inclusionFilters?: FilterList;
-  exclusionFilters?: FilterList;
+  objectType: string | redacted.Redacted<string>;
+  inclusionFilters?: string | redacted.Redacted<string>[];
+  exclusionFilters?: string | redacted.Redacted<string>[];
 }
 export const PatternObjectFilter = S.suspend(() =>
   S.Struct({
@@ -1095,7 +1194,7 @@ export const PatternObjectFilter = S.suspend(() =>
 export type PatternObjectFilterList = PatternObjectFilter[];
 export const PatternObjectFilterList = S.Array(PatternObjectFilter);
 export interface PatternObjectFilterConfiguration {
-  filters: PatternObjectFilterList;
+  filters: PatternObjectFilter[];
 }
 export const PatternObjectFilterConfiguration = S.suspend(() =>
   S.Struct({ filters: PatternObjectFilterList }),
@@ -1103,12 +1202,12 @@ export const PatternObjectFilterConfiguration = S.suspend(() =>
   identifier: "PatternObjectFilterConfiguration",
 }) as any as S.Schema<PatternObjectFilterConfiguration>;
 export interface CrawlFilterConfiguration {
-  type: string;
+  type: CrawlFilterConfigurationType;
   patternObjectFilter?: PatternObjectFilterConfiguration;
 }
 export const CrawlFilterConfiguration = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: CrawlFilterConfigurationType,
     patternObjectFilter: S.optional(PatternObjectFilterConfiguration),
   }),
 ).annotations({
@@ -1134,15 +1233,17 @@ export const ConfluenceDataSourceConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ConfluenceDataSourceConfiguration",
 }) as any as S.Schema<ConfluenceDataSourceConfiguration>;
+export type SalesforceAuthType = "OAUTH2_CLIENT_CREDENTIALS";
+export const SalesforceAuthType = S.Literal("OAUTH2_CLIENT_CREDENTIALS");
 export interface SalesforceSourceConfiguration {
   hostUrl: string;
-  authType: string;
+  authType: SalesforceAuthType;
   credentialsSecretArn: string;
 }
 export const SalesforceSourceConfiguration = S.suspend(() =>
   S.Struct({
     hostUrl: S.String,
-    authType: S.String,
+    authType: SalesforceAuthType,
     credentialsSecretArn: S.String,
   }),
 ).annotations({
@@ -1170,12 +1271,21 @@ export const SalesforceDataSourceConfiguration = S.suspend(() =>
 }) as any as S.Schema<SalesforceDataSourceConfiguration>;
 export type SharePointSiteUrls = string[];
 export const SharePointSiteUrls = S.Array(S.String);
+export type SharePointHostType = "ONLINE";
+export const SharePointHostType = S.Literal("ONLINE");
+export type SharePointAuthType =
+  | "OAUTH2_CLIENT_CREDENTIALS"
+  | "OAUTH2_SHAREPOINT_APP_ONLY_CLIENT_CREDENTIALS";
+export const SharePointAuthType = S.Literal(
+  "OAUTH2_CLIENT_CREDENTIALS",
+  "OAUTH2_SHAREPOINT_APP_ONLY_CLIENT_CREDENTIALS",
+);
 export interface SharePointSourceConfiguration {
   tenantId?: string;
   domain: string;
-  siteUrls: SharePointSiteUrls;
-  hostType: string;
-  authType: string;
+  siteUrls: string[];
+  hostType: SharePointHostType;
+  authType: SharePointAuthType;
   credentialsSecretArn: string;
 }
 export const SharePointSourceConfiguration = S.suspend(() =>
@@ -1183,8 +1293,8 @@ export const SharePointSourceConfiguration = S.suspend(() =>
     tenantId: S.optional(S.String),
     domain: S.String,
     siteUrls: SharePointSiteUrls,
-    hostType: S.String,
-    authType: S.String,
+    hostType: SharePointHostType,
+    authType: SharePointAuthType,
     credentialsSecretArn: S.String,
   }),
 ).annotations({
@@ -1211,7 +1321,7 @@ export const SharePointDataSourceConfiguration = S.suspend(() =>
   identifier: "SharePointDataSourceConfiguration",
 }) as any as S.Schema<SharePointDataSourceConfiguration>;
 export interface DataSourceConfiguration {
-  type: string;
+  type: DataSourceType;
   s3Configuration?: S3DataSourceConfiguration;
   webConfiguration?: WebDataSourceConfiguration;
   confluenceConfiguration?: ConfluenceDataSourceConfiguration;
@@ -1220,7 +1330,7 @@ export interface DataSourceConfiguration {
 }
 export const DataSourceConfiguration = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: DataSourceType,
     s3Configuration: S.optional(S3DataSourceConfiguration),
     webConfiguration: S.optional(WebDataSourceConfiguration),
     confluenceConfiguration: S.optional(ConfluenceDataSourceConfiguration),
@@ -1238,6 +1348,17 @@ export const ServerSideEncryptionConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ServerSideEncryptionConfiguration",
 }) as any as S.Schema<ServerSideEncryptionConfiguration>;
+export type ChunkingStrategy =
+  | "FIXED_SIZE"
+  | "NONE"
+  | "HIERARCHICAL"
+  | "SEMANTIC";
+export const ChunkingStrategy = S.Literal(
+  "FIXED_SIZE",
+  "NONE",
+  "HIERARCHICAL",
+  "SEMANTIC",
+);
 export interface FixedSizeChunkingConfiguration {
   maxTokens: number;
   overlapPercentage: number;
@@ -1261,7 +1382,7 @@ export const HierarchicalChunkingLevelConfigurations = S.Array(
   HierarchicalChunkingLevelConfiguration,
 );
 export interface HierarchicalChunkingConfiguration {
-  levelConfigurations: HierarchicalChunkingLevelConfigurations;
+  levelConfigurations: HierarchicalChunkingLevelConfiguration[];
   overlapTokens: number;
 }
 export const HierarchicalChunkingConfiguration = S.suspend(() =>
@@ -1287,14 +1408,14 @@ export const SemanticChunkingConfiguration = S.suspend(() =>
   identifier: "SemanticChunkingConfiguration",
 }) as any as S.Schema<SemanticChunkingConfiguration>;
 export interface ChunkingConfiguration {
-  chunkingStrategy: string;
+  chunkingStrategy: ChunkingStrategy;
   fixedSizeChunkingConfiguration?: FixedSizeChunkingConfiguration;
   hierarchicalChunkingConfiguration?: HierarchicalChunkingConfiguration;
   semanticChunkingConfiguration?: SemanticChunkingConfiguration;
 }
 export const ChunkingConfiguration = S.suspend(() =>
   S.Struct({
-    chunkingStrategy: S.String,
+    chunkingStrategy: ChunkingStrategy,
     fixedSizeChunkingConfiguration: S.optional(FixedSizeChunkingConfiguration),
     hierarchicalChunkingConfiguration: S.optional(
       HierarchicalChunkingConfiguration,
@@ -1336,14 +1457,16 @@ export const TransformationFunction = S.suspend(() =>
 ).annotations({
   identifier: "TransformationFunction",
 }) as any as S.Schema<TransformationFunction>;
+export type StepType = "POST_CHUNKING";
+export const StepType = S.Literal("POST_CHUNKING");
 export interface Transformation {
   transformationFunction: TransformationFunction;
-  stepToApply: string;
+  stepToApply: StepType;
 }
 export const Transformation = S.suspend(() =>
   S.Struct({
     transformationFunction: TransformationFunction,
-    stepToApply: S.String,
+    stepToApply: StepType,
   }),
 ).annotations({
   identifier: "Transformation",
@@ -1352,7 +1475,7 @@ export type Transformations = Transformation[];
 export const Transformations = S.Array(Transformation);
 export interface CustomTransformationConfiguration {
   intermediateStorage: IntermediateStorage;
-  transformations: Transformations;
+  transformations: Transformation[];
 }
 export const CustomTransformationConfiguration = S.suspend(() =>
   S.Struct({
@@ -1362,6 +1485,13 @@ export const CustomTransformationConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "CustomTransformationConfiguration",
 }) as any as S.Schema<CustomTransformationConfiguration>;
+export type ParsingStrategy =
+  | "BEDROCK_FOUNDATION_MODEL"
+  | "BEDROCK_DATA_AUTOMATION";
+export const ParsingStrategy = S.Literal(
+  "BEDROCK_FOUNDATION_MODEL",
+  "BEDROCK_DATA_AUTOMATION",
+);
 export interface ParsingPrompt {
   parsingPromptText: string;
 }
@@ -1370,36 +1500,38 @@ export const ParsingPrompt = S.suspend(() =>
 ).annotations({
   identifier: "ParsingPrompt",
 }) as any as S.Schema<ParsingPrompt>;
+export type ParsingModality = "MULTIMODAL";
+export const ParsingModality = S.Literal("MULTIMODAL");
 export interface BedrockFoundationModelConfiguration {
   modelArn: string;
   parsingPrompt?: ParsingPrompt;
-  parsingModality?: string;
+  parsingModality?: ParsingModality;
 }
 export const BedrockFoundationModelConfiguration = S.suspend(() =>
   S.Struct({
     modelArn: S.String,
     parsingPrompt: S.optional(ParsingPrompt),
-    parsingModality: S.optional(S.String),
+    parsingModality: S.optional(ParsingModality),
   }),
 ).annotations({
   identifier: "BedrockFoundationModelConfiguration",
 }) as any as S.Schema<BedrockFoundationModelConfiguration>;
 export interface BedrockDataAutomationConfiguration {
-  parsingModality?: string;
+  parsingModality?: ParsingModality;
 }
 export const BedrockDataAutomationConfiguration = S.suspend(() =>
-  S.Struct({ parsingModality: S.optional(S.String) }),
+  S.Struct({ parsingModality: S.optional(ParsingModality) }),
 ).annotations({
   identifier: "BedrockDataAutomationConfiguration",
 }) as any as S.Schema<BedrockDataAutomationConfiguration>;
 export interface ParsingConfiguration {
-  parsingStrategy: string;
+  parsingStrategy: ParsingStrategy;
   bedrockFoundationModelConfiguration?: BedrockFoundationModelConfiguration;
   bedrockDataAutomationConfiguration?: BedrockDataAutomationConfiguration;
 }
 export const ParsingConfiguration = S.suspend(() =>
   S.Struct({
-    parsingStrategy: S.String,
+    parsingStrategy: ParsingStrategy,
     bedrockFoundationModelConfiguration: S.optional(
       BedrockFoundationModelConfiguration,
     ),
@@ -1410,11 +1542,15 @@ export const ParsingConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ParsingConfiguration",
 }) as any as S.Schema<ParsingConfiguration>;
+export type ContextEnrichmentType = "BEDROCK_FOUNDATION_MODEL";
+export const ContextEnrichmentType = S.Literal("BEDROCK_FOUNDATION_MODEL");
+export type EnrichmentStrategyMethod = "CHUNK_ENTITY_EXTRACTION";
+export const EnrichmentStrategyMethod = S.Literal("CHUNK_ENTITY_EXTRACTION");
 export interface EnrichmentStrategyConfiguration {
-  method: string;
+  method: EnrichmentStrategyMethod;
 }
 export const EnrichmentStrategyConfiguration = S.suspend(() =>
-  S.Struct({ method: S.String }),
+  S.Struct({ method: EnrichmentStrategyMethod }),
 ).annotations({
   identifier: "EnrichmentStrategyConfiguration",
 }) as any as S.Schema<EnrichmentStrategyConfiguration>;
@@ -1432,12 +1568,12 @@ export const BedrockFoundationModelContextEnrichmentConfiguration = S.suspend(
   identifier: "BedrockFoundationModelContextEnrichmentConfiguration",
 }) as any as S.Schema<BedrockFoundationModelContextEnrichmentConfiguration>;
 export interface ContextEnrichmentConfiguration {
-  type: string;
+  type: ContextEnrichmentType;
   bedrockFoundationModelConfiguration?: BedrockFoundationModelContextEnrichmentConfiguration;
 }
 export const ContextEnrichmentConfiguration = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: ContextEnrichmentType,
     bedrockFoundationModelConfiguration: S.optional(
       BedrockFoundationModelContextEnrichmentConfiguration,
     ),
@@ -1469,7 +1605,7 @@ export interface UpdateDataSourceRequest {
   name: string;
   description?: string;
   dataSourceConfiguration: DataSourceConfiguration;
-  dataDeletionPolicy?: string;
+  dataDeletionPolicy?: DataDeletionPolicy;
   serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
   vectorIngestionConfiguration?: VectorIngestionConfiguration;
 }
@@ -1480,7 +1616,7 @@ export const UpdateDataSourceRequest = S.suspend(() =>
     name: S.String,
     description: S.optional(S.String),
     dataSourceConfiguration: DataSourceConfiguration,
-    dataDeletionPolicy: S.optional(S.String),
+    dataDeletionPolicy: S.optional(DataDeletionPolicy),
     serverSideEncryptionConfiguration: S.optional(
       ServerSideEncryptionConfiguration,
     ),
@@ -1501,6 +1637,8 @@ export const UpdateDataSourceRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateDataSourceRequest",
 }) as any as S.Schema<UpdateDataSourceRequest>;
+export type FlowConnectionType = "Data" | "Conditional";
+export const FlowConnectionType = S.Literal("Data", "Conditional");
 export interface FlowDataConnectionConfiguration {
   sourceOutput: string;
   targetInput: string;
@@ -1526,15 +1664,15 @@ export const FlowConnectionConfiguration = S.Union(
   S.Struct({ conditional: FlowConditionalConnectionConfiguration }),
 );
 export interface FlowConnection {
-  type: string;
+  type: FlowConnectionType;
   name: string;
   source: string;
   target: string;
-  configuration?: (typeof FlowConnectionConfiguration)["Type"];
+  configuration?: FlowConnectionConfiguration;
 }
 export const FlowConnection = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: FlowConnectionType,
     name: S.String,
     source: S.String,
     target: S.String,
@@ -1546,8 +1684,8 @@ export const FlowConnection = S.suspend(() =>
 export type FlowConnections = FlowConnection[];
 export const FlowConnections = S.Array(FlowConnection);
 export interface FlowDefinition {
-  nodes?: FlowNodes;
-  connections?: FlowConnections;
+  nodes?: FlowNode[];
+  connections?: FlowConnection[];
 }
 export const FlowDefinition = S.suspend(() =>
   S.Struct({
@@ -1568,7 +1706,7 @@ export interface CreateFlowRequest {
   customerEncryptionKeyArn?: string;
   definition?: FlowDefinition;
   clientToken?: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const CreateFlowRequest = S.suspend(() =>
   S.Struct({
@@ -1740,19 +1878,21 @@ export type FlowAliasRoutingConfiguration =
 export const FlowAliasRoutingConfiguration = S.Array(
   FlowAliasRoutingConfigurationListItem,
 );
+export type ConcurrencyType = "Automatic" | "Manual";
+export const ConcurrencyType = S.Literal("Automatic", "Manual");
 export interface FlowAliasConcurrencyConfiguration {
-  type: string;
+  type: ConcurrencyType;
   maxConcurrency?: number;
 }
 export const FlowAliasConcurrencyConfiguration = S.suspend(() =>
-  S.Struct({ type: S.String, maxConcurrency: S.optional(S.Number) }),
+  S.Struct({ type: ConcurrencyType, maxConcurrency: S.optional(S.Number) }),
 ).annotations({
   identifier: "FlowAliasConcurrencyConfiguration",
 }) as any as S.Schema<FlowAliasConcurrencyConfiguration>;
 export interface UpdateFlowAliasRequest {
   name: string;
   description?: string;
-  routingConfiguration: FlowAliasRoutingConfiguration;
+  routingConfiguration: FlowAliasRoutingConfigurationListItem[];
   concurrencyConfiguration?: FlowAliasConcurrencyConfiguration;
   flowIdentifier: string;
   aliasIdentifier: string;
@@ -2006,6 +2146,8 @@ export const StopIngestionJobRequest = S.suspend(() =>
 ).annotations({
   identifier: "StopIngestionJobRequest",
 }) as any as S.Schema<StopIngestionJobRequest>;
+export type ContentDataSourceType = "CUSTOM" | "S3";
+export const ContentDataSourceType = S.Literal("CUSTOM", "S3");
 export interface CustomDocumentIdentifier {
   id: string;
 }
@@ -2015,13 +2157,13 @@ export const CustomDocumentIdentifier = S.suspend(() =>
   identifier: "CustomDocumentIdentifier",
 }) as any as S.Schema<CustomDocumentIdentifier>;
 export interface DocumentIdentifier {
-  dataSourceType: string;
+  dataSourceType: ContentDataSourceType;
   s3?: S3Location;
   custom?: CustomDocumentIdentifier;
 }
 export const DocumentIdentifier = S.suspend(() =>
   S.Struct({
-    dataSourceType: S.String,
+    dataSourceType: ContentDataSourceType,
     s3: S.optional(S3Location),
     custom: S.optional(CustomDocumentIdentifier),
   }),
@@ -2033,7 +2175,7 @@ export const DocumentIdentifiers = S.Array(DocumentIdentifier);
 export interface GetKnowledgeBaseDocumentsRequest {
   knowledgeBaseId: string;
   dataSourceId: string;
-  documentIdentifiers: DocumentIdentifiers;
+  documentIdentifiers: DocumentIdentifier[];
 }
 export const GetKnowledgeBaseDocumentsRequest = S.suspend(() =>
   S.Struct({
@@ -2089,7 +2231,7 @@ export interface AssociateAgentKnowledgeBaseRequest {
   agentVersion: string;
   knowledgeBaseId: string;
   description: string;
-  knowledgeBaseState?: string;
+  knowledgeBaseState?: KnowledgeBaseState;
 }
 export const AssociateAgentKnowledgeBaseRequest = S.suspend(() =>
   S.Struct({
@@ -2097,7 +2239,7 @@ export const AssociateAgentKnowledgeBaseRequest = S.suspend(() =>
     agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     knowledgeBaseId: S.String,
     description: S.String,
-    knowledgeBaseState: S.optional(S.String),
+    knowledgeBaseState: S.optional(KnowledgeBaseState),
   }).pipe(
     T.all(
       T.Http({
@@ -2264,7 +2406,7 @@ export interface UpdateAgentKnowledgeBaseRequest {
   agentVersion: string;
   knowledgeBaseId: string;
   description?: string;
-  knowledgeBaseState?: string;
+  knowledgeBaseState?: KnowledgeBaseState;
 }
 export const UpdateAgentKnowledgeBaseRequest = S.suspend(() =>
   S.Struct({
@@ -2272,7 +2414,7 @@ export const UpdateAgentKnowledgeBaseRequest = S.suspend(() =>
     agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     description: S.optional(S.String),
-    knowledgeBaseState: S.optional(S.String),
+    knowledgeBaseState: S.optional(KnowledgeBaseState),
   }).pipe(
     T.all(
       T.Http({
@@ -2289,6 +2431,10 @@ export const UpdateAgentKnowledgeBaseRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateAgentKnowledgeBaseRequest",
 }) as any as S.Schema<UpdateAgentKnowledgeBaseRequest>;
+export type KnowledgeBaseType = "VECTOR" | "KENDRA" | "SQL";
+export const KnowledgeBaseType = S.Literal("VECTOR", "KENDRA", "SQL");
+export type EmbeddingDataType = "FLOAT32" | "BINARY";
+export const EmbeddingDataType = S.Literal("FLOAT32", "BINARY");
 export interface AudioSegmentationConfiguration {
   fixedLengthDuration: number;
 }
@@ -2327,14 +2473,14 @@ export type VideoConfigurations = VideoConfiguration[];
 export const VideoConfigurations = S.Array(VideoConfiguration);
 export interface BedrockEmbeddingModelConfiguration {
   dimensions?: number;
-  embeddingDataType?: string;
-  audio?: AudioConfigurations;
-  video?: VideoConfigurations;
+  embeddingDataType?: EmbeddingDataType;
+  audio?: AudioConfiguration[];
+  video?: VideoConfiguration[];
 }
 export const BedrockEmbeddingModelConfiguration = S.suspend(() =>
   S.Struct({
     dimensions: S.optional(S.Number),
-    embeddingDataType: S.optional(S.String),
+    embeddingDataType: S.optional(EmbeddingDataType),
     audio: S.optional(AudioConfigurations),
     video: S.optional(VideoConfigurations),
   }),
@@ -2353,12 +2499,17 @@ export const EmbeddingModelConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "EmbeddingModelConfiguration",
 }) as any as S.Schema<EmbeddingModelConfiguration>;
+export type SupplementalDataStorageLocationType = "S3";
+export const SupplementalDataStorageLocationType = S.Literal("S3");
 export interface SupplementalDataStorageLocation {
-  type: string;
+  type: SupplementalDataStorageLocationType;
   s3Location?: S3Location;
 }
 export const SupplementalDataStorageLocation = S.suspend(() =>
-  S.Struct({ type: S.String, s3Location: S.optional(S3Location) }),
+  S.Struct({
+    type: SupplementalDataStorageLocationType,
+    s3Location: S.optional(S3Location),
+  }),
 ).annotations({
   identifier: "SupplementalDataStorageLocation",
 }) as any as S.Schema<SupplementalDataStorageLocation>;
@@ -2368,7 +2519,7 @@ export const SupplementalDataStorageLocations = S.Array(
   SupplementalDataStorageLocation,
 );
 export interface SupplementalDataStorageConfiguration {
-  storageLocations: SupplementalDataStorageLocations;
+  storageLocations: SupplementalDataStorageLocation[];
 }
 export const SupplementalDataStorageConfiguration = S.suspend(() =>
   S.Struct({ storageLocations: SupplementalDataStorageLocations }),
@@ -2399,10 +2550,17 @@ export const KendraKnowledgeBaseConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "KendraKnowledgeBaseConfiguration",
 }) as any as S.Schema<KendraKnowledgeBaseConfiguration>;
+export type QueryEngineType = "REDSHIFT";
+export const QueryEngineType = S.Literal("REDSHIFT");
+export type RedshiftQueryEngineStorageType = "REDSHIFT" | "AWS_DATA_CATALOG";
+export const RedshiftQueryEngineStorageType = S.Literal(
+  "REDSHIFT",
+  "AWS_DATA_CATALOG",
+);
 export type AwsDataCatalogTableNames = string[];
 export const AwsDataCatalogTableNames = S.Array(S.String);
 export interface RedshiftQueryEngineAwsDataCatalogStorageConfiguration {
-  tableNames: AwsDataCatalogTableNames;
+  tableNames: string[];
 }
 export const RedshiftQueryEngineAwsDataCatalogStorageConfiguration = S.suspend(
   () => S.Struct({ tableNames: AwsDataCatalogTableNames }),
@@ -2418,13 +2576,13 @@ export const RedshiftQueryEngineRedshiftStorageConfiguration = S.suspend(() =>
   identifier: "RedshiftQueryEngineRedshiftStorageConfiguration",
 }) as any as S.Schema<RedshiftQueryEngineRedshiftStorageConfiguration>;
 export interface RedshiftQueryEngineStorageConfiguration {
-  type: string;
+  type: RedshiftQueryEngineStorageType;
   awsDataCatalogConfiguration?: RedshiftQueryEngineAwsDataCatalogStorageConfiguration;
   redshiftConfiguration?: RedshiftQueryEngineRedshiftStorageConfiguration;
 }
 export const RedshiftQueryEngineStorageConfiguration = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: RedshiftQueryEngineStorageType,
     awsDataCatalogConfiguration: S.optional(
       RedshiftQueryEngineAwsDataCatalogStorageConfiguration,
     ),
@@ -2440,12 +2598,19 @@ export type RedshiftQueryEngineStorageConfigurations =
 export const RedshiftQueryEngineStorageConfigurations = S.Array(
   RedshiftQueryEngineStorageConfiguration,
 );
+export type RedshiftQueryEngineType = "SERVERLESS" | "PROVISIONED";
+export const RedshiftQueryEngineType = S.Literal("SERVERLESS", "PROVISIONED");
+export type RedshiftServerlessAuthType = "IAM" | "USERNAME_PASSWORD";
+export const RedshiftServerlessAuthType = S.Literal("IAM", "USERNAME_PASSWORD");
 export interface RedshiftServerlessAuthConfiguration {
-  type: string;
+  type: RedshiftServerlessAuthType;
   usernamePasswordSecretArn?: string;
 }
 export const RedshiftServerlessAuthConfiguration = S.suspend(() =>
-  S.Struct({ type: S.String, usernamePasswordSecretArn: S.optional(S.String) }),
+  S.Struct({
+    type: RedshiftServerlessAuthType,
+    usernamePasswordSecretArn: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "RedshiftServerlessAuthConfiguration",
 }) as any as S.Schema<RedshiftServerlessAuthConfiguration>;
@@ -2461,14 +2626,23 @@ export const RedshiftServerlessConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "RedshiftServerlessConfiguration",
 }) as any as S.Schema<RedshiftServerlessConfiguration>;
+export type RedshiftProvisionedAuthType =
+  | "IAM"
+  | "USERNAME_PASSWORD"
+  | "USERNAME";
+export const RedshiftProvisionedAuthType = S.Literal(
+  "IAM",
+  "USERNAME_PASSWORD",
+  "USERNAME",
+);
 export interface RedshiftProvisionedAuthConfiguration {
-  type: string;
+  type: RedshiftProvisionedAuthType;
   databaseUser?: string;
   usernamePasswordSecretArn?: string;
 }
 export const RedshiftProvisionedAuthConfiguration = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: RedshiftProvisionedAuthType,
     databaseUser: S.optional(S.String),
     usernamePasswordSecretArn: S.optional(S.String),
   }),
@@ -2488,29 +2662,31 @@ export const RedshiftProvisionedConfiguration = S.suspend(() =>
   identifier: "RedshiftProvisionedConfiguration",
 }) as any as S.Schema<RedshiftProvisionedConfiguration>;
 export interface RedshiftQueryEngineConfiguration {
-  type: string;
+  type: RedshiftQueryEngineType;
   serverlessConfiguration?: RedshiftServerlessConfiguration;
   provisionedConfiguration?: RedshiftProvisionedConfiguration;
 }
 export const RedshiftQueryEngineConfiguration = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: RedshiftQueryEngineType,
     serverlessConfiguration: S.optional(RedshiftServerlessConfiguration),
     provisionedConfiguration: S.optional(RedshiftProvisionedConfiguration),
   }),
 ).annotations({
   identifier: "RedshiftQueryEngineConfiguration",
 }) as any as S.Schema<RedshiftQueryEngineConfiguration>;
+export type IncludeExclude = "INCLUDE" | "EXCLUDE";
+export const IncludeExclude = S.Literal("INCLUDE", "EXCLUDE");
 export interface QueryGenerationColumn {
   name?: string;
   description?: string;
-  inclusion?: string;
+  inclusion?: IncludeExclude;
 }
 export const QueryGenerationColumn = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     description: S.optional(S.String),
-    inclusion: S.optional(S.String),
+    inclusion: S.optional(IncludeExclude),
   }),
 ).annotations({
   identifier: "QueryGenerationColumn",
@@ -2520,14 +2696,14 @@ export const QueryGenerationColumns = S.Array(QueryGenerationColumn);
 export interface QueryGenerationTable {
   name: string;
   description?: string;
-  inclusion?: string;
-  columns?: QueryGenerationColumns;
+  inclusion?: IncludeExclude;
+  columns?: QueryGenerationColumn[];
 }
 export const QueryGenerationTable = S.suspend(() =>
   S.Struct({
     name: S.String,
     description: S.optional(S.String),
-    inclusion: S.optional(S.String),
+    inclusion: S.optional(IncludeExclude),
     columns: S.optional(QueryGenerationColumns),
   }),
 ).annotations({
@@ -2545,8 +2721,8 @@ export const CuratedQuery = S.suspend(() =>
 export type CuratedQueries = CuratedQuery[];
 export const CuratedQueries = S.Array(CuratedQuery);
 export interface QueryGenerationContext {
-  tables?: QueryGenerationTables;
-  curatedQueries?: CuratedQueries;
+  tables?: QueryGenerationTable[];
+  curatedQueries?: CuratedQuery[];
 }
 export const QueryGenerationContext = S.suspend(() =>
   S.Struct({
@@ -2569,7 +2745,7 @@ export const QueryGenerationConfiguration = S.suspend(() =>
   identifier: "QueryGenerationConfiguration",
 }) as any as S.Schema<QueryGenerationConfiguration>;
 export interface RedshiftConfiguration {
-  storageConfigurations: RedshiftQueryEngineStorageConfigurations;
+  storageConfigurations: RedshiftQueryEngineStorageConfiguration[];
   queryEngineConfiguration: RedshiftQueryEngineConfiguration;
   queryGenerationConfiguration?: QueryGenerationConfiguration;
 }
@@ -2583,26 +2759,26 @@ export const RedshiftConfiguration = S.suspend(() =>
   identifier: "RedshiftConfiguration",
 }) as any as S.Schema<RedshiftConfiguration>;
 export interface SqlKnowledgeBaseConfiguration {
-  type: string;
+  type: QueryEngineType;
   redshiftConfiguration?: RedshiftConfiguration;
 }
 export const SqlKnowledgeBaseConfiguration = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: QueryEngineType,
     redshiftConfiguration: S.optional(RedshiftConfiguration),
   }),
 ).annotations({
   identifier: "SqlKnowledgeBaseConfiguration",
 }) as any as S.Schema<SqlKnowledgeBaseConfiguration>;
 export interface KnowledgeBaseConfiguration {
-  type: string;
+  type: KnowledgeBaseType;
   vectorKnowledgeBaseConfiguration?: VectorKnowledgeBaseConfiguration;
   kendraKnowledgeBaseConfiguration?: KendraKnowledgeBaseConfiguration;
   sqlKnowledgeBaseConfiguration?: SqlKnowledgeBaseConfiguration;
 }
 export const KnowledgeBaseConfiguration = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: KnowledgeBaseType,
     vectorKnowledgeBaseConfiguration: S.optional(
       VectorKnowledgeBaseConfiguration,
     ),
@@ -2614,6 +2790,25 @@ export const KnowledgeBaseConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "KnowledgeBaseConfiguration",
 }) as any as S.Schema<KnowledgeBaseConfiguration>;
+export type KnowledgeBaseStorageType =
+  | "OPENSEARCH_SERVERLESS"
+  | "PINECONE"
+  | "REDIS_ENTERPRISE_CLOUD"
+  | "RDS"
+  | "MONGO_DB_ATLAS"
+  | "NEPTUNE_ANALYTICS"
+  | "OPENSEARCH_MANAGED_CLUSTER"
+  | "S3_VECTORS";
+export const KnowledgeBaseStorageType = S.Literal(
+  "OPENSEARCH_SERVERLESS",
+  "PINECONE",
+  "REDIS_ENTERPRISE_CLOUD",
+  "RDS",
+  "MONGO_DB_ATLAS",
+  "NEPTUNE_ANALYTICS",
+  "OPENSEARCH_MANAGED_CLUSTER",
+  "S3_VECTORS",
+);
 export interface OpenSearchServerlessFieldMapping {
   vectorField: string;
   textField: string;
@@ -2659,7 +2854,7 @@ export const OpenSearchManagedClusterFieldMapping = S.suspend(() =>
 export interface OpenSearchManagedClusterConfiguration {
   domainEndpoint: string;
   domainArn: string;
-  vectorIndexName: string | Redacted.Redacted<string>;
+  vectorIndexName: string | redacted.Redacted<string>;
   fieldMapping: OpenSearchManagedClusterFieldMapping;
 }
 export const OpenSearchManagedClusterConfiguration = S.suspend(() =>
@@ -2811,7 +3006,7 @@ export const NeptuneAnalyticsFieldMapping = S.suspend(() =>
   identifier: "NeptuneAnalyticsFieldMapping",
 }) as any as S.Schema<NeptuneAnalyticsFieldMapping>;
 export interface NeptuneAnalyticsConfiguration {
-  graphArn: string | Redacted.Redacted<string>;
+  graphArn: string | redacted.Redacted<string>;
   fieldMapping: NeptuneAnalyticsFieldMapping;
 }
 export const NeptuneAnalyticsConfiguration = S.suspend(() =>
@@ -2823,9 +3018,9 @@ export const NeptuneAnalyticsConfiguration = S.suspend(() =>
   identifier: "NeptuneAnalyticsConfiguration",
 }) as any as S.Schema<NeptuneAnalyticsConfiguration>;
 export interface S3VectorsConfiguration {
-  vectorBucketArn?: string | Redacted.Redacted<string>;
-  indexArn?: string | Redacted.Redacted<string>;
-  indexName?: string | Redacted.Redacted<string>;
+  vectorBucketArn?: string | redacted.Redacted<string>;
+  indexArn?: string | redacted.Redacted<string>;
+  indexName?: string | redacted.Redacted<string>;
 }
 export const S3VectorsConfiguration = S.suspend(() =>
   S.Struct({
@@ -2837,7 +3032,7 @@ export const S3VectorsConfiguration = S.suspend(() =>
   identifier: "S3VectorsConfiguration",
 }) as any as S.Schema<S3VectorsConfiguration>;
 export interface StorageConfiguration {
-  type: string;
+  type: KnowledgeBaseStorageType;
   opensearchServerlessConfiguration?: OpenSearchServerlessConfiguration;
   opensearchManagedClusterConfiguration?: OpenSearchManagedClusterConfiguration;
   pineconeConfiguration?: PineconeConfiguration;
@@ -2849,7 +3044,7 @@ export interface StorageConfiguration {
 }
 export const StorageConfiguration = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: KnowledgeBaseStorageType,
     opensearchServerlessConfiguration: S.optional(
       OpenSearchServerlessConfiguration,
     ),
@@ -2918,11 +3113,15 @@ export const GetPromptRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetPromptRequest",
 }) as any as S.Schema<GetPromptRequest>;
+export type PromptTemplateType = "TEXT" | "CHAT";
+export const PromptTemplateType = S.Literal("TEXT", "CHAT");
+export type CachePointType = "default";
+export const CachePointType = S.Literal("default");
 export interface CachePointBlock {
-  type: string;
+  type: CachePointType;
 }
 export const CachePointBlock = S.suspend(() =>
-  S.Struct({ type: S.String }),
+  S.Struct({ type: CachePointType }),
 ).annotations({
   identifier: "CachePointBlock",
 }) as any as S.Schema<CachePointBlock>;
@@ -2937,9 +3136,9 @@ export const PromptInputVariable = S.suspend(() =>
 export type PromptInputVariablesList = PromptInputVariable[];
 export const PromptInputVariablesList = S.Array(PromptInputVariable);
 export interface TextPromptTemplateConfiguration {
-  text: string | Redacted.Redacted<string>;
+  text: string | redacted.Redacted<string>;
   cachePoint?: CachePointBlock;
-  inputVariables?: PromptInputVariablesList;
+  inputVariables?: PromptInputVariable[];
 }
 export const TextPromptTemplateConfiguration = S.suspend(() =>
   S.Struct({
@@ -2950,19 +3149,21 @@ export const TextPromptTemplateConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "TextPromptTemplateConfiguration",
 }) as any as S.Schema<TextPromptTemplateConfiguration>;
+export type ConversationRole = "user" | "assistant";
+export const ConversationRole = S.Literal("user", "assistant");
 export type ContentBlock = { text: string } | { cachePoint: CachePointBlock };
 export const ContentBlock = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ cachePoint: CachePointBlock }),
 );
-export type ContentBlocks = (typeof ContentBlock)["Type"][];
+export type ContentBlocks = ContentBlock[];
 export const ContentBlocks = S.Array(ContentBlock);
 export interface Message {
-  role: string;
-  content: ContentBlocks;
+  role: ConversationRole;
+  content: ContentBlock[];
 }
 export const Message = S.suspend(() =>
-  S.Struct({ role: S.String, content: ContentBlocks }),
+  S.Struct({ role: ConversationRole, content: ContentBlocks }),
 ).annotations({ identifier: "Message" }) as any as S.Schema<Message>;
 export type Messages = Message[];
 export const Messages = S.Array(Message);
@@ -2973,14 +3174,14 @@ export const SystemContentBlock = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ cachePoint: CachePointBlock }),
 );
-export type SystemContentBlocks = (typeof SystemContentBlock)["Type"][];
+export type SystemContentBlocks = SystemContentBlock[];
 export const SystemContentBlocks = S.Array(SystemContentBlock);
 export type ToolInputSchema = { json: any };
 export const ToolInputSchema = S.Union(S.Struct({ json: S.Any }));
 export interface ToolSpecification {
   name: string;
   description?: string;
-  inputSchema: (typeof ToolInputSchema)["Type"];
+  inputSchema: ToolInputSchema;
 }
 export const ToolSpecification = S.suspend(() =>
   S.Struct({
@@ -2998,7 +3199,7 @@ export const Tool = S.Union(
   S.Struct({ toolSpec: ToolSpecification }),
   S.Struct({ cachePoint: CachePointBlock }),
 );
-export type Tools = (typeof Tool)["Type"][];
+export type Tools = Tool[];
 export const Tools = S.Array(Tool);
 export interface AutoToolChoice {}
 export const AutoToolChoice = S.suspend(() => S.Struct({})).annotations({
@@ -3026,8 +3227,8 @@ export const ToolChoice = S.Union(
   S.Struct({ tool: SpecificToolChoice }),
 );
 export interface ToolConfiguration {
-  tools: Tools;
-  toolChoice?: (typeof ToolChoice)["Type"];
+  tools: Tool[];
+  toolChoice?: ToolChoice;
 }
 export const ToolConfiguration = S.suspend(() =>
   S.Struct({ tools: Tools, toolChoice: S.optional(ToolChoice) }),
@@ -3035,9 +3236,9 @@ export const ToolConfiguration = S.suspend(() =>
   identifier: "ToolConfiguration",
 }) as any as S.Schema<ToolConfiguration>;
 export interface ChatPromptTemplateConfiguration {
-  messages: Messages;
-  system?: SystemContentBlocks;
-  inputVariables?: PromptInputVariablesList;
+  messages: Message[];
+  system?: SystemContentBlock[];
+  inputVariables?: PromptInputVariable[];
   toolConfiguration?: ToolConfiguration;
 }
 export const ChatPromptTemplateConfiguration = S.suspend(() =>
@@ -3061,7 +3262,7 @@ export interface PromptModelInferenceConfiguration {
   temperature?: number;
   topP?: number;
   maxTokens?: number;
-  stopSequences?: StopSequences;
+  stopSequences?: string[];
 }
 export const PromptModelInferenceConfiguration = S.suspend(() =>
   S.Struct({
@@ -3080,8 +3281,8 @@ export const PromptInferenceConfiguration = S.Union(
   S.Struct({ text: PromptModelInferenceConfiguration }),
 );
 export interface PromptMetadataEntry {
-  key: string | Redacted.Redacted<string>;
-  value: string | Redacted.Redacted<string>;
+  key: string | redacted.Redacted<string>;
+  value: string | redacted.Redacted<string>;
 }
 export const PromptMetadataEntry = S.suspend(() =>
   S.Struct({ key: SensitiveString, value: SensitiveString }),
@@ -3104,18 +3305,18 @@ export const PromptGenAiResource = S.Union(
 );
 export interface PromptVariant {
   name: string;
-  templateType: string;
-  templateConfiguration: (typeof PromptTemplateConfiguration)["Type"];
+  templateType: PromptTemplateType;
+  templateConfiguration: PromptTemplateConfiguration;
   modelId?: string;
-  inferenceConfiguration?: (typeof PromptInferenceConfiguration)["Type"];
-  metadata?: PromptMetadataList;
+  inferenceConfiguration?: PromptInferenceConfiguration;
+  metadata?: PromptMetadataEntry[];
   additionalModelRequestFields?: any;
-  genAiResource?: (typeof PromptGenAiResource)["Type"];
+  genAiResource?: PromptGenAiResource;
 }
 export const PromptVariant = S.suspend(() =>
   S.Struct({
     name: S.String,
-    templateType: S.String,
+    templateType: PromptTemplateType,
     templateConfiguration: PromptTemplateConfiguration,
     modelId: S.optional(S.String),
     inferenceConfiguration: S.optional(PromptInferenceConfiguration),
@@ -3133,7 +3334,7 @@ export interface UpdatePromptRequest {
   description?: string;
   customerEncryptionKeyArn?: string;
   defaultVariant?: string;
-  variants?: PromptVariantList;
+  variants?: PromptVariant[];
   promptIdentifier: string;
 }
 export const UpdatePromptRequest = S.suspend(() =>
@@ -3207,7 +3408,7 @@ export interface CreatePromptVersionRequest {
   promptIdentifier: string;
   description?: string;
   clientToken?: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const CreatePromptVersionRequest = S.suspend(() =>
   S.Struct({
@@ -3247,7 +3448,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagsMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -3272,7 +3473,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -3370,17 +3571,72 @@ export const ListAgentVersionsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListAgentVersionsRequest",
 }) as any as S.Schema<ListAgentVersionsRequest>;
+export type IngestionJobFilterAttribute = "STATUS";
+export const IngestionJobFilterAttribute = S.Literal("STATUS");
+export type IngestionJobFilterOperator = "EQ";
+export const IngestionJobFilterOperator = S.Literal("EQ");
 export type IngestionJobFilterValues = string[];
 export const IngestionJobFilterValues = S.Array(S.String);
+export type IngestionJobSortByAttribute = "STATUS" | "STARTED_AT";
+export const IngestionJobSortByAttribute = S.Literal("STATUS", "STARTED_AT");
+export type SortOrder = "ASCENDING" | "DESCENDING";
+export const SortOrder = S.Literal("ASCENDING", "DESCENDING");
+export type AgentStatus =
+  | "CREATING"
+  | "PREPARING"
+  | "PREPARED"
+  | "NOT_PREPARED"
+  | "DELETING"
+  | "FAILED"
+  | "VERSIONING"
+  | "UPDATING";
+export const AgentStatus = S.Literal(
+  "CREATING",
+  "PREPARING",
+  "PREPARED",
+  "NOT_PREPARED",
+  "DELETING",
+  "FAILED",
+  "VERSIONING",
+  "UPDATING",
+);
+export type AgentAliasStatus =
+  | "CREATING"
+  | "PREPARED"
+  | "FAILED"
+  | "UPDATING"
+  | "DELETING"
+  | "DISSOCIATED";
+export const AgentAliasStatus = S.Literal(
+  "CREATING",
+  "PREPARED",
+  "FAILED",
+  "UPDATING",
+  "DELETING",
+  "DISSOCIATED",
+);
+export type DataSourceStatus = "AVAILABLE" | "DELETING" | "DELETE_UNSUCCESSFUL";
+export const DataSourceStatus = S.Literal(
+  "AVAILABLE",
+  "DELETING",
+  "DELETE_UNSUCCESSFUL",
+);
+export type FlowStatus = "Failed" | "Prepared" | "Preparing" | "NotPrepared";
+export const FlowStatus = S.Literal(
+  "Failed",
+  "Prepared",
+  "Preparing",
+  "NotPrepared",
+);
 export interface IngestionJobFilter {
-  attribute: string;
-  operator: string;
-  values: IngestionJobFilterValues;
+  attribute: IngestionJobFilterAttribute;
+  operator: IngestionJobFilterOperator;
+  values: string[];
 }
 export const IngestionJobFilter = S.suspend(() =>
   S.Struct({
-    attribute: S.String,
-    operator: S.String,
+    attribute: IngestionJobFilterAttribute,
+    operator: IngestionJobFilterOperator,
     values: IngestionJobFilterValues,
   }),
 ).annotations({
@@ -3389,14 +3645,66 @@ export const IngestionJobFilter = S.suspend(() =>
 export type IngestionJobFilters = IngestionJobFilter[];
 export const IngestionJobFilters = S.Array(IngestionJobFilter);
 export interface IngestionJobSortBy {
-  attribute: string;
-  order: string;
+  attribute: IngestionJobSortByAttribute;
+  order: SortOrder;
 }
 export const IngestionJobSortBy = S.suspend(() =>
-  S.Struct({ attribute: S.String, order: S.String }),
+  S.Struct({ attribute: IngestionJobSortByAttribute, order: SortOrder }),
 ).annotations({
   identifier: "IngestionJobSortBy",
 }) as any as S.Schema<IngestionJobSortBy>;
+export type KnowledgeBaseStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "DELETING"
+  | "UPDATING"
+  | "FAILED"
+  | "DELETE_UNSUCCESSFUL";
+export const KnowledgeBaseStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "DELETING",
+  "UPDATING",
+  "FAILED",
+  "DELETE_UNSUCCESSFUL",
+);
+export type FlowNodeType =
+  | "Input"
+  | "Output"
+  | "KnowledgeBase"
+  | "Condition"
+  | "Lex"
+  | "Prompt"
+  | "LambdaFunction"
+  | "Storage"
+  | "Agent"
+  | "Retrieval"
+  | "Iterator"
+  | "Collector"
+  | "InlineCode"
+  | "Loop"
+  | "LoopInput"
+  | "LoopController";
+export const FlowNodeType = S.Literal(
+  "Input",
+  "Output",
+  "KnowledgeBase",
+  "Condition",
+  "Lex",
+  "Prompt",
+  "LambdaFunction",
+  "Storage",
+  "Agent",
+  "Retrieval",
+  "Iterator",
+  "Collector",
+  "InlineCode",
+  "Loop",
+  "LoopInput",
+  "LoopController",
+);
+export type MetadataSourceType = "IN_LINE_ATTRIBUTE" | "S3_LOCATION";
+export const MetadataSourceType = S.Literal("IN_LINE_ATTRIBUTE", "S3_LOCATION");
 export interface AgentActionGroup {
   agentId: string;
   agentVersion: string;
@@ -3406,12 +3714,12 @@ export interface AgentActionGroup {
   description?: string;
   createdAt: Date;
   updatedAt: Date;
-  parentActionSignature?: string;
-  parentActionGroupSignatureParams?: ActionGroupSignatureParams;
-  actionGroupExecutor?: (typeof ActionGroupExecutor)["Type"];
-  apiSchema?: (typeof APISchema)["Type"];
-  functionSchema?: (typeof FunctionSchema)["Type"];
-  actionGroupState: string;
+  parentActionSignature?: ActionGroupSignature;
+  parentActionGroupSignatureParams?: { [key: string]: string };
+  actionGroupExecutor?: ActionGroupExecutor;
+  apiSchema?: APISchema;
+  functionSchema?: FunctionSchema;
+  actionGroupState: ActionGroupState;
 }
 export const AgentActionGroup = S.suspend(() =>
   S.Struct({
@@ -3423,12 +3731,12 @@ export const AgentActionGroup = S.suspend(() =>
     description: S.optional(S.String),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    parentActionSignature: S.optional(S.String),
+    parentActionSignature: S.optional(ActionGroupSignature),
     parentActionGroupSignatureParams: S.optional(ActionGroupSignatureParams),
     actionGroupExecutor: S.optional(ActionGroupExecutor),
     apiSchema: S.optional(APISchema),
     functionSchema: S.optional(FunctionSchema),
-    actionGroupState: S.String,
+    actionGroupState: ActionGroupState,
   }),
 ).annotations({
   identifier: "AgentActionGroup",
@@ -3446,8 +3754,8 @@ export interface AssociateAgentCollaboratorRequest {
   agentVersion: string;
   agentDescriptor: AgentDescriptor;
   collaboratorName: string;
-  collaborationInstruction: string | Redacted.Redacted<string>;
-  relayConversationHistory?: string;
+  collaborationInstruction: string | redacted.Redacted<string>;
+  relayConversationHistory?: RelayConversationHistory;
   clientToken?: string;
 }
 export const AssociateAgentCollaboratorRequest = S.suspend(() =>
@@ -3457,7 +3765,7 @@ export const AssociateAgentCollaboratorRequest = S.suspend(() =>
     agentDescriptor: AgentDescriptor,
     collaboratorName: S.String,
     collaborationInstruction: SensitiveString,
-    relayConversationHistory: S.optional(S.String),
+    relayConversationHistory: S.optional(RelayConversationHistory),
     clientToken: S.optional(S.String),
   }).pipe(
     T.all(
@@ -3480,11 +3788,11 @@ export interface AgentCollaborator {
   agentVersion: string;
   agentDescriptor: AgentDescriptor;
   collaboratorId: string;
-  collaborationInstruction: string | Redacted.Redacted<string>;
+  collaborationInstruction: string | redacted.Redacted<string>;
   collaboratorName: string;
   createdAt: Date;
   lastUpdatedAt: Date;
-  relayConversationHistory?: string;
+  relayConversationHistory?: RelayConversationHistory;
   clientToken?: string;
 }
 export const AgentCollaborator = S.suspend(() =>
@@ -3497,7 +3805,7 @@ export const AgentCollaborator = S.suspend(() =>
     collaboratorName: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    relayConversationHistory: S.optional(S.String),
+    relayConversationHistory: S.optional(RelayConversationHistory),
     clientToken: S.optional(S.String),
   }),
 ).annotations({
@@ -3513,23 +3821,23 @@ export const UpdateAgentCollaboratorResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateAgentCollaboratorResponse>;
 export interface DeleteAgentResponse {
   agentId: string;
-  agentStatus: string;
+  agentStatus: AgentStatus;
 }
 export const DeleteAgentResponse = S.suspend(() =>
-  S.Struct({ agentId: S.String, agentStatus: S.String }),
+  S.Struct({ agentId: S.String, agentStatus: AgentStatus }),
 ).annotations({
   identifier: "DeleteAgentResponse",
 }) as any as S.Schema<DeleteAgentResponse>;
 export interface PrepareAgentResponse {
   agentId: string;
-  agentStatus: string;
+  agentStatus: AgentStatus;
   agentVersion: string;
   preparedAt: Date;
 }
 export const PrepareAgentResponse = S.suspend(() =>
   S.Struct({
     agentId: S.String,
-    agentStatus: S.String,
+    agentStatus: AgentStatus,
     agentVersion: S.String,
     preparedAt: S.Date.pipe(T.TimestampFormat("date-time")),
   }),
@@ -3546,11 +3854,11 @@ export interface Agent {
   agentArn: string;
   agentVersion: string;
   clientToken?: string;
-  instruction?: string | Redacted.Redacted<string>;
-  agentStatus: string;
+  instruction?: string | redacted.Redacted<string>;
+  agentStatus: AgentStatus;
   foundationModel?: string;
   description?: string;
-  orchestrationType?: string;
+  orchestrationType?: OrchestrationType;
   customOrchestration?: CustomOrchestration;
   idleSessionTTLInSeconds: number;
   agentResourceRoleArn: string;
@@ -3558,12 +3866,12 @@ export interface Agent {
   createdAt: Date;
   updatedAt: Date;
   preparedAt?: Date;
-  failureReasons?: FailureReasons;
-  recommendedActions?: RecommendedActions;
+  failureReasons?: string[];
+  recommendedActions?: string[];
   promptOverrideConfiguration?: PromptOverrideConfiguration;
   guardrailConfiguration?: GuardrailConfiguration;
   memoryConfiguration?: MemoryConfiguration;
-  agentCollaboration?: string;
+  agentCollaboration?: AgentCollaboration;
 }
 export const Agent = S.suspend(() =>
   S.Struct({
@@ -3573,10 +3881,10 @@ export const Agent = S.suspend(() =>
     agentVersion: S.String,
     clientToken: S.optional(S.String),
     instruction: S.optional(SensitiveString),
-    agentStatus: S.String,
+    agentStatus: AgentStatus,
     foundationModel: S.optional(S.String),
     description: S.optional(S.String),
-    orchestrationType: S.optional(S.String),
+    orchestrationType: S.optional(OrchestrationType),
     customOrchestration: S.optional(CustomOrchestration),
     idleSessionTTLInSeconds: S.Number,
     agentResourceRoleArn: S.String,
@@ -3589,7 +3897,7 @@ export const Agent = S.suspend(() =>
     promptOverrideConfiguration: S.optional(PromptOverrideConfiguration),
     guardrailConfiguration: S.optional(GuardrailConfiguration),
     memoryConfiguration: S.optional(MemoryConfiguration),
-    agentCollaboration: S.optional(S.String),
+    agentCollaboration: S.optional(AgentCollaboration),
   }),
 ).annotations({ identifier: "Agent" }) as any as S.Schema<Agent>;
 export interface UpdateAgentResponse {
@@ -3605,8 +3913,8 @@ export interface CreateAgentAliasRequest {
   agentAliasName: string;
   clientToken?: string;
   description?: string;
-  routingConfiguration?: AgentAliasRoutingConfiguration;
-  tags?: TagsMap;
+  routingConfiguration?: AgentAliasRoutingConfigurationListItem[];
+  tags?: { [key: string]: string };
 }
 export const CreateAgentAliasRequest = S.suspend(() =>
   S.Struct({
@@ -3632,19 +3940,19 @@ export const CreateAgentAliasRequest = S.suspend(() =>
 export interface DeleteAgentAliasResponse {
   agentId: string;
   agentAliasId: string;
-  agentAliasStatus: string;
+  agentAliasStatus: AgentAliasStatus;
 }
 export const DeleteAgentAliasResponse = S.suspend(() =>
   S.Struct({
     agentId: S.String,
     agentAliasId: S.String,
-    agentAliasStatus: S.String,
+    agentAliasStatus: AgentAliasStatus,
   }),
 ).annotations({
   identifier: "DeleteAgentAliasResponse",
 }) as any as S.Schema<DeleteAgentAliasResponse>;
 export interface AgentAliasHistoryEvent {
-  routingConfiguration?: AgentAliasRoutingConfiguration;
+  routingConfiguration?: AgentAliasRoutingConfigurationListItem[];
   endDate?: Date;
   startDate?: Date;
 }
@@ -3666,13 +3974,13 @@ export interface AgentAlias {
   agentAliasArn: string;
   clientToken?: string;
   description?: string;
-  routingConfiguration: AgentAliasRoutingConfiguration;
+  routingConfiguration: AgentAliasRoutingConfigurationListItem[];
   createdAt: Date;
   updatedAt: Date;
-  agentAliasHistoryEvents?: AgentAliasHistoryEvents;
-  agentAliasStatus: string;
-  failureReasons?: FailureReasons;
-  aliasInvocationState?: string;
+  agentAliasHistoryEvents?: AgentAliasHistoryEvent[];
+  agentAliasStatus: AgentAliasStatus;
+  failureReasons?: string[];
+  aliasInvocationState?: AliasInvocationState;
 }
 export const AgentAlias = S.suspend(() =>
   S.Struct({
@@ -3686,9 +3994,9 @@ export const AgentAlias = S.suspend(() =>
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     agentAliasHistoryEvents: S.optional(AgentAliasHistoryEvents),
-    agentAliasStatus: S.String,
+    agentAliasStatus: AgentAliasStatus,
     failureReasons: S.optional(FailureReasons),
-    aliasInvocationState: S.optional(S.String),
+    aliasInvocationState: S.optional(AliasInvocationState),
   }),
 ).annotations({ identifier: "AgentAlias" }) as any as S.Schema<AgentAlias>;
 export interface UpdateAgentAliasResponse {
@@ -3702,13 +4010,13 @@ export const UpdateAgentAliasResponse = S.suspend(() =>
 export interface DeleteDataSourceResponse {
   knowledgeBaseId: string;
   dataSourceId: string;
-  status: string;
+  status: DataSourceStatus;
 }
 export const DeleteDataSourceResponse = S.suspend(() =>
   S.Struct({
     knowledgeBaseId: S.String,
     dataSourceId: S.String,
-    status: S.String,
+    status: DataSourceStatus,
   }),
 ).annotations({
   identifier: "DeleteDataSourceResponse",
@@ -3717,29 +4025,29 @@ export interface DataSource {
   knowledgeBaseId: string;
   dataSourceId: string;
   name: string;
-  status: string;
+  status: DataSourceStatus;
   description?: string;
   dataSourceConfiguration: DataSourceConfiguration;
   serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
   vectorIngestionConfiguration?: VectorIngestionConfiguration;
-  dataDeletionPolicy?: string;
+  dataDeletionPolicy?: DataDeletionPolicy;
   createdAt: Date;
   updatedAt: Date;
-  failureReasons?: FailureReasons;
+  failureReasons?: string[];
 }
 export const DataSource = S.suspend(() =>
   S.Struct({
     knowledgeBaseId: S.String,
     dataSourceId: S.String,
     name: S.String,
-    status: S.String,
+    status: DataSourceStatus,
     description: S.optional(S.String),
     dataSourceConfiguration: DataSourceConfiguration,
     serverSideEncryptionConfiguration: S.optional(
       ServerSideEncryptionConfiguration,
     ),
     vectorIngestionConfiguration: S.optional(VectorIngestionConfiguration),
-    dataDeletionPolicy: S.optional(S.String),
+    dataDeletionPolicy: S.optional(DataDeletionPolicy),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     failureReasons: S.optional(FailureReasons),
@@ -3760,7 +4068,7 @@ export interface CreateFlowResponse {
   customerEncryptionKeyArn?: string;
   id: string;
   arn: string;
-  status: string;
+  status: FlowStatus;
   createdAt: Date;
   updatedAt: Date;
   version: string;
@@ -3774,7 +4082,7 @@ export const CreateFlowResponse = S.suspend(() =>
     customerEncryptionKeyArn: S.optional(S.String),
     id: S.String,
     arn: S.String,
-    status: S.String,
+    status: FlowStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     version: S.String,
@@ -3790,7 +4098,7 @@ export interface UpdateFlowResponse {
   customerEncryptionKeyArn?: string;
   id: string;
   arn: string;
-  status: string;
+  status: FlowStatus;
   createdAt: Date;
   updatedAt: Date;
   version: string;
@@ -3804,7 +4112,7 @@ export const UpdateFlowResponse = S.suspend(() =>
     customerEncryptionKeyArn: S.optional(S.String),
     id: S.String,
     arn: S.String,
-    status: S.String,
+    status: FlowStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     version: S.String,
@@ -3823,21 +4131,21 @@ export const DeleteFlowResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteFlowResponse>;
 export interface PrepareFlowResponse {
   id: string;
-  status: string;
+  status: FlowStatus;
 }
 export const PrepareFlowResponse = S.suspend(() =>
-  S.Struct({ id: S.String, status: S.String }),
+  S.Struct({ id: S.String, status: FlowStatus }),
 ).annotations({
   identifier: "PrepareFlowResponse",
 }) as any as S.Schema<PrepareFlowResponse>;
 export interface CreateFlowAliasRequest {
   name: string;
   description?: string;
-  routingConfiguration: FlowAliasRoutingConfiguration;
+  routingConfiguration: FlowAliasRoutingConfigurationListItem[];
   concurrencyConfiguration?: FlowAliasConcurrencyConfiguration;
   flowIdentifier: string;
   clientToken?: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const CreateFlowAliasRequest = S.suspend(() =>
   S.Struct({
@@ -3864,7 +4172,7 @@ export const CreateFlowAliasRequest = S.suspend(() =>
 export interface GetFlowAliasResponse {
   name: string;
   description?: string;
-  routingConfiguration: FlowAliasRoutingConfiguration;
+  routingConfiguration: FlowAliasRoutingConfigurationListItem[];
   concurrencyConfiguration?: FlowAliasConcurrencyConfiguration;
   flowId: string;
   id: string;
@@ -3890,7 +4198,7 @@ export const GetFlowAliasResponse = S.suspend(() =>
 export interface UpdateFlowAliasResponse {
   name: string;
   description?: string;
-  routingConfiguration: FlowAliasRoutingConfiguration;
+  routingConfiguration: FlowAliasRoutingConfigurationListItem[];
   concurrencyConfiguration?: FlowAliasConcurrencyConfiguration;
   flowId: string;
   id: string;
@@ -3929,7 +4237,7 @@ export interface CreateFlowVersionResponse {
   customerEncryptionKeyArn?: string;
   id: string;
   arn: string;
-  status: string;
+  status: FlowStatus;
   createdAt: Date;
   version: string;
   definition?: FlowDefinition;
@@ -3942,7 +4250,7 @@ export const CreateFlowVersionResponse = S.suspend(() =>
     customerEncryptionKeyArn: S.optional(S.String),
     id: S.String,
     arn: S.String,
-    status: S.String,
+    status: FlowStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     version: S.String,
     definition: S.optional(FlowDefinition),
@@ -3957,7 +4265,7 @@ export interface GetFlowVersionResponse {
   customerEncryptionKeyArn?: string;
   id: string;
   arn: string;
-  status: string;
+  status: FlowStatus;
   createdAt: Date;
   version: string;
   definition?: FlowDefinition;
@@ -3970,7 +4278,7 @@ export const GetFlowVersionResponse = S.suspend(() =>
     customerEncryptionKeyArn: S.optional(S.String),
     id: S.String,
     arn: S.String,
-    status: S.String,
+    status: FlowStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     version: S.String,
     definition: S.optional(FlowDefinition),
@@ -3990,7 +4298,7 @@ export const DeleteFlowVersionResponse = S.suspend(() =>
 export interface ListIngestionJobsRequest {
   knowledgeBaseId: string;
   dataSourceId: string;
-  filters?: IngestionJobFilters;
+  filters?: IngestionJobFilter[];
   sortBy?: IngestionJobSortBy;
   maxResults?: number;
   nextToken?: string;
@@ -4019,6 +4327,21 @@ export const ListIngestionJobsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListIngestionJobsRequest",
 }) as any as S.Schema<ListIngestionJobsRequest>;
+export type IngestionJobStatus =
+  | "STARTING"
+  | "IN_PROGRESS"
+  | "COMPLETE"
+  | "FAILED"
+  | "STOPPING"
+  | "STOPPED";
+export const IngestionJobStatus = S.Literal(
+  "STARTING",
+  "IN_PROGRESS",
+  "COMPLETE",
+  "FAILED",
+  "STOPPING",
+  "STOPPED",
+);
 export interface IngestionJobStatistics {
   numberOfDocumentsScanned?: number;
   numberOfMetadataDocumentsScanned?: number;
@@ -4046,9 +4369,9 @@ export interface IngestionJob {
   dataSourceId: string;
   ingestionJobId: string;
   description?: string;
-  status: string;
+  status: IngestionJobStatus;
   statistics?: IngestionJobStatistics;
-  failureReasons?: FailureReasons;
+  failureReasons?: string[];
   startedAt: Date;
   updatedAt: Date;
 }
@@ -4058,7 +4381,7 @@ export const IngestionJob = S.suspend(() =>
     dataSourceId: S.String,
     ingestionJobId: S.String,
     description: S.optional(S.String),
-    status: S.String,
+    status: IngestionJobStatus,
     statistics: S.optional(IngestionJobStatistics),
     failureReasons: S.optional(FailureReasons),
     startedAt: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -4081,10 +4404,37 @@ export const StopIngestionJobResponse = S.suspend(() =>
 ).annotations({
   identifier: "StopIngestionJobResponse",
 }) as any as S.Schema<StopIngestionJobResponse>;
+export type DocumentStatus =
+  | "INDEXED"
+  | "PARTIALLY_INDEXED"
+  | "PENDING"
+  | "FAILED"
+  | "METADATA_PARTIALLY_INDEXED"
+  | "METADATA_UPDATE_FAILED"
+  | "IGNORED"
+  | "NOT_FOUND"
+  | "STARTING"
+  | "IN_PROGRESS"
+  | "DELETING"
+  | "DELETE_IN_PROGRESS";
+export const DocumentStatus = S.Literal(
+  "INDEXED",
+  "PARTIALLY_INDEXED",
+  "PENDING",
+  "FAILED",
+  "METADATA_PARTIALLY_INDEXED",
+  "METADATA_UPDATE_FAILED",
+  "IGNORED",
+  "NOT_FOUND",
+  "STARTING",
+  "IN_PROGRESS",
+  "DELETING",
+  "DELETE_IN_PROGRESS",
+);
 export interface KnowledgeBaseDocumentDetail {
   knowledgeBaseId: string;
   dataSourceId: string;
-  status: string;
+  status: DocumentStatus;
   identifier: DocumentIdentifier;
   statusReason?: string;
   updatedAt?: Date;
@@ -4093,7 +4443,7 @@ export const KnowledgeBaseDocumentDetail = S.suspend(() =>
   S.Struct({
     knowledgeBaseId: S.String,
     dataSourceId: S.String,
-    status: S.String,
+    status: DocumentStatus,
     identifier: DocumentIdentifier,
     statusReason: S.optional(S.String),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -4106,7 +4456,7 @@ export const KnowledgeBaseDocumentDetails = S.Array(
   KnowledgeBaseDocumentDetail,
 );
 export interface ListKnowledgeBaseDocumentsResponse {
-  documentDetails: KnowledgeBaseDocumentDetails;
+  documentDetails: KnowledgeBaseDocumentDetail[];
   nextToken?: string;
 }
 export const ListKnowledgeBaseDocumentsResponse = S.suspend(() =>
@@ -4119,10 +4469,10 @@ export const ListKnowledgeBaseDocumentsResponse = S.suspend(() =>
 }) as any as S.Schema<ListKnowledgeBaseDocumentsResponse>;
 export interface DeleteKnowledgeBaseResponse {
   knowledgeBaseId: string;
-  status: string;
+  status: KnowledgeBaseStatus;
 }
 export const DeleteKnowledgeBaseResponse = S.suspend(() =>
-  S.Struct({ knowledgeBaseId: S.String, status: S.String }),
+  S.Struct({ knowledgeBaseId: S.String, status: KnowledgeBaseStatus }),
 ).annotations({
   identifier: "DeleteKnowledgeBaseResponse",
 }) as any as S.Schema<DeleteKnowledgeBaseResponse>;
@@ -4133,7 +4483,7 @@ export interface AgentKnowledgeBase {
   description: string;
   createdAt: Date;
   updatedAt: Date;
-  knowledgeBaseState: string;
+  knowledgeBaseState: KnowledgeBaseState;
 }
 export const AgentKnowledgeBase = S.suspend(() =>
   S.Struct({
@@ -4143,7 +4493,7 @@ export const AgentKnowledgeBase = S.suspend(() =>
     description: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    knowledgeBaseState: S.String,
+    knowledgeBaseState: KnowledgeBaseState,
   }),
 ).annotations({
   identifier: "AgentKnowledgeBase",
@@ -4172,10 +4522,10 @@ export interface KnowledgeBase {
   roleArn: string;
   knowledgeBaseConfiguration: KnowledgeBaseConfiguration;
   storageConfiguration?: StorageConfiguration;
-  status: string;
+  status: KnowledgeBaseStatus;
   createdAt: Date;
   updatedAt: Date;
-  failureReasons?: FailureReasons;
+  failureReasons?: string[];
 }
 export const KnowledgeBase = S.suspend(() =>
   S.Struct({
@@ -4186,7 +4536,7 @@ export const KnowledgeBase = S.suspend(() =>
     roleArn: S.String,
     knowledgeBaseConfiguration: KnowledgeBaseConfiguration,
     storageConfiguration: S.optional(StorageConfiguration),
-    status: S.String,
+    status: KnowledgeBaseStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     failureReasons: S.optional(FailureReasons),
@@ -4207,7 +4557,7 @@ export interface GetPromptResponse {
   description?: string;
   customerEncryptionKeyArn?: string;
   defaultVariant?: string;
-  variants?: PromptVariantList;
+  variants?: PromptVariant[];
   id: string;
   arn: string;
   version: string;
@@ -4235,7 +4585,7 @@ export interface UpdatePromptResponse {
   description?: string;
   customerEncryptionKeyArn?: string;
   defaultVariant?: string;
-  variants?: PromptVariantList;
+  variants?: PromptVariant[];
   id: string;
   arn: string;
   version: string;
@@ -4272,7 +4622,7 @@ export interface CreatePromptVersionResponse {
   description?: string;
   customerEncryptionKeyArn?: string;
   defaultVariant?: string;
-  variants?: PromptVariantList;
+  variants?: PromptVariant[];
   id: string;
   arn: string;
   version: string;
@@ -4296,7 +4646,7 @@ export const CreatePromptVersionResponse = S.suspend(() =>
   identifier: "CreatePromptVersionResponse",
 }) as any as S.Schema<CreatePromptVersionResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagsMap) }),
@@ -4306,17 +4656,88 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 export interface DeleteAgentVersionResponse {
   agentId: string;
   agentVersion: string;
-  agentStatus: string;
+  agentStatus: AgentStatus;
 }
 export const DeleteAgentVersionResponse = S.suspend(() =>
   S.Struct({
     agentId: S.String,
     agentVersion: S.String,
-    agentStatus: S.String,
+    agentStatus: AgentStatus,
   }),
 ).annotations({
   identifier: "DeleteAgentVersionResponse",
 }) as any as S.Schema<DeleteAgentVersionResponse>;
+export type FlowValidationSeverity = "Warning" | "Error";
+export const FlowValidationSeverity = S.Literal("Warning", "Error");
+export type FlowValidationType =
+  | "CyclicConnection"
+  | "DuplicateConnections"
+  | "DuplicateConditionExpression"
+  | "UnreachableNode"
+  | "UnknownConnectionSource"
+  | "UnknownConnectionSourceOutput"
+  | "UnknownConnectionTarget"
+  | "UnknownConnectionTargetInput"
+  | "UnknownConnectionCondition"
+  | "MalformedConditionExpression"
+  | "MalformedNodeInputExpression"
+  | "MismatchedNodeInputType"
+  | "MismatchedNodeOutputType"
+  | "IncompatibleConnectionDataType"
+  | "MissingConnectionConfiguration"
+  | "MissingDefaultCondition"
+  | "MissingEndingNodes"
+  | "MissingNodeConfiguration"
+  | "MissingNodeInput"
+  | "MissingNodeOutput"
+  | "MissingStartingNodes"
+  | "MultipleNodeInputConnections"
+  | "UnfulfilledNodeInput"
+  | "UnsatisfiedConnectionConditions"
+  | "Unspecified"
+  | "UnknownNodeInput"
+  | "UnknownNodeOutput"
+  | "MissingLoopInputNode"
+  | "MissingLoopControllerNode"
+  | "MultipleLoopInputNodes"
+  | "MultipleLoopControllerNodes"
+  | "LoopIncompatibleNodeType"
+  | "InvalidLoopBoundary";
+export const FlowValidationType = S.Literal(
+  "CyclicConnection",
+  "DuplicateConnections",
+  "DuplicateConditionExpression",
+  "UnreachableNode",
+  "UnknownConnectionSource",
+  "UnknownConnectionSourceOutput",
+  "UnknownConnectionTarget",
+  "UnknownConnectionTargetInput",
+  "UnknownConnectionCondition",
+  "MalformedConditionExpression",
+  "MalformedNodeInputExpression",
+  "MismatchedNodeInputType",
+  "MismatchedNodeOutputType",
+  "IncompatibleConnectionDataType",
+  "MissingConnectionConfiguration",
+  "MissingDefaultCondition",
+  "MissingEndingNodes",
+  "MissingNodeConfiguration",
+  "MissingNodeInput",
+  "MissingNodeOutput",
+  "MissingStartingNodes",
+  "MultipleNodeInputConnections",
+  "UnfulfilledNodeInput",
+  "UnsatisfiedConnectionConditions",
+  "Unspecified",
+  "UnknownNodeInput",
+  "UnknownNodeOutput",
+  "MissingLoopInputNode",
+  "MissingLoopControllerNode",
+  "MultipleLoopInputNodes",
+  "MultipleLoopControllerNodes",
+  "LoopIncompatibleNodeType",
+  "InvalidLoopBoundary",
+);
 export interface InputFlowNodeConfiguration {}
 export const InputFlowNodeConfiguration = S.suspend(() =>
   S.Struct({}),
@@ -4347,10 +4768,34 @@ export const LoopInputFlowNodeConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "LoopInputFlowNodeConfiguration",
 }) as any as S.Schema<LoopInputFlowNodeConfiguration>;
+export type FlowNodeIODataType =
+  | "String"
+  | "Number"
+  | "Boolean"
+  | "Object"
+  | "Array";
+export const FlowNodeIODataType = S.Literal(
+  "String",
+  "Number",
+  "Boolean",
+  "Object",
+  "Array",
+);
+export type FlowNodeInputCategory =
+  | "LoopCondition"
+  | "ReturnValueToLoopStart"
+  | "ExitLoop";
+export const FlowNodeInputCategory = S.Literal(
+  "LoopCondition",
+  "ReturnValueToLoopStart",
+  "ExitLoop",
+);
+export type CustomSourceType = "IN_LINE" | "S3_LOCATION";
+export const CustomSourceType = S.Literal("IN_LINE", "S3_LOCATION");
 export interface ActionGroupSummary {
   actionGroupId: string;
   actionGroupName: string;
-  actionGroupState: string;
+  actionGroupState: ActionGroupState;
   description?: string;
   updatedAt: Date;
 }
@@ -4358,7 +4803,7 @@ export const ActionGroupSummary = S.suspend(() =>
   S.Struct({
     actionGroupId: S.String,
     actionGroupName: S.String,
-    actionGroupState: S.String,
+    actionGroupState: ActionGroupState,
     description: S.optional(S.String),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
   }),
@@ -4372,8 +4817,8 @@ export interface AgentCollaboratorSummary {
   agentVersion: string;
   collaboratorId: string;
   agentDescriptor: AgentDescriptor;
-  collaborationInstruction: string | Redacted.Redacted<string>;
-  relayConversationHistory: string;
+  collaborationInstruction: string | redacted.Redacted<string>;
+  relayConversationHistory: RelayConversationHistory;
   collaboratorName: string;
   createdAt: Date;
   lastUpdatedAt: Date;
@@ -4385,7 +4830,7 @@ export const AgentCollaboratorSummary = S.suspend(() =>
     collaboratorId: S.String,
     agentDescriptor: AgentDescriptor,
     collaborationInstruction: SensitiveString,
-    relayConversationHistory: S.String,
+    relayConversationHistory: RelayConversationHistory,
     collaboratorName: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -4398,7 +4843,7 @@ export const AgentCollaboratorSummaries = S.Array(AgentCollaboratorSummary);
 export interface AgentSummary {
   agentId: string;
   agentName: string;
-  agentStatus: string;
+  agentStatus: AgentStatus;
   description?: string;
   updatedAt: Date;
   latestAgentVersion?: string;
@@ -4408,7 +4853,7 @@ export const AgentSummary = S.suspend(() =>
   S.Struct({
     agentId: S.String,
     agentName: S.String,
-    agentStatus: S.String,
+    agentStatus: AgentStatus,
     description: S.optional(S.String),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     latestAgentVersion: S.optional(S.String),
@@ -4421,11 +4866,11 @@ export interface AgentAliasSummary {
   agentAliasId: string;
   agentAliasName: string;
   description?: string;
-  routingConfiguration?: AgentAliasRoutingConfiguration;
-  agentAliasStatus: string;
+  routingConfiguration?: AgentAliasRoutingConfigurationListItem[];
+  agentAliasStatus: AgentAliasStatus;
   createdAt: Date;
   updatedAt: Date;
-  aliasInvocationState?: string;
+  aliasInvocationState?: AliasInvocationState;
 }
 export const AgentAliasSummary = S.suspend(() =>
   S.Struct({
@@ -4433,10 +4878,10 @@ export const AgentAliasSummary = S.suspend(() =>
     agentAliasName: S.String,
     description: S.optional(S.String),
     routingConfiguration: S.optional(AgentAliasRoutingConfiguration),
-    agentAliasStatus: S.String,
+    agentAliasStatus: AgentAliasStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    aliasInvocationState: S.optional(S.String),
+    aliasInvocationState: S.optional(AliasInvocationState),
   }),
 ).annotations({
   identifier: "AgentAliasSummary",
@@ -4447,7 +4892,7 @@ export interface DataSourceSummary {
   knowledgeBaseId: string;
   dataSourceId: string;
   name: string;
-  status: string;
+  status: DataSourceStatus;
   description?: string;
   updatedAt: Date;
 }
@@ -4456,7 +4901,7 @@ export const DataSourceSummary = S.suspend(() =>
     knowledgeBaseId: S.String,
     dataSourceId: S.String,
     name: S.String,
-    status: S.String,
+    status: DataSourceStatus,
     description: S.optional(S.String),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
   }),
@@ -4470,7 +4915,7 @@ export interface FlowSummary {
   description?: string;
   id: string;
   arn: string;
-  status: string;
+  status: FlowStatus;
   createdAt: Date;
   updatedAt: Date;
   version: string;
@@ -4481,7 +4926,7 @@ export const FlowSummary = S.suspend(() =>
     description: S.optional(S.String),
     id: S.String,
     arn: S.String,
-    status: S.String,
+    status: FlowStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     version: S.String,
@@ -4492,7 +4937,7 @@ export const FlowSummaries = S.Array(FlowSummary);
 export interface FlowAliasSummary {
   name: string;
   description?: string;
-  routingConfiguration: FlowAliasRoutingConfiguration;
+  routingConfiguration: FlowAliasRoutingConfigurationListItem[];
   concurrencyConfiguration?: FlowAliasConcurrencyConfiguration;
   flowId: string;
   id: string;
@@ -4520,7 +4965,7 @@ export const FlowAliasSummaries = S.Array(FlowAliasSummary);
 export interface FlowVersionSummary {
   id: string;
   arn: string;
-  status: string;
+  status: FlowStatus;
   createdAt: Date;
   version: string;
 }
@@ -4528,7 +4973,7 @@ export const FlowVersionSummary = S.suspend(() =>
   S.Struct({
     id: S.String,
     arn: S.String,
-    status: S.String,
+    status: FlowStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     version: S.String,
   }),
@@ -4540,14 +4985,14 @@ export const FlowVersionSummaries = S.Array(FlowVersionSummary);
 export interface AgentKnowledgeBaseSummary {
   knowledgeBaseId: string;
   description?: string;
-  knowledgeBaseState: string;
+  knowledgeBaseState: KnowledgeBaseState;
   updatedAt: Date;
 }
 export const AgentKnowledgeBaseSummary = S.suspend(() =>
   S.Struct({
     knowledgeBaseId: S.String,
     description: S.optional(S.String),
-    knowledgeBaseState: S.String,
+    knowledgeBaseState: KnowledgeBaseState,
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotations({
@@ -4559,7 +5004,7 @@ export interface KnowledgeBaseSummary {
   knowledgeBaseId: string;
   name: string;
   description?: string;
-  status: string;
+  status: KnowledgeBaseStatus;
   updatedAt: Date;
 }
 export const KnowledgeBaseSummary = S.suspend(() =>
@@ -4567,7 +5012,7 @@ export const KnowledgeBaseSummary = S.suspend(() =>
     knowledgeBaseId: S.String,
     name: S.String,
     description: S.optional(S.String),
-    status: S.String,
+    status: KnowledgeBaseStatus,
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotations({
@@ -4604,8 +5049,8 @@ export interface AgentVersion {
   agentName: string;
   agentArn: string;
   version: string;
-  instruction?: string | Redacted.Redacted<string>;
-  agentStatus: string;
+  instruction?: string | redacted.Redacted<string>;
+  agentStatus: AgentStatus;
   foundationModel?: string;
   description?: string;
   idleSessionTTLInSeconds: number;
@@ -4613,12 +5058,12 @@ export interface AgentVersion {
   customerEncryptionKeyArn?: string;
   createdAt: Date;
   updatedAt: Date;
-  failureReasons?: FailureReasons;
-  recommendedActions?: RecommendedActions;
+  failureReasons?: string[];
+  recommendedActions?: string[];
   promptOverrideConfiguration?: PromptOverrideConfiguration;
   guardrailConfiguration?: GuardrailConfiguration;
   memoryConfiguration?: MemoryConfiguration;
-  agentCollaboration?: string;
+  agentCollaboration?: AgentCollaboration;
 }
 export const AgentVersion = S.suspend(() =>
   S.Struct({
@@ -4627,7 +5072,7 @@ export const AgentVersion = S.suspend(() =>
     agentArn: S.String,
     version: S.String,
     instruction: S.optional(SensitiveString),
-    agentStatus: S.String,
+    agentStatus: AgentStatus,
     foundationModel: S.optional(S.String),
     description: S.optional(S.String),
     idleSessionTTLInSeconds: S.Number,
@@ -4640,12 +5085,12 @@ export const AgentVersion = S.suspend(() =>
     promptOverrideConfiguration: S.optional(PromptOverrideConfiguration),
     guardrailConfiguration: S.optional(GuardrailConfiguration),
     memoryConfiguration: S.optional(MemoryConfiguration),
-    agentCollaboration: S.optional(S.String),
+    agentCollaboration: S.optional(AgentCollaboration),
   }),
 ).annotations({ identifier: "AgentVersion" }) as any as S.Schema<AgentVersion>;
 export interface AgentVersionSummary {
   agentName: string;
-  agentStatus: string;
+  agentStatus: AgentStatus;
   agentVersion: string;
   createdAt: Date;
   updatedAt: Date;
@@ -4655,7 +5100,7 @@ export interface AgentVersionSummary {
 export const AgentVersionSummary = S.suspend(() =>
   S.Struct({
     agentName: S.String,
-    agentStatus: S.String,
+    agentStatus: AgentStatus,
     agentVersion: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -4669,16 +5114,16 @@ export type AgentVersionSummaries = AgentVersionSummary[];
 export const AgentVersionSummaries = S.Array(AgentVersionSummary);
 export interface FlowNodeInput {
   name: string;
-  type: string;
-  expression: string | Redacted.Redacted<string>;
-  category?: string;
+  type: FlowNodeIODataType;
+  expression: string | redacted.Redacted<string>;
+  category?: FlowNodeInputCategory;
 }
 export const FlowNodeInput = S.suspend(() =>
   S.Struct({
     name: S.String,
-    type: S.String,
+    type: FlowNodeIODataType,
     expression: SensitiveString,
-    category: S.optional(S.String),
+    category: S.optional(FlowNodeInputCategory),
   }),
 ).annotations({
   identifier: "FlowNodeInput",
@@ -4687,10 +5132,10 @@ export type FlowNodeInputs = FlowNodeInput[];
 export const FlowNodeInputs = S.Array(FlowNodeInput);
 export interface FlowNodeOutput {
   name: string;
-  type: string;
+  type: FlowNodeIODataType;
 }
 export const FlowNodeOutput = S.suspend(() =>
-  S.Struct({ name: S.String, type: S.String }),
+  S.Struct({ name: S.String, type: FlowNodeIODataType }),
 ).annotations({
   identifier: "FlowNodeOutput",
 }) as any as S.Schema<FlowNodeOutput>;
@@ -4729,6 +5174,8 @@ export interface S3Content {
 export const S3Content = S.suspend(() =>
   S.Struct({ s3Location: S3Location }),
 ).annotations({ identifier: "S3Content" }) as any as S.Schema<S3Content>;
+export type SupportedLanguages = "Python_3";
+export const SupportedLanguages = S.Literal("Python_3");
 export interface GetAgentActionGroupResponse {
   agentActionGroup: AgentActionGroup;
 }
@@ -4738,7 +5185,7 @@ export const GetAgentActionGroupResponse = S.suspend(() =>
   identifier: "GetAgentActionGroupResponse",
 }) as any as S.Schema<GetAgentActionGroupResponse>;
 export interface ListAgentActionGroupsResponse {
-  actionGroupSummaries: ActionGroupSummaries;
+  actionGroupSummaries: ActionGroupSummary[];
   nextToken?: string;
 }
 export const ListAgentActionGroupsResponse = S.suspend(() =>
@@ -4766,7 +5213,7 @@ export const GetAgentCollaboratorResponse = S.suspend(() =>
   identifier: "GetAgentCollaboratorResponse",
 }) as any as S.Schema<GetAgentCollaboratorResponse>;
 export interface ListAgentCollaboratorsResponse {
-  agentCollaboratorSummaries: AgentCollaboratorSummaries;
+  agentCollaboratorSummaries: AgentCollaboratorSummary[];
   nextToken?: string;
 }
 export const ListAgentCollaboratorsResponse = S.suspend(() =>
@@ -4786,7 +5233,7 @@ export const GetAgentResponse = S.suspend(() =>
   identifier: "GetAgentResponse",
 }) as any as S.Schema<GetAgentResponse>;
 export interface ListAgentsResponse {
-  agentSummaries: AgentSummaries;
+  agentSummaries: AgentSummary[];
   nextToken?: string;
 }
 export const ListAgentsResponse = S.suspend(() =>
@@ -4803,7 +5250,7 @@ export const CreateAgentAliasResponse = S.suspend(() =>
   identifier: "CreateAgentAliasResponse",
 }) as any as S.Schema<CreateAgentAliasResponse>;
 export interface ListAgentAliasesResponse {
-  agentAliasSummaries: AgentAliasSummaries;
+  agentAliasSummaries: AgentAliasSummary[];
   nextToken?: string;
 }
 export const ListAgentAliasesResponse = S.suspend(() =>
@@ -4823,7 +5270,7 @@ export const GetDataSourceResponse = S.suspend(() =>
   identifier: "GetDataSourceResponse",
 }) as any as S.Schema<GetDataSourceResponse>;
 export interface ListDataSourcesResponse {
-  dataSourceSummaries: DataSourceSummaries;
+  dataSourceSummaries: DataSourceSummary[];
   nextToken?: string;
 }
 export const ListDataSourcesResponse = S.suspend(() =>
@@ -4835,7 +5282,7 @@ export const ListDataSourcesResponse = S.suspend(() =>
   identifier: "ListDataSourcesResponse",
 }) as any as S.Schema<ListDataSourcesResponse>;
 export interface ListFlowsResponse {
-  flowSummaries: FlowSummaries;
+  flowSummaries: FlowSummary[];
   nextToken?: string;
 }
 export const ListFlowsResponse = S.suspend(() =>
@@ -4846,7 +5293,7 @@ export const ListFlowsResponse = S.suspend(() =>
 export interface CreateFlowAliasResponse {
   name: string;
   description?: string;
-  routingConfiguration: FlowAliasRoutingConfiguration;
+  routingConfiguration: FlowAliasRoutingConfigurationListItem[];
   concurrencyConfiguration?: FlowAliasConcurrencyConfiguration;
   flowId: string;
   id: string;
@@ -4870,7 +5317,7 @@ export const CreateFlowAliasResponse = S.suspend(() =>
   identifier: "CreateFlowAliasResponse",
 }) as any as S.Schema<CreateFlowAliasResponse>;
 export interface ListFlowAliasesResponse {
-  flowAliasSummaries: FlowAliasSummaries;
+  flowAliasSummaries: FlowAliasSummary[];
   nextToken?: string;
 }
 export const ListFlowAliasesResponse = S.suspend(() =>
@@ -4882,7 +5329,7 @@ export const ListFlowAliasesResponse = S.suspend(() =>
   identifier: "ListFlowAliasesResponse",
 }) as any as S.Schema<ListFlowAliasesResponse>;
 export interface ListFlowVersionsResponse {
-  flowVersionSummaries: FlowVersionSummaries;
+  flowVersionSummaries: FlowVersionSummary[];
   nextToken?: string;
 }
 export const ListFlowVersionsResponse = S.suspend(() =>
@@ -4897,7 +5344,7 @@ export interface DeleteKnowledgeBaseDocumentsRequest {
   knowledgeBaseId: string;
   dataSourceId: string;
   clientToken?: string;
-  documentIdentifiers: DocumentIdentifiers;
+  documentIdentifiers: DocumentIdentifier[];
 }
 export const DeleteKnowledgeBaseDocumentsRequest = S.suspend(() =>
   S.Struct({
@@ -4922,15 +5369,24 @@ export const DeleteKnowledgeBaseDocumentsRequest = S.suspend(() =>
   identifier: "DeleteKnowledgeBaseDocumentsRequest",
 }) as any as S.Schema<DeleteKnowledgeBaseDocumentsRequest>;
 export interface GetKnowledgeBaseDocumentsResponse {
-  documentDetails?: KnowledgeBaseDocumentDetails;
+  documentDetails?: KnowledgeBaseDocumentDetail[];
 }
 export const GetKnowledgeBaseDocumentsResponse = S.suspend(() =>
   S.Struct({ documentDetails: S.optional(KnowledgeBaseDocumentDetails) }),
 ).annotations({
   identifier: "GetKnowledgeBaseDocumentsResponse",
 }) as any as S.Schema<GetKnowledgeBaseDocumentsResponse>;
-export type StringListValue = string | Redacted.Redacted<string>[];
+export type MetadataValueType = "BOOLEAN" | "NUMBER" | "STRING" | "STRING_LIST";
+export const MetadataValueType = S.Literal(
+  "BOOLEAN",
+  "NUMBER",
+  "STRING",
+  "STRING_LIST",
+);
+export type StringListValue = string | redacted.Redacted<string>[];
 export const StringListValue = S.Array(SensitiveString);
+export type InlineContentType = "BYTE" | "TEXT";
+export const InlineContentType = S.Literal("BYTE", "TEXT");
 export interface AssociateAgentKnowledgeBaseResponse {
   agentKnowledgeBase: AgentKnowledgeBase;
 }
@@ -4948,7 +5404,7 @@ export const GetKnowledgeBaseResponse = S.suspend(() =>
   identifier: "GetKnowledgeBaseResponse",
 }) as any as S.Schema<GetKnowledgeBaseResponse>;
 export interface ListAgentKnowledgeBasesResponse {
-  agentKnowledgeBaseSummaries: AgentKnowledgeBaseSummaries;
+  agentKnowledgeBaseSummaries: AgentKnowledgeBaseSummary[];
   nextToken?: string;
 }
 export const ListAgentKnowledgeBasesResponse = S.suspend(() =>
@@ -4960,7 +5416,7 @@ export const ListAgentKnowledgeBasesResponse = S.suspend(() =>
   identifier: "ListAgentKnowledgeBasesResponse",
 }) as any as S.Schema<ListAgentKnowledgeBasesResponse>;
 export interface ListKnowledgeBasesResponse {
-  knowledgeBaseSummaries: KnowledgeBaseSummaries;
+  knowledgeBaseSummaries: KnowledgeBaseSummary[];
   nextToken?: string;
 }
 export const ListKnowledgeBasesResponse = S.suspend(() =>
@@ -4972,7 +5428,7 @@ export const ListKnowledgeBasesResponse = S.suspend(() =>
   identifier: "ListKnowledgeBasesResponse",
 }) as any as S.Schema<ListKnowledgeBasesResponse>;
 export interface ListPromptsResponse {
-  promptSummaries: PromptSummaries;
+  promptSummaries: PromptSummary[];
   nextToken?: string;
 }
 export const ListPromptsResponse = S.suspend(() =>
@@ -4992,7 +5448,7 @@ export const GetAgentVersionResponse = S.suspend(() =>
   identifier: "GetAgentVersionResponse",
 }) as any as S.Schema<GetAgentVersionResponse>;
 export interface ListAgentVersionsResponse {
-  agentVersionSummaries: AgentVersionSummaries;
+  agentVersionSummaries: AgentVersionSummary[];
   nextToken?: string;
 }
 export const ListAgentVersionsResponse = S.suspend(() =>
@@ -5029,11 +5485,11 @@ export const AgentFlowNodeConfiguration = S.suspend(() =>
   identifier: "AgentFlowNodeConfiguration",
 }) as any as S.Schema<AgentFlowNodeConfiguration>;
 export interface InlineCodeFlowNodeConfiguration {
-  code: string | Redacted.Redacted<string>;
-  language: string;
+  code: string | redacted.Redacted<string>;
+  language: SupportedLanguages;
 }
 export const InlineCodeFlowNodeConfiguration = S.suspend(() =>
-  S.Struct({ code: SensitiveString, language: S.String }),
+  S.Struct({ code: SensitiveString, language: SupportedLanguages }),
 ).annotations({
   identifier: "InlineCodeFlowNodeConfiguration",
 }) as any as S.Schema<InlineCodeFlowNodeConfiguration>;
@@ -5051,7 +5507,7 @@ export const LoopFlowNodeConfiguration = S.suspend(() =>
 }) as any as S.Schema<LoopFlowNodeConfiguration>;
 export interface FlowCondition {
   name: string;
-  expression?: string | Redacted.Redacted<string>;
+  expression?: string | redacted.Redacted<string>;
 }
 export const FlowCondition = S.suspend(() =>
   S.Struct({ name: S.String, expression: S.optional(SensitiveString) }),
@@ -5070,16 +5526,27 @@ export const LoopControllerFlowNodeConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "LoopControllerFlowNodeConfiguration",
 }) as any as S.Schema<LoopControllerFlowNodeConfiguration>;
+export type IncompatibleLoopNodeType =
+  | "Input"
+  | "Condition"
+  | "Iterator"
+  | "Collector";
+export const IncompatibleLoopNodeType = S.Literal(
+  "Input",
+  "Condition",
+  "Iterator",
+  "Collector",
+);
 export interface MetadataAttributeValue {
-  type: string;
+  type: MetadataValueType;
   numberValue?: number;
   booleanValue?: boolean;
-  stringValue?: string | Redacted.Redacted<string>;
-  stringListValue?: StringListValue;
+  stringValue?: string | redacted.Redacted<string>;
+  stringListValue?: string | redacted.Redacted<string>[];
 }
 export const MetadataAttributeValue = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: MetadataValueType,
     numberValue: S.optional(S.Number),
     booleanValue: S.optional(S.Boolean),
     stringValue: S.optional(SensitiveString),
@@ -5088,12 +5555,16 @@ export const MetadataAttributeValue = S.suspend(() =>
 ).annotations({
   identifier: "MetadataAttributeValue",
 }) as any as S.Schema<MetadataAttributeValue>;
+export type VectorSearchRerankingConfigurationType = "BEDROCK_RERANKING_MODEL";
+export const VectorSearchRerankingConfigurationType = S.Literal(
+  "BEDROCK_RERANKING_MODEL",
+);
 export interface IngestionJobSummary {
   knowledgeBaseId: string;
   dataSourceId: string;
   ingestionJobId: string;
   description?: string;
-  status: string;
+  status: IngestionJobStatus;
   startedAt: Date;
   updatedAt: Date;
   statistics?: IngestionJobStatistics;
@@ -5104,7 +5575,7 @@ export const IngestionJobSummary = S.suspend(() =>
     dataSourceId: S.String,
     ingestionJobId: S.String,
     description: S.optional(S.String),
-    status: S.String,
+    status: IngestionJobStatus,
     startedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     statistics: S.optional(IngestionJobStatistics),
@@ -5133,7 +5604,7 @@ export const DuplicateConnectionsFlowValidationDetails = S.suspend(() =>
 }) as any as S.Schema<DuplicateConnectionsFlowValidationDetails>;
 export interface DuplicateConditionExpressionFlowValidationDetails {
   node: string;
-  expression: string | Redacted.Redacted<string>;
+  expression: string | redacted.Redacted<string>;
 }
 export const DuplicateConditionExpressionFlowValidationDetails = S.suspend(() =>
   S.Struct({ node: S.String, expression: SensitiveString }),
@@ -5211,20 +5682,28 @@ export const MalformedNodeInputExpressionFlowValidationDetails = S.suspend(() =>
 export interface MismatchedNodeInputTypeFlowValidationDetails {
   node: string;
   input: string;
-  expectedType: string;
+  expectedType: FlowNodeIODataType;
 }
 export const MismatchedNodeInputTypeFlowValidationDetails = S.suspend(() =>
-  S.Struct({ node: S.String, input: S.String, expectedType: S.String }),
+  S.Struct({
+    node: S.String,
+    input: S.String,
+    expectedType: FlowNodeIODataType,
+  }),
 ).annotations({
   identifier: "MismatchedNodeInputTypeFlowValidationDetails",
 }) as any as S.Schema<MismatchedNodeInputTypeFlowValidationDetails>;
 export interface MismatchedNodeOutputTypeFlowValidationDetails {
   node: string;
   output: string;
-  expectedType: string;
+  expectedType: FlowNodeIODataType;
 }
 export const MismatchedNodeOutputTypeFlowValidationDetails = S.suspend(() =>
-  S.Struct({ node: S.String, output: S.String, expectedType: S.String }),
+  S.Struct({
+    node: S.String,
+    output: S.String,
+    expectedType: FlowNodeIODataType,
+  }),
 ).annotations({
   identifier: "MismatchedNodeOutputTypeFlowValidationDetails",
 }) as any as S.Schema<MismatchedNodeOutputTypeFlowValidationDetails>;
@@ -5356,13 +5835,13 @@ export const MultipleLoopControllerNodesFlowValidationDetails = S.suspend(() =>
 }) as any as S.Schema<MultipleLoopControllerNodesFlowValidationDetails>;
 export interface LoopIncompatibleNodeTypeFlowValidationDetails {
   node: string;
-  incompatibleNodeType: string;
+  incompatibleNodeType: IncompatibleLoopNodeType;
   incompatibleNodeName: string;
 }
 export const LoopIncompatibleNodeTypeFlowValidationDetails = S.suspend(() =>
   S.Struct({
     node: S.String,
-    incompatibleNodeType: S.String,
+    incompatibleNodeType: IncompatibleLoopNodeType,
     incompatibleNodeName: S.String,
   }),
 ).annotations({
@@ -5379,7 +5858,7 @@ export const InvalidLoopBoundaryFlowValidationDetails = S.suspend(() =>
   identifier: "InvalidLoopBoundaryFlowValidationDetails",
 }) as any as S.Schema<InvalidLoopBoundaryFlowValidationDetails>;
 export interface MetadataAttribute {
-  key: string | Redacted.Redacted<string>;
+  key: string | redacted.Redacted<string>;
   value: MetadataAttributeValue;
 }
 export const MetadataAttribute = S.suspend(() =>
@@ -5390,7 +5869,7 @@ export const MetadataAttribute = S.suspend(() =>
 export type MetadataAttributes = MetadataAttribute[];
 export const MetadataAttributes = S.Array(MetadataAttribute);
 export interface KnowledgeBasePromptTemplate {
-  textPromptTemplate?: string | Redacted.Redacted<string>;
+  textPromptTemplate?: string | redacted.Redacted<string>;
 }
 export const KnowledgeBasePromptTemplate = S.suspend(() =>
   S.Struct({ textPromptTemplate: S.optional(SensitiveString) }),
@@ -5402,19 +5881,19 @@ export const FlowConditions = S.Array(FlowCondition);
 export interface CreateAgentRequest {
   agentName: string;
   clientToken?: string;
-  instruction?: string | Redacted.Redacted<string>;
+  instruction?: string | redacted.Redacted<string>;
   foundationModel?: string;
   description?: string;
-  orchestrationType?: string;
+  orchestrationType?: OrchestrationType;
   customOrchestration?: CustomOrchestration;
   idleSessionTTLInSeconds?: number;
   agentResourceRoleArn?: string;
   customerEncryptionKeyArn?: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   promptOverrideConfiguration?: PromptOverrideConfiguration;
   guardrailConfiguration?: GuardrailConfiguration;
   memoryConfiguration?: MemoryConfiguration;
-  agentCollaboration?: string;
+  agentCollaboration?: AgentCollaboration;
 }
 export const CreateAgentRequest = S.suspend(() =>
   S.Struct({
@@ -5423,7 +5902,7 @@ export const CreateAgentRequest = S.suspend(() =>
     instruction: S.optional(SensitiveString),
     foundationModel: S.optional(S.String),
     description: S.optional(S.String),
-    orchestrationType: S.optional(S.String),
+    orchestrationType: S.optional(OrchestrationType),
     customOrchestration: S.optional(CustomOrchestration),
     idleSessionTTLInSeconds: S.optional(S.Number),
     agentResourceRoleArn: S.optional(S.String),
@@ -5432,7 +5911,7 @@ export const CreateAgentRequest = S.suspend(() =>
     promptOverrideConfiguration: S.optional(PromptOverrideConfiguration),
     guardrailConfiguration: S.optional(GuardrailConfiguration),
     memoryConfiguration: S.optional(MemoryConfiguration),
-    agentCollaboration: S.optional(S.String),
+    agentCollaboration: S.optional(AgentCollaboration),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/agents/" }),
@@ -5463,7 +5942,7 @@ export const GetIngestionJobResponse = S.suspend(() =>
   identifier: "GetIngestionJobResponse",
 }) as any as S.Schema<GetIngestionJobResponse>;
 export interface ListIngestionJobsResponse {
-  ingestionJobSummaries: IngestionJobSummaries;
+  ingestionJobSummaries: IngestionJobSummary[];
   nextToken?: string;
 }
 export const ListIngestionJobsResponse = S.suspend(() =>
@@ -5475,7 +5954,7 @@ export const ListIngestionJobsResponse = S.suspend(() =>
   identifier: "ListIngestionJobsResponse",
 }) as any as S.Schema<ListIngestionJobsResponse>;
 export interface DeleteKnowledgeBaseDocumentsResponse {
-  documentDetails?: KnowledgeBaseDocumentDetails;
+  documentDetails?: KnowledgeBaseDocumentDetail[];
 }
 export const DeleteKnowledgeBaseDocumentsResponse = S.suspend(() =>
   S.Struct({ documentDetails: S.optional(KnowledgeBaseDocumentDetails) }),
@@ -5484,7 +5963,7 @@ export const DeleteKnowledgeBaseDocumentsResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteKnowledgeBaseDocumentsResponse>;
 export interface ByteContentDoc {
   mimeType: string;
-  data: Uint8Array | Redacted.Redacted<Uint8Array>;
+  data: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export const ByteContentDoc = S.suspend(() =>
   S.Struct({ mimeType: S.String, data: SensitiveBlob }),
@@ -5492,13 +5971,15 @@ export const ByteContentDoc = S.suspend(() =>
   identifier: "ByteContentDoc",
 }) as any as S.Schema<ByteContentDoc>;
 export interface TextContentDoc {
-  data: string | Redacted.Redacted<string>;
+  data: string | redacted.Redacted<string>;
 }
 export const TextContentDoc = S.suspend(() =>
   S.Struct({ data: SensitiveString }),
 ).annotations({
   identifier: "TextContentDoc",
 }) as any as S.Schema<TextContentDoc>;
+export type PerformanceConfigLatency = "standard" | "optimized";
+export const PerformanceConfigLatency = S.Literal("standard", "optimized");
 export type FlowValidationDetails =
   | { cyclicConnection: CyclicConnectionFlowValidationDetails }
   | { duplicateConnections: DuplicateConnectionsFlowValidationDetails }
@@ -5643,13 +6124,13 @@ export const FlowValidationDetails = S.Union(
   S.Struct({ invalidLoopBoundary: InvalidLoopBoundaryFlowValidationDetails }),
 );
 export interface DocumentMetadata {
-  type: string;
-  inlineAttributes?: MetadataAttributes;
+  type: MetadataSourceType;
+  inlineAttributes?: MetadataAttribute[];
   s3Location?: CustomS3Location;
 }
 export const DocumentMetadata = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: MetadataSourceType,
     inlineAttributes: S.optional(MetadataAttributes),
     s3Location: S.optional(CustomS3Location),
   }),
@@ -5657,7 +6138,7 @@ export const DocumentMetadata = S.suspend(() =>
   identifier: "DocumentMetadata",
 }) as any as S.Schema<DocumentMetadata>;
 export interface ConditionFlowNodeConfiguration {
-  conditions: FlowConditions;
+  conditions: FlowCondition[];
 }
 export const ConditionFlowNodeConfiguration = S.suspend(() =>
   S.Struct({ conditions: FlowConditions }),
@@ -5665,13 +6146,13 @@ export const ConditionFlowNodeConfiguration = S.suspend(() =>
   identifier: "ConditionFlowNodeConfiguration",
 }) as any as S.Schema<ConditionFlowNodeConfiguration>;
 export interface InlineContent {
-  type: string;
+  type: InlineContentType;
   byteContent?: ByteContentDoc;
   textContent?: TextContentDoc;
 }
 export const InlineContent = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: InlineContentType,
     byteContent: S.optional(ByteContentDoc),
     textContent: S.optional(TextContentDoc),
   }),
@@ -5684,10 +6165,10 @@ export const AdditionalModelRequestFields = S.Record({
   value: S.Any,
 });
 export interface PerformanceConfiguration {
-  latency?: string;
+  latency?: PerformanceConfigLatency;
 }
 export const PerformanceConfiguration = S.suspend(() =>
-  S.Struct({ latency: S.optional(S.String) }),
+  S.Struct({ latency: S.optional(PerformanceConfigLatency) }),
 ).annotations({
   identifier: "PerformanceConfiguration",
 }) as any as S.Schema<PerformanceConfiguration>;
@@ -5700,15 +6181,15 @@ export const PromptFlowNodeResourceConfiguration = S.suspend(() =>
   identifier: "PromptFlowNodeResourceConfiguration",
 }) as any as S.Schema<PromptFlowNodeResourceConfiguration>;
 export interface PromptFlowNodeInlineConfiguration {
-  templateType: string;
-  templateConfiguration: (typeof PromptTemplateConfiguration)["Type"];
+  templateType: PromptTemplateType;
+  templateConfiguration: PromptTemplateConfiguration;
   modelId: string;
-  inferenceConfiguration?: (typeof PromptInferenceConfiguration)["Type"];
+  inferenceConfiguration?: PromptInferenceConfiguration;
   additionalModelRequestFields?: any;
 }
 export const PromptFlowNodeInlineConfiguration = S.suspend(() =>
   S.Struct({
-    templateType: S.String,
+    templateType: PromptTemplateType,
     templateConfiguration: PromptTemplateConfiguration,
     modelId: S.String,
     inferenceConfiguration: S.optional(PromptInferenceConfiguration),
@@ -5735,32 +6216,34 @@ export const RetrievalFlowNodeS3Configuration = S.suspend(() =>
 }) as any as S.Schema<RetrievalFlowNodeS3Configuration>;
 export interface FlowValidation {
   message: string;
-  severity: string;
-  details?: (typeof FlowValidationDetails)["Type"];
-  type?: string;
+  severity: FlowValidationSeverity;
+  details?: FlowValidationDetails;
+  type?: FlowValidationType;
 }
 export const FlowValidation = S.suspend(() =>
   S.Struct({
     message: S.String,
-    severity: S.String,
+    severity: FlowValidationSeverity,
     details: S.optional(FlowValidationDetails),
-    type: S.optional(S.String),
+    type: S.optional(FlowValidationType),
   }),
 ).annotations({
   identifier: "FlowValidation",
 }) as any as S.Schema<FlowValidation>;
 export type FlowValidations = FlowValidation[];
 export const FlowValidations = S.Array(FlowValidation);
+export type RerankingMetadataSelectionMode = "SELECTIVE" | "ALL";
+export const RerankingMetadataSelectionMode = S.Literal("SELECTIVE", "ALL");
 export interface CustomContent {
   customDocumentIdentifier: CustomDocumentIdentifier;
-  sourceType: string;
+  sourceType: CustomSourceType;
   s3Location?: CustomS3Location;
   inlineContent?: InlineContent;
 }
 export const CustomContent = S.suspend(() =>
   S.Struct({
     customDocumentIdentifier: CustomDocumentIdentifier,
-    sourceType: S.String,
+    sourceType: CustomSourceType,
     s3Location: S.optional(CustomS3Location),
     inlineContent: S.optional(InlineContent),
   }),
@@ -5769,8 +6252,8 @@ export const CustomContent = S.suspend(() =>
 }) as any as S.Schema<CustomContent>;
 export interface KnowledgeBaseOrchestrationConfiguration {
   promptTemplate?: KnowledgeBasePromptTemplate;
-  inferenceConfig?: (typeof PromptInferenceConfiguration)["Type"];
-  additionalModelRequestFields?: AdditionalModelRequestFields;
+  inferenceConfig?: PromptInferenceConfiguration;
+  additionalModelRequestFields?: { [key: string]: any };
   performanceConfig?: PerformanceConfiguration;
 }
 export const KnowledgeBaseOrchestrationConfiguration = S.suspend(() =>
@@ -5808,12 +6291,12 @@ export interface CreateAgentActionGroupRequest {
   actionGroupName: string;
   clientToken?: string;
   description?: string;
-  parentActionGroupSignature?: string;
-  parentActionGroupSignatureParams?: ActionGroupSignatureParams;
-  actionGroupExecutor?: (typeof ActionGroupExecutor)["Type"];
-  apiSchema?: (typeof APISchema)["Type"];
-  actionGroupState?: string;
-  functionSchema?: (typeof FunctionSchema)["Type"];
+  parentActionGroupSignature?: ActionGroupSignature;
+  parentActionGroupSignatureParams?: { [key: string]: string };
+  actionGroupExecutor?: ActionGroupExecutor;
+  apiSchema?: APISchema;
+  actionGroupState?: ActionGroupState;
+  functionSchema?: FunctionSchema;
 }
 export const CreateAgentActionGroupRequest = S.suspend(() =>
   S.Struct({
@@ -5822,11 +6305,11 @@ export const CreateAgentActionGroupRequest = S.suspend(() =>
     actionGroupName: S.String,
     clientToken: S.optional(S.String),
     description: S.optional(S.String),
-    parentActionGroupSignature: S.optional(S.String),
+    parentActionGroupSignature: S.optional(ActionGroupSignature),
     parentActionGroupSignatureParams: S.optional(ActionGroupSignatureParams),
     actionGroupExecutor: S.optional(ActionGroupExecutor),
     apiSchema: S.optional(APISchema),
-    actionGroupState: S.optional(S.String),
+    actionGroupState: S.optional(ActionGroupState),
     functionSchema: S.optional(FunctionSchema),
   }).pipe(
     T.all(
@@ -5859,12 +6342,12 @@ export interface GetFlowResponse {
   customerEncryptionKeyArn?: string;
   id: string;
   arn: string;
-  status: string;
+  status: FlowStatus;
   createdAt: Date;
   updatedAt: Date;
   version: string;
   definition?: FlowDefinition;
-  validations?: FlowValidations;
+  validations?: FlowValidation[];
 }
 export const GetFlowResponse = S.suspend(() =>
   S.Struct({
@@ -5874,7 +6357,7 @@ export const GetFlowResponse = S.suspend(() =>
     customerEncryptionKeyArn: S.optional(S.String),
     id: S.String,
     arn: S.String,
-    status: S.String,
+    status: FlowStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     version: S.String,
@@ -5886,7 +6369,7 @@ export const GetFlowResponse = S.suspend(() =>
 }) as any as S.Schema<GetFlowResponse>;
 export interface VectorSearchBedrockRerankingModelConfiguration {
   modelArn: string;
-  additionalModelRequestFields?: AdditionalModelRequestFields;
+  additionalModelRequestFields?: { [key: string]: any };
 }
 export const VectorSearchBedrockRerankingModelConfiguration = S.suspend(() =>
   S.Struct({
@@ -5897,13 +6380,13 @@ export const VectorSearchBedrockRerankingModelConfiguration = S.suspend(() =>
   identifier: "VectorSearchBedrockRerankingModelConfiguration",
 }) as any as S.Schema<VectorSearchBedrockRerankingModelConfiguration>;
 export interface DocumentContent {
-  dataSourceType: string;
+  dataSourceType: ContentDataSourceType;
   custom?: CustomContent;
   s3?: S3Content;
 }
 export const DocumentContent = S.suspend(() =>
   S.Struct({
-    dataSourceType: S.String,
+    dataSourceType: ContentDataSourceType,
     custom: S.optional(CustomContent),
     s3: S.optional(S3Content),
   }),
@@ -5911,7 +6394,7 @@ export const DocumentContent = S.suspend(() =>
   identifier: "DocumentContent",
 }) as any as S.Schema<DocumentContent>;
 export interface PromptFlowNodeConfiguration {
-  sourceConfiguration: (typeof PromptFlowNodeSourceConfiguration)["Type"];
+  sourceConfiguration: PromptFlowNodeSourceConfiguration;
   guardrailConfiguration?: GuardrailConfiguration;
 }
 export const PromptFlowNodeConfiguration = S.suspend(() =>
@@ -5923,7 +6406,7 @@ export const PromptFlowNodeConfiguration = S.suspend(() =>
   identifier: "PromptFlowNodeConfiguration",
 }) as any as S.Schema<PromptFlowNodeConfiguration>;
 export interface StorageFlowNodeConfiguration {
-  serviceConfiguration: (typeof StorageFlowNodeServiceConfiguration)["Type"];
+  serviceConfiguration: StorageFlowNodeServiceConfiguration;
 }
 export const StorageFlowNodeConfiguration = S.suspend(() =>
   S.Struct({ serviceConfiguration: StorageFlowNodeServiceConfiguration }),
@@ -5931,7 +6414,7 @@ export const StorageFlowNodeConfiguration = S.suspend(() =>
   identifier: "StorageFlowNodeConfiguration",
 }) as any as S.Schema<StorageFlowNodeConfiguration>;
 export interface RetrievalFlowNodeConfiguration {
-  serviceConfiguration: (typeof RetrievalFlowNodeServiceConfiguration)["Type"];
+  serviceConfiguration: RetrievalFlowNodeServiceConfiguration;
 }
 export const RetrievalFlowNodeConfiguration = S.suspend(() =>
   S.Struct({ serviceConfiguration: RetrievalFlowNodeServiceConfiguration }),
@@ -5975,7 +6458,7 @@ export interface IngestKnowledgeBaseDocumentsRequest {
   knowledgeBaseId: string;
   dataSourceId: string;
   clientToken?: string;
-  documents: KnowledgeBaseDocuments;
+  documents: KnowledgeBaseDocument[];
 }
 export const IngestKnowledgeBaseDocumentsRequest = S.suspend(() =>
   S.Struct({
@@ -6010,8 +6493,8 @@ export const FieldForReranking = S.suspend(() =>
 export type FieldsForReranking = FieldForReranking[];
 export const FieldsForReranking = S.Array(FieldForReranking);
 export type RerankingMetadataSelectiveModeConfiguration =
-  | { fieldsToInclude: FieldsForReranking }
-  | { fieldsToExclude: FieldsForReranking };
+  | { fieldsToInclude: FieldForReranking[] }
+  | { fieldsToExclude: FieldForReranking[] };
 export const RerankingMetadataSelectiveModeConfiguration = S.Union(
   S.Struct({ fieldsToInclude: FieldsForReranking }),
   S.Struct({ fieldsToExclude: FieldsForReranking }),
@@ -6022,7 +6505,7 @@ export interface CreateDataSourceRequest {
   name: string;
   description?: string;
   dataSourceConfiguration: DataSourceConfiguration;
-  dataDeletionPolicy?: string;
+  dataDeletionPolicy?: DataDeletionPolicy;
   serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
   vectorIngestionConfiguration?: VectorIngestionConfiguration;
 }
@@ -6033,7 +6516,7 @@ export const CreateDataSourceRequest = S.suspend(() =>
     name: S.String,
     description: S.optional(S.String),
     dataSourceConfiguration: DataSourceConfiguration,
-    dataDeletionPolicy: S.optional(S.String),
+    dataDeletionPolicy: S.optional(DataDeletionPolicy),
     serverSideEncryptionConfiguration: S.optional(
       ServerSideEncryptionConfiguration,
     ),
@@ -6055,7 +6538,7 @@ export const CreateDataSourceRequest = S.suspend(() =>
   identifier: "CreateDataSourceRequest",
 }) as any as S.Schema<CreateDataSourceRequest>;
 export interface IngestKnowledgeBaseDocumentsResponse {
-  documentDetails?: KnowledgeBaseDocumentDetails;
+  documentDetails?: KnowledgeBaseDocumentDetail[];
 }
 export const IngestKnowledgeBaseDocumentsResponse = S.suspend(() =>
   S.Struct({ documentDetails: S.optional(KnowledgeBaseDocumentDetails) }),
@@ -6063,12 +6546,12 @@ export const IngestKnowledgeBaseDocumentsResponse = S.suspend(() =>
   identifier: "IngestKnowledgeBaseDocumentsResponse",
 }) as any as S.Schema<IngestKnowledgeBaseDocumentsResponse>;
 export interface MetadataConfigurationForReranking {
-  selectionMode: string;
-  selectiveModeConfiguration?: (typeof RerankingMetadataSelectiveModeConfiguration)["Type"];
+  selectionMode: RerankingMetadataSelectionMode;
+  selectiveModeConfiguration?: RerankingMetadataSelectiveModeConfiguration;
 }
 export const MetadataConfigurationForReranking = S.suspend(() =>
   S.Struct({
-    selectionMode: S.String,
+    selectionMode: RerankingMetadataSelectionMode,
     selectiveModeConfiguration: S.optional(
       RerankingMetadataSelectiveModeConfiguration,
     ),
@@ -6091,12 +6574,12 @@ export const VectorSearchBedrockRerankingConfiguration = S.suspend(() =>
   identifier: "VectorSearchBedrockRerankingConfiguration",
 }) as any as S.Schema<VectorSearchBedrockRerankingConfiguration>;
 export interface VectorSearchRerankingConfiguration {
-  type: string;
+  type: VectorSearchRerankingConfigurationType;
   bedrockRerankingConfiguration?: VectorSearchBedrockRerankingConfiguration;
 }
 export const VectorSearchRerankingConfiguration = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: VectorSearchRerankingConfigurationType,
     bedrockRerankingConfiguration: S.optional(
       VectorSearchBedrockRerankingConfiguration,
     ),
@@ -6119,7 +6602,7 @@ export interface CreateKnowledgeBaseRequest {
   roleArn: string;
   knowledgeBaseConfiguration: KnowledgeBaseConfiguration;
   storageConfiguration?: StorageConfiguration;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const CreateKnowledgeBaseRequest = S.suspend(() =>
   S.Struct({
@@ -6148,9 +6631,9 @@ export interface CreatePromptRequest {
   description?: string;
   customerEncryptionKeyArn?: string;
   defaultVariant?: string;
-  variants?: PromptVariantList;
+  variants?: PromptVariant[];
   clientToken?: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const CreatePromptRequest = S.suspend(() =>
   S.Struct({
@@ -6180,7 +6663,7 @@ export interface KnowledgeBaseFlowNodeConfiguration {
   guardrailConfiguration?: GuardrailConfiguration;
   numberOfResults?: number;
   promptTemplate?: KnowledgeBasePromptTemplate;
-  inferenceConfiguration?: (typeof PromptInferenceConfiguration)["Type"];
+  inferenceConfiguration?: PromptInferenceConfiguration;
   rerankingConfiguration?: VectorSearchRerankingConfiguration;
   orchestrationConfiguration?: KnowledgeBaseOrchestrationConfiguration;
 }
@@ -6252,7 +6735,7 @@ export interface CreatePromptResponse {
   description?: string;
   customerEncryptionKeyArn?: string;
   defaultVariant?: string;
-  variants?: PromptVariantList;
+  variants?: PromptVariant[];
   id: string;
   arn: string;
   version: string;
@@ -6277,15 +6760,15 @@ export const CreatePromptResponse = S.suspend(() =>
 }) as any as S.Schema<CreatePromptResponse>;
 export interface FlowNode {
   name: string;
-  type: string;
+  type: FlowNodeType;
   configuration?: FlowNodeConfiguration;
-  inputs?: FlowNodeInputs;
-  outputs?: FlowNodeOutputs;
+  inputs?: FlowNodeInput[];
+  outputs?: FlowNodeOutput[];
 }
 export const FlowNode = S.suspend(() =>
   S.Struct({
     name: S.String,
-    type: S.String,
+    type: FlowNodeType,
     configuration: S.optional(
       S.suspend(() => FlowNodeConfiguration).annotations({
         identifier: "FlowNodeConfiguration",
@@ -6319,7 +6802,7 @@ export const ValidateFlowDefinitionRequest = S.suspend(() =>
   identifier: "ValidateFlowDefinitionRequest",
 }) as any as S.Schema<ValidateFlowDefinitionRequest>;
 export interface ValidateFlowDefinitionResponse {
-  validations: FlowValidations;
+  validations: FlowValidation[];
 }
 export const ValidateFlowDefinitionResponse = S.suspend(() =>
   S.Struct({ validations: FlowValidations }),
@@ -6367,7 +6850,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listFlows: {
   (
     input: ListFlowsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFlowsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6378,7 +6861,7 @@ export const listFlows: {
   >;
   pages: (
     input: ListFlowsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFlowsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6389,7 +6872,7 @@ export const listFlows: {
   >;
   items: (
     input: ListFlowsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FlowSummary,
     | AccessDeniedException
     | InternalServerException
@@ -6419,7 +6902,7 @@ export const listFlows: {
  */
 export const getIngestionJob: (
   input: GetIngestionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIngestionJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6445,7 +6928,7 @@ export const getIngestionJob: (
 export const listIngestionJobs: {
   (
     input: ListIngestionJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListIngestionJobsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6457,7 +6940,7 @@ export const listIngestionJobs: {
   >;
   pages: (
     input: ListIngestionJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListIngestionJobsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6469,7 +6952,7 @@ export const listIngestionJobs: {
   >;
   items: (
     input: ListIngestionJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     IngestionJobSummary,
     | AccessDeniedException
     | InternalServerException
@@ -6501,7 +6984,7 @@ export const listIngestionJobs: {
  */
 export const createFlow: (
   input: CreateFlowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFlowResponse,
   | AccessDeniedException
   | ConflictException
@@ -6529,7 +7012,7 @@ export const createFlow: (
 export const listAgentAliases: {
   (
     input: ListAgentAliasesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAgentAliasesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6541,7 +7024,7 @@ export const listAgentAliases: {
   >;
   pages: (
     input: ListAgentAliasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAgentAliasesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6553,7 +7036,7 @@ export const listAgentAliases: {
   >;
   items: (
     input: ListAgentAliasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AgentAliasSummary,
     | AccessDeniedException
     | InternalServerException
@@ -6585,7 +7068,7 @@ export const listAgentAliases: {
  */
 export const getDataSource: (
   input: GetDataSourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataSourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6611,7 +7094,7 @@ export const getDataSource: (
 export const listDataSources: {
   (
     input: ListDataSourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataSourcesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6623,7 +7106,7 @@ export const listDataSources: {
   >;
   pages: (
     input: ListDataSourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataSourcesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6635,7 +7118,7 @@ export const listDataSources: {
   >;
   items: (
     input: ListDataSourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataSourceSummary,
     | AccessDeniedException
     | InternalServerException
@@ -6667,7 +7150,7 @@ export const listDataSources: {
  */
 export const createFlowAlias: (
   input: CreateFlowAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFlowAliasResponse,
   | AccessDeniedException
   | ConflictException
@@ -6697,7 +7180,7 @@ export const createFlowAlias: (
 export const listFlowAliases: {
   (
     input: ListFlowAliasesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFlowAliasesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6709,7 +7192,7 @@ export const listFlowAliases: {
   >;
   pages: (
     input: ListFlowAliasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFlowAliasesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6721,7 +7204,7 @@ export const listFlowAliases: {
   >;
   items: (
     input: ListFlowAliasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FlowAliasSummary,
     | AccessDeniedException
     | InternalServerException
@@ -6754,7 +7237,7 @@ export const listFlowAliases: {
 export const listFlowVersions: {
   (
     input: ListFlowVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFlowVersionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6766,7 +7249,7 @@ export const listFlowVersions: {
   >;
   pages: (
     input: ListFlowVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFlowVersionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6778,7 +7261,7 @@ export const listFlowVersions: {
   >;
   items: (
     input: ListFlowVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FlowVersionSummary,
     | AccessDeniedException
     | InternalServerException
@@ -6810,7 +7293,7 @@ export const listFlowVersions: {
  */
 export const getKnowledgeBaseDocuments: (
   input: GetKnowledgeBaseDocumentsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetKnowledgeBaseDocumentsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6837,7 +7320,7 @@ export const getKnowledgeBaseDocuments: (
  */
 export const associateAgentKnowledgeBase: (
   input: AssociateAgentKnowledgeBaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateAgentKnowledgeBaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -6866,7 +7349,7 @@ export const associateAgentKnowledgeBase: (
  */
 export const getKnowledgeBase: (
   input: GetKnowledgeBaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetKnowledgeBaseResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6892,7 +7375,7 @@ export const getKnowledgeBase: (
 export const listAgentKnowledgeBases: {
   (
     input: ListAgentKnowledgeBasesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAgentKnowledgeBasesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6904,7 +7387,7 @@ export const listAgentKnowledgeBases: {
   >;
   pages: (
     input: ListAgentKnowledgeBasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAgentKnowledgeBasesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6916,7 +7399,7 @@ export const listAgentKnowledgeBases: {
   >;
   items: (
     input: ListAgentKnowledgeBasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AgentKnowledgeBaseSummary,
     | AccessDeniedException
     | InternalServerException
@@ -6949,7 +7432,7 @@ export const listAgentKnowledgeBases: {
 export const listPrompts: {
   (
     input: ListPromptsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPromptsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6961,7 +7444,7 @@ export const listPrompts: {
   >;
   pages: (
     input: ListPromptsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPromptsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6973,7 +7456,7 @@ export const listPrompts: {
   >;
   items: (
     input: ListPromptsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PromptSummary,
     | AccessDeniedException
     | InternalServerException
@@ -7005,7 +7488,7 @@ export const listPrompts: {
  */
 export const getAgentVersion: (
   input: GetAgentVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAgentVersionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7031,7 +7514,7 @@ export const getAgentVersion: (
 export const listAgentVersions: {
   (
     input: ListAgentVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAgentVersionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7043,7 +7526,7 @@ export const listAgentVersions: {
   >;
   pages: (
     input: ListAgentVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAgentVersionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7055,7 +7538,7 @@ export const listAgentVersions: {
   >;
   items: (
     input: ListAgentVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AgentVersionSummary,
     | AccessDeniedException
     | InternalServerException
@@ -7087,7 +7570,7 @@ export const listAgentVersions: {
  */
 export const updateAgentActionGroup: (
   input: UpdateAgentActionGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAgentActionGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -7116,7 +7599,7 @@ export const updateAgentActionGroup: (
  */
 export const updateAgentCollaborator: (
   input: UpdateAgentCollaboratorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAgentCollaboratorResponse,
   | AccessDeniedException
   | ConflictException
@@ -7145,7 +7628,7 @@ export const updateAgentCollaborator: (
  */
 export const deleteAgent: (
   input: DeleteAgentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAgentResponse,
   | AccessDeniedException
   | ConflictException
@@ -7172,7 +7655,7 @@ export const deleteAgent: (
  */
 export const prepareAgent: (
   input: PrepareAgentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PrepareAgentResponse,
   | AccessDeniedException
   | ConflictException
@@ -7201,7 +7684,7 @@ export const prepareAgent: (
  */
 export const updateAgent: (
   input: UpdateAgentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAgentResponse,
   | AccessDeniedException
   | ConflictException
@@ -7230,7 +7713,7 @@ export const updateAgent: (
  */
 export const updateAgentAlias: (
   input: UpdateAgentAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAgentAliasResponse,
   | AccessDeniedException
   | ConflictException
@@ -7259,7 +7742,7 @@ export const updateAgentAlias: (
  */
 export const deleteDataSource: (
   input: DeleteDataSourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDataSourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -7288,7 +7771,7 @@ export const deleteDataSource: (
  */
 export const updateDataSource: (
   input: UpdateDataSourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDataSourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -7315,7 +7798,7 @@ export const updateDataSource: (
  */
 export const updateFlow: (
   input: UpdateFlowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFlowResponse,
   | AccessDeniedException
   | ConflictException
@@ -7344,7 +7827,7 @@ export const updateFlow: (
  */
 export const deleteFlow: (
   input: DeleteFlowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFlowResponse,
   | AccessDeniedException
   | ConflictException
@@ -7371,7 +7854,7 @@ export const deleteFlow: (
  */
 export const prepareFlow: (
   input: PrepareFlowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PrepareFlowResponse,
   | AccessDeniedException
   | ConflictException
@@ -7400,7 +7883,7 @@ export const prepareFlow: (
  */
 export const updateFlowAlias: (
   input: UpdateFlowAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFlowAliasResponse,
   | AccessDeniedException
   | ConflictException
@@ -7429,7 +7912,7 @@ export const updateFlowAlias: (
  */
 export const deleteFlowAlias: (
   input: DeleteFlowAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFlowAliasResponse,
   | AccessDeniedException
   | ConflictException
@@ -7456,7 +7939,7 @@ export const deleteFlowAlias: (
  */
 export const createFlowVersion: (
   input: CreateFlowVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFlowVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -7485,7 +7968,7 @@ export const createFlowVersion: (
  */
 export const deleteFlowVersion: (
   input: DeleteFlowVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFlowVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -7512,7 +7995,7 @@ export const deleteFlowVersion: (
  */
 export const startIngestionJob: (
   input: StartIngestionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartIngestionJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -7541,7 +8024,7 @@ export const startIngestionJob: (
  */
 export const stopIngestionJob: (
   input: StopIngestionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopIngestionJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -7568,7 +8051,7 @@ export const stopIngestionJob: (
  */
 export const deleteKnowledgeBase: (
   input: DeleteKnowledgeBaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteKnowledgeBaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -7595,7 +8078,7 @@ export const deleteKnowledgeBase: (
  */
 export const updateAgentKnowledgeBase: (
   input: UpdateAgentKnowledgeBaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAgentKnowledgeBaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -7632,7 +8115,7 @@ export const updateAgentKnowledgeBase: (
  */
 export const updateKnowledgeBase: (
   input: UpdateKnowledgeBaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateKnowledgeBaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -7659,7 +8142,7 @@ export const updateKnowledgeBase: (
  */
 export const updatePrompt: (
   input: UpdatePromptRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePromptResponse,
   | AccessDeniedException
   | ConflictException
@@ -7688,7 +8171,7 @@ export const updatePrompt: (
  */
 export const deletePrompt: (
   input: DeletePromptRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePromptResponse,
   | AccessDeniedException
   | ConflictException
@@ -7715,7 +8198,7 @@ export const deletePrompt: (
  */
 export const createPromptVersion: (
   input: CreatePromptVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePromptVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -7744,7 +8227,7 @@ export const createPromptVersion: (
  */
 export const deleteAgentVersion: (
   input: DeleteAgentVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAgentVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -7771,7 +8254,7 @@ export const deleteAgentVersion: (
  */
 export const disassociateAgentCollaborator: (
   input: DisassociateAgentCollaboratorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateAgentCollaboratorResponse,
   | AccessDeniedException
   | ConflictException
@@ -7798,7 +8281,7 @@ export const disassociateAgentCollaborator: (
  */
 export const disassociateAgentKnowledgeBase: (
   input: DisassociateAgentKnowledgeBaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateAgentKnowledgeBaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -7825,7 +8308,7 @@ export const disassociateAgentKnowledgeBase: (
  */
 export const getFlowAlias: (
   input: GetFlowAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFlowAliasResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7850,7 +8333,7 @@ export const getFlowAlias: (
  */
 export const getFlowVersion: (
   input: GetFlowVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFlowVersionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7876,7 +8359,7 @@ export const getFlowVersion: (
 export const listKnowledgeBaseDocuments: {
   (
     input: ListKnowledgeBaseDocumentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListKnowledgeBaseDocumentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7889,7 +8372,7 @@ export const listKnowledgeBaseDocuments: {
   >;
   pages: (
     input: ListKnowledgeBaseDocumentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListKnowledgeBaseDocumentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7902,7 +8385,7 @@ export const listKnowledgeBaseDocuments: {
   >;
   items: (
     input: ListKnowledgeBaseDocumentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     KnowledgeBaseDocumentDetail,
     | AccessDeniedException
     | InternalServerException
@@ -7936,7 +8419,7 @@ export const listKnowledgeBaseDocuments: {
  */
 export const getAgentKnowledgeBase: (
   input: GetAgentKnowledgeBaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAgentKnowledgeBaseResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7961,7 +8444,7 @@ export const getAgentKnowledgeBase: (
  */
 export const getPrompt: (
   input: GetPromptRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPromptResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7986,7 +8469,7 @@ export const getPrompt: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8011,7 +8494,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8038,7 +8521,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8063,7 +8546,7 @@ export const untagResource: (
  */
 export const deleteAgentActionGroup: (
   input: DeleteAgentActionGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAgentActionGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -8090,7 +8573,7 @@ export const deleteAgentActionGroup: (
  */
 export const getAgentActionGroup: (
   input: GetAgentActionGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAgentActionGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8116,7 +8599,7 @@ export const getAgentActionGroup: (
 export const listAgentActionGroups: {
   (
     input: ListAgentActionGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAgentActionGroupsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8128,7 +8611,7 @@ export const listAgentActionGroups: {
   >;
   pages: (
     input: ListAgentActionGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAgentActionGroupsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8140,7 +8623,7 @@ export const listAgentActionGroups: {
   >;
   items: (
     input: ListAgentActionGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ActionGroupSummary,
     | AccessDeniedException
     | InternalServerException
@@ -8172,7 +8655,7 @@ export const listAgentActionGroups: {
  */
 export const associateAgentCollaborator: (
   input: AssociateAgentCollaboratorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateAgentCollaboratorResponse,
   | AccessDeniedException
   | ConflictException
@@ -8201,7 +8684,7 @@ export const associateAgentCollaborator: (
  */
 export const getAgentCollaborator: (
   input: GetAgentCollaboratorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAgentCollaboratorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8227,7 +8710,7 @@ export const getAgentCollaborator: (
 export const listAgentCollaborators: {
   (
     input: ListAgentCollaboratorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAgentCollaboratorsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8239,7 +8722,7 @@ export const listAgentCollaborators: {
   >;
   pages: (
     input: ListAgentCollaboratorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAgentCollaboratorsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8251,7 +8734,7 @@ export const listAgentCollaborators: {
   >;
   items: (
     input: ListAgentCollaboratorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AgentCollaboratorSummary,
     | AccessDeniedException
     | InternalServerException
@@ -8283,7 +8766,7 @@ export const listAgentCollaborators: {
  */
 export const getAgent: (
   input: GetAgentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAgentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8308,7 +8791,7 @@ export const getAgent: (
  */
 export const createAgentAlias: (
   input: CreateAgentAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAgentAliasResponse,
   | AccessDeniedException
   | ConflictException
@@ -8338,7 +8821,7 @@ export const createAgentAlias: (
 export const listKnowledgeBases: {
   (
     input: ListKnowledgeBasesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListKnowledgeBasesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8349,7 +8832,7 @@ export const listKnowledgeBases: {
   >;
   pages: (
     input: ListKnowledgeBasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListKnowledgeBasesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8360,7 +8843,7 @@ export const listKnowledgeBases: {
   >;
   items: (
     input: ListKnowledgeBasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     KnowledgeBaseSummary,
     | AccessDeniedException
     | InternalServerException
@@ -8391,7 +8874,7 @@ export const listKnowledgeBases: {
 export const listAgents: {
   (
     input: ListAgentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAgentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8402,7 +8885,7 @@ export const listAgents: {
   >;
   pages: (
     input: ListAgentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAgentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8413,7 +8896,7 @@ export const listAgents: {
   >;
   items: (
     input: ListAgentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AgentSummary,
     | AccessDeniedException
     | InternalServerException
@@ -8443,7 +8926,7 @@ export const listAgents: {
  */
 export const deleteAgentAlias: (
   input: DeleteAgentAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAgentAliasResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8468,7 +8951,7 @@ export const deleteAgentAlias: (
  */
 export const getAgentAlias: (
   input: GetAgentAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAgentAliasResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8493,7 +8976,7 @@ export const getAgentAlias: (
  */
 export const deleteKnowledgeBaseDocuments: (
   input: DeleteKnowledgeBaseDocumentsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteKnowledgeBaseDocumentsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8536,7 +9019,7 @@ export const deleteKnowledgeBaseDocuments: (
  */
 export const createAgent: (
   input: CreateAgentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAgentResponse,
   | AccessDeniedException
   | ConflictException
@@ -8563,7 +9046,7 @@ export const createAgent: (
  */
 export const getFlow: (
   input: GetFlowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFlowResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8594,7 +9077,7 @@ export const getFlow: (
  */
 export const createAgentActionGroup: (
   input: CreateAgentActionGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAgentActionGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -8623,7 +9106,7 @@ export const createAgentActionGroup: (
  */
 export const ingestKnowledgeBaseDocuments: (
   input: IngestKnowledgeBaseDocumentsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   IngestKnowledgeBaseDocumentsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8652,7 +9135,7 @@ export const ingestKnowledgeBaseDocuments: (
  */
 export const createDataSource: (
   input: CreateDataSourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataSourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -8699,7 +9182,7 @@ export const createDataSource: (
  */
 export const createKnowledgeBase: (
   input: CreateKnowledgeBaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateKnowledgeBaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -8726,7 +9209,7 @@ export const createKnowledgeBase: (
  */
 export const createPrompt: (
   input: CreatePromptRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePromptResponse,
   | AccessDeniedException
   | ConflictException
@@ -8753,7 +9236,7 @@ export const createPrompt: (
  */
 export const validateFlowDefinition: (
   input: ValidateFlowDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ValidateFlowDefinitionResponse,
   | AccessDeniedException
   | InternalServerException

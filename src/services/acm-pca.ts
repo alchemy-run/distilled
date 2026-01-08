@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -127,18 +127,108 @@ export type String39 = string;
 export type Base64String1To4096 = string;
 
 //# Schemas
-export type ActionList = string[];
-export const ActionList = S.Array(S.String);
+export type CertificateAuthorityType = "ROOT" | "SUBORDINATE";
+export const CertificateAuthorityType = S.Literal("ROOT", "SUBORDINATE");
+export type KeyStorageSecurityStandard =
+  | "FIPS_140_2_LEVEL_2_OR_HIGHER"
+  | "FIPS_140_2_LEVEL_3_OR_HIGHER"
+  | "CCPC_LEVEL_1_OR_HIGHER";
+export const KeyStorageSecurityStandard = S.Literal(
+  "FIPS_140_2_LEVEL_2_OR_HIGHER",
+  "FIPS_140_2_LEVEL_3_OR_HIGHER",
+  "CCPC_LEVEL_1_OR_HIGHER",
+);
+export type CertificateAuthorityUsageMode =
+  | "GENERAL_PURPOSE"
+  | "SHORT_LIVED_CERTIFICATE";
+export const CertificateAuthorityUsageMode = S.Literal(
+  "GENERAL_PURPOSE",
+  "SHORT_LIVED_CERTIFICATE",
+);
+export type AuditReportResponseFormat = "JSON" | "CSV";
+export const AuditReportResponseFormat = S.Literal("JSON", "CSV");
+export type ActionType =
+  | "IssueCertificate"
+  | "GetCertificate"
+  | "ListPermissions";
+export const ActionType = S.Literal(
+  "IssueCertificate",
+  "GetCertificate",
+  "ListPermissions",
+);
+export type ActionList = ActionType[];
+export const ActionList = S.Array(ActionType);
+export type SigningAlgorithm =
+  | "SHA256WITHECDSA"
+  | "SHA384WITHECDSA"
+  | "SHA512WITHECDSA"
+  | "SHA256WITHRSA"
+  | "SHA384WITHRSA"
+  | "SHA512WITHRSA"
+  | "SM3WITHSM2"
+  | "ML_DSA_44"
+  | "ML_DSA_65"
+  | "ML_DSA_87";
+export const SigningAlgorithm = S.Literal(
+  "SHA256WITHECDSA",
+  "SHA384WITHECDSA",
+  "SHA512WITHECDSA",
+  "SHA256WITHRSA",
+  "SHA384WITHRSA",
+  "SHA512WITHRSA",
+  "SM3WITHSM2",
+  "ML_DSA_44",
+  "ML_DSA_65",
+  "ML_DSA_87",
+);
+export type ResourceOwner = "SELF" | "OTHER_ACCOUNTS";
+export const ResourceOwner = S.Literal("SELF", "OTHER_ACCOUNTS");
+export type RevocationReason =
+  | "UNSPECIFIED"
+  | "KEY_COMPROMISE"
+  | "CERTIFICATE_AUTHORITY_COMPROMISE"
+  | "AFFILIATION_CHANGED"
+  | "SUPERSEDED"
+  | "CESSATION_OF_OPERATION"
+  | "PRIVILEGE_WITHDRAWN"
+  | "A_A_COMPROMISE";
+export const RevocationReason = S.Literal(
+  "UNSPECIFIED",
+  "KEY_COMPROMISE",
+  "CERTIFICATE_AUTHORITY_COMPROMISE",
+  "AFFILIATION_CHANGED",
+  "SUPERSEDED",
+  "CESSATION_OF_OPERATION",
+  "PRIVILEGE_WITHDRAWN",
+  "A_A_COMPROMISE",
+);
+export type CertificateAuthorityStatus =
+  | "CREATING"
+  | "PENDING_CERTIFICATE"
+  | "ACTIVE"
+  | "DELETED"
+  | "DISABLED"
+  | "EXPIRED"
+  | "FAILED";
+export const CertificateAuthorityStatus = S.Literal(
+  "CREATING",
+  "PENDING_CERTIFICATE",
+  "ACTIVE",
+  "DELETED",
+  "DISABLED",
+  "EXPIRED",
+  "FAILED",
+);
 export interface CreateCertificateAuthorityAuditReportRequest {
   CertificateAuthorityArn: string;
   S3BucketName: string;
-  AuditReportResponseFormat: string;
+  AuditReportResponseFormat: AuditReportResponseFormat;
 }
 export const CreateCertificateAuthorityAuditReportRequest = S.suspend(() =>
   S.Struct({
     CertificateAuthorityArn: S.String,
     S3BucketName: S.String,
-    AuditReportResponseFormat: S.String,
+    AuditReportResponseFormat: AuditReportResponseFormat,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -149,7 +239,7 @@ export interface CreatePermissionRequest {
   CertificateAuthorityArn: string;
   Principal: string;
   SourceAccount?: string;
-  Actions: ActionList;
+  Actions: ActionType[];
 }
 export const CreatePermissionRequest = S.suspend(() =>
   S.Struct({
@@ -315,13 +405,13 @@ export const ImportCertificateAuthorityCertificateResponse = S.suspend(() =>
 export interface ListCertificateAuthoritiesRequest {
   MaxResults?: number;
   NextToken?: string;
-  ResourceOwner?: string;
+  ResourceOwner?: ResourceOwner;
 }
 export const ListCertificateAuthoritiesRequest = S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-    ResourceOwner: S.optional(S.String),
+    ResourceOwner: S.optional(ResourceOwner),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -394,13 +484,13 @@ export const RestoreCertificateAuthorityResponse = S.suspend(() =>
 export interface RevokeCertificateRequest {
   CertificateAuthorityArn: string;
   CertificateSerial: string;
-  RevocationReason: string;
+  RevocationReason: RevocationReason;
 }
 export const RevokeCertificateRequest = S.suspend(() =>
   S.Struct({
     CertificateAuthorityArn: S.String,
     CertificateSerial: S.String,
-    RevocationReason: S.String,
+    RevocationReason: RevocationReason,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -424,7 +514,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagCertificateAuthorityRequest {
   CertificateAuthorityArn: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagCertificateAuthorityRequest = S.suspend(() =>
   S.Struct({ CertificateAuthorityArn: S.String, Tags: TagList }).pipe(
@@ -441,7 +531,7 @@ export const TagCertificateAuthorityResponse = S.suspend(() =>
 }) as any as S.Schema<TagCertificateAuthorityResponse>;
 export interface UntagCertificateAuthorityRequest {
   CertificateAuthorityArn: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const UntagCertificateAuthorityRequest = S.suspend(() =>
   S.Struct({ CertificateAuthorityArn: S.String, Tags: TagList }).pipe(
@@ -456,6 +546,11 @@ export const UntagCertificateAuthorityResponse = S.suspend(() =>
 ).annotations({
   identifier: "UntagCertificateAuthorityResponse",
 }) as any as S.Schema<UntagCertificateAuthorityResponse>;
+export type S3ObjectAcl = "PUBLIC_READ" | "BUCKET_OWNER_FULL_CONTROL";
+export const S3ObjectAcl = S.Literal(
+  "PUBLIC_READ",
+  "BUCKET_OWNER_FULL_CONTROL",
+);
 export interface CrlDistributionPointExtensionConfiguration {
   OmitExtension: boolean;
 }
@@ -464,14 +559,16 @@ export const CrlDistributionPointExtensionConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "CrlDistributionPointExtensionConfiguration",
 }) as any as S.Schema<CrlDistributionPointExtensionConfiguration>;
+export type CrlType = "COMPLETE" | "PARTITIONED";
+export const CrlType = S.Literal("COMPLETE", "PARTITIONED");
 export interface CrlConfiguration {
   Enabled: boolean;
   ExpirationInDays?: number;
   CustomCname?: string;
   S3BucketName?: string;
-  S3ObjectAcl?: string;
+  S3ObjectAcl?: S3ObjectAcl;
   CrlDistributionPointExtensionConfiguration?: CrlDistributionPointExtensionConfiguration;
-  CrlType?: string;
+  CrlType?: CrlType;
   CustomPath?: string;
 }
 export const CrlConfiguration = S.suspend(() =>
@@ -480,11 +577,11 @@ export const CrlConfiguration = S.suspend(() =>
     ExpirationInDays: S.optional(S.Number),
     CustomCname: S.optional(S.String),
     S3BucketName: S.optional(S.String),
-    S3ObjectAcl: S.optional(S.String),
+    S3ObjectAcl: S.optional(S3ObjectAcl),
     CrlDistributionPointExtensionConfiguration: S.optional(
       CrlDistributionPointExtensionConfiguration,
     ),
-    CrlType: S.optional(S.String),
+    CrlType: S.optional(CrlType),
     CustomPath: S.optional(S.String),
   }),
 ).annotations({
@@ -514,13 +611,13 @@ export const RevocationConfiguration = S.suspend(() =>
 export interface UpdateCertificateAuthorityRequest {
   CertificateAuthorityArn: string;
   RevocationConfiguration?: RevocationConfiguration;
-  Status?: string;
+  Status?: CertificateAuthorityStatus;
 }
 export const UpdateCertificateAuthorityRequest = S.suspend(() =>
   S.Struct({
     CertificateAuthorityArn: S.String,
     RevocationConfiguration: S.optional(RevocationConfiguration),
-    Status: S.optional(S.String),
+    Status: S.optional(CertificateAuthorityStatus),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -533,13 +630,60 @@ export const UpdateCertificateAuthorityResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateCertificateAuthorityResponse",
 }) as any as S.Schema<UpdateCertificateAuthorityResponse>;
+export type KeyAlgorithm =
+  | "RSA_2048"
+  | "RSA_3072"
+  | "RSA_4096"
+  | "EC_prime256v1"
+  | "EC_secp384r1"
+  | "EC_secp521r1"
+  | "ML_DSA_44"
+  | "ML_DSA_65"
+  | "ML_DSA_87"
+  | "SM2";
+export const KeyAlgorithm = S.Literal(
+  "RSA_2048",
+  "RSA_3072",
+  "RSA_4096",
+  "EC_prime256v1",
+  "EC_secp384r1",
+  "EC_secp521r1",
+  "ML_DSA_44",
+  "ML_DSA_65",
+  "ML_DSA_87",
+  "SM2",
+);
+export type ValidityPeriodType =
+  | "END_DATE"
+  | "ABSOLUTE"
+  | "DAYS"
+  | "MONTHS"
+  | "YEARS";
+export const ValidityPeriodType = S.Literal(
+  "END_DATE",
+  "ABSOLUTE",
+  "DAYS",
+  "MONTHS",
+  "YEARS",
+);
+export type AuditReportStatus = "CREATING" | "SUCCESS" | "FAILED";
+export const AuditReportStatus = S.Literal("CREATING", "SUCCESS", "FAILED");
 export interface Validity {
   Value: number;
-  Type: string;
+  Type: ValidityPeriodType;
 }
 export const Validity = S.suspend(() =>
-  S.Struct({ Value: S.Number, Type: S.String }),
+  S.Struct({ Value: S.Number, Type: ValidityPeriodType }),
 ).annotations({ identifier: "Validity" }) as any as S.Schema<Validity>;
+export type FailureReason =
+  | "REQUEST_TIMED_OUT"
+  | "UNSUPPORTED_ALGORITHM"
+  | "OTHER";
+export const FailureReason = S.Literal(
+  "REQUEST_TIMED_OUT",
+  "UNSUPPORTED_ALGORITHM",
+  "OTHER",
+);
 export interface CustomAttribute {
   ObjectIdentifier: string;
   Value: string;
@@ -566,7 +710,7 @@ export interface ASN1Subject {
   Initials?: string;
   Pseudonym?: string;
   GenerationQualifier?: string;
-  CustomAttributes?: CustomAttributeList;
+  CustomAttributes?: CustomAttribute[];
 }
 export const ASN1Subject = S.suspend(() =>
   S.Struct({
@@ -611,14 +755,23 @@ export const KeyUsage = S.suspend(() =>
     DecipherOnly: S.optional(S.Boolean),
   }),
 ).annotations({ identifier: "KeyUsage" }) as any as S.Schema<KeyUsage>;
+export type AccessMethodType =
+  | "CA_REPOSITORY"
+  | "RESOURCE_PKI_MANIFEST"
+  | "RESOURCE_PKI_NOTIFY";
+export const AccessMethodType = S.Literal(
+  "CA_REPOSITORY",
+  "RESOURCE_PKI_MANIFEST",
+  "RESOURCE_PKI_NOTIFY",
+);
 export interface AccessMethod {
   CustomObjectIdentifier?: string;
-  AccessMethodType?: string;
+  AccessMethodType?: AccessMethodType;
 }
 export const AccessMethod = S.suspend(() =>
   S.Struct({
     CustomObjectIdentifier: S.optional(S.String),
-    AccessMethodType: S.optional(S.String),
+    AccessMethodType: S.optional(AccessMethodType),
   }),
 ).annotations({ identifier: "AccessMethod" }) as any as S.Schema<AccessMethod>;
 export interface OtherName {
@@ -670,7 +823,7 @@ export type AccessDescriptionList = AccessDescription[];
 export const AccessDescriptionList = S.Array(AccessDescription);
 export interface CsrExtensions {
   KeyUsage?: KeyUsage;
-  SubjectInformationAccess?: AccessDescriptionList;
+  SubjectInformationAccess?: AccessDescription[];
 }
 export const CsrExtensions = S.suspend(() =>
   S.Struct({
@@ -681,15 +834,15 @@ export const CsrExtensions = S.suspend(() =>
   identifier: "CsrExtensions",
 }) as any as S.Schema<CsrExtensions>;
 export interface CertificateAuthorityConfiguration {
-  KeyAlgorithm: string;
-  SigningAlgorithm: string;
+  KeyAlgorithm: KeyAlgorithm;
+  SigningAlgorithm: SigningAlgorithm;
   Subject: ASN1Subject;
   CsrExtensions?: CsrExtensions;
 }
 export const CertificateAuthorityConfiguration = S.suspend(() =>
   S.Struct({
-    KeyAlgorithm: S.String,
-    SigningAlgorithm: S.String,
+    KeyAlgorithm: KeyAlgorithm,
+    SigningAlgorithm: SigningAlgorithm,
     Subject: ASN1Subject,
     CsrExtensions: S.optional(CsrExtensions),
   }),
@@ -701,17 +854,17 @@ export interface CertificateAuthority {
   OwnerAccount?: string;
   CreatedAt?: Date;
   LastStateChangeAt?: Date;
-  Type?: string;
+  Type?: CertificateAuthorityType;
   Serial?: string;
-  Status?: string;
+  Status?: CertificateAuthorityStatus;
   NotBefore?: Date;
   NotAfter?: Date;
-  FailureReason?: string;
+  FailureReason?: FailureReason;
   CertificateAuthorityConfiguration?: CertificateAuthorityConfiguration;
   RevocationConfiguration?: RevocationConfiguration;
   RestorableUntil?: Date;
-  KeyStorageSecurityStandard?: string;
-  UsageMode?: string;
+  KeyStorageSecurityStandard?: KeyStorageSecurityStandard;
+  UsageMode?: CertificateAuthorityUsageMode;
 }
 export const CertificateAuthority = S.suspend(() =>
   S.Struct({
@@ -721,12 +874,12 @@ export const CertificateAuthority = S.suspend(() =>
     LastStateChangeAt: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    Type: S.optional(S.String),
+    Type: S.optional(CertificateAuthorityType),
     Serial: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(CertificateAuthorityStatus),
     NotBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     NotAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    FailureReason: S.optional(S.String),
+    FailureReason: S.optional(FailureReason),
     CertificateAuthorityConfiguration: S.optional(
       CertificateAuthorityConfiguration,
     ),
@@ -734,8 +887,8 @@ export const CertificateAuthority = S.suspend(() =>
     RestorableUntil: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    KeyStorageSecurityStandard: S.optional(S.String),
-    UsageMode: S.optional(S.String),
+    KeyStorageSecurityStandard: S.optional(KeyStorageSecurityStandard),
+    UsageMode: S.optional(CertificateAuthorityUsageMode),
   }),
 ).annotations({
   identifier: "CertificateAuthority",
@@ -755,14 +908,14 @@ export const CreateCertificateAuthorityAuditReportResponse = S.suspend(() =>
   identifier: "CreateCertificateAuthorityAuditReportResponse",
 }) as any as S.Schema<CreateCertificateAuthorityAuditReportResponse>;
 export interface DescribeCertificateAuthorityAuditReportResponse {
-  AuditReportStatus?: string;
+  AuditReportStatus?: AuditReportStatus;
   S3BucketName?: string;
   S3Key?: string;
   CreatedAt?: Date;
 }
 export const DescribeCertificateAuthorityAuditReportResponse = S.suspend(() =>
   S.Struct({
-    AuditReportStatus: S.optional(S.String),
+    AuditReportStatus: S.optional(AuditReportStatus),
     S3BucketName: S.optional(S.String),
     S3Key: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -812,7 +965,7 @@ export const GetPolicyResponse = S.suspend(() =>
 }) as any as S.Schema<GetPolicyResponse>;
 export interface ListCertificateAuthoritiesResponse {
   NextToken?: string;
-  CertificateAuthorities?: CertificateAuthorities;
+  CertificateAuthorities?: CertificateAuthority[];
 }
 export const ListCertificateAuthoritiesResponse = S.suspend(() =>
   S.Struct({
@@ -824,19 +977,40 @@ export const ListCertificateAuthoritiesResponse = S.suspend(() =>
 }) as any as S.Schema<ListCertificateAuthoritiesResponse>;
 export interface ListTagsResponse {
   NextToken?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsResponse = S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), Tags: S.optional(TagList) }),
 ).annotations({
   identifier: "ListTagsResponse",
 }) as any as S.Schema<ListTagsResponse>;
+export type ExtendedKeyUsageType =
+  | "SERVER_AUTH"
+  | "CLIENT_AUTH"
+  | "CODE_SIGNING"
+  | "EMAIL_PROTECTION"
+  | "TIME_STAMPING"
+  | "OCSP_SIGNING"
+  | "SMART_CARD_LOGIN"
+  | "DOCUMENT_SIGNING"
+  | "CERTIFICATE_TRANSPARENCY";
+export const ExtendedKeyUsageType = S.Literal(
+  "SERVER_AUTH",
+  "CLIENT_AUTH",
+  "CODE_SIGNING",
+  "EMAIL_PROTECTION",
+  "TIME_STAMPING",
+  "OCSP_SIGNING",
+  "SMART_CARD_LOGIN",
+  "DOCUMENT_SIGNING",
+  "CERTIFICATE_TRANSPARENCY",
+);
 export interface Permission {
   CertificateAuthorityArn?: string;
   CreatedAt?: Date;
   Principal?: string;
   SourceAccount?: string;
-  Actions?: ActionList;
+  Actions?: ActionType[];
   Policy?: string;
 }
 export const Permission = S.suspend(() =>
@@ -852,12 +1026,12 @@ export const Permission = S.suspend(() =>
 export type PermissionList = Permission[];
 export const PermissionList = S.Array(Permission);
 export interface ExtendedKeyUsage {
-  ExtendedKeyUsageType?: string;
+  ExtendedKeyUsageType?: ExtendedKeyUsageType;
   ExtendedKeyUsageObjectIdentifier?: string;
 }
 export const ExtendedKeyUsage = S.suspend(() =>
   S.Struct({
-    ExtendedKeyUsageType: S.optional(S.String),
+    ExtendedKeyUsageType: S.optional(ExtendedKeyUsageType),
     ExtendedKeyUsageObjectIdentifier: S.optional(S.String),
   }),
 ).annotations({
@@ -889,9 +1063,11 @@ export const DescribeCertificateAuthorityResponse = S.suspend(() =>
 ).annotations({
   identifier: "DescribeCertificateAuthorityResponse",
 }) as any as S.Schema<DescribeCertificateAuthorityResponse>;
+export type PolicyQualifierId = "CPS";
+export const PolicyQualifierId = S.Literal("CPS");
 export interface ListPermissionsResponse {
   NextToken?: string;
-  Permissions?: PermissionList;
+  Permissions?: Permission[];
 }
 export const ListPermissionsResponse = S.suspend(() =>
   S.Struct({
@@ -910,11 +1086,11 @@ export const Qualifier = S.suspend(() =>
   S.Struct({ CpsUri: S.String }),
 ).annotations({ identifier: "Qualifier" }) as any as S.Schema<Qualifier>;
 export interface PolicyQualifierInfo {
-  PolicyQualifierId: string;
+  PolicyQualifierId: PolicyQualifierId;
   Qualifier: Qualifier;
 }
 export const PolicyQualifierInfo = S.suspend(() =>
-  S.Struct({ PolicyQualifierId: S.String, Qualifier: Qualifier }),
+  S.Struct({ PolicyQualifierId: PolicyQualifierId, Qualifier: Qualifier }),
 ).annotations({
   identifier: "PolicyQualifierInfo",
 }) as any as S.Schema<PolicyQualifierInfo>;
@@ -922,7 +1098,7 @@ export type PolicyQualifierInfoList = PolicyQualifierInfo[];
 export const PolicyQualifierInfoList = S.Array(PolicyQualifierInfo);
 export interface PolicyInformation {
   CertPolicyId: string;
-  PolicyQualifiers?: PolicyQualifierInfoList;
+  PolicyQualifiers?: PolicyQualifierInfo[];
 }
 export const PolicyInformation = S.suspend(() =>
   S.Struct({
@@ -937,21 +1113,21 @@ export const CertificatePolicyList = S.Array(PolicyInformation);
 export interface CreateCertificateAuthorityRequest {
   CertificateAuthorityConfiguration: CertificateAuthorityConfiguration;
   RevocationConfiguration?: RevocationConfiguration;
-  CertificateAuthorityType: string;
+  CertificateAuthorityType: CertificateAuthorityType;
   IdempotencyToken?: string;
-  KeyStorageSecurityStandard?: string;
-  Tags?: TagList;
-  UsageMode?: string;
+  KeyStorageSecurityStandard?: KeyStorageSecurityStandard;
+  Tags?: Tag[];
+  UsageMode?: CertificateAuthorityUsageMode;
 }
 export const CreateCertificateAuthorityRequest = S.suspend(() =>
   S.Struct({
     CertificateAuthorityConfiguration: CertificateAuthorityConfiguration,
     RevocationConfiguration: S.optional(RevocationConfiguration),
-    CertificateAuthorityType: S.String,
+    CertificateAuthorityType: CertificateAuthorityType,
     IdempotencyToken: S.optional(S.String),
-    KeyStorageSecurityStandard: S.optional(S.String),
+    KeyStorageSecurityStandard: S.optional(KeyStorageSecurityStandard),
     Tags: S.optional(TagList),
-    UsageMode: S.optional(S.String),
+    UsageMode: S.optional(CertificateAuthorityUsageMode),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -959,11 +1135,11 @@ export const CreateCertificateAuthorityRequest = S.suspend(() =>
   identifier: "CreateCertificateAuthorityRequest",
 }) as any as S.Schema<CreateCertificateAuthorityRequest>;
 export interface Extensions {
-  CertificatePolicies?: CertificatePolicyList;
-  ExtendedKeyUsage?: ExtendedKeyUsageList;
+  CertificatePolicies?: PolicyInformation[];
+  ExtendedKeyUsage?: ExtendedKeyUsage[];
   KeyUsage?: KeyUsage;
-  SubjectAlternativeNames?: GeneralNameList;
-  CustomExtensions?: CustomExtensionList;
+  SubjectAlternativeNames?: GeneralName[];
+  CustomExtensions?: CustomExtension[];
 }
 export const Extensions = S.suspend(() =>
   S.Struct({
@@ -998,7 +1174,7 @@ export interface IssueCertificateRequest {
   ApiPassthrough?: ApiPassthrough;
   CertificateAuthorityArn: string;
   Csr: Uint8Array;
-  SigningAlgorithm: string;
+  SigningAlgorithm: SigningAlgorithm;
   TemplateArn?: string;
   Validity: Validity;
   ValidityNotBefore?: Validity;
@@ -1009,7 +1185,7 @@ export const IssueCertificateRequest = S.suspend(() =>
     ApiPassthrough: S.optional(ApiPassthrough),
     CertificateAuthorityArn: S.String,
     Csr: T.Blob,
-    SigningAlgorithm: S.String,
+    SigningAlgorithm: SigningAlgorithm,
     TemplateArn: S.optional(S.String),
     Validity: Validity,
     ValidityNotBefore: S.optional(Validity),
@@ -1114,21 +1290,21 @@ export class MalformedCSRException extends S.TaggedError<MalformedCSRException>(
 export const listCertificateAuthorities: {
   (
     input: ListCertificateAuthoritiesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCertificateAuthoritiesResponse,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListCertificateAuthoritiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCertificateAuthoritiesResponse,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCertificateAuthoritiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CertificateAuthority,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1163,7 +1339,7 @@ export const listCertificateAuthorities: {
  */
 export const describeCertificateAuthority: (
   input: DescribeCertificateAuthorityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCertificateAuthorityResponse,
   InvalidArnException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1189,7 +1365,7 @@ export const describeCertificateAuthority: (
 export const listPermissions: {
   (
     input: ListPermissionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPermissionsResponse,
     | InvalidArnException
     | InvalidNextTokenException
@@ -1201,7 +1377,7 @@ export const listPermissions: {
   >;
   pages: (
     input: ListPermissionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPermissionsResponse,
     | InvalidArnException
     | InvalidNextTokenException
@@ -1213,7 +1389,7 @@ export const listPermissions: {
   >;
   items: (
     input: ListPermissionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Permission,
     | InvalidArnException
     | InvalidNextTokenException
@@ -1260,7 +1436,7 @@ export const listPermissions: {
  */
 export const deletePolicy: (
   input: DeletePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePolicyResponse,
   | ConcurrentModificationException
   | InvalidArnException
@@ -1287,7 +1463,7 @@ export const deletePolicy: (
  */
 export const describeCertificateAuthorityAuditReport: (
   input: DescribeCertificateAuthorityAuditReportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCertificateAuthorityAuditReportResponse,
   | InvalidArgsException
   | InvalidArnException
@@ -1318,7 +1494,7 @@ export const describeCertificateAuthorityAuditReport: (
  */
 export const deleteCertificateAuthority: (
   input: DeleteCertificateAuthorityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCertificateAuthorityResponse,
   | ConcurrentModificationException
   | InvalidArnException
@@ -1341,7 +1517,7 @@ export const deleteCertificateAuthority: (
  */
 export const getCertificateAuthorityCertificate: (
   input: GetCertificateAuthorityCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCertificateAuthorityCertificateResponse,
   | InvalidArnException
   | InvalidStateException
@@ -1362,7 +1538,7 @@ export const getCertificateAuthorityCertificate: (
  */
 export const restoreCertificateAuthority: (
   input: RestoreCertificateAuthorityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RestoreCertificateAuthorityResponse,
   | InvalidArnException
   | InvalidStateException
@@ -1385,7 +1561,7 @@ export const restoreCertificateAuthority: (
  */
 export const updateCertificateAuthority: (
   input: UpdateCertificateAuthorityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCertificateAuthorityResponse,
   | ConcurrentModificationException
   | InvalidArgsException
@@ -1423,7 +1599,7 @@ export const updateCertificateAuthority: (
  */
 export const getPolicy: (
   input: GetPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPolicyResponse,
   | InvalidArnException
   | InvalidStateException
@@ -1447,7 +1623,7 @@ export const getPolicy: (
 export const listTags: {
   (
     input: ListTagsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTagsResponse,
     | InvalidArnException
     | InvalidStateException
@@ -1458,7 +1634,7 @@ export const listTags: {
   >;
   pages: (
     input: ListTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTagsResponse,
     | InvalidArnException
     | InvalidStateException
@@ -1469,7 +1645,7 @@ export const listTags: {
   >;
   items: (
     input: ListTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Tag,
     | InvalidArnException
     | InvalidStateException
@@ -1510,7 +1686,7 @@ export const listTags: {
  */
 export const deletePermission: (
   input: DeletePermissionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePermissionResponse,
   | InvalidArnException
   | InvalidStateException
@@ -1533,7 +1709,7 @@ export const deletePermission: (
  */
 export const untagCertificateAuthority: (
   input: UntagCertificateAuthorityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagCertificateAuthorityResponse,
   | InvalidArnException
   | InvalidStateException
@@ -1569,7 +1745,7 @@ export const untagCertificateAuthority: (
  */
 export const putPolicy: (
   input: PutPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutPolicyResponse,
   | ConcurrentModificationException
   | InvalidArnException
@@ -1607,7 +1783,7 @@ export const putPolicy: (
  */
 export const createPermission: (
   input: CreatePermissionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePermissionResponse,
   | InvalidArnException
   | InvalidStateException
@@ -1636,7 +1812,7 @@ export const createPermission: (
  */
 export const tagCertificateAuthority: (
   input: TagCertificateAuthorityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagCertificateAuthorityResponse,
   | InvalidArnException
   | InvalidStateException
@@ -1661,7 +1837,7 @@ export const tagCertificateAuthority: (
  */
 export const getCertificate: (
   input: GetCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCertificateResponse,
   | InvalidArnException
   | InvalidStateException
@@ -1686,7 +1862,7 @@ export const getCertificate: (
  */
 export const getCertificateAuthorityCsr: (
   input: GetCertificateAuthorityCsrRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCertificateAuthorityCsrResponse,
   | InvalidArnException
   | InvalidStateException
@@ -1717,7 +1893,7 @@ export const getCertificateAuthorityCsr: (
  */
 export const createCertificateAuthorityAuditReport: (
   input: CreateCertificateAuthorityAuditReportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCertificateAuthorityAuditReportResponse,
   | InvalidArgsException
   | InvalidArnException
@@ -1818,7 +1994,7 @@ export const createCertificateAuthorityAuditReport: (
  */
 export const importCertificateAuthorityCertificate: (
   input: ImportCertificateAuthorityCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ImportCertificateAuthorityCertificateResponse,
   | CertificateMismatchException
   | ConcurrentModificationException
@@ -1857,7 +2033,7 @@ export const importCertificateAuthorityCertificate: (
  */
 export const revokeCertificate: (
   input: RevokeCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RevokeCertificateResponse,
   | ConcurrentModificationException
   | InvalidArnException
@@ -1894,7 +2070,7 @@ export const revokeCertificate: (
  */
 export const createCertificateAuthority: (
   input: CreateCertificateAuthorityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCertificateAuthorityResponse,
   | InvalidArgsException
   | InvalidPolicyException
@@ -1919,7 +2095,7 @@ export const createCertificateAuthority: (
  */
 export const issueCertificate: (
   input: IssueCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   IssueCertificateResponse,
   | InvalidArgsException
   | InvalidArnException

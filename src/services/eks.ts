@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -96,7 +96,6 @@ const rules = T.EndpointResolver((p, _) => {
 export type ClusterName = string;
 export type RoleArn = string;
 export type EksAnywhereSubscriptionName = string;
-export type Integer = number;
 export type BoxedInteger = number;
 export type DescribeAddonVersionsRequestMaxResults = number;
 export type DescribeClusterVersionMaxResults = number;
@@ -130,10 +129,97 @@ export type requiredClaimsValue = string;
 //# Schemas
 export type StringList = string[];
 export const StringList = S.Array(S.String);
+export type ResolveConflicts = "OVERWRITE" | "NONE" | "PRESERVE";
+export const ResolveConflicts = S.Literal("OVERWRITE", "NONE", "PRESERVE");
+export type CapabilityType = "ACK" | "KRO" | "ARGOCD";
+export const CapabilityType = S.Literal("ACK", "KRO", "ARGOCD");
+export type CapabilityDeletePropagationPolicy = "RETAIN";
+export const CapabilityDeletePropagationPolicy = S.Literal("RETAIN");
+export type EksAnywhereSubscriptionLicenseType = "Cluster";
+export const EksAnywhereSubscriptionLicenseType = S.Literal("Cluster");
+export type AMITypes =
+  | "AL2_x86_64"
+  | "AL2_x86_64_GPU"
+  | "AL2_ARM_64"
+  | "CUSTOM"
+  | "BOTTLEROCKET_ARM_64"
+  | "BOTTLEROCKET_x86_64"
+  | "BOTTLEROCKET_ARM_64_FIPS"
+  | "BOTTLEROCKET_x86_64_FIPS"
+  | "BOTTLEROCKET_ARM_64_NVIDIA"
+  | "BOTTLEROCKET_x86_64_NVIDIA"
+  | "WINDOWS_CORE_2019_x86_64"
+  | "WINDOWS_FULL_2019_x86_64"
+  | "WINDOWS_CORE_2022_x86_64"
+  | "WINDOWS_FULL_2022_x86_64"
+  | "AL2023_x86_64_STANDARD"
+  | "AL2023_ARM_64_STANDARD"
+  | "AL2023_x86_64_NEURON"
+  | "AL2023_x86_64_NVIDIA"
+  | "AL2023_ARM_64_NVIDIA";
+export const AMITypes = S.Literal(
+  "AL2_x86_64",
+  "AL2_x86_64_GPU",
+  "AL2_ARM_64",
+  "CUSTOM",
+  "BOTTLEROCKET_ARM_64",
+  "BOTTLEROCKET_x86_64",
+  "BOTTLEROCKET_ARM_64_FIPS",
+  "BOTTLEROCKET_x86_64_FIPS",
+  "BOTTLEROCKET_ARM_64_NVIDIA",
+  "BOTTLEROCKET_x86_64_NVIDIA",
+  "WINDOWS_CORE_2019_x86_64",
+  "WINDOWS_FULL_2019_x86_64",
+  "WINDOWS_CORE_2022_x86_64",
+  "WINDOWS_FULL_2022_x86_64",
+  "AL2023_x86_64_STANDARD",
+  "AL2023_ARM_64_STANDARD",
+  "AL2023_x86_64_NEURON",
+  "AL2023_x86_64_NVIDIA",
+  "AL2023_ARM_64_NVIDIA",
+);
+export type CapacityTypes = "ON_DEMAND" | "SPOT" | "CAPACITY_BLOCK";
+export const CapacityTypes = S.Literal("ON_DEMAND", "SPOT", "CAPACITY_BLOCK");
+export type ClusterVersionStatus =
+  | "unsupported"
+  | "standard-support"
+  | "extended-support";
+export const ClusterVersionStatus = S.Literal(
+  "unsupported",
+  "standard-support",
+  "extended-support",
+);
+export type VersionStatus =
+  | "UNSUPPORTED"
+  | "STANDARD_SUPPORT"
+  | "EXTENDED_SUPPORT";
+export const VersionStatus = S.Literal(
+  "UNSUPPORTED",
+  "STANDARD_SUPPORT",
+  "EXTENDED_SUPPORT",
+);
 export type IncludeClustersList = string[];
 export const IncludeClustersList = S.Array(S.String);
-export type EksAnywhereSubscriptionStatusValues = string[];
-export const EksAnywhereSubscriptionStatusValues = S.Array(S.String);
+export type EksAnywhereSubscriptionStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "UPDATING"
+  | "EXPIRING"
+  | "EXPIRED"
+  | "DELETING";
+export const EksAnywhereSubscriptionStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "UPDATING",
+  "EXPIRING",
+  "EXPIRED",
+  "DELETING",
+);
+export type EksAnywhereSubscriptionStatusValues =
+  EksAnywhereSubscriptionStatus[];
+export const EksAnywhereSubscriptionStatusValues = S.Array(
+  EksAnywhereSubscriptionStatus,
+);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export type TagMap = { [key: string]: string };
@@ -141,8 +227,8 @@ export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface CreateAccessEntryRequest {
   clusterName: string;
   principalArn: string;
-  kubernetesGroups?: StringList;
-  tags?: TagMap;
+  kubernetesGroups?: string[];
+  tags?: { [key: string]: string };
   clientRequestToken?: string;
   username?: string;
   type?: string;
@@ -175,7 +261,7 @@ export interface CreatePodIdentityAssociationRequest {
   serviceAccount: string;
   roleArn: string;
   clientRequestToken?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   disableSessionTags?: boolean;
   targetRoleArn?: string;
 }
@@ -482,9 +568,9 @@ export interface DescribeAddonVersionsRequest {
   maxResults?: number;
   nextToken?: string;
   addonName?: string;
-  types?: StringList;
-  publishers?: StringList;
-  owners?: StringList;
+  types?: string[];
+  publishers?: string[];
+  owners?: string[];
 }
 export const DescribeAddonVersionsRequest = S.suspend(() =>
   S.Struct({
@@ -557,9 +643,9 @@ export interface DescribeClusterVersionsRequest {
   nextToken?: string;
   defaultOnly?: boolean;
   includeAll?: boolean;
-  clusterVersions?: StringList;
-  status?: string;
-  versionStatus?: string;
+  clusterVersions?: string[];
+  status?: ClusterVersionStatus;
+  versionStatus?: VersionStatus;
 }
 export const DescribeClusterVersionsRequest = S.suspend(() =>
   S.Struct({
@@ -571,8 +657,8 @@ export const DescribeClusterVersionsRequest = S.suspend(() =>
     clusterVersions: S.optional(StringList).pipe(
       T.HttpQuery("clusterVersions"),
     ),
-    status: S.optional(S.String).pipe(T.HttpQuery("status")),
-    versionStatus: S.optional(S.String).pipe(T.HttpQuery("versionStatus")),
+    status: S.optional(ClusterVersionStatus).pipe(T.HttpQuery("status")),
+    versionStatus: S.optional(VersionStatus).pipe(T.HttpQuery("versionStatus")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/cluster-versions" }),
@@ -935,7 +1021,7 @@ export const ListCapabilitiesRequest = S.suspend(() =>
 export interface ListClustersRequest {
   maxResults?: number;
   nextToken?: string;
-  include?: IncludeClustersList;
+  include?: string[];
 }
 export const ListClustersRequest = S.suspend(() =>
   S.Struct({
@@ -958,7 +1044,7 @@ export const ListClustersRequest = S.suspend(() =>
 export interface ListEksAnywhereSubscriptionsRequest {
   maxResults?: number;
   nextToken?: string;
-  includeStatus?: EksAnywhereSubscriptionStatusValues;
+  includeStatus?: EksAnywhereSubscriptionStatus[];
 }
 export const ListEksAnywhereSubscriptionsRequest = S.suspend(() =>
   S.Struct({
@@ -1153,7 +1239,7 @@ export const StartInsightsRefreshRequest = S.suspend(() =>
 }) as any as S.Schema<StartInsightsRefreshRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1178,7 +1264,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1204,7 +1290,7 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 export interface UpdateAccessEntryRequest {
   clusterName: string;
   principalArn: string;
-  kubernetesGroups?: StringList;
+  kubernetesGroups?: string[];
   clientRequestToken?: string;
   username?: string;
 }
@@ -1249,10 +1335,10 @@ export interface UpdateAddonRequest {
   addonName: string;
   addonVersion?: string;
   serviceAccountRoleArn?: string;
-  resolveConflicts?: string;
+  resolveConflicts?: ResolveConflicts;
   clientRequestToken?: string;
   configurationValues?: string;
-  podIdentityAssociations?: AddonPodIdentityAssociationsList;
+  podIdentityAssociations?: AddonPodIdentityAssociations[];
 }
 export const UpdateAddonRequest = S.suspend(() =>
   S.Struct({
@@ -1260,7 +1346,7 @@ export const UpdateAddonRequest = S.suspend(() =>
     addonName: S.String.pipe(T.HttpLabel("addonName")),
     addonVersion: S.optional(S.String),
     serviceAccountRoleArn: S.optional(S.String),
-    resolveConflicts: S.optional(S.String),
+    resolveConflicts: S.optional(ResolveConflicts),
     clientRequestToken: S.optional(S.String),
     configurationValues: S.optional(S.String),
     podIdentityAssociations: S.optional(AddonPodIdentityAssociationsList),
@@ -1408,18 +1494,84 @@ export const UpdatePodIdentityAssociationRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdatePodIdentityAssociationRequest",
 }) as any as S.Schema<UpdatePodIdentityAssociationRequest>;
-export type CategoryList = string[];
-export const CategoryList = S.Array(S.String);
-export type InsightStatusValueList = string[];
-export const InsightStatusValueList = S.Array(S.String);
+export type AccessScopeType = "cluster" | "namespace";
+export const AccessScopeType = S.Literal("cluster", "namespace");
+export type IpFamily = "ipv4" | "ipv6";
+export const IpFamily = S.Literal("ipv4", "ipv6");
+export type AuthenticationMode = "API" | "API_AND_CONFIG_MAP" | "CONFIG_MAP";
+export const AuthenticationMode = S.Literal(
+  "API",
+  "API_AND_CONFIG_MAP",
+  "CONFIG_MAP",
+);
+export type SupportType = "STANDARD" | "EXTENDED";
+export const SupportType = S.Literal("STANDARD", "EXTENDED");
+export type ProvisionedControlPlaneTier =
+  | "standard"
+  | "tier-xl"
+  | "tier-2xl"
+  | "tier-4xl";
+export const ProvisionedControlPlaneTier = S.Literal(
+  "standard",
+  "tier-xl",
+  "tier-2xl",
+  "tier-4xl",
+);
+export type EksAnywhereSubscriptionTermUnit = "MONTHS";
+export const EksAnywhereSubscriptionTermUnit = S.Literal("MONTHS");
+export type TaintEffect = "NO_SCHEDULE" | "NO_EXECUTE" | "PREFER_NO_SCHEDULE";
+export const TaintEffect = S.Literal(
+  "NO_SCHEDULE",
+  "NO_EXECUTE",
+  "PREFER_NO_SCHEDULE",
+);
+export type NodegroupUpdateStrategies = "DEFAULT" | "MINIMAL";
+export const NodegroupUpdateStrategies = S.Literal("DEFAULT", "MINIMAL");
+export type Category = "UPGRADE_READINESS" | "MISCONFIGURATION";
+export const Category = S.Literal("UPGRADE_READINESS", "MISCONFIGURATION");
+export type CategoryList = Category[];
+export const CategoryList = S.Array(Category);
+export type InsightStatusValue = "PASSING" | "WARNING" | "ERROR" | "UNKNOWN";
+export const InsightStatusValue = S.Literal(
+  "PASSING",
+  "WARNING",
+  "ERROR",
+  "UNKNOWN",
+);
+export type InsightStatusValueList = InsightStatusValue[];
+export const InsightStatusValueList = S.Array(InsightStatusValue);
+export type ConnectorConfigProvider =
+  | "EKS_ANYWHERE"
+  | "ANTHOS"
+  | "GKE"
+  | "AKS"
+  | "OPENSHIFT"
+  | "TANZU"
+  | "RANCHER"
+  | "EC2"
+  | "OTHER";
+export const ConnectorConfigProvider = S.Literal(
+  "EKS_ANYWHERE",
+  "ANTHOS",
+  "GKE",
+  "AKS",
+  "OPENSHIFT",
+  "TANZU",
+  "RANCHER",
+  "EC2",
+  "OTHER",
+);
 export type labelsKeyList = string[];
 export const labelsKeyList = S.Array(S.String);
 export interface AccessScope {
-  type?: string;
-  namespaces?: StringList;
+  type?: AccessScopeType;
+  namespaces?: string[];
 }
 export const AccessScope = S.suspend(() =>
-  S.Struct({ type: S.optional(S.String), namespaces: S.optional(StringList) }),
+  S.Struct({
+    type: S.optional(AccessScopeType),
+    namespaces: S.optional(StringList),
+  }),
 ).annotations({ identifier: "AccessScope" }) as any as S.Schema<AccessScope>;
 export interface AddonNamespaceConfigRequest {
   namespace?: string;
@@ -1430,11 +1582,11 @@ export const AddonNamespaceConfigRequest = S.suspend(() =>
   identifier: "AddonNamespaceConfigRequest",
 }) as any as S.Schema<AddonNamespaceConfigRequest>;
 export interface VpcConfigRequest {
-  subnetIds?: StringList;
-  securityGroupIds?: StringList;
+  subnetIds?: string[];
+  securityGroupIds?: string[];
   endpointPublicAccess?: boolean;
   endpointPrivateAccess?: boolean;
-  publicAccessCidrs?: StringList;
+  publicAccessCidrs?: string[];
 }
 export const VpcConfigRequest = S.suspend(() =>
   S.Struct({
@@ -1449,21 +1601,21 @@ export const VpcConfigRequest = S.suspend(() =>
 }) as any as S.Schema<VpcConfigRequest>;
 export interface CreateAccessConfigRequest {
   bootstrapClusterCreatorAdminPermissions?: boolean;
-  authenticationMode?: string;
+  authenticationMode?: AuthenticationMode;
 }
 export const CreateAccessConfigRequest = S.suspend(() =>
   S.Struct({
     bootstrapClusterCreatorAdminPermissions: S.optional(S.Boolean),
-    authenticationMode: S.optional(S.String),
+    authenticationMode: S.optional(AuthenticationMode),
   }),
 ).annotations({
   identifier: "CreateAccessConfigRequest",
 }) as any as S.Schema<CreateAccessConfigRequest>;
 export interface UpgradePolicyRequest {
-  supportType?: string;
+  supportType?: SupportType;
 }
 export const UpgradePolicyRequest = S.suspend(() =>
-  S.Struct({ supportType: S.optional(S.String) }),
+  S.Struct({ supportType: S.optional(SupportType) }),
 ).annotations({
   identifier: "UpgradePolicyRequest",
 }) as any as S.Schema<UpgradePolicyRequest>;
@@ -1477,7 +1629,7 @@ export const ZonalShiftConfigRequest = S.suspend(() =>
 }) as any as S.Schema<ZonalShiftConfigRequest>;
 export interface ComputeConfigRequest {
   enabled?: boolean;
-  nodePools?: StringList;
+  nodePools?: string[];
   nodeRoleArn?: string;
 }
 export const ComputeConfigRequest = S.suspend(() =>
@@ -1490,19 +1642,22 @@ export const ComputeConfigRequest = S.suspend(() =>
   identifier: "ComputeConfigRequest",
 }) as any as S.Schema<ComputeConfigRequest>;
 export interface ControlPlaneScalingConfig {
-  tier?: string;
+  tier?: ProvisionedControlPlaneTier;
 }
 export const ControlPlaneScalingConfig = S.suspend(() =>
-  S.Struct({ tier: S.optional(S.String) }),
+  S.Struct({ tier: S.optional(ProvisionedControlPlaneTier) }),
 ).annotations({
   identifier: "ControlPlaneScalingConfig",
 }) as any as S.Schema<ControlPlaneScalingConfig>;
 export interface EksAnywhereSubscriptionTerm {
   duration?: number;
-  unit?: string;
+  unit?: EksAnywhereSubscriptionTermUnit;
 }
 export const EksAnywhereSubscriptionTerm = S.suspend(() =>
-  S.Struct({ duration: S.optional(S.Number), unit: S.optional(S.String) }),
+  S.Struct({
+    duration: S.optional(S.Number),
+    unit: S.optional(EksAnywhereSubscriptionTermUnit),
+  }),
 ).annotations({
   identifier: "EksAnywhereSubscriptionTerm",
 }) as any as S.Schema<EksAnywhereSubscriptionTerm>;
@@ -1522,7 +1677,7 @@ export const NodegroupScalingConfig = S.suspend(() =>
 }) as any as S.Schema<NodegroupScalingConfig>;
 export interface RemoteAccessConfig {
   ec2SshKey?: string;
-  sourceSecurityGroups?: StringList;
+  sourceSecurityGroups?: string[];
 }
 export const RemoteAccessConfig = S.suspend(() =>
   S.Struct({
@@ -1537,13 +1692,13 @@ export const labelsMap = S.Record({ key: S.String, value: S.String });
 export interface Taint {
   key?: string;
   value?: string;
-  effect?: string;
+  effect?: TaintEffect;
 }
 export const Taint = S.suspend(() =>
   S.Struct({
     key: S.optional(S.String),
     value: S.optional(S.String),
-    effect: S.optional(S.String),
+    effect: S.optional(TaintEffect),
   }),
 ).annotations({ identifier: "Taint" }) as any as S.Schema<Taint>;
 export type taintsList = Taint[];
@@ -1551,17 +1706,23 @@ export const taintsList = S.Array(Taint);
 export interface NodegroupUpdateConfig {
   maxUnavailable?: number;
   maxUnavailablePercentage?: number;
-  updateStrategy?: string;
+  updateStrategy?: NodegroupUpdateStrategies;
 }
 export const NodegroupUpdateConfig = S.suspend(() =>
   S.Struct({
     maxUnavailable: S.optional(S.Number),
     maxUnavailablePercentage: S.optional(S.Number),
-    updateStrategy: S.optional(S.String),
+    updateStrategy: S.optional(NodegroupUpdateStrategies),
   }),
 ).annotations({
   identifier: "NodegroupUpdateConfig",
 }) as any as S.Schema<NodegroupUpdateConfig>;
+export type InsightsRefreshStatus = "IN_PROGRESS" | "FAILED" | "COMPLETED";
+export const InsightsRefreshStatus = S.Literal(
+  "IN_PROGRESS",
+  "FAILED",
+  "COMPLETED",
+);
 export interface License {
   id?: string;
   token?: string;
@@ -1578,13 +1739,13 @@ export interface EksAnywhereSubscription {
   effectiveDate?: Date;
   expirationDate?: Date;
   licenseQuantity?: number;
-  licenseType?: string;
+  licenseType?: EksAnywhereSubscriptionLicenseType;
   term?: EksAnywhereSubscriptionTerm;
   status?: string;
   autoRenew?: boolean;
-  licenseArns?: StringList;
-  licenses?: LicenseList;
-  tags?: TagMap;
+  licenseArns?: string[];
+  licenses?: License[];
+  tags?: { [key: string]: string };
 }
 export const EksAnywhereSubscription = S.suspend(() =>
   S.Struct({
@@ -1594,7 +1755,7 @@ export const EksAnywhereSubscription = S.suspend(() =>
     effectiveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     expirationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     licenseQuantity: S.optional(S.Number),
-    licenseType: S.optional(S.String),
+    licenseType: S.optional(EksAnywhereSubscriptionLicenseType),
     term: S.optional(EksAnywhereSubscriptionTerm),
     status: S.optional(S.String),
     autoRenew: S.optional(S.Boolean),
@@ -1610,9 +1771,9 @@ export const EksAnywhereSubscriptionList = S.Array(EksAnywhereSubscription);
 export type IdentityProviderConfigs = IdentityProviderConfig[];
 export const IdentityProviderConfigs = S.Array(IdentityProviderConfig);
 export interface InsightsFilter {
-  categories?: CategoryList;
-  kubernetesVersions?: StringList;
-  statuses?: InsightStatusValueList;
+  categories?: Category[];
+  kubernetesVersions?: string[];
+  statuses?: InsightStatusValue[];
 }
 export const InsightsFilter = S.suspend(() =>
   S.Struct({
@@ -1625,24 +1786,24 @@ export const InsightsFilter = S.suspend(() =>
 }) as any as S.Schema<InsightsFilter>;
 export interface ConnectorConfigRequest {
   roleArn: string;
-  provider: string;
+  provider: ConnectorConfigProvider;
 }
 export const ConnectorConfigRequest = S.suspend(() =>
-  S.Struct({ roleArn: S.String, provider: S.String }),
+  S.Struct({ roleArn: S.String, provider: ConnectorConfigProvider }),
 ).annotations({
   identifier: "ConnectorConfigRequest",
 }) as any as S.Schema<ConnectorConfigRequest>;
 export interface UpdateAccessConfigRequest {
-  authenticationMode?: string;
+  authenticationMode?: AuthenticationMode;
 }
 export const UpdateAccessConfigRequest = S.suspend(() =>
-  S.Struct({ authenticationMode: S.optional(S.String) }),
+  S.Struct({ authenticationMode: S.optional(AuthenticationMode) }),
 ).annotations({
   identifier: "UpdateAccessConfigRequest",
 }) as any as S.Schema<UpdateAccessConfigRequest>;
 export interface UpdateLabelsPayload {
-  addOrUpdateLabels?: labelsMap;
-  removeLabels?: labelsKeyList;
+  addOrUpdateLabels?: { [key: string]: string };
+  removeLabels?: string[];
 }
 export const UpdateLabelsPayload = S.suspend(() =>
   S.Struct({
@@ -1653,8 +1814,8 @@ export const UpdateLabelsPayload = S.suspend(() =>
   identifier: "UpdateLabelsPayload",
 }) as any as S.Schema<UpdateLabelsPayload>;
 export interface UpdateTaintsPayload {
-  addOrUpdateTaints?: taintsList;
-  removeTaints?: taintsList;
+  addOrUpdateTaints?: Taint[];
+  removeTaints?: Taint[];
 }
 export const UpdateTaintsPayload = S.suspend(() =>
   S.Struct({
@@ -1664,8 +1825,23 @@ export const UpdateTaintsPayload = S.suspend(() =>
 ).annotations({
   identifier: "UpdateTaintsPayload",
 }) as any as S.Schema<UpdateTaintsPayload>;
-export type LogTypes = string[];
-export const LogTypes = S.Array(S.String);
+export type LogType =
+  | "api"
+  | "audit"
+  | "authenticator"
+  | "controllerManager"
+  | "scheduler";
+export const LogType = S.Literal(
+  "api",
+  "audit",
+  "authenticator",
+  "controllerManager",
+  "scheduler",
+);
+export type LogTypes = LogType[];
+export const LogTypes = S.Array(LogType);
+export type RepairAction = "Replace" | "Reboot" | "NoAction";
+export const RepairAction = S.Literal("Replace", "Reboot", "NoAction");
 export interface AssociateAccessPolicyRequest {
   clusterName: string;
   principalArn: string;
@@ -1699,11 +1875,11 @@ export interface CreateAddonRequest {
   addonName: string;
   addonVersion?: string;
   serviceAccountRoleArn?: string;
-  resolveConflicts?: string;
+  resolveConflicts?: ResolveConflicts;
   clientRequestToken?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   configurationValues?: string;
-  podIdentityAssociations?: AddonPodIdentityAssociationsList;
+  podIdentityAssociations?: AddonPodIdentityAssociations[];
   namespaceConfig?: AddonNamespaceConfigRequest;
 }
 export const CreateAddonRequest = S.suspend(() =>
@@ -1712,7 +1888,7 @@ export const CreateAddonRequest = S.suspend(() =>
     addonName: S.String,
     addonVersion: S.optional(S.String),
     serviceAccountRoleArn: S.optional(S.String),
-    resolveConflicts: S.optional(S.String),
+    resolveConflicts: S.optional(ResolveConflicts),
     clientRequestToken: S.optional(S.String),
     tags: S.optional(TagMap),
     configurationValues: S.optional(S.String),
@@ -1735,17 +1911,17 @@ export interface CreateEksAnywhereSubscriptionRequest {
   name: string;
   term: EksAnywhereSubscriptionTerm;
   licenseQuantity?: number;
-  licenseType?: string;
+  licenseType?: EksAnywhereSubscriptionLicenseType;
   autoRenew?: boolean;
   clientRequestToken?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateEksAnywhereSubscriptionRequest = S.suspend(() =>
   S.Struct({
     name: S.String,
     term: EksAnywhereSubscriptionTerm,
     licenseQuantity: S.optional(S.Number),
-    licenseType: S.optional(S.String),
+    licenseType: S.optional(EksAnywhereSubscriptionLicenseType),
     autoRenew: S.optional(S.Boolean),
     clientRequestToken: S.optional(S.String),
     tags: S.optional(TagMap),
@@ -1769,7 +1945,7 @@ export interface PodIdentityAssociation {
   roleArn?: string;
   associationArn?: string;
   associationId?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   createdAt?: Date;
   modifiedAt?: Date;
   ownerArn?: string;
@@ -1805,13 +1981,13 @@ export const DeletePodIdentityAssociationResponse = S.suspend(() =>
   identifier: "DeletePodIdentityAssociationResponse",
 }) as any as S.Schema<DeletePodIdentityAssociationResponse>;
 export interface VpcConfigResponse {
-  subnetIds?: StringList;
-  securityGroupIds?: StringList;
+  subnetIds?: string[];
+  securityGroupIds?: string[];
   clusterSecurityGroupId?: string;
   vpcId?: string;
   endpointPublicAccess?: boolean;
   endpointPrivateAccess?: boolean;
-  publicAccessCidrs?: StringList;
+  publicAccessCidrs?: string[];
 }
 export const VpcConfigResponse = S.suspend(() =>
   S.Struct({
@@ -1837,21 +2013,21 @@ export const ElasticLoadBalancing = S.suspend(() =>
 export interface KubernetesNetworkConfigResponse {
   serviceIpv4Cidr?: string;
   serviceIpv6Cidr?: string;
-  ipFamily?: string;
+  ipFamily?: IpFamily;
   elasticLoadBalancing?: ElasticLoadBalancing;
 }
 export const KubernetesNetworkConfigResponse = S.suspend(() =>
   S.Struct({
     serviceIpv4Cidr: S.optional(S.String),
     serviceIpv6Cidr: S.optional(S.String),
-    ipFamily: S.optional(S.String),
+    ipFamily: S.optional(IpFamily),
     elasticLoadBalancing: S.optional(ElasticLoadBalancing),
   }),
 ).annotations({
   identifier: "KubernetesNetworkConfigResponse",
 }) as any as S.Schema<KubernetesNetworkConfigResponse>;
 export interface LogSetup {
-  types?: LogTypes;
+  types?: LogType[];
   enabled?: boolean;
 }
 export const LogSetup = S.suspend(() =>
@@ -1860,7 +2036,7 @@ export const LogSetup = S.suspend(() =>
 export type LogSetups = LogSetup[];
 export const LogSetups = S.Array(LogSetup);
 export interface Logging {
-  clusterLogging?: LogSetups;
+  clusterLogging?: LogSetup[];
 }
 export const Logging = S.suspend(() =>
   S.Struct({ clusterLogging: S.optional(LogSetups) }),
@@ -1877,6 +2053,21 @@ export interface Identity {
 export const Identity = S.suspend(() =>
   S.Struct({ oidc: S.optional(OIDC) }),
 ).annotations({ identifier: "Identity" }) as any as S.Schema<Identity>;
+export type ClusterStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "DELETING"
+  | "FAILED"
+  | "UPDATING"
+  | "PENDING";
+export const ClusterStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "DELETING",
+  "FAILED",
+  "UPDATING",
+  "PENDING",
+);
 export interface Certificate {
   data?: string;
 }
@@ -1890,7 +2081,7 @@ export const Provider = S.suspend(() =>
   S.Struct({ keyArn: S.optional(S.String) }),
 ).annotations({ identifier: "Provider" }) as any as S.Schema<Provider>;
 export interface EncryptionConfig {
-  resources?: StringList;
+  resources?: string[];
   provider?: Provider;
 }
 export const EncryptionConfig = S.suspend(() =>
@@ -1923,14 +2114,55 @@ export const ConnectorConfigResponse = S.suspend(() =>
 ).annotations({
   identifier: "ConnectorConfigResponse",
 }) as any as S.Schema<ConnectorConfigResponse>;
+export type ClusterIssueCode =
+  | "AccessDenied"
+  | "ClusterUnreachable"
+  | "ConfigurationConflict"
+  | "InternalFailure"
+  | "ResourceLimitExceeded"
+  | "ResourceNotFound"
+  | "IamRoleNotFound"
+  | "VpcNotFound"
+  | "InsufficientFreeAddresses"
+  | "Ec2ServiceNotSubscribed"
+  | "Ec2SubnetNotFound"
+  | "Ec2SecurityGroupNotFound"
+  | "KmsGrantRevoked"
+  | "KmsKeyNotFound"
+  | "KmsKeyMarkedForDeletion"
+  | "KmsKeyDisabled"
+  | "StsRegionalEndpointDisabled"
+  | "UnsupportedVersion"
+  | "Other";
+export const ClusterIssueCode = S.Literal(
+  "AccessDenied",
+  "ClusterUnreachable",
+  "ConfigurationConflict",
+  "InternalFailure",
+  "ResourceLimitExceeded",
+  "ResourceNotFound",
+  "IamRoleNotFound",
+  "VpcNotFound",
+  "InsufficientFreeAddresses",
+  "Ec2ServiceNotSubscribed",
+  "Ec2SubnetNotFound",
+  "Ec2SecurityGroupNotFound",
+  "KmsGrantRevoked",
+  "KmsKeyNotFound",
+  "KmsKeyMarkedForDeletion",
+  "KmsKeyDisabled",
+  "StsRegionalEndpointDisabled",
+  "UnsupportedVersion",
+  "Other",
+);
 export interface ClusterIssue {
-  code?: string;
+  code?: ClusterIssueCode;
   message?: string;
-  resourceIds?: StringList;
+  resourceIds?: string[];
 }
 export const ClusterIssue = S.suspend(() =>
   S.Struct({
-    code: S.optional(S.String),
+    code: S.optional(ClusterIssueCode),
     message: S.optional(S.String),
     resourceIds: S.optional(StringList),
   }),
@@ -1938,7 +2170,7 @@ export const ClusterIssue = S.suspend(() =>
 export type ClusterIssueList = ClusterIssue[];
 export const ClusterIssueList = S.Array(ClusterIssue);
 export interface ClusterHealth {
-  issues?: ClusterIssueList;
+  issues?: ClusterIssue[];
 }
 export const ClusterHealth = S.suspend(() =>
   S.Struct({ issues: S.optional(ClusterIssueList) }),
@@ -1954,7 +2186,7 @@ export const ControlPlanePlacementResponse = S.suspend(() =>
   identifier: "ControlPlanePlacementResponse",
 }) as any as S.Schema<ControlPlanePlacementResponse>;
 export interface OutpostConfigResponse {
-  outpostArns: StringList;
+  outpostArns: string[];
   controlPlaneInstanceType: string;
   controlPlanePlacement?: ControlPlanePlacementResponse;
 }
@@ -1969,21 +2201,21 @@ export const OutpostConfigResponse = S.suspend(() =>
 }) as any as S.Schema<OutpostConfigResponse>;
 export interface AccessConfigResponse {
   bootstrapClusterCreatorAdminPermissions?: boolean;
-  authenticationMode?: string;
+  authenticationMode?: AuthenticationMode;
 }
 export const AccessConfigResponse = S.suspend(() =>
   S.Struct({
     bootstrapClusterCreatorAdminPermissions: S.optional(S.Boolean),
-    authenticationMode: S.optional(S.String),
+    authenticationMode: S.optional(AuthenticationMode),
   }),
 ).annotations({
   identifier: "AccessConfigResponse",
 }) as any as S.Schema<AccessConfigResponse>;
 export interface UpgradePolicyResponse {
-  supportType?: string;
+  supportType?: SupportType;
 }
 export const UpgradePolicyResponse = S.suspend(() =>
-  S.Struct({ supportType: S.optional(S.String) }),
+  S.Struct({ supportType: S.optional(SupportType) }),
 ).annotations({
   identifier: "UpgradePolicyResponse",
 }) as any as S.Schema<UpgradePolicyResponse>;
@@ -1996,7 +2228,7 @@ export const ZonalShiftConfigResponse = S.suspend(() =>
   identifier: "ZonalShiftConfigResponse",
 }) as any as S.Schema<ZonalShiftConfigResponse>;
 export interface RemoteNodeNetwork {
-  cidrs?: StringList;
+  cidrs?: string[];
 }
 export const RemoteNodeNetwork = S.suspend(() =>
   S.Struct({ cidrs: S.optional(StringList) }),
@@ -2006,7 +2238,7 @@ export const RemoteNodeNetwork = S.suspend(() =>
 export type RemoteNodeNetworkList = RemoteNodeNetwork[];
 export const RemoteNodeNetworkList = S.Array(RemoteNodeNetwork);
 export interface RemotePodNetwork {
-  cidrs?: StringList;
+  cidrs?: string[];
 }
 export const RemotePodNetwork = S.suspend(() =>
   S.Struct({ cidrs: S.optional(StringList) }),
@@ -2016,8 +2248,8 @@ export const RemotePodNetwork = S.suspend(() =>
 export type RemotePodNetworkList = RemotePodNetwork[];
 export const RemotePodNetworkList = S.Array(RemotePodNetwork);
 export interface RemoteNetworkConfigResponse {
-  remoteNodeNetworks?: RemoteNodeNetworkList;
-  remotePodNetworks?: RemotePodNetworkList;
+  remoteNodeNetworks?: RemoteNodeNetwork[];
+  remotePodNetworks?: RemotePodNetwork[];
 }
 export const RemoteNetworkConfigResponse = S.suspend(() =>
   S.Struct({
@@ -2029,7 +2261,7 @@ export const RemoteNetworkConfigResponse = S.suspend(() =>
 }) as any as S.Schema<RemoteNetworkConfigResponse>;
 export interface ComputeConfigResponse {
   enabled?: boolean;
-  nodePools?: StringList;
+  nodePools?: string[];
   nodeRoleArn?: string;
 }
 export const ComputeConfigResponse = S.suspend(() =>
@@ -2066,12 +2298,12 @@ export interface Cluster {
   kubernetesNetworkConfig?: KubernetesNetworkConfigResponse;
   logging?: Logging;
   identity?: Identity;
-  status?: string;
+  status?: ClusterStatus;
   certificateAuthority?: Certificate;
   clientRequestToken?: string;
   platformVersion?: string;
-  tags?: TagMap;
-  encryptionConfig?: EncryptionConfigList;
+  tags?: { [key: string]: string };
+  encryptionConfig?: EncryptionConfig[];
   connectorConfig?: ConnectorConfigResponse;
   id?: string;
   health?: ClusterHealth;
@@ -2097,7 +2329,7 @@ export const Cluster = S.suspend(() =>
     kubernetesNetworkConfig: S.optional(KubernetesNetworkConfigResponse),
     logging: S.optional(Logging),
     identity: S.optional(Identity),
-    status: S.optional(S.String),
+    status: S.optional(ClusterStatus),
     certificateAuthority: S.optional(Certificate),
     clientRequestToken: S.optional(S.String),
     platformVersion: S.optional(S.String),
@@ -2128,11 +2360,11 @@ export const DeregisterClusterResponse = S.suspend(() =>
 export interface AccessEntry {
   clusterName?: string;
   principalArn?: string;
-  kubernetesGroups?: StringList;
+  kubernetesGroups?: string[];
   accessEntryArn?: string;
   createdAt?: Date;
   modifiedAt?: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   username?: string;
   type?: string;
 }
@@ -2157,14 +2389,56 @@ export const DescribeAccessEntryResponse = S.suspend(() =>
 ).annotations({
   identifier: "DescribeAccessEntryResponse",
 }) as any as S.Schema<DescribeAccessEntryResponse>;
+export type AddonStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "CREATE_FAILED"
+  | "UPDATING"
+  | "DELETING"
+  | "DELETE_FAILED"
+  | "DEGRADED"
+  | "UPDATE_FAILED";
+export const AddonStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "CREATE_FAILED",
+  "UPDATING",
+  "DELETING",
+  "DELETE_FAILED",
+  "DEGRADED",
+  "UPDATE_FAILED",
+);
+export type AddonIssueCode =
+  | "AccessDenied"
+  | "InternalFailure"
+  | "ClusterUnreachable"
+  | "InsufficientNumberOfReplicas"
+  | "ConfigurationConflict"
+  | "AdmissionRequestDenied"
+  | "UnsupportedAddonModification"
+  | "K8sResourceNotFound"
+  | "AddonSubscriptionNeeded"
+  | "AddonPermissionFailure";
+export const AddonIssueCode = S.Literal(
+  "AccessDenied",
+  "InternalFailure",
+  "ClusterUnreachable",
+  "InsufficientNumberOfReplicas",
+  "ConfigurationConflict",
+  "AdmissionRequestDenied",
+  "UnsupportedAddonModification",
+  "K8sResourceNotFound",
+  "AddonSubscriptionNeeded",
+  "AddonPermissionFailure",
+);
 export interface AddonIssue {
-  code?: string;
+  code?: AddonIssueCode;
   message?: string;
-  resourceIds?: StringList;
+  resourceIds?: string[];
 }
 export const AddonIssue = S.suspend(() =>
   S.Struct({
-    code: S.optional(S.String),
+    code: S.optional(AddonIssueCode),
     message: S.optional(S.String),
     resourceIds: S.optional(StringList),
   }),
@@ -2172,7 +2446,7 @@ export const AddonIssue = S.suspend(() =>
 export type AddonIssueList = AddonIssue[];
 export const AddonIssueList = S.Array(AddonIssue);
 export interface AddonHealth {
-  issues?: AddonIssueList;
+  issues?: AddonIssue[];
 }
 export const AddonHealth = S.suspend(() =>
   S.Struct({ issues: S.optional(AddonIssueList) }),
@@ -2200,26 +2474,26 @@ export const AddonNamespaceConfigResponse = S.suspend(() =>
 export interface Addon {
   addonName?: string;
   clusterName?: string;
-  status?: string;
+  status?: AddonStatus;
   addonVersion?: string;
   health?: AddonHealth;
   addonArn?: string;
   createdAt?: Date;
   modifiedAt?: Date;
   serviceAccountRoleArn?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   publisher?: string;
   owner?: string;
   marketplaceInformation?: MarketplaceInformation;
   configurationValues?: string;
-  podIdentityAssociations?: StringList;
+  podIdentityAssociations?: string[];
   namespaceConfig?: AddonNamespaceConfigResponse;
 }
 export const Addon = S.suspend(() =>
   S.Struct({
     addonName: S.optional(S.String),
     clusterName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(AddonStatus),
     addonVersion: S.optional(S.String),
     health: S.optional(AddonHealth),
     addonArn: S.optional(S.String),
@@ -2243,6 +2517,23 @@ export const DescribeAddonResponse = S.suspend(() =>
 ).annotations({
   identifier: "DescribeAddonResponse",
 }) as any as S.Schema<DescribeAddonResponse>;
+export type CapabilityStatus =
+  | "CREATING"
+  | "CREATE_FAILED"
+  | "UPDATING"
+  | "DELETING"
+  | "DELETE_FAILED"
+  | "ACTIVE"
+  | "DEGRADED";
+export const CapabilityStatus = S.Literal(
+  "CREATING",
+  "CREATE_FAILED",
+  "UPDATING",
+  "DELETING",
+  "DELETE_FAILED",
+  "ACTIVE",
+  "DEGRADED",
+);
 export interface ArgoCdAwsIdcConfigResponse {
   idcInstanceArn?: string;
   idcRegion?: string;
@@ -2257,28 +2548,32 @@ export const ArgoCdAwsIdcConfigResponse = S.suspend(() =>
 ).annotations({
   identifier: "ArgoCdAwsIdcConfigResponse",
 }) as any as S.Schema<ArgoCdAwsIdcConfigResponse>;
+export type ArgoCdRole = "ADMIN" | "EDITOR" | "VIEWER";
+export const ArgoCdRole = S.Literal("ADMIN", "EDITOR", "VIEWER");
+export type SsoIdentityType = "SSO_USER" | "SSO_GROUP";
+export const SsoIdentityType = S.Literal("SSO_USER", "SSO_GROUP");
 export interface SsoIdentity {
   id: string;
-  type: string;
+  type: SsoIdentityType;
 }
 export const SsoIdentity = S.suspend(() =>
-  S.Struct({ id: S.String, type: S.String }),
+  S.Struct({ id: S.String, type: SsoIdentityType }),
 ).annotations({ identifier: "SsoIdentity" }) as any as S.Schema<SsoIdentity>;
 export type SsoIdentityList = SsoIdentity[];
 export const SsoIdentityList = S.Array(SsoIdentity);
 export interface ArgoCdRoleMapping {
-  role: string;
-  identities: SsoIdentityList;
+  role: ArgoCdRole;
+  identities: SsoIdentity[];
 }
 export const ArgoCdRoleMapping = S.suspend(() =>
-  S.Struct({ role: S.String, identities: SsoIdentityList }),
+  S.Struct({ role: ArgoCdRole, identities: SsoIdentityList }),
 ).annotations({
   identifier: "ArgoCdRoleMapping",
 }) as any as S.Schema<ArgoCdRoleMapping>;
 export type ArgoCdRoleMappingList = ArgoCdRoleMapping[];
 export const ArgoCdRoleMappingList = S.Array(ArgoCdRoleMapping);
 export interface ArgoCdNetworkAccessConfigResponse {
-  vpceIds?: StringList;
+  vpceIds?: string[];
 }
 export const ArgoCdNetworkAccessConfigResponse = S.suspend(() =>
   S.Struct({ vpceIds: S.optional(StringList) }),
@@ -2288,7 +2583,7 @@ export const ArgoCdNetworkAccessConfigResponse = S.suspend(() =>
 export interface ArgoCdConfigResponse {
   namespace?: string;
   awsIdc?: ArgoCdAwsIdcConfigResponse;
-  rbacRoleMappings?: ArgoCdRoleMappingList;
+  rbacRoleMappings?: ArgoCdRoleMapping[];
   networkAccess?: ArgoCdNetworkAccessConfigResponse;
   serverUrl?: string;
 }
@@ -2311,19 +2606,27 @@ export const CapabilityConfigurationResponse = S.suspend(() =>
 ).annotations({
   identifier: "CapabilityConfigurationResponse",
 }) as any as S.Schema<CapabilityConfigurationResponse>;
+export type CapabilityIssueCode = "AccessDenied" | "ClusterUnreachable";
+export const CapabilityIssueCode = S.Literal(
+  "AccessDenied",
+  "ClusterUnreachable",
+);
 export interface CapabilityIssue {
-  code?: string;
+  code?: CapabilityIssueCode;
   message?: string;
 }
 export const CapabilityIssue = S.suspend(() =>
-  S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
+  S.Struct({
+    code: S.optional(CapabilityIssueCode),
+    message: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "CapabilityIssue",
 }) as any as S.Schema<CapabilityIssue>;
 export type CapabilityIssueList = CapabilityIssue[];
 export const CapabilityIssueList = S.Array(CapabilityIssue);
 export interface CapabilityHealth {
-  issues?: CapabilityIssueList;
+  issues?: CapabilityIssue[];
 }
 export const CapabilityHealth = S.suspend(() =>
   S.Struct({ issues: S.optional(CapabilityIssueList) }),
@@ -2334,32 +2637,32 @@ export interface Capability {
   capabilityName?: string;
   arn?: string;
   clusterName?: string;
-  type?: string;
+  type?: CapabilityType;
   roleArn?: string;
-  status?: string;
+  status?: CapabilityStatus;
   version?: string;
   configuration?: CapabilityConfigurationResponse;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   health?: CapabilityHealth;
   createdAt?: Date;
   modifiedAt?: Date;
-  deletePropagationPolicy?: string;
+  deletePropagationPolicy?: CapabilityDeletePropagationPolicy;
 }
 export const Capability = S.suspend(() =>
   S.Struct({
     capabilityName: S.optional(S.String),
     arn: S.optional(S.String),
     clusterName: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(CapabilityType),
     roleArn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(CapabilityStatus),
     version: S.optional(S.String),
     configuration: S.optional(CapabilityConfigurationResponse),
     tags: S.optional(TagMap),
     health: S.optional(CapabilityHealth),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    deletePropagationPolicy: S.optional(S.String),
+    deletePropagationPolicy: S.optional(CapabilityDeletePropagationPolicy),
   }),
 ).annotations({ identifier: "Capability" }) as any as S.Schema<Capability>;
 export interface DescribeCapabilityResponse {
@@ -2390,7 +2693,7 @@ export type FargateProfileLabel = { [key: string]: string };
 export const FargateProfileLabel = S.Record({ key: S.String, value: S.String });
 export interface FargateProfileSelector {
   namespace?: string;
-  labels?: FargateProfileLabel;
+  labels?: { [key: string]: string };
 }
 export const FargateProfileSelector = S.suspend(() =>
   S.Struct({
@@ -2402,14 +2705,38 @@ export const FargateProfileSelector = S.suspend(() =>
 }) as any as S.Schema<FargateProfileSelector>;
 export type FargateProfileSelectors = FargateProfileSelector[];
 export const FargateProfileSelectors = S.Array(FargateProfileSelector);
+export type FargateProfileStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "DELETING"
+  | "CREATE_FAILED"
+  | "DELETE_FAILED";
+export const FargateProfileStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "DELETING",
+  "CREATE_FAILED",
+  "DELETE_FAILED",
+);
+export type FargateProfileIssueCode =
+  | "PodExecutionRoleAlreadyInUse"
+  | "AccessDenied"
+  | "ClusterUnreachable"
+  | "InternalFailure";
+export const FargateProfileIssueCode = S.Literal(
+  "PodExecutionRoleAlreadyInUse",
+  "AccessDenied",
+  "ClusterUnreachable",
+  "InternalFailure",
+);
 export interface FargateProfileIssue {
-  code?: string;
+  code?: FargateProfileIssueCode;
   message?: string;
-  resourceIds?: StringList;
+  resourceIds?: string[];
 }
 export const FargateProfileIssue = S.suspend(() =>
   S.Struct({
-    code: S.optional(S.String),
+    code: S.optional(FargateProfileIssueCode),
     message: S.optional(S.String),
     resourceIds: S.optional(StringList),
   }),
@@ -2419,7 +2746,7 @@ export const FargateProfileIssue = S.suspend(() =>
 export type FargateProfileIssueList = FargateProfileIssue[];
 export const FargateProfileIssueList = S.Array(FargateProfileIssue);
 export interface FargateProfileHealth {
-  issues?: FargateProfileIssueList;
+  issues?: FargateProfileIssue[];
 }
 export const FargateProfileHealth = S.suspend(() =>
   S.Struct({ issues: S.optional(FargateProfileIssueList) }),
@@ -2432,10 +2759,10 @@ export interface FargateProfile {
   clusterName?: string;
   createdAt?: Date;
   podExecutionRoleArn?: string;
-  subnets?: StringList;
-  selectors?: FargateProfileSelectors;
-  status?: string;
-  tags?: TagMap;
+  subnets?: string[];
+  selectors?: FargateProfileSelector[];
+  status?: FargateProfileStatus;
+  tags?: { [key: string]: string };
   health?: FargateProfileHealth;
 }
 export const FargateProfile = S.suspend(() =>
@@ -2447,7 +2774,7 @@ export const FargateProfile = S.suspend(() =>
     podExecutionRoleArn: S.optional(S.String),
     subnets: S.optional(StringList),
     selectors: S.optional(FargateProfileSelectors),
-    status: S.optional(S.String),
+    status: S.optional(FargateProfileStatus),
     tags: S.optional(TagMap),
     health: S.optional(FargateProfileHealth),
   }),
@@ -2488,20 +2815,37 @@ export const DescribeIdentityProviderConfigRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeIdentityProviderConfigRequest>;
 export interface DescribeInsightsRefreshResponse {
   message?: string;
-  status?: string;
+  status?: InsightsRefreshStatus;
   startedAt?: Date;
   endedAt?: Date;
 }
 export const DescribeInsightsRefreshResponse = S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(InsightsRefreshStatus),
     startedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({
   identifier: "DescribeInsightsRefreshResponse",
 }) as any as S.Schema<DescribeInsightsRefreshResponse>;
+export type NodegroupStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "UPDATING"
+  | "DELETING"
+  | "CREATE_FAILED"
+  | "DELETE_FAILED"
+  | "DEGRADED";
+export const NodegroupStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "UPDATING",
+  "DELETING",
+  "CREATE_FAILED",
+  "DELETE_FAILED",
+  "DEGRADED",
+);
 export interface AutoScalingGroup {
   name?: string;
 }
@@ -2513,7 +2857,7 @@ export const AutoScalingGroup = S.suspend(() =>
 export type AutoScalingGroupList = AutoScalingGroup[];
 export const AutoScalingGroupList = S.Array(AutoScalingGroup);
 export interface NodegroupResources {
-  autoScalingGroups?: AutoScalingGroupList;
+  autoScalingGroups?: AutoScalingGroup[];
   remoteAccessSecurityGroup?: string;
 }
 export const NodegroupResources = S.suspend(() =>
@@ -2524,14 +2868,89 @@ export const NodegroupResources = S.suspend(() =>
 ).annotations({
   identifier: "NodegroupResources",
 }) as any as S.Schema<NodegroupResources>;
+export type NodegroupIssueCode =
+  | "AutoScalingGroupNotFound"
+  | "AutoScalingGroupInvalidConfiguration"
+  | "Ec2SecurityGroupNotFound"
+  | "Ec2SecurityGroupDeletionFailure"
+  | "Ec2LaunchTemplateNotFound"
+  | "Ec2LaunchTemplateVersionMismatch"
+  | "Ec2SubnetNotFound"
+  | "Ec2SubnetInvalidConfiguration"
+  | "IamInstanceProfileNotFound"
+  | "Ec2SubnetMissingIpv6Assignment"
+  | "IamLimitExceeded"
+  | "IamNodeRoleNotFound"
+  | "NodeCreationFailure"
+  | "AsgInstanceLaunchFailures"
+  | "InstanceLimitExceeded"
+  | "InsufficientFreeAddresses"
+  | "AccessDenied"
+  | "InternalFailure"
+  | "ClusterUnreachable"
+  | "AmiIdNotFound"
+  | "AutoScalingGroupOptInRequired"
+  | "AutoScalingGroupRateLimitExceeded"
+  | "Ec2LaunchTemplateDeletionFailure"
+  | "Ec2LaunchTemplateInvalidConfiguration"
+  | "Ec2LaunchTemplateMaxLimitExceeded"
+  | "Ec2SubnetListTooLong"
+  | "IamThrottling"
+  | "NodeTerminationFailure"
+  | "PodEvictionFailure"
+  | "SourceEc2LaunchTemplateNotFound"
+  | "LimitExceeded"
+  | "Unknown"
+  | "AutoScalingGroupInstanceRefreshActive"
+  | "KubernetesLabelInvalid"
+  | "Ec2LaunchTemplateVersionMaxLimitExceeded"
+  | "Ec2InstanceTypeDoesNotExist";
+export const NodegroupIssueCode = S.Literal(
+  "AutoScalingGroupNotFound",
+  "AutoScalingGroupInvalidConfiguration",
+  "Ec2SecurityGroupNotFound",
+  "Ec2SecurityGroupDeletionFailure",
+  "Ec2LaunchTemplateNotFound",
+  "Ec2LaunchTemplateVersionMismatch",
+  "Ec2SubnetNotFound",
+  "Ec2SubnetInvalidConfiguration",
+  "IamInstanceProfileNotFound",
+  "Ec2SubnetMissingIpv6Assignment",
+  "IamLimitExceeded",
+  "IamNodeRoleNotFound",
+  "NodeCreationFailure",
+  "AsgInstanceLaunchFailures",
+  "InstanceLimitExceeded",
+  "InsufficientFreeAddresses",
+  "AccessDenied",
+  "InternalFailure",
+  "ClusterUnreachable",
+  "AmiIdNotFound",
+  "AutoScalingGroupOptInRequired",
+  "AutoScalingGroupRateLimitExceeded",
+  "Ec2LaunchTemplateDeletionFailure",
+  "Ec2LaunchTemplateInvalidConfiguration",
+  "Ec2LaunchTemplateMaxLimitExceeded",
+  "Ec2SubnetListTooLong",
+  "IamThrottling",
+  "NodeTerminationFailure",
+  "PodEvictionFailure",
+  "SourceEc2LaunchTemplateNotFound",
+  "LimitExceeded",
+  "Unknown",
+  "AutoScalingGroupInstanceRefreshActive",
+  "KubernetesLabelInvalid",
+  "Ec2LaunchTemplateVersionMaxLimitExceeded",
+  "Ec2InstanceTypeDoesNotExist",
+);
 export interface Issue {
-  code?: string;
+  code?: NodegroupIssueCode;
   message?: string;
-  resourceIds?: StringList;
+  resourceIds?: string[];
 }
 export const Issue = S.suspend(() =>
   S.Struct({
-    code: S.optional(S.String),
+    code: S.optional(NodegroupIssueCode),
     message: S.optional(S.String),
     resourceIds: S.optional(StringList),
   }),
@@ -2539,7 +2958,7 @@ export const Issue = S.suspend(() =>
 export type IssueList = Issue[];
 export const IssueList = S.Array(Issue);
 export interface NodegroupHealth {
-  issues?: IssueList;
+  issues?: Issue[];
 }
 export const NodegroupHealth = S.suspend(() =>
   S.Struct({ issues: S.optional(IssueList) }),
@@ -2550,14 +2969,14 @@ export interface NodeRepairConfigOverrides {
   nodeMonitoringCondition?: string;
   nodeUnhealthyReason?: string;
   minRepairWaitTimeMins?: number;
-  repairAction?: string;
+  repairAction?: RepairAction;
 }
 export const NodeRepairConfigOverrides = S.suspend(() =>
   S.Struct({
     nodeMonitoringCondition: S.optional(S.String),
     nodeUnhealthyReason: S.optional(S.String),
     minRepairWaitTimeMins: S.optional(S.Number),
-    repairAction: S.optional(S.String),
+    repairAction: S.optional(RepairAction),
   }),
 ).annotations({
   identifier: "NodeRepairConfigOverrides",
@@ -2570,7 +2989,7 @@ export interface NodeRepairConfig {
   maxUnhealthyNodeThresholdPercentage?: number;
   maxParallelNodesRepairedCount?: number;
   maxParallelNodesRepairedPercentage?: number;
-  nodeRepairConfigOverrides?: NodeRepairConfigOverridesList;
+  nodeRepairConfigOverrides?: NodeRepairConfigOverrides[];
 }
 export const NodeRepairConfig = S.suspend(() =>
   S.Struct({
@@ -2592,23 +3011,23 @@ export interface Nodegroup {
   releaseVersion?: string;
   createdAt?: Date;
   modifiedAt?: Date;
-  status?: string;
-  capacityType?: string;
+  status?: NodegroupStatus;
+  capacityType?: CapacityTypes;
   scalingConfig?: NodegroupScalingConfig;
-  instanceTypes?: StringList;
-  subnets?: StringList;
+  instanceTypes?: string[];
+  subnets?: string[];
   remoteAccess?: RemoteAccessConfig;
-  amiType?: string;
+  amiType?: AMITypes;
   nodeRole?: string;
-  labels?: labelsMap;
-  taints?: taintsList;
+  labels?: { [key: string]: string };
+  taints?: Taint[];
   resources?: NodegroupResources;
   diskSize?: number;
   health?: NodegroupHealth;
   updateConfig?: NodegroupUpdateConfig;
   nodeRepairConfig?: NodeRepairConfig;
   launchTemplate?: LaunchTemplateSpecification;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const Nodegroup = S.suspend(() =>
   S.Struct({
@@ -2619,13 +3038,13 @@ export const Nodegroup = S.suspend(() =>
     releaseVersion: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(S.String),
-    capacityType: S.optional(S.String),
+    status: S.optional(NodegroupStatus),
+    capacityType: S.optional(CapacityTypes),
     scalingConfig: S.optional(NodegroupScalingConfig),
     instanceTypes: S.optional(StringList),
     subnets: S.optional(StringList),
     remoteAccess: S.optional(RemoteAccessConfig),
-    amiType: S.optional(S.String),
+    amiType: S.optional(AMITypes),
     nodeRole: S.optional(S.String),
     labels: S.optional(labelsMap),
     taints: S.optional(taintsList),
@@ -2654,23 +3073,185 @@ export const DescribePodIdentityAssociationResponse = S.suspend(() =>
 ).annotations({
   identifier: "DescribePodIdentityAssociationResponse",
 }) as any as S.Schema<DescribePodIdentityAssociationResponse>;
+export type UpdateStatus = "InProgress" | "Failed" | "Cancelled" | "Successful";
+export const UpdateStatus = S.Literal(
+  "InProgress",
+  "Failed",
+  "Cancelled",
+  "Successful",
+);
+export type UpdateType =
+  | "VersionUpdate"
+  | "EndpointAccessUpdate"
+  | "LoggingUpdate"
+  | "ConfigUpdate"
+  | "AssociateIdentityProviderConfig"
+  | "DisassociateIdentityProviderConfig"
+  | "AssociateEncryptionConfig"
+  | "AddonUpdate"
+  | "VpcConfigUpdate"
+  | "AccessConfigUpdate"
+  | "UpgradePolicyUpdate"
+  | "ZonalShiftConfigUpdate"
+  | "AutoModeUpdate"
+  | "RemoteNetworkConfigUpdate"
+  | "DeletionProtectionUpdate"
+  | "ControlPlaneScalingConfigUpdate";
+export const UpdateType = S.Literal(
+  "VersionUpdate",
+  "EndpointAccessUpdate",
+  "LoggingUpdate",
+  "ConfigUpdate",
+  "AssociateIdentityProviderConfig",
+  "DisassociateIdentityProviderConfig",
+  "AssociateEncryptionConfig",
+  "AddonUpdate",
+  "VpcConfigUpdate",
+  "AccessConfigUpdate",
+  "UpgradePolicyUpdate",
+  "ZonalShiftConfigUpdate",
+  "AutoModeUpdate",
+  "RemoteNetworkConfigUpdate",
+  "DeletionProtectionUpdate",
+  "ControlPlaneScalingConfigUpdate",
+);
+export type UpdateParamType =
+  | "Version"
+  | "PlatformVersion"
+  | "EndpointPrivateAccess"
+  | "EndpointPublicAccess"
+  | "ClusterLogging"
+  | "DesiredSize"
+  | "LabelsToAdd"
+  | "LabelsToRemove"
+  | "TaintsToAdd"
+  | "TaintsToRemove"
+  | "MaxSize"
+  | "MinSize"
+  | "ReleaseVersion"
+  | "PublicAccessCidrs"
+  | "LaunchTemplateName"
+  | "LaunchTemplateVersion"
+  | "IdentityProviderConfig"
+  | "EncryptionConfig"
+  | "AddonVersion"
+  | "ServiceAccountRoleArn"
+  | "ResolveConflicts"
+  | "MaxUnavailable"
+  | "MaxUnavailablePercentage"
+  | "NodeRepairEnabled"
+  | "UpdateStrategy"
+  | "ConfigurationValues"
+  | "SecurityGroups"
+  | "Subnets"
+  | "AuthenticationMode"
+  | "PodIdentityAssociations"
+  | "UpgradePolicy"
+  | "ZonalShiftConfig"
+  | "ComputeConfig"
+  | "StorageConfig"
+  | "KubernetesNetworkConfig"
+  | "RemoteNetworkConfig"
+  | "DeletionProtection"
+  | "NodeRepairConfig"
+  | "UpdatedTier"
+  | "PreviousTier";
+export const UpdateParamType = S.Literal(
+  "Version",
+  "PlatformVersion",
+  "EndpointPrivateAccess",
+  "EndpointPublicAccess",
+  "ClusterLogging",
+  "DesiredSize",
+  "LabelsToAdd",
+  "LabelsToRemove",
+  "TaintsToAdd",
+  "TaintsToRemove",
+  "MaxSize",
+  "MinSize",
+  "ReleaseVersion",
+  "PublicAccessCidrs",
+  "LaunchTemplateName",
+  "LaunchTemplateVersion",
+  "IdentityProviderConfig",
+  "EncryptionConfig",
+  "AddonVersion",
+  "ServiceAccountRoleArn",
+  "ResolveConflicts",
+  "MaxUnavailable",
+  "MaxUnavailablePercentage",
+  "NodeRepairEnabled",
+  "UpdateStrategy",
+  "ConfigurationValues",
+  "SecurityGroups",
+  "Subnets",
+  "AuthenticationMode",
+  "PodIdentityAssociations",
+  "UpgradePolicy",
+  "ZonalShiftConfig",
+  "ComputeConfig",
+  "StorageConfig",
+  "KubernetesNetworkConfig",
+  "RemoteNetworkConfig",
+  "DeletionProtection",
+  "NodeRepairConfig",
+  "UpdatedTier",
+  "PreviousTier",
+);
 export interface UpdateParam {
-  type?: string;
+  type?: UpdateParamType;
   value?: string;
 }
 export const UpdateParam = S.suspend(() =>
-  S.Struct({ type: S.optional(S.String), value: S.optional(S.String) }),
+  S.Struct({ type: S.optional(UpdateParamType), value: S.optional(S.String) }),
 ).annotations({ identifier: "UpdateParam" }) as any as S.Schema<UpdateParam>;
 export type UpdateParams = UpdateParam[];
 export const UpdateParams = S.Array(UpdateParam);
+export type ErrorCode =
+  | "SubnetNotFound"
+  | "SecurityGroupNotFound"
+  | "EniLimitReached"
+  | "IpNotAvailable"
+  | "AccessDenied"
+  | "OperationNotPermitted"
+  | "VpcIdNotFound"
+  | "Unknown"
+  | "NodeCreationFailure"
+  | "PodEvictionFailure"
+  | "InsufficientFreeAddresses"
+  | "ClusterUnreachable"
+  | "InsufficientNumberOfReplicas"
+  | "ConfigurationConflict"
+  | "AdmissionRequestDenied"
+  | "UnsupportedAddonModification"
+  | "K8sResourceNotFound";
+export const ErrorCode = S.Literal(
+  "SubnetNotFound",
+  "SecurityGroupNotFound",
+  "EniLimitReached",
+  "IpNotAvailable",
+  "AccessDenied",
+  "OperationNotPermitted",
+  "VpcIdNotFound",
+  "Unknown",
+  "NodeCreationFailure",
+  "PodEvictionFailure",
+  "InsufficientFreeAddresses",
+  "ClusterUnreachable",
+  "InsufficientNumberOfReplicas",
+  "ConfigurationConflict",
+  "AdmissionRequestDenied",
+  "UnsupportedAddonModification",
+  "K8sResourceNotFound",
+);
 export interface ErrorDetail {
-  errorCode?: string;
+  errorCode?: ErrorCode;
   errorMessage?: string;
-  resourceIds?: StringList;
+  resourceIds?: string[];
 }
 export const ErrorDetail = S.suspend(() =>
   S.Struct({
-    errorCode: S.optional(S.String),
+    errorCode: S.optional(ErrorCode),
     errorMessage: S.optional(S.String),
     resourceIds: S.optional(StringList),
   }),
@@ -2679,17 +3260,17 @@ export type ErrorDetails = ErrorDetail[];
 export const ErrorDetails = S.Array(ErrorDetail);
 export interface Update {
   id?: string;
-  status?: string;
-  type?: string;
-  params?: UpdateParams;
+  status?: UpdateStatus;
+  type?: UpdateType;
+  params?: UpdateParam[];
   createdAt?: Date;
-  errors?: ErrorDetails;
+  errors?: ErrorDetail[];
 }
 export const Update = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
-    status: S.optional(S.String),
-    type: S.optional(S.String),
+    status: S.optional(UpdateStatus),
+    type: S.optional(UpdateType),
     params: S.optional(UpdateParams),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     errors: S.optional(ErrorDetails),
@@ -2704,7 +3285,7 @@ export const DisassociateIdentityProviderConfigResponse = S.suspend(() =>
   identifier: "DisassociateIdentityProviderConfigResponse",
 }) as any as S.Schema<DisassociateIdentityProviderConfigResponse>;
 export interface ListAccessEntriesResponse {
-  accessEntries?: StringList;
+  accessEntries?: string[];
   nextToken?: string;
 }
 export const ListAccessEntriesResponse = S.suspend(() =>
@@ -2716,7 +3297,7 @@ export const ListAccessEntriesResponse = S.suspend(() =>
   identifier: "ListAccessEntriesResponse",
 }) as any as S.Schema<ListAccessEntriesResponse>;
 export interface ListAddonsResponse {
-  addons?: StringList;
+  addons?: string[];
   nextToken?: string;
 }
 export const ListAddonsResponse = S.suspend(() =>
@@ -2725,7 +3306,7 @@ export const ListAddonsResponse = S.suspend(() =>
   identifier: "ListAddonsResponse",
 }) as any as S.Schema<ListAddonsResponse>;
 export interface ListClustersResponse {
-  clusters?: StringList;
+  clusters?: string[];
   nextToken?: string;
 }
 export const ListClustersResponse = S.suspend(() =>
@@ -2737,7 +3318,7 @@ export const ListClustersResponse = S.suspend(() =>
   identifier: "ListClustersResponse",
 }) as any as S.Schema<ListClustersResponse>;
 export interface ListEksAnywhereSubscriptionsResponse {
-  subscriptions?: EksAnywhereSubscriptionList;
+  subscriptions?: EksAnywhereSubscription[];
   nextToken?: string;
 }
 export const ListEksAnywhereSubscriptionsResponse = S.suspend(() =>
@@ -2749,7 +3330,7 @@ export const ListEksAnywhereSubscriptionsResponse = S.suspend(() =>
   identifier: "ListEksAnywhereSubscriptionsResponse",
 }) as any as S.Schema<ListEksAnywhereSubscriptionsResponse>;
 export interface ListFargateProfilesResponse {
-  fargateProfileNames?: StringList;
+  fargateProfileNames?: string[];
   nextToken?: string;
 }
 export const ListFargateProfilesResponse = S.suspend(() =>
@@ -2761,7 +3342,7 @@ export const ListFargateProfilesResponse = S.suspend(() =>
   identifier: "ListFargateProfilesResponse",
 }) as any as S.Schema<ListFargateProfilesResponse>;
 export interface ListIdentityProviderConfigsResponse {
-  identityProviderConfigs?: IdentityProviderConfigs;
+  identityProviderConfigs?: IdentityProviderConfig[];
   nextToken?: string;
 }
 export const ListIdentityProviderConfigsResponse = S.suspend(() =>
@@ -2798,7 +3379,7 @@ export const ListInsightsRequest = S.suspend(() =>
   identifier: "ListInsightsRequest",
 }) as any as S.Schema<ListInsightsRequest>;
 export interface ListNodegroupsResponse {
-  nodegroups?: StringList;
+  nodegroups?: string[];
   nextToken?: string;
 }
 export const ListNodegroupsResponse = S.suspend(() =>
@@ -2810,7 +3391,7 @@ export const ListNodegroupsResponse = S.suspend(() =>
   identifier: "ListNodegroupsResponse",
 }) as any as S.Schema<ListNodegroupsResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -2818,7 +3399,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListUpdatesResponse {
-  updateIds?: StringList;
+  updateIds?: string[];
   nextToken?: string;
 }
 export const ListUpdatesResponse = S.suspend(() =>
@@ -2833,7 +3414,7 @@ export interface RegisterClusterRequest {
   name: string;
   connectorConfig: ConnectorConfigRequest;
   clientRequestToken?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const RegisterClusterRequest = S.suspend(() =>
   S.Struct({
@@ -2856,10 +3437,13 @@ export const RegisterClusterRequest = S.suspend(() =>
 }) as any as S.Schema<RegisterClusterRequest>;
 export interface StartInsightsRefreshResponse {
   message?: string;
-  status?: string;
+  status?: InsightsRefreshStatus;
 }
 export const StartInsightsRefreshResponse = S.suspend(() =>
-  S.Struct({ message: S.optional(S.String), status: S.optional(S.String) }),
+  S.Struct({
+    message: S.optional(S.String),
+    status: S.optional(InsightsRefreshStatus),
+  }),
 ).annotations({
   identifier: "StartInsightsRefreshResponse",
 }) as any as S.Schema<StartInsightsRefreshResponse>;
@@ -2881,13 +3465,13 @@ export const UpdateAddonResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateAddonResponse>;
 export interface KubernetesNetworkConfigRequest {
   serviceIpv4Cidr?: string;
-  ipFamily?: string;
+  ipFamily?: IpFamily;
   elasticLoadBalancing?: ElasticLoadBalancing;
 }
 export const KubernetesNetworkConfigRequest = S.suspend(() =>
   S.Struct({
     serviceIpv4Cidr: S.optional(S.String),
-    ipFamily: S.optional(S.String),
+    ipFamily: S.optional(IpFamily),
     elasticLoadBalancing: S.optional(ElasticLoadBalancing),
   }),
 ).annotations({
@@ -2902,8 +3486,8 @@ export const StorageConfigRequest = S.suspend(() =>
   identifier: "StorageConfigRequest",
 }) as any as S.Schema<StorageConfigRequest>;
 export interface RemoteNetworkConfigRequest {
-  remoteNodeNetworks?: RemoteNodeNetworkList;
-  remotePodNetworks?: RemotePodNetworkList;
+  remoteNodeNetworks?: RemoteNodeNetwork[];
+  remotePodNetworks?: RemotePodNetwork[];
 }
 export const RemoteNetworkConfigRequest = S.suspend(() =>
   S.Struct({
@@ -3042,7 +3626,7 @@ export interface OidcIdentityProviderConfigRequest {
   usernamePrefix?: string;
   groupsClaim?: string;
   groupsPrefix?: string;
-  requiredClaims?: requiredClaimsMap;
+  requiredClaims?: { [key: string]: string };
 }
 export const OidcIdentityProviderConfigRequest = S.suspend(() =>
   S.Struct({
@@ -3059,7 +3643,7 @@ export const OidcIdentityProviderConfigRequest = S.suspend(() =>
   identifier: "OidcIdentityProviderConfigRequest",
 }) as any as S.Schema<OidcIdentityProviderConfigRequest>;
 export interface OutpostConfigRequest {
-  outpostArns: StringList;
+  outpostArns: string[];
   controlPlaneInstanceType: string;
   controlPlanePlacement?: ControlPlanePlacementRequest;
 }
@@ -3074,7 +3658,7 @@ export const OutpostConfigRequest = S.suspend(() =>
 }) as any as S.Schema<OutpostConfigRequest>;
 export interface AddonPodIdentityConfiguration {
   serviceAccount?: string;
-  recommendedManagedPolicies?: StringList;
+  recommendedManagedPolicies?: string[];
 }
 export const AddonPodIdentityConfiguration = S.suspend(() =>
   S.Struct({
@@ -3096,8 +3680,8 @@ export interface ClusterVersionInformation {
   releaseDate?: Date;
   endOfStandardSupportDate?: Date;
   endOfExtendedSupportDate?: Date;
-  status?: string;
-  versionStatus?: string;
+  status?: ClusterVersionStatus;
+  versionStatus?: VersionStatus;
   kubernetesPatchVersion?: string;
 }
 export const ClusterVersionInformation = S.suspend(() =>
@@ -3113,8 +3697,8 @@ export const ClusterVersionInformation = S.suspend(() =>
     endOfExtendedSupportDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    status: S.optional(S.String),
-    versionStatus: S.optional(S.String),
+    status: S.optional(ClusterVersionStatus),
+    versionStatus: S.optional(VersionStatus),
     kubernetesPatchVersion: S.optional(S.String),
   }),
 ).annotations({
@@ -3152,8 +3736,8 @@ export const AssociatedAccessPoliciesList = S.Array(AssociatedAccessPolicy);
 export interface CapabilitySummary {
   capabilityName?: string;
   arn?: string;
-  type?: string;
-  status?: string;
+  type?: CapabilityType;
+  status?: CapabilityStatus;
   version?: string;
   createdAt?: Date;
   modifiedAt?: Date;
@@ -3162,8 +3746,8 @@ export const CapabilitySummary = S.suspend(() =>
   S.Struct({
     capabilityName: S.optional(S.String),
     arn: S.optional(S.String),
-    type: S.optional(S.String),
-    status: S.optional(S.String),
+    type: S.optional(CapabilityType),
+    status: S.optional(CapabilityStatus),
     version: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -3207,7 +3791,7 @@ export const ArgoCdAwsIdcConfigRequest = S.suspend(() =>
   identifier: "ArgoCdAwsIdcConfigRequest",
 }) as any as S.Schema<ArgoCdAwsIdcConfigRequest>;
 export interface ArgoCdNetworkAccessConfigRequest {
-  vpceIds?: StringList;
+  vpceIds?: string[];
 }
 export const ArgoCdNetworkAccessConfigRequest = S.suspend(() =>
   S.Struct({ vpceIds: S.optional(StringList) }),
@@ -3215,8 +3799,8 @@ export const ArgoCdNetworkAccessConfigRequest = S.suspend(() =>
   identifier: "ArgoCdNetworkAccessConfigRequest",
 }) as any as S.Schema<ArgoCdNetworkAccessConfigRequest>;
 export interface UpdateRoleMappings {
-  addOrUpdateRoleMappings?: ArgoCdRoleMappingList;
-  removeRoleMappings?: ArgoCdRoleMappingList;
+  addOrUpdateRoleMappings?: ArgoCdRoleMapping[];
+  removeRoleMappings?: ArgoCdRoleMapping[];
 }
 export const UpdateRoleMappings = S.suspend(() =>
   S.Struct({
@@ -3242,7 +3826,7 @@ export const AssociateAccessPolicyResponse = S.suspend(() =>
 }) as any as S.Schema<AssociateAccessPolicyResponse>;
 export interface AssociateEncryptionConfigRequest {
   clusterName: string;
-  encryptionConfig: EncryptionConfigList;
+  encryptionConfig: EncryptionConfig[];
   clientRequestToken?: string;
 }
 export const AssociateEncryptionConfigRequest = S.suspend(() =>
@@ -3269,7 +3853,7 @@ export const AssociateEncryptionConfigRequest = S.suspend(() =>
 export interface AssociateIdentityProviderConfigRequest {
   clusterName: string;
   oidc: OidcIdentityProviderConfigRequest;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   clientRequestToken?: string;
 }
 export const AssociateIdentityProviderConfigRequest = S.suspend(() =>
@@ -3318,8 +3902,8 @@ export interface CreateClusterRequest {
   kubernetesNetworkConfig?: KubernetesNetworkConfigRequest;
   logging?: Logging;
   clientRequestToken?: string;
-  tags?: TagMap;
-  encryptionConfig?: EncryptionConfigList;
+  tags?: { [key: string]: string };
+  encryptionConfig?: EncryptionConfig[];
   outpostConfig?: OutpostConfigRequest;
   accessConfig?: CreateAccessConfigRequest;
   bootstrapSelfManagedAddons?: boolean;
@@ -3377,10 +3961,10 @@ export interface CreateFargateProfileRequest {
   fargateProfileName: string;
   clusterName: string;
   podExecutionRoleArn: string;
-  subnets?: StringList;
-  selectors?: FargateProfileSelectors;
+  subnets?: string[];
+  selectors?: FargateProfileSelector[];
   clientRequestToken?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateFargateProfileRequest = S.suspend(() =>
   S.Struct({
@@ -3412,19 +3996,19 @@ export interface CreateNodegroupRequest {
   nodegroupName: string;
   scalingConfig?: NodegroupScalingConfig;
   diskSize?: number;
-  subnets: StringList;
-  instanceTypes?: StringList;
-  amiType?: string;
+  subnets: string[];
+  instanceTypes?: string[];
+  amiType?: AMITypes;
   remoteAccess?: RemoteAccessConfig;
   nodeRole: string;
-  labels?: labelsMap;
-  taints?: taintsList;
-  tags?: TagMap;
+  labels?: { [key: string]: string };
+  taints?: Taint[];
+  tags?: { [key: string]: string };
   clientRequestToken?: string;
   launchTemplate?: LaunchTemplateSpecification;
   updateConfig?: NodegroupUpdateConfig;
   nodeRepairConfig?: NodeRepairConfig;
-  capacityType?: string;
+  capacityType?: CapacityTypes;
   version?: string;
   releaseVersion?: string;
 }
@@ -3436,7 +4020,7 @@ export const CreateNodegroupRequest = S.suspend(() =>
     diskSize: S.optional(S.Number),
     subnets: StringList,
     instanceTypes: S.optional(StringList),
-    amiType: S.optional(S.String),
+    amiType: S.optional(AMITypes),
     remoteAccess: S.optional(RemoteAccessConfig),
     nodeRole: S.String,
     labels: S.optional(labelsMap),
@@ -3446,7 +4030,7 @@ export const CreateNodegroupRequest = S.suspend(() =>
     launchTemplate: S.optional(LaunchTemplateSpecification),
     updateConfig: S.optional(NodegroupUpdateConfig),
     nodeRepairConfig: S.optional(NodeRepairConfig),
-    capacityType: S.optional(S.String),
+    capacityType: S.optional(CapacityTypes),
     version: S.optional(S.String),
     releaseVersion: S.optional(S.String),
   }).pipe(
@@ -3474,7 +4058,7 @@ export interface DescribeAddonConfigurationResponse {
   addonName?: string;
   addonVersion?: string;
   configurationSchema?: string;
-  podIdentityConfiguration?: AddonPodIdentityConfigurationList;
+  podIdentityConfiguration?: AddonPodIdentityConfiguration[];
 }
 export const DescribeAddonConfigurationResponse = S.suspend(() =>
   S.Struct({
@@ -3488,7 +4072,7 @@ export const DescribeAddonConfigurationResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeAddonConfigurationResponse>;
 export interface DescribeClusterVersionsResponse {
   nextToken?: string;
-  clusterVersions?: ClusterVersionList;
+  clusterVersions?: ClusterVersionInformation[];
 }
 export const DescribeClusterVersionsResponse = S.suspend(() =>
   S.Struct({
@@ -3499,7 +4083,7 @@ export const DescribeClusterVersionsResponse = S.suspend(() =>
   identifier: "DescribeClusterVersionsResponse",
 }) as any as S.Schema<DescribeClusterVersionsResponse>;
 export interface ListAccessPoliciesResponse {
-  accessPolicies?: AccessPoliciesList;
+  accessPolicies?: AccessPolicy[];
   nextToken?: string;
 }
 export const ListAccessPoliciesResponse = S.suspend(() =>
@@ -3514,7 +4098,7 @@ export interface ListAssociatedAccessPoliciesResponse {
   clusterName?: string;
   principalArn?: string;
   nextToken?: string;
-  associatedAccessPolicies?: AssociatedAccessPoliciesList;
+  associatedAccessPolicies?: AssociatedAccessPolicy[];
 }
 export const ListAssociatedAccessPoliciesResponse = S.suspend(() =>
   S.Struct({
@@ -3527,7 +4111,7 @@ export const ListAssociatedAccessPoliciesResponse = S.suspend(() =>
   identifier: "ListAssociatedAccessPoliciesResponse",
 }) as any as S.Schema<ListAssociatedAccessPoliciesResponse>;
 export interface ListCapabilitiesResponse {
-  capabilities?: CapabilitySummaryList;
+  capabilities?: CapabilitySummary[];
   nextToken?: string;
 }
 export const ListCapabilitiesResponse = S.suspend(() =>
@@ -3539,7 +4123,7 @@ export const ListCapabilitiesResponse = S.suspend(() =>
   identifier: "ListCapabilitiesResponse",
 }) as any as S.Schema<ListCapabilitiesResponse>;
 export interface ListPodIdentityAssociationsResponse {
-  associations?: PodIdentityAssociationSummaries;
+  associations?: PodIdentityAssociationSummary[];
   nextToken?: string;
 }
 export const ListPodIdentityAssociationsResponse = S.suspend(() =>
@@ -3575,11 +4159,14 @@ export const UpdateNodegroupConfigResponse = S.suspend(() =>
   identifier: "UpdateNodegroupConfigResponse",
 }) as any as S.Schema<UpdateNodegroupConfigResponse>;
 export interface InsightStatus {
-  status?: string;
+  status?: InsightStatusValue;
   reason?: string;
 }
 export const InsightStatus = S.suspend(() =>
-  S.Struct({ status: S.optional(S.String), reason: S.optional(S.String) }),
+  S.Struct({
+    status: S.optional(InsightStatusValue),
+    reason: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "InsightStatus",
 }) as any as S.Schema<InsightStatus>;
@@ -3616,7 +4203,7 @@ export const UpdateArgoCdConfig = S.suspend(() =>
 export interface InsightSummary {
   id?: string;
   name?: string;
-  category?: string;
+  category?: Category;
   kubernetesVersion?: string;
   lastRefreshTime?: Date;
   lastTransitionTime?: Date;
@@ -3627,7 +4214,7 @@ export const InsightSummary = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
-    category: S.optional(S.String),
+    category: S.optional(Category),
     kubernetesVersion: S.optional(S.String),
     lastRefreshTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -3653,7 +4240,7 @@ export const UpdateCapabilityConfiguration = S.suspend(() =>
 }) as any as S.Schema<UpdateCapabilityConfiguration>;
 export interface Compatibility {
   clusterVersion?: string;
-  platformVersions?: StringList;
+  platformVersions?: string[];
   defaultVersion?: boolean;
 }
 export const Compatibility = S.suspend(() =>
@@ -3667,9 +4254,11 @@ export const Compatibility = S.suspend(() =>
 }) as any as S.Schema<Compatibility>;
 export type Compatibilities = Compatibility[];
 export const Compatibilities = S.Array(Compatibility);
+export type configStatus = "CREATING" | "DELETING" | "ACTIVE";
+export const configStatus = S.Literal("CREATING", "DELETING", "ACTIVE");
 export interface AddonCompatibilityDetail {
   name?: string;
-  compatibleVersions?: StringList;
+  compatibleVersions?: string[];
 }
 export const AddonCompatibilityDetail = S.suspend(() =>
   S.Struct({
@@ -3691,7 +4280,7 @@ export const AssociateEncryptionConfigResponse = S.suspend(() =>
 }) as any as S.Schema<AssociateEncryptionConfigResponse>;
 export interface AssociateIdentityProviderConfigResponse {
   update?: Update;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const AssociateIdentityProviderConfigResponse = S.suspend(() =>
   S.Struct({ update: S.optional(Update), tags: S.optional(TagMap) }),
@@ -3739,7 +4328,7 @@ export const DescribeUpdateResponse = S.suspend(() =>
   identifier: "DescribeUpdateResponse",
 }) as any as S.Schema<DescribeUpdateResponse>;
 export interface ListInsightsResponse {
-  insights?: InsightSummaries;
+  insights?: InsightSummary[];
   nextToken?: string;
 }
 export const ListInsightsResponse = S.suspend(() =>
@@ -3756,7 +4345,7 @@ export interface UpdateCapabilityRequest {
   roleArn?: string;
   configuration?: UpdateCapabilityConfiguration;
   clientRequestToken?: string;
-  deletePropagationPolicy?: string;
+  deletePropagationPolicy?: CapabilityDeletePropagationPolicy;
 }
 export const UpdateCapabilityRequest = S.suspend(() =>
   S.Struct({
@@ -3765,7 +4354,7 @@ export const UpdateCapabilityRequest = S.suspend(() =>
     roleArn: S.optional(S.String),
     configuration: S.optional(UpdateCapabilityConfiguration),
     clientRequestToken: S.optional(S.String),
-    deletePropagationPolicy: S.optional(S.String),
+    deletePropagationPolicy: S.optional(CapabilityDeletePropagationPolicy),
   }).pipe(
     T.all(
       T.Http({
@@ -3785,7 +4374,7 @@ export const UpdateCapabilityRequest = S.suspend(() =>
 export interface ArgoCdConfigRequest {
   namespace?: string;
   awsIdc: ArgoCdAwsIdcConfigRequest;
-  rbacRoleMappings?: ArgoCdRoleMappingList;
+  rbacRoleMappings?: ArgoCdRoleMapping[];
   networkAccess?: ArgoCdNetworkAccessConfigRequest;
 }
 export const ArgoCdConfigRequest = S.suspend(() =>
@@ -3800,9 +4389,9 @@ export const ArgoCdConfigRequest = S.suspend(() =>
 }) as any as S.Schema<ArgoCdConfigRequest>;
 export interface AddonVersionInfo {
   addonVersion?: string;
-  architecture?: StringList;
-  computeTypes?: StringList;
-  compatibilities?: Compatibilities;
+  architecture?: string[];
+  computeTypes?: string[];
+  compatibilities?: Compatibility[];
   requiresConfiguration?: boolean;
   requiresIamPermissions?: boolean;
 }
@@ -3830,9 +4419,9 @@ export interface OidcIdentityProviderConfig {
   usernamePrefix?: string;
   groupsClaim?: string;
   groupsPrefix?: string;
-  requiredClaims?: requiredClaimsMap;
-  tags?: TagMap;
-  status?: string;
+  requiredClaims?: { [key: string]: string };
+  tags?: { [key: string]: string };
+  status?: configStatus;
 }
 export const OidcIdentityProviderConfig = S.suspend(() =>
   S.Struct({
@@ -3847,7 +4436,7 @@ export const OidcIdentityProviderConfig = S.suspend(() =>
     groupsPrefix: S.optional(S.String),
     requiredClaims: S.optional(requiredClaimsMap),
     tags: S.optional(TagMap),
-    status: S.optional(S.String),
+    status: S.optional(configStatus),
   }),
 ).annotations({
   identifier: "OidcIdentityProviderConfig",
@@ -3879,7 +4468,7 @@ export const CapabilityConfigurationRequest = S.suspend(() =>
 export interface AddonInfo {
   addonName?: string;
   type?: string;
-  addonVersions?: AddonVersionInfoList;
+  addonVersions?: AddonVersionInfo[];
   publisher?: string;
   owner?: string;
   marketplaceInformation?: MarketplaceInformation;
@@ -3911,7 +4500,7 @@ export interface DeprecationDetail {
   replacedWith?: string;
   stopServingVersion?: string;
   startServingReplacementVersion?: string;
-  clientStats?: ClientStats;
+  clientStats?: ClientStat[];
 }
 export const DeprecationDetail = S.suspend(() =>
   S.Struct({
@@ -3930,22 +4519,22 @@ export interface CreateCapabilityRequest {
   capabilityName: string;
   clusterName: string;
   clientRequestToken?: string;
-  type: string;
+  type: CapabilityType;
   roleArn: string;
   configuration?: CapabilityConfigurationRequest;
-  tags?: TagMap;
-  deletePropagationPolicy: string;
+  tags?: { [key: string]: string };
+  deletePropagationPolicy: CapabilityDeletePropagationPolicy;
 }
 export const CreateCapabilityRequest = S.suspend(() =>
   S.Struct({
     capabilityName: S.String,
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     clientRequestToken: S.optional(S.String),
-    type: S.String,
+    type: CapabilityType,
     roleArn: S.String,
     configuration: S.optional(CapabilityConfigurationRequest),
     tags: S.optional(TagMap),
-    deletePropagationPolicy: S.String,
+    deletePropagationPolicy: CapabilityDeletePropagationPolicy,
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/clusters/{clusterName}/capabilities" }),
@@ -3992,7 +4581,7 @@ export const DeleteNodegroupResponse = S.suspend(() =>
   identifier: "DeleteNodegroupResponse",
 }) as any as S.Schema<DeleteNodegroupResponse>;
 export interface DescribeAddonVersionsResponse {
-  addons?: Addons;
+  addons?: AddonInfo[];
   nextToken?: string;
 }
 export const DescribeAddonVersionsResponse = S.suspend(() =>
@@ -4019,8 +4608,8 @@ export const UpdateCapabilityResponse = S.suspend(() =>
   identifier: "UpdateCapabilityResponse",
 }) as any as S.Schema<UpdateCapabilityResponse>;
 export interface InsightCategorySpecificSummary {
-  deprecationDetails?: DeprecationDetails;
-  addonCompatibilityDetails?: AddonCompatibilityDetails;
+  deprecationDetails?: DeprecationDetail[];
+  addonCompatibilityDetails?: AddonCompatibilityDetail[];
 }
 export const InsightCategorySpecificSummary = S.suspend(() =>
   S.Struct({
@@ -4033,22 +4622,22 @@ export const InsightCategorySpecificSummary = S.suspend(() =>
 export interface Insight {
   id?: string;
   name?: string;
-  category?: string;
+  category?: Category;
   kubernetesVersion?: string;
   lastRefreshTime?: Date;
   lastTransitionTime?: Date;
   description?: string;
   insightStatus?: InsightStatus;
   recommendation?: string;
-  additionalInfo?: AdditionalInfoMap;
-  resources?: InsightResourceDetails;
+  additionalInfo?: { [key: string]: string };
+  resources?: InsightResourceDetail[];
   categorySpecificSummary?: InsightCategorySpecificSummary;
 }
 export const Insight = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
-    category: S.optional(S.String),
+    category: S.optional(Category),
     kubernetesVersion: S.optional(S.String),
     lastRefreshTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -4210,7 +4799,7 @@ export class ResourcePropagationDelayException extends S.TaggedError<ResourcePro
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   BadRequestException | NotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4224,7 +4813,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   BadRequestException | NotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4238,7 +4827,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   BadRequestException | NotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4256,7 +4845,7 @@ export const listTagsForResource: (
  */
 export const deleteAccessEntry: (
   input: DeleteAccessEntryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccessEntryResponse,
   | InvalidRequestException
   | ResourceNotFoundException
@@ -4276,7 +4865,7 @@ export const deleteAccessEntry: (
  */
 export const deleteEksAnywhereSubscription: (
   input: DeleteEksAnywhereSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEksAnywhereSubscriptionResponse,
   | ClientException
   | InvalidRequestException
@@ -4303,7 +4892,7 @@ export const deleteEksAnywhereSubscription: (
  */
 export const describeUpdate: (
   input: DescribeUpdateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeUpdateResponse,
   | ClientException
   | InvalidParameterException
@@ -4338,7 +4927,7 @@ export const describeUpdate: (
 export const listInsights: {
   (
     input: ListInsightsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInsightsResponse,
     | InvalidParameterException
     | InvalidRequestException
@@ -4349,7 +4938,7 @@ export const listInsights: {
   >;
   pages: (
     input: ListInsightsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInsightsResponse,
     | InvalidParameterException
     | InvalidRequestException
@@ -4360,7 +4949,7 @@ export const listInsights: {
   >;
   items: (
     input: ListInsightsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     InsightSummary,
     | InvalidParameterException
     | InvalidRequestException
@@ -4392,7 +4981,7 @@ export const listInsights: {
  */
 export const deletePodIdentityAssociation: (
   input: DeletePodIdentityAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePodIdentityAssociationResponse,
   | InvalidParameterException
   | InvalidRequestException
@@ -4415,7 +5004,7 @@ export const deletePodIdentityAssociation: (
  */
 export const describeAddon: (
   input: DescribeAddonRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAddonResponse,
   | ClientException
   | InvalidParameterException
@@ -4440,7 +5029,7 @@ export const describeAddon: (
  */
 export const describeAddonConfiguration: (
   input: DescribeAddonConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAddonConfigurationResponse,
   | InvalidParameterException
   | ResourceNotFoundException
@@ -4462,7 +5051,7 @@ export const describeAddonConfiguration: (
 export const describeClusterVersions: {
   (
     input: DescribeClusterVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeClusterVersionsResponse,
     | InvalidParameterException
     | InvalidRequestException
@@ -4472,7 +5061,7 @@ export const describeClusterVersions: {
   >;
   pages: (
     input: DescribeClusterVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeClusterVersionsResponse,
     | InvalidParameterException
     | InvalidRequestException
@@ -4482,7 +5071,7 @@ export const describeClusterVersions: {
   >;
   items: (
     input: DescribeClusterVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ClusterVersionInformation,
     | InvalidParameterException
     | InvalidRequestException
@@ -4507,21 +5096,21 @@ export const describeClusterVersions: {
 export const listAccessPolicies: {
   (
     input: ListAccessPoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccessPoliciesResponse,
     ServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListAccessPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccessPoliciesResponse,
     ServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAccessPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AccessPolicy,
     ServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -4543,7 +5132,7 @@ export const listAccessPolicies: {
 export const listAssociatedAccessPolicies: {
   (
     input: ListAssociatedAccessPoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAssociatedAccessPoliciesResponse,
     | InvalidRequestException
     | ResourceNotFoundException
@@ -4553,7 +5142,7 @@ export const listAssociatedAccessPolicies: {
   >;
   pages: (
     input: ListAssociatedAccessPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAssociatedAccessPoliciesResponse,
     | InvalidRequestException
     | ResourceNotFoundException
@@ -4563,7 +5152,7 @@ export const listAssociatedAccessPolicies: {
   >;
   items: (
     input: ListAssociatedAccessPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AssociatedAccessPolicy,
     | InvalidRequestException
     | ResourceNotFoundException
@@ -4588,21 +5177,21 @@ export const listAssociatedAccessPolicies: {
 export const listCapabilities: {
   (
     input: ListCapabilitiesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCapabilitiesResponse,
     InvalidParameterException | ServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListCapabilitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCapabilitiesResponse,
     InvalidParameterException | ServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCapabilitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CapabilitySummary,
     InvalidParameterException | ServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -4625,7 +5214,7 @@ export const listCapabilities: {
 export const listPodIdentityAssociations: {
   (
     input: ListPodIdentityAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPodIdentityAssociationsResponse,
     | InvalidParameterException
     | InvalidRequestException
@@ -4636,7 +5225,7 @@ export const listPodIdentityAssociations: {
   >;
   pages: (
     input: ListPodIdentityAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPodIdentityAssociationsResponse,
     | InvalidParameterException
     | InvalidRequestException
@@ -4647,7 +5236,7 @@ export const listPodIdentityAssociations: {
   >;
   items: (
     input: ListPodIdentityAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PodIdentityAssociationSummary,
     | InvalidParameterException
     | InvalidRequestException
@@ -4677,7 +5266,7 @@ export const listPodIdentityAssociations: {
  */
 export const describeAccessEntry: (
   input: DescribeAccessEntryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAccessEntryResponse,
   | InvalidRequestException
   | ResourceNotFoundException
@@ -4694,7 +5283,7 @@ export const describeAccessEntry: (
  */
 export const disassociateAccessPolicy: (
   input: DisassociateAccessPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateAccessPolicyResponse,
   | InvalidRequestException
   | ResourceNotFoundException
@@ -4711,7 +5300,7 @@ export const disassociateAccessPolicy: (
  */
 export const describeInsightsRefresh: (
   input: DescribeInsightsRefreshRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeInsightsRefreshResponse,
   | InvalidParameterException
   | InvalidRequestException
@@ -4739,7 +5328,7 @@ export const describeInsightsRefresh: (
  */
 export const describePodIdentityAssociation: (
   input: DescribePodIdentityAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePodIdentityAssociationResponse,
   | InvalidParameterException
   | InvalidRequestException
@@ -4763,7 +5352,7 @@ export const describePodIdentityAssociation: (
 export const listAccessEntries: {
   (
     input: ListAccessEntriesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccessEntriesResponse,
     | InvalidParameterException
     | InvalidRequestException
@@ -4774,7 +5363,7 @@ export const listAccessEntries: {
   >;
   pages: (
     input: ListAccessEntriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccessEntriesResponse,
     | InvalidParameterException
     | InvalidRequestException
@@ -4785,7 +5374,7 @@ export const listAccessEntries: {
   >;
   items: (
     input: ListAccessEntriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     String,
     | InvalidParameterException
     | InvalidRequestException
@@ -4815,7 +5404,7 @@ export const listAccessEntries: {
  */
 export const startInsightsRefresh: (
   input: StartInsightsRefreshRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartInsightsRefreshResponse,
   | InvalidParameterException
   | InvalidRequestException
@@ -4838,7 +5427,7 @@ export const startInsightsRefresh: (
  */
 export const updateAccessEntry: (
   input: UpdateAccessEntryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAccessEntryResponse,
   | InvalidParameterException
   | InvalidRequestException
@@ -4879,7 +5468,7 @@ export const updateAccessEntry: (
  */
 export const updatePodIdentityAssociation: (
   input: UpdatePodIdentityAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePodIdentityAssociationResponse,
   | InvalidParameterException
   | InvalidRequestException
@@ -4904,7 +5493,7 @@ export const updatePodIdentityAssociation: (
  */
 export const associateAccessPolicy: (
   input: AssociateAccessPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateAccessPolicyResponse,
   | InvalidParameterException
   | InvalidRequestException
@@ -4927,7 +5516,7 @@ export const associateAccessPolicy: (
  */
 export const describeCapability: (
   input: DescribeCapabilityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCapabilityResponse,
   | AccessDeniedException
   | InvalidParameterException
@@ -4950,7 +5539,7 @@ export const describeCapability: (
  */
 export const describeFargateProfile: (
   input: DescribeFargateProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeFargateProfileResponse,
   | ClientException
   | InvalidParameterException
@@ -4974,7 +5563,7 @@ export const describeFargateProfile: (
 export const listAddons: {
   (
     input: ListAddonsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAddonsResponse,
     | ClientException
     | InvalidParameterException
@@ -4986,7 +5575,7 @@ export const listAddons: {
   >;
   pages: (
     input: ListAddonsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAddonsResponse,
     | ClientException
     | InvalidParameterException
@@ -4998,7 +5587,7 @@ export const listAddons: {
   >;
   items: (
     input: ListAddonsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     String,
     | ClientException
     | InvalidParameterException
@@ -5032,7 +5621,7 @@ export const listAddons: {
 export const listFargateProfiles: {
   (
     input: ListFargateProfilesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFargateProfilesResponse,
     | ClientException
     | InvalidParameterException
@@ -5043,7 +5632,7 @@ export const listFargateProfiles: {
   >;
   pages: (
     input: ListFargateProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFargateProfilesResponse,
     | ClientException
     | InvalidParameterException
@@ -5054,7 +5643,7 @@ export const listFargateProfiles: {
   >;
   items: (
     input: ListFargateProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     String,
     | ClientException
     | InvalidParameterException
@@ -5086,7 +5675,7 @@ export const listFargateProfiles: {
 export const listUpdates: {
   (
     input: ListUpdatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUpdatesResponse,
     | ClientException
     | InvalidParameterException
@@ -5097,7 +5686,7 @@ export const listUpdates: {
   >;
   pages: (
     input: ListUpdatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUpdatesResponse,
     | ClientException
     | InvalidParameterException
@@ -5108,7 +5697,7 @@ export const listUpdates: {
   >;
   items: (
     input: ListUpdatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     String,
     | ClientException
     | InvalidParameterException
@@ -5139,7 +5728,7 @@ export const listUpdates: {
  */
 export const updateEksAnywhereSubscription: (
   input: UpdateEksAnywhereSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEksAnywhereSubscriptionResponse,
   | ClientException
   | InvalidParameterException
@@ -5169,7 +5758,7 @@ export const updateEksAnywhereSubscription: (
  */
 export const updateNodegroupConfig: (
   input: UpdateNodegroupConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateNodegroupConfigResponse,
   | ClientException
   | InvalidParameterException
@@ -5210,7 +5799,7 @@ export const updateNodegroupConfig: (
  */
 export const createAccessEntry: (
   input: CreateAccessEntryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAccessEntryResponse,
   | InvalidParameterException
   | InvalidRequestException
@@ -5264,7 +5853,7 @@ export const createAccessEntry: (
  */
 export const createPodIdentityAssociation: (
   input: CreatePodIdentityAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePodIdentityAssociationResponse,
   | InvalidParameterException
   | InvalidRequestException
@@ -5291,7 +5880,7 @@ export const createPodIdentityAssociation: (
  */
 export const updateAddon: (
   input: UpdateAddonRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAddonResponse,
   | ClientException
   | InvalidParameterException
@@ -5344,7 +5933,7 @@ export const updateAddon: (
  */
 export const updateNodegroupVersion: (
   input: UpdateNodegroupVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateNodegroupVersionResponse,
   | ClientException
   | InvalidParameterException
@@ -5375,7 +5964,7 @@ export const updateNodegroupVersion: (
  */
 export const createAddon: (
   input: CreateAddonRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAddonResponse,
   | ClientException
   | InvalidParameterException
@@ -5405,7 +5994,7 @@ export const createAddon: (
  */
 export const deleteAddon: (
   input: DeleteAddonRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAddonResponse,
   | ClientException
   | InvalidParameterException
@@ -5440,7 +6029,7 @@ export const deleteAddon: (
  */
 export const deleteFargateProfile: (
   input: DeleteFargateProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFargateProfileResponse,
   | ClientException
   | InvalidParameterException
@@ -5468,7 +6057,7 @@ export const deleteFargateProfile: (
 export const describeAddonVersions: {
   (
     input: DescribeAddonVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeAddonVersionsResponse,
     | InvalidParameterException
     | ResourceNotFoundException
@@ -5478,7 +6067,7 @@ export const describeAddonVersions: {
   >;
   pages: (
     input: DescribeAddonVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeAddonVersionsResponse,
     | InvalidParameterException
     | ResourceNotFoundException
@@ -5488,7 +6077,7 @@ export const describeAddonVersions: {
   >;
   items: (
     input: DescribeAddonVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AddonInfo,
     | InvalidParameterException
     | ResourceNotFoundException
@@ -5518,7 +6107,7 @@ export const describeAddonVersions: {
  */
 export const updateCapability: (
   input: UpdateCapabilityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCapabilityResponse,
   | AccessDeniedException
   | InvalidParameterException
@@ -5551,7 +6140,7 @@ export const updateCapability: (
  */
 export const describeCluster: (
   input: DescribeClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeClusterResponse,
   | ClientException
   | ResourceNotFoundException
@@ -5587,7 +6176,7 @@ export const describeCluster: (
  */
 export const updateClusterVersion: (
   input: UpdateClusterVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateClusterVersionResponse,
   | ClientException
   | InvalidParameterException
@@ -5618,7 +6207,7 @@ export const updateClusterVersion: (
  */
 export const describeEksAnywhereSubscription: (
   input: DescribeEksAnywhereSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEksAnywhereSubscriptionResponse,
   | ClientException
   | ResourceNotFoundException
@@ -5641,7 +6230,7 @@ export const describeEksAnywhereSubscription: (
  */
 export const describeNodegroup: (
   input: DescribeNodegroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeNodegroupResponse,
   | ClientException
   | InvalidParameterException
@@ -5667,7 +6256,7 @@ export const describeNodegroup: (
 export const listClusters: {
   (
     input: ListClustersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListClustersResponse,
     | ClientException
     | InvalidParameterException
@@ -5678,7 +6267,7 @@ export const listClusters: {
   >;
   pages: (
     input: ListClustersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListClustersResponse,
     | ClientException
     | InvalidParameterException
@@ -5689,7 +6278,7 @@ export const listClusters: {
   >;
   items: (
     input: ListClustersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     String,
     | ClientException
     | InvalidParameterException
@@ -5720,7 +6309,7 @@ export const listClusters: {
 export const listEksAnywhereSubscriptions: {
   (
     input: ListEksAnywhereSubscriptionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEksAnywhereSubscriptionsResponse,
     | ClientException
     | InvalidParameterException
@@ -5731,7 +6320,7 @@ export const listEksAnywhereSubscriptions: {
   >;
   pages: (
     input: ListEksAnywhereSubscriptionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEksAnywhereSubscriptionsResponse,
     | ClientException
     | InvalidParameterException
@@ -5742,7 +6331,7 @@ export const listEksAnywhereSubscriptions: {
   >;
   items: (
     input: ListEksAnywhereSubscriptionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EksAnywhereSubscription,
     | ClientException
     | InvalidParameterException
@@ -5773,7 +6362,7 @@ export const listEksAnywhereSubscriptions: {
 export const listIdentityProviderConfigs: {
   (
     input: ListIdentityProviderConfigsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListIdentityProviderConfigsResponse,
     | ClientException
     | InvalidParameterException
@@ -5785,7 +6374,7 @@ export const listIdentityProviderConfigs: {
   >;
   pages: (
     input: ListIdentityProviderConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListIdentityProviderConfigsResponse,
     | ClientException
     | InvalidParameterException
@@ -5797,7 +6386,7 @@ export const listIdentityProviderConfigs: {
   >;
   items: (
     input: ListIdentityProviderConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     IdentityProviderConfig,
     | ClientException
     | InvalidParameterException
@@ -5831,7 +6420,7 @@ export const listIdentityProviderConfigs: {
 export const listNodegroups: {
   (
     input: ListNodegroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListNodegroupsResponse,
     | ClientException
     | InvalidParameterException
@@ -5843,7 +6432,7 @@ export const listNodegroups: {
   >;
   pages: (
     input: ListNodegroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListNodegroupsResponse,
     | ClientException
     | InvalidParameterException
@@ -5855,7 +6444,7 @@ export const listNodegroups: {
   >;
   items: (
     input: ListNodegroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     String,
     | ClientException
     | InvalidParameterException
@@ -5890,7 +6479,7 @@ export const listNodegroups: {
  */
 export const createEksAnywhereSubscription: (
   input: CreateEksAnywhereSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEksAnywhereSubscriptionResponse,
   | ClientException
   | InvalidParameterException
@@ -5918,7 +6507,7 @@ export const createEksAnywhereSubscription: (
  */
 export const deregisterCluster: (
   input: DeregisterClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterClusterResponse,
   | AccessDeniedException
   | ClientException
@@ -5964,7 +6553,7 @@ export const deregisterCluster: (
  */
 export const createNodegroup: (
   input: CreateNodegroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateNodegroupResponse,
   | ClientException
   | InvalidParameterException
@@ -6003,7 +6592,7 @@ export const createNodegroup: (
  */
 export const deleteCluster: (
   input: DeleteClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteClusterResponse,
   | ClientException
   | InvalidRequestException
@@ -6030,7 +6619,7 @@ export const deleteCluster: (
  */
 export const deleteNodegroup: (
   input: DeleteNodegroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteNodegroupResponse,
   | ClientException
   | InvalidParameterException
@@ -6057,7 +6646,7 @@ export const deleteNodegroup: (
  */
 export const describeIdentityProviderConfig: (
   input: DescribeIdentityProviderConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeIdentityProviderConfigResponse,
   | ClientException
   | InvalidParameterException
@@ -6128,7 +6717,7 @@ export const describeIdentityProviderConfig: (
  */
 export const updateClusterConfig: (
   input: UpdateClusterConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateClusterConfigResponse,
   | ClientException
   | InvalidParameterException
@@ -6161,7 +6750,7 @@ export const updateClusterConfig: (
  */
 export const disassociateIdentityProviderConfig: (
   input: DisassociateIdentityProviderConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateIdentityProviderConfigResponse,
   | ClientException
   | InvalidParameterException
@@ -6194,7 +6783,7 @@ export const disassociateIdentityProviderConfig: (
  */
 export const associateEncryptionConfig: (
   input: AssociateEncryptionConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateEncryptionConfigResponse,
   | ClientException
   | InvalidParameterException
@@ -6231,7 +6820,7 @@ export const associateEncryptionConfig: (
  */
 export const associateIdentityProviderConfig: (
   input: AssociateIdentityProviderConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateIdentityProviderConfigResponse,
   | ClientException
   | InvalidParameterException
@@ -6289,7 +6878,7 @@ export const associateIdentityProviderConfig: (
  */
 export const createFargateProfile: (
   input: CreateFargateProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFargateProfileResponse,
   | ClientException
   | InvalidParameterException
@@ -6333,7 +6922,7 @@ export const createFargateProfile: (
  */
 export const registerCluster: (
   input: RegisterClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterClusterResponse,
   | AccessDeniedException
   | ClientException
@@ -6407,7 +6996,7 @@ export const registerCluster: (
  */
 export const createCluster: (
   input: CreateClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateClusterResponse,
   | ClientException
   | InvalidParameterException
@@ -6442,7 +7031,7 @@ export const createCluster: (
  */
 export const createCapability: (
   input: CreateCapabilityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCapabilityResponse,
   | AccessDeniedException
   | InvalidParameterException
@@ -6473,7 +7062,7 @@ export const createCapability: (
  */
 export const deleteCapability: (
   input: DeleteCapabilityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCapabilityResponse,
   | AccessDeniedException
   | InvalidParameterException
@@ -6498,7 +7087,7 @@ export const deleteCapability: (
  */
 export const describeInsight: (
   input: DescribeInsightRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeInsightResponse,
   | InvalidParameterException
   | InvalidRequestException

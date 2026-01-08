@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -184,10 +184,32 @@ export type AccessPointArn = string;
 export type StatusMessage = string;
 
 //# Schemas
+export type PerformanceMode = "generalPurpose" | "maxIO";
+export const PerformanceMode = S.Literal("generalPurpose", "maxIO");
+export type ThroughputMode = "bursting" | "provisioned" | "elastic";
+export const ThroughputMode = S.Literal("bursting", "provisioned", "elastic");
+export type IpAddressType = "IPV4_ONLY" | "IPV6_ONLY" | "DUAL_STACK";
+export const IpAddressType = S.Literal("IPV4_ONLY", "IPV6_ONLY", "DUAL_STACK");
 export type SecurityGroups = string[];
 export const SecurityGroups = S.Array(S.String);
+export type DeletionMode = "ALL_CONFIGURATIONS" | "LOCAL_CONFIGURATION_ONLY";
+export const DeletionMode = S.Literal(
+  "ALL_CONFIGURATIONS",
+  "LOCAL_CONFIGURATION_ONLY",
+);
 export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
+export type ResourceIdType = "LONG_ID" | "SHORT_ID";
+export const ResourceIdType = S.Literal("LONG_ID", "SHORT_ID");
+export type ReplicationOverwriteProtection =
+  | "ENABLED"
+  | "DISABLED"
+  | "REPLICATING";
+export const ReplicationOverwriteProtection = S.Literal(
+  "ENABLED",
+  "DISABLED",
+  "REPLICATING",
+);
 export interface Tag {
   Key: string;
   Value: string;
@@ -199,22 +221,22 @@ export type Tags = Tag[];
 export const Tags = S.Array(Tag);
 export interface CreateFileSystemRequest {
   CreationToken: string;
-  PerformanceMode?: string;
+  PerformanceMode?: PerformanceMode;
   Encrypted?: boolean;
   KmsKeyId?: string;
-  ThroughputMode?: string;
+  ThroughputMode?: ThroughputMode;
   ProvisionedThroughputInMibps?: number;
   AvailabilityZoneName?: string;
   Backup?: boolean;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreateFileSystemRequest = S.suspend(() =>
   S.Struct({
     CreationToken: S.String,
-    PerformanceMode: S.optional(S.String),
+    PerformanceMode: S.optional(PerformanceMode),
     Encrypted: S.optional(S.Boolean),
     KmsKeyId: S.optional(S.String),
-    ThroughputMode: S.optional(S.String),
+    ThroughputMode: S.optional(ThroughputMode),
     ProvisionedThroughputInMibps: S.optional(S.Number),
     AvailabilityZoneName: S.optional(S.String),
     Backup: S.optional(S.Boolean),
@@ -237,8 +259,8 @@ export interface CreateMountTargetRequest {
   SubnetId: string;
   IpAddress?: string;
   Ipv6Address?: string;
-  IpAddressType?: string;
-  SecurityGroups?: SecurityGroups;
+  IpAddressType?: IpAddressType;
+  SecurityGroups?: string[];
 }
 export const CreateMountTargetRequest = S.suspend(() =>
   S.Struct({
@@ -246,7 +268,7 @@ export const CreateMountTargetRequest = S.suspend(() =>
     SubnetId: S.String,
     IpAddress: S.optional(S.String),
     Ipv6Address: S.optional(S.String),
-    IpAddressType: S.optional(S.String),
+    IpAddressType: S.optional(IpAddressType),
     SecurityGroups: S.optional(SecurityGroups),
   }).pipe(
     T.all(
@@ -263,7 +285,7 @@ export const CreateMountTargetRequest = S.suspend(() =>
 }) as any as S.Schema<CreateMountTargetRequest>;
 export interface CreateTagsRequest {
   FileSystemId: string;
-  Tags: Tags;
+  Tags: Tag[];
 }
 export const CreateTagsRequest = S.suspend(() =>
   S.Struct({
@@ -392,12 +414,12 @@ export const DeleteMountTargetResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteMountTargetResponse>;
 export interface DeleteReplicationConfigurationRequest {
   SourceFileSystemId: string;
-  DeletionMode?: string;
+  DeletionMode?: DeletionMode;
 }
 export const DeleteReplicationConfigurationRequest = S.suspend(() =>
   S.Struct({
     SourceFileSystemId: S.String.pipe(T.HttpLabel("SourceFileSystemId")),
-    DeletionMode: S.optional(S.String).pipe(T.HttpQuery("deletionMode")),
+    DeletionMode: S.optional(DeletionMode).pipe(T.HttpQuery("deletionMode")),
   }).pipe(
     T.all(
       T.Http({
@@ -422,7 +444,7 @@ export const DeleteReplicationConfigurationResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteReplicationConfigurationResponse>;
 export interface DeleteTagsRequest {
   FileSystemId: string;
-  TagKeys: TagKeys;
+  TagKeys: string[];
 }
 export const DeleteTagsRequest = S.suspend(() =>
   S.Struct({
@@ -697,7 +719,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ModifyMountTargetSecurityGroupsRequest {
   MountTargetId: string;
-  SecurityGroups?: SecurityGroups;
+  SecurityGroups?: string[];
 }
 export const ModifyMountTargetSecurityGroupsRequest = S.suspend(() =>
   S.Struct({
@@ -726,10 +748,10 @@ export const ModifyMountTargetSecurityGroupsResponse = S.suspend(() =>
   identifier: "ModifyMountTargetSecurityGroupsResponse",
 }) as any as S.Schema<ModifyMountTargetSecurityGroupsResponse>;
 export interface PutAccountPreferencesRequest {
-  ResourceIdType: string;
+  ResourceIdType: ResourceIdType;
 }
 export const PutAccountPreferencesRequest = S.suspend(() =>
-  S.Struct({ ResourceIdType: S.String }).pipe(
+  S.Struct({ ResourceIdType: ResourceIdType }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/2015-02-01/account-preferences" }),
       svc,
@@ -770,7 +792,7 @@ export const PutFileSystemPolicyRequest = S.suspend(() =>
 }) as any as S.Schema<PutFileSystemPolicyRequest>;
 export interface TagResourceRequest {
   ResourceId: string;
-  Tags: Tags;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -795,7 +817,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceId: string;
-  TagKeys: TagKeys;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -823,13 +845,13 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateFileSystemRequest {
   FileSystemId: string;
-  ThroughputMode?: string;
+  ThroughputMode?: ThroughputMode;
   ProvisionedThroughputInMibps?: number;
 }
 export const UpdateFileSystemRequest = S.suspend(() =>
   S.Struct({
     FileSystemId: S.String.pipe(T.HttpLabel("FileSystemId")),
-    ThroughputMode: S.optional(S.String),
+    ThroughputMode: S.optional(ThroughputMode),
     ProvisionedThroughputInMibps: S.optional(S.Number),
   }).pipe(
     T.all(
@@ -846,12 +868,12 @@ export const UpdateFileSystemRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateFileSystemRequest>;
 export interface UpdateFileSystemProtectionRequest {
   FileSystemId: string;
-  ReplicationOverwriteProtection?: string;
+  ReplicationOverwriteProtection?: ReplicationOverwriteProtection;
 }
 export const UpdateFileSystemProtectionRequest = S.suspend(() =>
   S.Struct({
     FileSystemId: S.String.pipe(T.HttpLabel("FileSystemId")),
-    ReplicationOverwriteProtection: S.optional(S.String),
+    ReplicationOverwriteProtection: S.optional(ReplicationOverwriteProtection),
   }).pipe(
     T.all(
       T.Http({
@@ -870,10 +892,56 @@ export const UpdateFileSystemProtectionRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateFileSystemProtectionRequest>;
 export type SecondaryGids = number[];
 export const SecondaryGids = S.Array(S.Number);
+export type Status = "ENABLED" | "ENABLING" | "DISABLED" | "DISABLING";
+export const Status = S.Literal("ENABLED", "ENABLING", "DISABLED", "DISABLING");
+export type TransitionToIARules =
+  | "AFTER_7_DAYS"
+  | "AFTER_14_DAYS"
+  | "AFTER_30_DAYS"
+  | "AFTER_60_DAYS"
+  | "AFTER_90_DAYS"
+  | "AFTER_1_DAY"
+  | "AFTER_180_DAYS"
+  | "AFTER_270_DAYS"
+  | "AFTER_365_DAYS";
+export const TransitionToIARules = S.Literal(
+  "AFTER_7_DAYS",
+  "AFTER_14_DAYS",
+  "AFTER_30_DAYS",
+  "AFTER_60_DAYS",
+  "AFTER_90_DAYS",
+  "AFTER_1_DAY",
+  "AFTER_180_DAYS",
+  "AFTER_270_DAYS",
+  "AFTER_365_DAYS",
+);
+export type TransitionToPrimaryStorageClassRules = "AFTER_1_ACCESS";
+export const TransitionToPrimaryStorageClassRules = S.Literal("AFTER_1_ACCESS");
+export type TransitionToArchiveRules =
+  | "AFTER_1_DAY"
+  | "AFTER_7_DAYS"
+  | "AFTER_14_DAYS"
+  | "AFTER_30_DAYS"
+  | "AFTER_60_DAYS"
+  | "AFTER_90_DAYS"
+  | "AFTER_180_DAYS"
+  | "AFTER_270_DAYS"
+  | "AFTER_365_DAYS";
+export const TransitionToArchiveRules = S.Literal(
+  "AFTER_1_DAY",
+  "AFTER_7_DAYS",
+  "AFTER_14_DAYS",
+  "AFTER_30_DAYS",
+  "AFTER_60_DAYS",
+  "AFTER_90_DAYS",
+  "AFTER_180_DAYS",
+  "AFTER_270_DAYS",
+  "AFTER_365_DAYS",
+);
 export interface PosixUser {
   Uid: number;
   Gid: number;
-  SecondaryGids?: SecondaryGids;
+  SecondaryGids?: number[];
 }
 export const PosixUser = S.suspend(() =>
   S.Struct({
@@ -882,6 +950,21 @@ export const PosixUser = S.suspend(() =>
     SecondaryGids: S.optional(SecondaryGids),
   }),
 ).annotations({ identifier: "PosixUser" }) as any as S.Schema<PosixUser>;
+export type LifeCycleState =
+  | "creating"
+  | "available"
+  | "updating"
+  | "deleting"
+  | "deleted"
+  | "error";
+export const LifeCycleState = S.Literal(
+  "creating",
+  "available",
+  "updating",
+  "deleting",
+  "deleted",
+  "error",
+);
 export interface DestinationToCreate {
   Region?: string;
   AvailabilityZoneName?: string;
@@ -921,10 +1004,12 @@ export const FileSystemSize = S.suspend(() =>
   identifier: "FileSystemSize",
 }) as any as S.Schema<FileSystemSize>;
 export interface FileSystemProtectionDescription {
-  ReplicationOverwriteProtection?: string;
+  ReplicationOverwriteProtection?: ReplicationOverwriteProtection;
 }
 export const FileSystemProtectionDescription = S.suspend(() =>
-  S.Struct({ ReplicationOverwriteProtection: S.optional(S.String) }),
+  S.Struct({
+    ReplicationOverwriteProtection: S.optional(ReplicationOverwriteProtection),
+  }),
 ).annotations({
   identifier: "FileSystemProtectionDescription",
 }) as any as S.Schema<FileSystemProtectionDescription>;
@@ -934,18 +1019,18 @@ export interface FileSystemDescription {
   FileSystemId: string;
   FileSystemArn?: string;
   CreationTime: Date;
-  LifeCycleState: string;
+  LifeCycleState: LifeCycleState;
   Name?: string;
   NumberOfMountTargets: number;
   SizeInBytes: FileSystemSize;
-  PerformanceMode: string;
+  PerformanceMode: PerformanceMode;
   Encrypted?: boolean;
   KmsKeyId?: string;
-  ThroughputMode?: string;
+  ThroughputMode?: ThroughputMode;
   ProvisionedThroughputInMibps?: number;
   AvailabilityZoneName?: string;
   AvailabilityZoneId?: string;
-  Tags: Tags;
+  Tags: Tag[];
   FileSystemProtection?: FileSystemProtectionDescription;
 }
 export const FileSystemDescription = S.suspend(() =>
@@ -955,14 +1040,14 @@ export const FileSystemDescription = S.suspend(() =>
     FileSystemId: S.String,
     FileSystemArn: S.optional(S.String),
     CreationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    LifeCycleState: S.String,
+    LifeCycleState: LifeCycleState,
     Name: S.optional(S.String),
     NumberOfMountTargets: S.Number,
     SizeInBytes: FileSystemSize,
-    PerformanceMode: S.String,
+    PerformanceMode: PerformanceMode,
     Encrypted: S.optional(S.Boolean),
     KmsKeyId: S.optional(S.String),
-    ThroughputMode: S.optional(S.String),
+    ThroughputMode: S.optional(ThroughputMode),
     ProvisionedThroughputInMibps: S.optional(S.Number),
     AvailabilityZoneName: S.optional(S.String),
     AvailabilityZoneId: S.optional(S.String),
@@ -979,7 +1064,7 @@ export interface MountTargetDescription {
   MountTargetId: string;
   FileSystemId: string;
   SubnetId: string;
-  LifeCycleState: string;
+  LifeCycleState: LifeCycleState;
   IpAddress?: string;
   Ipv6Address?: string;
   NetworkInterfaceId?: string;
@@ -993,7 +1078,7 @@ export const MountTargetDescription = S.suspend(() =>
     MountTargetId: S.String,
     FileSystemId: S.String,
     SubnetId: S.String,
-    LifeCycleState: S.String,
+    LifeCycleState: LifeCycleState,
     IpAddress: S.optional(S.String),
     Ipv6Address: S.optional(S.String),
     NetworkInterfaceId: S.optional(S.String),
@@ -1007,21 +1092,23 @@ export const MountTargetDescription = S.suspend(() =>
 export type MountTargetDescriptions = MountTargetDescription[];
 export const MountTargetDescriptions = S.Array(MountTargetDescription);
 export interface BackupPolicy {
-  Status: string;
+  Status: Status;
 }
 export const BackupPolicy = S.suspend(() =>
-  S.Struct({ Status: S.String }),
+  S.Struct({ Status: Status }),
 ).annotations({ identifier: "BackupPolicy" }) as any as S.Schema<BackupPolicy>;
 export interface LifecyclePolicy {
-  TransitionToIA?: string;
-  TransitionToPrimaryStorageClass?: string;
-  TransitionToArchive?: string;
+  TransitionToIA?: TransitionToIARules;
+  TransitionToPrimaryStorageClass?: TransitionToPrimaryStorageClassRules;
+  TransitionToArchive?: TransitionToArchiveRules;
 }
 export const LifecyclePolicy = S.suspend(() =>
   S.Struct({
-    TransitionToIA: S.optional(S.String),
-    TransitionToPrimaryStorageClass: S.optional(S.String),
-    TransitionToArchive: S.optional(S.String),
+    TransitionToIA: S.optional(TransitionToIARules),
+    TransitionToPrimaryStorageClass: S.optional(
+      TransitionToPrimaryStorageClassRules,
+    ),
+    TransitionToArchive: S.optional(TransitionToArchiveRules),
   }),
 ).annotations({
   identifier: "LifecyclePolicy",
@@ -1030,7 +1117,7 @@ export type LifecyclePolicies = LifecyclePolicy[];
 export const LifecyclePolicies = S.Array(LifecyclePolicy);
 export interface CreateReplicationConfigurationRequest {
   SourceFileSystemId: string;
-  Destinations: DestinationsToCreate;
+  Destinations: DestinationToCreate[];
 }
 export const CreateReplicationConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -1074,7 +1161,7 @@ export const FileSystemPolicyDescription = S.suspend(() =>
 }) as any as S.Schema<FileSystemPolicyDescription>;
 export interface DescribeFileSystemsResponse {
   Marker?: string;
-  FileSystems?: FileSystemDescriptions;
+  FileSystems?: FileSystemDescription[];
   NextMarker?: string;
 }
 export const DescribeFileSystemsResponse = S.suspend(() =>
@@ -1087,7 +1174,7 @@ export const DescribeFileSystemsResponse = S.suspend(() =>
   identifier: "DescribeFileSystemsResponse",
 }) as any as S.Schema<DescribeFileSystemsResponse>;
 export interface LifecycleConfigurationDescription {
-  LifecyclePolicies?: LifecyclePolicies;
+  LifecyclePolicies?: LifecyclePolicy[];
 }
 export const LifecycleConfigurationDescription = S.suspend(() =>
   S.Struct({ LifecyclePolicies: S.optional(LifecyclePolicies) }),
@@ -1096,7 +1183,7 @@ export const LifecycleConfigurationDescription = S.suspend(() =>
 }) as any as S.Schema<LifecycleConfigurationDescription>;
 export interface DescribeMountTargetsResponse {
   Marker?: string;
-  MountTargets?: MountTargetDescriptions;
+  MountTargets?: MountTargetDescription[];
   NextMarker?: string;
 }
 export const DescribeMountTargetsResponse = S.suspend(() =>
@@ -1109,7 +1196,7 @@ export const DescribeMountTargetsResponse = S.suspend(() =>
   identifier: "DescribeMountTargetsResponse",
 }) as any as S.Schema<DescribeMountTargetsResponse>;
 export interface DescribeMountTargetSecurityGroupsResponse {
-  SecurityGroups: SecurityGroups;
+  SecurityGroups: string[];
 }
 export const DescribeMountTargetSecurityGroupsResponse = S.suspend(() =>
   S.Struct({ SecurityGroups: SecurityGroups }),
@@ -1118,7 +1205,7 @@ export const DescribeMountTargetSecurityGroupsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeMountTargetSecurityGroupsResponse>;
 export interface DescribeTagsResponse {
   Marker?: string;
-  Tags: Tags;
+  Tags: Tag[];
   NextMarker?: string;
 }
 export const DescribeTagsResponse = S.suspend(() =>
@@ -1131,7 +1218,7 @@ export const DescribeTagsResponse = S.suspend(() =>
   identifier: "DescribeTagsResponse",
 }) as any as S.Schema<DescribeTagsResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: Tags;
+  Tags?: Tag[];
   NextToken?: string;
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
@@ -1139,15 +1226,17 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
-export type Resources = string[];
-export const Resources = S.Array(S.String);
+export type Resource = "FILE_SYSTEM" | "MOUNT_TARGET";
+export const Resource = S.Literal("FILE_SYSTEM", "MOUNT_TARGET");
+export type Resources = Resource[];
+export const Resources = S.Array(Resource);
 export interface ResourceIdPreference {
-  ResourceIdType?: string;
-  Resources?: Resources;
+  ResourceIdType?: ResourceIdType;
+  Resources?: Resource[];
 }
 export const ResourceIdPreference = S.suspend(() =>
   S.Struct({
-    ResourceIdType: S.optional(S.String),
+    ResourceIdType: S.optional(ResourceIdType),
     Resources: S.optional(Resources),
   }),
 ).annotations({
@@ -1187,7 +1276,7 @@ export const PutBackupPolicyRequest = S.suspend(() =>
 }) as any as S.Schema<PutBackupPolicyRequest>;
 export interface PutLifecycleConfigurationRequest {
   FileSystemId: string;
-  LifecyclePolicies: LifecyclePolicies;
+  LifecyclePolicies: LifecyclePolicy[];
 }
 export const PutLifecycleConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -1232,14 +1321,14 @@ export const RootDirectory = S.suspend(() =>
 export interface AccessPointDescription {
   ClientToken?: string;
   Name?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
   AccessPointId?: string;
   AccessPointArn?: string;
   FileSystemId?: string;
   PosixUser?: PosixUser;
   RootDirectory?: RootDirectory;
   OwnerId?: string;
-  LifeCycleState?: string;
+  LifeCycleState?: LifeCycleState;
 }
 export const AccessPointDescription = S.suspend(() =>
   S.Struct({
@@ -1252,16 +1341,31 @@ export const AccessPointDescription = S.suspend(() =>
     PosixUser: S.optional(PosixUser),
     RootDirectory: S.optional(RootDirectory),
     OwnerId: S.optional(S.String),
-    LifeCycleState: S.optional(S.String),
+    LifeCycleState: S.optional(LifeCycleState),
   }),
 ).annotations({
   identifier: "AccessPointDescription",
 }) as any as S.Schema<AccessPointDescription>;
 export type AccessPointDescriptions = AccessPointDescription[];
 export const AccessPointDescriptions = S.Array(AccessPointDescription);
+export type ReplicationStatus =
+  | "ENABLED"
+  | "ENABLING"
+  | "DELETING"
+  | "ERROR"
+  | "PAUSED"
+  | "PAUSING";
+export const ReplicationStatus = S.Literal(
+  "ENABLED",
+  "ENABLING",
+  "DELETING",
+  "ERROR",
+  "PAUSED",
+  "PAUSING",
+);
 export interface CreateAccessPointRequest {
   ClientToken: string;
-  Tags?: Tags;
+  Tags?: Tag[];
   FileSystemId: string;
   PosixUser?: PosixUser;
   RootDirectory?: RootDirectory;
@@ -1287,7 +1391,7 @@ export const CreateAccessPointRequest = S.suspend(() =>
   identifier: "CreateAccessPointRequest",
 }) as any as S.Schema<CreateAccessPointRequest>;
 export interface DescribeAccessPointsResponse {
-  AccessPoints?: AccessPointDescriptions;
+  AccessPoints?: AccessPointDescription[];
   NextToken?: string;
 }
 export const DescribeAccessPointsResponse = S.suspend(() =>
@@ -1311,7 +1415,7 @@ export const DescribeAccountPreferencesResponse = S.suspend(() =>
   identifier: "DescribeAccountPreferencesResponse",
 }) as any as S.Schema<DescribeAccountPreferencesResponse>;
 export interface Destination {
-  Status: string;
+  Status: ReplicationStatus;
   FileSystemId: string;
   Region: string;
   LastReplicatedTimestamp?: Date;
@@ -1321,7 +1425,7 @@ export interface Destination {
 }
 export const Destination = S.suspend(() =>
   S.Struct({
-    Status: S.String,
+    Status: ReplicationStatus,
     FileSystemId: S.String,
     Region: S.String,
     LastReplicatedTimestamp: S.optional(
@@ -1340,7 +1444,7 @@ export interface ReplicationConfigurationDescription {
   SourceFileSystemArn: string;
   OriginalSourceFileSystemArn: string;
   CreationTime: Date;
-  Destinations: Destinations;
+  Destinations: Destination[];
   SourceFileSystemOwnerId?: string;
 }
 export const ReplicationConfigurationDescription = S.suspend(() =>
@@ -1362,7 +1466,7 @@ export const ReplicationConfigurationDescriptions = S.Array(
   ReplicationConfigurationDescription,
 );
 export interface DescribeReplicationConfigurationsResponse {
-  Replications?: ReplicationConfigurationDescriptions;
+  Replications?: ReplicationConfigurationDescription[];
   NextToken?: string;
 }
 export const DescribeReplicationConfigurationsResponse = S.suspend(() =>
@@ -1522,7 +1626,7 @@ export class SubnetNotFound extends S.TaggedError<SubnetNotFound>()(
  */
 export const deleteAccessPoint: (
   input: DeleteAccessPointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccessPointResponse,
   AccessPointNotFound | BadRequest | InternalServerError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1543,7 +1647,7 @@ export const deleteAccessPoint: (
 export const describeAccessPoints: {
   (
     input: DescribeAccessPointsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeAccessPointsResponse,
     | AccessPointNotFound
     | BadRequest
@@ -1554,7 +1658,7 @@ export const describeAccessPoints: {
   >;
   pages: (
     input: DescribeAccessPointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeAccessPointsResponse,
     | AccessPointNotFound
     | BadRequest
@@ -1565,7 +1669,7 @@ export const describeAccessPoints: {
   >;
   items: (
     input: DescribeAccessPointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AccessPointDescription,
     | AccessPointNotFound
     | BadRequest
@@ -1595,7 +1699,7 @@ export const describeAccessPoints: {
  */
 export const describeAccountPreferences: (
   input: DescribeAccountPreferencesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAccountPreferencesResponse,
   InternalServerError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1629,7 +1733,7 @@ export const describeAccountPreferences: (
  */
 export const deleteFileSystem: (
   input: DeleteFileSystemRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFileSystemResponse,
   | BadRequest
   | FileSystemInUse
@@ -1676,21 +1780,21 @@ export const deleteFileSystem: (
 export const describeFileSystems: {
   (
     input: DescribeFileSystemsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeFileSystemsResponse,
     BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeFileSystemsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeFileSystemsResponse,
     BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeFileSystemsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FileSystemDescription,
     BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1718,7 +1822,7 @@ export const describeFileSystems: {
  */
 export const describeLifecycleConfiguration: (
   input: DescribeLifecycleConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   LifecycleConfigurationDescription,
   BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1742,21 +1846,21 @@ export const describeLifecycleConfiguration: (
 export const describeTags: {
   (
     input: DescribeTagsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeTagsResponse,
     BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeTagsResponse,
     BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Tag,
     BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1781,7 +1885,7 @@ export const describeTags: {
 export const listTagsForResource: {
   (
     input: ListTagsForResourceRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTagsForResourceResponse,
     | AccessPointNotFound
     | BadRequest
@@ -1792,7 +1896,7 @@ export const listTagsForResource: {
   >;
   pages: (
     input: ListTagsForResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTagsForResourceResponse,
     | AccessPointNotFound
     | BadRequest
@@ -1803,7 +1907,7 @@ export const listTagsForResource: {
   >;
   items: (
     input: ListTagsForResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessPointNotFound
     | BadRequest
@@ -1841,7 +1945,7 @@ export const listTagsForResource: {
  */
 export const deleteTags: (
   input: DeleteTagsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTagsResponse,
   BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1858,7 +1962,7 @@ export const deleteTags: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessPointNotFound
   | BadRequest
@@ -1884,7 +1988,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessPointNotFound
   | BadRequest
@@ -1915,7 +2019,7 @@ export const untagResource: (
  */
 export const putAccountPreferences: (
   input: PutAccountPreferencesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAccountPreferencesResponse,
   BadRequest | InternalServerError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1938,7 +2042,7 @@ export const putAccountPreferences: (
  */
 export const createTags: (
   input: CreateTagsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTagsResponse,
   BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1962,7 +2066,7 @@ export const createTags: (
  */
 export const describeMountTargetSecurityGroups: (
   input: DescribeMountTargetSecurityGroupsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeMountTargetSecurityGroupsResponse,
   | BadRequest
   | IncorrectMountTargetState
@@ -1991,7 +2095,7 @@ export const describeMountTargetSecurityGroups: (
  */
 export const deleteReplicationConfiguration: (
   input: DeleteReplicationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteReplicationConfigurationResponse,
   | BadRequest
   | FileSystemNotFound
@@ -2036,7 +2140,7 @@ export const deleteReplicationConfiguration: (
  */
 export const deleteMountTarget: (
   input: DeleteMountTargetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMountTargetResponse,
   | BadRequest
   | DependencyTimeout
@@ -2067,7 +2171,7 @@ export const deleteMountTarget: (
 export const describeMountTargets: {
   (
     input: DescribeMountTargetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeMountTargetsResponse,
     | AccessPointNotFound
     | BadRequest
@@ -2079,7 +2183,7 @@ export const describeMountTargets: {
   >;
   pages: (
     input: DescribeMountTargetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeMountTargetsResponse,
     | AccessPointNotFound
     | BadRequest
@@ -2091,7 +2195,7 @@ export const describeMountTargets: {
   >;
   items: (
     input: DescribeMountTargetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MountTargetDescription,
     | AccessPointNotFound
     | BadRequest
@@ -2126,7 +2230,7 @@ export const describeMountTargets: {
  */
 export const describeFileSystemPolicy: (
   input: DescribeFileSystemPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   FileSystemPolicyDescription,
   | BadRequest
   | FileSystemNotFound
@@ -2196,7 +2300,7 @@ export const describeFileSystemPolicy: (
  */
 export const putLifecycleConfiguration: (
   input: PutLifecycleConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   LifecycleConfigurationDescription,
   | BadRequest
   | FileSystemNotFound
@@ -2223,7 +2327,7 @@ export const putLifecycleConfiguration: (
  */
 export const deleteFileSystemPolicy: (
   input: DeleteFileSystemPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFileSystemPolicyResponse,
   | BadRequest
   | FileSystemNotFound
@@ -2246,7 +2350,7 @@ export const deleteFileSystemPolicy: (
  */
 export const describeBackupPolicy: (
   input: DescribeBackupPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BackupPolicyDescription,
   | BadRequest
   | FileSystemNotFound
@@ -2271,7 +2375,7 @@ export const describeBackupPolicy: (
  */
 export const putBackupPolicy: (
   input: PutBackupPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BackupPolicyDescription,
   | BadRequest
   | FileSystemNotFound
@@ -2299,7 +2403,7 @@ export const putBackupPolicy: (
 export const describeReplicationConfigurations: {
   (
     input: DescribeReplicationConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeReplicationConfigurationsResponse,
     | BadRequest
     | FileSystemNotFound
@@ -2311,7 +2415,7 @@ export const describeReplicationConfigurations: {
   >;
   pages: (
     input: DescribeReplicationConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeReplicationConfigurationsResponse,
     | BadRequest
     | FileSystemNotFound
@@ -2323,7 +2427,7 @@ export const describeReplicationConfigurations: {
   >;
   items: (
     input: DescribeReplicationConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReplicationConfigurationDescription,
     | BadRequest
     | FileSystemNotFound
@@ -2366,7 +2470,7 @@ export const describeReplicationConfigurations: {
  */
 export const putFileSystemPolicy: (
   input: PutFileSystemPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   FileSystemPolicyDescription,
   | BadRequest
   | FileSystemNotFound
@@ -2413,7 +2517,7 @@ export const putFileSystemPolicy: (
  */
 export const createAccessPoint: (
   input: CreateAccessPointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AccessPointDescription,
   | AccessPointAlreadyExists
   | AccessPointLimitExceeded
@@ -2457,7 +2561,7 @@ export const createAccessPoint: (
  */
 export const modifyMountTargetSecurityGroups: (
   input: ModifyMountTargetSecurityGroupsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyMountTargetSecurityGroupsResponse,
   | BadRequest
   | IncorrectMountTargetState
@@ -2544,7 +2648,7 @@ export const modifyMountTargetSecurityGroups: (
  */
 export const createFileSystem: (
   input: CreateFileSystemRequest,
-) => Effect.Effect<
+) => effect.Effect<
   FileSystemDescription,
   | BadRequest
   | FileSystemAlreadyExists
@@ -2576,7 +2680,7 @@ export const createFileSystem: (
  */
 export const updateFileSystemProtection: (
   input: UpdateFileSystemProtectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   FileSystemProtectionDescription,
   | BadRequest
   | FileSystemNotFound
@@ -2628,7 +2732,7 @@ export const updateFileSystemProtection: (
  */
 export const createReplicationConfiguration: (
   input: CreateReplicationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ReplicationConfigurationDescription,
   | BadRequest
   | ConflictException
@@ -2666,7 +2770,7 @@ export const createReplicationConfiguration: (
  */
 export const updateFileSystem: (
   input: UpdateFileSystemRequest,
-) => Effect.Effect<
+) => effect.Effect<
   FileSystemDescription,
   | BadRequest
   | FileSystemNotFound
@@ -2806,7 +2910,7 @@ export const updateFileSystem: (
  */
 export const createMountTarget: (
   input: CreateMountTargetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   MountTargetDescription,
   | AvailabilityZonesMismatch
   | BadRequest

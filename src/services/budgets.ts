@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -193,7 +193,7 @@ export type ResourceTagKey = string;
 export type BillingViewArn = string;
 export type ResourceTagValue = string;
 export type NotificationThreshold = number;
-export type SubscriberAddress = string | Redacted.Redacted<string>;
+export type SubscriberAddress = string | redacted.Redacted<string>;
 export type errorMessage = string;
 export type NumericValue = string;
 export type UnitValue = string;
@@ -212,30 +212,66 @@ export type TagKey = string;
 export type CostCategoryName = string;
 
 //# Schemas
+export type NotificationType = "ACTUAL" | "FORECASTED";
+export const NotificationType = S.Literal("ACTUAL", "FORECASTED");
+export type ActionType =
+  | "APPLY_IAM_POLICY"
+  | "APPLY_SCP_POLICY"
+  | "RUN_SSM_DOCUMENTS";
+export const ActionType = S.Literal(
+  "APPLY_IAM_POLICY",
+  "APPLY_SCP_POLICY",
+  "RUN_SSM_DOCUMENTS",
+);
+export type ApprovalModel = "AUTOMATIC" | "MANUAL";
+export const ApprovalModel = S.Literal("AUTOMATIC", "MANUAL");
+export type ExecutionType =
+  | "APPROVE_BUDGET_ACTION"
+  | "RETRY_BUDGET_ACTION"
+  | "REVERSE_BUDGET_ACTION"
+  | "RESET_BUDGET_ACTION";
+export const ExecutionType = S.Literal(
+  "APPROVE_BUDGET_ACTION",
+  "RETRY_BUDGET_ACTION",
+  "REVERSE_BUDGET_ACTION",
+  "RESET_BUDGET_ACTION",
+);
 export type ResourceTagKeyList = string[];
 export const ResourceTagKeyList = S.Array(S.String);
+export type ComparisonOperator = "GREATER_THAN" | "LESS_THAN" | "EQUAL_TO";
+export const ComparisonOperator = S.Literal(
+  "GREATER_THAN",
+  "LESS_THAN",
+  "EQUAL_TO",
+);
+export type ThresholdType = "PERCENTAGE" | "ABSOLUTE_VALUE";
+export const ThresholdType = S.Literal("PERCENTAGE", "ABSOLUTE_VALUE");
+export type NotificationState = "OK" | "ALARM";
+export const NotificationState = S.Literal("OK", "ALARM");
 export interface Notification {
-  NotificationType: string;
-  ComparisonOperator: string;
+  NotificationType: NotificationType;
+  ComparisonOperator: ComparisonOperator;
   Threshold: number;
-  ThresholdType?: string;
-  NotificationState?: string;
+  ThresholdType?: ThresholdType;
+  NotificationState?: NotificationState;
 }
 export const Notification = S.suspend(() =>
   S.Struct({
-    NotificationType: S.String,
-    ComparisonOperator: S.String,
+    NotificationType: NotificationType,
+    ComparisonOperator: ComparisonOperator,
     Threshold: S.Number,
-    ThresholdType: S.optional(S.String),
-    NotificationState: S.optional(S.String),
+    ThresholdType: S.optional(ThresholdType),
+    NotificationState: S.optional(NotificationState),
   }),
 ).annotations({ identifier: "Notification" }) as any as S.Schema<Notification>;
+export type SubscriptionType = "SNS" | "EMAIL";
+export const SubscriptionType = S.Literal("SNS", "EMAIL");
 export interface Subscriber {
-  SubscriptionType: string;
-  Address: string | Redacted.Redacted<string>;
+  SubscriptionType: SubscriptionType;
+  Address: string | redacted.Redacted<string>;
 }
 export const Subscriber = S.suspend(() =>
-  S.Struct({ SubscriptionType: S.String, Address: SensitiveString }),
+  S.Struct({ SubscriptionType: SubscriptionType, Address: SensitiveString }),
 ).annotations({ identifier: "Subscriber" }) as any as S.Schema<Subscriber>;
 export interface CreateSubscriberRequest {
   AccountId: string;
@@ -510,14 +546,14 @@ export interface ExecuteBudgetActionRequest {
   AccountId: string;
   BudgetName: string;
   ActionId: string;
-  ExecutionType: string;
+  ExecutionType: ExecutionType;
 }
 export const ExecuteBudgetActionRequest = S.suspend(() =>
   S.Struct({
     AccountId: S.String,
     BudgetName: S.String,
     ActionId: S.String,
-    ExecutionType: S.String,
+    ExecutionType: ExecutionType,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -545,7 +581,7 @@ export type ResourceTagList = ResourceTag[];
 export const ResourceTagList = S.Array(ResourceTag);
 export interface TagResourceRequest {
   ResourceARN: string;
-  ResourceTags: ResourceTagList;
+  ResourceTags: ResourceTag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, ResourceTags: ResourceTagList }).pipe(
@@ -560,7 +596,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceARN: string;
-  ResourceTagKeys: ResourceTagKeyList;
+  ResourceTagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, ResourceTagKeys: ResourceTagKeyList }).pipe(
@@ -584,7 +620,7 @@ export type PlannedBudgetLimits = { [key: string]: Spend };
 export const PlannedBudgetLimits = S.Record({ key: S.String, value: Spend });
 export type DimensionValues = string[];
 export const DimensionValues = S.Array(S.String);
-export type CostFilters = { [key: string]: DimensionValues };
+export type CostFilters = { [key: string]: string[] };
 export const CostFilters = S.Record({ key: S.String, value: DimensionValues });
 export interface CostTypes {
   IncludeTax?: boolean;
@@ -614,6 +650,19 @@ export const CostTypes = S.suspend(() =>
     UseAmortized: S.optional(S.Boolean),
   }),
 ).annotations({ identifier: "CostTypes" }) as any as S.Schema<CostTypes>;
+export type TimeUnit =
+  | "DAILY"
+  | "MONTHLY"
+  | "QUARTERLY"
+  | "ANNUALLY"
+  | "CUSTOM";
+export const TimeUnit = S.Literal(
+  "DAILY",
+  "MONTHLY",
+  "QUARTERLY",
+  "ANNUALLY",
+  "CUSTOM",
+);
 export interface CalculatedSpend {
   ActualSpend: Spend;
   ForecastedSpend?: Spend;
@@ -623,6 +672,23 @@ export const CalculatedSpend = S.suspend(() =>
 ).annotations({
   identifier: "CalculatedSpend",
 }) as any as S.Schema<CalculatedSpend>;
+export type BudgetType =
+  | "USAGE"
+  | "COST"
+  | "RI_UTILIZATION"
+  | "RI_COVERAGE"
+  | "SAVINGS_PLANS_UTILIZATION"
+  | "SAVINGS_PLANS_COVERAGE";
+export const BudgetType = S.Literal(
+  "USAGE",
+  "COST",
+  "RI_UTILIZATION",
+  "RI_COVERAGE",
+  "SAVINGS_PLANS_UTILIZATION",
+  "SAVINGS_PLANS_COVERAGE",
+);
+export type AutoAdjustType = "HISTORICAL" | "FORECAST";
+export const AutoAdjustType = S.Literal("HISTORICAL", "FORECAST");
 export interface HistoricalOptions {
   BudgetAdjustmentPeriod: number;
   LookBackAvailablePeriods?: number;
@@ -636,13 +702,13 @@ export const HistoricalOptions = S.suspend(() =>
   identifier: "HistoricalOptions",
 }) as any as S.Schema<HistoricalOptions>;
 export interface AutoAdjustData {
-  AutoAdjustType: string;
+  AutoAdjustType: AutoAdjustType;
   HistoricalOptions?: HistoricalOptions;
   LastAutoAdjustTime?: Date;
 }
 export const AutoAdjustData = S.suspend(() =>
   S.Struct({
-    AutoAdjustType: S.String,
+    AutoAdjustType: AutoAdjustType,
     HistoricalOptions: S.optional(HistoricalOptions),
     LastAutoAdjustTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -651,18 +717,106 @@ export const AutoAdjustData = S.suspend(() =>
 ).annotations({
   identifier: "AutoAdjustData",
 }) as any as S.Schema<AutoAdjustData>;
+export type Dimension =
+  | "AZ"
+  | "INSTANCE_TYPE"
+  | "LINKED_ACCOUNT"
+  | "LINKED_ACCOUNT_NAME"
+  | "OPERATION"
+  | "PURCHASE_TYPE"
+  | "REGION"
+  | "SERVICE"
+  | "SERVICE_CODE"
+  | "USAGE_TYPE"
+  | "USAGE_TYPE_GROUP"
+  | "RECORD_TYPE"
+  | "OPERATING_SYSTEM"
+  | "TENANCY"
+  | "SCOPE"
+  | "PLATFORM"
+  | "SUBSCRIPTION_ID"
+  | "LEGAL_ENTITY_NAME"
+  | "INVOICING_ENTITY"
+  | "DEPLOYMENT_OPTION"
+  | "DATABASE_ENGINE"
+  | "CACHE_ENGINE"
+  | "INSTANCE_TYPE_FAMILY"
+  | "BILLING_ENTITY"
+  | "RESERVATION_ID"
+  | "RESOURCE_ID"
+  | "RIGHTSIZING_TYPE"
+  | "SAVINGS_PLANS_TYPE"
+  | "SAVINGS_PLAN_ARN"
+  | "PAYMENT_OPTION"
+  | "RESERVATION_MODIFIED"
+  | "TAG_KEY"
+  | "COST_CATEGORY_NAME";
+export const Dimension = S.Literal(
+  "AZ",
+  "INSTANCE_TYPE",
+  "LINKED_ACCOUNT",
+  "LINKED_ACCOUNT_NAME",
+  "OPERATION",
+  "PURCHASE_TYPE",
+  "REGION",
+  "SERVICE",
+  "SERVICE_CODE",
+  "USAGE_TYPE",
+  "USAGE_TYPE_GROUP",
+  "RECORD_TYPE",
+  "OPERATING_SYSTEM",
+  "TENANCY",
+  "SCOPE",
+  "PLATFORM",
+  "SUBSCRIPTION_ID",
+  "LEGAL_ENTITY_NAME",
+  "INVOICING_ENTITY",
+  "DEPLOYMENT_OPTION",
+  "DATABASE_ENGINE",
+  "CACHE_ENGINE",
+  "INSTANCE_TYPE_FAMILY",
+  "BILLING_ENTITY",
+  "RESERVATION_ID",
+  "RESOURCE_ID",
+  "RIGHTSIZING_TYPE",
+  "SAVINGS_PLANS_TYPE",
+  "SAVINGS_PLAN_ARN",
+  "PAYMENT_OPTION",
+  "RESERVATION_MODIFIED",
+  "TAG_KEY",
+  "COST_CATEGORY_NAME",
+);
 export type Values = string[];
 export const Values = S.Array(S.String);
-export type MatchOptions = string[];
-export const MatchOptions = S.Array(S.String);
+export type MatchOption =
+  | "EQUALS"
+  | "ABSENT"
+  | "STARTS_WITH"
+  | "ENDS_WITH"
+  | "CONTAINS"
+  | "GREATER_THAN_OR_EQUAL"
+  | "CASE_SENSITIVE"
+  | "CASE_INSENSITIVE";
+export const MatchOption = S.Literal(
+  "EQUALS",
+  "ABSENT",
+  "STARTS_WITH",
+  "ENDS_WITH",
+  "CONTAINS",
+  "GREATER_THAN_OR_EQUAL",
+  "CASE_SENSITIVE",
+  "CASE_INSENSITIVE",
+);
+export type MatchOptions = MatchOption[];
+export const MatchOptions = S.Array(MatchOption);
 export interface ExpressionDimensionValues {
-  Key: string;
-  Values: Values;
-  MatchOptions?: MatchOptions;
+  Key: Dimension;
+  Values: string[];
+  MatchOptions?: MatchOption[];
 }
 export const ExpressionDimensionValues = S.suspend(() =>
   S.Struct({
-    Key: S.String,
+    Key: Dimension,
     Values: Values,
     MatchOptions: S.optional(MatchOptions),
   }),
@@ -671,8 +825,8 @@ export const ExpressionDimensionValues = S.suspend(() =>
 }) as any as S.Schema<ExpressionDimensionValues>;
 export interface TagValues {
   Key?: string;
-  Values?: Values;
-  MatchOptions?: MatchOptions;
+  Values?: string[];
+  MatchOptions?: MatchOption[];
 }
 export const TagValues = S.suspend(() =>
   S.Struct({
@@ -683,8 +837,8 @@ export const TagValues = S.suspend(() =>
 ).annotations({ identifier: "TagValues" }) as any as S.Schema<TagValues>;
 export interface CostCategoryValues {
   Key?: string;
-  Values?: Values;
-  MatchOptions?: MatchOptions;
+  Values?: string[];
+  MatchOptions?: MatchOption[];
 }
 export const CostCategoryValues = S.suspend(() =>
   S.Struct({
@@ -696,8 +850,8 @@ export const CostCategoryValues = S.suspend(() =>
   identifier: "CostCategoryValues",
 }) as any as S.Schema<CostCategoryValues>;
 export interface Expression {
-  Or?: Expressions;
-  And?: Expressions;
+  Or?: Expression[];
+  And?: Expression[];
   Not?: Expression;
   Dimensions?: ExpressionDimensionValues;
   Tags?: TagValues;
@@ -721,17 +875,49 @@ export const Expression = S.suspend(() =>
     CostCategories: S.optional(CostCategoryValues),
   }),
 ).annotations({ identifier: "Expression" }) as any as S.Schema<Expression>;
-export type Metrics = string[];
-export const Metrics = S.Array(S.String);
+export type Metric =
+  | "BlendedCost"
+  | "UnblendedCost"
+  | "AmortizedCost"
+  | "NetUnblendedCost"
+  | "NetAmortizedCost"
+  | "UsageQuantity"
+  | "NormalizedUsageAmount"
+  | "Hours";
+export const Metric = S.Literal(
+  "BlendedCost",
+  "UnblendedCost",
+  "AmortizedCost",
+  "NetUnblendedCost",
+  "NetAmortizedCost",
+  "UsageQuantity",
+  "NormalizedUsageAmount",
+  "Hours",
+);
+export type Metrics = Metric[];
+export const Metrics = S.Array(Metric);
+export type HealthStatusValue = "HEALTHY" | "UNHEALTHY";
+export const HealthStatusValue = S.Literal("HEALTHY", "UNHEALTHY");
+export type HealthStatusReason =
+  | "BILLING_VIEW_NO_ACCESS"
+  | "BILLING_VIEW_UNHEALTHY"
+  | "FILTER_INVALID"
+  | "MULTI_YEAR_HISTORICAL_DATA_DISABLED";
+export const HealthStatusReason = S.Literal(
+  "BILLING_VIEW_NO_ACCESS",
+  "BILLING_VIEW_UNHEALTHY",
+  "FILTER_INVALID",
+  "MULTI_YEAR_HISTORICAL_DATA_DISABLED",
+);
 export interface HealthStatus {
-  Status?: string;
-  StatusReason?: string;
+  Status?: HealthStatusValue;
+  StatusReason?: HealthStatusReason;
   LastUpdatedTime?: Date;
 }
 export const HealthStatus = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
-    StatusReason: S.optional(S.String),
+    Status: S.optional(HealthStatusValue),
+    StatusReason: S.optional(HealthStatusReason),
     LastUpdatedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -740,17 +926,17 @@ export const HealthStatus = S.suspend(() =>
 export interface Budget {
   BudgetName: string;
   BudgetLimit?: Spend;
-  PlannedBudgetLimits?: PlannedBudgetLimits;
-  CostFilters?: CostFilters;
+  PlannedBudgetLimits?: { [key: string]: Spend };
+  CostFilters?: { [key: string]: string[] };
   CostTypes?: CostTypes;
-  TimeUnit: string;
+  TimeUnit: TimeUnit;
   TimePeriod?: TimePeriod;
   CalculatedSpend?: CalculatedSpend;
-  BudgetType: string;
+  BudgetType: BudgetType;
   LastUpdatedTime?: Date;
   AutoAdjustData?: AutoAdjustData;
   FilterExpression?: Expression;
-  Metrics?: Metrics;
+  Metrics?: Metric[];
   BillingViewArn?: string;
   HealthStatus?: HealthStatus;
 }
@@ -761,10 +947,10 @@ export const Budget = S.suspend(() =>
     PlannedBudgetLimits: S.optional(PlannedBudgetLimits),
     CostFilters: S.optional(CostFilters),
     CostTypes: S.optional(CostTypes),
-    TimeUnit: S.String,
+    TimeUnit: TimeUnit,
     TimePeriod: S.optional(TimePeriod),
     CalculatedSpend: S.optional(CalculatedSpend),
-    BudgetType: S.String,
+    BudgetType: BudgetType,
     LastUpdatedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -792,10 +978,13 @@ export const UpdateBudgetResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UpdateBudgetResponse>;
 export interface ActionThreshold {
   ActionThresholdValue: number;
-  ActionThresholdType: string;
+  ActionThresholdType: ThresholdType;
 }
 export const ActionThreshold = S.suspend(() =>
-  S.Struct({ ActionThresholdValue: S.Number, ActionThresholdType: S.String }),
+  S.Struct({
+    ActionThresholdValue: S.Number,
+    ActionThresholdType: ThresholdType,
+  }),
 ).annotations({
   identifier: "ActionThreshold",
 }) as any as S.Schema<ActionThreshold>;
@@ -807,9 +996,9 @@ export type Users = string[];
 export const Users = S.Array(S.String);
 export interface IamActionDefinition {
   PolicyArn: string;
-  Roles?: Roles;
-  Groups?: Groups;
-  Users?: Users;
+  Roles?: string[];
+  Groups?: string[];
+  Users?: string[];
 }
 export const IamActionDefinition = S.suspend(() =>
   S.Struct({
@@ -825,23 +1014,28 @@ export type TargetIds = string[];
 export const TargetIds = S.Array(S.String);
 export interface ScpActionDefinition {
   PolicyId: string;
-  TargetIds: TargetIds;
+  TargetIds: string[];
 }
 export const ScpActionDefinition = S.suspend(() =>
   S.Struct({ PolicyId: S.String, TargetIds: TargetIds }),
 ).annotations({
   identifier: "ScpActionDefinition",
 }) as any as S.Schema<ScpActionDefinition>;
+export type ActionSubType = "STOP_EC2_INSTANCES" | "STOP_RDS_INSTANCES";
+export const ActionSubType = S.Literal(
+  "STOP_EC2_INSTANCES",
+  "STOP_RDS_INSTANCES",
+);
 export type InstanceIds = string[];
 export const InstanceIds = S.Array(S.String);
 export interface SsmActionDefinition {
-  ActionSubType: string;
+  ActionSubType: ActionSubType;
   Region: string;
-  InstanceIds: InstanceIds;
+  InstanceIds: string[];
 }
 export const SsmActionDefinition = S.suspend(() =>
   S.Struct({
-    ActionSubType: S.String,
+    ActionSubType: ActionSubType,
     Region: S.String,
     InstanceIds: InstanceIds,
   }),
@@ -866,23 +1060,23 @@ export interface UpdateBudgetActionRequest {
   AccountId: string;
   BudgetName: string;
   ActionId: string;
-  NotificationType?: string;
+  NotificationType?: NotificationType;
   ActionThreshold?: ActionThreshold;
   Definition?: Definition;
   ExecutionRoleArn?: string;
-  ApprovalModel?: string;
-  Subscribers?: Subscribers;
+  ApprovalModel?: ApprovalModel;
+  Subscribers?: Subscriber[];
 }
 export const UpdateBudgetActionRequest = S.suspend(() =>
   S.Struct({
     AccountId: S.String,
     BudgetName: S.String,
     ActionId: S.String,
-    NotificationType: S.optional(S.String),
+    NotificationType: S.optional(NotificationType),
     ActionThreshold: S.optional(ActionThreshold),
     Definition: S.optional(Definition),
     ExecutionRoleArn: S.optional(S.String),
-    ApprovalModel: S.optional(S.String),
+    ApprovalModel: S.optional(ApprovalModel),
     Subscribers: S.optional(Subscribers),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -942,7 +1136,7 @@ export const UpdateSubscriberResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateSubscriberResponse>;
 export interface NotificationWithSubscribers {
   Notification: Notification;
-  Subscribers: Subscribers;
+  Subscribers: Subscriber[];
 }
 export const NotificationWithSubscribers = S.suspend(() =>
   S.Struct({ Notification: Notification, Subscribers: Subscribers }),
@@ -953,29 +1147,52 @@ export type NotificationWithSubscribersList = NotificationWithSubscribers[];
 export const NotificationWithSubscribersList = S.Array(
   NotificationWithSubscribers,
 );
+export type ActionStatus =
+  | "STANDBY"
+  | "PENDING"
+  | "EXECUTION_IN_PROGRESS"
+  | "EXECUTION_SUCCESS"
+  | "EXECUTION_FAILURE"
+  | "REVERSE_IN_PROGRESS"
+  | "REVERSE_SUCCESS"
+  | "REVERSE_FAILURE"
+  | "RESET_IN_PROGRESS"
+  | "RESET_FAILURE";
+export const ActionStatus = S.Literal(
+  "STANDBY",
+  "PENDING",
+  "EXECUTION_IN_PROGRESS",
+  "EXECUTION_SUCCESS",
+  "EXECUTION_FAILURE",
+  "REVERSE_IN_PROGRESS",
+  "REVERSE_SUCCESS",
+  "REVERSE_FAILURE",
+  "RESET_IN_PROGRESS",
+  "RESET_FAILURE",
+);
 export interface Action {
   ActionId: string;
   BudgetName: string;
-  NotificationType: string;
-  ActionType: string;
+  NotificationType: NotificationType;
+  ActionType: ActionType;
   ActionThreshold: ActionThreshold;
   Definition: Definition;
   ExecutionRoleArn: string;
-  ApprovalModel: string;
-  Status: string;
-  Subscribers: Subscribers;
+  ApprovalModel: ApprovalModel;
+  Status: ActionStatus;
+  Subscribers: Subscriber[];
 }
 export const Action = S.suspend(() =>
   S.Struct({
     ActionId: S.String,
     BudgetName: S.String,
-    NotificationType: S.String,
-    ActionType: S.String,
+    NotificationType: NotificationType,
+    ActionType: ActionType,
     ActionThreshold: ActionThreshold,
     Definition: Definition,
     ExecutionRoleArn: S.String,
-    ApprovalModel: S.String,
-    Status: S.String,
+    ApprovalModel: ApprovalModel,
+    Status: ActionStatus,
     Subscribers: Subscribers,
   }),
 ).annotations({ identifier: "Action" }) as any as S.Schema<Action>;
@@ -995,7 +1212,7 @@ export interface CreateNotificationRequest {
   AccountId: string;
   BudgetName: string;
   Notification: Notification;
-  Subscribers: Subscribers;
+  Subscribers: Subscriber[];
 }
 export const CreateNotificationRequest = S.suspend(() =>
   S.Struct({
@@ -1056,7 +1273,7 @@ export const DescribeBudgetActionHistoriesRequest = S.suspend(() =>
   identifier: "DescribeBudgetActionHistoriesRequest",
 }) as any as S.Schema<DescribeBudgetActionHistoriesRequest>;
 export interface DescribeBudgetActionsForAccountResponse {
-  Actions: Actions;
+  Actions: Action[];
   NextToken?: string;
 }
 export const DescribeBudgetActionsForAccountResponse = S.suspend(() =>
@@ -1065,7 +1282,7 @@ export const DescribeBudgetActionsForAccountResponse = S.suspend(() =>
   identifier: "DescribeBudgetActionsForAccountResponse",
 }) as any as S.Schema<DescribeBudgetActionsForAccountResponse>;
 export interface DescribeBudgetActionsForBudgetResponse {
-  Actions: Actions;
+  Actions: Action[];
   NextToken?: string;
 }
 export const DescribeBudgetActionsForBudgetResponse = S.suspend(() =>
@@ -1074,7 +1291,7 @@ export const DescribeBudgetActionsForBudgetResponse = S.suspend(() =>
   identifier: "DescribeBudgetActionsForBudgetResponse",
 }) as any as S.Schema<DescribeBudgetActionsForBudgetResponse>;
 export interface DescribeBudgetsResponse {
-  Budgets?: Budgets;
+  Budgets?: Budget[];
   NextToken?: string;
 }
 export const DescribeBudgetsResponse = S.suspend(() =>
@@ -1083,7 +1300,7 @@ export const DescribeBudgetsResponse = S.suspend(() =>
   identifier: "DescribeBudgetsResponse",
 }) as any as S.Schema<DescribeBudgetsResponse>;
 export interface DescribeNotificationsForBudgetResponse {
-  Notifications?: Notifications;
+  Notifications?: Notification[];
   NextToken?: string;
 }
 export const DescribeNotificationsForBudgetResponse = S.suspend(() =>
@@ -1095,7 +1312,7 @@ export const DescribeNotificationsForBudgetResponse = S.suspend(() =>
   identifier: "DescribeNotificationsForBudgetResponse",
 }) as any as S.Schema<DescribeNotificationsForBudgetResponse>;
 export interface DescribeSubscribersForNotificationResponse {
-  Subscribers?: Subscribers;
+  Subscribers?: Subscriber[];
   NextToken?: string;
 }
 export const DescribeSubscribersForNotificationResponse = S.suspend(() =>
@@ -1110,20 +1327,20 @@ export interface ExecuteBudgetActionResponse {
   AccountId: string;
   BudgetName: string;
   ActionId: string;
-  ExecutionType: string;
+  ExecutionType: ExecutionType;
 }
 export const ExecuteBudgetActionResponse = S.suspend(() =>
   S.Struct({
     AccountId: S.String,
     BudgetName: S.String,
     ActionId: S.String,
-    ExecutionType: S.String,
+    ExecutionType: ExecutionType,
   }),
 ).annotations({
   identifier: "ExecuteBudgetActionResponse",
 }) as any as S.Schema<ExecuteBudgetActionResponse>;
 export interface ListTagsForResourceResponse {
-  ResourceTags?: ResourceTagList;
+  ResourceTags?: ResourceTag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ ResourceTags: S.optional(ResourceTagList) }),
@@ -1147,7 +1364,7 @@ export const UpdateBudgetActionResponse = S.suspend(() =>
   identifier: "UpdateBudgetActionResponse",
 }) as any as S.Schema<UpdateBudgetActionResponse>;
 export interface BudgetNotificationsForAccount {
-  Notifications?: Notifications;
+  Notifications?: Notification[];
   BudgetName?: string;
 }
 export const BudgetNotificationsForAccount = S.suspend(() =>
@@ -1165,25 +1382,25 @@ export const BudgetNotificationsForAccountList = S.Array(
 export interface CreateBudgetActionRequest {
   AccountId: string;
   BudgetName: string;
-  NotificationType: string;
-  ActionType: string;
+  NotificationType: NotificationType;
+  ActionType: ActionType;
   ActionThreshold: ActionThreshold;
   Definition: Definition;
   ExecutionRoleArn: string;
-  ApprovalModel: string;
-  Subscribers: Subscribers;
-  ResourceTags?: ResourceTagList;
+  ApprovalModel: ApprovalModel;
+  Subscribers: Subscriber[];
+  ResourceTags?: ResourceTag[];
 }
 export const CreateBudgetActionRequest = S.suspend(() =>
   S.Struct({
     AccountId: S.String,
     BudgetName: S.String,
-    NotificationType: S.String,
-    ActionType: S.String,
+    NotificationType: NotificationType,
+    ActionType: ActionType,
     ActionThreshold: ActionThreshold,
     Definition: Definition,
     ExecutionRoleArn: S.String,
-    ApprovalModel: S.String,
+    ApprovalModel: ApprovalModel,
     Subscribers: Subscribers,
     ResourceTags: S.optional(ResourceTagList),
   }).pipe(
@@ -1203,7 +1420,7 @@ export const DeleteBudgetActionResponse = S.suspend(() =>
   identifier: "DeleteBudgetActionResponse",
 }) as any as S.Schema<DeleteBudgetActionResponse>;
 export interface DescribeBudgetNotificationsForAccountResponse {
-  BudgetNotificationsForAccount?: BudgetNotificationsForAccountList;
+  BudgetNotificationsForAccount?: BudgetNotificationsForAccount[];
   NextToken?: string;
 }
 export const DescribeBudgetNotificationsForAccountResponse = S.suspend(() =>
@@ -1216,6 +1433,19 @@ export const DescribeBudgetNotificationsForAccountResponse = S.suspend(() =>
 ).annotations({
   identifier: "DescribeBudgetNotificationsForAccountResponse",
 }) as any as S.Schema<DescribeBudgetNotificationsForAccountResponse>;
+export type EventType =
+  | "SYSTEM"
+  | "CREATE_ACTION"
+  | "DELETE_ACTION"
+  | "UPDATE_ACTION"
+  | "EXECUTE_ACTION";
+export const EventType = S.Literal(
+  "SYSTEM",
+  "CREATE_ACTION",
+  "DELETE_ACTION",
+  "UPDATE_ACTION",
+  "EXECUTE_ACTION",
+);
 export interface BudgetedAndActualAmounts {
   BudgetedAmount?: Spend;
   ActualAmount?: Spend;
@@ -1234,20 +1464,20 @@ export type BudgetedAndActualAmountsList = BudgetedAndActualAmounts[];
 export const BudgetedAndActualAmountsList = S.Array(BudgetedAndActualAmounts);
 export interface BudgetPerformanceHistory {
   BudgetName?: string;
-  BudgetType?: string;
-  CostFilters?: CostFilters;
+  BudgetType?: BudgetType;
+  CostFilters?: { [key: string]: string[] };
   CostTypes?: CostTypes;
-  TimeUnit?: string;
+  TimeUnit?: TimeUnit;
   BillingViewArn?: string;
-  BudgetedAndActualAmountsList?: BudgetedAndActualAmountsList;
+  BudgetedAndActualAmountsList?: BudgetedAndActualAmounts[];
 }
 export const BudgetPerformanceHistory = S.suspend(() =>
   S.Struct({
     BudgetName: S.optional(S.String),
-    BudgetType: S.optional(S.String),
+    BudgetType: S.optional(BudgetType),
     CostFilters: S.optional(CostFilters),
     CostTypes: S.optional(CostTypes),
-    TimeUnit: S.optional(S.String),
+    TimeUnit: S.optional(TimeUnit),
     BillingViewArn: S.optional(S.String),
     BudgetedAndActualAmountsList: S.optional(BudgetedAndActualAmountsList),
   }),
@@ -1257,8 +1487,8 @@ export const BudgetPerformanceHistory = S.suspend(() =>
 export interface CreateBudgetRequest {
   AccountId: string;
   Budget: Budget;
-  NotificationsWithSubscribers?: NotificationWithSubscribersList;
-  ResourceTags?: ResourceTagList;
+  NotificationsWithSubscribers?: NotificationWithSubscribers[];
+  ResourceTags?: ResourceTag[];
 }
 export const CreateBudgetRequest = S.suspend(() =>
   S.Struct({
@@ -1309,15 +1539,15 @@ export const ActionHistoryDetails = S.suspend(() =>
 }) as any as S.Schema<ActionHistoryDetails>;
 export interface ActionHistory {
   Timestamp: Date;
-  Status: string;
-  EventType: string;
+  Status: ActionStatus;
+  EventType: EventType;
   ActionHistoryDetails: ActionHistoryDetails;
 }
 export const ActionHistory = S.suspend(() =>
   S.Struct({
     Timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Status: S.String,
-    EventType: S.String,
+    Status: ActionStatus,
+    EventType: EventType,
     ActionHistoryDetails: ActionHistoryDetails,
   }),
 ).annotations({
@@ -1326,7 +1556,7 @@ export const ActionHistory = S.suspend(() =>
 export type ActionHistories = ActionHistory[];
 export const ActionHistories = S.Array(ActionHistory);
 export interface DescribeBudgetActionHistoriesResponse {
-  ActionHistories: ActionHistories;
+  ActionHistories: ActionHistory[];
   NextToken?: string;
 }
 export const DescribeBudgetActionHistoriesResponse = S.suspend(() =>
@@ -1395,7 +1625,7 @@ export class ResourceLockedException extends S.TaggedError<ResourceLockedExcepti
 export const describeBudgetActionsForAccount: {
   (
     input: DescribeBudgetActionsForAccountRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeBudgetActionsForAccountResponse,
     | AccessDeniedException
     | InternalErrorException
@@ -1407,7 +1637,7 @@ export const describeBudgetActionsForAccount: {
   >;
   pages: (
     input: DescribeBudgetActionsForAccountRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeBudgetActionsForAccountResponse,
     | AccessDeniedException
     | InternalErrorException
@@ -1419,7 +1649,7 @@ export const describeBudgetActionsForAccount: {
   >;
   items: (
     input: DescribeBudgetActionsForAccountRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Action,
     | AccessDeniedException
     | InternalErrorException
@@ -1454,7 +1684,7 @@ export const describeBudgetActionsForAccount: {
  */
 export const describeBudget: (
   input: DescribeBudgetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeBudgetResponse,
   | AccessDeniedException
   | InternalErrorException
@@ -1480,7 +1710,7 @@ export const describeBudget: (
 export const describeBudgetActionHistories: {
   (
     input: DescribeBudgetActionHistoriesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeBudgetActionHistoriesResponse,
     | AccessDeniedException
     | InternalErrorException
@@ -1493,7 +1723,7 @@ export const describeBudgetActionHistories: {
   >;
   pages: (
     input: DescribeBudgetActionHistoriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeBudgetActionHistoriesResponse,
     | AccessDeniedException
     | InternalErrorException
@@ -1506,7 +1736,7 @@ export const describeBudgetActionHistories: {
   >;
   items: (
     input: DescribeBudgetActionHistoriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ActionHistory,
     | AccessDeniedException
     | InternalErrorException
@@ -1544,7 +1774,7 @@ export const describeBudgetActionHistories: {
 export const describeBudgets: {
   (
     input: DescribeBudgetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeBudgetsResponse,
     | AccessDeniedException
     | ExpiredNextTokenException
@@ -1558,7 +1788,7 @@ export const describeBudgets: {
   >;
   pages: (
     input: DescribeBudgetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeBudgetsResponse,
     | AccessDeniedException
     | ExpiredNextTokenException
@@ -1572,7 +1802,7 @@ export const describeBudgets: {
   >;
   items: (
     input: DescribeBudgetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Budget,
     | AccessDeniedException
     | ExpiredNextTokenException
@@ -1608,7 +1838,7 @@ export const describeBudgets: {
  */
 export const updateNotification: (
   input: UpdateNotificationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateNotificationResponse,
   | AccessDeniedException
   | DuplicateRecordException
@@ -1635,7 +1865,7 @@ export const updateNotification: (
  */
 export const createNotification: (
   input: CreateNotificationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateNotificationResponse,
   | AccessDeniedException
   | CreationLimitExceededException
@@ -1664,7 +1894,7 @@ export const createNotification: (
  */
 export const describeBudgetAction: (
   input: DescribeBudgetActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeBudgetActionResponse,
   | AccessDeniedException
   | InternalErrorException
@@ -1689,7 +1919,7 @@ export const describeBudgetAction: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalErrorException
@@ -1716,7 +1946,7 @@ export const listTagsForResource: (
  */
 export const deleteBudget: (
   input: DeleteBudgetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBudgetResponse,
   | AccessDeniedException
   | InternalErrorException
@@ -1743,7 +1973,7 @@ export const deleteBudget: (
  */
 export const deleteNotification: (
   input: DeleteNotificationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteNotificationResponse,
   | AccessDeniedException
   | InternalErrorException
@@ -1770,7 +2000,7 @@ export const deleteNotification: (
  */
 export const deleteSubscriber: (
   input: DeleteSubscriberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSubscriberResponse,
   | AccessDeniedException
   | InternalErrorException
@@ -1795,7 +2025,7 @@ export const deleteSubscriber: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalErrorException
@@ -1820,7 +2050,7 @@ export const untagResource: (
  */
 export const updateSubscriber: (
   input: UpdateSubscriberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSubscriberResponse,
   | AccessDeniedException
   | DuplicateRecordException
@@ -1847,7 +2077,7 @@ export const updateSubscriber: (
  */
 export const createSubscriber: (
   input: CreateSubscriberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSubscriberResponse,
   | AccessDeniedException
   | CreationLimitExceededException
@@ -1877,7 +2107,7 @@ export const createSubscriber: (
 export const describeBudgetActionsForBudget: {
   (
     input: DescribeBudgetActionsForBudgetRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeBudgetActionsForBudgetResponse,
     | AccessDeniedException
     | InternalErrorException
@@ -1890,7 +2120,7 @@ export const describeBudgetActionsForBudget: {
   >;
   pages: (
     input: DescribeBudgetActionsForBudgetRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeBudgetActionsForBudgetResponse,
     | AccessDeniedException
     | InternalErrorException
@@ -1903,7 +2133,7 @@ export const describeBudgetActionsForBudget: {
   >;
   items: (
     input: DescribeBudgetActionsForBudgetRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Action,
     | AccessDeniedException
     | InternalErrorException
@@ -1938,7 +2168,7 @@ export const describeBudgetActionsForBudget: {
 export const describeNotificationsForBudget: {
   (
     input: DescribeNotificationsForBudgetRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeNotificationsForBudgetResponse,
     | AccessDeniedException
     | ExpiredNextTokenException
@@ -1952,7 +2182,7 @@ export const describeNotificationsForBudget: {
   >;
   pages: (
     input: DescribeNotificationsForBudgetRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeNotificationsForBudgetResponse,
     | AccessDeniedException
     | ExpiredNextTokenException
@@ -1966,7 +2196,7 @@ export const describeNotificationsForBudget: {
   >;
   items: (
     input: DescribeNotificationsForBudgetRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Notification,
     | AccessDeniedException
     | ExpiredNextTokenException
@@ -2003,7 +2233,7 @@ export const describeNotificationsForBudget: {
 export const describeSubscribersForNotification: {
   (
     input: DescribeSubscribersForNotificationRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeSubscribersForNotificationResponse,
     | AccessDeniedException
     | ExpiredNextTokenException
@@ -2017,7 +2247,7 @@ export const describeSubscribersForNotification: {
   >;
   pages: (
     input: DescribeSubscribersForNotificationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeSubscribersForNotificationResponse,
     | AccessDeniedException
     | ExpiredNextTokenException
@@ -2031,7 +2261,7 @@ export const describeSubscribersForNotification: {
   >;
   items: (
     input: DescribeSubscribersForNotificationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Subscriber,
     | AccessDeniedException
     | ExpiredNextTokenException
@@ -2068,7 +2298,7 @@ export const describeSubscribersForNotification: {
 export const describeBudgetNotificationsForAccount: {
   (
     input: DescribeBudgetNotificationsForAccountRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeBudgetNotificationsForAccountResponse,
     | AccessDeniedException
     | ExpiredNextTokenException
@@ -2082,7 +2312,7 @@ export const describeBudgetNotificationsForAccount: {
   >;
   pages: (
     input: DescribeBudgetNotificationsForAccountRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeBudgetNotificationsForAccountResponse,
     | AccessDeniedException
     | ExpiredNextTokenException
@@ -2096,7 +2326,7 @@ export const describeBudgetNotificationsForAccount: {
   >;
   items: (
     input: DescribeBudgetNotificationsForAccountRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BudgetNotificationsForAccount,
     | AccessDeniedException
     | ExpiredNextTokenException
@@ -2133,7 +2363,7 @@ export const describeBudgetNotificationsForAccount: {
 export const describeBudgetPerformanceHistory: {
   (
     input: DescribeBudgetPerformanceHistoryRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeBudgetPerformanceHistoryResponse,
     | AccessDeniedException
     | BillingViewHealthStatusException
@@ -2148,7 +2378,7 @@ export const describeBudgetPerformanceHistory: {
   >;
   pages: (
     input: DescribeBudgetPerformanceHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeBudgetPerformanceHistoryResponse,
     | AccessDeniedException
     | BillingViewHealthStatusException
@@ -2163,7 +2393,7 @@ export const describeBudgetPerformanceHistory: {
   >;
   items: (
     input: DescribeBudgetPerformanceHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | BillingViewHealthStatusException
@@ -2212,7 +2442,7 @@ export const describeBudgetPerformanceHistory: {
  */
 export const updateBudget: (
   input: UpdateBudgetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateBudgetResponse,
   | AccessDeniedException
   | BillingViewHealthStatusException
@@ -2241,7 +2471,7 @@ export const updateBudget: (
  */
 export const executeBudgetAction: (
   input: ExecuteBudgetActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ExecuteBudgetActionResponse,
   | AccessDeniedException
   | InternalErrorException
@@ -2268,7 +2498,7 @@ export const executeBudgetAction: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalErrorException
@@ -2307,7 +2537,7 @@ export const tagResource: (
  */
 export const createBudget: (
   input: CreateBudgetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBudgetResponse,
   | AccessDeniedException
   | BillingViewHealthStatusException
@@ -2340,7 +2570,7 @@ export const createBudget: (
  */
 export const createBudgetAction: (
   input: CreateBudgetActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBudgetActionResponse,
   | AccessDeniedException
   | CreationLimitExceededException
@@ -2371,7 +2601,7 @@ export const createBudgetAction: (
  */
 export const updateBudgetAction: (
   input: UpdateBudgetActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateBudgetActionResponse,
   | AccessDeniedException
   | InternalErrorException
@@ -2398,7 +2628,7 @@ export const updateBudgetAction: (
  */
 export const deleteBudgetAction: (
   input: DeleteBudgetActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBudgetActionResponse,
   | AccessDeniedException
   | InternalErrorException

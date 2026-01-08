@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -121,9 +121,11 @@ export type Service = string;
 export type TimeoutInMin = number;
 export type ErrorMessage = string;
 export type TunnelArn = string;
-export type ClientAccessToken = string | Redacted.Redacted<string>;
+export type ClientAccessToken = string | redacted.Redacted<string>;
 
 //# Schemas
+export type ClientMode = "SOURCE" | "DESTINATION" | "ALL";
+export const ClientMode = S.Literal("SOURCE", "DESTINATION", "ALL");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface CloseTunnelRequest {
@@ -212,7 +214,7 @@ export type ServiceList = string[];
 export const ServiceList = S.Array(S.String);
 export interface DestinationConfig {
   thingName?: string;
-  services: ServiceList;
+  services: string[];
 }
 export const DestinationConfig = S.suspend(() =>
   S.Struct({ thingName: S.optional(S.String), services: ServiceList }),
@@ -221,13 +223,13 @@ export const DestinationConfig = S.suspend(() =>
 }) as any as S.Schema<DestinationConfig>;
 export interface RotateTunnelAccessTokenRequest {
   tunnelId: string;
-  clientMode: string;
+  clientMode: ClientMode;
   destinationConfig?: DestinationConfig;
 }
 export const RotateTunnelAccessTokenRequest = S.suspend(() =>
   S.Struct({
     tunnelId: S.String.pipe(T.HttpLabel("tunnelId")),
-    clientMode: S.String,
+    clientMode: ClientMode,
     destinationConfig: S.optional(DestinationConfig),
   }).pipe(
     T.all(
@@ -253,7 +255,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagList;
+  tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
@@ -275,7 +277,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
@@ -304,7 +306,7 @@ export const TimeoutConfig = S.suspend(() =>
   identifier: "TimeoutConfig",
 }) as any as S.Schema<TimeoutConfig>;
 export interface ListTagsForResourceResponse {
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagList) }),
@@ -313,7 +315,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface OpenTunnelRequest {
   description?: string;
-  tags?: TagList;
+  tags?: Tag[];
   destinationConfig?: DestinationConfig;
   timeoutConfig?: TimeoutConfig;
 }
@@ -338,8 +340,8 @@ export const OpenTunnelRequest = S.suspend(() =>
 }) as any as S.Schema<OpenTunnelRequest>;
 export interface RotateTunnelAccessTokenResponse {
   tunnelArn?: string;
-  sourceAccessToken?: string | Redacted.Redacted<string>;
-  destinationAccessToken?: string | Redacted.Redacted<string>;
+  sourceAccessToken?: string | redacted.Redacted<string>;
+  destinationAccessToken?: string | redacted.Redacted<string>;
 }
 export const RotateTunnelAccessTokenResponse = S.suspend(() =>
   S.Struct({
@@ -350,10 +352,12 @@ export const RotateTunnelAccessTokenResponse = S.suspend(() =>
 ).annotations({
   identifier: "RotateTunnelAccessTokenResponse",
 }) as any as S.Schema<RotateTunnelAccessTokenResponse>;
+export type TunnelStatus = "OPEN" | "CLOSED";
+export const TunnelStatus = S.Literal("OPEN", "CLOSED");
 export interface TunnelSummary {
   tunnelId?: string;
   tunnelArn?: string;
-  status?: string;
+  status?: TunnelStatus;
   description?: string;
   createdAt?: Date;
   lastUpdatedAt?: Date;
@@ -362,7 +366,7 @@ export const TunnelSummary = S.suspend(() =>
   S.Struct({
     tunnelId: S.optional(S.String),
     tunnelArn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(TunnelStatus),
     description: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -372,8 +376,10 @@ export const TunnelSummary = S.suspend(() =>
 }) as any as S.Schema<TunnelSummary>;
 export type TunnelSummaryList = TunnelSummary[];
 export const TunnelSummaryList = S.Array(TunnelSummary);
+export type ConnectionStatus = "CONNECTED" | "DISCONNECTED";
+export const ConnectionStatus = S.Literal("CONNECTED", "DISCONNECTED");
 export interface ListTunnelsResponse {
-  tunnelSummaries?: TunnelSummaryList;
+  tunnelSummaries?: TunnelSummary[];
   nextToken?: string;
 }
 export const ListTunnelsResponse = S.suspend(() =>
@@ -387,8 +393,8 @@ export const ListTunnelsResponse = S.suspend(() =>
 export interface OpenTunnelResponse {
   tunnelId?: string;
   tunnelArn?: string;
-  sourceAccessToken?: string | Redacted.Redacted<string>;
-  destinationAccessToken?: string | Redacted.Redacted<string>;
+  sourceAccessToken?: string | redacted.Redacted<string>;
+  destinationAccessToken?: string | redacted.Redacted<string>;
 }
 export const OpenTunnelResponse = S.suspend(() =>
   S.Struct({
@@ -401,12 +407,12 @@ export const OpenTunnelResponse = S.suspend(() =>
   identifier: "OpenTunnelResponse",
 }) as any as S.Schema<OpenTunnelResponse>;
 export interface ConnectionState {
-  status?: string;
+  status?: ConnectionStatus;
   lastUpdatedAt?: Date;
 }
 export const ConnectionState = S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String),
+    status: S.optional(ConnectionStatus),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({
@@ -415,13 +421,13 @@ export const ConnectionState = S.suspend(() =>
 export interface Tunnel {
   tunnelId?: string;
   tunnelArn?: string;
-  status?: string;
+  status?: TunnelStatus;
   sourceConnectionState?: ConnectionState;
   destinationConnectionState?: ConnectionState;
   description?: string;
   destinationConfig?: DestinationConfig;
   timeoutConfig?: TimeoutConfig;
-  tags?: TagList;
+  tags?: Tag[];
   createdAt?: Date;
   lastUpdatedAt?: Date;
 }
@@ -429,7 +435,7 @@ export const Tunnel = S.suspend(() =>
   S.Struct({
     tunnelId: S.optional(S.String),
     tunnelArn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(TunnelStatus),
     sourceConnectionState: S.optional(ConnectionState),
     destinationConnectionState: S.optional(ConnectionState),
     description: S.optional(S.String),
@@ -471,7 +477,7 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
  */
 export const closeTunnel: (
   input: CloseTunnelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CloseTunnelResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -485,7 +491,7 @@ export const closeTunnel: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -507,7 +513,7 @@ export const listTagsForResource: (
  */
 export const rotateTunnelAccessToken: (
   input: RotateTunnelAccessTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RotateTunnelAccessTokenResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -521,7 +527,7 @@ export const rotateTunnelAccessToken: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -535,7 +541,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -553,21 +559,21 @@ export const untagResource: (
 export const listTunnels: {
   (
     input: ListTunnelsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTunnelsResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListTunnelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTunnelsResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTunnelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -589,7 +595,7 @@ export const listTunnels: {
  */
 export const describeTunnel: (
   input: DescribeTunnelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeTunnelResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -606,7 +612,7 @@ export const describeTunnel: (
  */
 export const openTunnel: (
   input: OpenTunnelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   OpenTunnelResponse,
   LimitExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

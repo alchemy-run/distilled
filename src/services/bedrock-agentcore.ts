@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -88,13 +88,13 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type RequestUri = string;
-export type WorkloadIdentityTokenType = string | Redacted.Redacted<string>;
+export type WorkloadIdentityTokenType = string | redacted.Redacted<string>;
 export type CredentialProviderName = string;
 export type ScopeType = string;
 export type ResourceOauth2ReturnUrlType = string;
-export type State = string | Redacted.Redacted<string>;
+export type State = string | redacted.Redacted<string>;
 export type WorkloadIdentityNameType = string;
-export type UserTokenType = string | Redacted.Redacted<string>;
+export type UserTokenType = string | redacted.Redacted<string>;
 export type UserIdType = string;
 export type CodeInterpreterSessionId = string;
 export type SessionType = string;
@@ -117,7 +117,7 @@ export type PaginationToken = string;
 export type Namespace = string;
 export type MemoryStrategyId = string;
 export type CustomRequestKeyType = string;
-export type CustomRequestValueType = string | Redacted.Redacted<string>;
+export type CustomRequestValueType = string | redacted.Redacted<string>;
 export type MaxLenString = string;
 export type ViewPortWidth = number;
 export type ViewPortHeight = number;
@@ -126,24 +126,51 @@ export type TraceId = string;
 export type RequestIdentifier = string;
 export type BranchName = string;
 export type MetadataKey = string;
-export type SensitiveString = string | Redacted.Redacted<string>;
-export type ApiKeyType = string | Redacted.Redacted<string>;
+export type SensitiveString = string | redacted.Redacted<string>;
+export type ApiKeyType = string | redacted.Redacted<string>;
 export type HttpResponseCode = number;
 export type NonBlankString = string;
-export type AuthorizationUrlType = string | Redacted.Redacted<string>;
-export type AccessTokenType = string | Redacted.Redacted<string>;
+export type AuthorizationUrlType = string | redacted.Redacted<string>;
+export type AccessTokenType = string | redacted.Redacted<string>;
 export type BrowserStreamEndpoint = string;
 export type EvaluatorArn = string;
 export type EvaluatorName = string;
-export type EvaluationExplanation = string | Redacted.Redacted<string>;
+export type EvaluationExplanation = string | redacted.Redacted<string>;
 export type EvaluationErrorMessage = string;
 export type EvaluationErrorCode = string;
 
 //# Schemas
 export type ScopesListType = string[];
 export const ScopesListType = S.Array(S.String);
+export type Oauth2FlowType = "USER_FEDERATION" | "M2M";
+export const Oauth2FlowType = S.Literal("USER_FEDERATION", "M2M");
+export type ToolName =
+  | "executeCode"
+  | "executeCommand"
+  | "readFiles"
+  | "listFiles"
+  | "removeFiles"
+  | "writeFiles"
+  | "startCommandExecution"
+  | "getTask"
+  | "stopTask";
+export const ToolName = S.Literal(
+  "executeCode",
+  "executeCommand",
+  "readFiles",
+  "listFiles",
+  "removeFiles",
+  "writeFiles",
+  "startCommandExecution",
+  "getTask",
+  "stopTask",
+);
+export type BrowserSessionStatus = "READY" | "TERMINATED";
+export const BrowserSessionStatus = S.Literal("READY", "TERMINATED");
+export type CodeInterpreterSessionStatus = "READY" | "TERMINATED";
+export const CodeInterpreterSessionStatus = S.Literal("READY", "TERMINATED");
 export interface GetResourceApiKeyRequest {
-  workloadIdentityToken: string | Redacted.Redacted<string>;
+  workloadIdentityToken: string | redacted.Redacted<string>;
   resourceCredentialProviderName: string;
 }
 export const GetResourceApiKeyRequest = S.suspend(() =>
@@ -182,7 +209,7 @@ export const GetWorkloadAccessTokenRequest = S.suspend(() =>
 }) as any as S.Schema<GetWorkloadAccessTokenRequest>;
 export interface GetWorkloadAccessTokenForJWTRequest {
   workloadName: string;
-  userToken: string | Redacted.Redacted<string>;
+  userToken: string | redacted.Redacted<string>;
 }
 export const GetWorkloadAccessTokenForJWTRequest = S.suspend(() =>
   S.Struct({ workloadName: S.String, userToken: SensitiveString }).pipe(
@@ -362,14 +389,14 @@ export interface ListBrowserSessionsRequest {
   browserIdentifier: string;
   maxResults?: number;
   nextToken?: string;
-  status?: string;
+  status?: BrowserSessionStatus;
 }
 export const ListBrowserSessionsRequest = S.suspend(() =>
   S.Struct({
     browserIdentifier: S.String.pipe(T.HttpLabel("browserIdentifier")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(BrowserSessionStatus),
   }).pipe(
     T.all(
       T.Http({
@@ -446,7 +473,7 @@ export interface ListCodeInterpreterSessionsRequest {
   codeInterpreterIdentifier: string;
   maxResults?: number;
   nextToken?: string;
-  status?: string;
+  status?: CodeInterpreterSessionStatus;
 }
 export const ListCodeInterpreterSessionsRequest = S.suspend(() =>
   S.Struct({
@@ -455,7 +482,7 @@ export const ListCodeInterpreterSessionsRequest = S.suspend(() =>
     ),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(CodeInterpreterSessionStatus),
   }).pipe(
     T.all(
       T.Http({
@@ -720,6 +747,12 @@ export const ListSessionsInput = S.suspend(() =>
 ).annotations({
   identifier: "ListSessionsInput",
 }) as any as S.Schema<ListSessionsInput>;
+export type ProgrammingLanguage = "python" | "javascript" | "typescript";
+export const ProgrammingLanguage = S.Literal(
+  "python",
+  "javascript",
+  "typescript",
+);
 export type StringList = string[];
 export const StringList = S.Array(S.String);
 export type Spans = any[];
@@ -730,15 +763,17 @@ export type TraceIds = string[];
 export const TraceIds = S.Array(S.String);
 export type NamespacesList = string[];
 export const NamespacesList = S.Array(S.String);
+export type ExtractionJobStatus = "FAILED";
+export const ExtractionJobStatus = S.Literal("FAILED");
 export type UserIdentifier =
-  | { userToken: string | Redacted.Redacted<string> }
+  | { userToken: string | redacted.Redacted<string> }
   | { userId: string };
 export const UserIdentifier = S.Union(
   S.Struct({ userToken: SensitiveString }),
   S.Struct({ userId: S.String }),
 );
 export type CustomRequestParametersType = {
-  [key: string]: string | Redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string>;
 };
 export const CustomRequestParametersType = S.Record({
   key: S.String,
@@ -751,9 +786,9 @@ export interface ViewPort {
 export const ViewPort = S.suspend(() =>
   S.Struct({ width: S.Number, height: S.Number }),
 ).annotations({ identifier: "ViewPort" }) as any as S.Schema<ViewPort>;
-export type EvaluationInput = { sessionSpans: Spans };
+export type EvaluationInput = { sessionSpans: any[] };
 export const EvaluationInput = S.Union(S.Struct({ sessionSpans: Spans }));
-export type EvaluationTarget = { spanIds: SpanIds } | { traceIds: TraceIds };
+export type EvaluationTarget = { spanIds: string[] } | { traceIds: string[] };
 export const EvaluationTarget = S.Union(
   S.Struct({ spanIds: SpanIds }),
   S.Struct({ traceIds: TraceIds }),
@@ -768,13 +803,13 @@ export const MemoryRecordDeleteInput = S.suspend(() =>
 }) as any as S.Schema<MemoryRecordDeleteInput>;
 export type MemoryRecordsDeleteInputList = MemoryRecordDeleteInput[];
 export const MemoryRecordsDeleteInputList = S.Array(MemoryRecordDeleteInput);
-export type MemoryContent = { text: string | Redacted.Redacted<string> };
+export type MemoryContent = { text: string | redacted.Redacted<string> };
 export const MemoryContent = S.Union(S.Struct({ text: SensitiveString }));
 export interface MemoryRecordUpdateInput {
   memoryRecordId: string;
   timestamp: Date;
-  content?: (typeof MemoryContent)["Type"];
-  namespaces?: NamespacesList;
+  content?: MemoryContent;
+  namespaces?: string[];
   memoryStrategyId?: string;
 }
 export const MemoryRecordUpdateInput = S.suspend(() =>
@@ -801,14 +836,14 @@ export interface ExtractionJobFilterInput {
   strategyId?: string;
   sessionId?: string;
   actorId?: string;
-  status?: string;
+  status?: ExtractionJobStatus;
 }
 export const ExtractionJobFilterInput = S.suspend(() =>
   S.Struct({
     strategyId: S.optional(S.String),
     sessionId: S.optional(S.String),
     actorId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ExtractionJobStatus),
   }),
 ).annotations({
   identifier: "ExtractionJobFilterInput",
@@ -821,8 +856,14 @@ export const ExtractionJob = S.suspend(() =>
 ).annotations({
   identifier: "ExtractionJob",
 }) as any as S.Schema<ExtractionJob>;
+export type AutomationStreamStatus = "ENABLED" | "DISABLED";
+export const AutomationStreamStatus = S.Literal("ENABLED", "DISABLED");
+export type Role = "ASSISTANT" | "USER" | "TOOL" | "OTHER";
+export const Role = S.Literal("ASSISTANT", "USER", "TOOL", "OTHER");
+export type OperatorType = "EQUALS_TO" | "EXISTS" | "NOT_EXISTS";
+export const OperatorType = S.Literal("EQUALS_TO", "EXISTS", "NOT_EXISTS");
 export interface CompleteResourceTokenAuthRequest {
-  userIdentifier: (typeof UserIdentifier)["Type"];
+  userIdentifier: UserIdentifier;
   sessionUri: string;
 }
 export const CompleteResourceTokenAuthRequest = S.suspend(() =>
@@ -846,7 +887,7 @@ export const CompleteResourceTokenAuthResponse = S.suspend(() =>
   identifier: "CompleteResourceTokenAuthResponse",
 }) as any as S.Schema<CompleteResourceTokenAuthResponse>;
 export interface GetResourceApiKeyResponse {
-  apiKey: string | Redacted.Redacted<string>;
+  apiKey: string | redacted.Redacted<string>;
 }
 export const GetResourceApiKeyResponse = S.suspend(() =>
   S.Struct({ apiKey: SensitiveString }),
@@ -854,22 +895,22 @@ export const GetResourceApiKeyResponse = S.suspend(() =>
   identifier: "GetResourceApiKeyResponse",
 }) as any as S.Schema<GetResourceApiKeyResponse>;
 export interface GetResourceOauth2TokenRequest {
-  workloadIdentityToken: string | Redacted.Redacted<string>;
+  workloadIdentityToken: string | redacted.Redacted<string>;
   resourceCredentialProviderName: string;
-  scopes: ScopesListType;
-  oauth2Flow: string;
+  scopes: string[];
+  oauth2Flow: Oauth2FlowType;
   sessionUri?: string;
   resourceOauth2ReturnUrl?: string;
   forceAuthentication?: boolean;
-  customParameters?: CustomRequestParametersType;
-  customState?: string | Redacted.Redacted<string>;
+  customParameters?: { [key: string]: string | redacted.Redacted<string> };
+  customState?: string | redacted.Redacted<string>;
 }
 export const GetResourceOauth2TokenRequest = S.suspend(() =>
   S.Struct({
     workloadIdentityToken: SensitiveString,
     resourceCredentialProviderName: S.String,
     scopes: ScopesListType,
-    oauth2Flow: S.String,
+    oauth2Flow: Oauth2FlowType,
     sessionUri: S.optional(S.String),
     resourceOauth2ReturnUrl: S.optional(S.String),
     forceAuthentication: S.optional(S.Boolean),
@@ -889,7 +930,7 @@ export const GetResourceOauth2TokenRequest = S.suspend(() =>
   identifier: "GetResourceOauth2TokenRequest",
 }) as any as S.Schema<GetResourceOauth2TokenRequest>;
 export interface GetWorkloadAccessTokenResponse {
-  workloadAccessToken: string | Redacted.Redacted<string>;
+  workloadAccessToken: string | redacted.Redacted<string>;
 }
 export const GetWorkloadAccessTokenResponse = S.suspend(() =>
   S.Struct({ workloadAccessToken: SensitiveString }),
@@ -897,7 +938,7 @@ export const GetWorkloadAccessTokenResponse = S.suspend(() =>
   identifier: "GetWorkloadAccessTokenResponse",
 }) as any as S.Schema<GetWorkloadAccessTokenResponse>;
 export interface GetWorkloadAccessTokenForJWTResponse {
-  workloadAccessToken: string | Redacted.Redacted<string>;
+  workloadAccessToken: string | redacted.Redacted<string>;
 }
 export const GetWorkloadAccessTokenForJWTResponse = S.suspend(() =>
   S.Struct({ workloadAccessToken: SensitiveString }),
@@ -905,7 +946,7 @@ export const GetWorkloadAccessTokenForJWTResponse = S.suspend(() =>
   identifier: "GetWorkloadAccessTokenForJWTResponse",
 }) as any as S.Schema<GetWorkloadAccessTokenForJWTResponse>;
 export interface GetWorkloadAccessTokenForUserIdResponse {
-  workloadAccessToken: string | Redacted.Redacted<string>;
+  workloadAccessToken: string | redacted.Redacted<string>;
 }
 export const GetWorkloadAccessTokenForUserIdResponse = S.suspend(() =>
   S.Struct({ workloadAccessToken: SensitiveString }),
@@ -1028,7 +1069,7 @@ export interface GetCodeInterpreterSessionResponse {
   name?: string;
   createdAt: Date;
   sessionTimeoutSeconds?: number;
-  status?: string;
+  status?: CodeInterpreterSessionStatus;
 }
 export const GetCodeInterpreterSessionResponse = S.suspend(() =>
   S.Struct({
@@ -1037,7 +1078,7 @@ export const GetCodeInterpreterSessionResponse = S.suspend(() =>
     name: S.optional(S.String),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     sessionTimeoutSeconds: S.optional(S.Number),
-    status: S.optional(S.String),
+    status: S.optional(CodeInterpreterSessionStatus),
   }),
 ).annotations({
   identifier: "GetCodeInterpreterSessionResponse",
@@ -1072,8 +1113,8 @@ export const StopCodeInterpreterSessionResponse = S.suspend(() =>
 }) as any as S.Schema<StopCodeInterpreterSessionResponse>;
 export interface EvaluateRequest {
   evaluatorId: string;
-  evaluationInput: (typeof EvaluationInput)["Type"];
-  evaluationTarget?: (typeof EvaluationTarget)["Type"];
+  evaluationInput: EvaluationInput;
+  evaluationTarget?: EvaluationTarget;
 }
 export const EvaluateRequest = S.suspend(() =>
   S.Struct({
@@ -1095,7 +1136,7 @@ export const EvaluateRequest = S.suspend(() =>
 }) as any as S.Schema<EvaluateRequest>;
 export interface BatchDeleteMemoryRecordsInput {
   memoryId: string;
-  records: MemoryRecordsDeleteInputList;
+  records: MemoryRecordDeleteInput[];
 }
 export const BatchDeleteMemoryRecordsInput = S.suspend(() =>
   S.Struct({
@@ -1119,7 +1160,7 @@ export const BatchDeleteMemoryRecordsInput = S.suspend(() =>
 }) as any as S.Schema<BatchDeleteMemoryRecordsInput>;
 export interface BatchUpdateMemoryRecordsInput {
   memoryId: string;
-  records: MemoryRecordsUpdateInputList;
+  records: MemoryRecordUpdateInput[];
 }
 export const BatchUpdateMemoryRecordsInput = S.suspend(() =>
   S.Struct({
@@ -1211,7 +1252,7 @@ export const StartMemoryExtractionJobInput = S.suspend(() =>
 export interface InputContentBlock {
   path: string;
   text?: string;
-  blob?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  blob?: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export const InputContentBlock = S.suspend(() =>
   S.Struct({
@@ -1225,10 +1266,10 @@ export const InputContentBlock = S.suspend(() =>
 export type InputContentBlockList = InputContentBlock[];
 export const InputContentBlockList = S.Array(InputContentBlock);
 export interface AutomationStreamUpdate {
-  streamStatus?: string;
+  streamStatus?: AutomationStreamStatus;
 }
 export const AutomationStreamUpdate = S.suspend(() =>
-  S.Struct({ streamStatus: S.optional(S.String) }),
+  S.Struct({ streamStatus: S.optional(AutomationStreamStatus) }),
 ).annotations({
   identifier: "AutomationStreamUpdate",
 }) as any as S.Schema<AutomationStreamUpdate>;
@@ -1243,19 +1284,19 @@ export const BranchFilter = S.suspend(() =>
 ).annotations({ identifier: "BranchFilter" }) as any as S.Schema<BranchFilter>;
 export type LeftExpression = { metadataKey: string };
 export const LeftExpression = S.Union(S.Struct({ metadataKey: S.String }));
-export type RightExpression = { metadataValue: (typeof MetadataValue)["Type"] };
+export type RightExpression = { metadataValue: MetadataValue };
 export const RightExpression = S.Union(
   S.Struct({ metadataValue: MetadataValue }),
 );
 export interface MemoryMetadataFilterExpression {
-  left: (typeof LeftExpression)["Type"];
-  operator: string;
-  right?: (typeof RightExpression)["Type"];
+  left: LeftExpression;
+  operator: OperatorType;
+  right?: RightExpression;
 }
 export const MemoryMetadataFilterExpression = S.suspend(() =>
   S.Struct({
     left: LeftExpression,
-    operator: S.String,
+    operator: OperatorType,
     right: S.optional(RightExpression),
   }),
 ).annotations({
@@ -1263,21 +1304,23 @@ export const MemoryMetadataFilterExpression = S.suspend(() =>
 }) as any as S.Schema<MemoryMetadataFilterExpression>;
 export type MemoryMetadataFilterList = MemoryMetadataFilterExpression[];
 export const MemoryMetadataFilterList = S.Array(MemoryMetadataFilterExpression);
+export type SessionStatus = "IN_PROGRESS" | "FAILED";
+export const SessionStatus = S.Literal("IN_PROGRESS", "FAILED");
 export interface ToolArguments {
   code?: string;
-  language?: string;
+  language?: ProgrammingLanguage;
   clearContext?: boolean;
   command?: string;
   path?: string;
-  paths?: StringList;
-  content?: InputContentBlockList;
+  paths?: string[];
+  content?: InputContentBlock[];
   directoryPath?: string;
   taskId?: string;
 }
 export const ToolArguments = S.suspend(() =>
   S.Struct({
     code: S.optional(S.String),
-    language: S.optional(S.String),
+    language: S.optional(ProgrammingLanguage),
     clearContext: S.optional(S.Boolean),
     command: S.optional(S.String),
     path: S.optional(S.String),
@@ -1293,7 +1336,7 @@ export interface BrowserSessionSummary {
   browserIdentifier: string;
   sessionId: string;
   name?: string;
-  status: string;
+  status: BrowserSessionStatus;
   createdAt: Date;
   lastUpdatedAt?: Date;
 }
@@ -1302,7 +1345,7 @@ export const BrowserSessionSummary = S.suspend(() =>
     browserIdentifier: S.String,
     sessionId: S.String,
     name: S.optional(S.String),
-    status: S.String,
+    status: BrowserSessionStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
@@ -1319,7 +1362,7 @@ export interface CodeInterpreterSessionSummary {
   codeInterpreterIdentifier: string;
   sessionId: string;
   name?: string;
-  status: string;
+  status: CodeInterpreterSessionStatus;
   createdAt: Date;
   lastUpdatedAt?: Date;
 }
@@ -1328,7 +1371,7 @@ export const CodeInterpreterSessionSummary = S.suspend(() =>
     codeInterpreterIdentifier: S.String,
     sessionId: S.String,
     name: S.optional(S.String),
-    status: S.String,
+    status: CodeInterpreterSessionStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
@@ -1341,8 +1384,8 @@ export const CodeInterpreterSessionSummaries = S.Array(
 );
 export interface MemoryRecordCreateInput {
   requestIdentifier: string;
-  namespaces: NamespacesList;
-  content: (typeof MemoryContent)["Type"];
+  namespaces: string[];
+  content: MemoryContent;
   timestamp: Date;
   memoryStrategyId?: string;
 }
@@ -1359,16 +1402,16 @@ export const MemoryRecordCreateInput = S.suspend(() =>
 }) as any as S.Schema<MemoryRecordCreateInput>;
 export type MemoryRecordsCreateInputList = MemoryRecordCreateInput[];
 export const MemoryRecordsCreateInputList = S.Array(MemoryRecordCreateInput);
-export type MetadataMap = { [key: string]: (typeof MetadataValue)["Type"] };
+export type MetadataMap = { [key: string]: MetadataValue };
 export const MetadataMap = S.Record({ key: S.String, value: MetadataValue });
-export type Content = { text: string | Redacted.Redacted<string> };
+export type Content = { text: string | redacted.Redacted<string> };
 export const Content = S.Union(S.Struct({ text: SensitiveString }));
 export interface Conversational {
-  content: (typeof Content)["Type"];
-  role: string;
+  content: Content;
+  role: Role;
 }
 export const Conversational = S.suspend(() =>
-  S.Struct({ content: Content, role: S.String }),
+  S.Struct({ content: Content, role: Role }),
 ).annotations({
   identifier: "Conversational",
 }) as any as S.Schema<Conversational>;
@@ -1377,7 +1420,7 @@ export const PayloadType = S.Union(
   S.Struct({ conversational: Conversational }),
   S.Struct({ blob: S.Any }),
 );
-export type PayloadTypeList = (typeof PayloadType)["Type"][];
+export type PayloadTypeList = PayloadType[];
 export const PayloadTypeList = S.Array(PayloadType);
 export interface Event {
   memoryId: string;
@@ -1385,9 +1428,9 @@ export interface Event {
   sessionId: string;
   eventId: string;
   eventTimestamp: Date;
-  payload: PayloadTypeList;
+  payload: PayloadType[];
   branch?: Branch;
-  metadata?: MetadataMap;
+  metadata?: { [key: string]: MetadataValue };
 }
 export const Event = S.suspend(() =>
   S.Struct({
@@ -1403,11 +1446,11 @@ export const Event = S.suspend(() =>
 ).annotations({ identifier: "Event" }) as any as S.Schema<Event>;
 export interface MemoryRecord {
   memoryRecordId: string;
-  content: (typeof MemoryContent)["Type"];
+  content: MemoryContent;
   memoryStrategyId: string;
-  namespaces: NamespacesList;
+  namespaces: string[];
   createdAt: Date;
-  metadata?: MetadataMap;
+  metadata?: { [key: string]: MetadataValue };
 }
 export const MemoryRecord = S.suspend(() =>
   S.Struct({
@@ -1429,12 +1472,12 @@ export type ActorSummaryList = ActorSummary[];
 export const ActorSummaryList = S.Array(ActorSummary);
 export interface MemoryRecordSummary {
   memoryRecordId: string;
-  content: (typeof MemoryContent)["Type"];
+  content: MemoryContent;
   memoryStrategyId: string;
-  namespaces: NamespacesList;
+  namespaces: string[];
   createdAt: Date;
   score?: number;
-  metadata?: MetadataMap;
+  metadata?: { [key: string]: MetadataValue };
 }
 export const MemoryRecordSummary = S.suspend(() =>
   S.Struct({
@@ -1468,10 +1511,10 @@ export const SessionSummary = S.suspend(() =>
 export type SessionSummaryList = SessionSummary[];
 export const SessionSummaryList = S.Array(SessionSummary);
 export interface SearchCriteria {
-  searchQuery: string | Redacted.Redacted<string>;
+  searchQuery: string | redacted.Redacted<string>;
   memoryStrategyId?: string;
   topK?: number;
-  metadataFilters?: MemoryMetadataFilterList;
+  metadataFilters?: MemoryMetadataFilterExpression[];
 }
 export const SearchCriteria = S.suspend(() =>
   S.Struct({
@@ -1484,17 +1527,17 @@ export const SearchCriteria = S.suspend(() =>
   identifier: "SearchCriteria",
 }) as any as S.Schema<SearchCriteria>;
 export interface GetResourceOauth2TokenResponse {
-  authorizationUrl?: string | Redacted.Redacted<string>;
-  accessToken?: string | Redacted.Redacted<string>;
+  authorizationUrl?: string | redacted.Redacted<string>;
+  accessToken?: string | redacted.Redacted<string>;
   sessionUri?: string;
-  sessionStatus?: string;
+  sessionStatus?: SessionStatus;
 }
 export const GetResourceOauth2TokenResponse = S.suspend(() =>
   S.Struct({
     authorizationUrl: S.optional(SensitiveString),
     accessToken: S.optional(SensitiveString),
     sessionUri: S.optional(S.String),
-    sessionStatus: S.optional(S.String),
+    sessionStatus: S.optional(SessionStatus),
   }),
 ).annotations({
   identifier: "GetResourceOauth2TokenResponse",
@@ -1504,7 +1547,7 @@ export interface InvokeCodeInterpreterRequest {
   sessionId?: string;
   traceId?: string;
   traceParent?: string;
-  name: string;
+  name: ToolName;
   arguments?: ToolArguments;
 }
 export const InvokeCodeInterpreterRequest = S.suspend(() =>
@@ -1517,7 +1560,7 @@ export const InvokeCodeInterpreterRequest = S.suspend(() =>
     ),
     traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")),
     traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")),
-    name: S.String,
+    name: ToolName,
     arguments: S.optional(ToolArguments),
   }).pipe(
     T.all(
@@ -1536,7 +1579,7 @@ export const InvokeCodeInterpreterRequest = S.suspend(() =>
   identifier: "InvokeCodeInterpreterRequest",
 }) as any as S.Schema<InvokeCodeInterpreterRequest>;
 export interface ListBrowserSessionsResponse {
-  items: BrowserSessionSummaries;
+  items: BrowserSessionSummary[];
   nextToken?: string;
 }
 export const ListBrowserSessionsResponse = S.suspend(() =>
@@ -1546,10 +1589,10 @@ export const ListBrowserSessionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListBrowserSessionsResponse>;
 export interface AutomationStream {
   streamEndpoint: string;
-  streamStatus: string;
+  streamStatus: AutomationStreamStatus;
 }
 export const AutomationStream = S.suspend(() =>
-  S.Struct({ streamEndpoint: S.String, streamStatus: S.String }),
+  S.Struct({ streamEndpoint: S.String, streamStatus: AutomationStreamStatus }),
 ).annotations({
   identifier: "AutomationStream",
 }) as any as S.Schema<AutomationStream>;
@@ -1592,7 +1635,7 @@ export const StartBrowserSessionResponse = S.suspend(() =>
 export interface UpdateBrowserStreamRequest {
   browserIdentifier: string;
   sessionId: string;
-  streamUpdate: (typeof StreamUpdate)["Type"];
+  streamUpdate: StreamUpdate;
   clientToken?: string;
 }
 export const UpdateBrowserStreamRequest = S.suspend(() =>
@@ -1618,7 +1661,7 @@ export const UpdateBrowserStreamRequest = S.suspend(() =>
   identifier: "UpdateBrowserStreamRequest",
 }) as any as S.Schema<UpdateBrowserStreamRequest>;
 export interface ListCodeInterpreterSessionsResponse {
-  items: CodeInterpreterSessionSummaries;
+  items: CodeInterpreterSessionSummary[];
   nextToken?: string;
 }
 export const ListCodeInterpreterSessionsResponse = S.suspend(() =>
@@ -1631,7 +1674,7 @@ export const ListCodeInterpreterSessionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListCodeInterpreterSessionsResponse>;
 export interface BatchCreateMemoryRecordsInput {
   memoryId: string;
-  records: MemoryRecordsCreateInputList;
+  records: MemoryRecordCreateInput[];
   clientToken?: string;
 }
 export const BatchCreateMemoryRecordsInput = S.suspend(() =>
@@ -1655,9 +1698,11 @@ export const BatchCreateMemoryRecordsInput = S.suspend(() =>
 ).annotations({
   identifier: "BatchCreateMemoryRecordsInput",
 }) as any as S.Schema<BatchCreateMemoryRecordsInput>;
+export type MemoryRecordStatus = "SUCCEEDED" | "FAILED";
+export const MemoryRecordStatus = S.Literal("SUCCEEDED", "FAILED");
 export interface MemoryRecordOutput {
   memoryRecordId: string;
-  status: string;
+  status: MemoryRecordStatus;
   requestIdentifier?: string;
   errorCode?: number;
   errorMessage?: string;
@@ -1665,7 +1710,7 @@ export interface MemoryRecordOutput {
 export const MemoryRecordOutput = S.suspend(() =>
   S.Struct({
     memoryRecordId: S.String,
-    status: S.String,
+    status: MemoryRecordStatus,
     requestIdentifier: S.optional(S.String),
     errorCode: S.optional(S.Number),
     errorMessage: S.optional(S.String),
@@ -1676,8 +1721,8 @@ export const MemoryRecordOutput = S.suspend(() =>
 export type MemoryRecordsOutputList = MemoryRecordOutput[];
 export const MemoryRecordsOutputList = S.Array(MemoryRecordOutput);
 export interface BatchUpdateMemoryRecordsOutput {
-  successfulRecords: MemoryRecordsOutputList;
-  failedRecords: MemoryRecordsOutputList;
+  successfulRecords: MemoryRecordOutput[];
+  failedRecords: MemoryRecordOutput[];
 }
 export const BatchUpdateMemoryRecordsOutput = S.suspend(() =>
   S.Struct({
@@ -1704,7 +1749,7 @@ export const GetMemoryRecordOutput = S.suspend(() =>
   identifier: "GetMemoryRecordOutput",
 }) as any as S.Schema<GetMemoryRecordOutput>;
 export interface ListActorsOutput {
-  actorSummaries: ActorSummaryList;
+  actorSummaries: ActorSummary[];
   nextToken?: string;
 }
 export const ListActorsOutput = S.suspend(() =>
@@ -1716,7 +1761,7 @@ export const ListActorsOutput = S.suspend(() =>
   identifier: "ListActorsOutput",
 }) as any as S.Schema<ListActorsOutput>;
 export interface ListMemoryRecordsOutput {
-  memoryRecordSummaries: MemoryRecordSummaryList;
+  memoryRecordSummaries: MemoryRecordSummary[];
   nextToken?: string;
 }
 export const ListMemoryRecordsOutput = S.suspend(() =>
@@ -1728,7 +1773,7 @@ export const ListMemoryRecordsOutput = S.suspend(() =>
   identifier: "ListMemoryRecordsOutput",
 }) as any as S.Schema<ListMemoryRecordsOutput>;
 export interface ListSessionsOutput {
-  sessionSummaries: SessionSummaryList;
+  sessionSummaries: SessionSummary[];
   nextToken?: string;
 }
 export const ListSessionsOutput = S.suspend(() =>
@@ -1775,14 +1820,14 @@ export const StartMemoryExtractionJobOutput = S.suspend(() =>
   identifier: "StartMemoryExtractionJobOutput",
 }) as any as S.Schema<StartMemoryExtractionJobOutput>;
 export interface EventMetadataFilterExpression {
-  left: (typeof LeftExpression)["Type"];
-  operator: string;
-  right?: (typeof RightExpression)["Type"];
+  left: LeftExpression;
+  operator: OperatorType;
+  right?: RightExpression;
 }
 export const EventMetadataFilterExpression = S.suspend(() =>
   S.Struct({
     left: LeftExpression,
-    operator: S.String,
+    operator: OperatorType,
     right: S.optional(RightExpression),
   }),
 ).annotations({
@@ -1792,7 +1837,7 @@ export type EventMetadataFilterList = EventMetadataFilterExpression[];
 export const EventMetadataFilterList = S.Array(EventMetadataFilterExpression);
 export interface FilterInput {
   branch?: BranchFilter;
-  eventMetadata?: EventMetadataFilterList;
+  eventMetadata?: EventMetadataFilterExpression[];
 }
 export const FilterInput = S.suspend(() =>
   S.Struct({
@@ -1807,7 +1852,7 @@ export interface GetBrowserSessionResponse {
   createdAt: Date;
   viewPort?: ViewPort;
   sessionTimeoutSeconds?: number;
-  status?: string;
+  status?: BrowserSessionStatus;
   streams?: BrowserSessionStream;
   sessionReplayArtifact?: string;
   lastUpdatedAt?: Date;
@@ -1820,7 +1865,7 @@ export const GetBrowserSessionResponse = S.suspend(() =>
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     viewPort: S.optional(ViewPort),
     sessionTimeoutSeconds: S.optional(S.Number),
-    status: S.optional(S.String),
+    status: S.optional(BrowserSessionStatus),
     streams: S.optional(BrowserSessionStream),
     sessionReplayArtifact: S.optional(S.String),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -1845,8 +1890,8 @@ export const UpdateBrowserStreamResponse = S.suspend(() =>
   identifier: "UpdateBrowserStreamResponse",
 }) as any as S.Schema<UpdateBrowserStreamResponse>;
 export interface BatchCreateMemoryRecordsOutput {
-  successfulRecords: MemoryRecordsOutputList;
-  failedRecords: MemoryRecordsOutputList;
+  successfulRecords: MemoryRecordOutput[];
+  failedRecords: MemoryRecordOutput[];
 }
 export const BatchCreateMemoryRecordsOutput = S.suspend(() =>
   S.Struct({
@@ -1857,8 +1902,8 @@ export const BatchCreateMemoryRecordsOutput = S.suspend(() =>
   identifier: "BatchCreateMemoryRecordsOutput",
 }) as any as S.Schema<BatchCreateMemoryRecordsOutput>;
 export interface BatchDeleteMemoryRecordsOutput {
-  successfulRecords: MemoryRecordsOutputList;
-  failedRecords: MemoryRecordsOutputList;
+  successfulRecords: MemoryRecordOutput[];
+  failedRecords: MemoryRecordOutput[];
 }
 export const BatchDeleteMemoryRecordsOutput = S.suspend(() =>
   S.Struct({
@@ -1873,10 +1918,10 @@ export interface CreateEventInput {
   actorId: string;
   sessionId?: string;
   eventTimestamp: Date;
-  payload: PayloadTypeList;
+  payload: PayloadType[];
   branch?: Branch;
   clientToken?: string;
-  metadata?: MetadataMap;
+  metadata?: { [key: string]: MetadataValue };
 }
 export const CreateEventInput = S.suspend(() =>
   S.Struct({
@@ -1936,7 +1981,7 @@ export const ListEventsInput = S.suspend(() =>
   identifier: "ListEventsInput",
 }) as any as S.Schema<ListEventsInput>;
 export interface RetrieveMemoryRecordsOutput {
-  memoryRecordSummaries: MemoryRecordSummaryList;
+  memoryRecordSummaries: MemoryRecordSummary[];
   nextToken?: string;
 }
 export const RetrieveMemoryRecordsOutput = S.suspend(() =>
@@ -1961,6 +2006,19 @@ export const TokenUsage = S.suspend(() =>
 ).annotations({ identifier: "TokenUsage" }) as any as S.Schema<TokenUsage>;
 export type EventList = Event[];
 export const EventList = S.Array(Event);
+export type ValidationExceptionReason =
+  | "CannotParse"
+  | "FieldValidationFailed"
+  | "IdempotentParameterMismatchException"
+  | "EventInOtherSession"
+  | "ResourceConflict";
+export const ValidationExceptionReason = S.Literal(
+  "CannotParse",
+  "FieldValidationFailed",
+  "IdempotentParameterMismatchException",
+  "EventInOtherSession",
+  "ResourceConflict",
+);
 export interface SpanContext {
   sessionId: string;
   traceId?: string;
@@ -1993,7 +2051,7 @@ export const CreateEventOutput = S.suspend(() =>
   identifier: "CreateEventOutput",
 }) as any as S.Schema<CreateEventOutput>;
 export interface ListEventsOutput {
-  events: EventList;
+  events: Event[];
   nextToken?: string;
 }
 export const ListEventsOutput = S.suspend(() =>
@@ -2003,16 +2061,36 @@ export const ListEventsOutput = S.suspend(() =>
 }) as any as S.Schema<ListEventsOutput>;
 export type Context = { spanContext: SpanContext };
 export const Context = S.Union(S.Struct({ spanContext: SpanContext }));
-export type ExtractionJobMessages = { messagesList: MessagesList };
+export type ExtractionJobMessages = { messagesList: MessageMetadata[] };
 export const ExtractionJobMessages = S.Union(
   S.Struct({ messagesList: MessagesList }),
+);
+export type ContentBlockType = "text" | "image" | "resource" | "resource_link";
+export const ContentBlockType = S.Literal(
+  "text",
+  "image",
+  "resource",
+  "resource_link",
+);
+export type TaskStatus =
+  | "submitted"
+  | "working"
+  | "completed"
+  | "canceled"
+  | "failed";
+export const TaskStatus = S.Literal(
+  "submitted",
+  "working",
+  "completed",
+  "canceled",
+  "failed",
 );
 export interface EvaluationResultContent {
   evaluatorArn: string;
   evaluatorId: string;
   evaluatorName: string;
-  explanation?: string | Redacted.Redacted<string>;
-  context: (typeof Context)["Type"];
+  explanation?: string | redacted.Redacted<string>;
+  context: Context;
   value?: number;
   label?: string;
   tokenUsage?: TokenUsage;
@@ -2039,8 +2117,8 @@ export type EvaluationResults = EvaluationResultContent[];
 export const EvaluationResults = S.Array(EvaluationResultContent);
 export interface ExtractionJobMetadata {
   jobID: string;
-  messages: (typeof ExtractionJobMessages)["Type"];
-  status?: string;
+  messages: ExtractionJobMessages;
+  status?: ExtractionJobStatus;
   failureReason?: string;
   strategyId?: string;
   sessionId?: string;
@@ -2050,7 +2128,7 @@ export const ExtractionJobMetadata = S.suspend(() =>
   S.Struct({
     jobID: S.String,
     messages: ExtractionJobMessages,
-    status: S.optional(S.String),
+    status: S.optional(ExtractionJobStatus),
     failureReason: S.optional(S.String),
     strategyId: S.optional(S.String),
     sessionId: S.optional(S.String),
@@ -2063,7 +2141,7 @@ export type ExtractionJobMetadataList = ExtractionJobMetadata[];
 export const ExtractionJobMetadataList = S.Array(ExtractionJobMetadata);
 export interface ToolResultStructuredContent {
   taskId?: string;
-  taskStatus?: string;
+  taskStatus?: TaskStatus;
   stdout?: string;
   stderr?: string;
   exitCode?: number;
@@ -2072,7 +2150,7 @@ export interface ToolResultStructuredContent {
 export const ToolResultStructuredContent = S.suspend(() =>
   S.Struct({
     taskId: S.optional(S.String),
-    taskStatus: S.optional(S.String),
+    taskStatus: S.optional(TaskStatus),
     stdout: S.optional(S.String),
     stderr: S.optional(S.String),
     exitCode: S.optional(S.Number),
@@ -2092,8 +2170,10 @@ export const ValidationExceptionField = S.suspend(() =>
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
+export type ResourceContentType = "text" | "blob";
+export const ResourceContentType = S.Literal("text", "blob");
 export interface EvaluateResponse {
-  evaluationResults: EvaluationResults;
+  evaluationResults: EvaluationResultContent[];
 }
 export const EvaluateResponse = S.suspend(() =>
   S.Struct({ evaluationResults: EvaluationResults }),
@@ -2101,7 +2181,7 @@ export const EvaluateResponse = S.suspend(() =>
   identifier: "EvaluateResponse",
 }) as any as S.Schema<EvaluateResponse>;
 export interface ListMemoryExtractionJobsOutput {
-  jobs: ExtractionJobMetadataList;
+  jobs: ExtractionJobMetadata[];
   nextToken?: string;
 }
 export const ListMemoryExtractionJobsOutput = S.suspend(() =>
@@ -2113,7 +2193,7 @@ export const ListMemoryExtractionJobsOutput = S.suspend(() =>
   identifier: "ListMemoryExtractionJobsOutput",
 }) as any as S.Schema<ListMemoryExtractionJobsOutput>;
 export interface ResourceContent {
-  type: string;
+  type: ResourceContentType;
   uri?: string;
   mimeType?: string;
   text?: string;
@@ -2121,7 +2201,7 @@ export interface ResourceContent {
 }
 export const ResourceContent = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: ResourceContentType,
     uri: S.optional(S.String),
     mimeType: S.optional(S.String),
     text: S.optional(S.String),
@@ -2131,7 +2211,7 @@ export const ResourceContent = S.suspend(() =>
   identifier: "ResourceContent",
 }) as any as S.Schema<ResourceContent>;
 export interface ContentBlock {
-  type: string;
+  type: ContentBlockType;
   text?: string;
   data?: Uint8Array;
   mimeType?: string;
@@ -2143,7 +2223,7 @@ export interface ContentBlock {
 }
 export const ContentBlock = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: ContentBlockType,
     text: S.optional(S.String),
     data: S.optional(T.Blob),
     mimeType: S.optional(S.String),
@@ -2157,7 +2237,7 @@ export const ContentBlock = S.suspend(() =>
 export type ContentBlockList = ContentBlock[];
 export const ContentBlockList = S.Array(ContentBlock);
 export interface CodeInterpreterResult {
-  content: ContentBlockList;
+  content: ContentBlock[];
   structuredContent?: ToolResultStructuredContent;
   isError?: boolean;
 }
@@ -2170,6 +2250,15 @@ export const CodeInterpreterResult = S.suspend(() =>
 ).annotations({
   identifier: "CodeInterpreterResult",
 }) as any as S.Schema<CodeInterpreterResult>;
+export type CodeInterpreterStreamOutput =
+  | { result: CodeInterpreterResult }
+  | { accessDeniedException: AccessDeniedException }
+  | { conflictException: ConflictException }
+  | { internalServerException: InternalServerException }
+  | { resourceNotFoundException: ResourceNotFoundException }
+  | { serviceQuotaExceededException: ServiceQuotaExceededException }
+  | { throttlingException: ThrottlingException }
+  | { validationException: ValidationException };
 export const CodeInterpreterStreamOutput = T.EventStream(
   S.Union(
     S.Struct({ result: CodeInterpreterResult }),
@@ -2209,10 +2298,10 @@ export const CodeInterpreterStreamOutput = T.EventStream(
       }),
     }),
   ),
-);
+) as any as S.Schema<stream.Stream<CodeInterpreterStreamOutput, Error, never>>;
 export interface InvokeCodeInterpreterResponse {
   sessionId?: string;
-  stream: (typeof CodeInterpreterStreamOutput)["Type"];
+  stream: stream.Stream<CodeInterpreterStreamOutput, Error, never>;
 }
 export const InvokeCodeInterpreterResponse = S.suspend(() =>
   S.Struct({
@@ -2274,7 +2363,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     message: S.String,
-    reason: S.String,
+    reason: ValidationExceptionReason,
     fieldList: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
@@ -2291,7 +2380,7 @@ export class DuplicateIdException extends S.TaggedError<DuplicateIdException>()(
  */
 export const getEvent: (
   input: GetEventInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetEventOutput,
   | AccessDeniedException
   | InvalidInputException
@@ -2320,7 +2409,7 @@ export const getEvent: (
  */
 export const getResourceApiKey: (
   input: GetResourceApiKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourceApiKeyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2347,7 +2436,7 @@ export const getResourceApiKey: (
  */
 export const getWorkloadAccessToken: (
   input: GetWorkloadAccessTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkloadAccessTokenResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2374,7 +2463,7 @@ export const getWorkloadAccessToken: (
  */
 export const getWorkloadAccessTokenForJWT: (
   input: GetWorkloadAccessTokenForJWTRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkloadAccessTokenForJWTResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2401,7 +2490,7 @@ export const getWorkloadAccessTokenForJWT: (
  */
 export const getWorkloadAccessTokenForUserId: (
   input: GetWorkloadAccessTokenForUserIdRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkloadAccessTokenForUserIdResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2428,7 +2517,7 @@ export const getWorkloadAccessTokenForUserId: (
  */
 export const completeResourceTokenAuth: (
   input: CompleteResourceTokenAuthRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CompleteResourceTokenAuthResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2455,7 +2544,7 @@ export const completeResourceTokenAuth: (
  */
 export const stopRuntimeSession: (
   input: StopRuntimeSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopRuntimeSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2498,7 +2587,7 @@ export const stopRuntimeSession: (
  */
 export const listBrowserSessions: (
   input: ListBrowserSessionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListBrowserSessionsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2533,7 +2622,7 @@ export const listBrowserSessions: (
  */
 export const listCodeInterpreterSessions: (
   input: ListCodeInterpreterSessionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListCodeInterpreterSessionsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2568,7 +2657,7 @@ export const listCodeInterpreterSessions: (
  */
 export const getCodeInterpreterSession: (
   input: GetCodeInterpreterSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCodeInterpreterSessionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2603,7 +2692,7 @@ export const getCodeInterpreterSession: (
  */
 export const getBrowserSession: (
   input: GetBrowserSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBrowserSessionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2638,7 +2727,7 @@ export const getBrowserSession: (
  */
 export const invokeAgentRuntime: (
   input: InvokeAgentRuntimeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   InvokeAgentRuntimeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2675,7 +2764,7 @@ export const invokeAgentRuntime: (
  */
 export const stopBrowserSession: (
   input: StopBrowserSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopBrowserSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2714,7 +2803,7 @@ export const stopBrowserSession: (
  */
 export const startCodeInterpreterSession: (
   input: StartCodeInterpreterSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartCodeInterpreterSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2751,7 +2840,7 @@ export const startCodeInterpreterSession: (
  */
 export const stopCodeInterpreterSession: (
   input: StopCodeInterpreterSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopCodeInterpreterSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2790,7 +2879,7 @@ export const stopCodeInterpreterSession: (
  */
 export const startBrowserSession: (
   input: StartBrowserSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartBrowserSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2819,7 +2908,7 @@ export const startBrowserSession: (
  */
 export const updateBrowserStream: (
   input: UpdateBrowserStreamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateBrowserStreamResponse,
   | AccessDeniedException
   | ConflictException
@@ -2848,7 +2937,7 @@ export const updateBrowserStream: (
  */
 export const getAgentCard: (
   input: GetAgentCardRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAgentCardResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2877,7 +2966,7 @@ export const getAgentCard: (
  */
 export const getResourceOauth2Token: (
   input: GetResourceOauth2TokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourceOauth2TokenResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2907,7 +2996,7 @@ export const getResourceOauth2Token: (
 export const retrieveMemoryRecords: {
   (
     input: RetrieveMemoryRecordsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     RetrieveMemoryRecordsOutput,
     | AccessDeniedException
     | InvalidInputException
@@ -2921,7 +3010,7 @@ export const retrieveMemoryRecords: {
   >;
   pages: (
     input: RetrieveMemoryRecordsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RetrieveMemoryRecordsOutput,
     | AccessDeniedException
     | InvalidInputException
@@ -2935,7 +3024,7 @@ export const retrieveMemoryRecords: {
   >;
   items: (
     input: RetrieveMemoryRecordsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MemoryRecordSummary,
     | AccessDeniedException
     | InvalidInputException
@@ -2973,7 +3062,7 @@ export const retrieveMemoryRecords: {
  */
 export const startMemoryExtractionJob: (
   input: StartMemoryExtractionJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartMemoryExtractionJobOutput,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3000,7 +3089,7 @@ export const startMemoryExtractionJob: (
  */
 export const batchCreateMemoryRecords: (
   input: BatchCreateMemoryRecordsInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchCreateMemoryRecordsOutput,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3027,7 +3116,7 @@ export const batchCreateMemoryRecords: (
  */
 export const batchDeleteMemoryRecords: (
   input: BatchDeleteMemoryRecordsInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDeleteMemoryRecordsOutput,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3056,7 +3145,7 @@ export const batchDeleteMemoryRecords: (
  */
 export const getMemoryRecord: (
   input: GetMemoryRecordInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetMemoryRecordOutput,
   | AccessDeniedException
   | InvalidInputException
@@ -3088,7 +3177,7 @@ export const getMemoryRecord: (
 export const listActors: {
   (
     input: ListActorsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListActorsOutput,
     | AccessDeniedException
     | InvalidInputException
@@ -3102,7 +3191,7 @@ export const listActors: {
   >;
   pages: (
     input: ListActorsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListActorsOutput,
     | AccessDeniedException
     | InvalidInputException
@@ -3116,7 +3205,7 @@ export const listActors: {
   >;
   items: (
     input: ListActorsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ActorSummary,
     | AccessDeniedException
     | InvalidInputException
@@ -3155,7 +3244,7 @@ export const listActors: {
 export const listMemoryRecords: {
   (
     input: ListMemoryRecordsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMemoryRecordsOutput,
     | AccessDeniedException
     | InvalidInputException
@@ -3169,7 +3258,7 @@ export const listMemoryRecords: {
   >;
   pages: (
     input: ListMemoryRecordsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMemoryRecordsOutput,
     | AccessDeniedException
     | InvalidInputException
@@ -3183,7 +3272,7 @@ export const listMemoryRecords: {
   >;
   items: (
     input: ListMemoryRecordsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MemoryRecordSummary,
     | AccessDeniedException
     | InvalidInputException
@@ -3222,7 +3311,7 @@ export const listMemoryRecords: {
 export const listSessions: {
   (
     input: ListSessionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSessionsOutput,
     | AccessDeniedException
     | InvalidInputException
@@ -3236,7 +3325,7 @@ export const listSessions: {
   >;
   pages: (
     input: ListSessionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSessionsOutput,
     | AccessDeniedException
     | InvalidInputException
@@ -3250,7 +3339,7 @@ export const listSessions: {
   >;
   items: (
     input: ListSessionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SessionSummary,
     | AccessDeniedException
     | InvalidInputException
@@ -3288,7 +3377,7 @@ export const listSessions: {
  */
 export const deleteEvent: (
   input: DeleteEventInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEventOutput,
   | AccessDeniedException
   | InvalidInputException
@@ -3319,7 +3408,7 @@ export const deleteEvent: (
  */
 export const deleteMemoryRecord: (
   input: DeleteMemoryRecordInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMemoryRecordOutput,
   | AccessDeniedException
   | InvalidInputException
@@ -3348,7 +3437,7 @@ export const deleteMemoryRecord: (
  */
 export const batchUpdateMemoryRecords: (
   input: BatchUpdateMemoryRecordsInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchUpdateMemoryRecordsOutput,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3379,7 +3468,7 @@ export const batchUpdateMemoryRecords: (
  */
 export const createEvent: (
   input: CreateEventInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEventOutput,
   | AccessDeniedException
   | InvalidInputException
@@ -3411,7 +3500,7 @@ export const createEvent: (
 export const listEvents: {
   (
     input: ListEventsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEventsOutput,
     | AccessDeniedException
     | InvalidInputException
@@ -3425,7 +3514,7 @@ export const listEvents: {
   >;
   pages: (
     input: ListEventsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEventsOutput,
     | AccessDeniedException
     | InvalidInputException
@@ -3439,7 +3528,7 @@ export const listEvents: {
   >;
   items: (
     input: ListEventsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Event,
     | AccessDeniedException
     | InvalidInputException
@@ -3478,7 +3567,7 @@ export const listEvents: {
 export const listMemoryExtractionJobs: {
   (
     input: ListMemoryExtractionJobsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMemoryExtractionJobsOutput,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -3491,7 +3580,7 @@ export const listMemoryExtractionJobs: {
   >;
   pages: (
     input: ListMemoryExtractionJobsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMemoryExtractionJobsOutput,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -3504,7 +3593,7 @@ export const listMemoryExtractionJobs: {
   >;
   items: (
     input: ListMemoryExtractionJobsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExtractionJobMetadata,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -3538,7 +3627,7 @@ export const listMemoryExtractionJobs: {
  */
 export const evaluate: (
   input: EvaluateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EvaluateResponse,
   | AccessDeniedException
   | ConflictException
@@ -3581,7 +3670,7 @@ export const evaluate: (
  */
 export const invokeCodeInterpreter: (
   input: InvokeCodeInterpreterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   InvokeCodeInterpreterResponse,
   | AccessDeniedException
   | ConflictException

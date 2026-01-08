@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -101,8 +101,8 @@ export type MinuteOfHour = number;
 export type DayOfWeek = number;
 export type DayOfMonth = number;
 export type Host = string;
-export type Username = string | Redacted.Redacted<string>;
-export type Password = string | Redacted.Redacted<string>;
+export type Username = string | redacted.Redacted<string>;
+export type Password = string | redacted.Redacted<string>;
 export type KmsKeyArn = string;
 export type LogGroupArn = string;
 export type IamRoleArn = string;
@@ -131,7 +131,7 @@ export const ListTagsForResourceInput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceInput>;
 export interface UntagResourceInput {
   ResourceARN: string;
-  TagKeys: TagKeys;
+  TagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeys }).pipe(
@@ -153,7 +153,7 @@ export interface CreateGatewayInput {
   ActivationKey: string;
   GatewayDisplayName: string;
   GatewayType: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreateGatewayInput = S.suspend(() =>
   S.Struct({
@@ -259,8 +259,8 @@ export const PutMaintenanceStartTimeInput = S.suspend(() =>
 export interface TestHypervisorConfigurationInput {
   GatewayArn: string;
   Host: string;
-  Username?: string | Redacted.Redacted<string>;
-  Password?: string | Redacted.Redacted<string>;
+  Username?: string | redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
 }
 export const TestHypervisorConfigurationInput = S.suspend(() =>
   S.Struct({
@@ -303,10 +303,10 @@ export const GetBandwidthRateLimitScheduleInput = S.suspend(() =>
 export interface ImportHypervisorConfigurationInput {
   Name: string;
   Host: string;
-  Username?: string | Redacted.Redacted<string>;
-  Password?: string | Redacted.Redacted<string>;
+  Username?: string | redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
   KmsKeyArn?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const ImportHypervisorConfigurationInput = S.suspend(() =>
   S.Struct({
@@ -335,8 +335,8 @@ export const GetHypervisorInput = S.suspend(() =>
 export interface UpdateHypervisorInput {
   HypervisorArn: string;
   Host?: string;
-  Username?: string | Redacted.Redacted<string>;
-  Password?: string | Redacted.Redacted<string>;
+  Username?: string | redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
   Name?: string;
   LogGroupArn?: string;
 }
@@ -432,7 +432,7 @@ export interface BandwidthRateLimitInterval {
   EndHourOfDay: number;
   StartMinuteOfHour: number;
   EndMinuteOfHour: number;
-  DaysOfWeek: DaysOfWeek;
+  DaysOfWeek: number[];
 }
 export const BandwidthRateLimitInterval = S.suspend(() =>
   S.Struct({
@@ -468,7 +468,7 @@ export type VmwareToAwsTagMappings = VmwareToAwsTagMapping[];
 export const VmwareToAwsTagMappings = S.Array(VmwareToAwsTagMapping);
 export interface ListTagsForResourceOutput {
   ResourceArn?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ ResourceArn: S.optional(S.String), Tags: S.optional(Tags) }),
@@ -477,7 +477,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   ResourceARN: string;
-  Tags: Tags;
+  Tags: Tag[];
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: Tags }).pipe(
@@ -552,7 +552,7 @@ export const UpdateGatewaySoftwareNowOutput = S.suspend(() =>
 }) as any as S.Schema<UpdateGatewaySoftwareNowOutput>;
 export interface PutBandwidthRateLimitScheduleInput {
   GatewayArn: string;
-  BandwidthRateLimitIntervals: BandwidthRateLimitIntervals;
+  BandwidthRateLimitIntervals: BandwidthRateLimitInterval[];
 }
 export const PutBandwidthRateLimitScheduleInput = S.suspend(() =>
   S.Struct({
@@ -566,7 +566,7 @@ export const PutBandwidthRateLimitScheduleInput = S.suspend(() =>
 }) as any as S.Schema<PutBandwidthRateLimitScheduleInput>;
 export interface GetBandwidthRateLimitScheduleOutput {
   GatewayArn?: string;
-  BandwidthRateLimitIntervals?: BandwidthRateLimitIntervals;
+  BandwidthRateLimitIntervals?: BandwidthRateLimitInterval[];
 }
 export const GetBandwidthRateLimitScheduleOutput = S.suspend(() =>
   S.Struct({
@@ -610,7 +610,7 @@ export const StartVirtualMachinesMetadataSyncOutput = S.suspend(() =>
 }) as any as S.Schema<StartVirtualMachinesMetadataSyncOutput>;
 export interface PutHypervisorPropertyMappingsInput {
   HypervisorArn: string;
-  VmwareToAwsTagMappings: VmwareToAwsTagMappings;
+  VmwareToAwsTagMappings: VmwareToAwsTagMapping[];
   IamRoleArn: string;
 }
 export const PutHypervisorPropertyMappingsInput = S.suspend(() =>
@@ -626,7 +626,7 @@ export const PutHypervisorPropertyMappingsInput = S.suspend(() =>
 }) as any as S.Schema<PutHypervisorPropertyMappingsInput>;
 export interface GetHypervisorPropertyMappingsOutput {
   HypervisorArn?: string;
-  VmwareToAwsTagMappings?: VmwareToAwsTagMappings;
+  VmwareToAwsTagMappings?: VmwareToAwsTagMapping[];
   IamRoleArn?: string;
 }
 export const GetHypervisorPropertyMappingsOutput = S.suspend(() =>
@@ -733,7 +733,7 @@ export const TagResourceOutput = S.suspend(() =>
   identifier: "TagResourceOutput",
 }) as any as S.Schema<TagResourceOutput>;
 export interface ListGatewaysOutput {
-  Gateways?: Gateways;
+  Gateways?: Gateway[];
   NextToken?: string;
 }
 export const ListGatewaysOutput = S.suspend(() =>
@@ -758,7 +758,7 @@ export const GetHypervisorOutput = S.suspend(() =>
   identifier: "GetHypervisorOutput",
 }) as any as S.Schema<GetHypervisorOutput>;
 export interface ListHypervisorsOutput {
-  Hypervisors?: Hypervisors;
+  Hypervisors?: Hypervisor[];
   NextToken?: string;
 }
 export const ListHypervisorsOutput = S.suspend(() =>
@@ -778,7 +778,7 @@ export const PutHypervisorPropertyMappingsOutput = S.suspend(() =>
   identifier: "PutHypervisorPropertyMappingsOutput",
 }) as any as S.Schema<PutHypervisorPropertyMappingsOutput>;
 export interface ListVirtualMachinesOutput {
-  VirtualMachines?: VirtualMachines;
+  VirtualMachines?: VirtualMachine[];
   NextToken?: string;
 }
 export const ListVirtualMachinesOutput = S.suspend(() =>
@@ -852,7 +852,7 @@ export interface VirtualMachineDetails {
   Path?: string;
   ResourceArn?: string;
   LastBackupDate?: Date;
-  VmwareTags?: VmwareTags;
+  VmwareTags?: VmwareTag[];
 }
 export const VirtualMachineDetails = S.suspend(() =>
   S.Struct({
@@ -905,7 +905,7 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
  */
 export const createGateway: (
   input: CreateGatewayInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGatewayOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -920,7 +920,7 @@ export const createGateway: (
  */
 export const associateGatewayToServer: (
   input: AssociateGatewayToServerInput,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateGatewayToServerOutput,
   ConflictException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -935,7 +935,7 @@ export const associateGatewayToServer: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -949,7 +949,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -964,21 +964,21 @@ export const tagResource: (
 export const listGateways: {
   (
     input: ListGatewaysInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGatewaysOutput,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListGatewaysInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGatewaysOutput,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGatewaysInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Gateway,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1002,7 +1002,7 @@ export const listGateways: {
  */
 export const putBandwidthRateLimitSchedule: (
   input: PutBandwidthRateLimitScheduleInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutBandwidthRateLimitScheduleOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1016,7 +1016,7 @@ export const putBandwidthRateLimitSchedule: (
  */
 export const importHypervisorConfiguration: (
   input: ImportHypervisorConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   ImportHypervisorConfigurationOutput,
   AccessDeniedException | ConflictException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1032,7 +1032,7 @@ export const importHypervisorConfiguration: (
  */
 export const getHypervisor: (
   input: GetHypervisorInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetHypervisorOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1047,21 +1047,21 @@ export const getHypervisor: (
 export const listHypervisors: {
   (
     input: ListHypervisorsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListHypervisorsOutput,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListHypervisorsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListHypervisorsOutput,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListHypervisorsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Hypervisor,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1084,7 +1084,7 @@ export const listHypervisors: {
  */
 export const putHypervisorPropertyMappings: (
   input: PutHypervisorPropertyMappingsInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutHypervisorPropertyMappingsOutput,
   | AccessDeniedException
   | ConflictException
@@ -1102,21 +1102,21 @@ export const putHypervisorPropertyMappings: (
 export const listVirtualMachines: {
   (
     input: ListVirtualMachinesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVirtualMachinesOutput,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListVirtualMachinesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVirtualMachinesOutput,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVirtualMachinesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     VirtualMachine,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1137,7 +1137,7 @@ export const listVirtualMachines: {
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1151,7 +1151,7 @@ export const untagResource: (
  */
 export const deleteGateway: (
   input: DeleteGatewayInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGatewayOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1166,7 +1166,7 @@ export const deleteGateway: (
  */
 export const testHypervisorConfiguration: (
   input: TestHypervisorConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   TestHypervisorConfigurationOutput,
   ConflictException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1185,7 +1185,7 @@ export const testHypervisorConfiguration: (
  */
 export const updateGatewaySoftwareNow: (
   input: UpdateGatewaySoftwareNowInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGatewaySoftwareNowOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1202,7 +1202,7 @@ export const updateGatewaySoftwareNow: (
  */
 export const getBandwidthRateLimitSchedule: (
   input: GetBandwidthRateLimitScheduleInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetBandwidthRateLimitScheduleOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1218,7 +1218,7 @@ export const getBandwidthRateLimitSchedule: (
  */
 export const getHypervisorPropertyMappings: (
   input: GetHypervisorPropertyMappingsInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetHypervisorPropertyMappingsOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1233,7 +1233,7 @@ export const getHypervisorPropertyMappings: (
  */
 export const updateGatewayInformation: (
   input: UpdateGatewayInformationInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGatewayInformationOutput,
   ConflictException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1248,7 +1248,7 @@ export const updateGatewayInformation: (
  */
 export const disassociateGatewayFromServer: (
   input: DisassociateGatewayFromServerInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateGatewayFromServerOutput,
   ConflictException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1262,7 +1262,7 @@ export const disassociateGatewayFromServer: (
  */
 export const putMaintenanceStartTime: (
   input: PutMaintenanceStartTimeInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutMaintenanceStartTimeOutput,
   ConflictException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1278,7 +1278,7 @@ export const putMaintenanceStartTime: (
  */
 export const updateHypervisor: (
   input: UpdateHypervisorInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateHypervisorOutput,
   | AccessDeniedException
   | ConflictException
@@ -1295,7 +1295,7 @@ export const updateHypervisor: (
  */
 export const deleteHypervisor: (
   input: DeleteHypervisorInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteHypervisorOutput,
   | AccessDeniedException
   | ConflictException
@@ -1312,7 +1312,7 @@ export const deleteHypervisor: (
  */
 export const startVirtualMachinesMetadataSync: (
   input: StartVirtualMachinesMetadataSyncInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartVirtualMachinesMetadataSyncOutput,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1327,7 +1327,7 @@ export const startVirtualMachinesMetadataSync: (
  */
 export const getGateway: (
   input: GetGatewayInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetGatewayOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1341,7 +1341,7 @@ export const getGateway: (
  */
 export const getVirtualMachine: (
   input: GetVirtualMachineInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetVirtualMachineOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

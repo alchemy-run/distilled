@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -90,8 +90,8 @@ const rules = T.EndpointResolver((p, _) => {
 export type Arn = string;
 export type TagKey = string;
 export type DbClusterName = string;
-export type Username = string | Redacted.Redacted<string>;
-export type Password = string | Redacted.Redacted<string>;
+export type Username = string | redacted.Redacted<string>;
+export type Password = string | redacted.Redacted<string>;
 export type Organization = string;
 export type Bucket = string;
 export type Port = number;
@@ -112,12 +112,50 @@ export type DbParameterGroupId = string;
 //# Schemas
 export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
+export type DbInstanceType =
+  | "db.influx.medium"
+  | "db.influx.large"
+  | "db.influx.xlarge"
+  | "db.influx.2xlarge"
+  | "db.influx.4xlarge"
+  | "db.influx.8xlarge"
+  | "db.influx.12xlarge"
+  | "db.influx.16xlarge"
+  | "db.influx.24xlarge";
+export const DbInstanceType = S.Literal(
+  "db.influx.medium",
+  "db.influx.large",
+  "db.influx.xlarge",
+  "db.influx.2xlarge",
+  "db.influx.4xlarge",
+  "db.influx.8xlarge",
+  "db.influx.12xlarge",
+  "db.influx.16xlarge",
+  "db.influx.24xlarge",
+);
+export type DbStorageType =
+  | "InfluxIOIncludedT1"
+  | "InfluxIOIncludedT2"
+  | "InfluxIOIncludedT3";
+export const DbStorageType = S.Literal(
+  "InfluxIOIncludedT1",
+  "InfluxIOIncludedT2",
+  "InfluxIOIncludedT3",
+);
+export type NetworkType = "IPV4" | "DUAL";
+export const NetworkType = S.Literal("IPV4", "DUAL");
 export type VpcSubnetIdList = string[];
 export const VpcSubnetIdList = S.Array(S.String);
 export type VpcSecurityGroupIdList = string[];
 export const VpcSecurityGroupIdList = S.Array(S.String);
+export type ClusterDeploymentType = "MULTI_NODE_READ_REPLICAS";
+export const ClusterDeploymentType = S.Literal("MULTI_NODE_READ_REPLICAS");
+export type FailoverMode = "AUTOMATIC" | "NO_FAILOVER";
+export const FailoverMode = S.Literal("AUTOMATIC", "NO_FAILOVER");
 export type DbInstanceIdList = string[];
 export const DbInstanceIdList = S.Array(S.String);
+export type DeploymentType = "SINGLE_AZ" | "WITH_MULTIAZ_STANDBY";
+export const DeploymentType = S.Literal("SINGLE_AZ", "WITH_MULTIAZ_STANDBY");
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
@@ -130,7 +168,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeys;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -178,8 +216,8 @@ export interface UpdateDbClusterInput {
   logDeliveryConfiguration?: LogDeliveryConfiguration;
   dbParameterGroupIdentifier?: string;
   port?: number;
-  dbInstanceType?: string;
-  failoverMode?: string;
+  dbInstanceType?: DbInstanceType;
+  failoverMode?: FailoverMode;
 }
 export const UpdateDbClusterInput = S.suspend(() =>
   S.Struct({
@@ -187,8 +225,8 @@ export const UpdateDbClusterInput = S.suspend(() =>
     logDeliveryConfiguration: S.optional(LogDeliveryConfiguration),
     dbParameterGroupIdentifier: S.optional(S.String),
     port: S.optional(S.Number),
-    dbInstanceType: S.optional(S.String),
-    failoverMode: S.optional(S.String),
+    dbInstanceType: S.optional(DbInstanceType),
+    failoverMode: S.optional(FailoverMode),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -237,7 +275,7 @@ export const ListDbInstancesForClusterInput = S.suspend(() =>
 }) as any as S.Schema<ListDbInstancesForClusterInput>;
 export interface RebootDbClusterInput {
   dbClusterId: string;
-  instanceIds?: DbInstanceIdList;
+  instanceIds?: string[];
 }
 export const RebootDbClusterInput = S.suspend(() =>
   S.Struct({
@@ -253,22 +291,22 @@ export type RequestTagMap = { [key: string]: string };
 export const RequestTagMap = S.Record({ key: S.String, value: S.String });
 export interface CreateDbInstanceInput {
   name: string;
-  username?: string | Redacted.Redacted<string>;
-  password: string | Redacted.Redacted<string>;
+  username?: string | redacted.Redacted<string>;
+  password: string | redacted.Redacted<string>;
   organization?: string;
   bucket?: string;
-  dbInstanceType: string;
-  vpcSubnetIds: VpcSubnetIdList;
-  vpcSecurityGroupIds: VpcSecurityGroupIdList;
+  dbInstanceType: DbInstanceType;
+  vpcSubnetIds: string[];
+  vpcSecurityGroupIds: string[];
   publiclyAccessible?: boolean;
-  dbStorageType?: string;
+  dbStorageType?: DbStorageType;
   allocatedStorage: number;
   dbParameterGroupIdentifier?: string;
-  deploymentType?: string;
+  deploymentType?: DeploymentType;
   logDeliveryConfiguration?: LogDeliveryConfiguration;
-  tags?: RequestTagMap;
+  tags?: { [key: string]: string };
   port?: number;
-  networkType?: string;
+  networkType?: NetworkType;
 }
 export const CreateDbInstanceInput = S.suspend(() =>
   S.Struct({
@@ -277,18 +315,18 @@ export const CreateDbInstanceInput = S.suspend(() =>
     password: SensitiveString,
     organization: S.optional(S.String),
     bucket: S.optional(S.String),
-    dbInstanceType: S.String,
+    dbInstanceType: DbInstanceType,
     vpcSubnetIds: VpcSubnetIdList,
     vpcSecurityGroupIds: VpcSecurityGroupIdList,
     publiclyAccessible: S.optional(S.Boolean),
-    dbStorageType: S.optional(S.String),
+    dbStorageType: S.optional(DbStorageType),
     allocatedStorage: S.Number,
     dbParameterGroupIdentifier: S.optional(S.String),
-    deploymentType: S.optional(S.String),
+    deploymentType: S.optional(DeploymentType),
     logDeliveryConfiguration: S.optional(LogDeliveryConfiguration),
     tags: S.optional(RequestTagMap),
     port: S.optional(S.Number),
-    networkType: S.optional(S.String),
+    networkType: S.optional(NetworkType),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -310,9 +348,9 @@ export interface UpdateDbInstanceInput {
   logDeliveryConfiguration?: LogDeliveryConfiguration;
   dbParameterGroupIdentifier?: string;
   port?: number;
-  dbInstanceType?: string;
-  deploymentType?: string;
-  dbStorageType?: string;
+  dbInstanceType?: DbInstanceType;
+  deploymentType?: DeploymentType;
+  dbStorageType?: DbStorageType;
   allocatedStorage?: number;
 }
 export const UpdateDbInstanceInput = S.suspend(() =>
@@ -321,9 +359,9 @@ export const UpdateDbInstanceInput = S.suspend(() =>
     logDeliveryConfiguration: S.optional(LogDeliveryConfiguration),
     dbParameterGroupIdentifier: S.optional(S.String),
     port: S.optional(S.Number),
-    dbInstanceType: S.optional(S.String),
-    deploymentType: S.optional(S.String),
-    dbStorageType: S.optional(S.String),
+    dbInstanceType: S.optional(DbInstanceType),
+    deploymentType: S.optional(DeploymentType),
+    dbStorageType: S.optional(DbStorageType),
     allocatedStorage: S.optional(S.Number),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -389,11 +427,100 @@ export const ListDbParameterGroupsInput = S.suspend(() =>
 ).annotations({
   identifier: "ListDbParameterGroupsInput",
 }) as any as S.Schema<ListDbParameterGroupsInput>;
-export type InstanceModeList = string[];
-export const InstanceModeList = S.Array(S.String);
+export type ClusterStatus =
+  | "CREATING"
+  | "UPDATING"
+  | "DELETING"
+  | "AVAILABLE"
+  | "FAILED"
+  | "DELETED"
+  | "MAINTENANCE"
+  | "UPDATING_INSTANCE_TYPE"
+  | "REBOOTING"
+  | "REBOOT_FAILED"
+  | "PARTIALLY_AVAILABLE";
+export const ClusterStatus = S.Literal(
+  "CREATING",
+  "UPDATING",
+  "DELETING",
+  "AVAILABLE",
+  "FAILED",
+  "DELETED",
+  "MAINTENANCE",
+  "UPDATING_INSTANCE_TYPE",
+  "REBOOTING",
+  "REBOOT_FAILED",
+  "PARTIALLY_AVAILABLE",
+);
+export type EngineType =
+  | "INFLUXDB_V2"
+  | "INFLUXDB_V3_CORE"
+  | "INFLUXDB_V3_ENTERPRISE";
+export const EngineType = S.Literal(
+  "INFLUXDB_V2",
+  "INFLUXDB_V3_CORE",
+  "INFLUXDB_V3_ENTERPRISE",
+);
+export type Status =
+  | "CREATING"
+  | "AVAILABLE"
+  | "DELETING"
+  | "MODIFYING"
+  | "UPDATING"
+  | "DELETED"
+  | "FAILED"
+  | "UPDATING_DEPLOYMENT_TYPE"
+  | "UPDATING_INSTANCE_TYPE"
+  | "MAINTENANCE"
+  | "REBOOTING"
+  | "REBOOT_FAILED";
+export const Status = S.Literal(
+  "CREATING",
+  "AVAILABLE",
+  "DELETING",
+  "MODIFYING",
+  "UPDATING",
+  "DELETED",
+  "FAILED",
+  "UPDATING_DEPLOYMENT_TYPE",
+  "UPDATING_INSTANCE_TYPE",
+  "MAINTENANCE",
+  "REBOOTING",
+  "REBOOT_FAILED",
+);
+export type InstanceMode =
+  | "PRIMARY"
+  | "STANDBY"
+  | "REPLICA"
+  | "INGEST"
+  | "QUERY"
+  | "COMPACT"
+  | "PROCESS";
+export const InstanceMode = S.Literal(
+  "PRIMARY",
+  "STANDBY",
+  "REPLICA",
+  "INGEST",
+  "QUERY",
+  "COMPACT",
+  "PROCESS",
+);
+export type InstanceModeList = InstanceMode[];
+export const InstanceModeList = S.Array(InstanceMode);
+export type LogLevel = "debug" | "info" | "error";
+export const LogLevel = S.Literal("debug", "info", "error");
+export type TracingType = "log" | "jaeger" | "disabled";
+export const TracingType = S.Literal("log", "jaeger", "disabled");
+export type LogFormats = "full";
+export const LogFormats = S.Literal("full");
+export type DataFusionRuntimeType = "multi-thread" | "multi-thread-alt";
+export const DataFusionRuntimeType = S.Literal(
+  "multi-thread",
+  "multi-thread-alt",
+);
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: RequestTagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: RequestTagMap }).pipe(
@@ -410,71 +537,71 @@ export interface GetDbClusterOutput {
   id: string;
   name: string;
   arn: string;
-  status?: string;
+  status?: ClusterStatus;
   endpoint?: string;
   readerEndpoint?: string;
   port?: number;
-  deploymentType?: string;
-  dbInstanceType?: string;
-  networkType?: string;
-  dbStorageType?: string;
+  deploymentType?: ClusterDeploymentType;
+  dbInstanceType?: DbInstanceType;
+  networkType?: NetworkType;
+  dbStorageType?: DbStorageType;
   allocatedStorage?: number;
-  engineType?: string;
+  engineType?: EngineType;
   publiclyAccessible?: boolean;
   dbParameterGroupIdentifier?: string;
   logDeliveryConfiguration?: LogDeliveryConfiguration;
   influxAuthParametersSecretArn?: string;
-  vpcSubnetIds?: VpcSubnetIdList;
-  vpcSecurityGroupIds?: VpcSecurityGroupIdList;
-  failoverMode?: string;
+  vpcSubnetIds?: string[];
+  vpcSecurityGroupIds?: string[];
+  failoverMode?: FailoverMode;
 }
 export const GetDbClusterOutput = S.suspend(() =>
   S.Struct({
     id: S.String,
     name: S.String,
     arn: S.String,
-    status: S.optional(S.String),
+    status: S.optional(ClusterStatus),
     endpoint: S.optional(S.String),
     readerEndpoint: S.optional(S.String),
     port: S.optional(S.Number),
-    deploymentType: S.optional(S.String),
-    dbInstanceType: S.optional(S.String),
-    networkType: S.optional(S.String),
-    dbStorageType: S.optional(S.String),
+    deploymentType: S.optional(ClusterDeploymentType),
+    dbInstanceType: S.optional(DbInstanceType),
+    networkType: S.optional(NetworkType),
+    dbStorageType: S.optional(DbStorageType),
     allocatedStorage: S.optional(S.Number),
-    engineType: S.optional(S.String),
+    engineType: S.optional(EngineType),
     publiclyAccessible: S.optional(S.Boolean),
     dbParameterGroupIdentifier: S.optional(S.String),
     logDeliveryConfiguration: S.optional(LogDeliveryConfiguration),
     influxAuthParametersSecretArn: S.optional(S.String),
     vpcSubnetIds: S.optional(VpcSubnetIdList),
     vpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
-    failoverMode: S.optional(S.String),
+    failoverMode: S.optional(FailoverMode),
   }),
 ).annotations({
   identifier: "GetDbClusterOutput",
 }) as any as S.Schema<GetDbClusterOutput>;
 export interface UpdateDbClusterOutput {
-  dbClusterStatus?: string;
+  dbClusterStatus?: ClusterStatus;
 }
 export const UpdateDbClusterOutput = S.suspend(() =>
-  S.Struct({ dbClusterStatus: S.optional(S.String) }),
+  S.Struct({ dbClusterStatus: S.optional(ClusterStatus) }),
 ).annotations({
   identifier: "UpdateDbClusterOutput",
 }) as any as S.Schema<UpdateDbClusterOutput>;
 export interface DeleteDbClusterOutput {
-  dbClusterStatus?: string;
+  dbClusterStatus?: ClusterStatus;
 }
 export const DeleteDbClusterOutput = S.suspend(() =>
-  S.Struct({ dbClusterStatus: S.optional(S.String) }),
+  S.Struct({ dbClusterStatus: S.optional(ClusterStatus) }),
 ).annotations({
   identifier: "DeleteDbClusterOutput",
 }) as any as S.Schema<DeleteDbClusterOutput>;
 export interface RebootDbClusterOutput {
-  dbClusterStatus?: string;
+  dbClusterStatus?: ClusterStatus;
 }
 export const RebootDbClusterOutput = S.suspend(() =>
-  S.Struct({ dbClusterStatus: S.optional(S.String) }),
+  S.Struct({ dbClusterStatus: S.optional(ClusterStatus) }),
 ).annotations({
   identifier: "RebootDbClusterOutput",
 }) as any as S.Schema<RebootDbClusterOutput>;
@@ -482,39 +609,39 @@ export interface CreateDbInstanceOutput {
   id: string;
   name: string;
   arn: string;
-  status?: string;
+  status?: Status;
   endpoint?: string;
   port?: number;
-  networkType?: string;
-  dbInstanceType?: string;
-  dbStorageType?: string;
+  networkType?: NetworkType;
+  dbInstanceType?: DbInstanceType;
+  dbStorageType?: DbStorageType;
   allocatedStorage?: number;
-  deploymentType?: string;
-  vpcSubnetIds: VpcSubnetIdList;
+  deploymentType?: DeploymentType;
+  vpcSubnetIds: string[];
   publiclyAccessible?: boolean;
-  vpcSecurityGroupIds?: VpcSecurityGroupIdList;
+  vpcSecurityGroupIds?: string[];
   dbParameterGroupIdentifier?: string;
   availabilityZone?: string;
   secondaryAvailabilityZone?: string;
   logDeliveryConfiguration?: LogDeliveryConfiguration;
   influxAuthParametersSecretArn?: string;
   dbClusterId?: string;
-  instanceMode?: string;
-  instanceModes?: InstanceModeList;
+  instanceMode?: InstanceMode;
+  instanceModes?: InstanceMode[];
 }
 export const CreateDbInstanceOutput = S.suspend(() =>
   S.Struct({
     id: S.String,
     name: S.String,
     arn: S.String,
-    status: S.optional(S.String),
+    status: S.optional(Status),
     endpoint: S.optional(S.String),
     port: S.optional(S.Number),
-    networkType: S.optional(S.String),
-    dbInstanceType: S.optional(S.String),
-    dbStorageType: S.optional(S.String),
+    networkType: S.optional(NetworkType),
+    dbInstanceType: S.optional(DbInstanceType),
+    dbStorageType: S.optional(DbStorageType),
     allocatedStorage: S.optional(S.Number),
-    deploymentType: S.optional(S.String),
+    deploymentType: S.optional(DeploymentType),
     vpcSubnetIds: VpcSubnetIdList,
     publiclyAccessible: S.optional(S.Boolean),
     vpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
@@ -524,7 +651,7 @@ export const CreateDbInstanceOutput = S.suspend(() =>
     logDeliveryConfiguration: S.optional(LogDeliveryConfiguration),
     influxAuthParametersSecretArn: S.optional(S.String),
     dbClusterId: S.optional(S.String),
-    instanceMode: S.optional(S.String),
+    instanceMode: S.optional(InstanceMode),
     instanceModes: S.optional(InstanceModeList),
   }),
 ).annotations({
@@ -534,39 +661,39 @@ export interface GetDbInstanceOutput {
   id: string;
   name: string;
   arn: string;
-  status?: string;
+  status?: Status;
   endpoint?: string;
   port?: number;
-  networkType?: string;
-  dbInstanceType?: string;
-  dbStorageType?: string;
+  networkType?: NetworkType;
+  dbInstanceType?: DbInstanceType;
+  dbStorageType?: DbStorageType;
   allocatedStorage?: number;
-  deploymentType?: string;
-  vpcSubnetIds: VpcSubnetIdList;
+  deploymentType?: DeploymentType;
+  vpcSubnetIds: string[];
   publiclyAccessible?: boolean;
-  vpcSecurityGroupIds?: VpcSecurityGroupIdList;
+  vpcSecurityGroupIds?: string[];
   dbParameterGroupIdentifier?: string;
   availabilityZone?: string;
   secondaryAvailabilityZone?: string;
   logDeliveryConfiguration?: LogDeliveryConfiguration;
   influxAuthParametersSecretArn?: string;
   dbClusterId?: string;
-  instanceMode?: string;
-  instanceModes?: InstanceModeList;
+  instanceMode?: InstanceMode;
+  instanceModes?: InstanceMode[];
 }
 export const GetDbInstanceOutput = S.suspend(() =>
   S.Struct({
     id: S.String,
     name: S.String,
     arn: S.String,
-    status: S.optional(S.String),
+    status: S.optional(Status),
     endpoint: S.optional(S.String),
     port: S.optional(S.Number),
-    networkType: S.optional(S.String),
-    dbInstanceType: S.optional(S.String),
-    dbStorageType: S.optional(S.String),
+    networkType: S.optional(NetworkType),
+    dbInstanceType: S.optional(DbInstanceType),
+    dbStorageType: S.optional(DbStorageType),
     allocatedStorage: S.optional(S.Number),
-    deploymentType: S.optional(S.String),
+    deploymentType: S.optional(DeploymentType),
     vpcSubnetIds: VpcSubnetIdList,
     publiclyAccessible: S.optional(S.Boolean),
     vpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
@@ -576,7 +703,7 @@ export const GetDbInstanceOutput = S.suspend(() =>
     logDeliveryConfiguration: S.optional(LogDeliveryConfiguration),
     influxAuthParametersSecretArn: S.optional(S.String),
     dbClusterId: S.optional(S.String),
-    instanceMode: S.optional(S.String),
+    instanceMode: S.optional(InstanceMode),
     instanceModes: S.optional(InstanceModeList),
   }),
 ).annotations({
@@ -586,39 +713,39 @@ export interface UpdateDbInstanceOutput {
   id: string;
   name: string;
   arn: string;
-  status?: string;
+  status?: Status;
   endpoint?: string;
   port?: number;
-  networkType?: string;
-  dbInstanceType?: string;
-  dbStorageType?: string;
+  networkType?: NetworkType;
+  dbInstanceType?: DbInstanceType;
+  dbStorageType?: DbStorageType;
   allocatedStorage?: number;
-  deploymentType?: string;
-  vpcSubnetIds: VpcSubnetIdList;
+  deploymentType?: DeploymentType;
+  vpcSubnetIds: string[];
   publiclyAccessible?: boolean;
-  vpcSecurityGroupIds?: VpcSecurityGroupIdList;
+  vpcSecurityGroupIds?: string[];
   dbParameterGroupIdentifier?: string;
   availabilityZone?: string;
   secondaryAvailabilityZone?: string;
   logDeliveryConfiguration?: LogDeliveryConfiguration;
   influxAuthParametersSecretArn?: string;
   dbClusterId?: string;
-  instanceMode?: string;
-  instanceModes?: InstanceModeList;
+  instanceMode?: InstanceMode;
+  instanceModes?: InstanceMode[];
 }
 export const UpdateDbInstanceOutput = S.suspend(() =>
   S.Struct({
     id: S.String,
     name: S.String,
     arn: S.String,
-    status: S.optional(S.String),
+    status: S.optional(Status),
     endpoint: S.optional(S.String),
     port: S.optional(S.Number),
-    networkType: S.optional(S.String),
-    dbInstanceType: S.optional(S.String),
-    dbStorageType: S.optional(S.String),
+    networkType: S.optional(NetworkType),
+    dbInstanceType: S.optional(DbInstanceType),
+    dbStorageType: S.optional(DbStorageType),
     allocatedStorage: S.optional(S.Number),
-    deploymentType: S.optional(S.String),
+    deploymentType: S.optional(DeploymentType),
     vpcSubnetIds: VpcSubnetIdList,
     publiclyAccessible: S.optional(S.Boolean),
     vpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
@@ -628,7 +755,7 @@ export const UpdateDbInstanceOutput = S.suspend(() =>
     logDeliveryConfiguration: S.optional(LogDeliveryConfiguration),
     influxAuthParametersSecretArn: S.optional(S.String),
     dbClusterId: S.optional(S.String),
-    instanceMode: S.optional(S.String),
+    instanceMode: S.optional(InstanceMode),
     instanceModes: S.optional(InstanceModeList),
   }),
 ).annotations({
@@ -638,39 +765,39 @@ export interface DeleteDbInstanceOutput {
   id: string;
   name: string;
   arn: string;
-  status?: string;
+  status?: Status;
   endpoint?: string;
   port?: number;
-  networkType?: string;
-  dbInstanceType?: string;
-  dbStorageType?: string;
+  networkType?: NetworkType;
+  dbInstanceType?: DbInstanceType;
+  dbStorageType?: DbStorageType;
   allocatedStorage?: number;
-  deploymentType?: string;
-  vpcSubnetIds: VpcSubnetIdList;
+  deploymentType?: DeploymentType;
+  vpcSubnetIds: string[];
   publiclyAccessible?: boolean;
-  vpcSecurityGroupIds?: VpcSecurityGroupIdList;
+  vpcSecurityGroupIds?: string[];
   dbParameterGroupIdentifier?: string;
   availabilityZone?: string;
   secondaryAvailabilityZone?: string;
   logDeliveryConfiguration?: LogDeliveryConfiguration;
   influxAuthParametersSecretArn?: string;
   dbClusterId?: string;
-  instanceMode?: string;
-  instanceModes?: InstanceModeList;
+  instanceMode?: InstanceMode;
+  instanceModes?: InstanceMode[];
 }
 export const DeleteDbInstanceOutput = S.suspend(() =>
   S.Struct({
     id: S.String,
     name: S.String,
     arn: S.String,
-    status: S.optional(S.String),
+    status: S.optional(Status),
     endpoint: S.optional(S.String),
     port: S.optional(S.Number),
-    networkType: S.optional(S.String),
-    dbInstanceType: S.optional(S.String),
-    dbStorageType: S.optional(S.String),
+    networkType: S.optional(NetworkType),
+    dbInstanceType: S.optional(DbInstanceType),
+    dbStorageType: S.optional(DbStorageType),
     allocatedStorage: S.optional(S.Number),
-    deploymentType: S.optional(S.String),
+    deploymentType: S.optional(DeploymentType),
     vpcSubnetIds: VpcSubnetIdList,
     publiclyAccessible: S.optional(S.Boolean),
     vpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
@@ -680,7 +807,7 @@ export const DeleteDbInstanceOutput = S.suspend(() =>
     logDeliveryConfiguration: S.optional(LogDeliveryConfiguration),
     influxAuthParametersSecretArn: S.optional(S.String),
     dbClusterId: S.optional(S.String),
-    instanceMode: S.optional(S.String),
+    instanceMode: S.optional(InstanceMode),
     instanceModes: S.optional(InstanceModeList),
   }),
 ).annotations({
@@ -690,39 +817,39 @@ export interface RebootDbInstanceOutput {
   id: string;
   name: string;
   arn: string;
-  status?: string;
+  status?: Status;
   endpoint?: string;
   port?: number;
-  networkType?: string;
-  dbInstanceType?: string;
-  dbStorageType?: string;
+  networkType?: NetworkType;
+  dbInstanceType?: DbInstanceType;
+  dbStorageType?: DbStorageType;
   allocatedStorage?: number;
-  deploymentType?: string;
-  vpcSubnetIds: VpcSubnetIdList;
+  deploymentType?: DeploymentType;
+  vpcSubnetIds: string[];
   publiclyAccessible?: boolean;
-  vpcSecurityGroupIds?: VpcSecurityGroupIdList;
+  vpcSecurityGroupIds?: string[];
   dbParameterGroupIdentifier?: string;
   availabilityZone?: string;
   secondaryAvailabilityZone?: string;
   logDeliveryConfiguration?: LogDeliveryConfiguration;
   influxAuthParametersSecretArn?: string;
   dbClusterId?: string;
-  instanceMode?: string;
-  instanceModes?: InstanceModeList;
+  instanceMode?: InstanceMode;
+  instanceModes?: InstanceMode[];
 }
 export const RebootDbInstanceOutput = S.suspend(() =>
   S.Struct({
     id: S.String,
     name: S.String,
     arn: S.String,
-    status: S.optional(S.String),
+    status: S.optional(Status),
     endpoint: S.optional(S.String),
     port: S.optional(S.Number),
-    networkType: S.optional(S.String),
-    dbInstanceType: S.optional(S.String),
-    dbStorageType: S.optional(S.String),
+    networkType: S.optional(NetworkType),
+    dbInstanceType: S.optional(DbInstanceType),
+    dbStorageType: S.optional(DbStorageType),
     allocatedStorage: S.optional(S.Number),
-    deploymentType: S.optional(S.String),
+    deploymentType: S.optional(DeploymentType),
     vpcSubnetIds: VpcSubnetIdList,
     publiclyAccessible: S.optional(S.Boolean),
     vpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
@@ -732,26 +859,39 @@ export const RebootDbInstanceOutput = S.suspend(() =>
     logDeliveryConfiguration: S.optional(LogDeliveryConfiguration),
     influxAuthParametersSecretArn: S.optional(S.String),
     dbClusterId: S.optional(S.String),
-    instanceMode: S.optional(S.String),
+    instanceMode: S.optional(InstanceMode),
     instanceModes: S.optional(InstanceModeList),
   }),
 ).annotations({
   identifier: "RebootDbInstanceOutput",
 }) as any as S.Schema<RebootDbInstanceOutput>;
+export type DurationType =
+  | "hours"
+  | "minutes"
+  | "seconds"
+  | "milliseconds"
+  | "days";
+export const DurationType = S.Literal(
+  "hours",
+  "minutes",
+  "seconds",
+  "milliseconds",
+  "days",
+);
 export interface Duration {
-  durationType: string;
+  durationType: DurationType;
   value: number;
 }
 export const Duration = S.suspend(() =>
-  S.Struct({ durationType: S.String, value: S.Number }),
+  S.Struct({ durationType: DurationType, value: S.Number }),
 ).annotations({ identifier: "Duration" }) as any as S.Schema<Duration>;
 export interface InfluxDBv2Parameters {
   fluxLogEnabled?: boolean;
-  logLevel?: string;
+  logLevel?: LogLevel;
   noTasks?: boolean;
   queryConcurrency?: number;
   queryQueueSize?: number;
-  tracingType?: string;
+  tracingType?: TracingType;
   metricsDisabled?: boolean;
   httpIdleTimeout?: Duration;
   httpReadHeaderTimeout?: Duration;
@@ -784,11 +924,11 @@ export interface InfluxDBv2Parameters {
 export const InfluxDBv2Parameters = S.suspend(() =>
   S.Struct({
     fluxLogEnabled: S.optional(S.Boolean),
-    logLevel: S.optional(S.String),
+    logLevel: S.optional(LogLevel),
     noTasks: S.optional(S.Boolean),
     queryConcurrency: S.optional(S.Number),
     queryQueueSize: S.optional(S.Number),
-    tracingType: S.optional(S.String),
+    tracingType: S.optional(TracingType),
     metricsDisabled: S.optional(S.Boolean),
     httpIdleTimeout: S.optional(Duration),
     httpReadHeaderTimeout: S.optional(Duration),
@@ -830,9 +970,9 @@ export interface InfluxDBv3CoreParameters {
   queryFileLimit?: number;
   queryLogSize?: number;
   logFilter?: string;
-  logFormat?: string;
+  logFormat?: LogFormats;
   dataFusionNumThreads?: number;
-  dataFusionRuntimeType?: string;
+  dataFusionRuntimeType?: DataFusionRuntimeType;
   dataFusionRuntimeDisableLifoSlot?: boolean;
   dataFusionRuntimeEventInterval?: number;
   dataFusionRuntimeGlobalQueueInterval?: number;
@@ -844,7 +984,7 @@ export interface InfluxDBv3CoreParameters {
   dataFusionUseCachedParquetLoader?: boolean;
   dataFusionConfig?: string;
   maxHttpRequestSize?: number;
-  forceSnapshotMemThreshold?: (typeof PercentOrAbsoluteLong)["Type"];
+  forceSnapshotMemThreshold?: PercentOrAbsoluteLong;
   walSnapshotSize?: number;
   walMaxWriteBufferSize?: number;
   snapshottedWalFilesToKeep?: number;
@@ -856,8 +996,8 @@ export interface InfluxDBv3CoreParameters {
   lastCacheEvictionInterval?: Duration;
   distinctCacheEvictionInterval?: Duration;
   gen1Duration?: Duration;
-  execMemPoolBytes?: (typeof PercentOrAbsoluteLong)["Type"];
-  parquetMemCacheSize?: (typeof PercentOrAbsoluteLong)["Type"];
+  execMemPoolBytes?: PercentOrAbsoluteLong;
+  parquetMemCacheSize?: PercentOrAbsoluteLong;
   walReplayFailOnError?: boolean;
   walReplayConcurrencyLimit?: number;
   tableIndexCacheMaxEntries?: number;
@@ -872,9 +1012,9 @@ export const InfluxDBv3CoreParameters = S.suspend(() =>
     queryFileLimit: S.optional(S.Number),
     queryLogSize: S.optional(S.Number),
     logFilter: S.optional(S.String),
-    logFormat: S.optional(S.String),
+    logFormat: S.optional(LogFormats),
     dataFusionNumThreads: S.optional(S.Number),
-    dataFusionRuntimeType: S.optional(S.String),
+    dataFusionRuntimeType: S.optional(DataFusionRuntimeType),
     dataFusionRuntimeDisableLifoSlot: S.optional(S.Boolean),
     dataFusionRuntimeEventInterval: S.optional(S.Number),
     dataFusionRuntimeGlobalQueueInterval: S.optional(S.Number),
@@ -916,9 +1056,9 @@ export interface InfluxDBv3EnterpriseParameters {
   queryFileLimit?: number;
   queryLogSize?: number;
   logFilter?: string;
-  logFormat?: string;
+  logFormat?: LogFormats;
   dataFusionNumThreads?: number;
-  dataFusionRuntimeType?: string;
+  dataFusionRuntimeType?: DataFusionRuntimeType;
   dataFusionRuntimeDisableLifoSlot?: boolean;
   dataFusionRuntimeEventInterval?: number;
   dataFusionRuntimeGlobalQueueInterval?: number;
@@ -930,7 +1070,7 @@ export interface InfluxDBv3EnterpriseParameters {
   dataFusionUseCachedParquetLoader?: boolean;
   dataFusionConfig?: string;
   maxHttpRequestSize?: number;
-  forceSnapshotMemThreshold?: (typeof PercentOrAbsoluteLong)["Type"];
+  forceSnapshotMemThreshold?: PercentOrAbsoluteLong;
   walSnapshotSize?: number;
   walMaxWriteBufferSize?: number;
   snapshottedWalFilesToKeep?: number;
@@ -942,8 +1082,8 @@ export interface InfluxDBv3EnterpriseParameters {
   lastCacheEvictionInterval?: Duration;
   distinctCacheEvictionInterval?: Duration;
   gen1Duration?: Duration;
-  execMemPoolBytes?: (typeof PercentOrAbsoluteLong)["Type"];
-  parquetMemCacheSize?: (typeof PercentOrAbsoluteLong)["Type"];
+  execMemPoolBytes?: PercentOrAbsoluteLong;
+  parquetMemCacheSize?: PercentOrAbsoluteLong;
   walReplayFailOnError?: boolean;
   walReplayConcurrencyLimit?: number;
   tableIndexCacheMaxEntries?: number;
@@ -971,9 +1111,9 @@ export const InfluxDBv3EnterpriseParameters = S.suspend(() =>
     queryFileLimit: S.optional(S.Number),
     queryLogSize: S.optional(S.Number),
     logFilter: S.optional(S.String),
-    logFormat: S.optional(S.String),
+    logFormat: S.optional(LogFormats),
     dataFusionNumThreads: S.optional(S.Number),
-    dataFusionRuntimeType: S.optional(S.String),
+    dataFusionRuntimeType: S.optional(DataFusionRuntimeType),
     dataFusionRuntimeDisableLifoSlot: S.optional(S.Boolean),
     dataFusionRuntimeEventInterval: S.optional(S.Number),
     dataFusionRuntimeGlobalQueueInterval: S.optional(S.Number),
@@ -1038,7 +1178,7 @@ export interface GetDbParameterGroupOutput {
   name: string;
   arn: string;
   description?: string;
-  parameters?: (typeof Parameters)["Type"];
+  parameters?: Parameters;
 }
 export const GetDbParameterGroupOutput = S.suspend(() =>
   S.Struct({
@@ -1057,32 +1197,32 @@ export interface DbClusterSummary {
   id: string;
   name: string;
   arn: string;
-  status?: string;
+  status?: ClusterStatus;
   endpoint?: string;
   readerEndpoint?: string;
   port?: number;
-  deploymentType?: string;
-  dbInstanceType?: string;
-  networkType?: string;
-  dbStorageType?: string;
+  deploymentType?: ClusterDeploymentType;
+  dbInstanceType?: DbInstanceType;
+  networkType?: NetworkType;
+  dbStorageType?: DbStorageType;
   allocatedStorage?: number;
-  engineType?: string;
+  engineType?: EngineType;
 }
 export const DbClusterSummary = S.suspend(() =>
   S.Struct({
     id: S.String,
     name: S.String,
     arn: S.String,
-    status: S.optional(S.String),
+    status: S.optional(ClusterStatus),
     endpoint: S.optional(S.String),
     readerEndpoint: S.optional(S.String),
     port: S.optional(S.Number),
-    deploymentType: S.optional(S.String),
-    dbInstanceType: S.optional(S.String),
-    networkType: S.optional(S.String),
-    dbStorageType: S.optional(S.String),
+    deploymentType: S.optional(ClusterDeploymentType),
+    dbInstanceType: S.optional(DbInstanceType),
+    networkType: S.optional(NetworkType),
+    dbStorageType: S.optional(DbStorageType),
     allocatedStorage: S.optional(S.Number),
-    engineType: S.optional(S.String),
+    engineType: S.optional(EngineType),
   }),
 ).annotations({
   identifier: "DbClusterSummary",
@@ -1093,31 +1233,31 @@ export interface DbInstanceForClusterSummary {
   id: string;
   name: string;
   arn: string;
-  status?: string;
+  status?: Status;
   endpoint?: string;
   port?: number;
-  networkType?: string;
-  dbInstanceType?: string;
-  dbStorageType?: string;
+  networkType?: NetworkType;
+  dbInstanceType?: DbInstanceType;
+  dbStorageType?: DbStorageType;
   allocatedStorage?: number;
-  deploymentType?: string;
-  instanceMode?: string;
-  instanceModes?: InstanceModeList;
+  deploymentType?: DeploymentType;
+  instanceMode?: InstanceMode;
+  instanceModes?: InstanceMode[];
 }
 export const DbInstanceForClusterSummary = S.suspend(() =>
   S.Struct({
     id: S.String,
     name: S.String,
     arn: S.String,
-    status: S.optional(S.String),
+    status: S.optional(Status),
     endpoint: S.optional(S.String),
     port: S.optional(S.Number),
-    networkType: S.optional(S.String),
-    dbInstanceType: S.optional(S.String),
-    dbStorageType: S.optional(S.String),
+    networkType: S.optional(NetworkType),
+    dbInstanceType: S.optional(DbInstanceType),
+    dbStorageType: S.optional(DbStorageType),
     allocatedStorage: S.optional(S.Number),
-    deploymentType: S.optional(S.String),
-    instanceMode: S.optional(S.String),
+    deploymentType: S.optional(DeploymentType),
+    instanceMode: S.optional(InstanceMode),
     instanceModes: S.optional(InstanceModeList),
   }),
 ).annotations({
@@ -1131,28 +1271,28 @@ export interface DbInstanceSummary {
   id: string;
   name: string;
   arn: string;
-  status?: string;
+  status?: Status;
   endpoint?: string;
   port?: number;
-  networkType?: string;
-  dbInstanceType?: string;
-  dbStorageType?: string;
+  networkType?: NetworkType;
+  dbInstanceType?: DbInstanceType;
+  dbStorageType?: DbStorageType;
   allocatedStorage?: number;
-  deploymentType?: string;
+  deploymentType?: DeploymentType;
 }
 export const DbInstanceSummary = S.suspend(() =>
   S.Struct({
     id: S.String,
     name: S.String,
     arn: S.String,
-    status: S.optional(S.String),
+    status: S.optional(Status),
     endpoint: S.optional(S.String),
     port: S.optional(S.Number),
-    networkType: S.optional(S.String),
-    dbInstanceType: S.optional(S.String),
-    dbStorageType: S.optional(S.String),
+    networkType: S.optional(NetworkType),
+    dbInstanceType: S.optional(DbInstanceType),
+    dbStorageType: S.optional(DbStorageType),
     allocatedStorage: S.optional(S.Number),
-    deploymentType: S.optional(S.String),
+    deploymentType: S.optional(DeploymentType),
   }),
 ).annotations({
   identifier: "DbInstanceSummary",
@@ -1178,7 +1318,7 @@ export const DbParameterGroupSummary = S.suspend(() =>
 export type DbParameterGroupSummaryList = DbParameterGroupSummary[];
 export const DbParameterGroupSummaryList = S.Array(DbParameterGroupSummary);
 export interface ListTagsForResourceResponse {
-  tags?: ResponseTagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(ResponseTagMap) }),
@@ -1187,23 +1327,23 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface CreateDbClusterInput {
   name: string;
-  username?: string | Redacted.Redacted<string>;
-  password?: string | Redacted.Redacted<string>;
+  username?: string | redacted.Redacted<string>;
+  password?: string | redacted.Redacted<string>;
   organization?: string;
   bucket?: string;
   port?: number;
   dbParameterGroupIdentifier?: string;
-  dbInstanceType: string;
-  dbStorageType?: string;
+  dbInstanceType: DbInstanceType;
+  dbStorageType?: DbStorageType;
   allocatedStorage?: number;
-  networkType?: string;
+  networkType?: NetworkType;
   publiclyAccessible?: boolean;
-  vpcSubnetIds: VpcSubnetIdList;
-  vpcSecurityGroupIds: VpcSecurityGroupIdList;
-  deploymentType?: string;
-  failoverMode?: string;
+  vpcSubnetIds: string[];
+  vpcSecurityGroupIds: string[];
+  deploymentType?: ClusterDeploymentType;
+  failoverMode?: FailoverMode;
   logDeliveryConfiguration?: LogDeliveryConfiguration;
-  tags?: RequestTagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateDbClusterInput = S.suspend(() =>
   S.Struct({
@@ -1214,15 +1354,15 @@ export const CreateDbClusterInput = S.suspend(() =>
     bucket: S.optional(S.String),
     port: S.optional(S.Number),
     dbParameterGroupIdentifier: S.optional(S.String),
-    dbInstanceType: S.String,
-    dbStorageType: S.optional(S.String),
+    dbInstanceType: DbInstanceType,
+    dbStorageType: S.optional(DbStorageType),
     allocatedStorage: S.optional(S.Number),
-    networkType: S.optional(S.String),
+    networkType: S.optional(NetworkType),
     publiclyAccessible: S.optional(S.Boolean),
     vpcSubnetIds: VpcSubnetIdList,
     vpcSecurityGroupIds: VpcSecurityGroupIdList,
-    deploymentType: S.optional(S.String),
-    failoverMode: S.optional(S.String),
+    deploymentType: S.optional(ClusterDeploymentType),
+    failoverMode: S.optional(FailoverMode),
     logDeliveryConfiguration: S.optional(LogDeliveryConfiguration),
     tags: S.optional(RequestTagMap),
   }).pipe(
@@ -1232,7 +1372,7 @@ export const CreateDbClusterInput = S.suspend(() =>
   identifier: "CreateDbClusterInput",
 }) as any as S.Schema<CreateDbClusterInput>;
 export interface ListDbClustersOutput {
-  items: DbClusterSummaryList;
+  items: DbClusterSummary[];
   nextToken?: string;
 }
 export const ListDbClustersOutput = S.suspend(() =>
@@ -1241,7 +1381,7 @@ export const ListDbClustersOutput = S.suspend(() =>
   identifier: "ListDbClustersOutput",
 }) as any as S.Schema<ListDbClustersOutput>;
 export interface ListDbInstancesForClusterOutput {
-  items: DbInstanceForClusterSummaryList;
+  items: DbInstanceForClusterSummary[];
   nextToken?: string;
 }
 export const ListDbInstancesForClusterOutput = S.suspend(() =>
@@ -1253,7 +1393,7 @@ export const ListDbInstancesForClusterOutput = S.suspend(() =>
   identifier: "ListDbInstancesForClusterOutput",
 }) as any as S.Schema<ListDbInstancesForClusterOutput>;
 export interface ListDbInstancesOutput {
-  items: DbInstanceSummaryList;
+  items: DbInstanceSummary[];
   nextToken?: string;
 }
 export const ListDbInstancesOutput = S.suspend(() =>
@@ -1262,7 +1402,7 @@ export const ListDbInstancesOutput = S.suspend(() =>
   identifier: "ListDbInstancesOutput",
 }) as any as S.Schema<ListDbInstancesOutput>;
 export interface ListDbParameterGroupsOutput {
-  items: DbParameterGroupSummaryList;
+  items: DbParameterGroupSummary[];
   nextToken?: string;
 }
 export const ListDbParameterGroupsOutput = S.suspend(() =>
@@ -1275,12 +1415,12 @@ export const ListDbParameterGroupsOutput = S.suspend(() =>
 }) as any as S.Schema<ListDbParameterGroupsOutput>;
 export interface CreateDbClusterOutput {
   dbClusterId?: string;
-  dbClusterStatus?: string;
+  dbClusterStatus?: ClusterStatus;
 }
 export const CreateDbClusterOutput = S.suspend(() =>
   S.Struct({
     dbClusterId: S.optional(S.String),
-    dbClusterStatus: S.optional(S.String),
+    dbClusterStatus: S.optional(ClusterStatus),
   }),
 ).annotations({
   identifier: "CreateDbClusterOutput",
@@ -1288,8 +1428,8 @@ export const CreateDbClusterOutput = S.suspend(() =>
 export interface CreateDbParameterGroupInput {
   name: string;
   description?: string;
-  parameters?: (typeof Parameters)["Type"];
-  tags?: RequestTagMap;
+  parameters?: Parameters;
+  tags?: { [key: string]: string };
 }
 export const CreateDbParameterGroupInput = S.suspend(() =>
   S.Struct({
@@ -1308,7 +1448,7 @@ export interface CreateDbParameterGroupOutput {
   name: string;
   arn: string;
   description?: string;
-  parameters?: (typeof Parameters)["Type"];
+  parameters?: Parameters;
 }
 export const CreateDbParameterGroupOutput = S.suspend(() =>
   S.Struct({
@@ -1321,6 +1461,11 @@ export const CreateDbParameterGroupOutput = S.suspend(() =>
 ).annotations({
   identifier: "CreateDbParameterGroupOutput",
 }) as any as S.Schema<CreateDbParameterGroupOutput>;
+export type ValidationExceptionReason = "FIELD_VALIDATION_FAILED" | "OTHER";
+export const ValidationExceptionReason = S.Literal(
+  "FIELD_VALIDATION_FAILED",
+  "OTHER",
+);
 
 //# Errors
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
@@ -1354,7 +1499,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
 ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  { message: S.String, reason: S.String },
+  { message: S.String, reason: ValidationExceptionReason },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
@@ -1363,7 +1508,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1377,7 +1522,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1391,7 +1536,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   ResourceNotFoundException | ServiceQuotaExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1405,7 +1550,7 @@ export const tagResource: (
  */
 export const getDbCluster: (
   input: GetDbClusterInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetDbClusterOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1430,7 +1575,7 @@ export const getDbCluster: (
  */
 export const createDbParameterGroup: (
   input: CreateDbParameterGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDbParameterGroupOutput,
   | AccessDeniedException
   | ConflictException
@@ -1459,7 +1604,7 @@ export const createDbParameterGroup: (
  */
 export const updateDbCluster: (
   input: UpdateDbClusterInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDbClusterOutput,
   | AccessDeniedException
   | ConflictException
@@ -1487,7 +1632,7 @@ export const updateDbCluster: (
 export const listDbClusters: {
   (
     input: ListDbClustersInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDbClustersOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1499,7 +1644,7 @@ export const listDbClusters: {
   >;
   pages: (
     input: ListDbClustersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDbClustersOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1511,7 +1656,7 @@ export const listDbClusters: {
   >;
   items: (
     input: ListDbClustersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DbClusterSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1544,7 +1689,7 @@ export const listDbClusters: {
 export const listDbInstancesForCluster: {
   (
     input: ListDbInstancesForClusterInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDbInstancesForClusterOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1556,7 +1701,7 @@ export const listDbInstancesForCluster: {
   >;
   pages: (
     input: ListDbInstancesForClusterInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDbInstancesForClusterOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1568,7 +1713,7 @@ export const listDbInstancesForCluster: {
   >;
   items: (
     input: ListDbInstancesForClusterInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DbInstanceForClusterSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1601,7 +1746,7 @@ export const listDbInstancesForCluster: {
 export const listDbInstances: {
   (
     input: ListDbInstancesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDbInstancesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1613,7 +1758,7 @@ export const listDbInstances: {
   >;
   pages: (
     input: ListDbInstancesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDbInstancesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1625,7 +1770,7 @@ export const listDbInstances: {
   >;
   items: (
     input: ListDbInstancesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DbInstanceSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1658,7 +1803,7 @@ export const listDbInstances: {
 export const listDbParameterGroups: {
   (
     input: ListDbParameterGroupsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDbParameterGroupsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1670,7 +1815,7 @@ export const listDbParameterGroups: {
   >;
   pages: (
     input: ListDbParameterGroupsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDbParameterGroupsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1682,7 +1827,7 @@ export const listDbParameterGroups: {
   >;
   items: (
     input: ListDbParameterGroupsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DbParameterGroupSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1714,7 +1859,7 @@ export const listDbParameterGroups: {
  */
 export const getDbInstance: (
   input: GetDbInstanceInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetDbInstanceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1739,7 +1884,7 @@ export const getDbInstance: (
  */
 export const getDbParameterGroup: (
   input: GetDbParameterGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetDbParameterGroupOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1764,7 +1909,7 @@ export const getDbParameterGroup: (
  */
 export const deleteDbCluster: (
   input: DeleteDbClusterInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDbClusterOutput,
   | AccessDeniedException
   | ConflictException
@@ -1791,7 +1936,7 @@ export const deleteDbCluster: (
  */
 export const rebootDbCluster: (
   input: RebootDbClusterInput,
-) => Effect.Effect<
+) => effect.Effect<
   RebootDbClusterOutput,
   | AccessDeniedException
   | ConflictException
@@ -1818,7 +1963,7 @@ export const rebootDbCluster: (
  */
 export const createDbInstance: (
   input: CreateDbInstanceInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDbInstanceOutput,
   | AccessDeniedException
   | ConflictException
@@ -1847,7 +1992,7 @@ export const createDbInstance: (
  */
 export const updateDbInstance: (
   input: UpdateDbInstanceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDbInstanceOutput,
   | AccessDeniedException
   | ConflictException
@@ -1874,7 +2019,7 @@ export const updateDbInstance: (
  */
 export const deleteDbInstance: (
   input: DeleteDbInstanceInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDbInstanceOutput,
   | AccessDeniedException
   | ConflictException
@@ -1901,7 +2046,7 @@ export const deleteDbInstance: (
  */
 export const rebootDbInstance: (
   input: RebootDbInstanceInput,
-) => Effect.Effect<
+) => effect.Effect<
   RebootDbInstanceOutput,
   | AccessDeniedException
   | ConflictException
@@ -1928,7 +2073,7 @@ export const rebootDbInstance: (
  */
 export const createDbCluster: (
   input: CreateDbClusterInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDbClusterOutput,
   | AccessDeniedException
   | ConflictException

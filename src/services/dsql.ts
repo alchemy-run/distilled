@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -90,7 +90,7 @@ export const ListTagsForResourceInput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceInput>;
 export interface UntagResourceInput {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({
@@ -134,7 +134,7 @@ export type ClusterArnList = string[];
 export const ClusterArnList = S.Array(S.String);
 export interface MultiRegionProperties {
   witnessRegion?: string;
-  clusters?: ClusterArnList;
+  clusters?: string[];
 }
 export const MultiRegionProperties = S.suspend(() =>
   S.Struct({
@@ -304,8 +304,31 @@ export const PutClusterPolicyInput = S.suspend(() =>
 }) as any as S.Schema<PutClusterPolicyInput>;
 export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
+export type ClusterStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "IDLE"
+  | "INACTIVE"
+  | "UPDATING"
+  | "DELETING"
+  | "DELETED"
+  | "FAILED"
+  | "PENDING_SETUP"
+  | "PENDING_DELETE";
+export const ClusterStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "IDLE",
+  "INACTIVE",
+  "UPDATING",
+  "DELETING",
+  "DELETED",
+  "FAILED",
+  "PENDING_SETUP",
+  "PENDING_DELETE",
+);
 export interface ListTagsForResourceOutput {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -314,7 +337,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -340,7 +363,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 export interface CreateClusterInput {
   deletionProtectionEnabled?: boolean;
   kmsEncryptionKey?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   clientToken?: string;
   multiRegionProperties?: MultiRegionProperties;
   policy?: string;
@@ -371,14 +394,14 @@ export const CreateClusterInput = S.suspend(() =>
 export interface UpdateClusterOutput {
   identifier: string;
   arn: string;
-  status: string;
+  status: ClusterStatus;
   creationTime: Date;
 }
 export const UpdateClusterOutput = S.suspend(() =>
   S.Struct({
     identifier: S.String,
     arn: S.String,
-    status: S.String,
+    status: ClusterStatus,
     creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
 ).annotations({
@@ -387,14 +410,14 @@ export const UpdateClusterOutput = S.suspend(() =>
 export interface DeleteClusterOutput {
   identifier: string;
   arn: string;
-  status: string;
+  status: ClusterStatus;
   creationTime: Date;
 }
 export const DeleteClusterOutput = S.suspend(() =>
   S.Struct({
     identifier: S.String,
     arn: S.String,
-    status: S.String,
+    status: ClusterStatus,
     creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
 ).annotations({
@@ -434,16 +457,32 @@ export const PutClusterPolicyOutput = S.suspend(() =>
 ).annotations({
   identifier: "PutClusterPolicyOutput",
 }) as any as S.Schema<PutClusterPolicyOutput>;
+export type EncryptionType = "AWS_OWNED_KMS_KEY" | "CUSTOMER_MANAGED_KMS_KEY";
+export const EncryptionType = S.Literal(
+  "AWS_OWNED_KMS_KEY",
+  "CUSTOMER_MANAGED_KMS_KEY",
+);
+export type EncryptionStatus =
+  | "ENABLED"
+  | "UPDATING"
+  | "KMS_KEY_INACCESSIBLE"
+  | "ENABLING";
+export const EncryptionStatus = S.Literal(
+  "ENABLED",
+  "UPDATING",
+  "KMS_KEY_INACCESSIBLE",
+  "ENABLING",
+);
 export interface EncryptionDetails {
-  encryptionType: string;
+  encryptionType: EncryptionType;
   kmsKeyArn?: string;
-  encryptionStatus: string;
+  encryptionStatus: EncryptionStatus;
 }
 export const EncryptionDetails = S.suspend(() =>
   S.Struct({
-    encryptionType: S.String,
+    encryptionType: EncryptionType,
     kmsKeyArn: S.optional(S.String),
-    encryptionStatus: S.String,
+    encryptionStatus: EncryptionStatus,
   }),
 ).annotations({
   identifier: "EncryptionDetails",
@@ -459,10 +498,23 @@ export const ClusterSummary = S.suspend(() =>
 }) as any as S.Schema<ClusterSummary>;
 export type ClusterList = ClusterSummary[];
 export const ClusterList = S.Array(ClusterSummary);
+export type ValidationExceptionReason =
+  | "unknownOperation"
+  | "cannotParse"
+  | "fieldValidationFailed"
+  | "deletionProtectionEnabled"
+  | "other";
+export const ValidationExceptionReason = S.Literal(
+  "unknownOperation",
+  "cannotParse",
+  "fieldValidationFailed",
+  "deletionProtectionEnabled",
+  "other",
+);
 export interface CreateClusterOutput {
   identifier: string;
   arn: string;
-  status: string;
+  status: ClusterStatus;
   creationTime: Date;
   multiRegionProperties?: MultiRegionProperties;
   encryptionDetails?: EncryptionDetails;
@@ -473,7 +525,7 @@ export const CreateClusterOutput = S.suspend(() =>
   S.Struct({
     identifier: S.String,
     arn: S.String,
-    status: S.String,
+    status: ClusterStatus,
     creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     multiRegionProperties: S.optional(MultiRegionProperties),
     encryptionDetails: S.optional(EncryptionDetails),
@@ -486,11 +538,11 @@ export const CreateClusterOutput = S.suspend(() =>
 export interface GetClusterOutput {
   identifier: string;
   arn: string;
-  status: string;
+  status: ClusterStatus;
   creationTime: Date;
   deletionProtectionEnabled: boolean;
   multiRegionProperties?: MultiRegionProperties;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   encryptionDetails?: EncryptionDetails;
   endpoint?: string;
 }
@@ -498,7 +550,7 @@ export const GetClusterOutput = S.suspend(() =>
   S.Struct({
     identifier: S.String,
     arn: S.String,
-    status: S.String,
+    status: ClusterStatus,
     creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     deletionProtectionEnabled: S.Boolean,
     multiRegionProperties: S.optional(MultiRegionProperties),
@@ -511,7 +563,7 @@ export const GetClusterOutput = S.suspend(() =>
 }) as any as S.Schema<GetClusterOutput>;
 export interface ListClustersOutput {
   nextToken?: string;
-  clusters: ClusterList;
+  clusters: ClusterSummary[];
 }
 export const ListClustersOutput = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), clusters: ClusterList }),
@@ -565,7 +617,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     message: S.String,
-    reason: S.String,
+    reason: ValidationExceptionReason,
     fieldList: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
@@ -586,7 +638,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -600,7 +652,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -614,7 +666,7 @@ export const listTagsForResource: (
  */
 export const getCluster: (
   input: GetClusterInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetClusterOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -629,21 +681,21 @@ export const getCluster: (
 export const listClusters: {
   (
     input: ListClustersInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListClustersOutput,
     ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListClustersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListClustersOutput,
     ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListClustersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ClusterSummary,
     ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -664,7 +716,7 @@ export const listClusters: {
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   ResourceNotFoundException | ServiceQuotaExceededException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -678,7 +730,7 @@ export const tagResource: (
  */
 export const deleteCluster: (
   input: DeleteClusterInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteClusterOutput,
   ConflictException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -692,7 +744,7 @@ export const deleteCluster: (
  */
 export const getClusterPolicy: (
   input: GetClusterPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetClusterPolicyOutput,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -706,7 +758,7 @@ export const getClusterPolicy: (
  */
 export const getVpcEndpointServiceName: (
   input: GetVpcEndpointServiceNameInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetVpcEndpointServiceNameOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -783,7 +835,7 @@ export const getVpcEndpointServiceName: (
  */
 export const updateCluster: (
   input: UpdateClusterInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateClusterOutput,
   | ConflictException
   | ResourceNotFoundException
@@ -800,7 +852,7 @@ export const updateCluster: (
  */
 export const deleteClusterPolicy: (
   input: DeleteClusterPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteClusterPolicyOutput,
   | ConflictException
   | ResourceNotFoundException
@@ -817,7 +869,7 @@ export const deleteClusterPolicy: (
  */
 export const putClusterPolicy: (
   input: PutClusterPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutClusterPolicyOutput,
   | ConflictException
   | ResourceNotFoundException
@@ -876,7 +928,7 @@ export const putClusterPolicy: (
  */
 export const createCluster: (
   input: CreateClusterInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateClusterOutput,
   | ConflictException
   | ServiceQuotaExceededException

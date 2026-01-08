@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -168,7 +168,7 @@ export const GetRegisteredSubscriptionProviderRequest = S.suspend(() =>
 }) as any as S.Schema<GetRegisteredSubscriptionProviderRequest>;
 export interface Filter {
   Name?: string;
-  Values?: StringList;
+  Values?: string[];
   Operator?: string;
 }
 export const Filter = S.suspend(() =>
@@ -181,7 +181,7 @@ export const Filter = S.suspend(() =>
 export type FilterList = Filter[];
 export const FilterList = S.Array(Filter);
 export interface ListLinuxSubscriptionsRequest {
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -204,7 +204,7 @@ export const ListLinuxSubscriptionsRequest = S.suspend(() =>
   identifier: "ListLinuxSubscriptionsRequest",
 }) as any as S.Schema<ListLinuxSubscriptionsRequest>;
 export interface ListRegisteredSubscriptionProvidersRequest {
-  SubscriptionProviderSources?: SubscriptionProviderSourceList;
+  SubscriptionProviderSources?: string[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -250,7 +250,7 @@ export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: Tags;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -275,7 +275,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -299,7 +299,7 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface LinuxSubscriptionsDiscoverySettings {
-  SourceRegions: StringList;
+  SourceRegions: string[];
   OrganizationIntegration: string;
 }
 export const LinuxSubscriptionsDiscoverySettings = S.suspend(() =>
@@ -356,8 +356,8 @@ export interface GetServiceSettingsResponse {
   LinuxSubscriptionsDiscovery?: string;
   LinuxSubscriptionsDiscoverySettings?: LinuxSubscriptionsDiscoverySettings;
   Status?: string;
-  StatusMessage?: StringMap;
-  HomeRegions?: StringList;
+  StatusMessage?: { [key: string]: string };
+  HomeRegions?: string[];
 }
 export const GetServiceSettingsResponse = S.suspend(() =>
   S.Struct({
@@ -373,7 +373,7 @@ export const GetServiceSettingsResponse = S.suspend(() =>
   identifier: "GetServiceSettingsResponse",
 }) as any as S.Schema<GetServiceSettingsResponse>;
 export interface ListLinuxSubscriptionInstancesRequest {
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -399,7 +399,7 @@ export const ListLinuxSubscriptionInstancesRequest = S.suspend(() =>
   identifier: "ListLinuxSubscriptionInstancesRequest",
 }) as any as S.Schema<ListLinuxSubscriptionInstancesRequest>;
 export interface ListTagsForResourceResponse {
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -409,7 +409,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 export interface RegisterSubscriptionProviderRequest {
   SubscriptionProviderSource: string;
   SecretArn: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const RegisterSubscriptionProviderRequest = S.suspend(() =>
   S.Struct({
@@ -436,8 +436,8 @@ export interface UpdateServiceSettingsResponse {
   LinuxSubscriptionsDiscovery?: string;
   LinuxSubscriptionsDiscoverySettings?: LinuxSubscriptionsDiscoverySettings;
   Status?: string;
-  StatusMessage?: StringMap;
-  HomeRegions?: StringList;
+  StatusMessage?: { [key: string]: string };
+  HomeRegions?: string[];
 }
 export const UpdateServiceSettingsResponse = S.suspend(() =>
   S.Struct({
@@ -492,7 +492,7 @@ export const RegisteredSubscriptionProviderList = S.Array(
   RegisteredSubscriptionProvider,
 );
 export interface ListLinuxSubscriptionsResponse {
-  Subscriptions?: SubscriptionList;
+  Subscriptions?: Subscription[];
   NextToken?: string;
 }
 export const ListLinuxSubscriptionsResponse = S.suspend(() =>
@@ -504,7 +504,7 @@ export const ListLinuxSubscriptionsResponse = S.suspend(() =>
   identifier: "ListLinuxSubscriptionsResponse",
 }) as any as S.Schema<ListLinuxSubscriptionsResponse>;
 export interface ListRegisteredSubscriptionProvidersResponse {
-  RegisteredSubscriptionProviders?: RegisteredSubscriptionProviderList;
+  RegisteredSubscriptionProviders?: RegisteredSubscriptionProvider[];
   NextToken?: string;
 }
 export const ListRegisteredSubscriptionProvidersResponse = S.suspend(() =>
@@ -541,7 +541,7 @@ export interface Instance {
   Status?: string;
   Region?: string;
   UsageOperation?: string;
-  ProductCode?: ProductCodeList;
+  ProductCode?: string[];
   LastUpdatedTime?: string;
   SubscriptionName?: string;
   OsVersion?: string;
@@ -572,7 +572,7 @@ export const Instance = S.suspend(() =>
 export type InstanceList = Instance[];
 export const InstanceList = S.Array(Instance);
 export interface ListLinuxSubscriptionInstancesResponse {
-  Instances?: InstanceList;
+  Instances?: Instance[];
   NextToken?: string;
 }
 export const ListLinuxSubscriptionInstancesResponse = S.suspend(() =>
@@ -608,7 +608,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   InternalServerException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -622,7 +622,7 @@ export const untagResource: (
  */
 export const getServiceSettings: (
   input: GetServiceSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceSettingsResponse,
   | InternalServerException
   | ThrottlingException
@@ -641,7 +641,7 @@ export const getServiceSettings: (
 export const listLinuxSubscriptionInstances: {
   (
     input: ListLinuxSubscriptionInstancesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLinuxSubscriptionInstancesResponse,
     | InternalServerException
     | ThrottlingException
@@ -651,7 +651,7 @@ export const listLinuxSubscriptionInstances: {
   >;
   pages: (
     input: ListLinuxSubscriptionInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLinuxSubscriptionInstancesResponse,
     | InternalServerException
     | ThrottlingException
@@ -661,7 +661,7 @@ export const listLinuxSubscriptionInstances: {
   >;
   items: (
     input: ListLinuxSubscriptionInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Instance,
     | InternalServerException
     | ThrottlingException
@@ -688,7 +688,7 @@ export const listLinuxSubscriptionInstances: {
 export const listLinuxSubscriptions: {
   (
     input: ListLinuxSubscriptionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLinuxSubscriptionsResponse,
     | InternalServerException
     | ThrottlingException
@@ -698,7 +698,7 @@ export const listLinuxSubscriptions: {
   >;
   pages: (
     input: ListLinuxSubscriptionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLinuxSubscriptionsResponse,
     | InternalServerException
     | ThrottlingException
@@ -708,7 +708,7 @@ export const listLinuxSubscriptions: {
   >;
   items: (
     input: ListLinuxSubscriptionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Subscription,
     | InternalServerException
     | ThrottlingException
@@ -733,7 +733,7 @@ export const listLinuxSubscriptions: {
 export const listRegisteredSubscriptionProviders: {
   (
     input: ListRegisteredSubscriptionProvidersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRegisteredSubscriptionProvidersResponse,
     | InternalServerException
     | ThrottlingException
@@ -743,7 +743,7 @@ export const listRegisteredSubscriptionProviders: {
   >;
   pages: (
     input: ListRegisteredSubscriptionProvidersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRegisteredSubscriptionProvidersResponse,
     | InternalServerException
     | ThrottlingException
@@ -753,7 +753,7 @@ export const listRegisteredSubscriptionProviders: {
   >;
   items: (
     input: ListRegisteredSubscriptionProvidersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RegisteredSubscriptionProvider,
     | InternalServerException
     | ThrottlingException
@@ -777,7 +777,7 @@ export const listRegisteredSubscriptionProviders: {
  */
 export const registerSubscriptionProvider: (
   input: RegisterSubscriptionProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterSubscriptionProviderResponse,
   | InternalServerException
   | ThrottlingException
@@ -794,7 +794,7 @@ export const registerSubscriptionProvider: (
  */
 export const getRegisteredSubscriptionProvider: (
   input: GetRegisteredSubscriptionProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRegisteredSubscriptionProviderResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -818,7 +818,7 @@ export const getRegisteredSubscriptionProvider: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -839,7 +839,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -860,7 +860,7 @@ export const tagResource: (
  */
 export const updateServiceSettings: (
   input: UpdateServiceSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateServiceSettingsResponse,
   | InternalServerException
   | ThrottlingException
@@ -878,7 +878,7 @@ export const updateServiceSettings: (
  */
 export const deregisterSubscriptionProvider: (
   input: DeregisterSubscriptionProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterSubscriptionProviderResponse,
   | InternalServerException
   | ResourceNotFoundException

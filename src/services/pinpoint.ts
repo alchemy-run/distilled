@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -1824,12 +1824,12 @@ export const ListTemplateVersionsRequest = S.suspend(() =>
 }) as any as S.Schema<ListTemplateVersionsRequest>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: ListOf__string;
+  TagKeys?: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    TagKeys: ListOf__string.pipe(T.HttpQuery("tagKeys")),
+    TagKeys: S.optional(ListOf__string).pipe(T.HttpQuery("tagKeys")),
   }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/v1/tags/{ResourceArn}" }),
@@ -1847,22 +1847,53 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type ListOf__EndpointTypesElement = string[];
-export const ListOf__EndpointTypesElement = S.Array(S.String);
+export type __EndpointTypesElement =
+  | "PUSH"
+  | "GCM"
+  | "APNS"
+  | "APNS_SANDBOX"
+  | "APNS_VOIP"
+  | "APNS_VOIP_SANDBOX"
+  | "ADM"
+  | "SMS"
+  | "VOICE"
+  | "EMAIL"
+  | "BAIDU"
+  | "CUSTOM"
+  | "IN_APP";
+export const __EndpointTypesElement = S.Literal(
+  "PUSH",
+  "GCM",
+  "APNS",
+  "APNS_SANDBOX",
+  "APNS_VOIP",
+  "APNS_VOIP_SANDBOX",
+  "ADM",
+  "SMS",
+  "VOICE",
+  "EMAIL",
+  "BAIDU",
+  "CUSTOM",
+  "IN_APP",
+);
+export type ListOf__EndpointTypesElement = __EndpointTypesElement[];
+export const ListOf__EndpointTypesElement = S.Array(__EndpointTypesElement);
 export interface CustomDeliveryConfiguration {
-  DeliveryUri: string;
-  EndpointTypes?: ListOf__EndpointTypesElement;
+  DeliveryUri?: string;
+  EndpointTypes?: __EndpointTypesElement[];
 }
 export const CustomDeliveryConfiguration = S.suspend(() =>
   S.Struct({
-    DeliveryUri: S.String,
+    DeliveryUri: S.optional(S.String),
     EndpointTypes: S.optional(ListOf__EndpointTypesElement),
   }),
 ).annotations({
   identifier: "CustomDeliveryConfiguration",
 }) as any as S.Schema<CustomDeliveryConfiguration>;
+export type Action = "OPEN_APP" | "DEEP_LINK" | "URL";
+export const Action = S.Literal("OPEN_APP", "DEEP_LINK", "URL");
 export interface Message {
-  Action?: string;
+  Action?: Action;
   Body?: string;
   ImageIconUrl?: string;
   ImageSmallIconUrl?: string;
@@ -1877,7 +1908,7 @@ export interface Message {
 }
 export const Message = S.suspend(() =>
   S.Struct({
-    Action: S.optional(S.String),
+    Action: S.optional(Action),
     Body: S.optional(S.String),
     ImageIconUrl: S.optional(S.String),
     ImageSmallIconUrl: S.optional(S.String),
@@ -1913,7 +1944,7 @@ export const ListOfMessageHeader = S.Array(MessageHeader);
 export interface CampaignEmailMessage {
   Body?: string;
   FromAddress?: string;
-  Headers?: ListOfMessageHeader;
+  Headers?: MessageHeader[];
   HtmlBody?: string;
   Title?: string;
 }
@@ -1928,9 +1959,11 @@ export const CampaignEmailMessage = S.suspend(() =>
 ).annotations({
   identifier: "CampaignEmailMessage",
 }) as any as S.Schema<CampaignEmailMessage>;
+export type MessageType = "TRANSACTIONAL" | "PROMOTIONAL";
+export const MessageType = S.Literal("TRANSACTIONAL", "PROMOTIONAL");
 export interface CampaignSmsMessage {
   Body?: string;
-  MessageType?: string;
+  MessageType?: MessageType;
   OriginationNumber?: string;
   SenderId?: string;
   EntityId?: string;
@@ -1939,7 +1972,7 @@ export interface CampaignSmsMessage {
 export const CampaignSmsMessage = S.suspend(() =>
   S.Struct({
     Body: S.optional(S.String),
-    MessageType: S.optional(S.String),
+    MessageType: S.optional(MessageType),
     OriginationNumber: S.optional(S.String),
     SenderId: S.optional(S.String),
     EntityId: S.optional(S.String),
@@ -1948,50 +1981,65 @@ export const CampaignSmsMessage = S.suspend(() =>
 ).annotations({
   identifier: "CampaignSmsMessage",
 }) as any as S.Schema<CampaignSmsMessage>;
+export type Alignment = "LEFT" | "CENTER" | "RIGHT";
+export const Alignment = S.Literal("LEFT", "CENTER", "RIGHT");
 export interface InAppMessageBodyConfig {
-  Alignment: string;
-  Body: string;
-  TextColor: string;
+  Alignment?: Alignment;
+  Body?: string;
+  TextColor?: string;
 }
 export const InAppMessageBodyConfig = S.suspend(() =>
-  S.Struct({ Alignment: S.String, Body: S.String, TextColor: S.String }),
+  S.Struct({
+    Alignment: S.optional(Alignment),
+    Body: S.optional(S.String),
+    TextColor: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "InAppMessageBodyConfig",
 }) as any as S.Schema<InAppMessageBodyConfig>;
 export interface InAppMessageHeaderConfig {
-  Alignment: string;
-  Header: string;
-  TextColor: string;
+  Alignment?: Alignment;
+  Header?: string;
+  TextColor?: string;
 }
 export const InAppMessageHeaderConfig = S.suspend(() =>
-  S.Struct({ Alignment: S.String, Header: S.String, TextColor: S.String }),
+  S.Struct({
+    Alignment: S.optional(Alignment),
+    Header: S.optional(S.String),
+    TextColor: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "InAppMessageHeaderConfig",
 }) as any as S.Schema<InAppMessageHeaderConfig>;
+export type ButtonAction = "LINK" | "DEEP_LINK" | "CLOSE";
+export const ButtonAction = S.Literal("LINK", "DEEP_LINK", "CLOSE");
 export interface OverrideButtonConfiguration {
-  ButtonAction: string;
+  ButtonAction?: ButtonAction;
   Link?: string;
 }
 export const OverrideButtonConfiguration = S.suspend(() =>
-  S.Struct({ ButtonAction: S.String, Link: S.optional(S.String) }),
+  S.Struct({
+    ButtonAction: S.optional(ButtonAction),
+    Link: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "OverrideButtonConfiguration",
 }) as any as S.Schema<OverrideButtonConfiguration>;
 export interface DefaultButtonConfiguration {
   BackgroundColor?: string;
   BorderRadius?: number;
-  ButtonAction: string;
+  ButtonAction?: ButtonAction;
   Link?: string;
-  Text: string;
+  Text?: string;
   TextColor?: string;
 }
 export const DefaultButtonConfiguration = S.suspend(() =>
   S.Struct({
     BackgroundColor: S.optional(S.String),
     BorderRadius: S.optional(S.Number),
-    ButtonAction: S.String,
+    ButtonAction: S.optional(ButtonAction),
     Link: S.optional(S.String),
-    Text: S.String,
+    Text: S.optional(S.String),
     TextColor: S.optional(S.String),
   }),
 ).annotations({
@@ -2037,18 +2085,33 @@ export type ListOfInAppMessageContent = InAppMessageContent[];
 export const ListOfInAppMessageContent = S.Array(InAppMessageContent);
 export type MapOf__string = { [key: string]: string };
 export const MapOf__string = S.Record({ key: S.String, value: S.String });
+export type Layout =
+  | "BOTTOM_BANNER"
+  | "TOP_BANNER"
+  | "OVERLAYS"
+  | "MOBILE_FEED"
+  | "MIDDLE_BANNER"
+  | "CAROUSEL";
+export const Layout = S.Literal(
+  "BOTTOM_BANNER",
+  "TOP_BANNER",
+  "OVERLAYS",
+  "MOBILE_FEED",
+  "MIDDLE_BANNER",
+  "CAROUSEL",
+);
 export interface CampaignInAppMessage {
   Body?: string;
-  Content?: ListOfInAppMessageContent;
-  CustomConfig?: MapOf__string;
-  Layout?: string;
+  Content?: InAppMessageContent[];
+  CustomConfig?: { [key: string]: string };
+  Layout?: Layout;
 }
 export const CampaignInAppMessage = S.suspend(() =>
   S.Struct({
     Body: S.optional(S.String),
     Content: S.optional(ListOfInAppMessageContent),
     CustomConfig: S.optional(MapOf__string),
-    Layout: S.optional(S.String),
+    Layout: S.optional(Layout),
   }),
 ).annotations({
   identifier: "CampaignInAppMessage",
@@ -2079,12 +2142,32 @@ export const MessageConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "MessageConfiguration",
 }) as any as S.Schema<MessageConfiguration>;
+export type AttributeType =
+  | "INCLUSIVE"
+  | "EXCLUSIVE"
+  | "CONTAINS"
+  | "BEFORE"
+  | "AFTER"
+  | "ON"
+  | "BETWEEN";
+export const AttributeType = S.Literal(
+  "INCLUSIVE",
+  "EXCLUSIVE",
+  "CONTAINS",
+  "BEFORE",
+  "AFTER",
+  "ON",
+  "BETWEEN",
+);
 export interface AttributeDimension {
-  AttributeType?: string;
-  Values: ListOf__string;
+  AttributeType?: AttributeType;
+  Values?: string[];
 }
 export const AttributeDimension = S.suspend(() =>
-  S.Struct({ AttributeType: S.optional(S.String), Values: ListOf__string }),
+  S.Struct({
+    AttributeType: S.optional(AttributeType),
+    Values: S.optional(ListOf__string),
+  }),
 ).annotations({
   identifier: "AttributeDimension",
 }) as any as S.Schema<AttributeDimension>;
@@ -2093,19 +2176,27 @@ export const MapOfAttributeDimension = S.Record({
   key: S.String,
   value: AttributeDimension,
 });
+export type DimensionType = "INCLUSIVE" | "EXCLUSIVE";
+export const DimensionType = S.Literal("INCLUSIVE", "EXCLUSIVE");
 export interface SetDimension {
-  DimensionType?: string;
-  Values: ListOf__string;
+  DimensionType?: DimensionType;
+  Values?: string[];
 }
 export const SetDimension = S.suspend(() =>
-  S.Struct({ DimensionType: S.optional(S.String), Values: ListOf__string }),
+  S.Struct({
+    DimensionType: S.optional(DimensionType),
+    Values: S.optional(ListOf__string),
+  }),
 ).annotations({ identifier: "SetDimension" }) as any as S.Schema<SetDimension>;
 export interface MetricDimension {
-  ComparisonOperator: string;
-  Value: number;
+  ComparisonOperator?: string;
+  Value?: number;
 }
 export const MetricDimension = S.suspend(() =>
-  S.Struct({ ComparisonOperator: S.String, Value: S.Number }),
+  S.Struct({
+    ComparisonOperator: S.optional(S.String),
+    Value: S.optional(S.Number),
+  }),
 ).annotations({
   identifier: "MetricDimension",
 }) as any as S.Schema<MetricDimension>;
@@ -2115,9 +2206,9 @@ export const MapOfMetricDimension = S.Record({
   value: MetricDimension,
 });
 export interface EventDimensions {
-  Attributes?: MapOfAttributeDimension;
+  Attributes?: { [key: string]: AttributeDimension };
   EventType?: SetDimension;
-  Metrics?: MapOfMetricDimension;
+  Metrics?: { [key: string]: MetricDimension };
 }
 export const EventDimensions = S.suspend(() =>
   S.Struct({
@@ -2128,15 +2219,37 @@ export const EventDimensions = S.suspend(() =>
 ).annotations({
   identifier: "EventDimensions",
 }) as any as S.Schema<EventDimensions>;
+export type FilterType = "SYSTEM" | "ENDPOINT";
+export const FilterType = S.Literal("SYSTEM", "ENDPOINT");
 export interface CampaignEventFilter {
-  Dimensions: EventDimensions;
-  FilterType: string;
+  Dimensions?: EventDimensions;
+  FilterType?: FilterType;
 }
 export const CampaignEventFilter = S.suspend(() =>
-  S.Struct({ Dimensions: EventDimensions, FilterType: S.String }),
+  S.Struct({
+    Dimensions: S.optional(EventDimensions),
+    FilterType: S.optional(FilterType),
+  }),
 ).annotations({
   identifier: "CampaignEventFilter",
 }) as any as S.Schema<CampaignEventFilter>;
+export type Frequency =
+  | "ONCE"
+  | "HOURLY"
+  | "DAILY"
+  | "WEEKLY"
+  | "MONTHLY"
+  | "EVENT"
+  | "IN_APP_EVENT";
+export const Frequency = S.Literal(
+  "ONCE",
+  "HOURLY",
+  "DAILY",
+  "WEEKLY",
+  "MONTHLY",
+  "EVENT",
+  "IN_APP_EVENT",
+);
 export interface QuietTime {
   End?: string;
   Start?: string;
@@ -2147,20 +2260,20 @@ export const QuietTime = S.suspend(() =>
 export interface Schedule {
   EndTime?: string;
   EventFilter?: CampaignEventFilter;
-  Frequency?: string;
+  Frequency?: Frequency;
   IsLocalTime?: boolean;
   QuietTime?: QuietTime;
-  StartTime: string;
+  StartTime?: string;
   Timezone?: string;
 }
 export const Schedule = S.suspend(() =>
   S.Struct({
     EndTime: S.optional(S.String),
     EventFilter: S.optional(CampaignEventFilter),
-    Frequency: S.optional(S.String),
+    Frequency: S.optional(Frequency),
     IsLocalTime: S.optional(S.Boolean),
     QuietTime: S.optional(QuietTime),
-    StartTime: S.String,
+    StartTime: S.optional(S.String),
     Timezone: S.optional(S.String),
   }),
 ).annotations({ identifier: "Schedule" }) as any as S.Schema<Schedule>;
@@ -2193,7 +2306,7 @@ export interface WriteTreatmentResource {
   CustomDeliveryConfiguration?: CustomDeliveryConfiguration;
   MessageConfiguration?: MessageConfiguration;
   Schedule?: Schedule;
-  SizePercent: number;
+  SizePercent?: number;
   TemplateConfiguration?: TemplateConfiguration;
   TreatmentDescription?: string;
   TreatmentName?: string;
@@ -2203,7 +2316,7 @@ export const WriteTreatmentResource = S.suspend(() =>
     CustomDeliveryConfiguration: S.optional(CustomDeliveryConfiguration),
     MessageConfiguration: S.optional(MessageConfiguration),
     Schedule: S.optional(Schedule),
-    SizePercent: S.Number,
+    SizePercent: S.optional(S.Number),
     TemplateConfiguration: S.optional(TemplateConfiguration),
     TreatmentDescription: S.optional(S.String),
     TreatmentName: S.optional(S.String),
@@ -2213,15 +2326,17 @@ export const WriteTreatmentResource = S.suspend(() =>
 }) as any as S.Schema<WriteTreatmentResource>;
 export type ListOfWriteTreatmentResource = WriteTreatmentResource[];
 export const ListOfWriteTreatmentResource = S.Array(WriteTreatmentResource);
+export type Mode = "DELIVERY" | "FILTER";
+export const Mode = S.Literal("DELIVERY", "FILTER");
 export interface CampaignHook {
   LambdaFunctionName?: string;
-  Mode?: string;
+  Mode?: Mode;
   WebUrl?: string;
 }
 export const CampaignHook = S.suspend(() =>
   S.Struct({
     LambdaFunctionName: S.optional(S.String),
-    Mode: S.optional(S.String),
+    Mode: S.optional(Mode),
     WebUrl: S.optional(S.String),
   }),
 ).annotations({ identifier: "CampaignHook" }) as any as S.Schema<CampaignHook>;
@@ -2244,7 +2359,7 @@ export const CampaignLimits = S.suspend(() =>
   identifier: "CampaignLimits",
 }) as any as S.Schema<CampaignLimits>;
 export interface WriteCampaignRequest {
-  AdditionalTreatments?: ListOfWriteTreatmentResource;
+  AdditionalTreatments?: WriteTreatmentResource[];
   CustomDeliveryConfiguration?: CustomDeliveryConfiguration;
   Description?: string;
   HoldoutPercent?: number;
@@ -2256,7 +2371,7 @@ export interface WriteCampaignRequest {
   Schedule?: Schedule;
   SegmentId?: string;
   SegmentVersion?: number;
-  tags?: MapOf__string;
+  tags?: { [key: string]: string };
   TemplateConfiguration?: TemplateConfiguration;
   TreatmentDescription?: string;
   TreatmentName?: string;
@@ -2288,15 +2403,15 @@ export const WriteCampaignRequest = S.suspend(() =>
 export interface UpdateCampaignRequest {
   ApplicationId: string;
   CampaignId: string;
-  WriteCampaignRequest: WriteCampaignRequest;
+  WriteCampaignRequest?: WriteCampaignRequest;
 }
 export const UpdateCampaignRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     CampaignId: S.String.pipe(T.HttpLabel("CampaignId")),
-    WriteCampaignRequest: WriteCampaignRequest.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "WriteCampaignRequest" }),
+    WriteCampaignRequest: S.optional(WriteCampaignRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "WriteCampaignRequest" }),
   }).pipe(
     T.all(
       T.Http({
@@ -2318,8 +2433,8 @@ export interface EmailTemplateRequest {
   HtmlPart?: string;
   RecommenderId?: string;
   Subject?: string;
-  Headers?: ListOfMessageHeader;
-  tags?: MapOf__string;
+  Headers?: MessageHeader[];
+  tags?: { [key: string]: string };
   TemplateDescription?: string;
   TextPart?: string;
 }
@@ -2339,7 +2454,7 @@ export const EmailTemplateRequest = S.suspend(() =>
 }) as any as S.Schema<EmailTemplateRequest>;
 export interface UpdateEmailTemplateRequest {
   CreateNewVersion?: boolean;
-  EmailTemplateRequest: EmailTemplateRequest;
+  EmailTemplateRequest?: EmailTemplateRequest;
   TemplateName: string;
   Version?: string;
 }
@@ -2348,9 +2463,9 @@ export const UpdateEmailTemplateRequest = S.suspend(() =>
     CreateNewVersion: S.optional(S.Boolean).pipe(
       T.HttpQuery("create-new-version"),
     ),
-    EmailTemplateRequest: EmailTemplateRequest.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "EmailTemplateRequest" }),
+    EmailTemplateRequest: S.optional(EmailTemplateRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "EmailTemplateRequest" }),
     TemplateName: S.String.pipe(T.HttpLabel("TemplateName")),
     Version: S.optional(S.String).pipe(T.HttpQuery("version")),
   }).pipe(
@@ -2367,17 +2482,17 @@ export const UpdateEmailTemplateRequest = S.suspend(() =>
   identifier: "UpdateEmailTemplateRequest",
 }) as any as S.Schema<UpdateEmailTemplateRequest>;
 export interface InAppTemplateRequest {
-  Content?: ListOfInAppMessageContent;
-  CustomConfig?: MapOf__string;
-  Layout?: string;
-  tags?: MapOf__string;
+  Content?: InAppMessageContent[];
+  CustomConfig?: { [key: string]: string };
+  Layout?: Layout;
+  tags?: { [key: string]: string };
   TemplateDescription?: string;
 }
 export const InAppTemplateRequest = S.suspend(() =>
   S.Struct({
     Content: S.optional(ListOfInAppMessageContent),
     CustomConfig: S.optional(MapOf__string),
-    Layout: S.optional(S.String),
+    Layout: S.optional(Layout),
     tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
     TemplateDescription: S.optional(S.String),
   }),
@@ -2386,7 +2501,7 @@ export const InAppTemplateRequest = S.suspend(() =>
 }) as any as S.Schema<InAppTemplateRequest>;
 export interface UpdateInAppTemplateRequest {
   CreateNewVersion?: boolean;
-  InAppTemplateRequest: InAppTemplateRequest;
+  InAppTemplateRequest?: InAppTemplateRequest;
   TemplateName: string;
   Version?: string;
 }
@@ -2395,9 +2510,9 @@ export const UpdateInAppTemplateRequest = S.suspend(() =>
     CreateNewVersion: S.optional(S.Boolean).pipe(
       T.HttpQuery("create-new-version"),
     ),
-    InAppTemplateRequest: InAppTemplateRequest.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "InAppTemplateRequest" }),
+    InAppTemplateRequest: S.optional(InAppTemplateRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "InAppTemplateRequest" }),
     TemplateName: S.String.pipe(T.HttpLabel("TemplateName")),
     Version: S.optional(S.String).pipe(T.HttpQuery("version")),
   }).pipe(
@@ -2423,7 +2538,7 @@ export const JourneyCustomMessage = S.suspend(() =>
 }) as any as S.Schema<JourneyCustomMessage>;
 export interface CustomMessageActivity {
   DeliveryUri?: string;
-  EndpointTypes?: ListOf__EndpointTypesElement;
+  EndpointTypes?: __EndpointTypesElement[];
   MessageConfig?: JourneyCustomMessage;
   NextActivity?: string;
   TemplateName?: string;
@@ -2454,19 +2569,26 @@ export const EventCondition = S.suspend(() =>
   identifier: "EventCondition",
 }) as any as S.Schema<EventCondition>;
 export interface SegmentCondition {
-  SegmentId: string;
+  SegmentId?: string;
 }
 export const SegmentCondition = S.suspend(() =>
-  S.Struct({ SegmentId: S.String }),
+  S.Struct({ SegmentId: S.optional(S.String) }),
 ).annotations({
   identifier: "SegmentCondition",
 }) as any as S.Schema<SegmentCondition>;
+export type Duration = "HR_24" | "DAY_7" | "DAY_14" | "DAY_30";
+export const Duration = S.Literal("HR_24", "DAY_7", "DAY_14", "DAY_30");
+export type RecencyType = "ACTIVE" | "INACTIVE";
+export const RecencyType = S.Literal("ACTIVE", "INACTIVE");
 export interface RecencyDimension {
-  Duration: string;
-  RecencyType: string;
+  Duration?: Duration;
+  RecencyType?: RecencyType;
 }
 export const RecencyDimension = S.suspend(() =>
-  S.Struct({ Duration: S.String, RecencyType: S.String }),
+  S.Struct({
+    Duration: S.optional(Duration),
+    RecencyType: S.optional(RecencyType),
+  }),
 ).annotations({
   identifier: "RecencyDimension",
 }) as any as S.Schema<RecencyDimension>;
@@ -2499,21 +2621,21 @@ export const SegmentDemographics = S.suspend(() =>
   identifier: "SegmentDemographics",
 }) as any as S.Schema<SegmentDemographics>;
 export interface GPSCoordinates {
-  Latitude: number;
-  Longitude: number;
+  Latitude?: number;
+  Longitude?: number;
 }
 export const GPSCoordinates = S.suspend(() =>
-  S.Struct({ Latitude: S.Number, Longitude: S.Number }),
+  S.Struct({ Latitude: S.optional(S.Number), Longitude: S.optional(S.Number) }),
 ).annotations({
   identifier: "GPSCoordinates",
 }) as any as S.Schema<GPSCoordinates>;
 export interface GPSPointDimension {
-  Coordinates: GPSCoordinates;
+  Coordinates?: GPSCoordinates;
   RangeInKilometers?: number;
 }
 export const GPSPointDimension = S.suspend(() =>
   S.Struct({
-    Coordinates: GPSCoordinates,
+    Coordinates: S.optional(GPSCoordinates),
     RangeInKilometers: S.optional(S.Number),
   }),
 ).annotations({
@@ -2532,12 +2654,12 @@ export const SegmentLocation = S.suspend(() =>
   identifier: "SegmentLocation",
 }) as any as S.Schema<SegmentLocation>;
 export interface SegmentDimensions {
-  Attributes?: MapOfAttributeDimension;
+  Attributes?: { [key: string]: AttributeDimension };
   Behavior?: SegmentBehaviors;
   Demographic?: SegmentDemographics;
   Location?: SegmentLocation;
-  Metrics?: MapOfMetricDimension;
-  UserAttributes?: MapOfAttributeDimension;
+  Metrics?: { [key: string]: MetricDimension };
+  UserAttributes?: { [key: string]: AttributeDimension };
 }
 export const SegmentDimensions = S.suspend(() =>
   S.Struct({
@@ -2569,14 +2691,16 @@ export const SimpleCondition = S.suspend(() =>
 }) as any as S.Schema<SimpleCondition>;
 export type ListOfSimpleCondition = SimpleCondition[];
 export const ListOfSimpleCondition = S.Array(SimpleCondition);
+export type Operator = "ALL" | "ANY";
+export const Operator = S.Literal("ALL", "ANY");
 export interface Condition {
-  Conditions?: ListOfSimpleCondition;
-  Operator?: string;
+  Conditions?: SimpleCondition[];
+  Operator?: Operator;
 }
 export const Condition = S.suspend(() =>
   S.Struct({
     Conditions: S.optional(ListOfSimpleCondition),
-    Operator: S.optional(S.String),
+    Operator: S.optional(Operator),
   }),
 ).annotations({ identifier: "Condition" }) as any as S.Schema<Condition>;
 export interface WaitTime {
@@ -2628,10 +2752,13 @@ export const EmailMessageActivity = S.suspend(() =>
 }) as any as S.Schema<EmailMessageActivity>;
 export interface HoldoutActivity {
   NextActivity?: string;
-  Percentage: number;
+  Percentage?: number;
 }
 export const HoldoutActivity = S.suspend(() =>
-  S.Struct({ NextActivity: S.optional(S.String), Percentage: S.Number }),
+  S.Struct({
+    NextActivity: S.optional(S.String),
+    Percentage: S.optional(S.Number),
+  }),
 ).annotations({
   identifier: "HoldoutActivity",
 }) as any as S.Schema<HoldoutActivity>;
@@ -2650,7 +2777,7 @@ export const MultiConditionalBranch = S.suspend(() =>
 export type ListOfMultiConditionalBranch = MultiConditionalBranch[];
 export const ListOfMultiConditionalBranch = S.Array(MultiConditionalBranch);
 export interface MultiConditionalSplitActivity {
-  Branches?: ListOfMultiConditionalBranch;
+  Branches?: MultiConditionalBranch[];
   DefaultActivity?: string;
   EvaluationWaitTime?: WaitTime;
 }
@@ -2702,7 +2829,7 @@ export const RandomSplitEntry = S.suspend(() =>
 export type ListOfRandomSplitEntry = RandomSplitEntry[];
 export const ListOfRandomSplitEntry = S.Array(RandomSplitEntry);
 export interface RandomSplitActivity {
-  Branches?: ListOfRandomSplitEntry;
+  Branches?: RandomSplitEntry[];
 }
 export const RandomSplitActivity = S.suspend(() =>
   S.Struct({ Branches: S.optional(ListOfRandomSplitEntry) }),
@@ -2710,7 +2837,7 @@ export const RandomSplitActivity = S.suspend(() =>
   identifier: "RandomSplitActivity",
 }) as any as S.Schema<RandomSplitActivity>;
 export interface JourneySMSMessage {
-  MessageType?: string;
+  MessageType?: MessageType;
   OriginationNumber?: string;
   SenderId?: string;
   EntityId?: string;
@@ -2718,7 +2845,7 @@ export interface JourneySMSMessage {
 }
 export const JourneySMSMessage = S.suspend(() =>
   S.Struct({
-    MessageType: S.optional(S.String),
+    MessageType: S.optional(MessageType),
     OriginationNumber: S.optional(S.String),
     SenderId: S.optional(S.String),
     EntityId: S.optional(S.String),
@@ -2835,11 +2962,14 @@ export const JourneySchedule = S.suspend(() =>
   identifier: "JourneySchedule",
 }) as any as S.Schema<JourneySchedule>;
 export interface EventFilter {
-  Dimensions: EventDimensions;
-  FilterType: string;
+  Dimensions?: EventDimensions;
+  FilterType?: FilterType;
 }
 export const EventFilter = S.suspend(() =>
-  S.Struct({ Dimensions: EventDimensions, FilterType: S.String }),
+  S.Struct({
+    Dimensions: S.optional(EventDimensions),
+    FilterType: S.optional(FilterType),
+  }),
 ).annotations({ identifier: "EventFilter" }) as any as S.Schema<EventFilter>;
 export interface EventStartCondition {
   EventFilter?: EventFilter;
@@ -2867,6 +2997,21 @@ export const StartCondition = S.suspend(() =>
 ).annotations({
   identifier: "StartCondition",
 }) as any as S.Schema<StartCondition>;
+export type State =
+  | "DRAFT"
+  | "ACTIVE"
+  | "COMPLETED"
+  | "CANCELLED"
+  | "CLOSED"
+  | "PAUSED";
+export const State = S.Literal(
+  "DRAFT",
+  "ACTIVE",
+  "COMPLETED",
+  "CANCELLED",
+  "CLOSED",
+  "PAUSED",
+);
 export interface JourneyChannelSettings {
   ConnectCampaignArn?: string;
   ConnectCampaignExecutionRoleArn?: string;
@@ -2879,6 +3024,23 @@ export const JourneyChannelSettings = S.suspend(() =>
 ).annotations({
   identifier: "JourneyChannelSettings",
 }) as any as S.Schema<JourneyChannelSettings>;
+export type DayOfWeek =
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
+export const DayOfWeek = S.Literal(
+  "MONDAY",
+  "TUESDAY",
+  "WEDNESDAY",
+  "THURSDAY",
+  "FRIDAY",
+  "SATURDAY",
+  "SUNDAY",
+);
 export interface OpenHoursRule {
   StartTime?: string;
   EndTime?: string;
@@ -2890,17 +3052,18 @@ export const OpenHoursRule = S.suspend(() =>
 }) as any as S.Schema<OpenHoursRule>;
 export type ListOfOpenHoursRules = OpenHoursRule[];
 export const ListOfOpenHoursRules = S.Array(OpenHoursRule);
-export type MapOfListOfOpenHoursRules = { [key: string]: ListOfOpenHoursRules };
-export const MapOfListOfOpenHoursRules = S.Record({
-  key: S.String,
-  value: ListOfOpenHoursRules,
-});
+export type MapOfListOfOpenHoursRules = {
+  [key in DayOfWeek]?: OpenHoursRule[];
+};
+export const MapOfListOfOpenHoursRules = S.partial(
+  S.Record({ key: DayOfWeek, value: ListOfOpenHoursRules }),
+);
 export interface OpenHours {
-  EMAIL?: MapOfListOfOpenHoursRules;
-  SMS?: MapOfListOfOpenHoursRules;
-  PUSH?: MapOfListOfOpenHoursRules;
-  VOICE?: MapOfListOfOpenHoursRules;
-  CUSTOM?: MapOfListOfOpenHoursRules;
+  EMAIL?: { [key: string]: OpenHoursRule[] };
+  SMS?: { [key: string]: OpenHoursRule[] };
+  PUSH?: { [key: string]: OpenHoursRule[] };
+  VOICE?: { [key: string]: OpenHoursRule[] };
+  CUSTOM?: { [key: string]: OpenHoursRule[] };
 }
 export const OpenHours = S.suspend(() =>
   S.Struct({
@@ -2928,11 +3091,11 @@ export const ClosedDaysRule = S.suspend(() =>
 export type ListOfClosedDaysRules = ClosedDaysRule[];
 export const ListOfClosedDaysRules = S.Array(ClosedDaysRule);
 export interface ClosedDays {
-  EMAIL?: ListOfClosedDaysRules;
-  SMS?: ListOfClosedDaysRules;
-  PUSH?: ListOfClosedDaysRules;
-  VOICE?: ListOfClosedDaysRules;
-  CUSTOM?: ListOfClosedDaysRules;
+  EMAIL?: ClosedDaysRule[];
+  SMS?: ClosedDaysRule[];
+  PUSH?: ClosedDaysRule[];
+  VOICE?: ClosedDaysRule[];
+  CUSTOM?: ClosedDaysRule[];
 }
 export const ClosedDays = S.suspend(() =>
   S.Struct({
@@ -2943,28 +3106,36 @@ export const ClosedDays = S.suspend(() =>
     CUSTOM: S.optional(ListOfClosedDaysRules),
   }),
 ).annotations({ identifier: "ClosedDays" }) as any as S.Schema<ClosedDays>;
-export type ListOf__TimezoneEstimationMethodsElement = string[];
-export const ListOf__TimezoneEstimationMethodsElement = S.Array(S.String);
+export type __TimezoneEstimationMethodsElement = "PHONE_NUMBER" | "POSTAL_CODE";
+export const __TimezoneEstimationMethodsElement = S.Literal(
+  "PHONE_NUMBER",
+  "POSTAL_CODE",
+);
+export type ListOf__TimezoneEstimationMethodsElement =
+  __TimezoneEstimationMethodsElement[];
+export const ListOf__TimezoneEstimationMethodsElement = S.Array(
+  __TimezoneEstimationMethodsElement,
+);
 export interface WriteJourneyRequest {
-  Activities?: MapOfActivity;
+  Activities?: { [key: string]: Activity };
   CreationDate?: string;
   LastModifiedDate?: string;
   Limits?: JourneyLimits;
   LocalTime?: boolean;
-  Name: string;
+  Name?: string;
   QuietTime?: QuietTime;
   RefreshFrequency?: string;
   Schedule?: JourneySchedule;
   StartActivity?: string;
   StartCondition?: StartCondition;
-  State?: string;
+  State?: State;
   WaitForQuietTime?: boolean;
   RefreshOnSegmentUpdate?: boolean;
   JourneyChannelSettings?: JourneyChannelSettings;
   SendingSchedule?: boolean;
   OpenHours?: OpenHours;
   ClosedDays?: ClosedDays;
-  TimezoneEstimationMethods?: ListOf__TimezoneEstimationMethodsElement;
+  TimezoneEstimationMethods?: __TimezoneEstimationMethodsElement[];
 }
 export const WriteJourneyRequest = S.suspend(() =>
   S.Struct({
@@ -2973,13 +3144,13 @@ export const WriteJourneyRequest = S.suspend(() =>
     LastModifiedDate: S.optional(S.String),
     Limits: S.optional(JourneyLimits),
     LocalTime: S.optional(S.Boolean),
-    Name: S.String,
+    Name: S.optional(S.String),
     QuietTime: S.optional(QuietTime),
     RefreshFrequency: S.optional(S.String),
     Schedule: S.optional(JourneySchedule),
     StartActivity: S.optional(S.String),
     StartCondition: S.optional(StartCondition),
-    State: S.optional(S.String),
+    State: S.optional(State),
     WaitForQuietTime: S.optional(S.Boolean),
     RefreshOnSegmentUpdate: S.optional(S.Boolean),
     JourneyChannelSettings: S.optional(JourneyChannelSettings),
@@ -2996,15 +3167,15 @@ export const WriteJourneyRequest = S.suspend(() =>
 export interface UpdateJourneyRequest {
   ApplicationId: string;
   JourneyId: string;
-  WriteJourneyRequest: WriteJourneyRequest;
+  WriteJourneyRequest?: WriteJourneyRequest;
 }
 export const UpdateJourneyRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     JourneyId: S.String.pipe(T.HttpLabel("JourneyId")),
-    WriteJourneyRequest: WriteJourneyRequest.pipe(T.HttpPayload()).annotations({
-      identifier: "WriteJourneyRequest",
-    }),
+    WriteJourneyRequest: S.optional(WriteJourneyRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "WriteJourneyRequest" }),
   }).pipe(
     T.all(
       T.Http({
@@ -3022,7 +3193,7 @@ export const UpdateJourneyRequest = S.suspend(() =>
   identifier: "UpdateJourneyRequest",
 }) as any as S.Schema<UpdateJourneyRequest>;
 export interface AndroidPushNotificationTemplate {
-  Action?: string;
+  Action?: Action;
   Body?: string;
   ImageIconUrl?: string;
   ImageUrl?: string;
@@ -3034,7 +3205,7 @@ export interface AndroidPushNotificationTemplate {
 }
 export const AndroidPushNotificationTemplate = S.suspend(() =>
   S.Struct({
-    Action: S.optional(S.String),
+    Action: S.optional(Action),
     Body: S.optional(S.String),
     ImageIconUrl: S.optional(S.String),
     ImageUrl: S.optional(S.String),
@@ -3048,7 +3219,7 @@ export const AndroidPushNotificationTemplate = S.suspend(() =>
   identifier: "AndroidPushNotificationTemplate",
 }) as any as S.Schema<AndroidPushNotificationTemplate>;
 export interface APNSPushNotificationTemplate {
-  Action?: string;
+  Action?: Action;
   Body?: string;
   MediaUrl?: string;
   RawContent?: string;
@@ -3058,7 +3229,7 @@ export interface APNSPushNotificationTemplate {
 }
 export const APNSPushNotificationTemplate = S.suspend(() =>
   S.Struct({
-    Action: S.optional(S.String),
+    Action: S.optional(Action),
     Body: S.optional(S.String),
     MediaUrl: S.optional(S.String),
     RawContent: S.optional(S.String),
@@ -3070,7 +3241,7 @@ export const APNSPushNotificationTemplate = S.suspend(() =>
   identifier: "APNSPushNotificationTemplate",
 }) as any as S.Schema<APNSPushNotificationTemplate>;
 export interface DefaultPushNotificationTemplate {
-  Action?: string;
+  Action?: Action;
   Body?: string;
   Sound?: string;
   Title?: string;
@@ -3078,7 +3249,7 @@ export interface DefaultPushNotificationTemplate {
 }
 export const DefaultPushNotificationTemplate = S.suspend(() =>
   S.Struct({
-    Action: S.optional(S.String),
+    Action: S.optional(Action),
     Body: S.optional(S.String),
     Sound: S.optional(S.String),
     Title: S.optional(S.String),
@@ -3095,7 +3266,7 @@ export interface PushNotificationTemplateRequest {
   DefaultSubstitutions?: string;
   GCM?: AndroidPushNotificationTemplate;
   RecommenderId?: string;
-  tags?: MapOf__string;
+  tags?: { [key: string]: string };
   TemplateDescription?: string;
 }
 export const PushNotificationTemplateRequest = S.suspend(() =>
@@ -3115,7 +3286,7 @@ export const PushNotificationTemplateRequest = S.suspend(() =>
 }) as any as S.Schema<PushNotificationTemplateRequest>;
 export interface UpdatePushTemplateRequest {
   CreateNewVersion?: boolean;
-  PushNotificationTemplateRequest: PushNotificationTemplateRequest;
+  PushNotificationTemplateRequest?: PushNotificationTemplateRequest;
   TemplateName: string;
   Version?: string;
 }
@@ -3124,9 +3295,9 @@ export const UpdatePushTemplateRequest = S.suspend(() =>
     CreateNewVersion: S.optional(S.Boolean).pipe(
       T.HttpQuery("create-new-version"),
     ),
-    PushNotificationTemplateRequest: PushNotificationTemplateRequest.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "PushNotificationTemplateRequest" }),
+    PushNotificationTemplateRequest: S.optional(PushNotificationTemplateRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "PushNotificationTemplateRequest" }),
     TemplateName: S.String.pipe(T.HttpLabel("TemplateName")),
     Version: S.optional(S.String).pipe(T.HttpQuery("version")),
   }).pipe(
@@ -3145,40 +3316,46 @@ export const UpdatePushTemplateRequest = S.suspend(() =>
 export type ListOfSegmentDimensions = SegmentDimensions[];
 export const ListOfSegmentDimensions = S.Array(SegmentDimensions);
 export interface SegmentReference {
-  Id: string;
+  Id?: string;
   Version?: number;
 }
 export const SegmentReference = S.suspend(() =>
-  S.Struct({ Id: S.String, Version: S.optional(S.Number) }),
+  S.Struct({ Id: S.optional(S.String), Version: S.optional(S.Number) }),
 ).annotations({
   identifier: "SegmentReference",
 }) as any as S.Schema<SegmentReference>;
 export type ListOfSegmentReference = SegmentReference[];
 export const ListOfSegmentReference = S.Array(SegmentReference);
+export type SourceType = "ALL" | "ANY" | "NONE";
+export const SourceType = S.Literal("ALL", "ANY", "NONE");
+export type Type = "ALL" | "ANY" | "NONE";
+export const Type = S.Literal("ALL", "ANY", "NONE");
 export interface SegmentGroup {
-  Dimensions?: ListOfSegmentDimensions;
-  SourceSegments?: ListOfSegmentReference;
-  SourceType?: string;
-  Type?: string;
+  Dimensions?: SegmentDimensions[];
+  SourceSegments?: SegmentReference[];
+  SourceType?: SourceType;
+  Type?: Type;
 }
 export const SegmentGroup = S.suspend(() =>
   S.Struct({
     Dimensions: S.optional(ListOfSegmentDimensions),
     SourceSegments: S.optional(ListOfSegmentReference),
-    SourceType: S.optional(S.String),
-    Type: S.optional(S.String),
+    SourceType: S.optional(SourceType),
+    Type: S.optional(Type),
   }),
 ).annotations({ identifier: "SegmentGroup" }) as any as S.Schema<SegmentGroup>;
 export type ListOfSegmentGroup = SegmentGroup[];
 export const ListOfSegmentGroup = S.Array(SegmentGroup);
+export type Include = "ALL" | "ANY" | "NONE";
+export const Include = S.Literal("ALL", "ANY", "NONE");
 export interface SegmentGroupList {
-  Groups?: ListOfSegmentGroup;
-  Include?: string;
+  Groups?: SegmentGroup[];
+  Include?: Include;
 }
 export const SegmentGroupList = S.suspend(() =>
   S.Struct({
     Groups: S.optional(ListOfSegmentGroup),
-    Include: S.optional(S.String),
+    Include: S.optional(Include),
   }),
 ).annotations({
   identifier: "SegmentGroupList",
@@ -3187,7 +3364,7 @@ export interface WriteSegmentRequest {
   Dimensions?: SegmentDimensions;
   Name?: string;
   SegmentGroups?: SegmentGroupList;
-  tags?: MapOf__string;
+  tags?: { [key: string]: string };
 }
 export const WriteSegmentRequest = S.suspend(() =>
   S.Struct({
@@ -3202,15 +3379,15 @@ export const WriteSegmentRequest = S.suspend(() =>
 export interface UpdateSegmentRequest {
   ApplicationId: string;
   SegmentId: string;
-  WriteSegmentRequest: WriteSegmentRequest;
+  WriteSegmentRequest?: WriteSegmentRequest;
 }
 export const UpdateSegmentRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     SegmentId: S.String.pipe(T.HttpLabel("SegmentId")),
-    WriteSegmentRequest: WriteSegmentRequest.pipe(T.HttpPayload()).annotations({
-      identifier: "WriteSegmentRequest",
-    }),
+    WriteSegmentRequest: S.optional(WriteSegmentRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "WriteSegmentRequest" }),
   }).pipe(
     T.all(
       T.Http({
@@ -3231,7 +3408,7 @@ export interface SMSTemplateRequest {
   Body?: string;
   DefaultSubstitutions?: string;
   RecommenderId?: string;
-  tags?: MapOf__string;
+  tags?: { [key: string]: string };
   TemplateDescription?: string;
 }
 export const SMSTemplateRequest = S.suspend(() =>
@@ -3247,7 +3424,7 @@ export const SMSTemplateRequest = S.suspend(() =>
 }) as any as S.Schema<SMSTemplateRequest>;
 export interface UpdateSmsTemplateRequest {
   CreateNewVersion?: boolean;
-  SMSTemplateRequest: SMSTemplateRequest;
+  SMSTemplateRequest?: SMSTemplateRequest;
   TemplateName: string;
   Version?: string;
 }
@@ -3256,9 +3433,9 @@ export const UpdateSmsTemplateRequest = S.suspend(() =>
     CreateNewVersion: S.optional(S.Boolean).pipe(
       T.HttpQuery("create-new-version"),
     ),
-    SMSTemplateRequest: SMSTemplateRequest.pipe(T.HttpPayload()).annotations({
-      identifier: "SMSTemplateRequest",
-    }),
+    SMSTemplateRequest: S.optional(SMSTemplateRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "SMSTemplateRequest" }),
     TemplateName: S.String.pipe(T.HttpLabel("TemplateName")),
     Version: S.optional(S.String).pipe(T.HttpQuery("version")),
   }).pipe(
@@ -3278,7 +3455,7 @@ export interface VoiceTemplateRequest {
   Body?: string;
   DefaultSubstitutions?: string;
   LanguageCode?: string;
-  tags?: MapOf__string;
+  tags?: { [key: string]: string };
   TemplateDescription?: string;
   VoiceId?: string;
 }
@@ -3298,7 +3475,7 @@ export interface UpdateVoiceTemplateRequest {
   CreateNewVersion?: boolean;
   TemplateName: string;
   Version?: string;
-  VoiceTemplateRequest: VoiceTemplateRequest;
+  VoiceTemplateRequest?: VoiceTemplateRequest;
 }
 export const UpdateVoiceTemplateRequest = S.suspend(() =>
   S.Struct({
@@ -3307,9 +3484,9 @@ export const UpdateVoiceTemplateRequest = S.suspend(() =>
     ),
     TemplateName: S.String.pipe(T.HttpLabel("TemplateName")),
     Version: S.optional(S.String).pipe(T.HttpQuery("version")),
-    VoiceTemplateRequest: VoiceTemplateRequest.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "VoiceTemplateRequest" }),
+    VoiceTemplateRequest: S.optional(VoiceTemplateRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "VoiceTemplateRequest" }),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/v1/templates/{TemplateName}/voice" }),
@@ -3323,16 +3500,47 @@ export const UpdateVoiceTemplateRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateVoiceTemplateRequest",
 }) as any as S.Schema<UpdateVoiceTemplateRequest>;
+export type Format = "CSV" | "JSON";
+export const Format = S.Literal("CSV", "JSON");
+export type ChannelType =
+  | "PUSH"
+  | "GCM"
+  | "APNS"
+  | "APNS_SANDBOX"
+  | "APNS_VOIP"
+  | "APNS_VOIP_SANDBOX"
+  | "ADM"
+  | "SMS"
+  | "VOICE"
+  | "EMAIL"
+  | "BAIDU"
+  | "CUSTOM"
+  | "IN_APP";
+export const ChannelType = S.Literal(
+  "PUSH",
+  "GCM",
+  "APNS",
+  "APNS_SANDBOX",
+  "APNS_VOIP",
+  "APNS_VOIP_SANDBOX",
+  "ADM",
+  "SMS",
+  "VOICE",
+  "EMAIL",
+  "BAIDU",
+  "CUSTOM",
+  "IN_APP",
+);
 export interface ExportJobRequest {
-  RoleArn: string;
-  S3UrlPrefix: string;
+  RoleArn?: string;
+  S3UrlPrefix?: string;
   SegmentId?: string;
   SegmentVersion?: number;
 }
 export const ExportJobRequest = S.suspend(() =>
   S.Struct({
-    RoleArn: S.String,
-    S3UrlPrefix: S.String,
+    RoleArn: S.optional(S.String),
+    S3UrlPrefix: S.optional(S.String),
     SegmentId: S.optional(S.String),
     SegmentVersion: S.optional(S.Number),
   }),
@@ -3342,10 +3550,10 @@ export const ExportJobRequest = S.suspend(() =>
 export interface ImportJobRequest {
   DefineSegment?: boolean;
   ExternalId?: string;
-  Format: string;
+  Format?: Format;
   RegisterEndpoints?: boolean;
-  RoleArn: string;
-  S3Url: string;
+  RoleArn?: string;
+  S3Url?: string;
   SegmentId?: string;
   SegmentName?: string;
 }
@@ -3353,10 +3561,10 @@ export const ImportJobRequest = S.suspend(() =>
   S.Struct({
     DefineSegment: S.optional(S.Boolean),
     ExternalId: S.optional(S.String),
-    Format: S.String,
+    Format: S.optional(Format),
     RegisterEndpoints: S.optional(S.Boolean),
-    RoleArn: S.String,
-    S3Url: S.String,
+    RoleArn: S.optional(S.String),
+    S3Url: S.optional(S.String),
     SegmentId: S.optional(S.String),
     SegmentName: S.optional(S.String),
   }),
@@ -3364,12 +3572,12 @@ export const ImportJobRequest = S.suspend(() =>
   identifier: "ImportJobRequest",
 }) as any as S.Schema<ImportJobRequest>;
 export interface CreateRecommenderConfigurationShape {
-  Attributes?: MapOf__string;
+  Attributes?: { [key: string]: string };
   Description?: string;
   Name?: string;
   RecommendationProviderIdType?: string;
-  RecommendationProviderRoleArn: string;
-  RecommendationProviderUri: string;
+  RecommendationProviderRoleArn?: string;
+  RecommendationProviderUri?: string;
   RecommendationTransformerUri?: string;
   RecommendationsDisplayName?: string;
   RecommendationsPerMessage?: number;
@@ -3380,8 +3588,8 @@ export const CreateRecommenderConfigurationShape = S.suspend(() =>
     Description: S.optional(S.String),
     Name: S.optional(S.String),
     RecommendationProviderIdType: S.optional(S.String),
-    RecommendationProviderRoleArn: S.String,
-    RecommendationProviderUri: S.String,
+    RecommendationProviderRoleArn: S.optional(S.String),
+    RecommendationProviderUri: S.optional(S.String),
     RecommendationTransformerUri: S.optional(S.String),
     RecommendationsDisplayName: S.optional(S.String),
     RecommendationsPerMessage: S.optional(S.Number),
@@ -3402,16 +3610,19 @@ export const NumberValidateRequest = S.suspend(() =>
   identifier: "NumberValidateRequest",
 }) as any as S.Schema<NumberValidateRequest>;
 export interface WriteEventStream {
-  DestinationStreamArn: string;
-  RoleArn: string;
+  DestinationStreamArn?: string;
+  RoleArn?: string;
 }
 export const WriteEventStream = S.suspend(() =>
-  S.Struct({ DestinationStreamArn: S.String, RoleArn: S.String }),
+  S.Struct({
+    DestinationStreamArn: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "WriteEventStream",
 }) as any as S.Schema<WriteEventStream>;
 export interface UpdateAttributesRequest {
-  Blacklist?: ListOf__string;
+  Blacklist?: string[];
 }
 export const UpdateAttributesRequest = S.suspend(() =>
   S.Struct({ Blacklist: S.optional(ListOf__string) }),
@@ -3420,44 +3631,44 @@ export const UpdateAttributesRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateAttributesRequest>;
 export interface SendOTPMessageRequestParameters {
   AllowedAttempts?: number;
-  BrandName: string;
-  Channel: string;
+  BrandName?: string;
+  Channel?: string;
   CodeLength?: number;
-  DestinationIdentity: string;
+  DestinationIdentity?: string;
   EntityId?: string;
   Language?: string;
-  OriginationIdentity: string;
-  ReferenceId: string;
+  OriginationIdentity?: string;
+  ReferenceId?: string;
   TemplateId?: string;
   ValidityPeriod?: number;
 }
 export const SendOTPMessageRequestParameters = S.suspend(() =>
   S.Struct({
     AllowedAttempts: S.optional(S.Number),
-    BrandName: S.String,
-    Channel: S.String,
+    BrandName: S.optional(S.String),
+    Channel: S.optional(S.String),
     CodeLength: S.optional(S.Number),
-    DestinationIdentity: S.String,
+    DestinationIdentity: S.optional(S.String),
     EntityId: S.optional(S.String),
     Language: S.optional(S.String),
-    OriginationIdentity: S.String,
-    ReferenceId: S.String,
+    OriginationIdentity: S.optional(S.String),
+    ReferenceId: S.optional(S.String),
     TemplateId: S.optional(S.String),
     ValidityPeriod: S.optional(S.Number),
   }),
 ).annotations({
   identifier: "SendOTPMessageRequestParameters",
 }) as any as S.Schema<SendOTPMessageRequestParameters>;
-export type MapOfListOf__string = { [key: string]: ListOf__string };
+export type MapOfListOf__string = { [key: string]: string[] };
 export const MapOfListOf__string = S.Record({
   key: S.String,
   value: ListOf__string,
 });
 export interface ADMMessage {
-  Action?: string;
+  Action?: Action;
   Body?: string;
   ConsolidationKey?: string;
-  Data?: MapOf__string;
+  Data?: { [key: string]: string };
   ExpiresAfter?: string;
   IconReference?: string;
   ImageIconUrl?: string;
@@ -3467,13 +3678,13 @@ export interface ADMMessage {
   SilentPush?: boolean;
   SmallImageIconUrl?: string;
   Sound?: string;
-  Substitutions?: MapOfListOf__string;
+  Substitutions?: { [key: string]: string[] };
   Title?: string;
   Url?: string;
 }
 export const ADMMessage = S.suspend(() =>
   S.Struct({
-    Action: S.optional(S.String),
+    Action: S.optional(Action),
     Body: S.optional(S.String),
     ConsolidationKey: S.optional(S.String),
     Data: S.optional(MapOf__string),
@@ -3493,19 +3704,19 @@ export const ADMMessage = S.suspend(() =>
 ).annotations({ identifier: "ADMMessage" }) as any as S.Schema<ADMMessage>;
 export interface APNSMessage {
   APNSPushType?: string;
-  Action?: string;
+  Action?: Action;
   Badge?: number;
   Body?: string;
   Category?: string;
   CollapseId?: string;
-  Data?: MapOf__string;
+  Data?: { [key: string]: string };
   MediaUrl?: string;
   PreferredAuthenticationMethod?: string;
   Priority?: string;
   RawContent?: string;
   SilentPush?: boolean;
   Sound?: string;
-  Substitutions?: MapOfListOf__string;
+  Substitutions?: { [key: string]: string[] };
   ThreadId?: string;
   TimeToLive?: number;
   Title?: string;
@@ -3514,7 +3725,7 @@ export interface APNSMessage {
 export const APNSMessage = S.suspend(() =>
   S.Struct({
     APNSPushType: S.optional(S.String),
-    Action: S.optional(S.String),
+    Action: S.optional(Action),
     Badge: S.optional(S.Number),
     Body: S.optional(S.String),
     Category: S.optional(S.String),
@@ -3534,9 +3745,9 @@ export const APNSMessage = S.suspend(() =>
   }),
 ).annotations({ identifier: "APNSMessage" }) as any as S.Schema<APNSMessage>;
 export interface BaiduMessage {
-  Action?: string;
+  Action?: Action;
   Body?: string;
-  Data?: MapOf__string;
+  Data?: { [key: string]: string };
   IconReference?: string;
   ImageIconUrl?: string;
   ImageUrl?: string;
@@ -3544,14 +3755,14 @@ export interface BaiduMessage {
   SilentPush?: boolean;
   SmallImageIconUrl?: string;
   Sound?: string;
-  Substitutions?: MapOfListOf__string;
+  Substitutions?: { [key: string]: string[] };
   TimeToLive?: number;
   Title?: string;
   Url?: string;
 }
 export const BaiduMessage = S.suspend(() =>
   S.Struct({
-    Action: S.optional(S.String),
+    Action: S.optional(Action),
     Body: S.optional(S.String),
     Data: S.optional(MapOf__string),
     IconReference: S.optional(S.String),
@@ -3569,7 +3780,7 @@ export const BaiduMessage = S.suspend(() =>
 ).annotations({ identifier: "BaiduMessage" }) as any as S.Schema<BaiduMessage>;
 export interface DefaultMessage {
   Body?: string;
-  Substitutions?: MapOfListOf__string;
+  Substitutions?: { [key: string]: string[] };
 }
 export const DefaultMessage = S.suspend(() =>
   S.Struct({
@@ -3580,17 +3791,17 @@ export const DefaultMessage = S.suspend(() =>
   identifier: "DefaultMessage",
 }) as any as S.Schema<DefaultMessage>;
 export interface DefaultPushNotificationMessage {
-  Action?: string;
+  Action?: Action;
   Body?: string;
-  Data?: MapOf__string;
+  Data?: { [key: string]: string };
   SilentPush?: boolean;
-  Substitutions?: MapOfListOf__string;
+  Substitutions?: { [key: string]: string[] };
   Title?: string;
   Url?: string;
 }
 export const DefaultPushNotificationMessage = S.suspend(() =>
   S.Struct({
-    Action: S.optional(S.String),
+    Action: S.optional(Action),
     Body: S.optional(S.String),
     Data: S.optional(MapOf__string),
     SilentPush: S.optional(S.Boolean),
@@ -3620,7 +3831,7 @@ export interface SimpleEmail {
   HtmlPart?: SimpleEmailPart;
   Subject?: SimpleEmailPart;
   TextPart?: SimpleEmailPart;
-  Headers?: ListOfMessageHeader;
+  Headers?: MessageHeader[];
 }
 export const SimpleEmail = S.suspend(() =>
   S.Struct({
@@ -3635,9 +3846,9 @@ export interface EmailMessage {
   FeedbackForwardingAddress?: string;
   FromAddress?: string;
   RawEmail?: RawEmail;
-  ReplyToAddresses?: ListOf__string;
+  ReplyToAddresses?: string[];
   SimpleEmail?: SimpleEmail;
-  Substitutions?: MapOfListOf__string;
+  Substitutions?: { [key: string]: string[] };
 }
 export const EmailMessage = S.suspend(() =>
   S.Struct({
@@ -3651,10 +3862,10 @@ export const EmailMessage = S.suspend(() =>
   }),
 ).annotations({ identifier: "EmailMessage" }) as any as S.Schema<EmailMessage>;
 export interface GCMMessage {
-  Action?: string;
+  Action?: Action;
   Body?: string;
   CollapseKey?: string;
-  Data?: MapOf__string;
+  Data?: { [key: string]: string };
   IconReference?: string;
   ImageIconUrl?: string;
   ImageUrl?: string;
@@ -3665,14 +3876,14 @@ export interface GCMMessage {
   SilentPush?: boolean;
   SmallImageIconUrl?: string;
   Sound?: string;
-  Substitutions?: MapOfListOf__string;
+  Substitutions?: { [key: string]: string[] };
   TimeToLive?: number;
   Title?: string;
   Url?: string;
 }
 export const GCMMessage = S.suspend(() =>
   S.Struct({
-    Action: S.optional(S.String),
+    Action: S.optional(Action),
     Body: S.optional(S.String),
     CollapseKey: S.optional(S.String),
     Data: S.optional(MapOf__string),
@@ -3696,10 +3907,10 @@ export interface SMSMessage {
   Body?: string;
   Keyword?: string;
   MediaUrl?: string;
-  MessageType?: string;
+  MessageType?: MessageType;
   OriginationNumber?: string;
   SenderId?: string;
-  Substitutions?: MapOfListOf__string;
+  Substitutions?: { [key: string]: string[] };
   EntityId?: string;
   TemplateId?: string;
 }
@@ -3708,7 +3919,7 @@ export const SMSMessage = S.suspend(() =>
     Body: S.optional(S.String),
     Keyword: S.optional(S.String),
     MediaUrl: S.optional(S.String),
-    MessageType: S.optional(S.String),
+    MessageType: S.optional(MessageType),
     OriginationNumber: S.optional(S.String),
     SenderId: S.optional(S.String),
     Substitutions: S.optional(MapOfListOf__string),
@@ -3720,7 +3931,7 @@ export interface VoiceMessage {
   Body?: string;
   LanguageCode?: string;
   OriginationNumber?: string;
-  Substitutions?: MapOfListOf__string;
+  Substitutions?: { [key: string]: string[] };
   VoiceId?: string;
 }
 export const VoiceMessage = S.suspend(() =>
@@ -3760,9 +3971,9 @@ export const DirectMessageConfiguration = S.suspend(() =>
 }) as any as S.Schema<DirectMessageConfiguration>;
 export interface EndpointSendConfiguration {
   BodyOverride?: string;
-  Context?: MapOf__string;
+  Context?: { [key: string]: string };
   RawContent?: string;
-  Substitutions?: MapOfListOf__string;
+  Substitutions?: { [key: string]: string[] };
   TitleOverride?: string;
 }
 export const EndpointSendConfiguration = S.suspend(() =>
@@ -3784,38 +3995,38 @@ export const MapOfEndpointSendConfiguration = S.Record({
   value: EndpointSendConfiguration,
 });
 export interface SendUsersMessageRequest {
-  Context?: MapOf__string;
-  MessageConfiguration: DirectMessageConfiguration;
+  Context?: { [key: string]: string };
+  MessageConfiguration?: DirectMessageConfiguration;
   TemplateConfiguration?: TemplateConfiguration;
   TraceId?: string;
-  Users: MapOfEndpointSendConfiguration;
+  Users?: { [key: string]: EndpointSendConfiguration };
 }
 export const SendUsersMessageRequest = S.suspend(() =>
   S.Struct({
     Context: S.optional(MapOf__string),
-    MessageConfiguration: DirectMessageConfiguration,
+    MessageConfiguration: S.optional(DirectMessageConfiguration),
     TemplateConfiguration: S.optional(TemplateConfiguration),
     TraceId: S.optional(S.String),
-    Users: MapOfEndpointSendConfiguration,
+    Users: S.optional(MapOfEndpointSendConfiguration),
   }),
 ).annotations({
   identifier: "SendUsersMessageRequest",
 }) as any as S.Schema<SendUsersMessageRequest>;
 export interface TagsModel {
-  tags: MapOf__string;
+  tags?: { [key: string]: string };
 }
 export const TagsModel = S.suspend(() =>
-  S.Struct({ tags: MapOf__string.pipe(T.JsonName("tags")) }),
+  S.Struct({ tags: S.optional(MapOf__string).pipe(T.JsonName("tags")) }),
 ).annotations({ identifier: "TagsModel" }) as any as S.Schema<TagsModel>;
 export interface ADMChannelRequest {
-  ClientId: string;
-  ClientSecret: string;
+  ClientId?: string;
+  ClientSecret?: string;
   Enabled?: boolean;
 }
 export const ADMChannelRequest = S.suspend(() =>
   S.Struct({
-    ClientId: S.String,
-    ClientSecret: S.String,
+    ClientId: S.optional(S.String),
+    ClientSecret: S.optional(S.String),
     Enabled: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -3918,15 +4129,15 @@ export const APNSVoipSandboxChannelRequest = S.suspend(() =>
   identifier: "APNSVoipSandboxChannelRequest",
 }) as any as S.Schema<APNSVoipSandboxChannelRequest>;
 export interface BaiduChannelRequest {
-  ApiKey: string;
+  ApiKey?: string;
   Enabled?: boolean;
-  SecretKey: string;
+  SecretKey?: string;
 }
 export const BaiduChannelRequest = S.suspend(() =>
   S.Struct({
-    ApiKey: S.String,
+    ApiKey: S.optional(S.String),
     Enabled: S.optional(S.Boolean),
-    SecretKey: S.String,
+    SecretKey: S.optional(S.String),
   }),
 ).annotations({
   identifier: "BaiduChannelRequest",
@@ -3934,8 +4145,8 @@ export const BaiduChannelRequest = S.suspend(() =>
 export interface EmailChannelRequest {
   ConfigurationSet?: string;
   Enabled?: boolean;
-  FromAddress: string;
-  Identity: string;
+  FromAddress?: string;
+  Identity?: string;
   RoleArn?: string;
   OrchestrationSendingRoleArn?: string;
 }
@@ -3943,8 +4154,8 @@ export const EmailChannelRequest = S.suspend(() =>
   S.Struct({
     ConfigurationSet: S.optional(S.String),
     Enabled: S.optional(S.Boolean),
-    FromAddress: S.String,
-    Identity: S.String,
+    FromAddress: S.optional(S.String),
+    Identity: S.optional(S.String),
     RoleArn: S.optional(S.String),
     OrchestrationSendingRoleArn: S.optional(S.String),
   }),
@@ -3968,20 +4179,20 @@ export const GCMChannelRequest = S.suspend(() =>
   identifier: "GCMChannelRequest",
 }) as any as S.Schema<GCMChannelRequest>;
 export interface JourneyStateRequest {
-  State?: string;
+  State?: State;
 }
 export const JourneyStateRequest = S.suspend(() =>
-  S.Struct({ State: S.optional(S.String) }),
+  S.Struct({ State: S.optional(State) }),
 ).annotations({
   identifier: "JourneyStateRequest",
 }) as any as S.Schema<JourneyStateRequest>;
 export interface UpdateRecommenderConfigurationShape {
-  Attributes?: MapOf__string;
+  Attributes?: { [key: string]: string };
   Description?: string;
   Name?: string;
   RecommendationProviderIdType?: string;
-  RecommendationProviderRoleArn: string;
-  RecommendationProviderUri: string;
+  RecommendationProviderRoleArn?: string;
+  RecommendationProviderUri?: string;
   RecommendationTransformerUri?: string;
   RecommendationsDisplayName?: string;
   RecommendationsPerMessage?: number;
@@ -3992,8 +4203,8 @@ export const UpdateRecommenderConfigurationShape = S.suspend(() =>
     Description: S.optional(S.String),
     Name: S.optional(S.String),
     RecommendationProviderIdType: S.optional(S.String),
-    RecommendationProviderRoleArn: S.String,
-    RecommendationProviderUri: S.String,
+    RecommendationProviderRoleArn: S.optional(S.String),
+    RecommendationProviderUri: S.optional(S.String),
     RecommendationTransformerUri: S.optional(S.String),
     RecommendationsDisplayName: S.optional(S.String),
     RecommendationsPerMessage: S.optional(S.Number),
@@ -4032,29 +4243,29 @@ export const VoiceChannelRequest = S.suspend(() =>
   identifier: "VoiceChannelRequest",
 }) as any as S.Schema<VoiceChannelRequest>;
 export interface VerifyOTPMessageRequestParameters {
-  DestinationIdentity: string;
-  Otp: string;
-  ReferenceId: string;
+  DestinationIdentity?: string;
+  Otp?: string;
+  ReferenceId?: string;
 }
 export const VerifyOTPMessageRequestParameters = S.suspend(() =>
   S.Struct({
-    DestinationIdentity: S.String,
-    Otp: S.String,
-    ReferenceId: S.String,
+    DestinationIdentity: S.optional(S.String),
+    Otp: S.optional(S.String),
+    ReferenceId: S.optional(S.String),
   }),
 ).annotations({
   identifier: "VerifyOTPMessageRequestParameters",
 }) as any as S.Schema<VerifyOTPMessageRequestParameters>;
 export interface CreateExportJobRequest {
   ApplicationId: string;
-  ExportJobRequest: ExportJobRequest;
+  ExportJobRequest?: ExportJobRequest;
 }
 export const CreateExportJobRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    ExportJobRequest: ExportJobRequest.pipe(T.HttpPayload()).annotations({
-      identifier: "ExportJobRequest",
-    }),
+    ExportJobRequest: S.optional(ExportJobRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ExportJobRequest" }),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/apps/{ApplicationId}/jobs/export" }),
@@ -4070,14 +4281,14 @@ export const CreateExportJobRequest = S.suspend(() =>
 }) as any as S.Schema<CreateExportJobRequest>;
 export interface CreateImportJobRequest {
   ApplicationId: string;
-  ImportJobRequest: ImportJobRequest;
+  ImportJobRequest?: ImportJobRequest;
 }
 export const CreateImportJobRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    ImportJobRequest: ImportJobRequest.pipe(T.HttpPayload()).annotations({
-      identifier: "ImportJobRequest",
-    }),
+    ImportJobRequest: S.optional(ImportJobRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ImportJobRequest" }),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/apps/{ApplicationId}/jobs/import" }),
@@ -4092,13 +4303,15 @@ export const CreateImportJobRequest = S.suspend(() =>
   identifier: "CreateImportJobRequest",
 }) as any as S.Schema<CreateImportJobRequest>;
 export interface CreateRecommenderConfigurationRequest {
-  CreateRecommenderConfiguration: CreateRecommenderConfigurationShape;
+  CreateRecommenderConfiguration?: CreateRecommenderConfigurationShape;
 }
 export const CreateRecommenderConfigurationRequest = S.suspend(() =>
   S.Struct({
-    CreateRecommenderConfiguration: CreateRecommenderConfigurationShape.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "CreateRecommenderConfigurationShape" }),
+    CreateRecommenderConfiguration: S.optional(
+      CreateRecommenderConfigurationShape,
+    )
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "CreateRecommenderConfigurationShape" }),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/recommenders" }),
@@ -4113,14 +4326,14 @@ export const CreateRecommenderConfigurationRequest = S.suspend(() =>
   identifier: "CreateRecommenderConfigurationRequest",
 }) as any as S.Schema<CreateRecommenderConfigurationRequest>;
 export interface CreateSmsTemplateRequest {
-  SMSTemplateRequest: SMSTemplateRequest;
+  SMSTemplateRequest?: SMSTemplateRequest;
   TemplateName: string;
 }
 export const CreateSmsTemplateRequest = S.suspend(() =>
   S.Struct({
-    SMSTemplateRequest: SMSTemplateRequest.pipe(T.HttpPayload()).annotations({
-      identifier: "SMSTemplateRequest",
-    }),
+    SMSTemplateRequest: S.optional(SMSTemplateRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "SMSTemplateRequest" }),
     TemplateName: S.String.pipe(T.HttpLabel("TemplateName")),
   }).pipe(
     T.all(
@@ -4137,14 +4350,14 @@ export const CreateSmsTemplateRequest = S.suspend(() =>
 }) as any as S.Schema<CreateSmsTemplateRequest>;
 export interface CreateVoiceTemplateRequest {
   TemplateName: string;
-  VoiceTemplateRequest: VoiceTemplateRequest;
+  VoiceTemplateRequest?: VoiceTemplateRequest;
 }
 export const CreateVoiceTemplateRequest = S.suspend(() =>
   S.Struct({
     TemplateName: S.String.pipe(T.HttpLabel("TemplateName")),
-    VoiceTemplateRequest: VoiceTemplateRequest.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "VoiceTemplateRequest" }),
+    VoiceTemplateRequest: S.optional(VoiceTemplateRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "VoiceTemplateRequest" }),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/templates/{TemplateName}/voice" }),
@@ -4166,49 +4379,49 @@ export const MessageBody = S.suspend(() =>
   S.Struct({ Message: S.optional(S.String), RequestID: S.optional(S.String) }),
 ).annotations({ identifier: "MessageBody" }) as any as S.Schema<MessageBody>;
 export interface DeleteInAppTemplateResponse {
-  MessageBody: MessageBody;
+  MessageBody?: MessageBody;
 }
 export const DeleteInAppTemplateResponse = S.suspend(() =>
   S.Struct({
-    MessageBody: MessageBody.pipe(T.HttpPayload()).annotations({
-      identifier: "MessageBody",
-    }),
+    MessageBody: S.optional(MessageBody)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "MessageBody" }),
   }),
 ).annotations({
   identifier: "DeleteInAppTemplateResponse",
 }) as any as S.Schema<DeleteInAppTemplateResponse>;
 export interface DeletePushTemplateResponse {
-  MessageBody: MessageBody;
+  MessageBody?: MessageBody;
 }
 export const DeletePushTemplateResponse = S.suspend(() =>
   S.Struct({
-    MessageBody: MessageBody.pipe(T.HttpPayload()).annotations({
-      identifier: "MessageBody",
-    }),
+    MessageBody: S.optional(MessageBody)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "MessageBody" }),
   }),
 ).annotations({
   identifier: "DeletePushTemplateResponse",
 }) as any as S.Schema<DeletePushTemplateResponse>;
 export interface DeleteSmsTemplateResponse {
-  MessageBody: MessageBody;
+  MessageBody?: MessageBody;
 }
 export const DeleteSmsTemplateResponse = S.suspend(() =>
   S.Struct({
-    MessageBody: MessageBody.pipe(T.HttpPayload()).annotations({
-      identifier: "MessageBody",
-    }),
+    MessageBody: S.optional(MessageBody)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "MessageBody" }),
   }),
 ).annotations({
   identifier: "DeleteSmsTemplateResponse",
 }) as any as S.Schema<DeleteSmsTemplateResponse>;
 export interface DeleteVoiceTemplateResponse {
-  MessageBody: MessageBody;
+  MessageBody?: MessageBody;
 }
 export const DeleteVoiceTemplateResponse = S.suspend(() =>
   S.Struct({
-    MessageBody: MessageBody.pipe(T.HttpPayload()).annotations({
-      identifier: "MessageBody",
-    }),
+    MessageBody: S.optional(MessageBody)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "MessageBody" }),
   }),
 ).annotations({
   identifier: "DeleteVoiceTemplateResponse",
@@ -4222,7 +4435,7 @@ export interface ADMChannelResponse {
   IsArchived?: boolean;
   LastModifiedBy?: string;
   LastModifiedDate?: string;
-  Platform: string;
+  Platform?: string;
   Version?: number;
 }
 export const ADMChannelResponse = S.suspend(() =>
@@ -4235,20 +4448,20 @@ export const ADMChannelResponse = S.suspend(() =>
     IsArchived: S.optional(S.Boolean),
     LastModifiedBy: S.optional(S.String),
     LastModifiedDate: S.optional(S.String),
-    Platform: S.String,
+    Platform: S.optional(S.String),
     Version: S.optional(S.Number),
   }),
 ).annotations({
   identifier: "ADMChannelResponse",
 }) as any as S.Schema<ADMChannelResponse>;
 export interface GetAdmChannelResponse {
-  ADMChannelResponse: ADMChannelResponse;
+  ADMChannelResponse?: ADMChannelResponse;
 }
 export const GetAdmChannelResponse = S.suspend(() =>
   S.Struct({
-    ADMChannelResponse: ADMChannelResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "ADMChannelResponse",
-    }),
+    ADMChannelResponse: S.optional(ADMChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ADMChannelResponse" }),
   }),
 ).annotations({
   identifier: "GetAdmChannelResponse",
@@ -4264,7 +4477,7 @@ export interface APNSChannelResponse {
   IsArchived?: boolean;
   LastModifiedBy?: string;
   LastModifiedDate?: string;
-  Platform: string;
+  Platform?: string;
   Version?: number;
 }
 export const APNSChannelResponse = S.suspend(() =>
@@ -4279,20 +4492,20 @@ export const APNSChannelResponse = S.suspend(() =>
     IsArchived: S.optional(S.Boolean),
     LastModifiedBy: S.optional(S.String),
     LastModifiedDate: S.optional(S.String),
-    Platform: S.String,
+    Platform: S.optional(S.String),
     Version: S.optional(S.Number),
   }),
 ).annotations({
   identifier: "APNSChannelResponse",
 }) as any as S.Schema<APNSChannelResponse>;
 export interface GetApnsChannelResponse {
-  APNSChannelResponse: APNSChannelResponse;
+  APNSChannelResponse?: APNSChannelResponse;
 }
 export const GetApnsChannelResponse = S.suspend(() =>
   S.Struct({
-    APNSChannelResponse: APNSChannelResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "APNSChannelResponse",
-    }),
+    APNSChannelResponse: S.optional(APNSChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "APNSChannelResponse" }),
   }),
 ).annotations({
   identifier: "GetApnsChannelResponse",
@@ -4308,7 +4521,7 @@ export interface APNSSandboxChannelResponse {
   IsArchived?: boolean;
   LastModifiedBy?: string;
   LastModifiedDate?: string;
-  Platform: string;
+  Platform?: string;
   Version?: number;
 }
 export const APNSSandboxChannelResponse = S.suspend(() =>
@@ -4323,20 +4536,20 @@ export const APNSSandboxChannelResponse = S.suspend(() =>
     IsArchived: S.optional(S.Boolean),
     LastModifiedBy: S.optional(S.String),
     LastModifiedDate: S.optional(S.String),
-    Platform: S.String,
+    Platform: S.optional(S.String),
     Version: S.optional(S.Number),
   }),
 ).annotations({
   identifier: "APNSSandboxChannelResponse",
 }) as any as S.Schema<APNSSandboxChannelResponse>;
 export interface GetApnsSandboxChannelResponse {
-  APNSSandboxChannelResponse: APNSSandboxChannelResponse;
+  APNSSandboxChannelResponse?: APNSSandboxChannelResponse;
 }
 export const GetApnsSandboxChannelResponse = S.suspend(() =>
   S.Struct({
-    APNSSandboxChannelResponse: APNSSandboxChannelResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "APNSSandboxChannelResponse" }),
+    APNSSandboxChannelResponse: S.optional(APNSSandboxChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "APNSSandboxChannelResponse" }),
   }),
 ).annotations({
   identifier: "GetApnsSandboxChannelResponse",
@@ -4352,7 +4565,7 @@ export interface APNSVoipChannelResponse {
   IsArchived?: boolean;
   LastModifiedBy?: string;
   LastModifiedDate?: string;
-  Platform: string;
+  Platform?: string;
   Version?: number;
 }
 export const APNSVoipChannelResponse = S.suspend(() =>
@@ -4367,20 +4580,20 @@ export const APNSVoipChannelResponse = S.suspend(() =>
     IsArchived: S.optional(S.Boolean),
     LastModifiedBy: S.optional(S.String),
     LastModifiedDate: S.optional(S.String),
-    Platform: S.String,
+    Platform: S.optional(S.String),
     Version: S.optional(S.Number),
   }),
 ).annotations({
   identifier: "APNSVoipChannelResponse",
 }) as any as S.Schema<APNSVoipChannelResponse>;
 export interface GetApnsVoipChannelResponse {
-  APNSVoipChannelResponse: APNSVoipChannelResponse;
+  APNSVoipChannelResponse?: APNSVoipChannelResponse;
 }
 export const GetApnsVoipChannelResponse = S.suspend(() =>
   S.Struct({
-    APNSVoipChannelResponse: APNSVoipChannelResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "APNSVoipChannelResponse" }),
+    APNSVoipChannelResponse: S.optional(APNSVoipChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "APNSVoipChannelResponse" }),
   }),
 ).annotations({
   identifier: "GetApnsVoipChannelResponse",
@@ -4396,7 +4609,7 @@ export interface APNSVoipSandboxChannelResponse {
   IsArchived?: boolean;
   LastModifiedBy?: string;
   LastModifiedDate?: string;
-  Platform: string;
+  Platform?: string;
   Version?: number;
 }
 export const APNSVoipSandboxChannelResponse = S.suspend(() =>
@@ -4411,36 +4624,36 @@ export const APNSVoipSandboxChannelResponse = S.suspend(() =>
     IsArchived: S.optional(S.Boolean),
     LastModifiedBy: S.optional(S.String),
     LastModifiedDate: S.optional(S.String),
-    Platform: S.String,
+    Platform: S.optional(S.String),
     Version: S.optional(S.Number),
   }),
 ).annotations({
   identifier: "APNSVoipSandboxChannelResponse",
 }) as any as S.Schema<APNSVoipSandboxChannelResponse>;
 export interface GetApnsVoipSandboxChannelResponse {
-  APNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse;
+  APNSVoipSandboxChannelResponse?: APNSVoipSandboxChannelResponse;
 }
 export const GetApnsVoipSandboxChannelResponse = S.suspend(() =>
   S.Struct({
-    APNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "APNSVoipSandboxChannelResponse" }),
+    APNSVoipSandboxChannelResponse: S.optional(APNSVoipSandboxChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "APNSVoipSandboxChannelResponse" }),
   }),
 ).annotations({
   identifier: "GetApnsVoipSandboxChannelResponse",
 }) as any as S.Schema<GetApnsVoipSandboxChannelResponse>;
 export interface ApplicationResponse {
-  Arn: string;
-  Id: string;
-  Name: string;
-  tags?: MapOf__string;
+  Arn?: string;
+  Id?: string;
+  Name?: string;
+  tags?: { [key: string]: string };
   CreationDate?: string;
 }
 export const ApplicationResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.String,
-    Id: S.String,
-    Name: S.String,
+    Arn: S.optional(S.String),
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
     tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
     CreationDate: S.optional(S.String),
   }),
@@ -4448,13 +4661,13 @@ export const ApplicationResponse = S.suspend(() =>
   identifier: "ApplicationResponse",
 }) as any as S.Schema<ApplicationResponse>;
 export interface GetAppResponse {
-  ApplicationResponse: ApplicationResponse;
+  ApplicationResponse?: ApplicationResponse;
 }
 export const GetAppResponse = S.suspend(() =>
   S.Struct({
-    ApplicationResponse: ApplicationResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "ApplicationResponse",
-    }),
+    ApplicationResponse: S.optional(ApplicationResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ApplicationResponse" }),
   }),
 ).annotations({
   identifier: "GetAppResponse",
@@ -4462,59 +4675,76 @@ export const GetAppResponse = S.suspend(() =>
 export interface BaiduChannelResponse {
   ApplicationId?: string;
   CreationDate?: string;
-  Credential: string;
+  Credential?: string;
   Enabled?: boolean;
   HasCredential?: boolean;
   Id?: string;
   IsArchived?: boolean;
   LastModifiedBy?: string;
   LastModifiedDate?: string;
-  Platform: string;
+  Platform?: string;
   Version?: number;
 }
 export const BaiduChannelResponse = S.suspend(() =>
   S.Struct({
     ApplicationId: S.optional(S.String),
     CreationDate: S.optional(S.String),
-    Credential: S.String,
+    Credential: S.optional(S.String),
     Enabled: S.optional(S.Boolean),
     HasCredential: S.optional(S.Boolean),
     Id: S.optional(S.String),
     IsArchived: S.optional(S.Boolean),
     LastModifiedBy: S.optional(S.String),
     LastModifiedDate: S.optional(S.String),
-    Platform: S.String,
+    Platform: S.optional(S.String),
     Version: S.optional(S.Number),
   }),
 ).annotations({
   identifier: "BaiduChannelResponse",
 }) as any as S.Schema<BaiduChannelResponse>;
 export interface GetBaiduChannelResponse {
-  BaiduChannelResponse: BaiduChannelResponse;
+  BaiduChannelResponse?: BaiduChannelResponse;
 }
 export const GetBaiduChannelResponse = S.suspend(() =>
   S.Struct({
-    BaiduChannelResponse: BaiduChannelResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "BaiduChannelResponse" }),
+    BaiduChannelResponse: S.optional(BaiduChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "BaiduChannelResponse" }),
   }),
 ).annotations({
   identifier: "GetBaiduChannelResponse",
 }) as any as S.Schema<GetBaiduChannelResponse>;
+export type CampaignStatus =
+  | "SCHEDULED"
+  | "EXECUTING"
+  | "PENDING_NEXT_RUN"
+  | "COMPLETED"
+  | "PAUSED"
+  | "DELETED"
+  | "INVALID";
+export const CampaignStatus = S.Literal(
+  "SCHEDULED",
+  "EXECUTING",
+  "PENDING_NEXT_RUN",
+  "COMPLETED",
+  "PAUSED",
+  "DELETED",
+  "INVALID",
+);
 export interface CampaignState {
-  CampaignStatus?: string;
+  CampaignStatus?: CampaignStatus;
 }
 export const CampaignState = S.suspend(() =>
-  S.Struct({ CampaignStatus: S.optional(S.String) }),
+  S.Struct({ CampaignStatus: S.optional(CampaignStatus) }),
 ).annotations({
   identifier: "CampaignState",
 }) as any as S.Schema<CampaignState>;
 export interface TreatmentResource {
   CustomDeliveryConfiguration?: CustomDeliveryConfiguration;
-  Id: string;
+  Id?: string;
   MessageConfiguration?: MessageConfiguration;
   Schedule?: Schedule;
-  SizePercent: number;
+  SizePercent?: number;
   State?: CampaignState;
   TemplateConfiguration?: TemplateConfiguration;
   TreatmentDescription?: string;
@@ -4523,10 +4753,10 @@ export interface TreatmentResource {
 export const TreatmentResource = S.suspend(() =>
   S.Struct({
     CustomDeliveryConfiguration: S.optional(CustomDeliveryConfiguration),
-    Id: S.String,
+    Id: S.optional(S.String),
     MessageConfiguration: S.optional(MessageConfiguration),
     Schedule: S.optional(Schedule),
-    SizePercent: S.Number,
+    SizePercent: S.optional(S.Number),
     State: S.optional(CampaignState),
     TemplateConfiguration: S.optional(TemplateConfiguration),
     TreatmentDescription: S.optional(S.String),
@@ -4538,26 +4768,26 @@ export const TreatmentResource = S.suspend(() =>
 export type ListOfTreatmentResource = TreatmentResource[];
 export const ListOfTreatmentResource = S.Array(TreatmentResource);
 export interface CampaignResponse {
-  AdditionalTreatments?: ListOfTreatmentResource;
-  ApplicationId: string;
-  Arn: string;
-  CreationDate: string;
+  AdditionalTreatments?: TreatmentResource[];
+  ApplicationId?: string;
+  Arn?: string;
+  CreationDate?: string;
   CustomDeliveryConfiguration?: CustomDeliveryConfiguration;
   DefaultState?: CampaignState;
   Description?: string;
   HoldoutPercent?: number;
   Hook?: CampaignHook;
-  Id: string;
+  Id?: string;
   IsPaused?: boolean;
-  LastModifiedDate: string;
+  LastModifiedDate?: string;
   Limits?: CampaignLimits;
   MessageConfiguration?: MessageConfiguration;
   Name?: string;
   Schedule?: Schedule;
-  SegmentId: string;
-  SegmentVersion: number;
+  SegmentId?: string;
+  SegmentVersion?: number;
   State?: CampaignState;
-  tags?: MapOf__string;
+  tags?: { [key: string]: string };
   TemplateConfiguration?: TemplateConfiguration;
   TreatmentDescription?: string;
   TreatmentName?: string;
@@ -4567,23 +4797,23 @@ export interface CampaignResponse {
 export const CampaignResponse = S.suspend(() =>
   S.Struct({
     AdditionalTreatments: S.optional(ListOfTreatmentResource),
-    ApplicationId: S.String,
-    Arn: S.String,
-    CreationDate: S.String,
+    ApplicationId: S.optional(S.String),
+    Arn: S.optional(S.String),
+    CreationDate: S.optional(S.String),
     CustomDeliveryConfiguration: S.optional(CustomDeliveryConfiguration),
     DefaultState: S.optional(CampaignState),
     Description: S.optional(S.String),
     HoldoutPercent: S.optional(S.Number),
     Hook: S.optional(CampaignHook),
-    Id: S.String,
+    Id: S.optional(S.String),
     IsPaused: S.optional(S.Boolean),
-    LastModifiedDate: S.String,
+    LastModifiedDate: S.optional(S.String),
     Limits: S.optional(CampaignLimits),
     MessageConfiguration: S.optional(MessageConfiguration),
     Name: S.optional(S.String),
     Schedule: S.optional(Schedule),
-    SegmentId: S.String,
-    SegmentVersion: S.Number,
+    SegmentId: S.optional(S.String),
+    SegmentVersion: S.optional(S.Number),
     State: S.optional(CampaignState),
     tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
     TemplateConfiguration: S.optional(TemplateConfiguration),
@@ -4596,25 +4826,25 @@ export const CampaignResponse = S.suspend(() =>
   identifier: "CampaignResponse",
 }) as any as S.Schema<CampaignResponse>;
 export interface GetCampaignResponse {
-  CampaignResponse: CampaignResponse;
+  CampaignResponse?: CampaignResponse;
 }
 export const GetCampaignResponse = S.suspend(() =>
   S.Struct({
-    CampaignResponse: CampaignResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "CampaignResponse",
-    }),
+    CampaignResponse: S.optional(CampaignResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "CampaignResponse" }),
   }),
 ).annotations({
   identifier: "GetCampaignResponse",
 }) as any as S.Schema<GetCampaignResponse>;
 export interface GetCampaignVersionResponse {
-  CampaignResponse: CampaignResponse;
+  CampaignResponse?: CampaignResponse;
 }
 export const GetCampaignVersionResponse = S.suspend(() =>
   S.Struct({
-    CampaignResponse: CampaignResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "CampaignResponse",
-    }),
+    CampaignResponse: S.optional(CampaignResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "CampaignResponse" }),
   }),
 ).annotations({
   identifier: "GetCampaignVersionResponse",
@@ -4622,22 +4852,25 @@ export const GetCampaignVersionResponse = S.suspend(() =>
 export type ListOfCampaignResponse = CampaignResponse[];
 export const ListOfCampaignResponse = S.Array(CampaignResponse);
 export interface CampaignsResponse {
-  Item: ListOfCampaignResponse;
+  Item?: CampaignResponse[];
   NextToken?: string;
 }
 export const CampaignsResponse = S.suspend(() =>
-  S.Struct({ Item: ListOfCampaignResponse, NextToken: S.optional(S.String) }),
+  S.Struct({
+    Item: S.optional(ListOfCampaignResponse),
+    NextToken: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "CampaignsResponse",
 }) as any as S.Schema<CampaignsResponse>;
 export interface GetCampaignVersionsResponse {
-  CampaignsResponse: CampaignsResponse;
+  CampaignsResponse?: CampaignsResponse;
 }
 export const GetCampaignVersionsResponse = S.suspend(() =>
   S.Struct({
-    CampaignsResponse: CampaignsResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "CampaignsResponse",
-    }),
+    CampaignsResponse: S.optional(CampaignsResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "CampaignsResponse" }),
   }),
 ).annotations({
   identifier: "GetCampaignVersionsResponse",
@@ -4655,7 +4888,7 @@ export interface EmailChannelResponse {
   LastModifiedBy?: string;
   LastModifiedDate?: string;
   MessagesPerSecond?: number;
-  Platform: string;
+  Platform?: string;
   RoleArn?: string;
   OrchestrationSendingRoleArn?: string;
   Version?: number;
@@ -4674,7 +4907,7 @@ export const EmailChannelResponse = S.suspend(() =>
     LastModifiedBy: S.optional(S.String),
     LastModifiedDate: S.optional(S.String),
     MessagesPerSecond: S.optional(S.Number),
-    Platform: S.String,
+    Platform: S.optional(S.String),
     RoleArn: S.optional(S.String),
     OrchestrationSendingRoleArn: S.optional(S.String),
     Version: S.optional(S.Number),
@@ -4683,13 +4916,13 @@ export const EmailChannelResponse = S.suspend(() =>
   identifier: "EmailChannelResponse",
 }) as any as S.Schema<EmailChannelResponse>;
 export interface GetEmailChannelResponse {
-  EmailChannelResponse: EmailChannelResponse;
+  EmailChannelResponse?: EmailChannelResponse;
 }
 export const GetEmailChannelResponse = S.suspend(() =>
   S.Struct({
-    EmailChannelResponse: EmailChannelResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "EmailChannelResponse" }),
+    EmailChannelResponse: S.optional(EmailChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "EmailChannelResponse" }),
   }),
 ).annotations({
   identifier: "GetEmailChannelResponse",
@@ -4741,7 +4974,7 @@ export const EndpointLocation = S.suspend(() =>
 export type MapOf__double = { [key: string]: number };
 export const MapOf__double = S.Record({ key: S.String, value: S.Number });
 export interface EndpointUser {
-  UserAttributes?: MapOfListOf__string;
+  UserAttributes?: { [key: string]: string[] };
   UserId?: string;
 }
 export const EndpointUser = S.suspend(() =>
@@ -4753,8 +4986,8 @@ export const EndpointUser = S.suspend(() =>
 export interface EndpointResponse {
   Address?: string;
   ApplicationId?: string;
-  Attributes?: MapOfListOf__string;
-  ChannelType?: string;
+  Attributes?: { [key: string]: string[] };
+  ChannelType?: ChannelType;
   CohortId?: string;
   CreationDate?: string;
   Demographic?: EndpointDemographic;
@@ -4762,7 +4995,7 @@ export interface EndpointResponse {
   EndpointStatus?: string;
   Id?: string;
   Location?: EndpointLocation;
-  Metrics?: MapOf__double;
+  Metrics?: { [key: string]: number };
   OptOut?: string;
   RequestId?: string;
   User?: EndpointUser;
@@ -4772,7 +5005,7 @@ export const EndpointResponse = S.suspend(() =>
     Address: S.optional(S.String),
     ApplicationId: S.optional(S.String),
     Attributes: S.optional(MapOfListOf__string),
-    ChannelType: S.optional(S.String),
+    ChannelType: S.optional(ChannelType),
     CohortId: S.optional(S.String),
     CreationDate: S.optional(S.String),
     Demographic: S.optional(EndpointDemographic),
@@ -4789,43 +5022,43 @@ export const EndpointResponse = S.suspend(() =>
   identifier: "EndpointResponse",
 }) as any as S.Schema<EndpointResponse>;
 export interface GetEndpointResponse {
-  EndpointResponse: EndpointResponse;
+  EndpointResponse?: EndpointResponse;
 }
 export const GetEndpointResponse = S.suspend(() =>
   S.Struct({
-    EndpointResponse: EndpointResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "EndpointResponse",
-    }),
+    EndpointResponse: S.optional(EndpointResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "EndpointResponse" }),
   }),
 ).annotations({
   identifier: "GetEndpointResponse",
 }) as any as S.Schema<GetEndpointResponse>;
 export interface EventStream {
-  ApplicationId: string;
-  DestinationStreamArn: string;
+  ApplicationId?: string;
+  DestinationStreamArn?: string;
   ExternalId?: string;
   LastModifiedDate?: string;
   LastUpdatedBy?: string;
-  RoleArn: string;
+  RoleArn?: string;
 }
 export const EventStream = S.suspend(() =>
   S.Struct({
-    ApplicationId: S.String,
-    DestinationStreamArn: S.String,
+    ApplicationId: S.optional(S.String),
+    DestinationStreamArn: S.optional(S.String),
     ExternalId: S.optional(S.String),
     LastModifiedDate: S.optional(S.String),
     LastUpdatedBy: S.optional(S.String),
-    RoleArn: S.String,
+    RoleArn: S.optional(S.String),
   }),
 ).annotations({ identifier: "EventStream" }) as any as S.Schema<EventStream>;
 export interface GetEventStreamResponse {
-  EventStream: EventStream;
+  EventStream?: EventStream;
 }
 export const GetEventStreamResponse = S.suspend(() =>
   S.Struct({
-    EventStream: EventStream.pipe(T.HttpPayload()).annotations({
-      identifier: "EventStream",
-    }),
+    EventStream: S.optional(EventStream)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "EventStream" }),
   }),
 ).annotations({
   identifier: "GetEventStreamResponse",
@@ -4842,7 +5075,7 @@ export interface GCMChannelResponse {
   IsArchived?: boolean;
   LastModifiedBy?: string;
   LastModifiedDate?: string;
-  Platform: string;
+  Platform?: string;
   Version?: number;
 }
 export const GCMChannelResponse = S.suspend(() =>
@@ -4858,64 +5091,64 @@ export const GCMChannelResponse = S.suspend(() =>
     IsArchived: S.optional(S.Boolean),
     LastModifiedBy: S.optional(S.String),
     LastModifiedDate: S.optional(S.String),
-    Platform: S.String,
+    Platform: S.optional(S.String),
     Version: S.optional(S.Number),
   }),
 ).annotations({
   identifier: "GCMChannelResponse",
 }) as any as S.Schema<GCMChannelResponse>;
 export interface GetGcmChannelResponse {
-  GCMChannelResponse: GCMChannelResponse;
+  GCMChannelResponse?: GCMChannelResponse;
 }
 export const GetGcmChannelResponse = S.suspend(() =>
   S.Struct({
-    GCMChannelResponse: GCMChannelResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "GCMChannelResponse",
-    }),
+    GCMChannelResponse: S.optional(GCMChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "GCMChannelResponse" }),
   }),
 ).annotations({
   identifier: "GetGcmChannelResponse",
 }) as any as S.Schema<GetGcmChannelResponse>;
 export interface JourneyResponse {
-  Activities?: MapOfActivity;
-  ApplicationId: string;
+  Activities?: { [key: string]: Activity };
+  ApplicationId?: string;
   CreationDate?: string;
-  Id: string;
+  Id?: string;
   LastModifiedDate?: string;
   Limits?: JourneyLimits;
   LocalTime?: boolean;
-  Name: string;
+  Name?: string;
   QuietTime?: QuietTime;
   RefreshFrequency?: string;
   Schedule?: JourneySchedule;
   StartActivity?: string;
   StartCondition?: StartCondition;
-  State?: string;
-  tags?: MapOf__string;
+  State?: State;
+  tags?: { [key: string]: string };
   WaitForQuietTime?: boolean;
   RefreshOnSegmentUpdate?: boolean;
   JourneyChannelSettings?: JourneyChannelSettings;
   SendingSchedule?: boolean;
   OpenHours?: OpenHours;
   ClosedDays?: ClosedDays;
-  TimezoneEstimationMethods?: ListOf__TimezoneEstimationMethodsElement;
+  TimezoneEstimationMethods?: __TimezoneEstimationMethodsElement[];
 }
 export const JourneyResponse = S.suspend(() =>
   S.Struct({
     Activities: S.optional(MapOfActivity),
-    ApplicationId: S.String,
+    ApplicationId: S.optional(S.String),
     CreationDate: S.optional(S.String),
-    Id: S.String,
+    Id: S.optional(S.String),
     LastModifiedDate: S.optional(S.String),
     Limits: S.optional(JourneyLimits),
     LocalTime: S.optional(S.Boolean),
-    Name: S.String,
+    Name: S.optional(S.String),
     QuietTime: S.optional(QuietTime),
     RefreshFrequency: S.optional(S.String),
     Schedule: S.optional(JourneySchedule),
     StartActivity: S.optional(S.String),
     StartCondition: S.optional(StartCondition),
-    State: S.optional(S.String),
+    State: S.optional(State),
     tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
     WaitForQuietTime: S.optional(S.Boolean),
     RefreshOnSegmentUpdate: S.optional(S.Boolean),
@@ -4931,27 +5164,27 @@ export const JourneyResponse = S.suspend(() =>
   identifier: "JourneyResponse",
 }) as any as S.Schema<JourneyResponse>;
 export interface GetJourneyResponse {
-  JourneyResponse: JourneyResponse;
+  JourneyResponse?: JourneyResponse;
 }
 export const GetJourneyResponse = S.suspend(() =>
   S.Struct({
-    JourneyResponse: JourneyResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "JourneyResponse",
-    }),
+    JourneyResponse: S.optional(JourneyResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "JourneyResponse" }),
   }),
 ).annotations({
   identifier: "GetJourneyResponse",
 }) as any as S.Schema<GetJourneyResponse>;
 export interface RecommenderConfigurationResponse {
-  Attributes?: MapOf__string;
-  CreationDate: string;
+  Attributes?: { [key: string]: string };
+  CreationDate?: string;
   Description?: string;
-  Id: string;
-  LastModifiedDate: string;
+  Id?: string;
+  LastModifiedDate?: string;
   Name?: string;
   RecommendationProviderIdType?: string;
-  RecommendationProviderRoleArn: string;
-  RecommendationProviderUri: string;
+  RecommendationProviderRoleArn?: string;
+  RecommendationProviderUri?: string;
   RecommendationTransformerUri?: string;
   RecommendationsDisplayName?: string;
   RecommendationsPerMessage?: number;
@@ -4959,14 +5192,14 @@ export interface RecommenderConfigurationResponse {
 export const RecommenderConfigurationResponse = S.suspend(() =>
   S.Struct({
     Attributes: S.optional(MapOf__string),
-    CreationDate: S.String,
+    CreationDate: S.optional(S.String),
     Description: S.optional(S.String),
-    Id: S.String,
-    LastModifiedDate: S.String,
+    Id: S.optional(S.String),
+    LastModifiedDate: S.optional(S.String),
     Name: S.optional(S.String),
     RecommendationProviderIdType: S.optional(S.String),
-    RecommendationProviderRoleArn: S.String,
-    RecommendationProviderUri: S.String,
+    RecommendationProviderRoleArn: S.optional(S.String),
+    RecommendationProviderUri: S.optional(S.String),
     RecommendationTransformerUri: S.optional(S.String),
     RecommendationsDisplayName: S.optional(S.String),
     RecommendationsPerMessage: S.optional(S.Number),
@@ -4975,13 +5208,15 @@ export const RecommenderConfigurationResponse = S.suspend(() =>
   identifier: "RecommenderConfigurationResponse",
 }) as any as S.Schema<RecommenderConfigurationResponse>;
 export interface GetRecommenderConfigurationResponse {
-  RecommenderConfigurationResponse: RecommenderConfigurationResponse;
+  RecommenderConfigurationResponse?: RecommenderConfigurationResponse;
 }
 export const GetRecommenderConfigurationResponse = S.suspend(() =>
   S.Struct({
-    RecommenderConfigurationResponse: RecommenderConfigurationResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "RecommenderConfigurationResponse" }),
+    RecommenderConfigurationResponse: S.optional(
+      RecommenderConfigurationResponse,
+    )
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "RecommenderConfigurationResponse" }),
   }),
 ).annotations({
   identifier: "GetRecommenderConfigurationResponse",
@@ -4989,51 +5224,53 @@ export const GetRecommenderConfigurationResponse = S.suspend(() =>
 export type MapOf__integer = { [key: string]: number };
 export const MapOf__integer = S.Record({ key: S.String, value: S.Number });
 export interface SegmentImportResource {
-  ChannelCounts?: MapOf__integer;
-  ExternalId: string;
-  Format: string;
-  RoleArn: string;
-  S3Url: string;
-  Size: number;
+  ChannelCounts?: { [key: string]: number };
+  ExternalId?: string;
+  Format?: Format;
+  RoleArn?: string;
+  S3Url?: string;
+  Size?: number;
 }
 export const SegmentImportResource = S.suspend(() =>
   S.Struct({
     ChannelCounts: S.optional(MapOf__integer),
-    ExternalId: S.String,
-    Format: S.String,
-    RoleArn: S.String,
-    S3Url: S.String,
-    Size: S.Number,
+    ExternalId: S.optional(S.String),
+    Format: S.optional(Format),
+    RoleArn: S.optional(S.String),
+    S3Url: S.optional(S.String),
+    Size: S.optional(S.Number),
   }),
 ).annotations({
   identifier: "SegmentImportResource",
 }) as any as S.Schema<SegmentImportResource>;
+export type SegmentType = "DIMENSIONAL" | "IMPORT";
+export const SegmentType = S.Literal("DIMENSIONAL", "IMPORT");
 export interface SegmentResponse {
-  ApplicationId: string;
-  Arn: string;
-  CreationDate: string;
+  ApplicationId?: string;
+  Arn?: string;
+  CreationDate?: string;
   Dimensions?: SegmentDimensions;
-  Id: string;
+  Id?: string;
   ImportDefinition?: SegmentImportResource;
   LastModifiedDate?: string;
   Name?: string;
   SegmentGroups?: SegmentGroupList;
-  SegmentType: string;
-  tags?: MapOf__string;
+  SegmentType?: SegmentType;
+  tags?: { [key: string]: string };
   Version?: number;
 }
 export const SegmentResponse = S.suspend(() =>
   S.Struct({
-    ApplicationId: S.String,
-    Arn: S.String,
-    CreationDate: S.String,
+    ApplicationId: S.optional(S.String),
+    Arn: S.optional(S.String),
+    CreationDate: S.optional(S.String),
     Dimensions: S.optional(SegmentDimensions),
-    Id: S.String,
+    Id: S.optional(S.String),
     ImportDefinition: S.optional(SegmentImportResource),
     LastModifiedDate: S.optional(S.String),
     Name: S.optional(S.String),
     SegmentGroups: S.optional(SegmentGroupList),
-    SegmentType: S.String,
+    SegmentType: S.optional(SegmentType),
     tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
     Version: S.optional(S.Number),
   }),
@@ -5041,63 +5278,84 @@ export const SegmentResponse = S.suspend(() =>
   identifier: "SegmentResponse",
 }) as any as S.Schema<SegmentResponse>;
 export interface GetSegmentResponse {
-  SegmentResponse: SegmentResponse;
+  SegmentResponse?: SegmentResponse;
 }
 export const GetSegmentResponse = S.suspend(() =>
   S.Struct({
-    SegmentResponse: SegmentResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "SegmentResponse",
-    }),
+    SegmentResponse: S.optional(SegmentResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "SegmentResponse" }),
   }),
 ).annotations({
   identifier: "GetSegmentResponse",
 }) as any as S.Schema<GetSegmentResponse>;
 export interface ExportJobResource {
-  RoleArn: string;
-  S3UrlPrefix: string;
+  RoleArn?: string;
+  S3UrlPrefix?: string;
   SegmentId?: string;
   SegmentVersion?: number;
 }
 export const ExportJobResource = S.suspend(() =>
   S.Struct({
-    RoleArn: S.String,
-    S3UrlPrefix: S.String,
+    RoleArn: S.optional(S.String),
+    S3UrlPrefix: S.optional(S.String),
     SegmentId: S.optional(S.String),
     SegmentVersion: S.optional(S.Number),
   }),
 ).annotations({
   identifier: "ExportJobResource",
 }) as any as S.Schema<ExportJobResource>;
+export type JobStatus =
+  | "CREATED"
+  | "PREPARING_FOR_INITIALIZATION"
+  | "INITIALIZING"
+  | "PROCESSING"
+  | "PENDING_JOB"
+  | "COMPLETING"
+  | "COMPLETED"
+  | "FAILING"
+  | "FAILED";
+export const JobStatus = S.Literal(
+  "CREATED",
+  "PREPARING_FOR_INITIALIZATION",
+  "INITIALIZING",
+  "PROCESSING",
+  "PENDING_JOB",
+  "COMPLETING",
+  "COMPLETED",
+  "FAILING",
+  "FAILED",
+);
 export interface ExportJobResponse {
-  ApplicationId: string;
+  ApplicationId?: string;
   CompletedPieces?: number;
   CompletionDate?: string;
-  CreationDate: string;
-  Definition: ExportJobResource;
+  CreationDate?: string;
+  Definition?: ExportJobResource;
   FailedPieces?: number;
-  Failures?: ListOf__string;
-  Id: string;
-  JobStatus: string;
+  Failures?: string[];
+  Id?: string;
+  JobStatus?: JobStatus;
   TotalFailures?: number;
   TotalPieces?: number;
   TotalProcessed?: number;
-  Type: string;
+  Type?: string;
 }
 export const ExportJobResponse = S.suspend(() =>
   S.Struct({
-    ApplicationId: S.String,
+    ApplicationId: S.optional(S.String),
     CompletedPieces: S.optional(S.Number),
     CompletionDate: S.optional(S.String),
-    CreationDate: S.String,
-    Definition: ExportJobResource,
+    CreationDate: S.optional(S.String),
+    Definition: S.optional(ExportJobResource),
     FailedPieces: S.optional(S.Number),
     Failures: S.optional(ListOf__string),
-    Id: S.String,
-    JobStatus: S.String,
+    Id: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     TotalFailures: S.optional(S.Number),
     TotalPieces: S.optional(S.Number),
     TotalProcessed: S.optional(S.Number),
-    Type: S.String,
+    Type: S.optional(S.String),
   }),
 ).annotations({
   identifier: "ExportJobResponse",
@@ -5105,22 +5363,25 @@ export const ExportJobResponse = S.suspend(() =>
 export type ListOfExportJobResponse = ExportJobResponse[];
 export const ListOfExportJobResponse = S.Array(ExportJobResponse);
 export interface ExportJobsResponse {
-  Item: ListOfExportJobResponse;
+  Item?: ExportJobResponse[];
   NextToken?: string;
 }
 export const ExportJobsResponse = S.suspend(() =>
-  S.Struct({ Item: ListOfExportJobResponse, NextToken: S.optional(S.String) }),
+  S.Struct({
+    Item: S.optional(ListOfExportJobResponse),
+    NextToken: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "ExportJobsResponse",
 }) as any as S.Schema<ExportJobsResponse>;
 export interface GetSegmentExportJobsResponse {
-  ExportJobsResponse: ExportJobsResponse;
+  ExportJobsResponse?: ExportJobsResponse;
 }
 export const GetSegmentExportJobsResponse = S.suspend(() =>
   S.Struct({
-    ExportJobsResponse: ExportJobsResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "ExportJobsResponse",
-    }),
+    ExportJobsResponse: S.optional(ExportJobsResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ExportJobsResponse" }),
   }),
 ).annotations({
   identifier: "GetSegmentExportJobsResponse",
@@ -5128,10 +5389,10 @@ export const GetSegmentExportJobsResponse = S.suspend(() =>
 export interface ImportJobResource {
   DefineSegment?: boolean;
   ExternalId?: string;
-  Format: string;
+  Format?: Format;
   RegisterEndpoints?: boolean;
-  RoleArn: string;
-  S3Url: string;
+  RoleArn?: string;
+  S3Url?: string;
   SegmentId?: string;
   SegmentName?: string;
 }
@@ -5139,10 +5400,10 @@ export const ImportJobResource = S.suspend(() =>
   S.Struct({
     DefineSegment: S.optional(S.Boolean),
     ExternalId: S.optional(S.String),
-    Format: S.String,
+    Format: S.optional(Format),
     RegisterEndpoints: S.optional(S.Boolean),
-    RoleArn: S.String,
-    S3Url: S.String,
+    RoleArn: S.optional(S.String),
+    S3Url: S.optional(S.String),
     SegmentId: S.optional(S.String),
     SegmentName: S.optional(S.String),
   }),
@@ -5150,35 +5411,35 @@ export const ImportJobResource = S.suspend(() =>
   identifier: "ImportJobResource",
 }) as any as S.Schema<ImportJobResource>;
 export interface ImportJobResponse {
-  ApplicationId: string;
+  ApplicationId?: string;
   CompletedPieces?: number;
   CompletionDate?: string;
-  CreationDate: string;
-  Definition: ImportJobResource;
+  CreationDate?: string;
+  Definition?: ImportJobResource;
   FailedPieces?: number;
-  Failures?: ListOf__string;
-  Id: string;
-  JobStatus: string;
+  Failures?: string[];
+  Id?: string;
+  JobStatus?: JobStatus;
   TotalFailures?: number;
   TotalPieces?: number;
   TotalProcessed?: number;
-  Type: string;
+  Type?: string;
 }
 export const ImportJobResponse = S.suspend(() =>
   S.Struct({
-    ApplicationId: S.String,
+    ApplicationId: S.optional(S.String),
     CompletedPieces: S.optional(S.Number),
     CompletionDate: S.optional(S.String),
-    CreationDate: S.String,
-    Definition: ImportJobResource,
+    CreationDate: S.optional(S.String),
+    Definition: S.optional(ImportJobResource),
     FailedPieces: S.optional(S.Number),
     Failures: S.optional(ListOf__string),
-    Id: S.String,
-    JobStatus: S.String,
+    Id: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     TotalFailures: S.optional(S.Number),
     TotalPieces: S.optional(S.Number),
     TotalProcessed: S.optional(S.Number),
-    Type: S.String,
+    Type: S.optional(S.String),
   }),
 ).annotations({
   identifier: "ImportJobResponse",
@@ -5186,34 +5447,37 @@ export const ImportJobResponse = S.suspend(() =>
 export type ListOfImportJobResponse = ImportJobResponse[];
 export const ListOfImportJobResponse = S.Array(ImportJobResponse);
 export interface ImportJobsResponse {
-  Item: ListOfImportJobResponse;
+  Item?: ImportJobResponse[];
   NextToken?: string;
 }
 export const ImportJobsResponse = S.suspend(() =>
-  S.Struct({ Item: ListOfImportJobResponse, NextToken: S.optional(S.String) }),
+  S.Struct({
+    Item: S.optional(ListOfImportJobResponse),
+    NextToken: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "ImportJobsResponse",
 }) as any as S.Schema<ImportJobsResponse>;
 export interface GetSegmentImportJobsResponse {
-  ImportJobsResponse: ImportJobsResponse;
+  ImportJobsResponse?: ImportJobsResponse;
 }
 export const GetSegmentImportJobsResponse = S.suspend(() =>
   S.Struct({
-    ImportJobsResponse: ImportJobsResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "ImportJobsResponse",
-    }),
+    ImportJobsResponse: S.optional(ImportJobsResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ImportJobsResponse" }),
   }),
 ).annotations({
   identifier: "GetSegmentImportJobsResponse",
 }) as any as S.Schema<GetSegmentImportJobsResponse>;
 export interface GetSegmentVersionResponse {
-  SegmentResponse: SegmentResponse;
+  SegmentResponse?: SegmentResponse;
 }
 export const GetSegmentVersionResponse = S.suspend(() =>
   S.Struct({
-    SegmentResponse: SegmentResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "SegmentResponse",
-    }),
+    SegmentResponse: S.optional(SegmentResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "SegmentResponse" }),
   }),
 ).annotations({
   identifier: "GetSegmentVersionResponse",
@@ -5221,22 +5485,25 @@ export const GetSegmentVersionResponse = S.suspend(() =>
 export type ListOfSegmentResponse = SegmentResponse[];
 export const ListOfSegmentResponse = S.Array(SegmentResponse);
 export interface SegmentsResponse {
-  Item: ListOfSegmentResponse;
+  Item?: SegmentResponse[];
   NextToken?: string;
 }
 export const SegmentsResponse = S.suspend(() =>
-  S.Struct({ Item: ListOfSegmentResponse, NextToken: S.optional(S.String) }),
+  S.Struct({
+    Item: S.optional(ListOfSegmentResponse),
+    NextToken: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "SegmentsResponse",
 }) as any as S.Schema<SegmentsResponse>;
 export interface GetSegmentVersionsResponse {
-  SegmentsResponse: SegmentsResponse;
+  SegmentsResponse?: SegmentsResponse;
 }
 export const GetSegmentVersionsResponse = S.suspend(() =>
   S.Struct({
-    SegmentsResponse: SegmentsResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "SegmentsResponse",
-    }),
+    SegmentsResponse: S.optional(SegmentsResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "SegmentsResponse" }),
   }),
 ).annotations({
   identifier: "GetSegmentVersionsResponse",
@@ -5250,7 +5517,7 @@ export interface SMSChannelResponse {
   IsArchived?: boolean;
   LastModifiedBy?: string;
   LastModifiedDate?: string;
-  Platform: string;
+  Platform?: string;
   PromotionalMessagesPerSecond?: number;
   SenderId?: string;
   ShortCode?: string;
@@ -5267,7 +5534,7 @@ export const SMSChannelResponse = S.suspend(() =>
     IsArchived: S.optional(S.Boolean),
     LastModifiedBy: S.optional(S.String),
     LastModifiedDate: S.optional(S.String),
-    Platform: S.String,
+    Platform: S.optional(S.String),
     PromotionalMessagesPerSecond: S.optional(S.Number),
     SenderId: S.optional(S.String),
     ShortCode: S.optional(S.String),
@@ -5278,13 +5545,13 @@ export const SMSChannelResponse = S.suspend(() =>
   identifier: "SMSChannelResponse",
 }) as any as S.Schema<SMSChannelResponse>;
 export interface GetSmsChannelResponse {
-  SMSChannelResponse: SMSChannelResponse;
+  SMSChannelResponse?: SMSChannelResponse;
 }
 export const GetSmsChannelResponse = S.suspend(() =>
   S.Struct({
-    SMSChannelResponse: SMSChannelResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "SMSChannelResponse",
-    }),
+    SMSChannelResponse: S.optional(SMSChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "SMSChannelResponse" }),
   }),
 ).annotations({
   identifier: "GetSmsChannelResponse",
@@ -5292,21 +5559,21 @@ export const GetSmsChannelResponse = S.suspend(() =>
 export type ListOfEndpointResponse = EndpointResponse[];
 export const ListOfEndpointResponse = S.Array(EndpointResponse);
 export interface EndpointsResponse {
-  Item: ListOfEndpointResponse;
+  Item?: EndpointResponse[];
 }
 export const EndpointsResponse = S.suspend(() =>
-  S.Struct({ Item: ListOfEndpointResponse }),
+  S.Struct({ Item: S.optional(ListOfEndpointResponse) }),
 ).annotations({
   identifier: "EndpointsResponse",
 }) as any as S.Schema<EndpointsResponse>;
 export interface GetUserEndpointsResponse {
-  EndpointsResponse: EndpointsResponse;
+  EndpointsResponse?: EndpointsResponse;
 }
 export const GetUserEndpointsResponse = S.suspend(() =>
   S.Struct({
-    EndpointsResponse: EndpointsResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "EndpointsResponse",
-    }),
+    EndpointsResponse: S.optional(EndpointsResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "EndpointsResponse" }),
   }),
 ).annotations({
   identifier: "GetUserEndpointsResponse",
@@ -5320,7 +5587,7 @@ export interface VoiceChannelResponse {
   IsArchived?: boolean;
   LastModifiedBy?: string;
   LastModifiedDate?: string;
-  Platform: string;
+  Platform?: string;
   Version?: number;
 }
 export const VoiceChannelResponse = S.suspend(() =>
@@ -5333,44 +5600,44 @@ export const VoiceChannelResponse = S.suspend(() =>
     IsArchived: S.optional(S.Boolean),
     LastModifiedBy: S.optional(S.String),
     LastModifiedDate: S.optional(S.String),
-    Platform: S.String,
+    Platform: S.optional(S.String),
     Version: S.optional(S.Number),
   }),
 ).annotations({
   identifier: "VoiceChannelResponse",
 }) as any as S.Schema<VoiceChannelResponse>;
 export interface GetVoiceChannelResponse {
-  VoiceChannelResponse: VoiceChannelResponse;
+  VoiceChannelResponse?: VoiceChannelResponse;
 }
 export const GetVoiceChannelResponse = S.suspend(() =>
   S.Struct({
-    VoiceChannelResponse: VoiceChannelResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "VoiceChannelResponse" }),
+    VoiceChannelResponse: S.optional(VoiceChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "VoiceChannelResponse" }),
   }),
 ).annotations({
   identifier: "GetVoiceChannelResponse",
 }) as any as S.Schema<GetVoiceChannelResponse>;
 export interface ListTagsForResourceResponse {
-  TagsModel: TagsModel;
+  TagsModel?: TagsModel;
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({
-    TagsModel: TagsModel.pipe(T.HttpPayload()).annotations({
-      identifier: "TagsModel",
-    }),
+    TagsModel: S.optional(TagsModel)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "TagsModel" }),
   }),
 ).annotations({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface PhoneNumberValidateRequest {
-  NumberValidateRequest: NumberValidateRequest;
+  NumberValidateRequest?: NumberValidateRequest;
 }
 export const PhoneNumberValidateRequest = S.suspend(() =>
   S.Struct({
-    NumberValidateRequest: NumberValidateRequest.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "NumberValidateRequest" }),
+    NumberValidateRequest: S.optional(NumberValidateRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "NumberValidateRequest" }),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/phone/number/validate" }),
@@ -5386,14 +5653,14 @@ export const PhoneNumberValidateRequest = S.suspend(() =>
 }) as any as S.Schema<PhoneNumberValidateRequest>;
 export interface PutEventStreamRequest {
   ApplicationId: string;
-  WriteEventStream: WriteEventStream;
+  WriteEventStream?: WriteEventStream;
 }
 export const PutEventStreamRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    WriteEventStream: WriteEventStream.pipe(T.HttpPayload()).annotations({
-      identifier: "WriteEventStream",
-    }),
+    WriteEventStream: S.optional(WriteEventStream)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "WriteEventStream" }),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/apps/{ApplicationId}/eventstream" }),
@@ -5410,15 +5677,15 @@ export const PutEventStreamRequest = S.suspend(() =>
 export interface RemoveAttributesRequest {
   ApplicationId: string;
   AttributeType: string;
-  UpdateAttributesRequest: UpdateAttributesRequest;
+  UpdateAttributesRequest?: UpdateAttributesRequest;
 }
 export const RemoveAttributesRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     AttributeType: S.String.pipe(T.HttpLabel("AttributeType")),
-    UpdateAttributesRequest: UpdateAttributesRequest.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "UpdateAttributesRequest" }),
+    UpdateAttributesRequest: S.optional(UpdateAttributesRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "UpdateAttributesRequest" }),
   }).pipe(
     T.all(
       T.Http({
@@ -5437,14 +5704,14 @@ export const RemoveAttributesRequest = S.suspend(() =>
 }) as any as S.Schema<RemoveAttributesRequest>;
 export interface SendOTPMessageRequest {
   ApplicationId: string;
-  SendOTPMessageRequestParameters: SendOTPMessageRequestParameters;
+  SendOTPMessageRequestParameters?: SendOTPMessageRequestParameters;
 }
 export const SendOTPMessageRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    SendOTPMessageRequestParameters: SendOTPMessageRequestParameters.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "SendOTPMessageRequestParameters" }),
+    SendOTPMessageRequestParameters: S.optional(SendOTPMessageRequestParameters)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "SendOTPMessageRequestParameters" }),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/apps/{ApplicationId}/otp" }),
@@ -5460,14 +5727,14 @@ export const SendOTPMessageRequest = S.suspend(() =>
 }) as any as S.Schema<SendOTPMessageRequest>;
 export interface SendUsersMessagesRequest {
   ApplicationId: string;
-  SendUsersMessageRequest: SendUsersMessageRequest;
+  SendUsersMessageRequest?: SendUsersMessageRequest;
 }
 export const SendUsersMessagesRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    SendUsersMessageRequest: SendUsersMessageRequest.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "SendUsersMessageRequest" }),
+    SendUsersMessageRequest: S.optional(SendUsersMessageRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "SendUsersMessageRequest" }),
   }).pipe(
     T.all(
       T.Http({
@@ -5486,14 +5753,14 @@ export const SendUsersMessagesRequest = S.suspend(() =>
 }) as any as S.Schema<SendUsersMessagesRequest>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  TagsModel: TagsModel;
+  TagsModel?: TagsModel;
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    TagsModel: TagsModel.pipe(T.HttpPayload()).annotations({
-      identifier: "TagsModel",
-    }),
+    TagsModel: S.optional(TagsModel)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "TagsModel" }),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/tags/{ResourceArn}" }),
@@ -5512,14 +5779,14 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface UpdateAdmChannelRequest {
-  ADMChannelRequest: ADMChannelRequest;
+  ADMChannelRequest?: ADMChannelRequest;
   ApplicationId: string;
 }
 export const UpdateAdmChannelRequest = S.suspend(() =>
   S.Struct({
-    ADMChannelRequest: ADMChannelRequest.pipe(T.HttpPayload()).annotations({
-      identifier: "ADMChannelRequest",
-    }),
+    ADMChannelRequest: S.optional(ADMChannelRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ADMChannelRequest" }),
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
   }).pipe(
     T.all(
@@ -5535,14 +5802,14 @@ export const UpdateAdmChannelRequest = S.suspend(() =>
   identifier: "UpdateAdmChannelRequest",
 }) as any as S.Schema<UpdateAdmChannelRequest>;
 export interface UpdateApnsChannelRequest {
-  APNSChannelRequest: APNSChannelRequest;
+  APNSChannelRequest?: APNSChannelRequest;
   ApplicationId: string;
 }
 export const UpdateApnsChannelRequest = S.suspend(() =>
   S.Struct({
-    APNSChannelRequest: APNSChannelRequest.pipe(T.HttpPayload()).annotations({
-      identifier: "APNSChannelRequest",
-    }),
+    APNSChannelRequest: S.optional(APNSChannelRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "APNSChannelRequest" }),
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
   }).pipe(
     T.all(
@@ -5558,14 +5825,14 @@ export const UpdateApnsChannelRequest = S.suspend(() =>
   identifier: "UpdateApnsChannelRequest",
 }) as any as S.Schema<UpdateApnsChannelRequest>;
 export interface UpdateApnsSandboxChannelRequest {
-  APNSSandboxChannelRequest: APNSSandboxChannelRequest;
+  APNSSandboxChannelRequest?: APNSSandboxChannelRequest;
   ApplicationId: string;
 }
 export const UpdateApnsSandboxChannelRequest = S.suspend(() =>
   S.Struct({
-    APNSSandboxChannelRequest: APNSSandboxChannelRequest.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "APNSSandboxChannelRequest" }),
+    APNSSandboxChannelRequest: S.optional(APNSSandboxChannelRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "APNSSandboxChannelRequest" }),
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
   }).pipe(
     T.all(
@@ -5584,14 +5851,14 @@ export const UpdateApnsSandboxChannelRequest = S.suspend(() =>
   identifier: "UpdateApnsSandboxChannelRequest",
 }) as any as S.Schema<UpdateApnsSandboxChannelRequest>;
 export interface UpdateApnsVoipChannelRequest {
-  APNSVoipChannelRequest: APNSVoipChannelRequest;
+  APNSVoipChannelRequest?: APNSVoipChannelRequest;
   ApplicationId: string;
 }
 export const UpdateApnsVoipChannelRequest = S.suspend(() =>
   S.Struct({
-    APNSVoipChannelRequest: APNSVoipChannelRequest.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "APNSVoipChannelRequest" }),
+    APNSVoipChannelRequest: S.optional(APNSVoipChannelRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "APNSVoipChannelRequest" }),
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
   }).pipe(
     T.all(
@@ -5610,14 +5877,14 @@ export const UpdateApnsVoipChannelRequest = S.suspend(() =>
   identifier: "UpdateApnsVoipChannelRequest",
 }) as any as S.Schema<UpdateApnsVoipChannelRequest>;
 export interface UpdateApnsVoipSandboxChannelRequest {
-  APNSVoipSandboxChannelRequest: APNSVoipSandboxChannelRequest;
+  APNSVoipSandboxChannelRequest?: APNSVoipSandboxChannelRequest;
   ApplicationId: string;
 }
 export const UpdateApnsVoipSandboxChannelRequest = S.suspend(() =>
   S.Struct({
-    APNSVoipSandboxChannelRequest: APNSVoipSandboxChannelRequest.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "APNSVoipSandboxChannelRequest" }),
+    APNSVoipSandboxChannelRequest: S.optional(APNSVoipSandboxChannelRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "APNSVoipSandboxChannelRequest" }),
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
   }).pipe(
     T.all(
@@ -5637,14 +5904,14 @@ export const UpdateApnsVoipSandboxChannelRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateApnsVoipSandboxChannelRequest>;
 export interface UpdateBaiduChannelRequest {
   ApplicationId: string;
-  BaiduChannelRequest: BaiduChannelRequest;
+  BaiduChannelRequest?: BaiduChannelRequest;
 }
 export const UpdateBaiduChannelRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    BaiduChannelRequest: BaiduChannelRequest.pipe(T.HttpPayload()).annotations({
-      identifier: "BaiduChannelRequest",
-    }),
+    BaiduChannelRequest: S.optional(BaiduChannelRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "BaiduChannelRequest" }),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/v1/apps/{ApplicationId}/channels/baidu" }),
@@ -5659,27 +5926,27 @@ export const UpdateBaiduChannelRequest = S.suspend(() =>
   identifier: "UpdateBaiduChannelRequest",
 }) as any as S.Schema<UpdateBaiduChannelRequest>;
 export interface UpdateCampaignResponse {
-  CampaignResponse: CampaignResponse;
+  CampaignResponse?: CampaignResponse;
 }
 export const UpdateCampaignResponse = S.suspend(() =>
   S.Struct({
-    CampaignResponse: CampaignResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "CampaignResponse",
-    }),
+    CampaignResponse: S.optional(CampaignResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "CampaignResponse" }),
   }),
 ).annotations({
   identifier: "UpdateCampaignResponse",
 }) as any as S.Schema<UpdateCampaignResponse>;
 export interface UpdateEmailChannelRequest {
   ApplicationId: string;
-  EmailChannelRequest: EmailChannelRequest;
+  EmailChannelRequest?: EmailChannelRequest;
 }
 export const UpdateEmailChannelRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    EmailChannelRequest: EmailChannelRequest.pipe(T.HttpPayload()).annotations({
-      identifier: "EmailChannelRequest",
-    }),
+    EmailChannelRequest: S.optional(EmailChannelRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "EmailChannelRequest" }),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/v1/apps/{ApplicationId}/channels/email" }),
@@ -5694,27 +5961,27 @@ export const UpdateEmailChannelRequest = S.suspend(() =>
   identifier: "UpdateEmailChannelRequest",
 }) as any as S.Schema<UpdateEmailChannelRequest>;
 export interface UpdateEmailTemplateResponse {
-  MessageBody: MessageBody;
+  MessageBody?: MessageBody;
 }
 export const UpdateEmailTemplateResponse = S.suspend(() =>
   S.Struct({
-    MessageBody: MessageBody.pipe(T.HttpPayload()).annotations({
-      identifier: "MessageBody",
-    }),
+    MessageBody: S.optional(MessageBody)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "MessageBody" }),
   }),
 ).annotations({
   identifier: "UpdateEmailTemplateResponse",
 }) as any as S.Schema<UpdateEmailTemplateResponse>;
 export interface UpdateGcmChannelRequest {
   ApplicationId: string;
-  GCMChannelRequest: GCMChannelRequest;
+  GCMChannelRequest?: GCMChannelRequest;
 }
 export const UpdateGcmChannelRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    GCMChannelRequest: GCMChannelRequest.pipe(T.HttpPayload()).annotations({
-      identifier: "GCMChannelRequest",
-    }),
+    GCMChannelRequest: S.optional(GCMChannelRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "GCMChannelRequest" }),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/v1/apps/{ApplicationId}/channels/gcm" }),
@@ -5729,25 +5996,25 @@ export const UpdateGcmChannelRequest = S.suspend(() =>
   identifier: "UpdateGcmChannelRequest",
 }) as any as S.Schema<UpdateGcmChannelRequest>;
 export interface UpdateInAppTemplateResponse {
-  MessageBody: MessageBody;
+  MessageBody?: MessageBody;
 }
 export const UpdateInAppTemplateResponse = S.suspend(() =>
   S.Struct({
-    MessageBody: MessageBody.pipe(T.HttpPayload()).annotations({
-      identifier: "MessageBody",
-    }),
+    MessageBody: S.optional(MessageBody)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "MessageBody" }),
   }),
 ).annotations({
   identifier: "UpdateInAppTemplateResponse",
 }) as any as S.Schema<UpdateInAppTemplateResponse>;
 export interface UpdateJourneyResponse {
-  JourneyResponse: JourneyResponse;
+  JourneyResponse?: JourneyResponse;
 }
 export const UpdateJourneyResponse = S.suspend(() =>
   S.Struct({
-    JourneyResponse: JourneyResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "JourneyResponse",
-    }),
+    JourneyResponse: S.optional(JourneyResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "JourneyResponse" }),
   }),
 ).annotations({
   identifier: "UpdateJourneyResponse",
@@ -5755,15 +6022,15 @@ export const UpdateJourneyResponse = S.suspend(() =>
 export interface UpdateJourneyStateRequest {
   ApplicationId: string;
   JourneyId: string;
-  JourneyStateRequest: JourneyStateRequest;
+  JourneyStateRequest?: JourneyStateRequest;
 }
 export const UpdateJourneyStateRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     JourneyId: S.String.pipe(T.HttpLabel("JourneyId")),
-    JourneyStateRequest: JourneyStateRequest.pipe(T.HttpPayload()).annotations({
-      identifier: "JourneyStateRequest",
-    }),
+    JourneyStateRequest: S.optional(JourneyStateRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "JourneyStateRequest" }),
   }).pipe(
     T.all(
       T.Http({
@@ -5781,27 +6048,29 @@ export const UpdateJourneyStateRequest = S.suspend(() =>
   identifier: "UpdateJourneyStateRequest",
 }) as any as S.Schema<UpdateJourneyStateRequest>;
 export interface UpdatePushTemplateResponse {
-  MessageBody: MessageBody;
+  MessageBody?: MessageBody;
 }
 export const UpdatePushTemplateResponse = S.suspend(() =>
   S.Struct({
-    MessageBody: MessageBody.pipe(T.HttpPayload()).annotations({
-      identifier: "MessageBody",
-    }),
+    MessageBody: S.optional(MessageBody)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "MessageBody" }),
   }),
 ).annotations({
   identifier: "UpdatePushTemplateResponse",
 }) as any as S.Schema<UpdatePushTemplateResponse>;
 export interface UpdateRecommenderConfigurationRequest {
   RecommenderId: string;
-  UpdateRecommenderConfiguration: UpdateRecommenderConfigurationShape;
+  UpdateRecommenderConfiguration?: UpdateRecommenderConfigurationShape;
 }
 export const UpdateRecommenderConfigurationRequest = S.suspend(() =>
   S.Struct({
     RecommenderId: S.String.pipe(T.HttpLabel("RecommenderId")),
-    UpdateRecommenderConfiguration: UpdateRecommenderConfigurationShape.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "UpdateRecommenderConfigurationShape" }),
+    UpdateRecommenderConfiguration: S.optional(
+      UpdateRecommenderConfigurationShape,
+    )
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "UpdateRecommenderConfigurationShape" }),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/v1/recommenders/{RecommenderId}" }),
@@ -5816,27 +6085,27 @@ export const UpdateRecommenderConfigurationRequest = S.suspend(() =>
   identifier: "UpdateRecommenderConfigurationRequest",
 }) as any as S.Schema<UpdateRecommenderConfigurationRequest>;
 export interface UpdateSegmentResponse {
-  SegmentResponse: SegmentResponse;
+  SegmentResponse?: SegmentResponse;
 }
 export const UpdateSegmentResponse = S.suspend(() =>
   S.Struct({
-    SegmentResponse: SegmentResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "SegmentResponse",
-    }),
+    SegmentResponse: S.optional(SegmentResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "SegmentResponse" }),
   }),
 ).annotations({
   identifier: "UpdateSegmentResponse",
 }) as any as S.Schema<UpdateSegmentResponse>;
 export interface UpdateSmsChannelRequest {
   ApplicationId: string;
-  SMSChannelRequest: SMSChannelRequest;
+  SMSChannelRequest?: SMSChannelRequest;
 }
 export const UpdateSmsChannelRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    SMSChannelRequest: SMSChannelRequest.pipe(T.HttpPayload()).annotations({
-      identifier: "SMSChannelRequest",
-    }),
+    SMSChannelRequest: S.optional(SMSChannelRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "SMSChannelRequest" }),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/v1/apps/{ApplicationId}/channels/sms" }),
@@ -5851,27 +6120,27 @@ export const UpdateSmsChannelRequest = S.suspend(() =>
   identifier: "UpdateSmsChannelRequest",
 }) as any as S.Schema<UpdateSmsChannelRequest>;
 export interface UpdateSmsTemplateResponse {
-  MessageBody: MessageBody;
+  MessageBody?: MessageBody;
 }
 export const UpdateSmsTemplateResponse = S.suspend(() =>
   S.Struct({
-    MessageBody: MessageBody.pipe(T.HttpPayload()).annotations({
-      identifier: "MessageBody",
-    }),
+    MessageBody: S.optional(MessageBody)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "MessageBody" }),
   }),
 ).annotations({
   identifier: "UpdateSmsTemplateResponse",
 }) as any as S.Schema<UpdateSmsTemplateResponse>;
 export interface UpdateTemplateActiveVersionRequest {
-  TemplateActiveVersionRequest: TemplateActiveVersionRequest;
+  TemplateActiveVersionRequest?: TemplateActiveVersionRequest;
   TemplateName: string;
   TemplateType: string;
 }
 export const UpdateTemplateActiveVersionRequest = S.suspend(() =>
   S.Struct({
-    TemplateActiveVersionRequest: TemplateActiveVersionRequest.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "TemplateActiveVersionRequest" }),
+    TemplateActiveVersionRequest: S.optional(TemplateActiveVersionRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "TemplateActiveVersionRequest" }),
     TemplateName: S.String.pipe(T.HttpLabel("TemplateName")),
     TemplateType: S.String.pipe(T.HttpLabel("TemplateType")),
   }).pipe(
@@ -5892,14 +6161,14 @@ export const UpdateTemplateActiveVersionRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateTemplateActiveVersionRequest>;
 export interface UpdateVoiceChannelRequest {
   ApplicationId: string;
-  VoiceChannelRequest: VoiceChannelRequest;
+  VoiceChannelRequest?: VoiceChannelRequest;
 }
 export const UpdateVoiceChannelRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    VoiceChannelRequest: VoiceChannelRequest.pipe(T.HttpPayload()).annotations({
-      identifier: "VoiceChannelRequest",
-    }),
+    VoiceChannelRequest: S.optional(VoiceChannelRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "VoiceChannelRequest" }),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/v1/apps/{ApplicationId}/channels/voice" }),
@@ -5914,27 +6183,29 @@ export const UpdateVoiceChannelRequest = S.suspend(() =>
   identifier: "UpdateVoiceChannelRequest",
 }) as any as S.Schema<UpdateVoiceChannelRequest>;
 export interface UpdateVoiceTemplateResponse {
-  MessageBody: MessageBody;
+  MessageBody?: MessageBody;
 }
 export const UpdateVoiceTemplateResponse = S.suspend(() =>
   S.Struct({
-    MessageBody: MessageBody.pipe(T.HttpPayload()).annotations({
-      identifier: "MessageBody",
-    }),
+    MessageBody: S.optional(MessageBody)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "MessageBody" }),
   }),
 ).annotations({
   identifier: "UpdateVoiceTemplateResponse",
 }) as any as S.Schema<UpdateVoiceTemplateResponse>;
 export interface VerifyOTPMessageRequest {
   ApplicationId: string;
-  VerifyOTPMessageRequestParameters: VerifyOTPMessageRequestParameters;
+  VerifyOTPMessageRequestParameters?: VerifyOTPMessageRequestParameters;
 }
 export const VerifyOTPMessageRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    VerifyOTPMessageRequestParameters: VerifyOTPMessageRequestParameters.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "VerifyOTPMessageRequestParameters" }),
+    VerifyOTPMessageRequestParameters: S.optional(
+      VerifyOTPMessageRequestParameters,
+    )
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "VerifyOTPMessageRequestParameters" }),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/apps/{ApplicationId}/verify-otp" }),
@@ -5950,6 +6221,8 @@ export const VerifyOTPMessageRequest = S.suspend(() =>
 }) as any as S.Schema<VerifyOTPMessageRequest>;
 export type ListOfApplicationResponse = ApplicationResponse[];
 export const ListOfApplicationResponse = S.Array(ApplicationResponse);
+export type TemplateType = "EMAIL" | "SMS" | "VOICE" | "PUSH" | "INAPP";
+export const TemplateType = S.Literal("EMAIL", "SMS", "VOICE", "PUSH", "INAPP");
 export type ListOfRecommenderConfigurationResponse =
   RecommenderConfigurationResponse[];
 export const ListOfRecommenderConfigurationResponse = S.Array(
@@ -5973,14 +6246,14 @@ export const ApplicationSettingsJourneyLimits = S.suspend(() =>
 }) as any as S.Schema<ApplicationSettingsJourneyLimits>;
 export interface EndpointBatchItem {
   Address?: string;
-  Attributes?: MapOfListOf__string;
-  ChannelType?: string;
+  Attributes?: { [key: string]: string[] };
+  ChannelType?: ChannelType;
   Demographic?: EndpointDemographic;
   EffectiveDate?: string;
   EndpointStatus?: string;
   Id?: string;
   Location?: EndpointLocation;
-  Metrics?: MapOf__double;
+  Metrics?: { [key: string]: number };
   OptOut?: string;
   RequestId?: string;
   User?: EndpointUser;
@@ -5989,7 +6262,7 @@ export const EndpointBatchItem = S.suspend(() =>
   S.Struct({
     Address: S.optional(S.String),
     Attributes: S.optional(MapOfListOf__string),
-    ChannelType: S.optional(S.String),
+    ChannelType: S.optional(ChannelType),
     Demographic: S.optional(EndpointDemographic),
     EffectiveDate: S.optional(S.String),
     EndpointStatus: S.optional(S.String),
@@ -6006,19 +6279,19 @@ export const EndpointBatchItem = S.suspend(() =>
 export type ListOfEndpointBatchItem = EndpointBatchItem[];
 export const ListOfEndpointBatchItem = S.Array(EndpointBatchItem);
 export interface CreateApplicationRequest {
-  Name: string;
-  tags?: MapOf__string;
+  Name?: string;
+  tags?: { [key: string]: string };
 }
 export const CreateApplicationRequest = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: S.optional(S.String),
     tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
   }),
 ).annotations({
   identifier: "CreateApplicationRequest",
 }) as any as S.Schema<CreateApplicationRequest>;
 export interface ApplicationSettingsResource {
-  ApplicationId: string;
+  ApplicationId?: string;
   CampaignHook?: CampaignHook;
   LastModifiedDate?: string;
   Limits?: CampaignLimits;
@@ -6027,7 +6300,7 @@ export interface ApplicationSettingsResource {
 }
 export const ApplicationSettingsResource = S.suspend(() =>
   S.Struct({
-    ApplicationId: S.String,
+    ApplicationId: S.optional(S.String),
     CampaignHook: S.optional(CampaignHook),
     LastModifiedDate: S.optional(S.String),
     Limits: S.optional(CampaignLimits),
@@ -6038,7 +6311,7 @@ export const ApplicationSettingsResource = S.suspend(() =>
   identifier: "ApplicationSettingsResource",
 }) as any as S.Schema<ApplicationSettingsResource>;
 export interface ApplicationsResponse {
-  Item?: ListOfApplicationResponse;
+  Item?: ApplicationResponse[];
   NextToken?: string;
 }
 export const ApplicationsResponse = S.suspend(() =>
@@ -6050,86 +6323,93 @@ export const ApplicationsResponse = S.suspend(() =>
   identifier: "ApplicationsResponse",
 }) as any as S.Schema<ApplicationsResponse>;
 export interface ResultRowValue {
-  Key: string;
-  Type: string;
-  Value: string;
+  Key?: string;
+  Type?: string;
+  Value?: string;
 }
 export const ResultRowValue = S.suspend(() =>
-  S.Struct({ Key: S.String, Type: S.String, Value: S.String }),
+  S.Struct({
+    Key: S.optional(S.String),
+    Type: S.optional(S.String),
+    Value: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "ResultRowValue",
 }) as any as S.Schema<ResultRowValue>;
 export type ListOfResultRowValue = ResultRowValue[];
 export const ListOfResultRowValue = S.Array(ResultRowValue);
 export interface ResultRow {
-  GroupedBys: ListOfResultRowValue;
-  Values: ListOfResultRowValue;
+  GroupedBys?: ResultRowValue[];
+  Values?: ResultRowValue[];
 }
 export const ResultRow = S.suspend(() =>
-  S.Struct({ GroupedBys: ListOfResultRowValue, Values: ListOfResultRowValue }),
+  S.Struct({
+    GroupedBys: S.optional(ListOfResultRowValue),
+    Values: S.optional(ListOfResultRowValue),
+  }),
 ).annotations({ identifier: "ResultRow" }) as any as S.Schema<ResultRow>;
 export type ListOfResultRow = ResultRow[];
 export const ListOfResultRow = S.Array(ResultRow);
 export interface BaseKpiResult {
-  Rows: ListOfResultRow;
+  Rows?: ResultRow[];
 }
 export const BaseKpiResult = S.suspend(() =>
-  S.Struct({ Rows: ListOfResultRow }),
+  S.Struct({ Rows: S.optional(ListOfResultRow) }),
 ).annotations({
   identifier: "BaseKpiResult",
 }) as any as S.Schema<BaseKpiResult>;
 export interface CampaignDateRangeKpiResponse {
-  ApplicationId: string;
-  CampaignId: string;
-  EndTime: Date;
-  KpiName: string;
-  KpiResult: BaseKpiResult;
+  ApplicationId?: string;
+  CampaignId?: string;
+  EndTime?: Date;
+  KpiName?: string;
+  KpiResult?: BaseKpiResult;
   NextToken?: string;
-  StartTime: Date;
+  StartTime?: Date;
 }
 export const CampaignDateRangeKpiResponse = S.suspend(() =>
   S.Struct({
-    ApplicationId: S.String,
-    CampaignId: S.String,
-    EndTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    KpiName: S.String,
-    KpiResult: BaseKpiResult,
+    ApplicationId: S.optional(S.String),
+    CampaignId: S.optional(S.String),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    KpiName: S.optional(S.String),
+    KpiResult: S.optional(BaseKpiResult),
     NextToken: S.optional(S.String),
-    StartTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotations({
   identifier: "CampaignDateRangeKpiResponse",
 }) as any as S.Schema<CampaignDateRangeKpiResponse>;
 export interface EmailTemplateResponse {
   Arn?: string;
-  CreationDate: string;
+  CreationDate?: string;
   DefaultSubstitutions?: string;
   HtmlPart?: string;
-  LastModifiedDate: string;
+  LastModifiedDate?: string;
   RecommenderId?: string;
   Subject?: string;
-  Headers?: ListOfMessageHeader;
-  tags?: MapOf__string;
+  Headers?: MessageHeader[];
+  tags?: { [key: string]: string };
   TemplateDescription?: string;
-  TemplateName: string;
-  TemplateType: string;
+  TemplateName?: string;
+  TemplateType?: TemplateType;
   TextPart?: string;
   Version?: string;
 }
 export const EmailTemplateResponse = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
-    CreationDate: S.String,
+    CreationDate: S.optional(S.String),
     DefaultSubstitutions: S.optional(S.String),
     HtmlPart: S.optional(S.String),
-    LastModifiedDate: S.String,
+    LastModifiedDate: S.optional(S.String),
     RecommenderId: S.optional(S.String),
     Subject: S.optional(S.String),
     Headers: S.optional(ListOfMessageHeader),
     tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
     TemplateDescription: S.optional(S.String),
-    TemplateName: S.String,
-    TemplateType: S.String,
+    TemplateName: S.optional(S.String),
+    TemplateType: S.optional(TemplateType),
     TextPart: S.optional(S.String),
     Version: S.optional(S.String),
   }),
@@ -6138,128 +6418,128 @@ export const EmailTemplateResponse = S.suspend(() =>
 }) as any as S.Schema<EmailTemplateResponse>;
 export interface InAppTemplateResponse {
   Arn?: string;
-  Content?: ListOfInAppMessageContent;
-  CreationDate: string;
-  CustomConfig?: MapOf__string;
-  LastModifiedDate: string;
-  Layout?: string;
-  tags?: MapOf__string;
+  Content?: InAppMessageContent[];
+  CreationDate?: string;
+  CustomConfig?: { [key: string]: string };
+  LastModifiedDate?: string;
+  Layout?: Layout;
+  tags?: { [key: string]: string };
   TemplateDescription?: string;
-  TemplateName: string;
-  TemplateType: string;
+  TemplateName?: string;
+  TemplateType?: TemplateType;
   Version?: string;
 }
 export const InAppTemplateResponse = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     Content: S.optional(ListOfInAppMessageContent),
-    CreationDate: S.String,
+    CreationDate: S.optional(S.String),
     CustomConfig: S.optional(MapOf__string),
-    LastModifiedDate: S.String,
-    Layout: S.optional(S.String),
+    LastModifiedDate: S.optional(S.String),
+    Layout: S.optional(Layout),
     tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
     TemplateDescription: S.optional(S.String),
-    TemplateName: S.String,
-    TemplateType: S.String,
+    TemplateName: S.optional(S.String),
+    TemplateType: S.optional(TemplateType),
     Version: S.optional(S.String),
   }),
 ).annotations({
   identifier: "InAppTemplateResponse",
 }) as any as S.Schema<InAppTemplateResponse>;
 export interface JourneyDateRangeKpiResponse {
-  ApplicationId: string;
-  EndTime: Date;
-  JourneyId: string;
-  KpiName: string;
-  KpiResult: BaseKpiResult;
+  ApplicationId?: string;
+  EndTime?: Date;
+  JourneyId?: string;
+  KpiName?: string;
+  KpiResult?: BaseKpiResult;
   NextToken?: string;
-  StartTime: Date;
+  StartTime?: Date;
 }
 export const JourneyDateRangeKpiResponse = S.suspend(() =>
   S.Struct({
-    ApplicationId: S.String,
-    EndTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    JourneyId: S.String,
-    KpiName: S.String,
-    KpiResult: BaseKpiResult,
+    ApplicationId: S.optional(S.String),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    JourneyId: S.optional(S.String),
+    KpiName: S.optional(S.String),
+    KpiResult: S.optional(BaseKpiResult),
     NextToken: S.optional(S.String),
-    StartTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotations({
   identifier: "JourneyDateRangeKpiResponse",
 }) as any as S.Schema<JourneyDateRangeKpiResponse>;
 export interface JourneyExecutionActivityMetricsResponse {
-  ActivityType: string;
-  ApplicationId: string;
-  JourneyActivityId: string;
-  JourneyId: string;
-  LastEvaluatedTime: string;
-  Metrics: MapOf__string;
+  ActivityType?: string;
+  ApplicationId?: string;
+  JourneyActivityId?: string;
+  JourneyId?: string;
+  LastEvaluatedTime?: string;
+  Metrics?: { [key: string]: string };
 }
 export const JourneyExecutionActivityMetricsResponse = S.suspend(() =>
   S.Struct({
-    ActivityType: S.String,
-    ApplicationId: S.String,
-    JourneyActivityId: S.String,
-    JourneyId: S.String,
-    LastEvaluatedTime: S.String,
-    Metrics: MapOf__string,
+    ActivityType: S.optional(S.String),
+    ApplicationId: S.optional(S.String),
+    JourneyActivityId: S.optional(S.String),
+    JourneyId: S.optional(S.String),
+    LastEvaluatedTime: S.optional(S.String),
+    Metrics: S.optional(MapOf__string),
   }),
 ).annotations({
   identifier: "JourneyExecutionActivityMetricsResponse",
 }) as any as S.Schema<JourneyExecutionActivityMetricsResponse>;
 export interface JourneyExecutionMetricsResponse {
-  ApplicationId: string;
-  JourneyId: string;
-  LastEvaluatedTime: string;
-  Metrics: MapOf__string;
+  ApplicationId?: string;
+  JourneyId?: string;
+  LastEvaluatedTime?: string;
+  Metrics?: { [key: string]: string };
 }
 export const JourneyExecutionMetricsResponse = S.suspend(() =>
   S.Struct({
-    ApplicationId: S.String,
-    JourneyId: S.String,
-    LastEvaluatedTime: S.String,
-    Metrics: MapOf__string,
+    ApplicationId: S.optional(S.String),
+    JourneyId: S.optional(S.String),
+    LastEvaluatedTime: S.optional(S.String),
+    Metrics: S.optional(MapOf__string),
   }),
 ).annotations({
   identifier: "JourneyExecutionMetricsResponse",
 }) as any as S.Schema<JourneyExecutionMetricsResponse>;
 export interface JourneyRunExecutionActivityMetricsResponse {
-  ActivityType: string;
-  ApplicationId: string;
-  JourneyActivityId: string;
-  JourneyId: string;
-  LastEvaluatedTime: string;
-  Metrics: MapOf__string;
-  RunId: string;
+  ActivityType?: string;
+  ApplicationId?: string;
+  JourneyActivityId?: string;
+  JourneyId?: string;
+  LastEvaluatedTime?: string;
+  Metrics?: { [key: string]: string };
+  RunId?: string;
 }
 export const JourneyRunExecutionActivityMetricsResponse = S.suspend(() =>
   S.Struct({
-    ActivityType: S.String,
-    ApplicationId: S.String,
-    JourneyActivityId: S.String,
-    JourneyId: S.String,
-    LastEvaluatedTime: S.String,
-    Metrics: MapOf__string,
-    RunId: S.String,
+    ActivityType: S.optional(S.String),
+    ApplicationId: S.optional(S.String),
+    JourneyActivityId: S.optional(S.String),
+    JourneyId: S.optional(S.String),
+    LastEvaluatedTime: S.optional(S.String),
+    Metrics: S.optional(MapOf__string),
+    RunId: S.optional(S.String),
   }),
 ).annotations({
   identifier: "JourneyRunExecutionActivityMetricsResponse",
 }) as any as S.Schema<JourneyRunExecutionActivityMetricsResponse>;
 export interface JourneyRunExecutionMetricsResponse {
-  ApplicationId: string;
-  JourneyId: string;
-  LastEvaluatedTime: string;
-  Metrics: MapOf__string;
-  RunId: string;
+  ApplicationId?: string;
+  JourneyId?: string;
+  LastEvaluatedTime?: string;
+  Metrics?: { [key: string]: string };
+  RunId?: string;
 }
 export const JourneyRunExecutionMetricsResponse = S.suspend(() =>
   S.Struct({
-    ApplicationId: S.String,
-    JourneyId: S.String,
-    LastEvaluatedTime: S.String,
-    Metrics: MapOf__string,
-    RunId: S.String,
+    ApplicationId: S.optional(S.String),
+    JourneyId: S.optional(S.String),
+    LastEvaluatedTime: S.optional(S.String),
+    Metrics: S.optional(MapOf__string),
+    RunId: S.optional(S.String),
   }),
 ).annotations({
   identifier: "JourneyRunExecutionMetricsResponse",
@@ -6269,16 +6549,16 @@ export interface PushNotificationTemplateResponse {
   APNS?: APNSPushNotificationTemplate;
   Arn?: string;
   Baidu?: AndroidPushNotificationTemplate;
-  CreationDate: string;
+  CreationDate?: string;
   Default?: DefaultPushNotificationTemplate;
   DefaultSubstitutions?: string;
   GCM?: AndroidPushNotificationTemplate;
-  LastModifiedDate: string;
+  LastModifiedDate?: string;
   RecommenderId?: string;
-  tags?: MapOf__string;
+  tags?: { [key: string]: string };
   TemplateDescription?: string;
-  TemplateName: string;
-  TemplateType: string;
+  TemplateName?: string;
+  TemplateType?: TemplateType;
   Version?: string;
 }
 export const PushNotificationTemplateResponse = S.suspend(() =>
@@ -6287,28 +6567,28 @@ export const PushNotificationTemplateResponse = S.suspend(() =>
     APNS: S.optional(APNSPushNotificationTemplate),
     Arn: S.optional(S.String),
     Baidu: S.optional(AndroidPushNotificationTemplate),
-    CreationDate: S.String,
+    CreationDate: S.optional(S.String),
     Default: S.optional(DefaultPushNotificationTemplate),
     DefaultSubstitutions: S.optional(S.String),
     GCM: S.optional(AndroidPushNotificationTemplate),
-    LastModifiedDate: S.String,
+    LastModifiedDate: S.optional(S.String),
     RecommenderId: S.optional(S.String),
     tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
     TemplateDescription: S.optional(S.String),
-    TemplateName: S.String,
-    TemplateType: S.String,
+    TemplateName: S.optional(S.String),
+    TemplateType: S.optional(TemplateType),
     Version: S.optional(S.String),
   }),
 ).annotations({
   identifier: "PushNotificationTemplateResponse",
 }) as any as S.Schema<PushNotificationTemplateResponse>;
 export interface ListRecommenderConfigurationsResponse {
-  Item: ListOfRecommenderConfigurationResponse;
+  Item?: RecommenderConfigurationResponse[];
   NextToken?: string;
 }
 export const ListRecommenderConfigurationsResponse = S.suspend(() =>
   S.Struct({
-    Item: ListOfRecommenderConfigurationResponse,
+    Item: S.optional(ListOfRecommenderConfigurationResponse),
     NextToken: S.optional(S.String),
   }),
 ).annotations({
@@ -6317,28 +6597,28 @@ export const ListRecommenderConfigurationsResponse = S.suspend(() =>
 export interface SMSTemplateResponse {
   Arn?: string;
   Body?: string;
-  CreationDate: string;
+  CreationDate?: string;
   DefaultSubstitutions?: string;
-  LastModifiedDate: string;
+  LastModifiedDate?: string;
   RecommenderId?: string;
-  tags?: MapOf__string;
+  tags?: { [key: string]: string };
   TemplateDescription?: string;
-  TemplateName: string;
-  TemplateType: string;
+  TemplateName?: string;
+  TemplateType?: TemplateType;
   Version?: string;
 }
 export const SMSTemplateResponse = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     Body: S.optional(S.String),
-    CreationDate: S.String,
+    CreationDate: S.optional(S.String),
     DefaultSubstitutions: S.optional(S.String),
-    LastModifiedDate: S.String,
+    LastModifiedDate: S.optional(S.String),
     RecommenderId: S.optional(S.String),
     tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
     TemplateDescription: S.optional(S.String),
-    TemplateName: S.String,
-    TemplateType: S.String,
+    TemplateName: S.optional(S.String),
+    TemplateType: S.optional(TemplateType),
     Version: S.optional(S.String),
   }),
 ).annotations({
@@ -6347,14 +6627,14 @@ export const SMSTemplateResponse = S.suspend(() =>
 export interface VoiceTemplateResponse {
   Arn?: string;
   Body?: string;
-  CreationDate: string;
+  CreationDate?: string;
   DefaultSubstitutions?: string;
   LanguageCode?: string;
-  LastModifiedDate: string;
-  tags?: MapOf__string;
+  LastModifiedDate?: string;
+  tags?: { [key: string]: string };
   TemplateDescription?: string;
-  TemplateName: string;
-  TemplateType: string;
+  TemplateName?: string;
+  TemplateType?: TemplateType;
   Version?: string;
   VoiceId?: string;
 }
@@ -6362,14 +6642,14 @@ export const VoiceTemplateResponse = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     Body: S.optional(S.String),
-    CreationDate: S.String,
+    CreationDate: S.optional(S.String),
     DefaultSubstitutions: S.optional(S.String),
     LanguageCode: S.optional(S.String),
-    LastModifiedDate: S.String,
+    LastModifiedDate: S.optional(S.String),
     tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
     TemplateDescription: S.optional(S.String),
-    TemplateName: S.String,
-    TemplateType: S.String,
+    TemplateName: S.optional(S.String),
+    TemplateType: S.optional(TemplateType),
     Version: S.optional(S.String),
     VoiceId: S.optional(S.String),
   }),
@@ -6377,11 +6657,14 @@ export const VoiceTemplateResponse = S.suspend(() =>
   identifier: "VoiceTemplateResponse",
 }) as any as S.Schema<VoiceTemplateResponse>;
 export interface JourneysResponse {
-  Item: ListOfJourneyResponse;
+  Item?: JourneyResponse[];
   NextToken?: string;
 }
 export const JourneysResponse = S.suspend(() =>
-  S.Struct({ Item: ListOfJourneyResponse, NextToken: S.optional(S.String) }),
+  S.Struct({
+    Item: S.optional(ListOfJourneyResponse),
+    NextToken: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "JourneysResponse",
 }) as any as S.Schema<JourneysResponse>;
@@ -6407,13 +6690,13 @@ export const WriteApplicationSettingsRequest = S.suspend(() =>
 }) as any as S.Schema<WriteApplicationSettingsRequest>;
 export interface EndpointRequest {
   Address?: string;
-  Attributes?: MapOfListOf__string;
-  ChannelType?: string;
+  Attributes?: { [key: string]: string[] };
+  ChannelType?: ChannelType;
   Demographic?: EndpointDemographic;
   EffectiveDate?: string;
   EndpointStatus?: string;
   Location?: EndpointLocation;
-  Metrics?: MapOf__double;
+  Metrics?: { [key: string]: number };
   OptOut?: string;
   RequestId?: string;
   User?: EndpointUser;
@@ -6422,7 +6705,7 @@ export const EndpointRequest = S.suspend(() =>
   S.Struct({
     Address: S.optional(S.String),
     Attributes: S.optional(MapOfListOf__string),
-    ChannelType: S.optional(S.String),
+    ChannelType: S.optional(ChannelType),
     Demographic: S.optional(EndpointDemographic),
     EffectiveDate: S.optional(S.String),
     EndpointStatus: S.optional(S.String),
@@ -6436,25 +6719,36 @@ export const EndpointRequest = S.suspend(() =>
   identifier: "EndpointRequest",
 }) as any as S.Schema<EndpointRequest>;
 export interface EndpointBatchRequest {
-  Item: ListOfEndpointBatchItem;
+  Item?: EndpointBatchItem[];
 }
 export const EndpointBatchRequest = S.suspend(() =>
-  S.Struct({ Item: ListOfEndpointBatchItem }),
+  S.Struct({ Item: S.optional(ListOfEndpointBatchItem) }),
 ).annotations({
   identifier: "EndpointBatchRequest",
 }) as any as S.Schema<EndpointBatchRequest>;
+export type JourneyRunStatus =
+  | "SCHEDULED"
+  | "RUNNING"
+  | "COMPLETED"
+  | "CANCELLED";
+export const JourneyRunStatus = S.Literal(
+  "SCHEDULED",
+  "RUNNING",
+  "COMPLETED",
+  "CANCELLED",
+);
 export interface AddressConfiguration {
   BodyOverride?: string;
-  ChannelType?: string;
-  Context?: MapOf__string;
+  ChannelType?: ChannelType;
+  Context?: { [key: string]: string };
   RawContent?: string;
-  Substitutions?: MapOfListOf__string;
+  Substitutions?: { [key: string]: string[] };
   TitleOverride?: string;
 }
 export const AddressConfiguration = S.suspend(() =>
   S.Struct({
     BodyOverride: S.optional(S.String),
-    ChannelType: S.optional(S.String),
+    ChannelType: S.optional(ChannelType),
     Context: S.optional(MapOf__string),
     RawContent: S.optional(S.String),
     Substitutions: S.optional(MapOfListOf__string),
@@ -6464,13 +6758,13 @@ export const AddressConfiguration = S.suspend(() =>
   identifier: "AddressConfiguration",
 }) as any as S.Schema<AddressConfiguration>;
 export interface CreateAppRequest {
-  CreateApplicationRequest: CreateApplicationRequest;
+  CreateApplicationRequest?: CreateApplicationRequest;
 }
 export const CreateAppRequest = S.suspend(() =>
   S.Struct({
-    CreateApplicationRequest: CreateApplicationRequest.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "CreateApplicationRequest" }),
+    CreateApplicationRequest: S.optional(CreateApplicationRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "CreateApplicationRequest" }),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/apps" }),
@@ -6485,14 +6779,14 @@ export const CreateAppRequest = S.suspend(() =>
   identifier: "CreateAppRequest",
 }) as any as S.Schema<CreateAppRequest>;
 export interface CreateEmailTemplateRequest {
-  EmailTemplateRequest: EmailTemplateRequest;
+  EmailTemplateRequest?: EmailTemplateRequest;
   TemplateName: string;
 }
 export const CreateEmailTemplateRequest = S.suspend(() =>
   S.Struct({
-    EmailTemplateRequest: EmailTemplateRequest.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "EmailTemplateRequest" }),
+    EmailTemplateRequest: S.optional(EmailTemplateRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "EmailTemplateRequest" }),
     TemplateName: S.String.pipe(T.HttpLabel("TemplateName")),
   }).pipe(
     T.all(
@@ -6508,38 +6802,38 @@ export const CreateEmailTemplateRequest = S.suspend(() =>
   identifier: "CreateEmailTemplateRequest",
 }) as any as S.Schema<CreateEmailTemplateRequest>;
 export interface CreateExportJobResponse {
-  ExportJobResponse: ExportJobResponse;
+  ExportJobResponse?: ExportJobResponse;
 }
 export const CreateExportJobResponse = S.suspend(() =>
   S.Struct({
-    ExportJobResponse: ExportJobResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "ExportJobResponse",
-    }),
+    ExportJobResponse: S.optional(ExportJobResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ExportJobResponse" }),
   }),
 ).annotations({
   identifier: "CreateExportJobResponse",
 }) as any as S.Schema<CreateExportJobResponse>;
 export interface CreateImportJobResponse {
-  ImportJobResponse: ImportJobResponse;
+  ImportJobResponse?: ImportJobResponse;
 }
 export const CreateImportJobResponse = S.suspend(() =>
   S.Struct({
-    ImportJobResponse: ImportJobResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "ImportJobResponse",
-    }),
+    ImportJobResponse: S.optional(ImportJobResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ImportJobResponse" }),
   }),
 ).annotations({
   identifier: "CreateImportJobResponse",
 }) as any as S.Schema<CreateImportJobResponse>;
 export interface CreatePushTemplateRequest {
-  PushNotificationTemplateRequest: PushNotificationTemplateRequest;
+  PushNotificationTemplateRequest?: PushNotificationTemplateRequest;
   TemplateName: string;
 }
 export const CreatePushTemplateRequest = S.suspend(() =>
   S.Struct({
-    PushNotificationTemplateRequest: PushNotificationTemplateRequest.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "PushNotificationTemplateRequest" }),
+    PushNotificationTemplateRequest: S.optional(PushNotificationTemplateRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "PushNotificationTemplateRequest" }),
     TemplateName: S.String.pipe(T.HttpLabel("TemplateName")),
   }).pipe(
     T.all(
@@ -6555,13 +6849,15 @@ export const CreatePushTemplateRequest = S.suspend(() =>
   identifier: "CreatePushTemplateRequest",
 }) as any as S.Schema<CreatePushTemplateRequest>;
 export interface CreateRecommenderConfigurationResponse {
-  RecommenderConfigurationResponse: RecommenderConfigurationResponse;
+  RecommenderConfigurationResponse?: RecommenderConfigurationResponse;
 }
 export const CreateRecommenderConfigurationResponse = S.suspend(() =>
   S.Struct({
-    RecommenderConfigurationResponse: RecommenderConfigurationResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "RecommenderConfigurationResponse" }),
+    RecommenderConfigurationResponse: S.optional(
+      RecommenderConfigurationResponse,
+    )
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "RecommenderConfigurationResponse" }),
   }),
 ).annotations({
   identifier: "CreateRecommenderConfigurationResponse",
@@ -6581,363 +6877,367 @@ export const CreateTemplateMessageBody = S.suspend(() =>
   identifier: "CreateTemplateMessageBody",
 }) as any as S.Schema<CreateTemplateMessageBody>;
 export interface CreateVoiceTemplateResponse {
-  CreateTemplateMessageBody: CreateTemplateMessageBody;
+  CreateTemplateMessageBody?: CreateTemplateMessageBody;
 }
 export const CreateVoiceTemplateResponse = S.suspend(() =>
   S.Struct({
-    CreateTemplateMessageBody: CreateTemplateMessageBody.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "CreateTemplateMessageBody" }),
+    CreateTemplateMessageBody: S.optional(CreateTemplateMessageBody)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "CreateTemplateMessageBody" }),
   }),
 ).annotations({
   identifier: "CreateVoiceTemplateResponse",
 }) as any as S.Schema<CreateVoiceTemplateResponse>;
 export interface DeleteAdmChannelResponse {
-  ADMChannelResponse: ADMChannelResponse;
+  ADMChannelResponse?: ADMChannelResponse;
 }
 export const DeleteAdmChannelResponse = S.suspend(() =>
   S.Struct({
-    ADMChannelResponse: ADMChannelResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "ADMChannelResponse",
-    }),
+    ADMChannelResponse: S.optional(ADMChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ADMChannelResponse" }),
   }),
 ).annotations({
   identifier: "DeleteAdmChannelResponse",
 }) as any as S.Schema<DeleteAdmChannelResponse>;
 export interface DeleteApnsChannelResponse {
-  APNSChannelResponse: APNSChannelResponse;
+  APNSChannelResponse?: APNSChannelResponse;
 }
 export const DeleteApnsChannelResponse = S.suspend(() =>
   S.Struct({
-    APNSChannelResponse: APNSChannelResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "APNSChannelResponse",
-    }),
+    APNSChannelResponse: S.optional(APNSChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "APNSChannelResponse" }),
   }),
 ).annotations({
   identifier: "DeleteApnsChannelResponse",
 }) as any as S.Schema<DeleteApnsChannelResponse>;
 export interface DeleteApnsSandboxChannelResponse {
-  APNSSandboxChannelResponse: APNSSandboxChannelResponse;
+  APNSSandboxChannelResponse?: APNSSandboxChannelResponse;
 }
 export const DeleteApnsSandboxChannelResponse = S.suspend(() =>
   S.Struct({
-    APNSSandboxChannelResponse: APNSSandboxChannelResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "APNSSandboxChannelResponse" }),
+    APNSSandboxChannelResponse: S.optional(APNSSandboxChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "APNSSandboxChannelResponse" }),
   }),
 ).annotations({
   identifier: "DeleteApnsSandboxChannelResponse",
 }) as any as S.Schema<DeleteApnsSandboxChannelResponse>;
 export interface DeleteApnsVoipChannelResponse {
-  APNSVoipChannelResponse: APNSVoipChannelResponse;
+  APNSVoipChannelResponse?: APNSVoipChannelResponse;
 }
 export const DeleteApnsVoipChannelResponse = S.suspend(() =>
   S.Struct({
-    APNSVoipChannelResponse: APNSVoipChannelResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "APNSVoipChannelResponse" }),
+    APNSVoipChannelResponse: S.optional(APNSVoipChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "APNSVoipChannelResponse" }),
   }),
 ).annotations({
   identifier: "DeleteApnsVoipChannelResponse",
 }) as any as S.Schema<DeleteApnsVoipChannelResponse>;
 export interface DeleteApnsVoipSandboxChannelResponse {
-  APNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse;
+  APNSVoipSandboxChannelResponse?: APNSVoipSandboxChannelResponse;
 }
 export const DeleteApnsVoipSandboxChannelResponse = S.suspend(() =>
   S.Struct({
-    APNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "APNSVoipSandboxChannelResponse" }),
+    APNSVoipSandboxChannelResponse: S.optional(APNSVoipSandboxChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "APNSVoipSandboxChannelResponse" }),
   }),
 ).annotations({
   identifier: "DeleteApnsVoipSandboxChannelResponse",
 }) as any as S.Schema<DeleteApnsVoipSandboxChannelResponse>;
 export interface DeleteAppResponse {
-  ApplicationResponse: ApplicationResponse;
+  ApplicationResponse?: ApplicationResponse;
 }
 export const DeleteAppResponse = S.suspend(() =>
   S.Struct({
-    ApplicationResponse: ApplicationResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "ApplicationResponse",
-    }),
+    ApplicationResponse: S.optional(ApplicationResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ApplicationResponse" }),
   }),
 ).annotations({
   identifier: "DeleteAppResponse",
 }) as any as S.Schema<DeleteAppResponse>;
 export interface DeleteBaiduChannelResponse {
-  BaiduChannelResponse: BaiduChannelResponse;
+  BaiduChannelResponse?: BaiduChannelResponse;
 }
 export const DeleteBaiduChannelResponse = S.suspend(() =>
   S.Struct({
-    BaiduChannelResponse: BaiduChannelResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "BaiduChannelResponse" }),
+    BaiduChannelResponse: S.optional(BaiduChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "BaiduChannelResponse" }),
   }),
 ).annotations({
   identifier: "DeleteBaiduChannelResponse",
 }) as any as S.Schema<DeleteBaiduChannelResponse>;
 export interface DeleteEmailChannelResponse {
-  EmailChannelResponse: EmailChannelResponse;
+  EmailChannelResponse?: EmailChannelResponse;
 }
 export const DeleteEmailChannelResponse = S.suspend(() =>
   S.Struct({
-    EmailChannelResponse: EmailChannelResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "EmailChannelResponse" }),
+    EmailChannelResponse: S.optional(EmailChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "EmailChannelResponse" }),
   }),
 ).annotations({
   identifier: "DeleteEmailChannelResponse",
 }) as any as S.Schema<DeleteEmailChannelResponse>;
 export interface DeleteEmailTemplateResponse {
-  MessageBody: MessageBody;
+  MessageBody?: MessageBody;
 }
 export const DeleteEmailTemplateResponse = S.suspend(() =>
   S.Struct({
-    MessageBody: MessageBody.pipe(T.HttpPayload()).annotations({
-      identifier: "MessageBody",
-    }),
+    MessageBody: S.optional(MessageBody)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "MessageBody" }),
   }),
 ).annotations({
   identifier: "DeleteEmailTemplateResponse",
 }) as any as S.Schema<DeleteEmailTemplateResponse>;
 export interface DeleteEndpointResponse {
-  EndpointResponse: EndpointResponse;
+  EndpointResponse?: EndpointResponse;
 }
 export const DeleteEndpointResponse = S.suspend(() =>
   S.Struct({
-    EndpointResponse: EndpointResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "EndpointResponse",
-    }),
+    EndpointResponse: S.optional(EndpointResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "EndpointResponse" }),
   }),
 ).annotations({
   identifier: "DeleteEndpointResponse",
 }) as any as S.Schema<DeleteEndpointResponse>;
 export interface DeleteEventStreamResponse {
-  EventStream: EventStream;
+  EventStream?: EventStream;
 }
 export const DeleteEventStreamResponse = S.suspend(() =>
   S.Struct({
-    EventStream: EventStream.pipe(T.HttpPayload()).annotations({
-      identifier: "EventStream",
-    }),
+    EventStream: S.optional(EventStream)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "EventStream" }),
   }),
 ).annotations({
   identifier: "DeleteEventStreamResponse",
 }) as any as S.Schema<DeleteEventStreamResponse>;
 export interface DeleteGcmChannelResponse {
-  GCMChannelResponse: GCMChannelResponse;
+  GCMChannelResponse?: GCMChannelResponse;
 }
 export const DeleteGcmChannelResponse = S.suspend(() =>
   S.Struct({
-    GCMChannelResponse: GCMChannelResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "GCMChannelResponse",
-    }),
+    GCMChannelResponse: S.optional(GCMChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "GCMChannelResponse" }),
   }),
 ).annotations({
   identifier: "DeleteGcmChannelResponse",
 }) as any as S.Schema<DeleteGcmChannelResponse>;
 export interface DeleteJourneyResponse {
-  JourneyResponse: JourneyResponse;
+  JourneyResponse?: JourneyResponse;
 }
 export const DeleteJourneyResponse = S.suspend(() =>
   S.Struct({
-    JourneyResponse: JourneyResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "JourneyResponse",
-    }),
+    JourneyResponse: S.optional(JourneyResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "JourneyResponse" }),
   }),
 ).annotations({
   identifier: "DeleteJourneyResponse",
 }) as any as S.Schema<DeleteJourneyResponse>;
 export interface DeleteRecommenderConfigurationResponse {
-  RecommenderConfigurationResponse: RecommenderConfigurationResponse;
+  RecommenderConfigurationResponse?: RecommenderConfigurationResponse;
 }
 export const DeleteRecommenderConfigurationResponse = S.suspend(() =>
   S.Struct({
-    RecommenderConfigurationResponse: RecommenderConfigurationResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "RecommenderConfigurationResponse" }),
+    RecommenderConfigurationResponse: S.optional(
+      RecommenderConfigurationResponse,
+    )
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "RecommenderConfigurationResponse" }),
   }),
 ).annotations({
   identifier: "DeleteRecommenderConfigurationResponse",
 }) as any as S.Schema<DeleteRecommenderConfigurationResponse>;
 export interface DeleteSmsChannelResponse {
-  SMSChannelResponse: SMSChannelResponse;
+  SMSChannelResponse?: SMSChannelResponse;
 }
 export const DeleteSmsChannelResponse = S.suspend(() =>
   S.Struct({
-    SMSChannelResponse: SMSChannelResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "SMSChannelResponse",
-    }),
+    SMSChannelResponse: S.optional(SMSChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "SMSChannelResponse" }),
   }),
 ).annotations({
   identifier: "DeleteSmsChannelResponse",
 }) as any as S.Schema<DeleteSmsChannelResponse>;
 export interface DeleteUserEndpointsResponse {
-  EndpointsResponse: EndpointsResponse;
+  EndpointsResponse?: EndpointsResponse;
 }
 export const DeleteUserEndpointsResponse = S.suspend(() =>
   S.Struct({
-    EndpointsResponse: EndpointsResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "EndpointsResponse",
-    }),
+    EndpointsResponse: S.optional(EndpointsResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "EndpointsResponse" }),
   }),
 ).annotations({
   identifier: "DeleteUserEndpointsResponse",
 }) as any as S.Schema<DeleteUserEndpointsResponse>;
 export interface DeleteVoiceChannelResponse {
-  VoiceChannelResponse: VoiceChannelResponse;
+  VoiceChannelResponse?: VoiceChannelResponse;
 }
 export const DeleteVoiceChannelResponse = S.suspend(() =>
   S.Struct({
-    VoiceChannelResponse: VoiceChannelResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "VoiceChannelResponse" }),
+    VoiceChannelResponse: S.optional(VoiceChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "VoiceChannelResponse" }),
   }),
 ).annotations({
   identifier: "DeleteVoiceChannelResponse",
 }) as any as S.Schema<DeleteVoiceChannelResponse>;
 export interface GetApplicationSettingsResponse {
-  ApplicationSettingsResource: ApplicationSettingsResource;
+  ApplicationSettingsResource?: ApplicationSettingsResource;
 }
 export const GetApplicationSettingsResponse = S.suspend(() =>
   S.Struct({
-    ApplicationSettingsResource: ApplicationSettingsResource.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "ApplicationSettingsResource" }),
+    ApplicationSettingsResource: S.optional(ApplicationSettingsResource)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ApplicationSettingsResource" }),
   }),
 ).annotations({
   identifier: "GetApplicationSettingsResponse",
 }) as any as S.Schema<GetApplicationSettingsResponse>;
 export interface GetAppsResponse {
-  ApplicationsResponse: ApplicationsResponse;
+  ApplicationsResponse?: ApplicationsResponse;
 }
 export const GetAppsResponse = S.suspend(() =>
   S.Struct({
-    ApplicationsResponse: ApplicationsResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "ApplicationsResponse" }),
+    ApplicationsResponse: S.optional(ApplicationsResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ApplicationsResponse" }),
   }),
 ).annotations({
   identifier: "GetAppsResponse",
 }) as any as S.Schema<GetAppsResponse>;
 export interface GetCampaignDateRangeKpiResponse {
-  CampaignDateRangeKpiResponse: CampaignDateRangeKpiResponse;
+  CampaignDateRangeKpiResponse?: CampaignDateRangeKpiResponse;
 }
 export const GetCampaignDateRangeKpiResponse = S.suspend(() =>
   S.Struct({
-    CampaignDateRangeKpiResponse: CampaignDateRangeKpiResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "CampaignDateRangeKpiResponse" }),
+    CampaignDateRangeKpiResponse: S.optional(CampaignDateRangeKpiResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "CampaignDateRangeKpiResponse" }),
   }),
 ).annotations({
   identifier: "GetCampaignDateRangeKpiResponse",
 }) as any as S.Schema<GetCampaignDateRangeKpiResponse>;
 export interface GetCampaignsResponse {
-  CampaignsResponse: CampaignsResponse;
+  CampaignsResponse?: CampaignsResponse;
 }
 export const GetCampaignsResponse = S.suspend(() =>
   S.Struct({
-    CampaignsResponse: CampaignsResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "CampaignsResponse",
-    }),
+    CampaignsResponse: S.optional(CampaignsResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "CampaignsResponse" }),
   }),
 ).annotations({
   identifier: "GetCampaignsResponse",
 }) as any as S.Schema<GetCampaignsResponse>;
 export interface GetEmailTemplateResponse {
-  EmailTemplateResponse: EmailTemplateResponse;
+  EmailTemplateResponse?: EmailTemplateResponse;
 }
 export const GetEmailTemplateResponse = S.suspend(() =>
   S.Struct({
-    EmailTemplateResponse: EmailTemplateResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "EmailTemplateResponse" }),
+    EmailTemplateResponse: S.optional(EmailTemplateResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "EmailTemplateResponse" }),
   }),
 ).annotations({
   identifier: "GetEmailTemplateResponse",
 }) as any as S.Schema<GetEmailTemplateResponse>;
 export interface GetExportJobsResponse {
-  ExportJobsResponse: ExportJobsResponse;
+  ExportJobsResponse?: ExportJobsResponse;
 }
 export const GetExportJobsResponse = S.suspend(() =>
   S.Struct({
-    ExportJobsResponse: ExportJobsResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "ExportJobsResponse",
-    }),
+    ExportJobsResponse: S.optional(ExportJobsResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ExportJobsResponse" }),
   }),
 ).annotations({
   identifier: "GetExportJobsResponse",
 }) as any as S.Schema<GetExportJobsResponse>;
 export interface GetImportJobsResponse {
-  ImportJobsResponse: ImportJobsResponse;
+  ImportJobsResponse?: ImportJobsResponse;
 }
 export const GetImportJobsResponse = S.suspend(() =>
   S.Struct({
-    ImportJobsResponse: ImportJobsResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "ImportJobsResponse",
-    }),
+    ImportJobsResponse: S.optional(ImportJobsResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ImportJobsResponse" }),
   }),
 ).annotations({
   identifier: "GetImportJobsResponse",
 }) as any as S.Schema<GetImportJobsResponse>;
 export interface GetInAppTemplateResponse {
-  InAppTemplateResponse: InAppTemplateResponse;
+  InAppTemplateResponse?: InAppTemplateResponse;
 }
 export const GetInAppTemplateResponse = S.suspend(() =>
   S.Struct({
-    InAppTemplateResponse: InAppTemplateResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "InAppTemplateResponse" }),
+    InAppTemplateResponse: S.optional(InAppTemplateResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "InAppTemplateResponse" }),
   }),
 ).annotations({
   identifier: "GetInAppTemplateResponse",
 }) as any as S.Schema<GetInAppTemplateResponse>;
 export interface GetJourneyDateRangeKpiResponse {
-  JourneyDateRangeKpiResponse: JourneyDateRangeKpiResponse;
+  JourneyDateRangeKpiResponse?: JourneyDateRangeKpiResponse;
 }
 export const GetJourneyDateRangeKpiResponse = S.suspend(() =>
   S.Struct({
-    JourneyDateRangeKpiResponse: JourneyDateRangeKpiResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "JourneyDateRangeKpiResponse" }),
+    JourneyDateRangeKpiResponse: S.optional(JourneyDateRangeKpiResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "JourneyDateRangeKpiResponse" }),
   }),
 ).annotations({
   identifier: "GetJourneyDateRangeKpiResponse",
 }) as any as S.Schema<GetJourneyDateRangeKpiResponse>;
 export interface GetJourneyExecutionActivityMetricsResponse {
-  JourneyExecutionActivityMetricsResponse: JourneyExecutionActivityMetricsResponse;
+  JourneyExecutionActivityMetricsResponse?: JourneyExecutionActivityMetricsResponse;
 }
 export const GetJourneyExecutionActivityMetricsResponse = S.suspend(() =>
   S.Struct({
-    JourneyExecutionActivityMetricsResponse:
-      JourneyExecutionActivityMetricsResponse.pipe(T.HttpPayload()).annotations(
-        { identifier: "JourneyExecutionActivityMetricsResponse" },
-      ),
+    JourneyExecutionActivityMetricsResponse: S.optional(
+      JourneyExecutionActivityMetricsResponse,
+    )
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "JourneyExecutionActivityMetricsResponse" }),
   }),
 ).annotations({
   identifier: "GetJourneyExecutionActivityMetricsResponse",
 }) as any as S.Schema<GetJourneyExecutionActivityMetricsResponse>;
 export interface GetJourneyExecutionMetricsResponse {
-  JourneyExecutionMetricsResponse: JourneyExecutionMetricsResponse;
+  JourneyExecutionMetricsResponse?: JourneyExecutionMetricsResponse;
 }
 export const GetJourneyExecutionMetricsResponse = S.suspend(() =>
   S.Struct({
-    JourneyExecutionMetricsResponse: JourneyExecutionMetricsResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "JourneyExecutionMetricsResponse" }),
+    JourneyExecutionMetricsResponse: S.optional(JourneyExecutionMetricsResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "JourneyExecutionMetricsResponse" }),
   }),
 ).annotations({
   identifier: "GetJourneyExecutionMetricsResponse",
 }) as any as S.Schema<GetJourneyExecutionMetricsResponse>;
 export interface GetJourneyRunExecutionActivityMetricsResponse {
-  JourneyRunExecutionActivityMetricsResponse: JourneyRunExecutionActivityMetricsResponse;
+  JourneyRunExecutionActivityMetricsResponse?: JourneyRunExecutionActivityMetricsResponse;
 }
 export const GetJourneyRunExecutionActivityMetricsResponse = S.suspend(() =>
   S.Struct({
-    JourneyRunExecutionActivityMetricsResponse:
-      JourneyRunExecutionActivityMetricsResponse.pipe(
-        T.HttpPayload(),
-      ).annotations({
+    JourneyRunExecutionActivityMetricsResponse: S.optional(
+      JourneyRunExecutionActivityMetricsResponse,
+    )
+      .pipe(T.HttpPayload())
+      .annotations({
         identifier: "JourneyRunExecutionActivityMetricsResponse",
       }),
   }),
@@ -6945,172 +7245,177 @@ export const GetJourneyRunExecutionActivityMetricsResponse = S.suspend(() =>
   identifier: "GetJourneyRunExecutionActivityMetricsResponse",
 }) as any as S.Schema<GetJourneyRunExecutionActivityMetricsResponse>;
 export interface GetJourneyRunExecutionMetricsResponse {
-  JourneyRunExecutionMetricsResponse: JourneyRunExecutionMetricsResponse;
+  JourneyRunExecutionMetricsResponse?: JourneyRunExecutionMetricsResponse;
 }
 export const GetJourneyRunExecutionMetricsResponse = S.suspend(() =>
   S.Struct({
-    JourneyRunExecutionMetricsResponse: JourneyRunExecutionMetricsResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "JourneyRunExecutionMetricsResponse" }),
+    JourneyRunExecutionMetricsResponse: S.optional(
+      JourneyRunExecutionMetricsResponse,
+    )
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "JourneyRunExecutionMetricsResponse" }),
   }),
 ).annotations({
   identifier: "GetJourneyRunExecutionMetricsResponse",
 }) as any as S.Schema<GetJourneyRunExecutionMetricsResponse>;
 export interface GetPushTemplateResponse {
-  PushNotificationTemplateResponse: PushNotificationTemplateResponse;
+  PushNotificationTemplateResponse?: PushNotificationTemplateResponse;
 }
 export const GetPushTemplateResponse = S.suspend(() =>
   S.Struct({
-    PushNotificationTemplateResponse: PushNotificationTemplateResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "PushNotificationTemplateResponse" }),
+    PushNotificationTemplateResponse: S.optional(
+      PushNotificationTemplateResponse,
+    )
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "PushNotificationTemplateResponse" }),
   }),
 ).annotations({
   identifier: "GetPushTemplateResponse",
 }) as any as S.Schema<GetPushTemplateResponse>;
 export interface GetRecommenderConfigurationsResponse {
-  ListRecommenderConfigurationsResponse: ListRecommenderConfigurationsResponse;
+  ListRecommenderConfigurationsResponse?: ListRecommenderConfigurationsResponse;
 }
 export const GetRecommenderConfigurationsResponse = S.suspend(() =>
   S.Struct({
-    ListRecommenderConfigurationsResponse:
-      ListRecommenderConfigurationsResponse.pipe(T.HttpPayload()).annotations({
-        identifier: "ListRecommenderConfigurationsResponse",
-      }),
+    ListRecommenderConfigurationsResponse: S.optional(
+      ListRecommenderConfigurationsResponse,
+    )
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ListRecommenderConfigurationsResponse" }),
   }),
 ).annotations({
   identifier: "GetRecommenderConfigurationsResponse",
 }) as any as S.Schema<GetRecommenderConfigurationsResponse>;
 export interface GetSegmentsResponse {
-  SegmentsResponse: SegmentsResponse;
+  SegmentsResponse?: SegmentsResponse;
 }
 export const GetSegmentsResponse = S.suspend(() =>
   S.Struct({
-    SegmentsResponse: SegmentsResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "SegmentsResponse",
-    }),
+    SegmentsResponse: S.optional(SegmentsResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "SegmentsResponse" }),
   }),
 ).annotations({
   identifier: "GetSegmentsResponse",
 }) as any as S.Schema<GetSegmentsResponse>;
 export interface GetSmsTemplateResponse {
-  SMSTemplateResponse: SMSTemplateResponse;
+  SMSTemplateResponse?: SMSTemplateResponse;
 }
 export const GetSmsTemplateResponse = S.suspend(() =>
   S.Struct({
-    SMSTemplateResponse: SMSTemplateResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "SMSTemplateResponse",
-    }),
+    SMSTemplateResponse: S.optional(SMSTemplateResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "SMSTemplateResponse" }),
   }),
 ).annotations({
   identifier: "GetSmsTemplateResponse",
 }) as any as S.Schema<GetSmsTemplateResponse>;
 export interface GetVoiceTemplateResponse {
-  VoiceTemplateResponse: VoiceTemplateResponse;
+  VoiceTemplateResponse?: VoiceTemplateResponse;
 }
 export const GetVoiceTemplateResponse = S.suspend(() =>
   S.Struct({
-    VoiceTemplateResponse: VoiceTemplateResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "VoiceTemplateResponse" }),
+    VoiceTemplateResponse: S.optional(VoiceTemplateResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "VoiceTemplateResponse" }),
   }),
 ).annotations({
   identifier: "GetVoiceTemplateResponse",
 }) as any as S.Schema<GetVoiceTemplateResponse>;
 export interface ListJourneysResponse {
-  JourneysResponse: JourneysResponse;
+  JourneysResponse?: JourneysResponse;
 }
 export const ListJourneysResponse = S.suspend(() =>
   S.Struct({
-    JourneysResponse: JourneysResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "JourneysResponse",
-    }),
+    JourneysResponse: S.optional(JourneysResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "JourneysResponse" }),
   }),
 ).annotations({
   identifier: "ListJourneysResponse",
 }) as any as S.Schema<ListJourneysResponse>;
 export interface PutEventStreamResponse {
-  EventStream: EventStream;
+  EventStream?: EventStream;
 }
 export const PutEventStreamResponse = S.suspend(() =>
   S.Struct({
-    EventStream: EventStream.pipe(T.HttpPayload()).annotations({
-      identifier: "EventStream",
-    }),
+    EventStream: S.optional(EventStream)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "EventStream" }),
   }),
 ).annotations({
   identifier: "PutEventStreamResponse",
 }) as any as S.Schema<PutEventStreamResponse>;
 export interface UpdateAdmChannelResponse {
-  ADMChannelResponse: ADMChannelResponse;
+  ADMChannelResponse?: ADMChannelResponse;
 }
 export const UpdateAdmChannelResponse = S.suspend(() =>
   S.Struct({
-    ADMChannelResponse: ADMChannelResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "ADMChannelResponse",
-    }),
+    ADMChannelResponse: S.optional(ADMChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ADMChannelResponse" }),
   }),
 ).annotations({
   identifier: "UpdateAdmChannelResponse",
 }) as any as S.Schema<UpdateAdmChannelResponse>;
 export interface UpdateApnsChannelResponse {
-  APNSChannelResponse: APNSChannelResponse;
+  APNSChannelResponse?: APNSChannelResponse;
 }
 export const UpdateApnsChannelResponse = S.suspend(() =>
   S.Struct({
-    APNSChannelResponse: APNSChannelResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "APNSChannelResponse",
-    }),
+    APNSChannelResponse: S.optional(APNSChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "APNSChannelResponse" }),
   }),
 ).annotations({
   identifier: "UpdateApnsChannelResponse",
 }) as any as S.Schema<UpdateApnsChannelResponse>;
 export interface UpdateApnsSandboxChannelResponse {
-  APNSSandboxChannelResponse: APNSSandboxChannelResponse;
+  APNSSandboxChannelResponse?: APNSSandboxChannelResponse;
 }
 export const UpdateApnsSandboxChannelResponse = S.suspend(() =>
   S.Struct({
-    APNSSandboxChannelResponse: APNSSandboxChannelResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "APNSSandboxChannelResponse" }),
+    APNSSandboxChannelResponse: S.optional(APNSSandboxChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "APNSSandboxChannelResponse" }),
   }),
 ).annotations({
   identifier: "UpdateApnsSandboxChannelResponse",
 }) as any as S.Schema<UpdateApnsSandboxChannelResponse>;
 export interface UpdateApnsVoipChannelResponse {
-  APNSVoipChannelResponse: APNSVoipChannelResponse;
+  APNSVoipChannelResponse?: APNSVoipChannelResponse;
 }
 export const UpdateApnsVoipChannelResponse = S.suspend(() =>
   S.Struct({
-    APNSVoipChannelResponse: APNSVoipChannelResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "APNSVoipChannelResponse" }),
+    APNSVoipChannelResponse: S.optional(APNSVoipChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "APNSVoipChannelResponse" }),
   }),
 ).annotations({
   identifier: "UpdateApnsVoipChannelResponse",
 }) as any as S.Schema<UpdateApnsVoipChannelResponse>;
 export interface UpdateApnsVoipSandboxChannelResponse {
-  APNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse;
+  APNSVoipSandboxChannelResponse?: APNSVoipSandboxChannelResponse;
 }
 export const UpdateApnsVoipSandboxChannelResponse = S.suspend(() =>
   S.Struct({
-    APNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "APNSVoipSandboxChannelResponse" }),
+    APNSVoipSandboxChannelResponse: S.optional(APNSVoipSandboxChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "APNSVoipSandboxChannelResponse" }),
   }),
 ).annotations({
   identifier: "UpdateApnsVoipSandboxChannelResponse",
 }) as any as S.Schema<UpdateApnsVoipSandboxChannelResponse>;
 export interface UpdateApplicationSettingsRequest {
   ApplicationId: string;
-  WriteApplicationSettingsRequest: WriteApplicationSettingsRequest;
+  WriteApplicationSettingsRequest?: WriteApplicationSettingsRequest;
 }
 export const UpdateApplicationSettingsRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    WriteApplicationSettingsRequest: WriteApplicationSettingsRequest.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "WriteApplicationSettingsRequest" }),
+    WriteApplicationSettingsRequest: S.optional(WriteApplicationSettingsRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "WriteApplicationSettingsRequest" }),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/v1/apps/{ApplicationId}/settings" }),
@@ -7125,25 +7430,25 @@ export const UpdateApplicationSettingsRequest = S.suspend(() =>
   identifier: "UpdateApplicationSettingsRequest",
 }) as any as S.Schema<UpdateApplicationSettingsRequest>;
 export interface UpdateBaiduChannelResponse {
-  BaiduChannelResponse: BaiduChannelResponse;
+  BaiduChannelResponse?: BaiduChannelResponse;
 }
 export const UpdateBaiduChannelResponse = S.suspend(() =>
   S.Struct({
-    BaiduChannelResponse: BaiduChannelResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "BaiduChannelResponse" }),
+    BaiduChannelResponse: S.optional(BaiduChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "BaiduChannelResponse" }),
   }),
 ).annotations({
   identifier: "UpdateBaiduChannelResponse",
 }) as any as S.Schema<UpdateBaiduChannelResponse>;
 export interface UpdateEmailChannelResponse {
-  EmailChannelResponse: EmailChannelResponse;
+  EmailChannelResponse?: EmailChannelResponse;
 }
 export const UpdateEmailChannelResponse = S.suspend(() =>
   S.Struct({
-    EmailChannelResponse: EmailChannelResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "EmailChannelResponse" }),
+    EmailChannelResponse: S.optional(EmailChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "EmailChannelResponse" }),
   }),
 ).annotations({
   identifier: "UpdateEmailChannelResponse",
@@ -7151,15 +7456,15 @@ export const UpdateEmailChannelResponse = S.suspend(() =>
 export interface UpdateEndpointRequest {
   ApplicationId: string;
   EndpointId: string;
-  EndpointRequest: EndpointRequest;
+  EndpointRequest?: EndpointRequest;
 }
 export const UpdateEndpointRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     EndpointId: S.String.pipe(T.HttpLabel("EndpointId")),
-    EndpointRequest: EndpointRequest.pipe(T.HttpPayload()).annotations({
-      identifier: "EndpointRequest",
-    }),
+    EndpointRequest: S.optional(EndpointRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "EndpointRequest" }),
   }).pipe(
     T.all(
       T.Http({
@@ -7178,14 +7483,14 @@ export const UpdateEndpointRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateEndpointRequest>;
 export interface UpdateEndpointsBatchRequest {
   ApplicationId: string;
-  EndpointBatchRequest: EndpointBatchRequest;
+  EndpointBatchRequest?: EndpointBatchRequest;
 }
 export const UpdateEndpointsBatchRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    EndpointBatchRequest: EndpointBatchRequest.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "EndpointBatchRequest" }),
+    EndpointBatchRequest: S.optional(EndpointBatchRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "EndpointBatchRequest" }),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/v1/apps/{ApplicationId}/endpoints" }),
@@ -7200,82 +7505,84 @@ export const UpdateEndpointsBatchRequest = S.suspend(() =>
   identifier: "UpdateEndpointsBatchRequest",
 }) as any as S.Schema<UpdateEndpointsBatchRequest>;
 export interface UpdateGcmChannelResponse {
-  GCMChannelResponse: GCMChannelResponse;
+  GCMChannelResponse?: GCMChannelResponse;
 }
 export const UpdateGcmChannelResponse = S.suspend(() =>
   S.Struct({
-    GCMChannelResponse: GCMChannelResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "GCMChannelResponse",
-    }),
+    GCMChannelResponse: S.optional(GCMChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "GCMChannelResponse" }),
   }),
 ).annotations({
   identifier: "UpdateGcmChannelResponse",
 }) as any as S.Schema<UpdateGcmChannelResponse>;
 export interface UpdateJourneyStateResponse {
-  JourneyResponse: JourneyResponse;
+  JourneyResponse?: JourneyResponse;
 }
 export const UpdateJourneyStateResponse = S.suspend(() =>
   S.Struct({
-    JourneyResponse: JourneyResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "JourneyResponse",
-    }),
+    JourneyResponse: S.optional(JourneyResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "JourneyResponse" }),
   }),
 ).annotations({
   identifier: "UpdateJourneyStateResponse",
 }) as any as S.Schema<UpdateJourneyStateResponse>;
 export interface UpdateRecommenderConfigurationResponse {
-  RecommenderConfigurationResponse: RecommenderConfigurationResponse;
+  RecommenderConfigurationResponse?: RecommenderConfigurationResponse;
 }
 export const UpdateRecommenderConfigurationResponse = S.suspend(() =>
   S.Struct({
-    RecommenderConfigurationResponse: RecommenderConfigurationResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "RecommenderConfigurationResponse" }),
+    RecommenderConfigurationResponse: S.optional(
+      RecommenderConfigurationResponse,
+    )
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "RecommenderConfigurationResponse" }),
   }),
 ).annotations({
   identifier: "UpdateRecommenderConfigurationResponse",
 }) as any as S.Schema<UpdateRecommenderConfigurationResponse>;
 export interface UpdateSmsChannelResponse {
-  SMSChannelResponse: SMSChannelResponse;
+  SMSChannelResponse?: SMSChannelResponse;
 }
 export const UpdateSmsChannelResponse = S.suspend(() =>
   S.Struct({
-    SMSChannelResponse: SMSChannelResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "SMSChannelResponse",
-    }),
+    SMSChannelResponse: S.optional(SMSChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "SMSChannelResponse" }),
   }),
 ).annotations({
   identifier: "UpdateSmsChannelResponse",
 }) as any as S.Schema<UpdateSmsChannelResponse>;
 export interface UpdateTemplateActiveVersionResponse {
-  MessageBody: MessageBody;
+  MessageBody?: MessageBody;
 }
 export const UpdateTemplateActiveVersionResponse = S.suspend(() =>
   S.Struct({
-    MessageBody: MessageBody.pipe(T.HttpPayload()).annotations({
-      identifier: "MessageBody",
-    }),
+    MessageBody: S.optional(MessageBody)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "MessageBody" }),
   }),
 ).annotations({
   identifier: "UpdateTemplateActiveVersionResponse",
 }) as any as S.Schema<UpdateTemplateActiveVersionResponse>;
 export interface UpdateVoiceChannelResponse {
-  VoiceChannelResponse: VoiceChannelResponse;
+  VoiceChannelResponse?: VoiceChannelResponse;
 }
 export const UpdateVoiceChannelResponse = S.suspend(() =>
   S.Struct({
-    VoiceChannelResponse: VoiceChannelResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "VoiceChannelResponse" }),
+    VoiceChannelResponse: S.optional(VoiceChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "VoiceChannelResponse" }),
   }),
 ).annotations({
   identifier: "UpdateVoiceChannelResponse",
 }) as any as S.Schema<UpdateVoiceChannelResponse>;
 export interface ActivityResponse {
-  ApplicationId: string;
-  CampaignId: string;
+  ApplicationId?: string;
+  CampaignId?: string;
   End?: string;
-  Id: string;
+  Id?: string;
   Result?: string;
   ScheduledStart?: string;
   Start?: string;
@@ -7285,14 +7592,14 @@ export interface ActivityResponse {
   TimezonesTotalCount?: number;
   TotalEndpointCount?: number;
   TreatmentId?: string;
-  ExecutionMetrics?: MapOf__string;
+  ExecutionMetrics?: { [key: string]: string };
 }
 export const ActivityResponse = S.suspend(() =>
   S.Struct({
-    ApplicationId: S.String,
-    CampaignId: S.String,
+    ApplicationId: S.optional(S.String),
+    CampaignId: S.optional(S.String),
     End: S.optional(S.String),
-    Id: S.String,
+    Id: S.optional(S.String),
     Result: S.optional(S.String),
     ScheduledStart: S.optional(S.String),
     Start: S.optional(S.String),
@@ -7310,17 +7617,17 @@ export const ActivityResponse = S.suspend(() =>
 export type ListOfActivityResponse = ActivityResponse[];
 export const ListOfActivityResponse = S.Array(ActivityResponse);
 export interface JourneyRunResponse {
-  CreationTime: string;
-  LastUpdateTime: string;
-  RunId: string;
-  Status: string;
+  CreationTime?: string;
+  LastUpdateTime?: string;
+  RunId?: string;
+  Status?: JourneyRunStatus;
 }
 export const JourneyRunResponse = S.suspend(() =>
   S.Struct({
-    CreationTime: S.String,
-    LastUpdateTime: S.String,
-    RunId: S.String,
-    Status: S.String,
+    CreationTime: S.optional(S.String),
+    LastUpdateTime: S.optional(S.String),
+    RunId: S.optional(S.String),
+    Status: S.optional(JourneyRunStatus),
   }),
 ).annotations({
   identifier: "JourneyRunResponse",
@@ -7329,25 +7636,25 @@ export type ListOfJourneyRunResponse = JourneyRunResponse[];
 export const ListOfJourneyRunResponse = S.Array(JourneyRunResponse);
 export interface TemplateResponse {
   Arn?: string;
-  CreationDate: string;
+  CreationDate?: string;
   DefaultSubstitutions?: string;
-  LastModifiedDate: string;
-  tags?: MapOf__string;
+  LastModifiedDate?: string;
+  tags?: { [key: string]: string };
   TemplateDescription?: string;
-  TemplateName: string;
-  TemplateType: string;
+  TemplateName?: string;
+  TemplateType?: TemplateType;
   Version?: string;
 }
 export const TemplateResponse = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
-    CreationDate: S.String,
+    CreationDate: S.optional(S.String),
     DefaultSubstitutions: S.optional(S.String),
-    LastModifiedDate: S.String,
+    LastModifiedDate: S.optional(S.String),
     tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
     TemplateDescription: S.optional(S.String),
-    TemplateName: S.String,
-    TemplateType: S.String,
+    TemplateName: S.optional(S.String),
+    TemplateType: S.optional(TemplateType),
     Version: S.optional(S.String),
   }),
 ).annotations({
@@ -7356,22 +7663,22 @@ export const TemplateResponse = S.suspend(() =>
 export type ListOfTemplateResponse = TemplateResponse[];
 export const ListOfTemplateResponse = S.Array(TemplateResponse);
 export interface TemplateVersionResponse {
-  CreationDate: string;
+  CreationDate?: string;
   DefaultSubstitutions?: string;
-  LastModifiedDate: string;
+  LastModifiedDate?: string;
   TemplateDescription?: string;
-  TemplateName: string;
-  TemplateType: string;
+  TemplateName?: string;
+  TemplateType?: string;
   Version?: string;
 }
 export const TemplateVersionResponse = S.suspend(() =>
   S.Struct({
-    CreationDate: S.String,
+    CreationDate: S.optional(S.String),
     DefaultSubstitutions: S.optional(S.String),
-    LastModifiedDate: S.String,
+    LastModifiedDate: S.optional(S.String),
     TemplateDescription: S.optional(S.String),
-    TemplateName: S.String,
-    TemplateType: S.String,
+    TemplateName: S.optional(S.String),
+    TemplateType: S.optional(S.String),
     Version: S.optional(S.String),
   }),
 ).annotations({
@@ -7386,13 +7693,13 @@ export const MapOfAddressConfiguration = S.Record({
 });
 export interface PublicEndpoint {
   Address?: string;
-  Attributes?: MapOfListOf__string;
-  ChannelType?: string;
+  Attributes?: { [key: string]: string[] };
+  ChannelType?: ChannelType;
   Demographic?: EndpointDemographic;
   EffectiveDate?: string;
   EndpointStatus?: string;
   Location?: EndpointLocation;
-  Metrics?: MapOf__double;
+  Metrics?: { [key: string]: number };
   OptOut?: string;
   RequestId?: string;
   User?: EndpointUser;
@@ -7401,7 +7708,7 @@ export const PublicEndpoint = S.suspend(() =>
   S.Struct({
     Address: S.optional(S.String),
     Attributes: S.optional(MapOfListOf__string),
-    ChannelType: S.optional(S.String),
+    ChannelType: S.optional(ChannelType),
     Demographic: S.optional(EndpointDemographic),
     EffectiveDate: S.optional(S.String),
     EndpointStatus: S.optional(S.String),
@@ -7415,41 +7722,50 @@ export const PublicEndpoint = S.suspend(() =>
   identifier: "PublicEndpoint",
 }) as any as S.Schema<PublicEndpoint>;
 export interface ActivitiesResponse {
-  Item: ListOfActivityResponse;
+  Item?: ActivityResponse[];
   NextToken?: string;
 }
 export const ActivitiesResponse = S.suspend(() =>
-  S.Struct({ Item: ListOfActivityResponse, NextToken: S.optional(S.String) }),
+  S.Struct({
+    Item: S.optional(ListOfActivityResponse),
+    NextToken: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "ActivitiesResponse",
 }) as any as S.Schema<ActivitiesResponse>;
 export interface JourneyRunsResponse {
-  Item: ListOfJourneyRunResponse;
+  Item?: JourneyRunResponse[];
   NextToken?: string;
 }
 export const JourneyRunsResponse = S.suspend(() =>
-  S.Struct({ Item: ListOfJourneyRunResponse, NextToken: S.optional(S.String) }),
+  S.Struct({
+    Item: S.optional(ListOfJourneyRunResponse),
+    NextToken: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "JourneyRunsResponse",
 }) as any as S.Schema<JourneyRunsResponse>;
 export interface TemplatesResponse {
-  Item: ListOfTemplateResponse;
+  Item?: TemplateResponse[];
   NextToken?: string;
 }
 export const TemplatesResponse = S.suspend(() =>
-  S.Struct({ Item: ListOfTemplateResponse, NextToken: S.optional(S.String) }),
+  S.Struct({
+    Item: S.optional(ListOfTemplateResponse),
+    NextToken: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "TemplatesResponse",
 }) as any as S.Schema<TemplatesResponse>;
 export interface TemplateVersionsResponse {
-  Item: ListOfTemplateVersionResponse;
+  Item?: TemplateVersionResponse[];
   Message?: string;
   NextToken?: string;
   RequestID?: string;
 }
 export const TemplateVersionsResponse = S.suspend(() =>
   S.Struct({
-    Item: ListOfTemplateVersionResponse,
+    Item: S.optional(ListOfTemplateVersionResponse),
     Message: S.optional(S.String),
     NextToken: S.optional(S.String),
     RequestID: S.optional(S.String),
@@ -7494,14 +7810,14 @@ export const NumberValidateResponse = S.suspend(() =>
   identifier: "NumberValidateResponse",
 }) as any as S.Schema<NumberValidateResponse>;
 export interface AttributesResource {
-  ApplicationId: string;
-  AttributeType: string;
-  Attributes?: ListOf__string;
+  ApplicationId?: string;
+  AttributeType?: string;
+  Attributes?: string[];
 }
 export const AttributesResource = S.suspend(() =>
   S.Struct({
-    ApplicationId: S.String,
-    AttributeType: S.String,
+    ApplicationId: S.optional(S.String),
+    AttributeType: S.optional(S.String),
     Attributes: S.optional(ListOf__string),
   }),
 ).annotations({
@@ -7542,15 +7858,15 @@ export const ChannelResponse = S.suspend(() =>
   identifier: "ChannelResponse",
 }) as any as S.Schema<ChannelResponse>;
 export interface InAppMessage {
-  Content?: ListOfInAppMessageContent;
-  CustomConfig?: MapOf__string;
-  Layout?: string;
+  Content?: InAppMessageContent[];
+  CustomConfig?: { [key: string]: string };
+  Layout?: Layout;
 }
 export const InAppMessage = S.suspend(() =>
   S.Struct({
     Content: S.optional(ListOfInAppMessageContent),
     CustomConfig: S.optional(MapOf__string),
-    Layout: S.optional(S.String),
+    Layout: S.optional(Layout),
   }),
 ).annotations({ identifier: "InAppMessage" }) as any as S.Schema<InAppMessage>;
 export interface InAppCampaignSchedule {
@@ -7568,205 +7884,205 @@ export const InAppCampaignSchedule = S.suspend(() =>
   identifier: "InAppCampaignSchedule",
 }) as any as S.Schema<InAppCampaignSchedule>;
 export interface CreateAppResponse {
-  ApplicationResponse: ApplicationResponse;
+  ApplicationResponse?: ApplicationResponse;
 }
 export const CreateAppResponse = S.suspend(() =>
   S.Struct({
-    ApplicationResponse: ApplicationResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "ApplicationResponse",
-    }),
+    ApplicationResponse: S.optional(ApplicationResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ApplicationResponse" }),
   }),
 ).annotations({
   identifier: "CreateAppResponse",
 }) as any as S.Schema<CreateAppResponse>;
 export interface CreateEmailTemplateResponse {
-  CreateTemplateMessageBody: CreateTemplateMessageBody;
+  CreateTemplateMessageBody?: CreateTemplateMessageBody;
 }
 export const CreateEmailTemplateResponse = S.suspend(() =>
   S.Struct({
-    CreateTemplateMessageBody: CreateTemplateMessageBody.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "CreateTemplateMessageBody" }),
+    CreateTemplateMessageBody: S.optional(CreateTemplateMessageBody)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "CreateTemplateMessageBody" }),
   }),
 ).annotations({
   identifier: "CreateEmailTemplateResponse",
 }) as any as S.Schema<CreateEmailTemplateResponse>;
 export interface CreatePushTemplateResponse {
-  CreateTemplateMessageBody: CreateTemplateMessageBody;
+  CreateTemplateMessageBody?: CreateTemplateMessageBody;
 }
 export const CreatePushTemplateResponse = S.suspend(() =>
   S.Struct({
-    CreateTemplateMessageBody: CreateTemplateMessageBody.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "CreateTemplateMessageBody" }),
+    CreateTemplateMessageBody: S.optional(CreateTemplateMessageBody)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "CreateTemplateMessageBody" }),
   }),
 ).annotations({
   identifier: "CreatePushTemplateResponse",
 }) as any as S.Schema<CreatePushTemplateResponse>;
 export interface CreateSmsTemplateResponse {
-  CreateTemplateMessageBody: CreateTemplateMessageBody;
+  CreateTemplateMessageBody?: CreateTemplateMessageBody;
 }
 export const CreateSmsTemplateResponse = S.suspend(() =>
   S.Struct({
-    CreateTemplateMessageBody: CreateTemplateMessageBody.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "CreateTemplateMessageBody" }),
+    CreateTemplateMessageBody: S.optional(CreateTemplateMessageBody)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "CreateTemplateMessageBody" }),
   }),
 ).annotations({
   identifier: "CreateSmsTemplateResponse",
 }) as any as S.Schema<CreateSmsTemplateResponse>;
 export interface DeleteCampaignResponse {
-  CampaignResponse: CampaignResponse;
+  CampaignResponse?: CampaignResponse;
 }
 export const DeleteCampaignResponse = S.suspend(() =>
   S.Struct({
-    CampaignResponse: CampaignResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "CampaignResponse",
-    }),
+    CampaignResponse: S.optional(CampaignResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "CampaignResponse" }),
   }),
 ).annotations({
   identifier: "DeleteCampaignResponse",
 }) as any as S.Schema<DeleteCampaignResponse>;
 export interface GetCampaignActivitiesResponse {
-  ActivitiesResponse: ActivitiesResponse;
+  ActivitiesResponse?: ActivitiesResponse;
 }
 export const GetCampaignActivitiesResponse = S.suspend(() =>
   S.Struct({
-    ActivitiesResponse: ActivitiesResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "ActivitiesResponse",
-    }),
+    ActivitiesResponse: S.optional(ActivitiesResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ActivitiesResponse" }),
   }),
 ).annotations({
   identifier: "GetCampaignActivitiesResponse",
 }) as any as S.Schema<GetCampaignActivitiesResponse>;
 export interface GetExportJobResponse {
-  ExportJobResponse: ExportJobResponse;
+  ExportJobResponse?: ExportJobResponse;
 }
 export const GetExportJobResponse = S.suspend(() =>
   S.Struct({
-    ExportJobResponse: ExportJobResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "ExportJobResponse",
-    }),
+    ExportJobResponse: S.optional(ExportJobResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ExportJobResponse" }),
   }),
 ).annotations({
   identifier: "GetExportJobResponse",
 }) as any as S.Schema<GetExportJobResponse>;
 export interface GetImportJobResponse {
-  ImportJobResponse: ImportJobResponse;
+  ImportJobResponse?: ImportJobResponse;
 }
 export const GetImportJobResponse = S.suspend(() =>
   S.Struct({
-    ImportJobResponse: ImportJobResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "ImportJobResponse",
-    }),
+    ImportJobResponse: S.optional(ImportJobResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ImportJobResponse" }),
   }),
 ).annotations({
   identifier: "GetImportJobResponse",
 }) as any as S.Schema<GetImportJobResponse>;
 export interface GetJourneyRunsResponse {
-  JourneyRunsResponse: JourneyRunsResponse;
+  JourneyRunsResponse?: JourneyRunsResponse;
 }
 export const GetJourneyRunsResponse = S.suspend(() =>
   S.Struct({
-    JourneyRunsResponse: JourneyRunsResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "JourneyRunsResponse",
-    }),
+    JourneyRunsResponse: S.optional(JourneyRunsResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "JourneyRunsResponse" }),
   }),
 ).annotations({
   identifier: "GetJourneyRunsResponse",
 }) as any as S.Schema<GetJourneyRunsResponse>;
 export interface ListTemplatesResponse {
-  TemplatesResponse: TemplatesResponse;
+  TemplatesResponse?: TemplatesResponse;
 }
 export const ListTemplatesResponse = S.suspend(() =>
   S.Struct({
-    TemplatesResponse: TemplatesResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "TemplatesResponse",
-    }),
+    TemplatesResponse: S.optional(TemplatesResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "TemplatesResponse" }),
   }),
 ).annotations({
   identifier: "ListTemplatesResponse",
 }) as any as S.Schema<ListTemplatesResponse>;
 export interface ListTemplateVersionsResponse {
-  TemplateVersionsResponse: TemplateVersionsResponse;
+  TemplateVersionsResponse?: TemplateVersionsResponse;
 }
 export const ListTemplateVersionsResponse = S.suspend(() =>
   S.Struct({
-    TemplateVersionsResponse: TemplateVersionsResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "TemplateVersionsResponse" }),
+    TemplateVersionsResponse: S.optional(TemplateVersionsResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "TemplateVersionsResponse" }),
   }),
 ).annotations({
   identifier: "ListTemplateVersionsResponse",
 }) as any as S.Schema<ListTemplateVersionsResponse>;
 export interface PhoneNumberValidateResponse {
-  NumberValidateResponse: NumberValidateResponse;
+  NumberValidateResponse?: NumberValidateResponse;
 }
 export const PhoneNumberValidateResponse = S.suspend(() =>
   S.Struct({
-    NumberValidateResponse: NumberValidateResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "NumberValidateResponse" }),
+    NumberValidateResponse: S.optional(NumberValidateResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "NumberValidateResponse" }),
   }),
 ).annotations({
   identifier: "PhoneNumberValidateResponse",
 }) as any as S.Schema<PhoneNumberValidateResponse>;
 export interface RemoveAttributesResponse {
-  AttributesResource: AttributesResource;
+  AttributesResource?: AttributesResource;
 }
 export const RemoveAttributesResponse = S.suspend(() =>
   S.Struct({
-    AttributesResource: AttributesResource.pipe(T.HttpPayload()).annotations({
-      identifier: "AttributesResource",
-    }),
+    AttributesResource: S.optional(AttributesResource)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "AttributesResource" }),
   }),
 ).annotations({
   identifier: "RemoveAttributesResponse",
 }) as any as S.Schema<RemoveAttributesResponse>;
 export interface UpdateApplicationSettingsResponse {
-  ApplicationSettingsResource: ApplicationSettingsResource;
+  ApplicationSettingsResource?: ApplicationSettingsResource;
 }
 export const UpdateApplicationSettingsResponse = S.suspend(() =>
   S.Struct({
-    ApplicationSettingsResource: ApplicationSettingsResource.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "ApplicationSettingsResource" }),
+    ApplicationSettingsResource: S.optional(ApplicationSettingsResource)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ApplicationSettingsResource" }),
   }),
 ).annotations({
   identifier: "UpdateApplicationSettingsResponse",
 }) as any as S.Schema<UpdateApplicationSettingsResponse>;
 export interface UpdateEndpointResponse {
-  MessageBody: MessageBody;
+  MessageBody?: MessageBody;
 }
 export const UpdateEndpointResponse = S.suspend(() =>
   S.Struct({
-    MessageBody: MessageBody.pipe(T.HttpPayload()).annotations({
-      identifier: "MessageBody",
-    }),
+    MessageBody: S.optional(MessageBody)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "MessageBody" }),
   }),
 ).annotations({
   identifier: "UpdateEndpointResponse",
 }) as any as S.Schema<UpdateEndpointResponse>;
 export interface UpdateEndpointsBatchResponse {
-  MessageBody: MessageBody;
+  MessageBody?: MessageBody;
 }
 export const UpdateEndpointsBatchResponse = S.suspend(() =>
   S.Struct({
-    MessageBody: MessageBody.pipe(T.HttpPayload()).annotations({
-      identifier: "MessageBody",
-    }),
+    MessageBody: S.optional(MessageBody)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "MessageBody" }),
   }),
 ).annotations({
   identifier: "UpdateEndpointsBatchResponse",
 }) as any as S.Schema<UpdateEndpointsBatchResponse>;
 export interface VerifyOTPMessageResponse {
-  VerificationResponse: VerificationResponse;
+  VerificationResponse?: VerificationResponse;
 }
 export const VerifyOTPMessageResponse = S.suspend(() =>
   S.Struct({
-    VerificationResponse: VerificationResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "VerificationResponse" }),
+    VerificationResponse: S.optional(VerificationResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "VerificationResponse" }),
   }),
 ).annotations({
   identifier: "VerifyOTPMessageResponse",
@@ -7802,20 +8118,37 @@ export const InAppMessageCampaign = S.suspend(() =>
 }) as any as S.Schema<InAppMessageCampaign>;
 export type ListOfInAppMessageCampaign = InAppMessageCampaign[];
 export const ListOfInAppMessageCampaign = S.Array(InAppMessageCampaign);
+export type DeliveryStatus =
+  | "SUCCESSFUL"
+  | "THROTTLED"
+  | "TEMPORARY_FAILURE"
+  | "PERMANENT_FAILURE"
+  | "UNKNOWN_FAILURE"
+  | "OPT_OUT"
+  | "DUPLICATE";
+export const DeliveryStatus = S.Literal(
+  "SUCCESSFUL",
+  "THROTTLED",
+  "TEMPORARY_FAILURE",
+  "PERMANENT_FAILURE",
+  "UNKNOWN_FAILURE",
+  "OPT_OUT",
+  "DUPLICATE",
+);
 export interface EndpointMessageResult {
   Address?: string;
-  DeliveryStatus: string;
+  DeliveryStatus?: DeliveryStatus;
   MessageId?: string;
-  StatusCode: number;
+  StatusCode?: number;
   StatusMessage?: string;
   UpdatedToken?: string;
 }
 export const EndpointMessageResult = S.suspend(() =>
   S.Struct({
     Address: S.optional(S.String),
-    DeliveryStatus: S.String,
+    DeliveryStatus: S.optional(DeliveryStatus),
     MessageId: S.optional(S.String),
-    StatusCode: S.Number,
+    StatusCode: S.optional(S.Number),
     StatusMessage: S.optional(S.String),
     UpdatedToken: S.optional(S.String),
   }),
@@ -7830,22 +8163,22 @@ export const MapOfEndpointMessageResult = S.Record({
   value: EndpointMessageResult,
 });
 export type MapOfMapOfEndpointMessageResult = {
-  [key: string]: MapOfEndpointMessageResult;
+  [key: string]: { [key: string]: EndpointMessageResult };
 };
 export const MapOfMapOfEndpointMessageResult = S.Record({
   key: S.String,
   value: MapOfEndpointMessageResult,
 });
 export interface ChannelsResponse {
-  Channels: MapOfChannelResponse;
+  Channels?: { [key: string]: ChannelResponse };
 }
 export const ChannelsResponse = S.suspend(() =>
-  S.Struct({ Channels: MapOfChannelResponse }),
+  S.Struct({ Channels: S.optional(MapOfChannelResponse) }),
 ).annotations({
   identifier: "ChannelsResponse",
 }) as any as S.Schema<ChannelsResponse>;
 export interface InAppMessagesResponse {
-  InAppMessageCampaigns?: ListOfInAppMessageCampaign;
+  InAppMessageCampaigns?: InAppMessageCampaign[];
 }
 export const InAppMessagesResponse = S.suspend(() =>
   S.Struct({ InAppMessageCampaigns: S.optional(ListOfInAppMessageCampaign) }),
@@ -7854,26 +8187,26 @@ export const InAppMessagesResponse = S.suspend(() =>
 }) as any as S.Schema<InAppMessagesResponse>;
 export interface Session {
   Duration?: number;
-  Id: string;
-  StartTimestamp: string;
+  Id?: string;
+  StartTimestamp?: string;
   StopTimestamp?: string;
 }
 export const Session = S.suspend(() =>
   S.Struct({
     Duration: S.optional(S.Number),
-    Id: S.String,
-    StartTimestamp: S.String,
+    Id: S.optional(S.String),
+    StartTimestamp: S.optional(S.String),
     StopTimestamp: S.optional(S.String),
   }),
 ).annotations({ identifier: "Session" }) as any as S.Schema<Session>;
 export interface SendUsersMessageResponse {
-  ApplicationId: string;
+  ApplicationId?: string;
   RequestId?: string;
-  Result?: MapOfMapOfEndpointMessageResult;
+  Result?: { [key: string]: { [key: string]: EndpointMessageResult } };
 }
 export const SendUsersMessageResponse = S.suspend(() =>
   S.Struct({
-    ApplicationId: S.String,
+    ApplicationId: S.optional(S.String),
     RequestId: S.optional(S.String),
     Result: S.optional(MapOfMapOfEndpointMessageResult),
   }),
@@ -7881,17 +8214,17 @@ export const SendUsersMessageResponse = S.suspend(() =>
   identifier: "SendUsersMessageResponse",
 }) as any as S.Schema<SendUsersMessageResponse>;
 export interface MessageResult {
-  DeliveryStatus: string;
+  DeliveryStatus?: DeliveryStatus;
   MessageId?: string;
-  StatusCode: number;
+  StatusCode?: number;
   StatusMessage?: string;
   UpdatedToken?: string;
 }
 export const MessageResult = S.suspend(() =>
   S.Struct({
-    DeliveryStatus: S.String,
+    DeliveryStatus: S.optional(DeliveryStatus),
     MessageId: S.optional(S.String),
-    StatusCode: S.Number,
+    StatusCode: S.optional(S.Number),
     StatusMessage: S.optional(S.String),
     UpdatedToken: S.optional(S.String),
   }),
@@ -7900,14 +8233,14 @@ export const MessageResult = S.suspend(() =>
 }) as any as S.Schema<MessageResult>;
 export interface CreateCampaignRequest {
   ApplicationId: string;
-  WriteCampaignRequest: WriteCampaignRequest;
+  WriteCampaignRequest?: WriteCampaignRequest;
 }
 export const CreateCampaignRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    WriteCampaignRequest: WriteCampaignRequest.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "WriteCampaignRequest" }),
+    WriteCampaignRequest: S.optional(WriteCampaignRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "WriteCampaignRequest" }),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/apps/{ApplicationId}/campaigns" }),
@@ -7922,14 +8255,14 @@ export const CreateCampaignRequest = S.suspend(() =>
   identifier: "CreateCampaignRequest",
 }) as any as S.Schema<CreateCampaignRequest>;
 export interface CreateInAppTemplateRequest {
-  InAppTemplateRequest: InAppTemplateRequest;
+  InAppTemplateRequest?: InAppTemplateRequest;
   TemplateName: string;
 }
 export const CreateInAppTemplateRequest = S.suspend(() =>
   S.Struct({
-    InAppTemplateRequest: InAppTemplateRequest.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "InAppTemplateRequest" }),
+    InAppTemplateRequest: S.optional(InAppTemplateRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "InAppTemplateRequest" }),
     TemplateName: S.String.pipe(T.HttpLabel("TemplateName")),
   }).pipe(
     T.all(
@@ -7945,37 +8278,37 @@ export const CreateInAppTemplateRequest = S.suspend(() =>
   identifier: "CreateInAppTemplateRequest",
 }) as any as S.Schema<CreateInAppTemplateRequest>;
 export interface DeleteSegmentResponse {
-  SegmentResponse: SegmentResponse;
+  SegmentResponse?: SegmentResponse;
 }
 export const DeleteSegmentResponse = S.suspend(() =>
   S.Struct({
-    SegmentResponse: SegmentResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "SegmentResponse",
-    }),
+    SegmentResponse: S.optional(SegmentResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "SegmentResponse" }),
   }),
 ).annotations({
   identifier: "DeleteSegmentResponse",
 }) as any as S.Schema<DeleteSegmentResponse>;
 export interface GetChannelsResponse {
-  ChannelsResponse: ChannelsResponse;
+  ChannelsResponse?: ChannelsResponse;
 }
 export const GetChannelsResponse = S.suspend(() =>
   S.Struct({
-    ChannelsResponse: ChannelsResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "ChannelsResponse",
-    }),
+    ChannelsResponse: S.optional(ChannelsResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ChannelsResponse" }),
   }),
 ).annotations({
   identifier: "GetChannelsResponse",
 }) as any as S.Schema<GetChannelsResponse>;
 export interface GetInAppMessagesResponse {
-  InAppMessagesResponse: InAppMessagesResponse;
+  InAppMessagesResponse?: InAppMessagesResponse;
 }
 export const GetInAppMessagesResponse = S.suspend(() =>
   S.Struct({
-    InAppMessagesResponse: InAppMessagesResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "InAppMessagesResponse" }),
+    InAppMessagesResponse: S.optional(InAppMessagesResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "InAppMessagesResponse" }),
   }),
 ).annotations({
   identifier: "GetInAppMessagesResponse",
@@ -7984,13 +8317,13 @@ export interface Event {
   AppPackageName?: string;
   AppTitle?: string;
   AppVersionCode?: string;
-  Attributes?: MapOf__string;
+  Attributes?: { [key: string]: string };
   ClientSdkVersion?: string;
-  EventType: string;
-  Metrics?: MapOf__double;
+  EventType?: string;
+  Metrics?: { [key: string]: number };
   SdkName?: string;
   Session?: Session;
-  Timestamp: string;
+  Timestamp?: string;
 }
 export const Event = S.suspend(() =>
   S.Struct({
@@ -7999,21 +8332,21 @@ export const Event = S.suspend(() =>
     AppVersionCode: S.optional(S.String),
     Attributes: S.optional(MapOf__string),
     ClientSdkVersion: S.optional(S.String),
-    EventType: S.String,
+    EventType: S.optional(S.String),
     Metrics: S.optional(MapOf__double),
     SdkName: S.optional(S.String),
     Session: S.optional(Session),
-    Timestamp: S.String,
+    Timestamp: S.optional(S.String),
   }),
 ).annotations({ identifier: "Event" }) as any as S.Schema<Event>;
 export interface SendUsersMessagesResponse {
-  SendUsersMessageResponse: SendUsersMessageResponse;
+  SendUsersMessageResponse?: SendUsersMessageResponse;
 }
 export const SendUsersMessagesResponse = S.suspend(() =>
   S.Struct({
-    SendUsersMessageResponse: SendUsersMessageResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "SendUsersMessageResponse" }),
+    SendUsersMessageResponse: S.optional(SendUsersMessageResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "SendUsersMessageResponse" }),
   }),
 ).annotations({
   identifier: "SendUsersMessagesResponse",
@@ -8026,30 +8359,30 @@ export const MapOfMessageResult = S.Record({
 export type MapOfEvent = { [key: string]: Event };
 export const MapOfEvent = S.Record({ key: S.String, value: Event });
 export interface ApplicationDateRangeKpiResponse {
-  ApplicationId: string;
-  EndTime: Date;
-  KpiName: string;
-  KpiResult: BaseKpiResult;
+  ApplicationId?: string;
+  EndTime?: Date;
+  KpiName?: string;
+  KpiResult?: BaseKpiResult;
   NextToken?: string;
-  StartTime: Date;
+  StartTime?: Date;
 }
 export const ApplicationDateRangeKpiResponse = S.suspend(() =>
   S.Struct({
-    ApplicationId: S.String,
-    EndTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    KpiName: S.String,
-    KpiResult: BaseKpiResult,
+    ApplicationId: S.optional(S.String),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    KpiName: S.optional(S.String),
+    KpiResult: S.optional(BaseKpiResult),
     NextToken: S.optional(S.String),
-    StartTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotations({
   identifier: "ApplicationDateRangeKpiResponse",
 }) as any as S.Schema<ApplicationDateRangeKpiResponse>;
 export interface MessageRequest {
-  Addresses?: MapOfAddressConfiguration;
-  Context?: MapOf__string;
-  Endpoints?: MapOfEndpointSendConfiguration;
-  MessageConfiguration: DirectMessageConfiguration;
+  Addresses?: { [key: string]: AddressConfiguration };
+  Context?: { [key: string]: string };
+  Endpoints?: { [key: string]: EndpointSendConfiguration };
+  MessageConfiguration?: DirectMessageConfiguration;
   TemplateConfiguration?: TemplateConfiguration;
   TraceId?: string;
 }
@@ -8058,7 +8391,7 @@ export const MessageRequest = S.suspend(() =>
     Addresses: S.optional(MapOfAddressConfiguration),
     Context: S.optional(MapOf__string),
     Endpoints: S.optional(MapOfEndpointSendConfiguration),
-    MessageConfiguration: DirectMessageConfiguration,
+    MessageConfiguration: S.optional(DirectMessageConfiguration),
     TemplateConfiguration: S.optional(TemplateConfiguration),
     TraceId: S.optional(S.String),
   }),
@@ -8066,14 +8399,14 @@ export const MessageRequest = S.suspend(() =>
   identifier: "MessageRequest",
 }) as any as S.Schema<MessageRequest>;
 export interface MessageResponse {
-  ApplicationId: string;
-  EndpointResult?: MapOfEndpointMessageResult;
+  ApplicationId?: string;
+  EndpointResult?: { [key: string]: EndpointMessageResult };
   RequestId?: string;
-  Result?: MapOfMessageResult;
+  Result?: { [key: string]: MessageResult };
 }
 export const MessageResponse = S.suspend(() =>
   S.Struct({
-    ApplicationId: S.String,
+    ApplicationId: S.optional(S.String),
     EndpointResult: S.optional(MapOfEndpointMessageResult),
     RequestId: S.optional(S.String),
     Result: S.optional(MapOfMessageResult),
@@ -8082,34 +8415,37 @@ export const MessageResponse = S.suspend(() =>
   identifier: "MessageResponse",
 }) as any as S.Schema<MessageResponse>;
 export interface EventsBatch {
-  Endpoint: PublicEndpoint;
-  Events: MapOfEvent;
+  Endpoint?: PublicEndpoint;
+  Events?: { [key: string]: Event };
 }
 export const EventsBatch = S.suspend(() =>
-  S.Struct({ Endpoint: PublicEndpoint, Events: MapOfEvent }),
+  S.Struct({
+    Endpoint: S.optional(PublicEndpoint),
+    Events: S.optional(MapOfEvent),
+  }),
 ).annotations({ identifier: "EventsBatch" }) as any as S.Schema<EventsBatch>;
 export interface CreateCampaignResponse {
-  CampaignResponse: CampaignResponse;
+  CampaignResponse?: CampaignResponse;
 }
 export const CreateCampaignResponse = S.suspend(() =>
   S.Struct({
-    CampaignResponse: CampaignResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "CampaignResponse",
-    }),
+    CampaignResponse: S.optional(CampaignResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "CampaignResponse" }),
   }),
 ).annotations({
   identifier: "CreateCampaignResponse",
 }) as any as S.Schema<CreateCampaignResponse>;
 export interface CreateSegmentRequest {
   ApplicationId: string;
-  WriteSegmentRequest: WriteSegmentRequest;
+  WriteSegmentRequest?: WriteSegmentRequest;
 }
 export const CreateSegmentRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    WriteSegmentRequest: WriteSegmentRequest.pipe(T.HttpPayload()).annotations({
-      identifier: "WriteSegmentRequest",
-    }),
+    WriteSegmentRequest: S.optional(WriteSegmentRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "WriteSegmentRequest" }),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/apps/{ApplicationId}/segments" }),
@@ -8124,27 +8460,27 @@ export const CreateSegmentRequest = S.suspend(() =>
   identifier: "CreateSegmentRequest",
 }) as any as S.Schema<CreateSegmentRequest>;
 export interface GetApplicationDateRangeKpiResponse {
-  ApplicationDateRangeKpiResponse: ApplicationDateRangeKpiResponse;
+  ApplicationDateRangeKpiResponse?: ApplicationDateRangeKpiResponse;
 }
 export const GetApplicationDateRangeKpiResponse = S.suspend(() =>
   S.Struct({
-    ApplicationDateRangeKpiResponse: ApplicationDateRangeKpiResponse.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "ApplicationDateRangeKpiResponse" }),
+    ApplicationDateRangeKpiResponse: S.optional(ApplicationDateRangeKpiResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ApplicationDateRangeKpiResponse" }),
   }),
 ).annotations({
   identifier: "GetApplicationDateRangeKpiResponse",
 }) as any as S.Schema<GetApplicationDateRangeKpiResponse>;
 export interface SendMessagesRequest {
   ApplicationId: string;
-  MessageRequest: MessageRequest;
+  MessageRequest?: MessageRequest;
 }
 export const SendMessagesRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    MessageRequest: MessageRequest.pipe(T.HttpPayload()).annotations({
-      identifier: "MessageRequest",
-    }),
+    MessageRequest: S.optional(MessageRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "MessageRequest" }),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/apps/{ApplicationId}/messages" }),
@@ -8159,13 +8495,13 @@ export const SendMessagesRequest = S.suspend(() =>
   identifier: "SendMessagesRequest",
 }) as any as S.Schema<SendMessagesRequest>;
 export interface SendOTPMessageResponse {
-  MessageResponse: MessageResponse;
+  MessageResponse?: MessageResponse;
 }
 export const SendOTPMessageResponse = S.suspend(() =>
   S.Struct({
-    MessageResponse: MessageResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "MessageResponse",
-    }),
+    MessageResponse: S.optional(MessageResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "MessageResponse" }),
   }),
 ).annotations({
   identifier: "SendOTPMessageResponse",
@@ -8187,47 +8523,47 @@ export const TemplateCreateMessageBody = S.suspend(() =>
   identifier: "TemplateCreateMessageBody",
 }) as any as S.Schema<TemplateCreateMessageBody>;
 export interface EventsRequest {
-  BatchItem: MapOfEventsBatch;
+  BatchItem?: { [key: string]: EventsBatch };
 }
 export const EventsRequest = S.suspend(() =>
-  S.Struct({ BatchItem: MapOfEventsBatch }),
+  S.Struct({ BatchItem: S.optional(MapOfEventsBatch) }),
 ).annotations({
   identifier: "EventsRequest",
 }) as any as S.Schema<EventsRequest>;
 export interface CreateInAppTemplateResponse {
-  TemplateCreateMessageBody: TemplateCreateMessageBody;
+  TemplateCreateMessageBody?: TemplateCreateMessageBody;
 }
 export const CreateInAppTemplateResponse = S.suspend(() =>
   S.Struct({
-    TemplateCreateMessageBody: TemplateCreateMessageBody.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "TemplateCreateMessageBody" }),
+    TemplateCreateMessageBody: S.optional(TemplateCreateMessageBody)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "TemplateCreateMessageBody" }),
   }),
 ).annotations({
   identifier: "CreateInAppTemplateResponse",
 }) as any as S.Schema<CreateInAppTemplateResponse>;
 export interface CreateSegmentResponse {
-  SegmentResponse: SegmentResponse;
+  SegmentResponse?: SegmentResponse;
 }
 export const CreateSegmentResponse = S.suspend(() =>
   S.Struct({
-    SegmentResponse: SegmentResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "SegmentResponse",
-    }),
+    SegmentResponse: S.optional(SegmentResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "SegmentResponse" }),
   }),
 ).annotations({
   identifier: "CreateSegmentResponse",
 }) as any as S.Schema<CreateSegmentResponse>;
 export interface PutEventsRequest {
   ApplicationId: string;
-  EventsRequest: EventsRequest;
+  EventsRequest?: EventsRequest;
 }
 export const PutEventsRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    EventsRequest: EventsRequest.pipe(T.HttpPayload()).annotations({
-      identifier: "EventsRequest",
-    }),
+    EventsRequest: S.optional(EventsRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "EventsRequest" }),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/apps/{ApplicationId}/events" }),
@@ -8242,27 +8578,27 @@ export const PutEventsRequest = S.suspend(() =>
   identifier: "PutEventsRequest",
 }) as any as S.Schema<PutEventsRequest>;
 export interface SendMessagesResponse {
-  MessageResponse: MessageResponse;
+  MessageResponse?: MessageResponse;
 }
 export const SendMessagesResponse = S.suspend(() =>
   S.Struct({
-    MessageResponse: MessageResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "MessageResponse",
-    }),
+    MessageResponse: S.optional(MessageResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "MessageResponse" }),
   }),
 ).annotations({
   identifier: "SendMessagesResponse",
 }) as any as S.Schema<SendMessagesResponse>;
 export interface CreateJourneyRequest {
   ApplicationId: string;
-  WriteJourneyRequest: WriteJourneyRequest;
+  WriteJourneyRequest?: WriteJourneyRequest;
 }
 export const CreateJourneyRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    WriteJourneyRequest: WriteJourneyRequest.pipe(T.HttpPayload()).annotations({
-      identifier: "WriteJourneyRequest",
-    }),
+    WriteJourneyRequest: S.optional(WriteJourneyRequest)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "WriteJourneyRequest" }),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/apps/{ApplicationId}/journeys" }),
@@ -8277,13 +8613,13 @@ export const CreateJourneyRequest = S.suspend(() =>
   identifier: "CreateJourneyRequest",
 }) as any as S.Schema<CreateJourneyRequest>;
 export interface CreateJourneyResponse {
-  JourneyResponse: JourneyResponse;
+  JourneyResponse?: JourneyResponse;
 }
 export const CreateJourneyResponse = S.suspend(() =>
   S.Struct({
-    JourneyResponse: JourneyResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "JourneyResponse",
-    }),
+    JourneyResponse: S.optional(JourneyResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "JourneyResponse" }),
   }),
 ).annotations({
   identifier: "CreateJourneyResponse",
@@ -8313,7 +8649,7 @@ export const MapOfEventItemResponse = S.Record({
 });
 export interface ItemResponse {
   EndpointItemResponse?: EndpointItemResponse;
-  EventsItemResponse?: MapOfEventItemResponse;
+  EventsItemResponse?: { [key: string]: EventItemResponse };
 }
 export const ItemResponse = S.suspend(() =>
   S.Struct({
@@ -8327,7 +8663,7 @@ export const MapOfItemResponse = S.Record({
   value: ItemResponse,
 });
 export interface EventsResponse {
-  Results?: MapOfItemResponse;
+  Results?: { [key: string]: ItemResponse };
 }
 export const EventsResponse = S.suspend(() =>
   S.Struct({ Results: S.optional(MapOfItemResponse) }),
@@ -8335,13 +8671,13 @@ export const EventsResponse = S.suspend(() =>
   identifier: "EventsResponse",
 }) as any as S.Schema<EventsResponse>;
 export interface PutEventsResponse {
-  EventsResponse: EventsResponse;
+  EventsResponse?: EventsResponse;
 }
 export const PutEventsResponse = S.suspend(() =>
   S.Struct({
-    EventsResponse: EventsResponse.pipe(T.HttpPayload()).annotations({
-      identifier: "EventsResponse",
-    }),
+    EventsResponse: S.optional(EventsResponse)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "EventsResponse" }),
   }),
 ).annotations({
   identifier: "PutEventsResponse",
@@ -8387,7 +8723,7 @@ export class PayloadTooLargeException extends S.TaggedError<PayloadTooLargeExcep
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8401,7 +8737,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8415,7 +8751,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8429,7 +8765,7 @@ export const tagResource: (
  */
 export const listTemplates: (
   input: ListTemplatesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTemplatesResponse,
   | BadRequestException
   | ForbiddenException
@@ -8454,7 +8790,7 @@ export const listTemplates: (
  */
 export const createVoiceTemplate: (
   input: CreateVoiceTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVoiceTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -8479,7 +8815,7 @@ export const createVoiceTemplate: (
  */
 export const createEmailTemplate: (
   input: CreateEmailTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEmailTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -8504,7 +8840,7 @@ export const createEmailTemplate: (
  */
 export const createPushTemplate: (
   input: CreatePushTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePushTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -8529,7 +8865,7 @@ export const createPushTemplate: (
  */
 export const createSmsTemplate: (
   input: CreateSmsTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSmsTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -8554,7 +8890,7 @@ export const createSmsTemplate: (
  */
 export const createInAppTemplate: (
   input: CreateInAppTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateInAppTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -8579,7 +8915,7 @@ export const createInAppTemplate: (
  */
 export const deleteInAppTemplate: (
   input: DeleteInAppTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteInAppTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -8608,7 +8944,7 @@ export const deleteInAppTemplate: (
  */
 export const sendMessages: (
   input: SendMessagesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendMessagesResponse,
   | BadRequestException
   | ForbiddenException
@@ -8637,7 +8973,7 @@ export const sendMessages: (
  */
 export const getApplicationDateRangeKpi: (
   input: GetApplicationDateRangeKpiRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetApplicationDateRangeKpiResponse,
   | BadRequestException
   | ForbiddenException
@@ -8666,7 +9002,7 @@ export const getApplicationDateRangeKpi: (
  */
 export const sendOTPMessage: (
   input: SendOTPMessageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendOTPMessageResponse,
   | BadRequestException
   | ForbiddenException
@@ -8695,7 +9031,7 @@ export const sendOTPMessage: (
  */
 export const deleteSegment: (
   input: DeleteSegmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSegmentResponse,
   | BadRequestException
   | ForbiddenException
@@ -8724,7 +9060,7 @@ export const deleteSegment: (
  */
 export const getChannels: (
   input: GetChannelsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetChannelsResponse,
   | BadRequestException
   | ForbiddenException
@@ -8753,7 +9089,7 @@ export const getChannels: (
  */
 export const getInAppMessages: (
   input: GetInAppMessagesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInAppMessagesResponse,
   | BadRequestException
   | ForbiddenException
@@ -8782,7 +9118,7 @@ export const getInAppMessages: (
  */
 export const sendUsersMessages: (
   input: SendUsersMessagesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendUsersMessagesResponse,
   | BadRequestException
   | ForbiddenException
@@ -8811,7 +9147,7 @@ export const sendUsersMessages: (
  */
 export const getCampaignActivities: (
   input: GetCampaignActivitiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCampaignActivitiesResponse,
   | BadRequestException
   | ForbiddenException
@@ -8840,7 +9176,7 @@ export const getCampaignActivities: (
  */
 export const getExportJob: (
   input: GetExportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetExportJobResponse,
   | BadRequestException
   | ForbiddenException
@@ -8869,7 +9205,7 @@ export const getExportJob: (
  */
 export const getImportJob: (
   input: GetImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetImportJobResponse,
   | BadRequestException
   | ForbiddenException
@@ -8898,7 +9234,7 @@ export const getImportJob: (
  */
 export const getJourneyRuns: (
   input: GetJourneyRunsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetJourneyRunsResponse,
   | BadRequestException
   | ForbiddenException
@@ -8927,7 +9263,7 @@ export const getJourneyRuns: (
  */
 export const listTemplateVersions: (
   input: ListTemplateVersionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTemplateVersionsResponse,
   | BadRequestException
   | ForbiddenException
@@ -8956,7 +9292,7 @@ export const listTemplateVersions: (
  */
 export const phoneNumberValidate: (
   input: PhoneNumberValidateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PhoneNumberValidateResponse,
   | BadRequestException
   | ForbiddenException
@@ -8985,7 +9321,7 @@ export const phoneNumberValidate: (
  */
 export const removeAttributes: (
   input: RemoveAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveAttributesResponse,
   | BadRequestException
   | ForbiddenException
@@ -9014,7 +9350,7 @@ export const removeAttributes: (
  */
 export const updateApplicationSettings: (
   input: UpdateApplicationSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateApplicationSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -9043,7 +9379,7 @@ export const updateApplicationSettings: (
  */
 export const updateEndpoint: (
   input: UpdateEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEndpointResponse,
   | BadRequestException
   | ForbiddenException
@@ -9072,7 +9408,7 @@ export const updateEndpoint: (
  */
 export const updateEndpointsBatch: (
   input: UpdateEndpointsBatchRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEndpointsBatchResponse,
   | BadRequestException
   | ForbiddenException
@@ -9101,7 +9437,7 @@ export const updateEndpointsBatch: (
  */
 export const verifyOTPMessage: (
   input: VerifyOTPMessageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   VerifyOTPMessageResponse,
   | BadRequestException
   | ForbiddenException
@@ -9130,7 +9466,7 @@ export const verifyOTPMessage: (
  */
 export const updateJourney: (
   input: UpdateJourneyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateJourneyResponse,
   | BadRequestException
   | ConflictException
@@ -9161,7 +9497,7 @@ export const updateJourney: (
  */
 export const deleteJourney: (
   input: DeleteJourneyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteJourneyResponse,
   | BadRequestException
   | ForbiddenException
@@ -9190,7 +9526,7 @@ export const deleteJourney: (
  */
 export const deleteRecommenderConfiguration: (
   input: DeleteRecommenderConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRecommenderConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -9219,7 +9555,7 @@ export const deleteRecommenderConfiguration: (
  */
 export const deleteSmsChannel: (
   input: DeleteSmsChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSmsChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -9248,7 +9584,7 @@ export const deleteSmsChannel: (
  */
 export const deleteUserEndpoints: (
   input: DeleteUserEndpointsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUserEndpointsResponse,
   | BadRequestException
   | ForbiddenException
@@ -9277,7 +9613,7 @@ export const deleteUserEndpoints: (
  */
 export const deleteVoiceChannel: (
   input: DeleteVoiceChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVoiceChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -9306,7 +9642,7 @@ export const deleteVoiceChannel: (
  */
 export const getApplicationSettings: (
   input: GetApplicationSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetApplicationSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -9335,7 +9671,7 @@ export const getApplicationSettings: (
  */
 export const getApps: (
   input: GetAppsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAppsResponse,
   | BadRequestException
   | ForbiddenException
@@ -9364,7 +9700,7 @@ export const getApps: (
  */
 export const getCampaignDateRangeKpi: (
   input: GetCampaignDateRangeKpiRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCampaignDateRangeKpiResponse,
   | BadRequestException
   | ForbiddenException
@@ -9393,7 +9729,7 @@ export const getCampaignDateRangeKpi: (
  */
 export const getCampaigns: (
   input: GetCampaignsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCampaignsResponse,
   | BadRequestException
   | ForbiddenException
@@ -9422,7 +9758,7 @@ export const getCampaigns: (
  */
 export const getEmailTemplate: (
   input: GetEmailTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEmailTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -9451,7 +9787,7 @@ export const getEmailTemplate: (
  */
 export const getExportJobs: (
   input: GetExportJobsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetExportJobsResponse,
   | BadRequestException
   | ForbiddenException
@@ -9480,7 +9816,7 @@ export const getExportJobs: (
  */
 export const getImportJobs: (
   input: GetImportJobsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetImportJobsResponse,
   | BadRequestException
   | ForbiddenException
@@ -9509,7 +9845,7 @@ export const getImportJobs: (
  */
 export const getInAppTemplate: (
   input: GetInAppTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInAppTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -9538,7 +9874,7 @@ export const getInAppTemplate: (
  */
 export const getJourneyDateRangeKpi: (
   input: GetJourneyDateRangeKpiRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetJourneyDateRangeKpiResponse,
   | BadRequestException
   | ForbiddenException
@@ -9567,7 +9903,7 @@ export const getJourneyDateRangeKpi: (
  */
 export const getJourneyExecutionActivityMetrics: (
   input: GetJourneyExecutionActivityMetricsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetJourneyExecutionActivityMetricsResponse,
   | BadRequestException
   | ForbiddenException
@@ -9596,7 +9932,7 @@ export const getJourneyExecutionActivityMetrics: (
  */
 export const getJourneyExecutionMetrics: (
   input: GetJourneyExecutionMetricsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetJourneyExecutionMetricsResponse,
   | BadRequestException
   | ForbiddenException
@@ -9625,7 +9961,7 @@ export const getJourneyExecutionMetrics: (
  */
 export const getJourneyRunExecutionActivityMetrics: (
   input: GetJourneyRunExecutionActivityMetricsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetJourneyRunExecutionActivityMetricsResponse,
   | BadRequestException
   | ForbiddenException
@@ -9654,7 +9990,7 @@ export const getJourneyRunExecutionActivityMetrics: (
  */
 export const getJourneyRunExecutionMetrics: (
   input: GetJourneyRunExecutionMetricsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetJourneyRunExecutionMetricsResponse,
   | BadRequestException
   | ForbiddenException
@@ -9683,7 +10019,7 @@ export const getJourneyRunExecutionMetrics: (
  */
 export const getPushTemplate: (
   input: GetPushTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPushTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -9712,7 +10048,7 @@ export const getPushTemplate: (
  */
 export const getRecommenderConfigurations: (
   input: GetRecommenderConfigurationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRecommenderConfigurationsResponse,
   | BadRequestException
   | ForbiddenException
@@ -9741,7 +10077,7 @@ export const getRecommenderConfigurations: (
  */
 export const getSegments: (
   input: GetSegmentsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSegmentsResponse,
   | BadRequestException
   | ForbiddenException
@@ -9770,7 +10106,7 @@ export const getSegments: (
  */
 export const getSmsTemplate: (
   input: GetSmsTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSmsTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -9799,7 +10135,7 @@ export const getSmsTemplate: (
  */
 export const getVoiceTemplate: (
   input: GetVoiceTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetVoiceTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -9828,7 +10164,7 @@ export const getVoiceTemplate: (
  */
 export const listJourneys: (
   input: ListJourneysRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListJourneysResponse,
   | BadRequestException
   | ForbiddenException
@@ -9857,7 +10193,7 @@ export const listJourneys: (
  */
 export const putEventStream: (
   input: PutEventStreamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutEventStreamResponse,
   | BadRequestException
   | ForbiddenException
@@ -9886,7 +10222,7 @@ export const putEventStream: (
  */
 export const updateAdmChannel: (
   input: UpdateAdmChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAdmChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -9915,7 +10251,7 @@ export const updateAdmChannel: (
  */
 export const updateApnsChannel: (
   input: UpdateApnsChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateApnsChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -9944,7 +10280,7 @@ export const updateApnsChannel: (
  */
 export const updateApnsSandboxChannel: (
   input: UpdateApnsSandboxChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateApnsSandboxChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -9973,7 +10309,7 @@ export const updateApnsSandboxChannel: (
  */
 export const updateApnsVoipChannel: (
   input: UpdateApnsVoipChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateApnsVoipChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -10002,7 +10338,7 @@ export const updateApnsVoipChannel: (
  */
 export const updateApnsVoipSandboxChannel: (
   input: UpdateApnsVoipSandboxChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateApnsVoipSandboxChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -10031,7 +10367,7 @@ export const updateApnsVoipSandboxChannel: (
  */
 export const updateBaiduChannel: (
   input: UpdateBaiduChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateBaiduChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -10060,7 +10396,7 @@ export const updateBaiduChannel: (
  */
 export const updateEmailChannel: (
   input: UpdateEmailChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEmailChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -10089,7 +10425,7 @@ export const updateEmailChannel: (
  */
 export const updateGcmChannel: (
   input: UpdateGcmChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGcmChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -10118,7 +10454,7 @@ export const updateGcmChannel: (
  */
 export const updateJourneyState: (
   input: UpdateJourneyStateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateJourneyStateResponse,
   | BadRequestException
   | ForbiddenException
@@ -10147,7 +10483,7 @@ export const updateJourneyState: (
  */
 export const updateRecommenderConfiguration: (
   input: UpdateRecommenderConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRecommenderConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -10176,7 +10512,7 @@ export const updateRecommenderConfiguration: (
  */
 export const updateSmsChannel: (
   input: UpdateSmsChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSmsChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -10205,7 +10541,7 @@ export const updateSmsChannel: (
  */
 export const updateTemplateActiveVersion: (
   input: UpdateTemplateActiveVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTemplateActiveVersionResponse,
   | BadRequestException
   | ForbiddenException
@@ -10234,7 +10570,7 @@ export const updateTemplateActiveVersion: (
  */
 export const updateVoiceChannel: (
   input: UpdateVoiceChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateVoiceChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -10263,7 +10599,7 @@ export const updateVoiceChannel: (
  */
 export const deletePushTemplate: (
   input: DeletePushTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePushTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -10292,7 +10628,7 @@ export const deletePushTemplate: (
  */
 export const deleteSmsTemplate: (
   input: DeleteSmsTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSmsTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -10321,7 +10657,7 @@ export const deleteSmsTemplate: (
  */
 export const deleteVoiceTemplate: (
   input: DeleteVoiceTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVoiceTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -10350,7 +10686,7 @@ export const deleteVoiceTemplate: (
  */
 export const getAdmChannel: (
   input: GetAdmChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAdmChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -10379,7 +10715,7 @@ export const getAdmChannel: (
  */
 export const getApnsChannel: (
   input: GetApnsChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetApnsChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -10408,7 +10744,7 @@ export const getApnsChannel: (
  */
 export const getApnsSandboxChannel: (
   input: GetApnsSandboxChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetApnsSandboxChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -10437,7 +10773,7 @@ export const getApnsSandboxChannel: (
  */
 export const getApnsVoipChannel: (
   input: GetApnsVoipChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetApnsVoipChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -10466,7 +10802,7 @@ export const getApnsVoipChannel: (
  */
 export const getApnsVoipSandboxChannel: (
   input: GetApnsVoipSandboxChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetApnsVoipSandboxChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -10495,7 +10831,7 @@ export const getApnsVoipSandboxChannel: (
  */
 export const getApp: (
   input: GetAppRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAppResponse,
   | BadRequestException
   | ForbiddenException
@@ -10524,7 +10860,7 @@ export const getApp: (
  */
 export const getBaiduChannel: (
   input: GetBaiduChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBaiduChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -10553,7 +10889,7 @@ export const getBaiduChannel: (
  */
 export const getCampaign: (
   input: GetCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCampaignResponse,
   | BadRequestException
   | ForbiddenException
@@ -10582,7 +10918,7 @@ export const getCampaign: (
  */
 export const getCampaignVersion: (
   input: GetCampaignVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCampaignVersionResponse,
   | BadRequestException
   | ForbiddenException
@@ -10611,7 +10947,7 @@ export const getCampaignVersion: (
  */
 export const getCampaignVersions: (
   input: GetCampaignVersionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCampaignVersionsResponse,
   | BadRequestException
   | ForbiddenException
@@ -10640,7 +10976,7 @@ export const getCampaignVersions: (
  */
 export const getEmailChannel: (
   input: GetEmailChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEmailChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -10669,7 +11005,7 @@ export const getEmailChannel: (
  */
 export const getEndpoint: (
   input: GetEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEndpointResponse,
   | BadRequestException
   | ForbiddenException
@@ -10698,7 +11034,7 @@ export const getEndpoint: (
  */
 export const getEventStream: (
   input: GetEventStreamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEventStreamResponse,
   | BadRequestException
   | ForbiddenException
@@ -10727,7 +11063,7 @@ export const getEventStream: (
  */
 export const getGcmChannel: (
   input: GetGcmChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetGcmChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -10756,7 +11092,7 @@ export const getGcmChannel: (
  */
 export const getJourney: (
   input: GetJourneyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetJourneyResponse,
   | BadRequestException
   | ForbiddenException
@@ -10785,7 +11121,7 @@ export const getJourney: (
  */
 export const getRecommenderConfiguration: (
   input: GetRecommenderConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRecommenderConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -10814,7 +11150,7 @@ export const getRecommenderConfiguration: (
  */
 export const getSegment: (
   input: GetSegmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSegmentResponse,
   | BadRequestException
   | ForbiddenException
@@ -10843,7 +11179,7 @@ export const getSegment: (
  */
 export const getSegmentExportJobs: (
   input: GetSegmentExportJobsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSegmentExportJobsResponse,
   | BadRequestException
   | ForbiddenException
@@ -10872,7 +11208,7 @@ export const getSegmentExportJobs: (
  */
 export const getSegmentImportJobs: (
   input: GetSegmentImportJobsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSegmentImportJobsResponse,
   | BadRequestException
   | ForbiddenException
@@ -10901,7 +11237,7 @@ export const getSegmentImportJobs: (
  */
 export const getSegmentVersion: (
   input: GetSegmentVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSegmentVersionResponse,
   | BadRequestException
   | ForbiddenException
@@ -10930,7 +11266,7 @@ export const getSegmentVersion: (
  */
 export const getSegmentVersions: (
   input: GetSegmentVersionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSegmentVersionsResponse,
   | BadRequestException
   | ForbiddenException
@@ -10959,7 +11295,7 @@ export const getSegmentVersions: (
  */
 export const getSmsChannel: (
   input: GetSmsChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSmsChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -10988,7 +11324,7 @@ export const getSmsChannel: (
  */
 export const getUserEndpoints: (
   input: GetUserEndpointsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUserEndpointsResponse,
   | BadRequestException
   | ForbiddenException
@@ -11017,7 +11353,7 @@ export const getUserEndpoints: (
  */
 export const getVoiceChannel: (
   input: GetVoiceChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetVoiceChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -11046,7 +11382,7 @@ export const getVoiceChannel: (
  */
 export const updateCampaign: (
   input: UpdateCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCampaignResponse,
   | BadRequestException
   | ForbiddenException
@@ -11075,7 +11411,7 @@ export const updateCampaign: (
  */
 export const updateEmailTemplate: (
   input: UpdateEmailTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEmailTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -11104,7 +11440,7 @@ export const updateEmailTemplate: (
  */
 export const updateInAppTemplate: (
   input: UpdateInAppTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateInAppTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -11133,7 +11469,7 @@ export const updateInAppTemplate: (
  */
 export const updatePushTemplate: (
   input: UpdatePushTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePushTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -11162,7 +11498,7 @@ export const updatePushTemplate: (
  */
 export const updateSegment: (
   input: UpdateSegmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSegmentResponse,
   | BadRequestException
   | ForbiddenException
@@ -11191,7 +11527,7 @@ export const updateSegment: (
  */
 export const updateSmsTemplate: (
   input: UpdateSmsTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSmsTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -11220,7 +11556,7 @@ export const updateSmsTemplate: (
  */
 export const updateVoiceTemplate: (
   input: UpdateVoiceTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateVoiceTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -11249,7 +11585,7 @@ export const updateVoiceTemplate: (
  */
 export const createExportJob: (
   input: CreateExportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateExportJobResponse,
   | BadRequestException
   | ForbiddenException
@@ -11278,7 +11614,7 @@ export const createExportJob: (
  */
 export const createImportJob: (
   input: CreateImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateImportJobResponse,
   | BadRequestException
   | ForbiddenException
@@ -11307,7 +11643,7 @@ export const createImportJob: (
  */
 export const createRecommenderConfiguration: (
   input: CreateRecommenderConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRecommenderConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -11336,7 +11672,7 @@ export const createRecommenderConfiguration: (
  */
 export const deleteAdmChannel: (
   input: DeleteAdmChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAdmChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -11365,7 +11701,7 @@ export const deleteAdmChannel: (
  */
 export const deleteApnsChannel: (
   input: DeleteApnsChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApnsChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -11394,7 +11730,7 @@ export const deleteApnsChannel: (
  */
 export const deleteApnsSandboxChannel: (
   input: DeleteApnsSandboxChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApnsSandboxChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -11423,7 +11759,7 @@ export const deleteApnsSandboxChannel: (
  */
 export const deleteApnsVoipChannel: (
   input: DeleteApnsVoipChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApnsVoipChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -11452,7 +11788,7 @@ export const deleteApnsVoipChannel: (
  */
 export const deleteApnsVoipSandboxChannel: (
   input: DeleteApnsVoipSandboxChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApnsVoipSandboxChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -11481,7 +11817,7 @@ export const deleteApnsVoipSandboxChannel: (
  */
 export const deleteApp: (
   input: DeleteAppRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAppResponse,
   | BadRequestException
   | ForbiddenException
@@ -11510,7 +11846,7 @@ export const deleteApp: (
  */
 export const deleteBaiduChannel: (
   input: DeleteBaiduChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBaiduChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -11539,7 +11875,7 @@ export const deleteBaiduChannel: (
  */
 export const deleteEmailChannel: (
   input: DeleteEmailChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEmailChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -11568,7 +11904,7 @@ export const deleteEmailChannel: (
  */
 export const deleteEmailTemplate: (
   input: DeleteEmailTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEmailTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -11597,7 +11933,7 @@ export const deleteEmailTemplate: (
  */
 export const deleteEndpoint: (
   input: DeleteEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEndpointResponse,
   | BadRequestException
   | ForbiddenException
@@ -11626,7 +11962,7 @@ export const deleteEndpoint: (
  */
 export const deleteEventStream: (
   input: DeleteEventStreamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEventStreamResponse,
   | BadRequestException
   | ForbiddenException
@@ -11655,7 +11991,7 @@ export const deleteEventStream: (
  */
 export const deleteGcmChannel: (
   input: DeleteGcmChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGcmChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -11684,7 +12020,7 @@ export const deleteGcmChannel: (
  */
 export const createApp: (
   input: CreateAppRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAppResponse,
   | BadRequestException
   | ForbiddenException
@@ -11713,7 +12049,7 @@ export const createApp: (
  */
 export const deleteCampaign: (
   input: DeleteCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCampaignResponse,
   | BadRequestException
   | ForbiddenException
@@ -11742,7 +12078,7 @@ export const deleteCampaign: (
  */
 export const createCampaign: (
   input: CreateCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCampaignResponse,
   | BadRequestException
   | ForbiddenException
@@ -11771,7 +12107,7 @@ export const createCampaign: (
  */
 export const createSegment: (
   input: CreateSegmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSegmentResponse,
   | BadRequestException
   | ForbiddenException
@@ -11800,7 +12136,7 @@ export const createSegment: (
  */
 export const createJourney: (
   input: CreateJourneyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateJourneyResponse,
   | BadRequestException
   | ForbiddenException
@@ -11829,7 +12165,7 @@ export const createJourney: (
  */
 export const putEvents: (
   input: PutEventsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutEventsResponse,
   | BadRequestException
   | ForbiddenException

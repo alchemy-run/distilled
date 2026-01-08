@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -488,7 +488,7 @@ export const UpdateAnnotationStoreVersionRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateAnnotationStoreVersionRequest>;
 export interface DeleteAnnotationStoreVersionsRequest {
   name: string;
-  versions: VersionList;
+  versions: string[];
   force?: boolean;
 }
 export const DeleteAnnotationStoreVersionsRequest = S.suspend(() =>
@@ -525,7 +525,7 @@ export interface CreateReferenceStoreRequest {
   name: string;
   description?: string;
   sseConfig?: SseConfig;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   clientToken?: string;
 }
 export const CreateReferenceStoreRequest = S.suspend(() =>
@@ -702,7 +702,7 @@ export interface CreateRunCacheRequest {
   description?: string;
   name?: string;
   requestId: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   cacheBucketOwnerId?: string;
 }
 export const CreateRunCacheRequest = S.suspend(() =>
@@ -820,7 +820,7 @@ export interface CreateRunGroupRequest {
   maxCpus?: number;
   maxRuns?: number;
   maxDuration?: number;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   requestId: string;
   maxGpus?: number;
 }
@@ -954,7 +954,7 @@ export interface StartRunRequest {
   storageCapacity?: number;
   outputUri: string;
   logLevel?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   requestId: string;
   retentionMode?: string;
   storageType?: string;
@@ -997,7 +997,7 @@ export const StartRunRequest = S.suspend(() =>
 }) as any as S.Schema<StartRunRequest>;
 export interface GetRunRequest {
   id: string;
-  export?: RunExportList;
+  export?: string[];
 }
 export const GetRunRequest = S.suspend(() =>
   S.Struct({
@@ -1155,7 +1155,7 @@ export interface UpdateSequenceStoreRequest {
   description?: string;
   clientToken?: string;
   fallbackLocation?: string;
-  propagatedSetLevelTags?: PropagatedSetLevelTags;
+  propagatedSetLevelTags?: string[];
   s3AccessConfig?: S3AccessConfig;
 }
 export const UpdateSequenceStoreRequest = S.suspend(() =>
@@ -1243,7 +1243,7 @@ export interface CreateMultipartReadSetUploadRequest {
   referenceArn?: string;
   name: string;
   description?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateMultipartReadSetUploadRequest = S.suspend(() =>
   S.Struct({
@@ -1454,7 +1454,7 @@ export const GetReadSetRequest = S.suspend(() =>
   identifier: "GetReadSetRequest",
 }) as any as S.Schema<GetReadSetRequest>;
 export interface BatchDeleteReadSetRequest {
-  ids: ReadSetIdList;
+  ids: string[];
   sequenceStoreId: string;
 }
 export const BatchDeleteReadSetRequest = S.suspend(() =>
@@ -1570,7 +1570,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1595,7 +1595,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1661,10 +1661,10 @@ export const CancelVariantImportResponse = S.suspend(() =>
 export type ReferenceItem = { referenceArn: string };
 export const ReferenceItem = S.Union(S.Struct({ referenceArn: S.String }));
 export interface CreateVariantStoreRequest {
-  reference: (typeof ReferenceItem)["Type"];
+  reference: ReferenceItem;
   name?: string;
   description?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   sseConfig?: SseConfig;
 }
 export const CreateVariantStoreRequest = S.suspend(() =>
@@ -1749,7 +1749,7 @@ export const DeleteVariantStoreRequest = S.suspend(() =>
 export interface GetWorkflowRequest {
   id: string;
   type?: string;
-  export?: WorkflowExportList;
+  export?: string[];
   workflowOwnerId?: string;
 }
 export const GetWorkflowRequest = S.suspend(() =>
@@ -1898,8 +1898,8 @@ export const ImageMapping = S.suspend(() =>
 export type ImageMappingsList = ImageMapping[];
 export const ImageMappingsList = S.Array(ImageMapping);
 export interface ContainerRegistryMap {
-  registryMappings?: RegistryMappingsList;
-  imageMappings?: ImageMappingsList;
+  registryMappings?: RegistryMapping[];
+  imageMappings?: ImageMapping[];
 }
 export const ContainerRegistryMap = S.suspend(() =>
   S.Struct({
@@ -1924,7 +1924,7 @@ export interface DefinitionRepository {
   connectionArn: string;
   fullRepositoryId: string;
   sourceReference?: SourceReference;
-  excludeFilePatterns?: ExcludeFilePatternList;
+  excludeFilePatterns?: string[];
 }
 export const DefinitionRepository = S.suspend(() =>
   S.Struct({
@@ -1945,11 +1945,11 @@ export interface CreateWorkflowVersionRequest {
   description?: string;
   engine?: string;
   main?: string;
-  parameterTemplate?: WorkflowParameterTemplate;
+  parameterTemplate?: { [key: string]: WorkflowParameter };
   requestId: string;
   storageType?: string;
   storageCapacity?: number;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   workflowBucketOwnerId?: string;
   containerRegistryMap?: ContainerRegistryMap;
   containerRegistryMapUri?: string;
@@ -1999,7 +1999,7 @@ export interface GetWorkflowVersionRequest {
   workflowId: string;
   versionName: string;
   type?: string;
-  export?: WorkflowExportList;
+  export?: string[];
   workflowOwnerId?: string;
 }
 export const GetWorkflowVersionRequest = S.suspend(() =>
@@ -2126,6 +2126,8 @@ export type StatusList = string[];
 export const StatusList = S.Array(S.String);
 export type TypeList = string[];
 export const TypeList = S.Array(S.String);
+export type StoreType = "SEQUENCE_STORE" | "REFERENCE_STORE";
+export const StoreType = S.Literal("SEQUENCE_STORE", "REFERENCE_STORE");
 export interface AnnotationImportItemSource {
   source: string;
 }
@@ -2195,7 +2197,7 @@ export interface StartReferenceImportJobSourceItem {
   sourceFile: string;
   name: string;
   description?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const StartReferenceImportJobSourceItem = S.suspend(() =>
   S.Struct({
@@ -2366,9 +2368,9 @@ export const ReadSetFilter = S.suspend(() =>
   identifier: "ReadSetFilter",
 }) as any as S.Schema<ReadSetFilter>;
 export interface Filter {
-  resourceArns?: ArnList;
-  status?: StatusList;
-  type?: TypeList;
+  resourceArns?: string[];
+  status?: string[];
+  type?: string[];
 }
 export const Filter = S.suspend(() =>
   S.Struct({
@@ -2407,7 +2409,7 @@ export const ListVariantStoresFilter = S.suspend(() =>
 export interface GetS3AccessPolicyResponse {
   s3AccessPointArn?: string;
   storeId?: string;
-  storeType?: string;
+  storeType?: StoreType;
   updateTime?: Date;
   s3AccessPolicy: string;
 }
@@ -2415,7 +2417,7 @@ export const GetS3AccessPolicyResponse = S.suspend(() =>
   S.Struct({
     s3AccessPointArn: S.optional(S.String),
     storeId: S.optional(S.String),
-    storeType: S.optional(S.String),
+    storeType: S.optional(StoreType),
     updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     s3AccessPolicy: S.String,
   }),
@@ -2425,20 +2427,20 @@ export const GetS3AccessPolicyResponse = S.suspend(() =>
 export interface PutS3AccessPolicyResponse {
   s3AccessPointArn?: string;
   storeId?: string;
-  storeType?: string;
+  storeType?: StoreType;
 }
 export const PutS3AccessPolicyResponse = S.suspend(() =>
   S.Struct({
     s3AccessPointArn: S.optional(S.String),
     storeId: S.optional(S.String),
-    storeType: S.optional(S.String),
+    storeType: S.optional(StoreType),
   }),
 ).annotations({
   identifier: "PutS3AccessPolicyResponse",
 }) as any as S.Schema<PutS3AccessPolicyResponse>;
 export interface ListAnnotationImportJobsRequest {
   maxResults?: number;
-  ids?: IdList;
+  ids?: string[];
   nextToken?: string;
   filter?: ListAnnotationImportJobsFilter;
 }
@@ -2465,12 +2467,12 @@ export type FormatToHeader = { [key: string]: string };
 export const FormatToHeader = S.Record({ key: S.String, value: S.String });
 export type SchemaItem = { [key: string]: string };
 export const SchemaItem = S.Record({ key: S.String, value: S.String });
-export type Schema = SchemaItem[];
+export type Schema = { [key: string]: string }[];
 export const Schema = S.Array(SchemaItem);
 export interface TsvStoreOptions {
   annotationType?: string;
-  formatToHeader?: FormatToHeader;
-  schema?: Schema;
+  formatToHeader?: { [key: string]: string };
+  schema?: { [key: string]: string }[];
 }
 export const TsvStoreOptions = S.suspend(() =>
   S.Struct({
@@ -2487,7 +2489,7 @@ export const StoreOptions = S.Union(
 );
 export interface GetAnnotationStoreResponse {
   id: string;
-  reference: (typeof ReferenceItem)["Type"];
+  reference: ReferenceItem;
   status: string;
   storeArn: string;
   name: string;
@@ -2495,8 +2497,8 @@ export interface GetAnnotationStoreResponse {
   sseConfig: SseConfig;
   creationTime: Date;
   updateTime: Date;
-  tags: TagMap;
-  storeOptions?: (typeof StoreOptions)["Type"];
+  tags: { [key: string]: string };
+  storeOptions?: StoreOptions;
   storeFormat?: string;
   statusMessage: string;
   storeSizeBytes: number;
@@ -2525,13 +2527,13 @@ export const GetAnnotationStoreResponse = S.suspend(() =>
 }) as any as S.Schema<GetAnnotationStoreResponse>;
 export interface UpdateAnnotationStoreResponse {
   id: string;
-  reference: (typeof ReferenceItem)["Type"];
+  reference: ReferenceItem;
   status: string;
   name: string;
   description: string;
   creationTime: Date;
   updateTime: Date;
-  storeOptions?: (typeof StoreOptions)["Type"];
+  storeOptions?: StoreOptions;
   storeFormat?: string;
 }
 export const UpdateAnnotationStoreResponse = S.suspend(() =>
@@ -2558,7 +2560,7 @@ export const DeleteAnnotationStoreResponse = S.suspend(() =>
   identifier: "DeleteAnnotationStoreResponse",
 }) as any as S.Schema<DeleteAnnotationStoreResponse>;
 export interface ListAnnotationStoresRequest {
-  ids?: IdList;
+  ids?: string[];
   maxResults?: number;
   nextToken?: string;
   filter?: ListAnnotationStoresFilter;
@@ -2584,8 +2586,8 @@ export const ListAnnotationStoresRequest = S.suspend(() =>
 }) as any as S.Schema<ListAnnotationStoresRequest>;
 export interface TsvVersionOptions {
   annotationType?: string;
-  formatToHeader?: FormatToHeader;
-  schema?: Schema;
+  formatToHeader?: { [key: string]: string };
+  schema?: { [key: string]: string }[];
 }
 export const TsvVersionOptions = S.suspend(() =>
   S.Struct({
@@ -2610,8 +2612,8 @@ export interface GetAnnotationStoreVersionResponse {
   description: string;
   creationTime: Date;
   updateTime: Date;
-  tags: TagMap;
-  versionOptions?: (typeof VersionOptions)["Type"];
+  tags: { [key: string]: string };
+  versionOptions?: VersionOptions;
   statusMessage: string;
   versionSizeBytes: number;
 }
@@ -2778,7 +2780,7 @@ export interface StartReferenceImportJobRequest {
   referenceStoreId: string;
   roleArn: string;
   clientToken?: string;
-  sources: StartReferenceImportJobSourceList;
+  sources: StartReferenceImportJobSourceItem[];
 }
 export const StartReferenceImportJobRequest = S.suspend(() =>
   S.Struct({
@@ -2842,7 +2844,7 @@ export interface CreateRunCacheResponse {
   arn?: string;
   id?: string;
   status?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateRunCacheResponse = S.suspend(() =>
   S.Struct({
@@ -2864,7 +2866,7 @@ export interface GetRunCacheResponse {
   id?: string;
   name?: string;
   status?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const GetRunCacheResponse = S.suspend(() =>
   S.Struct({
@@ -2885,7 +2887,7 @@ export const GetRunCacheResponse = S.suspend(() =>
 export interface CreateRunGroupResponse {
   arn?: string;
   id?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateRunGroupResponse = S.suspend(() =>
   S.Struct({
@@ -2904,7 +2906,7 @@ export interface GetRunGroupResponse {
   maxRuns?: number;
   maxDuration?: number;
   creationTime?: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   maxGpus?: number;
 }
 export const GetRunGroupResponse = S.suspend(() =>
@@ -2926,7 +2928,7 @@ export interface StartRunResponse {
   arn?: string;
   id?: string;
   status?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   uuid?: string;
   runOutputUri?: string;
 }
@@ -2946,11 +2948,11 @@ export interface CreateSequenceStoreRequest {
   name: string;
   description?: string;
   sseConfig?: SseConfig;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   clientToken?: string;
   fallbackLocation?: string;
   eTagAlgorithmFamily?: string;
-  propagatedSetLevelTags?: PropagatedSetLevelTags;
+  propagatedSetLevelTags?: string[];
   s3AccessConfig?: S3AccessConfig;
 }
 export const CreateSequenceStoreRequest = S.suspend(() =>
@@ -2999,7 +3001,7 @@ export interface UpdateSequenceStoreResponse {
   sseConfig?: SseConfig;
   creationTime: Date;
   updateTime?: Date;
-  propagatedSetLevelTags?: PropagatedSetLevelTags;
+  propagatedSetLevelTags?: string[];
   status?: string;
   statusMessage?: string;
   fallbackLocation?: string;
@@ -3051,7 +3053,7 @@ export const ListSequenceStoresRequest = S.suspend(() =>
 export interface CompleteMultipartReadSetUploadRequest {
   sequenceStoreId: string;
   uploadId: string;
-  parts: CompleteReadSetUploadPartList;
+  parts: CompleteReadSetUploadPartListItem[];
 }
 export const CompleteMultipartReadSetUploadRequest = S.suspend(() =>
   S.Struct({
@@ -3084,7 +3086,7 @@ export interface CreateMultipartReadSetUploadResponse {
   referenceArn: string;
   name?: string;
   description?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   creationTime: Date;
 }
 export const CreateMultipartReadSetUploadResponse = S.suspend(() =>
@@ -3223,7 +3225,7 @@ export const ListReadSetUploadPartsRequest = S.suspend(() =>
 export interface StartReadSetActivationJobRequest {
   sequenceStoreId: string;
   clientToken?: string;
-  sources: StartReadSetActivationJobSourceList;
+  sources: StartReadSetActivationJobSourceItem[];
 }
 export const StartReadSetActivationJobRequest = S.suspend(() =>
   S.Struct({
@@ -3251,7 +3253,7 @@ export interface StartReadSetExportJobRequest {
   destination: string;
   roleArn: string;
   clientToken?: string;
-  sources: ExportReadSetList;
+  sources: ExportReadSet[];
 }
 export const StartReadSetExportJobRequest = S.suspend(() =>
   S.Struct({
@@ -3376,7 +3378,7 @@ export const ListSharesRequest = S.suspend(() =>
   identifier: "ListSharesRequest",
 }) as any as S.Schema<ListSharesRequest>;
 export interface ListTagsForResourceResponse {
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: TagMap }),
@@ -3386,9 +3388,9 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 export interface StartVariantImportRequest {
   destinationName: string;
   roleArn: string;
-  items: VariantImportItemSources;
+  items: VariantImportItemSource[];
   runLeftNormalization?: boolean;
-  annotationFields?: AnnotationFieldMap;
+  annotationFields?: { [key: string]: string };
 }
 export const StartVariantImportRequest = S.suspend(() =>
   S.Struct({
@@ -3412,7 +3414,7 @@ export const StartVariantImportRequest = S.suspend(() =>
 }) as any as S.Schema<StartVariantImportRequest>;
 export interface ListVariantImportJobsRequest {
   maxResults?: number;
-  ids?: IdList;
+  ids?: string[];
   nextToken?: string;
   filter?: ListVariantImportJobsFilter;
 }
@@ -3437,7 +3439,7 @@ export const ListVariantImportJobsRequest = S.suspend(() =>
 }) as any as S.Schema<ListVariantImportJobsRequest>;
 export interface CreateVariantStoreResponse {
   id: string;
-  reference?: (typeof ReferenceItem)["Type"];
+  reference?: ReferenceItem;
   status: string;
   name: string;
   creationTime: Date;
@@ -3455,7 +3457,7 @@ export const CreateVariantStoreResponse = S.suspend(() =>
 }) as any as S.Schema<CreateVariantStoreResponse>;
 export interface GetVariantStoreResponse {
   id: string;
-  reference: (typeof ReferenceItem)["Type"];
+  reference: ReferenceItem;
   status: string;
   storeArn: string;
   name: string;
@@ -3463,7 +3465,7 @@ export interface GetVariantStoreResponse {
   sseConfig: SseConfig;
   creationTime: Date;
   updateTime: Date;
-  tags: TagMap;
+  tags: { [key: string]: string };
   statusMessage: string;
   storeSizeBytes: number;
 }
@@ -3487,7 +3489,7 @@ export const GetVariantStoreResponse = S.suspend(() =>
 }) as any as S.Schema<GetVariantStoreResponse>;
 export interface UpdateVariantStoreResponse {
   id: string;
-  reference: (typeof ReferenceItem)["Type"];
+  reference: ReferenceItem;
   status: string;
   name: string;
   description: string;
@@ -3517,7 +3519,7 @@ export const DeleteVariantStoreResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteVariantStoreResponse>;
 export interface ListVariantStoresRequest {
   maxResults?: number;
-  ids?: IdList;
+  ids?: string[];
   nextToken?: string;
   filter?: ListVariantStoresFilter;
 }
@@ -3545,7 +3547,7 @@ export interface CreateWorkflowVersionResponse {
   workflowId?: string;
   versionName?: string;
   status?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   uuid?: string;
 }
 export const CreateWorkflowVersionResponse = S.suspend(() =>
@@ -3591,14 +3593,14 @@ export interface GetWorkflowVersionResponse {
   digest?: string;
   engine?: string;
   main?: string;
-  metadata?: WorkflowMetadata;
-  parameterTemplate?: WorkflowParameterTemplate;
+  metadata?: { [key: string]: string };
+  parameterTemplate?: { [key: string]: WorkflowParameter };
   status?: string;
   statusMessage?: string;
   storageType?: string;
   storageCapacity?: number;
   type?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   uuid?: string;
   workflowBucketOwnerId?: string;
   containerRegistryMap?: ContainerRegistryMap;
@@ -3681,7 +3683,7 @@ export interface ImportReferenceSourceItem {
   statusMessage?: string;
   name?: string;
   description?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   referenceId?: string;
 }
 export const ImportReferenceSourceItem = S.suspend(() =>
@@ -3882,7 +3884,7 @@ export interface ImportReadSetSourceItem {
   referenceArn?: string;
   name?: string;
   description?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   readSetId?: string;
 }
 export const ImportReadSetSourceItem = S.suspend(() =>
@@ -3915,7 +3917,7 @@ export interface MultipartReadSetUploadListItem {
   referenceArn: string;
   name?: string;
   description?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   creationTime: Date;
 }
 export const MultipartReadSetUploadListItem = S.suspend(() =>
@@ -3948,7 +3950,7 @@ export interface StartReadSetImportJobSourceItem {
   referenceArn?: string;
   name?: string;
   description?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const StartReadSetImportJobSourceItem = S.suspend(() =>
   S.Struct({
@@ -4097,7 +4099,7 @@ export interface WorkflowListItem {
   type?: string;
   digest?: string;
   creationTime?: Date;
-  metadata?: WorkflowMetadata;
+  metadata?: { [key: string]: string };
 }
 export const WorkflowListItem = S.suspend(() =>
   S.Struct({
@@ -4124,7 +4126,7 @@ export interface WorkflowVersionListItem {
   type?: string;
   digest?: string;
   creationTime?: Date;
-  metadata?: WorkflowMetadata;
+  metadata?: { [key: string]: string };
 }
 export const WorkflowVersionListItem = S.suspend(() =>
   S.Struct({
@@ -4190,10 +4192,10 @@ export interface GetAnnotationImportResponse {
   creationTime: Date;
   updateTime: Date;
   completionTime: Date;
-  items: AnnotationImportItemDetails;
+  items: AnnotationImportItemDetail[];
   runLeftNormalization: boolean;
-  formatOptions: (typeof FormatOptions)["Type"];
-  annotationFields?: AnnotationFieldMap;
+  formatOptions: FormatOptions;
+  annotationFields?: { [key: string]: string };
 }
 export const GetAnnotationImportResponse = S.suspend(() =>
   S.Struct({
@@ -4218,8 +4220,8 @@ export interface CreateAnnotationStoreVersionRequest {
   name: string;
   versionName: string;
   description?: string;
-  versionOptions?: (typeof VersionOptions)["Type"];
-  tags?: TagMap;
+  versionOptions?: VersionOptions;
+  tags?: { [key: string]: string };
 }
 export const CreateAnnotationStoreVersionRequest = S.suspend(() =>
   S.Struct({
@@ -4242,7 +4244,7 @@ export const CreateAnnotationStoreVersionRequest = S.suspend(() =>
   identifier: "CreateAnnotationStoreVersionRequest",
 }) as any as S.Schema<CreateAnnotationStoreVersionRequest>;
 export interface DeleteAnnotationStoreVersionsResponse {
-  errors?: VersionDeleteErrorList;
+  errors?: VersionDeleteError[];
 }
 export const DeleteAnnotationStoreVersionsResponse = S.suspend(() =>
   S.Struct({ errors: S.optional(VersionDeleteErrorList) }),
@@ -4257,7 +4259,7 @@ export interface GetReferenceImportJobResponse {
   statusMessage?: string;
   creationTime: Date;
   completionTime?: Date;
-  sources: ImportReferenceSourceList;
+  sources: ImportReferenceSourceItem[];
 }
 export const GetReferenceImportJobResponse = S.suspend(() =>
   S.Struct({
@@ -4292,7 +4294,7 @@ export const StartReferenceImportJobResponse = S.suspend(() =>
   identifier: "StartReferenceImportJobResponse",
 }) as any as S.Schema<StartReferenceImportJobResponse>;
 export interface ListRunCachesResponse {
-  items?: RunCacheList;
+  items?: RunCacheListItem[];
   nextToken?: string;
 }
 export const ListRunCachesResponse = S.suspend(() =>
@@ -4304,7 +4306,7 @@ export const ListRunCachesResponse = S.suspend(() =>
   identifier: "ListRunCachesResponse",
 }) as any as S.Schema<ListRunCachesResponse>;
 export interface ListRunGroupsResponse {
-  items?: RunGroupList;
+  items?: RunGroupListItem[];
   nextToken?: string;
 }
 export const ListRunGroupsResponse = S.suspend(() =>
@@ -4335,13 +4337,13 @@ export interface GetRunResponse {
   storageCapacity?: number;
   outputUri?: string;
   logLevel?: string;
-  resourceDigests?: RunResourceDigests;
+  resourceDigests?: { [key: string]: string };
   startedBy?: string;
   creationTime?: Date;
   startTime?: Date;
   stopTime?: Date;
   statusMessage?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   accelerators?: string;
   retentionMode?: string;
   failureReason?: string;
@@ -4396,7 +4398,7 @@ export const GetRunResponse = S.suspend(() =>
   identifier: "GetRunResponse",
 }) as any as S.Schema<GetRunResponse>;
 export interface ListRunsResponse {
-  items?: RunList;
+  items?: RunListItem[];
   nextToken?: string;
 }
 export const ListRunsResponse = S.suspend(() =>
@@ -4445,7 +4447,7 @@ export const GetRunTaskResponse = S.suspend(() =>
   identifier: "GetRunTaskResponse",
 }) as any as S.Schema<GetRunTaskResponse>;
 export interface ListRunTasksResponse {
-  items?: TaskList;
+  items?: TaskListItem[];
   nextToken?: string;
 }
 export const ListRunTasksResponse = S.suspend(() =>
@@ -4464,7 +4466,7 @@ export interface CreateSequenceStoreResponse {
   eTagAlgorithmFamily?: string;
   status?: string;
   statusMessage?: string;
-  propagatedSetLevelTags?: PropagatedSetLevelTags;
+  propagatedSetLevelTags?: string[];
   s3Access?: SequenceStoreS3Access;
 }
 export const CreateSequenceStoreResponse = S.suspend(() =>
@@ -4497,7 +4499,7 @@ export interface GetSequenceStoreResponse {
   eTagAlgorithmFamily?: string;
   status?: string;
   statusMessage?: string;
-  propagatedSetLevelTags?: PropagatedSetLevelTags;
+  propagatedSetLevelTags?: string[];
   updateTime?: Date;
 }
 export const GetSequenceStoreResponse = S.suspend(() =>
@@ -4534,7 +4536,7 @@ export interface GetReadSetActivationJobResponse {
   statusMessage?: string;
   creationTime: Date;
   completionTime?: Date;
-  sources?: ActivateReadSetSourceList;
+  sources?: ActivateReadSetSourceItem[];
 }
 export const GetReadSetActivationJobResponse = S.suspend(() =>
   S.Struct({
@@ -4557,7 +4559,7 @@ export interface GetReadSetExportJobResponse {
   statusMessage?: string;
   creationTime: Date;
   completionTime?: Date;
-  readSets?: ExportReadSetDetailList;
+  readSets?: ExportReadSetDetail[];
 }
 export const GetReadSetExportJobResponse = S.suspend(() =>
   S.Struct({
@@ -4581,7 +4583,7 @@ export interface GetReadSetImportJobResponse {
   statusMessage?: string;
   creationTime: Date;
   completionTime?: Date;
-  sources: ImportReadSetSourceList;
+  sources: ImportReadSetSourceItem[];
 }
 export const GetReadSetImportJobResponse = S.suspend(() =>
   S.Struct({
@@ -4599,7 +4601,7 @@ export const GetReadSetImportJobResponse = S.suspend(() =>
 }) as any as S.Schema<GetReadSetImportJobResponse>;
 export interface ListMultipartReadSetUploadsResponse {
   nextToken?: string;
-  uploads?: MultipartReadSetUploadList;
+  uploads?: MultipartReadSetUploadListItem[];
 }
 export const ListMultipartReadSetUploadsResponse = S.suspend(() =>
   S.Struct({
@@ -4647,7 +4649,7 @@ export interface StartReadSetImportJobRequest {
   sequenceStoreId: string;
   roleArn: string;
   clientToken?: string;
-  sources: StartReadSetImportJobSourceList;
+  sources: StartReadSetImportJobSourceItem[];
 }
 export const StartReadSetImportJobRequest = S.suspend(() =>
   S.Struct({
@@ -4714,7 +4716,7 @@ export const GetReadSetMetadataResponse = S.suspend(() =>
   identifier: "GetReadSetMetadataResponse",
 }) as any as S.Schema<GetReadSetMetadataResponse>;
 export interface BatchDeleteReadSetResponse {
-  errors?: ReadSetBatchErrorList;
+  errors?: ReadSetBatchError[];
 }
 export const BatchDeleteReadSetResponse = S.suspend(() =>
   S.Struct({ errors: S.optional(ReadSetBatchErrorList) }),
@@ -4730,7 +4732,7 @@ export const GetShareResponse = S.suspend(() =>
   identifier: "GetShareResponse",
 }) as any as S.Schema<GetShareResponse>;
 export interface ListSharesResponse {
-  shares: ShareDetailsList;
+  shares: ShareDetails[];
   nextToken?: string;
 }
 export const ListSharesResponse = S.suspend(() =>
@@ -4755,9 +4757,9 @@ export interface GetVariantImportResponse {
   creationTime: Date;
   updateTime: Date;
   completionTime?: Date;
-  items: VariantImportItemDetails;
+  items: VariantImportItemDetail[];
   runLeftNormalization: boolean;
-  annotationFields?: AnnotationFieldMap;
+  annotationFields?: { [key: string]: string };
 }
 export const GetVariantImportResponse = S.suspend(() =>
   S.Struct({
@@ -4783,9 +4785,9 @@ export interface CreateWorkflowRequest {
   definitionZip?: Uint8Array;
   definitionUri?: string;
   main?: string;
-  parameterTemplate?: WorkflowParameterTemplate;
+  parameterTemplate?: { [key: string]: WorkflowParameter };
   storageCapacity?: number;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   requestId: string;
   accelerators?: string;
   storageType?: string;
@@ -4844,12 +4846,12 @@ export interface GetWorkflowResponse {
   definition?: string;
   main?: string;
   digest?: string;
-  parameterTemplate?: WorkflowParameterTemplate;
+  parameterTemplate?: { [key: string]: WorkflowParameter };
   storageCapacity?: number;
   creationTime?: Date;
   statusMessage?: string;
-  tags?: TagMap;
-  metadata?: WorkflowMetadata;
+  tags?: { [key: string]: string };
+  metadata?: { [key: string]: string };
   accelerators?: string;
   storageType?: string;
   uuid?: string;
@@ -4888,7 +4890,7 @@ export const GetWorkflowResponse = S.suspend(() =>
   identifier: "GetWorkflowResponse",
 }) as any as S.Schema<GetWorkflowResponse>;
 export interface ListWorkflowsResponse {
-  items?: WorkflowList;
+  items?: WorkflowListItem[];
   nextToken?: string;
 }
 export const ListWorkflowsResponse = S.suspend(() =>
@@ -4900,7 +4902,7 @@ export const ListWorkflowsResponse = S.suspend(() =>
   identifier: "ListWorkflowsResponse",
 }) as any as S.Schema<ListWorkflowsResponse>;
 export interface ListWorkflowVersionsResponse {
-  items?: WorkflowVersionList;
+  items?: WorkflowVersionListItem[];
   nextToken?: string;
 }
 export const ListWorkflowVersionsResponse = S.suspend(() =>
@@ -4921,7 +4923,7 @@ export interface AnnotationImportJobItem {
   updateTime: Date;
   completionTime?: Date;
   runLeftNormalization?: boolean;
-  annotationFields?: AnnotationFieldMap;
+  annotationFields?: { [key: string]: string };
 }
 export const AnnotationImportJobItem = S.suspend(() =>
   S.Struct({
@@ -4943,7 +4945,7 @@ export type AnnotationImportJobItems = AnnotationImportJobItem[];
 export const AnnotationImportJobItems = S.Array(AnnotationImportJobItem);
 export interface AnnotationStoreItem {
   id: string;
-  reference: (typeof ReferenceItem)["Type"];
+  reference: ReferenceItem;
   status: string;
   storeArn: string;
   name: string;
@@ -5246,7 +5248,7 @@ export interface VariantImportJobItem {
   updateTime: Date;
   completionTime?: Date;
   runLeftNormalization?: boolean;
-  annotationFields?: AnnotationFieldMap;
+  annotationFields?: { [key: string]: string };
 }
 export const VariantImportJobItem = S.suspend(() =>
   S.Struct({
@@ -5267,7 +5269,7 @@ export type VariantImportJobItems = VariantImportJobItem[];
 export const VariantImportJobItems = S.Array(VariantImportJobItem);
 export interface VariantStoreItem {
   id: string;
-  reference: (typeof ReferenceItem)["Type"];
+  reference: ReferenceItem;
   status: string;
   storeArn: string;
   name: string;
@@ -5300,11 +5302,11 @@ export const VariantStoreItems = S.Array(VariantStoreItem);
 export interface StartAnnotationImportRequest {
   destinationName: string;
   roleArn: string;
-  items: AnnotationImportItemSources;
+  items: AnnotationImportItemSource[];
   versionName?: string;
-  formatOptions?: (typeof FormatOptions)["Type"];
+  formatOptions?: FormatOptions;
   runLeftNormalization?: boolean;
-  annotationFields?: AnnotationFieldMap;
+  annotationFields?: { [key: string]: string };
 }
 export const StartAnnotationImportRequest = S.suspend(() =>
   S.Struct({
@@ -5329,7 +5331,7 @@ export const StartAnnotationImportRequest = S.suspend(() =>
   identifier: "StartAnnotationImportRequest",
 }) as any as S.Schema<StartAnnotationImportRequest>;
 export interface ListAnnotationImportJobsResponse {
-  annotationImportJobs?: AnnotationImportJobItems;
+  annotationImportJobs?: AnnotationImportJobItem[];
   nextToken?: string;
 }
 export const ListAnnotationImportJobsResponse = S.suspend(() =>
@@ -5341,14 +5343,14 @@ export const ListAnnotationImportJobsResponse = S.suspend(() =>
   identifier: "ListAnnotationImportJobsResponse",
 }) as any as S.Schema<ListAnnotationImportJobsResponse>;
 export interface CreateAnnotationStoreRequest {
-  reference?: (typeof ReferenceItem)["Type"];
+  reference?: ReferenceItem;
   name?: string;
   description?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   versionName?: string;
   sseConfig?: SseConfig;
   storeFormat: string;
-  storeOptions?: (typeof StoreOptions)["Type"];
+  storeOptions?: StoreOptions;
 }
 export const CreateAnnotationStoreRequest = S.suspend(() =>
   S.Struct({
@@ -5374,7 +5376,7 @@ export const CreateAnnotationStoreRequest = S.suspend(() =>
   identifier: "CreateAnnotationStoreRequest",
 }) as any as S.Schema<CreateAnnotationStoreRequest>;
 export interface ListAnnotationStoresResponse {
-  annotationStores?: AnnotationStoreItems;
+  annotationStores?: AnnotationStoreItem[];
   nextToken?: string;
 }
 export const ListAnnotationStoresResponse = S.suspend(() =>
@@ -5389,7 +5391,7 @@ export interface CreateAnnotationStoreVersionResponse {
   id: string;
   versionName: string;
   storeId: string;
-  versionOptions?: (typeof VersionOptions)["Type"];
+  versionOptions?: VersionOptions;
   name: string;
   status: string;
   creationTime: Date;
@@ -5408,7 +5410,7 @@ export const CreateAnnotationStoreVersionResponse = S.suspend(() =>
   identifier: "CreateAnnotationStoreVersionResponse",
 }) as any as S.Schema<CreateAnnotationStoreVersionResponse>;
 export interface ListAnnotationStoreVersionsResponse {
-  annotationStoreVersions?: AnnotationStoreVersionItems;
+  annotationStoreVersions?: AnnotationStoreVersionItem[];
   nextToken?: string;
 }
 export const ListAnnotationStoreVersionsResponse = S.suspend(() =>
@@ -5421,7 +5423,7 @@ export const ListAnnotationStoreVersionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListAnnotationStoreVersionsResponse>;
 export interface ListReferenceStoresResponse {
   nextToken?: string;
-  referenceStores: ReferenceStoreDetailList;
+  referenceStores: ReferenceStoreDetail[];
 }
 export const ListReferenceStoresResponse = S.suspend(() =>
   S.Struct({
@@ -5433,7 +5435,7 @@ export const ListReferenceStoresResponse = S.suspend(() =>
 }) as any as S.Schema<ListReferenceStoresResponse>;
 export interface ListReferenceImportJobsResponse {
   nextToken?: string;
-  importJobs?: ImportReferenceJobList;
+  importJobs?: ImportReferenceJobItem[];
 }
 export const ListReferenceImportJobsResponse = S.suspend(() =>
   S.Struct({
@@ -5445,7 +5447,7 @@ export const ListReferenceImportJobsResponse = S.suspend(() =>
 }) as any as S.Schema<ListReferenceImportJobsResponse>;
 export interface ListReferencesResponse {
   nextToken?: string;
-  references: ReferenceList;
+  references: ReferenceListItem[];
 }
 export const ListReferencesResponse = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), references: ReferenceList }),
@@ -5454,7 +5456,7 @@ export const ListReferencesResponse = S.suspend(() =>
 }) as any as S.Schema<ListReferencesResponse>;
 export interface ListSequenceStoresResponse {
   nextToken?: string;
-  sequenceStores: SequenceStoreDetailList;
+  sequenceStores: SequenceStoreDetail[];
 }
 export const ListSequenceStoresResponse = S.suspend(() =>
   S.Struct({
@@ -5466,7 +5468,7 @@ export const ListSequenceStoresResponse = S.suspend(() =>
 }) as any as S.Schema<ListSequenceStoresResponse>;
 export interface ListReadSetActivationJobsResponse {
   nextToken?: string;
-  activationJobs?: ActivateReadSetJobList;
+  activationJobs?: ActivateReadSetJobItem[];
 }
 export const ListReadSetActivationJobsResponse = S.suspend(() =>
   S.Struct({
@@ -5478,7 +5480,7 @@ export const ListReadSetActivationJobsResponse = S.suspend(() =>
 }) as any as S.Schema<ListReadSetActivationJobsResponse>;
 export interface ListReadSetExportJobsResponse {
   nextToken?: string;
-  exportJobs?: ExportReadSetJobDetailList;
+  exportJobs?: ExportReadSetJobDetail[];
 }
 export const ListReadSetExportJobsResponse = S.suspend(() =>
   S.Struct({
@@ -5490,7 +5492,7 @@ export const ListReadSetExportJobsResponse = S.suspend(() =>
 }) as any as S.Schema<ListReadSetExportJobsResponse>;
 export interface ListReadSetImportJobsResponse {
   nextToken?: string;
-  importJobs?: ImportReadSetJobList;
+  importJobs?: ImportReadSetJobItem[];
 }
 export const ListReadSetImportJobsResponse = S.suspend(() =>
   S.Struct({
@@ -5502,7 +5504,7 @@ export const ListReadSetImportJobsResponse = S.suspend(() =>
 }) as any as S.Schema<ListReadSetImportJobsResponse>;
 export interface ListReadSetUploadPartsResponse {
   nextToken?: string;
-  parts?: ReadSetUploadPartList;
+  parts?: ReadSetUploadPartListItem[];
 }
 export const ListReadSetUploadPartsResponse = S.suspend(() =>
   S.Struct({
@@ -5532,7 +5534,7 @@ export const StartReadSetImportJobResponse = S.suspend(() =>
 }) as any as S.Schema<StartReadSetImportJobResponse>;
 export interface ListReadSetsResponse {
   nextToken?: string;
-  readSets: ReadSetList;
+  readSets: ReadSetListItem[];
 }
 export const ListReadSetsResponse = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), readSets: ReadSetList }),
@@ -5540,7 +5542,7 @@ export const ListReadSetsResponse = S.suspend(() =>
   identifier: "ListReadSetsResponse",
 }) as any as S.Schema<ListReadSetsResponse>;
 export interface ListVariantImportJobsResponse {
-  variantImportJobs?: VariantImportJobItems;
+  variantImportJobs?: VariantImportJobItem[];
   nextToken?: string;
 }
 export const ListVariantImportJobsResponse = S.suspend(() =>
@@ -5552,7 +5554,7 @@ export const ListVariantImportJobsResponse = S.suspend(() =>
   identifier: "ListVariantImportJobsResponse",
 }) as any as S.Schema<ListVariantImportJobsResponse>;
 export interface ListVariantStoresResponse {
-  variantStores?: VariantStoreItems;
+  variantStores?: VariantStoreItem[];
   nextToken?: string;
 }
 export const ListVariantStoresResponse = S.suspend(() =>
@@ -5567,7 +5569,7 @@ export interface CreateWorkflowResponse {
   arn?: string;
   id?: string;
   status?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   uuid?: string;
 }
 export const CreateWorkflowResponse = S.suspend(() =>
@@ -5603,9 +5605,9 @@ export const StartAnnotationImportResponse = S.suspend(() =>
 }) as any as S.Schema<StartAnnotationImportResponse>;
 export interface CreateAnnotationStoreResponse {
   id: string;
-  reference?: (typeof ReferenceItem)["Type"];
+  reference?: ReferenceItem;
   storeFormat?: string;
-  storeOptions?: (typeof StoreOptions)["Type"];
+  storeOptions?: StoreOptions;
   status: string;
   name: string;
   versionName: string;
@@ -5711,7 +5713,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const getAnnotationImportJob: (
   input: GetAnnotationImportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAnnotationImportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5736,7 +5738,7 @@ export const getAnnotationImportJob: (
  */
 export const createAnnotationStoreVersion: (
   input: CreateAnnotationStoreVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAnnotationStoreVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -5765,7 +5767,7 @@ export const createAnnotationStoreVersion: (
  */
 export const getReferenceMetadata: (
   input: GetReferenceMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetReferenceMetadataResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5795,7 +5797,7 @@ export const getReferenceMetadata: (
 export const listAnnotationImportJobs: {
   (
     input: ListAnnotationImportJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAnnotationImportJobsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5807,7 +5809,7 @@ export const listAnnotationImportJobs: {
   >;
   pages: (
     input: ListAnnotationImportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAnnotationImportJobsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5819,7 +5821,7 @@ export const listAnnotationImportJobs: {
   >;
   items: (
     input: ListAnnotationImportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AnnotationImportJobItem,
     | AccessDeniedException
     | InternalServerException
@@ -5854,7 +5856,7 @@ export const listAnnotationImportJobs: {
 export const listAnnotationStores: {
   (
     input: ListAnnotationStoresRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAnnotationStoresResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5866,7 +5868,7 @@ export const listAnnotationStores: {
   >;
   pages: (
     input: ListAnnotationStoresRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAnnotationStoresResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5878,7 +5880,7 @@ export const listAnnotationStores: {
   >;
   items: (
     input: ListAnnotationStoresRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AnnotationStoreItem,
     | AccessDeniedException
     | InternalServerException
@@ -5911,7 +5913,7 @@ export const listAnnotationStores: {
 export const listAnnotationStoreVersions: {
   (
     input: ListAnnotationStoreVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAnnotationStoreVersionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5923,7 +5925,7 @@ export const listAnnotationStoreVersions: {
   >;
   pages: (
     input: ListAnnotationStoreVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAnnotationStoreVersionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5935,7 +5937,7 @@ export const listAnnotationStoreVersions: {
   >;
   items: (
     input: ListAnnotationStoreVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AnnotationStoreVersionItem,
     | AccessDeniedException
     | InternalServerException
@@ -5967,7 +5969,7 @@ export const listAnnotationStoreVersions: {
  */
 export const getReferenceImportJob: (
   input: GetReferenceImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetReferenceImportJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5995,7 +5997,7 @@ export const getReferenceImportJob: (
 export const listReferenceImportJobs: {
   (
     input: ListReferenceImportJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReferenceImportJobsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6008,7 +6010,7 @@ export const listReferenceImportJobs: {
   >;
   pages: (
     input: ListReferenceImportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReferenceImportJobsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6021,7 +6023,7 @@ export const listReferenceImportJobs: {
   >;
   items: (
     input: ListReferenceImportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ImportReferenceJobItem,
     | AccessDeniedException
     | InternalServerException
@@ -6058,7 +6060,7 @@ export const listReferenceImportJobs: {
 export const listReferences: {
   (
     input: ListReferencesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReferencesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6071,7 +6073,7 @@ export const listReferences: {
   >;
   pages: (
     input: ListReferencesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReferencesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6084,7 +6086,7 @@ export const listReferences: {
   >;
   items: (
     input: ListReferencesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReferenceListItem,
     | AccessDeniedException
     | InternalServerException
@@ -6121,7 +6123,7 @@ export const listReferences: {
 export const listSequenceStores: {
   (
     input: ListSequenceStoresRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSequenceStoresResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6133,7 +6135,7 @@ export const listSequenceStores: {
   >;
   pages: (
     input: ListSequenceStoresRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSequenceStoresResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6145,7 +6147,7 @@ export const listSequenceStores: {
   >;
   items: (
     input: ListSequenceStoresRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SequenceStoreDetail,
     | AccessDeniedException
     | InternalServerException
@@ -6178,7 +6180,7 @@ export const listSequenceStores: {
 export const listReadSetActivationJobs: {
   (
     input: ListReadSetActivationJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReadSetActivationJobsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6191,7 +6193,7 @@ export const listReadSetActivationJobs: {
   >;
   pages: (
     input: ListReadSetActivationJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReadSetActivationJobsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6204,7 +6206,7 @@ export const listReadSetActivationJobs: {
   >;
   items: (
     input: ListReadSetActivationJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ActivateReadSetJobItem,
     | AccessDeniedException
     | InternalServerException
@@ -6239,7 +6241,7 @@ export const listReadSetActivationJobs: {
 export const listReadSetExportJobs: {
   (
     input: ListReadSetExportJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReadSetExportJobsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6252,7 +6254,7 @@ export const listReadSetExportJobs: {
   >;
   pages: (
     input: ListReadSetExportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReadSetExportJobsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6265,7 +6267,7 @@ export const listReadSetExportJobs: {
   >;
   items: (
     input: ListReadSetExportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExportReadSetJobDetail,
     | AccessDeniedException
     | InternalServerException
@@ -6300,7 +6302,7 @@ export const listReadSetExportJobs: {
 export const listReadSetImportJobs: {
   (
     input: ListReadSetImportJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReadSetImportJobsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6313,7 +6315,7 @@ export const listReadSetImportJobs: {
   >;
   pages: (
     input: ListReadSetImportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReadSetImportJobsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6326,7 +6328,7 @@ export const listReadSetImportJobs: {
   >;
   items: (
     input: ListReadSetImportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ImportReadSetJobItem,
     | AccessDeniedException
     | InternalServerException
@@ -6361,7 +6363,7 @@ export const listReadSetImportJobs: {
 export const listReadSets: {
   (
     input: ListReadSetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReadSetsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6374,7 +6376,7 @@ export const listReadSets: {
   >;
   pages: (
     input: ListReadSetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReadSetsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6387,7 +6389,7 @@ export const listReadSets: {
   >;
   items: (
     input: ListReadSetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReadSetListItem,
     | AccessDeniedException
     | InternalServerException
@@ -6424,7 +6426,7 @@ export const listReadSets: {
 export const listVariantImportJobs: {
   (
     input: ListVariantImportJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVariantImportJobsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6436,7 +6438,7 @@ export const listVariantImportJobs: {
   >;
   pages: (
     input: ListVariantImportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVariantImportJobsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6448,7 +6450,7 @@ export const listVariantImportJobs: {
   >;
   items: (
     input: ListVariantImportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     VariantImportJobItem,
     | AccessDeniedException
     | InternalServerException
@@ -6483,7 +6485,7 @@ export const listVariantImportJobs: {
 export const listVariantStores: {
   (
     input: ListVariantStoresRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVariantStoresResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6495,7 +6497,7 @@ export const listVariantStores: {
   >;
   pages: (
     input: ListVariantStoresRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVariantStoresResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6507,7 +6509,7 @@ export const listVariantStores: {
   >;
   items: (
     input: ListVariantStoresRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     VariantStoreItem,
     | AccessDeniedException
     | InternalServerException
@@ -6541,7 +6543,7 @@ export const listVariantStores: {
  */
 export const getReference: (
   input: GetReferenceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetReferenceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6570,7 +6572,7 @@ export const getReference: (
  */
 export const putS3AccessPolicy: (
   input: PutS3AccessPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutS3AccessPolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6601,7 +6603,7 @@ export const putS3AccessPolicy: (
  */
 export const deleteAnnotationStore: (
   input: DeleteAnnotationStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAnnotationStoreResponse,
   | AccessDeniedException
   | ConflictException
@@ -6628,7 +6630,7 @@ export const deleteAnnotationStore: (
  */
 export const deleteAnnotationStoreVersions: (
   input: DeleteAnnotationStoreVersionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAnnotationStoreVersionsResponse,
   | AccessDeniedException
   | ConflictException
@@ -6657,7 +6659,7 @@ export const deleteAnnotationStoreVersions: (
  */
 export const getVariantImportJob: (
   input: GetVariantImportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetVariantImportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6684,7 +6686,7 @@ export const getVariantImportJob: (
  */
 export const getAnnotationStore: (
   input: GetAnnotationStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAnnotationStoreResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6711,7 +6713,7 @@ export const getAnnotationStore: (
  */
 export const updateAnnotationStore: (
   input: UpdateAnnotationStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAnnotationStoreResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6736,7 +6738,7 @@ export const updateAnnotationStore: (
  */
 export const getAnnotationStoreVersion: (
   input: GetAnnotationStoreVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAnnotationStoreVersionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6761,7 +6763,7 @@ export const getAnnotationStoreVersion: (
  */
 export const updateAnnotationStoreVersion: (
   input: UpdateAnnotationStoreVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAnnotationStoreVersionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6788,7 +6790,7 @@ export const updateAnnotationStoreVersion: (
  */
 export const getVariantStore: (
   input: GetVariantStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetVariantStoreResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6815,7 +6817,7 @@ export const getVariantStore: (
  */
 export const updateVariantStore: (
   input: UpdateVariantStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateVariantStoreResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6842,7 +6844,7 @@ export const updateVariantStore: (
  */
 export const cancelAnnotationImportJob: (
   input: CancelAnnotationImportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelAnnotationImportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6869,7 +6871,7 @@ export const cancelAnnotationImportJob: (
  */
 export const cancelVariantImportJob: (
   input: CancelVariantImportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelVariantImportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6896,7 +6898,7 @@ export const cancelVariantImportJob: (
  */
 export const deleteVariantStore: (
   input: DeleteVariantStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVariantStoreResponse,
   | AccessDeniedException
   | ConflictException
@@ -6923,7 +6925,7 @@ export const deleteVariantStore: (
  */
 export const getSequenceStore: (
   input: GetSequenceStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSequenceStoreResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6950,7 +6952,7 @@ export const getSequenceStore: (
  */
 export const getReadSetActivationJob: (
   input: GetReadSetActivationJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetReadSetActivationJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6977,7 +6979,7 @@ export const getReadSetActivationJob: (
  */
 export const getReadSetExportJob: (
   input: GetReadSetExportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetReadSetExportJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7004,7 +7006,7 @@ export const getReadSetExportJob: (
  */
 export const getReadSetImportJob: (
   input: GetReadSetImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetReadSetImportJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7031,7 +7033,7 @@ export const getReadSetImportJob: (
  */
 export const getReadSetMetadata: (
   input: GetReadSetMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetReadSetMetadataResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7058,7 +7060,7 @@ export const getReadSetMetadata: (
  */
 export const batchDeleteReadSet: (
   input: BatchDeleteReadSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDeleteReadSetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7085,7 +7087,7 @@ export const batchDeleteReadSet: (
  */
 export const getReferenceStore: (
   input: GetReferenceStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetReferenceStoreResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7112,7 +7114,7 @@ export const getReferenceStore: (
  */
 export const updateSequenceStore: (
   input: UpdateSequenceStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSequenceStoreResponse,
   | AccessDeniedException
   | ConflictException
@@ -7143,7 +7145,7 @@ export const updateSequenceStore: (
  */
 export const deleteReferenceStore: (
   input: DeleteReferenceStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteReferenceStoreResponse,
   | AccessDeniedException
   | ConflictException
@@ -7174,7 +7176,7 @@ export const deleteReferenceStore: (
  */
 export const deleteReference: (
   input: DeleteReferenceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteReferenceResponse,
   | AccessDeniedException
   | ConflictException
@@ -7207,7 +7209,7 @@ export const deleteReference: (
  */
 export const deleteSequenceStore: (
   input: DeleteSequenceStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSequenceStoreResponse,
   | AccessDeniedException
   | ConflictException
@@ -7236,7 +7238,7 @@ export const deleteSequenceStore: (
  */
 export const deleteS3AccessPolicy: (
   input: DeleteS3AccessPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteS3AccessPolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7268,7 +7270,7 @@ export const deleteS3AccessPolicy: (
 export const listReferenceStores: {
   (
     input: ListReferenceStoresRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReferenceStoresResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7280,7 +7282,7 @@ export const listReferenceStores: {
   >;
   pages: (
     input: ListReferenceStoresRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReferenceStoresResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7292,7 +7294,7 @@ export const listReferenceStores: {
   >;
   items: (
     input: ListReferenceStoresRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReferenceStoreDetail,
     | AccessDeniedException
     | InternalServerException
@@ -7324,7 +7326,7 @@ export const listReferenceStores: {
  */
 export const getReadSet: (
   input: GetReadSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetReadSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -7356,7 +7358,7 @@ export const getReadSet: (
 export const listReadSetUploadParts: {
   (
     input: ListReadSetUploadPartsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReadSetUploadPartsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7371,7 +7373,7 @@ export const listReadSetUploadParts: {
   >;
   pages: (
     input: ListReadSetUploadPartsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReadSetUploadPartsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7386,7 +7388,7 @@ export const listReadSetUploadParts: {
   >;
   items: (
     input: ListReadSetUploadPartsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReadSetUploadPartListItem,
     | AccessDeniedException
     | InternalServerException
@@ -7424,7 +7426,7 @@ export const listReadSetUploadParts: {
  */
 export const startReadSetImportJob: (
   input: StartReadSetImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartReadSetImportJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7465,7 +7467,7 @@ export const startReadSetImportJob: (
  */
 export const createWorkflow: (
   input: CreateWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkflowResponse,
   | AccessDeniedException
   | ConflictException
@@ -7498,7 +7500,7 @@ export const createWorkflow: (
  */
 export const completeMultipartReadSetUpload: (
   input: CompleteMultipartReadSetUploadRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CompleteMultipartReadSetUploadResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7530,7 +7532,7 @@ export const completeMultipartReadSetUpload: (
 export const listMultipartReadSetUploads: {
   (
     input: ListMultipartReadSetUploadsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMultipartReadSetUploadsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7545,7 +7547,7 @@ export const listMultipartReadSetUploads: {
   >;
   pages: (
     input: ListMultipartReadSetUploadsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMultipartReadSetUploadsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7560,7 +7562,7 @@ export const listMultipartReadSetUploads: {
   >;
   items: (
     input: ListMultipartReadSetUploadsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MultipartReadSetUploadListItem,
     | AccessDeniedException
     | InternalServerException
@@ -7598,7 +7600,7 @@ export const listMultipartReadSetUploads: {
  */
 export const getS3AccessPolicy: (
   input: GetS3AccessPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetS3AccessPolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7639,7 +7641,7 @@ export const getS3AccessPolicy: (
  */
 export const createMultipartReadSetUpload: (
   input: CreateMultipartReadSetUploadRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMultipartReadSetUploadResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7672,7 +7674,7 @@ export const createMultipartReadSetUpload: (
  */
 export const uploadReadSetPart: (
   input: UploadReadSetPartRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UploadReadSetPartResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7703,7 +7705,7 @@ export const uploadReadSetPart: (
  */
 export const abortMultipartReadSetUpload: (
   input: AbortMultipartReadSetUploadRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AbortMultipartReadSetUploadResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7734,7 +7736,7 @@ export const abortMultipartReadSetUpload: (
  */
 export const getShare: (
   input: GetShareRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetShareResponse,
   | AccessDeniedException
   | ConflictException
@@ -7764,7 +7766,7 @@ export const getShare: (
 export const listShares: {
   (
     input: ListSharesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSharesResponse,
     | AccessDeniedException
     | ConflictException
@@ -7778,7 +7780,7 @@ export const listShares: {
   >;
   pages: (
     input: ListSharesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSharesResponse,
     | AccessDeniedException
     | ConflictException
@@ -7792,7 +7794,7 @@ export const listShares: {
   >;
   items: (
     input: ListSharesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ShareDetails,
     | AccessDeniedException
     | ConflictException
@@ -7830,7 +7832,7 @@ export const listShares: {
  */
 export const startVariantImportJob: (
   input: StartVariantImportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartVariantImportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7865,7 +7867,7 @@ export const startVariantImportJob: (
  */
 export const createShare: (
   input: CreateShareRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateShareResponse,
   | AccessDeniedException
   | ConflictException
@@ -7894,7 +7896,7 @@ export const createShare: (
  */
 export const acceptShare: (
   input: AcceptShareRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AcceptShareResponse,
   | AccessDeniedException
   | ConflictException
@@ -7923,7 +7925,7 @@ export const acceptShare: (
  */
 export const deleteShare: (
   input: DeleteShareRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteShareResponse,
   | AccessDeniedException
   | ConflictException
@@ -7954,7 +7956,7 @@ export const deleteShare: (
  */
 export const createVariantStore: (
   input: CreateVariantStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVariantStoreResponse,
   | AccessDeniedException
   | ConflictException
@@ -7983,7 +7985,7 @@ export const createVariantStore: (
  */
 export const startReferenceImportJob: (
   input: StartReferenceImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartReferenceImportJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8013,7 +8015,7 @@ export const startReferenceImportJob: (
 export const listRunCaches: {
   (
     input: ListRunCachesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRunCachesResponse,
     | AccessDeniedException
     | ConflictException
@@ -8028,7 +8030,7 @@ export const listRunCaches: {
   >;
   pages: (
     input: ListRunCachesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRunCachesResponse,
     | AccessDeniedException
     | ConflictException
@@ -8043,7 +8045,7 @@ export const listRunCaches: {
   >;
   items: (
     input: ListRunCachesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RunCacheListItem,
     | AccessDeniedException
     | ConflictException
@@ -8082,7 +8084,7 @@ export const listRunCaches: {
 export const listRunGroups: {
   (
     input: ListRunGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRunGroupsResponse,
     | AccessDeniedException
     | ConflictException
@@ -8097,7 +8099,7 @@ export const listRunGroups: {
   >;
   pages: (
     input: ListRunGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRunGroupsResponse,
     | AccessDeniedException
     | ConflictException
@@ -8112,7 +8114,7 @@ export const listRunGroups: {
   >;
   items: (
     input: ListRunGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RunGroupListItem,
     | AccessDeniedException
     | ConflictException
@@ -8152,7 +8154,7 @@ export const listRunGroups: {
  */
 export const getRun: (
   input: GetRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRunResponse,
   | AccessDeniedException
   | ConflictException
@@ -8186,7 +8188,7 @@ export const getRun: (
 export const listRuns: {
   (
     input: ListRunsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRunsResponse,
     | AccessDeniedException
     | ConflictException
@@ -8201,7 +8203,7 @@ export const listRuns: {
   >;
   pages: (
     input: ListRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRunsResponse,
     | AccessDeniedException
     | ConflictException
@@ -8216,7 +8218,7 @@ export const listRuns: {
   >;
   items: (
     input: ListRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RunListItem,
     | AccessDeniedException
     | ConflictException
@@ -8254,7 +8256,7 @@ export const listRuns: {
  */
 export const getRunTask: (
   input: GetRunTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRunTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -8286,7 +8288,7 @@ export const getRunTask: (
 export const listRunTasks: {
   (
     input: ListRunTasksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRunTasksResponse,
     | AccessDeniedException
     | ConflictException
@@ -8301,7 +8303,7 @@ export const listRunTasks: {
   >;
   pages: (
     input: ListRunTasksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRunTasksResponse,
     | AccessDeniedException
     | ConflictException
@@ -8316,7 +8318,7 @@ export const listRunTasks: {
   >;
   items: (
     input: ListRunTasksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TaskListItem,
     | AccessDeniedException
     | ConflictException
@@ -8368,7 +8370,7 @@ export const listRunTasks: {
  */
 export const createSequenceStore: (
   input: CreateSequenceStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSequenceStoreResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8397,7 +8399,7 @@ export const createSequenceStore: (
  */
 export const startReadSetActivationJob: (
   input: StartReadSetActivationJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartReadSetActivationJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8428,7 +8430,7 @@ export const startReadSetActivationJob: (
  */
 export const startReadSetExportJob: (
   input: StartReadSetExportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartReadSetExportJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8461,7 +8463,7 @@ export const startReadSetExportJob: (
  */
 export const getWorkflow: (
   input: GetWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkflowResponse,
   | AccessDeniedException
   | ConflictException
@@ -8493,7 +8495,7 @@ export const getWorkflow: (
 export const listWorkflows: {
   (
     input: ListWorkflowsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkflowsResponse,
     | AccessDeniedException
     | ConflictException
@@ -8508,7 +8510,7 @@ export const listWorkflows: {
   >;
   pages: (
     input: ListWorkflowsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkflowsResponse,
     | AccessDeniedException
     | ConflictException
@@ -8523,7 +8525,7 @@ export const listWorkflows: {
   >;
   items: (
     input: ListWorkflowsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkflowListItem,
     | AccessDeniedException
     | ConflictException
@@ -8562,7 +8564,7 @@ export const listWorkflows: {
 export const listWorkflowVersions: {
   (
     input: ListWorkflowVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkflowVersionsResponse,
     | AccessDeniedException
     | ConflictException
@@ -8577,7 +8579,7 @@ export const listWorkflowVersions: {
   >;
   pages: (
     input: ListWorkflowVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkflowVersionsResponse,
     | AccessDeniedException
     | ConflictException
@@ -8592,7 +8594,7 @@ export const listWorkflowVersions: {
   >;
   items: (
     input: ListWorkflowVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkflowVersionListItem,
     | AccessDeniedException
     | ConflictException
@@ -8632,7 +8634,7 @@ export const listWorkflowVersions: {
  */
 export const createReferenceStore: (
   input: CreateReferenceStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateReferenceStoreResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8661,7 +8663,7 @@ export const createReferenceStore: (
  */
 export const createRunCache: (
   input: CreateRunCacheRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRunCacheResponse,
   | AccessDeniedException
   | ConflictException
@@ -8694,7 +8696,7 @@ export const createRunCache: (
  */
 export const getRunCache: (
   input: GetRunCacheRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRunCacheResponse,
   | AccessDeniedException
   | ConflictException
@@ -8725,7 +8727,7 @@ export const getRunCache: (
  */
 export const createRunGroup: (
   input: CreateRunGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRunGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -8756,7 +8758,7 @@ export const createRunGroup: (
  */
 export const getRunGroup: (
   input: GetRunGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRunGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -8819,7 +8821,7 @@ export const getRunGroup: (
  */
 export const startRun: (
   input: StartRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartRunResponse,
   | AccessDeniedException
   | ConflictException
@@ -8850,7 +8852,7 @@ export const startRun: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -8889,7 +8891,7 @@ export const listTagsForResource: (
  */
 export const createWorkflowVersion: (
   input: CreateWorkflowVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkflowVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -8920,7 +8922,7 @@ export const createWorkflowVersion: (
  */
 export const getWorkflowVersion: (
   input: GetWorkflowVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkflowVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -8953,7 +8955,7 @@ export const getWorkflowVersion: (
  */
 export const updateRunCache: (
   input: UpdateRunCacheRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRunCacheResponse,
   | AccessDeniedException
   | ConflictException
@@ -8986,7 +8988,7 @@ export const updateRunCache: (
  */
 export const deleteRunCache: (
   input: DeleteRunCacheRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRunCacheResponse,
   | AccessDeniedException
   | ConflictException
@@ -9031,7 +9033,7 @@ export const deleteRunCache: (
  */
 export const updateRunGroup: (
   input: UpdateRunGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRunGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -9068,7 +9070,7 @@ export const updateRunGroup: (
  */
 export const deleteRunGroup: (
   input: DeleteRunGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRunGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -9105,7 +9107,7 @@ export const deleteRunGroup: (
  */
 export const deleteRun: (
   input: DeleteRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRunResponse,
   | AccessDeniedException
   | ConflictException
@@ -9136,7 +9138,7 @@ export const deleteRun: (
  */
 export const cancelRun: (
   input: CancelRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelRunResponse,
   | AccessDeniedException
   | ConflictException
@@ -9167,7 +9169,7 @@ export const cancelRun: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -9198,7 +9200,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -9243,7 +9245,7 @@ export const untagResource: (
  */
 export const updateWorkflow: (
   input: UpdateWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkflowResponse,
   | AccessDeniedException
   | ConflictException
@@ -9280,7 +9282,7 @@ export const updateWorkflow: (
  */
 export const deleteWorkflow: (
   input: DeleteWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkflowResponse,
   | AccessDeniedException
   | ConflictException
@@ -9311,7 +9313,7 @@ export const deleteWorkflow: (
  */
 export const updateWorkflowVersion: (
   input: UpdateWorkflowVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkflowVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -9344,7 +9346,7 @@ export const updateWorkflowVersion: (
  */
 export const deleteWorkflowVersion: (
   input: DeleteWorkflowVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkflowVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -9377,7 +9379,7 @@ export const deleteWorkflowVersion: (
  */
 export const startAnnotationImportJob: (
   input: StartAnnotationImportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartAnnotationImportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9406,7 +9408,7 @@ export const startAnnotationImportJob: (
  */
 export const createAnnotationStore: (
   input: CreateAnnotationStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAnnotationStoreResponse,
   | AccessDeniedException
   | ConflictException

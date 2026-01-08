@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -184,9 +184,9 @@ export type externalIdType = string;
 export type serialNumberType = string;
 export type tokenCodeType = string;
 export type sourceIdentityType = string;
-export type SAMLAssertionType = string | Redacted.Redacted<string>;
+export type SAMLAssertionType = string | redacted.Redacted<string>;
 export type sessionPolicyDocumentType = string;
-export type clientTokenType = string | Redacted.Redacted<string>;
+export type clientTokenType = string | redacted.Redacted<string>;
 export type urlType = string;
 export type TargetPrincipalType = string;
 export type RootDurationSecondsType = number;
@@ -194,7 +194,7 @@ export type encodedMessageType = string;
 export type accessKeyIdType = string;
 export type userIdType = string;
 export type accountType = string;
-export type tradeInTokenType = string | Redacted.Redacted<string>;
+export type tradeInTokenType = string | redacted.Redacted<string>;
 export type userNameType = string;
 export type durationSecondsType = number;
 export type webIdentityTokenAudienceStringType = string;
@@ -210,8 +210,8 @@ export type Audience = string;
 export type NameQualifier = string;
 export type webIdentitySubjectType = string;
 export type decodedMessageType = string;
-export type webIdentityTokenType = string | Redacted.Redacted<string>;
-export type accessKeySecretType = string | Redacted.Redacted<string>;
+export type webIdentityTokenType = string | redacted.Redacted<string>;
+export type accessKeySecretType = string | redacted.Redacted<string>;
 export type tokenType = string;
 export type assumedRoleIdType = string;
 export type federatedIdType = string;
@@ -262,8 +262,8 @@ export const policyDescriptorListType = S.Array(PolicyDescriptorType);
 export interface AssumeRoleWithSAMLRequest {
   RoleArn: string;
   PrincipalArn: string;
-  SAMLAssertion: string | Redacted.Redacted<string>;
-  PolicyArns?: policyDescriptorListType;
+  SAMLAssertion: string | redacted.Redacted<string>;
+  PolicyArns?: PolicyDescriptorType[];
   Policy?: string;
   DurationSeconds?: number;
 }
@@ -292,9 +292,9 @@ export const AssumeRoleWithSAMLRequest = S.suspend(() =>
 export interface AssumeRoleWithWebIdentityRequest {
   RoleArn: string;
   RoleSessionName: string;
-  WebIdentityToken: string | Redacted.Redacted<string>;
+  WebIdentityToken: string | redacted.Redacted<string>;
   ProviderId?: string;
-  PolicyArns?: policyDescriptorListType;
+  PolicyArns?: PolicyDescriptorType[];
   Policy?: string;
   DurationSeconds?: number;
 }
@@ -396,7 +396,7 @@ export const GetCallerIdentityResponse = S.suspend(() =>
   identifier: "GetCallerIdentityResponse",
 }) as any as S.Schema<GetCallerIdentityResponse>;
 export interface GetDelegatedAccessTokenRequest {
-  TradeInToken: string | Redacted.Redacted<string>;
+  TradeInToken: string | redacted.Redacted<string>;
 }
 export const GetDelegatedAccessTokenRequest = S.suspend(() =>
   S.Struct({ TradeInToken: SensitiveString }).pipe(
@@ -425,9 +425,9 @@ export const tagListType = S.Array(Tag);
 export interface GetFederationTokenRequest {
   Name: string;
   Policy?: string;
-  PolicyArns?: policyDescriptorListType;
+  PolicyArns?: PolicyDescriptorType[];
   DurationSeconds?: number;
-  Tags?: tagListType;
+  Tags?: Tag[];
 }
 export const GetFederationTokenRequest = S.suspend(() =>
   S.Struct({
@@ -475,10 +475,10 @@ export const GetSessionTokenRequest = S.suspend(() =>
   identifier: "GetSessionTokenRequest",
 }) as any as S.Schema<GetSessionTokenRequest>;
 export interface GetWebIdentityTokenRequest {
-  Audience: webIdentityTokenAudienceListType;
+  Audience: string[];
   DurationSeconds?: number;
   SigningAlgorithm: string;
-  Tags?: tagListType;
+  Tags?: Tag[];
 }
 export const GetWebIdentityTokenRequest = S.suspend(() =>
   S.Struct({
@@ -517,16 +517,16 @@ export const ProvidedContextsListType = S.Array(ProvidedContext);
 export interface AssumeRoleRequest {
   RoleArn: string;
   RoleSessionName: string;
-  PolicyArns?: policyDescriptorListType;
+  PolicyArns?: PolicyDescriptorType[];
   Policy?: string;
   DurationSeconds?: number;
-  Tags?: tagListType;
-  TransitiveTagKeys?: tagKeyListType;
+  Tags?: Tag[];
+  TransitiveTagKeys?: string[];
   ExternalId?: string;
   SerialNumber?: string;
   TokenCode?: string;
   SourceIdentity?: string;
-  ProvidedContexts?: ProvidedContextsListType;
+  ProvidedContexts?: ProvidedContext[];
 }
 export const AssumeRoleRequest = S.suspend(() =>
   S.Struct({
@@ -558,7 +558,7 @@ export const AssumeRoleRequest = S.suspend(() =>
 }) as any as S.Schema<AssumeRoleRequest>;
 export interface Credentials {
   AccessKeyId: string;
-  SecretAccessKey: string | Redacted.Redacted<string>;
+  SecretAccessKey: string | redacted.Redacted<string>;
   SessionToken: string;
   Expiration: Date;
 }
@@ -652,7 +652,7 @@ export const GetSessionTokenResponse = S.suspend(() =>
   identifier: "GetSessionTokenResponse",
 }) as any as S.Schema<GetSessionTokenResponse>;
 export interface GetWebIdentityTokenResponse {
-  WebIdentityToken?: string | Redacted.Redacted<string>;
+  WebIdentityToken?: string | redacted.Redacted<string>;
   Expiration?: Date;
 }
 export const GetWebIdentityTokenResponse = S.suspend(() =>
@@ -820,7 +820,7 @@ export class InvalidIdentityTokenException extends S.TaggedError<InvalidIdentity
  */
 export const getCallerIdentity: (
   input: GetCallerIdentityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCallerIdentityResponse,
   CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -853,7 +853,7 @@ export const getCallerIdentity: (
  */
 export const getAccessKeyInfo: (
   input: GetAccessKeyInfoRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccessKeyInfoResponse,
   CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -897,7 +897,7 @@ export const getAccessKeyInfo: (
  */
 export const decodeAuthorizationMessage: (
   input: DecodeAuthorizationMessageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DecodeAuthorizationMessageResponse,
   InvalidAuthorizationMessageException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -965,7 +965,7 @@ export const decodeAuthorizationMessage: (
  */
 export const getSessionToken: (
   input: GetSessionTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSessionTokenResponse,
   RegionDisabledException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -999,7 +999,7 @@ export const getSessionToken: (
  */
 export const assumeRoot: (
   input: AssumeRootRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssumeRootResponse,
   ExpiredTokenException | RegionDisabledException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -1016,7 +1016,7 @@ export const assumeRoot: (
  */
 export const getDelegatedAccessToken: (
   input: GetDelegatedAccessTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDelegatedAccessTokenResponse,
   | ExpiredTradeInTokenException
   | PackedPolicyTooLargeException
@@ -1127,7 +1127,7 @@ export const getDelegatedAccessToken: (
  */
 export const getFederationToken: (
   input: GetFederationTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFederationTokenResponse,
   | MalformedPolicyDocumentException
   | PackedPolicyTooLargeException
@@ -1240,7 +1240,7 @@ export const getFederationToken: (
  */
 export const assumeRole: (
   input: AssumeRoleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssumeRoleResponse,
   | ExpiredTokenException
   | MalformedPolicyDocumentException
@@ -1265,7 +1265,7 @@ export const assumeRole: (
  */
 export const getWebIdentityToken: (
   input: GetWebIdentityTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWebIdentityTokenResponse,
   | JWTPayloadSizeExceededException
   | OutboundWebIdentityFederationDisabledException
@@ -1409,7 +1409,7 @@ export const getWebIdentityToken: (
  */
 export const assumeRoleWithSAML: (
   input: AssumeRoleWithSAMLRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssumeRoleWithSAMLResponse,
   | ExpiredTokenException
   | IDPRejectedClaimException
@@ -1553,7 +1553,7 @@ export const assumeRoleWithSAML: (
  */
 export const assumeRoleWithWebIdentity: (
   input: AssumeRoleWithWebIdentityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssumeRoleWithWebIdentityResponse,
   | ExpiredTokenException
   | IDPCommunicationErrorException

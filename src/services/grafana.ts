@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -103,15 +103,15 @@ export type Role = string;
 export type ServiceAccountTokenName = string;
 export type AccountAccessType = string;
 export type ClientToken = string;
-export type OrganizationRoleName = string | Redacted.Redacted<string>;
+export type OrganizationRoleName = string | redacted.Redacted<string>;
 export type PermissionType = string;
 export type StackSetName = string;
 export type DataSourceType = string;
-export type Description = string | Redacted.Redacted<string>;
-export type WorkspaceName = string | Redacted.Redacted<string>;
+export type Description = string | redacted.Redacted<string>;
+export type WorkspaceName = string | redacted.Redacted<string>;
 export type NotificationDestinationType = string;
 export type OrganizationalUnit = string;
-export type IamRoleArn = string | Redacted.Redacted<string>;
+export type IamRoleArn = string | redacted.Redacted<string>;
 export type TagValue = string;
 export type AllowedOrganization = string;
 export type LoginValidityDuration = number;
@@ -120,13 +120,13 @@ export type SecurityGroupId = string;
 export type SubnetId = string;
 export type PrefixListId = string;
 export type VpceId = string;
-export type ApiKeyToken = string | Redacted.Redacted<string>;
+export type ApiKeyToken = string | redacted.Redacted<string>;
 export type IdpMetadataUrl = string;
 export type AssertionAttribute = string;
 export type RoleValue = string;
 export type Endpoint = string;
 export type WorkspaceStatus = string;
-export type ServiceAccountTokenKey = string | Redacted.Redacted<string>;
+export type ServiceAccountTokenKey = string | redacted.Redacted<string>;
 export type SamlConfigurationStatus = string;
 export type SSOClientId = string;
 export type ValidationExceptionReason = string;
@@ -184,7 +184,7 @@ export const ListVersionsRequest = S.suspend(() =>
 }) as any as S.Schema<ListVersionsRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeys;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -581,8 +581,8 @@ export const SecurityGroupIds = S.Array(S.String);
 export type SubnetIds = string[];
 export const SubnetIds = S.Array(S.String);
 export interface VpcConfiguration {
-  securityGroupIds: SecurityGroupIds;
-  subnetIds: SubnetIds;
+  securityGroupIds: string[];
+  subnetIds: string[];
 }
 export const VpcConfiguration = S.suspend(() =>
   S.Struct({ securityGroupIds: SecurityGroupIds, subnetIds: SubnetIds }),
@@ -594,8 +594,8 @@ export const PrefixListIds = S.Array(S.String);
 export type VpceIds = string[];
 export const VpceIds = S.Array(S.String);
 export interface NetworkAccessConfiguration {
-  prefixListIds: PrefixListIds;
-  vpceIds: VpceIds;
+  prefixListIds: string[];
+  vpceIds: string[];
 }
 export const NetworkAccessConfiguration = S.suspend(() =>
   S.Struct({ prefixListIds: PrefixListIds, vpceIds: VpceIds }),
@@ -604,16 +604,16 @@ export const NetworkAccessConfiguration = S.suspend(() =>
 }) as any as S.Schema<NetworkAccessConfiguration>;
 export interface UpdateWorkspaceRequest {
   accountAccessType?: string;
-  organizationRoleName?: string | Redacted.Redacted<string>;
+  organizationRoleName?: string | redacted.Redacted<string>;
   permissionType?: string;
   stackSetName?: string;
-  workspaceDataSources?: DataSourceTypesList;
-  workspaceDescription?: string | Redacted.Redacted<string>;
+  workspaceDataSources?: string[];
+  workspaceDescription?: string | redacted.Redacted<string>;
   workspaceId: string;
-  workspaceName?: string | Redacted.Redacted<string>;
-  workspaceNotificationDestinations?: NotificationDestinationsList;
-  workspaceOrganizationalUnits?: OrganizationalUnitList;
-  workspaceRoleArn?: string | Redacted.Redacted<string>;
+  workspaceName?: string | redacted.Redacted<string>;
+  workspaceNotificationDestinations?: string[];
+  workspaceOrganizationalUnits?: string[];
+  workspaceRoleArn?: string | redacted.Redacted<string>;
   vpcConfiguration?: VpcConfiguration;
   removeVpcConfiguration?: boolean;
   networkAccessControl?: NetworkAccessConfiguration;
@@ -696,7 +696,7 @@ export const TagMap = S.Record({ key: S.String, value: S.String });
 export type RoleValueList = string[];
 export const RoleValueList = S.Array(S.String);
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -705,7 +705,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListVersionsResponse {
   nextToken?: string;
-  grafanaVersions?: GrafanaVersionList;
+  grafanaVersions?: string[];
 }
 export const ListVersionsResponse = S.suspend(() =>
   S.Struct({
@@ -717,7 +717,7 @@ export const ListVersionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListVersionsResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -742,7 +742,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface CreateWorkspaceApiKeyResponse {
   keyName: string;
-  key: string | Redacted.Redacted<string>;
+  key: string | redacted.Redacted<string>;
   workspaceId: string;
 }
 export const CreateWorkspaceApiKeyResponse = S.suspend(() =>
@@ -769,7 +769,7 @@ export const DescribeWorkspaceConfigurationResponse = S.suspend(() =>
   identifier: "DescribeWorkspaceConfigurationResponse",
 }) as any as S.Schema<DescribeWorkspaceConfigurationResponse>;
 export interface AuthenticationSummary {
-  providers: AuthenticationProviders;
+  providers: string[];
   samlConfigurationStatus?: string;
 }
 export const AuthenticationSummary = S.suspend(() =>
@@ -783,26 +783,26 @@ export const AuthenticationSummary = S.suspend(() =>
 export interface WorkspaceDescription {
   accountAccessType?: string;
   created: Date;
-  dataSources: DataSourceTypesList;
-  description?: string | Redacted.Redacted<string>;
+  dataSources: string[];
+  description?: string | redacted.Redacted<string>;
   endpoint: string;
   grafanaVersion: string;
   id: string;
   modified: Date;
-  name?: string | Redacted.Redacted<string>;
-  organizationRoleName?: string | Redacted.Redacted<string>;
-  notificationDestinations?: NotificationDestinationsList;
-  organizationalUnits?: OrganizationalUnitList;
+  name?: string | redacted.Redacted<string>;
+  organizationRoleName?: string | redacted.Redacted<string>;
+  notificationDestinations?: string[];
+  organizationalUnits?: string[];
   permissionType?: string;
   stackSetName?: string;
   status: string;
-  workspaceRoleArn?: string | Redacted.Redacted<string>;
+  workspaceRoleArn?: string | redacted.Redacted<string>;
   licenseType?: string;
   freeTrialConsumed?: boolean;
   licenseExpiration?: Date;
   freeTrialExpiration?: Date;
   authentication: AuthenticationSummary;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   vpcConfiguration?: VpcConfiguration;
   networkAccessControl?: NetworkAccessConfiguration;
   grafanaToken?: string;
@@ -892,17 +892,17 @@ export const DeleteWorkspaceServiceAccountTokenResponse = S.suspend(() =>
 export interface CreateWorkspaceRequest {
   accountAccessType: string;
   clientToken?: string;
-  organizationRoleName?: string | Redacted.Redacted<string>;
+  organizationRoleName?: string | redacted.Redacted<string>;
   permissionType: string;
   stackSetName?: string;
-  workspaceDataSources?: DataSourceTypesList;
-  workspaceDescription?: string | Redacted.Redacted<string>;
-  workspaceName?: string | Redacted.Redacted<string>;
-  workspaceNotificationDestinations?: NotificationDestinationsList;
-  workspaceOrganizationalUnits?: OrganizationalUnitList;
-  workspaceRoleArn?: string | Redacted.Redacted<string>;
-  authenticationProviders: AuthenticationProviders;
-  tags?: TagMap;
+  workspaceDataSources?: string[];
+  workspaceDescription?: string | redacted.Redacted<string>;
+  workspaceName?: string | redacted.Redacted<string>;
+  workspaceNotificationDestinations?: string[];
+  workspaceOrganizationalUnits?: string[];
+  workspaceRoleArn?: string | redacted.Redacted<string>;
+  authenticationProviders: string[];
+  tags?: { [key: string]: string };
   vpcConfiguration?: VpcConfiguration;
   configuration?: string;
   networkAccessControl?: NetworkAccessConfiguration;
@@ -990,8 +990,8 @@ export const AssertionAttributes = S.suspend(() =>
   identifier: "AssertionAttributes",
 }) as any as S.Schema<AssertionAttributes>;
 export interface RoleValues {
-  editor?: RoleValueList;
-  admin?: RoleValueList;
+  editor?: string[];
+  admin?: string[];
 }
 export const RoleValues = S.suspend(() =>
   S.Struct({
@@ -1009,10 +1009,10 @@ export const User = S.suspend(() =>
 export type UserList = User[];
 export const UserList = S.Array(User);
 export interface SamlConfiguration {
-  idpMetadata: (typeof IdpMetadata)["Type"];
+  idpMetadata: IdpMetadata;
   assertionAttributes?: AssertionAttributes;
   roleValues?: RoleValues;
-  allowedOrganizations?: AllowedOrganizations;
+  allowedOrganizations?: string[];
   loginValidityDuration?: number;
 }
 export const SamlConfiguration = S.suspend(() =>
@@ -1040,7 +1040,7 @@ export const PermissionEntryList = S.Array(PermissionEntry);
 export interface UpdateInstruction {
   action: string;
   role: string;
-  users: UserList;
+  users: User[];
 }
 export const UpdateInstruction = S.suspend(() =>
   S.Struct({ action: S.String, role: S.String, users: UserList }),
@@ -1070,7 +1070,7 @@ export const ServiceAccountList = S.Array(ServiceAccountSummary);
 export interface ServiceAccountTokenSummaryWithKey {
   id: string;
   name: string;
-  key: string | Redacted.Redacted<string>;
+  key: string | redacted.Redacted<string>;
 }
 export const ServiceAccountTokenSummaryWithKey = S.suspend(() =>
   S.Struct({ id: S.String, name: S.String, key: SensitiveString }),
@@ -1099,16 +1099,16 @@ export type ServiceAccountTokenList = ServiceAccountTokenSummary[];
 export const ServiceAccountTokenList = S.Array(ServiceAccountTokenSummary);
 export interface WorkspaceSummary {
   created: Date;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   endpoint: string;
   grafanaVersion: string;
   id: string;
   modified: Date;
-  name?: string | Redacted.Redacted<string>;
-  notificationDestinations?: NotificationDestinationsList;
+  name?: string | redacted.Redacted<string>;
+  notificationDestinations?: string[];
   status: string;
   authentication: AuthenticationSummary;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   licenseType?: string;
   grafanaToken?: string;
 }
@@ -1135,7 +1135,7 @@ export type WorkspaceList = WorkspaceSummary[];
 export const WorkspaceList = S.Array(WorkspaceSummary);
 export interface UpdateWorkspaceAuthenticationRequest {
   workspaceId: string;
-  authenticationProviders: AuthenticationProviders;
+  authenticationProviders: string[];
   samlConfiguration?: SamlConfiguration;
 }
 export const UpdateWorkspaceAuthenticationRequest = S.suspend(() =>
@@ -1161,7 +1161,7 @@ export const UpdateWorkspaceAuthenticationRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateWorkspaceAuthenticationRequest>;
 export interface ListPermissionsResponse {
   nextToken?: string;
-  permissions: PermissionEntryList;
+  permissions: PermissionEntry[];
 }
 export const ListPermissionsResponse = S.suspend(() =>
   S.Struct({
@@ -1172,7 +1172,7 @@ export const ListPermissionsResponse = S.suspend(() =>
   identifier: "ListPermissionsResponse",
 }) as any as S.Schema<ListPermissionsResponse>;
 export interface UpdatePermissionsRequest {
-  updateInstructionBatch: UpdateInstructionBatch;
+  updateInstructionBatch: UpdateInstruction[];
   workspaceId: string;
 }
 export const UpdatePermissionsRequest = S.suspend(() =>
@@ -1194,7 +1194,7 @@ export const UpdatePermissionsRequest = S.suspend(() =>
 }) as any as S.Schema<UpdatePermissionsRequest>;
 export interface ListWorkspaceServiceAccountsResponse {
   nextToken?: string;
-  serviceAccounts: ServiceAccountList;
+  serviceAccounts: ServiceAccountSummary[];
   workspaceId: string;
 }
 export const ListWorkspaceServiceAccountsResponse = S.suspend(() =>
@@ -1222,7 +1222,7 @@ export const CreateWorkspaceServiceAccountTokenResponse = S.suspend(() =>
 }) as any as S.Schema<CreateWorkspaceServiceAccountTokenResponse>;
 export interface ListWorkspaceServiceAccountTokensResponse {
   nextToken?: string;
-  serviceAccountTokens: ServiceAccountTokenList;
+  serviceAccountTokens: ServiceAccountTokenSummary[];
   serviceAccountId: string;
   workspaceId: string;
 }
@@ -1245,7 +1245,7 @@ export const CreateWorkspaceResponse = S.suspend(() =>
   identifier: "CreateWorkspaceResponse",
 }) as any as S.Schema<CreateWorkspaceResponse>;
 export interface ListWorkspacesResponse {
-  workspaces: WorkspaceList;
+  workspaces: WorkspaceSummary[];
   nextToken?: string;
 }
 export const ListWorkspacesResponse = S.suspend(() =>
@@ -1271,7 +1271,7 @@ export const AwsSsoAuthentication = S.suspend(() =>
   identifier: "AwsSsoAuthentication",
 }) as any as S.Schema<AwsSsoAuthentication>;
 export interface AuthenticationDescription {
-  providers: AuthenticationProviders;
+  providers: string[];
   saml?: SamlAuthentication;
   awsSso?: AwsSsoAuthentication;
 }
@@ -1319,7 +1319,7 @@ export const UpdateError = S.suspend(() =>
 export type UpdateErrorList = UpdateError[];
 export const UpdateErrorList = S.Array(UpdateError);
 export interface UpdatePermissionsResponse {
-  errors: UpdateErrorList;
+  errors: UpdateError[];
 }
 export const UpdatePermissionsResponse = S.suspend(() =>
   S.Struct({ errors: UpdateErrorList }),
@@ -1396,7 +1396,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listWorkspaces: {
   (
     input: ListWorkspacesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkspacesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1406,7 +1406,7 @@ export const listWorkspaces: {
   >;
   pages: (
     input: ListWorkspacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkspacesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1416,7 +1416,7 @@ export const listWorkspaces: {
   >;
   items: (
     input: ListWorkspacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkspaceSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1440,7 +1440,7 @@ export const listWorkspaces: {
  */
 export const describeWorkspaceConfiguration: (
   input: DescribeWorkspaceConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeWorkspaceConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1468,7 +1468,7 @@ export const describeWorkspaceConfiguration: (
  */
 export const createWorkspaceApiKey: (
   input: CreateWorkspaceApiKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkspaceApiKeyResponse,
   | AccessDeniedException
   | ConflictException
@@ -1503,7 +1503,7 @@ export const createWorkspaceApiKey: (
 export const listPermissions: {
   (
     input: ListPermissionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPermissionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1515,7 +1515,7 @@ export const listPermissions: {
   >;
   pages: (
     input: ListPermissionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPermissionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1527,7 +1527,7 @@ export const listPermissions: {
   >;
   items: (
     input: ListPermissionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PermissionEntry,
     | AccessDeniedException
     | InternalServerException
@@ -1563,7 +1563,7 @@ export const listPermissions: {
 export const listWorkspaceServiceAccounts: {
   (
     input: ListWorkspaceServiceAccountsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkspaceServiceAccountsResponse,
     | AccessDeniedException
     | ConflictException
@@ -1576,7 +1576,7 @@ export const listWorkspaceServiceAccounts: {
   >;
   pages: (
     input: ListWorkspaceServiceAccountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkspaceServiceAccountsResponse,
     | AccessDeniedException
     | ConflictException
@@ -1589,7 +1589,7 @@ export const listWorkspaceServiceAccounts: {
   >;
   items: (
     input: ListWorkspaceServiceAccountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServiceAccountSummary,
     | AccessDeniedException
     | ConflictException
@@ -1636,7 +1636,7 @@ export const listWorkspaceServiceAccounts: {
  */
 export const createWorkspaceServiceAccountToken: (
   input: CreateWorkspaceServiceAccountTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkspaceServiceAccountTokenResponse,
   | AccessDeniedException
   | ConflictException
@@ -1672,7 +1672,7 @@ export const createWorkspaceServiceAccountToken: (
 export const listWorkspaceServiceAccountTokens: {
   (
     input: ListWorkspaceServiceAccountTokensRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkspaceServiceAccountTokensResponse,
     | AccessDeniedException
     | ConflictException
@@ -1685,7 +1685,7 @@ export const listWorkspaceServiceAccountTokens: {
   >;
   pages: (
     input: ListWorkspaceServiceAccountTokensRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkspaceServiceAccountTokensResponse,
     | AccessDeniedException
     | ConflictException
@@ -1698,7 +1698,7 @@ export const listWorkspaceServiceAccountTokens: {
   >;
   items: (
     input: ListWorkspaceServiceAccountTokensRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServiceAccountTokenSummary,
     | AccessDeniedException
     | ConflictException
@@ -1732,7 +1732,7 @@ export const listWorkspaceServiceAccountTokens: {
  */
 export const disassociateLicense: (
   input: DisassociateLicenseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateLicenseResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1757,7 +1757,7 @@ export const disassociateLicense: (
  */
 export const describeWorkspace: (
   input: DescribeWorkspaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeWorkspaceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1785,7 +1785,7 @@ export const describeWorkspace: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1813,7 +1813,7 @@ export const listTagsForResource: (
 export const listVersions: {
   (
     input: ListVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVersionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1825,7 +1825,7 @@ export const listVersions: {
   >;
   pages: (
     input: ListVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVersionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1837,7 +1837,7 @@ export const listVersions: {
   >;
   items: (
     input: ListVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GrafanaVersion,
     | AccessDeniedException
     | InternalServerException
@@ -1875,7 +1875,7 @@ export const listVersions: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1903,7 +1903,7 @@ export const tagResource: (
  */
 export const deleteWorkspaceApiKey: (
   input: DeleteWorkspaceApiKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkspaceApiKeyResponse,
   | AccessDeniedException
   | ConflictException
@@ -1943,7 +1943,7 @@ export const deleteWorkspaceApiKey: (
  */
 export const createWorkspaceServiceAccount: (
   input: CreateWorkspaceServiceAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkspaceServiceAccountResponse,
   | AccessDeniedException
   | ConflictException
@@ -1979,7 +1979,7 @@ export const createWorkspaceServiceAccount: (
  */
 export const deleteWorkspaceServiceAccount: (
   input: DeleteWorkspaceServiceAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkspaceServiceAccountResponse,
   | AccessDeniedException
   | ConflictException
@@ -2013,7 +2013,7 @@ export const deleteWorkspaceServiceAccount: (
  */
 export const deleteWorkspaceServiceAccountToken: (
   input: DeleteWorkspaceServiceAccountTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkspaceServiceAccountTokenResponse,
   | AccessDeniedException
   | ConflictException
@@ -2047,7 +2047,7 @@ export const deleteWorkspaceServiceAccountToken: (
  */
 export const updateWorkspace: (
   input: UpdateWorkspaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkspaceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2074,7 +2074,7 @@ export const updateWorkspace: (
  */
 export const deleteWorkspace: (
   input: DeleteWorkspaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkspaceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2101,7 +2101,7 @@ export const deleteWorkspace: (
  */
 export const updateWorkspaceConfiguration: (
   input: UpdateWorkspaceConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkspaceConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2129,7 +2129,7 @@ export const updateWorkspaceConfiguration: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2155,7 +2155,7 @@ export const untagResource: (
  */
 export const describeWorkspaceAuthentication: (
   input: DescribeWorkspaceAuthenticationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeWorkspaceAuthenticationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2188,7 +2188,7 @@ export const describeWorkspaceAuthentication: (
  */
 export const updateWorkspaceAuthentication: (
   input: UpdateWorkspaceAuthenticationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkspaceAuthenticationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2219,7 +2219,7 @@ export const updateWorkspaceAuthentication: (
  */
 export const associateLicense: (
   input: AssociateLicenseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateLicenseResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2249,7 +2249,7 @@ export const associateLicense: (
  */
 export const createWorkspace: (
   input: CreateWorkspaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkspaceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2277,7 +2277,7 @@ export const createWorkspace: (
  */
 export const updatePermissions: (
   input: UpdatePermissionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePermissionsResponse,
   | AccessDeniedException
   | InternalServerException

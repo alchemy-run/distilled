@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -89,17 +89,17 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type WorkflowDefinitionName = string;
 export type UuidString = string;
-export type Task = string | Redacted.Redacted<string>;
+export type Task = string | redacted.Redacted<string>;
 export type ClientToken = string;
 export type MaxResults = number;
 export type NextToken = string;
-export type WorkflowDescription = string | Redacted.Redacted<string>;
+export type WorkflowDescription = string | redacted.Redacted<string>;
 export type ModelId = string;
 export type CloudWatchLogGroupName = string;
 export type ToolName = string;
-export type ToolDescription = string | Redacted.Redacted<string>;
+export type ToolDescription = string | redacted.Redacted<string>;
 export type CallId = string;
-export type SensitiveString = string | Redacted.Redacted<string>;
+export type SensitiveString = string | redacted.Redacted<string>;
 export type S3BucketName = string;
 export type S3KeyPrefix = string;
 export type NonBlankString = string;
@@ -107,13 +107,43 @@ export type WorkflowDefinitionArn = string;
 export type WorkflowRunArn = string;
 
 //# Schemas
+export type SortOrder = "Ascending" | "Descending";
+export const SortOrder = S.Literal("Ascending", "Descending");
+export type ActStatus =
+  | "RUNNING"
+  | "PENDING_CLIENT_ACTION"
+  | "PENDING_HUMAN_ACTION"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "TIMED_OUT";
+export const ActStatus = S.Literal(
+  "RUNNING",
+  "PENDING_CLIENT_ACTION",
+  "PENDING_HUMAN_ACTION",
+  "SUCCEEDED",
+  "FAILED",
+  "TIMED_OUT",
+);
+export type WorkflowRunStatus =
+  | "RUNNING"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "TIMED_OUT"
+  | "DELETING";
+export const WorkflowRunStatus = S.Literal(
+  "RUNNING",
+  "SUCCEEDED",
+  "FAILED",
+  "TIMED_OUT",
+  "DELETING",
+);
 export interface ListActsRequest {
   workflowDefinitionName: string;
   workflowRunId?: string;
   sessionId?: string;
   maxResults?: number;
   nextToken?: string;
-  sortOrder?: string;
+  sortOrder?: SortOrder;
 }
 export const ListActsRequest = S.suspend(() =>
   S.Struct({
@@ -124,7 +154,7 @@ export const ListActsRequest = S.suspend(() =>
     sessionId: S.optional(S.String).pipe(T.HttpQuery("sessionId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    sortOrder: S.optional(S.String),
+    sortOrder: S.optional(SortOrder),
   }).pipe(
     T.all(
       T.Http({
@@ -195,7 +225,7 @@ export interface ListSessionsRequest {
   workflowRunId: string;
   maxResults?: number;
   nextToken?: string;
-  sortOrder?: string;
+  sortOrder?: SortOrder;
 }
 export const ListSessionsRequest = S.suspend(() =>
   S.Struct({
@@ -205,7 +235,7 @@ export const ListSessionsRequest = S.suspend(() =>
     workflowRunId: S.String.pipe(T.HttpLabel("workflowRunId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    sortOrder: S.optional(S.String),
+    sortOrder: S.optional(SortOrder),
   }).pipe(
     T.all(
       T.Http({
@@ -273,13 +303,13 @@ export const DeleteWorkflowDefinitionRequest = S.suspend(() =>
 export interface ListWorkflowDefinitionsRequest {
   maxResults?: number;
   nextToken?: string;
-  sortOrder?: string;
+  sortOrder?: SortOrder;
 }
 export const ListWorkflowDefinitionsRequest = S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    sortOrder: S.optional(S.String),
+    sortOrder: S.optional(SortOrder),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/workflow-definitions" }),
@@ -322,7 +352,7 @@ export const GetWorkflowRunRequest = S.suspend(() =>
 export interface UpdateWorkflowRunRequest {
   workflowDefinitionName: string;
   workflowRunId: string;
-  status: string;
+  status: WorkflowRunStatus;
 }
 export const UpdateWorkflowRunRequest = S.suspend(() =>
   S.Struct({
@@ -330,7 +360,7 @@ export const UpdateWorkflowRunRequest = S.suspend(() =>
       T.HttpLabel("workflowDefinitionName"),
     ),
     workflowRunId: S.String.pipe(T.HttpLabel("workflowRunId")),
-    status: S.String,
+    status: WorkflowRunStatus,
   }).pipe(
     T.all(
       T.Http({
@@ -383,7 +413,7 @@ export interface ListWorkflowRunsRequest {
   workflowDefinitionName: string;
   maxResults?: number;
   nextToken?: string;
-  sortOrder?: string;
+  sortOrder?: SortOrder;
 }
 export const ListWorkflowRunsRequest = S.suspend(() =>
   S.Struct({
@@ -392,7 +422,7 @@ export const ListWorkflowRunsRequest = S.suspend(() =>
     ),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    sortOrder: S.optional(S.String),
+    sortOrder: S.optional(SortOrder),
   }).pipe(
     T.all(
       T.Http({
@@ -410,7 +440,7 @@ export const ListWorkflowRunsRequest = S.suspend(() =>
   identifier: "ListWorkflowRunsRequest",
 }) as any as S.Schema<ListWorkflowRunsRequest>;
 export interface ActError {
-  message: string | Redacted.Redacted<string>;
+  message: string | redacted.Redacted<string>;
   type?: string;
 }
 export const ActError = S.suspend(() =>
@@ -425,6 +455,8 @@ export const WorkflowExportConfig = S.suspend(() =>
 ).annotations({
   identifier: "WorkflowExportConfig",
 }) as any as S.Schema<WorkflowExportConfig>;
+export type WorkflowDefinitionStatus = "ACTIVE" | "DELETING";
+export const WorkflowDefinitionStatus = S.Literal("ACTIVE", "DELETING");
 export interface ClientInfo {
   compatibilityVersion: number;
   sdkVersion?: string;
@@ -440,7 +472,7 @@ export interface UpdateActRequest {
   workflowRunId: string;
   sessionId: string;
   actId: string;
-  status: string;
+  status: ActStatus;
   error?: ActError;
 }
 export const UpdateActRequest = S.suspend(() =>
@@ -451,7 +483,7 @@ export const UpdateActRequest = S.suspend(() =>
     workflowRunId: S.String.pipe(T.HttpLabel("workflowRunId")),
     sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     actId: S.String.pipe(T.HttpLabel("actId")),
-    status: S.String,
+    status: ActStatus,
     error: S.optional(ActError),
   }).pipe(
     T.all(
@@ -483,7 +515,7 @@ export const CreateSessionResponse = S.suspend(() =>
 }) as any as S.Schema<CreateSessionResponse>;
 export interface CreateWorkflowDefinitionRequest {
   name: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   exportConfig?: WorkflowExportConfig;
   clientToken?: string;
 }
@@ -510,9 +542,9 @@ export interface GetWorkflowDefinitionResponse {
   name: string;
   arn: string;
   createdAt: Date;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   exportConfig?: WorkflowExportConfig;
-  status: string;
+  status: WorkflowDefinitionStatus;
 }
 export const GetWorkflowDefinitionResponse = S.suspend(() =>
   S.Struct({
@@ -521,16 +553,16 @@ export const GetWorkflowDefinitionResponse = S.suspend(() =>
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     description: S.optional(SensitiveString),
     exportConfig: S.optional(WorkflowExportConfig),
-    status: S.String,
+    status: WorkflowDefinitionStatus,
   }),
 ).annotations({
   identifier: "GetWorkflowDefinitionResponse",
 }) as any as S.Schema<GetWorkflowDefinitionResponse>;
 export interface DeleteWorkflowDefinitionResponse {
-  status: string;
+  status: WorkflowDefinitionStatus;
 }
 export const DeleteWorkflowDefinitionResponse = S.suspend(() =>
-  S.Struct({ status: S.String }),
+  S.Struct({ status: WorkflowDefinitionStatus }),
 ).annotations({
   identifier: "DeleteWorkflowDefinitionResponse",
 }) as any as S.Schema<DeleteWorkflowDefinitionResponse>;
@@ -569,7 +601,7 @@ export const CreateWorkflowRunRequest = S.suspend(() =>
 export interface GetWorkflowRunResponse {
   workflowRunArn: string;
   workflowRunId: string;
-  status: string;
+  status: WorkflowRunStatus;
   startedAt: Date;
   endedAt?: Date;
   modelId: string;
@@ -579,7 +611,7 @@ export const GetWorkflowRunResponse = S.suspend(() =>
   S.Struct({
     workflowRunArn: S.String,
     workflowRunId: S.String,
-    status: S.String,
+    status: WorkflowRunStatus,
     startedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     modelId: S.String,
@@ -589,10 +621,10 @@ export const GetWorkflowRunResponse = S.suspend(() =>
   identifier: "GetWorkflowRunResponse",
 }) as any as S.Schema<GetWorkflowRunResponse>;
 export interface DeleteWorkflowRunResponse {
-  status: string;
+  status: WorkflowRunStatus;
 }
 export const DeleteWorkflowRunResponse = S.suspend(() =>
-  S.Struct({ status: S.String }),
+  S.Struct({ status: WorkflowRunStatus }),
 ).annotations({
   identifier: "DeleteWorkflowRunResponse",
 }) as any as S.Schema<DeleteWorkflowRunResponse>;
@@ -600,14 +632,14 @@ export type ToolInputSchema = { json: any };
 export const ToolInputSchema = S.Union(S.Struct({ json: S.Any }));
 export type CallResultContent = { text: string };
 export const CallResultContent = S.Union(S.Struct({ text: S.String }));
-export type CallResultContents = (typeof CallResultContent)["Type"][];
+export type CallResultContents = CallResultContent[];
 export const CallResultContents = S.Array(CallResultContent);
 export type ModelIdList = string[];
 export const ModelIdList = S.Array(S.String);
 export interface ToolSpec {
   name: string;
-  description: string | Redacted.Redacted<string>;
-  inputSchema: (typeof ToolInputSchema)["Type"];
+  description: string | redacted.Redacted<string>;
+  inputSchema: ToolInputSchema;
 }
 export const ToolSpec = S.suspend(() =>
   S.Struct({
@@ -620,7 +652,7 @@ export type ToolSpecs = ToolSpec[];
 export const ToolSpecs = S.Array(ToolSpec);
 export interface CallResult {
   callId?: string;
-  content: CallResultContents;
+  content: CallResultContent[];
 }
 export const CallResult = S.suspend(() =>
   S.Struct({ callId: S.optional(S.String), content: CallResultContents }),
@@ -643,7 +675,7 @@ export type ModelAliases = ModelAlias[];
 export const ModelAliases = S.Array(ModelAlias);
 export interface CompatibilityInformation {
   clientCompatibilityVersion: number;
-  supportedModelIds: ModelIdList;
+  supportedModelIds: string[];
   message?: string;
 }
 export const CompatibilityInformation = S.suspend(() =>
@@ -669,33 +701,35 @@ export interface WorkflowDefinitionSummary {
   workflowDefinitionArn: string;
   workflowDefinitionName: string;
   createdAt: Date;
-  status: string;
+  status: WorkflowDefinitionStatus;
 }
 export const WorkflowDefinitionSummary = S.suspend(() =>
   S.Struct({
     workflowDefinitionArn: S.String,
     workflowDefinitionName: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    status: S.String,
+    status: WorkflowDefinitionStatus,
   }),
 ).annotations({
   identifier: "WorkflowDefinitionSummary",
 }) as any as S.Schema<WorkflowDefinitionSummary>;
 export type WorkflowDefinitionSummaries = WorkflowDefinitionSummary[];
 export const WorkflowDefinitionSummaries = S.Array(WorkflowDefinitionSummary);
+export type TraceLocationType = "S3";
+export const TraceLocationType = S.Literal("S3");
 export interface TraceLocation {
-  locationType: string;
+  locationType: TraceLocationType;
   location: string;
 }
 export const TraceLocation = S.suspend(() =>
-  S.Struct({ locationType: S.String, location: S.String }),
+  S.Struct({ locationType: TraceLocationType, location: S.String }),
 ).annotations({
   identifier: "TraceLocation",
 }) as any as S.Schema<TraceLocation>;
 export interface WorkflowRunSummary {
   workflowRunArn: string;
   workflowRunId: string;
-  status: string;
+  status: WorkflowRunStatus;
   startedAt: Date;
   endedAt?: Date;
   traceLocation?: TraceLocation;
@@ -704,7 +738,7 @@ export const WorkflowRunSummary = S.suspend(() =>
   S.Struct({
     workflowRunArn: S.String,
     workflowRunId: S.String,
-    status: S.String,
+    status: WorkflowRunStatus,
     startedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     traceLocation: S.optional(TraceLocation),
@@ -714,12 +748,26 @@ export const WorkflowRunSummary = S.suspend(() =>
 }) as any as S.Schema<WorkflowRunSummary>;
 export type WorkflowRunSummaries = WorkflowRunSummary[];
 export const WorkflowRunSummaries = S.Array(WorkflowRunSummary);
+export type ModelStatus = "ACTIVE" | "LEGACY" | "DEPRECATED" | "PREVIEW";
+export const ModelStatus = S.Literal(
+  "ACTIVE",
+  "LEGACY",
+  "DEPRECATED",
+  "PREVIEW",
+);
+export type InternalServerExceptionReason =
+  | "InvalidModelGeneration"
+  | "RequestTokenLimitExceeded";
+export const InternalServerExceptionReason = S.Literal(
+  "InvalidModelGeneration",
+  "RequestTokenLimitExceeded",
+);
 export interface CreateActRequest {
   workflowDefinitionName: string;
   workflowRunId: string;
   sessionId: string;
-  task: string | Redacted.Redacted<string>;
-  toolSpecs?: ToolSpecs;
+  task: string | redacted.Redacted<string>;
+  toolSpecs?: ToolSpec[];
   clientToken?: string;
 }
 export const CreateActRequest = S.suspend(() =>
@@ -753,7 +801,7 @@ export interface InvokeActStepRequest {
   workflowRunId: string;
   sessionId: string;
   actId: string;
-  callResults: CallResults;
+  callResults: CallResult[];
   previousStepId?: string;
 }
 export const InvokeActStepRequest = S.suspend(() =>
@@ -783,7 +831,7 @@ export const InvokeActStepRequest = S.suspend(() =>
   identifier: "InvokeActStepRequest",
 }) as any as S.Schema<InvokeActStepRequest>;
 export interface ListSessionsResponse {
-  sessionSummaries: SessionSummaries;
+  sessionSummaries: SessionSummary[];
   nextToken?: string;
 }
 export const ListSessionsResponse = S.suspend(() =>
@@ -795,15 +843,15 @@ export const ListSessionsResponse = S.suspend(() =>
   identifier: "ListSessionsResponse",
 }) as any as S.Schema<ListSessionsResponse>;
 export interface CreateWorkflowDefinitionResponse {
-  status: string;
+  status: WorkflowDefinitionStatus;
 }
 export const CreateWorkflowDefinitionResponse = S.suspend(() =>
-  S.Struct({ status: S.String }),
+  S.Struct({ status: WorkflowDefinitionStatus }),
 ).annotations({
   identifier: "CreateWorkflowDefinitionResponse",
 }) as any as S.Schema<CreateWorkflowDefinitionResponse>;
 export interface ListWorkflowDefinitionsResponse {
-  workflowDefinitionSummaries: WorkflowDefinitionSummaries;
+  workflowDefinitionSummaries: WorkflowDefinitionSummary[];
   nextToken?: string;
 }
 export const ListWorkflowDefinitionsResponse = S.suspend(() =>
@@ -816,15 +864,15 @@ export const ListWorkflowDefinitionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListWorkflowDefinitionsResponse>;
 export interface CreateWorkflowRunResponse {
   workflowRunId: string;
-  status: string;
+  status: WorkflowRunStatus;
 }
 export const CreateWorkflowRunResponse = S.suspend(() =>
-  S.Struct({ workflowRunId: S.String, status: S.String }),
+  S.Struct({ workflowRunId: S.String, status: WorkflowRunStatus }),
 ).annotations({
   identifier: "CreateWorkflowRunResponse",
 }) as any as S.Schema<CreateWorkflowRunResponse>;
 export interface ListWorkflowRunsResponse {
-  workflowRunSummaries: WorkflowRunSummaries;
+  workflowRunSummaries: WorkflowRunSummary[];
   nextToken?: string;
 }
 export const ListWorkflowRunsResponse = S.suspend(() =>
@@ -836,10 +884,10 @@ export const ListWorkflowRunsResponse = S.suspend(() =>
   identifier: "ListWorkflowRunsResponse",
 }) as any as S.Schema<ListWorkflowRunsResponse>;
 export interface ModelLifecycle {
-  status: string;
+  status: ModelStatus;
 }
 export const ModelLifecycle = S.suspend(() =>
-  S.Struct({ status: S.String }),
+  S.Struct({ status: ModelStatus }),
 ).annotations({
   identifier: "ModelLifecycle",
 }) as any as S.Schema<ModelLifecycle>;
@@ -847,7 +895,7 @@ export interface ActSummary {
   workflowRunId: string;
   sessionId: string;
   actId: string;
-  status: string;
+  status: ActStatus;
   startedAt: Date;
   endedAt?: Date;
   traceLocation?: TraceLocation;
@@ -857,7 +905,7 @@ export const ActSummary = S.suspend(() =>
     workflowRunId: S.String,
     sessionId: S.String,
     actId: S.String,
-    status: S.String,
+    status: ActStatus,
     startedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     traceLocation: S.optional(TraceLocation),
@@ -881,15 +929,15 @@ export type ModelSummaries = ModelSummary[];
 export const ModelSummaries = S.Array(ModelSummary);
 export interface CreateActResponse {
   actId: string;
-  status: string;
+  status: ActStatus;
 }
 export const CreateActResponse = S.suspend(() =>
-  S.Struct({ actId: S.String, status: S.String }),
+  S.Struct({ actId: S.String, status: ActStatus }),
 ).annotations({
   identifier: "CreateActResponse",
 }) as any as S.Schema<CreateActResponse>;
 export interface ListActsResponse {
-  actSummaries: ActSummaries;
+  actSummaries: ActSummary[];
   nextToken?: string;
 }
 export const ListActsResponse = S.suspend(() =>
@@ -898,8 +946,8 @@ export const ListActsResponse = S.suspend(() =>
   identifier: "ListActsResponse",
 }) as any as S.Schema<ListActsResponse>;
 export interface ListModelsResponse {
-  modelSummaries: ModelSummaries;
-  modelAliases: ModelAliases;
+  modelSummaries: ModelSummary[];
+  modelAliases: ModelAlias[];
   compatibilityInformation: CompatibilityInformation;
 }
 export const ListModelsResponse = S.suspend(() =>
@@ -922,7 +970,7 @@ export const Call = S.suspend(() =>
 export type Calls = Call[];
 export const Calls = S.Array(Call);
 export interface InvokeActStepResponse {
-  calls: Calls;
+  calls: Call[];
   stepId: string;
 }
 export const InvokeActStepResponse = S.suspend(() =>
@@ -930,6 +978,15 @@ export const InvokeActStepResponse = S.suspend(() =>
 ).annotations({
   identifier: "InvokeActStepResponse",
 }) as any as S.Schema<InvokeActStepResponse>;
+export type ValidationExceptionReason =
+  | "FieldValidationFailed"
+  | "InvalidStatus"
+  | "GuardrailIntervened";
+export const ValidationExceptionReason = S.Literal(
+  "FieldValidationFailed",
+  "InvalidStatus",
+  "GuardrailIntervened",
+);
 export interface ValidationExceptionField {
   name: string;
   message: string;
@@ -956,7 +1013,7 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   {
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
-    reason: S.optional(S.String),
+    reason: S.optional(InternalServerExceptionReason),
   },
   T.Retryable(),
 ).pipe(C.withServerError, C.withRetryableError) {}
@@ -988,7 +1045,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     message: S.String,
-    reason: S.String,
+    reason: ValidationExceptionReason,
     fieldList: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
@@ -999,7 +1056,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const listModels: (
   input: ListModelsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListModelsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1017,7 +1074,7 @@ export const listModels: (
 export const listWorkflowDefinitions: {
   (
     input: ListWorkflowDefinitionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkflowDefinitionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1028,7 +1085,7 @@ export const listWorkflowDefinitions: {
   >;
   pages: (
     input: ListWorkflowDefinitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkflowDefinitionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1039,7 +1096,7 @@ export const listWorkflowDefinitions: {
   >;
   items: (
     input: ListWorkflowDefinitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkflowDefinitionSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1069,7 +1126,7 @@ export const listWorkflowDefinitions: {
  */
 export const deleteWorkflowRun: (
   input: DeleteWorkflowRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkflowRunResponse,
   | AccessDeniedException
   | ConflictException
@@ -1096,7 +1153,7 @@ export const deleteWorkflowRun: (
  */
 export const updateAct: (
   input: UpdateActRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateActResponse,
   | AccessDeniedException
   | ConflictException
@@ -1123,7 +1180,7 @@ export const updateAct: (
  */
 export const createSession: (
   input: CreateSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1152,7 +1209,7 @@ export const createSession: (
  */
 export const deleteWorkflowDefinition: (
   input: DeleteWorkflowDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkflowDefinitionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1179,7 +1236,7 @@ export const deleteWorkflowDefinition: (
  */
 export const getWorkflowRun: (
   input: GetWorkflowRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkflowRunResponse,
   | AccessDeniedException
   | ConflictException
@@ -1207,7 +1264,7 @@ export const getWorkflowRun: (
 export const listSessions: {
   (
     input: ListSessionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSessionsResponse,
     | AccessDeniedException
     | ConflictException
@@ -1220,7 +1277,7 @@ export const listSessions: {
   >;
   pages: (
     input: ListSessionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSessionsResponse,
     | AccessDeniedException
     | ConflictException
@@ -1233,7 +1290,7 @@ export const listSessions: {
   >;
   items: (
     input: ListSessionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SessionSummary,
     | AccessDeniedException
     | ConflictException
@@ -1267,7 +1324,7 @@ export const listSessions: {
  */
 export const createWorkflowRun: (
   input: CreateWorkflowRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkflowRunResponse,
   | AccessDeniedException
   | ConflictException
@@ -1294,7 +1351,7 @@ export const createWorkflowRun: (
  */
 export const updateWorkflowRun: (
   input: UpdateWorkflowRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkflowRunResponse,
   | AccessDeniedException
   | ConflictException
@@ -1322,7 +1379,7 @@ export const updateWorkflowRun: (
 export const listWorkflowRuns: {
   (
     input: ListWorkflowRunsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkflowRunsResponse,
     | AccessDeniedException
     | ConflictException
@@ -1335,7 +1392,7 @@ export const listWorkflowRuns: {
   >;
   pages: (
     input: ListWorkflowRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkflowRunsResponse,
     | AccessDeniedException
     | ConflictException
@@ -1348,7 +1405,7 @@ export const listWorkflowRuns: {
   >;
   items: (
     input: ListWorkflowRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkflowRunSummary,
     | AccessDeniedException
     | ConflictException
@@ -1382,7 +1439,7 @@ export const listWorkflowRuns: {
  */
 export const createAct: (
   input: CreateActRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateActResponse,
   | AccessDeniedException
   | ConflictException
@@ -1412,7 +1469,7 @@ export const createAct: (
 export const listActs: {
   (
     input: ListActsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListActsResponse,
     | AccessDeniedException
     | ConflictException
@@ -1425,7 +1482,7 @@ export const listActs: {
   >;
   pages: (
     input: ListActsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListActsResponse,
     | AccessDeniedException
     | ConflictException
@@ -1438,7 +1495,7 @@ export const listActs: {
   >;
   items: (
     input: ListActsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ActSummary,
     | AccessDeniedException
     | ConflictException
@@ -1472,7 +1529,7 @@ export const listActs: {
  */
 export const getWorkflowDefinition: (
   input: GetWorkflowDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkflowDefinitionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1497,7 +1554,7 @@ export const getWorkflowDefinition: (
  */
 export const createWorkflowDefinition: (
   input: CreateWorkflowDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkflowDefinitionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1524,7 +1581,7 @@ export const createWorkflowDefinition: (
  */
 export const invokeActStep: (
   input: InvokeActStepRequest,
-) => Effect.Effect<
+) => effect.Effect<
   InvokeActStepResponse,
   | AccessDeniedException
   | ConflictException

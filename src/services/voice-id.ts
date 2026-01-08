@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -86,11 +86,11 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type DomainId = string;
 export type WatchlistId = string;
-export type FraudsterId = string | Redacted.Redacted<string>;
-export type WatchlistName = string | Redacted.Redacted<string>;
-export type WatchlistDescription = string | Redacted.Redacted<string>;
+export type FraudsterId = string | redacted.Redacted<string>;
+export type WatchlistName = string | redacted.Redacted<string>;
+export type WatchlistDescription = string | redacted.Redacted<string>;
 export type ClientTokenString = string;
-export type SpeakerId = string | Redacted.Redacted<string>;
+export type SpeakerId = string | redacted.Redacted<string>;
 export type JobId = string;
 export type SessionNameOrId = string;
 export type FraudsterRegistrationJobStatus = string;
@@ -98,24 +98,24 @@ export type MaxResultsForList = number;
 export type NextToken = string;
 export type SpeakerEnrollmentJobStatus = string;
 export type AmazonResourceName = string;
-export type JobName = string | Redacted.Redacted<string>;
+export type JobName = string | redacted.Redacted<string>;
 export type IamRoleArn = string;
-export type TagKey = string | Redacted.Redacted<string>;
-export type DomainName = string | Redacted.Redacted<string>;
-export type Description = string | Redacted.Redacted<string>;
+export type TagKey = string | redacted.Redacted<string>;
+export type DomainName = string | redacted.Redacted<string>;
+export type Description = string | redacted.Redacted<string>;
 export type MaxResultsForListDomainFe = number;
 export type DuplicateRegistrationAction = string;
 export type Score = number;
 export type S3Uri = string;
 export type KmsKeyId = string;
 export type ExistingEnrollmentAction = string;
-export type TagValue = string | Redacted.Redacted<string>;
+export type TagValue = string | redacted.Redacted<string>;
 export type SessionId = string;
 export type SessionName = string;
 export type StreamingStatus = string;
 export type FraudDetectionAction = string;
 export type GeneratedFraudsterId = string;
-export type CustomerSpeakerId = string | Redacted.Redacted<string>;
+export type CustomerSpeakerId = string | redacted.Redacted<string>;
 export type GeneratedSpeakerId = string;
 export type SpeakerStatus = string;
 export type UniqueIdLarge = string;
@@ -125,17 +125,16 @@ export type FraudDetectionReason = string;
 export type Arn = string;
 export type DomainStatus = string;
 export type ConflictType = string;
-export type Integer = number;
 export type ServerSideEncryptionUpdateStatus = string;
 export type ResourceType = string;
 
 //# Schemas
-export type TagKeyList = string | Redacted.Redacted<string>[];
+export type TagKeyList = string | redacted.Redacted<string>[];
 export const TagKeyList = S.Array(SensitiveString);
 export interface AssociateFraudsterRequest {
   DomainId: string;
   WatchlistId: string;
-  FraudsterId: string | Redacted.Redacted<string>;
+  FraudsterId: string | redacted.Redacted<string>;
 }
 export const AssociateFraudsterRequest = S.suspend(() =>
   S.Struct({
@@ -150,8 +149,8 @@ export const AssociateFraudsterRequest = S.suspend(() =>
 }) as any as S.Schema<AssociateFraudsterRequest>;
 export interface CreateWatchlistRequest {
   DomainId: string;
-  Name: string | Redacted.Redacted<string>;
-  Description?: string | Redacted.Redacted<string>;
+  Name: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   ClientToken?: string;
 }
 export const CreateWatchlistRequest = S.suspend(() =>
@@ -168,7 +167,7 @@ export const CreateWatchlistRequest = S.suspend(() =>
 }) as any as S.Schema<CreateWatchlistRequest>;
 export interface DeleteFraudsterRequest {
   DomainId: string;
-  FraudsterId: string | Redacted.Redacted<string>;
+  FraudsterId: string | redacted.Redacted<string>;
 }
 export const DeleteFraudsterRequest = S.suspend(() =>
   S.Struct({ DomainId: S.String, FraudsterId: SensitiveString }).pipe(
@@ -185,7 +184,7 @@ export const DeleteFraudsterResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteFraudsterResponse>;
 export interface DeleteSpeakerRequest {
   DomainId: string;
-  SpeakerId: string | Redacted.Redacted<string>;
+  SpeakerId: string | redacted.Redacted<string>;
 }
 export const DeleteSpeakerRequest = S.suspend(() =>
   S.Struct({ DomainId: S.String, SpeakerId: SensitiveString }).pipe(
@@ -217,7 +216,7 @@ export const DeleteWatchlistResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteWatchlistResponse>;
 export interface DescribeFraudsterRequest {
   DomainId: string;
-  FraudsterId: string | Redacted.Redacted<string>;
+  FraudsterId: string | redacted.Redacted<string>;
 }
 export const DescribeFraudsterRequest = S.suspend(() =>
   S.Struct({ DomainId: S.String, FraudsterId: SensitiveString }).pipe(
@@ -239,7 +238,7 @@ export const DescribeFraudsterRegistrationJobRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeFraudsterRegistrationJobRequest>;
 export interface DescribeSpeakerRequest {
   DomainId: string;
-  SpeakerId: string | Redacted.Redacted<string>;
+  SpeakerId: string | redacted.Redacted<string>;
 }
 export const DescribeSpeakerRequest = S.suspend(() =>
   S.Struct({ DomainId: S.String, SpeakerId: SensitiveString }).pipe(
@@ -273,7 +272,7 @@ export const DescribeWatchlistRequest = S.suspend(() =>
 export interface DisassociateFraudsterRequest {
   DomainId: string;
   WatchlistId: string;
-  FraudsterId: string | Redacted.Redacted<string>;
+  FraudsterId: string | redacted.Redacted<string>;
 }
 export const DisassociateFraudsterRequest = S.suspend(() =>
   S.Struct({
@@ -395,7 +394,7 @@ export const ListWatchlistsRequest = S.suspend(() =>
 }) as any as S.Schema<ListWatchlistsRequest>;
 export interface OptOutSpeakerRequest {
   DomainId: string;
-  SpeakerId: string | Redacted.Redacted<string>;
+  SpeakerId: string | redacted.Redacted<string>;
 }
 export const OptOutSpeakerRequest = S.suspend(() =>
   S.Struct({ DomainId: S.String, SpeakerId: SensitiveString }).pipe(
@@ -406,7 +405,7 @@ export const OptOutSpeakerRequest = S.suspend(() =>
 }) as any as S.Schema<OptOutSpeakerRequest>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string | redacted.Redacted<string>[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
@@ -422,8 +421,8 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 export interface UpdateWatchlistRequest {
   DomainId: string;
   WatchlistId: string;
-  Name?: string | Redacted.Redacted<string>;
-  Description?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
 }
 export const UpdateWatchlistRequest = S.suspend(() =>
   S.Struct({
@@ -457,8 +456,8 @@ export const ServerSideEncryptionConfiguration = S.suspend(() =>
 }) as any as S.Schema<ServerSideEncryptionConfiguration>;
 export interface UpdateDomainRequest {
   DomainId: string;
-  Name: string | Redacted.Redacted<string>;
-  Description?: string | Redacted.Redacted<string>;
+  Name: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration;
 }
 export const UpdateDomainRequest = S.suspend(() =>
@@ -506,7 +505,7 @@ export const RegistrationConfigWatchlistIds = S.Array(S.String);
 export interface RegistrationConfig {
   DuplicateRegistrationAction?: string;
   FraudsterSimilarityThreshold?: number;
-  WatchlistIds?: RegistrationConfigWatchlistIds;
+  WatchlistIds?: string[];
 }
 export const RegistrationConfig = S.suspend(() =>
   S.Struct({
@@ -535,8 +534,8 @@ export const OutputDataConfig = S.suspend(() =>
   identifier: "OutputDataConfig",
 }) as any as S.Schema<OutputDataConfig>;
 export interface Tag {
-  Key: string | Redacted.Redacted<string>;
-  Value: string | Redacted.Redacted<string>;
+  Key: string | redacted.Redacted<string>;
+  Value: string | redacted.Redacted<string>;
 }
 export const Tag = S.suspend(() =>
   S.Struct({ Key: SensitiveString, Value: SensitiveString }),
@@ -551,7 +550,7 @@ export interface Fraudster {
   DomainId?: string;
   GeneratedFraudsterId?: string;
   CreatedAt?: Date;
-  WatchlistIds?: ResponseWatchlistIds;
+  WatchlistIds?: string[];
 }
 export const Fraudster = S.suspend(() =>
   S.Struct({
@@ -572,8 +571,8 @@ export const DescribeFraudsterResponse = S.suspend(() =>
 export interface Watchlist {
   DomainId?: string;
   WatchlistId?: string;
-  Name?: string | Redacted.Redacted<string>;
-  Description?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   DefaultWatchlist?: boolean;
   CreatedAt?: Date;
   UpdatedAt?: Date;
@@ -606,7 +605,7 @@ export const DisassociateFraudsterResponse = S.suspend(() =>
   identifier: "DisassociateFraudsterResponse",
 }) as any as S.Schema<DisassociateFraudsterResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }),
@@ -615,7 +614,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface Speaker {
   DomainId?: string;
-  CustomerSpeakerId?: string | Redacted.Redacted<string>;
+  CustomerSpeakerId?: string | redacted.Redacted<string>;
   GeneratedSpeakerId?: string;
   Status?: string;
   CreatedAt?: Date;
@@ -643,7 +642,7 @@ export const OptOutSpeakerResponse = S.suspend(() =>
 }) as any as S.Schema<OptOutSpeakerResponse>;
 export interface StartFraudsterRegistrationJobRequest {
   ClientToken?: string;
-  JobName?: string | Redacted.Redacted<string>;
+  JobName?: string | redacted.Redacted<string>;
   DomainId: string;
   DataAccessRoleArn: string;
   RegistrationConfig?: RegistrationConfig;
@@ -667,7 +666,7 @@ export const StartFraudsterRegistrationJobRequest = S.suspend(() =>
 }) as any as S.Schema<StartFraudsterRegistrationJobRequest>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
@@ -689,11 +688,11 @@ export const UpdateWatchlistResponse = S.suspend(() =>
   identifier: "UpdateWatchlistResponse",
 }) as any as S.Schema<UpdateWatchlistResponse>;
 export interface CreateDomainRequest {
-  Name: string | Redacted.Redacted<string>;
-  Description?: string | Redacted.Redacted<string>;
+  Name: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration;
   ClientToken?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateDomainRequest = S.suspend(() =>
   S.Struct({
@@ -733,8 +732,8 @@ export const WatchlistDetails = S.suspend(() =>
 export interface Domain {
   DomainId?: string;
   Arn?: string;
-  Name?: string | Redacted.Redacted<string>;
-  Description?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   DomainStatus?: string;
   ServerSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
   CreatedAt?: Date;
@@ -773,7 +772,7 @@ export const FraudDetectionReasons = S.Array(S.String);
 export interface EnrollmentJobFraudDetectionConfig {
   FraudDetectionAction?: string;
   RiskThreshold?: number;
-  WatchlistIds?: EnrollmentJobFraudDetectionConfigWatchlistIds;
+  WatchlistIds?: string[];
 }
 export const EnrollmentJobFraudDetectionConfig = S.suspend(() =>
   S.Struct({
@@ -812,7 +811,7 @@ export const JobProgress = S.suspend(() =>
   S.Struct({ PercentComplete: S.optional(S.Number) }),
 ).annotations({ identifier: "JobProgress" }) as any as S.Schema<JobProgress>;
 export interface SpeakerEnrollmentJob {
-  JobName?: string | Redacted.Redacted<string>;
+  JobName?: string | redacted.Redacted<string>;
   JobId?: string;
   JobStatus?: string;
   DomainId?: string;
@@ -844,7 +843,7 @@ export const SpeakerEnrollmentJob = S.suspend(() =>
   identifier: "SpeakerEnrollmentJob",
 }) as any as S.Schema<SpeakerEnrollmentJob>;
 export interface FraudsterRegistrationJobSummary {
-  JobName?: string | Redacted.Redacted<string>;
+  JobName?: string | redacted.Redacted<string>;
   JobId?: string;
   JobStatus?: string;
   DomainId?: string;
@@ -876,7 +875,7 @@ export interface FraudsterSummary {
   DomainId?: string;
   GeneratedFraudsterId?: string;
   CreatedAt?: Date;
-  WatchlistIds?: ResponseWatchlistIds;
+  WatchlistIds?: string[];
 }
 export const FraudsterSummary = S.suspend(() =>
   S.Struct({
@@ -891,7 +890,7 @@ export const FraudsterSummary = S.suspend(() =>
 export type FraudsterSummaries = FraudsterSummary[];
 export const FraudsterSummaries = S.Array(FraudsterSummary);
 export interface SpeakerEnrollmentJobSummary {
-  JobName?: string | Redacted.Redacted<string>;
+  JobName?: string | redacted.Redacted<string>;
   JobId?: string;
   JobStatus?: string;
   DomainId?: string;
@@ -920,7 +919,7 @@ export const SpeakerEnrollmentJobSummaries = S.Array(
 );
 export interface SpeakerSummary {
   DomainId?: string;
-  CustomerSpeakerId?: string | Redacted.Redacted<string>;
+  CustomerSpeakerId?: string | redacted.Redacted<string>;
   GeneratedSpeakerId?: string;
   Status?: string;
   CreatedAt?: Date;
@@ -945,8 +944,8 @@ export const SpeakerSummaries = S.Array(SpeakerSummary);
 export interface WatchlistSummary {
   DomainId?: string;
   WatchlistId?: string;
-  Name?: string | Redacted.Redacted<string>;
-  Description?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   DefaultWatchlist?: boolean;
   CreatedAt?: Date;
   UpdatedAt?: Date;
@@ -969,8 +968,8 @@ export const WatchlistSummaries = S.Array(WatchlistSummary);
 export interface DomainSummary {
   DomainId?: string;
   Arn?: string;
-  Name?: string | Redacted.Redacted<string>;
-  Description?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   DomainStatus?: string;
   ServerSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
   CreatedAt?: Date;
@@ -1033,7 +1032,7 @@ export const DescribeSpeakerEnrollmentJobResponse = S.suspend(() =>
   identifier: "DescribeSpeakerEnrollmentJobResponse",
 }) as any as S.Schema<DescribeSpeakerEnrollmentJobResponse>;
 export interface ListFraudsterRegistrationJobsResponse {
-  JobSummaries?: FraudsterRegistrationJobSummaries;
+  JobSummaries?: FraudsterRegistrationJobSummary[];
   NextToken?: string;
 }
 export const ListFraudsterRegistrationJobsResponse = S.suspend(() =>
@@ -1045,7 +1044,7 @@ export const ListFraudsterRegistrationJobsResponse = S.suspend(() =>
   identifier: "ListFraudsterRegistrationJobsResponse",
 }) as any as S.Schema<ListFraudsterRegistrationJobsResponse>;
 export interface ListFraudstersResponse {
-  FraudsterSummaries?: FraudsterSummaries;
+  FraudsterSummaries?: FraudsterSummary[];
   NextToken?: string;
 }
 export const ListFraudstersResponse = S.suspend(() =>
@@ -1057,7 +1056,7 @@ export const ListFraudstersResponse = S.suspend(() =>
   identifier: "ListFraudstersResponse",
 }) as any as S.Schema<ListFraudstersResponse>;
 export interface ListSpeakerEnrollmentJobsResponse {
-  JobSummaries?: SpeakerEnrollmentJobSummaries;
+  JobSummaries?: SpeakerEnrollmentJobSummary[];
   NextToken?: string;
 }
 export const ListSpeakerEnrollmentJobsResponse = S.suspend(() =>
@@ -1069,7 +1068,7 @@ export const ListSpeakerEnrollmentJobsResponse = S.suspend(() =>
   identifier: "ListSpeakerEnrollmentJobsResponse",
 }) as any as S.Schema<ListSpeakerEnrollmentJobsResponse>;
 export interface ListSpeakersResponse {
-  SpeakerSummaries?: SpeakerSummaries;
+  SpeakerSummaries?: SpeakerSummary[];
   NextToken?: string;
 }
 export const ListSpeakersResponse = S.suspend(() =>
@@ -1081,7 +1080,7 @@ export const ListSpeakersResponse = S.suspend(() =>
   identifier: "ListSpeakersResponse",
 }) as any as S.Schema<ListSpeakersResponse>;
 export interface ListWatchlistsResponse {
-  WatchlistSummaries?: WatchlistSummaries;
+  WatchlistSummaries?: WatchlistSummary[];
   NextToken?: string;
 }
 export const ListWatchlistsResponse = S.suspend(() =>
@@ -1093,7 +1092,7 @@ export const ListWatchlistsResponse = S.suspend(() =>
   identifier: "ListWatchlistsResponse",
 }) as any as S.Schema<ListWatchlistsResponse>;
 export interface FraudsterRegistrationJob {
-  JobName?: string | Redacted.Redacted<string>;
+  JobName?: string | redacted.Redacted<string>;
   JobId?: string;
   JobStatus?: string;
   DomainId?: string;
@@ -1134,7 +1133,7 @@ export const StartFraudsterRegistrationJobResponse = S.suspend(() =>
 }) as any as S.Schema<StartFraudsterRegistrationJobResponse>;
 export interface StartSpeakerEnrollmentJobRequest {
   ClientToken?: string;
-  JobName?: string | Redacted.Redacted<string>;
+  JobName?: string | redacted.Redacted<string>;
   DomainId: string;
   DataAccessRoleArn: string;
   EnrollmentConfig?: EnrollmentConfig;
@@ -1165,7 +1164,7 @@ export const CreateDomainResponse = S.suspend(() =>
   identifier: "CreateDomainResponse",
 }) as any as S.Schema<CreateDomainResponse>;
 export interface ListDomainsResponse {
-  DomainSummaries?: DomainSummaries;
+  DomainSummaries?: DomainSummary[];
   NextToken?: string;
 }
 export const ListDomainsResponse = S.suspend(() =>
@@ -1200,7 +1199,7 @@ export interface AuthenticationResult {
   AuthenticationResultId?: string;
   AudioAggregationStartedAt?: Date;
   AudioAggregationEndedAt?: Date;
-  CustomerSpeakerId?: string | Redacted.Redacted<string>;
+  CustomerSpeakerId?: string | redacted.Redacted<string>;
   GeneratedSpeakerId?: string;
   Decision?: string;
   Score?: number;
@@ -1283,7 +1282,7 @@ export interface FraudDetectionResult {
   AudioAggregationEndedAt?: Date;
   Configuration?: FraudDetectionConfiguration;
   Decision?: string;
-  Reasons?: FraudDetectionReasons;
+  Reasons?: string[];
   RiskDetails?: FraudRiskDetails;
 }
 export const FraudDetectionResult = S.suspend(() =>
@@ -1361,7 +1360,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listDomains: {
   (
     input: ListDomainsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDomainsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1372,7 +1371,7 @@ export const listDomains: {
   >;
   pages: (
     input: ListDomainsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDomainsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1383,7 +1382,7 @@ export const listDomains: {
   >;
   items: (
     input: ListDomainsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DomainSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1413,7 +1412,7 @@ export const listDomains: {
  */
 export const startFraudsterRegistrationJob: (
   input: StartFraudsterRegistrationJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartFraudsterRegistrationJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -1443,7 +1442,7 @@ export const startFraudsterRegistrationJob: (
  */
 export const createDomain: (
   input: CreateDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDomainResponse,
   | AccessDeniedException
   | ConflictException
@@ -1477,7 +1476,7 @@ export const createDomain: (
  */
 export const optOutSpeaker: (
   input: OptOutSpeakerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   OptOutSpeakerResponse,
   | AccessDeniedException
   | ConflictException
@@ -1506,7 +1505,7 @@ export const optOutSpeaker: (
  */
 export const associateFraudster: (
   input: AssociateFraudsterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateFraudsterResponse,
   | AccessDeniedException
   | ConflictException
@@ -1535,7 +1534,7 @@ export const associateFraudster: (
  */
 export const createWatchlist: (
   input: CreateWatchlistRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWatchlistResponse,
   | AccessDeniedException
   | ConflictException
@@ -1564,7 +1563,7 @@ export const createWatchlist: (
  */
 export const describeSpeaker: (
   input: DescribeSpeakerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSpeakerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1589,7 +1588,7 @@ export const describeSpeaker: (
  */
 export const describeSpeakerEnrollmentJob: (
   input: DescribeSpeakerEnrollmentJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSpeakerEnrollmentJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1617,7 +1616,7 @@ export const describeSpeakerEnrollmentJob: (
 export const listFraudsterRegistrationJobs: {
   (
     input: ListFraudsterRegistrationJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFraudsterRegistrationJobsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1629,7 +1628,7 @@ export const listFraudsterRegistrationJobs: {
   >;
   pages: (
     input: ListFraudsterRegistrationJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFraudsterRegistrationJobsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1641,7 +1640,7 @@ export const listFraudsterRegistrationJobs: {
   >;
   items: (
     input: ListFraudsterRegistrationJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FraudsterRegistrationJobSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1674,7 +1673,7 @@ export const listFraudsterRegistrationJobs: {
 export const listFraudsters: {
   (
     input: ListFraudstersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFraudstersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1686,7 +1685,7 @@ export const listFraudsters: {
   >;
   pages: (
     input: ListFraudstersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFraudstersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1698,7 +1697,7 @@ export const listFraudsters: {
   >;
   items: (
     input: ListFraudstersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FraudsterSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1733,7 +1732,7 @@ export const listFraudsters: {
 export const listSpeakerEnrollmentJobs: {
   (
     input: ListSpeakerEnrollmentJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSpeakerEnrollmentJobsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1745,7 +1744,7 @@ export const listSpeakerEnrollmentJobs: {
   >;
   pages: (
     input: ListSpeakerEnrollmentJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSpeakerEnrollmentJobsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1757,7 +1756,7 @@ export const listSpeakerEnrollmentJobs: {
   >;
   items: (
     input: ListSpeakerEnrollmentJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SpeakerEnrollmentJobSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1790,7 +1789,7 @@ export const listSpeakerEnrollmentJobs: {
 export const listSpeakers: {
   (
     input: ListSpeakersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSpeakersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1802,7 +1801,7 @@ export const listSpeakers: {
   >;
   pages: (
     input: ListSpeakersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSpeakersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1814,7 +1813,7 @@ export const listSpeakers: {
   >;
   items: (
     input: ListSpeakersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SpeakerSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1847,7 +1846,7 @@ export const listSpeakers: {
 export const listWatchlists: {
   (
     input: ListWatchlistsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWatchlistsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1859,7 +1858,7 @@ export const listWatchlists: {
   >;
   pages: (
     input: ListWatchlistsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWatchlistsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1871,7 +1870,7 @@ export const listWatchlists: {
   >;
   items: (
     input: ListWatchlistsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WatchlistSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1905,7 +1904,7 @@ export const listWatchlists: {
  */
 export const disassociateFraudster: (
   input: DisassociateFraudsterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateFraudsterResponse,
   | AccessDeniedException
   | ConflictException
@@ -1932,7 +1931,7 @@ export const disassociateFraudster: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1959,7 +1958,7 @@ export const tagResource: (
  */
 export const updateWatchlist: (
   input: UpdateWatchlistRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWatchlistResponse,
   | AccessDeniedException
   | ConflictException
@@ -1988,7 +1987,7 @@ export const updateWatchlist: (
  */
 export const updateDomain: (
   input: UpdateDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDomainResponse,
   | AccessDeniedException
   | ConflictException
@@ -2015,7 +2014,7 @@ export const updateDomain: (
  */
 export const deleteSpeaker: (
   input: DeleteSpeakerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSpeakerResponse,
   | AccessDeniedException
   | ConflictException
@@ -2044,7 +2043,7 @@ export const deleteSpeaker: (
  */
 export const deleteWatchlist: (
   input: DeleteWatchlistRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWatchlistResponse,
   | AccessDeniedException
   | ConflictException
@@ -2071,7 +2070,7 @@ export const deleteWatchlist: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2098,7 +2097,7 @@ export const untagResource: (
  */
 export const deleteDomain: (
   input: DeleteDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDomainResponse,
   | AccessDeniedException
   | ConflictException
@@ -2125,7 +2124,7 @@ export const deleteDomain: (
  */
 export const describeWatchlist: (
   input: DescribeWatchlistRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeWatchlistResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2150,7 +2149,7 @@ export const describeWatchlist: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2175,7 +2174,7 @@ export const listTagsForResource: (
  */
 export const deleteFraudster: (
   input: DeleteFraudsterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFraudsterResponse,
   | AccessDeniedException
   | ConflictException
@@ -2202,7 +2201,7 @@ export const deleteFraudster: (
  */
 export const describeFraudster: (
   input: DescribeFraudsterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeFraudsterResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2227,7 +2226,7 @@ export const describeFraudster: (
  */
 export const describeFraudsterRegistrationJob: (
   input: DescribeFraudsterRegistrationJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeFraudsterRegistrationJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2252,7 +2251,7 @@ export const describeFraudsterRegistrationJob: (
  */
 export const describeDomain: (
   input: DescribeDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDomainResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2278,7 +2277,7 @@ export const describeDomain: (
  */
 export const evaluateSession: (
   input: EvaluateSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EvaluateSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2305,7 +2304,7 @@ export const evaluateSession: (
  */
 export const startSpeakerEnrollmentJob: (
   input: StartSpeakerEnrollmentJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartSpeakerEnrollmentJobResponse,
   | AccessDeniedException
   | ConflictException

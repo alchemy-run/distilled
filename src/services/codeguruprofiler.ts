@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -163,7 +163,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeys;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -512,7 +512,7 @@ export const PostAgentProfileResponse = S.suspend(() =>
 export interface PutPermissionRequest {
   profilingGroupName: string;
   actionGroup: string;
-  principals: Principals;
+  principals: string[];
   revisionId?: string;
 }
 export const PutPermissionRequest = S.suspend(() =>
@@ -665,7 +665,7 @@ export interface ProfilingGroupDescription {
   updatedAt?: Date;
   profilingStatus?: ProfilingStatus;
   computePlatform?: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const ProfilingGroupDescription = S.suspend(() =>
   S.Struct({
@@ -686,7 +686,7 @@ export const ProfilingGroupDescriptions = S.Array(ProfilingGroupDescription);
 export interface Channel {
   id?: string;
   uri: string;
-  eventPublishers: EventPublishers;
+  eventPublishers: string[];
 }
 export const Channel = S.suspend(() =>
   S.Struct({
@@ -700,7 +700,7 @@ export const Channels = S.Array(Channel);
 export interface FrameMetric {
   frameName: string;
   type: string;
-  threadStates: ThreadStates;
+  threadStates: string[];
 }
 export const FrameMetric = S.suspend(() =>
   S.Struct({ frameName: S.String, type: S.String, threadStates: ThreadStates }),
@@ -710,7 +710,7 @@ export const FrameMetrics = S.Array(FrameMetric);
 export type Metadata = { [key: string]: string };
 export const Metadata = S.Record({ key: S.String, value: S.String });
 export interface ListTagsForResourceResponse {
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagsMap) }),
@@ -719,7 +719,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagsMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -747,7 +747,7 @@ export interface CreateProfilingGroupRequest {
   computePlatform?: string;
   clientToken: string;
   agentOrchestrationConfig?: AgentOrchestrationConfig;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const CreateProfilingGroupRequest = S.suspend(() =>
   S.Struct({
@@ -782,8 +782,8 @@ export const UpdateProfilingGroupResponse = S.suspend(() =>
   identifier: "UpdateProfilingGroupResponse",
 }) as any as S.Schema<UpdateProfilingGroupResponse>;
 export interface ListProfilingGroupsResponse {
-  profilingGroupNames: ProfilingGroupNames;
-  profilingGroups?: ProfilingGroupDescriptions;
+  profilingGroupNames: string[];
+  profilingGroups?: ProfilingGroupDescription[];
   nextToken?: string;
 }
 export const ListProfilingGroupsResponse = S.suspend(() =>
@@ -797,7 +797,7 @@ export const ListProfilingGroupsResponse = S.suspend(() =>
 }) as any as S.Schema<ListProfilingGroupsResponse>;
 export interface AddNotificationChannelsRequest {
   profilingGroupName: string;
-  channels: Channels;
+  channels: Channel[];
 }
 export const AddNotificationChannelsRequest = S.suspend(() =>
   S.Struct({
@@ -825,7 +825,7 @@ export interface BatchGetFrameMetricDataRequest {
   endTime?: Date;
   period?: string;
   targetResolution?: string;
-  frameMetrics?: FrameMetrics;
+  frameMetrics?: FrameMetric[];
 }
 export const BatchGetFrameMetricDataRequest = S.suspend(() =>
   S.Struct({
@@ -860,7 +860,7 @@ export const BatchGetFrameMetricDataRequest = S.suspend(() =>
 export interface ConfigureAgentRequest {
   profilingGroupName: string;
   fleetInstanceId?: string;
-  metadata?: Metadata;
+  metadata?: { [key: string]: string };
 }
 export const ConfigureAgentRequest = S.suspend(() =>
   S.Struct({
@@ -929,7 +929,7 @@ export const FindingsReportSummary = S.suspend(() =>
 export type FindingsReportSummaries = FindingsReportSummary[];
 export const FindingsReportSummaries = S.Array(FindingsReportSummary);
 export interface ListFindingsReportsResponse {
-  findingsReportSummaries: FindingsReportSummaries;
+  findingsReportSummaries: FindingsReportSummary[];
   nextToken?: string;
 }
 export const ListFindingsReportsResponse = S.suspend(() =>
@@ -950,7 +950,7 @@ export const PutPermissionResponse = S.suspend(() =>
   identifier: "PutPermissionResponse",
 }) as any as S.Schema<PutPermissionResponse>;
 export interface NotificationConfiguration {
-  channels?: Channels;
+  channels?: Channel[];
 }
 export const NotificationConfiguration = S.suspend(() =>
   S.Struct({ channels: S.optional(Channels) }),
@@ -986,12 +986,12 @@ export type ProfileTimes = ProfileTime[];
 export const ProfileTimes = S.Array(ProfileTime);
 export type TargetFrame = string[];
 export const TargetFrame = S.Array(S.String);
-export type TargetFrames = TargetFrame[];
+export type TargetFrames = string[][];
 export const TargetFrames = S.Array(TargetFrame);
 export type Strings = string[];
 export const Strings = S.Array(S.String);
 export interface GetFindingsReportAccountSummaryResponse {
-  reportSummaries: FindingsReportSummaries;
+  reportSummaries: FindingsReportSummary[];
   nextToken?: string;
 }
 export const GetFindingsReportAccountSummaryResponse = S.suspend(() =>
@@ -1033,7 +1033,7 @@ export const GetNotificationConfigurationResponse = S.suspend(() =>
   identifier: "GetNotificationConfigurationResponse",
 }) as any as S.Schema<GetNotificationConfigurationResponse>;
 export interface ListProfileTimesResponse {
-  profileTimes: ProfileTimes;
+  profileTimes: ProfileTime[];
   nextToken?: string;
 }
 export const ListProfileTimesResponse = S.suspend(() =>
@@ -1048,9 +1048,9 @@ export interface Pattern {
   name?: string;
   description?: string;
   resolutionSteps?: string;
-  targetFrames?: TargetFrames;
+  targetFrames?: string[][];
   thresholdPercent?: number;
-  countersToAggregate?: Strings;
+  countersToAggregate?: string[];
 }
 export const Pattern = S.suspend(() =>
   S.Struct({
@@ -1080,7 +1080,7 @@ export const Matches = S.Array(Match);
 export interface Metric {
   frameName: string;
   type: string;
-  threadStates: Strings;
+  threadStates: string[];
 }
 export const Metric = S.suspend(() =>
   S.Struct({ frameName: S.String, type: S.String, threadStates: Strings }),
@@ -1095,14 +1095,14 @@ export const TimestampStructure = S.suspend(() =>
 }) as any as S.Schema<TimestampStructure>;
 export type ListOfTimestamps = TimestampStructure[];
 export const ListOfTimestamps = S.Array(TimestampStructure);
-export type UnprocessedEndTimeMap = { [key: string]: ListOfTimestamps };
+export type UnprocessedEndTimeMap = { [key: string]: TimestampStructure[] };
 export const UnprocessedEndTimeMap = S.Record({
   key: S.String,
   value: ListOfTimestamps,
 });
 export interface FrameMetricDatum {
   frameMetric: FrameMetric;
-  values: FrameMetricValues;
+  values: number[];
 }
 export const FrameMetricDatum = S.suspend(() =>
   S.Struct({ frameMetric: FrameMetric, values: FrameMetricValues }),
@@ -1115,7 +1115,7 @@ export interface Recommendation {
   allMatchesCount: number;
   allMatchesSum: number;
   pattern: Pattern;
-  topMatches: Matches;
+  topMatches: Match[];
   startTime: Date;
   endTime: Date;
 }
@@ -1143,9 +1143,9 @@ export interface BatchGetFrameMetricDataResponse {
   startTime: Date;
   endTime: Date;
   resolution: string;
-  endTimes: ListOfTimestamps;
-  unprocessedEndTimes: UnprocessedEndTimeMap;
-  frameMetricData: FrameMetricData;
+  endTimes: TimestampStructure[];
+  unprocessedEndTimes: { [key: string]: TimestampStructure[] };
+  frameMetricData: FrameMetricDatum[];
 }
 export const BatchGetFrameMetricDataResponse = S.suspend(() =>
   S.Struct({
@@ -1182,7 +1182,7 @@ export const AnomalyInstances = S.Array(AnomalyInstance);
 export interface AgentConfiguration {
   shouldProfile: boolean;
   periodInSeconds: number;
-  agentParameters?: AgentParameters;
+  agentParameters?: { [key: string]: string };
 }
 export const AgentConfiguration = S.suspend(() =>
   S.Struct({
@@ -1196,7 +1196,7 @@ export const AgentConfiguration = S.suspend(() =>
 export interface Anomaly {
   metric: Metric;
   reason: string;
-  instances: AnomalyInstances;
+  instances: AnomalyInstance[];
 }
 export const Anomaly = S.suspend(() =>
   S.Struct({ metric: Metric, reason: S.String, instances: AnomalyInstances }),
@@ -1231,8 +1231,8 @@ export interface GetRecommendationsResponse {
   profilingGroupName: string;
   profileStartTime: Date;
   profileEndTime: Date;
-  recommendations: Recommendations;
-  anomalies: Anomalies;
+  recommendations: Recommendation[];
+  anomalies: Anomaly[];
 }
 export const GetRecommendationsResponse = S.suspend(() =>
   S.Struct({
@@ -1286,21 +1286,21 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export const listProfilingGroups: {
   (
     input: ListProfilingGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProfilingGroupsResponse,
     InternalServerException | ThrottlingException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListProfilingGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProfilingGroupsResponse,
     InternalServerException | ThrottlingException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProfilingGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServerException | ThrottlingException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1320,7 +1320,7 @@ export const listProfilingGroups: {
  */
 export const getPolicy: (
   input: GetPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPolicyResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1341,7 +1341,7 @@ export const getPolicy: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1362,7 +1362,7 @@ export const untagResource: (
  */
 export const createProfilingGroup: (
   input: CreateProfilingGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProfilingGroupResponse,
   | ConflictException
   | InternalServerException
@@ -1388,7 +1388,7 @@ export const createProfilingGroup: (
  */
 export const batchGetFrameMetricData: (
   input: BatchGetFrameMetricDataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetFrameMetricDataResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1411,7 +1411,7 @@ export const batchGetFrameMetricData: (
  */
 export const getNotificationConfiguration: (
   input: GetNotificationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetNotificationConfigurationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1436,7 +1436,7 @@ export const getNotificationConfiguration: (
 export const listProfileTimes: {
   (
     input: ListProfileTimesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProfileTimesResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1447,7 +1447,7 @@ export const listProfileTimes: {
   >;
   pages: (
     input: ListProfileTimesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProfileTimesResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1458,7 +1458,7 @@ export const listProfileTimes: {
   >;
   items: (
     input: ListProfileTimesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProfileTime,
     | InternalServerException
     | ResourceNotFoundException
@@ -1488,7 +1488,7 @@ export const listProfileTimes: {
  */
 export const deleteProfilingGroup: (
   input: DeleteProfilingGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProfilingGroupResponse,
   | ConflictException
   | InternalServerException
@@ -1552,7 +1552,7 @@ export const deleteProfilingGroup: (
  */
 export const getProfile: (
   input: GetProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetProfileResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1576,7 +1576,7 @@ export const getProfile: (
 export const listFindingsReports: {
   (
     input: ListFindingsReportsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFindingsReportsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1587,7 +1587,7 @@ export const listFindingsReports: {
   >;
   pages: (
     input: ListFindingsReportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFindingsReportsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1598,7 +1598,7 @@ export const listFindingsReports: {
   >;
   items: (
     input: ListFindingsReportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | ResourceNotFoundException
@@ -1646,7 +1646,7 @@ export const listFindingsReports: {
  */
 export const putPermission: (
   input: PutPermissionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutPermissionResponse,
   | ConflictException
   | InternalServerException
@@ -1671,7 +1671,7 @@ export const putPermission: (
  */
 export const removeNotificationChannel: (
   input: RemoveNotificationChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveNotificationChannelResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1702,7 +1702,7 @@ export const removeNotificationChannel: (
  */
 export const removePermission: (
   input: RemovePermissionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemovePermissionResponse,
   | ConflictException
   | InternalServerException
@@ -1731,7 +1731,7 @@ export const removePermission: (
  */
 export const postAgentProfile: (
   input: PostAgentProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PostAgentProfileResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1755,7 +1755,7 @@ export const postAgentProfile: (
  */
 export const submitFeedback: (
   input: SubmitFeedbackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SubmitFeedbackResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1778,7 +1778,7 @@ export const submitFeedback: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1799,7 +1799,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1820,7 +1820,7 @@ export const tagResource: (
  */
 export const updateProfilingGroup: (
   input: UpdateProfilingGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProfilingGroupResponse,
   | ConflictException
   | InternalServerException
@@ -1850,7 +1850,7 @@ export const updateProfilingGroup: (
 export const getFindingsReportAccountSummary: {
   (
     input: GetFindingsReportAccountSummaryRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetFindingsReportAccountSummaryResponse,
     | InternalServerException
     | ThrottlingException
@@ -1860,7 +1860,7 @@ export const getFindingsReportAccountSummary: {
   >;
   pages: (
     input: GetFindingsReportAccountSummaryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetFindingsReportAccountSummaryResponse,
     | InternalServerException
     | ThrottlingException
@@ -1870,7 +1870,7 @@ export const getFindingsReportAccountSummary: {
   >;
   items: (
     input: GetFindingsReportAccountSummaryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | ThrottlingException
@@ -1893,7 +1893,7 @@ export const getFindingsReportAccountSummary: {
  */
 export const addNotificationChannels: (
   input: AddNotificationChannelsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddNotificationChannelsResponse,
   | ConflictException
   | InternalServerException
@@ -1923,7 +1923,7 @@ export const addNotificationChannels: (
  */
 export const describeProfilingGroup: (
   input: DescribeProfilingGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeProfilingGroupResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1948,7 +1948,7 @@ export const describeProfilingGroup: (
  */
 export const configureAgent: (
   input: ConfigureAgentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ConfigureAgentResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1980,7 +1980,7 @@ export const configureAgent: (
  */
 export const getRecommendations: (
   input: GetRecommendationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRecommendationsResponse,
   | InternalServerException
   | ResourceNotFoundException

@@ -356,85 +356,128 @@ function sanitizeErrorName(name: string): string {
   return name.replace(/\./g, "");
 }
 
-// Helper to convert schema expression to TypeScript type for interface generation
-// - allStructNames: set of all struct names that have explicit interfaces
-// - allArrayNames: set of all array names that have explicit type aliases
-// - allMapNames: set of all map names that have explicit type aliases
-// - cyclicSchemas: set of cyclic schemas that have explicit type aliases
-function schemaExprToTsType(
-  schemaExpr: string,
-  allStructNames: Set<string>,
-  allArrayNames: Set<string>,
-  allMapNames: Set<string>,
-  cyclicSchemas: Set<string>,
-): string {
-  // Strip .pipe(...) suffix to get base schema
-  const baseExpr = schemaExpr.replace(/\.pipe\([^)]+\)$/, "");
+/**
+ * Convert a Smithy shape target to its TypeScript type string.
+ * Works directly on the model, not by parsing schema expression strings.
+ */
+const shapeToTsType = (
+  target: string,
+): Effect.Effect<string, ShapeNotFound, SdkFile | ModelService> =>
+  Effect.gen(function* () {
+    const sdkFile = yield* SdkFile;
+    const newtypesMap = yield* Ref.get(sdkFile.newtypes);
 
-  // Handle base primitive types
-  switch (baseExpr) {
-    case "S.String":
-      return "string";
-    case "S.Boolean":
-      return "boolean";
-    case "S.Number":
-      return "number";
-    case "S.Date":
-      return "Date";
-    case "S.Any":
-      return "any";
-    case "T.StreamBody()":
-      return "T.StreamBody";
-    case "T.StreamingInput":
-      return "T.StreamingInputBody";
-    case "T.StreamingOutput":
-      return "T.StreamingOutputBody";
-    case "T.Blob":
-      return "Uint8Array";
-    case "SensitiveString":
-      return "string | Redacted.Redacted<string>";
-    case "SensitiveBlob":
-      return "Uint8Array | Redacted.Redacted<Uint8Array>";
-    case "S.Struct({})":
-      return "Record<string, never>";
-  }
+    // Handle Smithy primitives
+    switch (target) {
+      case "smithy.api#String":
+        return "string";
+      case "smithy.api#Boolean":
+      case "smithy.api#PrimitiveBoolean":
+        return "boolean";
+      case "smithy.api#Integer":
+      case "smithy.api#PrimitiveInteger":
+      case "smithy.api#Long":
+      case "smithy.api#PrimitiveLong":
+      case "smithy.api#Double":
+      case "smithy.api#PrimitiveDouble":
+      case "smithy.api#Float":
+      case "smithy.api#PrimitiveFloat":
+      case "smithy.api#Byte":
+      case "smithy.api#PrimitiveByte":
+      case "smithy.api#Short":
+      case "smithy.api#PrimitiveShort":
+      case "smithy.api#BigDecimal":
+        return "number";
+      case "smithy.api#BigInteger":
+        return "bigint";
+      case "smithy.api#Timestamp":
+        return "Date";
+      case "smithy.api#Blob":
+        return "Uint8Array";
+      case "smithy.api#Document":
+        return "any";
+      case "smithy.api#Unit":
+        return "Record<string, never>";
+    }
 
-  // Handle S.Date.pipe(...) patterns - still a Date
-  if (baseExpr.startsWith("S.Date")) {
-    return "Date";
-  }
+    // Handle named shapes by looking up in the model
+    const [shapeId, shape] = yield* findShape(target);
+    const name = formatName(shapeId);
 
-  // Handle T.StreamingInput.pipe(...) patterns
-  if (baseExpr.startsWith("T.StreamingInput")) {
-    return "T.StreamingInputBody";
-  }
+    // Pattern match on shape type
+    // For primitive types, always return the TypeScript primitive - never a newtype name
+    switch (shape.type) {
+      case "integer":
+      case "long":
+      case "double":
+      case "float":
+        return "number";
 
-  // Handle T.StreamingOutput.pipe(...) patterns
-  if (baseExpr.startsWith("T.StreamingOutput")) {
-    return "T.StreamingOutputBody";
-  }
+      case "string":
+        // Check for sensitive
+        if (sdkFile.sensitiveShapeIds.has(shapeId)) {
+          return "string | redacted.Redacted<string>";
+        }
+        return "string";
 
-  // Handle T.StreamBody().pipe(...) patterns
-  if (baseExpr.startsWith("T.StreamBody")) {
-    return "T.StreamBody";
-  }
+      case "blob":
+        // Streaming blobs are handled at the member level with context
+        // Here we just handle non-streaming blobs
+        if (shape.traits?.["smithy.api#streaming"] != null) {
+          return "T.StreamBody";
+        }
+        if (sdkFile.sensitiveShapeIds.has(shapeId)) {
+          return "Uint8Array | redacted.Redacted<Uint8Array>";
+        }
+        return "Uint8Array";
 
-  // Named schemas with explicit type aliases can be used directly:
-  // - Structs have interfaces
-  // - Arrays and maps have type aliases
-  // - Cyclic schemas have type aliases
-  if (
-    allStructNames.has(baseExpr) ||
-    allArrayNames.has(baseExpr) ||
-    allMapNames.has(baseExpr) ||
-    cyclicSchemas.has(baseExpr)
-  ) {
-    return baseExpr;
-  }
+      case "boolean":
+        return "boolean";
 
-  // For other named schemas (unions), extract type
-  return `typeof ${baseExpr}["Type"]`;
-}
+      case "timestamp":
+        return "Date";
+
+      case "document":
+        return "any";
+
+      case "enum":
+        // Enums generate S.Literal schemas with type aliases
+        return name;
+
+      case "intEnum":
+        // IntEnums generate S.Literal schemas with type aliases
+        return name;
+
+      case "structure":
+        // Use the generated interface name
+        return name;
+
+      case "list": {
+        // For lists, get the element type and return an array type
+        const elementType = yield* shapeToTsType(shape.member.target);
+        return `${elementType}[]`;
+      }
+
+      case "map": {
+        // For maps, get the value type and return a record type
+        const valueType = yield* shapeToTsType(shape.value.target);
+        return `{ [key: string]: ${valueType} }`;
+      }
+
+      case "union":
+        // Use the generated type alias name
+        return name;
+
+      default:
+        // All data types should be handled above - service, operation, resource
+        // are not valid targets for type generation
+        return yield* Effect.fail(
+          new ShapeNotFound({
+            message: `Cannot convert shape type "${shape.type}" to TypeScript type: ${shapeId}`,
+          }),
+        );
+    }
+  });
 
 // Topological sort for schema definitions to ensure dependencies come before dependents
 // Handles cycles by treating cyclic schemas specially (they will use S.Class and S.suspend)
@@ -479,16 +522,35 @@ function topologicalSortWithCycles(
 
 //todo(pear): rewrite as effect
 // Collect all shape dependencies from the model to compute cycles before generation
-function collectShapeDependencies(
-  model: SmithyModel,
-): Map<string, { deps: string[]; type: string }> {
-  const shapeDeps = new Map<string, { deps: string[]; type: string }>();
+function collectShapeDependencies(model: SmithyModel): Map<
+  string,
+  {
+    deps: string[];
+    type: string;
+    listMemberTarget?: string;
+    isSparse?: boolean;
+    hasMemberTraits?: boolean;
+  }
+> {
+  const shapeDeps = new Map<
+    string,
+    {
+      deps: string[];
+      type: string;
+      listMemberTarget?: string;
+      isSparse?: boolean;
+      hasMemberTraits?: boolean;
+    }
+  >();
 
   for (const [shapeId, shape] of Object.entries(model.shapes)) {
     const name = formatName(shapeId);
     if (!name) continue;
 
     const deps: string[] = [];
+    let listMemberTarget: string | undefined;
+    let isSparse: boolean | undefined;
+    let hasMemberTraits: boolean | undefined;
 
     if (shape.type === "structure") {
       for (const member of Object.values(shape.members)) {
@@ -503,14 +565,33 @@ function collectShapeDependencies(
     } else if (shape.type === "list") {
       const depName = formatName(shape.member.target);
       if (depName) deps.push(depName);
+      // Track member target and traits for inline primitive list detection
+      listMemberTarget = shape.member.target;
+      isSparse = shape.traits?.["smithy.api#sparse"] != null;
+      hasMemberTraits =
+        shape.member.traits != null &&
+        Object.keys(shape.member.traits).length > 0;
     } else if (shape.type === "map") {
       const keyName = formatName(shape.key.target);
       const valueName = formatName(shape.value.target);
       if (keyName) deps.push(keyName);
       if (valueName) deps.push(valueName);
+      // Track traits for inline map detection
+      isSparse = shape.traits?.["smithy.api#sparse"] != null;
+      hasMemberTraits =
+        (shape.key.traits != null &&
+          Object.keys(shape.key.traits).length > 0) ||
+        (shape.value.traits != null &&
+          Object.keys(shape.value.traits).length > 0);
     }
 
-    shapeDeps.set(name, { deps, type: shape.type });
+    shapeDeps.set(name, {
+      deps,
+      type: shape.type,
+      listMemberTarget,
+      isSparse,
+      hasMemberTraits,
+    });
   }
 
   return shapeDeps;
@@ -519,7 +600,16 @@ function collectShapeDependencies(
 //todo(pear): rewrite as effect
 // Find all schemas that are part of a cycle using the pre-collected dependencies
 function findCyclicSchemasFromDeps(
-  shapeDeps: Map<string, { deps: string[]; type: string }>,
+  shapeDeps: Map<
+    string,
+    {
+      deps: string[];
+      type: string;
+      listMemberTarget?: string;
+      isSparse?: boolean;
+      hasMemberTraits?: boolean;
+    }
+  >,
 ): {
   cyclicSchemas: Set<string>;
   cyclicClasses: Set<string>;
@@ -594,11 +684,25 @@ function findCyclicSchemasFromDeps(
     }
   }
 
+  // Primitive targets that should be inlined (no named schema generated)
+  const primitiveTargets = new Set([
+    "smithy.api#String",
+    "smithy.api#Boolean",
+    "smithy.api#PrimitiveBoolean",
+    "smithy.api#Integer",
+    "smithy.api#PrimitiveInteger",
+    "smithy.api#Long",
+    "smithy.api#PrimitiveLong",
+    "smithy.api#Float",
+    "smithy.api#Double",
+  ]);
+
   // Determine which cyclic schemas will become classes (structs only)
   const cyclicClasses = new Set<string>();
   // Collect ALL struct names (interfaces can be used directly as types)
   const allStructNames = new Set<string>();
   // Collect ALL array and map names (type aliases can be used directly as types)
+  // Exclude primitive lists that will be inlined
   const allArrayNames = new Set<string>();
   const allMapNames = new Set<string>();
   const allUnionNames = new Set<string>();
@@ -625,6 +729,9 @@ function findCyclicSchemasFromDeps(
     ) {
       // These generate type aliases (newtypes) like `type Region = string`
       allNewtypeNames.add(name);
+    } else if (info.type === "enum" || info.type === "intEnum") {
+      // Enums generate S.Literal schemas (handled via addAlias)
+      // They're added to allSchemaNames indirectly via the schemas ref
     }
   }
 
@@ -949,7 +1056,7 @@ const convertShapeToSchema: (
                     new Map(m).set(
                       name,
                       isSensitive
-                        ? "string | Redacted.Redacted<string>"
+                        ? "string | redacted.Redacted<string>"
                         : "string",
                     ),
                   );
@@ -1029,27 +1136,62 @@ const convertShapeToSchema: (
           ),
           Match.when(
             (s) => s.type === "enum",
-            (s) =>
-              Effect.succeed(
-                Object.values(s.members).map(
-                  ({ traits }) =>
-                    `S.Literal("${traits["smithy.api#enumValue"]}")`,
-                ),
-                //todo(pear): figure our a more typesafe way of doing this
-                // ).pipe(Effect.map((members) => `S.Union(${members.join(", ")})`)),
-              ).pipe(Effect.map(() => `S.String`)),
+            (s) => {
+              const schemaName = getSchemaName();
+              // Check for enum override in spec patches
+              const enumOverride = sdkFile.serviceSpec.enums?.[schemaName];
+              let enumValues: readonly string[];
+              if (enumOverride?.replace) {
+                // Completely replace enum values
+                enumValues = enumOverride.replace;
+              } else {
+                // Get values from Smithy model
+                enumValues = Object.values(s.members).map(
+                  ({ traits }) => traits["smithy.api#enumValue"] as string,
+                );
+                // Add any additional values from spec patch
+                if (enumOverride?.add) {
+                  enumValues = [...enumValues, ...enumOverride.add];
+                }
+              }
+              // Generate S.Literal schema with all enum values
+              const literals = enumValues.map((v) => `"${v}"`).join(", ");
+              const literalUnion = enumValues.map((v) => `"${v}"`).join(" | ");
+              const typeAlias = `export type ${schemaName} = ${literalUnion};`;
+              const schemaDef = `export const ${schemaName} = S.Literal(${literals});`;
+              return addAlias(Effect.succeed(`${typeAlias}\n${schemaDef}`), []);
+            },
           ),
           Match.when(
             (s) => s.type === "intEnum",
-            (s) =>
-              Effect.succeed(
-                Object.values(s.members).map(
-                  ({ traits }) =>
-                    `S.Literal("${traits["smithy.api#enumValue"]}")`,
-                ),
-                //todo(pear): figure our a more typesafe way of doing this
-                // ).pipe(Effect.map((members) => `S.Union(${members.join(", ")})`)),
-              ).pipe(Effect.map(() => `S.Number`)),
+            (s) => {
+              const schemaName = getSchemaName();
+              // Check for enum override in spec patches
+              const enumOverride = sdkFile.serviceSpec.enums?.[schemaName];
+              let enumValues: number[];
+              if (enumOverride?.replace) {
+                // Completely replace enum values (parse as numbers)
+                enumValues = enumOverride.replace.map((v) => parseInt(v, 10));
+              } else {
+                // Get values from Smithy model
+                enumValues = Object.values(s.members).map(
+                  ({ traits }) => traits["smithy.api#enumValue"] as number,
+                );
+                // Add any additional values from spec patch (parse as numbers)
+                if (enumOverride?.add) {
+                  enumValues = [
+                    ...enumValues,
+                    ...enumOverride.add.map((v) => parseInt(v, 10)),
+                  ];
+                }
+              }
+              // Generate S.Literal schema with all numeric enum values
+              const literals = enumValues.join(", ");
+              const literalUnion = enumValues.join(" | ");
+              const typeAlias = `export type ${schemaName} = ${literalUnion};`;
+              const schemaDef = `export const ${schemaName} = S.Literal(${literals});`;
+              return addAlias(Effect.succeed(`${typeAlias}\n${schemaDef}`), []);
+            },
           ),
           Match.when(
             (s) => s.type === "list",
@@ -1062,53 +1204,51 @@ const convertShapeToSchema: (
               );
               // Check for @sparse trait on the list
               const isSparse = s.traits?.["smithy.api#sparse"] != null;
+
               return addAlias(
                 convertShapeToSchema(s.member.target).pipe(
                   Effect.flatMap(Deferred.await),
-                  Effect.map((type) => {
-                    //todo(pear): rewrite this in a more effectful way
-                    // Wrap error shape references in S.suspend (they're defined after schemas)
-                    // Add identifier annotation for JSONSchema generation
-                    let innerType = type;
-                    if (isMemberErrorShape) {
-                      innerType = `S.suspend(() => ${type}).annotations({ identifier: "${type}" })`;
-                    }
-                    // Wrap cyclic references in S.suspend with identifier for JSONSchema
-                    else if (sdkFile.cyclicSchemas.has(memberName)) {
-                      innerType = sdkFile.cyclicClasses.has(memberName)
-                        ? // TODO(sam): I had to add the any here because encoded type was creting circular errors. hopefully OK since we don't really need it
-                          `S.suspend((): S.Schema<${type}, any> => ${type}).annotations({ identifier: "${type}" })`
-                        : `S.suspend(() => ${type}).annotations({ identifier: "${type}" })`;
-                    }
+                  Effect.flatMap((type) =>
+                    Effect.gen(function* () {
+                      // Wrap error shape references in S.suspend (they're defined after schemas)
+                      // Add identifier annotation for JSONSchema generation
+                      let innerType = type;
+                      if (isMemberErrorShape) {
+                        innerType = `S.suspend(() => ${type}).annotations({ identifier: "${type}" })`;
+                      }
+                      // Wrap cyclic references in S.suspend with identifier for JSONSchema
+                      else if (sdkFile.cyclicSchemas.has(memberName)) {
+                        innerType = sdkFile.cyclicClasses.has(memberName)
+                          ? // TODO(sam): I had to add the any here because encoded type was creting circular errors. hopefully OK since we don't really need it
+                            `S.suspend((): S.Schema<${type}, any> => ${type}).annotations({ identifier: "${type}" })`
+                          : `S.suspend(() => ${type}).annotations({ identifier: "${type}" })`;
+                      }
 
-                    // Apply serialization traits (xmlName, timestampFormat, etc.) using unified function
-                    // Pass identifier for struct schemas so it's preserved after .pipe()
-                    innerType = applyTraitsToSchema(
-                      innerType,
-                      s.member.traits,
-                      undefined,
-                      sdkFile.allStructNames.has(memberName)
-                        ? memberName
-                        : undefined,
-                    );
+                      // Apply serialization traits (xmlName, timestampFormat, etc.) using unified function
+                      // Pass identifier for struct schemas so it's preserved after .pipe()
+                      innerType = applyTraitsToSchema(
+                        innerType,
+                        s.member.traits,
+                        undefined,
+                        sdkFile.allStructNames.has(memberName)
+                          ? memberName
+                          : undefined,
+                      );
 
-                    // Build the array schema with optional sparse annotation
-                    const sparsePipe = isSparse ? ".pipe(T.Sparse())" : "";
+                      // Build the array schema with optional sparse annotation
+                      const sparsePipe = isSparse ? ".pipe(T.Sparse())" : "";
 
-                    // Always generate explicit type alias for arrays
-                    const memberTsType = schemaExprToTsType(
-                      type,
-                      sdkFile.allStructNames,
-                      sdkFile.allArrayNames,
-                      sdkFile.allMapNames,
-                      sdkFile.cyclicSchemas,
-                    );
-                    const typeAlias = `export type ${schemaName} = ${memberTsType}[];`;
-                    const schemaDef = isCyclic
-                      ? `export const ${schemaName} = S.Array(${innerType})${sparsePipe} as any as S.Schema<${schemaName}>;`
-                      : `export const ${schemaName} = S.Array(${innerType})${sparsePipe};`;
-                    return `${typeAlias}\n${schemaDef}`;
-                  }),
+                      // Get TypeScript type directly from the model
+                      const memberTsType = yield* shapeToTsType(
+                        s.member.target,
+                      );
+                      const typeAlias = `export type ${schemaName} = ${memberTsType}[];`;
+                      const schemaDef = isCyclic
+                        ? `export const ${schemaName} = S.Array(${innerType})${sparsePipe} as any as S.Schema<${schemaName}>;`
+                        : `export const ${schemaName} = S.Array(${innerType})${sparsePipe};`;
+                      return `${typeAlias}\n${schemaDef}`;
+                    }),
+                  ),
                 ),
                 [memberName],
               );
@@ -1210,13 +1350,11 @@ const convertShapeToSchema: (
                       baseSchema = yield* convertShapeToSchema(
                         member.target,
                       ).pipe(Effect.flatMap(Deferred.await));
-                      baseTsType = schemaExprToTsType(
-                        baseSchema,
-                        sdkFile.allStructNames,
-                        sdkFile.allArrayNames,
-                        sdkFile.allMapNames,
-                        sdkFile.cyclicSchemas,
+                      // Wrap in Stream type for interface generation - event streams are Stream<EventUnion, Error, never>
+                      const eventUnionType = yield* shapeToTsType(
+                        member.target,
                       );
+                      baseTsType = `stream.Stream<${eventUnionType}, Error, never>`;
                       // Add httpPayload annotation since event streams are the body
                       if (!hasHttpPayload) {
                         // Event stream members implicitly act as httpPayload
@@ -1225,13 +1363,7 @@ const convertShapeToSchema: (
                       baseSchema = yield* convertShapeToSchema(
                         member.target,
                       ).pipe(Effect.flatMap(Deferred.await));
-                      baseTsType = schemaExprToTsType(
-                        baseSchema,
-                        sdkFile.allStructNames,
-                        sdkFile.allArrayNames,
-                        sdkFile.allMapNames,
-                        sdkFile.cyclicSchemas,
-                      );
+                      baseTsType = yield* shapeToTsType(member.target);
                     }
 
                     let schema = baseSchema;
@@ -1277,10 +1409,12 @@ const convertShapeToSchema: (
                       sdkFile.serviceSpec.structures?.[currentSchemaName];
                     const memberOverride =
                       structureOverride?.members?.[memberName];
-                    // Override takes precedence, then fall back to Smithy model
+                    // Override takes precedence, then check @clientOptional (treat as optional even if @required),
+                    // finally fall back to checking if @required is absent
                     const isOptional =
                       memberOverride?.optional ??
-                      member.traits?.["smithy.api#required"] == null;
+                      (member.traits?.["smithy.api#clientOptional"] != null ||
+                        member.traits?.["smithy.api#required"] == null);
                     if (isOptional) {
                       schema = `S.optional(${schema})`;
                     }
@@ -1500,6 +1634,7 @@ const convertShapeToSchema: (
 
                         return {
                           name: memberName,
+                          target: member.target,
                           raw: schema,
                           wrapped: structWrapped,
                           isError: isMemberErrorShape,
@@ -1516,27 +1651,38 @@ const convertShapeToSchema: (
 
                       // Event stream unions use T.EventStream() or T.InputEventStream() based on direction
                       if (isEventStream) {
+                        // Generate type alias for event streams too (needed for struct member types)
+                        const memberTsTypes = yield* Effect.all(
+                          members.map((m) =>
+                            shapeToTsType(m.target).pipe(
+                              Effect.map(
+                                (innerType) => `{ ${m.name}: ${innerType} }`,
+                              ),
+                            ),
+                          ),
+                        );
+                        const typeAlias = `export type ${schemaName} = ${memberTsTypes.join(" | ")};`;
+
                         // Check if this is an input event stream by checking the original shape target
                         const isInputEventStream =
                           sdkFile.inputEventStreamShapeIds.has(target);
                         if (isInputEventStream) {
-                          return `export const ${schemaName} = T.InputEventStream(S.Union(${wrappedMembers.join(", ")}));`;
+                          return `${typeAlias}\nexport const ${schemaName} = T.InputEventStream(S.Union(${wrappedMembers.join(", ")})) as any as S.Schema<stream.Stream<${schemaName}, Error, never>>;`;
                         }
-                        return `export const ${schemaName} = T.EventStream(S.Union(${wrappedMembers.join(", ")}));`;
+                        return `${typeAlias}\nexport const ${schemaName} = T.EventStream(S.Union(${wrappedMembers.join(", ")})) as any as S.Schema<stream.Stream<${schemaName}, Error, never>>;`;
                       }
 
                       // Generate explicit type alias for unions (needed for pagination item types)
                       // Each member is now a struct { memberName: type }, so the TS types need to reflect that
-                      const memberTsTypes = members.map((m) => {
-                        const innerType = schemaExprToTsType(
-                          m.raw,
-                          sdkFile.allStructNames,
-                          sdkFile.allArrayNames,
-                          sdkFile.allMapNames,
-                          sdkFile.cyclicSchemas,
-                        );
-                        return `{ ${m.name}: ${innerType} }`;
-                      });
+                      const memberTsTypes = yield* Effect.all(
+                        members.map((m) =>
+                          shapeToTsType(m.target).pipe(
+                            Effect.map(
+                              (innerType) => `{ ${m.name}: ${innerType} }`,
+                            ),
+                          ),
+                        ),
+                      );
                       const typeAlias = `export type ${schemaName} = ${memberTsTypes.join(" | ")};`;
 
                       if (isCurrentCyclic) {
@@ -1564,6 +1710,8 @@ const convertShapeToSchema: (
               );
               // Check for @sparse trait on the map
               const isSparse = s.traits?.["smithy.api#sparse"] != null;
+              // Check if the key is a Smithy primitive (not an enum)
+              const isSmithyPrimitive = s.key.target.startsWith("smithy.api#");
               return addAlias(
                 Effect.all(
                   [
@@ -1573,73 +1721,95 @@ const convertShapeToSchema: (
                     convertShapeToSchema(s.value.target).pipe(
                       Effect.flatMap(Deferred.await),
                     ),
+                    // Only look up the key shape if it's not a Smithy primitive
+                    isSmithyPrimitive
+                      ? Effect.succeed(null)
+                      : findShape(s.key.target).pipe(
+                          Effect.map(([, shape]) => shape),
+                        ),
                   ],
                   { concurrency: "unbounded" },
                 ).pipe(
-                  Effect.map(([keySchema, valueSchema]) => {
-                    // S.Record keys cannot be transformation schemas, so strip sensitive wrappers
-                    // Map keys with @sensitive will use plain string (sensitive trait is for logging, not type safety on keys)
-                    let wrappedKey =
-                      keySchema === "SensitiveString"
-                        ? "S.String"
-                        : keySchema === "SensitiveBlob"
-                          ? "T.Blob"
-                          : keySchema;
-                    let wrappedValue = valueSchema;
+                  Effect.flatMap(([keySchema, valueSchema, keyShape]) =>
+                    Effect.gen(function* () {
+                      // Check if the key is an enum type - if so, we need S.partial
+                      // because AWS returns partial maps (not all enum values present)
+                      // Smithy primitives are never enums
+                      const isKeyEnum =
+                        keyShape != null &&
+                        (keyShape.type === "enum" ||
+                          keyShape.type === "intEnum");
 
-                    if (isKeyErrorShape) {
-                      wrappedKey = `S.suspend(() => ${keySchema}).annotations({ identifier: "${keySchema}" })`;
-                    } else if (sdkFile.cyclicSchemas.has(keyTargetName)) {
-                      wrappedKey = sdkFile.cyclicClasses.has(keyTargetName)
-                        ? `S.suspend((): S.Schema<${keySchema}, any> => ${keySchema}).annotations({ identifier: "${keySchema}" })`
-                        : `S.suspend(() => ${keySchema}).annotations({ identifier: "${keySchema}" })`;
-                    }
+                      // S.Record keys cannot be transformation schemas, so strip sensitive wrappers
+                      // Map keys with @sensitive will use plain string (sensitive trait is for logging, not type safety on keys)
+                      let wrappedKey =
+                        keySchema === "SensitiveString"
+                          ? "S.String"
+                          : keySchema === "SensitiveBlob"
+                            ? "T.Blob"
+                            : keySchema;
+                      let wrappedValue = valueSchema;
 
-                    if (isValueErrorShape) {
-                      wrappedValue = `S.suspend(() => ${valueSchema}).annotations({ identifier: "${valueSchema}" })`;
-                    } else if (sdkFile.cyclicSchemas.has(valueTargetName)) {
-                      wrappedValue = sdkFile.cyclicClasses.has(valueTargetName)
-                        ? `S.suspend((): S.Schema<${valueSchema}, any> => ${valueSchema}).annotations({ identifier: "${valueSchema}" })`
-                        : `S.suspend(() => ${valueSchema}).annotations({ identifier: "${valueSchema}" })`;
-                    }
+                      if (isKeyErrorShape) {
+                        wrappedKey = `S.suspend(() => ${keySchema}).annotations({ identifier: "${keySchema}" })`;
+                      } else if (sdkFile.cyclicSchemas.has(keyTargetName)) {
+                        wrappedKey = sdkFile.cyclicClasses.has(keyTargetName)
+                          ? `S.suspend((): S.Schema<${keySchema}, any> => ${keySchema}).annotations({ identifier: "${keySchema}" })`
+                          : `S.suspend(() => ${keySchema}).annotations({ identifier: "${keySchema}" })`;
+                      }
 
-                    // Apply serialization traits (xmlName, etc.) using unified function
-                    // Pass identifier for struct schemas so it's preserved after .pipe()
-                    wrappedKey = applyTraitsToSchema(
-                      wrappedKey,
-                      s.key.traits,
-                      undefined,
-                      sdkFile.allStructNames.has(keyTargetName)
-                        ? keyTargetName
-                        : undefined,
-                    );
-                    wrappedValue = applyTraitsToSchema(
-                      wrappedValue,
-                      s.value.traits,
-                      undefined,
-                      sdkFile.allStructNames.has(valueTargetName)
-                        ? valueTargetName
-                        : undefined,
-                    );
+                      if (isValueErrorShape) {
+                        wrappedValue = `S.suspend(() => ${valueSchema}).annotations({ identifier: "${valueSchema}" })`;
+                      } else if (sdkFile.cyclicSchemas.has(valueTargetName)) {
+                        wrappedValue = sdkFile.cyclicClasses.has(
+                          valueTargetName,
+                        )
+                          ? `S.suspend((): S.Schema<${valueSchema}, any> => ${valueSchema}).annotations({ identifier: "${valueSchema}" })`
+                          : `S.suspend(() => ${valueSchema}).annotations({ identifier: "${valueSchema}" })`;
+                      }
 
-                    // Build the record schema with optional sparse annotation
-                    const sparsePipe = isSparse ? ".pipe(T.Sparse())" : "";
+                      // Apply serialization traits (xmlName, etc.) using unified function
+                      // Pass identifier for struct schemas so it's preserved after .pipe()
+                      wrappedKey = applyTraitsToSchema(
+                        wrappedKey,
+                        s.key.traits,
+                        undefined,
+                        sdkFile.allStructNames.has(keyTargetName)
+                          ? keyTargetName
+                          : undefined,
+                      );
+                      wrappedValue = applyTraitsToSchema(
+                        wrappedValue,
+                        s.value.traits,
+                        undefined,
+                        sdkFile.allStructNames.has(valueTargetName)
+                          ? valueTargetName
+                          : undefined,
+                      );
 
-                    // Always generate explicit type alias for records/maps
-                    // Use index signature syntax to avoid conflicts with local Record schema
-                    const valueTsType = schemaExprToTsType(
-                      valueSchema,
-                      sdkFile.allStructNames,
-                      sdkFile.allArrayNames,
-                      sdkFile.allMapNames,
-                      sdkFile.cyclicSchemas,
-                    );
-                    const typeAlias = `export type ${schemaName} = { [key: string]: ${valueTsType} };`;
-                    const schemaDef = isCyclic
-                      ? `export const ${schemaName} = S.Record({key: ${wrappedKey}, value: ${wrappedValue}})${sparsePipe} as any as S.Schema<${schemaName}>;`
-                      : `export const ${schemaName} = S.Record({key: ${wrappedKey}, value: ${wrappedValue}})${sparsePipe};`;
-                    return `${typeAlias}\n${schemaDef}`;
-                  }),
+                      // Build the record schema with optional sparse annotation
+                      const sparsePipe = isSparse ? ".pipe(T.Sparse())" : "";
+
+                      // Get TypeScript type directly from the model
+                      const valueTsType = yield* shapeToTsType(s.value.target);
+
+                      // Wrap in S.partial if key is an enum (AWS returns partial maps)
+                      let recordExpr = `S.Record({key: ${wrappedKey}, value: ${wrappedValue}})${sparsePipe}`;
+                      let typeAlias: string;
+                      if (isKeyEnum) {
+                        recordExpr = `S.partial(${recordExpr})`;
+                        // Use mapped type with optional values for enum keys
+                        typeAlias = `export type ${schemaName} = { [key in ${keyTargetName}]?: ${valueTsType} };`;
+                      } else {
+                        typeAlias = `export type ${schemaName} = { [key: string]: ${valueTsType} };`;
+                      }
+
+                      const schemaDef = isCyclic
+                        ? `export const ${schemaName} = ${recordExpr} as any as S.Schema<${schemaName}>;`
+                        : `export const ${schemaName} = ${recordExpr};`;
+                      return `${typeAlias}\n${schemaDef}`;
+                    }),
+                  ),
                 ),
                 [keyTargetName, valueTargetName],
               );
@@ -2107,9 +2277,49 @@ const generateClient = Effect.fn(function* (
                     } else if (memberShape.type === "document") {
                       // Document types are converted to S.Any -> unknown
                       itemType = "unknown";
+                    } else if (memberShape.type === "map") {
+                      // Maps are inlined - get the value type
+                      const valueTarget = memberShape.value.target;
+                      if (smithyPrimitiveToTs[valueTarget]) {
+                        itemType = `{ [key: string]: ${smithyPrimitiveToTs[valueTarget]} }`;
+                      } else {
+                        const [, valueShape] = yield* findShape(valueTarget);
+                        const valueName = formatName(valueTarget);
+                        if (
+                          valueShape.type === "string" ||
+                          valueShape.type === "integer" ||
+                          valueShape.type === "long" ||
+                          valueShape.type === "float" ||
+                          valueShape.type === "double"
+                        ) {
+                          itemType = `{ [key: string]: ${smithyPrimitiveToTs[`smithy.api#${valueShape.type.charAt(0).toUpperCase() + valueShape.type.slice(1)}`] || valueName} }`;
+                        } else {
+                          itemType = `{ [key: string]: ${valueName} }`;
+                        }
+                      }
+                    } else if (memberShape.type === "list") {
+                      // Lists are inlined - get the element type
+                      const elemTarget = memberShape.member.target;
+                      if (smithyPrimitiveToTs[elemTarget]) {
+                        itemType = `${smithyPrimitiveToTs[elemTarget]}[]`;
+                      } else {
+                        const elemName = formatName(elemTarget);
+                        itemType = `${elemName}[]`;
+                      }
+                    } else if (memberShape.type === "intEnum") {
+                      // IntEnums are generated as literal unions with type aliases
+                      itemType = memberName;
+                    } else if (memberShape.type === "blob") {
+                      itemType = "Uint8Array";
+                    } else if (memberShape.type === "timestamp") {
+                      itemType = "Date";
                     } else {
-                      // Fallback: use the schema type extraction
-                      itemType = `S.Schema.Type<typeof ${memberName}>`;
+                      // No fallback - fail fast so we can fix unhandled cases
+                      return yield* Effect.fail(
+                        new UnableToTransformShapeToSchema({
+                          message: `Unhandled paginated item type: ${memberShape.type} for ${memberTarget}`,
+                        }),
+                      );
                     }
                   }
                 }
@@ -2117,12 +2327,12 @@ const generateClient = Effect.fn(function* (
             }
           }
           typeAnnotation = `{
-  (input: ${input}): Effect.Effect<${output}, ${errorUnion}, ${depsType}>;
-  pages: (input: ${input}) => ${sdkFile.streamRef}.Stream<${output}, ${errorUnion}, ${depsType}>;
-  items: (input: ${input}) => ${sdkFile.streamRef}.Stream<${itemType}, ${errorUnion}, ${depsType}>;
+  (input: ${input}): effect.Effect<${output}, ${errorUnion}, ${depsType}>;
+  pages: (input: ${input}) => stream.Stream<${output}, ${errorUnion}, ${depsType}>;
+  items: (input: ${input}) => stream.Stream<${itemType}, ${errorUnion}, ${depsType}>;
 }`;
         } else {
-          typeAnnotation = `(input: ${input}) => Effect.Effect<${output}, ${errorUnion}, ${depsType}>`;
+          typeAnnotation = `(input: ${input}) => effect.Effect<${output}, ${errorUnion}, ${depsType}>`;
         }
 
         yield* sdkFile.operations.pipe(
@@ -2152,8 +2362,10 @@ const generateClient = Effect.fn(function* (
     const errorDefinitions = errors.map((s) => s.definition).join("\n");
 
     // Generate type aliases for newtypes (e.g., type PhoneNumber = string)
-    // Skip names that would shadow built-in types or TypeScript keywords
+    // Skip names that would shadow built-in types, TypeScript keywords,
+    // or trivial primitive-like names that add no meaning
     const reservedNames = new Set([
+      // Wrapper types that shadow primitives
       "String",
       "Number",
       "Boolean",
@@ -2177,6 +2389,20 @@ const generateClient = Effect.fn(function* (
       "unknown",
       "any",
       "void",
+      // Trivial primitive-like names (just alias the primitive with no meaning)
+      "Integer",
+      "Long",
+      "Double",
+      "Float",
+      "Short",
+      "Byte",
+      "Blob",
+      "Timestamp",
+      "NullableInteger",
+      "NullableLong",
+      "NullableDouble",
+      "NullableFloat",
+      "NullableBoolean",
     ]);
     const newtypes = yield* Ref.get(sdkFile.newtypes);
     const newtypeDefinitions = [...newtypes.entries()]
@@ -2200,19 +2426,15 @@ const generateClient = Effect.fn(function* (
       sdkFile.commonErrorsRef === "CommonErr"
         ? 'import type { CommonErrors as CommonErr } from "../errors.ts";'
         : 'import type { CommonErrors } from "../errors.ts";';
-    const streamImport =
-      sdkFile.streamRef === "Strm"
-        ? 'import * as Strm from "effect/Stream";'
-        : 'import * as Stream from "effect/Stream";';
-
     // Import sensitive schemas directly to avoid circular import issues
     // (traits.ts has circular deps with protocols, but sensitive.ts doesn't)
+    // Use lowercase import aliases to avoid conflicts with schema names
     const imports = dedent`
       import { HttpClient } from "@effect/platform";
-      import * as Effect from "effect/Effect";
-      import * as Redacted from "effect/Redacted";
+      import * as effect from "effect/Effect";
+      import * as redacted from "effect/Redacted";
       import * as S from "effect/Schema";
-      ${streamImport}
+      import * as stream from "effect/Stream";
       import * as API from "../client/api.ts";
       import * as T from "../traits.ts";
       import * as C from "../category.ts";
@@ -2317,7 +2539,7 @@ const generateClient = Effect.fn(function* (
   const commonErrorsRef = hasCommonErrorsConflict
     ? "CommonErr"
     : "CommonErrors";
-  const streamRef = hasStreamConflict ? "Strm" : "Stream";
+  const streamRef = "stream"; // Always lowercase to avoid conflicts
 
   // Pre-collect error shape IDs so we can inline their fields in TaggedError
   const errorShapeIds = collectErrorShapeIds(model);

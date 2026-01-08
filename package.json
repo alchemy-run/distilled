@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "aws:clean": "bun run scripts/aws-clean.ts",
-    "build:clean": "bun run clean:install && bun run build",
+    "build:clean": "bun run install:clean && bun run build",
     "build": "bun generate && bun oxfmt ./src/services/* && tsgo -b",
     "bundle:report": "bun run scripts/bundle-size-report.ts",
     "clean": "git clean -fqdx -e .env",

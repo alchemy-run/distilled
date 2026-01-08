@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -90,21 +90,21 @@ const rules = T.EndpointResolver((p, _) => {
 export type SpaceId = string;
 export type ChannelId = string;
 export type AccessorId = string;
-export type ChannelName = string | Redacted.Redacted<string>;
-export type ChannelDescription = string | Redacted.Redacted<string>;
-export type SpaceName = string | Redacted.Redacted<string>;
+export type ChannelName = string | redacted.Redacted<string>;
+export type ChannelDescription = string | redacted.Redacted<string>;
+export type SpaceName = string | redacted.Redacted<string>;
 export type SpaceSubdomain = string;
-export type SpaceDescription = string | Redacted.Redacted<string>;
+export type SpaceDescription = string | redacted.Redacted<string>;
 export type KMSKey = string;
 export type Arn = string;
 export type AdminId = string;
 export type ListChannelsLimit = number;
 export type ListSpacesLimit = number;
-export type InviteTitle = string | Redacted.Redacted<string>;
-export type InviteBody = string | Redacted.Redacted<string>;
+export type InviteTitle = string | redacted.Redacted<string>;
+export type InviteBody = string | redacted.Redacted<string>;
 export type TagKey = string;
 export type TagValue = string;
-export type EmailDomain = string | Redacted.Redacted<string>;
+export type EmailDomain = string | redacted.Redacted<string>;
 export type ProvisioningStatus = string;
 export type ClientId = string;
 export type IdentityStoreId = string;
@@ -119,20 +119,40 @@ export type GroupCount = number;
 //# Schemas
 export type AccessorIdList = string[];
 export const AccessorIdList = S.Array(S.String);
+export type ChannelRole = "ASKER" | "EXPERT" | "MODERATOR" | "SUPPORTREQUESTOR";
+export const ChannelRole = S.Literal(
+  "ASKER",
+  "EXPERT",
+  "MODERATOR",
+  "SUPPORTREQUESTOR",
+);
+export type Role =
+  | "EXPERT"
+  | "MODERATOR"
+  | "ADMINISTRATOR"
+  | "SUPPORTREQUESTOR";
+export const Role = S.Literal(
+  "EXPERT",
+  "MODERATOR",
+  "ADMINISTRATOR",
+  "SUPPORTREQUESTOR",
+);
+export type TierLevel = "BASIC" | "STANDARD";
+export const TierLevel = S.Literal("BASIC", "STANDARD");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface BatchAddChannelRoleToAccessorsInput {
   spaceId: string;
   channelId: string;
-  accessorIds: AccessorIdList;
-  channelRole: string;
+  accessorIds: string[];
+  channelRole: ChannelRole;
 }
 export const BatchAddChannelRoleToAccessorsInput = S.suspend(() =>
   S.Struct({
     spaceId: S.String.pipe(T.HttpLabel("spaceId")),
     channelId: S.String.pipe(T.HttpLabel("channelId")),
     accessorIds: AccessorIdList,
-    channelRole: S.String,
+    channelRole: ChannelRole,
   }).pipe(
     T.all(
       T.Http({
@@ -151,14 +171,14 @@ export const BatchAddChannelRoleToAccessorsInput = S.suspend(() =>
 }) as any as S.Schema<BatchAddChannelRoleToAccessorsInput>;
 export interface BatchAddRoleInput {
   spaceId: string;
-  accessorIds: AccessorIdList;
-  role: string;
+  accessorIds: string[];
+  role: Role;
 }
 export const BatchAddRoleInput = S.suspend(() =>
   S.Struct({
     spaceId: S.String.pipe(T.HttpLabel("spaceId")),
     accessorIds: AccessorIdList,
-    role: S.String,
+    role: Role,
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/spaces/{spaceId}/roles" }),
@@ -175,15 +195,15 @@ export const BatchAddRoleInput = S.suspend(() =>
 export interface BatchRemoveChannelRoleFromAccessorsInput {
   spaceId: string;
   channelId: string;
-  accessorIds: AccessorIdList;
-  channelRole: string;
+  accessorIds: string[];
+  channelRole: ChannelRole;
 }
 export const BatchRemoveChannelRoleFromAccessorsInput = S.suspend(() =>
   S.Struct({
     spaceId: S.String.pipe(T.HttpLabel("spaceId")),
     channelId: S.String.pipe(T.HttpLabel("channelId")),
     accessorIds: AccessorIdList,
-    channelRole: S.String,
+    channelRole: ChannelRole,
   }).pipe(
     T.all(
       T.Http({
@@ -202,14 +222,14 @@ export const BatchRemoveChannelRoleFromAccessorsInput = S.suspend(() =>
 }) as any as S.Schema<BatchRemoveChannelRoleFromAccessorsInput>;
 export interface BatchRemoveRoleInput {
   spaceId: string;
-  accessorIds: AccessorIdList;
-  role: string;
+  accessorIds: string[];
+  role: Role;
 }
 export const BatchRemoveRoleInput = S.suspend(() =>
   S.Struct({
     spaceId: S.String.pipe(T.HttpLabel("spaceId")),
     accessorIds: AccessorIdList,
-    role: S.String,
+    role: Role,
   }).pipe(
     T.all(
       T.Http({ method: "PATCH", uri: "/spaces/{spaceId}/roles" }),
@@ -225,8 +245,8 @@ export const BatchRemoveRoleInput = S.suspend(() =>
 }) as any as S.Schema<BatchRemoveRoleInput>;
 export interface CreateChannelInput {
   spaceId: string;
-  channelName: string | Redacted.Redacted<string>;
-  channelDescription?: string | Redacted.Redacted<string>;
+  channelName: string | redacted.Redacted<string>;
+  channelDescription?: string | redacted.Redacted<string>;
 }
 export const CreateChannelInput = S.suspend(() =>
   S.Struct({
@@ -420,9 +440,9 @@ export const RegisterAdminResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<RegisterAdminResponse>;
 export interface SendInvitesInput {
   spaceId: string;
-  accessorIds: AccessorIdList;
-  title: string | Redacted.Redacted<string>;
-  body: string | Redacted.Redacted<string>;
+  accessorIds: string[];
+  title: string | redacted.Redacted<string>;
+  body: string | redacted.Redacted<string>;
 }
 export const SendInvitesInput = S.suspend(() =>
   S.Struct({
@@ -451,7 +471,7 @@ export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: Tags;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -476,7 +496,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -502,8 +522,8 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 export interface UpdateChannelInput {
   spaceId: string;
   channelId: string;
-  channelName: string | Redacted.Redacted<string>;
-  channelDescription?: string | Redacted.Redacted<string>;
+  channelName: string | redacted.Redacted<string>;
+  channelDescription?: string | redacted.Redacted<string>;
 }
 export const UpdateChannelInput = S.suspend(() =>
   S.Struct({
@@ -528,15 +548,17 @@ export interface UpdateChannelOutput {}
 export const UpdateChannelOutput = S.suspend(() => S.Struct({})).annotations({
   identifier: "UpdateChannelOutput",
 }) as any as S.Schema<UpdateChannelOutput>;
-export type AllowedDomainsList = string | Redacted.Redacted<string>[];
+export type FeatureEnableParameter = "ENABLED" | "DISABLED";
+export const FeatureEnableParameter = S.Literal("ENABLED", "DISABLED");
+export type AllowedDomainsList = string | redacted.Redacted<string>[];
 export const AllowedDomainsList = S.Array(SensitiveString);
 export interface SupportedEmailDomainsParameters {
-  enabled?: string;
-  allowedDomains?: AllowedDomainsList;
+  enabled?: FeatureEnableParameter;
+  allowedDomains?: string | redacted.Redacted<string>[];
 }
 export const SupportedEmailDomainsParameters = S.suspend(() =>
   S.Struct({
-    enabled: S.optional(S.String),
+    enabled: S.optional(FeatureEnableParameter),
     allowedDomains: S.optional(AllowedDomainsList),
   }),
 ).annotations({
@@ -544,8 +566,8 @@ export const SupportedEmailDomainsParameters = S.suspend(() =>
 }) as any as S.Schema<SupportedEmailDomainsParameters>;
 export interface UpdateSpaceInput {
   spaceId: string;
-  description?: string | Redacted.Redacted<string>;
-  tier?: string;
+  description?: string | redacted.Redacted<string>;
+  tier?: TierLevel;
   roleArn?: string;
   supportedEmailDomains?: SupportedEmailDomainsParameters;
 }
@@ -553,7 +575,7 @@ export const UpdateSpaceInput = S.suspend(() =>
   S.Struct({
     spaceId: S.String.pipe(T.HttpLabel("spaceId")),
     description: S.optional(SensitiveString),
-    tier: S.optional(S.String),
+    tier: S.optional(TierLevel),
     roleArn: S.optional(S.String),
     supportedEmailDomains: S.optional(SupportedEmailDomainsParameters),
   }).pipe(
@@ -573,6 +595,29 @@ export interface UpdateSpaceResponse {}
 export const UpdateSpaceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UpdateSpaceResponse",
 }) as any as S.Schema<UpdateSpaceResponse>;
+export type ChannelStatus =
+  | "CREATED"
+  | "CREATING"
+  | "CREATE_FAILED"
+  | "DELETED"
+  | "DELETING"
+  | "DELETE_FAILED";
+export const ChannelStatus = S.Literal(
+  "CREATED",
+  "CREATING",
+  "CREATE_FAILED",
+  "DELETED",
+  "DELETING",
+  "DELETE_FAILED",
+);
+export type ConfigurationStatus = "CONFIGURED" | "UNCONFIGURED";
+export const ConfigurationStatus = S.Literal("CONFIGURED", "UNCONFIGURED");
+export type VanityDomainStatus = "PENDING" | "APPROVED" | "UNAPPROVED";
+export const VanityDomainStatus = S.Literal(
+  "PENDING",
+  "APPROVED",
+  "UNAPPROVED",
+);
 export type UserAdmins = string[];
 export const UserAdmins = S.Array(S.String);
 export type GroupAdmins = string[];
@@ -588,8 +633,8 @@ export const BatchError = S.suspend(() =>
 export type BatchErrorList = BatchError[];
 export const BatchErrorList = S.Array(BatchError);
 export interface BatchAddRoleOutput {
-  addedAccessorIds: AccessorIdList;
-  errors: BatchErrorList;
+  addedAccessorIds: string[];
+  errors: BatchError[];
 }
 export const BatchAddRoleOutput = S.suspend(() =>
   S.Struct({ addedAccessorIds: AccessorIdList, errors: BatchErrorList }),
@@ -597,8 +642,8 @@ export const BatchAddRoleOutput = S.suspend(() =>
   identifier: "BatchAddRoleOutput",
 }) as any as S.Schema<BatchAddRoleOutput>;
 export interface BatchRemoveChannelRoleFromAccessorsOutput {
-  removedAccessorIds: AccessorIdList;
-  errors: BatchErrorList;
+  removedAccessorIds: string[];
+  errors: BatchError[];
 }
 export const BatchRemoveChannelRoleFromAccessorsOutput = S.suspend(() =>
   S.Struct({ removedAccessorIds: AccessorIdList, errors: BatchErrorList }),
@@ -606,8 +651,8 @@ export const BatchRemoveChannelRoleFromAccessorsOutput = S.suspend(() =>
   identifier: "BatchRemoveChannelRoleFromAccessorsOutput",
 }) as any as S.Schema<BatchRemoveChannelRoleFromAccessorsOutput>;
 export interface BatchRemoveRoleOutput {
-  removedAccessorIds: AccessorIdList;
-  errors: BatchErrorList;
+  removedAccessorIds: string[];
+  errors: BatchError[];
 }
 export const BatchRemoveRoleOutput = S.suspend(() =>
   S.Struct({ removedAccessorIds: AccessorIdList, errors: BatchErrorList }),
@@ -623,12 +668,12 @@ export const CreateChannelOutput = S.suspend(() =>
   identifier: "CreateChannelOutput",
 }) as any as S.Schema<CreateChannelOutput>;
 export interface CreateSpaceInput {
-  name: string | Redacted.Redacted<string>;
+  name: string | redacted.Redacted<string>;
   subdomain: string;
-  tier: string;
-  description?: string | Redacted.Redacted<string>;
+  tier: TierLevel;
+  description?: string | redacted.Redacted<string>;
   userKMSKey?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   roleArn?: string;
   supportedEmailDomains?: SupportedEmailDomainsParameters;
 }
@@ -636,7 +681,7 @@ export const CreateSpaceInput = S.suspend(() =>
   S.Struct({
     name: SensitiveString,
     subdomain: S.String,
-    tier: S.String,
+    tier: TierLevel,
     description: S.optional(SensitiveString),
     userKMSKey: S.optional(S.String),
     tags: S.optional(Tags),
@@ -656,28 +701,34 @@ export const CreateSpaceInput = S.suspend(() =>
   identifier: "CreateSpaceInput",
 }) as any as S.Schema<CreateSpaceInput>;
 export interface ListTagsForResourceResponse {
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
 ).annotations({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
-export type ChannelRoleList = string[];
-export const ChannelRoleList = S.Array(S.String);
-export type RoleList = string[];
-export const RoleList = S.Array(S.String);
-export type ChannelRoles = { [key: string]: ChannelRoleList };
+export type ChannelRoleList = ChannelRole[];
+export const ChannelRoleList = S.Array(ChannelRole);
+export type RoleList = Role[];
+export const RoleList = S.Array(Role);
+export type FeatureEnableStatus = "ENABLED" | "DISABLED" | "NOT_ALLOWED";
+export const FeatureEnableStatus = S.Literal(
+  "ENABLED",
+  "DISABLED",
+  "NOT_ALLOWED",
+);
+export type ChannelRoles = { [key: string]: ChannelRole[] };
 export const ChannelRoles = S.Record({ key: S.String, value: ChannelRoleList });
-export type Roles = { [key: string]: RoleList };
+export type Roles = { [key: string]: Role[] };
 export const Roles = S.Record({ key: S.String, value: RoleList });
 export interface SupportedEmailDomainsStatus {
-  enabled?: string;
-  allowedDomains?: AllowedDomainsList;
+  enabled?: FeatureEnableStatus;
+  allowedDomains?: string | redacted.Redacted<string>[];
 }
 export const SupportedEmailDomainsStatus = S.suspend(() =>
   S.Struct({
-    enabled: S.optional(S.String),
+    enabled: S.optional(FeatureEnableStatus),
     allowedDomains: S.optional(AllowedDomainsList),
   }),
 ).annotations({
@@ -686,11 +737,11 @@ export const SupportedEmailDomainsStatus = S.suspend(() =>
 export interface ChannelData {
   spaceId: string;
   channelId: string;
-  channelName: string | Redacted.Redacted<string>;
-  channelDescription?: string | Redacted.Redacted<string>;
+  channelName: string | redacted.Redacted<string>;
+  channelDescription?: string | redacted.Redacted<string>;
   createDateTime: Date;
   deleteDateTime?: Date;
-  channelStatus: string;
+  channelStatus: ChannelStatus;
   userCount: number;
   groupCount: number;
 }
@@ -702,7 +753,7 @@ export const ChannelData = S.suspend(() =>
     channelDescription: S.optional(SensitiveString),
     createDateTime: S.Date.pipe(T.TimestampFormat("date-time")),
     deleteDateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    channelStatus: S.String,
+    channelStatus: ChannelStatus,
     userCount: S.Number,
     groupCount: S.Number,
   }),
@@ -712,14 +763,14 @@ export const ChannelsList = S.Array(ChannelData);
 export interface SpaceData {
   spaceId: string;
   arn: string;
-  name: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  name: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   status: string;
-  configurationStatus: string;
-  vanityDomainStatus: string;
+  configurationStatus: ConfigurationStatus;
+  vanityDomainStatus: VanityDomainStatus;
   vanityDomain: string;
   randomDomain: string;
-  tier: string;
+  tier: TierLevel;
   storageLimit: number;
   createDateTime: Date;
   deleteDateTime?: Date;
@@ -735,11 +786,11 @@ export const SpaceData = S.suspend(() =>
     name: SensitiveString,
     description: S.optional(SensitiveString),
     status: S.String,
-    configurationStatus: S.String,
-    vanityDomainStatus: S.String,
+    configurationStatus: ConfigurationStatus,
+    vanityDomainStatus: VanityDomainStatus,
     vanityDomain: S.String,
     randomDomain: S.String,
-    tier: S.String,
+    tier: TierLevel,
     storageLimit: S.Number,
     createDateTime: S.Date.pipe(T.TimestampFormat("date-time")),
     deleteDateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -752,8 +803,8 @@ export const SpaceData = S.suspend(() =>
 export type SpacesList = SpaceData[];
 export const SpacesList = S.Array(SpaceData);
 export interface BatchAddChannelRoleToAccessorsOutput {
-  addedAccessorIds: AccessorIdList;
-  errors: BatchErrorList;
+  addedAccessorIds: string[];
+  errors: BatchError[];
 }
 export const BatchAddChannelRoleToAccessorsOutput = S.suspend(() =>
   S.Struct({ addedAccessorIds: AccessorIdList, errors: BatchErrorList }),
@@ -771,12 +822,12 @@ export const CreateSpaceOutput = S.suspend(() =>
 export interface GetChannelOutput {
   spaceId: string;
   channelId: string;
-  channelName: string | Redacted.Redacted<string>;
-  channelDescription?: string | Redacted.Redacted<string>;
+  channelName: string | redacted.Redacted<string>;
+  channelDescription?: string | redacted.Redacted<string>;
   createDateTime: Date;
   deleteDateTime?: Date;
-  channelRoles?: ChannelRoles;
-  channelStatus: string;
+  channelRoles?: { [key: string]: ChannelRole[] };
+  channelStatus: ChannelStatus;
 }
 export const GetChannelOutput = S.suspend(() =>
   S.Struct({
@@ -787,7 +838,7 @@ export const GetChannelOutput = S.suspend(() =>
     createDateTime: S.Date.pipe(T.TimestampFormat("date-time")),
     deleteDateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     channelRoles: S.optional(ChannelRoles),
-    channelStatus: S.String,
+    channelStatus: ChannelStatus,
   }),
 ).annotations({
   identifier: "GetChannelOutput",
@@ -795,24 +846,24 @@ export const GetChannelOutput = S.suspend(() =>
 export interface GetSpaceOutput {
   spaceId: string;
   arn: string;
-  name: string | Redacted.Redacted<string>;
+  name: string | redacted.Redacted<string>;
   status: string;
-  configurationStatus: string;
+  configurationStatus: ConfigurationStatus;
   clientId: string;
   identityStoreId?: string;
   applicationArn?: string;
-  description?: string | Redacted.Redacted<string>;
-  vanityDomainStatus: string;
+  description?: string | redacted.Redacted<string>;
+  vanityDomainStatus: VanityDomainStatus;
   vanityDomain: string;
   randomDomain: string;
   customerRoleArn?: string;
   createDateTime: Date;
   deleteDateTime?: Date;
-  tier: string;
+  tier: TierLevel;
   storageLimit: number;
-  userAdmins?: UserAdmins;
-  groupAdmins?: GroupAdmins;
-  roles?: Roles;
+  userAdmins?: string[];
+  groupAdmins?: string[];
+  roles?: { [key: string]: Role[] };
   userKMSKey?: string;
   userCount?: number;
   contentSize?: number;
@@ -824,18 +875,18 @@ export const GetSpaceOutput = S.suspend(() =>
     arn: S.String,
     name: SensitiveString,
     status: S.String,
-    configurationStatus: S.String,
+    configurationStatus: ConfigurationStatus,
     clientId: S.String,
     identityStoreId: S.optional(S.String),
     applicationArn: S.optional(S.String),
     description: S.optional(SensitiveString),
-    vanityDomainStatus: S.String,
+    vanityDomainStatus: VanityDomainStatus,
     vanityDomain: S.String,
     randomDomain: S.String,
     customerRoleArn: S.optional(S.String),
     createDateTime: S.Date.pipe(T.TimestampFormat("date-time")),
     deleteDateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    tier: S.String,
+    tier: TierLevel,
     storageLimit: S.Number,
     userAdmins: S.optional(UserAdmins),
     groupAdmins: S.optional(GroupAdmins),
@@ -849,7 +900,7 @@ export const GetSpaceOutput = S.suspend(() =>
   identifier: "GetSpaceOutput",
 }) as any as S.Schema<GetSpaceOutput>;
 export interface ListChannelsOutput {
-  channels: ChannelsList;
+  channels: ChannelData[];
   nextToken?: string;
 }
 export const ListChannelsOutput = S.suspend(() =>
@@ -858,7 +909,7 @@ export const ListChannelsOutput = S.suspend(() =>
   identifier: "ListChannelsOutput",
 }) as any as S.Schema<ListChannelsOutput>;
 export interface ListSpacesOutput {
-  spaces: SpacesList;
+  spaces: SpaceData[];
   nextToken?: string;
 }
 export const ListSpacesOutput = S.suspend(() =>
@@ -866,6 +917,17 @@ export const ListSpacesOutput = S.suspend(() =>
 ).annotations({
   identifier: "ListSpacesOutput",
 }) as any as S.Schema<ListSpacesOutput>;
+export type ValidationExceptionReason =
+  | "unknownOperation"
+  | "cannotParse"
+  | "fieldValidationFailed"
+  | "other";
+export const ValidationExceptionReason = S.Literal(
+  "unknownOperation",
+  "cannotParse",
+  "fieldValidationFailed",
+  "other",
+);
 export interface ValidationExceptionField {
   name: string;
   message: string;
@@ -923,7 +985,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     message: S.String,
-    reason: S.String,
+    reason: ValidationExceptionReason,
     fieldList: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
@@ -935,7 +997,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listChannels: {
   (
     input: ListChannelsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListChannelsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -946,7 +1008,7 @@ export const listChannels: {
   >;
   pages: (
     input: ListChannelsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListChannelsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -957,7 +1019,7 @@ export const listChannels: {
   >;
   items: (
     input: ListChannelsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ChannelData,
     | AccessDeniedException
     | InternalServerException
@@ -987,7 +1049,7 @@ export const listChannels: {
  */
 export const getChannel: (
   input: GetChannelInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetChannelOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1012,7 +1074,7 @@ export const getChannel: (
  */
 export const getSpace: (
   input: GetSpaceInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSpaceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1037,7 +1099,7 @@ export const getSpace: (
  */
 export const updateChannel: (
   input: UpdateChannelInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateChannelOutput,
   | AccessDeniedException
   | ConflictException
@@ -1064,7 +1126,7 @@ export const updateChannel: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1089,7 +1151,7 @@ export const listTagsForResource: (
  */
 export const deregisterAdmin: (
   input: DeregisterAdminInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterAdminResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1114,7 +1176,7 @@ export const deregisterAdmin: (
  */
 export const registerAdmin: (
   input: RegisterAdminInput,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterAdminResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1139,7 +1201,7 @@ export const registerAdmin: (
  */
 export const sendInvites: (
   input: SendInvitesInput,
-) => Effect.Effect<
+) => effect.Effect<
   SendInvitesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1164,7 +1226,7 @@ export const sendInvites: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1189,7 +1251,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1214,7 +1276,7 @@ export const untagResource: (
  */
 export const batchAddRole: (
   input: BatchAddRoleInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchAddRoleOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1239,7 +1301,7 @@ export const batchAddRole: (
  */
 export const batchRemoveChannelRoleFromAccessors: (
   input: BatchRemoveChannelRoleFromAccessorsInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchRemoveChannelRoleFromAccessorsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1264,7 +1326,7 @@ export const batchRemoveChannelRoleFromAccessors: (
  */
 export const batchRemoveRole: (
   input: BatchRemoveRoleInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchRemoveRoleOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1289,7 +1351,7 @@ export const batchRemoveRole: (
  */
 export const batchAddChannelRoleToAccessors: (
   input: BatchAddChannelRoleToAccessorsInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchAddChannelRoleToAccessorsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1314,7 +1376,7 @@ export const batchAddChannelRoleToAccessors: (
  */
 export const updateSpace: (
   input: UpdateSpaceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSpaceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1342,7 +1404,7 @@ export const updateSpace: (
 export const listSpaces: {
   (
     input: ListSpacesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSpacesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1353,7 +1415,7 @@ export const listSpaces: {
   >;
   pages: (
     input: ListSpacesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSpacesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1364,7 +1426,7 @@ export const listSpaces: {
   >;
   items: (
     input: ListSpacesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SpaceData,
     | AccessDeniedException
     | InternalServerException
@@ -1394,7 +1456,7 @@ export const listSpaces: {
  */
 export const deleteSpace: (
   input: DeleteSpaceInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSpaceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1419,7 +1481,7 @@ export const deleteSpace: (
  */
 export const createChannel: (
   input: CreateChannelInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateChannelOutput,
   | AccessDeniedException
   | ConflictException
@@ -1448,7 +1510,7 @@ export const createChannel: (
  */
 export const createSpace: (
   input: CreateSpaceInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSpaceOutput,
   | AccessDeniedException
   | ConflictException

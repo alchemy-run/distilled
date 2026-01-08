@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -121,8 +121,8 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type BillingViewArn = string;
-export type BillingViewName = string | Redacted.Redacted<string>;
-export type BillingViewDescription = string | Redacted.Redacted<string>;
+export type BillingViewName = string | redacted.Redacted<string>;
+export type BillingViewDescription = string | redacted.Redacted<string>;
 export type ClientToken = string;
 export type ResourceArn = string;
 export type AccountId = string;
@@ -146,13 +146,26 @@ export type BillingViewSourceViewsList = string[];
 export const BillingViewSourceViewsList = S.Array(S.String);
 export type BillingViewArnList = string[];
 export const BillingViewArnList = S.Array(S.String);
-export type BillingViewTypeList = string[];
-export const BillingViewTypeList = S.Array(S.String);
+export type BillingViewType =
+  | "PRIMARY"
+  | "BILLING_GROUP"
+  | "CUSTOM"
+  | "BILLING_TRANSFER"
+  | "BILLING_TRANSFER_SHOWBACK";
+export const BillingViewType = S.Literal(
+  "PRIMARY",
+  "BILLING_GROUP",
+  "CUSTOM",
+  "BILLING_TRANSFER",
+  "BILLING_TRANSFER_SHOWBACK",
+);
+export type BillingViewTypeList = BillingViewType[];
+export const BillingViewTypeList = S.Array(BillingViewType);
 export type ResourceTagKeyList = string[];
 export const ResourceTagKeyList = S.Array(S.String);
 export interface AssociateSourceViewsRequest {
   arn: string;
-  sourceViews: BillingViewSourceViewsList;
+  sourceViews: string[];
 }
 export const AssociateSourceViewsRequest = S.suspend(() =>
   S.Struct({ arn: S.String, sourceViews: BillingViewSourceViewsList }).pipe(
@@ -174,7 +187,7 @@ export const DeleteBillingViewRequest = S.suspend(() =>
 }) as any as S.Schema<DeleteBillingViewRequest>;
 export interface DisassociateSourceViewsRequest {
   arn: string;
-  sourceViews: BillingViewSourceViewsList;
+  sourceViews: string[];
 }
 export const DisassociateSourceViewsRequest = S.suspend(() =>
   S.Struct({ arn: S.String, sourceViews: BillingViewSourceViewsList }).pipe(
@@ -240,7 +253,7 @@ export type ResourceTagList = ResourceTag[];
 export const ResourceTagList = S.Array(ResourceTag);
 export interface TagResourceRequest {
   resourceArn: string;
-  resourceTags: ResourceTagList;
+  resourceTags: ResourceTag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, resourceTags: ResourceTagList }).pipe(
@@ -255,7 +268,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  resourceTagKeys: ResourceTagKeyList;
+  resourceTagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, resourceTagKeys: ResourceTagKeyList }).pipe(
@@ -268,20 +281,22 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
+export type Dimension = "LINKED_ACCOUNT";
+export const Dimension = S.Literal("LINKED_ACCOUNT");
 export type Values = string[];
 export const Values = S.Array(S.String);
 export interface DimensionValues {
-  key: string;
-  values: Values;
+  key: Dimension;
+  values: string[];
 }
 export const DimensionValues = S.suspend(() =>
-  S.Struct({ key: S.String, values: Values }),
+  S.Struct({ key: Dimension, values: Values }),
 ).annotations({
   identifier: "DimensionValues",
 }) as any as S.Schema<DimensionValues>;
 export interface TagValues {
   key: string;
-  values: Values;
+  values: string[];
 }
 export const TagValues = S.suspend(() =>
   S.Struct({ key: S.String, values: Values }),
@@ -314,8 +329,8 @@ export const Expression = S.suspend(() =>
 ).annotations({ identifier: "Expression" }) as any as S.Schema<Expression>;
 export interface UpdateBillingViewRequest {
   arn: string;
-  name?: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  name?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   dataFilterExpression?: Expression;
 }
 export const UpdateBillingViewRequest = S.suspend(() =>
@@ -330,6 +345,8 @@ export const UpdateBillingViewRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateBillingViewRequest",
 }) as any as S.Schema<UpdateBillingViewRequest>;
+export type SearchOption = "STARTS_WITH";
+export const SearchOption = S.Literal("STARTS_WITH");
 export interface ActiveTimeRange {
   activeAfterInclusive: Date;
   activeBeforeInclusive: Date;
@@ -343,11 +360,11 @@ export const ActiveTimeRange = S.suspend(() =>
   identifier: "ActiveTimeRange",
 }) as any as S.Schema<ActiveTimeRange>;
 export interface StringSearch {
-  searchOption: string;
+  searchOption: SearchOption;
   searchValue: string;
 }
 export const StringSearch = S.suspend(() =>
-  S.Struct({ searchOption: S.String, searchValue: S.String }),
+  S.Struct({ searchOption: SearchOption, searchValue: S.String }),
 ).annotations({ identifier: "StringSearch" }) as any as S.Schema<StringSearch>;
 export type StringSearches = StringSearch[];
 export const StringSearches = S.Array(StringSearch);
@@ -386,9 +403,9 @@ export const GetResourcePolicyResponse = S.suspend(() =>
 }) as any as S.Schema<GetResourcePolicyResponse>;
 export interface ListBillingViewsRequest {
   activeTimeRange?: ActiveTimeRange;
-  arns?: BillingViewArnList;
-  billingViewTypes?: BillingViewTypeList;
-  names?: StringSearches;
+  arns?: string[];
+  billingViewTypes?: BillingViewType[];
+  names?: StringSearch[];
   ownerAccountId?: string;
   sourceAccountId?: string;
   maxResults?: number;
@@ -411,7 +428,7 @@ export const ListBillingViewsRequest = S.suspend(() =>
   identifier: "ListBillingViewsRequest",
 }) as any as S.Schema<ListBillingViewsRequest>;
 export interface ListSourceViewsForBillingViewResponse {
-  sourceViews: BillingViewSourceViewsList;
+  sourceViews: string[];
   nextToken?: string;
 }
 export const ListSourceViewsForBillingViewResponse = S.suspend(() =>
@@ -423,7 +440,7 @@ export const ListSourceViewsForBillingViewResponse = S.suspend(() =>
   identifier: "ListSourceViewsForBillingViewResponse",
 }) as any as S.Schema<ListSourceViewsForBillingViewResponse>;
 export interface ListTagsForResourceResponse {
-  resourceTags?: ResourceTagList;
+  resourceTags?: ResourceTag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ resourceTags: S.optional(ResourceTagList) }),
@@ -442,15 +459,45 @@ export const UpdateBillingViewResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateBillingViewResponse",
 }) as any as S.Schema<UpdateBillingViewResponse>;
-export type BillingViewStatusReasons = string[];
-export const BillingViewStatusReasons = S.Array(S.String);
+export type BillingViewStatus =
+  | "HEALTHY"
+  | "UNHEALTHY"
+  | "CREATING"
+  | "UPDATING";
+export const BillingViewStatus = S.Literal(
+  "HEALTHY",
+  "UNHEALTHY",
+  "CREATING",
+  "UPDATING",
+);
+export type BillingViewStatusReason =
+  | "SOURCE_VIEW_UNHEALTHY"
+  | "SOURCE_VIEW_UPDATING"
+  | "SOURCE_VIEW_ACCESS_DENIED"
+  | "SOURCE_VIEW_NOT_FOUND"
+  | "CYCLIC_DEPENDENCY"
+  | "SOURCE_VIEW_DEPTH_EXCEEDED"
+  | "AGGREGATE_SOURCE"
+  | "VIEW_OWNER_NOT_MANAGEMENT_ACCOUNT";
+export const BillingViewStatusReason = S.Literal(
+  "SOURCE_VIEW_UNHEALTHY",
+  "SOURCE_VIEW_UPDATING",
+  "SOURCE_VIEW_ACCESS_DENIED",
+  "SOURCE_VIEW_NOT_FOUND",
+  "CYCLIC_DEPENDENCY",
+  "SOURCE_VIEW_DEPTH_EXCEEDED",
+  "AGGREGATE_SOURCE",
+  "VIEW_OWNER_NOT_MANAGEMENT_ACCOUNT",
+);
+export type BillingViewStatusReasons = BillingViewStatusReason[];
+export const BillingViewStatusReasons = S.Array(BillingViewStatusReason);
 export interface CreateBillingViewRequest {
-  name: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
-  sourceViews: BillingViewSourceViewsList;
+  name: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  sourceViews: string[];
   dataFilterExpression?: Expression;
   clientToken?: string;
-  resourceTags?: ResourceTagList;
+  resourceTags?: ResourceTag[];
 }
 export const CreateBillingViewRequest = S.suspend(() =>
   S.Struct({
@@ -467,12 +514,12 @@ export const CreateBillingViewRequest = S.suspend(() =>
   identifier: "CreateBillingViewRequest",
 }) as any as S.Schema<CreateBillingViewRequest>;
 export interface BillingViewHealthStatus {
-  statusCode?: string;
-  statusReasons?: BillingViewStatusReasons;
+  statusCode?: BillingViewStatus;
+  statusReasons?: BillingViewStatusReason[];
 }
 export const BillingViewHealthStatus = S.suspend(() =>
   S.Struct({
-    statusCode: S.optional(S.String),
+    statusCode: S.optional(BillingViewStatus),
     statusReasons: S.optional(BillingViewStatusReasons),
   }),
 ).annotations({
@@ -480,9 +527,9 @@ export const BillingViewHealthStatus = S.suspend(() =>
 }) as any as S.Schema<BillingViewHealthStatus>;
 export interface BillingViewElement {
   arn?: string;
-  name?: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
-  billingViewType?: string;
+  name?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  billingViewType?: BillingViewType;
   ownerAccountId?: string;
   sourceAccountId?: string;
   dataFilterExpression?: Expression;
@@ -498,7 +545,7 @@ export const BillingViewElement = S.suspend(() =>
     arn: S.optional(S.String),
     name: S.optional(SensitiveString),
     description: S.optional(SensitiveString),
-    billingViewType: S.optional(S.String),
+    billingViewType: S.optional(BillingViewType),
     ownerAccountId: S.optional(S.String),
     sourceAccountId: S.optional(S.String),
     dataFilterExpression: S.optional(Expression),
@@ -516,11 +563,11 @@ export const BillingViewElement = S.suspend(() =>
 }) as any as S.Schema<BillingViewElement>;
 export interface BillingViewListElement {
   arn?: string;
-  name?: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  name?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   ownerAccountId?: string;
   sourceAccountId?: string;
-  billingViewType?: string;
+  billingViewType?: BillingViewType;
   healthStatus?: BillingViewHealthStatus;
 }
 export const BillingViewListElement = S.suspend(() =>
@@ -530,7 +577,7 @@ export const BillingViewListElement = S.suspend(() =>
     description: S.optional(SensitiveString),
     ownerAccountId: S.optional(S.String),
     sourceAccountId: S.optional(S.String),
-    billingViewType: S.optional(S.String),
+    billingViewType: S.optional(BillingViewType),
     healthStatus: S.optional(BillingViewHealthStatus),
   }),
 ).annotations({
@@ -559,7 +606,7 @@ export const GetBillingViewResponse = S.suspend(() =>
   identifier: "GetBillingViewResponse",
 }) as any as S.Schema<GetBillingViewResponse>;
 export interface ListBillingViewsResponse {
-  billingViews: BillingViewList;
+  billingViews: BillingViewListElement[];
   nextToken?: string;
 }
 export const ListBillingViewsResponse = S.suspend(() =>
@@ -567,6 +614,17 @@ export const ListBillingViewsResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListBillingViewsResponse",
 }) as any as S.Schema<ListBillingViewsResponse>;
+export type ValidationExceptionReason =
+  | "unknownOperation"
+  | "cannotParse"
+  | "fieldValidationFailed"
+  | "other";
+export const ValidationExceptionReason = S.Literal(
+  "unknownOperation",
+  "cannotParse",
+  "fieldValidationFailed",
+  "other",
+);
 export interface ValidationExceptionField {
   name: string;
   message: string;
@@ -627,7 +685,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     message: S.String,
-    reason: S.String,
+    reason: ValidationExceptionReason,
     fieldList: S.optional(ValidationExceptionFieldList),
   },
   T.AwsQueryError({ code: "BillingValidation", httpResponseCode: 400 }),
@@ -639,7 +697,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const deleteBillingView: (
   input: DeleteBillingViewRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBillingViewResponse,
   | AccessDeniedException
   | ConflictException
@@ -664,7 +722,7 @@ export const deleteBillingView: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -689,7 +747,7 @@ export const untagResource: (
  */
 export const getResourcePolicy: (
   input: GetResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -715,7 +773,7 @@ export const getResourcePolicy: (
 export const listSourceViewsForBillingView: {
   (
     input: ListSourceViewsForBillingViewRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSourceViewsForBillingViewResponse,
     | AccessDeniedException
     | InternalServerException
@@ -727,7 +785,7 @@ export const listSourceViewsForBillingView: {
   >;
   pages: (
     input: ListSourceViewsForBillingViewRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSourceViewsForBillingViewResponse,
     | AccessDeniedException
     | InternalServerException
@@ -739,7 +797,7 @@ export const listSourceViewsForBillingView: {
   >;
   items: (
     input: ListSourceViewsForBillingViewRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BillingViewArn,
     | AccessDeniedException
     | InternalServerException
@@ -771,7 +829,7 @@ export const listSourceViewsForBillingView: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -796,7 +854,7 @@ export const listTagsForResource: (
  */
 export const disassociateSourceViews: (
   input: DisassociateSourceViewsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateSourceViewsResponse,
   | AccessDeniedException
   | BillingViewHealthStatusException
@@ -825,7 +883,7 @@ export const disassociateSourceViews: (
  */
 export const getBillingView: (
   input: GetBillingViewRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBillingViewResponse,
   | AccessDeniedException
   | InternalServerException
@@ -853,7 +911,7 @@ export const getBillingView: (
 export const listBillingViews: {
   (
     input: ListBillingViewsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBillingViewsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -864,7 +922,7 @@ export const listBillingViews: {
   >;
   pages: (
     input: ListBillingViewsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBillingViewsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -875,7 +933,7 @@ export const listBillingViews: {
   >;
   items: (
     input: ListBillingViewsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BillingViewListElement,
     | AccessDeniedException
     | InternalServerException
@@ -905,7 +963,7 @@ export const listBillingViews: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -930,7 +988,7 @@ export const tagResource: (
  */
 export const associateSourceViews: (
   input: AssociateSourceViewsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateSourceViewsResponse,
   | AccessDeniedException
   | BillingViewHealthStatusException
@@ -961,7 +1019,7 @@ export const associateSourceViews: (
  */
 export const updateBillingView: (
   input: UpdateBillingViewRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateBillingViewResponse,
   | AccessDeniedException
   | BillingViewHealthStatusException
@@ -992,7 +1050,7 @@ export const updateBillingView: (
  */
 export const createBillingView: (
   input: CreateBillingViewRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBillingViewResponse,
   | AccessDeniedException
   | BillingViewHealthStatusException

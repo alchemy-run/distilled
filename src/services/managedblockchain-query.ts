@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -236,7 +236,7 @@ export const ContractFilter = S.suspend(() =>
   identifier: "ContractFilter",
 }) as any as S.Schema<ContractFilter>;
 export interface AddressIdentifierFilter {
-  transactionEventToAddress: ChainAddresses;
+  transactionEventToAddress: string[];
 }
 export const AddressIdentifierFilter = S.suspend(() =>
   S.Struct({ transactionEventToAddress: ChainAddresses }),
@@ -260,7 +260,7 @@ export const VoutFilter = S.suspend(() =>
   S.Struct({ voutSpent: S.Boolean }),
 ).annotations({ identifier: "VoutFilter" }) as any as S.Schema<VoutFilter>;
 export interface ConfirmationStatusFilter {
-  include: ConfirmationStatusIncludeList;
+  include: string[];
 }
 export const ConfirmationStatusFilter = S.suspend(() =>
   S.Struct({ include: ConfirmationStatusIncludeList }),
@@ -304,7 +304,7 @@ export const ListTransactionsSort = S.suspend(() =>
   identifier: "ListTransactionsSort",
 }) as any as S.Schema<ListTransactionsSort>;
 export interface BatchGetTokenBalanceInput {
-  getTokenBalanceInputs?: GetTokenBalanceInputList;
+  getTokenBalanceInputs?: BatchGetTokenBalanceInputItem[];
 }
 export const BatchGetTokenBalanceInput = S.suspend(() =>
   S.Struct({
@@ -591,7 +591,7 @@ export const GetTransactionOutput = S.suspend(() =>
   identifier: "GetTransactionOutput",
 }) as any as S.Schema<GetTransactionOutput>;
 export interface ListFilteredTransactionEventsOutput {
-  events: TransactionEventList;
+  events: TransactionEvent[];
   nextToken?: string;
 }
 export const ListFilteredTransactionEventsOutput = S.suspend(() =>
@@ -600,7 +600,7 @@ export const ListFilteredTransactionEventsOutput = S.suspend(() =>
   identifier: "ListFilteredTransactionEventsOutput",
 }) as any as S.Schema<ListFilteredTransactionEventsOutput>;
 export interface ListTransactionEventsOutput {
-  events: TransactionEventList;
+  events: TransactionEvent[];
   nextToken?: string;
 }
 export const ListTransactionEventsOutput = S.suspend(() =>
@@ -723,8 +723,8 @@ export const TransactionOutputItem = S.suspend(() =>
 export type TransactionOutputList = TransactionOutputItem[];
 export const TransactionOutputList = S.Array(TransactionOutputItem);
 export interface BatchGetTokenBalanceOutput {
-  tokenBalances: BatchGetTokenBalanceOutputList;
-  errors: BatchGetTokenBalanceErrors;
+  tokenBalances: BatchGetTokenBalanceOutputItem[];
+  errors: BatchGetTokenBalanceErrorItem[];
 }
 export const BatchGetTokenBalanceOutput = S.suspend(() =>
   S.Struct({
@@ -751,7 +751,7 @@ export const GetAssetContractOutput = S.suspend(() =>
   identifier: "GetAssetContractOutput",
 }) as any as S.Schema<GetAssetContractOutput>;
 export interface ListAssetContractsOutput {
-  contracts: AssetContractList;
+  contracts: AssetContract[];
   nextToken?: string;
 }
 export const ListAssetContractsOutput = S.suspend(() =>
@@ -760,7 +760,7 @@ export const ListAssetContractsOutput = S.suspend(() =>
   identifier: "ListAssetContractsOutput",
 }) as any as S.Schema<ListAssetContractsOutput>;
 export interface ListTokenBalancesOutput {
-  tokenBalances: TokenBalanceList;
+  tokenBalances: TokenBalance[];
   nextToken?: string;
 }
 export const ListTokenBalancesOutput = S.suspend(() =>
@@ -772,7 +772,7 @@ export const ListTokenBalancesOutput = S.suspend(() =>
   identifier: "ListTokenBalancesOutput",
 }) as any as S.Schema<ListTokenBalancesOutput>;
 export interface ListTransactionsOutput {
-  transactions: TransactionOutputList;
+  transactions: TransactionOutputItem[];
   nextToken?: string;
 }
 export const ListTransactionsOutput = S.suspend(() =>
@@ -852,7 +852,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listAssetContracts: {
   (
     input: ListAssetContractsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAssetContractsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -864,7 +864,7 @@ export const listAssetContracts: {
   >;
   pages: (
     input: ListAssetContractsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAssetContractsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -876,7 +876,7 @@ export const listAssetContracts: {
   >;
   items: (
     input: ListAssetContractsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AssetContract,
     | AccessDeniedException
     | InternalServerException
@@ -912,7 +912,7 @@ export const listAssetContracts: {
  */
 export const getTransaction: (
   input: GetTransactionInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetTransactionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -943,7 +943,7 @@ export const getTransaction: (
  */
 export const batchGetTokenBalance: (
   input: BatchGetTokenBalanceInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetTokenBalanceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -976,7 +976,7 @@ export const batchGetTokenBalance: (
  */
 export const getAssetContract: (
   input: GetAssetContractInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetAssetContractOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1014,7 +1014,7 @@ export const getAssetContract: (
 export const listTokenBalances: {
   (
     input: ListTokenBalancesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTokenBalancesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1026,7 +1026,7 @@ export const listTokenBalances: {
   >;
   pages: (
     input: ListTokenBalancesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTokenBalancesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1038,7 +1038,7 @@ export const listTokenBalances: {
   >;
   items: (
     input: ListTokenBalancesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TokenBalance,
     | AccessDeniedException
     | InternalServerException
@@ -1071,7 +1071,7 @@ export const listTokenBalances: {
 export const listTransactions: {
   (
     input: ListTransactionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTransactionsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1083,7 +1083,7 @@ export const listTransactions: {
   >;
   pages: (
     input: ListTransactionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTransactionsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1095,7 +1095,7 @@ export const listTransactions: {
   >;
   items: (
     input: ListTransactionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TransactionOutputItem,
     | AccessDeniedException
     | InternalServerException
@@ -1130,7 +1130,7 @@ export const listTransactions: {
 export const listFilteredTransactionEvents: {
   (
     input: ListFilteredTransactionEventsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFilteredTransactionEventsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1142,7 +1142,7 @@ export const listFilteredTransactionEvents: {
   >;
   pages: (
     input: ListFilteredTransactionEventsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFilteredTransactionEventsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1154,7 +1154,7 @@ export const listFilteredTransactionEvents: {
   >;
   items: (
     input: ListFilteredTransactionEventsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TransactionEvent,
     | AccessDeniedException
     | InternalServerException
@@ -1191,7 +1191,7 @@ export const listFilteredTransactionEvents: {
 export const listTransactionEvents: {
   (
     input: ListTransactionEventsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTransactionEventsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1203,7 +1203,7 @@ export const listTransactionEvents: {
   >;
   pages: (
     input: ListTransactionEventsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTransactionEventsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1215,7 +1215,7 @@ export const listTransactionEvents: {
   >;
   items: (
     input: ListTransactionEventsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TransactionEvent,
     | AccessDeniedException
     | InternalServerException
@@ -1250,7 +1250,7 @@ export const listTransactionEvents: {
  */
 export const getTokenBalance: (
   input: GetTokenBalanceInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetTokenBalanceOutput,
   | AccessDeniedException
   | InternalServerException

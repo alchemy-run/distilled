@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -99,7 +99,7 @@ export type SourcePhoneNumber = string;
 export type QueueId = string;
 export type TagValue = string;
 export type ClientToken = string;
-export type DestinationPhoneNumber = string | Redacted.Redacted<string>;
+export type DestinationPhoneNumber = string | redacted.Redacted<string>;
 export type EncryptionType = string;
 export type EncryptionKey = string;
 export type XAmazonErrorType = string;
@@ -234,7 +234,7 @@ export const GetCampaignStateRequest = S.suspend(() =>
   identifier: "GetCampaignStateRequest",
 }) as any as S.Schema<GetCampaignStateRequest>;
 export interface GetCampaignStateBatchRequest {
-  campaignIds: CampaignIdList;
+  campaignIds: string[];
 }
 export const GetCampaignStateBatchRequest = S.suspend(() =>
   S.Struct({ campaignIds: CampaignIdList }).pipe(
@@ -399,7 +399,7 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface TagResourceRequest {
   arn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")), tags: TagMap }).pipe(
@@ -421,7 +421,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   arn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -487,7 +487,7 @@ export const DialerConfig = S.Union(
 );
 export interface UpdateCampaignDialerConfigRequest {
   id: string;
-  dialerConfig: (typeof DialerConfig)["Type"];
+  dialerConfig: DialerConfig;
 }
 export const UpdateCampaignDialerConfigRequest = S.suspend(() =>
   S.Struct({
@@ -587,7 +587,7 @@ export const GetCampaignStateResponse = S.suspend(() =>
   identifier: "GetCampaignStateResponse",
 }) as any as S.Schema<GetCampaignStateResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -665,9 +665,9 @@ export interface Campaign {
   arn: string;
   name: string;
   connectInstanceId: string;
-  dialerConfig: (typeof DialerConfig)["Type"];
+  dialerConfig: DialerConfig;
   outboundCallConfig: OutboundCallConfig;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const Campaign = S.suspend(() =>
   S.Struct({
@@ -748,9 +748,9 @@ export const CampaignFilters = S.suspend(() =>
 }) as any as S.Schema<CampaignFilters>;
 export interface DialRequest {
   clientToken: string;
-  phoneNumber: string | Redacted.Redacted<string>;
+  phoneNumber: string | redacted.Redacted<string>;
   expirationTime: Date;
-  attributes: Attributes;
+  attributes: { [key: string]: string };
 }
 export const DialRequest = S.suspend(() =>
   S.Struct({
@@ -765,9 +765,9 @@ export const DialRequestList = S.Array(DialRequest);
 export interface CreateCampaignRequest {
   name: string;
   connectInstanceId: string;
-  dialerConfig: (typeof DialerConfig)["Type"];
+  dialerConfig: DialerConfig;
   outboundCallConfig: OutboundCallConfig;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateCampaignRequest = S.suspend(() =>
   S.Struct({
@@ -798,8 +798,8 @@ export const DescribeCampaignResponse = S.suspend(() =>
   identifier: "DescribeCampaignResponse",
 }) as any as S.Schema<DescribeCampaignResponse>;
 export interface GetCampaignStateBatchResponse {
-  successfulRequests?: SuccessfulCampaignStateResponseList;
-  failedRequests?: FailedCampaignStateResponseList;
+  successfulRequests?: SuccessfulCampaignStateResponse[];
+  failedRequests?: FailedCampaignStateResponse[];
 }
 export const GetCampaignStateBatchResponse = S.suspend(() =>
   S.Struct({
@@ -852,7 +852,7 @@ export const ListCampaignsRequest = S.suspend(() =>
 }) as any as S.Schema<ListCampaignsRequest>;
 export interface PutDialRequestBatchRequest {
   id: string;
-  dialRequests: DialRequestList;
+  dialRequests: DialRequest[];
 }
 export const PutDialRequestBatchRequest = S.suspend(() =>
   S.Struct({
@@ -884,7 +884,7 @@ export const StartInstanceOnboardingJobResponse = S.suspend(() =>
 export interface CreateCampaignResponse {
   id?: string;
   arn?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateCampaignResponse = S.suspend(() =>
   S.Struct({
@@ -942,7 +942,7 @@ export type FailedRequestList = FailedRequest[];
 export const FailedRequestList = S.Array(FailedRequest);
 export interface ListCampaignsResponse {
   nextToken?: string;
-  campaignSummaryList?: CampaignSummaryList;
+  campaignSummaryList?: CampaignSummary[];
 }
 export const ListCampaignsResponse = S.suspend(() =>
   S.Struct({
@@ -953,8 +953,8 @@ export const ListCampaignsResponse = S.suspend(() =>
   identifier: "ListCampaignsResponse",
 }) as any as S.Schema<ListCampaignsResponse>;
 export interface PutDialRequestBatchResponse {
-  successfulRequests?: SuccessfulRequestList;
-  failedRequests?: FailedRequestList;
+  successfulRequests?: SuccessfulRequest[];
+  failedRequests?: FailedRequest[];
 }
 export const PutDialRequestBatchResponse = S.suspend(() =>
   S.Struct({
@@ -1039,7 +1039,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  */
 export const deleteCampaign: (
   input: DeleteCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCampaignResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1063,7 +1063,7 @@ export const deleteCampaign: (
 export const listCampaigns: {
   (
     input: ListCampaignsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCampaignsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1073,7 +1073,7 @@ export const listCampaigns: {
   >;
   pages: (
     input: ListCampaignsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCampaignsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1083,7 +1083,7 @@ export const listCampaigns: {
   >;
   items: (
     input: ListCampaignsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CampaignSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1107,7 +1107,7 @@ export const listCampaigns: {
  */
 export const putDialRequestBatch: (
   input: PutDialRequestBatchRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutDialRequestBatchResponse,
   | AccessDeniedException
   | ConflictException
@@ -1136,7 +1136,7 @@ export const putDialRequestBatch: (
  */
 export const createCampaign: (
   input: CreateCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCampaignResponse,
   | AccessDeniedException
   | ConflictException
@@ -1165,7 +1165,7 @@ export const createCampaign: (
  */
 export const getCampaignStateBatch: (
   input: GetCampaignStateBatchRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCampaignStateBatchResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1188,7 +1188,7 @@ export const getCampaignStateBatch: (
  */
 export const deleteConnectInstanceConfig: (
   input: DeleteConnectInstanceConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConnectInstanceConfigResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1215,7 +1215,7 @@ export const deleteConnectInstanceConfig: (
  */
 export const describeCampaign: (
   input: DescribeCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCampaignResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1238,7 +1238,7 @@ export const describeCampaign: (
  */
 export const getConnectInstanceConfig: (
   input: GetConnectInstanceConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConnectInstanceConfigResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1261,7 +1261,7 @@ export const getConnectInstanceConfig: (
  */
 export const getInstanceOnboardingJobStatus: (
   input: GetInstanceOnboardingJobStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInstanceOnboardingJobStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1284,7 +1284,7 @@ export const getInstanceOnboardingJobStatus: (
  */
 export const updateCampaignOutboundCallConfig: (
   input: UpdateCampaignOutboundCallConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCampaignOutboundCallConfigResponse,
   | AccessDeniedException
   | ConflictException
@@ -1311,7 +1311,7 @@ export const updateCampaignOutboundCallConfig: (
  */
 export const getCampaignState: (
   input: GetCampaignStateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCampaignStateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1336,7 +1336,7 @@ export const getCampaignState: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1361,7 +1361,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1386,7 +1386,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1411,7 +1411,7 @@ export const untagResource: (
  */
 export const updateCampaignDialerConfig: (
   input: UpdateCampaignDialerConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCampaignDialerConfigResponse,
   | AccessDeniedException
   | ConflictException
@@ -1436,7 +1436,7 @@ export const updateCampaignDialerConfig: (
  */
 export const updateCampaignName: (
   input: UpdateCampaignNameRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCampaignNameResponse,
   | AccessDeniedException
   | ConflictException
@@ -1461,7 +1461,7 @@ export const updateCampaignName: (
  */
 export const startInstanceOnboardingJob: (
   input: StartInstanceOnboardingJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartInstanceOnboardingJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -1488,7 +1488,7 @@ export const startInstanceOnboardingJob: (
  */
 export const pauseCampaign: (
   input: PauseCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PauseCampaignResponse,
   | AccessDeniedException
   | ConflictException
@@ -1517,7 +1517,7 @@ export const pauseCampaign: (
  */
 export const deleteInstanceOnboardingJob: (
   input: DeleteInstanceOnboardingJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteInstanceOnboardingJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1542,7 +1542,7 @@ export const deleteInstanceOnboardingJob: (
  */
 export const resumeCampaign: (
   input: ResumeCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResumeCampaignResponse,
   | AccessDeniedException
   | ConflictException
@@ -1571,7 +1571,7 @@ export const resumeCampaign: (
  */
 export const startCampaign: (
   input: StartCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartCampaignResponse,
   | AccessDeniedException
   | ConflictException
@@ -1600,7 +1600,7 @@ export const startCampaign: (
  */
 export const stopCampaign: (
   input: StopCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopCampaignResponse,
   | AccessDeniedException
   | ConflictException

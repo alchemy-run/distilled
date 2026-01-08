@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -98,17 +98,19 @@ export type Ttl = number;
 export type ErrorMessage = string;
 
 //# Schemas
+export type Service = "TURN";
+export const Service = S.Literal("TURN");
 export interface GetIceServerConfigRequest {
-  ChannelARN: string;
+  ChannelARN?: string;
   ClientId?: string;
-  Service?: string;
+  Service?: Service;
   Username?: string;
 }
 export const GetIceServerConfigRequest = S.suspend(() =>
   S.Struct({
-    ChannelARN: S.String,
+    ChannelARN: S.optional(S.String),
     ClientId: S.optional(S.String),
-    Service: S.optional(S.String),
+    Service: S.optional(Service),
     Username: S.optional(S.String),
   }).pipe(
     T.all(
@@ -124,15 +126,15 @@ export const GetIceServerConfigRequest = S.suspend(() =>
   identifier: "GetIceServerConfigRequest",
 }) as any as S.Schema<GetIceServerConfigRequest>;
 export interface SendAlexaOfferToMasterRequest {
-  ChannelARN: string;
-  SenderClientId: string;
-  MessagePayload: string;
+  ChannelARN?: string;
+  SenderClientId?: string;
+  MessagePayload?: string;
 }
 export const SendAlexaOfferToMasterRequest = S.suspend(() =>
   S.Struct({
-    ChannelARN: S.String,
-    SenderClientId: S.String,
-    MessagePayload: S.String,
+    ChannelARN: S.optional(S.String),
+    SenderClientId: S.optional(S.String),
+    MessagePayload: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/send-alexa-offer-to-master" }),
@@ -157,7 +159,7 @@ export const SendAlexaOfferToMasterResponse = S.suspend(() =>
 export type Uris = string[];
 export const Uris = S.Array(S.String);
 export interface IceServer {
-  Uris?: Uris;
+  Uris?: string[];
   Username?: string;
   Password?: string;
   Ttl?: number;
@@ -173,7 +175,7 @@ export const IceServer = S.suspend(() =>
 export type IceServerList = IceServer[];
 export const IceServerList = S.Array(IceServer);
 export interface GetIceServerConfigResponse {
-  IceServerList?: IceServerList;
+  IceServerList?: IceServer[];
 }
 export const GetIceServerConfigResponse = S.suspend(() =>
   S.Struct({ IceServerList: S.optional(IceServerList) }),
@@ -218,7 +220,7 @@ export class SessionExpiredException extends S.TaggedError<SessionExpiredExcepti
  */
 export const sendAlexaOfferToMaster: (
   input: SendAlexaOfferToMasterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendAlexaOfferToMasterResponse,
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -256,7 +258,7 @@ export const sendAlexaOfferToMaster: (
  */
 export const getIceServerConfig: (
   input: GetIceServerConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIceServerConfigResponse,
   | ClientLimitExceededException
   | InvalidArgumentException

@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -106,6 +106,10 @@ export type SHA256Hash = string;
 export type ItemName = string;
 
 //# Schemas
+export type StorageClass = "TEMPORAL";
+export const StorageClass = S.Literal("TEMPORAL");
+export type UploadAvailability = "STANDARD" | "STREAMING";
+export const UploadAvailability = S.Literal("STANDARD", "STREAMING");
 export interface DeleteObjectRequest {
   Path: string;
 }
@@ -199,8 +203,8 @@ export interface PutObjectRequest {
   Path: string;
   ContentType?: string;
   CacheControl?: string;
-  StorageClass?: string;
-  UploadAvailability?: string;
+  StorageClass?: StorageClass;
+  UploadAvailability?: UploadAvailability;
 }
 export const PutObjectRequest = S.suspend(() =>
   S.Struct({
@@ -208,10 +212,10 @@ export const PutObjectRequest = S.suspend(() =>
     Path: S.String.pipe(T.HttpLabel("Path")),
     ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    StorageClass: S.optional(S.String).pipe(
+    StorageClass: S.optional(StorageClass).pipe(
       T.HttpHeader("x-amz-storage-class"),
     ),
-    UploadAvailability: S.optional(S.String).pipe(
+    UploadAvailability: S.optional(UploadAvailability).pipe(
       T.HttpHeader("x-amz-upload-availability"),
     ),
   }).pipe(
@@ -277,20 +281,22 @@ export const GetObjectResponse = S.suspend(() =>
 export interface PutObjectResponse {
   ContentSHA256?: string;
   ETag?: string;
-  StorageClass?: string;
+  StorageClass?: StorageClass;
 }
 export const PutObjectResponse = S.suspend(() =>
   S.Struct({
     ContentSHA256: S.optional(S.String),
     ETag: S.optional(S.String),
-    StorageClass: S.optional(S.String),
+    StorageClass: S.optional(StorageClass),
   }).pipe(ns),
 ).annotations({
   identifier: "PutObjectResponse",
 }) as any as S.Schema<PutObjectResponse>;
+export type ItemType = "OBJECT" | "FOLDER";
+export const ItemType = S.Literal("OBJECT", "FOLDER");
 export interface Item {
   Name?: string;
-  Type?: string;
+  Type?: ItemType;
   ETag?: string;
   LastModified?: Date;
   ContentType?: string;
@@ -299,7 +305,7 @@ export interface Item {
 export const Item = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(ItemType),
     ETag: S.optional(S.String),
     LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ContentType: S.optional(S.String),
@@ -309,7 +315,7 @@ export const Item = S.suspend(() =>
 export type ItemList = Item[];
 export const ItemList = S.Array(Item);
 export interface ListItemsResponse {
-  Items?: ItemList;
+  Items?: Item[];
   NextToken?: string;
 }
 export const ListItemsResponse = S.suspend(() =>
@@ -347,21 +353,21 @@ export class RequestedRangeNotSatisfiableException extends S.TaggedError<Request
 export const listItems: {
   (
     input: ListItemsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListItemsResponse,
     ContainerNotFoundException | InternalServerError | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListItemsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListItemsResponse,
     ContainerNotFoundException | InternalServerError | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListItemsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     ContainerNotFoundException | InternalServerError | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -381,7 +387,7 @@ export const listItems: {
  */
 export const putObject: (
   input: PutObjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutObjectResponse,
   ContainerNotFoundException | InternalServerError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -395,7 +401,7 @@ export const putObject: (
  */
 export const deleteObject: (
   input: DeleteObjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteObjectResponse,
   | ContainerNotFoundException
   | InternalServerError
@@ -416,7 +422,7 @@ export const deleteObject: (
  */
 export const describeObject: (
   input: DescribeObjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeObjectResponse,
   | ContainerNotFoundException
   | InternalServerError
@@ -437,7 +443,7 @@ export const describeObject: (
  */
 export const getObject: (
   input: GetObjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetObjectResponse,
   | ContainerNotFoundException
   | InternalServerError

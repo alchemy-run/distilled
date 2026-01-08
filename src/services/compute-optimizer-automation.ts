@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -119,12 +119,32 @@ export const GetEnrollmentConfigurationRequest = S.suspend(() =>
 }) as any as S.Schema<GetEnrollmentConfigurationRequest>;
 export type AccountIdList = string[];
 export const AccountIdList = S.Array(S.String);
-export type RecommendedActionTypeList = string[];
-export const RecommendedActionTypeList = S.Array(S.String);
+export type RuleType = "OrganizationRule" | "AccountRule";
+export const RuleType = S.Literal("OrganizationRule", "AccountRule");
+export type RecommendedActionType =
+  | "SnapshotAndDeleteUnattachedEbsVolume"
+  | "UpgradeEbsVolumeType";
+export const RecommendedActionType = S.Literal(
+  "SnapshotAndDeleteUnattachedEbsVolume",
+  "UpgradeEbsVolumeType",
+);
+export type RecommendedActionTypeList = RecommendedActionType[];
+export const RecommendedActionTypeList = S.Array(RecommendedActionType);
+export type RuleStatus = "Active" | "Inactive";
+export const RuleStatus = S.Literal("Active", "Inactive");
+export type EnrollmentStatus = "Active" | "Inactive" | "Pending" | "Failed";
+export const EnrollmentStatus = S.Literal(
+  "Active",
+  "Inactive",
+  "Pending",
+  "Failed",
+);
+export type OrganizationRuleMode = "AnyAllowed" | "NoneAllowed";
+export const OrganizationRuleMode = S.Literal("AnyAllowed", "NoneAllowed");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface AssociateAccountsRequest {
-  accountIds: AccountIdList;
+  accountIds: string[];
   clientToken?: string;
 }
 export const AssociateAccountsRequest = S.suspend(() =>
@@ -160,7 +180,7 @@ export const DeleteAutomationRuleResponse = S.suspend(() =>
   identifier: "DeleteAutomationRuleResponse",
 }) as any as S.Schema<DeleteAutomationRuleResponse>;
 export interface DisassociateAccountsRequest {
-  accountIds: AccountIdList;
+  accountIds: string[];
   clientToken?: string;
 }
 export const DisassociateAccountsRequest = S.suspend(() =>
@@ -194,16 +214,16 @@ export const GetAutomationRuleRequest = S.suspend(() =>
   identifier: "GetAutomationRuleRequest",
 }) as any as S.Schema<GetAutomationRuleRequest>;
 export interface GetEnrollmentConfigurationResponse {
-  status: string;
+  status: EnrollmentStatus;
   statusReason?: string;
-  organizationRuleMode?: string;
+  organizationRuleMode?: OrganizationRuleMode;
   lastUpdatedTimestamp?: Date;
 }
 export const GetEnrollmentConfigurationResponse = S.suspend(() =>
   S.Struct({
-    status: S.String,
+    status: EnrollmentStatus,
     statusReason: S.optional(S.String),
-    organizationRuleMode: S.optional(S.String),
+    organizationRuleMode: S.optional(OrganizationRuleMode),
     lastUpdatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -245,7 +265,7 @@ export type FilterValues = string[];
 export const FilterValues = S.Array(S.String);
 export interface AutomationEventFilter {
   name: string;
-  values: FilterValues;
+  values: string[];
 }
 export const AutomationEventFilter = S.suspend(() =>
   S.Struct({ name: S.String, values: FilterValues }),
@@ -255,7 +275,7 @@ export const AutomationEventFilter = S.suspend(() =>
 export type AutomationEventFilterList = AutomationEventFilter[];
 export const AutomationEventFilterList = S.Array(AutomationEventFilter);
 export interface ListAutomationEventSummariesRequest {
-  filters?: AutomationEventFilterList;
+  filters?: AutomationEventFilter[];
   startDateInclusive?: string;
   endDateExclusive?: string;
   maxResults?: number;
@@ -277,22 +297,49 @@ export const ListAutomationEventSummariesRequest = S.suspend(() =>
 export type OrganizationConfigurationAccountIds = string[];
 export const OrganizationConfigurationAccountIds = S.Array(S.String);
 export interface OrganizationScope {
-  accountIds?: OrganizationConfigurationAccountIds;
+  accountIds?: string[];
 }
 export const OrganizationScope = S.suspend(() =>
   S.Struct({ accountIds: S.optional(OrganizationConfigurationAccountIds) }),
 ).annotations({
   identifier: "OrganizationScope",
 }) as any as S.Schema<OrganizationScope>;
+export type ComparisonOperator =
+  | "StringEquals"
+  | "StringNotEquals"
+  | "StringEqualsIgnoreCase"
+  | "StringNotEqualsIgnoreCase"
+  | "StringLike"
+  | "StringNotLike"
+  | "NumericEquals"
+  | "NumericNotEquals"
+  | "NumericLessThan"
+  | "NumericLessThanEquals"
+  | "NumericGreaterThan"
+  | "NumericGreaterThanEquals";
+export const ComparisonOperator = S.Literal(
+  "StringEquals",
+  "StringNotEquals",
+  "StringEqualsIgnoreCase",
+  "StringNotEqualsIgnoreCase",
+  "StringLike",
+  "StringNotLike",
+  "NumericEquals",
+  "NumericNotEquals",
+  "NumericLessThan",
+  "NumericLessThanEquals",
+  "NumericGreaterThan",
+  "NumericGreaterThanEquals",
+);
 export type StringCriteriaValues = string[];
 export const StringCriteriaValues = S.Array(S.String);
 export interface StringCriteriaCondition {
-  comparison?: string;
-  values?: StringCriteriaValues;
+  comparison?: ComparisonOperator;
+  values?: string[];
 }
 export const StringCriteriaCondition = S.suspend(() =>
   S.Struct({
-    comparison: S.optional(S.String),
+    comparison: S.optional(ComparisonOperator),
     values: S.optional(StringCriteriaValues),
   }),
 ).annotations({
@@ -303,12 +350,12 @@ export const StringCriteriaConditionList = S.Array(StringCriteriaCondition);
 export type IntegerList = number[];
 export const IntegerList = S.Array(S.Number);
 export interface IntegerCriteriaCondition {
-  comparison?: string;
-  values?: IntegerList;
+  comparison?: ComparisonOperator;
+  values?: number[];
 }
 export const IntegerCriteriaCondition = S.suspend(() =>
   S.Struct({
-    comparison: S.optional(S.String),
+    comparison: S.optional(ComparisonOperator),
     values: S.optional(IntegerList),
   }),
 ).annotations({
@@ -319,12 +366,12 @@ export const IntegerCriteriaConditionList = S.Array(IntegerCriteriaCondition);
 export type DoubleList = number[];
 export const DoubleList = S.Array(S.Number);
 export interface DoubleCriteriaCondition {
-  comparison?: string;
-  values?: DoubleList;
+  comparison?: ComparisonOperator;
+  values?: number[];
 }
 export const DoubleCriteriaCondition = S.suspend(() =>
   S.Struct({
-    comparison: S.optional(S.String),
+    comparison: S.optional(ComparisonOperator),
     values: S.optional(DoubleList),
   }),
 ).annotations({
@@ -333,13 +380,13 @@ export const DoubleCriteriaCondition = S.suspend(() =>
 export type DoubleCriteriaConditionList = DoubleCriteriaCondition[];
 export const DoubleCriteriaConditionList = S.Array(DoubleCriteriaCondition);
 export interface ResourceTagsCriteriaCondition {
-  comparison?: string;
+  comparison?: ComparisonOperator;
   key?: string;
-  values?: StringCriteriaValues;
+  values?: string[];
 }
 export const ResourceTagsCriteriaCondition = S.suspend(() =>
   S.Struct({
-    comparison: S.optional(S.String),
+    comparison: S.optional(ComparisonOperator),
     key: S.optional(S.String),
     values: S.optional(StringCriteriaValues),
   }),
@@ -351,14 +398,14 @@ export const ResourceTagsCriteriaConditionList = S.Array(
   ResourceTagsCriteriaCondition,
 );
 export interface Criteria {
-  region?: StringCriteriaConditionList;
-  resourceArn?: StringCriteriaConditionList;
-  ebsVolumeType?: StringCriteriaConditionList;
-  ebsVolumeSizeInGib?: IntegerCriteriaConditionList;
-  estimatedMonthlySavings?: DoubleCriteriaConditionList;
-  resourceTag?: ResourceTagsCriteriaConditionList;
-  lookBackPeriodInDays?: IntegerCriteriaConditionList;
-  restartNeeded?: StringCriteriaConditionList;
+  region?: StringCriteriaCondition[];
+  resourceArn?: StringCriteriaCondition[];
+  ebsVolumeType?: StringCriteriaCondition[];
+  ebsVolumeSizeInGib?: IntegerCriteriaCondition[];
+  estimatedMonthlySavings?: DoubleCriteriaCondition[];
+  resourceTag?: ResourceTagsCriteriaCondition[];
+  lookBackPeriodInDays?: IntegerCriteriaCondition[];
+  restartNeeded?: StringCriteriaCondition[];
 }
 export const Criteria = S.suspend(() =>
   S.Struct({
@@ -373,16 +420,16 @@ export const Criteria = S.suspend(() =>
   }),
 ).annotations({ identifier: "Criteria" }) as any as S.Schema<Criteria>;
 export interface ListAutomationRulePreviewSummariesRequest {
-  ruleType: string;
+  ruleType: RuleType;
   organizationScope?: OrganizationScope;
-  recommendedActionTypes: RecommendedActionTypeList;
+  recommendedActionTypes: RecommendedActionType[];
   criteria?: Criteria;
   maxResults?: number;
   nextToken?: string;
 }
 export const ListAutomationRulePreviewSummariesRequest = S.suspend(() =>
   S.Struct({
-    ruleType: S.String,
+    ruleType: RuleType,
     organizationScope: S.optional(OrganizationScope),
     recommendedActionTypes: RecommendedActionTypeList,
     criteria: S.optional(Criteria),
@@ -396,7 +443,7 @@ export const ListAutomationRulePreviewSummariesRequest = S.suspend(() =>
 }) as any as S.Schema<ListAutomationRulePreviewSummariesRequest>;
 export interface RecommendedActionFilter {
   name: string;
-  values: FilterValues;
+  values: string[];
 }
 export const RecommendedActionFilter = S.suspend(() =>
   S.Struct({ name: S.String, values: FilterValues }),
@@ -406,7 +453,7 @@ export const RecommendedActionFilter = S.suspend(() =>
 export type RecommendedActionFilterList = RecommendedActionFilter[];
 export const RecommendedActionFilterList = S.Array(RecommendedActionFilter);
 export interface ListRecommendedActionSummariesRequest {
-  filters?: RecommendedActionFilterList;
+  filters?: RecommendedActionFilter[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -468,7 +515,7 @@ export const TagList = S.Array(Tag);
 export interface TagResourceRequest {
   resourceArn: string;
   ruleRevision: number;
-  tags: TagList;
+  tags: Tag[];
   clientToken?: string;
 }
 export const TagResourceRequest = S.suspend(() =>
@@ -490,7 +537,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 export interface UntagResourceRequest {
   resourceArn: string;
   ruleRevision: number;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
   clientToken?: string;
 }
 export const UntagResourceRequest = S.suspend(() =>
@@ -509,13 +556,18 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
+export type RuleApplyOrder = "BeforeAccountRules" | "AfterAccountRules";
+export const RuleApplyOrder = S.Literal(
+  "BeforeAccountRules",
+  "AfterAccountRules",
+);
 export interface OrganizationConfiguration {
-  ruleApplyOrder?: string;
-  accountIds?: OrganizationConfigurationAccountIds;
+  ruleApplyOrder?: RuleApplyOrder;
+  accountIds?: string[];
 }
 export const OrganizationConfiguration = S.suspend(() =>
   S.Struct({
-    ruleApplyOrder: S.optional(S.String),
+    ruleApplyOrder: S.optional(RuleApplyOrder),
     accountIds: S.optional(OrganizationConfigurationAccountIds),
   }),
 ).annotations({
@@ -538,13 +590,13 @@ export interface UpdateAutomationRuleRequest {
   ruleRevision: number;
   name?: string;
   description?: string;
-  ruleType?: string;
+  ruleType?: RuleType;
   organizationConfiguration?: OrganizationConfiguration;
   priority?: string;
-  recommendedActionTypes?: RecommendedActionTypeList;
+  recommendedActionTypes?: RecommendedActionType[];
   criteria?: Criteria;
   schedule?: Schedule;
-  status?: string;
+  status?: RuleStatus;
   clientToken?: string;
 }
 export const UpdateAutomationRuleRequest = S.suspend(() =>
@@ -553,13 +605,13 @@ export const UpdateAutomationRuleRequest = S.suspend(() =>
     ruleRevision: S.Number,
     name: S.optional(S.String),
     description: S.optional(S.String),
-    ruleType: S.optional(S.String),
+    ruleType: S.optional(RuleType),
     organizationConfiguration: S.optional(OrganizationConfiguration),
     priority: S.optional(S.String),
     recommendedActionTypes: S.optional(RecommendedActionTypeList),
     criteria: S.optional(Criteria),
     schedule: S.optional(Schedule),
-    status: S.optional(S.String),
+    status: S.optional(RuleStatus),
     clientToken: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -568,11 +620,14 @@ export const UpdateAutomationRuleRequest = S.suspend(() =>
   identifier: "UpdateAutomationRuleRequest",
 }) as any as S.Schema<UpdateAutomationRuleRequest>;
 export interface UpdateEnrollmentConfigurationRequest {
-  status: string;
+  status: EnrollmentStatus;
   clientToken?: string;
 }
 export const UpdateEnrollmentConfigurationRequest = S.suspend(() =>
-  S.Struct({ status: S.String, clientToken: S.optional(S.String) }).pipe(
+  S.Struct({
+    status: EnrollmentStatus,
+    clientToken: S.optional(S.String),
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -580,9 +635,39 @@ export const UpdateEnrollmentConfigurationRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateEnrollmentConfigurationRequest>;
 export type StringList = string[];
 export const StringList = S.Array(S.String);
+export type EventType =
+  | "SnapshotAndDeleteUnattachedEbsVolume"
+  | "UpgradeEbsVolumeType";
+export const EventType = S.Literal(
+  "SnapshotAndDeleteUnattachedEbsVolume",
+  "UpgradeEbsVolumeType",
+);
+export type EventStatus =
+  | "Ready"
+  | "InProgress"
+  | "Complete"
+  | "Failed"
+  | "Cancelled"
+  | "RollbackReady"
+  | "RollbackInProgress"
+  | "RollbackComplete"
+  | "RollbackFailed";
+export const EventStatus = S.Literal(
+  "Ready",
+  "InProgress",
+  "Complete",
+  "Failed",
+  "Cancelled",
+  "RollbackReady",
+  "RollbackInProgress",
+  "RollbackComplete",
+  "RollbackFailed",
+);
+export type ResourceType = "EbsVolume";
+export const ResourceType = S.Literal("EbsVolume");
 export interface Filter {
   name: string;
-  values: FilterValues;
+  values: string[];
 }
 export const Filter = S.suspend(() =>
   S.Struct({ name: S.String, values: FilterValues }),
@@ -590,8 +675,8 @@ export const Filter = S.suspend(() =>
 export type FilterList = Filter[];
 export const FilterList = S.Array(Filter);
 export interface AssociateAccountsResponse {
-  accountIds?: AccountIdList;
-  errors?: StringList;
+  accountIds?: string[];
+  errors?: string[];
 }
 export const AssociateAccountsResponse = S.suspend(() =>
   S.Struct({
@@ -602,8 +687,8 @@ export const AssociateAccountsResponse = S.suspend(() =>
   identifier: "AssociateAccountsResponse",
 }) as any as S.Schema<AssociateAccountsResponse>;
 export interface DisassociateAccountsResponse {
-  accountIds?: AccountIdList;
-  errors?: StringList;
+  accountIds?: string[];
+  errors?: string[];
 }
 export const DisassociateAccountsResponse = S.suspend(() =>
   S.Struct({
@@ -618,16 +703,16 @@ export interface GetAutomationRuleResponse {
   ruleId?: string;
   name?: string;
   description?: string;
-  ruleType?: string;
+  ruleType?: RuleType;
   ruleRevision?: number;
   accountId?: string;
   organizationConfiguration?: OrganizationConfiguration;
   priority?: string;
-  recommendedActionTypes?: RecommendedActionTypeList;
+  recommendedActionTypes?: RecommendedActionType[];
   criteria?: Criteria;
   schedule?: Schedule;
-  status?: string;
-  tags?: TagList;
+  status?: RuleStatus;
+  tags?: Tag[];
   createdTimestamp?: Date;
   lastUpdatedTimestamp?: Date;
 }
@@ -637,7 +722,7 @@ export const GetAutomationRuleResponse = S.suspend(() =>
     ruleId: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    ruleType: S.optional(S.String),
+    ruleType: S.optional(RuleType),
     ruleRevision: S.optional(S.Number),
     accountId: S.optional(S.String),
     organizationConfiguration: S.optional(OrganizationConfiguration),
@@ -645,7 +730,7 @@ export const GetAutomationRuleResponse = S.suspend(() =>
     recommendedActionTypes: S.optional(RecommendedActionTypeList),
     criteria: S.optional(Criteria),
     schedule: S.optional(Schedule),
-    status: S.optional(S.String),
+    status: S.optional(RuleStatus),
     tags: S.optional(TagList),
     createdTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -658,7 +743,7 @@ export const GetAutomationRuleResponse = S.suspend(() =>
   identifier: "GetAutomationRuleResponse",
 }) as any as S.Schema<GetAutomationRuleResponse>;
 export interface ListAutomationEventsRequest {
-  filters?: AutomationEventFilterList;
+  filters?: AutomationEventFilter[];
   startTimeInclusive?: Date;
   endTimeExclusive?: Date;
   maxResults?: number;
@@ -682,16 +767,16 @@ export const ListAutomationEventsRequest = S.suspend(() =>
   identifier: "ListAutomationEventsRequest",
 }) as any as S.Schema<ListAutomationEventsRequest>;
 export interface ListAutomationRulePreviewRequest {
-  ruleType: string;
+  ruleType: RuleType;
   organizationScope?: OrganizationScope;
-  recommendedActionTypes: RecommendedActionTypeList;
+  recommendedActionTypes: RecommendedActionType[];
   criteria?: Criteria;
   maxResults?: number;
   nextToken?: string;
 }
 export const ListAutomationRulePreviewRequest = S.suspend(() =>
   S.Struct({
-    ruleType: S.String,
+    ruleType: RuleType,
     organizationScope: S.optional(OrganizationScope),
     recommendedActionTypes: RecommendedActionTypeList,
     criteria: S.optional(Criteria),
@@ -704,7 +789,7 @@ export const ListAutomationRulePreviewRequest = S.suspend(() =>
   identifier: "ListAutomationRulePreviewRequest",
 }) as any as S.Schema<ListAutomationRulePreviewRequest>;
 export interface ListAutomationRulesRequest {
-  filters?: FilterList;
+  filters?: Filter[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -720,7 +805,7 @@ export const ListAutomationRulesRequest = S.suspend(() =>
   identifier: "ListAutomationRulesRequest",
 }) as any as S.Schema<ListAutomationRulesRequest>;
 export interface ListRecommendedActionsRequest {
-  filters?: RecommendedActionFilterList;
+  filters?: RecommendedActionFilter[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -736,7 +821,7 @@ export const ListRecommendedActionsRequest = S.suspend(() =>
   identifier: "ListRecommendedActionsRequest",
 }) as any as S.Schema<ListRecommendedActionsRequest>;
 export interface ListTagsForResourceResponse {
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagList) }),
@@ -745,12 +830,12 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface RollbackAutomationEventResponse {
   eventId?: string;
-  eventStatus?: string;
+  eventStatus?: EventStatus;
 }
 export const RollbackAutomationEventResponse = S.suspend(() =>
   S.Struct({
     eventId: S.optional(S.String),
-    eventStatus: S.optional(S.String),
+    eventStatus: S.optional(EventStatus),
   }),
 ).annotations({
   identifier: "RollbackAutomationEventResponse",
@@ -758,13 +843,13 @@ export const RollbackAutomationEventResponse = S.suspend(() =>
 export interface StartAutomationEventResponse {
   recommendedActionId?: string;
   eventId?: string;
-  eventStatus?: string;
+  eventStatus?: EventStatus;
 }
 export const StartAutomationEventResponse = S.suspend(() =>
   S.Struct({
     recommendedActionId: S.optional(S.String),
     eventId: S.optional(S.String),
-    eventStatus: S.optional(S.String),
+    eventStatus: S.optional(EventStatus),
   }),
 ).annotations({
   identifier: "StartAutomationEventResponse",
@@ -774,13 +859,13 @@ export interface UpdateAutomationRuleResponse {
   ruleRevision?: number;
   name?: string;
   description?: string;
-  ruleType?: string;
+  ruleType?: RuleType;
   organizationConfiguration?: OrganizationConfiguration;
   priority?: string;
-  recommendedActionTypes?: RecommendedActionTypeList;
+  recommendedActionTypes?: RecommendedActionType[];
   criteria?: Criteria;
   schedule?: Schedule;
-  status?: string;
+  status?: RuleStatus;
   createdTimestamp?: Date;
   lastUpdatedTimestamp?: Date;
 }
@@ -790,13 +875,13 @@ export const UpdateAutomationRuleResponse = S.suspend(() =>
     ruleRevision: S.optional(S.Number),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    ruleType: S.optional(S.String),
+    ruleType: S.optional(RuleType),
     organizationConfiguration: S.optional(OrganizationConfiguration),
     priority: S.optional(S.String),
     recommendedActionTypes: S.optional(RecommendedActionTypeList),
     criteria: S.optional(Criteria),
     schedule: S.optional(Schedule),
-    status: S.optional(S.String),
+    status: S.optional(RuleStatus),
     createdTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -808,47 +893,70 @@ export const UpdateAutomationRuleResponse = S.suspend(() =>
   identifier: "UpdateAutomationRuleResponse",
 }) as any as S.Schema<UpdateAutomationRuleResponse>;
 export interface UpdateEnrollmentConfigurationResponse {
-  status: string;
+  status: EnrollmentStatus;
   statusReason?: string;
   lastUpdatedTimestamp: Date;
 }
 export const UpdateEnrollmentConfigurationResponse = S.suspend(() =>
   S.Struct({
-    status: S.String,
+    status: EnrollmentStatus,
     statusReason: S.optional(S.String),
     lastUpdatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
 ).annotations({
   identifier: "UpdateEnrollmentConfigurationResponse",
 }) as any as S.Schema<UpdateEnrollmentConfigurationResponse>;
+export type SavingsEstimationMode = "BeforeDiscount" | "AfterDiscount";
+export const SavingsEstimationMode = S.Literal(
+  "BeforeDiscount",
+  "AfterDiscount",
+);
+export type StepType =
+  | "CreateEbsSnapshot"
+  | "DeleteEbsVolume"
+  | "ModifyEbsVolume"
+  | "CreateEbsVolume";
+export const StepType = S.Literal(
+  "CreateEbsSnapshot",
+  "DeleteEbsVolume",
+  "ModifyEbsVolume",
+  "CreateEbsVolume",
+);
+export type StepStatus = "Ready" | "InProgress" | "Complete" | "Failed";
+export const StepStatus = S.Literal(
+  "Ready",
+  "InProgress",
+  "Complete",
+  "Failed",
+);
 export interface EstimatedMonthlySavings {
   currency: string;
   beforeDiscountSavings: number;
   afterDiscountSavings: number;
-  savingsEstimationMode: string;
+  savingsEstimationMode: SavingsEstimationMode;
 }
 export const EstimatedMonthlySavings = S.suspend(() =>
   S.Struct({
     currency: S.String,
     beforeDiscountSavings: S.Number,
     afterDiscountSavings: S.Number,
-    savingsEstimationMode: S.String,
+    savingsEstimationMode: SavingsEstimationMode,
   }),
 ).annotations({
   identifier: "EstimatedMonthlySavings",
 }) as any as S.Schema<EstimatedMonthlySavings>;
 export interface AccountInfo {
   accountId: string;
-  status: string;
-  organizationRuleMode: string;
+  status: EnrollmentStatus;
+  organizationRuleMode: OrganizationRuleMode;
   statusReason?: string;
   lastUpdatedTimestamp: Date;
 }
 export const AccountInfo = S.suspend(() =>
   S.Struct({
     accountId: S.String,
-    status: S.String,
-    organizationRuleMode: S.String,
+    status: EnrollmentStatus,
+    organizationRuleMode: OrganizationRuleMode,
     statusReason: S.optional(S.String),
     lastUpdatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
@@ -858,8 +966,8 @@ export const AccountInfoList = S.Array(AccountInfo);
 export interface AutomationEventStep {
   eventId?: string;
   stepId?: string;
-  stepType?: string;
-  stepStatus?: string;
+  stepType?: StepType;
+  stepStatus?: StepStatus;
   resourceId?: string;
   startTimestamp?: Date;
   completedTimestamp?: Date;
@@ -869,8 +977,8 @@ export const AutomationEventStep = S.suspend(() =>
   S.Struct({
     eventId: S.optional(S.String),
     stepId: S.optional(S.String),
-    stepType: S.optional(S.String),
-    stepStatus: S.optional(S.String),
+    stepType: S.optional(StepType),
+    stepStatus: S.optional(StepStatus),
     resourceId: S.optional(S.String),
     startTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     completedTimestamp: S.optional(
@@ -886,27 +994,27 @@ export const AutomationEventSteps = S.Array(AutomationEventStep);
 export interface CreateAutomationRuleRequest {
   name: string;
   description?: string;
-  ruleType: string;
+  ruleType: RuleType;
   organizationConfiguration?: OrganizationConfiguration;
   priority?: string;
-  recommendedActionTypes: RecommendedActionTypeList;
+  recommendedActionTypes: RecommendedActionType[];
   criteria?: Criteria;
   schedule: Schedule;
-  status: string;
-  tags?: TagList;
+  status: RuleStatus;
+  tags?: Tag[];
   clientToken?: string;
 }
 export const CreateAutomationRuleRequest = S.suspend(() =>
   S.Struct({
     name: S.String,
     description: S.optional(S.String),
-    ruleType: S.String,
+    ruleType: RuleType,
     organizationConfiguration: S.optional(OrganizationConfiguration),
     priority: S.optional(S.String),
     recommendedActionTypes: RecommendedActionTypeList,
     criteria: S.optional(Criteria),
     schedule: Schedule,
-    status: S.String,
+    status: RuleStatus,
     tags: S.optional(TagList),
     clientToken: S.optional(S.String),
   }).pipe(
@@ -918,8 +1026,8 @@ export const CreateAutomationRuleRequest = S.suspend(() =>
 export interface GetAutomationEventResponse {
   eventId?: string;
   eventDescription?: string;
-  eventType?: string;
-  eventStatus?: string;
+  eventType?: EventType;
+  eventStatus?: EventStatus;
   eventStatusReason?: string;
   resourceArn?: string;
   resourceId?: string;
@@ -927,7 +1035,7 @@ export interface GetAutomationEventResponse {
   accountId?: string;
   region?: string;
   ruleId?: string;
-  resourceType?: string;
+  resourceType?: ResourceType;
   createdTimestamp?: Date;
   completedTimestamp?: Date;
   estimatedMonthlySavings?: EstimatedMonthlySavings;
@@ -936,8 +1044,8 @@ export const GetAutomationEventResponse = S.suspend(() =>
   S.Struct({
     eventId: S.optional(S.String),
     eventDescription: S.optional(S.String),
-    eventType: S.optional(S.String),
-    eventStatus: S.optional(S.String),
+    eventType: S.optional(EventType),
+    eventStatus: S.optional(EventStatus),
     eventStatusReason: S.optional(S.String),
     resourceArn: S.optional(S.String),
     resourceId: S.optional(S.String),
@@ -945,7 +1053,7 @@ export const GetAutomationEventResponse = S.suspend(() =>
     accountId: S.optional(S.String),
     region: S.optional(S.String),
     ruleId: S.optional(S.String),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     createdTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -958,7 +1066,7 @@ export const GetAutomationEventResponse = S.suspend(() =>
   identifier: "GetAutomationEventResponse",
 }) as any as S.Schema<GetAutomationEventResponse>;
 export interface ListAccountsResponse {
-  accounts: AccountInfoList;
+  accounts: AccountInfo[];
   nextToken?: string;
 }
 export const ListAccountsResponse = S.suspend(() =>
@@ -967,7 +1075,7 @@ export const ListAccountsResponse = S.suspend(() =>
   identifier: "ListAccountsResponse",
 }) as any as S.Schema<ListAccountsResponse>;
 export interface ListAutomationEventStepsResponse {
-  automationEventSteps?: AutomationEventSteps;
+  automationEventSteps?: AutomationEventStep[];
   nextToken?: string;
 }
 export const ListAutomationEventStepsResponse = S.suspend(() =>
@@ -1042,8 +1150,8 @@ export const RecommendedActionTotal = S.suspend(() =>
 export interface AutomationEvent {
   eventId?: string;
   eventDescription?: string;
-  eventType?: string;
-  eventStatus?: string;
+  eventType?: EventType;
+  eventStatus?: EventStatus;
   eventStatusReason?: string;
   resourceArn?: string;
   resourceId?: string;
@@ -1051,7 +1159,7 @@ export interface AutomationEvent {
   accountId?: string;
   region?: string;
   ruleId?: string;
-  resourceType?: string;
+  resourceType?: ResourceType;
   createdTimestamp?: Date;
   completedTimestamp?: Date;
   estimatedMonthlySavings?: EstimatedMonthlySavings;
@@ -1060,8 +1168,8 @@ export const AutomationEvent = S.suspend(() =>
   S.Struct({
     eventId: S.optional(S.String),
     eventDescription: S.optional(S.String),
-    eventType: S.optional(S.String),
-    eventStatus: S.optional(S.String),
+    eventType: S.optional(EventType),
+    eventStatus: S.optional(EventStatus),
     eventStatusReason: S.optional(S.String),
     resourceArn: S.optional(S.String),
     resourceId: S.optional(S.String),
@@ -1069,7 +1177,7 @@ export const AutomationEvent = S.suspend(() =>
     accountId: S.optional(S.String),
     region: S.optional(S.String),
     ruleId: S.optional(S.String),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     createdTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1085,7 +1193,7 @@ export type AutomationEvents = AutomationEvent[];
 export const AutomationEvents = S.Array(AutomationEvent);
 export interface AutomationEventSummary {
   key?: string;
-  dimensions?: SummaryDimensions;
+  dimensions?: SummaryDimension[];
   timePeriod?: TimePeriod;
   total?: SummaryTotals;
 }
@@ -1117,14 +1225,14 @@ export interface AutomationRule {
   ruleId?: string;
   name?: string;
   description?: string;
-  ruleType?: string;
+  ruleType?: RuleType;
   ruleRevision?: number;
   accountId?: string;
   organizationConfiguration?: OrganizationConfiguration;
   priority?: string;
-  recommendedActionTypes?: RecommendedActionTypeList;
+  recommendedActionTypes?: RecommendedActionType[];
   schedule?: Schedule;
-  status?: string;
+  status?: RuleStatus;
   createdTimestamp?: Date;
   lastUpdatedTimestamp?: Date;
 }
@@ -1134,14 +1242,14 @@ export const AutomationRule = S.suspend(() =>
     ruleId: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    ruleType: S.optional(S.String),
+    ruleType: S.optional(RuleType),
     ruleRevision: S.optional(S.Number),
     accountId: S.optional(S.String),
     organizationConfiguration: S.optional(OrganizationConfiguration),
     priority: S.optional(S.String),
     recommendedActionTypes: S.optional(RecommendedActionTypeList),
     schedule: S.optional(Schedule),
-    status: S.optional(S.String),
+    status: S.optional(RuleStatus),
     createdTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1184,16 +1292,16 @@ export interface RecommendedAction {
   resourceId?: string;
   accountId?: string;
   region?: string;
-  resourceType?: string;
+  resourceType?: ResourceType;
   lookBackPeriodInDays?: number;
-  recommendedActionType?: string;
+  recommendedActionType?: RecommendedActionType;
   currentResourceSummary?: string;
-  currentResourceDetails?: (typeof ResourceDetails)["Type"];
+  currentResourceDetails?: ResourceDetails;
   recommendedResourceSummary?: string;
-  recommendedResourceDetails?: (typeof ResourceDetails)["Type"];
+  recommendedResourceDetails?: ResourceDetails;
   restartNeeded?: boolean;
   estimatedMonthlySavings?: EstimatedMonthlySavings;
-  resourceTags?: TagList;
+  resourceTags?: Tag[];
 }
 export const RecommendedAction = S.suspend(() =>
   S.Struct({
@@ -1202,9 +1310,9 @@ export const RecommendedAction = S.suspend(() =>
     resourceId: S.optional(S.String),
     accountId: S.optional(S.String),
     region: S.optional(S.String),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     lookBackPeriodInDays: S.optional(S.Number),
-    recommendedActionType: S.optional(S.String),
+    recommendedActionType: S.optional(RecommendedActionType),
     currentResourceSummary: S.optional(S.String),
     currentResourceDetails: S.optional(ResourceDetails),
     recommendedResourceSummary: S.optional(S.String),
@@ -1234,15 +1342,15 @@ export interface CreateAutomationRuleResponse {
   ruleId?: string;
   name?: string;
   description?: string;
-  ruleType?: string;
+  ruleType?: RuleType;
   ruleRevision?: number;
   organizationConfiguration?: OrganizationConfiguration;
   priority?: string;
-  recommendedActionTypes?: RecommendedActionTypeList;
+  recommendedActionTypes?: RecommendedActionType[];
   criteria?: Criteria;
   schedule?: Schedule;
-  status?: string;
-  tags?: TagList;
+  status?: RuleStatus;
+  tags?: Tag[];
   createdTimestamp?: Date;
 }
 export const CreateAutomationRuleResponse = S.suspend(() =>
@@ -1251,14 +1359,14 @@ export const CreateAutomationRuleResponse = S.suspend(() =>
     ruleId: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    ruleType: S.optional(S.String),
+    ruleType: S.optional(RuleType),
     ruleRevision: S.optional(S.Number),
     organizationConfiguration: S.optional(OrganizationConfiguration),
     priority: S.optional(S.String),
     recommendedActionTypes: S.optional(RecommendedActionTypeList),
     criteria: S.optional(Criteria),
     schedule: S.optional(Schedule),
-    status: S.optional(S.String),
+    status: S.optional(RuleStatus),
     tags: S.optional(TagList),
     createdTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1268,7 +1376,7 @@ export const CreateAutomationRuleResponse = S.suspend(() =>
   identifier: "CreateAutomationRuleResponse",
 }) as any as S.Schema<CreateAutomationRuleResponse>;
 export interface ListAutomationEventsResponse {
-  automationEvents?: AutomationEvents;
+  automationEvents?: AutomationEvent[];
   nextToken?: string;
 }
 export const ListAutomationEventsResponse = S.suspend(() =>
@@ -1280,7 +1388,7 @@ export const ListAutomationEventsResponse = S.suspend(() =>
   identifier: "ListAutomationEventsResponse",
 }) as any as S.Schema<ListAutomationEventsResponse>;
 export interface ListAutomationEventSummariesResponse {
-  automationEventSummaries?: AutomationEventSummaryList;
+  automationEventSummaries?: AutomationEventSummary[];
   nextToken?: string;
 }
 export const ListAutomationEventSummariesResponse = S.suspend(() =>
@@ -1292,7 +1400,7 @@ export const ListAutomationEventSummariesResponse = S.suspend(() =>
   identifier: "ListAutomationEventSummariesResponse",
 }) as any as S.Schema<ListAutomationEventSummariesResponse>;
 export interface ListAutomationRulePreviewSummariesResponse {
-  previewResultSummaries?: PreviewResultSummaries;
+  previewResultSummaries?: PreviewResultSummary[];
   nextToken?: string;
 }
 export const ListAutomationRulePreviewSummariesResponse = S.suspend(() =>
@@ -1304,7 +1412,7 @@ export const ListAutomationRulePreviewSummariesResponse = S.suspend(() =>
   identifier: "ListAutomationRulePreviewSummariesResponse",
 }) as any as S.Schema<ListAutomationRulePreviewSummariesResponse>;
 export interface ListAutomationRulesResponse {
-  automationRules?: AutomationRules;
+  automationRules?: AutomationRule[];
   nextToken?: string;
 }
 export const ListAutomationRulesResponse = S.suspend(() =>
@@ -1316,7 +1424,7 @@ export const ListAutomationRulesResponse = S.suspend(() =>
   identifier: "ListAutomationRulesResponse",
 }) as any as S.Schema<ListAutomationRulesResponse>;
 export interface ListRecommendedActionsResponse {
-  recommendedActions?: RecommendedActions;
+  recommendedActions?: RecommendedAction[];
   nextToken?: string;
 }
 export const ListRecommendedActionsResponse = S.suspend(() =>
@@ -1328,7 +1436,7 @@ export const ListRecommendedActionsResponse = S.suspend(() =>
   identifier: "ListRecommendedActionsResponse",
 }) as any as S.Schema<ListRecommendedActionsResponse>;
 export interface ListRecommendedActionSummariesResponse {
-  recommendedActionSummaries?: RecommendedActionSummaries;
+  recommendedActionSummaries?: RecommendedActionSummary[];
   nextToken?: string;
 }
 export const ListRecommendedActionSummariesResponse = S.suspend(() =>
@@ -1345,16 +1453,16 @@ export interface PreviewResult {
   resourceId?: string;
   accountId?: string;
   region?: string;
-  resourceType?: string;
+  resourceType?: ResourceType;
   lookBackPeriodInDays?: number;
-  recommendedActionType?: string;
+  recommendedActionType?: RecommendedActionType;
   currentResourceSummary?: string;
-  currentResourceDetails?: (typeof ResourceDetails)["Type"];
+  currentResourceDetails?: ResourceDetails;
   recommendedResourceSummary?: string;
-  recommendedResourceDetails?: (typeof ResourceDetails)["Type"];
+  recommendedResourceDetails?: ResourceDetails;
   restartNeeded?: boolean;
   estimatedMonthlySavings?: EstimatedMonthlySavings;
-  resourceTags?: TagList;
+  resourceTags?: Tag[];
 }
 export const PreviewResult = S.suspend(() =>
   S.Struct({
@@ -1363,9 +1471,9 @@ export const PreviewResult = S.suspend(() =>
     resourceId: S.optional(S.String),
     accountId: S.optional(S.String),
     region: S.optional(S.String),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     lookBackPeriodInDays: S.optional(S.Number),
-    recommendedActionType: S.optional(S.String),
+    recommendedActionType: S.optional(RecommendedActionType),
     currentResourceSummary: S.optional(S.String),
     currentResourceDetails: S.optional(ResourceDetails),
     recommendedResourceSummary: S.optional(S.String),
@@ -1380,7 +1488,7 @@ export const PreviewResult = S.suspend(() =>
 export type PreviewResults = PreviewResult[];
 export const PreviewResults = S.Array(PreviewResult);
 export interface ListAutomationRulePreviewResponse {
-  previewResults?: PreviewResults;
+  previewResults?: PreviewResult[];
   nextToken?: string;
 }
 export const ListAutomationRulePreviewResponse = S.suspend(() =>
@@ -1450,7 +1558,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  */
 export const disassociateAccounts: (
   input: DisassociateAccountsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateAccountsResponse,
   | AccessDeniedException
   | ForbiddenException
@@ -1487,7 +1595,7 @@ export const disassociateAccounts: (
  */
 export const startAutomationEvent: (
   input: StartAutomationEventRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartAutomationEventResponse,
   | AccessDeniedException
   | ForbiddenException
@@ -1526,7 +1634,7 @@ export const startAutomationEvent: (
  */
 export const rollbackAutomationEvent: (
   input: RollbackAutomationEventRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RollbackAutomationEventResponse,
   | AccessDeniedException
   | ForbiddenException
@@ -1561,7 +1669,7 @@ export const rollbackAutomationEvent: (
  */
 export const updateAutomationRule: (
   input: UpdateAutomationRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAutomationRuleResponse,
   | AccessDeniedException
   | ForbiddenException
@@ -1596,7 +1704,7 @@ export const updateAutomationRule: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | ForbiddenException
@@ -1631,7 +1739,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | ForbiddenException
@@ -1667,7 +1775,7 @@ export const untagResource: (
 export const listAutomationEventSteps: {
   (
     input: ListAutomationEventStepsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAutomationEventStepsResponse,
     | AccessDeniedException
     | ForbiddenException
@@ -1682,7 +1790,7 @@ export const listAutomationEventSteps: {
   >;
   pages: (
     input: ListAutomationEventStepsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAutomationEventStepsResponse,
     | AccessDeniedException
     | ForbiddenException
@@ -1697,7 +1805,7 @@ export const listAutomationEventSteps: {
   >;
   items: (
     input: ListAutomationEventStepsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AutomationEventStep,
     | AccessDeniedException
     | ForbiddenException
@@ -1735,7 +1843,7 @@ export const listAutomationEventSteps: {
  */
 export const getAutomationRule: (
   input: GetAutomationRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAutomationRuleResponse,
   | AccessDeniedException
   | ForbiddenException
@@ -1766,7 +1874,7 @@ export const getAutomationRule: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | ForbiddenException
@@ -1797,7 +1905,7 @@ export const listTagsForResource: (
  */
 export const getEnrollmentConfiguration: (
   input: GetEnrollmentConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEnrollmentConfigurationResponse,
   | AccessDeniedException
   | ForbiddenException
@@ -1828,7 +1936,7 @@ export const getEnrollmentConfiguration: (
  */
 export const deleteAutomationRule: (
   input: DeleteAutomationRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAutomationRuleResponse,
   | AccessDeniedException
   | ForbiddenException
@@ -1863,7 +1971,7 @@ export const deleteAutomationRule: (
  */
 export const updateEnrollmentConfiguration: (
   input: UpdateEnrollmentConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEnrollmentConfigurationResponse,
   | AccessDeniedException
   | ForbiddenException
@@ -1901,7 +2009,7 @@ export const updateEnrollmentConfiguration: (
 export const listAutomationEvents: {
   (
     input: ListAutomationEventsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAutomationEventsResponse,
     | AccessDeniedException
     | ForbiddenException
@@ -1915,7 +2023,7 @@ export const listAutomationEvents: {
   >;
   pages: (
     input: ListAutomationEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAutomationEventsResponse,
     | AccessDeniedException
     | ForbiddenException
@@ -1929,7 +2037,7 @@ export const listAutomationEvents: {
   >;
   items: (
     input: ListAutomationEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AutomationEvent,
     | AccessDeniedException
     | ForbiddenException
@@ -1966,7 +2074,7 @@ export const listAutomationEvents: {
 export const listAutomationEventSummaries: {
   (
     input: ListAutomationEventSummariesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAutomationEventSummariesResponse,
     | AccessDeniedException
     | ForbiddenException
@@ -1980,7 +2088,7 @@ export const listAutomationEventSummaries: {
   >;
   pages: (
     input: ListAutomationEventSummariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAutomationEventSummariesResponse,
     | AccessDeniedException
     | ForbiddenException
@@ -1994,7 +2102,7 @@ export const listAutomationEventSummaries: {
   >;
   items: (
     input: ListAutomationEventSummariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AutomationEventSummary,
     | AccessDeniedException
     | ForbiddenException
@@ -2031,7 +2139,7 @@ export const listAutomationEventSummaries: {
 export const listAutomationRulePreviewSummaries: {
   (
     input: ListAutomationRulePreviewSummariesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAutomationRulePreviewSummariesResponse,
     | AccessDeniedException
     | ForbiddenException
@@ -2045,7 +2153,7 @@ export const listAutomationRulePreviewSummaries: {
   >;
   pages: (
     input: ListAutomationRulePreviewSummariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAutomationRulePreviewSummariesResponse,
     | AccessDeniedException
     | ForbiddenException
@@ -2059,7 +2167,7 @@ export const listAutomationRulePreviewSummaries: {
   >;
   items: (
     input: ListAutomationRulePreviewSummariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PreviewResultSummary,
     | AccessDeniedException
     | ForbiddenException
@@ -2096,7 +2204,7 @@ export const listAutomationRulePreviewSummaries: {
 export const listAutomationRules: {
   (
     input: ListAutomationRulesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAutomationRulesResponse,
     | AccessDeniedException
     | ForbiddenException
@@ -2110,7 +2218,7 @@ export const listAutomationRules: {
   >;
   pages: (
     input: ListAutomationRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAutomationRulesResponse,
     | AccessDeniedException
     | ForbiddenException
@@ -2124,7 +2232,7 @@ export const listAutomationRules: {
   >;
   items: (
     input: ListAutomationRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AutomationRule,
     | AccessDeniedException
     | ForbiddenException
@@ -2163,7 +2271,7 @@ export const listAutomationRules: {
 export const listRecommendedActions: {
   (
     input: ListRecommendedActionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRecommendedActionsResponse,
     | AccessDeniedException
     | ForbiddenException
@@ -2177,7 +2285,7 @@ export const listRecommendedActions: {
   >;
   pages: (
     input: ListRecommendedActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRecommendedActionsResponse,
     | AccessDeniedException
     | ForbiddenException
@@ -2191,7 +2299,7 @@ export const listRecommendedActions: {
   >;
   items: (
     input: ListRecommendedActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RecommendedAction,
     | AccessDeniedException
     | ForbiddenException
@@ -2230,7 +2338,7 @@ export const listRecommendedActions: {
 export const listRecommendedActionSummaries: {
   (
     input: ListRecommendedActionSummariesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRecommendedActionSummariesResponse,
     | AccessDeniedException
     | ForbiddenException
@@ -2244,7 +2352,7 @@ export const listRecommendedActionSummaries: {
   >;
   pages: (
     input: ListRecommendedActionSummariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRecommendedActionSummariesResponse,
     | AccessDeniedException
     | ForbiddenException
@@ -2258,7 +2366,7 @@ export const listRecommendedActionSummaries: {
   >;
   items: (
     input: ListRecommendedActionSummariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RecommendedActionSummary,
     | AccessDeniedException
     | ForbiddenException
@@ -2296,7 +2404,7 @@ export const listRecommendedActionSummaries: {
  */
 export const associateAccounts: (
   input: AssociateAccountsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateAccountsResponse,
   | AccessDeniedException
   | ForbiddenException
@@ -2334,7 +2442,7 @@ export const associateAccounts: (
 export const listAccounts: {
   (
     input: ListAccountsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccountsResponse,
     | AccessDeniedException
     | ForbiddenException
@@ -2349,7 +2457,7 @@ export const listAccounts: {
   >;
   pages: (
     input: ListAccountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccountsResponse,
     | AccessDeniedException
     | ForbiddenException
@@ -2364,7 +2472,7 @@ export const listAccounts: {
   >;
   items: (
     input: ListAccountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AccountInfo,
     | AccessDeniedException
     | ForbiddenException
@@ -2402,7 +2510,7 @@ export const listAccounts: {
  */
 export const getAutomationEvent: (
   input: GetAutomationEventRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAutomationEventResponse,
   | AccessDeniedException
   | ForbiddenException
@@ -2434,7 +2542,7 @@ export const getAutomationEvent: (
 export const listAutomationRulePreview: {
   (
     input: ListAutomationRulePreviewRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAutomationRulePreviewResponse,
     | AccessDeniedException
     | ForbiddenException
@@ -2448,7 +2556,7 @@ export const listAutomationRulePreview: {
   >;
   pages: (
     input: ListAutomationRulePreviewRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAutomationRulePreviewResponse,
     | AccessDeniedException
     | ForbiddenException
@@ -2462,7 +2570,7 @@ export const listAutomationRulePreview: {
   >;
   items: (
     input: ListAutomationRulePreviewRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PreviewResult,
     | AccessDeniedException
     | ForbiddenException
@@ -2498,7 +2606,7 @@ export const listAutomationRulePreview: {
  */
 export const createAutomationRule: (
   input: CreateAutomationRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAutomationRuleResponse,
   | AccessDeniedException
   | ForbiddenException

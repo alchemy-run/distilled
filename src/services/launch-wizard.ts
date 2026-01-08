@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -124,7 +124,7 @@ export const ListTagsForResourceInput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceInput>;
 export interface UntagResourceInput {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({
@@ -283,6 +283,11 @@ export const ListWorkloadDeploymentPatternsInput = S.suspend(() =>
 ).annotations({
   identifier: "ListWorkloadDeploymentPatternsInput",
 }) as any as S.Schema<ListWorkloadDeploymentPatternsInput>;
+export type DeploymentFilterKey = "WORKLOAD_NAME" | "DEPLOYMENT_STATUS";
+export const DeploymentFilterKey = S.Literal(
+  "WORKLOAD_NAME",
+  "DEPLOYMENT_STATUS",
+);
 export type DeploymentFilterValues = string[];
 export const DeploymentFilterValues = S.Array(S.String);
 export type Tags = { [key: string]: string };
@@ -292,13 +297,34 @@ export const DeploymentSpecifications = S.Record({
   key: S.String,
   value: S.String,
 });
+export type DeploymentStatus =
+  | "COMPLETED"
+  | "CREATING"
+  | "DELETE_IN_PROGRESS"
+  | "DELETE_INITIATING"
+  | "DELETE_FAILED"
+  | "DELETED"
+  | "FAILED"
+  | "IN_PROGRESS"
+  | "VALIDATING";
+export const DeploymentStatus = S.Literal(
+  "COMPLETED",
+  "CREATING",
+  "DELETE_IN_PROGRESS",
+  "DELETE_INITIATING",
+  "DELETE_FAILED",
+  "DELETED",
+  "FAILED",
+  "IN_PROGRESS",
+  "VALIDATING",
+);
 export interface DeploymentFilter {
-  name?: string;
-  values?: DeploymentFilterValues;
+  name?: DeploymentFilterKey;
+  values?: string[];
 }
 export const DeploymentFilter = S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
+    name: S.optional(DeploymentFilterKey),
     values: S.optional(DeploymentFilterValues),
   }),
 ).annotations({
@@ -307,7 +333,7 @@ export const DeploymentFilter = S.suspend(() =>
 export type DeploymentFilterList = DeploymentFilter[];
 export const DeploymentFilterList = S.Array(DeploymentFilter);
 export interface ListTagsForResourceOutput {
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -316,7 +342,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   resourceArn: string;
-  tags: Tags;
+  tags: { [key: string]: string };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -343,9 +369,9 @@ export interface CreateDeploymentInput {
   workloadName: string;
   deploymentPatternName: string;
   name: string;
-  specifications: DeploymentSpecifications;
+  specifications: { [key: string]: string };
   dryRun?: boolean;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateDeploymentInput = S.suspend(() =>
   S.Struct({
@@ -369,19 +395,19 @@ export const CreateDeploymentInput = S.suspend(() =>
   identifier: "CreateDeploymentInput",
 }) as any as S.Schema<CreateDeploymentInput>;
 export interface DeleteDeploymentOutput {
-  status?: string;
+  status?: DeploymentStatus;
   statusReason?: string;
 }
 export const DeleteDeploymentOutput = S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String),
+    status: S.optional(DeploymentStatus),
     statusReason: S.optional(S.String),
   }),
 ).annotations({
   identifier: "DeleteDeploymentOutput",
 }) as any as S.Schema<DeleteDeploymentOutput>;
 export interface ListDeploymentsInput {
-  filters?: DeploymentFilterList;
+  filters?: DeploymentFilter[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -403,17 +429,54 @@ export const ListDeploymentsInput = S.suspend(() =>
 ).annotations({
   identifier: "ListDeploymentsInput",
 }) as any as S.Schema<ListDeploymentsInput>;
+export type EventStatus =
+  | "CANCELED"
+  | "CANCELING"
+  | "COMPLETED"
+  | "CREATED"
+  | "FAILED"
+  | "IN_PROGRESS"
+  | "PENDING"
+  | "TIMED_OUT";
+export const EventStatus = S.Literal(
+  "CANCELED",
+  "CANCELING",
+  "COMPLETED",
+  "CREATED",
+  "FAILED",
+  "IN_PROGRESS",
+  "PENDING",
+  "TIMED_OUT",
+);
+export type WorkloadStatus = "ACTIVE" | "INACTIVE" | "DISABLED" | "DELETED";
+export const WorkloadStatus = S.Literal(
+  "ACTIVE",
+  "INACTIVE",
+  "DISABLED",
+  "DELETED",
+);
+export type WorkloadDeploymentPatternStatus =
+  | "ACTIVE"
+  | "INACTIVE"
+  | "DISABLED"
+  | "DELETED";
+export const WorkloadDeploymentPatternStatus = S.Literal(
+  "ACTIVE",
+  "INACTIVE",
+  "DISABLED",
+  "DELETED",
+);
 export interface DeploymentData {
   name?: string;
   id?: string;
   workloadName?: string;
   patternName?: string;
-  status?: string;
+  status?: DeploymentStatus;
   createdAt?: Date;
-  specifications?: DeploymentSpecifications;
+  specifications?: { [key: string]: string };
   resourceGroup?: string;
   deletedAt?: Date;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   deploymentArn?: string;
 }
 export const DeploymentData = S.suspend(() =>
@@ -422,7 +485,7 @@ export const DeploymentData = S.suspend(() =>
     id: S.optional(S.String),
     workloadName: S.optional(S.String),
     patternName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(DeploymentStatus),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     specifications: S.optional(DeploymentSpecifications),
     resourceGroup: S.optional(S.String),
@@ -436,7 +499,7 @@ export const DeploymentData = S.suspend(() =>
 export interface DeploymentEventDataSummary {
   name?: string;
   description?: string;
-  status?: string;
+  status?: EventStatus;
   statusReason?: string;
   timestamp?: Date;
 }
@@ -444,7 +507,7 @@ export const DeploymentEventDataSummary = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     description: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(EventStatus),
     statusReason: S.optional(S.String),
     timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -461,7 +524,7 @@ export interface WorkloadData {
   description?: string;
   documentationUrl?: string;
   iconUrl?: string;
-  status?: string;
+  status?: WorkloadStatus;
   statusMessage?: string;
 }
 export const WorkloadData = S.suspend(() =>
@@ -471,7 +534,7 @@ export const WorkloadData = S.suspend(() =>
     description: S.optional(S.String),
     documentationUrl: S.optional(S.String),
     iconUrl: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(WorkloadStatus),
     statusMessage: S.optional(S.String),
   }),
 ).annotations({ identifier: "WorkloadData" }) as any as S.Schema<WorkloadData>;
@@ -495,7 +558,7 @@ export interface WorkloadDeploymentPatternDataSummary {
   workloadVersionName?: string;
   displayName?: string;
   description?: string;
-  status?: string;
+  status?: WorkloadDeploymentPatternStatus;
   statusMessage?: string;
 }
 export const WorkloadDeploymentPatternDataSummary = S.suspend(() =>
@@ -505,7 +568,7 @@ export const WorkloadDeploymentPatternDataSummary = S.suspend(() =>
     workloadVersionName: S.optional(S.String),
     displayName: S.optional(S.String),
     description: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(WorkloadDeploymentPatternStatus),
     statusMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -535,7 +598,7 @@ export const GetDeploymentOutput = S.suspend(() =>
   identifier: "GetDeploymentOutput",
 }) as any as S.Schema<GetDeploymentOutput>;
 export interface ListDeploymentEventsOutput {
-  deploymentEvents?: DeploymentEventDataSummaryList;
+  deploymentEvents?: DeploymentEventDataSummary[];
   nextToken?: string;
 }
 export const ListDeploymentEventsOutput = S.suspend(() =>
@@ -555,7 +618,7 @@ export const GetWorkloadOutput = S.suspend(() =>
   identifier: "GetWorkloadOutput",
 }) as any as S.Schema<GetWorkloadOutput>;
 export interface ListWorkloadsOutput {
-  workloads?: WorkloadDataSummaryList;
+  workloads?: WorkloadDataSummary[];
   nextToken?: string;
 }
 export const ListWorkloadsOutput = S.suspend(() =>
@@ -567,7 +630,7 @@ export const ListWorkloadsOutput = S.suspend(() =>
   identifier: "ListWorkloadsOutput",
 }) as any as S.Schema<ListWorkloadsOutput>;
 export interface ListWorkloadDeploymentPatternsOutput {
-  workloadDeploymentPatterns?: WorkloadDeploymentPatternDataSummaryList;
+  workloadDeploymentPatterns?: WorkloadDeploymentPatternDataSummary[];
   nextToken?: string;
 }
 export const ListWorkloadDeploymentPatternsOutput = S.suspend(() =>
@@ -585,7 +648,7 @@ export interface DeploymentDataSummary {
   id?: string;
   workloadName?: string;
   patternName?: string;
-  status?: string;
+  status?: DeploymentStatus;
   createdAt?: Date;
 }
 export const DeploymentDataSummary = S.suspend(() =>
@@ -594,7 +657,7 @@ export const DeploymentDataSummary = S.suspend(() =>
     id: S.optional(S.String),
     workloadName: S.optional(S.String),
     patternName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(DeploymentStatus),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({
@@ -621,7 +684,7 @@ export const SpecificationsConditionalData = S.Array(
   DeploymentConditionalField,
 );
 export interface ListDeploymentsOutput {
-  deployments?: DeploymentDataSummaryList;
+  deployments?: DeploymentDataSummary[];
   nextToken?: string;
 }
 export const ListDeploymentsOutput = S.suspend(() =>
@@ -635,9 +698,9 @@ export const ListDeploymentsOutput = S.suspend(() =>
 export interface DeploymentSpecificationsField {
   name?: string;
   description?: string;
-  allowedValues?: AllowedValues;
+  allowedValues?: string[];
   required?: string;
-  conditionals?: SpecificationsConditionalData;
+  conditionals?: DeploymentConditionalField[];
 }
 export const DeploymentSpecificationsField = S.suspend(() =>
   S.Struct({
@@ -660,9 +723,9 @@ export interface WorkloadDeploymentPatternData {
   workloadVersionName?: string;
   displayName?: string;
   description?: string;
-  status?: string;
+  status?: WorkloadDeploymentPatternStatus;
   statusMessage?: string;
-  specifications?: DeploymentSpecificationsData;
+  specifications?: DeploymentSpecificationsField[];
 }
 export const WorkloadDeploymentPatternData = S.suspend(() =>
   S.Struct({
@@ -671,7 +734,7 @@ export const WorkloadDeploymentPatternData = S.suspend(() =>
     workloadVersionName: S.optional(S.String),
     displayName: S.optional(S.String),
     description: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(WorkloadDeploymentPatternStatus),
     statusMessage: S.optional(S.String),
     specifications: S.optional(DeploymentSpecificationsData),
   }),
@@ -713,7 +776,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -735,21 +798,21 @@ export const untagResource: (
 export const listDeployments: {
   (
     input: ListDeploymentsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDeploymentsOutput,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListDeploymentsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDeploymentsOutput,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDeploymentsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DeploymentDataSummary,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -770,7 +833,7 @@ export const listDeployments: {
  */
 export const getDeployment: (
   input: GetDeploymentInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetDeploymentOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -791,7 +854,7 @@ export const getDeployment: (
  */
 export const deleteDeployment: (
   input: DeleteDeploymentInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDeploymentOutput,
   | InternalServerException
   | ResourceLimitException
@@ -815,7 +878,7 @@ export const deleteDeployment: (
 export const listDeploymentEvents: {
   (
     input: ListDeploymentEventsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDeploymentEventsOutput,
     | InternalServerException
     | ResourceNotFoundException
@@ -825,7 +888,7 @@ export const listDeploymentEvents: {
   >;
   pages: (
     input: ListDeploymentEventsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDeploymentEventsOutput,
     | InternalServerException
     | ResourceNotFoundException
@@ -835,7 +898,7 @@ export const listDeploymentEvents: {
   >;
   items: (
     input: ListDeploymentEventsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DeploymentEventDataSummary,
     | InternalServerException
     | ResourceNotFoundException
@@ -863,7 +926,7 @@ export const listDeploymentEvents: {
  */
 export const getWorkload: (
   input: GetWorkloadInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkloadOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -885,21 +948,21 @@ export const getWorkload: (
 export const listWorkloads: {
   (
     input: ListWorkloadsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkloadsOutput,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListWorkloadsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkloadsOutput,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkloadsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkloadDataSummary,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -921,7 +984,7 @@ export const listWorkloads: {
 export const listWorkloadDeploymentPatterns: {
   (
     input: ListWorkloadDeploymentPatternsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkloadDeploymentPatternsOutput,
     | InternalServerException
     | ResourceNotFoundException
@@ -931,7 +994,7 @@ export const listWorkloadDeploymentPatterns: {
   >;
   pages: (
     input: ListWorkloadDeploymentPatternsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkloadDeploymentPatternsOutput,
     | InternalServerException
     | ResourceNotFoundException
@@ -941,7 +1004,7 @@ export const listWorkloadDeploymentPatterns: {
   >;
   items: (
     input: ListWorkloadDeploymentPatternsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkloadDeploymentPatternDataSummary,
     | InternalServerException
     | ResourceNotFoundException
@@ -969,7 +1032,7 @@ export const listWorkloadDeploymentPatterns: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -990,7 +1053,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -1013,7 +1076,7 @@ export const tagResource: (
  */
 export const createDeployment: (
   input: CreateDeploymentInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDeploymentOutput,
   | InternalServerException
   | ResourceLimitException
@@ -1039,7 +1102,7 @@ export const createDeployment: (
  */
 export const getWorkloadDeploymentPattern: (
   input: GetWorkloadDeploymentPatternInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkloadDeploymentPatternOutput,
   | InternalServerException
   | ResourceNotFoundException

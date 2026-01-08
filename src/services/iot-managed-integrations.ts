@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -57,12 +57,12 @@ const rules = T.EndpointResolver((p, _) => {
 export type EndpointAddress = string;
 export type IoTManagedIntegrationsResourceARN = string;
 export type ConnectorId = string;
-export type ThirdPartyUserId = string | Redacted.Redacted<string>;
-export type ConnectorEventOperationVersion = string | Redacted.Redacted<string>;
+export type ThirdPartyUserId = string | redacted.Redacted<string>;
+export type ConnectorEventOperationVersion = string | redacted.Redacted<string>;
 export type ConnectorEventStatusCode = number;
-export type ConnectorEventMessage = string | Redacted.Redacted<string>;
+export type ConnectorEventMessage = string | redacted.Redacted<string>;
 export type DeviceDiscoveryId = string;
-export type ConnectorDeviceId = string | Redacted.Redacted<string>;
+export type ConnectorDeviceId = string | redacted.Redacted<string>;
 export type TraceId = string;
 export type TagKey = string;
 export type ClientToken = string;
@@ -78,7 +78,7 @@ export type CloudConnectorId = string;
 export type LambdaArn = string;
 export type ConnectorDestinationName = string;
 export type ConnectorDestinationDescription = string;
-export type CredentialLockerName = string | Redacted.Redacted<string>;
+export type CredentialLockerName = string | redacted.Redacted<string>;
 export type CredentialLockerId = string;
 export type DeliveryDestinationArn = string;
 export type DestinationName = string;
@@ -86,39 +86,39 @@ export type DeliveryDestinationRoleArn = string;
 export type DestinationDescription = string;
 export type ManagedThingId = string;
 export type ConnectorAssociationId = string;
-export type DiscoveryAuthMaterialString = string | Redacted.Redacted<string>;
+export type DiscoveryAuthMaterialString = string | redacted.Redacted<string>;
 export type SmartHomeResourceType = string;
 export type SmartHomeResourceId = string;
 export type LogConfigurationId = string;
 export type HubTokenTimerExpirySettingInSeconds = number;
 export type KmsKeyArn = string;
-export type Owner = string | Redacted.Redacted<string>;
-export type AuthMaterialString = string | Redacted.Redacted<string>;
-export type SerialNumber = string | Redacted.Redacted<string>;
-export type Brand = string | Redacted.Redacted<string>;
-export type Model = string | Redacted.Redacted<string>;
+export type Owner = string | redacted.Redacted<string>;
+export type AuthMaterialString = string | redacted.Redacted<string>;
+export type SerialNumber = string | redacted.Redacted<string>;
+export type Brand = string | redacted.Redacted<string>;
+export type Model = string | redacted.Redacted<string>;
 export type Name = string;
 export type Capabilities = string;
-export type Classification = string | Redacted.Redacted<string>;
+export type Classification = string | redacted.Redacted<string>;
 export type ParentControllerId = string;
 export type ConnectorPolicyId = string;
 export type EndpointId = string;
 export type CapabilityId = string;
 export type OtaDescription = string;
-export type OtaTaskConfigurationName = string | Redacted.Redacted<string>;
+export type OtaTaskConfigurationName = string | redacted.Redacted<string>;
 export type OtaTaskConfigurationId = string;
 export type S3Url = string;
 export type OtaTargetQueryString = string;
 export type OtaTaskId = string;
 export type OtaNextToken = string;
-export type CaCertificate = string | Redacted.Redacted<string>;
+export type CaCertificate = string | redacted.Redacted<string>;
 export type ProvisioningProfileName = string;
 export type ProvisioningProfileId = string;
 export type SchemaVersionedId = string;
 export type SchemaId = string;
 export type SchemaVersionNamespaceName = string;
 export type SchemaVersionVersion = string;
-export type ConnectorDeviceName = string | Redacted.Redacted<string>;
+export type ConnectorDeviceName = string | redacted.Redacted<string>;
 export type TagValue = string;
 export type SecretsManagerArn = string;
 export type SecretsManagerVersionId = string;
@@ -137,7 +137,7 @@ export type LocalStoreFileRotationMaxFiles = number;
 export type LocalStoreFileRotationMaxBytes = number;
 export type UploadPeriodMinutes = number;
 export type ErrorMessage = string;
-export type OAuthAuthorizationUrl = string | Redacted.Redacted<string>;
+export type OAuthAuthorizationUrl = string | redacted.Redacted<string>;
 export type AccountAssociationArn = string;
 export type AccountAssociationErrorMessage = string;
 export type OAuthCompleteRedirectUrl = string;
@@ -145,15 +145,15 @@ export type CredentialLockerArn = string;
 export type DeviceDiscoveryArn = string;
 export type ManagedThingArn = string;
 export type AdvertisedProductId = string;
-export type UniversalProductCode = string | Redacted.Redacted<string>;
-export type InternationalArticleNumber = string | Redacted.Redacted<string>;
-export type DeviceSpecificKey = string | Redacted.Redacted<string>;
-export type MacAddress = string | Redacted.Redacted<string>;
+export type UniversalProductCode = string | redacted.Redacted<string>;
+export type InternationalArticleNumber = string | redacted.Redacted<string>;
+export type DeviceSpecificKey = string | redacted.Redacted<string>;
+export type MacAddress = string | redacted.Redacted<string>;
 export type CertificatePem = string;
 export type OtaTaskArn = string;
 export type ProvisioningProfileArn = string;
-export type ClaimCertificate = string | Redacted.Redacted<string>;
-export type ClaimCertificatePrivateKey = string | Redacted.Redacted<string>;
+export type ClaimCertificate = string | redacted.Redacted<string>;
+export type ClaimCertificatePrivateKey = string | redacted.Redacted<string>;
 export type SchemaVersionDescription = string;
 export type ClusterId = string;
 export type AuthUrl = string;
@@ -253,10 +253,126 @@ export const GetDefaultEncryptionConfigurationRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetDefaultEncryptionConfigurationRequest",
 }) as any as S.Schema<GetDefaultEncryptionConfigurationRequest>;
+export type ConnectorEventOperation =
+  | "DEVICE_COMMAND_RESPONSE"
+  | "DEVICE_DISCOVERY"
+  | "DEVICE_EVENT"
+  | "DEVICE_COMMAND_REQUEST";
+export const ConnectorEventOperation = S.Literal(
+  "DEVICE_COMMAND_RESPONSE",
+  "DEVICE_DISCOVERY",
+  "DEVICE_EVENT",
+  "DEVICE_COMMAND_REQUEST",
+);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type EndpointType = "LAMBDA";
+export const EndpointType = S.Literal("LAMBDA");
+export type CloudConnectorType = "LISTED" | "UNLISTED";
+export const CloudConnectorType = S.Literal("LISTED", "UNLISTED");
+export type AuthType = "OAUTH";
+export const AuthType = S.Literal("OAUTH");
+export type DeliveryDestinationType = "KINESIS";
+export const DeliveryDestinationType = S.Literal("KINESIS");
+export type DiscoveryType = "ZWAVE" | "ZIGBEE" | "CLOUD" | "CUSTOM";
+export const DiscoveryType = S.Literal("ZWAVE", "ZIGBEE", "CLOUD", "CUSTOM");
+export type DiscoveryAuthMaterialType = "ZWAVE_INSTALL_CODE";
+export const DiscoveryAuthMaterialType = S.Literal("ZWAVE_INSTALL_CODE");
+export type DeviceDiscoveryStatus =
+  | "RUNNING"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "TIMED_OUT";
+export const DeviceDiscoveryStatus = S.Literal(
+  "RUNNING",
+  "SUCCEEDED",
+  "FAILED",
+  "TIMED_OUT",
+);
+export type LogLevel = "DEBUG" | "ERROR" | "INFO" | "WARN";
+export const LogLevel = S.Literal("DEBUG", "ERROR", "INFO", "WARN");
+export type EncryptionType =
+  | "MANAGED_INTEGRATIONS_DEFAULT_ENCRYPTION"
+  | "CUSTOMER_KEY_ENCRYPTION";
+export const EncryptionType = S.Literal(
+  "MANAGED_INTEGRATIONS_DEFAULT_ENCRYPTION",
+  "CUSTOMER_KEY_ENCRYPTION",
+);
+export type Role = "CONTROLLER" | "DEVICE";
+export const Role = S.Literal("CONTROLLER", "DEVICE");
+export type AuthMaterialType =
+  | "CUSTOM_PROTOCOL_QR_BAR_CODE"
+  | "WIFI_SETUP_QR_BAR_CODE"
+  | "ZWAVE_QR_BAR_CODE"
+  | "ZIGBEE_QR_BAR_CODE"
+  | "DISCOVERED_DEVICE";
+export const AuthMaterialType = S.Literal(
+  "CUSTOM_PROTOCOL_QR_BAR_CODE",
+  "WIFI_SETUP_QR_BAR_CODE",
+  "ZWAVE_QR_BAR_CODE",
+  "ZIGBEE_QR_BAR_CODE",
+  "DISCOVERED_DEVICE",
+);
+export type HubNetworkMode = "STANDARD" | "NETWORK_WIDE_EXCLUSION";
+export const HubNetworkMode = S.Literal("STANDARD", "NETWORK_WIDE_EXCLUSION");
+export type ProvisioningStatus =
+  | "UNASSOCIATED"
+  | "PRE_ASSOCIATED"
+  | "DISCOVERED"
+  | "ACTIVATED"
+  | "DELETION_FAILED"
+  | "DELETE_IN_PROGRESS"
+  | "ISOLATED"
+  | "DELETED";
+export const ProvisioningStatus = S.Literal(
+  "UNASSOCIATED",
+  "PRE_ASSOCIATED",
+  "DISCOVERED",
+  "ACTIVATED",
+  "DELETION_FAILED",
+  "DELETE_IN_PROGRESS",
+  "ISOLATED",
+  "DELETED",
+);
+export type EventType =
+  | "DEVICE_COMMAND"
+  | "DEVICE_COMMAND_REQUEST"
+  | "DEVICE_DISCOVERY_STATUS"
+  | "DEVICE_EVENT"
+  | "DEVICE_LIFE_CYCLE"
+  | "DEVICE_STATE"
+  | "DEVICE_OTA"
+  | "CONNECTOR_ASSOCIATION"
+  | "ACCOUNT_ASSOCIATION"
+  | "CONNECTOR_ERROR_REPORT";
+export const EventType = S.Literal(
+  "DEVICE_COMMAND",
+  "DEVICE_COMMAND_REQUEST",
+  "DEVICE_DISCOVERY_STATUS",
+  "DEVICE_EVENT",
+  "DEVICE_LIFE_CYCLE",
+  "DEVICE_STATE",
+  "DEVICE_OTA",
+  "CONNECTOR_ASSOCIATION",
+  "ACCOUNT_ASSOCIATION",
+  "CONNECTOR_ERROR_REPORT",
+);
+export type OtaProtocol = "HTTP";
+export const OtaProtocol = S.Literal("HTTP");
 export type Target = string[];
 export const Target = S.Array(S.String);
+export type OtaMechanism = "PUSH";
+export const OtaMechanism = S.Literal("PUSH");
+export type OtaType = "ONE_TIME" | "CONTINUOUS";
+export const OtaType = S.Literal("ONE_TIME", "CONTINUOUS");
+export type ProvisioningType = "FLEET_PROVISIONING" | "JITR";
+export const ProvisioningType = S.Literal("FLEET_PROVISIONING", "JITR");
+export type SchemaVersionType = "capability" | "definition";
+export const SchemaVersionType = S.Literal("capability", "definition");
+export type SchemaVersionFormat = "AWS" | "ZCL" | "CONNECTOR";
+export const SchemaVersionFormat = S.Literal("AWS", "ZCL", "CONNECTOR");
+export type SchemaVersionVisibility = "PUBLIC" | "PRIVATE";
+export const SchemaVersionVisibility = S.Literal("PUBLIC", "PRIVATE");
 export interface GetCustomEndpointResponse {
   EndpointAddress: string;
 }
@@ -292,7 +408,7 @@ export const RegisterCustomEndpointResponse = S.suspend(() =>
 }) as any as S.Schema<RegisterCustomEndpointResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -322,7 +438,7 @@ export interface CreateAccountAssociationRequest {
   ConnectorDestinationId: string;
   Name?: string;
   Description?: string;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateAccountAssociationRequest = S.suspend(() =>
   S.Struct({
@@ -543,14 +659,14 @@ export const DeleteCloudConnectorResponse = S.suspend(() =>
   identifier: "DeleteCloudConnectorResponse",
 }) as any as S.Schema<DeleteCloudConnectorResponse>;
 export interface ListCloudConnectorsRequest {
-  Type?: string;
+  Type?: CloudConnectorType;
   LambdaArn?: string;
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListCloudConnectorsRequest = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String).pipe(T.HttpQuery("Type")),
+    Type: S.optional(CloudConnectorType).pipe(T.HttpQuery("Type")),
     LambdaArn: S.optional(S.String).pipe(T.HttpQuery("LambdaArn")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
@@ -633,9 +749,9 @@ export const ListConnectorDestinationsRequest = S.suspend(() =>
   identifier: "ListConnectorDestinationsRequest",
 }) as any as S.Schema<ListConnectorDestinationsRequest>;
 export interface CreateCredentialLockerRequest {
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
   ClientToken?: string;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateCredentialLockerRequest = S.suspend(() =>
   S.Struct({
@@ -718,17 +834,17 @@ export const ListCredentialLockersRequest = S.suspend(() =>
 }) as any as S.Schema<ListCredentialLockersRequest>;
 export interface CreateDestinationRequest {
   DeliveryDestinationArn: string;
-  DeliveryDestinationType: string;
+  DeliveryDestinationType: DeliveryDestinationType;
   Name: string;
   RoleArn: string;
   ClientToken?: string;
   Description?: string;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateDestinationRequest = S.suspend(() =>
   S.Struct({
     DeliveryDestinationArn: S.String,
-    DeliveryDestinationType: S.String,
+    DeliveryDestinationType: DeliveryDestinationType,
     Name: S.String,
     RoleArn: S.String,
     ClientToken: S.optional(S.String),
@@ -811,7 +927,7 @@ export const ListDestinationsRequest = S.suspend(() =>
 export interface UpdateDestinationRequest {
   Name: string;
   DeliveryDestinationArn?: string;
-  DeliveryDestinationType?: string;
+  DeliveryDestinationType?: DeliveryDestinationType;
   RoleArn?: string;
   Description?: string;
 }
@@ -819,7 +935,7 @@ export const UpdateDestinationRequest = S.suspend(() =>
   S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
     DeliveryDestinationArn: S.optional(S.String),
-    DeliveryDestinationType: S.optional(S.String),
+    DeliveryDestinationType: S.optional(DeliveryDestinationType),
     RoleArn: S.optional(S.String),
     Description: S.optional(S.String),
   }).pipe(
@@ -861,15 +977,17 @@ export const GetDeviceDiscoveryRequest = S.suspend(() =>
 export interface ListDeviceDiscoveriesRequest {
   NextToken?: string;
   MaxResults?: number;
-  TypeFilter?: string;
-  StatusFilter?: string;
+  TypeFilter?: DiscoveryType;
+  StatusFilter?: DeviceDiscoveryStatus;
 }
 export const ListDeviceDiscoveriesRequest = S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    TypeFilter: S.optional(S.String).pipe(T.HttpQuery("TypeFilter")),
-    StatusFilter: S.optional(S.String).pipe(T.HttpQuery("StatusFilter")),
+    TypeFilter: S.optional(DiscoveryType).pipe(T.HttpQuery("TypeFilter")),
+    StatusFilter: S.optional(DeviceDiscoveryStatus).pipe(
+      T.HttpQuery("StatusFilter"),
+    ),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/device-discoveries" }),
@@ -912,14 +1030,14 @@ export const ListDiscoveredDevicesRequest = S.suspend(() =>
 export interface CreateEventLogConfigurationRequest {
   ResourceType: string;
   ResourceId?: string;
-  EventLogLevel: string;
+  EventLogLevel: LogLevel;
   ClientToken?: string;
 }
 export const CreateEventLogConfigurationRequest = S.suspend(() =>
   S.Struct({
     ResourceType: S.String,
     ResourceId: S.optional(S.String),
-    EventLogLevel: S.String,
+    EventLogLevel: LogLevel,
     ClientToken: S.optional(S.String),
   }).pipe(
     T.all(
@@ -997,12 +1115,12 @@ export const ListEventLogConfigurationsRequest = S.suspend(() =>
 }) as any as S.Schema<ListEventLogConfigurationsRequest>;
 export interface UpdateEventLogConfigurationRequest {
   Id: string;
-  EventLogLevel: string;
+  EventLogLevel: LogLevel;
 }
 export const UpdateEventLogConfigurationRequest = S.suspend(() =>
   S.Struct({
     Id: S.String.pipe(T.HttpLabel("Id")),
-    EventLogLevel: S.String,
+    EventLogLevel: LogLevel,
   }).pipe(
     T.all(
       T.Http({ method: "PATCH", uri: "/event-log-configurations/{Id}" }),
@@ -1052,11 +1170,14 @@ export const PutHubConfigurationRequest = S.suspend(() =>
   identifier: "PutHubConfigurationRequest",
 }) as any as S.Schema<PutHubConfigurationRequest>;
 export interface PutDefaultEncryptionConfigurationRequest {
-  encryptionType: string;
+  encryptionType: EncryptionType;
   kmsKeyArn?: string;
 }
 export const PutDefaultEncryptionConfigurationRequest = S.suspend(() =>
-  S.Struct({ encryptionType: S.String, kmsKeyArn: S.optional(S.String) }).pipe(
+  S.Struct({
+    encryptionType: EncryptionType,
+    kmsKeyArn: S.optional(S.String),
+  }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/configuration/account/encryption" }),
       svc,
@@ -1172,9 +1293,9 @@ export interface CapabilityReportCapability {
   id: string;
   name: string;
   version: string;
-  properties: CapabilityReportProperties;
-  actions: CapabilityReportActions;
-  events: CapabilityReportEvents;
+  properties: string[];
+  actions: string[];
+  events: string[];
 }
 export const CapabilityReportCapability = S.suspend(() =>
   S.Struct({
@@ -1192,8 +1313,8 @@ export type CapabilityReportCapabilities = CapabilityReportCapability[];
 export const CapabilityReportCapabilities = S.Array(CapabilityReportCapability);
 export interface CapabilityReportEndpoint {
   id: string;
-  deviceTypes: DeviceTypes;
-  capabilities: CapabilityReportCapabilities;
+  deviceTypes: string[];
+  capabilities: CapabilityReportCapability[];
 }
 export const CapabilityReportEndpoint = S.suspend(() =>
   S.Struct({
@@ -1209,7 +1330,7 @@ export const CapabilityReportEndpoints = S.Array(CapabilityReportEndpoint);
 export interface CapabilityReport {
   version: string;
   nodeId?: string;
-  endpoints: CapabilityReportEndpoints;
+  endpoints: CapabilityReportEndpoint[];
 }
 export const CapabilityReport = S.suspend(() =>
   S.Struct({
@@ -1221,7 +1342,7 @@ export const CapabilityReport = S.suspend(() =>
   identifier: "CapabilityReport",
 }) as any as S.Schema<CapabilityReport>;
 export interface CapabilitySchemaItem {
-  Format: string;
+  Format: SchemaVersionFormat;
   CapabilityId: string;
   ExtrinsicId: string;
   ExtrinsicVersion: number;
@@ -1229,7 +1350,7 @@ export interface CapabilitySchemaItem {
 }
 export const CapabilitySchemaItem = S.suspend(() =>
   S.Struct({
-    Format: S.String,
+    Format: SchemaVersionFormat,
     CapabilityId: S.String,
     ExtrinsicId: S.String,
     ExtrinsicVersion: S.Number,
@@ -1244,18 +1365,18 @@ export type MetaData = { [key: string]: string };
 export const MetaData = S.Record({ key: S.String, value: S.String });
 export interface UpdateManagedThingRequest {
   Identifier: string;
-  Owner?: string | Redacted.Redacted<string>;
+  Owner?: string | redacted.Redacted<string>;
   CredentialLockerId?: string;
-  SerialNumber?: string | Redacted.Redacted<string>;
-  Brand?: string | Redacted.Redacted<string>;
-  Model?: string | Redacted.Redacted<string>;
+  SerialNumber?: string | redacted.Redacted<string>;
+  Brand?: string | redacted.Redacted<string>;
+  Model?: string | redacted.Redacted<string>;
   Name?: string;
   CapabilityReport?: CapabilityReport;
-  CapabilitySchemas?: CapabilitySchemas;
+  CapabilitySchemas?: CapabilitySchemaItem[];
   Capabilities?: string;
-  Classification?: string | Redacted.Redacted<string>;
-  HubNetworkMode?: string;
-  MetaData?: MetaData;
+  Classification?: string | redacted.Redacted<string>;
+  HubNetworkMode?: HubNetworkMode;
+  MetaData?: { [key: string]: string };
 }
 export const UpdateManagedThingRequest = S.suspend(() =>
   S.Struct({
@@ -1270,7 +1391,7 @@ export const UpdateManagedThingRequest = S.suspend(() =>
     CapabilitySchemas: S.optional(CapabilitySchemas),
     Capabilities: S.optional(S.String),
     Classification: S.optional(SensitiveString),
-    HubNetworkMode: S.optional(S.String),
+    HubNetworkMode: S.optional(HubNetworkMode),
     MetaData: S.optional(MetaData),
   }).pipe(
     T.all(
@@ -1319,15 +1440,15 @@ export const DeleteManagedThingResponse = S.suspend(() =>
   identifier: "DeleteManagedThingResponse",
 }) as any as S.Schema<DeleteManagedThingResponse>;
 export interface ListManagedThingsRequest {
-  OwnerFilter?: string | Redacted.Redacted<string>;
+  OwnerFilter?: string | redacted.Redacted<string>;
   CredentialLockerFilter?: string;
-  RoleFilter?: string;
+  RoleFilter?: Role;
   ParentControllerIdentifierFilter?: string;
   ConnectorPolicyIdFilter?: string;
   ConnectorDestinationIdFilter?: string;
-  ConnectorDeviceIdFilter?: string | Redacted.Redacted<string>;
-  SerialNumberFilter?: string | Redacted.Redacted<string>;
-  ProvisioningStatusFilter?: string;
+  ConnectorDeviceIdFilter?: string | redacted.Redacted<string>;
+  SerialNumberFilter?: string | redacted.Redacted<string>;
+  ProvisioningStatusFilter?: ProvisioningStatus;
   NextToken?: string;
   MaxResults?: number;
 }
@@ -1337,7 +1458,7 @@ export const ListManagedThingsRequest = S.suspend(() =>
     CredentialLockerFilter: S.optional(S.String).pipe(
       T.HttpQuery("CredentialLockerFilter"),
     ),
-    RoleFilter: S.optional(S.String).pipe(T.HttpQuery("RoleFilter")),
+    RoleFilter: S.optional(Role).pipe(T.HttpQuery("RoleFilter")),
     ParentControllerIdentifierFilter: S.optional(S.String).pipe(
       T.HttpQuery("ParentControllerIdentifierFilter"),
     ),
@@ -1353,7 +1474,7 @@ export const ListManagedThingsRequest = S.suspend(() =>
     SerialNumberFilter: S.optional(SensitiveString).pipe(
       T.HttpQuery("SerialNumberFilter"),
     ),
-    ProvisioningStatusFilter: S.optional(S.String).pipe(
+    ProvisioningStatusFilter: S.optional(ProvisioningStatus).pipe(
       T.HttpQuery("ProvisioningStatusFilter"),
     ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
@@ -1499,14 +1620,14 @@ export const GetManagedThingStateRequest = S.suspend(() =>
   identifier: "GetManagedThingStateRequest",
 }) as any as S.Schema<GetManagedThingStateRequest>;
 export interface CreateNotificationConfigurationRequest {
-  EventType: string;
+  EventType: EventType;
   DestinationName: string;
   ClientToken?: string;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateNotificationConfigurationRequest = S.suspend(() =>
   S.Struct({
-    EventType: S.String,
+    EventType: EventType,
     DestinationName: S.String,
     ClientToken: S.optional(S.String),
     Tags: S.optional(TagsMap),
@@ -1524,10 +1645,10 @@ export const CreateNotificationConfigurationRequest = S.suspend(() =>
   identifier: "CreateNotificationConfigurationRequest",
 }) as any as S.Schema<CreateNotificationConfigurationRequest>;
 export interface DeleteNotificationConfigurationRequest {
-  EventType: string;
+  EventType: EventType;
 }
 export const DeleteNotificationConfigurationRequest = S.suspend(() =>
-  S.Struct({ EventType: S.String.pipe(T.HttpLabel("EventType")) }).pipe(
+  S.Struct({ EventType: EventType.pipe(T.HttpLabel("EventType")) }).pipe(
     T.all(
       T.Http({
         method: "DELETE",
@@ -1550,10 +1671,10 @@ export const DeleteNotificationConfigurationResponse = S.suspend(() =>
   identifier: "DeleteNotificationConfigurationResponse",
 }) as any as S.Schema<DeleteNotificationConfigurationResponse>;
 export interface GetNotificationConfigurationRequest {
-  EventType: string;
+  EventType: EventType;
 }
 export const GetNotificationConfigurationRequest = S.suspend(() =>
-  S.Struct({ EventType: S.String.pipe(T.HttpLabel("EventType")) }).pipe(
+  S.Struct({ EventType: EventType.pipe(T.HttpLabel("EventType")) }).pipe(
     T.all(
       T.Http({
         method: "GET",
@@ -1591,12 +1712,12 @@ export const ListNotificationConfigurationsRequest = S.suspend(() =>
   identifier: "ListNotificationConfigurationsRequest",
 }) as any as S.Schema<ListNotificationConfigurationsRequest>;
 export interface UpdateNotificationConfigurationRequest {
-  EventType: string;
+  EventType: EventType;
   DestinationName: string;
 }
 export const UpdateNotificationConfigurationRequest = S.suspend(() =>
   S.Struct({
-    EventType: S.String.pipe(T.HttpLabel("EventType")),
+    EventType: EventType.pipe(T.HttpLabel("EventType")),
     DestinationName: S.String,
   }).pipe(
     T.all(
@@ -1794,15 +1915,15 @@ export const ListOtaTaskExecutionsRequest = S.suspend(() =>
   identifier: "ListOtaTaskExecutionsRequest",
 }) as any as S.Schema<ListOtaTaskExecutionsRequest>;
 export interface CreateProvisioningProfileRequest {
-  ProvisioningType: string;
-  CaCertificate?: string | Redacted.Redacted<string>;
+  ProvisioningType: ProvisioningType;
+  CaCertificate?: string | redacted.Redacted<string>;
   Name?: string;
   ClientToken?: string;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateProvisioningProfileRequest = S.suspend(() =>
   S.Struct({
-    ProvisioningType: S.String,
+    ProvisioningType: ProvisioningType,
     CaCertificate: S.optional(SensitiveString),
     Name: S.optional(S.String),
     ClientToken: S.optional(S.String),
@@ -1932,15 +2053,15 @@ export const ResetRuntimeLogConfigurationResponse = S.suspend(() =>
   identifier: "ResetRuntimeLogConfigurationResponse",
 }) as any as S.Schema<ResetRuntimeLogConfigurationResponse>;
 export interface GetSchemaVersionRequest {
-  Type: string;
+  Type: SchemaVersionType;
   SchemaVersionedId: string;
-  Format?: string;
+  Format?: SchemaVersionFormat;
 }
 export const GetSchemaVersionRequest = S.suspend(() =>
   S.Struct({
-    Type: S.String.pipe(T.HttpLabel("Type")),
+    Type: SchemaVersionType.pipe(T.HttpLabel("Type")),
     SchemaVersionedId: S.String.pipe(T.HttpLabel("SchemaVersionedId")),
-    Format: S.optional(S.String).pipe(T.HttpQuery("Format")),
+    Format: S.optional(SchemaVersionFormat).pipe(T.HttpQuery("Format")),
   }).pipe(
     T.all(
       T.Http({
@@ -1958,22 +2079,24 @@ export const GetSchemaVersionRequest = S.suspend(() =>
   identifier: "GetSchemaVersionRequest",
 }) as any as S.Schema<GetSchemaVersionRequest>;
 export interface ListSchemaVersionsRequest {
-  Type: string;
+  Type: SchemaVersionType;
   MaxResults?: number;
   NextToken?: string;
   SchemaId?: string;
   Namespace?: string;
-  Visibility?: string;
+  Visibility?: SchemaVersionVisibility;
   SemanticVersion?: string;
 }
 export const ListSchemaVersionsRequest = S.suspend(() =>
   S.Struct({
-    Type: S.String.pipe(T.HttpLabel("Type")),
+    Type: SchemaVersionType.pipe(T.HttpLabel("Type")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     SchemaId: S.optional(S.String).pipe(T.HttpQuery("SchemaIdFilter")),
     Namespace: S.optional(S.String).pipe(T.HttpQuery("NamespaceFilter")),
-    Visibility: S.optional(S.String).pipe(T.HttpQuery("VisibilityFilter")),
+    Visibility: S.optional(SchemaVersionVisibility).pipe(
+      T.HttpQuery("VisibilityFilter"),
+    ),
     SemanticVersion: S.optional(S.String).pipe(
       T.HttpQuery("SemanticVersionFilter"),
     ),
@@ -1990,6 +2113,37 @@ export const ListSchemaVersionsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListSchemaVersionsRequest",
 }) as any as S.Schema<ListSchemaVersionsRequest>;
+export type ConfigurationState =
+  | "ENABLED"
+  | "UPDATE_IN_PROGRESS"
+  | "UPDATE_FAILED";
+export const ConfigurationState = S.Literal(
+  "ENABLED",
+  "UPDATE_IN_PROGRESS",
+  "UPDATE_FAILED",
+);
+export type SchedulingConfigEndBehavior =
+  | "STOP_ROLLOUT"
+  | "CANCEL"
+  | "FORCE_CANCEL";
+export const SchedulingConfigEndBehavior = S.Literal(
+  "STOP_ROLLOUT",
+  "CANCEL",
+  "FORCE_CANCEL",
+);
+export type AssociationState =
+  | "ASSOCIATION_IN_PROGRESS"
+  | "ASSOCIATION_FAILED"
+  | "ASSOCIATION_SUCCEEDED"
+  | "ASSOCIATION_DELETING"
+  | "REFRESH_TOKEN_EXPIRED";
+export const AssociationState = S.Literal(
+  "ASSOCIATION_IN_PROGRESS",
+  "ASSOCIATION_FAILED",
+  "ASSOCIATION_SUCCEEDED",
+  "ASSOCIATION_DELETING",
+  "REFRESH_TOKEN_EXPIRED",
+);
 export interface SecretsManager {
   arn: string;
   versionId: string;
@@ -2004,9 +2158,53 @@ export const CustomProtocolDetail = S.Record({
   key: S.String,
   value: S.String,
 });
+export type DisconnectReasonValue =
+  | "AUTH_ERROR"
+  | "CLIENT_INITIATED_DISCONNECT"
+  | "CLIENT_ERROR"
+  | "CONNECTION_LOST"
+  | "DUPLICATE_CLIENTID"
+  | "FORBIDDEN_ACCESS"
+  | "MQTT_KEEP_ALIVE_TIMEOUT"
+  | "SERVER_ERROR"
+  | "SERVER_INITIATED_DISCONNECT"
+  | "THROTTLED"
+  | "WEBSOCKET_TTL_EXPIRATION"
+  | "CUSTOMAUTH_TTL_EXPIRATION"
+  | "UNKNOWN"
+  | "NONE";
+export const DisconnectReasonValue = S.Literal(
+  "AUTH_ERROR",
+  "CLIENT_INITIATED_DISCONNECT",
+  "CLIENT_ERROR",
+  "CONNECTION_LOST",
+  "DUPLICATE_CLIENTID",
+  "FORBIDDEN_ACCESS",
+  "MQTT_KEEP_ALIVE_TIMEOUT",
+  "SERVER_ERROR",
+  "SERVER_INITIATED_DISCONNECT",
+  "THROTTLED",
+  "WEBSOCKET_TTL_EXPIRATION",
+  "CUSTOMAUTH_TTL_EXPIRATION",
+  "UNKNOWN",
+  "NONE",
+);
+export type OtaStatus =
+  | "IN_PROGRESS"
+  | "CANCELED"
+  | "COMPLETED"
+  | "DELETION_IN_PROGRESS"
+  | "SCHEDULED";
+export const OtaStatus = S.Literal(
+  "IN_PROGRESS",
+  "CANCELED",
+  "COMPLETED",
+  "DELETION_IN_PROGRESS",
+  "SCHEDULED",
+);
 export interface RuntimeLogConfigurations {
-  LogLevel?: string;
-  LogFlushLevel?: string;
+  LogLevel?: LogLevel;
+  LogFlushLevel?: LogLevel;
   LocalStoreLocation?: string;
   LocalStoreFileRotationMaxFiles?: number;
   LocalStoreFileRotationMaxBytes?: number;
@@ -2016,8 +2214,8 @@ export interface RuntimeLogConfigurations {
 }
 export const RuntimeLogConfigurations = S.suspend(() =>
   S.Struct({
-    LogLevel: S.optional(S.String),
-    LogFlushLevel: S.optional(S.String),
+    LogLevel: S.optional(LogLevel),
+    LogFlushLevel: S.optional(LogLevel),
     LocalStoreLocation: S.optional(S.String),
     LocalStoreFileRotationMaxFiles: S.optional(S.Number),
     LocalStoreFileRotationMaxBytes: S.optional(S.Number),
@@ -2028,8 +2226,17 @@ export const RuntimeLogConfigurations = S.suspend(() =>
 ).annotations({
   identifier: "RuntimeLogConfigurations",
 }) as any as S.Schema<RuntimeLogConfigurations>;
+export type TokenEndpointAuthenticationScheme =
+  | "HTTP_BASIC"
+  | "REQUEST_BODY_CREDENTIALS";
+export const TokenEndpointAuthenticationScheme = S.Literal(
+  "HTTP_BASIC",
+  "REQUEST_BODY_CREDENTIALS",
+);
+export type RetryCriteriaFailureType = "FAILED" | "TIMED_OUT" | "ALL";
+export const RetryCriteriaFailureType = S.Literal("FAILED", "TIMED_OUT", "ALL");
 export interface ListTagsForResourceResponse {
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagsMap) }),
@@ -2038,7 +2245,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagsMap;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -2062,16 +2269,16 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface CreateAccountAssociationResponse {
-  OAuthAuthorizationUrl: string | Redacted.Redacted<string>;
+  OAuthAuthorizationUrl: string | redacted.Redacted<string>;
   AccountAssociationId: string;
-  AssociationState: string;
+  AssociationState: AssociationState;
   Arn?: string;
 }
 export const CreateAccountAssociationResponse = S.suspend(() =>
   S.Struct({
     OAuthAuthorizationUrl: SensitiveString,
     AccountAssociationId: S.String,
-    AssociationState: S.String,
+    AssociationState: AssociationState,
     Arn: S.optional(S.String),
   }),
 ).annotations({
@@ -2079,19 +2286,19 @@ export const CreateAccountAssociationResponse = S.suspend(() =>
 }) as any as S.Schema<CreateAccountAssociationResponse>;
 export interface GetAccountAssociationResponse {
   AccountAssociationId: string;
-  AssociationState: string;
+  AssociationState: AssociationState;
   ErrorMessage?: string;
   ConnectorDestinationId?: string;
   Name?: string;
   Description?: string;
   Arn?: string;
-  OAuthAuthorizationUrl: string | Redacted.Redacted<string>;
-  Tags?: TagsMap;
+  OAuthAuthorizationUrl: string | redacted.Redacted<string>;
+  Tags?: { [key: string]: string };
 }
 export const GetAccountAssociationResponse = S.suspend(() =>
   S.Struct({
     AccountAssociationId: S.String,
-    AssociationState: S.String,
+    AssociationState: AssociationState,
     ErrorMessage: S.optional(S.String),
     ConnectorDestinationId: S.optional(S.String),
     Name: S.optional(S.String),
@@ -2104,7 +2311,7 @@ export const GetAccountAssociationResponse = S.suspend(() =>
   identifier: "GetAccountAssociationResponse",
 }) as any as S.Schema<GetAccountAssociationResponse>;
 export interface StartAccountAssociationRefreshResponse {
-  OAuthAuthorizationUrl: string | Redacted.Redacted<string>;
+  OAuthAuthorizationUrl: string | redacted.Redacted<string>;
 }
 export const StartAccountAssociationRefreshResponse = S.suspend(() =>
   S.Struct({ OAuthAuthorizationUrl: SensitiveString }),
@@ -2129,18 +2336,18 @@ export interface GetCloudConnectorResponse {
   Name: string;
   EndpointConfig: EndpointConfig;
   Description?: string;
-  EndpointType?: string;
+  EndpointType?: EndpointType;
   Id?: string;
-  Type?: string;
+  Type?: CloudConnectorType;
 }
 export const GetCloudConnectorResponse = S.suspend(() =>
   S.Struct({
     Name: S.String,
     EndpointConfig: EndpointConfig,
     Description: S.optional(S.String),
-    EndpointType: S.optional(S.String),
+    EndpointType: S.optional(EndpointType),
     Id: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(CloudConnectorType),
   }),
 ).annotations({
   identifier: "GetCloudConnectorResponse",
@@ -2161,7 +2368,7 @@ export interface OAuthConfig {
   authUrl: string;
   tokenUrl: string;
   scope?: string;
-  tokenEndpointAuthenticationScheme: string;
+  tokenEndpointAuthenticationScheme: TokenEndpointAuthenticationScheme;
   oAuthCompleteRedirectUrl?: string;
   proactiveRefreshTokenRenewal?: ProactiveRefreshTokenRenewal;
 }
@@ -2170,7 +2377,7 @@ export const OAuthConfig = S.suspend(() =>
     authUrl: S.String,
     tokenUrl: S.String,
     scope: S.optional(S.String),
-    tokenEndpointAuthenticationScheme: S.String,
+    tokenEndpointAuthenticationScheme: TokenEndpointAuthenticationScheme,
     oAuthCompleteRedirectUrl: S.optional(S.String),
     proactiveRefreshTokenRenewal: S.optional(ProactiveRefreshTokenRenewal),
   }),
@@ -2186,7 +2393,7 @@ export interface GetConnectorDestinationResponse {
   Description?: string;
   CloudConnectorId?: string;
   Id?: string;
-  AuthType?: string;
+  AuthType?: AuthType;
   AuthConfig?: AuthConfig;
   SecretsManager?: SecretsManager;
   OAuthCompleteRedirectUrl?: string;
@@ -2197,7 +2404,7 @@ export const GetConnectorDestinationResponse = S.suspend(() =>
     Description: S.optional(S.String),
     CloudConnectorId: S.optional(S.String),
     Id: S.optional(S.String),
-    AuthType: S.optional(S.String),
+    AuthType: S.optional(AuthType),
     AuthConfig: S.optional(AuthConfig),
     SecretsManager: S.optional(SecretsManager),
     OAuthCompleteRedirectUrl: S.optional(S.String),
@@ -2222,9 +2429,9 @@ export const CreateCredentialLockerResponse = S.suspend(() =>
 export interface GetCredentialLockerResponse {
   Id?: string;
   Arn?: string;
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
   CreatedAt?: Date;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const GetCredentialLockerResponse = S.suspend(() =>
   S.Struct({
@@ -2248,18 +2455,18 @@ export const CreateDestinationResponse = S.suspend(() =>
 export interface GetDestinationResponse {
   Description?: string;
   DeliveryDestinationArn?: string;
-  DeliveryDestinationType?: string;
+  DeliveryDestinationType?: DeliveryDestinationType;
   Name?: string;
   RoleArn?: string;
   CreatedAt?: Date;
   UpdatedAt?: Date;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const GetDestinationResponse = S.suspend(() =>
   S.Struct({
     Description: S.optional(S.String),
     DeliveryDestinationArn: S.optional(S.String),
-    DeliveryDestinationType: S.optional(S.String),
+    DeliveryDestinationType: S.optional(DeliveryDestinationType),
     Name: S.optional(S.String),
     RoleArn: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2270,25 +2477,25 @@ export const GetDestinationResponse = S.suspend(() =>
   identifier: "GetDestinationResponse",
 }) as any as S.Schema<GetDestinationResponse>;
 export interface StartDeviceDiscoveryRequest {
-  DiscoveryType: string;
-  CustomProtocolDetail?: CustomProtocolDetail;
+  DiscoveryType: DiscoveryType;
+  CustomProtocolDetail?: { [key: string]: string };
   ControllerIdentifier?: string;
   ConnectorAssociationIdentifier?: string;
   AccountAssociationId?: string;
-  AuthenticationMaterial?: string | Redacted.Redacted<string>;
-  AuthenticationMaterialType?: string;
+  AuthenticationMaterial?: string | redacted.Redacted<string>;
+  AuthenticationMaterialType?: DiscoveryAuthMaterialType;
   ClientToken?: string;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const StartDeviceDiscoveryRequest = S.suspend(() =>
   S.Struct({
-    DiscoveryType: S.String,
+    DiscoveryType: DiscoveryType,
     CustomProtocolDetail: S.optional(CustomProtocolDetail),
     ControllerIdentifier: S.optional(S.String),
     ConnectorAssociationIdentifier: S.optional(S.String),
     AccountAssociationId: S.optional(S.String),
     AuthenticationMaterial: S.optional(SensitiveString),
-    AuthenticationMaterialType: S.optional(S.String),
+    AuthenticationMaterialType: S.optional(DiscoveryAuthMaterialType),
     ClientToken: S.optional(S.String),
     Tags: S.optional(TagsMap),
   }).pipe(
@@ -2307,21 +2514,21 @@ export const StartDeviceDiscoveryRequest = S.suspend(() =>
 export interface GetDeviceDiscoveryResponse {
   Id: string;
   Arn: string;
-  DiscoveryType: string;
-  Status: string;
+  DiscoveryType: DiscoveryType;
+  Status: DeviceDiscoveryStatus;
   StartedAt: Date;
   ControllerId?: string;
   ConnectorAssociationId?: string;
   AccountAssociationId?: string;
   FinishedAt?: Date;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const GetDeviceDiscoveryResponse = S.suspend(() =>
   S.Struct({
     Id: S.String,
     Arn: S.String,
-    DiscoveryType: S.String,
-    Status: S.String,
+    DiscoveryType: DiscoveryType,
+    Status: DeviceDiscoveryStatus,
     StartedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ControllerId: S.optional(S.String),
     ConnectorAssociationId: S.optional(S.String),
@@ -2344,14 +2551,14 @@ export interface GetEventLogConfigurationResponse {
   Id?: string;
   ResourceType?: string;
   ResourceId?: string;
-  EventLogLevel?: string;
+  EventLogLevel?: LogLevel;
 }
 export const GetEventLogConfigurationResponse = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     ResourceType: S.optional(S.String),
     ResourceId: S.optional(S.String),
-    EventLogLevel: S.optional(S.String),
+    EventLogLevel: S.optional(LogLevel),
   }),
 ).annotations({
   identifier: "GetEventLogConfigurationResponse",
@@ -2375,22 +2582,25 @@ export const ConfigurationError = S.suspend(() =>
 }) as any as S.Schema<ConfigurationError>;
 export interface ConfigurationStatus {
   error?: ConfigurationError;
-  state: string;
+  state: ConfigurationState;
 }
 export const ConfigurationStatus = S.suspend(() =>
-  S.Struct({ error: S.optional(ConfigurationError), state: S.String }),
+  S.Struct({
+    error: S.optional(ConfigurationError),
+    state: ConfigurationState,
+  }),
 ).annotations({
   identifier: "ConfigurationStatus",
 }) as any as S.Schema<ConfigurationStatus>;
 export interface PutDefaultEncryptionConfigurationResponse {
   configurationStatus: ConfigurationStatus;
-  encryptionType: string;
+  encryptionType: EncryptionType;
   kmsKeyArn?: string;
 }
 export const PutDefaultEncryptionConfigurationResponse = S.suspend(() =>
   S.Struct({
     configurationStatus: ConfigurationStatus,
-    encryptionType: S.String,
+    encryptionType: EncryptionType,
     kmsKeyArn: S.optional(S.String),
   }),
 ).annotations({
@@ -2413,30 +2623,30 @@ export const RegisterAccountAssociationResponse = S.suspend(() =>
 export interface GetManagedThingResponse {
   Id?: string;
   Arn?: string;
-  Owner?: string | Redacted.Redacted<string>;
+  Owner?: string | redacted.Redacted<string>;
   CredentialLockerId?: string;
   AdvertisedProductId?: string;
-  Role?: string;
-  ProvisioningStatus?: string;
+  Role?: Role;
+  ProvisioningStatus?: ProvisioningStatus;
   Name?: string;
-  Model?: string | Redacted.Redacted<string>;
-  Brand?: string | Redacted.Redacted<string>;
-  SerialNumber?: string | Redacted.Redacted<string>;
-  UniversalProductCode?: string | Redacted.Redacted<string>;
-  InternationalArticleNumber?: string | Redacted.Redacted<string>;
+  Model?: string | redacted.Redacted<string>;
+  Brand?: string | redacted.Redacted<string>;
+  SerialNumber?: string | redacted.Redacted<string>;
+  UniversalProductCode?: string | redacted.Redacted<string>;
+  InternationalArticleNumber?: string | redacted.Redacted<string>;
   ConnectorPolicyId?: string;
   ConnectorDestinationId?: string;
-  ConnectorDeviceId?: string | Redacted.Redacted<string>;
-  DeviceSpecificKey?: string | Redacted.Redacted<string>;
-  MacAddress?: string | Redacted.Redacted<string>;
+  ConnectorDeviceId?: string | redacted.Redacted<string>;
+  DeviceSpecificKey?: string | redacted.Redacted<string>;
+  MacAddress?: string | redacted.Redacted<string>;
   ParentControllerId?: string;
-  Classification?: string | Redacted.Redacted<string>;
+  Classification?: string | redacted.Redacted<string>;
   CreatedAt?: Date;
   UpdatedAt?: Date;
   ActivatedAt?: Date;
-  HubNetworkMode?: string;
-  MetaData?: MetaData;
-  Tags?: TagsMap;
+  HubNetworkMode?: HubNetworkMode;
+  MetaData?: { [key: string]: string };
+  Tags?: { [key: string]: string };
 }
 export const GetManagedThingResponse = S.suspend(() =>
   S.Struct({
@@ -2445,8 +2655,8 @@ export const GetManagedThingResponse = S.suspend(() =>
     Owner: S.optional(SensitiveString),
     CredentialLockerId: S.optional(S.String),
     AdvertisedProductId: S.optional(S.String),
-    Role: S.optional(S.String),
-    ProvisioningStatus: S.optional(S.String),
+    Role: S.optional(Role),
+    ProvisioningStatus: S.optional(ProvisioningStatus),
     Name: S.optional(S.String),
     Model: S.optional(SensitiveString),
     Brand: S.optional(SensitiveString),
@@ -2463,7 +2673,7 @@ export const GetManagedThingResponse = S.suspend(() =>
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ActivatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    HubNetworkMode: S.optional(S.String),
+    HubNetworkMode: S.optional(HubNetworkMode),
     MetaData: S.optional(MetaData),
     Tags: S.optional(TagsMap),
   }),
@@ -2500,21 +2710,21 @@ export interface GetManagedThingConnectivityDataResponse {
   ManagedThingId?: string;
   Connected?: boolean;
   Timestamp?: Date;
-  DisconnectReason?: string;
+  DisconnectReason?: DisconnectReasonValue;
 }
 export const GetManagedThingConnectivityDataResponse = S.suspend(() =>
   S.Struct({
     ManagedThingId: S.optional(S.String),
     Connected: S.optional(S.Boolean),
     Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    DisconnectReason: S.optional(S.String),
+    DisconnectReason: S.optional(DisconnectReasonValue),
   }),
 ).annotations({
   identifier: "GetManagedThingConnectivityDataResponse",
 }) as any as S.Schema<GetManagedThingConnectivityDataResponse>;
 export interface GetManagedThingMetaDataResponse {
   ManagedThingId?: string;
-  MetaData?: MetaData;
+  MetaData?: { [key: string]: string };
 }
 export const GetManagedThingMetaDataResponse = S.suspend(() =>
   S.Struct({
@@ -2525,23 +2735,23 @@ export const GetManagedThingMetaDataResponse = S.suspend(() =>
   identifier: "GetManagedThingMetaDataResponse",
 }) as any as S.Schema<GetManagedThingMetaDataResponse>;
 export interface CreateNotificationConfigurationResponse {
-  EventType?: string;
+  EventType?: EventType;
 }
 export const CreateNotificationConfigurationResponse = S.suspend(() =>
-  S.Struct({ EventType: S.optional(S.String) }),
+  S.Struct({ EventType: S.optional(EventType) }),
 ).annotations({
   identifier: "CreateNotificationConfigurationResponse",
 }) as any as S.Schema<CreateNotificationConfigurationResponse>;
 export interface GetNotificationConfigurationResponse {
-  EventType?: string;
+  EventType?: EventType;
   DestinationName?: string;
   CreatedAt?: Date;
   UpdatedAt?: Date;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const GetNotificationConfigurationResponse = S.suspend(() =>
   S.Struct({
-    EventType: S.optional(S.String),
+    EventType: S.optional(EventType),
     DestinationName: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2550,16 +2760,29 @@ export const GetNotificationConfigurationResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetNotificationConfigurationResponse",
 }) as any as S.Schema<GetNotificationConfigurationResponse>;
+export type AbortCriteriaAction = "CANCEL";
+export const AbortCriteriaAction = S.Literal("CANCEL");
+export type AbortCriteriaFailureType =
+  | "FAILED"
+  | "REJECTED"
+  | "TIMED_OUT"
+  | "ALL";
+export const AbortCriteriaFailureType = S.Literal(
+  "FAILED",
+  "REJECTED",
+  "TIMED_OUT",
+  "ALL",
+);
 export interface AbortConfigCriteria {
-  Action?: string;
-  FailureType?: string;
+  Action?: AbortCriteriaAction;
+  FailureType?: AbortCriteriaFailureType;
   MinNumberOfExecutedThings?: number;
   ThresholdPercentage?: number;
 }
 export const AbortConfigCriteria = S.suspend(() =>
   S.Struct({
-    Action: S.optional(S.String),
-    FailureType: S.optional(S.String),
+    Action: S.optional(AbortCriteriaAction),
+    FailureType: S.optional(AbortCriteriaFailureType),
     MinNumberOfExecutedThings: S.optional(S.Number),
     ThresholdPercentage: S.optional(S.Number),
   }),
@@ -2569,7 +2792,7 @@ export const AbortConfigCriteria = S.suspend(() =>
 export type AbortConfigCriteriaList = AbortConfigCriteria[];
 export const AbortConfigCriteriaList = S.Array(AbortConfigCriteria);
 export interface OtaTaskAbortConfig {
-  AbortConfigCriteriaList?: AbortConfigCriteriaList;
+  AbortConfigCriteriaList?: AbortConfigCriteria[];
 }
 export const OtaTaskAbortConfig = S.suspend(() =>
   S.Struct({ AbortConfigCriteriaList: S.optional(AbortConfigCriteriaList) }),
@@ -2636,7 +2859,7 @@ export const PushConfig = S.suspend(() =>
 ).annotations({ identifier: "PushConfig" }) as any as S.Schema<PushConfig>;
 export interface GetOtaTaskConfigurationResponse {
   TaskConfigurationId?: string;
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
   PushConfig?: PushConfig;
   Description?: string;
   CreatedAt?: Date;
@@ -2655,16 +2878,16 @@ export const GetOtaTaskConfigurationResponse = S.suspend(() =>
 export interface CreateProvisioningProfileResponse {
   Arn?: string;
   Name?: string;
-  ProvisioningType?: string;
+  ProvisioningType?: ProvisioningType;
   Id?: string;
-  ClaimCertificate?: string | Redacted.Redacted<string>;
-  ClaimCertificatePrivateKey?: string | Redacted.Redacted<string>;
+  ClaimCertificate?: string | redacted.Redacted<string>;
+  ClaimCertificatePrivateKey?: string | redacted.Redacted<string>;
 }
 export const CreateProvisioningProfileResponse = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     Name: S.optional(S.String),
-    ProvisioningType: S.optional(S.String),
+    ProvisioningType: S.optional(ProvisioningType),
     Id: S.optional(S.String),
     ClaimCertificate: S.optional(SensitiveString),
     ClaimCertificatePrivateKey: S.optional(SensitiveString),
@@ -2675,16 +2898,16 @@ export const CreateProvisioningProfileResponse = S.suspend(() =>
 export interface GetProvisioningProfileResponse {
   Arn?: string;
   Name?: string;
-  ProvisioningType?: string;
+  ProvisioningType?: ProvisioningType;
   Id?: string;
-  ClaimCertificate?: string | Redacted.Redacted<string>;
-  Tags?: TagsMap;
+  ClaimCertificate?: string | redacted.Redacted<string>;
+  Tags?: { [key: string]: string };
 }
 export const GetProvisioningProfileResponse = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     Name: S.optional(S.String),
-    ProvisioningType: S.optional(S.String),
+    ProvisioningType: S.optional(ProvisioningType),
     Id: S.optional(S.String),
     ClaimCertificate: S.optional(SensitiveString),
     Tags: S.optional(TagsMap),
@@ -2736,21 +2959,21 @@ export const PutRuntimeLogConfigurationResponse = S.suspend(() =>
 }) as any as S.Schema<PutRuntimeLogConfigurationResponse>;
 export interface GetSchemaVersionResponse {
   SchemaId?: string;
-  Type?: string;
+  Type?: SchemaVersionType;
   Description?: string;
   Namespace?: string;
   SemanticVersion?: string;
-  Visibility?: string;
+  Visibility?: SchemaVersionVisibility;
   Schema?: any;
 }
 export const GetSchemaVersionResponse = S.suspend(() =>
   S.Struct({
     SchemaId: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(SchemaVersionType),
     Description: S.optional(S.String),
     Namespace: S.optional(S.String),
     SemanticVersion: S.optional(S.String),
-    Visibility: S.optional(S.String),
+    Visibility: S.optional(SchemaVersionVisibility),
     Schema: S.optional(S.Any),
   }),
 ).annotations({
@@ -2768,6 +2991,12 @@ export const OAuthUpdate = S.suspend(() =>
 ).annotations({ identifier: "OAuthUpdate" }) as any as S.Schema<OAuthUpdate>;
 export type DeviceTypeList = string[];
 export const DeviceTypeList = S.Array(S.String);
+export type DiscoveryModification = "DISCOVERED" | "UPDATED" | "NO_CHANGE";
+export const DiscoveryModification = S.Literal(
+  "DISCOVERED",
+  "UPDATED",
+  "NO_CHANGE",
+);
 export interface ScheduleMaintenanceWindow {
   DurationInMinutes?: number;
   StartTime?: string;
@@ -2783,12 +3012,12 @@ export const ScheduleMaintenanceWindow = S.suspend(() =>
 export type ScheduleMaintenanceWindowList = ScheduleMaintenanceWindow[];
 export const ScheduleMaintenanceWindowList = S.Array(ScheduleMaintenanceWindow);
 export interface RetryConfigCriteria {
-  FailureType?: string;
+  FailureType?: RetryCriteriaFailureType;
   MinNumberOfRetries?: number;
 }
 export const RetryConfigCriteria = S.suspend(() =>
   S.Struct({
-    FailureType: S.optional(S.String),
+    FailureType: S.optional(RetryCriteriaFailureType),
     MinNumberOfRetries: S.optional(S.Number),
   }),
 ).annotations({
@@ -2804,7 +3033,7 @@ export type MatterCapabilityReportEndpointClientClusters = string[];
 export const MatterCapabilityReportEndpointClientClusters = S.Array(S.String);
 export interface AccountAssociationItem {
   AccountAssociationId: string;
-  AssociationState: string;
+  AssociationState: AssociationState;
   ErrorMessage?: string;
   ConnectorDestinationId?: string;
   Name?: string;
@@ -2814,7 +3043,7 @@ export interface AccountAssociationItem {
 export const AccountAssociationItem = S.suspend(() =>
   S.Struct({
     AccountAssociationId: S.String,
-    AssociationState: S.String,
+    AssociationState: AssociationState,
     ErrorMessage: S.optional(S.String),
     ConnectorDestinationId: S.optional(S.String),
     Name: S.optional(S.String),
@@ -2830,18 +3059,18 @@ export interface ConnectorItem {
   Name: string;
   EndpointConfig: EndpointConfig;
   Description?: string;
-  EndpointType?: string;
+  EndpointType?: EndpointType;
   Id?: string;
-  Type?: string;
+  Type?: CloudConnectorType;
 }
 export const ConnectorItem = S.suspend(() =>
   S.Struct({
     Name: S.String,
     EndpointConfig: EndpointConfig,
     Description: S.optional(S.String),
-    EndpointType: S.optional(S.String),
+    EndpointType: S.optional(EndpointType),
     Id: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(CloudConnectorType),
   }),
 ).annotations({
   identifier: "ConnectorItem",
@@ -2879,7 +3108,7 @@ export const ConnectorDestinationListDefinition = S.Array(
 export interface CredentialLockerSummary {
   Id?: string;
   Arn?: string;
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
   CreatedAt?: Date;
 }
 export const CredentialLockerSummary = S.suspend(() =>
@@ -2897,7 +3126,7 @@ export const CredentialLockerListDefinition = S.Array(CredentialLockerSummary);
 export interface DestinationSummary {
   Description?: string;
   DeliveryDestinationArn?: string;
-  DeliveryDestinationType?: string;
+  DeliveryDestinationType?: DeliveryDestinationType;
   Name?: string;
   RoleArn?: string;
 }
@@ -2905,7 +3134,7 @@ export const DestinationSummary = S.suspend(() =>
   S.Struct({
     Description: S.optional(S.String),
     DeliveryDestinationArn: S.optional(S.String),
-    DeliveryDestinationType: S.optional(S.String),
+    DeliveryDestinationType: S.optional(DeliveryDestinationType),
     Name: S.optional(S.String),
     RoleArn: S.optional(S.String),
   }),
@@ -2916,14 +3145,14 @@ export type DestinationListDefinition = DestinationSummary[];
 export const DestinationListDefinition = S.Array(DestinationSummary);
 export interface DeviceDiscoverySummary {
   Id?: string;
-  DiscoveryType?: string;
-  Status?: string;
+  DiscoveryType?: DiscoveryType;
+  Status?: DeviceDiscoveryStatus;
 }
 export const DeviceDiscoverySummary = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
-    DiscoveryType: S.optional(S.String),
-    Status: S.optional(S.String),
+    DiscoveryType: S.optional(DiscoveryType),
+    Status: S.optional(DeviceDiscoveryStatus),
   }),
 ).annotations({
   identifier: "DeviceDiscoverySummary",
@@ -2931,15 +3160,15 @@ export const DeviceDiscoverySummary = S.suspend(() =>
 export type DeviceDiscoveryListDefinition = DeviceDiscoverySummary[];
 export const DeviceDiscoveryListDefinition = S.Array(DeviceDiscoverySummary);
 export interface DiscoveredDeviceSummary {
-  ConnectorDeviceId?: string | Redacted.Redacted<string>;
-  ConnectorDeviceName?: string | Redacted.Redacted<string>;
-  DeviceTypes?: DeviceTypeList;
+  ConnectorDeviceId?: string | redacted.Redacted<string>;
+  ConnectorDeviceName?: string | redacted.Redacted<string>;
+  DeviceTypes?: string[];
   ManagedThingId?: string;
-  Modification?: string;
+  Modification?: DiscoveryModification;
   DiscoveredAt?: Date;
-  Brand?: string | Redacted.Redacted<string>;
-  Model?: string | Redacted.Redacted<string>;
-  AuthenticationMaterial?: string | Redacted.Redacted<string>;
+  Brand?: string | redacted.Redacted<string>;
+  Model?: string | redacted.Redacted<string>;
+  AuthenticationMaterial?: string | redacted.Redacted<string>;
 }
 export const DiscoveredDeviceSummary = S.suspend(() =>
   S.Struct({
@@ -2947,7 +3176,7 @@ export const DiscoveredDeviceSummary = S.suspend(() =>
     ConnectorDeviceName: S.optional(SensitiveString),
     DeviceTypes: S.optional(DeviceTypeList),
     ManagedThingId: S.optional(S.String),
-    Modification: S.optional(S.String),
+    Modification: S.optional(DiscoveryModification),
     DiscoveredAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Brand: S.optional(SensitiveString),
     Model: S.optional(SensitiveString),
@@ -2962,14 +3191,14 @@ export interface EventLogConfigurationSummary {
   Id?: string;
   ResourceType?: string;
   ResourceId?: string;
-  EventLogLevel?: string;
+  EventLogLevel?: LogLevel;
 }
 export const EventLogConfigurationSummary = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     ResourceType: S.optional(S.String),
     ResourceId: S.optional(S.String),
-    EventLogLevel: S.optional(S.String),
+    EventLogLevel: S.optional(LogLevel),
   }),
 ).annotations({
   identifier: "EventLogConfigurationSummary",
@@ -2997,19 +3226,19 @@ export interface ManagedThingSummary {
   Id?: string;
   Arn?: string;
   AdvertisedProductId?: string;
-  Brand?: string | Redacted.Redacted<string>;
-  Classification?: string | Redacted.Redacted<string>;
-  ConnectorDeviceId?: string | Redacted.Redacted<string>;
+  Brand?: string | redacted.Redacted<string>;
+  Classification?: string | redacted.Redacted<string>;
+  ConnectorDeviceId?: string | redacted.Redacted<string>;
   ConnectorPolicyId?: string;
   ConnectorDestinationId?: string;
-  Model?: string | Redacted.Redacted<string>;
+  Model?: string | redacted.Redacted<string>;
   Name?: string;
-  Owner?: string | Redacted.Redacted<string>;
+  Owner?: string | redacted.Redacted<string>;
   CredentialLockerId?: string;
   ParentControllerId?: string;
-  ProvisioningStatus?: string;
-  Role?: string;
-  SerialNumber?: string | Redacted.Redacted<string>;
+  ProvisioningStatus?: ProvisioningStatus;
+  Role?: Role;
+  SerialNumber?: string | redacted.Redacted<string>;
   CreatedAt?: Date;
   UpdatedAt?: Date;
   ActivatedAt?: Date;
@@ -3029,8 +3258,8 @@ export const ManagedThingSummary = S.suspend(() =>
     Owner: S.optional(SensitiveString),
     CredentialLockerId: S.optional(S.String),
     ParentControllerId: S.optional(S.String),
-    ProvisioningStatus: S.optional(S.String),
-    Role: S.optional(S.String),
+    ProvisioningStatus: S.optional(ProvisioningStatus),
+    Role: S.optional(Role),
     SerialNumber: S.optional(SensitiveString),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -3060,12 +3289,12 @@ export const ManagedThingSchemaListDefinition = S.Array(
   ManagedThingSchemaListItem,
 );
 export interface NotificationConfigurationSummary {
-  EventType?: string;
+  EventType?: EventType;
   DestinationName?: string;
 }
 export const NotificationConfigurationSummary = S.suspend(() =>
   S.Struct({
-    EventType: S.optional(S.String),
+    EventType: S.optional(EventType),
     DestinationName: S.optional(S.String),
   }),
 ).annotations({
@@ -3078,7 +3307,7 @@ export const NotificationConfigurationListDefinition = S.Array(
 );
 export interface OtaTaskConfigurationSummary {
   TaskConfigurationId?: string;
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
   CreatedAt?: Date;
 }
 export const OtaTaskConfigurationSummary = S.suspend(() =>
@@ -3095,14 +3324,14 @@ export const OtaTaskConfigurationListDefinition = S.Array(
   OtaTaskConfigurationSummary,
 );
 export interface OtaTaskSchedulingConfig {
-  EndBehavior?: string;
+  EndBehavior?: SchedulingConfigEndBehavior;
   EndTime?: string;
-  MaintenanceWindows?: ScheduleMaintenanceWindowList;
+  MaintenanceWindows?: ScheduleMaintenanceWindow[];
   StartTime?: string;
 }
 export const OtaTaskSchedulingConfig = S.suspend(() =>
   S.Struct({
-    EndBehavior: S.optional(S.String),
+    EndBehavior: S.optional(SchedulingConfigEndBehavior),
     EndTime: S.optional(S.String),
     MaintenanceWindows: S.optional(ScheduleMaintenanceWindowList),
     StartTime: S.optional(S.String),
@@ -3111,7 +3340,7 @@ export const OtaTaskSchedulingConfig = S.suspend(() =>
   identifier: "OtaTaskSchedulingConfig",
 }) as any as S.Schema<OtaTaskSchedulingConfig>;
 export interface OtaTaskExecutionRetryConfig {
-  RetryConfigCriteria?: RetryConfigCriteriaList;
+  RetryConfigCriteria?: RetryConfigCriteria[];
 }
 export const OtaTaskExecutionRetryConfig = S.suspend(() =>
   S.Struct({ RetryConfigCriteria: S.optional(RetryConfigCriteriaList) }),
@@ -3127,7 +3356,7 @@ export interface TaskProcessingDetails {
   numberOfRemovedThings?: number;
   numberOfSucceededThings?: number;
   numberOfTimedOutThings?: number;
-  processingTargets?: Target;
+  processingTargets?: string[];
 }
 export const TaskProcessingDetails = S.suspend(() =>
   S.Struct({
@@ -3150,7 +3379,7 @@ export interface OtaTaskSummary {
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
   TaskConfigurationId?: string;
-  Status?: string;
+  Status?: OtaStatus;
 }
 export const OtaTaskSummary = S.suspend(() =>
   S.Struct({
@@ -3159,7 +3388,7 @@ export const OtaTaskSummary = S.suspend(() =>
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     TaskConfigurationId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(OtaStatus),
   }),
 ).annotations({
   identifier: "OtaTaskSummary",
@@ -3170,14 +3399,14 @@ export interface ProvisioningProfileSummary {
   Name?: string;
   Id?: string;
   Arn?: string;
-  ProvisioningType?: string;
+  ProvisioningType?: ProvisioningType;
 }
 export const ProvisioningProfileSummary = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
-    ProvisioningType: S.optional(S.String),
+    ProvisioningType: S.optional(ProvisioningType),
   }),
 ).annotations({
   identifier: "ProvisioningProfileSummary",
@@ -3188,20 +3417,20 @@ export const ProvisioningProfileListDefinition = S.Array(
 );
 export interface SchemaVersionListItem {
   SchemaId?: string;
-  Type?: string;
+  Type?: SchemaVersionType;
   Description?: string;
   Namespace?: string;
   SemanticVersion?: string;
-  Visibility?: string;
+  Visibility?: SchemaVersionVisibility;
 }
 export const SchemaVersionListItem = S.suspend(() =>
   S.Struct({
     SchemaId: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(SchemaVersionType),
     Description: S.optional(S.String),
     Namespace: S.optional(S.String),
     SemanticVersion: S.optional(S.String),
-    Visibility: S.optional(S.String),
+    Visibility: S.optional(SchemaVersionVisibility),
   }),
 ).annotations({
   identifier: "SchemaVersionListItem",
@@ -3230,6 +3459,25 @@ export const CapabilityAction = S.suspend(() =>
 }) as any as S.Schema<CapabilityAction>;
 export type CapabilityActions = CapabilityAction[];
 export const CapabilityActions = S.Array(CapabilityAction);
+export type OtaTaskExecutionStatus =
+  | "QUEUED"
+  | "IN_PROGRESS"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "TIMED_OUT"
+  | "REJECTED"
+  | "REMOVED"
+  | "CANCELED";
+export const OtaTaskExecutionStatus = S.Literal(
+  "QUEUED",
+  "IN_PROGRESS",
+  "SUCCEEDED",
+  "FAILED",
+  "TIMED_OUT",
+  "REJECTED",
+  "REMOVED",
+  "CANCELED",
+);
 export type MatterCapabilityReportCommands = string[];
 export const MatterCapabilityReportCommands = S.Array(S.String);
 export type MatterCapabilityReportEvents = string[];
@@ -3237,7 +3485,7 @@ export const MatterCapabilityReportEvents = S.Array(S.String);
 export type MatterCapabilityReportGeneratedCommands = string[];
 export const MatterCapabilityReportGeneratedCommands = S.Array(S.String);
 export interface ListAccountAssociationsResponse {
-  Items?: AccountAssociationListDefinition;
+  Items?: AccountAssociationItem[];
   NextToken?: string;
 }
 export const ListAccountAssociationsResponse = S.suspend(() =>
@@ -3252,7 +3500,7 @@ export interface CreateCloudConnectorRequest {
   Name: string;
   EndpointConfig: EndpointConfig;
   Description?: string;
-  EndpointType?: string;
+  EndpointType?: EndpointType;
   ClientToken?: string;
 }
 export const CreateCloudConnectorRequest = S.suspend(() =>
@@ -3260,7 +3508,7 @@ export const CreateCloudConnectorRequest = S.suspend(() =>
     Name: S.String,
     EndpointConfig: EndpointConfig,
     Description: S.optional(S.String),
-    EndpointType: S.optional(S.String),
+    EndpointType: S.optional(EndpointType),
     ClientToken: S.optional(S.String),
   }).pipe(
     T.all(
@@ -3276,7 +3524,7 @@ export const CreateCloudConnectorRequest = S.suspend(() =>
   identifier: "CreateCloudConnectorRequest",
 }) as any as S.Schema<CreateCloudConnectorRequest>;
 export interface ListCloudConnectorsResponse {
-  Items?: ConnectorList;
+  Items?: ConnectorItem[];
   NextToken?: string;
 }
 export const ListCloudConnectorsResponse = S.suspend(() =>
@@ -3291,7 +3539,7 @@ export interface UpdateConnectorDestinationRequest {
   Identifier: string;
   Description?: string;
   Name?: string;
-  AuthType?: string;
+  AuthType?: AuthType;
   AuthConfig?: AuthConfigUpdate;
   SecretsManager?: SecretsManager;
 }
@@ -3300,7 +3548,7 @@ export const UpdateConnectorDestinationRequest = S.suspend(() =>
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     Description: S.optional(S.String),
     Name: S.optional(S.String),
-    AuthType: S.optional(S.String),
+    AuthType: S.optional(AuthType),
     AuthConfig: S.optional(AuthConfigUpdate),
     SecretsManager: S.optional(SecretsManager),
   }).pipe(
@@ -3323,7 +3571,7 @@ export const UpdateConnectorDestinationResponse = S.suspend(() =>
   identifier: "UpdateConnectorDestinationResponse",
 }) as any as S.Schema<UpdateConnectorDestinationResponse>;
 export interface ListConnectorDestinationsResponse {
-  ConnectorDestinationList?: ConnectorDestinationListDefinition;
+  ConnectorDestinationList?: ConnectorDestinationSummary[];
   NextToken?: string;
 }
 export const ListConnectorDestinationsResponse = S.suspend(() =>
@@ -3335,7 +3583,7 @@ export const ListConnectorDestinationsResponse = S.suspend(() =>
   identifier: "ListConnectorDestinationsResponse",
 }) as any as S.Schema<ListConnectorDestinationsResponse>;
 export interface ListCredentialLockersResponse {
-  Items?: CredentialLockerListDefinition;
+  Items?: CredentialLockerSummary[];
   NextToken?: string;
 }
 export const ListCredentialLockersResponse = S.suspend(() =>
@@ -3347,7 +3595,7 @@ export const ListCredentialLockersResponse = S.suspend(() =>
   identifier: "ListCredentialLockersResponse",
 }) as any as S.Schema<ListCredentialLockersResponse>;
 export interface ListDestinationsResponse {
-  DestinationList?: DestinationListDefinition;
+  DestinationList?: DestinationSummary[];
   NextToken?: string;
 }
 export const ListDestinationsResponse = S.suspend(() =>
@@ -3371,7 +3619,7 @@ export const StartDeviceDiscoveryResponse = S.suspend(() =>
   identifier: "StartDeviceDiscoveryResponse",
 }) as any as S.Schema<StartDeviceDiscoveryResponse>;
 export interface ListDeviceDiscoveriesResponse {
-  Items?: DeviceDiscoveryListDefinition;
+  Items?: DeviceDiscoverySummary[];
   NextToken?: string;
 }
 export const ListDeviceDiscoveriesResponse = S.suspend(() =>
@@ -3383,7 +3631,7 @@ export const ListDeviceDiscoveriesResponse = S.suspend(() =>
   identifier: "ListDeviceDiscoveriesResponse",
 }) as any as S.Schema<ListDeviceDiscoveriesResponse>;
 export interface ListDiscoveredDevicesResponse {
-  Items?: DiscoveredDeviceListDefinition;
+  Items?: DiscoveredDeviceSummary[];
   NextToken?: string;
 }
 export const ListDiscoveredDevicesResponse = S.suspend(() =>
@@ -3395,7 +3643,7 @@ export const ListDiscoveredDevicesResponse = S.suspend(() =>
   identifier: "ListDiscoveredDevicesResponse",
 }) as any as S.Schema<ListDiscoveredDevicesResponse>;
 export interface ListEventLogConfigurationsResponse {
-  EventLogConfigurationList?: EventLogConfigurationListDefinition;
+  EventLogConfigurationList?: EventLogConfigurationSummary[];
   NextToken?: string;
 }
 export const ListEventLogConfigurationsResponse = S.suspend(() =>
@@ -3408,20 +3656,20 @@ export const ListEventLogConfigurationsResponse = S.suspend(() =>
 }) as any as S.Schema<ListEventLogConfigurationsResponse>;
 export interface GetDefaultEncryptionConfigurationResponse {
   configurationStatus: ConfigurationStatus;
-  encryptionType: string;
+  encryptionType: EncryptionType;
   kmsKeyArn?: string;
 }
 export const GetDefaultEncryptionConfigurationResponse = S.suspend(() =>
   S.Struct({
     configurationStatus: ConfigurationStatus,
-    encryptionType: S.String,
+    encryptionType: EncryptionType,
     kmsKeyArn: S.optional(S.String),
   }),
 ).annotations({
   identifier: "GetDefaultEncryptionConfigurationResponse",
 }) as any as S.Schema<GetDefaultEncryptionConfigurationResponse>;
 export interface ListManagedThingAccountAssociationsResponse {
-  Items?: ManagedThingAssociationList;
+  Items?: ManagedThingAssociation[];
   NextToken?: string;
 }
 export const ListManagedThingAccountAssociationsResponse = S.suspend(() =>
@@ -3433,7 +3681,7 @@ export const ListManagedThingAccountAssociationsResponse = S.suspend(() =>
   identifier: "ListManagedThingAccountAssociationsResponse",
 }) as any as S.Schema<ListManagedThingAccountAssociationsResponse>;
 export interface ListManagedThingsResponse {
-  Items?: ManagedThingListDefinition;
+  Items?: ManagedThingSummary[];
   NextToken?: string;
 }
 export const ListManagedThingsResponse = S.suspend(() =>
@@ -3445,7 +3693,7 @@ export const ListManagedThingsResponse = S.suspend(() =>
   identifier: "ListManagedThingsResponse",
 }) as any as S.Schema<ListManagedThingsResponse>;
 export interface ListManagedThingSchemasResponse {
-  Items?: ManagedThingSchemaListDefinition;
+  Items?: ManagedThingSchemaListItem[];
   NextToken?: string;
 }
 export const ListManagedThingSchemasResponse = S.suspend(() =>
@@ -3457,7 +3705,7 @@ export const ListManagedThingSchemasResponse = S.suspend(() =>
   identifier: "ListManagedThingSchemasResponse",
 }) as any as S.Schema<ListManagedThingSchemasResponse>;
 export interface ListNotificationConfigurationsResponse {
-  NotificationConfigurationList?: NotificationConfigurationListDefinition;
+  NotificationConfigurationList?: NotificationConfigurationSummary[];
   NextToken?: string;
 }
 export const ListNotificationConfigurationsResponse = S.suspend(() =>
@@ -3471,7 +3719,7 @@ export const ListNotificationConfigurationsResponse = S.suspend(() =>
   identifier: "ListNotificationConfigurationsResponse",
 }) as any as S.Schema<ListNotificationConfigurationsResponse>;
 export interface ListOtaTaskConfigurationsResponse {
-  Items?: OtaTaskConfigurationListDefinition;
+  Items?: OtaTaskConfigurationSummary[];
   NextToken?: string;
 }
 export const ListOtaTaskConfigurationsResponse = S.suspend(() =>
@@ -3485,26 +3733,26 @@ export const ListOtaTaskConfigurationsResponse = S.suspend(() =>
 export interface CreateOtaTaskRequest {
   Description?: string;
   S3Url: string;
-  Protocol?: string;
-  Target?: Target;
+  Protocol?: OtaProtocol;
+  Target?: string[];
   TaskConfigurationId?: string;
-  OtaMechanism?: string;
-  OtaType: string;
+  OtaMechanism?: OtaMechanism;
+  OtaType: OtaType;
   OtaTargetQueryString?: string;
   ClientToken?: string;
   OtaSchedulingConfig?: OtaTaskSchedulingConfig;
   OtaTaskExecutionRetryConfig?: OtaTaskExecutionRetryConfig;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateOtaTaskRequest = S.suspend(() =>
   S.Struct({
     Description: S.optional(S.String),
     S3Url: S.String,
-    Protocol: S.optional(S.String),
+    Protocol: S.optional(OtaProtocol),
     Target: S.optional(Target),
     TaskConfigurationId: S.optional(S.String),
-    OtaMechanism: S.optional(S.String),
-    OtaType: S.String,
+    OtaMechanism: S.optional(OtaMechanism),
+    OtaType: OtaType,
     OtaTargetQueryString: S.optional(S.String),
     ClientToken: S.optional(S.String),
     OtaSchedulingConfig: S.optional(OtaTaskSchedulingConfig),
@@ -3528,19 +3776,19 @@ export interface GetOtaTaskResponse {
   TaskArn?: string;
   Description?: string;
   S3Url?: string;
-  Protocol?: string;
-  OtaType?: string;
+  Protocol?: OtaProtocol;
+  OtaType?: OtaType;
   OtaTargetQueryString?: string;
-  OtaMechanism?: string;
-  Target?: Target;
+  OtaMechanism?: OtaMechanism;
+  Target?: string[];
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
   TaskConfigurationId?: string;
   TaskProcessingDetails?: TaskProcessingDetails;
   OtaSchedulingConfig?: OtaTaskSchedulingConfig;
   OtaTaskExecutionRetryConfig?: OtaTaskExecutionRetryConfig;
-  Status?: string;
-  Tags?: TagsMap;
+  Status?: OtaStatus;
+  Tags?: { [key: string]: string };
 }
 export const GetOtaTaskResponse = S.suspend(() =>
   S.Struct({
@@ -3548,10 +3796,10 @@ export const GetOtaTaskResponse = S.suspend(() =>
     TaskArn: S.optional(S.String),
     Description: S.optional(S.String),
     S3Url: S.optional(S.String),
-    Protocol: S.optional(S.String),
-    OtaType: S.optional(S.String),
+    Protocol: S.optional(OtaProtocol),
+    OtaType: S.optional(OtaType),
     OtaTargetQueryString: S.optional(S.String),
-    OtaMechanism: S.optional(S.String),
+    OtaMechanism: S.optional(OtaMechanism),
     Target: S.optional(Target),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -3559,14 +3807,14 @@ export const GetOtaTaskResponse = S.suspend(() =>
     TaskProcessingDetails: S.optional(TaskProcessingDetails),
     OtaSchedulingConfig: S.optional(OtaTaskSchedulingConfig),
     OtaTaskExecutionRetryConfig: S.optional(OtaTaskExecutionRetryConfig),
-    Status: S.optional(S.String),
+    Status: S.optional(OtaStatus),
     Tags: S.optional(TagsMap),
   }),
 ).annotations({
   identifier: "GetOtaTaskResponse",
 }) as any as S.Schema<GetOtaTaskResponse>;
 export interface ListOtaTasksResponse {
-  Tasks?: OtaTaskListDefinition;
+  Tasks?: OtaTaskSummary[];
   NextToken?: string;
 }
 export const ListOtaTasksResponse = S.suspend(() =>
@@ -3578,7 +3826,7 @@ export const ListOtaTasksResponse = S.suspend(() =>
   identifier: "ListOtaTasksResponse",
 }) as any as S.Schema<ListOtaTasksResponse>;
 export interface ListProvisioningProfilesResponse {
-  Items?: ProvisioningProfileListDefinition;
+  Items?: ProvisioningProfileSummary[];
   NextToken?: string;
 }
 export const ListProvisioningProfilesResponse = S.suspend(() =>
@@ -3590,7 +3838,7 @@ export const ListProvisioningProfilesResponse = S.suspend(() =>
   identifier: "ListProvisioningProfilesResponse",
 }) as any as S.Schema<ListProvisioningProfilesResponse>;
 export interface ListSchemaVersionsResponse {
-  Items?: SchemaVersionList;
+  Items?: SchemaVersionListItem[];
   NextToken?: string;
 }
 export const ListSchemaVersionsResponse = S.suspend(() =>
@@ -3604,8 +3852,8 @@ export const ListSchemaVersionsResponse = S.suspend(() =>
 export interface MatterCluster {
   id?: string;
   attributes?: any;
-  commands?: MatterCommands;
-  events?: MatterEvents;
+  commands?: { [key: string]: any };
+  events?: { [key: string]: any };
 }
 export const MatterCluster = S.suspend(() =>
   S.Struct({
@@ -3623,7 +3871,7 @@ export interface CommandCapability {
   id: string;
   name: string;
   version: string;
-  actions: CapabilityActions;
+  actions: CapabilityAction[];
 }
 export const CommandCapability = S.suspend(() =>
   S.Struct({
@@ -3661,7 +3909,7 @@ export interface OtaTaskExecutionSummary {
   QueuedAt?: Date;
   RetryAttempt?: number;
   StartedAt?: Date;
-  Status?: string;
+  Status?: OtaTaskExecutionStatus;
 }
 export const OtaTaskExecutionSummary = S.suspend(() =>
   S.Struct({
@@ -3670,14 +3918,14 @@ export const OtaTaskExecutionSummary = S.suspend(() =>
     QueuedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     RetryAttempt: S.optional(S.Number),
     StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
+    Status: S.optional(OtaTaskExecutionStatus),
   }),
 ).annotations({
   identifier: "OtaTaskExecutionSummary",
 }) as any as S.Schema<OtaTaskExecutionSummary>;
 export interface MatterEndpoint {
   id?: string;
-  clusters?: MatterClusters;
+  clusters?: MatterCluster[];
 }
 export const MatterEndpoint = S.suspend(() =>
   S.Struct({ id: S.optional(S.String), clusters: S.optional(MatterClusters) }),
@@ -3686,7 +3934,7 @@ export const MatterEndpoint = S.suspend(() =>
 }) as any as S.Schema<MatterEndpoint>;
 export interface CommandEndpoint {
   endpointId: string;
-  capabilities: CommandCapabilities;
+  capabilities: CommandCapability[];
 }
 export const CommandEndpoint = S.suspend(() =>
   S.Struct({ endpointId: S.String, capabilities: CommandCapabilities }),
@@ -3697,7 +3945,7 @@ export type CommandEndpoints = CommandEndpoint[];
 export const CommandEndpoints = S.Array(CommandEndpoint);
 export interface StateEndpoint {
   endpointId: string;
-  capabilities: StateCapabilities;
+  capabilities: StateCapability[];
 }
 export const StateEndpoint = S.suspend(() =>
   S.Struct({ endpointId: S.String, capabilities: StateCapabilities }),
@@ -3754,7 +4002,7 @@ export interface CreateConnectorDestinationRequest {
   Name?: string;
   Description?: string;
   CloudConnectorId: string;
-  AuthType: string;
+  AuthType: AuthType;
   AuthConfig: AuthConfig;
   SecretsManager: SecretsManager;
   ClientToken?: string;
@@ -3764,7 +4012,7 @@ export const CreateConnectorDestinationRequest = S.suspend(() =>
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     CloudConnectorId: S.String,
-    AuthType: S.String,
+    AuthType: AuthType,
     AuthConfig: AuthConfig,
     SecretsManager: SecretsManager,
     ClientToken: S.optional(S.String),
@@ -3783,7 +4031,7 @@ export const CreateConnectorDestinationRequest = S.suspend(() =>
 }) as any as S.Schema<CreateConnectorDestinationRequest>;
 export interface SendManagedThingCommandRequest {
   ManagedThingId: string;
-  Endpoints: CommandEndpoints;
+  Endpoints: CommandEndpoint[];
   ConnectorAssociationId?: string;
   AccountAssociationId?: string;
 }
@@ -3810,30 +4058,30 @@ export const SendManagedThingCommandRequest = S.suspend(() =>
   identifier: "SendManagedThingCommandRequest",
 }) as any as S.Schema<SendManagedThingCommandRequest>;
 export interface CreateManagedThingRequest {
-  Role: string;
-  Owner?: string | Redacted.Redacted<string>;
+  Role: Role;
+  Owner?: string | redacted.Redacted<string>;
   CredentialLockerId?: string;
-  AuthenticationMaterial: string | Redacted.Redacted<string>;
-  AuthenticationMaterialType: string;
-  SerialNumber?: string | Redacted.Redacted<string>;
-  Brand?: string | Redacted.Redacted<string>;
-  Model?: string | Redacted.Redacted<string>;
+  AuthenticationMaterial: string | redacted.Redacted<string>;
+  AuthenticationMaterialType: AuthMaterialType;
+  SerialNumber?: string | redacted.Redacted<string>;
+  Brand?: string | redacted.Redacted<string>;
+  Model?: string | redacted.Redacted<string>;
   Name?: string;
   CapabilityReport?: CapabilityReport;
-  CapabilitySchemas?: CapabilitySchemas;
+  CapabilitySchemas?: CapabilitySchemaItem[];
   Capabilities?: string;
   ClientToken?: string;
-  Classification?: string | Redacted.Redacted<string>;
-  Tags?: TagsMap;
-  MetaData?: MetaData;
+  Classification?: string | redacted.Redacted<string>;
+  Tags?: { [key: string]: string };
+  MetaData?: { [key: string]: string };
 }
 export const CreateManagedThingRequest = S.suspend(() =>
   S.Struct({
-    Role: S.String,
+    Role: Role,
     Owner: S.optional(SensitiveString),
     CredentialLockerId: S.optional(S.String),
     AuthenticationMaterial: SensitiveString,
-    AuthenticationMaterialType: S.String,
+    AuthenticationMaterialType: AuthMaterialType,
     SerialNumber: S.optional(SensitiveString),
     Brand: S.optional(SensitiveString),
     Model: S.optional(SensitiveString),
@@ -3859,7 +4107,7 @@ export const CreateManagedThingRequest = S.suspend(() =>
   identifier: "CreateManagedThingRequest",
 }) as any as S.Schema<CreateManagedThingRequest>;
 export interface GetManagedThingStateResponse {
-  Endpoints: StateEndpoints;
+  Endpoints: StateEndpoint[];
 }
 export const GetManagedThingStateResponse = S.suspend(() =>
   S.Struct({ Endpoints: StateEndpoints }),
@@ -3881,7 +4129,7 @@ export const CreateOtaTaskResponse = S.suspend(() =>
   identifier: "CreateOtaTaskResponse",
 }) as any as S.Schema<CreateOtaTaskResponse>;
 export interface ListOtaTaskExecutionsResponse {
-  ExecutionSummaries?: OtaTaskExecutionSummariesListDefinition;
+  ExecutionSummaries?: OtaTaskExecutionSummaries[];
   NextToken?: string;
 }
 export const ListOtaTaskExecutionsResponse = S.suspend(() =>
@@ -3898,11 +4146,11 @@ export interface MatterCapabilityReportCluster {
   publicId?: string;
   name?: string;
   specVersion?: string;
-  attributes?: MatterCapabilityReportAttributes;
-  commands?: MatterCapabilityReportCommands;
-  events?: MatterCapabilityReportEvents;
+  attributes?: MatterCapabilityReportAttribute[];
+  commands?: string[];
+  events?: string[];
   featureMap?: number;
-  generatedCommands?: MatterCapabilityReportGeneratedCommands;
+  generatedCommands?: string[];
   fabricIndex?: number;
 }
 export const MatterCapabilityReportCluster = S.suspend(() =>
@@ -3928,11 +4176,11 @@ export const MatterCapabilityReportClusters = S.Array(
 );
 export interface MatterCapabilityReportEndpoint {
   id: string;
-  deviceTypes: DeviceTypes;
-  clusters: MatterCapabilityReportClusters;
-  parts?: MatterCapabilityReportEndpointParts;
-  semanticTags?: MatterCapabilityReportEndpointSemanticTags;
-  clientClusters?: MatterCapabilityReportEndpointClientClusters;
+  deviceTypes: string[];
+  clusters: MatterCapabilityReportCluster[];
+  parts?: string[];
+  semanticTags?: string[];
+  clientClusters?: string[];
 }
 export const MatterCapabilityReportEndpoint = S.suspend(() =>
   S.Struct({
@@ -3982,7 +4230,7 @@ export const CreateManagedThingResponse = S.suspend(() =>
 }) as any as S.Schema<CreateManagedThingResponse>;
 export interface CreateOtaTaskConfigurationRequest {
   Description?: string;
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
   PushConfig?: PushConfig;
   ClientToken?: string;
 }
@@ -4008,7 +4256,7 @@ export const CreateOtaTaskConfigurationRequest = S.suspend(() =>
 export interface MatterCapabilityReport {
   version: string;
   nodeId?: string;
-  endpoints: MatterCapabilityReportEndpoints;
+  endpoints: MatterCapabilityReportEndpoint[];
 }
 export const MatterCapabilityReport = S.suspend(() =>
   S.Struct({
@@ -4020,10 +4268,10 @@ export const MatterCapabilityReport = S.suspend(() =>
   identifier: "MatterCapabilityReport",
 }) as any as S.Schema<MatterCapabilityReport>;
 export interface Device {
-  ConnectorDeviceId: string | Redacted.Redacted<string>;
-  ConnectorDeviceName?: string | Redacted.Redacted<string>;
+  ConnectorDeviceId: string | redacted.Redacted<string>;
+  ConnectorDeviceName?: string | redacted.Redacted<string>;
   CapabilityReport: MatterCapabilityReport;
-  CapabilitySchemas?: CapabilitySchemas;
+  CapabilitySchemas?: CapabilitySchemaItem[];
   DeviceMetadata?: any;
 }
 export const Device = S.suspend(() =>
@@ -4039,22 +4287,22 @@ export type Devices = Device[];
 export const Devices = S.Array(Device);
 export interface SendConnectorEventRequest {
   ConnectorId: string;
-  UserId?: string | Redacted.Redacted<string>;
-  Operation: string;
-  OperationVersion?: string | Redacted.Redacted<string>;
+  UserId?: string | redacted.Redacted<string>;
+  Operation: ConnectorEventOperation;
+  OperationVersion?: string | redacted.Redacted<string>;
   StatusCode?: number;
-  Message?: string | Redacted.Redacted<string>;
+  Message?: string | redacted.Redacted<string>;
   DeviceDiscoveryId?: string;
-  ConnectorDeviceId?: string | Redacted.Redacted<string>;
+  ConnectorDeviceId?: string | redacted.Redacted<string>;
   TraceId?: string;
-  Devices?: Devices;
+  Devices?: Device[];
   MatterEndpoint?: MatterEndpoint;
 }
 export const SendConnectorEventRequest = S.suspend(() =>
   S.Struct({
     ConnectorId: S.String.pipe(T.HttpLabel("ConnectorId")),
     UserId: S.optional(SensitiveString),
-    Operation: S.String,
+    Operation: ConnectorEventOperation,
     OperationVersion: S.optional(SensitiveString),
     StatusCode: S.optional(S.Number),
     Message: S.optional(SensitiveString),
@@ -4154,7 +4402,7 @@ export class UnauthorizedException extends S.TaggedError<UnauthorizedException>(
 export const listCloudConnectors: {
   (
     input: ListCloudConnectorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCloudConnectorsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4165,7 +4413,7 @@ export const listCloudConnectors: {
   >;
   pages: (
     input: ListCloudConnectorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCloudConnectorsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4176,7 +4424,7 @@ export const listCloudConnectors: {
   >;
   items: (
     input: ListCloudConnectorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConnectorItem,
     | AccessDeniedException
     | InternalServerException
@@ -4206,7 +4454,7 @@ export const listCloudConnectors: {
  */
 export const getManagedThingState: (
   input: GetManagedThingStateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetManagedThingStateResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -4236,7 +4484,7 @@ export const getManagedThingState: (
 export const listOtaTaskExecutions: {
   (
     input: ListOtaTaskExecutionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOtaTaskExecutionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4248,7 +4496,7 @@ export const listOtaTaskExecutions: {
   >;
   pages: (
     input: ListOtaTaskExecutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOtaTaskExecutionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4260,7 +4508,7 @@ export const listOtaTaskExecutions: {
   >;
   items: (
     input: ListOtaTaskExecutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OtaTaskExecutionSummaries,
     | AccessDeniedException
     | InternalServerException
@@ -4294,7 +4542,7 @@ export const listOtaTaskExecutions: {
  */
 export const createCredentialLocker: (
   input: CreateCredentialLockerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCredentialLockerResponse,
   | AccessDeniedException
   | ConflictException
@@ -4323,7 +4571,7 @@ export const createCredentialLocker: (
  */
 export const deleteOtaTask: (
   input: DeleteOtaTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteOtaTaskResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4350,7 +4598,7 @@ export const deleteOtaTask: (
  */
 export const updateConnectorDestination: (
   input: UpdateConnectorDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConnectorDestinationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4375,7 +4623,7 @@ export const updateConnectorDestination: (
  */
 export const getOtaTask: (
   input: GetOtaTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetOtaTaskResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4401,7 +4649,7 @@ export const getOtaTask: (
 export const listOtaTasks: {
   (
     input: ListOtaTasksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOtaTasksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4413,7 +4661,7 @@ export const listOtaTasks: {
   >;
   pages: (
     input: ListOtaTasksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOtaTasksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4425,7 +4673,7 @@ export const listOtaTasks: {
   >;
   items: (
     input: ListOtaTasksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OtaTaskSummary,
     | AccessDeniedException
     | InternalServerException
@@ -4457,7 +4705,7 @@ export const listOtaTasks: {
  */
 export const getAccountAssociation: (
   input: GetAccountAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccountAssociationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4484,7 +4732,7 @@ export const getAccountAssociation: (
  */
 export const startAccountAssociationRefresh: (
   input: StartAccountAssociationRefreshRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartAccountAssociationRefreshResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4511,7 +4759,7 @@ export const startAccountAssociationRefresh: (
  */
 export const getCloudConnector: (
   input: GetCloudConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCloudConnectorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4536,7 +4784,7 @@ export const getCloudConnector: (
  */
 export const getConnectorDestination: (
   input: GetConnectorDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConnectorDestinationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4561,7 +4809,7 @@ export const getConnectorDestination: (
  */
 export const getCredentialLocker: (
   input: GetCredentialLockerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCredentialLockerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4588,7 +4836,7 @@ export const getCredentialLocker: (
  */
 export const getDestination: (
   input: GetDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDestinationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4613,7 +4861,7 @@ export const getDestination: (
  */
 export const getEventLogConfiguration: (
   input: GetEventLogConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEventLogConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4638,7 +4886,7 @@ export const getEventLogConfiguration: (
  */
 export const putHubConfiguration: (
   input: PutHubConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutHubConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4665,7 +4913,7 @@ export const putHubConfiguration: (
  */
 export const registerAccountAssociation: (
   input: RegisterAccountAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterAccountAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4692,7 +4940,7 @@ export const registerAccountAssociation: (
  */
 export const getNotificationConfiguration: (
   input: GetNotificationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetNotificationConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4717,7 +4965,7 @@ export const getNotificationConfiguration: (
  */
 export const getOtaTaskConfiguration: (
   input: GetOtaTaskConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetOtaTaskConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4742,7 +4990,7 @@ export const getOtaTaskConfiguration: (
  */
 export const getRuntimeLogConfiguration: (
   input: GetRuntimeLogConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRuntimeLogConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4767,7 +5015,7 @@ export const getRuntimeLogConfiguration: (
  */
 export const putRuntimeLogConfiguration: (
   input: PutRuntimeLogConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutRuntimeLogConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4792,7 +5040,7 @@ export const putRuntimeLogConfiguration: (
  */
 export const getSchemaVersion: (
   input: GetSchemaVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSchemaVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -4821,7 +5069,7 @@ export const getSchemaVersion: (
  */
 export const updateAccountAssociation: (
   input: UpdateAccountAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAccountAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4852,7 +5100,7 @@ export const updateAccountAssociation: (
  */
 export const deleteAccountAssociation: (
   input: DeleteAccountAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccountAssociationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4881,7 +5129,7 @@ export const deleteAccountAssociation: (
  */
 export const deleteConnectorDestination: (
   input: DeleteConnectorDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConnectorDestinationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4908,7 +5156,7 @@ export const deleteConnectorDestination: (
  */
 export const deleteCredentialLocker: (
   input: DeleteCredentialLockerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCredentialLockerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4935,7 +5183,7 @@ export const deleteCredentialLocker: (
  */
 export const deleteDestination: (
   input: DeleteDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDestinationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4960,7 +5208,7 @@ export const deleteDestination: (
  */
 export const updateDestination: (
   input: UpdateDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDestinationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4985,7 +5233,7 @@ export const updateDestination: (
  */
 export const deleteEventLogConfiguration: (
   input: DeleteEventLogConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEventLogConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5010,7 +5258,7 @@ export const deleteEventLogConfiguration: (
  */
 export const updateEventLogConfiguration: (
   input: UpdateEventLogConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEventLogConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5035,7 +5283,7 @@ export const updateEventLogConfiguration: (
  */
 export const getHubConfiguration: (
   input: GetHubConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetHubConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5062,7 +5310,7 @@ export const getHubConfiguration: (
  */
 export const deregisterAccountAssociation: (
   input: DeregisterAccountAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterAccountAssociationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5087,7 +5335,7 @@ export const deregisterAccountAssociation: (
  */
 export const deleteNotificationConfiguration: (
   input: DeleteNotificationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteNotificationConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5112,7 +5360,7 @@ export const deleteNotificationConfiguration: (
  */
 export const updateNotificationConfiguration: (
   input: UpdateNotificationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateNotificationConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5137,7 +5385,7 @@ export const updateNotificationConfiguration: (
  */
 export const deleteOtaTaskConfiguration: (
   input: DeleteOtaTaskConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteOtaTaskConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5162,7 +5410,7 @@ export const deleteOtaTaskConfiguration: (
  */
 export const updateOtaTask: (
   input: UpdateOtaTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateOtaTaskResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5187,7 +5435,7 @@ export const updateOtaTask: (
  */
 export const resetRuntimeLogConfiguration: (
   input: ResetRuntimeLogConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResetRuntimeLogConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5213,7 +5461,7 @@ export const resetRuntimeLogConfiguration: (
 export const listCredentialLockers: {
   (
     input: ListCredentialLockersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCredentialLockersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5225,7 +5473,7 @@ export const listCredentialLockers: {
   >;
   pages: (
     input: ListCredentialLockersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCredentialLockersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5237,7 +5485,7 @@ export const listCredentialLockers: {
   >;
   items: (
     input: ListCredentialLockersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CredentialLockerSummary,
     | AccessDeniedException
     | InternalServerException
@@ -5270,7 +5518,7 @@ export const listCredentialLockers: {
 export const listSchemaVersions: {
   (
     input: ListSchemaVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSchemaVersionsResponse,
     | AccessDeniedException
     | ConflictException
@@ -5283,7 +5531,7 @@ export const listSchemaVersions: {
   >;
   pages: (
     input: ListSchemaVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSchemaVersionsResponse,
     | AccessDeniedException
     | ConflictException
@@ -5296,7 +5544,7 @@ export const listSchemaVersions: {
   >;
   items: (
     input: ListSchemaVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SchemaVersionListItem,
     | AccessDeniedException
     | ConflictException
@@ -5331,7 +5579,7 @@ export const listSchemaVersions: {
 export const listConnectorDestinations: {
   (
     input: ListConnectorDestinationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConnectorDestinationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5342,7 +5590,7 @@ export const listConnectorDestinations: {
   >;
   pages: (
     input: ListConnectorDestinationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConnectorDestinationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5353,7 +5601,7 @@ export const listConnectorDestinations: {
   >;
   items: (
     input: ListConnectorDestinationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConnectorDestinationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -5384,7 +5632,7 @@ export const listConnectorDestinations: {
 export const listDestinations: {
   (
     input: ListDestinationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDestinationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5395,7 +5643,7 @@ export const listDestinations: {
   >;
   pages: (
     input: ListDestinationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDestinationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5406,7 +5654,7 @@ export const listDestinations: {
   >;
   items: (
     input: ListDestinationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DestinationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -5437,7 +5685,7 @@ export const listDestinations: {
 export const listEventLogConfigurations: {
   (
     input: ListEventLogConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEventLogConfigurationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5448,7 +5696,7 @@ export const listEventLogConfigurations: {
   >;
   pages: (
     input: ListEventLogConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEventLogConfigurationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5459,7 +5707,7 @@ export const listEventLogConfigurations: {
   >;
   items: (
     input: ListEventLogConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EventLogConfigurationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -5490,7 +5738,7 @@ export const listEventLogConfigurations: {
 export const listManagedThingAccountAssociations: {
   (
     input: ListManagedThingAccountAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListManagedThingAccountAssociationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5501,7 +5749,7 @@ export const listManagedThingAccountAssociations: {
   >;
   pages: (
     input: ListManagedThingAccountAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListManagedThingAccountAssociationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5512,7 +5760,7 @@ export const listManagedThingAccountAssociations: {
   >;
   items: (
     input: ListManagedThingAccountAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ManagedThingAssociation,
     | AccessDeniedException
     | InternalServerException
@@ -5543,7 +5791,7 @@ export const listManagedThingAccountAssociations: {
 export const listNotificationConfigurations: {
   (
     input: ListNotificationConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListNotificationConfigurationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5554,7 +5802,7 @@ export const listNotificationConfigurations: {
   >;
   pages: (
     input: ListNotificationConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListNotificationConfigurationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5565,7 +5813,7 @@ export const listNotificationConfigurations: {
   >;
   items: (
     input: ListNotificationConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NotificationConfigurationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -5596,7 +5844,7 @@ export const listNotificationConfigurations: {
 export const listOtaTaskConfigurations: {
   (
     input: ListOtaTaskConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOtaTaskConfigurationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5607,7 +5855,7 @@ export const listOtaTaskConfigurations: {
   >;
   pages: (
     input: ListOtaTaskConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOtaTaskConfigurationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5618,7 +5866,7 @@ export const listOtaTaskConfigurations: {
   >;
   items: (
     input: ListOtaTaskConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OtaTaskConfigurationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -5648,7 +5896,7 @@ export const listOtaTaskConfigurations: {
  */
 export const createDestination: (
   input: CreateDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDestinationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5673,7 +5921,7 @@ export const createDestination: (
  */
 export const createNotificationConfiguration: (
   input: CreateNotificationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateNotificationConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5699,7 +5947,7 @@ export const createNotificationConfiguration: (
 export const listAccountAssociations: {
   (
     input: ListAccountAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccountAssociationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5711,7 +5959,7 @@ export const listAccountAssociations: {
   >;
   pages: (
     input: ListAccountAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccountAssociationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5723,7 +5971,7 @@ export const listAccountAssociations: {
   >;
   items: (
     input: ListAccountAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AccountAssociationItem,
     | AccessDeniedException
     | InternalServerException
@@ -5755,7 +6003,7 @@ export const listAccountAssociations: {
  */
 export const createCloudConnector: (
   input: CreateCloudConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCloudConnectorResponse,
   | AccessDeniedException
   | ConflictException
@@ -5780,7 +6028,7 @@ export const createCloudConnector: (
  */
 export const createEventLogConfiguration: (
   input: CreateEventLogConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEventLogConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5807,7 +6055,7 @@ export const createEventLogConfiguration: (
  */
 export const createOtaTask: (
   input: CreateOtaTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateOtaTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -5836,7 +6084,7 @@ export const createOtaTask: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InvalidRequestException
   | ResourceNotFoundException
@@ -5859,7 +6107,7 @@ export const listTagsForResource: (
  */
 export const startDeviceDiscovery: (
   input: StartDeviceDiscoveryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartDeviceDiscoveryResponse,
   | AccessDeniedException
   | ConflictException
@@ -5891,7 +6139,7 @@ export const startDeviceDiscovery: (
 export const listDiscoveredDevices: {
   (
     input: ListDiscoveredDevicesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDiscoveredDevicesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5905,7 +6153,7 @@ export const listDiscoveredDevices: {
   >;
   pages: (
     input: ListDiscoveredDevicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDiscoveredDevicesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5919,7 +6167,7 @@ export const listDiscoveredDevices: {
   >;
   items: (
     input: ListDiscoveredDevicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DiscoveredDeviceSummary,
     | AccessDeniedException
     | InternalServerException
@@ -5955,7 +6203,7 @@ export const listDiscoveredDevices: {
  */
 export const putDefaultEncryptionConfiguration: (
   input: PutDefaultEncryptionConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutDefaultEncryptionConfigurationResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -5985,7 +6233,7 @@ export const putDefaultEncryptionConfiguration: (
 export const listManagedThingSchemas: {
   (
     input: ListManagedThingSchemasRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListManagedThingSchemasResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5999,7 +6247,7 @@ export const listManagedThingSchemas: {
   >;
   pages: (
     input: ListManagedThingSchemasRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListManagedThingSchemasResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6013,7 +6261,7 @@ export const listManagedThingSchemas: {
   >;
   items: (
     input: ListManagedThingSchemasRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ManagedThingSchemaListItem,
     | AccessDeniedException
     | InternalServerException
@@ -6049,7 +6297,7 @@ export const listManagedThingSchemas: {
  */
 export const createAccountAssociation: (
   input: CreateAccountAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAccountAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6080,7 +6328,7 @@ export const createAccountAssociation: (
  */
 export const getDeviceDiscovery: (
   input: GetDeviceDiscoveryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDeviceDiscoveryResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6109,7 +6357,7 @@ export const getDeviceDiscovery: (
  */
 export const getManagedThing: (
   input: GetManagedThingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetManagedThingResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6138,7 +6386,7 @@ export const getManagedThing: (
  */
 export const getManagedThingCapabilities: (
   input: GetManagedThingCapabilitiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetManagedThingCapabilitiesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6167,7 +6415,7 @@ export const getManagedThingCapabilities: (
  */
 export const getManagedThingCertificate: (
   input: GetManagedThingCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetManagedThingCertificateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6196,7 +6444,7 @@ export const getManagedThingCertificate: (
  */
 export const getManagedThingConnectivityData: (
   input: GetManagedThingConnectivityDataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetManagedThingConnectivityDataResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6227,7 +6475,7 @@ export const getManagedThingConnectivityData: (
  */
 export const getManagedThingMetaData: (
   input: GetManagedThingMetaDataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetManagedThingMetaDataResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6256,7 +6504,7 @@ export const getManagedThingMetaData: (
  */
 export const createProvisioningProfile: (
   input: CreateProvisioningProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProvisioningProfileResponse,
   | AccessDeniedException
   | ConflictException
@@ -6287,7 +6535,7 @@ export const createProvisioningProfile: (
  */
 export const getProvisioningProfile: (
   input: GetProvisioningProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetProvisioningProfileResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6316,7 +6564,7 @@ export const getProvisioningProfile: (
  */
 export const updateCloudConnector: (
   input: UpdateCloudConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCloudConnectorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6343,7 +6591,7 @@ export const updateCloudConnector: (
  */
 export const deleteCloudConnector: (
   input: DeleteCloudConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCloudConnectorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6370,7 +6618,7 @@ export const deleteCloudConnector: (
  */
 export const updateManagedThing: (
   input: UpdateManagedThingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateManagedThingResponse,
   | AccessDeniedException
   | ConflictException
@@ -6401,7 +6649,7 @@ export const updateManagedThing: (
  */
 export const deleteManagedThing: (
   input: DeleteManagedThingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteManagedThingResponse,
   | AccessDeniedException
   | ConflictException
@@ -6432,7 +6680,7 @@ export const deleteManagedThing: (
  */
 export const deleteProvisioningProfile: (
   input: DeleteProvisioningProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProvisioningProfileResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6461,7 +6709,7 @@ export const deleteProvisioningProfile: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | ConflictException
   | InvalidRequestException
@@ -6486,7 +6734,7 @@ export const untagResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | ConflictException
   | InvalidRequestException
@@ -6511,7 +6759,7 @@ export const tagResource: (
  */
 export const getDefaultEncryptionConfiguration: (
   input: GetDefaultEncryptionConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDefaultEncryptionConfigurationResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -6541,7 +6789,7 @@ export const getDefaultEncryptionConfiguration: (
 export const listDeviceDiscoveries: {
   (
     input: ListDeviceDiscoveriesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDeviceDiscoveriesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6554,7 +6802,7 @@ export const listDeviceDiscoveries: {
   >;
   pages: (
     input: ListDeviceDiscoveriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDeviceDiscoveriesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6567,7 +6815,7 @@ export const listDeviceDiscoveries: {
   >;
   items: (
     input: ListDeviceDiscoveriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DeviceDiscoverySummary,
     | AccessDeniedException
     | InternalServerException
@@ -6602,7 +6850,7 @@ export const listDeviceDiscoveries: {
 export const listManagedThings: {
   (
     input: ListManagedThingsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListManagedThingsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6615,7 +6863,7 @@ export const listManagedThings: {
   >;
   pages: (
     input: ListManagedThingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListManagedThingsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6628,7 +6876,7 @@ export const listManagedThings: {
   >;
   items: (
     input: ListManagedThingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ManagedThingSummary,
     | AccessDeniedException
     | InternalServerException
@@ -6663,7 +6911,7 @@ export const listManagedThings: {
 export const listProvisioningProfiles: {
   (
     input: ListProvisioningProfilesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProvisioningProfilesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6676,7 +6924,7 @@ export const listProvisioningProfiles: {
   >;
   pages: (
     input: ListProvisioningProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProvisioningProfilesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6689,7 +6937,7 @@ export const listProvisioningProfiles: {
   >;
   items: (
     input: ListProvisioningProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProvisioningProfileSummary,
     | AccessDeniedException
     | InternalServerException
@@ -6723,7 +6971,7 @@ export const listProvisioningProfiles: {
  */
 export const registerCustomEndpoint: (
   input: RegisterCustomEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterCustomEndpointResponse,
   | AccessDeniedException
   | ConflictException
@@ -6752,7 +7000,7 @@ export const registerCustomEndpoint: (
  */
 export const getCustomEndpoint: (
   input: GetCustomEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCustomEndpointResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6781,7 +7029,7 @@ export const getCustomEndpoint: (
  */
 export const createConnectorDestination: (
   input: CreateConnectorDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConnectorDestinationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6810,7 +7058,7 @@ export const createConnectorDestination: (
  */
 export const sendManagedThingCommand: (
   input: SendManagedThingCommandRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendManagedThingCommandResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6839,7 +7087,7 @@ export const sendManagedThingCommand: (
  */
 export const createManagedThing: (
   input: CreateManagedThingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateManagedThingResponse,
   | AccessDeniedException
   | ConflictException
@@ -6870,7 +7118,7 @@ export const createManagedThing: (
  */
 export const createOtaTaskConfiguration: (
   input: CreateOtaTaskConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateOtaTaskConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6895,7 +7143,7 @@ export const createOtaTaskConfiguration: (
  */
 export const sendConnectorEvent: (
   input: SendConnectorEventRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendConnectorEventResponse,
   | AccessDeniedException
   | InternalServerException

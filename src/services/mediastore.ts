@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -466,7 +466,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagResourceInput {
   Resource: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({ Resource: S.String, Tags: TagList }).pipe(
@@ -491,7 +491,7 @@ export const TagResourceOutput = S.suspend(() =>
 }) as any as S.Schema<TagResourceOutput>;
 export interface UntagResourceInput {
   Resource: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({ Resource: S.String, TagKeys: TagKeyList }).pipe(
@@ -516,18 +516,24 @@ export const UntagResourceOutput = S.suspend(() =>
 }) as any as S.Schema<UntagResourceOutput>;
 export type AllowedOrigins = string[];
 export const AllowedOrigins = S.Array(S.String);
-export type AllowedMethods = string[];
-export const AllowedMethods = S.Array(S.String);
+export type MethodName = "PUT" | "GET" | "DELETE" | "HEAD";
+export const MethodName = S.Literal("PUT", "GET", "DELETE", "HEAD");
+export type AllowedMethods = MethodName[];
+export const AllowedMethods = S.Array(MethodName);
 export type AllowedHeaders = string[];
 export const AllowedHeaders = S.Array(S.String);
 export type ExposeHeaders = string[];
 export const ExposeHeaders = S.Array(S.String);
+export type ContainerLevelMetrics = "ENABLED" | "DISABLED";
+export const ContainerLevelMetrics = S.Literal("ENABLED", "DISABLED");
+export type ContainerStatus = "ACTIVE" | "CREATING" | "DELETING";
+export const ContainerStatus = S.Literal("ACTIVE", "CREATING", "DELETING");
 export interface Container {
   Endpoint?: string;
   CreationTime?: Date;
   ARN?: string;
   Name?: string;
-  Status?: string;
+  Status?: ContainerStatus;
   AccessLoggingEnabled?: boolean;
 }
 export const Container = S.suspend(() =>
@@ -536,18 +542,18 @@ export const Container = S.suspend(() =>
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ARN: S.optional(S.String),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ContainerStatus),
     AccessLoggingEnabled: S.optional(S.Boolean),
   }),
 ).annotations({ identifier: "Container" }) as any as S.Schema<Container>;
 export type ContainerList = Container[];
 export const ContainerList = S.Array(Container);
 export interface CorsRule {
-  AllowedOrigins: AllowedOrigins;
-  AllowedMethods?: AllowedMethods;
-  AllowedHeaders: AllowedHeaders;
+  AllowedOrigins: string[];
+  AllowedMethods?: MethodName[];
+  AllowedHeaders: string[];
   MaxAgeSeconds?: number;
-  ExposeHeaders?: ExposeHeaders;
+  ExposeHeaders?: string[];
 }
 export const CorsRule = S.suspend(() =>
   S.Struct({
@@ -562,7 +568,7 @@ export type CorsPolicy = CorsRule[];
 export const CorsPolicy = S.Array(CorsRule);
 export interface CreateContainerInput {
   ContainerName: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateContainerInput = S.suspend(() =>
   S.Struct({ ContainerName: S.String, Tags: S.optional(TagList) }).pipe(
@@ -588,7 +594,7 @@ export const GetContainerPolicyOutput = S.suspend(() =>
   identifier: "GetContainerPolicyOutput",
 }) as any as S.Schema<GetContainerPolicyOutput>;
 export interface GetCorsPolicyOutput {
-  CorsPolicy: CorsPolicy;
+  CorsPolicy: CorsRule[];
 }
 export const GetCorsPolicyOutput = S.suspend(() =>
   S.Struct({ CorsPolicy: CorsPolicy }).pipe(ns),
@@ -615,12 +621,12 @@ export const MetricPolicyRule = S.suspend(() =>
 export type MetricPolicyRules = MetricPolicyRule[];
 export const MetricPolicyRules = S.Array(MetricPolicyRule);
 export interface MetricPolicy {
-  ContainerLevelMetrics: string;
-  MetricPolicyRules?: MetricPolicyRules;
+  ContainerLevelMetrics: ContainerLevelMetrics;
+  MetricPolicyRules?: MetricPolicyRule[];
 }
 export const MetricPolicy = S.suspend(() =>
   S.Struct({
-    ContainerLevelMetrics: S.String,
+    ContainerLevelMetrics: ContainerLevelMetrics,
     MetricPolicyRules: S.optional(MetricPolicyRules),
   }),
 ).annotations({ identifier: "MetricPolicy" }) as any as S.Schema<MetricPolicy>;
@@ -633,7 +639,7 @@ export const GetMetricPolicyOutput = S.suspend(() =>
   identifier: "GetMetricPolicyOutput",
 }) as any as S.Schema<GetMetricPolicyOutput>;
 export interface ListContainersOutput {
-  Containers: ContainerList;
+  Containers: Container[];
   NextToken?: string;
 }
 export const ListContainersOutput = S.suspend(() =>
@@ -644,7 +650,7 @@ export const ListContainersOutput = S.suspend(() =>
   identifier: "ListContainersOutput",
 }) as any as S.Schema<ListContainersOutput>;
 export interface ListTagsForResourceOutput {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
@@ -653,7 +659,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface PutCorsPolicyInput {
   ContainerName: string;
-  CorsPolicy: CorsPolicy;
+  CorsPolicy: CorsRule[];
 }
 export const PutCorsPolicyInput = S.suspend(() =>
   S.Struct({ ContainerName: S.String, CorsPolicy: CorsPolicy }).pipe(
@@ -761,21 +767,21 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
 export const listContainers: {
   (
     input: ListContainersInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListContainersOutput,
     InternalServerError | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListContainersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListContainersOutput,
     InternalServerError | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListContainersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServerError | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -795,7 +801,7 @@ export const listContainers: {
  */
 export const putMetricPolicy: (
   input: PutMetricPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutMetricPolicyOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -816,7 +822,7 @@ export const putMetricPolicy: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -849,7 +855,7 @@ export const listTagsForResource: (
  */
 export const putCorsPolicy: (
   input: PutCorsPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutCorsPolicyOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -877,7 +883,7 @@ export const putCorsPolicy: (
  */
 export const putContainerPolicy: (
   input: PutContainerPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutContainerPolicyOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -900,7 +906,7 @@ export const putContainerPolicy: (
  */
 export const putLifecyclePolicy: (
   input: PutLifecyclePolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutLifecyclePolicyOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -921,7 +927,7 @@ export const putLifecyclePolicy: (
  */
 export const startAccessLogging: (
   input: StartAccessLoggingInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartAccessLoggingOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -942,7 +948,7 @@ export const startAccessLogging: (
  */
 export const stopAccessLogging: (
   input: StopAccessLoggingInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopAccessLoggingOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -965,7 +971,7 @@ export const stopAccessLogging: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -986,7 +992,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -1009,7 +1015,7 @@ export const untagResource: (
  */
 export const deleteContainer: (
   input: DeleteContainerInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteContainerOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -1036,7 +1042,7 @@ export const deleteContainer: (
  */
 export const describeContainer: (
   input: DescribeContainerInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeContainerOutput,
   ContainerNotFoundException | InternalServerError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1052,7 +1058,7 @@ export const describeContainer: (
  */
 export const getContainerPolicy: (
   input: GetContainerPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetContainerPolicyOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -1080,7 +1086,7 @@ export const getContainerPolicy: (
  */
 export const getCorsPolicy: (
   input: GetCorsPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetCorsPolicyOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -1104,7 +1110,7 @@ export const getCorsPolicy: (
  */
 export const createContainer: (
   input: CreateContainerInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateContainerOutput,
   | ContainerInUseException
   | InternalServerError
@@ -1125,7 +1131,7 @@ export const createContainer: (
  */
 export const getLifecyclePolicy: (
   input: GetLifecyclePolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetLifecyclePolicyOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -1148,7 +1154,7 @@ export const getLifecyclePolicy: (
  */
 export const getMetricPolicy: (
   input: GetMetricPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetMetricPolicyOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -1171,7 +1177,7 @@ export const getMetricPolicy: (
  */
 export const deleteContainerPolicy: (
   input: DeleteContainerPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteContainerPolicyOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -1194,7 +1200,7 @@ export const deleteContainerPolicy: (
  */
 export const deleteLifecyclePolicy: (
   input: DeleteLifecyclePolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLifecyclePolicyOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -1217,7 +1223,7 @@ export const deleteLifecyclePolicy: (
  */
 export const deleteMetricPolicy: (
   input: DeleteMetricPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMetricPolicyOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -1245,7 +1251,7 @@ export const deleteMetricPolicy: (
  */
 export const deleteCorsPolicy: (
   input: DeleteCorsPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCorsPolicyOutput,
   | ContainerInUseException
   | ContainerNotFoundException

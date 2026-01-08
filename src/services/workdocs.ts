@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -88,19 +88,19 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Newtypes
-export type AuthenticationHeaderType = string | Redacted.Redacted<string>;
+export type AuthenticationHeaderType = string | redacted.Redacted<string>;
 export type ResourceIdType = string;
 export type DocumentVersionIdType = string;
 export type IdType = string;
 export type CommentIdType = string;
-export type CommentTextType = string | Redacted.Redacted<string>;
-export type ResourceNameType = string | Redacted.Redacted<string>;
+export type CommentTextType = string | redacted.Redacted<string>;
+export type ResourceNameType = string | redacted.Redacted<string>;
 export type SharedLabel = string;
 export type SubscriptionEndPointType = string;
-export type UsernameType = string | Redacted.Redacted<string>;
-export type EmailAddressType = string | Redacted.Redacted<string>;
-export type UserAttributeValueType = string | Redacted.Redacted<string>;
-export type PasswordType = string | Redacted.Redacted<string>;
+export type UsernameType = string | redacted.Redacted<string>;
+export type EmailAddressType = string | redacted.Redacted<string>;
+export type UserAttributeValueType = string | redacted.Redacted<string>;
+export type PasswordType = string | redacted.Redacted<string>;
 export type TimeZoneIdType = string;
 export type CustomMetadataKeyType = string;
 export type ActivityNamesFilterType = string;
@@ -109,14 +109,14 @@ export type SearchMarkerType = string;
 export type MarkerType = string;
 export type PageMarkerType = string;
 export type FieldNamesType = string;
-export type SearchQueryType = string | Redacted.Redacted<string>;
+export type SearchQueryType = string | redacted.Redacted<string>;
 export type PositiveIntegerType = number;
 export type UserIdsType = string;
 export type DocumentContentType = string;
 export type SizeType = number;
 export type SearchResultsLimitType = number;
 export type NextMarkerType = string;
-export type MessageType = string | Redacted.Redacted<string>;
+export type MessageType = string | redacted.Redacted<string>;
 export type CustomMetadataValueType = string;
 export type PositiveSizeType = number;
 export type SearchLabel = string;
@@ -125,23 +125,124 @@ export type ErrorMessageType = string;
 export type LongType = number;
 export type HashType = string;
 export type GroupNameType = string;
-export type UrlType = string | Redacted.Redacted<string>;
+export type UrlType = string | redacted.Redacted<string>;
 export type ExceptionCodeType = string;
 export type HeaderNameType = string;
 export type HeaderValueType = string;
-export type ResponseItemWebUrl = string | Redacted.Redacted<string>;
+export type ResponseItemWebUrl = string | redacted.Redacted<string>;
 
 //# Schemas
+export type CommentVisibilityType = "PUBLIC" | "PRIVATE";
+export const CommentVisibilityType = S.Literal("PUBLIC", "PRIVATE");
 export type SharedLabels = string[];
 export const SharedLabels = S.Array(S.String);
+export type SubscriptionProtocolType = "HTTPS" | "SQS";
+export const SubscriptionProtocolType = S.Literal("HTTPS", "SQS");
+export type SubscriptionType = "ALL";
+export const SubscriptionType = S.Literal("ALL");
 export type CustomMetadataKeyList = string[];
 export const CustomMetadataKeyList = S.Array(S.String);
-export type SearchQueryScopeTypeList = string[];
-export const SearchQueryScopeTypeList = S.Array(S.String);
-export type AdditionalResponseFieldsList = string[];
-export const AdditionalResponseFieldsList = S.Array(S.String);
+export type ResourceSortType = "DATE" | "NAME";
+export const ResourceSortType = S.Literal("DATE", "NAME");
+export type OrderType = "ASCENDING" | "DESCENDING";
+export const OrderType = S.Literal("ASCENDING", "DESCENDING");
+export type FolderContentType = "ALL" | "DOCUMENT" | "FOLDER";
+export const FolderContentType = S.Literal("ALL", "DOCUMENT", "FOLDER");
+export type UserFilterType = "ALL" | "ACTIVE_PENDING";
+export const UserFilterType = S.Literal("ALL", "ACTIVE_PENDING");
+export type UserSortType =
+  | "USER_NAME"
+  | "FULL_NAME"
+  | "STORAGE_LIMIT"
+  | "USER_STATUS"
+  | "STORAGE_USED";
+export const UserSortType = S.Literal(
+  "USER_NAME",
+  "FULL_NAME",
+  "STORAGE_LIMIT",
+  "USER_STATUS",
+  "STORAGE_USED",
+);
+export type ResourceCollectionType = "SHARED_WITH_ME";
+export const ResourceCollectionType = S.Literal("SHARED_WITH_ME");
+export type PrincipalType =
+  | "USER"
+  | "GROUP"
+  | "INVITE"
+  | "ANONYMOUS"
+  | "ORGANIZATION";
+export const PrincipalType = S.Literal(
+  "USER",
+  "GROUP",
+  "INVITE",
+  "ANONYMOUS",
+  "ORGANIZATION",
+);
+export type SearchQueryScopeType = "NAME" | "CONTENT";
+export const SearchQueryScopeType = S.Literal("NAME", "CONTENT");
+export type SearchQueryScopeTypeList = SearchQueryScopeType[];
+export const SearchQueryScopeTypeList = S.Array(SearchQueryScopeType);
+export type AdditionalResponseFieldType = "WEBURL";
+export const AdditionalResponseFieldType = S.Literal("WEBURL");
+export type AdditionalResponseFieldsList = AdditionalResponseFieldType[];
+export const AdditionalResponseFieldsList = S.Array(
+  AdditionalResponseFieldType,
+);
+export type ResourceStateType =
+  | "ACTIVE"
+  | "RESTORING"
+  | "RECYCLING"
+  | "RECYCLED";
+export const ResourceStateType = S.Literal(
+  "ACTIVE",
+  "RESTORING",
+  "RECYCLING",
+  "RECYCLED",
+);
+export type DocumentVersionStatus = "ACTIVE";
+export const DocumentVersionStatus = S.Literal("ACTIVE");
+export type UserType =
+  | "USER"
+  | "ADMIN"
+  | "POWERUSER"
+  | "MINIMALUSER"
+  | "WORKSPACESUSER";
+export const UserType = S.Literal(
+  "USER",
+  "ADMIN",
+  "POWERUSER",
+  "MINIMALUSER",
+  "WORKSPACESUSER",
+);
+export type LocaleType =
+  | "en"
+  | "fr"
+  | "ko"
+  | "de"
+  | "es"
+  | "ja"
+  | "ru"
+  | "zh_CN"
+  | "zh_TW"
+  | "pt_BR"
+  | "default";
+export const LocaleType = S.Literal(
+  "en",
+  "fr",
+  "ko",
+  "de",
+  "es",
+  "ja",
+  "ru",
+  "zh_CN",
+  "zh_TW",
+  "pt_BR",
+  "default",
+);
+export type BooleanEnumType = "TRUE" | "FALSE";
+export const BooleanEnumType = S.Literal("TRUE", "FALSE");
 export interface AbortDocumentVersionUploadRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   DocumentId: string;
   VersionId: string;
 }
@@ -177,7 +278,7 @@ export const AbortDocumentVersionUploadResponse = S.suspend(() =>
 }) as any as S.Schema<AbortDocumentVersionUploadResponse>;
 export interface ActivateUserRequest {
   UserId: string;
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
 }
 export const ActivateUserRequest = S.suspend(() =>
   S.Struct({
@@ -200,13 +301,13 @@ export const ActivateUserRequest = S.suspend(() =>
   identifier: "ActivateUserRequest",
 }) as any as S.Schema<ActivateUserRequest>;
 export interface CreateCommentRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   DocumentId: string;
   VersionId: string;
   ParentId?: string;
   ThreadId?: string;
-  Text: string | Redacted.Redacted<string>;
-  Visibility?: string;
+  Text: string | redacted.Redacted<string>;
+  Visibility?: CommentVisibilityType;
   NotifyCollaborators?: boolean;
 }
 export const CreateCommentRequest = S.suspend(() =>
@@ -219,7 +320,7 @@ export const CreateCommentRequest = S.suspend(() =>
     ParentId: S.optional(S.String),
     ThreadId: S.optional(S.String),
     Text: SensitiveString,
-    Visibility: S.optional(S.String),
+    Visibility: S.optional(CommentVisibilityType),
     NotifyCollaborators: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -239,8 +340,8 @@ export const CreateCommentRequest = S.suspend(() =>
   identifier: "CreateCommentRequest",
 }) as any as S.Schema<CreateCommentRequest>;
 export interface CreateFolderRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
-  Name?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
   ParentFolderId: string;
 }
 export const CreateFolderRequest = S.suspend(() =>
@@ -266,8 +367,8 @@ export const CreateFolderRequest = S.suspend(() =>
 }) as any as S.Schema<CreateFolderRequest>;
 export interface CreateLabelsRequest {
   ResourceId: string;
-  Labels: SharedLabels;
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  Labels: string[];
+  AuthenticationToken?: string | redacted.Redacted<string>;
 }
 export const CreateLabelsRequest = S.suspend(() =>
   S.Struct({
@@ -299,15 +400,15 @@ export const CreateLabelsResponse = S.suspend(() =>
 export interface CreateNotificationSubscriptionRequest {
   OrganizationId: string;
   Endpoint: string;
-  Protocol: string;
-  SubscriptionType: string;
+  Protocol: SubscriptionProtocolType;
+  SubscriptionType: SubscriptionType;
 }
 export const CreateNotificationSubscriptionRequest = S.suspend(() =>
   S.Struct({
     OrganizationId: S.String.pipe(T.HttpLabel("OrganizationId")),
     Endpoint: S.String,
-    Protocol: S.String,
-    SubscriptionType: S.String,
+    Protocol: SubscriptionProtocolType,
+    SubscriptionType: SubscriptionType,
   }).pipe(
     T.all(
       ns,
@@ -327,7 +428,7 @@ export const CreateNotificationSubscriptionRequest = S.suspend(() =>
 }) as any as S.Schema<CreateNotificationSubscriptionRequest>;
 export interface DeactivateUserRequest {
   UserId: string;
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
 }
 export const DeactivateUserRequest = S.suspend(() =>
   S.Struct({
@@ -356,7 +457,7 @@ export const DeactivateUserResponse = S.suspend(() =>
   identifier: "DeactivateUserResponse",
 }) as any as S.Schema<DeactivateUserResponse>;
 export interface DeleteCommentRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   DocumentId: string;
   VersionId: string;
   CommentId: string;
@@ -393,10 +494,10 @@ export const DeleteCommentResponse = S.suspend(() =>
   identifier: "DeleteCommentResponse",
 }) as any as S.Schema<DeleteCommentResponse>;
 export interface DeleteCustomMetadataRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   ResourceId: string;
   VersionId?: string;
-  Keys?: CustomMetadataKeyList;
+  Keys?: string[];
   DeleteAll?: boolean;
 }
 export const DeleteCustomMetadataRequest = S.suspend(() =>
@@ -432,7 +533,7 @@ export const DeleteCustomMetadataResponse = S.suspend(() =>
   identifier: "DeleteCustomMetadataResponse",
 }) as any as S.Schema<DeleteCustomMetadataResponse>;
 export interface DeleteDocumentRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   DocumentId: string;
 }
 export const DeleteDocumentRequest = S.suspend(() =>
@@ -462,7 +563,7 @@ export const DeleteDocumentResponse = S.suspend(() =>
   identifier: "DeleteDocumentResponse",
 }) as any as S.Schema<DeleteDocumentResponse>;
 export interface DeleteDocumentVersionRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   DocumentId: string;
   VersionId: string;
   DeletePriorVersions: boolean;
@@ -499,7 +600,7 @@ export const DeleteDocumentVersionResponse = S.suspend(() =>
   identifier: "DeleteDocumentVersionResponse",
 }) as any as S.Schema<DeleteDocumentVersionResponse>;
 export interface DeleteFolderRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   FolderId: string;
 }
 export const DeleteFolderRequest = S.suspend(() =>
@@ -529,7 +630,7 @@ export const DeleteFolderResponse = S.suspend(() =>
   identifier: "DeleteFolderResponse",
 }) as any as S.Schema<DeleteFolderResponse>;
 export interface DeleteFolderContentsRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   FolderId: string;
 }
 export const DeleteFolderContentsRequest = S.suspend(() =>
@@ -560,8 +661,8 @@ export const DeleteFolderContentsResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteFolderContentsResponse>;
 export interface DeleteLabelsRequest {
   ResourceId: string;
-  AuthenticationToken?: string | Redacted.Redacted<string>;
-  Labels?: SharedLabels;
+  AuthenticationToken?: string | redacted.Redacted<string>;
+  Labels?: string[];
   DeleteAll?: boolean;
 }
 export const DeleteLabelsRequest = S.suspend(() =>
@@ -627,7 +728,7 @@ export const DeleteNotificationSubscriptionResponse = S.suspend(() =>
   identifier: "DeleteNotificationSubscriptionResponse",
 }) as any as S.Schema<DeleteNotificationSubscriptionResponse>;
 export interface DeleteUserRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   UserId: string;
 }
 export const DeleteUserRequest = S.suspend(() =>
@@ -657,7 +758,7 @@ export const DeleteUserResponse = S.suspend(() =>
   identifier: "DeleteUserResponse",
 }) as any as S.Schema<DeleteUserResponse>;
 export interface DescribeActivitiesRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   StartTime?: Date;
   EndTime?: Date;
   OrganizationId?: string;
@@ -703,7 +804,7 @@ export const DescribeActivitiesRequest = S.suspend(() =>
   identifier: "DescribeActivitiesRequest",
 }) as any as S.Schema<DescribeActivitiesRequest>;
 export interface DescribeCommentsRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   DocumentId: string;
   VersionId: string;
   Limit?: number;
@@ -736,7 +837,7 @@ export const DescribeCommentsRequest = S.suspend(() =>
   identifier: "DescribeCommentsRequest",
 }) as any as S.Schema<DescribeCommentsRequest>;
 export interface DescribeDocumentVersionsRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   DocumentId: string;
   Marker?: string;
   Limit?: number;
@@ -768,13 +869,13 @@ export const DescribeDocumentVersionsRequest = S.suspend(() =>
   identifier: "DescribeDocumentVersionsRequest",
 }) as any as S.Schema<DescribeDocumentVersionsRequest>;
 export interface DescribeFolderContentsRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   FolderId: string;
-  Sort?: string;
-  Order?: string;
+  Sort?: ResourceSortType;
+  Order?: OrderType;
   Limit?: number;
   Marker?: string;
-  Type?: string;
+  Type?: FolderContentType;
   Include?: string;
 }
 export const DescribeFolderContentsRequest = S.suspend(() =>
@@ -783,11 +884,11 @@ export const DescribeFolderContentsRequest = S.suspend(() =>
       T.HttpHeader("Authentication"),
     ),
     FolderId: S.String.pipe(T.HttpLabel("FolderId")),
-    Sort: S.optional(S.String).pipe(T.HttpQuery("sort")),
-    Order: S.optional(S.String).pipe(T.HttpQuery("order")),
+    Sort: S.optional(ResourceSortType).pipe(T.HttpQuery("sort")),
+    Order: S.optional(OrderType).pipe(T.HttpQuery("order")),
     Limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
     Marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
-    Type: S.optional(S.String).pipe(T.HttpQuery("type")),
+    Type: S.optional(FolderContentType).pipe(T.HttpQuery("type")),
     Include: S.optional(S.String).pipe(T.HttpQuery("include")),
   }).pipe(
     T.all(
@@ -804,8 +905,8 @@ export const DescribeFolderContentsRequest = S.suspend(() =>
   identifier: "DescribeFolderContentsRequest",
 }) as any as S.Schema<DescribeFolderContentsRequest>;
 export interface DescribeGroupsRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
-  SearchQuery: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
+  SearchQuery: string | redacted.Redacted<string>;
   OrganizationId?: string;
   Marker?: string;
   Limit?: number;
@@ -861,7 +962,7 @@ export const DescribeNotificationSubscriptionsRequest = S.suspend(() =>
   identifier: "DescribeNotificationSubscriptionsRequest",
 }) as any as S.Schema<DescribeNotificationSubscriptionsRequest>;
 export interface DescribeResourcePermissionsRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   ResourceId: string;
   PrincipalId?: string;
   Limit?: number;
@@ -894,7 +995,7 @@ export const DescribeResourcePermissionsRequest = S.suspend(() =>
   identifier: "DescribeResourcePermissionsRequest",
 }) as any as S.Schema<DescribeResourcePermissionsRequest>;
 export interface DescribeRootFoldersRequest {
-  AuthenticationToken: string | Redacted.Redacted<string>;
+  AuthenticationToken: string | redacted.Redacted<string>;
   Limit?: number;
   Marker?: string;
 }
@@ -918,13 +1019,13 @@ export const DescribeRootFoldersRequest = S.suspend(() =>
   identifier: "DescribeRootFoldersRequest",
 }) as any as S.Schema<DescribeRootFoldersRequest>;
 export interface DescribeUsersRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   OrganizationId?: string;
   UserIds?: string;
-  Query?: string | Redacted.Redacted<string>;
-  Include?: string;
-  Order?: string;
-  Sort?: string;
+  Query?: string | redacted.Redacted<string>;
+  Include?: UserFilterType;
+  Order?: OrderType;
+  Sort?: UserSortType;
   Marker?: string;
   Limit?: number;
   Fields?: string;
@@ -937,9 +1038,9 @@ export const DescribeUsersRequest = S.suspend(() =>
     OrganizationId: S.optional(S.String).pipe(T.HttpQuery("organizationId")),
     UserIds: S.optional(S.String).pipe(T.HttpQuery("userIds")),
     Query: S.optional(SensitiveString).pipe(T.HttpQuery("query")),
-    Include: S.optional(S.String).pipe(T.HttpQuery("include")),
-    Order: S.optional(S.String).pipe(T.HttpQuery("order")),
-    Sort: S.optional(S.String).pipe(T.HttpQuery("sort")),
+    Include: S.optional(UserFilterType).pipe(T.HttpQuery("include")),
+    Order: S.optional(OrderType).pipe(T.HttpQuery("order")),
+    Sort: S.optional(UserSortType).pipe(T.HttpQuery("sort")),
     Marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
     Limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
     Fields: S.optional(S.String).pipe(T.HttpQuery("fields")),
@@ -958,7 +1059,7 @@ export const DescribeUsersRequest = S.suspend(() =>
   identifier: "DescribeUsersRequest",
 }) as any as S.Schema<DescribeUsersRequest>;
 export interface GetCurrentUserRequest {
-  AuthenticationToken: string | Redacted.Redacted<string>;
+  AuthenticationToken: string | redacted.Redacted<string>;
 }
 export const GetCurrentUserRequest = S.suspend(() =>
   S.Struct({
@@ -978,7 +1079,7 @@ export const GetCurrentUserRequest = S.suspend(() =>
   identifier: "GetCurrentUserRequest",
 }) as any as S.Schema<GetCurrentUserRequest>;
 export interface GetDocumentRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   DocumentId: string;
   IncludeCustomMetadata?: boolean;
 }
@@ -1006,7 +1107,7 @@ export const GetDocumentRequest = S.suspend(() =>
   identifier: "GetDocumentRequest",
 }) as any as S.Schema<GetDocumentRequest>;
 export interface GetDocumentPathRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   DocumentId: string;
   Limit?: number;
   Fields?: string;
@@ -1036,7 +1137,7 @@ export const GetDocumentPathRequest = S.suspend(() =>
   identifier: "GetDocumentPathRequest",
 }) as any as S.Schema<GetDocumentPathRequest>;
 export interface GetDocumentVersionRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   DocumentId: string;
   VersionId: string;
   Fields?: string;
@@ -1071,7 +1172,7 @@ export const GetDocumentVersionRequest = S.suspend(() =>
   identifier: "GetDocumentVersionRequest",
 }) as any as S.Schema<GetDocumentVersionRequest>;
 export interface GetFolderRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   FolderId: string;
   IncludeCustomMetadata?: boolean;
 }
@@ -1099,7 +1200,7 @@ export const GetFolderRequest = S.suspend(() =>
   identifier: "GetFolderRequest",
 }) as any as S.Schema<GetFolderRequest>;
 export interface GetFolderPathRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   FolderId: string;
   Limit?: number;
   Fields?: string;
@@ -1129,9 +1230,9 @@ export const GetFolderPathRequest = S.suspend(() =>
   identifier: "GetFolderPathRequest",
 }) as any as S.Schema<GetFolderPathRequest>;
 export interface GetResourcesRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   UserId?: string;
-  CollectionType?: string;
+  CollectionType?: ResourceCollectionType;
   Limit?: number;
   Marker?: string;
 }
@@ -1141,7 +1242,9 @@ export const GetResourcesRequest = S.suspend(() =>
       T.HttpHeader("Authentication"),
     ),
     UserId: S.optional(S.String).pipe(T.HttpQuery("userId")),
-    CollectionType: S.optional(S.String).pipe(T.HttpQuery("collectionType")),
+    CollectionType: S.optional(ResourceCollectionType).pipe(
+      T.HttpQuery("collectionType"),
+    ),
     Limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
     Marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
   }).pipe(
@@ -1159,9 +1262,9 @@ export const GetResourcesRequest = S.suspend(() =>
   identifier: "GetResourcesRequest",
 }) as any as S.Schema<GetResourcesRequest>;
 export interface InitiateDocumentVersionUploadRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   Id?: string;
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
   ContentCreatedTimestamp?: Date;
   ContentModifiedTimestamp?: Date;
   ContentType?: string;
@@ -1199,7 +1302,7 @@ export const InitiateDocumentVersionUploadRequest = S.suspend(() =>
   identifier: "InitiateDocumentVersionUploadRequest",
 }) as any as S.Schema<InitiateDocumentVersionUploadRequest>;
 export interface RemoveAllResourcePermissionsRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   ResourceId: string;
 }
 export const RemoveAllResourcePermissionsRequest = S.suspend(() =>
@@ -1232,10 +1335,10 @@ export const RemoveAllResourcePermissionsResponse = S.suspend(() =>
   identifier: "RemoveAllResourcePermissionsResponse",
 }) as any as S.Schema<RemoveAllResourcePermissionsResponse>;
 export interface RemoveResourcePermissionRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   ResourceId: string;
   PrincipalId: string;
-  PrincipalType?: string;
+  PrincipalType?: PrincipalType;
 }
 export const RemoveResourcePermissionRequest = S.suspend(() =>
   S.Struct({
@@ -1244,7 +1347,7 @@ export const RemoveResourcePermissionRequest = S.suspend(() =>
     ),
     ResourceId: S.String.pipe(T.HttpLabel("ResourceId")),
     PrincipalId: S.String.pipe(T.HttpLabel("PrincipalId")),
-    PrincipalType: S.optional(S.String).pipe(T.HttpQuery("type")),
+    PrincipalType: S.optional(PrincipalType).pipe(T.HttpQuery("type")),
   }).pipe(
     T.all(
       ns,
@@ -1269,7 +1372,7 @@ export const RemoveResourcePermissionResponse = S.suspend(() =>
   identifier: "RemoveResourcePermissionResponse",
 }) as any as S.Schema<RemoveResourcePermissionResponse>;
 export interface RestoreDocumentVersionsRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   DocumentId: string;
 }
 export const RestoreDocumentVersionsRequest = S.suspend(() =>
@@ -1302,11 +1405,11 @@ export const RestoreDocumentVersionsResponse = S.suspend(() =>
   identifier: "RestoreDocumentVersionsResponse",
 }) as any as S.Schema<RestoreDocumentVersionsResponse>;
 export interface UpdateDocumentRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   DocumentId: string;
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
   ParentFolderId?: string;
-  ResourceState?: string;
+  ResourceState?: ResourceStateType;
 }
 export const UpdateDocumentRequest = S.suspend(() =>
   S.Struct({
@@ -1316,7 +1419,7 @@ export const UpdateDocumentRequest = S.suspend(() =>
     DocumentId: S.String.pipe(T.HttpLabel("DocumentId")),
     Name: S.optional(SensitiveString),
     ParentFolderId: S.optional(S.String),
-    ResourceState: S.optional(S.String),
+    ResourceState: S.optional(ResourceStateType),
   }).pipe(
     T.all(
       ns,
@@ -1338,10 +1441,10 @@ export const UpdateDocumentResponse = S.suspend(() =>
   identifier: "UpdateDocumentResponse",
 }) as any as S.Schema<UpdateDocumentResponse>;
 export interface UpdateDocumentVersionRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   DocumentId: string;
   VersionId: string;
-  VersionStatus?: string;
+  VersionStatus?: DocumentVersionStatus;
 }
 export const UpdateDocumentVersionRequest = S.suspend(() =>
   S.Struct({
@@ -1350,7 +1453,7 @@ export const UpdateDocumentVersionRequest = S.suspend(() =>
     ),
     DocumentId: S.String.pipe(T.HttpLabel("DocumentId")),
     VersionId: S.String.pipe(T.HttpLabel("VersionId")),
-    VersionStatus: S.optional(S.String),
+    VersionStatus: S.optional(DocumentVersionStatus),
   }).pipe(
     T.all(
       ns,
@@ -1375,11 +1478,11 @@ export const UpdateDocumentVersionResponse = S.suspend(() =>
   identifier: "UpdateDocumentVersionResponse",
 }) as any as S.Schema<UpdateDocumentVersionResponse>;
 export interface UpdateFolderRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   FolderId: string;
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
   ParentFolderId?: string;
-  ResourceState?: string;
+  ResourceState?: ResourceStateType;
 }
 export const UpdateFolderRequest = S.suspend(() =>
   S.Struct({
@@ -1389,7 +1492,7 @@ export const UpdateFolderRequest = S.suspend(() =>
     FolderId: S.String.pipe(T.HttpLabel("FolderId")),
     Name: S.optional(SensitiveString),
     ParentFolderId: S.optional(S.String),
-    ResourceState: S.optional(S.String),
+    ResourceState: S.optional(ResourceStateType),
   }).pipe(
     T.all(
       ns,
@@ -1410,28 +1513,30 @@ export const UpdateFolderResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateFolderResponse",
 }) as any as S.Schema<UpdateFolderResponse>;
+export type StorageType = "UNLIMITED" | "QUOTA";
+export const StorageType = S.Literal("UNLIMITED", "QUOTA");
 export interface StorageRuleType {
   StorageAllocatedInBytes?: number;
-  StorageType?: string;
+  StorageType?: StorageType;
 }
 export const StorageRuleType = S.suspend(() =>
   S.Struct({
     StorageAllocatedInBytes: S.optional(S.Number),
-    StorageType: S.optional(S.String),
+    StorageType: S.optional(StorageType),
   }),
 ).annotations({
   identifier: "StorageRuleType",
 }) as any as S.Schema<StorageRuleType>;
 export interface UpdateUserRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   UserId: string;
-  GivenName?: string | Redacted.Redacted<string>;
-  Surname?: string | Redacted.Redacted<string>;
-  Type?: string;
+  GivenName?: string | redacted.Redacted<string>;
+  Surname?: string | redacted.Redacted<string>;
+  Type?: UserType;
   StorageRule?: StorageRuleType;
   TimeZoneId?: string;
-  Locale?: string;
-  GrantPoweruserPrivileges?: string;
+  Locale?: LocaleType;
+  GrantPoweruserPrivileges?: BooleanEnumType;
 }
 export const UpdateUserRequest = S.suspend(() =>
   S.Struct({
@@ -1441,11 +1546,11 @@ export const UpdateUserRequest = S.suspend(() =>
     UserId: S.String.pipe(T.HttpLabel("UserId")),
     GivenName: S.optional(SensitiveString),
     Surname: S.optional(SensitiveString),
-    Type: S.optional(S.String),
+    Type: S.optional(UserType),
     StorageRule: S.optional(StorageRuleType),
     TimeZoneId: S.optional(S.String),
-    Locale: S.optional(S.String),
-    GrantPoweruserPrivileges: S.optional(S.String),
+    Locale: S.optional(LocaleType),
+    GrantPoweruserPrivileges: S.optional(BooleanEnumType),
   }).pipe(
     T.all(
       ns,
@@ -1460,25 +1565,141 @@ export const UpdateUserRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateUserRequest",
 }) as any as S.Schema<UpdateUserRequest>;
-export type TextLocaleTypeList = string[];
-export const TextLocaleTypeList = S.Array(S.String);
-export type SearchContentCategoryTypeList = string[];
-export const SearchContentCategoryTypeList = S.Array(S.String);
-export type SearchResourceTypeList = string[];
-export const SearchResourceTypeList = S.Array(S.String);
+export type RoleType = "VIEWER" | "CONTRIBUTOR" | "OWNER" | "COOWNER";
+export const RoleType = S.Literal("VIEWER", "CONTRIBUTOR", "OWNER", "COOWNER");
+export type LanguageCodeType =
+  | "AR"
+  | "BG"
+  | "BN"
+  | "DA"
+  | "DE"
+  | "CS"
+  | "EL"
+  | "EN"
+  | "ES"
+  | "FA"
+  | "FI"
+  | "FR"
+  | "HI"
+  | "HU"
+  | "ID"
+  | "IT"
+  | "JA"
+  | "KO"
+  | "LT"
+  | "LV"
+  | "NL"
+  | "NO"
+  | "PT"
+  | "RO"
+  | "RU"
+  | "SV"
+  | "SW"
+  | "TH"
+  | "TR"
+  | "ZH"
+  | "DEFAULT";
+export const LanguageCodeType = S.Literal(
+  "AR",
+  "BG",
+  "BN",
+  "DA",
+  "DE",
+  "CS",
+  "EL",
+  "EN",
+  "ES",
+  "FA",
+  "FI",
+  "FR",
+  "HI",
+  "HU",
+  "ID",
+  "IT",
+  "JA",
+  "KO",
+  "LT",
+  "LV",
+  "NL",
+  "NO",
+  "PT",
+  "RO",
+  "RU",
+  "SV",
+  "SW",
+  "TH",
+  "TR",
+  "ZH",
+  "DEFAULT",
+);
+export type TextLocaleTypeList = LanguageCodeType[];
+export const TextLocaleTypeList = S.Array(LanguageCodeType);
+export type ContentCategoryType =
+  | "IMAGE"
+  | "DOCUMENT"
+  | "PDF"
+  | "SPREADSHEET"
+  | "PRESENTATION"
+  | "AUDIO"
+  | "VIDEO"
+  | "SOURCE_CODE"
+  | "OTHER";
+export const ContentCategoryType = S.Literal(
+  "IMAGE",
+  "DOCUMENT",
+  "PDF",
+  "SPREADSHEET",
+  "PRESENTATION",
+  "AUDIO",
+  "VIDEO",
+  "SOURCE_CODE",
+  "OTHER",
+);
+export type SearchContentCategoryTypeList = ContentCategoryType[];
+export const SearchContentCategoryTypeList = S.Array(ContentCategoryType);
+export type SearchResourceType =
+  | "FOLDER"
+  | "DOCUMENT"
+  | "COMMENT"
+  | "DOCUMENT_VERSION";
+export const SearchResourceType = S.Literal(
+  "FOLDER",
+  "DOCUMENT",
+  "COMMENT",
+  "DOCUMENT_VERSION",
+);
+export type SearchResourceTypeList = SearchResourceType[];
+export const SearchResourceTypeList = S.Array(SearchResourceType);
 export type SearchLabelList = string[];
 export const SearchLabelList = S.Array(S.String);
 export type SearchAncestorIdList = string[];
 export const SearchAncestorIdList = S.Array(S.String);
-export type SearchCollectionTypeList = string[];
-export const SearchCollectionTypeList = S.Array(S.String);
+export type SearchCollectionType = "OWNED" | "SHARED_WITH_ME";
+export const SearchCollectionType = S.Literal("OWNED", "SHARED_WITH_ME");
+export type SearchCollectionTypeList = SearchCollectionType[];
+export const SearchCollectionTypeList = S.Array(SearchCollectionType);
+export type OrderByFieldType =
+  | "RELEVANCE"
+  | "NAME"
+  | "SIZE"
+  | "CREATED_TIMESTAMP"
+  | "MODIFIED_TIMESTAMP";
+export const OrderByFieldType = S.Literal(
+  "RELEVANCE",
+  "NAME",
+  "SIZE",
+  "CREATED_TIMESTAMP",
+  "MODIFIED_TIMESTAMP",
+);
+export type SortOrder = "ASC" | "DESC";
+export const SortOrder = S.Literal("ASC", "DESC");
 export interface SharePrincipal {
   Id: string;
-  Type: string;
-  Role: string;
+  Type: PrincipalType;
+  Role: RoleType;
 }
 export const SharePrincipal = S.suspend(() =>
-  S.Struct({ Id: S.String, Type: S.String, Role: S.String }),
+  S.Struct({ Id: S.String, Type: PrincipalType, Role: RoleType }),
 ).annotations({
   identifier: "SharePrincipal",
 }) as any as S.Schema<SharePrincipal>;
@@ -1486,7 +1707,7 @@ export type SharePrincipalList = SharePrincipal[];
 export const SharePrincipalList = S.Array(SharePrincipal);
 export interface NotificationOptions {
   SendEmail?: boolean;
-  EmailMessage?: string | Redacted.Redacted<string>;
+  EmailMessage?: string | redacted.Redacted<string>;
 }
 export const NotificationOptions = S.suspend(() =>
   S.Struct({
@@ -1500,6 +1721,8 @@ export type CustomMetadataMap = { [key: string]: string };
 export const CustomMetadataMap = S.Record({ key: S.String, value: S.String });
 export type EntityIdList = string[];
 export const EntityIdList = S.Array(S.String);
+export type UserStatusType = "ACTIVE" | "INACTIVE" | "PENDING";
+export const UserStatusType = S.Literal("ACTIVE", "INACTIVE", "PENDING");
 export interface UserStorageMetadata {
   StorageUtilizedInBytes?: number;
   StorageRule?: StorageRuleType;
@@ -1514,19 +1737,19 @@ export const UserStorageMetadata = S.suspend(() =>
 }) as any as S.Schema<UserStorageMetadata>;
 export interface User {
   Id?: string;
-  Username?: string | Redacted.Redacted<string>;
-  EmailAddress?: string | Redacted.Redacted<string>;
-  GivenName?: string | Redacted.Redacted<string>;
-  Surname?: string | Redacted.Redacted<string>;
+  Username?: string | redacted.Redacted<string>;
+  EmailAddress?: string | redacted.Redacted<string>;
+  GivenName?: string | redacted.Redacted<string>;
+  Surname?: string | redacted.Redacted<string>;
   OrganizationId?: string;
   RootFolderId?: string;
   RecycleBinFolderId?: string;
-  Status?: string;
-  Type?: string;
+  Status?: UserStatusType;
+  Type?: UserType;
   CreatedTimestamp?: Date;
   ModifiedTimestamp?: Date;
   TimeZoneId?: string;
-  Locale?: string;
+  Locale?: LocaleType;
   Storage?: UserStorageMetadata;
 }
 export const User = S.suspend(() =>
@@ -1539,8 +1762,8 @@ export const User = S.suspend(() =>
     OrganizationId: S.optional(S.String),
     RootFolderId: S.optional(S.String),
     RecycleBinFolderId: S.optional(S.String),
-    Status: S.optional(S.String),
-    Type: S.optional(S.String),
+    Status: S.optional(UserStatusType),
+    Type: S.optional(UserType),
     CreatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1548,19 +1771,21 @@ export const User = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     TimeZoneId: S.optional(S.String),
-    Locale: S.optional(S.String),
+    Locale: S.optional(LocaleType),
     Storage: S.optional(UserStorageMetadata),
   }),
 ).annotations({ identifier: "User" }) as any as S.Schema<User>;
+export type CommentStatusType = "DRAFT" | "PUBLISHED" | "DELETED";
+export const CommentStatusType = S.Literal("DRAFT", "PUBLISHED", "DELETED");
 export interface Comment {
   CommentId: string;
   ParentId?: string;
   ThreadId?: string;
-  Text?: string | Redacted.Redacted<string>;
+  Text?: string | redacted.Redacted<string>;
   Contributor?: User;
   CreatedTimestamp?: Date;
-  Status?: string;
-  Visibility?: string;
+  Status?: CommentStatusType;
+  Visibility?: CommentVisibilityType;
   RecipientId?: string;
 }
 export const Comment = S.suspend(() =>
@@ -1573,8 +1798,8 @@ export const Comment = S.suspend(() =>
     CreatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    Status: S.optional(S.String),
-    Visibility: S.optional(S.String),
+    Status: S.optional(CommentStatusType),
+    Visibility: S.optional(CommentVisibilityType),
     RecipientId: S.optional(S.String),
   }),
 ).annotations({ identifier: "Comment" }) as any as S.Schema<Comment>;
@@ -1582,14 +1807,14 @@ export type CommentList = Comment[];
 export const CommentList = S.Array(Comment);
 export interface FolderMetadata {
   Id?: string;
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
   CreatorId?: string;
   ParentFolderId?: string;
   CreatedTimestamp?: Date;
   ModifiedTimestamp?: Date;
-  ResourceState?: string;
+  ResourceState?: ResourceStateType;
   Signature?: string;
-  Labels?: SharedLabels;
+  Labels?: string[];
   Size?: number;
   LatestVersionSize?: number;
 }
@@ -1605,7 +1830,7 @@ export const FolderMetadata = S.suspend(() =>
     ModifiedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    ResourceState: S.optional(S.String),
+    ResourceState: S.optional(ResourceStateType),
     Signature: S.optional(S.String),
     Labels: S.optional(SharedLabels),
     Size: S.optional(S.Number),
@@ -1619,13 +1844,13 @@ export const FolderMetadataList = S.Array(FolderMetadata);
 export interface Subscription {
   SubscriptionId?: string;
   EndPoint?: string;
-  Protocol?: string;
+  Protocol?: SubscriptionProtocolType;
 }
 export const Subscription = S.suspend(() =>
   S.Struct({
     SubscriptionId: S.optional(S.String),
     EndPoint: S.optional(S.String),
-    Protocol: S.optional(S.String),
+    Protocol: S.optional(SubscriptionProtocolType),
   }),
 ).annotations({ identifier: "Subscription" }) as any as S.Schema<Subscription>;
 export type SubscriptionList = Subscription[];
@@ -1633,22 +1858,32 @@ export const SubscriptionList = S.Array(Subscription);
 export type OrganizationUserList = User[];
 export const OrganizationUserList = S.Array(User);
 export interface SearchSortResult {
-  Field?: string;
-  Order?: string;
+  Field?: OrderByFieldType;
+  Order?: SortOrder;
 }
 export const SearchSortResult = S.suspend(() =>
-  S.Struct({ Field: S.optional(S.String), Order: S.optional(S.String) }),
+  S.Struct({
+    Field: S.optional(OrderByFieldType),
+    Order: S.optional(SortOrder),
+  }),
 ).annotations({
   identifier: "SearchSortResult",
 }) as any as S.Schema<SearchSortResult>;
 export type SearchResultSortList = SearchSortResult[];
 export const SearchResultSortList = S.Array(SearchSortResult);
-export type SearchPrincipalRoleList = string[];
-export const SearchPrincipalRoleList = S.Array(S.String);
+export type PrincipalRoleType = "VIEWER" | "CONTRIBUTOR" | "OWNER" | "COOWNER";
+export const PrincipalRoleType = S.Literal(
+  "VIEWER",
+  "CONTRIBUTOR",
+  "OWNER",
+  "COOWNER",
+);
+export type SearchPrincipalRoleList = PrincipalRoleType[];
+export const SearchPrincipalRoleList = S.Array(PrincipalRoleType);
 export interface AddResourcePermissionsRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   ResourceId: string;
-  Principals: SharePrincipalList;
+  Principals: SharePrincipal[];
   NotificationOptions?: NotificationOptions;
 }
 export const AddResourcePermissionsRequest = S.suspend(() =>
@@ -1677,10 +1912,10 @@ export const AddResourcePermissionsRequest = S.suspend(() =>
   identifier: "AddResourcePermissionsRequest",
 }) as any as S.Schema<AddResourcePermissionsRequest>;
 export interface CreateCustomMetadataRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
   ResourceId: string;
   VersionId?: string;
-  CustomMetadata: CustomMetadataMap;
+  CustomMetadata: { [key: string]: string };
 }
 export const CreateCustomMetadataRequest = S.suspend(() =>
   S.Struct({
@@ -1715,14 +1950,14 @@ export const CreateCustomMetadataResponse = S.suspend(() =>
 }) as any as S.Schema<CreateCustomMetadataResponse>;
 export interface CreateUserRequest {
   OrganizationId?: string;
-  Username: string | Redacted.Redacted<string>;
-  EmailAddress?: string | Redacted.Redacted<string>;
-  GivenName: string | Redacted.Redacted<string>;
-  Surname: string | Redacted.Redacted<string>;
-  Password: string | Redacted.Redacted<string>;
+  Username: string | redacted.Redacted<string>;
+  EmailAddress?: string | redacted.Redacted<string>;
+  GivenName: string | redacted.Redacted<string>;
+  Surname: string | redacted.Redacted<string>;
+  Password: string | redacted.Redacted<string>;
   TimeZoneId?: string;
   StorageRule?: StorageRuleType;
-  AuthenticationToken?: string | Redacted.Redacted<string>;
+  AuthenticationToken?: string | redacted.Redacted<string>;
 }
 export const CreateUserRequest = S.suspend(() =>
   S.Struct({
@@ -1752,7 +1987,7 @@ export const CreateUserRequest = S.suspend(() =>
   identifier: "CreateUserRequest",
 }) as any as S.Schema<CreateUserRequest>;
 export interface DescribeCommentsResponse {
-  Comments?: CommentList;
+  Comments?: Comment[];
   Marker?: string;
 }
 export const DescribeCommentsResponse = S.suspend(() =>
@@ -1764,7 +1999,7 @@ export const DescribeCommentsResponse = S.suspend(() =>
   identifier: "DescribeCommentsResponse",
 }) as any as S.Schema<DescribeCommentsResponse>;
 export interface DescribeNotificationSubscriptionsResponse {
-  Subscriptions?: SubscriptionList;
+  Subscriptions?: Subscription[];
   Marker?: string;
 }
 export const DescribeNotificationSubscriptionsResponse = S.suspend(() =>
@@ -1776,7 +2011,7 @@ export const DescribeNotificationSubscriptionsResponse = S.suspend(() =>
   identifier: "DescribeNotificationSubscriptionsResponse",
 }) as any as S.Schema<DescribeNotificationSubscriptionsResponse>;
 export interface DescribeRootFoldersResponse {
-  Folders?: FolderMetadataList;
+  Folders?: FolderMetadata[];
   Marker?: string;
 }
 export const DescribeRootFoldersResponse = S.suspend(() =>
@@ -1788,7 +2023,7 @@ export const DescribeRootFoldersResponse = S.suspend(() =>
   identifier: "DescribeRootFoldersResponse",
 }) as any as S.Schema<DescribeRootFoldersResponse>;
 export interface DescribeUsersResponse {
-  Users?: OrganizationUserList;
+  Users?: User[];
   TotalNumberOfUsers?: number;
   Marker?: string;
 }
@@ -1809,34 +2044,38 @@ export const GetCurrentUserResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetCurrentUserResponse",
 }) as any as S.Schema<GetCurrentUserResponse>;
+export type DocumentStatusType = "INITIALIZED" | "ACTIVE";
+export const DocumentStatusType = S.Literal("INITIALIZED", "ACTIVE");
+export type DocumentThumbnailType = "SMALL" | "SMALL_HQ" | "LARGE";
+export const DocumentThumbnailType = S.Literal("SMALL", "SMALL_HQ", "LARGE");
 export type DocumentThumbnailUrlMap = {
-  [key: string]: string | Redacted.Redacted<string>;
+  [key in DocumentThumbnailType]?: string | redacted.Redacted<string>;
 };
-export const DocumentThumbnailUrlMap = S.Record({
-  key: S.String,
-  value: SensitiveString,
-});
+export const DocumentThumbnailUrlMap = S.partial(
+  S.Record({ key: DocumentThumbnailType, value: SensitiveString }),
+);
+export type DocumentSourceType = "ORIGINAL" | "WITH_COMMENTS";
+export const DocumentSourceType = S.Literal("ORIGINAL", "WITH_COMMENTS");
 export type DocumentSourceUrlMap = {
-  [key: string]: string | Redacted.Redacted<string>;
+  [key in DocumentSourceType]?: string | redacted.Redacted<string>;
 };
-export const DocumentSourceUrlMap = S.Record({
-  key: S.String,
-  value: SensitiveString,
-});
+export const DocumentSourceUrlMap = S.partial(
+  S.Record({ key: DocumentSourceType, value: SensitiveString }),
+);
 export interface DocumentVersionMetadata {
   Id?: string;
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
   ContentType?: string;
   Size?: number;
   Signature?: string;
-  Status?: string;
+  Status?: DocumentStatusType;
   CreatedTimestamp?: Date;
   ModifiedTimestamp?: Date;
   ContentCreatedTimestamp?: Date;
   ContentModifiedTimestamp?: Date;
   CreatorId?: string;
-  Thumbnail?: DocumentThumbnailUrlMap;
-  Source?: DocumentSourceUrlMap;
+  Thumbnail?: { [key: string]: string | redacted.Redacted<string> };
+  Source?: { [key: string]: string | redacted.Redacted<string> };
 }
 export const DocumentVersionMetadata = S.suspend(() =>
   S.Struct({
@@ -1845,7 +2084,7 @@ export const DocumentVersionMetadata = S.suspend(() =>
     ContentType: S.optional(S.String),
     Size: S.optional(S.Number),
     Signature: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(DocumentStatusType),
     CreatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1872,8 +2111,8 @@ export interface DocumentMetadata {
   CreatedTimestamp?: Date;
   ModifiedTimestamp?: Date;
   LatestVersionMetadata?: DocumentVersionMetadata;
-  ResourceState?: string;
-  Labels?: SharedLabels;
+  ResourceState?: ResourceStateType;
+  Labels?: string[];
 }
 export const DocumentMetadata = S.suspend(() =>
   S.Struct({
@@ -1887,7 +2126,7 @@ export const DocumentMetadata = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     LatestVersionMetadata: S.optional(DocumentVersionMetadata),
-    ResourceState: S.optional(S.String),
+    ResourceState: S.optional(ResourceStateType),
     Labels: S.optional(SharedLabels),
   }),
 ).annotations({
@@ -1895,7 +2134,7 @@ export const DocumentMetadata = S.suspend(() =>
 }) as any as S.Schema<DocumentMetadata>;
 export interface GetDocumentResponse {
   Metadata?: DocumentMetadata;
-  CustomMetadata?: CustomMetadataMap;
+  CustomMetadata?: { [key: string]: string };
 }
 export const GetDocumentResponse = S.suspend(() =>
   S.Struct({
@@ -1907,7 +2146,7 @@ export const GetDocumentResponse = S.suspend(() =>
 }) as any as S.Schema<GetDocumentResponse>;
 export interface GetDocumentVersionResponse {
   Metadata?: DocumentVersionMetadata;
-  CustomMetadata?: CustomMetadataMap;
+  CustomMetadata?: { [key: string]: string };
 }
 export const GetDocumentVersionResponse = S.suspend(() =>
   S.Struct({
@@ -1919,7 +2158,7 @@ export const GetDocumentVersionResponse = S.suspend(() =>
 }) as any as S.Schema<GetDocumentVersionResponse>;
 export interface GetFolderResponse {
   Metadata?: FolderMetadata;
-  CustomMetadata?: CustomMetadataMap;
+  CustomMetadata?: { [key: string]: string };
 }
 export const GetFolderResponse = S.suspend(() =>
   S.Struct({
@@ -1931,7 +2170,7 @@ export const GetFolderResponse = S.suspend(() =>
 }) as any as S.Schema<GetFolderResponse>;
 export interface ResourcePathComponent {
   Id?: string;
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
 }
 export const ResourcePathComponent = S.suspend(() =>
   S.Struct({ Id: S.optional(S.String), Name: S.optional(SensitiveString) }),
@@ -1941,7 +2180,7 @@ export const ResourcePathComponent = S.suspend(() =>
 export type ResourcePathComponentList = ResourcePathComponent[];
 export const ResourcePathComponentList = S.Array(ResourcePathComponent);
 export interface ResourcePath {
-  Components?: ResourcePathComponentList;
+  Components?: ResourcePathComponent[];
 }
 export const ResourcePath = S.suspend(() =>
   S.Struct({ Components: S.optional(ResourcePathComponentList) }),
@@ -1957,8 +2196,8 @@ export const GetFolderPathResponse = S.suspend(() =>
 export type DocumentMetadataList = DocumentMetadata[];
 export const DocumentMetadataList = S.Array(DocumentMetadata);
 export interface GetResourcesResponse {
-  Folders?: FolderMetadataList;
-  Documents?: DocumentMetadataList;
+  Folders?: FolderMetadata[];
+  Documents?: DocumentMetadata[];
   Marker?: string;
 }
 export const GetResourcesResponse = S.suspend(() =>
@@ -1978,9 +2217,78 @@ export const UpdateUserResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateUserResponse",
 }) as any as S.Schema<UpdateUserResponse>;
+export type ActivityType =
+  | "DOCUMENT_CHECKED_IN"
+  | "DOCUMENT_CHECKED_OUT"
+  | "DOCUMENT_RENAMED"
+  | "DOCUMENT_VERSION_UPLOADED"
+  | "DOCUMENT_VERSION_DELETED"
+  | "DOCUMENT_VERSION_VIEWED"
+  | "DOCUMENT_VERSION_DOWNLOADED"
+  | "DOCUMENT_RECYCLED"
+  | "DOCUMENT_RESTORED"
+  | "DOCUMENT_REVERTED"
+  | "DOCUMENT_SHARED"
+  | "DOCUMENT_UNSHARED"
+  | "DOCUMENT_SHARE_PERMISSION_CHANGED"
+  | "DOCUMENT_SHAREABLE_LINK_CREATED"
+  | "DOCUMENT_SHAREABLE_LINK_REMOVED"
+  | "DOCUMENT_SHAREABLE_LINK_PERMISSION_CHANGED"
+  | "DOCUMENT_MOVED"
+  | "DOCUMENT_COMMENT_ADDED"
+  | "DOCUMENT_COMMENT_DELETED"
+  | "DOCUMENT_ANNOTATION_ADDED"
+  | "DOCUMENT_ANNOTATION_DELETED"
+  | "FOLDER_CREATED"
+  | "FOLDER_DELETED"
+  | "FOLDER_RENAMED"
+  | "FOLDER_RECYCLED"
+  | "FOLDER_RESTORED"
+  | "FOLDER_SHARED"
+  | "FOLDER_UNSHARED"
+  | "FOLDER_SHARE_PERMISSION_CHANGED"
+  | "FOLDER_SHAREABLE_LINK_CREATED"
+  | "FOLDER_SHAREABLE_LINK_REMOVED"
+  | "FOLDER_SHAREABLE_LINK_PERMISSION_CHANGED"
+  | "FOLDER_MOVED";
+export const ActivityType = S.Literal(
+  "DOCUMENT_CHECKED_IN",
+  "DOCUMENT_CHECKED_OUT",
+  "DOCUMENT_RENAMED",
+  "DOCUMENT_VERSION_UPLOADED",
+  "DOCUMENT_VERSION_DELETED",
+  "DOCUMENT_VERSION_VIEWED",
+  "DOCUMENT_VERSION_DOWNLOADED",
+  "DOCUMENT_RECYCLED",
+  "DOCUMENT_RESTORED",
+  "DOCUMENT_REVERTED",
+  "DOCUMENT_SHARED",
+  "DOCUMENT_UNSHARED",
+  "DOCUMENT_SHARE_PERMISSION_CHANGED",
+  "DOCUMENT_SHAREABLE_LINK_CREATED",
+  "DOCUMENT_SHAREABLE_LINK_REMOVED",
+  "DOCUMENT_SHAREABLE_LINK_PERMISSION_CHANGED",
+  "DOCUMENT_MOVED",
+  "DOCUMENT_COMMENT_ADDED",
+  "DOCUMENT_COMMENT_DELETED",
+  "DOCUMENT_ANNOTATION_ADDED",
+  "DOCUMENT_ANNOTATION_DELETED",
+  "FOLDER_CREATED",
+  "FOLDER_DELETED",
+  "FOLDER_RENAMED",
+  "FOLDER_RECYCLED",
+  "FOLDER_RESTORED",
+  "FOLDER_SHARED",
+  "FOLDER_UNSHARED",
+  "FOLDER_SHARE_PERMISSION_CHANGED",
+  "FOLDER_SHAREABLE_LINK_CREATED",
+  "FOLDER_SHAREABLE_LINK_REMOVED",
+  "FOLDER_SHAREABLE_LINK_PERMISSION_CHANGED",
+  "FOLDER_MOVED",
+);
 export interface SearchPrincipalType {
   Id: string;
-  Roles?: SearchPrincipalRoleList;
+  Roles?: PrincipalRoleType[];
 }
 export const SearchPrincipalType = S.suspend(() =>
   S.Struct({ Id: S.String, Roles: S.optional(SearchPrincipalRoleList) }),
@@ -2025,13 +2333,13 @@ export const GroupMetadata = S.suspend(() =>
 export type GroupMetadataList = GroupMetadata[];
 export const GroupMetadataList = S.Array(GroupMetadata);
 export interface Filters {
-  TextLocales?: TextLocaleTypeList;
-  ContentCategories?: SearchContentCategoryTypeList;
-  ResourceTypes?: SearchResourceTypeList;
-  Labels?: SearchLabelList;
-  Principals?: SearchPrincipalTypeList;
-  AncestorIds?: SearchAncestorIdList;
-  SearchCollectionTypes?: SearchCollectionTypeList;
+  TextLocales?: LanguageCodeType[];
+  ContentCategories?: ContentCategoryType[];
+  ResourceTypes?: SearchResourceType[];
+  Labels?: string[];
+  Principals?: SearchPrincipalType[];
+  AncestorIds?: string[];
+  SearchCollectionTypes?: SearchCollectionType[];
   SizeRange?: LongRangeType;
   CreatedRange?: DateRangeType;
   ModifiedRange?: DateRangeType;
@@ -2052,10 +2360,10 @@ export const Filters = S.suspend(() =>
 ).annotations({ identifier: "Filters" }) as any as S.Schema<Filters>;
 export interface UserMetadata {
   Id?: string;
-  Username?: string | Redacted.Redacted<string>;
-  GivenName?: string | Redacted.Redacted<string>;
-  Surname?: string | Redacted.Redacted<string>;
-  EmailAddress?: string | Redacted.Redacted<string>;
+  Username?: string | redacted.Redacted<string>;
+  GivenName?: string | redacted.Redacted<string>;
+  Surname?: string | redacted.Redacted<string>;
+  EmailAddress?: string | redacted.Redacted<string>;
 }
 export const UserMetadata = S.suspend(() =>
   S.Struct({
@@ -2068,6 +2376,10 @@ export const UserMetadata = S.suspend(() =>
 ).annotations({ identifier: "UserMetadata" }) as any as S.Schema<UserMetadata>;
 export type UserMetadataList = UserMetadata[];
 export const UserMetadataList = S.Array(UserMetadata);
+export type ResourceType = "FOLDER" | "DOCUMENT";
+export const ResourceType = S.Literal("FOLDER", "DOCUMENT");
+export type RolePermissionType = "DIRECT" | "INHERITED";
+export const RolePermissionType = S.Literal("DIRECT", "INHERITED");
 export interface CreateCommentResponse {
   Comment?: Comment;
 }
@@ -2101,8 +2413,8 @@ export const CreateUserResponse = S.suspend(() =>
   identifier: "CreateUserResponse",
 }) as any as S.Schema<CreateUserResponse>;
 export interface DescribeFolderContentsResponse {
-  Folders?: FolderMetadataList;
-  Documents?: DocumentMetadataList;
+  Folders?: FolderMetadata[];
+  Documents?: DocumentMetadata[];
   Marker?: string;
 }
 export const DescribeFolderContentsResponse = S.suspend(() =>
@@ -2115,7 +2427,7 @@ export const DescribeFolderContentsResponse = S.suspend(() =>
   identifier: "DescribeFolderContentsResponse",
 }) as any as S.Schema<DescribeFolderContentsResponse>;
 export interface DescribeGroupsResponse {
-  Groups?: GroupMetadataList;
+  Groups?: GroupMetadata[];
   Marker?: string;
 }
 export const DescribeGroupsResponse = S.suspend(() =>
@@ -2127,13 +2439,13 @@ export const DescribeGroupsResponse = S.suspend(() =>
   identifier: "DescribeGroupsResponse",
 }) as any as S.Schema<DescribeGroupsResponse>;
 export interface SearchResourcesRequest {
-  AuthenticationToken?: string | Redacted.Redacted<string>;
-  QueryText?: string | Redacted.Redacted<string>;
-  QueryScopes?: SearchQueryScopeTypeList;
+  AuthenticationToken?: string | redacted.Redacted<string>;
+  QueryText?: string | redacted.Redacted<string>;
+  QueryScopes?: SearchQueryScopeType[];
   OrganizationId?: string;
-  AdditionalResponseFields?: AdditionalResponseFieldsList;
+  AdditionalResponseFields?: AdditionalResponseFieldType[];
   Filters?: Filters;
-  OrderBy?: SearchResultSortList;
+  OrderBy?: SearchSortResult[];
   Limit?: number;
   Marker?: string;
 }
@@ -2164,9 +2476,11 @@ export const SearchResourcesRequest = S.suspend(() =>
 ).annotations({
   identifier: "SearchResourcesRequest",
 }) as any as S.Schema<SearchResourcesRequest>;
+export type ShareStatusType = "SUCCESS" | "FAILURE";
+export const ShareStatusType = S.Literal("SUCCESS", "FAILURE");
 export interface Participants {
-  Users?: UserMetadataList;
-  Groups?: GroupMetadataList;
+  Users?: UserMetadata[];
+  Groups?: GroupMetadata[];
 }
 export const Participants = S.suspend(() =>
   S.Struct({
@@ -2175,9 +2489,9 @@ export const Participants = S.suspend(() =>
   }),
 ).annotations({ identifier: "Participants" }) as any as S.Schema<Participants>;
 export interface ResourceMetadata {
-  Type?: string;
-  Name?: string | Redacted.Redacted<string>;
-  OriginalName?: string | Redacted.Redacted<string>;
+  Type?: ResourceType;
+  Name?: string | redacted.Redacted<string>;
+  OriginalName?: string | redacted.Redacted<string>;
   Id?: string;
   VersionId?: string;
   Owner?: UserMetadata;
@@ -2185,7 +2499,7 @@ export interface ResourceMetadata {
 }
 export const ResourceMetadata = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String),
+    Type: S.optional(ResourceType),
     Name: S.optional(SensitiveString),
     OriginalName: S.optional(SensitiveString),
     Id: S.optional(S.String),
@@ -2200,7 +2514,7 @@ export interface CommentMetadata {
   CommentId?: string;
   Contributor?: User;
   CreatedTimestamp?: Date;
-  CommentStatus?: string;
+  CommentStatus?: CommentStatusType;
   RecipientId?: string;
   ContributorId?: string;
 }
@@ -2211,7 +2525,7 @@ export const CommentMetadata = S.suspend(() =>
     CreatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    CommentStatus: S.optional(S.String),
+    CommentStatus: S.optional(CommentStatusType),
     RecipientId: S.optional(S.String),
     ContributorId: S.optional(S.String),
   }),
@@ -2219,11 +2533,14 @@ export const CommentMetadata = S.suspend(() =>
   identifier: "CommentMetadata",
 }) as any as S.Schema<CommentMetadata>;
 export interface PermissionInfo {
-  Role?: string;
-  Type?: string;
+  Role?: RoleType;
+  Type?: RolePermissionType;
 }
 export const PermissionInfo = S.suspend(() =>
-  S.Struct({ Role: S.optional(S.String), Type: S.optional(S.String) }),
+  S.Struct({
+    Role: S.optional(RoleType),
+    Type: S.optional(RolePermissionType),
+  }),
 ).annotations({
   identifier: "PermissionInfo",
 }) as any as S.Schema<PermissionInfo>;
@@ -2234,17 +2551,17 @@ export const SignedHeaderMap = S.Record({ key: S.String, value: S.String });
 export interface ShareResult {
   PrincipalId?: string;
   InviteePrincipalId?: string;
-  Role?: string;
-  Status?: string;
+  Role?: RoleType;
+  Status?: ShareStatusType;
   ShareId?: string;
-  StatusMessage?: string | Redacted.Redacted<string>;
+  StatusMessage?: string | redacted.Redacted<string>;
 }
 export const ShareResult = S.suspend(() =>
   S.Struct({
     PrincipalId: S.optional(S.String),
     InviteePrincipalId: S.optional(S.String),
-    Role: S.optional(S.String),
-    Status: S.optional(S.String),
+    Role: S.optional(RoleType),
+    Status: S.optional(ShareStatusType),
     ShareId: S.optional(S.String),
     StatusMessage: S.optional(SensitiveString),
   }),
@@ -2252,7 +2569,7 @@ export const ShareResult = S.suspend(() =>
 export type ShareResultsList = ShareResult[];
 export const ShareResultsList = S.Array(ShareResult);
 export interface Activity {
-  Type?: string;
+  Type?: ActivityType;
   TimeStamp?: Date;
   IsIndirectActivity?: boolean;
   OrganizationId?: string;
@@ -2264,7 +2581,7 @@ export interface Activity {
 }
 export const Activity = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String),
+    Type: S.optional(ActivityType),
     TimeStamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     IsIndirectActivity: S.optional(S.Boolean),
     OrganizationId: S.optional(S.String),
@@ -2281,21 +2598,21 @@ export type DocumentVersionMetadataList = DocumentVersionMetadata[];
 export const DocumentVersionMetadataList = S.Array(DocumentVersionMetadata);
 export interface Principal {
   Id?: string;
-  Type?: string;
-  Roles?: PermissionInfoList;
+  Type?: PrincipalType;
+  Roles?: PermissionInfo[];
 }
 export const Principal = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(PrincipalType),
     Roles: S.optional(PermissionInfoList),
   }),
 ).annotations({ identifier: "Principal" }) as any as S.Schema<Principal>;
 export type PrincipalList = Principal[];
 export const PrincipalList = S.Array(Principal);
 export interface UploadMetadata {
-  UploadUrl?: string | Redacted.Redacted<string>;
-  SignedHeaders?: SignedHeaderMap;
+  UploadUrl?: string | redacted.Redacted<string>;
+  SignedHeaders?: { [key: string]: string };
 }
 export const UploadMetadata = S.suspend(() =>
   S.Struct({
@@ -2314,7 +2631,7 @@ export const ActivateUserResponse = S.suspend(() =>
   identifier: "ActivateUserResponse",
 }) as any as S.Schema<ActivateUserResponse>;
 export interface AddResourcePermissionsResponse {
-  ShareResults?: ShareResultsList;
+  ShareResults?: ShareResult[];
 }
 export const AddResourcePermissionsResponse = S.suspend(() =>
   S.Struct({ ShareResults: S.optional(ShareResultsList) }).pipe(ns),
@@ -2322,7 +2639,7 @@ export const AddResourcePermissionsResponse = S.suspend(() =>
   identifier: "AddResourcePermissionsResponse",
 }) as any as S.Schema<AddResourcePermissionsResponse>;
 export interface DescribeActivitiesResponse {
-  UserActivities?: UserActivities;
+  UserActivities?: Activity[];
   Marker?: string;
 }
 export const DescribeActivitiesResponse = S.suspend(() =>
@@ -2334,7 +2651,7 @@ export const DescribeActivitiesResponse = S.suspend(() =>
   identifier: "DescribeActivitiesResponse",
 }) as any as S.Schema<DescribeActivitiesResponse>;
 export interface DescribeDocumentVersionsResponse {
-  DocumentVersions?: DocumentVersionMetadataList;
+  DocumentVersions?: DocumentVersionMetadata[];
   Marker?: string;
 }
 export const DescribeDocumentVersionsResponse = S.suspend(() =>
@@ -2346,7 +2663,7 @@ export const DescribeDocumentVersionsResponse = S.suspend(() =>
   identifier: "DescribeDocumentVersionsResponse",
 }) as any as S.Schema<DescribeDocumentVersionsResponse>;
 export interface DescribeResourcePermissionsResponse {
-  Principals?: PrincipalList;
+  Principals?: Principal[];
   Marker?: string;
 }
 export const DescribeResourcePermissionsResponse = S.suspend(() =>
@@ -2377,9 +2694,20 @@ export const InitiateDocumentVersionUploadResponse = S.suspend(() =>
 ).annotations({
   identifier: "InitiateDocumentVersionUploadResponse",
 }) as any as S.Schema<InitiateDocumentVersionUploadResponse>;
+export type ResponseItemType =
+  | "DOCUMENT"
+  | "FOLDER"
+  | "COMMENT"
+  | "DOCUMENT_VERSION";
+export const ResponseItemType = S.Literal(
+  "DOCUMENT",
+  "FOLDER",
+  "COMMENT",
+  "DOCUMENT_VERSION",
+);
 export interface ResponseItem {
-  ResourceType?: string;
-  WebUrl?: string | Redacted.Redacted<string>;
+  ResourceType?: ResponseItemType;
+  WebUrl?: string | redacted.Redacted<string>;
   DocumentMetadata?: DocumentMetadata;
   FolderMetadata?: FolderMetadata;
   CommentMetadata?: CommentMetadata;
@@ -2387,7 +2715,7 @@ export interface ResponseItem {
 }
 export const ResponseItem = S.suspend(() =>
   S.Struct({
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(ResponseItemType),
     WebUrl: S.optional(SensitiveString),
     DocumentMetadata: S.optional(DocumentMetadata),
     FolderMetadata: S.optional(FolderMetadata),
@@ -2398,7 +2726,7 @@ export const ResponseItem = S.suspend(() =>
 export type ResponseItemsList = ResponseItem[];
 export const ResponseItemsList = S.Array(ResponseItem);
 export interface SearchResourcesResponse {
-  Items?: ResponseItemsList;
+  Items?: ResponseItem[];
   Marker?: string;
 }
 export const SearchResourcesResponse = S.suspend(() =>
@@ -2519,7 +2847,7 @@ export class StorageLimitWillExceedException extends S.TaggedError<StorageLimitW
 export const describeNotificationSubscriptions: {
   (
     input: DescribeNotificationSubscriptionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeNotificationSubscriptionsResponse,
     | EntityNotExistsException
     | ServiceUnavailableException
@@ -2529,7 +2857,7 @@ export const describeNotificationSubscriptions: {
   >;
   pages: (
     input: DescribeNotificationSubscriptionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeNotificationSubscriptionsResponse,
     | EntityNotExistsException
     | ServiceUnavailableException
@@ -2539,7 +2867,7 @@ export const describeNotificationSubscriptions: {
   >;
   items: (
     input: DescribeNotificationSubscriptionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Subscription,
     | EntityNotExistsException
     | ServiceUnavailableException
@@ -2567,7 +2895,7 @@ export const describeNotificationSubscriptions: {
  */
 export const deleteCustomMetadata: (
   input: DeleteCustomMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCustomMetadataResponse,
   | EntityNotExistsException
   | FailedDependencyException
@@ -2595,7 +2923,7 @@ export const deleteCustomMetadata: (
  */
 export const createLabels: (
   input: CreateLabelsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLabelsResponse,
   | EntityNotExistsException
   | FailedDependencyException
@@ -2622,7 +2950,7 @@ export const createLabels: (
  */
 export const deleteNotificationSubscription: (
   input: DeleteNotificationSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteNotificationSubscriptionResponse,
   | EntityNotExistsException
   | ProhibitedStateException
@@ -2652,7 +2980,7 @@ export const deleteNotificationSubscription: (
 export const describeFolderContents: {
   (
     input: DescribeFolderContentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeFolderContentsResponse,
     | EntityNotExistsException
     | FailedDependencyException
@@ -2665,7 +2993,7 @@ export const describeFolderContents: {
   >;
   pages: (
     input: DescribeFolderContentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeFolderContentsResponse,
     | EntityNotExistsException
     | FailedDependencyException
@@ -2678,7 +3006,7 @@ export const describeFolderContents: {
   >;
   items: (
     input: DescribeFolderContentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EntityNotExistsException
     | FailedDependencyException
@@ -2711,7 +3039,7 @@ export const describeFolderContents: {
  */
 export const removeAllResourcePermissions: (
   input: RemoveAllResourcePermissionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveAllResourcePermissionsResponse,
   | FailedDependencyException
   | ServiceUnavailableException
@@ -2735,7 +3063,7 @@ export const removeAllResourcePermissions: (
  */
 export const deactivateUser: (
   input: DeactivateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeactivateUserResponse,
   | EntityNotExistsException
   | FailedDependencyException
@@ -2762,7 +3090,7 @@ export const deactivateUser: (
  */
 export const deleteUser: (
   input: DeleteUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUserResponse,
   | EntityNotExistsException
   | FailedDependencyException
@@ -2788,7 +3116,7 @@ export const deleteUser: (
  */
 export const removeResourcePermission: (
   input: RemoveResourcePermissionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveResourcePermissionResponse,
   | FailedDependencyException
   | ServiceUnavailableException
@@ -2818,7 +3146,7 @@ export const removeResourcePermission: (
  */
 export const getCurrentUser: (
   input: GetCurrentUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCurrentUserResponse,
   | EntityNotExistsException
   | FailedDependencyException
@@ -2849,7 +3177,7 @@ export const getCurrentUser: (
  */
 export const getFolderPath: (
   input: GetFolderPathRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFolderPathResponse,
   | EntityNotExistsException
   | FailedDependencyException
@@ -2876,7 +3204,7 @@ export const getFolderPath: (
 export const describeGroups: {
   (
     input: DescribeGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeGroupsResponse,
     | FailedDependencyException
     | ServiceUnavailableException
@@ -2887,7 +3215,7 @@ export const describeGroups: {
   >;
   pages: (
     input: DescribeGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeGroupsResponse,
     | FailedDependencyException
     | ServiceUnavailableException
@@ -2898,7 +3226,7 @@ export const describeGroups: {
   >;
   items: (
     input: DescribeGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GroupMetadata,
     | FailedDependencyException
     | ServiceUnavailableException
@@ -2938,7 +3266,7 @@ export const describeGroups: {
 export const describeRootFolders: {
   (
     input: DescribeRootFoldersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeRootFoldersResponse,
     | FailedDependencyException
     | InvalidArgumentException
@@ -2950,7 +3278,7 @@ export const describeRootFolders: {
   >;
   pages: (
     input: DescribeRootFoldersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeRootFoldersResponse,
     | FailedDependencyException
     | InvalidArgumentException
@@ -2962,7 +3290,7 @@ export const describeRootFolders: {
   >;
   items: (
     input: DescribeRootFoldersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FolderMetadata,
     | FailedDependencyException
     | InvalidArgumentException
@@ -2994,7 +3322,7 @@ export const describeRootFolders: {
  */
 export const getDocumentVersion: (
   input: GetDocumentVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDocumentVersionResponse,
   | EntityNotExistsException
   | FailedDependencyException
@@ -3023,7 +3351,7 @@ export const getDocumentVersion: (
  */
 export const deleteFolder: (
   input: DeleteFolderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFolderResponse,
   | ConcurrentModificationException
   | ConflictingOperationException
@@ -3056,7 +3384,7 @@ export const deleteFolder: (
  */
 export const restoreDocumentVersions: (
   input: RestoreDocumentVersionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RestoreDocumentVersionsResponse,
   | ConcurrentModificationException
   | ConflictingOperationException
@@ -3091,7 +3419,7 @@ export const restoreDocumentVersions: (
  */
 export const updateDocumentVersion: (
   input: UpdateDocumentVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDocumentVersionResponse,
   | ConcurrentModificationException
   | EntityNotExistsException
@@ -3123,7 +3451,7 @@ export const updateDocumentVersion: (
  */
 export const updateFolder: (
   input: UpdateFolderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFolderResponse,
   | ConcurrentModificationException
   | ConflictingOperationException
@@ -3158,7 +3486,7 @@ export const updateFolder: (
  */
 export const createFolder: (
   input: CreateFolderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFolderResponse,
   | ConcurrentModificationException
   | ConflictingOperationException
@@ -3194,7 +3522,7 @@ export const createFolder: (
  */
 export const createUser: (
   input: CreateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUserResponse,
   | EntityAlreadyExistsException
   | FailedDependencyException
@@ -3219,7 +3547,7 @@ export const createUser: (
  */
 export const deleteLabels: (
   input: DeleteLabelsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLabelsResponse,
   | EntityNotExistsException
   | FailedDependencyException
@@ -3249,7 +3577,7 @@ export const deleteLabels: (
  */
 export const abortDocumentVersionUpload: (
   input: AbortDocumentVersionUploadRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AbortDocumentVersionUploadResponse,
   | ConcurrentModificationException
   | EntityNotExistsException
@@ -3278,7 +3606,7 @@ export const abortDocumentVersionUpload: (
  */
 export const deleteComment: (
   input: DeleteCommentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCommentResponse,
   | DocumentLockedForCommentsException
   | EntityNotExistsException
@@ -3307,7 +3635,7 @@ export const deleteComment: (
  */
 export const deleteFolderContents: (
   input: DeleteFolderContentsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFolderContentsResponse,
   | ConflictingOperationException
   | EntityNotExistsException
@@ -3337,7 +3665,7 @@ export const deleteFolderContents: (
 export const describeComments: {
   (
     input: DescribeCommentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeCommentsResponse,
     | EntityNotExistsException
     | FailedDependencyException
@@ -3350,7 +3678,7 @@ export const describeComments: {
   >;
   pages: (
     input: DescribeCommentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeCommentsResponse,
     | EntityNotExistsException
     | FailedDependencyException
@@ -3363,7 +3691,7 @@ export const describeComments: {
   >;
   items: (
     input: DescribeCommentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Comment,
     | EntityNotExistsException
     | FailedDependencyException
@@ -3398,7 +3726,7 @@ export const describeComments: {
  */
 export const createCustomMetadata: (
   input: CreateCustomMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCustomMetadataResponse,
   | CustomMetadataLimitExceededException
   | EntityNotExistsException
@@ -3427,7 +3755,7 @@ export const createCustomMetadata: (
  */
 export const deleteDocument: (
   input: DeleteDocumentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDocumentResponse,
   | ConcurrentModificationException
   | ConflictingOperationException
@@ -3460,7 +3788,7 @@ export const deleteDocument: (
  */
 export const deleteDocumentVersion: (
   input: DeleteDocumentVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDocumentVersionResponse,
   | ConcurrentModificationException
   | ConflictingOperationException
@@ -3492,7 +3820,7 @@ export const deleteDocumentVersion: (
  */
 export const updateDocument: (
   input: UpdateDocumentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDocumentResponse,
   | ConcurrentModificationException
   | ConflictingOperationException
@@ -3527,7 +3855,7 @@ export const updateDocument: (
  */
 export const getDocument: (
   input: GetDocumentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDocumentResponse,
   | EntityNotExistsException
   | FailedDependencyException
@@ -3556,7 +3884,7 @@ export const getDocument: (
  */
 export const getFolder: (
   input: GetFolderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFolderResponse,
   | EntityNotExistsException
   | FailedDependencyException
@@ -3586,7 +3914,7 @@ export const getFolder: (
  */
 export const getResources: (
   input: GetResourcesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourcesResponse,
   | FailedDependencyException
   | InvalidArgumentException
@@ -3612,7 +3940,7 @@ export const getResources: (
  */
 export const activateUser: (
   input: ActivateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ActivateUserResponse,
   | EntityNotExistsException
   | FailedDependencyException
@@ -3639,7 +3967,7 @@ export const activateUser: (
  */
 export const addResourcePermissions: (
   input: AddResourcePermissionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddResourcePermissionsResponse,
   | FailedDependencyException
   | ProhibitedStateException
@@ -3664,7 +3992,7 @@ export const addResourcePermissions: (
  */
 export const createComment: (
   input: CreateCommentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCommentResponse,
   | DocumentLockedForCommentsException
   | EntityNotExistsException
@@ -3696,7 +4024,7 @@ export const createComment: (
 export const describeActivities: {
   (
     input: DescribeActivitiesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeActivitiesResponse,
     | FailedDependencyException
     | InvalidArgumentException
@@ -3708,7 +4036,7 @@ export const describeActivities: {
   >;
   pages: (
     input: DescribeActivitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeActivitiesResponse,
     | FailedDependencyException
     | InvalidArgumentException
@@ -3720,7 +4048,7 @@ export const describeActivities: {
   >;
   items: (
     input: DescribeActivitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Activity,
     | FailedDependencyException
     | InvalidArgumentException
@@ -3755,7 +4083,7 @@ export const describeActivities: {
 export const describeDocumentVersions: {
   (
     input: DescribeDocumentVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeDocumentVersionsResponse,
     | EntityNotExistsException
     | FailedDependencyException
@@ -3770,7 +4098,7 @@ export const describeDocumentVersions: {
   >;
   pages: (
     input: DescribeDocumentVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeDocumentVersionsResponse,
     | EntityNotExistsException
     | FailedDependencyException
@@ -3785,7 +4113,7 @@ export const describeDocumentVersions: {
   >;
   items: (
     input: DescribeDocumentVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DocumentVersionMetadata,
     | EntityNotExistsException
     | FailedDependencyException
@@ -3824,7 +4152,7 @@ export const describeDocumentVersions: {
 export const describeResourcePermissions: {
   (
     input: DescribeResourcePermissionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeResourcePermissionsResponse,
     | FailedDependencyException
     | InvalidArgumentException
@@ -3836,7 +4164,7 @@ export const describeResourcePermissions: {
   >;
   pages: (
     input: DescribeResourcePermissionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeResourcePermissionsResponse,
     | FailedDependencyException
     | InvalidArgumentException
@@ -3848,7 +4176,7 @@ export const describeResourcePermissions: {
   >;
   items: (
     input: DescribeResourcePermissionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Principal,
     | FailedDependencyException
     | InvalidArgumentException
@@ -3886,7 +4214,7 @@ export const describeResourcePermissions: {
  */
 export const getDocumentPath: (
   input: GetDocumentPathRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDocumentPathResponse,
   | EntityNotExistsException
   | FailedDependencyException
@@ -3912,7 +4240,7 @@ export const getDocumentPath: (
  */
 export const updateUser: (
   input: UpdateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserResponse,
   | DeactivatingLastSystemUserException
   | EntityNotExistsException
@@ -3951,7 +4279,7 @@ export const updateUser: (
 export const describeUsers: {
   (
     input: DescribeUsersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeUsersResponse,
     | EntityNotExistsException
     | FailedDependencyException
@@ -3965,7 +4293,7 @@ export const describeUsers: {
   >;
   pages: (
     input: DescribeUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeUsersResponse,
     | EntityNotExistsException
     | FailedDependencyException
@@ -3979,7 +4307,7 @@ export const describeUsers: {
   >;
   items: (
     input: DescribeUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     User,
     | EntityNotExistsException
     | FailedDependencyException
@@ -4019,7 +4347,7 @@ export const describeUsers: {
  */
 export const createNotificationSubscription: (
   input: CreateNotificationSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateNotificationSubscriptionResponse,
   | InvalidArgumentException
   | ServiceUnavailableException
@@ -4043,7 +4371,7 @@ export const createNotificationSubscription: (
 export const searchResources: {
   (
     input: SearchResourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchResourcesResponse,
     | InvalidArgumentException
     | ServiceUnavailableException
@@ -4054,7 +4382,7 @@ export const searchResources: {
   >;
   pages: (
     input: SearchResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchResourcesResponse,
     | InvalidArgumentException
     | ServiceUnavailableException
@@ -4065,7 +4393,7 @@ export const searchResources: {
   >;
   items: (
     input: SearchResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResponseItem,
     | InvalidArgumentException
     | ServiceUnavailableException
@@ -4102,7 +4430,7 @@ export const searchResources: {
  */
 export const initiateDocumentVersionUpload: (
   input: InitiateDocumentVersionUploadRequest,
-) => Effect.Effect<
+) => effect.Effect<
   InitiateDocumentVersionUploadResponse,
   | DraftUploadOutOfSyncException
   | EntityAlreadyExistsException

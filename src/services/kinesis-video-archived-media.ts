@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -105,15 +105,39 @@ export type ErrorMessage = string;
 export type ImageContent = string;
 export type DASHStreamingSessionURL = string;
 export type HLSStreamingSessionURL = string;
-export type Long = number;
 
 //# Schemas
+export type DASHPlaybackMode = "LIVE" | "LIVE_REPLAY" | "ON_DEMAND";
+export const DASHPlaybackMode = S.Literal("LIVE", "LIVE_REPLAY", "ON_DEMAND");
+export type DASHDisplayFragmentTimestamp = "ALWAYS" | "NEVER";
+export const DASHDisplayFragmentTimestamp = S.Literal("ALWAYS", "NEVER");
+export type DASHDisplayFragmentNumber = "ALWAYS" | "NEVER";
+export const DASHDisplayFragmentNumber = S.Literal("ALWAYS", "NEVER");
+export type HLSPlaybackMode = "LIVE" | "LIVE_REPLAY" | "ON_DEMAND";
+export const HLSPlaybackMode = S.Literal("LIVE", "LIVE_REPLAY", "ON_DEMAND");
+export type ContainerFormat = "FRAGMENTED_MP4" | "MPEG_TS";
+export const ContainerFormat = S.Literal("FRAGMENTED_MP4", "MPEG_TS");
+export type HLSDiscontinuityMode = "ALWAYS" | "NEVER" | "ON_DISCONTINUITY";
+export const HLSDiscontinuityMode = S.Literal(
+  "ALWAYS",
+  "NEVER",
+  "ON_DISCONTINUITY",
+);
+export type HLSDisplayFragmentTimestamp = "ALWAYS" | "NEVER";
+export const HLSDisplayFragmentTimestamp = S.Literal("ALWAYS", "NEVER");
+export type ImageSelectorType = "PRODUCER_TIMESTAMP" | "SERVER_TIMESTAMP";
+export const ImageSelectorType = S.Literal(
+  "PRODUCER_TIMESTAMP",
+  "SERVER_TIMESTAMP",
+);
+export type Format = "JPEG" | "PNG";
+export const Format = S.Literal("JPEG", "PNG");
 export type FragmentNumberList = string[];
 export const FragmentNumberList = S.Array(S.String);
 export interface GetMediaForFragmentListInput {
   StreamName?: string;
   StreamARN?: string;
-  Fragments: FragmentNumberList;
+  Fragments: string[];
 }
 export const GetMediaForFragmentListInput = S.suspend(() =>
   S.Struct({
@@ -133,17 +157,45 @@ export const GetMediaForFragmentListInput = S.suspend(() =>
 ).annotations({
   identifier: "GetMediaForFragmentListInput",
 }) as any as S.Schema<GetMediaForFragmentListInput>;
-export type FormatConfig = { [key: string]: string };
-export const FormatConfig = S.Record({ key: S.String, value: S.String });
+export type ClipFragmentSelectorType =
+  | "PRODUCER_TIMESTAMP"
+  | "SERVER_TIMESTAMP";
+export const ClipFragmentSelectorType = S.Literal(
+  "PRODUCER_TIMESTAMP",
+  "SERVER_TIMESTAMP",
+);
+export type DASHFragmentSelectorType =
+  | "PRODUCER_TIMESTAMP"
+  | "SERVER_TIMESTAMP";
+export const DASHFragmentSelectorType = S.Literal(
+  "PRODUCER_TIMESTAMP",
+  "SERVER_TIMESTAMP",
+);
+export type HLSFragmentSelectorType = "PRODUCER_TIMESTAMP" | "SERVER_TIMESTAMP";
+export const HLSFragmentSelectorType = S.Literal(
+  "PRODUCER_TIMESTAMP",
+  "SERVER_TIMESTAMP",
+);
+export type FormatConfigKey = "JPEGQuality";
+export const FormatConfigKey = S.Literal("JPEGQuality");
+export type FragmentSelectorType = "PRODUCER_TIMESTAMP" | "SERVER_TIMESTAMP";
+export const FragmentSelectorType = S.Literal(
+  "PRODUCER_TIMESTAMP",
+  "SERVER_TIMESTAMP",
+);
+export type FormatConfig = { [key in FormatConfigKey]?: string };
+export const FormatConfig = S.partial(
+  S.Record({ key: FormatConfigKey, value: S.String }),
+);
 export interface GetImagesInput {
   StreamName?: string;
   StreamARN?: string;
-  ImageSelectorType: string;
+  ImageSelectorType: ImageSelectorType;
   StartTimestamp: Date;
   EndTimestamp: Date;
   SamplingInterval?: number;
-  Format: string;
-  FormatConfig?: FormatConfig;
+  Format: Format;
+  FormatConfig?: { [key: string]: string };
   WidthPixels?: number;
   HeightPixels?: number;
   MaxResults?: number;
@@ -153,11 +205,11 @@ export const GetImagesInput = S.suspend(() =>
   S.Struct({
     StreamName: S.optional(S.String),
     StreamARN: S.optional(S.String),
-    ImageSelectorType: S.String,
+    ImageSelectorType: ImageSelectorType,
     StartTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     EndTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     SamplingInterval: S.optional(S.Number),
-    Format: S.String,
+    Format: Format,
     FormatConfig: S.optional(FormatConfig),
     WidthPixels: S.optional(S.Number),
     HeightPixels: S.optional(S.Number),
@@ -237,47 +289,50 @@ export const TimestampRange = S.suspend(() =>
   identifier: "TimestampRange",
 }) as any as S.Schema<TimestampRange>;
 export interface ClipFragmentSelector {
-  FragmentSelectorType: string;
+  FragmentSelectorType: ClipFragmentSelectorType;
   TimestampRange: ClipTimestampRange;
 }
 export const ClipFragmentSelector = S.suspend(() =>
   S.Struct({
-    FragmentSelectorType: S.String,
+    FragmentSelectorType: ClipFragmentSelectorType,
     TimestampRange: ClipTimestampRange,
   }),
 ).annotations({
   identifier: "ClipFragmentSelector",
 }) as any as S.Schema<ClipFragmentSelector>;
 export interface DASHFragmentSelector {
-  FragmentSelectorType?: string;
+  FragmentSelectorType?: DASHFragmentSelectorType;
   TimestampRange?: DASHTimestampRange;
 }
 export const DASHFragmentSelector = S.suspend(() =>
   S.Struct({
-    FragmentSelectorType: S.optional(S.String),
+    FragmentSelectorType: S.optional(DASHFragmentSelectorType),
     TimestampRange: S.optional(DASHTimestampRange),
   }),
 ).annotations({
   identifier: "DASHFragmentSelector",
 }) as any as S.Schema<DASHFragmentSelector>;
 export interface HLSFragmentSelector {
-  FragmentSelectorType?: string;
+  FragmentSelectorType?: HLSFragmentSelectorType;
   TimestampRange?: HLSTimestampRange;
 }
 export const HLSFragmentSelector = S.suspend(() =>
   S.Struct({
-    FragmentSelectorType: S.optional(S.String),
+    FragmentSelectorType: S.optional(HLSFragmentSelectorType),
     TimestampRange: S.optional(HLSTimestampRange),
   }),
 ).annotations({
   identifier: "HLSFragmentSelector",
 }) as any as S.Schema<HLSFragmentSelector>;
 export interface FragmentSelector {
-  FragmentSelectorType: string;
+  FragmentSelectorType: FragmentSelectorType;
   TimestampRange: TimestampRange;
 }
 export const FragmentSelector = S.suspend(() =>
-  S.Struct({ FragmentSelectorType: S.String, TimestampRange: TimestampRange }),
+  S.Struct({
+    FragmentSelectorType: FragmentSelectorType,
+    TimestampRange: TimestampRange,
+  }),
 ).annotations({
   identifier: "FragmentSelector",
 }) as any as S.Schema<FragmentSelector>;
@@ -305,9 +360,9 @@ export const GetClipInput = S.suspend(() =>
 export interface GetDASHStreamingSessionURLInput {
   StreamName?: string;
   StreamARN?: string;
-  PlaybackMode?: string;
-  DisplayFragmentTimestamp?: string;
-  DisplayFragmentNumber?: string;
+  PlaybackMode?: DASHPlaybackMode;
+  DisplayFragmentTimestamp?: DASHDisplayFragmentTimestamp;
+  DisplayFragmentNumber?: DASHDisplayFragmentNumber;
   DASHFragmentSelector?: DASHFragmentSelector;
   Expires?: number;
   MaxManifestFragmentResults?: number;
@@ -316,9 +371,9 @@ export const GetDASHStreamingSessionURLInput = S.suspend(() =>
   S.Struct({
     StreamName: S.optional(S.String),
     StreamARN: S.optional(S.String),
-    PlaybackMode: S.optional(S.String),
-    DisplayFragmentTimestamp: S.optional(S.String),
-    DisplayFragmentNumber: S.optional(S.String),
+    PlaybackMode: S.optional(DASHPlaybackMode),
+    DisplayFragmentTimestamp: S.optional(DASHDisplayFragmentTimestamp),
+    DisplayFragmentNumber: S.optional(DASHDisplayFragmentNumber),
     DASHFragmentSelector: S.optional(DASHFragmentSelector),
     Expires: S.optional(S.Number),
     MaxManifestFragmentResults: S.optional(S.Number),
@@ -338,11 +393,11 @@ export const GetDASHStreamingSessionURLInput = S.suspend(() =>
 export interface GetHLSStreamingSessionURLInput {
   StreamName?: string;
   StreamARN?: string;
-  PlaybackMode?: string;
+  PlaybackMode?: HLSPlaybackMode;
   HLSFragmentSelector?: HLSFragmentSelector;
-  ContainerFormat?: string;
-  DiscontinuityMode?: string;
-  DisplayFragmentTimestamp?: string;
+  ContainerFormat?: ContainerFormat;
+  DiscontinuityMode?: HLSDiscontinuityMode;
+  DisplayFragmentTimestamp?: HLSDisplayFragmentTimestamp;
   Expires?: number;
   MaxMediaPlaylistFragmentResults?: number;
 }
@@ -350,11 +405,11 @@ export const GetHLSStreamingSessionURLInput = S.suspend(() =>
   S.Struct({
     StreamName: S.optional(S.String),
     StreamARN: S.optional(S.String),
-    PlaybackMode: S.optional(S.String),
+    PlaybackMode: S.optional(HLSPlaybackMode),
     HLSFragmentSelector: S.optional(HLSFragmentSelector),
-    ContainerFormat: S.optional(S.String),
-    DiscontinuityMode: S.optional(S.String),
-    DisplayFragmentTimestamp: S.optional(S.String),
+    ContainerFormat: S.optional(ContainerFormat),
+    DiscontinuityMode: S.optional(HLSDiscontinuityMode),
+    DisplayFragmentTimestamp: S.optional(HLSDisplayFragmentTimestamp),
     Expires: S.optional(S.Number),
     MaxMediaPlaylistFragmentResults: S.optional(S.Number),
   }).pipe(
@@ -397,15 +452,17 @@ export const ListFragmentsInput = S.suspend(() =>
 ).annotations({
   identifier: "ListFragmentsInput",
 }) as any as S.Schema<ListFragmentsInput>;
+export type ImageError = "NO_MEDIA" | "MEDIA_ERROR";
+export const ImageError = S.Literal("NO_MEDIA", "MEDIA_ERROR");
 export interface Image {
   TimeStamp?: Date;
-  Error?: string;
+  Error?: ImageError;
   ImageContent?: string;
 }
 export const Image = S.suspend(() =>
   S.Struct({
     TimeStamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Error: S.optional(S.String),
+    Error: S.optional(ImageError),
     ImageContent: S.optional(S.String),
   }),
 ).annotations({ identifier: "Image" }) as any as S.Schema<Image>;
@@ -440,7 +497,7 @@ export const GetHLSStreamingSessionURLOutput = S.suspend(() =>
   identifier: "GetHLSStreamingSessionURLOutput",
 }) as any as S.Schema<GetHLSStreamingSessionURLOutput>;
 export interface GetImagesOutput {
-  Images?: Images;
+  Images?: Image[];
   NextToken?: string;
 }
 export const GetImagesOutput = S.suspend(() =>
@@ -471,7 +528,7 @@ export const Fragment = S.suspend(() =>
 export type FragmentList = Fragment[];
 export const FragmentList = S.Array(Fragment);
 export interface ListFragmentsOutput {
-  Fragments?: FragmentList;
+  Fragments?: Fragment[];
   NextToken?: string;
 }
 export const ListFragmentsOutput = S.suspend(() =>
@@ -554,7 +611,7 @@ export class UnsupportedStreamMediaTypeException extends S.TaggedError<Unsupport
  */
 export const getMediaForFragmentList: (
   input: GetMediaForFragmentListInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetMediaForFragmentListOutput,
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -607,7 +664,7 @@ export const getMediaForFragmentList: (
 export const listFragments: {
   (
     input: ListFragmentsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFragmentsOutput,
     | ClientLimitExceededException
     | InvalidArgumentException
@@ -618,7 +675,7 @@ export const listFragments: {
   >;
   pages: (
     input: ListFragmentsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFragmentsOutput,
     | ClientLimitExceededException
     | InvalidArgumentException
@@ -629,7 +686,7 @@ export const listFragments: {
   >;
   items: (
     input: ListFragmentsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Fragment,
     | ClientLimitExceededException
     | InvalidArgumentException
@@ -661,7 +718,7 @@ export const listFragments: {
 export const getImages: {
   (
     input: GetImagesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetImagesOutput,
     | ClientLimitExceededException
     | InvalidArgumentException
@@ -673,7 +730,7 @@ export const getImages: {
   >;
   pages: (
     input: GetImagesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetImagesOutput,
     | ClientLimitExceededException
     | InvalidArgumentException
@@ -685,7 +742,7 @@ export const getImages: {
   >;
   items: (
     input: GetImagesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Image,
     | ClientLimitExceededException
     | InvalidArgumentException
@@ -839,7 +896,7 @@ export const getImages: {
  */
 export const getDASHStreamingSessionURL: (
   input: GetDASHStreamingSessionURLInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetDASHStreamingSessionURLOutput,
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -1032,7 +1089,7 @@ export const getDASHStreamingSessionURL: (
  */
 export const getHLSStreamingSessionURL: (
   input: GetHLSStreamingSessionURLInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetHLSStreamingSessionURLOutput,
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -1099,7 +1156,7 @@ export const getHLSStreamingSessionURL: (
  */
 export const getClip: (
   input: GetClipInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetClipOutput,
   | ClientLimitExceededException
   | InvalidArgumentException

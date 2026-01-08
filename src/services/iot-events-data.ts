@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -315,7 +315,7 @@ export const SnoozeAlarmActionRequest = S.suspend(() =>
 export type SnoozeAlarmActionRequests = SnoozeAlarmActionRequest[];
 export const SnoozeAlarmActionRequests = S.Array(SnoozeAlarmActionRequest);
 export interface BatchAcknowledgeAlarmRequest {
-  acknowledgeActionRequests: AcknowledgeAlarmActionRequests;
+  acknowledgeActionRequests: AcknowledgeAlarmActionRequest[];
 }
 export const BatchAcknowledgeAlarmRequest = S.suspend(() =>
   S.Struct({ acknowledgeActionRequests: AcknowledgeAlarmActionRequests }).pipe(
@@ -332,7 +332,7 @@ export const BatchAcknowledgeAlarmRequest = S.suspend(() =>
   identifier: "BatchAcknowledgeAlarmRequest",
 }) as any as S.Schema<BatchAcknowledgeAlarmRequest>;
 export interface BatchDeleteDetectorRequest {
-  detectors: DeleteDetectorRequests;
+  detectors: DeleteDetectorRequest[];
 }
 export const BatchDeleteDetectorRequest = S.suspend(() =>
   S.Struct({ detectors: DeleteDetectorRequests }).pipe(
@@ -349,7 +349,7 @@ export const BatchDeleteDetectorRequest = S.suspend(() =>
   identifier: "BatchDeleteDetectorRequest",
 }) as any as S.Schema<BatchDeleteDetectorRequest>;
 export interface BatchDisableAlarmRequest {
-  disableActionRequests: DisableAlarmActionRequests;
+  disableActionRequests: DisableAlarmActionRequest[];
 }
 export const BatchDisableAlarmRequest = S.suspend(() =>
   S.Struct({ disableActionRequests: DisableAlarmActionRequests }).pipe(
@@ -366,7 +366,7 @@ export const BatchDisableAlarmRequest = S.suspend(() =>
   identifier: "BatchDisableAlarmRequest",
 }) as any as S.Schema<BatchDisableAlarmRequest>;
 export interface BatchEnableAlarmRequest {
-  enableActionRequests: EnableAlarmActionRequests;
+  enableActionRequests: EnableAlarmActionRequest[];
 }
 export const BatchEnableAlarmRequest = S.suspend(() =>
   S.Struct({ enableActionRequests: EnableAlarmActionRequests }).pipe(
@@ -383,7 +383,7 @@ export const BatchEnableAlarmRequest = S.suspend(() =>
   identifier: "BatchEnableAlarmRequest",
 }) as any as S.Schema<BatchEnableAlarmRequest>;
 export interface BatchResetAlarmRequest {
-  resetActionRequests: ResetAlarmActionRequests;
+  resetActionRequests: ResetAlarmActionRequest[];
 }
 export const BatchResetAlarmRequest = S.suspend(() =>
   S.Struct({ resetActionRequests: ResetAlarmActionRequests }).pipe(
@@ -400,7 +400,7 @@ export const BatchResetAlarmRequest = S.suspend(() =>
   identifier: "BatchResetAlarmRequest",
 }) as any as S.Schema<BatchResetAlarmRequest>;
 export interface BatchSnoozeAlarmRequest {
-  snoozeActionRequests: SnoozeAlarmActionRequests;
+  snoozeActionRequests: SnoozeAlarmActionRequest[];
 }
 export const BatchSnoozeAlarmRequest = S.suspend(() =>
   S.Struct({ snoozeActionRequests: SnoozeAlarmActionRequests }).pipe(
@@ -424,6 +424,21 @@ export const TimestampValue = S.suspend(() =>
 ).annotations({
   identifier: "TimestampValue",
 }) as any as S.Schema<TimestampValue>;
+export type AlarmStateName =
+  | "DISABLED"
+  | "NORMAL"
+  | "ACTIVE"
+  | "ACKNOWLEDGED"
+  | "SNOOZE_DISABLED"
+  | "LATCHED";
+export const AlarmStateName = S.Literal(
+  "DISABLED",
+  "NORMAL",
+  "ACTIVE",
+  "ACKNOWLEDGED",
+  "SNOOZE_DISABLED",
+  "LATCHED",
+);
 export interface Message {
   messageId: string;
   inputName: string;
@@ -444,7 +459,7 @@ export interface AlarmSummary {
   alarmModelName?: string;
   alarmModelVersion?: string;
   keyValue?: string;
-  stateName?: string;
+  stateName?: AlarmStateName;
   creationTime?: Date;
   lastUpdateTime?: Date;
 }
@@ -453,7 +468,7 @@ export const AlarmSummary = S.suspend(() =>
     alarmModelName: S.optional(S.String),
     alarmModelVersion: S.optional(S.String),
     keyValue: S.optional(S.String),
-    stateName: S.optional(S.String),
+    stateName: S.optional(AlarmStateName),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -482,15 +497,28 @@ export const TimerDefinition = S.suspend(() =>
 }) as any as S.Schema<TimerDefinition>;
 export type TimerDefinitions = TimerDefinition[];
 export const TimerDefinitions = S.Array(TimerDefinition);
+export type ErrorCode =
+  | "ResourceNotFoundException"
+  | "InvalidRequestException"
+  | "InternalFailureException"
+  | "ServiceUnavailableException"
+  | "ThrottlingException";
+export const ErrorCode = S.Literal(
+  "ResourceNotFoundException",
+  "InvalidRequestException",
+  "InternalFailureException",
+  "ServiceUnavailableException",
+  "ThrottlingException",
+);
 export interface BatchAlarmActionErrorEntry {
   requestId?: string;
-  errorCode?: string;
+  errorCode?: ErrorCode;
   errorMessage?: string;
 }
 export const BatchAlarmActionErrorEntry = S.suspend(() =>
   S.Struct({
     requestId: S.optional(S.String),
-    errorCode: S.optional(S.String),
+    errorCode: S.optional(ErrorCode),
     errorMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -499,7 +527,7 @@ export const BatchAlarmActionErrorEntry = S.suspend(() =>
 export type BatchAlarmActionErrorEntries = BatchAlarmActionErrorEntry[];
 export const BatchAlarmActionErrorEntries = S.Array(BatchAlarmActionErrorEntry);
 export interface BatchDisableAlarmResponse {
-  errorEntries?: BatchAlarmActionErrorEntries;
+  errorEntries?: BatchAlarmActionErrorEntry[];
 }
 export const BatchDisableAlarmResponse = S.suspend(() =>
   S.Struct({ errorEntries: S.optional(BatchAlarmActionErrorEntries) }),
@@ -507,7 +535,7 @@ export const BatchDisableAlarmResponse = S.suspend(() =>
   identifier: "BatchDisableAlarmResponse",
 }) as any as S.Schema<BatchDisableAlarmResponse>;
 export interface BatchEnableAlarmResponse {
-  errorEntries?: BatchAlarmActionErrorEntries;
+  errorEntries?: BatchAlarmActionErrorEntry[];
 }
 export const BatchEnableAlarmResponse = S.suspend(() =>
   S.Struct({ errorEntries: S.optional(BatchAlarmActionErrorEntries) }),
@@ -515,7 +543,7 @@ export const BatchEnableAlarmResponse = S.suspend(() =>
   identifier: "BatchEnableAlarmResponse",
 }) as any as S.Schema<BatchEnableAlarmResponse>;
 export interface BatchPutMessageRequest {
-  messages: Messages;
+  messages: Message[];
 }
 export const BatchPutMessageRequest = S.suspend(() =>
   S.Struct({ messages: Messages }).pipe(
@@ -532,7 +560,7 @@ export const BatchPutMessageRequest = S.suspend(() =>
   identifier: "BatchPutMessageRequest",
 }) as any as S.Schema<BatchPutMessageRequest>;
 export interface BatchResetAlarmResponse {
-  errorEntries?: BatchAlarmActionErrorEntries;
+  errorEntries?: BatchAlarmActionErrorEntry[];
 }
 export const BatchResetAlarmResponse = S.suspend(() =>
   S.Struct({ errorEntries: S.optional(BatchAlarmActionErrorEntries) }),
@@ -540,7 +568,7 @@ export const BatchResetAlarmResponse = S.suspend(() =>
   identifier: "BatchResetAlarmResponse",
 }) as any as S.Schema<BatchResetAlarmResponse>;
 export interface BatchSnoozeAlarmResponse {
-  errorEntries?: BatchAlarmActionErrorEntries;
+  errorEntries?: BatchAlarmActionErrorEntry[];
 }
 export const BatchSnoozeAlarmResponse = S.suspend(() =>
   S.Struct({ errorEntries: S.optional(BatchAlarmActionErrorEntries) }),
@@ -548,7 +576,7 @@ export const BatchSnoozeAlarmResponse = S.suspend(() =>
   identifier: "BatchSnoozeAlarmResponse",
 }) as any as S.Schema<BatchSnoozeAlarmResponse>;
 export interface ListAlarmsResponse {
-  alarmSummaries?: AlarmSummaries;
+  alarmSummaries?: AlarmSummary[];
   nextToken?: string;
 }
 export const ListAlarmsResponse = S.suspend(() =>
@@ -561,8 +589,8 @@ export const ListAlarmsResponse = S.suspend(() =>
 }) as any as S.Schema<ListAlarmsResponse>;
 export interface DetectorStateDefinition {
   stateName: string;
-  variables: VariableDefinitions;
-  timers: TimerDefinitions;
+  variables: VariableDefinition[];
+  timers: TimerDefinition[];
 }
 export const DetectorStateDefinition = S.suspend(() =>
   S.Struct({
@@ -581,15 +609,30 @@ export const DetectorStateSummary = S.suspend(() =>
 ).annotations({
   identifier: "DetectorStateSummary",
 }) as any as S.Schema<DetectorStateSummary>;
+export type CustomerActionName =
+  | "SNOOZE"
+  | "ENABLE"
+  | "DISABLE"
+  | "ACKNOWLEDGE"
+  | "RESET";
+export const CustomerActionName = S.Literal(
+  "SNOOZE",
+  "ENABLE",
+  "DISABLE",
+  "ACKNOWLEDGE",
+  "RESET",
+);
+export type EventType = "STATE_CHANGE";
+export const EventType = S.Literal("STATE_CHANGE");
 export interface BatchDeleteDetectorErrorEntry {
   messageId?: string;
-  errorCode?: string;
+  errorCode?: ErrorCode;
   errorMessage?: string;
 }
 export const BatchDeleteDetectorErrorEntry = S.suspend(() =>
   S.Struct({
     messageId: S.optional(S.String),
-    errorCode: S.optional(S.String),
+    errorCode: S.optional(ErrorCode),
     errorMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -661,7 +704,7 @@ export const Timer = S.suspend(() =>
 export type Timers = Timer[];
 export const Timers = S.Array(Timer);
 export interface BatchAcknowledgeAlarmResponse {
-  errorEntries?: BatchAlarmActionErrorEntries;
+  errorEntries?: BatchAlarmActionErrorEntry[];
 }
 export const BatchAcknowledgeAlarmResponse = S.suspend(() =>
   S.Struct({ errorEntries: S.optional(BatchAlarmActionErrorEntries) }),
@@ -669,7 +712,7 @@ export const BatchAcknowledgeAlarmResponse = S.suspend(() =>
   identifier: "BatchAcknowledgeAlarmResponse",
 }) as any as S.Schema<BatchAcknowledgeAlarmResponse>;
 export interface BatchDeleteDetectorResponse {
-  batchDeleteDetectorErrorEntries?: BatchDeleteDetectorErrorEntries;
+  batchDeleteDetectorErrorEntries?: BatchDeleteDetectorErrorEntry[];
 }
 export const BatchDeleteDetectorResponse = S.suspend(() =>
   S.Struct({
@@ -681,7 +724,7 @@ export const BatchDeleteDetectorResponse = S.suspend(() =>
   identifier: "BatchDeleteDetectorResponse",
 }) as any as S.Schema<BatchDeleteDetectorResponse>;
 export interface BatchUpdateDetectorRequest {
-  detectors: UpdateDetectorRequests;
+  detectors: UpdateDetectorRequest[];
 }
 export const BatchUpdateDetectorRequest = S.suspend(() =>
   S.Struct({ detectors: UpdateDetectorRequests }).pipe(
@@ -697,8 +740,25 @@ export const BatchUpdateDetectorRequest = S.suspend(() =>
 ).annotations({
   identifier: "BatchUpdateDetectorRequest",
 }) as any as S.Schema<BatchUpdateDetectorRequest>;
+export type ComparisonOperator =
+  | "GREATER"
+  | "GREATER_OR_EQUAL"
+  | "LESS"
+  | "LESS_OR_EQUAL"
+  | "EQUAL"
+  | "NOT_EQUAL";
+export const ComparisonOperator = S.Literal(
+  "GREATER",
+  "GREATER_OR_EQUAL",
+  "LESS",
+  "LESS_OR_EQUAL",
+  "EQUAL",
+  "NOT_EQUAL",
+);
+export type TriggerType = "SNOOZE_TIMEOUT";
+export const TriggerType = S.Literal("SNOOZE_TIMEOUT");
 export interface ListDetectorsResponse {
-  detectorSummaries?: DetectorSummaries;
+  detectorSummaries?: DetectorSummary[];
   nextToken?: string;
 }
 export const ListDetectorsResponse = S.suspend(() =>
@@ -711,8 +771,8 @@ export const ListDetectorsResponse = S.suspend(() =>
 }) as any as S.Schema<ListDetectorsResponse>;
 export interface DetectorState {
   stateName: string;
-  variables: Variables;
-  timers: Timers;
+  variables: Variable[];
+  timers: Timer[];
 }
 export const DetectorState = S.suspend(() =>
   S.Struct({ stateName: S.String, variables: Variables, timers: Timers }),
@@ -721,13 +781,13 @@ export const DetectorState = S.suspend(() =>
 }) as any as S.Schema<DetectorState>;
 export interface SimpleRuleEvaluation {
   inputPropertyValue?: string;
-  operator?: string;
+  operator?: ComparisonOperator;
   thresholdValue?: string;
 }
 export const SimpleRuleEvaluation = S.suspend(() =>
   S.Struct({
     inputPropertyValue: S.optional(S.String),
-    operator: S.optional(S.String),
+    operator: S.optional(ComparisonOperator),
     thresholdValue: S.optional(S.String),
   }),
 ).annotations({
@@ -778,22 +838,22 @@ export const ResetActionConfiguration = S.suspend(() =>
   identifier: "ResetActionConfiguration",
 }) as any as S.Schema<ResetActionConfiguration>;
 export interface StateChangeConfiguration {
-  triggerType?: string;
+  triggerType?: TriggerType;
 }
 export const StateChangeConfiguration = S.suspend(() =>
-  S.Struct({ triggerType: S.optional(S.String) }),
+  S.Struct({ triggerType: S.optional(TriggerType) }),
 ).annotations({
   identifier: "StateChangeConfiguration",
 }) as any as S.Schema<StateChangeConfiguration>;
 export interface BatchPutMessageErrorEntry {
   messageId?: string;
-  errorCode?: string;
+  errorCode?: ErrorCode;
   errorMessage?: string;
 }
 export const BatchPutMessageErrorEntry = S.suspend(() =>
   S.Struct({
     messageId: S.optional(S.String),
-    errorCode: S.optional(S.String),
+    errorCode: S.optional(ErrorCode),
     errorMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -828,7 +888,7 @@ export const RuleEvaluation = S.suspend(() =>
   identifier: "RuleEvaluation",
 }) as any as S.Schema<RuleEvaluation>;
 export interface CustomerAction {
-  actionName?: string;
+  actionName?: CustomerActionName;
   snoozeActionConfiguration?: SnoozeActionConfiguration;
   enableActionConfiguration?: EnableActionConfiguration;
   disableActionConfiguration?: DisableActionConfiguration;
@@ -837,7 +897,7 @@ export interface CustomerAction {
 }
 export const CustomerAction = S.suspend(() =>
   S.Struct({
-    actionName: S.optional(S.String),
+    actionName: S.optional(CustomerActionName),
     snoozeActionConfiguration: S.optional(SnoozeActionConfiguration),
     enableActionConfiguration: S.optional(EnableActionConfiguration),
     disableActionConfiguration: S.optional(DisableActionConfiguration),
@@ -848,17 +908,17 @@ export const CustomerAction = S.suspend(() =>
   identifier: "CustomerAction",
 }) as any as S.Schema<CustomerAction>;
 export interface SystemEvent {
-  eventType?: string;
+  eventType?: EventType;
   stateChangeConfiguration?: StateChangeConfiguration;
 }
 export const SystemEvent = S.suspend(() =>
   S.Struct({
-    eventType: S.optional(S.String),
+    eventType: S.optional(EventType),
     stateChangeConfiguration: S.optional(StateChangeConfiguration),
   }),
 ).annotations({ identifier: "SystemEvent" }) as any as S.Schema<SystemEvent>;
 export interface BatchPutMessageResponse {
-  BatchPutMessageErrorEntries?: BatchPutMessageErrorEntries;
+  BatchPutMessageErrorEntries?: BatchPutMessageErrorEntry[];
 }
 export const BatchPutMessageResponse = S.suspend(() =>
   S.Struct({
@@ -876,14 +936,14 @@ export const DescribeDetectorResponse = S.suspend(() =>
   identifier: "DescribeDetectorResponse",
 }) as any as S.Schema<DescribeDetectorResponse>;
 export interface AlarmState {
-  stateName?: string;
+  stateName?: AlarmStateName;
   ruleEvaluation?: RuleEvaluation;
   customerAction?: CustomerAction;
   systemEvent?: SystemEvent;
 }
 export const AlarmState = S.suspend(() =>
   S.Struct({
-    stateName: S.optional(S.String),
+    stateName: S.optional(AlarmStateName),
     ruleEvaluation: S.optional(RuleEvaluation),
     customerAction: S.optional(CustomerAction),
     systemEvent: S.optional(SystemEvent),
@@ -891,13 +951,13 @@ export const AlarmState = S.suspend(() =>
 ).annotations({ identifier: "AlarmState" }) as any as S.Schema<AlarmState>;
 export interface BatchUpdateDetectorErrorEntry {
   messageId?: string;
-  errorCode?: string;
+  errorCode?: ErrorCode;
   errorMessage?: string;
 }
 export const BatchUpdateDetectorErrorEntry = S.suspend(() =>
   S.Struct({
     messageId: S.optional(S.String),
-    errorCode: S.optional(S.String),
+    errorCode: S.optional(ErrorCode),
     errorMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -928,7 +988,7 @@ export const Alarm = S.suspend(() =>
   }),
 ).annotations({ identifier: "Alarm" }) as any as S.Schema<Alarm>;
 export interface BatchUpdateDetectorResponse {
-  batchUpdateDetectorErrorEntries?: BatchUpdateDetectorErrorEntries;
+  batchUpdateDetectorErrorEntries?: BatchUpdateDetectorErrorEntry[];
 }
 export const BatchUpdateDetectorResponse = S.suspend(() =>
   S.Struct({
@@ -977,7 +1037,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
  */
 export const batchDisableAlarm: (
   input: BatchDisableAlarmRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDisableAlarmResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1001,7 +1061,7 @@ export const batchDisableAlarm: (
  */
 export const batchUpdateDetector: (
   input: BatchUpdateDetectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchUpdateDetectorResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1024,7 +1084,7 @@ export const batchUpdateDetector: (
  */
 export const describeDetector: (
   input: DescribeDetectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDetectorResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1053,7 +1113,7 @@ export const describeDetector: (
  */
 export const batchPutMessage: (
   input: BatchPutMessageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchPutMessageResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1077,7 +1137,7 @@ export const batchPutMessage: (
  */
 export const batchEnableAlarm: (
   input: BatchEnableAlarmRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchEnableAlarmResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1101,7 +1161,7 @@ export const batchEnableAlarm: (
  */
 export const batchResetAlarm: (
   input: BatchResetAlarmRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchResetAlarmResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1125,7 +1185,7 @@ export const batchResetAlarm: (
  */
 export const batchSnoozeAlarm: (
   input: BatchSnoozeAlarmRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchSnoozeAlarmResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1149,7 +1209,7 @@ export const batchSnoozeAlarm: (
  */
 export const batchAcknowledgeAlarm: (
   input: BatchAcknowledgeAlarmRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchAcknowledgeAlarmResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1172,7 +1232,7 @@ export const batchAcknowledgeAlarm: (
  */
 export const batchDeleteDetector: (
   input: BatchDeleteDetectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDeleteDetectorResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1195,7 +1255,7 @@ export const batchDeleteDetector: (
  */
 export const listDetectors: (
   input: ListDetectorsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDetectorsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1221,7 +1281,7 @@ export const listDetectors: (
  */
 export const listAlarms: (
   input: ListAlarmsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListAlarmsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1246,7 +1306,7 @@ export const listAlarms: (
  */
 export const describeAlarm: (
   input: DescribeAlarmRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAlarmResponse,
   | InternalFailureException
   | InvalidRequestException

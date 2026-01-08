@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -56,7 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type Identifier = string;
 export type ClientToken = string;
-export type SignalRequest = string | Redacted.Redacted<string>;
+export type SignalRequest = string | redacted.Redacted<string>;
 export type OutputUri = string;
 export type NextToken = string;
 export type MaxResults = number;
@@ -77,7 +77,7 @@ export type TargetIdleCapacity = number;
 export type MaximumCapacity = number;
 export type TagValue = string;
 export type RuntimeEnvironmentVersion = string;
-export type SignalResponse = string | Redacted.Redacted<string>;
+export type SignalResponse = string | redacted.Redacted<string>;
 export type Id = string;
 export type FileLocationUri = string;
 export type WebSdkProtocolUrl = string;
@@ -87,8 +87,31 @@ export type CapacityValue = number;
 //# Schemas
 export type Identifiers = string[];
 export const Identifiers = S.Array(S.String);
+export type StreamSessionStatus =
+  | "ACTIVATING"
+  | "ACTIVE"
+  | "CONNECTED"
+  | "PENDING_CLIENT_RECONNECTION"
+  | "RECONNECTING"
+  | "TERMINATING"
+  | "TERMINATED"
+  | "ERROR";
+export const StreamSessionStatus = S.Literal(
+  "ACTIVATING",
+  "ACTIVE",
+  "CONNECTED",
+  "PENDING_CLIENT_RECONNECTION",
+  "RECONNECTING",
+  "TERMINATING",
+  "TERMINATED",
+  "ERROR",
+);
+export type ExportFilesStatus = "SUCCEEDED" | "FAILED" | "PENDING";
+export const ExportFilesStatus = S.Literal("SUCCEEDED", "FAILED", "PENDING");
 export type LocationsList = string[];
 export const LocationsList = S.Array(S.String);
+export type Protocol = "WebRTC";
+export const Protocol = S.Literal("WebRTC");
 export type LocationList = string[];
 export const LocationList = S.Array(S.String);
 export type GameLaunchArgList = string[];
@@ -97,9 +120,38 @@ export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export type FilePaths = string[];
 export const FilePaths = S.Array(S.String);
+export type StreamClass =
+  | "gen4n_high"
+  | "gen4n_ultra"
+  | "gen4n_win2022"
+  | "gen5n_high"
+  | "gen5n_ultra"
+  | "gen5n_win2022"
+  | "gen6n_small"
+  | "gen6n_medium"
+  | "gen6n_high"
+  | "gen6n_ultra"
+  | "gen6n_ultra_win2022"
+  | "gen6n_pro"
+  | "gen6n_pro_win2022";
+export const StreamClass = S.Literal(
+  "gen4n_high",
+  "gen4n_ultra",
+  "gen4n_win2022",
+  "gen5n_high",
+  "gen5n_ultra",
+  "gen5n_win2022",
+  "gen6n_small",
+  "gen6n_medium",
+  "gen6n_high",
+  "gen6n_ultra",
+  "gen6n_ultra_win2022",
+  "gen6n_pro",
+  "gen6n_pro_win2022",
+);
 export interface AssociateApplicationsInput {
   Identifier: string;
-  ApplicationIdentifiers: Identifiers;
+  ApplicationIdentifiers: string[];
 }
 export const AssociateApplicationsInput = S.suspend(() =>
   S.Struct({
@@ -125,7 +177,7 @@ export interface CreateStreamSessionConnectionInput {
   ClientToken?: string;
   Identifier: string;
   StreamSessionIdentifier: string;
-  SignalRequest: string | Redacted.Redacted<string>;
+  SignalRequest: string | redacted.Redacted<string>;
 }
 export const CreateStreamSessionConnectionInput = S.suspend(() =>
   S.Struct({
@@ -153,7 +205,7 @@ export const CreateStreamSessionConnectionInput = S.suspend(() =>
 }) as any as S.Schema<CreateStreamSessionConnectionInput>;
 export interface DisassociateApplicationsInput {
   Identifier: string;
-  ApplicationIdentifiers: Identifiers;
+  ApplicationIdentifiers: string[];
 }
 export const DisassociateApplicationsInput = S.suspend(() =>
   S.Struct({
@@ -236,16 +288,16 @@ export const GetStreamSessionInput = S.suspend(() =>
   identifier: "GetStreamSessionInput",
 }) as any as S.Schema<GetStreamSessionInput>;
 export interface ListStreamSessionsInput {
-  Status?: string;
-  ExportFilesStatus?: string;
+  Status?: StreamSessionStatus;
+  ExportFilesStatus?: ExportFilesStatus;
   NextToken?: string;
   MaxResults?: number;
   Identifier: string;
 }
 export const ListStreamSessionsInput = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String).pipe(T.HttpQuery("Status")),
-    ExportFilesStatus: S.optional(S.String).pipe(
+    Status: S.optional(StreamSessionStatus).pipe(T.HttpQuery("Status")),
+    ExportFilesStatus: S.optional(ExportFilesStatus).pipe(
       T.HttpQuery("ExportFilesStatus"),
     ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
@@ -268,15 +320,15 @@ export const ListStreamSessionsInput = S.suspend(() =>
   identifier: "ListStreamSessionsInput",
 }) as any as S.Schema<ListStreamSessionsInput>;
 export interface ListStreamSessionsByAccountInput {
-  Status?: string;
-  ExportFilesStatus?: string;
+  Status?: StreamSessionStatus;
+  ExportFilesStatus?: ExportFilesStatus;
   NextToken?: string;
   MaxResults?: number;
 }
 export const ListStreamSessionsByAccountInput = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String).pipe(T.HttpQuery("Status")),
-    ExportFilesStatus: S.optional(S.String).pipe(
+    Status: S.optional(StreamSessionStatus).pipe(T.HttpQuery("Status")),
+    ExportFilesStatus: S.optional(ExportFilesStatus).pipe(
       T.HttpQuery("ExportFilesStatus"),
     ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
@@ -313,7 +365,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface RemoveStreamGroupLocationsInput {
   Identifier: string;
-  Locations: LocationsList;
+  Locations: string[];
 }
 export const RemoveStreamGroupLocationsInput = S.suspend(() =>
   S.Struct({
@@ -372,7 +424,7 @@ export const TerminateStreamSessionResponse = S.suspend(() =>
 }) as any as S.Schema<TerminateStreamSessionResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -415,7 +467,7 @@ export const GetApplicationInput = S.suspend(() =>
 export interface UpdateApplicationInput {
   Identifier: string;
   Description?: string;
-  ApplicationLogPaths?: FilePaths;
+  ApplicationLogPaths?: string[];
   ApplicationLogOutputUri?: string;
 }
 export const UpdateApplicationInput = S.suspend(() =>
@@ -505,16 +557,16 @@ export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
 export interface CreateStreamGroupInput {
   Description: string;
-  StreamClass: string;
+  StreamClass: StreamClass;
   DefaultApplicationIdentifier?: string;
-  LocationConfigurations?: LocationConfigurations;
-  Tags?: Tags;
+  LocationConfigurations?: LocationConfiguration[];
+  Tags?: { [key: string]: string };
   ClientToken?: string;
 }
 export const CreateStreamGroupInput = S.suspend(() =>
   S.Struct({
     Description: S.String,
-    StreamClass: S.String,
+    StreamClass: StreamClass,
     DefaultApplicationIdentifier: S.optional(S.String),
     LocationConfigurations: S.optional(LocationConfigurations),
     Tags: S.optional(Tags),
@@ -551,7 +603,7 @@ export const GetStreamGroupInput = S.suspend(() =>
 }) as any as S.Schema<GetStreamGroupInput>;
 export interface UpdateStreamGroupInput {
   Identifier: string;
-  LocationConfigurations?: LocationConfigurations;
+  LocationConfigurations?: LocationConfiguration[];
   Description?: string;
   DefaultApplicationIdentifier?: string;
 }
@@ -618,8 +670,33 @@ export const ListStreamGroupsInput = S.suspend(() =>
 ).annotations({
   identifier: "ListStreamGroupsInput",
 }) as any as S.Schema<ListStreamGroupsInput>;
+export type RuntimeEnvironmentType = "PROTON" | "WINDOWS" | "UBUNTU";
+export const RuntimeEnvironmentType = S.Literal("PROTON", "WINDOWS", "UBUNTU");
 export type ArnList = string[];
 export const ArnList = S.Array(S.String);
+export type StreamSessionStatusReason =
+  | "internalError"
+  | "invalidSignalRequest"
+  | "placementTimeout"
+  | "applicationLogS3DestinationError"
+  | "applicationExit"
+  | "connectionTimeout"
+  | "reconnectionTimeout"
+  | "maxSessionLengthTimeout"
+  | "idleTimeout"
+  | "apiTerminated";
+export const StreamSessionStatusReason = S.Literal(
+  "internalError",
+  "invalidSignalRequest",
+  "placementTimeout",
+  "applicationLogS3DestinationError",
+  "applicationExit",
+  "connectionTimeout",
+  "reconnectionTimeout",
+  "maxSessionLengthTimeout",
+  "idleTimeout",
+  "apiTerminated",
+);
 export type EnvironmentVariables = { [key: string]: string };
 export const EnvironmentVariables = S.Record({
   key: S.String,
@@ -634,17 +711,57 @@ export const PerformanceStatsConfiguration = S.suspend(() =>
   identifier: "PerformanceStatsConfiguration",
 }) as any as S.Schema<PerformanceStatsConfiguration>;
 export interface RuntimeEnvironment {
-  Type: string;
+  Type: RuntimeEnvironmentType;
   Version: string;
 }
 export const RuntimeEnvironment = S.suspend(() =>
-  S.Struct({ Type: S.String, Version: S.String }),
+  S.Struct({ Type: RuntimeEnvironmentType, Version: S.String }),
 ).annotations({
   identifier: "RuntimeEnvironment",
 }) as any as S.Schema<RuntimeEnvironment>;
+export type ApplicationStatus =
+  | "INITIALIZED"
+  | "PROCESSING"
+  | "READY"
+  | "DELETING"
+  | "ERROR";
+export const ApplicationStatus = S.Literal(
+  "INITIALIZED",
+  "PROCESSING",
+  "READY",
+  "DELETING",
+  "ERROR",
+);
+export type ApplicationStatusReason = "internalError" | "accessDenied";
+export const ApplicationStatusReason = S.Literal(
+  "internalError",
+  "accessDenied",
+);
+export type StreamGroupStatus =
+  | "ACTIVATING"
+  | "UPDATING_LOCATIONS"
+  | "ACTIVE"
+  | "ACTIVE_WITH_ERRORS"
+  | "ERROR"
+  | "DELETING"
+  | "EXPIRED";
+export const StreamGroupStatus = S.Literal(
+  "ACTIVATING",
+  "UPDATING_LOCATIONS",
+  "ACTIVE",
+  "ACTIVE_WITH_ERRORS",
+  "ERROR",
+  "DELETING",
+  "EXPIRED",
+);
+export type StreamGroupStatusReason = "internalError" | "noAvailableInstances";
+export const StreamGroupStatusReason = S.Literal(
+  "internalError",
+  "noAvailableInstances",
+);
 export interface AddStreamGroupLocationsInput {
   Identifier: string;
-  LocationConfigurations: LocationConfigurations;
+  LocationConfigurations: LocationConfiguration[];
 }
 export const AddStreamGroupLocationsInput = S.suspend(() =>
   S.Struct({
@@ -665,7 +782,7 @@ export const AddStreamGroupLocationsInput = S.suspend(() =>
 }) as any as S.Schema<AddStreamGroupLocationsInput>;
 export interface AssociateApplicationsOutput {
   Arn?: string;
-  ApplicationArns?: ArnList;
+  ApplicationArns?: string[];
 }
 export const AssociateApplicationsOutput = S.suspend(() =>
   S.Struct({ Arn: S.optional(S.String), ApplicationArns: S.optional(ArnList) }),
@@ -673,7 +790,7 @@ export const AssociateApplicationsOutput = S.suspend(() =>
   identifier: "AssociateApplicationsOutput",
 }) as any as S.Schema<AssociateApplicationsOutput>;
 export interface CreateStreamSessionConnectionOutput {
-  SignalResponse?: string | Redacted.Redacted<string>;
+  SignalResponse?: string | redacted.Redacted<string>;
 }
 export const CreateStreamSessionConnectionOutput = S.suspend(() =>
   S.Struct({ SignalResponse: S.optional(SensitiveString) }),
@@ -682,7 +799,7 @@ export const CreateStreamSessionConnectionOutput = S.suspend(() =>
 }) as any as S.Schema<CreateStreamSessionConnectionOutput>;
 export interface DisassociateApplicationsOutput {
   Arn?: string;
-  ApplicationArns?: ArnList;
+  ApplicationArns?: string[];
 }
 export const DisassociateApplicationsOutput = S.suspend(() =>
   S.Struct({ Arn: S.optional(S.String), ApplicationArns: S.optional(ArnList) }),
@@ -690,13 +807,13 @@ export const DisassociateApplicationsOutput = S.suspend(() =>
   identifier: "DisassociateApplicationsOutput",
 }) as any as S.Schema<DisassociateApplicationsOutput>;
 export interface ExportFilesMetadata {
-  Status?: string;
+  Status?: ExportFilesStatus;
   StatusReason?: string;
   OutputUri?: string;
 }
 export const ExportFilesMetadata = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(ExportFilesStatus),
     StatusReason: S.optional(S.String),
     OutputUri: S.optional(S.String),
   }),
@@ -706,9 +823,9 @@ export const ExportFilesMetadata = S.suspend(() =>
 export interface StreamSessionSummary {
   Arn?: string;
   UserId?: string;
-  Status?: string;
-  StatusReason?: string;
-  Protocol?: string;
+  Status?: StreamSessionStatus;
+  StatusReason?: StreamSessionStatusReason;
+  Protocol?: Protocol;
   LastUpdatedAt?: Date;
   CreatedAt?: Date;
   ApplicationArn?: string;
@@ -719,9 +836,9 @@ export const StreamSessionSummary = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     UserId: S.optional(S.String),
-    Status: S.optional(S.String),
-    StatusReason: S.optional(S.String),
-    Protocol: S.optional(S.String),
+    Status: S.optional(StreamSessionStatus),
+    StatusReason: S.optional(StreamSessionStatusReason),
+    Protocol: S.optional(Protocol),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ApplicationArn: S.optional(S.String),
@@ -734,7 +851,7 @@ export const StreamSessionSummary = S.suspend(() =>
 export type StreamSessionSummaryList = StreamSessionSummary[];
 export const StreamSessionSummaryList = S.Array(StreamSessionSummary);
 export interface ListStreamSessionsByAccountOutput {
-  Items?: StreamSessionSummaryList;
+  Items?: StreamSessionSummary[];
   NextToken?: string;
 }
 export const ListStreamSessionsByAccountOutput = S.suspend(() =>
@@ -746,7 +863,7 @@ export const ListStreamSessionsByAccountOutput = S.suspend(() =>
   identifier: "ListStreamSessionsByAccountOutput",
 }) as any as S.Schema<ListStreamSessionsByAccountOutput>;
 export interface ListTagsForResourceResponse {
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }),
@@ -757,15 +874,15 @@ export interface StartStreamSessionInput {
   ClientToken?: string;
   Description?: string;
   Identifier: string;
-  Protocol: string;
-  SignalRequest: string | Redacted.Redacted<string>;
+  Protocol: Protocol;
+  SignalRequest: string | redacted.Redacted<string>;
   ApplicationIdentifier: string;
   UserId?: string;
-  Locations?: LocationList;
+  Locations?: string[];
   ConnectionTimeoutSeconds?: number;
   SessionLengthSeconds?: number;
-  AdditionalLaunchArgs?: GameLaunchArgList;
-  AdditionalEnvironmentVariables?: EnvironmentVariables;
+  AdditionalLaunchArgs?: string[];
+  AdditionalEnvironmentVariables?: { [key: string]: string };
   PerformanceStatsConfiguration?: PerformanceStatsConfiguration;
 }
 export const StartStreamSessionInput = S.suspend(() =>
@@ -773,7 +890,7 @@ export const StartStreamSessionInput = S.suspend(() =>
     ClientToken: S.optional(S.String),
     Description: S.optional(S.String),
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
-    Protocol: S.String,
+    Protocol: Protocol,
     SignalRequest: SensitiveString,
     ApplicationIdentifier: S.String,
     UserId: S.optional(S.String),
@@ -801,7 +918,7 @@ export const StartStreamSessionInput = S.suspend(() =>
 }) as any as S.Schema<StartStreamSessionInput>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: Tags;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -829,9 +946,9 @@ export interface CreateApplicationInput {
   RuntimeEnvironment: RuntimeEnvironment;
   ExecutablePath: string;
   ApplicationSourceUri: string;
-  ApplicationLogPaths?: FilePaths;
+  ApplicationLogPaths?: string[];
   ApplicationLogOutputUri?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
   ClientToken?: string;
 }
 export const CreateApplicationInput = S.suspend(() =>
@@ -857,12 +974,17 @@ export const CreateApplicationInput = S.suspend(() =>
 ).annotations({
   identifier: "CreateApplicationInput",
 }) as any as S.Schema<CreateApplicationInput>;
+export type ReplicationStatusType = "REPLICATING" | "COMPLETED";
+export const ReplicationStatusType = S.Literal("REPLICATING", "COMPLETED");
 export interface ReplicationStatus {
   Location?: string;
-  Status?: string;
+  Status?: ReplicationStatusType;
 }
 export const ReplicationStatus = S.suspend(() =>
-  S.Struct({ Location: S.optional(S.String), Status: S.optional(S.String) }),
+  S.Struct({
+    Location: S.optional(S.String),
+    Status: S.optional(ReplicationStatusType),
+  }),
 ).annotations({
   identifier: "ReplicationStatus",
 }) as any as S.Schema<ReplicationStatus>;
@@ -873,16 +995,16 @@ export interface UpdateApplicationOutput {
   Description?: string;
   RuntimeEnvironment?: RuntimeEnvironment;
   ExecutablePath?: string;
-  ApplicationLogPaths?: FilePaths;
+  ApplicationLogPaths?: string[];
   ApplicationLogOutputUri?: string;
   ApplicationSourceUri?: string;
   Id?: string;
-  Status?: string;
-  StatusReason?: string;
-  ReplicationStatuses?: ReplicationStatuses;
+  Status?: ApplicationStatus;
+  StatusReason?: ApplicationStatusReason;
+  ReplicationStatuses?: ReplicationStatus[];
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  AssociatedStreamGroups?: ArnList;
+  AssociatedStreamGroups?: string[];
 }
 export const UpdateApplicationOutput = S.suspend(() =>
   S.Struct({
@@ -894,8 +1016,8 @@ export const UpdateApplicationOutput = S.suspend(() =>
     ApplicationLogOutputUri: S.optional(S.String),
     ApplicationSourceUri: S.optional(S.String),
     Id: S.optional(S.String),
-    Status: S.optional(S.String),
-    StatusReason: S.optional(S.String),
+    Status: S.optional(ApplicationStatus),
+    StatusReason: S.optional(ApplicationStatusReason),
     ReplicationStatuses: S.optional(ReplicationStatuses),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -913,9 +1035,20 @@ export const DefaultApplication = S.suspend(() =>
 ).annotations({
   identifier: "DefaultApplication",
 }) as any as S.Schema<DefaultApplication>;
+export type StreamGroupLocationStatus =
+  | "ACTIVATING"
+  | "ACTIVE"
+  | "ERROR"
+  | "REMOVING";
+export const StreamGroupLocationStatus = S.Literal(
+  "ACTIVATING",
+  "ACTIVE",
+  "ERROR",
+  "REMOVING",
+);
 export interface LocationState {
   LocationName?: string;
-  Status?: string;
+  Status?: StreamGroupLocationStatus;
   AlwaysOnCapacity?: number;
   OnDemandCapacity?: number;
   TargetIdleCapacity?: number;
@@ -927,7 +1060,7 @@ export interface LocationState {
 export const LocationState = S.suspend(() =>
   S.Struct({
     LocationName: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(StreamGroupLocationStatus),
     AlwaysOnCapacity: S.optional(S.Number),
     OnDemandCapacity: S.optional(S.Number),
     TargetIdleCapacity: S.optional(S.Number),
@@ -945,15 +1078,15 @@ export interface GetStreamGroupOutput {
   Arn: string;
   Description?: string;
   DefaultApplication?: DefaultApplication;
-  LocationStates?: LocationStates;
-  StreamClass?: string;
+  LocationStates?: LocationState[];
+  StreamClass?: StreamClass;
   Id?: string;
-  Status?: string;
-  StatusReason?: string;
+  Status?: StreamGroupStatus;
+  StatusReason?: StreamGroupStatusReason;
   LastUpdatedAt?: Date;
   CreatedAt?: Date;
   ExpiresAt?: Date;
-  AssociatedApplications?: ArnList;
+  AssociatedApplications?: string[];
 }
 export const GetStreamGroupOutput = S.suspend(() =>
   S.Struct({
@@ -961,10 +1094,10 @@ export const GetStreamGroupOutput = S.suspend(() =>
     Description: S.optional(S.String),
     DefaultApplication: S.optional(DefaultApplication),
     LocationStates: S.optional(LocationStates),
-    StreamClass: S.optional(S.String),
+    StreamClass: S.optional(StreamClass),
     Id: S.optional(S.String),
-    Status: S.optional(S.String),
-    StatusReason: S.optional(S.String),
+    Status: S.optional(StreamGroupStatus),
+    StatusReason: S.optional(StreamGroupStatusReason),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -977,15 +1110,15 @@ export interface UpdateStreamGroupOutput {
   Arn: string;
   Description?: string;
   DefaultApplication?: DefaultApplication;
-  LocationStates?: LocationStates;
-  StreamClass?: string;
+  LocationStates?: LocationState[];
+  StreamClass?: StreamClass;
   Id?: string;
-  Status?: string;
-  StatusReason?: string;
+  Status?: StreamGroupStatus;
+  StatusReason?: StreamGroupStatusReason;
   LastUpdatedAt?: Date;
   CreatedAt?: Date;
   ExpiresAt?: Date;
-  AssociatedApplications?: ArnList;
+  AssociatedApplications?: string[];
 }
 export const UpdateStreamGroupOutput = S.suspend(() =>
   S.Struct({
@@ -993,10 +1126,10 @@ export const UpdateStreamGroupOutput = S.suspend(() =>
     Description: S.optional(S.String),
     DefaultApplication: S.optional(DefaultApplication),
     LocationStates: S.optional(LocationStates),
-    StreamClass: S.optional(S.String),
+    StreamClass: S.optional(StreamClass),
     Id: S.optional(S.String),
-    Status: S.optional(S.String),
-    StatusReason: S.optional(S.String),
+    Status: S.optional(StreamGroupStatus),
+    StatusReason: S.optional(StreamGroupStatusReason),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1009,7 +1142,7 @@ export interface ApplicationSummary {
   Arn: string;
   Id?: string;
   Description?: string;
-  Status?: string;
+  Status?: ApplicationStatus;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
   RuntimeEnvironment?: RuntimeEnvironment;
@@ -1019,7 +1152,7 @@ export const ApplicationSummary = S.suspend(() =>
     Arn: S.String,
     Id: S.optional(S.String),
     Description: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ApplicationStatus),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     RuntimeEnvironment: S.optional(RuntimeEnvironment),
@@ -1034,8 +1167,8 @@ export interface StreamGroupSummary {
   Id?: string;
   Description?: string;
   DefaultApplication?: DefaultApplication;
-  StreamClass?: string;
-  Status?: string;
+  StreamClass?: StreamClass;
+  Status?: StreamGroupStatus;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
   ExpiresAt?: Date;
@@ -1046,8 +1179,8 @@ export const StreamGroupSummary = S.suspend(() =>
     Id: S.optional(S.String),
     Description: S.optional(S.String),
     DefaultApplication: S.optional(DefaultApplication),
-    StreamClass: S.optional(S.String),
-    Status: S.optional(S.String),
+    StreamClass: S.optional(StreamClass),
+    Status: S.optional(StreamGroupStatus),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1059,7 +1192,7 @@ export type StreamGroupSummaryList = StreamGroupSummary[];
 export const StreamGroupSummaryList = S.Array(StreamGroupSummary);
 export interface AddStreamGroupLocationsOutput {
   Identifier: string;
-  Locations: LocationStates;
+  Locations: LocationState[];
 }
 export const AddStreamGroupLocationsOutput = S.suspend(() =>
   S.Struct({ Identifier: S.String, Locations: LocationStates }),
@@ -1071,16 +1204,16 @@ export interface GetStreamSessionOutput {
   Description?: string;
   StreamGroupId?: string;
   UserId?: string;
-  Status?: string;
-  StatusReason?: string;
-  Protocol?: string;
+  Status?: StreamSessionStatus;
+  StatusReason?: StreamSessionStatusReason;
+  Protocol?: Protocol;
   Location?: string;
-  SignalRequest?: string | Redacted.Redacted<string>;
-  SignalResponse?: string | Redacted.Redacted<string>;
+  SignalRequest?: string | redacted.Redacted<string>;
+  SignalResponse?: string | redacted.Redacted<string>;
   ConnectionTimeoutSeconds?: number;
   SessionLengthSeconds?: number;
-  AdditionalLaunchArgs?: GameLaunchArgList;
-  AdditionalEnvironmentVariables?: EnvironmentVariables;
+  AdditionalLaunchArgs?: string[];
+  AdditionalEnvironmentVariables?: { [key: string]: string };
   PerformanceStatsConfiguration?: PerformanceStatsConfiguration;
   LogFileLocationUri?: string;
   WebSdkProtocolUrl?: string;
@@ -1095,9 +1228,9 @@ export const GetStreamSessionOutput = S.suspend(() =>
     Description: S.optional(S.String),
     StreamGroupId: S.optional(S.String),
     UserId: S.optional(S.String),
-    Status: S.optional(S.String),
-    StatusReason: S.optional(S.String),
-    Protocol: S.optional(S.String),
+    Status: S.optional(StreamSessionStatus),
+    StatusReason: S.optional(StreamSessionStatusReason),
+    Protocol: S.optional(Protocol),
     Location: S.optional(S.String),
     SignalRequest: S.optional(SensitiveString),
     SignalResponse: S.optional(SensitiveString),
@@ -1117,7 +1250,7 @@ export const GetStreamSessionOutput = S.suspend(() =>
   identifier: "GetStreamSessionOutput",
 }) as any as S.Schema<GetStreamSessionOutput>;
 export interface ListStreamSessionsOutput {
-  Items?: StreamSessionSummaryList;
+  Items?: StreamSessionSummary[];
   NextToken?: string;
 }
 export const ListStreamSessionsOutput = S.suspend(() =>
@@ -1133,16 +1266,16 @@ export interface StartStreamSessionOutput {
   Description?: string;
   StreamGroupId?: string;
   UserId?: string;
-  Status?: string;
-  StatusReason?: string;
-  Protocol?: string;
+  Status?: StreamSessionStatus;
+  StatusReason?: StreamSessionStatusReason;
+  Protocol?: Protocol;
   Location?: string;
-  SignalRequest?: string | Redacted.Redacted<string>;
-  SignalResponse?: string | Redacted.Redacted<string>;
+  SignalRequest?: string | redacted.Redacted<string>;
+  SignalResponse?: string | redacted.Redacted<string>;
   ConnectionTimeoutSeconds?: number;
   SessionLengthSeconds?: number;
-  AdditionalLaunchArgs?: GameLaunchArgList;
-  AdditionalEnvironmentVariables?: EnvironmentVariables;
+  AdditionalLaunchArgs?: string[];
+  AdditionalEnvironmentVariables?: { [key: string]: string };
   PerformanceStatsConfiguration?: PerformanceStatsConfiguration;
   LogFileLocationUri?: string;
   WebSdkProtocolUrl?: string;
@@ -1157,9 +1290,9 @@ export const StartStreamSessionOutput = S.suspend(() =>
     Description: S.optional(S.String),
     StreamGroupId: S.optional(S.String),
     UserId: S.optional(S.String),
-    Status: S.optional(S.String),
-    StatusReason: S.optional(S.String),
-    Protocol: S.optional(S.String),
+    Status: S.optional(StreamSessionStatus),
+    StatusReason: S.optional(StreamSessionStatusReason),
+    Protocol: S.optional(Protocol),
     Location: S.optional(S.String),
     SignalRequest: S.optional(SensitiveString),
     SignalResponse: S.optional(SensitiveString),
@@ -1183,16 +1316,16 @@ export interface CreateApplicationOutput {
   Description?: string;
   RuntimeEnvironment?: RuntimeEnvironment;
   ExecutablePath?: string;
-  ApplicationLogPaths?: FilePaths;
+  ApplicationLogPaths?: string[];
   ApplicationLogOutputUri?: string;
   ApplicationSourceUri?: string;
   Id?: string;
-  Status?: string;
-  StatusReason?: string;
-  ReplicationStatuses?: ReplicationStatuses;
+  Status?: ApplicationStatus;
+  StatusReason?: ApplicationStatusReason;
+  ReplicationStatuses?: ReplicationStatus[];
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  AssociatedStreamGroups?: ArnList;
+  AssociatedStreamGroups?: string[];
 }
 export const CreateApplicationOutput = S.suspend(() =>
   S.Struct({
@@ -1204,8 +1337,8 @@ export const CreateApplicationOutput = S.suspend(() =>
     ApplicationLogOutputUri: S.optional(S.String),
     ApplicationSourceUri: S.optional(S.String),
     Id: S.optional(S.String),
-    Status: S.optional(S.String),
-    StatusReason: S.optional(S.String),
+    Status: S.optional(ApplicationStatus),
+    StatusReason: S.optional(ApplicationStatusReason),
     ReplicationStatuses: S.optional(ReplicationStatuses),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1219,16 +1352,16 @@ export interface GetApplicationOutput {
   Description?: string;
   RuntimeEnvironment?: RuntimeEnvironment;
   ExecutablePath?: string;
-  ApplicationLogPaths?: FilePaths;
+  ApplicationLogPaths?: string[];
   ApplicationLogOutputUri?: string;
   ApplicationSourceUri?: string;
   Id?: string;
-  Status?: string;
-  StatusReason?: string;
-  ReplicationStatuses?: ReplicationStatuses;
+  Status?: ApplicationStatus;
+  StatusReason?: ApplicationStatusReason;
+  ReplicationStatuses?: ReplicationStatus[];
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  AssociatedStreamGroups?: ArnList;
+  AssociatedStreamGroups?: string[];
 }
 export const GetApplicationOutput = S.suspend(() =>
   S.Struct({
@@ -1240,8 +1373,8 @@ export const GetApplicationOutput = S.suspend(() =>
     ApplicationLogOutputUri: S.optional(S.String),
     ApplicationSourceUri: S.optional(S.String),
     Id: S.optional(S.String),
-    Status: S.optional(S.String),
-    StatusReason: S.optional(S.String),
+    Status: S.optional(ApplicationStatus),
+    StatusReason: S.optional(ApplicationStatusReason),
     ReplicationStatuses: S.optional(ReplicationStatuses),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1251,7 +1384,7 @@ export const GetApplicationOutput = S.suspend(() =>
   identifier: "GetApplicationOutput",
 }) as any as S.Schema<GetApplicationOutput>;
 export interface ListApplicationsOutput {
-  Items?: ApplicationSummaryList;
+  Items?: ApplicationSummary[];
   NextToken?: string;
 }
 export const ListApplicationsOutput = S.suspend(() =>
@@ -1266,15 +1399,15 @@ export interface CreateStreamGroupOutput {
   Arn: string;
   Description?: string;
   DefaultApplication?: DefaultApplication;
-  LocationStates?: LocationStates;
-  StreamClass?: string;
+  LocationStates?: LocationState[];
+  StreamClass?: StreamClass;
   Id?: string;
-  Status?: string;
-  StatusReason?: string;
+  Status?: StreamGroupStatus;
+  StatusReason?: StreamGroupStatusReason;
   LastUpdatedAt?: Date;
   CreatedAt?: Date;
   ExpiresAt?: Date;
-  AssociatedApplications?: ArnList;
+  AssociatedApplications?: string[];
 }
 export const CreateStreamGroupOutput = S.suspend(() =>
   S.Struct({
@@ -1282,10 +1415,10 @@ export const CreateStreamGroupOutput = S.suspend(() =>
     Description: S.optional(S.String),
     DefaultApplication: S.optional(DefaultApplication),
     LocationStates: S.optional(LocationStates),
-    StreamClass: S.optional(S.String),
+    StreamClass: S.optional(StreamClass),
     Id: S.optional(S.String),
-    Status: S.optional(S.String),
-    StatusReason: S.optional(S.String),
+    Status: S.optional(StreamGroupStatus),
+    StatusReason: S.optional(StreamGroupStatusReason),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1295,7 +1428,7 @@ export const CreateStreamGroupOutput = S.suspend(() =>
   identifier: "CreateStreamGroupOutput",
 }) as any as S.Schema<CreateStreamGroupOutput>;
 export interface ListStreamGroupsOutput {
-  Items?: StreamGroupSummaryList;
+  Items?: StreamGroupSummary[];
   NextToken?: string;
 }
 export const ListStreamGroupsOutput = S.suspend(() =>
@@ -1346,7 +1479,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listApplications: {
   (
     input: ListApplicationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1357,7 +1490,7 @@ export const listApplications: {
   >;
   pages: (
     input: ListApplicationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1368,7 +1501,7 @@ export const listApplications: {
   >;
   items: (
     input: ListApplicationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ApplicationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1398,7 +1531,7 @@ export const listApplications: {
  */
 export const getStreamSession: (
   input: GetStreamSessionInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetStreamSessionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1428,7 +1561,7 @@ export const getStreamSession: (
 export const listStreamSessions: {
   (
     input: ListStreamSessionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStreamSessionsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1440,7 +1573,7 @@ export const listStreamSessions: {
   >;
   pages: (
     input: ListStreamSessionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStreamSessionsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1452,7 +1585,7 @@ export const listStreamSessions: {
   >;
   items: (
     input: ListStreamSessionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     StreamSessionSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1484,7 +1617,7 @@ export const listStreamSessions: {
  */
 export const getApplication: (
   input: GetApplicationInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetApplicationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1511,7 +1644,7 @@ export const getApplication: (
  */
 export const updateApplication: (
   input: UpdateApplicationInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateApplicationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1536,7 +1669,7 @@ export const updateApplication: (
  */
 export const getStreamGroup: (
   input: GetStreamGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetStreamGroupOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1563,7 +1696,7 @@ export const getStreamGroup: (
  */
 export const removeStreamGroupLocations: (
   input: RemoveStreamGroupLocationsInput,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveStreamGroupLocationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1588,7 +1721,7 @@ export const removeStreamGroupLocations: (
  */
 export const terminateStreamSession: (
   input: TerminateStreamSessionInput,
-) => Effect.Effect<
+) => effect.Effect<
   TerminateStreamSessionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1615,7 +1748,7 @@ export const terminateStreamSession: (
  */
 export const disassociateApplications: (
   input: DisassociateApplicationsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateApplicationsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1652,7 +1785,7 @@ export const disassociateApplications: (
  */
 export const deleteApplication: (
   input: DeleteApplicationInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1679,7 +1812,7 @@ export const deleteApplication: (
  */
 export const deleteStreamGroup: (
   input: DeleteStreamGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteStreamGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -1732,7 +1865,7 @@ export const deleteStreamGroup: (
  */
 export const createStreamSessionConnection: (
   input: CreateStreamSessionConnectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateStreamSessionConnectionOutput,
   | AccessDeniedException
   | ConflictException
@@ -1815,7 +1948,7 @@ export const createStreamSessionConnection: (
  */
 export const startStreamSession: (
   input: StartStreamSessionInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartStreamSessionOutput,
   | AccessDeniedException
   | ConflictException
@@ -1843,7 +1976,7 @@ export const startStreamSession: (
 export const listStreamGroups: {
   (
     input: ListStreamGroupsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStreamGroupsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1854,7 +1987,7 @@ export const listStreamGroups: {
   >;
   pages: (
     input: ListStreamGroupsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStreamGroupsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1865,7 +1998,7 @@ export const listStreamGroups: {
   >;
   items: (
     input: ListStreamGroupsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     StreamGroupSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1900,7 +2033,7 @@ export const listStreamGroups: {
 export const listStreamSessionsByAccount: {
   (
     input: ListStreamSessionsByAccountInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStreamSessionsByAccountOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1911,7 +2044,7 @@ export const listStreamSessionsByAccount: {
   >;
   pages: (
     input: ListStreamSessionsByAccountInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStreamSessionsByAccountOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1922,7 +2055,7 @@ export const listStreamSessionsByAccount: {
   >;
   items: (
     input: ListStreamSessionsByAccountInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     StreamSessionSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1958,7 +2091,7 @@ export const listStreamSessionsByAccount: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1991,7 +2124,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2014,7 +2147,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2051,7 +2184,7 @@ export const untagResource: (
  */
 export const exportStreamSessionFiles: (
   input: ExportStreamSessionFilesInput,
-) => Effect.Effect<
+) => effect.Effect<
   ExportStreamSessionFilesOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2082,7 +2215,7 @@ export const exportStreamSessionFiles: (
  */
 export const createApplication: (
   input: CreateApplicationInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateApplicationOutput,
   | AccessDeniedException
   | ConflictException
@@ -2121,7 +2254,7 @@ export const createApplication: (
  */
 export const updateStreamGroup: (
   input: UpdateStreamGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateStreamGroupOutput,
   | AccessDeniedException
   | ConflictException
@@ -2152,7 +2285,7 @@ export const updateStreamGroup: (
  */
 export const associateApplications: (
   input: AssociateApplicationsInput,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateApplicationsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2181,7 +2314,7 @@ export const associateApplications: (
  */
 export const addStreamGroupLocations: (
   input: AddStreamGroupLocationsInput,
-) => Effect.Effect<
+) => effect.Effect<
   AddStreamGroupLocationsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2224,7 +2357,7 @@ export const addStreamGroupLocations: (
  */
 export const createStreamGroup: (
   input: CreateStreamGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateStreamGroupOutput,
   | AccessDeniedException
   | ConflictException

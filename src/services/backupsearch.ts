@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -60,12 +60,27 @@ export type IamRoleArn = string;
 export type RecoveryPoint = string;
 export type SearchJobArn = string;
 export type ExportJobArn = string;
-export type ObjectKey = string | Redacted.Redacted<string>;
-export type FilePath = string | Redacted.Redacted<string>;
+export type ObjectKey = string | redacted.Redacted<string>;
+export type FilePath = string | redacted.Redacted<string>;
 
 //# Schemas
 export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
+export type SearchJobState =
+  | "RUNNING"
+  | "COMPLETED"
+  | "STOPPING"
+  | "STOPPED"
+  | "FAILED";
+export const SearchJobState = S.Literal(
+  "RUNNING",
+  "COMPLETED",
+  "STOPPING",
+  "STOPPED",
+  "FAILED",
+);
+export type ExportJobStatus = "RUNNING" | "FAILED" | "COMPLETED";
+export const ExportJobStatus = S.Literal("RUNNING", "FAILED", "COMPLETED");
 export interface ListSearchJobBackupsInput {
   SearchJobIdentifier: string;
   NextToken?: string;
@@ -137,7 +152,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeys;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -206,13 +221,13 @@ export const StopSearchJobOutput = S.suspend(() => S.Struct({})).annotations({
   identifier: "StopSearchJobOutput",
 }) as any as S.Schema<StopSearchJobOutput>;
 export interface ListSearchJobsInput {
-  ByStatus?: string;
+  ByStatus?: SearchJobState;
   NextToken?: string;
   MaxResults?: number;
 }
 export const ListSearchJobsInput = S.suspend(() =>
   S.Struct({
-    ByStatus: S.optional(S.String).pipe(T.HttpQuery("Status")),
+    ByStatus: S.optional(SearchJobState).pipe(T.HttpQuery("Status")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
   }).pipe(
@@ -251,14 +266,14 @@ export const GetSearchResultExportJobInput = S.suspend(() =>
   identifier: "GetSearchResultExportJobInput",
 }) as any as S.Schema<GetSearchResultExportJobInput>;
 export interface ListSearchResultExportJobsInput {
-  Status?: string;
+  Status?: ExportJobStatus;
   SearchJobIdentifier?: string;
   NextToken?: string;
   MaxResults?: number;
 }
 export const ListSearchResultExportJobsInput = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String).pipe(T.HttpQuery("Status")),
+    Status: S.optional(ExportJobStatus).pipe(T.HttpQuery("Status")),
     SearchJobIdentifier: S.optional(S.String).pipe(
       T.HttpQuery("SearchJobIdentifier"),
     ),
@@ -277,8 +292,10 @@ export const ListSearchResultExportJobsInput = S.suspend(() =>
 ).annotations({
   identifier: "ListSearchResultExportJobsInput",
 }) as any as S.Schema<ListSearchResultExportJobsInput>;
-export type ResourceTypeList = string[];
-export const ResourceTypeList = S.Array(S.String);
+export type ResourceType = "S3" | "EBS";
+export const ResourceType = S.Literal("S3", "EBS");
+export type ResourceTypeList = ResourceType[];
+export const ResourceTypeList = S.Array(ResourceType);
 export type ResourceArnList = string[];
 export const ResourceArnList = S.Array(S.String);
 export type RecoveryPointArnList = string[];
@@ -288,7 +305,7 @@ export const TagMap = S.Record({ key: S.String, value: S.String }).pipe(
   T.Sparse(),
 );
 export interface ListTagsForResourceResponse {
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -297,7 +314,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagMap;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -341,18 +358,18 @@ export const ExportSpecification = S.Union(
 export interface GetSearchResultExportJobOutput {
   ExportJobIdentifier: string;
   ExportJobArn?: string;
-  Status?: string;
+  Status?: ExportJobStatus;
   CreationTime?: Date;
   CompletionTime?: Date;
   StatusMessage?: string;
-  ExportSpecification?: (typeof ExportSpecification)["Type"];
+  ExportSpecification?: ExportSpecification;
   SearchJobArn?: string;
 }
 export const GetSearchResultExportJobOutput = S.suspend(() =>
   S.Struct({
     ExportJobIdentifier: S.String,
     ExportJobArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ExportJobStatus),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CompletionTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     StatusMessage: S.optional(S.String),
@@ -374,36 +391,77 @@ export const BackupCreationTimeFilter = S.suspend(() =>
 ).annotations({
   identifier: "BackupCreationTimeFilter",
 }) as any as S.Schema<BackupCreationTimeFilter>;
+export type StringConditionOperator =
+  | "EQUALS_TO"
+  | "NOT_EQUALS_TO"
+  | "CONTAINS"
+  | "DOES_NOT_CONTAIN"
+  | "BEGINS_WITH"
+  | "ENDS_WITH"
+  | "DOES_NOT_BEGIN_WITH"
+  | "DOES_NOT_END_WITH";
+export const StringConditionOperator = S.Literal(
+  "EQUALS_TO",
+  "NOT_EQUALS_TO",
+  "CONTAINS",
+  "DOES_NOT_CONTAIN",
+  "BEGINS_WITH",
+  "ENDS_WITH",
+  "DOES_NOT_BEGIN_WITH",
+  "DOES_NOT_END_WITH",
+);
 export interface StringCondition {
   Value: string;
-  Operator?: string;
+  Operator?: StringConditionOperator;
 }
 export const StringCondition = S.suspend(() =>
-  S.Struct({ Value: S.String, Operator: S.optional(S.String) }),
+  S.Struct({ Value: S.String, Operator: S.optional(StringConditionOperator) }),
 ).annotations({
   identifier: "StringCondition",
 }) as any as S.Schema<StringCondition>;
 export type StringConditionList = StringCondition[];
 export const StringConditionList = S.Array(StringCondition);
+export type LongConditionOperator =
+  | "EQUALS_TO"
+  | "NOT_EQUALS_TO"
+  | "LESS_THAN_EQUAL_TO"
+  | "GREATER_THAN_EQUAL_TO";
+export const LongConditionOperator = S.Literal(
+  "EQUALS_TO",
+  "NOT_EQUALS_TO",
+  "LESS_THAN_EQUAL_TO",
+  "GREATER_THAN_EQUAL_TO",
+);
 export interface LongCondition {
   Value: number;
-  Operator?: string;
+  Operator?: LongConditionOperator;
 }
 export const LongCondition = S.suspend(() =>
-  S.Struct({ Value: S.Number, Operator: S.optional(S.String) }),
+  S.Struct({ Value: S.Number, Operator: S.optional(LongConditionOperator) }),
 ).annotations({
   identifier: "LongCondition",
 }) as any as S.Schema<LongCondition>;
 export type LongConditionList = LongCondition[];
 export const LongConditionList = S.Array(LongCondition);
+export type TimeConditionOperator =
+  | "EQUALS_TO"
+  | "NOT_EQUALS_TO"
+  | "LESS_THAN_EQUAL_TO"
+  | "GREATER_THAN_EQUAL_TO";
+export const TimeConditionOperator = S.Literal(
+  "EQUALS_TO",
+  "NOT_EQUALS_TO",
+  "LESS_THAN_EQUAL_TO",
+  "GREATER_THAN_EQUAL_TO",
+);
 export interface TimeCondition {
   Value: Date;
-  Operator?: string;
+  Operator?: TimeConditionOperator;
 }
 export const TimeCondition = S.suspend(() =>
   S.Struct({
     Value: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Operator: S.optional(S.String),
+    Operator: S.optional(TimeConditionOperator),
   }),
 ).annotations({
   identifier: "TimeCondition",
@@ -411,10 +469,10 @@ export const TimeCondition = S.suspend(() =>
 export type TimeConditionList = TimeCondition[];
 export const TimeConditionList = S.Array(TimeCondition);
 export interface EBSItemFilter {
-  FilePaths?: StringConditionList;
-  Sizes?: LongConditionList;
-  CreationTimes?: TimeConditionList;
-  LastModificationTimes?: TimeConditionList;
+  FilePaths?: StringCondition[];
+  Sizes?: LongCondition[];
+  CreationTimes?: TimeCondition[];
+  LastModificationTimes?: TimeCondition[];
 }
 export const EBSItemFilter = S.suspend(() =>
   S.Struct({
@@ -429,9 +487,9 @@ export const EBSItemFilter = S.suspend(() =>
 export type EBSItemFilters = EBSItemFilter[];
 export const EBSItemFilters = S.Array(EBSItemFilter);
 export interface SearchJobBackupsResult {
-  Status?: string;
+  Status?: SearchJobState;
   StatusMessage?: string;
-  ResourceType?: string;
+  ResourceType?: ResourceType;
   BackupResourceArn?: string;
   SourceResourceArn?: string;
   IndexCreationTime?: Date;
@@ -439,9 +497,9 @@ export interface SearchJobBackupsResult {
 }
 export const SearchJobBackupsResult = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(SearchJobState),
     StatusMessage: S.optional(S.String),
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(ResourceType),
     BackupResourceArn: S.optional(S.String),
     SourceResourceArn: S.optional(S.String),
     IndexCreationTime: S.optional(
@@ -457,11 +515,11 @@ export const SearchJobBackupsResult = S.suspend(() =>
 export type SearchJobBackupsResults = SearchJobBackupsResult[];
 export const SearchJobBackupsResults = S.Array(SearchJobBackupsResult);
 export interface SearchScope {
-  BackupResourceTypes: ResourceTypeList;
+  BackupResourceTypes: ResourceType[];
   BackupResourceCreationTime?: BackupCreationTimeFilter;
-  SourceResourceArns?: ResourceArnList;
-  BackupResourceArns?: RecoveryPointArnList;
-  BackupResourceTags?: TagMap;
+  SourceResourceArns?: string[];
+  BackupResourceArns?: string[];
+  BackupResourceTags?: { [key: string]: string };
 }
 export const SearchScope = S.suspend(() =>
   S.Struct({
@@ -502,7 +560,7 @@ export interface SearchJobSummary {
   SearchJobIdentifier?: string;
   SearchJobArn?: string;
   Name?: string;
-  Status?: string;
+  Status?: SearchJobState;
   CreationTime?: Date;
   CompletionTime?: Date;
   SearchScopeSummary?: SearchScopeSummary;
@@ -513,7 +571,7 @@ export const SearchJobSummary = S.suspend(() =>
     SearchJobIdentifier: S.optional(S.String),
     SearchJobArn: S.optional(S.String),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(SearchJobState),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CompletionTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     SearchScopeSummary: S.optional(SearchScopeSummary),
@@ -527,7 +585,7 @@ export const SearchJobs = S.Array(SearchJobSummary);
 export interface ExportJobSummary {
   ExportJobIdentifier: string;
   ExportJobArn?: string;
-  Status?: string;
+  Status?: ExportJobStatus;
   CreationTime?: Date;
   CompletionTime?: Date;
   StatusMessage?: string;
@@ -537,7 +595,7 @@ export const ExportJobSummary = S.suspend(() =>
   S.Struct({
     ExportJobIdentifier: S.String,
     ExportJobArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ExportJobStatus),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CompletionTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     StatusMessage: S.optional(S.String),
@@ -549,7 +607,7 @@ export const ExportJobSummary = S.suspend(() =>
 export type ExportJobSummaries = ExportJobSummary[];
 export const ExportJobSummaries = S.Array(ExportJobSummary);
 export interface ListSearchJobBackupsOutput {
-  Results: SearchJobBackupsResults;
+  Results: SearchJobBackupsResult[];
   NextToken?: string;
 }
 export const ListSearchJobBackupsOutput = S.suspend(() =>
@@ -561,11 +619,11 @@ export const ListSearchJobBackupsOutput = S.suspend(() =>
   identifier: "ListSearchJobBackupsOutput",
 }) as any as S.Schema<ListSearchJobBackupsOutput>;
 export interface S3ItemFilter {
-  ObjectKeys?: StringConditionList;
-  Sizes?: LongConditionList;
-  CreationTimes?: TimeConditionList;
-  VersionIds?: StringConditionList;
-  ETags?: StringConditionList;
+  ObjectKeys?: StringCondition[];
+  Sizes?: LongCondition[];
+  CreationTimes?: TimeCondition[];
+  VersionIds?: StringCondition[];
+  ETags?: StringCondition[];
 }
 export const S3ItemFilter = S.suspend(() =>
   S.Struct({
@@ -579,8 +637,8 @@ export const S3ItemFilter = S.suspend(() =>
 export type S3ItemFilters = S3ItemFilter[];
 export const S3ItemFilters = S.Array(S3ItemFilter);
 export interface ItemFilters {
-  S3ItemFilters?: S3ItemFilters;
-  EBSItemFilters?: EBSItemFilters;
+  S3ItemFilters?: S3ItemFilter[];
+  EBSItemFilters?: EBSItemFilter[];
 }
 export const ItemFilters = S.suspend(() =>
   S.Struct({
@@ -595,7 +653,7 @@ export interface GetSearchJobOutput {
   StatusMessage?: string;
   EncryptionKeyArn?: string;
   CompletionTime?: Date;
-  Status: string;
+  Status: SearchJobState;
   SearchScope: SearchScope;
   ItemFilters: ItemFilters;
   CreationTime: Date;
@@ -610,7 +668,7 @@ export const GetSearchJobOutput = S.suspend(() =>
     StatusMessage: S.optional(S.String),
     EncryptionKeyArn: S.optional(S.String),
     CompletionTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.String,
+    Status: SearchJobState,
     SearchScope: SearchScope,
     ItemFilters: ItemFilters,
     CreationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -621,7 +679,7 @@ export const GetSearchJobOutput = S.suspend(() =>
   identifier: "GetSearchJobOutput",
 }) as any as S.Schema<GetSearchJobOutput>;
 export interface ListSearchJobsOutput {
-  SearchJobs: SearchJobs;
+  SearchJobs: SearchJobSummary[];
   NextToken?: string;
 }
 export const ListSearchJobsOutput = S.suspend(() =>
@@ -631,9 +689,9 @@ export const ListSearchJobsOutput = S.suspend(() =>
 }) as any as S.Schema<ListSearchJobsOutput>;
 export interface StartSearchResultExportJobInput {
   SearchJobIdentifier: string;
-  ExportSpecification: (typeof ExportSpecification)["Type"];
+  ExportSpecification: ExportSpecification;
   ClientToken?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   RoleArn?: string;
 }
 export const StartSearchResultExportJobInput = S.suspend(() =>
@@ -657,7 +715,7 @@ export const StartSearchResultExportJobInput = S.suspend(() =>
   identifier: "StartSearchResultExportJobInput",
 }) as any as S.Schema<StartSearchResultExportJobInput>;
 export interface ListSearchResultExportJobsOutput {
-  ExportJobs: ExportJobSummaries;
+  ExportJobs: ExportJobSummary[];
   NextToken?: string;
 }
 export const ListSearchResultExportJobsOutput = S.suspend(() =>
@@ -669,7 +727,7 @@ export interface S3ResultItem {
   BackupResourceArn?: string;
   SourceResourceArn?: string;
   BackupVaultName?: string;
-  ObjectKey?: string | Redacted.Redacted<string>;
+  ObjectKey?: string | redacted.Redacted<string>;
   ObjectSize?: number;
   CreationTime?: Date;
   ETag?: string;
@@ -692,7 +750,7 @@ export interface EBSResultItem {
   SourceResourceArn?: string;
   BackupVaultName?: string;
   FileSystemIdentifier?: string;
-  FilePath?: string | Redacted.Redacted<string>;
+  FilePath?: string | redacted.Redacted<string>;
   FileSize?: number;
   CreationTime?: Date;
   LastModifiedTime?: Date;
@@ -720,10 +778,10 @@ export const ResultItem = S.Union(
   S.Struct({ S3ResultItem: S3ResultItem }),
   S.Struct({ EBSResultItem: EBSResultItem }),
 );
-export type Results = (typeof ResultItem)["Type"][];
+export type Results = ResultItem[];
 export const Results = S.Array(ResultItem);
 export interface ListSearchJobResultsOutput {
-  Results: Results;
+  Results: ResultItem[];
   NextToken?: string;
 }
 export const ListSearchJobResultsOutput = S.suspend(() =>
@@ -732,7 +790,7 @@ export const ListSearchJobResultsOutput = S.suspend(() =>
   identifier: "ListSearchJobResultsOutput",
 }) as any as S.Schema<ListSearchJobResultsOutput>;
 export interface StartSearchJobInput {
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   Name?: string;
   EncryptionKeyArn?: string;
   ClientToken?: string;
@@ -813,7 +871,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -829,7 +887,7 @@ export const untagResource: (
  */
 export const stopSearchJob: (
   input: StopSearchJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopSearchJobOutput,
   ConflictException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -847,7 +905,7 @@ export const stopSearchJob: (
  */
 export const getSearchResultExportJob: (
   input: GetSearchResultExportJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSearchResultExportJobOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -861,7 +919,7 @@ export const getSearchResultExportJob: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -875,7 +933,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -894,21 +952,21 @@ export const tagResource: (
 export const listSearchJobBackups: {
   (
     input: ListSearchJobBackupsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSearchJobBackupsOutput,
     ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSearchJobBackupsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSearchJobBackupsOutput,
     ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSearchJobBackupsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchJobBackupsResult,
     ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -929,7 +987,7 @@ export const listSearchJobBackups: {
  */
 export const getSearchJob: (
   input: GetSearchJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSearchJobOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -944,21 +1002,21 @@ export const getSearchJob: (
 export const listSearchJobs: {
   (
     input: ListSearchJobsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSearchJobsOutput,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSearchJobsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSearchJobsOutput,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSearchJobsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchJobSummary,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -980,21 +1038,21 @@ export const listSearchJobs: {
 export const listSearchJobResults: {
   (
     input: ListSearchJobResultsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSearchJobResultsOutput,
     ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSearchJobResultsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSearchJobResultsOutput,
     ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSearchJobResultsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResultItem,
     ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1016,21 +1074,21 @@ export const listSearchJobResults: {
 export const listSearchResultExportJobs: {
   (
     input: ListSearchResultExportJobsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSearchResultExportJobsOutput,
     ResourceNotFoundException | ServiceQuotaExceededException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSearchResultExportJobsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSearchResultExportJobsOutput,
     ResourceNotFoundException | ServiceQuotaExceededException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSearchResultExportJobsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExportJobSummary,
     ResourceNotFoundException | ServiceQuotaExceededException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1051,7 +1109,7 @@ export const listSearchResultExportJobs: {
  */
 export const startSearchResultExportJob: (
   input: StartSearchResultExportJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartSearchResultExportJobOutput,
   | ConflictException
   | ResourceNotFoundException
@@ -1074,7 +1132,7 @@ export const startSearchResultExportJob: (
  */
 export const startSearchJob: (
   input: StartSearchJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartSearchJobOutput,
   | ConflictException
   | ResourceNotFoundException

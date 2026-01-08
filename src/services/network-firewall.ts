@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -164,18 +164,47 @@ export type StatusMessage = string;
 export type IPSetArn = string;
 
 //# Schemas
-export type EnabledAnalysisTypes = string[];
-export const EnabledAnalysisTypes = S.Array(S.String);
+export type EnabledAnalysisType = "TLS_SNI" | "HTTP_HOST";
+export const EnabledAnalysisType = S.Literal("TLS_SNI", "HTTP_HOST");
+export type EnabledAnalysisTypes = EnabledAnalysisType[];
+export const EnabledAnalysisTypes = S.Array(EnabledAnalysisType);
 export type ResourceNameList = string[];
 export const ResourceNameList = S.Array(S.String);
 export type ResourceArnList = string[];
 export const ResourceArnList = S.Array(S.String);
+export type RuleGroupType = "STATELESS" | "STATEFUL";
+export const RuleGroupType = S.Literal("STATELESS", "STATEFUL");
 export type AzSubnets = string[];
 export const AzSubnets = S.Array(S.String);
 export type VpcIds = string[];
 export const VpcIds = S.Array(S.String);
+export type FlowOperationType = "FLOW_FLUSH" | "FLOW_CAPTURE";
+export const FlowOperationType = S.Literal("FLOW_FLUSH", "FLOW_CAPTURE");
+export type ResourceManagedStatus = "MANAGED" | "ACCOUNT";
+export const ResourceManagedStatus = S.Literal("MANAGED", "ACCOUNT");
+export type ResourceManagedType =
+  | "AWS_MANAGED_THREAT_SIGNATURES"
+  | "AWS_MANAGED_DOMAIN_LISTS"
+  | "ACTIVE_THREAT_DEFENSE"
+  | "PARTNER_MANAGED";
+export const ResourceManagedType = S.Literal(
+  "AWS_MANAGED_THREAT_SIGNATURES",
+  "AWS_MANAGED_DOMAIN_LISTS",
+  "ACTIVE_THREAT_DEFENSE",
+  "PARTNER_MANAGED",
+);
+export type SubscriptionStatus = "NOT_SUBSCRIBED" | "SUBSCRIBED";
+export const SubscriptionStatus = S.Literal("NOT_SUBSCRIBED", "SUBSCRIBED");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type ProxyRulePhaseAction = "ALLOW" | "DENY" | "ALERT";
+export const ProxyRulePhaseAction = S.Literal("ALLOW", "DENY", "ALERT");
+export type RuleGroupRequestPhase = "PRE_DNS" | "PRE_REQ" | "POST_RES";
+export const RuleGroupRequestPhase = S.Literal(
+  "PRE_DNS",
+  "PRE_REQ",
+  "POST_RES",
+);
 export interface AcceptNetworkFirewallTransitGatewayAttachmentRequest {
   TransitGatewayAttachmentId: string;
 }
@@ -205,12 +234,14 @@ export const AssociateFirewallPolicyRequest = S.suspend(() =>
 ).annotations({
   identifier: "AssociateFirewallPolicyRequest",
 }) as any as S.Schema<AssociateFirewallPolicyRequest>;
+export type IPAddressType = "DUALSTACK" | "IPV4" | "IPV6";
+export const IPAddressType = S.Literal("DUALSTACK", "IPV4", "IPV6");
 export interface SubnetMapping {
   SubnetId: string;
-  IPAddressType?: string;
+  IPAddressType?: IPAddressType;
 }
 export const SubnetMapping = S.suspend(() =>
-  S.Struct({ SubnetId: S.String, IPAddressType: S.optional(S.String) }),
+  S.Struct({ SubnetId: S.String, IPAddressType: S.optional(IPAddressType) }),
 ).annotations({
   identifier: "SubnetMapping",
 }) as any as S.Schema<SubnetMapping>;
@@ -228,7 +259,7 @@ export interface CreateVpcEndpointAssociationRequest {
   VpcId: string;
   SubnetMapping: SubnetMapping;
   Description?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateVpcEndpointAssociationRequest = S.suspend(() =>
   S.Struct({
@@ -329,7 +360,7 @@ export const DeleteProxyRuleGroupRequest = S.suspend(() =>
 export interface DeleteProxyRulesRequest {
   ProxyRuleGroupArn?: string;
   ProxyRuleGroupName?: string;
-  Rules: ResourceNameList;
+  Rules: string[];
 }
 export const DeleteProxyRulesRequest = S.suspend(() =>
   S.Struct({
@@ -361,13 +392,13 @@ export const DeleteResourcePolicyResponse = S.suspend(() =>
 export interface DeleteRuleGroupRequest {
   RuleGroupName?: string;
   RuleGroupArn?: string;
-  Type?: string;
+  Type?: RuleGroupType;
 }
 export const DeleteRuleGroupRequest = S.suspend(() =>
   S.Struct({
     RuleGroupName: S.optional(S.String),
     RuleGroupArn: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(RuleGroupType),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -541,14 +572,14 @@ export const DescribeResourcePolicyRequest = S.suspend(() =>
 export interface DescribeRuleGroupRequest {
   RuleGroupName?: string;
   RuleGroupArn?: string;
-  Type?: string;
+  Type?: RuleGroupType;
   AnalyzeRuleGroup?: boolean;
 }
 export const DescribeRuleGroupRequest = S.suspend(() =>
   S.Struct({
     RuleGroupName: S.optional(S.String),
     RuleGroupArn: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(RuleGroupType),
     AnalyzeRuleGroup: S.optional(S.Boolean),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -559,13 +590,13 @@ export const DescribeRuleGroupRequest = S.suspend(() =>
 export interface DescribeRuleGroupMetadataRequest {
   RuleGroupName?: string;
   RuleGroupArn?: string;
-  Type?: string;
+  Type?: RuleGroupType;
 }
 export const DescribeRuleGroupMetadataRequest = S.suspend(() =>
   S.Struct({
     RuleGroupName: S.optional(S.String),
     RuleGroupArn: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(RuleGroupType),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -575,13 +606,13 @@ export const DescribeRuleGroupMetadataRequest = S.suspend(() =>
 export interface DescribeRuleGroupSummaryRequest {
   RuleGroupName?: string;
   RuleGroupArn?: string;
-  Type?: string;
+  Type?: RuleGroupType;
 }
 export const DescribeRuleGroupSummaryRequest = S.suspend(() =>
   S.Struct({
     RuleGroupName: S.optional(S.String),
     RuleGroupArn: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(RuleGroupType),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -615,8 +646,8 @@ export const DescribeVpcEndpointAssociationRequest = S.suspend(() =>
 export interface DetachRuleGroupsFromProxyConfigurationRequest {
   ProxyConfigurationName?: string;
   ProxyConfigurationArn?: string;
-  RuleGroupNames?: ResourceNameList;
-  RuleGroupArns?: ResourceArnList;
+  RuleGroupNames?: string[];
+  RuleGroupArns?: string[];
   UpdateToken: string;
 }
 export const DetachRuleGroupsFromProxyConfigurationRequest = S.suspend(() =>
@@ -646,7 +677,7 @@ export interface DisassociateAvailabilityZonesRequest {
   UpdateToken?: string;
   FirewallArn?: string;
   FirewallName?: string;
-  AvailabilityZoneMappings: AvailabilityZoneMappings;
+  AvailabilityZoneMappings: AvailabilityZoneMapping[];
 }
 export const DisassociateAvailabilityZonesRequest = S.suspend(() =>
   S.Struct({
@@ -664,7 +695,7 @@ export interface DisassociateSubnetsRequest {
   UpdateToken?: string;
   FirewallArn?: string;
   FirewallName?: string;
-  SubnetIds: AzSubnets;
+  SubnetIds: string[];
 }
 export const DisassociateSubnetsRequest = S.suspend(() =>
   S.Struct({
@@ -732,7 +763,7 @@ export const ListFirewallPoliciesRequest = S.suspend(() =>
 }) as any as S.Schema<ListFirewallPoliciesRequest>;
 export interface ListFirewallsRequest {
   NextToken?: string;
-  VpcIds?: VpcIds;
+  VpcIds?: string[];
   MaxResults?: number;
 }
 export const ListFirewallsRequest = S.suspend(() =>
@@ -775,7 +806,7 @@ export interface ListFlowOperationsRequest {
   AvailabilityZone?: string;
   VpcEndpointAssociationArn?: string;
   VpcEndpointId?: string;
-  FlowOperationType?: string;
+  FlowOperationType?: FlowOperationType;
   NextToken?: string;
   MaxResults?: number;
 }
@@ -785,7 +816,7 @@ export const ListFlowOperationsRequest = S.suspend(() =>
     AvailabilityZone: S.optional(S.String),
     VpcEndpointAssociationArn: S.optional(S.String),
     VpcEndpointId: S.optional(S.String),
-    FlowOperationType: S.optional(S.String),
+    FlowOperationType: S.optional(FlowOperationType),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
@@ -839,19 +870,19 @@ export const ListProxyRuleGroupsRequest = S.suspend(() =>
 export interface ListRuleGroupsRequest {
   NextToken?: string;
   MaxResults?: number;
-  Scope?: string;
-  ManagedType?: string;
-  SubscriptionStatus?: string;
-  Type?: string;
+  Scope?: ResourceManagedStatus;
+  ManagedType?: ResourceManagedType;
+  SubscriptionStatus?: SubscriptionStatus;
+  Type?: RuleGroupType;
 }
 export const ListRuleGroupsRequest = S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-    Scope: S.optional(S.String),
-    ManagedType: S.optional(S.String),
-    SubscriptionStatus: S.optional(S.String),
-    Type: S.optional(S.String),
+    Scope: S.optional(ResourceManagedStatus),
+    ManagedType: S.optional(ResourceManagedType),
+    SubscriptionStatus: S.optional(SubscriptionStatus),
+    Type: S.optional(RuleGroupType),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -935,13 +966,13 @@ export const RejectNetworkFirewallTransitGatewayAttachmentRequest = S.suspend(
 export interface StartAnalysisReportRequest {
   FirewallName?: string;
   FirewallArn?: string;
-  AnalysisType: string;
+  AnalysisType: EnabledAnalysisType;
 }
 export const StartAnalysisReportRequest = S.suspend(() =>
   S.Struct({
     FirewallName: S.optional(S.String),
     FirewallArn: S.optional(S.String),
-    AnalysisType: S.String,
+    AnalysisType: EnabledAnalysisType,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -961,7 +992,7 @@ export interface FlowFilter {
   DestinationAddress?: Address;
   SourcePort?: string;
   DestinationPort?: string;
-  Protocols?: ProtocolStrings;
+  Protocols?: string[];
 }
 export const FlowFilter = S.suspend(() =>
   S.Struct({
@@ -980,7 +1011,7 @@ export interface StartFlowFlushRequest {
   VpcEndpointAssociationArn?: string;
   VpcEndpointId?: string;
   MinimumFlowAgeInSeconds?: number;
-  FlowFilters: FlowFilters;
+  FlowFilters: FlowFilter[];
 }
 export const StartFlowFlushRequest = S.suspend(() =>
   S.Struct({
@@ -998,7 +1029,7 @@ export const StartFlowFlushRequest = S.suspend(() =>
 }) as any as S.Schema<StartFlowFlushRequest>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
@@ -1013,7 +1044,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
@@ -1045,7 +1076,7 @@ export const UpdateAvailabilityZoneChangeProtectionRequest = S.suspend(() =>
   identifier: "UpdateAvailabilityZoneChangeProtectionRequest",
 }) as any as S.Schema<UpdateAvailabilityZoneChangeProtectionRequest>;
 export interface UpdateFirewallAnalysisSettingsRequest {
-  EnabledAnalysisTypes?: EnabledAnalysisTypes;
+  EnabledAnalysisTypes?: EnabledAnalysisType[];
   FirewallArn?: string;
   FirewallName?: string;
   UpdateToken?: string;
@@ -1098,12 +1129,14 @@ export const UpdateFirewallDescriptionRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateFirewallDescriptionRequest",
 }) as any as S.Schema<UpdateFirewallDescriptionRequest>;
+export type EncryptionType = "CUSTOMER_KMS" | "AWS_OWNED_KMS_KEY";
+export const EncryptionType = S.Literal("CUSTOMER_KMS", "AWS_OWNED_KMS_KEY");
 export interface EncryptionConfiguration {
   KeyId?: string;
-  Type: string;
+  Type: EncryptionType;
 }
 export const EncryptionConfiguration = S.suspend(() =>
-  S.Struct({ KeyId: S.optional(S.String), Type: S.String }),
+  S.Struct({ KeyId: S.optional(S.String), Type: EncryptionType }),
 ).annotations({
   identifier: "EncryptionConfiguration",
 }) as any as S.Schema<EncryptionConfiguration>;
@@ -1149,7 +1182,7 @@ export const Dimension = S.suspend(() =>
 export type Dimensions = Dimension[];
 export const Dimensions = S.Array(Dimension);
 export interface PublishMetricAction {
-  Dimensions: Dimensions;
+  Dimensions: Dimension[];
 }
 export const PublishMetricAction = S.suspend(() =>
   S.Struct({ Dimensions: Dimensions }),
@@ -1173,11 +1206,13 @@ export const CustomAction = S.suspend(() =>
 ).annotations({ identifier: "CustomAction" }) as any as S.Schema<CustomAction>;
 export type CustomActions = CustomAction[];
 export const CustomActions = S.Array(CustomAction);
+export type OverrideAction = "DROP_TO_ALERT";
+export const OverrideAction = S.Literal("DROP_TO_ALERT");
 export interface StatefulRuleGroupOverride {
-  Action?: string;
+  Action?: OverrideAction;
 }
 export const StatefulRuleGroupOverride = S.suspend(() =>
-  S.Struct({ Action: S.optional(S.String) }),
+  S.Struct({ Action: S.optional(OverrideAction) }),
 ).annotations({
   identifier: "StatefulRuleGroupOverride",
 }) as any as S.Schema<StatefulRuleGroupOverride>;
@@ -1201,6 +1236,10 @@ export type StatefulRuleGroupReferences = StatefulRuleGroupReference[];
 export const StatefulRuleGroupReferences = S.Array(StatefulRuleGroupReference);
 export type StatefulActions = string[];
 export const StatefulActions = S.Array(S.String);
+export type RuleOrder = "DEFAULT_ACTION_ORDER" | "STRICT_ORDER";
+export const RuleOrder = S.Literal("DEFAULT_ACTION_ORDER", "STRICT_ORDER");
+export type StreamExceptionPolicy = "DROP" | "CONTINUE" | "REJECT";
+export const StreamExceptionPolicy = S.Literal("DROP", "CONTINUE", "REJECT");
 export interface FlowTimeouts {
   TcpIdleTimeoutSeconds?: number;
 }
@@ -1208,14 +1247,14 @@ export const FlowTimeouts = S.suspend(() =>
   S.Struct({ TcpIdleTimeoutSeconds: S.optional(S.Number) }),
 ).annotations({ identifier: "FlowTimeouts" }) as any as S.Schema<FlowTimeouts>;
 export interface StatefulEngineOptions {
-  RuleOrder?: string;
-  StreamExceptionPolicy?: string;
+  RuleOrder?: RuleOrder;
+  StreamExceptionPolicy?: StreamExceptionPolicy;
   FlowTimeouts?: FlowTimeouts;
 }
 export const StatefulEngineOptions = S.suspend(() =>
   S.Struct({
-    RuleOrder: S.optional(S.String),
-    StreamExceptionPolicy: S.optional(S.String),
+    RuleOrder: S.optional(RuleOrder),
+    StreamExceptionPolicy: S.optional(StreamExceptionPolicy),
     FlowTimeouts: S.optional(FlowTimeouts),
   }),
 ).annotations({
@@ -1224,7 +1263,7 @@ export const StatefulEngineOptions = S.suspend(() =>
 export type VariableDefinitionList = string[];
 export const VariableDefinitionList = S.Array(S.String);
 export interface IPSet {
-  Definition: VariableDefinitionList;
+  Definition: string[];
 }
 export const IPSet = S.suspend(() =>
   S.Struct({ Definition: VariableDefinitionList }),
@@ -1232,7 +1271,7 @@ export const IPSet = S.suspend(() =>
 export type IPSets = { [key: string]: IPSet };
 export const IPSets = S.Record({ key: S.String, value: IPSet });
 export interface PolicyVariables {
-  RuleVariables?: IPSets;
+  RuleVariables?: { [key: string]: IPSet };
 }
 export const PolicyVariables = S.suspend(() =>
   S.Struct({ RuleVariables: S.optional(IPSets) }),
@@ -1240,12 +1279,12 @@ export const PolicyVariables = S.suspend(() =>
   identifier: "PolicyVariables",
 }) as any as S.Schema<PolicyVariables>;
 export interface FirewallPolicy {
-  StatelessRuleGroupReferences?: StatelessRuleGroupReferences;
-  StatelessDefaultActions: StatelessActions;
-  StatelessFragmentDefaultActions: StatelessActions;
-  StatelessCustomActions?: CustomActions;
-  StatefulRuleGroupReferences?: StatefulRuleGroupReferences;
-  StatefulDefaultActions?: StatefulActions;
+  StatelessRuleGroupReferences?: StatelessRuleGroupReference[];
+  StatelessDefaultActions: string[];
+  StatelessFragmentDefaultActions: string[];
+  StatelessCustomActions?: CustomAction[];
+  StatefulRuleGroupReferences?: StatefulRuleGroupReference[];
+  StatefulDefaultActions?: string[];
   StatefulEngineOptions?: StatefulEngineOptions;
   TLSInspectionConfigurationArn?: string;
   PolicyVariables?: PolicyVariables;
@@ -1309,25 +1348,29 @@ export const UpdateFirewallPolicyChangeProtectionRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateFirewallPolicyChangeProtectionRequest",
 }) as any as S.Schema<UpdateFirewallPolicyChangeProtectionRequest>;
+export type ListenerPropertyType = "HTTP" | "HTTPS";
+export const ListenerPropertyType = S.Literal("HTTP", "HTTPS");
 export interface ListenerPropertyRequest {
   Port: number;
-  Type: string;
+  Type: ListenerPropertyType;
 }
 export const ListenerPropertyRequest = S.suspend(() =>
-  S.Struct({ Port: S.Number, Type: S.String }),
+  S.Struct({ Port: S.Number, Type: ListenerPropertyType }),
 ).annotations({
   identifier: "ListenerPropertyRequest",
 }) as any as S.Schema<ListenerPropertyRequest>;
 export type ListenerPropertiesRequest = ListenerPropertyRequest[];
 export const ListenerPropertiesRequest = S.Array(ListenerPropertyRequest);
+export type TlsInterceptMode = "ENABLED" | "DISABLED";
+export const TlsInterceptMode = S.Literal("ENABLED", "DISABLED");
 export interface TlsInterceptPropertiesRequest {
   PcaArn?: string;
-  TlsInterceptMode?: string;
+  TlsInterceptMode?: TlsInterceptMode;
 }
 export const TlsInterceptPropertiesRequest = S.suspend(() =>
   S.Struct({
     PcaArn: S.optional(S.String),
-    TlsInterceptMode: S.optional(S.String),
+    TlsInterceptMode: S.optional(TlsInterceptMode),
   }),
 ).annotations({
   identifier: "TlsInterceptPropertiesRequest",
@@ -1336,8 +1379,8 @@ export interface UpdateProxyRequest {
   NatGatewayId: string;
   ProxyName?: string;
   ProxyArn?: string;
-  ListenerPropertiesToAdd?: ListenerPropertiesRequest;
-  ListenerPropertiesToRemove?: ListenerPropertiesRequest;
+  ListenerPropertiesToAdd?: ListenerPropertyRequest[];
+  ListenerPropertiesToRemove?: ListenerPropertyRequest[];
   TlsInterceptProperties?: TlsInterceptPropertiesRequest;
   UpdateToken: string;
 }
@@ -1357,15 +1400,15 @@ export const UpdateProxyRequest = S.suspend(() =>
   identifier: "UpdateProxyRequest",
 }) as any as S.Schema<UpdateProxyRequest>;
 export interface ProxyConfigDefaultRulePhaseActionsRequest {
-  PreDNS?: string;
-  PreREQUEST?: string;
-  PostRESPONSE?: string;
+  PreDNS?: ProxyRulePhaseAction;
+  PreREQUEST?: ProxyRulePhaseAction;
+  PostRESPONSE?: ProxyRulePhaseAction;
 }
 export const ProxyConfigDefaultRulePhaseActionsRequest = S.suspend(() =>
   S.Struct({
-    PreDNS: S.optional(S.String),
-    PreREQUEST: S.optional(S.String),
-    PostRESPONSE: S.optional(S.String),
+    PreDNS: S.optional(ProxyRulePhaseAction),
+    PreREQUEST: S.optional(ProxyRulePhaseAction),
+    PostRESPONSE: S.optional(ProxyRulePhaseAction),
   }),
 ).annotations({
   identifier: "ProxyConfigDefaultRulePhaseActionsRequest",
@@ -1389,7 +1432,7 @@ export const UpdateProxyConfigurationRequest = S.suspend(() =>
   identifier: "UpdateProxyConfigurationRequest",
 }) as any as S.Schema<UpdateProxyConfigurationRequest>;
 export interface PortSet {
-  Definition?: VariableDefinitionList;
+  Definition?: string[];
 }
 export const PortSet = S.suspend(() =>
   S.Struct({ Definition: S.optional(VariableDefinitionList) }),
@@ -1397,8 +1440,8 @@ export const PortSet = S.suspend(() =>
 export type PortSets = { [key: string]: PortSet };
 export const PortSets = S.Record({ key: S.String, value: PortSet });
 export interface RuleVariables {
-  IPSets?: IPSets;
-  PortSets?: PortSets;
+  IPSets?: { [key: string]: IPSet };
+  PortSets?: { [key: string]: PortSet };
 }
 export const RuleVariables = S.suspend(() =>
   S.Struct({ IPSets: S.optional(IPSets), PortSets: S.optional(PortSets) }),
@@ -1419,7 +1462,7 @@ export const IPSetReferenceMap = S.Record({
   value: IPSetReference,
 });
 export interface ReferenceSets {
-  IPSetReferences?: IPSetReferenceMap;
+  IPSetReferences?: { [key: string]: IPSetReference };
 }
 export const ReferenceSets = S.suspend(() =>
   S.Struct({ IPSetReferences: S.optional(IPSetReferenceMap) }),
@@ -1428,36 +1471,98 @@ export const ReferenceSets = S.suspend(() =>
 }) as any as S.Schema<ReferenceSets>;
 export type RuleTargets = string[];
 export const RuleTargets = S.Array(S.String);
-export type TargetTypes = string[];
-export const TargetTypes = S.Array(S.String);
+export type TargetType = "TLS_SNI" | "HTTP_HOST";
+export const TargetType = S.Literal("TLS_SNI", "HTTP_HOST");
+export type TargetTypes = TargetType[];
+export const TargetTypes = S.Array(TargetType);
+export type GeneratedRulesType =
+  | "ALLOWLIST"
+  | "DENYLIST"
+  | "REJECTLIST"
+  | "ALERTLIST";
+export const GeneratedRulesType = S.Literal(
+  "ALLOWLIST",
+  "DENYLIST",
+  "REJECTLIST",
+  "ALERTLIST",
+);
 export interface RulesSourceList {
-  Targets: RuleTargets;
-  TargetTypes: TargetTypes;
-  GeneratedRulesType: string;
+  Targets: string[];
+  TargetTypes: TargetType[];
+  GeneratedRulesType: GeneratedRulesType;
 }
 export const RulesSourceList = S.suspend(() =>
   S.Struct({
     Targets: RuleTargets,
     TargetTypes: TargetTypes,
-    GeneratedRulesType: S.String,
+    GeneratedRulesType: GeneratedRulesType,
   }),
 ).annotations({
   identifier: "RulesSourceList",
 }) as any as S.Schema<RulesSourceList>;
+export type StatefulAction = "PASS" | "DROP" | "ALERT" | "REJECT";
+export const StatefulAction = S.Literal("PASS", "DROP", "ALERT", "REJECT");
+export type StatefulRuleProtocol =
+  | "IP"
+  | "TCP"
+  | "UDP"
+  | "ICMP"
+  | "HTTP"
+  | "FTP"
+  | "TLS"
+  | "SMB"
+  | "DNS"
+  | "DCERPC"
+  | "SSH"
+  | "SMTP"
+  | "IMAP"
+  | "MSN"
+  | "KRB5"
+  | "IKEV2"
+  | "TFTP"
+  | "NTP"
+  | "DHCP"
+  | "HTTP2"
+  | "QUIC";
+export const StatefulRuleProtocol = S.Literal(
+  "IP",
+  "TCP",
+  "UDP",
+  "ICMP",
+  "HTTP",
+  "FTP",
+  "TLS",
+  "SMB",
+  "DNS",
+  "DCERPC",
+  "SSH",
+  "SMTP",
+  "IMAP",
+  "MSN",
+  "KRB5",
+  "IKEV2",
+  "TFTP",
+  "NTP",
+  "DHCP",
+  "HTTP2",
+  "QUIC",
+);
+export type StatefulRuleDirection = "FORWARD" | "ANY";
+export const StatefulRuleDirection = S.Literal("FORWARD", "ANY");
 export interface Header {
-  Protocol: string;
+  Protocol: StatefulRuleProtocol;
   Source: string;
   SourcePort: string;
-  Direction: string;
+  Direction: StatefulRuleDirection;
   Destination: string;
   DestinationPort: string;
 }
 export const Header = S.suspend(() =>
   S.Struct({
-    Protocol: S.String,
+    Protocol: StatefulRuleProtocol,
     Source: S.String,
     SourcePort: S.String,
-    Direction: S.String,
+    Direction: StatefulRuleDirection,
     Destination: S.String,
     DestinationPort: S.String,
   }),
@@ -1466,7 +1571,7 @@ export type Settings = string[];
 export const Settings = S.Array(S.String);
 export interface RuleOption {
   Keyword: string;
-  Settings?: Settings;
+  Settings?: string[];
 }
 export const RuleOption = S.suspend(() =>
   S.Struct({ Keyword: S.String, Settings: S.optional(Settings) }),
@@ -1474,12 +1579,16 @@ export const RuleOption = S.suspend(() =>
 export type RuleOptions = RuleOption[];
 export const RuleOptions = S.Array(RuleOption);
 export interface StatefulRule {
-  Action: string;
+  Action: StatefulAction;
   Header: Header;
-  RuleOptions: RuleOptions;
+  RuleOptions: RuleOption[];
 }
 export const StatefulRule = S.suspend(() =>
-  S.Struct({ Action: S.String, Header: Header, RuleOptions: RuleOptions }),
+  S.Struct({
+    Action: StatefulAction,
+    Header: Header,
+    RuleOptions: RuleOptions,
+  }),
 ).annotations({ identifier: "StatefulRule" }) as any as S.Schema<StatefulRule>;
 export type StatefulRules = StatefulRule[];
 export const StatefulRules = S.Array(StatefulRule);
@@ -1496,11 +1605,30 @@ export type PortRanges = PortRange[];
 export const PortRanges = S.Array(PortRange);
 export type ProtocolNumbers = number[];
 export const ProtocolNumbers = S.Array(S.Number);
-export type Flags = string[];
-export const Flags = S.Array(S.String);
+export type TCPFlag =
+  | "FIN"
+  | "SYN"
+  | "RST"
+  | "PSH"
+  | "ACK"
+  | "URG"
+  | "ECE"
+  | "CWR";
+export const TCPFlag = S.Literal(
+  "FIN",
+  "SYN",
+  "RST",
+  "PSH",
+  "ACK",
+  "URG",
+  "ECE",
+  "CWR",
+);
+export type Flags = TCPFlag[];
+export const Flags = S.Array(TCPFlag);
 export interface TCPFlagField {
-  Flags: Flags;
-  Masks?: Flags;
+  Flags: TCPFlag[];
+  Masks?: TCPFlag[];
 }
 export const TCPFlagField = S.suspend(() =>
   S.Struct({ Flags: Flags, Masks: S.optional(Flags) }),
@@ -1508,12 +1636,12 @@ export const TCPFlagField = S.suspend(() =>
 export type TCPFlags = TCPFlagField[];
 export const TCPFlags = S.Array(TCPFlagField);
 export interface MatchAttributes {
-  Sources?: Addresses;
-  Destinations?: Addresses;
-  SourcePorts?: PortRanges;
-  DestinationPorts?: PortRanges;
-  Protocols?: ProtocolNumbers;
-  TCPFlags?: TCPFlags;
+  Sources?: Address[];
+  Destinations?: Address[];
+  SourcePorts?: PortRange[];
+  DestinationPorts?: PortRange[];
+  Protocols?: number[];
+  TCPFlags?: TCPFlagField[];
 }
 export const MatchAttributes = S.suspend(() =>
   S.Struct({
@@ -1529,7 +1657,7 @@ export const MatchAttributes = S.suspend(() =>
 }) as any as S.Schema<MatchAttributes>;
 export interface RuleDefinition {
   MatchAttributes: MatchAttributes;
-  Actions: StatelessActions;
+  Actions: string[];
 }
 export const RuleDefinition = S.suspend(() =>
   S.Struct({ MatchAttributes: MatchAttributes, Actions: StatelessActions }),
@@ -1548,8 +1676,8 @@ export const StatelessRule = S.suspend(() =>
 export type StatelessRules = StatelessRule[];
 export const StatelessRules = S.Array(StatelessRule);
 export interface StatelessRulesAndCustomActions {
-  StatelessRules: StatelessRules;
-  CustomActions?: CustomActions;
+  StatelessRules: StatelessRule[];
+  CustomActions?: CustomAction[];
 }
 export const StatelessRulesAndCustomActions = S.suspend(() =>
   S.Struct({
@@ -1562,7 +1690,7 @@ export const StatelessRulesAndCustomActions = S.suspend(() =>
 export interface RulesSource {
   RulesString?: string;
   RulesSourceList?: RulesSourceList;
-  StatefulRules?: StatefulRules;
+  StatefulRules?: StatefulRule[];
   StatelessRulesAndCustomActions?: StatelessRulesAndCustomActions;
 }
 export const RulesSource = S.suspend(() =>
@@ -1574,10 +1702,10 @@ export const RulesSource = S.suspend(() =>
   }),
 ).annotations({ identifier: "RulesSource" }) as any as S.Schema<RulesSource>;
 export interface StatefulRuleOptions {
-  RuleOrder?: string;
+  RuleOrder?: RuleOrder;
 }
 export const StatefulRuleOptions = S.suspend(() =>
-  S.Struct({ RuleOrder: S.optional(S.String) }),
+  S.Struct({ RuleOrder: S.optional(RuleOrder) }),
 ).annotations({
   identifier: "StatefulRuleOptions",
 }) as any as S.Schema<StatefulRuleOptions>;
@@ -1607,10 +1735,12 @@ export const SourceMetadata = S.suspend(() =>
 ).annotations({
   identifier: "SourceMetadata",
 }) as any as S.Schema<SourceMetadata>;
-export type SummaryRuleOptions = string[];
-export const SummaryRuleOptions = S.Array(S.String);
+export type SummaryRuleOption = "SID" | "MSG" | "METADATA";
+export const SummaryRuleOption = S.Literal("SID", "MSG", "METADATA");
+export type SummaryRuleOptions = SummaryRuleOption[];
+export const SummaryRuleOptions = S.Array(SummaryRuleOption);
 export interface SummaryConfiguration {
-  RuleOptions?: SummaryRuleOptions;
+  RuleOptions?: SummaryRuleOption[];
 }
 export const SummaryConfiguration = S.suspend(() =>
   S.Struct({ RuleOptions: S.optional(SummaryRuleOptions) }),
@@ -1623,7 +1753,7 @@ export interface UpdateRuleGroupRequest {
   RuleGroupName?: string;
   RuleGroup?: RuleGroup;
   Rules?: string;
-  Type?: string;
+  Type?: RuleGroupType;
   Description?: string;
   DryRun?: boolean;
   EncryptionConfiguration?: EncryptionConfiguration;
@@ -1638,7 +1768,7 @@ export const UpdateRuleGroupRequest = S.suspend(() =>
     RuleGroupName: S.optional(S.String),
     RuleGroup: S.optional(RuleGroup),
     Rules: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(RuleGroupType),
     Description: S.optional(S.String),
     DryRun: S.optional(S.Boolean),
     EncryptionConfiguration: S.optional(EncryptionConfiguration),
@@ -1680,11 +1810,11 @@ export const ServerCertificate = S.suspend(() =>
 export type ServerCertificates = ServerCertificate[];
 export const ServerCertificates = S.Array(ServerCertificate);
 export interface ServerCertificateScope {
-  Sources?: Addresses;
-  Destinations?: Addresses;
-  SourcePorts?: PortRanges;
-  DestinationPorts?: PortRanges;
-  Protocols?: ProtocolNumbers;
+  Sources?: Address[];
+  Destinations?: Address[];
+  SourcePorts?: PortRange[];
+  DestinationPorts?: PortRange[];
+  Protocols?: number[];
 }
 export const ServerCertificateScope = S.suspend(() =>
   S.Struct({
@@ -1699,21 +1829,23 @@ export const ServerCertificateScope = S.suspend(() =>
 }) as any as S.Schema<ServerCertificateScope>;
 export type ServerCertificateScopes = ServerCertificateScope[];
 export const ServerCertificateScopes = S.Array(ServerCertificateScope);
+export type RevocationCheckAction = "PASS" | "DROP" | "REJECT";
+export const RevocationCheckAction = S.Literal("PASS", "DROP", "REJECT");
 export interface CheckCertificateRevocationStatusActions {
-  RevokedStatusAction?: string;
-  UnknownStatusAction?: string;
+  RevokedStatusAction?: RevocationCheckAction;
+  UnknownStatusAction?: RevocationCheckAction;
 }
 export const CheckCertificateRevocationStatusActions = S.suspend(() =>
   S.Struct({
-    RevokedStatusAction: S.optional(S.String),
-    UnknownStatusAction: S.optional(S.String),
+    RevokedStatusAction: S.optional(RevocationCheckAction),
+    UnknownStatusAction: S.optional(RevocationCheckAction),
   }),
 ).annotations({
   identifier: "CheckCertificateRevocationStatusActions",
 }) as any as S.Schema<CheckCertificateRevocationStatusActions>;
 export interface ServerCertificateConfiguration {
-  ServerCertificates?: ServerCertificates;
-  Scopes?: ServerCertificateScopes;
+  ServerCertificates?: ServerCertificate[];
+  Scopes?: ServerCertificateScope[];
   CertificateAuthorityArn?: string;
   CheckCertificateRevocationStatus?: CheckCertificateRevocationStatusActions;
 }
@@ -1734,7 +1866,7 @@ export const ServerCertificateConfigurations = S.Array(
   ServerCertificateConfiguration,
 );
 export interface TLSInspectionConfiguration {
-  ServerCertificateConfigurations?: ServerCertificateConfigurations;
+  ServerCertificateConfigurations?: ServerCertificateConfiguration[];
 }
 export const TLSInspectionConfiguration = S.suspend(() =>
   S.Struct({
@@ -1769,6 +1901,27 @@ export const UpdateTLSInspectionConfigurationRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateTLSInspectionConfigurationRequest>;
 export type ProxyConditionValueList = string[];
 export const ProxyConditionValueList = S.Array(S.String);
+export type TransitGatewayAttachmentStatus =
+  | "CREATING"
+  | "DELETING"
+  | "DELETED"
+  | "FAILED"
+  | "ERROR"
+  | "READY"
+  | "PENDING_ACCEPTANCE"
+  | "REJECTING"
+  | "REJECTED";
+export const TransitGatewayAttachmentStatus = S.Literal(
+  "CREATING",
+  "DELETING",
+  "DELETED",
+  "FAILED",
+  "ERROR",
+  "READY",
+  "PENDING_ACCEPTANCE",
+  "REJECTING",
+  "REJECTED",
+);
 export type SubnetMappings = SubnetMapping[];
 export const SubnetMappings = S.Array(SubnetMapping);
 export interface ProxyRuleGroupAttachment {
@@ -1785,10 +1938,27 @@ export const ProxyRuleGroupAttachment = S.suspend(() =>
 }) as any as S.Schema<ProxyRuleGroupAttachment>;
 export type ProxyRuleGroupAttachmentList = ProxyRuleGroupAttachment[];
 export const ProxyRuleGroupAttachmentList = S.Array(ProxyRuleGroupAttachment);
+export type FirewallStatusValue = "PROVISIONING" | "DELETING" | "READY";
+export const FirewallStatusValue = S.Literal(
+  "PROVISIONING",
+  "DELETING",
+  "READY",
+);
+export type FlowOperationStatus =
+  | "COMPLETED"
+  | "IN_PROGRESS"
+  | "FAILED"
+  | "COMPLETED_WITH_ERRORS";
+export const FlowOperationStatus = S.Literal(
+  "COMPLETED",
+  "IN_PROGRESS",
+  "FAILED",
+  "COMPLETED_WITH_ERRORS",
+);
 export interface ProxyRuleCondition {
   ConditionOperator?: string;
   ConditionKey?: string;
-  ConditionValues?: ProxyConditionValueList;
+  ConditionValues?: string[];
 }
 export const ProxyRuleCondition = S.suspend(() =>
   S.Struct({
@@ -1829,15 +1999,26 @@ export const ProxyRulePriority = S.suspend(() =>
 }) as any as S.Schema<ProxyRulePriority>;
 export type ProxyRulePriorityList = ProxyRulePriority[];
 export const ProxyRulePriorityList = S.Array(ProxyRulePriority);
+export type LogType = "ALERT" | "FLOW" | "TLS";
+export const LogType = S.Literal("ALERT", "FLOW", "TLS");
+export type LogDestinationType =
+  | "S3"
+  | "CloudWatchLogs"
+  | "KinesisDataFirehose";
+export const LogDestinationType = S.Literal(
+  "S3",
+  "CloudWatchLogs",
+  "KinesisDataFirehose",
+);
 export interface AcceptNetworkFirewallTransitGatewayAttachmentResponse {
   TransitGatewayAttachmentId: string;
-  TransitGatewayAttachmentStatus: string;
+  TransitGatewayAttachmentStatus: TransitGatewayAttachmentStatus;
 }
 export const AcceptNetworkFirewallTransitGatewayAttachmentResponse = S.suspend(
   () =>
     S.Struct({
       TransitGatewayAttachmentId: S.String,
-      TransitGatewayAttachmentStatus: S.String,
+      TransitGatewayAttachmentStatus: TransitGatewayAttachmentStatus,
     }),
 ).annotations({
   identifier: "AcceptNetworkFirewallTransitGatewayAttachmentResponse",
@@ -1846,7 +2027,7 @@ export interface AssociateAvailabilityZonesRequest {
   UpdateToken?: string;
   FirewallArn?: string;
   FirewallName?: string;
-  AvailabilityZoneMappings: AvailabilityZoneMappings;
+  AvailabilityZoneMappings: AvailabilityZoneMapping[];
 }
 export const AssociateAvailabilityZonesRequest = S.suspend(() =>
   S.Struct({
@@ -1880,7 +2061,7 @@ export interface AssociateSubnetsRequest {
   UpdateToken?: string;
   FirewallArn?: string;
   FirewallName?: string;
-  SubnetMappings: SubnetMappings;
+  SubnetMappings: SubnetMapping[];
 }
 export const AssociateSubnetsRequest = S.suspend(() =>
   S.Struct({
@@ -1897,7 +2078,7 @@ export const AssociateSubnetsRequest = S.suspend(() =>
 export interface AttachRuleGroupsToProxyConfigurationRequest {
   ProxyConfigurationName?: string;
   ProxyConfigurationArn?: string;
-  RuleGroups: ProxyRuleGroupAttachmentList;
+  RuleGroups: ProxyRuleGroupAttachment[];
   UpdateToken: string;
 }
 export const AttachRuleGroupsToProxyConfigurationRequest = S.suspend(() =>
@@ -1916,16 +2097,16 @@ export interface CreateFirewallRequest {
   FirewallName: string;
   FirewallPolicyArn: string;
   VpcId?: string;
-  SubnetMappings?: SubnetMappings;
+  SubnetMappings?: SubnetMapping[];
   DeleteProtection?: boolean;
   SubnetChangeProtection?: boolean;
   FirewallPolicyChangeProtection?: boolean;
   Description?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   EncryptionConfiguration?: EncryptionConfiguration;
-  EnabledAnalysisTypes?: EnabledAnalysisTypes;
+  EnabledAnalysisTypes?: EnabledAnalysisType[];
   TransitGatewayId?: string;
-  AvailabilityZoneMappings?: AvailabilityZoneMappings;
+  AvailabilityZoneMappings?: AvailabilityZoneMapping[];
   AvailabilityZoneChangeProtection?: boolean;
 }
 export const CreateFirewallRequest = S.suspend(() =>
@@ -1955,9 +2136,9 @@ export interface CreateProxyRequest {
   NatGatewayId: string;
   ProxyConfigurationName?: string;
   ProxyConfigurationArn?: string;
-  ListenerProperties?: ListenerPropertiesRequest;
+  ListenerProperties?: ListenerPropertyRequest[];
   TlsInterceptProperties: TlsInterceptPropertiesRequest;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateProxyRequest = S.suspend(() =>
   S.Struct({
@@ -1977,10 +2158,10 @@ export const CreateProxyRequest = S.suspend(() =>
 export interface CreateProxyConfigurationRequest {
   ProxyConfigurationName: string;
   Description?: string;
-  RuleGroupNames?: ResourceNameList;
-  RuleGroupArns?: ResourceArnList;
+  RuleGroupNames?: string[];
+  RuleGroupArns?: string[];
   DefaultRulePhaseActions: ProxyConfigDefaultRulePhaseActionsRequest;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateProxyConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -1998,13 +2179,13 @@ export const CreateProxyConfigurationRequest = S.suspend(() =>
 }) as any as S.Schema<CreateProxyConfigurationRequest>;
 export interface DeleteNetworkFirewallTransitGatewayAttachmentResponse {
   TransitGatewayAttachmentId: string;
-  TransitGatewayAttachmentStatus: string;
+  TransitGatewayAttachmentStatus: TransitGatewayAttachmentStatus;
 }
 export const DeleteNetworkFirewallTransitGatewayAttachmentResponse = S.suspend(
   () =>
     S.Struct({
       TransitGatewayAttachmentId: S.String,
-      TransitGatewayAttachmentStatus: S.String,
+      TransitGatewayAttachmentStatus: TransitGatewayAttachmentStatus,
     }),
 ).annotations({
   identifier: "DeleteNetworkFirewallTransitGatewayAttachmentResponse",
@@ -2054,7 +2235,7 @@ export interface VpcEndpointAssociation {
   VpcId: string;
   SubnetMapping: SubnetMapping;
   Description?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const VpcEndpointAssociation = S.suspend(() =>
   S.Struct({
@@ -2069,17 +2250,32 @@ export const VpcEndpointAssociation = S.suspend(() =>
 ).annotations({
   identifier: "VpcEndpointAssociation",
 }) as any as S.Schema<VpcEndpointAssociation>;
+export type AttachmentStatus =
+  | "CREATING"
+  | "DELETING"
+  | "FAILED"
+  | "ERROR"
+  | "SCALING"
+  | "READY";
+export const AttachmentStatus = S.Literal(
+  "CREATING",
+  "DELETING",
+  "FAILED",
+  "ERROR",
+  "SCALING",
+  "READY",
+);
 export interface Attachment {
   SubnetId?: string;
   EndpointId?: string;
-  Status?: string;
+  Status?: AttachmentStatus;
   StatusMessage?: string;
 }
 export const Attachment = S.suspend(() =>
   S.Struct({
     SubnetId: S.optional(S.String),
     EndpointId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(AttachmentStatus),
     StatusMessage: S.optional(S.String),
   }),
 ).annotations({ identifier: "Attachment" }) as any as S.Schema<Attachment>;
@@ -2095,12 +2291,12 @@ export const AssociationSyncState = S.Record({
   value: AZSyncState,
 });
 export interface VpcEndpointAssociationStatus {
-  Status: string;
-  AssociationSyncState?: AssociationSyncState;
+  Status: FirewallStatusValue;
+  AssociationSyncState?: { [key: string]: AZSyncState };
 }
 export const VpcEndpointAssociationStatus = S.suspend(() =>
   S.Struct({
-    Status: S.String,
+    Status: FirewallStatusValue,
     AssociationSyncState: S.optional(AssociationSyncState),
   }),
 ).annotations({
@@ -2123,19 +2319,19 @@ export interface Firewall {
   FirewallArn?: string;
   FirewallPolicyArn: string;
   VpcId: string;
-  SubnetMappings: SubnetMappings;
+  SubnetMappings: SubnetMapping[];
   DeleteProtection?: boolean;
   SubnetChangeProtection?: boolean;
   FirewallPolicyChangeProtection?: boolean;
   Description?: string;
   FirewallId: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   EncryptionConfiguration?: EncryptionConfiguration;
   NumberOfAssociations?: number;
-  EnabledAnalysisTypes?: EnabledAnalysisTypes;
+  EnabledAnalysisTypes?: EnabledAnalysisType[];
   TransitGatewayId?: string;
   TransitGatewayOwnerAccountId?: string;
-  AvailabilityZoneMappings?: AvailabilityZoneMappings;
+  AvailabilityZoneMappings?: AvailabilityZoneMapping[];
   AvailabilityZoneChangeProtection?: boolean;
 }
 export const Firewall = S.suspend(() =>
@@ -2160,13 +2356,35 @@ export const Firewall = S.suspend(() =>
     AvailabilityZoneChangeProtection: S.optional(S.Boolean),
   }),
 ).annotations({ identifier: "Firewall" }) as any as S.Schema<Firewall>;
+export type ConfigurationSyncState =
+  | "PENDING"
+  | "IN_SYNC"
+  | "CAPACITY_CONSTRAINED";
+export const ConfigurationSyncState = S.Literal(
+  "PENDING",
+  "IN_SYNC",
+  "CAPACITY_CONSTRAINED",
+);
+export type PerObjectSyncStatus =
+  | "PENDING"
+  | "IN_SYNC"
+  | "CAPACITY_CONSTRAINED"
+  | "NOT_SUBSCRIBED"
+  | "DEPRECATED";
+export const PerObjectSyncStatus = S.Literal(
+  "PENDING",
+  "IN_SYNC",
+  "CAPACITY_CONSTRAINED",
+  "NOT_SUBSCRIBED",
+  "DEPRECATED",
+);
 export interface PerObjectStatus {
-  SyncStatus?: string;
+  SyncStatus?: PerObjectSyncStatus;
   UpdateToken?: string;
 }
 export const PerObjectStatus = S.suspend(() =>
   S.Struct({
-    SyncStatus: S.optional(S.String),
+    SyncStatus: S.optional(PerObjectSyncStatus),
     UpdateToken: S.optional(S.String),
   }),
 ).annotations({
@@ -2179,7 +2397,7 @@ export const SyncStateConfig = S.Record({
 });
 export interface SyncState {
   Attachment?: Attachment;
-  Config?: SyncStateConfig;
+  Config?: { [key: string]: PerObjectStatus };
 }
 export const SyncState = S.suspend(() =>
   S.Struct({
@@ -2205,7 +2423,7 @@ export const IPSetMetadataMap = S.Record({
 export interface CIDRSummary {
   AvailableCIDRCount?: number;
   UtilizedCIDRCount?: number;
-  IPSetReferences?: IPSetMetadataMap;
+  IPSetReferences?: { [key: string]: IPSetMetadata };
 }
 export const CIDRSummary = S.suspend(() =>
   S.Struct({
@@ -2224,29 +2442,29 @@ export const CapacityUsageSummary = S.suspend(() =>
 }) as any as S.Schema<CapacityUsageSummary>;
 export interface TransitGatewayAttachmentSyncState {
   AttachmentId?: string;
-  TransitGatewayAttachmentStatus?: string;
+  TransitGatewayAttachmentStatus?: TransitGatewayAttachmentStatus;
   StatusMessage?: string;
 }
 export const TransitGatewayAttachmentSyncState = S.suspend(() =>
   S.Struct({
     AttachmentId: S.optional(S.String),
-    TransitGatewayAttachmentStatus: S.optional(S.String),
+    TransitGatewayAttachmentStatus: S.optional(TransitGatewayAttachmentStatus),
     StatusMessage: S.optional(S.String),
   }),
 ).annotations({
   identifier: "TransitGatewayAttachmentSyncState",
 }) as any as S.Schema<TransitGatewayAttachmentSyncState>;
 export interface FirewallStatus {
-  Status: string;
-  ConfigurationSyncStateSummary: string;
-  SyncStates?: SyncStates;
+  Status: FirewallStatusValue;
+  ConfigurationSyncStateSummary: ConfigurationSyncState;
+  SyncStates?: { [key: string]: SyncState };
   CapacityUsageSummary?: CapacityUsageSummary;
   TransitGatewayAttachmentSyncState?: TransitGatewayAttachmentSyncState;
 }
 export const FirewallStatus = S.suspend(() =>
   S.Struct({
-    Status: S.String,
-    ConfigurationSyncStateSummary: S.String,
+    Status: FirewallStatusValue,
+    ConfigurationSyncStateSummary: ConfigurationSyncState,
     SyncStates: S.optional(SyncStates),
     CapacityUsageSummary: S.optional(CapacityUsageSummary),
     TransitGatewayAttachmentSyncState: S.optional(
@@ -2270,13 +2488,15 @@ export const DescribeFirewallResponse = S.suspend(() =>
 ).annotations({
   identifier: "DescribeFirewallResponse",
 }) as any as S.Schema<DescribeFirewallResponse>;
+export type ResourceStatus = "ACTIVE" | "DELETING" | "ERROR";
+export const ResourceStatus = S.Literal("ACTIVE", "DELETING", "ERROR");
 export interface FirewallPolicyResponse {
   FirewallPolicyName: string;
   FirewallPolicyArn: string;
   FirewallPolicyId: string;
   Description?: string;
-  FirewallPolicyStatus?: string;
-  Tags?: TagList;
+  FirewallPolicyStatus?: ResourceStatus;
+  Tags?: Tag[];
   ConsumedStatelessRuleCapacity?: number;
   ConsumedStatefulRuleCapacity?: number;
   NumberOfAssociations?: number;
@@ -2289,7 +2509,7 @@ export const FirewallPolicyResponse = S.suspend(() =>
     FirewallPolicyArn: S.String,
     FirewallPolicyId: S.String,
     Description: S.optional(S.String),
-    FirewallPolicyStatus: S.optional(S.String),
+    FirewallPolicyStatus: S.optional(ResourceStatus),
     Tags: S.optional(TagList),
     ConsumedStatelessRuleCapacity: S.optional(S.Number),
     ConsumedStatefulRuleCapacity: S.optional(S.Number),
@@ -2319,14 +2539,14 @@ export const DescribeFirewallPolicyResponse = S.suspend(() =>
 export type LogDestinationMap = { [key: string]: string };
 export const LogDestinationMap = S.Record({ key: S.String, value: S.String });
 export interface LogDestinationConfig {
-  LogType: string;
-  LogDestinationType: string;
-  LogDestination: LogDestinationMap;
+  LogType: LogType;
+  LogDestinationType: LogDestinationType;
+  LogDestination: { [key: string]: string };
 }
 export const LogDestinationConfig = S.suspend(() =>
   S.Struct({
-    LogType: S.String,
-    LogDestinationType: S.String,
+    LogType: LogType,
+    LogDestinationType: LogDestinationType,
     LogDestination: LogDestinationMap,
   }),
 ).annotations({
@@ -2335,7 +2555,7 @@ export const LogDestinationConfig = S.suspend(() =>
 export type LogDestinationConfigs = LogDestinationConfig[];
 export const LogDestinationConfigs = S.Array(LogDestinationConfig);
 export interface LoggingConfiguration {
-  LogDestinationConfigs: LogDestinationConfigs;
+  LogDestinationConfigs: LogDestinationConfig[];
 }
 export const LoggingConfiguration = S.suspend(() =>
   S.Struct({ LogDestinationConfigs: LogDestinationConfigs }),
@@ -2359,14 +2579,14 @@ export const DescribeLoggingConfigurationResponse = S.suspend(() =>
 export interface ProxyRule {
   ProxyRuleName?: string;
   Description?: string;
-  Action?: string;
-  Conditions?: ProxyRuleConditionList;
+  Action?: ProxyRulePhaseAction;
+  Conditions?: ProxyRuleCondition[];
 }
 export const ProxyRule = S.suspend(() =>
   S.Struct({
     ProxyRuleName: S.optional(S.String),
     Description: S.optional(S.String),
-    Action: S.optional(S.String),
+    Action: S.optional(ProxyRulePhaseAction),
     Conditions: S.optional(ProxyRuleConditionList),
   }),
 ).annotations({ identifier: "ProxyRule" }) as any as S.Schema<ProxyRule>;
@@ -2385,9 +2605,9 @@ export const DescribeProxyRuleResponse = S.suspend(() =>
 export type ProxyRuleList = ProxyRule[];
 export const ProxyRuleList = S.Array(ProxyRule);
 export interface ProxyRulesByRequestPhase {
-  PreDNS?: ProxyRuleList;
-  PreREQUEST?: ProxyRuleList;
-  PostRESPONSE?: ProxyRuleList;
+  PreDNS?: ProxyRule[];
+  PreREQUEST?: ProxyRule[];
+  PostRESPONSE?: ProxyRule[];
 }
 export const ProxyRulesByRequestPhase = S.suspend(() =>
   S.Struct({
@@ -2405,7 +2625,7 @@ export interface ProxyRuleGroup {
   DeleteTime?: Date;
   Rules?: ProxyRulesByRequestPhase;
   Description?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ProxyRuleGroup = S.suspend(() =>
   S.Struct({
@@ -2442,15 +2662,22 @@ export const DescribeResourcePolicyResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeResourcePolicyResponse>;
 export type RuleIdList = string[];
 export const RuleIdList = S.Array(S.String);
+export type IdentifiedType =
+  | "STATELESS_RULE_FORWARDING_ASYMMETRICALLY"
+  | "STATELESS_RULE_CONTAINS_TCP_FLAGS";
+export const IdentifiedType = S.Literal(
+  "STATELESS_RULE_FORWARDING_ASYMMETRICALLY",
+  "STATELESS_RULE_CONTAINS_TCP_FLAGS",
+);
 export interface AnalysisResult {
-  IdentifiedRuleIds?: RuleIdList;
-  IdentifiedType?: string;
+  IdentifiedRuleIds?: string[];
+  IdentifiedType?: IdentifiedType;
   AnalysisDetail?: string;
 }
 export const AnalysisResult = S.suspend(() =>
   S.Struct({
     IdentifiedRuleIds: S.optional(RuleIdList),
-    IdentifiedType: S.optional(S.String),
+    IdentifiedType: S.optional(IdentifiedType),
     AnalysisDetail: S.optional(S.String),
   }),
 ).annotations({
@@ -2463,17 +2690,17 @@ export interface RuleGroupResponse {
   RuleGroupName: string;
   RuleGroupId: string;
   Description?: string;
-  Type?: string;
+  Type?: RuleGroupType;
   Capacity?: number;
-  RuleGroupStatus?: string;
-  Tags?: TagList;
+  RuleGroupStatus?: ResourceStatus;
+  Tags?: Tag[];
   ConsumedCapacity?: number;
   NumberOfAssociations?: number;
   EncryptionConfiguration?: EncryptionConfiguration;
   SourceMetadata?: SourceMetadata;
   SnsTopic?: string;
   LastModifiedTime?: Date;
-  AnalysisResults?: AnalysisResultList;
+  AnalysisResults?: AnalysisResult[];
   SummaryConfiguration?: SummaryConfiguration;
 }
 export const RuleGroupResponse = S.suspend(() =>
@@ -2482,9 +2709,9 @@ export const RuleGroupResponse = S.suspend(() =>
     RuleGroupName: S.String,
     RuleGroupId: S.String,
     Description: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(RuleGroupType),
     Capacity: S.optional(S.Number),
-    RuleGroupStatus: S.optional(S.String),
+    RuleGroupStatus: S.optional(ResourceStatus),
     Tags: S.optional(TagList),
     ConsumedCapacity: S.optional(S.Number),
     NumberOfAssociations: S.optional(S.Number),
@@ -2518,7 +2745,7 @@ export interface DescribeRuleGroupMetadataResponse {
   RuleGroupArn: string;
   RuleGroupName: string;
   Description?: string;
-  Type?: string;
+  Type?: RuleGroupType;
   Capacity?: number;
   StatefulRuleOptions?: StatefulRuleOptions;
   LastModifiedTime?: Date;
@@ -2531,7 +2758,7 @@ export const DescribeRuleGroupMetadataResponse = S.suspend(() =>
     RuleGroupArn: S.String,
     RuleGroupName: S.String,
     Description: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(RuleGroupType),
     Capacity: S.optional(S.Number),
     StatefulRuleOptions: S.optional(StatefulRuleOptions),
     LastModifiedTime: S.optional(
@@ -2566,13 +2793,13 @@ export interface TLSInspectionConfigurationResponse {
   TLSInspectionConfigurationArn: string;
   TLSInspectionConfigurationName: string;
   TLSInspectionConfigurationId: string;
-  TLSInspectionConfigurationStatus?: string;
+  TLSInspectionConfigurationStatus?: ResourceStatus;
   Description?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   LastModifiedTime?: Date;
   NumberOfAssociations?: number;
   EncryptionConfiguration?: EncryptionConfiguration;
-  Certificates?: Certificates;
+  Certificates?: TlsCertificateData[];
   CertificateAuthority?: TlsCertificateData;
 }
 export const TLSInspectionConfigurationResponse = S.suspend(() =>
@@ -2580,7 +2807,7 @@ export const TLSInspectionConfigurationResponse = S.suspend(() =>
     TLSInspectionConfigurationArn: S.String,
     TLSInspectionConfigurationName: S.String,
     TLSInspectionConfigurationId: S.String,
-    TLSInspectionConfigurationStatus: S.optional(S.String),
+    TLSInspectionConfigurationStatus: S.optional(ResourceStatus),
     Description: S.optional(S.String),
     Tags: S.optional(TagList),
     LastModifiedTime: S.optional(
@@ -2644,9 +2871,9 @@ export interface ProxyConfiguration {
   Description?: string;
   CreateTime?: Date;
   DeleteTime?: Date;
-  RuleGroups?: ProxyConfigRuleGroupSet;
+  RuleGroups?: ProxyConfigRuleGroup[];
   DefaultRulePhaseActions?: ProxyConfigDefaultRulePhaseActionsRequest;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ProxyConfiguration = S.suspend(() =>
   S.Struct({
@@ -2679,7 +2906,7 @@ export const DetachRuleGroupsFromProxyConfigurationResponse = S.suspend(() =>
 export interface DisassociateAvailabilityZonesResponse {
   FirewallArn?: string;
   FirewallName?: string;
-  AvailabilityZoneMappings?: AvailabilityZoneMappings;
+  AvailabilityZoneMappings?: AvailabilityZoneMapping[];
   UpdateToken?: string;
 }
 export const DisassociateAvailabilityZonesResponse = S.suspend(() =>
@@ -2695,7 +2922,7 @@ export const DisassociateAvailabilityZonesResponse = S.suspend(() =>
 export interface DisassociateSubnetsResponse {
   FirewallArn?: string;
   FirewallName?: string;
-  SubnetMappings?: SubnetMappings;
+  SubnetMappings?: SubnetMapping[];
   UpdateToken?: string;
 }
 export const DisassociateSubnetsResponse = S.suspend(() =>
@@ -2710,7 +2937,7 @@ export const DisassociateSubnetsResponse = S.suspend(() =>
 }) as any as S.Schema<DisassociateSubnetsResponse>;
 export interface ListTagsForResourceResponse {
   NextToken?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), Tags: S.optional(TagList) }),
@@ -2719,13 +2946,13 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface RejectNetworkFirewallTransitGatewayAttachmentResponse {
   TransitGatewayAttachmentId: string;
-  TransitGatewayAttachmentStatus: string;
+  TransitGatewayAttachmentStatus: TransitGatewayAttachmentStatus;
 }
 export const RejectNetworkFirewallTransitGatewayAttachmentResponse = S.suspend(
   () =>
     S.Struct({
       TransitGatewayAttachmentId: S.String,
-      TransitGatewayAttachmentStatus: S.String,
+      TransitGatewayAttachmentStatus: TransitGatewayAttachmentStatus,
     }),
 ).annotations({
   identifier: "RejectNetworkFirewallTransitGatewayAttachmentResponse",
@@ -2741,13 +2968,13 @@ export const StartAnalysisReportResponse = S.suspend(() =>
 export interface StartFlowFlushResponse {
   FirewallArn?: string;
   FlowOperationId?: string;
-  FlowOperationStatus?: string;
+  FlowOperationStatus?: FlowOperationStatus;
 }
 export const StartFlowFlushResponse = S.suspend(() =>
   S.Struct({
     FirewallArn: S.optional(S.String),
     FlowOperationId: S.optional(S.String),
-    FlowOperationStatus: S.optional(S.String),
+    FlowOperationStatus: S.optional(FlowOperationStatus),
   }),
 ).annotations({
   identifier: "StartFlowFlushResponse",
@@ -2769,7 +2996,7 @@ export const UpdateAvailabilityZoneChangeProtectionResponse = S.suspend(() =>
   identifier: "UpdateAvailabilityZoneChangeProtectionResponse",
 }) as any as S.Schema<UpdateAvailabilityZoneChangeProtectionResponse>;
 export interface UpdateFirewallAnalysisSettingsResponse {
-  EnabledAnalysisTypes?: EnabledAnalysisTypes;
+  EnabledAnalysisTypes?: EnabledAnalysisType[];
   FirewallArn?: string;
   FirewallName?: string;
   UpdateToken?: string;
@@ -2877,9 +3104,9 @@ export interface UpdateProxyRuleRequest {
   ProxyRuleGroupArn?: string;
   ProxyRuleName: string;
   Description?: string;
-  Action?: string;
-  AddConditions?: ProxyRuleConditionList;
-  RemoveConditions?: ProxyRuleConditionList;
+  Action?: ProxyRulePhaseAction;
+  AddConditions?: ProxyRuleCondition[];
+  RemoveConditions?: ProxyRuleCondition[];
   UpdateToken: string;
 }
 export const UpdateProxyRuleRequest = S.suspend(() =>
@@ -2888,7 +3115,7 @@ export const UpdateProxyRuleRequest = S.suspend(() =>
     ProxyRuleGroupArn: S.optional(S.String),
     ProxyRuleName: S.String,
     Description: S.optional(S.String),
-    Action: S.optional(S.String),
+    Action: S.optional(ProxyRulePhaseAction),
     AddConditions: S.optional(ProxyRuleConditionList),
     RemoveConditions: S.optional(ProxyRuleConditionList),
     UpdateToken: S.String,
@@ -2901,7 +3128,7 @@ export const UpdateProxyRuleRequest = S.suspend(() =>
 export interface UpdateProxyRuleGroupPrioritiesRequest {
   ProxyConfigurationName?: string;
   ProxyConfigurationArn?: string;
-  RuleGroups: ProxyRuleGroupPriorityList;
+  RuleGroups: ProxyRuleGroupPriority[];
   UpdateToken: string;
 }
 export const UpdateProxyRuleGroupPrioritiesRequest = S.suspend(() =>
@@ -2919,15 +3146,15 @@ export const UpdateProxyRuleGroupPrioritiesRequest = S.suspend(() =>
 export interface UpdateProxyRulePrioritiesRequest {
   ProxyRuleGroupName?: string;
   ProxyRuleGroupArn?: string;
-  RuleGroupRequestPhase: string;
-  Rules: ProxyRulePriorityList;
+  RuleGroupRequestPhase: RuleGroupRequestPhase;
+  Rules: ProxyRulePriority[];
   UpdateToken: string;
 }
 export const UpdateProxyRulePrioritiesRequest = S.suspend(() =>
   S.Struct({
     ProxyRuleGroupName: S.optional(S.String),
     ProxyRuleGroupArn: S.optional(S.String),
-    RuleGroupRequestPhase: S.String,
+    RuleGroupRequestPhase: RuleGroupRequestPhase,
     Rules: ProxyRulePriorityList,
     UpdateToken: S.String,
   }).pipe(
@@ -2976,15 +3203,15 @@ export const UpdateTLSInspectionConfigurationResponse = S.suspend(() =>
 export interface CreateProxyRule {
   ProxyRuleName?: string;
   Description?: string;
-  Action?: string;
-  Conditions?: ProxyRuleConditionList;
+  Action?: ProxyRulePhaseAction;
+  Conditions?: ProxyRuleCondition[];
   InsertPosition?: number;
 }
 export const CreateProxyRule = S.suspend(() =>
   S.Struct({
     ProxyRuleName: S.optional(S.String),
     Description: S.optional(S.String),
-    Action: S.optional(S.String),
+    Action: S.optional(ProxyRulePhaseAction),
     Conditions: S.optional(ProxyRuleConditionList),
     InsertPosition: S.optional(S.Number),
   }),
@@ -2993,10 +3220,27 @@ export const CreateProxyRule = S.suspend(() =>
 }) as any as S.Schema<CreateProxyRule>;
 export type CreateProxyRuleList = CreateProxyRule[];
 export const CreateProxyRuleList = S.Array(CreateProxyRule);
+export type ProxyState =
+  | "ATTACHING"
+  | "ATTACHED"
+  | "DETACHING"
+  | "DETACHED"
+  | "ATTACH_FAILED"
+  | "DETACH_FAILED";
+export const ProxyState = S.Literal(
+  "ATTACHING",
+  "ATTACHED",
+  "DETACHING",
+  "DETACHED",
+  "ATTACH_FAILED",
+  "DETACH_FAILED",
+);
+export type ProxyModifyState = "MODIFYING" | "COMPLETED" | "FAILED";
+export const ProxyModifyState = S.Literal("MODIFYING", "COMPLETED", "FAILED");
 export interface CreateProxyRulesByRequestPhase {
-  PreDNS?: CreateProxyRuleList;
-  PreREQUEST?: CreateProxyRuleList;
-  PostRESPONSE?: CreateProxyRuleList;
+  PreDNS?: CreateProxyRule[];
+  PreREQUEST?: CreateProxyRule[];
+  PostRESPONSE?: CreateProxyRule[];
 }
 export const CreateProxyRulesByRequestPhase = S.suspend(() =>
   S.Struct({
@@ -3009,7 +3253,7 @@ export const CreateProxyRulesByRequestPhase = S.suspend(() =>
 }) as any as S.Schema<CreateProxyRulesByRequestPhase>;
 export interface FlowOperation {
   MinimumFlowAgeInSeconds?: number;
-  FlowFilters?: FlowFilters;
+  FlowFilters?: FlowFilter[];
 }
 export const FlowOperation = S.suspend(() =>
   S.Struct({
@@ -3021,14 +3265,14 @@ export const FlowOperation = S.suspend(() =>
 }) as any as S.Schema<FlowOperation>;
 export interface AnalysisReport {
   AnalysisReportId?: string;
-  AnalysisType?: string;
+  AnalysisType?: EnabledAnalysisType;
   ReportTime?: Date;
   Status?: string;
 }
 export const AnalysisReport = S.suspend(() =>
   S.Struct({
     AnalysisReportId: S.optional(S.String),
-    AnalysisType: S.optional(S.String),
+    AnalysisType: S.optional(EnabledAnalysisType),
     ReportTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Status: S.optional(S.String),
   }),
@@ -3090,18 +3334,18 @@ export type Flows = Flow[];
 export const Flows = S.Array(Flow);
 export interface FlowOperationMetadata {
   FlowOperationId?: string;
-  FlowOperationType?: string;
+  FlowOperationType?: FlowOperationType;
   FlowRequestTimestamp?: Date;
-  FlowOperationStatus?: string;
+  FlowOperationStatus?: FlowOperationStatus;
 }
 export const FlowOperationMetadata = S.suspend(() =>
   S.Struct({
     FlowOperationId: S.optional(S.String),
-    FlowOperationType: S.optional(S.String),
+    FlowOperationType: S.optional(FlowOperationType),
     FlowRequestTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    FlowOperationStatus: S.optional(S.String),
+    FlowOperationStatus: S.optional(FlowOperationStatus),
   }),
 ).annotations({
   identifier: "FlowOperationMetadata",
@@ -3182,10 +3426,13 @@ export type VpcEndpointAssociations = VpcEndpointAssociationMetadata[];
 export const VpcEndpointAssociations = S.Array(VpcEndpointAssociationMetadata);
 export interface ListenerProperty {
   Port?: number;
-  Type?: string;
+  Type?: ListenerPropertyType;
 }
 export const ListenerProperty = S.suspend(() =>
-  S.Struct({ Port: S.optional(S.Number), Type: S.optional(S.String) }),
+  S.Struct({
+    Port: S.optional(S.Number),
+    Type: S.optional(ListenerPropertyType),
+  }),
 ).annotations({
   identifier: "ListenerProperty",
 }) as any as S.Schema<ListenerProperty>;
@@ -3193,12 +3440,12 @@ export type ListenerProperties = ListenerProperty[];
 export const ListenerProperties = S.Array(ListenerProperty);
 export interface TlsInterceptProperties {
   PcaArn?: string;
-  TlsInterceptMode?: string;
+  TlsInterceptMode?: TlsInterceptMode;
 }
 export const TlsInterceptProperties = S.suspend(() =>
   S.Struct({
     PcaArn: S.optional(S.String),
-    TlsInterceptMode: S.optional(S.String),
+    TlsInterceptMode: S.optional(TlsInterceptMode),
   }),
 ).annotations({
   identifier: "TlsInterceptProperties",
@@ -3209,16 +3456,16 @@ export interface Proxy {
   UpdateTime?: Date;
   FailureCode?: string;
   FailureMessage?: string;
-  ProxyState?: string;
-  ProxyModifyState?: string;
+  ProxyState?: ProxyState;
+  ProxyModifyState?: ProxyModifyState;
   NatGatewayId?: string;
   ProxyConfigurationName?: string;
   ProxyConfigurationArn?: string;
   ProxyName?: string;
   ProxyArn?: string;
-  ListenerProperties?: ListenerProperties;
+  ListenerProperties?: ListenerProperty[];
   TlsInterceptProperties?: TlsInterceptProperties;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const Proxy = S.suspend(() =>
   S.Struct({
@@ -3227,8 +3474,8 @@ export const Proxy = S.suspend(() =>
     UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     FailureCode: S.optional(S.String),
     FailureMessage: S.optional(S.String),
-    ProxyState: S.optional(S.String),
-    ProxyModifyState: S.optional(S.String),
+    ProxyState: S.optional(ProxyState),
+    ProxyModifyState: S.optional(ProxyModifyState),
     NatGatewayId: S.optional(S.String),
     ProxyConfigurationName: S.optional(S.String),
     ProxyConfigurationArn: S.optional(S.String),
@@ -3242,7 +3489,7 @@ export const Proxy = S.suspend(() =>
 export interface AssociateAvailabilityZonesResponse {
   FirewallArn?: string;
   FirewallName?: string;
-  AvailabilityZoneMappings?: AvailabilityZoneMappings;
+  AvailabilityZoneMappings?: AvailabilityZoneMapping[];
   UpdateToken?: string;
 }
 export const AssociateAvailabilityZonesResponse = S.suspend(() =>
@@ -3258,7 +3505,7 @@ export const AssociateAvailabilityZonesResponse = S.suspend(() =>
 export interface AssociateSubnetsResponse {
   FirewallArn?: string;
   FirewallName?: string;
-  SubnetMappings?: SubnetMappings;
+  SubnetMappings?: SubnetMapping[];
   UpdateToken?: string;
 }
 export const AssociateSubnetsResponse = S.suspend(() =>
@@ -3320,7 +3567,7 @@ export interface CreateProxyRuleGroupRequest {
   ProxyRuleGroupName: string;
   Description?: string;
   Rules?: ProxyRulesByRequestPhase;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateProxyRuleGroupRequest = S.suspend(() =>
   S.Struct({
@@ -3372,8 +3619,8 @@ export interface DescribeFlowOperationResponse {
   VpcEndpointAssociationArn?: string;
   VpcEndpointId?: string;
   FlowOperationId?: string;
-  FlowOperationType?: string;
-  FlowOperationStatus?: string;
+  FlowOperationType?: FlowOperationType;
+  FlowOperationStatus?: FlowOperationStatus;
   StatusMessage?: string;
   FlowRequestTimestamp?: Date;
   FlowOperation?: FlowOperation;
@@ -3385,8 +3632,8 @@ export const DescribeFlowOperationResponse = S.suspend(() =>
     VpcEndpointAssociationArn: S.optional(S.String),
     VpcEndpointId: S.optional(S.String),
     FlowOperationId: S.optional(S.String),
-    FlowOperationType: S.optional(S.String),
-    FlowOperationStatus: S.optional(S.String),
+    FlowOperationType: S.optional(FlowOperationType),
+    FlowOperationStatus: S.optional(FlowOperationStatus),
     StatusMessage: S.optional(S.String),
     FlowRequestTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -3397,7 +3644,7 @@ export const DescribeFlowOperationResponse = S.suspend(() =>
   identifier: "DescribeFlowOperationResponse",
 }) as any as S.Schema<DescribeFlowOperationResponse>;
 export interface ListAnalysisReportsResponse {
-  AnalysisReports?: AnalysisReports;
+  AnalysisReports?: AnalysisReport[];
   NextToken?: string;
 }
 export const ListAnalysisReportsResponse = S.suspend(() =>
@@ -3410,7 +3657,7 @@ export const ListAnalysisReportsResponse = S.suspend(() =>
 }) as any as S.Schema<ListAnalysisReportsResponse>;
 export interface ListFirewallPoliciesResponse {
   NextToken?: string;
-  FirewallPolicies?: FirewallPolicies;
+  FirewallPolicies?: FirewallPolicyMetadata[];
 }
 export const ListFirewallPoliciesResponse = S.suspend(() =>
   S.Struct({
@@ -3422,7 +3669,7 @@ export const ListFirewallPoliciesResponse = S.suspend(() =>
 }) as any as S.Schema<ListFirewallPoliciesResponse>;
 export interface ListFirewallsResponse {
   NextToken?: string;
-  Firewalls?: Firewalls;
+  Firewalls?: FirewallMetadata[];
 }
 export const ListFirewallsResponse = S.suspend(() =>
   S.Struct({
@@ -3438,10 +3685,10 @@ export interface ListFlowOperationResultsResponse {
   VpcEndpointAssociationArn?: string;
   VpcEndpointId?: string;
   FlowOperationId?: string;
-  FlowOperationStatus?: string;
+  FlowOperationStatus?: FlowOperationStatus;
   StatusMessage?: string;
   FlowRequestTimestamp?: Date;
-  Flows?: Flows;
+  Flows?: Flow[];
   NextToken?: string;
 }
 export const ListFlowOperationResultsResponse = S.suspend(() =>
@@ -3451,7 +3698,7 @@ export const ListFlowOperationResultsResponse = S.suspend(() =>
     VpcEndpointAssociationArn: S.optional(S.String),
     VpcEndpointId: S.optional(S.String),
     FlowOperationId: S.optional(S.String),
-    FlowOperationStatus: S.optional(S.String),
+    FlowOperationStatus: S.optional(FlowOperationStatus),
     StatusMessage: S.optional(S.String),
     FlowRequestTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -3463,7 +3710,7 @@ export const ListFlowOperationResultsResponse = S.suspend(() =>
   identifier: "ListFlowOperationResultsResponse",
 }) as any as S.Schema<ListFlowOperationResultsResponse>;
 export interface ListFlowOperationsResponse {
-  FlowOperations?: FlowOperations;
+  FlowOperations?: FlowOperationMetadata[];
   NextToken?: string;
 }
 export const ListFlowOperationsResponse = S.suspend(() =>
@@ -3475,7 +3722,7 @@ export const ListFlowOperationsResponse = S.suspend(() =>
   identifier: "ListFlowOperationsResponse",
 }) as any as S.Schema<ListFlowOperationsResponse>;
 export interface ListProxiesResponse {
-  Proxies?: Proxies;
+  Proxies?: ProxyMetadata[];
   NextToken?: string;
 }
 export const ListProxiesResponse = S.suspend(() =>
@@ -3484,7 +3731,7 @@ export const ListProxiesResponse = S.suspend(() =>
   identifier: "ListProxiesResponse",
 }) as any as S.Schema<ListProxiesResponse>;
 export interface ListProxyConfigurationsResponse {
-  ProxyConfigurations?: ProxyConfigurations;
+  ProxyConfigurations?: ProxyConfigurationMetadata[];
   NextToken?: string;
 }
 export const ListProxyConfigurationsResponse = S.suspend(() =>
@@ -3496,7 +3743,7 @@ export const ListProxyConfigurationsResponse = S.suspend(() =>
   identifier: "ListProxyConfigurationsResponse",
 }) as any as S.Schema<ListProxyConfigurationsResponse>;
 export interface ListProxyRuleGroupsResponse {
-  ProxyRuleGroups?: ProxyRuleGroups;
+  ProxyRuleGroups?: ProxyRuleGroupMetadata[];
   NextToken?: string;
 }
 export const ListProxyRuleGroupsResponse = S.suspend(() =>
@@ -3509,7 +3756,7 @@ export const ListProxyRuleGroupsResponse = S.suspend(() =>
 }) as any as S.Schema<ListProxyRuleGroupsResponse>;
 export interface ListRuleGroupsResponse {
   NextToken?: string;
-  RuleGroups?: RuleGroups;
+  RuleGroups?: RuleGroupMetadata[];
 }
 export const ListRuleGroupsResponse = S.suspend(() =>
   S.Struct({
@@ -3521,7 +3768,7 @@ export const ListRuleGroupsResponse = S.suspend(() =>
 }) as any as S.Schema<ListRuleGroupsResponse>;
 export interface ListTLSInspectionConfigurationsResponse {
   NextToken?: string;
-  TLSInspectionConfigurations?: TLSInspectionConfigurations;
+  TLSInspectionConfigurations?: TLSInspectionConfigurationMetadata[];
 }
 export const ListTLSInspectionConfigurationsResponse = S.suspend(() =>
   S.Struct({
@@ -3533,7 +3780,7 @@ export const ListTLSInspectionConfigurationsResponse = S.suspend(() =>
 }) as any as S.Schema<ListTLSInspectionConfigurationsResponse>;
 export interface ListVpcEndpointAssociationsResponse {
   NextToken?: string;
-  VpcEndpointAssociations?: VpcEndpointAssociations;
+  VpcEndpointAssociations?: VpcEndpointAssociationMetadata[];
 }
 export const ListVpcEndpointAssociationsResponse = S.suspend(() =>
   S.Struct({
@@ -3549,7 +3796,7 @@ export interface StartFlowCaptureRequest {
   VpcEndpointAssociationArn?: string;
   VpcEndpointId?: string;
   MinimumFlowAgeInSeconds?: number;
-  FlowFilters: FlowFilters;
+  FlowFilters: FlowFilter[];
 }
 export const StartFlowCaptureRequest = S.suspend(() =>
   S.Struct({
@@ -3576,7 +3823,7 @@ export const UpdateProxyResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateProxyResponse>;
 export interface UpdateProxyRuleResponse {
   ProxyRule?: ProxyRule;
-  RemovedConditions?: ProxyRuleConditionList;
+  RemovedConditions?: ProxyRuleCondition[];
   UpdateToken?: string;
 }
 export const UpdateProxyRuleResponse = S.suspend(() =>
@@ -3591,15 +3838,15 @@ export const UpdateProxyRuleResponse = S.suspend(() =>
 export interface UpdateProxyRulePrioritiesResponse {
   ProxyRuleGroupName?: string;
   ProxyRuleGroupArn?: string;
-  RuleGroupRequestPhase?: string;
-  Rules?: ProxyRulePriorityList;
+  RuleGroupRequestPhase?: RuleGroupRequestPhase;
+  Rules?: ProxyRulePriority[];
   UpdateToken?: string;
 }
 export const UpdateProxyRulePrioritiesResponse = S.suspend(() =>
   S.Struct({
     ProxyRuleGroupName: S.optional(S.String),
     ProxyRuleGroupArn: S.optional(S.String),
-    RuleGroupRequestPhase: S.optional(S.String),
+    RuleGroupRequestPhase: S.optional(RuleGroupRequestPhase),
     Rules: S.optional(ProxyRulePriorityList),
     UpdateToken: S.optional(S.String),
   }),
@@ -3607,10 +3854,10 @@ export const UpdateProxyRulePrioritiesResponse = S.suspend(() =>
   identifier: "UpdateProxyRulePrioritiesResponse",
 }) as any as S.Schema<UpdateProxyRulePrioritiesResponse>;
 export interface AvailabilityZoneMetadata {
-  IPAddressType?: string;
+  IPAddressType?: IPAddressType;
 }
 export const AvailabilityZoneMetadata = S.suspend(() =>
-  S.Struct({ IPAddressType: S.optional(S.String) }),
+  S.Struct({ IPAddressType: S.optional(IPAddressType) }),
 ).annotations({
   identifier: "AvailabilityZoneMetadata",
 }) as any as S.Schema<AvailabilityZoneMetadata>;
@@ -3655,9 +3902,9 @@ export interface DescribeProxyResource {
   ProxyConfigurationName?: string;
   ProxyConfigurationArn?: string;
   NatGatewayId?: string;
-  ProxyState?: string;
-  ProxyModifyState?: string;
-  ListenerProperties?: ListenerProperties;
+  ProxyState?: ProxyState;
+  ProxyModifyState?: ProxyModifyState;
+  ListenerProperties?: ListenerProperty[];
   TlsInterceptProperties?: TlsInterceptProperties;
   VpcEndpointServiceName?: string;
   PrivateDNSName?: string;
@@ -3666,7 +3913,7 @@ export interface DescribeProxyResource {
   UpdateTime?: Date;
   FailureCode?: string;
   FailureMessage?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const DescribeProxyResource = S.suspend(() =>
   S.Struct({
@@ -3675,8 +3922,8 @@ export const DescribeProxyResource = S.suspend(() =>
     ProxyConfigurationName: S.optional(S.String),
     ProxyConfigurationArn: S.optional(S.String),
     NatGatewayId: S.optional(S.String),
-    ProxyState: S.optional(S.String),
-    ProxyModifyState: S.optional(S.String),
+    ProxyState: S.optional(ProxyState),
+    ProxyModifyState: S.optional(ProxyModifyState),
     ListenerProperties: S.optional(ListenerProperties),
     TlsInterceptProperties: S.optional(TlsInterceptProperties),
     VpcEndpointServiceName: S.optional(S.String),
@@ -3692,7 +3939,7 @@ export const DescribeProxyResource = S.suspend(() =>
   identifier: "DescribeProxyResource",
 }) as any as S.Schema<DescribeProxyResource>;
 export interface Summary {
-  RuleSummaries?: RuleSummaries;
+  RuleSummaries?: RuleSummary[];
 }
 export const Summary = S.suspend(() =>
   S.Struct({ RuleSummaries: S.optional(RuleSummaries) }),
@@ -3781,8 +4028,8 @@ export interface DescribeFirewallMetadataResponse {
   FirewallArn?: string;
   FirewallPolicyArn?: string;
   Description?: string;
-  Status?: string;
-  SupportedAvailabilityZones?: SupportedAvailabilityZones;
+  Status?: FirewallStatusValue;
+  SupportedAvailabilityZones?: { [key: string]: AvailabilityZoneMetadata };
   TransitGatewayAttachmentId?: string;
 }
 export const DescribeFirewallMetadataResponse = S.suspend(() =>
@@ -3790,7 +4037,7 @@ export const DescribeFirewallMetadataResponse = S.suspend(() =>
     FirewallArn: S.optional(S.String),
     FirewallPolicyArn: S.optional(S.String),
     Description: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(FirewallStatusValue),
     SupportedAvailabilityZones: S.optional(SupportedAvailabilityZones),
     TransitGatewayAttachmentId: S.optional(S.String),
   }),
@@ -3840,9 +4087,9 @@ export interface GetAnalysisReportResultsResponse {
   StartTime?: Date;
   EndTime?: Date;
   ReportTime?: Date;
-  AnalysisType?: string;
+  AnalysisType?: EnabledAnalysisType;
   NextToken?: string;
-  AnalysisReportResults?: AnalysisReportResults;
+  AnalysisReportResults?: AnalysisTypeReportResult[];
 }
 export const GetAnalysisReportResultsResponse = S.suspend(() =>
   S.Struct({
@@ -3850,7 +4097,7 @@ export const GetAnalysisReportResultsResponse = S.suspend(() =>
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ReportTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    AnalysisType: S.optional(S.String),
+    AnalysisType: S.optional(EnabledAnalysisType),
     NextToken: S.optional(S.String),
     AnalysisReportResults: S.optional(AnalysisReportResults),
   }),
@@ -3860,13 +4107,13 @@ export const GetAnalysisReportResultsResponse = S.suspend(() =>
 export interface StartFlowCaptureResponse {
   FirewallArn?: string;
   FlowOperationId?: string;
-  FlowOperationStatus?: string;
+  FlowOperationStatus?: FlowOperationStatus;
 }
 export const StartFlowCaptureResponse = S.suspend(() =>
   S.Struct({
     FirewallArn: S.optional(S.String),
     FlowOperationId: S.optional(S.String),
-    FlowOperationStatus: S.optional(S.String),
+    FlowOperationStatus: S.optional(FlowOperationStatus),
   }),
 ).annotations({
   identifier: "StartFlowCaptureResponse",
@@ -3890,7 +4137,7 @@ export const UpdateLoggingConfigurationRequest = S.suspend(() =>
   identifier: "UpdateLoggingConfigurationRequest",
 }) as any as S.Schema<UpdateLoggingConfigurationRequest>;
 export interface UpdateProxyRuleGroupPrioritiesResponse {
-  ProxyRuleGroups?: ProxyRuleGroupPriorityResultList;
+  ProxyRuleGroups?: ProxyRuleGroupPriorityResult[];
   UpdateToken?: string;
 }
 export const UpdateProxyRuleGroupPrioritiesResponse = S.suspend(() =>
@@ -3905,7 +4152,7 @@ export interface CreateTLSInspectionConfigurationRequest {
   TLSInspectionConfigurationName: string;
   TLSInspectionConfiguration: TLSInspectionConfiguration;
   Description?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   EncryptionConfiguration?: EncryptionConfiguration;
 }
 export const CreateTLSInspectionConfigurationRequest = S.suspend(() =>
@@ -3941,7 +4188,7 @@ export interface CreateFirewallPolicyRequest {
   FirewallPolicyName: string;
   FirewallPolicy: FirewallPolicy;
   Description?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   DryRun?: boolean;
   EncryptionConfiguration?: EncryptionConfiguration;
 }
@@ -4011,10 +4258,10 @@ export interface CreateRuleGroupRequest {
   RuleGroupName: string;
   RuleGroup?: RuleGroup;
   Rules?: string;
-  Type: string;
+  Type: RuleGroupType;
   Description?: string;
   Capacity: number;
-  Tags?: TagList;
+  Tags?: Tag[];
   DryRun?: boolean;
   EncryptionConfiguration?: EncryptionConfiguration;
   SourceMetadata?: SourceMetadata;
@@ -4026,7 +4273,7 @@ export const CreateRuleGroupRequest = S.suspend(() =>
     RuleGroupName: S.String,
     RuleGroup: S.optional(RuleGroup),
     Rules: S.optional(S.String),
-    Type: S.String,
+    Type: RuleGroupType,
     Description: S.optional(S.String),
     Capacity: S.Number,
     Tags: S.optional(TagList),
@@ -4110,7 +4357,7 @@ export class LogDestinationPermissionException extends S.TaggedError<LogDestinat
 export const listFirewallPolicies: {
   (
     input: ListFirewallPoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFirewallPoliciesResponse,
     | InternalServerError
     | InvalidRequestException
@@ -4120,7 +4367,7 @@ export const listFirewallPolicies: {
   >;
   pages: (
     input: ListFirewallPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFirewallPoliciesResponse,
     | InternalServerError
     | InvalidRequestException
@@ -4130,7 +4377,7 @@ export const listFirewallPolicies: {
   >;
   items: (
     input: ListFirewallPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FirewallPolicyMetadata,
     | InternalServerError
     | InvalidRequestException
@@ -4162,7 +4409,7 @@ export const listFirewallPolicies: {
  */
 export const startFlowCapture: (
   input: StartFlowCaptureRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartFlowCaptureResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4185,7 +4432,7 @@ export const startFlowCapture: (
  */
 export const updateProxyRuleGroupPriorities: (
   input: UpdateProxyRuleGroupPrioritiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProxyRuleGroupPrioritiesResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4221,7 +4468,7 @@ export const updateProxyRuleGroupPriorities: (
  */
 export const putResourcePolicy: (
   input: PutResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourcePolicyResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4246,7 +4493,7 @@ export const putResourcePolicy: (
  */
 export const describeFlowOperation: (
   input: DescribeFlowOperationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeFlowOperationResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4270,7 +4517,7 @@ export const describeFlowOperation: (
 export const listAnalysisReports: {
   (
     input: ListAnalysisReportsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAnalysisReportsResponse,
     | InternalServerError
     | InvalidRequestException
@@ -4281,7 +4528,7 @@ export const listAnalysisReports: {
   >;
   pages: (
     input: ListAnalysisReportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAnalysisReportsResponse,
     | InternalServerError
     | InvalidRequestException
@@ -4292,7 +4539,7 @@ export const listAnalysisReports: {
   >;
   items: (
     input: ListAnalysisReportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AnalysisReport,
     | InternalServerError
     | InvalidRequestException
@@ -4328,7 +4575,7 @@ export const listAnalysisReports: {
 export const listFlowOperationResults: {
   (
     input: ListFlowOperationResultsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFlowOperationResultsResponse,
     | InternalServerError
     | InvalidRequestException
@@ -4339,7 +4586,7 @@ export const listFlowOperationResults: {
   >;
   pages: (
     input: ListFlowOperationResultsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFlowOperationResultsResponse,
     | InternalServerError
     | InvalidRequestException
@@ -4350,7 +4597,7 @@ export const listFlowOperationResults: {
   >;
   items: (
     input: ListFlowOperationResultsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Flow,
     | InternalServerError
     | InvalidRequestException
@@ -4387,7 +4634,7 @@ export const listFlowOperationResults: {
 export const listFlowOperations: {
   (
     input: ListFlowOperationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFlowOperationsResponse,
     | InternalServerError
     | InvalidRequestException
@@ -4398,7 +4645,7 @@ export const listFlowOperations: {
   >;
   pages: (
     input: ListFlowOperationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFlowOperationsResponse,
     | InternalServerError
     | InvalidRequestException
@@ -4409,7 +4656,7 @@ export const listFlowOperations: {
   >;
   items: (
     input: ListFlowOperationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FlowOperationMetadata,
     | InternalServerError
     | InvalidRequestException
@@ -4442,7 +4689,7 @@ export const listFlowOperations: {
 export const listProxyConfigurations: {
   (
     input: ListProxyConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProxyConfigurationsResponse,
     | InternalServerError
     | InvalidRequestException
@@ -4453,7 +4700,7 @@ export const listProxyConfigurations: {
   >;
   pages: (
     input: ListProxyConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProxyConfigurationsResponse,
     | InternalServerError
     | InvalidRequestException
@@ -4464,7 +4711,7 @@ export const listProxyConfigurations: {
   >;
   items: (
     input: ListProxyConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProxyConfigurationMetadata,
     | InternalServerError
     | InvalidRequestException
@@ -4497,7 +4744,7 @@ export const listProxyConfigurations: {
 export const listProxyRuleGroups: {
   (
     input: ListProxyRuleGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProxyRuleGroupsResponse,
     | InternalServerError
     | InvalidRequestException
@@ -4508,7 +4755,7 @@ export const listProxyRuleGroups: {
   >;
   pages: (
     input: ListProxyRuleGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProxyRuleGroupsResponse,
     | InternalServerError
     | InvalidRequestException
@@ -4519,7 +4766,7 @@ export const listProxyRuleGroups: {
   >;
   items: (
     input: ListProxyRuleGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProxyRuleGroupMetadata,
     | InternalServerError
     | InvalidRequestException
@@ -4549,7 +4796,7 @@ export const listProxyRuleGroups: {
  */
 export const updateProxyRule: (
   input: UpdateProxyRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProxyRuleResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4572,7 +4819,7 @@ export const updateProxyRule: (
  */
 export const updateProxyRulePriorities: (
   input: UpdateProxyRulePrioritiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProxyRulePrioritiesResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4595,7 +4842,7 @@ export const updateProxyRulePriorities: (
  */
 export const describeFirewall: (
   input: DescribeFirewallRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeFirewallResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4618,7 +4865,7 @@ export const describeFirewall: (
  */
 export const describeFirewallPolicy: (
   input: DescribeFirewallPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeFirewallPolicyResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4641,7 +4888,7 @@ export const describeFirewallPolicy: (
  */
 export const describeLoggingConfiguration: (
   input: DescribeLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeLoggingConfigurationResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4664,7 +4911,7 @@ export const describeLoggingConfiguration: (
  */
 export const describeProxyRule: (
   input: DescribeProxyRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeProxyRuleResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4687,7 +4934,7 @@ export const describeProxyRule: (
  */
 export const describeProxyRuleGroup: (
   input: DescribeProxyRuleGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeProxyRuleGroupResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4710,7 +4957,7 @@ export const describeProxyRuleGroup: (
  */
 export const describeResourcePolicy: (
   input: DescribeResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeResourcePolicyResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4733,7 +4980,7 @@ export const describeResourcePolicy: (
  */
 export const describeRuleGroup: (
   input: DescribeRuleGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRuleGroupResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4758,7 +5005,7 @@ export const describeRuleGroup: (
  */
 export const describeRuleGroupMetadata: (
   input: DescribeRuleGroupMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRuleGroupMetadataResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4781,7 +5028,7 @@ export const describeRuleGroupMetadata: (
  */
 export const describeTLSInspectionConfiguration: (
   input: DescribeTLSInspectionConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeTLSInspectionConfigurationResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4804,7 +5051,7 @@ export const describeTLSInspectionConfiguration: (
  */
 export const describeVpcEndpointAssociation: (
   input: DescribeVpcEndpointAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeVpcEndpointAssociationResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4829,7 +5076,7 @@ export const describeVpcEndpointAssociation: (
  */
 export const detachRuleGroupsFromProxyConfiguration: (
   input: DetachRuleGroupsFromProxyConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetachRuleGroupsFromProxyConfigurationResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4860,7 +5107,7 @@ export const detachRuleGroupsFromProxyConfiguration: (
 export const listTagsForResource: {
   (
     input: ListTagsForResourceRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTagsForResourceResponse,
     | InternalServerError
     | InvalidRequestException
@@ -4871,7 +5118,7 @@ export const listTagsForResource: {
   >;
   pages: (
     input: ListTagsForResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTagsForResourceResponse,
     | InternalServerError
     | InvalidRequestException
@@ -4882,7 +5129,7 @@ export const listTagsForResource: {
   >;
   items: (
     input: ListTagsForResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Tag,
     | InternalServerError
     | InvalidRequestException
@@ -4918,7 +5165,7 @@ export const listTagsForResource: {
  */
 export const rejectNetworkFirewallTransitGatewayAttachment: (
   input: RejectNetworkFirewallTransitGatewayAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RejectNetworkFirewallTransitGatewayAttachmentResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4943,7 +5190,7 @@ export const rejectNetworkFirewallTransitGatewayAttachment: (
  */
 export const startAnalysisReport: (
   input: StartAnalysisReportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartAnalysisReportResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4972,7 +5219,7 @@ export const startAnalysisReport: (
  */
 export const startFlowFlush: (
   input: StartFlowFlushRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartFlowFlushResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4995,7 +5242,7 @@ export const startFlowFlush: (
  */
 export const updateProxyConfiguration: (
   input: UpdateProxyConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProxyConfigurationResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5024,7 +5271,7 @@ export const updateProxyConfiguration: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5054,7 +5301,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5083,7 +5330,7 @@ export const untagResource: (
  */
 export const acceptNetworkFirewallTransitGatewayAttachment: (
   input: AcceptNetworkFirewallTransitGatewayAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AcceptNetworkFirewallTransitGatewayAttachmentResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5110,7 +5357,7 @@ export const acceptNetworkFirewallTransitGatewayAttachment: (
  */
 export const deleteNetworkFirewallTransitGatewayAttachment: (
   input: DeleteNetworkFirewallTransitGatewayAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteNetworkFirewallTransitGatewayAttachmentResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5133,7 +5380,7 @@ export const deleteNetworkFirewallTransitGatewayAttachment: (
  */
 export const deleteProxyConfiguration: (
   input: DeleteProxyConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProxyConfigurationResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5156,7 +5403,7 @@ export const deleteProxyConfiguration: (
  */
 export const deleteProxyRuleGroup: (
   input: DeleteProxyRuleGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProxyRuleGroupResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5181,7 +5428,7 @@ export const deleteProxyRuleGroup: (
  */
 export const attachRuleGroupsToProxyConfiguration: (
   input: AttachRuleGroupsToProxyConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AttachRuleGroupsToProxyConfigurationResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5204,7 +5451,7 @@ export const attachRuleGroupsToProxyConfiguration: (
  */
 export const deleteProxyRules: (
   input: DeleteProxyRulesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProxyRulesResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5227,7 +5474,7 @@ export const deleteProxyRules: (
  */
 export const deleteResourcePolicy: (
   input: DeleteResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourcePolicyResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5252,7 +5499,7 @@ export const deleteResourcePolicy: (
  */
 export const deleteTLSInspectionConfiguration: (
   input: DeleteTLSInspectionConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTLSInspectionConfigurationResponse,
   | InternalServerError
   | InvalidOperationException
@@ -5282,7 +5529,7 @@ export const deleteTLSInspectionConfiguration: (
 export const listFirewalls: {
   (
     input: ListFirewallsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFirewallsResponse,
     | InternalServerError
     | InvalidRequestException
@@ -5292,7 +5539,7 @@ export const listFirewalls: {
   >;
   pages: (
     input: ListFirewallsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFirewallsResponse,
     | InternalServerError
     | InvalidRequestException
@@ -5302,7 +5549,7 @@ export const listFirewalls: {
   >;
   items: (
     input: ListFirewallsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FirewallMetadata,
     | InternalServerError
     | InvalidRequestException
@@ -5329,7 +5576,7 @@ export const listFirewalls: {
 export const listProxies: {
   (
     input: ListProxiesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProxiesResponse,
     | InternalServerError
     | InvalidRequestException
@@ -5339,7 +5586,7 @@ export const listProxies: {
   >;
   pages: (
     input: ListProxiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProxiesResponse,
     | InternalServerError
     | InvalidRequestException
@@ -5349,7 +5596,7 @@ export const listProxies: {
   >;
   items: (
     input: ListProxiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProxyMetadata,
     | InternalServerError
     | InvalidRequestException
@@ -5376,7 +5623,7 @@ export const listProxies: {
 export const listRuleGroups: {
   (
     input: ListRuleGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRuleGroupsResponse,
     | InternalServerError
     | InvalidRequestException
@@ -5386,7 +5633,7 @@ export const listRuleGroups: {
   >;
   pages: (
     input: ListRuleGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRuleGroupsResponse,
     | InternalServerError
     | InvalidRequestException
@@ -5396,7 +5643,7 @@ export const listRuleGroups: {
   >;
   items: (
     input: ListRuleGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RuleGroupMetadata,
     | InternalServerError
     | InvalidRequestException
@@ -5421,7 +5668,7 @@ export const listRuleGroups: {
 export const listTLSInspectionConfigurations: {
   (
     input: ListTLSInspectionConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTLSInspectionConfigurationsResponse,
     | InternalServerError
     | InvalidRequestException
@@ -5431,7 +5678,7 @@ export const listTLSInspectionConfigurations: {
   >;
   pages: (
     input: ListTLSInspectionConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTLSInspectionConfigurationsResponse,
     | InternalServerError
     | InvalidRequestException
@@ -5441,7 +5688,7 @@ export const listTLSInspectionConfigurations: {
   >;
   items: (
     input: ListTLSInspectionConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TLSInspectionConfigurationMetadata,
     | InternalServerError
     | InvalidRequestException
@@ -5470,7 +5717,7 @@ export const listTLSInspectionConfigurations: {
 export const listVpcEndpointAssociations: {
   (
     input: ListVpcEndpointAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVpcEndpointAssociationsResponse,
     | InternalServerError
     | InvalidRequestException
@@ -5480,7 +5727,7 @@ export const listVpcEndpointAssociations: {
   >;
   pages: (
     input: ListVpcEndpointAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVpcEndpointAssociationsResponse,
     | InternalServerError
     | InvalidRequestException
@@ -5490,7 +5737,7 @@ export const listVpcEndpointAssociations: {
   >;
   items: (
     input: ListVpcEndpointAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     VpcEndpointAssociationMetadata,
     | InternalServerError
     | InvalidRequestException
@@ -5518,7 +5765,7 @@ export const listVpcEndpointAssociations: {
  */
 export const createProxyRules: (
   input: CreateProxyRulesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProxyRulesResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5542,7 +5789,7 @@ export const createProxyRules: (
  */
 export const deleteVpcEndpointAssociation: (
   input: DeleteVpcEndpointAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVpcEndpointAssociationResponse,
   | InternalServerError
   | InvalidOperationException
@@ -5568,7 +5815,7 @@ export const deleteVpcEndpointAssociation: (
  */
 export const describeFirewallMetadata: (
   input: DescribeFirewallMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeFirewallMetadataResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5591,7 +5838,7 @@ export const describeFirewallMetadata: (
  */
 export const describeProxy: (
   input: DescribeProxyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeProxyResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5614,7 +5861,7 @@ export const describeProxy: (
  */
 export const describeProxyConfiguration: (
   input: DescribeProxyConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeProxyConfigurationResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5641,7 +5888,7 @@ export const describeProxyConfiguration: (
  */
 export const describeRuleGroupSummary: (
   input: DescribeRuleGroupSummaryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRuleGroupSummaryResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5667,7 +5914,7 @@ export const describeRuleGroupSummary: (
 export const getAnalysisReportResults: {
   (
     input: GetAnalysisReportResultsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetAnalysisReportResultsResponse,
     | InternalServerError
     | InvalidRequestException
@@ -5678,7 +5925,7 @@ export const getAnalysisReportResults: {
   >;
   pages: (
     input: GetAnalysisReportResultsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetAnalysisReportResultsResponse,
     | InternalServerError
     | InvalidRequestException
@@ -5689,7 +5936,7 @@ export const getAnalysisReportResults: {
   >;
   items: (
     input: GetAnalysisReportResultsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AnalysisTypeReportResult,
     | InternalServerError
     | InvalidRequestException
@@ -5719,7 +5966,7 @@ export const getAnalysisReportResults: {
  */
 export const updateFirewallAnalysisSettings: (
   input: UpdateFirewallAnalysisSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFirewallAnalysisSettingsResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5745,7 +5992,7 @@ export const updateFirewallAnalysisSettings: (
  */
 export const updateFirewallDescription: (
   input: UpdateFirewallDescriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFirewallDescriptionResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5770,7 +6017,7 @@ export const updateFirewallDescription: (
  */
 export const updateFirewallPolicy: (
   input: UpdateFirewallPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFirewallPolicyResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5801,7 +6048,7 @@ export const updateFirewallPolicy: (
  */
 export const updateRuleGroup: (
   input: UpdateRuleGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRuleGroupResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5832,7 +6079,7 @@ export const updateRuleGroup: (
  */
 export const updateTLSInspectionConfiguration: (
   input: UpdateTLSInspectionConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTLSInspectionConfigurationResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5861,7 +6108,7 @@ export const updateTLSInspectionConfiguration: (
  */
 export const disassociateAvailabilityZones: (
   input: DisassociateAvailabilityZonesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateAvailabilityZonesResponse,
   | InternalServerError
   | InvalidOperationException
@@ -5890,7 +6137,7 @@ export const disassociateAvailabilityZones: (
  */
 export const disassociateSubnets: (
   input: DisassociateSubnetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateSubnetsResponse,
   | InternalServerError
   | InvalidOperationException
@@ -5922,7 +6169,7 @@ export const disassociateSubnets: (
  */
 export const associateFirewallPolicy: (
   input: AssociateFirewallPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateFirewallPolicyResponse,
   | InternalServerError
   | InvalidOperationException
@@ -5951,7 +6198,7 @@ export const associateFirewallPolicy: (
  */
 export const associateAvailabilityZones: (
   input: AssociateAvailabilityZonesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateAvailabilityZonesResponse,
   | InsufficientCapacityException
   | InternalServerError
@@ -5986,7 +6233,7 @@ export const associateAvailabilityZones: (
  */
 export const associateSubnets: (
   input: AssociateSubnetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateSubnetsResponse,
   | InsufficientCapacityException
   | InternalServerError
@@ -6021,7 +6268,7 @@ export const associateSubnets: (
  */
 export const createProxyConfiguration: (
   input: CreateProxyConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProxyConfigurationResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6054,7 +6301,7 @@ export const createProxyConfiguration: (
  */
 export const createProxyRuleGroup: (
   input: CreateProxyRuleGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProxyRuleGroupResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6090,7 +6337,7 @@ export const createProxyRuleGroup: (
  */
 export const createFirewall: (
   input: CreateFirewallRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFirewallResponse,
   | InsufficientCapacityException
   | InternalServerError
@@ -6119,7 +6366,7 @@ export const createFirewall: (
  */
 export const updateAvailabilityZoneChangeProtection: (
   input: UpdateAvailabilityZoneChangeProtectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAvailabilityZoneChangeProtectionResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6152,7 +6399,7 @@ export const updateAvailabilityZoneChangeProtection: (
  */
 export const createProxy: (
   input: CreateProxyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProxyResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6182,7 +6429,7 @@ export const createProxy: (
  */
 export const updateFirewallDeleteProtection: (
   input: UpdateFirewallDeleteProtectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFirewallDeleteProtectionResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6209,7 +6456,7 @@ export const updateFirewallDeleteProtection: (
  */
 export const updateFirewallEncryptionConfiguration: (
   input: UpdateFirewallEncryptionConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFirewallEncryptionConfigurationResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6238,7 +6485,7 @@ export const updateFirewallEncryptionConfiguration: (
  */
 export const updateFirewallPolicyChangeProtection: (
   input: UpdateFirewallPolicyChangeProtectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFirewallPolicyChangeProtectionResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6265,7 +6512,7 @@ export const updateFirewallPolicyChangeProtection: (
  */
 export const updateSubnetChangeProtection: (
   input: UpdateSubnetChangeProtectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSubnetChangeProtectionResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6292,7 +6539,7 @@ export const updateSubnetChangeProtection: (
  */
 export const updateProxy: (
   input: UpdateProxyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProxyResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6319,7 +6566,7 @@ export const updateProxy: (
  */
 export const deleteProxy: (
   input: DeleteProxyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProxyResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6344,7 +6591,7 @@ export const deleteProxy: (
  */
 export const deleteFirewallPolicy: (
   input: DeleteFirewallPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFirewallPolicyResponse,
   | InternalServerError
   | InvalidOperationException
@@ -6371,7 +6618,7 @@ export const deleteFirewallPolicy: (
  */
 export const deleteRuleGroup: (
   input: DeleteRuleGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRuleGroupResponse,
   | InternalServerError
   | InvalidOperationException
@@ -6407,7 +6654,7 @@ export const deleteRuleGroup: (
  */
 export const createTLSInspectionConfiguration: (
   input: CreateTLSInspectionConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTLSInspectionConfigurationResponse,
   | InsufficientCapacityException
   | InternalServerError
@@ -6432,7 +6679,7 @@ export const createTLSInspectionConfiguration: (
  */
 export const createVpcEndpointAssociation: (
   input: CreateVpcEndpointAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVpcEndpointAssociationResponse,
   | InsufficientCapacityException
   | InternalServerError
@@ -6484,7 +6731,7 @@ export const createVpcEndpointAssociation: (
  */
 export const updateLoggingConfiguration: (
   input: UpdateLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLoggingConfigurationResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6515,7 +6762,7 @@ export const updateLoggingConfiguration: (
  */
 export const createFirewallPolicy: (
   input: CreateFirewallPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFirewallPolicyResponse,
   | InsufficientCapacityException
   | InternalServerError
@@ -6552,7 +6799,7 @@ export const createFirewallPolicy: (
  */
 export const deleteFirewall: (
   input: DeleteFirewallRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFirewallResponse,
   | InternalServerError
   | InvalidOperationException
@@ -6583,7 +6830,7 @@ export const deleteFirewall: (
  */
 export const createRuleGroup: (
   input: CreateRuleGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRuleGroupResponse,
   | InsufficientCapacityException
   | InternalServerError

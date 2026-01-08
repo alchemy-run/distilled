@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -192,12 +192,51 @@ export type PackageEpoch = number;
 export type PackageArchitecture = string;
 
 //# Schemas
+export type Platform = "Windows" | "Linux" | "macOS";
+export const Platform = S.Literal("Windows", "Linux", "macOS");
 export type OsVersionList = string[];
 export const OsVersionList = S.Array(S.String);
+export type ContainerType = "DOCKER";
+export const ContainerType = S.Literal("DOCKER");
+export type PipelineStatus = "DISABLED" | "ENABLED";
+export const PipelineStatus = S.Literal("DISABLED", "ENABLED");
 export type InstanceTypeList = string[];
 export const InstanceTypeList = S.Array(S.String);
 export type SecurityGroupIds = string[];
 export const SecurityGroupIds = S.Array(S.String);
+export type LifecyclePolicyStatus = "DISABLED" | "ENABLED";
+export const LifecyclePolicyStatus = S.Literal("DISABLED", "ENABLED");
+export type LifecyclePolicyResourceType = "AMI_IMAGE" | "CONTAINER_IMAGE";
+export const LifecyclePolicyResourceType = S.Literal(
+  "AMI_IMAGE",
+  "CONTAINER_IMAGE",
+);
+export type WorkflowType = "BUILD" | "TEST" | "DISTRIBUTION";
+export const WorkflowType = S.Literal("BUILD", "TEST", "DISTRIBUTION");
+export type MarketplaceResourceType = "COMPONENT_DATA" | "COMPONENT_ARTIFACT";
+export const MarketplaceResourceType = S.Literal(
+  "COMPONENT_DATA",
+  "COMPONENT_ARTIFACT",
+);
+export type ComponentType = "BUILD" | "TEST";
+export const ComponentType = S.Literal("BUILD", "TEST");
+export type ComponentFormat = "SHELL";
+export const ComponentFormat = S.Literal("SHELL");
+export type Ownership =
+  | "Self"
+  | "Shared"
+  | "Amazon"
+  | "ThirdParty"
+  | "AWSMarketplace";
+export const Ownership = S.Literal(
+  "Self",
+  "Shared",
+  "Amazon",
+  "ThirdParty",
+  "AWSMarketplace",
+);
+export type WorkflowStepActionType = "RESUME" | "STOP";
+export const WorkflowStepActionType = S.Literal("RESUME", "STOP");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface CancelImageCreationRequest {
@@ -246,9 +285,9 @@ export interface CreateWorkflowRequest {
   data?: string;
   uri?: string;
   kmsKeyId?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   clientToken: string;
-  type: string;
+  type: WorkflowType;
   dryRun?: boolean;
 }
 export const CreateWorkflowRequest = S.suspend(() =>
@@ -262,7 +301,7 @@ export const CreateWorkflowRequest = S.suspend(() =>
     kmsKeyId: S.optional(S.String),
     tags: S.optional(TagMap),
     clientToken: S.String,
-    type: S.String,
+    type: WorkflowType,
     dryRun: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -468,7 +507,7 @@ export interface DistributeImageRequest {
   sourceImage: string;
   distributionConfigurationArn: string;
   executionRole: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   clientToken: string;
   loggingConfiguration?: ImageLoggingConfiguration;
 }
@@ -743,13 +782,13 @@ export const GetLifecyclePolicyRequest = S.suspend(() =>
   identifier: "GetLifecyclePolicyRequest",
 }) as any as S.Schema<GetLifecyclePolicyRequest>;
 export interface GetMarketplaceResourceRequest {
-  resourceType: string;
+  resourceType: MarketplaceResourceType;
   resourceArn: string;
   resourceLocation?: string;
 }
 export const GetMarketplaceResourceRequest = S.suspend(() =>
   S.Struct({
-    resourceType: S.String,
+    resourceType: MarketplaceResourceType,
     resourceArn: S.String,
     resourceLocation: S.optional(S.String),
   }).pipe(
@@ -829,13 +868,13 @@ export interface ImportComponentRequest {
   semanticVersion: string;
   description?: string;
   changeDescription?: string;
-  type: string;
-  format: string;
-  platform: string;
+  type: ComponentType;
+  format: ComponentFormat;
+  platform: Platform;
   data?: string;
   uri?: string;
   kmsKeyId?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   clientToken: string;
 }
 export const ImportComponentRequest = S.suspend(() =>
@@ -844,9 +883,9 @@ export const ImportComponentRequest = S.suspend(() =>
     semanticVersion: S.String,
     description: S.optional(S.String),
     changeDescription: S.optional(S.String),
-    type: S.String,
-    format: S.String,
-    platform: S.String,
+    type: ComponentType,
+    format: ComponentFormat,
+    platform: Platform,
     data: S.optional(S.String),
     uri: S.optional(S.String),
     kmsKeyId: S.optional(S.String),
@@ -875,7 +914,7 @@ export interface ImportDiskImageRequest {
   infrastructureConfigurationArn: string;
   uri: string;
   loggingConfiguration?: ImageLoggingConfiguration;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   clientToken: string;
 }
 export const ImportDiskImageRequest = S.suspend(() =>
@@ -908,11 +947,11 @@ export interface ImportVmImageRequest {
   name: string;
   semanticVersion: string;
   description?: string;
-  platform: string;
+  platform: Platform;
   osVersion?: string;
   vmImportTaskId: string;
   loggingConfiguration?: ImageLoggingConfiguration;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   clientToken: string;
 }
 export const ImportVmImageRequest = S.suspend(() =>
@@ -920,7 +959,7 @@ export const ImportVmImageRequest = S.suspend(() =>
     name: S.String,
     semanticVersion: S.String,
     description: S.optional(S.String),
-    platform: S.String,
+    platform: Platform,
     osVersion: S.optional(S.String),
     vmImportTaskId: S.String,
     loggingConfiguration: S.optional(ImageLoggingConfiguration),
@@ -966,7 +1005,7 @@ export type FilterValues = string[];
 export const FilterValues = S.Array(S.String);
 export interface Filter {
   name?: string;
-  values?: FilterValues;
+  values?: string[];
 }
 export const Filter = S.suspend(() =>
   S.Struct({ name: S.optional(S.String), values: S.optional(FilterValues) }),
@@ -974,14 +1013,14 @@ export const Filter = S.suspend(() =>
 export type FilterList = Filter[];
 export const FilterList = S.Array(Filter);
 export interface ListContainerRecipesRequest {
-  owner?: string;
-  filters?: FilterList;
+  owner?: Ownership;
+  filters?: Filter[];
   maxResults?: number;
   nextToken?: string;
 }
 export const ListContainerRecipesRequest = S.suspend(() =>
   S.Struct({
-    owner: S.optional(S.String),
+    owner: S.optional(Ownership),
     filters: S.optional(FilterList),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
@@ -999,7 +1038,7 @@ export const ListContainerRecipesRequest = S.suspend(() =>
   identifier: "ListContainerRecipesRequest",
 }) as any as S.Schema<ListContainerRecipesRequest>;
 export interface ListDistributionConfigurationsRequest {
-  filters?: FilterList;
+  filters?: Filter[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -1023,7 +1062,7 @@ export const ListDistributionConfigurationsRequest = S.suspend(() =>
 }) as any as S.Schema<ListDistributionConfigurationsRequest>;
 export interface ListImageBuildVersionsRequest {
   imageVersionArn?: string;
-  filters?: FilterList;
+  filters?: Filter[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -1071,7 +1110,7 @@ export const ListImagePackagesRequest = S.suspend(() =>
 }) as any as S.Schema<ListImagePackagesRequest>;
 export interface ListImagePipelineImagesRequest {
   imagePipelineArn: string;
-  filters?: FilterList;
+  filters?: Filter[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -1095,7 +1134,7 @@ export const ListImagePipelineImagesRequest = S.suspend(() =>
   identifier: "ListImagePipelineImagesRequest",
 }) as any as S.Schema<ListImagePipelineImagesRequest>;
 export interface ListImagePipelinesRequest {
-  filters?: FilterList;
+  filters?: Filter[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -1118,14 +1157,14 @@ export const ListImagePipelinesRequest = S.suspend(() =>
   identifier: "ListImagePipelinesRequest",
 }) as any as S.Schema<ListImagePipelinesRequest>;
 export interface ListImageRecipesRequest {
-  owner?: string;
-  filters?: FilterList;
+  owner?: Ownership;
+  filters?: Filter[];
   maxResults?: number;
   nextToken?: string;
 }
 export const ListImageRecipesRequest = S.suspend(() =>
   S.Struct({
-    owner: S.optional(S.String),
+    owner: S.optional(Ownership),
     filters: S.optional(FilterList),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
@@ -1143,8 +1182,8 @@ export const ListImageRecipesRequest = S.suspend(() =>
   identifier: "ListImageRecipesRequest",
 }) as any as S.Schema<ListImageRecipesRequest>;
 export interface ListImagesRequest {
-  owner?: string;
-  filters?: FilterList;
+  owner?: Ownership;
+  filters?: Filter[];
   byName?: boolean;
   maxResults?: number;
   nextToken?: string;
@@ -1152,7 +1191,7 @@ export interface ListImagesRequest {
 }
 export const ListImagesRequest = S.suspend(() =>
   S.Struct({
-    owner: S.optional(S.String),
+    owner: S.optional(Ownership),
     filters: S.optional(FilterList),
     byName: S.optional(S.Boolean),
     maxResults: S.optional(S.Number),
@@ -1193,7 +1232,7 @@ export const ListImageScanFindingAggregationsRequest = S.suspend(() =>
   identifier: "ListImageScanFindingAggregationsRequest",
 }) as any as S.Schema<ListImageScanFindingAggregationsRequest>;
 export interface ListInfrastructureConfigurationsRequest {
-  filters?: FilterList;
+  filters?: Filter[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -1264,7 +1303,7 @@ export const ListLifecycleExecutionsRequest = S.suspend(() =>
   identifier: "ListLifecycleExecutionsRequest",
 }) as any as S.Schema<ListLifecycleExecutionsRequest>;
 export interface ListLifecyclePoliciesRequest {
-  filters?: FilterList;
+  filters?: Filter[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -1371,15 +1410,15 @@ export const ListWorkflowExecutionsRequest = S.suspend(() =>
   identifier: "ListWorkflowExecutionsRequest",
 }) as any as S.Schema<ListWorkflowExecutionsRequest>;
 export interface ListWorkflowsRequest {
-  owner?: string;
-  filters?: FilterList;
+  owner?: Ownership;
+  filters?: Filter[];
   byName?: boolean;
   maxResults?: number;
   nextToken?: string;
 }
 export const ListWorkflowsRequest = S.suspend(() =>
   S.Struct({
-    owner: S.optional(S.String),
+    owner: S.optional(Ownership),
     filters: S.optional(FilterList),
     byName: S.optional(S.Boolean),
     maxResults: S.optional(S.Number),
@@ -1513,7 +1552,7 @@ export const RetryImageRequest = S.suspend(() =>
 export interface SendWorkflowStepActionRequest {
   stepExecutionId: string;
   imageBuildVersionArn: string;
-  action: string;
+  action: WorkflowStepActionType;
   reason?: string;
   clientToken: string;
 }
@@ -1521,7 +1560,7 @@ export const SendWorkflowStepActionRequest = S.suspend(() =>
   S.Struct({
     stepExecutionId: S.String,
     imageBuildVersionArn: S.String,
-    action: S.String,
+    action: WorkflowStepActionType,
     reason: S.optional(S.String),
     clientToken: S.String,
   }).pipe(
@@ -1540,7 +1579,7 @@ export const SendWorkflowStepActionRequest = S.suspend(() =>
 export interface StartImagePipelineExecutionRequest {
   imagePipelineArn: string;
   clientToken: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const StartImagePipelineExecutionRequest = S.suspend(() =>
   S.Struct({
@@ -1562,7 +1601,7 @@ export const StartImagePipelineExecutionRequest = S.suspend(() =>
 }) as any as S.Schema<StartImagePipelineExecutionRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1587,7 +1626,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1619,10 +1658,10 @@ export const OrganizationArnList = S.Array(S.String);
 export type OrganizationalUnitArnList = string[];
 export const OrganizationalUnitArnList = S.Array(S.String);
 export interface LaunchPermissionConfiguration {
-  userIds?: AccountList;
-  userGroups?: StringList;
-  organizationArns?: OrganizationArnList;
-  organizationalUnitArns?: OrganizationalUnitArnList;
+  userIds?: string[];
+  userGroups?: string[];
+  organizationArns?: string[];
+  organizationalUnitArns?: string[];
 }
 export const LaunchPermissionConfiguration = S.suspend(() =>
   S.Struct({
@@ -1637,8 +1676,8 @@ export const LaunchPermissionConfiguration = S.suspend(() =>
 export interface AmiDistributionConfiguration {
   name?: string;
   description?: string;
-  targetAccountIds?: AccountList;
-  amiTags?: TagMap;
+  targetAccountIds?: string[];
+  amiTags?: { [key: string]: string };
   kmsKeyId?: string;
   launchPermission?: LaunchPermissionConfiguration;
 }
@@ -1654,18 +1693,20 @@ export const AmiDistributionConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "AmiDistributionConfiguration",
 }) as any as S.Schema<AmiDistributionConfiguration>;
+export type ContainerRepositoryService = "ECR";
+export const ContainerRepositoryService = S.Literal("ECR");
 export interface TargetContainerRepository {
-  service: string;
+  service: ContainerRepositoryService;
   repositoryName: string;
 }
 export const TargetContainerRepository = S.suspend(() =>
-  S.Struct({ service: S.String, repositoryName: S.String }),
+  S.Struct({ service: ContainerRepositoryService, repositoryName: S.String }),
 ).annotations({
   identifier: "TargetContainerRepository",
 }) as any as S.Schema<TargetContainerRepository>;
 export interface ContainerDistributionConfiguration {
   description?: string;
-  containerTags?: StringList;
+  containerTags?: string[];
   targetRepository: TargetContainerRepository;
 }
 export const ContainerDistributionConfiguration = S.suspend(() =>
@@ -1697,16 +1738,18 @@ export type LaunchTemplateConfigurationList = LaunchTemplateConfiguration[];
 export const LaunchTemplateConfigurationList = S.Array(
   LaunchTemplateConfiguration,
 );
+export type DiskImageFormat = "VMDK" | "RAW" | "VHD";
+export const DiskImageFormat = S.Literal("VMDK", "RAW", "VHD");
 export interface S3ExportConfiguration {
   roleName: string;
-  diskImageFormat: string;
+  diskImageFormat: DiskImageFormat;
   s3Bucket: string;
   s3Prefix?: string;
 }
 export const S3ExportConfiguration = S.suspend(() =>
   S.Struct({
     roleName: S.String,
-    diskImageFormat: S.String,
+    diskImageFormat: DiskImageFormat,
     s3Bucket: S.String,
     s3Prefix: S.optional(S.String),
   }),
@@ -1755,16 +1798,18 @@ export const FastLaunchConfiguration = S.suspend(() =>
 }) as any as S.Schema<FastLaunchConfiguration>;
 export type FastLaunchConfigurationList = FastLaunchConfiguration[];
 export const FastLaunchConfigurationList = S.Array(FastLaunchConfiguration);
+export type SsmParameterDataType = "text" | "aws:ec2:image";
+export const SsmParameterDataType = S.Literal("text", "aws:ec2:image");
 export interface SsmParameterConfiguration {
   amiAccountId?: string;
   parameterName: string;
-  dataType?: string;
+  dataType?: SsmParameterDataType;
 }
 export const SsmParameterConfiguration = S.suspend(() =>
   S.Struct({
     amiAccountId: S.optional(S.String),
     parameterName: S.String,
-    dataType: S.optional(S.String),
+    dataType: S.optional(SsmParameterDataType),
   }),
 ).annotations({
   identifier: "SsmParameterConfiguration",
@@ -1775,11 +1820,11 @@ export interface Distribution {
   region: string;
   amiDistributionConfiguration?: AmiDistributionConfiguration;
   containerDistributionConfiguration?: ContainerDistributionConfiguration;
-  licenseConfigurationArns?: LicenseConfigurationArnList;
-  launchTemplateConfigurations?: LaunchTemplateConfigurationList;
+  licenseConfigurationArns?: string[];
+  launchTemplateConfigurations?: LaunchTemplateConfiguration[];
   s3ExportConfiguration?: S3ExportConfiguration;
-  fastLaunchConfigurations?: FastLaunchConfigurationList;
-  ssmParameterConfigurations?: SsmParameterConfigurationList;
+  fastLaunchConfigurations?: FastLaunchConfiguration[];
+  ssmParameterConfigurations?: SsmParameterConfiguration[];
 }
 export const Distribution = S.suspend(() =>
   S.Struct({
@@ -1800,7 +1845,7 @@ export const DistributionList = S.Array(Distribution);
 export interface UpdateDistributionConfigurationRequest {
   distributionConfigurationArn: string;
   description?: string;
-  distributions: DistributionList;
+  distributions: Distribution[];
   clientToken: string;
 }
 export const UpdateDistributionConfigurationRequest = S.suspend(() =>
@@ -1834,6 +1879,13 @@ export const ImageTestsConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ImageTestsConfiguration",
 }) as any as S.Schema<ImageTestsConfiguration>;
+export type PipelineExecutionStartCondition =
+  | "EXPRESSION_MATCH_ONLY"
+  | "EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE";
+export const PipelineExecutionStartCondition = S.Literal(
+  "EXPRESSION_MATCH_ONLY",
+  "EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE",
+);
 export interface AutoDisablePolicy {
   failureCount: number;
 }
@@ -1845,20 +1897,22 @@ export const AutoDisablePolicy = S.suspend(() =>
 export interface Schedule {
   scheduleExpression?: string;
   timezone?: string;
-  pipelineExecutionStartCondition?: string;
+  pipelineExecutionStartCondition?: PipelineExecutionStartCondition;
   autoDisablePolicy?: AutoDisablePolicy;
 }
 export const Schedule = S.suspend(() =>
   S.Struct({
     scheduleExpression: S.optional(S.String),
     timezone: S.optional(S.String),
-    pipelineExecutionStartCondition: S.optional(S.String),
+    pipelineExecutionStartCondition: S.optional(
+      PipelineExecutionStartCondition,
+    ),
     autoDisablePolicy: S.optional(AutoDisablePolicy),
   }),
 ).annotations({ identifier: "Schedule" }) as any as S.Schema<Schedule>;
 export interface EcrConfiguration {
   repositoryName?: string;
-  containerTags?: StringList;
+  containerTags?: string[];
 }
 export const EcrConfiguration = S.suspend(() =>
   S.Struct({
@@ -1884,7 +1938,7 @@ export type WorkflowParameterValueList = string[];
 export const WorkflowParameterValueList = S.Array(S.String);
 export interface WorkflowParameter {
   name: string;
-  value: WorkflowParameterValueList;
+  value: string[];
 }
 export const WorkflowParameter = S.suspend(() =>
   S.Struct({ name: S.String, value: WorkflowParameterValueList }),
@@ -1893,18 +1947,20 @@ export const WorkflowParameter = S.suspend(() =>
 }) as any as S.Schema<WorkflowParameter>;
 export type WorkflowParameterList = WorkflowParameter[];
 export const WorkflowParameterList = S.Array(WorkflowParameter);
+export type OnWorkflowFailure = "CONTINUE" | "ABORT";
+export const OnWorkflowFailure = S.Literal("CONTINUE", "ABORT");
 export interface WorkflowConfiguration {
   workflowArn: string;
-  parameters?: WorkflowParameterList;
+  parameters?: WorkflowParameter[];
   parallelGroup?: string;
-  onFailure?: string;
+  onFailure?: OnWorkflowFailure;
 }
 export const WorkflowConfiguration = S.suspend(() =>
   S.Struct({
     workflowArn: S.String,
     parameters: S.optional(WorkflowParameterList),
     parallelGroup: S.optional(S.String),
-    onFailure: S.optional(S.String),
+    onFailure: S.optional(OnWorkflowFailure),
   }),
 ).annotations({
   identifier: "WorkflowConfiguration",
@@ -1933,10 +1989,10 @@ export interface UpdateImagePipelineRequest {
   imageTestsConfiguration?: ImageTestsConfiguration;
   enhancedImageMetadataEnabled?: boolean;
   schedule?: Schedule;
-  status?: string;
+  status?: PipelineStatus;
   clientToken: string;
   imageScanningConfiguration?: ImageScanningConfiguration;
-  workflows?: WorkflowConfigurationList;
+  workflows?: WorkflowConfiguration[];
   loggingConfiguration?: PipelineLoggingConfiguration;
   executionRole?: string;
 }
@@ -1951,7 +2007,7 @@ export const UpdateImagePipelineRequest = S.suspend(() =>
     imageTestsConfiguration: S.optional(ImageTestsConfiguration),
     enhancedImageMetadataEnabled: S.optional(S.Boolean),
     schedule: S.optional(Schedule),
-    status: S.optional(S.String),
+    status: S.optional(PipelineStatus),
     clientToken: S.String,
     imageScanningConfiguration: S.optional(ImageScanningConfiguration),
     workflows: S.optional(WorkflowConfigurationList),
@@ -2000,16 +2056,18 @@ export const InstanceMetadataOptions = S.suspend(() =>
 ).annotations({
   identifier: "InstanceMetadataOptions",
 }) as any as S.Schema<InstanceMetadataOptions>;
+export type TenancyType = "default" | "dedicated" | "host";
+export const TenancyType = S.Literal("default", "dedicated", "host");
 export interface Placement {
   availabilityZone?: string;
-  tenancy?: string;
+  tenancy?: TenancyType;
   hostId?: string;
   hostResourceGroupArn?: string;
 }
 export const Placement = S.suspend(() =>
   S.Struct({
     availabilityZone: S.optional(S.String),
-    tenancy: S.optional(S.String),
+    tenancy: S.optional(TenancyType),
     hostId: S.optional(S.String),
     hostResourceGroupArn: S.optional(S.String),
   }),
@@ -2017,15 +2075,15 @@ export const Placement = S.suspend(() =>
 export interface UpdateInfrastructureConfigurationRequest {
   infrastructureConfigurationArn: string;
   description?: string;
-  instanceTypes?: InstanceTypeList;
+  instanceTypes?: string[];
   instanceProfileName: string;
-  securityGroupIds?: SecurityGroupIds;
+  securityGroupIds?: string[];
   subnetId?: string;
   logging?: Logging;
   keyPair?: string;
   terminateInstanceOnFailure?: boolean;
   snsTopicArn?: string;
-  resourceTags?: ResourceTagMap;
+  resourceTags?: { [key: string]: string };
   instanceMetadataOptions?: InstanceMetadataOptions;
   placement?: Placement;
   clientToken: string;
@@ -2059,6 +2117,15 @@ export const UpdateInfrastructureConfigurationRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateInfrastructureConfigurationRequest",
 }) as any as S.Schema<UpdateInfrastructureConfigurationRequest>;
+export type LifecyclePolicyDetailActionType =
+  | "DELETE"
+  | "DEPRECATE"
+  | "DISABLE";
+export const LifecyclePolicyDetailActionType = S.Literal(
+  "DELETE",
+  "DEPRECATE",
+  "DISABLE",
+);
 export interface LifecyclePolicyDetailActionIncludeResources {
   amis?: boolean;
   snapshots?: boolean;
@@ -2074,28 +2141,37 @@ export const LifecyclePolicyDetailActionIncludeResources = S.suspend(() =>
   identifier: "LifecyclePolicyDetailActionIncludeResources",
 }) as any as S.Schema<LifecyclePolicyDetailActionIncludeResources>;
 export interface LifecyclePolicyDetailAction {
-  type: string;
+  type: LifecyclePolicyDetailActionType;
   includeResources?: LifecyclePolicyDetailActionIncludeResources;
 }
 export const LifecyclePolicyDetailAction = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: LifecyclePolicyDetailActionType,
     includeResources: S.optional(LifecyclePolicyDetailActionIncludeResources),
   }),
 ).annotations({
   identifier: "LifecyclePolicyDetailAction",
 }) as any as S.Schema<LifecyclePolicyDetailAction>;
+export type LifecyclePolicyDetailFilterType = "AGE" | "COUNT";
+export const LifecyclePolicyDetailFilterType = S.Literal("AGE", "COUNT");
+export type LifecyclePolicyTimeUnit = "DAYS" | "WEEKS" | "MONTHS" | "YEARS";
+export const LifecyclePolicyTimeUnit = S.Literal(
+  "DAYS",
+  "WEEKS",
+  "MONTHS",
+  "YEARS",
+);
 export interface LifecyclePolicyDetailFilter {
-  type: string;
+  type: LifecyclePolicyDetailFilterType;
   value: number;
-  unit?: string;
+  unit?: LifecyclePolicyTimeUnit;
   retainAtLeast?: number;
 }
 export const LifecyclePolicyDetailFilter = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: LifecyclePolicyDetailFilterType,
     value: S.Number,
-    unit: S.optional(S.String),
+    unit: S.optional(LifecyclePolicyTimeUnit),
     retainAtLeast: S.optional(S.Number),
   }),
 ).annotations({
@@ -2103,19 +2179,19 @@ export const LifecyclePolicyDetailFilter = S.suspend(() =>
 }) as any as S.Schema<LifecyclePolicyDetailFilter>;
 export interface LifecyclePolicyDetailExclusionRulesAmisLastLaunched {
   value: number;
-  unit: string;
+  unit: LifecyclePolicyTimeUnit;
 }
 export const LifecyclePolicyDetailExclusionRulesAmisLastLaunched = S.suspend(
-  () => S.Struct({ value: S.Number, unit: S.String }),
+  () => S.Struct({ value: S.Number, unit: LifecyclePolicyTimeUnit }),
 ).annotations({
   identifier: "LifecyclePolicyDetailExclusionRulesAmisLastLaunched",
 }) as any as S.Schema<LifecyclePolicyDetailExclusionRulesAmisLastLaunched>;
 export interface LifecyclePolicyDetailExclusionRulesAmis {
   isPublic?: boolean;
-  regions?: StringList;
-  sharedAccounts?: AccountList;
+  regions?: string[];
+  sharedAccounts?: string[];
   lastLaunched?: LifecyclePolicyDetailExclusionRulesAmisLastLaunched;
-  tagMap?: TagMap;
+  tagMap?: { [key: string]: string };
 }
 export const LifecyclePolicyDetailExclusionRulesAmis = S.suspend(() =>
   S.Struct({
@@ -2131,7 +2207,7 @@ export const LifecyclePolicyDetailExclusionRulesAmis = S.suspend(() =>
   identifier: "LifecyclePolicyDetailExclusionRulesAmis",
 }) as any as S.Schema<LifecyclePolicyDetailExclusionRulesAmis>;
 export interface LifecyclePolicyDetailExclusionRules {
-  tagMap?: TagMap;
+  tagMap?: { [key: string]: string };
   amis?: LifecyclePolicyDetailExclusionRulesAmis;
 }
 export const LifecyclePolicyDetailExclusionRules = S.suspend(() =>
@@ -2173,8 +2249,8 @@ export const LifecyclePolicyResourceSelectionRecipes = S.Array(
   LifecyclePolicyResourceSelectionRecipe,
 );
 export interface LifecyclePolicyResourceSelection {
-  recipes?: LifecyclePolicyResourceSelectionRecipes;
-  tagMap?: TagMap;
+  recipes?: LifecyclePolicyResourceSelectionRecipe[];
+  tagMap?: { [key: string]: string };
 }
 export const LifecyclePolicyResourceSelection = S.suspend(() =>
   S.Struct({
@@ -2187,10 +2263,10 @@ export const LifecyclePolicyResourceSelection = S.suspend(() =>
 export interface UpdateLifecyclePolicyRequest {
   lifecyclePolicyArn: string;
   description?: string;
-  status?: string;
+  status?: LifecyclePolicyStatus;
   executionRole: string;
-  resourceType: string;
-  policyDetails: LifecyclePolicyDetails;
+  resourceType: LifecyclePolicyResourceType;
+  policyDetails: LifecyclePolicyDetail[];
   resourceSelection: LifecyclePolicyResourceSelection;
   clientToken: string;
 }
@@ -2198,9 +2274,9 @@ export const UpdateLifecyclePolicyRequest = S.suspend(() =>
   S.Struct({
     lifecyclePolicyArn: S.String,
     description: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(LifecyclePolicyStatus),
     executionRole: S.String,
-    resourceType: S.String,
+    resourceType: LifecyclePolicyResourceType,
     policyDetails: LifecyclePolicyDetails,
     resourceSelection: LifecyclePolicyResourceSelection,
     clientToken: S.String,
@@ -2219,6 +2295,34 @@ export const UpdateLifecyclePolicyRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateLifecyclePolicyRequest>;
 export type ImageScanFindingsFilterValues = string[];
 export const ImageScanFindingsFilterValues = S.Array(S.String);
+export type ResourceStatus =
+  | "AVAILABLE"
+  | "DELETED"
+  | "DEPRECATED"
+  | "DISABLED";
+export const ResourceStatus = S.Literal(
+  "AVAILABLE",
+  "DELETED",
+  "DEPRECATED",
+  "DISABLED",
+);
+export type EbsVolumeType =
+  | "standard"
+  | "io1"
+  | "io2"
+  | "gp2"
+  | "gp3"
+  | "sc1"
+  | "st1";
+export const EbsVolumeType = S.Literal(
+  "standard",
+  "io1",
+  "io2",
+  "gp2",
+  "gp3",
+  "sc1",
+  "st1",
+);
 export interface EbsInstanceBlockDeviceSpecification {
   encrypted?: boolean;
   deleteOnTermination?: boolean;
@@ -2226,7 +2330,7 @@ export interface EbsInstanceBlockDeviceSpecification {
   kmsKeyId?: string;
   snapshotId?: string;
   volumeSize?: number;
-  volumeType?: string;
+  volumeType?: EbsVolumeType;
   throughput?: number;
 }
 export const EbsInstanceBlockDeviceSpecification = S.suspend(() =>
@@ -2237,7 +2341,7 @@ export const EbsInstanceBlockDeviceSpecification = S.suspend(() =>
     kmsKeyId: S.optional(S.String),
     snapshotId: S.optional(S.String),
     volumeSize: S.optional(S.Number),
-    volumeType: S.optional(S.String),
+    volumeType: S.optional(EbsVolumeType),
     throughput: S.optional(S.Number),
   }),
 ).annotations({
@@ -2263,7 +2367,7 @@ export type InstanceBlockDeviceMappings = InstanceBlockDeviceMapping[];
 export const InstanceBlockDeviceMappings = S.Array(InstanceBlockDeviceMapping);
 export interface InstanceConfiguration {
   image?: string;
-  blockDeviceMappings?: InstanceBlockDeviceMappings;
+  blockDeviceMappings?: InstanceBlockDeviceMapping[];
 }
 export const InstanceConfiguration = S.suspend(() =>
   S.Struct({
@@ -2273,11 +2377,83 @@ export const InstanceConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "InstanceConfiguration",
 }) as any as S.Schema<InstanceConfiguration>;
+export type WorkflowExecutionStatus =
+  | "PENDING"
+  | "SKIPPED"
+  | "RUNNING"
+  | "COMPLETED"
+  | "FAILED"
+  | "ROLLBACK_IN_PROGRESS"
+  | "ROLLBACK_COMPLETED"
+  | "CANCELLED";
+export const WorkflowExecutionStatus = S.Literal(
+  "PENDING",
+  "SKIPPED",
+  "RUNNING",
+  "COMPLETED",
+  "FAILED",
+  "ROLLBACK_IN_PROGRESS",
+  "ROLLBACK_COMPLETED",
+  "CANCELLED",
+);
+export type WorkflowStepExecutionStatus =
+  | "PENDING"
+  | "SKIPPED"
+  | "RUNNING"
+  | "COMPLETED"
+  | "FAILED"
+  | "CANCELLED";
+export const WorkflowStepExecutionStatus = S.Literal(
+  "PENDING",
+  "SKIPPED",
+  "RUNNING",
+  "COMPLETED",
+  "FAILED",
+  "CANCELLED",
+);
+export type WorkflowStepExecutionRollbackStatus =
+  | "RUNNING"
+  | "COMPLETED"
+  | "SKIPPED"
+  | "FAILED";
+export const WorkflowStepExecutionRollbackStatus = S.Literal(
+  "RUNNING",
+  "COMPLETED",
+  "SKIPPED",
+  "FAILED",
+);
+export type ImageStatus =
+  | "PENDING"
+  | "CREATING"
+  | "BUILDING"
+  | "TESTING"
+  | "DISTRIBUTING"
+  | "INTEGRATING"
+  | "AVAILABLE"
+  | "CANCELLED"
+  | "FAILED"
+  | "DEPRECATED"
+  | "DELETED"
+  | "DISABLED";
+export const ImageStatus = S.Literal(
+  "PENDING",
+  "CREATING",
+  "BUILDING",
+  "TESTING",
+  "DISTRIBUTING",
+  "INTEGRATING",
+  "AVAILABLE",
+  "CANCELLED",
+  "FAILED",
+  "DEPRECATED",
+  "DELETED",
+  "DISABLED",
+);
 export interface ImagePipeline {
   arn?: string;
   name?: string;
   description?: string;
-  platform?: string;
+  platform?: Platform;
   enhancedImageMetadataEnabled?: boolean;
   imageRecipeArn?: string;
   containerRecipeArn?: string;
@@ -2285,16 +2461,16 @@ export interface ImagePipeline {
   distributionConfigurationArn?: string;
   imageTestsConfiguration?: ImageTestsConfiguration;
   schedule?: Schedule;
-  status?: string;
+  status?: PipelineStatus;
   dateCreated?: string;
   dateUpdated?: string;
   dateLastRun?: string;
-  lastRunStatus?: string;
+  lastRunStatus?: ImageStatus;
   dateNextRun?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   imageScanningConfiguration?: ImageScanningConfiguration;
   executionRole?: string;
-  workflows?: WorkflowConfigurationList;
+  workflows?: WorkflowConfiguration[];
   loggingConfiguration?: PipelineLoggingConfiguration;
   consecutiveFailures?: number;
 }
@@ -2303,7 +2479,7 @@ export const ImagePipeline = S.suspend(() =>
     arn: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    platform: S.optional(S.String),
+    platform: S.optional(Platform),
     enhancedImageMetadataEnabled: S.optional(S.Boolean),
     imageRecipeArn: S.optional(S.String),
     containerRecipeArn: S.optional(S.String),
@@ -2311,11 +2487,11 @@ export const ImagePipeline = S.suspend(() =>
     distributionConfigurationArn: S.optional(S.String),
     imageTestsConfiguration: S.optional(ImageTestsConfiguration),
     schedule: S.optional(Schedule),
-    status: S.optional(S.String),
+    status: S.optional(PipelineStatus),
     dateCreated: S.optional(S.String),
     dateUpdated: S.optional(S.String),
     dateLastRun: S.optional(S.String),
-    lastRunStatus: S.optional(S.String),
+    lastRunStatus: S.optional(ImageStatus),
     dateNextRun: S.optional(S.String),
     tags: S.optional(TagMap),
     imageScanningConfiguration: S.optional(ImageScanningConfiguration),
@@ -2331,7 +2507,7 @@ export type ImagePipelineList = ImagePipeline[];
 export const ImagePipelineList = S.Array(ImagePipeline);
 export interface ImageScanFindingsFilter {
   name?: string;
-  values?: ImageScanFindingsFilterValues;
+  values?: string[];
 }
 export const ImageScanFindingsFilter = S.suspend(() =>
   S.Struct({
@@ -2351,12 +2527,30 @@ export const LifecycleExecutionResourcesImpactedSummary = S.suspend(() =>
 ).annotations({
   identifier: "LifecycleExecutionResourcesImpactedSummary",
 }) as any as S.Schema<LifecycleExecutionResourcesImpactedSummary>;
+export type LifecycleExecutionStatus =
+  | "IN_PROGRESS"
+  | "CANCELLED"
+  | "CANCELLING"
+  | "FAILED"
+  | "SUCCESS"
+  | "PENDING";
+export const LifecycleExecutionStatus = S.Literal(
+  "IN_PROGRESS",
+  "CANCELLED",
+  "CANCELLING",
+  "FAILED",
+  "SUCCESS",
+  "PENDING",
+);
 export interface LifecycleExecutionState {
-  status?: string;
+  status?: LifecycleExecutionStatus;
   reason?: string;
 }
 export const LifecycleExecutionState = S.suspend(() =>
-  S.Struct({ status: S.optional(S.String), reason: S.optional(S.String) }),
+  S.Struct({
+    status: S.optional(LifecycleExecutionStatus),
+    reason: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "LifecycleExecutionState",
 }) as any as S.Schema<LifecycleExecutionState>;
@@ -2385,10 +2579,10 @@ export const LifecycleExecution = S.suspend(() =>
 export type LifecycleExecutionsList = LifecycleExecution[];
 export const LifecycleExecutionsList = S.Array(LifecycleExecution);
 export interface ResourceState {
-  status?: string;
+  status?: ResourceStatus;
 }
 export const ResourceState = S.suspend(() =>
-  S.Struct({ status: S.optional(S.String) }),
+  S.Struct({ status: S.optional(ResourceStatus) }),
 ).annotations({
   identifier: "ResourceState",
 }) as any as S.Schema<ResourceState>;
@@ -2435,12 +2629,12 @@ export interface CreateComponentRequest {
   semanticVersion: string;
   description?: string;
   changeDescription?: string;
-  platform: string;
-  supportedOsVersions?: OsVersionList;
+  platform: Platform;
+  supportedOsVersions?: string[];
   data?: string;
   uri?: string;
   kmsKeyId?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   clientToken: string;
   dryRun?: boolean;
 }
@@ -2450,7 +2644,7 @@ export const CreateComponentRequest = S.suspend(() =>
     semanticVersion: S.String,
     description: S.optional(S.String),
     changeDescription: S.optional(S.String),
-    platform: S.String,
+    platform: Platform,
     supportedOsVersions: S.optional(OsVersionList),
     data: S.optional(S.String),
     uri: S.optional(S.String),
@@ -2638,8 +2832,8 @@ export interface GetWorkflowExecutionResponse {
   workflowBuildVersionArn?: string;
   workflowExecutionId?: string;
   imageBuildVersionArn?: string;
-  type?: string;
-  status?: string;
+  type?: WorkflowType;
+  status?: WorkflowExecutionStatus;
   message?: string;
   totalStepCount?: number;
   totalStepsSucceeded?: number;
@@ -2655,8 +2849,8 @@ export const GetWorkflowExecutionResponse = S.suspend(() =>
     workflowBuildVersionArn: S.optional(S.String),
     workflowExecutionId: S.optional(S.String),
     imageBuildVersionArn: S.optional(S.String),
-    type: S.optional(S.String),
-    status: S.optional(S.String),
+    type: S.optional(WorkflowType),
+    status: S.optional(WorkflowExecutionStatus),
     message: S.optional(S.String),
     totalStepCount: S.optional(S.Number),
     totalStepsSucceeded: S.optional(S.Number),
@@ -2678,8 +2872,8 @@ export interface GetWorkflowStepExecutionResponse {
   name?: string;
   description?: string;
   action?: string;
-  status?: string;
-  rollbackStatus?: string;
+  status?: WorkflowStepExecutionStatus;
+  rollbackStatus?: WorkflowStepExecutionRollbackStatus;
   message?: string;
   inputs?: string;
   outputs?: string;
@@ -2698,8 +2892,8 @@ export const GetWorkflowStepExecutionResponse = S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(S.String),
     action: S.optional(S.String),
-    status: S.optional(S.String),
-    rollbackStatus: S.optional(S.String),
+    status: S.optional(WorkflowStepExecutionStatus),
+    rollbackStatus: S.optional(WorkflowStepExecutionRollbackStatus),
     message: S.optional(S.String),
     inputs: S.optional(S.String),
     outputs: S.optional(S.String),
@@ -2752,15 +2946,15 @@ export const ImportVmImageResponse = S.suspend(() =>
   identifier: "ImportVmImageResponse",
 }) as any as S.Schema<ImportVmImageResponse>;
 export interface ListComponentsRequest {
-  owner?: string;
-  filters?: FilterList;
+  owner?: Ownership;
+  filters?: Filter[];
   byName?: boolean;
   maxResults?: number;
   nextToken?: string;
 }
 export const ListComponentsRequest = S.suspend(() =>
   S.Struct({
-    owner: S.optional(S.String),
+    owner: S.optional(Ownership),
     filters: S.optional(FilterList),
     byName: S.optional(S.Boolean),
     maxResults: S.optional(S.Number),
@@ -2778,12 +2972,14 @@ export const ListComponentsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListComponentsRequest",
 }) as any as S.Schema<ListComponentsRequest>;
+export type ImageType = "AMI" | "DOCKER";
+export const ImageType = S.Literal("AMI", "DOCKER");
 export interface ImageState {
-  status?: string;
+  status?: ImageStatus;
   reason?: string;
 }
 export const ImageState = S.suspend(() =>
-  S.Struct({ status: S.optional(S.String), reason: S.optional(S.String) }),
+  S.Struct({ status: S.optional(ImageStatus), reason: S.optional(S.String) }),
 ).annotations({ identifier: "ImageState" }) as any as S.Schema<ImageState>;
 export interface Ami {
   region?: string;
@@ -2807,7 +3003,7 @@ export type AmiList = Ami[];
 export const AmiList = S.Array(Ami);
 export interface Container {
   region?: string;
-  imageUris?: StringList;
+  imageUris?: string[];
 }
 export const Container = S.suspend(() =>
   S.Struct({ region: S.optional(S.String), imageUris: S.optional(StringList) }),
@@ -2815,8 +3011,8 @@ export const Container = S.suspend(() =>
 export type ContainerList = Container[];
 export const ContainerList = S.Array(Container);
 export interface OutputResources {
-  amis?: AmiList;
-  containers?: ContainerList;
+  amis?: Ami[];
+  containers?: Container[];
 }
 export const OutputResources = S.suspend(() =>
   S.Struct({
@@ -2826,20 +3022,42 @@ export const OutputResources = S.suspend(() =>
 ).annotations({
   identifier: "OutputResources",
 }) as any as S.Schema<OutputResources>;
+export type BuildType =
+  | "USER_INITIATED"
+  | "SCHEDULED"
+  | "IMPORT"
+  | "IMPORT_ISO";
+export const BuildType = S.Literal(
+  "USER_INITIATED",
+  "SCHEDULED",
+  "IMPORT",
+  "IMPORT_ISO",
+);
+export type ImageSource =
+  | "AMAZON_MANAGED"
+  | "AWS_MARKETPLACE"
+  | "IMPORTED"
+  | "CUSTOM";
+export const ImageSource = S.Literal(
+  "AMAZON_MANAGED",
+  "AWS_MARKETPLACE",
+  "IMPORTED",
+  "CUSTOM",
+);
 export interface ImageSummary {
   arn?: string;
   name?: string;
-  type?: string;
+  type?: ImageType;
   version?: string;
-  platform?: string;
+  platform?: Platform;
   osVersion?: string;
   state?: ImageState;
   owner?: string;
   dateCreated?: string;
   outputResources?: OutputResources;
-  tags?: TagMap;
-  buildType?: string;
-  imageSource?: string;
+  tags?: { [key: string]: string };
+  buildType?: BuildType;
+  imageSource?: ImageSource;
   deprecationTime?: Date;
   lifecycleExecutionId?: string;
   loggingConfiguration?: ImageLoggingConfiguration;
@@ -2848,17 +3066,17 @@ export const ImageSummary = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     name: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(ImageType),
     version: S.optional(S.String),
-    platform: S.optional(S.String),
+    platform: S.optional(Platform),
     osVersion: S.optional(S.String),
     state: S.optional(ImageState),
     owner: S.optional(S.String),
     dateCreated: S.optional(S.String),
     outputResources: S.optional(OutputResources),
     tags: S.optional(TagMap),
-    buildType: S.optional(S.String),
-    imageSource: S.optional(S.String),
+    buildType: S.optional(BuildType),
+    imageSource: S.optional(ImageSource),
     deprecationTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -2870,7 +3088,7 @@ export type ImageSummaryList = ImageSummary[];
 export const ImageSummaryList = S.Array(ImageSummary);
 export interface ListImagePipelineImagesResponse {
   requestId?: string;
-  imageSummaryList?: ImageSummaryList;
+  imageSummaryList?: ImageSummary[];
   nextToken?: string;
 }
 export const ListImagePipelineImagesResponse = S.suspend(() =>
@@ -2884,7 +3102,7 @@ export const ListImagePipelineImagesResponse = S.suspend(() =>
 }) as any as S.Schema<ListImagePipelineImagesResponse>;
 export interface ListImagePipelinesResponse {
   requestId?: string;
-  imagePipelineList?: ImagePipelineList;
+  imagePipelineList?: ImagePipeline[];
   nextToken?: string;
 }
 export const ListImagePipelinesResponse = S.suspend(() =>
@@ -2897,7 +3115,7 @@ export const ListImagePipelinesResponse = S.suspend(() =>
   identifier: "ListImagePipelinesResponse",
 }) as any as S.Schema<ListImagePipelinesResponse>;
 export interface ListImageScanFindingsRequest {
-  filters?: ImageScanFindingsFilterList;
+  filters?: ImageScanFindingsFilter[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -2920,7 +3138,7 @@ export const ListImageScanFindingsRequest = S.suspend(() =>
   identifier: "ListImageScanFindingsRequest",
 }) as any as S.Schema<ListImageScanFindingsRequest>;
 export interface ListLifecycleExecutionsResponse {
-  lifecycleExecutions?: LifecycleExecutionsList;
+  lifecycleExecutions?: LifecycleExecution[];
   nextToken?: string;
 }
 export const ListLifecycleExecutionsResponse = S.suspend(() =>
@@ -2932,7 +3150,7 @@ export const ListLifecycleExecutionsResponse = S.suspend(() =>
   identifier: "ListLifecycleExecutionsResponse",
 }) as any as S.Schema<ListLifecycleExecutionsResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -3076,7 +3294,7 @@ export const UpdateLifecyclePolicyResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateLifecyclePolicyResponse>;
 export interface ComponentParameter {
   name: string;
-  value: ComponentParameterValueList;
+  value: string[];
 }
 export const ComponentParameter = S.suspend(() =>
   S.Struct({ name: S.String, value: ComponentParameterValueList }),
@@ -3097,7 +3315,7 @@ export type RegionList = string[];
 export const RegionList = S.Array(S.String);
 export interface ComponentConfiguration {
   componentArn: string;
-  parameters?: ComponentParameterList;
+  parameters?: ComponentParameter[];
 }
 export const ComponentConfiguration = S.suspend(() =>
   S.Struct({
@@ -3139,30 +3357,30 @@ export const LatestVersionReferences = S.suspend(() =>
 }) as any as S.Schema<LatestVersionReferences>;
 export interface ContainerRecipe {
   arn?: string;
-  containerType?: string;
+  containerType?: ContainerType;
   name?: string;
   description?: string;
-  platform?: string;
+  platform?: Platform;
   owner?: string;
   version?: string;
-  components?: ComponentConfigurationList;
+  components?: ComponentConfiguration[];
   instanceConfiguration?: InstanceConfiguration;
   dockerfileTemplateData?: string;
   kmsKeyId?: string;
   encrypted?: boolean;
   parentImage?: string;
   dateCreated?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   workingDirectory?: string;
   targetRepository?: TargetContainerRepository;
 }
 export const ContainerRecipe = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
-    containerType: S.optional(S.String),
+    containerType: S.optional(ContainerType),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    platform: S.optional(S.String),
+    platform: S.optional(Platform),
     owner: S.optional(S.String),
     version: S.optional(S.String),
     components: S.optional(ComponentConfigurationList),
@@ -3183,11 +3401,11 @@ export interface DistributionConfiguration {
   arn?: string;
   name?: string;
   description?: string;
-  distributions?: DistributionList;
+  distributions?: Distribution[];
   timeoutMinutes: number;
   dateCreated?: string;
   dateUpdated?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const DistributionConfiguration = S.suspend(() =>
   S.Struct({
@@ -3205,28 +3423,28 @@ export const DistributionConfiguration = S.suspend(() =>
 }) as any as S.Schema<DistributionConfiguration>;
 export interface ImageRecipe {
   arn?: string;
-  type?: string;
+  type?: ImageType;
   name?: string;
   description?: string;
-  platform?: string;
+  platform?: Platform;
   owner?: string;
   version?: string;
-  components?: ComponentConfigurationList;
+  components?: ComponentConfiguration[];
   parentImage?: string;
-  blockDeviceMappings?: InstanceBlockDeviceMappings;
+  blockDeviceMappings?: InstanceBlockDeviceMapping[];
   dateCreated?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   workingDirectory?: string;
   additionalInstanceConfiguration?: AdditionalInstanceConfiguration;
-  amiTags?: TagMap;
+  amiTags?: { [key: string]: string };
 }
 export const ImageRecipe = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(ImageType),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    platform: S.optional(S.String),
+    platform: S.optional(Platform),
     owner: S.optional(S.String),
     version: S.optional(S.String),
     components: S.optional(ComponentConfigurationList),
@@ -3245,9 +3463,9 @@ export interface InfrastructureConfiguration {
   arn?: string;
   name?: string;
   description?: string;
-  instanceTypes?: InstanceTypeList;
+  instanceTypes?: string[];
   instanceProfileName?: string;
-  securityGroupIds?: SecurityGroupIds;
+  securityGroupIds?: string[];
   subnetId?: string;
   logging?: Logging;
   keyPair?: string;
@@ -3255,9 +3473,9 @@ export interface InfrastructureConfiguration {
   snsTopicArn?: string;
   dateCreated?: string;
   dateUpdated?: string;
-  resourceTags?: ResourceTagMap;
+  resourceTags?: { [key: string]: string };
   instanceMetadataOptions?: InstanceMetadataOptions;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   placement?: Placement;
 }
 export const InfrastructureConfiguration = S.suspend(() =>
@@ -3287,24 +3505,24 @@ export interface LifecyclePolicy {
   arn?: string;
   name?: string;
   description?: string;
-  status?: string;
+  status?: LifecyclePolicyStatus;
   executionRole?: string;
-  resourceType?: string;
-  policyDetails?: LifecyclePolicyDetails;
+  resourceType?: LifecyclePolicyResourceType;
+  policyDetails?: LifecyclePolicyDetail[];
   resourceSelection?: LifecyclePolicyResourceSelection;
   dateCreated?: Date;
   dateUpdated?: Date;
   dateLastRun?: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const LifecyclePolicy = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(LifecyclePolicyStatus),
     executionRole: S.optional(S.String),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(LifecyclePolicyResourceType),
     policyDetails: S.optional(LifecyclePolicyDetails),
     resourceSelection: S.optional(LifecyclePolicyResourceSelection),
     dateCreated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -3315,12 +3533,17 @@ export const LifecyclePolicy = S.suspend(() =>
 ).annotations({
   identifier: "LifecyclePolicy",
 }) as any as S.Schema<LifecyclePolicy>;
+export type ComponentStatus = "DEPRECATED" | "DISABLED" | "ACTIVE";
+export const ComponentStatus = S.Literal("DEPRECATED", "DISABLED", "ACTIVE");
 export interface ComponentState {
-  status?: string;
+  status?: ComponentStatus;
   reason?: string;
 }
 export const ComponentState = S.suspend(() =>
-  S.Struct({ status: S.optional(S.String), reason: S.optional(S.String) }),
+  S.Struct({
+    status: S.optional(ComponentStatus),
+    reason: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "ComponentState",
 }) as any as S.Schema<ComponentState>;
@@ -3328,15 +3551,15 @@ export interface ComponentSummary {
   arn?: string;
   name?: string;
   version?: string;
-  platform?: string;
-  supportedOsVersions?: OsVersionList;
+  platform?: Platform;
+  supportedOsVersions?: string[];
   state?: ComponentState;
-  type?: string;
+  type?: ComponentType;
   owner?: string;
   description?: string;
   changeDescription?: string;
   dateCreated?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   publisher?: string;
   obfuscate?: boolean;
 }
@@ -3345,10 +3568,10 @@ export const ComponentSummary = S.suspend(() =>
     arn: S.optional(S.String),
     name: S.optional(S.String),
     version: S.optional(S.String),
-    platform: S.optional(S.String),
+    platform: S.optional(Platform),
     supportedOsVersions: S.optional(OsVersionList),
     state: S.optional(ComponentState),
-    type: S.optional(S.String),
+    type: S.optional(ComponentType),
     owner: S.optional(S.String),
     description: S.optional(S.String),
     changeDescription: S.optional(S.String),
@@ -3364,21 +3587,21 @@ export type ComponentSummaryList = ComponentSummary[];
 export const ComponentSummaryList = S.Array(ComponentSummary);
 export interface ContainerRecipeSummary {
   arn?: string;
-  containerType?: string;
+  containerType?: ContainerType;
   name?: string;
-  platform?: string;
+  platform?: Platform;
   owner?: string;
   parentImage?: string;
   dateCreated?: string;
   instanceImage?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ContainerRecipeSummary = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
-    containerType: S.optional(S.String),
+    containerType: S.optional(ContainerType),
     name: S.optional(S.String),
-    platform: S.optional(S.String),
+    platform: S.optional(Platform),
     owner: S.optional(S.String),
     parentImage: S.optional(S.String),
     dateCreated: S.optional(S.String),
@@ -3396,8 +3619,8 @@ export interface DistributionConfigurationSummary {
   description?: string;
   dateCreated?: string;
   dateUpdated?: string;
-  tags?: TagMap;
-  regions?: RegionList;
+  tags?: { [key: string]: string };
+  regions?: string[];
 }
 export const DistributionConfigurationSummary = S.suspend(() =>
   S.Struct({
@@ -3432,17 +3655,17 @@ export const ImagePackageList = S.Array(ImagePackage);
 export interface ImageRecipeSummary {
   arn?: string;
   name?: string;
-  platform?: string;
+  platform?: Platform;
   owner?: string;
   parentImage?: string;
   dateCreated?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ImageRecipeSummary = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     name: S.optional(S.String),
-    platform: S.optional(S.String),
+    platform: S.optional(Platform),
     owner: S.optional(S.String),
     parentImage: S.optional(S.String),
     dateCreated: S.optional(S.String),
@@ -3456,27 +3679,27 @@ export const ImageRecipeSummaryList = S.Array(ImageRecipeSummary);
 export interface ImageVersion {
   arn?: string;
   name?: string;
-  type?: string;
+  type?: ImageType;
   version?: string;
-  platform?: string;
+  platform?: Platform;
   osVersion?: string;
   owner?: string;
   dateCreated?: string;
-  buildType?: string;
-  imageSource?: string;
+  buildType?: BuildType;
+  imageSource?: ImageSource;
 }
 export const ImageVersion = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     name: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(ImageType),
     version: S.optional(S.String),
-    platform: S.optional(S.String),
+    platform: S.optional(Platform),
     osVersion: S.optional(S.String),
     owner: S.optional(S.String),
     dateCreated: S.optional(S.String),
-    buildType: S.optional(S.String),
-    imageSource: S.optional(S.String),
+    buildType: S.optional(BuildType),
+    imageSource: S.optional(ImageSource),
   }),
 ).annotations({ identifier: "ImageVersion" }) as any as S.Schema<ImageVersion>;
 export type ImageVersionList = ImageVersion[];
@@ -3487,9 +3710,9 @@ export interface InfrastructureConfigurationSummary {
   description?: string;
   dateCreated?: string;
   dateUpdated?: string;
-  resourceTags?: ResourceTagMap;
-  tags?: TagMap;
-  instanceTypes?: InstanceTypeList;
+  resourceTags?: { [key: string]: string };
+  tags?: { [key: string]: string };
+  instanceTypes?: string[];
   instanceProfileName?: string;
   placement?: Placement;
 }
@@ -3518,22 +3741,22 @@ export interface LifecyclePolicySummary {
   arn?: string;
   name?: string;
   description?: string;
-  status?: string;
+  status?: LifecyclePolicyStatus;
   executionRole?: string;
-  resourceType?: string;
+  resourceType?: LifecyclePolicyResourceType;
   dateCreated?: Date;
   dateUpdated?: Date;
   dateLastRun?: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const LifecyclePolicySummary = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(LifecyclePolicyStatus),
     executionRole: S.optional(S.String),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(LifecyclePolicyResourceType),
     dateCreated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     dateUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     dateLastRun: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -3568,12 +3791,17 @@ export const WorkflowStepExecution = S.suspend(() =>
 }) as any as S.Schema<WorkflowStepExecution>;
 export type WorkflowStepExecutionList = WorkflowStepExecution[];
 export const WorkflowStepExecutionList = S.Array(WorkflowStepExecution);
+export type WorkflowStatus = "DEPRECATED";
+export const WorkflowStatus = S.Literal("DEPRECATED");
 export interface WorkflowState {
-  status?: string;
+  status?: WorkflowStatus;
   reason?: string;
 }
 export const WorkflowState = S.suspend(() =>
-  S.Struct({ status: S.optional(S.String), reason: S.optional(S.String) }),
+  S.Struct({
+    status: S.optional(WorkflowStatus),
+    reason: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "WorkflowState",
 }) as any as S.Schema<WorkflowState>;
@@ -3583,11 +3811,11 @@ export interface WorkflowSummary {
   version?: string;
   description?: string;
   changeDescription?: string;
-  type?: string;
+  type?: WorkflowType;
   owner?: string;
   state?: WorkflowState;
   dateCreated?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const WorkflowSummary = S.suspend(() =>
   S.Struct({
@@ -3596,7 +3824,7 @@ export const WorkflowSummary = S.suspend(() =>
     version: S.optional(S.String),
     description: S.optional(S.String),
     changeDescription: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(WorkflowType),
     owner: S.optional(S.String),
     state: S.optional(WorkflowState),
     dateCreated: S.optional(S.String),
@@ -3610,8 +3838,8 @@ export const WorkflowSummaryList = S.Array(WorkflowSummary);
 export interface WorkflowExecutionMetadata {
   workflowBuildVersionArn?: string;
   workflowExecutionId?: string;
-  type?: string;
-  status?: string;
+  type?: WorkflowType;
+  status?: WorkflowExecutionStatus;
   message?: string;
   totalStepCount?: number;
   totalStepsSucceeded?: number;
@@ -3626,8 +3854,8 @@ export const WorkflowExecutionMetadata = S.suspend(() =>
   S.Struct({
     workflowBuildVersionArn: S.optional(S.String),
     workflowExecutionId: S.optional(S.String),
-    type: S.optional(S.String),
-    status: S.optional(S.String),
+    type: S.optional(WorkflowType),
+    status: S.optional(WorkflowExecutionStatus),
     message: S.optional(S.String),
     totalStepCount: S.optional(S.Number),
     totalStepsSucceeded: S.optional(S.Number),
@@ -3648,7 +3876,7 @@ export interface WorkflowVersion {
   name?: string;
   version?: string;
   description?: string;
-  type?: string;
+  type?: WorkflowType;
   owner?: string;
   dateCreated?: string;
 }
@@ -3658,7 +3886,7 @@ export const WorkflowVersion = S.suspend(() =>
     name: S.optional(S.String),
     version: S.optional(S.String),
     description: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(WorkflowType),
     owner: S.optional(S.String),
     dateCreated: S.optional(S.String),
   }),
@@ -3672,8 +3900,8 @@ export interface WorkflowStepMetadata {
   name?: string;
   description?: string;
   action?: string;
-  status?: string;
-  rollbackStatus?: string;
+  status?: WorkflowStepExecutionStatus;
+  rollbackStatus?: WorkflowStepExecutionRollbackStatus;
   message?: string;
   inputs?: string;
   outputs?: string;
@@ -3686,8 +3914,8 @@ export const WorkflowStepMetadata = S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(S.String),
     action: S.optional(S.String),
-    status: S.optional(S.String),
-    rollbackStatus: S.optional(S.String),
+    status: S.optional(WorkflowStepExecutionStatus),
+    rollbackStatus: S.optional(WorkflowStepExecutionRollbackStatus),
     message: S.optional(S.String),
     inputs: S.optional(S.String),
     outputs: S.optional(S.String),
@@ -3699,6 +3927,47 @@ export const WorkflowStepMetadata = S.suspend(() =>
 }) as any as S.Schema<WorkflowStepMetadata>;
 export type WorkflowStepExecutionsList = WorkflowStepMetadata[];
 export const WorkflowStepExecutionsList = S.Array(WorkflowStepMetadata);
+export type ProductCodeType = "marketplace";
+export const ProductCodeType = S.Literal("marketplace");
+export type ImageScanStatus =
+  | "PENDING"
+  | "SCANNING"
+  | "COLLECTING"
+  | "COMPLETED"
+  | "ABANDONED"
+  | "FAILED"
+  | "TIMED_OUT";
+export const ImageScanStatus = S.Literal(
+  "PENDING",
+  "SCANNING",
+  "COLLECTING",
+  "COMPLETED",
+  "ABANDONED",
+  "FAILED",
+  "TIMED_OUT",
+);
+export type LifecycleExecutionResourceStatus =
+  | "FAILED"
+  | "IN_PROGRESS"
+  | "SKIPPED"
+  | "SUCCESS";
+export const LifecycleExecutionResourceStatus = S.Literal(
+  "FAILED",
+  "IN_PROGRESS",
+  "SKIPPED",
+  "SUCCESS",
+);
+export type LifecycleExecutionResourceActionName =
+  | "AVAILABLE"
+  | "DELETE"
+  | "DEPRECATE"
+  | "DISABLE";
+export const LifecycleExecutionResourceActionName = S.Literal(
+  "AVAILABLE",
+  "DELETE",
+  "DEPRECATE",
+  "DISABLE",
+);
 export interface CreateComponentResponse {
   requestId?: string;
   clientToken?: string;
@@ -3716,18 +3985,18 @@ export const CreateComponentResponse = S.suspend(() =>
   identifier: "CreateComponentResponse",
 }) as any as S.Schema<CreateComponentResponse>;
 export interface CreateContainerRecipeRequest {
-  containerType: string;
+  containerType: ContainerType;
   name: string;
   description?: string;
   semanticVersion: string;
-  components?: ComponentConfigurationList;
+  components?: ComponentConfiguration[];
   instanceConfiguration?: InstanceConfiguration;
   dockerfileTemplateData?: string;
   dockerfileTemplateUri?: string;
-  platformOverride?: string;
+  platformOverride?: Platform;
   imageOsVersionOverride?: string;
   parentImage: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   workingDirectory?: string;
   targetRepository: TargetContainerRepository;
   kmsKeyId?: string;
@@ -3735,7 +4004,7 @@ export interface CreateContainerRecipeRequest {
 }
 export const CreateContainerRecipeRequest = S.suspend(() =>
   S.Struct({
-    containerType: S.String,
+    containerType: ContainerType,
     name: S.String,
     description: S.optional(S.String),
     semanticVersion: S.String,
@@ -3743,7 +4012,7 @@ export const CreateContainerRecipeRequest = S.suspend(() =>
     instanceConfiguration: S.optional(InstanceConfiguration),
     dockerfileTemplateData: S.optional(S.String),
     dockerfileTemplateUri: S.optional(S.String),
-    platformOverride: S.optional(S.String),
+    platformOverride: S.optional(Platform),
     imageOsVersionOverride: S.optional(S.String),
     parentImage: S.String,
     tags: S.optional(TagMap),
@@ -3771,10 +4040,10 @@ export interface CreateImageRequest {
   infrastructureConfigurationArn: string;
   imageTestsConfiguration?: ImageTestsConfiguration;
   enhancedImageMetadataEnabled?: boolean;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   clientToken: string;
   imageScanningConfiguration?: ImageScanningConfiguration;
-  workflows?: WorkflowConfigurationList;
+  workflows?: WorkflowConfiguration[];
   executionRole?: string;
   loggingConfiguration?: ImageLoggingConfiguration;
 }
@@ -3815,11 +4084,11 @@ export interface CreateImagePipelineRequest {
   imageTestsConfiguration?: ImageTestsConfiguration;
   enhancedImageMetadataEnabled?: boolean;
   schedule?: Schedule;
-  status?: string;
-  tags?: TagMap;
+  status?: PipelineStatus;
+  tags?: { [key: string]: string };
   clientToken: string;
   imageScanningConfiguration?: ImageScanningConfiguration;
-  workflows?: WorkflowConfigurationList;
+  workflows?: WorkflowConfiguration[];
   executionRole?: string;
   loggingConfiguration?: PipelineLoggingConfiguration;
 }
@@ -3834,7 +4103,7 @@ export const CreateImagePipelineRequest = S.suspend(() =>
     imageTestsConfiguration: S.optional(ImageTestsConfiguration),
     enhancedImageMetadataEnabled: S.optional(S.Boolean),
     schedule: S.optional(Schedule),
-    status: S.optional(S.String),
+    status: S.optional(PipelineStatus),
     tags: S.optional(TagMap),
     clientToken: S.String,
     imageScanningConfiguration: S.optional(ImageScanningConfiguration),
@@ -3858,13 +4127,13 @@ export interface CreateImageRecipeRequest {
   name: string;
   description?: string;
   semanticVersion: string;
-  components?: ComponentConfigurationList;
+  components?: ComponentConfiguration[];
   parentImage: string;
-  blockDeviceMappings?: InstanceBlockDeviceMappings;
-  tags?: TagMap;
+  blockDeviceMappings?: InstanceBlockDeviceMapping[];
+  tags?: { [key: string]: string };
   workingDirectory?: string;
   additionalInstanceConfiguration?: AdditionalInstanceConfiguration;
-  amiTags?: TagMap;
+  amiTags?: { [key: string]: string };
   clientToken: string;
 }
 export const CreateImageRecipeRequest = S.suspend(() =>
@@ -3898,17 +4167,17 @@ export const CreateImageRecipeRequest = S.suspend(() =>
 export interface CreateInfrastructureConfigurationRequest {
   name: string;
   description?: string;
-  instanceTypes?: InstanceTypeList;
+  instanceTypes?: string[];
   instanceProfileName: string;
-  securityGroupIds?: SecurityGroupIds;
+  securityGroupIds?: string[];
   subnetId?: string;
   logging?: Logging;
   keyPair?: string;
   terminateInstanceOnFailure?: boolean;
   snsTopicArn?: string;
-  resourceTags?: ResourceTagMap;
+  resourceTags?: { [key: string]: string };
   instanceMetadataOptions?: InstanceMetadataOptions;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   placement?: Placement;
   clientToken: string;
 }
@@ -4030,7 +4299,7 @@ export const GetLifecyclePolicyResponse = S.suspend(() =>
 }) as any as S.Schema<GetLifecyclePolicyResponse>;
 export interface ListComponentBuildVersionsResponse {
   requestId?: string;
-  componentSummaryList?: ComponentSummaryList;
+  componentSummaryList?: ComponentSummary[];
   nextToken?: string;
 }
 export const ListComponentBuildVersionsResponse = S.suspend(() =>
@@ -4044,7 +4313,7 @@ export const ListComponentBuildVersionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListComponentBuildVersionsResponse>;
 export interface ListContainerRecipesResponse {
   requestId?: string;
-  containerRecipeSummaryList?: ContainerRecipeSummaryList;
+  containerRecipeSummaryList?: ContainerRecipeSummary[];
   nextToken?: string;
 }
 export const ListContainerRecipesResponse = S.suspend(() =>
@@ -4058,7 +4327,7 @@ export const ListContainerRecipesResponse = S.suspend(() =>
 }) as any as S.Schema<ListContainerRecipesResponse>;
 export interface ListDistributionConfigurationsResponse {
   requestId?: string;
-  distributionConfigurationSummaryList?: DistributionConfigurationSummaryList;
+  distributionConfigurationSummaryList?: DistributionConfigurationSummary[];
   nextToken?: string;
 }
 export const ListDistributionConfigurationsResponse = S.suspend(() =>
@@ -4074,7 +4343,7 @@ export const ListDistributionConfigurationsResponse = S.suspend(() =>
 }) as any as S.Schema<ListDistributionConfigurationsResponse>;
 export interface ListImageBuildVersionsResponse {
   requestId?: string;
-  imageSummaryList?: ImageSummaryList;
+  imageSummaryList?: ImageSummary[];
   nextToken?: string;
 }
 export const ListImageBuildVersionsResponse = S.suspend(() =>
@@ -4088,7 +4357,7 @@ export const ListImageBuildVersionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListImageBuildVersionsResponse>;
 export interface ListImagePackagesResponse {
   requestId?: string;
-  imagePackageList?: ImagePackageList;
+  imagePackageList?: ImagePackage[];
   nextToken?: string;
 }
 export const ListImagePackagesResponse = S.suspend(() =>
@@ -4102,7 +4371,7 @@ export const ListImagePackagesResponse = S.suspend(() =>
 }) as any as S.Schema<ListImagePackagesResponse>;
 export interface ListImageRecipesResponse {
   requestId?: string;
-  imageRecipeSummaryList?: ImageRecipeSummaryList;
+  imageRecipeSummaryList?: ImageRecipeSummary[];
   nextToken?: string;
 }
 export const ListImageRecipesResponse = S.suspend(() =>
@@ -4116,7 +4385,7 @@ export const ListImageRecipesResponse = S.suspend(() =>
 }) as any as S.Schema<ListImageRecipesResponse>;
 export interface ListImagesResponse {
   requestId?: string;
-  imageVersionList?: ImageVersionList;
+  imageVersionList?: ImageVersion[];
   nextToken?: string;
 }
 export const ListImagesResponse = S.suspend(() =>
@@ -4130,7 +4399,7 @@ export const ListImagesResponse = S.suspend(() =>
 }) as any as S.Schema<ListImagesResponse>;
 export interface ListInfrastructureConfigurationsResponse {
   requestId?: string;
-  infrastructureConfigurationSummaryList?: InfrastructureConfigurationSummaryList;
+  infrastructureConfigurationSummaryList?: InfrastructureConfigurationSummary[];
   nextToken?: string;
 }
 export const ListInfrastructureConfigurationsResponse = S.suspend(() =>
@@ -4145,7 +4414,7 @@ export const ListInfrastructureConfigurationsResponse = S.suspend(() =>
   identifier: "ListInfrastructureConfigurationsResponse",
 }) as any as S.Schema<ListInfrastructureConfigurationsResponse>;
 export interface ListLifecyclePoliciesResponse {
-  lifecyclePolicySummaryList?: LifecyclePolicySummaryList;
+  lifecyclePolicySummaryList?: LifecyclePolicySummary[];
   nextToken?: string;
 }
 export const ListLifecyclePoliciesResponse = S.suspend(() =>
@@ -4157,7 +4426,7 @@ export const ListLifecyclePoliciesResponse = S.suspend(() =>
   identifier: "ListLifecyclePoliciesResponse",
 }) as any as S.Schema<ListLifecyclePoliciesResponse>;
 export interface ListWaitingWorkflowStepsResponse {
-  steps?: WorkflowStepExecutionList;
+  steps?: WorkflowStepExecution[];
   nextToken?: string;
 }
 export const ListWaitingWorkflowStepsResponse = S.suspend(() =>
@@ -4169,7 +4438,7 @@ export const ListWaitingWorkflowStepsResponse = S.suspend(() =>
   identifier: "ListWaitingWorkflowStepsResponse",
 }) as any as S.Schema<ListWaitingWorkflowStepsResponse>;
 export interface ListWorkflowBuildVersionsResponse {
-  workflowSummaryList?: WorkflowSummaryList;
+  workflowSummaryList?: WorkflowSummary[];
   nextToken?: string;
 }
 export const ListWorkflowBuildVersionsResponse = S.suspend(() =>
@@ -4182,7 +4451,7 @@ export const ListWorkflowBuildVersionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListWorkflowBuildVersionsResponse>;
 export interface ListWorkflowExecutionsResponse {
   requestId?: string;
-  workflowExecutions?: WorkflowExecutionsList;
+  workflowExecutions?: WorkflowExecutionMetadata[];
   imageBuildVersionArn?: string;
   message?: string;
   nextToken?: string;
@@ -4199,7 +4468,7 @@ export const ListWorkflowExecutionsResponse = S.suspend(() =>
   identifier: "ListWorkflowExecutionsResponse",
 }) as any as S.Schema<ListWorkflowExecutionsResponse>;
 export interface ListWorkflowsResponse {
-  workflowVersionList?: WorkflowVersionList;
+  workflowVersionList?: WorkflowVersion[];
   nextToken?: string;
 }
 export const ListWorkflowsResponse = S.suspend(() =>
@@ -4212,7 +4481,7 @@ export const ListWorkflowsResponse = S.suspend(() =>
 }) as any as S.Schema<ListWorkflowsResponse>;
 export interface ListWorkflowStepExecutionsResponse {
   requestId?: string;
-  steps?: WorkflowStepExecutionsList;
+  steps?: WorkflowStepMetadata[];
   workflowBuildVersionArn?: string;
   workflowExecutionId?: string;
   imageBuildVersionArn?: string;
@@ -4235,7 +4504,7 @@ export const ListWorkflowStepExecutionsResponse = S.suspend(() =>
 export interface ComponentParameterDetail {
   name: string;
   type: string;
-  defaultValue?: ComponentParameterValueList;
+  defaultValue?: string[];
   description?: string;
 }
 export const ComponentParameterDetail = S.suspend(() =>
@@ -4252,28 +4521,31 @@ export type ComponentParameterDetailList = ComponentParameterDetail[];
 export const ComponentParameterDetailList = S.Array(ComponentParameterDetail);
 export interface ProductCodeListItem {
   productCodeId: string;
-  productCodeType: string;
+  productCodeType: ProductCodeType;
 }
 export const ProductCodeListItem = S.suspend(() =>
-  S.Struct({ productCodeId: S.String, productCodeType: S.String }),
+  S.Struct({ productCodeId: S.String, productCodeType: ProductCodeType }),
 ).annotations({
   identifier: "ProductCodeListItem",
 }) as any as S.Schema<ProductCodeListItem>;
 export type ProductCodeList = ProductCodeListItem[];
 export const ProductCodeList = S.Array(ProductCodeListItem);
 export interface ImageScanState {
-  status?: string;
+  status?: ImageScanStatus;
   reason?: string;
 }
 export const ImageScanState = S.suspend(() =>
-  S.Struct({ status: S.optional(S.String), reason: S.optional(S.String) }),
+  S.Struct({
+    status: S.optional(ImageScanStatus),
+    reason: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "ImageScanState",
 }) as any as S.Schema<ImageScanState>;
 export interface WorkflowParameterDetail {
   name: string;
   type: string;
-  defaultValue?: WorkflowParameterValueList;
+  defaultValue?: string[];
   description?: string;
 }
 export const WorkflowParameterDetail = S.suspend(() =>
@@ -4341,20 +4613,26 @@ export const VulnerabilityIdAggregation = S.suspend(() =>
   identifier: "VulnerabilityIdAggregation",
 }) as any as S.Schema<VulnerabilityIdAggregation>;
 export interface LifecycleExecutionResourceState {
-  status?: string;
+  status?: LifecycleExecutionResourceStatus;
   reason?: string;
 }
 export const LifecycleExecutionResourceState = S.suspend(() =>
-  S.Struct({ status: S.optional(S.String), reason: S.optional(S.String) }),
+  S.Struct({
+    status: S.optional(LifecycleExecutionResourceStatus),
+    reason: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "LifecycleExecutionResourceState",
 }) as any as S.Schema<LifecycleExecutionResourceState>;
 export interface LifecycleExecutionResourceAction {
-  name?: string;
+  name?: LifecycleExecutionResourceActionName;
   reason?: string;
 }
 export const LifecycleExecutionResourceAction = S.suspend(() =>
-  S.Struct({ name: S.optional(S.String), reason: S.optional(S.String) }),
+  S.Struct({
+    name: S.optional(LifecycleExecutionResourceActionName),
+    reason: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "LifecycleExecutionResourceAction",
 }) as any as S.Schema<LifecycleExecutionResourceAction>;
@@ -4381,20 +4659,20 @@ export interface Component {
   version?: string;
   description?: string;
   changeDescription?: string;
-  type?: string;
-  platform?: string;
-  supportedOsVersions?: OsVersionList;
+  type?: ComponentType;
+  platform?: Platform;
+  supportedOsVersions?: string[];
   state?: ComponentState;
-  parameters?: ComponentParameterDetailList;
+  parameters?: ComponentParameterDetail[];
   owner?: string;
   data?: string;
   kmsKeyId?: string;
   encrypted?: boolean;
   dateCreated?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   publisher?: string;
   obfuscate?: boolean;
-  productCodes?: ProductCodeList;
+  productCodes?: ProductCodeListItem[];
 }
 export const Component = S.suspend(() =>
   S.Struct({
@@ -4403,8 +4681,8 @@ export const Component = S.suspend(() =>
     version: S.optional(S.String),
     description: S.optional(S.String),
     changeDescription: S.optional(S.String),
-    type: S.optional(S.String),
-    platform: S.optional(S.String),
+    type: S.optional(ComponentType),
+    platform: S.optional(Platform),
     supportedOsVersions: S.optional(OsVersionList),
     state: S.optional(ComponentState),
     parameters: S.optional(ComponentParameterDetailList),
@@ -4425,14 +4703,14 @@ export interface Workflow {
   version?: string;
   description?: string;
   changeDescription?: string;
-  type?: string;
+  type?: WorkflowType;
   state?: WorkflowState;
   owner?: string;
   data?: string;
   kmsKeyId?: string;
   dateCreated?: string;
-  tags?: TagMap;
-  parameters?: WorkflowParameterDetailList;
+  tags?: { [key: string]: string };
+  parameters?: WorkflowParameterDetail[];
 }
 export const Workflow = S.suspend(() =>
   S.Struct({
@@ -4441,7 +4719,7 @@ export const Workflow = S.suspend(() =>
     version: S.optional(S.String),
     description: S.optional(S.String),
     changeDescription: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(WorkflowType),
     state: S.optional(WorkflowState),
     owner: S.optional(S.String),
     data: S.optional(S.String),
@@ -4456,13 +4734,13 @@ export interface ComponentVersion {
   name?: string;
   version?: string;
   description?: string;
-  platform?: string;
-  supportedOsVersions?: OsVersionList;
-  type?: string;
+  platform?: Platform;
+  supportedOsVersions?: string[];
+  type?: ComponentType;
   owner?: string;
   dateCreated?: string;
-  status?: string;
-  productCodes?: ProductCodeList;
+  status?: ComponentStatus;
+  productCodes?: ProductCodeListItem[];
 }
 export const ComponentVersion = S.suspend(() =>
   S.Struct({
@@ -4470,12 +4748,12 @@ export const ComponentVersion = S.suspend(() =>
     name: S.optional(S.String),
     version: S.optional(S.String),
     description: S.optional(S.String),
-    platform: S.optional(S.String),
+    platform: S.optional(Platform),
     supportedOsVersions: S.optional(OsVersionList),
-    type: S.optional(S.String),
+    type: S.optional(ComponentType),
     owner: S.optional(S.String),
     dateCreated: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ComponentStatus),
     productCodes: S.optional(ProductCodeList),
   }),
 ).annotations({
@@ -4489,8 +4767,8 @@ export interface LifecycleExecutionResource {
   state?: LifecycleExecutionResourceState;
   action?: LifecycleExecutionResourceAction;
   region?: string;
-  snapshots?: LifecycleExecutionSnapshotResourceList;
-  imageUris?: StringList;
+  snapshots?: LifecycleExecutionSnapshotResource[];
+  imageUris?: string[];
   startTime?: Date;
   endTime?: Date;
 }
@@ -4544,8 +4822,8 @@ export const CreateContainerRecipeResponse = S.suspend(() =>
 export interface CreateDistributionConfigurationRequest {
   name: string;
   description?: string;
-  distributions: DistributionList;
-  tags?: TagMap;
+  distributions: Distribution[];
+  tags?: { [key: string]: string };
   clientToken: string;
 }
 export const CreateDistributionConfigurationRequest = S.suspend(() =>
@@ -4631,21 +4909,21 @@ export const CreateInfrastructureConfigurationResponse = S.suspend(() =>
 export interface CreateLifecyclePolicyRequest {
   name: string;
   description?: string;
-  status?: string;
+  status?: LifecyclePolicyStatus;
   executionRole: string;
-  resourceType: string;
-  policyDetails: LifecyclePolicyDetails;
+  resourceType: LifecyclePolicyResourceType;
+  policyDetails: LifecyclePolicyDetail[];
   resourceSelection: LifecyclePolicyResourceSelection;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   clientToken: string;
 }
 export const CreateLifecyclePolicyRequest = S.suspend(() =>
   S.Struct({
     name: S.String,
     description: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(LifecyclePolicyStatus),
     executionRole: S.String,
-    resourceType: S.String,
+    resourceType: LifecyclePolicyResourceType,
     policyDetails: LifecyclePolicyDetails,
     resourceSelection: LifecyclePolicyResourceSelection,
     tags: S.optional(TagMap),
@@ -4699,7 +4977,7 @@ export const GetWorkflowResponse = S.suspend(() =>
 }) as any as S.Schema<GetWorkflowResponse>;
 export interface ListComponentsResponse {
   requestId?: string;
-  componentVersionList?: ComponentVersionList;
+  componentVersionList?: ComponentVersion[];
   nextToken?: string;
 }
 export const ListComponentsResponse = S.suspend(() =>
@@ -4714,7 +4992,7 @@ export const ListComponentsResponse = S.suspend(() =>
 export interface ListLifecycleExecutionResourcesResponse {
   lifecycleExecutionId?: string;
   lifecycleExecutionState?: LifecycleExecutionState;
-  resources?: LifecycleExecutionResourceList;
+  resources?: LifecycleExecutionResource[];
   nextToken?: string;
 }
 export const ListLifecycleExecutionResourcesResponse = S.suspend(() =>
@@ -4772,10 +5050,10 @@ export const AccountAggregation = S.suspend(() =>
 }) as any as S.Schema<AccountAggregation>;
 export interface Image {
   arn?: string;
-  type?: string;
+  type?: ImageType;
   name?: string;
   version?: string;
-  platform?: string;
+  platform?: Platform;
   enhancedImageMetadataEnabled?: boolean;
   osVersion?: string;
   state?: ImageState;
@@ -4788,24 +5066,24 @@ export interface Image {
   imageTestsConfiguration?: ImageTestsConfiguration;
   dateCreated?: string;
   outputResources?: OutputResources;
-  tags?: TagMap;
-  buildType?: string;
-  imageSource?: string;
+  tags?: { [key: string]: string };
+  buildType?: BuildType;
+  imageSource?: ImageSource;
   scanState?: ImageScanState;
   imageScanningConfiguration?: ImageScanningConfiguration;
   deprecationTime?: Date;
   lifecycleExecutionId?: string;
   executionRole?: string;
-  workflows?: WorkflowConfigurationList;
+  workflows?: WorkflowConfiguration[];
   loggingConfiguration?: ImageLoggingConfiguration;
 }
 export const Image = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(ImageType),
     name: S.optional(S.String),
     version: S.optional(S.String),
-    platform: S.optional(S.String),
+    platform: S.optional(Platform),
     enhancedImageMetadataEnabled: S.optional(S.Boolean),
     osVersion: S.optional(S.String),
     state: S.optional(ImageState),
@@ -4819,8 +5097,8 @@ export const Image = S.suspend(() =>
     dateCreated: S.optional(S.String),
     outputResources: S.optional(OutputResources),
     tags: S.optional(TagMap),
-    buildType: S.optional(S.String),
-    imageSource: S.optional(S.String),
+    buildType: S.optional(BuildType),
+    imageSource: S.optional(ImageSource),
     scanState: S.optional(ImageScanState),
     imageScanningConfiguration: S.optional(ImageScanningConfiguration),
     deprecationTime: S.optional(
@@ -4950,7 +5228,7 @@ export const GetImageResponse = S.suspend(() =>
 export interface ListImageScanFindingAggregationsResponse {
   requestId?: string;
   aggregationType?: string;
-  responses?: ImageScanFindingAggregationsList;
+  responses?: ImageScanFindingAggregation[];
   nextToken?: string;
 }
 export const ListImageScanFindingAggregationsResponse = S.suspend(() =>
@@ -4983,15 +5261,15 @@ export const Remediation = S.suspend(() =>
 ).annotations({ identifier: "Remediation" }) as any as S.Schema<Remediation>;
 export interface PackageVulnerabilityDetails {
   vulnerabilityId: string;
-  vulnerablePackages?: VulnerablePackageList;
+  vulnerablePackages?: VulnerablePackage[];
   source?: string;
-  cvss?: CvssScoreList;
-  relatedVulnerabilities?: VulnerabilityIdList;
+  cvss?: CvssScore[];
+  relatedVulnerabilities?: string[];
   sourceUrl?: string;
   vendorSeverity?: string;
   vendorCreatedAt?: Date;
   vendorUpdatedAt?: Date;
-  referenceUrls?: NonEmptyStringList;
+  referenceUrls?: string[];
 }
 export const PackageVulnerabilityDetails = S.suspend(() =>
   S.Struct({
@@ -5030,7 +5308,7 @@ export interface CvssScoreDetails {
   version?: string;
   score?: number;
   scoringVector?: string;
-  adjustments?: CvssScoreAdjustmentList;
+  adjustments?: CvssScoreAdjustment[];
 }
 export const CvssScoreDetails = S.suspend(() =>
   S.Struct({
@@ -5094,7 +5372,7 @@ export type ImageScanFindingsList = ImageScanFinding[];
 export const ImageScanFindingsList = S.Array(ImageScanFinding);
 export interface ListImageScanFindingsResponse {
   requestId?: string;
-  findings?: ImageScanFindingsList;
+  findings?: ImageScanFinding[];
   nextToken?: string;
 }
 export const ListImageScanFindingsResponse = S.suspend(() =>
@@ -5195,7 +5473,7 @@ export class TooManyRequestsException extends S.TaggedError<TooManyRequestsExcep
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InvalidParameterException
   | ResourceNotFoundException
@@ -5216,7 +5494,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InvalidParameterException
   | ResourceNotFoundException
@@ -5237,7 +5515,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InvalidParameterException
   | ResourceNotFoundException
@@ -5261,7 +5539,7 @@ export const listTagsForResource: (
  */
 export const importDiskImage: (
   input: ImportDiskImageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ImportDiskImageResponse,
   | ClientException
   | ServiceException
@@ -5285,7 +5563,7 @@ export const importDiskImage: (
  */
 export const importVmImage: (
   input: ImportVmImageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ImportVmImageResponse,
   | ClientException
   | ServiceException
@@ -5304,7 +5582,7 @@ export const importVmImage: (
  */
 export const putComponentPolicy: (
   input: PutComponentPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutComponentPolicyResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -5346,7 +5624,7 @@ export const putComponentPolicy: (
 export const listComponents: {
   (
     input: ListComponentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListComponentsResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -5360,7 +5638,7 @@ export const listComponents: {
   >;
   pages: (
     input: ListComponentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListComponentsResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -5374,7 +5652,7 @@ export const listComponents: {
   >;
   items: (
     input: ListComponentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ComponentVersion,
     | CallRateLimitExceededException
     | ClientException
@@ -5411,7 +5689,7 @@ export const listComponents: {
 export const listLifecycleExecutionResources: {
   (
     input: ListLifecycleExecutionResourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLifecycleExecutionResourcesResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -5425,7 +5703,7 @@ export const listLifecycleExecutionResources: {
   >;
   pages: (
     input: ListLifecycleExecutionResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLifecycleExecutionResourcesResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -5439,7 +5717,7 @@ export const listLifecycleExecutionResources: {
   >;
   items: (
     input: ListLifecycleExecutionResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LifecycleExecutionResource,
     | CallRateLimitExceededException
     | ClientException
@@ -5476,7 +5754,7 @@ export const listLifecycleExecutionResources: {
 export const listContainerRecipes: {
   (
     input: ListContainerRecipesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListContainerRecipesResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -5490,7 +5768,7 @@ export const listContainerRecipes: {
   >;
   pages: (
     input: ListContainerRecipesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListContainerRecipesResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -5504,7 +5782,7 @@ export const listContainerRecipes: {
   >;
   items: (
     input: ListContainerRecipesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ContainerRecipeSummary,
     | CallRateLimitExceededException
     | ClientException
@@ -5541,7 +5819,7 @@ export const listContainerRecipes: {
 export const listDistributionConfigurations: {
   (
     input: ListDistributionConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDistributionConfigurationsResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -5555,7 +5833,7 @@ export const listDistributionConfigurations: {
   >;
   pages: (
     input: ListDistributionConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDistributionConfigurationsResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -5569,7 +5847,7 @@ export const listDistributionConfigurations: {
   >;
   items: (
     input: ListDistributionConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DistributionConfigurationSummary,
     | CallRateLimitExceededException
     | ClientException
@@ -5606,7 +5884,7 @@ export const listDistributionConfigurations: {
 export const listImageBuildVersions: {
   (
     input: ListImageBuildVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListImageBuildVersionsResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -5620,7 +5898,7 @@ export const listImageBuildVersions: {
   >;
   pages: (
     input: ListImageBuildVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListImageBuildVersionsResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -5634,7 +5912,7 @@ export const listImageBuildVersions: {
   >;
   items: (
     input: ListImageBuildVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ImageSummary,
     | CallRateLimitExceededException
     | ClientException
@@ -5672,7 +5950,7 @@ export const listImageBuildVersions: {
 export const listImagePackages: {
   (
     input: ListImagePackagesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListImagePackagesResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -5687,7 +5965,7 @@ export const listImagePackages: {
   >;
   pages: (
     input: ListImagePackagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListImagePackagesResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -5702,7 +5980,7 @@ export const listImagePackages: {
   >;
   items: (
     input: ListImagePackagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ImagePackage,
     | CallRateLimitExceededException
     | ClientException
@@ -5741,7 +6019,7 @@ export const listImagePackages: {
 export const listImageRecipes: {
   (
     input: ListImageRecipesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListImageRecipesResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -5755,7 +6033,7 @@ export const listImageRecipes: {
   >;
   pages: (
     input: ListImageRecipesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListImageRecipesResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -5769,7 +6047,7 @@ export const listImageRecipes: {
   >;
   items: (
     input: ListImageRecipesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ImageRecipeSummary,
     | CallRateLimitExceededException
     | ClientException
@@ -5807,7 +6085,7 @@ export const listImageRecipes: {
 export const listImages: {
   (
     input: ListImagesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListImagesResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -5821,7 +6099,7 @@ export const listImages: {
   >;
   pages: (
     input: ListImagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListImagesResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -5835,7 +6113,7 @@ export const listImages: {
   >;
   items: (
     input: ListImagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ImageVersion,
     | CallRateLimitExceededException
     | ClientException
@@ -5872,7 +6150,7 @@ export const listImages: {
 export const listInfrastructureConfigurations: {
   (
     input: ListInfrastructureConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInfrastructureConfigurationsResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -5886,7 +6164,7 @@ export const listInfrastructureConfigurations: {
   >;
   pages: (
     input: ListInfrastructureConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInfrastructureConfigurationsResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -5900,7 +6178,7 @@ export const listInfrastructureConfigurations: {
   >;
   items: (
     input: ListInfrastructureConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     InfrastructureConfigurationSummary,
     | CallRateLimitExceededException
     | ClientException
@@ -5937,7 +6215,7 @@ export const listInfrastructureConfigurations: {
 export const listLifecyclePolicies: {
   (
     input: ListLifecyclePoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLifecyclePoliciesResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -5951,7 +6229,7 @@ export const listLifecyclePolicies: {
   >;
   pages: (
     input: ListLifecyclePoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLifecyclePoliciesResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -5965,7 +6243,7 @@ export const listLifecyclePolicies: {
   >;
   items: (
     input: ListLifecyclePoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LifecyclePolicySummary,
     | CallRateLimitExceededException
     | ClientException
@@ -6003,7 +6281,7 @@ export const listLifecyclePolicies: {
 export const listWaitingWorkflowSteps: {
   (
     input: ListWaitingWorkflowStepsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWaitingWorkflowStepsResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -6017,7 +6295,7 @@ export const listWaitingWorkflowSteps: {
   >;
   pages: (
     input: ListWaitingWorkflowStepsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWaitingWorkflowStepsResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -6031,7 +6309,7 @@ export const listWaitingWorkflowSteps: {
   >;
   items: (
     input: ListWaitingWorkflowStepsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkflowStepExecution,
     | CallRateLimitExceededException
     | ClientException
@@ -6068,7 +6346,7 @@ export const listWaitingWorkflowSteps: {
 export const listWorkflowBuildVersions: {
   (
     input: ListWorkflowBuildVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkflowBuildVersionsResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -6082,7 +6360,7 @@ export const listWorkflowBuildVersions: {
   >;
   pages: (
     input: ListWorkflowBuildVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkflowBuildVersionsResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -6096,7 +6374,7 @@ export const listWorkflowBuildVersions: {
   >;
   items: (
     input: ListWorkflowBuildVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkflowSummary,
     | CallRateLimitExceededException
     | ClientException
@@ -6134,7 +6412,7 @@ export const listWorkflowBuildVersions: {
 export const listWorkflowExecutions: {
   (
     input: ListWorkflowExecutionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkflowExecutionsResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -6148,7 +6426,7 @@ export const listWorkflowExecutions: {
   >;
   pages: (
     input: ListWorkflowExecutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkflowExecutionsResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -6162,7 +6440,7 @@ export const listWorkflowExecutions: {
   >;
   items: (
     input: ListWorkflowExecutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkflowExecutionMetadata,
     | CallRateLimitExceededException
     | ClientException
@@ -6199,7 +6477,7 @@ export const listWorkflowExecutions: {
 export const listWorkflows: {
   (
     input: ListWorkflowsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkflowsResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -6213,7 +6491,7 @@ export const listWorkflows: {
   >;
   pages: (
     input: ListWorkflowsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkflowsResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -6227,7 +6505,7 @@ export const listWorkflows: {
   >;
   items: (
     input: ListWorkflowsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkflowVersion,
     | CallRateLimitExceededException
     | ClientException
@@ -6265,7 +6543,7 @@ export const listWorkflows: {
 export const listWorkflowStepExecutions: {
   (
     input: ListWorkflowStepExecutionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkflowStepExecutionsResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -6279,7 +6557,7 @@ export const listWorkflowStepExecutions: {
   >;
   pages: (
     input: ListWorkflowStepExecutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkflowStepExecutionsResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -6293,7 +6571,7 @@ export const listWorkflowStepExecutions: {
   >;
   items: (
     input: ListWorkflowStepExecutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkflowStepMetadata,
     | CallRateLimitExceededException
     | ClientException
@@ -6330,7 +6608,7 @@ export const listWorkflowStepExecutions: {
 export const listImagePipelineImages: {
   (
     input: ListImagePipelineImagesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListImagePipelineImagesResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -6345,7 +6623,7 @@ export const listImagePipelineImages: {
   >;
   pages: (
     input: ListImagePipelineImagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListImagePipelineImagesResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -6360,7 +6638,7 @@ export const listImagePipelineImages: {
   >;
   items: (
     input: ListImagePipelineImagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ImageSummary,
     | CallRateLimitExceededException
     | ClientException
@@ -6399,7 +6677,7 @@ export const listImagePipelineImages: {
 export const listImagePipelines: {
   (
     input: ListImagePipelinesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListImagePipelinesResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -6413,7 +6691,7 @@ export const listImagePipelines: {
   >;
   pages: (
     input: ListImagePipelinesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListImagePipelinesResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -6427,7 +6705,7 @@ export const listImagePipelines: {
   >;
   items: (
     input: ListImagePipelinesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ImagePipeline,
     | CallRateLimitExceededException
     | ClientException
@@ -6464,7 +6742,7 @@ export const listImagePipelines: {
 export const listLifecycleExecutions: {
   (
     input: ListLifecycleExecutionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLifecycleExecutionsResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -6478,7 +6756,7 @@ export const listLifecycleExecutions: {
   >;
   pages: (
     input: ListLifecycleExecutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLifecycleExecutionsResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -6492,7 +6770,7 @@ export const listLifecycleExecutions: {
   >;
   items: (
     input: ListLifecycleExecutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LifecycleExecution,
     | CallRateLimitExceededException
     | ClientException
@@ -6528,7 +6806,7 @@ export const listLifecycleExecutions: {
  */
 export const getComponentPolicy: (
   input: GetComponentPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetComponentPolicyResponse,
   | CallRateLimitExceededException
   | ForbiddenException
@@ -6555,7 +6833,7 @@ export const getComponentPolicy: (
  */
 export const getContainerRecipePolicy: (
   input: GetContainerRecipePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContainerRecipePolicyResponse,
   | CallRateLimitExceededException
   | ForbiddenException
@@ -6582,7 +6860,7 @@ export const getContainerRecipePolicy: (
  */
 export const getImagePolicy: (
   input: GetImagePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetImagePolicyResponse,
   | CallRateLimitExceededException
   | ForbiddenException
@@ -6609,7 +6887,7 @@ export const getImagePolicy: (
  */
 export const getImageRecipePolicy: (
   input: GetImageRecipePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetImageRecipePolicyResponse,
   | CallRateLimitExceededException
   | ForbiddenException
@@ -6638,7 +6916,7 @@ export const getImageRecipePolicy: (
  */
 export const getMarketplaceResource: (
   input: GetMarketplaceResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMarketplaceResourceResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6666,7 +6944,7 @@ export const getMarketplaceResource: (
  */
 export const getWorkflowExecution: (
   input: GetWorkflowExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkflowExecutionResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6694,7 +6972,7 @@ export const getWorkflowExecution: (
  */
 export const getWorkflowStepExecution: (
   input: GetWorkflowStepExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkflowStepExecutionResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6721,7 +6999,7 @@ export const getWorkflowStepExecution: (
  */
 export const getContainerRecipe: (
   input: GetContainerRecipeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContainerRecipeResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6748,7 +7026,7 @@ export const getContainerRecipe: (
  */
 export const getDistributionConfiguration: (
   input: GetDistributionConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDistributionConfigurationResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6775,7 +7053,7 @@ export const getDistributionConfiguration: (
  */
 export const getImagePipeline: (
   input: GetImagePipelineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetImagePipelineResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6802,7 +7080,7 @@ export const getImagePipeline: (
  */
 export const getImageRecipe: (
   input: GetImageRecipeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetImageRecipeResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6829,7 +7107,7 @@ export const getImageRecipe: (
  */
 export const getInfrastructureConfiguration: (
   input: GetInfrastructureConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInfrastructureConfigurationResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6856,7 +7134,7 @@ export const getInfrastructureConfiguration: (
  */
 export const getLifecyclePolicy: (
   input: GetLifecyclePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLifecyclePolicyResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6883,7 +7161,7 @@ export const getLifecyclePolicy: (
  */
 export const getComponent: (
   input: GetComponentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetComponentResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6910,7 +7188,7 @@ export const getComponent: (
  */
 export const getLifecycleExecution: (
   input: GetLifecycleExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLifecycleExecutionResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6937,7 +7215,7 @@ export const getLifecycleExecution: (
  */
 export const getWorkflow: (
   input: GetWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkflowResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6964,7 +7242,7 @@ export const getWorkflow: (
  */
 export const getImage: (
   input: GetImageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetImageResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6993,7 +7271,7 @@ export const getImage: (
 export const listComponentBuildVersions: {
   (
     input: ListComponentBuildVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListComponentBuildVersionsResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -7007,7 +7285,7 @@ export const listComponentBuildVersions: {
   >;
   pages: (
     input: ListComponentBuildVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListComponentBuildVersionsResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -7021,7 +7299,7 @@ export const listComponentBuildVersions: {
   >;
   items: (
     input: ListComponentBuildVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ComponentSummary,
     | CallRateLimitExceededException
     | ClientException
@@ -7072,7 +7350,7 @@ export const listComponentBuildVersions: {
 export const listImageScanFindingAggregations: {
   (
     input: ListImageScanFindingAggregationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListImageScanFindingAggregationsResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -7086,7 +7364,7 @@ export const listImageScanFindingAggregations: {
   >;
   pages: (
     input: ListImageScanFindingAggregationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListImageScanFindingAggregationsResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -7100,7 +7378,7 @@ export const listImageScanFindingAggregations: {
   >;
   items: (
     input: ListImageScanFindingAggregationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ImageScanFindingAggregation,
     | CallRateLimitExceededException
     | ClientException
@@ -7142,7 +7420,7 @@ export const listImageScanFindingAggregations: {
  */
 export const putContainerRecipePolicy: (
   input: PutContainerRecipePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutContainerRecipePolicyResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -7175,7 +7453,7 @@ export const putContainerRecipePolicy: (
  */
 export const putImagePolicy: (
   input: PutImagePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutImagePolicyResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -7208,7 +7486,7 @@ export const putImagePolicy: (
  */
 export const putImageRecipePolicy: (
   input: PutImageRecipePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutImageRecipePolicyResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -7239,7 +7517,7 @@ export const putImageRecipePolicy: (
  */
 export const deleteComponent: (
   input: DeleteComponentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteComponentResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -7268,7 +7546,7 @@ export const deleteComponent: (
  */
 export const cancelLifecycleExecution: (
   input: CancelLifecycleExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelLifecycleExecutionResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -7299,7 +7577,7 @@ export const cancelLifecycleExecution: (
  */
 export const importComponent: (
   input: ImportComponentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ImportComponentResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -7335,7 +7613,7 @@ export const importComponent: (
  */
 export const updateDistributionConfiguration: (
   input: UpdateDistributionConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDistributionConfigurationResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -7368,7 +7646,7 @@ export const updateDistributionConfiguration: (
  */
 export const updateLifecyclePolicy: (
   input: UpdateLifecyclePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLifecyclePolicyResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -7401,7 +7679,7 @@ export const updateLifecyclePolicy: (
  */
 export const deleteContainerRecipe: (
   input: DeleteContainerRecipeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteContainerRecipeResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -7430,7 +7708,7 @@ export const deleteContainerRecipe: (
  */
 export const deleteDistributionConfiguration: (
   input: DeleteDistributionConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDistributionConfigurationResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -7475,7 +7753,7 @@ export const deleteDistributionConfiguration: (
  */
 export const deleteImage: (
   input: DeleteImageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteImageResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -7504,7 +7782,7 @@ export const deleteImage: (
  */
 export const deleteImagePipeline: (
   input: DeleteImagePipelineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteImagePipelineResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -7533,7 +7811,7 @@ export const deleteImagePipeline: (
  */
 export const deleteImageRecipe: (
   input: DeleteImageRecipeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteImageRecipeResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -7562,7 +7840,7 @@ export const deleteImageRecipe: (
  */
 export const deleteInfrastructureConfiguration: (
   input: DeleteInfrastructureConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteInfrastructureConfigurationResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -7591,7 +7869,7 @@ export const deleteInfrastructureConfiguration: (
  */
 export const deleteLifecyclePolicy: (
   input: DeleteLifecyclePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLifecyclePolicyResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -7620,7 +7898,7 @@ export const deleteLifecyclePolicy: (
  */
 export const deleteWorkflow: (
   input: DeleteWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkflowResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -7649,7 +7927,7 @@ export const deleteWorkflow: (
  */
 export const retryImage: (
   input: RetryImageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RetryImageResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -7681,7 +7959,7 @@ export const retryImage: (
  */
 export const sendWorkflowStepAction: (
   input: SendWorkflowStepActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendWorkflowStepActionResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -7716,7 +7994,7 @@ export const sendWorkflowStepAction: (
  */
 export const startImagePipelineExecution: (
   input: StartImagePipelineExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartImagePipelineExecutionResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -7755,7 +8033,7 @@ export const startImagePipelineExecution: (
  */
 export const updateImagePipeline: (
   input: UpdateImagePipelineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateImagePipelineResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -7787,7 +8065,7 @@ export const updateImagePipeline: (
  */
 export const updateInfrastructureConfiguration: (
   input: UpdateInfrastructureConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateInfrastructureConfigurationResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -7819,7 +8097,7 @@ export const updateInfrastructureConfiguration: (
  */
 export const cancelImageCreation: (
   input: CancelImageCreationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelImageCreationResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -7851,7 +8129,7 @@ export const cancelImageCreation: (
  */
 export const startResourceStateUpdate: (
   input: StartResourceStateUpdateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartResourceStateUpdateResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -7885,7 +8163,7 @@ export const startResourceStateUpdate: (
 export const listImageScanFindings: {
   (
     input: ListImageScanFindingsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListImageScanFindingsResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -7899,7 +8177,7 @@ export const listImageScanFindings: {
   >;
   pages: (
     input: ListImageScanFindingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListImageScanFindingsResponse,
     | CallRateLimitExceededException
     | ClientException
@@ -7913,7 +8191,7 @@ export const listImageScanFindings: {
   >;
   items: (
     input: ListImageScanFindingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ImageScanFinding,
     | CallRateLimitExceededException
     | ClientException
@@ -7950,7 +8228,7 @@ export const listImageScanFindings: {
  */
 export const createImagePipeline: (
   input: CreateImagePipelineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateImagePipelineResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -7985,7 +8263,7 @@ export const createImagePipeline: (
  */
 export const createWorkflow: (
   input: CreateWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkflowResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -8025,7 +8303,7 @@ export const createWorkflow: (
  */
 export const createDistributionConfiguration: (
   input: CreateDistributionConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDistributionConfigurationResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -8065,7 +8343,7 @@ export const createDistributionConfiguration: (
  */
 export const createImage: (
   input: CreateImageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateImageResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -8099,7 +8377,7 @@ export const createImage: (
  */
 export const createImageRecipe: (
   input: CreateImageRecipeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateImageRecipeResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -8143,7 +8421,7 @@ export const createImageRecipe: (
  */
 export const createComponent: (
   input: CreateComponentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateComponentResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -8183,7 +8461,7 @@ export const createComponent: (
  */
 export const createInfrastructureConfiguration: (
   input: CreateInfrastructureConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateInfrastructureConfigurationResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -8218,7 +8496,7 @@ export const createInfrastructureConfiguration: (
  */
 export const createLifecyclePolicy: (
   input: CreateLifecyclePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLifecyclePolicyResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -8254,7 +8532,7 @@ export const createLifecyclePolicy: (
  */
 export const createContainerRecipe: (
   input: CreateContainerRecipeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateContainerRecipeResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -8291,7 +8569,7 @@ export const createContainerRecipe: (
  */
 export const distributeImage: (
   input: DistributeImageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DistributeImageResponse,
   | AccessDeniedException
   | CallRateLimitExceededException

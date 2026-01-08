@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -102,7 +102,7 @@ export type TagKey = string;
 export type TagValue = string;
 export type NonEmptyString = string;
 export type AsyncInvokeArn = string;
-export type AsyncInvokeMessage = string | Redacted.Redacted<string>;
+export type AsyncInvokeMessage = string | redacted.Redacted<string>;
 export type S3Uri = string;
 export type KmsKeyId = string;
 export type AccountId = string;
@@ -134,14 +134,35 @@ export type AutomatedReasoningRuleIdentifier = string;
 export type GuardrailAutomatedReasoningPolicyVersionArn = string;
 export type GuardrailAutomatedReasoningStatementLogicContent =
   | string
-  | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
 export type GuardrailAutomatedReasoningStatementNaturalLanguageContent =
   | string
-  | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
 
 //# Schemas
+export type AsyncInvokeStatus = "InProgress" | "Completed" | "Failed";
+export const AsyncInvokeStatus = S.Literal("InProgress", "Completed", "Failed");
+export type SortAsyncInvocationBy = "SubmissionTime";
+export const SortAsyncInvocationBy = S.Literal("SubmissionTime");
+export type SortOrder = "Ascending" | "Descending";
+export const SortOrder = S.Literal("Ascending", "Descending");
+export type GuardrailContentSource = "INPUT" | "OUTPUT";
+export const GuardrailContentSource = S.Literal("INPUT", "OUTPUT");
+export type GuardrailOutputScope = "INTERVENTIONS" | "FULL";
+export const GuardrailOutputScope = S.Literal("INTERVENTIONS", "FULL");
 export type AdditionalModelResponseFieldPaths = string[];
 export const AdditionalModelResponseFieldPaths = S.Array(S.String);
+export type Trace = "ENABLED" | "DISABLED" | "ENABLED_FULL";
+export const Trace = S.Literal("ENABLED", "DISABLED", "ENABLED_FULL");
+export type PerformanceConfigLatency = "standard" | "optimized";
+export const PerformanceConfigLatency = S.Literal("standard", "optimized");
+export type ServiceTierType = "priority" | "default" | "flex" | "reserved";
+export const ServiceTierType = S.Literal(
+  "priority",
+  "default",
+  "flex",
+  "reserved",
+);
 export interface GetAsyncInvokeRequest {
   invocationArn: string;
 }
@@ -162,11 +183,11 @@ export const GetAsyncInvokeRequest = S.suspend(() =>
 export interface ListAsyncInvokesRequest {
   submitTimeAfter?: Date;
   submitTimeBefore?: Date;
-  statusEquals?: string;
+  statusEquals?: AsyncInvokeStatus;
   maxResults?: number;
   nextToken?: string;
-  sortBy?: string;
-  sortOrder?: string;
+  sortBy?: SortAsyncInvocationBy;
+  sortOrder?: SortOrder;
 }
 export const ListAsyncInvokesRequest = S.suspend(() =>
   S.Struct({
@@ -176,11 +197,13 @@ export const ListAsyncInvokesRequest = S.suspend(() =>
     submitTimeBefore: S.optional(
       S.Date.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.HttpQuery("submitTimeBefore")),
-    statusEquals: S.optional(S.String).pipe(T.HttpQuery("statusEquals")),
+    statusEquals: S.optional(AsyncInvokeStatus).pipe(
+      T.HttpQuery("statusEquals"),
+    ),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    sortBy: S.optional(S.String).pipe(T.HttpQuery("sortBy")),
-    sortOrder: S.optional(S.String).pipe(T.HttpQuery("sortOrder")),
+    sortBy: S.optional(SortAsyncInvocationBy).pipe(T.HttpQuery("sortBy")),
+    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/async-invoke" }),
@@ -199,11 +222,11 @@ export interface InvokeModelRequest {
   contentType?: string;
   accept?: string;
   modelId: string;
-  trace?: string;
+  trace?: Trace;
   guardrailIdentifier?: string;
   guardrailVersion?: string;
-  performanceConfigLatency?: string;
-  serviceTier?: string;
+  performanceConfigLatency?: PerformanceConfigLatency;
+  serviceTier?: ServiceTierType;
 }
 export const InvokeModelRequest = S.suspend(() =>
   S.Struct({
@@ -211,17 +234,17 @@ export const InvokeModelRequest = S.suspend(() =>
     contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     accept: S.optional(S.String).pipe(T.HttpHeader("Accept")),
     modelId: S.String.pipe(T.HttpLabel("modelId")),
-    trace: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Bedrock-Trace")),
+    trace: S.optional(Trace).pipe(T.HttpHeader("X-Amzn-Bedrock-Trace")),
     guardrailIdentifier: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-Bedrock-GuardrailIdentifier"),
     ),
     guardrailVersion: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-Bedrock-GuardrailVersion"),
     ),
-    performanceConfigLatency: S.optional(S.String).pipe(
+    performanceConfigLatency: S.optional(PerformanceConfigLatency).pipe(
       T.HttpHeader("X-Amzn-Bedrock-PerformanceConfig-Latency"),
     ),
-    serviceTier: S.optional(S.String).pipe(
+    serviceTier: S.optional(ServiceTierType).pipe(
       T.HttpHeader("X-Amzn-Bedrock-Service-Tier"),
     ),
   }).pipe(
@@ -242,11 +265,11 @@ export interface InvokeModelWithResponseStreamRequest {
   contentType?: string;
   accept?: string;
   modelId: string;
-  trace?: string;
+  trace?: Trace;
   guardrailIdentifier?: string;
   guardrailVersion?: string;
-  performanceConfigLatency?: string;
-  serviceTier?: string;
+  performanceConfigLatency?: PerformanceConfigLatency;
+  serviceTier?: ServiceTierType;
 }
 export const InvokeModelWithResponseStreamRequest = S.suspend(() =>
   S.Struct({
@@ -254,17 +277,17 @@ export const InvokeModelWithResponseStreamRequest = S.suspend(() =>
     contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     accept: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Bedrock-Accept")),
     modelId: S.String.pipe(T.HttpLabel("modelId")),
-    trace: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Bedrock-Trace")),
+    trace: S.optional(Trace).pipe(T.HttpHeader("X-Amzn-Bedrock-Trace")),
     guardrailIdentifier: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-Bedrock-GuardrailIdentifier"),
     ),
     guardrailVersion: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-Bedrock-GuardrailVersion"),
     ),
-    performanceConfigLatency: S.optional(S.String).pipe(
+    performanceConfigLatency: S.optional(PerformanceConfigLatency).pipe(
       T.HttpHeader("X-Amzn-Bedrock-PerformanceConfig-Latency"),
     ),
-    serviceTier: S.optional(S.String).pipe(
+    serviceTier: S.optional(ServiceTierType).pipe(
       T.HttpHeader("X-Amzn-Bedrock-Service-Tier"),
     ),
   }).pipe(
@@ -283,8 +306,14 @@ export const InvokeModelWithResponseStreamRequest = S.suspend(() =>
 ).annotations({
   identifier: "InvokeModelWithResponseStreamRequest",
 }) as any as S.Schema<InvokeModelWithResponseStreamRequest>;
+export type ConversationRole = "user" | "assistant";
+export const ConversationRole = S.Literal("user", "assistant");
 export type NonEmptyStringList = string[];
 export const NonEmptyStringList = S.Array(S.String);
+export type GuardrailTrace = "enabled" | "disabled" | "enabled_full";
+export const GuardrailTrace = S.Literal("enabled", "disabled", "enabled_full");
+export type GuardrailStreamProcessingMode = "sync" | "async";
+export const GuardrailStreamProcessingMode = S.Literal("sync", "async");
 export interface Tag {
   key: string;
   value: string;
@@ -298,7 +327,7 @@ export interface InferenceConfiguration {
   maxTokens?: number;
   temperature?: number;
   topP?: number;
-  stopSequences?: NonEmptyStringList;
+  stopSequences?: string[];
 }
 export const InferenceConfiguration = S.suspend(() =>
   S.Struct({
@@ -313,13 +342,13 @@ export const InferenceConfiguration = S.suspend(() =>
 export interface GuardrailConfiguration {
   guardrailIdentifier?: string;
   guardrailVersion?: string;
-  trace?: string;
+  trace?: GuardrailTrace;
 }
 export const GuardrailConfiguration = S.suspend(() =>
   S.Struct({
     guardrailIdentifier: S.optional(S.String),
     guardrailVersion: S.optional(S.String),
-    trace: S.optional(S.String),
+    trace: S.optional(GuardrailTrace),
   }),
 ).annotations({
   identifier: "GuardrailConfiguration",
@@ -327,37 +356,50 @@ export const GuardrailConfiguration = S.suspend(() =>
 export type RequestMetadata = { [key: string]: string };
 export const RequestMetadata = S.Record({ key: S.String, value: S.String });
 export interface PerformanceConfiguration {
-  latency?: string;
+  latency?: PerformanceConfigLatency;
 }
 export const PerformanceConfiguration = S.suspend(() =>
-  S.Struct({ latency: S.optional(S.String) }),
+  S.Struct({ latency: S.optional(PerformanceConfigLatency) }),
 ).annotations({
   identifier: "PerformanceConfiguration",
 }) as any as S.Schema<PerformanceConfiguration>;
 export interface ServiceTier {
-  type: string;
+  type: ServiceTierType;
 }
 export const ServiceTier = S.suspend(() =>
-  S.Struct({ type: S.String }),
+  S.Struct({ type: ServiceTierType }),
 ).annotations({ identifier: "ServiceTier" }) as any as S.Schema<ServiceTier>;
 export interface GuardrailStreamConfiguration {
   guardrailIdentifier?: string;
   guardrailVersion?: string;
-  trace?: string;
-  streamProcessingMode?: string;
+  trace?: GuardrailTrace;
+  streamProcessingMode?: GuardrailStreamProcessingMode;
 }
 export const GuardrailStreamConfiguration = S.suspend(() =>
   S.Struct({
     guardrailIdentifier: S.optional(S.String),
     guardrailVersion: S.optional(S.String),
-    trace: S.optional(S.String),
-    streamProcessingMode: S.optional(S.String),
+    trace: S.optional(GuardrailTrace),
+    streamProcessingMode: S.optional(GuardrailStreamProcessingMode),
   }),
 ).annotations({
   identifier: "GuardrailStreamConfiguration",
 }) as any as S.Schema<GuardrailStreamConfiguration>;
-export type GuardrailContentQualifierList = string[];
-export const GuardrailContentQualifierList = S.Array(S.String);
+export type GuardrailContentQualifier =
+  | "grounding_source"
+  | "query"
+  | "guard_content";
+export const GuardrailContentQualifier = S.Literal(
+  "grounding_source",
+  "query",
+  "guard_content",
+);
+export type GuardrailContentQualifierList = GuardrailContentQualifier[];
+export const GuardrailContentQualifierList = S.Array(GuardrailContentQualifier);
+export type GuardrailImageFormat = "png" | "jpeg";
+export const GuardrailImageFormat = S.Literal("png", "jpeg");
+export type CachePointType = "default";
+export const CachePointType = S.Literal("default");
 export interface AutoToolChoice {}
 export const AutoToolChoice = S.suspend(() => S.Struct({})).annotations({
   identifier: "AutoToolChoice",
@@ -390,19 +432,19 @@ export interface GetAsyncInvokeResponse {
   invocationArn: string;
   modelArn: string;
   clientRequestToken?: string;
-  status: string;
-  failureMessage?: string | Redacted.Redacted<string>;
+  status: AsyncInvokeStatus;
+  failureMessage?: string | redacted.Redacted<string>;
   submitTime: Date;
   lastModifiedTime?: Date;
   endTime?: Date;
-  outputDataConfig: (typeof AsyncInvokeOutputDataConfig)["Type"];
+  outputDataConfig: AsyncInvokeOutputDataConfig;
 }
 export const GetAsyncInvokeResponse = S.suspend(() =>
   S.Struct({
     invocationArn: S.String,
     modelArn: S.String,
     clientRequestToken: S.optional(S.String),
-    status: S.String,
+    status: AsyncInvokeStatus,
     failureMessage: S.optional(SensitiveString),
     submitTime: S.Date.pipe(T.TimestampFormat("date-time")),
     lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -412,6 +454,8 @@ export const GetAsyncInvokeResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetAsyncInvokeResponse",
 }) as any as S.Schema<GetAsyncInvokeResponse>;
+export type ImageFormat = "png" | "jpeg" | "gif" | "webp";
+export const ImageFormat = S.Literal("png", "jpeg", "gif", "webp");
 export interface S3Location {
   uri: string;
   bucketOwner?: string;
@@ -431,26 +475,47 @@ export const ErrorBlock = S.suspend(() =>
   S.Struct({ message: S.optional(S.String) }),
 ).annotations({ identifier: "ErrorBlock" }) as any as S.Schema<ErrorBlock>;
 export interface ImageBlock {
-  format: string;
-  source: (typeof ImageSource)["Type"];
+  format: ImageFormat;
+  source: ImageSource;
   error?: ErrorBlock;
 }
 export const ImageBlock = S.suspend(() =>
   S.Struct({
-    format: S.String,
+    format: ImageFormat,
     source: ImageSource,
     error: S.optional(ErrorBlock),
   }),
 ).annotations({ identifier: "ImageBlock" }) as any as S.Schema<ImageBlock>;
+export type DocumentFormat =
+  | "pdf"
+  | "csv"
+  | "doc"
+  | "docx"
+  | "xls"
+  | "xlsx"
+  | "html"
+  | "txt"
+  | "md";
+export const DocumentFormat = S.Literal(
+  "pdf",
+  "csv",
+  "doc",
+  "docx",
+  "xls",
+  "xlsx",
+  "html",
+  "txt",
+  "md",
+);
 export type DocumentContentBlock = { text: string };
 export const DocumentContentBlock = S.Union(S.Struct({ text: S.String }));
-export type DocumentContentBlocks = (typeof DocumentContentBlock)["Type"][];
+export type DocumentContentBlocks = DocumentContentBlock[];
 export const DocumentContentBlocks = S.Array(DocumentContentBlock);
 export type DocumentSource =
   | { bytes: Uint8Array }
   | { s3Location: S3Location }
   | { text: string }
-  | { content: DocumentContentBlocks };
+  | { content: DocumentContentBlock[] };
 export const DocumentSource = S.Union(
   S.Struct({ bytes: T.Blob }),
   S.Struct({ s3Location: S3Location }),
@@ -466,15 +531,15 @@ export const CitationsConfig = S.suspend(() =>
   identifier: "CitationsConfig",
 }) as any as S.Schema<CitationsConfig>;
 export interface DocumentBlock {
-  format?: string;
+  format?: DocumentFormat;
   name: string;
-  source: (typeof DocumentSource)["Type"];
+  source: DocumentSource;
   context?: string;
   citations?: CitationsConfig;
 }
 export const DocumentBlock = S.suspend(() =>
   S.Struct({
-    format: S.optional(S.String),
+    format: S.optional(DocumentFormat),
     name: S.String,
     source: DocumentSource,
     context: S.optional(S.String),
@@ -483,47 +548,103 @@ export const DocumentBlock = S.suspend(() =>
 ).annotations({
   identifier: "DocumentBlock",
 }) as any as S.Schema<DocumentBlock>;
+export type VideoFormat =
+  | "mkv"
+  | "mov"
+  | "mp4"
+  | "webm"
+  | "flv"
+  | "mpeg"
+  | "mpg"
+  | "wmv"
+  | "three_gp";
+export const VideoFormat = S.Literal(
+  "mkv",
+  "mov",
+  "mp4",
+  "webm",
+  "flv",
+  "mpeg",
+  "mpg",
+  "wmv",
+  "three_gp",
+);
 export type VideoSource = { bytes: Uint8Array } | { s3Location: S3Location };
 export const VideoSource = S.Union(
   S.Struct({ bytes: T.Blob }),
   S.Struct({ s3Location: S3Location }),
 );
 export interface VideoBlock {
-  format: string;
-  source: (typeof VideoSource)["Type"];
+  format: VideoFormat;
+  source: VideoSource;
 }
 export const VideoBlock = S.suspend(() =>
-  S.Struct({ format: S.String, source: VideoSource }),
+  S.Struct({ format: VideoFormat, source: VideoSource }),
 ).annotations({ identifier: "VideoBlock" }) as any as S.Schema<VideoBlock>;
+export type AudioFormat =
+  | "mp3"
+  | "opus"
+  | "wav"
+  | "aac"
+  | "flac"
+  | "mp4"
+  | "ogg"
+  | "mkv"
+  | "mka"
+  | "x-aac"
+  | "m4a"
+  | "mpeg"
+  | "mpga"
+  | "pcm"
+  | "webm";
+export const AudioFormat = S.Literal(
+  "mp3",
+  "opus",
+  "wav",
+  "aac",
+  "flac",
+  "mp4",
+  "ogg",
+  "mkv",
+  "mka",
+  "x-aac",
+  "m4a",
+  "mpeg",
+  "mpga",
+  "pcm",
+  "webm",
+);
 export type AudioSource = { bytes: Uint8Array } | { s3Location: S3Location };
 export const AudioSource = S.Union(
   S.Struct({ bytes: T.Blob }),
   S.Struct({ s3Location: S3Location }),
 );
 export interface AudioBlock {
-  format: string;
-  source: (typeof AudioSource)["Type"];
+  format: AudioFormat;
+  source: AudioSource;
   error?: ErrorBlock;
 }
 export const AudioBlock = S.suspend(() =>
   S.Struct({
-    format: S.String,
+    format: AudioFormat,
     source: AudioSource,
     error: S.optional(ErrorBlock),
   }),
 ).annotations({ identifier: "AudioBlock" }) as any as S.Schema<AudioBlock>;
+export type ToolUseType = "server_tool_use";
+export const ToolUseType = S.Literal("server_tool_use");
 export interface ToolUseBlock {
   toolUseId: string;
   name: string;
   input: any;
-  type?: string;
+  type?: ToolUseType;
 }
 export const ToolUseBlock = S.suspend(() =>
   S.Struct({
     toolUseId: S.String,
     name: S.String,
     input: S.Any,
-    type: S.optional(S.String),
+    type: S.optional(ToolUseType),
   }),
 ).annotations({ identifier: "ToolUseBlock" }) as any as S.Schema<ToolUseBlock>;
 export interface SearchResultContentBlock {
@@ -539,7 +660,7 @@ export const SearchResultContentBlocks = S.Array(SearchResultContentBlock);
 export interface SearchResultBlock {
   source: string;
   title: string;
-  content: SearchResultContentBlocks;
+  content: SearchResultContentBlock[];
   citations?: CitationsConfig;
 }
 export const SearchResultBlock = S.suspend(() =>
@@ -567,29 +688,43 @@ export const ToolResultContentBlock = S.Union(
   S.Struct({ video: VideoBlock }),
   S.Struct({ searchResult: SearchResultBlock }),
 );
-export type ToolResultContentBlocks = (typeof ToolResultContentBlock)["Type"][];
+export type ToolResultContentBlocks = ToolResultContentBlock[];
 export const ToolResultContentBlocks = S.Array(ToolResultContentBlock);
+export type ToolResultStatus = "success" | "error";
+export const ToolResultStatus = S.Literal("success", "error");
 export interface ToolResultBlock {
   toolUseId: string;
-  content: ToolResultContentBlocks;
-  status?: string;
+  content: ToolResultContentBlock[];
+  status?: ToolResultStatus;
   type?: string;
 }
 export const ToolResultBlock = S.suspend(() =>
   S.Struct({
     toolUseId: S.String,
     content: ToolResultContentBlocks,
-    status: S.optional(S.String),
+    status: S.optional(ToolResultStatus),
     type: S.optional(S.String),
   }),
 ).annotations({
   identifier: "ToolResultBlock",
 }) as any as S.Schema<ToolResultBlock>;
-export type GuardrailConverseContentQualifierList = string[];
-export const GuardrailConverseContentQualifierList = S.Array(S.String);
+export type GuardrailConverseContentQualifier =
+  | "grounding_source"
+  | "query"
+  | "guard_content";
+export const GuardrailConverseContentQualifier = S.Literal(
+  "grounding_source",
+  "query",
+  "guard_content",
+);
+export type GuardrailConverseContentQualifierList =
+  GuardrailConverseContentQualifier[];
+export const GuardrailConverseContentQualifierList = S.Array(
+  GuardrailConverseContentQualifier,
+);
 export interface GuardrailConverseTextBlock {
   text: string;
-  qualifiers?: GuardrailConverseContentQualifierList;
+  qualifiers?: GuardrailConverseContentQualifier[];
 }
 export const GuardrailConverseTextBlock = S.suspend(() =>
   S.Struct({
@@ -599,16 +734,21 @@ export const GuardrailConverseTextBlock = S.suspend(() =>
 ).annotations({
   identifier: "GuardrailConverseTextBlock",
 }) as any as S.Schema<GuardrailConverseTextBlock>;
+export type GuardrailConverseImageFormat = "png" | "jpeg";
+export const GuardrailConverseImageFormat = S.Literal("png", "jpeg");
 export type GuardrailConverseImageSource = { bytes: Uint8Array };
 export const GuardrailConverseImageSource = S.Union(
   S.Struct({ bytes: T.Blob }),
 );
 export interface GuardrailConverseImageBlock {
-  format: string;
-  source: (typeof GuardrailConverseImageSource)["Type"];
+  format: GuardrailConverseImageFormat;
+  source: GuardrailConverseImageSource;
 }
 export const GuardrailConverseImageBlock = S.suspend(() =>
-  S.Struct({ format: S.String, source: GuardrailConverseImageSource }),
+  S.Struct({
+    format: GuardrailConverseImageFormat,
+    source: GuardrailConverseImageSource,
+  }),
 ).annotations({
   identifier: "GuardrailConverseImageBlock",
 }) as any as S.Schema<GuardrailConverseImageBlock>;
@@ -620,10 +760,10 @@ export const GuardrailConverseContentBlock = S.Union(
   S.Struct({ image: GuardrailConverseImageBlock }),
 );
 export interface CachePointBlock {
-  type: string;
+  type: CachePointType;
 }
 export const CachePointBlock = S.suspend(() =>
-  S.Struct({ type: S.String }),
+  S.Struct({ type: CachePointType }),
 ).annotations({
   identifier: "CachePointBlock",
 }) as any as S.Schema<CachePointBlock>;
@@ -645,13 +785,11 @@ export const ReasoningContentBlock = S.Union(
 );
 export type CitationGeneratedContent = { text: string };
 export const CitationGeneratedContent = S.Union(S.Struct({ text: S.String }));
-export type CitationGeneratedContentList =
-  (typeof CitationGeneratedContent)["Type"][];
+export type CitationGeneratedContentList = CitationGeneratedContent[];
 export const CitationGeneratedContentList = S.Array(CitationGeneratedContent);
 export type CitationSourceContent = { text: string };
 export const CitationSourceContent = S.Union(S.Struct({ text: S.String }));
-export type CitationSourceContentList =
-  (typeof CitationSourceContent)["Type"][];
+export type CitationSourceContentList = CitationSourceContent[];
 export const CitationSourceContentList = S.Array(CitationSourceContent);
 export interface WebLocation {
   url?: string;
@@ -732,8 +870,8 @@ export const CitationLocation = S.Union(
 export interface Citation {
   title?: string;
   source?: string;
-  sourceContent?: CitationSourceContentList;
-  location?: (typeof CitationLocation)["Type"];
+  sourceContent?: CitationSourceContent[];
+  location?: CitationLocation;
 }
 export const Citation = S.suspend(() =>
   S.Struct({
@@ -746,8 +884,8 @@ export const Citation = S.suspend(() =>
 export type Citations = Citation[];
 export const Citations = S.Array(Citation);
 export interface CitationsContentBlock {
-  content?: CitationGeneratedContentList;
-  citations?: Citations;
+  content?: CitationGeneratedContent[];
+  citations?: Citation[];
 }
 export const CitationsContentBlock = S.suspend(() =>
   S.Struct({
@@ -765,9 +903,9 @@ export type ContentBlock =
   | { audio: AudioBlock }
   | { toolUse: ToolUseBlock }
   | { toolResult: ToolResultBlock }
-  | { guardContent: (typeof GuardrailConverseContentBlock)["Type"] }
+  | { guardContent: GuardrailConverseContentBlock }
   | { cachePoint: CachePointBlock }
-  | { reasoningContent: (typeof ReasoningContentBlock)["Type"] }
+  | { reasoningContent: ReasoningContentBlock }
   | { citationsContent: CitationsContentBlock }
   | { searchResult: SearchResultBlock };
 export const ContentBlock = S.Union(
@@ -784,34 +922,34 @@ export const ContentBlock = S.Union(
   S.Struct({ citationsContent: CitationsContentBlock }),
   S.Struct({ searchResult: SearchResultBlock }),
 );
-export type ContentBlocks = (typeof ContentBlock)["Type"][];
+export type ContentBlocks = ContentBlock[];
 export const ContentBlocks = S.Array(ContentBlock);
 export interface Message {
-  role: string;
-  content: ContentBlocks;
+  role: ConversationRole;
+  content: ContentBlock[];
 }
 export const Message = S.suspend(() =>
-  S.Struct({ role: S.String, content: ContentBlocks }),
+  S.Struct({ role: ConversationRole, content: ContentBlocks }),
 ).annotations({ identifier: "Message" }) as any as S.Schema<Message>;
 export type Messages = Message[];
 export const Messages = S.Array(Message);
 export type SystemContentBlock =
   | { text: string }
-  | { guardContent: (typeof GuardrailConverseContentBlock)["Type"] }
+  | { guardContent: GuardrailConverseContentBlock }
   | { cachePoint: CachePointBlock };
 export const SystemContentBlock = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ guardContent: GuardrailConverseContentBlock }),
   S.Struct({ cachePoint: CachePointBlock }),
 );
-export type SystemContentBlocks = (typeof SystemContentBlock)["Type"][];
+export type SystemContentBlocks = SystemContentBlock[];
 export const SystemContentBlocks = S.Array(SystemContentBlock);
 export type ToolInputSchema = { json: any };
 export const ToolInputSchema = S.Union(S.Struct({ json: S.Any }));
 export interface ToolSpecification {
   name: string;
   description?: string;
-  inputSchema: (typeof ToolInputSchema)["Type"];
+  inputSchema: ToolInputSchema;
 }
 export const ToolSpecification = S.suspend(() =>
   S.Struct({
@@ -837,7 +975,7 @@ export const Tool = S.Union(
   S.Struct({ systemTool: SystemTool }),
   S.Struct({ cachePoint: CachePointBlock }),
 );
-export type Tools = (typeof Tool)["Type"][];
+export type Tools = Tool[];
 export const Tools = S.Array(Tool);
 export interface SpecificToolChoice {
   name: string;
@@ -857,8 +995,8 @@ export const ToolChoice = S.Union(
   S.Struct({ tool: SpecificToolChoice }),
 );
 export interface ToolConfiguration {
-  tools: Tools;
-  toolChoice?: (typeof ToolChoice)["Type"];
+  tools: Tool[];
+  toolChoice?: ToolChoice;
 }
 export const ToolConfiguration = S.suspend(() =>
   S.Struct({ tools: Tools, toolChoice: S.optional(ToolChoice) }),
@@ -867,24 +1005,22 @@ export const ToolConfiguration = S.suspend(() =>
 }) as any as S.Schema<ToolConfiguration>;
 export type PromptVariableValues = { text: string };
 export const PromptVariableValues = S.Union(S.Struct({ text: S.String }));
-export type PromptVariableMap = {
-  [key: string]: (typeof PromptVariableValues)["Type"];
-};
+export type PromptVariableMap = { [key: string]: PromptVariableValues };
 export const PromptVariableMap = S.Record({
   key: S.String,
   value: PromptVariableValues,
 });
 export interface ConverseStreamRequest {
   modelId: string;
-  messages?: Messages;
-  system?: SystemContentBlocks;
+  messages?: Message[];
+  system?: SystemContentBlock[];
   inferenceConfig?: InferenceConfiguration;
   toolConfig?: ToolConfiguration;
   guardrailConfig?: GuardrailStreamConfiguration;
   additionalModelRequestFields?: any;
-  promptVariables?: PromptVariableMap;
-  additionalModelResponseFieldPaths?: AdditionalModelResponseFieldPaths;
-  requestMetadata?: RequestMetadata;
+  promptVariables?: { [key: string]: PromptVariableValues };
+  additionalModelResponseFieldPaths?: string[];
+  requestMetadata?: { [key: string]: string };
   performanceConfig?: PerformanceConfiguration;
   serviceTier?: ServiceTier;
 }
@@ -920,17 +1056,17 @@ export const ConverseStreamRequest = S.suspend(() =>
 export interface InvokeModelResponse {
   body: T.StreamingOutputBody;
   contentType: string;
-  performanceConfigLatency?: string;
-  serviceTier?: string;
+  performanceConfigLatency?: PerformanceConfigLatency;
+  serviceTier?: ServiceTierType;
 }
 export const InvokeModelResponse = S.suspend(() =>
   S.Struct({
     body: T.StreamingOutput.pipe(T.HttpPayload()),
     contentType: S.String.pipe(T.HttpHeader("Content-Type")),
-    performanceConfigLatency: S.optional(S.String).pipe(
+    performanceConfigLatency: S.optional(PerformanceConfigLatency).pipe(
       T.HttpHeader("X-Amzn-Bedrock-PerformanceConfig-Latency"),
     ),
-    serviceTier: S.optional(S.String).pipe(
+    serviceTier: S.optional(ServiceTierType).pipe(
       T.HttpHeader("X-Amzn-Bedrock-Service-Tier"),
     ),
   }),
@@ -939,7 +1075,7 @@ export const InvokeModelResponse = S.suspend(() =>
 }) as any as S.Schema<InvokeModelResponse>;
 export interface GuardrailTextBlock {
   text: string;
-  qualifiers?: GuardrailContentQualifierList;
+  qualifiers?: GuardrailContentQualifier[];
 }
 export const GuardrailTextBlock = S.suspend(() =>
   S.Struct({
@@ -950,7 +1086,7 @@ export const GuardrailTextBlock = S.suspend(() =>
   identifier: "GuardrailTextBlock",
 }) as any as S.Schema<GuardrailTextBlock>;
 export interface BidirectionalInputPayloadPart {
-  bytes?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export const BidirectionalInputPayloadPart = S.suspend(() =>
   S.Struct({ bytes: S.optional(SensitiveBlob) }),
@@ -958,7 +1094,7 @@ export const BidirectionalInputPayloadPart = S.suspend(() =>
   identifier: "BidirectionalInputPayloadPart",
 }) as any as S.Schema<BidirectionalInputPayloadPart>;
 export interface InvokeModelTokensRequest {
-  body: Uint8Array | Redacted.Redacted<Uint8Array>;
+  body: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export const InvokeModelTokensRequest = S.suspend(() =>
   S.Struct({ body: SensitiveBlob }),
@@ -966,8 +1102,8 @@ export const InvokeModelTokensRequest = S.suspend(() =>
   identifier: "InvokeModelTokensRequest",
 }) as any as S.Schema<InvokeModelTokensRequest>;
 export interface ConverseTokensRequest {
-  messages?: Messages;
-  system?: SystemContentBlocks;
+  messages?: Message[];
+  system?: SystemContentBlock[];
   toolConfig?: ToolConfiguration;
   additionalModelRequestFields?: any;
 }
@@ -985,19 +1121,19 @@ export interface AsyncInvokeSummary {
   invocationArn: string;
   modelArn: string;
   clientRequestToken?: string;
-  status?: string;
-  failureMessage?: string | Redacted.Redacted<string>;
+  status?: AsyncInvokeStatus;
+  failureMessage?: string | redacted.Redacted<string>;
   submitTime: Date;
   lastModifiedTime?: Date;
   endTime?: Date;
-  outputDataConfig: (typeof AsyncInvokeOutputDataConfig)["Type"];
+  outputDataConfig: AsyncInvokeOutputDataConfig;
 }
 export const AsyncInvokeSummary = S.suspend(() =>
   S.Struct({
     invocationArn: S.String,
     modelArn: S.String,
     clientRequestToken: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(AsyncInvokeStatus),
     failureMessage: S.optional(SensitiveString),
     submitTime: S.Date.pipe(T.TimestampFormat("date-time")),
     lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -1009,9 +1145,14 @@ export const AsyncInvokeSummary = S.suspend(() =>
 }) as any as S.Schema<AsyncInvokeSummary>;
 export type AsyncInvokeSummaries = AsyncInvokeSummary[];
 export const AsyncInvokeSummaries = S.Array(AsyncInvokeSummary);
+export type InvokeModelWithBidirectionalStreamInput = {
+  chunk: BidirectionalInputPayloadPart;
+};
 export const InvokeModelWithBidirectionalStreamInput = T.InputEventStream(
   S.Union(S.Struct({ chunk: BidirectionalInputPayloadPart })),
-);
+) as any as S.Schema<
+  stream.Stream<InvokeModelWithBidirectionalStreamInput, Error, never>
+>;
 export type CountTokensInput =
   | { invokeModel: InvokeModelTokensRequest }
   | { converse: ConverseTokensRequest };
@@ -1023,7 +1164,7 @@ export type GuardrailImageSource = { bytes: Uint8Array };
 export const GuardrailImageSource = S.Union(S.Struct({ bytes: T.Blob }));
 export interface ListAsyncInvokesResponse {
   nextToken?: string;
-  asyncInvokeSummaries?: AsyncInvokeSummaries;
+  asyncInvokeSummaries?: AsyncInvokeSummary[];
 }
 export const ListAsyncInvokesResponse = S.suspend(() =>
   S.Struct({
@@ -1037,8 +1178,8 @@ export interface StartAsyncInvokeRequest {
   clientRequestToken?: string;
   modelId: string;
   modelInput: any;
-  outputDataConfig: (typeof AsyncInvokeOutputDataConfig)["Type"];
-  tags?: TagList;
+  outputDataConfig: AsyncInvokeOutputDataConfig;
+  tags?: Tag[];
 }
 export const StartAsyncInvokeRequest = S.suspend(() =>
   S.Struct({
@@ -1062,7 +1203,7 @@ export const StartAsyncInvokeRequest = S.suspend(() =>
 }) as any as S.Schema<StartAsyncInvokeRequest>;
 export interface InvokeModelWithBidirectionalStreamRequest {
   modelId: string;
-  body: (typeof InvokeModelWithBidirectionalStreamInput)["Type"];
+  body: stream.Stream<InvokeModelWithBidirectionalStreamInput, Error, never>;
 }
 export const InvokeModelWithBidirectionalStreamRequest = S.suspend(() =>
   S.Struct({
@@ -1086,7 +1227,7 @@ export const InvokeModelWithBidirectionalStreamRequest = S.suspend(() =>
 }) as any as S.Schema<InvokeModelWithBidirectionalStreamRequest>;
 export interface CountTokensRequest {
   modelId: string;
-  input: (typeof CountTokensInput)["Type"];
+  input: CountTokensInput;
 }
 export const CountTokensRequest = S.suspend(() =>
   S.Struct({
@@ -1106,16 +1247,16 @@ export const CountTokensRequest = S.suspend(() =>
   identifier: "CountTokensRequest",
 }) as any as S.Schema<CountTokensRequest>;
 export interface GuardrailImageBlock {
-  format: string;
-  source: (typeof GuardrailImageSource)["Type"];
+  format: GuardrailImageFormat;
+  source: GuardrailImageSource;
 }
 export const GuardrailImageBlock = S.suspend(() =>
-  S.Struct({ format: S.String, source: GuardrailImageSource }),
+  S.Struct({ format: GuardrailImageFormat, source: GuardrailImageSource }),
 ).annotations({
   identifier: "GuardrailImageBlock",
 }) as any as S.Schema<GuardrailImageBlock>;
 export interface PayloadPart {
-  bytes?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export const PayloadPart = S.suspend(() =>
   S.Struct({ bytes: S.optional(SensitiveBlob) }),
@@ -1127,9 +1268,16 @@ export const GuardrailContentBlock = S.Union(
   S.Struct({ text: GuardrailTextBlock }),
   S.Struct({ image: GuardrailImageBlock }),
 );
-export type GuardrailContentBlockList =
-  (typeof GuardrailContentBlock)["Type"][];
+export type GuardrailContentBlockList = GuardrailContentBlock[];
 export const GuardrailContentBlockList = S.Array(GuardrailContentBlock);
+export type ResponseStream =
+  | { chunk: PayloadPart }
+  | { internalServerException: InternalServerException }
+  | { modelStreamErrorException: ModelStreamErrorException }
+  | { validationException: ValidationException }
+  | { throttlingException: ThrottlingException }
+  | { modelTimeoutException: ModelTimeoutException }
+  | { serviceUnavailableException: ServiceUnavailableException };
 export const ResponseStream = T.EventStream(
   S.Union(
     S.Struct({ chunk: PayloadPart }),
@@ -1164,6 +1312,27 @@ export const ResponseStream = T.EventStream(
       ).annotations({ identifier: "ServiceUnavailableException" }),
     }),
   ),
+) as any as S.Schema<stream.Stream<ResponseStream, Error, never>>;
+export type StopReason =
+  | "end_turn"
+  | "tool_use"
+  | "max_tokens"
+  | "stop_sequence"
+  | "guardrail_intervened"
+  | "content_filtered"
+  | "malformed_model_output"
+  | "malformed_tool_use"
+  | "model_context_window_exceeded";
+export const StopReason = S.Literal(
+  "end_turn",
+  "tool_use",
+  "max_tokens",
+  "stop_sequence",
+  "guardrail_intervened",
+  "content_filtered",
+  "malformed_model_output",
+  "malformed_tool_use",
+  "model_context_window_exceeded",
 );
 export interface StartAsyncInvokeResponse {
   invocationArn: string;
@@ -1176,17 +1345,17 @@ export const StartAsyncInvokeResponse = S.suspend(() =>
 export interface ApplyGuardrailRequest {
   guardrailIdentifier: string;
   guardrailVersion: string;
-  source: string;
-  content: GuardrailContentBlockList;
-  outputScope?: string;
+  source: GuardrailContentSource;
+  content: GuardrailContentBlock[];
+  outputScope?: GuardrailOutputScope;
 }
 export const ApplyGuardrailRequest = S.suspend(() =>
   S.Struct({
     guardrailIdentifier: S.String.pipe(T.HttpLabel("guardrailIdentifier")),
     guardrailVersion: S.String.pipe(T.HttpLabel("guardrailVersion")),
-    source: S.String,
+    source: GuardrailContentSource,
     content: GuardrailContentBlockList,
-    outputScope: S.optional(S.String),
+    outputScope: S.optional(GuardrailOutputScope),
   }).pipe(
     T.all(
       T.Http({
@@ -1204,19 +1373,19 @@ export const ApplyGuardrailRequest = S.suspend(() =>
   identifier: "ApplyGuardrailRequest",
 }) as any as S.Schema<ApplyGuardrailRequest>;
 export interface InvokeModelWithResponseStreamResponse {
-  body: (typeof ResponseStream)["Type"];
+  body: stream.Stream<ResponseStream, Error, never>;
   contentType: string;
-  performanceConfigLatency?: string;
-  serviceTier?: string;
+  performanceConfigLatency?: PerformanceConfigLatency;
+  serviceTier?: ServiceTierType;
 }
 export const InvokeModelWithResponseStreamResponse = S.suspend(() =>
   S.Struct({
     body: ResponseStream.pipe(T.HttpPayload()),
     contentType: S.String.pipe(T.HttpHeader("X-Amzn-Bedrock-Content-Type")),
-    performanceConfigLatency: S.optional(S.String).pipe(
+    performanceConfigLatency: S.optional(PerformanceConfigLatency).pipe(
       T.HttpHeader("X-Amzn-Bedrock-PerformanceConfig-Latency"),
     ),
-    serviceTier: S.optional(S.String).pipe(
+    serviceTier: S.optional(ServiceTierType).pipe(
       T.HttpHeader("X-Amzn-Bedrock-Service-Tier"),
     ),
   }),
@@ -1232,10 +1401,10 @@ export const CountTokensResponse = S.suspend(() =>
   identifier: "CountTokensResponse",
 }) as any as S.Schema<CountTokensResponse>;
 export interface MessageStartEvent {
-  role: string;
+  role: ConversationRole;
 }
 export const MessageStartEvent = S.suspend(() =>
-  S.Struct({ role: S.String }),
+  S.Struct({ role: ConversationRole }),
 ).annotations({
   identifier: "MessageStartEvent",
 }) as any as S.Schema<MessageStartEvent>;
@@ -1248,17 +1417,19 @@ export const ContentBlockStopEvent = S.suspend(() =>
   identifier: "ContentBlockStopEvent",
 }) as any as S.Schema<ContentBlockStopEvent>;
 export interface MessageStopEvent {
-  stopReason: string;
+  stopReason: StopReason;
   additionalModelResponseFields?: any;
 }
 export const MessageStopEvent = S.suspend(() =>
   S.Struct({
-    stopReason: S.String,
+    stopReason: StopReason,
     additionalModelResponseFields: S.optional(S.Any),
   }),
 ).annotations({
   identifier: "MessageStopEvent",
 }) as any as S.Schema<MessageStopEvent>;
+export type GuardrailAction = "NONE" | "GUARDRAIL_INTERVENED";
+export const GuardrailAction = S.Literal("NONE", "GUARDRAIL_INTERVENED");
 export interface TokenUsage {
   inputTokens: number;
   outputTokens: number;
@@ -1286,7 +1457,7 @@ export const ConverseStreamMetrics = S.suspend(() =>
 export type ModelOutputs = string[];
 export const ModelOutputs = S.Array(S.String);
 export interface BidirectionalOutputPayloadPart {
-  bytes?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export const BidirectionalOutputPayloadPart = S.suspend(() =>
   S.Struct({ bytes: S.optional(SensitiveBlob) }),
@@ -1296,32 +1467,36 @@ export const BidirectionalOutputPayloadPart = S.suspend(() =>
 export interface ToolUseBlockStart {
   toolUseId: string;
   name: string;
-  type?: string;
+  type?: ToolUseType;
 }
 export const ToolUseBlockStart = S.suspend(() =>
-  S.Struct({ toolUseId: S.String, name: S.String, type: S.optional(S.String) }),
+  S.Struct({
+    toolUseId: S.String,
+    name: S.String,
+    type: S.optional(ToolUseType),
+  }),
 ).annotations({
   identifier: "ToolUseBlockStart",
 }) as any as S.Schema<ToolUseBlockStart>;
 export interface ToolResultBlockStart {
   toolUseId: string;
   type?: string;
-  status?: string;
+  status?: ToolResultStatus;
 }
 export const ToolResultBlockStart = S.suspend(() =>
   S.Struct({
     toolUseId: S.String,
     type: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ToolResultStatus),
   }),
 ).annotations({
   identifier: "ToolResultBlockStart",
 }) as any as S.Schema<ToolResultBlockStart>;
 export interface ImageBlockStart {
-  format: string;
+  format: ImageFormat;
 }
 export const ImageBlockStart = S.suspend(() =>
-  S.Struct({ format: S.String }),
+  S.Struct({ format: ImageFormat }),
 ).annotations({
   identifier: "ImageBlockStart",
 }) as any as S.Schema<ImageBlockStart>;
@@ -1338,7 +1513,7 @@ export const ToolResultBlockDelta = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ json: S.Any }),
 );
-export type ToolResultBlocksDelta = (typeof ToolResultBlockDelta)["Type"][];
+export type ToolResultBlocksDelta = ToolResultBlockDelta[];
 export const ToolResultBlocksDelta = S.Array(ToolResultBlockDelta);
 export type ReasoningContentBlockDelta =
   | { text: string }
@@ -1350,7 +1525,7 @@ export const ReasoningContentBlockDelta = S.Union(
   S.Struct({ signature: S.String }),
 );
 export interface ImageBlockDelta {
-  source?: (typeof ImageSource)["Type"];
+  source?: ImageSource;
   error?: ErrorBlock;
 }
 export const ImageBlockDelta = S.suspend(() =>
@@ -1402,6 +1577,14 @@ export const GuardrailOutputContent = S.suspend(() =>
 }) as any as S.Schema<GuardrailOutputContent>;
 export type GuardrailOutputContentList = GuardrailOutputContent[];
 export const GuardrailOutputContentList = S.Array(GuardrailOutputContent);
+export type InvokeModelWithBidirectionalStreamOutput =
+  | { chunk: BidirectionalOutputPayloadPart }
+  | { internalServerException: InternalServerException }
+  | { modelStreamErrorException: ModelStreamErrorException }
+  | { validationException: ValidationException }
+  | { throttlingException: ThrottlingException }
+  | { modelTimeoutException: ModelTimeoutException }
+  | { serviceUnavailableException: ServiceUnavailableException };
 export const InvokeModelWithBidirectionalStreamOutput = T.EventStream(
   S.Union(
     S.Struct({ chunk: BidirectionalOutputPayloadPart }),
@@ -1436,9 +1619,22 @@ export const InvokeModelWithBidirectionalStreamOutput = T.EventStream(
       ).annotations({ identifier: "ServiceUnavailableException" }),
     }),
   ),
+) as any as S.Schema<
+  stream.Stream<InvokeModelWithBidirectionalStreamOutput, Error, never>
+>;
+export type GuardrailOrigin =
+  | "REQUEST"
+  | "ACCOUNT_ENFORCED"
+  | "ORGANIZATION_ENFORCED";
+export const GuardrailOrigin = S.Literal(
+  "REQUEST",
+  "ACCOUNT_ENFORCED",
+  "ORGANIZATION_ENFORCED",
 );
-export type GuardrailOriginList = string[];
-export const GuardrailOriginList = S.Array(S.String);
+export type GuardrailOriginList = GuardrailOrigin[];
+export const GuardrailOriginList = S.Array(GuardrailOrigin);
+export type GuardrailOwnership = "SELF" | "CROSS_ACCOUNT";
+export const GuardrailOwnership = S.Literal("SELF", "CROSS_ACCOUNT");
 export type ContentBlockStart =
   | { toolUse: ToolUseBlockStart }
   | { toolResult: ToolResultBlockStart }
@@ -1460,17 +1656,21 @@ export type CitationSourceContentListDelta = CitationSourceContentDelta[];
 export const CitationSourceContentListDelta = S.Array(
   CitationSourceContentDelta,
 );
+export type GuardrailTopicType = "DENY";
+export const GuardrailTopicType = S.Literal("DENY");
+export type GuardrailTopicPolicyAction = "BLOCKED" | "NONE";
+export const GuardrailTopicPolicyAction = S.Literal("BLOCKED", "NONE");
 export interface GuardrailTopic {
   name: string;
-  type: string;
-  action: string;
+  type: GuardrailTopicType;
+  action: GuardrailTopicPolicyAction;
   detected?: boolean;
 }
 export const GuardrailTopic = S.suspend(() =>
   S.Struct({
     name: S.String,
-    type: S.String,
-    action: S.String,
+    type: GuardrailTopicType,
+    action: GuardrailTopicPolicyAction,
     detected: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -1479,26 +1679,61 @@ export const GuardrailTopic = S.suspend(() =>
 export type GuardrailTopicList = GuardrailTopic[];
 export const GuardrailTopicList = S.Array(GuardrailTopic);
 export interface GuardrailTopicPolicyAssessment {
-  topics: GuardrailTopicList;
+  topics: GuardrailTopic[];
 }
 export const GuardrailTopicPolicyAssessment = S.suspend(() =>
   S.Struct({ topics: GuardrailTopicList }),
 ).annotations({
   identifier: "GuardrailTopicPolicyAssessment",
 }) as any as S.Schema<GuardrailTopicPolicyAssessment>;
+export type GuardrailContentFilterType =
+  | "INSULTS"
+  | "HATE"
+  | "SEXUAL"
+  | "VIOLENCE"
+  | "MISCONDUCT"
+  | "PROMPT_ATTACK";
+export const GuardrailContentFilterType = S.Literal(
+  "INSULTS",
+  "HATE",
+  "SEXUAL",
+  "VIOLENCE",
+  "MISCONDUCT",
+  "PROMPT_ATTACK",
+);
+export type GuardrailContentFilterConfidence =
+  | "NONE"
+  | "LOW"
+  | "MEDIUM"
+  | "HIGH";
+export const GuardrailContentFilterConfidence = S.Literal(
+  "NONE",
+  "LOW",
+  "MEDIUM",
+  "HIGH",
+);
+export type GuardrailContentFilterStrength = "NONE" | "LOW" | "MEDIUM" | "HIGH";
+export const GuardrailContentFilterStrength = S.Literal(
+  "NONE",
+  "LOW",
+  "MEDIUM",
+  "HIGH",
+);
+export type GuardrailContentPolicyAction = "BLOCKED" | "NONE";
+export const GuardrailContentPolicyAction = S.Literal("BLOCKED", "NONE");
 export interface GuardrailContentFilter {
-  type: string;
-  confidence: string;
-  filterStrength?: string;
-  action: string;
+  type: GuardrailContentFilterType;
+  confidence: GuardrailContentFilterConfidence;
+  filterStrength?: GuardrailContentFilterStrength;
+  action: GuardrailContentPolicyAction;
   detected?: boolean;
 }
 export const GuardrailContentFilter = S.suspend(() =>
   S.Struct({
-    type: S.String,
-    confidence: S.String,
-    filterStrength: S.optional(S.String),
-    action: S.String,
+    type: GuardrailContentFilterType,
+    confidence: GuardrailContentFilterConfidence,
+    filterStrength: S.optional(GuardrailContentFilterStrength),
+    action: GuardrailContentPolicyAction,
     detected: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -1507,22 +1742,24 @@ export const GuardrailContentFilter = S.suspend(() =>
 export type GuardrailContentFilterList = GuardrailContentFilter[];
 export const GuardrailContentFilterList = S.Array(GuardrailContentFilter);
 export interface GuardrailContentPolicyAssessment {
-  filters: GuardrailContentFilterList;
+  filters: GuardrailContentFilter[];
 }
 export const GuardrailContentPolicyAssessment = S.suspend(() =>
   S.Struct({ filters: GuardrailContentFilterList }),
 ).annotations({
   identifier: "GuardrailContentPolicyAssessment",
 }) as any as S.Schema<GuardrailContentPolicyAssessment>;
+export type GuardrailWordPolicyAction = "BLOCKED" | "NONE";
+export const GuardrailWordPolicyAction = S.Literal("BLOCKED", "NONE");
 export interface GuardrailCustomWord {
   match: string;
-  action: string;
+  action: GuardrailWordPolicyAction;
   detected?: boolean;
 }
 export const GuardrailCustomWord = S.suspend(() =>
   S.Struct({
     match: S.String,
-    action: S.String,
+    action: GuardrailWordPolicyAction,
     detected: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -1530,17 +1767,19 @@ export const GuardrailCustomWord = S.suspend(() =>
 }) as any as S.Schema<GuardrailCustomWord>;
 export type GuardrailCustomWordList = GuardrailCustomWord[];
 export const GuardrailCustomWordList = S.Array(GuardrailCustomWord);
+export type GuardrailManagedWordType = "PROFANITY";
+export const GuardrailManagedWordType = S.Literal("PROFANITY");
 export interface GuardrailManagedWord {
   match: string;
-  type: string;
-  action: string;
+  type: GuardrailManagedWordType;
+  action: GuardrailWordPolicyAction;
   detected?: boolean;
 }
 export const GuardrailManagedWord = S.suspend(() =>
   S.Struct({
     match: S.String,
-    type: S.String,
-    action: S.String,
+    type: GuardrailManagedWordType,
+    action: GuardrailWordPolicyAction,
     detected: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -1549,8 +1788,8 @@ export const GuardrailManagedWord = S.suspend(() =>
 export type GuardrailManagedWordList = GuardrailManagedWord[];
 export const GuardrailManagedWordList = S.Array(GuardrailManagedWord);
 export interface GuardrailWordPolicyAssessment {
-  customWords: GuardrailCustomWordList;
-  managedWordLists: GuardrailManagedWordList;
+  customWords: GuardrailCustomWord[];
+  managedWordLists: GuardrailManagedWord[];
 }
 export const GuardrailWordPolicyAssessment = S.suspend(() =>
   S.Struct({
@@ -1560,17 +1799,91 @@ export const GuardrailWordPolicyAssessment = S.suspend(() =>
 ).annotations({
   identifier: "GuardrailWordPolicyAssessment",
 }) as any as S.Schema<GuardrailWordPolicyAssessment>;
+export type GuardrailPiiEntityType =
+  | "ADDRESS"
+  | "AGE"
+  | "AWS_ACCESS_KEY"
+  | "AWS_SECRET_KEY"
+  | "CA_HEALTH_NUMBER"
+  | "CA_SOCIAL_INSURANCE_NUMBER"
+  | "CREDIT_DEBIT_CARD_CVV"
+  | "CREDIT_DEBIT_CARD_EXPIRY"
+  | "CREDIT_DEBIT_CARD_NUMBER"
+  | "DRIVER_ID"
+  | "EMAIL"
+  | "INTERNATIONAL_BANK_ACCOUNT_NUMBER"
+  | "IP_ADDRESS"
+  | "LICENSE_PLATE"
+  | "MAC_ADDRESS"
+  | "NAME"
+  | "PASSWORD"
+  | "PHONE"
+  | "PIN"
+  | "SWIFT_CODE"
+  | "UK_NATIONAL_HEALTH_SERVICE_NUMBER"
+  | "UK_NATIONAL_INSURANCE_NUMBER"
+  | "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER"
+  | "URL"
+  | "USERNAME"
+  | "US_BANK_ACCOUNT_NUMBER"
+  | "US_BANK_ROUTING_NUMBER"
+  | "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER"
+  | "US_PASSPORT_NUMBER"
+  | "US_SOCIAL_SECURITY_NUMBER"
+  | "VEHICLE_IDENTIFICATION_NUMBER";
+export const GuardrailPiiEntityType = S.Literal(
+  "ADDRESS",
+  "AGE",
+  "AWS_ACCESS_KEY",
+  "AWS_SECRET_KEY",
+  "CA_HEALTH_NUMBER",
+  "CA_SOCIAL_INSURANCE_NUMBER",
+  "CREDIT_DEBIT_CARD_CVV",
+  "CREDIT_DEBIT_CARD_EXPIRY",
+  "CREDIT_DEBIT_CARD_NUMBER",
+  "DRIVER_ID",
+  "EMAIL",
+  "INTERNATIONAL_BANK_ACCOUNT_NUMBER",
+  "IP_ADDRESS",
+  "LICENSE_PLATE",
+  "MAC_ADDRESS",
+  "NAME",
+  "PASSWORD",
+  "PHONE",
+  "PIN",
+  "SWIFT_CODE",
+  "UK_NATIONAL_HEALTH_SERVICE_NUMBER",
+  "UK_NATIONAL_INSURANCE_NUMBER",
+  "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER",
+  "URL",
+  "USERNAME",
+  "US_BANK_ACCOUNT_NUMBER",
+  "US_BANK_ROUTING_NUMBER",
+  "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER",
+  "US_PASSPORT_NUMBER",
+  "US_SOCIAL_SECURITY_NUMBER",
+  "VEHICLE_IDENTIFICATION_NUMBER",
+);
+export type GuardrailSensitiveInformationPolicyAction =
+  | "ANONYMIZED"
+  | "BLOCKED"
+  | "NONE";
+export const GuardrailSensitiveInformationPolicyAction = S.Literal(
+  "ANONYMIZED",
+  "BLOCKED",
+  "NONE",
+);
 export interface GuardrailPiiEntityFilter {
   match: string;
-  type: string;
-  action: string;
+  type: GuardrailPiiEntityType;
+  action: GuardrailSensitiveInformationPolicyAction;
   detected?: boolean;
 }
 export const GuardrailPiiEntityFilter = S.suspend(() =>
   S.Struct({
     match: S.String,
-    type: S.String,
-    action: S.String,
+    type: GuardrailPiiEntityType,
+    action: GuardrailSensitiveInformationPolicyAction,
     detected: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -1582,7 +1895,7 @@ export interface GuardrailRegexFilter {
   name?: string;
   match?: string;
   regex?: string;
-  action: string;
+  action: GuardrailSensitiveInformationPolicyAction;
   detected?: boolean;
 }
 export const GuardrailRegexFilter = S.suspend(() =>
@@ -1590,7 +1903,7 @@ export const GuardrailRegexFilter = S.suspend(() =>
     name: S.optional(S.String),
     match: S.optional(S.String),
     regex: S.optional(S.String),
-    action: S.String,
+    action: GuardrailSensitiveInformationPolicyAction,
     detected: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -1599,8 +1912,8 @@ export const GuardrailRegexFilter = S.suspend(() =>
 export type GuardrailRegexFilterList = GuardrailRegexFilter[];
 export const GuardrailRegexFilterList = S.Array(GuardrailRegexFilter);
 export interface GuardrailSensitiveInformationPolicyAssessment {
-  piiEntities: GuardrailPiiEntityFilterList;
-  regexes: GuardrailRegexFilterList;
+  piiEntities: GuardrailPiiEntityFilter[];
+  regexes: GuardrailRegexFilter[];
 }
 export const GuardrailSensitiveInformationPolicyAssessment = S.suspend(() =>
   S.Struct({
@@ -1610,19 +1923,29 @@ export const GuardrailSensitiveInformationPolicyAssessment = S.suspend(() =>
 ).annotations({
   identifier: "GuardrailSensitiveInformationPolicyAssessment",
 }) as any as S.Schema<GuardrailSensitiveInformationPolicyAssessment>;
+export type GuardrailContextualGroundingFilterType = "GROUNDING" | "RELEVANCE";
+export const GuardrailContextualGroundingFilterType = S.Literal(
+  "GROUNDING",
+  "RELEVANCE",
+);
+export type GuardrailContextualGroundingPolicyAction = "BLOCKED" | "NONE";
+export const GuardrailContextualGroundingPolicyAction = S.Literal(
+  "BLOCKED",
+  "NONE",
+);
 export interface GuardrailContextualGroundingFilter {
-  type: string;
+  type: GuardrailContextualGroundingFilterType;
   threshold: number;
   score: number;
-  action: string;
+  action: GuardrailContextualGroundingPolicyAction;
   detected?: boolean;
 }
 export const GuardrailContextualGroundingFilter = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: GuardrailContextualGroundingFilterType,
     threshold: S.Number,
     score: S.Number,
-    action: S.String,
+    action: GuardrailContextualGroundingPolicyAction,
     detected: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -1634,7 +1957,7 @@ export const GuardrailContextualGroundingFilters = S.Array(
   GuardrailContextualGroundingFilter,
 );
 export interface GuardrailContextualGroundingPolicyAssessment {
-  filters?: GuardrailContextualGroundingFilters;
+  filters?: GuardrailContextualGroundingFilter[];
 }
 export const GuardrailContextualGroundingPolicyAssessment = S.suspend(() =>
   S.Struct({ filters: S.optional(GuardrailContextualGroundingFilters) }),
@@ -1642,8 +1965,8 @@ export const GuardrailContextualGroundingPolicyAssessment = S.suspend(() =>
   identifier: "GuardrailContextualGroundingPolicyAssessment",
 }) as any as S.Schema<GuardrailContextualGroundingPolicyAssessment>;
 export interface GuardrailAutomatedReasoningStatement {
-  logic?: string | Redacted.Redacted<string>;
-  naturalLanguage?: string | Redacted.Redacted<string>;
+  logic?: string | redacted.Redacted<string>;
+  naturalLanguage?: string | redacted.Redacted<string>;
 }
 export const GuardrailAutomatedReasoningStatement = S.suspend(() =>
   S.Struct({
@@ -1659,7 +1982,7 @@ export const GuardrailAutomatedReasoningStatementList = S.Array(
   GuardrailAutomatedReasoningStatement,
 );
 export interface GuardrailAutomatedReasoningInputTextReference {
-  text?: string | Redacted.Redacted<string>;
+  text?: string | redacted.Redacted<string>;
 }
 export const GuardrailAutomatedReasoningInputTextReference = S.suspend(() =>
   S.Struct({ text: S.optional(SensitiveString) }),
@@ -1672,10 +1995,10 @@ export const GuardrailAutomatedReasoningInputTextReferenceList = S.Array(
   GuardrailAutomatedReasoningInputTextReference,
 );
 export interface GuardrailAutomatedReasoningTranslation {
-  premises?: GuardrailAutomatedReasoningStatementList;
-  claims?: GuardrailAutomatedReasoningStatementList;
-  untranslatedPremises?: GuardrailAutomatedReasoningInputTextReferenceList;
-  untranslatedClaims?: GuardrailAutomatedReasoningInputTextReferenceList;
+  premises?: GuardrailAutomatedReasoningStatement[];
+  claims?: GuardrailAutomatedReasoningStatement[];
+  untranslatedPremises?: GuardrailAutomatedReasoningInputTextReference[];
+  untranslatedClaims?: GuardrailAutomatedReasoningInputTextReference[];
   confidence?: number;
 }
 export const GuardrailAutomatedReasoningTranslation = S.suspend(() =>
@@ -1694,7 +2017,7 @@ export const GuardrailAutomatedReasoningTranslation = S.suspend(() =>
   identifier: "GuardrailAutomatedReasoningTranslation",
 }) as any as S.Schema<GuardrailAutomatedReasoningTranslation>;
 export interface GuardrailAutomatedReasoningScenario {
-  statements?: GuardrailAutomatedReasoningStatementList;
+  statements?: GuardrailAutomatedReasoningStatement[];
 }
 export const GuardrailAutomatedReasoningScenario = S.suspend(() =>
   S.Struct({
@@ -1720,14 +2043,21 @@ export type GuardrailAutomatedReasoningRuleList =
 export const GuardrailAutomatedReasoningRuleList = S.Array(
   GuardrailAutomatedReasoningRule,
 );
+export type GuardrailAutomatedReasoningLogicWarningType =
+  | "ALWAYS_FALSE"
+  | "ALWAYS_TRUE";
+export const GuardrailAutomatedReasoningLogicWarningType = S.Literal(
+  "ALWAYS_FALSE",
+  "ALWAYS_TRUE",
+);
 export interface GuardrailAutomatedReasoningLogicWarning {
-  type?: string;
-  premises?: GuardrailAutomatedReasoningStatementList;
-  claims?: GuardrailAutomatedReasoningStatementList;
+  type?: GuardrailAutomatedReasoningLogicWarningType;
+  premises?: GuardrailAutomatedReasoningStatement[];
+  claims?: GuardrailAutomatedReasoningStatement[];
 }
 export const GuardrailAutomatedReasoningLogicWarning = S.suspend(() =>
   S.Struct({
-    type: S.optional(S.String),
+    type: S.optional(GuardrailAutomatedReasoningLogicWarningType),
     premises: S.optional(GuardrailAutomatedReasoningStatementList),
     claims: S.optional(GuardrailAutomatedReasoningStatementList),
   }),
@@ -1737,7 +2067,7 @@ export const GuardrailAutomatedReasoningLogicWarning = S.suspend(() =>
 export interface GuardrailAutomatedReasoningValidFinding {
   translation?: GuardrailAutomatedReasoningTranslation;
   claimsTrueScenario?: GuardrailAutomatedReasoningScenario;
-  supportingRules?: GuardrailAutomatedReasoningRuleList;
+  supportingRules?: GuardrailAutomatedReasoningRule[];
   logicWarning?: GuardrailAutomatedReasoningLogicWarning;
 }
 export const GuardrailAutomatedReasoningValidFinding = S.suspend(() =>
@@ -1752,7 +2082,7 @@ export const GuardrailAutomatedReasoningValidFinding = S.suspend(() =>
 }) as any as S.Schema<GuardrailAutomatedReasoningValidFinding>;
 export interface GuardrailAutomatedReasoningInvalidFinding {
   translation?: GuardrailAutomatedReasoningTranslation;
-  contradictingRules?: GuardrailAutomatedReasoningRuleList;
+  contradictingRules?: GuardrailAutomatedReasoningRule[];
   logicWarning?: GuardrailAutomatedReasoningLogicWarning;
 }
 export const GuardrailAutomatedReasoningInvalidFinding = S.suspend(() =>
@@ -1782,7 +2112,7 @@ export const GuardrailAutomatedReasoningSatisfiableFinding = S.suspend(() =>
 }) as any as S.Schema<GuardrailAutomatedReasoningSatisfiableFinding>;
 export interface GuardrailAutomatedReasoningImpossibleFinding {
   translation?: GuardrailAutomatedReasoningTranslation;
-  contradictingRules?: GuardrailAutomatedReasoningRuleList;
+  contradictingRules?: GuardrailAutomatedReasoningRule[];
   logicWarning?: GuardrailAutomatedReasoningLogicWarning;
 }
 export const GuardrailAutomatedReasoningImpossibleFinding = S.suspend(() =>
@@ -1800,7 +2130,7 @@ export const GuardrailAutomatedReasoningTranslationList = S.Array(
   GuardrailAutomatedReasoningTranslation,
 );
 export interface GuardrailAutomatedReasoningTranslationOption {
-  translations?: GuardrailAutomatedReasoningTranslationList;
+  translations?: GuardrailAutomatedReasoningTranslation[];
 }
 export const GuardrailAutomatedReasoningTranslationOption = S.suspend(() =>
   S.Struct({
@@ -1820,8 +2150,8 @@ export const GuardrailAutomatedReasoningDifferenceScenarioList = S.Array(
   GuardrailAutomatedReasoningScenario,
 );
 export interface GuardrailAutomatedReasoningTranslationAmbiguousFinding {
-  options?: GuardrailAutomatedReasoningTranslationOptionList;
-  differenceScenarios?: GuardrailAutomatedReasoningDifferenceScenarioList;
+  options?: GuardrailAutomatedReasoningTranslationOption[];
+  differenceScenarios?: GuardrailAutomatedReasoningScenario[];
 }
 export const GuardrailAutomatedReasoningTranslationAmbiguousFinding = S.suspend(
   () =>
@@ -1871,12 +2201,12 @@ export const GuardrailAutomatedReasoningFinding = S.Union(
   }),
 );
 export type GuardrailAutomatedReasoningFindingList =
-  (typeof GuardrailAutomatedReasoningFinding)["Type"][];
+  GuardrailAutomatedReasoningFinding[];
 export const GuardrailAutomatedReasoningFindingList = S.Array(
   GuardrailAutomatedReasoningFinding,
 );
 export interface GuardrailAutomatedReasoningPolicyAssessment {
-  findings?: GuardrailAutomatedReasoningFindingList;
+  findings?: GuardrailAutomatedReasoningFinding[];
 }
 export const GuardrailAutomatedReasoningPolicyAssessment = S.suspend(() =>
   S.Struct({ findings: S.optional(GuardrailAutomatedReasoningFindingList) }),
@@ -1931,8 +2261,8 @@ export interface AppliedGuardrailDetails {
   guardrailId?: string;
   guardrailVersion?: string;
   guardrailArn?: string;
-  guardrailOrigin?: GuardrailOriginList;
-  guardrailOwnership?: string;
+  guardrailOrigin?: GuardrailOrigin[];
+  guardrailOwnership?: GuardrailOwnership;
 }
 export const AppliedGuardrailDetails = S.suspend(() =>
   S.Struct({
@@ -1940,7 +2270,7 @@ export const AppliedGuardrailDetails = S.suspend(() =>
     guardrailVersion: S.optional(S.String),
     guardrailArn: S.optional(S.String),
     guardrailOrigin: S.optional(GuardrailOriginList),
-    guardrailOwnership: S.optional(S.String),
+    guardrailOwnership: S.optional(GuardrailOwnership),
   }),
 ).annotations({
   identifier: "AppliedGuardrailDetails",
@@ -1983,14 +2313,14 @@ export const GuardrailAssessmentMap = S.Record({
 export type GuardrailAssessmentList = GuardrailAssessment[];
 export const GuardrailAssessmentList = S.Array(GuardrailAssessment);
 export type GuardrailAssessmentListMap = {
-  [key: string]: GuardrailAssessmentList;
+  [key: string]: GuardrailAssessment[];
 };
 export const GuardrailAssessmentListMap = S.Record({
   key: S.String,
   value: GuardrailAssessmentList,
 });
 export interface InvokeModelWithBidirectionalStreamResponse {
-  body: (typeof InvokeModelWithBidirectionalStreamOutput)["Type"];
+  body: stream.Stream<InvokeModelWithBidirectionalStreamOutput, Error, never>;
 }
 export const InvokeModelWithBidirectionalStreamResponse = S.suspend(() =>
   S.Struct({
@@ -2000,7 +2330,7 @@ export const InvokeModelWithBidirectionalStreamResponse = S.suspend(() =>
   identifier: "InvokeModelWithBidirectionalStreamResponse",
 }) as any as S.Schema<InvokeModelWithBidirectionalStreamResponse>;
 export interface ContentBlockStartEvent {
-  start: (typeof ContentBlockStart)["Type"];
+  start: ContentBlockStart;
   contentBlockIndex: number;
 }
 export const ContentBlockStartEvent = S.suspend(() =>
@@ -2011,8 +2341,8 @@ export const ContentBlockStartEvent = S.suspend(() =>
 export interface CitationsDelta {
   title?: string;
   source?: string;
-  sourceContent?: CitationSourceContentListDelta;
-  location?: (typeof CitationLocation)["Type"];
+  sourceContent?: CitationSourceContentDelta[];
+  location?: CitationLocation;
 }
 export const CitationsDelta = S.suspend(() =>
   S.Struct({
@@ -2025,9 +2355,9 @@ export const CitationsDelta = S.suspend(() =>
   identifier: "CitationsDelta",
 }) as any as S.Schema<CitationsDelta>;
 export interface GuardrailTraceAssessment {
-  modelOutput?: ModelOutputs;
-  inputAssessment?: GuardrailAssessmentMap;
-  outputAssessments?: GuardrailAssessmentListMap;
+  modelOutput?: string[];
+  inputAssessment?: { [key: string]: GuardrailAssessment };
+  outputAssessments?: { [key: string]: GuardrailAssessment[] };
   actionReason?: string;
 }
 export const GuardrailTraceAssessment = S.suspend(() =>
@@ -2043,8 +2373,8 @@ export const GuardrailTraceAssessment = S.suspend(() =>
 export type ContentBlockDelta =
   | { text: string }
   | { toolUse: ToolUseBlockDelta }
-  | { toolResult: ToolResultBlocksDelta }
-  | { reasoningContent: (typeof ReasoningContentBlockDelta)["Type"] }
+  | { toolResult: ToolResultBlockDelta[] }
+  | { reasoningContent: ReasoningContentBlockDelta }
   | { citation: CitationsDelta }
   | { image: ImageBlockDelta };
 export const ContentBlockDelta = S.Union(
@@ -2069,15 +2399,15 @@ export const ConverseStreamTrace = S.suspend(() =>
 }) as any as S.Schema<ConverseStreamTrace>;
 export interface ConverseRequest {
   modelId: string;
-  messages?: Messages;
-  system?: SystemContentBlocks;
+  messages?: Message[];
+  system?: SystemContentBlock[];
   inferenceConfig?: InferenceConfiguration;
   toolConfig?: ToolConfiguration;
   guardrailConfig?: GuardrailConfiguration;
   additionalModelRequestFields?: any;
-  promptVariables?: PromptVariableMap;
-  additionalModelResponseFieldPaths?: AdditionalModelResponseFieldPaths;
-  requestMetadata?: RequestMetadata;
+  promptVariables?: { [key: string]: PromptVariableValues };
+  additionalModelResponseFieldPaths?: string[];
+  requestMetadata?: { [key: string]: string };
   performanceConfig?: PerformanceConfiguration;
   serviceTier?: ServiceTier;
 }
@@ -2111,7 +2441,7 @@ export const ConverseRequest = S.suspend(() =>
   identifier: "ConverseRequest",
 }) as any as S.Schema<ConverseRequest>;
 export interface ContentBlockDeltaEvent {
-  delta: (typeof ContentBlockDelta)["Type"];
+  delta: ContentBlockDelta;
   contentBlockIndex: number;
 }
 export const ContentBlockDeltaEvent = S.suspend(() =>
@@ -2137,6 +2467,18 @@ export const ConverseStreamMetadataEvent = S.suspend(() =>
 ).annotations({
   identifier: "ConverseStreamMetadataEvent",
 }) as any as S.Schema<ConverseStreamMetadataEvent>;
+export type ConverseStreamOutput =
+  | { messageStart: MessageStartEvent }
+  | { contentBlockStart: ContentBlockStartEvent }
+  | { contentBlockDelta: ContentBlockDeltaEvent }
+  | { contentBlockStop: ContentBlockStopEvent }
+  | { messageStop: MessageStopEvent }
+  | { metadata: ConverseStreamMetadataEvent }
+  | { internalServerException: InternalServerException }
+  | { modelStreamErrorException: ModelStreamErrorException }
+  | { validationException: ValidationException }
+  | { throttlingException: ThrottlingException }
+  | { serviceUnavailableException: ServiceUnavailableException };
 export const ConverseStreamOutput = T.EventStream(
   S.Union(
     S.Struct({ messageStart: MessageStartEvent }),
@@ -2171,9 +2513,9 @@ export const ConverseStreamOutput = T.EventStream(
       ).annotations({ identifier: "ServiceUnavailableException" }),
     }),
   ),
-);
+) as any as S.Schema<stream.Stream<ConverseStreamOutput, Error, never>>;
 export interface ConverseStreamResponse {
-  stream?: (typeof ConverseStreamOutput)["Type"];
+  stream?: stream.Stream<ConverseStreamOutput, Error, never>;
 }
 export const ConverseStreamResponse = S.suspend(() =>
   S.Struct({ stream: S.optional(ConverseStreamOutput).pipe(T.HttpPayload()) }),
@@ -2203,8 +2545,8 @@ export const ConverseTrace = S.suspend(() =>
   identifier: "ConverseTrace",
 }) as any as S.Schema<ConverseTrace>;
 export interface ConverseResponse {
-  output: (typeof ConverseOutput)["Type"];
-  stopReason: string;
+  output: ConverseOutput;
+  stopReason: StopReason;
   usage: TokenUsage;
   metrics: ConverseMetrics;
   additionalModelResponseFields?: any;
@@ -2215,7 +2557,7 @@ export interface ConverseResponse {
 export const ConverseResponse = S.suspend(() =>
   S.Struct({
     output: ConverseOutput,
-    stopReason: S.String,
+    stopReason: StopReason,
     usage: TokenUsage,
     metrics: ConverseMetrics,
     additionalModelResponseFields: S.optional(S.Any),
@@ -2228,16 +2570,16 @@ export const ConverseResponse = S.suspend(() =>
 }) as any as S.Schema<ConverseResponse>;
 export interface ApplyGuardrailResponse {
   usage: GuardrailUsage;
-  action: string;
+  action: GuardrailAction;
   actionReason?: string;
-  outputs: GuardrailOutputContentList;
-  assessments: GuardrailAssessmentList;
+  outputs: GuardrailOutputContent[];
+  assessments: GuardrailAssessment[];
   guardrailCoverage?: GuardrailCoverage;
 }
 export const ApplyGuardrailResponse = S.suspend(() =>
   S.Struct({
     usage: GuardrailUsage,
-    action: S.String,
+    action: GuardrailAction,
     actionReason: S.optional(S.String),
     outputs: GuardrailOutputContentList,
     assessments: GuardrailAssessmentList,
@@ -2312,7 +2654,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  */
 export const getAsyncInvoke: (
   input: GetAsyncInvokeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAsyncInvokeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2336,7 +2678,7 @@ export const getAsyncInvoke: (
 export const listAsyncInvokes: {
   (
     input: ListAsyncInvokesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAsyncInvokesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2347,7 +2689,7 @@ export const listAsyncInvokes: {
   >;
   pages: (
     input: ListAsyncInvokesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAsyncInvokesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2358,7 +2700,7 @@ export const listAsyncInvokes: {
   >;
   items: (
     input: ListAsyncInvokesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AsyncInvokeSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2406,7 +2748,7 @@ export const listAsyncInvokes: {
  */
 export const countTokens: (
   input: CountTokensRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CountTokensResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2437,7 +2779,7 @@ export const countTokens: (
  */
 export const startAsyncInvoke: (
   input: StartAsyncInvokeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartAsyncInvokeResponse,
   | AccessDeniedException
   | ConflictException
@@ -2476,7 +2818,7 @@ export const startAsyncInvoke: (
  */
 export const invokeModel: (
   input: InvokeModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   InvokeModelResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2523,7 +2865,7 @@ export const invokeModel: (
  */
 export const invokeModelWithResponseStream: (
   input: InvokeModelWithResponseStreamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   InvokeModelWithResponseStreamResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2562,7 +2904,7 @@ export const invokeModelWithResponseStream: (
  */
 export const invokeModelWithBidirectionalStream: (
   input: InvokeModelWithBidirectionalStreamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   InvokeModelWithBidirectionalStreamResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2619,7 +2961,7 @@ export const invokeModelWithBidirectionalStream: (
  */
 export const converseStream: (
   input: ConverseStreamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ConverseStreamResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2668,7 +3010,7 @@ export const converseStream: (
  */
 export const converse: (
   input: ConverseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ConverseResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2703,7 +3045,7 @@ export const converse: (
  */
 export const applyGuardrail: (
   input: ApplyGuardrailRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ApplyGuardrailResponse,
   | AccessDeniedException
   | InternalServerException

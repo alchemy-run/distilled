@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -186,7 +186,7 @@ export const ListTagsForResourceInput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceInput>;
 export interface UntagResourceInput {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({
@@ -370,7 +370,7 @@ export const VirtualGatewayClientTlsCertificate = S.Union(
 export type VirtualGatewayCertificateAuthorityArns = string[];
 export const VirtualGatewayCertificateAuthorityArns = S.Array(S.String);
 export interface VirtualGatewayTlsValidationContextAcmTrust {
-  certificateAuthorityArns: VirtualGatewayCertificateAuthorityArns;
+  certificateAuthorityArns: string[];
 }
 export const VirtualGatewayTlsValidationContextAcmTrust = S.suspend(() =>
   S.Struct({
@@ -407,7 +407,7 @@ export const VirtualGatewayTlsValidationContextTrust = S.Union(
 export type SubjectAlternativeNameList = string[];
 export const SubjectAlternativeNameList = S.Array(S.String);
 export interface SubjectAlternativeNameMatchers {
-  exact: SubjectAlternativeNameList;
+  exact: string[];
 }
 export const SubjectAlternativeNameMatchers = S.suspend(() =>
   S.Struct({ exact: SubjectAlternativeNameList }),
@@ -423,7 +423,7 @@ export const SubjectAlternativeNames = S.suspend(() =>
   identifier: "SubjectAlternativeNames",
 }) as any as S.Schema<SubjectAlternativeNames>;
 export interface VirtualGatewayTlsValidationContext {
-  trust: (typeof VirtualGatewayTlsValidationContextTrust)["Type"];
+  trust: VirtualGatewayTlsValidationContextTrust;
   subjectAlternativeNames?: SubjectAlternativeNames;
 }
 export const VirtualGatewayTlsValidationContext = S.suspend(() =>
@@ -436,8 +436,8 @@ export const VirtualGatewayTlsValidationContext = S.suspend(() =>
 }) as any as S.Schema<VirtualGatewayTlsValidationContext>;
 export interface VirtualGatewayClientPolicyTls {
   enforce?: boolean;
-  ports?: PortSet;
-  certificate?: (typeof VirtualGatewayClientTlsCertificate)["Type"];
+  ports?: number[];
+  certificate?: VirtualGatewayClientTlsCertificate;
   validation: VirtualGatewayTlsValidationContext;
 }
 export const VirtualGatewayClientPolicyTls = S.suspend(() =>
@@ -505,7 +505,7 @@ export const VirtualGatewayListenerTlsValidationContextTrust = S.Union(
   S.Struct({ sds: VirtualGatewayTlsValidationContextSdsTrust }),
 );
 export interface VirtualGatewayListenerTlsValidationContext {
-  trust: (typeof VirtualGatewayListenerTlsValidationContextTrust)["Type"];
+  trust: VirtualGatewayListenerTlsValidationContextTrust;
   subjectAlternativeNames?: SubjectAlternativeNames;
 }
 export const VirtualGatewayListenerTlsValidationContext = S.suspend(() =>
@@ -536,7 +536,7 @@ export const VirtualGatewayListenerTlsCertificate = S.Union(
 export interface VirtualGatewayListenerTls {
   mode: string;
   validation?: VirtualGatewayListenerTlsValidationContext;
-  certificate: (typeof VirtualGatewayListenerTlsCertificate)["Type"];
+  certificate: VirtualGatewayListenerTlsCertificate;
 }
 export const VirtualGatewayListenerTls = S.suspend(() =>
   S.Struct({
@@ -588,7 +588,7 @@ export interface VirtualGatewayListener {
   healthCheck?: VirtualGatewayHealthCheckPolicy;
   portMapping: VirtualGatewayPortMapping;
   tls?: VirtualGatewayListenerTls;
-  connectionPool?: (typeof VirtualGatewayConnectionPool)["Type"];
+  connectionPool?: VirtualGatewayConnectionPool;
 }
 export const VirtualGatewayListener = S.suspend(() =>
   S.Struct({
@@ -613,14 +613,14 @@ export const JsonFormatRef = S.suspend(() =>
 }) as any as S.Schema<JsonFormatRef>;
 export type JsonFormat = JsonFormatRef[];
 export const JsonFormat = S.Array(JsonFormatRef);
-export type LoggingFormat = { text: string } | { json: JsonFormat };
+export type LoggingFormat = { text: string } | { json: JsonFormatRef[] };
 export const LoggingFormat = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ json: JsonFormat }),
 );
 export interface VirtualGatewayFileAccessLog {
   path: string;
-  format?: (typeof LoggingFormat)["Type"];
+  format?: LoggingFormat;
 }
 export const VirtualGatewayFileAccessLog = S.suspend(() =>
   S.Struct({ path: S.String, format: S.optional(LoggingFormat) }),
@@ -632,7 +632,7 @@ export const VirtualGatewayAccessLog = S.Union(
   S.Struct({ file: VirtualGatewayFileAccessLog }),
 );
 export interface VirtualGatewayLogging {
-  accessLog?: (typeof VirtualGatewayAccessLog)["Type"];
+  accessLog?: VirtualGatewayAccessLog;
 }
 export const VirtualGatewayLogging = S.suspend(() =>
   S.Struct({ accessLog: S.optional(VirtualGatewayAccessLog) }),
@@ -641,7 +641,7 @@ export const VirtualGatewayLogging = S.suspend(() =>
 }) as any as S.Schema<VirtualGatewayLogging>;
 export interface VirtualGatewaySpec {
   backendDefaults?: VirtualGatewayBackendDefaults;
-  listeners: VirtualGatewayListeners;
+  listeners: VirtualGatewayListener[];
   logging?: VirtualGatewayLogging;
 }
 export const VirtualGatewaySpec = S.suspend(() =>
@@ -825,7 +825,7 @@ export const HeaderMatchMethod = S.Union(
 export interface HttpGatewayRouteHeader {
   name: string;
   invert?: boolean;
-  match?: (typeof HeaderMatchMethod)["Type"];
+  match?: HeaderMatchMethod;
 }
 export const HttpGatewayRouteHeader = S.suspend(() =>
   S.Struct({
@@ -841,10 +841,10 @@ export const HttpGatewayRouteHeaders = S.Array(HttpGatewayRouteHeader);
 export interface HttpGatewayRouteMatch {
   prefix?: string;
   path?: HttpPathMatch;
-  queryParameters?: HttpQueryParameters;
+  queryParameters?: HttpQueryParameter[];
   method?: string;
   hostname?: GatewayRouteHostnameMatch;
-  headers?: HttpGatewayRouteHeaders;
+  headers?: HttpGatewayRouteHeader[];
   port?: number;
 }
 export const HttpGatewayRouteMatch = S.suspend(() =>
@@ -959,7 +959,7 @@ export const GrpcMetadataMatchMethod = S.Union(
 export interface GrpcGatewayRouteMetadata {
   name: string;
   invert?: boolean;
-  match?: (typeof GrpcMetadataMatchMethod)["Type"];
+  match?: GrpcMetadataMatchMethod;
 }
 export const GrpcGatewayRouteMetadata = S.suspend(() =>
   S.Struct({
@@ -975,7 +975,7 @@ export const GrpcGatewayRouteMetadataList = S.Array(GrpcGatewayRouteMetadata);
 export interface GrpcGatewayRouteMatch {
   serviceName?: string;
   hostname?: GatewayRouteHostnameMatch;
-  metadata?: GrpcGatewayRouteMetadataList;
+  metadata?: GrpcGatewayRouteMetadata[];
   port?: number;
 }
 export const GrpcGatewayRouteMatch = S.suspend(() =>
@@ -1179,7 +1179,7 @@ export const AwsCloudMapInstanceAttributes = S.Array(
 export interface AwsCloudMapServiceDiscovery {
   namespaceName: string;
   serviceName: string;
-  attributes?: AwsCloudMapInstanceAttributes;
+  attributes?: AwsCloudMapInstanceAttribute[];
   ipPreference?: string;
 }
 export const AwsCloudMapServiceDiscovery = S.suspend(() =>
@@ -1264,7 +1264,7 @@ export const ListenerTlsValidationContextTrust = S.Union(
   S.Struct({ sds: TlsValidationContextSdsTrust }),
 );
 export interface ListenerTlsValidationContext {
-  trust: (typeof ListenerTlsValidationContextTrust)["Type"];
+  trust: ListenerTlsValidationContextTrust;
   subjectAlternativeNames?: SubjectAlternativeNames;
 }
 export const ListenerTlsValidationContext = S.suspend(() =>
@@ -1277,7 +1277,7 @@ export const ListenerTlsValidationContext = S.suspend(() =>
 }) as any as S.Schema<ListenerTlsValidationContext>;
 export interface ListenerTls {
   mode: string;
-  certificate: (typeof ListenerTlsCertificate)["Type"];
+  certificate: ListenerTlsCertificate;
   validation?: ListenerTlsValidationContext;
 }
 export const ListenerTls = S.suspend(() =>
@@ -1414,9 +1414,9 @@ export interface Listener {
   portMapping: PortMapping;
   tls?: ListenerTls;
   healthCheck?: HealthCheckPolicy;
-  timeout?: (typeof ListenerTimeout)["Type"];
+  timeout?: ListenerTimeout;
   outlierDetection?: OutlierDetection;
-  connectionPool?: (typeof VirtualNodeConnectionPool)["Type"];
+  connectionPool?: VirtualNodeConnectionPool;
 }
 export const Listener = S.suspend(() =>
   S.Struct({
@@ -1440,7 +1440,7 @@ export const ClientTlsCertificate = S.Union(
 export type CertificateAuthorityArns = string[];
 export const CertificateAuthorityArns = S.Array(S.String);
 export interface TlsValidationContextAcmTrust {
-  certificateAuthorityArns: CertificateAuthorityArns;
+  certificateAuthorityArns: string[];
 }
 export const TlsValidationContextAcmTrust = S.suspend(() =>
   S.Struct({ certificateAuthorityArns: CertificateAuthorityArns }),
@@ -1457,7 +1457,7 @@ export const TlsValidationContextTrust = S.Union(
   S.Struct({ sds: TlsValidationContextSdsTrust }),
 );
 export interface TlsValidationContext {
-  trust: (typeof TlsValidationContextTrust)["Type"];
+  trust: TlsValidationContextTrust;
   subjectAlternativeNames?: SubjectAlternativeNames;
 }
 export const TlsValidationContext = S.suspend(() =>
@@ -1470,8 +1470,8 @@ export const TlsValidationContext = S.suspend(() =>
 }) as any as S.Schema<TlsValidationContext>;
 export interface ClientPolicyTls {
   enforce?: boolean;
-  ports?: PortSet;
-  certificate?: (typeof ClientTlsCertificate)["Type"];
+  ports?: number[];
+  certificate?: ClientTlsCertificate;
   validation: TlsValidationContext;
 }
 export const ClientPolicyTls = S.suspend(() =>
@@ -1506,7 +1506,7 @@ export type Backend = { virtualService: VirtualServiceBackend };
 export const Backend = S.Union(
   S.Struct({ virtualService: VirtualServiceBackend }),
 );
-export type Backends = (typeof Backend)["Type"][];
+export type Backends = Backend[];
 export const Backends = S.Array(Backend);
 export interface BackendDefaults {
   clientPolicy?: ClientPolicy;
@@ -1518,7 +1518,7 @@ export const BackendDefaults = S.suspend(() =>
 }) as any as S.Schema<BackendDefaults>;
 export interface FileAccessLog {
   path: string;
-  format?: (typeof LoggingFormat)["Type"];
+  format?: LoggingFormat;
 }
 export const FileAccessLog = S.suspend(() =>
   S.Struct({ path: S.String, format: S.optional(LoggingFormat) }),
@@ -1528,15 +1528,15 @@ export const FileAccessLog = S.suspend(() =>
 export type AccessLog = { file: FileAccessLog };
 export const AccessLog = S.Union(S.Struct({ file: FileAccessLog }));
 export interface Logging {
-  accessLog?: (typeof AccessLog)["Type"];
+  accessLog?: AccessLog;
 }
 export const Logging = S.suspend(() =>
   S.Struct({ accessLog: S.optional(AccessLog) }),
 ).annotations({ identifier: "Logging" }) as any as S.Schema<Logging>;
 export interface VirtualNodeSpec {
-  serviceDiscovery?: (typeof ServiceDiscovery)["Type"];
-  listeners?: Listeners;
-  backends?: Backends;
+  serviceDiscovery?: ServiceDiscovery;
+  listeners?: Listener[];
+  backends?: Backend[];
   backendDefaults?: BackendDefaults;
   logging?: Logging;
 }
@@ -1672,7 +1672,7 @@ export const VirtualRouterListener = S.suspend(() =>
 export type VirtualRouterListeners = VirtualRouterListener[];
 export const VirtualRouterListeners = S.Array(VirtualRouterListener);
 export interface VirtualRouterSpec {
-  listeners?: VirtualRouterListeners;
+  listeners?: VirtualRouterListener[];
 }
 export const VirtualRouterSpec = S.suspend(() =>
   S.Struct({ listeners: S.optional(VirtualRouterListeners) }),
@@ -1794,7 +1794,7 @@ export const DescribeRouteInput = S.suspend(() =>
 export interface HttpRouteHeader {
   name: string;
   invert?: boolean;
-  match?: (typeof HeaderMatchMethod)["Type"];
+  match?: HeaderMatchMethod;
 }
 export const HttpRouteHeader = S.suspend(() =>
   S.Struct({
@@ -1810,10 +1810,10 @@ export const HttpRouteHeaders = S.Array(HttpRouteHeader);
 export interface HttpRouteMatch {
   prefix?: string;
   path?: HttpPathMatch;
-  queryParameters?: HttpQueryParameters;
+  queryParameters?: HttpQueryParameter[];
   method?: string;
   scheme?: string;
-  headers?: HttpRouteHeaders;
+  headers?: HttpRouteHeader[];
   port?: number;
 }
 export const HttpRouteMatch = S.suspend(() =>
@@ -1846,7 +1846,7 @@ export const WeightedTarget = S.suspend(() =>
 export type WeightedTargets = WeightedTarget[];
 export const WeightedTargets = S.Array(WeightedTarget);
 export interface HttpRouteAction {
-  weightedTargets: WeightedTargets;
+  weightedTargets: WeightedTarget[];
 }
 export const HttpRouteAction = S.suspend(() =>
   S.Struct({ weightedTargets: WeightedTargets }),
@@ -1860,8 +1860,8 @@ export const TcpRetryPolicyEvents = S.Array(S.String);
 export interface HttpRetryPolicy {
   perRetryTimeout: Duration;
   maxRetries: number;
-  httpRetryEvents?: HttpRetryPolicyEvents;
-  tcpRetryEvents?: TcpRetryPolicyEvents;
+  httpRetryEvents?: string[];
+  tcpRetryEvents?: string[];
 }
 export const HttpRetryPolicy = S.suspend(() =>
   S.Struct({
@@ -1888,7 +1888,7 @@ export const HttpRoute = S.suspend(() =>
   }),
 ).annotations({ identifier: "HttpRoute" }) as any as S.Schema<HttpRoute>;
 export interface TcpRouteAction {
-  weightedTargets: WeightedTargets;
+  weightedTargets: WeightedTarget[];
 }
 export const TcpRouteAction = S.suspend(() =>
   S.Struct({ weightedTargets: WeightedTargets }),
@@ -1916,7 +1916,7 @@ export const TcpRoute = S.suspend(() =>
   }),
 ).annotations({ identifier: "TcpRoute" }) as any as S.Schema<TcpRoute>;
 export interface GrpcRouteAction {
-  weightedTargets: WeightedTargets;
+  weightedTargets: WeightedTarget[];
 }
 export const GrpcRouteAction = S.suspend(() =>
   S.Struct({ weightedTargets: WeightedTargets }),
@@ -1939,7 +1939,7 @@ export const GrpcRouteMetadataMatchMethod = S.Union(
 export interface GrpcRouteMetadata {
   name: string;
   invert?: boolean;
-  match?: (typeof GrpcRouteMetadataMatchMethod)["Type"];
+  match?: GrpcRouteMetadataMatchMethod;
 }
 export const GrpcRouteMetadata = S.suspend(() =>
   S.Struct({
@@ -1955,7 +1955,7 @@ export const GrpcRouteMetadataList = S.Array(GrpcRouteMetadata);
 export interface GrpcRouteMatch {
   serviceName?: string;
   methodName?: string;
-  metadata?: GrpcRouteMetadataList;
+  metadata?: GrpcRouteMetadata[];
   port?: number;
 }
 export const GrpcRouteMatch = S.suspend(() =>
@@ -1973,9 +1973,9 @@ export const GrpcRetryPolicyEvents = S.Array(S.String);
 export interface GrpcRetryPolicy {
   perRetryTimeout: Duration;
   maxRetries: number;
-  httpRetryEvents?: HttpRetryPolicyEvents;
-  tcpRetryEvents?: TcpRetryPolicyEvents;
-  grpcRetryEvents?: GrpcRetryPolicyEvents;
+  httpRetryEvents?: string[];
+  tcpRetryEvents?: string[];
+  grpcRetryEvents?: string[];
 }
 export const GrpcRetryPolicy = S.suspend(() =>
   S.Struct({
@@ -2158,7 +2158,7 @@ export const VirtualServiceProvider = S.Union(
   S.Struct({ virtualRouter: VirtualRouterServiceProvider }),
 );
 export interface VirtualServiceSpec {
-  provider?: (typeof VirtualServiceProvider)["Type"];
+  provider?: VirtualServiceProvider;
 }
 export const VirtualServiceSpec = S.suspend(() =>
   S.Struct({ provider: S.optional(VirtualServiceProvider) }),
@@ -2259,7 +2259,7 @@ export const TagRef = S.suspend(() =>
 export type TagList = TagRef[];
 export const TagList = S.Array(TagRef);
 export interface ListTagsForResourceOutput {
-  tags: TagList;
+  tags: TagRef[];
   nextToken?: string;
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
@@ -2269,7 +2269,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   resourceArn: string;
-  tags: TagList;
+  tags: TagRef[];
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -2841,7 +2841,7 @@ export const VirtualServiceList = S.Array(VirtualServiceRef);
 export interface CreateMeshInput {
   meshName: string;
   spec?: MeshSpec;
-  tags?: TagList;
+  tags?: TagRef[];
   clientToken?: string;
 }
 export const CreateMeshInput = S.suspend(() =>
@@ -2864,7 +2864,7 @@ export const CreateMeshInput = S.suspend(() =>
   identifier: "CreateMeshInput",
 }) as any as S.Schema<CreateMeshInput>;
 export interface ListMeshesOutput {
-  meshes: MeshList;
+  meshes: MeshRef[];
   nextToken?: string;
 }
 export const ListMeshesOutput = S.suspend(() =>
@@ -2873,7 +2873,7 @@ export const ListMeshesOutput = S.suspend(() =>
   identifier: "ListMeshesOutput",
 }) as any as S.Schema<ListMeshesOutput>;
 export interface ListVirtualGatewaysOutput {
-  virtualGateways: VirtualGatewayList;
+  virtualGateways: VirtualGatewayRef[];
   nextToken?: string;
 }
 export const ListVirtualGatewaysOutput = S.suspend(() =>
@@ -2885,7 +2885,7 @@ export const ListVirtualGatewaysOutput = S.suspend(() =>
   identifier: "ListVirtualGatewaysOutput",
 }) as any as S.Schema<ListVirtualGatewaysOutput>;
 export interface ListGatewayRoutesOutput {
-  gatewayRoutes: GatewayRouteList;
+  gatewayRoutes: GatewayRouteRef[];
   nextToken?: string;
 }
 export const ListGatewayRoutesOutput = S.suspend(() =>
@@ -2897,7 +2897,7 @@ export const ListGatewayRoutesOutput = S.suspend(() =>
   identifier: "ListGatewayRoutesOutput",
 }) as any as S.Schema<ListGatewayRoutesOutput>;
 export interface ListVirtualNodesOutput {
-  virtualNodes: VirtualNodeList;
+  virtualNodes: VirtualNodeRef[];
   nextToken?: string;
 }
 export const ListVirtualNodesOutput = S.suspend(() =>
@@ -2909,7 +2909,7 @@ export interface CreateVirtualRouterInput {
   virtualRouterName: string;
   meshName: string;
   spec: VirtualRouterSpec;
-  tags?: TagList;
+  tags?: TagRef[];
   clientToken?: string;
   meshOwner?: string;
 }
@@ -2938,7 +2938,7 @@ export const CreateVirtualRouterInput = S.suspend(() =>
   identifier: "CreateVirtualRouterInput",
 }) as any as S.Schema<CreateVirtualRouterInput>;
 export interface ListVirtualRoutersOutput {
-  virtualRouters: VirtualRouterList;
+  virtualRouters: VirtualRouterRef[];
   nextToken?: string;
 }
 export const ListVirtualRoutersOutput = S.suspend(() =>
@@ -2950,7 +2950,7 @@ export const ListVirtualRoutersOutput = S.suspend(() =>
   identifier: "ListVirtualRoutersOutput",
 }) as any as S.Schema<ListVirtualRoutersOutput>;
 export interface ListRoutesOutput {
-  routes: RouteList;
+  routes: RouteRef[];
   nextToken?: string;
 }
 export const ListRoutesOutput = S.suspend(() =>
@@ -2959,7 +2959,7 @@ export const ListRoutesOutput = S.suspend(() =>
   identifier: "ListRoutesOutput",
 }) as any as S.Schema<ListRoutesOutput>;
 export interface ListVirtualServicesOutput {
-  virtualServices: VirtualServiceList;
+  virtualServices: VirtualServiceRef[];
   nextToken?: string;
 }
 export const ListVirtualServicesOutput = S.suspend(() =>
@@ -3070,7 +3070,7 @@ export interface CreateVirtualServiceInput {
   virtualServiceName: string;
   meshName: string;
   spec: VirtualServiceSpec;
-  tags?: TagList;
+  tags?: TagRef[];
   clientToken?: string;
   meshOwner?: string;
 }
@@ -3127,7 +3127,7 @@ export interface CreateRouteInput {
   meshName: string;
   virtualRouterName: string;
   spec: RouteSpec;
-  tags?: TagList;
+  tags?: TagRef[];
   clientToken?: string;
   meshOwner?: string;
 }
@@ -3161,7 +3161,7 @@ export interface CreateGatewayRouteInput {
   meshName: string;
   virtualGatewayName: string;
   spec: GatewayRouteSpec;
-  tags?: TagList;
+  tags?: TagRef[];
   clientToken?: string;
   meshOwner?: string;
 }
@@ -3206,7 +3206,7 @@ export interface CreateVirtualGatewayInput {
   virtualGatewayName: string;
   meshName: string;
   spec: VirtualGatewaySpec;
-  tags?: TagList;
+  tags?: TagRef[];
   clientToken?: string;
   meshOwner?: string;
 }
@@ -3250,7 +3250,7 @@ export interface CreateVirtualNodeInput {
   virtualNodeName: string;
   meshName: string;
   spec: VirtualNodeSpec;
-  tags?: TagList;
+  tags?: TagRef[];
   clientToken?: string;
   meshOwner?: string;
 }
@@ -3354,7 +3354,7 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   | BadRequestException
   | ForbiddenException
@@ -3386,7 +3386,7 @@ export const untagResource: (
  */
 export const createRoute: (
   input: CreateRouteInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRouteOutput,
   | BadRequestException
   | ConflictException
@@ -3420,7 +3420,7 @@ export const createRoute: (
  */
 export const deleteMesh: (
   input: DeleteMeshInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMeshOutput,
   | BadRequestException
   | ForbiddenException
@@ -3456,7 +3456,7 @@ export const deleteMesh: (
  */
 export const createMesh: (
   input: CreateMeshInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMeshOutput,
   | BadRequestException
   | ConflictException
@@ -3495,7 +3495,7 @@ export const createMesh: (
  */
 export const createVirtualService: (
   input: CreateVirtualServiceInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVirtualServiceOutput,
   | BadRequestException
   | ConflictException
@@ -3526,7 +3526,7 @@ export const createVirtualService: (
  */
 export const describeMesh: (
   input: DescribeMeshInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeMeshOutput,
   | BadRequestException
   | ForbiddenException
@@ -3553,7 +3553,7 @@ export const describeMesh: (
  */
 export const describeVirtualGateway: (
   input: DescribeVirtualGatewayInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeVirtualGatewayOutput,
   | BadRequestException
   | ForbiddenException
@@ -3580,7 +3580,7 @@ export const describeVirtualGateway: (
  */
 export const describeGatewayRoute: (
   input: DescribeGatewayRouteInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeGatewayRouteOutput,
   | BadRequestException
   | ForbiddenException
@@ -3607,7 +3607,7 @@ export const describeGatewayRoute: (
  */
 export const describeVirtualNode: (
   input: DescribeVirtualNodeInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeVirtualNodeOutput,
   | BadRequestException
   | ForbiddenException
@@ -3634,7 +3634,7 @@ export const describeVirtualNode: (
  */
 export const describeVirtualRouter: (
   input: DescribeVirtualRouterInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeVirtualRouterOutput,
   | BadRequestException
   | ForbiddenException
@@ -3661,7 +3661,7 @@ export const describeVirtualRouter: (
  */
 export const describeRoute: (
   input: DescribeRouteInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRouteOutput,
   | BadRequestException
   | ForbiddenException
@@ -3688,7 +3688,7 @@ export const describeRoute: (
  */
 export const describeVirtualService: (
   input: DescribeVirtualServiceInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeVirtualServiceOutput,
   | BadRequestException
   | ForbiddenException
@@ -3715,7 +3715,7 @@ export const describeVirtualService: (
  */
 export const updateMesh: (
   input: UpdateMeshInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMeshOutput,
   | BadRequestException
   | ConflictException
@@ -3745,7 +3745,7 @@ export const updateMesh: (
 export const listMeshes: {
   (
     input: ListMeshesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMeshesOutput,
     | BadRequestException
     | ForbiddenException
@@ -3758,7 +3758,7 @@ export const listMeshes: {
   >;
   pages: (
     input: ListMeshesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMeshesOutput,
     | BadRequestException
     | ForbiddenException
@@ -3771,7 +3771,7 @@ export const listMeshes: {
   >;
   items: (
     input: ListMeshesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MeshRef,
     | BadRequestException
     | ForbiddenException
@@ -3806,7 +3806,7 @@ export const listMeshes: {
 export const listVirtualGateways: {
   (
     input: ListVirtualGatewaysInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVirtualGatewaysOutput,
     | BadRequestException
     | ForbiddenException
@@ -3819,7 +3819,7 @@ export const listVirtualGateways: {
   >;
   pages: (
     input: ListVirtualGatewaysInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVirtualGatewaysOutput,
     | BadRequestException
     | ForbiddenException
@@ -3832,7 +3832,7 @@ export const listVirtualGateways: {
   >;
   items: (
     input: ListVirtualGatewaysInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     VirtualGatewayRef,
     | BadRequestException
     | ForbiddenException
@@ -3868,7 +3868,7 @@ export const listVirtualGateways: {
 export const listGatewayRoutes: {
   (
     input: ListGatewayRoutesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGatewayRoutesOutput,
     | BadRequestException
     | ForbiddenException
@@ -3881,7 +3881,7 @@ export const listGatewayRoutes: {
   >;
   pages: (
     input: ListGatewayRoutesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGatewayRoutesOutput,
     | BadRequestException
     | ForbiddenException
@@ -3894,7 +3894,7 @@ export const listGatewayRoutes: {
   >;
   items: (
     input: ListGatewayRoutesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GatewayRouteRef,
     | BadRequestException
     | ForbiddenException
@@ -3929,7 +3929,7 @@ export const listGatewayRoutes: {
 export const listVirtualNodes: {
   (
     input: ListVirtualNodesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVirtualNodesOutput,
     | BadRequestException
     | ForbiddenException
@@ -3942,7 +3942,7 @@ export const listVirtualNodes: {
   >;
   pages: (
     input: ListVirtualNodesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVirtualNodesOutput,
     | BadRequestException
     | ForbiddenException
@@ -3955,7 +3955,7 @@ export const listVirtualNodes: {
   >;
   items: (
     input: ListVirtualNodesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     VirtualNodeRef,
     | BadRequestException
     | ForbiddenException
@@ -3990,7 +3990,7 @@ export const listVirtualNodes: {
 export const listVirtualRouters: {
   (
     input: ListVirtualRoutersInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVirtualRoutersOutput,
     | BadRequestException
     | ForbiddenException
@@ -4003,7 +4003,7 @@ export const listVirtualRouters: {
   >;
   pages: (
     input: ListVirtualRoutersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVirtualRoutersOutput,
     | BadRequestException
     | ForbiddenException
@@ -4016,7 +4016,7 @@ export const listVirtualRouters: {
   >;
   items: (
     input: ListVirtualRoutersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     VirtualRouterRef,
     | BadRequestException
     | ForbiddenException
@@ -4051,7 +4051,7 @@ export const listVirtualRouters: {
 export const listRoutes: {
   (
     input: ListRoutesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRoutesOutput,
     | BadRequestException
     | ForbiddenException
@@ -4064,7 +4064,7 @@ export const listRoutes: {
   >;
   pages: (
     input: ListRoutesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRoutesOutput,
     | BadRequestException
     | ForbiddenException
@@ -4077,7 +4077,7 @@ export const listRoutes: {
   >;
   items: (
     input: ListRoutesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RouteRef,
     | BadRequestException
     | ForbiddenException
@@ -4112,7 +4112,7 @@ export const listRoutes: {
 export const listVirtualServices: {
   (
     input: ListVirtualServicesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVirtualServicesOutput,
     | BadRequestException
     | ForbiddenException
@@ -4125,7 +4125,7 @@ export const listVirtualServices: {
   >;
   pages: (
     input: ListVirtualServicesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVirtualServicesOutput,
     | BadRequestException
     | ForbiddenException
@@ -4138,7 +4138,7 @@ export const listVirtualServices: {
   >;
   items: (
     input: ListVirtualServicesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     VirtualServiceRef,
     | BadRequestException
     | ForbiddenException
@@ -4173,7 +4173,7 @@ export const listVirtualServices: {
 export const listTagsForResource: {
   (
     input: ListTagsForResourceInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTagsForResourceOutput,
     | BadRequestException
     | ForbiddenException
@@ -4186,7 +4186,7 @@ export const listTagsForResource: {
   >;
   pages: (
     input: ListTagsForResourceInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTagsForResourceOutput,
     | BadRequestException
     | ForbiddenException
@@ -4199,7 +4199,7 @@ export const listTagsForResource: {
   >;
   items: (
     input: ListTagsForResourceInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TagRef,
     | BadRequestException
     | ForbiddenException
@@ -4241,7 +4241,7 @@ export const listTagsForResource: {
  */
 export const createVirtualRouter: (
   input: CreateVirtualRouterInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVirtualRouterOutput,
   | BadRequestException
   | ConflictException
@@ -4272,7 +4272,7 @@ export const createVirtualRouter: (
  */
 export const updateVirtualGateway: (
   input: UpdateVirtualGatewayInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateVirtualGatewayOutput,
   | BadRequestException
   | ConflictException
@@ -4304,7 +4304,7 @@ export const updateVirtualGateway: (
  */
 export const updateGatewayRoute: (
   input: UpdateGatewayRouteInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGatewayRouteOutput,
   | BadRequestException
   | ConflictException
@@ -4335,7 +4335,7 @@ export const updateGatewayRoute: (
  */
 export const updateVirtualNode: (
   input: UpdateVirtualNodeInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateVirtualNodeOutput,
   | BadRequestException
   | ConflictException
@@ -4366,7 +4366,7 @@ export const updateVirtualNode: (
  */
 export const updateVirtualRouter: (
   input: UpdateVirtualRouterInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateVirtualRouterOutput,
   | BadRequestException
   | ConflictException
@@ -4397,7 +4397,7 @@ export const updateVirtualRouter: (
  */
 export const updateRoute: (
   input: UpdateRouteInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRouteOutput,
   | BadRequestException
   | ConflictException
@@ -4428,7 +4428,7 @@ export const updateRoute: (
  */
 export const updateVirtualService: (
   input: UpdateVirtualServiceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateVirtualServiceOutput,
   | BadRequestException
   | ConflictException
@@ -4460,7 +4460,7 @@ export const updateVirtualService: (
  */
 export const deleteVirtualGateway: (
   input: DeleteVirtualGatewayInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVirtualGatewayOutput,
   | BadRequestException
   | ForbiddenException
@@ -4489,7 +4489,7 @@ export const deleteVirtualGateway: (
  */
 export const deleteGatewayRoute: (
   input: DeleteGatewayRouteInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGatewayRouteOutput,
   | BadRequestException
   | ForbiddenException
@@ -4521,7 +4521,7 @@ export const deleteGatewayRoute: (
  */
 export const deleteVirtualNode: (
   input: DeleteVirtualNodeInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVirtualNodeOutput,
   | BadRequestException
   | ForbiddenException
@@ -4553,7 +4553,7 @@ export const deleteVirtualNode: (
  */
 export const deleteVirtualRouter: (
   input: DeleteVirtualRouterInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVirtualRouterOutput,
   | BadRequestException
   | ForbiddenException
@@ -4582,7 +4582,7 @@ export const deleteVirtualRouter: (
  */
 export const deleteRoute: (
   input: DeleteRouteInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRouteOutput,
   | BadRequestException
   | ForbiddenException
@@ -4611,7 +4611,7 @@ export const deleteRoute: (
  */
 export const deleteVirtualService: (
   input: DeleteVirtualServiceInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVirtualServiceOutput,
   | BadRequestException
   | ForbiddenException
@@ -4646,7 +4646,7 @@ export const deleteVirtualService: (
  */
 export const createGatewayRoute: (
   input: CreateGatewayRouteInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGatewayRouteOutput,
   | BadRequestException
   | ConflictException
@@ -4680,7 +4680,7 @@ export const createGatewayRoute: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   | BadRequestException
   | ForbiddenException
@@ -4716,7 +4716,7 @@ export const tagResource: (
  */
 export const createVirtualGateway: (
   input: CreateVirtualGatewayInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVirtualGatewayOutput,
   | BadRequestException
   | ConflictException
@@ -4773,7 +4773,7 @@ export const createVirtualGateway: (
  */
 export const createVirtualNode: (
   input: CreateVirtualNodeInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVirtualNodeOutput,
   | BadRequestException
   | ConflictException

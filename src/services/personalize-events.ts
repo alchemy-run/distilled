@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -89,40 +89,40 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type StringType = string;
 export type Arn = string;
-export type UserId = string | Redacted.Redacted<string>;
-export type ActionId = string | Redacted.Redacted<string>;
+export type UserId = string | redacted.Redacted<string>;
+export type ActionId = string | redacted.Redacted<string>;
 export type RecommendationId = string;
 export type SynthesizedJsonActionInteractionProperties =
   | string
-  | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
 export type SynthesizedJsonActionProperties =
   | string
-  | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
 export type FloatType = number;
-export type ItemId = string | Redacted.Redacted<string>;
+export type ItemId = string | redacted.Redacted<string>;
 export type SynthesizedJsonEventPropertiesJSON =
   | string
-  | Redacted.Redacted<string>;
-export type SynthesizedJsonItemProperties = string | Redacted.Redacted<string>;
-export type SynthesizedJsonUserProperties = string | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
+export type SynthesizedJsonItemProperties = string | redacted.Redacted<string>;
+export type SynthesizedJsonUserProperties = string | redacted.Redacted<string>;
 export type EventAttributionSource = string;
 export type ErrorMessage = string;
 
 //# Schemas
-export type ActionImpression = string | Redacted.Redacted<string>[];
+export type ActionImpression = string | redacted.Redacted<string>[];
 export const ActionImpression = S.Array(SensitiveString);
-export type Impression = string | Redacted.Redacted<string>[];
+export type Impression = string | redacted.Redacted<string>[];
 export const Impression = S.Array(SensitiveString);
 export interface ActionInteraction {
-  actionId: string | Redacted.Redacted<string>;
-  userId?: string | Redacted.Redacted<string>;
+  actionId: string | redacted.Redacted<string>;
+  userId?: string | redacted.Redacted<string>;
   sessionId: string;
   timestamp: Date;
   eventType: string;
   eventId?: string;
   recommendationId?: string;
-  impression?: ActionImpression;
-  properties?: string | Redacted.Redacted<string>;
+  impression?: string | redacted.Redacted<string>[];
+  properties?: string | redacted.Redacted<string>;
 }
 export const ActionInteraction = S.suspend(() =>
   S.Struct({
@@ -143,7 +143,7 @@ export type ActionInteractionsList = ActionInteraction[];
 export const ActionInteractionsList = S.Array(ActionInteraction);
 export interface Action {
   actionId: string;
-  properties?: string | Redacted.Redacted<string>;
+  properties?: string | redacted.Redacted<string>;
 }
 export const Action = S.suspend(() =>
   S.Struct({ actionId: S.String, properties: S.optional(SensitiveString) }),
@@ -152,7 +152,7 @@ export type ActionList = Action[];
 export const ActionList = S.Array(Action);
 export interface Item {
   itemId: string;
-  properties?: string | Redacted.Redacted<string>;
+  properties?: string | redacted.Redacted<string>;
 }
 export const Item = S.suspend(() =>
   S.Struct({ itemId: S.String, properties: S.optional(SensitiveString) }),
@@ -161,7 +161,7 @@ export type ItemList = Item[];
 export const ItemList = S.Array(Item);
 export interface User {
   userId: string;
-  properties?: string | Redacted.Redacted<string>;
+  properties?: string | redacted.Redacted<string>;
 }
 export const User = S.suspend(() =>
   S.Struct({ userId: S.String, properties: S.optional(SensitiveString) }),
@@ -170,7 +170,7 @@ export type UserList = User[];
 export const UserList = S.Array(User);
 export interface PutActionInteractionsRequest {
   trackingId: string;
-  actionInteractions: ActionInteractionsList;
+  actionInteractions: ActionInteraction[];
 }
 export const PutActionInteractionsRequest = S.suspend(() =>
   S.Struct({
@@ -197,7 +197,7 @@ export const PutActionInteractionsResponse = S.suspend(() =>
 }) as any as S.Schema<PutActionInteractionsResponse>;
 export interface PutActionsRequest {
   datasetArn: string;
-  actions: ActionList;
+  actions: Action[];
 }
 export const PutActionsRequest = S.suspend(() =>
   S.Struct({ datasetArn: S.String, actions: ActionList }).pipe(
@@ -219,7 +219,7 @@ export const PutActionsResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<PutActionsResponse>;
 export interface PutItemsRequest {
   datasetArn: string;
-  items: ItemList;
+  items: Item[];
 }
 export const PutItemsRequest = S.suspend(() =>
   S.Struct({ datasetArn: S.String, items: ItemList }).pipe(
@@ -241,7 +241,7 @@ export const PutItemsResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<PutItemsResponse>;
 export interface PutUsersRequest {
   datasetArn: string;
-  users: UserList;
+  users: User[];
 }
 export const PutUsersRequest = S.suspend(() =>
   S.Struct({ datasetArn: S.String, users: UserList }).pipe(
@@ -273,11 +273,11 @@ export interface Event {
   eventId?: string;
   eventType: string;
   eventValue?: number;
-  itemId?: string | Redacted.Redacted<string>;
-  properties?: string | Redacted.Redacted<string>;
+  itemId?: string | redacted.Redacted<string>;
+  properties?: string | redacted.Redacted<string>;
   sentAt: Date;
   recommendationId?: string;
-  impression?: Impression;
+  impression?: string | redacted.Redacted<string>[];
   metricAttribution?: MetricAttribution;
 }
 export const Event = S.suspend(() =>
@@ -297,9 +297,9 @@ export type EventList = Event[];
 export const EventList = S.Array(Event);
 export interface PutEventsRequest {
   trackingId: string;
-  userId?: string | Redacted.Redacted<string>;
+  userId?: string | redacted.Redacted<string>;
   sessionId: string;
-  eventList: EventList;
+  eventList: Event[];
 }
 export const PutEventsRequest = S.suspend(() =>
   S.Struct({
@@ -346,7 +346,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
  */
 export const putEvents: (
   input: PutEventsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutEventsResponse,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -364,7 +364,7 @@ export const putEvents: (
  */
 export const putActionInteractions: (
   input: PutActionInteractionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutActionInteractionsResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -386,7 +386,7 @@ export const putActionInteractions: (
  */
 export const putActions: (
   input: PutActionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutActionsResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -408,7 +408,7 @@ export const putActions: (
  */
 export const putItems: (
   input: PutItemsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutItemsResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -430,7 +430,7 @@ export const putItems: (
  */
 export const putUsers: (
   input: PutUsersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutUsersResponse,
   | InvalidInputException
   | ResourceInUseException

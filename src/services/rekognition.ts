@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -151,14 +151,12 @@ export type LivenessS3KeyPrefix = string;
 export type KinesisVideoArn = string;
 export type KinesisDataArn = string;
 export type ConnectedHomeLabel = string;
-export type Float = number;
 export type GeneralLabelsFilterValue = string;
 export type DetectLabelsMaxDominantColors = number;
 export type BoundingBoxHeight = number;
 export type BoundingBoxWidth = number;
 export type SegmentConfidence = number;
 export type KinesisVideoStreamFragmentNumber = string;
-export type Timestamp = number;
 export type Version = string;
 export type Timecode = string;
 export type ImageId = string;
@@ -176,32 +174,109 @@ export type SynthesizedJsonHumanLoopActivationConditionsEvaluationResults =
 //# Schemas
 export type UserFaceIdList = string[];
 export const UserFaceIdList = S.Array(S.String);
+export type QualityFilter = "NONE" | "AUTO" | "LOW" | "MEDIUM" | "HIGH";
+export const QualityFilter = S.Literal("NONE", "AUTO", "LOW", "MEDIUM", "HIGH");
+export type DatasetType = "TRAIN" | "TEST";
+export const DatasetType = S.Literal("TRAIN", "TEST");
+export type CustomizationFeature = "CONTENT_MODERATION" | "CUSTOM_LABELS";
+export const CustomizationFeature = S.Literal(
+  "CONTENT_MODERATION",
+  "CUSTOM_LABELS",
+);
+export type ProjectAutoUpdate = "ENABLED" | "DISABLED";
+export const ProjectAutoUpdate = S.Literal("ENABLED", "DISABLED");
 export type FaceIdList = string[];
 export const FaceIdList = S.Array(S.String);
 export type ProjectNames = string[];
 export const ProjectNames = S.Array(S.String);
-export type CustomizationFeatures = string[];
-export const CustomizationFeatures = S.Array(S.String);
+export type CustomizationFeatures = CustomizationFeature[];
+export const CustomizationFeatures = S.Array(CustomizationFeature);
 export type VersionNames = string[];
 export const VersionNames = S.Array(S.String);
-export type Attributes = string[];
-export const Attributes = S.Array(S.String);
-export type DetectLabelsFeatureList = string[];
-export const DetectLabelsFeatureList = S.Array(S.String);
+export type Attribute =
+  | "DEFAULT"
+  | "ALL"
+  | "AGE_RANGE"
+  | "BEARD"
+  | "EMOTIONS"
+  | "EYE_DIRECTION"
+  | "EYEGLASSES"
+  | "EYES_OPEN"
+  | "GENDER"
+  | "MOUTH_OPEN"
+  | "MUSTACHE"
+  | "FACE_OCCLUDED"
+  | "SMILE"
+  | "SUNGLASSES";
+export const Attribute = S.Literal(
+  "DEFAULT",
+  "ALL",
+  "AGE_RANGE",
+  "BEARD",
+  "EMOTIONS",
+  "EYE_DIRECTION",
+  "EYEGLASSES",
+  "EYES_OPEN",
+  "GENDER",
+  "MOUTH_OPEN",
+  "MUSTACHE",
+  "FACE_OCCLUDED",
+  "SMILE",
+  "SUNGLASSES",
+);
+export type Attributes = Attribute[];
+export const Attributes = S.Array(Attribute);
+export type DetectLabelsFeatureName = "GENERAL_LABELS" | "IMAGE_PROPERTIES";
+export const DetectLabelsFeatureName = S.Literal(
+  "GENERAL_LABELS",
+  "IMAGE_PROPERTIES",
+);
+export type DetectLabelsFeatureList = DetectLabelsFeatureName[];
+export const DetectLabelsFeatureList = S.Array(DetectLabelsFeatureName);
+export type CelebrityRecognitionSortBy = "ID" | "TIMESTAMP";
+export const CelebrityRecognitionSortBy = S.Literal("ID", "TIMESTAMP");
+export type ContentModerationSortBy = "NAME" | "TIMESTAMP";
+export const ContentModerationSortBy = S.Literal("NAME", "TIMESTAMP");
+export type ContentModerationAggregateBy = "TIMESTAMPS" | "SEGMENTS";
+export const ContentModerationAggregateBy = S.Literal("TIMESTAMPS", "SEGMENTS");
+export type FaceSearchSortBy = "INDEX" | "TIMESTAMP";
+export const FaceSearchSortBy = S.Literal("INDEX", "TIMESTAMP");
+export type LabelDetectionSortBy = "NAME" | "TIMESTAMP";
+export const LabelDetectionSortBy = S.Literal("NAME", "TIMESTAMP");
+export type LabelDetectionAggregateBy = "TIMESTAMPS" | "SEGMENTS";
+export const LabelDetectionAggregateBy = S.Literal("TIMESTAMPS", "SEGMENTS");
+export type PersonTrackingSortBy = "INDEX" | "TIMESTAMP";
+export const PersonTrackingSortBy = S.Literal("INDEX", "TIMESTAMP");
 export type DatasetLabels = string[];
 export const DatasetLabels = S.Array(S.String);
-export type LabelDetectionFeatureList = string[];
-export const LabelDetectionFeatureList = S.Array(S.String);
-export type SegmentTypes = string[];
-export const SegmentTypes = S.Array(S.String);
+export type FaceAttributes = "DEFAULT" | "ALL";
+export const FaceAttributes = S.Literal("DEFAULT", "ALL");
+export type LabelDetectionFeatureName = "GENERAL_LABELS";
+export const LabelDetectionFeatureName = S.Literal("GENERAL_LABELS");
+export type LabelDetectionFeatureList = LabelDetectionFeatureName[];
+export const LabelDetectionFeatureList = S.Array(LabelDetectionFeatureName);
+export type SegmentType = "TECHNICAL_CUE" | "SHOT";
+export const SegmentType = S.Literal("TECHNICAL_CUE", "SHOT");
+export type SegmentTypes = SegmentType[];
+export const SegmentTypes = S.Array(SegmentType);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export type StreamProcessorParametersToDelete = string[];
-export const StreamProcessorParametersToDelete = S.Array(S.String);
+export type StreamProcessorParameterToDelete =
+  | "ConnectedHomeMinConfidence"
+  | "RegionsOfInterest";
+export const StreamProcessorParameterToDelete = S.Literal(
+  "ConnectedHomeMinConfidence",
+  "RegionsOfInterest",
+);
+export type StreamProcessorParametersToDelete =
+  StreamProcessorParameterToDelete[];
+export const StreamProcessorParametersToDelete = S.Array(
+  StreamProcessorParameterToDelete,
+);
 export interface AssociateFacesRequest {
   CollectionId: string;
   UserId: string;
-  FaceIds: UserFaceIdList;
+  FaceIds: string[];
   UserMatchThreshold?: number;
   ClientRequestToken?: string;
 }
@@ -222,7 +297,7 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface CreateCollectionRequest {
   CollectionId: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateCollectionRequest = S.suspend(() =>
   S.Struct({ CollectionId: S.String, Tags: S.optional(TagMap) }).pipe(
@@ -233,15 +308,15 @@ export const CreateCollectionRequest = S.suspend(() =>
 }) as any as S.Schema<CreateCollectionRequest>;
 export interface CreateProjectRequest {
   ProjectName: string;
-  Feature?: string;
-  AutoUpdate?: string;
-  Tags?: TagMap;
+  Feature?: CustomizationFeature;
+  AutoUpdate?: ProjectAutoUpdate;
+  Tags?: { [key: string]: string };
 }
 export const CreateProjectRequest = S.suspend(() =>
   S.Struct({
     ProjectName: S.String,
-    Feature: S.optional(S.String),
-    AutoUpdate: S.optional(S.String),
+    Feature: S.optional(CustomizationFeature),
+    AutoUpdate: S.optional(ProjectAutoUpdate),
     Tags: S.optional(TagMap),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -295,7 +370,7 @@ export const DeleteDatasetResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<DeleteDatasetResponse>;
 export interface DeleteFacesRequest {
   CollectionId: string;
-  FaceIds: FaceIdList;
+  FaceIds: string[];
 }
 export const DeleteFacesRequest = S.suspend(() =>
   S.Struct({ CollectionId: S.String, FaceIds: FaceIdList }).pipe(
@@ -405,8 +480,8 @@ export const DescribeDatasetRequest = S.suspend(() =>
 export interface DescribeProjectsRequest {
   NextToken?: string;
   MaxResults?: number;
-  ProjectNames?: ProjectNames;
-  Features?: CustomizationFeatures;
+  ProjectNames?: string[];
+  Features?: CustomizationFeature[];
 }
 export const DescribeProjectsRequest = S.suspend(() =>
   S.Struct({
@@ -422,7 +497,7 @@ export const DescribeProjectsRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeProjectsRequest>;
 export interface DescribeProjectVersionsRequest {
   ProjectArn: string;
-  VersionNames?: VersionNames;
+  VersionNames?: string[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -487,7 +562,7 @@ export const DetectCustomLabelsRequest = S.suspend(() =>
 }) as any as S.Schema<DetectCustomLabelsRequest>;
 export interface DetectFacesRequest {
   Image: Image;
-  Attributes?: Attributes;
+  Attributes?: Attribute[];
 }
 export const DetectFacesRequest = S.suspend(() =>
   S.Struct({ Image: Image, Attributes: S.optional(Attributes) }).pipe(
@@ -500,7 +575,7 @@ export interface DisassociateFacesRequest {
   CollectionId: string;
   UserId: string;
   ClientRequestToken?: string;
-  FaceIds: UserFaceIdList;
+  FaceIds: string[];
 }
 export const DisassociateFacesRequest = S.suspend(() =>
   S.Struct({
@@ -528,14 +603,14 @@ export interface GetCelebrityRecognitionRequest {
   JobId: string;
   MaxResults?: number;
   NextToken?: string;
-  SortBy?: string;
+  SortBy?: CelebrityRecognitionSortBy;
 }
 export const GetCelebrityRecognitionRequest = S.suspend(() =>
   S.Struct({
     JobId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-    SortBy: S.optional(S.String),
+    SortBy: S.optional(CelebrityRecognitionSortBy),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -546,16 +621,16 @@ export interface GetContentModerationRequest {
   JobId: string;
   MaxResults?: number;
   NextToken?: string;
-  SortBy?: string;
-  AggregateBy?: string;
+  SortBy?: ContentModerationSortBy;
+  AggregateBy?: ContentModerationAggregateBy;
 }
 export const GetContentModerationRequest = S.suspend(() =>
   S.Struct({
     JobId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-    SortBy: S.optional(S.String),
-    AggregateBy: S.optional(S.String),
+    SortBy: S.optional(ContentModerationSortBy),
+    AggregateBy: S.optional(ContentModerationAggregateBy),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -592,14 +667,14 @@ export interface GetFaceSearchRequest {
   JobId: string;
   MaxResults?: number;
   NextToken?: string;
-  SortBy?: string;
+  SortBy?: FaceSearchSortBy;
 }
 export const GetFaceSearchRequest = S.suspend(() =>
   S.Struct({
     JobId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-    SortBy: S.optional(S.String),
+    SortBy: S.optional(FaceSearchSortBy),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -610,16 +685,16 @@ export interface GetLabelDetectionRequest {
   JobId: string;
   MaxResults?: number;
   NextToken?: string;
-  SortBy?: string;
-  AggregateBy?: string;
+  SortBy?: LabelDetectionSortBy;
+  AggregateBy?: LabelDetectionAggregateBy;
 }
 export const GetLabelDetectionRequest = S.suspend(() =>
   S.Struct({
     JobId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-    SortBy: S.optional(S.String),
-    AggregateBy: S.optional(S.String),
+    SortBy: S.optional(LabelDetectionSortBy),
+    AggregateBy: S.optional(LabelDetectionAggregateBy),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -640,14 +715,14 @@ export interface GetPersonTrackingRequest {
   JobId: string;
   MaxResults?: number;
   NextToken?: string;
-  SortBy?: string;
+  SortBy?: PersonTrackingSortBy;
 }
 export const GetPersonTrackingRequest = S.suspend(() =>
   S.Struct({
     JobId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-    SortBy: S.optional(S.String),
+    SortBy: S.optional(PersonTrackingSortBy),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -690,9 +765,9 @@ export interface IndexFacesRequest {
   CollectionId: string;
   Image: Image;
   ExternalImageId?: string;
-  DetectionAttributes?: Attributes;
+  DetectionAttributes?: Attribute[];
   MaxFaces?: number;
-  QualityFilter?: string;
+  QualityFilter?: QualityFilter;
 }
 export const IndexFacesRequest = S.suspend(() =>
   S.Struct({
@@ -701,7 +776,7 @@ export const IndexFacesRequest = S.suspend(() =>
     ExternalImageId: S.optional(S.String),
     DetectionAttributes: S.optional(Attributes),
     MaxFaces: S.optional(S.Number),
-    QualityFilter: S.optional(S.String),
+    QualityFilter: S.optional(QualityFilter),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -724,7 +799,7 @@ export const ListCollectionsRequest = S.suspend(() =>
 }) as any as S.Schema<ListCollectionsRequest>;
 export interface ListDatasetEntriesRequest {
   DatasetArn: string;
-  ContainsLabels?: DatasetLabels;
+  ContainsLabels?: string[];
   Labeled?: boolean;
   SourceRefContains?: string;
   HasErrors?: boolean;
@@ -767,7 +842,7 @@ export interface ListFacesRequest {
   NextToken?: string;
   MaxResults?: number;
   UserId?: string;
-  FaceIds?: FaceIdList;
+  FaceIds?: string[];
 }
 export const ListFacesRequest = S.suspend(() =>
   S.Struct({
@@ -903,7 +978,7 @@ export interface SearchFacesByImageRequest {
   Image: Image;
   MaxFaces?: number;
   FaceMatchThreshold?: number;
-  QualityFilter?: string;
+  QualityFilter?: QualityFilter;
 }
 export const SearchFacesByImageRequest = S.suspend(() =>
   S.Struct({
@@ -911,7 +986,7 @@ export const SearchFacesByImageRequest = S.suspend(() =>
     Image: Image,
     MaxFaces: S.optional(S.Number),
     FaceMatchThreshold: S.optional(S.Number),
-    QualityFilter: S.optional(S.String),
+    QualityFilter: S.optional(QualityFilter),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -943,7 +1018,7 @@ export interface SearchUsersByImageRequest {
   Image: Image;
   UserMatchThreshold?: number;
   MaxUsers?: number;
-  QualityFilter?: string;
+  QualityFilter?: QualityFilter;
 }
 export const SearchUsersByImageRequest = S.suspend(() =>
   S.Struct({
@@ -951,7 +1026,7 @@ export const SearchUsersByImageRequest = S.suspend(() =>
     Image: Image,
     UserMatchThreshold: S.optional(S.Number),
     MaxUsers: S.optional(S.Number),
-    QualityFilter: S.optional(S.String),
+    QualityFilter: S.optional(QualityFilter),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -997,7 +1072,7 @@ export interface StartFaceDetectionRequest {
   Video: Video;
   ClientRequestToken?: string;
   NotificationChannel?: NotificationChannel;
-  FaceAttributes?: string;
+  FaceAttributes?: FaceAttributes;
   JobTag?: string;
 }
 export const StartFaceDetectionRequest = S.suspend(() =>
@@ -1005,7 +1080,7 @@ export const StartFaceDetectionRequest = S.suspend(() =>
     Video: Video,
     ClientRequestToken: S.optional(S.String),
     NotificationChannel: S.optional(NotificationChannel),
-    FaceAttributes: S.optional(S.String),
+    FaceAttributes: S.optional(FaceAttributes),
     JobTag: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -1097,7 +1172,7 @@ export const StopStreamProcessorResponse = S.suspend(() =>
 }) as any as S.Schema<StopStreamProcessorResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagMap;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagMap }).pipe(
@@ -1112,7 +1187,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
@@ -1125,8 +1200,24 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type ProtectiveEquipmentTypes = string[];
-export const ProtectiveEquipmentTypes = S.Array(S.String);
+export type ProtectiveEquipmentType =
+  | "FACE_COVER"
+  | "HAND_COVER"
+  | "HEAD_COVER";
+export const ProtectiveEquipmentType = S.Literal(
+  "FACE_COVER",
+  "HAND_COVER",
+  "HEAD_COVER",
+);
+export type ProtectiveEquipmentTypes = ProtectiveEquipmentType[];
+export const ProtectiveEquipmentTypes = S.Array(ProtectiveEquipmentType);
+export type UserStatus = "ACTIVE" | "UPDATING" | "CREATING" | "CREATED";
+export const UserStatus = S.Literal(
+  "ACTIVE",
+  "UPDATING",
+  "CREATING",
+  "CREATED",
+);
 export interface OutputConfig {
   S3Bucket?: string;
   S3KeyPrefix?: string;
@@ -1154,7 +1245,7 @@ export const Asset = S.suspend(() =>
 export type Assets = Asset[];
 export const Assets = S.Array(Asset);
 export interface TestingData {
-  Assets?: Assets;
+  Assets?: Asset[];
   AutoCreate?: boolean;
 }
 export const TestingData = S.suspend(() =>
@@ -1176,9 +1267,68 @@ export const StreamProcessorDataSharingPreference = S.suspend(() =>
 ).annotations({
   identifier: "StreamProcessorDataSharingPreference",
 }) as any as S.Schema<StreamProcessorDataSharingPreference>;
+export type ProjectStatus = "CREATING" | "CREATED" | "DELETING";
+export const ProjectStatus = S.Literal("CREATING", "CREATED", "DELETING");
+export type ProjectVersionStatus =
+  | "TRAINING_IN_PROGRESS"
+  | "TRAINING_COMPLETED"
+  | "TRAINING_FAILED"
+  | "STARTING"
+  | "RUNNING"
+  | "FAILED"
+  | "STOPPING"
+  | "STOPPED"
+  | "DELETING"
+  | "COPYING_IN_PROGRESS"
+  | "COPYING_COMPLETED"
+  | "COPYING_FAILED"
+  | "DEPRECATED"
+  | "EXPIRED";
+export const ProjectVersionStatus = S.Literal(
+  "TRAINING_IN_PROGRESS",
+  "TRAINING_COMPLETED",
+  "TRAINING_FAILED",
+  "STARTING",
+  "RUNNING",
+  "FAILED",
+  "STOPPING",
+  "STOPPED",
+  "DELETING",
+  "COPYING_IN_PROGRESS",
+  "COPYING_COMPLETED",
+  "COPYING_FAILED",
+  "DEPRECATED",
+  "EXPIRED",
+);
+export type StreamProcessorStatus =
+  | "STOPPED"
+  | "STARTING"
+  | "RUNNING"
+  | "FAILED"
+  | "STOPPING"
+  | "UPDATING";
+export const StreamProcessorStatus = S.Literal(
+  "STOPPED",
+  "STARTING",
+  "RUNNING",
+  "FAILED",
+  "STOPPING",
+  "UPDATING",
+);
+export type OrientationCorrection =
+  | "ROTATE_0"
+  | "ROTATE_90"
+  | "ROTATE_180"
+  | "ROTATE_270";
+export const OrientationCorrection = S.Literal(
+  "ROTATE_0",
+  "ROTATE_90",
+  "ROTATE_180",
+  "ROTATE_270",
+);
 export interface ProtectiveEquipmentSummarizationAttributes {
   MinConfidence: number;
-  RequiredEquipmentTypes: ProtectiveEquipmentTypes;
+  RequiredEquipmentTypes: ProtectiveEquipmentType[];
 }
 export const ProtectiveEquipmentSummarizationAttributes = S.suspend(() =>
   S.Struct({
@@ -1200,6 +1350,21 @@ export type DistributeDatasetMetadataList = DistributeDataset[];
 export const DistributeDatasetMetadataList = S.Array(DistributeDataset);
 export type Urls = string[];
 export const Urls = S.Array(S.String);
+export type VideoJobStatus = "IN_PROGRESS" | "SUCCEEDED" | "FAILED";
+export const VideoJobStatus = S.Literal("IN_PROGRESS", "SUCCEEDED", "FAILED");
+export type LivenessSessionStatus =
+  | "CREATED"
+  | "IN_PROGRESS"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "EXPIRED";
+export const LivenessSessionStatus = S.Literal(
+  "CREATED",
+  "IN_PROGRESS",
+  "SUCCEEDED",
+  "FAILED",
+  "EXPIRED",
+);
 export interface BoundingBox {
   Width?: number;
   Height?: number;
@@ -1215,7 +1380,7 @@ export const BoundingBox = S.suspend(() =>
   }),
 ).annotations({ identifier: "BoundingBox" }) as any as S.Schema<BoundingBox>;
 export interface AuditImage {
-  Bytes?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  Bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
   S3Object?: S3Object;
   BoundingBox?: BoundingBox;
 }
@@ -1228,6 +1393,21 @@ export const AuditImage = S.suspend(() =>
 ).annotations({ identifier: "AuditImage" }) as any as S.Schema<AuditImage>;
 export type AuditImages = AuditImage[];
 export const AuditImages = S.Array(AuditImage);
+export type MediaAnalysisJobStatus =
+  | "CREATED"
+  | "QUEUED"
+  | "IN_PROGRESS"
+  | "SUCCEEDED"
+  | "FAILED";
+export const MediaAnalysisJobStatus = S.Literal(
+  "CREATED",
+  "QUEUED",
+  "IN_PROGRESS",
+  "SUCCEEDED",
+  "FAILED",
+);
+export type VideoColorRange = "FULL" | "LIMITED";
+export const VideoColorRange = S.Literal("FULL", "LIMITED");
 export interface VideoMetadata {
   Codec?: string;
   DurationMillis?: number;
@@ -1235,7 +1415,7 @@ export interface VideoMetadata {
   FrameRate?: number;
   FrameHeight?: number;
   FrameWidth?: number;
-  ColorRange?: string;
+  ColorRange?: VideoColorRange;
 }
 export const VideoMetadata = S.suspend(() =>
   S.Struct({
@@ -1245,7 +1425,7 @@ export const VideoMetadata = S.suspend(() =>
     FrameRate: S.optional(S.Number),
     FrameHeight: S.optional(S.Number),
     FrameWidth: S.optional(S.Number),
-    ColorRange: S.optional(S.String),
+    ColorRange: S.optional(VideoColorRange),
   }),
 ).annotations({
   identifier: "VideoMetadata",
@@ -1261,10 +1441,10 @@ export const DatasetEntries = S.Array(S.String);
 export type GeneralLabelsFilterList = string[];
 export const GeneralLabelsFilterList = S.Array(S.String);
 export interface GeneralLabelsSettings {
-  LabelInclusionFilters?: GeneralLabelsFilterList;
-  LabelExclusionFilters?: GeneralLabelsFilterList;
-  LabelCategoryInclusionFilters?: GeneralLabelsFilterList;
-  LabelCategoryExclusionFilters?: GeneralLabelsFilterList;
+  LabelInclusionFilters?: string[];
+  LabelExclusionFilters?: string[];
+  LabelCategoryInclusionFilters?: string[];
+  LabelCategoryExclusionFilters?: string[];
 }
 export const GeneralLabelsSettings = S.suspend(() =>
   S.Struct({
@@ -1334,7 +1514,7 @@ export type Polygon = Point[];
 export const Polygon = S.Array(Point);
 export interface RegionOfInterest {
   BoundingBox?: BoundingBox;
-  Polygon?: Polygon;
+  Polygon?: Point[];
 }
 export const RegionOfInterest = S.suspend(() =>
   S.Struct({
@@ -1348,7 +1528,7 @@ export type RegionsOfInterest = RegionOfInterest[];
 export const RegionsOfInterest = S.Array(RegionOfInterest);
 export interface StartTextDetectionFilters {
   WordFilter?: DetectionFilter;
-  RegionsOfInterest?: RegionsOfInterest;
+  RegionsOfInterest?: RegionOfInterest[];
 }
 export const StartTextDetectionFilters = S.suspend(() =>
   S.Struct({
@@ -1366,17 +1546,31 @@ export const DatasetChanges = S.suspend(() =>
 ).annotations({
   identifier: "DatasetChanges",
 }) as any as S.Schema<DatasetChanges>;
+export type ChallengeType =
+  | "FaceMovementAndLightChallenge"
+  | "FaceMovementChallenge";
+export const ChallengeType = S.Literal(
+  "FaceMovementAndLightChallenge",
+  "FaceMovementChallenge",
+);
 export type ConnectedHomeLabels = string[];
 export const ConnectedHomeLabels = S.Array(S.String);
-export type ContentClassifiers = string[];
-export const ContentClassifiers = S.Array(S.String);
+export type ContentClassifier =
+  | "FreeOfPersonallyIdentifiableInformation"
+  | "FreeOfAdultContent";
+export const ContentClassifier = S.Literal(
+  "FreeOfPersonallyIdentifiableInformation",
+  "FreeOfAdultContent",
+);
+export type ContentClassifiers = ContentClassifier[];
+export const ContentClassifiers = S.Array(ContentClassifier);
 export interface CopyProjectVersionRequest {
   SourceProjectArn: string;
   SourceProjectVersionArn: string;
   DestinationProjectArn: string;
   VersionName: string;
   OutputConfig: OutputConfig;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   KmsKeyId?: string;
 }
 export const CopyProjectVersionRequest = S.suspend(() =>
@@ -1425,18 +1619,18 @@ export const DeleteCollectionResponse = S.suspend(() =>
   identifier: "DeleteCollectionResponse",
 }) as any as S.Schema<DeleteCollectionResponse>;
 export interface DeleteProjectResponse {
-  Status?: string;
+  Status?: ProjectStatus;
 }
 export const DeleteProjectResponse = S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String) }),
+  S.Struct({ Status: S.optional(ProjectStatus) }),
 ).annotations({
   identifier: "DeleteProjectResponse",
 }) as any as S.Schema<DeleteProjectResponse>;
 export interface DeleteProjectVersionResponse {
-  Status?: string;
+  Status?: ProjectVersionStatus;
 }
 export const DeleteProjectVersionResponse = S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String) }),
+  S.Struct({ Status: S.optional(ProjectVersionStatus) }),
 ).annotations({
   identifier: "DeleteProjectVersionResponse",
 }) as any as S.Schema<DeleteProjectVersionResponse>;
@@ -1518,7 +1712,7 @@ export const FaceSearchSettings = S.suspend(() =>
   identifier: "FaceSearchSettings",
 }) as any as S.Schema<FaceSearchSettings>;
 export interface ConnectedHomeSettings {
-  Labels: ConnectedHomeLabels;
+  Labels: string[];
   MinConfidence?: number;
 }
 export const ConnectedHomeSettings = S.suspend(() =>
@@ -1544,7 +1738,7 @@ export const StreamProcessorSettings = S.suspend(() =>
 export interface DescribeStreamProcessorResponse {
   Name?: string;
   StreamProcessorArn?: string;
-  Status?: string;
+  Status?: StreamProcessorStatus;
   StatusMessage?: string;
   CreationTimestamp?: Date;
   LastUpdateTimestamp?: Date;
@@ -1554,14 +1748,14 @@ export interface DescribeStreamProcessorResponse {
   Settings?: StreamProcessorSettings;
   NotificationChannel?: StreamProcessorNotificationChannel;
   KmsKeyId?: string;
-  RegionsOfInterest?: RegionsOfInterest;
+  RegionsOfInterest?: RegionOfInterest[];
   DataSharingPreference?: StreamProcessorDataSharingPreference;
 }
 export const DescribeStreamProcessorResponse = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     StreamProcessorArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(StreamProcessorStatus),
     StatusMessage: S.optional(S.String),
     CreationTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1598,7 +1792,7 @@ export const DetectProtectiveEquipmentRequest = S.suspend(() =>
   identifier: "DetectProtectiveEquipmentRequest",
 }) as any as S.Schema<DetectProtectiveEquipmentRequest>;
 export interface DistributeDatasetEntriesRequest {
-  Datasets: DistributeDatasetMetadataList;
+  Datasets: DistributeDataset[];
 }
 export const DistributeDatasetEntriesRequest = S.suspend(() =>
   S.Struct({ Datasets: DistributeDatasetMetadataList }).pipe(
@@ -1614,9 +1808,9 @@ export const DistributeDatasetEntriesResponse = S.suspend(() =>
   identifier: "DistributeDatasetEntriesResponse",
 }) as any as S.Schema<DistributeDatasetEntriesResponse>;
 export interface ListCollectionsResponse {
-  CollectionIds?: CollectionIdList;
+  CollectionIds?: string[];
   NextToken?: string;
-  FaceModelVersions?: FaceModelVersionList;
+  FaceModelVersions?: string[];
 }
 export const ListCollectionsResponse = S.suspend(() =>
   S.Struct({
@@ -1628,7 +1822,7 @@ export const ListCollectionsResponse = S.suspend(() =>
   identifier: "ListCollectionsResponse",
 }) as any as S.Schema<ListCollectionsResponse>;
 export interface ListDatasetEntriesResponse {
-  DatasetEntries?: DatasetEntries;
+  DatasetEntries?: string[];
   NextToken?: string;
 }
 export const ListDatasetEntriesResponse = S.suspend(() =>
@@ -1640,7 +1834,7 @@ export const ListDatasetEntriesResponse = S.suspend(() =>
   identifier: "ListDatasetEntriesResponse",
 }) as any as S.Schema<ListDatasetEntriesResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -1687,7 +1881,7 @@ export const FaceMatchList = S.Array(FaceMatch);
 export interface SearchFacesByImageResponse {
   SearchedFaceBoundingBox?: BoundingBox;
   SearchedFaceConfidence?: number;
-  FaceMatches?: FaceMatchList;
+  FaceMatches?: FaceMatch[];
   FaceModelVersion?: string;
 }
 export const SearchFacesByImageResponse = S.suspend(() =>
@@ -1748,7 +1942,7 @@ export interface StartLabelDetectionRequest {
   MinConfidence?: number;
   NotificationChannel?: NotificationChannel;
   JobTag?: string;
-  Features?: LabelDetectionFeatureList;
+  Features?: LabelDetectionFeatureName[];
   Settings?: LabelDetectionSettings;
 }
 export const StartLabelDetectionRequest = S.suspend(() =>
@@ -1775,10 +1969,10 @@ export const StartPersonTrackingResponse = S.suspend(() =>
   identifier: "StartPersonTrackingResponse",
 }) as any as S.Schema<StartPersonTrackingResponse>;
 export interface StartProjectVersionResponse {
-  Status?: string;
+  Status?: ProjectVersionStatus;
 }
 export const StartProjectVersionResponse = S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String) }),
+  S.Struct({ Status: S.optional(ProjectVersionStatus) }),
 ).annotations({
   identifier: "StartProjectVersionResponse",
 }) as any as S.Schema<StartProjectVersionResponse>;
@@ -1803,10 +1997,10 @@ export const StartTextDetectionRequest = S.suspend(() =>
   identifier: "StartTextDetectionRequest",
 }) as any as S.Schema<StartTextDetectionRequest>;
 export interface StopProjectVersionResponse {
-  Status?: string;
+  Status?: ProjectVersionStatus;
 }
 export const StopProjectVersionResponse = S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String) }),
+  S.Struct({ Status: S.optional(ProjectVersionStatus) }),
 ).annotations({
   identifier: "StopProjectVersionResponse",
 }) as any as S.Schema<StopProjectVersionResponse>;
@@ -1827,8 +2021,20 @@ export const UpdateDatasetEntriesResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateDatasetEntriesResponse",
 }) as any as S.Schema<UpdateDatasetEntriesResponse>;
-export type UnsuccessfulFaceAssociationReasons = string[];
-export const UnsuccessfulFaceAssociationReasons = S.Array(S.String);
+export type UnsuccessfulFaceAssociationReason =
+  | "FACE_NOT_FOUND"
+  | "ASSOCIATED_TO_A_DIFFERENT_USER"
+  | "LOW_MATCH_CONFIDENCE";
+export const UnsuccessfulFaceAssociationReason = S.Literal(
+  "FACE_NOT_FOUND",
+  "ASSOCIATED_TO_A_DIFFERENT_USER",
+  "LOW_MATCH_CONFIDENCE",
+);
+export type UnsuccessfulFaceAssociationReasons =
+  UnsuccessfulFaceAssociationReason[];
+export const UnsuccessfulFaceAssociationReasons = S.Array(
+  UnsuccessfulFaceAssociationReason,
+);
 export interface LivenessOutputConfig {
   S3Bucket: string;
   S3KeyPrefix?: string;
@@ -1846,8 +2052,43 @@ export const CustomizationFeatureContentModerationConfig = S.suspend(() =>
 ).annotations({
   identifier: "CustomizationFeatureContentModerationConfig",
 }) as any as S.Schema<CustomizationFeatureContentModerationConfig>;
-export type UnsuccessfulFaceDeletionReasons = string[];
-export const UnsuccessfulFaceDeletionReasons = S.Array(S.String);
+export type UnsuccessfulFaceDeletionReason =
+  | "ASSOCIATED_TO_AN_EXISTING_USER"
+  | "FACE_NOT_FOUND";
+export const UnsuccessfulFaceDeletionReason = S.Literal(
+  "ASSOCIATED_TO_AN_EXISTING_USER",
+  "FACE_NOT_FOUND",
+);
+export type UnsuccessfulFaceDeletionReasons = UnsuccessfulFaceDeletionReason[];
+export const UnsuccessfulFaceDeletionReasons = S.Array(
+  UnsuccessfulFaceDeletionReason,
+);
+export type DatasetStatus =
+  | "CREATE_IN_PROGRESS"
+  | "CREATE_COMPLETE"
+  | "CREATE_FAILED"
+  | "UPDATE_IN_PROGRESS"
+  | "UPDATE_COMPLETE"
+  | "UPDATE_FAILED"
+  | "DELETE_IN_PROGRESS";
+export const DatasetStatus = S.Literal(
+  "CREATE_IN_PROGRESS",
+  "CREATE_COMPLETE",
+  "CREATE_FAILED",
+  "UPDATE_IN_PROGRESS",
+  "UPDATE_COMPLETE",
+  "UPDATE_FAILED",
+  "DELETE_IN_PROGRESS",
+);
+export type DatasetStatusMessageCode =
+  | "SUCCESS"
+  | "SERVICE_ERROR"
+  | "CLIENT_ERROR";
+export const DatasetStatusMessageCode = S.Literal(
+  "SUCCESS",
+  "SERVICE_ERROR",
+  "CLIENT_ERROR",
+);
 export interface DetectLabelsImagePropertiesSettings {
   MaxDominantColors?: number;
 }
@@ -1857,19 +2098,93 @@ export const DetectLabelsImagePropertiesSettings = S.suspend(() =>
   identifier: "DetectLabelsImagePropertiesSettings",
 }) as any as S.Schema<DetectLabelsImagePropertiesSettings>;
 export interface HumanLoopDataAttributes {
-  ContentClassifiers?: ContentClassifiers;
+  ContentClassifiers?: ContentClassifier[];
 }
 export const HumanLoopDataAttributes = S.suspend(() =>
   S.Struct({ ContentClassifiers: S.optional(ContentClassifiers) }),
 ).annotations({
   identifier: "HumanLoopDataAttributes",
 }) as any as S.Schema<HumanLoopDataAttributes>;
-export type UnsuccessfulFaceDisassociationReasons = string[];
-export const UnsuccessfulFaceDisassociationReasons = S.Array(S.String);
-export type Reasons = string[];
-export const Reasons = S.Array(S.String);
-export type UnsearchedFaceReasons = string[];
-export const UnsearchedFaceReasons = S.Array(S.String);
+export type UnsuccessfulFaceDisassociationReason =
+  | "FACE_NOT_FOUND"
+  | "ASSOCIATED_TO_A_DIFFERENT_USER";
+export const UnsuccessfulFaceDisassociationReason = S.Literal(
+  "FACE_NOT_FOUND",
+  "ASSOCIATED_TO_A_DIFFERENT_USER",
+);
+export type UnsuccessfulFaceDisassociationReasons =
+  UnsuccessfulFaceDisassociationReason[];
+export const UnsuccessfulFaceDisassociationReasons = S.Array(
+  UnsuccessfulFaceDisassociationReason,
+);
+export type KnownGenderType = "Male" | "Female" | "Nonbinary" | "Unlisted";
+export const KnownGenderType = S.Literal(
+  "Male",
+  "Female",
+  "Nonbinary",
+  "Unlisted",
+);
+export type MediaAnalysisJobFailureCode =
+  | "INTERNAL_ERROR"
+  | "INVALID_S3_OBJECT"
+  | "INVALID_MANIFEST"
+  | "INVALID_OUTPUT_CONFIG"
+  | "INVALID_KMS_KEY"
+  | "ACCESS_DENIED"
+  | "RESOURCE_NOT_FOUND"
+  | "RESOURCE_NOT_READY"
+  | "THROTTLED";
+export const MediaAnalysisJobFailureCode = S.Literal(
+  "INTERNAL_ERROR",
+  "INVALID_S3_OBJECT",
+  "INVALID_MANIFEST",
+  "INVALID_OUTPUT_CONFIG",
+  "INVALID_KMS_KEY",
+  "ACCESS_DENIED",
+  "RESOURCE_NOT_FOUND",
+  "RESOURCE_NOT_READY",
+  "THROTTLED",
+);
+export type Reason =
+  | "EXCEEDS_MAX_FACES"
+  | "EXTREME_POSE"
+  | "LOW_BRIGHTNESS"
+  | "LOW_SHARPNESS"
+  | "LOW_CONFIDENCE"
+  | "SMALL_BOUNDING_BOX"
+  | "LOW_FACE_QUALITY";
+export const Reason = S.Literal(
+  "EXCEEDS_MAX_FACES",
+  "EXTREME_POSE",
+  "LOW_BRIGHTNESS",
+  "LOW_SHARPNESS",
+  "LOW_CONFIDENCE",
+  "SMALL_BOUNDING_BOX",
+  "LOW_FACE_QUALITY",
+);
+export type Reasons = Reason[];
+export const Reasons = S.Array(Reason);
+export type UnsearchedFaceReason =
+  | "FACE_NOT_LARGEST"
+  | "EXCEEDS_MAX_FACES"
+  | "EXTREME_POSE"
+  | "LOW_BRIGHTNESS"
+  | "LOW_SHARPNESS"
+  | "LOW_CONFIDENCE"
+  | "SMALL_BOUNDING_BOX"
+  | "LOW_FACE_QUALITY";
+export const UnsearchedFaceReason = S.Literal(
+  "FACE_NOT_LARGEST",
+  "EXCEEDS_MAX_FACES",
+  "EXTREME_POSE",
+  "LOW_BRIGHTNESS",
+  "LOW_SHARPNESS",
+  "LOW_CONFIDENCE",
+  "SMALL_BOUNDING_BOX",
+  "LOW_FACE_QUALITY",
+);
+export type UnsearchedFaceReasons = UnsearchedFaceReason[];
+export const UnsearchedFaceReasons = S.Array(UnsearchedFaceReason);
 export interface MediaAnalysisDetectModerationLabelsConfig {
   MinConfidence?: number;
   ProjectVersion?: string;
@@ -1903,7 +2218,7 @@ export const KinesisVideoStreamStartSelector = S.suspend(() =>
   identifier: "KinesisVideoStreamStartSelector",
 }) as any as S.Schema<KinesisVideoStreamStartSelector>;
 export interface ConnectedHomeSettingsForUpdate {
-  Labels?: ConnectedHomeLabels;
+  Labels?: string[];
   MinConfidence?: number;
 }
 export const ConnectedHomeSettingsForUpdate = S.suspend(() =>
@@ -1928,7 +2243,7 @@ export interface UnsuccessfulFaceAssociation {
   FaceId?: string;
   UserId?: string;
   Confidence?: number;
-  Reasons?: UnsuccessfulFaceAssociationReasons;
+  Reasons?: UnsuccessfulFaceAssociationReason[];
 }
 export const UnsuccessfulFaceAssociation = S.suspend(() =>
   S.Struct({
@@ -1957,7 +2272,7 @@ export const DatasetSource = S.suspend(() =>
   identifier: "DatasetSource",
 }) as any as S.Schema<DatasetSource>;
 export interface TrainingData {
-  Assets?: Assets;
+  Assets?: Asset[];
 }
 export const TrainingData = S.suspend(() =>
   S.Struct({ Assets: S.optional(Assets) }),
@@ -1975,7 +2290,7 @@ export const CustomizationFeatureConfig = S.suspend(() =>
 export interface UnsuccessfulFaceDeletion {
   FaceId?: string;
   UserId?: string;
-  Reasons?: UnsuccessfulFaceDeletionReasons;
+  Reasons?: UnsuccessfulFaceDeletionReason[];
 }
 export const UnsuccessfulFaceDeletion = S.suspend(() =>
   S.Struct({
@@ -2016,7 +2331,7 @@ export const HumanLoopConfig = S.suspend(() =>
 }) as any as S.Schema<HumanLoopConfig>;
 export interface DetectTextFilters {
   WordFilter?: DetectionFilter;
-  RegionsOfInterest?: RegionsOfInterest;
+  RegionsOfInterest?: RegionOfInterest[];
 }
 export const DetectTextFilters = S.suspend(() =>
   S.Struct({
@@ -2039,7 +2354,7 @@ export const DisassociatedFacesList = S.Array(DisassociatedFace);
 export interface UnsuccessfulFaceDisassociation {
   FaceId?: string;
   UserId?: string;
-  Reasons?: UnsuccessfulFaceDisassociationReasons;
+  Reasons?: UnsuccessfulFaceDisassociationReason[];
 }
 export const UnsuccessfulFaceDisassociation = S.suspend(() =>
   S.Struct({
@@ -2056,17 +2371,20 @@ export const UnsuccessfulFaceDisassociationList = S.Array(
   UnsuccessfulFaceDisassociation,
 );
 export interface KnownGender {
-  Type?: string;
+  Type?: KnownGenderType;
 }
 export const KnownGender = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String) }),
+  S.Struct({ Type: S.optional(KnownGenderType) }),
 ).annotations({ identifier: "KnownGender" }) as any as S.Schema<KnownGender>;
 export interface GetContentModerationRequestMetadata {
-  SortBy?: string;
-  AggregateBy?: string;
+  SortBy?: ContentModerationSortBy;
+  AggregateBy?: ContentModerationAggregateBy;
 }
 export const GetContentModerationRequestMetadata = S.suspend(() =>
-  S.Struct({ SortBy: S.optional(S.String), AggregateBy: S.optional(S.String) }),
+  S.Struct({
+    SortBy: S.optional(ContentModerationSortBy),
+    AggregateBy: S.optional(ContentModerationAggregateBy),
+  }),
 ).annotations({
   identifier: "GetContentModerationRequestMetadata",
 }) as any as S.Schema<GetContentModerationRequestMetadata>;
@@ -2098,12 +2416,14 @@ export interface Sunglasses {
 export const Sunglasses = S.suspend(() =>
   S.Struct({ Value: S.optional(S.Boolean), Confidence: S.optional(S.Number) }),
 ).annotations({ identifier: "Sunglasses" }) as any as S.Schema<Sunglasses>;
+export type GenderType = "Male" | "Female";
+export const GenderType = S.Literal("Male", "Female");
 export interface Gender {
-  Value?: string;
+  Value?: GenderType;
   Confidence?: number;
 }
 export const Gender = S.suspend(() =>
-  S.Struct({ Value: S.optional(S.String), Confidence: S.optional(S.Number) }),
+  S.Struct({ Value: S.optional(GenderType), Confidence: S.optional(S.Number) }),
 ).annotations({ identifier: "Gender" }) as any as S.Schema<Gender>;
 export interface Beard {
   Value?: boolean;
@@ -2133,23 +2453,107 @@ export interface MouthOpen {
 export const MouthOpen = S.suspend(() =>
   S.Struct({ Value: S.optional(S.Boolean), Confidence: S.optional(S.Number) }),
 ).annotations({ identifier: "MouthOpen" }) as any as S.Schema<MouthOpen>;
+export type EmotionName =
+  | "HAPPY"
+  | "SAD"
+  | "ANGRY"
+  | "CONFUSED"
+  | "DISGUSTED"
+  | "SURPRISED"
+  | "CALM"
+  | "UNKNOWN"
+  | "FEAR";
+export const EmotionName = S.Literal(
+  "HAPPY",
+  "SAD",
+  "ANGRY",
+  "CONFUSED",
+  "DISGUSTED",
+  "SURPRISED",
+  "CALM",
+  "UNKNOWN",
+  "FEAR",
+);
 export interface Emotion {
-  Type?: string;
+  Type?: EmotionName;
   Confidence?: number;
 }
 export const Emotion = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String), Confidence: S.optional(S.Number) }),
+  S.Struct({ Type: S.optional(EmotionName), Confidence: S.optional(S.Number) }),
 ).annotations({ identifier: "Emotion" }) as any as S.Schema<Emotion>;
 export type Emotions = Emotion[];
 export const Emotions = S.Array(Emotion);
+export type LandmarkType =
+  | "eyeLeft"
+  | "eyeRight"
+  | "nose"
+  | "mouthLeft"
+  | "mouthRight"
+  | "leftEyeBrowLeft"
+  | "leftEyeBrowRight"
+  | "leftEyeBrowUp"
+  | "rightEyeBrowLeft"
+  | "rightEyeBrowRight"
+  | "rightEyeBrowUp"
+  | "leftEyeLeft"
+  | "leftEyeRight"
+  | "leftEyeUp"
+  | "leftEyeDown"
+  | "rightEyeLeft"
+  | "rightEyeRight"
+  | "rightEyeUp"
+  | "rightEyeDown"
+  | "noseLeft"
+  | "noseRight"
+  | "mouthUp"
+  | "mouthDown"
+  | "leftPupil"
+  | "rightPupil"
+  | "upperJawlineLeft"
+  | "midJawlineLeft"
+  | "chinBottom"
+  | "midJawlineRight"
+  | "upperJawlineRight";
+export const LandmarkType = S.Literal(
+  "eyeLeft",
+  "eyeRight",
+  "nose",
+  "mouthLeft",
+  "mouthRight",
+  "leftEyeBrowLeft",
+  "leftEyeBrowRight",
+  "leftEyeBrowUp",
+  "rightEyeBrowLeft",
+  "rightEyeBrowRight",
+  "rightEyeBrowUp",
+  "leftEyeLeft",
+  "leftEyeRight",
+  "leftEyeUp",
+  "leftEyeDown",
+  "rightEyeLeft",
+  "rightEyeRight",
+  "rightEyeUp",
+  "rightEyeDown",
+  "noseLeft",
+  "noseRight",
+  "mouthUp",
+  "mouthDown",
+  "leftPupil",
+  "rightPupil",
+  "upperJawlineLeft",
+  "midJawlineLeft",
+  "chinBottom",
+  "midJawlineRight",
+  "upperJawlineRight",
+);
 export interface Landmark {
-  Type?: string;
+  Type?: LandmarkType;
   X?: number;
   Y?: number;
 }
 export const Landmark = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String),
+    Type: S.optional(LandmarkType),
     X: S.optional(S.Number),
     Y: S.optional(S.Number),
   }),
@@ -2208,8 +2612,8 @@ export interface FaceDetail {
   Mustache?: Mustache;
   EyesOpen?: EyeOpen;
   MouthOpen?: MouthOpen;
-  Emotions?: Emotions;
-  Landmarks?: Landmarks;
+  Emotions?: Emotion[];
+  Landmarks?: Landmark[];
   Pose?: Pose;
   Quality?: ImageQuality;
   Confidence?: number;
@@ -2249,27 +2653,33 @@ export const FaceDetection = S.suspend(() =>
 export type FaceDetections = FaceDetection[];
 export const FaceDetections = S.Array(FaceDetection);
 export interface Challenge {
-  Type: string;
+  Type: ChallengeType;
   Version: string;
 }
 export const Challenge = S.suspend(() =>
-  S.Struct({ Type: S.String, Version: S.String }),
+  S.Struct({ Type: ChallengeType, Version: S.String }),
 ).annotations({ identifier: "Challenge" }) as any as S.Schema<Challenge>;
 export interface GetLabelDetectionRequestMetadata {
-  SortBy?: string;
-  AggregateBy?: string;
+  SortBy?: LabelDetectionSortBy;
+  AggregateBy?: LabelDetectionAggregateBy;
 }
 export const GetLabelDetectionRequestMetadata = S.suspend(() =>
-  S.Struct({ SortBy: S.optional(S.String), AggregateBy: S.optional(S.String) }),
+  S.Struct({
+    SortBy: S.optional(LabelDetectionSortBy),
+    AggregateBy: S.optional(LabelDetectionAggregateBy),
+  }),
 ).annotations({
   identifier: "GetLabelDetectionRequestMetadata",
 }) as any as S.Schema<GetLabelDetectionRequestMetadata>;
 export interface MediaAnalysisJobFailureDetails {
-  Code?: string;
+  Code?: MediaAnalysisJobFailureCode;
   Message?: string;
 }
 export const MediaAnalysisJobFailureDetails = S.suspend(() =>
-  S.Struct({ Code: S.optional(S.String), Message: S.optional(S.String) }),
+  S.Struct({
+    Code: S.optional(MediaAnalysisJobFailureCode),
+    Message: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "MediaAnalysisJobFailureDetails",
 }) as any as S.Schema<MediaAnalysisJobFailureDetails>;
@@ -2326,11 +2736,14 @@ export const AudioMetadata = S.suspend(() =>
 export type AudioMetadataList = AudioMetadata[];
 export const AudioMetadataList = S.Array(AudioMetadata);
 export interface SegmentTypeInfo {
-  Type?: string;
+  Type?: SegmentType;
   ModelVersion?: string;
 }
 export const SegmentTypeInfo = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String), ModelVersion: S.optional(S.String) }),
+  S.Struct({
+    Type: S.optional(SegmentType),
+    ModelVersion: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "SegmentTypeInfo",
 }) as any as S.Schema<SegmentTypeInfo>;
@@ -2346,7 +2759,7 @@ export const FaceRecord = S.suspend(() =>
 export type FaceRecordList = FaceRecord[];
 export const FaceRecordList = S.Array(FaceRecord);
 export interface UnindexedFace {
-  Reasons?: Reasons;
+  Reasons?: Reason[];
   FaceDetail?: FaceDetail;
 }
 export const UnindexedFace = S.suspend(() =>
@@ -2397,7 +2810,7 @@ export interface MediaAnalysisJobDescription {
   JobId: string;
   JobName?: string;
   OperationsConfig: MediaAnalysisOperationsConfig;
-  Status: string;
+  Status: MediaAnalysisJobStatus;
   FailureDetails?: MediaAnalysisJobFailureDetails;
   CreationTimestamp: Date;
   CompletionTimestamp?: Date;
@@ -2412,7 +2825,7 @@ export const MediaAnalysisJobDescription = S.suspend(() =>
     JobId: S.String,
     JobName: S.optional(S.String),
     OperationsConfig: MediaAnalysisOperationsConfig,
-    Status: S.String,
+    Status: MediaAnalysisJobStatus,
     FailureDetails: S.optional(MediaAnalysisJobFailureDetails),
     CreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     CompletionTimestamp: S.optional(
@@ -2459,10 +2872,13 @@ export type ProjectPolicies = ProjectPolicy[];
 export const ProjectPolicies = S.Array(ProjectPolicy);
 export interface StreamProcessor {
   Name?: string;
-  Status?: string;
+  Status?: StreamProcessorStatus;
 }
 export const StreamProcessor = S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Status: S.optional(S.String) }),
+  S.Struct({
+    Name: S.optional(S.String),
+    Status: S.optional(StreamProcessorStatus),
+  }),
 ).annotations({
   identifier: "StreamProcessor",
 }) as any as S.Schema<StreamProcessor>;
@@ -2470,20 +2886,23 @@ export type StreamProcessorList = StreamProcessor[];
 export const StreamProcessorList = S.Array(StreamProcessor);
 export interface User {
   UserId?: string;
-  UserStatus?: string;
+  UserStatus?: UserStatus;
 }
 export const User = S.suspend(() =>
-  S.Struct({ UserId: S.optional(S.String), UserStatus: S.optional(S.String) }),
+  S.Struct({
+    UserId: S.optional(S.String),
+    UserStatus: S.optional(UserStatus),
+  }),
 ).annotations({ identifier: "User" }) as any as S.Schema<User>;
 export type UserList = User[];
 export const UserList = S.Array(User);
 export interface ComparedFace {
   BoundingBox?: BoundingBox;
   Confidence?: number;
-  Landmarks?: Landmarks;
+  Landmarks?: Landmark[];
   Pose?: Pose;
   Quality?: ImageQuality;
-  Emotions?: Emotions;
+  Emotions?: Emotion[];
   Smile?: Smile;
 }
 export const ComparedFace = S.suspend(() =>
@@ -2498,7 +2917,7 @@ export const ComparedFace = S.suspend(() =>
   }),
 ).annotations({ identifier: "ComparedFace" }) as any as S.Schema<ComparedFace>;
 export interface Celebrity {
-  Urls?: Urls;
+  Urls?: string[];
   Name?: string;
   Id?: string;
   Face?: ComparedFace;
@@ -2541,7 +2960,7 @@ export const SearchedFaceDetails = S.suspend(() =>
 }) as any as S.Schema<SearchedFaceDetails>;
 export interface UnsearchedFace {
   FaceDetails?: FaceDetail;
-  Reasons?: UnsearchedFaceReasons;
+  Reasons?: UnsearchedFaceReason[];
 }
 export const UnsearchedFace = S.suspend(() =>
   S.Struct({
@@ -2580,6 +2999,25 @@ export interface Versions {
 export const Versions = S.suspend(() =>
   S.Struct({ Minimum: S.optional(S.String), Maximum: S.optional(S.String) }),
 ).annotations({ identifier: "Versions" }) as any as S.Schema<Versions>;
+export type TechnicalCueType =
+  | "ColorBars"
+  | "EndCredits"
+  | "BlackFrames"
+  | "OpeningCredits"
+  | "StudioLogo"
+  | "Slate"
+  | "Content";
+export const TechnicalCueType = S.Literal(
+  "ColorBars",
+  "EndCredits",
+  "BlackFrames",
+  "OpeningCredits",
+  "StudioLogo",
+  "Slate",
+  "Content",
+);
+export type TextTypes = "LINE" | "WORD";
+export const TextTypes = S.Literal("LINE", "WORD");
 export interface BlackFrame {
   MaxPixelThreshold?: number;
   MinCoveragePercentage?: number;
@@ -2591,15 +3029,15 @@ export const BlackFrame = S.suspend(() =>
   }),
 ).annotations({ identifier: "BlackFrame" }) as any as S.Schema<BlackFrame>;
 export interface AssociateFacesResponse {
-  AssociatedFaces?: AssociatedFacesList;
-  UnsuccessfulFaceAssociations?: UnsuccessfulFaceAssociationList;
-  UserStatus?: string;
+  AssociatedFaces?: AssociatedFace[];
+  UnsuccessfulFaceAssociations?: UnsuccessfulFaceAssociation[];
+  UserStatus?: UserStatus;
 }
 export const AssociateFacesResponse = S.suspend(() =>
   S.Struct({
     AssociatedFaces: S.optional(AssociatedFacesList),
     UnsuccessfulFaceAssociations: S.optional(UnsuccessfulFaceAssociationList),
-    UserStatus: S.optional(S.String),
+    UserStatus: S.optional(UserStatus),
   }),
 ).annotations({
   identifier: "AssociateFacesResponse",
@@ -2608,14 +3046,14 @@ export interface CompareFacesRequest {
   SourceImage: Image;
   TargetImage: Image;
   SimilarityThreshold?: number;
-  QualityFilter?: string;
+  QualityFilter?: QualityFilter;
 }
 export const CompareFacesRequest = S.suspend(() =>
   S.Struct({
     SourceImage: Image,
     TargetImage: Image,
     SimilarityThreshold: S.optional(S.Number),
-    QualityFilter: S.optional(S.String),
+    QualityFilter: S.optional(QualityFilter),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -2632,14 +3070,14 @@ export const CopyProjectVersionResponse = S.suspend(() =>
 }) as any as S.Schema<CopyProjectVersionResponse>;
 export interface CreateDatasetRequest {
   DatasetSource?: DatasetSource;
-  DatasetType: string;
+  DatasetType: DatasetType;
   ProjectArn: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateDatasetRequest = S.suspend(() =>
   S.Struct({
     DatasetSource: S.optional(DatasetSource),
-    DatasetType: S.String,
+    DatasetType: DatasetType,
     ProjectArn: S.String,
     Tags: S.optional(TagMap),
   }).pipe(
@@ -2654,7 +3092,7 @@ export interface CreateProjectVersionRequest {
   OutputConfig: OutputConfig;
   TrainingData?: TrainingData;
   TestingData?: TestingData;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   KmsKeyId?: string;
   VersionDescription?: string;
   FeatureConfig?: CustomizationFeatureConfig;
@@ -2682,10 +3120,10 @@ export interface CreateStreamProcessorRequest {
   Name: string;
   Settings: StreamProcessorSettings;
   RoleArn: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   NotificationChannel?: StreamProcessorNotificationChannel;
   KmsKeyId?: string;
-  RegionsOfInterest?: RegionsOfInterest;
+  RegionsOfInterest?: RegionOfInterest[];
   DataSharingPreference?: StreamProcessorDataSharingPreference;
 }
 export const CreateStreamProcessorRequest = S.suspend(() =>
@@ -2707,8 +3145,8 @@ export const CreateStreamProcessorRequest = S.suspend(() =>
   identifier: "CreateStreamProcessorRequest",
 }) as any as S.Schema<CreateStreamProcessorRequest>;
 export interface DeleteFacesResponse {
-  DeletedFaces?: FaceIdList;
-  UnsuccessfulFaceDeletions?: UnsuccessfulFaceDeletionsList;
+  DeletedFaces?: string[];
+  UnsuccessfulFaceDeletions?: UnsuccessfulFaceDeletion[];
 }
 export const DeleteFacesResponse = S.suspend(() =>
   S.Struct({
@@ -2722,7 +3160,7 @@ export interface DetectLabelsRequest {
   Image: Image;
   MaxLabels?: number;
   MinConfidence?: number;
-  Features?: DetectLabelsFeatureList;
+  Features?: DetectLabelsFeatureName[];
   Settings?: DetectLabelsSettings;
 }
 export const DetectLabelsRequest = S.suspend(() =>
@@ -2768,9 +3206,9 @@ export const DetectTextRequest = S.suspend(() =>
   identifier: "DetectTextRequest",
 }) as any as S.Schema<DetectTextRequest>;
 export interface DisassociateFacesResponse {
-  DisassociatedFaces?: DisassociatedFacesList;
-  UnsuccessfulFaceDisassociations?: UnsuccessfulFaceDisassociationList;
-  UserStatus?: string;
+  DisassociatedFaces?: DisassociatedFace[];
+  UnsuccessfulFaceDisassociations?: UnsuccessfulFaceDisassociation[];
+  UserStatus?: UserStatus;
 }
 export const DisassociateFacesResponse = S.suspend(() =>
   S.Struct({
@@ -2778,13 +3216,13 @@ export const DisassociateFacesResponse = S.suspend(() =>
     UnsuccessfulFaceDisassociations: S.optional(
       UnsuccessfulFaceDisassociationList,
     ),
-    UserStatus: S.optional(S.String),
+    UserStatus: S.optional(UserStatus),
   }),
 ).annotations({
   identifier: "DisassociateFacesResponse",
 }) as any as S.Schema<DisassociateFacesResponse>;
 export interface GetCelebrityInfoResponse {
-  Urls?: Urls;
+  Urls?: string[];
   Name?: string;
   KnownGender?: KnownGender;
 }
@@ -2798,18 +3236,18 @@ export const GetCelebrityInfoResponse = S.suspend(() =>
   identifier: "GetCelebrityInfoResponse",
 }) as any as S.Schema<GetCelebrityInfoResponse>;
 export interface GetFaceDetectionResponse {
-  JobStatus?: string;
+  JobStatus?: VideoJobStatus;
   StatusMessage?: string;
   VideoMetadata?: VideoMetadata;
   NextToken?: string;
-  Faces?: FaceDetections;
+  Faces?: FaceDetection[];
   JobId?: string;
   Video?: Video;
   JobTag?: string;
 }
 export const GetFaceDetectionResponse = S.suspend(() =>
   S.Struct({
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(VideoJobStatus),
     StatusMessage: S.optional(S.String),
     VideoMetadata: S.optional(VideoMetadata),
     NextToken: S.optional(S.String),
@@ -2823,16 +3261,16 @@ export const GetFaceDetectionResponse = S.suspend(() =>
 }) as any as S.Schema<GetFaceDetectionResponse>;
 export interface GetFaceLivenessSessionResultsResponse {
   SessionId: string;
-  Status: string;
+  Status: LivenessSessionStatus;
   Confidence?: number;
   ReferenceImage?: AuditImage;
-  AuditImages?: AuditImages;
+  AuditImages?: AuditImage[];
   Challenge?: Challenge;
 }
 export const GetFaceLivenessSessionResultsResponse = S.suspend(() =>
   S.Struct({
     SessionId: S.String,
-    Status: S.String,
+    Status: LivenessSessionStatus,
     Confidence: S.optional(S.Number),
     ReferenceImage: S.optional(AuditImage),
     AuditImages: S.optional(AuditImages),
@@ -2842,18 +3280,18 @@ export const GetFaceLivenessSessionResultsResponse = S.suspend(() =>
   identifier: "GetFaceLivenessSessionResultsResponse",
 }) as any as S.Schema<GetFaceLivenessSessionResultsResponse>;
 export interface GetPersonTrackingResponse {
-  JobStatus?: string;
+  JobStatus?: VideoJobStatus;
   StatusMessage?: string;
   VideoMetadata?: VideoMetadata;
   NextToken?: string;
-  Persons?: PersonDetections;
+  Persons?: PersonDetection[];
   JobId?: string;
   Video?: Video;
   JobTag?: string;
 }
 export const GetPersonTrackingResponse = S.suspend(() =>
   S.Struct({
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(VideoJobStatus),
     StatusMessage: S.optional(S.String),
     VideoMetadata: S.optional(VideoMetadata),
     NextToken: S.optional(S.String),
@@ -2866,15 +3304,15 @@ export const GetPersonTrackingResponse = S.suspend(() =>
   identifier: "GetPersonTrackingResponse",
 }) as any as S.Schema<GetPersonTrackingResponse>;
 export interface IndexFacesResponse {
-  FaceRecords?: FaceRecordList;
-  OrientationCorrection?: string;
+  FaceRecords?: FaceRecord[];
+  OrientationCorrection?: OrientationCorrection;
   FaceModelVersion?: string;
-  UnindexedFaces?: UnindexedFaces;
+  UnindexedFaces?: UnindexedFace[];
 }
 export const IndexFacesResponse = S.suspend(() =>
   S.Struct({
     FaceRecords: S.optional(FaceRecordList),
-    OrientationCorrection: S.optional(S.String),
+    OrientationCorrection: S.optional(OrientationCorrection),
     FaceModelVersion: S.optional(S.String),
     UnindexedFaces: S.optional(UnindexedFaces),
   }),
@@ -2882,7 +3320,7 @@ export const IndexFacesResponse = S.suspend(() =>
   identifier: "IndexFacesResponse",
 }) as any as S.Schema<IndexFacesResponse>;
 export interface ListFacesResponse {
-  Faces?: FaceList;
+  Faces?: Face[];
   NextToken?: string;
   FaceModelVersion?: string;
 }
@@ -2897,7 +3335,7 @@ export const ListFacesResponse = S.suspend(() =>
 }) as any as S.Schema<ListFacesResponse>;
 export interface ListMediaAnalysisJobsResponse {
   NextToken?: string;
-  MediaAnalysisJobs: MediaAnalysisJobDescriptions;
+  MediaAnalysisJobs: MediaAnalysisJobDescription[];
 }
 export const ListMediaAnalysisJobsResponse = S.suspend(() =>
   S.Struct({
@@ -2908,7 +3346,7 @@ export const ListMediaAnalysisJobsResponse = S.suspend(() =>
   identifier: "ListMediaAnalysisJobsResponse",
 }) as any as S.Schema<ListMediaAnalysisJobsResponse>;
 export interface ListProjectPoliciesResponse {
-  ProjectPolicies?: ProjectPolicies;
+  ProjectPolicies?: ProjectPolicy[];
   NextToken?: string;
 }
 export const ListProjectPoliciesResponse = S.suspend(() =>
@@ -2921,7 +3359,7 @@ export const ListProjectPoliciesResponse = S.suspend(() =>
 }) as any as S.Schema<ListProjectPoliciesResponse>;
 export interface ListStreamProcessorsResponse {
   NextToken?: string;
-  StreamProcessors?: StreamProcessorList;
+  StreamProcessors?: StreamProcessor[];
 }
 export const ListStreamProcessorsResponse = S.suspend(() =>
   S.Struct({
@@ -2932,7 +3370,7 @@ export const ListStreamProcessorsResponse = S.suspend(() =>
   identifier: "ListStreamProcessorsResponse",
 }) as any as S.Schema<ListStreamProcessorsResponse>;
 export interface ListUsersResponse {
-  Users?: UserList;
+  Users?: User[];
   NextToken?: string;
 }
 export const ListUsersResponse = S.suspend(() =>
@@ -2941,22 +3379,22 @@ export const ListUsersResponse = S.suspend(() =>
   identifier: "ListUsersResponse",
 }) as any as S.Schema<ListUsersResponse>;
 export interface RecognizeCelebritiesResponse {
-  CelebrityFaces?: CelebrityList;
-  UnrecognizedFaces?: ComparedFaceList;
-  OrientationCorrection?: string;
+  CelebrityFaces?: Celebrity[];
+  UnrecognizedFaces?: ComparedFace[];
+  OrientationCorrection?: OrientationCorrection;
 }
 export const RecognizeCelebritiesResponse = S.suspend(() =>
   S.Struct({
     CelebrityFaces: S.optional(CelebrityList),
     UnrecognizedFaces: S.optional(ComparedFaceList),
-    OrientationCorrection: S.optional(S.String),
+    OrientationCorrection: S.optional(OrientationCorrection),
   }),
 ).annotations({
   identifier: "RecognizeCelebritiesResponse",
 }) as any as S.Schema<RecognizeCelebritiesResponse>;
 export interface SearchFacesResponse {
   SearchedFaceId?: string;
-  FaceMatches?: FaceMatchList;
+  FaceMatches?: FaceMatch[];
   FaceModelVersion?: string;
 }
 export const SearchFacesResponse = S.suspend(() =>
@@ -2970,10 +3408,13 @@ export const SearchFacesResponse = S.suspend(() =>
 }) as any as S.Schema<SearchFacesResponse>;
 export interface MatchedUser {
   UserId?: string;
-  UserStatus?: string;
+  UserStatus?: UserStatus;
 }
 export const MatchedUser = S.suspend(() =>
-  S.Struct({ UserId: S.optional(S.String), UserStatus: S.optional(S.String) }),
+  S.Struct({
+    UserId: S.optional(S.String),
+    UserStatus: S.optional(UserStatus),
+  }),
 ).annotations({ identifier: "MatchedUser" }) as any as S.Schema<MatchedUser>;
 export interface UserMatch {
   Similarity?: number;
@@ -2985,10 +3426,10 @@ export const UserMatch = S.suspend(() =>
 export type UserMatchList = UserMatch[];
 export const UserMatchList = S.Array(UserMatch);
 export interface SearchUsersByImageResponse {
-  UserMatches?: UserMatchList;
+  UserMatches?: UserMatch[];
   FaceModelVersion?: string;
   SearchedFace?: SearchedFaceDetails;
-  UnsearchedFaces?: UnsearchedFacesList;
+  UnsearchedFaces?: UnsearchedFace[];
 }
 export const SearchUsersByImageResponse = S.suspend(() =>
   S.Struct({
@@ -3065,9 +3506,9 @@ export const StartTextDetectionResponse = S.suspend(() =>
 export interface UpdateStreamProcessorRequest {
   Name: string;
   SettingsForUpdate?: StreamProcessorSettingsForUpdate;
-  RegionsOfInterestForUpdate?: RegionsOfInterest;
+  RegionsOfInterestForUpdate?: RegionOfInterest[];
   DataSharingPreferenceForUpdate?: StreamProcessorDataSharingPreference;
-  ParametersToDelete?: StreamProcessorParametersToDelete;
+  ParametersToDelete?: StreamProcessorParameterToDelete[];
 }
 export const UpdateStreamProcessorRequest = S.suspend(() =>
   S.Struct({
@@ -3091,11 +3532,11 @@ export const UpdateStreamProcessorResponse = S.suspend(() =>
   identifier: "UpdateStreamProcessorResponse",
 }) as any as S.Schema<UpdateStreamProcessorResponse>;
 export interface ChallengePreference {
-  Type: string;
+  Type: ChallengeType;
   Versions?: Versions;
 }
 export const ChallengePreference = S.suspend(() =>
-  S.Struct({ Type: S.String, Versions: S.optional(Versions) }),
+  S.Struct({ Type: ChallengeType, Versions: S.optional(Versions) }),
 ).annotations({
   identifier: "ChallengePreference",
 }) as any as S.Schema<ChallengePreference>;
@@ -3117,22 +3558,22 @@ export const DatasetStats = S.suspend(() =>
 ).annotations({ identifier: "DatasetStats" }) as any as S.Schema<DatasetStats>;
 export interface DatasetMetadata {
   CreationTimestamp?: Date;
-  DatasetType?: string;
+  DatasetType?: DatasetType;
   DatasetArn?: string;
-  Status?: string;
+  Status?: DatasetStatus;
   StatusMessage?: string;
-  StatusMessageCode?: string;
+  StatusMessageCode?: DatasetStatusMessageCode;
 }
 export const DatasetMetadata = S.suspend(() =>
   S.Struct({
     CreationTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    DatasetType: S.optional(S.String),
+    DatasetType: S.optional(DatasetType),
     DatasetArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(DatasetStatus),
     StatusMessage: S.optional(S.String),
-    StatusMessageCode: S.optional(S.String),
+    StatusMessageCode: S.optional(DatasetStatusMessageCode),
   }),
 ).annotations({
   identifier: "DatasetMetadata",
@@ -3140,7 +3581,7 @@ export const DatasetMetadata = S.suspend(() =>
 export type DatasetMetadataList = DatasetMetadata[];
 export const DatasetMetadataList = S.Array(DatasetMetadata);
 export interface ValidationData {
-  Assets?: Assets;
+  Assets?: Asset[];
 }
 export const ValidationData = S.suspend(() =>
   S.Struct({ Assets: S.optional(Assets) }),
@@ -3163,7 +3604,7 @@ export const TestingDataResult = S.suspend(() =>
 }) as any as S.Schema<TestingDataResult>;
 export interface Geometry {
   BoundingBox?: BoundingBox;
-  Polygon?: Polygon;
+  Polygon?: Point[];
 }
 export const Geometry = S.suspend(() =>
   S.Struct({
@@ -3174,7 +3615,7 @@ export const Geometry = S.suspend(() =>
 export type ProtectiveEquipmentPersonIds = number[];
 export const ProtectiveEquipmentPersonIds = S.Array(S.Number);
 export interface CelebrityDetail {
-  Urls?: Urls;
+  Urls?: string[];
   Name?: string;
   Id?: string;
   Confidence?: number;
@@ -3221,11 +3662,14 @@ export const ContentType = S.suspend(() =>
 export type ContentTypes = ContentType[];
 export const ContentTypes = S.Array(ContentType);
 export interface TechnicalCueSegment {
-  Type?: string;
+  Type?: TechnicalCueType;
   Confidence?: number;
 }
 export const TechnicalCueSegment = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String), Confidence: S.optional(S.Number) }),
+  S.Struct({
+    Type: S.optional(TechnicalCueType),
+    Confidence: S.optional(S.Number),
+  }),
 ).annotations({
   identifier: "TechnicalCueSegment",
 }) as any as S.Schema<TechnicalCueSegment>;
@@ -3238,7 +3682,7 @@ export const ShotSegment = S.suspend(() =>
 ).annotations({ identifier: "ShotSegment" }) as any as S.Schema<ShotSegment>;
 export interface TextDetection {
   DetectedText?: string;
-  Type?: string;
+  Type?: TextTypes;
   Id?: number;
   ParentId?: number;
   Confidence?: number;
@@ -3247,7 +3691,7 @@ export interface TextDetection {
 export const TextDetection = S.suspend(() =>
   S.Struct({
     DetectedText: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(TextTypes),
     Id: S.optional(S.Number),
     ParentId: S.optional(S.Number),
     Confidence: S.optional(S.Number),
@@ -3285,7 +3729,7 @@ export const CompareFacesUnmatchList = S.Array(ComparedFace);
 export interface CreateFaceLivenessSessionRequestSettings {
   OutputConfig?: LivenessOutputConfig;
   AuditImagesLimit?: number;
-  ChallengePreferences?: ChallengePreferences;
+  ChallengePreferences?: ChallengePreference[];
 }
 export const CreateFaceLivenessSessionRequestSettings = S.suspend(() =>
   S.Struct({
@@ -3299,9 +3743,9 @@ export const CreateFaceLivenessSessionRequestSettings = S.suspend(() =>
 export interface DatasetDescription {
   CreationTimestamp?: Date;
   LastUpdatedTimestamp?: Date;
-  Status?: string;
+  Status?: DatasetStatus;
   StatusMessage?: string;
-  StatusMessageCode?: string;
+  StatusMessageCode?: DatasetStatusMessageCode;
   DatasetStats?: DatasetStats;
 }
 export const DatasetDescription = S.suspend(() =>
@@ -3312,9 +3756,9 @@ export const DatasetDescription = S.suspend(() =>
     LastUpdatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    Status: S.optional(S.String),
+    Status: S.optional(DatasetStatus),
     StatusMessage: S.optional(S.String),
-    StatusMessageCode: S.optional(S.String),
+    StatusMessageCode: S.optional(DatasetStatusMessageCode),
     DatasetStats: S.optional(DatasetStats),
   }),
 ).annotations({
@@ -3323,10 +3767,10 @@ export const DatasetDescription = S.suspend(() =>
 export interface ProjectDescription {
   ProjectArn?: string;
   CreationTimestamp?: Date;
-  Status?: string;
-  Datasets?: DatasetMetadataList;
-  Feature?: string;
-  AutoUpdate?: string;
+  Status?: ProjectStatus;
+  Datasets?: DatasetMetadata[];
+  Feature?: CustomizationFeature;
+  AutoUpdate?: ProjectAutoUpdate;
 }
 export const ProjectDescription = S.suspend(() =>
   S.Struct({
@@ -3334,10 +3778,10 @@ export const ProjectDescription = S.suspend(() =>
     CreationTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    Status: S.optional(S.String),
+    Status: S.optional(ProjectStatus),
     Datasets: S.optional(DatasetMetadataList),
-    Feature: S.optional(S.String),
-    AutoUpdate: S.optional(S.String),
+    Feature: S.optional(CustomizationFeature),
+    AutoUpdate: S.optional(ProjectAutoUpdate),
   }),
 ).annotations({
   identifier: "ProjectDescription",
@@ -3387,7 +3831,7 @@ export const DominantColors = S.Array(DominantColor);
 export interface Instance {
   BoundingBox?: BoundingBox;
   Confidence?: number;
-  DominantColors?: DominantColors;
+  DominantColors?: DominantColor[];
 }
 export const Instance = S.suspend(() =>
   S.Struct({
@@ -3427,10 +3871,10 @@ export const LabelCategories = S.Array(LabelCategory);
 export interface Label {
   Name?: string;
   Confidence?: number;
-  Instances?: Instances;
-  Parents?: Parents;
-  Aliases?: LabelAliases;
-  Categories?: LabelCategories;
+  Instances?: Instance[];
+  Parents?: Parent[];
+  Aliases?: LabelAlias[];
+  Categories?: LabelCategory[];
 }
 export const Label = S.suspend(() =>
   S.Struct({
@@ -3447,9 +3891,9 @@ export const Labels = S.Array(Label);
 export type ModerationLabels = ModerationLabel[];
 export const ModerationLabels = S.Array(ModerationLabel);
 export interface ProtectiveEquipmentSummary {
-  PersonsWithRequiredEquipment?: ProtectiveEquipmentPersonIds;
-  PersonsWithoutRequiredEquipment?: ProtectiveEquipmentPersonIds;
-  PersonsIndeterminate?: ProtectiveEquipmentPersonIds;
+  PersonsWithRequiredEquipment?: number[];
+  PersonsWithoutRequiredEquipment?: number[];
+  PersonsIndeterminate?: number[];
 }
 export const ProtectiveEquipmentSummary = S.suspend(() =>
   S.Struct({
@@ -3482,7 +3926,7 @@ export interface ContentModerationDetection {
   StartTimestampMillis?: number;
   EndTimestampMillis?: number;
   DurationMillis?: number;
-  ContentTypes?: ContentTypes;
+  ContentTypes?: ContentType[];
 }
 export const ContentModerationDetection = S.suspend(() =>
   S.Struct({
@@ -3501,7 +3945,7 @@ export const ContentModerationDetections = S.Array(ContentModerationDetection);
 export interface PersonMatch {
   Timestamp?: number;
   Person?: PersonDetail;
-  FaceMatches?: FaceMatchList;
+  FaceMatches?: FaceMatch[];
 }
 export const PersonMatch = S.suspend(() =>
   S.Struct({
@@ -3513,7 +3957,7 @@ export const PersonMatch = S.suspend(() =>
 export type PersonMatches = PersonMatch[];
 export const PersonMatches = S.Array(PersonMatch);
 export interface SegmentDetection {
-  Type?: string;
+  Type?: SegmentType;
   StartTimestampMillis?: number;
   EndTimestampMillis?: number;
   DurationMillis?: number;
@@ -3528,7 +3972,7 @@ export interface SegmentDetection {
 }
 export const SegmentDetection = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String),
+    Type: S.optional(SegmentType),
     StartTimestampMillis: S.optional(S.Number),
     EndTimestampMillis: S.optional(S.Number),
     DurationMillis: S.optional(S.Number),
@@ -3592,6 +4036,8 @@ export interface Summary {
 export const Summary = S.suspend(() =>
   S.Struct({ S3Object: S.optional(S3Object) }),
 ).annotations({ identifier: "Summary" }) as any as S.Schema<Summary>;
+export type BodyPart = "FACE" | "HEAD" | "LEFT_HAND" | "RIGHT_HAND";
+export const BodyPart = S.Literal("FACE", "HEAD", "LEFT_HAND", "RIGHT_HAND");
 export interface CreateDatasetResponse {
   DatasetArn?: string;
 }
@@ -3641,7 +4087,7 @@ export const DescribeDatasetResponse = S.suspend(() =>
   identifier: "DescribeDatasetResponse",
 }) as any as S.Schema<DescribeDatasetResponse>;
 export interface DescribeProjectsResponse {
-  ProjectDescriptions?: ProjectDescriptions;
+  ProjectDescriptions?: ProjectDescription[];
   NextToken?: string;
 }
 export const DescribeProjectsResponse = S.suspend(() =>
@@ -3653,7 +4099,7 @@ export const DescribeProjectsResponse = S.suspend(() =>
   identifier: "DescribeProjectsResponse",
 }) as any as S.Schema<DescribeProjectsResponse>;
 export interface DetectCustomLabelsResponse {
-  CustomLabels?: CustomLabels;
+  CustomLabels?: CustomLabel[];
 }
 export const DetectCustomLabelsResponse = S.suspend(() =>
   S.Struct({ CustomLabels: S.optional(CustomLabels) }),
@@ -3661,19 +4107,19 @@ export const DetectCustomLabelsResponse = S.suspend(() =>
   identifier: "DetectCustomLabelsResponse",
 }) as any as S.Schema<DetectCustomLabelsResponse>;
 export interface DetectFacesResponse {
-  FaceDetails?: FaceDetailList;
-  OrientationCorrection?: string;
+  FaceDetails?: FaceDetail[];
+  OrientationCorrection?: OrientationCorrection;
 }
 export const DetectFacesResponse = S.suspend(() =>
   S.Struct({
     FaceDetails: S.optional(FaceDetailList),
-    OrientationCorrection: S.optional(S.String),
+    OrientationCorrection: S.optional(OrientationCorrection),
   }),
 ).annotations({
   identifier: "DetectFacesResponse",
 }) as any as S.Schema<DetectFacesResponse>;
 export interface DetectTextResponse {
-  TextDetections?: TextDetectionList;
+  TextDetections?: TextDetection[];
   TextModelVersion?: string;
 }
 export const DetectTextResponse = S.suspend(() =>
@@ -3685,18 +4131,18 @@ export const DetectTextResponse = S.suspend(() =>
   identifier: "DetectTextResponse",
 }) as any as S.Schema<DetectTextResponse>;
 export interface GetCelebrityRecognitionResponse {
-  JobStatus?: string;
+  JobStatus?: VideoJobStatus;
   StatusMessage?: string;
   VideoMetadata?: VideoMetadata;
   NextToken?: string;
-  Celebrities?: CelebrityRecognitions;
+  Celebrities?: CelebrityRecognition[];
   JobId?: string;
   Video?: Video;
   JobTag?: string;
 }
 export const GetCelebrityRecognitionResponse = S.suspend(() =>
   S.Struct({
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(VideoJobStatus),
     StatusMessage: S.optional(S.String),
     VideoMetadata: S.optional(VideoMetadata),
     NextToken: S.optional(S.String),
@@ -3709,10 +4155,10 @@ export const GetCelebrityRecognitionResponse = S.suspend(() =>
   identifier: "GetCelebrityRecognitionResponse",
 }) as any as S.Schema<GetCelebrityRecognitionResponse>;
 export interface GetContentModerationResponse {
-  JobStatus?: string;
+  JobStatus?: VideoJobStatus;
   StatusMessage?: string;
   VideoMetadata?: VideoMetadata;
-  ModerationLabels?: ContentModerationDetections;
+  ModerationLabels?: ContentModerationDetection[];
   NextToken?: string;
   ModerationModelVersion?: string;
   JobId?: string;
@@ -3722,7 +4168,7 @@ export interface GetContentModerationResponse {
 }
 export const GetContentModerationResponse = S.suspend(() =>
   S.Struct({
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(VideoJobStatus),
     StatusMessage: S.optional(S.String),
     VideoMetadata: S.optional(VideoMetadata),
     ModerationLabels: S.optional(ContentModerationDetections),
@@ -3737,18 +4183,18 @@ export const GetContentModerationResponse = S.suspend(() =>
   identifier: "GetContentModerationResponse",
 }) as any as S.Schema<GetContentModerationResponse>;
 export interface GetFaceSearchResponse {
-  JobStatus?: string;
+  JobStatus?: VideoJobStatus;
   StatusMessage?: string;
   NextToken?: string;
   VideoMetadata?: VideoMetadata;
-  Persons?: PersonMatches;
+  Persons?: PersonMatch[];
   JobId?: string;
   Video?: Video;
   JobTag?: string;
 }
 export const GetFaceSearchResponse = S.suspend(() =>
   S.Struct({
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(VideoJobStatus),
     StatusMessage: S.optional(S.String),
     NextToken: S.optional(S.String),
     VideoMetadata: S.optional(VideoMetadata),
@@ -3764,7 +4210,7 @@ export interface GetMediaAnalysisJobResponse {
   JobId: string;
   JobName?: string;
   OperationsConfig: MediaAnalysisOperationsConfig;
-  Status: string;
+  Status: MediaAnalysisJobStatus;
   FailureDetails?: MediaAnalysisJobFailureDetails;
   CreationTimestamp: Date;
   CompletionTimestamp?: Date;
@@ -3779,7 +4225,7 @@ export const GetMediaAnalysisJobResponse = S.suspend(() =>
     JobId: S.String,
     JobName: S.optional(S.String),
     OperationsConfig: MediaAnalysisOperationsConfig,
-    Status: S.String,
+    Status: MediaAnalysisJobStatus,
     FailureDetails: S.optional(MediaAnalysisJobFailureDetails),
     CreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     CompletionTimestamp: S.optional(
@@ -3795,20 +4241,20 @@ export const GetMediaAnalysisJobResponse = S.suspend(() =>
   identifier: "GetMediaAnalysisJobResponse",
 }) as any as S.Schema<GetMediaAnalysisJobResponse>;
 export interface GetSegmentDetectionResponse {
-  JobStatus?: string;
+  JobStatus?: VideoJobStatus;
   StatusMessage?: string;
-  VideoMetadata?: VideoMetadataList;
-  AudioMetadata?: AudioMetadataList;
+  VideoMetadata?: VideoMetadata[];
+  AudioMetadata?: AudioMetadata[];
   NextToken?: string;
-  Segments?: SegmentDetections;
-  SelectedSegmentTypes?: SegmentTypesInfo;
+  Segments?: SegmentDetection[];
+  SelectedSegmentTypes?: SegmentTypeInfo[];
   JobId?: string;
   Video?: Video;
   JobTag?: string;
 }
 export const GetSegmentDetectionResponse = S.suspend(() =>
   S.Struct({
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(VideoJobStatus),
     StatusMessage: S.optional(S.String),
     VideoMetadata: S.optional(VideoMetadataList),
     AudioMetadata: S.optional(AudioMetadataList),
@@ -3823,10 +4269,10 @@ export const GetSegmentDetectionResponse = S.suspend(() =>
   identifier: "GetSegmentDetectionResponse",
 }) as any as S.Schema<GetSegmentDetectionResponse>;
 export interface GetTextDetectionResponse {
-  JobStatus?: string;
+  JobStatus?: VideoJobStatus;
   StatusMessage?: string;
   VideoMetadata?: VideoMetadata;
-  TextDetections?: TextDetectionResults;
+  TextDetections?: TextDetectionResult[];
   NextToken?: string;
   TextModelVersion?: string;
   JobId?: string;
@@ -3835,7 +4281,7 @@ export interface GetTextDetectionResponse {
 }
 export const GetTextDetectionResponse = S.suspend(() =>
   S.Struct({
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(VideoJobStatus),
     StatusMessage: S.optional(S.String),
     VideoMetadata: S.optional(VideoMetadata),
     TextDetections: S.optional(TextDetectionResults),
@@ -3849,7 +4295,7 @@ export const GetTextDetectionResponse = S.suspend(() =>
   identifier: "GetTextDetectionResponse",
 }) as any as S.Schema<GetTextDetectionResponse>;
 export interface ListDatasetLabelsResponse {
-  DatasetLabelDescriptions?: DatasetLabelDescriptions;
+  DatasetLabelDescriptions?: DatasetLabelDescription[];
   NextToken?: string;
 }
 export const ListDatasetLabelsResponse = S.suspend(() =>
@@ -3861,7 +4307,7 @@ export const ListDatasetLabelsResponse = S.suspend(() =>
   identifier: "ListDatasetLabelsResponse",
 }) as any as S.Schema<ListDatasetLabelsResponse>;
 export interface SearchUsersResponse {
-  UserMatches?: UserMatchList;
+  UserMatches?: UserMatch[];
   FaceModelVersion?: string;
   SearchedFace?: SearchedFace;
   SearchedUser?: SearchedUser;
@@ -3890,7 +4336,7 @@ export interface StartSegmentDetectionRequest {
   NotificationChannel?: NotificationChannel;
   JobTag?: string;
   Filters?: StartSegmentDetectionFilters;
-  SegmentTypes: SegmentTypes;
+  SegmentTypes: SegmentType[];
 }
 export const StartSegmentDetectionRequest = S.suspend(() =>
   S.Struct({
@@ -3969,7 +4415,7 @@ export interface ProjectVersionDescription {
   ProjectVersionArn?: string;
   CreationTimestamp?: Date;
   MinInferenceUnits?: number;
-  Status?: string;
+  Status?: ProjectVersionStatus;
   StatusMessage?: string;
   BillableTrainingTimeInSeconds?: number;
   TrainingEndTimestamp?: Date;
@@ -3982,7 +4428,7 @@ export interface ProjectVersionDescription {
   MaxInferenceUnits?: number;
   SourceProjectVersionArn?: string;
   VersionDescription?: string;
-  Feature?: string;
+  Feature?: CustomizationFeature;
   BaseModelVersion?: string;
   FeatureConfig?: CustomizationFeatureConfig;
 }
@@ -3993,7 +4439,7 @@ export const ProjectVersionDescription = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     MinInferenceUnits: S.optional(S.Number),
-    Status: S.optional(S.String),
+    Status: S.optional(ProjectVersionStatus),
     StatusMessage: S.optional(S.String),
     BillableTrainingTimeInSeconds: S.optional(S.Number),
     TrainingEndTimestamp: S.optional(
@@ -4008,7 +4454,7 @@ export const ProjectVersionDescription = S.suspend(() =>
     MaxInferenceUnits: S.optional(S.Number),
     SourceProjectVersionArn: S.optional(S.String),
     VersionDescription: S.optional(S.String),
-    Feature: S.optional(S.String),
+    Feature: S.optional(CustomizationFeature),
     BaseModelVersion: S.optional(S.String),
     FeatureConfig: S.optional(CustomizationFeatureConfig),
   }),
@@ -4019,7 +4465,7 @@ export type ProjectVersionDescriptions = ProjectVersionDescription[];
 export const ProjectVersionDescriptions = S.Array(ProjectVersionDescription);
 export interface HumanLoopActivationOutput {
   HumanLoopArn?: string;
-  HumanLoopActivationReasons?: HumanLoopActivationReasons;
+  HumanLoopActivationReasons?: string[];
   HumanLoopActivationConditionsEvaluationResults?: string;
 }
 export const HumanLoopActivationOutput = S.suspend(() =>
@@ -4033,18 +4479,18 @@ export const HumanLoopActivationOutput = S.suspend(() =>
 }) as any as S.Schema<HumanLoopActivationOutput>;
 export interface CompareFacesResponse {
   SourceImageFace?: ComparedSourceImageFace;
-  FaceMatches?: CompareFacesMatchList;
-  UnmatchedFaces?: CompareFacesUnmatchList;
-  SourceImageOrientationCorrection?: string;
-  TargetImageOrientationCorrection?: string;
+  FaceMatches?: CompareFacesMatch[];
+  UnmatchedFaces?: ComparedFace[];
+  SourceImageOrientationCorrection?: OrientationCorrection;
+  TargetImageOrientationCorrection?: OrientationCorrection;
 }
 export const CompareFacesResponse = S.suspend(() =>
   S.Struct({
     SourceImageFace: S.optional(ComparedSourceImageFace),
     FaceMatches: S.optional(CompareFacesMatchList),
     UnmatchedFaces: S.optional(CompareFacesUnmatchList),
-    SourceImageOrientationCorrection: S.optional(S.String),
-    TargetImageOrientationCorrection: S.optional(S.String),
+    SourceImageOrientationCorrection: S.optional(OrientationCorrection),
+    TargetImageOrientationCorrection: S.optional(OrientationCorrection),
   }),
 ).annotations({
   identifier: "CompareFacesResponse",
@@ -4058,7 +4504,7 @@ export const CreateFaceLivenessSessionResponse = S.suspend(() =>
   identifier: "CreateFaceLivenessSessionResponse",
 }) as any as S.Schema<CreateFaceLivenessSessionResponse>;
 export interface DescribeProjectVersionsResponse {
-  ProjectVersionDescriptions?: ProjectVersionDescriptions;
+  ProjectVersionDescriptions?: ProjectVersionDescription[];
   NextToken?: string;
 }
 export const DescribeProjectVersionsResponse = S.suspend(() =>
@@ -4070,11 +4516,11 @@ export const DescribeProjectVersionsResponse = S.suspend(() =>
   identifier: "DescribeProjectVersionsResponse",
 }) as any as S.Schema<DescribeProjectVersionsResponse>;
 export interface DetectModerationLabelsResponse {
-  ModerationLabels?: ModerationLabels;
+  ModerationLabels?: ModerationLabel[];
   ModerationModelVersion?: string;
   HumanLoopActivationOutput?: HumanLoopActivationOutput;
   ProjectVersion?: string;
-  ContentTypes?: ContentTypes;
+  ContentTypes?: ContentType[];
 }
 export const DetectModerationLabelsResponse = S.suspend(() =>
   S.Struct({
@@ -4111,7 +4557,7 @@ export const DetectLabelsImageQuality = S.suspend(() =>
 }) as any as S.Schema<DetectLabelsImageQuality>;
 export interface DetectLabelsImageForeground {
   Quality?: DetectLabelsImageQuality;
-  DominantColors?: DominantColors;
+  DominantColors?: DominantColor[];
 }
 export const DetectLabelsImageForeground = S.suspend(() =>
   S.Struct({
@@ -4123,7 +4569,7 @@ export const DetectLabelsImageForeground = S.suspend(() =>
 }) as any as S.Schema<DetectLabelsImageForeground>;
 export interface DetectLabelsImageBackground {
   Quality?: DetectLabelsImageQuality;
-  DominantColors?: DominantColors;
+  DominantColors?: DominantColor[];
 }
 export const DetectLabelsImageBackground = S.suspend(() =>
   S.Struct({
@@ -4144,7 +4590,7 @@ export const CoversBodyPart = S.suspend(() =>
 }) as any as S.Schema<CoversBodyPart>;
 export interface DetectLabelsImageProperties {
   Quality?: DetectLabelsImageQuality;
-  DominantColors?: DominantColors;
+  DominantColors?: DominantColor[];
   Foreground?: DetectLabelsImageForeground;
   Background?: DetectLabelsImageBackground;
 }
@@ -4181,14 +4627,14 @@ export const LabelDetections = S.Array(LabelDetection);
 export interface EquipmentDetection {
   BoundingBox?: BoundingBox;
   Confidence?: number;
-  Type?: string;
+  Type?: ProtectiveEquipmentType;
   CoversBodyPart?: CoversBodyPart;
 }
 export const EquipmentDetection = S.suspend(() =>
   S.Struct({
     BoundingBox: S.optional(BoundingBox),
     Confidence: S.optional(S.Number),
-    Type: S.optional(S.String),
+    Type: S.optional(ProtectiveEquipmentType),
     CoversBodyPart: S.optional(CoversBodyPart),
   }),
 ).annotations({
@@ -4197,15 +4643,15 @@ export const EquipmentDetection = S.suspend(() =>
 export type EquipmentDetections = EquipmentDetection[];
 export const EquipmentDetections = S.Array(EquipmentDetection);
 export interface DetectLabelsResponse {
-  Labels?: Labels;
-  OrientationCorrection?: string;
+  Labels?: Label[];
+  OrientationCorrection?: OrientationCorrection;
   LabelModelVersion?: string;
   ImageProperties?: DetectLabelsImageProperties;
 }
 export const DetectLabelsResponse = S.suspend(() =>
   S.Struct({
     Labels: S.optional(Labels),
-    OrientationCorrection: S.optional(S.String),
+    OrientationCorrection: S.optional(OrientationCorrection),
     LabelModelVersion: S.optional(S.String),
     ImageProperties: S.optional(DetectLabelsImageProperties),
   }),
@@ -4213,11 +4659,11 @@ export const DetectLabelsResponse = S.suspend(() =>
   identifier: "DetectLabelsResponse",
 }) as any as S.Schema<DetectLabelsResponse>;
 export interface GetLabelDetectionResponse {
-  JobStatus?: string;
+  JobStatus?: VideoJobStatus;
   StatusMessage?: string;
   VideoMetadata?: VideoMetadata;
   NextToken?: string;
-  Labels?: LabelDetections;
+  Labels?: LabelDetection[];
   LabelModelVersion?: string;
   JobId?: string;
   Video?: Video;
@@ -4226,7 +4672,7 @@ export interface GetLabelDetectionResponse {
 }
 export const GetLabelDetectionResponse = S.suspend(() =>
   S.Struct({
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(VideoJobStatus),
     StatusMessage: S.optional(S.String),
     VideoMetadata: S.optional(VideoMetadata),
     NextToken: S.optional(S.String),
@@ -4241,13 +4687,13 @@ export const GetLabelDetectionResponse = S.suspend(() =>
   identifier: "GetLabelDetectionResponse",
 }) as any as S.Schema<GetLabelDetectionResponse>;
 export interface ProtectiveEquipmentBodyPart {
-  Name?: string;
+  Name?: BodyPart;
   Confidence?: number;
-  EquipmentDetections?: EquipmentDetections;
+  EquipmentDetections?: EquipmentDetection[];
 }
 export const ProtectiveEquipmentBodyPart = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String),
+    Name: S.optional(BodyPart),
     Confidence: S.optional(S.Number),
     EquipmentDetections: S.optional(EquipmentDetections),
   }),
@@ -4257,7 +4703,7 @@ export const ProtectiveEquipmentBodyPart = S.suspend(() =>
 export type BodyParts = ProtectiveEquipmentBodyPart[];
 export const BodyParts = S.Array(ProtectiveEquipmentBodyPart);
 export interface ProtectiveEquipmentPerson {
-  BodyParts?: BodyParts;
+  BodyParts?: ProtectiveEquipmentBodyPart[];
   BoundingBox?: BoundingBox;
   Confidence?: number;
   Id?: number;
@@ -4276,7 +4722,7 @@ export type ProtectiveEquipmentPersons = ProtectiveEquipmentPerson[];
 export const ProtectiveEquipmentPersons = S.Array(ProtectiveEquipmentPerson);
 export interface DetectProtectiveEquipmentResponse {
   ProtectiveEquipmentModelVersion?: string;
-  Persons?: ProtectiveEquipmentPersons;
+  Persons?: ProtectiveEquipmentPerson[];
   Summary?: ProtectiveEquipmentSummary;
 }
 export const DetectProtectiveEquipmentResponse = S.suspend(() =>
@@ -4485,7 +4931,7 @@ export class VideoTooLargeException extends S.TaggedError<VideoTooLargeException
 export const listMediaAnalysisJobs: {
   (
     input: ListMediaAnalysisJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMediaAnalysisJobsResponse,
     | AccessDeniedException
     | InternalServerError
@@ -4498,7 +4944,7 @@ export const listMediaAnalysisJobs: {
   >;
   pages: (
     input: ListMediaAnalysisJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMediaAnalysisJobsResponse,
     | AccessDeniedException
     | InternalServerError
@@ -4511,7 +4957,7 @@ export const listMediaAnalysisJobs: {
   >;
   items: (
     input: ListMediaAnalysisJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerError
@@ -4550,7 +4996,7 @@ export const listMediaAnalysisJobs: {
 export const describeProjectVersions: {
   (
     input: DescribeProjectVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeProjectVersionsResponse,
     | AccessDeniedException
     | InternalServerError
@@ -4564,7 +5010,7 @@ export const describeProjectVersions: {
   >;
   pages: (
     input: DescribeProjectVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeProjectVersionsResponse,
     | AccessDeniedException
     | InternalServerError
@@ -4578,7 +5024,7 @@ export const describeProjectVersions: {
   >;
   items: (
     input: DescribeProjectVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProjectVersionDescription,
     | AccessDeniedException
     | InternalServerError
@@ -4655,7 +5101,7 @@ export const describeProjectVersions: {
  */
 export const searchFacesByImage: (
   input: SearchFacesByImageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SearchFacesByImageResponse,
   | AccessDeniedException
   | ImageTooLargeException
@@ -4693,7 +5139,7 @@ export const searchFacesByImage: (
  */
 export const describeDataset: (
   input: DescribeDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDatasetResponse,
   | AccessDeniedException
   | InternalServerError
@@ -4738,7 +5184,7 @@ export const describeDataset: (
 export const getFaceDetection: {
   (
     input: GetFaceDetectionRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetFaceDetectionResponse,
     | AccessDeniedException
     | InternalServerError
@@ -4752,7 +5198,7 @@ export const getFaceDetection: {
   >;
   pages: (
     input: GetFaceDetectionRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetFaceDetectionResponse,
     | AccessDeniedException
     | InternalServerError
@@ -4766,7 +5212,7 @@ export const getFaceDetection: {
   >;
   items: (
     input: GetFaceDetectionRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerError
@@ -4832,7 +5278,7 @@ export const getFaceDetection: {
 export const getFaceSearch: {
   (
     input: GetFaceSearchRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetFaceSearchResponse,
     | AccessDeniedException
     | InternalServerError
@@ -4846,7 +5292,7 @@ export const getFaceSearch: {
   >;
   pages: (
     input: GetFaceSearchRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetFaceSearchResponse,
     | AccessDeniedException
     | InternalServerError
@@ -4860,7 +5306,7 @@ export const getFaceSearch: {
   >;
   items: (
     input: GetFaceSearchRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerError
@@ -4896,7 +5342,7 @@ export const getFaceSearch: {
  */
 export const getMediaAnalysisJob: (
   input: GetMediaAnalysisJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMediaAnalysisJobResponse,
   | AccessDeniedException
   | InternalServerError
@@ -4949,7 +5395,7 @@ export const getMediaAnalysisJob: (
 export const getSegmentDetection: {
   (
     input: GetSegmentDetectionRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetSegmentDetectionResponse,
     | AccessDeniedException
     | InternalServerError
@@ -4963,7 +5409,7 @@ export const getSegmentDetection: {
   >;
   pages: (
     input: GetSegmentDetectionRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetSegmentDetectionResponse,
     | AccessDeniedException
     | InternalServerError
@@ -4977,7 +5423,7 @@ export const getSegmentDetection: {
   >;
   items: (
     input: GetSegmentDetectionRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerError
@@ -5034,7 +5480,7 @@ export const getSegmentDetection: {
 export const getTextDetection: {
   (
     input: GetTextDetectionRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetTextDetectionResponse,
     | AccessDeniedException
     | InternalServerError
@@ -5048,7 +5494,7 @@ export const getTextDetection: {
   >;
   pages: (
     input: GetTextDetectionRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetTextDetectionResponse,
     | AccessDeniedException
     | InternalServerError
@@ -5062,7 +5508,7 @@ export const getTextDetection: {
   >;
   items: (
     input: GetTextDetectionRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerError
@@ -5102,7 +5548,7 @@ export const getTextDetection: {
  */
 export const searchUsers: (
   input: SearchUsersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SearchUsersResponse,
   | AccessDeniedException
   | InternalServerError
@@ -5133,7 +5579,7 @@ export const searchUsers: (
  */
 export const deleteFaces: (
   input: DeleteFacesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFacesResponse,
   | AccessDeniedException
   | InternalServerError
@@ -5168,7 +5614,7 @@ export const deleteFaces: (
  */
 export const getCelebrityInfo: (
   input: GetCelebrityInfoRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCelebrityInfoResponse,
   | AccessDeniedException
   | InternalServerError
@@ -5212,7 +5658,7 @@ export const getCelebrityInfo: (
  */
 export const searchFaces: (
   input: SearchFacesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SearchFacesResponse,
   | AccessDeniedException
   | InternalServerError
@@ -5243,7 +5689,7 @@ export const searchFaces: (
  */
 export const deleteUser: (
   input: DeleteUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUserResponse,
   | AccessDeniedException
   | ConflictException
@@ -5279,7 +5725,7 @@ export const deleteUser: (
  */
 export const describeCollection: (
   input: DescribeCollectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCollectionResponse,
   | AccessDeniedException
   | InternalServerError
@@ -5307,7 +5753,7 @@ export const describeCollection: (
  */
 export const describeStreamProcessor: (
   input: DescribeStreamProcessorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeStreamProcessorResponse,
   | AccessDeniedException
   | InternalServerError
@@ -5338,7 +5784,7 @@ export const describeStreamProcessor: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerError
@@ -5369,7 +5815,7 @@ export const listTagsForResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerError
@@ -5403,7 +5849,7 @@ export const untagResource: (
  */
 export const disassociateFaces: (
   input: DisassociateFacesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateFacesResponse,
   | AccessDeniedException
   | ConflictException
@@ -5467,7 +5913,7 @@ export const disassociateFaces: (
 export const getPersonTracking: {
   (
     input: GetPersonTrackingRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetPersonTrackingResponse,
     | AccessDeniedException
     | InternalServerError
@@ -5481,7 +5927,7 @@ export const getPersonTracking: {
   >;
   pages: (
     input: GetPersonTrackingRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetPersonTrackingResponse,
     | AccessDeniedException
     | InternalServerError
@@ -5495,7 +5941,7 @@ export const getPersonTracking: {
   >;
   items: (
     input: GetPersonTrackingRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerError
@@ -5537,7 +5983,7 @@ export const getPersonTracking: {
 export const listFaces: {
   (
     input: ListFacesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFacesResponse,
     | AccessDeniedException
     | InternalServerError
@@ -5551,7 +5997,7 @@ export const listFaces: {
   >;
   pages: (
     input: ListFacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFacesResponse,
     | AccessDeniedException
     | InternalServerError
@@ -5565,7 +6011,7 @@ export const listFaces: {
   >;
   items: (
     input: ListFacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Face,
     | AccessDeniedException
     | InternalServerError
@@ -5608,7 +6054,7 @@ export const listFaces: {
 export const listProjectPolicies: {
   (
     input: ListProjectPoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProjectPoliciesResponse,
     | AccessDeniedException
     | InternalServerError
@@ -5622,7 +6068,7 @@ export const listProjectPolicies: {
   >;
   pages: (
     input: ListProjectPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProjectPoliciesResponse,
     | AccessDeniedException
     | InternalServerError
@@ -5636,7 +6082,7 @@ export const listProjectPolicies: {
   >;
   items: (
     input: ListProjectPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProjectPolicy,
     | AccessDeniedException
     | InternalServerError
@@ -5677,7 +6123,7 @@ export const listProjectPolicies: {
 export const listUsers: {
   (
     input: ListUsersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUsersResponse,
     | AccessDeniedException
     | InternalServerError
@@ -5691,7 +6137,7 @@ export const listUsers: {
   >;
   pages: (
     input: ListUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUsersResponse,
     | AccessDeniedException
     | InternalServerError
@@ -5705,7 +6151,7 @@ export const listUsers: {
   >;
   items: (
     input: ListUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     User,
     | AccessDeniedException
     | InternalServerError
@@ -5750,7 +6196,7 @@ export const listUsers: {
 export const listCollections: {
   (
     input: ListCollectionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCollectionsResponse,
     | AccessDeniedException
     | InternalServerError
@@ -5764,7 +6210,7 @@ export const listCollections: {
   >;
   pages: (
     input: ListCollectionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCollectionsResponse,
     | AccessDeniedException
     | InternalServerError
@@ -5778,7 +6224,7 @@ export const listCollections: {
   >;
   items: (
     input: ListCollectionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CollectionId,
     | AccessDeniedException
     | InternalServerError
@@ -5858,7 +6304,7 @@ export const listCollections: {
 export const getCelebrityRecognition: {
   (
     input: GetCelebrityRecognitionRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetCelebrityRecognitionResponse,
     | AccessDeniedException
     | InternalServerError
@@ -5872,7 +6318,7 @@ export const getCelebrityRecognition: {
   >;
   pages: (
     input: GetCelebrityRecognitionRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetCelebrityRecognitionResponse,
     | AccessDeniedException
     | InternalServerError
@@ -5886,7 +6332,7 @@ export const getCelebrityRecognition: {
   >;
   items: (
     input: GetCelebrityRecognitionRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerError
@@ -5952,7 +6398,7 @@ export const getCelebrityRecognition: {
 export const getContentModeration: {
   (
     input: GetContentModerationRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetContentModerationResponse,
     | AccessDeniedException
     | InternalServerError
@@ -5966,7 +6412,7 @@ export const getContentModeration: {
   >;
   pages: (
     input: GetContentModerationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetContentModerationResponse,
     | AccessDeniedException
     | InternalServerError
@@ -5980,7 +6426,7 @@ export const getContentModeration: {
   >;
   items: (
     input: GetContentModerationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerError
@@ -6025,7 +6471,7 @@ export const getContentModeration: {
  */
 export const searchUsersByImage: (
   input: SearchUsersByImageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SearchUsersByImageResponse,
   | AccessDeniedException
   | ImageTooLargeException
@@ -6064,7 +6510,7 @@ export const searchUsersByImage: (
  */
 export const deleteProjectPolicy: (
   input: DeleteProjectPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProjectPolicyResponse,
   | AccessDeniedException
   | InternalServerError
@@ -6097,7 +6543,7 @@ export const deleteProjectPolicy: (
  */
 export const startStreamProcessor: (
   input: StartStreamProcessorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartStreamProcessorResponse,
   | AccessDeniedException
   | InternalServerError
@@ -6126,7 +6572,7 @@ export const startStreamProcessor: (
  */
 export const updateStreamProcessor: (
   input: UpdateStreamProcessorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateStreamProcessorResponse,
   | AccessDeniedException
   | InternalServerError
@@ -6164,7 +6610,7 @@ export const updateStreamProcessor: (
  */
 export const deleteProject: (
   input: DeleteProjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProjectResponse,
   | AccessDeniedException
   | InternalServerError
@@ -6201,7 +6647,7 @@ export const deleteProject: (
  */
 export const deleteProjectVersion: (
   input: DeleteProjectVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProjectVersionResponse,
   | AccessDeniedException
   | InternalServerError
@@ -6236,7 +6682,7 @@ export const deleteProjectVersion: (
  */
 export const stopProjectVersion: (
   input: StopProjectVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopProjectVersionResponse,
   | AccessDeniedException
   | InternalServerError
@@ -6266,7 +6712,7 @@ export const stopProjectVersion: (
  */
 export const deleteStreamProcessor: (
   input: DeleteStreamProcessorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteStreamProcessorResponse,
   | AccessDeniedException
   | InternalServerError
@@ -6295,7 +6741,7 @@ export const deleteStreamProcessor: (
  */
 export const stopStreamProcessor: (
   input: StopStreamProcessorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopStreamProcessorResponse,
   | AccessDeniedException
   | InternalServerError
@@ -6350,7 +6796,7 @@ export const stopStreamProcessor: (
  */
 export const updateDatasetEntries: (
   input: UpdateDatasetEntriesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDatasetEntriesResponse,
   | AccessDeniedException
   | InternalServerError
@@ -6392,7 +6838,7 @@ export const updateDatasetEntries: (
  */
 export const deleteDataset: (
   input: DeleteDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDatasetResponse,
   | AccessDeniedException
   | InternalServerError
@@ -6428,7 +6874,7 @@ export const deleteDataset: (
  */
 export const createProject: (
   input: CreateProjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProjectResponse,
   | AccessDeniedException
   | InternalServerError
@@ -6480,7 +6926,7 @@ export const createProject: (
  */
 export const createDataset: (
   input: CreateDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDatasetResponse,
   | AccessDeniedException
   | InternalServerError
@@ -6514,7 +6960,7 @@ export const createDataset: (
 export const listStreamProcessors: {
   (
     input: ListStreamProcessorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStreamProcessorsResponse,
     | AccessDeniedException
     | InternalServerError
@@ -6527,7 +6973,7 @@ export const listStreamProcessors: {
   >;
   pages: (
     input: ListStreamProcessorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStreamProcessorsResponse,
     | AccessDeniedException
     | InternalServerError
@@ -6540,7 +6986,7 @@ export const listStreamProcessors: {
   >;
   items: (
     input: ListStreamProcessorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerError
@@ -6576,7 +7022,7 @@ export const listStreamProcessors: {
 export const describeProjects: {
   (
     input: DescribeProjectsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeProjectsResponse,
     | AccessDeniedException
     | InternalServerError
@@ -6589,7 +7035,7 @@ export const describeProjects: {
   >;
   pages: (
     input: DescribeProjectsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeProjectsResponse,
     | AccessDeniedException
     | InternalServerError
@@ -6602,7 +7048,7 @@ export const describeProjects: {
   >;
   items: (
     input: DescribeProjectsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProjectDescription,
     | AccessDeniedException
     | InternalServerError
@@ -6647,7 +7093,7 @@ export const describeProjects: {
  */
 export const createFaceLivenessSession: (
   input: CreateFaceLivenessSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFaceLivenessSessionResponse,
   | AccessDeniedException
   | InternalServerError
@@ -6703,7 +7149,7 @@ export const createFaceLivenessSession: (
  */
 export const recognizeCelebrities: (
   input: RecognizeCelebritiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RecognizeCelebritiesResponse,
   | AccessDeniedException
   | ImageTooLargeException
@@ -6754,7 +7200,7 @@ export const recognizeCelebrities: (
  */
 export const detectFaces: (
   input: DetectFacesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetectFacesResponse,
   | AccessDeniedException
   | ImageTooLargeException
@@ -6814,7 +7260,7 @@ export const detectFaces: (
  */
 export const detectText: (
   input: DetectTextRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetectTextResponse,
   | AccessDeniedException
   | ImageTooLargeException
@@ -6900,7 +7346,7 @@ export const detectText: (
  */
 export const compareFaces: (
   input: CompareFacesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CompareFacesResponse,
   | AccessDeniedException
   | ImageTooLargeException
@@ -6936,7 +7382,7 @@ export const compareFaces: (
  */
 export const deleteCollection: (
   input: DeleteCollectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCollectionResponse,
   | AccessDeniedException
   | InternalServerError
@@ -7066,7 +7512,7 @@ export const deleteCollection: (
  */
 export const detectLabels: (
   input: DetectLabelsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetectLabelsResponse,
   | AccessDeniedException
   | ImageTooLargeException
@@ -7163,7 +7609,7 @@ export const detectLabels: (
 export const getLabelDetection: {
   (
     input: GetLabelDetectionRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetLabelDetectionResponse,
     | AccessDeniedException
     | InternalServerError
@@ -7177,7 +7623,7 @@ export const getLabelDetection: {
   >;
   pages: (
     input: GetLabelDetectionRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetLabelDetectionResponse,
     | AccessDeniedException
     | InternalServerError
@@ -7191,7 +7637,7 @@ export const getLabelDetection: {
   >;
   items: (
     input: GetLabelDetectionRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerError
@@ -7238,7 +7684,7 @@ export const getLabelDetection: {
  */
 export const startProjectVersion: (
   input: StartProjectVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartProjectVersionResponse,
   | AccessDeniedException
   | InternalServerError
@@ -7278,7 +7724,7 @@ export const startProjectVersion: (
  */
 export const getFaceLivenessSessionResults: (
   input: GetFaceLivenessSessionResultsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFaceLivenessSessionResultsResponse,
   | AccessDeniedException
   | InternalServerError
@@ -7323,7 +7769,7 @@ export const getFaceLivenessSessionResults: (
  */
 export const detectModerationLabels: (
   input: DetectModerationLabelsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetectModerationLabelsResponse,
   | AccessDeniedException
   | HumanLoopQuotaExceededException
@@ -7391,7 +7837,7 @@ export const detectModerationLabels: (
  */
 export const detectProtectiveEquipment: (
   input: DetectProtectiveEquipmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetectProtectiveEquipmentResponse,
   | AccessDeniedException
   | ImageTooLargeException
@@ -7438,7 +7884,7 @@ export const detectProtectiveEquipment: (
  */
 export const createCollection: (
   input: CreateCollectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCollectionResponse,
   | AccessDeniedException
   | InternalServerError
@@ -7477,7 +7923,7 @@ export const createCollection: (
  */
 export const startFaceSearch: (
   input: StartFaceSearchRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartFaceSearchResponse,
   | AccessDeniedException
   | IdempotentParameterMismatchException
@@ -7526,7 +7972,7 @@ export const startFaceSearch: (
  */
 export const distributeDatasetEntries: (
   input: DistributeDatasetEntriesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DistributeDatasetEntriesResponse,
   | AccessDeniedException
   | InternalServerError
@@ -7596,7 +8042,7 @@ export const distributeDatasetEntries: (
  */
 export const detectCustomLabels: (
   input: DetectCustomLabelsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetectCustomLabelsResponse,
   | AccessDeniedException
   | ImageTooLargeException
@@ -7634,7 +8080,7 @@ export const detectCustomLabels: (
  */
 export const startMediaAnalysisJob: (
   input: StartMediaAnalysisJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartMediaAnalysisJobResponse,
   | AccessDeniedException
   | IdempotentParameterMismatchException
@@ -7678,7 +8124,7 @@ export const startMediaAnalysisJob: (
 export const listDatasetLabels: {
   (
     input: ListDatasetLabelsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDatasetLabelsResponse,
     | AccessDeniedException
     | InternalServerError
@@ -7694,7 +8140,7 @@ export const listDatasetLabels: {
   >;
   pages: (
     input: ListDatasetLabelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDatasetLabelsResponse,
     | AccessDeniedException
     | InternalServerError
@@ -7710,7 +8156,7 @@ export const listDatasetLabels: {
   >;
   items: (
     input: ListDatasetLabelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DatasetLabelDescription,
     | AccessDeniedException
     | InternalServerError
@@ -7766,7 +8212,7 @@ export const listDatasetLabels: {
 export const listDatasetEntries: {
   (
     input: ListDatasetEntriesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDatasetEntriesResponse,
     | AccessDeniedException
     | InternalServerError
@@ -7782,7 +8228,7 @@ export const listDatasetEntries: {
   >;
   pages: (
     input: ListDatasetEntriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDatasetEntriesResponse,
     | AccessDeniedException
     | InternalServerError
@@ -7798,7 +8244,7 @@ export const listDatasetEntries: {
   >;
   items: (
     input: ListDatasetEntriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DatasetEntry,
     | AccessDeniedException
     | InternalServerError
@@ -7870,7 +8316,7 @@ export const listDatasetEntries: {
  */
 export const associateFaces: (
   input: AssociateFacesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateFacesResponse,
   | AccessDeniedException
   | ConflictException
@@ -7908,7 +8354,7 @@ export const associateFaces: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerError
@@ -7945,7 +8391,7 @@ export const tagResource: (
  */
 export const createUser: (
   input: CreateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUserResponse,
   | AccessDeniedException
   | ConflictException
@@ -8069,7 +8515,7 @@ export const createUser: (
  */
 export const indexFaces: (
   input: IndexFacesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   IndexFacesResponse,
   | AccessDeniedException
   | ImageTooLargeException
@@ -8124,7 +8570,7 @@ export const indexFaces: (
  */
 export const putProjectPolicy: (
   input: PutProjectPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutProjectPolicyResponse,
   | AccessDeniedException
   | InternalServerError
@@ -8186,7 +8632,7 @@ export const putProjectPolicy: (
  */
 export const copyProjectVersion: (
   input: CopyProjectVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CopyProjectVersionResponse,
   | AccessDeniedException
   | InternalServerError
@@ -8247,7 +8693,7 @@ export const copyProjectVersion: (
  */
 export const createProjectVersion: (
   input: CreateProjectVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProjectVersionResponse,
   | AccessDeniedException
   | InternalServerError
@@ -8308,7 +8754,7 @@ export const createProjectVersion: (
  */
 export const createStreamProcessor: (
   input: CreateStreamProcessorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateStreamProcessorResponse,
   | AccessDeniedException
   | InternalServerError
@@ -8352,7 +8798,7 @@ export const createStreamProcessor: (
  */
 export const startContentModeration: (
   input: StartContentModerationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartContentModerationResponse,
   | AccessDeniedException
   | IdempotentParameterMismatchException
@@ -8412,7 +8858,7 @@ export const startContentModeration: (
  */
 export const startLabelDetection: (
   input: StartLabelDetectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartLabelDetectionResponse,
   | AccessDeniedException
   | IdempotentParameterMismatchException
@@ -8454,7 +8900,7 @@ export const startLabelDetection: (
  */
 export const startTextDetection: (
   input: StartTextDetectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartTextDetectionResponse,
   | AccessDeniedException
   | IdempotentParameterMismatchException
@@ -8500,7 +8946,7 @@ export const startTextDetection: (
  */
 export const startFaceDetection: (
   input: StartFaceDetectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartFaceDetectionResponse,
   | AccessDeniedException
   | IdempotentParameterMismatchException
@@ -8548,7 +8994,7 @@ export const startFaceDetection: (
  */
 export const startPersonTracking: (
   input: StartPersonTrackingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartPersonTrackingResponse,
   | AccessDeniedException
   | IdempotentParameterMismatchException
@@ -8593,7 +9039,7 @@ export const startPersonTracking: (
  */
 export const startCelebrityRecognition: (
   input: StartCelebrityRecognitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartCelebrityRecognitionResponse,
   | AccessDeniedException
   | IdempotentParameterMismatchException
@@ -8643,7 +9089,7 @@ export const startCelebrityRecognition: (
  */
 export const startSegmentDetection: (
   input: StartSegmentDetectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartSegmentDetectionResponse,
   | AccessDeniedException
   | IdempotentParameterMismatchException

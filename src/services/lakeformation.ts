@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -111,13 +111,13 @@ export type GetWorkUnitResultsRequestQueryIdString = string;
 export type GetWorkUnitResultsRequestWorkUnitIdLong = number;
 export type SyntheticGetWorkUnitResultsRequestWorkUnitTokenString =
   | string
-  | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
 export type GetWorkUnitsRequestQueryIdString = string;
 export type TrueFalseString = string;
 export type SearchPageSize = number;
 export type SyntheticStartQueryPlanningRequestQueryString =
   | string
-  | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
 export type Identifier = string;
 export type VersionString = string;
 export type ScopeTarget = string;
@@ -172,10 +172,102 @@ export const GetDataLakePrincipalRequest = S.suspend(() =>
 }) as any as S.Schema<GetDataLakePrincipalRequest>;
 export type TagValueList = string[];
 export const TagValueList = S.Array(S.String);
-export type PermissionList = string[];
-export const PermissionList = S.Array(S.String);
-export type PermissionTypeList = string[];
-export const PermissionTypeList = S.Array(S.String);
+export type Permission =
+  | "ALL"
+  | "SELECT"
+  | "ALTER"
+  | "DROP"
+  | "DELETE"
+  | "INSERT"
+  | "DESCRIBE"
+  | "CREATE_DATABASE"
+  | "CREATE_TABLE"
+  | "DATA_LOCATION_ACCESS"
+  | "CREATE_LF_TAG"
+  | "ASSOCIATE"
+  | "GRANT_WITH_LF_TAG_EXPRESSION"
+  | "CREATE_LF_TAG_EXPRESSION"
+  | "CREATE_CATALOG"
+  | "SUPER_USER";
+export const Permission = S.Literal(
+  "ALL",
+  "SELECT",
+  "ALTER",
+  "DROP",
+  "DELETE",
+  "INSERT",
+  "DESCRIBE",
+  "CREATE_DATABASE",
+  "CREATE_TABLE",
+  "DATA_LOCATION_ACCESS",
+  "CREATE_LF_TAG",
+  "ASSOCIATE",
+  "GRANT_WITH_LF_TAG_EXPRESSION",
+  "CREATE_LF_TAG_EXPRESSION",
+  "CREATE_CATALOG",
+  "SUPER_USER",
+);
+export type PermissionList = Permission[];
+export const PermissionList = S.Array(Permission);
+export type PermissionType =
+  | "COLUMN_PERMISSION"
+  | "CELL_FILTER_PERMISSION"
+  | "NESTED_PERMISSION"
+  | "NESTED_CELL_PERMISSION";
+export const PermissionType = S.Literal(
+  "COLUMN_PERMISSION",
+  "CELL_FILTER_PERMISSION",
+  "NESTED_PERMISSION",
+  "NESTED_CELL_PERMISSION",
+);
+export type PermissionTypeList = PermissionType[];
+export const PermissionTypeList = S.Array(PermissionType);
+export type ResourceShareType = "FOREIGN" | "ALL";
+export const ResourceShareType = S.Literal("FOREIGN", "ALL");
+export type DataLakeResourceType =
+  | "CATALOG"
+  | "DATABASE"
+  | "TABLE"
+  | "DATA_LOCATION"
+  | "LF_TAG"
+  | "LF_TAG_POLICY"
+  | "LF_TAG_POLICY_DATABASE"
+  | "LF_TAG_POLICY_TABLE"
+  | "LF_NAMED_TAG_EXPRESSION";
+export const DataLakeResourceType = S.Literal(
+  "CATALOG",
+  "DATABASE",
+  "TABLE",
+  "DATA_LOCATION",
+  "LF_TAG",
+  "LF_TAG_POLICY",
+  "LF_TAG_POLICY_DATABASE",
+  "LF_TAG_POLICY_TABLE",
+  "LF_NAMED_TAG_EXPRESSION",
+);
+export type OptimizerType = "COMPACTION" | "GARBAGE_COLLECTION" | "ALL";
+export const OptimizerType = S.Literal(
+  "COMPACTION",
+  "GARBAGE_COLLECTION",
+  "ALL",
+);
+export type TransactionStatusFilter =
+  | "ALL"
+  | "COMPLETED"
+  | "ACTIVE"
+  | "COMMITTED"
+  | "ABORTED";
+export const TransactionStatusFilter = S.Literal(
+  "ALL",
+  "COMPLETED",
+  "ACTIVE",
+  "COMMITTED",
+  "ABORTED",
+);
+export type TransactionType = "READ_AND_WRITE" | "READ_ONLY";
+export const TransactionType = S.Literal("READ_AND_WRITE", "READ_ONLY");
+export type ApplicationStatus = "ENABLED" | "DISABLED";
+export const ApplicationStatus = S.Literal("ENABLED", "DISABLED");
 export interface AssumeDecoratedRoleWithSAMLRequest {
   SAMLAssertion: string;
   RoleArn: string;
@@ -249,7 +341,7 @@ export const TableResource = S.suspend(() =>
 export type ColumnNames = string[];
 export const ColumnNames = S.Array(S.String);
 export interface ColumnWildcard {
-  ExcludedColumnNames?: ColumnNames;
+  ExcludedColumnNames?: string[];
 }
 export const ColumnWildcard = S.suspend(() =>
   S.Struct({ ExcludedColumnNames: S.optional(ColumnNames) }),
@@ -260,7 +352,7 @@ export interface TableWithColumnsResource {
   CatalogId?: string;
   DatabaseName: string;
   Name: string;
-  ColumnNames?: ColumnNames;
+  ColumnNames?: string[];
   ColumnWildcard?: ColumnWildcard;
 }
 export const TableWithColumnsResource = S.suspend(() =>
@@ -302,7 +394,7 @@ export const DataCellsFilterResource = S.suspend(() =>
 export interface LFTagKeyResource {
   CatalogId?: string;
   TagKey: string;
-  TagValues: TagValueList;
+  TagValues: string[];
 }
 export const LFTagKeyResource = S.suspend(() =>
   S.Struct({
@@ -313,9 +405,11 @@ export const LFTagKeyResource = S.suspend(() =>
 ).annotations({
   identifier: "LFTagKeyResource",
 }) as any as S.Schema<LFTagKeyResource>;
+export type ResourceType = "DATABASE" | "TABLE";
+export const ResourceType = S.Literal("DATABASE", "TABLE");
 export interface LFTag {
   TagKey: string;
-  TagValues: TagValueList;
+  TagValues: string[];
 }
 export const LFTag = S.suspend(() =>
   S.Struct({ TagKey: S.String, TagValues: TagValueList }),
@@ -324,14 +418,14 @@ export type Expression = LFTag[];
 export const Expression = S.Array(LFTag);
 export interface LFTagPolicyResource {
   CatalogId?: string;
-  ResourceType: string;
-  Expression?: Expression;
+  ResourceType: ResourceType;
+  Expression?: LFTag[];
   ExpressionName?: string;
 }
 export const LFTagPolicyResource = S.suspend(() =>
   S.Struct({
     CatalogId: S.optional(S.String),
-    ResourceType: S.String,
+    ResourceType: ResourceType,
     Expression: S.optional(Expression),
     ExpressionName: S.optional(S.String),
   }),
@@ -381,9 +475,9 @@ export interface BatchPermissionsRequestEntry {
   Id: string;
   Principal?: DataLakePrincipal;
   Resource?: Resource;
-  Permissions?: PermissionList;
+  Permissions?: Permission[];
   Condition?: Condition;
-  PermissionsWithGrantOption?: PermissionList;
+  PermissionsWithGrantOption?: Permission[];
 }
 export const BatchPermissionsRequestEntry = S.suspend(() =>
   S.Struct({
@@ -403,7 +497,7 @@ export const BatchPermissionsRequestEntryList = S.Array(
 );
 export interface BatchRevokePermissionsRequest {
   CatalogId?: string;
-  Entries: BatchPermissionsRequestEntryList;
+  Entries: BatchPermissionsRequestEntry[];
 }
 export const BatchRevokePermissionsRequest = S.suspend(() =>
   S.Struct({
@@ -465,7 +559,7 @@ export const CommitTransactionRequest = S.suspend(() =>
 export interface CreateLFTagRequest {
   CatalogId?: string;
   TagKey: string;
-  TagValues: TagValueList;
+  TagValues: string[];
 }
 export const CreateLFTagRequest = S.suspend(() =>
   S.Struct({
@@ -927,7 +1021,7 @@ export const GetTableObjectsRequest = S.suspend(() =>
 export interface GetWorkUnitResultsRequest {
   QueryId: string;
   WorkUnitId: number;
-  WorkUnitToken: string | Redacted.Redacted<string>;
+  WorkUnitToken: string | redacted.Redacted<string>;
 }
 export const GetWorkUnitResultsRequest = S.suspend(() =>
   S.Struct({
@@ -974,9 +1068,9 @@ export interface GrantPermissionsRequest {
   CatalogId?: string;
   Principal: DataLakePrincipal;
   Resource: Resource;
-  Permissions: PermissionList;
+  Permissions: Permission[];
   Condition?: Condition;
-  PermissionsWithGrantOption?: PermissionList;
+  PermissionsWithGrantOption?: Permission[];
 }
 export const GrantPermissionsRequest = S.suspend(() =>
   S.Struct({
@@ -1055,14 +1149,14 @@ export const ListLFTagExpressionsRequest = S.suspend(() =>
 }) as any as S.Schema<ListLFTagExpressionsRequest>;
 export interface ListLFTagsRequest {
   CatalogId?: string;
-  ResourceShareType?: string;
+  ResourceShareType?: ResourceShareType;
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListLFTagsRequest = S.suspend(() =>
   S.Struct({
     CatalogId: S.optional(S.String),
-    ResourceShareType: S.optional(S.String),
+    ResourceShareType: S.optional(ResourceShareType),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -1081,7 +1175,7 @@ export const ListLFTagsRequest = S.suspend(() =>
 export interface ListPermissionsRequest {
   CatalogId?: string;
   Principal?: DataLakePrincipal;
-  ResourceType?: string;
+  ResourceType?: DataLakeResourceType;
   Resource?: Resource;
   NextToken?: string;
   MaxResults?: number;
@@ -1091,7 +1185,7 @@ export const ListPermissionsRequest = S.suspend(() =>
   S.Struct({
     CatalogId: S.optional(S.String),
     Principal: S.optional(DataLakePrincipal),
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(DataLakeResourceType),
     Resource: S.optional(Resource),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
@@ -1113,7 +1207,7 @@ export interface ListTableStorageOptimizersRequest {
   CatalogId?: string;
   DatabaseName: string;
   TableName: string;
-  StorageOptimizerType?: string;
+  StorageOptimizerType?: OptimizerType;
   MaxResults?: number;
   NextToken?: string;
 }
@@ -1122,7 +1216,7 @@ export const ListTableStorageOptimizersRequest = S.suspend(() =>
     CatalogId: S.optional(S.String),
     DatabaseName: S.String,
     TableName: S.String,
-    StorageOptimizerType: S.optional(S.String),
+    StorageOptimizerType: S.optional(OptimizerType),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -1140,14 +1234,14 @@ export const ListTableStorageOptimizersRequest = S.suspend(() =>
 }) as any as S.Schema<ListTableStorageOptimizersRequest>;
 export interface ListTransactionsRequest {
   CatalogId?: string;
-  StatusFilter?: string;
+  StatusFilter?: TransactionStatusFilter;
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListTransactionsRequest = S.suspend(() =>
   S.Struct({
     CatalogId: S.optional(S.String),
-    StatusFilter: S.optional(S.String),
+    StatusFilter: S.optional(TransactionStatusFilter),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -1201,7 +1295,7 @@ export const RegisterResourceResponse = S.suspend(() =>
 export interface LFTagPair {
   CatalogId?: string;
   TagKey: string;
-  TagValues: TagValueList;
+  TagValues: string[];
 }
 export const LFTagPair = S.suspend(() =>
   S.Struct({
@@ -1215,7 +1309,7 @@ export const LFTagsList = S.Array(LFTagPair);
 export interface RemoveLFTagsFromResourceRequest {
   CatalogId?: string;
   Resource: Resource;
-  LFTags: LFTagsList;
+  LFTags: LFTagPair[];
 }
 export const RemoveLFTagsFromResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1239,9 +1333,9 @@ export interface RevokePermissionsRequest {
   CatalogId?: string;
   Principal: DataLakePrincipal;
   Resource: Resource;
-  Permissions: PermissionList;
+  Permissions: Permission[];
   Condition?: Condition;
-  PermissionsWithGrantOption?: PermissionList;
+  PermissionsWithGrantOption?: Permission[];
 }
 export const RevokePermissionsRequest = S.suspend(() =>
   S.Struct({
@@ -1274,7 +1368,7 @@ export interface SearchDatabasesByLFTagsRequest {
   NextToken?: string;
   MaxResults?: number;
   CatalogId?: string;
-  Expression: Expression;
+  Expression: LFTag[];
 }
 export const SearchDatabasesByLFTagsRequest = S.suspend(() =>
   S.Struct({
@@ -1299,7 +1393,7 @@ export interface SearchTablesByLFTagsRequest {
   NextToken?: string;
   MaxResults?: number;
   CatalogId?: string;
-  Expression: Expression;
+  Expression: LFTag[];
 }
 export const SearchTablesByLFTagsRequest = S.suspend(() =>
   S.Struct({
@@ -1321,10 +1415,10 @@ export const SearchTablesByLFTagsRequest = S.suspend(() =>
   identifier: "SearchTablesByLFTagsRequest",
 }) as any as S.Schema<SearchTablesByLFTagsRequest>;
 export interface StartTransactionRequest {
-  TransactionType?: string;
+  TransactionType?: TransactionType;
 }
 export const StartTransactionRequest = S.suspend(() =>
-  S.Struct({ TransactionType: S.optional(S.String) }).pipe(
+  S.Struct({ TransactionType: S.optional(TransactionType) }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/StartTransaction" }),
       svc,
@@ -1357,7 +1451,7 @@ export interface DataCellsFilter {
   TableName: string;
   Name: string;
   RowFilter?: RowFilter;
-  ColumnNames?: ColumnNames;
+  ColumnNames?: string[];
   ColumnWildcard?: ColumnWildcard;
   VersionId?: string;
 }
@@ -1400,11 +1494,13 @@ export const UpdateDataCellsFilterResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateDataCellsFilterResponse>;
 export type DataLakePrincipalList = DataLakePrincipal[];
 export const DataLakePrincipalList = S.Array(DataLakePrincipal);
+export type ServiceAuthorization = "ENABLED" | "DISABLED";
+export const ServiceAuthorization = S.Literal("ENABLED", "DISABLED");
 export interface RedshiftConnect {
-  Authorization: string;
+  Authorization: ServiceAuthorization;
 }
 export const RedshiftConnect = S.suspend(() =>
-  S.Struct({ Authorization: S.String }),
+  S.Struct({ Authorization: ServiceAuthorization }),
 ).annotations({
   identifier: "RedshiftConnect",
 }) as any as S.Schema<RedshiftConnect>;
@@ -1412,30 +1508,32 @@ export type RedshiftScopeUnion = { RedshiftConnect: RedshiftConnect };
 export const RedshiftScopeUnion = S.Union(
   S.Struct({ RedshiftConnect: RedshiftConnect }),
 );
-export type RedshiftServiceIntegrations = (typeof RedshiftScopeUnion)["Type"][];
+export type RedshiftServiceIntegrations = RedshiftScopeUnion[];
 export const RedshiftServiceIntegrations = S.Array(RedshiftScopeUnion);
-export type ServiceIntegrationUnion = { Redshift: RedshiftServiceIntegrations };
+export type ServiceIntegrationUnion = { Redshift: RedshiftScopeUnion[] };
 export const ServiceIntegrationUnion = S.Union(
   S.Struct({ Redshift: RedshiftServiceIntegrations }),
 );
-export type ServiceIntegrationList = (typeof ServiceIntegrationUnion)["Type"][];
+export type ServiceIntegrationList = ServiceIntegrationUnion[];
 export const ServiceIntegrationList = S.Array(ServiceIntegrationUnion);
+export type EnableStatus = "ENABLED" | "DISABLED";
+export const EnableStatus = S.Literal("ENABLED", "DISABLED");
 export type ScopeTargets = string[];
 export const ScopeTargets = S.Array(S.String);
 export interface ExternalFilteringConfiguration {
-  Status: string;
-  AuthorizedTargets: ScopeTargets;
+  Status: EnableStatus;
+  AuthorizedTargets: string[];
 }
 export const ExternalFilteringConfiguration = S.suspend(() =>
-  S.Struct({ Status: S.String, AuthorizedTargets: ScopeTargets }),
+  S.Struct({ Status: EnableStatus, AuthorizedTargets: ScopeTargets }),
 ).annotations({
   identifier: "ExternalFilteringConfiguration",
 }) as any as S.Schema<ExternalFilteringConfiguration>;
 export interface UpdateLakeFormationIdentityCenterConfigurationRequest {
   CatalogId?: string;
-  ShareRecipients?: DataLakePrincipalList;
-  ServiceIntegrations?: ServiceIntegrationList;
-  ApplicationStatus?: string;
+  ShareRecipients?: DataLakePrincipal[];
+  ServiceIntegrations?: ServiceIntegrationUnion[];
+  ApplicationStatus?: ApplicationStatus;
   ExternalFiltering?: ExternalFilteringConfiguration;
 }
 export const UpdateLakeFormationIdentityCenterConfigurationRequest = S.suspend(
@@ -1444,7 +1542,7 @@ export const UpdateLakeFormationIdentityCenterConfigurationRequest = S.suspend(
       CatalogId: S.optional(S.String),
       ShareRecipients: S.optional(DataLakePrincipalList),
       ServiceIntegrations: S.optional(ServiceIntegrationList),
-      ApplicationStatus: S.optional(S.String),
+      ApplicationStatus: S.optional(ApplicationStatus),
       ExternalFiltering: S.optional(ExternalFilteringConfiguration),
     }).pipe(
       T.all(
@@ -1471,8 +1569,8 @@ export const UpdateLakeFormationIdentityCenterConfigurationResponse = S.suspend(
 export interface UpdateLFTagRequest {
   CatalogId?: string;
   TagKey: string;
-  TagValuesToDelete?: TagValueList;
-  TagValuesToAdd?: TagValueList;
+  TagValuesToDelete?: string[];
+  TagValuesToAdd?: string[];
 }
 export const UpdateLFTagRequest = S.suspend(() =>
   S.Struct({
@@ -1501,7 +1599,7 @@ export interface UpdateLFTagExpressionRequest {
   Name: string;
   Description?: string;
   CatalogId?: string;
-  Expression: Expression;
+  Expression: LFTag[];
 }
 export const UpdateLFTagExpressionRequest = S.suspend(() =>
   S.Struct({
@@ -1559,12 +1657,54 @@ export const UpdateResourceResponse = S.suspend(() => S.Struct({})).annotations(
 ) as any as S.Schema<UpdateResourceResponse>;
 export type ValueStringList = string[];
 export const ValueStringList = S.Array(S.String);
+export type FieldNameString = "RESOURCE_ARN" | "ROLE_ARN" | "LAST_MODIFIED";
+export const FieldNameString = S.Literal(
+  "RESOURCE_ARN",
+  "ROLE_ARN",
+  "LAST_MODIFIED",
+);
+export type ComparisonOperator =
+  | "EQ"
+  | "NE"
+  | "LE"
+  | "LT"
+  | "GE"
+  | "GT"
+  | "CONTAINS"
+  | "NOT_CONTAINS"
+  | "BEGINS_WITH"
+  | "IN"
+  | "BETWEEN";
+export const ComparisonOperator = S.Literal(
+  "EQ",
+  "NE",
+  "LE",
+  "LT",
+  "GE",
+  "GT",
+  "CONTAINS",
+  "NOT_CONTAINS",
+  "BEGINS_WITH",
+  "IN",
+  "BETWEEN",
+);
 export type StringValueList = string[];
 export const StringValueList = S.Array(S.String);
 export type TrustedResourceOwners = string[];
 export const TrustedResourceOwners = S.Array(S.String);
 export type AuthorizedSessionTagValueList = string[];
 export const AuthorizedSessionTagValueList = S.Array(S.String);
+export type TransactionStatus =
+  | "ACTIVE"
+  | "COMMITTED"
+  | "ABORTED"
+  | "COMMIT_IN_PROGRESS";
+export const TransactionStatus = S.Literal(
+  "ACTIVE",
+  "COMMITTED",
+  "ABORTED",
+  "COMMIT_IN_PROGRESS",
+);
 export interface VirtualObject {
   Uri: string;
   ETag?: string;
@@ -1576,8 +1716,21 @@ export const VirtualObject = S.suspend(() =>
 }) as any as S.Schema<VirtualObject>;
 export type VirtualObjectList = VirtualObject[];
 export const VirtualObjectList = S.Array(VirtualObject);
+export type QueryStateString =
+  | "PENDING"
+  | "WORKUNITS_AVAILABLE"
+  | "ERROR"
+  | "FINISHED"
+  | "EXPIRED";
+export const QueryStateString = S.Literal(
+  "PENDING",
+  "WORKUNITS_AVAILABLE",
+  "ERROR",
+  "FINISHED",
+  "EXPIRED",
+);
 export interface PartitionValueList {
-  Values: ValueStringList;
+  Values: string[];
 }
 export const PartitionValueList = S.suspend(() =>
   S.Struct({ Values: ValueStringList }),
@@ -1591,14 +1744,14 @@ export const AuditContext = S.suspend(() =>
   S.Struct({ AdditionalAuditContext: S.optional(S.String) }),
 ).annotations({ identifier: "AuditContext" }) as any as S.Schema<AuditContext>;
 export interface FilterCondition {
-  Field?: string;
-  ComparisonOperator?: string;
-  StringValueList?: StringValueList;
+  Field?: FieldNameString;
+  ComparisonOperator?: ComparisonOperator;
+  StringValueList?: string[];
 }
 export const FilterCondition = S.suspend(() =>
   S.Struct({
-    Field: S.optional(S.String),
-    ComparisonOperator: S.optional(S.String),
+    Field: S.optional(FieldNameString),
+    ComparisonOperator: S.optional(ComparisonOperator),
     StringValueList: S.optional(StringValueList),
   }),
 ).annotations({
@@ -1608,14 +1761,14 @@ export type FilterConditionList = FilterCondition[];
 export const FilterConditionList = S.Array(FilterCondition);
 export interface TransactionDescription {
   TransactionId?: string;
-  TransactionStatus?: string;
+  TransactionStatus?: TransactionStatus;
   TransactionStartTime?: Date;
   TransactionEndTime?: Date;
 }
 export const TransactionDescription = S.suspend(() =>
   S.Struct({
     TransactionId: S.optional(S.String),
-    TransactionStatus: S.optional(S.String),
+    TransactionStatus: S.optional(TransactionStatus),
     TransactionStartTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1648,7 +1801,7 @@ export const AssumeDecoratedRoleWithSAMLResponse = S.suspend(() =>
 }) as any as S.Schema<AssumeDecoratedRoleWithSAMLResponse>;
 export interface BatchGrantPermissionsRequest {
   CatalogId?: string;
-  Entries: BatchPermissionsRequestEntryList;
+  Entries: BatchPermissionsRequestEntry[];
 }
 export const BatchGrantPermissionsRequest = S.suspend(() =>
   S.Struct({
@@ -1668,10 +1821,10 @@ export const BatchGrantPermissionsRequest = S.suspend(() =>
   identifier: "BatchGrantPermissionsRequest",
 }) as any as S.Schema<BatchGrantPermissionsRequest>;
 export interface CommitTransactionResponse {
-  TransactionStatus?: string;
+  TransactionStatus?: TransactionStatus;
 }
 export const CommitTransactionResponse = S.suspend(() =>
-  S.Struct({ TransactionStatus: S.optional(S.String) }),
+  S.Struct({ TransactionStatus: S.optional(TransactionStatus) }),
 ).annotations({
   identifier: "CommitTransactionResponse",
 }) as any as S.Schema<CommitTransactionResponse>;
@@ -1708,7 +1861,7 @@ export interface CreateLFTagExpressionRequest {
   Name: string;
   Description?: string;
   CatalogId?: string;
-  Expression: Expression;
+  Expression: LFTag[];
 }
 export const CreateLFTagExpressionRequest = S.suspend(() =>
   S.Struct({
@@ -1740,7 +1893,7 @@ export interface DeleteObjectsOnCancelRequest {
   DatabaseName: string;
   TableName: string;
   TransactionId: string;
-  Objects: VirtualObjectList;
+  Objects: VirtualObject[];
 }
 export const DeleteObjectsOnCancelRequest = S.suspend(() =>
   S.Struct({
@@ -1773,8 +1926,8 @@ export interface DescribeLakeFormationIdentityCenterConfigurationResponse {
   InstanceArn?: string;
   ApplicationArn?: string;
   ExternalFiltering?: ExternalFilteringConfiguration;
-  ShareRecipients?: DataLakePrincipalList;
-  ServiceIntegrations?: ServiceIntegrationList;
+  ShareRecipients?: DataLakePrincipal[];
+  ServiceIntegrations?: ServiceIntegrationUnion[];
   ResourceShare?: string;
 }
 export const DescribeLakeFormationIdentityCenterConfigurationResponse =
@@ -1801,7 +1954,7 @@ export const GetDataCellsFilterResponse = S.suspend(() =>
 }) as any as S.Schema<GetDataCellsFilterResponse>;
 export interface PrincipalPermissions {
   Principal?: DataLakePrincipal;
-  Permissions?: PermissionList;
+  Permissions?: Permission[];
 }
 export const PrincipalPermissions = S.suspend(() =>
   S.Struct({
@@ -1816,16 +1969,16 @@ export const PrincipalPermissionsList = S.Array(PrincipalPermissions);
 export type ParametersMap = { [key: string]: string };
 export const ParametersMap = S.Record({ key: S.String, value: S.String });
 export interface DataLakeSettings {
-  DataLakeAdmins?: DataLakePrincipalList;
-  ReadOnlyAdmins?: DataLakePrincipalList;
-  CreateDatabaseDefaultPermissions?: PrincipalPermissionsList;
-  CreateTableDefaultPermissions?: PrincipalPermissionsList;
-  Parameters?: ParametersMap;
-  TrustedResourceOwners?: TrustedResourceOwners;
+  DataLakeAdmins?: DataLakePrincipal[];
+  ReadOnlyAdmins?: DataLakePrincipal[];
+  CreateDatabaseDefaultPermissions?: PrincipalPermissions[];
+  CreateTableDefaultPermissions?: PrincipalPermissions[];
+  Parameters?: { [key: string]: string };
+  TrustedResourceOwners?: string[];
   AllowExternalDataFiltering?: boolean;
   AllowFullTableExternalDataAccess?: boolean;
-  ExternalDataFilteringAllowList?: DataLakePrincipalList;
-  AuthorizedSessionTagValueList?: AuthorizedSessionTagValueList;
+  ExternalDataFilteringAllowList?: DataLakePrincipal[];
+  AuthorizedSessionTagValueList?: string[];
 }
 export const DataLakeSettings = S.suspend(() =>
   S.Struct({
@@ -1854,7 +2007,7 @@ export const GetDataLakeSettingsResponse = S.suspend(() =>
 export interface GetLFTagResponse {
   CatalogId?: string;
   TagKey?: string;
-  TagValues?: TagValueList;
+  TagValues?: string[];
 }
 export const GetLFTagResponse = S.suspend(() =>
   S.Struct({
@@ -1869,7 +2022,7 @@ export interface GetLFTagExpressionResponse {
   Name?: string;
   Description?: string;
   CatalogId?: string;
-  Expression?: Expression;
+  Expression?: LFTag[];
 }
 export const GetLFTagExpressionResponse = S.suspend(() =>
   S.Struct({
@@ -1883,20 +2036,20 @@ export const GetLFTagExpressionResponse = S.suspend(() =>
 }) as any as S.Schema<GetLFTagExpressionResponse>;
 export interface GetQueryStateResponse {
   Error?: string;
-  State: string;
+  State: QueryStateString;
 }
 export const GetQueryStateResponse = S.suspend(() =>
-  S.Struct({ Error: S.optional(S.String), State: S.String }),
+  S.Struct({ Error: S.optional(S.String), State: QueryStateString }),
 ).annotations({
   identifier: "GetQueryStateResponse",
 }) as any as S.Schema<GetQueryStateResponse>;
 export interface GetTemporaryGluePartitionCredentialsRequest {
   TableArn: string;
   Partition: PartitionValueList;
-  Permissions?: PermissionList;
+  Permissions?: Permission[];
   DurationSeconds?: number;
   AuditContext?: AuditContext;
-  SupportedPermissionTypes?: PermissionTypeList;
+  SupportedPermissionTypes?: PermissionType[];
 }
 export const GetTemporaryGluePartitionCredentialsRequest = S.suspend(() =>
   S.Struct({
@@ -1953,7 +2106,7 @@ export const ListDataCellsFilterRequest = S.suspend(() =>
   identifier: "ListDataCellsFilterRequest",
 }) as any as S.Schema<ListDataCellsFilterRequest>;
 export interface ListLFTagsResponse {
-  LFTags?: LFTagsList;
+  LFTags?: LFTagPair[];
   NextToken?: string;
 }
 export const ListLFTagsResponse = S.suspend(() =>
@@ -1964,7 +2117,7 @@ export const ListLFTagsResponse = S.suspend(() =>
 export type ResourceShareList = string[];
 export const ResourceShareList = S.Array(S.String);
 export interface DetailsMap {
-  ResourceShare?: ResourceShareList;
+  ResourceShare?: string[];
 }
 export const DetailsMap = S.suspend(() =>
   S.Struct({ ResourceShare: S.optional(ResourceShareList) }),
@@ -1973,8 +2126,8 @@ export interface PrincipalResourcePermissions {
   Principal?: DataLakePrincipal;
   Resource?: Resource;
   Condition?: Condition;
-  Permissions?: PermissionList;
-  PermissionsWithGrantOption?: PermissionList;
+  Permissions?: Permission[];
+  PermissionsWithGrantOption?: Permission[];
   AdditionalDetails?: DetailsMap;
   LastUpdated?: Date;
   LastUpdatedBy?: string;
@@ -1998,7 +2151,7 @@ export const PrincipalResourcePermissionsList = S.Array(
   PrincipalResourcePermissions,
 );
 export interface ListPermissionsResponse {
-  PrincipalResourcePermissions?: PrincipalResourcePermissionsList;
+  PrincipalResourcePermissions?: PrincipalResourcePermissions[];
   NextToken?: string;
 }
 export const ListPermissionsResponse = S.suspend(() =>
@@ -2010,7 +2163,7 @@ export const ListPermissionsResponse = S.suspend(() =>
   identifier: "ListPermissionsResponse",
 }) as any as S.Schema<ListPermissionsResponse>;
 export interface ListResourcesRequest {
-  FilterConditionList?: FilterConditionList;
+  FilterConditionList?: FilterCondition[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -2033,7 +2186,7 @@ export const ListResourcesRequest = S.suspend(() =>
   identifier: "ListResourcesRequest",
 }) as any as S.Schema<ListResourcesRequest>;
 export interface ListTransactionsResponse {
-  Transactions?: TransactionDescriptionList;
+  Transactions?: TransactionDescription[];
   NextToken?: string;
 }
 export const ListTransactionsResponse = S.suspend(() =>
@@ -2063,7 +2216,7 @@ export interface AddObjectInput {
   Uri: string;
   ETag: string;
   Size: number;
-  PartitionValues?: PartitionValuesList;
+  PartitionValues?: string[];
 }
 export const AddObjectInput = S.suspend(() =>
   S.Struct({
@@ -2078,7 +2231,7 @@ export const AddObjectInput = S.suspend(() =>
 export interface DeleteObjectInput {
   Uri: string;
   ETag?: string;
-  PartitionValues?: PartitionValuesList;
+  PartitionValues?: string[];
 }
 export const DeleteObjectInput = S.suspend(() =>
   S.Struct({
@@ -2144,7 +2297,7 @@ export const PlanningStatistics = S.suspend(() =>
 }) as any as S.Schema<PlanningStatistics>;
 export interface ColumnLFTag {
   Name?: string;
-  LFTags?: LFTagsList;
+  LFTags?: LFTagPair[];
 }
 export const ColumnLFTag = S.suspend(() =>
   S.Struct({ Name: S.optional(S.String), LFTags: S.optional(LFTagsList) }),
@@ -2156,7 +2309,7 @@ export interface QuerySessionContext {
   QueryStartTime?: Date;
   ClusterId?: string;
   QueryAuthorizationId?: string;
-  AdditionalContext?: AdditionalContextMap;
+  AdditionalContext?: { [key: string]: string };
 }
 export const QuerySessionContext = S.suspend(() =>
   S.Struct({
@@ -2211,7 +2364,7 @@ export interface LFTagExpression {
   Name?: string;
   Description?: string;
   CatalogId?: string;
-  Expression?: Expression;
+  Expression?: LFTag[];
 }
 export const LFTagExpression = S.suspend(() =>
   S.Struct({
@@ -2228,15 +2381,15 @@ export const LFTagExpressionsList = S.Array(LFTagExpression);
 export type ResourceInfoList = ResourceInfo[];
 export const ResourceInfoList = S.Array(ResourceInfo);
 export interface StorageOptimizer {
-  StorageOptimizerType?: string;
-  Config?: StorageOptimizerConfig;
+  StorageOptimizerType?: OptimizerType;
+  Config?: { [key: string]: string };
   ErrorMessage?: string;
   Warnings?: string;
   LastRunDetails?: string;
 }
 export const StorageOptimizer = S.suspend(() =>
   S.Struct({
-    StorageOptimizerType: S.optional(S.String),
+    StorageOptimizerType: S.optional(OptimizerType),
     Config: S.optional(StorageOptimizerConfig),
     ErrorMessage: S.optional(S.String),
     Warnings: S.optional(S.String),
@@ -2268,7 +2421,7 @@ export type LFTagErrors = LFTagError[];
 export const LFTagErrors = S.Array(LFTagError);
 export interface TaggedDatabase {
   Database?: DatabaseResource;
-  LFTags?: LFTagsList;
+  LFTags?: LFTagPair[];
 }
 export const TaggedDatabase = S.suspend(() =>
   S.Struct({
@@ -2282,9 +2435,9 @@ export type DatabaseLFTagsList = TaggedDatabase[];
 export const DatabaseLFTagsList = S.Array(TaggedDatabase);
 export interface TaggedTable {
   Table?: TableResource;
-  LFTagOnDatabase?: LFTagsList;
-  LFTagsOnTable?: LFTagsList;
-  LFTagsOnColumns?: ColumnLFTagsList;
+  LFTagOnDatabase?: LFTagPair[];
+  LFTagsOnTable?: LFTagPair[];
+  LFTagsOnColumns?: ColumnLFTag[];
 }
 export const TaggedTable = S.suspend(() =>
   S.Struct({
@@ -2300,7 +2453,7 @@ export interface QueryPlanningContext {
   CatalogId?: string;
   DatabaseName: string;
   QueryAsOfTime?: Date;
-  QueryParameters?: QueryParameterMap;
+  QueryParameters?: { [key: string]: string };
   TransactionId?: string;
 }
 export const QueryPlanningContext = S.suspend(() =>
@@ -2329,16 +2482,15 @@ export const WriteOperation = S.suspend(() =>
 export type WriteOperationList = WriteOperation[];
 export const WriteOperationList = S.Array(WriteOperation);
 export type StorageOptimizerConfigMap = {
-  [key: string]: StorageOptimizerConfig;
+  [key in OptimizerType]?: { [key: string]: string };
 };
-export const StorageOptimizerConfigMap = S.Record({
-  key: S.String,
-  value: StorageOptimizerConfig,
-});
+export const StorageOptimizerConfigMap = S.partial(
+  S.Record({ key: OptimizerType, value: StorageOptimizerConfig }),
+);
 export interface AddLFTagsToResourceRequest {
   CatalogId?: string;
   Resource: Resource;
-  LFTags: LFTagsList;
+  LFTags: LFTagPair[];
 }
 export const AddLFTagsToResourceRequest = S.suspend(() =>
   S.Struct({
@@ -2375,7 +2527,7 @@ export const BatchPermissionsFailureList = S.Array(
   BatchPermissionsFailureEntry,
 );
 export interface BatchGrantPermissionsResponse {
-  Failures?: BatchPermissionsFailureList;
+  Failures?: BatchPermissionsFailureEntry[];
 }
 export const BatchGrantPermissionsResponse = S.suspend(() =>
   S.Struct({ Failures: S.optional(BatchPermissionsFailureList) }),
@@ -2438,9 +2590,9 @@ export const GetQueryStatisticsResponse = S.suspend(() =>
   identifier: "GetQueryStatisticsResponse",
 }) as any as S.Schema<GetQueryStatisticsResponse>;
 export interface GetResourceLFTagsResponse {
-  LFTagOnDatabase?: LFTagsList;
-  LFTagsOnTable?: LFTagsList;
-  LFTagsOnColumns?: ColumnLFTagsList;
+  LFTagOnDatabase?: LFTagPair[];
+  LFTagsOnTable?: LFTagPair[];
+  LFTagsOnColumns?: ColumnLFTag[];
 }
 export const GetResourceLFTagsResponse = S.suspend(() =>
   S.Struct({
@@ -2469,10 +2621,10 @@ export const GetTemporaryGluePartitionCredentialsResponse = S.suspend(() =>
 }) as any as S.Schema<GetTemporaryGluePartitionCredentialsResponse>;
 export interface GetTemporaryGlueTableCredentialsRequest {
   TableArn: string;
-  Permissions?: PermissionList;
+  Permissions?: Permission[];
   DurationSeconds?: number;
   AuditContext?: AuditContext;
-  SupportedPermissionTypes?: PermissionTypeList;
+  SupportedPermissionTypes?: PermissionType[];
   S3Path?: string;
   QuerySessionContext?: QuerySessionContext;
 }
@@ -2501,7 +2653,7 @@ export const GetTemporaryGlueTableCredentialsRequest = S.suspend(() =>
 export interface GetWorkUnitsResponse {
   NextToken?: string;
   QueryId: string;
-  WorkUnitRanges: WorkUnitRangeList;
+  WorkUnitRanges: WorkUnitRange[];
 }
 export const GetWorkUnitsResponse = S.suspend(() =>
   S.Struct({
@@ -2513,7 +2665,7 @@ export const GetWorkUnitsResponse = S.suspend(() =>
   identifier: "GetWorkUnitsResponse",
 }) as any as S.Schema<GetWorkUnitsResponse>;
 export interface ListDataCellsFilterResponse {
-  DataCellsFilters?: DataCellsFilterList;
+  DataCellsFilters?: DataCellsFilter[];
   NextToken?: string;
 }
 export const ListDataCellsFilterResponse = S.suspend(() =>
@@ -2525,7 +2677,7 @@ export const ListDataCellsFilterResponse = S.suspend(() =>
   identifier: "ListDataCellsFilterResponse",
 }) as any as S.Schema<ListDataCellsFilterResponse>;
 export interface ListLakeFormationOptInsResponse {
-  LakeFormationOptInsInfoList?: LakeFormationOptInsInfoList;
+  LakeFormationOptInsInfoList?: LakeFormationOptInsInfo[];
   NextToken?: string;
 }
 export const ListLakeFormationOptInsResponse = S.suspend(() =>
@@ -2537,7 +2689,7 @@ export const ListLakeFormationOptInsResponse = S.suspend(() =>
   identifier: "ListLakeFormationOptInsResponse",
 }) as any as S.Schema<ListLakeFormationOptInsResponse>;
 export interface ListLFTagExpressionsResponse {
-  LFTagExpressions?: LFTagExpressionsList;
+  LFTagExpressions?: LFTagExpression[];
   NextToken?: string;
 }
 export const ListLFTagExpressionsResponse = S.suspend(() =>
@@ -2549,7 +2701,7 @@ export const ListLFTagExpressionsResponse = S.suspend(() =>
   identifier: "ListLFTagExpressionsResponse",
 }) as any as S.Schema<ListLFTagExpressionsResponse>;
 export interface ListResourcesResponse {
-  ResourceInfoList?: ResourceInfoList;
+  ResourceInfoList?: ResourceInfo[];
   NextToken?: string;
 }
 export const ListResourcesResponse = S.suspend(() =>
@@ -2561,7 +2713,7 @@ export const ListResourcesResponse = S.suspend(() =>
   identifier: "ListResourcesResponse",
 }) as any as S.Schema<ListResourcesResponse>;
 export interface ListTableStorageOptimizersResponse {
-  StorageOptimizerList?: StorageOptimizerList;
+  StorageOptimizerList?: StorageOptimizer[];
   NextToken?: string;
 }
 export const ListTableStorageOptimizersResponse = S.suspend(() =>
@@ -2600,7 +2752,7 @@ export const PutDataLakeSettingsResponse = S.suspend(() =>
   identifier: "PutDataLakeSettingsResponse",
 }) as any as S.Schema<PutDataLakeSettingsResponse>;
 export interface RemoveLFTagsFromResourceResponse {
-  Failures?: LFTagErrors;
+  Failures?: LFTagError[];
 }
 export const RemoveLFTagsFromResourceResponse = S.suspend(() =>
   S.Struct({ Failures: S.optional(LFTagErrors) }),
@@ -2609,7 +2761,7 @@ export const RemoveLFTagsFromResourceResponse = S.suspend(() =>
 }) as any as S.Schema<RemoveLFTagsFromResourceResponse>;
 export interface SearchDatabasesByLFTagsResponse {
   NextToken?: string;
-  DatabaseList?: DatabaseLFTagsList;
+  DatabaseList?: TaggedDatabase[];
 }
 export const SearchDatabasesByLFTagsResponse = S.suspend(() =>
   S.Struct({
@@ -2621,7 +2773,7 @@ export const SearchDatabasesByLFTagsResponse = S.suspend(() =>
 }) as any as S.Schema<SearchDatabasesByLFTagsResponse>;
 export interface SearchTablesByLFTagsResponse {
   NextToken?: string;
-  TableList?: TableLFTagsList;
+  TableList?: TaggedTable[];
 }
 export const SearchTablesByLFTagsResponse = S.suspend(() =>
   S.Struct({
@@ -2633,7 +2785,7 @@ export const SearchTablesByLFTagsResponse = S.suspend(() =>
 }) as any as S.Schema<SearchTablesByLFTagsResponse>;
 export interface StartQueryPlanningRequest {
   QueryPlanningContext: QueryPlanningContext;
-  QueryString: string | Redacted.Redacted<string>;
+  QueryString: string | redacted.Redacted<string>;
 }
 export const StartQueryPlanningRequest = S.suspend(() =>
   S.Struct({
@@ -2657,7 +2809,7 @@ export interface UpdateTableObjectsRequest {
   DatabaseName: string;
   TableName: string;
   TransactionId?: string;
-  WriteOperations: WriteOperationList;
+  WriteOperations: WriteOperation[];
 }
 export const UpdateTableObjectsRequest = S.suspend(() =>
   S.Struct({
@@ -2689,7 +2841,7 @@ export interface UpdateTableStorageOptimizerRequest {
   CatalogId?: string;
   DatabaseName: string;
   TableName: string;
-  StorageOptimizerConfig: StorageOptimizerConfigMap;
+  StorageOptimizerConfig: { [key: string]: { [key: string]: string } };
 }
 export const UpdateTableStorageOptimizerRequest = S.suspend(() =>
   S.Struct({
@@ -2725,8 +2877,8 @@ export const TableObject = S.suspend(() =>
 export type TableObjectList = TableObject[];
 export const TableObjectList = S.Array(TableObject);
 export interface PartitionObjects {
-  PartitionValues?: PartitionValuesList;
-  Objects?: TableObjectList;
+  PartitionValues?: string[];
+  Objects?: TableObject[];
 }
 export const PartitionObjects = S.suspend(() =>
   S.Struct({
@@ -2741,7 +2893,7 @@ export const PartitionedTableObjectsList = S.Array(PartitionObjects);
 export type PathStringList = string[];
 export const PathStringList = S.Array(S.String);
 export interface AddLFTagsToResourceResponse {
-  Failures?: LFTagErrors;
+  Failures?: LFTagError[];
 }
 export const AddLFTagsToResourceResponse = S.suspend(() =>
   S.Struct({ Failures: S.optional(LFTagErrors) }),
@@ -2749,7 +2901,7 @@ export const AddLFTagsToResourceResponse = S.suspend(() =>
   identifier: "AddLFTagsToResourceResponse",
 }) as any as S.Schema<AddLFTagsToResourceResponse>;
 export interface BatchRevokePermissionsResponse {
-  Failures?: BatchPermissionsFailureList;
+  Failures?: BatchPermissionsFailureEntry[];
 }
 export const BatchRevokePermissionsResponse = S.suspend(() =>
   S.Struct({ Failures: S.optional(BatchPermissionsFailureList) }),
@@ -2760,8 +2912,8 @@ export interface CreateLakeFormationIdentityCenterConfigurationRequest {
   CatalogId?: string;
   InstanceArn?: string;
   ExternalFiltering?: ExternalFilteringConfiguration;
-  ShareRecipients?: DataLakePrincipalList;
-  ServiceIntegrations?: ServiceIntegrationList;
+  ShareRecipients?: DataLakePrincipal[];
+  ServiceIntegrations?: ServiceIntegrationUnion[];
 }
 export const CreateLakeFormationIdentityCenterConfigurationRequest = S.suspend(
   () =>
@@ -2788,7 +2940,7 @@ export const CreateLakeFormationIdentityCenterConfigurationRequest = S.suspend(
   identifier: "CreateLakeFormationIdentityCenterConfigurationRequest",
 }) as any as S.Schema<CreateLakeFormationIdentityCenterConfigurationRequest>;
 export interface GetEffectivePermissionsForPathResponse {
-  Permissions?: PrincipalResourcePermissionsList;
+  Permissions?: PrincipalResourcePermissions[];
   NextToken?: string;
 }
 export const GetEffectivePermissionsForPathResponse = S.suspend(() =>
@@ -2800,7 +2952,7 @@ export const GetEffectivePermissionsForPathResponse = S.suspend(() =>
   identifier: "GetEffectivePermissionsForPathResponse",
 }) as any as S.Schema<GetEffectivePermissionsForPathResponse>;
 export interface GetTableObjectsResponse {
-  Objects?: PartitionedTableObjectsList;
+  Objects?: PartitionObjects[];
   NextToken?: string;
 }
 export const GetTableObjectsResponse = S.suspend(() =>
@@ -2816,7 +2968,7 @@ export interface GetTemporaryGlueTableCredentialsResponse {
   SecretAccessKey?: string;
   SessionToken?: string;
   Expiration?: Date;
-  VendedS3Path?: PathStringList;
+  VendedS3Path?: string[];
 }
 export const GetTemporaryGlueTableCredentialsResponse = S.suspend(() =>
   S.Struct({
@@ -2937,7 +3089,7 @@ export class TransactionCommittedException extends S.TaggedError<TransactionComm
  */
 export const grantPermissions: (
   input: GrantPermissionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GrantPermissionsResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -2958,7 +3110,7 @@ export const grantPermissions: (
  */
 export const getDataLakeSettings: (
   input: GetDataLakeSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataLakeSettingsResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -2979,7 +3131,7 @@ export const getDataLakeSettings: (
  */
 export const getQueryState: (
   input: GetQueryStateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetQueryStateResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -3000,7 +3152,7 @@ export const getQueryState: (
  */
 export const revokePermissions: (
   input: RevokePermissionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RevokePermissionsResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -3022,7 +3174,7 @@ export const revokePermissions: (
 export const listTableStorageOptimizers: {
   (
     input: ListTableStorageOptimizersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTableStorageOptimizersResponse,
     | AccessDeniedException
     | EntityNotFoundException
@@ -3033,7 +3185,7 @@ export const listTableStorageOptimizers: {
   >;
   pages: (
     input: ListTableStorageOptimizersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTableStorageOptimizersResponse,
     | AccessDeniedException
     | EntityNotFoundException
@@ -3044,7 +3196,7 @@ export const listTableStorageOptimizers: {
   >;
   items: (
     input: ListTableStorageOptimizersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | EntityNotFoundException
@@ -3075,7 +3227,7 @@ export const listTableStorageOptimizers: {
  */
 export const putDataLakeSettings: (
   input: PutDataLakeSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutDataLakeSettingsResponse,
   InternalServiceException | InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3089,7 +3241,7 @@ export const putDataLakeSettings: (
  */
 export const updateTableStorageOptimizer: (
   input: UpdateTableStorageOptimizerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTableStorageOptimizerResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -3112,7 +3264,7 @@ export const updateTableStorageOptimizer: (
  */
 export const removeLFTagsFromResource: (
   input: RemoveLFTagsFromResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveLFTagsFromResourceResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -3142,7 +3294,7 @@ export const removeLFTagsFromResource: (
 export const searchDatabasesByLFTags: {
   (
     input: SearchDatabasesByLFTagsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchDatabasesByLFTagsResponse,
     | AccessDeniedException
     | EntityNotFoundException
@@ -3155,7 +3307,7 @@ export const searchDatabasesByLFTags: {
   >;
   pages: (
     input: SearchDatabasesByLFTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchDatabasesByLFTagsResponse,
     | AccessDeniedException
     | EntityNotFoundException
@@ -3168,7 +3320,7 @@ export const searchDatabasesByLFTags: {
   >;
   items: (
     input: SearchDatabasesByLFTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TaggedDatabase,
     | AccessDeniedException
     | EntityNotFoundException
@@ -3203,7 +3355,7 @@ export const searchDatabasesByLFTags: {
 export const searchTablesByLFTags: {
   (
     input: SearchTablesByLFTagsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchTablesByLFTagsResponse,
     | AccessDeniedException
     | EntityNotFoundException
@@ -3216,7 +3368,7 @@ export const searchTablesByLFTags: {
   >;
   pages: (
     input: SearchTablesByLFTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchTablesByLFTagsResponse,
     | AccessDeniedException
     | EntityNotFoundException
@@ -3229,7 +3381,7 @@ export const searchTablesByLFTags: {
   >;
   items: (
     input: SearchTablesByLFTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TaggedTable,
     | AccessDeniedException
     | EntityNotFoundException
@@ -3263,7 +3415,7 @@ export const searchTablesByLFTags: {
  */
 export const getWorkUnitResults: (
   input: GetWorkUnitResultsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkUnitResultsResponse,
   | AccessDeniedException
   | ExpiredException
@@ -3289,7 +3441,7 @@ export const getWorkUnitResults: (
 export const getWorkUnits: {
   (
     input: GetWorkUnitsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetWorkUnitsResponse,
     | AccessDeniedException
     | ExpiredException
@@ -3301,7 +3453,7 @@ export const getWorkUnits: {
   >;
   pages: (
     input: GetWorkUnitsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetWorkUnitsResponse,
     | AccessDeniedException
     | ExpiredException
@@ -3313,7 +3465,7 @@ export const getWorkUnits: {
   >;
   items: (
     input: GetWorkUnitsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkUnitRange,
     | AccessDeniedException
     | ExpiredException
@@ -3345,7 +3497,7 @@ export const getWorkUnits: {
  */
 export const describeLakeFormationIdentityCenterConfiguration: (
   input: DescribeLakeFormationIdentityCenterConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeLakeFormationIdentityCenterConfigurationResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -3370,7 +3522,7 @@ export const describeLakeFormationIdentityCenterConfiguration: (
  */
 export const getDataCellsFilter: (
   input: GetDataCellsFilterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataCellsFilterResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -3395,7 +3547,7 @@ export const getDataCellsFilter: (
  */
 export const getLFTag: (
   input: GetLFTagRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLFTagResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -3420,7 +3572,7 @@ export const getLFTag: (
  */
 export const getLFTagExpression: (
   input: GetLFTagExpressionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLFTagExpressionResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -3446,7 +3598,7 @@ export const getLFTagExpression: (
 export const listLFTags: {
   (
     input: ListLFTagsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLFTagsResponse,
     | AccessDeniedException
     | EntityNotFoundException
@@ -3458,7 +3610,7 @@ export const listLFTags: {
   >;
   pages: (
     input: ListLFTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLFTagsResponse,
     | AccessDeniedException
     | EntityNotFoundException
@@ -3470,7 +3622,7 @@ export const listLFTags: {
   >;
   items: (
     input: ListLFTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LFTagPair,
     | AccessDeniedException
     | EntityNotFoundException
@@ -3509,7 +3661,7 @@ export const listLFTags: {
 export const listPermissions: {
   (
     input: ListPermissionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPermissionsResponse,
     | InternalServiceException
     | InvalidInputException
@@ -3519,7 +3671,7 @@ export const listPermissions: {
   >;
   pages: (
     input: ListPermissionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPermissionsResponse,
     | InternalServiceException
     | InvalidInputException
@@ -3529,7 +3681,7 @@ export const listPermissions: {
   >;
   items: (
     input: ListPermissionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServiceException
     | InvalidInputException
@@ -3559,7 +3711,7 @@ export const listPermissions: {
 export const listTransactions: {
   (
     input: ListTransactionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTransactionsResponse,
     | InternalServiceException
     | InvalidInputException
@@ -3569,7 +3721,7 @@ export const listTransactions: {
   >;
   pages: (
     input: ListTransactionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTransactionsResponse,
     | InternalServiceException
     | InvalidInputException
@@ -3579,7 +3731,7 @@ export const listTransactions: {
   >;
   items: (
     input: ListTransactionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServiceException
     | InvalidInputException
@@ -3606,7 +3758,7 @@ export const listTransactions: {
  */
 export const startTransaction: (
   input: StartTransactionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartTransactionResponse,
   InternalServiceException | OperationTimeoutException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3620,7 +3772,7 @@ export const startTransaction: (
  */
 export const deleteDataCellsFilter: (
   input: DeleteDataCellsFilterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDataCellsFilterResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -3645,7 +3797,7 @@ export const deleteDataCellsFilter: (
  */
 export const deleteLakeFormationIdentityCenterConfiguration: (
   input: DeleteLakeFormationIdentityCenterConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLakeFormationIdentityCenterConfigurationResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -3672,7 +3824,7 @@ export const deleteLakeFormationIdentityCenterConfiguration: (
  */
 export const deleteLakeFormationOptIn: (
   input: DeleteLakeFormationOptInRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLakeFormationOptInResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -3705,7 +3857,7 @@ export const deleteLakeFormationOptIn: (
  */
 export const deleteLFTag: (
   input: DeleteLFTagRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLFTagResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -3731,7 +3883,7 @@ export const deleteLFTag: (
  */
 export const deleteLFTagExpression: (
   input: DeleteLFTagExpressionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLFTagExpressionResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -3756,7 +3908,7 @@ export const deleteLFTagExpression: (
  */
 export const getDataLakePrincipal: (
   input: GetDataLakePrincipalRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataLakePrincipalResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -3777,7 +3929,7 @@ export const getDataLakePrincipal: (
  */
 export const updateDataCellsFilter: (
   input: UpdateDataCellsFilterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDataCellsFilterResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -3804,7 +3956,7 @@ export const updateDataCellsFilter: (
  */
 export const updateLakeFormationIdentityCenterConfiguration: (
   input: UpdateLakeFormationIdentityCenterConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLakeFormationIdentityCenterConfigurationResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -3831,7 +3983,7 @@ export const updateLakeFormationIdentityCenterConfiguration: (
  */
 export const updateLFTag: (
   input: UpdateLFTagRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLFTagResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -3873,7 +4025,7 @@ export const updateLFTag: (
  */
 export const assumeDecoratedRoleWithSAML: (
   input: AssumeDecoratedRoleWithSAMLRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssumeDecoratedRoleWithSAMLResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -3898,7 +4050,7 @@ export const assumeDecoratedRoleWithSAML: (
  */
 export const updateResource: (
   input: UpdateResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateResourceResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -3921,7 +4073,7 @@ export const updateResource: (
  */
 export const batchGrantPermissions: (
   input: BatchGrantPermissionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGrantPermissionsResponse,
   InvalidInputException | OperationTimeoutException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3937,7 +4089,7 @@ export const batchGrantPermissions: (
  */
 export const deregisterResource: (
   input: DeregisterResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterResourceResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -3960,7 +4112,7 @@ export const deregisterResource: (
  */
 export const describeResource: (
   input: DescribeResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeResourceResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -3983,7 +4135,7 @@ export const describeResource: (
  */
 export const describeTransaction: (
   input: DescribeTransactionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeTransactionResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -4007,7 +4159,7 @@ export const describeTransaction: (
 export const listDataCellsFilter: {
   (
     input: ListDataCellsFilterRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataCellsFilterResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -4018,7 +4170,7 @@ export const listDataCellsFilter: {
   >;
   pages: (
     input: ListDataCellsFilterRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataCellsFilterResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -4029,7 +4181,7 @@ export const listDataCellsFilter: {
   >;
   items: (
     input: ListDataCellsFilterRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataCellsFilter,
     | AccessDeniedException
     | InternalServiceException
@@ -4060,7 +4212,7 @@ export const listDataCellsFilter: {
 export const listLakeFormationOptIns: {
   (
     input: ListLakeFormationOptInsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLakeFormationOptInsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -4071,7 +4223,7 @@ export const listLakeFormationOptIns: {
   >;
   pages: (
     input: ListLakeFormationOptInsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLakeFormationOptInsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -4082,7 +4234,7 @@ export const listLakeFormationOptIns: {
   >;
   items: (
     input: ListLakeFormationOptInsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServiceException
@@ -4112,7 +4264,7 @@ export const listLakeFormationOptIns: {
 export const listLFTagExpressions: {
   (
     input: ListLFTagExpressionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLFTagExpressionsResponse,
     | AccessDeniedException
     | EntityNotFoundException
@@ -4124,7 +4276,7 @@ export const listLFTagExpressions: {
   >;
   pages: (
     input: ListLFTagExpressionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLFTagExpressionsResponse,
     | AccessDeniedException
     | EntityNotFoundException
@@ -4136,7 +4288,7 @@ export const listLFTagExpressions: {
   >;
   items: (
     input: ListLFTagExpressionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LFTagExpression,
     | AccessDeniedException
     | EntityNotFoundException
@@ -4169,7 +4321,7 @@ export const listLFTagExpressions: {
 export const listResources: {
   (
     input: ListResourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResourcesResponse,
     | InternalServiceException
     | InvalidInputException
@@ -4179,7 +4331,7 @@ export const listResources: {
   >;
   pages: (
     input: ListResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResourcesResponse,
     | InternalServiceException
     | InvalidInputException
@@ -4189,7 +4341,7 @@ export const listResources: {
   >;
   items: (
     input: ListResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServiceException
     | InvalidInputException
@@ -4216,7 +4368,7 @@ export const listResources: {
  */
 export const addLFTagsToResource: (
   input: AddLFTagsToResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddLFTagsToResourceResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -4243,7 +4395,7 @@ export const addLFTagsToResource: (
  */
 export const batchRevokePermissions: (
   input: BatchRevokePermissionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchRevokePermissionsResponse,
   InvalidInputException | OperationTimeoutException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4259,7 +4411,7 @@ export const batchRevokePermissions: (
 export const getEffectivePermissionsForPath: {
   (
     input: GetEffectivePermissionsForPathRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetEffectivePermissionsForPathResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -4270,7 +4422,7 @@ export const getEffectivePermissionsForPath: {
   >;
   pages: (
     input: GetEffectivePermissionsForPathRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetEffectivePermissionsForPathResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -4281,7 +4433,7 @@ export const getEffectivePermissionsForPath: {
   >;
   items: (
     input: GetEffectivePermissionsForPathRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EntityNotFoundException
     | InternalServiceException
@@ -4310,7 +4462,7 @@ export const getEffectivePermissionsForPath: {
  */
 export const getResourceLFTags: (
   input: GetResourceLFTagsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourceLFTagsResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -4339,7 +4491,7 @@ export const getResourceLFTags: (
  */
 export const startQueryPlanning: (
   input: StartQueryPlanningRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartQueryPlanningResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -4362,7 +4514,7 @@ export const startQueryPlanning: (
  */
 export const getQueryStatistics: (
   input: GetQueryStatisticsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetQueryStatisticsResponse,
   | AccessDeniedException
   | ExpiredException
@@ -4389,7 +4541,7 @@ export const getQueryStatistics: (
  */
 export const createLakeFormationIdentityCenterConfiguration: (
   input: CreateLakeFormationIdentityCenterConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLakeFormationIdentityCenterConfigurationResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -4427,7 +4579,7 @@ export const createLakeFormationIdentityCenterConfiguration: (
  */
 export const registerResource: (
   input: RegisterResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterResourceResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -4456,7 +4608,7 @@ export const registerResource: (
  */
 export const getTemporaryGluePartitionCredentials: (
   input: GetTemporaryGluePartitionCredentialsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTemporaryGluePartitionCredentialsResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -4484,7 +4636,7 @@ export const getTemporaryGluePartitionCredentials: (
  */
 export const updateLFTagExpression: (
   input: UpdateLFTagExpressionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLFTagExpressionResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -4511,7 +4663,7 @@ export const updateLFTagExpression: (
  */
 export const createLakeFormationOptIn: (
   input: CreateLakeFormationOptInRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLakeFormationOptInResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -4540,7 +4692,7 @@ export const createLakeFormationOptIn: (
  */
 export const createLFTag: (
   input: CreateLFTagRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLFTagResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -4575,7 +4727,7 @@ export const createLFTag: (
  */
 export const createLFTagExpression: (
   input: CreateLFTagExpressionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLFTagExpressionResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -4602,7 +4754,7 @@ export const createLFTagExpression: (
  */
 export const createDataCellsFilter: (
   input: CreateDataCellsFilterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataCellsFilterResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -4631,7 +4783,7 @@ export const createDataCellsFilter: (
  */
 export const commitTransaction: (
   input: CommitTransactionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CommitTransactionResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -4660,7 +4812,7 @@ export const commitTransaction: (
  */
 export const getTemporaryGlueTableCredentials: (
   input: GetTemporaryGlueTableCredentialsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTemporaryGlueTableCredentialsResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -4687,7 +4839,7 @@ export const getTemporaryGlueTableCredentials: (
  */
 export const cancelTransaction: (
   input: CancelTransactionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelTransactionResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -4721,7 +4873,7 @@ export const cancelTransaction: (
  */
 export const deleteObjectsOnCancel: (
   input: DeleteObjectsOnCancelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteObjectsOnCancelResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -4754,7 +4906,7 @@ export const deleteObjectsOnCancel: (
  */
 export const extendTransaction: (
   input: ExtendTransactionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ExtendTransactionResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -4783,7 +4935,7 @@ export const extendTransaction: (
  */
 export const updateTableObjects: (
   input: UpdateTableObjectsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTableObjectsResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -4817,7 +4969,7 @@ export const updateTableObjects: (
 export const getTableObjects: {
   (
     input: GetTableObjectsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetTableObjectsResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -4831,7 +4983,7 @@ export const getTableObjects: {
   >;
   pages: (
     input: GetTableObjectsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetTableObjectsResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -4845,7 +4997,7 @@ export const getTableObjects: {
   >;
   items: (
     input: GetTableObjectsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EntityNotFoundException
     | InternalServiceException

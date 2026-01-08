@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -205,6 +205,20 @@ export const GetServiceRoleForAccountRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetServiceRoleForAccountRequest",
 }) as any as S.Schema<GetServiceRoleForAccountRequest>;
+export type RecipeOutputFormat = "JSON" | "YAML";
+export const RecipeOutputFormat = S.Literal("JSON", "YAML");
+export type S3EndpointType = "REGIONAL" | "GLOBAL";
+export const S3EndpointType = S.Literal("REGIONAL", "GLOBAL");
+export type IotEndpointType = "fips" | "standard";
+export const IotEndpointType = S.Literal("fips", "standard");
+export type ComponentVisibilityScope = "PRIVATE" | "PUBLIC";
+export const ComponentVisibilityScope = S.Literal("PRIVATE", "PUBLIC");
+export type CoreDeviceStatus = "HEALTHY" | "UNHEALTHY";
+export const CoreDeviceStatus = S.Literal("HEALTHY", "UNHEALTHY");
+export type DeploymentHistoryFilter = "ALL" | "LATEST_ONLY";
+export const DeploymentHistoryFilter = S.Literal("ALL", "LATEST_ONLY");
+export type InstalledComponentTopologyFilter = "ALL" | "ROOT";
+export const InstalledComponentTopologyFilter = S.Literal("ALL", "ROOT");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface AssociateServiceRoleToAccountRequest {
@@ -352,12 +366,12 @@ export const DisassociateServiceRoleFromAccountResponse = S.suspend(() =>
   identifier: "DisassociateServiceRoleFromAccountResponse",
 }) as any as S.Schema<DisassociateServiceRoleFromAccountResponse>;
 export interface GetComponentRequest {
-  recipeOutputFormat?: string;
+  recipeOutputFormat?: RecipeOutputFormat;
   arn: string;
 }
 export const GetComponentRequest = S.suspend(() =>
   S.Struct({
-    recipeOutputFormat: S.optional(S.String).pipe(
+    recipeOutputFormat: S.optional(RecipeOutputFormat).pipe(
       T.HttpQuery("recipeOutputFormat"),
     ),
     arn: S.String.pipe(T.HttpLabel("arn")),
@@ -377,15 +391,17 @@ export const GetComponentRequest = S.suspend(() =>
 export interface GetComponentVersionArtifactRequest {
   arn: string;
   artifactName: string;
-  s3EndpointType?: string;
-  iotEndpointType?: string;
+  s3EndpointType?: S3EndpointType;
+  iotEndpointType?: IotEndpointType;
 }
 export const GetComponentVersionArtifactRequest = S.suspend(() =>
   S.Struct({
     arn: S.String.pipe(T.HttpLabel("arn")),
     artifactName: S.String.pipe(T.HttpLabel("artifactName")),
-    s3EndpointType: S.optional(S.String).pipe(T.HttpQuery("s3EndpointType")),
-    iotEndpointType: S.optional(S.String).pipe(
+    s3EndpointType: S.optional(S3EndpointType).pipe(
+      T.HttpQuery("s3EndpointType"),
+    ),
+    iotEndpointType: S.optional(IotEndpointType).pipe(
       T.HttpHeader("x-amz-iot-endpoint-type"),
     ),
   }).pipe(
@@ -505,13 +521,13 @@ export const ListClientDevicesAssociatedWithCoreDeviceRequest = S.suspend(() =>
   identifier: "ListClientDevicesAssociatedWithCoreDeviceRequest",
 }) as any as S.Schema<ListClientDevicesAssociatedWithCoreDeviceRequest>;
 export interface ListComponentsRequest {
-  scope?: string;
+  scope?: ComponentVisibilityScope;
   maxResults?: number;
   nextToken?: string;
 }
 export const ListComponentsRequest = S.suspend(() =>
   S.Struct({
-    scope: S.optional(S.String).pipe(T.HttpQuery("scope")),
+    scope: S.optional(ComponentVisibilityScope).pipe(T.HttpQuery("scope")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
@@ -555,7 +571,7 @@ export const ListComponentVersionsRequest = S.suspend(() =>
 }) as any as S.Schema<ListComponentVersionsRequest>;
 export interface ListCoreDevicesRequest {
   thingGroupArn?: string;
-  status?: string;
+  status?: CoreDeviceStatus;
   maxResults?: number;
   nextToken?: string;
   runtime?: string;
@@ -563,7 +579,7 @@ export interface ListCoreDevicesRequest {
 export const ListCoreDevicesRequest = S.suspend(() =>
   S.Struct({
     thingGroupArn: S.optional(S.String).pipe(T.HttpQuery("thingGroupArn")),
-    status: S.optional(S.String).pipe(T.HttpQuery("status")),
+    status: S.optional(CoreDeviceStatus).pipe(T.HttpQuery("status")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     runtime: S.optional(S.String).pipe(T.HttpQuery("runtime")),
@@ -582,7 +598,7 @@ export const ListCoreDevicesRequest = S.suspend(() =>
 }) as any as S.Schema<ListCoreDevicesRequest>;
 export interface ListDeploymentsRequest {
   targetArn?: string;
-  historyFilter?: string;
+  historyFilter?: DeploymentHistoryFilter;
   parentTargetArn?: string;
   maxResults?: number;
   nextToken?: string;
@@ -590,7 +606,9 @@ export interface ListDeploymentsRequest {
 export const ListDeploymentsRequest = S.suspend(() =>
   S.Struct({
     targetArn: S.optional(S.String).pipe(T.HttpQuery("targetArn")),
-    historyFilter: S.optional(S.String).pipe(T.HttpQuery("historyFilter")),
+    historyFilter: S.optional(DeploymentHistoryFilter).pipe(
+      T.HttpQuery("historyFilter"),
+    ),
     parentTargetArn: S.optional(S.String).pipe(T.HttpQuery("parentTargetArn")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -637,14 +655,16 @@ export interface ListInstalledComponentsRequest {
   coreDeviceThingName: string;
   maxResults?: number;
   nextToken?: string;
-  topologyFilter?: string;
+  topologyFilter?: InstalledComponentTopologyFilter;
 }
 export const ListInstalledComponentsRequest = S.suspend(() =>
   S.Struct({
     coreDeviceThingName: S.String.pipe(T.HttpLabel("coreDeviceThingName")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    topologyFilter: S.optional(S.String).pipe(T.HttpQuery("topologyFilter")),
+    topologyFilter: S.optional(InstalledComponentTopologyFilter).pipe(
+      T.HttpQuery("topologyFilter"),
+    ),
   }).pipe(
     T.all(
       T.Http({
@@ -682,7 +702,7 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -707,7 +727,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -737,7 +757,7 @@ export const PlatformAttributesMap = S.Record({
 });
 export interface ComponentPlatform {
   name?: string;
-  attributes?: PlatformAttributesMap;
+  attributes?: { [key: string]: string };
 }
 export const ComponentPlatform = S.suspend(() =>
   S.Struct({
@@ -749,6 +769,11 @@ export const ComponentPlatform = S.suspend(() =>
 }) as any as S.Schema<ComponentPlatform>;
 export type ComponentPlatformList = ComponentPlatform[];
 export const ComponentPlatformList = S.Array(ComponentPlatform);
+export type DeploymentFailureHandlingPolicy = "ROLLBACK" | "DO_NOTHING";
+export const DeploymentFailureHandlingPolicy = S.Literal(
+  "ROLLBACK",
+  "DO_NOTHING",
+);
 export interface AssociateClientDeviceWithCoreDeviceEntry {
   thingName: string;
 }
@@ -775,6 +800,19 @@ export type DisassociateClientDeviceFromCoreDeviceEntryList =
 export const DisassociateClientDeviceFromCoreDeviceEntryList = S.Array(
   DisassociateClientDeviceFromCoreDeviceEntry,
 );
+export type DeploymentStatus =
+  | "ACTIVE"
+  | "COMPLETED"
+  | "CANCELED"
+  | "FAILED"
+  | "INACTIVE";
+export const DeploymentStatus = S.Literal(
+  "ACTIVE",
+  "COMPLETED",
+  "CANCELED",
+  "FAILED",
+  "INACTIVE",
+);
 export interface ConnectivityInfo {
   id?: string;
   hostAddress?: string;
@@ -793,8 +831,17 @@ export const ConnectivityInfo = S.suspend(() =>
 }) as any as S.Schema<ConnectivityInfo>;
 export type connectivityInfoList = ConnectivityInfo[];
 export const connectivityInfoList = S.Array(ConnectivityInfo);
+export type LambdaInputPayloadEncodingType = "json" | "binary";
+export const LambdaInputPayloadEncodingType = S.Literal("json", "binary");
 export type LambdaExecArgsList = string[];
 export const LambdaExecArgsList = S.Array(S.String);
+export type DeploymentComponentUpdatePolicyAction =
+  | "NOTIFY_COMPONENTS"
+  | "SKIP_NOTIFY_COMPONENTS";
+export const DeploymentComponentUpdatePolicyAction = S.Literal(
+  "NOTIFY_COMPONENTS",
+  "SKIP_NOTIFY_COMPONENTS",
+);
 export interface AssociateServiceRoleToAccountResponse {
   associatedAt?: string;
 }
@@ -806,7 +853,7 @@ export const AssociateServiceRoleToAccountResponse = S.suspend(() =>
   identifier: "AssociateServiceRoleToAccountResponse",
 }) as any as S.Schema<AssociateServiceRoleToAccountResponse>;
 export interface BatchAssociateClientDeviceWithCoreDeviceRequest {
-  entries?: AssociateClientDeviceWithCoreDeviceEntryList;
+  entries?: AssociateClientDeviceWithCoreDeviceEntry[];
   coreDeviceThingName: string;
 }
 export const BatchAssociateClientDeviceWithCoreDeviceRequest = S.suspend(() =>
@@ -830,7 +877,7 @@ export const BatchAssociateClientDeviceWithCoreDeviceRequest = S.suspend(() =>
   identifier: "BatchAssociateClientDeviceWithCoreDeviceRequest",
 }) as any as S.Schema<BatchAssociateClientDeviceWithCoreDeviceRequest>;
 export interface BatchDisassociateClientDeviceFromCoreDeviceRequest {
-  entries?: DisassociateClientDeviceFromCoreDeviceEntryList;
+  entries?: DisassociateClientDeviceFromCoreDeviceEntry[];
   coreDeviceThingName: string;
 }
 export const BatchDisassociateClientDeviceFromCoreDeviceRequest = S.suspend(
@@ -863,13 +910,13 @@ export const CancelDeploymentResponse = S.suspend(() =>
   identifier: "CancelDeploymentResponse",
 }) as any as S.Schema<CancelDeploymentResponse>;
 export interface GetComponentResponse {
-  recipeOutputFormat: string;
+  recipeOutputFormat: RecipeOutputFormat;
   recipe: Uint8Array;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const GetComponentResponse = S.suspend(() =>
   S.Struct({
-    recipeOutputFormat: S.String,
+    recipeOutputFormat: RecipeOutputFormat,
     recipe: T.Blob,
     tags: S.optional(TagMap),
   }),
@@ -885,7 +932,7 @@ export const GetComponentVersionArtifactResponse = S.suspend(() =>
   identifier: "GetComponentVersionArtifactResponse",
 }) as any as S.Schema<GetComponentVersionArtifactResponse>;
 export interface GetConnectivityInfoResponse {
-  connectivityInfo?: connectivityInfoList;
+  connectivityInfo?: ConnectivityInfo[];
   message?: string;
 }
 export const GetConnectivityInfoResponse = S.suspend(() =>
@@ -904,9 +951,9 @@ export interface GetCoreDeviceResponse {
   platform?: string;
   architecture?: string;
   runtime?: string;
-  status?: string;
+  status?: CoreDeviceStatus;
   lastStatusUpdateTimestamp?: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const GetCoreDeviceResponse = S.suspend(() =>
   S.Struct({
@@ -915,7 +962,7 @@ export const GetCoreDeviceResponse = S.suspend(() =>
     platform: S.optional(S.String),
     architecture: S.optional(S.String),
     runtime: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(CoreDeviceStatus),
     lastStatusUpdateTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -928,7 +975,7 @@ export type ComponentConfigurationPathList = string[];
 export const ComponentConfigurationPathList = S.Array(S.String);
 export interface ComponentConfigurationUpdate {
   merge?: string;
-  reset?: ComponentConfigurationPathList;
+  reset?: string[];
 }
 export const ComponentConfigurationUpdate = S.suspend(() =>
   S.Struct({
@@ -984,12 +1031,12 @@ export const ComponentDeploymentSpecifications = S.Record({
 });
 export interface DeploymentComponentUpdatePolicy {
   timeoutInSeconds?: number;
-  action?: string;
+  action?: DeploymentComponentUpdatePolicyAction;
 }
 export const DeploymentComponentUpdatePolicy = S.suspend(() =>
   S.Struct({
     timeoutInSeconds: S.optional(S.Number),
-    action: S.optional(S.String),
+    action: S.optional(DeploymentComponentUpdatePolicyAction),
   }),
 ).annotations({
   identifier: "DeploymentComponentUpdatePolicy",
@@ -1003,13 +1050,13 @@ export const DeploymentConfigurationValidationPolicy = S.suspend(() =>
   identifier: "DeploymentConfigurationValidationPolicy",
 }) as any as S.Schema<DeploymentConfigurationValidationPolicy>;
 export interface DeploymentPolicies {
-  failureHandlingPolicy?: string;
+  failureHandlingPolicy?: DeploymentFailureHandlingPolicy;
   componentUpdatePolicy?: DeploymentComponentUpdatePolicy;
   configurationValidationPolicy?: DeploymentConfigurationValidationPolicy;
 }
 export const DeploymentPolicies = S.suspend(() =>
   S.Struct({
-    failureHandlingPolicy: S.optional(S.String),
+    failureHandlingPolicy: S.optional(DeploymentFailureHandlingPolicy),
     componentUpdatePolicy: S.optional(DeploymentComponentUpdatePolicy),
     configurationValidationPolicy: S.optional(
       DeploymentConfigurationValidationPolicy,
@@ -1056,16 +1103,29 @@ export const IoTJobExecutionsRolloutConfig = S.suspend(() =>
 ).annotations({
   identifier: "IoTJobExecutionsRolloutConfig",
 }) as any as S.Schema<IoTJobExecutionsRolloutConfig>;
+export type IoTJobExecutionFailureType =
+  | "FAILED"
+  | "REJECTED"
+  | "TIMED_OUT"
+  | "ALL";
+export const IoTJobExecutionFailureType = S.Literal(
+  "FAILED",
+  "REJECTED",
+  "TIMED_OUT",
+  "ALL",
+);
+export type IoTJobAbortAction = "CANCEL";
+export const IoTJobAbortAction = S.Literal("CANCEL");
 export interface IoTJobAbortCriteria {
-  failureType: string;
-  action: string;
+  failureType: IoTJobExecutionFailureType;
+  action: IoTJobAbortAction;
   thresholdPercentage: number;
   minNumberOfExecutedThings: number;
 }
 export const IoTJobAbortCriteria = S.suspend(() =>
   S.Struct({
-    failureType: S.String,
-    action: S.String,
+    failureType: IoTJobExecutionFailureType,
+    action: IoTJobAbortAction,
     thresholdPercentage: S.Number,
     minNumberOfExecutedThings: S.Number,
   }),
@@ -1075,7 +1135,7 @@ export const IoTJobAbortCriteria = S.suspend(() =>
 export type IoTJobAbortCriteriaList = IoTJobAbortCriteria[];
 export const IoTJobAbortCriteriaList = S.Array(IoTJobAbortCriteria);
 export interface IoTJobAbortConfig {
-  criteriaList: IoTJobAbortCriteriaList;
+  criteriaList: IoTJobAbortCriteria[];
 }
 export const IoTJobAbortConfig = S.suspend(() =>
   S.Struct({ criteriaList: IoTJobAbortCriteriaList }),
@@ -1109,16 +1169,16 @@ export interface GetDeploymentResponse {
   revisionId?: string;
   deploymentId?: string;
   deploymentName?: string;
-  deploymentStatus?: string;
+  deploymentStatus?: DeploymentStatus;
   iotJobId?: string;
   iotJobArn?: string;
-  components?: ComponentDeploymentSpecifications;
+  components?: { [key: string]: ComponentDeploymentSpecification };
   deploymentPolicies?: DeploymentPolicies;
   iotJobConfiguration?: DeploymentIoTJobConfiguration;
   creationTimestamp?: Date;
   isLatestForTarget?: boolean;
   parentTargetArn?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const GetDeploymentResponse = S.suspend(() =>
   S.Struct({
@@ -1126,7 +1186,7 @@ export const GetDeploymentResponse = S.suspend(() =>
     revisionId: S.optional(S.String),
     deploymentId: S.optional(S.String),
     deploymentName: S.optional(S.String),
-    deploymentStatus: S.optional(S.String),
+    deploymentStatus: S.optional(DeploymentStatus),
     iotJobId: S.optional(S.String),
     iotJobArn: S.optional(S.String),
     components: S.optional(ComponentDeploymentSpecifications),
@@ -1143,7 +1203,7 @@ export const GetDeploymentResponse = S.suspend(() =>
   identifier: "GetDeploymentResponse",
 }) as any as S.Schema<GetDeploymentResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -1152,7 +1212,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface UpdateConnectivityInfoRequest {
   thingName: string;
-  connectivityInfo: connectivityInfoList;
+  connectivityInfo: ConnectivityInfo[];
 }
 export const UpdateConnectivityInfoRequest = S.suspend(() =>
   S.Struct({
@@ -1174,6 +1234,59 @@ export const UpdateConnectivityInfoRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateConnectivityInfoRequest",
 }) as any as S.Schema<UpdateConnectivityInfoRequest>;
+export type CloudComponentState =
+  | "REQUESTED"
+  | "INITIATED"
+  | "DEPLOYABLE"
+  | "FAILED"
+  | "DEPRECATED";
+export const CloudComponentState = S.Literal(
+  "REQUESTED",
+  "INITIATED",
+  "DEPLOYABLE",
+  "FAILED",
+  "DEPRECATED",
+);
+export type VendorGuidance = "ACTIVE" | "DISCONTINUED" | "DELETED";
+export const VendorGuidance = S.Literal("ACTIVE", "DISCONTINUED", "DELETED");
+export type EffectiveDeploymentExecutionStatus =
+  | "IN_PROGRESS"
+  | "QUEUED"
+  | "FAILED"
+  | "COMPLETED"
+  | "TIMED_OUT"
+  | "CANCELED"
+  | "REJECTED"
+  | "SUCCEEDED";
+export const EffectiveDeploymentExecutionStatus = S.Literal(
+  "IN_PROGRESS",
+  "QUEUED",
+  "FAILED",
+  "COMPLETED",
+  "TIMED_OUT",
+  "CANCELED",
+  "REJECTED",
+  "SUCCEEDED",
+);
+export type InstalledComponentLifecycleState =
+  | "NEW"
+  | "INSTALLED"
+  | "STARTING"
+  | "RUNNING"
+  | "STOPPING"
+  | "ERRORED"
+  | "BROKEN"
+  | "FINISHED";
+export const InstalledComponentLifecycleState = S.Literal(
+  "NEW",
+  "INSTALLED",
+  "STARTING",
+  "RUNNING",
+  "STOPPING",
+  "ERRORED",
+  "BROKEN",
+  "FINISHED",
+);
 export type InstalledComponentLifecycleStatusCodeList = string[];
 export const InstalledComponentLifecycleStatusCodeList = S.Array(S.String);
 export type ComponentVersionRequirementMap = { [key: string]: string };
@@ -1181,6 +1294,26 @@ export const ComponentVersionRequirementMap = S.Record({
   key: S.String,
   value: S.String,
 });
+export type ComponentDependencyType = "HARD" | "SOFT";
+export const ComponentDependencyType = S.Literal("HARD", "SOFT");
+export type LambdaEventSourceType = "PUB_SUB" | "IOT_CORE";
+export const LambdaEventSourceType = S.Literal("PUB_SUB", "IOT_CORE");
+export type LambdaIsolationMode = "GreengrassContainer" | "NoContainer";
+export const LambdaIsolationMode = S.Literal(
+  "GreengrassContainer",
+  "NoContainer",
+);
+export type ValidationExceptionReason =
+  | "UNKNOWN_OPERATION"
+  | "CANNOT_PARSE"
+  | "FIELD_VALIDATION_FAILED"
+  | "OTHER";
+export const ValidationExceptionReason = S.Literal(
+  "UNKNOWN_OPERATION",
+  "CANNOT_PARSE",
+  "FIELD_VALIDATION_FAILED",
+  "OTHER",
+);
 export interface AssociatedClientDevice {
   thingName?: string;
   associationTimestamp?: Date;
@@ -1215,7 +1348,7 @@ export type ComponentVersionList = ComponentVersionListItem[];
 export const ComponentVersionList = S.Array(ComponentVersionListItem);
 export interface CoreDevice {
   coreDeviceThingName?: string;
-  status?: string;
+  status?: CoreDeviceStatus;
   lastStatusUpdateTimestamp?: Date;
   platform?: string;
   architecture?: string;
@@ -1224,7 +1357,7 @@ export interface CoreDevice {
 export const CoreDevice = S.suspend(() =>
   S.Struct({
     coreDeviceThingName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(CoreDeviceStatus),
     lastStatusUpdateTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1241,7 +1374,7 @@ export interface Deployment {
   deploymentId?: string;
   deploymentName?: string;
   creationTimestamp?: Date;
-  deploymentStatus?: string;
+  deploymentStatus?: DeploymentStatus;
   isLatestForTarget?: boolean;
   parentTargetArn?: string;
 }
@@ -1254,7 +1387,7 @@ export const Deployment = S.suspend(() =>
     creationTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    deploymentStatus: S.optional(S.String),
+    deploymentStatus: S.optional(DeploymentStatus),
     isLatestForTarget: S.optional(S.Boolean),
     parentTargetArn: S.optional(S.String),
   }),
@@ -1264,19 +1397,19 @@ export const DeploymentList = S.Array(Deployment);
 export interface InstalledComponent {
   componentName?: string;
   componentVersion?: string;
-  lifecycleState?: string;
+  lifecycleState?: InstalledComponentLifecycleState;
   lifecycleStateDetails?: string;
   isRoot?: boolean;
   lastStatusChangeTimestamp?: Date;
   lastReportedTimestamp?: Date;
   lastInstallationSource?: string;
-  lifecycleStatusCodes?: InstalledComponentLifecycleStatusCodeList;
+  lifecycleStatusCodes?: string[];
 }
 export const InstalledComponent = S.suspend(() =>
   S.Struct({
     componentName: S.optional(S.String),
     componentVersion: S.optional(S.String),
-    lifecycleState: S.optional(S.String),
+    lifecycleState: S.optional(InstalledComponentLifecycleState),
     lifecycleStateDetails: S.optional(S.String),
     isRoot: S.optional(S.Boolean),
     lastStatusChangeTimestamp: S.optional(
@@ -1296,7 +1429,7 @@ export const InstalledComponentList = S.Array(InstalledComponent);
 export interface ComponentCandidate {
   componentName?: string;
   componentVersion?: string;
-  versionRequirements?: ComponentVersionRequirementMap;
+  versionRequirements?: { [key: string]: string };
 }
 export const ComponentCandidate = S.suspend(() =>
   S.Struct({
@@ -1311,22 +1444,22 @@ export type ComponentCandidateList = ComponentCandidate[];
 export const ComponentCandidateList = S.Array(ComponentCandidate);
 export interface ComponentDependencyRequirement {
   versionRequirement?: string;
-  dependencyType?: string;
+  dependencyType?: ComponentDependencyType;
 }
 export const ComponentDependencyRequirement = S.suspend(() =>
   S.Struct({
     versionRequirement: S.optional(S.String),
-    dependencyType: S.optional(S.String),
+    dependencyType: S.optional(ComponentDependencyType),
   }),
 ).annotations({
   identifier: "ComponentDependencyRequirement",
 }) as any as S.Schema<ComponentDependencyRequirement>;
 export interface LambdaEventSource {
   topic: string;
-  type: string;
+  type: LambdaEventSourceType;
 }
 export const LambdaEventSource = S.suspend(() =>
-  S.Struct({ topic: S.String, type: S.String }),
+  S.Struct({ topic: S.String, type: LambdaEventSourceType }),
 ).annotations({
   identifier: "LambdaEventSource",
 }) as any as S.Schema<LambdaEventSource>;
@@ -1342,7 +1475,7 @@ export const EffectiveDeploymentErrorStack = S.Array(S.String);
 export type EffectiveDeploymentErrorTypeList = string[];
 export const EffectiveDeploymentErrorTypeList = S.Array(S.String);
 export interface ListClientDevicesAssociatedWithCoreDeviceResponse {
-  associatedClientDevices?: AssociatedClientDeviceList;
+  associatedClientDevices?: AssociatedClientDevice[];
   nextToken?: string;
 }
 export const ListClientDevicesAssociatedWithCoreDeviceResponse = S.suspend(() =>
@@ -1354,7 +1487,7 @@ export const ListClientDevicesAssociatedWithCoreDeviceResponse = S.suspend(() =>
   identifier: "ListClientDevicesAssociatedWithCoreDeviceResponse",
 }) as any as S.Schema<ListClientDevicesAssociatedWithCoreDeviceResponse>;
 export interface ListComponentVersionsResponse {
-  componentVersions?: ComponentVersionList;
+  componentVersions?: ComponentVersionListItem[];
   nextToken?: string;
 }
 export const ListComponentVersionsResponse = S.suspend(() =>
@@ -1366,7 +1499,7 @@ export const ListComponentVersionsResponse = S.suspend(() =>
   identifier: "ListComponentVersionsResponse",
 }) as any as S.Schema<ListComponentVersionsResponse>;
 export interface ListCoreDevicesResponse {
-  coreDevices?: CoreDevicesList;
+  coreDevices?: CoreDevice[];
   nextToken?: string;
 }
 export const ListCoreDevicesResponse = S.suspend(() =>
@@ -1378,7 +1511,7 @@ export const ListCoreDevicesResponse = S.suspend(() =>
   identifier: "ListCoreDevicesResponse",
 }) as any as S.Schema<ListCoreDevicesResponse>;
 export interface ListDeploymentsResponse {
-  deployments?: DeploymentList;
+  deployments?: Deployment[];
   nextToken?: string;
 }
 export const ListDeploymentsResponse = S.suspend(() =>
@@ -1390,7 +1523,7 @@ export const ListDeploymentsResponse = S.suspend(() =>
   identifier: "ListDeploymentsResponse",
 }) as any as S.Schema<ListDeploymentsResponse>;
 export interface ListInstalledComponentsResponse {
-  installedComponents?: InstalledComponentList;
+  installedComponents?: InstalledComponent[];
   nextToken?: string;
 }
 export const ListInstalledComponentsResponse = S.suspend(() =>
@@ -1403,7 +1536,7 @@ export const ListInstalledComponentsResponse = S.suspend(() =>
 }) as any as S.Schema<ListInstalledComponentsResponse>;
 export interface ResolveComponentCandidatesRequest {
   platform?: ComponentPlatform;
-  componentCandidates?: ComponentCandidateList;
+  componentCandidates?: ComponentCandidate[];
 }
 export const ResolveComponentCandidatesRequest = S.suspend(() =>
   S.Struct({
@@ -1452,7 +1585,7 @@ export interface ComponentLatestVersion {
   creationTimestamp?: Date;
   description?: string;
   publisher?: string;
-  platforms?: ComponentPlatformList;
+  platforms?: ComponentPlatform[];
 }
 export const ComponentLatestVersion = S.suspend(() =>
   S.Struct({
@@ -1469,8 +1602,8 @@ export const ComponentLatestVersion = S.suspend(() =>
   identifier: "ComponentLatestVersion",
 }) as any as S.Schema<ComponentLatestVersion>;
 export interface EffectiveDeploymentStatusDetails {
-  errorStack?: EffectiveDeploymentErrorStack;
-  errorTypes?: EffectiveDeploymentErrorTypeList;
+  errorStack?: string[];
+  errorTypes?: string[];
 }
 export const EffectiveDeploymentStatusDetails = S.suspend(() =>
   S.Struct({
@@ -1518,19 +1651,21 @@ export type DisassociateClientDeviceFromCoreDeviceErrorList =
 export const DisassociateClientDeviceFromCoreDeviceErrorList = S.Array(
   DisassociateClientDeviceFromCoreDeviceErrorEntry,
 );
+export type LambdaFilesystemPermission = "ro" | "rw";
+export const LambdaFilesystemPermission = S.Literal("ro", "rw");
 export interface CloudComponentStatus {
-  componentState?: string;
+  componentState?: CloudComponentState;
   message?: string;
-  errors?: StringMap;
-  vendorGuidance?: string;
+  errors?: { [key: string]: string };
+  vendorGuidance?: VendorGuidance;
   vendorGuidanceMessage?: string;
 }
 export const CloudComponentStatus = S.suspend(() =>
   S.Struct({
-    componentState: S.optional(S.String),
+    componentState: S.optional(CloudComponentState),
     message: S.optional(S.String),
     errors: S.optional(StringMap),
-    vendorGuidance: S.optional(S.String),
+    vendorGuidance: S.optional(VendorGuidance),
     vendorGuidanceMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -1568,7 +1703,7 @@ export interface EffectiveDeployment {
   iotJobArn?: string;
   description?: string;
   targetArn: string;
-  coreDeviceExecutionStatus: string;
+  coreDeviceExecutionStatus: EffectiveDeploymentExecutionStatus;
   reason?: string;
   creationTimestamp: Date;
   modifiedTimestamp: Date;
@@ -1582,7 +1717,7 @@ export const EffectiveDeployment = S.suspend(() =>
     iotJobArn: S.optional(S.String),
     description: S.optional(S.String),
     targetArn: S.String,
-    coreDeviceExecutionStatus: S.String,
+    coreDeviceExecutionStatus: EffectiveDeploymentExecutionStatus,
     reason: S.optional(S.String),
     creationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     modifiedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1594,7 +1729,7 @@ export const EffectiveDeployment = S.suspend(() =>
 export type EffectiveDeploymentsList = EffectiveDeployment[];
 export const EffectiveDeploymentsList = S.Array(EffectiveDeployment);
 export interface BatchAssociateClientDeviceWithCoreDeviceResponse {
-  errorEntries?: AssociateClientDeviceWithCoreDeviceErrorList;
+  errorEntries?: AssociateClientDeviceWithCoreDeviceErrorEntry[];
 }
 export const BatchAssociateClientDeviceWithCoreDeviceResponse = S.suspend(() =>
   S.Struct({
@@ -1604,7 +1739,7 @@ export const BatchAssociateClientDeviceWithCoreDeviceResponse = S.suspend(() =>
   identifier: "BatchAssociateClientDeviceWithCoreDeviceResponse",
 }) as any as S.Schema<BatchAssociateClientDeviceWithCoreDeviceResponse>;
 export interface BatchDisassociateClientDeviceFromCoreDeviceResponse {
-  errorEntries?: DisassociateClientDeviceFromCoreDeviceErrorList;
+  errorEntries?: DisassociateClientDeviceFromCoreDeviceErrorEntry[];
 }
 export const BatchDisassociateClientDeviceFromCoreDeviceResponse = S.suspend(
   () =>
@@ -1617,14 +1752,14 @@ export const BatchDisassociateClientDeviceFromCoreDeviceResponse = S.suspend(
 export interface LambdaVolumeMount {
   sourcePath: string;
   destinationPath: string;
-  permission?: string;
+  permission?: LambdaFilesystemPermission;
   addGroupOwner?: boolean;
 }
 export const LambdaVolumeMount = S.suspend(() =>
   S.Struct({
     sourcePath: S.String,
     destinationPath: S.String,
-    permission: S.optional(S.String),
+    permission: S.optional(LambdaFilesystemPermission),
     addGroupOwner: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -1634,13 +1769,13 @@ export type LambdaVolumeList = LambdaVolumeMount[];
 export const LambdaVolumeList = S.Array(LambdaVolumeMount);
 export interface LambdaDeviceMount {
   path: string;
-  permission?: string;
+  permission?: LambdaFilesystemPermission;
   addGroupOwner?: boolean;
 }
 export const LambdaDeviceMount = S.suspend(() =>
   S.Struct({
     path: S.String,
-    permission: S.optional(S.String),
+    permission: S.optional(LambdaFilesystemPermission),
     addGroupOwner: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -1656,8 +1791,8 @@ export interface DescribeComponentResponse {
   publisher?: string;
   description?: string;
   status?: CloudComponentStatus;
-  platforms?: ComponentPlatformList;
-  tags?: TagMap;
+  platforms?: ComponentPlatform[];
+  tags?: { [key: string]: string };
 }
 export const DescribeComponentResponse = S.suspend(() =>
   S.Struct({
@@ -1677,7 +1812,7 @@ export const DescribeComponentResponse = S.suspend(() =>
   identifier: "DescribeComponentResponse",
 }) as any as S.Schema<DescribeComponentResponse>;
 export interface ListComponentsResponse {
-  components?: ComponentList;
+  components?: Component[];
   nextToken?: string;
 }
 export const ListComponentsResponse = S.suspend(() =>
@@ -1689,7 +1824,7 @@ export const ListComponentsResponse = S.suspend(() =>
   identifier: "ListComponentsResponse",
 }) as any as S.Schema<ListComponentsResponse>;
 export interface ListEffectiveDeploymentsResponse {
-  effectiveDeployments?: EffectiveDeploymentsList;
+  effectiveDeployments?: EffectiveDeployment[];
   nextToken?: string;
 }
 export const ListEffectiveDeploymentsResponse = S.suspend(() =>
@@ -1703,8 +1838,8 @@ export const ListEffectiveDeploymentsResponse = S.suspend(() =>
 export interface LambdaContainerParams {
   memorySizeInKB?: number;
   mountROSysfs?: boolean;
-  volumes?: LambdaVolumeList;
-  devices?: LambdaDeviceList;
+  volumes?: LambdaVolumeMount[];
+  devices?: LambdaDeviceMount[];
 }
 export const LambdaContainerParams = S.suspend(() =>
   S.Struct({
@@ -1721,7 +1856,7 @@ export interface ResolvedComponentVersion {
   componentName?: string;
   componentVersion?: string;
   recipe?: Uint8Array;
-  vendorGuidance?: string;
+  vendorGuidance?: VendorGuidance;
   message?: string;
 }
 export const ResolvedComponentVersion = S.suspend(() =>
@@ -1730,7 +1865,7 @@ export const ResolvedComponentVersion = S.suspend(() =>
     componentName: S.optional(S.String),
     componentVersion: S.optional(S.String),
     recipe: S.optional(T.Blob),
-    vendorGuidance: S.optional(S.String),
+    vendorGuidance: S.optional(VendorGuidance),
     message: S.optional(S.String),
   }),
 ).annotations({
@@ -1739,12 +1874,12 @@ export const ResolvedComponentVersion = S.suspend(() =>
 export type ResolvedComponentVersionsList = ResolvedComponentVersion[];
 export const ResolvedComponentVersionsList = S.Array(ResolvedComponentVersion);
 export interface LambdaLinuxProcessParams {
-  isolationMode?: string;
+  isolationMode?: LambdaIsolationMode;
   containerParams?: LambdaContainerParams;
 }
 export const LambdaLinuxProcessParams = S.suspend(() =>
   S.Struct({
-    isolationMode: S.optional(S.String),
+    isolationMode: S.optional(LambdaIsolationMode),
     containerParams: S.optional(LambdaContainerParams),
   }),
 ).annotations({
@@ -1753,11 +1888,11 @@ export const LambdaLinuxProcessParams = S.suspend(() =>
 export interface CreateDeploymentRequest {
   targetArn: string;
   deploymentName?: string;
-  components?: ComponentDeploymentSpecifications;
+  components?: { [key: string]: ComponentDeploymentSpecification };
   iotJobConfiguration?: DeploymentIoTJobConfiguration;
   deploymentPolicies?: DeploymentPolicies;
   parentTargetArn?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   clientToken?: string;
 }
 export const CreateDeploymentRequest = S.suspend(() =>
@@ -1784,7 +1919,7 @@ export const CreateDeploymentRequest = S.suspend(() =>
   identifier: "CreateDeploymentRequest",
 }) as any as S.Schema<CreateDeploymentRequest>;
 export interface ResolveComponentCandidatesResponse {
-  resolvedComponentVersions?: ResolvedComponentVersionsList;
+  resolvedComponentVersions?: ResolvedComponentVersion[];
 }
 export const ResolveComponentCandidatesResponse = S.suspend(() =>
   S.Struct({
@@ -1794,16 +1929,16 @@ export const ResolveComponentCandidatesResponse = S.suspend(() =>
   identifier: "ResolveComponentCandidatesResponse",
 }) as any as S.Schema<ResolveComponentCandidatesResponse>;
 export interface LambdaExecutionParameters {
-  eventSources?: LambdaEventSourceList;
+  eventSources?: LambdaEventSource[];
   maxQueueSize?: number;
   maxInstancesCount?: number;
   maxIdleTimeInSeconds?: number;
   timeoutInSeconds?: number;
   statusTimeoutInSeconds?: number;
   pinned?: boolean;
-  inputPayloadEncodingType?: string;
-  execArgs?: LambdaExecArgsList;
-  environmentVariables?: LambdaEnvironmentVariables;
+  inputPayloadEncodingType?: LambdaInputPayloadEncodingType;
+  execArgs?: string[];
+  environmentVariables?: { [key: string]: string };
   linuxProcessParams?: LambdaLinuxProcessParams;
 }
 export const LambdaExecutionParameters = S.suspend(() =>
@@ -1815,7 +1950,7 @@ export const LambdaExecutionParameters = S.suspend(() =>
     timeoutInSeconds: S.optional(S.Number),
     statusTimeoutInSeconds: S.optional(S.Number),
     pinned: S.optional(S.Boolean),
-    inputPayloadEncodingType: S.optional(S.String),
+    inputPayloadEncodingType: S.optional(LambdaInputPayloadEncodingType),
     execArgs: S.optional(LambdaExecArgsList),
     environmentVariables: S.optional(LambdaEnvironmentVariables),
     linuxProcessParams: S.optional(LambdaLinuxProcessParams),
@@ -1827,8 +1962,8 @@ export interface LambdaFunctionRecipeSource {
   lambdaArn: string;
   componentName?: string;
   componentVersion?: string;
-  componentPlatforms?: ComponentPlatformList;
-  componentDependencies?: ComponentDependencyMap;
+  componentPlatforms?: ComponentPlatform[];
+  componentDependencies?: { [key: string]: ComponentDependencyRequirement };
   componentLambdaParameters?: LambdaExecutionParameters;
 }
 export const LambdaFunctionRecipeSource = S.suspend(() =>
@@ -1846,7 +1981,7 @@ export const LambdaFunctionRecipeSource = S.suspend(() =>
 export interface CreateComponentVersionRequest {
   inlineRecipe?: Uint8Array;
   lambdaFunction?: LambdaFunctionRecipeSource;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   clientToken?: string;
 }
 export const CreateComponentVersionRequest = S.suspend(() =>
@@ -1934,7 +2069,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     message: S.String,
-    reason: S.optional(S.String),
+    reason: S.optional(ValidationExceptionReason),
     fields: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
@@ -1962,7 +2097,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  */
 export const disassociateServiceRoleFromAccount: (
   input: DisassociateServiceRoleFromAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateServiceRoleFromAccountResponse,
   InternalServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1979,7 +2114,7 @@ export const disassociateServiceRoleFromAccount: (
  */
 export const getServiceRoleForAccount: (
   input: GetServiceRoleForAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceRoleForAccountResponse,
   InternalServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2000,7 +2135,7 @@ export const getServiceRoleForAccount: (
  */
 export const getConnectivityInfo: (
   input: GetConnectivityInfoRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConnectivityInfoResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2016,7 +2151,7 @@ export const getConnectivityInfo: (
 export const listComponents: {
   (
     input: ListComponentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListComponentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2028,7 +2163,7 @@ export const listComponents: {
   >;
   pages: (
     input: ListComponentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListComponentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2040,7 +2175,7 @@ export const listComponents: {
   >;
   items: (
     input: ListComponentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Component,
     | AccessDeniedException
     | InternalServerException
@@ -2073,7 +2208,7 @@ export const listComponents: {
 export const listEffectiveDeployments: {
   (
     input: ListEffectiveDeploymentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEffectiveDeploymentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2085,7 +2220,7 @@ export const listEffectiveDeployments: {
   >;
   pages: (
     input: ListEffectiveDeploymentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEffectiveDeploymentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2097,7 +2232,7 @@ export const listEffectiveDeployments: {
   >;
   items: (
     input: ListEffectiveDeploymentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EffectiveDeployment,
     | AccessDeniedException
     | InternalServerException
@@ -2131,7 +2266,7 @@ export const listEffectiveDeployments: {
 export const listClientDevicesAssociatedWithCoreDevice: {
   (
     input: ListClientDevicesAssociatedWithCoreDeviceRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListClientDevicesAssociatedWithCoreDeviceResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2143,7 +2278,7 @@ export const listClientDevicesAssociatedWithCoreDevice: {
   >;
   pages: (
     input: ListClientDevicesAssociatedWithCoreDeviceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListClientDevicesAssociatedWithCoreDeviceResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2155,7 +2290,7 @@ export const listClientDevicesAssociatedWithCoreDevice: {
   >;
   items: (
     input: ListClientDevicesAssociatedWithCoreDeviceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AssociatedClientDevice,
     | AccessDeniedException
     | InternalServerException
@@ -2189,7 +2324,7 @@ export const listClientDevicesAssociatedWithCoreDevice: {
 export const listComponentVersions: {
   (
     input: ListComponentVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListComponentVersionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2201,7 +2336,7 @@ export const listComponentVersions: {
   >;
   pages: (
     input: ListComponentVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListComponentVersionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2213,7 +2348,7 @@ export const listComponentVersions: {
   >;
   items: (
     input: ListComponentVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ComponentVersionListItem,
     | AccessDeniedException
     | InternalServerException
@@ -2270,7 +2405,7 @@ export const listComponentVersions: {
 export const listCoreDevices: {
   (
     input: ListCoreDevicesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCoreDevicesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2281,7 +2416,7 @@ export const listCoreDevices: {
   >;
   pages: (
     input: ListCoreDevicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCoreDevicesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2292,7 +2427,7 @@ export const listCoreDevices: {
   >;
   items: (
     input: ListCoreDevicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CoreDevice,
     | AccessDeniedException
     | InternalServerException
@@ -2323,7 +2458,7 @@ export const listCoreDevices: {
 export const listDeployments: {
   (
     input: ListDeploymentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDeploymentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2334,7 +2469,7 @@ export const listDeployments: {
   >;
   pages: (
     input: ListDeploymentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDeploymentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2345,7 +2480,7 @@ export const listDeployments: {
   >;
   items: (
     input: ListDeploymentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Deployment,
     | AccessDeniedException
     | InternalServerException
@@ -2398,7 +2533,7 @@ export const listDeployments: {
 export const listInstalledComponents: {
   (
     input: ListInstalledComponentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInstalledComponentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2410,7 +2545,7 @@ export const listInstalledComponents: {
   >;
   pages: (
     input: ListInstalledComponentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInstalledComponentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2422,7 +2557,7 @@ export const listInstalledComponents: {
   >;
   items: (
     input: ListInstalledComponentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     InstalledComponent,
     | AccessDeniedException
     | InternalServerException
@@ -2457,7 +2592,7 @@ export const listInstalledComponents: {
  */
 export const deleteCoreDevice: (
   input: DeleteCoreDeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCoreDeviceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2489,7 +2624,7 @@ export const deleteCoreDevice: (
  */
 export const deleteDeployment: (
   input: DeleteDeploymentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDeploymentResponse,
   | AccessDeniedException
   | ConflictException
@@ -2518,7 +2653,7 @@ export const deleteDeployment: (
  */
 export const cancelDeployment: (
   input: CancelDeploymentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelDeploymentResponse,
   | AccessDeniedException
   | ConflictException
@@ -2547,7 +2682,7 @@ export const cancelDeployment: (
  */
 export const getComponentVersionArtifact: (
   input: GetComponentVersionArtifactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetComponentVersionArtifactResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2591,7 +2726,7 @@ export const getComponentVersionArtifact: (
  */
 export const getCoreDevice: (
   input: GetCoreDeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCoreDeviceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2616,7 +2751,7 @@ export const getCoreDevice: (
  */
 export const getDeployment: (
   input: GetDeploymentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDeploymentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2646,7 +2781,7 @@ export const getDeployment: (
  */
 export const deleteComponent: (
   input: DeleteComponentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteComponentResponse,
   | AccessDeniedException
   | ConflictException
@@ -2683,7 +2818,7 @@ export const deleteComponent: (
  */
 export const batchAssociateClientDeviceWithCoreDevice: (
   input: BatchAssociateClientDeviceWithCoreDeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchAssociateClientDeviceWithCoreDeviceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2710,7 +2845,7 @@ export const batchAssociateClientDeviceWithCoreDevice: (
  */
 export const batchDisassociateClientDeviceFromCoreDevice: (
   input: BatchDisassociateClientDeviceFromCoreDeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDisassociateClientDeviceFromCoreDeviceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2735,7 +2870,7 @@ export const batchDisassociateClientDeviceFromCoreDevice: (
  */
 export const describeComponent: (
   input: DescribeComponentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeComponentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2764,7 +2899,7 @@ export const describeComponent: (
  */
 export const associateServiceRoleToAccount: (
   input: AssociateServiceRoleToAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateServiceRoleToAccountResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2785,7 +2920,7 @@ export const associateServiceRoleToAccount: (
  */
 export const updateConnectivityInfo: (
   input: UpdateConnectivityInfoRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConnectivityInfoResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2799,7 +2934,7 @@ export const updateConnectivityInfo: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2821,7 +2956,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2842,7 +2977,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2863,7 +2998,7 @@ export const untagResource: (
  */
 export const getComponent: (
   input: GetComponentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetComponentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2903,7 +3038,7 @@ export const getComponent: (
  */
 export const resolveComponentCandidates: (
   input: ResolveComponentCandidatesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResolveComponentCandidatesResponse,
   | AccessDeniedException
   | ConflictException
@@ -2943,7 +3078,7 @@ export const resolveComponentCandidates: (
  */
 export const createDeployment: (
   input: CreateDeploymentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDeploymentResponse,
   | AccessDeniedException
   | ConflictException
@@ -3001,7 +3136,7 @@ export const createDeployment: (
  */
 export const createComponentVersion: (
   input: CreateComponentVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateComponentVersionResponse,
   | AccessDeniedException
   | ConflictException

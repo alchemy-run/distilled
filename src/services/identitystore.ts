@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -94,16 +94,16 @@ export type IdentityStoreId = string;
 export type ResourceId = string;
 export type MaxResults = number;
 export type NextToken = string;
-export type GroupDisplayName = string | Redacted.Redacted<string>;
-export type SensitiveStringType = string | Redacted.Redacted<string>;
-export type UserName = string | Redacted.Redacted<string>;
+export type GroupDisplayName = string | redacted.Redacted<string>;
+export type SensitiveStringType = string | redacted.Redacted<string>;
+export type UserName = string | redacted.Redacted<string>;
 export type ExtensionName = string;
 export type AttributePath = string;
 export type StringType = string;
 export type ExceptionMessage = string;
 export type RequestId = string;
-export type ExternalIdIssuer = string | Redacted.Redacted<string>;
-export type ExternalIdIdentifier = string | Redacted.Redacted<string>;
+export type ExternalIdIssuer = string | redacted.Redacted<string>;
+export type ExternalIdIdentifier = string | redacted.Redacted<string>;
 
 //# Schemas
 export type GroupIds = string[];
@@ -111,8 +111,8 @@ export const GroupIds = S.Array(S.String);
 export type ExtensionNames = string[];
 export const ExtensionNames = S.Array(S.String);
 export interface ExternalId {
-  Issuer: string | Redacted.Redacted<string>;
-  Id: string | Redacted.Redacted<string>;
+  Issuer: string | redacted.Redacted<string>;
+  Id: string | redacted.Redacted<string>;
 }
 export const ExternalId = S.suspend(() =>
   S.Struct({ Issuer: SensitiveString, Id: SensitiveString }),
@@ -135,7 +135,7 @@ export const AlternateIdentifier = S.Union(
 );
 export interface GetUserIdRequest {
   IdentityStoreId: string;
-  AlternateIdentifier: (typeof AlternateIdentifier)["Type"];
+  AlternateIdentifier: AlternateIdentifier;
 }
 export const GetUserIdRequest = S.suspend(() =>
   S.Struct({
@@ -151,8 +151,8 @@ export type MemberId = { UserId: string };
 export const MemberId = S.Union(S.Struct({ UserId: S.String }));
 export interface IsMemberInGroupsRequest {
   IdentityStoreId: string;
-  MemberId: (typeof MemberId)["Type"];
-  GroupIds: GroupIds;
+  MemberId: MemberId;
+  GroupIds: string[];
 }
 export const IsMemberInGroupsRequest = S.suspend(() =>
   S.Struct({
@@ -167,7 +167,7 @@ export const IsMemberInGroupsRequest = S.suspend(() =>
 }) as any as S.Schema<IsMemberInGroupsRequest>;
 export interface ListGroupMembershipsForMemberRequest {
   IdentityStoreId: string;
-  MemberId: (typeof MemberId)["Type"];
+  MemberId: MemberId;
   MaxResults?: number;
   NextToken?: string;
 }
@@ -186,7 +186,7 @@ export const ListGroupMembershipsForMemberRequest = S.suspend(() =>
 export interface CreateGroupMembershipRequest {
   IdentityStoreId: string;
   GroupId: string;
-  MemberId: (typeof MemberId)["Type"];
+  MemberId: MemberId;
 }
 export const CreateGroupMembershipRequest = S.suspend(() =>
   S.Struct({
@@ -247,8 +247,8 @@ export const ListGroupMembershipsRequest = S.suspend(() =>
 }) as any as S.Schema<ListGroupMembershipsRequest>;
 export interface CreateGroupRequest {
   IdentityStoreId: string;
-  DisplayName?: string | Redacted.Redacted<string>;
-  Description?: string | Redacted.Redacted<string>;
+  DisplayName?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
 }
 export const CreateGroupRequest = S.suspend(() =>
   S.Struct({
@@ -290,7 +290,7 @@ export const DeleteGroupResponse = S.suspend(() => S.Struct({})).annotations({
 export interface DescribeUserRequest {
   IdentityStoreId: string;
   UserId: string;
-  Extensions?: ExtensionNames;
+  Extensions?: string[];
 }
 export const DescribeUserRequest = S.suspend(() =>
   S.Struct({
@@ -317,7 +317,7 @@ export const AttributeOperations = S.Array(AttributeOperation);
 export interface UpdateUserRequest {
   IdentityStoreId: string;
   UserId: string;
-  Operations: AttributeOperations;
+  Operations: AttributeOperation[];
 }
 export const UpdateUserRequest = S.suspend(() =>
   S.Struct({
@@ -351,7 +351,7 @@ export const DeleteUserResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<DeleteUserResponse>;
 export interface Filter {
   AttributePath: string;
-  AttributeValue: string | Redacted.Redacted<string>;
+  AttributeValue: string | redacted.Redacted<string>;
 }
 export const Filter = S.suspend(() =>
   S.Struct({ AttributePath: S.String, AttributeValue: SensitiveString }),
@@ -360,10 +360,10 @@ export type Filters = Filter[];
 export const Filters = S.Array(Filter);
 export interface ListUsersRequest {
   IdentityStoreId: string;
-  Extensions?: ExtensionNames;
+  Extensions?: string[];
   MaxResults?: number;
   NextToken?: string;
-  Filters?: Filters;
+  Filters?: Filter[];
 }
 export const ListUsersRequest = S.suspend(() =>
   S.Struct({
@@ -378,15 +378,22 @@ export const ListUsersRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListUsersRequest",
 }) as any as S.Schema<ListUsersRequest>;
+export type ConflictExceptionReason =
+  | "UNIQUENESS_CONSTRAINT_VIOLATION"
+  | "CONCURRENT_MODIFICATION";
+export const ConflictExceptionReason = S.Literal(
+  "UNIQUENESS_CONSTRAINT_VIOLATION",
+  "CONCURRENT_MODIFICATION",
+);
 export type ExternalIds = ExternalId[];
 export const ExternalIds = S.Array(ExternalId);
 export interface Name {
-  Formatted?: string | Redacted.Redacted<string>;
-  FamilyName?: string | Redacted.Redacted<string>;
-  GivenName?: string | Redacted.Redacted<string>;
-  MiddleName?: string | Redacted.Redacted<string>;
-  HonorificPrefix?: string | Redacted.Redacted<string>;
-  HonorificSuffix?: string | Redacted.Redacted<string>;
+  Formatted?: string | redacted.Redacted<string>;
+  FamilyName?: string | redacted.Redacted<string>;
+  GivenName?: string | redacted.Redacted<string>;
+  MiddleName?: string | redacted.Redacted<string>;
+  HonorificPrefix?: string | redacted.Redacted<string>;
+  HonorificSuffix?: string | redacted.Redacted<string>;
 }
 export const Name = S.suspend(() =>
   S.Struct({
@@ -399,8 +406,8 @@ export const Name = S.suspend(() =>
   }),
 ).annotations({ identifier: "Name" }) as any as S.Schema<Name>;
 export interface Email {
-  Value?: string | Redacted.Redacted<string>;
-  Type?: string | Redacted.Redacted<string>;
+  Value?: string | redacted.Redacted<string>;
+  Type?: string | redacted.Redacted<string>;
   Primary?: boolean;
 }
 export const Email = S.suspend(() =>
@@ -413,13 +420,13 @@ export const Email = S.suspend(() =>
 export type Emails = Email[];
 export const Emails = S.Array(Email);
 export interface Address {
-  StreetAddress?: string | Redacted.Redacted<string>;
-  Locality?: string | Redacted.Redacted<string>;
-  Region?: string | Redacted.Redacted<string>;
-  PostalCode?: string | Redacted.Redacted<string>;
-  Country?: string | Redacted.Redacted<string>;
-  Formatted?: string | Redacted.Redacted<string>;
-  Type?: string | Redacted.Redacted<string>;
+  StreetAddress?: string | redacted.Redacted<string>;
+  Locality?: string | redacted.Redacted<string>;
+  Region?: string | redacted.Redacted<string>;
+  PostalCode?: string | redacted.Redacted<string>;
+  Country?: string | redacted.Redacted<string>;
+  Formatted?: string | redacted.Redacted<string>;
+  Type?: string | redacted.Redacted<string>;
   Primary?: boolean;
 }
 export const Address = S.suspend(() =>
@@ -437,8 +444,8 @@ export const Address = S.suspend(() =>
 export type Addresses = Address[];
 export const Addresses = S.Array(Address);
 export interface PhoneNumber {
-  Value?: string | Redacted.Redacted<string>;
-  Type?: string | Redacted.Redacted<string>;
+  Value?: string | redacted.Redacted<string>;
+  Type?: string | redacted.Redacted<string>;
   Primary?: boolean;
 }
 export const PhoneNumber = S.suspend(() =>
@@ -451,9 +458,9 @@ export const PhoneNumber = S.suspend(() =>
 export type PhoneNumbers = PhoneNumber[];
 export const PhoneNumbers = S.Array(PhoneNumber);
 export interface Photo {
-  Value: string | Redacted.Redacted<string>;
-  Type?: string | Redacted.Redacted<string>;
-  Display?: string | Redacted.Redacted<string>;
+  Value: string | redacted.Redacted<string>;
+  Type?: string | redacted.Redacted<string>;
+  Display?: string | redacted.Redacted<string>;
   Primary?: boolean;
 }
 export const Photo = S.suspend(() =>
@@ -468,10 +475,12 @@ export type Photos = Photo[];
 export const Photos = S.Array(Photo);
 export type Extensions = { [key: string]: any };
 export const Extensions = S.Record({ key: S.String, value: S.Any });
+export type UserStatus = "ENABLED" | "DISABLED";
+export const UserStatus = S.Literal("ENABLED", "DISABLED");
 export interface GetGroupMembershipIdRequest {
   IdentityStoreId: string;
   GroupId: string;
-  MemberId: (typeof MemberId)["Type"];
+  MemberId: MemberId;
 }
 export const GetGroupMembershipIdRequest = S.suspend(() =>
   S.Struct({
@@ -506,7 +515,7 @@ export interface DescribeGroupMembershipResponse {
   IdentityStoreId: string;
   MembershipId: string;
   GroupId: string;
-  MemberId: (typeof MemberId)["Type"];
+  MemberId: MemberId;
   CreatedAt?: Date;
   UpdatedAt?: Date;
   CreatedBy?: string;
@@ -530,7 +539,7 @@ export interface GroupMembership {
   IdentityStoreId: string;
   MembershipId?: string;
   GroupId?: string;
-  MemberId?: (typeof MemberId)["Type"];
+  MemberId?: MemberId;
   CreatedAt?: Date;
   UpdatedAt?: Date;
   CreatedBy?: string;
@@ -553,7 +562,7 @@ export const GroupMembership = S.suspend(() =>
 export type GroupMemberships = GroupMembership[];
 export const GroupMemberships = S.Array(GroupMembership);
 export interface ListGroupMembershipsResponse {
-  GroupMemberships: GroupMemberships;
+  GroupMemberships: GroupMembership[];
   NextToken?: string;
 }
 export const ListGroupMembershipsResponse = S.suspend(() =>
@@ -575,9 +584,9 @@ export const CreateGroupResponse = S.suspend(() =>
 }) as any as S.Schema<CreateGroupResponse>;
 export interface DescribeGroupResponse {
   GroupId: string;
-  DisplayName?: string | Redacted.Redacted<string>;
-  ExternalIds?: ExternalIds;
-  Description?: string | Redacted.Redacted<string>;
+  DisplayName?: string | redacted.Redacted<string>;
+  ExternalIds?: ExternalId[];
+  Description?: string | redacted.Redacted<string>;
   CreatedAt?: Date;
   UpdatedAt?: Date;
   CreatedBy?: string;
@@ -602,7 +611,7 @@ export const DescribeGroupResponse = S.suspend(() =>
 export interface UpdateGroupRequest {
   IdentityStoreId: string;
   GroupId: string;
-  Operations: AttributeOperations;
+  Operations: AttributeOperation[];
 }
 export const UpdateGroupRequest = S.suspend(() =>
   S.Struct({
@@ -623,7 +632,7 @@ export interface ListGroupsRequest {
   IdentityStoreId: string;
   MaxResults?: number;
   NextToken?: string;
-  Filters?: Filters;
+  Filters?: Filter[];
 }
 export const ListGroupsRequest = S.suspend(() =>
   S.Struct({
@@ -639,23 +648,23 @@ export const ListGroupsRequest = S.suspend(() =>
 }) as any as S.Schema<ListGroupsRequest>;
 export interface CreateUserRequest {
   IdentityStoreId: string;
-  UserName?: string | Redacted.Redacted<string>;
+  UserName?: string | redacted.Redacted<string>;
   Name?: Name;
-  DisplayName?: string | Redacted.Redacted<string>;
-  NickName?: string | Redacted.Redacted<string>;
-  ProfileUrl?: string | Redacted.Redacted<string>;
-  Emails?: Emails;
-  Addresses?: Addresses;
-  PhoneNumbers?: PhoneNumbers;
-  UserType?: string | Redacted.Redacted<string>;
-  Title?: string | Redacted.Redacted<string>;
-  PreferredLanguage?: string | Redacted.Redacted<string>;
-  Locale?: string | Redacted.Redacted<string>;
-  Timezone?: string | Redacted.Redacted<string>;
-  Photos?: Photos;
-  Website?: string | Redacted.Redacted<string>;
-  Birthdate?: string | Redacted.Redacted<string>;
-  Extensions?: Extensions;
+  DisplayName?: string | redacted.Redacted<string>;
+  NickName?: string | redacted.Redacted<string>;
+  ProfileUrl?: string | redacted.Redacted<string>;
+  Emails?: Email[];
+  Addresses?: Address[];
+  PhoneNumbers?: PhoneNumber[];
+  UserType?: string | redacted.Redacted<string>;
+  Title?: string | redacted.Redacted<string>;
+  PreferredLanguage?: string | redacted.Redacted<string>;
+  Locale?: string | redacted.Redacted<string>;
+  Timezone?: string | redacted.Redacted<string>;
+  Photos?: Photo[];
+  Website?: string | redacted.Redacted<string>;
+  Birthdate?: string | redacted.Redacted<string>;
+  Extensions?: { [key: string]: any };
 }
 export const CreateUserRequest = S.suspend(() =>
   S.Struct({
@@ -686,29 +695,29 @@ export const CreateUserRequest = S.suspend(() =>
 export interface DescribeUserResponse {
   IdentityStoreId: string;
   UserId: string;
-  UserName?: string | Redacted.Redacted<string>;
-  ExternalIds?: ExternalIds;
+  UserName?: string | redacted.Redacted<string>;
+  ExternalIds?: ExternalId[];
   Name?: Name;
-  DisplayName?: string | Redacted.Redacted<string>;
-  NickName?: string | Redacted.Redacted<string>;
-  ProfileUrl?: string | Redacted.Redacted<string>;
-  Emails?: Emails;
-  Addresses?: Addresses;
-  PhoneNumbers?: PhoneNumbers;
-  UserType?: string | Redacted.Redacted<string>;
-  Title?: string | Redacted.Redacted<string>;
-  PreferredLanguage?: string | Redacted.Redacted<string>;
-  Locale?: string | Redacted.Redacted<string>;
-  Timezone?: string | Redacted.Redacted<string>;
-  UserStatus?: string;
-  Photos?: Photos;
-  Website?: string | Redacted.Redacted<string>;
-  Birthdate?: string | Redacted.Redacted<string>;
+  DisplayName?: string | redacted.Redacted<string>;
+  NickName?: string | redacted.Redacted<string>;
+  ProfileUrl?: string | redacted.Redacted<string>;
+  Emails?: Email[];
+  Addresses?: Address[];
+  PhoneNumbers?: PhoneNumber[];
+  UserType?: string | redacted.Redacted<string>;
+  Title?: string | redacted.Redacted<string>;
+  PreferredLanguage?: string | redacted.Redacted<string>;
+  Locale?: string | redacted.Redacted<string>;
+  Timezone?: string | redacted.Redacted<string>;
+  UserStatus?: UserStatus;
+  Photos?: Photo[];
+  Website?: string | redacted.Redacted<string>;
+  Birthdate?: string | redacted.Redacted<string>;
   CreatedAt?: Date;
   CreatedBy?: string;
   UpdatedAt?: Date;
   UpdatedBy?: string;
-  Extensions?: Extensions;
+  Extensions?: { [key: string]: any };
 }
 export const DescribeUserResponse = S.suspend(() =>
   S.Struct({
@@ -728,7 +737,7 @@ export const DescribeUserResponse = S.suspend(() =>
     PreferredLanguage: S.optional(SensitiveString),
     Locale: S.optional(SensitiveString),
     Timezone: S.optional(SensitiveString),
-    UserStatus: S.optional(S.String),
+    UserStatus: S.optional(UserStatus),
     Photos: S.optional(Photos),
     Website: S.optional(SensitiveString),
     Birthdate: S.optional(SensitiveString),
@@ -741,9 +750,24 @@ export const DescribeUserResponse = S.suspend(() =>
 ).annotations({
   identifier: "DescribeUserResponse",
 }) as any as S.Schema<DescribeUserResponse>;
+export type ResourceType =
+  | "GROUP"
+  | "USER"
+  | "IDENTITY_STORE"
+  | "GROUP_MEMBERSHIP"
+  | "RESOURCE_POLICY";
+export const ResourceType = S.Literal(
+  "GROUP",
+  "USER",
+  "IDENTITY_STORE",
+  "GROUP_MEMBERSHIP",
+  "RESOURCE_POLICY",
+);
+export type ResourceNotFoundExceptionReason = "KMS_KEY_NOT_FOUND";
+export const ResourceNotFoundExceptionReason = S.Literal("KMS_KEY_NOT_FOUND");
 export interface GroupMembershipExistenceResult {
   GroupId?: string;
-  MemberId?: (typeof MemberId)["Type"];
+  MemberId?: MemberId;
   MembershipExists?: boolean;
 }
 export const GroupMembershipExistenceResult = S.suspend(() =>
@@ -762,29 +786,29 @@ export const GroupMembershipExistenceResults = S.Array(
 export interface User {
   IdentityStoreId: string;
   UserId: string;
-  UserName?: string | Redacted.Redacted<string>;
-  ExternalIds?: ExternalIds;
+  UserName?: string | redacted.Redacted<string>;
+  ExternalIds?: ExternalId[];
   Name?: Name;
-  DisplayName?: string | Redacted.Redacted<string>;
-  NickName?: string | Redacted.Redacted<string>;
-  ProfileUrl?: string | Redacted.Redacted<string>;
-  Emails?: Emails;
-  Addresses?: Addresses;
-  PhoneNumbers?: PhoneNumbers;
-  UserType?: string | Redacted.Redacted<string>;
-  Title?: string | Redacted.Redacted<string>;
-  PreferredLanguage?: string | Redacted.Redacted<string>;
-  Locale?: string | Redacted.Redacted<string>;
-  Timezone?: string | Redacted.Redacted<string>;
-  UserStatus?: string;
-  Photos?: Photos;
-  Website?: string | Redacted.Redacted<string>;
-  Birthdate?: string | Redacted.Redacted<string>;
+  DisplayName?: string | redacted.Redacted<string>;
+  NickName?: string | redacted.Redacted<string>;
+  ProfileUrl?: string | redacted.Redacted<string>;
+  Emails?: Email[];
+  Addresses?: Address[];
+  PhoneNumbers?: PhoneNumber[];
+  UserType?: string | redacted.Redacted<string>;
+  Title?: string | redacted.Redacted<string>;
+  PreferredLanguage?: string | redacted.Redacted<string>;
+  Locale?: string | redacted.Redacted<string>;
+  Timezone?: string | redacted.Redacted<string>;
+  UserStatus?: UserStatus;
+  Photos?: Photo[];
+  Website?: string | redacted.Redacted<string>;
+  Birthdate?: string | redacted.Redacted<string>;
   CreatedAt?: Date;
   CreatedBy?: string;
   UpdatedAt?: Date;
   UpdatedBy?: string;
-  Extensions?: Extensions;
+  Extensions?: { [key: string]: any };
 }
 export const User = S.suspend(() =>
   S.Struct({
@@ -804,7 +828,7 @@ export const User = S.suspend(() =>
     PreferredLanguage: S.optional(SensitiveString),
     Locale: S.optional(SensitiveString),
     Timezone: S.optional(SensitiveString),
-    UserStatus: S.optional(S.String),
+    UserStatus: S.optional(UserStatus),
     Photos: S.optional(Photos),
     Website: S.optional(SensitiveString),
     Birthdate: S.optional(SensitiveString),
@@ -819,7 +843,7 @@ export type Users = User[];
 export const Users = S.Array(User);
 export interface GetGroupIdRequest {
   IdentityStoreId: string;
-  AlternateIdentifier: (typeof AlternateIdentifier)["Type"];
+  AlternateIdentifier: AlternateIdentifier;
 }
 export const GetGroupIdRequest = S.suspend(() =>
   S.Struct({
@@ -841,7 +865,7 @@ export const GetGroupMembershipIdResponse = S.suspend(() =>
   identifier: "GetGroupMembershipIdResponse",
 }) as any as S.Schema<GetGroupMembershipIdResponse>;
 export interface IsMemberInGroupsResponse {
-  Results: GroupMembershipExistenceResults;
+  Results: GroupMembershipExistenceResult[];
 }
 export const IsMemberInGroupsResponse = S.suspend(() =>
   S.Struct({ Results: GroupMembershipExistenceResults }),
@@ -849,7 +873,7 @@ export const IsMemberInGroupsResponse = S.suspend(() =>
   identifier: "IsMemberInGroupsResponse",
 }) as any as S.Schema<IsMemberInGroupsResponse>;
 export interface ListGroupMembershipsForMemberResponse {
-  GroupMemberships: GroupMemberships;
+  GroupMemberships: GroupMembership[];
   NextToken?: string;
 }
 export const ListGroupMembershipsForMemberResponse = S.suspend(() =>
@@ -870,7 +894,7 @@ export const CreateUserResponse = S.suspend(() =>
   identifier: "CreateUserResponse",
 }) as any as S.Schema<CreateUserResponse>;
 export interface ListUsersResponse {
-  Users: Users;
+  Users: User[];
   NextToken?: string;
 }
 export const ListUsersResponse = S.suspend(() =>
@@ -878,11 +902,22 @@ export const ListUsersResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListUsersResponse",
 }) as any as S.Schema<ListUsersResponse>;
+export type ValidationExceptionReason =
+  | "KMS_INVALID_ARN"
+  | "KMS_INVALID_KEY_USAGE"
+  | "KMS_INVALID_STATE"
+  | "KMS_DISABLED";
+export const ValidationExceptionReason = S.Literal(
+  "KMS_INVALID_ARN",
+  "KMS_INVALID_KEY_USAGE",
+  "KMS_INVALID_STATE",
+  "KMS_DISABLED",
+);
 export interface Group {
   GroupId: string;
-  DisplayName?: string | Redacted.Redacted<string>;
-  ExternalIds?: ExternalIds;
-  Description?: string | Redacted.Redacted<string>;
+  DisplayName?: string | redacted.Redacted<string>;
+  ExternalIds?: ExternalId[];
+  Description?: string | redacted.Redacted<string>;
   CreatedAt?: Date;
   UpdatedAt?: Date;
   CreatedBy?: string;
@@ -914,7 +949,7 @@ export const GetGroupIdResponse = S.suspend(() =>
   identifier: "GetGroupIdResponse",
 }) as any as S.Schema<GetGroupIdResponse>;
 export interface ListGroupsResponse {
-  Groups: Groups;
+  Groups: Group[];
   NextToken?: string;
 }
 export const ListGroupsResponse = S.suspend(() =>
@@ -929,15 +964,15 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
   {
     Message: S.optional(S.String),
     RequestId: S.optional(S.String),
-    Reason: S.optional(S.String),
+    Reason: S.optional(ConflictExceptionReason),
   },
 ).pipe(C.withConflictError) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   {
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(ResourceType),
     ResourceId: S.optional(S.String),
-    Reason: S.optional(S.String),
+    Reason: S.optional(ResourceNotFoundExceptionReason),
     Message: S.optional(S.String),
     RequestId: S.optional(S.String),
   },
@@ -947,7 +982,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   {
     Message: S.optional(S.String),
     RequestId: S.optional(S.String),
-    Reason: S.optional(S.String),
+    Reason: S.optional(ValidationExceptionReason),
   },
 ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
@@ -963,7 +998,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  */
 export const getUserId: (
   input: GetUserIdRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUserIdResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -980,21 +1015,21 @@ export const getUserId: (
 export const listGroups: {
   (
     input: ListGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGroupsResponse,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGroupsResponse,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Group,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1015,7 +1050,7 @@ export const listGroups: {
  */
 export const createUser: (
   input: CreateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUserResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -1040,7 +1075,7 @@ export const createUser: (
  */
 export const isMemberInGroups: (
   input: IsMemberInGroupsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   IsMemberInGroupsResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1057,21 +1092,21 @@ export const isMemberInGroups: (
 export const listGroupMembershipsForMember: {
   (
     input: ListGroupMembershipsForMemberRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGroupMembershipsForMemberResponse,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListGroupMembershipsForMemberRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGroupMembershipsForMemberResponse,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGroupMembershipsForMemberRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GroupMembership,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1095,21 +1130,21 @@ export const listGroupMembershipsForMember: {
 export const listUsers: {
   (
     input: ListUsersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUsersResponse,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUsersResponse,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     User,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1132,7 +1167,7 @@ export const listUsers: {
  */
 export const describeGroupMembership: (
   input: DescribeGroupMembershipRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeGroupMembershipResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1146,7 +1181,7 @@ export const describeGroupMembership: (
  */
 export const deleteGroupMembership: (
   input: DeleteGroupMembershipRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGroupMembershipResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -1166,21 +1201,21 @@ export const deleteGroupMembership: (
 export const listGroupMemberships: {
   (
     input: ListGroupMembershipsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGroupMembershipsResponse,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListGroupMembershipsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGroupMembershipsResponse,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGroupMembershipsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GroupMembership,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1203,7 +1238,7 @@ export const listGroupMemberships: {
  */
 export const describeGroup: (
   input: DescribeGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeGroupResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1219,7 +1254,7 @@ export const describeGroup: (
  */
 export const describeUser: (
   input: DescribeUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeUserResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1233,7 +1268,7 @@ export const describeUser: (
  */
 export const deleteGroup: (
   input: DeleteGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGroupResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -1250,7 +1285,7 @@ export const deleteGroup: (
  */
 export const deleteUser: (
   input: DeleteUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUserResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -1269,7 +1304,7 @@ export const deleteUser: (
  */
 export const getGroupMembershipId: (
   input: GetGroupMembershipIdRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetGroupMembershipIdResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1285,7 +1320,7 @@ export const getGroupMembershipId: (
  */
 export const getGroupId: (
   input: GetGroupIdRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetGroupIdResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1299,7 +1334,7 @@ export const getGroupId: (
  */
 export const createGroup: (
   input: CreateGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGroupResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -1322,7 +1357,7 @@ export const createGroup: (
  */
 export const updateGroup: (
   input: UpdateGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGroupResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -1345,7 +1380,7 @@ export const updateGroup: (
  */
 export const updateUser: (
   input: UpdateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -1368,7 +1403,7 @@ export const updateUser: (
  */
 export const createGroupMembership: (
   input: CreateGroupMembershipRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGroupMembershipResponse,
   | ConflictException
   | ResourceNotFoundException

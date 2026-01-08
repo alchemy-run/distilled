@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -99,8 +99,21 @@ export const GetPreferencesRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetPreferencesRequest",
 }) as any as S.Schema<GetPreferencesRequest>;
-export type SummaryMetricsList = string[];
-export const SummaryMetricsList = S.Array(S.String);
+export type SavingsEstimationMode = "BeforeDiscounts" | "AfterDiscounts";
+export const SavingsEstimationMode = S.Literal(
+  "BeforeDiscounts",
+  "AfterDiscounts",
+);
+export type MemberAccountDiscountVisibility = "All" | "None";
+export const MemberAccountDiscountVisibility = S.Literal("All", "None");
+export type GranularityType = "Daily" | "Monthly";
+export const GranularityType = S.Literal("Daily", "Monthly");
+export type SummaryMetrics = "SavingsPercentage";
+export const SummaryMetrics = S.Literal("SavingsPercentage");
+export type SummaryMetricsList = SummaryMetrics[];
+export const SummaryMetricsList = S.Array(SummaryMetrics);
+export type EnrollmentStatus = "Active" | "Inactive";
+export const EnrollmentStatus = S.Literal("Active", "Inactive");
 export interface GetRecommendationRequest {
   recommendationId: string;
 }
@@ -129,16 +142,89 @@ export const ListEnrollmentStatusesRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListEnrollmentStatusesRequest",
 }) as any as S.Schema<ListEnrollmentStatusesRequest>;
-export type ImplementationEffortList = string[];
-export const ImplementationEffortList = S.Array(S.String);
+export type ImplementationEffort =
+  | "VeryLow"
+  | "Low"
+  | "Medium"
+  | "High"
+  | "VeryHigh";
+export const ImplementationEffort = S.Literal(
+  "VeryLow",
+  "Low",
+  "Medium",
+  "High",
+  "VeryHigh",
+);
+export type ImplementationEffortList = ImplementationEffort[];
+export const ImplementationEffortList = S.Array(ImplementationEffort);
 export type AccountIdList = string[];
 export const AccountIdList = S.Array(S.String);
 export type RegionList = string[];
 export const RegionList = S.Array(S.String);
-export type ResourceTypeList = string[];
-export const ResourceTypeList = S.Array(S.String);
-export type ActionTypeList = string[];
-export const ActionTypeList = S.Array(S.String);
+export type ResourceType =
+  | "Ec2Instance"
+  | "LambdaFunction"
+  | "EbsVolume"
+  | "EcsService"
+  | "Ec2AutoScalingGroup"
+  | "Ec2InstanceSavingsPlans"
+  | "ComputeSavingsPlans"
+  | "SageMakerSavingsPlans"
+  | "Ec2ReservedInstances"
+  | "RdsReservedInstances"
+  | "OpenSearchReservedInstances"
+  | "RedshiftReservedInstances"
+  | "ElastiCacheReservedInstances"
+  | "RdsDbInstanceStorage"
+  | "RdsDbInstance"
+  | "AuroraDbClusterStorage"
+  | "DynamoDbReservedCapacity"
+  | "MemoryDbReservedInstances"
+  | "NatGateway";
+export const ResourceType = S.Literal(
+  "Ec2Instance",
+  "LambdaFunction",
+  "EbsVolume",
+  "EcsService",
+  "Ec2AutoScalingGroup",
+  "Ec2InstanceSavingsPlans",
+  "ComputeSavingsPlans",
+  "SageMakerSavingsPlans",
+  "Ec2ReservedInstances",
+  "RdsReservedInstances",
+  "OpenSearchReservedInstances",
+  "RedshiftReservedInstances",
+  "ElastiCacheReservedInstances",
+  "RdsDbInstanceStorage",
+  "RdsDbInstance",
+  "AuroraDbClusterStorage",
+  "DynamoDbReservedCapacity",
+  "MemoryDbReservedInstances",
+  "NatGateway",
+);
+export type ResourceTypeList = ResourceType[];
+export const ResourceTypeList = S.Array(ResourceType);
+export type ActionType =
+  | "Rightsize"
+  | "Stop"
+  | "Upgrade"
+  | "PurchaseSavingsPlans"
+  | "PurchaseReservedInstances"
+  | "MigrateToGraviton"
+  | "Delete"
+  | "ScaleIn";
+export const ActionType = S.Literal(
+  "Rightsize",
+  "Stop",
+  "Upgrade",
+  "PurchaseSavingsPlans",
+  "PurchaseReservedInstances",
+  "MigrateToGraviton",
+  "Delete",
+  "ScaleIn",
+);
+export type ActionTypeList = ActionType[];
+export const ActionTypeList = S.Array(ActionType);
 export interface Tag {
   key?: string;
   value?: string;
@@ -157,15 +243,15 @@ export const RecommendationIdList = S.Array(S.String);
 export interface Filter {
   restartNeeded?: boolean;
   rollbackPossible?: boolean;
-  implementationEfforts?: ImplementationEffortList;
-  accountIds?: AccountIdList;
-  regions?: RegionList;
-  resourceTypes?: ResourceTypeList;
-  actionTypes?: ActionTypeList;
-  tags?: TagList;
-  resourceIds?: ResourceIdList;
-  resourceArns?: ResourceArnList;
-  recommendationIds?: RecommendationIdList;
+  implementationEfforts?: ImplementationEffort[];
+  accountIds?: string[];
+  regions?: string[];
+  resourceTypes?: ResourceType[];
+  actionTypes?: ActionType[];
+  tags?: Tag[];
+  resourceIds?: string[];
+  resourceArns?: string[];
+  recommendationIds?: string[];
 }
 export const Filter = S.suspend(() =>
   S.Struct({
@@ -186,7 +272,7 @@ export interface ListRecommendationSummariesRequest {
   filter?: Filter;
   groupBy: string;
   maxResults?: number;
-  metrics?: SummaryMetricsList;
+  metrics?: SummaryMetrics[];
   nextToken?: string;
 }
 export const ListRecommendationSummariesRequest = S.suspend(() =>
@@ -203,12 +289,12 @@ export const ListRecommendationSummariesRequest = S.suspend(() =>
   identifier: "ListRecommendationSummariesRequest",
 }) as any as S.Schema<ListRecommendationSummariesRequest>;
 export interface UpdateEnrollmentStatusRequest {
-  status: string;
+  status: EnrollmentStatus;
   includeMemberAccounts?: boolean;
 }
 export const UpdateEnrollmentStatusRequest = S.suspend(() =>
   S.Struct({
-    status: S.String,
+    status: EnrollmentStatus,
     includeMemberAccounts: S.optional(S.Boolean),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -216,24 +302,37 @@ export const UpdateEnrollmentStatusRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateEnrollmentStatusRequest",
 }) as any as S.Schema<UpdateEnrollmentStatusRequest>;
+export type Term = "OneYear" | "ThreeYears";
+export const Term = S.Literal("OneYear", "ThreeYears");
+export type PaymentOption = "AllUpfront" | "PartialUpfront" | "NoUpfront";
+export const PaymentOption = S.Literal(
+  "AllUpfront",
+  "PartialUpfront",
+  "NoUpfront",
+);
 export interface PreferredCommitment {
-  term?: string;
-  paymentOption?: string;
+  term?: Term;
+  paymentOption?: PaymentOption;
 }
 export const PreferredCommitment = S.suspend(() =>
-  S.Struct({ term: S.optional(S.String), paymentOption: S.optional(S.String) }),
+  S.Struct({
+    term: S.optional(Term),
+    paymentOption: S.optional(PaymentOption),
+  }),
 ).annotations({
   identifier: "PreferredCommitment",
 }) as any as S.Schema<PreferredCommitment>;
 export interface UpdatePreferencesRequest {
-  savingsEstimationMode?: string;
-  memberAccountDiscountVisibility?: string;
+  savingsEstimationMode?: SavingsEstimationMode;
+  memberAccountDiscountVisibility?: MemberAccountDiscountVisibility;
   preferredCommitment?: PreferredCommitment;
 }
 export const UpdatePreferencesRequest = S.suspend(() =>
   S.Struct({
-    savingsEstimationMode: S.optional(S.String),
-    memberAccountDiscountVisibility: S.optional(S.String),
+    savingsEstimationMode: S.optional(SavingsEstimationMode),
+    memberAccountDiscountVisibility: S.optional(
+      MemberAccountDiscountVisibility,
+    ),
     preferredCommitment: S.optional(PreferredCommitment),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -241,6 +340,10 @@ export const UpdatePreferencesRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdatePreferencesRequest",
 }) as any as S.Schema<UpdatePreferencesRequest>;
+export type Order = "Asc" | "Desc";
+export const Order = S.Literal("Asc", "Desc");
+export type Source = "ComputeOptimizer" | "CostExplorer";
+export const Source = S.Literal("ComputeOptimizer", "CostExplorer");
 export interface TimePeriod {
   start: string;
   end: string;
@@ -250,20 +353,22 @@ export const TimePeriod = S.suspend(() =>
 ).annotations({ identifier: "TimePeriod" }) as any as S.Schema<TimePeriod>;
 export interface OrderBy {
   dimension?: string;
-  order?: string;
+  order?: Order;
 }
 export const OrderBy = S.suspend(() =>
-  S.Struct({ dimension: S.optional(S.String), order: S.optional(S.String) }),
+  S.Struct({ dimension: S.optional(S.String), order: S.optional(Order) }),
 ).annotations({ identifier: "OrderBy" }) as any as S.Schema<OrderBy>;
 export interface GetPreferencesResponse {
-  savingsEstimationMode?: string;
-  memberAccountDiscountVisibility?: string;
+  savingsEstimationMode?: SavingsEstimationMode;
+  memberAccountDiscountVisibility?: MemberAccountDiscountVisibility;
   preferredCommitment?: PreferredCommitment;
 }
 export const GetPreferencesResponse = S.suspend(() =>
   S.Struct({
-    savingsEstimationMode: S.optional(S.String),
-    memberAccountDiscountVisibility: S.optional(S.String),
+    savingsEstimationMode: S.optional(SavingsEstimationMode),
+    memberAccountDiscountVisibility: S.optional(
+      MemberAccountDiscountVisibility,
+    ),
     preferredCommitment: S.optional(PreferredCommitment),
   }),
 ).annotations({
@@ -271,7 +376,7 @@ export const GetPreferencesResponse = S.suspend(() =>
 }) as any as S.Schema<GetPreferencesResponse>;
 export interface ListEfficiencyMetricsRequest {
   groupBy?: string;
-  granularity: string;
+  granularity: GranularityType;
   timePeriod: TimePeriod;
   maxResults?: number;
   orderBy?: OrderBy;
@@ -280,7 +385,7 @@ export interface ListEfficiencyMetricsRequest {
 export const ListEfficiencyMetricsRequest = S.suspend(() =>
   S.Struct({
     groupBy: S.optional(S.String),
-    granularity: S.String,
+    granularity: GranularityType,
     timePeriod: TimePeriod,
     maxResults: S.optional(S.Number),
     orderBy: S.optional(OrderBy),
@@ -300,14 +405,16 @@ export const UpdateEnrollmentStatusResponse = S.suspend(() =>
   identifier: "UpdateEnrollmentStatusResponse",
 }) as any as S.Schema<UpdateEnrollmentStatusResponse>;
 export interface UpdatePreferencesResponse {
-  savingsEstimationMode?: string;
-  memberAccountDiscountVisibility?: string;
+  savingsEstimationMode?: SavingsEstimationMode;
+  memberAccountDiscountVisibility?: MemberAccountDiscountVisibility;
   preferredCommitment?: PreferredCommitment;
 }
 export const UpdatePreferencesResponse = S.suspend(() =>
   S.Struct({
-    savingsEstimationMode: S.optional(S.String),
-    memberAccountDiscountVisibility: S.optional(S.String),
+    savingsEstimationMode: S.optional(SavingsEstimationMode),
+    memberAccountDiscountVisibility: S.optional(
+      MemberAccountDiscountVisibility,
+    ),
     preferredCommitment: S.optional(PreferredCommitment),
   }),
 ).annotations({
@@ -315,14 +422,14 @@ export const UpdatePreferencesResponse = S.suspend(() =>
 }) as any as S.Schema<UpdatePreferencesResponse>;
 export interface AccountEnrollmentStatus {
   accountId?: string;
-  status?: string;
+  status?: EnrollmentStatus;
   lastUpdatedTimestamp?: Date;
   createdTimestamp?: Date;
 }
 export const AccountEnrollmentStatus = S.suspend(() =>
   S.Struct({
     accountId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(EnrollmentStatus),
     lastUpdatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -360,7 +467,7 @@ export const SummaryMetricsResult = S.suspend(() =>
   identifier: "SummaryMetricsResult",
 }) as any as S.Schema<SummaryMetricsResult>;
 export interface ListEnrollmentStatusesResponse {
-  items?: AccountEnrollmentStatuses;
+  items?: AccountEnrollmentStatus[];
   includeMemberAccounts?: boolean;
   nextToken?: string;
 }
@@ -395,7 +502,7 @@ export const ListRecommendationsRequest = S.suspend(() =>
 }) as any as S.Schema<ListRecommendationsRequest>;
 export interface ListRecommendationSummariesResponse {
   estimatedTotalDedupedSavings?: number;
-  items?: RecommendationSummariesList;
+  items?: RecommendationSummary[];
   groupBy?: string;
   currencyCode?: string;
   metrics?: SummaryMetricsResult;
@@ -413,6 +520,15 @@ export const ListRecommendationSummariesResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListRecommendationSummariesResponse",
 }) as any as S.Schema<ListRecommendationSummariesResponse>;
+export type Ec2AutoScalingGroupType =
+  | "SingleInstanceType"
+  | "MixedInstanceTypes";
+export const Ec2AutoScalingGroupType = S.Literal(
+  "SingleInstanceType",
+  "MixedInstanceTypes",
+);
+export type AllocationStrategy = "Prioritized" | "LowestPrice";
+export const AllocationStrategy = S.Literal("Prioritized", "LowestPrice");
 export interface ComputeConfiguration {
   vCpu?: number;
   memorySizeInMB?: number;
@@ -818,7 +934,7 @@ export const ResourcePricing = S.suspend(() =>
   identifier: "ResourcePricing",
 }) as any as S.Schema<ResourcePricing>;
 export interface ResourceCostCalculation {
-  usages?: UsageList;
+  usages?: Usage[];
   pricing?: ResourcePricing;
 }
 export const ResourceCostCalculation = S.suspend(() =>
@@ -1082,7 +1198,7 @@ export const DbInstanceConfiguration = S.suspend(() =>
   identifier: "DbInstanceConfiguration",
 }) as any as S.Schema<DbInstanceConfiguration>;
 export interface EfficiencyMetricsByGroup {
-  metricsByTime?: MetricsByTimeList;
+  metricsByTime?: MetricsByTime[];
   group?: string;
   message?: string;
 }
@@ -1117,8 +1233,8 @@ export interface Recommendation {
   recommendedResourceSummary?: string;
   lastRefreshTimestamp?: Date;
   recommendationLookbackPeriodInDays?: number;
-  source?: string;
-  tags?: TagList;
+  source?: Source;
+  tags?: Tag[];
 }
 export const Recommendation = S.suspend(() =>
   S.Struct({
@@ -1143,7 +1259,7 @@ export const Recommendation = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     recommendationLookbackPeriodInDays: S.optional(S.Number),
-    source: S.optional(S.String),
+    source: S.optional(Source),
     tags: S.optional(TagList),
   }),
 ).annotations({
@@ -1183,16 +1299,16 @@ export const EbsVolumeConfiguration = S.suspend(() =>
 }) as any as S.Schema<EbsVolumeConfiguration>;
 export interface Ec2AutoScalingGroupConfiguration {
   instance?: InstanceConfiguration;
-  mixedInstances?: MixedInstanceConfigurationList;
-  type?: string;
-  allocationStrategy?: string;
+  mixedInstances?: MixedInstanceConfiguration[];
+  type?: Ec2AutoScalingGroupType;
+  allocationStrategy?: AllocationStrategy;
 }
 export const Ec2AutoScalingGroupConfiguration = S.suspend(() =>
   S.Struct({
     instance: S.optional(InstanceConfiguration),
     mixedInstances: S.optional(MixedInstanceConfigurationList),
-    type: S.optional(S.String),
-    allocationStrategy: S.optional(S.String),
+    type: S.optional(Ec2AutoScalingGroupType),
+    allocationStrategy: S.optional(AllocationStrategy),
   }),
 ).annotations({
   identifier: "Ec2AutoScalingGroupConfiguration",
@@ -1206,7 +1322,7 @@ export const RdsDbInstanceConfiguration = S.suspend(() =>
   identifier: "RdsDbInstanceConfiguration",
 }) as any as S.Schema<RdsDbInstanceConfiguration>;
 export interface ListEfficiencyMetricsResponse {
-  efficiencyMetricsByGroup?: EfficiencyMetricsByGroupList;
+  efficiencyMetricsByGroup?: EfficiencyMetricsByGroup[];
   nextToken?: string;
 }
 export const ListEfficiencyMetricsResponse = S.suspend(() =>
@@ -1218,7 +1334,7 @@ export const ListEfficiencyMetricsResponse = S.suspend(() =>
   identifier: "ListEfficiencyMetricsResponse",
 }) as any as S.Schema<ListEfficiencyMetricsResponse>;
 export interface ListRecommendationsResponse {
-  items?: RecommendationList;
+  items?: Recommendation[];
   nextToken?: string;
 }
 export const ListRecommendationsResponse = S.suspend(() =>
@@ -1297,6 +1413,11 @@ export const RdsDbInstance = S.suspend(() =>
 ).annotations({
   identifier: "RdsDbInstance",
 }) as any as S.Schema<RdsDbInstance>;
+export type ValidationExceptionReason = "FieldValidationFailed" | "Other";
+export const ValidationExceptionReason = S.Literal(
+  "FieldValidationFailed",
+  "Other",
+);
 export interface LambdaFunction {
   configuration?: LambdaFunctionConfiguration;
   costCalculation?: ResourceCostCalculation;
@@ -1371,20 +1492,20 @@ export interface GetRecommendationResponse {
   costCalculationLookbackPeriodInDays?: number;
   estimatedSavingsPercentage?: number;
   estimatedSavingsOverCostCalculationLookbackPeriod?: number;
-  currentResourceType?: string;
-  recommendedResourceType?: string;
+  currentResourceType?: ResourceType;
+  recommendedResourceType?: ResourceType;
   region?: string;
-  source?: string;
+  source?: Source;
   lastRefreshTimestamp?: Date;
   estimatedMonthlySavings?: number;
   estimatedMonthlyCost?: number;
-  implementationEffort?: string;
+  implementationEffort?: ImplementationEffort;
   restartNeeded?: boolean;
-  actionType?: string;
+  actionType?: ActionType;
   rollbackPossible?: boolean;
-  currentResourceDetails?: (typeof ResourceDetails)["Type"];
-  recommendedResourceDetails?: (typeof ResourceDetails)["Type"];
-  tags?: TagList;
+  currentResourceDetails?: ResourceDetails;
+  recommendedResourceDetails?: ResourceDetails;
+  tags?: Tag[];
 }
 export const GetRecommendationResponse = S.suspend(() =>
   S.Struct({
@@ -1397,18 +1518,18 @@ export const GetRecommendationResponse = S.suspend(() =>
     costCalculationLookbackPeriodInDays: S.optional(S.Number),
     estimatedSavingsPercentage: S.optional(S.Number),
     estimatedSavingsOverCostCalculationLookbackPeriod: S.optional(S.Number),
-    currentResourceType: S.optional(S.String),
-    recommendedResourceType: S.optional(S.String),
+    currentResourceType: S.optional(ResourceType),
+    recommendedResourceType: S.optional(ResourceType),
     region: S.optional(S.String),
-    source: S.optional(S.String),
+    source: S.optional(Source),
     lastRefreshTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     estimatedMonthlySavings: S.optional(S.Number),
     estimatedMonthlyCost: S.optional(S.Number),
-    implementationEffort: S.optional(S.String),
+    implementationEffort: S.optional(ImplementationEffort),
     restartNeeded: S.optional(S.Boolean),
-    actionType: S.optional(S.String),
+    actionType: S.optional(ActionType),
     rollbackPossible: S.optional(S.Boolean),
     currentResourceDetails: S.optional(ResourceDetails),
     recommendedResourceDetails: S.optional(ResourceDetails),
@@ -1435,7 +1556,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     message: S.String,
-    reason: S.optional(S.String),
+    reason: S.optional(ValidationExceptionReason),
     fields: S.optional(ValidationExceptionDetails),
   },
 ).pipe(C.withBadRequestError) {}
@@ -1450,7 +1571,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
  */
 export const getPreferences: (
   input: GetPreferencesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPreferencesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1476,7 +1597,7 @@ export const getPreferences: (
 export const listEfficiencyMetrics: {
   (
     input: ListEfficiencyMetricsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEfficiencyMetricsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1487,7 +1608,7 @@ export const listEfficiencyMetrics: {
   >;
   pages: (
     input: ListEfficiencyMetricsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEfficiencyMetricsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1498,7 +1619,7 @@ export const listEfficiencyMetrics: {
   >;
   items: (
     input: ListEfficiencyMetricsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EfficiencyMetricsByGroup,
     | AccessDeniedException
     | InternalServerException
@@ -1529,7 +1650,7 @@ export const listEfficiencyMetrics: {
 export const listRecommendations: {
   (
     input: ListRecommendationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRecommendationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1540,7 +1661,7 @@ export const listRecommendations: {
   >;
   pages: (
     input: ListRecommendationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRecommendationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1551,7 +1672,7 @@ export const listRecommendations: {
   >;
   items: (
     input: ListRecommendationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Recommendation,
     | AccessDeniedException
     | InternalServerException
@@ -1582,7 +1703,7 @@ export const listRecommendations: {
 export const listEnrollmentStatuses: {
   (
     input: ListEnrollmentStatusesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEnrollmentStatusesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1593,7 +1714,7 @@ export const listEnrollmentStatuses: {
   >;
   pages: (
     input: ListEnrollmentStatusesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEnrollmentStatusesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1604,7 +1725,7 @@ export const listEnrollmentStatuses: {
   >;
   items: (
     input: ListEnrollmentStatusesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AccountEnrollmentStatus,
     | AccessDeniedException
     | InternalServerException
@@ -1637,7 +1758,7 @@ export const listEnrollmentStatuses: {
 export const listRecommendationSummaries: {
   (
     input: ListRecommendationSummariesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRecommendationSummariesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1648,7 +1769,7 @@ export const listRecommendationSummaries: {
   >;
   pages: (
     input: ListRecommendationSummariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRecommendationSummariesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1659,7 +1780,7 @@ export const listRecommendationSummaries: {
   >;
   items: (
     input: ListRecommendationSummariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RecommendationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1693,7 +1814,7 @@ export const listRecommendationSummaries: {
  */
 export const updateEnrollmentStatus: (
   input: UpdateEnrollmentStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEnrollmentStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1716,7 +1837,7 @@ export const updateEnrollmentStatus: (
  */
 export const updatePreferences: (
   input: UpdatePreferencesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePreferencesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1741,7 +1862,7 @@ export const updatePreferences: (
  */
 export const getRecommendation: (
   input: GetRecommendationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRecommendationResponse,
   | AccessDeniedException
   | InternalServerException

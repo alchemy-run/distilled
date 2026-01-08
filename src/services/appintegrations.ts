@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -121,6 +121,8 @@ export type EventBridgeRuleName = string;
 //# Schemas
 export type PermissionList = string[];
 export const PermissionList = S.Array(S.String);
+export type ApplicationType = "STANDARD" | "SERVICE" | "MCP_SERVER";
+export const ApplicationType = S.Literal("STANDARD", "SERVICE", "MCP_SERVER");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface DeleteApplicationRequest {
@@ -279,13 +281,15 @@ export const ListApplicationAssociationsRequest = S.suspend(() =>
 export interface ListApplicationsRequest {
   NextToken?: string;
   MaxResults?: number;
-  ApplicationType?: string;
+  ApplicationType?: ApplicationType;
 }
 export const ListApplicationsRequest = S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    ApplicationType: S.optional(S.String).pipe(T.HttpQuery("applicationType")),
+    ApplicationType: S.optional(ApplicationType).pipe(
+      T.HttpQuery("applicationType"),
+    ),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/applications" }),
@@ -416,7 +420,7 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -441,7 +445,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -468,7 +472,7 @@ export type ApplicationApprovedOrigins = string[];
 export const ApplicationApprovedOrigins = S.Array(S.String);
 export interface ExternalUrlConfig {
   AccessUrl: string;
-  ApprovedOrigins?: ApplicationApprovedOrigins;
+  ApprovedOrigins?: string[];
 }
 export const ExternalUrlConfig = S.suspend(() =>
   S.Struct({
@@ -509,11 +513,13 @@ export const Publication = S.suspend(() =>
 ).annotations({ identifier: "Publication" }) as any as S.Schema<Publication>;
 export type PublicationList = Publication[];
 export const PublicationList = S.Array(Publication);
+export type ContactHandlingScope = "CROSS_CONTACTS" | "PER_CONTACT";
+export const ContactHandlingScope = S.Literal("CROSS_CONTACTS", "PER_CONTACT");
 export interface ContactHandling {
-  Scope?: string;
+  Scope?: ContactHandlingScope;
 }
 export const ContactHandling = S.suspend(() =>
-  S.Struct({ Scope: S.optional(S.String) }),
+  S.Struct({ Scope: S.optional(ContactHandlingScope) }),
 ).annotations({
   identifier: "ContactHandling",
 }) as any as S.Schema<ContactHandling>;
@@ -528,8 +534,8 @@ export const ApplicationConfig = S.suspend(() =>
 export type IframePermissionList = string[];
 export const IframePermissionList = S.Array(S.String);
 export interface IframeConfig {
-  Allow?: IframePermissionList;
-  Sandbox?: IframePermissionList;
+  Allow?: string[];
+  Sandbox?: string[];
 }
 export const IframeConfig = S.suspend(() =>
   S.Struct({
@@ -542,14 +548,14 @@ export interface UpdateApplicationRequest {
   Name?: string;
   Description?: string;
   ApplicationSourceConfig?: ApplicationSourceConfig;
-  Subscriptions?: SubscriptionList;
-  Publications?: PublicationList;
-  Permissions?: PermissionList;
+  Subscriptions?: Subscription[];
+  Publications?: Publication[];
+  Permissions?: string[];
   IsService?: boolean;
   InitializationTimeout?: number;
   ApplicationConfig?: ApplicationConfig;
   IframeConfig?: IframeConfig;
-  ApplicationType?: string;
+  ApplicationType?: ApplicationType;
 }
 export const UpdateApplicationRequest = S.suspend(() =>
   S.Struct({
@@ -564,7 +570,7 @@ export const UpdateApplicationRequest = S.suspend(() =>
     InitializationTimeout: S.optional(S.Number),
     ApplicationConfig: S.optional(ApplicationConfig),
     IframeConfig: S.optional(IframeConfig),
-    ApplicationType: S.optional(S.String),
+    ApplicationType: S.optional(ApplicationType),
   }).pipe(
     T.all(
       T.Http({ method: "PATCH", uri: "/applications/{Arn}" }),
@@ -613,6 +619,8 @@ export const UpdateDataIntegrationResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateDataIntegrationResponse",
 }) as any as S.Schema<UpdateDataIntegrationResponse>;
+export type ExecutionMode = "ON_DEMAND" | "SCHEDULED";
+export const ExecutionMode = S.Literal("ON_DEMAND", "SCHEDULED");
 export interface OnDemandConfiguration {
   StartTime: string;
   EndTime?: string;
@@ -637,13 +645,13 @@ export const ScheduleConfiguration = S.suspend(() =>
   identifier: "ScheduleConfiguration",
 }) as any as S.Schema<ScheduleConfiguration>;
 export interface ExecutionConfiguration {
-  ExecutionMode: string;
+  ExecutionMode: ExecutionMode;
   OnDemandConfiguration?: OnDemandConfiguration;
   ScheduleConfiguration?: ScheduleConfiguration;
 }
 export const ExecutionConfiguration = S.suspend(() =>
   S.Struct({
-    ExecutionMode: S.String,
+    ExecutionMode: ExecutionMode,
     OnDemandConfiguration: S.optional(OnDemandConfiguration),
     ScheduleConfiguration: S.optional(ScheduleConfiguration),
   }),
@@ -717,9 +725,11 @@ export type FolderList = string[];
 export const FolderList = S.Array(S.String);
 export type FieldsList = string[];
 export const FieldsList = S.Array(S.String);
-export type FieldsMap = { [key: string]: FieldsList };
+export type FieldsMap = { [key: string]: string[] };
 export const FieldsMap = S.Record({ key: S.String, value: FieldsList });
-export type ObjectConfiguration = { [key: string]: FieldsMap };
+export type ObjectConfiguration = {
+  [key: string]: { [key: string]: string[] };
+};
 export const ObjectConfiguration = S.Record({
   key: S.String,
   value: FieldsMap,
@@ -741,7 +751,7 @@ export interface CreateEventIntegrationRequest {
   EventFilter: EventFilter;
   EventBridgeBus: string;
   ClientToken?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateEventIntegrationRequest = S.suspend(() =>
   S.Struct({
@@ -771,17 +781,17 @@ export interface GetApplicationResponse {
   Namespace?: string;
   Description?: string;
   ApplicationSourceConfig?: ApplicationSourceConfig;
-  Subscriptions?: SubscriptionList;
-  Publications?: PublicationList;
+  Subscriptions?: Subscription[];
+  Publications?: Publication[];
   CreatedTime?: Date;
   LastModifiedTime?: Date;
-  Tags?: TagMap;
-  Permissions?: PermissionList;
+  Tags?: { [key: string]: string };
+  Permissions?: string[];
   IsService?: boolean;
   InitializationTimeout?: number;
   ApplicationConfig?: ApplicationConfig;
   IframeConfig?: IframeConfig;
-  ApplicationType?: string;
+  ApplicationType?: ApplicationType;
 }
 export const GetApplicationResponse = S.suspend(() =>
   S.Struct({
@@ -803,14 +813,14 @@ export const GetApplicationResponse = S.suspend(() =>
     InitializationTimeout: S.optional(S.Number),
     ApplicationConfig: S.optional(ApplicationConfig),
     IframeConfig: S.optional(IframeConfig),
-    ApplicationType: S.optional(S.String),
+    ApplicationType: S.optional(ApplicationType),
   }),
 ).annotations({
   identifier: "GetApplicationResponse",
 }) as any as S.Schema<GetApplicationResponse>;
 export interface FileConfiguration {
-  Folders: FolderList;
-  Filters?: FieldsMap;
+  Folders: string[];
+  Filters?: { [key: string]: string[] };
 }
 export const FileConfiguration = S.suspend(() =>
   S.Struct({ Folders: FolderList, Filters: S.optional(FieldsMap) }),
@@ -825,9 +835,9 @@ export interface GetDataIntegrationResponse {
   KmsKey?: string;
   SourceURI?: string;
   ScheduleConfiguration?: ScheduleConfiguration;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   FileConfiguration?: FileConfiguration;
-  ObjectConfiguration?: ObjectConfiguration;
+  ObjectConfiguration?: { [key: string]: { [key: string]: string[] } };
 }
 export const GetDataIntegrationResponse = S.suspend(() =>
   S.Struct({
@@ -851,7 +861,7 @@ export interface GetEventIntegrationResponse {
   EventIntegrationArn?: string;
   EventBridgeBus?: string;
   EventFilter?: EventFilter;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const GetEventIntegrationResponse = S.suspend(() =>
   S.Struct({
@@ -866,7 +876,7 @@ export const GetEventIntegrationResponse = S.suspend(() =>
   identifier: "GetEventIntegrationResponse",
 }) as any as S.Schema<GetEventIntegrationResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -899,7 +909,7 @@ export interface ApplicationSummary {
   CreatedTime?: Date;
   LastModifiedTime?: Date;
   IsService?: boolean;
-  ApplicationType?: string;
+  ApplicationType?: ApplicationType;
 }
 export const ApplicationSummary = S.suspend(() =>
   S.Struct({
@@ -912,7 +922,7 @@ export const ApplicationSummary = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     IsService: S.optional(S.Boolean),
-    ApplicationType: S.optional(S.String),
+    ApplicationType: S.optional(ApplicationType),
   }),
 ).annotations({
   identifier: "ApplicationSummary",
@@ -941,7 +951,7 @@ export interface EventIntegrationAssociation {
   EventIntegrationName?: string;
   ClientId?: string;
   EventBridgeRuleName?: string;
-  ClientAssociationMetadata?: ClientAssociationMetadata;
+  ClientAssociationMetadata?: { [key: string]: string };
 }
 export const EventIntegrationAssociation = S.suspend(() =>
   S.Struct({
@@ -965,7 +975,7 @@ export interface EventIntegration {
   Description?: string;
   EventFilter?: EventFilter;
   EventBridgeBus?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const EventIntegration = S.suspend(() =>
   S.Struct({
@@ -981,21 +991,23 @@ export const EventIntegration = S.suspend(() =>
 }) as any as S.Schema<EventIntegration>;
 export type EventIntegrationsList = EventIntegration[];
 export const EventIntegrationsList = S.Array(EventIntegration);
+export type ExecutionStatus = "COMPLETED" | "IN_PROGRESS" | "FAILED";
+export const ExecutionStatus = S.Literal("COMPLETED", "IN_PROGRESS", "FAILED");
 export interface CreateApplicationRequest {
   Name: string;
   Namespace: string;
   Description?: string;
   ApplicationSourceConfig: ApplicationSourceConfig;
-  Subscriptions?: SubscriptionList;
-  Publications?: PublicationList;
+  Subscriptions?: Subscription[];
+  Publications?: Publication[];
   ClientToken?: string;
-  Tags?: TagMap;
-  Permissions?: PermissionList;
+  Tags?: { [key: string]: string };
+  Permissions?: string[];
   IsService?: boolean;
   InitializationTimeout?: number;
   ApplicationConfig?: ApplicationConfig;
   IframeConfig?: IframeConfig;
-  ApplicationType?: string;
+  ApplicationType?: ApplicationType;
 }
 export const CreateApplicationRequest = S.suspend(() =>
   S.Struct({
@@ -1012,7 +1024,7 @@ export const CreateApplicationRequest = S.suspend(() =>
     InitializationTimeout: S.optional(S.Number),
     ApplicationConfig: S.optional(ApplicationConfig),
     IframeConfig: S.optional(IframeConfig),
-    ApplicationType: S.optional(S.String),
+    ApplicationType: S.optional(ApplicationType),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/applications" }),
@@ -1032,10 +1044,10 @@ export interface CreateDataIntegrationRequest {
   KmsKey: string;
   SourceURI?: string;
   ScheduleConfig?: ScheduleConfiguration;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   ClientToken?: string;
   FileConfiguration?: FileConfiguration;
-  ObjectConfiguration?: ObjectConfiguration;
+  ObjectConfiguration?: { [key: string]: { [key: string]: string[] } };
 }
 export const CreateDataIntegrationRequest = S.suspend(() =>
   S.Struct({
@@ -1064,9 +1076,9 @@ export const CreateDataIntegrationRequest = S.suspend(() =>
 export interface CreateDataIntegrationAssociationRequest {
   DataIntegrationIdentifier: string;
   ClientId?: string;
-  ObjectConfiguration?: ObjectConfiguration;
+  ObjectConfiguration?: { [key: string]: { [key: string]: string[] } };
   DestinationURI?: string;
-  ClientAssociationMetadata?: ClientAssociationMetadata;
+  ClientAssociationMetadata?: { [key: string]: string };
   ClientToken?: string;
   ExecutionConfiguration?: ExecutionConfiguration;
 }
@@ -1106,7 +1118,7 @@ export const CreateEventIntegrationResponse = S.suspend(() =>
   identifier: "CreateEventIntegrationResponse",
 }) as any as S.Schema<CreateEventIntegrationResponse>;
 export interface ListApplicationAssociationsResponse {
-  ApplicationAssociations?: ApplicationAssociationsList;
+  ApplicationAssociations?: ApplicationAssociationSummary[];
   NextToken?: string;
 }
 export const ListApplicationAssociationsResponse = S.suspend(() =>
@@ -1118,7 +1130,7 @@ export const ListApplicationAssociationsResponse = S.suspend(() =>
   identifier: "ListApplicationAssociationsResponse",
 }) as any as S.Schema<ListApplicationAssociationsResponse>;
 export interface ListApplicationsResponse {
-  Applications?: ApplicationsList;
+  Applications?: ApplicationSummary[];
   NextToken?: string;
 }
 export const ListApplicationsResponse = S.suspend(() =>
@@ -1130,7 +1142,7 @@ export const ListApplicationsResponse = S.suspend(() =>
   identifier: "ListApplicationsResponse",
 }) as any as S.Schema<ListApplicationsResponse>;
 export interface ListDataIntegrationsResponse {
-  DataIntegrations?: DataIntegrationsList;
+  DataIntegrations?: DataIntegrationSummary[];
   NextToken?: string;
 }
 export const ListDataIntegrationsResponse = S.suspend(() =>
@@ -1142,7 +1154,7 @@ export const ListDataIntegrationsResponse = S.suspend(() =>
   identifier: "ListDataIntegrationsResponse",
 }) as any as S.Schema<ListDataIntegrationsResponse>;
 export interface ListEventIntegrationAssociationsResponse {
-  EventIntegrationAssociations?: EventIntegrationAssociationsList;
+  EventIntegrationAssociations?: EventIntegrationAssociation[];
   NextToken?: string;
 }
 export const ListEventIntegrationAssociationsResponse = S.suspend(() =>
@@ -1154,7 +1166,7 @@ export const ListEventIntegrationAssociationsResponse = S.suspend(() =>
   identifier: "ListEventIntegrationAssociationsResponse",
 }) as any as S.Schema<ListEventIntegrationAssociationsResponse>;
 export interface ListEventIntegrationsResponse {
-  EventIntegrations?: EventIntegrationsList;
+  EventIntegrations?: EventIntegration[];
   NextToken?: string;
 }
 export const ListEventIntegrationsResponse = S.suspend(() =>
@@ -1166,12 +1178,12 @@ export const ListEventIntegrationsResponse = S.suspend(() =>
   identifier: "ListEventIntegrationsResponse",
 }) as any as S.Schema<ListEventIntegrationsResponse>;
 export interface LastExecutionStatus {
-  ExecutionStatus?: string;
+  ExecutionStatus?: ExecutionStatus;
   StatusMessage?: string;
 }
 export const LastExecutionStatus = S.suspend(() =>
   S.Struct({
-    ExecutionStatus: S.optional(S.String),
+    ExecutionStatus: S.optional(ExecutionStatus),
     StatusMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -1219,10 +1231,10 @@ export interface CreateDataIntegrationResponse {
   KmsKey?: string;
   SourceURI?: string;
   ScheduleConfiguration?: ScheduleConfiguration;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   ClientToken?: string;
   FileConfiguration?: FileConfiguration;
-  ObjectConfiguration?: ObjectConfiguration;
+  ObjectConfiguration?: { [key: string]: { [key: string]: string[] } };
 }
 export const CreateDataIntegrationResponse = S.suspend(() =>
   S.Struct({
@@ -1254,7 +1266,7 @@ export const CreateDataIntegrationAssociationResponse = S.suspend(() =>
   identifier: "CreateDataIntegrationAssociationResponse",
 }) as any as S.Schema<CreateDataIntegrationAssociationResponse>;
 export interface ListDataIntegrationAssociationsResponse {
-  DataIntegrationAssociations?: DataIntegrationAssociationsList;
+  DataIntegrationAssociations?: DataIntegrationAssociationSummary[];
   NextToken?: string;
 }
 export const ListDataIntegrationAssociationsResponse = S.suspend(() =>
@@ -1307,7 +1319,7 @@ export class UnsupportedOperationException extends S.TaggedError<UnsupportedOper
 export const listApplications: {
   (
     input: ListApplicationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationsResponse,
     | AccessDeniedException
     | InternalServiceError
@@ -1318,7 +1330,7 @@ export const listApplications: {
   >;
   pages: (
     input: ListApplicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationsResponse,
     | AccessDeniedException
     | InternalServiceError
@@ -1329,7 +1341,7 @@ export const listApplications: {
   >;
   items: (
     input: ListApplicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ApplicationSummary,
     | AccessDeniedException
     | InternalServiceError
@@ -1365,7 +1377,7 @@ export const listApplications: {
  */
 export const deleteDataIntegration: (
   input: DeleteDataIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDataIntegrationResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -1391,7 +1403,7 @@ export const deleteDataIntegration: (
  */
 export const deleteEventIntegration: (
   input: DeleteEventIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEventIntegrationResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -1420,7 +1432,7 @@ export const deleteEventIntegration: (
  */
 export const updateDataIntegration: (
   input: UpdateDataIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDataIntegrationResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -1447,7 +1459,7 @@ export const updateDataIntegration: (
  */
 export const updateDataIntegrationAssociation: (
   input: UpdateDataIntegrationAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDataIntegrationAssociationResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -1472,7 +1484,7 @@ export const updateDataIntegrationAssociation: (
  */
 export const updateEventIntegration: (
   input: UpdateEventIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEventIntegrationResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -1497,7 +1509,7 @@ export const updateEventIntegration: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -1521,7 +1533,7 @@ export const untagResource: (
  */
 export const deleteApplication: (
   input: DeleteApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApplicationResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -1546,7 +1558,7 @@ export const deleteApplication: (
  */
 export const getApplication: (
   input: GetApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetApplicationResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -1575,7 +1587,7 @@ export const getApplication: (
  */
 export const getDataIntegration: (
   input: GetDataIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataIntegrationResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -1600,7 +1612,7 @@ export const getDataIntegration: (
  */
 export const getEventIntegration: (
   input: GetEventIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEventIntegrationResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -1625,7 +1637,7 @@ export const getEventIntegration: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -1649,7 +1661,7 @@ export const listTagsForResource: (
 export const listApplicationAssociations: {
   (
     input: ListApplicationAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationAssociationsResponse,
     | AccessDeniedException
     | InternalServiceError
@@ -1661,7 +1673,7 @@ export const listApplicationAssociations: {
   >;
   pages: (
     input: ListApplicationAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationAssociationsResponse,
     | AccessDeniedException
     | InternalServiceError
@@ -1673,7 +1685,7 @@ export const listApplicationAssociations: {
   >;
   items: (
     input: ListApplicationAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ApplicationAssociationSummary,
     | AccessDeniedException
     | InternalServiceError
@@ -1706,7 +1718,7 @@ export const listApplicationAssociations: {
 export const listEventIntegrationAssociations: {
   (
     input: ListEventIntegrationAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEventIntegrationAssociationsResponse,
     | AccessDeniedException
     | InternalServiceError
@@ -1718,7 +1730,7 @@ export const listEventIntegrationAssociations: {
   >;
   pages: (
     input: ListEventIntegrationAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEventIntegrationAssociationsResponse,
     | AccessDeniedException
     | InternalServiceError
@@ -1730,7 +1742,7 @@ export const listEventIntegrationAssociations: {
   >;
   items: (
     input: ListEventIntegrationAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EventIntegrationAssociation,
     | AccessDeniedException
     | InternalServiceError
@@ -1767,7 +1779,7 @@ export const listEventIntegrationAssociations: {
 export const listDataIntegrationAssociations: {
   (
     input: ListDataIntegrationAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataIntegrationAssociationsResponse,
     | AccessDeniedException
     | InternalServiceError
@@ -1779,7 +1791,7 @@ export const listDataIntegrationAssociations: {
   >;
   pages: (
     input: ListDataIntegrationAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataIntegrationAssociationsResponse,
     | AccessDeniedException
     | InternalServiceError
@@ -1791,7 +1803,7 @@ export const listDataIntegrationAssociations: {
   >;
   items: (
     input: ListDataIntegrationAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataIntegrationAssociationSummary,
     | AccessDeniedException
     | InternalServiceError
@@ -1828,7 +1840,7 @@ export const listDataIntegrationAssociations: {
 export const listDataIntegrations: {
   (
     input: ListDataIntegrationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataIntegrationsResponse,
     | AccessDeniedException
     | InternalServiceError
@@ -1839,7 +1851,7 @@ export const listDataIntegrations: {
   >;
   pages: (
     input: ListDataIntegrationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataIntegrationsResponse,
     | AccessDeniedException
     | InternalServiceError
@@ -1850,7 +1862,7 @@ export const listDataIntegrations: {
   >;
   items: (
     input: ListDataIntegrationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataIntegrationSummary,
     | AccessDeniedException
     | InternalServiceError
@@ -1881,7 +1893,7 @@ export const listDataIntegrations: {
 export const listEventIntegrations: {
   (
     input: ListEventIntegrationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEventIntegrationsResponse,
     | AccessDeniedException
     | InternalServiceError
@@ -1892,7 +1904,7 @@ export const listEventIntegrations: {
   >;
   pages: (
     input: ListEventIntegrationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEventIntegrationsResponse,
     | AccessDeniedException
     | InternalServiceError
@@ -1903,7 +1915,7 @@ export const listEventIntegrations: {
   >;
   items: (
     input: ListEventIntegrationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EventIntegration,
     | AccessDeniedException
     | InternalServiceError
@@ -1933,7 +1945,7 @@ export const listEventIntegrations: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -1959,7 +1971,7 @@ export const tagResource: (
  */
 export const createEventIntegration: (
   input: CreateEventIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEventIntegrationResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -1990,7 +2002,7 @@ export const createEventIntegration: (
  */
 export const createDataIntegration: (
   input: CreateDataIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataIntegrationResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -2017,7 +2029,7 @@ export const createDataIntegration: (
  */
 export const createDataIntegrationAssociation: (
   input: CreateDataIntegrationAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataIntegrationAssociationResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -2044,7 +2056,7 @@ export const createDataIntegrationAssociation: (
  */
 export const updateApplication: (
   input: UpdateApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateApplicationResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -2071,7 +2083,7 @@ export const updateApplication: (
  */
 export const createApplication: (
   input: CreateApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateApplicationResponse,
   | AccessDeniedException
   | DuplicateResourceException

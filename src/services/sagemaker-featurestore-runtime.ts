@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -95,26 +95,32 @@ export type Message = string;
 export type ExpiresAt = string;
 
 //# Schemas
-export type TargetStores = string[];
-export const TargetStores = S.Array(S.String);
+export type ExpirationTimeResponse = "Enabled" | "Disabled";
+export const ExpirationTimeResponse = S.Literal("Enabled", "Disabled");
+export type TargetStore = "OnlineStore" | "OfflineStore";
+export const TargetStore = S.Literal("OnlineStore", "OfflineStore");
+export type TargetStores = TargetStore[];
+export const TargetStores = S.Array(TargetStore);
+export type DeletionMode = "SoftDelete" | "HardDelete";
+export const DeletionMode = S.Literal("SoftDelete", "HardDelete");
 export type FeatureNames = string[];
 export const FeatureNames = S.Array(S.String);
 export interface DeleteRecordRequest {
   FeatureGroupName: string;
-  RecordIdentifierValueAsString: string;
-  EventTime: string;
-  TargetStores?: TargetStores;
-  DeletionMode?: string;
+  RecordIdentifierValueAsString?: string;
+  EventTime?: string;
+  TargetStores?: TargetStore[];
+  DeletionMode?: DeletionMode;
 }
 export const DeleteRecordRequest = S.suspend(() =>
   S.Struct({
     FeatureGroupName: S.String.pipe(T.HttpLabel("FeatureGroupName")),
-    RecordIdentifierValueAsString: S.String.pipe(
+    RecordIdentifierValueAsString: S.optional(S.String).pipe(
       T.HttpQuery("RecordIdentifierValueAsString"),
     ),
-    EventTime: S.String.pipe(T.HttpQuery("EventTime")),
+    EventTime: S.optional(S.String).pipe(T.HttpQuery("EventTime")),
     TargetStores: S.optional(TargetStores).pipe(T.HttpQuery("TargetStores")),
-    DeletionMode: S.optional(S.String).pipe(T.HttpQuery("DeletionMode")),
+    DeletionMode: S.optional(DeletionMode).pipe(T.HttpQuery("DeletionMode")),
   }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/FeatureGroup/{FeatureGroupName}" }),
@@ -134,18 +140,18 @@ export const DeleteRecordResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<DeleteRecordResponse>;
 export interface GetRecordRequest {
   FeatureGroupName: string;
-  RecordIdentifierValueAsString: string;
-  FeatureNames?: FeatureNames;
-  ExpirationTimeResponse?: string;
+  RecordIdentifierValueAsString?: string;
+  FeatureNames?: string[];
+  ExpirationTimeResponse?: ExpirationTimeResponse;
 }
 export const GetRecordRequest = S.suspend(() =>
   S.Struct({
     FeatureGroupName: S.String.pipe(T.HttpLabel("FeatureGroupName")),
-    RecordIdentifierValueAsString: S.String.pipe(
+    RecordIdentifierValueAsString: S.optional(S.String).pipe(
       T.HttpQuery("RecordIdentifierValueAsString"),
     ),
     FeatureNames: S.optional(FeatureNames).pipe(T.HttpQuery("FeatureName")),
-    ExpirationTimeResponse: S.optional(S.String).pipe(
+    ExpirationTimeResponse: S.optional(ExpirationTimeResponse).pipe(
       T.HttpQuery("ExpirationTimeResponse"),
     ),
   }).pipe(
@@ -165,15 +171,28 @@ export type RecordIdentifiers = string[];
 export const RecordIdentifiers = S.Array(S.String);
 export type ValueAsStringList = string[];
 export const ValueAsStringList = S.Array(S.String);
+export type TtlDurationUnit =
+  | "Seconds"
+  | "Minutes"
+  | "Hours"
+  | "Days"
+  | "Weeks";
+export const TtlDurationUnit = S.Literal(
+  "Seconds",
+  "Minutes",
+  "Hours",
+  "Days",
+  "Weeks",
+);
 export interface BatchGetRecordIdentifier {
-  FeatureGroupName: string;
-  RecordIdentifiersValueAsString: RecordIdentifiers;
-  FeatureNames?: FeatureNames;
+  FeatureGroupName?: string;
+  RecordIdentifiersValueAsString?: string[];
+  FeatureNames?: string[];
 }
 export const BatchGetRecordIdentifier = S.suspend(() =>
   S.Struct({
-    FeatureGroupName: S.String,
-    RecordIdentifiersValueAsString: RecordIdentifiers,
+    FeatureGroupName: S.optional(S.String),
+    RecordIdentifiersValueAsString: S.optional(RecordIdentifiers),
     FeatureNames: S.optional(FeatureNames),
   }),
 ).annotations({
@@ -182,13 +201,13 @@ export const BatchGetRecordIdentifier = S.suspend(() =>
 export type BatchGetRecordIdentifiers = BatchGetRecordIdentifier[];
 export const BatchGetRecordIdentifiers = S.Array(BatchGetRecordIdentifier);
 export interface FeatureValue {
-  FeatureName: string;
+  FeatureName?: string;
   ValueAsString?: string;
-  ValueAsStringList?: ValueAsStringList;
+  ValueAsStringList?: string[];
 }
 export const FeatureValue = S.suspend(() =>
   S.Struct({
-    FeatureName: S.String,
+    FeatureName: S.optional(S.String),
     ValueAsString: S.optional(S.String),
     ValueAsStringList: S.optional(ValueAsStringList),
   }),
@@ -196,20 +215,20 @@ export const FeatureValue = S.suspend(() =>
 export type Record = FeatureValue[];
 export const Record = S.Array(FeatureValue);
 export interface TtlDuration {
-  Unit: string;
-  Value: number;
+  Unit?: TtlDurationUnit;
+  Value?: number;
 }
 export const TtlDuration = S.suspend(() =>
-  S.Struct({ Unit: S.String, Value: S.Number }),
+  S.Struct({ Unit: S.optional(TtlDurationUnit), Value: S.optional(S.Number) }),
 ).annotations({ identifier: "TtlDuration" }) as any as S.Schema<TtlDuration>;
 export interface BatchGetRecordRequest {
-  Identifiers: BatchGetRecordIdentifiers;
-  ExpirationTimeResponse?: string;
+  Identifiers?: BatchGetRecordIdentifier[];
+  ExpirationTimeResponse?: ExpirationTimeResponse;
 }
 export const BatchGetRecordRequest = S.suspend(() =>
   S.Struct({
-    Identifiers: BatchGetRecordIdentifiers,
-    ExpirationTimeResponse: S.optional(S.String),
+    Identifiers: S.optional(BatchGetRecordIdentifiers),
+    ExpirationTimeResponse: S.optional(ExpirationTimeResponse),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/BatchGetRecord" }),
@@ -224,7 +243,7 @@ export const BatchGetRecordRequest = S.suspend(() =>
   identifier: "BatchGetRecordRequest",
 }) as any as S.Schema<BatchGetRecordRequest>;
 export interface GetRecordResponse {
-  Record?: Record;
+  Record?: FeatureValue[];
   ExpiresAt?: string;
 }
 export const GetRecordResponse = S.suspend(() =>
@@ -234,14 +253,14 @@ export const GetRecordResponse = S.suspend(() =>
 }) as any as S.Schema<GetRecordResponse>;
 export interface PutRecordRequest {
   FeatureGroupName: string;
-  Record: Record;
-  TargetStores?: TargetStores;
+  Record?: FeatureValue[];
+  TargetStores?: TargetStore[];
   TtlDuration?: TtlDuration;
 }
 export const PutRecordRequest = S.suspend(() =>
   S.Struct({
     FeatureGroupName: S.String.pipe(T.HttpLabel("FeatureGroupName")),
-    Record: Record,
+    Record: S.optional(Record),
     TargetStores: S.optional(TargetStores),
     TtlDuration: S.optional(TtlDuration),
   }).pipe(
@@ -264,16 +283,16 @@ export const PutRecordResponse = S.suspend(() => S.Struct({})).annotations({
 export type UnprocessedIdentifiers = BatchGetRecordIdentifier[];
 export const UnprocessedIdentifiers = S.Array(BatchGetRecordIdentifier);
 export interface BatchGetRecordResultDetail {
-  FeatureGroupName: string;
-  RecordIdentifierValueAsString: string;
-  Record: Record;
+  FeatureGroupName?: string;
+  RecordIdentifierValueAsString?: string;
+  Record?: FeatureValue[];
   ExpiresAt?: string;
 }
 export const BatchGetRecordResultDetail = S.suspend(() =>
   S.Struct({
-    FeatureGroupName: S.String,
-    RecordIdentifierValueAsString: S.String,
-    Record: Record,
+    FeatureGroupName: S.optional(S.String),
+    RecordIdentifierValueAsString: S.optional(S.String),
+    Record: S.optional(Record),
     ExpiresAt: S.optional(S.String),
   }),
 ).annotations({
@@ -282,17 +301,17 @@ export const BatchGetRecordResultDetail = S.suspend(() =>
 export type BatchGetRecordResultDetails = BatchGetRecordResultDetail[];
 export const BatchGetRecordResultDetails = S.Array(BatchGetRecordResultDetail);
 export interface BatchGetRecordError {
-  FeatureGroupName: string;
-  RecordIdentifierValueAsString: string;
-  ErrorCode: string;
-  ErrorMessage: string;
+  FeatureGroupName?: string;
+  RecordIdentifierValueAsString?: string;
+  ErrorCode?: string;
+  ErrorMessage?: string;
 }
 export const BatchGetRecordError = S.suspend(() =>
   S.Struct({
-    FeatureGroupName: S.String,
-    RecordIdentifierValueAsString: S.String,
-    ErrorCode: S.String,
-    ErrorMessage: S.String,
+    FeatureGroupName: S.optional(S.String),
+    RecordIdentifierValueAsString: S.optional(S.String),
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
   }),
 ).annotations({
   identifier: "BatchGetRecordError",
@@ -300,15 +319,15 @@ export const BatchGetRecordError = S.suspend(() =>
 export type BatchGetRecordErrors = BatchGetRecordError[];
 export const BatchGetRecordErrors = S.Array(BatchGetRecordError);
 export interface BatchGetRecordResponse {
-  Records: BatchGetRecordResultDetails;
-  Errors: BatchGetRecordErrors;
-  UnprocessedIdentifiers: UnprocessedIdentifiers;
+  Records?: BatchGetRecordResultDetail[];
+  Errors?: BatchGetRecordError[];
+  UnprocessedIdentifiers?: BatchGetRecordIdentifier[];
 }
 export const BatchGetRecordResponse = S.suspend(() =>
   S.Struct({
-    Records: BatchGetRecordResultDetails,
-    Errors: BatchGetRecordErrors,
-    UnprocessedIdentifiers: UnprocessedIdentifiers,
+    Records: S.optional(BatchGetRecordResultDetails),
+    Errors: S.optional(BatchGetRecordErrors),
+    UnprocessedIdentifiers: S.optional(UnprocessedIdentifiers),
   }),
 ).annotations({
   identifier: "BatchGetRecordResponse",
@@ -372,7 +391,7 @@ export class ValidationError extends S.TaggedError<ValidationError>()(
  */
 export const deleteRecord: (
   input: DeleteRecordRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRecordResponse,
   | AccessForbidden
   | InternalFailure
@@ -397,7 +416,7 @@ export const deleteRecord: (
  */
 export const getRecord: (
   input: GetRecordRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRecordResponse,
   | AccessForbidden
   | InternalFailure
@@ -440,7 +459,7 @@ export const getRecord: (
  */
 export const putRecord: (
   input: PutRecordRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutRecordResponse,
   | AccessForbidden
   | InternalFailure
@@ -463,7 +482,7 @@ export const putRecord: (
  */
 export const batchGetRecord: (
   input: BatchGetRecordRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetRecordResponse,
   | AccessForbidden
   | InternalFailure

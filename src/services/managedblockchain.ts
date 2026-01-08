@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -110,12 +110,82 @@ export type PrincipalString = string;
 export type AccessorBillingTokenString = string;
 export type VoteCount = number;
 export type UsernameString = string;
-export type PasswordString = string | Redacted.Redacted<string>;
+export type PasswordString = string | redacted.Redacted<string>;
 export type ExceptionMessage = string;
 
 //# Schemas
+export type AccessorType = "BILLING_TOKEN";
+export const AccessorType = S.Literal("BILLING_TOKEN");
+export type AccessorNetworkType =
+  | "ETHEREUM_GOERLI"
+  | "ETHEREUM_MAINNET"
+  | "ETHEREUM_MAINNET_AND_GOERLI"
+  | "POLYGON_MAINNET"
+  | "POLYGON_MUMBAI";
+export const AccessorNetworkType = S.Literal(
+  "ETHEREUM_GOERLI",
+  "ETHEREUM_MAINNET",
+  "ETHEREUM_MAINNET_AND_GOERLI",
+  "POLYGON_MAINNET",
+  "POLYGON_MUMBAI",
+);
+export type Framework = "HYPERLEDGER_FABRIC" | "ETHEREUM";
+export const Framework = S.Literal("HYPERLEDGER_FABRIC", "ETHEREUM");
+export type MemberStatus =
+  | "CREATING"
+  | "AVAILABLE"
+  | "CREATE_FAILED"
+  | "UPDATING"
+  | "DELETING"
+  | "DELETED"
+  | "INACCESSIBLE_ENCRYPTION_KEY";
+export const MemberStatus = S.Literal(
+  "CREATING",
+  "AVAILABLE",
+  "CREATE_FAILED",
+  "UPDATING",
+  "DELETING",
+  "DELETED",
+  "INACCESSIBLE_ENCRYPTION_KEY",
+);
+export type NetworkStatus =
+  | "CREATING"
+  | "AVAILABLE"
+  | "CREATE_FAILED"
+  | "DELETING"
+  | "DELETED";
+export const NetworkStatus = S.Literal(
+  "CREATING",
+  "AVAILABLE",
+  "CREATE_FAILED",
+  "DELETING",
+  "DELETED",
+);
+export type NodeStatus =
+  | "CREATING"
+  | "AVAILABLE"
+  | "UNHEALTHY"
+  | "CREATE_FAILED"
+  | "UPDATING"
+  | "DELETING"
+  | "DELETED"
+  | "FAILED"
+  | "INACCESSIBLE_ENCRYPTION_KEY";
+export const NodeStatus = S.Literal(
+  "CREATING",
+  "AVAILABLE",
+  "UNHEALTHY",
+  "CREATE_FAILED",
+  "UPDATING",
+  "DELETING",
+  "DELETED",
+  "FAILED",
+  "INACCESSIBLE_ENCRYPTION_KEY",
+);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type VoteValue = "YES" | "NO";
+export const VoteValue = S.Literal("YES", "NO");
 export interface DeleteAccessorInput {
   AccessorId: string;
 }
@@ -298,13 +368,15 @@ export const GetProposalInput = S.suspend(() =>
 export interface ListAccessorsInput {
   MaxResults?: number;
   NextToken?: string;
-  NetworkType?: string;
+  NetworkType?: AccessorNetworkType;
 }
 export const ListAccessorsInput = S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    NetworkType: S.optional(S.String).pipe(T.HttpQuery("networkType")),
+    NetworkType: S.optional(AccessorNetworkType).pipe(
+      T.HttpQuery("networkType"),
+    ),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/accessors" }),
@@ -342,7 +414,7 @@ export const ListInvitationsInput = S.suspend(() =>
 export interface ListMembersInput {
   NetworkId: string;
   Name?: string;
-  Status?: string;
+  Status?: MemberStatus;
   IsOwned?: boolean;
   MaxResults?: number;
   NextToken?: string;
@@ -351,7 +423,7 @@ export const ListMembersInput = S.suspend(() =>
   S.Struct({
     NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
     Name: S.optional(S.String).pipe(T.HttpQuery("name")),
-    Status: S.optional(S.String).pipe(T.HttpQuery("status")),
+    Status: S.optional(MemberStatus).pipe(T.HttpQuery("status")),
     IsOwned: S.optional(S.Boolean).pipe(T.HttpQuery("isOwned")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -370,16 +442,16 @@ export const ListMembersInput = S.suspend(() =>
 }) as any as S.Schema<ListMembersInput>;
 export interface ListNetworksInput {
   Name?: string;
-  Framework?: string;
-  Status?: string;
+  Framework?: Framework;
+  Status?: NetworkStatus;
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListNetworksInput = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String).pipe(T.HttpQuery("name")),
-    Framework: S.optional(S.String).pipe(T.HttpQuery("framework")),
-    Status: S.optional(S.String).pipe(T.HttpQuery("status")),
+    Framework: S.optional(Framework).pipe(T.HttpQuery("framework")),
+    Status: S.optional(NetworkStatus).pipe(T.HttpQuery("status")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
@@ -398,7 +470,7 @@ export const ListNetworksInput = S.suspend(() =>
 export interface ListNodesInput {
   NetworkId: string;
   MemberId?: string;
-  Status?: string;
+  Status?: NodeStatus;
   MaxResults?: number;
   NextToken?: string;
 }
@@ -406,7 +478,7 @@ export const ListNodesInput = S.suspend(() =>
   S.Struct({
     NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
     MemberId: S.optional(S.String).pipe(T.HttpQuery("memberId")),
-    Status: S.optional(S.String).pipe(T.HttpQuery("status")),
+    Status: S.optional(NodeStatus).pipe(T.HttpQuery("status")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
@@ -515,7 +587,7 @@ export type InputTagMap = { [key: string]: string };
 export const InputTagMap = S.Record({ key: S.String, value: S.String });
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: InputTagMap;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -540,7 +612,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -567,14 +639,14 @@ export interface VoteOnProposalInput {
   NetworkId: string;
   ProposalId: string;
   VoterMemberId: string;
-  Vote: string;
+  Vote: VoteValue;
 }
 export const VoteOnProposalInput = S.suspend(() =>
   S.Struct({
     NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
     ProposalId: S.String.pipe(T.HttpLabel("ProposalId")),
     VoterMemberId: S.String,
-    Vote: S.String,
+    Vote: VoteValue,
   }).pipe(
     T.all(
       T.Http({
@@ -595,6 +667,8 @@ export interface VoteOnProposalOutput {}
 export const VoteOnProposalOutput = S.suspend(() => S.Struct({})).annotations({
   identifier: "VoteOnProposalOutput",
 }) as any as S.Schema<VoteOnProposalOutput>;
+export type StateDBType = "LevelDB" | "CouchDB";
+export const StateDBType = S.Literal("LevelDB", "CouchDB");
 export interface LogConfiguration {
   Enabled?: boolean;
 }
@@ -635,30 +709,37 @@ export interface NodeConfiguration {
   InstanceType: string;
   AvailabilityZone?: string;
   LogPublishingConfiguration?: NodeLogPublishingConfiguration;
-  StateDB?: string;
+  StateDB?: StateDBType;
 }
 export const NodeConfiguration = S.suspend(() =>
   S.Struct({
     InstanceType: S.String,
     AvailabilityZone: S.optional(S.String),
     LogPublishingConfiguration: S.optional(NodeLogPublishingConfiguration),
-    StateDB: S.optional(S.String),
+    StateDB: S.optional(StateDBType),
   }),
 ).annotations({
   identifier: "NodeConfiguration",
 }) as any as S.Schema<NodeConfiguration>;
+export type Edition = "STARTER" | "STANDARD";
+export const Edition = S.Literal("STARTER", "STANDARD");
+export type ThresholdComparator = "GREATER_THAN" | "GREATER_THAN_OR_EQUAL_TO";
+export const ThresholdComparator = S.Literal(
+  "GREATER_THAN",
+  "GREATER_THAN_OR_EQUAL_TO",
+);
 export interface CreateAccessorInput {
   ClientRequestToken: string;
-  AccessorType: string;
-  Tags?: InputTagMap;
-  NetworkType?: string;
+  AccessorType: AccessorType;
+  Tags?: { [key: string]: string };
+  NetworkType?: AccessorNetworkType;
 }
 export const CreateAccessorInput = S.suspend(() =>
   S.Struct({
     ClientRequestToken: S.String,
-    AccessorType: S.String,
+    AccessorType: AccessorType,
     Tags: S.optional(InputTagMap),
-    NetworkType: S.optional(S.String),
+    NetworkType: S.optional(AccessorNetworkType),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/accessors" }),
@@ -677,7 +758,7 @@ export interface CreateNodeInput {
   NetworkId: string;
   MemberId?: string;
   NodeConfiguration: NodeConfiguration;
-  Tags?: InputTagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateNodeInput = S.suspend(() =>
   S.Struct({
@@ -700,23 +781,23 @@ export const CreateNodeInput = S.suspend(() =>
   identifier: "CreateNodeInput",
 }) as any as S.Schema<CreateNodeInput>;
 export interface NetworkFabricConfiguration {
-  Edition: string;
+  Edition: Edition;
 }
 export const NetworkFabricConfiguration = S.suspend(() =>
-  S.Struct({ Edition: S.String }),
+  S.Struct({ Edition: Edition }),
 ).annotations({
   identifier: "NetworkFabricConfiguration",
 }) as any as S.Schema<NetworkFabricConfiguration>;
 export interface ApprovalThresholdPolicy {
   ThresholdPercentage?: number;
   ProposalDurationInHours?: number;
-  ThresholdComparator?: string;
+  ThresholdComparator?: ThresholdComparator;
 }
 export const ApprovalThresholdPolicy = S.suspend(() =>
   S.Struct({
     ThresholdPercentage: S.optional(S.Number),
     ProposalDurationInHours: S.optional(S.Number),
-    ThresholdComparator: S.optional(S.String),
+    ThresholdComparator: S.optional(ThresholdComparator),
   }),
 ).annotations({
   identifier: "ApprovalThresholdPolicy",
@@ -737,6 +818,38 @@ export const RemoveAction = S.suspend(() =>
 ).annotations({ identifier: "RemoveAction" }) as any as S.Schema<RemoveAction>;
 export type RemoveActionList = RemoveAction[];
 export const RemoveActionList = S.Array(RemoveAction);
+export type AccessorStatus = "AVAILABLE" | "PENDING_DELETION" | "DELETED";
+export const AccessorStatus = S.Literal(
+  "AVAILABLE",
+  "PENDING_DELETION",
+  "DELETED",
+);
+export type ProposalStatus =
+  | "IN_PROGRESS"
+  | "APPROVED"
+  | "REJECTED"
+  | "EXPIRED"
+  | "ACTION_FAILED";
+export const ProposalStatus = S.Literal(
+  "IN_PROGRESS",
+  "APPROVED",
+  "REJECTED",
+  "EXPIRED",
+  "ACTION_FAILED",
+);
+export type InvitationStatus =
+  | "PENDING"
+  | "ACCEPTED"
+  | "ACCEPTING"
+  | "REJECTED"
+  | "EXPIRED";
+export const InvitationStatus = S.Literal(
+  "PENDING",
+  "ACCEPTED",
+  "ACCEPTING",
+  "REJECTED",
+  "EXPIRED",
+);
 export interface NetworkFrameworkConfiguration {
   Fabric?: NetworkFabricConfiguration;
 }
@@ -752,8 +865,8 @@ export const VotingPolicy = S.suspend(() =>
   S.Struct({ ApprovalThresholdPolicy: S.optional(ApprovalThresholdPolicy) }),
 ).annotations({ identifier: "VotingPolicy" }) as any as S.Schema<VotingPolicy>;
 export interface ProposalActions {
-  Invitations?: InviteActionList;
-  Removals?: RemoveActionList;
+  Invitations?: InviteAction[];
+  Removals?: RemoveAction[];
 }
 export const ProposalActions = S.suspend(() =>
   S.Struct({
@@ -767,24 +880,24 @@ export type OutputTagMap = { [key: string]: string };
 export const OutputTagMap = S.Record({ key: S.String, value: S.String });
 export interface Accessor {
   Id?: string;
-  Type?: string;
+  Type?: AccessorType;
   BillingToken?: string;
-  Status?: string;
+  Status?: AccessorStatus;
   CreationDate?: Date;
   Arn?: string;
-  Tags?: OutputTagMap;
-  NetworkType?: string;
+  Tags?: { [key: string]: string };
+  NetworkType?: AccessorNetworkType;
 }
 export const Accessor = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(AccessorType),
     BillingToken: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(AccessorStatus),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     Arn: S.optional(S.String),
     Tags: S.optional(OutputTagMap),
-    NetworkType: S.optional(S.String),
+    NetworkType: S.optional(AccessorNetworkType),
   }),
 ).annotations({ identifier: "Accessor" }) as any as S.Schema<Accessor>;
 export interface Proposal {
@@ -794,13 +907,13 @@ export interface Proposal {
   Actions?: ProposalActions;
   ProposedByMemberId?: string;
   ProposedByMemberName?: string;
-  Status?: string;
+  Status?: ProposalStatus;
   CreationDate?: Date;
   ExpirationDate?: Date;
   YesVoteCount?: number;
   NoVoteCount?: number;
   OutstandingVoteCount?: number;
-  Tags?: OutputTagMap;
+  Tags?: { [key: string]: string };
   Arn?: string;
 }
 export const Proposal = S.suspend(() =>
@@ -811,7 +924,7 @@ export const Proposal = S.suspend(() =>
     Actions: S.optional(ProposalActions),
     ProposedByMemberId: S.optional(S.String),
     ProposedByMemberName: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ProposalStatus),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     ExpirationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     YesVoteCount: S.optional(S.Number),
@@ -823,20 +936,20 @@ export const Proposal = S.suspend(() =>
 ).annotations({ identifier: "Proposal" }) as any as S.Schema<Proposal>;
 export interface AccessorSummary {
   Id?: string;
-  Type?: string;
-  Status?: string;
+  Type?: AccessorType;
+  Status?: AccessorStatus;
   CreationDate?: Date;
   Arn?: string;
-  NetworkType?: string;
+  NetworkType?: AccessorNetworkType;
 }
 export const AccessorSummary = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
-    Type: S.optional(S.String),
-    Status: S.optional(S.String),
+    Type: S.optional(AccessorType),
+    Status: S.optional(AccessorStatus),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     Arn: S.optional(S.String),
-    NetworkType: S.optional(S.String),
+    NetworkType: S.optional(AccessorNetworkType),
   }),
 ).annotations({
   identifier: "AccessorSummary",
@@ -847,9 +960,9 @@ export interface NetworkSummary {
   Id?: string;
   Name?: string;
   Description?: string;
-  Framework?: string;
+  Framework?: Framework;
   FrameworkVersion?: string;
-  Status?: string;
+  Status?: NetworkStatus;
   CreationDate?: Date;
   Arn?: string;
 }
@@ -858,9 +971,9 @@ export const NetworkSummary = S.suspend(() =>
     Id: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    Framework: S.optional(S.String),
+    Framework: S.optional(Framework),
     FrameworkVersion: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(NetworkStatus),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     Arn: S.optional(S.String),
   }),
@@ -871,7 +984,7 @@ export interface Invitation {
   InvitationId?: string;
   CreationDate?: Date;
   ExpirationDate?: Date;
-  Status?: string;
+  Status?: InvitationStatus;
   NetworkSummary?: NetworkSummary;
   Arn?: string;
 }
@@ -880,7 +993,7 @@ export const Invitation = S.suspend(() =>
     InvitationId: S.optional(S.String),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     ExpirationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    Status: S.optional(S.String),
+    Status: S.optional(InvitationStatus),
     NetworkSummary: S.optional(NetworkSummary),
     Arn: S.optional(S.String),
   }),
@@ -891,7 +1004,7 @@ export interface MemberSummary {
   Id?: string;
   Name?: string;
   Description?: string;
-  Status?: string;
+  Status?: MemberStatus;
   CreationDate?: Date;
   IsOwned?: boolean;
   Arn?: string;
@@ -901,7 +1014,7 @@ export const MemberSummary = S.suspend(() =>
     Id: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(MemberStatus),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     IsOwned: S.optional(S.Boolean),
     Arn: S.optional(S.String),
@@ -915,7 +1028,7 @@ export type NetworkSummaryList = NetworkSummary[];
 export const NetworkSummaryList = S.Array(NetworkSummary);
 export interface NodeSummary {
   Id?: string;
-  Status?: string;
+  Status?: NodeStatus;
   CreationDate?: Date;
   AvailabilityZone?: string;
   InstanceType?: string;
@@ -924,7 +1037,7 @@ export interface NodeSummary {
 export const NodeSummary = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(NodeStatus),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     AvailabilityZone: S.optional(S.String),
     InstanceType: S.optional(S.String),
@@ -938,7 +1051,7 @@ export interface ProposalSummary {
   Description?: string;
   ProposedByMemberId?: string;
   ProposedByMemberName?: string;
-  Status?: string;
+  Status?: ProposalStatus;
   CreationDate?: Date;
   ExpirationDate?: Date;
   Arn?: string;
@@ -949,7 +1062,7 @@ export const ProposalSummary = S.suspend(() =>
     Description: S.optional(S.String),
     ProposedByMemberId: S.optional(S.String),
     ProposedByMemberName: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ProposalStatus),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     ExpirationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     Arn: S.optional(S.String),
@@ -960,13 +1073,13 @@ export const ProposalSummary = S.suspend(() =>
 export type ProposalSummaryList = ProposalSummary[];
 export const ProposalSummaryList = S.Array(ProposalSummary);
 export interface VoteSummary {
-  Vote?: string;
+  Vote?: VoteValue;
   MemberName?: string;
   MemberId?: string;
 }
 export const VoteSummary = S.suspend(() =>
   S.Struct({
-    Vote: S.optional(S.String),
+    Vote: S.optional(VoteValue),
     MemberName: S.optional(S.String),
     MemberId: S.optional(S.String),
   }),
@@ -975,7 +1088,7 @@ export type ProposalVoteList = VoteSummary[];
 export const ProposalVoteList = S.Array(VoteSummary);
 export interface MemberFabricConfiguration {
   AdminUsername: string;
-  AdminPassword: string | Redacted.Redacted<string>;
+  AdminPassword: string | redacted.Redacted<string>;
 }
 export const MemberFabricConfiguration = S.suspend(() =>
   S.Struct({ AdminUsername: S.String, AdminPassword: SensitiveString }),
@@ -985,13 +1098,13 @@ export const MemberFabricConfiguration = S.suspend(() =>
 export interface CreateAccessorOutput {
   AccessorId?: string;
   BillingToken?: string;
-  NetworkType?: string;
+  NetworkType?: AccessorNetworkType;
 }
 export const CreateAccessorOutput = S.suspend(() =>
   S.Struct({
     AccessorId: S.optional(S.String),
     BillingToken: S.optional(S.String),
-    NetworkType: S.optional(S.String),
+    NetworkType: S.optional(AccessorNetworkType),
   }),
 ).annotations({
   identifier: "CreateAccessorOutput",
@@ -1025,7 +1138,7 @@ export interface MemberConfiguration {
   Description?: string;
   FrameworkConfiguration: MemberFrameworkConfiguration;
   LogPublishingConfiguration?: MemberLogPublishingConfiguration;
-  Tags?: InputTagMap;
+  Tags?: { [key: string]: string };
   KmsKeyArn?: string;
 }
 export const MemberConfiguration = S.suspend(() =>
@@ -1044,19 +1157,19 @@ export interface CreateNetworkInput {
   ClientRequestToken: string;
   Name: string;
   Description?: string;
-  Framework: string;
+  Framework: Framework;
   FrameworkVersion: string;
   FrameworkConfiguration?: NetworkFrameworkConfiguration;
   VotingPolicy: VotingPolicy;
   MemberConfiguration: MemberConfiguration;
-  Tags?: InputTagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateNetworkInput = S.suspend(() =>
   S.Struct({
     ClientRequestToken: S.String,
     Name: S.String,
     Description: S.optional(S.String),
-    Framework: S.String,
+    Framework: Framework,
     FrameworkVersion: S.String,
     FrameworkConfiguration: S.optional(NetworkFrameworkConfiguration),
     VotingPolicy: VotingPolicy,
@@ -1089,7 +1202,7 @@ export interface CreateProposalInput {
   MemberId: string;
   Actions: ProposalActions;
   Description?: string;
-  Tags?: InputTagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateProposalInput = S.suspend(() =>
   S.Struct({
@@ -1129,7 +1242,7 @@ export const GetProposalOutput = S.suspend(() =>
   identifier: "GetProposalOutput",
 }) as any as S.Schema<GetProposalOutput>;
 export interface ListAccessorsOutput {
-  Accessors?: AccessorSummaryList;
+  Accessors?: AccessorSummary[];
   NextToken?: string;
 }
 export const ListAccessorsOutput = S.suspend(() =>
@@ -1141,7 +1254,7 @@ export const ListAccessorsOutput = S.suspend(() =>
   identifier: "ListAccessorsOutput",
 }) as any as S.Schema<ListAccessorsOutput>;
 export interface ListInvitationsOutput {
-  Invitations?: InvitationList;
+  Invitations?: Invitation[];
   NextToken?: string;
 }
 export const ListInvitationsOutput = S.suspend(() =>
@@ -1153,7 +1266,7 @@ export const ListInvitationsOutput = S.suspend(() =>
   identifier: "ListInvitationsOutput",
 }) as any as S.Schema<ListInvitationsOutput>;
 export interface ListMembersOutput {
-  Members?: MemberSummaryList;
+  Members?: MemberSummary[];
   NextToken?: string;
 }
 export const ListMembersOutput = S.suspend(() =>
@@ -1165,7 +1278,7 @@ export const ListMembersOutput = S.suspend(() =>
   identifier: "ListMembersOutput",
 }) as any as S.Schema<ListMembersOutput>;
 export interface ListNetworksOutput {
-  Networks?: NetworkSummaryList;
+  Networks?: NetworkSummary[];
   NextToken?: string;
 }
 export const ListNetworksOutput = S.suspend(() =>
@@ -1177,7 +1290,7 @@ export const ListNetworksOutput = S.suspend(() =>
   identifier: "ListNetworksOutput",
 }) as any as S.Schema<ListNetworksOutput>;
 export interface ListNodesOutput {
-  Nodes?: NodeSummaryList;
+  Nodes?: NodeSummary[];
   NextToken?: string;
 }
 export const ListNodesOutput = S.suspend(() =>
@@ -1189,7 +1302,7 @@ export const ListNodesOutput = S.suspend(() =>
   identifier: "ListNodesOutput",
 }) as any as S.Schema<ListNodesOutput>;
 export interface ListProposalsOutput {
-  Proposals?: ProposalSummaryList;
+  Proposals?: ProposalSummary[];
   NextToken?: string;
 }
 export const ListProposalsOutput = S.suspend(() =>
@@ -1201,7 +1314,7 @@ export const ListProposalsOutput = S.suspend(() =>
   identifier: "ListProposalsOutput",
 }) as any as S.Schema<ListProposalsOutput>;
 export interface ListProposalVotesOutput {
-  ProposalVotes?: ProposalVoteList;
+  ProposalVotes?: VoteSummary[];
   NextToken?: string;
 }
 export const ListProposalVotesOutput = S.suspend(() =>
@@ -1213,7 +1326,7 @@ export const ListProposalVotesOutput = S.suspend(() =>
   identifier: "ListProposalVotesOutput",
 }) as any as S.Schema<ListProposalVotesOutput>;
 export interface ListTagsForResourceResponse {
-  Tags?: OutputTagMap;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(OutputTagMap) }),
@@ -1263,12 +1376,12 @@ export const MemberFabricAttributes = S.suspend(() =>
 }) as any as S.Schema<MemberFabricAttributes>;
 export interface NetworkFabricAttributes {
   OrderingServiceEndpoint?: string;
-  Edition?: string;
+  Edition?: Edition;
 }
 export const NetworkFabricAttributes = S.suspend(() =>
   S.Struct({
     OrderingServiceEndpoint: S.optional(S.String),
-    Edition: S.optional(S.String),
+    Edition: S.optional(Edition),
   }),
 ).annotations({
   identifier: "NetworkFabricAttributes",
@@ -1386,9 +1499,9 @@ export interface Member {
   Description?: string;
   FrameworkAttributes?: MemberFrameworkAttributes;
   LogPublishingConfiguration?: MemberLogPublishingConfiguration;
-  Status?: string;
+  Status?: MemberStatus;
   CreationDate?: Date;
-  Tags?: OutputTagMap;
+  Tags?: { [key: string]: string };
   Arn?: string;
   KmsKeyArn?: string;
 }
@@ -1400,7 +1513,7 @@ export const Member = S.suspend(() =>
     Description: S.optional(S.String),
     FrameworkAttributes: S.optional(MemberFrameworkAttributes),
     LogPublishingConfiguration: S.optional(MemberLogPublishingConfiguration),
-    Status: S.optional(S.String),
+    Status: S.optional(MemberStatus),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     Tags: S.optional(OutputTagMap),
     Arn: S.optional(S.String),
@@ -1411,14 +1524,14 @@ export interface Network {
   Id?: string;
   Name?: string;
   Description?: string;
-  Framework?: string;
+  Framework?: Framework;
   FrameworkVersion?: string;
   FrameworkAttributes?: NetworkFrameworkAttributes;
   VpcEndpointServiceName?: string;
   VotingPolicy?: VotingPolicy;
-  Status?: string;
+  Status?: NetworkStatus;
   CreationDate?: Date;
-  Tags?: OutputTagMap;
+  Tags?: { [key: string]: string };
   Arn?: string;
 }
 export const Network = S.suspend(() =>
@@ -1426,12 +1539,12 @@ export const Network = S.suspend(() =>
     Id: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    Framework: S.optional(S.String),
+    Framework: S.optional(Framework),
     FrameworkVersion: S.optional(S.String),
     FrameworkAttributes: S.optional(NetworkFrameworkAttributes),
     VpcEndpointServiceName: S.optional(S.String),
     VotingPolicy: S.optional(VotingPolicy),
-    Status: S.optional(S.String),
+    Status: S.optional(NetworkStatus),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     Tags: S.optional(OutputTagMap),
     Arn: S.optional(S.String),
@@ -1445,10 +1558,10 @@ export interface Node {
   AvailabilityZone?: string;
   FrameworkAttributes?: NodeFrameworkAttributes;
   LogPublishingConfiguration?: NodeLogPublishingConfiguration;
-  StateDB?: string;
-  Status?: string;
+  StateDB?: StateDBType;
+  Status?: NodeStatus;
   CreationDate?: Date;
-  Tags?: OutputTagMap;
+  Tags?: { [key: string]: string };
   Arn?: string;
   KmsKeyArn?: string;
 }
@@ -1461,8 +1574,8 @@ export const Node = S.suspend(() =>
     AvailabilityZone: S.optional(S.String),
     FrameworkAttributes: S.optional(NodeFrameworkAttributes),
     LogPublishingConfiguration: S.optional(NodeLogPublishingConfiguration),
-    StateDB: S.optional(S.String),
-    Status: S.optional(S.String),
+    StateDB: S.optional(StateDBType),
+    Status: S.optional(NodeStatus),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     Tags: S.optional(OutputTagMap),
     Arn: S.optional(S.String),
@@ -1582,7 +1695,7 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
 export const listAccessors: {
   (
     input: ListAccessorsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccessorsOutput,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -1593,7 +1706,7 @@ export const listAccessors: {
   >;
   pages: (
     input: ListAccessorsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccessorsOutput,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -1604,7 +1717,7 @@ export const listAccessors: {
   >;
   items: (
     input: ListAccessorsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AccessorSummary,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -1637,7 +1750,7 @@ export const listAccessors: {
 export const listMembers: {
   (
     input: ListMembersInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMembersOutput,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -1648,7 +1761,7 @@ export const listMembers: {
   >;
   pages: (
     input: ListMembersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMembersOutput,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -1659,7 +1772,7 @@ export const listMembers: {
   >;
   items: (
     input: ListMembersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -1691,7 +1804,7 @@ export const listMembers: {
 export const listNetworks: {
   (
     input: ListNetworksInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListNetworksOutput,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -1702,7 +1815,7 @@ export const listNetworks: {
   >;
   pages: (
     input: ListNetworksInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListNetworksOutput,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -1713,7 +1826,7 @@ export const listNetworks: {
   >;
   items: (
     input: ListNetworksInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -1745,7 +1858,7 @@ export const listNetworks: {
 export const listNodes: {
   (
     input: ListNodesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListNodesOutput,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -1756,7 +1869,7 @@ export const listNodes: {
   >;
   pages: (
     input: ListNodesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListNodesOutput,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -1767,7 +1880,7 @@ export const listNodes: {
   >;
   items: (
     input: ListNodesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -1799,7 +1912,7 @@ export const listNodes: {
 export const listProposalVotes: {
   (
     input: ListProposalVotesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProposalVotesOutput,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -1810,7 +1923,7 @@ export const listProposalVotes: {
   >;
   pages: (
     input: ListProposalVotesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProposalVotesOutput,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -1821,7 +1934,7 @@ export const listProposalVotes: {
   >;
   items: (
     input: ListProposalVotesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -1852,7 +1965,7 @@ export const listProposalVotes: {
  */
 export const updateNode: (
   input: UpdateNodeInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateNodeOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1879,7 +1992,7 @@ export const updateNode: (
  */
 export const rejectInvitation: (
   input: RejectInvitationInput,
-) => Effect.Effect<
+) => effect.Effect<
   RejectInvitationOutput,
   | AccessDeniedException
   | IllegalActionException
@@ -1912,7 +2025,7 @@ export const rejectInvitation: (
  */
 export const deleteAccessor: (
   input: DeleteAccessorInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccessorOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1938,7 +2051,7 @@ export const deleteAccessor: (
  */
 export const getAccessor: (
   input: GetAccessorInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccessorOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1965,7 +2078,7 @@ export const getAccessor: (
  */
 export const getProposal: (
   input: GetProposalInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetProposalOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1993,7 +2106,7 @@ export const getProposal: (
 export const listProposals: {
   (
     input: ListProposalsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProposalsOutput,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -2005,7 +2118,7 @@ export const listProposals: {
   >;
   pages: (
     input: ListProposalsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProposalsOutput,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -2017,7 +2130,7 @@ export const listProposals: {
   >;
   items: (
     input: ListProposalsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -2050,7 +2163,7 @@ export const listProposals: {
  */
 export const voteOnProposal: (
   input: VoteOnProposalInput,
-) => Effect.Effect<
+) => effect.Effect<
   VoteOnProposalOutput,
   | AccessDeniedException
   | IllegalActionException
@@ -2080,7 +2193,7 @@ export const voteOnProposal: (
 export const listInvitations: {
   (
     input: ListInvitationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInvitationsOutput,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -2093,7 +2206,7 @@ export const listInvitations: {
   >;
   pages: (
     input: ListInvitationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInvitationsOutput,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -2106,7 +2219,7 @@ export const listInvitations: {
   >;
   items: (
     input: ListInvitationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -2141,7 +2254,7 @@ export const listInvitations: {
  */
 export const deleteMember: (
   input: DeleteMemberInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMemberOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2170,7 +2283,7 @@ export const deleteMember: (
  */
 export const deleteNode: (
   input: DeleteNodeInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteNodeOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2199,7 +2312,7 @@ export const deleteNode: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2224,7 +2337,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2249,7 +2362,7 @@ export const listTagsForResource: (
  */
 export const getMember: (
   input: GetMemberInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetMemberOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2276,7 +2389,7 @@ export const getMember: (
  */
 export const getNetwork: (
   input: GetNetworkInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetNetworkOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2303,7 +2416,7 @@ export const getNetwork: (
  */
 export const getNode: (
   input: GetNodeInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetNodeOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2334,7 +2447,7 @@ export const getNode: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2361,7 +2474,7 @@ export const tagResource: (
  */
 export const updateMember: (
   input: UpdateMemberInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMemberOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2388,7 +2501,7 @@ export const updateMember: (
  */
 export const createNode: (
   input: CreateNodeInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateNodeOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2422,7 +2535,7 @@ export const createNode: (
  */
 export const createAccessor: (
   input: CreateAccessorInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAccessorOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2453,7 +2566,7 @@ export const createAccessor: (
  */
 export const createNetwork: (
   input: CreateNetworkInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateNetworkOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2484,7 +2597,7 @@ export const createNetwork: (
  */
 export const createProposal: (
   input: CreateProposalInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProposalOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2515,7 +2628,7 @@ export const createProposal: (
  */
 export const createMember: (
   input: CreateMemberInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMemberOutput,
   | AccessDeniedException
   | InternalServiceErrorException

@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -105,7 +105,6 @@ export type FieldHeader = string;
 export type FieldDelimiter = string;
 export type ExportTaskName = string;
 export type LogStreamName = string;
-export type Timestamp = number;
 export type ExportDestinationBucket = string;
 export type ExportDestinationPrefix = string;
 export type RoleArn = string;
@@ -183,7 +182,6 @@ export type DeliverySuffixPath = string;
 export type TagValue = string;
 export type MetricValue = string;
 export type DefaultValue = number;
-export type Integer = number;
 export type Message = string;
 export type EpochMillis = number;
 export type EncryptionKey = string;
@@ -267,34 +265,149 @@ export type RecordFields = string[];
 export const RecordFields = S.Array(S.String);
 export type LogGroupArnList = string[];
 export const LogGroupArnList = S.Array(S.String);
+export type EvaluationFrequency =
+  | "ONE_MIN"
+  | "FIVE_MIN"
+  | "TEN_MIN"
+  | "FIFTEEN_MIN"
+  | "THIRTY_MIN"
+  | "ONE_HOUR";
+export const EvaluationFrequency = S.Literal(
+  "ONE_MIN",
+  "FIVE_MIN",
+  "TEN_MIN",
+  "FIFTEEN_MIN",
+  "THIRTY_MIN",
+  "ONE_HOUR",
+);
+export type LogGroupClass = "STANDARD" | "INFREQUENT_ACCESS" | "DELIVERY";
+export const LogGroupClass = S.Literal(
+  "STANDARD",
+  "INFREQUENT_ACCESS",
+  "DELIVERY",
+);
+export type QueryLanguage = "CWLI" | "SQL" | "PPL";
+export const QueryLanguage = S.Literal("CWLI", "SQL", "PPL");
 export type ScheduledQueryLogGroupIdentifiers = string[];
 export const ScheduledQueryLogGroupIdentifiers = S.Array(S.String);
+export type ScheduledQueryState = "ENABLED" | "DISABLED";
+export const ScheduledQueryState = S.Literal("ENABLED", "DISABLED");
+export type PolicyType =
+  | "DATA_PROTECTION_POLICY"
+  | "SUBSCRIPTION_FILTER_POLICY"
+  | "FIELD_INDEX_POLICY"
+  | "TRANSFORMER_POLICY"
+  | "METRIC_EXTRACTION_POLICY";
+export const PolicyType = S.Literal(
+  "DATA_PROTECTION_POLICY",
+  "SUBSCRIPTION_FILTER_POLICY",
+  "FIELD_INDEX_POLICY",
+  "TRANSFORMER_POLICY",
+  "METRIC_EXTRACTION_POLICY",
+);
 export type AccountIds = string[];
 export const AccountIds = S.Array(S.String);
 export type LogTypes = string[];
 export const LogTypes = S.Array(S.String);
 export type ResourceTypes = string[];
 export const ResourceTypes = S.Array(S.String);
-export type DeliveryDestinationTypes = string[];
-export const DeliveryDestinationTypes = S.Array(S.String);
+export type DeliveryDestinationType = "S3" | "CWL" | "FH" | "XRAY";
+export const DeliveryDestinationType = S.Literal("S3", "CWL", "FH", "XRAY");
+export type DeliveryDestinationTypes = DeliveryDestinationType[];
+export const DeliveryDestinationTypes = S.Array(DeliveryDestinationType);
+export type ExportTaskStatusCode =
+  | "CANCELLED"
+  | "COMPLETED"
+  | "FAILED"
+  | "PENDING"
+  | "PENDING_CANCEL"
+  | "RUNNING";
+export const ExportTaskStatusCode = S.Literal(
+  "CANCELLED",
+  "COMPLETED",
+  "FAILED",
+  "PENDING",
+  "PENDING_CANCEL",
+  "RUNNING",
+);
 export type DescribeFieldIndexesLogGroupIdentifiers = string[];
 export const DescribeFieldIndexesLogGroupIdentifiers = S.Array(S.String);
-export type ImportStatusList = string[];
-export const ImportStatusList = S.Array(S.String);
+export type ImportStatus = "IN_PROGRESS" | "CANCELLED" | "COMPLETED" | "FAILED";
+export const ImportStatus = S.Literal(
+  "IN_PROGRESS",
+  "CANCELLED",
+  "COMPLETED",
+  "FAILED",
+);
+export type ImportStatusList = ImportStatus[];
+export const ImportStatusList = S.Array(ImportStatus);
 export type DescribeIndexPoliciesLogGroupIdentifiers = string[];
 export const DescribeIndexPoliciesLogGroupIdentifiers = S.Array(S.String);
 export type DescribeLogGroupsLogGroupIdentifiers = string[];
 export const DescribeLogGroupsLogGroupIdentifiers = S.Array(S.String);
+export type OrderBy = "LogStreamName" | "LastEventTime";
+export const OrderBy = S.Literal("LogStreamName", "LastEventTime");
+export type QueryStatus =
+  | "Scheduled"
+  | "Running"
+  | "Complete"
+  | "Failed"
+  | "Cancelled"
+  | "Timeout"
+  | "Unknown";
+export const QueryStatus = S.Literal(
+  "Scheduled",
+  "Running",
+  "Complete",
+  "Failed",
+  "Cancelled",
+  "Timeout",
+  "Unknown",
+);
+export type PolicyScope = "ACCOUNT" | "RESOURCE";
+export const PolicyScope = S.Literal("ACCOUNT", "RESOURCE");
 export type InputLogStreamNames = string[];
 export const InputLogStreamNames = S.Array(S.String);
-export type ExecutionStatusList = string[];
-export const ExecutionStatusList = S.Array(S.String);
+export type ExecutionStatus =
+  | "Running"
+  | "InvalidQuery"
+  | "Complete"
+  | "Failed"
+  | "Timeout";
+export const ExecutionStatus = S.Literal(
+  "Running",
+  "InvalidQuery",
+  "Complete",
+  "Failed",
+  "Timeout",
+);
+export type ExecutionStatusList = ExecutionStatus[];
+export const ExecutionStatusList = S.Array(ExecutionStatus);
+export type ListAggregateLogGroupSummariesGroupBy =
+  | "DATA_SOURCE_NAME_TYPE_AND_FORMAT"
+  | "DATA_SOURCE_NAME_AND_TYPE";
+export const ListAggregateLogGroupSummariesGroupBy = S.Literal(
+  "DATA_SOURCE_NAME_TYPE_AND_FORMAT",
+  "DATA_SOURCE_NAME_AND_TYPE",
+);
+export type SuppressionState = "SUPPRESSED" | "UNSUPPRESSED";
+export const SuppressionState = S.Literal("SUPPRESSED", "UNSUPPRESSED");
+export type IntegrationType = "OPENSEARCH";
+export const IntegrationType = S.Literal("OPENSEARCH");
+export type IntegrationStatus = "PROVISIONING" | "ACTIVE" | "FAILED";
+export const IntegrationStatus = S.Literal("PROVISIONING", "ACTIVE", "FAILED");
 export type FieldIndexNames = string[];
 export const FieldIndexNames = S.Array(S.String);
+export type Scope = "ALL";
+export const Scope = S.Literal("ALL");
+export type OutputFormat = "json" | "plain" | "w3c" | "raw" | "parquet";
+export const OutputFormat = S.Literal("json", "plain", "w3c", "raw", "parquet");
 export type EmitSystemFields = string[];
 export const EmitSystemFields = S.Array(S.String);
 export type LogGroupNames = string[];
 export const LogGroupNames = S.Array(S.String);
+export type Distribution = "Random" | "ByLogStream";
+export const Distribution = S.Literal("Random", "ByLogStream");
 export type StartLiveTailLogGroupIdentifiers = string[];
 export const StartLiveTailLogGroupIdentifiers = S.Array(S.String);
 export type LogGroupIdentifiers = string[];
@@ -305,6 +418,8 @@ export type TagList = string[];
 export const TagList = S.Array(S.String);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type SuppressionType = "LIMITED" | "INFINITE";
+export const SuppressionType = S.Literal("LIMITED", "INFINITE");
 export interface AssociateKmsKeyRequest {
   logGroupName?: string;
   kmsKeyId: string;
@@ -412,19 +527,19 @@ export const CreateExportTaskRequest = S.suspend(() =>
 export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
 export interface CreateLogAnomalyDetectorRequest {
-  logGroupArnList: LogGroupArnList;
+  logGroupArnList: string[];
   detectorName?: string;
-  evaluationFrequency?: string;
+  evaluationFrequency?: EvaluationFrequency;
   filterPattern?: string;
   kmsKeyId?: string;
   anomalyVisibilityTime?: number;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateLogAnomalyDetectorRequest = S.suspend(() =>
   S.Struct({
     logGroupArnList: LogGroupArnList,
     detectorName: S.optional(S.String),
-    evaluationFrequency: S.optional(S.String),
+    evaluationFrequency: S.optional(EvaluationFrequency),
     filterPattern: S.optional(S.String),
     kmsKeyId: S.optional(S.String),
     anomalyVisibilityTime: S.optional(S.Number),
@@ -446,8 +561,8 @@ export const CreateLogAnomalyDetectorRequest = S.suspend(() =>
 export interface CreateLogGroupRequest {
   logGroupName: string;
   kmsKeyId?: string;
-  tags?: Tags;
-  logGroupClass?: string;
+  tags?: { [key: string]: string };
+  logGroupClass?: LogGroupClass;
   deletionProtectionEnabled?: boolean;
 }
 export const CreateLogGroupRequest = S.suspend(() =>
@@ -455,7 +570,7 @@ export const CreateLogGroupRequest = S.suspend(() =>
     logGroupName: S.String,
     kmsKeyId: S.optional(S.String),
     tags: S.optional(Tags),
-    logGroupClass: S.optional(S.String),
+    logGroupClass: S.optional(LogGroupClass),
     deletionProtectionEnabled: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -504,10 +619,10 @@ export const CreateLogStreamResponse = S.suspend(() =>
 }) as any as S.Schema<CreateLogStreamResponse>;
 export interface DeleteAccountPolicyRequest {
   policyName: string;
-  policyType: string;
+  policyType: PolicyType;
 }
 export const DeleteAccountPolicyRequest = S.suspend(() =>
-  S.Struct({ policyName: S.String, policyType: S.String }).pipe(
+  S.Struct({ policyName: S.String, policyType: PolicyType }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -964,14 +1079,14 @@ export const DeleteTransformerResponse = S.suspend(() =>
   identifier: "DeleteTransformerResponse",
 }) as any as S.Schema<DeleteTransformerResponse>;
 export interface DescribeAccountPoliciesRequest {
-  policyType: string;
+  policyType: PolicyType;
   policyName?: string;
-  accountIdentifiers?: AccountIds;
+  accountIdentifiers?: string[];
   nextToken?: string;
 }
 export const DescribeAccountPoliciesRequest = S.suspend(() =>
   S.Struct({
-    policyType: S.String,
+    policyType: PolicyType,
     policyName: S.optional(S.String),
     accountIdentifiers: S.optional(AccountIds),
     nextToken: S.optional(S.String),
@@ -991,9 +1106,9 @@ export const DescribeAccountPoliciesRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeAccountPoliciesRequest>;
 export interface DescribeConfigurationTemplatesRequest {
   service?: string;
-  logTypes?: LogTypes;
-  resourceTypes?: ResourceTypes;
-  deliveryDestinationTypes?: DeliveryDestinationTypes;
+  logTypes?: string[];
+  resourceTypes?: string[];
+  deliveryDestinationTypes?: DeliveryDestinationType[];
   nextToken?: string;
   limit?: number;
 }
@@ -1111,14 +1226,14 @@ export const DescribeDestinationsRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeDestinationsRequest>;
 export interface DescribeExportTasksRequest {
   taskId?: string;
-  statusCode?: string;
+  statusCode?: ExportTaskStatusCode;
   nextToken?: string;
   limit?: number;
 }
 export const DescribeExportTasksRequest = S.suspend(() =>
   S.Struct({
     taskId: S.optional(S.String),
-    statusCode: S.optional(S.String),
+    statusCode: S.optional(ExportTaskStatusCode),
     nextToken: S.optional(S.String),
     limit: S.optional(S.Number),
   }).pipe(
@@ -1136,7 +1251,7 @@ export const DescribeExportTasksRequest = S.suspend(() =>
   identifier: "DescribeExportTasksRequest",
 }) as any as S.Schema<DescribeExportTasksRequest>;
 export interface DescribeFieldIndexesRequest {
-  logGroupIdentifiers: DescribeFieldIndexesLogGroupIdentifiers;
+  logGroupIdentifiers: string[];
   nextToken?: string;
 }
 export const DescribeFieldIndexesRequest = S.suspend(() =>
@@ -1159,7 +1274,7 @@ export const DescribeFieldIndexesRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeFieldIndexesRequest>;
 export interface DescribeImportTaskBatchesRequest {
   importId: string;
-  batchImportStatus?: ImportStatusList;
+  batchImportStatus?: ImportStatus[];
   limit?: number;
   nextToken?: string;
 }
@@ -1185,7 +1300,7 @@ export const DescribeImportTaskBatchesRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeImportTaskBatchesRequest>;
 export interface DescribeImportTasksRequest {
   importId?: string;
-  importStatus?: string;
+  importStatus?: ImportStatus;
   importSourceArn?: string;
   limit?: number;
   nextToken?: string;
@@ -1193,7 +1308,7 @@ export interface DescribeImportTasksRequest {
 export const DescribeImportTasksRequest = S.suspend(() =>
   S.Struct({
     importId: S.optional(S.String),
-    importStatus: S.optional(S.String),
+    importStatus: S.optional(ImportStatus),
     importSourceArn: S.optional(S.String),
     limit: S.optional(S.Number),
     nextToken: S.optional(S.String),
@@ -1212,7 +1327,7 @@ export const DescribeImportTasksRequest = S.suspend(() =>
   identifier: "DescribeImportTasksRequest",
 }) as any as S.Schema<DescribeImportTasksRequest>;
 export interface DescribeIndexPoliciesRequest {
-  logGroupIdentifiers: DescribeIndexPoliciesLogGroupIdentifiers;
+  logGroupIdentifiers: string[];
   nextToken?: string;
 }
 export const DescribeIndexPoliciesRequest = S.suspend(() =>
@@ -1234,14 +1349,14 @@ export const DescribeIndexPoliciesRequest = S.suspend(() =>
   identifier: "DescribeIndexPoliciesRequest",
 }) as any as S.Schema<DescribeIndexPoliciesRequest>;
 export interface DescribeLogGroupsRequest {
-  accountIdentifiers?: AccountIds;
+  accountIdentifiers?: string[];
   logGroupNamePrefix?: string;
   logGroupNamePattern?: string;
   nextToken?: string;
   limit?: number;
   includeLinkedAccounts?: boolean;
-  logGroupClass?: string;
-  logGroupIdentifiers?: DescribeLogGroupsLogGroupIdentifiers;
+  logGroupClass?: LogGroupClass;
+  logGroupIdentifiers?: string[];
 }
 export const DescribeLogGroupsRequest = S.suspend(() =>
   S.Struct({
@@ -1251,7 +1366,7 @@ export const DescribeLogGroupsRequest = S.suspend(() =>
     nextToken: S.optional(S.String),
     limit: S.optional(S.Number),
     includeLinkedAccounts: S.optional(S.Boolean),
-    logGroupClass: S.optional(S.String),
+    logGroupClass: S.optional(LogGroupClass),
     logGroupIdentifiers: S.optional(DescribeLogGroupsLogGroupIdentifiers),
   }).pipe(
     T.all(
@@ -1271,7 +1386,7 @@ export interface DescribeLogStreamsRequest {
   logGroupName?: string;
   logGroupIdentifier?: string;
   logStreamNamePrefix?: string;
-  orderBy?: string;
+  orderBy?: OrderBy;
   descending?: boolean;
   nextToken?: string;
   limit?: number;
@@ -1281,7 +1396,7 @@ export const DescribeLogStreamsRequest = S.suspend(() =>
     logGroupName: S.optional(S.String),
     logGroupIdentifier: S.optional(S.String),
     logStreamNamePrefix: S.optional(S.String),
-    orderBy: S.optional(S.String),
+    orderBy: S.optional(OrderBy),
     descending: S.optional(S.Boolean),
     nextToken: S.optional(S.String),
     limit: S.optional(S.Number),
@@ -1331,18 +1446,18 @@ export const DescribeMetricFiltersRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeMetricFiltersRequest>;
 export interface DescribeQueriesRequest {
   logGroupName?: string;
-  status?: string;
+  status?: QueryStatus;
   maxResults?: number;
   nextToken?: string;
-  queryLanguage?: string;
+  queryLanguage?: QueryLanguage;
 }
 export const DescribeQueriesRequest = S.suspend(() =>
   S.Struct({
     logGroupName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(QueryStatus),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-    queryLanguage: S.optional(S.String),
+    queryLanguage: S.optional(QueryLanguage),
   }).pipe(
     T.all(
       ns,
@@ -1358,14 +1473,14 @@ export const DescribeQueriesRequest = S.suspend(() =>
   identifier: "DescribeQueriesRequest",
 }) as any as S.Schema<DescribeQueriesRequest>;
 export interface DescribeQueryDefinitionsRequest {
-  queryLanguage?: string;
+  queryLanguage?: QueryLanguage;
   queryDefinitionNamePrefix?: string;
   maxResults?: number;
   nextToken?: string;
 }
 export const DescribeQueryDefinitionsRequest = S.suspend(() =>
   S.Struct({
-    queryLanguage: S.optional(S.String),
+    queryLanguage: S.optional(QueryLanguage),
     queryDefinitionNamePrefix: S.optional(S.String),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
@@ -1387,14 +1502,14 @@ export interface DescribeResourcePoliciesRequest {
   nextToken?: string;
   limit?: number;
   resourceArn?: string;
-  policyScope?: string;
+  policyScope?: PolicyScope;
 }
 export const DescribeResourcePoliciesRequest = S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String),
     limit: S.optional(S.Number),
     resourceArn: S.optional(S.String),
-    policyScope: S.optional(S.String),
+    policyScope: S.optional(PolicyScope),
   }).pipe(
     T.all(
       ns,
@@ -1484,7 +1599,7 @@ export const DisassociateSourceFromS3TableIntegrationRequest = S.suspend(() =>
 export interface FilterLogEventsRequest {
   logGroupName?: string;
   logGroupIdentifier?: string;
-  logStreamNames?: InputLogStreamNames;
+  logStreamNames?: string[];
   logStreamNamePrefix?: string;
   startTime?: number;
   endTime?: number;
@@ -1804,7 +1919,7 @@ export interface GetScheduledQueryHistoryRequest {
   identifier: string;
   startTime: number;
   endTime: number;
-  executionStatuses?: ExecutionStatusList;
+  executionStatuses?: ExecutionStatus[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -1850,14 +1965,14 @@ export const GetTransformerRequest = S.suspend(() =>
 }) as any as S.Schema<GetTransformerRequest>;
 export interface ListAnomaliesRequest {
   anomalyDetectorArn?: string;
-  suppressionState?: string;
+  suppressionState?: SuppressionState;
   limit?: number;
   nextToken?: string;
 }
 export const ListAnomaliesRequest = S.suspend(() =>
   S.Struct({
     anomalyDetectorArn: S.optional(S.String),
-    suppressionState: S.optional(S.String),
+    suppressionState: S.optional(SuppressionState),
     limit: S.optional(S.Number),
     nextToken: S.optional(S.String),
   }).pipe(
@@ -1876,14 +1991,14 @@ export const ListAnomaliesRequest = S.suspend(() =>
 }) as any as S.Schema<ListAnomaliesRequest>;
 export interface ListIntegrationsRequest {
   integrationNamePrefix?: string;
-  integrationType?: string;
-  integrationStatus?: string;
+  integrationType?: IntegrationType;
+  integrationStatus?: IntegrationStatus;
 }
 export const ListIntegrationsRequest = S.suspend(() =>
   S.Struct({
     integrationNamePrefix: S.optional(S.String),
-    integrationType: S.optional(S.String),
-    integrationStatus: S.optional(S.String),
+    integrationType: S.optional(IntegrationType),
+    integrationStatus: S.optional(IntegrationStatus),
   }).pipe(
     T.all(
       ns,
@@ -1935,18 +2050,18 @@ export type DataSourceFilters = DataSourceFilter[];
 export const DataSourceFilters = S.Array(DataSourceFilter);
 export interface ListLogGroupsRequest {
   logGroupNamePattern?: string;
-  logGroupClass?: string;
+  logGroupClass?: LogGroupClass;
   includeLinkedAccounts?: boolean;
-  accountIdentifiers?: AccountIds;
+  accountIdentifiers?: string[];
   nextToken?: string;
   limit?: number;
-  dataSources?: DataSourceFilters;
-  fieldIndexNames?: FieldIndexNames;
+  dataSources?: DataSourceFilter[];
+  fieldIndexNames?: string[];
 }
 export const ListLogGroupsRequest = S.suspend(() =>
   S.Struct({
     logGroupNamePattern: S.optional(S.String),
-    logGroupClass: S.optional(S.String),
+    logGroupClass: S.optional(LogGroupClass),
     includeLinkedAccounts: S.optional(S.Boolean),
     accountIdentifiers: S.optional(AccountIds),
     nextToken: S.optional(S.String),
@@ -1994,13 +2109,13 @@ export const ListLogGroupsForQueryRequest = S.suspend(() =>
 export interface ListScheduledQueriesRequest {
   maxResults?: number;
   nextToken?: string;
-  state?: string;
+  state?: ScheduledQueryState;
 }
 export const ListScheduledQueriesRequest = S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-    state: S.optional(S.String),
+    state: S.optional(ScheduledQueryState),
   }).pipe(
     T.all(
       ns,
@@ -2078,16 +2193,16 @@ export const ListTagsLogGroupRequest = S.suspend(() =>
 export interface PutAccountPolicyRequest {
   policyName: string;
   policyDocument: string;
-  policyType: string;
-  scope?: string;
+  policyType: PolicyType;
+  scope?: Scope;
   selectionCriteria?: string;
 }
 export const PutAccountPolicyRequest = S.suspend(() =>
   S.Struct({
     policyName: S.String,
     policyDocument: S.String,
-    policyType: S.String,
-    scope: S.optional(S.String),
+    policyType: PolicyType,
+    scope: S.optional(Scope),
     selectionCriteria: S.optional(S.String),
   }).pipe(
     T.all(
@@ -2148,7 +2263,7 @@ export interface PutDeliverySourceRequest {
   name: string;
   resourceArn: string;
   logType: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const PutDeliverySourceRequest = S.suspend(() =>
   S.Struct({
@@ -2174,7 +2289,7 @@ export interface PutDestinationRequest {
   destinationName: string;
   targetArn: string;
   roleArn: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const PutDestinationRequest = S.suspend(() =>
   S.Struct({
@@ -2274,16 +2389,16 @@ export const PutLogGroupDeletionProtectionResponse = S.suspend(() =>
   identifier: "PutLogGroupDeletionProtectionResponse",
 }) as any as S.Schema<PutLogGroupDeletionProtectionResponse>;
 export interface PutQueryDefinitionRequest {
-  queryLanguage?: string;
+  queryLanguage?: QueryLanguage;
   name: string;
   queryDefinitionId?: string;
-  logGroupNames?: LogGroupNames;
+  logGroupNames?: string[];
   queryString: string;
   clientToken?: string;
 }
 export const PutQueryDefinitionRequest = S.suspend(() =>
   S.Struct({
-    queryLanguage: S.optional(S.String),
+    queryLanguage: S.optional(QueryLanguage),
     name: S.String,
     queryDefinitionId: S.optional(S.String),
     logGroupNames: S.optional(LogGroupNames),
@@ -2360,10 +2475,10 @@ export interface PutSubscriptionFilterRequest {
   filterPattern: string;
   destinationArn: string;
   roleArn?: string;
-  distribution?: string;
+  distribution?: Distribution;
   applyOnTransformedLogs?: boolean;
   fieldSelectionCriteria?: string;
-  emitSystemFields?: EmitSystemFields;
+  emitSystemFields?: string[];
 }
 export const PutSubscriptionFilterRequest = S.suspend(() =>
   S.Struct({
@@ -2372,7 +2487,7 @@ export const PutSubscriptionFilterRequest = S.suspend(() =>
     filterPattern: S.String,
     destinationArn: S.String,
     roleArn: S.optional(S.String),
-    distribution: S.optional(S.String),
+    distribution: S.optional(Distribution),
     applyOnTransformedLogs: S.optional(S.Boolean),
     fieldSelectionCriteria: S.optional(S.String),
     emitSystemFields: S.optional(EmitSystemFields),
@@ -2397,9 +2512,9 @@ export const PutSubscriptionFilterResponse = S.suspend(() =>
   identifier: "PutSubscriptionFilterResponse",
 }) as any as S.Schema<PutSubscriptionFilterResponse>;
 export interface StartLiveTailRequest {
-  logGroupIdentifiers: StartLiveTailLogGroupIdentifiers;
-  logStreamNames?: InputLogStreamNames;
-  logStreamNamePrefixes?: InputLogStreamNames;
+  logGroupIdentifiers: string[];
+  logStreamNames?: string[];
+  logStreamNamePrefixes?: string[];
   logEventFilterPattern?: string;
 }
 export const StartLiveTailRequest = S.suspend(() =>
@@ -2423,10 +2538,10 @@ export const StartLiveTailRequest = S.suspend(() =>
   identifier: "StartLiveTailRequest",
 }) as any as S.Schema<StartLiveTailRequest>;
 export interface StartQueryRequest {
-  queryLanguage?: string;
+  queryLanguage?: QueryLanguage;
   logGroupName?: string;
-  logGroupNames?: LogGroupNames;
-  logGroupIdentifiers?: LogGroupIdentifiers;
+  logGroupNames?: string[];
+  logGroupIdentifiers?: string[];
   startTime: number;
   endTime: number;
   queryString: string;
@@ -2434,7 +2549,7 @@ export interface StartQueryRequest {
 }
 export const StartQueryRequest = S.suspend(() =>
   S.Struct({
-    queryLanguage: S.optional(S.String),
+    queryLanguage: S.optional(QueryLanguage),
     logGroupName: S.optional(S.String),
     logGroupNames: S.optional(LogGroupNames),
     logGroupIdentifiers: S.optional(LogGroupIdentifiers),
@@ -2476,7 +2591,7 @@ export const StopQueryRequest = S.suspend(() =>
 }) as any as S.Schema<StopQueryRequest>;
 export interface TagLogGroupRequest {
   logGroupName: string;
-  tags: Tags;
+  tags: { [key: string]: string };
 }
 export const TagLogGroupRequest = S.suspend(() =>
   S.Struct({ logGroupName: S.String, tags: Tags }).pipe(
@@ -2501,7 +2616,7 @@ export const TagLogGroupResponse = S.suspend(() =>
 }) as any as S.Schema<TagLogGroupResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: Tags;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: Tags }).pipe(
@@ -2526,7 +2641,7 @@ export const TagResourceResponse = S.suspend(() =>
 }) as any as S.Schema<TagResourceResponse>;
 export interface TestMetricFilterRequest {
   filterPattern: string;
-  logEventMessages: TestEventMessages;
+  logEventMessages: string[];
 }
 export const TestMetricFilterRequest = S.suspend(() =>
   S.Struct({
@@ -2561,7 +2676,7 @@ export const AddKeyEntry = S.suspend(() =>
 export type AddKeyEntries = AddKeyEntry[];
 export const AddKeyEntries = S.Array(AddKeyEntry);
 export interface AddKeys {
-  entries: AddKeyEntries;
+  entries: AddKeyEntry[];
 }
 export const AddKeys = S.suspend(() =>
   S.Struct({ entries: AddKeyEntries }),
@@ -2583,7 +2698,7 @@ export const CopyValueEntry = S.suspend(() =>
 export type CopyValueEntries = CopyValueEntry[];
 export const CopyValueEntries = S.Array(CopyValueEntry);
 export interface CopyValue {
-  entries: CopyValueEntries;
+  entries: CopyValueEntry[];
 }
 export const CopyValue = S.suspend(() =>
   S.Struct({ entries: CopyValueEntries }),
@@ -2593,7 +2708,7 @@ export const Columns = S.Array(S.String);
 export interface CSV {
   quoteCharacter?: string;
   delimiter?: string;
-  columns?: Columns;
+  columns?: string[];
   source?: string;
 }
 export const CSV = S.suspend(() =>
@@ -2610,7 +2725,7 @@ export interface DateTimeConverter {
   source: string;
   target: string;
   targetFormat?: string;
-  matchPatterns: MatchPatterns;
+  matchPatterns: string[];
   sourceTimezone?: string;
   targetTimezone?: string;
   locale?: string;
@@ -2631,7 +2746,7 @@ export const DateTimeConverter = S.suspend(() =>
 export type DeleteWithKeys = string[];
 export const DeleteWithKeys = S.Array(S.String);
 export interface DeleteKeys {
-  withKeys: DeleteWithKeys;
+  withKeys: string[];
 }
 export const DeleteKeys = S.suspend(() =>
   S.Struct({ withKeys: DeleteWithKeys }),
@@ -2643,13 +2758,15 @@ export interface Grok {
 export const Grok = S.suspend(() =>
   S.Struct({ source: S.optional(S.String), match: S.String }),
 ).annotations({ identifier: "Grok" }) as any as S.Schema<Grok>;
+export type FlattenedElement = "first" | "last";
+export const FlattenedElement = S.Literal("first", "last");
 export interface ListToMap {
   source: string;
   key: string;
   valueKey?: string;
   target?: string;
   flatten?: boolean;
-  flattenedElement?: string;
+  flattenedElement?: FlattenedElement;
 }
 export const ListToMap = S.suspend(() =>
   S.Struct({
@@ -2658,13 +2775,13 @@ export const ListToMap = S.suspend(() =>
     valueKey: S.optional(S.String),
     target: S.optional(S.String),
     flatten: S.optional(S.Boolean),
-    flattenedElement: S.optional(S.String),
+    flattenedElement: S.optional(FlattenedElement),
   }),
 ).annotations({ identifier: "ListToMap" }) as any as S.Schema<ListToMap>;
 export type LowerCaseStringWithKeys = string[];
 export const LowerCaseStringWithKeys = S.Array(S.String);
 export interface LowerCaseString {
-  withKeys: LowerCaseStringWithKeys;
+  withKeys: string[];
 }
 export const LowerCaseString = S.suspend(() =>
   S.Struct({ withKeys: LowerCaseStringWithKeys }),
@@ -2686,7 +2803,7 @@ export const MoveKeyEntry = S.suspend(() =>
 export type MoveKeyEntries = MoveKeyEntry[];
 export const MoveKeyEntries = S.Array(MoveKeyEntry);
 export interface MoveKeys {
-  entries: MoveKeyEntries;
+  entries: MoveKeyEntry[];
 }
 export const MoveKeys = S.suspend(() =>
   S.Struct({ entries: MoveKeyEntries }),
@@ -2734,17 +2851,32 @@ export interface ParseRoute53 {
 export const ParseRoute53 = S.suspend(() =>
   S.Struct({ source: S.optional(S.String) }),
 ).annotations({ identifier: "ParseRoute53" }) as any as S.Schema<ParseRoute53>;
+export type EventSource =
+  | "CloudTrail"
+  | "Route53Resolver"
+  | "VPCFlow"
+  | "EKSAudit"
+  | "AWSWAF";
+export const EventSource = S.Literal(
+  "CloudTrail",
+  "Route53Resolver",
+  "VPCFlow",
+  "EKSAudit",
+  "AWSWAF",
+);
+export type OCSFVersion = "V1.1" | "V1.5";
+export const OCSFVersion = S.Literal("V1.1", "V1.5");
 export interface ParseToOCSF {
   source?: string;
-  eventSource: string;
-  ocsfVersion: string;
+  eventSource: EventSource;
+  ocsfVersion: OCSFVersion;
   mappingVersion?: string;
 }
 export const ParseToOCSF = S.suspend(() =>
   S.Struct({
     source: S.optional(S.String),
-    eventSource: S.String,
-    ocsfVersion: S.String,
+    eventSource: EventSource,
+    ocsfVersion: OCSFVersion,
     mappingVersion: S.optional(S.String),
   }),
 ).annotations({ identifier: "ParseToOCSF" }) as any as S.Schema<ParseToOCSF>;
@@ -2785,7 +2917,7 @@ export const RenameKeyEntry = S.suspend(() =>
 export type RenameKeyEntries = RenameKeyEntry[];
 export const RenameKeyEntries = S.Array(RenameKeyEntry);
 export interface RenameKeys {
-  entries: RenameKeyEntries;
+  entries: RenameKeyEntry[];
 }
 export const RenameKeys = S.suspend(() =>
   S.Struct({ entries: RenameKeyEntries }),
@@ -2802,7 +2934,7 @@ export const SplitStringEntry = S.suspend(() =>
 export type SplitStringEntries = SplitStringEntry[];
 export const SplitStringEntries = S.Array(SplitStringEntry);
 export interface SplitString {
-  entries: SplitStringEntries;
+  entries: SplitStringEntry[];
 }
 export const SplitString = S.suspend(() =>
   S.Struct({ entries: SplitStringEntries }),
@@ -2820,7 +2952,7 @@ export const SubstituteStringEntry = S.suspend(() =>
 export type SubstituteStringEntries = SubstituteStringEntry[];
 export const SubstituteStringEntries = S.Array(SubstituteStringEntry);
 export interface SubstituteString {
-  entries: SubstituteStringEntries;
+  entries: SubstituteStringEntry[];
 }
 export const SubstituteString = S.suspend(() =>
   S.Struct({ entries: SubstituteStringEntries }),
@@ -2830,24 +2962,26 @@ export const SubstituteString = S.suspend(() =>
 export type TrimStringWithKeys = string[];
 export const TrimStringWithKeys = S.Array(S.String);
 export interface TrimString {
-  withKeys: TrimStringWithKeys;
+  withKeys: string[];
 }
 export const TrimString = S.suspend(() =>
   S.Struct({ withKeys: TrimStringWithKeys }),
 ).annotations({ identifier: "TrimString" }) as any as S.Schema<TrimString>;
+export type Type = "boolean" | "integer" | "double" | "string";
+export const Type = S.Literal("boolean", "integer", "double", "string");
 export interface TypeConverterEntry {
   key: string;
-  type: string;
+  type: Type;
 }
 export const TypeConverterEntry = S.suspend(() =>
-  S.Struct({ key: S.String, type: S.String }),
+  S.Struct({ key: S.String, type: Type }),
 ).annotations({
   identifier: "TypeConverterEntry",
 }) as any as S.Schema<TypeConverterEntry>;
 export type TypeConverterEntries = TypeConverterEntry[];
 export const TypeConverterEntries = S.Array(TypeConverterEntry);
 export interface TypeConverter {
-  entries: TypeConverterEntries;
+  entries: TypeConverterEntry[];
 }
 export const TypeConverter = S.suspend(() =>
   S.Struct({ entries: TypeConverterEntries }),
@@ -2857,7 +2991,7 @@ export const TypeConverter = S.suspend(() =>
 export type UpperCaseStringWithKeys = string[];
 export const UpperCaseStringWithKeys = S.Array(S.String);
 export interface UpperCaseString {
-  withKeys: UpperCaseStringWithKeys;
+  withKeys: string[];
 }
 export const UpperCaseString = S.suspend(() =>
   S.Struct({ withKeys: UpperCaseStringWithKeys }),
@@ -2919,8 +3053,8 @@ export const Processor = S.suspend(() =>
 export type Processors = Processor[];
 export const Processors = S.Array(Processor);
 export interface TestTransformerRequest {
-  transformerConfig: Processors;
-  logEventMessages: TestEventMessages;
+  transformerConfig: Processor[];
+  logEventMessages: string[];
 }
 export const TestTransformerRequest = S.suspend(() =>
   S.Struct({
@@ -2942,7 +3076,7 @@ export const TestTransformerRequest = S.suspend(() =>
 }) as any as S.Schema<TestTransformerRequest>;
 export interface UntagLogGroupRequest {
   logGroupName: string;
-  tags: TagList;
+  tags: string[];
 }
 export const UntagLogGroupRequest = S.suspend(() =>
   S.Struct({ logGroupName: S.String, tags: TagList }).pipe(
@@ -2967,7 +3101,7 @@ export const UntagLogGroupResponse = S.suspend(() =>
 }) as any as S.Schema<UntagLogGroupResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
@@ -3004,7 +3138,7 @@ export const S3DeliveryConfiguration = S.suspend(() =>
 }) as any as S.Schema<S3DeliveryConfiguration>;
 export interface UpdateDeliveryConfigurationRequest {
   id: string;
-  recordFields?: RecordFields;
+  recordFields?: string[];
   fieldDelimiter?: string;
   s3DeliveryConfiguration?: S3DeliveryConfiguration;
 }
@@ -3036,7 +3170,7 @@ export const UpdateDeliveryConfigurationResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateDeliveryConfigurationResponse>;
 export interface UpdateLogAnomalyDetectorRequest {
   anomalyDetectorArn: string;
-  evaluationFrequency?: string;
+  evaluationFrequency?: EvaluationFrequency;
   filterPattern?: string;
   anomalyVisibilityTime?: number;
   enabled: boolean;
@@ -3044,7 +3178,7 @@ export interface UpdateLogAnomalyDetectorRequest {
 export const UpdateLogAnomalyDetectorRequest = S.suspend(() =>
   S.Struct({
     anomalyDetectorArn: S.String,
-    evaluationFrequency: S.optional(S.String),
+    evaluationFrequency: S.optional(EvaluationFrequency),
     filterPattern: S.optional(S.String),
     anomalyVisibilityTime: S.optional(S.Number),
     enabled: S.Boolean,
@@ -3088,9 +3222,9 @@ export const DestinationConfiguration = S.suspend(() =>
 export interface UpdateScheduledQueryRequest {
   identifier: string;
   description?: string;
-  queryLanguage: string;
+  queryLanguage: QueryLanguage;
   queryString: string;
-  logGroupIdentifiers?: ScheduledQueryLogGroupIdentifiers;
+  logGroupIdentifiers?: string[];
   scheduleExpression: string;
   timezone?: string;
   startTimeOffset?: number;
@@ -3098,13 +3232,13 @@ export interface UpdateScheduledQueryRequest {
   scheduleStartTime?: number;
   scheduleEndTime?: number;
   executionRoleArn: string;
-  state?: string;
+  state?: ScheduledQueryState;
 }
 export const UpdateScheduledQueryRequest = S.suspend(() =>
   S.Struct({
     identifier: S.String,
     description: S.optional(S.String),
-    queryLanguage: S.String,
+    queryLanguage: QueryLanguage,
     queryString: S.String,
     logGroupIdentifiers: S.optional(ScheduledQueryLogGroupIdentifiers),
     scheduleExpression: S.String,
@@ -3114,7 +3248,7 @@ export const UpdateScheduledQueryRequest = S.suspend(() =>
     scheduleStartTime: S.optional(S.Number),
     scheduleEndTime: S.optional(S.Number),
     executionRoleArn: S.String,
-    state: S.optional(S.String),
+    state: S.optional(ScheduledQueryState),
   }).pipe(
     T.all(
       ns,
@@ -3129,6 +3263,65 @@ export const UpdateScheduledQueryRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateScheduledQueryRequest",
 }) as any as S.Schema<UpdateScheduledQueryRequest>;
+export type StandardUnit =
+  | "Seconds"
+  | "Microseconds"
+  | "Milliseconds"
+  | "Bytes"
+  | "Kilobytes"
+  | "Megabytes"
+  | "Gigabytes"
+  | "Terabytes"
+  | "Bits"
+  | "Kilobits"
+  | "Megabits"
+  | "Gigabits"
+  | "Terabits"
+  | "Percent"
+  | "Count"
+  | "Bytes/Second"
+  | "Kilobytes/Second"
+  | "Megabytes/Second"
+  | "Gigabytes/Second"
+  | "Terabytes/Second"
+  | "Bits/Second"
+  | "Kilobits/Second"
+  | "Megabits/Second"
+  | "Gigabits/Second"
+  | "Terabits/Second"
+  | "Count/Second"
+  | "None";
+export const StandardUnit = S.Literal(
+  "Seconds",
+  "Microseconds",
+  "Milliseconds",
+  "Bytes",
+  "Kilobytes",
+  "Megabytes",
+  "Gigabytes",
+  "Terabytes",
+  "Bits",
+  "Kilobits",
+  "Megabits",
+  "Gigabits",
+  "Terabits",
+  "Percent",
+  "Count",
+  "Bytes/Second",
+  "Kilobytes/Second",
+  "Megabytes/Second",
+  "Gigabytes/Second",
+  "Terabytes/Second",
+  "Bits/Second",
+  "Kilobits/Second",
+  "Megabits/Second",
+  "Gigabits/Second",
+  "Terabits/Second",
+  "Count/Second",
+  "None",
+);
+export type SuppressionUnit = "SECONDS" | "MINUTES" | "HOURS";
+export const SuppressionUnit = S.Literal("SECONDS", "MINUTES", "HOURS");
 export interface DataSource {
   name: string;
   type?: string;
@@ -3146,6 +3339,21 @@ export const ImportFilter = S.suspend(() =>
     endEventTime: S.optional(S.Number),
   }),
 ).annotations({ identifier: "ImportFilter" }) as any as S.Schema<ImportFilter>;
+export type AnomalyDetectorStatus =
+  | "INITIALIZING"
+  | "TRAINING"
+  | "ANALYZING"
+  | "FAILED"
+  | "DELETED"
+  | "PAUSED";
+export const AnomalyDetectorStatus = S.Literal(
+  "INITIALIZING",
+  "TRAINING",
+  "ANALYZING",
+  "FAILED",
+  "DELETED",
+  "PAUSED",
+);
 export interface DeliveryDestinationConfiguration {
   destinationResourceArn: string;
 }
@@ -3167,12 +3375,12 @@ export type InputLogEvents = InputLogEvent[];
 export const InputLogEvents = S.Array(InputLogEvent);
 export interface SuppressionPeriod {
   value?: number;
-  suppressionUnit?: string;
+  suppressionUnit?: SuppressionUnit;
 }
 export const SuppressionPeriod = S.suspend(() =>
   S.Struct({
     value: S.optional(S.Number),
-    suppressionUnit: S.optional(S.String),
+    suppressionUnit: S.optional(SuppressionUnit),
   }),
 ).annotations({
   identifier: "SuppressionPeriod",
@@ -3201,10 +3409,10 @@ export const AssociateSourceToS3TableIntegrationRequest = S.suspend(() =>
 export interface CreateDeliveryRequest {
   deliverySourceName: string;
   deliveryDestinationArn: string;
-  recordFields?: RecordFields;
+  recordFields?: string[];
   fieldDelimiter?: string;
   s3DeliveryConfiguration?: S3DeliveryConfiguration;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateDeliveryRequest = S.suspend(() =>
   S.Struct({
@@ -3303,11 +3511,11 @@ export interface Delivery {
   arn?: string;
   deliverySourceName?: string;
   deliveryDestinationArn?: string;
-  deliveryDestinationType?: string;
-  recordFields?: RecordFields;
+  deliveryDestinationType?: DeliveryDestinationType;
+  recordFields?: string[];
   fieldDelimiter?: string;
   s3DeliveryConfiguration?: S3DeliveryConfiguration;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const Delivery = S.suspend(() =>
   S.Struct({
@@ -3315,7 +3523,7 @@ export const Delivery = S.suspend(() =>
     arn: S.optional(S.String),
     deliverySourceName: S.optional(S.String),
     deliveryDestinationArn: S.optional(S.String),
-    deliveryDestinationType: S.optional(S.String),
+    deliveryDestinationType: S.optional(DeliveryDestinationType),
     recordFields: S.optional(RecordFields),
     fieldDelimiter: S.optional(S.String),
     s3DeliveryConfiguration: S.optional(S3DeliveryConfiguration),
@@ -3333,17 +3541,17 @@ export const GetDeliveryResponse = S.suspend(() =>
 export interface DeliveryDestination {
   name?: string;
   arn?: string;
-  deliveryDestinationType?: string;
-  outputFormat?: string;
+  deliveryDestinationType?: DeliveryDestinationType;
+  outputFormat?: OutputFormat;
   deliveryDestinationConfiguration?: DeliveryDestinationConfiguration;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const DeliveryDestination = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     arn: S.optional(S.String),
-    deliveryDestinationType: S.optional(S.String),
-    outputFormat: S.optional(S.String),
+    deliveryDestinationType: S.optional(DeliveryDestinationType),
+    outputFormat: S.optional(OutputFormat),
     deliveryDestinationConfiguration: S.optional(
       DeliveryDestinationConfiguration,
     ),
@@ -3365,10 +3573,10 @@ export const ResourceArns = S.Array(S.String);
 export interface DeliverySource {
   name?: string;
   arn?: string;
-  resourceArns?: ResourceArns;
+  resourceArns?: string[];
   service?: string;
   logType?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const DeliverySource = S.suspend(() =>
   S.Struct({
@@ -3392,10 +3600,10 @@ export const GetDeliverySourceResponse = S.suspend(() =>
 }) as any as S.Schema<GetDeliverySourceResponse>;
 export interface GetLogAnomalyDetectorResponse {
   detectorName?: string;
-  logGroupArnList?: LogGroupArnList;
-  evaluationFrequency?: string;
+  logGroupArnList?: string[];
+  evaluationFrequency?: EvaluationFrequency;
   filterPattern?: string;
-  anomalyDetectorStatus?: string;
+  anomalyDetectorStatus?: AnomalyDetectorStatus;
   kmsKeyId?: string;
   creationTimeStamp?: number;
   lastModifiedTimeStamp?: number;
@@ -3405,9 +3613,9 @@ export const GetLogAnomalyDetectorResponse = S.suspend(() =>
   S.Struct({
     detectorName: S.optional(S.String),
     logGroupArnList: S.optional(LogGroupArnList),
-    evaluationFrequency: S.optional(S.String),
+    evaluationFrequency: S.optional(EvaluationFrequency),
     filterPattern: S.optional(S.String),
-    anomalyDetectorStatus: S.optional(S.String),
+    anomalyDetectorStatus: S.optional(AnomalyDetectorStatus),
     kmsKeyId: S.optional(S.String),
     creationTimeStamp: S.optional(S.Number),
     lastModifiedTimeStamp: S.optional(S.Number),
@@ -3420,16 +3628,16 @@ export interface GetScheduledQueryResponse {
   scheduledQueryArn?: string;
   name?: string;
   description?: string;
-  queryLanguage?: string;
+  queryLanguage?: QueryLanguage;
   queryString?: string;
-  logGroupIdentifiers?: ScheduledQueryLogGroupIdentifiers;
+  logGroupIdentifiers?: string[];
   scheduleExpression?: string;
   timezone?: string;
   startTimeOffset?: number;
   destinationConfiguration?: DestinationConfiguration;
-  state?: string;
+  state?: ScheduledQueryState;
   lastTriggeredTime?: number;
-  lastExecutionStatus?: string;
+  lastExecutionStatus?: ExecutionStatus;
   scheduleStartTime?: number;
   scheduleEndTime?: number;
   executionRoleArn?: string;
@@ -3441,16 +3649,16 @@ export const GetScheduledQueryResponse = S.suspend(() =>
     scheduledQueryArn: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    queryLanguage: S.optional(S.String),
+    queryLanguage: S.optional(QueryLanguage),
     queryString: S.optional(S.String),
     logGroupIdentifiers: S.optional(ScheduledQueryLogGroupIdentifiers),
     scheduleExpression: S.optional(S.String),
     timezone: S.optional(S.String),
     startTimeOffset: S.optional(S.Number),
     destinationConfiguration: S.optional(DestinationConfiguration),
-    state: S.optional(S.String),
+    state: S.optional(ScheduledQueryState),
     lastTriggeredTime: S.optional(S.Number),
-    lastExecutionStatus: S.optional(S.String),
+    lastExecutionStatus: S.optional(ExecutionStatus),
     scheduleStartTime: S.optional(S.Number),
     scheduleEndTime: S.optional(S.Number),
     executionRoleArn: S.optional(S.String),
@@ -3464,7 +3672,7 @@ export interface GetTransformerResponse {
   logGroupIdentifier?: string;
   creationTime?: number;
   lastModifiedTime?: number;
-  transformerConfig?: Processors;
+  transformerConfig?: Processor[];
 }
 export const GetTransformerResponse = S.suspend(() =>
   S.Struct({
@@ -3477,12 +3685,12 @@ export const GetTransformerResponse = S.suspend(() =>
   identifier: "GetTransformerResponse",
 }) as any as S.Schema<GetTransformerResponse>;
 export interface ListAggregateLogGroupSummariesRequest {
-  accountIdentifiers?: AccountIds;
+  accountIdentifiers?: string[];
   includeLinkedAccounts?: boolean;
-  logGroupClass?: string;
+  logGroupClass?: LogGroupClass;
   logGroupNamePattern?: string;
-  dataSources?: DataSourceFilters;
-  groupBy: string;
+  dataSources?: DataSourceFilter[];
+  groupBy: ListAggregateLogGroupSummariesGroupBy;
   nextToken?: string;
   limit?: number;
 }
@@ -3490,10 +3698,10 @@ export const ListAggregateLogGroupSummariesRequest = S.suspend(() =>
   S.Struct({
     accountIdentifiers: S.optional(AccountIds),
     includeLinkedAccounts: S.optional(S.Boolean),
-    logGroupClass: S.optional(S.String),
+    logGroupClass: S.optional(LogGroupClass),
     logGroupNamePattern: S.optional(S.String),
     dataSources: S.optional(DataSourceFilters),
-    groupBy: S.String,
+    groupBy: ListAggregateLogGroupSummariesGroupBy,
     nextToken: S.optional(S.String),
     limit: S.optional(S.Number),
   }).pipe(
@@ -3511,7 +3719,7 @@ export const ListAggregateLogGroupSummariesRequest = S.suspend(() =>
   identifier: "ListAggregateLogGroupSummariesRequest",
 }) as any as S.Schema<ListAggregateLogGroupSummariesRequest>;
 export interface ListLogGroupsForQueryResponse {
-  logGroupIdentifiers?: LogGroupIdentifiers;
+  logGroupIdentifiers?: string[];
   nextToken?: string;
 }
 export const ListLogGroupsForQueryResponse = S.suspend(() =>
@@ -3523,7 +3731,7 @@ export const ListLogGroupsForQueryResponse = S.suspend(() =>
   identifier: "ListLogGroupsForQueryResponse",
 }) as any as S.Schema<ListLogGroupsForQueryResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }).pipe(ns),
@@ -3531,7 +3739,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListTagsLogGroupResponse {
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const ListTagsLogGroupResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }).pipe(ns),
@@ -3542,8 +3750,8 @@ export interface AccountPolicy {
   policyName?: string;
   policyDocument?: string;
   lastUpdatedTime?: number;
-  policyType?: string;
-  scope?: string;
+  policyType?: PolicyType;
+  scope?: Scope;
   selectionCriteria?: string;
   accountId?: string;
 }
@@ -3552,8 +3760,8 @@ export const AccountPolicy = S.suspend(() =>
     policyName: S.optional(S.String),
     policyDocument: S.optional(S.String),
     lastUpdatedTime: S.optional(S.Number),
-    policyType: S.optional(S.String),
-    scope: S.optional(S.String),
+    policyType: S.optional(PolicyType),
+    scope: S.optional(Scope),
     selectionCriteria: S.optional(S.String),
     accountId: S.optional(S.String),
   }),
@@ -3584,19 +3792,19 @@ export const PutDataProtectionPolicyResponse = S.suspend(() =>
 }) as any as S.Schema<PutDataProtectionPolicyResponse>;
 export interface PutDeliveryDestinationRequest {
   name: string;
-  outputFormat?: string;
+  outputFormat?: OutputFormat;
   deliveryDestinationConfiguration?: DeliveryDestinationConfiguration;
-  deliveryDestinationType?: string;
-  tags?: Tags;
+  deliveryDestinationType?: DeliveryDestinationType;
+  tags?: { [key: string]: string };
 }
 export const PutDeliveryDestinationRequest = S.suspend(() =>
   S.Struct({
     name: S.String,
-    outputFormat: S.optional(S.String),
+    outputFormat: S.optional(OutputFormat),
     deliveryDestinationConfiguration: S.optional(
       DeliveryDestinationConfiguration,
     ),
-    deliveryDestinationType: S.optional(S.String),
+    deliveryDestinationType: S.optional(DeliveryDestinationType),
     tags: S.optional(Tags),
   }).pipe(
     T.all(
@@ -3660,12 +3868,14 @@ export const PutDestinationResponse = S.suspend(() =>
 ).annotations({
   identifier: "PutDestinationResponse",
 }) as any as S.Schema<PutDestinationResponse>;
+export type IndexSource = "ACCOUNT" | "LOG_GROUP";
+export const IndexSource = S.Literal("ACCOUNT", "LOG_GROUP");
 export interface IndexPolicy {
   logGroupIdentifier?: string;
   lastUpdateTime?: number;
   policyDocument?: string;
   policyName?: string;
-  source?: string;
+  source?: IndexSource;
 }
 export const IndexPolicy = S.suspend(() =>
   S.Struct({
@@ -3673,7 +3883,7 @@ export const IndexPolicy = S.suspend(() =>
     lastUpdateTime: S.optional(S.Number),
     policyDocument: S.optional(S.String),
     policyName: S.optional(S.String),
-    source: S.optional(S.String),
+    source: S.optional(IndexSource),
   }),
 ).annotations({ identifier: "IndexPolicy" }) as any as S.Schema<IndexPolicy>;
 export interface PutIndexPolicyResponse {
@@ -3696,7 +3906,7 @@ export interface ResourcePolicy {
   policyName?: string;
   policyDocument?: string;
   lastUpdatedTime?: number;
-  policyScope?: string;
+  policyScope?: PolicyScope;
   resourceArn?: string;
   revisionId?: string;
 }
@@ -3705,7 +3915,7 @@ export const ResourcePolicy = S.suspend(() =>
     policyName: S.optional(S.String),
     policyDocument: S.optional(S.String),
     lastUpdatedTime: S.optional(S.Number),
-    policyScope: S.optional(S.String),
+    policyScope: S.optional(PolicyScope),
     resourceArn: S.optional(S.String),
     revisionId: S.optional(S.String),
   }),
@@ -3744,7 +3954,7 @@ export interface UpdateAnomalyRequest {
   anomalyId?: string;
   patternId?: string;
   anomalyDetectorArn: string;
-  suppressionType?: string;
+  suppressionType?: SuppressionType;
   suppressionPeriod?: SuppressionPeriod;
   baseline?: boolean;
 }
@@ -3753,7 +3963,7 @@ export const UpdateAnomalyRequest = S.suspend(() =>
     anomalyId: S.optional(S.String),
     patternId: S.optional(S.String),
     anomalyDetectorArn: S.String,
-    suppressionType: S.optional(S.String),
+    suppressionType: S.optional(SuppressionType),
     suppressionPeriod: S.optional(SuppressionPeriod),
     baseline: S.optional(S.Boolean),
   }).pipe(
@@ -3780,16 +3990,16 @@ export interface UpdateScheduledQueryResponse {
   scheduledQueryArn?: string;
   name?: string;
   description?: string;
-  queryLanguage?: string;
+  queryLanguage?: QueryLanguage;
   queryString?: string;
-  logGroupIdentifiers?: ScheduledQueryLogGroupIdentifiers;
+  logGroupIdentifiers?: string[];
   scheduleExpression?: string;
   timezone?: string;
   startTimeOffset?: number;
   destinationConfiguration?: DestinationConfiguration;
-  state?: string;
+  state?: ScheduledQueryState;
   lastTriggeredTime?: number;
-  lastExecutionStatus?: string;
+  lastExecutionStatus?: ExecutionStatus;
   scheduleStartTime?: number;
   scheduleEndTime?: number;
   executionRoleArn?: string;
@@ -3801,16 +4011,16 @@ export const UpdateScheduledQueryResponse = S.suspend(() =>
     scheduledQueryArn: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    queryLanguage: S.optional(S.String),
+    queryLanguage: S.optional(QueryLanguage),
     queryString: S.optional(S.String),
     logGroupIdentifiers: S.optional(ScheduledQueryLogGroupIdentifiers),
     scheduleExpression: S.optional(S.String),
     timezone: S.optional(S.String),
     startTimeOffset: S.optional(S.Number),
     destinationConfiguration: S.optional(DestinationConfiguration),
-    state: S.optional(S.String),
+    state: S.optional(ScheduledQueryState),
     lastTriggeredTime: S.optional(S.Number),
-    lastExecutionStatus: S.optional(S.String),
+    lastExecutionStatus: S.optional(ExecutionStatus),
     scheduleStartTime: S.optional(S.Number),
     scheduleEndTime: S.optional(S.Number),
     executionRoleArn: S.optional(S.String),
@@ -3820,16 +4030,44 @@ export const UpdateScheduledQueryResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateScheduledQueryResponse",
 }) as any as S.Schema<UpdateScheduledQueryResponse>;
-export type OutputFormats = string[];
-export const OutputFormats = S.Array(S.String);
+export type OutputFormats = OutputFormat[];
+export const OutputFormats = S.Array(OutputFormat);
 export type AllowedFieldDelimiters = string[];
 export const AllowedFieldDelimiters = S.Array(S.String);
-export type InheritedProperties = string[];
-export const InheritedProperties = S.Array(S.String);
+export type IndexType = "FACET" | "FIELD_INDEX";
+export const IndexType = S.Literal("FACET", "FIELD_INDEX");
+export type DataProtectionStatus =
+  | "ACTIVATED"
+  | "DELETED"
+  | "ARCHIVED"
+  | "DISABLED";
+export const DataProtectionStatus = S.Literal(
+  "ACTIVATED",
+  "DELETED",
+  "ARCHIVED",
+  "DISABLED",
+);
+export type InheritedProperty = "ACCOUNT_DATA_PROTECTION";
+export const InheritedProperty = S.Literal("ACCOUNT_DATA_PROTECTION");
+export type InheritedProperties = InheritedProperty[];
+export const InheritedProperties = S.Array(InheritedProperty);
+export type State = "Active" | "Suppressed" | "Baseline";
+export const State = S.Literal("Active", "Suppressed", "Baseline");
+export type S3TableIntegrationSourceStatus =
+  | "ACTIVE"
+  | "UNHEALTHY"
+  | "FAILED"
+  | "DATA_SOURCE_DELETE_IN_PROGRESS";
+export const S3TableIntegrationSourceStatus = S.Literal(
+  "ACTIVE",
+  "UNHEALTHY",
+  "FAILED",
+  "DATA_SOURCE_DELETE_IN_PROGRESS",
+);
 export interface OpenSearchResourceConfig {
   kmsKeyArn?: string;
   dataSourceRoleArn: string;
-  dashboardViewerPrincipals: DashboardViewerPrincipals;
+  dashboardViewerPrincipals: string[];
   applicationArn?: string;
   retentionDays: number;
 }
@@ -3874,7 +4112,7 @@ export interface FieldIndex {
   lastScanTime?: number;
   firstEventTime?: number;
   lastEventTime?: number;
-  type?: string;
+  type?: IndexType;
 }
 export const FieldIndex = S.suspend(() =>
   S.Struct({
@@ -3883,20 +4121,20 @@ export const FieldIndex = S.suspend(() =>
     lastScanTime: S.optional(S.Number),
     firstEventTime: S.optional(S.Number),
     lastEventTime: S.optional(S.Number),
-    type: S.optional(S.String),
+    type: S.optional(IndexType),
   }),
 ).annotations({ identifier: "FieldIndex" }) as any as S.Schema<FieldIndex>;
 export type FieldIndexes = FieldIndex[];
 export const FieldIndexes = S.Array(FieldIndex);
 export interface ImportBatch {
   batchId: string;
-  status: string;
+  status: ImportStatus;
   errorMessage?: string;
 }
 export const ImportBatch = S.suspend(() =>
   S.Struct({
     batchId: S.String,
-    status: S.String,
+    status: ImportStatus,
     errorMessage: S.optional(S.String),
   }),
 ).annotations({ identifier: "ImportBatch" }) as any as S.Schema<ImportBatch>;
@@ -3905,7 +4143,7 @@ export const ImportBatchList = S.Array(ImportBatch);
 export interface Import {
   importId?: string;
   importSourceArn?: string;
-  importStatus?: string;
+  importStatus?: ImportStatus;
   importDestinationArn?: string;
   importStatistics?: ImportStatistics;
   importFilter?: ImportFilter;
@@ -3917,7 +4155,7 @@ export const Import = S.suspend(() =>
   S.Struct({
     importId: S.optional(S.String),
     importSourceArn: S.optional(S.String),
-    importStatus: S.optional(S.String),
+    importStatus: S.optional(ImportStatus),
     importDestinationArn: S.optional(S.String),
     importStatistics: S.optional(ImportStatistics),
     importFilter: S.optional(ImportFilter),
@@ -3938,9 +4176,9 @@ export interface LogGroup {
   arn?: string;
   storedBytes?: number;
   kmsKeyId?: string;
-  dataProtectionStatus?: string;
-  inheritedProperties?: InheritedProperties;
-  logGroupClass?: string;
+  dataProtectionStatus?: DataProtectionStatus;
+  inheritedProperties?: InheritedProperty[];
+  logGroupClass?: LogGroupClass;
   logGroupArn?: string;
   deletionProtectionEnabled?: boolean;
 }
@@ -3953,9 +4191,9 @@ export const LogGroup = S.suspend(() =>
     arn: S.optional(S.String),
     storedBytes: S.optional(S.Number),
     kmsKeyId: S.optional(S.String),
-    dataProtectionStatus: S.optional(S.String),
+    dataProtectionStatus: S.optional(DataProtectionStatus),
     inheritedProperties: S.optional(InheritedProperties),
-    logGroupClass: S.optional(S.String),
+    logGroupClass: S.optional(LogGroupClass),
     logGroupArn: S.optional(S.String),
     deletionProtectionEnabled: S.optional(S.Boolean),
   }),
@@ -3991,8 +4229,8 @@ export interface MetricTransformation {
   metricNamespace: string;
   metricValue: string;
   defaultValue?: number;
-  dimensions?: Dimensions;
-  unit?: string;
+  dimensions?: { [key: string]: string };
+  unit?: StandardUnit;
 }
 export const MetricTransformation = S.suspend(() =>
   S.Struct({
@@ -4001,7 +4239,7 @@ export const MetricTransformation = S.suspend(() =>
     metricValue: S.String,
     defaultValue: S.optional(S.Number),
     dimensions: S.optional(Dimensions),
-    unit: S.optional(S.String),
+    unit: S.optional(StandardUnit),
   }),
 ).annotations({
   identifier: "MetricTransformation",
@@ -4011,12 +4249,12 @@ export const MetricTransformations = S.Array(MetricTransformation);
 export interface MetricFilter {
   filterName?: string;
   filterPattern?: string;
-  metricTransformations?: MetricTransformations;
+  metricTransformations?: MetricTransformation[];
   creationTime?: number;
   logGroupName?: string;
   applyOnTransformedLogs?: boolean;
   fieldSelectionCriteria?: string;
-  emitSystemFieldDimensions?: EmitSystemFields;
+  emitSystemFieldDimensions?: string[];
 }
 export const MetricFilter = S.suspend(() =>
   S.Struct({
@@ -4033,19 +4271,19 @@ export const MetricFilter = S.suspend(() =>
 export type MetricFilters = MetricFilter[];
 export const MetricFilters = S.Array(MetricFilter);
 export interface QueryInfo {
-  queryLanguage?: string;
+  queryLanguage?: QueryLanguage;
   queryId?: string;
   queryString?: string;
-  status?: string;
+  status?: QueryStatus;
   createTime?: number;
   logGroupName?: string;
 }
 export const QueryInfo = S.suspend(() =>
   S.Struct({
-    queryLanguage: S.optional(S.String),
+    queryLanguage: S.optional(QueryLanguage),
     queryId: S.optional(S.String),
     queryString: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(QueryStatus),
     createTime: S.optional(S.Number),
     logGroupName: S.optional(S.String),
   }),
@@ -4053,16 +4291,16 @@ export const QueryInfo = S.suspend(() =>
 export type QueryInfoList = QueryInfo[];
 export const QueryInfoList = S.Array(QueryInfo);
 export interface QueryDefinition {
-  queryLanguage?: string;
+  queryLanguage?: QueryLanguage;
   queryDefinitionId?: string;
   name?: string;
   queryString?: string;
   lastModified?: number;
-  logGroupNames?: LogGroupNames;
+  logGroupNames?: string[];
 }
 export const QueryDefinition = S.suspend(() =>
   S.Struct({
-    queryLanguage: S.optional(S.String),
+    queryLanguage: S.optional(QueryLanguage),
     queryDefinitionId: S.optional(S.String),
     name: S.optional(S.String),
     queryString: S.optional(S.String),
@@ -4082,11 +4320,11 @@ export interface SubscriptionFilter {
   filterPattern?: string;
   destinationArn?: string;
   roleArn?: string;
-  distribution?: string;
+  distribution?: Distribution;
   applyOnTransformedLogs?: boolean;
   creationTime?: number;
   fieldSelectionCriteria?: string;
-  emitSystemFields?: EmitSystemFields;
+  emitSystemFields?: string[];
 }
 export const SubscriptionFilter = S.suspend(() =>
   S.Struct({
@@ -4095,7 +4333,7 @@ export const SubscriptionFilter = S.suspend(() =>
     filterPattern: S.optional(S.String),
     destinationArn: S.optional(S.String),
     roleArn: S.optional(S.String),
-    distribution: S.optional(S.String),
+    distribution: S.optional(Distribution),
     applyOnTransformedLogs: S.optional(S.Boolean),
     creationTime: S.optional(S.Number),
     fieldSelectionCriteria: S.optional(S.String),
@@ -4178,7 +4416,7 @@ export const ResultField = S.suspend(() =>
 ).annotations({ identifier: "ResultField" }) as any as S.Schema<ResultField>;
 export type ResultRows = ResultField[];
 export const ResultRows = S.Array(ResultField);
-export type QueryResults = ResultRows[];
+export type QueryResults = ResultField[][];
 export const QueryResults = S.Array(ResultRows);
 export interface QueryStatistics {
   recordsMatched?: number;
@@ -4202,14 +4440,14 @@ export const QueryStatistics = S.suspend(() =>
 }) as any as S.Schema<QueryStatistics>;
 export interface IntegrationSummary {
   integrationName?: string;
-  integrationType?: string;
-  integrationStatus?: string;
+  integrationType?: IntegrationType;
+  integrationStatus?: IntegrationStatus;
 }
 export const IntegrationSummary = S.suspend(() =>
   S.Struct({
     integrationName: S.optional(S.String),
-    integrationType: S.optional(S.String),
-    integrationStatus: S.optional(S.String),
+    integrationType: S.optional(IntegrationType),
+    integrationStatus: S.optional(IntegrationStatus),
   }),
 ).annotations({
   identifier: "IntegrationSummary",
@@ -4219,10 +4457,10 @@ export const IntegrationSummaries = S.Array(IntegrationSummary);
 export interface AnomalyDetector {
   anomalyDetectorArn?: string;
   detectorName?: string;
-  logGroupArnList?: LogGroupArnList;
-  evaluationFrequency?: string;
+  logGroupArnList?: string[];
+  evaluationFrequency?: EvaluationFrequency;
   filterPattern?: string;
-  anomalyDetectorStatus?: string;
+  anomalyDetectorStatus?: AnomalyDetectorStatus;
   kmsKeyId?: string;
   creationTimeStamp?: number;
   lastModifiedTimeStamp?: number;
@@ -4233,9 +4471,9 @@ export const AnomalyDetector = S.suspend(() =>
     anomalyDetectorArn: S.optional(S.String),
     detectorName: S.optional(S.String),
     logGroupArnList: S.optional(LogGroupArnList),
-    evaluationFrequency: S.optional(S.String),
+    evaluationFrequency: S.optional(EvaluationFrequency),
     filterPattern: S.optional(S.String),
-    anomalyDetectorStatus: S.optional(S.String),
+    anomalyDetectorStatus: S.optional(AnomalyDetectorStatus),
     kmsKeyId: S.optional(S.String),
     creationTimeStamp: S.optional(S.Number),
     lastModifiedTimeStamp: S.optional(S.Number),
@@ -4249,13 +4487,13 @@ export const AnomalyDetectors = S.Array(AnomalyDetector);
 export interface LogGroupSummary {
   logGroupName?: string;
   logGroupArn?: string;
-  logGroupClass?: string;
+  logGroupClass?: LogGroupClass;
 }
 export const LogGroupSummary = S.suspend(() =>
   S.Struct({
     logGroupName: S.optional(S.String),
     logGroupArn: S.optional(S.String),
-    logGroupClass: S.optional(S.String),
+    logGroupClass: S.optional(LogGroupClass),
   }),
 ).annotations({
   identifier: "LogGroupSummary",
@@ -4265,9 +4503,9 @@ export const LogGroupSummaries = S.Array(LogGroupSummary);
 export interface ScheduledQuerySummary {
   scheduledQueryArn?: string;
   name?: string;
-  state?: string;
+  state?: ScheduledQueryState;
   lastTriggeredTime?: number;
-  lastExecutionStatus?: string;
+  lastExecutionStatus?: ExecutionStatus;
   scheduleExpression?: string;
   timezone?: string;
   destinationConfiguration?: DestinationConfiguration;
@@ -4278,9 +4516,9 @@ export const ScheduledQuerySummary = S.suspend(() =>
   S.Struct({
     scheduledQueryArn: S.optional(S.String),
     name: S.optional(S.String),
-    state: S.optional(S.String),
+    state: S.optional(ScheduledQueryState),
     lastTriggeredTime: S.optional(S.Number),
-    lastExecutionStatus: S.optional(S.String),
+    lastExecutionStatus: S.optional(ExecutionStatus),
     scheduleExpression: S.optional(S.String),
     timezone: S.optional(S.String),
     destinationConfiguration: S.optional(DestinationConfiguration),
@@ -4295,7 +4533,7 @@ export const ScheduledQuerySummaryList = S.Array(ScheduledQuerySummary);
 export interface S3TableIntegrationSource {
   identifier?: string;
   dataSource?: DataSource;
-  status?: string;
+  status?: S3TableIntegrationSourceStatus;
   statusReason?: string;
   createdTimeStamp?: number;
 }
@@ -4303,7 +4541,7 @@ export const S3TableIntegrationSource = S.suspend(() =>
   S.Struct({
     identifier: S.optional(S.String),
     dataSource: S.optional(DataSource),
-    status: S.optional(S.String),
+    status: S.optional(S3TableIntegrationSourceStatus),
     statusReason: S.optional(S.String),
     createdTimeStamp: S.optional(S.Number),
   }),
@@ -4319,8 +4557,8 @@ export const ResourceConfig = S.Union(
   S.Struct({ openSearchResourceConfig: OpenSearchResourceConfig }),
 );
 export interface Entity {
-  keyAttributes?: EntityKeyAttributes;
-  attributes?: EntityAttributes;
+  keyAttributes?: { [key: string]: string };
+  attributes?: { [key: string]: string };
 }
 export const Entity = S.suspend(() =>
   S.Struct({
@@ -4344,6 +4582,19 @@ export const TransformedLogRecord = S.suspend(() =>
 }) as any as S.Schema<TransformedLogRecord>;
 export type TransformedLogs = TransformedLogRecord[];
 export const TransformedLogs = S.Array(TransformedLogRecord);
+export type ScheduledQueryDestinationType = "S3";
+export const ScheduledQueryDestinationType = S.Literal("S3");
+export type ActionStatus =
+  | "IN_PROGRESS"
+  | "CLIENT_ERROR"
+  | "FAILED"
+  | "COMPLETE";
+export const ActionStatus = S.Literal(
+  "IN_PROGRESS",
+  "CLIENT_ERROR",
+  "FAILED",
+  "COMPLETE",
+);
 export interface AssociateSourceToS3TableIntegrationResponse {
   identifier?: string;
 }
@@ -4355,7 +4606,7 @@ export const AssociateSourceToS3TableIntegrationResponse = S.suspend(() =>
 export interface CancelImportTaskResponse {
   importId?: string;
   importStatistics?: ImportStatistics;
-  importStatus?: string;
+  importStatus?: ImportStatus;
   creationTime?: number;
   lastUpdatedTime?: number;
 }
@@ -4363,7 +4614,7 @@ export const CancelImportTaskResponse = S.suspend(() =>
   S.Struct({
     importId: S.optional(S.String),
     importStatistics: S.optional(ImportStatistics),
-    importStatus: S.optional(S.String),
+    importStatus: S.optional(ImportStatus),
     creationTime: S.optional(S.Number),
     lastUpdatedTime: S.optional(S.Number),
   }).pipe(ns),
@@ -4395,9 +4646,9 @@ export const CreateImportTaskResponse = S.suspend(() =>
 export interface CreateScheduledQueryRequest {
   name: string;
   description?: string;
-  queryLanguage: string;
+  queryLanguage: QueryLanguage;
   queryString: string;
-  logGroupIdentifiers?: ScheduledQueryLogGroupIdentifiers;
+  logGroupIdentifiers?: string[];
   scheduleExpression: string;
   timezone?: string;
   startTimeOffset?: number;
@@ -4405,14 +4656,14 @@ export interface CreateScheduledQueryRequest {
   scheduleStartTime?: number;
   scheduleEndTime?: number;
   executionRoleArn: string;
-  state?: string;
-  tags?: Tags;
+  state?: ScheduledQueryState;
+  tags?: { [key: string]: string };
 }
 export const CreateScheduledQueryRequest = S.suspend(() =>
   S.Struct({
     name: S.String,
     description: S.optional(S.String),
-    queryLanguage: S.String,
+    queryLanguage: QueryLanguage,
     queryString: S.String,
     logGroupIdentifiers: S.optional(ScheduledQueryLogGroupIdentifiers),
     scheduleExpression: S.String,
@@ -4422,7 +4673,7 @@ export const CreateScheduledQueryRequest = S.suspend(() =>
     scheduleStartTime: S.optional(S.Number),
     scheduleEndTime: S.optional(S.Number),
     executionRoleArn: S.String,
-    state: S.optional(S.String),
+    state: S.optional(ScheduledQueryState),
     tags: S.optional(Tags),
   }).pipe(
     T.all(
@@ -4439,7 +4690,7 @@ export const CreateScheduledQueryRequest = S.suspend(() =>
   identifier: "CreateScheduledQueryRequest",
 }) as any as S.Schema<CreateScheduledQueryRequest>;
 export interface DescribeAccountPoliciesResponse {
-  accountPolicies?: AccountPolicies;
+  accountPolicies?: AccountPolicy[];
   nextToken?: string;
 }
 export const DescribeAccountPoliciesResponse = S.suspend(() =>
@@ -4451,7 +4702,7 @@ export const DescribeAccountPoliciesResponse = S.suspend(() =>
   identifier: "DescribeAccountPoliciesResponse",
 }) as any as S.Schema<DescribeAccountPoliciesResponse>;
 export interface DescribeDeliveriesResponse {
-  deliveries?: Deliveries;
+  deliveries?: Delivery[];
   nextToken?: string;
 }
 export const DescribeDeliveriesResponse = S.suspend(() =>
@@ -4463,7 +4714,7 @@ export const DescribeDeliveriesResponse = S.suspend(() =>
   identifier: "DescribeDeliveriesResponse",
 }) as any as S.Schema<DescribeDeliveriesResponse>;
 export interface DescribeDeliveryDestinationsResponse {
-  deliveryDestinations?: DeliveryDestinations;
+  deliveryDestinations?: DeliveryDestination[];
   nextToken?: string;
 }
 export const DescribeDeliveryDestinationsResponse = S.suspend(() =>
@@ -4475,7 +4726,7 @@ export const DescribeDeliveryDestinationsResponse = S.suspend(() =>
   identifier: "DescribeDeliveryDestinationsResponse",
 }) as any as S.Schema<DescribeDeliveryDestinationsResponse>;
 export interface DescribeDeliverySourcesResponse {
-  deliverySources?: DeliverySources;
+  deliverySources?: DeliverySource[];
   nextToken?: string;
 }
 export const DescribeDeliverySourcesResponse = S.suspend(() =>
@@ -4487,7 +4738,7 @@ export const DescribeDeliverySourcesResponse = S.suspend(() =>
   identifier: "DescribeDeliverySourcesResponse",
 }) as any as S.Schema<DescribeDeliverySourcesResponse>;
 export interface DescribeDestinationsResponse {
-  destinations?: Destinations;
+  destinations?: Destination[];
   nextToken?: string;
 }
 export const DescribeDestinationsResponse = S.suspend(() =>
@@ -4499,7 +4750,7 @@ export const DescribeDestinationsResponse = S.suspend(() =>
   identifier: "DescribeDestinationsResponse",
 }) as any as S.Schema<DescribeDestinationsResponse>;
 export interface DescribeFieldIndexesResponse {
-  fieldIndexes?: FieldIndexes;
+  fieldIndexes?: FieldIndex[];
   nextToken?: string;
 }
 export const DescribeFieldIndexesResponse = S.suspend(() =>
@@ -4513,7 +4764,7 @@ export const DescribeFieldIndexesResponse = S.suspend(() =>
 export interface DescribeImportTaskBatchesResponse {
   importSourceArn?: string;
   importId?: string;
-  importBatches?: ImportBatchList;
+  importBatches?: ImportBatch[];
   nextToken?: string;
 }
 export const DescribeImportTaskBatchesResponse = S.suspend(() =>
@@ -4527,7 +4778,7 @@ export const DescribeImportTaskBatchesResponse = S.suspend(() =>
   identifier: "DescribeImportTaskBatchesResponse",
 }) as any as S.Schema<DescribeImportTaskBatchesResponse>;
 export interface DescribeImportTasksResponse {
-  imports?: ImportList;
+  imports?: Import[];
   nextToken?: string;
 }
 export const DescribeImportTasksResponse = S.suspend(() =>
@@ -4539,7 +4790,7 @@ export const DescribeImportTasksResponse = S.suspend(() =>
   identifier: "DescribeImportTasksResponse",
 }) as any as S.Schema<DescribeImportTasksResponse>;
 export interface DescribeIndexPoliciesResponse {
-  indexPolicies?: IndexPolicies;
+  indexPolicies?: IndexPolicy[];
   nextToken?: string;
 }
 export const DescribeIndexPoliciesResponse = S.suspend(() =>
@@ -4551,7 +4802,7 @@ export const DescribeIndexPoliciesResponse = S.suspend(() =>
   identifier: "DescribeIndexPoliciesResponse",
 }) as any as S.Schema<DescribeIndexPoliciesResponse>;
 export interface DescribeLogGroupsResponse {
-  logGroups?: LogGroups;
+  logGroups?: LogGroup[];
   nextToken?: string;
 }
 export const DescribeLogGroupsResponse = S.suspend(() =>
@@ -4563,7 +4814,7 @@ export const DescribeLogGroupsResponse = S.suspend(() =>
   identifier: "DescribeLogGroupsResponse",
 }) as any as S.Schema<DescribeLogGroupsResponse>;
 export interface DescribeLogStreamsResponse {
-  logStreams?: LogStreams;
+  logStreams?: LogStream[];
   nextToken?: string;
 }
 export const DescribeLogStreamsResponse = S.suspend(() =>
@@ -4575,7 +4826,7 @@ export const DescribeLogStreamsResponse = S.suspend(() =>
   identifier: "DescribeLogStreamsResponse",
 }) as any as S.Schema<DescribeLogStreamsResponse>;
 export interface DescribeMetricFiltersResponse {
-  metricFilters?: MetricFilters;
+  metricFilters?: MetricFilter[];
   nextToken?: string;
 }
 export const DescribeMetricFiltersResponse = S.suspend(() =>
@@ -4587,7 +4838,7 @@ export const DescribeMetricFiltersResponse = S.suspend(() =>
   identifier: "DescribeMetricFiltersResponse",
 }) as any as S.Schema<DescribeMetricFiltersResponse>;
 export interface DescribeQueriesResponse {
-  queries?: QueryInfoList;
+  queries?: QueryInfo[];
   nextToken?: string;
 }
 export const DescribeQueriesResponse = S.suspend(() =>
@@ -4599,7 +4850,7 @@ export const DescribeQueriesResponse = S.suspend(() =>
   identifier: "DescribeQueriesResponse",
 }) as any as S.Schema<DescribeQueriesResponse>;
 export interface DescribeQueryDefinitionsResponse {
-  queryDefinitions?: QueryDefinitionList;
+  queryDefinitions?: QueryDefinition[];
   nextToken?: string;
 }
 export const DescribeQueryDefinitionsResponse = S.suspend(() =>
@@ -4611,7 +4862,7 @@ export const DescribeQueryDefinitionsResponse = S.suspend(() =>
   identifier: "DescribeQueryDefinitionsResponse",
 }) as any as S.Schema<DescribeQueryDefinitionsResponse>;
 export interface DescribeResourcePoliciesResponse {
-  resourcePolicies?: ResourcePolicies;
+  resourcePolicies?: ResourcePolicy[];
   nextToken?: string;
 }
 export const DescribeResourcePoliciesResponse = S.suspend(() =>
@@ -4623,7 +4874,7 @@ export const DescribeResourcePoliciesResponse = S.suspend(() =>
   identifier: "DescribeResourcePoliciesResponse",
 }) as any as S.Schema<DescribeResourcePoliciesResponse>;
 export interface DescribeSubscriptionFiltersResponse {
-  subscriptionFilters?: SubscriptionFilters;
+  subscriptionFilters?: SubscriptionFilter[];
   nextToken?: string;
 }
 export const DescribeSubscriptionFiltersResponse = S.suspend(() =>
@@ -4635,8 +4886,8 @@ export const DescribeSubscriptionFiltersResponse = S.suspend(() =>
   identifier: "DescribeSubscriptionFiltersResponse",
 }) as any as S.Schema<DescribeSubscriptionFiltersResponse>;
 export interface FilterLogEventsResponse {
-  events?: FilteredLogEvents;
-  searchedLogStreams?: SearchedLogStreams;
+  events?: FilteredLogEvent[];
+  searchedLogStreams?: SearchedLogStream[];
   nextToken?: string;
 }
 export const FilterLogEventsResponse = S.suspend(() =>
@@ -4657,7 +4908,7 @@ export const GetDeliveryDestinationPolicyResponse = S.suspend(() =>
   identifier: "GetDeliveryDestinationPolicyResponse",
 }) as any as S.Schema<GetDeliveryDestinationPolicyResponse>;
 export interface GetLogEventsResponse {
-  events?: OutputLogEvents;
+  events?: OutputLogEvent[];
   nextForwardToken?: string;
   nextBackwardToken?: string;
 }
@@ -4671,7 +4922,7 @@ export const GetLogEventsResponse = S.suspend(() =>
   identifier: "GetLogEventsResponse",
 }) as any as S.Schema<GetLogEventsResponse>;
 export interface GetLogGroupFieldsResponse {
-  logGroupFields?: LogGroupFieldList;
+  logGroupFields?: LogGroupField[];
 }
 export const GetLogGroupFieldsResponse = S.suspend(() =>
   S.Struct({ logGroupFields: S.optional(LogGroupFieldList) }).pipe(ns),
@@ -4679,7 +4930,7 @@ export const GetLogGroupFieldsResponse = S.suspend(() =>
   identifier: "GetLogGroupFieldsResponse",
 }) as any as S.Schema<GetLogGroupFieldsResponse>;
 export interface GetLogRecordResponse {
-  logRecord?: LogRecord;
+  logRecord?: { [key: string]: string };
 }
 export const GetLogRecordResponse = S.suspend(() =>
   S.Struct({ logRecord: S.optional(LogRecord) }).pipe(ns),
@@ -4687,25 +4938,25 @@ export const GetLogRecordResponse = S.suspend(() =>
   identifier: "GetLogRecordResponse",
 }) as any as S.Schema<GetLogRecordResponse>;
 export interface GetQueryResultsResponse {
-  queryLanguage?: string;
-  results?: QueryResults;
+  queryLanguage?: QueryLanguage;
+  results?: ResultField[][];
   statistics?: QueryStatistics;
-  status?: string;
+  status?: QueryStatus;
   encryptionKey?: string;
 }
 export const GetQueryResultsResponse = S.suspend(() =>
   S.Struct({
-    queryLanguage: S.optional(S.String),
+    queryLanguage: S.optional(QueryLanguage),
     results: S.optional(QueryResults),
     statistics: S.optional(QueryStatistics),
-    status: S.optional(S.String),
+    status: S.optional(QueryStatus),
     encryptionKey: S.optional(S.String),
   }).pipe(ns),
 ).annotations({
   identifier: "GetQueryResultsResponse",
 }) as any as S.Schema<GetQueryResultsResponse>;
 export interface ListIntegrationsResponse {
-  integrationSummaries?: IntegrationSummaries;
+  integrationSummaries?: IntegrationSummary[];
 }
 export const ListIntegrationsResponse = S.suspend(() =>
   S.Struct({ integrationSummaries: S.optional(IntegrationSummaries) }).pipe(ns),
@@ -4713,7 +4964,7 @@ export const ListIntegrationsResponse = S.suspend(() =>
   identifier: "ListIntegrationsResponse",
 }) as any as S.Schema<ListIntegrationsResponse>;
 export interface ListLogAnomalyDetectorsResponse {
-  anomalyDetectors?: AnomalyDetectors;
+  anomalyDetectors?: AnomalyDetector[];
   nextToken?: string;
 }
 export const ListLogAnomalyDetectorsResponse = S.suspend(() =>
@@ -4725,7 +4976,7 @@ export const ListLogAnomalyDetectorsResponse = S.suspend(() =>
   identifier: "ListLogAnomalyDetectorsResponse",
 }) as any as S.Schema<ListLogAnomalyDetectorsResponse>;
 export interface ListLogGroupsResponse {
-  logGroups?: LogGroupSummaries;
+  logGroups?: LogGroupSummary[];
   nextToken?: string;
 }
 export const ListLogGroupsResponse = S.suspend(() =>
@@ -4738,7 +4989,7 @@ export const ListLogGroupsResponse = S.suspend(() =>
 }) as any as S.Schema<ListLogGroupsResponse>;
 export interface ListScheduledQueriesResponse {
   nextToken?: string;
-  scheduledQueries?: ScheduledQuerySummaryList;
+  scheduledQueries?: ScheduledQuerySummary[];
 }
 export const ListScheduledQueriesResponse = S.suspend(() =>
   S.Struct({
@@ -4749,7 +5000,7 @@ export const ListScheduledQueriesResponse = S.suspend(() =>
   identifier: "ListScheduledQueriesResponse",
 }) as any as S.Schema<ListScheduledQueriesResponse>;
 export interface ListSourcesForS3TableIntegrationResponse {
-  sources?: S3TableIntegrationSources;
+  sources?: S3TableIntegrationSource[];
   nextToken?: string;
 }
 export const ListSourcesForS3TableIntegrationResponse = S.suspend(() =>
@@ -4770,14 +5021,14 @@ export const PutDeliveryDestinationResponse = S.suspend(() =>
 }) as any as S.Schema<PutDeliveryDestinationResponse>;
 export interface PutIntegrationRequest {
   integrationName: string;
-  resourceConfig: (typeof ResourceConfig)["Type"];
-  integrationType: string;
+  resourceConfig: ResourceConfig;
+  integrationType: IntegrationType;
 }
 export const PutIntegrationRequest = S.suspend(() =>
   S.Struct({
     integrationName: S.String,
     resourceConfig: ResourceConfig,
-    integrationType: S.String,
+    integrationType: IntegrationType,
   }).pipe(
     T.all(
       ns,
@@ -4795,7 +5046,7 @@ export const PutIntegrationRequest = S.suspend(() =>
 export interface PutLogEventsRequest {
   logGroupName: string;
   logStreamName: string;
-  logEvents: InputLogEvents;
+  logEvents: InputLogEvent[];
   sequenceToken?: string;
   entity?: Entity;
 }
@@ -4824,10 +5075,10 @@ export interface PutMetricFilterRequest {
   logGroupName: string;
   filterName: string;
   filterPattern: string;
-  metricTransformations: MetricTransformations;
+  metricTransformations: MetricTransformation[];
   applyOnTransformedLogs?: boolean;
   fieldSelectionCriteria?: string;
-  emitSystemFieldDimensions?: EmitSystemFields;
+  emitSystemFieldDimensions?: string[];
 }
 export const PutMetricFilterRequest = S.suspend(() =>
   S.Struct({
@@ -4859,7 +5110,7 @@ export const PutMetricFilterResponse = S.suspend(() =>
   identifier: "PutMetricFilterResponse",
 }) as any as S.Schema<PutMetricFilterResponse>;
 export interface TestTransformerResponse {
-  transformedLogs?: TransformedLogs;
+  transformedLogs?: TransformedLogRecord[];
 }
 export const TestTransformerResponse = S.suspend(() =>
   S.Struct({ transformedLogs: S.optional(TransformedLogs) }).pipe(ns),
@@ -4867,7 +5118,7 @@ export const TestTransformerResponse = S.suspend(() =>
   identifier: "TestTransformerResponse",
 }) as any as S.Schema<TestTransformerResponse>;
 export interface ConfigurationTemplateDeliveryConfigValues {
-  recordFields?: RecordFields;
+  recordFields?: string[];
   fieldDelimiter?: string;
   s3DeliveryConfiguration?: S3DeliveryConfiguration;
 }
@@ -4890,11 +5141,14 @@ export const RecordField = S.suspend(() =>
 export type AllowedFields = RecordField[];
 export const AllowedFields = S.Array(RecordField);
 export interface ExportTaskStatus {
-  code?: string;
+  code?: ExportTaskStatusCode;
   message?: string;
 }
 export const ExportTaskStatus = S.suspend(() =>
-  S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
+  S.Struct({
+    code: S.optional(ExportTaskStatusCode),
+    message: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "ExportTaskStatus",
 }) as any as S.Schema<ExportTaskStatus>;
@@ -4913,7 +5167,7 @@ export const ExportTaskExecutionInfo = S.suspend(() =>
 export interface LogFieldType {
   type?: string;
   element?: LogFieldType;
-  fields?: LogFieldsList;
+  fields?: LogFieldsListItem[];
 }
 export const LogFieldType = S.suspend(() =>
   S.Struct({
@@ -4945,17 +5199,17 @@ export const InternalStreamingException = S.suspend(() =>
   identifier: "InternalStreamingException",
 }) as any as S.Schema<InternalStreamingException>;
 export interface ScheduledQueryDestination {
-  destinationType?: string;
+  destinationType?: ScheduledQueryDestinationType;
   destinationIdentifier?: string;
-  status?: string;
+  status?: ActionStatus;
   processedIdentifier?: string;
   errorMessage?: string;
 }
 export const ScheduledQueryDestination = S.suspend(() =>
   S.Struct({
-    destinationType: S.optional(S.String),
+    destinationType: S.optional(ScheduledQueryDestinationType),
     destinationIdentifier: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ActionStatus),
     processedIdentifier: S.optional(S.String),
     errorMessage: S.optional(S.String),
   }),
@@ -4978,9 +5232,9 @@ export const LogSamples = S.Array(LogEvent);
 export interface LiveTailSessionStart {
   requestId?: string;
   sessionId?: string;
-  logGroupIdentifiers?: StartLiveTailLogGroupIdentifiers;
-  logStreamNames?: InputLogStreamNames;
-  logStreamNamePrefixes?: InputLogStreamNames;
+  logGroupIdentifiers?: string[];
+  logStreamNames?: string[];
+  logStreamNamePrefixes?: string[];
   logEventFilterPattern?: string;
 }
 export const LiveTailSessionStart = S.suspend(() =>
@@ -5017,20 +5271,20 @@ export interface ConfigurationTemplate {
   service?: string;
   logType?: string;
   resourceType?: string;
-  deliveryDestinationType?: string;
+  deliveryDestinationType?: DeliveryDestinationType;
   defaultDeliveryConfigValues?: ConfigurationTemplateDeliveryConfigValues;
-  allowedFields?: AllowedFields;
-  allowedOutputFormats?: OutputFormats;
+  allowedFields?: RecordField[];
+  allowedOutputFormats?: OutputFormat[];
   allowedActionForAllowVendedLogsDeliveryForResource?: string;
-  allowedFieldDelimiters?: AllowedFieldDelimiters;
-  allowedSuffixPathFields?: RecordFields;
+  allowedFieldDelimiters?: string[];
+  allowedSuffixPathFields?: string[];
 }
 export const ConfigurationTemplate = S.suspend(() =>
   S.Struct({
     service: S.optional(S.String),
     logType: S.optional(S.String),
     resourceType: S.optional(S.String),
-    deliveryDestinationType: S.optional(S.String),
+    deliveryDestinationType: S.optional(DeliveryDestinationType),
     defaultDeliveryConfigValues: S.optional(
       ConfigurationTemplateDeliveryConfigValues,
     ),
@@ -5093,23 +5347,26 @@ export const LogFieldsList = S.Array(
     (): S.Schema<LogFieldsListItem, any> => LogFieldsListItem,
   ).annotations({ identifier: "LogFieldsListItem" }),
 ) as any as S.Schema<LogFieldsList>;
+export type GetLogObjectResponseStream =
+  | { fields: FieldsData }
+  | { InternalStreamingException: InternalStreamingException };
 export const GetLogObjectResponseStream = T.EventStream(
   S.Union(
     S.Struct({ fields: FieldsData }),
     S.Struct({ InternalStreamingException: InternalStreamingException }),
   ),
-);
+) as any as S.Schema<stream.Stream<GetLogObjectResponseStream, Error, never>>;
 export interface TriggerHistoryRecord {
   queryId?: string;
-  executionStatus?: string;
+  executionStatus?: ExecutionStatus;
   triggeredTimestamp?: number;
   errorMessage?: string;
-  destinations?: ScheduledQueryDestinationList;
+  destinations?: ScheduledQueryDestination[];
 }
 export const TriggerHistoryRecord = S.suspend(() =>
   S.Struct({
     queryId: S.optional(S.String),
-    executionStatus: S.optional(S.String),
+    executionStatus: S.optional(ExecutionStatus),
     triggeredTimestamp: S.optional(S.Number),
     errorMessage: S.optional(S.String),
     destinations: S.optional(ScheduledQueryDestinationList),
@@ -5122,7 +5379,7 @@ export const TriggerHistoryRecordList = S.Array(TriggerHistoryRecord);
 export interface MetricFilterMatchRecord {
   eventNumber?: number;
   eventMessage?: string;
-  extractedValues?: ExtractedValues;
+  extractedValues?: { [key: string]: string };
 }
 export const MetricFilterMatchRecord = S.suspend(() =>
   S.Struct({
@@ -5135,13 +5392,19 @@ export const MetricFilterMatchRecord = S.suspend(() =>
 }) as any as S.Schema<MetricFilterMatchRecord>;
 export type MetricFilterMatches = MetricFilterMatchRecord[];
 export const MetricFilterMatches = S.Array(MetricFilterMatchRecord);
+export type OpenSearchResourceStatusType = "ACTIVE" | "NOT_FOUND" | "ERROR";
+export const OpenSearchResourceStatusType = S.Literal(
+  "ACTIVE",
+  "NOT_FOUND",
+  "ERROR",
+);
 export interface OpenSearchResourceStatus {
-  status?: string;
+  status?: OpenSearchResourceStatusType;
   statusMessage?: string;
 }
 export const OpenSearchResourceStatus = S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String),
+    status: S.optional(OpenSearchResourceStatusType),
     statusMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -5269,18 +5532,18 @@ export type LiveTailSessionResults = LiveTailSessionLogEvent[];
 export const LiveTailSessionResults = S.Array(LiveTailSessionLogEvent);
 export interface CreateScheduledQueryResponse {
   scheduledQueryArn?: string;
-  state?: string;
+  state?: ScheduledQueryState;
 }
 export const CreateScheduledQueryResponse = S.suspend(() =>
   S.Struct({
     scheduledQueryArn: S.optional(S.String),
-    state: S.optional(S.String),
+    state: S.optional(ScheduledQueryState),
   }).pipe(ns),
 ).annotations({
   identifier: "CreateScheduledQueryResponse",
 }) as any as S.Schema<CreateScheduledQueryResponse>;
 export interface DescribeConfigurationTemplatesResponse {
-  configurationTemplates?: ConfigurationTemplates;
+  configurationTemplates?: ConfigurationTemplate[];
   nextToken?: string;
 }
 export const DescribeConfigurationTemplatesResponse = S.suspend(() =>
@@ -5292,7 +5555,7 @@ export const DescribeConfigurationTemplatesResponse = S.suspend(() =>
   identifier: "DescribeConfigurationTemplatesResponse",
 }) as any as S.Schema<DescribeConfigurationTemplatesResponse>;
 export interface DescribeExportTasksResponse {
-  exportTasks?: ExportTasks;
+  exportTasks?: ExportTask[];
   nextToken?: string;
 }
 export const DescribeExportTasksResponse = S.suspend(() =>
@@ -5304,7 +5567,7 @@ export const DescribeExportTasksResponse = S.suspend(() =>
   identifier: "DescribeExportTasksResponse",
 }) as any as S.Schema<DescribeExportTasksResponse>;
 export interface GetLogFieldsResponse {
-  logFields?: LogFieldsList;
+  logFields?: LogFieldsListItem[];
 }
 export const GetLogFieldsResponse = S.suspend(() =>
   S.Struct({ logFields: S.optional(LogFieldsList) }).pipe(ns),
@@ -5312,7 +5575,7 @@ export const GetLogFieldsResponse = S.suspend(() =>
   identifier: "GetLogFieldsResponse",
 }) as any as S.Schema<GetLogFieldsResponse>;
 export interface GetLogObjectResponse {
-  fieldStream?: (typeof GetLogObjectResponseStream)["Type"];
+  fieldStream?: stream.Stream<GetLogObjectResponseStream, Error, never>;
 }
 export const GetLogObjectResponse = S.suspend(() =>
   S.Struct({ fieldStream: S.optional(GetLogObjectResponseStream) }).pipe(ns),
@@ -5322,7 +5585,7 @@ export const GetLogObjectResponse = S.suspend(() =>
 export interface GetScheduledQueryHistoryResponse {
   name?: string;
   scheduledQueryArn?: string;
-  triggerHistory?: TriggerHistoryRecordList;
+  triggerHistory?: TriggerHistoryRecord[];
   nextToken?: string;
 }
 export const GetScheduledQueryHistoryResponse = S.suspend(() =>
@@ -5337,19 +5600,19 @@ export const GetScheduledQueryHistoryResponse = S.suspend(() =>
 }) as any as S.Schema<GetScheduledQueryHistoryResponse>;
 export interface PutIntegrationResponse {
   integrationName?: string;
-  integrationStatus?: string;
+  integrationStatus?: IntegrationStatus;
 }
 export const PutIntegrationResponse = S.suspend(() =>
   S.Struct({
     integrationName: S.optional(S.String),
-    integrationStatus: S.optional(S.String),
+    integrationStatus: S.optional(IntegrationStatus),
   }).pipe(ns),
 ).annotations({
   identifier: "PutIntegrationResponse",
 }) as any as S.Schema<PutIntegrationResponse>;
 export interface PutTransformerRequest {
   logGroupIdentifier: string;
-  transformerConfig: Processors;
+  transformerConfig: Processor[];
 }
 export const PutTransformerRequest = S.suspend(() =>
   S.Struct({
@@ -5376,7 +5639,7 @@ export const PutTransformerResponse = S.suspend(() =>
   identifier: "PutTransformerResponse",
 }) as any as S.Schema<PutTransformerResponse>;
 export interface TestMetricFilterResponse {
-  matches?: MetricFilterMatches;
+  matches?: MetricFilterMatchRecord[];
 }
 export const TestMetricFilterResponse = S.suspend(() =>
   S.Struct({ matches: S.optional(MetricFilterMatches) }).pipe(ns),
@@ -5398,7 +5661,7 @@ export interface PatternToken {
   dynamicTokenPosition?: number;
   isDynamic?: boolean;
   tokenString?: string;
-  enumerations?: Enumerations;
+  enumerations?: { [key: string]: number };
   inferredTokenName?: string;
 }
 export const PatternToken = S.suspend(() =>
@@ -5412,9 +5675,26 @@ export const PatternToken = S.suspend(() =>
 ).annotations({ identifier: "PatternToken" }) as any as S.Schema<PatternToken>;
 export type PatternTokens = PatternToken[];
 export const PatternTokens = S.Array(PatternToken);
+export type EntityRejectionErrorType =
+  | "InvalidEntity"
+  | "InvalidTypeValue"
+  | "InvalidKeyAttributes"
+  | "InvalidAttributes"
+  | "EntitySizeTooLarge"
+  | "UnsupportedLogGroupType"
+  | "MissingRequiredFields";
+export const EntityRejectionErrorType = S.Literal(
+  "InvalidEntity",
+  "InvalidTypeValue",
+  "InvalidKeyAttributes",
+  "InvalidAttributes",
+  "EntitySizeTooLarge",
+  "UnsupportedLogGroupType",
+  "MissingRequiredFields",
+);
 export interface LiveTailSessionUpdate {
   sessionMetadata?: LiveTailSessionMetadata;
-  sessionResults?: LiveTailSessionResults;
+  sessionResults?: LiveTailSessionLogEvent[];
 }
 export const LiveTailSessionUpdate = S.suspend(() =>
   S.Struct({
@@ -5426,7 +5706,7 @@ export const LiveTailSessionUpdate = S.suspend(() =>
 }) as any as S.Schema<LiveTailSessionUpdate>;
 export interface AggregateLogGroupSummary {
   logGroupCount?: number;
-  groupingIdentifiers?: GroupingIdentifiers;
+  groupingIdentifiers?: GroupingIdentifier[];
 }
 export const AggregateLogGroupSummary = S.suspend(() =>
   S.Struct({
@@ -5449,11 +5729,11 @@ export interface Anomaly {
   lastSeen: number;
   description: string;
   active: boolean;
-  state: string;
-  histogram: Histogram;
-  logSamples: LogSamples;
-  patternTokens: PatternTokens;
-  logGroupArnList: LogGroupArnList;
+  state: State;
+  histogram: { [key: string]: number };
+  logSamples: LogEvent[];
+  patternTokens: PatternToken[];
+  logGroupArnList: string[];
   suppressed?: boolean;
   suppressedDate?: number;
   suppressedUntil?: number;
@@ -5471,7 +5751,7 @@ export const Anomaly = S.suspend(() =>
     lastSeen: S.Number,
     description: S.String,
     active: S.Boolean,
-    state: S.String,
+    state: State,
     histogram: Histogram,
     logSamples: LogSamples,
     patternTokens: PatternTokens,
@@ -5499,13 +5779,18 @@ export const RejectedLogEventsInfo = S.suspend(() =>
   identifier: "RejectedLogEventsInfo",
 }) as any as S.Schema<RejectedLogEventsInfo>;
 export interface RejectedEntityInfo {
-  errorType: string;
+  errorType: EntityRejectionErrorType;
 }
 export const RejectedEntityInfo = S.suspend(() =>
-  S.Struct({ errorType: S.String }),
+  S.Struct({ errorType: EntityRejectionErrorType }),
 ).annotations({
   identifier: "RejectedEntityInfo",
 }) as any as S.Schema<RejectedEntityInfo>;
+export type StartLiveTailResponseStream =
+  | { sessionStart: LiveTailSessionStart }
+  | { sessionUpdate: LiveTailSessionUpdate }
+  | { SessionTimeoutException: SessionTimeoutException }
+  | { SessionStreamingException: SessionStreamingException };
 export const StartLiveTailResponseStream = T.EventStream(
   S.Union(
     S.Struct({ sessionStart: LiveTailSessionStart }),
@@ -5513,7 +5798,7 @@ export const StartLiveTailResponseStream = T.EventStream(
     S.Struct({ SessionTimeoutException: SessionTimeoutException }),
     S.Struct({ SessionStreamingException: SessionStreamingException }),
   ),
-);
+) as any as S.Schema<stream.Stream<StartLiveTailResponseStream, Error, never>>;
 export interface OpenSearchDataSource {
   dataSourceName?: string;
   status?: OpenSearchResourceStatus;
@@ -5527,7 +5812,7 @@ export const OpenSearchDataSource = S.suspend(() =>
   identifier: "OpenSearchDataSource",
 }) as any as S.Schema<OpenSearchDataSource>;
 export interface ListAggregateLogGroupSummariesResponse {
-  aggregateLogGroupSummaries?: AggregateLogGroupSummaries;
+  aggregateLogGroupSummaries?: AggregateLogGroupSummary[];
   nextToken?: string;
 }
 export const ListAggregateLogGroupSummariesResponse = S.suspend(() =>
@@ -5539,7 +5824,7 @@ export const ListAggregateLogGroupSummariesResponse = S.suspend(() =>
   identifier: "ListAggregateLogGroupSummariesResponse",
 }) as any as S.Schema<ListAggregateLogGroupSummariesResponse>;
 export interface ListAnomaliesResponse {
-  anomalies?: Anomalies;
+  anomalies?: Anomaly[];
   nextToken?: string;
 }
 export const ListAnomaliesResponse = S.suspend(() =>
@@ -5565,7 +5850,7 @@ export const PutLogEventsResponse = S.suspend(() =>
   identifier: "PutLogEventsResponse",
 }) as any as S.Schema<PutLogEventsResponse>;
 export interface StartLiveTailResponse {
-  responseStream?: (typeof StartLiveTailResponseStream)["Type"];
+  responseStream?: stream.Stream<StartLiveTailResponseStream, Error, never>;
 }
 export const StartLiveTailResponse = S.suspend(() =>
   S.Struct({ responseStream: S.optional(StartLiveTailResponseStream) }).pipe(
@@ -5630,15 +5915,15 @@ export const QueryCompileError = S.suspend(() =>
 }) as any as S.Schema<QueryCompileError>;
 export interface GetIntegrationResponse {
   integrationName?: string;
-  integrationType?: string;
-  integrationStatus?: string;
-  integrationDetails?: (typeof IntegrationDetails)["Type"];
+  integrationType?: IntegrationType;
+  integrationStatus?: IntegrationStatus;
+  integrationDetails?: IntegrationDetails;
 }
 export const GetIntegrationResponse = S.suspend(() =>
   S.Struct({
     integrationName: S.optional(S.String),
-    integrationType: S.optional(S.String),
-    integrationStatus: S.optional(S.String),
+    integrationType: S.optional(IntegrationType),
+    integrationStatus: S.optional(IntegrationStatus),
     integrationDetails: S.optional(IntegrationDetails),
   }).pipe(ns),
 ).annotations({
@@ -5743,7 +6028,7 @@ export class UnrecognizedClientException extends S.TaggedError<UnrecognizedClien
  */
 export const untagLogGroup: (
   input: UntagLogGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagLogGroupResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5772,7 +6057,7 @@ export const untagLogGroup: (
  */
 export const tagLogGroup: (
   input: TagLogGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagLogGroupResponse,
   InvalidParameterException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5786,7 +6071,7 @@ export const tagLogGroup: (
  */
 export const getDataProtectionPolicy: (
   input: GetDataProtectionPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataProtectionPolicyResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -5809,7 +6094,7 @@ export const getDataProtectionPolicy: (
  */
 export const getLogAnomalyDetector: (
   input: GetLogAnomalyDetectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLogAnomalyDetectorResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -5845,7 +6130,7 @@ export const getLogAnomalyDetector: (
  */
 export const putDestination: (
   input: PutDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutDestinationResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -5877,7 +6162,7 @@ export const putDestination: (
  */
 export const updateAnomaly: (
   input: UpdateAnomalyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAnomalyResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -5929,7 +6214,7 @@ export const updateAnomaly: (
  */
 export const deleteAccountPolicy: (
   input: DeleteAccountPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccountPolicyResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -5954,7 +6239,7 @@ export const deleteAccountPolicy: (
  */
 export const deleteDataProtectionPolicy: (
   input: DeleteDataProtectionPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDataProtectionPolicyResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -5979,7 +6264,7 @@ export const deleteDataProtectionPolicy: (
  */
 export const deleteDestination: (
   input: DeleteDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDestinationResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -6002,7 +6287,7 @@ export const deleteDestination: (
  */
 export const deleteLogAnomalyDetector: (
   input: DeleteLogAnomalyDetectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLogAnomalyDetectorResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -6025,7 +6310,7 @@ export const deleteLogAnomalyDetector: (
  */
 export const deleteMetricFilter: (
   input: DeleteMetricFilterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMetricFilterResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -6049,7 +6334,7 @@ export const deleteMetricFilter: (
  */
 export const deleteResourcePolicy: (
   input: DeleteResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourcePolicyResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -6075,7 +6360,7 @@ export const deleteResourcePolicy: (
  */
 export const deleteRetentionPolicy: (
   input: DeleteRetentionPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRetentionPolicyResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -6098,7 +6383,7 @@ export const deleteRetentionPolicy: (
  */
 export const deleteSubscriptionFilter: (
   input: DeleteSubscriptionFilterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSubscriptionFilterResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -6141,7 +6426,7 @@ export const deleteSubscriptionFilter: (
  */
 export const disassociateKmsKey: (
   input: DisassociateKmsKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateKmsKeyResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -6167,7 +6452,7 @@ export const disassociateKmsKey: (
  */
 export const putDestinationPolicy: (
   input: PutDestinationPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutDestinationPolicyResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -6208,7 +6493,7 @@ export const putDestinationPolicy: (
  */
 export const putRetentionPolicy: (
   input: PutRetentionPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutRetentionPolicyResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -6231,7 +6516,7 @@ export const putRetentionPolicy: (
  */
 export const updateLogAnomalyDetector: (
   input: UpdateLogAnomalyDetectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLogAnomalyDetectorResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -6260,7 +6545,7 @@ export const updateLogAnomalyDetector: (
  */
 export const deleteTransformer: (
   input: DeleteTransformerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTransformerResponse,
   | InvalidOperationException
   | InvalidParameterException
@@ -6289,7 +6574,7 @@ export const deleteTransformer: (
  */
 export const putLogGroupDeletionProtection: (
   input: PutLogGroupDeletionProtectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutLogGroupDeletionProtectionResponse,
   | AccessDeniedException
   | InvalidOperationException
@@ -6343,7 +6628,7 @@ export const putLogGroupDeletionProtection: (
  */
 export const createLogAnomalyDetector: (
   input: CreateLogAnomalyDetectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLogAnomalyDetectorResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -6685,7 +6970,7 @@ export const createLogAnomalyDetector: (
  */
 export const putAccountPolicy: (
   input: PutAccountPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAccountPolicyResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -6731,7 +7016,7 @@ export const putAccountPolicy: (
  */
 export const putDataProtectionPolicy: (
   input: PutDataProtectionPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutDataProtectionPolicyResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -6816,7 +7101,7 @@ export const putDataProtectionPolicy: (
  */
 export const putIndexPolicy: (
   input: PutIndexPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutIndexPolicyResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -6853,7 +7138,7 @@ export const putIndexPolicy: (
  */
 export const putQueryDefinition: (
   input: PutQueryDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutQueryDefinitionResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -6893,7 +7178,7 @@ export const putQueryDefinition: (
  */
 export const putResourcePolicy: (
   input: PutResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourcePolicyResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -6948,7 +7233,7 @@ export const putResourcePolicy: (
  */
 export const createLogGroup: (
   input: CreateLogGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLogGroupResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -6987,7 +7272,7 @@ export const createLogGroup: (
  */
 export const deleteIndexPolicy: (
   input: DeleteIndexPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIndexPolicyResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -7044,7 +7329,7 @@ export const deleteIndexPolicy: (
  */
 export const putSubscriptionFilter: (
   input: PutSubscriptionFilterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutSubscriptionFilterResponse,
   | InvalidOperationException
   | InvalidParameterException
@@ -7098,7 +7383,7 @@ export const putSubscriptionFilter: (
  */
 export const createExportTask: (
   input: CreateExportTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateExportTaskResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -7125,7 +7410,7 @@ export const createExportTask: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InvalidParameterException
   | ResourceNotFoundException
@@ -7148,7 +7433,7 @@ export const untagResource: (
  */
 export const cancelExportTask: (
   input: CancelExportTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelExportTaskResponse,
   | InvalidOperationException
   | InvalidParameterException
@@ -7177,7 +7462,7 @@ export const cancelExportTask: (
  */
 export const deleteQueryDefinition: (
   input: DeleteQueryDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteQueryDefinitionResponse,
   | InvalidParameterException
   | ResourceNotFoundException
@@ -7201,7 +7486,7 @@ export const deleteQueryDefinition: (
  */
 export const getTransformer: (
   input: GetTransformerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTransformerResponse,
   | InvalidOperationException
   | InvalidParameterException
@@ -7231,7 +7516,7 @@ export const getTransformer: (
 export const listLogGroupsForQuery: {
   (
     input: ListLogGroupsForQueryRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLogGroupsForQueryResponse,
     | AccessDeniedException
     | InvalidParameterException
@@ -7242,7 +7527,7 @@ export const listLogGroupsForQuery: {
   >;
   pages: (
     input: ListLogGroupsForQueryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLogGroupsForQueryResponse,
     | AccessDeniedException
     | InvalidParameterException
@@ -7253,7 +7538,7 @@ export const listLogGroupsForQuery: {
   >;
   items: (
     input: ListLogGroupsForQueryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LogGroupIdentifier,
     | AccessDeniedException
     | InvalidParameterException
@@ -7284,7 +7569,7 @@ export const listLogGroupsForQuery: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InvalidParameterException
   | ResourceNotFoundException
@@ -7308,7 +7593,7 @@ export const listTagsForResource: (
  */
 export const listTagsLogGroup: (
   input: ListTagsLogGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsLogGroupResponse,
   ResourceNotFoundException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7329,7 +7614,7 @@ export const listTagsLogGroup: (
  */
 export const stopQuery: (
   input: StopQueryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopQueryResponse,
   | InvalidParameterException
   | ResourceNotFoundException
@@ -7395,7 +7680,7 @@ export const stopQuery: (
  */
 export const associateKmsKey: (
   input: AssociateKmsKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateKmsKeyResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -7435,7 +7720,7 @@ export const associateKmsKey: (
  */
 export const describeAccountPolicies: (
   input: DescribeAccountPoliciesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAccountPoliciesResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -7460,21 +7745,21 @@ export const describeAccountPolicies: (
 export const describeDestinations: {
   (
     input: DescribeDestinationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeDestinationsResponse,
     InvalidParameterException | ServiceUnavailableException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDestinationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeDestinationsResponse,
     InvalidParameterException | ServiceUnavailableException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDestinationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Destination,
     InvalidParameterException | ServiceUnavailableException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -7496,7 +7781,7 @@ export const describeDestinations: {
  */
 export const describeFieldIndexes: (
   input: DescribeFieldIndexesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeFieldIndexesResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -7530,7 +7815,7 @@ export const describeFieldIndexes: (
  */
 export const describeIndexPolicies: (
   input: DescribeIndexPoliciesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeIndexPoliciesResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -7572,21 +7857,21 @@ export const describeIndexPolicies: (
 export const describeLogGroups: {
   (
     input: DescribeLogGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeLogGroupsResponse,
     InvalidParameterException | ServiceUnavailableException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeLogGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeLogGroupsResponse,
     InvalidParameterException | ServiceUnavailableException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeLogGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LogGroup,
     InvalidParameterException | ServiceUnavailableException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -7620,7 +7905,7 @@ export const describeLogGroups: {
 export const describeLogStreams: {
   (
     input: DescribeLogStreamsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeLogStreamsResponse,
     | InvalidParameterException
     | ResourceNotFoundException
@@ -7630,7 +7915,7 @@ export const describeLogStreams: {
   >;
   pages: (
     input: DescribeLogStreamsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeLogStreamsResponse,
     | InvalidParameterException
     | ResourceNotFoundException
@@ -7640,7 +7925,7 @@ export const describeLogStreams: {
   >;
   items: (
     input: DescribeLogStreamsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LogStream,
     | InvalidParameterException
     | ResourceNotFoundException
@@ -7671,7 +7956,7 @@ export const describeLogStreams: {
 export const describeMetricFilters: {
   (
     input: DescribeMetricFiltersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeMetricFiltersResponse,
     | InvalidParameterException
     | ResourceNotFoundException
@@ -7681,7 +7966,7 @@ export const describeMetricFilters: {
   >;
   pages: (
     input: DescribeMetricFiltersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeMetricFiltersResponse,
     | InvalidParameterException
     | ResourceNotFoundException
@@ -7691,7 +7976,7 @@ export const describeMetricFilters: {
   >;
   items: (
     input: DescribeMetricFiltersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MetricFilter,
     | InvalidParameterException
     | ResourceNotFoundException
@@ -7726,7 +8011,7 @@ export const describeMetricFilters: {
  */
 export const describeQueries: (
   input: DescribeQueriesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeQueriesResponse,
   | InvalidParameterException
   | ResourceNotFoundException
@@ -7752,7 +8037,7 @@ export const describeQueries: (
  */
 export const describeQueryDefinitions: (
   input: DescribeQueryDefinitionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeQueryDefinitionsResponse,
   InvalidParameterException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7766,7 +8051,7 @@ export const describeQueryDefinitions: (
  */
 export const describeResourcePolicies: (
   input: DescribeResourcePoliciesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeResourcePoliciesResponse,
   InvalidParameterException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7783,7 +8068,7 @@ export const describeResourcePolicies: (
 export const describeSubscriptionFilters: {
   (
     input: DescribeSubscriptionFiltersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeSubscriptionFiltersResponse,
     | InvalidParameterException
     | ResourceNotFoundException
@@ -7793,7 +8078,7 @@ export const describeSubscriptionFilters: {
   >;
   pages: (
     input: DescribeSubscriptionFiltersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeSubscriptionFiltersResponse,
     | InvalidParameterException
     | ResourceNotFoundException
@@ -7803,7 +8088,7 @@ export const describeSubscriptionFilters: {
   >;
   items: (
     input: DescribeSubscriptionFiltersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SubscriptionFilter,
     | InvalidParameterException
     | ResourceNotFoundException
@@ -7875,7 +8160,7 @@ export const describeSubscriptionFilters: {
 export const filterLogEvents: {
   (
     input: FilterLogEventsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     FilterLogEventsResponse,
     | InvalidParameterException
     | ResourceNotFoundException
@@ -7885,7 +8170,7 @@ export const filterLogEvents: {
   >;
   pages: (
     input: FilterLogEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FilterLogEventsResponse,
     | InvalidParameterException
     | ResourceNotFoundException
@@ -7895,7 +8180,7 @@ export const filterLogEvents: {
   >;
   items: (
     input: FilterLogEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidParameterException
     | ResourceNotFoundException
@@ -7955,7 +8240,7 @@ export const filterLogEvents: {
 export const getLogEvents: {
   (
     input: GetLogEventsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetLogEventsResponse,
     | InvalidParameterException
     | ResourceNotFoundException
@@ -7965,7 +8250,7 @@ export const getLogEvents: {
   >;
   pages: (
     input: GetLogEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetLogEventsResponse,
     | InvalidParameterException
     | ResourceNotFoundException
@@ -7975,7 +8260,7 @@ export const getLogEvents: {
   >;
   items: (
     input: GetLogEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OutputLogEvent,
     | InvalidParameterException
     | ResourceNotFoundException
@@ -8024,7 +8309,7 @@ export const getLogEvents: {
  */
 export const getLogGroupFields: (
   input: GetLogGroupFieldsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLogGroupFieldsResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -8051,7 +8336,7 @@ export const getLogGroupFields: (
  */
 export const getLogRecord: (
   input: GetLogRecordRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLogRecordResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -8097,7 +8382,7 @@ export const getLogRecord: (
  */
 export const getQueryResults: (
   input: GetQueryResultsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetQueryResultsResponse,
   | InvalidParameterException
   | ResourceNotFoundException
@@ -8120,7 +8405,7 @@ export const getQueryResults: (
  */
 export const listIntegrations: (
   input: ListIntegrationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListIntegrationsResponse,
   InvalidParameterException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8135,7 +8420,7 @@ export const listIntegrations: (
 export const listLogAnomalyDetectors: {
   (
     input: ListLogAnomalyDetectorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLogAnomalyDetectorsResponse,
     | InvalidParameterException
     | OperationAbortedException
@@ -8146,7 +8431,7 @@ export const listLogAnomalyDetectors: {
   >;
   pages: (
     input: ListLogAnomalyDetectorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLogAnomalyDetectorsResponse,
     | InvalidParameterException
     | OperationAbortedException
@@ -8157,7 +8442,7 @@ export const listLogAnomalyDetectors: {
   >;
   items: (
     input: ListLogAnomalyDetectorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AnomalyDetector,
     | InvalidParameterException
     | OperationAbortedException
@@ -8200,7 +8485,7 @@ export const listLogAnomalyDetectors: {
  */
 export const listLogGroups: (
   input: ListLogGroupsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListLogGroupsResponse,
   InvalidParameterException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8240,7 +8525,7 @@ export const listLogGroups: (
  */
 export const putMetricFilter: (
   input: PutMetricFilterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutMetricFilterResponse,
   | InvalidOperationException
   | InvalidParameterException
@@ -8269,7 +8554,7 @@ export const putMetricFilter: (
  */
 export const testTransformer: (
   input: TestTransformerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TestTransformerResponse,
   | InvalidOperationException
   | InvalidParameterException
@@ -8304,7 +8589,7 @@ export const testTransformer: (
  */
 export const createLogStream: (
   input: CreateLogStreamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLogStreamResponse,
   | InvalidParameterException
   | ResourceAlreadyExistsException
@@ -8327,7 +8612,7 @@ export const createLogStream: (
  */
 export const cancelImportTask: (
   input: CancelImportTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelImportTaskResponse,
   | AccessDeniedException
   | InvalidOperationException
@@ -8353,7 +8638,7 @@ export const cancelImportTask: (
  */
 export const describeExportTasks: (
   input: DescribeExportTasksRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeExportTasksResponse,
   InvalidParameterException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8368,7 +8653,7 @@ export const describeExportTasks: (
  */
 export const getLogFields: (
   input: GetLogFieldsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLogFieldsResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -8401,7 +8686,7 @@ export const getLogFields: (
  */
 export const getLogObject: (
   input: GetLogObjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLogObjectResponse,
   | AccessDeniedException
   | InvalidOperationException
@@ -8456,7 +8741,7 @@ export const getLogObject: (
  */
 export const putTransformer: (
   input: PutTransformerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutTransformerResponse,
   | InvalidOperationException
   | InvalidParameterException
@@ -8484,7 +8769,7 @@ export const putTransformer: (
  */
 export const testMetricFilter: (
   input: TestMetricFilterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TestMetricFilterResponse,
   InvalidParameterException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8503,7 +8788,7 @@ export const testMetricFilter: (
  */
 export const deleteIntegration: (
   input: DeleteIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIntegrationResponse,
   | InvalidParameterException
   | ResourceNotFoundException
@@ -8560,7 +8845,7 @@ export const deleteIntegration: (
  */
 export const createImportTask: (
   input: CreateImportTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateImportTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -8590,7 +8875,7 @@ export const createImportTask: (
  */
 export const deleteScheduledQuery: (
   input: DeleteScheduledQueryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteScheduledQueryResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8616,7 +8901,7 @@ export const deleteScheduledQuery: (
  */
 export const describeImportTaskBatches: (
   input: DescribeImportTaskBatchesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeImportTaskBatchesResponse,
   | AccessDeniedException
   | InvalidOperationException
@@ -8641,7 +8926,7 @@ export const describeImportTaskBatches: (
  */
 export const describeImportTasks: (
   input: DescribeImportTasksRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeImportTasksResponse,
   | AccessDeniedException
   | InvalidOperationException
@@ -8668,7 +8953,7 @@ export const describeImportTasks: (
 export const listScheduledQueries: {
   (
     input: ListScheduledQueriesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListScheduledQueriesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8679,7 +8964,7 @@ export const listScheduledQueries: {
   >;
   pages: (
     input: ListScheduledQueriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListScheduledQueriesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8690,7 +8975,7 @@ export const listScheduledQueries: {
   >;
   items: (
     input: ListScheduledQueriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ScheduledQuerySummary,
     | AccessDeniedException
     | InternalServerException
@@ -8722,7 +9007,7 @@ export const listScheduledQueries: {
 export const listSourcesForS3TableIntegration: {
   (
     input: ListSourcesForS3TableIntegrationRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSourcesForS3TableIntegrationResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8734,7 +9019,7 @@ export const listSourcesForS3TableIntegration: {
   >;
   pages: (
     input: ListSourcesForS3TableIntegrationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSourcesForS3TableIntegrationResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8746,7 +9031,7 @@ export const listSourcesForS3TableIntegration: {
   >;
   items: (
     input: ListSourcesForS3TableIntegrationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     S3TableIntegrationSource,
     | AccessDeniedException
     | InternalServerException
@@ -8784,7 +9069,7 @@ export const listSourcesForS3TableIntegration: {
  */
 export const deleteDeliveryDestination: (
   input: DeleteDeliveryDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDeliveryDestinationResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -8812,7 +9097,7 @@ export const deleteDeliveryDestination: (
  */
 export const disassociateSourceFromS3TableIntegration: (
   input: DisassociateSourceFromS3TableIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateSourceFromS3TableIntegrationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8838,7 +9123,7 @@ export const disassociateSourceFromS3TableIntegration: (
  */
 export const getScheduledQuery: (
   input: GetScheduledQueryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetScheduledQueryResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8864,7 +9149,7 @@ export const getScheduledQuery: (
  */
 export const updateScheduledQuery: (
   input: UpdateScheduledQueryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateScheduledQueryResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8891,7 +9176,7 @@ export const updateScheduledQuery: (
  */
 export const associateSourceToS3TableIntegration: (
   input: AssociateSourceToS3TableIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateSourceToS3TableIntegrationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8918,7 +9203,7 @@ export const associateSourceToS3TableIntegration: (
  */
 export const updateDeliveryConfiguration: (
   input: UpdateDeliveryConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDeliveryConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -8951,7 +9236,7 @@ export const updateDeliveryConfiguration: (
  */
 export const deleteDeliverySource: (
   input: DeleteDeliverySourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDeliverySourceResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -8982,7 +9267,7 @@ export const deleteDeliverySource: (
  */
 export const deleteDelivery: (
   input: DeleteDeliveryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDeliveryResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -9023,7 +9308,7 @@ export const deleteDelivery: (
  */
 export const getDelivery: (
   input: GetDeliveryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDeliveryResponse,
   | ResourceNotFoundException
   | ServiceQuotaExceededException
@@ -9048,7 +9333,7 @@ export const getDelivery: (
  */
 export const getDeliveryDestination: (
   input: GetDeliveryDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDeliveryDestinationResponse,
   | ResourceNotFoundException
   | ServiceQuotaExceededException
@@ -9073,7 +9358,7 @@ export const getDeliveryDestination: (
  */
 export const getDeliverySource: (
   input: GetDeliverySourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDeliverySourceResponse,
   | ResourceNotFoundException
   | ServiceQuotaExceededException
@@ -9127,7 +9412,7 @@ export const getDeliverySource: (
  */
 export const putDeliverySource: (
   input: PutDeliverySourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutDeliverySourceResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -9183,7 +9468,7 @@ export const putDeliverySource: (
  */
 export const createDelivery: (
   input: CreateDeliveryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDeliveryResponse,
   | AccessDeniedException
   | ConflictException
@@ -9225,7 +9510,7 @@ export const createDelivery: (
 export const describeDeliveries: {
   (
     input: DescribeDeliveriesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeDeliveriesResponse,
     | ServiceQuotaExceededException
     | ServiceUnavailableException
@@ -9236,7 +9521,7 @@ export const describeDeliveries: {
   >;
   pages: (
     input: DescribeDeliveriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeDeliveriesResponse,
     | ServiceQuotaExceededException
     | ServiceUnavailableException
@@ -9247,7 +9532,7 @@ export const describeDeliveries: {
   >;
   items: (
     input: DescribeDeliveriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Delivery,
     | ServiceQuotaExceededException
     | ServiceUnavailableException
@@ -9279,7 +9564,7 @@ export const describeDeliveries: {
 export const describeDeliveryDestinations: {
   (
     input: DescribeDeliveryDestinationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeDeliveryDestinationsResponse,
     | ServiceQuotaExceededException
     | ServiceUnavailableException
@@ -9290,7 +9575,7 @@ export const describeDeliveryDestinations: {
   >;
   pages: (
     input: DescribeDeliveryDestinationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeDeliveryDestinationsResponse,
     | ServiceQuotaExceededException
     | ServiceUnavailableException
@@ -9301,7 +9586,7 @@ export const describeDeliveryDestinations: {
   >;
   items: (
     input: DescribeDeliveryDestinationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DeliveryDestination,
     | ServiceQuotaExceededException
     | ServiceUnavailableException
@@ -9332,7 +9617,7 @@ export const describeDeliveryDestinations: {
 export const describeDeliverySources: {
   (
     input: DescribeDeliverySourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeDeliverySourcesResponse,
     | ServiceQuotaExceededException
     | ServiceUnavailableException
@@ -9343,7 +9628,7 @@ export const describeDeliverySources: {
   >;
   pages: (
     input: DescribeDeliverySourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeDeliverySourcesResponse,
     | ServiceQuotaExceededException
     | ServiceUnavailableException
@@ -9354,7 +9639,7 @@ export const describeDeliverySources: {
   >;
   items: (
     input: DescribeDeliverySourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DeliverySource,
     | ServiceQuotaExceededException
     | ServiceUnavailableException
@@ -9417,7 +9702,7 @@ export const describeDeliverySources: {
  */
 export const putDeliveryDestination: (
   input: PutDeliveryDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutDeliveryDestinationResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -9460,7 +9745,7 @@ export const putDeliveryDestination: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InvalidParameterException
   | ResourceNotFoundException
@@ -9484,7 +9769,7 @@ export const tagResource: (
  */
 export const deleteLogGroup: (
   input: DeleteLogGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLogGroupResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -9510,7 +9795,7 @@ export const deleteLogGroup: (
  */
 export const deleteLogStream: (
   input: DeleteLogStreamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLogStreamResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -9536,7 +9821,7 @@ export const deleteLogStream: (
  */
 export const deleteDeliveryDestinationPolicy: (
   input: DeleteDeliveryDestinationPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDeliveryDestinationPolicyResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -9582,7 +9867,7 @@ export const deleteDeliveryDestinationPolicy: (
  */
 export const putDeliveryDestinationPolicy: (
   input: PutDeliveryDestinationPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutDeliveryDestinationPolicyResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -9606,7 +9891,7 @@ export const putDeliveryDestinationPolicy: (
  */
 export const getDeliveryDestinationPolicy: (
   input: GetDeliveryDestinationPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDeliveryDestinationPolicyResponse,
   | ResourceNotFoundException
   | ServiceUnavailableException
@@ -9630,7 +9915,7 @@ export const getDeliveryDestinationPolicy: (
  */
 export const createScheduledQuery: (
   input: CreateScheduledQueryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateScheduledQueryResponse,
   | AccessDeniedException
   | ConflictException
@@ -9662,7 +9947,7 @@ export const createScheduledQuery: (
 export const describeConfigurationTemplates: {
   (
     input: DescribeConfigurationTemplatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeConfigurationTemplatesResponse,
     | ResourceNotFoundException
     | ServiceUnavailableException
@@ -9673,7 +9958,7 @@ export const describeConfigurationTemplates: {
   >;
   pages: (
     input: DescribeConfigurationTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeConfigurationTemplatesResponse,
     | ResourceNotFoundException
     | ServiceUnavailableException
@@ -9684,7 +9969,7 @@ export const describeConfigurationTemplates: {
   >;
   items: (
     input: DescribeConfigurationTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConfigurationTemplate,
     | ResourceNotFoundException
     | ServiceUnavailableException
@@ -9716,7 +10001,7 @@ export const describeConfigurationTemplates: {
 export const getScheduledQueryHistory: {
   (
     input: GetScheduledQueryHistoryRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetScheduledQueryHistoryResponse,
     | AccessDeniedException
     | InternalServerException
@@ -9728,7 +10013,7 @@ export const getScheduledQueryHistory: {
   >;
   pages: (
     input: GetScheduledQueryHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetScheduledQueryHistoryResponse,
     | AccessDeniedException
     | InternalServerException
@@ -9740,7 +10025,7 @@ export const getScheduledQueryHistory: {
   >;
   items: (
     input: GetScheduledQueryHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TriggerHistoryRecord,
     | AccessDeniedException
     | InternalServerException
@@ -9781,7 +10066,7 @@ export const getScheduledQueryHistory: {
  */
 export const putIntegration: (
   input: PutIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutIntegrationResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -9816,7 +10101,7 @@ export const putIntegration: (
 export const listAggregateLogGroupSummaries: {
   (
     input: ListAggregateLogGroupSummariesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAggregateLogGroupSummariesResponse,
     | InvalidParameterException
     | ServiceUnavailableException
@@ -9826,7 +10111,7 @@ export const listAggregateLogGroupSummaries: {
   >;
   pages: (
     input: ListAggregateLogGroupSummariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAggregateLogGroupSummariesResponse,
     | InvalidParameterException
     | ServiceUnavailableException
@@ -9836,7 +10121,7 @@ export const listAggregateLogGroupSummaries: {
   >;
   items: (
     input: ListAggregateLogGroupSummariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AggregateLogGroupSummary,
     | InvalidParameterException
     | ServiceUnavailableException
@@ -9867,7 +10152,7 @@ export const listAggregateLogGroupSummaries: {
 export const listAnomalies: {
   (
     input: ListAnomaliesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAnomaliesResponse,
     | InvalidParameterException
     | OperationAbortedException
@@ -9878,7 +10163,7 @@ export const listAnomalies: {
   >;
   pages: (
     input: ListAnomaliesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAnomaliesResponse,
     | InvalidParameterException
     | OperationAbortedException
@@ -9889,7 +10174,7 @@ export const listAnomalies: {
   >;
   items: (
     input: ListAnomaliesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Anomaly,
     | InvalidParameterException
     | OperationAbortedException
@@ -9960,7 +10245,7 @@ export const listAnomalies: {
  */
 export const startLiveTail: (
   input: StartLiveTailRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartLiveTailResponse,
   | AccessDeniedException
   | InvalidOperationException
@@ -9985,7 +10270,7 @@ export const startLiveTail: (
  */
 export const getIntegration: (
   input: GetIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIntegrationResponse,
   | InvalidParameterException
   | ResourceNotFoundException
@@ -10050,7 +10335,7 @@ export const getIntegration: (
  */
 export const startQuery: (
   input: StartQueryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartQueryResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -10115,7 +10400,7 @@ export const startQuery: (
  */
 export const putLogEvents: (
   input: PutLogEventsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutLogEventsResponse,
   | DataAlreadyAcceptedException
   | InvalidParameterException

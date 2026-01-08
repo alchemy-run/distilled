@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -131,12 +131,12 @@ export const GetConnectionRequest = S.suspend(() =>
   identifier: "GetConnectionRequest",
 }) as any as S.Schema<GetConnectionRequest>;
 export interface PostToConnectionRequest {
-  Data: T.StreamingInputBody;
+  Data?: T.StreamingInputBody;
   ConnectionId: string;
 }
 export const PostToConnectionRequest = S.suspend(() =>
   S.Struct({
-    Data: T.StreamingInput.pipe(T.HttpPayload()),
+    Data: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
     ConnectionId: S.String.pipe(T.HttpLabel("ConnectionId")),
   }).pipe(
     T.all(
@@ -158,13 +158,13 @@ export const PostToConnectionResponse = S.suspend(() =>
   identifier: "PostToConnectionResponse",
 }) as any as S.Schema<PostToConnectionResponse>;
 export interface Identity {
-  SourceIp: string;
-  UserAgent: string;
+  SourceIp?: string;
+  UserAgent?: string;
 }
 export const Identity = S.suspend(() =>
   S.Struct({
-    SourceIp: S.String.pipe(T.JsonName("sourceIp")),
-    UserAgent: S.String.pipe(T.JsonName("userAgent")),
+    SourceIp: S.optional(S.String).pipe(T.JsonName("sourceIp")),
+    UserAgent: S.optional(S.String).pipe(T.JsonName("userAgent")),
   }),
 ).annotations({ identifier: "Identity" }) as any as S.Schema<Identity>;
 export interface GetConnectionResponse {
@@ -212,7 +212,7 @@ export class PayloadTooLargeException extends S.TaggedError<PayloadTooLargeExcep
  */
 export const deleteConnection: (
   input: DeleteConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConnectionResponse,
   ForbiddenException | GoneException | LimitExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -226,7 +226,7 @@ export const deleteConnection: (
  */
 export const postToConnection: (
   input: PostToConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PostToConnectionResponse,
   | ForbiddenException
   | GoneException
@@ -249,7 +249,7 @@ export const postToConnection: (
  */
 export const getConnection: (
   input: GetConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConnectionResponse,
   ForbiddenException | GoneException | LimitExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

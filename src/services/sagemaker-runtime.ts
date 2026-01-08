@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -97,7 +97,7 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type EndpointName = string;
 export type Header = string;
-export type CustomAttributesHeader = string | Redacted.Redacted<string>;
+export type CustomAttributesHeader = string | redacted.Redacted<string>;
 export type TargetModelHeader = string;
 export type TargetVariantHeader = string;
 export type TargetContainerHostnameHeader = string;
@@ -118,10 +118,10 @@ export type LogStreamArn = string;
 //# Schemas
 export interface InvokeEndpointInput {
   EndpointName: string;
-  Body: T.StreamingInputBody;
+  Body?: T.StreamingInputBody;
   ContentType?: string;
   Accept?: string;
-  CustomAttributes?: string | Redacted.Redacted<string>;
+  CustomAttributes?: string | redacted.Redacted<string>;
   TargetModel?: string;
   TargetVariant?: string;
   TargetContainerHostname?: string;
@@ -133,7 +133,7 @@ export interface InvokeEndpointInput {
 export const InvokeEndpointInput = S.suspend(() =>
   S.Struct({
     EndpointName: S.String.pipe(T.HttpLabel("EndpointName")),
-    Body: T.StreamingInput.pipe(T.HttpPayload()),
+    Body: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
     ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     Accept: S.optional(S.String).pipe(T.HttpHeader("Accept")),
     CustomAttributes: S.optional(SensitiveString).pipe(
@@ -177,9 +177,9 @@ export interface InvokeEndpointAsyncInput {
   EndpointName: string;
   ContentType?: string;
   Accept?: string;
-  CustomAttributes?: string | Redacted.Redacted<string>;
+  CustomAttributes?: string | redacted.Redacted<string>;
   InferenceId?: string;
-  InputLocation: string;
+  InputLocation?: string;
   RequestTTLSeconds?: number;
   InvocationTimeoutSeconds?: number;
 }
@@ -196,7 +196,7 @@ export const InvokeEndpointAsyncInput = S.suspend(() =>
     InferenceId: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-SageMaker-Inference-Id"),
     ),
-    InputLocation: S.String.pipe(
+    InputLocation: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-SageMaker-InputLocation"),
     ),
     RequestTTLSeconds: S.optional(S.Number).pipe(
@@ -223,10 +223,10 @@ export const InvokeEndpointAsyncInput = S.suspend(() =>
 }) as any as S.Schema<InvokeEndpointAsyncInput>;
 export interface InvokeEndpointWithResponseStreamInput {
   EndpointName: string;
-  Body: T.StreamingInputBody;
+  Body?: T.StreamingInputBody;
   ContentType?: string;
   Accept?: string;
-  CustomAttributes?: string | Redacted.Redacted<string>;
+  CustomAttributes?: string | redacted.Redacted<string>;
   TargetVariant?: string;
   TargetContainerHostname?: string;
   InferenceId?: string;
@@ -236,7 +236,7 @@ export interface InvokeEndpointWithResponseStreamInput {
 export const InvokeEndpointWithResponseStreamInput = S.suspend(() =>
   S.Struct({
     EndpointName: S.String.pipe(T.HttpLabel("EndpointName")),
-    Body: T.StreamingInput.pipe(T.HttpPayload()),
+    Body: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
     ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     Accept: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-SageMaker-Accept")),
     CustomAttributes: S.optional(SensitiveString).pipe(
@@ -274,16 +274,16 @@ export const InvokeEndpointWithResponseStreamInput = S.suspend(() =>
   identifier: "InvokeEndpointWithResponseStreamInput",
 }) as any as S.Schema<InvokeEndpointWithResponseStreamInput>;
 export interface InvokeEndpointOutput {
-  Body: T.StreamingOutputBody;
+  Body?: T.StreamingOutputBody;
   ContentType?: string;
   InvokedProductionVariant?: string;
-  CustomAttributes?: string | Redacted.Redacted<string>;
+  CustomAttributes?: string | redacted.Redacted<string>;
   NewSessionId?: string;
   ClosedSessionId?: string;
 }
 export const InvokeEndpointOutput = S.suspend(() =>
   S.Struct({
-    Body: T.StreamingOutput.pipe(T.HttpPayload()),
+    Body: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
     ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     InvokedProductionVariant: S.optional(S.String).pipe(
       T.HttpHeader("x-Amzn-Invoked-Production-Variant"),
@@ -320,11 +320,15 @@ export const InvokeEndpointAsyncOutput = S.suspend(() =>
   identifier: "InvokeEndpointAsyncOutput",
 }) as any as S.Schema<InvokeEndpointAsyncOutput>;
 export interface PayloadPart {
-  Bytes?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  Bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export const PayloadPart = S.suspend(() =>
   S.Struct({ Bytes: S.optional(SensitiveBlob).pipe(T.EventPayload()) }),
 ).annotations({ identifier: "PayloadPart" }) as any as S.Schema<PayloadPart>;
+export type ResponseStream =
+  | { PayloadPart: PayloadPart }
+  | { ModelStreamError: ModelStreamError }
+  | { InternalStreamFailure: InternalStreamFailure };
 export const ResponseStream = T.EventStream(
   S.Union(
     S.Struct({ PayloadPart: PayloadPart }),
@@ -339,12 +343,12 @@ export const ResponseStream = T.EventStream(
       ),
     }),
   ),
-);
+) as any as S.Schema<stream.Stream<ResponseStream, Error, never>>;
 export interface InvokeEndpointWithResponseStreamOutput {
-  Body: (typeof ResponseStream)["Type"];
+  Body: stream.Stream<ResponseStream, Error, never>;
   ContentType?: string;
   InvokedProductionVariant?: string;
-  CustomAttributes?: string | Redacted.Redacted<string>;
+  CustomAttributes?: string | redacted.Redacted<string>;
 }
 export const InvokeEndpointWithResponseStreamOutput = S.suspend(() =>
   S.Struct({
@@ -420,7 +424,7 @@ export class ModelNotReadyException extends S.TaggedError<ModelNotReadyException
  */
 export const invokeEndpointAsync: (
   input: InvokeEndpointAsyncInput,
-) => Effect.Effect<
+) => effect.Effect<
   InvokeEndpointAsyncOutput,
   InternalFailure | ServiceUnavailable | ValidationError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -455,7 +459,7 @@ export const invokeEndpointAsync: (
  */
 export const invokeEndpoint: (
   input: InvokeEndpointInput,
-) => Effect.Effect<
+) => effect.Effect<
   InvokeEndpointOutput,
   | InternalDependencyException
   | InternalFailure
@@ -505,7 +509,7 @@ export const invokeEndpoint: (
  */
 export const invokeEndpointWithResponseStream: (
   input: InvokeEndpointWithResponseStreamInput,
-) => Effect.Effect<
+) => effect.Effect<
   InvokeEndpointWithResponseStreamOutput,
   | InternalFailure
   | InternalStreamFailure

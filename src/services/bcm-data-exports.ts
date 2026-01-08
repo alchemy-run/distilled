@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -213,7 +213,7 @@ export type ResourceTagList = ResourceTag[];
 export const ResourceTagList = S.Array(ResourceTag);
 export interface TagResourceRequest {
   ResourceArn: string;
-  ResourceTags: ResourceTagList;
+  ResourceTags: ResourceTag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, ResourceTags: ResourceTagList }).pipe(
@@ -228,7 +228,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  ResourceTagKeys: ResourceTagKeyList;
+  ResourceTagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, ResourceTagKeys: ResourceTagKeyList }).pipe(
@@ -243,14 +243,14 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceResponse>;
 export type TableProperties = { [key: string]: string };
 export const TableProperties = S.Record({ key: S.String, value: S.String });
-export type TableConfigurations = { [key: string]: TableProperties };
+export type TableConfigurations = { [key: string]: { [key: string]: string } };
 export const TableConfigurations = S.Record({
   key: S.String,
   value: TableProperties,
 });
 export interface DataQuery {
   QueryStatement: string;
-  TableConfigurations?: TableConfigurations;
+  TableConfigurations?: { [key: string]: { [key: string]: string } };
 }
 export const DataQuery = S.suspend(() =>
   S.Struct({
@@ -258,18 +258,29 @@ export const DataQuery = S.suspend(() =>
     TableConfigurations: S.optional(TableConfigurations),
   }),
 ).annotations({ identifier: "DataQuery" }) as any as S.Schema<DataQuery>;
+export type S3OutputType = "CUSTOM";
+export const S3OutputType = S.Literal("CUSTOM");
+export type FormatOption = "TEXT_OR_CSV" | "PARQUET";
+export const FormatOption = S.Literal("TEXT_OR_CSV", "PARQUET");
+export type CompressionOption = "GZIP" | "PARQUET";
+export const CompressionOption = S.Literal("GZIP", "PARQUET");
+export type OverwriteOption = "CREATE_NEW_REPORT" | "OVERWRITE_REPORT";
+export const OverwriteOption = S.Literal(
+  "CREATE_NEW_REPORT",
+  "OVERWRITE_REPORT",
+);
 export interface S3OutputConfigurations {
-  OutputType: string;
-  Format: string;
-  Compression: string;
-  Overwrite: string;
+  OutputType: S3OutputType;
+  Format: FormatOption;
+  Compression: CompressionOption;
+  Overwrite: OverwriteOption;
 }
 export const S3OutputConfigurations = S.suspend(() =>
   S.Struct({
-    OutputType: S.String,
-    Format: S.String,
-    Compression: S.String,
-    Overwrite: S.String,
+    OutputType: S3OutputType,
+    Format: FormatOption,
+    Compression: CompressionOption,
+    Overwrite: OverwriteOption,
   }),
 ).annotations({
   identifier: "S3OutputConfigurations",
@@ -298,11 +309,13 @@ export const DestinationConfigurations = S.suspend(() =>
 ).annotations({
   identifier: "DestinationConfigurations",
 }) as any as S.Schema<DestinationConfigurations>;
+export type FrequencyOption = "SYNCHRONOUS";
+export const FrequencyOption = S.Literal("SYNCHRONOUS");
 export interface RefreshCadence {
-  Frequency: string;
+  Frequency: FrequencyOption;
 }
 export const RefreshCadence = S.suspend(() =>
-  S.Struct({ Frequency: S.String }),
+  S.Struct({ Frequency: FrequencyOption }),
 ).annotations({
   identifier: "RefreshCadence",
 }) as any as S.Schema<RefreshCadence>;
@@ -345,7 +358,7 @@ export const DeleteExportResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteExportResponse>;
 export interface GetTableRequest {
   TableName: string;
-  TableProperties?: TableProperties;
+  TableProperties?: { [key: string]: string };
 }
 export const GetTableRequest = S.suspend(() =>
   S.Struct({
@@ -358,7 +371,7 @@ export const GetTableRequest = S.suspend(() =>
   identifier: "GetTableRequest",
 }) as any as S.Schema<GetTableRequest>;
 export interface ListTagsForResourceResponse {
-  ResourceTags?: ResourceTagList;
+  ResourceTags?: ResourceTag[];
   NextToken?: string;
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
@@ -377,17 +390,45 @@ export const UpdateExportResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateExportResponse",
 }) as any as S.Schema<UpdateExportResponse>;
+export type ExecutionStatusCode =
+  | "INITIATION_IN_PROCESS"
+  | "QUERY_QUEUED"
+  | "QUERY_IN_PROCESS"
+  | "QUERY_FAILURE"
+  | "DELIVERY_IN_PROCESS"
+  | "DELIVERY_SUCCESS"
+  | "DELIVERY_FAILURE";
+export const ExecutionStatusCode = S.Literal(
+  "INITIATION_IN_PROCESS",
+  "QUERY_QUEUED",
+  "QUERY_IN_PROCESS",
+  "QUERY_FAILURE",
+  "DELIVERY_IN_PROCESS",
+  "DELIVERY_SUCCESS",
+  "DELIVERY_FAILURE",
+);
+export type ExecutionStatusReason =
+  | "INSUFFICIENT_PERMISSION"
+  | "BILL_OWNER_CHANGED"
+  | "INTERNAL_FAILURE";
+export const ExecutionStatusReason = S.Literal(
+  "INSUFFICIENT_PERMISSION",
+  "BILL_OWNER_CHANGED",
+  "INTERNAL_FAILURE",
+);
+export type ExportStatusCode = "HEALTHY" | "UNHEALTHY";
+export const ExportStatusCode = S.Literal("HEALTHY", "UNHEALTHY");
 export interface ExecutionStatus {
-  StatusCode?: string;
-  StatusReason?: string;
+  StatusCode?: ExecutionStatusCode;
+  StatusReason?: ExecutionStatusReason;
   CreatedAt?: Date;
   CompletedAt?: Date;
   LastUpdatedAt?: Date;
 }
 export const ExecutionStatus = S.suspend(() =>
   S.Struct({
-    StatusCode: S.optional(S.String),
-    StatusReason: S.optional(S.String),
+    StatusCode: S.optional(ExecutionStatusCode),
+    StatusReason: S.optional(ExecutionStatusReason),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     CompletedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -396,16 +437,16 @@ export const ExecutionStatus = S.suspend(() =>
   identifier: "ExecutionStatus",
 }) as any as S.Schema<ExecutionStatus>;
 export interface ExportStatus {
-  StatusCode?: string;
-  StatusReason?: string;
+  StatusCode?: ExportStatusCode;
+  StatusReason?: ExecutionStatusReason;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
   LastRefreshedAt?: Date;
 }
 export const ExportStatus = S.suspend(() =>
   S.Struct({
-    StatusCode: S.optional(S.String),
-    StatusReason: S.optional(S.String),
+    StatusCode: S.optional(ExportStatusCode),
+    StatusReason: S.optional(ExecutionStatusReason),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     LastRefreshedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -467,7 +508,7 @@ export const GetExportResponse = S.suspend(() =>
   identifier: "GetExportResponse",
 }) as any as S.Schema<GetExportResponse>;
 export interface ListExecutionsResponse {
-  Executions?: ExecutionReferenceList;
+  Executions?: ExecutionReference[];
   NextToken?: string;
 }
 export const ListExecutionsResponse = S.suspend(() =>
@@ -479,7 +520,7 @@ export const ListExecutionsResponse = S.suspend(() =>
   identifier: "ListExecutionsResponse",
 }) as any as S.Schema<ListExecutionsResponse>;
 export interface ListExportsResponse {
-  Exports?: ExportReferenceList;
+  Exports?: ExportReference[];
   NextToken?: string;
 }
 export const ListExportsResponse = S.suspend(() =>
@@ -492,7 +533,7 @@ export const ListExportsResponse = S.suspend(() =>
 }) as any as S.Schema<ListExportsResponse>;
 export interface TablePropertyDescription {
   Name?: string;
-  ValidValues?: GenericStringList;
+  ValidValues?: string[];
   DefaultValue?: string;
   Description?: string;
 }
@@ -525,7 +566,7 @@ export const ColumnList = S.Array(Column);
 export interface Table {
   TableName?: string;
   Description?: string;
-  TableProperties?: TablePropertyDescriptionList;
+  TableProperties?: TablePropertyDescription[];
 }
 export const Table = S.suspend(() =>
   S.Struct({
@@ -539,8 +580,8 @@ export const TableList = S.Array(Table);
 export interface GetTableResponse {
   TableName?: string;
   Description?: string;
-  TableProperties?: TableProperties;
-  Schema?: ColumnList;
+  TableProperties?: { [key: string]: string };
+  Schema?: Column[];
 }
 export const GetTableResponse = S.suspend(() =>
   S.Struct({
@@ -553,7 +594,7 @@ export const GetTableResponse = S.suspend(() =>
   identifier: "GetTableResponse",
 }) as any as S.Schema<GetTableResponse>;
 export interface ListTablesResponse {
-  Tables?: TableList;
+  Tables?: Table[];
   NextToken?: string;
 }
 export const ListTablesResponse = S.suspend(() =>
@@ -561,9 +602,20 @@ export const ListTablesResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListTablesResponse",
 }) as any as S.Schema<ListTablesResponse>;
+export type ValidationExceptionReason =
+  | "unknownOperation"
+  | "cannotParse"
+  | "fieldValidationFailed"
+  | "other";
+export const ValidationExceptionReason = S.Literal(
+  "unknownOperation",
+  "cannotParse",
+  "fieldValidationFailed",
+  "other",
+);
 export interface CreateExportRequest {
   Export: Export;
-  ResourceTags?: ResourceTagList;
+  ResourceTags?: ResourceTag[];
 }
 export const CreateExportRequest = S.suspend(() =>
   S.Struct({ Export: Export, ResourceTags: S.optional(ResourceTagList) }).pipe(
@@ -613,7 +665,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     Message: S.String,
-    Reason: S.optional(S.String),
+    Reason: S.optional(ValidationExceptionReason),
     Fields: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
@@ -635,7 +687,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export const listExports: {
   (
     input: ListExportsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListExportsResponse,
     | InternalServerException
     | ThrottlingException
@@ -645,7 +697,7 @@ export const listExports: {
   >;
   pages: (
     input: ListExportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListExportsResponse,
     | InternalServerException
     | ThrottlingException
@@ -655,7 +707,7 @@ export const listExports: {
   >;
   items: (
     input: ListExportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExportReference,
     | InternalServerException
     | ThrottlingException
@@ -680,7 +732,7 @@ export const listExports: {
 export const listTables: {
   (
     input: ListTablesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTablesResponse,
     | InternalServerException
     | ThrottlingException
@@ -690,7 +742,7 @@ export const listTables: {
   >;
   pages: (
     input: ListTablesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTablesResponse,
     | InternalServerException
     | ThrottlingException
@@ -700,7 +752,7 @@ export const listTables: {
   >;
   items: (
     input: ListTablesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Table,
     | InternalServerException
     | ThrottlingException
@@ -724,7 +776,7 @@ export const listTables: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -748,7 +800,7 @@ export const tagResource: (
  */
 export const updateExport: (
   input: UpdateExportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateExportResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -771,7 +823,7 @@ export const updateExport: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -794,7 +846,7 @@ export const untagResource: (
  */
 export const deleteExport: (
   input: DeleteExportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteExportResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -817,7 +869,7 @@ export const deleteExport: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -840,7 +892,7 @@ export const listTagsForResource: (
  */
 export const getExecution: (
   input: GetExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetExecutionResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -863,7 +915,7 @@ export const getExecution: (
  */
 export const getExport: (
   input: GetExportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetExportResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -887,7 +939,7 @@ export const getExport: (
 export const listExecutions: {
   (
     input: ListExecutionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListExecutionsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -898,7 +950,7 @@ export const listExecutions: {
   >;
   pages: (
     input: ListExecutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListExecutionsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -909,7 +961,7 @@ export const listExecutions: {
   >;
   items: (
     input: ListExecutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExecutionReference,
     | InternalServerException
     | ResourceNotFoundException
@@ -940,7 +992,7 @@ export const listExecutions: {
  */
 export const getTable: (
   input: GetTableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTableResponse,
   | InternalServerException
   | ThrottlingException
@@ -976,7 +1028,7 @@ export const getTable: (
  */
 export const createExport: (
   input: CreateExportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateExportResponse,
   | InternalServerException
   | ServiceQuotaExceededException

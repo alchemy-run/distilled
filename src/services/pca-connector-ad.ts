@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -123,7 +123,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -212,7 +212,7 @@ export const Tags = S.Record({ key: S.String, value: S.String });
 export interface CreateDirectoryRegistrationRequest {
   DirectoryId: string;
   ClientToken?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const CreateDirectoryRegistrationRequest = S.suspend(() =>
   S.Struct({
@@ -453,12 +453,17 @@ export const GetTemplateGroupAccessControlEntryRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetTemplateGroupAccessControlEntryRequest",
 }) as any as S.Schema<GetTemplateGroupAccessControlEntryRequest>;
+export type AccessRight = "ALLOW" | "DENY";
+export const AccessRight = S.Literal("ALLOW", "DENY");
 export interface AccessRights {
-  Enroll?: string;
-  AutoEnroll?: string;
+  Enroll?: AccessRight;
+  AutoEnroll?: AccessRight;
 }
 export const AccessRights = S.suspend(() =>
-  S.Struct({ Enroll: S.optional(S.String), AutoEnroll: S.optional(S.String) }),
+  S.Struct({
+    Enroll: S.optional(AccessRight),
+    AutoEnroll: S.optional(AccessRight),
+  }),
 ).annotations({ identifier: "AccessRights" }) as any as S.Schema<AccessRights>;
 export interface UpdateTemplateGroupAccessControlEntryRequest {
   TemplateArn: string;
@@ -571,12 +576,25 @@ export const GetTemplateRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetTemplateRequest",
 }) as any as S.Schema<GetTemplateRequest>;
+export type ValidityPeriodType =
+  | "HOURS"
+  | "DAYS"
+  | "WEEKS"
+  | "MONTHS"
+  | "YEARS";
+export const ValidityPeriodType = S.Literal(
+  "HOURS",
+  "DAYS",
+  "WEEKS",
+  "MONTHS",
+  "YEARS",
+);
 export interface ValidityPeriod {
-  PeriodType: string;
+  PeriodType: ValidityPeriodType;
   Period: number;
 }
 export const ValidityPeriod = S.suspend(() =>
-  S.Struct({ PeriodType: S.String, Period: S.Number }),
+  S.Struct({ PeriodType: ValidityPeriodType, Period: S.Number }),
 ).annotations({
   identifier: "ValidityPeriod",
 }) as any as S.Schema<ValidityPeriod>;
@@ -591,32 +609,49 @@ export const CertificateValidity = S.suspend(() =>
 }) as any as S.Schema<CertificateValidity>;
 export type TemplateNameList = string[];
 export const TemplateNameList = S.Array(S.String);
+export type KeySpec = "KEY_EXCHANGE" | "SIGNATURE";
+export const KeySpec = S.Literal("KEY_EXCHANGE", "SIGNATURE");
 export type CryptoProvidersList = string[];
 export const CryptoProvidersList = S.Array(S.String);
 export interface PrivateKeyAttributesV2 {
   MinimalKeyLength: number;
-  KeySpec: string;
-  CryptoProviders?: CryptoProvidersList;
+  KeySpec: KeySpec;
+  CryptoProviders?: string[];
 }
 export const PrivateKeyAttributesV2 = S.suspend(() =>
   S.Struct({
     MinimalKeyLength: S.Number,
-    KeySpec: S.String,
+    KeySpec: KeySpec,
     CryptoProviders: S.optional(CryptoProvidersList),
   }),
 ).annotations({
   identifier: "PrivateKeyAttributesV2",
 }) as any as S.Schema<PrivateKeyAttributesV2>;
+export type ClientCompatibilityV2 =
+  | "WINDOWS_SERVER_2003"
+  | "WINDOWS_SERVER_2008"
+  | "WINDOWS_SERVER_2008_R2"
+  | "WINDOWS_SERVER_2012"
+  | "WINDOWS_SERVER_2012_R2"
+  | "WINDOWS_SERVER_2016";
+export const ClientCompatibilityV2 = S.Literal(
+  "WINDOWS_SERVER_2003",
+  "WINDOWS_SERVER_2008",
+  "WINDOWS_SERVER_2008_R2",
+  "WINDOWS_SERVER_2012",
+  "WINDOWS_SERVER_2012_R2",
+  "WINDOWS_SERVER_2016",
+);
 export interface PrivateKeyFlagsV2 {
   ExportableKey?: boolean;
   StrongKeyProtectionRequired?: boolean;
-  ClientVersion: string;
+  ClientVersion: ClientCompatibilityV2;
 }
 export const PrivateKeyFlagsV2 = S.suspend(() =>
   S.Struct({
     ExportableKey: S.optional(S.Boolean),
     StrongKeyProtectionRequired: S.optional(S.Boolean),
-    ClientVersion: S.String,
+    ClientVersion: ClientCompatibilityV2,
   }),
 ).annotations({
   identifier: "PrivateKeyFlagsV2",
@@ -704,18 +739,155 @@ export interface KeyUsage {
 export const KeyUsage = S.suspend(() =>
   S.Struct({ Critical: S.optional(S.Boolean), UsageFlags: KeyUsageFlags }),
 ).annotations({ identifier: "KeyUsage" }) as any as S.Schema<KeyUsage>;
+export type ApplicationPolicyType =
+  | "ALL_APPLICATION_POLICIES"
+  | "ANY_PURPOSE"
+  | "ATTESTATION_IDENTITY_KEY_CERTIFICATE"
+  | "CERTIFICATE_REQUEST_AGENT"
+  | "CLIENT_AUTHENTICATION"
+  | "CODE_SIGNING"
+  | "CTL_USAGE"
+  | "DIGITAL_RIGHTS"
+  | "DIRECTORY_SERVICE_EMAIL_REPLICATION"
+  | "DISALLOWED_LIST"
+  | "DNS_SERVER_TRUST"
+  | "DOCUMENT_ENCRYPTION"
+  | "DOCUMENT_SIGNING"
+  | "DYNAMIC_CODE_GENERATOR"
+  | "EARLY_LAUNCH_ANTIMALWARE_DRIVER"
+  | "EMBEDDED_WINDOWS_SYSTEM_COMPONENT_VERIFICATION"
+  | "ENCLAVE"
+  | "ENCRYPTING_FILE_SYSTEM"
+  | "ENDORSEMENT_KEY_CERTIFICATE"
+  | "FILE_RECOVERY"
+  | "HAL_EXTENSION"
+  | "IP_SECURITY_END_SYSTEM"
+  | "IP_SECURITY_IKE_INTERMEDIATE"
+  | "IP_SECURITY_TUNNEL_TERMINATION"
+  | "IP_SECURITY_USER"
+  | "ISOLATED_USER_MODE"
+  | "KDC_AUTHENTICATION"
+  | "KERNEL_MODE_CODE_SIGNING"
+  | "KEY_PACK_LICENSES"
+  | "KEY_RECOVERY"
+  | "KEY_RECOVERY_AGENT"
+  | "LICENSE_SERVER_VERIFICATION"
+  | "LIFETIME_SIGNING"
+  | "MICROSOFT_PUBLISHER"
+  | "MICROSOFT_TIME_STAMPING"
+  | "MICROSOFT_TRUST_LIST_SIGNING"
+  | "OCSP_SIGNING"
+  | "OEM_WINDOWS_SYSTEM_COMPONENT_VERIFICATION"
+  | "PLATFORM_CERTIFICATE"
+  | "PREVIEW_BUILD_SIGNING"
+  | "PRIVATE_KEY_ARCHIVAL"
+  | "PROTECTED_PROCESS_LIGHT_VERIFICATION"
+  | "PROTECTED_PROCESS_VERIFICATION"
+  | "QUALIFIED_SUBORDINATION"
+  | "REVOKED_LIST_SIGNER"
+  | "ROOT_PROGRAM_AUTO_UPDATE_CA_REVOCATION"
+  | "ROOT_PROGRAM_AUTO_UPDATE_END_REVOCATION"
+  | "ROOT_PROGRAM_NO_OSCP_FAILOVER_TO_CRL"
+  | "ROOT_LIST_SIGNER"
+  | "SECURE_EMAIL"
+  | "SERVER_AUTHENTICATION"
+  | "SMART_CARD_LOGIN"
+  | "SPC_ENCRYPTED_DIGEST_RETRY_COUNT"
+  | "SPC_RELAXED_PE_MARKER_CHECK"
+  | "TIME_STAMPING"
+  | "WINDOWS_HARDWARE_DRIVER_ATTESTED_VERIFICATION"
+  | "WINDOWS_HARDWARE_DRIVER_EXTENDED_VERIFICATION"
+  | "WINDOWS_HARDWARE_DRIVER_VERIFICATION"
+  | "WINDOWS_HELLO_RECOVERY_KEY_ENCRYPTION"
+  | "WINDOWS_KITS_COMPONENT"
+  | "WINDOWS_RT_VERIFICATION"
+  | "WINDOWS_SOFTWARE_EXTENSION_VERIFICATION"
+  | "WINDOWS_STORE"
+  | "WINDOWS_SYSTEM_COMPONENT_VERIFICATION"
+  | "WINDOWS_TCB_COMPONENT"
+  | "WINDOWS_THIRD_PARTY_APPLICATION_COMPONENT"
+  | "WINDOWS_UPDATE";
+export const ApplicationPolicyType = S.Literal(
+  "ALL_APPLICATION_POLICIES",
+  "ANY_PURPOSE",
+  "ATTESTATION_IDENTITY_KEY_CERTIFICATE",
+  "CERTIFICATE_REQUEST_AGENT",
+  "CLIENT_AUTHENTICATION",
+  "CODE_SIGNING",
+  "CTL_USAGE",
+  "DIGITAL_RIGHTS",
+  "DIRECTORY_SERVICE_EMAIL_REPLICATION",
+  "DISALLOWED_LIST",
+  "DNS_SERVER_TRUST",
+  "DOCUMENT_ENCRYPTION",
+  "DOCUMENT_SIGNING",
+  "DYNAMIC_CODE_GENERATOR",
+  "EARLY_LAUNCH_ANTIMALWARE_DRIVER",
+  "EMBEDDED_WINDOWS_SYSTEM_COMPONENT_VERIFICATION",
+  "ENCLAVE",
+  "ENCRYPTING_FILE_SYSTEM",
+  "ENDORSEMENT_KEY_CERTIFICATE",
+  "FILE_RECOVERY",
+  "HAL_EXTENSION",
+  "IP_SECURITY_END_SYSTEM",
+  "IP_SECURITY_IKE_INTERMEDIATE",
+  "IP_SECURITY_TUNNEL_TERMINATION",
+  "IP_SECURITY_USER",
+  "ISOLATED_USER_MODE",
+  "KDC_AUTHENTICATION",
+  "KERNEL_MODE_CODE_SIGNING",
+  "KEY_PACK_LICENSES",
+  "KEY_RECOVERY",
+  "KEY_RECOVERY_AGENT",
+  "LICENSE_SERVER_VERIFICATION",
+  "LIFETIME_SIGNING",
+  "MICROSOFT_PUBLISHER",
+  "MICROSOFT_TIME_STAMPING",
+  "MICROSOFT_TRUST_LIST_SIGNING",
+  "OCSP_SIGNING",
+  "OEM_WINDOWS_SYSTEM_COMPONENT_VERIFICATION",
+  "PLATFORM_CERTIFICATE",
+  "PREVIEW_BUILD_SIGNING",
+  "PRIVATE_KEY_ARCHIVAL",
+  "PROTECTED_PROCESS_LIGHT_VERIFICATION",
+  "PROTECTED_PROCESS_VERIFICATION",
+  "QUALIFIED_SUBORDINATION",
+  "REVOKED_LIST_SIGNER",
+  "ROOT_PROGRAM_AUTO_UPDATE_CA_REVOCATION",
+  "ROOT_PROGRAM_AUTO_UPDATE_END_REVOCATION",
+  "ROOT_PROGRAM_NO_OSCP_FAILOVER_TO_CRL",
+  "ROOT_LIST_SIGNER",
+  "SECURE_EMAIL",
+  "SERVER_AUTHENTICATION",
+  "SMART_CARD_LOGIN",
+  "SPC_ENCRYPTED_DIGEST_RETRY_COUNT",
+  "SPC_RELAXED_PE_MARKER_CHECK",
+  "TIME_STAMPING",
+  "WINDOWS_HARDWARE_DRIVER_ATTESTED_VERIFICATION",
+  "WINDOWS_HARDWARE_DRIVER_EXTENDED_VERIFICATION",
+  "WINDOWS_HARDWARE_DRIVER_VERIFICATION",
+  "WINDOWS_HELLO_RECOVERY_KEY_ENCRYPTION",
+  "WINDOWS_KITS_COMPONENT",
+  "WINDOWS_RT_VERIFICATION",
+  "WINDOWS_SOFTWARE_EXTENSION_VERIFICATION",
+  "WINDOWS_STORE",
+  "WINDOWS_SYSTEM_COMPONENT_VERIFICATION",
+  "WINDOWS_TCB_COMPONENT",
+  "WINDOWS_THIRD_PARTY_APPLICATION_COMPONENT",
+  "WINDOWS_UPDATE",
+);
 export type ApplicationPolicy =
-  | { PolicyType: string }
+  | { PolicyType: ApplicationPolicyType }
   | { PolicyObjectIdentifier: string };
 export const ApplicationPolicy = S.Union(
-  S.Struct({ PolicyType: S.String }),
+  S.Struct({ PolicyType: ApplicationPolicyType }),
   S.Struct({ PolicyObjectIdentifier: S.String }),
 );
-export type ApplicationPolicyList = (typeof ApplicationPolicy)["Type"][];
+export type ApplicationPolicyList = ApplicationPolicy[];
 export const ApplicationPolicyList = S.Array(ApplicationPolicy);
 export interface ApplicationPolicies {
   Critical?: boolean;
-  Policies: ApplicationPolicyList;
+  Policies: ApplicationPolicy[];
 }
 export const ApplicationPolicies = S.suspend(() =>
   S.Struct({
@@ -737,7 +909,7 @@ export const ExtensionsV2 = S.suspend(() =>
 ).annotations({ identifier: "ExtensionsV2" }) as any as S.Schema<ExtensionsV2>;
 export interface TemplateV2 {
   CertificateValidity: CertificateValidity;
-  SupersededTemplates?: TemplateNameList;
+  SupersededTemplates?: string[];
   PrivateKeyAttributes: PrivateKeyAttributesV2;
   PrivateKeyFlags: PrivateKeyFlagsV2;
   EnrollmentFlags: EnrollmentFlagsV2;
@@ -757,6 +929,8 @@ export const TemplateV2 = S.suspend(() =>
     Extensions: ExtensionsV2,
   }),
 ).annotations({ identifier: "TemplateV2" }) as any as S.Schema<TemplateV2>;
+export type KeyUsagePropertyType = "ALL";
+export const KeyUsagePropertyType = S.Literal("ALL");
 export interface KeyUsagePropertyFlags {
   Decrypt?: boolean;
   KeyAgreement?: boolean;
@@ -772,42 +946,66 @@ export const KeyUsagePropertyFlags = S.suspend(() =>
   identifier: "KeyUsagePropertyFlags",
 }) as any as S.Schema<KeyUsagePropertyFlags>;
 export type KeyUsageProperty =
-  | { PropertyType: string }
+  | { PropertyType: KeyUsagePropertyType }
   | { PropertyFlags: KeyUsagePropertyFlags };
 export const KeyUsageProperty = S.Union(
-  S.Struct({ PropertyType: S.String }),
+  S.Struct({ PropertyType: KeyUsagePropertyType }),
   S.Struct({ PropertyFlags: KeyUsagePropertyFlags }),
+);
+export type PrivateKeyAlgorithm =
+  | "RSA"
+  | "ECDH_P256"
+  | "ECDH_P384"
+  | "ECDH_P521";
+export const PrivateKeyAlgorithm = S.Literal(
+  "RSA",
+  "ECDH_P256",
+  "ECDH_P384",
+  "ECDH_P521",
 );
 export interface PrivateKeyAttributesV3 {
   MinimalKeyLength: number;
-  KeySpec: string;
-  CryptoProviders?: CryptoProvidersList;
-  KeyUsageProperty: (typeof KeyUsageProperty)["Type"];
-  Algorithm: string;
+  KeySpec: KeySpec;
+  CryptoProviders?: string[];
+  KeyUsageProperty: KeyUsageProperty;
+  Algorithm: PrivateKeyAlgorithm;
 }
 export const PrivateKeyAttributesV3 = S.suspend(() =>
   S.Struct({
     MinimalKeyLength: S.Number,
-    KeySpec: S.String,
+    KeySpec: KeySpec,
     CryptoProviders: S.optional(CryptoProvidersList),
     KeyUsageProperty: KeyUsageProperty,
-    Algorithm: S.String,
+    Algorithm: PrivateKeyAlgorithm,
   }),
 ).annotations({
   identifier: "PrivateKeyAttributesV3",
 }) as any as S.Schema<PrivateKeyAttributesV3>;
+export type ClientCompatibilityV3 =
+  | "WINDOWS_SERVER_2008"
+  | "WINDOWS_SERVER_2008_R2"
+  | "WINDOWS_SERVER_2012"
+  | "WINDOWS_SERVER_2012_R2"
+  | "WINDOWS_SERVER_2016";
+export const ClientCompatibilityV3 = S.Literal(
+  "WINDOWS_SERVER_2008",
+  "WINDOWS_SERVER_2008_R2",
+  "WINDOWS_SERVER_2012",
+  "WINDOWS_SERVER_2012_R2",
+  "WINDOWS_SERVER_2016",
+);
 export interface PrivateKeyFlagsV3 {
   ExportableKey?: boolean;
   StrongKeyProtectionRequired?: boolean;
   RequireAlternateSignatureAlgorithm?: boolean;
-  ClientVersion: string;
+  ClientVersion: ClientCompatibilityV3;
 }
 export const PrivateKeyFlagsV3 = S.suspend(() =>
   S.Struct({
     ExportableKey: S.optional(S.Boolean),
     StrongKeyProtectionRequired: S.optional(S.Boolean),
     RequireAlternateSignatureAlgorithm: S.optional(S.Boolean),
-    ClientVersion: S.String,
+    ClientVersion: ClientCompatibilityV3,
   }),
 ).annotations({
   identifier: "PrivateKeyFlagsV3",
@@ -870,6 +1068,8 @@ export const GeneralFlagsV3 = S.suspend(() =>
 ).annotations({
   identifier: "GeneralFlagsV3",
 }) as any as S.Schema<GeneralFlagsV3>;
+export type HashAlgorithm = "SHA256" | "SHA384" | "SHA512";
+export const HashAlgorithm = S.Literal("SHA256", "SHA384", "SHA512");
 export interface ExtensionsV3 {
   KeyUsage: KeyUsage;
   ApplicationPolicies?: ApplicationPolicies;
@@ -882,13 +1082,13 @@ export const ExtensionsV3 = S.suspend(() =>
 ).annotations({ identifier: "ExtensionsV3" }) as any as S.Schema<ExtensionsV3>;
 export interface TemplateV3 {
   CertificateValidity: CertificateValidity;
-  SupersededTemplates?: TemplateNameList;
+  SupersededTemplates?: string[];
   PrivateKeyAttributes: PrivateKeyAttributesV3;
   PrivateKeyFlags: PrivateKeyFlagsV3;
   EnrollmentFlags: EnrollmentFlagsV3;
   SubjectNameFlags: SubjectNameFlagsV3;
   GeneralFlags: GeneralFlagsV3;
-  HashAlgorithm: string;
+  HashAlgorithm: HashAlgorithm;
   Extensions: ExtensionsV3;
 }
 export const TemplateV3 = S.suspend(() =>
@@ -900,35 +1100,44 @@ export const TemplateV3 = S.suspend(() =>
     EnrollmentFlags: EnrollmentFlagsV3,
     SubjectNameFlags: SubjectNameFlagsV3,
     GeneralFlags: GeneralFlagsV3,
-    HashAlgorithm: S.String,
+    HashAlgorithm: HashAlgorithm,
     Extensions: ExtensionsV3,
   }),
 ).annotations({ identifier: "TemplateV3" }) as any as S.Schema<TemplateV3>;
 export interface PrivateKeyAttributesV4 {
   MinimalKeyLength: number;
-  KeySpec: string;
-  CryptoProviders?: CryptoProvidersList;
-  KeyUsageProperty?: (typeof KeyUsageProperty)["Type"];
-  Algorithm?: string;
+  KeySpec: KeySpec;
+  CryptoProviders?: string[];
+  KeyUsageProperty?: KeyUsageProperty;
+  Algorithm?: PrivateKeyAlgorithm;
 }
 export const PrivateKeyAttributesV4 = S.suspend(() =>
   S.Struct({
     MinimalKeyLength: S.Number,
-    KeySpec: S.String,
+    KeySpec: KeySpec,
     CryptoProviders: S.optional(CryptoProvidersList),
     KeyUsageProperty: S.optional(KeyUsageProperty),
-    Algorithm: S.optional(S.String),
+    Algorithm: S.optional(PrivateKeyAlgorithm),
   }),
 ).annotations({
   identifier: "PrivateKeyAttributesV4",
 }) as any as S.Schema<PrivateKeyAttributesV4>;
+export type ClientCompatibilityV4 =
+  | "WINDOWS_SERVER_2012"
+  | "WINDOWS_SERVER_2012_R2"
+  | "WINDOWS_SERVER_2016";
+export const ClientCompatibilityV4 = S.Literal(
+  "WINDOWS_SERVER_2012",
+  "WINDOWS_SERVER_2012_R2",
+  "WINDOWS_SERVER_2016",
+);
 export interface PrivateKeyFlagsV4 {
   ExportableKey?: boolean;
   StrongKeyProtectionRequired?: boolean;
   RequireAlternateSignatureAlgorithm?: boolean;
   RequireSameKeyRenewal?: boolean;
   UseLegacyProvider?: boolean;
-  ClientVersion: string;
+  ClientVersion: ClientCompatibilityV4;
 }
 export const PrivateKeyFlagsV4 = S.suspend(() =>
   S.Struct({
@@ -937,7 +1146,7 @@ export const PrivateKeyFlagsV4 = S.suspend(() =>
     RequireAlternateSignatureAlgorithm: S.optional(S.Boolean),
     RequireSameKeyRenewal: S.optional(S.Boolean),
     UseLegacyProvider: S.optional(S.Boolean),
-    ClientVersion: S.String,
+    ClientVersion: ClientCompatibilityV4,
   }),
 ).annotations({
   identifier: "PrivateKeyFlagsV4",
@@ -1012,13 +1221,13 @@ export const ExtensionsV4 = S.suspend(() =>
 ).annotations({ identifier: "ExtensionsV4" }) as any as S.Schema<ExtensionsV4>;
 export interface TemplateV4 {
   CertificateValidity: CertificateValidity;
-  SupersededTemplates?: TemplateNameList;
+  SupersededTemplates?: string[];
   PrivateKeyAttributes: PrivateKeyAttributesV4;
   PrivateKeyFlags: PrivateKeyFlagsV4;
   EnrollmentFlags: EnrollmentFlagsV4;
   SubjectNameFlags: SubjectNameFlagsV4;
   GeneralFlags: GeneralFlagsV4;
-  HashAlgorithm?: string;
+  HashAlgorithm?: HashAlgorithm;
   Extensions: ExtensionsV4;
 }
 export const TemplateV4 = S.suspend(() =>
@@ -1030,7 +1239,7 @@ export const TemplateV4 = S.suspend(() =>
     EnrollmentFlags: EnrollmentFlagsV4,
     SubjectNameFlags: SubjectNameFlagsV4,
     GeneralFlags: GeneralFlagsV4,
-    HashAlgorithm: S.optional(S.String),
+    HashAlgorithm: S.optional(HashAlgorithm),
     Extensions: ExtensionsV4,
   }),
 ).annotations({ identifier: "TemplateV4" }) as any as S.Schema<TemplateV4>;
@@ -1045,7 +1254,7 @@ export const TemplateDefinition = S.Union(
 );
 export interface UpdateTemplateRequest {
   TemplateArn: string;
-  Definition?: (typeof TemplateDefinition)["Type"];
+  Definition?: TemplateDefinition;
   ReenrollAllCertificateHolders?: boolean;
 }
 export const UpdateTemplateRequest = S.suspend(() =>
@@ -1114,22 +1323,24 @@ export const ListTemplatesRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListTemplatesRequest",
 }) as any as S.Schema<ListTemplatesRequest>;
+export type IpAddressType = "IPV4" | "DUALSTACK";
+export const IpAddressType = S.Literal("IPV4", "DUALSTACK");
 export type SecurityGroupIdList = string[];
 export const SecurityGroupIdList = S.Array(S.String);
 export interface VpcInformation {
-  IpAddressType?: string;
-  SecurityGroupIds: SecurityGroupIdList;
+  IpAddressType?: IpAddressType;
+  SecurityGroupIds: string[];
 }
 export const VpcInformation = S.suspend(() =>
   S.Struct({
-    IpAddressType: S.optional(S.String),
+    IpAddressType: S.optional(IpAddressType),
     SecurityGroupIds: SecurityGroupIdList,
   }),
 ).annotations({
   identifier: "VpcInformation",
 }) as any as S.Schema<VpcInformation>;
 export interface ListTagsForResourceResponse {
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }),
@@ -1138,7 +1349,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: Tags;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1166,7 +1377,7 @@ export interface CreateConnectorRequest {
   CertificateAuthorityArn: string;
   VpcInformation: VpcInformation;
   ClientToken?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const CreateConnectorRequest = S.suspend(() =>
   S.Struct({
@@ -1232,14 +1443,100 @@ export const CreateTemplateGroupAccessControlEntryResponse = S.suspend(() =>
 ).annotations({
   identifier: "CreateTemplateGroupAccessControlEntryResponse",
 }) as any as S.Schema<CreateTemplateGroupAccessControlEntryResponse>;
+export type ConnectorStatus = "CREATING" | "ACTIVE" | "DELETING" | "FAILED";
+export const ConnectorStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "DELETING",
+  "FAILED",
+);
+export type ConnectorStatusReason =
+  | "CA_CERTIFICATE_REGISTRATION_FAILED"
+  | "DIRECTORY_ACCESS_DENIED"
+  | "INTERNAL_FAILURE"
+  | "INSUFFICIENT_FREE_ADDRESSES"
+  | "INVALID_SUBNET_IP_PROTOCOL"
+  | "PRIVATECA_ACCESS_DENIED"
+  | "PRIVATECA_RESOURCE_NOT_FOUND"
+  | "SECURITY_GROUP_NOT_IN_VPC"
+  | "VPC_ACCESS_DENIED"
+  | "VPC_ENDPOINT_LIMIT_EXCEEDED"
+  | "VPC_RESOURCE_NOT_FOUND";
+export const ConnectorStatusReason = S.Literal(
+  "CA_CERTIFICATE_REGISTRATION_FAILED",
+  "DIRECTORY_ACCESS_DENIED",
+  "INTERNAL_FAILURE",
+  "INSUFFICIENT_FREE_ADDRESSES",
+  "INVALID_SUBNET_IP_PROTOCOL",
+  "PRIVATECA_ACCESS_DENIED",
+  "PRIVATECA_RESOURCE_NOT_FOUND",
+  "SECURITY_GROUP_NOT_IN_VPC",
+  "VPC_ACCESS_DENIED",
+  "VPC_ENDPOINT_LIMIT_EXCEEDED",
+  "VPC_RESOURCE_NOT_FOUND",
+);
+export type DirectoryRegistrationStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "DELETING"
+  | "FAILED";
+export const DirectoryRegistrationStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "DELETING",
+  "FAILED",
+);
+export type DirectoryRegistrationStatusReason =
+  | "DIRECTORY_ACCESS_DENIED"
+  | "DIRECTORY_RESOURCE_NOT_FOUND"
+  | "DIRECTORY_NOT_ACTIVE"
+  | "DIRECTORY_NOT_REACHABLE"
+  | "DIRECTORY_TYPE_NOT_SUPPORTED"
+  | "INTERNAL_FAILURE";
+export const DirectoryRegistrationStatusReason = S.Literal(
+  "DIRECTORY_ACCESS_DENIED",
+  "DIRECTORY_RESOURCE_NOT_FOUND",
+  "DIRECTORY_NOT_ACTIVE",
+  "DIRECTORY_NOT_REACHABLE",
+  "DIRECTORY_TYPE_NOT_SUPPORTED",
+  "INTERNAL_FAILURE",
+);
+export type ServicePrincipalNameStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "DELETING"
+  | "FAILED";
+export const ServicePrincipalNameStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "DELETING",
+  "FAILED",
+);
+export type ServicePrincipalNameStatusReason =
+  | "DIRECTORY_ACCESS_DENIED"
+  | "DIRECTORY_NOT_REACHABLE"
+  | "DIRECTORY_RESOURCE_NOT_FOUND"
+  | "SPN_EXISTS_ON_DIFFERENT_AD_OBJECT"
+  | "SPN_LIMIT_EXCEEDED"
+  | "INTERNAL_FAILURE";
+export const ServicePrincipalNameStatusReason = S.Literal(
+  "DIRECTORY_ACCESS_DENIED",
+  "DIRECTORY_NOT_REACHABLE",
+  "DIRECTORY_RESOURCE_NOT_FOUND",
+  "SPN_EXISTS_ON_DIFFERENT_AD_OBJECT",
+  "SPN_LIMIT_EXCEEDED",
+  "INTERNAL_FAILURE",
+);
+export type TemplateStatus = "ACTIVE" | "DELETING";
+export const TemplateStatus = S.Literal("ACTIVE", "DELETING");
 export interface Connector {
   Arn?: string;
   CertificateAuthorityArn?: string;
   CertificateEnrollmentPolicyServerEndpoint?: string;
   DirectoryId?: string;
   VpcInformation?: VpcInformation;
-  Status?: string;
-  StatusReason?: string;
+  Status?: ConnectorStatus;
+  StatusReason?: ConnectorStatusReason;
   CreatedAt?: Date;
   UpdatedAt?: Date;
 }
@@ -1250,8 +1547,8 @@ export const Connector = S.suspend(() =>
     CertificateEnrollmentPolicyServerEndpoint: S.optional(S.String),
     DirectoryId: S.optional(S.String),
     VpcInformation: S.optional(VpcInformation),
-    Status: S.optional(S.String),
-    StatusReason: S.optional(S.String),
+    Status: S.optional(ConnectorStatus),
+    StatusReason: S.optional(ConnectorStatusReason),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -1262,8 +1559,8 @@ export interface ConnectorSummary {
   CertificateEnrollmentPolicyServerEndpoint?: string;
   DirectoryId?: string;
   VpcInformation?: VpcInformation;
-  Status?: string;
-  StatusReason?: string;
+  Status?: ConnectorStatus;
+  StatusReason?: ConnectorStatusReason;
   CreatedAt?: Date;
   UpdatedAt?: Date;
 }
@@ -1274,8 +1571,8 @@ export const ConnectorSummary = S.suspend(() =>
     CertificateEnrollmentPolicyServerEndpoint: S.optional(S.String),
     DirectoryId: S.optional(S.String),
     VpcInformation: S.optional(VpcInformation),
-    Status: S.optional(S.String),
-    StatusReason: S.optional(S.String),
+    Status: S.optional(ConnectorStatus),
+    StatusReason: S.optional(ConnectorStatusReason),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -1287,8 +1584,8 @@ export const ConnectorList = S.Array(ConnectorSummary);
 export interface DirectoryRegistration {
   Arn?: string;
   DirectoryId?: string;
-  Status?: string;
-  StatusReason?: string;
+  Status?: DirectoryRegistrationStatus;
+  StatusReason?: DirectoryRegistrationStatusReason;
   CreatedAt?: Date;
   UpdatedAt?: Date;
 }
@@ -1296,8 +1593,8 @@ export const DirectoryRegistration = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     DirectoryId: S.optional(S.String),
-    Status: S.optional(S.String),
-    StatusReason: S.optional(S.String),
+    Status: S.optional(DirectoryRegistrationStatus),
+    StatusReason: S.optional(DirectoryRegistrationStatusReason),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -1307,8 +1604,8 @@ export const DirectoryRegistration = S.suspend(() =>
 export interface DirectoryRegistrationSummary {
   Arn?: string;
   DirectoryId?: string;
-  Status?: string;
-  StatusReason?: string;
+  Status?: DirectoryRegistrationStatus;
+  StatusReason?: DirectoryRegistrationStatusReason;
   CreatedAt?: Date;
   UpdatedAt?: Date;
 }
@@ -1316,8 +1613,8 @@ export const DirectoryRegistrationSummary = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     DirectoryId: S.optional(S.String),
-    Status: S.optional(S.String),
-    StatusReason: S.optional(S.String),
+    Status: S.optional(DirectoryRegistrationStatus),
+    StatusReason: S.optional(DirectoryRegistrationStatusReason),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -1329,8 +1626,8 @@ export const DirectoryRegistrationList = S.Array(DirectoryRegistrationSummary);
 export interface ServicePrincipalName {
   DirectoryRegistrationArn?: string;
   ConnectorArn?: string;
-  Status?: string;
-  StatusReason?: string;
+  Status?: ServicePrincipalNameStatus;
+  StatusReason?: ServicePrincipalNameStatusReason;
   CreatedAt?: Date;
   UpdatedAt?: Date;
 }
@@ -1338,8 +1635,8 @@ export const ServicePrincipalName = S.suspend(() =>
   S.Struct({
     DirectoryRegistrationArn: S.optional(S.String),
     ConnectorArn: S.optional(S.String),
-    Status: S.optional(S.String),
-    StatusReason: S.optional(S.String),
+    Status: S.optional(ServicePrincipalNameStatus),
+    StatusReason: S.optional(ServicePrincipalNameStatusReason),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -1349,8 +1646,8 @@ export const ServicePrincipalName = S.suspend(() =>
 export interface ServicePrincipalNameSummary {
   DirectoryRegistrationArn?: string;
   ConnectorArn?: string;
-  Status?: string;
-  StatusReason?: string;
+  Status?: ServicePrincipalNameStatus;
+  StatusReason?: ServicePrincipalNameStatusReason;
   CreatedAt?: Date;
   UpdatedAt?: Date;
 }
@@ -1358,8 +1655,8 @@ export const ServicePrincipalNameSummary = S.suspend(() =>
   S.Struct({
     DirectoryRegistrationArn: S.optional(S.String),
     ConnectorArn: S.optional(S.String),
-    Status: S.optional(S.String),
-    StatusReason: S.optional(S.String),
+    Status: S.optional(ServicePrincipalNameStatus),
+    StatusReason: S.optional(ServicePrincipalNameStatusReason),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -1422,11 +1719,11 @@ export const TemplateRevision = S.suspend(() =>
 export interface TemplateSummary {
   Arn?: string;
   ConnectorArn?: string;
-  Definition?: (typeof TemplateDefinition)["Type"];
+  Definition?: TemplateDefinition;
   Name?: string;
   ObjectIdentifier?: string;
   PolicySchema?: number;
-  Status?: string;
+  Status?: TemplateStatus;
   Revision?: TemplateRevision;
   CreatedAt?: Date;
   UpdatedAt?: Date;
@@ -1439,7 +1736,7 @@ export const TemplateSummary = S.suspend(() =>
     Name: S.optional(S.String),
     ObjectIdentifier: S.optional(S.String),
     PolicySchema: S.optional(S.Number),
-    Status: S.optional(S.String),
+    Status: S.optional(TemplateStatus),
     Revision: S.optional(TemplateRevision),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1466,7 +1763,7 @@ export const GetConnectorResponse = S.suspend(() =>
   identifier: "GetConnectorResponse",
 }) as any as S.Schema<GetConnectorResponse>;
 export interface ListConnectorsResponse {
-  Connectors?: ConnectorList;
+  Connectors?: ConnectorSummary[];
   NextToken?: string;
 }
 export const ListConnectorsResponse = S.suspend(() =>
@@ -1486,7 +1783,7 @@ export const GetDirectoryRegistrationResponse = S.suspend(() =>
   identifier: "GetDirectoryRegistrationResponse",
 }) as any as S.Schema<GetDirectoryRegistrationResponse>;
 export interface ListDirectoryRegistrationsResponse {
-  DirectoryRegistrations?: DirectoryRegistrationList;
+  DirectoryRegistrations?: DirectoryRegistrationSummary[];
   NextToken?: string;
 }
 export const ListDirectoryRegistrationsResponse = S.suspend(() =>
@@ -1506,7 +1803,7 @@ export const GetServicePrincipalNameResponse = S.suspend(() =>
   identifier: "GetServicePrincipalNameResponse",
 }) as any as S.Schema<GetServicePrincipalNameResponse>;
 export interface ListServicePrincipalNamesResponse {
-  ServicePrincipalNames?: ServicePrincipalNameList;
+  ServicePrincipalNames?: ServicePrincipalNameSummary[];
   NextToken?: string;
 }
 export const ListServicePrincipalNamesResponse = S.suspend(() =>
@@ -1526,7 +1823,7 @@ export const GetTemplateGroupAccessControlEntryResponse = S.suspend(() =>
   identifier: "GetTemplateGroupAccessControlEntryResponse",
 }) as any as S.Schema<GetTemplateGroupAccessControlEntryResponse>;
 export interface ListTemplateGroupAccessControlEntriesResponse {
-  AccessControlEntries?: AccessControlEntryList;
+  AccessControlEntries?: AccessControlEntrySummary[];
   NextToken?: string;
 }
 export const ListTemplateGroupAccessControlEntriesResponse = S.suspend(() =>
@@ -1538,7 +1835,7 @@ export const ListTemplateGroupAccessControlEntriesResponse = S.suspend(() =>
   identifier: "ListTemplateGroupAccessControlEntriesResponse",
 }) as any as S.Schema<ListTemplateGroupAccessControlEntriesResponse>;
 export interface ListTemplatesResponse {
-  Templates?: TemplateList;
+  Templates?: TemplateSummary[];
   NextToken?: string;
 }
 export const ListTemplatesResponse = S.suspend(() =>
@@ -1552,11 +1849,11 @@ export const ListTemplatesResponse = S.suspend(() =>
 export interface Template {
   Arn?: string;
   ConnectorArn?: string;
-  Definition?: (typeof TemplateDefinition)["Type"];
+  Definition?: TemplateDefinition;
   Name?: string;
   ObjectIdentifier?: string;
   PolicySchema?: number;
-  Status?: string;
+  Status?: TemplateStatus;
   Revision?: TemplateRevision;
   CreatedAt?: Date;
   UpdatedAt?: Date;
@@ -1569,7 +1866,7 @@ export const Template = S.suspend(() =>
     Name: S.optional(S.String),
     ObjectIdentifier: S.optional(S.String),
     PolicySchema: S.optional(S.Number),
-    Status: S.optional(S.String),
+    Status: S.optional(TemplateStatus),
     Revision: S.optional(TemplateRevision),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1583,12 +1880,33 @@ export const GetTemplateResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetTemplateResponse",
 }) as any as S.Schema<GetTemplateResponse>;
+export type ValidationExceptionReason =
+  | "FIELD_VALIDATION_FAILED"
+  | "INVALID_CA_SUBJECT"
+  | "INVALID_PERMISSION"
+  | "INVALID_STATE"
+  | "MISMATCHED_CONNECTOR"
+  | "MISMATCHED_VPC"
+  | "NO_CLIENT_TOKEN"
+  | "UNKNOWN_OPERATION"
+  | "OTHER";
+export const ValidationExceptionReason = S.Literal(
+  "FIELD_VALIDATION_FAILED",
+  "INVALID_CA_SUBJECT",
+  "INVALID_PERMISSION",
+  "INVALID_STATE",
+  "MISMATCHED_CONNECTOR",
+  "MISMATCHED_VPC",
+  "NO_CLIENT_TOKEN",
+  "UNKNOWN_OPERATION",
+  "OTHER",
+);
 export interface CreateTemplateRequest {
   ConnectorArn: string;
   Name: string;
-  Definition: (typeof TemplateDefinition)["Type"];
+  Definition: TemplateDefinition;
   ClientToken?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const CreateTemplateRequest = S.suspend(() =>
   S.Struct({
@@ -1648,7 +1966,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
 ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  { Message: S.String, Reason: S.optional(S.String) },
+  { Message: S.String, Reason: S.optional(ValidationExceptionReason) },
 ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
@@ -1668,7 +1986,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export const listConnectors: {
   (
     input: ListConnectorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConnectorsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1679,7 +1997,7 @@ export const listConnectors: {
   >;
   pages: (
     input: ListConnectorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConnectorsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1690,7 +2008,7 @@ export const listConnectors: {
   >;
   items: (
     input: ListConnectorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConnectorSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1721,7 +2039,7 @@ export const listConnectors: {
  */
 export const createTemplateGroupAccessControlEntry: (
   input: CreateTemplateGroupAccessControlEntryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTemplateGroupAccessControlEntryResponse,
   | AccessDeniedException
   | ConflictException
@@ -1751,7 +2069,7 @@ export const createTemplateGroupAccessControlEntry: (
  */
 export const getTemplate: (
   input: GetTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTemplateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1777,7 +2095,7 @@ export const getTemplate: (
  */
 export const getConnector: (
   input: GetConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConnectorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1803,7 +2121,7 @@ export const getConnector: (
  */
 export const createDirectoryRegistration: (
   input: CreateDirectoryRegistrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDirectoryRegistrationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1830,7 +2148,7 @@ export const createDirectoryRegistration: (
  */
 export const getDirectoryRegistration: (
   input: GetDirectoryRegistrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDirectoryRegistrationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1856,7 +2174,7 @@ export const getDirectoryRegistration: (
  */
 export const getServicePrincipalName: (
   input: GetServicePrincipalNameRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetServicePrincipalNameResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1883,7 +2201,7 @@ export const getServicePrincipalName: (
 export const listServicePrincipalNames: {
   (
     input: ListServicePrincipalNamesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServicePrincipalNamesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1895,7 +2213,7 @@ export const listServicePrincipalNames: {
   >;
   pages: (
     input: ListServicePrincipalNamesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServicePrincipalNamesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1907,7 +2225,7 @@ export const listServicePrincipalNames: {
   >;
   items: (
     input: ListServicePrincipalNamesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServicePrincipalNameSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1939,7 +2257,7 @@ export const listServicePrincipalNames: {
  */
 export const getTemplateGroupAccessControlEntry: (
   input: GetTemplateGroupAccessControlEntryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTemplateGroupAccessControlEntryResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1965,7 +2283,7 @@ export const getTemplateGroupAccessControlEntry: (
 export const listTemplateGroupAccessControlEntries: {
   (
     input: ListTemplateGroupAccessControlEntriesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTemplateGroupAccessControlEntriesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1977,7 +2295,7 @@ export const listTemplateGroupAccessControlEntries: {
   >;
   pages: (
     input: ListTemplateGroupAccessControlEntriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTemplateGroupAccessControlEntriesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1989,7 +2307,7 @@ export const listTemplateGroupAccessControlEntries: {
   >;
   items: (
     input: ListTemplateGroupAccessControlEntriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AccessControlEntrySummary,
     | AccessDeniedException
     | InternalServerException
@@ -2022,7 +2340,7 @@ export const listTemplateGroupAccessControlEntries: {
 export const listTemplates: {
   (
     input: ListTemplatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTemplatesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2034,7 +2352,7 @@ export const listTemplates: {
   >;
   pages: (
     input: ListTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTemplatesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2046,7 +2364,7 @@ export const listTemplates: {
   >;
   items: (
     input: ListTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TemplateSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2078,7 +2396,7 @@ export const listTemplates: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2103,7 +2421,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2132,7 +2450,7 @@ export const tagResource: (
  */
 export const deleteConnector: (
   input: DeleteConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConnectorResponse,
   | AccessDeniedException
   | ConflictException
@@ -2161,7 +2479,7 @@ export const deleteConnector: (
  */
 export const createServicePrincipalName: (
   input: CreateServicePrincipalNameRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateServicePrincipalNameResponse,
   | AccessDeniedException
   | ConflictException
@@ -2188,7 +2506,7 @@ export const createServicePrincipalName: (
  */
 export const updateTemplateGroupAccessControlEntry: (
   input: UpdateTemplateGroupAccessControlEntryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTemplateGroupAccessControlEntryResponse,
   | AccessDeniedException
   | ConflictException
@@ -2215,7 +2533,7 @@ export const updateTemplateGroupAccessControlEntry: (
  */
 export const deleteTemplateGroupAccessControlEntry: (
   input: DeleteTemplateGroupAccessControlEntryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTemplateGroupAccessControlEntryResponse,
   | AccessDeniedException
   | ConflictException
@@ -2242,7 +2560,7 @@ export const deleteTemplateGroupAccessControlEntry: (
  */
 export const updateTemplate: (
   input: UpdateTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -2270,7 +2588,7 @@ export const updateTemplate: (
  */
 export const deleteTemplate: (
   input: DeleteTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -2299,7 +2617,7 @@ export const deleteTemplate: (
 export const listDirectoryRegistrations: {
   (
     input: ListDirectoryRegistrationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDirectoryRegistrationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2310,7 +2628,7 @@ export const listDirectoryRegistrations: {
   >;
   pages: (
     input: ListDirectoryRegistrationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDirectoryRegistrationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2321,7 +2639,7 @@ export const listDirectoryRegistrations: {
   >;
   items: (
     input: ListDirectoryRegistrationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DirectoryRegistrationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2352,7 +2670,7 @@ export const listDirectoryRegistrations: {
  */
 export const deleteDirectoryRegistration: (
   input: DeleteDirectoryRegistrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDirectoryRegistrationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2378,7 +2696,7 @@ export const deleteDirectoryRegistration: (
  */
 export const deleteServicePrincipalName: (
   input: DeleteServicePrincipalNameRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteServicePrincipalNameResponse,
   | AccessDeniedException
   | ConflictException
@@ -2403,7 +2721,7 @@ export const deleteServicePrincipalName: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2429,7 +2747,7 @@ export const untagResource: (
  */
 export const createConnector: (
   input: CreateConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConnectorResponse,
   | AccessDeniedException
   | ConflictException
@@ -2459,7 +2777,7 @@ export const createConnector: (
  */
 export const createTemplate: (
   input: CreateTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTemplateResponse,
   | AccessDeniedException
   | ConflictException

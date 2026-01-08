@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -117,7 +117,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   resourceARN: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ resourceARN: S.String, tagKeys: TagKeyList }).pipe(
@@ -140,6 +140,10 @@ export const GetDataAutomationStatusRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetDataAutomationStatusRequest",
 }) as any as S.Schema<GetDataAutomationStatusRequest>;
+export type DataAutomationStage = "LIVE" | "DEVELOPMENT";
+export const DataAutomationStage = S.Literal("LIVE", "DEVELOPMENT");
+export type BlueprintStage = "DEVELOPMENT" | "LIVE";
+export const BlueprintStage = S.Literal("DEVELOPMENT", "LIVE");
 export interface SyncInputConfiguration {
   bytes?: Uint8Array;
   s3Uri?: string;
@@ -151,23 +155,26 @@ export const SyncInputConfiguration = S.suspend(() =>
 }) as any as S.Schema<SyncInputConfiguration>;
 export interface DataAutomationConfiguration {
   dataAutomationProjectArn: string;
-  stage?: string;
+  stage?: DataAutomationStage;
 }
 export const DataAutomationConfiguration = S.suspend(() =>
-  S.Struct({ dataAutomationProjectArn: S.String, stage: S.optional(S.String) }),
+  S.Struct({
+    dataAutomationProjectArn: S.String,
+    stage: S.optional(DataAutomationStage),
+  }),
 ).annotations({
   identifier: "DataAutomationConfiguration",
 }) as any as S.Schema<DataAutomationConfiguration>;
 export interface Blueprint {
   blueprintArn: string;
   version?: string;
-  stage?: string;
+  stage?: BlueprintStage;
 }
 export const Blueprint = S.suspend(() =>
   S.Struct({
     blueprintArn: S.String,
     version: S.optional(S.String),
-    stage: S.optional(S.String),
+    stage: S.optional(BlueprintStage),
   }),
 ).annotations({ identifier: "Blueprint" }) as any as S.Schema<Blueprint>;
 export type BlueprintList = Blueprint[];
@@ -189,8 +196,21 @@ export const OutputConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "OutputConfiguration",
 }) as any as S.Schema<OutputConfiguration>;
+export type AutomationJobStatus =
+  | "Created"
+  | "InProgress"
+  | "Success"
+  | "ServiceError"
+  | "ClientError";
+export const AutomationJobStatus = S.Literal(
+  "Created",
+  "InProgress",
+  "Success",
+  "ServiceError",
+  "ClientError",
+);
 export interface ListTagsForResourceResponse {
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagList) }),
@@ -199,7 +219,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceARN: string;
-  tags: TagList;
+  tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceARN: S.String, tags: TagList }).pipe(
@@ -213,7 +233,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface GetDataAutomationStatusResponse {
-  status?: string;
+  status?: AutomationJobStatus;
   errorType?: string;
   errorMessage?: string;
   outputConfiguration?: OutputConfiguration;
@@ -223,7 +243,7 @@ export interface GetDataAutomationStatusResponse {
 }
 export const GetDataAutomationStatusResponse = S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String),
+    status: S.optional(AutomationJobStatus),
     errorType: S.optional(S.String),
     errorMessage: S.optional(S.String),
     outputConfiguration: S.optional(OutputConfiguration),
@@ -249,7 +269,7 @@ export const EventBridgeConfiguration = S.suspend(() =>
 }) as any as S.Schema<EventBridgeConfiguration>;
 export interface EncryptionConfiguration {
   kmsKeyId: string;
-  kmsEncryptionContext?: EncryptionContextMap;
+  kmsEncryptionContext?: { [key: string]: string };
 }
 export const EncryptionConfiguration = S.suspend(() =>
   S.Struct({
@@ -270,7 +290,7 @@ export const NotificationConfiguration = S.suspend(() =>
 export interface InvokeDataAutomationRequest {
   inputConfiguration: SyncInputConfiguration;
   dataAutomationConfiguration?: DataAutomationConfiguration;
-  blueprints?: BlueprintList;
+  blueprints?: Blueprint[];
   dataAutomationProfileArn: string;
   encryptionConfiguration?: EncryptionConfiguration;
 }
@@ -287,6 +307,13 @@ export const InvokeDataAutomationRequest = S.suspend(() =>
 ).annotations({
   identifier: "InvokeDataAutomationRequest",
 }) as any as S.Schema<InvokeDataAutomationRequest>;
+export type SemanticModality = "DOCUMENT" | "IMAGE" | "AUDIO" | "VIDEO";
+export const SemanticModality = S.Literal(
+  "DOCUMENT",
+  "IMAGE",
+  "AUDIO",
+  "VIDEO",
+);
 export interface TimestampSegment {
   startTimeMillis: number;
   endTimeMillis: number;
@@ -296,18 +323,20 @@ export const TimestampSegment = S.suspend(() =>
 ).annotations({
   identifier: "TimestampSegment",
 }) as any as S.Schema<TimestampSegment>;
+export type CustomOutputStatus = "MATCH" | "NO_MATCH";
+export const CustomOutputStatus = S.Literal("MATCH", "NO_MATCH");
 export type VideoSegmentConfiguration = { timestampSegment: TimestampSegment };
 export const VideoSegmentConfiguration = S.Union(
   S.Struct({ timestampSegment: TimestampSegment }),
 );
 export interface OutputSegment {
-  customOutputStatus?: string;
+  customOutputStatus?: CustomOutputStatus;
   customOutput?: string;
   standardOutput?: string;
 }
 export const OutputSegment = S.suspend(() =>
   S.Struct({
-    customOutputStatus: S.optional(S.String),
+    customOutputStatus: S.optional(CustomOutputStatus),
     customOutput: S.optional(S.String),
     standardOutput: S.optional(S.String),
   }),
@@ -317,7 +346,7 @@ export const OutputSegment = S.suspend(() =>
 export type OutputSegmentList = OutputSegment[];
 export const OutputSegmentList = S.Array(OutputSegment);
 export interface VideoAssetProcessingConfiguration {
-  segmentConfiguration?: (typeof VideoSegmentConfiguration)["Type"];
+  segmentConfiguration?: VideoSegmentConfiguration;
 }
 export const VideoAssetProcessingConfiguration = S.suspend(() =>
   S.Struct({ segmentConfiguration: S.optional(VideoSegmentConfiguration) }),
@@ -325,11 +354,14 @@ export const VideoAssetProcessingConfiguration = S.suspend(() =>
   identifier: "VideoAssetProcessingConfiguration",
 }) as any as S.Schema<VideoAssetProcessingConfiguration>;
 export interface InvokeDataAutomationResponse {
-  semanticModality: string;
-  outputSegments: OutputSegmentList;
+  semanticModality: SemanticModality;
+  outputSegments: OutputSegment[];
 }
 export const InvokeDataAutomationResponse = S.suspend(() =>
-  S.Struct({ semanticModality: S.String, outputSegments: OutputSegmentList }),
+  S.Struct({
+    semanticModality: SemanticModality,
+    outputSegments: OutputSegmentList,
+  }),
 ).annotations({
   identifier: "InvokeDataAutomationResponse",
 }) as any as S.Schema<InvokeDataAutomationResponse>;
@@ -360,9 +392,9 @@ export interface InvokeDataAutomationAsyncRequest {
   dataAutomationConfiguration?: DataAutomationConfiguration;
   encryptionConfiguration?: EncryptionConfiguration;
   notificationConfiguration?: NotificationConfiguration;
-  blueprints?: BlueprintList;
+  blueprints?: Blueprint[];
   dataAutomationProfileArn: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const InvokeDataAutomationAsyncRequest = S.suspend(() =>
   S.Struct({
@@ -426,7 +458,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -451,7 +483,7 @@ export const untagResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -478,7 +510,7 @@ export const tagResource: (
  */
 export const getDataAutomationStatus: (
   input: GetDataAutomationStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataAutomationStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -503,7 +535,7 @@ export const getDataAutomationStatus: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -528,7 +560,7 @@ export const listTagsForResource: (
  */
 export const invokeDataAutomation: (
   input: InvokeDataAutomationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   InvokeDataAutomationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -553,7 +585,7 @@ export const invokeDataAutomation: (
  */
 export const invokeDataAutomationAsync: (
   input: InvokeDataAutomationAsyncRequest,
-) => Effect.Effect<
+) => effect.Effect<
   InvokeDataAutomationAsyncResponse,
   | AccessDeniedException
   | InternalServerException

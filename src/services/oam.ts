@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -99,15 +99,32 @@ export type LogsFilter = string;
 export type MetricsFilter = string;
 
 //# Schemas
-export type ResourceTypesInput = string[];
-export const ResourceTypesInput = S.Array(S.String);
+export type ResourceType =
+  | "AWS::CloudWatch::Metric"
+  | "AWS::Logs::LogGroup"
+  | "AWS::XRay::Trace"
+  | "AWS::ApplicationInsights::Application"
+  | "AWS::InternetMonitor::Monitor"
+  | "AWS::ApplicationSignals::Service"
+  | "AWS::ApplicationSignals::ServiceLevelObjective";
+export const ResourceType = S.Literal(
+  "AWS::CloudWatch::Metric",
+  "AWS::Logs::LogGroup",
+  "AWS::XRay::Trace",
+  "AWS::ApplicationInsights::Application",
+  "AWS::InternetMonitor::Monitor",
+  "AWS::ApplicationSignals::Service",
+  "AWS::ApplicationSignals::ServiceLevelObjective",
+);
+export type ResourceTypesInput = ResourceType[];
+export const ResourceTypesInput = S.Array(ResourceType);
 export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
 export type TagMapInput = { [key: string]: string };
 export const TagMapInput = S.Record({ key: S.String, value: S.String });
 export interface CreateSinkInput {
   Name: string;
-  Tags?: TagMapInput;
+  Tags?: { [key: string]: string };
 }
 export const CreateSinkInput = S.suspend(() =>
   S.Struct({ Name: S.String, Tags: S.optional(TagMapInput) }).pipe(
@@ -316,7 +333,7 @@ export const PutSinkPolicyInput = S.suspend(() =>
 }) as any as S.Schema<PutSinkPolicyInput>;
 export interface TagResourceInput {
   ResourceArn: string;
-  Tags: TagMapInput;
+  Tags: { [key: string]: string };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -341,7 +358,7 @@ export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceOutput>;
 export interface UntagResourceInput {
   ResourceArn: string;
-  TagKeys: TagKeys;
+  TagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({
@@ -394,7 +411,7 @@ export const LinkConfiguration = S.suspend(() =>
 }) as any as S.Schema<LinkConfiguration>;
 export interface UpdateLinkInput {
   Identifier: string;
-  ResourceTypes: ResourceTypesInput;
+  ResourceTypes: ResourceType[];
   LinkConfiguration?: LinkConfiguration;
   IncludeTags?: boolean;
 }
@@ -426,9 +443,9 @@ export interface GetLinkOutput {
   Id?: string;
   Label?: string;
   LabelTemplate?: string;
-  ResourceTypes?: ResourceTypesOutput;
+  ResourceTypes?: string[];
   SinkArn?: string;
-  Tags?: TagMapOutput;
+  Tags?: { [key: string]: string };
   LinkConfiguration?: LinkConfiguration;
 }
 export const GetLinkOutput = S.suspend(() =>
@@ -449,7 +466,7 @@ export interface GetSinkOutput {
   Arn?: string;
   Id?: string;
   Name?: string;
-  Tags?: TagMapOutput;
+  Tags?: { [key: string]: string };
 }
 export const GetSinkOutput = S.suspend(() =>
   S.Struct({
@@ -476,7 +493,7 @@ export const GetSinkPolicyOutput = S.suspend(() =>
   identifier: "GetSinkPolicyOutput",
 }) as any as S.Schema<GetSinkPolicyOutput>;
 export interface ListTagsForResourceOutput {
-  Tags?: TagMapOutput;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMapOutput) }),
@@ -502,9 +519,9 @@ export interface UpdateLinkOutput {
   Id?: string;
   Label?: string;
   LabelTemplate?: string;
-  ResourceTypes?: ResourceTypesOutput;
+  ResourceTypes?: string[];
   SinkArn?: string;
-  Tags?: TagMapOutput;
+  Tags?: { [key: string]: string };
   LinkConfiguration?: LinkConfiguration;
 }
 export const UpdateLinkOutput = S.suspend(() =>
@@ -524,7 +541,7 @@ export const UpdateLinkOutput = S.suspend(() =>
 export interface ListAttachedLinksItem {
   Label?: string;
   LinkArn?: string;
-  ResourceTypes?: ResourceTypesOutput;
+  ResourceTypes?: string[];
 }
 export const ListAttachedLinksItem = S.suspend(() =>
   S.Struct({
@@ -541,7 +558,7 @@ export interface ListLinksItem {
   Arn?: string;
   Id?: string;
   Label?: string;
-  ResourceTypes?: ResourceTypesOutput;
+  ResourceTypes?: string[];
   SinkArn?: string;
 }
 export const ListLinksItem = S.suspend(() =>
@@ -575,9 +592,9 @@ export type ListSinksItems = ListSinksItem[];
 export const ListSinksItems = S.Array(ListSinksItem);
 export interface CreateLinkInput {
   LabelTemplate: string;
-  ResourceTypes: ResourceTypesInput;
+  ResourceTypes: ResourceType[];
   SinkIdentifier: string;
-  Tags?: TagMapInput;
+  Tags?: { [key: string]: string };
   LinkConfiguration?: LinkConfiguration;
 }
 export const CreateLinkInput = S.suspend(() =>
@@ -604,7 +621,7 @@ export interface CreateSinkOutput {
   Arn?: string;
   Id?: string;
   Name?: string;
-  Tags?: TagMapOutput;
+  Tags?: { [key: string]: string };
 }
 export const CreateSinkOutput = S.suspend(() =>
   S.Struct({
@@ -617,7 +634,7 @@ export const CreateSinkOutput = S.suspend(() =>
   identifier: "CreateSinkOutput",
 }) as any as S.Schema<CreateSinkOutput>;
 export interface ListAttachedLinksOutput {
-  Items: ListAttachedLinksItems;
+  Items: ListAttachedLinksItem[];
   NextToken?: string;
 }
 export const ListAttachedLinksOutput = S.suspend(() =>
@@ -626,7 +643,7 @@ export const ListAttachedLinksOutput = S.suspend(() =>
   identifier: "ListAttachedLinksOutput",
 }) as any as S.Schema<ListAttachedLinksOutput>;
 export interface ListLinksOutput {
-  Items: ListLinksItems;
+  Items: ListLinksItem[];
   NextToken?: string;
 }
 export const ListLinksOutput = S.suspend(() =>
@@ -635,7 +652,7 @@ export const ListLinksOutput = S.suspend(() =>
   identifier: "ListLinksOutput",
 }) as any as S.Schema<ListLinksOutput>;
 export interface ListSinksOutput {
-  Items: ListSinksItems;
+  Items: ListSinksItem[];
   NextToken?: string;
 }
 export const ListSinksOutput = S.suspend(() =>
@@ -648,9 +665,9 @@ export interface CreateLinkOutput {
   Id?: string;
   Label?: string;
   LabelTemplate?: string;
-  ResourceTypes?: ResourceTypesOutput;
+  ResourceTypes?: string[];
   SinkArn?: string;
-  Tags?: TagMapOutput;
+  Tags?: { [key: string]: string };
   LinkConfiguration?: LinkConfiguration;
 }
 export const CreateLinkOutput = S.suspend(() =>
@@ -729,7 +746,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export const listLinks: {
   (
     input: ListLinksInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLinksOutput,
     | InternalServiceFault
     | InvalidParameterException
@@ -739,7 +756,7 @@ export const listLinks: {
   >;
   pages: (
     input: ListLinksInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLinksOutput,
     | InternalServiceFault
     | InvalidParameterException
@@ -749,7 +766,7 @@ export const listLinks: {
   >;
   items: (
     input: ListLinksInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLinksItem,
     | InternalServiceFault
     | InvalidParameterException
@@ -778,7 +795,7 @@ export const listLinks: {
 export const listSinks: {
   (
     input: ListSinksInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSinksOutput,
     | InternalServiceFault
     | InvalidParameterException
@@ -788,7 +805,7 @@ export const listSinks: {
   >;
   pages: (
     input: ListSinksInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSinksOutput,
     | InternalServiceFault
     | InvalidParameterException
@@ -798,7 +815,7 @@ export const listSinks: {
   >;
   items: (
     input: ListSinksInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSinksItem,
     | InternalServiceFault
     | InvalidParameterException
@@ -828,7 +845,7 @@ export const listSinks: {
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -842,7 +859,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -866,7 +883,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   | ResourceNotFoundException
   | TooManyTagsException
@@ -887,7 +904,7 @@ export const tagResource: (
  */
 export const deleteLink: (
   input: DeleteLinkInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLinkOutput,
   | InternalServiceFault
   | InvalidParameterException
@@ -915,7 +932,7 @@ export const deleteLink: (
 export const listAttachedLinks: {
   (
     input: ListAttachedLinksInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAttachedLinksOutput,
     | InternalServiceFault
     | InvalidParameterException
@@ -926,7 +943,7 @@ export const listAttachedLinks: {
   >;
   pages: (
     input: ListAttachedLinksInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAttachedLinksOutput,
     | InternalServiceFault
     | InvalidParameterException
@@ -937,7 +954,7 @@ export const listAttachedLinks: {
   >;
   items: (
     input: ListAttachedLinksInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAttachedLinksItem,
     | InternalServiceFault
     | InvalidParameterException
@@ -967,7 +984,7 @@ export const listAttachedLinks: {
  */
 export const deleteSink: (
   input: DeleteSinkInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSinkOutput,
   | ConflictException
   | InternalServiceFault
@@ -994,7 +1011,7 @@ export const deleteSink: (
  */
 export const getLink: (
   input: GetLinkInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetLinkOutput,
   | InternalServiceFault
   | InvalidParameterException
@@ -1019,7 +1036,7 @@ export const getLink: (
  */
 export const getSink: (
   input: GetSinkInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSinkOutput,
   | InternalServiceFault
   | InvalidParameterException
@@ -1042,7 +1059,7 @@ export const getSink: (
  */
 export const getSinkPolicy: (
   input: GetSinkPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSinkPolicyOutput,
   | InternalServiceFault
   | InvalidParameterException
@@ -1081,7 +1098,7 @@ export const getSinkPolicy: (
  */
 export const putSinkPolicy: (
   input: PutSinkPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutSinkPolicyOutput,
   | InternalServiceFault
   | InvalidParameterException
@@ -1108,7 +1125,7 @@ export const putSinkPolicy: (
  */
 export const updateLink: (
   input: UpdateLinkInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLinkOutput,
   | InternalServiceFault
   | InvalidParameterException
@@ -1135,7 +1152,7 @@ export const updateLink: (
  */
 export const createSink: (
   input: CreateSinkInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSinkOutput,
   | ConflictException
   | InternalServiceFault
@@ -1168,7 +1185,7 @@ export const createSink: (
  */
 export const createLink: (
   input: CreateLinkInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLinkOutput,
   | ConflictException
   | InternalServiceFault

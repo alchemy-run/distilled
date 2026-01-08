@@ -36,4 +36,5 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 aws-models
 lib/
 /smithy/
+/smithy-typescript/
 /aws-sdk-js-v3/

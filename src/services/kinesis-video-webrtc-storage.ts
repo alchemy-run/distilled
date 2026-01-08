@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -205,7 +205,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
  */
 export const joinStorageSession: (
   input: JoinStorageSessionInput,
-) => Effect.Effect<
+) => effect.Effect<
   JoinStorageSessionResponse,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -244,7 +244,7 @@ export const joinStorageSession: (
  */
 export const joinStorageSessionAsViewer: (
   input: JoinStorageSessionAsViewerInput,
-) => Effect.Effect<
+) => effect.Effect<
   JoinStorageSessionAsViewerResponse,
   | AccessDeniedException
   | ClientLimitExceededException

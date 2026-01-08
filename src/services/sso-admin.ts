@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -143,10 +143,48 @@ export type ServiceQuotaExceededMessage = string;
 export type ValidationExceptionMessage = string;
 
 //# Schemas
+export type TargetType = "AWS_ACCOUNT";
+export const TargetType = S.Literal("AWS_ACCOUNT");
+export type PrincipalType = "USER" | "GROUP";
+export const PrincipalType = S.Literal("USER", "GROUP");
+export type ApplicationStatus = "ENABLED" | "DISABLED";
+export const ApplicationStatus = S.Literal("ENABLED", "DISABLED");
+export type TrustedTokenIssuerType = "OIDC_JWT";
+export const TrustedTokenIssuerType = S.Literal("OIDC_JWT");
+export type ProvisioningStatus =
+  | "LATEST_PERMISSION_SET_PROVISIONED"
+  | "LATEST_PERMISSION_SET_NOT_PROVISIONED";
+export const ProvisioningStatus = S.Literal(
+  "LATEST_PERMISSION_SET_PROVISIONED",
+  "LATEST_PERMISSION_SET_NOT_PROVISIONED",
+);
+export type ProvisionTargetType = "AWS_ACCOUNT" | "ALL_PROVISIONED_ACCOUNTS";
+export const ProvisionTargetType = S.Literal(
+  "AWS_ACCOUNT",
+  "ALL_PROVISIONED_ACCOUNTS",
+);
+export type UserBackgroundSessionApplicationStatus = "ENABLED" | "DISABLED";
+export const UserBackgroundSessionApplicationStatus = S.Literal(
+  "ENABLED",
+  "DISABLED",
+);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export type ScopeTargets = string[];
 export const ScopeTargets = S.Array(S.String);
+export type AuthenticationMethodType = "IAM";
+export const AuthenticationMethodType = S.Literal("IAM");
+export type GrantType =
+  | "authorization_code"
+  | "refresh_token"
+  | "urn:ietf:params:oauth:grant-type:jwt-bearer"
+  | "urn:ietf:params:oauth:grant-type:token-exchange";
+export const GrantType = S.Literal(
+  "authorization_code",
+  "refresh_token",
+  "urn:ietf:params:oauth:grant-type:jwt-bearer",
+  "urn:ietf:params:oauth:grant-type:token-exchange",
+);
 export interface AttachManagedPolicyToPermissionSetRequest {
   InstanceArn: string;
   PermissionSetArn: string;
@@ -172,18 +210,18 @@ export const AttachManagedPolicyToPermissionSetResponse = S.suspend(() =>
 export interface CreateAccountAssignmentRequest {
   InstanceArn: string;
   TargetId: string;
-  TargetType: string;
+  TargetType: TargetType;
   PermissionSetArn: string;
-  PrincipalType: string;
+  PrincipalType: PrincipalType;
   PrincipalId: string;
 }
 export const CreateAccountAssignmentRequest = S.suspend(() =>
   S.Struct({
     InstanceArn: S.String,
     TargetId: S.String,
-    TargetType: S.String,
+    TargetType: TargetType,
     PermissionSetArn: S.String,
-    PrincipalType: S.String,
+    PrincipalType: PrincipalType,
     PrincipalId: S.String,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -194,13 +232,13 @@ export const CreateAccountAssignmentRequest = S.suspend(() =>
 export interface CreateApplicationAssignmentRequest {
   ApplicationArn: string;
   PrincipalId: string;
-  PrincipalType: string;
+  PrincipalType: PrincipalType;
 }
 export const CreateApplicationAssignmentRequest = S.suspend(() =>
   S.Struct({
     ApplicationArn: S.String,
     PrincipalId: S.String,
-    PrincipalType: S.String,
+    PrincipalType: PrincipalType,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -225,7 +263,7 @@ export const TagList = S.Array(Tag);
 export interface CreateInstanceRequest {
   Name?: string;
   ClientToken?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateInstanceRequest = S.suspend(() =>
   S.Struct({
@@ -244,7 +282,7 @@ export interface CreatePermissionSetRequest {
   InstanceArn: string;
   SessionDuration?: string;
   RelayState?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreatePermissionSetRequest = S.suspend(() =>
   S.Struct({
@@ -263,18 +301,18 @@ export const CreatePermissionSetRequest = S.suspend(() =>
 export interface DeleteAccountAssignmentRequest {
   InstanceArn: string;
   TargetId: string;
-  TargetType: string;
+  TargetType: TargetType;
   PermissionSetArn: string;
-  PrincipalType: string;
+  PrincipalType: PrincipalType;
   PrincipalId: string;
 }
 export const DeleteAccountAssignmentRequest = S.suspend(() =>
   S.Struct({
     InstanceArn: S.String,
     TargetId: S.String,
-    TargetType: S.String,
+    TargetType: TargetType,
     PermissionSetArn: S.String,
-    PrincipalType: S.String,
+    PrincipalType: PrincipalType,
     PrincipalId: S.String,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -301,13 +339,13 @@ export const DeleteApplicationResponse = S.suspend(() =>
 export interface DeleteApplicationAssignmentRequest {
   ApplicationArn: string;
   PrincipalId: string;
-  PrincipalType: string;
+  PrincipalType: PrincipalType;
 }
 export const DeleteApplicationAssignmentRequest = S.suspend(() =>
   S.Struct({
     ApplicationArn: S.String,
     PrincipalId: S.String,
-    PrincipalType: S.String,
+    PrincipalType: PrincipalType,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -458,13 +496,13 @@ export const DescribeApplicationRequest = S.suspend(() =>
 export interface DescribeApplicationAssignmentRequest {
   ApplicationArn: string;
   PrincipalId: string;
-  PrincipalType: string;
+  PrincipalType: PrincipalType;
 }
 export const DescribeApplicationAssignmentRequest = S.suspend(() =>
   S.Struct({
     ApplicationArn: S.String,
     PrincipalId: S.String,
-    PrincipalType: S.String,
+    PrincipalType: PrincipalType,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -632,11 +670,13 @@ export const GetPermissionsBoundaryForPermissionSetRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetPermissionsBoundaryForPermissionSetRequest",
 }) as any as S.Schema<GetPermissionsBoundaryForPermissionSetRequest>;
+export type StatusValues = "IN_PROGRESS" | "FAILED" | "SUCCEEDED";
+export const StatusValues = S.Literal("IN_PROGRESS", "FAILED", "SUCCEEDED");
 export interface OperationStatusFilter {
-  Status?: string;
+  Status?: StatusValues;
 }
 export const OperationStatusFilter = S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String) }),
+  S.Struct({ Status: S.optional(StatusValues) }),
 ).annotations({
   identifier: "OperationStatusFilter",
 }) as any as S.Schema<OperationStatusFilter>;
@@ -681,7 +721,7 @@ export const ListAccountAssignmentsRequest = S.suspend(() =>
 export interface ListAccountsForProvisionedPermissionSetRequest {
   InstanceArn: string;
   PermissionSetArn: string;
-  ProvisioningStatus?: string;
+  ProvisioningStatus?: ProvisioningStatus;
   MaxResults?: number;
   NextToken?: string;
 }
@@ -689,7 +729,7 @@ export const ListAccountsForProvisionedPermissionSetRequest = S.suspend(() =>
   S.Struct({
     InstanceArn: S.String,
     PermissionSetArn: S.String,
-    ProvisioningStatus: S.optional(S.String),
+    ProvisioningStatus: S.optional(ProvisioningStatus),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -816,7 +856,7 @@ export const ListPermissionSetsRequest = S.suspend(() =>
 export interface ListPermissionSetsProvisionedToAccountRequest {
   InstanceArn: string;
   AccountId: string;
-  ProvisioningStatus?: string;
+  ProvisioningStatus?: ProvisioningStatus;
   MaxResults?: number;
   NextToken?: string;
 }
@@ -824,7 +864,7 @@ export const ListPermissionSetsProvisionedToAccountRequest = S.suspend(() =>
   S.Struct({
     InstanceArn: S.String,
     AccountId: S.String,
-    ProvisioningStatus: S.optional(S.String),
+    ProvisioningStatus: S.optional(ProvisioningStatus),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -869,14 +909,14 @@ export interface ProvisionPermissionSetRequest {
   InstanceArn: string;
   PermissionSetArn: string;
   TargetId?: string;
-  TargetType: string;
+  TargetType: ProvisionTargetType;
 }
 export const ProvisionPermissionSetRequest = S.suspend(() =>
   S.Struct({
     InstanceArn: S.String,
     PermissionSetArn: S.String,
     TargetId: S.optional(S.String),
-    TargetType: S.String,
+    TargetType: ProvisionTargetType,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -902,12 +942,14 @@ export const PutApplicationAssignmentConfigurationResponse = S.suspend(() =>
 }) as any as S.Schema<PutApplicationAssignmentConfigurationResponse>;
 export interface PutApplicationSessionConfigurationRequest {
   ApplicationArn: string;
-  UserBackgroundSessionApplicationStatus?: string;
+  UserBackgroundSessionApplicationStatus?: UserBackgroundSessionApplicationStatus;
 }
 export const PutApplicationSessionConfigurationRequest = S.suspend(() =>
   S.Struct({
     ApplicationArn: S.String,
-    UserBackgroundSessionApplicationStatus: S.optional(S.String),
+    UserBackgroundSessionApplicationStatus: S.optional(
+      UserBackgroundSessionApplicationStatus,
+    ),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -945,7 +987,7 @@ export const PutInlinePolicyToPermissionSetResponse = S.suspend(() =>
 export interface TagResourceRequest {
   InstanceArn?: string;
   ResourceArn: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -965,7 +1007,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 export interface UntagResourceRequest {
   InstanceArn?: string;
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -985,7 +1027,7 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 export type AccessControlAttributeValueSourceList = string[];
 export const AccessControlAttributeValueSourceList = S.Array(S.String);
 export interface AccessControlAttributeValue {
-  Source: AccessControlAttributeValueSourceList;
+  Source: string[];
 }
 export const AccessControlAttributeValue = S.suspend(() =>
   S.Struct({ Source: AccessControlAttributeValueSourceList }),
@@ -1004,7 +1046,7 @@ export const AccessControlAttribute = S.suspend(() =>
 export type AccessControlAttributeList = AccessControlAttribute[];
 export const AccessControlAttributeList = S.Array(AccessControlAttribute);
 export interface InstanceAccessControlAttributeConfiguration {
-  AccessControlAttributes: AccessControlAttributeList;
+  AccessControlAttributes: AccessControlAttribute[];
 }
 export const InstanceAccessControlAttributeConfiguration = S.suspend(() =>
   S.Struct({ AccessControlAttributes: AccessControlAttributeList }),
@@ -1060,7 +1102,7 @@ export const UpdatePermissionSetResponse = S.suspend(() =>
 }) as any as S.Schema<UpdatePermissionSetResponse>;
 export interface PutApplicationAccessScopeRequest {
   Scope: string;
-  AuthorizedTargets?: ScopeTargets;
+  AuthorizedTargets?: string[];
   ApplicationArn: string;
 }
 export const PutApplicationAccessScopeRequest = S.suspend(() =>
@@ -1126,12 +1168,12 @@ export const ListApplicationAccessScopesRequest = S.suspend(() =>
 }) as any as S.Schema<ListApplicationAccessScopesRequest>;
 export interface GetApplicationAuthenticationMethodRequest {
   ApplicationArn: string;
-  AuthenticationMethodType: string;
+  AuthenticationMethodType: AuthenticationMethodType;
 }
 export const GetApplicationAuthenticationMethodRequest = S.suspend(() =>
   S.Struct({
     ApplicationArn: S.String,
-    AuthenticationMethodType: S.String,
+    AuthenticationMethodType: AuthenticationMethodType,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -1140,12 +1182,12 @@ export const GetApplicationAuthenticationMethodRequest = S.suspend(() =>
 }) as any as S.Schema<GetApplicationAuthenticationMethodRequest>;
 export interface DeleteApplicationAuthenticationMethodRequest {
   ApplicationArn: string;
-  AuthenticationMethodType: string;
+  AuthenticationMethodType: AuthenticationMethodType;
 }
 export const DeleteApplicationAuthenticationMethodRequest = S.suspend(() =>
   S.Struct({
     ApplicationArn: S.String,
-    AuthenticationMethodType: S.String,
+    AuthenticationMethodType: AuthenticationMethodType,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -1171,10 +1213,10 @@ export const ListApplicationAuthenticationMethodsRequest = S.suspend(() =>
 }) as any as S.Schema<ListApplicationAuthenticationMethodsRequest>;
 export interface GetApplicationGrantRequest {
   ApplicationArn: string;
-  GrantType: string;
+  GrantType: GrantType;
 }
 export const GetApplicationGrantRequest = S.suspend(() =>
-  S.Struct({ ApplicationArn: S.String, GrantType: S.String }).pipe(
+  S.Struct({ ApplicationArn: S.String, GrantType: GrantType }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -1182,10 +1224,10 @@ export const GetApplicationGrantRequest = S.suspend(() =>
 }) as any as S.Schema<GetApplicationGrantRequest>;
 export interface DeleteApplicationGrantRequest {
   ApplicationArn: string;
-  GrantType: string;
+  GrantType: GrantType;
 }
 export const DeleteApplicationGrantRequest = S.suspend(() =>
-  S.Struct({ ApplicationArn: S.String, GrantType: S.String }).pipe(
+  S.Struct({ ApplicationArn: S.String, GrantType: GrantType }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -1208,6 +1250,13 @@ export const ListApplicationGrantsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListApplicationGrantsRequest",
 }) as any as S.Schema<ListApplicationGrantsRequest>;
+export type ApplicationVisibility = "ENABLED" | "DISABLED";
+export const ApplicationVisibility = S.Literal("ENABLED", "DISABLED");
+export type KmsKeyType = "AWS_OWNED_KMS_KEY" | "CUSTOMER_MANAGED_KEY";
+export const KmsKeyType = S.Literal(
+  "AWS_OWNED_KMS_KEY",
+  "CUSTOMER_MANAGED_KEY",
+);
 export interface RefreshTokenGrant {}
 export const RefreshTokenGrant = S.suspend(() => S.Struct({})).annotations({
   identifier: "RefreshTokenGrant",
@@ -1216,6 +1265,32 @@ export interface TokenExchangeGrant {}
 export const TokenExchangeGrant = S.suspend(() => S.Struct({})).annotations({
   identifier: "TokenExchangeGrant",
 }) as any as S.Schema<TokenExchangeGrant>;
+export type AccessDeniedExceptionReason = "KMS_AccessDeniedException";
+export const AccessDeniedExceptionReason = S.Literal(
+  "KMS_AccessDeniedException",
+);
+export type FederationProtocol = "SAML" | "OAUTH";
+export const FederationProtocol = S.Literal("SAML", "OAUTH");
+export type InstanceStatus =
+  | "CREATE_IN_PROGRESS"
+  | "CREATE_FAILED"
+  | "DELETE_IN_PROGRESS"
+  | "ACTIVE";
+export const InstanceStatus = S.Literal(
+  "CREATE_IN_PROGRESS",
+  "CREATE_FAILED",
+  "DELETE_IN_PROGRESS",
+  "ACTIVE",
+);
+export type InstanceAccessControlAttributeConfigurationStatus =
+  | "ENABLED"
+  | "CREATION_IN_PROGRESS"
+  | "CREATION_FAILED";
+export const InstanceAccessControlAttributeConfigurationStatus = S.Literal(
+  "ENABLED",
+  "CREATION_IN_PROGRESS",
+  "CREATION_FAILED",
+);
 export interface ListAccountAssignmentsFilter {
   AccountId?: string;
 }
@@ -1265,12 +1340,14 @@ export const PermissionsBoundary = S.suspend(() =>
 ).annotations({
   identifier: "PermissionsBoundary",
 }) as any as S.Schema<PermissionsBoundary>;
+export type SignInOrigin = "IDENTITY_CENTER" | "APPLICATION";
+export const SignInOrigin = S.Literal("IDENTITY_CENTER", "APPLICATION");
 export interface SignInOptions {
-  Origin: string;
+  Origin: SignInOrigin;
   ApplicationUrl?: string;
 }
 export const SignInOptions = S.suspend(() =>
-  S.Struct({ Origin: S.String, ApplicationUrl: S.optional(S.String) }),
+  S.Struct({ Origin: SignInOrigin, ApplicationUrl: S.optional(S.String) }),
 ).annotations({
   identifier: "SignInOptions",
 }) as any as S.Schema<SignInOptions>;
@@ -1283,14 +1360,16 @@ export const UpdateApplicationPortalOptions = S.suspend(() =>
   identifier: "UpdateApplicationPortalOptions",
 }) as any as S.Schema<UpdateApplicationPortalOptions>;
 export interface EncryptionConfiguration {
-  KeyType: string;
+  KeyType: KmsKeyType;
   KmsKeyArn?: string;
 }
 export const EncryptionConfiguration = S.suspend(() =>
-  S.Struct({ KeyType: S.String, KmsKeyArn: S.optional(S.String) }),
+  S.Struct({ KeyType: KmsKeyType, KmsKeyArn: S.optional(S.String) }),
 ).annotations({
   identifier: "EncryptionConfiguration",
 }) as any as S.Schema<EncryptionConfiguration>;
+export type JwksRetrievalOption = "OPEN_ID_DISCOVERY";
+export const JwksRetrievalOption = S.Literal("OPEN_ID_DISCOVERY");
 export type RedirectUris = string[];
 export const RedirectUris = S.Array(S.String);
 export interface AttachCustomerManagedPolicyReferenceToPermissionSetRequest {
@@ -1324,25 +1403,25 @@ export const CreateInstanceResponse = S.suspend(() =>
   identifier: "CreateInstanceResponse",
 }) as any as S.Schema<CreateInstanceResponse>;
 export interface AccountAssignmentOperationStatus {
-  Status?: string;
+  Status?: StatusValues;
   RequestId?: string;
   FailureReason?: string;
   TargetId?: string;
-  TargetType?: string;
+  TargetType?: TargetType;
   PermissionSetArn?: string;
-  PrincipalType?: string;
+  PrincipalType?: PrincipalType;
   PrincipalId?: string;
   CreatedDate?: Date;
 }
 export const AccountAssignmentOperationStatus = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(StatusValues),
     RequestId: S.optional(S.String),
     FailureReason: S.optional(S.String),
     TargetId: S.optional(S.String),
-    TargetType: S.optional(S.String),
+    TargetType: S.optional(TargetType),
     PermissionSetArn: S.optional(S.String),
-    PrincipalType: S.optional(S.String),
+    PrincipalType: S.optional(PrincipalType),
     PrincipalId: S.optional(S.String),
     CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -1387,12 +1466,12 @@ export const DescribeAccountAssignmentDeletionStatusResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeAccountAssignmentDeletionStatusResponse>;
 export interface PortalOptions {
   SignInOptions?: SignInOptions;
-  Visibility?: string;
+  Visibility?: ApplicationVisibility;
 }
 export const PortalOptions = S.suspend(() =>
   S.Struct({
     SignInOptions: S.optional(SignInOptions),
-    Visibility: S.optional(S.String),
+    Visibility: S.optional(ApplicationVisibility),
   }),
 ).annotations({
   identifier: "PortalOptions",
@@ -1403,7 +1482,7 @@ export interface DescribeApplicationResponse {
   Name?: string;
   ApplicationAccount?: string;
   InstanceArn?: string;
-  Status?: string;
+  Status?: ApplicationStatus;
   PortalOptions?: PortalOptions;
   Description?: string;
   CreatedDate?: Date;
@@ -1415,7 +1494,7 @@ export const DescribeApplicationResponse = S.suspend(() =>
     Name: S.optional(S.String),
     ApplicationAccount: S.optional(S.String),
     InstanceArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ApplicationStatus),
     PortalOptions: S.optional(PortalOptions),
     Description: S.optional(S.String),
     CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1424,13 +1503,13 @@ export const DescribeApplicationResponse = S.suspend(() =>
   identifier: "DescribeApplicationResponse",
 }) as any as S.Schema<DescribeApplicationResponse>;
 export interface DescribeApplicationAssignmentResponse {
-  PrincipalType?: string;
+  PrincipalType?: PrincipalType;
   PrincipalId?: string;
   ApplicationArn?: string;
 }
 export const DescribeApplicationAssignmentResponse = S.suspend(() =>
   S.Struct({
-    PrincipalType: S.optional(S.String),
+    PrincipalType: S.optional(PrincipalType),
     PrincipalId: S.optional(S.String),
     ApplicationArn: S.optional(S.String),
   }),
@@ -1438,14 +1517,14 @@ export const DescribeApplicationAssignmentResponse = S.suspend(() =>
   identifier: "DescribeApplicationAssignmentResponse",
 }) as any as S.Schema<DescribeApplicationAssignmentResponse>;
 export interface DescribeInstanceAccessControlAttributeConfigurationResponse {
-  Status?: string;
+  Status?: InstanceAccessControlAttributeConfigurationStatus;
   StatusReason?: string;
   InstanceAccessControlAttributeConfiguration?: InstanceAccessControlAttributeConfiguration;
 }
 export const DescribeInstanceAccessControlAttributeConfigurationResponse =
   S.suspend(() =>
     S.Struct({
-      Status: S.optional(S.String),
+      Status: S.optional(InstanceAccessControlAttributeConfigurationStatus),
       StatusReason: S.optional(S.String),
       InstanceAccessControlAttributeConfiguration: S.optional(
         InstanceAccessControlAttributeConfiguration,
@@ -1486,14 +1565,14 @@ export interface OidcJwtConfiguration {
   IssuerUrl: string;
   ClaimAttributePath: string;
   IdentityStoreAttributePath: string;
-  JwksRetrievalOption: string;
+  JwksRetrievalOption: JwksRetrievalOption;
 }
 export const OidcJwtConfiguration = S.suspend(() =>
   S.Struct({
     IssuerUrl: S.String,
     ClaimAttributePath: S.String,
     IdentityStoreAttributePath: S.String,
-    JwksRetrievalOption: S.String,
+    JwksRetrievalOption: JwksRetrievalOption,
   }),
 ).annotations({
   identifier: "OidcJwtConfiguration",
@@ -1507,14 +1586,14 @@ export const TrustedTokenIssuerConfiguration = S.Union(
 export interface DescribeTrustedTokenIssuerResponse {
   TrustedTokenIssuerArn?: string;
   Name?: string;
-  TrustedTokenIssuerType?: string;
-  TrustedTokenIssuerConfiguration?: (typeof TrustedTokenIssuerConfiguration)["Type"];
+  TrustedTokenIssuerType?: TrustedTokenIssuerType;
+  TrustedTokenIssuerConfiguration?: TrustedTokenIssuerConfiguration;
 }
 export const DescribeTrustedTokenIssuerResponse = S.suspend(() =>
   S.Struct({
     TrustedTokenIssuerArn: S.optional(S.String),
     Name: S.optional(S.String),
-    TrustedTokenIssuerType: S.optional(S.String),
+    TrustedTokenIssuerType: S.optional(TrustedTokenIssuerType),
     TrustedTokenIssuerConfiguration: S.optional(
       TrustedTokenIssuerConfiguration,
     ),
@@ -1531,10 +1610,14 @@ export const GetApplicationAssignmentConfigurationResponse = S.suspend(() =>
   identifier: "GetApplicationAssignmentConfigurationResponse",
 }) as any as S.Schema<GetApplicationAssignmentConfigurationResponse>;
 export interface GetApplicationSessionConfigurationResponse {
-  UserBackgroundSessionApplicationStatus?: string;
+  UserBackgroundSessionApplicationStatus?: UserBackgroundSessionApplicationStatus;
 }
 export const GetApplicationSessionConfigurationResponse = S.suspend(() =>
-  S.Struct({ UserBackgroundSessionApplicationStatus: S.optional(S.String) }),
+  S.Struct({
+    UserBackgroundSessionApplicationStatus: S.optional(
+      UserBackgroundSessionApplicationStatus,
+    ),
+  }),
 ).annotations({
   identifier: "GetApplicationSessionConfigurationResponse",
 }) as any as S.Schema<GetApplicationSessionConfigurationResponse>;
@@ -1575,7 +1658,7 @@ export const ListAccountAssignmentCreationStatusRequest = S.suspend(() =>
 export interface ListAccountAssignmentsForPrincipalRequest {
   InstanceArn: string;
   PrincipalId: string;
-  PrincipalType: string;
+  PrincipalType: PrincipalType;
   Filter?: ListAccountAssignmentsFilter;
   NextToken?: string;
   MaxResults?: number;
@@ -1584,7 +1667,7 @@ export const ListAccountAssignmentsForPrincipalRequest = S.suspend(() =>
   S.Struct({
     InstanceArn: S.String,
     PrincipalId: S.String,
-    PrincipalType: S.String,
+    PrincipalType: PrincipalType,
     Filter: S.optional(ListAccountAssignmentsFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
@@ -1595,7 +1678,7 @@ export const ListAccountAssignmentsForPrincipalRequest = S.suspend(() =>
   identifier: "ListAccountAssignmentsForPrincipalRequest",
 }) as any as S.Schema<ListAccountAssignmentsForPrincipalRequest>;
 export interface ListAccountsForProvisionedPermissionSetResponse {
-  AccountIds?: AccountList;
+  AccountIds?: string[];
   NextToken?: string;
 }
 export const ListAccountsForProvisionedPermissionSetResponse = S.suspend(() =>
@@ -1609,7 +1692,7 @@ export const ListAccountsForProvisionedPermissionSetResponse = S.suspend(() =>
 export interface ListApplicationAssignmentsForPrincipalRequest {
   InstanceArn: string;
   PrincipalId: string;
-  PrincipalType: string;
+  PrincipalType: PrincipalType;
   Filter?: ListApplicationAssignmentsFilter;
   NextToken?: string;
   MaxResults?: number;
@@ -1618,7 +1701,7 @@ export const ListApplicationAssignmentsForPrincipalRequest = S.suspend(() =>
   S.Struct({
     InstanceArn: S.String,
     PrincipalId: S.String,
-    PrincipalType: S.String,
+    PrincipalType: PrincipalType,
     Filter: S.optional(ListApplicationAssignmentsFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
@@ -1647,7 +1730,7 @@ export const ListApplicationsRequest = S.suspend(() =>
   identifier: "ListApplicationsRequest",
 }) as any as S.Schema<ListApplicationsRequest>;
 export interface ListCustomerManagedPolicyReferencesInPermissionSetResponse {
-  CustomerManagedPolicyReferences?: CustomerManagedPolicyReferenceList;
+  CustomerManagedPolicyReferences?: CustomerManagedPolicyReference[];
   NextToken?: string;
 }
 export const ListCustomerManagedPolicyReferencesInPermissionSetResponse =
@@ -1662,7 +1745,7 @@ export const ListCustomerManagedPolicyReferencesInPermissionSetResponse =
     identifier: "ListCustomerManagedPolicyReferencesInPermissionSetResponse",
   }) as any as S.Schema<ListCustomerManagedPolicyReferencesInPermissionSetResponse>;
 export interface ListPermissionSetsResponse {
-  PermissionSets?: PermissionSetList;
+  PermissionSets?: string[];
   NextToken?: string;
 }
 export const ListPermissionSetsResponse = S.suspend(() =>
@@ -1675,7 +1758,7 @@ export const ListPermissionSetsResponse = S.suspend(() =>
 }) as any as S.Schema<ListPermissionSetsResponse>;
 export interface ListPermissionSetsProvisionedToAccountResponse {
   NextToken?: string;
-  PermissionSets?: PermissionSetList;
+  PermissionSets?: string[];
 }
 export const ListPermissionSetsProvisionedToAccountResponse = S.suspend(() =>
   S.Struct({
@@ -1686,7 +1769,7 @@ export const ListPermissionSetsProvisionedToAccountResponse = S.suspend(() =>
   identifier: "ListPermissionSetsProvisionedToAccountResponse",
 }) as any as S.Schema<ListPermissionSetsProvisionedToAccountResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
   NextToken?: string;
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
@@ -1695,7 +1778,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface PermissionSetProvisioningStatus {
-  Status?: string;
+  Status?: StatusValues;
   RequestId?: string;
   AccountId?: string;
   PermissionSetArn?: string;
@@ -1704,7 +1787,7 @@ export interface PermissionSetProvisioningStatus {
 }
 export const PermissionSetProvisioningStatus = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(StatusValues),
     RequestId: S.optional(S.String),
     AccountId: S.optional(S.String),
     PermissionSetArn: S.optional(S.String),
@@ -1752,7 +1835,7 @@ export interface UpdateApplicationRequest {
   ApplicationArn: string;
   Name?: string;
   Description?: string;
-  Status?: string;
+  Status?: ApplicationStatus;
   PortalOptions?: UpdateApplicationPortalOptions;
 }
 export const UpdateApplicationRequest = S.suspend(() =>
@@ -1760,7 +1843,7 @@ export const UpdateApplicationRequest = S.suspend(() =>
     ApplicationArn: S.String,
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ApplicationStatus),
     PortalOptions: S.optional(UpdateApplicationPortalOptions),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -1796,7 +1879,7 @@ export const UpdateInstanceResponse = S.suspend(() => S.Struct({})).annotations(
 ) as any as S.Schema<UpdateInstanceResponse>;
 export interface GetApplicationAccessScopeResponse {
   Scope: string;
-  AuthorizedTargets?: ScopeTargets;
+  AuthorizedTargets?: string[];
 }
 export const GetApplicationAccessScopeResponse = S.suspend(() =>
   S.Struct({ Scope: S.String, AuthorizedTargets: S.optional(ScopeTargets) }),
@@ -1816,7 +1899,7 @@ export const AuthenticationMethod = S.Union(
   S.Struct({ Iam: IamAuthenticationMethod }),
 );
 export interface GetApplicationAuthenticationMethodResponse {
-  AuthenticationMethod?: (typeof AuthenticationMethod)["Type"];
+  AuthenticationMethod?: AuthenticationMethod;
 }
 export const GetApplicationAuthenticationMethodResponse = S.suspend(() =>
   S.Struct({ AuthenticationMethod: S.optional(AuthenticationMethod) }),
@@ -1824,7 +1907,7 @@ export const GetApplicationAuthenticationMethodResponse = S.suspend(() =>
   identifier: "GetApplicationAuthenticationMethodResponse",
 }) as any as S.Schema<GetApplicationAuthenticationMethodResponse>;
 export interface AuthorizationCodeGrant {
-  RedirectUris?: RedirectUris;
+  RedirectUris?: string[];
 }
 export const AuthorizationCodeGrant = S.suspend(() =>
   S.Struct({ RedirectUris: S.optional(RedirectUris) }),
@@ -1835,7 +1918,7 @@ export type TokenIssuerAudiences = string[];
 export const TokenIssuerAudiences = S.Array(S.String);
 export interface AuthorizedTokenIssuer {
   TrustedTokenIssuerArn?: string;
-  AuthorizedAudiences?: TokenIssuerAudiences;
+  AuthorizedAudiences?: string[];
 }
 export const AuthorizedTokenIssuer = S.suspend(() =>
   S.Struct({
@@ -1848,7 +1931,7 @@ export const AuthorizedTokenIssuer = S.suspend(() =>
 export type AuthorizedTokenIssuers = AuthorizedTokenIssuer[];
 export const AuthorizedTokenIssuers = S.Array(AuthorizedTokenIssuer);
 export interface JwtBearerGrant {
-  AuthorizedTokenIssuers?: AuthorizedTokenIssuers;
+  AuthorizedTokenIssuers?: AuthorizedTokenIssuer[];
 }
 export const JwtBearerGrant = S.suspend(() =>
   S.Struct({ AuthorizedTokenIssuers: S.optional(AuthorizedTokenIssuers) }),
@@ -1867,23 +1950,25 @@ export const Grant = S.Union(
   S.Struct({ TokenExchange: TokenExchangeGrant }),
 );
 export interface GetApplicationGrantResponse {
-  Grant: (typeof Grant)["Type"];
+  Grant: Grant;
 }
 export const GetApplicationGrantResponse = S.suspend(() =>
   S.Struct({ Grant: Grant }),
 ).annotations({
   identifier: "GetApplicationGrantResponse",
 }) as any as S.Schema<GetApplicationGrantResponse>;
+export type KmsKeyStatus = "UPDATING" | "ENABLED" | "UPDATE_FAILED";
+export const KmsKeyStatus = S.Literal("UPDATING", "ENABLED", "UPDATE_FAILED");
 export interface OidcJwtUpdateConfiguration {
   ClaimAttributePath?: string;
   IdentityStoreAttributePath?: string;
-  JwksRetrievalOption?: string;
+  JwksRetrievalOption?: JwksRetrievalOption;
 }
 export const OidcJwtUpdateConfiguration = S.suspend(() =>
   S.Struct({
     ClaimAttributePath: S.optional(S.String),
     IdentityStoreAttributePath: S.optional(S.String),
-    JwksRetrievalOption: S.optional(S.String),
+    JwksRetrievalOption: S.optional(JwksRetrievalOption),
   }),
 ).annotations({
   identifier: "OidcJwtUpdateConfiguration",
@@ -1901,29 +1986,29 @@ export const DisplayData = S.suspend(() =>
   }),
 ).annotations({ identifier: "DisplayData" }) as any as S.Schema<DisplayData>;
 export interface EncryptionConfigurationDetails {
-  KeyType?: string;
+  KeyType?: KmsKeyType;
   KmsKeyArn?: string;
-  EncryptionStatus?: string;
+  EncryptionStatus?: KmsKeyStatus;
   EncryptionStatusReason?: string;
 }
 export const EncryptionConfigurationDetails = S.suspend(() =>
   S.Struct({
-    KeyType: S.optional(S.String),
+    KeyType: S.optional(KmsKeyType),
     KmsKeyArn: S.optional(S.String),
-    EncryptionStatus: S.optional(S.String),
+    EncryptionStatus: S.optional(KmsKeyStatus),
     EncryptionStatusReason: S.optional(S.String),
   }),
 ).annotations({
   identifier: "EncryptionConfigurationDetails",
 }) as any as S.Schema<EncryptionConfigurationDetails>;
 export interface AccountAssignmentOperationStatusMetadata {
-  Status?: string;
+  Status?: StatusValues;
   RequestId?: string;
   CreatedDate?: Date;
 }
 export const AccountAssignmentOperationStatusMetadata = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(StatusValues),
     RequestId: S.optional(S.String),
     CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -1938,14 +2023,14 @@ export const AccountAssignmentOperationStatusList = S.Array(
 export interface AccountAssignment {
   AccountId?: string;
   PermissionSetArn?: string;
-  PrincipalType?: string;
+  PrincipalType?: PrincipalType;
   PrincipalId?: string;
 }
 export const AccountAssignment = S.suspend(() =>
   S.Struct({
     AccountId: S.optional(S.String),
     PermissionSetArn: S.optional(S.String),
-    PrincipalType: S.optional(S.String),
+    PrincipalType: S.optional(PrincipalType),
     PrincipalId: S.optional(S.String),
   }),
 ).annotations({
@@ -1956,13 +2041,13 @@ export const AccountAssignmentList = S.Array(AccountAssignment);
 export interface ApplicationAssignment {
   ApplicationArn: string;
   PrincipalId: string;
-  PrincipalType: string;
+  PrincipalType: PrincipalType;
 }
 export const ApplicationAssignment = S.suspend(() =>
   S.Struct({
     ApplicationArn: S.String,
     PrincipalId: S.String,
-    PrincipalType: S.String,
+    PrincipalType: PrincipalType,
   }),
 ).annotations({
   identifier: "ApplicationAssignment",
@@ -1989,7 +2074,7 @@ export const ResourceServerScopes = S.Record({
   value: ResourceServerScopeDetails,
 });
 export interface ResourceServerConfig {
-  Scopes?: ResourceServerScopes;
+  Scopes?: { [key: string]: ResourceServerScopeDetails };
 }
 export const ResourceServerConfig = S.suspend(() =>
   S.Struct({ Scopes: S.optional(ResourceServerScopes) }),
@@ -1998,14 +2083,14 @@ export const ResourceServerConfig = S.suspend(() =>
 }) as any as S.Schema<ResourceServerConfig>;
 export interface ApplicationProvider {
   ApplicationProviderArn: string;
-  FederationProtocol?: string;
+  FederationProtocol?: FederationProtocol;
   DisplayData?: DisplayData;
   ResourceServerConfig?: ResourceServerConfig;
 }
 export const ApplicationProvider = S.suspend(() =>
   S.Struct({
     ApplicationProviderArn: S.String,
-    FederationProtocol: S.optional(S.String),
+    FederationProtocol: S.optional(FederationProtocol),
     DisplayData: S.optional(DisplayData),
     ResourceServerConfig: S.optional(ResourceServerConfig),
   }),
@@ -2020,7 +2105,7 @@ export interface InstanceMetadata {
   OwnerAccountId?: string;
   Name?: string;
   CreatedDate?: Date;
-  Status?: string;
+  Status?: InstanceStatus;
   StatusReason?: string;
 }
 export const InstanceMetadata = S.suspend(() =>
@@ -2030,7 +2115,7 @@ export const InstanceMetadata = S.suspend(() =>
     OwnerAccountId: S.optional(S.String),
     Name: S.optional(S.String),
     CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
+    Status: S.optional(InstanceStatus),
     StatusReason: S.optional(S.String),
   }),
 ).annotations({
@@ -2050,13 +2135,13 @@ export const AttachedManagedPolicy = S.suspend(() =>
 export type AttachedManagedPolicyList = AttachedManagedPolicy[];
 export const AttachedManagedPolicyList = S.Array(AttachedManagedPolicy);
 export interface PermissionSetProvisioningStatusMetadata {
-  Status?: string;
+  Status?: StatusValues;
   RequestId?: string;
   CreatedDate?: Date;
 }
 export const PermissionSetProvisioningStatusMetadata = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(StatusValues),
     RequestId: S.optional(S.String),
     CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -2071,13 +2156,13 @@ export const PermissionSetProvisioningStatusList = S.Array(
 export interface TrustedTokenIssuerMetadata {
   TrustedTokenIssuerArn?: string;
   Name?: string;
-  TrustedTokenIssuerType?: string;
+  TrustedTokenIssuerType?: TrustedTokenIssuerType;
 }
 export const TrustedTokenIssuerMetadata = S.suspend(() =>
   S.Struct({
     TrustedTokenIssuerArn: S.optional(S.String),
     Name: S.optional(S.String),
-    TrustedTokenIssuerType: S.optional(S.String),
+    TrustedTokenIssuerType: S.optional(TrustedTokenIssuerType),
   }),
 ).annotations({
   identifier: "TrustedTokenIssuerMetadata",
@@ -2092,7 +2177,7 @@ export const TrustedTokenIssuerUpdateConfiguration = S.Union(
 );
 export interface ScopeDetails {
   Scope: string;
-  AuthorizedTargets?: ScopeTargets;
+  AuthorizedTargets?: string[];
 }
 export const ScopeDetails = S.suspend(() =>
   S.Struct({ Scope: S.String, AuthorizedTargets: S.optional(ScopeTargets) }),
@@ -2100,12 +2185,12 @@ export const ScopeDetails = S.suspend(() =>
 export type Scopes = ScopeDetails[];
 export const Scopes = S.Array(ScopeDetails);
 export interface AuthenticationMethodItem {
-  AuthenticationMethodType?: string;
-  AuthenticationMethod?: (typeof AuthenticationMethod)["Type"];
+  AuthenticationMethodType?: AuthenticationMethodType;
+  AuthenticationMethod?: AuthenticationMethod;
 }
 export const AuthenticationMethodItem = S.suspend(() =>
   S.Struct({
-    AuthenticationMethodType: S.optional(S.String),
+    AuthenticationMethodType: S.optional(AuthenticationMethodType),
     AuthenticationMethod: S.optional(AuthenticationMethod),
   }),
 ).annotations({
@@ -2114,11 +2199,11 @@ export const AuthenticationMethodItem = S.suspend(() =>
 export type AuthenticationMethods = AuthenticationMethodItem[];
 export const AuthenticationMethods = S.Array(AuthenticationMethodItem);
 export interface GrantItem {
-  GrantType: string;
-  Grant: (typeof Grant)["Type"];
+  GrantType: GrantType;
+  Grant: Grant;
 }
 export const GrantItem = S.suspend(() =>
-  S.Struct({ GrantType: S.String, Grant: Grant }),
+  S.Struct({ GrantType: GrantType, Grant: Grant }),
 ).annotations({ identifier: "GrantItem" }) as any as S.Schema<GrantItem>;
 export type Grants = GrantItem[];
 export const Grants = S.Array(GrantItem);
@@ -2140,8 +2225,8 @@ export interface CreateApplicationRequest {
   Name: string;
   Description?: string;
   PortalOptions?: PortalOptions;
-  Tags?: TagList;
-  Status?: string;
+  Tags?: Tag[];
+  Status?: ApplicationStatus;
   ClientToken?: string;
 }
 export const CreateApplicationRequest = S.suspend(() =>
@@ -2152,7 +2237,7 @@ export const CreateApplicationRequest = S.suspend(() =>
     Description: S.optional(S.String),
     PortalOptions: S.optional(PortalOptions),
     Tags: S.optional(TagList),
-    Status: S.optional(S.String),
+    Status: S.optional(ApplicationStatus),
     ClientToken: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -2171,16 +2256,16 @@ export const CreatePermissionSetResponse = S.suspend(() =>
 export interface CreateTrustedTokenIssuerRequest {
   InstanceArn: string;
   Name: string;
-  TrustedTokenIssuerType: string;
-  TrustedTokenIssuerConfiguration: (typeof TrustedTokenIssuerConfiguration)["Type"];
+  TrustedTokenIssuerType: TrustedTokenIssuerType;
+  TrustedTokenIssuerConfiguration: TrustedTokenIssuerConfiguration;
   ClientToken?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateTrustedTokenIssuerRequest = S.suspend(() =>
   S.Struct({
     InstanceArn: S.String,
     Name: S.String,
-    TrustedTokenIssuerType: S.String,
+    TrustedTokenIssuerType: TrustedTokenIssuerType,
     TrustedTokenIssuerConfiguration: TrustedTokenIssuerConfiguration,
     ClientToken: S.optional(S.String),
     Tags: S.optional(TagList),
@@ -2196,7 +2281,7 @@ export interface DescribeInstanceResponse {
   OwnerAccountId?: string;
   Name?: string;
   CreatedDate?: Date;
-  Status?: string;
+  Status?: InstanceStatus;
   StatusReason?: string;
   EncryptionConfigurationDetails?: EncryptionConfigurationDetails;
 }
@@ -2207,7 +2292,7 @@ export const DescribeInstanceResponse = S.suspend(() =>
     OwnerAccountId: S.optional(S.String),
     Name: S.optional(S.String),
     CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
+    Status: S.optional(InstanceStatus),
     StatusReason: S.optional(S.String),
     EncryptionConfigurationDetails: S.optional(EncryptionConfigurationDetails),
   }),
@@ -2227,7 +2312,7 @@ export const DescribePermissionSetProvisioningStatusResponse = S.suspend(() =>
   identifier: "DescribePermissionSetProvisioningStatusResponse",
 }) as any as S.Schema<DescribePermissionSetProvisioningStatusResponse>;
 export interface ListAccountAssignmentCreationStatusResponse {
-  AccountAssignmentsCreationStatus?: AccountAssignmentOperationStatusList;
+  AccountAssignmentsCreationStatus?: AccountAssignmentOperationStatusMetadata[];
   NextToken?: string;
 }
 export const ListAccountAssignmentCreationStatusResponse = S.suspend(() =>
@@ -2241,7 +2326,7 @@ export const ListAccountAssignmentCreationStatusResponse = S.suspend(() =>
   identifier: "ListAccountAssignmentCreationStatusResponse",
 }) as any as S.Schema<ListAccountAssignmentCreationStatusResponse>;
 export interface ListAccountAssignmentDeletionStatusResponse {
-  AccountAssignmentsDeletionStatus?: AccountAssignmentOperationStatusList;
+  AccountAssignmentsDeletionStatus?: AccountAssignmentOperationStatusMetadata[];
   NextToken?: string;
 }
 export const ListAccountAssignmentDeletionStatusResponse = S.suspend(() =>
@@ -2255,7 +2340,7 @@ export const ListAccountAssignmentDeletionStatusResponse = S.suspend(() =>
   identifier: "ListAccountAssignmentDeletionStatusResponse",
 }) as any as S.Schema<ListAccountAssignmentDeletionStatusResponse>;
 export interface ListAccountAssignmentsResponse {
-  AccountAssignments?: AccountAssignmentList;
+  AccountAssignments?: AccountAssignment[];
   NextToken?: string;
 }
 export const ListAccountAssignmentsResponse = S.suspend(() =>
@@ -2267,7 +2352,7 @@ export const ListAccountAssignmentsResponse = S.suspend(() =>
   identifier: "ListAccountAssignmentsResponse",
 }) as any as S.Schema<ListAccountAssignmentsResponse>;
 export interface ListApplicationAssignmentsResponse {
-  ApplicationAssignments?: ApplicationAssignmentsList;
+  ApplicationAssignments?: ApplicationAssignment[];
   NextToken?: string;
 }
 export const ListApplicationAssignmentsResponse = S.suspend(() =>
@@ -2279,7 +2364,7 @@ export const ListApplicationAssignmentsResponse = S.suspend(() =>
   identifier: "ListApplicationAssignmentsResponse",
 }) as any as S.Schema<ListApplicationAssignmentsResponse>;
 export interface ListApplicationProvidersResponse {
-  ApplicationProviders?: ApplicationProviderList;
+  ApplicationProviders?: ApplicationProvider[];
   NextToken?: string;
 }
 export const ListApplicationProvidersResponse = S.suspend(() =>
@@ -2291,7 +2376,7 @@ export const ListApplicationProvidersResponse = S.suspend(() =>
   identifier: "ListApplicationProvidersResponse",
 }) as any as S.Schema<ListApplicationProvidersResponse>;
 export interface ListInstancesResponse {
-  Instances?: InstanceList;
+  Instances?: InstanceMetadata[];
   NextToken?: string;
 }
 export const ListInstancesResponse = S.suspend(() =>
@@ -2303,7 +2388,7 @@ export const ListInstancesResponse = S.suspend(() =>
   identifier: "ListInstancesResponse",
 }) as any as S.Schema<ListInstancesResponse>;
 export interface ListManagedPoliciesInPermissionSetResponse {
-  AttachedManagedPolicies?: AttachedManagedPolicyList;
+  AttachedManagedPolicies?: AttachedManagedPolicy[];
   NextToken?: string;
 }
 export const ListManagedPoliciesInPermissionSetResponse = S.suspend(() =>
@@ -2315,7 +2400,7 @@ export const ListManagedPoliciesInPermissionSetResponse = S.suspend(() =>
   identifier: "ListManagedPoliciesInPermissionSetResponse",
 }) as any as S.Schema<ListManagedPoliciesInPermissionSetResponse>;
 export interface ListPermissionSetProvisioningStatusResponse {
-  PermissionSetsProvisioningStatus?: PermissionSetProvisioningStatusList;
+  PermissionSetsProvisioningStatus?: PermissionSetProvisioningStatusMetadata[];
   NextToken?: string;
 }
 export const ListPermissionSetProvisioningStatusResponse = S.suspend(() =>
@@ -2329,7 +2414,7 @@ export const ListPermissionSetProvisioningStatusResponse = S.suspend(() =>
   identifier: "ListPermissionSetProvisioningStatusResponse",
 }) as any as S.Schema<ListPermissionSetProvisioningStatusResponse>;
 export interface ListTrustedTokenIssuersResponse {
-  TrustedTokenIssuers?: TrustedTokenIssuerList;
+  TrustedTokenIssuers?: TrustedTokenIssuerMetadata[];
   NextToken?: string;
 }
 export const ListTrustedTokenIssuersResponse = S.suspend(() =>
@@ -2343,7 +2428,7 @@ export const ListTrustedTokenIssuersResponse = S.suspend(() =>
 export interface UpdateTrustedTokenIssuerRequest {
   TrustedTokenIssuerArn: string;
   Name?: string;
-  TrustedTokenIssuerConfiguration?: (typeof TrustedTokenIssuerUpdateConfiguration)["Type"];
+  TrustedTokenIssuerConfiguration?: TrustedTokenIssuerUpdateConfiguration;
 }
 export const UpdateTrustedTokenIssuerRequest = S.suspend(() =>
   S.Struct({
@@ -2365,7 +2450,7 @@ export const UpdateTrustedTokenIssuerResponse = S.suspend(() =>
   identifier: "UpdateTrustedTokenIssuerResponse",
 }) as any as S.Schema<UpdateTrustedTokenIssuerResponse>;
 export interface ListApplicationAccessScopesResponse {
-  Scopes: Scopes;
+  Scopes: ScopeDetails[];
   NextToken?: string;
 }
 export const ListApplicationAccessScopesResponse = S.suspend(() =>
@@ -2375,13 +2460,13 @@ export const ListApplicationAccessScopesResponse = S.suspend(() =>
 }) as any as S.Schema<ListApplicationAccessScopesResponse>;
 export interface PutApplicationAuthenticationMethodRequest {
   ApplicationArn: string;
-  AuthenticationMethodType: string;
-  AuthenticationMethod: (typeof AuthenticationMethod)["Type"];
+  AuthenticationMethodType: AuthenticationMethodType;
+  AuthenticationMethod: AuthenticationMethod;
 }
 export const PutApplicationAuthenticationMethodRequest = S.suspend(() =>
   S.Struct({
     ApplicationArn: S.String,
-    AuthenticationMethodType: S.String,
+    AuthenticationMethodType: AuthenticationMethodType,
     AuthenticationMethod: AuthenticationMethod,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -2396,7 +2481,7 @@ export const PutApplicationAuthenticationMethodResponse = S.suspend(() =>
   identifier: "PutApplicationAuthenticationMethodResponse",
 }) as any as S.Schema<PutApplicationAuthenticationMethodResponse>;
 export interface ListApplicationAuthenticationMethodsResponse {
-  AuthenticationMethods?: AuthenticationMethods;
+  AuthenticationMethods?: AuthenticationMethodItem[];
   NextToken?: string;
 }
 export const ListApplicationAuthenticationMethodsResponse = S.suspend(() =>
@@ -2408,7 +2493,7 @@ export const ListApplicationAuthenticationMethodsResponse = S.suspend(() =>
   identifier: "ListApplicationAuthenticationMethodsResponse",
 }) as any as S.Schema<ListApplicationAuthenticationMethodsResponse>;
 export interface ListApplicationGrantsResponse {
-  Grants: Grants;
+  Grants: GrantItem[];
   NextToken?: string;
 }
 export const ListApplicationGrantsResponse = S.suspend(() =>
@@ -2416,18 +2501,24 @@ export const ListApplicationGrantsResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListApplicationGrantsResponse",
 }) as any as S.Schema<ListApplicationGrantsResponse>;
+export type ResourceNotFoundExceptionReason = "KMS_NotFoundException";
+export const ResourceNotFoundExceptionReason = S.Literal(
+  "KMS_NotFoundException",
+);
+export type ThrottlingExceptionReason = "KMS_ThrottlingException";
+export const ThrottlingExceptionReason = S.Literal("KMS_ThrottlingException");
 export interface AccountAssignmentForPrincipal {
   AccountId?: string;
   PermissionSetArn?: string;
   PrincipalId?: string;
-  PrincipalType?: string;
+  PrincipalType?: PrincipalType;
 }
 export const AccountAssignmentForPrincipal = S.suspend(() =>
   S.Struct({
     AccountId: S.optional(S.String),
     PermissionSetArn: S.optional(S.String),
     PrincipalId: S.optional(S.String),
-    PrincipalType: S.optional(S.String),
+    PrincipalType: S.optional(PrincipalType),
   }),
 ).annotations({
   identifier: "AccountAssignmentForPrincipal",
@@ -2439,13 +2530,13 @@ export const AccountAssignmentListForPrincipal = S.Array(
 export interface ApplicationAssignmentForPrincipal {
   ApplicationArn?: string;
   PrincipalId?: string;
-  PrincipalType?: string;
+  PrincipalType?: PrincipalType;
 }
 export const ApplicationAssignmentForPrincipal = S.suspend(() =>
   S.Struct({
     ApplicationArn: S.optional(S.String),
     PrincipalId: S.optional(S.String),
-    PrincipalType: S.optional(S.String),
+    PrincipalType: S.optional(PrincipalType),
   }),
 ).annotations({
   identifier: "ApplicationAssignmentForPrincipal",
@@ -2461,7 +2552,7 @@ export interface Application {
   Name?: string;
   ApplicationAccount?: string;
   InstanceArn?: string;
-  Status?: string;
+  Status?: ApplicationStatus;
   PortalOptions?: PortalOptions;
   Description?: string;
   CreatedDate?: Date;
@@ -2473,7 +2564,7 @@ export const Application = S.suspend(() =>
     Name: S.optional(S.String),
     ApplicationAccount: S.optional(S.String),
     InstanceArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ApplicationStatus),
     PortalOptions: S.optional(PortalOptions),
     Description: S.optional(S.String),
     CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2519,7 +2610,7 @@ export const CreateTrustedTokenIssuerResponse = S.suspend(() =>
   identifier: "CreateTrustedTokenIssuerResponse",
 }) as any as S.Schema<CreateTrustedTokenIssuerResponse>;
 export interface ListAccountAssignmentsForPrincipalResponse {
-  AccountAssignments?: AccountAssignmentListForPrincipal;
+  AccountAssignments?: AccountAssignmentForPrincipal[];
   NextToken?: string;
 }
 export const ListAccountAssignmentsForPrincipalResponse = S.suspend(() =>
@@ -2531,7 +2622,7 @@ export const ListAccountAssignmentsForPrincipalResponse = S.suspend(() =>
   identifier: "ListAccountAssignmentsForPrincipalResponse",
 }) as any as S.Schema<ListAccountAssignmentsForPrincipalResponse>;
 export interface ListApplicationAssignmentsForPrincipalResponse {
-  ApplicationAssignments?: ApplicationAssignmentListForPrincipal;
+  ApplicationAssignments?: ApplicationAssignmentForPrincipal[];
   NextToken?: string;
 }
 export const ListApplicationAssignmentsForPrincipalResponse = S.suspend(() =>
@@ -2543,7 +2634,7 @@ export const ListApplicationAssignmentsForPrincipalResponse = S.suspend(() =>
   identifier: "ListApplicationAssignmentsForPrincipalResponse",
 }) as any as S.Schema<ListApplicationAssignmentsForPrincipalResponse>;
 export interface ListApplicationsResponse {
-  Applications?: ApplicationList;
+  Applications?: Application[];
   NextToken?: string;
 }
 export const ListApplicationsResponse = S.suspend(() =>
@@ -2556,13 +2647,13 @@ export const ListApplicationsResponse = S.suspend(() =>
 }) as any as S.Schema<ListApplicationsResponse>;
 export interface PutApplicationGrantRequest {
   ApplicationArn: string;
-  GrantType: string;
-  Grant: (typeof Grant)["Type"];
+  GrantType: GrantType;
+  Grant: Grant;
 }
 export const PutApplicationGrantRequest = S.suspend(() =>
   S.Struct({
     ApplicationArn: S.String,
-    GrantType: S.String,
+    GrantType: GrantType,
     Grant: Grant,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -2576,16 +2667,25 @@ export const PutApplicationGrantResponse = S.suspend(() =>
 ).annotations({
   identifier: "PutApplicationGrantResponse",
 }) as any as S.Schema<PutApplicationGrantResponse>;
+export type ValidationExceptionReason =
+  | "KMS_InvalidKeyUsageException"
+  | "KMS_InvalidStateException"
+  | "KMS_DisabledException";
+export const ValidationExceptionReason = S.Literal(
+  "KMS_InvalidKeyUsageException",
+  "KMS_InvalidStateException",
+  "KMS_DisabledException",
+);
 export interface DescribeApplicationProviderResponse {
   ApplicationProviderArn: string;
-  FederationProtocol?: string;
+  FederationProtocol?: FederationProtocol;
   DisplayData?: DisplayData;
   ResourceServerConfig?: ResourceServerConfig;
 }
 export const DescribeApplicationProviderResponse = S.suspend(() =>
   S.Struct({
     ApplicationProviderArn: S.String,
-    FederationProtocol: S.optional(S.String),
+    FederationProtocol: S.optional(FederationProtocol),
     DisplayData: S.optional(DisplayData),
     ResourceServerConfig: S.optional(ResourceServerConfig),
   }),
@@ -2596,7 +2696,10 @@ export const DescribeApplicationProviderResponse = S.suspend(() =>
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+  {
+    Message: S.optional(S.String),
+    Reason: S.optional(AccessDeniedExceptionReason),
+  },
 ).pipe(C.withAuthError) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
@@ -2608,11 +2711,17 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
 ).pipe(C.withServerError) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+  {
+    Message: S.optional(S.String),
+    Reason: S.optional(ResourceNotFoundExceptionReason),
+  },
 ).pipe(C.withBadRequestError) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+  {
+    Message: S.optional(S.String),
+    Reason: S.optional(ThrottlingExceptionReason),
+  },
 ).pipe(C.withThrottlingError) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
@@ -2620,7 +2729,10 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 ).pipe(C.withQuotaError) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+  {
+    Message: S.optional(S.String),
+    Reason: S.optional(ValidationExceptionReason),
+  },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
@@ -2635,7 +2747,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const describeInstance: (
   input: DescribeInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeInstanceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2659,7 +2771,7 @@ export const describeInstance: (
 export const listAccountAssignmentsForPrincipal: {
   (
     input: ListAccountAssignmentsForPrincipalRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccountAssignmentsForPrincipalResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2671,7 +2783,7 @@ export const listAccountAssignmentsForPrincipal: {
   >;
   pages: (
     input: ListAccountAssignmentsForPrincipalRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccountAssignmentsForPrincipalResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2683,7 +2795,7 @@ export const listAccountAssignmentsForPrincipal: {
   >;
   items: (
     input: ListAccountAssignmentsForPrincipalRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AccountAssignmentForPrincipal,
     | AccessDeniedException
     | InternalServerException
@@ -2716,7 +2828,7 @@ export const listAccountAssignmentsForPrincipal: {
 export const listApplicationAssignmentsForPrincipal: {
   (
     input: ListApplicationAssignmentsForPrincipalRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationAssignmentsForPrincipalResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2728,7 +2840,7 @@ export const listApplicationAssignmentsForPrincipal: {
   >;
   pages: (
     input: ListApplicationAssignmentsForPrincipalRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationAssignmentsForPrincipalResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2740,7 +2852,7 @@ export const listApplicationAssignmentsForPrincipal: {
   >;
   items: (
     input: ListApplicationAssignmentsForPrincipalRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ApplicationAssignmentForPrincipal,
     | AccessDeniedException
     | InternalServerException
@@ -2773,7 +2885,7 @@ export const listApplicationAssignmentsForPrincipal: {
 export const listApplications: {
   (
     input: ListApplicationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2784,7 +2896,7 @@ export const listApplications: {
   >;
   pages: (
     input: ListApplicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2795,7 +2907,7 @@ export const listApplications: {
   >;
   items: (
     input: ListApplicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Application,
     | AccessDeniedException
     | InternalServerException
@@ -2850,7 +2962,7 @@ export const listApplications: {
  */
 export const putApplicationGrant: (
   input: PutApplicationGrantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutApplicationGrantResponse,
   | AccessDeniedException
   | ConflictException
@@ -2883,7 +2995,7 @@ export const putApplicationGrant: (
  */
 export const createInstance: (
   input: CreateInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateInstanceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2910,7 +3022,7 @@ export const createInstance: (
  */
 export const describePermissionSetProvisioningStatus: (
   input: DescribePermissionSetProvisioningStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePermissionSetProvisioningStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2936,7 +3048,7 @@ export const describePermissionSetProvisioningStatus: (
 export const listAccountAssignmentCreationStatus: {
   (
     input: ListAccountAssignmentCreationStatusRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccountAssignmentCreationStatusResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2948,7 +3060,7 @@ export const listAccountAssignmentCreationStatus: {
   >;
   pages: (
     input: ListAccountAssignmentCreationStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccountAssignmentCreationStatusResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2960,7 +3072,7 @@ export const listAccountAssignmentCreationStatus: {
   >;
   items: (
     input: ListAccountAssignmentCreationStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AccountAssignmentOperationStatusMetadata,
     | AccessDeniedException
     | InternalServerException
@@ -2993,7 +3105,7 @@ export const listAccountAssignmentCreationStatus: {
 export const listAccountAssignmentDeletionStatus: {
   (
     input: ListAccountAssignmentDeletionStatusRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccountAssignmentDeletionStatusResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3005,7 +3117,7 @@ export const listAccountAssignmentDeletionStatus: {
   >;
   pages: (
     input: ListAccountAssignmentDeletionStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccountAssignmentDeletionStatusResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3017,7 +3129,7 @@ export const listAccountAssignmentDeletionStatus: {
   >;
   items: (
     input: ListAccountAssignmentDeletionStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AccountAssignmentOperationStatusMetadata,
     | AccessDeniedException
     | InternalServerException
@@ -3050,7 +3162,7 @@ export const listAccountAssignmentDeletionStatus: {
 export const listAccountAssignments: {
   (
     input: ListAccountAssignmentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccountAssignmentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3062,7 +3174,7 @@ export const listAccountAssignments: {
   >;
   pages: (
     input: ListAccountAssignmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccountAssignmentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3074,7 +3186,7 @@ export const listAccountAssignments: {
   >;
   items: (
     input: ListAccountAssignmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AccountAssignment,
     | AccessDeniedException
     | InternalServerException
@@ -3107,7 +3219,7 @@ export const listAccountAssignments: {
 export const listApplicationAssignments: {
   (
     input: ListApplicationAssignmentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationAssignmentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3119,7 +3231,7 @@ export const listApplicationAssignments: {
   >;
   pages: (
     input: ListApplicationAssignmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationAssignmentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3131,7 +3243,7 @@ export const listApplicationAssignments: {
   >;
   items: (
     input: ListApplicationAssignmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ApplicationAssignment,
     | AccessDeniedException
     | InternalServerException
@@ -3164,7 +3276,7 @@ export const listApplicationAssignments: {
 export const listManagedPoliciesInPermissionSet: {
   (
     input: ListManagedPoliciesInPermissionSetRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListManagedPoliciesInPermissionSetResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3176,7 +3288,7 @@ export const listManagedPoliciesInPermissionSet: {
   >;
   pages: (
     input: ListManagedPoliciesInPermissionSetRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListManagedPoliciesInPermissionSetResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3188,7 +3300,7 @@ export const listManagedPoliciesInPermissionSet: {
   >;
   items: (
     input: ListManagedPoliciesInPermissionSetRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AttachedManagedPolicy,
     | AccessDeniedException
     | InternalServerException
@@ -3221,7 +3333,7 @@ export const listManagedPoliciesInPermissionSet: {
 export const listPermissionSetProvisioningStatus: {
   (
     input: ListPermissionSetProvisioningStatusRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPermissionSetProvisioningStatusResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3233,7 +3345,7 @@ export const listPermissionSetProvisioningStatus: {
   >;
   pages: (
     input: ListPermissionSetProvisioningStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPermissionSetProvisioningStatusResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3245,7 +3357,7 @@ export const listPermissionSetProvisioningStatus: {
   >;
   items: (
     input: ListPermissionSetProvisioningStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PermissionSetProvisioningStatusMetadata,
     | AccessDeniedException
     | InternalServerException
@@ -3279,7 +3391,7 @@ export const listPermissionSetProvisioningStatus: {
  */
 export const updateTrustedTokenIssuer: (
   input: UpdateTrustedTokenIssuerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTrustedTokenIssuerResponse,
   | AccessDeniedException
   | ConflictException
@@ -3307,7 +3419,7 @@ export const updateTrustedTokenIssuer: (
 export const listApplicationAccessScopes: {
   (
     input: ListApplicationAccessScopesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationAccessScopesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3319,7 +3431,7 @@ export const listApplicationAccessScopes: {
   >;
   pages: (
     input: ListApplicationAccessScopesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationAccessScopesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3331,7 +3443,7 @@ export const listApplicationAccessScopes: {
   >;
   items: (
     input: ListApplicationAccessScopesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ScopeDetails,
     | AccessDeniedException
     | InternalServerException
@@ -3363,7 +3475,7 @@ export const listApplicationAccessScopes: {
  */
 export const putApplicationAuthenticationMethod: (
   input: PutApplicationAuthenticationMethodRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutApplicationAuthenticationMethodResponse,
   | AccessDeniedException
   | ConflictException
@@ -3391,7 +3503,7 @@ export const putApplicationAuthenticationMethod: (
 export const listApplicationAuthenticationMethods: {
   (
     input: ListApplicationAuthenticationMethodsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationAuthenticationMethodsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3403,7 +3515,7 @@ export const listApplicationAuthenticationMethods: {
   >;
   pages: (
     input: ListApplicationAuthenticationMethodsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationAuthenticationMethodsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3415,7 +3527,7 @@ export const listApplicationAuthenticationMethods: {
   >;
   items: (
     input: ListApplicationAuthenticationMethodsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AuthenticationMethodItem,
     | AccessDeniedException
     | InternalServerException
@@ -3447,7 +3559,7 @@ export const listApplicationAuthenticationMethods: {
 export const listApplicationGrants: {
   (
     input: ListApplicationGrantsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationGrantsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3459,7 +3571,7 @@ export const listApplicationGrants: {
   >;
   pages: (
     input: ListApplicationGrantsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationGrantsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3471,7 +3583,7 @@ export const listApplicationGrants: {
   >;
   items: (
     input: ListApplicationGrantsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GrantItem,
     | AccessDeniedException
     | InternalServerException
@@ -3504,7 +3616,7 @@ export const listApplicationGrants: {
  */
 export const deleteAccountAssignment: (
   input: DeleteAccountAssignmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccountAssignmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -3531,7 +3643,7 @@ export const deleteAccountAssignment: (
  */
 export const provisionPermissionSet: (
   input: ProvisionPermissionSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ProvisionPermissionSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -3558,7 +3670,7 @@ export const provisionPermissionSet: (
  */
 export const putPermissionsBoundaryToPermissionSet: (
   input: PutPermissionsBoundaryToPermissionSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutPermissionsBoundaryToPermissionSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -3585,7 +3697,7 @@ export const putPermissionsBoundaryToPermissionSet: (
  */
 export const updateApplication: (
   input: UpdateApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3612,7 +3724,7 @@ export const updateApplication: (
  */
 export const updateInstance: (
   input: UpdateInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateInstanceResponse,
   | AccessDeniedException
   | ConflictException
@@ -3639,7 +3751,7 @@ export const updateInstance: (
  */
 export const createApplicationAssignment: (
   input: CreateApplicationAssignmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateApplicationAssignmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -3668,7 +3780,7 @@ export const createApplicationAssignment: (
  */
 export const deleteApplication: (
   input: DeleteApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3695,7 +3807,7 @@ export const deleteApplication: (
  */
 export const deleteApplicationAssignment: (
   input: DeleteApplicationAssignmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApplicationAssignmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -3722,7 +3834,7 @@ export const deleteApplicationAssignment: (
  */
 export const deleteInlinePolicyFromPermissionSet: (
   input: DeleteInlinePolicyFromPermissionSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteInlinePolicyFromPermissionSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -3749,7 +3861,7 @@ export const deleteInlinePolicyFromPermissionSet: (
  */
 export const deleteInstanceAccessControlAttributeConfiguration: (
   input: DeleteInstanceAccessControlAttributeConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteInstanceAccessControlAttributeConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3776,7 +3888,7 @@ export const deleteInstanceAccessControlAttributeConfiguration: (
  */
 export const deletePermissionsBoundaryFromPermissionSet: (
   input: DeletePermissionsBoundaryFromPermissionSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePermissionsBoundaryFromPermissionSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -3803,7 +3915,7 @@ export const deletePermissionsBoundaryFromPermissionSet: (
  */
 export const deletePermissionSet: (
   input: DeletePermissionSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePermissionSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -3832,7 +3944,7 @@ export const deletePermissionSet: (
  */
 export const deleteTrustedTokenIssuer: (
   input: DeleteTrustedTokenIssuerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTrustedTokenIssuerResponse,
   | AccessDeniedException
   | ConflictException
@@ -3859,7 +3971,7 @@ export const deleteTrustedTokenIssuer: (
  */
 export const detachCustomerManagedPolicyReferenceFromPermissionSet: (
   input: DetachCustomerManagedPolicyReferenceFromPermissionSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetachCustomerManagedPolicyReferenceFromPermissionSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -3886,7 +3998,7 @@ export const detachCustomerManagedPolicyReferenceFromPermissionSet: (
  */
 export const detachManagedPolicyFromPermissionSet: (
   input: DetachManagedPolicyFromPermissionSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetachManagedPolicyFromPermissionSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -3913,7 +4025,7 @@ export const detachManagedPolicyFromPermissionSet: (
  */
 export const putApplicationAssignmentConfiguration: (
   input: PutApplicationAssignmentConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutApplicationAssignmentConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3942,7 +4054,7 @@ export const putApplicationAssignmentConfiguration: (
  */
 export const putApplicationSessionConfiguration: (
   input: PutApplicationSessionConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutApplicationSessionConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3971,7 +4083,7 @@ export const putApplicationSessionConfiguration: (
  */
 export const putInlinePolicyToPermissionSet: (
   input: PutInlinePolicyToPermissionSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutInlinePolicyToPermissionSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -4000,7 +4112,7 @@ export const putInlinePolicyToPermissionSet: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -4029,7 +4141,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -4056,7 +4168,7 @@ export const untagResource: (
  */
 export const updateInstanceAccessControlAttributeConfiguration: (
   input: UpdateInstanceAccessControlAttributeConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateInstanceAccessControlAttributeConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4083,7 +4195,7 @@ export const updateInstanceAccessControlAttributeConfiguration: (
  */
 export const updatePermissionSet: (
   input: UpdatePermissionSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePermissionSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -4110,7 +4222,7 @@ export const updatePermissionSet: (
  */
 export const putApplicationAccessScope: (
   input: PutApplicationAccessScopeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutApplicationAccessScopeResponse,
   | AccessDeniedException
   | ConflictException
@@ -4137,7 +4249,7 @@ export const putApplicationAccessScope: (
  */
 export const deleteApplicationAccessScope: (
   input: DeleteApplicationAccessScopeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApplicationAccessScopeResponse,
   | AccessDeniedException
   | ConflictException
@@ -4164,7 +4276,7 @@ export const deleteApplicationAccessScope: (
  */
 export const deleteApplicationAuthenticationMethod: (
   input: DeleteApplicationAuthenticationMethodRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApplicationAuthenticationMethodResponse,
   | AccessDeniedException
   | ConflictException
@@ -4191,7 +4303,7 @@ export const deleteApplicationAuthenticationMethod: (
  */
 export const deleteApplicationGrant: (
   input: DeleteApplicationGrantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApplicationGrantResponse,
   | AccessDeniedException
   | ConflictException
@@ -4218,7 +4330,7 @@ export const deleteApplicationGrant: (
  */
 export const attachCustomerManagedPolicyReferenceToPermissionSet: (
   input: AttachCustomerManagedPolicyReferenceToPermissionSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AttachCustomerManagedPolicyReferenceToPermissionSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -4247,7 +4359,7 @@ export const attachCustomerManagedPolicyReferenceToPermissionSet: (
  */
 export const describeAccountAssignmentDeletionStatus: (
   input: DescribeAccountAssignmentDeletionStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAccountAssignmentDeletionStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4272,7 +4384,7 @@ export const describeAccountAssignmentDeletionStatus: (
  */
 export const describeApplication: (
   input: DescribeApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeApplicationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4297,7 +4409,7 @@ export const describeApplication: (
  */
 export const describeApplicationAssignment: (
   input: DescribeApplicationAssignmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeApplicationAssignmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4322,7 +4434,7 @@ export const describeApplicationAssignment: (
  */
 export const describeInstanceAccessControlAttributeConfiguration: (
   input: DescribeInstanceAccessControlAttributeConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeInstanceAccessControlAttributeConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4347,7 +4459,7 @@ export const describeInstanceAccessControlAttributeConfiguration: (
  */
 export const describePermissionSet: (
   input: DescribePermissionSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePermissionSetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4372,7 +4484,7 @@ export const describePermissionSet: (
  */
 export const describeTrustedTokenIssuer: (
   input: DescribeTrustedTokenIssuerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeTrustedTokenIssuerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4397,7 +4509,7 @@ export const describeTrustedTokenIssuer: (
  */
 export const getApplicationAssignmentConfiguration: (
   input: GetApplicationAssignmentConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetApplicationAssignmentConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4424,7 +4536,7 @@ export const getApplicationAssignmentConfiguration: (
  */
 export const getApplicationSessionConfiguration: (
   input: GetApplicationSessionConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetApplicationSessionConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4449,7 +4561,7 @@ export const getApplicationSessionConfiguration: (
  */
 export const getInlinePolicyForPermissionSet: (
   input: GetInlinePolicyForPermissionSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInlinePolicyForPermissionSetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4474,7 +4586,7 @@ export const getInlinePolicyForPermissionSet: (
  */
 export const getPermissionsBoundaryForPermissionSet: (
   input: GetPermissionsBoundaryForPermissionSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPermissionsBoundaryForPermissionSetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4500,7 +4612,7 @@ export const getPermissionsBoundaryForPermissionSet: (
 export const listAccountsForProvisionedPermissionSet: {
   (
     input: ListAccountsForProvisionedPermissionSetRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccountsForProvisionedPermissionSetResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4512,7 +4624,7 @@ export const listAccountsForProvisionedPermissionSet: {
   >;
   pages: (
     input: ListAccountsForProvisionedPermissionSetRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccountsForProvisionedPermissionSetResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4524,7 +4636,7 @@ export const listAccountsForProvisionedPermissionSet: {
   >;
   items: (
     input: ListAccountsForProvisionedPermissionSetRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AccountId,
     | AccessDeniedException
     | InternalServerException
@@ -4557,7 +4669,7 @@ export const listAccountsForProvisionedPermissionSet: {
 export const listCustomerManagedPolicyReferencesInPermissionSet: {
   (
     input: ListCustomerManagedPolicyReferencesInPermissionSetRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCustomerManagedPolicyReferencesInPermissionSetResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4569,7 +4681,7 @@ export const listCustomerManagedPolicyReferencesInPermissionSet: {
   >;
   pages: (
     input: ListCustomerManagedPolicyReferencesInPermissionSetRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCustomerManagedPolicyReferencesInPermissionSetResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4581,7 +4693,7 @@ export const listCustomerManagedPolicyReferencesInPermissionSet: {
   >;
   items: (
     input: ListCustomerManagedPolicyReferencesInPermissionSetRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CustomerManagedPolicyReference,
     | AccessDeniedException
     | InternalServerException
@@ -4614,7 +4726,7 @@ export const listCustomerManagedPolicyReferencesInPermissionSet: {
 export const listPermissionSets: {
   (
     input: ListPermissionSetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPermissionSetsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4626,7 +4738,7 @@ export const listPermissionSets: {
   >;
   pages: (
     input: ListPermissionSetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPermissionSetsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4638,7 +4750,7 @@ export const listPermissionSets: {
   >;
   items: (
     input: ListPermissionSetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PermissionSetArn,
     | AccessDeniedException
     | InternalServerException
@@ -4671,7 +4783,7 @@ export const listPermissionSets: {
 export const listPermissionSetsProvisionedToAccount: {
   (
     input: ListPermissionSetsProvisionedToAccountRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPermissionSetsProvisionedToAccountResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4683,7 +4795,7 @@ export const listPermissionSetsProvisionedToAccount: {
   >;
   pages: (
     input: ListPermissionSetsProvisionedToAccountRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPermissionSetsProvisionedToAccountResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4695,7 +4807,7 @@ export const listPermissionSetsProvisionedToAccount: {
   >;
   items: (
     input: ListPermissionSetsProvisionedToAccountRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PermissionSetArn,
     | AccessDeniedException
     | InternalServerException
@@ -4728,7 +4840,7 @@ export const listPermissionSetsProvisionedToAccount: {
 export const listTagsForResource: {
   (
     input: ListTagsForResourceRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTagsForResourceResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4740,7 +4852,7 @@ export const listTagsForResource: {
   >;
   pages: (
     input: ListTagsForResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTagsForResourceResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4752,7 +4864,7 @@ export const listTagsForResource: {
   >;
   items: (
     input: ListTagsForResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Tag,
     | AccessDeniedException
     | InternalServerException
@@ -4783,7 +4895,7 @@ export const listTagsForResource: {
  */
 export const getApplicationAccessScope: (
   input: GetApplicationAccessScopeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetApplicationAccessScopeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4808,7 +4920,7 @@ export const getApplicationAccessScope: (
  */
 export const getApplicationAuthenticationMethod: (
   input: GetApplicationAuthenticationMethodRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetApplicationAuthenticationMethodResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4833,7 +4945,7 @@ export const getApplicationAuthenticationMethod: (
  */
 export const getApplicationGrant: (
   input: GetApplicationGrantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetApplicationGrantResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4860,7 +4972,7 @@ export const getApplicationGrant: (
  */
 export const attachManagedPolicyToPermissionSet: (
   input: AttachManagedPolicyToPermissionSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AttachManagedPolicyToPermissionSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -4895,7 +5007,7 @@ export const attachManagedPolicyToPermissionSet: (
  */
 export const createAccountAssignment: (
   input: CreateAccountAssignmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAccountAssignmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -4926,7 +5038,7 @@ export const createAccountAssignment: (
  */
 export const createPermissionSet: (
   input: CreatePermissionSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePermissionSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -4957,7 +5069,7 @@ export const createPermissionSet: (
  */
 export const createApplication: (
   input: CreateApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4988,7 +5100,7 @@ export const createApplication: (
  */
 export const createInstanceAccessControlAttributeConfiguration: (
   input: CreateInstanceAccessControlAttributeConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateInstanceAccessControlAttributeConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5016,7 +5128,7 @@ export const createInstanceAccessControlAttributeConfiguration: (
 export const listApplicationProviders: {
   (
     input: ListApplicationProvidersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationProvidersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5027,7 +5139,7 @@ export const listApplicationProviders: {
   >;
   pages: (
     input: ListApplicationProvidersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationProvidersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5038,7 +5150,7 @@ export const listApplicationProviders: {
   >;
   items: (
     input: ListApplicationProvidersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ApplicationProvider,
     | AccessDeniedException
     | InternalServerException
@@ -5069,7 +5181,7 @@ export const listApplicationProviders: {
 export const listInstances: {
   (
     input: ListInstancesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInstancesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5080,7 +5192,7 @@ export const listInstances: {
   >;
   pages: (
     input: ListInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInstancesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5091,7 +5203,7 @@ export const listInstances: {
   >;
   items: (
     input: ListInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     InstanceMetadata,
     | AccessDeniedException
     | InternalServerException
@@ -5122,7 +5234,7 @@ export const listInstances: {
 export const listTrustedTokenIssuers: {
   (
     input: ListTrustedTokenIssuersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTrustedTokenIssuersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5133,7 +5245,7 @@ export const listTrustedTokenIssuers: {
   >;
   pages: (
     input: ListTrustedTokenIssuersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTrustedTokenIssuersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5144,7 +5256,7 @@ export const listTrustedTokenIssuers: {
   >;
   items: (
     input: ListTrustedTokenIssuersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TrustedTokenIssuerMetadata,
     | AccessDeniedException
     | InternalServerException
@@ -5174,7 +5286,7 @@ export const listTrustedTokenIssuers: {
  */
 export const deleteInstance: (
   input: DeleteInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteInstanceResponse,
   | AccessDeniedException
   | ConflictException
@@ -5199,7 +5311,7 @@ export const deleteInstance: (
  */
 export const describeAccountAssignmentCreationStatus: (
   input: DescribeAccountAssignmentCreationStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAccountAssignmentCreationStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5226,7 +5338,7 @@ export const describeAccountAssignmentCreationStatus: (
  */
 export const createTrustedTokenIssuer: (
   input: CreateTrustedTokenIssuerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTrustedTokenIssuerResponse,
   | AccessDeniedException
   | ConflictException
@@ -5253,7 +5365,7 @@ export const createTrustedTokenIssuer: (
  */
 export const describeApplicationProvider: (
   input: DescribeApplicationProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeApplicationProviderResponse,
   | AccessDeniedException
   | InternalServerException

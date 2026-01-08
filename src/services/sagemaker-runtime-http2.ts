@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -340,7 +340,7 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Schemas
 export interface RequestPayloadPart {
-  Bytes?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  Bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
   DataType?: string;
   CompletionState?: string;
   P?: string;
@@ -355,12 +355,13 @@ export const RequestPayloadPart = S.suspend(() =>
 ).annotations({
   identifier: "RequestPayloadPart",
 }) as any as S.Schema<RequestPayloadPart>;
+export type RequestStreamEvent = { PayloadPart: RequestPayloadPart };
 export const RequestStreamEvent = T.InputEventStream(
   S.Union(S.Struct({ PayloadPart: RequestPayloadPart })),
-);
+) as any as S.Schema<stream.Stream<RequestStreamEvent, Error, never>>;
 export interface InvokeEndpointWithBidirectionalStreamInput {
   EndpointName: string;
-  Body: (typeof RequestStreamEvent)["Type"];
+  Body: stream.Stream<RequestStreamEvent, Error, never>;
   TargetVariant?: string;
   ModelInvocationPath?: string;
   ModelQueryString?: string;
@@ -395,7 +396,7 @@ export const InvokeEndpointWithBidirectionalStreamInput = S.suspend(() =>
   identifier: "InvokeEndpointWithBidirectionalStreamInput",
 }) as any as S.Schema<InvokeEndpointWithBidirectionalStreamInput>;
 export interface ResponsePayloadPart {
-  Bytes?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  Bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
   DataType?: string;
   CompletionState?: string;
   P?: string;
@@ -410,6 +411,10 @@ export const ResponsePayloadPart = S.suspend(() =>
 ).annotations({
   identifier: "ResponsePayloadPart",
 }) as any as S.Schema<ResponsePayloadPart>;
+export type ResponseStreamEvent =
+  | { PayloadPart: ResponsePayloadPart }
+  | { ModelStreamError: ModelStreamError }
+  | { InternalStreamFailure: InternalStreamFailure };
 export const ResponseStreamEvent = T.EventStream(
   S.Union(
     S.Struct({ PayloadPart: ResponsePayloadPart }),
@@ -424,9 +429,9 @@ export const ResponseStreamEvent = T.EventStream(
       ),
     }),
   ),
-);
+) as any as S.Schema<stream.Stream<ResponseStreamEvent, Error, never>>;
 export interface InvokeEndpointWithBidirectionalStreamOutput {
-  Body: (typeof ResponseStreamEvent)["Type"];
+  Body: stream.Stream<ResponseStreamEvent, Error, never>;
   InvokedProductionVariant?: string;
 }
 export const InvokeEndpointWithBidirectionalStreamOutput = S.suspend(() =>
@@ -487,7 +492,7 @@ export class ServiceUnavailableError extends S.TaggedError<ServiceUnavailableErr
  */
 export const invokeEndpointWithBidirectionalStream: (
   input: InvokeEndpointWithBidirectionalStreamInput,
-) => Effect.Effect<
+) => effect.Effect<
   InvokeEndpointWithBidirectionalStreamOutput,
   | InputValidationError
   | InternalServerError

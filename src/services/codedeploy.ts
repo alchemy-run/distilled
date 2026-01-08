@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -166,18 +166,94 @@ export type DeploymentsList = string[];
 export const DeploymentsList = S.Array(S.String);
 export type TargetIdList = string[];
 export const TargetIdList = S.Array(S.String);
+export type DeploymentWaitType = "READY_WAIT" | "TERMINATION_WAIT";
+export const DeploymentWaitType = S.Literal("READY_WAIT", "TERMINATION_WAIT");
+export type ComputePlatform = "Server" | "Lambda" | "ECS";
+export const ComputePlatform = S.Literal("Server", "Lambda", "ECS");
+export type FileExistsBehavior = "DISALLOW" | "OVERWRITE" | "RETAIN";
+export const FileExistsBehavior = S.Literal("DISALLOW", "OVERWRITE", "RETAIN");
 export type AutoScalingGroupNameList = string[];
 export const AutoScalingGroupNameList = S.Array(S.String);
-export type InstanceStatusList = string[];
-export const InstanceStatusList = S.Array(S.String);
-export type InstanceTypeList = string[];
-export const InstanceTypeList = S.Array(S.String);
-export type DeploymentStatusList = string[];
-export const DeploymentStatusList = S.Array(S.String);
+export type OutdatedInstancesStrategy = "UPDATE" | "IGNORE";
+export const OutdatedInstancesStrategy = S.Literal("UPDATE", "IGNORE");
+export type ApplicationRevisionSortBy =
+  | "registerTime"
+  | "firstUsedTime"
+  | "lastUsedTime";
+export const ApplicationRevisionSortBy = S.Literal(
+  "registerTime",
+  "firstUsedTime",
+  "lastUsedTime",
+);
+export type SortOrder = "ascending" | "descending";
+export const SortOrder = S.Literal("ascending", "descending");
+export type ListStateFilterAction = "include" | "exclude" | "ignore";
+export const ListStateFilterAction = S.Literal("include", "exclude", "ignore");
+export type InstanceStatus =
+  | "Pending"
+  | "InProgress"
+  | "Succeeded"
+  | "Failed"
+  | "Skipped"
+  | "Unknown"
+  | "Ready";
+export const InstanceStatus = S.Literal(
+  "Pending",
+  "InProgress",
+  "Succeeded",
+  "Failed",
+  "Skipped",
+  "Unknown",
+  "Ready",
+);
+export type InstanceStatusList = InstanceStatus[];
+export const InstanceStatusList = S.Array(InstanceStatus);
+export type InstanceType = "Blue" | "Green";
+export const InstanceType = S.Literal("Blue", "Green");
+export type InstanceTypeList = InstanceType[];
+export const InstanceTypeList = S.Array(InstanceType);
+export type DeploymentStatus =
+  | "Created"
+  | "Queued"
+  | "InProgress"
+  | "Baking"
+  | "Succeeded"
+  | "Failed"
+  | "Stopped"
+  | "Ready";
+export const DeploymentStatus = S.Literal(
+  "Created",
+  "Queued",
+  "InProgress",
+  "Baking",
+  "Succeeded",
+  "Failed",
+  "Stopped",
+  "Ready",
+);
+export type DeploymentStatusList = DeploymentStatus[];
+export const DeploymentStatusList = S.Array(DeploymentStatus);
+export type RegistrationStatus = "Registered" | "Deregistered";
+export const RegistrationStatus = S.Literal("Registered", "Deregistered");
+export type LifecycleEventStatus =
+  | "Pending"
+  | "InProgress"
+  | "Succeeded"
+  | "Failed"
+  | "Skipped"
+  | "Unknown";
+export const LifecycleEventStatus = S.Literal(
+  "Pending",
+  "InProgress",
+  "Succeeded",
+  "Failed",
+  "Skipped",
+  "Unknown",
+);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface BatchGetApplicationsInput {
-  applicationNames: ApplicationsList;
+  applicationNames: string[];
 }
 export const BatchGetApplicationsInput = S.suspend(() =>
   S.Struct({ applicationNames: ApplicationsList }).pipe(
@@ -196,7 +272,7 @@ export const BatchGetApplicationsInput = S.suspend(() =>
 }) as any as S.Schema<BatchGetApplicationsInput>;
 export interface BatchGetDeploymentGroupsInput {
   applicationName: string;
-  deploymentGroupNames: DeploymentGroupsList;
+  deploymentGroupNames: string[];
 }
 export const BatchGetDeploymentGroupsInput = S.suspend(() =>
   S.Struct({
@@ -218,7 +294,7 @@ export const BatchGetDeploymentGroupsInput = S.suspend(() =>
 }) as any as S.Schema<BatchGetDeploymentGroupsInput>;
 export interface BatchGetDeploymentInstancesInput {
   deploymentId: string;
-  instanceIds: InstancesList;
+  instanceIds: string[];
 }
 export const BatchGetDeploymentInstancesInput = S.suspend(() =>
   S.Struct({ deploymentId: S.String, instanceIds: InstancesList }).pipe(
@@ -236,7 +312,7 @@ export const BatchGetDeploymentInstancesInput = S.suspend(() =>
   identifier: "BatchGetDeploymentInstancesInput",
 }) as any as S.Schema<BatchGetDeploymentInstancesInput>;
 export interface BatchGetDeploymentsInput {
-  deploymentIds: DeploymentsList;
+  deploymentIds: string[];
 }
 export const BatchGetDeploymentsInput = S.suspend(() =>
   S.Struct({ deploymentIds: DeploymentsList }).pipe(
@@ -255,7 +331,7 @@ export const BatchGetDeploymentsInput = S.suspend(() =>
 }) as any as S.Schema<BatchGetDeploymentsInput>;
 export interface BatchGetDeploymentTargetsInput {
   deploymentId: string;
-  targetIds: TargetIdList;
+  targetIds: string[];
 }
 export const BatchGetDeploymentTargetsInput = S.suspend(() =>
   S.Struct({ deploymentId: S.String, targetIds: TargetIdList }).pipe(
@@ -273,7 +349,7 @@ export const BatchGetDeploymentTargetsInput = S.suspend(() =>
   identifier: "BatchGetDeploymentTargetsInput",
 }) as any as S.Schema<BatchGetDeploymentTargetsInput>;
 export interface BatchGetOnPremisesInstancesInput {
-  instanceNames: InstanceNameList;
+  instanceNames: string[];
 }
 export const BatchGetOnPremisesInstancesInput = S.suspend(() =>
   S.Struct({ instanceNames: InstanceNameList }).pipe(
@@ -292,12 +368,12 @@ export const BatchGetOnPremisesInstancesInput = S.suspend(() =>
 }) as any as S.Schema<BatchGetOnPremisesInstancesInput>;
 export interface ContinueDeploymentInput {
   deploymentId?: string;
-  deploymentWaitType?: string;
+  deploymentWaitType?: DeploymentWaitType;
 }
 export const ContinueDeploymentInput = S.suspend(() =>
   S.Struct({
     deploymentId: S.optional(S.String),
-    deploymentWaitType: S.optional(S.String),
+    deploymentWaitType: S.optional(DeploymentWaitType),
   }).pipe(
     T.all(
       ns,
@@ -329,13 +405,13 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface CreateApplicationInput {
   applicationName: string;
-  computePlatform?: string;
-  tags?: TagList;
+  computePlatform?: ComputePlatform;
+  tags?: Tag[];
 }
 export const CreateApplicationInput = S.suspend(() =>
   S.Struct({
     applicationName: S.String,
-    computePlatform: S.optional(S.String),
+    computePlatform: S.optional(ComputePlatform),
     tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -502,10 +578,23 @@ export const GetApplicationInput = S.suspend(() =>
 ).annotations({
   identifier: "GetApplicationInput",
 }) as any as S.Schema<GetApplicationInput>;
+export type RevisionLocationType =
+  | "S3"
+  | "GitHub"
+  | "String"
+  | "AppSpecContent";
+export const RevisionLocationType = S.Literal(
+  "S3",
+  "GitHub",
+  "String",
+  "AppSpecContent",
+);
+export type BundleType = "tar" | "tgz" | "zip" | "YAML" | "JSON";
+export const BundleType = S.Literal("tar", "tgz", "zip", "YAML", "JSON");
 export interface S3Location {
   bucket?: string;
   key?: string;
-  bundleType?: string;
+  bundleType?: BundleType;
   version?: string;
   eTag?: string;
 }
@@ -513,7 +602,7 @@ export const S3Location = S.suspend(() =>
   S.Struct({
     bucket: S.optional(S.String),
     key: S.optional(S.String),
-    bundleType: S.optional(S.String),
+    bundleType: S.optional(BundleType),
     version: S.optional(S.String),
     eTag: S.optional(S.String),
   }),
@@ -547,7 +636,7 @@ export const AppSpecContent = S.suspend(() =>
   identifier: "AppSpecContent",
 }) as any as S.Schema<AppSpecContent>;
 export interface RevisionLocation {
-  revisionType?: string;
+  revisionType?: RevisionLocationType;
   s3Location?: S3Location;
   gitHubLocation?: GitHubLocation;
   string?: RawString;
@@ -555,7 +644,7 @@ export interface RevisionLocation {
 }
 export const RevisionLocation = S.suspend(() =>
   S.Struct({
-    revisionType: S.optional(S.String),
+    revisionType: S.optional(RevisionLocationType),
     s3Location: S.optional(S3Location),
     gitHubLocation: S.optional(GitHubLocation),
     string: S.optional(RawString),
@@ -696,21 +785,21 @@ export const GetOnPremisesInstanceInput = S.suspend(() =>
 }) as any as S.Schema<GetOnPremisesInstanceInput>;
 export interface ListApplicationRevisionsInput {
   applicationName: string;
-  sortBy?: string;
-  sortOrder?: string;
+  sortBy?: ApplicationRevisionSortBy;
+  sortOrder?: SortOrder;
   s3Bucket?: string;
   s3KeyPrefix?: string;
-  deployed?: string;
+  deployed?: ListStateFilterAction;
   nextToken?: string;
 }
 export const ListApplicationRevisionsInput = S.suspend(() =>
   S.Struct({
     applicationName: S.String,
-    sortBy: S.optional(S.String),
-    sortOrder: S.optional(S.String),
+    sortBy: S.optional(ApplicationRevisionSortBy),
+    sortOrder: S.optional(SortOrder),
     s3Bucket: S.optional(S.String),
     s3KeyPrefix: S.optional(S.String),
-    deployed: S.optional(S.String),
+    deployed: S.optional(ListStateFilterAction),
     nextToken: S.optional(S.String),
   }).pipe(
     T.all(
@@ -784,8 +873,8 @@ export const ListDeploymentGroupsInput = S.suspend(() =>
 export interface ListDeploymentInstancesInput {
   deploymentId: string;
   nextToken?: string;
-  instanceStatusFilter?: InstanceStatusList;
-  instanceTypeFilter?: InstanceTypeList;
+  instanceStatusFilter?: InstanceStatus[];
+  instanceTypeFilter?: InstanceType[];
 }
 export const ListDeploymentInstancesInput = S.suspend(() =>
   S.Struct({
@@ -825,28 +914,34 @@ export const ListGitHubAccountTokenNamesInput = S.suspend(() =>
 ).annotations({
   identifier: "ListGitHubAccountTokenNamesInput",
 }) as any as S.Schema<ListGitHubAccountTokenNamesInput>;
+export type TagFilterType = "KEY_ONLY" | "VALUE_ONLY" | "KEY_AND_VALUE";
+export const TagFilterType = S.Literal(
+  "KEY_ONLY",
+  "VALUE_ONLY",
+  "KEY_AND_VALUE",
+);
 export interface TagFilter {
   Key?: string;
   Value?: string;
-  Type?: string;
+  Type?: TagFilterType;
 }
 export const TagFilter = S.suspend(() =>
   S.Struct({
     Key: S.optional(S.String),
     Value: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(TagFilterType),
   }),
 ).annotations({ identifier: "TagFilter" }) as any as S.Schema<TagFilter>;
 export type TagFilterList = TagFilter[];
 export const TagFilterList = S.Array(TagFilter);
 export interface ListOnPremisesInstancesInput {
-  registrationStatus?: string;
-  tagFilters?: TagFilterList;
+  registrationStatus?: RegistrationStatus;
+  tagFilters?: TagFilter[];
   nextToken?: string;
 }
 export const ListOnPremisesInstancesInput = S.suspend(() =>
   S.Struct({
-    registrationStatus: S.optional(S.String),
+    registrationStatus: S.optional(RegistrationStatus),
     tagFilters: S.optional(TagFilterList),
     nextToken: S.optional(S.String),
   }).pipe(
@@ -885,13 +980,13 @@ export const ListTagsForResourceInput = S.suspend(() =>
 export interface PutLifecycleEventHookExecutionStatusInput {
   deploymentId?: string;
   lifecycleEventHookExecutionId?: string;
-  status?: string;
+  status?: LifecycleEventStatus;
 }
 export const PutLifecycleEventHookExecutionStatusInput = S.suspend(() =>
   S.Struct({
     deploymentId: S.optional(S.String),
     lifecycleEventHookExecutionId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(LifecycleEventStatus),
   }).pipe(
     T.all(
       ns,
@@ -967,8 +1062,8 @@ export const RegisterOnPremisesInstanceResponse = S.suspend(() =>
   identifier: "RegisterOnPremisesInstanceResponse",
 }) as any as S.Schema<RegisterOnPremisesInstanceResponse>;
 export interface RemoveTagsFromOnPremisesInstancesInput {
-  tags: TagList;
-  instanceNames: InstanceNameList;
+  tags: Tag[];
+  instanceNames: string[];
 }
 export const RemoveTagsFromOnPremisesInstancesInput = S.suspend(() =>
   S.Struct({ tags: TagList, instanceNames: InstanceNameList }).pipe(
@@ -1039,7 +1134,7 @@ export const StopDeploymentInput = S.suspend(() =>
 }) as any as S.Schema<StopDeploymentInput>;
 export interface TagResourceInput {
   ResourceArn: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
@@ -1064,7 +1159,7 @@ export const TagResourceOutput = S.suspend(() =>
 }) as any as S.Schema<TagResourceOutput>;
 export interface UntagResourceInput {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
@@ -1115,26 +1210,55 @@ export const UpdateApplicationResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateApplicationResponse",
 }) as any as S.Schema<UpdateApplicationResponse>;
+export type EC2TagFilterType = "KEY_ONLY" | "VALUE_ONLY" | "KEY_AND_VALUE";
+export const EC2TagFilterType = S.Literal(
+  "KEY_ONLY",
+  "VALUE_ONLY",
+  "KEY_AND_VALUE",
+);
 export interface EC2TagFilter {
   Key?: string;
   Value?: string;
-  Type?: string;
+  Type?: EC2TagFilterType;
 }
 export const EC2TagFilter = S.suspend(() =>
   S.Struct({
     Key: S.optional(S.String),
     Value: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(EC2TagFilterType),
   }),
 ).annotations({ identifier: "EC2TagFilter" }) as any as S.Schema<EC2TagFilter>;
 export type EC2TagFilterList = EC2TagFilter[];
 export const EC2TagFilterList = S.Array(EC2TagFilter);
-export type TriggerEventTypeList = string[];
-export const TriggerEventTypeList = S.Array(S.String);
+export type TriggerEventType =
+  | "DeploymentStart"
+  | "DeploymentSuccess"
+  | "DeploymentFailure"
+  | "DeploymentStop"
+  | "DeploymentRollback"
+  | "DeploymentReady"
+  | "InstanceStart"
+  | "InstanceSuccess"
+  | "InstanceFailure"
+  | "InstanceReady";
+export const TriggerEventType = S.Literal(
+  "DeploymentStart",
+  "DeploymentSuccess",
+  "DeploymentFailure",
+  "DeploymentStop",
+  "DeploymentRollback",
+  "DeploymentReady",
+  "InstanceStart",
+  "InstanceSuccess",
+  "InstanceFailure",
+  "InstanceReady",
+);
+export type TriggerEventTypeList = TriggerEventType[];
+export const TriggerEventTypeList = S.Array(TriggerEventType);
 export interface TriggerConfig {
   triggerName?: string;
   triggerTargetArn?: string;
-  triggerEvents?: TriggerEventTypeList;
+  triggerEvents?: TriggerEventType[];
 }
 export const TriggerConfig = S.suspend(() =>
   S.Struct({
@@ -1158,7 +1282,7 @@ export const AlarmList = S.Array(Alarm);
 export interface AlarmConfiguration {
   enabled?: boolean;
   ignorePollAlarmFailure?: boolean;
-  alarms?: AlarmList;
+  alarms?: Alarm[];
 }
 export const AlarmConfiguration = S.suspend(() =>
   S.Struct({
@@ -1169,11 +1293,20 @@ export const AlarmConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "AlarmConfiguration",
 }) as any as S.Schema<AlarmConfiguration>;
-export type AutoRollbackEventsList = string[];
-export const AutoRollbackEventsList = S.Array(S.String);
+export type AutoRollbackEvent =
+  | "DEPLOYMENT_FAILURE"
+  | "DEPLOYMENT_STOP_ON_ALARM"
+  | "DEPLOYMENT_STOP_ON_REQUEST";
+export const AutoRollbackEvent = S.Literal(
+  "DEPLOYMENT_FAILURE",
+  "DEPLOYMENT_STOP_ON_ALARM",
+  "DEPLOYMENT_STOP_ON_REQUEST",
+);
+export type AutoRollbackEventsList = AutoRollbackEvent[];
+export const AutoRollbackEventsList = S.Array(AutoRollbackEvent);
 export interface AutoRollbackConfiguration {
   enabled?: boolean;
-  events?: AutoRollbackEventsList;
+  events?: AutoRollbackEvent[];
 }
 export const AutoRollbackConfiguration = S.suspend(() =>
   S.Struct({
@@ -1183,47 +1316,70 @@ export const AutoRollbackConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "AutoRollbackConfiguration",
 }) as any as S.Schema<AutoRollbackConfiguration>;
+export type DeploymentType = "IN_PLACE" | "BLUE_GREEN";
+export const DeploymentType = S.Literal("IN_PLACE", "BLUE_GREEN");
+export type DeploymentOption =
+  | "WITH_TRAFFIC_CONTROL"
+  | "WITHOUT_TRAFFIC_CONTROL";
+export const DeploymentOption = S.Literal(
+  "WITH_TRAFFIC_CONTROL",
+  "WITHOUT_TRAFFIC_CONTROL",
+);
 export interface DeploymentStyle {
-  deploymentType?: string;
-  deploymentOption?: string;
+  deploymentType?: DeploymentType;
+  deploymentOption?: DeploymentOption;
 }
 export const DeploymentStyle = S.suspend(() =>
   S.Struct({
-    deploymentType: S.optional(S.String),
-    deploymentOption: S.optional(S.String),
+    deploymentType: S.optional(DeploymentType),
+    deploymentOption: S.optional(DeploymentOption),
   }),
 ).annotations({
   identifier: "DeploymentStyle",
 }) as any as S.Schema<DeploymentStyle>;
+export type InstanceAction = "TERMINATE" | "KEEP_ALIVE";
+export const InstanceAction = S.Literal("TERMINATE", "KEEP_ALIVE");
 export interface BlueInstanceTerminationOption {
-  action?: string;
+  action?: InstanceAction;
   terminationWaitTimeInMinutes?: number;
 }
 export const BlueInstanceTerminationOption = S.suspend(() =>
   S.Struct({
-    action: S.optional(S.String),
+    action: S.optional(InstanceAction),
     terminationWaitTimeInMinutes: S.optional(S.Number),
   }),
 ).annotations({
   identifier: "BlueInstanceTerminationOption",
 }) as any as S.Schema<BlueInstanceTerminationOption>;
+export type DeploymentReadyAction = "CONTINUE_DEPLOYMENT" | "STOP_DEPLOYMENT";
+export const DeploymentReadyAction = S.Literal(
+  "CONTINUE_DEPLOYMENT",
+  "STOP_DEPLOYMENT",
+);
 export interface DeploymentReadyOption {
-  actionOnTimeout?: string;
+  actionOnTimeout?: DeploymentReadyAction;
   waitTimeInMinutes?: number;
 }
 export const DeploymentReadyOption = S.suspend(() =>
   S.Struct({
-    actionOnTimeout: S.optional(S.String),
+    actionOnTimeout: S.optional(DeploymentReadyAction),
     waitTimeInMinutes: S.optional(S.Number),
   }),
 ).annotations({
   identifier: "DeploymentReadyOption",
 }) as any as S.Schema<DeploymentReadyOption>;
+export type GreenFleetProvisioningAction =
+  | "DISCOVER_EXISTING"
+  | "COPY_AUTO_SCALING_GROUP";
+export const GreenFleetProvisioningAction = S.Literal(
+  "DISCOVER_EXISTING",
+  "COPY_AUTO_SCALING_GROUP",
+);
 export interface GreenFleetProvisioningOption {
-  action?: string;
+  action?: GreenFleetProvisioningAction;
 }
 export const GreenFleetProvisioningOption = S.suspend(() =>
-  S.Struct({ action: S.optional(S.String) }),
+  S.Struct({ action: S.optional(GreenFleetProvisioningAction) }),
 ).annotations({
   identifier: "GreenFleetProvisioningOption",
 }) as any as S.Schema<GreenFleetProvisioningOption>;
@@ -1264,13 +1420,13 @@ export const TargetGroupInfoList = S.Array(TargetGroupInfo);
 export type ListenerArnList = string[];
 export const ListenerArnList = S.Array(S.String);
 export interface TrafficRoute {
-  listenerArns?: ListenerArnList;
+  listenerArns?: string[];
 }
 export const TrafficRoute = S.suspend(() =>
   S.Struct({ listenerArns: S.optional(ListenerArnList) }),
 ).annotations({ identifier: "TrafficRoute" }) as any as S.Schema<TrafficRoute>;
 export interface TargetGroupPairInfo {
-  targetGroups?: TargetGroupInfoList;
+  targetGroups?: TargetGroupInfo[];
   prodTrafficRoute?: TrafficRoute;
   testTrafficRoute?: TrafficRoute;
 }
@@ -1286,9 +1442,9 @@ export const TargetGroupPairInfo = S.suspend(() =>
 export type TargetGroupPairInfoList = TargetGroupPairInfo[];
 export const TargetGroupPairInfoList = S.Array(TargetGroupPairInfo);
 export interface LoadBalancerInfo {
-  elbInfoList?: ELBInfoList;
-  targetGroupInfoList?: TargetGroupInfoList;
-  targetGroupPairInfoList?: TargetGroupPairInfoList;
+  elbInfoList?: ELBInfo[];
+  targetGroupInfoList?: TargetGroupInfo[];
+  targetGroupPairInfoList?: TargetGroupPairInfo[];
 }
 export const LoadBalancerInfo = S.suspend(() =>
   S.Struct({
@@ -1299,10 +1455,10 @@ export const LoadBalancerInfo = S.suspend(() =>
 ).annotations({
   identifier: "LoadBalancerInfo",
 }) as any as S.Schema<LoadBalancerInfo>;
-export type EC2TagSetList = EC2TagFilterList[];
+export type EC2TagSetList = EC2TagFilter[][];
 export const EC2TagSetList = S.Array(EC2TagFilterList);
 export interface EC2TagSet {
-  ec2TagSetList?: EC2TagSetList;
+  ec2TagSetList?: EC2TagFilter[][];
 }
 export const EC2TagSet = S.suspend(() =>
   S.Struct({ ec2TagSetList: S.optional(EC2TagSetList) }),
@@ -1319,10 +1475,10 @@ export const ECSService = S.suspend(() =>
 ).annotations({ identifier: "ECSService" }) as any as S.Schema<ECSService>;
 export type ECSServiceList = ECSService[];
 export const ECSServiceList = S.Array(ECSService);
-export type OnPremisesTagSetList = TagFilterList[];
+export type OnPremisesTagSetList = TagFilter[][];
 export const OnPremisesTagSetList = S.Array(TagFilterList);
 export interface OnPremisesTagSet {
-  onPremisesTagSetList?: OnPremisesTagSetList;
+  onPremisesTagSetList?: TagFilter[][];
 }
 export const OnPremisesTagSet = S.suspend(() =>
   S.Struct({ onPremisesTagSetList: S.optional(OnPremisesTagSetList) }),
@@ -1334,19 +1490,19 @@ export interface UpdateDeploymentGroupInput {
   currentDeploymentGroupName: string;
   newDeploymentGroupName?: string;
   deploymentConfigName?: string;
-  ec2TagFilters?: EC2TagFilterList;
-  onPremisesInstanceTagFilters?: TagFilterList;
-  autoScalingGroups?: AutoScalingGroupNameList;
+  ec2TagFilters?: EC2TagFilter[];
+  onPremisesInstanceTagFilters?: TagFilter[];
+  autoScalingGroups?: string[];
   serviceRoleArn?: string;
-  triggerConfigurations?: TriggerConfigList;
+  triggerConfigurations?: TriggerConfig[];
   alarmConfiguration?: AlarmConfiguration;
   autoRollbackConfiguration?: AutoRollbackConfiguration;
-  outdatedInstancesStrategy?: string;
+  outdatedInstancesStrategy?: OutdatedInstancesStrategy;
   deploymentStyle?: DeploymentStyle;
   blueGreenDeploymentConfiguration?: BlueGreenDeploymentConfiguration;
   loadBalancerInfo?: LoadBalancerInfo;
   ec2TagSet?: EC2TagSet;
-  ecsServices?: ECSServiceList;
+  ecsServices?: ECSService[];
   onPremisesTagSet?: OnPremisesTagSet;
   terminationHookEnabled?: boolean;
 }
@@ -1363,7 +1519,7 @@ export const UpdateDeploymentGroupInput = S.suspend(() =>
     triggerConfigurations: S.optional(TriggerConfigList),
     alarmConfiguration: S.optional(AlarmConfiguration),
     autoRollbackConfiguration: S.optional(AutoRollbackConfiguration),
-    outdatedInstancesStrategy: S.optional(S.String),
+    outdatedInstancesStrategy: S.optional(OutdatedInstancesStrategy),
     deploymentStyle: S.optional(DeploymentStyle),
     blueGreenDeploymentConfiguration: S.optional(
       BlueGreenDeploymentConfiguration,
@@ -1387,11 +1543,27 @@ export const UpdateDeploymentGroupInput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateDeploymentGroupInput",
 }) as any as S.Schema<UpdateDeploymentGroupInput>;
+export type MinimumHealthyHostsType = "HOST_COUNT" | "FLEET_PERCENT";
+export const MinimumHealthyHostsType = S.Literal("HOST_COUNT", "FLEET_PERCENT");
+export type TrafficRoutingType =
+  | "TimeBasedCanary"
+  | "TimeBasedLinear"
+  | "AllAtOnce";
+export const TrafficRoutingType = S.Literal(
+  "TimeBasedCanary",
+  "TimeBasedLinear",
+  "AllAtOnce",
+);
+export type TargetFilterName = "TargetStatus" | "ServerInstanceLabel";
+export const TargetFilterName = S.Literal(
+  "TargetStatus",
+  "ServerInstanceLabel",
+);
 export type FilterValueList = string[];
 export const FilterValueList = S.Array(S.String);
 export interface TargetInstances {
-  tagFilters?: EC2TagFilterList;
-  autoScalingGroups?: AutoScalingGroupNameList;
+  tagFilters?: EC2TagFilter[];
+  autoScalingGroups?: string[];
   ec2TagSet?: EC2TagSet;
 }
 export const TargetInstances = S.suspend(() =>
@@ -1404,11 +1576,14 @@ export const TargetInstances = S.suspend(() =>
   identifier: "TargetInstances",
 }) as any as S.Schema<TargetInstances>;
 export interface MinimumHealthyHosts {
-  type?: string;
+  type?: MinimumHealthyHostsType;
   value?: number;
 }
 export const MinimumHealthyHosts = S.suspend(() =>
-  S.Struct({ type: S.optional(S.String), value: S.optional(S.Number) }),
+  S.Struct({
+    type: S.optional(MinimumHealthyHostsType),
+    value: S.optional(S.Number),
+  }),
 ).annotations({
   identifier: "MinimumHealthyHosts",
 }) as any as S.Schema<MinimumHealthyHosts>;
@@ -1424,16 +1599,22 @@ export const TimeRange = S.suspend(() =>
     end: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({ identifier: "TimeRange" }) as any as S.Schema<TimeRange>;
-export type TargetFilters = { [key: string]: FilterValueList };
-export const TargetFilters = S.Record({
-  key: S.String,
-  value: FilterValueList,
-});
+export type TargetFilters = { [key in TargetFilterName]?: string[] };
+export const TargetFilters = S.partial(
+  S.Record({ key: TargetFilterName, value: FilterValueList }),
+);
 export type GitHubAccountTokenNameList = string[];
 export const GitHubAccountTokenNameList = S.Array(S.String);
+export type StopStatus = "Pending" | "Succeeded";
+export const StopStatus = S.Literal("Pending", "Succeeded");
+export type MinimumHealthyHostsPerZoneType = "HOST_COUNT" | "FLEET_PERCENT";
+export const MinimumHealthyHostsPerZoneType = S.Literal(
+  "HOST_COUNT",
+  "FLEET_PERCENT",
+);
 export interface AddTagsToOnPremisesInstancesInput {
-  tags: TagList;
-  instanceNames: InstanceNameList;
+  tags: Tag[];
+  instanceNames: string[];
 }
 export const AddTagsToOnPremisesInstancesInput = S.suspend(() =>
   S.Struct({ tags: TagList, instanceNames: InstanceNameList }).pipe(
@@ -1478,7 +1659,7 @@ export interface ApplicationInfo {
   createTime?: Date;
   linkedToGitHub?: boolean;
   gitHubAccountName?: string;
-  computePlatform?: string;
+  computePlatform?: ComputePlatform;
 }
 export const ApplicationInfo = S.suspend(() =>
   S.Struct({
@@ -1487,7 +1668,7 @@ export const ApplicationInfo = S.suspend(() =>
     createTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     linkedToGitHub: S.optional(S.Boolean),
     gitHubAccountName: S.optional(S.String),
-    computePlatform: S.optional(S.String),
+    computePlatform: S.optional(ComputePlatform),
   }),
 ).annotations({
   identifier: "ApplicationInfo",
@@ -1500,12 +1681,83 @@ export const GetApplicationOutput = S.suspend(() =>
 ).annotations({
   identifier: "GetApplicationOutput",
 }) as any as S.Schema<GetApplicationOutput>;
+export type ErrorCode =
+  | "AGENT_ISSUE"
+  | "ALARM_ACTIVE"
+  | "APPLICATION_MISSING"
+  | "AUTOSCALING_VALIDATION_ERROR"
+  | "AUTO_SCALING_CONFIGURATION"
+  | "AUTO_SCALING_IAM_ROLE_PERMISSIONS"
+  | "CODEDEPLOY_RESOURCE_CANNOT_BE_FOUND"
+  | "CUSTOMER_APPLICATION_UNHEALTHY"
+  | "DEPLOYMENT_GROUP_MISSING"
+  | "ECS_UPDATE_ERROR"
+  | "ELASTIC_LOAD_BALANCING_INVALID"
+  | "ELB_INVALID_INSTANCE"
+  | "HEALTH_CONSTRAINTS"
+  | "HEALTH_CONSTRAINTS_INVALID"
+  | "HOOK_EXECUTION_FAILURE"
+  | "IAM_ROLE_MISSING"
+  | "IAM_ROLE_PERMISSIONS"
+  | "INTERNAL_ERROR"
+  | "INVALID_ECS_SERVICE"
+  | "INVALID_LAMBDA_CONFIGURATION"
+  | "INVALID_LAMBDA_FUNCTION"
+  | "INVALID_REVISION"
+  | "MANUAL_STOP"
+  | "MISSING_BLUE_GREEN_DEPLOYMENT_CONFIGURATION"
+  | "MISSING_ELB_INFORMATION"
+  | "MISSING_GITHUB_TOKEN"
+  | "NO_EC2_SUBSCRIPTION"
+  | "NO_INSTANCES"
+  | "OVER_MAX_INSTANCES"
+  | "RESOURCE_LIMIT_EXCEEDED"
+  | "REVISION_MISSING"
+  | "THROTTLED"
+  | "TIMEOUT"
+  | "CLOUDFORMATION_STACK_FAILURE";
+export const ErrorCode = S.Literal(
+  "AGENT_ISSUE",
+  "ALARM_ACTIVE",
+  "APPLICATION_MISSING",
+  "AUTOSCALING_VALIDATION_ERROR",
+  "AUTO_SCALING_CONFIGURATION",
+  "AUTO_SCALING_IAM_ROLE_PERMISSIONS",
+  "CODEDEPLOY_RESOURCE_CANNOT_BE_FOUND",
+  "CUSTOMER_APPLICATION_UNHEALTHY",
+  "DEPLOYMENT_GROUP_MISSING",
+  "ECS_UPDATE_ERROR",
+  "ELASTIC_LOAD_BALANCING_INVALID",
+  "ELB_INVALID_INSTANCE",
+  "HEALTH_CONSTRAINTS",
+  "HEALTH_CONSTRAINTS_INVALID",
+  "HOOK_EXECUTION_FAILURE",
+  "IAM_ROLE_MISSING",
+  "IAM_ROLE_PERMISSIONS",
+  "INTERNAL_ERROR",
+  "INVALID_ECS_SERVICE",
+  "INVALID_LAMBDA_CONFIGURATION",
+  "INVALID_LAMBDA_FUNCTION",
+  "INVALID_REVISION",
+  "MANUAL_STOP",
+  "MISSING_BLUE_GREEN_DEPLOYMENT_CONFIGURATION",
+  "MISSING_ELB_INFORMATION",
+  "MISSING_GITHUB_TOKEN",
+  "NO_EC2_SUBSCRIPTION",
+  "NO_INSTANCES",
+  "OVER_MAX_INSTANCES",
+  "RESOURCE_LIMIT_EXCEEDED",
+  "REVISION_MISSING",
+  "THROTTLED",
+  "TIMEOUT",
+  "CLOUDFORMATION_STACK_FAILURE",
+);
 export interface ErrorInformation {
-  code?: string;
+  code?: ErrorCode;
   message?: string;
 }
 export const ErrorInformation = S.suspend(() =>
-  S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
+  S.Struct({ code: S.optional(ErrorCode), message: S.optional(S.String) }),
 ).annotations({
   identifier: "ErrorInformation",
 }) as any as S.Schema<ErrorInformation>;
@@ -1529,6 +1781,25 @@ export const DeploymentOverview = S.suspend(() =>
 ).annotations({
   identifier: "DeploymentOverview",
 }) as any as S.Schema<DeploymentOverview>;
+export type DeploymentCreator =
+  | "user"
+  | "autoscaling"
+  | "codeDeployRollback"
+  | "CodeDeploy"
+  | "CodeDeployAutoUpdate"
+  | "CloudFormation"
+  | "CloudFormationRollback"
+  | "autoscalingTermination";
+export const DeploymentCreator = S.Literal(
+  "user",
+  "autoscaling",
+  "codeDeployRollback",
+  "CodeDeploy",
+  "CodeDeployAutoUpdate",
+  "CloudFormation",
+  "CloudFormationRollback",
+  "autoscalingTermination",
+);
 export interface RollbackInfo {
   rollbackDeploymentId?: string;
   rollbackTriggeringDeploymentId?: string;
@@ -1545,7 +1816,7 @@ export type DeploymentStatusMessageList = string[];
 export const DeploymentStatusMessageList = S.Array(S.String);
 export interface RelatedDeployments {
   autoUpdateOutdatedInstancesRootDeploymentId?: string;
-  autoUpdateOutdatedInstancesDeploymentIds?: DeploymentsList;
+  autoUpdateOutdatedInstancesDeploymentIds?: string[];
 }
 export const RelatedDeployments = S.suspend(() =>
   S.Struct({
@@ -1562,14 +1833,14 @@ export interface DeploymentInfo {
   deploymentId?: string;
   previousRevision?: RevisionLocation;
   revision?: RevisionLocation;
-  status?: string;
+  status?: DeploymentStatus;
   errorInformation?: ErrorInformation;
   createTime?: Date;
   startTime?: Date;
   completeTime?: Date;
   deploymentOverview?: DeploymentOverview;
   description?: string;
-  creator?: string;
+  creator?: DeploymentCreator;
   ignoreApplicationStopFailures?: boolean;
   autoRollbackConfiguration?: AutoRollbackConfiguration;
   updateOutdatedInstancesOnly?: boolean;
@@ -1580,9 +1851,9 @@ export interface DeploymentInfo {
   blueGreenDeploymentConfiguration?: BlueGreenDeploymentConfiguration;
   loadBalancerInfo?: LoadBalancerInfo;
   additionalDeploymentStatusInfo?: string;
-  fileExistsBehavior?: string;
-  deploymentStatusMessages?: DeploymentStatusMessageList;
-  computePlatform?: string;
+  fileExistsBehavior?: FileExistsBehavior;
+  deploymentStatusMessages?: string[];
+  computePlatform?: ComputePlatform;
   externalId?: string;
   relatedDeployments?: RelatedDeployments;
   overrideAlarmConfiguration?: AlarmConfiguration;
@@ -1595,14 +1866,14 @@ export const DeploymentInfo = S.suspend(() =>
     deploymentId: S.optional(S.String),
     previousRevision: S.optional(RevisionLocation),
     revision: S.optional(RevisionLocation),
-    status: S.optional(S.String),
+    status: S.optional(DeploymentStatus),
     errorInformation: S.optional(ErrorInformation),
     createTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     completeTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     deploymentOverview: S.optional(DeploymentOverview),
     description: S.optional(S.String),
-    creator: S.optional(S.String),
+    creator: S.optional(DeploymentCreator),
     ignoreApplicationStopFailures: S.optional(S.Boolean),
     autoRollbackConfiguration: S.optional(AutoRollbackConfiguration),
     updateOutdatedInstancesOnly: S.optional(S.Boolean),
@@ -1615,9 +1886,9 @@ export const DeploymentInfo = S.suspend(() =>
     ),
     loadBalancerInfo: S.optional(LoadBalancerInfo),
     additionalDeploymentStatusInfo: S.optional(S.String),
-    fileExistsBehavior: S.optional(S.String),
+    fileExistsBehavior: S.optional(FileExistsBehavior),
     deploymentStatusMessages: S.optional(DeploymentStatusMessageList),
-    computePlatform: S.optional(S.String),
+    computePlatform: S.optional(ComputePlatform),
     externalId: S.optional(S.String),
     relatedDeployments: S.optional(RelatedDeployments),
     overrideAlarmConfiguration: S.optional(AlarmConfiguration),
@@ -1651,14 +1922,14 @@ export type AutoScalingGroupList = AutoScalingGroup[];
 export const AutoScalingGroupList = S.Array(AutoScalingGroup);
 export interface LastDeploymentInfo {
   deploymentId?: string;
-  status?: string;
+  status?: DeploymentStatus;
   endTime?: Date;
   createTime?: Date;
 }
 export const LastDeploymentInfo = S.suspend(() =>
   S.Struct({
     deploymentId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(DeploymentStatus),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     createTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -1670,24 +1941,24 @@ export interface DeploymentGroupInfo {
   deploymentGroupId?: string;
   deploymentGroupName?: string;
   deploymentConfigName?: string;
-  ec2TagFilters?: EC2TagFilterList;
-  onPremisesInstanceTagFilters?: TagFilterList;
-  autoScalingGroups?: AutoScalingGroupList;
+  ec2TagFilters?: EC2TagFilter[];
+  onPremisesInstanceTagFilters?: TagFilter[];
+  autoScalingGroups?: AutoScalingGroup[];
   serviceRoleArn?: string;
   targetRevision?: RevisionLocation;
-  triggerConfigurations?: TriggerConfigList;
+  triggerConfigurations?: TriggerConfig[];
   alarmConfiguration?: AlarmConfiguration;
   autoRollbackConfiguration?: AutoRollbackConfiguration;
   deploymentStyle?: DeploymentStyle;
-  outdatedInstancesStrategy?: string;
+  outdatedInstancesStrategy?: OutdatedInstancesStrategy;
   blueGreenDeploymentConfiguration?: BlueGreenDeploymentConfiguration;
   loadBalancerInfo?: LoadBalancerInfo;
   lastSuccessfulDeployment?: LastDeploymentInfo;
   lastAttemptedDeployment?: LastDeploymentInfo;
   ec2TagSet?: EC2TagSet;
   onPremisesTagSet?: OnPremisesTagSet;
-  computePlatform?: string;
-  ecsServices?: ECSServiceList;
+  computePlatform?: ComputePlatform;
+  ecsServices?: ECSService[];
   terminationHookEnabled?: boolean;
 }
 export const DeploymentGroupInfo = S.suspend(() =>
@@ -1705,7 +1976,7 @@ export const DeploymentGroupInfo = S.suspend(() =>
     alarmConfiguration: S.optional(AlarmConfiguration),
     autoRollbackConfiguration: S.optional(AutoRollbackConfiguration),
     deploymentStyle: S.optional(DeploymentStyle),
-    outdatedInstancesStrategy: S.optional(S.String),
+    outdatedInstancesStrategy: S.optional(OutdatedInstancesStrategy),
     blueGreenDeploymentConfiguration: S.optional(
       BlueGreenDeploymentConfiguration,
     ),
@@ -1714,7 +1985,7 @@ export const DeploymentGroupInfo = S.suspend(() =>
     lastAttemptedDeployment: S.optional(LastDeploymentInfo),
     ec2TagSet: S.optional(EC2TagSet),
     onPremisesTagSet: S.optional(OnPremisesTagSet),
-    computePlatform: S.optional(S.String),
+    computePlatform: S.optional(ComputePlatform),
     ecsServices: S.optional(ECSServiceList),
     terminationHookEnabled: S.optional(S.Boolean),
   }),
@@ -1729,15 +2000,30 @@ export const GetDeploymentGroupOutput = S.suspend(() =>
 ).annotations({
   identifier: "GetDeploymentGroupOutput",
 }) as any as S.Schema<GetDeploymentGroupOutput>;
+export type LifecycleErrorCode =
+  | "Success"
+  | "ScriptMissing"
+  | "ScriptNotExecutable"
+  | "ScriptTimedOut"
+  | "ScriptFailed"
+  | "UnknownError";
+export const LifecycleErrorCode = S.Literal(
+  "Success",
+  "ScriptMissing",
+  "ScriptNotExecutable",
+  "ScriptTimedOut",
+  "ScriptFailed",
+  "UnknownError",
+);
 export interface Diagnostics {
-  errorCode?: string;
+  errorCode?: LifecycleErrorCode;
   scriptName?: string;
   message?: string;
   logTail?: string;
 }
 export const Diagnostics = S.suspend(() =>
   S.Struct({
-    errorCode: S.optional(S.String),
+    errorCode: S.optional(LifecycleErrorCode),
     scriptName: S.optional(S.String),
     message: S.optional(S.String),
     logTail: S.optional(S.String),
@@ -1748,7 +2034,7 @@ export interface LifecycleEvent {
   diagnostics?: Diagnostics;
   startTime?: Date;
   endTime?: Date;
-  status?: string;
+  status?: LifecycleEventStatus;
 }
 export const LifecycleEvent = S.suspend(() =>
   S.Struct({
@@ -1756,7 +2042,7 @@ export const LifecycleEvent = S.suspend(() =>
     diagnostics: S.optional(Diagnostics),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(S.String),
+    status: S.optional(LifecycleEventStatus),
   }),
 ).annotations({
   identifier: "LifecycleEvent",
@@ -1766,19 +2052,19 @@ export const LifecycleEventList = S.Array(LifecycleEvent);
 export interface InstanceSummary {
   deploymentId?: string;
   instanceId?: string;
-  status?: string;
+  status?: InstanceStatus;
   lastUpdatedAt?: Date;
-  lifecycleEvents?: LifecycleEventList;
-  instanceType?: string;
+  lifecycleEvents?: LifecycleEvent[];
+  instanceType?: InstanceType;
 }
 export const InstanceSummary = S.suspend(() =>
   S.Struct({
     deploymentId: S.optional(S.String),
     instanceId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(InstanceStatus),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lifecycleEvents: S.optional(LifecycleEventList),
-    instanceType: S.optional(S.String),
+    instanceType: S.optional(InstanceType),
   }),
 ).annotations({
   identifier: "InstanceSummary",
@@ -1791,24 +2077,54 @@ export const GetDeploymentInstanceOutput = S.suspend(() =>
 ).annotations({
   identifier: "GetDeploymentInstanceOutput",
 }) as any as S.Schema<GetDeploymentInstanceOutput>;
+export type DeploymentTargetType =
+  | "InstanceTarget"
+  | "LambdaTarget"
+  | "ECSTarget"
+  | "CloudFormationTarget";
+export const DeploymentTargetType = S.Literal(
+  "InstanceTarget",
+  "LambdaTarget",
+  "ECSTarget",
+  "CloudFormationTarget",
+);
+export type TargetStatus =
+  | "Pending"
+  | "InProgress"
+  | "Succeeded"
+  | "Failed"
+  | "Skipped"
+  | "Unknown"
+  | "Ready";
+export const TargetStatus = S.Literal(
+  "Pending",
+  "InProgress",
+  "Succeeded",
+  "Failed",
+  "Skipped",
+  "Unknown",
+  "Ready",
+);
+export type TargetLabel = "Blue" | "Green";
+export const TargetLabel = S.Literal("Blue", "Green");
 export interface InstanceTarget {
   deploymentId?: string;
   targetId?: string;
   targetArn?: string;
-  status?: string;
+  status?: TargetStatus;
   lastUpdatedAt?: Date;
-  lifecycleEvents?: LifecycleEventList;
-  instanceLabel?: string;
+  lifecycleEvents?: LifecycleEvent[];
+  instanceLabel?: TargetLabel;
 }
 export const InstanceTarget = S.suspend(() =>
   S.Struct({
     deploymentId: S.optional(S.String),
     targetId: S.optional(S.String),
     targetArn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(TargetStatus),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lifecycleEvents: S.optional(LifecycleEventList),
-    instanceLabel: S.optional(S.String),
+    instanceLabel: S.optional(TargetLabel),
   }),
 ).annotations({
   identifier: "InstanceTarget",
@@ -1835,9 +2151,9 @@ export interface LambdaTarget {
   deploymentId?: string;
   targetId?: string;
   targetArn?: string;
-  status?: string;
+  status?: TargetStatus;
   lastUpdatedAt?: Date;
-  lifecycleEvents?: LifecycleEventList;
+  lifecycleEvents?: LifecycleEvent[];
   lambdaFunctionInfo?: LambdaFunctionInfo;
 }
 export const LambdaTarget = S.suspend(() =>
@@ -1845,7 +2161,7 @@ export const LambdaTarget = S.suspend(() =>
     deploymentId: S.optional(S.String),
     targetId: S.optional(S.String),
     targetArn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(TargetStatus),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lifecycleEvents: S.optional(LifecycleEventList),
     lambdaFunctionInfo: S.optional(LambdaFunctionInfo),
@@ -1859,7 +2175,7 @@ export interface ECSTaskSet {
   status?: string;
   trafficWeight?: number;
   targetGroup?: TargetGroupInfo;
-  taskSetLabel?: string;
+  taskSetLabel?: TargetLabel;
 }
 export const ECSTaskSet = S.suspend(() =>
   S.Struct({
@@ -1870,7 +2186,7 @@ export const ECSTaskSet = S.suspend(() =>
     status: S.optional(S.String),
     trafficWeight: S.optional(S.Number),
     targetGroup: S.optional(TargetGroupInfo),
-    taskSetLabel: S.optional(S.String),
+    taskSetLabel: S.optional(TargetLabel),
   }),
 ).annotations({ identifier: "ECSTaskSet" }) as any as S.Schema<ECSTaskSet>;
 export type ECSTaskSetList = ECSTaskSet[];
@@ -1880,9 +2196,9 @@ export interface ECSTarget {
   targetId?: string;
   targetArn?: string;
   lastUpdatedAt?: Date;
-  lifecycleEvents?: LifecycleEventList;
-  status?: string;
-  taskSetsInfo?: ECSTaskSetList;
+  lifecycleEvents?: LifecycleEvent[];
+  status?: TargetStatus;
+  taskSetsInfo?: ECSTaskSet[];
 }
 export const ECSTarget = S.suspend(() =>
   S.Struct({
@@ -1891,7 +2207,7 @@ export const ECSTarget = S.suspend(() =>
     targetArn: S.optional(S.String),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lifecycleEvents: S.optional(LifecycleEventList),
-    status: S.optional(S.String),
+    status: S.optional(TargetStatus),
     taskSetsInfo: S.optional(ECSTaskSetList),
   }),
 ).annotations({ identifier: "ECSTarget" }) as any as S.Schema<ECSTarget>;
@@ -1899,8 +2215,8 @@ export interface CloudFormationTarget {
   deploymentId?: string;
   targetId?: string;
   lastUpdatedAt?: Date;
-  lifecycleEvents?: LifecycleEventList;
-  status?: string;
+  lifecycleEvents?: LifecycleEvent[];
+  status?: TargetStatus;
   resourceType?: string;
   targetVersionWeight?: number;
 }
@@ -1910,7 +2226,7 @@ export const CloudFormationTarget = S.suspend(() =>
     targetId: S.optional(S.String),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lifecycleEvents: S.optional(LifecycleEventList),
-    status: S.optional(S.String),
+    status: S.optional(TargetStatus),
     resourceType: S.optional(S.String),
     targetVersionWeight: S.optional(S.Number),
   }),
@@ -1918,7 +2234,7 @@ export const CloudFormationTarget = S.suspend(() =>
   identifier: "CloudFormationTarget",
 }) as any as S.Schema<CloudFormationTarget>;
 export interface DeploymentTarget {
-  deploymentTargetType?: string;
+  deploymentTargetType?: DeploymentTargetType;
   instanceTarget?: InstanceTarget;
   lambdaTarget?: LambdaTarget;
   ecsTarget?: ECSTarget;
@@ -1926,7 +2242,7 @@ export interface DeploymentTarget {
 }
 export const DeploymentTarget = S.suspend(() =>
   S.Struct({
-    deploymentTargetType: S.optional(S.String),
+    deploymentTargetType: S.optional(DeploymentTargetType),
     instanceTarget: S.optional(InstanceTarget),
     lambdaTarget: S.optional(LambdaTarget),
     ecsTarget: S.optional(ECSTarget),
@@ -1950,7 +2266,7 @@ export interface InstanceInfo {
   instanceArn?: string;
   registerTime?: Date;
   deregisterTime?: Date;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const InstanceInfo = S.suspend(() =>
   S.Struct({
@@ -1974,7 +2290,7 @@ export const GetOnPremisesInstanceOutput = S.suspend(() =>
 export type RevisionLocationList = RevisionLocation[];
 export const RevisionLocationList = S.Array(RevisionLocation);
 export interface ListApplicationRevisionsOutput {
-  revisions?: RevisionLocationList;
+  revisions?: RevisionLocation[];
   nextToken?: string;
 }
 export const ListApplicationRevisionsOutput = S.suspend(() =>
@@ -1986,7 +2302,7 @@ export const ListApplicationRevisionsOutput = S.suspend(() =>
   identifier: "ListApplicationRevisionsOutput",
 }) as any as S.Schema<ListApplicationRevisionsOutput>;
 export interface ListApplicationsOutput {
-  applications?: ApplicationsList;
+  applications?: string[];
   nextToken?: string;
 }
 export const ListApplicationsOutput = S.suspend(() =>
@@ -1998,7 +2314,7 @@ export const ListApplicationsOutput = S.suspend(() =>
   identifier: "ListApplicationsOutput",
 }) as any as S.Schema<ListApplicationsOutput>;
 export interface ListDeploymentConfigsOutput {
-  deploymentConfigsList?: DeploymentConfigsList;
+  deploymentConfigsList?: string[];
   nextToken?: string;
 }
 export const ListDeploymentConfigsOutput = S.suspend(() =>
@@ -2011,7 +2327,7 @@ export const ListDeploymentConfigsOutput = S.suspend(() =>
 }) as any as S.Schema<ListDeploymentConfigsOutput>;
 export interface ListDeploymentGroupsOutput {
   applicationName?: string;
-  deploymentGroups?: DeploymentGroupsList;
+  deploymentGroups?: string[];
   nextToken?: string;
 }
 export const ListDeploymentGroupsOutput = S.suspend(() =>
@@ -2024,7 +2340,7 @@ export const ListDeploymentGroupsOutput = S.suspend(() =>
   identifier: "ListDeploymentGroupsOutput",
 }) as any as S.Schema<ListDeploymentGroupsOutput>;
 export interface ListDeploymentInstancesOutput {
-  instancesList?: InstancesList;
+  instancesList?: string[];
   nextToken?: string;
 }
 export const ListDeploymentInstancesOutput = S.suspend(() =>
@@ -2039,7 +2355,7 @@ export interface ListDeploymentsInput {
   applicationName?: string;
   deploymentGroupName?: string;
   externalId?: string;
-  includeOnlyStatuses?: DeploymentStatusList;
+  includeOnlyStatuses?: DeploymentStatus[];
   createTimeRange?: TimeRange;
   nextToken?: string;
 }
@@ -2068,7 +2384,7 @@ export const ListDeploymentsInput = S.suspend(() =>
 export interface ListDeploymentTargetsInput {
   deploymentId: string;
   nextToken?: string;
-  targetFilters?: TargetFilters;
+  targetFilters?: { [key: string]: string[] };
 }
 export const ListDeploymentTargetsInput = S.suspend(() =>
   S.Struct({
@@ -2090,7 +2406,7 @@ export const ListDeploymentTargetsInput = S.suspend(() =>
   identifier: "ListDeploymentTargetsInput",
 }) as any as S.Schema<ListDeploymentTargetsInput>;
 export interface ListGitHubAccountTokenNamesOutput {
-  tokenNameList?: GitHubAccountTokenNameList;
+  tokenNameList?: string[];
   nextToken?: string;
 }
 export const ListGitHubAccountTokenNamesOutput = S.suspend(() =>
@@ -2102,7 +2418,7 @@ export const ListGitHubAccountTokenNamesOutput = S.suspend(() =>
   identifier: "ListGitHubAccountTokenNamesOutput",
 }) as any as S.Schema<ListGitHubAccountTokenNamesOutput>;
 export interface ListOnPremisesInstancesOutput {
-  instanceNames?: InstanceNameList;
+  instanceNames?: string[];
   nextToken?: string;
 }
 export const ListOnPremisesInstancesOutput = S.suspend(() =>
@@ -2114,7 +2430,7 @@ export const ListOnPremisesInstancesOutput = S.suspend(() =>
   identifier: "ListOnPremisesInstancesOutput",
 }) as any as S.Schema<ListOnPremisesInstancesOutput>;
 export interface ListTagsForResourceOutput {
-  Tags?: TagList;
+  Tags?: Tag[];
   NextToken?: string;
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
@@ -2133,19 +2449,19 @@ export const PutLifecycleEventHookExecutionStatusOutput = S.suspend(() =>
   identifier: "PutLifecycleEventHookExecutionStatusOutput",
 }) as any as S.Schema<PutLifecycleEventHookExecutionStatusOutput>;
 export interface StopDeploymentOutput {
-  status?: string;
+  status?: StopStatus;
   statusMessage?: string;
 }
 export const StopDeploymentOutput = S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String),
+    status: S.optional(StopStatus),
     statusMessage: S.optional(S.String),
   }).pipe(ns),
 ).annotations({
   identifier: "StopDeploymentOutput",
 }) as any as S.Schema<StopDeploymentOutput>;
 export interface UpdateDeploymentGroupOutput {
-  hooksNotCleanedUp?: AutoScalingGroupList;
+  hooksNotCleanedUp?: AutoScalingGroup[];
 }
 export const UpdateDeploymentGroupOutput = S.suspend(() =>
   S.Struct({ hooksNotCleanedUp: S.optional(AutoScalingGroupList) }).pipe(ns),
@@ -2177,11 +2493,14 @@ export const TimeBasedLinear = S.suspend(() =>
   identifier: "TimeBasedLinear",
 }) as any as S.Schema<TimeBasedLinear>;
 export interface MinimumHealthyHostsPerZone {
-  type?: string;
+  type?: MinimumHealthyHostsPerZoneType;
   value?: number;
 }
 export const MinimumHealthyHostsPerZone = S.suspend(() =>
-  S.Struct({ type: S.optional(S.String), value: S.optional(S.Number) }),
+  S.Struct({
+    type: S.optional(MinimumHealthyHostsPerZoneType),
+    value: S.optional(S.Number),
+  }),
 ).annotations({
   identifier: "MinimumHealthyHostsPerZone",
 }) as any as S.Schema<MinimumHealthyHostsPerZone>;
@@ -2190,13 +2509,13 @@ export const ApplicationsInfoList = S.Array(ApplicationInfo);
 export type InstanceInfoList = InstanceInfo[];
 export const InstanceInfoList = S.Array(InstanceInfo);
 export interface TrafficRoutingConfig {
-  type?: string;
+  type?: TrafficRoutingType;
   timeBasedCanary?: TimeBasedCanary;
   timeBasedLinear?: TimeBasedLinear;
 }
 export const TrafficRoutingConfig = S.suspend(() =>
   S.Struct({
-    type: S.optional(S.String),
+    type: S.optional(TrafficRoutingType),
     timeBasedCanary: S.optional(TimeBasedCanary),
     timeBasedLinear: S.optional(TimeBasedLinear),
   }),
@@ -2217,7 +2536,7 @@ export const ZonalConfig = S.suspend(() =>
 ).annotations({ identifier: "ZonalConfig" }) as any as S.Schema<ZonalConfig>;
 export interface GenericRevisionInfo {
   description?: string;
-  deploymentGroups?: DeploymentGroupsList;
+  deploymentGroups?: string[];
   firstUsedTime?: Date;
   lastUsedTime?: Date;
   registerTime?: Date;
@@ -2238,7 +2557,7 @@ export interface DeploymentConfigInfo {
   deploymentConfigName?: string;
   minimumHealthyHosts?: MinimumHealthyHosts;
   createTime?: Date;
-  computePlatform?: string;
+  computePlatform?: ComputePlatform;
   trafficRoutingConfig?: TrafficRoutingConfig;
   zonalConfig?: ZonalConfig;
 }
@@ -2248,7 +2567,7 @@ export const DeploymentConfigInfo = S.suspend(() =>
     deploymentConfigName: S.optional(S.String),
     minimumHealthyHosts: S.optional(MinimumHealthyHosts),
     createTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    computePlatform: S.optional(S.String),
+    computePlatform: S.optional(ComputePlatform),
     trafficRoutingConfig: S.optional(TrafficRoutingConfig),
     zonalConfig: S.optional(ZonalConfig),
   }),
@@ -2257,7 +2576,7 @@ export const DeploymentConfigInfo = S.suspend(() =>
 }) as any as S.Schema<DeploymentConfigInfo>;
 export interface BatchGetApplicationRevisionsInput {
   applicationName: string;
-  revisions: RevisionLocationList;
+  revisions: RevisionLocation[];
 }
 export const BatchGetApplicationRevisionsInput = S.suspend(() =>
   S.Struct({ applicationName: S.String, revisions: RevisionLocationList }).pipe(
@@ -2275,7 +2594,7 @@ export const BatchGetApplicationRevisionsInput = S.suspend(() =>
   identifier: "BatchGetApplicationRevisionsInput",
 }) as any as S.Schema<BatchGetApplicationRevisionsInput>;
 export interface BatchGetApplicationsOutput {
-  applicationsInfo?: ApplicationsInfoList;
+  applicationsInfo?: ApplicationInfo[];
 }
 export const BatchGetApplicationsOutput = S.suspend(() =>
   S.Struct({ applicationsInfo: S.optional(ApplicationsInfoList) }).pipe(ns),
@@ -2283,7 +2602,7 @@ export const BatchGetApplicationsOutput = S.suspend(() =>
   identifier: "BatchGetApplicationsOutput",
 }) as any as S.Schema<BatchGetApplicationsOutput>;
 export interface BatchGetOnPremisesInstancesOutput {
-  instanceInfos?: InstanceInfoList;
+  instanceInfos?: InstanceInfo[];
 }
 export const BatchGetOnPremisesInstancesOutput = S.suspend(() =>
   S.Struct({ instanceInfos: S.optional(InstanceInfoList) }).pipe(ns),
@@ -2300,7 +2619,7 @@ export interface CreateDeploymentInput {
   targetInstances?: TargetInstances;
   autoRollbackConfiguration?: AutoRollbackConfiguration;
   updateOutdatedInstancesOnly?: boolean;
-  fileExistsBehavior?: string;
+  fileExistsBehavior?: FileExistsBehavior;
   overrideAlarmConfiguration?: AlarmConfiguration;
 }
 export const CreateDeploymentInput = S.suspend(() =>
@@ -2314,7 +2633,7 @@ export const CreateDeploymentInput = S.suspend(() =>
     targetInstances: S.optional(TargetInstances),
     autoRollbackConfiguration: S.optional(AutoRollbackConfiguration),
     updateOutdatedInstancesOnly: S.optional(S.Boolean),
-    fileExistsBehavior: S.optional(S.String),
+    fileExistsBehavior: S.optional(FileExistsBehavior),
     overrideAlarmConfiguration: S.optional(AlarmConfiguration),
   }).pipe(
     T.all(
@@ -2334,7 +2653,7 @@ export interface CreateDeploymentConfigInput {
   deploymentConfigName: string;
   minimumHealthyHosts?: MinimumHealthyHosts;
   trafficRoutingConfig?: TrafficRoutingConfig;
-  computePlatform?: string;
+  computePlatform?: ComputePlatform;
   zonalConfig?: ZonalConfig;
 }
 export const CreateDeploymentConfigInput = S.suspend(() =>
@@ -2342,7 +2661,7 @@ export const CreateDeploymentConfigInput = S.suspend(() =>
     deploymentConfigName: S.String,
     minimumHealthyHosts: S.optional(MinimumHealthyHosts),
     trafficRoutingConfig: S.optional(TrafficRoutingConfig),
-    computePlatform: S.optional(S.String),
+    computePlatform: S.optional(ComputePlatform),
     zonalConfig: S.optional(ZonalConfig),
   }).pipe(
     T.all(
@@ -2359,7 +2678,7 @@ export const CreateDeploymentConfigInput = S.suspend(() =>
   identifier: "CreateDeploymentConfigInput",
 }) as any as S.Schema<CreateDeploymentConfigInput>;
 export interface DeleteDeploymentGroupOutput {
-  hooksNotCleanedUp?: AutoScalingGroupList;
+  hooksNotCleanedUp?: AutoScalingGroup[];
 }
 export const DeleteDeploymentGroupOutput = S.suspend(() =>
   S.Struct({ hooksNotCleanedUp: S.optional(AutoScalingGroupList) }).pipe(ns),
@@ -2389,7 +2708,7 @@ export const GetDeploymentConfigOutput = S.suspend(() =>
   identifier: "GetDeploymentConfigOutput",
 }) as any as S.Schema<GetDeploymentConfigOutput>;
 export interface ListDeploymentsOutput {
-  deployments?: DeploymentsList;
+  deployments?: string[];
   nextToken?: string;
 }
 export const ListDeploymentsOutput = S.suspend(() =>
@@ -2401,7 +2720,7 @@ export const ListDeploymentsOutput = S.suspend(() =>
   identifier: "ListDeploymentsOutput",
 }) as any as S.Schema<ListDeploymentsOutput>;
 export interface ListDeploymentTargetsOutput {
-  targetIds?: TargetIdList;
+  targetIds?: string[];
   nextToken?: string;
 }
 export const ListDeploymentTargetsOutput = S.suspend(() =>
@@ -2417,7 +2736,7 @@ export const DeploymentGroupInfoList = S.Array(DeploymentGroupInfo);
 export type DeploymentsInfoList = DeploymentInfo[];
 export const DeploymentsInfoList = S.Array(DeploymentInfo);
 export interface BatchGetDeploymentGroupsOutput {
-  deploymentGroupsInfo?: DeploymentGroupInfoList;
+  deploymentGroupsInfo?: DeploymentGroupInfo[];
   errorMessage?: string;
 }
 export const BatchGetDeploymentGroupsOutput = S.suspend(() =>
@@ -2429,7 +2748,7 @@ export const BatchGetDeploymentGroupsOutput = S.suspend(() =>
   identifier: "BatchGetDeploymentGroupsOutput",
 }) as any as S.Schema<BatchGetDeploymentGroupsOutput>;
 export interface BatchGetDeploymentsOutput {
-  deploymentsInfo?: DeploymentsInfoList;
+  deploymentsInfo?: DeploymentInfo[];
 }
 export const BatchGetDeploymentsOutput = S.suspend(() =>
   S.Struct({ deploymentsInfo: S.optional(DeploymentsInfoList) }).pipe(ns),
@@ -2456,21 +2775,21 @@ export interface CreateDeploymentGroupInput {
   applicationName: string;
   deploymentGroupName: string;
   deploymentConfigName?: string;
-  ec2TagFilters?: EC2TagFilterList;
-  onPremisesInstanceTagFilters?: TagFilterList;
-  autoScalingGroups?: AutoScalingGroupNameList;
+  ec2TagFilters?: EC2TagFilter[];
+  onPremisesInstanceTagFilters?: TagFilter[];
+  autoScalingGroups?: string[];
   serviceRoleArn: string;
-  triggerConfigurations?: TriggerConfigList;
+  triggerConfigurations?: TriggerConfig[];
   alarmConfiguration?: AlarmConfiguration;
   autoRollbackConfiguration?: AutoRollbackConfiguration;
-  outdatedInstancesStrategy?: string;
+  outdatedInstancesStrategy?: OutdatedInstancesStrategy;
   deploymentStyle?: DeploymentStyle;
   blueGreenDeploymentConfiguration?: BlueGreenDeploymentConfiguration;
   loadBalancerInfo?: LoadBalancerInfo;
   ec2TagSet?: EC2TagSet;
-  ecsServices?: ECSServiceList;
+  ecsServices?: ECSService[];
   onPremisesTagSet?: OnPremisesTagSet;
-  tags?: TagList;
+  tags?: Tag[];
   terminationHookEnabled?: boolean;
 }
 export const CreateDeploymentGroupInput = S.suspend(() =>
@@ -2485,7 +2804,7 @@ export const CreateDeploymentGroupInput = S.suspend(() =>
     triggerConfigurations: S.optional(TriggerConfigList),
     alarmConfiguration: S.optional(AlarmConfiguration),
     autoRollbackConfiguration: S.optional(AutoRollbackConfiguration),
-    outdatedInstancesStrategy: S.optional(S.String),
+    outdatedInstancesStrategy: S.optional(OutdatedInstancesStrategy),
     deploymentStyle: S.optional(DeploymentStyle),
     blueGreenDeploymentConfiguration: S.optional(
       BlueGreenDeploymentConfiguration,
@@ -2529,7 +2848,7 @@ export const DeploymentTargetList = S.Array(DeploymentTarget);
 export interface BatchGetApplicationRevisionsOutput {
   applicationName?: string;
   errorMessage?: string;
-  revisions?: RevisionInfoList;
+  revisions?: RevisionInfo[];
 }
 export const BatchGetApplicationRevisionsOutput = S.suspend(() =>
   S.Struct({
@@ -2541,7 +2860,7 @@ export const BatchGetApplicationRevisionsOutput = S.suspend(() =>
   identifier: "BatchGetApplicationRevisionsOutput",
 }) as any as S.Schema<BatchGetApplicationRevisionsOutput>;
 export interface BatchGetDeploymentInstancesOutput {
-  instancesSummary?: InstanceSummaryList;
+  instancesSummary?: InstanceSummary[];
   errorMessage?: string;
 }
 export const BatchGetDeploymentInstancesOutput = S.suspend(() =>
@@ -2553,7 +2872,7 @@ export const BatchGetDeploymentInstancesOutput = S.suspend(() =>
   identifier: "BatchGetDeploymentInstancesOutput",
 }) as any as S.Schema<BatchGetDeploymentInstancesOutput>;
 export interface BatchGetDeploymentTargetsOutput {
-  deploymentTargets?: DeploymentTargetList;
+  deploymentTargets?: DeploymentTarget[];
 }
 export const BatchGetDeploymentTargetsOutput = S.suspend(() =>
   S.Struct({ deploymentTargets: S.optional(DeploymentTargetList) }).pipe(ns),
@@ -3023,7 +3342,7 @@ export class TriggerTargetsLimitExceededException extends S.TaggedError<TriggerT
  */
 export const deleteResourcesByExternalId: (
   input: DeleteResourcesByExternalIdInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourcesByExternalIdOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3037,7 +3356,7 @@ export const deleteResourcesByExternalId: (
  */
 export const deregisterOnPremisesInstance: (
   input: DeregisterOnPremisesInstanceInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterOnPremisesInstanceResponse,
   InstanceNameRequiredException | InvalidInstanceNameException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3051,7 +3370,7 @@ export const deregisterOnPremisesInstance: (
  */
 export const getOnPremisesInstance: (
   input: GetOnPremisesInstanceInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetOnPremisesInstanceOutput,
   | InstanceNameRequiredException
   | InstanceNotRegisteredException
@@ -3073,21 +3392,21 @@ export const getOnPremisesInstance: (
 export const listApplications: {
   (
     input: ListApplicationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationsOutput,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListApplicationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationsOutput,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ApplicationName,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3107,7 +3426,7 @@ export const listApplications: {
  */
 export const updateApplication: (
   input: UpdateApplicationInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateApplicationResponse,
   | ApplicationAlreadyExistsException
   | ApplicationDoesNotExistException
@@ -3130,7 +3449,7 @@ export const updateApplication: (
  */
 export const getApplication: (
   input: GetApplicationInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetApplicationOutput,
   | ApplicationDoesNotExistException
   | ApplicationNameRequiredException
@@ -3153,7 +3472,7 @@ export const getApplication: (
 export const listDeploymentGroups: {
   (
     input: ListDeploymentGroupsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDeploymentGroupsOutput,
     | ApplicationDoesNotExistException
     | ApplicationNameRequiredException
@@ -3164,7 +3483,7 @@ export const listDeploymentGroups: {
   >;
   pages: (
     input: ListDeploymentGroupsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDeploymentGroupsOutput,
     | ApplicationDoesNotExistException
     | ApplicationNameRequiredException
@@ -3175,7 +3494,7 @@ export const listDeploymentGroups: {
   >;
   items: (
     input: ListDeploymentGroupsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DeploymentGroupName,
     | ApplicationDoesNotExistException
     | ApplicationNameRequiredException
@@ -3205,21 +3524,21 @@ export const listDeploymentGroups: {
 export const listDeploymentConfigs: {
   (
     input: ListDeploymentConfigsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDeploymentConfigsOutput,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListDeploymentConfigsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDeploymentConfigsOutput,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDeploymentConfigsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DeploymentConfigName,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3240,7 +3559,7 @@ export const listDeploymentConfigs: {
  */
 export const batchGetApplications: (
   input: BatchGetApplicationsInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetApplicationsOutput,
   | ApplicationDoesNotExistException
   | ApplicationNameRequiredException
@@ -3263,7 +3582,7 @@ export const batchGetApplications: (
  */
 export const deleteApplication: (
   input: DeleteApplicationInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApplicationResponse,
   | ApplicationNameRequiredException
   | InvalidApplicationNameException
@@ -3285,7 +3604,7 @@ export const deleteApplication: (
  */
 export const batchGetOnPremisesInstances: (
   input: BatchGetOnPremisesInstancesInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetOnPremisesInstancesOutput,
   | BatchLimitExceededException
   | InstanceNameRequiredException
@@ -3306,7 +3625,7 @@ export const batchGetOnPremisesInstances: (
  */
 export const getDeploymentConfig: (
   input: GetDeploymentConfigInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetDeploymentConfigOutput,
   | DeploymentConfigDoesNotExistException
   | DeploymentConfigNameRequiredException
@@ -3332,7 +3651,7 @@ export const getDeploymentConfig: (
  */
 export const deleteDeploymentConfig: (
   input: DeleteDeploymentConfigInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDeploymentConfigResponse,
   | DeploymentConfigInUseException
   | DeploymentConfigNameRequiredException
@@ -3355,7 +3674,7 @@ export const deleteDeploymentConfig: (
  */
 export const deleteDeploymentGroup: (
   input: DeleteDeploymentGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDeploymentGroupOutput,
   | ApplicationNameRequiredException
   | DeploymentGroupNameRequiredException
@@ -3381,7 +3700,7 @@ export const deleteDeploymentGroup: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   | ArnNotSupportedException
   | InvalidArnException
@@ -3407,7 +3726,7 @@ export const listTagsForResource: (
  */
 export const getDeployment: (
   input: GetDeploymentInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetDeploymentOutput,
   | DeploymentDoesNotExistException
   | DeploymentIdRequiredException
@@ -3428,7 +3747,7 @@ export const getDeployment: (
  */
 export const batchGetDeploymentGroups: (
   input: BatchGetDeploymentGroupsInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetDeploymentGroupsOutput,
   | ApplicationDoesNotExistException
   | ApplicationNameRequiredException
@@ -3457,7 +3776,7 @@ export const batchGetDeploymentGroups: (
  */
 export const getDeploymentGroup: (
   input: GetDeploymentGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetDeploymentGroupOutput,
   | ApplicationDoesNotExistException
   | ApplicationNameRequiredException
@@ -3486,7 +3805,7 @@ export const getDeploymentGroup: (
  */
 export const registerApplicationRevision: (
   input: RegisterApplicationRevisionInput,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterApplicationRevisionResponse,
   | ApplicationDoesNotExistException
   | ApplicationNameRequiredException
@@ -3513,7 +3832,7 @@ export const registerApplicationRevision: (
  */
 export const listGitHubAccountTokenNames: (
   input: ListGitHubAccountTokenNamesInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListGitHubAccountTokenNamesOutput,
   | InvalidNextTokenException
   | OperationNotSupportedException
@@ -3538,7 +3857,7 @@ export const listGitHubAccountTokenNames: (
  */
 export const listOnPremisesInstances: (
   input: ListOnPremisesInstancesInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListOnPremisesInstancesOutput,
   | InvalidNextTokenException
   | InvalidRegistrationStatusException
@@ -3560,7 +3879,7 @@ export const listOnPremisesInstances: (
  */
 export const batchGetDeployments: (
   input: BatchGetDeploymentsInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetDeploymentsOutput,
   | BatchLimitExceededException
   | DeploymentIdRequiredException
@@ -3582,7 +3901,7 @@ export const batchGetDeployments: (
  */
 export const batchGetApplicationRevisions: (
   input: BatchGetApplicationRevisionsInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetApplicationRevisionsOutput,
   | ApplicationDoesNotExistException
   | ApplicationNameRequiredException
@@ -3609,7 +3928,7 @@ export const batchGetApplicationRevisions: (
  */
 export const getApplicationRevision: (
   input: GetApplicationRevisionInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetApplicationRevisionOutput,
   | ApplicationDoesNotExistException
   | ApplicationNameRequiredException
@@ -3636,7 +3955,7 @@ export const getApplicationRevision: (
  */
 export const deleteGitHubAccountToken: (
   input: DeleteGitHubAccountTokenInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGitHubAccountTokenOutput,
   | GitHubAccountTokenDoesNotExistException
   | GitHubAccountTokenNameRequiredException
@@ -3661,7 +3980,7 @@ export const deleteGitHubAccountToken: (
  */
 export const createApplication: (
   input: CreateApplicationInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateApplicationOutput,
   | ApplicationAlreadyExistsException
   | ApplicationLimitExceededException
@@ -3694,7 +4013,7 @@ export const createApplication: (
  */
 export const batchGetDeploymentInstances: (
   input: BatchGetDeploymentInstancesInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetDeploymentInstancesOutput,
   | BatchLimitExceededException
   | DeploymentDoesNotExistException
@@ -3723,7 +4042,7 @@ export const batchGetDeploymentInstances: (
  */
 export const getDeploymentInstance: (
   input: GetDeploymentInstanceInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetDeploymentInstanceOutput,
   | DeploymentDoesNotExistException
   | DeploymentIdRequiredException
@@ -3752,7 +4071,7 @@ export const getDeploymentInstance: (
  */
 export const removeTagsFromOnPremisesInstances: (
   input: RemoveTagsFromOnPremisesInstancesInput,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveTagsFromOnPremisesInstancesResponse,
   | InstanceLimitExceededException
   | InstanceNameRequiredException
@@ -3782,7 +4101,7 @@ export const removeTagsFromOnPremisesInstances: (
  */
 export const skipWaitTimeForInstanceTermination: (
   input: SkipWaitTimeForInstanceTerminationInput,
-) => Effect.Effect<
+) => effect.Effect<
   SkipWaitTimeForInstanceTerminationResponse,
   | DeploymentAlreadyCompletedException
   | DeploymentDoesNotExistException
@@ -3810,7 +4129,7 @@ export const skipWaitTimeForInstanceTermination: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   | ApplicationDoesNotExistException
   | ArnNotSupportedException
@@ -3841,7 +4160,7 @@ export const tagResource: (
  */
 export const addTagsToOnPremisesInstances: (
   input: AddTagsToOnPremisesInstancesInput,
-) => Effect.Effect<
+) => effect.Effect<
   AddTagsToOnPremisesInstancesResponse,
   | InstanceLimitExceededException
   | InstanceNameRequiredException
@@ -3872,7 +4191,7 @@ export const addTagsToOnPremisesInstances: (
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   | ApplicationDoesNotExistException
   | ArnNotSupportedException
@@ -3903,7 +4222,7 @@ export const untagResource: (
  */
 export const stopDeployment: (
   input: StopDeploymentInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopDeploymentOutput,
   | DeploymentAlreadyCompletedException
   | DeploymentDoesNotExistException
@@ -3934,7 +4253,7 @@ export const stopDeployment: (
  */
 export const continueDeployment: (
   input: ContinueDeploymentInput,
-) => Effect.Effect<
+) => effect.Effect<
   ContinueDeploymentResponse,
   | DeploymentAlreadyCompletedException
   | DeploymentDoesNotExistException
@@ -3966,7 +4285,7 @@ export const continueDeployment: (
 export const listApplicationRevisions: {
   (
     input: ListApplicationRevisionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationRevisionsOutput,
     | ApplicationDoesNotExistException
     | ApplicationNameRequiredException
@@ -3983,7 +4302,7 @@ export const listApplicationRevisions: {
   >;
   pages: (
     input: ListApplicationRevisionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationRevisionsOutput,
     | ApplicationDoesNotExistException
     | ApplicationNameRequiredException
@@ -4000,7 +4319,7 @@ export const listApplicationRevisions: {
   >;
   items: (
     input: ListApplicationRevisionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RevisionLocation,
     | ApplicationDoesNotExistException
     | ApplicationNameRequiredException
@@ -4041,7 +4360,7 @@ export const listApplicationRevisions: {
  */
 export const getDeploymentTarget: (
   input: GetDeploymentTargetInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetDeploymentTargetOutput,
   | DeploymentDoesNotExistException
   | DeploymentIdRequiredException
@@ -4080,7 +4399,7 @@ export const getDeploymentTarget: (
  */
 export const putLifecycleEventHookExecutionStatus: (
   input: PutLifecycleEventHookExecutionStatusInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutLifecycleEventHookExecutionStatusOutput,
   | DeploymentDoesNotExistException
   | DeploymentIdRequiredException
@@ -4126,7 +4445,7 @@ export const putLifecycleEventHookExecutionStatus: (
  */
 export const batchGetDeploymentTargets: (
   input: BatchGetDeploymentTargetsInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetDeploymentTargetsOutput,
   | DeploymentDoesNotExistException
   | DeploymentIdRequiredException
@@ -4159,7 +4478,7 @@ export const batchGetDeploymentTargets: (
  */
 export const createDeploymentConfig: (
   input: CreateDeploymentConfigInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDeploymentConfigOutput,
   | DeploymentConfigAlreadyExistsException
   | DeploymentConfigLimitExceededException
@@ -4192,7 +4511,7 @@ export const createDeploymentConfig: (
  */
 export const registerOnPremisesInstance: (
   input: RegisterOnPremisesInstanceInput,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterOnPremisesInstanceResponse,
   | IamArnRequiredException
   | IamSessionArnAlreadyRegisteredException
@@ -4229,7 +4548,7 @@ export const registerOnPremisesInstance: (
 export const listDeployments: {
   (
     input: ListDeploymentsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDeploymentsOutput,
     | ApplicationDoesNotExistException
     | ApplicationNameRequiredException
@@ -4247,7 +4566,7 @@ export const listDeployments: {
   >;
   pages: (
     input: ListDeploymentsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDeploymentsOutput,
     | ApplicationDoesNotExistException
     | ApplicationNameRequiredException
@@ -4265,7 +4584,7 @@ export const listDeployments: {
   >;
   items: (
     input: ListDeploymentsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DeploymentId,
     | ApplicationDoesNotExistException
     | ApplicationNameRequiredException
@@ -4314,7 +4633,7 @@ export const listDeployments: {
 export const listDeploymentInstances: {
   (
     input: ListDeploymentInstancesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDeploymentInstancesOutput,
     | DeploymentDoesNotExistException
     | DeploymentIdRequiredException
@@ -4331,7 +4650,7 @@ export const listDeploymentInstances: {
   >;
   pages: (
     input: ListDeploymentInstancesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDeploymentInstancesOutput,
     | DeploymentDoesNotExistException
     | DeploymentIdRequiredException
@@ -4348,7 +4667,7 @@ export const listDeploymentInstances: {
   >;
   items: (
     input: ListDeploymentInstancesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     InstanceId,
     | DeploymentDoesNotExistException
     | DeploymentIdRequiredException
@@ -4389,7 +4708,7 @@ export const listDeploymentInstances: {
  */
 export const listDeploymentTargets: (
   input: ListDeploymentTargetsInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListDeploymentTargetsOutput,
   | DeploymentDoesNotExistException
   | DeploymentIdRequiredException
@@ -4422,7 +4741,7 @@ export const listDeploymentTargets: (
  */
 export const createDeployment: (
   input: CreateDeploymentInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDeploymentOutput,
   | AlarmsLimitExceededException
   | ApplicationDoesNotExistException
@@ -4489,7 +4808,7 @@ export const createDeployment: (
  */
 export const updateDeploymentGroup: (
   input: UpdateDeploymentGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDeploymentGroupOutput,
   | AlarmsLimitExceededException
   | ApplicationDoesNotExistException
@@ -4566,7 +4885,7 @@ export const updateDeploymentGroup: (
  */
 export const createDeploymentGroup: (
   input: CreateDeploymentGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDeploymentGroupOutput,
   | AlarmsLimitExceededException
   | ApplicationDoesNotExistException

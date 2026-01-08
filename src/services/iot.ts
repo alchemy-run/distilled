@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Strm from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -160,8 +160,8 @@ export type MitigationActionName = string;
 export type OTAUpdateId = string;
 export type OTAUpdateDescription = string;
 export type Target = string;
-export type ResourceDescription = string | Redacted.Redacted<string>;
-export type PackageVersionRecipe = string | Redacted.Redacted<string>;
+export type ResourceDescription = string | redacted.Redacted<string>;
+export type PackageVersionRecipe = string | redacted.Redacted<string>;
 export type PolicyDocument = string;
 export type TemplateName = string;
 export type TemplateDescription = string;
@@ -196,7 +196,7 @@ export type NextToken = string;
 export type CognitoIdentityPoolId = string;
 export type Percent = number;
 export type RegistrationCode = string;
-export type ConnectivityApiThingName = string | Redacted.Redacted<string>;
+export type ConnectivityApiThingName = string | redacted.Redacted<string>;
 export type DeviceDefenderThingName = string;
 export type MaxResults = number;
 export type Marker = string;
@@ -349,7 +349,7 @@ export type ReasonForNonComplianceCode = string;
 export type HttpHeaderName = string;
 export type HttpHeaderValue = string;
 export type PublicKey = string;
-export type PrivateKey = string | Redacted.Redacted<string>;
+export type PrivateKey = string | redacted.Redacted<string>;
 export type ReasonForNonCompliance = string;
 export type TotalChecksCount = number;
 export type InProgressChecksCount = number;
@@ -661,32 +661,391 @@ export const GetRegistrationCodeRequest = S.suspend(() =>
 }) as any as S.Schema<GetRegistrationCodeRequest>;
 export type JobTargets = string[];
 export const JobTargets = S.Array(S.String);
-export type CertificateProviderAccountDefaultForOperations = string[];
-export const CertificateProviderAccountDefaultForOperations = S.Array(S.String);
+export type ThingPrincipalType = "EXCLUSIVE_THING" | "NON_EXCLUSIVE_THING";
+export const ThingPrincipalType = S.Literal(
+  "EXCLUSIVE_THING",
+  "NON_EXCLUSIVE_THING",
+);
+export type AuthorizerStatus = "ACTIVE" | "INACTIVE";
+export const AuthorizerStatus = S.Literal("ACTIVE", "INACTIVE");
+export type CertificateProviderOperation = "CreateCertificateFromCsr";
+export const CertificateProviderOperation = S.Literal(
+  "CreateCertificateFromCsr",
+);
+export type CertificateProviderAccountDefaultForOperations =
+  CertificateProviderOperation[];
+export const CertificateProviderAccountDefaultForOperations = S.Array(
+  CertificateProviderOperation,
+);
+export type CommandNamespace = "AWS-IoT" | "AWS-IoT-FleetWise";
+export const CommandNamespace = S.Literal("AWS-IoT", "AWS-IoT-FleetWise");
+export type CustomMetricType =
+  | "string-list"
+  | "ip-address-list"
+  | "number-list"
+  | "number";
+export const CustomMetricType = S.Literal(
+  "string-list",
+  "ip-address-list",
+  "number-list",
+  "number",
+);
+export type DimensionType = "TOPIC_FILTER";
+export const DimensionType = S.Literal("TOPIC_FILTER");
 export type DimensionStringValues = string[];
 export const DimensionStringValues = S.Array(S.String);
 export type ServerCertificateArns = string[];
 export const ServerCertificateArns = S.Array(S.String);
+export type ServiceType = "DATA" | "CREDENTIAL_PROVIDER" | "JOBS";
+export const ServiceType = S.Literal("DATA", "CREDENTIAL_PROVIDER", "JOBS");
+export type AuthenticationType =
+  | "CUSTOM_AUTH_X509"
+  | "CUSTOM_AUTH"
+  | "AWS_X509"
+  | "AWS_SIGV4"
+  | "DEFAULT";
+export const AuthenticationType = S.Literal(
+  "CUSTOM_AUTH_X509",
+  "CUSTOM_AUTH",
+  "AWS_X509",
+  "AWS_SIGV4",
+  "DEFAULT",
+);
+export type ApplicationProtocol =
+  | "SECURE_MQTT"
+  | "MQTT_WSS"
+  | "HTTPS"
+  | "DEFAULT";
+export const ApplicationProtocol = S.Literal(
+  "SECURE_MQTT",
+  "MQTT_WSS",
+  "HTTPS",
+  "DEFAULT",
+);
+export type FleetMetricUnit =
+  | "Seconds"
+  | "Microseconds"
+  | "Milliseconds"
+  | "Bytes"
+  | "Kilobytes"
+  | "Megabytes"
+  | "Gigabytes"
+  | "Terabytes"
+  | "Bits"
+  | "Kilobits"
+  | "Megabits"
+  | "Gigabits"
+  | "Terabits"
+  | "Percent"
+  | "Count"
+  | "Bytes/Second"
+  | "Kilobytes/Second"
+  | "Megabytes/Second"
+  | "Gigabytes/Second"
+  | "Terabytes/Second"
+  | "Bits/Second"
+  | "Kilobits/Second"
+  | "Megabits/Second"
+  | "Gigabits/Second"
+  | "Terabits/Second"
+  | "Count/Second"
+  | "None";
+export const FleetMetricUnit = S.Literal(
+  "Seconds",
+  "Microseconds",
+  "Milliseconds",
+  "Bytes",
+  "Kilobytes",
+  "Megabytes",
+  "Gigabytes",
+  "Terabytes",
+  "Bits",
+  "Kilobits",
+  "Megabits",
+  "Gigabits",
+  "Terabits",
+  "Percent",
+  "Count",
+  "Bytes/Second",
+  "Kilobytes/Second",
+  "Megabytes/Second",
+  "Gigabytes/Second",
+  "Terabytes/Second",
+  "Bits/Second",
+  "Kilobits/Second",
+  "Megabits/Second",
+  "Gigabits/Second",
+  "Terabits/Second",
+  "Count/Second",
+  "None",
+);
+export type TargetSelection = "CONTINUOUS" | "SNAPSHOT";
+export const TargetSelection = S.Literal("CONTINUOUS", "SNAPSHOT");
 export type DestinationPackageVersions = string[];
 export const DestinationPackageVersions = S.Array(S.String);
 export type Targets = string[];
 export const Targets = S.Array(S.String);
-export type Protocols = string[];
-export const Protocols = S.Array(S.String);
+export type Protocol = "MQTT" | "HTTP";
+export const Protocol = S.Literal("MQTT", "HTTP");
+export type Protocols = Protocol[];
+export const Protocols = S.Array(Protocol);
+export type TemplateType = "FLEET_PROVISIONING" | "JITP";
+export const TemplateType = S.Literal("FLEET_PROVISIONING", "JITP");
+export type AuditFrequency = "DAILY" | "WEEKLY" | "BIWEEKLY" | "MONTHLY";
+export const AuditFrequency = S.Literal(
+  "DAILY",
+  "WEEKLY",
+  "BIWEEKLY",
+  "MONTHLY",
+);
+export type DayOfWeek = "SUN" | "MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT";
+export const DayOfWeek = S.Literal(
+  "SUN",
+  "MON",
+  "TUE",
+  "WED",
+  "THU",
+  "FRI",
+  "SAT",
+);
 export type TargetAuditCheckNames = string[];
 export const TargetAuditCheckNames = S.Array(S.String);
 export type AdditionalMetricsToRetainList = string[];
 export const AdditionalMetricsToRetainList = S.Array(S.String);
+export type LogTargetType =
+  | "DEFAULT"
+  | "THING_GROUP"
+  | "CLIENT_ID"
+  | "SOURCE_IP"
+  | "PRINCIPAL_ID";
+export const LogTargetType = S.Literal(
+  "DEFAULT",
+  "THING_GROUP",
+  "CLIENT_ID",
+  "SOURCE_IP",
+  "PRINCIPAL_ID",
+);
+export type EncryptionType = "CUSTOMER_MANAGED_KMS_KEY" | "AWS_OWNED_KMS_KEY";
+export const EncryptionType = S.Literal(
+  "CUSTOMER_MANAGED_KMS_KEY",
+  "AWS_OWNED_KMS_KEY",
+);
+export type LogLevel = "DEBUG" | "INFO" | "ERROR" | "WARN" | "DISABLED";
+export const LogLevel = S.Literal("DEBUG", "INFO", "ERROR", "WARN", "DISABLED");
 export type PercentList = number[];
 export const PercentList = S.Array(S.Number);
+export type BehaviorCriteriaType =
+  | "STATIC"
+  | "STATISTICAL"
+  | "MACHINE_LEARNING";
+export const BehaviorCriteriaType = S.Literal(
+  "STATIC",
+  "STATISTICAL",
+  "MACHINE_LEARNING",
+);
+export type VerificationState =
+  | "FALSE_POSITIVE"
+  | "BENIGN_POSITIVE"
+  | "TRUE_POSITIVE"
+  | "UNKNOWN";
+export const VerificationState = S.Literal(
+  "FALSE_POSITIVE",
+  "BENIGN_POSITIVE",
+  "TRUE_POSITIVE",
+  "UNKNOWN",
+);
+export type AuditMitigationActionsExecutionStatus =
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "FAILED"
+  | "CANCELED"
+  | "SKIPPED"
+  | "PENDING";
+export const AuditMitigationActionsExecutionStatus = S.Literal(
+  "IN_PROGRESS",
+  "COMPLETED",
+  "FAILED",
+  "CANCELED",
+  "SKIPPED",
+  "PENDING",
+);
+export type AuditMitigationActionsTaskStatus =
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "FAILED"
+  | "CANCELED";
+export const AuditMitigationActionsTaskStatus = S.Literal(
+  "IN_PROGRESS",
+  "COMPLETED",
+  "FAILED",
+  "CANCELED",
+);
+export type AuditTaskType = "ON_DEMAND_AUDIT_TASK" | "SCHEDULED_AUDIT_TASK";
+export const AuditTaskType = S.Literal(
+  "ON_DEMAND_AUDIT_TASK",
+  "SCHEDULED_AUDIT_TASK",
+);
+export type AuditTaskStatus =
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "FAILED"
+  | "CANCELED";
+export const AuditTaskStatus = S.Literal(
+  "IN_PROGRESS",
+  "COMPLETED",
+  "FAILED",
+  "CANCELED",
+);
+export type CommandExecutionStatus =
+  | "CREATED"
+  | "IN_PROGRESS"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "REJECTED"
+  | "TIMED_OUT";
+export const CommandExecutionStatus = S.Literal(
+  "CREATED",
+  "IN_PROGRESS",
+  "SUCCEEDED",
+  "FAILED",
+  "REJECTED",
+  "TIMED_OUT",
+);
+export type SortOrder = "ASCENDING" | "DESCENDING";
+export const SortOrder = S.Literal("ASCENDING", "DESCENDING");
+export type JobExecutionStatus =
+  | "QUEUED"
+  | "IN_PROGRESS"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "TIMED_OUT"
+  | "REJECTED"
+  | "REMOVED"
+  | "CANCELED";
+export const JobExecutionStatus = S.Literal(
+  "QUEUED",
+  "IN_PROGRESS",
+  "SUCCEEDED",
+  "FAILED",
+  "TIMED_OUT",
+  "REJECTED",
+  "REMOVED",
+  "CANCELED",
+);
+export type JobStatus =
+  | "IN_PROGRESS"
+  | "CANCELED"
+  | "COMPLETED"
+  | "DELETION_IN_PROGRESS"
+  | "SCHEDULED";
+export const JobStatus = S.Literal(
+  "IN_PROGRESS",
+  "CANCELED",
+  "COMPLETED",
+  "DELETION_IN_PROGRESS",
+  "SCHEDULED",
+);
+export type DimensionValueOperator = "IN" | "NOT_IN";
+export const DimensionValueOperator = S.Literal("IN", "NOT_IN");
+export type MitigationActionType =
+  | "UPDATE_DEVICE_CERTIFICATE"
+  | "UPDATE_CA_CERTIFICATE"
+  | "ADD_THINGS_TO_THING_GROUP"
+  | "REPLACE_DEFAULT_POLICY_VERSION"
+  | "ENABLE_IOT_LOGGING"
+  | "PUBLISH_FINDING_TO_SNS";
+export const MitigationActionType = S.Literal(
+  "UPDATE_DEVICE_CERTIFICATE",
+  "UPDATE_CA_CERTIFICATE",
+  "ADD_THINGS_TO_THING_GROUP",
+  "REPLACE_DEFAULT_POLICY_VERSION",
+  "ENABLE_IOT_LOGGING",
+  "PUBLISH_FINDING_TO_SNS",
+);
+export type OTAUpdateStatus =
+  | "CREATE_PENDING"
+  | "CREATE_IN_PROGRESS"
+  | "CREATE_COMPLETE"
+  | "CREATE_FAILED"
+  | "DELETE_IN_PROGRESS"
+  | "DELETE_FAILED";
+export const OTAUpdateStatus = S.Literal(
+  "CREATE_PENDING",
+  "CREATE_IN_PROGRESS",
+  "CREATE_COMPLETE",
+  "CREATE_FAILED",
+  "DELETE_IN_PROGRESS",
+  "DELETE_FAILED",
+);
+export type PackageVersionStatus = "DRAFT" | "PUBLISHED" | "DEPRECATED";
+export const PackageVersionStatus = S.Literal(
+  "DRAFT",
+  "PUBLISHED",
+  "DEPRECATED",
+);
+export type SbomValidationResult = "FAILED" | "SUCCEEDED";
+export const SbomValidationResult = S.Literal("FAILED", "SUCCEEDED");
+export type ReportType = "ERRORS" | "RESULTS";
+export const ReportType = S.Literal("ERRORS", "RESULTS");
+export type Status =
+  | "InProgress"
+  | "Completed"
+  | "Failed"
+  | "Cancelled"
+  | "Cancelling";
+export const Status = S.Literal(
+  "InProgress",
+  "Completed",
+  "Failed",
+  "Cancelled",
+  "Cancelling",
+);
+export type CertificateMode = "DEFAULT" | "SNI_ONLY";
+export const CertificateMode = S.Literal("DEFAULT", "SNI_ONLY");
+export type CertificateStatus =
+  | "ACTIVE"
+  | "INACTIVE"
+  | "REVOKED"
+  | "PENDING_TRANSFER"
+  | "REGISTER_INACTIVE"
+  | "PENDING_ACTIVATION";
+export const CertificateStatus = S.Literal(
+  "ACTIVE",
+  "INACTIVE",
+  "REVOKED",
+  "PENDING_TRANSFER",
+  "REGISTER_INACTIVE",
+  "PENDING_ACTIVATION",
+);
 export type DetectMitigationActionsToExecuteList = string[];
 export const DetectMitigationActionsToExecuteList = S.Array(S.String);
 export type PolicyNames = string[];
 export const PolicyNames = S.Array(S.String);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type CACertificateStatus = "ACTIVE" | "INACTIVE";
+export const CACertificateStatus = S.Literal("ACTIVE", "INACTIVE");
+export type AutoRegistrationStatus = "ENABLE" | "DISABLE";
+export const AutoRegistrationStatus = S.Literal("ENABLE", "DISABLE");
+export type DomainConfigurationStatus = "ENABLED" | "DISABLED";
+export const DomainConfigurationStatus = S.Literal("ENABLED", "DISABLED");
+export type PackageVersionAction = "PUBLISH" | "DEPRECATE";
+export const PackageVersionAction = S.Literal("PUBLISH", "DEPRECATE");
 export type ThingGroupList = string[];
 export const ThingGroupList = S.Array(S.String);
+export type TopicRuleDestinationStatus =
+  | "ENABLED"
+  | "IN_PROGRESS"
+  | "DISABLED"
+  | "ERROR"
+  | "DELETING";
+export const TopicRuleDestinationStatus = S.Literal(
+  "ENABLED",
+  "IN_PROGRESS",
+  "DISABLED",
+  "ERROR",
+  "DELETING",
+);
 export interface AcceptCertificateTransferRequest {
   certificateId: string;
   setAsActive?: boolean;
@@ -782,7 +1141,7 @@ export const AddThingToThingGroupResponse = S.suspend(() =>
   identifier: "AddThingToThingGroupResponse",
 }) as any as S.Schema<AddThingToThingGroupResponse>;
 export interface AssociateTargetsWithJobRequest {
-  targets: JobTargets;
+  targets: string[];
   jobId: string;
   comment?: string;
   namespaceId?: string;
@@ -893,13 +1252,13 @@ export const AttachSecurityProfileResponse = S.suspend(() =>
 export interface AttachThingPrincipalRequest {
   thingName: string;
   principal: string;
-  thingPrincipalType?: string;
+  thingPrincipalType?: ThingPrincipalType;
 }
 export const AttachThingPrincipalRequest = S.suspend(() =>
   S.Struct({
     thingName: S.String.pipe(T.HttpLabel("thingName")),
     principal: S.String.pipe(T.HttpHeader("x-amzn-principal")),
-    thingPrincipalType: S.optional(S.String).pipe(
+    thingPrincipalType: S.optional(ThingPrincipalType).pipe(
       T.HttpQuery("thingPrincipalType"),
     ),
   }).pipe(
@@ -1108,9 +1467,9 @@ export const TagList = S.Array(Tag);
 export interface CreateCertificateProviderRequest {
   certificateProviderName: string;
   lambdaFunctionArn: string;
-  accountDefaultForOperations: CertificateProviderAccountDefaultForOperations;
+  accountDefaultForOperations: CertificateProviderOperation[];
   clientToken?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateCertificateProviderRequest = S.suspend(() =>
   S.Struct({
@@ -1140,15 +1499,15 @@ export const CreateCertificateProviderRequest = S.suspend(() =>
 export interface CreateCustomMetricRequest {
   metricName: string;
   displayName?: string;
-  metricType: string;
-  tags?: TagList;
+  metricType: CustomMetricType;
+  tags?: Tag[];
   clientRequestToken: string;
 }
 export const CreateCustomMetricRequest = S.suspend(() =>
   S.Struct({
     metricName: S.String.pipe(T.HttpLabel("metricName")),
     displayName: S.optional(S.String),
-    metricType: S.String,
+    metricType: CustomMetricType,
     tags: S.optional(TagList),
     clientRequestToken: S.String,
   }).pipe(
@@ -1166,15 +1525,15 @@ export const CreateCustomMetricRequest = S.suspend(() =>
 }) as any as S.Schema<CreateCustomMetricRequest>;
 export interface CreateDimensionRequest {
   name: string;
-  type: string;
-  stringValues: DimensionStringValues;
-  tags?: TagList;
+  type: DimensionType;
+  stringValues: string[];
+  tags?: Tag[];
   clientRequestToken: string;
 }
 export const CreateDimensionRequest = S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.HttpLabel("name")),
-    type: S.String,
+    type: DimensionType,
     stringValues: DimensionStringValues,
     tags: S.optional(TagList),
     clientRequestToken: S.String,
@@ -1213,7 +1572,7 @@ export const CreateKeysAndCertificateRequest = S.suspend(() =>
 export interface CreatePolicyRequest {
   policyName: string;
   policyDocument: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreatePolicyRequest = S.suspend(() =>
   S.Struct({
@@ -1306,7 +1665,7 @@ export interface CreateRoleAliasRequest {
   roleAlias: string;
   roleArn: string;
   credentialDurationSeconds?: number;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateRoleAliasRequest = S.suspend(() =>
   S.Struct({
@@ -1328,18 +1687,18 @@ export const CreateRoleAliasRequest = S.suspend(() =>
   identifier: "CreateRoleAliasRequest",
 }) as any as S.Schema<CreateRoleAliasRequest>;
 export interface CreateScheduledAuditRequest {
-  frequency: string;
+  frequency: AuditFrequency;
   dayOfMonth?: string;
-  dayOfWeek?: string;
-  targetCheckNames: TargetAuditCheckNames;
+  dayOfWeek?: DayOfWeek;
+  targetCheckNames: string[];
   scheduledAuditName: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateScheduledAuditRequest = S.suspend(() =>
   S.Struct({
-    frequency: S.String,
+    frequency: AuditFrequency,
     dayOfMonth: S.optional(S.String),
-    dayOfWeek: S.optional(S.String),
+    dayOfWeek: S.optional(DayOfWeek),
     targetCheckNames: TargetAuditCheckNames,
     scheduledAuditName: S.String.pipe(T.HttpLabel("scheduledAuditName")),
     tags: S.optional(TagList),
@@ -1362,7 +1721,7 @@ export const CreateScheduledAuditRequest = S.suspend(() =>
 export type Attributes = { [key: string]: string };
 export const Attributes = S.Record({ key: S.String, value: S.String });
 export interface AttributePayload {
-  attributes?: Attributes;
+  attributes?: { [key: string]: string };
   merge?: boolean;
 }
 export const AttributePayload = S.suspend(() =>
@@ -1389,7 +1748,7 @@ export interface CreateThingGroupRequest {
   thingGroupName: string;
   parentGroupName?: string;
   thingGroupProperties?: ThingGroupProperties;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateThingGroupRequest = S.suspend(() =>
   S.Struct({
@@ -2358,12 +2717,12 @@ export const DeleteTopicRuleDestinationResponse = S.suspend(() =>
   identifier: "DeleteTopicRuleDestinationResponse",
 }) as any as S.Schema<DeleteTopicRuleDestinationResponse>;
 export interface DeleteV2LoggingLevelRequest {
-  targetType: string;
+  targetType: LogTargetType;
   targetName: string;
 }
 export const DeleteV2LoggingLevelRequest = S.suspend(() =>
   S.Struct({
-    targetType: S.String.pipe(T.HttpQuery("targetType")),
+    targetType: LogTargetType.pipe(T.HttpQuery("targetType")),
     targetName: S.String.pipe(T.HttpQuery("targetName")),
   }).pipe(
     T.all(
@@ -3327,10 +3686,10 @@ export const GetJobDocumentRequest = S.suspend(() =>
 }) as any as S.Schema<GetJobDocumentRequest>;
 export interface GetLoggingOptionsResponse {
   roleArn?: string;
-  logLevel?: string;
+  logLevel?: LogLevel;
 }
 export const GetLoggingOptionsResponse = S.suspend(() =>
-  S.Struct({ roleArn: S.optional(S.String), logLevel: S.optional(S.String) }),
+  S.Struct({ roleArn: S.optional(S.String), logLevel: S.optional(LogLevel) }),
 ).annotations({
   identifier: "GetLoggingOptionsResponse",
 }) as any as S.Schema<GetLoggingOptionsResponse>;
@@ -3397,7 +3756,7 @@ export interface GetPercentilesRequest {
   queryString: string;
   aggregationField?: string;
   queryVersion?: string;
-  percents?: PercentList;
+  percents?: number[];
 }
 export const GetPercentilesRequest = S.suspend(() =>
   S.Struct({
@@ -3494,7 +3853,7 @@ export const GetStatisticsRequest = S.suspend(() =>
   identifier: "GetStatisticsRequest",
 }) as any as S.Schema<GetStatisticsRequest>;
 export interface GetThingConnectivityDataRequest {
-  thingName: string | Redacted.Redacted<string>;
+  thingName: string | redacted.Redacted<string>;
 }
 export const GetThingConnectivityDataRequest = S.suspend(() =>
   S.Struct({ thingName: SensitiveString.pipe(T.HttpLabel("thingName")) }).pipe(
@@ -3566,9 +3925,9 @@ export const GetV2LoggingOptionsRequest = S.suspend(() =>
 export interface ListActiveViolationsRequest {
   thingName?: string;
   securityProfileName?: string;
-  behaviorCriteriaType?: string;
+  behaviorCriteriaType?: BehaviorCriteriaType;
   listSuppressedAlerts?: boolean;
-  verificationState?: string;
+  verificationState?: VerificationState;
   nextToken?: string;
   maxResults?: number;
 }
@@ -3578,13 +3937,13 @@ export const ListActiveViolationsRequest = S.suspend(() =>
     securityProfileName: S.optional(S.String).pipe(
       T.HttpQuery("securityProfileName"),
     ),
-    behaviorCriteriaType: S.optional(S.String).pipe(
+    behaviorCriteriaType: S.optional(BehaviorCriteriaType).pipe(
       T.HttpQuery("behaviorCriteriaType"),
     ),
     listSuppressedAlerts: S.optional(S.Boolean).pipe(
       T.HttpQuery("listSuppressedAlerts"),
     ),
-    verificationState: S.optional(S.String).pipe(
+    verificationState: S.optional(VerificationState).pipe(
       T.HttpQuery("verificationState"),
     ),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -3662,7 +4021,7 @@ export const ListAuditFindingsRequest = S.suspend(() =>
 }) as any as S.Schema<ListAuditFindingsRequest>;
 export interface ListAuditMitigationActionsExecutionsRequest {
   taskId: string;
-  actionStatus?: string;
+  actionStatus?: AuditMitigationActionsExecutionStatus;
   findingId: string;
   maxResults?: number;
   nextToken?: string;
@@ -3670,7 +4029,9 @@ export interface ListAuditMitigationActionsExecutionsRequest {
 export const ListAuditMitigationActionsExecutionsRequest = S.suspend(() =>
   S.Struct({
     taskId: S.String.pipe(T.HttpQuery("taskId")),
-    actionStatus: S.optional(S.String).pipe(T.HttpQuery("actionStatus")),
+    actionStatus: S.optional(AuditMitigationActionsExecutionStatus).pipe(
+      T.HttpQuery("actionStatus"),
+    ),
     findingId: S.String.pipe(T.HttpQuery("findingId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -3690,7 +4051,7 @@ export const ListAuditMitigationActionsExecutionsRequest = S.suspend(() =>
 export interface ListAuditMitigationActionsTasksRequest {
   auditTaskId?: string;
   findingId?: string;
-  taskStatus?: string;
+  taskStatus?: AuditMitigationActionsTaskStatus;
   maxResults?: number;
   nextToken?: string;
   startTime: Date;
@@ -3700,7 +4061,9 @@ export const ListAuditMitigationActionsTasksRequest = S.suspend(() =>
   S.Struct({
     auditTaskId: S.optional(S.String).pipe(T.HttpQuery("auditTaskId")),
     findingId: S.optional(S.String).pipe(T.HttpQuery("findingId")),
-    taskStatus: S.optional(S.String).pipe(T.HttpQuery("taskStatus")),
+    taskStatus: S.optional(AuditMitigationActionsTaskStatus).pipe(
+      T.HttpQuery("taskStatus"),
+    ),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
@@ -3752,8 +4115,8 @@ export const ListAuditSuppressionsRequest = S.suspend(() =>
 export interface ListAuditTasksRequest {
   startTime: Date;
   endTime: Date;
-  taskType?: string;
-  taskStatus?: string;
+  taskType?: AuditTaskType;
+  taskStatus?: AuditTaskStatus;
   nextToken?: string;
   maxResults?: number;
 }
@@ -3765,8 +4128,8 @@ export const ListAuditTasksRequest = S.suspend(() =>
     endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
       T.HttpQuery("endTime"),
     ),
-    taskType: S.optional(S.String).pipe(T.HttpQuery("taskType")),
-    taskStatus: S.optional(S.String).pipe(T.HttpQuery("taskStatus")),
+    taskType: S.optional(AuditTaskType).pipe(T.HttpQuery("taskType")),
+    taskStatus: S.optional(AuditTaskStatus).pipe(T.HttpQuery("taskStatus")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
@@ -3786,14 +4149,14 @@ export interface ListAuthorizersRequest {
   pageSize?: number;
   marker?: string;
   ascendingOrder?: boolean;
-  status?: string;
+  status?: AuthorizerStatus;
 }
 export const ListAuthorizersRequest = S.suspend(() =>
   S.Struct({
     pageSize: S.optional(S.Number).pipe(T.HttpQuery("pageSize")),
     marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
     ascendingOrder: S.optional(S.Boolean).pipe(T.HttpQuery("isAscendingOrder")),
-    status: S.optional(S.String).pipe(T.HttpQuery("status")),
+    status: S.optional(AuthorizerStatus).pipe(T.HttpQuery("status")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/authorizers" }),
@@ -3929,19 +4292,19 @@ export const ListCertificatesByCARequest = S.suspend(() =>
 export interface ListCommandsRequest {
   maxResults?: number;
   nextToken?: string;
-  namespace?: string;
+  namespace?: CommandNamespace;
   commandParameterName?: string;
-  sortOrder?: string;
+  sortOrder?: SortOrder;
 }
 export const ListCommandsRequest = S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    namespace: S.optional(S.String).pipe(T.HttpQuery("namespace")),
+    namespace: S.optional(CommandNamespace).pipe(T.HttpQuery("namespace")),
     commandParameterName: S.optional(S.String).pipe(
       T.HttpQuery("commandParameterName"),
     ),
-    sortOrder: S.optional(S.String).pipe(T.HttpQuery("sortOrder")),
+    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/commands" }),
@@ -4064,13 +4427,13 @@ export const ListDimensionsRequest = S.suspend(() =>
 export interface ListDomainConfigurationsRequest {
   marker?: string;
   pageSize?: number;
-  serviceType?: string;
+  serviceType?: ServiceType;
 }
 export const ListDomainConfigurationsRequest = S.suspend(() =>
   S.Struct({
     marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
     pageSize: S.optional(S.Number).pipe(T.HttpQuery("pageSize")),
-    serviceType: S.optional(S.String).pipe(T.HttpQuery("serviceType")),
+    serviceType: S.optional(ServiceType).pipe(T.HttpQuery("serviceType")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/domainConfigurations" }),
@@ -4128,14 +4491,14 @@ export const ListIndicesRequest = S.suspend(() =>
 }) as any as S.Schema<ListIndicesRequest>;
 export interface ListJobExecutionsForJobRequest {
   jobId: string;
-  status?: string;
+  status?: JobExecutionStatus;
   maxResults?: number;
   nextToken?: string;
 }
 export const ListJobExecutionsForJobRequest = S.suspend(() =>
   S.Struct({
     jobId: S.String.pipe(T.HttpLabel("jobId")),
-    status: S.optional(S.String).pipe(T.HttpQuery("status")),
+    status: S.optional(JobExecutionStatus).pipe(T.HttpQuery("status")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
@@ -4153,7 +4516,7 @@ export const ListJobExecutionsForJobRequest = S.suspend(() =>
 }) as any as S.Schema<ListJobExecutionsForJobRequest>;
 export interface ListJobExecutionsForThingRequest {
   thingName: string;
-  status?: string;
+  status?: JobExecutionStatus;
   namespaceId?: string;
   maxResults?: number;
   nextToken?: string;
@@ -4162,7 +4525,7 @@ export interface ListJobExecutionsForThingRequest {
 export const ListJobExecutionsForThingRequest = S.suspend(() =>
   S.Struct({
     thingName: S.String.pipe(T.HttpLabel("thingName")),
-    status: S.optional(S.String).pipe(T.HttpQuery("status")),
+    status: S.optional(JobExecutionStatus).pipe(T.HttpQuery("status")),
     namespaceId: S.optional(S.String).pipe(T.HttpQuery("namespaceId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -4181,8 +4544,8 @@ export const ListJobExecutionsForThingRequest = S.suspend(() =>
   identifier: "ListJobExecutionsForThingRequest",
 }) as any as S.Schema<ListJobExecutionsForThingRequest>;
 export interface ListJobsRequest {
-  status?: string;
-  targetSelection?: string;
+  status?: JobStatus;
+  targetSelection?: TargetSelection;
   maxResults?: number;
   nextToken?: string;
   thingGroupName?: string;
@@ -4191,8 +4554,10 @@ export interface ListJobsRequest {
 }
 export const ListJobsRequest = S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String).pipe(T.HttpQuery("status")),
-    targetSelection: S.optional(S.String).pipe(T.HttpQuery("targetSelection")),
+    status: S.optional(JobStatus).pipe(T.HttpQuery("status")),
+    targetSelection: S.optional(TargetSelection).pipe(
+      T.HttpQuery("targetSelection"),
+    ),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     thingGroupName: S.optional(S.String).pipe(T.HttpQuery("thingGroupName")),
@@ -4259,7 +4624,7 @@ export interface ListMetricValuesRequest {
   thingName: string;
   metricName: string;
   dimensionName?: string;
-  dimensionValueOperator?: string;
+  dimensionValueOperator?: DimensionValueOperator;
   startTime: Date;
   endTime: Date;
   maxResults?: number;
@@ -4270,7 +4635,7 @@ export const ListMetricValuesRequest = S.suspend(() =>
     thingName: S.String.pipe(T.HttpQuery("thingName")),
     metricName: S.String.pipe(T.HttpQuery("metricName")),
     dimensionName: S.optional(S.String).pipe(T.HttpQuery("dimensionName")),
-    dimensionValueOperator: S.optional(S.String).pipe(
+    dimensionValueOperator: S.optional(DimensionValueOperator).pipe(
       T.HttpQuery("dimensionValueOperator"),
     ),
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
@@ -4295,13 +4660,15 @@ export const ListMetricValuesRequest = S.suspend(() =>
   identifier: "ListMetricValuesRequest",
 }) as any as S.Schema<ListMetricValuesRequest>;
 export interface ListMitigationActionsRequest {
-  actionType?: string;
+  actionType?: MitigationActionType;
   maxResults?: number;
   nextToken?: string;
 }
 export const ListMitigationActionsRequest = S.suspend(() =>
   S.Struct({
-    actionType: S.optional(S.String).pipe(T.HttpQuery("actionType")),
+    actionType: S.optional(MitigationActionType).pipe(
+      T.HttpQuery("actionType"),
+    ),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
@@ -4320,13 +4687,15 @@ export const ListMitigationActionsRequest = S.suspend(() =>
 export interface ListOTAUpdatesRequest {
   maxResults?: number;
   nextToken?: string;
-  otaUpdateStatus?: string;
+  otaUpdateStatus?: OTAUpdateStatus;
 }
 export const ListOTAUpdatesRequest = S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    otaUpdateStatus: S.optional(S.String).pipe(T.HttpQuery("otaUpdateStatus")),
+    otaUpdateStatus: S.optional(OTAUpdateStatus).pipe(
+      T.HttpQuery("otaUpdateStatus"),
+    ),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/otaUpdates" }),
@@ -4386,14 +4755,14 @@ export const ListPackagesRequest = S.suspend(() =>
 }) as any as S.Schema<ListPackagesRequest>;
 export interface ListPackageVersionsRequest {
   packageName: string;
-  status?: string;
+  status?: PackageVersionStatus;
   maxResults?: number;
   nextToken?: string;
 }
 export const ListPackageVersionsRequest = S.suspend(() =>
   S.Struct({
     packageName: S.String.pipe(T.HttpLabel("packageName")),
-    status: S.optional(S.String).pipe(T.HttpQuery("status")),
+    status: S.optional(PackageVersionStatus).pipe(T.HttpQuery("status")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
@@ -4526,14 +4895,14 @@ export interface ListPrincipalThingsV2Request {
   nextToken?: string;
   maxResults?: number;
   principal: string;
-  thingPrincipalType?: string;
+  thingPrincipalType?: ThingPrincipalType;
 }
 export const ListPrincipalThingsV2Request = S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     principal: S.String.pipe(T.HttpHeader("x-amzn-principal")),
-    thingPrincipalType: S.optional(S.String).pipe(
+    thingPrincipalType: S.optional(ThingPrincipalType).pipe(
       T.HttpQuery("thingPrincipalType"),
     ),
   }).pipe(
@@ -4645,7 +5014,7 @@ export const ListRoleAliasesRequest = S.suspend(() =>
 export interface ListSbomValidationResultsRequest {
   packageName: string;
   versionName: string;
-  validationResult?: string;
+  validationResult?: SbomValidationResult;
   maxResults?: number;
   nextToken?: string;
 }
@@ -4653,7 +5022,7 @@ export const ListSbomValidationResultsRequest = S.suspend(() =>
   S.Struct({
     packageName: S.String.pipe(T.HttpLabel("packageName")),
     versionName: S.String.pipe(T.HttpLabel("versionName")),
-    validationResult: S.optional(S.String).pipe(
+    validationResult: S.optional(SbomValidationResult).pipe(
       T.HttpQuery("validationResult"),
     ),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -4919,14 +5288,14 @@ export interface ListThingPrincipalsV2Request {
   nextToken?: string;
   maxResults?: number;
   thingName: string;
-  thingPrincipalType?: string;
+  thingPrincipalType?: ThingPrincipalType;
 }
 export const ListThingPrincipalsV2Request = S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     thingName: S.String.pipe(T.HttpLabel("thingName")),
-    thingPrincipalType: S.optional(S.String).pipe(
+    thingPrincipalType: S.optional(ThingPrincipalType).pipe(
       T.HttpQuery("thingPrincipalType"),
     ),
   }).pipe(
@@ -4944,14 +5313,14 @@ export const ListThingPrincipalsV2Request = S.suspend(() =>
 }) as any as S.Schema<ListThingPrincipalsV2Request>;
 export interface ListThingRegistrationTaskReportsRequest {
   taskId: string;
-  reportType: string;
+  reportType: ReportType;
   nextToken?: string;
   maxResults?: number;
 }
 export const ListThingRegistrationTaskReportsRequest = S.suspend(() =>
   S.Struct({
     taskId: S.String.pipe(T.HttpLabel("taskId")),
-    reportType: S.String.pipe(T.HttpQuery("reportType")),
+    reportType: ReportType.pipe(T.HttpQuery("reportType")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
@@ -4973,13 +5342,13 @@ export const ListThingRegistrationTaskReportsRequest = S.suspend(() =>
 export interface ListThingRegistrationTasksRequest {
   nextToken?: string;
   maxResults?: number;
-  status?: string;
+  status?: Status;
 }
 export const ListThingRegistrationTasksRequest = S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    status: S.optional(S.String).pipe(T.HttpQuery("status")),
+    status: S.optional(Status).pipe(T.HttpQuery("status")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/thing-registration-tasks" }),
@@ -5145,13 +5514,13 @@ export const ListTopicRulesRequest = S.suspend(() =>
   identifier: "ListTopicRulesRequest",
 }) as any as S.Schema<ListTopicRulesRequest>;
 export interface ListV2LoggingLevelsRequest {
-  targetType?: string;
+  targetType?: LogTargetType;
   nextToken?: string;
   maxResults?: number;
 }
 export const ListV2LoggingLevelsRequest = S.suspend(() =>
   S.Struct({
-    targetType: S.optional(S.String).pipe(T.HttpQuery("targetType")),
+    targetType: S.optional(LogTargetType).pipe(T.HttpQuery("targetType")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
@@ -5172,9 +5541,9 @@ export interface ListViolationEventsRequest {
   endTime: Date;
   thingName?: string;
   securityProfileName?: string;
-  behaviorCriteriaType?: string;
+  behaviorCriteriaType?: BehaviorCriteriaType;
   listSuppressedAlerts?: boolean;
-  verificationState?: string;
+  verificationState?: VerificationState;
   nextToken?: string;
   maxResults?: number;
 }
@@ -5190,13 +5559,13 @@ export const ListViolationEventsRequest = S.suspend(() =>
     securityProfileName: S.optional(S.String).pipe(
       T.HttpQuery("securityProfileName"),
     ),
-    behaviorCriteriaType: S.optional(S.String).pipe(
+    behaviorCriteriaType: S.optional(BehaviorCriteriaType).pipe(
       T.HttpQuery("behaviorCriteriaType"),
     ),
     listSuppressedAlerts: S.optional(S.Boolean).pipe(
       T.HttpQuery("listSuppressedAlerts"),
     ),
-    verificationState: S.optional(S.String).pipe(
+    verificationState: S.optional(VerificationState).pipe(
       T.HttpQuery("verificationState"),
     ),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -5216,13 +5585,13 @@ export const ListViolationEventsRequest = S.suspend(() =>
 }) as any as S.Schema<ListViolationEventsRequest>;
 export interface PutVerificationStateOnViolationRequest {
   violationId: string;
-  verificationState: string;
+  verificationState: VerificationState;
   verificationStateDescription?: string;
 }
 export const PutVerificationStateOnViolationRequest = S.suspend(() =>
   S.Struct({
     violationId: S.String.pipe(T.HttpLabel("violationId")),
-    verificationState: S.String,
+    verificationState: VerificationState,
     verificationStateDescription: S.optional(S.String),
   }).pipe(
     T.all(
@@ -5250,14 +5619,14 @@ export interface RegisterCertificateRequest {
   certificatePem: string;
   caCertificatePem?: string;
   setAsActive?: boolean;
-  status?: string;
+  status?: CertificateStatus;
 }
 export const RegisterCertificateRequest = S.suspend(() =>
   S.Struct({
     certificatePem: S.String,
     caCertificatePem: S.optional(S.String),
     setAsActive: S.optional(S.Boolean).pipe(T.HttpQuery("setAsActive")),
-    status: S.optional(S.String),
+    status: S.optional(CertificateStatus),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/certificate/register" }),
@@ -5273,10 +5642,13 @@ export const RegisterCertificateRequest = S.suspend(() =>
 }) as any as S.Schema<RegisterCertificateRequest>;
 export interface RegisterCertificateWithoutCARequest {
   certificatePem: string;
-  status?: string;
+  status?: CertificateStatus;
 }
 export const RegisterCertificateWithoutCARequest = S.suspend(() =>
-  S.Struct({ certificatePem: S.String, status: S.optional(S.String) }).pipe(
+  S.Struct({
+    certificatePem: S.String,
+    status: S.optional(CertificateStatus),
+  }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/certificate/register-no-ca" }),
       svc,
@@ -5384,16 +5756,18 @@ export const RemoveThingFromThingGroupResponse = S.suspend(() =>
 ).annotations({
   identifier: "RemoveThingFromThingGroupResponse",
 }) as any as S.Schema<RemoveThingFromThingGroupResponse>;
+export type DynamoKeyType = "STRING" | "NUMBER";
+export const DynamoKeyType = S.Literal("STRING", "NUMBER");
 export interface DynamoDBAction {
   tableName: string;
   roleArn: string;
   operation?: string;
   hashKeyField: string;
   hashKeyValue: string;
-  hashKeyType?: string;
+  hashKeyType?: DynamoKeyType;
   rangeKeyField?: string;
   rangeKeyValue?: string;
-  rangeKeyType?: string;
+  rangeKeyType?: DynamoKeyType;
   payloadField?: string;
 }
 export const DynamoDBAction = S.suspend(() =>
@@ -5403,10 +5777,10 @@ export const DynamoDBAction = S.suspend(() =>
     operation: S.optional(S.String),
     hashKeyField: S.String,
     hashKeyValue: S.String,
-    hashKeyType: S.optional(S.String),
+    hashKeyType: S.optional(DynamoKeyType),
     rangeKeyField: S.optional(S.String),
     rangeKeyValue: S.optional(S.String),
-    rangeKeyType: S.optional(S.String),
+    rangeKeyType: S.optional(DynamoKeyType),
     payloadField: S.optional(S.String),
   }),
 ).annotations({
@@ -5433,16 +5807,18 @@ export interface LambdaAction {
 export const LambdaAction = S.suspend(() =>
   S.Struct({ functionArn: S.String }),
 ).annotations({ identifier: "LambdaAction" }) as any as S.Schema<LambdaAction>;
+export type MessageFormat = "RAW" | "JSON";
+export const MessageFormat = S.Literal("RAW", "JSON");
 export interface SnsAction {
   targetArn: string;
   roleArn: string;
-  messageFormat?: string;
+  messageFormat?: MessageFormat;
 }
 export const SnsAction = S.suspend(() =>
   S.Struct({
     targetArn: S.String,
     roleArn: S.String,
-    messageFormat: S.optional(S.String),
+    messageFormat: S.optional(MessageFormat),
   }),
 ).annotations({ identifier: "SnsAction" }) as any as S.Schema<SnsAction>;
 export interface SqsAction {
@@ -5486,7 +5862,7 @@ export interface MqttHeaders {
   responseTopic?: string;
   correlationData?: string;
   messageExpiry?: string;
-  userProperties?: UserProperties;
+  userProperties?: UserProperty[];
 }
 export const MqttHeaders = S.suspend(() =>
   S.Struct({
@@ -5514,18 +5890,37 @@ export const RepublishAction = S.suspend(() =>
 ).annotations({
   identifier: "RepublishAction",
 }) as any as S.Schema<RepublishAction>;
+export type CannedAccessControlList =
+  | "private"
+  | "public-read"
+  | "public-read-write"
+  | "aws-exec-read"
+  | "authenticated-read"
+  | "bucket-owner-read"
+  | "bucket-owner-full-control"
+  | "log-delivery-write";
+export const CannedAccessControlList = S.Literal(
+  "private",
+  "public-read",
+  "public-read-write",
+  "aws-exec-read",
+  "authenticated-read",
+  "bucket-owner-read",
+  "bucket-owner-full-control",
+  "log-delivery-write",
+);
 export interface S3Action {
   roleArn: string;
   bucketName: string;
   key: string;
-  cannedAcl?: string;
+  cannedAcl?: CannedAccessControlList;
 }
 export const S3Action = S.suspend(() =>
   S.Struct({
     roleArn: S.String,
     bucketName: S.String,
     key: S.String,
-    cannedAcl: S.optional(S.String),
+    cannedAcl: S.optional(CannedAccessControlList),
   }),
 ).annotations({ identifier: "S3Action" }) as any as S.Schema<S3Action>;
 export interface FirehoseAction {
@@ -5674,7 +6069,7 @@ export const AssetPropertyTimestamp = S.suspend(() =>
   identifier: "AssetPropertyTimestamp",
 }) as any as S.Schema<AssetPropertyTimestamp>;
 export interface AssetPropertyValue {
-  value: (typeof AssetPropertyVariant)["Type"];
+  value: AssetPropertyVariant;
   timestamp: AssetPropertyTimestamp;
   quality?: string;
 }
@@ -5694,7 +6089,7 @@ export interface PutAssetPropertyValueEntry {
   assetId?: string;
   propertyId?: string;
   propertyAlias?: string;
-  propertyValues: AssetPropertyValueList;
+  propertyValues: AssetPropertyValue[];
 }
 export const PutAssetPropertyValueEntry = S.suspend(() =>
   S.Struct({
@@ -5712,7 +6107,7 @@ export const PutAssetPropertyValueEntryList = S.Array(
   PutAssetPropertyValueEntry,
 );
 export interface IotSiteWiseAction {
-  putAssetPropertyValueEntries: PutAssetPropertyValueEntryList;
+  putAssetPropertyValueEntries: PutAssetPropertyValueEntry[];
   roleArn: string;
 }
 export const IotSiteWiseAction = S.suspend(() =>
@@ -5761,7 +6156,7 @@ export interface TimestreamAction {
   roleArn: string;
   databaseName: string;
   tableName: string;
-  dimensions: TimestreamDimensionList;
+  dimensions: TimestreamDimension[];
   timestamp?: TimestreamTimestamp;
 }
 export const TimestreamAction = S.suspend(() =>
@@ -5823,7 +6218,7 @@ export const BatchConfig = S.suspend(() =>
 export interface HttpAction {
   url: string;
   confirmationUrl?: string;
-  headers?: HeaderList;
+  headers?: HttpActionHeader[];
   auth?: HttpAuthorization;
   enableBatching?: boolean;
   batchConfig?: BatchConfig;
@@ -5856,8 +6251,8 @@ export interface KafkaAction {
   topic: string;
   key?: string;
   partition?: string;
-  clientProperties: ClientProperties;
-  headers?: KafkaHeaders;
+  clientProperties: { [key: string]: string };
+  headers?: KafkaActionHeader[];
 }
 export const KafkaAction = S.suspend(() =>
   S.Struct({
@@ -5973,7 +6368,7 @@ export const ActionList = S.Array(Action);
 export interface TopicRulePayload {
   sql: string;
   description?: string;
-  actions: ActionList;
+  actions: Action[];
   ruleDisabled?: boolean;
   awsIotSqlVersion?: string;
   errorAction?: Action;
@@ -6094,7 +6489,7 @@ export const SetDefaultPolicyVersionResponse = S.suspend(() =>
   identifier: "SetDefaultPolicyVersionResponse",
 }) as any as S.Schema<SetDefaultPolicyVersionResponse>;
 export interface StartOnDemandAuditTaskRequest {
-  targetCheckNames: TargetAuditCheckNames;
+  targetCheckNames: string[];
 }
 export const StartOnDemandAuditTaskRequest = S.suspend(() =>
   S.Struct({ targetCheckNames: TargetAuditCheckNames }).pipe(
@@ -6163,7 +6558,7 @@ export const StopThingRegistrationTaskResponse = S.suspend(() =>
 }) as any as S.Schema<StopThingRegistrationTaskResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagList;
+  tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
@@ -6208,7 +6603,7 @@ export const TransferCertificateRequest = S.suspend(() =>
 }) as any as S.Schema<TransferCertificateRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
@@ -6228,6 +6623,8 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
+export type AuditNotificationType = "SNS";
+export const AuditNotificationType = S.Literal("SNS");
 export interface AuditNotificationTarget {
   targetArn?: string;
   roleArn?: string;
@@ -6243,20 +6640,25 @@ export const AuditNotificationTarget = S.suspend(() =>
   identifier: "AuditNotificationTarget",
 }) as any as S.Schema<AuditNotificationTarget>;
 export type AuditNotificationTargetConfigurations = {
-  [key: string]: AuditNotificationTarget;
+  [key in AuditNotificationType]?: AuditNotificationTarget;
 };
-export const AuditNotificationTargetConfigurations = S.Record({
-  key: S.String,
-  value: AuditNotificationTarget,
-});
-export type CheckCustomConfiguration = { [key: string]: string };
-export const CheckCustomConfiguration = S.Record({
-  key: S.String,
-  value: S.String,
-});
+export const AuditNotificationTargetConfigurations = S.partial(
+  S.Record({ key: AuditNotificationType, value: AuditNotificationTarget }),
+);
+export type ConfigName =
+  | "CERT_AGE_THRESHOLD_IN_DAYS"
+  | "CERT_EXPIRATION_THRESHOLD_IN_DAYS";
+export const ConfigName = S.Literal(
+  "CERT_AGE_THRESHOLD_IN_DAYS",
+  "CERT_EXPIRATION_THRESHOLD_IN_DAYS",
+);
+export type CheckCustomConfiguration = { [key in ConfigName]?: string };
+export const CheckCustomConfiguration = S.partial(
+  S.Record({ key: ConfigName, value: S.String }),
+);
 export interface AuditCheckConfiguration {
   enabled?: boolean;
-  configuration?: CheckCustomConfiguration;
+  configuration?: { [key: string]: string };
 }
 export const AuditCheckConfiguration = S.suspend(() =>
   S.Struct({
@@ -6275,8 +6677,10 @@ export const AuditCheckConfigurations = S.Record({
 });
 export interface UpdateAccountAuditConfigurationRequest {
   roleArn?: string;
-  auditNotificationTargetConfigurations?: AuditNotificationTargetConfigurations;
-  auditCheckConfigurations?: AuditCheckConfigurations;
+  auditNotificationTargetConfigurations?: {
+    [key: string]: AuditNotificationTarget;
+  };
+  auditCheckConfigurations?: { [key: string]: AuditCheckConfiguration };
 }
 export const UpdateAccountAuditConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -6343,8 +6747,8 @@ export interface UpdateAuthorizerRequest {
   authorizerName: string;
   authorizerFunctionArn?: string;
   tokenKeyName?: string;
-  tokenSigningPublicKeys?: PublicKeyMap;
-  status?: string;
+  tokenSigningPublicKeys?: { [key: string]: string };
+  status?: AuthorizerStatus;
   enableCachingForHttp?: boolean;
 }
 export const UpdateAuthorizerRequest = S.suspend(() =>
@@ -6353,7 +6757,7 @@ export const UpdateAuthorizerRequest = S.suspend(() =>
     authorizerFunctionArn: S.optional(S.String),
     tokenKeyName: S.optional(S.String),
     tokenSigningPublicKeys: S.optional(PublicKeyMap),
-    status: S.optional(S.String),
+    status: S.optional(AuthorizerStatus),
     enableCachingForHttp: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -6415,16 +6819,16 @@ export const RegistrationConfig = S.suspend(() =>
 }) as any as S.Schema<RegistrationConfig>;
 export interface UpdateCACertificateRequest {
   certificateId: string;
-  newStatus?: string;
-  newAutoRegistrationStatus?: string;
+  newStatus?: CACertificateStatus;
+  newAutoRegistrationStatus?: AutoRegistrationStatus;
   registrationConfig?: RegistrationConfig;
   removeAutoRegistration?: boolean;
 }
 export const UpdateCACertificateRequest = S.suspend(() =>
   S.Struct({
     certificateId: S.String.pipe(T.HttpLabel("certificateId")),
-    newStatus: S.optional(S.String).pipe(T.HttpQuery("newStatus")),
-    newAutoRegistrationStatus: S.optional(S.String).pipe(
+    newStatus: S.optional(CACertificateStatus).pipe(T.HttpQuery("newStatus")),
+    newAutoRegistrationStatus: S.optional(AutoRegistrationStatus).pipe(
       T.HttpQuery("newAutoRegistrationStatus"),
     ),
     registrationConfig: S.optional(RegistrationConfig),
@@ -6450,12 +6854,12 @@ export const UpdateCACertificateResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateCACertificateResponse>;
 export interface UpdateCertificateRequest {
   certificateId: string;
-  newStatus: string;
+  newStatus: CertificateStatus;
 }
 export const UpdateCertificateRequest = S.suspend(() =>
   S.Struct({
     certificateId: S.String.pipe(T.HttpLabel("certificateId")),
-    newStatus: S.String.pipe(T.HttpQuery("newStatus")),
+    newStatus: CertificateStatus.pipe(T.HttpQuery("newStatus")),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/certificates/{certificateId}" }),
@@ -6478,7 +6882,7 @@ export const UpdateCertificateResponse = S.suspend(() =>
 export interface UpdateCertificateProviderRequest {
   certificateProviderName: string;
   lambdaFunctionArn?: string;
-  accountDefaultForOperations?: CertificateProviderAccountDefaultForOperations;
+  accountDefaultForOperations?: CertificateProviderOperation[];
 }
 export const UpdateCertificateProviderRequest = S.suspend(() =>
   S.Struct({
@@ -6553,7 +6957,7 @@ export const UpdateCustomMetricRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateCustomMetricRequest>;
 export interface UpdateDimensionRequest {
   name: string;
-  stringValues: DimensionStringValues;
+  stringValues: string[];
 }
 export const UpdateDimensionRequest = S.suspend(() =>
   S.Struct({
@@ -6615,12 +7019,12 @@ export const ClientCertificateConfig = S.suspend(() =>
 export interface UpdateDomainConfigurationRequest {
   domainConfigurationName: string;
   authorizerConfig?: AuthorizerConfig;
-  domainConfigurationStatus?: string;
+  domainConfigurationStatus?: DomainConfigurationStatus;
   removeAuthorizerConfig?: boolean;
   tlsConfig?: TlsConfig;
   serverCertificateConfig?: ServerCertificateConfig;
-  authenticationType?: string;
-  applicationProtocol?: string;
+  authenticationType?: AuthenticationType;
+  applicationProtocol?: ApplicationProtocol;
   clientCertificateConfig?: ClientCertificateConfig;
 }
 export const UpdateDomainConfigurationRequest = S.suspend(() =>
@@ -6629,12 +7033,12 @@ export const UpdateDomainConfigurationRequest = S.suspend(() =>
       T.HttpLabel("domainConfigurationName"),
     ),
     authorizerConfig: S.optional(AuthorizerConfig),
-    domainConfigurationStatus: S.optional(S.String),
+    domainConfigurationStatus: S.optional(DomainConfigurationStatus),
     removeAuthorizerConfig: S.optional(S.Boolean),
     tlsConfig: S.optional(TlsConfig),
     serverCertificateConfig: S.optional(ServerCertificateConfig),
-    authenticationType: S.optional(S.String),
-    applicationProtocol: S.optional(S.String),
+    authenticationType: S.optional(AuthenticationType),
+    applicationProtocol: S.optional(ApplicationProtocol),
     clientCertificateConfig: S.optional(ClientCertificateConfig),
   }).pipe(
     T.all(
@@ -6685,13 +7089,13 @@ export const UpdateDynamicThingGroupRequest = S.suspend(() =>
   identifier: "UpdateDynamicThingGroupRequest",
 }) as any as S.Schema<UpdateDynamicThingGroupRequest>;
 export interface UpdateEncryptionConfigurationRequest {
-  encryptionType: string;
+  encryptionType: EncryptionType;
   kmsKeyArn?: string;
   kmsAccessRoleArn?: string;
 }
 export const UpdateEncryptionConfigurationRequest = S.suspend(() =>
   S.Struct({
-    encryptionType: S.String,
+    encryptionType: EncryptionType,
     kmsKeyArn: S.optional(S.String),
     kmsAccessRoleArn: S.optional(S.String),
   }).pipe(
@@ -6713,6 +7117,31 @@ export const UpdateEncryptionConfigurationResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateEncryptionConfigurationResponse",
 }) as any as S.Schema<UpdateEncryptionConfigurationResponse>;
+export type EventType =
+  | "THING"
+  | "THING_GROUP"
+  | "THING_TYPE"
+  | "THING_GROUP_MEMBERSHIP"
+  | "THING_GROUP_HIERARCHY"
+  | "THING_TYPE_ASSOCIATION"
+  | "JOB"
+  | "JOB_EXECUTION"
+  | "POLICY"
+  | "CERTIFICATE"
+  | "CA_CERTIFICATE";
+export const EventType = S.Literal(
+  "THING",
+  "THING_GROUP",
+  "THING_TYPE",
+  "THING_GROUP_MEMBERSHIP",
+  "THING_GROUP_HIERARCHY",
+  "THING_TYPE_ASSOCIATION",
+  "JOB",
+  "JOB_EXECUTION",
+  "POLICY",
+  "CERTIFICATE",
+  "CA_CERTIFICATE",
+);
 export interface Configuration {
   Enabled?: boolean;
 }
@@ -6721,13 +7150,12 @@ export const Configuration = S.suspend(() =>
 ).annotations({
   identifier: "Configuration",
 }) as any as S.Schema<Configuration>;
-export type EventConfigurations = { [key: string]: Configuration };
-export const EventConfigurations = S.Record({
-  key: S.String,
-  value: Configuration,
-});
+export type EventConfigurations = { [key in EventType]?: Configuration };
+export const EventConfigurations = S.partial(
+  S.Record({ key: EventType, value: Configuration }),
+);
 export interface UpdateEventConfigurationsRequest {
-  eventConfigurations?: EventConfigurations;
+  eventConfigurations?: { [key: string]: Configuration };
 }
 export const UpdateEventConfigurationsRequest = S.suspend(() =>
   S.Struct({ eventConfigurations: S.optional(EventConfigurations) }).pipe(
@@ -6749,14 +7177,23 @@ export const UpdateEventConfigurationsResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateEventConfigurationsResponse",
 }) as any as S.Schema<UpdateEventConfigurationsResponse>;
+export type AggregationTypeName = "Statistics" | "Percentiles" | "Cardinality";
+export const AggregationTypeName = S.Literal(
+  "Statistics",
+  "Percentiles",
+  "Cardinality",
+);
 export type AggregationTypeValues = string[];
 export const AggregationTypeValues = S.Array(S.String);
 export interface AggregationType {
-  name: string;
-  values?: AggregationTypeValues;
+  name: AggregationTypeName;
+  values?: string[];
 }
 export const AggregationType = S.suspend(() =>
-  S.Struct({ name: S.String, values: S.optional(AggregationTypeValues) }),
+  S.Struct({
+    name: AggregationTypeName,
+    values: S.optional(AggregationTypeValues),
+  }),
 ).annotations({
   identifier: "AggregationType",
 }) as any as S.Schema<AggregationType>;
@@ -6769,7 +7206,7 @@ export interface UpdateFleetMetricRequest {
   description?: string;
   queryVersion?: string;
   indexName: string;
-  unit?: string;
+  unit?: FleetMetricUnit;
   expectedVersion?: number;
 }
 export const UpdateFleetMetricRequest = S.suspend(() =>
@@ -6782,7 +7219,7 @@ export const UpdateFleetMetricRequest = S.suspend(() =>
     description: S.optional(S.String),
     queryVersion: S.optional(S.String),
     indexName: S.String,
-    unit: S.optional(S.String),
+    unit: S.optional(FleetMetricUnit),
     expectedVersion: S.optional(S.Number),
   }).pipe(
     T.all(
@@ -6803,31 +7240,47 @@ export const UpdateFleetMetricResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateFleetMetricResponse",
 }) as any as S.Schema<UpdateFleetMetricResponse>;
+export type ThingIndexingMode = "OFF" | "REGISTRY" | "REGISTRY_AND_SHADOW";
+export const ThingIndexingMode = S.Literal(
+  "OFF",
+  "REGISTRY",
+  "REGISTRY_AND_SHADOW",
+);
+export type ThingConnectivityIndexingMode = "OFF" | "STATUS";
+export const ThingConnectivityIndexingMode = S.Literal("OFF", "STATUS");
+export type DeviceDefenderIndexingMode = "OFF" | "VIOLATIONS";
+export const DeviceDefenderIndexingMode = S.Literal("OFF", "VIOLATIONS");
+export type NamedShadowIndexingMode = "OFF" | "ON";
+export const NamedShadowIndexingMode = S.Literal("OFF", "ON");
+export type FieldType = "Number" | "String" | "Boolean";
+export const FieldType = S.Literal("Number", "String", "Boolean");
 export interface Field {
   name?: string;
-  type?: string;
+  type?: FieldType;
 }
 export const Field = S.suspend(() =>
-  S.Struct({ name: S.optional(S.String), type: S.optional(S.String) }),
+  S.Struct({ name: S.optional(S.String), type: S.optional(FieldType) }),
 ).annotations({ identifier: "Field" }) as any as S.Schema<Field>;
 export type Fields = Field[];
 export const Fields = S.Array(Field);
 export type NamedShadowNamesFilter = string[];
 export const NamedShadowNamesFilter = S.Array(S.String);
+export type TargetFieldOrder = "LatLon" | "LonLat";
+export const TargetFieldOrder = S.Literal("LatLon", "LonLat");
 export interface GeoLocationTarget {
   name?: string;
-  order?: string;
+  order?: TargetFieldOrder;
 }
 export const GeoLocationTarget = S.suspend(() =>
-  S.Struct({ name: S.optional(S.String), order: S.optional(S.String) }),
+  S.Struct({ name: S.optional(S.String), order: S.optional(TargetFieldOrder) }),
 ).annotations({
   identifier: "GeoLocationTarget",
 }) as any as S.Schema<GeoLocationTarget>;
 export type GeoLocationsFilter = GeoLocationTarget[];
 export const GeoLocationsFilter = S.Array(GeoLocationTarget);
 export interface IndexingFilter {
-  namedShadowNames?: NamedShadowNamesFilter;
-  geoLocations?: GeoLocationsFilter;
+  namedShadowNames?: string[];
+  geoLocations?: GeoLocationTarget[];
 }
 export const IndexingFilter = S.suspend(() =>
   S.Struct({
@@ -6838,20 +7291,20 @@ export const IndexingFilter = S.suspend(() =>
   identifier: "IndexingFilter",
 }) as any as S.Schema<IndexingFilter>;
 export interface ThingIndexingConfiguration {
-  thingIndexingMode: string;
-  thingConnectivityIndexingMode?: string;
-  deviceDefenderIndexingMode?: string;
-  namedShadowIndexingMode?: string;
-  managedFields?: Fields;
-  customFields?: Fields;
+  thingIndexingMode: ThingIndexingMode;
+  thingConnectivityIndexingMode?: ThingConnectivityIndexingMode;
+  deviceDefenderIndexingMode?: DeviceDefenderIndexingMode;
+  namedShadowIndexingMode?: NamedShadowIndexingMode;
+  managedFields?: Field[];
+  customFields?: Field[];
   filter?: IndexingFilter;
 }
 export const ThingIndexingConfiguration = S.suspend(() =>
   S.Struct({
-    thingIndexingMode: S.String,
-    thingConnectivityIndexingMode: S.optional(S.String),
-    deviceDefenderIndexingMode: S.optional(S.String),
-    namedShadowIndexingMode: S.optional(S.String),
+    thingIndexingMode: ThingIndexingMode,
+    thingConnectivityIndexingMode: S.optional(ThingConnectivityIndexingMode),
+    deviceDefenderIndexingMode: S.optional(DeviceDefenderIndexingMode),
+    namedShadowIndexingMode: S.optional(NamedShadowIndexingMode),
     managedFields: S.optional(Fields),
     customFields: S.optional(Fields),
     filter: S.optional(IndexingFilter),
@@ -6859,14 +7312,16 @@ export const ThingIndexingConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ThingIndexingConfiguration",
 }) as any as S.Schema<ThingIndexingConfiguration>;
+export type ThingGroupIndexingMode = "OFF" | "ON";
+export const ThingGroupIndexingMode = S.Literal("OFF", "ON");
 export interface ThingGroupIndexingConfiguration {
-  thingGroupIndexingMode: string;
-  managedFields?: Fields;
-  customFields?: Fields;
+  thingGroupIndexingMode: ThingGroupIndexingMode;
+  managedFields?: Field[];
+  customFields?: Field[];
 }
 export const ThingGroupIndexingConfiguration = S.suspend(() =>
   S.Struct({
-    thingGroupIndexingMode: S.String,
+    thingGroupIndexingMode: ThingGroupIndexingMode,
     managedFields: S.optional(Fields),
     customFields: S.optional(Fields),
   }),
@@ -6952,16 +7407,29 @@ export const JobExecutionsRolloutConfig = S.suspend(() =>
 ).annotations({
   identifier: "JobExecutionsRolloutConfig",
 }) as any as S.Schema<JobExecutionsRolloutConfig>;
+export type JobExecutionFailureType =
+  | "FAILED"
+  | "REJECTED"
+  | "TIMED_OUT"
+  | "ALL";
+export const JobExecutionFailureType = S.Literal(
+  "FAILED",
+  "REJECTED",
+  "TIMED_OUT",
+  "ALL",
+);
+export type AbortAction = "CANCEL";
+export const AbortAction = S.Literal("CANCEL");
 export interface AbortCriteria {
-  failureType: string;
-  action: string;
+  failureType: JobExecutionFailureType;
+  action: AbortAction;
   thresholdPercentage: number;
   minNumberOfExecutedThings: number;
 }
 export const AbortCriteria = S.suspend(() =>
   S.Struct({
-    failureType: S.String,
-    action: S.String,
+    failureType: JobExecutionFailureType,
+    action: AbortAction,
     thresholdPercentage: S.Number,
     minNumberOfExecutedThings: S.Number,
   }),
@@ -6971,7 +7439,7 @@ export const AbortCriteria = S.suspend(() =>
 export type AbortCriteriaList = AbortCriteria[];
 export const AbortCriteriaList = S.Array(AbortCriteria);
 export interface AbortConfig {
-  criteriaList: AbortCriteriaList;
+  criteriaList: AbortCriteria[];
 }
 export const AbortConfig = S.suspend(() =>
   S.Struct({ criteriaList: AbortCriteriaList }),
@@ -6984,19 +7452,21 @@ export const TimeoutConfig = S.suspend(() =>
 ).annotations({
   identifier: "TimeoutConfig",
 }) as any as S.Schema<TimeoutConfig>;
+export type RetryableFailureType = "FAILED" | "TIMED_OUT" | "ALL";
+export const RetryableFailureType = S.Literal("FAILED", "TIMED_OUT", "ALL");
 export interface RetryCriteria {
-  failureType: string;
+  failureType: RetryableFailureType;
   numberOfRetries: number;
 }
 export const RetryCriteria = S.suspend(() =>
-  S.Struct({ failureType: S.String, numberOfRetries: S.Number }),
+  S.Struct({ failureType: RetryableFailureType, numberOfRetries: S.Number }),
 ).annotations({
   identifier: "RetryCriteria",
 }) as any as S.Schema<RetryCriteria>;
 export type RetryCriteriaList = RetryCriteria[];
 export const RetryCriteriaList = S.Array(RetryCriteria);
 export interface JobExecutionsRetryConfig {
-  criteriaList: RetryCriteriaList;
+  criteriaList: RetryCriteria[];
 }
 export const JobExecutionsRetryConfig = S.suspend(() =>
   S.Struct({ criteriaList: RetryCriteriaList }),
@@ -7040,26 +7510,30 @@ export interface UpdateJobResponse {}
 export const UpdateJobResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UpdateJobResponse",
 }) as any as S.Schema<UpdateJobResponse>;
+export type DeviceCertificateUpdateAction = "DEACTIVATE";
+export const DeviceCertificateUpdateAction = S.Literal("DEACTIVATE");
 export interface UpdateDeviceCertificateParams {
-  action: string;
+  action: DeviceCertificateUpdateAction;
 }
 export const UpdateDeviceCertificateParams = S.suspend(() =>
-  S.Struct({ action: S.String }),
+  S.Struct({ action: DeviceCertificateUpdateAction }),
 ).annotations({
   identifier: "UpdateDeviceCertificateParams",
 }) as any as S.Schema<UpdateDeviceCertificateParams>;
+export type CACertificateUpdateAction = "DEACTIVATE";
+export const CACertificateUpdateAction = S.Literal("DEACTIVATE");
 export interface UpdateCACertificateParams {
-  action: string;
+  action: CACertificateUpdateAction;
 }
 export const UpdateCACertificateParams = S.suspend(() =>
-  S.Struct({ action: S.String }),
+  S.Struct({ action: CACertificateUpdateAction }),
 ).annotations({
   identifier: "UpdateCACertificateParams",
 }) as any as S.Schema<UpdateCACertificateParams>;
 export type ThingGroupNames = string[];
 export const ThingGroupNames = S.Array(S.String);
 export interface AddThingsToThingGroupParams {
-  thingGroupNames: ThingGroupNames;
+  thingGroupNames: string[];
   overrideDynamicGroups?: boolean;
 }
 export const AddThingsToThingGroupParams = S.suspend(() =>
@@ -7070,20 +7544,22 @@ export const AddThingsToThingGroupParams = S.suspend(() =>
 ).annotations({
   identifier: "AddThingsToThingGroupParams",
 }) as any as S.Schema<AddThingsToThingGroupParams>;
+export type PolicyTemplateName = "BLANK_POLICY";
+export const PolicyTemplateName = S.Literal("BLANK_POLICY");
 export interface ReplaceDefaultPolicyVersionParams {
-  templateName: string;
+  templateName: PolicyTemplateName;
 }
 export const ReplaceDefaultPolicyVersionParams = S.suspend(() =>
-  S.Struct({ templateName: S.String }),
+  S.Struct({ templateName: PolicyTemplateName }),
 ).annotations({
   identifier: "ReplaceDefaultPolicyVersionParams",
 }) as any as S.Schema<ReplaceDefaultPolicyVersionParams>;
 export interface EnableIoTLoggingParams {
   roleArnForLogging: string;
-  logLevel: string;
+  logLevel: LogLevel;
 }
 export const EnableIoTLoggingParams = S.suspend(() =>
-  S.Struct({ roleArnForLogging: S.String, logLevel: S.String }),
+  S.Struct({ roleArnForLogging: S.String, logLevel: LogLevel }),
 ).annotations({
   identifier: "EnableIoTLoggingParams",
 }) as any as S.Schema<EnableIoTLoggingParams>;
@@ -7145,7 +7621,7 @@ export const UpdateMitigationActionRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateMitigationActionRequest>;
 export interface UpdatePackageRequest {
   packageName: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   defaultVersionName?: string;
   unsetDefaultVersion?: boolean;
   clientToken?: string;
@@ -7235,11 +7711,11 @@ export const PackageVersionArtifact = S.suspend(() =>
 export interface UpdatePackageVersionRequest {
   packageName: string;
   versionName: string;
-  description?: string | Redacted.Redacted<string>;
-  attributes?: ResourceAttributes;
+  description?: string | redacted.Redacted<string>;
+  attributes?: { [key: string]: string };
   artifact?: PackageVersionArtifact;
-  action?: string;
-  recipe?: string | Redacted.Redacted<string>;
+  action?: PackageVersionAction;
+  recipe?: string | redacted.Redacted<string>;
   clientToken?: string;
 }
 export const UpdatePackageVersionRequest = S.suspend(() =>
@@ -7249,7 +7725,7 @@ export const UpdatePackageVersionRequest = S.suspend(() =>
     description: S.optional(SensitiveString),
     attributes: S.optional(ResourceAttributes),
     artifact: S.optional(PackageVersionArtifact),
-    action: S.optional(S.String),
+    action: S.optional(PackageVersionAction),
     recipe: S.optional(SensitiveString),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   }).pipe(
@@ -7347,17 +7823,17 @@ export const UpdateRoleAliasRequest = S.suspend(() =>
   identifier: "UpdateRoleAliasRequest",
 }) as any as S.Schema<UpdateRoleAliasRequest>;
 export interface UpdateScheduledAuditRequest {
-  frequency?: string;
+  frequency?: AuditFrequency;
   dayOfMonth?: string;
-  dayOfWeek?: string;
-  targetCheckNames?: TargetAuditCheckNames;
+  dayOfWeek?: DayOfWeek;
+  targetCheckNames?: string[];
   scheduledAuditName: string;
 }
 export const UpdateScheduledAuditRequest = S.suspend(() =>
   S.Struct({
-    frequency: S.optional(S.String),
+    frequency: S.optional(AuditFrequency),
     dayOfMonth: S.optional(S.String),
-    dayOfWeek: S.optional(S.String),
+    dayOfWeek: S.optional(DayOfWeek),
     targetCheckNames: S.optional(TargetAuditCheckNames),
     scheduledAuditName: S.String.pipe(T.HttpLabel("scheduledAuditName")),
   }).pipe(
@@ -7378,13 +7854,39 @@ export const UpdateScheduledAuditRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateScheduledAuditRequest>;
 export interface MetricDimension {
   dimensionName: string;
-  operator?: string;
+  operator?: DimensionValueOperator;
 }
 export const MetricDimension = S.suspend(() =>
-  S.Struct({ dimensionName: S.String, operator: S.optional(S.String) }),
+  S.Struct({
+    dimensionName: S.String,
+    operator: S.optional(DimensionValueOperator),
+  }),
 ).annotations({
   identifier: "MetricDimension",
 }) as any as S.Schema<MetricDimension>;
+export type ComparisonOperator =
+  | "less-than"
+  | "less-than-equals"
+  | "greater-than"
+  | "greater-than-equals"
+  | "in-cidr-set"
+  | "not-in-cidr-set"
+  | "in-port-set"
+  | "not-in-port-set"
+  | "in-set"
+  | "not-in-set";
+export const ComparisonOperator = S.Literal(
+  "less-than",
+  "less-than-equals",
+  "greater-than",
+  "greater-than-equals",
+  "in-cidr-set",
+  "not-in-cidr-set",
+  "in-port-set",
+  "not-in-port-set",
+  "in-set",
+  "not-in-set",
+);
 export type Cidrs = string[];
 export const Cidrs = S.Array(S.String);
 export type Ports = number[];
@@ -7395,11 +7897,11 @@ export type StringList = string[];
 export const StringList = S.Array(S.String);
 export interface MetricValue {
   count?: number;
-  cidrs?: Cidrs;
-  ports?: Ports;
+  cidrs?: string[];
+  ports?: number[];
   number?: number;
-  numbers?: NumberList;
-  strings?: StringList;
+  numbers?: number[];
+  strings?: string[];
 }
 export const MetricValue = S.suspend(() =>
   S.Struct({
@@ -7419,16 +7921,18 @@ export const StatisticalThreshold = S.suspend(() =>
 ).annotations({
   identifier: "StatisticalThreshold",
 }) as any as S.Schema<StatisticalThreshold>;
+export type ConfidenceLevel = "LOW" | "MEDIUM" | "HIGH";
+export const ConfidenceLevel = S.Literal("LOW", "MEDIUM", "HIGH");
 export interface MachineLearningDetectionConfig {
-  confidenceLevel: string;
+  confidenceLevel: ConfidenceLevel;
 }
 export const MachineLearningDetectionConfig = S.suspend(() =>
-  S.Struct({ confidenceLevel: S.String }),
+  S.Struct({ confidenceLevel: ConfidenceLevel }),
 ).annotations({
   identifier: "MachineLearningDetectionConfig",
 }) as any as S.Schema<MachineLearningDetectionConfig>;
 export interface BehaviorCriteria {
-  comparisonOperator?: string;
+  comparisonOperator?: ComparisonOperator;
   value?: MetricValue;
   durationSeconds?: number;
   consecutiveDatapointsToAlarm?: number;
@@ -7438,7 +7942,7 @@ export interface BehaviorCriteria {
 }
 export const BehaviorCriteria = S.suspend(() =>
   S.Struct({
-    comparisonOperator: S.optional(S.String),
+    comparisonOperator: S.optional(ComparisonOperator),
     value: S.optional(MetricValue),
     durationSeconds: S.optional(S.Number),
     consecutiveDatapointsToAlarm: S.optional(S.Number),
@@ -7469,6 +7973,8 @@ export const Behavior = S.suspend(() =>
 ).annotations({ identifier: "Behavior" }) as any as S.Schema<Behavior>;
 export type Behaviors = Behavior[];
 export const Behaviors = S.Array(Behavior);
+export type AlertTargetType = "SNS";
+export const AlertTargetType = S.Literal("SNS");
 export interface AlertTarget {
   alertTargetArn: string;
   roleArn: string;
@@ -7476,8 +7982,10 @@ export interface AlertTarget {
 export const AlertTarget = S.suspend(() =>
   S.Struct({ alertTargetArn: S.String, roleArn: S.String }),
 ).annotations({ identifier: "AlertTarget" }) as any as S.Schema<AlertTarget>;
-export type AlertTargets = { [key: string]: AlertTarget };
-export const AlertTargets = S.Record({ key: S.String, value: AlertTarget });
+export type AlertTargets = { [key in AlertTargetType]?: AlertTarget };
+export const AlertTargets = S.partial(
+  S.Record({ key: AlertTargetType, value: AlertTarget }),
+);
 export interface MetricToRetain {
   metric: string;
   metricDimension?: MetricDimension;
@@ -7506,10 +8014,10 @@ export const MetricsExportConfig = S.suspend(() =>
 export interface UpdateSecurityProfileRequest {
   securityProfileName: string;
   securityProfileDescription?: string;
-  behaviors?: Behaviors;
-  alertTargets?: AlertTargets;
-  additionalMetricsToRetain?: AdditionalMetricsToRetainList;
-  additionalMetricsToRetainV2?: AdditionalMetricsToRetainV2List;
+  behaviors?: Behavior[];
+  alertTargets?: { [key: string]: AlertTarget };
+  additionalMetricsToRetain?: string[];
+  additionalMetricsToRetainV2?: MetricToRetain[];
   deleteBehaviors?: boolean;
   deleteAlertTargets?: boolean;
   deleteAdditionalMetricsToRetain?: boolean;
@@ -7562,7 +8070,7 @@ export const StreamFiles = S.Array(StreamFile);
 export interface UpdateStreamRequest {
   streamId: string;
   description?: string;
-  files?: StreamFiles;
+  files?: StreamFile[];
   roleArn?: string;
 }
 export const UpdateStreamRequest = S.suspend(() =>
@@ -7640,8 +8148,8 @@ export const UpdateThingGroupRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateThingGroupRequest>;
 export interface UpdateThingGroupsForThingRequest {
   thingName?: string;
-  thingGroupsToAdd?: ThingGroupList;
-  thingGroupsToRemove?: ThingGroupList;
+  thingGroupsToAdd?: string[];
+  thingGroupsToRemove?: string[];
   overrideDynamicGroups?: boolean;
 }
 export const UpdateThingGroupsForThingRequest = S.suspend(() =>
@@ -7688,7 +8196,7 @@ export const PropagatingAttribute = S.suspend(() =>
 export type PropagatingAttributeList = PropagatingAttribute[];
 export const PropagatingAttributeList = S.Array(PropagatingAttribute);
 export interface Mqtt5Configuration {
-  propagatingAttributes?: PropagatingAttributeList;
+  propagatingAttributes?: PropagatingAttribute[];
 }
 export const Mqtt5Configuration = S.suspend(() =>
   S.Struct({ propagatingAttributes: S.optional(PropagatingAttributeList) }),
@@ -7697,7 +8205,7 @@ export const Mqtt5Configuration = S.suspend(() =>
 }) as any as S.Schema<Mqtt5Configuration>;
 export interface ThingTypeProperties {
   thingTypeDescription?: string;
-  searchableAttributes?: SearchableAttributes;
+  searchableAttributes?: string[];
   mqtt5Configuration?: Mqtt5Configuration;
 }
 export const ThingTypeProperties = S.suspend(() =>
@@ -7738,10 +8246,10 @@ export const UpdateThingTypeResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateThingTypeResponse>;
 export interface UpdateTopicRuleDestinationRequest {
   arn: string;
-  status: string;
+  status: TopicRuleDestinationStatus;
 }
 export const UpdateTopicRuleDestinationRequest = S.suspend(() =>
-  S.Struct({ arn: S.String, status: S.String }).pipe(
+  S.Struct({ arn: S.String, status: TopicRuleDestinationStatus }).pipe(
     T.all(
       T.Http({ method: "PATCH", uri: "/destinations" }),
       svc,
@@ -7761,7 +8269,7 @@ export const UpdateTopicRuleDestinationResponse = S.suspend(() =>
   identifier: "UpdateTopicRuleDestinationResponse",
 }) as any as S.Schema<UpdateTopicRuleDestinationResponse>;
 export interface ValidateSecurityProfileBehaviorsRequest {
-  behaviors: Behaviors;
+  behaviors: Behavior[];
 }
 export const ValidateSecurityProfileBehaviorsRequest = S.suspend(() =>
   S.Struct({ behaviors: Behaviors }).pipe(
@@ -7777,12 +8285,44 @@ export const ValidateSecurityProfileBehaviorsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ValidateSecurityProfileBehaviorsRequest",
 }) as any as S.Schema<ValidateSecurityProfileBehaviorsRequest>;
+export type CommandParameterType =
+  | "STRING"
+  | "INTEGER"
+  | "DOUBLE"
+  | "LONG"
+  | "UNSIGNEDLONG"
+  | "BOOLEAN"
+  | "BINARY";
+export const CommandParameterType = S.Literal(
+  "STRING",
+  "INTEGER",
+  "DOUBLE",
+  "LONG",
+  "UNSIGNEDLONG",
+  "BOOLEAN",
+  "BINARY",
+);
+export type JobEndBehavior = "STOP_ROLLOUT" | "CANCEL" | "FORCE_CANCEL";
+export const JobEndBehavior = S.Literal(
+  "STOP_ROLLOUT",
+  "CANCEL",
+  "FORCE_CANCEL",
+);
+export type ConfigurationStatus = "HEALTHY" | "UNHEALTHY";
+export const ConfigurationStatus = S.Literal("HEALTHY", "UNHEALTHY");
 export type FindingIds = string[];
 export const FindingIds = S.Array(S.String);
 export type MitigationActionNameList = string[];
 export const MitigationActionNameList = S.Array(S.String);
 export type TargetViolationIdsForDetectMitigationActions = string[];
 export const TargetViolationIdsForDetectMitigationActions = S.Array(S.String);
+export type ActionType = "PUBLISH" | "SUBSCRIBE" | "RECEIVE" | "CONNECT";
+export const ActionType = S.Literal(
+  "PUBLISH",
+  "SUBSCRIBE",
+  "RECEIVE",
+  "CONNECT",
+);
 export type Resources = string[];
 export const Resources = S.Array(S.String);
 export type DetailsMap = { [key: string]: string };
@@ -7812,14 +8352,14 @@ export const MaintenanceWindows = S.Array(MaintenanceWindow);
 export interface SchedulingConfig {
   startTime?: string;
   endTime?: string;
-  endBehavior?: string;
-  maintenanceWindows?: MaintenanceWindows;
+  endBehavior?: JobEndBehavior;
+  maintenanceWindows?: MaintenanceWindow[];
 }
 export const SchedulingConfig = S.suspend(() =>
   S.Struct({
     startTime: S.optional(S.String),
     endTime: S.optional(S.String),
-    endBehavior: S.optional(S.String),
+    endBehavior: S.optional(JobEndBehavior),
     maintenanceWindows: S.optional(MaintenanceWindows),
   }),
 ).annotations({
@@ -7853,8 +8393,8 @@ export interface AuthorizerDescription {
   authorizerArn?: string;
   authorizerFunctionArn?: string;
   tokenKeyName?: string;
-  tokenSigningPublicKeys?: PublicKeyMap;
-  status?: string;
+  tokenSigningPublicKeys?: { [key: string]: string };
+  status?: AuthorizerStatus;
   creationDate?: Date;
   lastModifiedDate?: Date;
   signingDisabled?: boolean;
@@ -7867,7 +8407,7 @@ export const AuthorizerDescription = S.suspend(() =>
     authorizerFunctionArn: S.optional(S.String),
     tokenKeyName: S.optional(S.String),
     tokenSigningPublicKeys: S.optional(PublicKeyMap),
-    status: S.optional(S.String),
+    status: S.optional(AuthorizerStatus),
     creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastModifiedDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -7878,32 +8418,107 @@ export const AuthorizerDescription = S.suspend(() =>
 ).annotations({
   identifier: "AuthorizerDescription",
 }) as any as S.Schema<AuthorizerDescription>;
+export type DomainType = "ENDPOINT" | "AWS_MANAGED" | "CUSTOMER_MANAGED";
+export const DomainType = S.Literal(
+  "ENDPOINT",
+  "AWS_MANAGED",
+  "CUSTOMER_MANAGED",
+);
 export interface ConfigurationDetails {
-  configurationStatus?: string;
+  configurationStatus?: ConfigurationStatus;
   errorCode?: string;
   errorMessage?: string;
 }
 export const ConfigurationDetails = S.suspend(() =>
   S.Struct({
-    configurationStatus: S.optional(S.String),
+    configurationStatus: S.optional(ConfigurationStatus),
     errorCode: S.optional(S.String),
     errorMessage: S.optional(S.String),
   }),
 ).annotations({
   identifier: "ConfigurationDetails",
 }) as any as S.Schema<ConfigurationDetails>;
+export type IndexStatus = "ACTIVE" | "BUILDING" | "REBUILDING";
+export const IndexStatus = S.Literal("ACTIVE", "BUILDING", "REBUILDING");
 export type Environments = string[];
 export const Environments = S.Array(S.String);
+export type DynamicGroupStatus = "ACTIVE" | "BUILDING" | "REBUILDING";
+export const DynamicGroupStatus = S.Literal("ACTIVE", "BUILDING", "REBUILDING");
+export type SbomValidationStatus = "IN_PROGRESS" | "FAILED" | "SUCCEEDED";
+export const SbomValidationStatus = S.Literal(
+  "IN_PROGRESS",
+  "FAILED",
+  "SUCCEEDED",
+);
+export type DisconnectReasonValue =
+  | "AUTH_ERROR"
+  | "CLIENT_INITIATED_DISCONNECT"
+  | "CLIENT_ERROR"
+  | "CONNECTION_LOST"
+  | "DUPLICATE_CLIENTID"
+  | "FORBIDDEN_ACCESS"
+  | "MQTT_KEEP_ALIVE_TIMEOUT"
+  | "SERVER_ERROR"
+  | "SERVER_INITIATED_DISCONNECT"
+  | "THROTTLED"
+  | "WEBSOCKET_TTL_EXPIRATION"
+  | "CUSTOMAUTH_TTL_EXPIRATION"
+  | "UNKNOWN"
+  | "NONE";
+export const DisconnectReasonValue = S.Literal(
+  "AUTH_ERROR",
+  "CLIENT_INITIATED_DISCONNECT",
+  "CLIENT_ERROR",
+  "CONNECTION_LOST",
+  "DUPLICATE_CLIENTID",
+  "FORBIDDEN_ACCESS",
+  "MQTT_KEEP_ALIVE_TIMEOUT",
+  "SERVER_ERROR",
+  "SERVER_INITIATED_DISCONNECT",
+  "THROTTLED",
+  "WEBSOCKET_TTL_EXPIRATION",
+  "CUSTOMAUTH_TTL_EXPIRATION",
+  "UNKNOWN",
+  "NONE",
+);
+export type AuditFindingSeverity = "CRITICAL" | "HIGH" | "MEDIUM" | "LOW";
+export const AuditFindingSeverity = S.Literal(
+  "CRITICAL",
+  "HIGH",
+  "MEDIUM",
+  "LOW",
+);
+export type ResourceType =
+  | "DEVICE_CERTIFICATE"
+  | "CA_CERTIFICATE"
+  | "IOT_POLICY"
+  | "COGNITO_IDENTITY_POOL"
+  | "CLIENT_ID"
+  | "ACCOUNT_SETTINGS"
+  | "ROLE_ALIAS"
+  | "IAM_ROLE"
+  | "ISSUER_CERTIFICATE";
+export const ResourceType = S.Literal(
+  "DEVICE_CERTIFICATE",
+  "CA_CERTIFICATE",
+  "IOT_POLICY",
+  "COGNITO_IDENTITY_POOL",
+  "CLIENT_ID",
+  "ACCOUNT_SETTINGS",
+  "ROLE_ALIAS",
+  "IAM_ROLE",
+  "ISSUER_CERTIFICATE",
+);
 export type StringMap = { [key: string]: string };
 export const StringMap = S.Record({ key: S.String, value: S.String });
 export interface NonCompliantResource {
-  resourceType?: string;
+  resourceType?: ResourceType;
   resourceIdentifier?: ResourceIdentifier;
-  additionalInfo?: StringMap;
+  additionalInfo?: { [key: string]: string };
 }
 export const NonCompliantResource = S.suspend(() =>
   S.Struct({
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     resourceIdentifier: S.optional(ResourceIdentifier),
     additionalInfo: S.optional(StringMap),
   }),
@@ -7911,13 +8526,13 @@ export const NonCompliantResource = S.suspend(() =>
   identifier: "NonCompliantResource",
 }) as any as S.Schema<NonCompliantResource>;
 export interface RelatedResource {
-  resourceType?: string;
+  resourceType?: ResourceType;
   resourceIdentifier?: ResourceIdentifier;
-  additionalInfo?: StringMap;
+  additionalInfo?: { [key: string]: string };
 }
 export const RelatedResource = S.suspend(() =>
   S.Struct({
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     resourceIdentifier: S.optional(ResourceIdentifier),
     additionalInfo: S.optional(StringMap),
   }),
@@ -7932,9 +8547,9 @@ export interface AuditFinding {
   checkName?: string;
   taskStartTime?: Date;
   findingTime?: Date;
-  severity?: string;
+  severity?: AuditFindingSeverity;
   nonCompliantResource?: NonCompliantResource;
-  relatedResources?: RelatedResources;
+  relatedResources?: RelatedResource[];
   reasonForNonCompliance?: string;
   reasonForNonComplianceCode?: string;
   isSuppressed?: boolean;
@@ -7946,7 +8561,7 @@ export const AuditFinding = S.suspend(() =>
     checkName: S.optional(S.String),
     taskStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     findingTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    severity: S.optional(S.String),
+    severity: S.optional(AuditFindingSeverity),
     nonCompliantResource: S.optional(NonCompliantResource),
     relatedResources: S.optional(RelatedResources),
     reasonForNonCompliance: S.optional(S.String),
@@ -7965,8 +8580,19 @@ export const TimeFilter = S.suspend(() =>
 ).annotations({ identifier: "TimeFilter" }) as any as S.Schema<TimeFilter>;
 export type MetricNames = string[];
 export const MetricNames = S.Array(S.String);
+export type DetectMitigationActionsTaskStatus =
+  | "IN_PROGRESS"
+  | "SUCCESSFUL"
+  | "FAILED"
+  | "CANCELED";
+export const DetectMitigationActionsTaskStatus = S.Literal(
+  "IN_PROGRESS",
+  "SUCCESSFUL",
+  "FAILED",
+  "CANCELED",
+);
 export interface DetectMitigationActionsTaskTarget {
-  violationIds?: TargetViolationIdsForDetectMitigationActions;
+  violationIds?: string[];
   securityProfileName?: string;
   behaviorName?: string;
 }
@@ -8025,20 +8651,20 @@ export const DetectMitigationActionsTaskStatistics = S.suspend(() =>
 }) as any as S.Schema<DetectMitigationActionsTaskStatistics>;
 export interface DetectMitigationActionsTaskSummary {
   taskId?: string;
-  taskStatus?: string;
+  taskStatus?: DetectMitigationActionsTaskStatus;
   taskStartTime?: Date;
   taskEndTime?: Date;
   target?: DetectMitigationActionsTaskTarget;
   violationEventOccurrenceRange?: ViolationEventOccurrenceRange;
   onlyActiveViolationsIncluded?: boolean;
   suppressedAlertsIncluded?: boolean;
-  actionsDefinition?: MitigationActionList;
+  actionsDefinition?: MitigationAction[];
   taskStatistics?: DetectMitigationActionsTaskStatistics;
 }
 export const DetectMitigationActionsTaskSummary = S.suspend(() =>
   S.Struct({
     taskId: S.optional(S.String),
-    taskStatus: S.optional(S.String),
+    taskStatus: S.optional(DetectMitigationActionsTaskStatus),
     taskStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     taskEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     target: S.optional(DetectMitigationActionsTaskTarget),
@@ -8087,29 +8713,29 @@ export type Parameters = { [key: string]: string };
 export const Parameters = S.Record({ key: S.String, value: S.String });
 export interface LoggingOptionsPayload {
   roleArn: string;
-  logLevel?: string;
+  logLevel?: LogLevel;
 }
 export const LoggingOptionsPayload = S.suspend(() =>
-  S.Struct({ roleArn: S.String, logLevel: S.optional(S.String) }),
+  S.Struct({ roleArn: S.String, logLevel: S.optional(LogLevel) }),
 ).annotations({
   identifier: "LoggingOptionsPayload",
 }) as any as S.Schema<LoggingOptionsPayload>;
 export interface LogTarget {
-  targetType: string;
+  targetType: LogTargetType;
   targetName?: string;
 }
 export const LogTarget = S.suspend(() =>
-  S.Struct({ targetType: S.String, targetName: S.optional(S.String) }),
+  S.Struct({ targetType: LogTargetType, targetName: S.optional(S.String) }),
 ).annotations({ identifier: "LogTarget" }) as any as S.Schema<LogTarget>;
 export interface LogEventConfiguration {
   eventType: string;
-  logLevel?: string;
+  logLevel?: LogLevel;
   logDestination?: string;
 }
 export const LogEventConfiguration = S.suspend(() =>
   S.Struct({
     eventType: S.String,
-    logLevel: S.optional(S.String),
+    logLevel: S.optional(LogLevel),
     logDestination: S.optional(S.String),
   }),
 ).annotations({
@@ -8117,19 +8743,17 @@ export const LogEventConfiguration = S.suspend(() =>
 }) as any as S.Schema<LogEventConfiguration>;
 export type LogEventConfigurations = LogEventConfiguration[];
 export const LogEventConfigurations = S.Array(LogEventConfiguration);
-export type AuditCheckToActionsMapping = {
-  [key: string]: MitigationActionNameList;
-};
+export type AuditCheckToActionsMapping = { [key: string]: string[] };
 export const AuditCheckToActionsMapping = S.Record({
   key: S.String,
   value: MitigationActionNameList,
 });
 export interface AuthInfo {
-  actionType?: string;
-  resources: Resources;
+  actionType?: ActionType;
+  resources: string[];
 }
 export const AuthInfo = S.suspend(() =>
-  S.Struct({ actionType: S.optional(S.String), resources: Resources }),
+  S.Struct({ actionType: S.optional(ActionType), resources: Resources }),
 ).annotations({ identifier: "AuthInfo" }) as any as S.Schema<AuthInfo>;
 export type AuthInfos = AuthInfo[];
 export const AuthInfos = S.Array(AuthInfo);
@@ -8151,6 +8775,44 @@ export interface TlsContext {
 export const TlsContext = S.suspend(() =>
   S.Struct({ serverName: S.optional(S.String) }),
 ).annotations({ identifier: "TlsContext" }) as any as S.Schema<TlsContext>;
+export type OutputFormat = "JSON" | "CBOR";
+export const OutputFormat = S.Literal("JSON", "CBOR");
+export type CommandParameterValueComparisonOperator =
+  | "EQUALS"
+  | "NOT_EQUALS"
+  | "LESS_THAN"
+  | "LESS_THAN_EQUALS"
+  | "GREATER_THAN"
+  | "GREATER_THAN_EQUALS"
+  | "IN_SET"
+  | "NOT_IN_SET"
+  | "IN_RANGE"
+  | "NOT_IN_RANGE";
+export const CommandParameterValueComparisonOperator = S.Literal(
+  "EQUALS",
+  "NOT_EQUALS",
+  "LESS_THAN",
+  "LESS_THAN_EQUALS",
+  "GREATER_THAN",
+  "GREATER_THAN_EQUALS",
+  "IN_SET",
+  "NOT_IN_SET",
+  "IN_RANGE",
+  "NOT_IN_RANGE",
+);
+export type AwsJobAbortCriteriaFailureType =
+  | "FAILED"
+  | "REJECTED"
+  | "TIMED_OUT"
+  | "ALL";
+export const AwsJobAbortCriteriaFailureType = S.Literal(
+  "FAILED",
+  "REJECTED",
+  "TIMED_OUT",
+  "ALL",
+);
+export type AwsJobAbortCriteriaAbortAction = "CANCEL";
+export const AwsJobAbortCriteriaAbortAction = S.Literal("CANCEL");
 export type SubnetIdList = string[];
 export const SubnetIdList = S.Array(S.String);
 export type SecurityGroupList = string[];
@@ -8190,7 +8852,7 @@ export interface CancelJobExecutionRequest {
   thingName: string;
   force?: boolean;
   expectedVersion?: number;
-  statusDetails?: DetailsMap;
+  statusDetails?: { [key: string]: string };
 }
 export const CancelJobExecutionRequest = S.suspend(() =>
   S.Struct({
@@ -8222,9 +8884,9 @@ export interface CreateAuthorizerRequest {
   authorizerName: string;
   authorizerFunctionArn: string;
   tokenKeyName?: string;
-  tokenSigningPublicKeys?: PublicKeyMap;
-  status?: string;
-  tags?: TagList;
+  tokenSigningPublicKeys?: { [key: string]: string };
+  status?: AuthorizerStatus;
+  tags?: Tag[];
   signingDisabled?: boolean;
   enableCachingForHttp?: boolean;
 }
@@ -8234,7 +8896,7 @@ export const CreateAuthorizerRequest = S.suspend(() =>
     authorizerFunctionArn: S.String,
     tokenKeyName: S.optional(S.String),
     tokenSigningPublicKeys: S.optional(PublicKeyMap),
-    status: S.optional(S.String),
+    status: S.optional(AuthorizerStatus),
     tags: S.optional(TagList),
     signingDisabled: S.optional(S.Boolean),
     enableCachingForHttp: S.optional(S.Boolean),
@@ -8254,7 +8916,7 @@ export const CreateAuthorizerRequest = S.suspend(() =>
 export interface CreateBillingGroupRequest {
   billingGroupName: string;
   billingGroupProperties?: BillingGroupProperties;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateBillingGroupRequest = S.suspend(() =>
   S.Struct({
@@ -8324,15 +8986,15 @@ export const CreateDimensionResponse = S.suspend(() =>
 export interface CreateDomainConfigurationRequest {
   domainConfigurationName: string;
   domainName?: string;
-  serverCertificateArns?: ServerCertificateArns;
+  serverCertificateArns?: string[];
   validationCertificateArn?: string;
   authorizerConfig?: AuthorizerConfig;
-  serviceType?: string;
-  tags?: TagList;
+  serviceType?: ServiceType;
+  tags?: Tag[];
   tlsConfig?: TlsConfig;
   serverCertificateConfig?: ServerCertificateConfig;
-  authenticationType?: string;
-  applicationProtocol?: string;
+  authenticationType?: AuthenticationType;
+  applicationProtocol?: ApplicationProtocol;
   clientCertificateConfig?: ClientCertificateConfig;
 }
 export const CreateDomainConfigurationRequest = S.suspend(() =>
@@ -8344,12 +9006,12 @@ export const CreateDomainConfigurationRequest = S.suspend(() =>
     serverCertificateArns: S.optional(ServerCertificateArns),
     validationCertificateArn: S.optional(S.String),
     authorizerConfig: S.optional(AuthorizerConfig),
-    serviceType: S.optional(S.String),
+    serviceType: S.optional(ServiceType),
     tags: S.optional(TagList),
     tlsConfig: S.optional(TlsConfig),
     serverCertificateConfig: S.optional(ServerCertificateConfig),
-    authenticationType: S.optional(S.String),
-    applicationProtocol: S.optional(S.String),
+    authenticationType: S.optional(AuthenticationType),
+    applicationProtocol: S.optional(ApplicationProtocol),
     clientCertificateConfig: S.optional(ClientCertificateConfig),
   }).pipe(
     T.all(
@@ -8373,7 +9035,7 @@ export interface CreateDynamicThingGroupRequest {
   indexName?: string;
   queryString: string;
   queryVersion?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateDynamicThingGroupRequest = S.suspend(() =>
   S.Struct({
@@ -8405,8 +9067,8 @@ export interface CreateFleetMetricRequest {
   description?: string;
   queryVersion?: string;
   indexName?: string;
-  unit?: string;
-  tags?: TagList;
+  unit?: FleetMetricUnit;
+  tags?: Tag[];
 }
 export const CreateFleetMetricRequest = S.suspend(() =>
   S.Struct({
@@ -8418,7 +9080,7 @@ export const CreateFleetMetricRequest = S.suspend(() =>
     description: S.optional(S.String),
     queryVersion: S.optional(S.String),
     indexName: S.optional(S.String),
-    unit: S.optional(S.String),
+    unit: S.optional(FleetMetricUnit),
     tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -8443,10 +9105,10 @@ export interface CreateJobTemplateRequest {
   jobExecutionsRolloutConfig?: JobExecutionsRolloutConfig;
   abortConfig?: AbortConfig;
   timeoutConfig?: TimeoutConfig;
-  tags?: TagList;
+  tags?: Tag[];
   jobExecutionsRetryConfig?: JobExecutionsRetryConfig;
-  maintenanceWindows?: MaintenanceWindows;
-  destinationPackageVersions?: DestinationPackageVersions;
+  maintenanceWindows?: MaintenanceWindow[];
+  destinationPackageVersions?: string[];
 }
 export const CreateJobTemplateRequest = S.suspend(() =>
   S.Struct({
@@ -8478,8 +9140,8 @@ export const CreateJobTemplateRequest = S.suspend(() =>
 }) as any as S.Schema<CreateJobTemplateRequest>;
 export interface CreatePackageRequest {
   packageName: string;
-  description?: string | Redacted.Redacted<string>;
-  tags?: TagMap;
+  description?: string | redacted.Redacted<string>;
+  tags?: { [key: string]: string };
   clientToken?: string;
 }
 export const CreatePackageRequest = S.suspend(() =>
@@ -8504,11 +9166,11 @@ export const CreatePackageRequest = S.suspend(() =>
 export interface CreatePackageVersionRequest {
   packageName: string;
   versionName: string;
-  description?: string | Redacted.Redacted<string>;
-  attributes?: ResourceAttributes;
+  description?: string | redacted.Redacted<string>;
+  attributes?: { [key: string]: string };
   artifact?: PackageVersionArtifact;
-  recipe?: string | Redacted.Redacted<string>;
-  tags?: TagMap;
+  recipe?: string | redacted.Redacted<string>;
+  tags?: { [key: string]: string };
   clientToken?: string;
 }
 export const CreatePackageVersionRequest = S.suspend(() =>
@@ -8571,7 +9233,7 @@ export const CreatePolicyVersionResponse = S.suspend(() =>
 }) as any as S.Schema<CreatePolicyVersionResponse>;
 export interface KeyPair {
   PublicKey?: string;
-  PrivateKey?: string | Redacted.Redacted<string>;
+  PrivateKey?: string | redacted.Redacted<string>;
 }
 export const KeyPair = S.suspend(() =>
   S.Struct({
@@ -8602,8 +9264,8 @@ export interface CreateProvisioningTemplateRequest {
   enabled?: boolean;
   provisioningRoleArn: string;
   preProvisioningHook?: ProvisioningHook;
-  tags?: TagList;
-  type?: string;
+  tags?: Tag[];
+  type?: TemplateType;
 }
 export const CreateProvisioningTemplateRequest = S.suspend(() =>
   S.Struct({
@@ -8614,7 +9276,7 @@ export const CreateProvisioningTemplateRequest = S.suspend(() =>
     provisioningRoleArn: S.String,
     preProvisioningHook: S.optional(ProvisioningHook),
     tags: S.optional(TagList),
-    type: S.optional(S.String),
+    type: S.optional(TemplateType),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/provisioning-templates" }),
@@ -8667,9 +9329,9 @@ export const CreateScheduledAuditResponse = S.suspend(() =>
 export interface CreateStreamRequest {
   streamId: string;
   description?: string;
-  files: StreamFiles;
+  files: StreamFile[];
   roleArn: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateStreamRequest = S.suspend(() =>
   S.Struct({
@@ -8743,7 +9405,7 @@ export interface DescribeCertificateProviderResponse {
   certificateProviderName?: string;
   certificateProviderArn?: string;
   lambdaFunctionArn?: string;
-  accountDefaultForOperations?: CertificateProviderAccountDefaultForOperations;
+  accountDefaultForOperations?: CertificateProviderOperation[];
   creationDate?: Date;
   lastModifiedDate?: Date;
 }
@@ -8766,7 +9428,7 @@ export const DescribeCertificateProviderResponse = S.suspend(() =>
 export interface DescribeCustomMetricResponse {
   metricName?: string;
   metricArn?: string;
-  metricType?: string;
+  metricType?: CustomMetricType;
   displayName?: string;
   creationDate?: Date;
   lastModifiedDate?: Date;
@@ -8775,7 +9437,7 @@ export const DescribeCustomMetricResponse = S.suspend(() =>
   S.Struct({
     metricName: S.optional(S.String),
     metricArn: S.optional(S.String),
-    metricType: S.optional(S.String),
+    metricType: S.optional(CustomMetricType),
     displayName: S.optional(S.String),
     creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastModifiedDate: S.optional(
@@ -8796,8 +9458,8 @@ export const DescribeDefaultAuthorizerResponse = S.suspend(() =>
 export interface DescribeDimensionResponse {
   name?: string;
   arn?: string;
-  type?: string;
-  stringValues?: DimensionStringValues;
+  type?: DimensionType;
+  stringValues?: string[];
   creationDate?: Date;
   lastModifiedDate?: Date;
 }
@@ -8805,7 +9467,7 @@ export const DescribeDimensionResponse = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     arn: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(DimensionType),
     stringValues: S.optional(DimensionStringValues),
     creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastModifiedDate: S.optional(
@@ -8816,7 +9478,7 @@ export const DescribeDimensionResponse = S.suspend(() =>
   identifier: "DescribeDimensionResponse",
 }) as any as S.Schema<DescribeDimensionResponse>;
 export interface DescribeEncryptionConfigurationResponse {
-  encryptionType?: string;
+  encryptionType?: EncryptionType;
   kmsKeyArn?: string;
   kmsAccessRoleArn?: string;
   configurationDetails?: ConfigurationDetails;
@@ -8824,7 +9486,7 @@ export interface DescribeEncryptionConfigurationResponse {
 }
 export const DescribeEncryptionConfigurationResponse = S.suspend(() =>
   S.Struct({
-    encryptionType: S.optional(S.String),
+    encryptionType: S.optional(EncryptionType),
     kmsKeyArn: S.optional(S.String),
     kmsAccessRoleArn: S.optional(S.String),
     configurationDetails: S.optional(ConfigurationDetails),
@@ -8854,7 +9516,7 @@ export interface DescribeFleetMetricResponse {
   indexName?: string;
   creationDate?: Date;
   lastModifiedDate?: Date;
-  unit?: string;
+  unit?: FleetMetricUnit;
   version?: number;
   metricArn?: string;
 }
@@ -8872,7 +9534,7 @@ export const DescribeFleetMetricResponse = S.suspend(() =>
     lastModifiedDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    unit: S.optional(S.String),
+    unit: S.optional(FleetMetricUnit),
     version: S.optional(S.Number),
     metricArn: S.optional(S.String),
   }),
@@ -8881,13 +9543,13 @@ export const DescribeFleetMetricResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeFleetMetricResponse>;
 export interface DescribeIndexResponse {
   indexName?: string;
-  indexStatus?: string;
+  indexStatus?: IndexStatus;
   schema?: string;
 }
 export const DescribeIndexResponse = S.suspend(() =>
   S.Struct({
     indexName: S.optional(S.String),
-    indexStatus: S.optional(S.String),
+    indexStatus: S.optional(IndexStatus),
     schema: S.optional(S.String),
   }),
 ).annotations({
@@ -8905,8 +9567,8 @@ export interface DescribeJobTemplateResponse {
   abortConfig?: AbortConfig;
   timeoutConfig?: TimeoutConfig;
   jobExecutionsRetryConfig?: JobExecutionsRetryConfig;
-  maintenanceWindows?: MaintenanceWindows;
-  destinationPackageVersions?: DestinationPackageVersions;
+  maintenanceWindows?: MaintenanceWindow[];
+  destinationPackageVersions?: string[];
 }
 export const DescribeJobTemplateResponse = S.suspend(() =>
   S.Struct({
@@ -8929,7 +9591,7 @@ export const DescribeJobTemplateResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeJobTemplateResponse>;
 export interface DescribeMitigationActionResponse {
   actionName?: string;
-  actionType?: string;
+  actionType?: MitigationActionType;
   actionArn?: string;
   actionId?: string;
   roleArn?: string;
@@ -8940,7 +9602,7 @@ export interface DescribeMitigationActionResponse {
 export const DescribeMitigationActionResponse = S.suspend(() =>
   S.Struct({
     actionName: S.optional(S.String),
-    actionType: S.optional(S.String),
+    actionType: S.optional(MitigationActionType),
     actionArn: S.optional(S.String),
     actionId: S.optional(S.String),
     roleArn: S.optional(S.String),
@@ -8964,7 +9626,7 @@ export interface DescribeProvisioningTemplateResponse {
   enabled?: boolean;
   provisioningRoleArn?: string;
   preProvisioningHook?: ProvisioningHook;
-  type?: string;
+  type?: TemplateType;
 }
 export const DescribeProvisioningTemplateResponse = S.suspend(() =>
   S.Struct({
@@ -8980,7 +9642,7 @@ export const DescribeProvisioningTemplateResponse = S.suspend(() =>
     enabled: S.optional(S.Boolean),
     provisioningRoleArn: S.optional(S.String),
     preProvisioningHook: S.optional(ProvisioningHook),
-    type: S.optional(S.String),
+    type: S.optional(TemplateType),
   }),
 ).annotations({
   identifier: "DescribeProvisioningTemplateResponse",
@@ -9002,18 +9664,18 @@ export const DescribeProvisioningTemplateVersionResponse = S.suspend(() =>
   identifier: "DescribeProvisioningTemplateVersionResponse",
 }) as any as S.Schema<DescribeProvisioningTemplateVersionResponse>;
 export interface DescribeScheduledAuditResponse {
-  frequency?: string;
+  frequency?: AuditFrequency;
   dayOfMonth?: string;
-  dayOfWeek?: string;
-  targetCheckNames?: TargetAuditCheckNames;
+  dayOfWeek?: DayOfWeek;
+  targetCheckNames?: string[];
   scheduledAuditName?: string;
   scheduledAuditArn?: string;
 }
 export const DescribeScheduledAuditResponse = S.suspend(() =>
   S.Struct({
-    frequency: S.optional(S.String),
+    frequency: S.optional(AuditFrequency),
     dayOfMonth: S.optional(S.String),
-    dayOfWeek: S.optional(S.String),
+    dayOfWeek: S.optional(DayOfWeek),
     targetCheckNames: S.optional(TargetAuditCheckNames),
     scheduledAuditName: S.optional(S.String),
     scheduledAuditArn: S.optional(S.String),
@@ -9025,10 +9687,10 @@ export interface DescribeSecurityProfileResponse {
   securityProfileName?: string;
   securityProfileArn?: string;
   securityProfileDescription?: string;
-  behaviors?: Behaviors;
-  alertTargets?: AlertTargets;
-  additionalMetricsToRetain?: AdditionalMetricsToRetainList;
-  additionalMetricsToRetainV2?: AdditionalMetricsToRetainV2List;
+  behaviors?: Behavior[];
+  alertTargets?: { [key: string]: AlertTarget };
+  additionalMetricsToRetain?: string[];
+  additionalMetricsToRetainV2?: MetricToRetain[];
   version?: number;
   creationDate?: Date;
   lastModifiedDate?: Date;
@@ -9059,7 +9721,7 @@ export interface DescribeThingResponse {
   thingId?: string;
   thingArn?: string;
   thingTypeName?: string;
-  attributes?: Attributes;
+  attributes?: { [key: string]: string };
   version?: number;
   billingGroupName?: string;
 }
@@ -9085,7 +9747,7 @@ export interface DescribeThingRegistrationTaskResponse {
   inputFileBucket?: string;
   inputFileKey?: string;
   roleArn?: string;
-  status?: string;
+  status?: Status;
   message?: string;
   successCount?: number;
   failureCount?: number;
@@ -9102,7 +9764,7 @@ export const DescribeThingRegistrationTaskResponse = S.suspend(() =>
     inputFileBucket: S.optional(S.String),
     inputFileKey: S.optional(S.String),
     roleArn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(Status),
     message: S.optional(S.String),
     successCount: S.optional(S.Number),
     failureCount: S.optional(S.Number),
@@ -9154,9 +9816,9 @@ export const CommandParameterValueNumberRange = S.suspend(() =>
 }) as any as S.Schema<CommandParameterValueNumberRange>;
 export interface CommandParameterValueComparisonOperand {
   number?: string;
-  numbers?: CommandParameterValueStringList;
+  numbers?: string[];
   string?: string;
-  strings?: CommandParameterValueStringList;
+  strings?: string[];
   numberRange?: CommandParameterValueNumberRange;
 }
 export const CommandParameterValueComparisonOperand = S.suspend(() =>
@@ -9171,12 +9833,12 @@ export const CommandParameterValueComparisonOperand = S.suspend(() =>
   identifier: "CommandParameterValueComparisonOperand",
 }) as any as S.Schema<CommandParameterValueComparisonOperand>;
 export interface CommandParameterValueCondition {
-  comparisonOperator: string;
+  comparisonOperator: CommandParameterValueComparisonOperator;
   operand: CommandParameterValueComparisonOperand;
 }
 export const CommandParameterValueCondition = S.suspend(() =>
   S.Struct({
-    comparisonOperator: S.String,
+    comparisonOperator: CommandParameterValueComparisonOperator,
     operand: CommandParameterValueComparisonOperand,
   }),
 ).annotations({
@@ -9189,16 +9851,16 @@ export const CommandParameterValueConditionList = S.Array(
 );
 export interface CommandParameter {
   name: string;
-  type?: string;
+  type?: CommandParameterType;
   value?: CommandParameterValue;
   defaultValue?: CommandParameterValue;
-  valueConditions?: CommandParameterValueConditionList;
+  valueConditions?: CommandParameterValueCondition[];
   description?: string;
 }
 export const CommandParameter = S.suspend(() =>
   S.Struct({
     name: S.String,
-    type: S.optional(S.String),
+    type: S.optional(CommandParameterType),
     value: S.optional(CommandParameterValue),
     defaultValue: S.optional(CommandParameterValue),
     valueConditions: S.optional(CommandParameterValueConditionList),
@@ -9210,10 +9872,10 @@ export const CommandParameter = S.suspend(() =>
 export type CommandParameterList = CommandParameter[];
 export const CommandParameterList = S.Array(CommandParameter);
 export interface AwsJsonSubstitutionCommandPreprocessorConfig {
-  outputFormat: string;
+  outputFormat: OutputFormat;
 }
 export const AwsJsonSubstitutionCommandPreprocessorConfig = S.suspend(() =>
-  S.Struct({ outputFormat: S.String }),
+  S.Struct({ outputFormat: OutputFormat }),
 ).annotations({
   identifier: "AwsJsonSubstitutionCommandPreprocessorConfig",
 }) as any as S.Schema<AwsJsonSubstitutionCommandPreprocessorConfig>;
@@ -9232,10 +9894,10 @@ export const CommandPreprocessor = S.suspend(() =>
 export interface GetCommandResponse {
   commandId?: string;
   commandArn?: string;
-  namespace?: string;
+  namespace?: CommandNamespace;
   displayName?: string;
   description?: string;
-  mandatoryParameters?: CommandParameterList;
+  mandatoryParameters?: CommandParameter[];
   payload?: CommandPayload;
   payloadTemplate?: string;
   preprocessor?: CommandPreprocessor;
@@ -9249,7 +9911,7 @@ export const GetCommandResponse = S.suspend(() =>
   S.Struct({
     commandId: S.optional(S.String),
     commandArn: S.optional(S.String),
-    namespace: S.optional(S.String),
+    namespace: S.optional(CommandNamespace),
     displayName: S.optional(S.String),
     description: S.optional(S.String),
     mandatoryParameters: S.optional(CommandParameterList),
@@ -9276,7 +9938,7 @@ export const GetJobDocumentResponse = S.suspend(() =>
 export interface GetPackageResponse {
   packageName?: string;
   packageArn?: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   defaultVersionName?: string;
   creationDate?: Date;
   lastModifiedDate?: Date;
@@ -9315,16 +9977,16 @@ export interface GetPackageVersionResponse {
   packageVersionArn?: string;
   packageName?: string;
   versionName?: string;
-  description?: string | Redacted.Redacted<string>;
-  attributes?: ResourceAttributes;
+  description?: string | redacted.Redacted<string>;
+  attributes?: { [key: string]: string };
   artifact?: PackageVersionArtifact;
-  status?: string;
+  status?: PackageVersionStatus;
   errorReason?: string;
   creationDate?: Date;
   lastModifiedDate?: Date;
   sbom?: Sbom;
-  sbomValidationStatus?: string;
-  recipe?: string | Redacted.Redacted<string>;
+  sbomValidationStatus?: SbomValidationStatus;
+  recipe?: string | redacted.Redacted<string>;
 }
 export const GetPackageVersionResponse = S.suspend(() =>
   S.Struct({
@@ -9334,14 +9996,14 @@ export const GetPackageVersionResponse = S.suspend(() =>
     description: S.optional(SensitiveString),
     attributes: S.optional(ResourceAttributes),
     artifact: S.optional(PackageVersionArtifact),
-    status: S.optional(S.String),
+    status: S.optional(PackageVersionStatus),
     errorReason: S.optional(S.String),
     creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastModifiedDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     sbom: S.optional(Sbom),
-    sbomValidationStatus: S.optional(S.String),
+    sbomValidationStatus: S.optional(SbomValidationStatus),
     recipe: S.optional(SensitiveString),
   }),
 ).annotations({
@@ -9398,31 +10060,31 @@ export const GetPolicyVersionResponse = S.suspend(() =>
   identifier: "GetPolicyVersionResponse",
 }) as any as S.Schema<GetPolicyVersionResponse>;
 export interface GetThingConnectivityDataResponse {
-  thingName?: string | Redacted.Redacted<string>;
+  thingName?: string | redacted.Redacted<string>;
   connected?: boolean;
   timestamp?: Date;
-  disconnectReason?: string;
+  disconnectReason?: DisconnectReasonValue;
 }
 export const GetThingConnectivityDataResponse = S.suspend(() =>
   S.Struct({
     thingName: S.optional(SensitiveString),
     connected: S.optional(S.Boolean),
     timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    disconnectReason: S.optional(S.String),
+    disconnectReason: S.optional(DisconnectReasonValue),
   }),
 ).annotations({
   identifier: "GetThingConnectivityDataResponse",
 }) as any as S.Schema<GetThingConnectivityDataResponse>;
 export interface GetV2LoggingOptionsResponse {
   roleArn?: string;
-  defaultLogLevel?: string;
+  defaultLogLevel?: LogLevel;
   disableAllLogs?: boolean;
-  eventConfigurations?: LogEventConfigurations;
+  eventConfigurations?: LogEventConfiguration[];
 }
 export const GetV2LoggingOptionsResponse = S.suspend(() =>
   S.Struct({
     roleArn: S.optional(S.String),
-    defaultLogLevel: S.optional(S.String),
+    defaultLogLevel: S.optional(LogLevel),
     disableAllLogs: S.optional(S.Boolean),
     eventConfigurations: S.optional(LogEventConfigurations),
   }),
@@ -9430,7 +10092,7 @@ export const GetV2LoggingOptionsResponse = S.suspend(() =>
   identifier: "GetV2LoggingOptionsResponse",
 }) as any as S.Schema<GetV2LoggingOptionsResponse>;
 export interface ListAuditFindingsResponse {
-  findings?: AuditFindings;
+  findings?: AuditFinding[];
   nextToken?: string;
 }
 export const ListAuditFindingsResponse = S.suspend(() =>
@@ -9444,23 +10106,23 @@ export const ListAuditFindingsResponse = S.suspend(() =>
 export interface Certificate {
   certificateArn?: string;
   certificateId?: string;
-  status?: string;
-  certificateMode?: string;
+  status?: CertificateStatus;
+  certificateMode?: CertificateMode;
   creationDate?: Date;
 }
 export const Certificate = S.suspend(() =>
   S.Struct({
     certificateArn: S.optional(S.String),
     certificateId: S.optional(S.String),
-    status: S.optional(S.String),
-    certificateMode: S.optional(S.String),
+    status: S.optional(CertificateStatus),
+    certificateMode: S.optional(CertificateMode),
     creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({ identifier: "Certificate" }) as any as S.Schema<Certificate>;
 export type Certificates = Certificate[];
 export const Certificates = S.Array(Certificate);
 export interface ListCertificatesByCAResponse {
-  certificates?: Certificates;
+  certificates?: Certificate[];
   nextMarker?: string;
 }
 export const ListCertificatesByCAResponse = S.suspend(() =>
@@ -9474,9 +10136,9 @@ export const ListCertificatesByCAResponse = S.suspend(() =>
 export interface ListCommandExecutionsRequest {
   maxResults?: number;
   nextToken?: string;
-  namespace?: string;
-  status?: string;
-  sortOrder?: string;
+  namespace?: CommandNamespace;
+  status?: CommandExecutionStatus;
+  sortOrder?: SortOrder;
   startedTimeFilter?: TimeFilter;
   completedTimeFilter?: TimeFilter;
   targetArn?: string;
@@ -9486,9 +10148,9 @@ export const ListCommandExecutionsRequest = S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    namespace: S.optional(S.String),
-    status: S.optional(S.String),
-    sortOrder: S.optional(S.String),
+    namespace: S.optional(CommandNamespace),
+    status: S.optional(CommandExecutionStatus),
+    sortOrder: S.optional(SortOrder),
     startedTimeFilter: S.optional(TimeFilter),
     completedTimeFilter: S.optional(TimeFilter),
     targetArn: S.optional(S.String),
@@ -9507,7 +10169,7 @@ export const ListCommandExecutionsRequest = S.suspend(() =>
   identifier: "ListCommandExecutionsRequest",
 }) as any as S.Schema<ListCommandExecutionsRequest>;
 export interface ListCustomMetricsResponse {
-  metricNames?: MetricNames;
+  metricNames?: string[];
   nextToken?: string;
 }
 export const ListCustomMetricsResponse = S.suspend(() =>
@@ -9519,7 +10181,7 @@ export const ListCustomMetricsResponse = S.suspend(() =>
   identifier: "ListCustomMetricsResponse",
 }) as any as S.Schema<ListCustomMetricsResponse>;
 export interface ListDetectMitigationActionsTasksResponse {
-  tasks?: DetectMitigationActionsTaskSummaryList;
+  tasks?: DetectMitigationActionsTaskSummary[];
   nextToken?: string;
 }
 export const ListDetectMitigationActionsTasksResponse = S.suspend(() =>
@@ -9531,7 +10193,7 @@ export const ListDetectMitigationActionsTasksResponse = S.suspend(() =>
   identifier: "ListDetectMitigationActionsTasksResponse",
 }) as any as S.Schema<ListDetectMitigationActionsTasksResponse>;
 export interface ListDimensionsResponse {
-  dimensionNames?: DimensionNames;
+  dimensionNames?: string[];
   nextToken?: string;
 }
 export const ListDimensionsResponse = S.suspend(() =>
@@ -9543,7 +10205,7 @@ export const ListDimensionsResponse = S.suspend(() =>
   identifier: "ListDimensionsResponse",
 }) as any as S.Schema<ListDimensionsResponse>;
 export interface ListIndicesResponse {
-  indexNames?: IndexNamesList;
+  indexNames?: string[];
   nextToken?: string;
 }
 export const ListIndicesResponse = S.suspend(() =>
@@ -9567,7 +10229,7 @@ export const Policy = S.suspend(() =>
 export type Policies = Policy[];
 export const Policies = S.Array(Policy);
 export interface ListPoliciesResponse {
-  policies?: Policies;
+  policies?: Policy[];
   nextMarker?: string;
 }
 export const ListPoliciesResponse = S.suspend(() =>
@@ -9579,7 +10241,7 @@ export const ListPoliciesResponse = S.suspend(() =>
   identifier: "ListPoliciesResponse",
 }) as any as S.Schema<ListPoliciesResponse>;
 export interface ListPolicyPrincipalsResponse {
-  principals?: Principals;
+  principals?: string[];
   nextMarker?: string;
 }
 export const ListPolicyPrincipalsResponse = S.suspend(() =>
@@ -9591,7 +10253,7 @@ export const ListPolicyPrincipalsResponse = S.suspend(() =>
   identifier: "ListPolicyPrincipalsResponse",
 }) as any as S.Schema<ListPolicyPrincipalsResponse>;
 export interface ListPrincipalPoliciesResponse {
-  policies?: Policies;
+  policies?: Policy[];
   nextMarker?: string;
 }
 export const ListPrincipalPoliciesResponse = S.suspend(() =>
@@ -9603,7 +10265,7 @@ export const ListPrincipalPoliciesResponse = S.suspend(() =>
   identifier: "ListPrincipalPoliciesResponse",
 }) as any as S.Schema<ListPrincipalPoliciesResponse>;
 export interface ListPrincipalThingsResponse {
-  things?: ThingNameList;
+  things?: string[];
   nextToken?: string;
 }
 export const ListPrincipalThingsResponse = S.suspend(() =>
@@ -9615,7 +10277,7 @@ export const ListPrincipalThingsResponse = S.suspend(() =>
   identifier: "ListPrincipalThingsResponse",
 }) as any as S.Schema<ListPrincipalThingsResponse>;
 export interface ListRoleAliasesResponse {
-  roleAliases?: RoleAliases;
+  roleAliases?: string[];
   nextMarker?: string;
 }
 export const ListRoleAliasesResponse = S.suspend(() =>
@@ -9627,7 +10289,7 @@ export const ListRoleAliasesResponse = S.suspend(() =>
   identifier: "ListRoleAliasesResponse",
 }) as any as S.Schema<ListRoleAliasesResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagList;
+  tags?: Tag[];
   nextToken?: string;
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
@@ -9636,7 +10298,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListTargetsForPolicyResponse {
-  targets?: PolicyTargets;
+  targets?: string[];
   nextMarker?: string;
 }
 export const ListTargetsForPolicyResponse = S.suspend(() =>
@@ -9648,7 +10310,7 @@ export const ListTargetsForPolicyResponse = S.suspend(() =>
   identifier: "ListTargetsForPolicyResponse",
 }) as any as S.Schema<ListTargetsForPolicyResponse>;
 export interface ListThingGroupsResponse {
-  thingGroups?: ThingGroupNameAndArnList;
+  thingGroups?: GroupNameAndArn[];
   nextToken?: string;
 }
 export const ListThingGroupsResponse = S.suspend(() =>
@@ -9660,7 +10322,7 @@ export const ListThingGroupsResponse = S.suspend(() =>
   identifier: "ListThingGroupsResponse",
 }) as any as S.Schema<ListThingGroupsResponse>;
 export interface ListThingGroupsForThingResponse {
-  thingGroups?: ThingGroupNameAndArnList;
+  thingGroups?: GroupNameAndArn[];
   nextToken?: string;
 }
 export const ListThingGroupsForThingResponse = S.suspend(() =>
@@ -9672,7 +10334,7 @@ export const ListThingGroupsForThingResponse = S.suspend(() =>
   identifier: "ListThingGroupsForThingResponse",
 }) as any as S.Schema<ListThingGroupsForThingResponse>;
 export interface ListThingPrincipalsResponse {
-  principals?: Principals;
+  principals?: string[];
   nextToken?: string;
 }
 export const ListThingPrincipalsResponse = S.suspend(() =>
@@ -9684,21 +10346,21 @@ export const ListThingPrincipalsResponse = S.suspend(() =>
   identifier: "ListThingPrincipalsResponse",
 }) as any as S.Schema<ListThingPrincipalsResponse>;
 export interface ListThingRegistrationTaskReportsResponse {
-  resourceLinks?: S3FileUrlList;
-  reportType?: string;
+  resourceLinks?: string[];
+  reportType?: ReportType;
   nextToken?: string;
 }
 export const ListThingRegistrationTaskReportsResponse = S.suspend(() =>
   S.Struct({
     resourceLinks: S.optional(S3FileUrlList),
-    reportType: S.optional(S.String),
+    reportType: S.optional(ReportType),
     nextToken: S.optional(S.String),
   }),
 ).annotations({
   identifier: "ListThingRegistrationTaskReportsResponse",
 }) as any as S.Schema<ListThingRegistrationTaskReportsResponse>;
 export interface ListThingRegistrationTasksResponse {
-  taskIds?: TaskIdList;
+  taskIds?: string[];
   nextToken?: string;
 }
 export const ListThingRegistrationTasksResponse = S.suspend(() =>
@@ -9710,7 +10372,7 @@ export const ListThingRegistrationTasksResponse = S.suspend(() =>
   identifier: "ListThingRegistrationTasksResponse",
 }) as any as S.Schema<ListThingRegistrationTasksResponse>;
 export interface ListThingsInBillingGroupResponse {
-  things?: ThingNameList;
+  things?: string[];
   nextToken?: string;
 }
 export const ListThingsInBillingGroupResponse = S.suspend(() =>
@@ -9722,7 +10384,7 @@ export const ListThingsInBillingGroupResponse = S.suspend(() =>
   identifier: "ListThingsInBillingGroupResponse",
 }) as any as S.Schema<ListThingsInBillingGroupResponse>;
 export interface ListThingsInThingGroupResponse {
-  things?: ThingNameList;
+  things?: string[];
   nextToken?: string;
 }
 export const ListThingsInThingGroupResponse = S.suspend(() =>
@@ -9739,8 +10401,8 @@ export interface RegisterCACertificateRequest {
   setAsActive?: boolean;
   allowAutoRegistration?: boolean;
   registrationConfig?: RegistrationConfig;
-  tags?: TagList;
-  certificateMode?: string;
+  tags?: Tag[];
+  certificateMode?: CertificateMode;
 }
 export const RegisterCACertificateRequest = S.suspend(() =>
   S.Struct({
@@ -9752,7 +10414,7 @@ export const RegisterCACertificateRequest = S.suspend(() =>
     ),
     registrationConfig: S.optional(RegistrationConfig),
     tags: S.optional(TagList),
-    certificateMode: S.optional(S.String),
+    certificateMode: S.optional(CertificateMode),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/cacertificate" }),
@@ -9792,7 +10454,7 @@ export const RegisterCertificateWithoutCAResponse = S.suspend(() =>
 }) as any as S.Schema<RegisterCertificateWithoutCAResponse>;
 export interface RegisterThingRequest {
   templateBody: string;
-  parameters?: Parameters;
+  parameters?: { [key: string]: string };
 }
 export const RegisterThingRequest = S.suspend(() =>
   S.Struct({ templateBody: S.String, parameters: S.optional(Parameters) }).pipe(
@@ -9849,10 +10511,10 @@ export const SetLoggingOptionsResponse = S.suspend(() =>
 }) as any as S.Schema<SetLoggingOptionsResponse>;
 export interface SetV2LoggingLevelRequest {
   logTarget: LogTarget;
-  logLevel: string;
+  logLevel: LogLevel;
 }
 export const SetV2LoggingLevelRequest = S.suspend(() =>
-  S.Struct({ logTarget: LogTarget, logLevel: S.String }).pipe(
+  S.Struct({ logTarget: LogTarget, logLevel: LogLevel }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v2LoggingLevel" }),
       svc,
@@ -9873,14 +10535,14 @@ export const SetV2LoggingLevelResponse = S.suspend(() =>
 }) as any as S.Schema<SetV2LoggingLevelResponse>;
 export interface SetV2LoggingOptionsRequest {
   roleArn?: string;
-  defaultLogLevel?: string;
+  defaultLogLevel?: LogLevel;
   disableAllLogs?: boolean;
-  eventConfigurations?: LogEventConfigurations;
+  eventConfigurations?: LogEventConfiguration[];
 }
 export const SetV2LoggingOptionsRequest = S.suspend(() =>
   S.Struct({
     roleArn: S.optional(S.String),
-    defaultLogLevel: S.optional(S.String),
+    defaultLogLevel: S.optional(LogLevel),
     disableAllLogs: S.optional(S.Boolean),
     eventConfigurations: S.optional(LogEventConfigurations),
   }).pipe(
@@ -9905,7 +10567,7 @@ export const SetV2LoggingOptionsResponse = S.suspend(() =>
 export interface StartDetectMitigationActionsTaskRequest {
   taskId: string;
   target: DetectMitigationActionsTaskTarget;
-  actions: DetectMitigationActionsToExecuteList;
+  actions: string[];
   violationEventOccurrenceRange?: ViolationEventOccurrenceRange;
   includeOnlyActiveViolations?: boolean;
   includeSuppressedAlerts?: boolean;
@@ -9955,10 +10617,10 @@ export const StartThingRegistrationTaskResponse = S.suspend(() =>
 export interface TestAuthorizationRequest {
   principal?: string;
   cognitoIdentityPoolId?: string;
-  authInfos: AuthInfos;
+  authInfos: AuthInfo[];
   clientId?: string;
-  policyNamesToAdd?: PolicyNames;
-  policyNamesToSkip?: PolicyNames;
+  policyNamesToAdd?: string[];
+  policyNamesToSkip?: string[];
 }
 export const TestAuthorizationRequest = S.suspend(() =>
   S.Struct({
@@ -10042,7 +10704,7 @@ export const UpdateCommandResponse = S.suspend(() =>
 export interface UpdateCustomMetricResponse {
   metricName?: string;
   metricArn?: string;
-  metricType?: string;
+  metricType?: CustomMetricType;
   displayName?: string;
   creationDate?: Date;
   lastModifiedDate?: Date;
@@ -10051,7 +10713,7 @@ export const UpdateCustomMetricResponse = S.suspend(() =>
   S.Struct({
     metricName: S.optional(S.String),
     metricArn: S.optional(S.String),
-    metricType: S.optional(S.String),
+    metricType: S.optional(CustomMetricType),
     displayName: S.optional(S.String),
     creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastModifiedDate: S.optional(
@@ -10064,8 +10726,8 @@ export const UpdateCustomMetricResponse = S.suspend(() =>
 export interface UpdateDimensionResponse {
   name?: string;
   arn?: string;
-  type?: string;
-  stringValues?: DimensionStringValues;
+  type?: DimensionType;
+  stringValues?: string[];
   creationDate?: Date;
   lastModifiedDate?: Date;
 }
@@ -10073,7 +10735,7 @@ export const UpdateDimensionResponse = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     arn: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(DimensionType),
     stringValues: S.optional(DimensionStringValues),
     creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastModifiedDate: S.optional(
@@ -10136,10 +10798,10 @@ export interface UpdateSecurityProfileResponse {
   securityProfileName?: string;
   securityProfileArn?: string;
   securityProfileDescription?: string;
-  behaviors?: Behaviors;
-  alertTargets?: AlertTargets;
-  additionalMetricsToRetain?: AdditionalMetricsToRetainList;
-  additionalMetricsToRetainV2?: AdditionalMetricsToRetainV2List;
+  behaviors?: Behavior[];
+  alertTargets?: { [key: string]: AlertTarget };
+  additionalMetricsToRetain?: string[];
+  additionalMetricsToRetainV2?: MetricToRetain[];
   version?: number;
   creationDate?: Date;
   lastModifiedDate?: Date;
@@ -10189,15 +10851,15 @@ export const UpdateThingGroupResponse = S.suspend(() =>
   identifier: "UpdateThingGroupResponse",
 }) as any as S.Schema<UpdateThingGroupResponse>;
 export interface AwsJobAbortCriteria {
-  failureType: string;
-  action: string;
+  failureType: AwsJobAbortCriteriaFailureType;
+  action: AwsJobAbortCriteriaAbortAction;
   thresholdPercentage: number;
   minNumberOfExecutedThings: number;
 }
 export const AwsJobAbortCriteria = S.suspend(() =>
   S.Struct({
-    failureType: S.String,
-    action: S.String,
+    failureType: AwsJobAbortCriteriaFailureType,
+    action: AwsJobAbortCriteriaAbortAction,
     thresholdPercentage: S.Number,
     minNumberOfExecutedThings: S.Number,
   }),
@@ -10217,8 +10879,8 @@ export const HttpUrlDestinationConfiguration = S.suspend(() =>
   identifier: "HttpUrlDestinationConfiguration",
 }) as any as S.Schema<HttpUrlDestinationConfiguration>;
 export interface VpcDestinationConfiguration {
-  subnetIds: SubnetIdList;
-  securityGroups?: SecurityGroupList;
+  subnetIds: string[];
+  securityGroups?: string[];
   vpcId: string;
   roleArn: string;
 }
@@ -10232,6 +10894,10 @@ export const VpcDestinationConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "VpcDestinationConfiguration",
 }) as any as S.Schema<VpcDestinationConfiguration>;
+export type ServerCertificateStatus = "INVALID" | "VALID";
+export const ServerCertificateStatus = S.Literal("INVALID", "VALID");
+export type ModelStatus = "PENDING_BUILD" | "ACTIVE" | "EXPIRED";
+export const ModelStatus = S.Literal("PENDING_BUILD", "ACTIVE", "EXPIRED");
 export interface TermsAggregation {
   maxBuckets?: number;
 }
@@ -10240,11 +10906,36 @@ export const TermsAggregation = S.suspend(() =>
 ).annotations({
   identifier: "TermsAggregation",
 }) as any as S.Schema<TermsAggregation>;
+export type DetectMitigationActionExecutionStatus =
+  | "IN_PROGRESS"
+  | "SUCCESSFUL"
+  | "FAILED"
+  | "SKIPPED";
+export const DetectMitigationActionExecutionStatus = S.Literal(
+  "IN_PROGRESS",
+  "SUCCESSFUL",
+  "FAILED",
+  "SKIPPED",
+);
+export type SbomValidationErrorCode =
+  | "INCOMPATIBLE_FORMAT"
+  | "FILE_SIZE_LIMIT_EXCEEDED";
+export const SbomValidationErrorCode = S.Literal(
+  "INCOMPATIBLE_FORMAT",
+  "FILE_SIZE_LIMIT_EXCEEDED",
+);
+export type ViolationEventType =
+  | "in-alarm"
+  | "alarm-cleared"
+  | "alarm-invalidated";
+export const ViolationEventType = S.Literal(
+  "in-alarm",
+  "alarm-cleared",
+  "alarm-invalidated",
+);
 export type ThingGroupNameList = string[];
 export const ThingGroupNameList = S.Array(S.String);
-export type AuditCheckToReasonCodeFilter = {
-  [key: string]: ReasonForNonComplianceCodes;
-};
+export type AuditCheckToReasonCodeFilter = { [key: string]: string[] };
 export const AuditCheckToReasonCodeFilter = S.Record({
   key: S.String,
   value: ReasonForNonComplianceCodes,
@@ -10252,7 +10943,7 @@ export const AuditCheckToReasonCodeFilter = S.Record({
 export type HttpHeaders = { [key: string]: string };
 export const HttpHeaders = S.Record({ key: S.String, value: S.String });
 export interface AwsJobAbortConfig {
-  abortCriteriaList: AwsJobAbortCriteriaList;
+  abortCriteriaList: AwsJobAbortCriteria[];
 }
 export const AwsJobAbortConfig = S.suspend(() =>
   S.Struct({ abortCriteriaList: AwsJobAbortCriteriaList }),
@@ -10305,13 +10996,13 @@ export const BillingGroupMetadata = S.suspend(() =>
 }) as any as S.Schema<BillingGroupMetadata>;
 export interface ServerCertificateSummary {
   serverCertificateArn?: string;
-  serverCertificateStatus?: string;
+  serverCertificateStatus?: ServerCertificateStatus;
   serverCertificateStatusDetail?: string;
 }
 export const ServerCertificateSummary = S.suspend(() =>
   S.Struct({
     serverCertificateArn: S.optional(S.String),
-    serverCertificateStatus: S.optional(S.String),
+    serverCertificateStatus: S.optional(ServerCertificateStatus),
     serverCertificateStatusDetail: S.optional(S.String),
   }),
 ).annotations({
@@ -10368,7 +11059,7 @@ export interface StreamInfo {
   streamArn?: string;
   streamVersion?: number;
   description?: string;
-  files?: StreamFiles;
+  files?: StreamFile[];
   createdAt?: Date;
   lastUpdatedAt?: Date;
   roleArn?: string;
@@ -10387,7 +11078,7 @@ export const StreamInfo = S.suspend(() =>
 ).annotations({ identifier: "StreamInfo" }) as any as S.Schema<StreamInfo>;
 export interface ThingGroupMetadata {
   parentGroupName?: string;
-  rootToParentThingGroups?: ThingGroupNameAndArnList;
+  rootToParentThingGroups?: GroupNameAndArn[];
   creationDate?: Date;
 }
 export const ThingGroupMetadata = S.suspend(() =>
@@ -10419,7 +11110,7 @@ export interface BehaviorModelTrainingSummary {
   securityProfileName?: string;
   behaviorName?: string;
   trainingDataCollectionStartDate?: Date;
-  modelStatus?: string;
+  modelStatus?: ModelStatus;
   datapointsCollectionPercentage?: number;
   lastModelRefreshDate?: Date;
 }
@@ -10430,7 +11121,7 @@ export const BehaviorModelTrainingSummary = S.suspend(() =>
     trainingDataCollectionStartDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    modelStatus: S.optional(S.String),
+    modelStatus: S.optional(ModelStatus),
     datapointsCollectionPercentage: S.optional(S.Number),
     lastModelRefreshDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -10517,7 +11208,7 @@ export interface TopicRule {
   sql?: string;
   description?: string;
   createdAt?: Date;
-  actions?: ActionList;
+  actions?: Action[];
   ruleDisabled?: boolean;
   awsIotSqlVersion?: string;
   errorAction?: Action;
@@ -10539,7 +11230,7 @@ export interface AuditMitigationActionExecutionMetadata {
   findingId?: string;
   actionName?: string;
   actionId?: string;
-  status?: string;
+  status?: AuditMitigationActionsExecutionStatus;
   startTime?: Date;
   endTime?: Date;
   errorCode?: string;
@@ -10551,7 +11242,7 @@ export const AuditMitigationActionExecutionMetadata = S.suspend(() =>
     findingId: S.optional(S.String),
     actionName: S.optional(S.String),
     actionId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(AuditMitigationActionsExecutionStatus),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     errorCode: S.optional(S.String),
@@ -10568,13 +11259,13 @@ export const AuditMitigationActionExecutionMetadataList = S.Array(
 export interface AuditMitigationActionsTaskMetadata {
   taskId?: string;
   startTime?: Date;
-  taskStatus?: string;
+  taskStatus?: AuditMitigationActionsTaskStatus;
 }
 export const AuditMitigationActionsTaskMetadata = S.suspend(() =>
   S.Struct({
     taskId: S.optional(S.String),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    taskStatus: S.optional(S.String),
+    taskStatus: S.optional(AuditMitigationActionsTaskStatus),
   }),
 ).annotations({
   identifier: "AuditMitigationActionsTaskMetadata",
@@ -10606,14 +11297,14 @@ export type AuditSuppressionList = AuditSuppression[];
 export const AuditSuppressionList = S.Array(AuditSuppression);
 export interface AuditTaskMetadata {
   taskId?: string;
-  taskStatus?: string;
-  taskType?: string;
+  taskStatus?: AuditTaskStatus;
+  taskType?: AuditTaskType;
 }
 export const AuditTaskMetadata = S.suspend(() =>
   S.Struct({
     taskId: S.optional(S.String),
-    taskStatus: S.optional(S.String),
-    taskType: S.optional(S.String),
+    taskStatus: S.optional(AuditTaskStatus),
+    taskType: S.optional(AuditTaskType),
   }),
 ).annotations({
   identifier: "AuditTaskMetadata",
@@ -10639,14 +11330,14 @@ export const BillingGroupNameAndArnList = S.Array(GroupNameAndArn);
 export interface CACertificate {
   certificateArn?: string;
   certificateId?: string;
-  status?: string;
+  status?: CACertificateStatus;
   creationDate?: Date;
 }
 export const CACertificate = S.suspend(() =>
   S.Struct({
     certificateArn: S.optional(S.String),
     certificateId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(CACertificateStatus),
     creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({
@@ -10699,7 +11390,7 @@ export interface DetectMitigationActionExecution {
   thingName?: string;
   executionStartDate?: Date;
   executionEndDate?: Date;
-  status?: string;
+  status?: DetectMitigationActionExecutionStatus;
   errorCode?: string;
   message?: string;
 }
@@ -10715,7 +11406,7 @@ export const DetectMitigationActionExecution = S.suspend(() =>
     executionEndDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    status: S.optional(S.String),
+    status: S.optional(DetectMitigationActionExecutionStatus),
     errorCode: S.optional(S.String),
     message: S.optional(S.String),
   }),
@@ -10730,13 +11421,13 @@ export const DetectMitigationActionExecutionList = S.Array(
 export interface DomainConfigurationSummary {
   domainConfigurationName?: string;
   domainConfigurationArn?: string;
-  serviceType?: string;
+  serviceType?: ServiceType;
 }
 export const DomainConfigurationSummary = S.suspend(() =>
   S.Struct({
     domainConfigurationName: S.optional(S.String),
     domainConfigurationArn: S.optional(S.String),
-    serviceType: S.optional(S.String),
+    serviceType: S.optional(ServiceType),
   }),
 ).annotations({
   identifier: "DomainConfigurationSummary",
@@ -10758,7 +11449,7 @@ export const FleetMetricNameAndArn = S.suspend(() =>
 export type FleetMetricNameAndArnList = FleetMetricNameAndArn[];
 export const FleetMetricNameAndArnList = S.Array(FleetMetricNameAndArn);
 export interface JobExecutionSummary {
-  status?: string;
+  status?: JobExecutionStatus;
   queuedAt?: Date;
   startedAt?: Date;
   lastUpdatedAt?: Date;
@@ -10767,7 +11458,7 @@ export interface JobExecutionSummary {
 }
 export const JobExecutionSummary = S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String),
+    status: S.optional(JobExecutionStatus),
     queuedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     startedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -10797,8 +11488,8 @@ export interface JobSummary {
   jobArn?: string;
   jobId?: string;
   thingGroupId?: string;
-  targetSelection?: string;
-  status?: string;
+  targetSelection?: TargetSelection;
+  status?: JobStatus;
   createdAt?: Date;
   lastUpdatedAt?: Date;
   completedAt?: Date;
@@ -10809,8 +11500,8 @@ export const JobSummary = S.suspend(() =>
     jobArn: S.optional(S.String),
     jobId: S.optional(S.String),
     thingGroupId: S.optional(S.String),
-    targetSelection: S.optional(S.String),
-    status: S.optional(S.String),
+    targetSelection: S.optional(TargetSelection),
+    status: S.optional(JobStatus),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     completedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -10841,7 +11532,7 @@ export interface ManagedJobTemplateSummary {
   templateArn?: string;
   templateName?: string;
   description?: string;
-  environments?: Environments;
+  environments?: string[];
   templateVersion?: string;
 }
 export const ManagedJobTemplateSummary = S.suspend(() =>
@@ -10950,7 +11641,7 @@ export const PackageSummaryList = S.Array(PackageSummary);
 export interface PackageVersionSummary {
   packageName?: string;
   versionName?: string;
-  status?: string;
+  status?: PackageVersionStatus;
   creationDate?: Date;
   lastModifiedDate?: Date;
 }
@@ -10958,7 +11649,7 @@ export const PackageVersionSummary = S.suspend(() =>
   S.Struct({
     packageName: S.optional(S.String),
     versionName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(PackageVersionStatus),
     creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastModifiedDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -10987,10 +11678,13 @@ export type PolicyVersions = PolicyVersion[];
 export const PolicyVersions = S.Array(PolicyVersion);
 export interface PrincipalThingObject {
   thingName: string;
-  thingPrincipalType?: string;
+  thingPrincipalType?: ThingPrincipalType;
 }
 export const PrincipalThingObject = S.suspend(() =>
-  S.Struct({ thingName: S.String, thingPrincipalType: S.optional(S.String) }),
+  S.Struct({
+    thingName: S.String,
+    thingPrincipalType: S.optional(ThingPrincipalType),
+  }),
 ).annotations({
   identifier: "PrincipalThingObject",
 }) as any as S.Schema<PrincipalThingObject>;
@@ -11003,7 +11697,7 @@ export interface ProvisioningTemplateSummary {
   creationDate?: Date;
   lastModifiedDate?: Date;
   enabled?: boolean;
-  type?: string;
+  type?: TemplateType;
 }
 export const ProvisioningTemplateSummary = S.suspend(() =>
   S.Struct({
@@ -11015,7 +11709,7 @@ export const ProvisioningTemplateSummary = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     enabled: S.optional(S.Boolean),
-    type: S.optional(S.String),
+    type: S.optional(TemplateType),
   }),
 ).annotations({
   identifier: "ProvisioningTemplateSummary",
@@ -11043,15 +11737,15 @@ export const ProvisioningTemplateVersionListing = S.Array(
 );
 export interface SbomValidationResultSummary {
   fileName?: string;
-  validationResult?: string;
-  errorCode?: string;
+  validationResult?: SbomValidationResult;
+  errorCode?: SbomValidationErrorCode;
   errorMessage?: string;
 }
 export const SbomValidationResultSummary = S.suspend(() =>
   S.Struct({
     fileName: S.optional(S.String),
-    validationResult: S.optional(S.String),
-    errorCode: S.optional(S.String),
+    validationResult: S.optional(SbomValidationResult),
+    errorCode: S.optional(SbomValidationErrorCode),
     errorMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -11064,17 +11758,17 @@ export const SbomValidationResultSummaryList = S.Array(
 export interface ScheduledAuditMetadata {
   scheduledAuditName?: string;
   scheduledAuditArn?: string;
-  frequency?: string;
+  frequency?: AuditFrequency;
   dayOfMonth?: string;
-  dayOfWeek?: string;
+  dayOfWeek?: DayOfWeek;
 }
 export const ScheduledAuditMetadata = S.suspend(() =>
   S.Struct({
     scheduledAuditName: S.optional(S.String),
     scheduledAuditArn: S.optional(S.String),
-    frequency: S.optional(S.String),
+    frequency: S.optional(AuditFrequency),
     dayOfMonth: S.optional(S.String),
-    dayOfWeek: S.optional(S.String),
+    dayOfWeek: S.optional(DayOfWeek),
   }),
 ).annotations({
   identifier: "ScheduledAuditMetadata",
@@ -11138,10 +11832,13 @@ export type SecurityProfileTargets = SecurityProfileTarget[];
 export const SecurityProfileTargets = S.Array(SecurityProfileTarget);
 export interface ThingPrincipalObject {
   principal: string;
-  thingPrincipalType?: string;
+  thingPrincipalType?: ThingPrincipalType;
 }
 export const ThingPrincipalObject = S.suspend(() =>
-  S.Struct({ principal: S.String, thingPrincipalType: S.optional(S.String) }),
+  S.Struct({
+    principal: S.String,
+    thingPrincipalType: S.optional(ThingPrincipalType),
+  }),
 ).annotations({
   identifier: "ThingPrincipalObject",
 }) as any as S.Schema<ThingPrincipalObject>;
@@ -11151,7 +11848,7 @@ export interface ThingAttribute {
   thingName?: string;
   thingTypeName?: string;
   thingArn?: string;
-  attributes?: Attributes;
+  attributes?: { [key: string]: string };
   version?: number;
 }
 export const ThingAttribute = S.suspend(() =>
@@ -11207,12 +11904,12 @@ export type TopicRuleList = TopicRuleListItem[];
 export const TopicRuleList = S.Array(TopicRuleListItem);
 export interface LogTargetConfiguration {
   logTarget?: LogTarget;
-  logLevel?: string;
+  logLevel?: LogLevel;
 }
 export const LogTargetConfiguration = S.suspend(() =>
   S.Struct({
     logTarget: S.optional(LogTarget),
-    logLevel: S.optional(S.String),
+    logLevel: S.optional(LogLevel),
   }),
 ).annotations({
   identifier: "LogTargetConfiguration",
@@ -11220,10 +11917,10 @@ export const LogTargetConfiguration = S.suspend(() =>
 export type LogTargetConfigurations = LogTargetConfiguration[];
 export const LogTargetConfigurations = S.Array(LogTargetConfiguration);
 export interface ViolationEventAdditionalInfo {
-  confidenceLevel?: string;
+  confidenceLevel?: ConfidenceLevel;
 }
 export const ViolationEventAdditionalInfo = S.suspend(() =>
-  S.Struct({ confidenceLevel: S.optional(S.String) }),
+  S.Struct({ confidenceLevel: S.optional(ConfidenceLevel) }),
 ).annotations({
   identifier: "ViolationEventAdditionalInfo",
 }) as any as S.Schema<ViolationEventAdditionalInfo>;
@@ -11234,8 +11931,8 @@ export interface ViolationEvent {
   behavior?: Behavior;
   metricValue?: MetricValue;
   violationEventAdditionalInfo?: ViolationEventAdditionalInfo;
-  violationEventType?: string;
-  verificationState?: string;
+  violationEventType?: ViolationEventType;
+  verificationState?: VerificationState;
   verificationStateDescription?: string;
   violationEventTime?: Date;
 }
@@ -11247,8 +11944,8 @@ export const ViolationEvent = S.suspend(() =>
     behavior: S.optional(Behavior),
     metricValue: S.optional(MetricValue),
     violationEventAdditionalInfo: S.optional(ViolationEventAdditionalInfo),
-    violationEventType: S.optional(S.String),
-    verificationState: S.optional(S.String),
+    violationEventType: S.optional(ViolationEventType),
+    verificationState: S.optional(VerificationState),
     verificationStateDescription: S.optional(S.String),
     violationEventTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -11263,8 +11960,8 @@ export interface ThingGroupDocument {
   thingGroupName?: string;
   thingGroupId?: string;
   thingGroupDescription?: string;
-  attributes?: Attributes;
-  parentGroupNames?: ThingGroupNameList;
+  attributes?: { [key: string]: string };
+  parentGroupNames?: string[];
 }
 export const ThingGroupDocument = S.suspend(() =>
   S.Struct({
@@ -11281,8 +11978,8 @@ export type ThingGroupDocumentList = ThingGroupDocument[];
 export const ThingGroupDocumentList = S.Array(ThingGroupDocument);
 export interface AuditMitigationActionsTaskTarget {
   auditTaskId?: string;
-  findingIds?: FindingIds;
-  auditCheckToReasonCodeFilter?: AuditCheckToReasonCodeFilter;
+  findingIds?: string[];
+  auditCheckToReasonCodeFilter?: { [key: string]: string[] };
 }
 export const AuditMitigationActionsTaskTarget = S.suspend(() =>
   S.Struct({
@@ -11294,7 +11991,7 @@ export const AuditMitigationActionsTaskTarget = S.suspend(() =>
   identifier: "AuditMitigationActionsTaskTarget",
 }) as any as S.Schema<AuditMitigationActionsTaskTarget>;
 export interface HttpContext {
-  headers?: HttpHeaders;
+  headers?: { [key: string]: string };
   queryString?: string;
 }
 export const HttpContext = S.suspend(() =>
@@ -11332,6 +12029,21 @@ export interface Stream {
 export const Stream = S.suspend(() =>
   S.Struct({ streamId: S.optional(S.String), fileId: S.optional(S.Number) }),
 ).annotations({ identifier: "Stream" }) as any as S.Schema<Stream>;
+export type AuditCheckRunStatus =
+  | "IN_PROGRESS"
+  | "WAITING_FOR_DATA_COLLECTION"
+  | "CANCELED"
+  | "COMPLETED_COMPLIANT"
+  | "COMPLETED_NON_COMPLIANT"
+  | "FAILED";
+export const AuditCheckRunStatus = S.Literal(
+  "IN_PROGRESS",
+  "WAITING_FOR_DATA_COLLECTION",
+  "CANCELED",
+  "COMPLETED_COMPLIANT",
+  "COMPLETED_NON_COMPLIANT",
+  "FAILED",
+);
 export type ProcessingTargetNameList = string[];
 export const ProcessingTargetNameList = S.Array(S.String);
 export interface AssociateSbomWithPackageVersionRequest {
@@ -11499,7 +12211,7 @@ export interface CreateMitigationActionRequest {
   actionName: string;
   roleArn: string;
   actionParams: MitigationActionParams;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateMitigationActionRequest = S.suspend(() =>
   S.Struct({
@@ -11526,7 +12238,7 @@ export const CreateMitigationActionRequest = S.suspend(() =>
 export interface CreatePackageResponse {
   packageName?: string;
   packageArn?: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
 }
 export const CreatePackageResponse = S.suspend(() =>
   S.Struct({
@@ -11541,9 +12253,9 @@ export interface CreatePackageVersionResponse {
   packageVersionArn?: string;
   packageName?: string;
   versionName?: string;
-  description?: string | Redacted.Redacted<string>;
-  attributes?: ResourceAttributes;
-  status?: string;
+  description?: string | redacted.Redacted<string>;
+  attributes?: { [key: string]: string };
+  status?: PackageVersionStatus;
   errorReason?: string;
 }
 export const CreatePackageVersionResponse = S.suspend(() =>
@@ -11553,7 +12265,7 @@ export const CreatePackageVersionResponse = S.suspend(() =>
     versionName: S.optional(S.String),
     description: S.optional(SensitiveString),
     attributes: S.optional(ResourceAttributes),
-    status: S.optional(S.String),
+    status: S.optional(PackageVersionStatus),
     errorReason: S.optional(S.String),
   }),
 ).annotations({
@@ -11657,16 +12369,16 @@ export interface DescribeDomainConfigurationResponse {
   domainConfigurationName?: string;
   domainConfigurationArn?: string;
   domainName?: string;
-  serverCertificates?: ServerCertificates;
+  serverCertificates?: ServerCertificateSummary[];
   authorizerConfig?: AuthorizerConfig;
-  domainConfigurationStatus?: string;
-  serviceType?: string;
-  domainType?: string;
+  domainConfigurationStatus?: DomainConfigurationStatus;
+  serviceType?: ServiceType;
+  domainType?: DomainType;
   lastStatusChangeDate?: Date;
   tlsConfig?: TlsConfig;
   serverCertificateConfig?: ServerCertificateConfig;
-  authenticationType?: string;
-  applicationProtocol?: string;
+  authenticationType?: AuthenticationType;
+  applicationProtocol?: ApplicationProtocol;
   clientCertificateConfig?: ClientCertificateConfig;
 }
 export const DescribeDomainConfigurationResponse = S.suspend(() =>
@@ -11676,23 +12388,23 @@ export const DescribeDomainConfigurationResponse = S.suspend(() =>
     domainName: S.optional(S.String),
     serverCertificates: S.optional(ServerCertificates),
     authorizerConfig: S.optional(AuthorizerConfig),
-    domainConfigurationStatus: S.optional(S.String),
-    serviceType: S.optional(S.String),
-    domainType: S.optional(S.String),
+    domainConfigurationStatus: S.optional(DomainConfigurationStatus),
+    serviceType: S.optional(ServiceType),
+    domainType: S.optional(DomainType),
     lastStatusChangeDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     tlsConfig: S.optional(TlsConfig),
     serverCertificateConfig: S.optional(ServerCertificateConfig),
-    authenticationType: S.optional(S.String),
-    applicationProtocol: S.optional(S.String),
+    authenticationType: S.optional(AuthenticationType),
+    applicationProtocol: S.optional(ApplicationProtocol),
     clientCertificateConfig: S.optional(ClientCertificateConfig),
   }),
 ).annotations({
   identifier: "DescribeDomainConfigurationResponse",
 }) as any as S.Schema<DescribeDomainConfigurationResponse>;
 export interface DescribeEventConfigurationsResponse {
-  eventConfigurations?: EventConfigurations;
+  eventConfigurations?: { [key: string]: Configuration };
   creationDate?: Date;
   lastModifiedDate?: Date;
 }
@@ -11712,8 +12424,8 @@ export interface DescribeManagedJobTemplateResponse {
   templateArn?: string;
   description?: string;
   templateVersion?: string;
-  environments?: Environments;
-  documentParameters?: DocumentParameters;
+  environments?: string[];
+  documentParameters?: DocumentParameter[];
   document?: string;
 }
 export const DescribeManagedJobTemplateResponse = S.suspend(() =>
@@ -11755,7 +12467,7 @@ export interface DescribeThingGroupResponse {
   indexName?: string;
   queryString?: string;
   queryVersion?: string;
-  status?: string;
+  status?: DynamicGroupStatus;
 }
 export const DescribeThingGroupResponse = S.suspend(() =>
   S.Struct({
@@ -11768,7 +12480,7 @@ export const DescribeThingGroupResponse = S.suspend(() =>
     indexName: S.optional(S.String),
     queryString: S.optional(S.String),
     queryVersion: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(DynamicGroupStatus),
   }),
 ).annotations({
   identifier: "DescribeThingGroupResponse",
@@ -11792,7 +12504,7 @@ export const DescribeThingTypeResponse = S.suspend(() =>
   identifier: "DescribeThingTypeResponse",
 }) as any as S.Schema<DescribeThingTypeResponse>;
 export interface GetBehaviorModelTrainingSummariesResponse {
-  summaries?: BehaviorModelTrainingSummaries;
+  summaries?: BehaviorModelTrainingSummary[];
   nextToken?: string;
 }
 export const GetBehaviorModelTrainingSummariesResponse = S.suspend(() =>
@@ -11831,7 +12543,7 @@ export const GetBucketsAggregationRequest = S.suspend(() =>
   identifier: "GetBucketsAggregationRequest",
 }) as any as S.Schema<GetBucketsAggregationRequest>;
 export interface GetEffectivePoliciesResponse {
-  effectivePolicies?: EffectivePolicies;
+  effectivePolicies?: EffectivePolicy[];
 }
 export const GetEffectivePoliciesResponse = S.suspend(() =>
   S.Struct({ effectivePolicies: S.optional(EffectivePolicies) }),
@@ -11839,7 +12551,7 @@ export const GetEffectivePoliciesResponse = S.suspend(() =>
   identifier: "GetEffectivePoliciesResponse",
 }) as any as S.Schema<GetEffectivePoliciesResponse>;
 export interface GetPercentilesResponse {
-  percentiles?: Percentiles;
+  percentiles?: PercentPair[];
 }
 export const GetPercentilesResponse = S.suspend(() =>
   S.Struct({ percentiles: S.optional(Percentiles) }),
@@ -11864,7 +12576,7 @@ export const GetTopicRuleResponse = S.suspend(() =>
   identifier: "GetTopicRuleResponse",
 }) as any as S.Schema<GetTopicRuleResponse>;
 export interface ListAttachedPoliciesResponse {
-  policies?: Policies;
+  policies?: Policy[];
   nextMarker?: string;
 }
 export const ListAttachedPoliciesResponse = S.suspend(() =>
@@ -11876,7 +12588,7 @@ export const ListAttachedPoliciesResponse = S.suspend(() =>
   identifier: "ListAttachedPoliciesResponse",
 }) as any as S.Schema<ListAttachedPoliciesResponse>;
 export interface ListAuditMitigationActionsExecutionsResponse {
-  actionsExecutions?: AuditMitigationActionExecutionMetadataList;
+  actionsExecutions?: AuditMitigationActionExecutionMetadata[];
   nextToken?: string;
 }
 export const ListAuditMitigationActionsExecutionsResponse = S.suspend(() =>
@@ -11888,7 +12600,7 @@ export const ListAuditMitigationActionsExecutionsResponse = S.suspend(() =>
   identifier: "ListAuditMitigationActionsExecutionsResponse",
 }) as any as S.Schema<ListAuditMitigationActionsExecutionsResponse>;
 export interface ListAuditMitigationActionsTasksResponse {
-  tasks?: AuditMitigationActionsTaskMetadataList;
+  tasks?: AuditMitigationActionsTaskMetadata[];
   nextToken?: string;
 }
 export const ListAuditMitigationActionsTasksResponse = S.suspend(() =>
@@ -11900,7 +12612,7 @@ export const ListAuditMitigationActionsTasksResponse = S.suspend(() =>
   identifier: "ListAuditMitigationActionsTasksResponse",
 }) as any as S.Schema<ListAuditMitigationActionsTasksResponse>;
 export interface ListAuditSuppressionsResponse {
-  suppressions?: AuditSuppressionList;
+  suppressions?: AuditSuppression[];
   nextToken?: string;
 }
 export const ListAuditSuppressionsResponse = S.suspend(() =>
@@ -11912,7 +12624,7 @@ export const ListAuditSuppressionsResponse = S.suspend(() =>
   identifier: "ListAuditSuppressionsResponse",
 }) as any as S.Schema<ListAuditSuppressionsResponse>;
 export interface ListAuditTasksResponse {
-  tasks?: AuditTaskMetadataList;
+  tasks?: AuditTaskMetadata[];
   nextToken?: string;
 }
 export const ListAuditTasksResponse = S.suspend(() =>
@@ -11924,7 +12636,7 @@ export const ListAuditTasksResponse = S.suspend(() =>
   identifier: "ListAuditTasksResponse",
 }) as any as S.Schema<ListAuditTasksResponse>;
 export interface ListAuthorizersResponse {
-  authorizers?: Authorizers;
+  authorizers?: AuthorizerSummary[];
   nextMarker?: string;
 }
 export const ListAuthorizersResponse = S.suspend(() =>
@@ -11936,7 +12648,7 @@ export const ListAuthorizersResponse = S.suspend(() =>
   identifier: "ListAuthorizersResponse",
 }) as any as S.Schema<ListAuthorizersResponse>;
 export interface ListBillingGroupsResponse {
-  billingGroups?: BillingGroupNameAndArnList;
+  billingGroups?: GroupNameAndArn[];
   nextToken?: string;
 }
 export const ListBillingGroupsResponse = S.suspend(() =>
@@ -11948,7 +12660,7 @@ export const ListBillingGroupsResponse = S.suspend(() =>
   identifier: "ListBillingGroupsResponse",
 }) as any as S.Schema<ListBillingGroupsResponse>;
 export interface ListCACertificatesResponse {
-  certificates?: CACertificates;
+  certificates?: CACertificate[];
   nextMarker?: string;
 }
 export const ListCACertificatesResponse = S.suspend(() =>
@@ -11960,7 +12672,7 @@ export const ListCACertificatesResponse = S.suspend(() =>
   identifier: "ListCACertificatesResponse",
 }) as any as S.Schema<ListCACertificatesResponse>;
 export interface ListCertificateProvidersResponse {
-  certificateProviders?: CertificateProviders;
+  certificateProviders?: CertificateProviderSummary[];
   nextToken?: string;
 }
 export const ListCertificateProvidersResponse = S.suspend(() =>
@@ -11972,7 +12684,7 @@ export const ListCertificateProvidersResponse = S.suspend(() =>
   identifier: "ListCertificateProvidersResponse",
 }) as any as S.Schema<ListCertificateProvidersResponse>;
 export interface ListCertificatesResponse {
-  certificates?: Certificates;
+  certificates?: Certificate[];
   nextMarker?: string;
 }
 export const ListCertificatesResponse = S.suspend(() =>
@@ -11984,7 +12696,7 @@ export const ListCertificatesResponse = S.suspend(() =>
   identifier: "ListCertificatesResponse",
 }) as any as S.Schema<ListCertificatesResponse>;
 export interface ListCommandsResponse {
-  commands?: CommandSummaryList;
+  commands?: CommandSummary[];
   nextToken?: string;
 }
 export const ListCommandsResponse = S.suspend(() =>
@@ -11996,7 +12708,7 @@ export const ListCommandsResponse = S.suspend(() =>
   identifier: "ListCommandsResponse",
 }) as any as S.Schema<ListCommandsResponse>;
 export interface ListDetectMitigationActionsExecutionsResponse {
-  actionsExecutions?: DetectMitigationActionExecutionList;
+  actionsExecutions?: DetectMitigationActionExecution[];
   nextToken?: string;
 }
 export const ListDetectMitigationActionsExecutionsResponse = S.suspend(() =>
@@ -12008,7 +12720,7 @@ export const ListDetectMitigationActionsExecutionsResponse = S.suspend(() =>
   identifier: "ListDetectMitigationActionsExecutionsResponse",
 }) as any as S.Schema<ListDetectMitigationActionsExecutionsResponse>;
 export interface ListDomainConfigurationsResponse {
-  domainConfigurations?: DomainConfigurations;
+  domainConfigurations?: DomainConfigurationSummary[];
   nextMarker?: string;
 }
 export const ListDomainConfigurationsResponse = S.suspend(() =>
@@ -12020,7 +12732,7 @@ export const ListDomainConfigurationsResponse = S.suspend(() =>
   identifier: "ListDomainConfigurationsResponse",
 }) as any as S.Schema<ListDomainConfigurationsResponse>;
 export interface ListFleetMetricsResponse {
-  fleetMetrics?: FleetMetricNameAndArnList;
+  fleetMetrics?: FleetMetricNameAndArn[];
   nextToken?: string;
 }
 export const ListFleetMetricsResponse = S.suspend(() =>
@@ -12032,7 +12744,7 @@ export const ListFleetMetricsResponse = S.suspend(() =>
   identifier: "ListFleetMetricsResponse",
 }) as any as S.Schema<ListFleetMetricsResponse>;
 export interface ListJobExecutionsForThingResponse {
-  executionSummaries?: JobExecutionSummaryForThingList;
+  executionSummaries?: JobExecutionSummaryForThing[];
   nextToken?: string;
 }
 export const ListJobExecutionsForThingResponse = S.suspend(() =>
@@ -12044,7 +12756,7 @@ export const ListJobExecutionsForThingResponse = S.suspend(() =>
   identifier: "ListJobExecutionsForThingResponse",
 }) as any as S.Schema<ListJobExecutionsForThingResponse>;
 export interface ListJobsResponse {
-  jobs?: JobSummaryList;
+  jobs?: JobSummary[];
   nextToken?: string;
 }
 export const ListJobsResponse = S.suspend(() =>
@@ -12056,7 +12768,7 @@ export const ListJobsResponse = S.suspend(() =>
   identifier: "ListJobsResponse",
 }) as any as S.Schema<ListJobsResponse>;
 export interface ListJobTemplatesResponse {
-  jobTemplates?: JobTemplateSummaryList;
+  jobTemplates?: JobTemplateSummary[];
   nextToken?: string;
 }
 export const ListJobTemplatesResponse = S.suspend(() =>
@@ -12068,7 +12780,7 @@ export const ListJobTemplatesResponse = S.suspend(() =>
   identifier: "ListJobTemplatesResponse",
 }) as any as S.Schema<ListJobTemplatesResponse>;
 export interface ListManagedJobTemplatesResponse {
-  managedJobTemplates?: ManagedJobTemplatesSummaryList;
+  managedJobTemplates?: ManagedJobTemplateSummary[];
   nextToken?: string;
 }
 export const ListManagedJobTemplatesResponse = S.suspend(() =>
@@ -12080,7 +12792,7 @@ export const ListManagedJobTemplatesResponse = S.suspend(() =>
   identifier: "ListManagedJobTemplatesResponse",
 }) as any as S.Schema<ListManagedJobTemplatesResponse>;
 export interface ListMetricValuesResponse {
-  metricDatumList?: MetricDatumList;
+  metricDatumList?: MetricDatum[];
   nextToken?: string;
 }
 export const ListMetricValuesResponse = S.suspend(() =>
@@ -12092,7 +12804,7 @@ export const ListMetricValuesResponse = S.suspend(() =>
   identifier: "ListMetricValuesResponse",
 }) as any as S.Schema<ListMetricValuesResponse>;
 export interface ListMitigationActionsResponse {
-  actionIdentifiers?: MitigationActionIdentifierList;
+  actionIdentifiers?: MitigationActionIdentifier[];
   nextToken?: string;
 }
 export const ListMitigationActionsResponse = S.suspend(() =>
@@ -12104,7 +12816,7 @@ export const ListMitigationActionsResponse = S.suspend(() =>
   identifier: "ListMitigationActionsResponse",
 }) as any as S.Schema<ListMitigationActionsResponse>;
 export interface ListOTAUpdatesResponse {
-  otaUpdates?: OTAUpdatesSummary;
+  otaUpdates?: OTAUpdateSummary[];
   nextToken?: string;
 }
 export const ListOTAUpdatesResponse = S.suspend(() =>
@@ -12116,7 +12828,7 @@ export const ListOTAUpdatesResponse = S.suspend(() =>
   identifier: "ListOTAUpdatesResponse",
 }) as any as S.Schema<ListOTAUpdatesResponse>;
 export interface ListOutgoingCertificatesResponse {
-  outgoingCertificates?: OutgoingCertificates;
+  outgoingCertificates?: OutgoingCertificate[];
   nextMarker?: string;
 }
 export const ListOutgoingCertificatesResponse = S.suspend(() =>
@@ -12128,7 +12840,7 @@ export const ListOutgoingCertificatesResponse = S.suspend(() =>
   identifier: "ListOutgoingCertificatesResponse",
 }) as any as S.Schema<ListOutgoingCertificatesResponse>;
 export interface ListPackagesResponse {
-  packageSummaries?: PackageSummaryList;
+  packageSummaries?: PackageSummary[];
   nextToken?: string;
 }
 export const ListPackagesResponse = S.suspend(() =>
@@ -12140,7 +12852,7 @@ export const ListPackagesResponse = S.suspend(() =>
   identifier: "ListPackagesResponse",
 }) as any as S.Schema<ListPackagesResponse>;
 export interface ListPackageVersionsResponse {
-  packageVersionSummaries?: PackageVersionSummaryList;
+  packageVersionSummaries?: PackageVersionSummary[];
   nextToken?: string;
 }
 export const ListPackageVersionsResponse = S.suspend(() =>
@@ -12152,7 +12864,7 @@ export const ListPackageVersionsResponse = S.suspend(() =>
   identifier: "ListPackageVersionsResponse",
 }) as any as S.Schema<ListPackageVersionsResponse>;
 export interface ListPolicyVersionsResponse {
-  policyVersions?: PolicyVersions;
+  policyVersions?: PolicyVersion[];
 }
 export const ListPolicyVersionsResponse = S.suspend(() =>
   S.Struct({ policyVersions: S.optional(PolicyVersions) }),
@@ -12160,7 +12872,7 @@ export const ListPolicyVersionsResponse = S.suspend(() =>
   identifier: "ListPolicyVersionsResponse",
 }) as any as S.Schema<ListPolicyVersionsResponse>;
 export interface ListPrincipalThingsV2Response {
-  principalThingObjects?: PrincipalThingObjects;
+  principalThingObjects?: PrincipalThingObject[];
   nextToken?: string;
 }
 export const ListPrincipalThingsV2Response = S.suspend(() =>
@@ -12172,7 +12884,7 @@ export const ListPrincipalThingsV2Response = S.suspend(() =>
   identifier: "ListPrincipalThingsV2Response",
 }) as any as S.Schema<ListPrincipalThingsV2Response>;
 export interface ListProvisioningTemplatesResponse {
-  templates?: ProvisioningTemplateListing;
+  templates?: ProvisioningTemplateSummary[];
   nextToken?: string;
 }
 export const ListProvisioningTemplatesResponse = S.suspend(() =>
@@ -12184,7 +12896,7 @@ export const ListProvisioningTemplatesResponse = S.suspend(() =>
   identifier: "ListProvisioningTemplatesResponse",
 }) as any as S.Schema<ListProvisioningTemplatesResponse>;
 export interface ListProvisioningTemplateVersionsResponse {
-  versions?: ProvisioningTemplateVersionListing;
+  versions?: ProvisioningTemplateVersionSummary[];
   nextToken?: string;
 }
 export const ListProvisioningTemplateVersionsResponse = S.suspend(() =>
@@ -12196,7 +12908,7 @@ export const ListProvisioningTemplateVersionsResponse = S.suspend(() =>
   identifier: "ListProvisioningTemplateVersionsResponse",
 }) as any as S.Schema<ListProvisioningTemplateVersionsResponse>;
 export interface ListSbomValidationResultsResponse {
-  validationResultSummaries?: SbomValidationResultSummaryList;
+  validationResultSummaries?: SbomValidationResultSummary[];
   nextToken?: string;
 }
 export const ListSbomValidationResultsResponse = S.suspend(() =>
@@ -12208,7 +12920,7 @@ export const ListSbomValidationResultsResponse = S.suspend(() =>
   identifier: "ListSbomValidationResultsResponse",
 }) as any as S.Schema<ListSbomValidationResultsResponse>;
 export interface ListScheduledAuditsResponse {
-  scheduledAudits?: ScheduledAuditMetadataList;
+  scheduledAudits?: ScheduledAuditMetadata[];
   nextToken?: string;
 }
 export const ListScheduledAuditsResponse = S.suspend(() =>
@@ -12220,7 +12932,7 @@ export const ListScheduledAuditsResponse = S.suspend(() =>
   identifier: "ListScheduledAuditsResponse",
 }) as any as S.Schema<ListScheduledAuditsResponse>;
 export interface ListSecurityProfilesResponse {
-  securityProfileIdentifiers?: SecurityProfileIdentifiers;
+  securityProfileIdentifiers?: SecurityProfileIdentifier[];
   nextToken?: string;
 }
 export const ListSecurityProfilesResponse = S.suspend(() =>
@@ -12232,7 +12944,7 @@ export const ListSecurityProfilesResponse = S.suspend(() =>
   identifier: "ListSecurityProfilesResponse",
 }) as any as S.Schema<ListSecurityProfilesResponse>;
 export interface ListSecurityProfilesForTargetResponse {
-  securityProfileTargetMappings?: SecurityProfileTargetMappings;
+  securityProfileTargetMappings?: SecurityProfileTargetMapping[];
   nextToken?: string;
 }
 export const ListSecurityProfilesForTargetResponse = S.suspend(() =>
@@ -12244,7 +12956,7 @@ export const ListSecurityProfilesForTargetResponse = S.suspend(() =>
   identifier: "ListSecurityProfilesForTargetResponse",
 }) as any as S.Schema<ListSecurityProfilesForTargetResponse>;
 export interface ListStreamsResponse {
-  streams?: StreamsSummary;
+  streams?: StreamSummary[];
   nextToken?: string;
 }
 export const ListStreamsResponse = S.suspend(() =>
@@ -12256,7 +12968,7 @@ export const ListStreamsResponse = S.suspend(() =>
   identifier: "ListStreamsResponse",
 }) as any as S.Schema<ListStreamsResponse>;
 export interface ListTargetsForSecurityProfileResponse {
-  securityProfileTargets?: SecurityProfileTargets;
+  securityProfileTargets?: SecurityProfileTarget[];
   nextToken?: string;
 }
 export const ListTargetsForSecurityProfileResponse = S.suspend(() =>
@@ -12268,7 +12980,7 @@ export const ListTargetsForSecurityProfileResponse = S.suspend(() =>
   identifier: "ListTargetsForSecurityProfileResponse",
 }) as any as S.Schema<ListTargetsForSecurityProfileResponse>;
 export interface ListThingPrincipalsV2Response {
-  thingPrincipalObjects?: ThingPrincipalObjects;
+  thingPrincipalObjects?: ThingPrincipalObject[];
   nextToken?: string;
 }
 export const ListThingPrincipalsV2Response = S.suspend(() =>
@@ -12280,7 +12992,7 @@ export const ListThingPrincipalsV2Response = S.suspend(() =>
   identifier: "ListThingPrincipalsV2Response",
 }) as any as S.Schema<ListThingPrincipalsV2Response>;
 export interface ListThingsResponse {
-  things?: ThingAttributeList;
+  things?: ThingAttribute[];
   nextToken?: string;
 }
 export const ListThingsResponse = S.suspend(() =>
@@ -12292,7 +13004,7 @@ export const ListThingsResponse = S.suspend(() =>
   identifier: "ListThingsResponse",
 }) as any as S.Schema<ListThingsResponse>;
 export interface ListThingTypesResponse {
-  thingTypes?: ThingTypeList;
+  thingTypes?: ThingTypeDefinition[];
   nextToken?: string;
 }
 export const ListThingTypesResponse = S.suspend(() =>
@@ -12304,7 +13016,7 @@ export const ListThingTypesResponse = S.suspend(() =>
   identifier: "ListThingTypesResponse",
 }) as any as S.Schema<ListThingTypesResponse>;
 export interface ListTopicRulesResponse {
-  rules?: TopicRuleList;
+  rules?: TopicRuleListItem[];
   nextToken?: string;
 }
 export const ListTopicRulesResponse = S.suspend(() =>
@@ -12316,7 +13028,7 @@ export const ListTopicRulesResponse = S.suspend(() =>
   identifier: "ListTopicRulesResponse",
 }) as any as S.Schema<ListTopicRulesResponse>;
 export interface ListV2LoggingLevelsResponse {
-  logTargetConfigurations?: LogTargetConfigurations;
+  logTargetConfigurations?: LogTargetConfiguration[];
   nextToken?: string;
 }
 export const ListV2LoggingLevelsResponse = S.suspend(() =>
@@ -12328,7 +13040,7 @@ export const ListV2LoggingLevelsResponse = S.suspend(() =>
   identifier: "ListV2LoggingLevelsResponse",
 }) as any as S.Schema<ListV2LoggingLevelsResponse>;
 export interface ListViolationEventsResponse {
-  violationEvents?: ViolationEvents;
+  violationEvents?: ViolationEvent[];
   nextToken?: string;
 }
 export const ListViolationEventsResponse = S.suspend(() =>
@@ -12354,7 +13066,7 @@ export const RegisterCACertificateResponse = S.suspend(() =>
 export interface StartAuditMitigationActionsTaskRequest {
   taskId: string;
   target: AuditMitigationActionsTaskTarget;
-  auditCheckToActionsMapping: AuditCheckToActionsMapping;
+  auditCheckToActionsMapping: { [key: string]: string[] };
   clientRequestToken: string;
 }
 export const StartAuditMitigationActionsTaskRequest = S.suspend(() =>
@@ -12418,7 +13130,7 @@ export const TestInvokeAuthorizerRequest = S.suspend(() =>
 }) as any as S.Schema<TestInvokeAuthorizerRequest>;
 export interface ValidateSecurityProfileBehaviorsResponse {
   valid?: boolean;
-  validationErrors?: ValidationErrors;
+  validationErrors?: ValidationError[];
 }
 export const ValidateSecurityProfileBehaviorsResponse = S.suspend(() =>
   S.Struct({
@@ -12468,7 +13180,7 @@ export const TaskStatisticsForAuditCheck = S.suspend(() =>
   identifier: "TaskStatisticsForAuditCheck",
 }) as any as S.Schema<TaskStatisticsForAuditCheck>;
 export interface AuditCheckDetails {
-  checkRunStatus?: string;
+  checkRunStatus?: AuditCheckRunStatus;
   checkCompliant?: boolean;
   totalResourcesCount?: number;
   nonCompliantResourcesCount?: number;
@@ -12478,7 +13190,7 @@ export interface AuditCheckDetails {
 }
 export const AuditCheckDetails = S.suspend(() =>
   S.Struct({
-    checkRunStatus: S.optional(S.String),
+    checkRunStatus: S.optional(AuditCheckRunStatus),
     checkCompliant: S.optional(S.Boolean),
     totalResourcesCount: S.optional(S.Number),
     nonCompliantResourcesCount: S.optional(S.Number),
@@ -12518,7 +13230,7 @@ export const TransferData = S.suspend(() =>
   }),
 ).annotations({ identifier: "TransferData" }) as any as S.Schema<TransferData>;
 export interface JobProcessDetails {
-  processingTargets?: ProcessingTargetNameList;
+  processingTargets?: string[];
   numberOfCanceledThings?: number;
   numberOfSucceededThings?: number;
   numberOfFailedThings?: number;
@@ -12554,7 +13266,7 @@ export const ScheduledJobRollout = S.suspend(() =>
 export type ScheduledJobRolloutList = ScheduledJobRollout[];
 export const ScheduledJobRolloutList = S.Array(ScheduledJobRollout);
 export interface JobExecutionStatusDetails {
-  detailsMap?: DetailsMap;
+  detailsMap?: { [key: string]: string };
 }
 export const JobExecutionStatusDetails = S.suspend(() =>
   S.Struct({ detailsMap: S.optional(DetailsMap) }),
@@ -12591,8 +13303,8 @@ export const HttpUrlDestinationProperties = S.suspend(() =>
   identifier: "HttpUrlDestinationProperties",
 }) as any as S.Schema<HttpUrlDestinationProperties>;
 export interface VpcDestinationProperties {
-  subnetIds?: SubnetIdList;
-  securityGroups?: SecurityGroupList;
+  subnetIds?: string[];
+  securityGroups?: string[];
   vpcId?: string;
   roleArn?: string;
 }
@@ -12615,8 +13327,8 @@ export const HttpUrlDestinationSummary = S.suspend(() =>
   identifier: "HttpUrlDestinationSummary",
 }) as any as S.Schema<HttpUrlDestinationSummary>;
 export interface VpcDestinationSummary {
-  subnetIds?: SubnetIdList;
-  securityGroups?: SecurityGroupList;
+  subnetIds?: string[];
+  securityGroups?: string[];
   vpcId?: string;
   roleArn?: string;
 }
@@ -12644,6 +13356,12 @@ export const ThingConnectivity = S.suspend(() =>
 ).annotations({
   identifier: "ThingConnectivity",
 }) as any as S.Schema<ThingConnectivity>;
+export type AuthDecision = "ALLOWED" | "EXPLICIT_DENY" | "IMPLICIT_DENY";
+export const AuthDecision = S.Literal(
+  "ALLOWED",
+  "EXPLICIT_DENY",
+  "IMPLICIT_DENY",
+);
 export type MissingContextValues = string[];
 export const MissingContextValues = S.Array(S.String);
 export interface SigningProfileParameter {
@@ -12707,33 +13425,33 @@ export const AuditDetails = S.Record({
 export interface CACertificateDescription {
   certificateArn?: string;
   certificateId?: string;
-  status?: string;
+  status?: CACertificateStatus;
   certificatePem?: string;
   ownedBy?: string;
   creationDate?: Date;
-  autoRegistrationStatus?: string;
+  autoRegistrationStatus?: AutoRegistrationStatus;
   lastModifiedDate?: Date;
   customerVersion?: number;
   generationId?: string;
   validity?: CertificateValidity;
-  certificateMode?: string;
+  certificateMode?: CertificateMode;
 }
 export const CACertificateDescription = S.suspend(() =>
   S.Struct({
     certificateArn: S.optional(S.String),
     certificateId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(CACertificateStatus),
     certificatePem: S.optional(S.String),
     ownedBy: S.optional(S.String),
     creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    autoRegistrationStatus: S.optional(S.String),
+    autoRegistrationStatus: S.optional(AutoRegistrationStatus),
     lastModifiedDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     customerVersion: S.optional(S.Number),
     generationId: S.optional(S.String),
     validity: S.optional(CertificateValidity),
-    certificateMode: S.optional(S.String),
+    certificateMode: S.optional(CertificateMode),
   }),
 ).annotations({
   identifier: "CACertificateDescription",
@@ -12742,7 +13460,7 @@ export interface CertificateDescription {
   certificateArn?: string;
   certificateId?: string;
   caCertificateId?: string;
-  status?: string;
+  status?: CertificateStatus;
   certificatePem?: string;
   ownedBy?: string;
   previousOwnedBy?: string;
@@ -12752,14 +13470,14 @@ export interface CertificateDescription {
   transferData?: TransferData;
   generationId?: string;
   validity?: CertificateValidity;
-  certificateMode?: string;
+  certificateMode?: CertificateMode;
 }
 export const CertificateDescription = S.suspend(() =>
   S.Struct({
     certificateArn: S.optional(S.String),
     certificateId: S.optional(S.String),
     caCertificateId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(CertificateStatus),
     certificatePem: S.optional(S.String),
     ownedBy: S.optional(S.String),
     previousOwnedBy: S.optional(S.String),
@@ -12771,7 +13489,7 @@ export const CertificateDescription = S.suspend(() =>
     transferData: S.optional(TransferData),
     generationId: S.optional(S.String),
     validity: S.optional(CertificateValidity),
-    certificateMode: S.optional(S.String),
+    certificateMode: S.optional(CertificateMode),
   }),
 ).annotations({
   identifier: "CertificateDescription",
@@ -12779,12 +13497,12 @@ export const CertificateDescription = S.suspend(() =>
 export interface Job {
   jobArn?: string;
   jobId?: string;
-  targetSelection?: string;
-  status?: string;
+  targetSelection?: TargetSelection;
+  status?: JobStatus;
   forceCanceled?: boolean;
   reasonCode?: string;
   comment?: string;
-  targets?: JobTargets;
+  targets?: string[];
   description?: string;
   presignedUrlConfig?: PresignedUrlConfig;
   jobExecutionsRolloutConfig?: JobExecutionsRolloutConfig;
@@ -12797,18 +13515,18 @@ export interface Job {
   namespaceId?: string;
   jobTemplateArn?: string;
   jobExecutionsRetryConfig?: JobExecutionsRetryConfig;
-  documentParameters?: ParameterMap;
+  documentParameters?: { [key: string]: string };
   isConcurrent?: boolean;
   schedulingConfig?: SchedulingConfig;
-  scheduledJobRollouts?: ScheduledJobRolloutList;
-  destinationPackageVersions?: DestinationPackageVersions;
+  scheduledJobRollouts?: ScheduledJobRollout[];
+  destinationPackageVersions?: string[];
 }
 export const Job = S.suspend(() =>
   S.Struct({
     jobArn: S.optional(S.String),
     jobId: S.optional(S.String),
-    targetSelection: S.optional(S.String),
-    status: S.optional(S.String),
+    targetSelection: S.optional(TargetSelection),
+    status: S.optional(JobStatus),
     forceCanceled: S.optional(S.Boolean),
     reasonCode: S.optional(S.String),
     comment: S.optional(S.String),
@@ -12834,7 +13552,7 @@ export const Job = S.suspend(() =>
 ).annotations({ identifier: "Job" }) as any as S.Schema<Job>;
 export interface JobExecution {
   jobId?: string;
-  status?: string;
+  status?: JobExecutionStatus;
   forceCanceled?: boolean;
   statusDetails?: JobExecutionStatusDetails;
   thingArn?: string;
@@ -12848,7 +13566,7 @@ export interface JobExecution {
 export const JobExecution = S.suspend(() =>
   S.Struct({
     jobId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(JobExecutionStatus),
     forceCanceled: S.optional(S.Boolean),
     statusDetails: S.optional(JobExecutionStatusDetails),
     thingArn: S.optional(S.String),
@@ -12930,7 +13648,7 @@ export interface OTAUpdateFile {
   fileVersion?: string;
   fileLocation?: FileLocation;
   codeSigning?: CodeSigning;
-  attributes?: AttributesMap;
+  attributes?: { [key: string]: string };
 }
 export const OTAUpdateFile = S.suspend(() =>
   S.Struct({
@@ -12952,17 +13670,17 @@ export interface OTAUpdateInfo {
   creationDate?: Date;
   lastModifiedDate?: Date;
   description?: string;
-  targets?: Targets;
-  protocols?: Protocols;
+  targets?: string[];
+  protocols?: Protocol[];
   awsJobExecutionsRolloutConfig?: AwsJobExecutionsRolloutConfig;
   awsJobPresignedUrlConfig?: AwsJobPresignedUrlConfig;
-  targetSelection?: string;
-  otaUpdateFiles?: OTAUpdateFiles;
-  otaUpdateStatus?: string;
+  targetSelection?: TargetSelection;
+  otaUpdateFiles?: OTAUpdateFile[];
+  otaUpdateStatus?: OTAUpdateStatus;
   awsIotJobId?: string;
   awsIotJobArn?: string;
   errorInfo?: ErrorInfo;
-  additionalParameters?: AdditionalParameterMap;
+  additionalParameters?: { [key: string]: string };
 }
 export const OTAUpdateInfo = S.suspend(() =>
   S.Struct({
@@ -12977,9 +13695,9 @@ export const OTAUpdateInfo = S.suspend(() =>
     protocols: S.optional(Protocols),
     awsJobExecutionsRolloutConfig: S.optional(AwsJobExecutionsRolloutConfig),
     awsJobPresignedUrlConfig: S.optional(AwsJobPresignedUrlConfig),
-    targetSelection: S.optional(S.String),
+    targetSelection: S.optional(TargetSelection),
     otaUpdateFiles: S.optional(OTAUpdateFiles),
-    otaUpdateStatus: S.optional(S.String),
+    otaUpdateStatus: S.optional(OTAUpdateStatus),
     awsIotJobId: S.optional(S.String),
     awsIotJobArn: S.optional(S.String),
     errorInfo: S.optional(ErrorInfo),
@@ -12990,7 +13708,7 @@ export const OTAUpdateInfo = S.suspend(() =>
 }) as any as S.Schema<OTAUpdateInfo>;
 export interface TopicRuleDestination {
   arn?: string;
-  status?: string;
+  status?: TopicRuleDestinationStatus;
   createdAt?: Date;
   lastUpdatedAt?: Date;
   statusReason?: string;
@@ -13000,7 +13718,7 @@ export interface TopicRuleDestination {
 export const TopicRuleDestination = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(TopicRuleDestinationStatus),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     statusReason: S.optional(S.String),
@@ -13017,7 +13735,7 @@ export interface ActiveViolation {
   behavior?: Behavior;
   lastViolationValue?: MetricValue;
   violationEventAdditionalInfo?: ViolationEventAdditionalInfo;
-  verificationState?: string;
+  verificationState?: VerificationState;
   verificationStateDescription?: string;
   lastViolationTime?: Date;
   violationStartTime?: Date;
@@ -13030,7 +13748,7 @@ export const ActiveViolation = S.suspend(() =>
     behavior: S.optional(Behavior),
     lastViolationValue: S.optional(MetricValue),
     violationEventAdditionalInfo: S.optional(ViolationEventAdditionalInfo),
-    verificationState: S.optional(S.String),
+    verificationState: S.optional(VerificationState),
     verificationStateDescription: S.optional(S.String),
     lastViolationTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -13048,7 +13766,7 @@ export interface CommandExecutionSummary {
   commandArn?: string;
   executionId?: string;
   targetArn?: string;
-  status?: string;
+  status?: CommandExecutionStatus;
   createdAt?: Date;
   startedAt?: Date;
   completedAt?: Date;
@@ -13058,7 +13776,7 @@ export const CommandExecutionSummary = S.suspend(() =>
     commandArn: S.optional(S.String),
     executionId: S.optional(S.String),
     targetArn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(CommandExecutionStatus),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     startedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     completedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -13084,7 +13802,7 @@ export type JobExecutionSummaryForJobList = JobExecutionSummaryForJob[];
 export const JobExecutionSummaryForJobList = S.Array(JobExecutionSummaryForJob);
 export interface TopicRuleDestinationSummary {
   arn?: string;
-  status?: string;
+  status?: TopicRuleDestinationStatus;
   createdAt?: Date;
   lastUpdatedAt?: Date;
   statusReason?: string;
@@ -13094,7 +13812,7 @@ export interface TopicRuleDestinationSummary {
 export const TopicRuleDestinationSummary = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(TopicRuleDestinationStatus),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     statusReason: S.optional(S.String),
@@ -13114,8 +13832,8 @@ export interface ThingDocument {
   thingName?: string;
   thingId?: string;
   thingTypeName?: string;
-  thingGroupNames?: ThingGroupNameList;
-  attributes?: Attributes;
+  thingGroupNames?: string[];
+  attributes?: { [key: string]: string };
   shadow?: string;
   deviceDefender?: string;
   connectivity?: ThingConnectivity;
@@ -13142,36 +13860,36 @@ export interface AssociateSbomWithPackageVersionResponse {
   packageName?: string;
   versionName?: string;
   sbom?: Sbom;
-  sbomValidationStatus?: string;
+  sbomValidationStatus?: SbomValidationStatus;
 }
 export const AssociateSbomWithPackageVersionResponse = S.suspend(() =>
   S.Struct({
     packageName: S.optional(S.String),
     versionName: S.optional(S.String),
     sbom: S.optional(Sbom),
-    sbomValidationStatus: S.optional(S.String),
+    sbomValidationStatus: S.optional(SbomValidationStatus),
   }),
 ).annotations({
   identifier: "AssociateSbomWithPackageVersionResponse",
 }) as any as S.Schema<AssociateSbomWithPackageVersionResponse>;
 export interface CreateJobRequest {
   jobId: string;
-  targets: JobTargets;
+  targets: string[];
   documentSource?: string;
   document?: string;
   description?: string;
   presignedUrlConfig?: PresignedUrlConfig;
-  targetSelection?: string;
+  targetSelection?: TargetSelection;
   jobExecutionsRolloutConfig?: JobExecutionsRolloutConfig;
   abortConfig?: AbortConfig;
   timeoutConfig?: TimeoutConfig;
-  tags?: TagList;
+  tags?: Tag[];
   namespaceId?: string;
   jobTemplateArn?: string;
   jobExecutionsRetryConfig?: JobExecutionsRetryConfig;
-  documentParameters?: ParameterMap;
+  documentParameters?: { [key: string]: string };
   schedulingConfig?: SchedulingConfig;
-  destinationPackageVersions?: DestinationPackageVersions;
+  destinationPackageVersions?: string[];
 }
 export const CreateJobRequest = S.suspend(() =>
   S.Struct({
@@ -13181,7 +13899,7 @@ export const CreateJobRequest = S.suspend(() =>
     document: S.optional(S.String),
     description: S.optional(S.String),
     presignedUrlConfig: S.optional(PresignedUrlConfig),
-    targetSelection: S.optional(S.String),
+    targetSelection: S.optional(TargetSelection),
     jobExecutionsRolloutConfig: S.optional(JobExecutionsRolloutConfig),
     abortConfig: S.optional(AbortConfig),
     timeoutConfig: S.optional(TimeoutConfig),
@@ -13217,11 +13935,11 @@ export const CreateMitigationActionResponse = S.suspend(() =>
 export interface CreateSecurityProfileRequest {
   securityProfileName: string;
   securityProfileDescription?: string;
-  behaviors?: Behaviors;
-  alertTargets?: AlertTargets;
-  additionalMetricsToRetain?: AdditionalMetricsToRetainList;
-  additionalMetricsToRetainV2?: AdditionalMetricsToRetainV2List;
-  tags?: TagList;
+  behaviors?: Behavior[];
+  alertTargets?: { [key: string]: AlertTarget };
+  additionalMetricsToRetain?: string[];
+  additionalMetricsToRetainV2?: MetricToRetain[];
+  tags?: Tag[];
   metricsExportConfig?: MetricsExportConfig;
 }
 export const CreateSecurityProfileRequest = S.suspend(() =>
@@ -13267,7 +13985,7 @@ export const CreateThingResponse = S.suspend(() =>
 export interface CreateThingTypeRequest {
   thingTypeName: string;
   thingTypeProperties?: ThingTypeProperties;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateThingTypeRequest = S.suspend(() =>
   S.Struct({
@@ -13297,8 +14015,10 @@ export const CreateTopicRuleDestinationResponse = S.suspend(() =>
 }) as any as S.Schema<CreateTopicRuleDestinationResponse>;
 export interface DescribeAccountAuditConfigurationResponse {
   roleArn?: string;
-  auditNotificationTargetConfigurations?: AuditNotificationTargetConfigurations;
-  auditCheckConfigurations?: AuditCheckConfigurations;
+  auditNotificationTargetConfigurations?: {
+    [key: string]: AuditNotificationTarget;
+  };
+  auditCheckConfigurations?: { [key: string]: AuditCheckConfiguration };
 }
 export const DescribeAccountAuditConfigurationResponse = S.suspend(() =>
   S.Struct({
@@ -13320,17 +14040,17 @@ export const DescribeAuditFindingResponse = S.suspend(() =>
   identifier: "DescribeAuditFindingResponse",
 }) as any as S.Schema<DescribeAuditFindingResponse>;
 export interface DescribeAuditMitigationActionsTaskResponse {
-  taskStatus?: string;
+  taskStatus?: AuditMitigationActionsTaskStatus;
   startTime?: Date;
   endTime?: Date;
-  taskStatistics?: AuditMitigationActionsTaskStatistics;
+  taskStatistics?: { [key: string]: TaskStatisticsForAuditCheck };
   target?: AuditMitigationActionsTaskTarget;
-  auditCheckToActionsMapping?: AuditCheckToActionsMapping;
-  actionsDefinition?: MitigationActionList;
+  auditCheckToActionsMapping?: { [key: string]: string[] };
+  actionsDefinition?: MitigationAction[];
 }
 export const DescribeAuditMitigationActionsTaskResponse = S.suspend(() =>
   S.Struct({
-    taskStatus: S.optional(S.String),
+    taskStatus: S.optional(AuditMitigationActionsTaskStatus),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     taskStatistics: S.optional(AuditMitigationActionsTaskStatistics),
@@ -13342,17 +14062,17 @@ export const DescribeAuditMitigationActionsTaskResponse = S.suspend(() =>
   identifier: "DescribeAuditMitigationActionsTaskResponse",
 }) as any as S.Schema<DescribeAuditMitigationActionsTaskResponse>;
 export interface DescribeAuditTaskResponse {
-  taskStatus?: string;
-  taskType?: string;
+  taskStatus?: AuditTaskStatus;
+  taskType?: AuditTaskType;
   taskStartTime?: Date;
   taskStatistics?: TaskStatistics;
   scheduledAuditName?: string;
-  auditDetails?: AuditDetails;
+  auditDetails?: { [key: string]: AuditCheckDetails };
 }
 export const DescribeAuditTaskResponse = S.suspend(() =>
   S.Struct({
-    taskStatus: S.optional(S.String),
-    taskType: S.optional(S.String),
+    taskStatus: S.optional(AuditTaskStatus),
+    taskType: S.optional(AuditTaskType),
     taskStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     taskStatistics: S.optional(TaskStatistics),
     scheduledAuditName: S.optional(S.String),
@@ -13410,10 +14130,10 @@ export interface GetCommandExecutionResponse {
   executionId?: string;
   commandArn?: string;
   targetArn?: string;
-  status?: string;
+  status?: CommandExecutionStatus;
   statusReason?: StatusReason;
-  result?: CommandExecutionResultMap;
-  parameters?: CommandExecutionParameterMap;
+  result?: { [key: string]: CommandExecutionResult };
+  parameters?: { [key: string]: CommandParameterValue };
   executionTimeoutSeconds?: number;
   createdAt?: Date;
   lastUpdatedAt?: Date;
@@ -13426,7 +14146,7 @@ export const GetCommandExecutionResponse = S.suspend(() =>
     executionId: S.optional(S.String),
     commandArn: S.optional(S.String),
     targetArn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(CommandExecutionStatus),
     statusReason: S.optional(StatusReason),
     result: S.optional(CommandExecutionResultMap),
     parameters: S.optional(CommandExecutionParameterMap),
@@ -13471,7 +14191,7 @@ export const GetTopicRuleDestinationResponse = S.suspend(() =>
   identifier: "GetTopicRuleDestinationResponse",
 }) as any as S.Schema<GetTopicRuleDestinationResponse>;
 export interface ListActiveViolationsResponse {
-  activeViolations?: ActiveViolations;
+  activeViolations?: ActiveViolation[];
   nextToken?: string;
 }
 export const ListActiveViolationsResponse = S.suspend(() =>
@@ -13483,7 +14203,7 @@ export const ListActiveViolationsResponse = S.suspend(() =>
   identifier: "ListActiveViolationsResponse",
 }) as any as S.Schema<ListActiveViolationsResponse>;
 export interface ListCommandExecutionsResponse {
-  commandExecutions?: CommandExecutionSummaryList;
+  commandExecutions?: CommandExecutionSummary[];
   nextToken?: string;
 }
 export const ListCommandExecutionsResponse = S.suspend(() =>
@@ -13495,7 +14215,7 @@ export const ListCommandExecutionsResponse = S.suspend(() =>
   identifier: "ListCommandExecutionsResponse",
 }) as any as S.Schema<ListCommandExecutionsResponse>;
 export interface ListJobExecutionsForJobResponse {
-  executionSummaries?: JobExecutionSummaryForJobList;
+  executionSummaries?: JobExecutionSummaryForJob[];
   nextToken?: string;
 }
 export const ListJobExecutionsForJobResponse = S.suspend(() =>
@@ -13507,7 +14227,7 @@ export const ListJobExecutionsForJobResponse = S.suspend(() =>
   identifier: "ListJobExecutionsForJobResponse",
 }) as any as S.Schema<ListJobExecutionsForJobResponse>;
 export interface ListRelatedResourcesForAuditFindingResponse {
-  relatedResources?: RelatedResources;
+  relatedResources?: RelatedResource[];
   nextToken?: string;
 }
 export const ListRelatedResourcesForAuditFindingResponse = S.suspend(() =>
@@ -13519,7 +14239,7 @@ export const ListRelatedResourcesForAuditFindingResponse = S.suspend(() =>
   identifier: "ListRelatedResourcesForAuditFindingResponse",
 }) as any as S.Schema<ListRelatedResourcesForAuditFindingResponse>;
 export interface ListTopicRuleDestinationsResponse {
-  destinationSummaries?: TopicRuleDestinationSummaries;
+  destinationSummaries?: TopicRuleDestinationSummary[];
   nextToken?: string;
 }
 export const ListTopicRuleDestinationsResponse = S.suspend(() =>
@@ -13532,7 +14252,7 @@ export const ListTopicRuleDestinationsResponse = S.suspend(() =>
 }) as any as S.Schema<ListTopicRuleDestinationsResponse>;
 export interface RegisterThingResponse {
   certificatePem?: string;
-  resourceArns?: ResourceArns;
+  resourceArns?: { [key: string]: string };
 }
 export const RegisterThingResponse = S.suspend(() =>
   S.Struct({
@@ -13544,8 +14264,8 @@ export const RegisterThingResponse = S.suspend(() =>
 }) as any as S.Schema<RegisterThingResponse>;
 export interface SearchIndexResponse {
   nextToken?: string;
-  things?: ThingDocumentList;
-  thingGroups?: ThingGroupDocumentList;
+  things?: ThingDocument[];
+  thingGroups?: ThingGroupDocument[];
 }
 export const SearchIndexResponse = S.suspend(() =>
   S.Struct({
@@ -13567,7 +14287,7 @@ export const StartAuditMitigationActionsTaskResponse = S.suspend(() =>
 export interface TestInvokeAuthorizerResponse {
   isAuthenticated?: boolean;
   principalId?: string;
-  policyDocuments?: PolicyDocuments;
+  policyDocuments?: string[];
   refreshAfterInSeconds?: number;
   disconnectAfterInSeconds?: number;
 }
@@ -13583,7 +14303,7 @@ export const TestInvokeAuthorizerResponse = S.suspend(() =>
   identifier: "TestInvokeAuthorizerResponse",
 }) as any as S.Schema<TestInvokeAuthorizerResponse>;
 export interface Allowed {
-  policies?: Policies;
+  policies?: Policy[];
 }
 export const Allowed = S.suspend(() =>
   S.Struct({ policies: S.optional(Policies) }),
@@ -13598,33 +14318,33 @@ export const Bucket = S.suspend(() =>
 export type Buckets = Bucket[];
 export const Buckets = S.Array(Bucket);
 export interface ImplicitDeny {
-  policies?: Policies;
+  policies?: Policy[];
 }
 export const ImplicitDeny = S.suspend(() =>
   S.Struct({ policies: S.optional(Policies) }),
 ).annotations({ identifier: "ImplicitDeny" }) as any as S.Schema<ImplicitDeny>;
 export interface ExplicitDeny {
-  policies?: Policies;
+  policies?: Policy[];
 }
 export const ExplicitDeny = S.suspend(() =>
   S.Struct({ policies: S.optional(Policies) }),
 ).annotations({ identifier: "ExplicitDeny" }) as any as S.Schema<ExplicitDeny>;
 export interface CreateCommandRequest {
   commandId: string;
-  namespace?: string;
+  namespace?: CommandNamespace;
   displayName?: string;
   description?: string;
   payload?: CommandPayload;
   payloadTemplate?: string;
   preprocessor?: CommandPreprocessor;
-  mandatoryParameters?: CommandParameterList;
+  mandatoryParameters?: CommandParameter[];
   roleArn?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateCommandRequest = S.suspend(() =>
   S.Struct({
     commandId: S.String.pipe(T.HttpLabel("commandId")),
-    namespace: S.optional(S.String),
+    namespace: S.optional(CommandNamespace),
     displayName: S.optional(S.String),
     description: S.optional(S.String),
     payload: S.optional(CommandPayload),
@@ -13688,7 +14408,7 @@ export const CreateThingTypeResponse = S.suspend(() =>
 }) as any as S.Schema<CreateThingTypeResponse>;
 export interface GetBucketsAggregationResponse {
   totalCount?: number;
-  buckets?: Buckets;
+  buckets?: Bucket[];
 }
 export const GetBucketsAggregationResponse = S.suspend(() =>
   S.Struct({ totalCount: S.optional(S.Number), buckets: S.optional(Buckets) }),
@@ -13709,15 +14429,15 @@ export interface AuthResult {
   authInfo?: AuthInfo;
   allowed?: Allowed;
   denied?: Denied;
-  authDecision?: string;
-  missingContextValues?: MissingContextValues;
+  authDecision?: AuthDecision;
+  missingContextValues?: string[];
 }
 export const AuthResult = S.suspend(() =>
   S.Struct({
     authInfo: S.optional(AuthInfo),
     allowed: S.optional(Allowed),
     denied: S.optional(Denied),
-    authDecision: S.optional(S.String),
+    authDecision: S.optional(AuthDecision),
     missingContextValues: S.optional(MissingContextValues),
   }),
 ).annotations({ identifier: "AuthResult" }) as any as S.Schema<AuthResult>;
@@ -13738,17 +14458,17 @@ export const CreateCommandResponse = S.suspend(() =>
 export interface CreateOTAUpdateRequest {
   otaUpdateId: string;
   description?: string;
-  targets: Targets;
-  protocols?: Protocols;
-  targetSelection?: string;
+  targets: string[];
+  protocols?: Protocol[];
+  targetSelection?: TargetSelection;
   awsJobExecutionsRolloutConfig?: AwsJobExecutionsRolloutConfig;
   awsJobPresignedUrlConfig?: AwsJobPresignedUrlConfig;
   awsJobAbortConfig?: AwsJobAbortConfig;
   awsJobTimeoutConfig?: AwsJobTimeoutConfig;
-  files: OTAUpdateFiles;
+  files: OTAUpdateFile[];
   roleArn: string;
-  additionalParameters?: AdditionalParameterMap;
-  tags?: TagList;
+  additionalParameters?: { [key: string]: string };
+  tags?: Tag[];
 }
 export const CreateOTAUpdateRequest = S.suspend(() =>
   S.Struct({
@@ -13756,7 +14476,7 @@ export const CreateOTAUpdateRequest = S.suspend(() =>
     description: S.optional(S.String),
     targets: Targets,
     protocols: S.optional(Protocols),
-    targetSelection: S.optional(S.String),
+    targetSelection: S.optional(TargetSelection),
     awsJobExecutionsRolloutConfig: S.optional(AwsJobExecutionsRolloutConfig),
     awsJobPresignedUrlConfig: S.optional(AwsJobPresignedUrlConfig),
     awsJobAbortConfig: S.optional(AwsJobAbortConfig),
@@ -13779,7 +14499,7 @@ export const CreateOTAUpdateRequest = S.suspend(() =>
   identifier: "CreateOTAUpdateRequest",
 }) as any as S.Schema<CreateOTAUpdateRequest>;
 export interface TestAuthorizationResponse {
-  authResults?: AuthResults;
+  authResults?: AuthResult[];
 }
 export const TestAuthorizationResponse = S.suspend(() =>
   S.Struct({ authResults: S.optional(AuthResults) }),
@@ -13791,7 +14511,7 @@ export interface CreateOTAUpdateResponse {
   awsIotJobId?: string;
   otaUpdateArn?: string;
   awsIotJobArn?: string;
-  otaUpdateStatus?: string;
+  otaUpdateStatus?: OTAUpdateStatus;
 }
 export const CreateOTAUpdateResponse = S.suspend(() =>
   S.Struct({
@@ -13799,7 +14519,7 @@ export const CreateOTAUpdateResponse = S.suspend(() =>
     awsIotJobId: S.optional(S.String),
     otaUpdateArn: S.optional(S.String),
     awsIotJobArn: S.optional(S.String),
-    otaUpdateStatus: S.optional(S.String),
+    otaUpdateStatus: S.optional(OTAUpdateStatus),
   }),
 ).annotations({
   identifier: "CreateOTAUpdateResponse",
@@ -13982,7 +14702,7 @@ export class InvalidResponseException extends S.TaggedError<InvalidResponseExcep
  */
 export const describeBillingGroup: (
   input: DescribeBillingGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeBillingGroupResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -14007,7 +14727,7 @@ export const describeBillingGroup: (
  */
 export const describeEventConfigurations: (
   input: DescribeEventConfigurationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEventConfigurationsResponse,
   InternalFailureException | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -14021,7 +14741,7 @@ export const describeEventConfigurations: (
  */
 export const describeManagedJobTemplate: (
   input: DescribeManagedJobTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeManagedJobTemplateResponse,
   | InternalServerException
   | InvalidRequestException
@@ -14046,7 +14766,7 @@ export const describeManagedJobTemplate: (
  */
 export const describeThingGroup: (
   input: DescribeThingGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeThingGroupResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -14072,7 +14792,7 @@ export const describeThingGroup: (
 export const getBehaviorModelTrainingSummaries: {
   (
     input: GetBehaviorModelTrainingSummariesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetBehaviorModelTrainingSummariesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14083,7 +14803,7 @@ export const getBehaviorModelTrainingSummaries: {
   >;
   pages: (
     input: GetBehaviorModelTrainingSummariesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     GetBehaviorModelTrainingSummariesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14094,7 +14814,7 @@ export const getBehaviorModelTrainingSummaries: {
   >;
   items: (
     input: GetBehaviorModelTrainingSummariesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     BehaviorModelTrainingSummary,
     | InternalFailureException
     | InvalidRequestException
@@ -14126,7 +14846,7 @@ export const getBehaviorModelTrainingSummaries: {
  */
 export const getV2LoggingOptions: (
   input: GetV2LoggingOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetV2LoggingOptionsResponse,
   | InternalException
   | NotConfiguredException
@@ -14151,7 +14871,7 @@ export const getV2LoggingOptions: (
 export const listAuditMitigationActionsExecutions: {
   (
     input: ListAuditMitigationActionsExecutionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAuditMitigationActionsExecutionsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14161,7 +14881,7 @@ export const listAuditMitigationActionsExecutions: {
   >;
   pages: (
     input: ListAuditMitigationActionsExecutionsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListAuditMitigationActionsExecutionsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14171,7 +14891,7 @@ export const listAuditMitigationActionsExecutions: {
   >;
   items: (
     input: ListAuditMitigationActionsExecutionsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     AuditMitigationActionExecutionMetadata,
     | InternalFailureException
     | InvalidRequestException
@@ -14202,7 +14922,7 @@ export const listAuditMitigationActionsExecutions: {
 export const listAuditMitigationActionsTasks: {
   (
     input: ListAuditMitigationActionsTasksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAuditMitigationActionsTasksResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14212,7 +14932,7 @@ export const listAuditMitigationActionsTasks: {
   >;
   pages: (
     input: ListAuditMitigationActionsTasksRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListAuditMitigationActionsTasksResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14222,7 +14942,7 @@ export const listAuditMitigationActionsTasks: {
   >;
   items: (
     input: ListAuditMitigationActionsTasksRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     AuditMitigationActionsTaskMetadata,
     | InternalFailureException
     | InvalidRequestException
@@ -14253,7 +14973,7 @@ export const listAuditMitigationActionsTasks: {
 export const listAuditSuppressions: {
   (
     input: ListAuditSuppressionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAuditSuppressionsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14263,7 +14983,7 @@ export const listAuditSuppressions: {
   >;
   pages: (
     input: ListAuditSuppressionsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListAuditSuppressionsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14273,7 +14993,7 @@ export const listAuditSuppressions: {
   >;
   items: (
     input: ListAuditSuppressionsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     AuditSuppression,
     | InternalFailureException
     | InvalidRequestException
@@ -14305,7 +15025,7 @@ export const listAuditSuppressions: {
 export const listAuditTasks: {
   (
     input: ListAuditTasksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAuditTasksResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14315,7 +15035,7 @@ export const listAuditTasks: {
   >;
   pages: (
     input: ListAuditTasksRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListAuditTasksResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14325,7 +15045,7 @@ export const listAuditTasks: {
   >;
   items: (
     input: ListAuditTasksRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     AuditTaskMetadata,
     | InternalFailureException
     | InvalidRequestException
@@ -14356,7 +15076,7 @@ export const listAuditTasks: {
 export const listBillingGroups: {
   (
     input: ListBillingGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBillingGroupsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14367,7 +15087,7 @@ export const listBillingGroups: {
   >;
   pages: (
     input: ListBillingGroupsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListBillingGroupsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14378,7 +15098,7 @@ export const listBillingGroups: {
   >;
   items: (
     input: ListBillingGroupsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     GroupNameAndArn,
     | InternalFailureException
     | InvalidRequestException
@@ -14411,7 +15131,7 @@ export const listBillingGroups: {
 export const listDetectMitigationActionsExecutions: {
   (
     input: ListDetectMitigationActionsExecutionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDetectMitigationActionsExecutionsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14421,7 +15141,7 @@ export const listDetectMitigationActionsExecutions: {
   >;
   pages: (
     input: ListDetectMitigationActionsExecutionsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListDetectMitigationActionsExecutionsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14431,7 +15151,7 @@ export const listDetectMitigationActionsExecutions: {
   >;
   items: (
     input: ListDetectMitigationActionsExecutionsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     DetectMitigationActionExecution,
     | InternalFailureException
     | InvalidRequestException
@@ -14462,7 +15182,7 @@ export const listDetectMitigationActionsExecutions: {
 export const listJobExecutionsForThing: {
   (
     input: ListJobExecutionsForThingRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListJobExecutionsForThingResponse,
     | InvalidRequestException
     | ResourceNotFoundException
@@ -14473,7 +15193,7 @@ export const listJobExecutionsForThing: {
   >;
   pages: (
     input: ListJobExecutionsForThingRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListJobExecutionsForThingResponse,
     | InvalidRequestException
     | ResourceNotFoundException
@@ -14484,7 +15204,7 @@ export const listJobExecutionsForThing: {
   >;
   items: (
     input: ListJobExecutionsForThingRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     JobExecutionSummaryForThing,
     | InvalidRequestException
     | ResourceNotFoundException
@@ -14517,7 +15237,7 @@ export const listJobExecutionsForThing: {
 export const listJobs: {
   (
     input: ListJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListJobsResponse,
     | InvalidRequestException
     | ResourceNotFoundException
@@ -14528,7 +15248,7 @@ export const listJobs: {
   >;
   pages: (
     input: ListJobsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListJobsResponse,
     | InvalidRequestException
     | ResourceNotFoundException
@@ -14539,7 +15259,7 @@ export const listJobs: {
   >;
   items: (
     input: ListJobsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     JobSummary,
     | InvalidRequestException
     | ResourceNotFoundException
@@ -14572,7 +15292,7 @@ export const listJobs: {
 export const listJobTemplates: {
   (
     input: ListJobTemplatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListJobTemplatesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14582,7 +15302,7 @@ export const listJobTemplates: {
   >;
   pages: (
     input: ListJobTemplatesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListJobTemplatesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14592,7 +15312,7 @@ export const listJobTemplates: {
   >;
   items: (
     input: ListJobTemplatesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     JobTemplateSummary,
     | InternalFailureException
     | InvalidRequestException
@@ -14621,7 +15341,7 @@ export const listJobTemplates: {
 export const listManagedJobTemplates: {
   (
     input: ListManagedJobTemplatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListManagedJobTemplatesResponse,
     | InternalServerException
     | InvalidRequestException
@@ -14632,7 +15352,7 @@ export const listManagedJobTemplates: {
   >;
   pages: (
     input: ListManagedJobTemplatesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListManagedJobTemplatesResponse,
     | InternalServerException
     | InvalidRequestException
@@ -14643,7 +15363,7 @@ export const listManagedJobTemplates: {
   >;
   items: (
     input: ListManagedJobTemplatesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ManagedJobTemplateSummary,
     | InternalServerException
     | InvalidRequestException
@@ -14675,7 +15395,7 @@ export const listManagedJobTemplates: {
 export const listMetricValues: {
   (
     input: ListMetricValuesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMetricValuesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14686,7 +15406,7 @@ export const listMetricValues: {
   >;
   pages: (
     input: ListMetricValuesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListMetricValuesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14697,7 +15417,7 @@ export const listMetricValues: {
   >;
   items: (
     input: ListMetricValuesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     MetricDatum,
     | InternalFailureException
     | InvalidRequestException
@@ -14730,7 +15450,7 @@ export const listMetricValues: {
 export const listMitigationActions: {
   (
     input: ListMitigationActionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMitigationActionsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14740,7 +15460,7 @@ export const listMitigationActions: {
   >;
   pages: (
     input: ListMitigationActionsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListMitigationActionsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14750,7 +15470,7 @@ export const listMitigationActions: {
   >;
   items: (
     input: ListMitigationActionsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     MitigationActionIdentifier,
     | InternalFailureException
     | InvalidRequestException
@@ -14781,7 +15501,7 @@ export const listMitigationActions: {
 export const listScheduledAudits: {
   (
     input: ListScheduledAuditsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListScheduledAuditsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14791,7 +15511,7 @@ export const listScheduledAudits: {
   >;
   pages: (
     input: ListScheduledAuditsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListScheduledAuditsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14801,7 +15521,7 @@ export const listScheduledAudits: {
   >;
   items: (
     input: ListScheduledAuditsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ScheduledAuditMetadata,
     | InternalFailureException
     | InvalidRequestException
@@ -14836,7 +15556,7 @@ export const listScheduledAudits: {
 export const listSecurityProfiles: {
   (
     input: ListSecurityProfilesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSecurityProfilesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14847,7 +15567,7 @@ export const listSecurityProfiles: {
   >;
   pages: (
     input: ListSecurityProfilesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListSecurityProfilesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14858,7 +15578,7 @@ export const listSecurityProfiles: {
   >;
   items: (
     input: ListSecurityProfilesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     SecurityProfileIdentifier,
     | InternalFailureException
     | InvalidRequestException
@@ -14891,7 +15611,7 @@ export const listSecurityProfiles: {
 export const listSecurityProfilesForTarget: {
   (
     input: ListSecurityProfilesForTargetRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSecurityProfilesForTargetResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14902,7 +15622,7 @@ export const listSecurityProfilesForTarget: {
   >;
   pages: (
     input: ListSecurityProfilesForTargetRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListSecurityProfilesForTargetResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14913,7 +15633,7 @@ export const listSecurityProfilesForTarget: {
   >;
   items: (
     input: ListSecurityProfilesForTargetRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     SecurityProfileTargetMapping,
     | InternalFailureException
     | InvalidRequestException
@@ -14946,7 +15666,7 @@ export const listSecurityProfilesForTarget: {
 export const listTargetsForSecurityProfile: {
   (
     input: ListTargetsForSecurityProfileRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTargetsForSecurityProfileResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14957,7 +15677,7 @@ export const listTargetsForSecurityProfile: {
   >;
   pages: (
     input: ListTargetsForSecurityProfileRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListTargetsForSecurityProfileResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -14968,7 +15688,7 @@ export const listTargetsForSecurityProfile: {
   >;
   items: (
     input: ListTargetsForSecurityProfileRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     SecurityProfileTarget,
     | InternalFailureException
     | InvalidRequestException
@@ -15001,7 +15721,7 @@ export const listTargetsForSecurityProfile: {
 export const listV2LoggingLevels: {
   (
     input: ListV2LoggingLevelsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListV2LoggingLevelsResponse,
     | InternalException
     | InvalidRequestException
@@ -15012,7 +15732,7 @@ export const listV2LoggingLevels: {
   >;
   pages: (
     input: ListV2LoggingLevelsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListV2LoggingLevelsResponse,
     | InternalException
     | InvalidRequestException
@@ -15023,7 +15743,7 @@ export const listV2LoggingLevels: {
   >;
   items: (
     input: ListV2LoggingLevelsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     LogTargetConfiguration,
     | InternalException
     | InvalidRequestException
@@ -15058,7 +15778,7 @@ export const listV2LoggingLevels: {
 export const listViolationEvents: {
   (
     input: ListViolationEventsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListViolationEventsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -15068,7 +15788,7 @@ export const listViolationEvents: {
   >;
   pages: (
     input: ListViolationEventsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListViolationEventsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -15078,7 +15798,7 @@ export const listViolationEvents: {
   >;
   items: (
     input: ListViolationEventsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ViolationEvent,
     | InternalFailureException
     | InvalidRequestException
@@ -15108,7 +15828,7 @@ export const listViolationEvents: {
  */
 export const validateSecurityProfileBehaviors: (
   input: ValidateSecurityProfileBehaviorsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ValidateSecurityProfileBehaviorsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15139,7 +15859,7 @@ export const validateSecurityProfileBehaviors: (
  */
 export const deleteJob: (
   input: DeleteJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteJobResponse,
   | InvalidRequestException
   | InvalidStateTransitionException
@@ -15168,7 +15888,7 @@ export const deleteJob: (
  */
 export const updateProvisioningTemplate: (
   input: UpdateProvisioningTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProvisioningTemplateResponse,
   | ConflictingResourceUpdateException
   | InternalFailureException
@@ -15195,7 +15915,7 @@ export const updateProvisioningTemplate: (
  */
 export const deleteV2LoggingLevel: (
   input: DeleteV2LoggingLevelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteV2LoggingLevelResponse,
   | InternalException
   | InvalidRequestException
@@ -15218,7 +15938,7 @@ export const deleteV2LoggingLevel: (
  */
 export const describeEncryptionConfiguration: (
   input: DescribeEncryptionConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEncryptionConfigurationResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15246,7 +15966,7 @@ export const describeEncryptionConfiguration: (
 export const listCertificatesByCA: {
   (
     input: ListCertificatesByCARequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCertificatesByCAResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -15258,7 +15978,7 @@ export const listCertificatesByCA: {
   >;
   pages: (
     input: ListCertificatesByCARequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListCertificatesByCAResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -15270,7 +15990,7 @@ export const listCertificatesByCA: {
   >;
   items: (
     input: ListCertificatesByCARequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     Certificate,
     | InternalFailureException
     | InvalidRequestException
@@ -15305,7 +16025,7 @@ export const listCertificatesByCA: {
 export const listIndices: {
   (
     input: ListIndicesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListIndicesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -15317,7 +16037,7 @@ export const listIndices: {
   >;
   pages: (
     input: ListIndicesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListIndicesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -15329,7 +16049,7 @@ export const listIndices: {
   >;
   items: (
     input: ListIndicesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     IndexName,
     | InternalFailureException
     | InvalidRequestException
@@ -15364,7 +16084,7 @@ export const listIndices: {
 export const listPolicies: {
   (
     input: ListPoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPoliciesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -15376,7 +16096,7 @@ export const listPolicies: {
   >;
   pages: (
     input: ListPoliciesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListPoliciesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -15388,7 +16108,7 @@ export const listPolicies: {
   >;
   items: (
     input: ListPoliciesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     Policy,
     | InternalFailureException
     | InvalidRequestException
@@ -15423,7 +16143,7 @@ export const listPolicies: {
 export const listRoleAliases: {
   (
     input: ListRoleAliasesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRoleAliasesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -15435,7 +16155,7 @@ export const listRoleAliases: {
   >;
   pages: (
     input: ListRoleAliasesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListRoleAliasesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -15447,7 +16167,7 @@ export const listRoleAliases: {
   >;
   items: (
     input: ListRoleAliasesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     RoleAlias,
     | InternalFailureException
     | InvalidRequestException
@@ -15484,7 +16204,7 @@ export const listRoleAliases: {
  */
 export const setLoggingOptions: (
   input: SetLoggingOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetLoggingOptionsResponse,
   | InternalException
   | InvalidRequestException
@@ -15507,7 +16227,7 @@ export const setLoggingOptions: (
  */
 export const setV2LoggingOptions: (
   input: SetV2LoggingOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetV2LoggingOptionsResponse,
   | InternalException
   | InvalidRequestException
@@ -15530,7 +16250,7 @@ export const setV2LoggingOptions: (
  */
 export const deleteRegistrationCode: (
   input: DeleteRegistrationCodeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRegistrationCodeResponse,
   | InternalFailureException
   | ResourceNotFoundException
@@ -15557,7 +16277,7 @@ export const deleteRegistrationCode: (
  */
 export const deleteDomainConfiguration: (
   input: DeleteDomainConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDomainConfigurationResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15588,7 +16308,7 @@ export const deleteDomainConfiguration: (
  */
 export const deleteThingType: (
   input: DeleteThingTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteThingTypeResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15618,7 +16338,7 @@ export const deleteThingType: (
  */
 export const deprecateThingType: (
   input: DeprecateThingTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeprecateThingTypeResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15650,7 +16370,7 @@ export const deprecateThingType: (
  */
 export const detachPrincipalPolicy: (
   input: DetachPrincipalPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetachPrincipalPolicyResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15684,7 +16404,7 @@ export const detachPrincipalPolicy: (
  */
 export const detachThingPrincipal: (
   input: DetachThingPrincipalRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetachThingPrincipalResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15717,7 +16437,7 @@ export const detachThingPrincipal: (
  */
 export const getRegistrationCode: (
   input: GetRegistrationCodeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRegistrationCodeResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15747,7 +16467,7 @@ export const getRegistrationCode: (
  */
 export const setDefaultPolicyVersion: (
   input: SetDefaultPolicyVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetDefaultPolicyVersionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15776,7 +16496,7 @@ export const setDefaultPolicyVersion: (
  */
 export const updateCACertificate: (
   input: UpdateCACertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCACertificateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15807,7 +16527,7 @@ export const updateCACertificate: (
  */
 export const updateEncryptionConfiguration: (
   input: UpdateEncryptionConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEncryptionConfigurationResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15834,7 +16554,7 @@ export const updateEncryptionConfiguration: (
  */
 export const updateIndexingConfiguration: (
   input: UpdateIndexingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateIndexingConfigurationResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15861,7 +16581,7 @@ export const updateIndexingConfiguration: (
  */
 export const updateJob: (
   input: UpdateJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateJobResponse,
   | InvalidRequestException
   | ResourceNotFoundException
@@ -15884,7 +16604,7 @@ export const updateJob: (
  */
 export const updateThingType: (
   input: UpdateThingTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateThingTypeResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15914,7 +16634,7 @@ export const updateThingType: (
  */
 export const attachThingPrincipal: (
   input: AttachThingPrincipalRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AttachThingPrincipalResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15943,7 +16663,7 @@ export const attachThingPrincipal: (
  */
 export const deleteTopicRule: (
   input: DeleteTopicRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTopicRuleResponse,
   | ConflictingResourceUpdateException
   | InternalException
@@ -15970,7 +16690,7 @@ export const deleteTopicRule: (
  */
 export const deleteTopicRuleDestination: (
   input: DeleteTopicRuleDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTopicRuleDestinationResponse,
   | ConflictingResourceUpdateException
   | InternalException
@@ -15997,7 +16717,7 @@ export const deleteTopicRuleDestination: (
  */
 export const disableTopicRule: (
   input: DisableTopicRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisableTopicRuleResponse,
   | ConflictingResourceUpdateException
   | InternalException
@@ -16024,7 +16744,7 @@ export const disableTopicRule: (
  */
 export const enableTopicRule: (
   input: EnableTopicRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableTopicRuleResponse,
   | ConflictingResourceUpdateException
   | InternalException
@@ -16052,7 +16772,7 @@ export const enableTopicRule: (
  */
 export const updateTopicRuleDestination: (
   input: UpdateTopicRuleDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTopicRuleDestinationResponse,
   | ConflictingResourceUpdateException
   | InternalException
@@ -16083,7 +16803,7 @@ export const updateTopicRuleDestination: (
  */
 export const deleteCertificateProvider: (
   input: DeleteCertificateProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCertificateProviderResponse,
   | DeleteConflictException
   | InternalFailureException
@@ -16127,7 +16847,7 @@ export const deleteCertificateProvider: (
  */
 export const deletePolicy: (
   input: DeletePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePolicyResponse,
   | DeleteConflictException
   | InternalFailureException
@@ -16160,7 +16880,7 @@ export const deletePolicy: (
  */
 export const deletePolicyVersion: (
   input: DeletePolicyVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePolicyVersionResponse,
   | DeleteConflictException
   | InternalFailureException
@@ -16191,7 +16911,7 @@ export const deletePolicyVersion: (
  */
 export const deleteRoleAlias: (
   input: DeleteRoleAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRoleAliasResponse,
   | DeleteConflictException
   | InternalFailureException
@@ -16222,7 +16942,7 @@ export const deleteRoleAlias: (
  */
 export const deleteStream: (
   input: DeleteStreamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteStreamResponse,
   | DeleteConflictException
   | InternalFailureException
@@ -16257,7 +16977,7 @@ export const deleteStream: (
  */
 export const deleteCertificate: (
   input: DeleteCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCertificateResponse,
   | CertificateStateException
   | DeleteConflictException
@@ -16298,7 +17018,7 @@ export const deleteCertificate: (
  */
 export const updateCertificate: (
   input: UpdateCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCertificateResponse,
   | CertificateStateException
   | InternalFailureException
@@ -16332,7 +17052,7 @@ export const updateCertificate: (
  */
 export const getLoggingOptions: (
   input: GetLoggingOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLoggingOptionsResponse,
   | InternalException
   | InvalidRequestException
@@ -16358,7 +17078,7 @@ export const getLoggingOptions: (
  */
 export const confirmTopicRuleDestination: (
   input: ConfirmTopicRuleDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ConfirmTopicRuleDestinationResponse,
   | ConflictingResourceUpdateException
   | InternalException
@@ -16383,7 +17103,7 @@ export const confirmTopicRuleDestination: (
  */
 export const getThingConnectivityData: (
   input: GetThingConnectivityDataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetThingConnectivityDataResponse,
   | IndexNotReadyException
   | InternalFailureException
@@ -16414,7 +17134,7 @@ export const getThingConnectivityData: (
  */
 export const clearDefaultAuthorizer: (
   input: ClearDefaultAuthorizerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ClearDefaultAuthorizerResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -16443,7 +17163,7 @@ export const clearDefaultAuthorizer: (
  */
 export const createProvisioningClaim: (
   input: CreateProvisioningClaimRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProvisioningClaimResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -16472,7 +17192,7 @@ export const createProvisioningClaim: (
  */
 export const deleteAuthorizer: (
   input: DeleteAuthorizerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAuthorizerResponse,
   | DeleteConflictException
   | InternalFailureException
@@ -16503,7 +17223,7 @@ export const deleteAuthorizer: (
  */
 export const deleteCACertificate: (
   input: DeleteCACertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCACertificateResponse,
   | CertificateStateException
   | InternalFailureException
@@ -16534,7 +17254,7 @@ export const deleteCACertificate: (
  */
 export const describeAuthorizer: (
   input: DescribeAuthorizerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAuthorizerResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -16563,7 +17283,7 @@ export const describeAuthorizer: (
  */
 export const describeCertificateProvider: (
   input: DescribeCertificateProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCertificateProviderResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -16592,7 +17312,7 @@ export const describeCertificateProvider: (
  */
 export const describeDefaultAuthorizer: (
   input: DescribeDefaultAuthorizerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDefaultAuthorizerResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -16621,7 +17341,7 @@ export const describeDefaultAuthorizer: (
  */
 export const describeFleetMetric: (
   input: DescribeFleetMetricRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeFleetMetricResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -16650,7 +17370,7 @@ export const describeFleetMetric: (
  */
 export const describeIndex: (
   input: DescribeIndexRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeIndexResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -16679,7 +17399,7 @@ export const describeIndex: (
  */
 export const describeThing: (
   input: DescribeThingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeThingResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -16708,7 +17428,7 @@ export const describeThing: (
  */
 export const getJobDocument: (
   input: GetJobDocumentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetJobDocumentResponse,
   | InvalidRequestException
   | ResourceNotFoundException
@@ -16734,7 +17454,7 @@ export const getJobDocument: (
  */
 export const getPolicy: (
   input: GetPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPolicyResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -16763,7 +17483,7 @@ export const getPolicy: (
  */
 export const getPolicyVersion: (
   input: GetPolicyVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPolicyVersionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -16796,7 +17516,7 @@ export const getPolicyVersion: (
 export const listPolicyPrincipals: {
   (
     input: ListPolicyPrincipalsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPolicyPrincipalsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -16809,7 +17529,7 @@ export const listPolicyPrincipals: {
   >;
   pages: (
     input: ListPolicyPrincipalsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListPolicyPrincipalsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -16822,7 +17542,7 @@ export const listPolicyPrincipals: {
   >;
   items: (
     input: ListPolicyPrincipalsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     PrincipalArn,
     | InternalFailureException
     | InvalidRequestException
@@ -16863,7 +17583,7 @@ export const listPolicyPrincipals: {
 export const listPrincipalPolicies: {
   (
     input: ListPrincipalPoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPrincipalPoliciesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -16876,7 +17596,7 @@ export const listPrincipalPolicies: {
   >;
   pages: (
     input: ListPrincipalPoliciesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListPrincipalPoliciesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -16889,7 +17609,7 @@ export const listPrincipalPolicies: {
   >;
   items: (
     input: ListPrincipalPoliciesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     Policy,
     | InternalFailureException
     | InvalidRequestException
@@ -16928,7 +17648,7 @@ export const listPrincipalPolicies: {
 export const listPrincipalThings: {
   (
     input: ListPrincipalThingsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPrincipalThingsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -16941,7 +17661,7 @@ export const listPrincipalThings: {
   >;
   pages: (
     input: ListPrincipalThingsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListPrincipalThingsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -16954,7 +17674,7 @@ export const listPrincipalThings: {
   >;
   items: (
     input: ListPrincipalThingsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ThingName,
     | InternalFailureException
     | InvalidRequestException
@@ -16993,7 +17713,7 @@ export const listPrincipalThings: {
 export const listThingPrincipals: {
   (
     input: ListThingPrincipalsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListThingPrincipalsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -17006,7 +17726,7 @@ export const listThingPrincipals: {
   >;
   pages: (
     input: ListThingPrincipalsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListThingPrincipalsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -17019,7 +17739,7 @@ export const listThingPrincipals: {
   >;
   items: (
     input: ListThingPrincipalsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     PrincipalArn,
     | InternalFailureException
     | InvalidRequestException
@@ -17055,7 +17775,7 @@ export const listThingPrincipals: {
  */
 export const updateCertificateProvider: (
   input: UpdateCertificateProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCertificateProviderResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17091,7 +17811,7 @@ export const updateCertificateProvider: (
  */
 export const updateRoleAlias: (
   input: UpdateRoleAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRoleAliasResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17123,7 +17843,7 @@ export const updateRoleAlias: (
  */
 export const createCustomMetric: (
   input: CreateCustomMetricRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCustomMetricResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17151,7 +17871,7 @@ export const createCustomMetric: (
  */
 export const createDimension: (
   input: CreateDimensionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDimensionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17185,7 +17905,7 @@ export const createDimension: (
  */
 export const createRoleAlias: (
   input: CreateRoleAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRoleAliasResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17217,7 +17937,7 @@ export const createRoleAlias: (
  */
 export const createScheduledAudit: (
   input: CreateScheduledAuditRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateScheduledAuditResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17245,7 +17965,7 @@ export const createScheduledAudit: (
 export const listTargetsForPolicy: {
   (
     input: ListTargetsForPolicyRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTargetsForPolicyResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -17259,7 +17979,7 @@ export const listTargetsForPolicy: {
   >;
   pages: (
     input: ListTargetsForPolicyRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListTargetsForPolicyResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -17273,7 +17993,7 @@ export const listTargetsForPolicy: {
   >;
   items: (
     input: ListTargetsForPolicyRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     PolicyTarget,
     | InternalFailureException
     | InvalidRequestException
@@ -17311,7 +18031,7 @@ export const listTargetsForPolicy: {
  */
 export const setV2LoggingLevel: (
   input: SetV2LoggingLevelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetV2LoggingLevelResponse,
   | InternalException
   | InvalidRequestException
@@ -17338,7 +18058,7 @@ export const setV2LoggingLevel: (
  */
 export const startOnDemandAuditTask: (
   input: StartOnDemandAuditTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartOnDemandAuditTaskResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17363,7 +18083,7 @@ export const startOnDemandAuditTask: (
  */
 export const updateAuthorizer: (
   input: UpdateAuthorizerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAuthorizerResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17394,7 +18114,7 @@ export const updateAuthorizer: (
  */
 export const updateStream: (
   input: UpdateStreamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateStreamResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17428,7 +18148,7 @@ export const updateStream: (
  */
 export const detachPolicy: (
   input: DetachPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetachPolicyResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17458,7 +18178,7 @@ export const detachPolicy: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17486,7 +18206,7 @@ export const tagResource: (
  */
 export const attachPolicy: (
   input: AttachPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AttachPolicyResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17521,7 +18241,7 @@ export const attachPolicy: (
  */
 export const attachPrincipalPolicy: (
   input: AttachPrincipalPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AttachPrincipalPolicyResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17560,7 +18280,7 @@ export const attachPrincipalPolicy: (
  */
 export const associateTargetsWithJob: (
   input: AssociateTargetsWithJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateTargetsWithJobResponse,
   | InvalidRequestException
   | LimitExceededException
@@ -17587,7 +18307,7 @@ export const associateTargetsWithJob: (
  */
 export const cancelJob: (
   input: CancelJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelJobResponse,
   | InvalidRequestException
   | LimitExceededException
@@ -17614,7 +18334,7 @@ export const cancelJob: (
  */
 export const createAuditSuppression: (
   input: CreateAuditSuppressionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAuditSuppressionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17641,7 +18361,7 @@ export const createAuditSuppression: (
  */
 export const createAuthorizer: (
   input: CreateAuthorizerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAuthorizerResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17673,7 +18393,7 @@ export const createAuthorizer: (
  */
 export const setDefaultAuthorizer: (
   input: SetDefaultAuthorizerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetDefaultAuthorizerResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17706,7 +18426,7 @@ export const setDefaultAuthorizer: (
  */
 export const createBillingGroup: (
   input: CreateBillingGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBillingGroupResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17741,7 +18461,7 @@ export const createBillingGroup: (
  */
 export const createCertificateProvider: (
   input: CreateCertificateProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCertificateProviderResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17776,7 +18496,7 @@ export const createCertificateProvider: (
  */
 export const createPolicy: (
   input: CreatePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePolicyResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17807,7 +18527,7 @@ export const createPolicy: (
  */
 export const createProvisioningTemplate: (
   input: CreateProvisioningTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProvisioningTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17838,7 +18558,7 @@ export const createProvisioningTemplate: (
  */
 export const createStream: (
   input: CreateStreamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateStreamResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17874,7 +18594,7 @@ export const createStream: (
  */
 export const describeEndpoint: (
   input: DescribeEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEndpointResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17899,7 +18619,7 @@ export const describeEndpoint: (
  */
 export const getPackageConfiguration: (
   input: GetPackageConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPackageConfigurationResponse,
   InternalServerException | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -17917,7 +18637,7 @@ export const getPackageConfiguration: (
 export const listAuditFindings: {
   (
     input: ListAuditFindingsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAuditFindingsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -17927,7 +18647,7 @@ export const listAuditFindings: {
   >;
   pages: (
     input: ListAuditFindingsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListAuditFindingsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -17937,7 +18657,7 @@ export const listAuditFindings: {
   >;
   items: (
     input: ListAuditFindingsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     AuditFinding,
     | InternalFailureException
     | InvalidRequestException
@@ -17968,7 +18688,7 @@ export const listAuditFindings: {
 export const listCustomMetrics: {
   (
     input: ListCustomMetricsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCustomMetricsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -17978,7 +18698,7 @@ export const listCustomMetrics: {
   >;
   pages: (
     input: ListCustomMetricsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListCustomMetricsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -17988,7 +18708,7 @@ export const listCustomMetrics: {
   >;
   items: (
     input: ListCustomMetricsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     MetricName,
     | InternalFailureException
     | InvalidRequestException
@@ -18019,7 +18739,7 @@ export const listCustomMetrics: {
 export const listDetectMitigationActionsTasks: {
   (
     input: ListDetectMitigationActionsTasksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDetectMitigationActionsTasksResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -18029,7 +18749,7 @@ export const listDetectMitigationActionsTasks: {
   >;
   pages: (
     input: ListDetectMitigationActionsTasksRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListDetectMitigationActionsTasksResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -18039,7 +18759,7 @@ export const listDetectMitigationActionsTasks: {
   >;
   items: (
     input: ListDetectMitigationActionsTasksRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     DetectMitigationActionsTaskSummary,
     | InternalFailureException
     | InvalidRequestException
@@ -18070,7 +18790,7 @@ export const listDetectMitigationActionsTasks: {
 export const listDimensions: {
   (
     input: ListDimensionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDimensionsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -18080,7 +18800,7 @@ export const listDimensions: {
   >;
   pages: (
     input: ListDimensionsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListDimensionsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -18090,7 +18810,7 @@ export const listDimensions: {
   >;
   items: (
     input: ListDimensionsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     DimensionName,
     | InternalFailureException
     | InvalidRequestException
@@ -18119,7 +18839,7 @@ export const listDimensions: {
 export const listThingRegistrationTaskReports: {
   (
     input: ListThingRegistrationTaskReportsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListThingRegistrationTaskReportsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -18130,7 +18850,7 @@ export const listThingRegistrationTaskReports: {
   >;
   pages: (
     input: ListThingRegistrationTaskReportsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListThingRegistrationTaskReportsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -18141,7 +18861,7 @@ export const listThingRegistrationTaskReports: {
   >;
   items: (
     input: ListThingRegistrationTaskReportsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     S3FileUrl,
     | InternalFailureException
     | InvalidRequestException
@@ -18174,7 +18894,7 @@ export const listThingRegistrationTaskReports: {
 export const listThingRegistrationTasks: {
   (
     input: ListThingRegistrationTasksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListThingRegistrationTasksResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -18185,7 +18905,7 @@ export const listThingRegistrationTasks: {
   >;
   pages: (
     input: ListThingRegistrationTasksRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListThingRegistrationTasksResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -18196,7 +18916,7 @@ export const listThingRegistrationTasks: {
   >;
   items: (
     input: ListThingRegistrationTasksRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     TaskId,
     | InternalFailureException
     | InvalidRequestException
@@ -18228,7 +18948,7 @@ export const listThingRegistrationTasks: {
  */
 export const startThingRegistrationTask: (
   input: StartThingRegistrationTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartThingRegistrationTaskResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18255,7 +18975,7 @@ export const startThingRegistrationTask: (
  */
 export const deleteAccountAuditConfiguration: (
   input: DeleteAccountAuditConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccountAuditConfigurationResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18280,7 +19000,7 @@ export const deleteAccountAuditConfiguration: (
  */
 export const deleteAuditSuppression: (
   input: DeleteAuditSuppressionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAuditSuppressionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18310,7 +19030,7 @@ export const deleteAuditSuppression: (
  */
 export const deleteCustomMetric: (
   input: DeleteCustomMetricRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCustomMetricResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18333,7 +19053,7 @@ export const deleteCustomMetric: (
  */
 export const deleteDimension: (
   input: DeleteDimensionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDimensionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18354,7 +19074,7 @@ export const deleteDimension: (
  */
 export const deleteJobTemplate: (
   input: DeleteJobTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteJobTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18379,7 +19099,7 @@ export const deleteJobTemplate: (
  */
 export const deleteMitigationAction: (
   input: DeleteMitigationActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMitigationActionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18402,7 +19122,7 @@ export const deleteMitigationAction: (
  */
 export const deleteScheduledAudit: (
   input: DeleteScheduledAuditRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteScheduledAuditResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18427,7 +19147,7 @@ export const deleteScheduledAudit: (
  */
 export const detachSecurityProfile: (
   input: DetachSecurityProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetachSecurityProfileResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18450,7 +19170,7 @@ export const detachSecurityProfile: (
  */
 export const putVerificationStateOnViolation: (
   input: PutVerificationStateOnViolationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutVerificationStateOnViolationResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18475,7 +19195,7 @@ export const putVerificationStateOnViolation: (
  */
 export const removeThingFromBillingGroup: (
   input: RemoveThingFromBillingGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveThingFromBillingGroupResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18505,7 +19225,7 @@ export const removeThingFromBillingGroup: (
  */
 export const removeThingFromThingGroup: (
   input: RemoveThingFromThingGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveThingFromThingGroupResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18530,7 +19250,7 @@ export const removeThingFromThingGroup: (
  */
 export const stopThingRegistrationTask: (
   input: StopThingRegistrationTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopThingRegistrationTaskResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18557,7 +19277,7 @@ export const stopThingRegistrationTask: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18584,7 +19304,7 @@ export const untagResource: (
  */
 export const updateAccountAuditConfiguration: (
   input: UpdateAccountAuditConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAccountAuditConfigurationResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18605,7 +19325,7 @@ export const updateAccountAuditConfiguration: (
  */
 export const updateAuditSuppression: (
   input: UpdateAuditSuppressionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAuditSuppressionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18630,7 +19350,7 @@ export const updateAuditSuppression: (
  */
 export const updateEventConfigurations: (
   input: UpdateEventConfigurationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEventConfigurationsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18653,7 +19373,7 @@ export const updateEventConfigurations: (
  */
 export const updateThingGroupsForThing: (
   input: UpdateThingGroupsForThingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateThingGroupsForThingResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18678,7 +19398,7 @@ export const updateThingGroupsForThing: (
  */
 export const addThingToBillingGroup: (
   input: AddThingToBillingGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddThingToBillingGroupResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18703,7 +19423,7 @@ export const addThingToBillingGroup: (
  */
 export const addThingToThingGroup: (
   input: AddThingToThingGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddThingToThingGroupResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18730,7 +19450,7 @@ export const addThingToThingGroup: (
  */
 export const cancelAuditMitigationActionsTask: (
   input: CancelAuditMitigationActionsTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelAuditMitigationActionsTaskResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18755,7 +19475,7 @@ export const cancelAuditMitigationActionsTask: (
  */
 export const cancelAuditTask: (
   input: CancelAuditTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelAuditTaskResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18780,7 +19500,7 @@ export const cancelAuditTask: (
  */
 export const cancelDetectMitigationActionsTask: (
   input: CancelDetectMitigationActionsTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelDetectMitigationActionsTaskResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18805,7 +19525,7 @@ export const cancelDetectMitigationActionsTask: (
  */
 export const deleteProvisioningTemplate: (
   input: DeleteProvisioningTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProvisioningTemplateResponse,
   | ConflictingResourceUpdateException
   | DeleteConflictException
@@ -18836,7 +19556,7 @@ export const deleteProvisioningTemplate: (
  */
 export const deleteProvisioningTemplateVersion: (
   input: DeleteProvisioningTemplateVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProvisioningTemplateVersionResponse,
   | ConflictingResourceUpdateException
   | DeleteConflictException
@@ -18865,7 +19585,7 @@ export const deleteProvisioningTemplateVersion: (
  */
 export const describeAuditSuppression: (
   input: DescribeAuditSuppressionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAuditSuppressionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18890,7 +19610,7 @@ export const describeAuditSuppression: (
  */
 export const describeCustomMetric: (
   input: DescribeCustomMetricRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCustomMetricResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18915,7 +19635,7 @@ export const describeCustomMetric: (
  */
 export const describeDimension: (
   input: DescribeDimensionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDimensionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18938,7 +19658,7 @@ export const describeDimension: (
  */
 export const describeJobTemplate: (
   input: DescribeJobTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeJobTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18963,7 +19683,7 @@ export const describeJobTemplate: (
  */
 export const describeMitigationAction: (
   input: DescribeMitigationActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeMitigationActionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18988,7 +19708,7 @@ export const describeMitigationAction: (
  */
 export const describeProvisioningTemplate: (
   input: DescribeProvisioningTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeProvisioningTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -19015,7 +19735,7 @@ export const describeProvisioningTemplate: (
  */
 export const describeProvisioningTemplateVersion: (
   input: DescribeProvisioningTemplateVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeProvisioningTemplateVersionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -19042,7 +19762,7 @@ export const describeProvisioningTemplateVersion: (
  */
 export const describeScheduledAudit: (
   input: DescribeScheduledAuditRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeScheduledAuditResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -19067,7 +19787,7 @@ export const describeScheduledAudit: (
  */
 export const describeSecurityProfile: (
   input: DescribeSecurityProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSecurityProfileResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -19092,7 +19812,7 @@ export const describeSecurityProfile: (
  */
 export const describeThingRegistrationTask: (
   input: DescribeThingRegistrationTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeThingRegistrationTaskResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -19120,7 +19840,7 @@ export const describeThingRegistrationTask: (
 export const listTagsForResource: {
   (
     input: ListTagsForResourceRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTagsForResourceResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -19131,7 +19851,7 @@ export const listTagsForResource: {
   >;
   pages: (
     input: ListTagsForResourceRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListTagsForResourceResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -19142,7 +19862,7 @@ export const listTagsForResource: {
   >;
   items: (
     input: ListTagsForResourceRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     Tag,
     | InternalFailureException
     | InvalidRequestException
@@ -19174,7 +19894,7 @@ export const listTagsForResource: {
 export const listThingGroups: {
   (
     input: ListThingGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListThingGroupsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -19185,7 +19905,7 @@ export const listThingGroups: {
   >;
   pages: (
     input: ListThingGroupsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListThingGroupsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -19196,7 +19916,7 @@ export const listThingGroups: {
   >;
   items: (
     input: ListThingGroupsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     GroupNameAndArn,
     | InternalFailureException
     | InvalidRequestException
@@ -19229,7 +19949,7 @@ export const listThingGroups: {
 export const listThingGroupsForThing: {
   (
     input: ListThingGroupsForThingRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListThingGroupsForThingResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -19240,7 +19960,7 @@ export const listThingGroupsForThing: {
   >;
   pages: (
     input: ListThingGroupsForThingRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListThingGroupsForThingResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -19251,7 +19971,7 @@ export const listThingGroupsForThing: {
   >;
   items: (
     input: ListThingGroupsForThingRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     GroupNameAndArn,
     | InternalFailureException
     | InvalidRequestException
@@ -19284,7 +20004,7 @@ export const listThingGroupsForThing: {
 export const listThingsInBillingGroup: {
   (
     input: ListThingsInBillingGroupRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListThingsInBillingGroupResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -19295,7 +20015,7 @@ export const listThingsInBillingGroup: {
   >;
   pages: (
     input: ListThingsInBillingGroupRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListThingsInBillingGroupResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -19306,7 +20026,7 @@ export const listThingsInBillingGroup: {
   >;
   items: (
     input: ListThingsInBillingGroupRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ThingName,
     | InternalFailureException
     | InvalidRequestException
@@ -19339,7 +20059,7 @@ export const listThingsInBillingGroup: {
 export const listThingsInThingGroup: {
   (
     input: ListThingsInThingGroupRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListThingsInThingGroupResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -19350,7 +20070,7 @@ export const listThingsInThingGroup: {
   >;
   pages: (
     input: ListThingsInThingGroupRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListThingsInThingGroupResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -19361,7 +20081,7 @@ export const listThingsInThingGroup: {
   >;
   items: (
     input: ListThingsInThingGroupRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ThingName,
     | InternalFailureException
     | InvalidRequestException
@@ -19394,7 +20114,7 @@ export const listThingsInThingGroup: {
  */
 export const updateCustomMetric: (
   input: UpdateCustomMetricRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCustomMetricResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -19424,7 +20144,7 @@ export const updateCustomMetric: (
  */
 export const updateDimension: (
   input: UpdateDimensionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDimensionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -19449,7 +20169,7 @@ export const updateDimension: (
  */
 export const updateMitigationAction: (
   input: UpdateMitigationActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMitigationActionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -19475,7 +20195,7 @@ export const updateMitigationAction: (
  */
 export const updateScheduledAudit: (
   input: UpdateScheduledAuditRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateScheduledAuditResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -19541,7 +20261,7 @@ export const updateScheduledAudit: (
  */
 export const createCertificateFromCsr: (
   input: CreateCertificateFromCsrRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCertificateFromCsrResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -19568,7 +20288,7 @@ export const createCertificateFromCsr: (
  */
 export const createJobTemplate: (
   input: CreateJobTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateJobTemplateResponse,
   | ConflictException
   | InternalFailureException
@@ -19602,7 +20322,7 @@ export const createJobTemplate: (
  */
 export const createKeysAndCertificate: (
   input: CreateKeysAndCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateKeysAndCertificateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -19635,7 +20355,7 @@ export const createKeysAndCertificate: (
  */
 export const createThingGroup: (
   input: CreateThingGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateThingGroupResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -19661,7 +20381,7 @@ export const createThingGroup: (
  */
 export const updateDomainConfiguration: (
   input: UpdateDomainConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDomainConfigurationResponse,
   | CertificateValidationException
   | InternalFailureException
@@ -19692,7 +20412,7 @@ export const updateDomainConfiguration: (
  */
 export const createDomainConfiguration: (
   input: CreateDomainConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDomainConfigurationResponse,
   | CertificateValidationException
   | InternalFailureException
@@ -19727,7 +20447,7 @@ export const createDomainConfiguration: (
  */
 export const registerCertificate: (
   input: RegisterCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterCertificateResponse,
   | CertificateConflictException
   | CertificateStateException
@@ -19762,7 +20482,7 @@ export const registerCertificate: (
  */
 export const createDynamicThingGroup: (
   input: CreateDynamicThingGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDynamicThingGroupResponse,
   | InternalFailureException
   | InvalidQueryException
@@ -19793,7 +20513,7 @@ export const createDynamicThingGroup: (
  */
 export const getCardinality: (
   input: GetCardinalityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCardinalityResponse,
   | IndexNotReadyException
   | InternalFailureException
@@ -19828,7 +20548,7 @@ export const getCardinality: (
  */
 export const createFleetMetric: (
   input: CreateFleetMetricRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFleetMetricResponse,
   | IndexNotReadyException
   | InternalFailureException
@@ -19875,7 +20595,7 @@ export const createFleetMetric: (
  */
 export const getPercentiles: (
   input: GetPercentilesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPercentilesResponse,
   | IndexNotReadyException
   | InternalFailureException
@@ -19912,7 +20632,7 @@ export const getPercentiles: (
  */
 export const getStatistics: (
   input: GetStatisticsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetStatisticsResponse,
   | IndexNotReadyException
   | InternalFailureException
@@ -19947,7 +20667,7 @@ export const getStatistics: (
  */
 export const deleteJobExecution: (
   input: DeleteJobExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteJobExecutionResponse,
   | InvalidRequestException
   | InvalidStateTransitionException
@@ -19974,7 +20694,7 @@ export const deleteJobExecution: (
  */
 export const describeDomainConfiguration: (
   input: DescribeDomainConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDomainConfigurationResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -20003,7 +20723,7 @@ export const describeDomainConfiguration: (
  */
 export const describeRoleAlias: (
   input: DescribeRoleAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRoleAliasResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -20032,7 +20752,7 @@ export const describeRoleAlias: (
  */
 export const describeStream: (
   input: DescribeStreamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeStreamResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -20061,7 +20781,7 @@ export const describeStream: (
  */
 export const describeThingType: (
   input: DescribeThingTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeThingTypeResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -20091,7 +20811,7 @@ export const describeThingType: (
  */
 export const getEffectivePolicies: (
   input: GetEffectivePoliciesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEffectivePoliciesResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -20122,7 +20842,7 @@ export const getEffectivePolicies: (
  */
 export const getTopicRule: (
   input: GetTopicRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTopicRuleResponse,
   | InternalException
   | InvalidRequestException
@@ -20148,7 +20868,7 @@ export const getTopicRule: (
 export const listAttachedPolicies: {
   (
     input: ListAttachedPoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAttachedPoliciesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -20162,7 +20882,7 @@ export const listAttachedPolicies: {
   >;
   pages: (
     input: ListAttachedPoliciesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListAttachedPoliciesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -20176,7 +20896,7 @@ export const listAttachedPolicies: {
   >;
   items: (
     input: ListAttachedPoliciesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     Policy,
     | InternalFailureException
     | InvalidRequestException
@@ -20215,7 +20935,7 @@ export const listAttachedPolicies: {
 export const listAuthorizers: {
   (
     input: ListAuthorizersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAuthorizersResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -20227,7 +20947,7 @@ export const listAuthorizers: {
   >;
   pages: (
     input: ListAuthorizersRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListAuthorizersResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -20239,7 +20959,7 @@ export const listAuthorizers: {
   >;
   items: (
     input: ListAuthorizersRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     AuthorizerSummary,
     | InternalFailureException
     | InvalidRequestException
@@ -20277,7 +20997,7 @@ export const listAuthorizers: {
 export const listCACertificates: {
   (
     input: ListCACertificatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCACertificatesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -20289,7 +21009,7 @@ export const listCACertificates: {
   >;
   pages: (
     input: ListCACertificatesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListCACertificatesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -20301,7 +21021,7 @@ export const listCACertificates: {
   >;
   items: (
     input: ListCACertificatesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     CACertificate,
     | InternalFailureException
     | InvalidRequestException
@@ -20335,7 +21055,7 @@ export const listCACertificates: {
  */
 export const listCertificateProviders: (
   input: ListCertificateProvidersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListCertificateProvidersResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -20366,7 +21086,7 @@ export const listCertificateProviders: (
 export const listCertificates: {
   (
     input: ListCertificatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCertificatesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -20378,7 +21098,7 @@ export const listCertificates: {
   >;
   pages: (
     input: ListCertificatesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListCertificatesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -20390,7 +21110,7 @@ export const listCertificates: {
   >;
   items: (
     input: ListCertificatesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     Certificate,
     | InternalFailureException
     | InvalidRequestException
@@ -20426,7 +21146,7 @@ export const listCertificates: {
 export const listDomainConfigurations: {
   (
     input: ListDomainConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDomainConfigurationsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -20438,7 +21158,7 @@ export const listDomainConfigurations: {
   >;
   pages: (
     input: ListDomainConfigurationsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListDomainConfigurationsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -20450,7 +21170,7 @@ export const listDomainConfigurations: {
   >;
   items: (
     input: ListDomainConfigurationsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     DomainConfigurationSummary,
     | InternalFailureException
     | InvalidRequestException
@@ -20485,7 +21205,7 @@ export const listDomainConfigurations: {
 export const listFleetMetrics: {
   (
     input: ListFleetMetricsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFleetMetricsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -20497,7 +21217,7 @@ export const listFleetMetrics: {
   >;
   pages: (
     input: ListFleetMetricsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListFleetMetricsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -20509,7 +21229,7 @@ export const listFleetMetrics: {
   >;
   items: (
     input: ListFleetMetricsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     FleetMetricNameAndArn,
     | InternalFailureException
     | InvalidRequestException
@@ -20544,7 +21264,7 @@ export const listFleetMetrics: {
 export const listOTAUpdates: {
   (
     input: ListOTAUpdatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOTAUpdatesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -20556,7 +21276,7 @@ export const listOTAUpdates: {
   >;
   pages: (
     input: ListOTAUpdatesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListOTAUpdatesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -20568,7 +21288,7 @@ export const listOTAUpdates: {
   >;
   items: (
     input: ListOTAUpdatesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     OTAUpdateSummary,
     | InternalFailureException
     | InvalidRequestException
@@ -20603,7 +21323,7 @@ export const listOTAUpdates: {
 export const listOutgoingCertificates: {
   (
     input: ListOutgoingCertificatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOutgoingCertificatesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -20615,7 +21335,7 @@ export const listOutgoingCertificates: {
   >;
   pages: (
     input: ListOutgoingCertificatesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListOutgoingCertificatesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -20627,7 +21347,7 @@ export const listOutgoingCertificates: {
   >;
   items: (
     input: ListOutgoingCertificatesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     OutgoingCertificate,
     | InternalFailureException
     | InvalidRequestException
@@ -20662,7 +21382,7 @@ export const listOutgoingCertificates: {
  */
 export const listPolicyVersions: (
   input: ListPolicyVersionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListPolicyVersionsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -20693,7 +21413,7 @@ export const listPolicyVersions: (
 export const listPrincipalThingsV2: {
   (
     input: ListPrincipalThingsV2Request,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPrincipalThingsV2Response,
     | InternalFailureException
     | InvalidRequestException
@@ -20706,7 +21426,7 @@ export const listPrincipalThingsV2: {
   >;
   pages: (
     input: ListPrincipalThingsV2Request,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListPrincipalThingsV2Response,
     | InternalFailureException
     | InvalidRequestException
@@ -20719,7 +21439,7 @@ export const listPrincipalThingsV2: {
   >;
   items: (
     input: ListPrincipalThingsV2Request,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     PrincipalThingObject,
     | InternalFailureException
     | InvalidRequestException
@@ -20756,7 +21476,7 @@ export const listPrincipalThingsV2: {
 export const listProvisioningTemplates: {
   (
     input: ListProvisioningTemplatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProvisioningTemplatesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -20767,7 +21487,7 @@ export const listProvisioningTemplates: {
   >;
   pages: (
     input: ListProvisioningTemplatesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListProvisioningTemplatesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -20778,7 +21498,7 @@ export const listProvisioningTemplates: {
   >;
   items: (
     input: ListProvisioningTemplatesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ProvisioningTemplateSummary,
     | InternalFailureException
     | InvalidRequestException
@@ -20811,7 +21531,7 @@ export const listProvisioningTemplates: {
 export const listProvisioningTemplateVersions: {
   (
     input: ListProvisioningTemplateVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProvisioningTemplateVersionsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -20823,7 +21543,7 @@ export const listProvisioningTemplateVersions: {
   >;
   pages: (
     input: ListProvisioningTemplateVersionsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListProvisioningTemplateVersionsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -20835,7 +21555,7 @@ export const listProvisioningTemplateVersions: {
   >;
   items: (
     input: ListProvisioningTemplateVersionsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ProvisioningTemplateVersionSummary,
     | InternalFailureException
     | InvalidRequestException
@@ -20870,7 +21590,7 @@ export const listProvisioningTemplateVersions: {
 export const listStreams: {
   (
     input: ListStreamsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStreamsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -20882,7 +21602,7 @@ export const listStreams: {
   >;
   pages: (
     input: ListStreamsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListStreamsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -20894,7 +21614,7 @@ export const listStreams: {
   >;
   items: (
     input: ListStreamsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     StreamSummary,
     | InternalFailureException
     | InvalidRequestException
@@ -20930,7 +21650,7 @@ export const listStreams: {
 export const listThingPrincipalsV2: {
   (
     input: ListThingPrincipalsV2Request,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListThingPrincipalsV2Response,
     | InternalFailureException
     | InvalidRequestException
@@ -20943,7 +21663,7 @@ export const listThingPrincipalsV2: {
   >;
   pages: (
     input: ListThingPrincipalsV2Request,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListThingPrincipalsV2Response,
     | InternalFailureException
     | InvalidRequestException
@@ -20956,7 +21676,7 @@ export const listThingPrincipalsV2: {
   >;
   items: (
     input: ListThingPrincipalsV2Request,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ThingPrincipalObject,
     | InternalFailureException
     | InvalidRequestException
@@ -20999,7 +21719,7 @@ export const listThingPrincipalsV2: {
 export const listThings: {
   (
     input: ListThingsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListThingsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -21011,7 +21731,7 @@ export const listThings: {
   >;
   pages: (
     input: ListThingsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListThingsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -21023,7 +21743,7 @@ export const listThings: {
   >;
   items: (
     input: ListThingsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ThingAttribute,
     | InternalFailureException
     | InvalidRequestException
@@ -21058,7 +21778,7 @@ export const listThings: {
 export const listThingTypes: {
   (
     input: ListThingTypesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListThingTypesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -21070,7 +21790,7 @@ export const listThingTypes: {
   >;
   pages: (
     input: ListThingTypesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListThingTypesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -21082,7 +21802,7 @@ export const listThingTypes: {
   >;
   items: (
     input: ListThingTypesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ThingTypeDefinition,
     | InternalFailureException
     | InvalidRequestException
@@ -21117,7 +21837,7 @@ export const listThingTypes: {
 export const listTopicRules: {
   (
     input: ListTopicRulesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTopicRulesResponse,
     | InternalException
     | InvalidRequestException
@@ -21128,7 +21848,7 @@ export const listTopicRules: {
   >;
   pages: (
     input: ListTopicRulesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListTopicRulesResponse,
     | InternalException
     | InvalidRequestException
@@ -21139,7 +21859,7 @@ export const listTopicRules: {
   >;
   items: (
     input: ListTopicRulesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     TopicRuleListItem,
     | InternalException
     | InvalidRequestException
@@ -21171,7 +21891,7 @@ export const listTopicRules: {
  */
 export const registerCertificateWithoutCA: (
   input: RegisterCertificateWithoutCARequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterCertificateWithoutCAResponse,
   | CertificateStateException
   | CertificateValidationException
@@ -21205,7 +21925,7 @@ export const registerCertificateWithoutCA: (
  */
 export const createMitigationAction: (
   input: CreateMitigationActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMitigationActionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -21238,7 +21958,7 @@ export const createMitigationAction: (
  */
 export const createThing: (
   input: CreateThingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateThingResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -21269,7 +21989,7 @@ export const createThing: (
  */
 export const createTopicRuleDestination: (
   input: CreateTopicRuleDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTopicRuleDestinationResponse,
   | ConflictingResourceUpdateException
   | InternalException
@@ -21300,7 +22020,7 @@ export const createTopicRuleDestination: (
  */
 export const deletePackage: (
   input: DeletePackageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePackageResponse,
   | InternalServerException
   | ThrottlingException
@@ -21321,7 +22041,7 @@ export const deletePackage: (
  */
 export const describeAccountAuditConfiguration: (
   input: DescribeAccountAuditConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAccountAuditConfigurationResponse,
   InternalFailureException | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -21341,7 +22061,7 @@ export const describeAccountAuditConfiguration: (
  */
 export const describeAuditFinding: (
   input: DescribeAuditFindingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAuditFindingResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -21364,7 +22084,7 @@ export const describeAuditFinding: (
  */
 export const describeAuditMitigationActionsTask: (
   input: DescribeAuditMitigationActionsTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAuditMitigationActionsTaskResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -21389,7 +22109,7 @@ export const describeAuditMitigationActionsTask: (
  */
 export const describeAuditTask: (
   input: DescribeAuditTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAuditTaskResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -21414,7 +22134,7 @@ export const describeAuditTask: (
  */
 export const describeCACertificate: (
   input: DescribeCACertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCACertificateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -21443,7 +22163,7 @@ export const describeCACertificate: (
  */
 export const describeCertificate: (
   input: DescribeCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCertificateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -21472,7 +22192,7 @@ export const describeCertificate: (
  */
 export const describeDetectMitigationActionsTask: (
   input: DescribeDetectMitigationActionsTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDetectMitigationActionsTaskResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -21497,7 +22217,7 @@ export const describeDetectMitigationActionsTask: (
  */
 export const describeJob: (
   input: DescribeJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeJobResponse,
   | InvalidRequestException
   | ResourceNotFoundException
@@ -21522,7 +22242,7 @@ export const describeJob: (
  */
 export const describeJobExecution: (
   input: DescribeJobExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeJobExecutionResponse,
   | InvalidRequestException
   | ResourceNotFoundException
@@ -21545,7 +22265,7 @@ export const describeJobExecution: (
  */
 export const getCommandExecution: (
   input: GetCommandExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCommandExecutionResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -21570,7 +22290,7 @@ export const getCommandExecution: (
  */
 export const getIndexingConfiguration: (
   input: GetIndexingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIndexingConfigurationResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -21597,7 +22317,7 @@ export const getIndexingConfiguration: (
  */
 export const getOTAUpdate: (
   input: GetOTAUpdateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetOTAUpdateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -21626,7 +22346,7 @@ export const getOTAUpdate: (
  */
 export const getTopicRuleDestination: (
   input: GetTopicRuleDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTopicRuleDestinationResponse,
   | InternalException
   | InvalidRequestException
@@ -21652,7 +22372,7 @@ export const getTopicRuleDestination: (
 export const listActiveViolations: {
   (
     input: ListActiveViolationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListActiveViolationsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -21663,7 +22383,7 @@ export const listActiveViolations: {
   >;
   pages: (
     input: ListActiveViolationsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListActiveViolationsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -21674,7 +22394,7 @@ export const listActiveViolations: {
   >;
   items: (
     input: ListActiveViolationsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ActiveViolation,
     | InternalFailureException
     | InvalidRequestException
@@ -21720,7 +22440,7 @@ export const listActiveViolations: {
 export const listCommandExecutions: {
   (
     input: ListCommandExecutionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCommandExecutionsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -21731,7 +22451,7 @@ export const listCommandExecutions: {
   >;
   pages: (
     input: ListCommandExecutionsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListCommandExecutionsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -21742,7 +22462,7 @@ export const listCommandExecutions: {
   >;
   items: (
     input: ListCommandExecutionsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     CommandExecutionSummary,
     | InternalServerException
     | ResourceNotFoundException
@@ -21775,7 +22495,7 @@ export const listCommandExecutions: {
 export const listJobExecutionsForJob: {
   (
     input: ListJobExecutionsForJobRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListJobExecutionsForJobResponse,
     | InvalidRequestException
     | ResourceNotFoundException
@@ -21786,7 +22506,7 @@ export const listJobExecutionsForJob: {
   >;
   pages: (
     input: ListJobExecutionsForJobRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListJobExecutionsForJobResponse,
     | InvalidRequestException
     | ResourceNotFoundException
@@ -21797,7 +22517,7 @@ export const listJobExecutionsForJob: {
   >;
   items: (
     input: ListJobExecutionsForJobRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     JobExecutionSummaryForJob,
     | InvalidRequestException
     | ResourceNotFoundException
@@ -21852,7 +22572,7 @@ export const listJobExecutionsForJob: {
 export const listRelatedResourcesForAuditFinding: {
   (
     input: ListRelatedResourcesForAuditFindingRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRelatedResourcesForAuditFindingResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -21863,7 +22583,7 @@ export const listRelatedResourcesForAuditFinding: {
   >;
   pages: (
     input: ListRelatedResourcesForAuditFindingRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListRelatedResourcesForAuditFindingResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -21874,7 +22594,7 @@ export const listRelatedResourcesForAuditFinding: {
   >;
   items: (
     input: ListRelatedResourcesForAuditFindingRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     RelatedResource,
     | InternalFailureException
     | InvalidRequestException
@@ -21907,7 +22627,7 @@ export const listRelatedResourcesForAuditFinding: {
 export const listTopicRuleDestinations: {
   (
     input: ListTopicRuleDestinationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTopicRuleDestinationsResponse,
     | InternalException
     | InvalidRequestException
@@ -21918,7 +22638,7 @@ export const listTopicRuleDestinations: {
   >;
   pages: (
     input: ListTopicRuleDestinationsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListTopicRuleDestinationsResponse,
     | InternalException
     | InvalidRequestException
@@ -21929,7 +22649,7 @@ export const listTopicRuleDestinations: {
   >;
   items: (
     input: ListTopicRuleDestinationsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     TopicRuleDestinationSummary,
     | InternalException
     | InvalidRequestException
@@ -21961,7 +22681,7 @@ export const listTopicRuleDestinations: {
  */
 export const searchIndex: (
   input: SearchIndexRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SearchIndexResponse,
   | IndexNotReadyException
   | InternalFailureException
@@ -21994,7 +22714,7 @@ export const searchIndex: (
  */
 export const startDetectMitigationActionsTask: (
   input: StartDetectMitigationActionsTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartDetectMitigationActionsTaskResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -22021,7 +22741,7 @@ export const startDetectMitigationActionsTask: (
  */
 export const updateDynamicThingGroup: (
   input: UpdateDynamicThingGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDynamicThingGroupResponse,
   | InternalFailureException
   | InvalidQueryException
@@ -22058,7 +22778,7 @@ export const updateDynamicThingGroup: (
  */
 export const rejectCertificateTransfer: (
   input: RejectCertificateTransferRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RejectCertificateTransferResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -22091,7 +22811,7 @@ export const rejectCertificateTransfer: (
  */
 export const replaceTopicRule: (
   input: ReplaceTopicRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ReplaceTopicRuleResponse,
   | ConflictingResourceUpdateException
   | InternalException
@@ -22144,7 +22864,7 @@ export const replaceTopicRule: (
  */
 export const transferCertificate: (
   input: TransferCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TransferCertificateResponse,
   | CertificateStateException
   | InternalFailureException
@@ -22177,7 +22897,7 @@ export const transferCertificate: (
  */
 export const createPackageVersion: (
   input: CreatePackageVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePackageVersionResponse,
   | ConflictException
   | InternalServerException
@@ -22204,7 +22924,7 @@ export const createPackageVersion: (
  */
 export const associateSbomWithPackageVersion: (
   input: AssociateSbomWithPackageVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateSbomWithPackageVersionResponse,
   | ConflictException
   | InternalServerException
@@ -22240,7 +22960,7 @@ export const associateSbomWithPackageVersion: (
  */
 export const createPolicyVersion: (
   input: CreatePolicyVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePolicyVersionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -22272,7 +22992,7 @@ export const createPolicyVersion: (
 export const listCommands: {
   (
     input: ListCommandsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCommandsResponse,
     | InternalServerException
     | ThrottlingException
@@ -22282,7 +23002,7 @@ export const listCommands: {
   >;
   pages: (
     input: ListCommandsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListCommandsResponse,
     | InternalServerException
     | ThrottlingException
@@ -22292,7 +23012,7 @@ export const listCommands: {
   >;
   items: (
     input: ListCommandsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     CommandSummary,
     | InternalServerException
     | ThrottlingException
@@ -22319,7 +23039,7 @@ export const listCommands: {
 export const listPackages: {
   (
     input: ListPackagesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPackagesResponse,
     | InternalServerException
     | ThrottlingException
@@ -22329,7 +23049,7 @@ export const listPackages: {
   >;
   pages: (
     input: ListPackagesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListPackagesResponse,
     | InternalServerException
     | ThrottlingException
@@ -22339,7 +23059,7 @@ export const listPackages: {
   >;
   items: (
     input: ListPackagesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     PackageSummary,
     | InternalServerException
     | ThrottlingException
@@ -22366,7 +23086,7 @@ export const listPackages: {
 export const listPackageVersions: {
   (
     input: ListPackageVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPackageVersionsResponse,
     | InternalServerException
     | ThrottlingException
@@ -22376,7 +23096,7 @@ export const listPackageVersions: {
   >;
   pages: (
     input: ListPackageVersionsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListPackageVersionsResponse,
     | InternalServerException
     | ThrottlingException
@@ -22386,7 +23106,7 @@ export const listPackageVersions: {
   >;
   items: (
     input: ListPackageVersionsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     PackageVersionSummary,
     | InternalServerException
     | ThrottlingException
@@ -22413,7 +23133,7 @@ export const listPackageVersions: {
 export const listSbomValidationResults: {
   (
     input: ListSbomValidationResultsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSbomValidationResultsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -22424,7 +23144,7 @@ export const listSbomValidationResults: {
   >;
   pages: (
     input: ListSbomValidationResultsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListSbomValidationResultsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -22435,7 +23155,7 @@ export const listSbomValidationResults: {
   >;
   items: (
     input: ListSbomValidationResultsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     SbomValidationResultSummary,
     | InternalServerException
     | ResourceNotFoundException
@@ -22467,7 +23187,7 @@ export const listSbomValidationResults: {
  */
 export const disassociateSbomFromPackageVersion: (
   input: DisassociateSbomFromPackageVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateSbomFromPackageVersionResponse,
   | ConflictException
   | InternalServerException
@@ -22494,7 +23214,7 @@ export const disassociateSbomFromPackageVersion: (
  */
 export const updatePackage: (
   input: UpdatePackageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePackageResponse,
   | ConflictException
   | InternalServerException
@@ -22521,7 +23241,7 @@ export const updatePackage: (
  */
 export const updatePackageConfiguration: (
   input: UpdatePackageConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePackageConfigurationResponse,
   | ConflictException
   | InternalServerException
@@ -22546,7 +23266,7 @@ export const updatePackageConfiguration: (
  */
 export const updatePackageVersion: (
   input: UpdatePackageVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePackageVersionResponse,
   | ConflictException
   | InternalServerException
@@ -22571,7 +23291,7 @@ export const updatePackageVersion: (
  */
 export const deleteCommand: (
   input: DeleteCommandRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCommandResponse,
   | ConflictException
   | InternalServerException
@@ -22596,7 +23316,7 @@ export const deleteCommand: (
  */
 export const deletePackageVersion: (
   input: DeletePackageVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePackageVersionResponse,
   | InternalServerException
   | ThrottlingException
@@ -22616,7 +23336,7 @@ export const deletePackageVersion: (
  */
 export const deleteCommandExecution: (
   input: DeleteCommandExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCommandExecutionResponse,
   | ConflictException
   | InternalServerException
@@ -22639,7 +23359,7 @@ export const deleteCommandExecution: (
  */
 export const getCommand: (
   input: GetCommandRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCommandResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -22664,7 +23384,7 @@ export const getCommand: (
  */
 export const getPackage: (
   input: GetPackageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPackageResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -22689,7 +23409,7 @@ export const getPackage: (
  */
 export const getPackageVersion: (
   input: GetPackageVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPackageVersionResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -22712,7 +23432,7 @@ export const getPackageVersion: (
  */
 export const updateCommand: (
   input: UpdateCommandRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCommandResponse,
   | ConflictException
   | InternalServerException
@@ -22739,7 +23459,7 @@ export const updateCommand: (
  */
 export const createPackage: (
   input: CreatePackageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePackageResponse,
   | ConflictException
   | InternalServerException
@@ -22768,7 +23488,7 @@ export const createPackage: (
  */
 export const registerCACertificate: (
   input: RegisterCACertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterCACertificateResponse,
   | CertificateValidationException
   | InternalFailureException
@@ -22805,7 +23525,7 @@ export const registerCACertificate: (
  */
 export const startAuditMitigationActionsTask: (
   input: StartAuditMitigationActionsTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartAuditMitigationActionsTaskResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -22833,7 +23553,7 @@ export const startAuditMitigationActionsTask: (
  */
 export const deleteFleetMetric: (
   input: DeleteFleetMetricRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFleetMetricResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -22862,7 +23582,7 @@ export const deleteFleetMetric: (
  */
 export const deleteOTAUpdate: (
   input: DeleteOTAUpdateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteOTAUpdateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -22894,7 +23614,7 @@ export const deleteOTAUpdate: (
  */
 export const deleteThing: (
   input: DeleteThingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteThingResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -22925,7 +23645,7 @@ export const deleteThing: (
  */
 export const updateThing: (
   input: UpdateThingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateThingResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -22957,7 +23677,7 @@ export const updateThing: (
  */
 export const attachSecurityProfile: (
   input: AttachSecurityProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AttachSecurityProfileResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -22986,7 +23706,7 @@ export const attachSecurityProfile: (
  */
 export const deleteBillingGroup: (
   input: DeleteBillingGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBillingGroupResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23011,7 +23731,7 @@ export const deleteBillingGroup: (
  */
 export const deleteDynamicThingGroup: (
   input: DeleteDynamicThingGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDynamicThingGroupResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23036,7 +23756,7 @@ export const deleteDynamicThingGroup: (
  */
 export const deleteSecurityProfile: (
   input: DeleteSecurityProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSecurityProfileResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23061,7 +23781,7 @@ export const deleteSecurityProfile: (
  */
 export const deleteThingGroup: (
   input: DeleteThingGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteThingGroupResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23086,7 +23806,7 @@ export const deleteThingGroup: (
  */
 export const updateBillingGroup: (
   input: UpdateBillingGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateBillingGroupResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23113,7 +23833,7 @@ export const updateBillingGroup: (
  */
 export const updateSecurityProfile: (
   input: UpdateSecurityProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSecurityProfileResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23140,7 +23860,7 @@ export const updateSecurityProfile: (
  */
 export const updateThingGroup: (
   input: UpdateThingGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateThingGroupResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23167,7 +23887,7 @@ export const updateThingGroup: (
  */
 export const cancelJobExecution: (
   input: CancelJobExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelJobExecutionResponse,
   | InvalidRequestException
   | InvalidStateTransitionException
@@ -23196,7 +23916,7 @@ export const cancelJobExecution: (
  */
 export const updateFleetMetric: (
   input: UpdateFleetMetricRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFleetMetricResponse,
   | IndexNotReadyException
   | InternalFailureException
@@ -23237,7 +23957,7 @@ export const updateFleetMetric: (
  */
 export const acceptCertificateTransfer: (
   input: AcceptCertificateTransferRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AcceptCertificateTransferResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23276,7 +23996,7 @@ export const acceptCertificateTransfer: (
  */
 export const cancelCertificateTransfer: (
   input: CancelCertificateTransferRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelCertificateTransferResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23307,7 +24027,7 @@ export const cancelCertificateTransfer: (
  */
 export const createProvisioningTemplateVersion: (
   input: CreateProvisioningTemplateVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProvisioningTemplateVersionResponse,
   | ConflictingResourceUpdateException
   | InternalFailureException
@@ -23338,7 +24058,7 @@ export const createProvisioningTemplateVersion: (
  */
 export const createJob: (
   input: CreateJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateJobResponse,
   | InvalidRequestException
   | LimitExceededException
@@ -23367,7 +24087,7 @@ export const createJob: (
  */
 export const createSecurityProfile: (
   input: CreateSecurityProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSecurityProfileResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23394,7 +24114,7 @@ export const createSecurityProfile: (
  */
 export const createThingType: (
   input: CreateThingTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateThingTypeResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23423,7 +24143,7 @@ export const createThingType: (
  */
 export const getBucketsAggregation: (
   input: GetBucketsAggregationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketsAggregationResponse,
   | IndexNotReadyException
   | InternalFailureException
@@ -23461,7 +24181,7 @@ export const getBucketsAggregation: (
  */
 export const registerThing: (
   input: RegisterThingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterThingResponse,
   | ConflictingResourceUpdateException
   | InternalFailureException
@@ -23494,7 +24214,7 @@ export const registerThing: (
  */
 export const testInvokeAuthorizer: (
   input: TestInvokeAuthorizerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TestInvokeAuthorizerResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23524,7 +24244,7 @@ export const testInvokeAuthorizer: (
  */
 export const createCommand: (
   input: CreateCommandRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCommandResponse,
   | ConflictException
   | InternalServerException
@@ -23553,7 +24273,7 @@ export const createCommand: (
  */
 export const testAuthorization: (
   input: TestAuthorizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TestAuthorizationResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23584,7 +24304,7 @@ export const testAuthorization: (
  */
 export const createOTAUpdate: (
   input: CreateOTAUpdateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateOTAUpdateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23618,7 +24338,7 @@ export const createOTAUpdate: (
  */
 export const createTopicRule: (
   input: CreateTopicRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTopicRuleResponse,
   | ConflictingResourceUpdateException
   | InternalException

@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -139,7 +139,7 @@ export const TagList = S.Array(Tag);
 export interface CreateProfileRequest {
   Name: string;
   ClientToken: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateProfileRequest = S.suspend(() =>
   S.Struct({
@@ -380,7 +380,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -431,13 +431,28 @@ export const UpdateProfileResourceAssociationRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateProfileResourceAssociationRequest",
 }) as any as S.Schema<UpdateProfileResourceAssociationRequest>;
+export type ProfileStatus =
+  | "COMPLETE"
+  | "DELETING"
+  | "UPDATING"
+  | "CREATING"
+  | "DELETED"
+  | "FAILED";
+export const ProfileStatus = S.Literal(
+  "COMPLETE",
+  "DELETING",
+  "UPDATING",
+  "CREATING",
+  "DELETED",
+  "FAILED",
+);
 export interface ProfileAssociation {
   Id?: string;
   Name?: string;
   OwnerId?: string;
   ProfileId?: string;
   ResourceId?: string;
-  Status?: string;
+  Status?: ProfileStatus;
   StatusMessage?: string;
   CreationTime?: Date;
   ModificationTime?: Date;
@@ -449,7 +464,7 @@ export const ProfileAssociation = S.suspend(() =>
     OwnerId: S.optional(S.String),
     ProfileId: S.optional(S.String),
     ResourceId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ProfileStatus),
     StatusMessage: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ModificationTime: S.optional(
@@ -469,7 +484,7 @@ export interface ProfileResourceAssociation {
   ResourceArn?: string;
   ResourceType?: string;
   ResourceProperties?: string;
-  Status?: string;
+  Status?: ProfileStatus;
   StatusMessage?: string;
   CreationTime?: Date;
   ModificationTime?: Date;
@@ -483,7 +498,7 @@ export const ProfileResourceAssociation = S.suspend(() =>
     ResourceArn: S.optional(S.String),
     ResourceType: S.optional(S.String),
     ResourceProperties: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ProfileStatus),
     StatusMessage: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ModificationTime: S.optional(
@@ -501,7 +516,7 @@ export interface AssociateProfileRequest {
   ProfileId: string;
   ResourceId: string;
   Name: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const AssociateProfileRequest = S.suspend(() =>
   S.Struct({
@@ -522,14 +537,20 @@ export const AssociateProfileRequest = S.suspend(() =>
 ).annotations({
   identifier: "AssociateProfileRequest",
 }) as any as S.Schema<AssociateProfileRequest>;
+export type ShareStatus = "NOT_SHARED" | "SHARED_WITH_ME" | "SHARED_BY_ME";
+export const ShareStatus = S.Literal(
+  "NOT_SHARED",
+  "SHARED_WITH_ME",
+  "SHARED_BY_ME",
+);
 export interface Profile {
   Id?: string;
   Arn?: string;
   Name?: string;
   OwnerId?: string;
-  Status?: string;
+  Status?: ProfileStatus;
   StatusMessage?: string;
-  ShareStatus?: string;
+  ShareStatus?: ShareStatus;
   CreationTime?: Date;
   ModificationTime?: Date;
   ClientToken?: string;
@@ -540,9 +561,9 @@ export const Profile = S.suspend(() =>
     Arn: S.optional(S.String),
     Name: S.optional(S.String),
     OwnerId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ProfileStatus),
     StatusMessage: S.optional(S.String),
-    ShareStatus: S.optional(S.String),
+    ShareStatus: S.optional(ShareStatus),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ModificationTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -595,7 +616,7 @@ export const GetProfileResourceAssociationResponse = S.suspend(() =>
   identifier: "GetProfileResourceAssociationResponse",
 }) as any as S.Schema<GetProfileResourceAssociationResponse>;
 export interface ListProfileAssociationsResponse {
-  ProfileAssociations?: ProfileAssociations;
+  ProfileAssociations?: ProfileAssociation[];
   NextToken?: string;
 }
 export const ListProfileAssociationsResponse = S.suspend(() =>
@@ -607,7 +628,7 @@ export const ListProfileAssociationsResponse = S.suspend(() =>
   identifier: "ListProfileAssociationsResponse",
 }) as any as S.Schema<ListProfileAssociationsResponse>;
 export interface ListProfileResourceAssociationsResponse {
-  ProfileResourceAssociations?: ProfileResourceAssociations;
+  ProfileResourceAssociations?: ProfileResourceAssociation[];
   NextToken?: string;
 }
 export const ListProfileResourceAssociationsResponse = S.suspend(() =>
@@ -619,7 +640,7 @@ export const ListProfileResourceAssociationsResponse = S.suspend(() =>
   identifier: "ListProfileResourceAssociationsResponse",
 }) as any as S.Schema<ListProfileResourceAssociationsResponse>;
 export interface ListTagsForResourceResponse {
-  Tags: TagMap;
+  Tags: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: TagMap }),
@@ -628,7 +649,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagMap;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -665,14 +686,14 @@ export interface ProfileSummary {
   Id?: string;
   Arn?: string;
   Name?: string;
-  ShareStatus?: string;
+  ShareStatus?: ShareStatus;
 }
 export const ProfileSummary = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
     Name: S.optional(S.String),
-    ShareStatus: S.optional(S.String),
+    ShareStatus: S.optional(ShareStatus),
   }),
 ).annotations({
   identifier: "ProfileSummary",
@@ -714,7 +735,7 @@ export const DisassociateProfileResponse = S.suspend(() =>
   identifier: "DisassociateProfileResponse",
 }) as any as S.Schema<DisassociateProfileResponse>;
 export interface ListProfilesResponse {
-  ProfileSummaries?: ProfileSummaryList;
+  ProfileSummaries?: ProfileSummary[];
   NextToken?: string;
 }
 export const ListProfilesResponse = S.suspend(() =>
@@ -774,7 +795,7 @@ export class ResourceExistsException extends S.TaggedError<ResourceExistsExcepti
  */
 export const getProfile: (
   input: GetProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetProfileResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -797,7 +818,7 @@ export const getProfile: (
  */
 export const updateProfileResourceAssociation: (
   input: UpdateProfileResourceAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProfileResourceAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -828,7 +849,7 @@ export const updateProfileResourceAssociation: (
  */
 export const getProfileResourceAssociation: (
   input: GetProfileResourceAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetProfileResourceAssociationResponse,
   | AccessDeniedException
   | InvalidParameterException
@@ -854,7 +875,7 @@ export const getProfileResourceAssociation: (
 export const listProfileAssociations: {
   (
     input: ListProfileAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProfileAssociationsResponse,
     | AccessDeniedException
     | InvalidNextTokenException
@@ -866,7 +887,7 @@ export const listProfileAssociations: {
   >;
   pages: (
     input: ListProfileAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProfileAssociationsResponse,
     | AccessDeniedException
     | InvalidNextTokenException
@@ -878,7 +899,7 @@ export const listProfileAssociations: {
   >;
   items: (
     input: ListProfileAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProfileAssociation,
     | AccessDeniedException
     | InvalidNextTokenException
@@ -911,7 +932,7 @@ export const listProfileAssociations: {
 export const listProfileResourceAssociations: {
   (
     input: ListProfileResourceAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProfileResourceAssociationsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -925,7 +946,7 @@ export const listProfileResourceAssociations: {
   >;
   pages: (
     input: ListProfileResourceAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProfileResourceAssociationsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -939,7 +960,7 @@ export const listProfileResourceAssociations: {
   >;
   items: (
     input: ListProfileResourceAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProfileResourceAssociation,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -975,7 +996,7 @@ export const listProfileResourceAssociations: {
  */
 export const deleteProfile: (
   input: DeleteProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProfileResponse,
   | AccessDeniedException
   | ConflictException
@@ -1000,7 +1021,7 @@ export const deleteProfile: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1025,7 +1046,7 @@ export const listTagsForResource: (
  */
 export const getProfileAssociation: (
   input: GetProfileAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetProfileAssociationResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1048,7 +1069,7 @@ export const getProfileAssociation: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1071,7 +1092,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1097,7 +1118,7 @@ export const untagResource: (
 export const listProfiles: {
   (
     input: ListProfilesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProfilesResponse,
     | AccessDeniedException
     | InvalidNextTokenException
@@ -1109,7 +1130,7 @@ export const listProfiles: {
   >;
   pages: (
     input: ListProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProfilesResponse,
     | AccessDeniedException
     | InvalidNextTokenException
@@ -1121,7 +1142,7 @@ export const listProfiles: {
   >;
   items: (
     input: ListProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProfileSummary,
     | AccessDeniedException
     | InvalidNextTokenException
@@ -1153,7 +1174,7 @@ export const listProfiles: {
  */
 export const disassociateResourceFromProfile: (
   input: DisassociateResourceFromProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateResourceFromProfileResponse,
   | AccessDeniedException
   | ConflictException
@@ -1184,7 +1205,7 @@ export const disassociateResourceFromProfile: (
  */
 export const associateResourceToProfile: (
   input: AssociateResourceToProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateResourceToProfileResponse,
   | AccessDeniedException
   | ConflictException
@@ -1215,7 +1236,7 @@ export const associateResourceToProfile: (
  */
 export const createProfile: (
   input: CreateProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProfileResponse,
   | AccessDeniedException
   | InvalidParameterException
@@ -1240,7 +1261,7 @@ export const createProfile: (
  */
 export const disassociateProfile: (
   input: DisassociateProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateProfileResponse,
   | AccessDeniedException
   | InvalidParameterException
@@ -1268,7 +1289,7 @@ export const disassociateProfile: (
  */
 export const associateProfile: (
   input: AssociateProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateProfileResponse,
   | AccessDeniedException
   | ConflictException

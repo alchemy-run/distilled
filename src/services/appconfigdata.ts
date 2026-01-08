@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -93,7 +93,6 @@ const rules = T.EndpointResolver((p, _) => {
 export type Token = string;
 export type Identifier = string;
 export type OptionalPollSeconds = number;
-export type Integer = number;
 export type BadRequestReason = string;
 export type InvalidParameterProblem = string;
 export type ResourceType = string;
@@ -186,7 +185,9 @@ export const InvalidParameterMap = S.Record({
   key: S.String,
   value: InvalidParameterDetail,
 });
-export type BadRequestDetails = { InvalidParameters: InvalidParameterMap };
+export type BadRequestDetails = {
+  InvalidParameters: { [key: string]: InvalidParameterDetail };
+};
 export const BadRequestDetails = S.Union(
   S.Struct({ InvalidParameters: InvalidParameterMap }),
 );
@@ -239,7 +240,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
  */
 export const getLatestConfiguration: (
   input: GetLatestConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLatestConfigurationResponse,
   | BadRequestException
   | InternalServerException
@@ -265,7 +266,7 @@ export const getLatestConfiguration: (
  */
 export const startConfigurationSession: (
   input: StartConfigurationSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartConfigurationSessionResponse,
   | BadRequestException
   | InternalServerException

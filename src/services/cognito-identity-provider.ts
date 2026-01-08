@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -104,21 +104,21 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type UserPoolIdType = string;
-export type UsernameType = string | Redacted.Redacted<string>;
+export type UsernameType = string | redacted.Redacted<string>;
 export type GroupNameType = string;
-export type PasswordType = string | Redacted.Redacted<string>;
+export type PasswordType = string | redacted.Redacted<string>;
 export type AttributeNameType = string;
 export type StringType = string;
 export type DeviceKeyType = string;
-export type ClientIdType = string | Redacted.Redacted<string>;
-export type SessionType = string | Redacted.Redacted<string>;
+export type ClientIdType = string | redacted.Redacted<string>;
+export type SessionType = string | redacted.Redacted<string>;
 export type QueryLimitType = number;
 export type SearchPaginationTokenType = string;
 export type PaginationKey = string;
 export type EventIdType = string;
-export type TokenModelType = string | Redacted.Redacted<string>;
+export type TokenModelType = string | redacted.Redacted<string>;
 export type DeviceNameType = string;
-export type SecretHashType = string | Redacted.Redacted<string>;
+export type SecretHashType = string | redacted.Redacted<string>;
 export type ConfirmationCodeType = string;
 export type DescriptionType = string;
 export type ArnType = string;
@@ -147,7 +147,7 @@ export type WrappedIntegerType = number;
 export type ManagedLoginBrandingIdType = string;
 export type TermsIdType = string;
 export type UserImportJobIdType = string;
-export type ClientSecretType = string | Redacted.Redacted<string>;
+export type ClientSecretType = string | redacted.Redacted<string>;
 export type ListProvidersLimitType = number;
 export type PaginationKeyType = string;
 export type ListResourceServersLimitType = number;
@@ -158,9 +158,9 @@ export type UserFilterType = string;
 export type WebAuthnCredentialsQueryLimitType = number;
 export type CSSType = string;
 export type TagKeysType = string;
-export type SoftwareTokenMFAUserCodeType = string | Redacted.Redacted<string>;
+export type SoftwareTokenMFAUserCodeType = string | redacted.Redacted<string>;
 export type CustomAttributeNameType = string;
-export type AttributeValueType = string | Redacted.Redacted<string>;
+export type AttributeValueType = string | redacted.Redacted<string>;
 export type AttributeMappingKeyType = string;
 export type ResourceIdType = string;
 export type ResourceServerScopeNameType = string;
@@ -180,7 +180,7 @@ export type EmailMfaMessageType = string;
 export type EmailMfaSubjectType = string;
 export type RelyingPartyIdType = string;
 export type MessageType = string;
-export type SecretCodeType = string | Redacted.Redacted<string>;
+export type SecretCodeType = string | redacted.Redacted<string>;
 export type PasswordPolicyMinLengthType = number;
 export type PasswordHistorySizeType = number;
 export type TemporaryPasswordValidityDaysType = number;
@@ -204,18 +204,126 @@ export type EmailNotificationBodyType = string;
 export type InvalidParameterExceptionReasonCodeType = string;
 
 //# Schemas
-export type DeliveryMediumListType = string[];
-export const DeliveryMediumListType = S.Array(S.String);
+export type MessageActionType = "RESEND" | "SUPPRESS";
+export const MessageActionType = S.Literal("RESEND", "SUPPRESS");
+export type DeliveryMediumType = "SMS" | "EMAIL";
+export const DeliveryMediumType = S.Literal("SMS", "EMAIL");
+export type DeliveryMediumListType = DeliveryMediumType[];
+export const DeliveryMediumListType = S.Array(DeliveryMediumType);
 export type AttributeNameListType = string[];
 export const AttributeNameListType = S.Array(S.String);
+export type AuthFlowType =
+  | "USER_SRP_AUTH"
+  | "REFRESH_TOKEN_AUTH"
+  | "REFRESH_TOKEN"
+  | "CUSTOM_AUTH"
+  | "ADMIN_NO_SRP_AUTH"
+  | "USER_PASSWORD_AUTH"
+  | "ADMIN_USER_PASSWORD_AUTH"
+  | "USER_AUTH";
+export const AuthFlowType = S.Literal(
+  "USER_SRP_AUTH",
+  "REFRESH_TOKEN_AUTH",
+  "REFRESH_TOKEN",
+  "CUSTOM_AUTH",
+  "ADMIN_NO_SRP_AUTH",
+  "USER_PASSWORD_AUTH",
+  "ADMIN_USER_PASSWORD_AUTH",
+  "USER_AUTH",
+);
+export type ChallengeNameType =
+  | "SMS_MFA"
+  | "EMAIL_OTP"
+  | "SOFTWARE_TOKEN_MFA"
+  | "SELECT_MFA_TYPE"
+  | "MFA_SETUP"
+  | "PASSWORD_VERIFIER"
+  | "CUSTOM_CHALLENGE"
+  | "SELECT_CHALLENGE"
+  | "DEVICE_SRP_AUTH"
+  | "DEVICE_PASSWORD_VERIFIER"
+  | "ADMIN_NO_SRP_AUTH"
+  | "NEW_PASSWORD_REQUIRED"
+  | "SMS_OTP"
+  | "PASSWORD"
+  | "WEB_AUTHN"
+  | "PASSWORD_SRP";
+export const ChallengeNameType = S.Literal(
+  "SMS_MFA",
+  "EMAIL_OTP",
+  "SOFTWARE_TOKEN_MFA",
+  "SELECT_MFA_TYPE",
+  "MFA_SETUP",
+  "PASSWORD_VERIFIER",
+  "CUSTOM_CHALLENGE",
+  "SELECT_CHALLENGE",
+  "DEVICE_SRP_AUTH",
+  "DEVICE_PASSWORD_VERIFIER",
+  "ADMIN_NO_SRP_AUTH",
+  "NEW_PASSWORD_REQUIRED",
+  "SMS_OTP",
+  "PASSWORD",
+  "WEB_AUTHN",
+  "PASSWORD_SRP",
+);
+export type FeedbackValueType = "Valid" | "Invalid";
+export const FeedbackValueType = S.Literal("Valid", "Invalid");
+export type DeviceRememberedStatusType = "remembered" | "not_remembered";
+export const DeviceRememberedStatusType = S.Literal(
+  "remembered",
+  "not_remembered",
+);
+export type IdentityProviderTypeType =
+  | "SAML"
+  | "Facebook"
+  | "Google"
+  | "LoginWithAmazon"
+  | "SignInWithApple"
+  | "OIDC";
+export const IdentityProviderTypeType = S.Literal(
+  "SAML",
+  "Facebook",
+  "Google",
+  "LoginWithAmazon",
+  "SignInWithApple",
+  "OIDC",
+);
 export type IdpIdentifiersListType = string[];
 export const IdpIdentifiersListType = S.Array(S.String);
-export type VerifiedAttributesListType = string[];
-export const VerifiedAttributesListType = S.Array(S.String);
-export type AliasAttributesListType = string[];
-export const AliasAttributesListType = S.Array(S.String);
-export type UsernameAttributesListType = string[];
-export const UsernameAttributesListType = S.Array(S.String);
+export type TermsSourceType = "LINK";
+export const TermsSourceType = S.Literal("LINK");
+export type TermsEnforcementType = "NONE";
+export const TermsEnforcementType = S.Literal("NONE");
+export type DeletionProtectionType = "ACTIVE" | "INACTIVE";
+export const DeletionProtectionType = S.Literal("ACTIVE", "INACTIVE");
+export type VerifiedAttributeType = "phone_number" | "email";
+export const VerifiedAttributeType = S.Literal("phone_number", "email");
+export type VerifiedAttributesListType = VerifiedAttributeType[];
+export const VerifiedAttributesListType = S.Array(VerifiedAttributeType);
+export type AliasAttributeType =
+  | "phone_number"
+  | "email"
+  | "preferred_username";
+export const AliasAttributeType = S.Literal(
+  "phone_number",
+  "email",
+  "preferred_username",
+);
+export type AliasAttributesListType = AliasAttributeType[];
+export const AliasAttributesListType = S.Array(AliasAttributeType);
+export type UsernameAttributeType = "phone_number" | "email";
+export const UsernameAttributeType = S.Literal("phone_number", "email");
+export type UsernameAttributesListType = UsernameAttributeType[];
+export const UsernameAttributesListType = S.Array(UsernameAttributeType);
+export type UserPoolMfaType = "OFF" | "ON" | "OPTIONAL";
+export const UserPoolMfaType = S.Literal("OFF", "ON", "OPTIONAL");
+export type AttributeDataType = "String" | "Number" | "DateTime" | "Boolean";
+export const AttributeDataType = S.Literal(
+  "String",
+  "Number",
+  "DateTime",
+  "Boolean",
+);
 export interface NumberAttributeConstraintsType {
   MinValue?: string;
   MaxValue?: string;
@@ -239,7 +347,7 @@ export const StringAttributeConstraintsType = S.suspend(() =>
 }) as any as S.Schema<StringAttributeConstraintsType>;
 export interface SchemaAttributeType {
   Name?: string;
-  AttributeDataType?: string;
+  AttributeDataType?: AttributeDataType;
   DeveloperOnlyAttribute?: boolean;
   Mutable?: boolean;
   Required?: boolean;
@@ -249,7 +357,7 @@ export interface SchemaAttributeType {
 export const SchemaAttributeType = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    AttributeDataType: S.optional(S.String),
+    AttributeDataType: S.optional(AttributeDataType),
     DeveloperOnlyAttribute: S.optional(S.Boolean),
     Mutable: S.optional(S.Boolean),
     Required: S.optional(S.Boolean),
@@ -261,27 +369,58 @@ export const SchemaAttributeType = S.suspend(() =>
 }) as any as S.Schema<SchemaAttributeType>;
 export type SchemaAttributesListType = SchemaAttributeType[];
 export const SchemaAttributesListType = S.Array(SchemaAttributeType);
+export type UserPoolTierType = "LITE" | "ESSENTIALS" | "PLUS";
+export const UserPoolTierType = S.Literal("LITE", "ESSENTIALS", "PLUS");
 export type ClientPermissionListType = string[];
 export const ClientPermissionListType = S.Array(S.String);
-export type ExplicitAuthFlowsListType = string[];
-export const ExplicitAuthFlowsListType = S.Array(S.String);
+export type ExplicitAuthFlowsType =
+  | "ADMIN_NO_SRP_AUTH"
+  | "CUSTOM_AUTH_FLOW_ONLY"
+  | "USER_PASSWORD_AUTH"
+  | "ALLOW_ADMIN_USER_PASSWORD_AUTH"
+  | "ALLOW_CUSTOM_AUTH"
+  | "ALLOW_USER_PASSWORD_AUTH"
+  | "ALLOW_USER_SRP_AUTH"
+  | "ALLOW_REFRESH_TOKEN_AUTH"
+  | "ALLOW_USER_AUTH";
+export const ExplicitAuthFlowsType = S.Literal(
+  "ADMIN_NO_SRP_AUTH",
+  "CUSTOM_AUTH_FLOW_ONLY",
+  "USER_PASSWORD_AUTH",
+  "ALLOW_ADMIN_USER_PASSWORD_AUTH",
+  "ALLOW_CUSTOM_AUTH",
+  "ALLOW_USER_PASSWORD_AUTH",
+  "ALLOW_USER_SRP_AUTH",
+  "ALLOW_REFRESH_TOKEN_AUTH",
+  "ALLOW_USER_AUTH",
+);
+export type ExplicitAuthFlowsListType = ExplicitAuthFlowsType[];
+export const ExplicitAuthFlowsListType = S.Array(ExplicitAuthFlowsType);
 export type SupportedIdentityProvidersListType = string[];
 export const SupportedIdentityProvidersListType = S.Array(S.String);
 export type CallbackURLsListType = string[];
 export const CallbackURLsListType = S.Array(S.String);
 export type LogoutURLsListType = string[];
 export const LogoutURLsListType = S.Array(S.String);
-export type OAuthFlowsType = string[];
-export const OAuthFlowsType = S.Array(S.String);
+export type OAuthFlowType = "code" | "implicit" | "client_credentials";
+export const OAuthFlowType = S.Literal(
+  "code",
+  "implicit",
+  "client_credentials",
+);
+export type OAuthFlowsType = OAuthFlowType[];
+export const OAuthFlowsType = S.Array(OAuthFlowType);
 export type ScopeListType = string[];
 export const ScopeListType = S.Array(S.String);
+export type PreventUserExistenceErrorTypes = "LEGACY" | "ENABLED";
+export const PreventUserExistenceErrorTypes = S.Literal("LEGACY", "ENABLED");
 export type SearchedAttributeNamesListType = string[];
 export const SearchedAttributeNamesListType = S.Array(S.String);
 export type UserPoolTagsListType = string[];
 export const UserPoolTagsListType = S.Array(S.String);
 export interface AdminAddUserToGroupRequest {
   UserPoolId: string;
-  Username: string | Redacted.Redacted<string>;
+  Username: string | redacted.Redacted<string>;
   GroupName: string;
 }
 export const AdminAddUserToGroupRequest = S.suspend(() =>
@@ -311,7 +450,7 @@ export const AdminAddUserToGroupResponse = S.suspend(() =>
 }) as any as S.Schema<AdminAddUserToGroupResponse>;
 export interface AdminDeleteUserRequest {
   UserPoolId: string;
-  Username: string | Redacted.Redacted<string>;
+  Username: string | redacted.Redacted<string>;
 }
 export const AdminDeleteUserRequest = S.suspend(() =>
   S.Struct({ UserPoolId: S.String, Username: SensitiveString }).pipe(
@@ -336,8 +475,8 @@ export const AdminDeleteUserResponse = S.suspend(() =>
 }) as any as S.Schema<AdminDeleteUserResponse>;
 export interface AdminDeleteUserAttributesRequest {
   UserPoolId: string;
-  Username: string | Redacted.Redacted<string>;
-  UserAttributeNames: AttributeNameListType;
+  Username: string | redacted.Redacted<string>;
+  UserAttributeNames: string[];
 }
 export const AdminDeleteUserAttributesRequest = S.suspend(() =>
   S.Struct({
@@ -366,7 +505,7 @@ export const AdminDeleteUserAttributesResponse = S.suspend(() =>
 }) as any as S.Schema<AdminDeleteUserAttributesResponse>;
 export interface AdminDisableUserRequest {
   UserPoolId: string;
-  Username: string | Redacted.Redacted<string>;
+  Username: string | redacted.Redacted<string>;
 }
 export const AdminDisableUserRequest = S.suspend(() =>
   S.Struct({ UserPoolId: S.String, Username: SensitiveString }).pipe(
@@ -391,7 +530,7 @@ export const AdminDisableUserResponse = S.suspend(() =>
 }) as any as S.Schema<AdminDisableUserResponse>;
 export interface AdminEnableUserRequest {
   UserPoolId: string;
-  Username: string | Redacted.Redacted<string>;
+  Username: string | redacted.Redacted<string>;
 }
 export const AdminEnableUserRequest = S.suspend(() =>
   S.Struct({ UserPoolId: S.String, Username: SensitiveString }).pipe(
@@ -416,7 +555,7 @@ export const AdminEnableUserResponse = S.suspend(() =>
 }) as any as S.Schema<AdminEnableUserResponse>;
 export interface AdminForgetDeviceRequest {
   UserPoolId: string;
-  Username: string | Redacted.Redacted<string>;
+  Username: string | redacted.Redacted<string>;
   DeviceKey: string;
 }
 export const AdminForgetDeviceRequest = S.suspend(() =>
@@ -447,7 +586,7 @@ export const AdminForgetDeviceResponse = S.suspend(() =>
 export interface AdminGetDeviceRequest {
   DeviceKey: string;
   UserPoolId: string;
-  Username: string | Redacted.Redacted<string>;
+  Username: string | redacted.Redacted<string>;
 }
 export const AdminGetDeviceRequest = S.suspend(() =>
   S.Struct({
@@ -470,7 +609,7 @@ export const AdminGetDeviceRequest = S.suspend(() =>
 }) as any as S.Schema<AdminGetDeviceRequest>;
 export interface AdminGetUserRequest {
   UserPoolId: string;
-  Username: string | Redacted.Redacted<string>;
+  Username: string | redacted.Redacted<string>;
 }
 export const AdminGetUserRequest = S.suspend(() =>
   S.Struct({ UserPoolId: S.String, Username: SensitiveString }).pipe(
@@ -533,7 +672,7 @@ export const AdminLinkProviderForUserResponse = S.suspend(() =>
 }) as any as S.Schema<AdminLinkProviderForUserResponse>;
 export interface AdminListDevicesRequest {
   UserPoolId: string;
-  Username: string | Redacted.Redacted<string>;
+  Username: string | redacted.Redacted<string>;
   Limit?: number;
   PaginationToken?: string;
 }
@@ -558,7 +697,7 @@ export const AdminListDevicesRequest = S.suspend(() =>
   identifier: "AdminListDevicesRequest",
 }) as any as S.Schema<AdminListDevicesRequest>;
 export interface AdminListGroupsForUserRequest {
-  Username: string | Redacted.Redacted<string>;
+  Username: string | redacted.Redacted<string>;
   UserPoolId: string;
   Limit?: number;
   NextToken?: string;
@@ -585,7 +724,7 @@ export const AdminListGroupsForUserRequest = S.suspend(() =>
 }) as any as S.Schema<AdminListGroupsForUserRequest>;
 export interface AdminListUserAuthEventsRequest {
   UserPoolId: string;
-  Username: string | Redacted.Redacted<string>;
+  Username: string | redacted.Redacted<string>;
   MaxResults?: number;
   NextToken?: string;
 }
@@ -611,7 +750,7 @@ export const AdminListUserAuthEventsRequest = S.suspend(() =>
 }) as any as S.Schema<AdminListUserAuthEventsRequest>;
 export interface AdminRemoveUserFromGroupRequest {
   UserPoolId: string;
-  Username: string | Redacted.Redacted<string>;
+  Username: string | redacted.Redacted<string>;
   GroupName: string;
 }
 export const AdminRemoveUserFromGroupRequest = S.suspend(() =>
@@ -643,8 +782,8 @@ export type ClientMetadataType = { [key: string]: string };
 export const ClientMetadataType = S.Record({ key: S.String, value: S.String });
 export interface AdminResetUserPasswordRequest {
   UserPoolId: string;
-  Username: string | Redacted.Redacted<string>;
-  ClientMetadata?: ClientMetadataType;
+  Username: string | redacted.Redacted<string>;
+  ClientMetadata?: { [key: string]: string };
 }
 export const AdminResetUserPasswordRequest = S.suspend(() =>
   S.Struct({
@@ -673,8 +812,8 @@ export const AdminResetUserPasswordResponse = S.suspend(() =>
 }) as any as S.Schema<AdminResetUserPasswordResponse>;
 export interface AdminSetUserPasswordRequest {
   UserPoolId: string;
-  Username: string | Redacted.Redacted<string>;
-  Password: string | Redacted.Redacted<string>;
+  Username: string | redacted.Redacted<string>;
+  Password: string | redacted.Redacted<string>;
   Permanent?: boolean;
 }
 export const AdminSetUserPasswordRequest = S.suspend(() =>
@@ -705,16 +844,16 @@ export const AdminSetUserPasswordResponse = S.suspend(() =>
 }) as any as S.Schema<AdminSetUserPasswordResponse>;
 export interface AdminUpdateAuthEventFeedbackRequest {
   UserPoolId: string;
-  Username: string | Redacted.Redacted<string>;
+  Username: string | redacted.Redacted<string>;
   EventId: string;
-  FeedbackValue: string;
+  FeedbackValue: FeedbackValueType;
 }
 export const AdminUpdateAuthEventFeedbackRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
     Username: SensitiveString,
     EventId: S.String,
-    FeedbackValue: S.String,
+    FeedbackValue: FeedbackValueType,
   }).pipe(
     T.all(
       ns,
@@ -737,16 +876,16 @@ export const AdminUpdateAuthEventFeedbackResponse = S.suspend(() =>
 }) as any as S.Schema<AdminUpdateAuthEventFeedbackResponse>;
 export interface AdminUpdateDeviceStatusRequest {
   UserPoolId: string;
-  Username: string | Redacted.Redacted<string>;
+  Username: string | redacted.Redacted<string>;
   DeviceKey: string;
-  DeviceRememberedStatus?: string;
+  DeviceRememberedStatus?: DeviceRememberedStatusType;
 }
 export const AdminUpdateDeviceStatusRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
     Username: SensitiveString,
     DeviceKey: S.String,
-    DeviceRememberedStatus: S.optional(S.String),
+    DeviceRememberedStatus: S.optional(DeviceRememberedStatusType),
   }).pipe(
     T.all(
       ns,
@@ -769,7 +908,7 @@ export const AdminUpdateDeviceStatusResponse = S.suspend(() =>
 }) as any as S.Schema<AdminUpdateDeviceStatusResponse>;
 export interface AttributeType {
   Name: string;
-  Value?: string | Redacted.Redacted<string>;
+  Value?: string | redacted.Redacted<string>;
 }
 export const AttributeType = S.suspend(() =>
   S.Struct({ Name: S.String, Value: S.optional(SensitiveString) }),
@@ -780,9 +919,9 @@ export type AttributeListType = AttributeType[];
 export const AttributeListType = S.Array(AttributeType);
 export interface AdminUpdateUserAttributesRequest {
   UserPoolId: string;
-  Username: string | Redacted.Redacted<string>;
-  UserAttributes: AttributeListType;
-  ClientMetadata?: ClientMetadataType;
+  Username: string | redacted.Redacted<string>;
+  UserAttributes: AttributeType[];
+  ClientMetadata?: { [key: string]: string };
 }
 export const AdminUpdateUserAttributesRequest = S.suspend(() =>
   S.Struct({
@@ -812,7 +951,7 @@ export const AdminUpdateUserAttributesResponse = S.suspend(() =>
 }) as any as S.Schema<AdminUpdateUserAttributesResponse>;
 export interface AdminUserGlobalSignOutRequest {
   UserPoolId: string;
-  Username: string | Redacted.Redacted<string>;
+  Username: string | redacted.Redacted<string>;
 }
 export const AdminUserGlobalSignOutRequest = S.suspend(() =>
   S.Struct({ UserPoolId: S.String, Username: SensitiveString }).pipe(
@@ -836,8 +975,8 @@ export const AdminUserGlobalSignOutResponse = S.suspend(() =>
   identifier: "AdminUserGlobalSignOutResponse",
 }) as any as S.Schema<AdminUserGlobalSignOutResponse>;
 export interface AssociateSoftwareTokenRequest {
-  AccessToken?: string | Redacted.Redacted<string>;
-  Session?: string | Redacted.Redacted<string>;
+  AccessToken?: string | redacted.Redacted<string>;
+  Session?: string | redacted.Redacted<string>;
 }
 export const AssociateSoftwareTokenRequest = S.suspend(() =>
   S.Struct({
@@ -858,9 +997,9 @@ export const AssociateSoftwareTokenRequest = S.suspend(() =>
   identifier: "AssociateSoftwareTokenRequest",
 }) as any as S.Schema<AssociateSoftwareTokenRequest>;
 export interface ChangePasswordRequest {
-  PreviousPassword?: string | Redacted.Redacted<string>;
-  ProposedPassword: string | Redacted.Redacted<string>;
-  AccessToken: string | Redacted.Redacted<string>;
+  PreviousPassword?: string | redacted.Redacted<string>;
+  ProposedPassword: string | redacted.Redacted<string>;
+  AccessToken: string | redacted.Redacted<string>;
 }
 export const ChangePasswordRequest = S.suspend(() =>
   S.Struct({
@@ -888,7 +1027,7 @@ export const ChangePasswordResponse = S.suspend(() =>
   identifier: "ChangePasswordResponse",
 }) as any as S.Schema<ChangePasswordResponse>;
 export interface CompleteWebAuthnRegistrationRequest {
-  AccessToken: string | Redacted.Redacted<string>;
+  AccessToken: string | redacted.Redacted<string>;
   Credential: any;
 }
 export const CompleteWebAuthnRegistrationRequest = S.suspend(() =>
@@ -933,15 +1072,15 @@ export const UserContextDataType = S.suspend(() =>
   identifier: "UserContextDataType",
 }) as any as S.Schema<UserContextDataType>;
 export interface ConfirmSignUpRequest {
-  ClientId: string | Redacted.Redacted<string>;
-  SecretHash?: string | Redacted.Redacted<string>;
-  Username: string | Redacted.Redacted<string>;
+  ClientId: string | redacted.Redacted<string>;
+  SecretHash?: string | redacted.Redacted<string>;
+  Username: string | redacted.Redacted<string>;
   ConfirmationCode: string;
   ForceAliasCreation?: boolean;
   AnalyticsMetadata?: AnalyticsMetadataType;
   UserContextData?: UserContextDataType;
-  ClientMetadata?: ClientMetadataType;
-  Session?: string | Redacted.Redacted<string>;
+  ClientMetadata?: { [key: string]: string };
+  Session?: string | redacted.Redacted<string>;
 }
 export const ConfirmSignUpRequest = S.suspend(() =>
   S.Struct({
@@ -1146,7 +1285,7 @@ export const DeleteTermsResponse = S.suspend(() =>
   identifier: "DeleteTermsResponse",
 }) as any as S.Schema<DeleteTermsResponse>;
 export interface DeleteUserRequest {
-  AccessToken: string | Redacted.Redacted<string>;
+  AccessToken: string | redacted.Redacted<string>;
 }
 export const DeleteUserRequest = S.suspend(() =>
   S.Struct({ AccessToken: SensitiveString }).pipe(
@@ -1170,8 +1309,8 @@ export const DeleteUserResponse = S.suspend(() =>
   identifier: "DeleteUserResponse",
 }) as any as S.Schema<DeleteUserResponse>;
 export interface DeleteUserAttributesRequest {
-  UserAttributeNames: AttributeNameListType;
-  AccessToken: string | Redacted.Redacted<string>;
+  UserAttributeNames: string[];
+  AccessToken: string | redacted.Redacted<string>;
 }
 export const DeleteUserAttributesRequest = S.suspend(() =>
   S.Struct({
@@ -1223,7 +1362,7 @@ export const DeleteUserPoolResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteUserPoolResponse>;
 export interface DeleteUserPoolClientRequest {
   UserPoolId: string;
-  ClientId: string | Redacted.Redacted<string>;
+  ClientId: string | redacted.Redacted<string>;
 }
 export const DeleteUserPoolClientRequest = S.suspend(() =>
   S.Struct({ UserPoolId: S.String, ClientId: SensitiveString }).pipe(
@@ -1272,7 +1411,7 @@ export const DeleteUserPoolDomainResponse = S.suspend(() =>
   identifier: "DeleteUserPoolDomainResponse",
 }) as any as S.Schema<DeleteUserPoolDomainResponse>;
 export interface DeleteWebAuthnCredentialRequest {
-  AccessToken: string | Redacted.Redacted<string>;
+  AccessToken: string | redacted.Redacted<string>;
   CredentialId: string;
 }
 export const DeleteWebAuthnCredentialRequest = S.suspend(() =>
@@ -1341,7 +1480,7 @@ export const DescribeManagedLoginBrandingRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeManagedLoginBrandingRequest>;
 export interface DescribeManagedLoginBrandingByClientRequest {
   UserPoolId: string;
-  ClientId: string | Redacted.Redacted<string>;
+  ClientId: string | redacted.Redacted<string>;
   ReturnMergedResources?: boolean;
 }
 export const DescribeManagedLoginBrandingByClientRequest = S.suspend(() =>
@@ -1384,7 +1523,7 @@ export const DescribeResourceServerRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeResourceServerRequest>;
 export interface DescribeRiskConfigurationRequest {
   UserPoolId: string;
-  ClientId?: string | Redacted.Redacted<string>;
+  ClientId?: string | redacted.Redacted<string>;
 }
 export const DescribeRiskConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -1462,7 +1601,7 @@ export const DescribeUserPoolRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeUserPoolRequest>;
 export interface DescribeUserPoolClientRequest {
   UserPoolId: string;
-  ClientId: string | Redacted.Redacted<string>;
+  ClientId: string | redacted.Redacted<string>;
 }
 export const DescribeUserPoolClientRequest = S.suspend(() =>
   S.Struct({ UserPoolId: S.String, ClientId: SensitiveString }).pipe(
@@ -1498,7 +1637,7 @@ export const DescribeUserPoolDomainRequest = S.suspend(() =>
   identifier: "DescribeUserPoolDomainRequest",
 }) as any as S.Schema<DescribeUserPoolDomainRequest>;
 export interface ForgetDeviceRequest {
-  AccessToken?: string | Redacted.Redacted<string>;
+  AccessToken?: string | redacted.Redacted<string>;
   DeviceKey: string;
 }
 export const ForgetDeviceRequest = S.suspend(() =>
@@ -1526,12 +1665,12 @@ export const ForgetDeviceResponse = S.suspend(() =>
   identifier: "ForgetDeviceResponse",
 }) as any as S.Schema<ForgetDeviceResponse>;
 export interface ForgotPasswordRequest {
-  ClientId: string | Redacted.Redacted<string>;
-  SecretHash?: string | Redacted.Redacted<string>;
+  ClientId: string | redacted.Redacted<string>;
+  SecretHash?: string | redacted.Redacted<string>;
   UserContextData?: UserContextDataType;
-  Username: string | Redacted.Redacted<string>;
+  Username: string | redacted.Redacted<string>;
   AnalyticsMetadata?: AnalyticsMetadataType;
-  ClientMetadata?: ClientMetadataType;
+  ClientMetadata?: { [key: string]: string };
 }
 export const ForgotPasswordRequest = S.suspend(() =>
   S.Struct({
@@ -1575,7 +1714,7 @@ export const GetCSVHeaderRequest = S.suspend(() =>
 }) as any as S.Schema<GetCSVHeaderRequest>;
 export interface GetDeviceRequest {
   DeviceKey: string;
-  AccessToken?: string | Redacted.Redacted<string>;
+  AccessToken?: string | redacted.Redacted<string>;
 }
 export const GetDeviceRequest = S.suspend(() =>
   S.Struct({
@@ -1670,11 +1809,11 @@ export const GetSigningCertificateRequest = S.suspend(() =>
   identifier: "GetSigningCertificateRequest",
 }) as any as S.Schema<GetSigningCertificateRequest>;
 export interface GetTokensFromRefreshTokenRequest {
-  RefreshToken: string | Redacted.Redacted<string>;
-  ClientId: string | Redacted.Redacted<string>;
-  ClientSecret?: string | Redacted.Redacted<string>;
+  RefreshToken: string | redacted.Redacted<string>;
+  ClientId: string | redacted.Redacted<string>;
+  ClientSecret?: string | redacted.Redacted<string>;
   DeviceKey?: string;
-  ClientMetadata?: ClientMetadataType;
+  ClientMetadata?: { [key: string]: string };
 }
 export const GetTokensFromRefreshTokenRequest = S.suspend(() =>
   S.Struct({
@@ -1699,7 +1838,7 @@ export const GetTokensFromRefreshTokenRequest = S.suspend(() =>
 }) as any as S.Schema<GetTokensFromRefreshTokenRequest>;
 export interface GetUICustomizationRequest {
   UserPoolId: string;
-  ClientId?: string | Redacted.Redacted<string>;
+  ClientId?: string | redacted.Redacted<string>;
 }
 export const GetUICustomizationRequest = S.suspend(() =>
   S.Struct({
@@ -1720,7 +1859,7 @@ export const GetUICustomizationRequest = S.suspend(() =>
   identifier: "GetUICustomizationRequest",
 }) as any as S.Schema<GetUICustomizationRequest>;
 export interface GetUserRequest {
-  AccessToken: string | Redacted.Redacted<string>;
+  AccessToken: string | redacted.Redacted<string>;
 }
 export const GetUserRequest = S.suspend(() =>
   S.Struct({ AccessToken: SensitiveString }).pipe(
@@ -1738,9 +1877,9 @@ export const GetUserRequest = S.suspend(() =>
   identifier: "GetUserRequest",
 }) as any as S.Schema<GetUserRequest>;
 export interface GetUserAttributeVerificationCodeRequest {
-  AccessToken: string | Redacted.Redacted<string>;
+  AccessToken: string | redacted.Redacted<string>;
   AttributeName: string;
-  ClientMetadata?: ClientMetadataType;
+  ClientMetadata?: { [key: string]: string };
 }
 export const GetUserAttributeVerificationCodeRequest = S.suspend(() =>
   S.Struct({
@@ -1762,7 +1901,7 @@ export const GetUserAttributeVerificationCodeRequest = S.suspend(() =>
   identifier: "GetUserAttributeVerificationCodeRequest",
 }) as any as S.Schema<GetUserAttributeVerificationCodeRequest>;
 export interface GetUserAuthFactorsRequest {
-  AccessToken: string | Redacted.Redacted<string>;
+  AccessToken: string | redacted.Redacted<string>;
 }
 export const GetUserAuthFactorsRequest = S.suspend(() =>
   S.Struct({ AccessToken: SensitiveString }).pipe(
@@ -1798,7 +1937,7 @@ export const GetUserPoolMfaConfigRequest = S.suspend(() =>
   identifier: "GetUserPoolMfaConfigRequest",
 }) as any as S.Schema<GetUserPoolMfaConfigRequest>;
 export interface GlobalSignOutRequest {
-  AccessToken: string | Redacted.Redacted<string>;
+  AccessToken: string | redacted.Redacted<string>;
 }
 export const GlobalSignOutRequest = S.suspend(() =>
   S.Struct({ AccessToken: SensitiveString }).pipe(
@@ -1824,17 +1963,17 @@ export const GlobalSignOutResponse = S.suspend(() =>
 export type AuthParametersType = { [key: string]: string };
 export const AuthParametersType = S.Record({ key: S.String, value: S.String });
 export interface InitiateAuthRequest {
-  AuthFlow: string;
-  AuthParameters?: AuthParametersType;
-  ClientMetadata?: ClientMetadataType;
-  ClientId: string | Redacted.Redacted<string>;
+  AuthFlow: AuthFlowType;
+  AuthParameters?: { [key: string]: string };
+  ClientMetadata?: { [key: string]: string };
+  ClientId: string | redacted.Redacted<string>;
   AnalyticsMetadata?: AnalyticsMetadataType;
   UserContextData?: UserContextDataType;
-  Session?: string | Redacted.Redacted<string>;
+  Session?: string | redacted.Redacted<string>;
 }
 export const InitiateAuthRequest = S.suspend(() =>
   S.Struct({
-    AuthFlow: S.String,
+    AuthFlow: AuthFlowType,
     AuthParameters: S.optional(AuthParametersType),
     ClientMetadata: S.optional(ClientMetadataType),
     ClientId: SensitiveString,
@@ -1856,7 +1995,7 @@ export const InitiateAuthRequest = S.suspend(() =>
   identifier: "InitiateAuthRequest",
 }) as any as S.Schema<InitiateAuthRequest>;
 export interface ListDevicesRequest {
-  AccessToken: string | Redacted.Redacted<string>;
+  AccessToken: string | redacted.Redacted<string>;
   Limit?: number;
   PaginationToken?: string;
 }
@@ -2062,7 +2201,7 @@ export const ListUserPoolsRequest = S.suspend(() =>
 }) as any as S.Schema<ListUserPoolsRequest>;
 export interface ListUsersRequest {
   UserPoolId: string;
-  AttributesToGet?: SearchedAttributeNamesListType;
+  AttributesToGet?: string[];
   Limit?: number;
   PaginationToken?: string;
   Filter?: string;
@@ -2115,7 +2254,7 @@ export const ListUsersInGroupRequest = S.suspend(() =>
   identifier: "ListUsersInGroupRequest",
 }) as any as S.Schema<ListUsersInGroupRequest>;
 export interface ListWebAuthnCredentialsRequest {
-  AccessToken: string | Redacted.Redacted<string>;
+  AccessToken: string | redacted.Redacted<string>;
   NextToken?: string;
   MaxResults?: number;
 }
@@ -2139,12 +2278,12 @@ export const ListWebAuthnCredentialsRequest = S.suspend(() =>
   identifier: "ListWebAuthnCredentialsRequest",
 }) as any as S.Schema<ListWebAuthnCredentialsRequest>;
 export interface ResendConfirmationCodeRequest {
-  ClientId: string | Redacted.Redacted<string>;
-  SecretHash?: string | Redacted.Redacted<string>;
+  ClientId: string | redacted.Redacted<string>;
+  SecretHash?: string | redacted.Redacted<string>;
   UserContextData?: UserContextDataType;
-  Username: string | Redacted.Redacted<string>;
+  Username: string | redacted.Redacted<string>;
   AnalyticsMetadata?: AnalyticsMetadataType;
-  ClientMetadata?: ClientMetadataType;
+  ClientMetadata?: { [key: string]: string };
 }
 export const ResendConfirmationCodeRequest = S.suspend(() =>
   S.Struct({
@@ -2174,18 +2313,18 @@ export const ChallengeResponsesType = S.Record({
   value: S.String,
 });
 export interface RespondToAuthChallengeRequest {
-  ClientId: string | Redacted.Redacted<string>;
-  ChallengeName: string;
-  Session?: string | Redacted.Redacted<string>;
-  ChallengeResponses?: ChallengeResponsesType;
+  ClientId: string | redacted.Redacted<string>;
+  ChallengeName: ChallengeNameType;
+  Session?: string | redacted.Redacted<string>;
+  ChallengeResponses?: { [key: string]: string };
   AnalyticsMetadata?: AnalyticsMetadataType;
   UserContextData?: UserContextDataType;
-  ClientMetadata?: ClientMetadataType;
+  ClientMetadata?: { [key: string]: string };
 }
 export const RespondToAuthChallengeRequest = S.suspend(() =>
   S.Struct({
     ClientId: SensitiveString,
-    ChallengeName: S.String,
+    ChallengeName: ChallengeNameType,
     Session: S.optional(SensitiveString),
     ChallengeResponses: S.optional(ChallengeResponsesType),
     AnalyticsMetadata: S.optional(AnalyticsMetadataType),
@@ -2206,9 +2345,9 @@ export const RespondToAuthChallengeRequest = S.suspend(() =>
   identifier: "RespondToAuthChallengeRequest",
 }) as any as S.Schema<RespondToAuthChallengeRequest>;
 export interface RevokeTokenRequest {
-  Token: string | Redacted.Redacted<string>;
-  ClientId: string | Redacted.Redacted<string>;
-  ClientSecret?: string | Redacted.Redacted<string>;
+  Token: string | redacted.Redacted<string>;
+  ClientId: string | redacted.Redacted<string>;
+  ClientSecret?: string | redacted.Redacted<string>;
 }
 export const RevokeTokenRequest = S.suspend(() =>
   S.Struct({
@@ -2237,7 +2376,7 @@ export const RevokeTokenResponse = S.suspend(() =>
 }) as any as S.Schema<RevokeTokenResponse>;
 export interface SetUICustomizationRequest {
   UserPoolId: string;
-  ClientId?: string | Redacted.Redacted<string>;
+  ClientId?: string | redacted.Redacted<string>;
   CSS?: string;
   ImageFile?: Uint8Array;
 }
@@ -2301,7 +2440,7 @@ export interface SetUserMFAPreferenceRequest {
   SMSMfaSettings?: SMSMfaSettingsType;
   SoftwareTokenMfaSettings?: SoftwareTokenMfaSettingsType;
   EmailMfaSettings?: EmailMfaSettingsType;
-  AccessToken: string | Redacted.Redacted<string>;
+  AccessToken: string | redacted.Redacted<string>;
 }
 export const SetUserMFAPreferenceRequest = S.suspend(() =>
   S.Struct({
@@ -2330,12 +2469,12 @@ export const SetUserMFAPreferenceResponse = S.suspend(() =>
   identifier: "SetUserMFAPreferenceResponse",
 }) as any as S.Schema<SetUserMFAPreferenceResponse>;
 export interface MFAOptionType {
-  DeliveryMedium?: string;
+  DeliveryMedium?: DeliveryMediumType;
   AttributeName?: string;
 }
 export const MFAOptionType = S.suspend(() =>
   S.Struct({
-    DeliveryMedium: S.optional(S.String),
+    DeliveryMedium: S.optional(DeliveryMediumType),
     AttributeName: S.optional(S.String),
   }),
 ).annotations({
@@ -2344,8 +2483,8 @@ export const MFAOptionType = S.suspend(() =>
 export type MFAOptionListType = MFAOptionType[];
 export const MFAOptionListType = S.Array(MFAOptionType);
 export interface SetUserSettingsRequest {
-  AccessToken: string | Redacted.Redacted<string>;
-  MFAOptions: MFAOptionListType;
+  AccessToken: string | redacted.Redacted<string>;
+  MFAOptions: MFAOptionType[];
 }
 export const SetUserSettingsRequest = S.suspend(() =>
   S.Struct({
@@ -2372,15 +2511,15 @@ export const SetUserSettingsResponse = S.suspend(() =>
   identifier: "SetUserSettingsResponse",
 }) as any as S.Schema<SetUserSettingsResponse>;
 export interface SignUpRequest {
-  ClientId: string | Redacted.Redacted<string>;
-  SecretHash?: string | Redacted.Redacted<string>;
-  Username: string | Redacted.Redacted<string>;
-  Password?: string | Redacted.Redacted<string>;
-  UserAttributes?: AttributeListType;
-  ValidationData?: AttributeListType;
+  ClientId: string | redacted.Redacted<string>;
+  SecretHash?: string | redacted.Redacted<string>;
+  Username: string | redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
+  UserAttributes?: AttributeType[];
+  ValidationData?: AttributeType[];
   AnalyticsMetadata?: AnalyticsMetadataType;
   UserContextData?: UserContextDataType;
-  ClientMetadata?: ClientMetadataType;
+  ClientMetadata?: { [key: string]: string };
 }
 export const SignUpRequest = S.suspend(() =>
   S.Struct({
@@ -2427,7 +2566,7 @@ export const StartUserImportJobRequest = S.suspend(() =>
   identifier: "StartUserImportJobRequest",
 }) as any as S.Schema<StartUserImportJobRequest>;
 export interface StartWebAuthnRegistrationRequest {
-  AccessToken: string | Redacted.Redacted<string>;
+  AccessToken: string | redacted.Redacted<string>;
 }
 export const StartWebAuthnRegistrationRequest = S.suspend(() =>
   S.Struct({ AccessToken: SensitiveString }).pipe(
@@ -2467,7 +2606,7 @@ export type UserPoolTagsType = { [key: string]: string };
 export const UserPoolTagsType = S.Record({ key: S.String, value: S.String });
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: UserPoolTagsType;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: UserPoolTagsType }).pipe(
@@ -2492,7 +2631,7 @@ export const TagResourceResponse = S.suspend(() =>
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: UserPoolTagsListType;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: UserPoolTagsListType }).pipe(
@@ -2517,10 +2656,10 @@ export const UntagResourceResponse = S.suspend(() =>
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAuthEventFeedbackRequest {
   UserPoolId: string;
-  Username: string | Redacted.Redacted<string>;
+  Username: string | redacted.Redacted<string>;
   EventId: string;
-  FeedbackToken: string | Redacted.Redacted<string>;
-  FeedbackValue: string;
+  FeedbackToken: string | redacted.Redacted<string>;
+  FeedbackValue: FeedbackValueType;
 }
 export const UpdateAuthEventFeedbackRequest = S.suspend(() =>
   S.Struct({
@@ -2528,7 +2667,7 @@ export const UpdateAuthEventFeedbackRequest = S.suspend(() =>
     Username: SensitiveString,
     EventId: S.String,
     FeedbackToken: SensitiveString,
-    FeedbackValue: S.String,
+    FeedbackValue: FeedbackValueType,
   }).pipe(
     T.all(
       ns,
@@ -2550,15 +2689,15 @@ export const UpdateAuthEventFeedbackResponse = S.suspend(() =>
   identifier: "UpdateAuthEventFeedbackResponse",
 }) as any as S.Schema<UpdateAuthEventFeedbackResponse>;
 export interface UpdateDeviceStatusRequest {
-  AccessToken: string | Redacted.Redacted<string>;
+  AccessToken: string | redacted.Redacted<string>;
   DeviceKey: string;
-  DeviceRememberedStatus?: string;
+  DeviceRememberedStatus?: DeviceRememberedStatusType;
 }
 export const UpdateDeviceStatusRequest = S.suspend(() =>
   S.Struct({
     AccessToken: SensitiveString,
     DeviceKey: S.String,
-    DeviceRememberedStatus: S.optional(S.String),
+    DeviceRememberedStatus: S.optional(DeviceRememberedStatusType),
   }).pipe(
     T.all(
       ns,
@@ -2617,9 +2756,9 @@ export const AttributeMappingType = S.Record({
 export interface UpdateIdentityProviderRequest {
   UserPoolId: string;
   ProviderName: string;
-  ProviderDetails?: ProviderDetailsType;
-  AttributeMapping?: AttributeMappingType;
-  IdpIdentifiers?: IdpIdentifiersListType;
+  ProviderDetails?: { [key: string]: string };
+  AttributeMapping?: { [key: string]: string };
+  IdpIdentifiers?: string[];
 }
 export const UpdateIdentityProviderRequest = S.suspend(() =>
   S.Struct({
@@ -2642,18 +2781,61 @@ export const UpdateIdentityProviderRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateIdentityProviderRequest",
 }) as any as S.Schema<UpdateIdentityProviderRequest>;
+export type AssetCategoryType =
+  | "FAVICON_ICO"
+  | "FAVICON_SVG"
+  | "EMAIL_GRAPHIC"
+  | "SMS_GRAPHIC"
+  | "AUTH_APP_GRAPHIC"
+  | "PASSWORD_GRAPHIC"
+  | "PASSKEY_GRAPHIC"
+  | "PAGE_HEADER_LOGO"
+  | "PAGE_HEADER_BACKGROUND"
+  | "PAGE_FOOTER_LOGO"
+  | "PAGE_FOOTER_BACKGROUND"
+  | "PAGE_BACKGROUND"
+  | "FORM_BACKGROUND"
+  | "FORM_LOGO"
+  | "IDP_BUTTON_ICON";
+export const AssetCategoryType = S.Literal(
+  "FAVICON_ICO",
+  "FAVICON_SVG",
+  "EMAIL_GRAPHIC",
+  "SMS_GRAPHIC",
+  "AUTH_APP_GRAPHIC",
+  "PASSWORD_GRAPHIC",
+  "PASSKEY_GRAPHIC",
+  "PAGE_HEADER_LOGO",
+  "PAGE_HEADER_BACKGROUND",
+  "PAGE_FOOTER_LOGO",
+  "PAGE_FOOTER_BACKGROUND",
+  "PAGE_BACKGROUND",
+  "FORM_BACKGROUND",
+  "FORM_LOGO",
+  "IDP_BUTTON_ICON",
+);
+export type ColorSchemeModeType = "LIGHT" | "DARK" | "DYNAMIC";
+export const ColorSchemeModeType = S.Literal("LIGHT", "DARK", "DYNAMIC");
+export type AssetExtensionType = "ICO" | "JPEG" | "PNG" | "SVG" | "WEBP";
+export const AssetExtensionType = S.Literal(
+  "ICO",
+  "JPEG",
+  "PNG",
+  "SVG",
+  "WEBP",
+);
 export interface AssetType {
-  Category: string;
-  ColorMode: string;
-  Extension: string;
+  Category: AssetCategoryType;
+  ColorMode: ColorSchemeModeType;
+  Extension: AssetExtensionType;
   Bytes?: Uint8Array;
   ResourceId?: string;
 }
 export const AssetType = S.suspend(() =>
   S.Struct({
-    Category: S.String,
-    ColorMode: S.String,
-    Extension: S.String,
+    Category: AssetCategoryType,
+    ColorMode: ColorSchemeModeType,
+    Extension: AssetExtensionType,
     Bytes: S.optional(T.Blob),
     ResourceId: S.optional(S.String),
   }),
@@ -2665,7 +2847,7 @@ export interface UpdateManagedLoginBrandingRequest {
   ManagedLoginBrandingId?: string;
   UseCognitoProvidedValues?: boolean;
   Settings?: any;
-  Assets?: AssetListType;
+  Assets?: AssetType[];
 }
 export const UpdateManagedLoginBrandingRequest = S.suspend(() =>
   S.Struct({
@@ -2703,7 +2885,7 @@ export interface UpdateResourceServerRequest {
   UserPoolId: string;
   Identifier: string;
   Name: string;
-  Scopes?: ResourceServerScopeListType;
+  Scopes?: ResourceServerScopeType[];
 }
 export const UpdateResourceServerRequest = S.suspend(() =>
   S.Struct({
@@ -2731,17 +2913,17 @@ export interface UpdateTermsRequest {
   TermsId: string;
   UserPoolId: string;
   TermsName?: string;
-  TermsSource?: string;
-  Enforcement?: string;
-  Links?: LinksType;
+  TermsSource?: TermsSourceType;
+  Enforcement?: TermsEnforcementType;
+  Links?: { [key: string]: string };
 }
 export const UpdateTermsRequest = S.suspend(() =>
   S.Struct({
     TermsId: S.String,
     UserPoolId: S.String,
     TermsName: S.optional(S.String),
-    TermsSource: S.optional(S.String),
-    Enforcement: S.optional(S.String),
+    TermsSource: S.optional(TermsSourceType),
+    Enforcement: S.optional(TermsEnforcementType),
     Links: S.optional(LinksType),
   }).pipe(
     T.all(
@@ -2758,9 +2940,9 @@ export const UpdateTermsRequest = S.suspend(() =>
   identifier: "UpdateTermsRequest",
 }) as any as S.Schema<UpdateTermsRequest>;
 export interface UpdateUserAttributesRequest {
-  UserAttributes: AttributeListType;
-  AccessToken: string | Redacted.Redacted<string>;
-  ClientMetadata?: ClientMetadataType;
+  UserAttributes: AttributeType[];
+  AccessToken: string | redacted.Redacted<string>;
+  ClientMetadata?: { [key: string]: string };
 }
 export const UpdateUserAttributesRequest = S.suspend(() =>
   S.Struct({
@@ -2803,10 +2985,17 @@ export const PasswordPolicyType = S.suspend(() =>
 ).annotations({
   identifier: "PasswordPolicyType",
 }) as any as S.Schema<PasswordPolicyType>;
-export type AllowedFirstAuthFactorsListType = string[];
-export const AllowedFirstAuthFactorsListType = S.Array(S.String);
+export type AuthFactorType = "PASSWORD" | "EMAIL_OTP" | "SMS_OTP" | "WEB_AUTHN";
+export const AuthFactorType = S.Literal(
+  "PASSWORD",
+  "EMAIL_OTP",
+  "SMS_OTP",
+  "WEB_AUTHN",
+);
+export type AllowedFirstAuthFactorsListType = AuthFactorType[];
+export const AllowedFirstAuthFactorsListType = S.Array(AuthFactorType);
 export interface SignInPolicyType {
-  AllowedFirstAuthFactors?: AllowedFirstAuthFactorsListType;
+  AllowedFirstAuthFactors?: AuthFactorType[];
 }
 export const SignInPolicyType = S.suspend(() =>
   S.Struct({
@@ -2827,30 +3016,49 @@ export const UserPoolPolicyType = S.suspend(() =>
 ).annotations({
   identifier: "UserPoolPolicyType",
 }) as any as S.Schema<UserPoolPolicyType>;
+export type PreTokenGenerationLambdaVersionType = "V1_0" | "V2_0" | "V3_0";
+export const PreTokenGenerationLambdaVersionType = S.Literal(
+  "V1_0",
+  "V2_0",
+  "V3_0",
+);
 export interface PreTokenGenerationVersionConfigType {
-  LambdaVersion: string;
+  LambdaVersion: PreTokenGenerationLambdaVersionType;
   LambdaArn: string;
 }
 export const PreTokenGenerationVersionConfigType = S.suspend(() =>
-  S.Struct({ LambdaVersion: S.String, LambdaArn: S.String }),
+  S.Struct({
+    LambdaVersion: PreTokenGenerationLambdaVersionType,
+    LambdaArn: S.String,
+  }),
 ).annotations({
   identifier: "PreTokenGenerationVersionConfigType",
 }) as any as S.Schema<PreTokenGenerationVersionConfigType>;
+export type CustomSMSSenderLambdaVersionType = "V1_0";
+export const CustomSMSSenderLambdaVersionType = S.Literal("V1_0");
 export interface CustomSMSLambdaVersionConfigType {
-  LambdaVersion: string;
+  LambdaVersion: CustomSMSSenderLambdaVersionType;
   LambdaArn: string;
 }
 export const CustomSMSLambdaVersionConfigType = S.suspend(() =>
-  S.Struct({ LambdaVersion: S.String, LambdaArn: S.String }),
+  S.Struct({
+    LambdaVersion: CustomSMSSenderLambdaVersionType,
+    LambdaArn: S.String,
+  }),
 ).annotations({
   identifier: "CustomSMSLambdaVersionConfigType",
 }) as any as S.Schema<CustomSMSLambdaVersionConfigType>;
+export type CustomEmailSenderLambdaVersionType = "V1_0";
+export const CustomEmailSenderLambdaVersionType = S.Literal("V1_0");
 export interface CustomEmailLambdaVersionConfigType {
-  LambdaVersion: string;
+  LambdaVersion: CustomEmailSenderLambdaVersionType;
   LambdaArn: string;
 }
 export const CustomEmailLambdaVersionConfigType = S.suspend(() =>
-  S.Struct({ LambdaVersion: S.String, LambdaArn: S.String }),
+  S.Struct({
+    LambdaVersion: CustomEmailSenderLambdaVersionType,
+    LambdaArn: S.String,
+  }),
 ).annotations({
   identifier: "CustomEmailLambdaVersionConfigType",
 }) as any as S.Schema<CustomEmailLambdaVersionConfigType>;
@@ -2890,13 +3098,18 @@ export const LambdaConfigType = S.suspend(() =>
 ).annotations({
   identifier: "LambdaConfigType",
 }) as any as S.Schema<LambdaConfigType>;
+export type DefaultEmailOptionType = "CONFIRM_WITH_LINK" | "CONFIRM_WITH_CODE";
+export const DefaultEmailOptionType = S.Literal(
+  "CONFIRM_WITH_LINK",
+  "CONFIRM_WITH_CODE",
+);
 export interface VerificationMessageTemplateType {
   SmsMessage?: string;
   EmailMessage?: string;
   EmailSubject?: string;
   EmailMessageByLink?: string;
   EmailSubjectByLink?: string;
-  DefaultEmailOption?: string;
+  DefaultEmailOption?: DefaultEmailOptionType;
 }
 export const VerificationMessageTemplateType = S.suspend(() =>
   S.Struct({
@@ -2905,15 +3118,18 @@ export const VerificationMessageTemplateType = S.suspend(() =>
     EmailSubject: S.optional(S.String),
     EmailMessageByLink: S.optional(S.String),
     EmailSubjectByLink: S.optional(S.String),
-    DefaultEmailOption: S.optional(S.String),
+    DefaultEmailOption: S.optional(DefaultEmailOptionType),
   }),
 ).annotations({
   identifier: "VerificationMessageTemplateType",
 }) as any as S.Schema<VerificationMessageTemplateType>;
-export type AttributesRequireVerificationBeforeUpdateType = string[];
-export const AttributesRequireVerificationBeforeUpdateType = S.Array(S.String);
+export type AttributesRequireVerificationBeforeUpdateType =
+  VerifiedAttributeType[];
+export const AttributesRequireVerificationBeforeUpdateType = S.Array(
+  VerifiedAttributeType,
+);
 export interface UserAttributeUpdateSettingsType {
-  AttributesRequireVerificationBeforeUpdate?: AttributesRequireVerificationBeforeUpdateType;
+  AttributesRequireVerificationBeforeUpdate?: VerifiedAttributeType[];
 }
 export const UserAttributeUpdateSettingsType = S.suspend(() =>
   S.Struct({
@@ -2936,10 +3152,15 @@ export const DeviceConfigurationType = S.suspend(() =>
 ).annotations({
   identifier: "DeviceConfigurationType",
 }) as any as S.Schema<DeviceConfigurationType>;
+export type EmailSendingAccountType = "COGNITO_DEFAULT" | "DEVELOPER";
+export const EmailSendingAccountType = S.Literal(
+  "COGNITO_DEFAULT",
+  "DEVELOPER",
+);
 export interface EmailConfigurationType {
   SourceArn?: string;
   ReplyToEmailAddress?: string;
-  EmailSendingAccount?: string;
+  EmailSendingAccount?: EmailSendingAccountType;
   From?: string;
   ConfigurationSet?: string;
 }
@@ -2947,7 +3168,7 @@ export const EmailConfigurationType = S.suspend(() =>
   S.Struct({
     SourceArn: S.optional(S.String),
     ReplyToEmailAddress: S.optional(S.String),
-    EmailSendingAccount: S.optional(S.String),
+    EmailSendingAccount: S.optional(EmailSendingAccountType),
     From: S.optional(S.String),
     ConfigurationSet: S.optional(S.String),
   }),
@@ -2996,21 +3217,25 @@ export const AdminCreateUserConfigType = S.suspend(() =>
 ).annotations({
   identifier: "AdminCreateUserConfigType",
 }) as any as S.Schema<AdminCreateUserConfigType>;
+export type AdvancedSecurityModeType = "OFF" | "AUDIT" | "ENFORCED";
+export const AdvancedSecurityModeType = S.Literal("OFF", "AUDIT", "ENFORCED");
+export type AdvancedSecurityEnabledModeType = "AUDIT" | "ENFORCED";
+export const AdvancedSecurityEnabledModeType = S.Literal("AUDIT", "ENFORCED");
 export interface AdvancedSecurityAdditionalFlowsType {
-  CustomAuthMode?: string;
+  CustomAuthMode?: AdvancedSecurityEnabledModeType;
 }
 export const AdvancedSecurityAdditionalFlowsType = S.suspend(() =>
-  S.Struct({ CustomAuthMode: S.optional(S.String) }),
+  S.Struct({ CustomAuthMode: S.optional(AdvancedSecurityEnabledModeType) }),
 ).annotations({
   identifier: "AdvancedSecurityAdditionalFlowsType",
 }) as any as S.Schema<AdvancedSecurityAdditionalFlowsType>;
 export interface UserPoolAddOnsType {
-  AdvancedSecurityMode: string;
+  AdvancedSecurityMode: AdvancedSecurityModeType;
   AdvancedSecurityAdditionalFlows?: AdvancedSecurityAdditionalFlowsType;
 }
 export const UserPoolAddOnsType = S.suspend(() =>
   S.Struct({
-    AdvancedSecurityMode: S.String,
+    AdvancedSecurityMode: AdvancedSecurityModeType,
     AdvancedSecurityAdditionalFlows: S.optional(
       AdvancedSecurityAdditionalFlowsType,
     ),
@@ -3018,19 +3243,28 @@ export const UserPoolAddOnsType = S.suspend(() =>
 ).annotations({
   identifier: "UserPoolAddOnsType",
 }) as any as S.Schema<UserPoolAddOnsType>;
+export type RecoveryOptionNameType =
+  | "verified_email"
+  | "verified_phone_number"
+  | "admin_only";
+export const RecoveryOptionNameType = S.Literal(
+  "verified_email",
+  "verified_phone_number",
+  "admin_only",
+);
 export interface RecoveryOptionType {
   Priority: number;
-  Name: string;
+  Name: RecoveryOptionNameType;
 }
 export const RecoveryOptionType = S.suspend(() =>
-  S.Struct({ Priority: S.Number, Name: S.String }),
+  S.Struct({ Priority: S.Number, Name: RecoveryOptionNameType }),
 ).annotations({
   identifier: "RecoveryOptionType",
 }) as any as S.Schema<RecoveryOptionType>;
 export type RecoveryMechanismsType = RecoveryOptionType[];
 export const RecoveryMechanismsType = S.Array(RecoveryOptionType);
 export interface AccountRecoverySettingType {
-  RecoveryMechanisms?: RecoveryMechanismsType;
+  RecoveryMechanisms?: RecoveryOptionType[];
 }
 export const AccountRecoverySettingType = S.suspend(() =>
   S.Struct({ RecoveryMechanisms: S.optional(RecoveryMechanismsType) }),
@@ -3040,31 +3274,31 @@ export const AccountRecoverySettingType = S.suspend(() =>
 export interface UpdateUserPoolRequest {
   UserPoolId: string;
   Policies?: UserPoolPolicyType;
-  DeletionProtection?: string;
+  DeletionProtection?: DeletionProtectionType;
   LambdaConfig?: LambdaConfigType;
-  AutoVerifiedAttributes?: VerifiedAttributesListType;
+  AutoVerifiedAttributes?: VerifiedAttributeType[];
   SmsVerificationMessage?: string;
   EmailVerificationMessage?: string;
   EmailVerificationSubject?: string;
   VerificationMessageTemplate?: VerificationMessageTemplateType;
   SmsAuthenticationMessage?: string;
   UserAttributeUpdateSettings?: UserAttributeUpdateSettingsType;
-  MfaConfiguration?: string;
+  MfaConfiguration?: UserPoolMfaType;
   DeviceConfiguration?: DeviceConfigurationType;
   EmailConfiguration?: EmailConfigurationType;
   SmsConfiguration?: SmsConfigurationType;
-  UserPoolTags?: UserPoolTagsType;
+  UserPoolTags?: { [key: string]: string };
   AdminCreateUserConfig?: AdminCreateUserConfigType;
   UserPoolAddOns?: UserPoolAddOnsType;
   AccountRecoverySetting?: AccountRecoverySettingType;
   PoolName?: string;
-  UserPoolTier?: string;
+  UserPoolTier?: UserPoolTierType;
 }
 export const UpdateUserPoolRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
     Policies: S.optional(UserPoolPolicyType),
-    DeletionProtection: S.optional(S.String),
+    DeletionProtection: S.optional(DeletionProtectionType),
     LambdaConfig: S.optional(LambdaConfigType),
     AutoVerifiedAttributes: S.optional(VerifiedAttributesListType),
     SmsVerificationMessage: S.optional(S.String),
@@ -3073,7 +3307,7 @@ export const UpdateUserPoolRequest = S.suspend(() =>
     VerificationMessageTemplate: S.optional(VerificationMessageTemplateType),
     SmsAuthenticationMessage: S.optional(S.String),
     UserAttributeUpdateSettings: S.optional(UserAttributeUpdateSettingsType),
-    MfaConfiguration: S.optional(S.String),
+    MfaConfiguration: S.optional(UserPoolMfaType),
     DeviceConfiguration: S.optional(DeviceConfigurationType),
     EmailConfiguration: S.optional(EmailConfigurationType),
     SmsConfiguration: S.optional(SmsConfigurationType),
@@ -3082,7 +3316,7 @@ export const UpdateUserPoolRequest = S.suspend(() =>
     UserPoolAddOns: S.optional(UserPoolAddOnsType),
     AccountRecoverySetting: S.optional(AccountRecoverySettingType),
     PoolName: S.optional(S.String),
-    UserPoolTier: S.optional(S.String),
+    UserPoolTier: S.optional(UserPoolTierType),
   }).pipe(
     T.all(
       ns,
@@ -3103,16 +3337,18 @@ export const UpdateUserPoolResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateUserPoolResponse",
 }) as any as S.Schema<UpdateUserPoolResponse>;
+export type TimeUnitsType = "seconds" | "minutes" | "hours" | "days";
+export const TimeUnitsType = S.Literal("seconds", "minutes", "hours", "days");
 export interface TokenValidityUnitsType {
-  AccessToken?: string;
-  IdToken?: string;
-  RefreshToken?: string;
+  AccessToken?: TimeUnitsType;
+  IdToken?: TimeUnitsType;
+  RefreshToken?: TimeUnitsType;
 }
 export const TokenValidityUnitsType = S.suspend(() =>
   S.Struct({
-    AccessToken: S.optional(S.String),
-    IdToken: S.optional(S.String),
-    RefreshToken: S.optional(S.String),
+    AccessToken: S.optional(TimeUnitsType),
+    IdToken: S.optional(TimeUnitsType),
+    RefreshToken: S.optional(TimeUnitsType),
   }),
 ).annotations({
   identifier: "TokenValidityUnitsType",
@@ -3135,13 +3371,15 @@ export const AnalyticsConfigurationType = S.suspend(() =>
 ).annotations({
   identifier: "AnalyticsConfigurationType",
 }) as any as S.Schema<AnalyticsConfigurationType>;
+export type FeatureType = "ENABLED" | "DISABLED";
+export const FeatureType = S.Literal("ENABLED", "DISABLED");
 export interface RefreshTokenRotationType {
-  Feature: string;
+  Feature: FeatureType;
   RetryGracePeriodSeconds?: number;
 }
 export const RefreshTokenRotationType = S.suspend(() =>
   S.Struct({
-    Feature: S.String,
+    Feature: FeatureType,
     RetryGracePeriodSeconds: S.optional(S.Number),
   }),
 ).annotations({
@@ -3149,24 +3387,24 @@ export const RefreshTokenRotationType = S.suspend(() =>
 }) as any as S.Schema<RefreshTokenRotationType>;
 export interface UpdateUserPoolClientRequest {
   UserPoolId: string;
-  ClientId: string | Redacted.Redacted<string>;
+  ClientId: string | redacted.Redacted<string>;
   ClientName?: string;
   RefreshTokenValidity?: number;
   AccessTokenValidity?: number;
   IdTokenValidity?: number;
   TokenValidityUnits?: TokenValidityUnitsType;
-  ReadAttributes?: ClientPermissionListType;
-  WriteAttributes?: ClientPermissionListType;
-  ExplicitAuthFlows?: ExplicitAuthFlowsListType;
-  SupportedIdentityProviders?: SupportedIdentityProvidersListType;
-  CallbackURLs?: CallbackURLsListType;
-  LogoutURLs?: LogoutURLsListType;
+  ReadAttributes?: string[];
+  WriteAttributes?: string[];
+  ExplicitAuthFlows?: ExplicitAuthFlowsType[];
+  SupportedIdentityProviders?: string[];
+  CallbackURLs?: string[];
+  LogoutURLs?: string[];
   DefaultRedirectURI?: string;
-  AllowedOAuthFlows?: OAuthFlowsType;
-  AllowedOAuthScopes?: ScopeListType;
+  AllowedOAuthFlows?: OAuthFlowType[];
+  AllowedOAuthScopes?: string[];
   AllowedOAuthFlowsUserPoolClient?: boolean;
   AnalyticsConfiguration?: AnalyticsConfigurationType;
-  PreventUserExistenceErrors?: string;
+  PreventUserExistenceErrors?: PreventUserExistenceErrorTypes;
   EnableTokenRevocation?: boolean;
   EnablePropagateAdditionalUserContextData?: boolean;
   AuthSessionValidity?: number;
@@ -3192,7 +3430,7 @@ export const UpdateUserPoolClientRequest = S.suspend(() =>
     AllowedOAuthScopes: S.optional(ScopeListType),
     AllowedOAuthFlowsUserPoolClient: S.optional(S.Boolean),
     AnalyticsConfiguration: S.optional(AnalyticsConfigurationType),
-    PreventUserExistenceErrors: S.optional(S.String),
+    PreventUserExistenceErrors: S.optional(PreventUserExistenceErrorTypes),
     EnableTokenRevocation: S.optional(S.Boolean),
     EnablePropagateAdditionalUserContextData: S.optional(S.Boolean),
     AuthSessionValidity: S.optional(S.Number),
@@ -3246,9 +3484,9 @@ export const UpdateUserPoolDomainRequest = S.suspend(() =>
   identifier: "UpdateUserPoolDomainRequest",
 }) as any as S.Schema<UpdateUserPoolDomainRequest>;
 export interface VerifySoftwareTokenRequest {
-  AccessToken?: string | Redacted.Redacted<string>;
-  Session?: string | Redacted.Redacted<string>;
-  UserCode: string | Redacted.Redacted<string>;
+  AccessToken?: string | redacted.Redacted<string>;
+  Session?: string | redacted.Redacted<string>;
+  UserCode: string | redacted.Redacted<string>;
   FriendlyDeviceName?: string;
 }
 export const VerifySoftwareTokenRequest = S.suspend(() =>
@@ -3272,7 +3510,7 @@ export const VerifySoftwareTokenRequest = S.suspend(() =>
   identifier: "VerifySoftwareTokenRequest",
 }) as any as S.Schema<VerifySoftwareTokenRequest>;
 export interface VerifyUserAttributeRequest {
-  AccessToken: string | Redacted.Redacted<string>;
+  AccessToken: string | redacted.Redacted<string>;
   AttributeName: string;
   Code: string;
 }
@@ -3301,17 +3539,48 @@ export const VerifyUserAttributeResponse = S.suspend(() =>
 ).annotations({
   identifier: "VerifyUserAttributeResponse",
 }) as any as S.Schema<VerifyUserAttributeResponse>;
-export type EventFiltersType = string[];
-export const EventFiltersType = S.Array(S.String);
+export type LogLevel = "ERROR" | "INFO";
+export const LogLevel = S.Literal("ERROR", "INFO");
+export type EventSourceName = "userNotification" | "userAuthEvents";
+export const EventSourceName = S.Literal("userNotification", "userAuthEvents");
+export type EventFilterType = "SIGN_IN" | "PASSWORD_CHANGE" | "SIGN_UP";
+export const EventFilterType = S.Literal(
+  "SIGN_IN",
+  "PASSWORD_CHANGE",
+  "SIGN_UP",
+);
+export type EventFiltersType = EventFilterType[];
+export const EventFiltersType = S.Array(EventFilterType);
 export type BlockedIPRangeListType = string[];
 export const BlockedIPRangeListType = S.Array(S.String);
 export type SkippedIPRangeListType = string[];
 export const SkippedIPRangeListType = S.Array(S.String);
+export type UserVerificationType = "required" | "preferred";
+export const UserVerificationType = S.Literal("required", "preferred");
+export type UserStatusType =
+  | "UNCONFIRMED"
+  | "CONFIRMED"
+  | "ARCHIVED"
+  | "COMPROMISED"
+  | "UNKNOWN"
+  | "RESET_REQUIRED"
+  | "FORCE_CHANGE_PASSWORD"
+  | "EXTERNAL_PROVIDER";
+export const UserStatusType = S.Literal(
+  "UNCONFIRMED",
+  "CONFIRMED",
+  "ARCHIVED",
+  "COMPROMISED",
+  "UNKNOWN",
+  "RESET_REQUIRED",
+  "FORCE_CHANGE_PASSWORD",
+  "EXTERNAL_PROVIDER",
+);
 export type UserMFASettingListType = string[];
 export const UserMFASettingListType = S.Array(S.String);
 export interface DeviceType {
   DeviceKey?: string;
-  DeviceAttributes?: AttributeListType;
+  DeviceAttributes?: AttributeType[];
   DeviceCreateDate?: Date;
   DeviceLastModifiedDate?: Date;
   DeviceLastAuthenticatedDate?: Date;
@@ -3355,15 +3624,15 @@ export const UsernameConfigurationType = S.suspend(() =>
 }) as any as S.Schema<UsernameConfigurationType>;
 export type ListOfStringTypes = string[];
 export const ListOfStringTypes = S.Array(S.String);
-export type ConfiguredUserAuthFactorsListType = string[];
-export const ConfiguredUserAuthFactorsListType = S.Array(S.String);
-export type AvailableChallengeListType = string[];
-export const AvailableChallengeListType = S.Array(S.String);
+export type ConfiguredUserAuthFactorsListType = AuthFactorType[];
+export const ConfiguredUserAuthFactorsListType = S.Array(AuthFactorType);
+export type AvailableChallengeListType = ChallengeNameType[];
+export const AvailableChallengeListType = S.Array(ChallengeNameType);
 export interface ResourceServerType {
   UserPoolId?: string;
   Identifier?: string;
   Name?: string;
-  Scopes?: ResourceServerScopeListType;
+  Scopes?: ResourceServerScopeType[];
 }
 export const ResourceServerType = S.suspend(() =>
   S.Struct({
@@ -3377,6 +3646,25 @@ export const ResourceServerType = S.suspend(() =>
 }) as any as S.Schema<ResourceServerType>;
 export type ResourceServersListType = ResourceServerType[];
 export const ResourceServersListType = S.Array(ResourceServerType);
+export type UserImportJobStatusType =
+  | "Created"
+  | "Pending"
+  | "InProgress"
+  | "Stopping"
+  | "Expired"
+  | "Stopped"
+  | "Failed"
+  | "Succeeded";
+export const UserImportJobStatusType = S.Literal(
+  "Created",
+  "Pending",
+  "InProgress",
+  "Stopping",
+  "Expired",
+  "Stopped",
+  "Failed",
+  "Succeeded",
+);
 export interface UserImportJobType {
   JobName?: string;
   JobId?: string;
@@ -3385,7 +3673,7 @@ export interface UserImportJobType {
   CreationDate?: Date;
   StartDate?: Date;
   CompletionDate?: Date;
-  Status?: string;
+  Status?: UserImportJobStatusType;
   CloudWatchLogsRoleArn?: string;
   ImportedUsers?: number;
   SkippedUsers?: number;
@@ -3401,7 +3689,7 @@ export const UserImportJobType = S.suspend(() =>
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     StartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CompletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
+    Status: S.optional(UserImportJobStatusType),
     CloudWatchLogsRoleArn: S.optional(S.String),
     ImportedUsers: S.optional(S.Number),
     SkippedUsers: S.optional(S.Number),
@@ -3414,8 +3702,8 @@ export const UserImportJobType = S.suspend(() =>
 export type UserImportJobsListType = UserImportJobType[];
 export const UserImportJobsListType = S.Array(UserImportJobType);
 export interface RiskExceptionConfigurationType {
-  BlockedIPRangeList?: BlockedIPRangeListType;
-  SkippedIPRangeList?: SkippedIPRangeListType;
+  BlockedIPRangeList?: string[];
+  SkippedIPRangeList?: string[];
 }
 export const RiskExceptionConfigurationType = S.suspend(() =>
   S.Struct({
@@ -3456,25 +3744,25 @@ export const EmailMfaConfigType = S.suspend(() =>
 }) as any as S.Schema<EmailMfaConfigType>;
 export interface WebAuthnConfigurationType {
   RelyingPartyId?: string;
-  UserVerification?: string;
+  UserVerification?: UserVerificationType;
 }
 export const WebAuthnConfigurationType = S.suspend(() =>
   S.Struct({
     RelyingPartyId: S.optional(S.String),
-    UserVerification: S.optional(S.String),
+    UserVerification: S.optional(UserVerificationType),
   }),
 ).annotations({
   identifier: "WebAuthnConfigurationType",
 }) as any as S.Schema<WebAuthnConfigurationType>;
 export interface CodeDeliveryDetailsType {
   Destination?: string;
-  DeliveryMedium?: string;
+  DeliveryMedium?: DeliveryMediumType;
   AttributeName?: string;
 }
 export const CodeDeliveryDetailsType = S.suspend(() =>
   S.Struct({
     Destination: S.optional(S.String),
-    DeliveryMedium: S.optional(S.String),
+    DeliveryMedium: S.optional(DeliveryMediumType),
     AttributeName: S.optional(S.String),
   }),
 ).annotations({
@@ -3482,10 +3770,17 @@ export const CodeDeliveryDetailsType = S.suspend(() =>
 }) as any as S.Schema<CodeDeliveryDetailsType>;
 export type CodeDeliveryDetailsListType = CodeDeliveryDetailsType[];
 export const CodeDeliveryDetailsListType = S.Array(CodeDeliveryDetailsType);
+export type VerifySoftwareTokenResponseType = "SUCCESS" | "ERROR";
+export const VerifySoftwareTokenResponseType = S.Literal("SUCCESS", "ERROR");
+export type CompromisedCredentialsEventActionType = "BLOCK" | "NO_ACTION";
+export const CompromisedCredentialsEventActionType = S.Literal(
+  "BLOCK",
+  "NO_ACTION",
+);
 export interface AdminConfirmSignUpRequest {
   UserPoolId: string;
-  Username: string | Redacted.Redacted<string>;
-  ClientMetadata?: ClientMetadataType;
+  Username: string | redacted.Redacted<string>;
+  ClientMetadata?: { [key: string]: string };
 }
 export const AdminConfirmSignUpRequest = S.suspend(() =>
   S.Struct({
@@ -3514,14 +3809,14 @@ export const AdminConfirmSignUpResponse = S.suspend(() =>
 }) as any as S.Schema<AdminConfirmSignUpResponse>;
 export interface AdminCreateUserRequest {
   UserPoolId: string;
-  Username: string | Redacted.Redacted<string>;
-  UserAttributes?: AttributeListType;
-  ValidationData?: AttributeListType;
-  TemporaryPassword?: string | Redacted.Redacted<string>;
+  Username: string | redacted.Redacted<string>;
+  UserAttributes?: AttributeType[];
+  ValidationData?: AttributeType[];
+  TemporaryPassword?: string | redacted.Redacted<string>;
   ForceAliasCreation?: boolean;
-  MessageAction?: string;
-  DesiredDeliveryMediums?: DeliveryMediumListType;
-  ClientMetadata?: ClientMetadataType;
+  MessageAction?: MessageActionType;
+  DesiredDeliveryMediums?: DeliveryMediumType[];
+  ClientMetadata?: { [key: string]: string };
 }
 export const AdminCreateUserRequest = S.suspend(() =>
   S.Struct({
@@ -3531,7 +3826,7 @@ export const AdminCreateUserRequest = S.suspend(() =>
     ValidationData: S.optional(AttributeListType),
     TemporaryPassword: S.optional(SensitiveString),
     ForceAliasCreation: S.optional(S.Boolean),
-    MessageAction: S.optional(S.String),
+    MessageAction: S.optional(MessageActionType),
     DesiredDeliveryMediums: S.optional(DeliveryMediumListType),
     ClientMetadata: S.optional(ClientMetadataType),
   }).pipe(
@@ -3574,15 +3869,15 @@ export const AdminDisableProviderForUserResponse = S.suspend(() =>
   identifier: "AdminDisableProviderForUserResponse",
 }) as any as S.Schema<AdminDisableProviderForUserResponse>;
 export interface AdminGetUserResponse {
-  Username: string | Redacted.Redacted<string>;
-  UserAttributes?: AttributeListType;
+  Username: string | redacted.Redacted<string>;
+  UserAttributes?: AttributeType[];
   UserCreateDate?: Date;
   UserLastModifiedDate?: Date;
   Enabled?: boolean;
-  UserStatus?: string;
-  MFAOptions?: MFAOptionListType;
+  UserStatus?: UserStatusType;
+  MFAOptions?: MFAOptionType[];
   PreferredMfaSetting?: string;
-  UserMFASettingList?: UserMFASettingListType;
+  UserMFASettingList?: string[];
 }
 export const AdminGetUserResponse = S.suspend(() =>
   S.Struct({
@@ -3593,7 +3888,7 @@ export const AdminGetUserResponse = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     Enabled: S.optional(S.Boolean),
-    UserStatus: S.optional(S.String),
+    UserStatus: S.optional(UserStatusType),
     MFAOptions: S.optional(MFAOptionListType),
     PreferredMfaSetting: S.optional(S.String),
     UserMFASettingList: S.optional(UserMFASettingListType),
@@ -3602,7 +3897,7 @@ export const AdminGetUserResponse = S.suspend(() =>
   identifier: "AdminGetUserResponse",
 }) as any as S.Schema<AdminGetUserResponse>;
 export interface AdminListDevicesResponse {
-  Devices?: DeviceListType;
+  Devices?: DeviceType[];
   PaginationToken?: string;
 }
 export const AdminListDevicesResponse = S.suspend(() =>
@@ -3629,7 +3924,7 @@ export interface ContextDataType {
   IpAddress: string;
   ServerName: string;
   ServerPath: string;
-  HttpHeaders: HttpHeaderList;
+  HttpHeaders: HttpHeader[];
   EncodedData?: string;
 }
 export const ContextDataType = S.suspend(() =>
@@ -3645,19 +3940,19 @@ export const ContextDataType = S.suspend(() =>
 }) as any as S.Schema<ContextDataType>;
 export interface AdminRespondToAuthChallengeRequest {
   UserPoolId: string;
-  ClientId: string | Redacted.Redacted<string>;
-  ChallengeName: string;
-  ChallengeResponses?: ChallengeResponsesType;
-  Session?: string | Redacted.Redacted<string>;
+  ClientId: string | redacted.Redacted<string>;
+  ChallengeName: ChallengeNameType;
+  ChallengeResponses?: { [key: string]: string };
+  Session?: string | redacted.Redacted<string>;
   AnalyticsMetadata?: AnalyticsMetadataType;
   ContextData?: ContextDataType;
-  ClientMetadata?: ClientMetadataType;
+  ClientMetadata?: { [key: string]: string };
 }
 export const AdminRespondToAuthChallengeRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
     ClientId: SensitiveString,
-    ChallengeName: S.String,
+    ChallengeName: ChallengeNameType,
     ChallengeResponses: S.optional(ChallengeResponsesType),
     Session: S.optional(SensitiveString),
     AnalyticsMetadata: S.optional(AnalyticsMetadataType),
@@ -3681,7 +3976,7 @@ export interface AdminSetUserMFAPreferenceRequest {
   SMSMfaSettings?: SMSMfaSettingsType;
   SoftwareTokenMfaSettings?: SoftwareTokenMfaSettingsType;
   EmailMfaSettings?: EmailMfaSettingsType;
-  Username: string | Redacted.Redacted<string>;
+  Username: string | redacted.Redacted<string>;
   UserPoolId: string;
 }
 export const AdminSetUserMFAPreferenceRequest = S.suspend(() =>
@@ -3713,8 +4008,8 @@ export const AdminSetUserMFAPreferenceResponse = S.suspend(() =>
 }) as any as S.Schema<AdminSetUserMFAPreferenceResponse>;
 export interface AdminSetUserSettingsRequest {
   UserPoolId: string;
-  Username: string | Redacted.Redacted<string>;
-  MFAOptions: MFAOptionListType;
+  Username: string | redacted.Redacted<string>;
+  MFAOptions: MFAOptionType[];
 }
 export const AdminSetUserSettingsRequest = S.suspend(() =>
   S.Struct({
@@ -3742,8 +4037,8 @@ export const AdminSetUserSettingsResponse = S.suspend(() =>
   identifier: "AdminSetUserSettingsResponse",
 }) as any as S.Schema<AdminSetUserSettingsResponse>;
 export interface AssociateSoftwareTokenResponse {
-  SecretCode?: string | Redacted.Redacted<string>;
-  Session?: string | Redacted.Redacted<string>;
+  SecretCode?: string | redacted.Redacted<string>;
+  Session?: string | redacted.Redacted<string>;
 }
 export const AssociateSoftwareTokenResponse = S.suspend(() =>
   S.Struct({
@@ -3754,7 +4049,7 @@ export const AssociateSoftwareTokenResponse = S.suspend(() =>
   identifier: "AssociateSoftwareTokenResponse",
 }) as any as S.Schema<AssociateSoftwareTokenResponse>;
 export interface ConfirmDeviceRequest {
-  AccessToken: string | Redacted.Redacted<string>;
+  AccessToken: string | redacted.Redacted<string>;
   DeviceKey: string;
   DeviceSecretVerifierConfig?: DeviceSecretVerifierConfigType;
   DeviceName?: string;
@@ -3780,14 +4075,14 @@ export const ConfirmDeviceRequest = S.suspend(() =>
   identifier: "ConfirmDeviceRequest",
 }) as any as S.Schema<ConfirmDeviceRequest>;
 export interface ConfirmForgotPasswordRequest {
-  ClientId: string | Redacted.Redacted<string>;
-  SecretHash?: string | Redacted.Redacted<string>;
-  Username: string | Redacted.Redacted<string>;
+  ClientId: string | redacted.Redacted<string>;
+  SecretHash?: string | redacted.Redacted<string>;
+  Username: string | redacted.Redacted<string>;
   ConfirmationCode: string;
-  Password: string | Redacted.Redacted<string>;
+  Password: string | redacted.Redacted<string>;
   AnalyticsMetadata?: AnalyticsMetadataType;
   UserContextData?: UserContextDataType;
-  ClientMetadata?: ClientMetadataType;
+  ClientMetadata?: { [key: string]: string };
 }
 export const ConfirmForgotPasswordRequest = S.suspend(() =>
   S.Struct({
@@ -3820,7 +4115,7 @@ export const ConfirmForgotPasswordResponse = S.suspend(() =>
   identifier: "ConfirmForgotPasswordResponse",
 }) as any as S.Schema<ConfirmForgotPasswordResponse>;
 export interface ConfirmSignUpResponse {
-  Session?: string | Redacted.Redacted<string>;
+  Session?: string | redacted.Redacted<string>;
 }
 export const ConfirmSignUpResponse = S.suspend(() =>
   S.Struct({ Session: S.optional(SensitiveString) }).pipe(ns),
@@ -3860,16 +4155,16 @@ export const CreateGroupResponse = S.suspend(() =>
 export interface CreateIdentityProviderRequest {
   UserPoolId: string;
   ProviderName: string;
-  ProviderType: string;
-  ProviderDetails: ProviderDetailsType;
-  AttributeMapping?: AttributeMappingType;
-  IdpIdentifiers?: IdpIdentifiersListType;
+  ProviderType: IdentityProviderTypeType;
+  ProviderDetails: { [key: string]: string };
+  AttributeMapping?: { [key: string]: string };
+  IdpIdentifiers?: string[];
 }
 export const CreateIdentityProviderRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
     ProviderName: S.String,
-    ProviderType: S.String,
+    ProviderType: IdentityProviderTypeType,
     ProviderDetails: ProviderDetailsType,
     AttributeMapping: S.optional(AttributeMappingType),
     IdpIdentifiers: S.optional(IdpIdentifiersListType),
@@ -3889,10 +4184,10 @@ export const CreateIdentityProviderRequest = S.suspend(() =>
 }) as any as S.Schema<CreateIdentityProviderRequest>;
 export interface CreateManagedLoginBrandingRequest {
   UserPoolId: string;
-  ClientId: string | Redacted.Redacted<string>;
+  ClientId: string | redacted.Redacted<string>;
   UseCognitoProvidedValues?: boolean;
   Settings?: any;
-  Assets?: AssetListType;
+  Assets?: AssetType[];
 }
 export const CreateManagedLoginBrandingRequest = S.suspend(() =>
   S.Struct({
@@ -3919,7 +4214,7 @@ export interface CreateResourceServerRequest {
   UserPoolId: string;
   Identifier: string;
   Name: string;
-  Scopes?: ResourceServerScopeListType;
+  Scopes?: ResourceServerScopeType[];
 }
 export const CreateResourceServerRequest = S.suspend(() =>
   S.Struct({
@@ -3943,19 +4238,19 @@ export const CreateResourceServerRequest = S.suspend(() =>
 }) as any as S.Schema<CreateResourceServerRequest>;
 export interface CreateTermsRequest {
   UserPoolId: string;
-  ClientId: string | Redacted.Redacted<string>;
+  ClientId: string | redacted.Redacted<string>;
   TermsName: string;
-  TermsSource: string;
-  Enforcement: string;
-  Links?: LinksType;
+  TermsSource: TermsSourceType;
+  Enforcement: TermsEnforcementType;
+  Links?: { [key: string]: string };
 }
 export const CreateTermsRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
     ClientId: SensitiveString,
     TermsName: S.String,
-    TermsSource: S.String,
-    Enforcement: S.String,
+    TermsSource: TermsSourceType,
+    Enforcement: TermsEnforcementType,
     Links: S.optional(LinksType),
   }).pipe(
     T.all(
@@ -3979,18 +4274,18 @@ export interface CreateUserPoolClientRequest {
   AccessTokenValidity?: number;
   IdTokenValidity?: number;
   TokenValidityUnits?: TokenValidityUnitsType;
-  ReadAttributes?: ClientPermissionListType;
-  WriteAttributes?: ClientPermissionListType;
-  ExplicitAuthFlows?: ExplicitAuthFlowsListType;
-  SupportedIdentityProviders?: SupportedIdentityProvidersListType;
-  CallbackURLs?: CallbackURLsListType;
-  LogoutURLs?: LogoutURLsListType;
+  ReadAttributes?: string[];
+  WriteAttributes?: string[];
+  ExplicitAuthFlows?: ExplicitAuthFlowsType[];
+  SupportedIdentityProviders?: string[];
+  CallbackURLs?: string[];
+  LogoutURLs?: string[];
   DefaultRedirectURI?: string;
-  AllowedOAuthFlows?: OAuthFlowsType;
-  AllowedOAuthScopes?: ScopeListType;
+  AllowedOAuthFlows?: OAuthFlowType[];
+  AllowedOAuthScopes?: string[];
   AllowedOAuthFlowsUserPoolClient?: boolean;
   AnalyticsConfiguration?: AnalyticsConfigurationType;
-  PreventUserExistenceErrors?: string;
+  PreventUserExistenceErrors?: PreventUserExistenceErrorTypes;
   EnableTokenRevocation?: boolean;
   EnablePropagateAdditionalUserContextData?: boolean;
   AuthSessionValidity?: number;
@@ -4016,7 +4311,7 @@ export const CreateUserPoolClientRequest = S.suspend(() =>
     AllowedOAuthScopes: S.optional(ScopeListType),
     AllowedOAuthFlowsUserPoolClient: S.optional(S.Boolean),
     AnalyticsConfiguration: S.optional(AnalyticsConfigurationType),
-    PreventUserExistenceErrors: S.optional(S.String),
+    PreventUserExistenceErrors: S.optional(PreventUserExistenceErrorTypes),
     EnableTokenRevocation: S.optional(S.Boolean),
     EnablePropagateAdditionalUserContextData: S.optional(S.Boolean),
     AuthSessionValidity: S.optional(S.Number),
@@ -4066,7 +4361,7 @@ export interface ManagedLoginBrandingType {
   UserPoolId?: string;
   UseCognitoProvidedValues?: boolean;
   Settings?: any;
-  Assets?: AssetListType;
+  Assets?: AssetType[];
   CreationDate?: Date;
   LastModifiedDate?: Date;
 }
@@ -4105,7 +4400,7 @@ export const DescribeUserImportJobResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeUserImportJobResponse>;
 export interface GetCSVHeaderResponse {
   UserPoolId?: string;
-  CSVHeader?: ListOfStringTypes;
+  CSVHeader?: string[];
 }
 export const GetCSVHeaderResponse = S.suspend(() =>
   S.Struct({
@@ -4134,10 +4429,10 @@ export const GetGroupResponse = S.suspend(() =>
 export interface IdentityProviderType {
   UserPoolId?: string;
   ProviderName?: string;
-  ProviderType?: string;
-  ProviderDetails?: ProviderDetailsType;
-  AttributeMapping?: AttributeMappingType;
-  IdpIdentifiers?: IdpIdentifiersListType;
+  ProviderType?: IdentityProviderTypeType;
+  ProviderDetails?: { [key: string]: string };
+  AttributeMapping?: { [key: string]: string };
+  IdpIdentifiers?: string[];
   LastModifiedDate?: Date;
   CreationDate?: Date;
 }
@@ -4145,7 +4440,7 @@ export const IdentityProviderType = S.suspend(() =>
   S.Struct({
     UserPoolId: S.optional(S.String),
     ProviderName: S.optional(S.String),
-    ProviderType: S.optional(S.String),
+    ProviderType: S.optional(IdentityProviderTypeType),
     ProviderDetails: S.optional(ProviderDetailsType),
     AttributeMapping: S.optional(AttributeMappingType),
     IdpIdentifiers: S.optional(IdpIdentifiersListType),
@@ -4174,11 +4469,11 @@ export const GetSigningCertificateResponse = S.suspend(() =>
   identifier: "GetSigningCertificateResponse",
 }) as any as S.Schema<GetSigningCertificateResponse>;
 export interface GetUserResponse {
-  Username: string | Redacted.Redacted<string>;
-  UserAttributes: AttributeListType;
-  MFAOptions?: MFAOptionListType;
+  Username: string | redacted.Redacted<string>;
+  UserAttributes: AttributeType[];
+  MFAOptions?: MFAOptionType[];
   PreferredMfaSetting?: string;
-  UserMFASettingList?: UserMFASettingListType;
+  UserMFASettingList?: string[];
 }
 export const GetUserResponse = S.suspend(() =>
   S.Struct({
@@ -4202,10 +4497,10 @@ export const GetUserAttributeVerificationCodeResponse = S.suspend(() =>
   identifier: "GetUserAttributeVerificationCodeResponse",
 }) as any as S.Schema<GetUserAttributeVerificationCodeResponse>;
 export interface GetUserAuthFactorsResponse {
-  Username: string | Redacted.Redacted<string>;
+  Username: string | redacted.Redacted<string>;
   PreferredMfaSetting?: string;
-  UserMFASettingList?: UserMFASettingListType;
-  ConfiguredUserAuthFactors?: ConfiguredUserAuthFactorsListType;
+  UserMFASettingList?: string[];
+  ConfiguredUserAuthFactors?: AuthFactorType[];
 }
 export const GetUserAuthFactorsResponse = S.suspend(() =>
   S.Struct({
@@ -4221,7 +4516,7 @@ export interface GetUserPoolMfaConfigResponse {
   SmsMfaConfiguration?: SmsMfaConfigType;
   SoftwareTokenMfaConfiguration?: SoftwareTokenMfaConfigType;
   EmailMfaConfiguration?: EmailMfaConfigType;
-  MfaConfiguration?: string;
+  MfaConfiguration?: UserPoolMfaType;
   WebAuthnConfiguration?: WebAuthnConfigurationType;
 }
 export const GetUserPoolMfaConfigResponse = S.suspend(() =>
@@ -4229,14 +4524,14 @@ export const GetUserPoolMfaConfigResponse = S.suspend(() =>
     SmsMfaConfiguration: S.optional(SmsMfaConfigType),
     SoftwareTokenMfaConfiguration: S.optional(SoftwareTokenMfaConfigType),
     EmailMfaConfiguration: S.optional(EmailMfaConfigType),
-    MfaConfiguration: S.optional(S.String),
+    MfaConfiguration: S.optional(UserPoolMfaType),
     WebAuthnConfiguration: S.optional(WebAuthnConfigurationType),
   }).pipe(ns),
 ).annotations({
   identifier: "GetUserPoolMfaConfigResponse",
 }) as any as S.Schema<GetUserPoolMfaConfigResponse>;
 export interface ListDevicesResponse {
-  Devices?: DeviceListType;
+  Devices?: DeviceType[];
   PaginationToken?: string;
 }
 export const ListDevicesResponse = S.suspend(() =>
@@ -4250,7 +4545,7 @@ export const ListDevicesResponse = S.suspend(() =>
 export type GroupListType = GroupType[];
 export const GroupListType = S.Array(GroupType);
 export interface ListGroupsResponse {
-  Groups?: GroupListType;
+  Groups?: GroupType[];
   NextToken?: string;
 }
 export const ListGroupsResponse = S.suspend(() =>
@@ -4262,7 +4557,7 @@ export const ListGroupsResponse = S.suspend(() =>
   identifier: "ListGroupsResponse",
 }) as any as S.Schema<ListGroupsResponse>;
 export interface ListResourceServersResponse {
-  ResourceServers: ResourceServersListType;
+  ResourceServers: ResourceServerType[];
   NextToken?: string;
 }
 export const ListResourceServersResponse = S.suspend(() =>
@@ -4274,7 +4569,7 @@ export const ListResourceServersResponse = S.suspend(() =>
   identifier: "ListResourceServersResponse",
 }) as any as S.Schema<ListResourceServersResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: UserPoolTagsType;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(UserPoolTagsType) }).pipe(ns),
@@ -4282,7 +4577,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListUserImportJobsResponse {
-  UserImportJobs?: UserImportJobsListType;
+  UserImportJobs?: UserImportJobType[];
   PaginationToken?: string;
 }
 export const ListUserImportJobsResponse = S.suspend(() =>
@@ -4294,13 +4589,13 @@ export const ListUserImportJobsResponse = S.suspend(() =>
   identifier: "ListUserImportJobsResponse",
 }) as any as S.Schema<ListUserImportJobsResponse>;
 export interface UserType {
-  Username?: string | Redacted.Redacted<string>;
-  Attributes?: AttributeListType;
+  Username?: string | redacted.Redacted<string>;
+  Attributes?: AttributeType[];
   UserCreateDate?: Date;
   UserLastModifiedDate?: Date;
   Enabled?: boolean;
-  UserStatus?: string;
-  MFAOptions?: MFAOptionListType;
+  UserStatus?: UserStatusType;
+  MFAOptions?: MFAOptionType[];
 }
 export const UserType = S.suspend(() =>
   S.Struct({
@@ -4311,14 +4606,14 @@ export const UserType = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     Enabled: S.optional(S.Boolean),
-    UserStatus: S.optional(S.String),
+    UserStatus: S.optional(UserStatusType),
     MFAOptions: S.optional(MFAOptionListType),
   }),
 ).annotations({ identifier: "UserType" }) as any as S.Schema<UserType>;
 export type UsersListType = UserType[];
 export const UsersListType = S.Array(UserType);
 export interface ListUsersInGroupResponse {
-  Users?: UsersListType;
+  Users?: UserType[];
   NextToken?: string;
 }
 export const ListUsersInGroupResponse = S.suspend(() =>
@@ -4357,11 +4652,11 @@ export const NewDeviceMetadataType = S.suspend(() =>
   identifier: "NewDeviceMetadataType",
 }) as any as S.Schema<NewDeviceMetadataType>;
 export interface AuthenticationResultType {
-  AccessToken?: string | Redacted.Redacted<string>;
+  AccessToken?: string | redacted.Redacted<string>;
   ExpiresIn?: number;
   TokenType?: string;
-  RefreshToken?: string | Redacted.Redacted<string>;
-  IdToken?: string | Redacted.Redacted<string>;
+  RefreshToken?: string | redacted.Redacted<string>;
+  IdToken?: string | redacted.Redacted<string>;
   NewDeviceMetadata?: NewDeviceMetadataType;
 }
 export const AuthenticationResultType = S.suspend(() =>
@@ -4377,14 +4672,14 @@ export const AuthenticationResultType = S.suspend(() =>
   identifier: "AuthenticationResultType",
 }) as any as S.Schema<AuthenticationResultType>;
 export interface RespondToAuthChallengeResponse {
-  ChallengeName?: string;
-  Session?: string | Redacted.Redacted<string>;
-  ChallengeParameters?: ChallengeParametersType;
+  ChallengeName?: ChallengeNameType;
+  Session?: string | redacted.Redacted<string>;
+  ChallengeParameters?: { [key: string]: string };
   AuthenticationResult?: AuthenticationResultType;
 }
 export const RespondToAuthChallengeResponse = S.suspend(() =>
   S.Struct({
-    ChallengeName: S.optional(S.String),
+    ChallengeName: S.optional(ChallengeNameType),
     Session: S.optional(SensitiveString),
     ChallengeParameters: S.optional(ChallengeParametersType),
     AuthenticationResult: S.optional(AuthenticationResultType),
@@ -4394,7 +4689,7 @@ export const RespondToAuthChallengeResponse = S.suspend(() =>
 }) as any as S.Schema<RespondToAuthChallengeResponse>;
 export interface UICustomizationType {
   UserPoolId?: string;
-  ClientId?: string | Redacted.Redacted<string>;
+  ClientId?: string | redacted.Redacted<string>;
   ImageUrl?: string;
   CSS?: string;
   CSSVersion?: string;
@@ -4429,7 +4724,7 @@ export interface SetUserPoolMfaConfigRequest {
   SmsMfaConfiguration?: SmsMfaConfigType;
   SoftwareTokenMfaConfiguration?: SoftwareTokenMfaConfigType;
   EmailMfaConfiguration?: EmailMfaConfigType;
-  MfaConfiguration?: string;
+  MfaConfiguration?: UserPoolMfaType;
   WebAuthnConfiguration?: WebAuthnConfigurationType;
 }
 export const SetUserPoolMfaConfigRequest = S.suspend(() =>
@@ -4438,7 +4733,7 @@ export const SetUserPoolMfaConfigRequest = S.suspend(() =>
     SmsMfaConfiguration: S.optional(SmsMfaConfigType),
     SoftwareTokenMfaConfiguration: S.optional(SoftwareTokenMfaConfigType),
     EmailMfaConfiguration: S.optional(EmailMfaConfigType),
-    MfaConfiguration: S.optional(S.String),
+    MfaConfiguration: S.optional(UserPoolMfaType),
     WebAuthnConfiguration: S.optional(WebAuthnConfigurationType),
   }).pipe(
     T.all(
@@ -4458,7 +4753,7 @@ export interface SignUpResponse {
   UserConfirmed: boolean;
   CodeDeliveryDetails?: CodeDeliveryDetailsType;
   UserSub: string;
-  Session?: string | Redacted.Redacted<string>;
+  Session?: string | redacted.Redacted<string>;
 }
 export const SignUpResponse = S.suspend(() =>
   S.Struct({
@@ -4531,11 +4826,11 @@ export const UpdateResourceServerResponse = S.suspend(() =>
 export interface TermsType {
   TermsId: string;
   UserPoolId: string;
-  ClientId: string | Redacted.Redacted<string>;
+  ClientId: string | redacted.Redacted<string>;
   TermsName: string;
-  TermsSource: string;
-  Enforcement: string;
-  Links: LinksType;
+  TermsSource: TermsSourceType;
+  Enforcement: TermsEnforcementType;
+  Links: { [key: string]: string };
   CreationDate: Date;
   LastModifiedDate: Date;
 }
@@ -4545,8 +4840,8 @@ export const TermsType = S.suspend(() =>
     UserPoolId: S.String,
     ClientId: SensitiveString,
     TermsName: S.String,
-    TermsSource: S.String,
-    Enforcement: S.String,
+    TermsSource: TermsSourceType,
+    Enforcement: TermsEnforcementType,
     Links: LinksType,
     CreationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     LastModifiedDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -4561,7 +4856,7 @@ export const UpdateTermsResponse = S.suspend(() =>
   identifier: "UpdateTermsResponse",
 }) as any as S.Schema<UpdateTermsResponse>;
 export interface UpdateUserAttributesResponse {
-  CodeDeliveryDetailsList?: CodeDeliveryDetailsListType;
+  CodeDeliveryDetailsList?: CodeDeliveryDetailsType[];
 }
 export const UpdateUserAttributesResponse = S.suspend(() =>
   S.Struct({
@@ -4573,26 +4868,26 @@ export const UpdateUserAttributesResponse = S.suspend(() =>
 export interface UserPoolClientType {
   UserPoolId?: string;
   ClientName?: string;
-  ClientId?: string | Redacted.Redacted<string>;
-  ClientSecret?: string | Redacted.Redacted<string>;
+  ClientId?: string | redacted.Redacted<string>;
+  ClientSecret?: string | redacted.Redacted<string>;
   LastModifiedDate?: Date;
   CreationDate?: Date;
   RefreshTokenValidity?: number;
   AccessTokenValidity?: number;
   IdTokenValidity?: number;
   TokenValidityUnits?: TokenValidityUnitsType;
-  ReadAttributes?: ClientPermissionListType;
-  WriteAttributes?: ClientPermissionListType;
-  ExplicitAuthFlows?: ExplicitAuthFlowsListType;
-  SupportedIdentityProviders?: SupportedIdentityProvidersListType;
-  CallbackURLs?: CallbackURLsListType;
-  LogoutURLs?: LogoutURLsListType;
+  ReadAttributes?: string[];
+  WriteAttributes?: string[];
+  ExplicitAuthFlows?: ExplicitAuthFlowsType[];
+  SupportedIdentityProviders?: string[];
+  CallbackURLs?: string[];
+  LogoutURLs?: string[];
   DefaultRedirectURI?: string;
-  AllowedOAuthFlows?: OAuthFlowsType;
-  AllowedOAuthScopes?: ScopeListType;
+  AllowedOAuthFlows?: OAuthFlowType[];
+  AllowedOAuthScopes?: string[];
   AllowedOAuthFlowsUserPoolClient?: boolean;
   AnalyticsConfiguration?: AnalyticsConfigurationType;
-  PreventUserExistenceErrors?: string;
+  PreventUserExistenceErrors?: PreventUserExistenceErrorTypes;
   EnableTokenRevocation?: boolean;
   EnablePropagateAdditionalUserContextData?: boolean;
   AuthSessionValidity?: number;
@@ -4623,7 +4918,7 @@ export const UserPoolClientType = S.suspend(() =>
     AllowedOAuthScopes: S.optional(ScopeListType),
     AllowedOAuthFlowsUserPoolClient: S.optional(S.Boolean),
     AnalyticsConfiguration: S.optional(AnalyticsConfigurationType),
-    PreventUserExistenceErrors: S.optional(S.String),
+    PreventUserExistenceErrors: S.optional(PreventUserExistenceErrorTypes),
     EnableTokenRevocation: S.optional(S.Boolean),
     EnablePropagateAdditionalUserContextData: S.optional(S.Boolean),
     AuthSessionValidity: S.optional(S.Number),
@@ -4653,17 +4948,47 @@ export const UpdateUserPoolDomainResponse = S.suspend(() =>
   identifier: "UpdateUserPoolDomainResponse",
 }) as any as S.Schema<UpdateUserPoolDomainResponse>;
 export interface VerifySoftwareTokenResponse {
-  Status?: string;
-  Session?: string | Redacted.Redacted<string>;
+  Status?: VerifySoftwareTokenResponseType;
+  Session?: string | redacted.Redacted<string>;
 }
 export const VerifySoftwareTokenResponse = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(VerifySoftwareTokenResponseType),
     Session: S.optional(SensitiveString),
   }).pipe(ns),
 ).annotations({
   identifier: "VerifySoftwareTokenResponse",
 }) as any as S.Schema<VerifySoftwareTokenResponse>;
+export type EventType =
+  | "SignIn"
+  | "SignUp"
+  | "ForgotPassword"
+  | "PasswordChange"
+  | "ResendCode";
+export const EventType = S.Literal(
+  "SignIn",
+  "SignUp",
+  "ForgotPassword",
+  "PasswordChange",
+  "ResendCode",
+);
+export type EventResponseType = "Pass" | "Fail" | "InProgress";
+export const EventResponseType = S.Literal("Pass", "Fail", "InProgress");
+export type StatusType = "Enabled" | "Disabled";
+export const StatusType = S.Literal("Enabled", "Disabled");
+export type DomainStatusType =
+  | "CREATING"
+  | "DELETING"
+  | "UPDATING"
+  | "ACTIVE"
+  | "FAILED";
+export const DomainStatusType = S.Literal(
+  "CREATING",
+  "DELETING",
+  "UPDATING",
+  "ACTIVE",
+  "FAILED",
+);
 export type WebAuthnAuthenticatorTransportsList = string[];
 export const WebAuthnAuthenticatorTransportsList = S.Array(S.String);
 export interface CloudWatchLogsConfigurationType {
@@ -4691,17 +5016,28 @@ export const FirehoseConfigurationType = S.suspend(() =>
   identifier: "FirehoseConfigurationType",
 }) as any as S.Schema<FirehoseConfigurationType>;
 export interface CompromisedCredentialsActionsType {
-  EventAction: string;
+  EventAction: CompromisedCredentialsEventActionType;
 }
 export const CompromisedCredentialsActionsType = S.suspend(() =>
-  S.Struct({ EventAction: S.String }),
+  S.Struct({ EventAction: CompromisedCredentialsEventActionType }),
 ).annotations({
   identifier: "CompromisedCredentialsActionsType",
 }) as any as S.Schema<CompromisedCredentialsActionsType>;
+export type AccountTakeoverEventActionType =
+  | "BLOCK"
+  | "MFA_IF_CONFIGURED"
+  | "MFA_REQUIRED"
+  | "NO_ACTION";
+export const AccountTakeoverEventActionType = S.Literal(
+  "BLOCK",
+  "MFA_IF_CONFIGURED",
+  "MFA_REQUIRED",
+  "NO_ACTION",
+);
 export type CustomAttributesListType = SchemaAttributeType[];
 export const CustomAttributesListType = S.Array(SchemaAttributeType);
 export interface CompromisedCredentialsRiskConfigurationType {
-  EventFilter?: EventFiltersType;
+  EventFilter?: EventFilterType[];
   Actions: CompromisedCredentialsActionsType;
 }
 export const CompromisedCredentialsRiskConfigurationType = S.suspend(() =>
@@ -4748,10 +5084,10 @@ export const NotifyConfigurationType = S.suspend(() =>
 }) as any as S.Schema<NotifyConfigurationType>;
 export interface AccountTakeoverActionType {
   Notify: boolean;
-  EventAction: string;
+  EventAction: AccountTakeoverEventActionType;
 }
 export const AccountTakeoverActionType = S.suspend(() =>
-  S.Struct({ Notify: S.Boolean, EventAction: S.String }),
+  S.Struct({ Notify: S.Boolean, EventAction: AccountTakeoverEventActionType }),
 ).annotations({
   identifier: "AccountTakeoverActionType",
 }) as any as S.Schema<AccountTakeoverActionType>;
@@ -4783,7 +5119,7 @@ export const AccountTakeoverRiskConfigurationType = S.suspend(() =>
 }) as any as S.Schema<AccountTakeoverRiskConfigurationType>;
 export interface RiskConfigurationType {
   UserPoolId?: string;
-  ClientId?: string | Redacted.Redacted<string>;
+  ClientId?: string | redacted.Redacted<string>;
   CompromisedCredentialsRiskConfiguration?: CompromisedCredentialsRiskConfigurationType;
   AccountTakeoverRiskConfiguration?: AccountTakeoverRiskConfigurationType;
   RiskExceptionConfiguration?: RiskExceptionConfigurationType;
@@ -4811,27 +5147,27 @@ export interface UserPoolType {
   Id?: string;
   Name?: string;
   Policies?: UserPoolPolicyType;
-  DeletionProtection?: string;
+  DeletionProtection?: DeletionProtectionType;
   LambdaConfig?: LambdaConfigType;
-  Status?: string;
+  Status?: StatusType;
   LastModifiedDate?: Date;
   CreationDate?: Date;
-  SchemaAttributes?: SchemaAttributesListType;
-  AutoVerifiedAttributes?: VerifiedAttributesListType;
-  AliasAttributes?: AliasAttributesListType;
-  UsernameAttributes?: UsernameAttributesListType;
+  SchemaAttributes?: SchemaAttributeType[];
+  AutoVerifiedAttributes?: VerifiedAttributeType[];
+  AliasAttributes?: AliasAttributeType[];
+  UsernameAttributes?: UsernameAttributeType[];
   SmsVerificationMessage?: string;
   EmailVerificationMessage?: string;
   EmailVerificationSubject?: string;
   VerificationMessageTemplate?: VerificationMessageTemplateType;
   SmsAuthenticationMessage?: string;
   UserAttributeUpdateSettings?: UserAttributeUpdateSettingsType;
-  MfaConfiguration?: string;
+  MfaConfiguration?: UserPoolMfaType;
   DeviceConfiguration?: DeviceConfigurationType;
   EstimatedNumberOfUsers?: number;
   EmailConfiguration?: EmailConfigurationType;
   SmsConfiguration?: SmsConfigurationType;
-  UserPoolTags?: UserPoolTagsType;
+  UserPoolTags?: { [key: string]: string };
   SmsConfigurationFailure?: string;
   EmailConfigurationFailure?: string;
   Domain?: string;
@@ -4841,16 +5177,16 @@ export interface UserPoolType {
   UsernameConfiguration?: UsernameConfigurationType;
   Arn?: string;
   AccountRecoverySetting?: AccountRecoverySettingType;
-  UserPoolTier?: string;
+  UserPoolTier?: UserPoolTierType;
 }
 export const UserPoolType = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Name: S.optional(S.String),
     Policies: S.optional(UserPoolPolicyType),
-    DeletionProtection: S.optional(S.String),
+    DeletionProtection: S.optional(DeletionProtectionType),
     LambdaConfig: S.optional(LambdaConfigType),
-    Status: S.optional(S.String),
+    Status: S.optional(StatusType),
     LastModifiedDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -4865,7 +5201,7 @@ export const UserPoolType = S.suspend(() =>
     VerificationMessageTemplate: S.optional(VerificationMessageTemplateType),
     SmsAuthenticationMessage: S.optional(S.String),
     UserAttributeUpdateSettings: S.optional(UserAttributeUpdateSettingsType),
-    MfaConfiguration: S.optional(S.String),
+    MfaConfiguration: S.optional(UserPoolMfaType),
     DeviceConfiguration: S.optional(DeviceConfigurationType),
     EstimatedNumberOfUsers: S.optional(S.Number),
     EmailConfiguration: S.optional(EmailConfigurationType),
@@ -4880,7 +5216,7 @@ export const UserPoolType = S.suspend(() =>
     UsernameConfiguration: S.optional(UsernameConfigurationType),
     Arn: S.optional(S.String),
     AccountRecoverySetting: S.optional(AccountRecoverySettingType),
-    UserPoolTier: S.optional(S.String),
+    UserPoolTier: S.optional(UserPoolTierType),
   }),
 ).annotations({ identifier: "UserPoolType" }) as any as S.Schema<UserPoolType>;
 export interface DomainDescriptionType {
@@ -4890,7 +5226,7 @@ export interface DomainDescriptionType {
   S3Bucket?: string;
   CloudFrontDistribution?: string;
   Version?: string;
-  Status?: string;
+  Status?: DomainStatusType;
   CustomDomainConfig?: CustomDomainConfigType;
   ManagedLoginVersion?: number;
 }
@@ -4902,7 +5238,7 @@ export const DomainDescriptionType = S.suspend(() =>
     S3Bucket: S.optional(S.String),
     CloudFrontDistribution: S.optional(S.String),
     Version: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(DomainStatusType),
     CustomDomainConfig: S.optional(CustomDomainConfigType),
     ManagedLoginVersion: S.optional(S.Number),
   }),
@@ -4910,16 +5246,16 @@ export const DomainDescriptionType = S.suspend(() =>
   identifier: "DomainDescriptionType",
 }) as any as S.Schema<DomainDescriptionType>;
 export interface LogConfigurationType {
-  LogLevel: string;
-  EventSource: string;
+  LogLevel: LogLevel;
+  EventSource: EventSourceName;
   CloudWatchLogsConfiguration?: CloudWatchLogsConfigurationType;
   S3Configuration?: S3ConfigurationType;
   FirehoseConfiguration?: FirehoseConfigurationType;
 }
 export const LogConfigurationType = S.suspend(() =>
   S.Struct({
-    LogLevel: S.String,
-    EventSource: S.String,
+    LogLevel: LogLevel,
+    EventSource: EventSourceName,
     CloudWatchLogsConfiguration: S.optional(CloudWatchLogsConfigurationType),
     S3Configuration: S.optional(S3ConfigurationType),
     FirehoseConfiguration: S.optional(FirehoseConfigurationType),
@@ -4931,7 +5267,7 @@ export type LogConfigurationListType = LogConfigurationType[];
 export const LogConfigurationListType = S.Array(LogConfigurationType);
 export interface LogDeliveryConfigurationType {
   UserPoolId: string;
-  LogConfigurations: LogConfigurationListType;
+  LogConfigurations: LogConfigurationType[];
 }
 export const LogDeliveryConfigurationType = S.suspend(() =>
   S.Struct({
@@ -4943,14 +5279,14 @@ export const LogDeliveryConfigurationType = S.suspend(() =>
 }) as any as S.Schema<LogDeliveryConfigurationType>;
 export interface ProviderDescription {
   ProviderName?: string;
-  ProviderType?: string;
+  ProviderType?: IdentityProviderTypeType;
   LastModifiedDate?: Date;
   CreationDate?: Date;
 }
 export const ProviderDescription = S.suspend(() =>
   S.Struct({
     ProviderName: S.optional(S.String),
-    ProviderType: S.optional(S.String),
+    ProviderType: S.optional(IdentityProviderTypeType),
     LastModifiedDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -4964,7 +5300,7 @@ export const ProvidersListType = S.Array(ProviderDescription);
 export interface TermsDescriptionType {
   TermsId: string;
   TermsName: string;
-  Enforcement: string;
+  Enforcement: TermsEnforcementType;
   CreationDate: Date;
   LastModifiedDate: Date;
 }
@@ -4972,7 +5308,7 @@ export const TermsDescriptionType = S.suspend(() =>
   S.Struct({
     TermsId: S.String,
     TermsName: S.String,
-    Enforcement: S.String,
+    Enforcement: TermsEnforcementType,
     CreationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     LastModifiedDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
@@ -4982,7 +5318,7 @@ export const TermsDescriptionType = S.suspend(() =>
 export type TermsDescriptionListType = TermsDescriptionType[];
 export const TermsDescriptionListType = S.Array(TermsDescriptionType);
 export interface UserPoolClientDescription {
-  ClientId?: string | Redacted.Redacted<string>;
+  ClientId?: string | redacted.Redacted<string>;
   UserPoolId?: string;
   ClientName?: string;
 }
@@ -5001,7 +5337,7 @@ export interface UserPoolDescriptionType {
   Id?: string;
   Name?: string;
   LambdaConfig?: LambdaConfigType;
-  Status?: string;
+  Status?: StatusType;
   LastModifiedDate?: Date;
   CreationDate?: Date;
 }
@@ -5010,7 +5346,7 @@ export const UserPoolDescriptionType = S.suspend(() =>
     Id: S.optional(S.String),
     Name: S.optional(S.String),
     LambdaConfig: S.optional(LambdaConfigType),
-    Status: S.optional(S.String),
+    Status: S.optional(StatusType),
     LastModifiedDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -5026,7 +5362,7 @@ export interface WebAuthnCredentialDescription {
   FriendlyCredentialName: string;
   RelyingPartyId: string;
   AuthenticatorAttachment?: string;
-  AuthenticatorTransports: WebAuthnAuthenticatorTransportsList;
+  AuthenticatorTransports: string[];
   CreatedAt: Date;
 }
 export const WebAuthnCredentialDescription = S.suspend(() =>
@@ -5046,9 +5382,17 @@ export type WebAuthnCredentialDescriptionListType =
 export const WebAuthnCredentialDescriptionListType = S.Array(
   WebAuthnCredentialDescription,
 );
+export type RiskDecisionType = "NoRisk" | "AccountTakeover" | "Block";
+export const RiskDecisionType = S.Literal("NoRisk", "AccountTakeover", "Block");
+export type RiskLevelType = "Low" | "Medium" | "High";
+export const RiskLevelType = S.Literal("Low", "Medium", "High");
+export type ChallengeName = "Password" | "Mfa";
+export const ChallengeName = S.Literal("Password", "Mfa");
+export type ChallengeResponse = "Success" | "Failure";
+export const ChallengeResponse = S.Literal("Success", "Failure");
 export interface AddCustomAttributesRequest {
   UserPoolId: string;
-  CustomAttributes: CustomAttributesListType;
+  CustomAttributes: SchemaAttributeType[];
 }
 export const AddCustomAttributesRequest = S.suspend(() =>
   S.Struct({
@@ -5092,19 +5436,19 @@ export const AdminGetDeviceResponse = S.suspend(() =>
 }) as any as S.Schema<AdminGetDeviceResponse>;
 export interface AdminInitiateAuthRequest {
   UserPoolId: string;
-  ClientId: string | Redacted.Redacted<string>;
-  AuthFlow: string;
-  AuthParameters?: AuthParametersType;
-  ClientMetadata?: ClientMetadataType;
+  ClientId: string | redacted.Redacted<string>;
+  AuthFlow: AuthFlowType;
+  AuthParameters?: { [key: string]: string };
+  ClientMetadata?: { [key: string]: string };
   AnalyticsMetadata?: AnalyticsMetadataType;
   ContextData?: ContextDataType;
-  Session?: string | Redacted.Redacted<string>;
+  Session?: string | redacted.Redacted<string>;
 }
 export const AdminInitiateAuthRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
     ClientId: SensitiveString,
-    AuthFlow: S.String,
+    AuthFlow: AuthFlowType,
     AuthParameters: S.optional(AuthParametersType),
     ClientMetadata: S.optional(ClientMetadataType),
     AnalyticsMetadata: S.optional(AnalyticsMetadataType),
@@ -5125,7 +5469,7 @@ export const AdminInitiateAuthRequest = S.suspend(() =>
   identifier: "AdminInitiateAuthRequest",
 }) as any as S.Schema<AdminInitiateAuthRequest>;
 export interface AdminListGroupsForUserResponse {
-  Groups?: GroupListType;
+  Groups?: GroupType[];
   NextToken?: string;
 }
 export const AdminListGroupsForUserResponse = S.suspend(() =>
@@ -5137,14 +5481,14 @@ export const AdminListGroupsForUserResponse = S.suspend(() =>
   identifier: "AdminListGroupsForUserResponse",
 }) as any as S.Schema<AdminListGroupsForUserResponse>;
 export interface AdminRespondToAuthChallengeResponse {
-  ChallengeName?: string;
-  Session?: string | Redacted.Redacted<string>;
-  ChallengeParameters?: ChallengeParametersType;
+  ChallengeName?: ChallengeNameType;
+  Session?: string | redacted.Redacted<string>;
+  ChallengeParameters?: { [key: string]: string };
   AuthenticationResult?: AuthenticationResultType;
 }
 export const AdminRespondToAuthChallengeResponse = S.suspend(() =>
   S.Struct({
-    ChallengeName: S.optional(S.String),
+    ChallengeName: S.optional(ChallengeNameType),
     Session: S.optional(SensitiveString),
     ChallengeParameters: S.optional(ChallengeParametersType),
     AuthenticationResult: S.optional(AuthenticationResultType),
@@ -5205,34 +5549,34 @@ export const CreateUserImportJobResponse = S.suspend(() =>
 export interface CreateUserPoolRequest {
   PoolName: string;
   Policies?: UserPoolPolicyType;
-  DeletionProtection?: string;
+  DeletionProtection?: DeletionProtectionType;
   LambdaConfig?: LambdaConfigType;
-  AutoVerifiedAttributes?: VerifiedAttributesListType;
-  AliasAttributes?: AliasAttributesListType;
-  UsernameAttributes?: UsernameAttributesListType;
+  AutoVerifiedAttributes?: VerifiedAttributeType[];
+  AliasAttributes?: AliasAttributeType[];
+  UsernameAttributes?: UsernameAttributeType[];
   SmsVerificationMessage?: string;
   EmailVerificationMessage?: string;
   EmailVerificationSubject?: string;
   VerificationMessageTemplate?: VerificationMessageTemplateType;
   SmsAuthenticationMessage?: string;
-  MfaConfiguration?: string;
+  MfaConfiguration?: UserPoolMfaType;
   UserAttributeUpdateSettings?: UserAttributeUpdateSettingsType;
   DeviceConfiguration?: DeviceConfigurationType;
   EmailConfiguration?: EmailConfigurationType;
   SmsConfiguration?: SmsConfigurationType;
-  UserPoolTags?: UserPoolTagsType;
+  UserPoolTags?: { [key: string]: string };
   AdminCreateUserConfig?: AdminCreateUserConfigType;
-  Schema?: SchemaAttributesListType;
+  Schema?: SchemaAttributeType[];
   UserPoolAddOns?: UserPoolAddOnsType;
   UsernameConfiguration?: UsernameConfigurationType;
   AccountRecoverySetting?: AccountRecoverySettingType;
-  UserPoolTier?: string;
+  UserPoolTier?: UserPoolTierType;
 }
 export const CreateUserPoolRequest = S.suspend(() =>
   S.Struct({
     PoolName: S.String,
     Policies: S.optional(UserPoolPolicyType),
-    DeletionProtection: S.optional(S.String),
+    DeletionProtection: S.optional(DeletionProtectionType),
     LambdaConfig: S.optional(LambdaConfigType),
     AutoVerifiedAttributes: S.optional(VerifiedAttributesListType),
     AliasAttributes: S.optional(AliasAttributesListType),
@@ -5242,7 +5586,7 @@ export const CreateUserPoolRequest = S.suspend(() =>
     EmailVerificationSubject: S.optional(S.String),
     VerificationMessageTemplate: S.optional(VerificationMessageTemplateType),
     SmsAuthenticationMessage: S.optional(S.String),
-    MfaConfiguration: S.optional(S.String),
+    MfaConfiguration: S.optional(UserPoolMfaType),
     UserAttributeUpdateSettings: S.optional(UserAttributeUpdateSettingsType),
     DeviceConfiguration: S.optional(DeviceConfigurationType),
     EmailConfiguration: S.optional(EmailConfigurationType),
@@ -5253,7 +5597,7 @@ export const CreateUserPoolRequest = S.suspend(() =>
     UserPoolAddOns: S.optional(UserPoolAddOnsType),
     UsernameConfiguration: S.optional(UsernameConfigurationType),
     AccountRecoverySetting: S.optional(AccountRecoverySettingType),
-    UserPoolTier: S.optional(S.String),
+    UserPoolTier: S.optional(UserPoolTierType),
   }).pipe(
     T.all(
       ns,
@@ -5383,15 +5727,15 @@ export const GetUICustomizationResponse = S.suspend(() =>
   identifier: "GetUICustomizationResponse",
 }) as any as S.Schema<GetUICustomizationResponse>;
 export interface InitiateAuthResponse {
-  ChallengeName?: string;
-  Session?: string | Redacted.Redacted<string>;
-  ChallengeParameters?: ChallengeParametersType;
+  ChallengeName?: ChallengeNameType;
+  Session?: string | redacted.Redacted<string>;
+  ChallengeParameters?: { [key: string]: string };
   AuthenticationResult?: AuthenticationResultType;
-  AvailableChallenges?: AvailableChallengeListType;
+  AvailableChallenges?: ChallengeNameType[];
 }
 export const InitiateAuthResponse = S.suspend(() =>
   S.Struct({
-    ChallengeName: S.optional(S.String),
+    ChallengeName: S.optional(ChallengeNameType),
     Session: S.optional(SensitiveString),
     ChallengeParameters: S.optional(ChallengeParametersType),
     AuthenticationResult: S.optional(AuthenticationResultType),
@@ -5401,7 +5745,7 @@ export const InitiateAuthResponse = S.suspend(() =>
   identifier: "InitiateAuthResponse",
 }) as any as S.Schema<InitiateAuthResponse>;
 export interface ListIdentityProvidersResponse {
-  Providers: ProvidersListType;
+  Providers: ProviderDescription[];
   NextToken?: string;
 }
 export const ListIdentityProvidersResponse = S.suspend(() =>
@@ -5413,7 +5757,7 @@ export const ListIdentityProvidersResponse = S.suspend(() =>
   identifier: "ListIdentityProvidersResponse",
 }) as any as S.Schema<ListIdentityProvidersResponse>;
 export interface ListTermsResponse {
-  Terms: TermsDescriptionListType;
+  Terms: TermsDescriptionType[];
   NextToken?: string;
 }
 export const ListTermsResponse = S.suspend(() =>
@@ -5425,7 +5769,7 @@ export const ListTermsResponse = S.suspend(() =>
   identifier: "ListTermsResponse",
 }) as any as S.Schema<ListTermsResponse>;
 export interface ListUserPoolClientsResponse {
-  UserPoolClients?: UserPoolClientListType;
+  UserPoolClients?: UserPoolClientDescription[];
   NextToken?: string;
 }
 export const ListUserPoolClientsResponse = S.suspend(() =>
@@ -5437,7 +5781,7 @@ export const ListUserPoolClientsResponse = S.suspend(() =>
   identifier: "ListUserPoolClientsResponse",
 }) as any as S.Schema<ListUserPoolClientsResponse>;
 export interface ListUserPoolsResponse {
-  UserPools?: UserPoolListType;
+  UserPools?: UserPoolDescriptionType[];
   NextToken?: string;
 }
 export const ListUserPoolsResponse = S.suspend(() =>
@@ -5449,7 +5793,7 @@ export const ListUserPoolsResponse = S.suspend(() =>
   identifier: "ListUserPoolsResponse",
 }) as any as S.Schema<ListUserPoolsResponse>;
 export interface ListUsersResponse {
-  Users?: UsersListType;
+  Users?: UserType[];
   PaginationToken?: string;
 }
 export const ListUsersResponse = S.suspend(() =>
@@ -5461,7 +5805,7 @@ export const ListUsersResponse = S.suspend(() =>
   identifier: "ListUsersResponse",
 }) as any as S.Schema<ListUsersResponse>;
 export interface ListWebAuthnCredentialsResponse {
-  Credentials: WebAuthnCredentialDescriptionListType;
+  Credentials: WebAuthnCredentialDescription[];
   NextToken?: string;
 }
 export const ListWebAuthnCredentialsResponse = S.suspend(() =>
@@ -5474,7 +5818,7 @@ export const ListWebAuthnCredentialsResponse = S.suspend(() =>
 }) as any as S.Schema<ListWebAuthnCredentialsResponse>;
 export interface SetLogDeliveryConfigurationRequest {
   UserPoolId: string;
-  LogConfigurations: LogConfigurationListType;
+  LogConfigurations: LogConfigurationType[];
 }
 export const SetLogDeliveryConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -5498,7 +5842,7 @@ export interface SetUserPoolMfaConfigResponse {
   SmsMfaConfiguration?: SmsMfaConfigType;
   SoftwareTokenMfaConfiguration?: SoftwareTokenMfaConfigType;
   EmailMfaConfiguration?: EmailMfaConfigType;
-  MfaConfiguration?: string;
+  MfaConfiguration?: UserPoolMfaType;
   WebAuthnConfiguration?: WebAuthnConfigurationType;
 }
 export const SetUserPoolMfaConfigResponse = S.suspend(() =>
@@ -5506,34 +5850,34 @@ export const SetUserPoolMfaConfigResponse = S.suspend(() =>
     SmsMfaConfiguration: S.optional(SmsMfaConfigType),
     SoftwareTokenMfaConfiguration: S.optional(SoftwareTokenMfaConfigType),
     EmailMfaConfiguration: S.optional(EmailMfaConfigType),
-    MfaConfiguration: S.optional(S.String),
+    MfaConfiguration: S.optional(UserPoolMfaType),
     WebAuthnConfiguration: S.optional(WebAuthnConfigurationType),
   }).pipe(ns),
 ).annotations({
   identifier: "SetUserPoolMfaConfigResponse",
 }) as any as S.Schema<SetUserPoolMfaConfigResponse>;
 export interface EventRiskType {
-  RiskDecision?: string;
-  RiskLevel?: string;
+  RiskDecision?: RiskDecisionType;
+  RiskLevel?: RiskLevelType;
   CompromisedCredentialsDetected?: boolean;
 }
 export const EventRiskType = S.suspend(() =>
   S.Struct({
-    RiskDecision: S.optional(S.String),
-    RiskLevel: S.optional(S.String),
+    RiskDecision: S.optional(RiskDecisionType),
+    RiskLevel: S.optional(RiskLevelType),
     CompromisedCredentialsDetected: S.optional(S.Boolean),
   }),
 ).annotations({
   identifier: "EventRiskType",
 }) as any as S.Schema<EventRiskType>;
 export interface ChallengeResponseType {
-  ChallengeName?: string;
-  ChallengeResponse?: string;
+  ChallengeName?: ChallengeName;
+  ChallengeResponse?: ChallengeResponse;
 }
 export const ChallengeResponseType = S.suspend(() =>
   S.Struct({
-    ChallengeName: S.optional(S.String),
-    ChallengeResponse: S.optional(S.String),
+    ChallengeName: S.optional(ChallengeName),
+    ChallengeResponse: S.optional(ChallengeResponse),
   }),
 ).annotations({
   identifier: "ChallengeResponseType",
@@ -5559,13 +5903,13 @@ export const EventContextDataType = S.suspend(() =>
   identifier: "EventContextDataType",
 }) as any as S.Schema<EventContextDataType>;
 export interface EventFeedbackType {
-  FeedbackValue: string;
+  FeedbackValue: FeedbackValueType;
   Provider: string;
   FeedbackDate?: Date;
 }
 export const EventFeedbackType = S.suspend(() =>
   S.Struct({
-    FeedbackValue: S.String,
+    FeedbackValue: FeedbackValueType,
     Provider: S.String,
     FeedbackDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -5574,20 +5918,20 @@ export const EventFeedbackType = S.suspend(() =>
 }) as any as S.Schema<EventFeedbackType>;
 export interface AuthEventType {
   EventId?: string;
-  EventType?: string;
+  EventType?: EventType;
   CreationDate?: Date;
-  EventResponse?: string;
+  EventResponse?: EventResponseType;
   EventRisk?: EventRiskType;
-  ChallengeResponses?: ChallengeResponseListType;
+  ChallengeResponses?: ChallengeResponseType[];
   EventContextData?: EventContextDataType;
   EventFeedback?: EventFeedbackType;
 }
 export const AuthEventType = S.suspend(() =>
   S.Struct({
     EventId: S.optional(S.String),
-    EventType: S.optional(S.String),
+    EventType: S.optional(EventType),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EventResponse: S.optional(S.String),
+    EventResponse: S.optional(EventResponseType),
     EventRisk: S.optional(EventRiskType),
     ChallengeResponses: S.optional(ChallengeResponseListType),
     EventContextData: S.optional(EventContextDataType),
@@ -5599,15 +5943,15 @@ export const AuthEventType = S.suspend(() =>
 export type AuthEventsType = AuthEventType[];
 export const AuthEventsType = S.Array(AuthEventType);
 export interface AdminInitiateAuthResponse {
-  ChallengeName?: string;
-  Session?: string | Redacted.Redacted<string>;
-  ChallengeParameters?: ChallengeParametersType;
+  ChallengeName?: ChallengeNameType;
+  Session?: string | redacted.Redacted<string>;
+  ChallengeParameters?: { [key: string]: string };
   AuthenticationResult?: AuthenticationResultType;
-  AvailableChallenges?: AvailableChallengeListType;
+  AvailableChallenges?: ChallengeNameType[];
 }
 export const AdminInitiateAuthResponse = S.suspend(() =>
   S.Struct({
-    ChallengeName: S.optional(S.String),
+    ChallengeName: S.optional(ChallengeNameType),
     Session: S.optional(SensitiveString),
     ChallengeParameters: S.optional(ChallengeParametersType),
     AuthenticationResult: S.optional(AuthenticationResultType),
@@ -5617,7 +5961,7 @@ export const AdminInitiateAuthResponse = S.suspend(() =>
   identifier: "AdminInitiateAuthResponse",
 }) as any as S.Schema<AdminInitiateAuthResponse>;
 export interface AdminListUserAuthEventsResponse {
-  AuthEvents?: AuthEventsType;
+  AuthEvents?: AuthEventType[];
   NextToken?: string;
 }
 export const AdminListUserAuthEventsResponse = S.suspend(() =>
@@ -5658,7 +6002,7 @@ export const SetLogDeliveryConfigurationResponse = S.suspend(() =>
 }) as any as S.Schema<SetLogDeliveryConfigurationResponse>;
 export interface SetRiskConfigurationRequest {
   UserPoolId: string;
-  ClientId?: string | Redacted.Redacted<string>;
+  ClientId?: string | redacted.Redacted<string>;
   CompromisedCredentialsRiskConfiguration?: CompromisedCredentialsRiskConfigurationType;
   AccountTakeoverRiskConfiguration?: AccountTakeoverRiskConfigurationType;
   RiskExceptionConfiguration?: RiskExceptionConfigurationType;
@@ -5942,7 +6286,7 @@ export class WebAuthnRelyingPartyMismatchException extends S.TaggedError<WebAuth
  */
 export const getSigningCertificate: (
   input: GetSigningCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSigningCertificateResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -5964,7 +6308,7 @@ export const getSigningCertificate: (
  */
 export const describeIdentityProvider: (
   input: DescribeIdentityProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeIdentityProviderResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -5990,7 +6334,7 @@ export const describeIdentityProvider: (
  */
 export const describeManagedLoginBranding: (
   input: DescribeManagedLoginBrandingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeManagedLoginBrandingResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -6015,7 +6359,7 @@ export const describeManagedLoginBranding: (
  */
 export const describeResourceServer: (
   input: DescribeResourceServerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeResourceServerResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -6050,7 +6394,7 @@ export const describeResourceServer: (
  */
 export const describeTerms: (
   input: DescribeTermsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeTermsResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -6087,7 +6431,7 @@ export const describeTerms: (
  */
 export const describeUserPoolClient: (
   input: DescribeUserPoolClientRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeUserPoolClientResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -6123,7 +6467,7 @@ export const describeUserPoolClient: (
  */
 export const describeUserPoolDomain: (
   input: DescribeUserPoolDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeUserPoolDomainResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -6157,7 +6501,7 @@ export const describeUserPoolDomain: (
  */
 export const getLogDeliveryConfiguration: (
   input: GetLogDeliveryConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLogDeliveryConfigurationResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -6186,7 +6530,7 @@ export const getLogDeliveryConfiguration: (
  */
 export const getUICustomization: (
   input: GetUICustomizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUICustomizationResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -6223,7 +6567,7 @@ export const getUICustomization: (
 export const listIdentityProviders: {
   (
     input: ListIdentityProvidersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListIdentityProvidersResponse,
     | InternalErrorException
     | InvalidParameterException
@@ -6235,7 +6579,7 @@ export const listIdentityProviders: {
   >;
   pages: (
     input: ListIdentityProvidersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListIdentityProvidersResponse,
     | InternalErrorException
     | InvalidParameterException
@@ -6247,7 +6591,7 @@ export const listIdentityProviders: {
   >;
   items: (
     input: ListIdentityProvidersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProviderDescription,
     | InternalErrorException
     | InvalidParameterException
@@ -6289,7 +6633,7 @@ export const listIdentityProviders: {
  */
 export const listTerms: (
   input: ListTermsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTermsResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -6326,7 +6670,7 @@ export const listTerms: (
 export const listUserPoolClients: {
   (
     input: ListUserPoolClientsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUserPoolClientsResponse,
     | InternalErrorException
     | InvalidParameterException
@@ -6338,7 +6682,7 @@ export const listUserPoolClients: {
   >;
   pages: (
     input: ListUserPoolClientsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUserPoolClientsResponse,
     | InternalErrorException
     | InvalidParameterException
@@ -6350,7 +6694,7 @@ export const listUserPoolClients: {
   >;
   items: (
     input: ListUserPoolClientsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     UserPoolClientDescription,
     | InternalErrorException
     | InvalidParameterException
@@ -6393,7 +6737,7 @@ export const listUserPoolClients: {
 export const listUserPools: {
   (
     input: ListUserPoolsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUserPoolsResponse,
     | InternalErrorException
     | InvalidParameterException
@@ -6404,7 +6748,7 @@ export const listUserPools: {
   >;
   pages: (
     input: ListUserPoolsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUserPoolsResponse,
     | InternalErrorException
     | InvalidParameterException
@@ -6415,7 +6759,7 @@ export const listUserPools: {
   >;
   items: (
     input: ListUserPoolsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     UserPoolDescriptionType,
     | InternalErrorException
     | InvalidParameterException
@@ -6457,7 +6801,7 @@ export const listUserPools: {
 export const listUsers: {
   (
     input: ListUsersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUsersResponse,
     | InternalErrorException
     | InvalidParameterException
@@ -6469,7 +6813,7 @@ export const listUsers: {
   >;
   pages: (
     input: ListUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUsersResponse,
     | InternalErrorException
     | InvalidParameterException
@@ -6481,7 +6825,7 @@ export const listUsers: {
   >;
   items: (
     input: ListUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     UserType,
     | InternalErrorException
     | InvalidParameterException
@@ -6514,7 +6858,7 @@ export const listUsers: {
  */
 export const describeManagedLoginBrandingByClient: (
   input: DescribeManagedLoginBrandingByClientRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeManagedLoginBrandingByClientResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -6539,7 +6883,7 @@ export const describeManagedLoginBrandingByClient: (
  */
 export const describeUserImportJob: (
   input: DescribeUserImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeUserImportJobResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -6579,7 +6923,7 @@ export const describeUserImportJob: (
  */
 export const getCSVHeader: (
   input: GetCSVHeaderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCSVHeaderResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -6617,7 +6961,7 @@ export const getCSVHeader: (
  */
 export const getGroup: (
   input: GetGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetGroupResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -6644,7 +6988,7 @@ export const getGroup: (
  */
 export const getIdentityProviderByIdentifier: (
   input: GetIdentityProviderByIdentifierRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIdentityProviderByIdentifierResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -6691,7 +7035,7 @@ export const getIdentityProviderByIdentifier: (
  */
 export const getUserPoolMfaConfig: (
   input: GetUserPoolMfaConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUserPoolMfaConfigResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -6727,7 +7071,7 @@ export const getUserPoolMfaConfig: (
 export const listGroups: {
   (
     input: ListGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGroupsResponse,
     | InternalErrorException
     | InvalidParameterException
@@ -6739,7 +7083,7 @@ export const listGroups: {
   >;
   pages: (
     input: ListGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGroupsResponse,
     | InternalErrorException
     | InvalidParameterException
@@ -6751,7 +7095,7 @@ export const listGroups: {
   >;
   items: (
     input: ListGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GroupType,
     | InternalErrorException
     | InvalidParameterException
@@ -6795,7 +7139,7 @@ export const listGroups: {
 export const listResourceServers: {
   (
     input: ListResourceServersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResourceServersResponse,
     | InternalErrorException
     | InvalidParameterException
@@ -6807,7 +7151,7 @@ export const listResourceServers: {
   >;
   pages: (
     input: ListResourceServersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResourceServersResponse,
     | InternalErrorException
     | InvalidParameterException
@@ -6819,7 +7163,7 @@ export const listResourceServers: {
   >;
   items: (
     input: ListResourceServersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResourceServerType,
     | InternalErrorException
     | InvalidParameterException
@@ -6853,7 +7197,7 @@ export const listResourceServers: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -6890,7 +7234,7 @@ export const listTagsForResource: (
  */
 export const listUserImportJobs: (
   input: ListUserImportJobsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListUserImportJobsResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -6927,7 +7271,7 @@ export const listUserImportJobs: (
 export const listUsersInGroup: {
   (
     input: ListUsersInGroupRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUsersInGroupResponse,
     | InternalErrorException
     | InvalidParameterException
@@ -6939,7 +7283,7 @@ export const listUsersInGroup: {
   >;
   pages: (
     input: ListUsersInGroupRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUsersInGroupResponse,
     | InternalErrorException
     | InvalidParameterException
@@ -6951,7 +7295,7 @@ export const listUsersInGroup: {
   >;
   items: (
     input: ListUsersInGroupRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     UserType,
     | InternalErrorException
     | InvalidParameterException
@@ -6999,7 +7343,7 @@ export const listUsersInGroup: {
  */
 export const setUICustomization: (
   input: SetUICustomizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetUICustomizationResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -7035,7 +7379,7 @@ export const setUICustomization: (
  */
 export const updateGroup: (
   input: UpdateGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGroupResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -7080,7 +7424,7 @@ export const updateGroup: (
  */
 export const updateManagedLoginBranding: (
   input: UpdateManagedLoginBrandingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateManagedLoginBrandingResponse,
   | ConcurrentModificationException
   | InternalErrorException
@@ -7121,7 +7465,7 @@ export const updateManagedLoginBranding: (
  */
 export const updateResourceServer: (
   input: UpdateResourceServerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateResourceServerResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -7160,7 +7504,7 @@ export const updateResourceServer: (
  */
 export const deleteGroup: (
   input: DeleteGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGroupResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -7199,7 +7543,7 @@ export const deleteGroup: (
  */
 export const deleteResourceServer: (
   input: DeleteResourceServerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourceServerResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -7240,7 +7584,7 @@ export const deleteResourceServer: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -7265,7 +7609,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -7303,7 +7647,7 @@ export const untagResource: (
  */
 export const deleteManagedLoginBranding: (
   input: DeleteManagedLoginBrandingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteManagedLoginBrandingResponse,
   | ConcurrentModificationException
   | InternalErrorException
@@ -7340,7 +7684,7 @@ export const deleteManagedLoginBranding: (
  */
 export const deleteTerms: (
   input: DeleteTermsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTermsResponse,
   | ConcurrentModificationException
   | InternalErrorException
@@ -7368,7 +7712,7 @@ export const deleteTerms: (
  */
 export const deleteUserPoolClient: (
   input: DeleteUserPoolClientRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUserPoolClientResponse,
   | ConcurrentModificationException
   | InternalErrorException
@@ -7397,7 +7741,7 @@ export const deleteUserPoolClient: (
  */
 export const deleteUserPoolDomain: (
   input: DeleteUserPoolDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUserPoolDomainResponse,
   | ConcurrentModificationException
   | InternalErrorException
@@ -7453,7 +7797,7 @@ export const deleteUserPoolDomain: (
  */
 export const updateUserPoolDomain: (
   input: UpdateUserPoolDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserPoolDomainResponse,
   | ConcurrentModificationException
   | FeatureUnavailableInTierException
@@ -7493,7 +7837,7 @@ export const updateUserPoolDomain: (
  */
 export const createGroup: (
   input: CreateGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGroupResponse,
   | GroupExistsException
   | InternalErrorException
@@ -7534,7 +7878,7 @@ export const createGroup: (
  */
 export const createResourceServer: (
   input: CreateResourceServerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateResourceServerResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -7569,7 +7913,7 @@ export const createResourceServer: (
  */
 export const listWebAuthnCredentials: (
   input: ListWebAuthnCredentialsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListWebAuthnCredentialsResponse,
   | ForbiddenException
   | InternalErrorException
@@ -7604,7 +7948,7 @@ export const listWebAuthnCredentials: (
  */
 export const deleteWebAuthnCredential: (
   input: DeleteWebAuthnCredentialRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWebAuthnCredentialResponse,
   | ForbiddenException
   | InternalErrorException
@@ -7654,7 +7998,7 @@ export const deleteWebAuthnCredential: (
  */
 export const createUserPoolDomain: (
   input: CreateUserPoolDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUserPoolDomainResponse,
   | ConcurrentModificationException
   | FeatureUnavailableInTierException
@@ -7696,7 +8040,7 @@ export const createUserPoolDomain: (
  */
 export const adminListDevices: (
   input: AdminListDevicesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AdminListDevicesResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -7734,7 +8078,7 @@ export const adminListDevices: (
  */
 export const adminGetDevice: (
   input: AdminGetDeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AdminGetDeviceResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -7773,7 +8117,7 @@ export const adminGetDevice: (
  */
 export const createIdentityProvider: (
   input: CreateIdentityProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateIdentityProviderResponse,
   | DuplicateProviderException
   | InternalErrorException
@@ -7805,7 +8149,7 @@ export const createIdentityProvider: (
  */
 export const setLogDeliveryConfiguration: (
   input: SetLogDeliveryConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetLogDeliveryConfigurationResponse,
   | FeatureUnavailableInTierException
   | InternalErrorException
@@ -7845,7 +8189,7 @@ export const setLogDeliveryConfiguration: (
 export const adminListGroupsForUser: {
   (
     input: AdminListGroupsForUserRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     AdminListGroupsForUserResponse,
     | InternalErrorException
     | InvalidParameterException
@@ -7858,7 +8202,7 @@ export const adminListGroupsForUser: {
   >;
   pages: (
     input: AdminListGroupsForUserRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AdminListGroupsForUserResponse,
     | InternalErrorException
     | InvalidParameterException
@@ -7871,7 +8215,7 @@ export const adminListGroupsForUser: {
   >;
   items: (
     input: AdminListGroupsForUserRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GroupType,
     | InternalErrorException
     | InvalidParameterException
@@ -7908,7 +8252,7 @@ export const adminListGroupsForUser: {
  */
 export const describeRiskConfiguration: (
   input: DescribeRiskConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRiskConfigurationResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -7947,7 +8291,7 @@ export const describeRiskConfiguration: (
  */
 export const describeUserPool: (
   input: DescribeUserPoolRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeUserPoolResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -7986,7 +8330,7 @@ export const describeUserPool: (
  */
 export const deleteIdentityProvider: (
   input: DeleteIdentityProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIdentityProviderResponse,
   | ConcurrentModificationException
   | InternalErrorException
@@ -8017,7 +8361,7 @@ export const deleteIdentityProvider: (
  */
 export const startUserImportJob: (
   input: StartUserImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartUserImportJobResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -8067,7 +8411,7 @@ export const startUserImportJob: (
  */
 export const updateTerms: (
   input: UpdateTermsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTermsResponse,
   | ConcurrentModificationException
   | InternalErrorException
@@ -8106,7 +8450,7 @@ export const updateTerms: (
  */
 export const deleteUserPool: (
   input: DeleteUserPoolRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUserPoolResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -8144,7 +8488,7 @@ export const deleteUserPool: (
  */
 export const associateSoftwareToken: (
   input: AssociateSoftwareTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateSoftwareTokenResponse,
   | ConcurrentModificationException
   | ForbiddenException
@@ -8198,7 +8542,7 @@ export const associateSoftwareToken: (
  */
 export const createManagedLoginBranding: (
   input: CreateManagedLoginBrandingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateManagedLoginBrandingResponse,
   | ConcurrentModificationException
   | InternalErrorException
@@ -8246,7 +8590,7 @@ export const createManagedLoginBranding: (
  */
 export const createUserPoolClient: (
   input: CreateUserPoolClientRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUserPoolClientResponse,
   | FeatureUnavailableInTierException
   | InternalErrorException
@@ -8297,7 +8641,7 @@ export const createUserPoolClient: (
  */
 export const setUserPoolMfaConfig: (
   input: SetUserPoolMfaConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetUserPoolMfaConfigResponse,
   | ConcurrentModificationException
   | FeatureUnavailableInTierException
@@ -8368,7 +8712,7 @@ export const setUserPoolMfaConfig: (
  */
 export const adminSetUserPassword: (
   input: AdminSetUserPasswordRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AdminSetUserPasswordResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -8413,7 +8757,7 @@ export const adminSetUserPassword: (
  */
 export const adminGetUser: (
   input: AdminGetUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AdminGetUserResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -8452,7 +8796,7 @@ export const adminGetUser: (
  */
 export const adminSetUserSettings: (
   input: AdminSetUserSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AdminSetUserSettingsResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -8487,7 +8831,7 @@ export const adminSetUserSettings: (
  */
 export const adminDeleteUser: (
   input: AdminDeleteUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AdminDeleteUserResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -8526,7 +8870,7 @@ export const adminDeleteUser: (
  */
 export const adminDeleteUserAttributes: (
   input: AdminDeleteUserAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AdminDeleteUserAttributesResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -8565,7 +8909,7 @@ export const adminDeleteUserAttributes: (
  */
 export const adminDisableUser: (
   input: AdminDisableUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AdminDisableUserResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -8603,7 +8947,7 @@ export const adminDisableUser: (
  */
 export const adminEnableUser: (
   input: AdminEnableUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AdminEnableUserResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -8642,7 +8986,7 @@ export const adminEnableUser: (
  */
 export const adminRemoveUserFromGroup: (
   input: AdminRemoveUserFromGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AdminRemoveUserFromGroupResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -8689,7 +9033,7 @@ export const adminRemoveUserFromGroup: (
  */
 export const adminUpdateAuthEventFeedback: (
   input: AdminUpdateAuthEventFeedbackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AdminUpdateAuthEventFeedbackResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -8751,7 +9095,7 @@ export const adminUpdateAuthEventFeedback: (
  */
 export const adminUserGlobalSignOut: (
   input: AdminUserGlobalSignOutRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AdminUserGlobalSignOutResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -8796,7 +9140,7 @@ export const adminUserGlobalSignOut: (
  */
 export const updateAuthEventFeedback: (
   input: UpdateAuthEventFeedbackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAuthEventFeedbackResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -8861,7 +9205,7 @@ export const updateAuthEventFeedback: (
  */
 export const adminDisableProviderForUser: (
   input: AdminDisableProviderForUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AdminDisableProviderForUserResponse,
   | AliasExistsException
   | InternalErrorException
@@ -8914,7 +9258,7 @@ export const adminDisableProviderForUser: (
  */
 export const adminLinkProviderForUser: (
   input: AdminLinkProviderForUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AdminLinkProviderForUserResponse,
   | AliasExistsException
   | InternalErrorException
@@ -8957,7 +9301,7 @@ export const adminLinkProviderForUser: (
  */
 export const adminForgetDevice: (
   input: AdminForgetDeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AdminForgetDeviceResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -9001,7 +9345,7 @@ export const adminForgetDevice: (
  */
 export const adminUpdateDeviceStatus: (
   input: AdminUpdateDeviceStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AdminUpdateDeviceStatusResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -9042,7 +9386,7 @@ export const adminUpdateDeviceStatus: (
  */
 export const adminAddUserToGroup: (
   input: AdminAddUserToGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AdminAddUserToGroupResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -9081,7 +9425,7 @@ export const adminAddUserToGroup: (
 export const adminListUserAuthEvents: {
   (
     input: AdminListUserAuthEventsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     AdminListUserAuthEventsResponse,
     | InternalErrorException
     | InvalidParameterException
@@ -9095,7 +9439,7 @@ export const adminListUserAuthEvents: {
   >;
   pages: (
     input: AdminListUserAuthEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AdminListUserAuthEventsResponse,
     | InternalErrorException
     | InvalidParameterException
@@ -9109,7 +9453,7 @@ export const adminListUserAuthEvents: {
   >;
   items: (
     input: AdminListUserAuthEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AuthEventType,
     | InternalErrorException
     | InvalidParameterException
@@ -9163,7 +9507,7 @@ export const adminListUserAuthEvents: {
  */
 export const setRiskConfiguration: (
   input: SetRiskConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetRiskConfigurationResponse,
   | CodeDeliveryFailureException
   | InternalErrorException
@@ -9207,7 +9551,7 @@ export const setRiskConfiguration: (
  */
 export const updateIdentityProvider: (
   input: UpdateIdentityProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateIdentityProviderResponse,
   | ConcurrentModificationException
   | InternalErrorException
@@ -9238,7 +9582,7 @@ export const updateIdentityProvider: (
  */
 export const stopUserImportJob: (
   input: StopUserImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopUserImportJobResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -9276,7 +9620,7 @@ export const stopUserImportJob: (
  */
 export const createUserImportJob: (
   input: CreateUserImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUserImportJobResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -9328,7 +9672,7 @@ export const createUserImportJob: (
  */
 export const createTerms: (
   input: CreateTermsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTermsResponse,
   | ConcurrentModificationException
   | InternalErrorException
@@ -9371,7 +9715,7 @@ export const createTerms: (
  */
 export const addCustomAttributes: (
   input: AddCustomAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddCustomAttributesResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -9417,7 +9761,7 @@ export const addCustomAttributes: (
  */
 export const updateUserPoolClient: (
   input: UpdateUserPoolClientRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserPoolClientResponse,
   | ConcurrentModificationException
   | FeatureUnavailableInTierException
@@ -9464,7 +9808,7 @@ export const updateUserPoolClient: (
  */
 export const adminSetUserMFAPreference: (
   input: AdminSetUserMFAPreferenceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AdminSetUserMFAPreferenceResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -9498,7 +9842,7 @@ export const adminSetUserMFAPreference: (
  */
 export const startWebAuthnRegistration: (
   input: StartWebAuthnRegistrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartWebAuthnRegistrationResponse,
   | ForbiddenException
   | InternalErrorException
@@ -9560,7 +9904,7 @@ export const startWebAuthnRegistration: (
  */
 export const updateUserPool: (
   input: UpdateUserPoolRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserPoolResponse,
   | ConcurrentModificationException
   | FeatureUnavailableInTierException
@@ -9611,7 +9955,7 @@ export const updateUserPool: (
  */
 export const confirmDevice: (
   input: ConfirmDeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ConfirmDeviceResponse,
   | DeviceKeyExistsException
   | ForbiddenException
@@ -9661,7 +10005,7 @@ export const confirmDevice: (
  */
 export const getUser: (
   input: GetUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUserResponse,
   | ForbiddenException
   | InternalErrorException
@@ -9707,7 +10051,7 @@ export const getUser: (
  */
 export const getUserAuthFactors: (
   input: GetUserAuthFactorsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUserAuthFactorsResponse,
   | ForbiddenException
   | InternalErrorException
@@ -9748,7 +10092,7 @@ export const getUserAuthFactors: (
  */
 export const deleteUser: (
   input: DeleteUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUserResponse,
   | ForbiddenException
   | InternalErrorException
@@ -9790,7 +10134,7 @@ export const deleteUser: (
  */
 export const deleteUserAttributes: (
   input: DeleteUserAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUserAttributesResponse,
   | ForbiddenException
   | InternalErrorException
@@ -9853,7 +10197,7 @@ export const deleteUserAttributes: (
  */
 export const globalSignOut: (
   input: GlobalSignOutRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GlobalSignOutResponse,
   | ForbiddenException
   | InternalErrorException
@@ -9899,7 +10243,7 @@ export const globalSignOut: (
  */
 export const setUserMFAPreference: (
   input: SetUserMFAPreferenceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetUserMFAPreferenceResponse,
   | ForbiddenException
   | InternalErrorException
@@ -9939,7 +10283,7 @@ export const setUserMFAPreference: (
  */
 export const setUserSettings: (
   input: SetUserSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetUserSettingsResponse,
   | ForbiddenException
   | InternalErrorException
@@ -9978,7 +10322,7 @@ export const setUserSettings: (
  */
 export const getDevice: (
   input: GetDeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDeviceResponse,
   | ForbiddenException
   | InternalErrorException
@@ -10021,7 +10365,7 @@ export const getDevice: (
  */
 export const listDevices: (
   input: ListDevicesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDevicesResponse,
   | ForbiddenException
   | InternalErrorException
@@ -10064,7 +10408,7 @@ export const listDevices: (
  */
 export const forgetDevice: (
   input: ForgetDeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ForgetDeviceResponse,
   | ForbiddenException
   | InternalErrorException
@@ -10111,7 +10455,7 @@ export const forgetDevice: (
  */
 export const updateDeviceStatus: (
   input: UpdateDeviceStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDeviceStatusResponse,
   | ForbiddenException
   | InternalErrorException
@@ -10154,7 +10498,7 @@ export const updateDeviceStatus: (
  */
 export const verifySoftwareToken: (
   input: VerifySoftwareTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   VerifySoftwareTokenResponse,
   | CodeMismatchException
   | EnableSoftwareTokenMFAException
@@ -10208,7 +10552,7 @@ export const verifySoftwareToken: (
  */
 export const verifyUserAttribute: (
   input: VerifyUserAttributeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   VerifyUserAttributeResponse,
   | AliasExistsException
   | CodeMismatchException
@@ -10256,7 +10600,7 @@ export const verifyUserAttribute: (
  */
 export const changePassword: (
   input: ChangePasswordRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ChangePasswordResponse,
   | ForbiddenException
   | InternalErrorException
@@ -10325,7 +10669,7 @@ export const changePassword: (
  */
 export const createUserPool: (
   input: CreateUserPoolRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUserPoolResponse,
   | FeatureUnavailableInTierException
   | InternalErrorException
@@ -10366,7 +10710,7 @@ export const createUserPool: (
  */
 export const getTokensFromRefreshToken: (
   input: GetTokensFromRefreshTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTokensFromRefreshTokenResponse,
   | ForbiddenException
   | InternalErrorException
@@ -10410,7 +10754,7 @@ export const getTokensFromRefreshToken: (
  */
 export const revokeToken: (
   input: RevokeTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RevokeTokenResponse,
   | ForbiddenException
   | InternalErrorException
@@ -10484,7 +10828,7 @@ export const revokeToken: (
  */
 export const adminCreateUser: (
   input: AdminCreateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AdminCreateUserResponse,
   | CodeDeliveryFailureException
   | InternalErrorException
@@ -10566,7 +10910,7 @@ export const adminCreateUser: (
  */
 export const adminResetUserPassword: (
   input: AdminResetUserPasswordRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AdminResetUserPasswordResponse,
   | InternalErrorException
   | InvalidEmailRoleAccessPolicyException
@@ -10621,7 +10965,7 @@ export const adminResetUserPassword: (
  */
 export const confirmSignUp: (
   input: ConfirmSignUpRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ConfirmSignUpResponse,
   | AliasExistsException
   | CodeMismatchException
@@ -10694,7 +11038,7 @@ export const confirmSignUp: (
  */
 export const updateUserAttributes: (
   input: UpdateUserAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserAttributesResponse,
   | AliasExistsException
   | CodeDeliveryFailureException
@@ -10773,7 +11117,7 @@ export const updateUserAttributes: (
  */
 export const resendConfirmationCode: (
   input: ResendConfirmationCodeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResendConfirmationCodeResponse,
   | CodeDeliveryFailureException
   | ForbiddenException
@@ -10851,7 +11195,7 @@ export const resendConfirmationCode: (
  */
 export const forgotPassword: (
   input: ForgotPasswordRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ForgotPasswordResponse,
   | CodeDeliveryFailureException
   | ForbiddenException
@@ -10932,7 +11276,7 @@ export const forgotPassword: (
  */
 export const adminUpdateUserAttributes: (
   input: AdminUpdateUserAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AdminUpdateUserAttributesResponse,
   | AliasExistsException
   | InternalErrorException
@@ -10998,7 +11342,7 @@ export const adminUpdateUserAttributes: (
  */
 export const getUserAttributeVerificationCode: (
   input: GetUserAttributeVerificationCodeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUserAttributeVerificationCodeResponse,
   | CodeDeliveryFailureException
   | ForbiddenException
@@ -11073,7 +11417,7 @@ export const getUserAttributeVerificationCode: (
  */
 export const initiateAuth: (
   input: InitiateAuthRequest,
-) => Effect.Effect<
+) => effect.Effect<
   InitiateAuthResponse,
   | ForbiddenException
   | InternalErrorException
@@ -11151,7 +11495,7 @@ export const initiateAuth: (
  */
 export const signUp: (
   input: SignUpRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SignUpResponse,
   | CodeDeliveryFailureException
   | ForbiddenException
@@ -11204,7 +11548,7 @@ export const signUp: (
  */
 export const confirmForgotPassword: (
   input: ConfirmForgotPasswordRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ConfirmForgotPasswordResponse,
   | CodeMismatchException
   | ExpiredCodeException
@@ -11271,7 +11615,7 @@ export const confirmForgotPassword: (
  */
 export const adminConfirmSignUp: (
   input: AdminConfirmSignUpRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AdminConfirmSignUpResponse,
   | InternalErrorException
   | InvalidLambdaResponseException
@@ -11337,7 +11681,7 @@ export const adminConfirmSignUp: (
  */
 export const respondToAuthChallenge: (
   input: RespondToAuthChallengeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RespondToAuthChallengeResponse,
   | AliasExistsException
   | CodeMismatchException
@@ -11432,7 +11776,7 @@ export const respondToAuthChallenge: (
  */
 export const adminRespondToAuthChallenge: (
   input: AdminRespondToAuthChallengeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AdminRespondToAuthChallengeResponse,
   | AliasExistsException
   | CodeMismatchException
@@ -11522,7 +11866,7 @@ export const adminRespondToAuthChallenge: (
  */
 export const adminInitiateAuth: (
   input: AdminInitiateAuthRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AdminInitiateAuthResponse,
   | InternalErrorException
   | InvalidEmailRoleAccessPolicyException
@@ -11574,7 +11918,7 @@ export const adminInitiateAuth: (
  */
 export const completeWebAuthnRegistration: (
   input: CompleteWebAuthnRegistrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CompleteWebAuthnRegistrationResponse,
   | ForbiddenException
   | InternalErrorException

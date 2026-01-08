@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -439,7 +439,7 @@ export const SlackWorkspaceConfigurationList = S.Array(
 );
 export interface ListSlackChannelConfigurationsResult {
   nextToken?: string;
-  slackChannelConfigurations: slackChannelConfigurationList;
+  slackChannelConfigurations: SlackChannelConfiguration[];
 }
 export const ListSlackChannelConfigurationsResult = S.suspend(() =>
   S.Struct({
@@ -451,7 +451,7 @@ export const ListSlackChannelConfigurationsResult = S.suspend(() =>
 }) as any as S.Schema<ListSlackChannelConfigurationsResult>;
 export interface ListSlackWorkspaceConfigurationsResult {
   nextToken?: string;
-  slackWorkspaceConfigurations?: SlackWorkspaceConfigurationList;
+  slackWorkspaceConfigurations?: SlackWorkspaceConfiguration[];
 }
 export const ListSlackWorkspaceConfigurationsResult = S.suspend(() =>
   S.Struct({
@@ -495,7 +495,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  */
 export const getAccountAlias: (
   input: GetAccountAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccountAliasResult,
   InternalServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -510,7 +510,7 @@ export const getAccountAlias: (
  */
 export const deleteAccountAlias: (
   input: DeleteAccountAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccountAliasResult,
   | AccessDeniedException
   | InternalServerException
@@ -532,21 +532,21 @@ export const deleteAccountAlias: (
 export const listSlackChannelConfigurations: {
   (
     input: ListSlackChannelConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSlackChannelConfigurationsResult,
     AccessDeniedException | InternalServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSlackChannelConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSlackChannelConfigurationsResult,
     AccessDeniedException | InternalServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSlackChannelConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     AccessDeniedException | InternalServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -563,21 +563,21 @@ export const listSlackChannelConfigurations: {
 export const listSlackWorkspaceConfigurations: {
   (
     input: ListSlackWorkspaceConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSlackWorkspaceConfigurationsResult,
     AccessDeniedException | InternalServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSlackWorkspaceConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSlackWorkspaceConfigurationsResult,
     AccessDeniedException | InternalServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSlackWorkspaceConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     AccessDeniedException | InternalServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -595,7 +595,7 @@ export const listSlackWorkspaceConfigurations: {
  */
 export const putAccountAlias: (
   input: PutAccountAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAccountAliasResult,
   | AccessDeniedException
   | InternalServerException
@@ -613,7 +613,7 @@ export const putAccountAlias: (
  */
 export const deleteSlackChannelConfiguration: (
   input: DeleteSlackChannelConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSlackChannelConfigurationResult,
   | AccessDeniedException
   | ConflictException
@@ -662,7 +662,7 @@ export const deleteSlackChannelConfiguration: (
  */
 export const registerSlackWorkspaceForOrganization: (
   input: RegisterSlackWorkspaceForOrganizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterSlackWorkspaceForOrganizationResult,
   | AccessDeniedException
   | ConflictException
@@ -687,7 +687,7 @@ export const registerSlackWorkspaceForOrganization: (
  */
 export const updateSlackChannelConfiguration: (
   input: UpdateSlackChannelConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSlackChannelConfigurationResult,
   | AccessDeniedException
   | ConflictException
@@ -713,7 +713,7 @@ export const updateSlackChannelConfiguration: (
  */
 export const deleteSlackWorkspaceConfiguration: (
   input: DeleteSlackWorkspaceConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSlackWorkspaceConfigurationResult,
   | AccessDeniedException
   | ConflictException
@@ -752,7 +752,7 @@ export const deleteSlackWorkspaceConfiguration: (
  */
 export const createSlackChannelConfiguration: (
   input: CreateSlackChannelConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSlackChannelConfigurationResult,
   | AccessDeniedException
   | ConflictException

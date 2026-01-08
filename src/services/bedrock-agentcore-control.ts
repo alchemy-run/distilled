@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -93,7 +93,7 @@ export type TaggableResourcesArn = string;
 export type ResourcePolicyBody = string;
 export type TagKey = string;
 export type AgentRuntimeId = string;
-export type EndpointName = string | Redacted.Redacted<string>;
+export type EndpointName = string | redacted.Redacted<string>;
 export type AgentRuntimeVersion = string;
 export type AgentEndpointDescription = string;
 export type ClientToken = string;
@@ -101,23 +101,23 @@ export type MaxResults = number;
 export type NextToken = string;
 export type AgentRuntimeName = string;
 export type RoleArn = string;
-export type Description = string | Redacted.Redacted<string>;
+export type Description = string | redacted.Redacted<string>;
 export type CredentialProviderName = string;
-export type ApiKeyType = string | Redacted.Redacted<string>;
+export type ApiKeyType = string | redacted.Redacted<string>;
 export type SandboxName = string;
 export type BrowserId = string;
 export type CodeInterpreterId = string;
 export type CustomEvaluatorName = string;
-export type EvaluatorDescription = string | Redacted.Redacted<string>;
+export type EvaluatorDescription = string | redacted.Redacted<string>;
 export type EvaluatorId = string;
-export type GatewayName = string | Redacted.Redacted<string>;
-export type GatewayDescription = string | Redacted.Redacted<string>;
+export type GatewayName = string | redacted.Redacted<string>;
+export type GatewayDescription = string | redacted.Redacted<string>;
 export type KmsKeyArn = string;
 export type GatewayIdentifier = string;
 export type GatewayMaxResults = number;
 export type GatewayNextToken = string;
-export type TargetName = string | Redacted.Redacted<string>;
-export type TargetDescription = string | Redacted.Redacted<string>;
+export type TargetName = string | redacted.Redacted<string>;
+export type TargetDescription = string | redacted.Redacted<string>;
 export type TargetId = string;
 export type TargetMaxResults = number;
 export type TargetNextToken = string;
@@ -126,7 +126,7 @@ export type Name = string;
 export type Arn = string;
 export type MemoryId = string;
 export type EvaluationConfigName = string;
-export type EvaluationConfigDescription = string | Redacted.Redacted<string>;
+export type EvaluationConfigDescription = string | redacted.Redacted<string>;
 export type OnlineEvaluationConfigId = string;
 export type PolicyEngineName = string;
 export type ResourceId = string;
@@ -169,12 +169,12 @@ export type DiscoveryUrl = string;
 export type AllowedAudience = string;
 export type AllowedClient = string;
 export type AllowedScopeType = string;
-export type EvaluatorInstructions = string | Redacted.Redacted<string>;
+export type EvaluatorInstructions = string | redacted.Redacted<string>;
 export type McpVersion = string;
 export type McpInstructions = string;
 export type Namespace = string;
 export type ClientIdType = string;
-export type ClientSecretType = string | Redacted.Redacted<string>;
+export type ClientSecretType = string | redacted.Redacted<string>;
 export type TenantIdType = string;
 export type IssuerUrlType = string;
 export type AuthorizationEndpointType = string;
@@ -188,7 +188,7 @@ export type SecretArn = string;
 export type MemoryArn = string;
 export type InboundTokenClaimNameType = string;
 export type LambdaFunctionArn = string;
-export type InlinePayload = string | Redacted.Redacted<string>;
+export type InlinePayload = string | redacted.Redacted<string>;
 export type OAuthCredentialProviderArn = string;
 export type OAuthScope = string;
 export type OAuthDefaultReturnUrl = string;
@@ -201,18 +201,90 @@ export type ModelId = string;
 export type S3BucketUri = string;
 export type AwsAccountId = string;
 export type OAuthCustomParametersKey = string;
-export type OAuthCustomParametersValue = string | Redacted.Redacted<string>;
+export type OAuthCustomParametersValue = string | redacted.Redacted<string>;
 export type ResponseType = string;
 export type TokenAuthMethod = string;
 export type MatchValueString = string;
-export type Prompt = string | Redacted.Redacted<string>;
+export type Prompt = string | redacted.Redacted<string>;
 export type CustomEvaluatorArn = string;
 
 //# Schemas
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type ResourceType = "SYSTEM" | "CUSTOM";
+export const ResourceType = S.Literal("SYSTEM", "CUSTOM");
+export type EvaluatorLevel = "TOOL_CALL" | "TRACE" | "SESSION";
+export const EvaluatorLevel = S.Literal("TOOL_CALL", "TRACE", "SESSION");
+export type GatewayProtocolType = "MCP";
+export const GatewayProtocolType = S.Literal("MCP");
+export type AuthorizerType = "CUSTOM_JWT" | "AWS_IAM" | "NONE";
+export const AuthorizerType = S.Literal("CUSTOM_JWT", "AWS_IAM", "NONE");
+export type ExceptionLevel = "DEBUG";
+export const ExceptionLevel = S.Literal("DEBUG");
 export type TargetIdList = string[];
 export const TargetIdList = S.Array(S.String);
+export type CredentialProviderVendorType =
+  | "GoogleOauth2"
+  | "GithubOauth2"
+  | "SlackOauth2"
+  | "SalesforceOauth2"
+  | "MicrosoftOauth2"
+  | "CustomOauth2"
+  | "AtlassianOauth2"
+  | "LinkedinOauth2"
+  | "XOauth2"
+  | "OktaOauth2"
+  | "OneLoginOauth2"
+  | "PingOneOauth2"
+  | "FacebookOauth2"
+  | "YandexOauth2"
+  | "RedditOauth2"
+  | "ZoomOauth2"
+  | "TwitchOauth2"
+  | "SpotifyOauth2"
+  | "DropboxOauth2"
+  | "NotionOauth2"
+  | "HubspotOauth2"
+  | "CyberArkOauth2"
+  | "FusionAuthOauth2"
+  | "Auth0Oauth2"
+  | "CognitoOauth2";
+export const CredentialProviderVendorType = S.Literal(
+  "GoogleOauth2",
+  "GithubOauth2",
+  "SlackOauth2",
+  "SalesforceOauth2",
+  "MicrosoftOauth2",
+  "CustomOauth2",
+  "AtlassianOauth2",
+  "LinkedinOauth2",
+  "XOauth2",
+  "OktaOauth2",
+  "OneLoginOauth2",
+  "PingOneOauth2",
+  "FacebookOauth2",
+  "YandexOauth2",
+  "RedditOauth2",
+  "ZoomOauth2",
+  "TwitchOauth2",
+  "SpotifyOauth2",
+  "DropboxOauth2",
+  "NotionOauth2",
+  "HubspotOauth2",
+  "CyberArkOauth2",
+  "FusionAuthOauth2",
+  "Auth0Oauth2",
+  "CognitoOauth2",
+);
+export type OnlineEvaluationExecutionStatus = "ENABLED" | "DISABLED";
+export const OnlineEvaluationExecutionStatus = S.Literal("ENABLED", "DISABLED");
+export type PolicyValidationMode =
+  | "FAIL_ON_ANY_FINDINGS"
+  | "IGNORE_ALL_FINDINGS";
+export const PolicyValidationMode = S.Literal(
+  "FAIL_ON_ANY_FINDINGS",
+  "IGNORE_ALL_FINDINGS",
+);
 export type ResourceOauth2ReturnUrlListType = string[];
 export const ResourceOauth2ReturnUrlListType = S.Array(S.String);
 export interface DeleteResourcePolicyRequest {
@@ -312,7 +384,7 @@ export const PutResourcePolicyRequest = S.suspend(() =>
 }) as any as S.Schema<PutResourcePolicyRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -339,11 +411,11 @@ export type TagsMap = { [key: string]: string };
 export const TagsMap = S.Record({ key: S.String, value: S.String });
 export interface CreateAgentRuntimeEndpointRequest {
   agentRuntimeId: string;
-  name: string | Redacted.Redacted<string>;
+  name: string | redacted.Redacted<string>;
   agentRuntimeVersion?: string;
   description?: string;
   clientToken?: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const CreateAgentRuntimeEndpointRequest = S.suspend(() =>
   S.Struct({
@@ -371,7 +443,7 @@ export const CreateAgentRuntimeEndpointRequest = S.suspend(() =>
 }) as any as S.Schema<CreateAgentRuntimeEndpointRequest>;
 export interface GetAgentRuntimeEndpointRequest {
   agentRuntimeId: string;
-  endpointName: string | Redacted.Redacted<string>;
+  endpointName: string | redacted.Redacted<string>;
 }
 export const GetAgentRuntimeEndpointRequest = S.suspend(() =>
   S.Struct({
@@ -395,7 +467,7 @@ export const GetAgentRuntimeEndpointRequest = S.suspend(() =>
 }) as any as S.Schema<GetAgentRuntimeEndpointRequest>;
 export interface UpdateAgentRuntimeEndpointRequest {
   agentRuntimeId: string;
-  endpointName: string | Redacted.Redacted<string>;
+  endpointName: string | redacted.Redacted<string>;
   agentRuntimeVersion?: string;
   description?: string;
   clientToken?: string;
@@ -425,7 +497,7 @@ export const UpdateAgentRuntimeEndpointRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateAgentRuntimeEndpointRequest>;
 export interface DeleteAgentRuntimeEndpointRequest {
   agentRuntimeId: string;
-  endpointName: string | Redacted.Redacted<string>;
+  endpointName: string | redacted.Redacted<string>;
   clientToken?: string;
 }
 export const DeleteAgentRuntimeEndpointRequest = S.suspend(() =>
@@ -518,15 +590,30 @@ export const S3Location = S.suspend(() =>
 ).annotations({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
 export type Code = { s3: S3Location };
 export const Code = S.Union(S.Struct({ s3: S3Location }));
+export type AgentManagedRuntimeType =
+  | "PYTHON_3_10"
+  | "PYTHON_3_11"
+  | "PYTHON_3_12"
+  | "PYTHON_3_13";
+export const AgentManagedRuntimeType = S.Literal(
+  "PYTHON_3_10",
+  "PYTHON_3_11",
+  "PYTHON_3_12",
+  "PYTHON_3_13",
+);
 export type EntryPoints = string[];
 export const EntryPoints = S.Array(S.String);
 export interface CodeConfiguration {
-  code: (typeof Code)["Type"];
-  runtime: string;
-  entryPoint: EntryPoints;
+  code: Code;
+  runtime: AgentManagedRuntimeType;
+  entryPoint: string[];
 }
 export const CodeConfiguration = S.suspend(() =>
-  S.Struct({ code: Code, runtime: S.String, entryPoint: EntryPoints }),
+  S.Struct({
+    code: Code,
+    runtime: AgentManagedRuntimeType,
+    entryPoint: EntryPoints,
+  }),
 ).annotations({
   identifier: "CodeConfiguration",
 }) as any as S.Schema<CodeConfiguration>;
@@ -537,23 +624,28 @@ export const AgentRuntimeArtifact = S.Union(
   S.Struct({ containerConfiguration: ContainerConfiguration }),
   S.Struct({ codeConfiguration: CodeConfiguration }),
 );
+export type NetworkMode = "PUBLIC" | "VPC";
+export const NetworkMode = S.Literal("PUBLIC", "VPC");
 export type SecurityGroups = string[];
 export const SecurityGroups = S.Array(S.String);
 export type Subnets = string[];
 export const Subnets = S.Array(S.String);
 export interface VpcConfig {
-  securityGroups: SecurityGroups;
-  subnets: Subnets;
+  securityGroups: string[];
+  subnets: string[];
 }
 export const VpcConfig = S.suspend(() =>
   S.Struct({ securityGroups: SecurityGroups, subnets: Subnets }),
 ).annotations({ identifier: "VpcConfig" }) as any as S.Schema<VpcConfig>;
 export interface NetworkConfiguration {
-  networkMode: string;
+  networkMode: NetworkMode;
   networkModeConfig?: VpcConfig;
 }
 export const NetworkConfiguration = S.suspend(() =>
-  S.Struct({ networkMode: S.String, networkModeConfig: S.optional(VpcConfig) }),
+  S.Struct({
+    networkMode: NetworkMode,
+    networkModeConfig: S.optional(VpcConfig),
+  }),
 ).annotations({
   identifier: "NetworkConfiguration",
 }) as any as S.Schema<NetworkConfiguration>;
@@ -563,36 +655,44 @@ export type AllowedClientsList = string[];
 export const AllowedClientsList = S.Array(S.String);
 export type AllowedScopesType = string[];
 export const AllowedScopesType = S.Array(S.String);
+export type InboundTokenClaimValueType = "STRING" | "STRING_ARRAY";
+export const InboundTokenClaimValueType = S.Literal("STRING", "STRING_ARRAY");
 export type MatchValueStringList = string[];
 export const MatchValueStringList = S.Array(S.String);
 export type ClaimMatchValueType =
   | { matchValueString: string }
-  | { matchValueStringList: MatchValueStringList };
+  | { matchValueStringList: string[] };
 export const ClaimMatchValueType = S.Union(
   S.Struct({ matchValueString: S.String }),
   S.Struct({ matchValueStringList: MatchValueStringList }),
 );
+export type ClaimMatchOperatorType = "EQUALS" | "CONTAINS" | "CONTAINS_ANY";
+export const ClaimMatchOperatorType = S.Literal(
+  "EQUALS",
+  "CONTAINS",
+  "CONTAINS_ANY",
+);
 export interface AuthorizingClaimMatchValueType {
-  claimMatchValue: (typeof ClaimMatchValueType)["Type"];
-  claimMatchOperator: string;
+  claimMatchValue: ClaimMatchValueType;
+  claimMatchOperator: ClaimMatchOperatorType;
 }
 export const AuthorizingClaimMatchValueType = S.suspend(() =>
   S.Struct({
     claimMatchValue: ClaimMatchValueType,
-    claimMatchOperator: S.String,
+    claimMatchOperator: ClaimMatchOperatorType,
   }),
 ).annotations({
   identifier: "AuthorizingClaimMatchValueType",
 }) as any as S.Schema<AuthorizingClaimMatchValueType>;
 export interface CustomClaimValidationType {
   inboundTokenClaimName: string;
-  inboundTokenClaimValueType: string;
+  inboundTokenClaimValueType: InboundTokenClaimValueType;
   authorizingClaimMatchValue: AuthorizingClaimMatchValueType;
 }
 export const CustomClaimValidationType = S.suspend(() =>
   S.Struct({
     inboundTokenClaimName: S.String,
-    inboundTokenClaimValueType: S.String,
+    inboundTokenClaimValueType: InboundTokenClaimValueType,
     authorizingClaimMatchValue: AuthorizingClaimMatchValueType,
   }),
 ).annotations({
@@ -602,10 +702,10 @@ export type CustomClaimValidationsType = CustomClaimValidationType[];
 export const CustomClaimValidationsType = S.Array(CustomClaimValidationType);
 export interface CustomJWTAuthorizerConfiguration {
   discoveryUrl: string;
-  allowedAudience?: AllowedAudienceList;
-  allowedClients?: AllowedClientsList;
-  allowedScopes?: AllowedScopesType;
-  customClaims?: CustomClaimValidationsType;
+  allowedAudience?: string[];
+  allowedClients?: string[];
+  allowedScopes?: string[];
+  customClaims?: CustomClaimValidationType[];
 }
 export const CustomJWTAuthorizerConfiguration = S.suspend(() =>
   S.Struct({
@@ -626,17 +726,17 @@ export const AuthorizerConfiguration = S.Union(
 );
 export type RequestHeaderAllowlist = string[];
 export const RequestHeaderAllowlist = S.Array(S.String);
-export type RequestHeaderConfiguration = {
-  requestHeaderAllowlist: RequestHeaderAllowlist;
-};
+export type RequestHeaderConfiguration = { requestHeaderAllowlist: string[] };
 export const RequestHeaderConfiguration = S.Union(
   S.Struct({ requestHeaderAllowlist: RequestHeaderAllowlist }),
 );
+export type ServerProtocol = "MCP" | "HTTP" | "A2A";
+export const ServerProtocol = S.Literal("MCP", "HTTP", "A2A");
 export interface ProtocolConfiguration {
-  serverProtocol: string;
+  serverProtocol: ServerProtocol;
 }
 export const ProtocolConfiguration = S.suspend(() =>
-  S.Struct({ serverProtocol: S.String }),
+  S.Struct({ serverProtocol: ServerProtocol }),
 ).annotations({
   identifier: "ProtocolConfiguration",
 }) as any as S.Schema<ProtocolConfiguration>;
@@ -659,15 +759,15 @@ export const EnvironmentVariablesMap = S.Record({
 });
 export interface UpdateAgentRuntimeRequest {
   agentRuntimeId: string;
-  agentRuntimeArtifact: (typeof AgentRuntimeArtifact)["Type"];
+  agentRuntimeArtifact: AgentRuntimeArtifact;
   roleArn: string;
   networkConfiguration: NetworkConfiguration;
-  description?: string | Redacted.Redacted<string>;
-  authorizerConfiguration?: (typeof AuthorizerConfiguration)["Type"];
-  requestHeaderConfiguration?: (typeof RequestHeaderConfiguration)["Type"];
+  description?: string | redacted.Redacted<string>;
+  authorizerConfiguration?: AuthorizerConfiguration;
+  requestHeaderConfiguration?: RequestHeaderConfiguration;
   protocolConfiguration?: ProtocolConfiguration;
   lifecycleConfiguration?: LifecycleConfiguration;
-  environmentVariables?: EnvironmentVariablesMap;
+  environmentVariables?: { [key: string]: string };
   clientToken?: string;
 }
 export const UpdateAgentRuntimeRequest = S.suspend(() =>
@@ -763,8 +863,8 @@ export const ListAgentRuntimeVersionsRequest = S.suspend(() =>
 }) as any as S.Schema<ListAgentRuntimeVersionsRequest>;
 export interface CreateApiKeyCredentialProviderRequest {
   name: string;
-  apiKey: string | Redacted.Redacted<string>;
-  tags?: TagsMap;
+  apiKey: string | redacted.Redacted<string>;
+  tags?: { [key: string]: string };
 }
 export const CreateApiKeyCredentialProviderRequest = S.suspend(() =>
   S.Struct({
@@ -809,7 +909,7 @@ export const GetApiKeyCredentialProviderRequest = S.suspend(() =>
 }) as any as S.Schema<GetApiKeyCredentialProviderRequest>;
 export interface UpdateApiKeyCredentialProviderRequest {
   name: string;
-  apiKey: string | Redacted.Redacted<string>;
+  apiKey: string | redacted.Redacted<string>;
 }
 export const UpdateApiKeyCredentialProviderRequest = S.suspend(() =>
   S.Struct({ name: S.String, apiKey: SensitiveString }).pipe(
@@ -919,13 +1019,13 @@ export const DeleteBrowserRequest = S.suspend(() =>
 export interface ListBrowsersRequest {
   maxResults?: number;
   nextToken?: string;
-  type?: string;
+  type?: ResourceType;
 }
 export const ListBrowsersRequest = S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    type: S.optional(S.String).pipe(T.HttpQuery("type")),
+    type: S.optional(ResourceType).pipe(T.HttpQuery("type")),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/browsers" }),
@@ -985,13 +1085,13 @@ export const DeleteCodeInterpreterRequest = S.suspend(() =>
 export interface ListCodeInterpretersRequest {
   maxResults?: number;
   nextToken?: string;
-  type?: string;
+  type?: ResourceType;
 }
 export const ListCodeInterpretersRequest = S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    type: S.optional(S.String).pipe(T.HttpQuery("type")),
+    type: S.optional(ResourceType).pipe(T.HttpQuery("type")),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/code-interpreters" }),
@@ -1046,8 +1146,8 @@ export const CategoricalScaleDefinition = S.suspend(() =>
 export type CategoricalScaleDefinitions = CategoricalScaleDefinition[];
 export const CategoricalScaleDefinitions = S.Array(CategoricalScaleDefinition);
 export type RatingScale =
-  | { numerical: NumericalScaleDefinitions }
-  | { categorical: CategoricalScaleDefinitions };
+  | { numerical: NumericalScaleDefinition[] }
+  | { categorical: CategoricalScaleDefinition[] };
 export const RatingScale = S.Union(
   S.Struct({ numerical: NumericalScaleDefinitions }),
   S.Struct({ categorical: CategoricalScaleDefinitions }),
@@ -1058,7 +1158,7 @@ export interface InferenceConfiguration {
   maxTokens?: number;
   temperature?: number;
   topP?: number;
-  stopSequences?: NonEmptyStringList;
+  stopSequences?: string[];
 }
 export const InferenceConfiguration = S.suspend(() =>
   S.Struct({
@@ -1091,9 +1191,9 @@ export const EvaluatorModelConfig = S.Union(
   S.Struct({ bedrockEvaluatorModelConfig: BedrockEvaluatorModelConfig }),
 );
 export interface LlmAsAJudgeEvaluatorConfig {
-  instructions: string | Redacted.Redacted<string>;
-  ratingScale: (typeof RatingScale)["Type"];
-  modelConfig: (typeof EvaluatorModelConfig)["Type"];
+  instructions: string | redacted.Redacted<string>;
+  ratingScale: RatingScale;
+  modelConfig: EvaluatorModelConfig;
 }
 export const LlmAsAJudgeEvaluatorConfig = S.suspend(() =>
   S.Struct({
@@ -1111,9 +1211,9 @@ export const EvaluatorConfig = S.Union(
 export interface UpdateEvaluatorRequest {
   clientToken?: string;
   evaluatorId: string;
-  description?: string | Redacted.Redacted<string>;
-  evaluatorConfig?: (typeof EvaluatorConfig)["Type"];
-  level?: string;
+  description?: string | redacted.Redacted<string>;
+  evaluatorConfig?: EvaluatorConfig;
+  level?: EvaluatorLevel;
 }
 export const UpdateEvaluatorRequest = S.suspend(() =>
   S.Struct({
@@ -1121,7 +1221,7 @@ export const UpdateEvaluatorRequest = S.suspend(() =>
     evaluatorId: S.String.pipe(T.HttpLabel("evaluatorId")),
     description: S.optional(SensitiveString),
     evaluatorConfig: S.optional(EvaluatorConfig),
-    level: S.optional(S.String),
+    level: S.optional(EvaluatorLevel),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/evaluators/{evaluatorId}" }),
@@ -1234,16 +1334,18 @@ export const ListGatewaysRequest = S.suspend(() =>
 }) as any as S.Schema<ListGatewaysRequest>;
 export type McpSupportedVersions = string[];
 export const McpSupportedVersions = S.Array(S.String);
+export type SearchType = "SEMANTIC";
+export const SearchType = S.Literal("SEMANTIC");
 export interface MCPGatewayConfiguration {
-  supportedVersions?: McpSupportedVersions;
+  supportedVersions?: string[];
   instructions?: string;
-  searchType?: string;
+  searchType?: SearchType;
 }
 export const MCPGatewayConfiguration = S.suspend(() =>
   S.Struct({
     supportedVersions: S.optional(McpSupportedVersions),
     instructions: S.optional(S.String),
-    searchType: S.optional(S.String),
+    searchType: S.optional(SearchType),
   }),
 ).annotations({
   identifier: "MCPGatewayConfiguration",
@@ -1266,8 +1368,10 @@ export type InterceptorConfiguration = {
 export const InterceptorConfiguration = S.Union(
   S.Struct({ lambda: LambdaInterceptorConfiguration }),
 );
-export type GatewayInterceptionPoints = string[];
-export const GatewayInterceptionPoints = S.Array(S.String);
+export type GatewayInterceptionPoint = "REQUEST" | "RESPONSE";
+export const GatewayInterceptionPoint = S.Literal("REQUEST", "RESPONSE");
+export type GatewayInterceptionPoints = GatewayInterceptionPoint[];
+export const GatewayInterceptionPoints = S.Array(GatewayInterceptionPoint);
 export interface InterceptorInputConfiguration {
   passRequestHeaders: boolean;
 }
@@ -1277,8 +1381,8 @@ export const InterceptorInputConfiguration = S.suspend(() =>
   identifier: "InterceptorInputConfiguration",
 }) as any as S.Schema<InterceptorInputConfiguration>;
 export interface GatewayInterceptorConfiguration {
-  interceptor: (typeof InterceptorConfiguration)["Type"];
-  interceptionPoints: GatewayInterceptionPoints;
+  interceptor: InterceptorConfiguration;
+  interceptionPoints: GatewayInterceptionPoint[];
   inputConfiguration?: InterceptorInputConfiguration;
 }
 export const GatewayInterceptorConfiguration = S.suspend(() =>
@@ -1295,28 +1399,30 @@ export type GatewayInterceptorConfigurations =
 export const GatewayInterceptorConfigurations = S.Array(
   GatewayInterceptorConfiguration,
 );
+export type GatewayPolicyEngineMode = "LOG_ONLY" | "ENFORCE";
+export const GatewayPolicyEngineMode = S.Literal("LOG_ONLY", "ENFORCE");
 export interface GatewayPolicyEngineConfiguration {
   arn: string;
-  mode: string;
+  mode: GatewayPolicyEngineMode;
 }
 export const GatewayPolicyEngineConfiguration = S.suspend(() =>
-  S.Struct({ arn: S.String, mode: S.String }),
+  S.Struct({ arn: S.String, mode: GatewayPolicyEngineMode }),
 ).annotations({
   identifier: "GatewayPolicyEngineConfiguration",
 }) as any as S.Schema<GatewayPolicyEngineConfiguration>;
 export interface UpdateGatewayRequest {
   gatewayIdentifier: string;
-  name: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  name: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   roleArn: string;
-  protocolType: string;
-  protocolConfiguration?: (typeof GatewayProtocolConfiguration)["Type"];
-  authorizerType: string;
-  authorizerConfiguration?: (typeof AuthorizerConfiguration)["Type"];
+  protocolType: GatewayProtocolType;
+  protocolConfiguration?: GatewayProtocolConfiguration;
+  authorizerType: AuthorizerType;
+  authorizerConfiguration?: AuthorizerConfiguration;
   kmsKeyArn?: string;
-  interceptorConfigurations?: GatewayInterceptorConfigurations;
+  interceptorConfigurations?: GatewayInterceptorConfiguration[];
   policyEngineConfiguration?: GatewayPolicyEngineConfiguration;
-  exceptionLevel?: string;
+  exceptionLevel?: ExceptionLevel;
 }
 export const UpdateGatewayRequest = S.suspend(() =>
   S.Struct({
@@ -1324,14 +1430,14 @@ export const UpdateGatewayRequest = S.suspend(() =>
     name: SensitiveString,
     description: S.optional(SensitiveString),
     roleArn: S.String,
-    protocolType: S.String,
+    protocolType: GatewayProtocolType,
     protocolConfiguration: S.optional(GatewayProtocolConfiguration),
-    authorizerType: S.String,
+    authorizerType: AuthorizerType,
     authorizerConfiguration: S.optional(AuthorizerConfiguration),
     kmsKeyArn: S.optional(S.String),
     interceptorConfigurations: S.optional(GatewayInterceptorConfigurations),
     policyEngineConfiguration: S.optional(GatewayPolicyEngineConfiguration),
-    exceptionLevel: S.optional(S.String),
+    exceptionLevel: S.optional(ExceptionLevel),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/gateways/{gatewayIdentifier}/" }),
@@ -1418,7 +1524,7 @@ export const ListGatewayTargetsRequest = S.suspend(() =>
 }) as any as S.Schema<ListGatewayTargetsRequest>;
 export interface SynchronizeGatewayTargetsRequest {
   gatewayIdentifier: string;
-  targetIdList: TargetIdList;
+  targetIdList: string[];
 }
 export const SynchronizeGatewayTargetsRequest = S.suspend(() =>
   S.Struct({
@@ -1454,23 +1560,38 @@ export const S3Configuration = S.suspend(() =>
 }) as any as S.Schema<S3Configuration>;
 export type ApiSchemaConfiguration =
   | { s3: S3Configuration }
-  | { inlinePayload: string | Redacted.Redacted<string> };
+  | { inlinePayload: string | redacted.Redacted<string> };
 export const ApiSchemaConfiguration = S.Union(
   S.Struct({ s3: S3Configuration }),
   S.Struct({ inlinePayload: SensitiveString }),
 );
+export type SchemaType =
+  | "string"
+  | "number"
+  | "object"
+  | "array"
+  | "boolean"
+  | "integer";
+export const SchemaType = S.Literal(
+  "string",
+  "number",
+  "object",
+  "array",
+  "boolean",
+  "integer",
+);
 export type RequiredProperties = string[];
 export const RequiredProperties = S.Array(S.String);
 export interface SchemaDefinition {
-  type: string;
-  properties?: SchemaProperties;
-  required?: RequiredProperties;
+  type: SchemaType;
+  properties?: { [key: string]: SchemaDefinition };
+  required?: string[];
   items?: SchemaDefinition;
   description?: string;
 }
 export const SchemaDefinition = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: SchemaType,
     properties: S.optional(
       S.suspend(() => SchemaProperties).annotations({
         identifier: "SchemaProperties",
@@ -1507,14 +1628,14 @@ export type ToolDefinitions = ToolDefinition[];
 export const ToolDefinitions = S.Array(ToolDefinition);
 export type ToolSchema =
   | { s3: S3Configuration }
-  | { inlinePayload: ToolDefinitions };
+  | { inlinePayload: ToolDefinition[] };
 export const ToolSchema = S.Union(
   S.Struct({ s3: S3Configuration }),
   S.Struct({ inlinePayload: ToolDefinitions }),
 );
 export interface McpLambdaTargetConfiguration {
   lambdaArn: string;
-  toolSchema: (typeof ToolSchema)["Type"];
+  toolSchema: ToolSchema;
 }
 export const McpLambdaTargetConfiguration = S.suspend(() =>
   S.Struct({ lambdaArn: S.String, toolSchema: ToolSchema }),
@@ -1529,29 +1650,46 @@ export const McpServerTargetConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "McpServerTargetConfiguration",
 }) as any as S.Schema<McpServerTargetConfiguration>;
+export type RestApiMethod =
+  | "GET"
+  | "DELETE"
+  | "HEAD"
+  | "OPTIONS"
+  | "PATCH"
+  | "PUT"
+  | "POST";
+export const RestApiMethod = S.Literal(
+  "GET",
+  "DELETE",
+  "HEAD",
+  "OPTIONS",
+  "PATCH",
+  "PUT",
+  "POST",
+);
 export interface ApiGatewayToolOverride {
   name: string;
   description?: string;
   path: string;
-  method: string;
+  method: RestApiMethod;
 }
 export const ApiGatewayToolOverride = S.suspend(() =>
   S.Struct({
     name: S.String,
     description: S.optional(S.String),
     path: S.String,
-    method: S.String,
+    method: RestApiMethod,
   }),
 ).annotations({
   identifier: "ApiGatewayToolOverride",
 }) as any as S.Schema<ApiGatewayToolOverride>;
 export type ApiGatewayToolOverrides = ApiGatewayToolOverride[];
 export const ApiGatewayToolOverrides = S.Array(ApiGatewayToolOverride);
-export type RestApiMethods = string[];
-export const RestApiMethods = S.Array(S.String);
+export type RestApiMethods = RestApiMethod[];
+export const RestApiMethods = S.Array(RestApiMethod);
 export interface ApiGatewayToolFilter {
   filterPath: string;
-  methods: RestApiMethods;
+  methods: RestApiMethod[];
 }
 export const ApiGatewayToolFilter = S.suspend(() =>
   S.Struct({ filterPath: S.String, methods: RestApiMethods }),
@@ -1561,8 +1699,8 @@ export const ApiGatewayToolFilter = S.suspend(() =>
 export type ApiGatewayToolFilters = ApiGatewayToolFilter[];
 export const ApiGatewayToolFilters = S.Array(ApiGatewayToolFilter);
 export interface ApiGatewayToolConfiguration {
-  toolOverrides?: ApiGatewayToolOverrides;
-  toolFilters: ApiGatewayToolFilters;
+  toolOverrides?: ApiGatewayToolOverride[];
+  toolFilters: ApiGatewayToolFilter[];
 }
 export const ApiGatewayToolConfiguration = S.suspend(() =>
   S.Struct({
@@ -1587,8 +1725,8 @@ export const ApiGatewayTargetConfiguration = S.suspend(() =>
   identifier: "ApiGatewayTargetConfiguration",
 }) as any as S.Schema<ApiGatewayTargetConfiguration>;
 export type McpTargetConfiguration =
-  | { openApiSchema: (typeof ApiSchemaConfiguration)["Type"] }
-  | { smithyModel: (typeof ApiSchemaConfiguration)["Type"] }
+  | { openApiSchema: ApiSchemaConfiguration }
+  | { smithyModel: ApiSchemaConfiguration }
   | { lambda: McpLambdaTargetConfiguration }
   | { mcpServer: McpServerTargetConfiguration }
   | { apiGateway: ApiGatewayTargetConfiguration };
@@ -1599,26 +1737,35 @@ export const McpTargetConfiguration = S.Union(
   S.Struct({ mcpServer: McpServerTargetConfiguration }),
   S.Struct({ apiGateway: ApiGatewayTargetConfiguration }),
 );
-export type TargetConfiguration = {
-  mcp: (typeof McpTargetConfiguration)["Type"];
-};
+export type TargetConfiguration = { mcp: McpTargetConfiguration };
 export const TargetConfiguration = S.Union(
   S.Struct({ mcp: McpTargetConfiguration }),
+);
+export type CredentialProviderType = "GATEWAY_IAM_ROLE" | "OAUTH" | "API_KEY";
+export const CredentialProviderType = S.Literal(
+  "GATEWAY_IAM_ROLE",
+  "OAUTH",
+  "API_KEY",
 );
 export type OAuthScopes = string[];
 export const OAuthScopes = S.Array(S.String);
 export type OAuthCustomParameters = {
-  [key: string]: string | Redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string>;
 };
 export const OAuthCustomParameters = S.Record({
   key: S.String,
   value: SensitiveString,
 });
+export type OAuthGrantType = "CLIENT_CREDENTIALS" | "AUTHORIZATION_CODE";
+export const OAuthGrantType = S.Literal(
+  "CLIENT_CREDENTIALS",
+  "AUTHORIZATION_CODE",
+);
 export interface OAuthCredentialProvider {
   providerArn: string;
-  scopes: OAuthScopes;
-  customParameters?: OAuthCustomParameters;
-  grantType?: string;
+  scopes: string[];
+  customParameters?: { [key: string]: string | redacted.Redacted<string> };
+  grantType?: OAuthGrantType;
   defaultReturnUrl?: string;
 }
 export const OAuthCredentialProvider = S.suspend(() =>
@@ -1626,24 +1773,26 @@ export const OAuthCredentialProvider = S.suspend(() =>
     providerArn: S.String,
     scopes: OAuthScopes,
     customParameters: S.optional(OAuthCustomParameters),
-    grantType: S.optional(S.String),
+    grantType: S.optional(OAuthGrantType),
     defaultReturnUrl: S.optional(S.String),
   }),
 ).annotations({
   identifier: "OAuthCredentialProvider",
 }) as any as S.Schema<OAuthCredentialProvider>;
+export type ApiKeyCredentialLocation = "HEADER" | "QUERY_PARAMETER";
+export const ApiKeyCredentialLocation = S.Literal("HEADER", "QUERY_PARAMETER");
 export interface GatewayApiKeyCredentialProvider {
   providerArn: string;
   credentialParameterName?: string;
   credentialPrefix?: string;
-  credentialLocation?: string;
+  credentialLocation?: ApiKeyCredentialLocation;
 }
 export const GatewayApiKeyCredentialProvider = S.suspend(() =>
   S.Struct({
     providerArn: S.String,
     credentialParameterName: S.optional(S.String),
     credentialPrefix: S.optional(S.String),
-    credentialLocation: S.optional(S.String),
+    credentialLocation: S.optional(ApiKeyCredentialLocation),
   }),
 ).annotations({
   identifier: "GatewayApiKeyCredentialProvider",
@@ -1656,12 +1805,12 @@ export const CredentialProvider = S.Union(
   S.Struct({ apiKeyCredentialProvider: GatewayApiKeyCredentialProvider }),
 );
 export interface CredentialProviderConfiguration {
-  credentialProviderType: string;
-  credentialProvider?: (typeof CredentialProvider)["Type"];
+  credentialProviderType: CredentialProviderType;
+  credentialProvider?: CredentialProvider;
 }
 export const CredentialProviderConfiguration = S.suspend(() =>
   S.Struct({
-    credentialProviderType: S.String,
+    credentialProviderType: CredentialProviderType,
     credentialProvider: S.optional(CredentialProvider),
   }),
 ).annotations({
@@ -1679,9 +1828,9 @@ export const AllowedQueryParameters = S.Array(S.String);
 export type AllowedResponseHeaders = string[];
 export const AllowedResponseHeaders = S.Array(S.String);
 export interface MetadataConfiguration {
-  allowedRequestHeaders?: AllowedRequestHeaders;
-  allowedQueryParameters?: AllowedQueryParameters;
-  allowedResponseHeaders?: AllowedResponseHeaders;
+  allowedRequestHeaders?: string[];
+  allowedQueryParameters?: string[];
+  allowedResponseHeaders?: string[];
 }
 export const MetadataConfiguration = S.suspend(() =>
   S.Struct({
@@ -1695,10 +1844,10 @@ export const MetadataConfiguration = S.suspend(() =>
 export interface UpdateGatewayTargetRequest {
   gatewayIdentifier: string;
   targetId: string;
-  name: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
-  targetConfiguration: (typeof TargetConfiguration)["Type"];
-  credentialProviderConfigurations?: CredentialProviderConfigurations;
+  name: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  targetConfiguration: TargetConfiguration;
+  credentialProviderConfigurations?: CredentialProviderConfiguration[];
   metadataConfiguration?: MetadataConfiguration;
 }
 export const UpdateGatewayTargetRequest = S.suspend(() =>
@@ -1815,8 +1964,8 @@ export interface Oauth2AuthorizationServerMetadata {
   issuer: string;
   authorizationEndpoint: string;
   tokenEndpoint: string;
-  responseTypes?: ResponseListType;
-  tokenEndpointAuthMethods?: TokenEndpointAuthMethodsType;
+  responseTypes?: string[];
+  tokenEndpointAuthMethods?: string[];
 }
 export const Oauth2AuthorizationServerMetadata = S.suspend(() =>
   S.Struct({
@@ -1837,9 +1986,9 @@ export const Oauth2Discovery = S.Union(
   S.Struct({ authorizationServerMetadata: Oauth2AuthorizationServerMetadata }),
 );
 export interface CustomOauth2ProviderConfigInput {
-  oauthDiscovery: (typeof Oauth2Discovery)["Type"];
+  oauthDiscovery: Oauth2Discovery;
   clientId: string;
-  clientSecret: string | Redacted.Redacted<string>;
+  clientSecret: string | redacted.Redacted<string>;
 }
 export const CustomOauth2ProviderConfigInput = S.suspend(() =>
   S.Struct({
@@ -1852,7 +2001,7 @@ export const CustomOauth2ProviderConfigInput = S.suspend(() =>
 }) as any as S.Schema<CustomOauth2ProviderConfigInput>;
 export interface GoogleOauth2ProviderConfigInput {
   clientId: string;
-  clientSecret: string | Redacted.Redacted<string>;
+  clientSecret: string | redacted.Redacted<string>;
 }
 export const GoogleOauth2ProviderConfigInput = S.suspend(() =>
   S.Struct({ clientId: S.String, clientSecret: SensitiveString }),
@@ -1861,7 +2010,7 @@ export const GoogleOauth2ProviderConfigInput = S.suspend(() =>
 }) as any as S.Schema<GoogleOauth2ProviderConfigInput>;
 export interface GithubOauth2ProviderConfigInput {
   clientId: string;
-  clientSecret: string | Redacted.Redacted<string>;
+  clientSecret: string | redacted.Redacted<string>;
 }
 export const GithubOauth2ProviderConfigInput = S.suspend(() =>
   S.Struct({ clientId: S.String, clientSecret: SensitiveString }),
@@ -1870,7 +2019,7 @@ export const GithubOauth2ProviderConfigInput = S.suspend(() =>
 }) as any as S.Schema<GithubOauth2ProviderConfigInput>;
 export interface SlackOauth2ProviderConfigInput {
   clientId: string;
-  clientSecret: string | Redacted.Redacted<string>;
+  clientSecret: string | redacted.Redacted<string>;
 }
 export const SlackOauth2ProviderConfigInput = S.suspend(() =>
   S.Struct({ clientId: S.String, clientSecret: SensitiveString }),
@@ -1879,7 +2028,7 @@ export const SlackOauth2ProviderConfigInput = S.suspend(() =>
 }) as any as S.Schema<SlackOauth2ProviderConfigInput>;
 export interface SalesforceOauth2ProviderConfigInput {
   clientId: string;
-  clientSecret: string | Redacted.Redacted<string>;
+  clientSecret: string | redacted.Redacted<string>;
 }
 export const SalesforceOauth2ProviderConfigInput = S.suspend(() =>
   S.Struct({ clientId: S.String, clientSecret: SensitiveString }),
@@ -1888,7 +2037,7 @@ export const SalesforceOauth2ProviderConfigInput = S.suspend(() =>
 }) as any as S.Schema<SalesforceOauth2ProviderConfigInput>;
 export interface MicrosoftOauth2ProviderConfigInput {
   clientId: string;
-  clientSecret: string | Redacted.Redacted<string>;
+  clientSecret: string | redacted.Redacted<string>;
   tenantId?: string;
 }
 export const MicrosoftOauth2ProviderConfigInput = S.suspend(() =>
@@ -1902,7 +2051,7 @@ export const MicrosoftOauth2ProviderConfigInput = S.suspend(() =>
 }) as any as S.Schema<MicrosoftOauth2ProviderConfigInput>;
 export interface AtlassianOauth2ProviderConfigInput {
   clientId: string;
-  clientSecret: string | Redacted.Redacted<string>;
+  clientSecret: string | redacted.Redacted<string>;
 }
 export const AtlassianOauth2ProviderConfigInput = S.suspend(() =>
   S.Struct({ clientId: S.String, clientSecret: SensitiveString }),
@@ -1911,7 +2060,7 @@ export const AtlassianOauth2ProviderConfigInput = S.suspend(() =>
 }) as any as S.Schema<AtlassianOauth2ProviderConfigInput>;
 export interface LinkedinOauth2ProviderConfigInput {
   clientId: string;
-  clientSecret: string | Redacted.Redacted<string>;
+  clientSecret: string | redacted.Redacted<string>;
 }
 export const LinkedinOauth2ProviderConfigInput = S.suspend(() =>
   S.Struct({ clientId: S.String, clientSecret: SensitiveString }),
@@ -1920,7 +2069,7 @@ export const LinkedinOauth2ProviderConfigInput = S.suspend(() =>
 }) as any as S.Schema<LinkedinOauth2ProviderConfigInput>;
 export interface IncludedOauth2ProviderConfigInput {
   clientId: string;
-  clientSecret: string | Redacted.Redacted<string>;
+  clientSecret: string | redacted.Redacted<string>;
   issuer?: string;
   authorizationEndpoint?: string;
   tokenEndpoint?: string;
@@ -1965,13 +2114,13 @@ export const Oauth2ProviderConfigInput = S.Union(
 );
 export interface UpdateOauth2CredentialProviderRequest {
   name: string;
-  credentialProviderVendor: string;
-  oauth2ProviderConfigInput: (typeof Oauth2ProviderConfigInput)["Type"];
+  credentialProviderVendor: CredentialProviderVendorType;
+  oauth2ProviderConfigInput: Oauth2ProviderConfigInput;
 }
 export const UpdateOauth2CredentialProviderRequest = S.suspend(() =>
   S.Struct({
     name: S.String,
-    credentialProviderVendor: S.String,
+    credentialProviderVendor: CredentialProviderVendorType,
     oauth2ProviderConfigInput: Oauth2ProviderConfigInput,
   }).pipe(
     T.all(
@@ -2071,6 +2220,25 @@ export const SamplingConfig = S.suspend(() =>
 ).annotations({
   identifier: "SamplingConfig",
 }) as any as S.Schema<SamplingConfig>;
+export type FilterOperator =
+  | "Equals"
+  | "NotEquals"
+  | "GreaterThan"
+  | "LessThan"
+  | "GreaterThanOrEqual"
+  | "LessThanOrEqual"
+  | "Contains"
+  | "NotContains";
+export const FilterOperator = S.Literal(
+  "Equals",
+  "NotEquals",
+  "GreaterThan",
+  "LessThan",
+  "GreaterThanOrEqual",
+  "LessThanOrEqual",
+  "Contains",
+  "NotContains",
+);
 export type FilterValue =
   | { stringValue: string }
   | { doubleValue: number }
@@ -2082,11 +2250,11 @@ export const FilterValue = S.Union(
 );
 export interface Filter {
   key: string;
-  operator: string;
-  value: (typeof FilterValue)["Type"];
+  operator: FilterOperator;
+  value: FilterValue;
 }
 export const Filter = S.suspend(() =>
-  S.Struct({ key: S.String, operator: S.String, value: FilterValue }),
+  S.Struct({ key: S.String, operator: FilterOperator, value: FilterValue }),
 ).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type FilterList = Filter[];
 export const FilterList = S.Array(Filter);
@@ -2100,7 +2268,7 @@ export const SessionConfig = S.suspend(() =>
 }) as any as S.Schema<SessionConfig>;
 export interface Rule {
   samplingConfig: SamplingConfig;
-  filters?: FilterList;
+  filters?: Filter[];
   sessionConfig?: SessionConfig;
 }
 export const Rule = S.suspend(() =>
@@ -2115,8 +2283,8 @@ export const LogGroupNamesList = S.Array(S.String);
 export type ServiceNamesList = string[];
 export const ServiceNamesList = S.Array(S.String);
 export interface CloudWatchLogsInputConfig {
-  logGroupNames: LogGroupNamesList;
-  serviceNames: ServiceNamesList;
+  logGroupNames: string[];
+  serviceNames: string[];
 }
 export const CloudWatchLogsInputConfig = S.suspend(() =>
   S.Struct({
@@ -2132,17 +2300,17 @@ export const DataSourceConfig = S.Union(
 );
 export type EvaluatorReference = { evaluatorId: string };
 export const EvaluatorReference = S.Union(S.Struct({ evaluatorId: S.String }));
-export type EvaluatorList = (typeof EvaluatorReference)["Type"][];
+export type EvaluatorList = EvaluatorReference[];
 export const EvaluatorList = S.Array(EvaluatorReference);
 export interface UpdateOnlineEvaluationConfigRequest {
   clientToken?: string;
   onlineEvaluationConfigId: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   rule?: Rule;
-  dataSourceConfig?: (typeof DataSourceConfig)["Type"];
-  evaluators?: EvaluatorList;
+  dataSourceConfig?: DataSourceConfig;
+  evaluators?: EvaluatorReference[];
   evaluationExecutionRoleArn?: string;
-  executionStatus?: string;
+  executionStatus?: OnlineEvaluationExecutionStatus;
 }
 export const UpdateOnlineEvaluationConfigRequest = S.suspend(() =>
   S.Struct({
@@ -2155,7 +2323,7 @@ export const UpdateOnlineEvaluationConfigRequest = S.suspend(() =>
     dataSourceConfig: S.optional(DataSourceConfig),
     evaluators: S.optional(EvaluatorList),
     evaluationExecutionRoleArn: S.optional(S.String),
-    executionStatus: S.optional(S.String),
+    executionStatus: S.optional(OnlineEvaluationExecutionStatus),
   }).pipe(
     T.all(
       T.Http({
@@ -2219,7 +2387,7 @@ export const ListOnlineEvaluationConfigsRequest = S.suspend(() =>
 }) as any as S.Schema<ListOnlineEvaluationConfigsRequest>;
 export interface CreatePolicyEngineRequest {
   name: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   clientToken?: string;
 }
 export const CreatePolicyEngineRequest = S.suspend(() =>
@@ -2261,7 +2429,7 @@ export const GetPolicyEngineRequest = S.suspend(() =>
 }) as any as S.Schema<GetPolicyEngineRequest>;
 export interface UpdatePolicyEngineRequest {
   policyEngineId: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
 }
 export const UpdatePolicyEngineRequest = S.suspend(() =>
   S.Struct({
@@ -2433,9 +2601,9 @@ export const PolicyDefinition = S.Union(S.Struct({ cedar: CedarPolicy }));
 export interface UpdatePolicyRequest {
   policyEngineId: string;
   policyId: string;
-  description?: string | Redacted.Redacted<string>;
-  definition: (typeof PolicyDefinition)["Type"];
-  validationMode?: string;
+  description?: string | redacted.Redacted<string>;
+  definition: PolicyDefinition;
+  validationMode?: PolicyValidationMode;
 }
 export const UpdatePolicyRequest = S.suspend(() =>
   S.Struct({
@@ -2443,7 +2611,7 @@ export const UpdatePolicyRequest = S.suspend(() =>
     policyId: S.String.pipe(T.HttpLabel("policyId")),
     description: S.optional(SensitiveString),
     definition: PolicyDefinition,
-    validationMode: S.optional(S.String),
+    validationMode: S.optional(PolicyValidationMode),
   }).pipe(
     T.all(
       T.Http({
@@ -2516,8 +2684,8 @@ export const ListPoliciesRequest = S.suspend(() =>
 }) as any as S.Schema<ListPoliciesRequest>;
 export interface CreateWorkloadIdentityRequest {
   name: string;
-  allowedResourceOauth2ReturnUrls?: ResourceOauth2ReturnUrlListType;
-  tags?: TagsMap;
+  allowedResourceOauth2ReturnUrls?: string[];
+  tags?: { [key: string]: string };
 }
 export const CreateWorkloadIdentityRequest = S.suspend(() =>
   S.Struct({
@@ -2558,7 +2726,7 @@ export const GetWorkloadIdentityRequest = S.suspend(() =>
 }) as any as S.Schema<GetWorkloadIdentityRequest>;
 export interface UpdateWorkloadIdentityRequest {
   name: string;
-  allowedResourceOauth2ReturnUrls?: ResourceOauth2ReturnUrlListType;
+  allowedResourceOauth2ReturnUrls?: string[];
 }
 export const UpdateWorkloadIdentityRequest = S.suspend(() =>
   S.Struct({
@@ -2623,21 +2791,60 @@ export const ListWorkloadIdentitiesRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListWorkloadIdentitiesRequest",
 }) as any as S.Schema<ListWorkloadIdentitiesRequest>;
+export type KeyType = "CustomerManagedKey" | "ServiceManagedKey";
+export const KeyType = S.Literal("CustomerManagedKey", "ServiceManagedKey");
+export type BrowserNetworkMode = "PUBLIC" | "VPC";
+export const BrowserNetworkMode = S.Literal("PUBLIC", "VPC");
+export type CodeInterpreterNetworkMode = "PUBLIC" | "SANDBOX" | "VPC";
+export const CodeInterpreterNetworkMode = S.Literal("PUBLIC", "SANDBOX", "VPC");
 export interface KmsConfiguration {
-  keyType: string;
+  keyType: KeyType;
   kmsKeyArn?: string;
 }
 export const KmsConfiguration = S.suspend(() =>
-  S.Struct({ keyType: S.String, kmsKeyArn: S.optional(S.String) }),
+  S.Struct({ keyType: KeyType, kmsKeyArn: S.optional(S.String) }),
 ).annotations({
   identifier: "KmsConfiguration",
 }) as any as S.Schema<KmsConfiguration>;
+export type AgentRuntimeEndpointStatus =
+  | "CREATING"
+  | "CREATE_FAILED"
+  | "UPDATING"
+  | "UPDATE_FAILED"
+  | "READY"
+  | "DELETING";
+export const AgentRuntimeEndpointStatus = S.Literal(
+  "CREATING",
+  "CREATE_FAILED",
+  "UPDATING",
+  "UPDATE_FAILED",
+  "READY",
+  "DELETING",
+);
+export type AgentRuntimeStatus =
+  | "CREATING"
+  | "CREATE_FAILED"
+  | "UPDATING"
+  | "UPDATE_FAILED"
+  | "READY"
+  | "DELETING";
+export const AgentRuntimeStatus = S.Literal(
+  "CREATING",
+  "CREATE_FAILED",
+  "UPDATING",
+  "UPDATE_FAILED",
+  "READY",
+  "DELETING",
+);
 export interface BrowserNetworkConfiguration {
-  networkMode: string;
+  networkMode: BrowserNetworkMode;
   vpcConfig?: VpcConfig;
 }
 export const BrowserNetworkConfiguration = S.suspend(() =>
-  S.Struct({ networkMode: S.String, vpcConfig: S.optional(VpcConfig) }),
+  S.Struct({
+    networkMode: BrowserNetworkMode,
+    vpcConfig: S.optional(VpcConfig),
+  }),
 ).annotations({
   identifier: "BrowserNetworkConfiguration",
 }) as any as S.Schema<BrowserNetworkConfiguration>;
@@ -2649,23 +2856,172 @@ export const BrowserSigningConfigInput = S.suspend(() =>
 ).annotations({
   identifier: "BrowserSigningConfigInput",
 }) as any as S.Schema<BrowserSigningConfigInput>;
+export type BrowserStatus =
+  | "CREATING"
+  | "CREATE_FAILED"
+  | "READY"
+  | "DELETING"
+  | "DELETE_FAILED"
+  | "DELETED";
+export const BrowserStatus = S.Literal(
+  "CREATING",
+  "CREATE_FAILED",
+  "READY",
+  "DELETING",
+  "DELETE_FAILED",
+  "DELETED",
+);
 export interface CodeInterpreterNetworkConfiguration {
-  networkMode: string;
+  networkMode: CodeInterpreterNetworkMode;
   vpcConfig?: VpcConfig;
 }
 export const CodeInterpreterNetworkConfiguration = S.suspend(() =>
-  S.Struct({ networkMode: S.String, vpcConfig: S.optional(VpcConfig) }),
+  S.Struct({
+    networkMode: CodeInterpreterNetworkMode,
+    vpcConfig: S.optional(VpcConfig),
+  }),
 ).annotations({
   identifier: "CodeInterpreterNetworkConfiguration",
 }) as any as S.Schema<CodeInterpreterNetworkConfiguration>;
+export type CodeInterpreterStatus =
+  | "CREATING"
+  | "CREATE_FAILED"
+  | "READY"
+  | "DELETING"
+  | "DELETE_FAILED"
+  | "DELETED";
+export const CodeInterpreterStatus = S.Literal(
+  "CREATING",
+  "CREATE_FAILED",
+  "READY",
+  "DELETING",
+  "DELETE_FAILED",
+  "DELETED",
+);
+export type EvaluatorStatus =
+  | "ACTIVE"
+  | "CREATING"
+  | "CREATE_FAILED"
+  | "UPDATING"
+  | "UPDATE_FAILED"
+  | "DELETING";
+export const EvaluatorStatus = S.Literal(
+  "ACTIVE",
+  "CREATING",
+  "CREATE_FAILED",
+  "UPDATING",
+  "UPDATE_FAILED",
+  "DELETING",
+);
+export type GatewayStatus =
+  | "CREATING"
+  | "UPDATING"
+  | "UPDATE_UNSUCCESSFUL"
+  | "DELETING"
+  | "READY"
+  | "FAILED";
+export const GatewayStatus = S.Literal(
+  "CREATING",
+  "UPDATING",
+  "UPDATE_UNSUCCESSFUL",
+  "DELETING",
+  "READY",
+  "FAILED",
+);
 export type StatusReasons = string[];
 export const StatusReasons = S.Array(S.String);
+export type TargetStatus =
+  | "CREATING"
+  | "UPDATING"
+  | "UPDATE_UNSUCCESSFUL"
+  | "DELETING"
+  | "READY"
+  | "FAILED"
+  | "SYNCHRONIZING"
+  | "SYNCHRONIZE_UNSUCCESSFUL";
+export const TargetStatus = S.Literal(
+  "CREATING",
+  "UPDATING",
+  "UPDATE_UNSUCCESSFUL",
+  "DELETING",
+  "READY",
+  "FAILED",
+  "SYNCHRONIZING",
+  "SYNCHRONIZE_UNSUCCESSFUL",
+);
+export type MemoryStatus = "CREATING" | "ACTIVE" | "FAILED" | "DELETING";
+export const MemoryStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "FAILED",
+  "DELETING",
+);
+export type OnlineEvaluationConfigStatus =
+  | "ACTIVE"
+  | "CREATING"
+  | "CREATE_FAILED"
+  | "UPDATING"
+  | "UPDATE_FAILED"
+  | "DELETING";
+export const OnlineEvaluationConfigStatus = S.Literal(
+  "ACTIVE",
+  "CREATING",
+  "CREATE_FAILED",
+  "UPDATING",
+  "UPDATE_FAILED",
+  "DELETING",
+);
+export type PolicyEngineStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "UPDATING"
+  | "DELETING"
+  | "CREATE_FAILED"
+  | "UPDATE_FAILED"
+  | "DELETE_FAILED";
+export const PolicyEngineStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "UPDATING",
+  "DELETING",
+  "CREATE_FAILED",
+  "UPDATE_FAILED",
+  "DELETE_FAILED",
+);
 export type PolicyStatusReasons = string[];
 export const PolicyStatusReasons = S.Array(S.String);
 export type Resource = { arn: string };
 export const Resource = S.Union(S.Struct({ arn: S.String }));
 export type Content = { rawText: string };
 export const Content = S.Union(S.Struct({ rawText: S.String }));
+export type PolicyGenerationStatus =
+  | "GENERATING"
+  | "GENERATED"
+  | "GENERATE_FAILED"
+  | "DELETE_FAILED";
+export const PolicyGenerationStatus = S.Literal(
+  "GENERATING",
+  "GENERATED",
+  "GENERATE_FAILED",
+  "DELETE_FAILED",
+);
+export type PolicyStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "UPDATING"
+  | "DELETING"
+  | "CREATE_FAILED"
+  | "UPDATE_FAILED"
+  | "DELETE_FAILED";
+export const PolicyStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "UPDATING",
+  "DELETING",
+  "CREATE_FAILED",
+  "UPDATE_FAILED",
+  "DELETE_FAILED",
+);
 export type NamespacesList = string[];
 export const NamespacesList = S.Array(S.String);
 export interface GetResourcePolicyResponse {
@@ -2691,7 +3047,7 @@ export const GetTokenVaultResponse = S.suspend(() =>
   identifier: "GetTokenVaultResponse",
 }) as any as S.Schema<GetTokenVaultResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagsMap) }),
@@ -2729,7 +3085,7 @@ export const SetTokenVaultCMKRequest = S.suspend(() =>
 }) as any as S.Schema<SetTokenVaultCMKRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagsMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -2757,8 +3113,8 @@ export interface CreateAgentRuntimeEndpointResponse {
   agentRuntimeEndpointArn: string;
   agentRuntimeArn: string;
   agentRuntimeId?: string;
-  endpointName?: string | Redacted.Redacted<string>;
-  status: string;
+  endpointName?: string | redacted.Redacted<string>;
+  status: AgentRuntimeEndpointStatus;
   createdAt: Date;
 }
 export const CreateAgentRuntimeEndpointResponse = S.suspend(() =>
@@ -2768,7 +3124,7 @@ export const CreateAgentRuntimeEndpointResponse = S.suspend(() =>
     agentRuntimeArn: S.String,
     agentRuntimeId: S.optional(S.String),
     endpointName: S.optional(SensitiveString),
-    status: S.String,
+    status: AgentRuntimeEndpointStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotations({
@@ -2780,11 +3136,11 @@ export interface GetAgentRuntimeEndpointResponse {
   agentRuntimeEndpointArn: string;
   agentRuntimeArn: string;
   description?: string;
-  status: string;
+  status: AgentRuntimeEndpointStatus;
   createdAt: Date;
   lastUpdatedAt: Date;
   failureReason?: string;
-  name: string | Redacted.Redacted<string>;
+  name: string | redacted.Redacted<string>;
   id: string;
 }
 export const GetAgentRuntimeEndpointResponse = S.suspend(() =>
@@ -2794,7 +3150,7 @@ export const GetAgentRuntimeEndpointResponse = S.suspend(() =>
     agentRuntimeEndpointArn: S.String,
     agentRuntimeArn: S.String,
     description: S.optional(S.String),
-    status: S.String,
+    status: AgentRuntimeEndpointStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     failureReason: S.optional(S.String),
@@ -2809,7 +3165,7 @@ export interface UpdateAgentRuntimeEndpointResponse {
   targetVersion?: string;
   agentRuntimeEndpointArn: string;
   agentRuntimeArn: string;
-  status: string;
+  status: AgentRuntimeEndpointStatus;
   createdAt: Date;
   lastUpdatedAt: Date;
 }
@@ -2819,7 +3175,7 @@ export const UpdateAgentRuntimeEndpointResponse = S.suspend(() =>
     targetVersion: S.optional(S.String),
     agentRuntimeEndpointArn: S.String,
     agentRuntimeArn: S.String,
-    status: S.String,
+    status: AgentRuntimeEndpointStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
   }),
@@ -2827,13 +3183,13 @@ export const UpdateAgentRuntimeEndpointResponse = S.suspend(() =>
   identifier: "UpdateAgentRuntimeEndpointResponse",
 }) as any as S.Schema<UpdateAgentRuntimeEndpointResponse>;
 export interface DeleteAgentRuntimeEndpointResponse {
-  status: string;
+  status: AgentRuntimeEndpointStatus;
   agentRuntimeId?: string;
-  endpointName?: string | Redacted.Redacted<string>;
+  endpointName?: string | redacted.Redacted<string>;
 }
 export const DeleteAgentRuntimeEndpointResponse = S.suspend(() =>
   S.Struct({
-    status: S.String,
+    status: AgentRuntimeEndpointStatus,
     agentRuntimeId: S.optional(S.String),
     endpointName: S.optional(SensitiveString),
   }),
@@ -2855,7 +3211,7 @@ export interface UpdateAgentRuntimeResponse {
   agentRuntimeVersion: string;
   createdAt: Date;
   lastUpdatedAt: Date;
-  status: string;
+  status: AgentRuntimeStatus;
 }
 export const UpdateAgentRuntimeResponse = S.suspend(() =>
   S.Struct({
@@ -2865,17 +3221,20 @@ export const UpdateAgentRuntimeResponse = S.suspend(() =>
     agentRuntimeVersion: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    status: S.String,
+    status: AgentRuntimeStatus,
   }),
 ).annotations({
   identifier: "UpdateAgentRuntimeResponse",
 }) as any as S.Schema<UpdateAgentRuntimeResponse>;
 export interface DeleteAgentRuntimeResponse {
-  status: string;
+  status: AgentRuntimeStatus;
   agentRuntimeId?: string;
 }
 export const DeleteAgentRuntimeResponse = S.suspend(() =>
-  S.Struct({ status: S.String, agentRuntimeId: S.optional(S.String) }),
+  S.Struct({
+    status: AgentRuntimeStatus,
+    agentRuntimeId: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "DeleteAgentRuntimeResponse",
 }) as any as S.Schema<DeleteAgentRuntimeResponse>;
@@ -2884,9 +3243,9 @@ export interface AgentRuntime {
   agentRuntimeId: string;
   agentRuntimeVersion: string;
   agentRuntimeName: string;
-  description: string | Redacted.Redacted<string>;
+  description: string | redacted.Redacted<string>;
   lastUpdatedAt: Date;
-  status: string;
+  status: AgentRuntimeStatus;
 }
 export const AgentRuntime = S.suspend(() =>
   S.Struct({
@@ -2896,13 +3255,13 @@ export const AgentRuntime = S.suspend(() =>
     agentRuntimeName: S.String,
     description: SensitiveString,
     lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    status: S.String,
+    status: AgentRuntimeStatus,
   }),
 ).annotations({ identifier: "AgentRuntime" }) as any as S.Schema<AgentRuntime>;
 export type AgentRuntimes = AgentRuntime[];
 export const AgentRuntimes = S.Array(AgentRuntime);
 export interface ListAgentRuntimeVersionsResponse {
-  agentRuntimes: AgentRuntimes;
+  agentRuntimes: AgentRuntime[];
   nextToken?: string;
 }
 export const ListAgentRuntimeVersionsResponse = S.suspend(() =>
@@ -2954,13 +3313,13 @@ export const UpdateApiKeyCredentialProviderResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateApiKeyCredentialProviderResponse>;
 export interface DeleteBrowserResponse {
   browserId: string;
-  status: string;
+  status: BrowserStatus;
   lastUpdatedAt: Date;
 }
 export const DeleteBrowserResponse = S.suspend(() =>
   S.Struct({
     browserId: S.String,
-    status: S.String,
+    status: BrowserStatus,
     lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotations({
@@ -2968,11 +3327,11 @@ export const DeleteBrowserResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteBrowserResponse>;
 export interface CreateCodeInterpreterRequest {
   name: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   executionRoleArn?: string;
   networkConfiguration: CodeInterpreterNetworkConfiguration;
   clientToken?: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const CreateCodeInterpreterRequest = S.suspend(() =>
   S.Struct({
@@ -2999,10 +3358,10 @@ export interface GetCodeInterpreterResponse {
   codeInterpreterId: string;
   codeInterpreterArn: string;
   name: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   executionRoleArn?: string;
   networkConfiguration: CodeInterpreterNetworkConfiguration;
-  status: string;
+  status: CodeInterpreterStatus;
   failureReason?: string;
   createdAt: Date;
   lastUpdatedAt: Date;
@@ -3015,7 +3374,7 @@ export const GetCodeInterpreterResponse = S.suspend(() =>
     description: S.optional(SensitiveString),
     executionRoleArn: S.optional(S.String),
     networkConfiguration: CodeInterpreterNetworkConfiguration,
-    status: S.String,
+    status: CodeInterpreterStatus,
     failureReason: S.optional(S.String),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -3025,13 +3384,13 @@ export const GetCodeInterpreterResponse = S.suspend(() =>
 }) as any as S.Schema<GetCodeInterpreterResponse>;
 export interface DeleteCodeInterpreterResponse {
   codeInterpreterId: string;
-  status: string;
+  status: CodeInterpreterStatus;
   lastUpdatedAt: Date;
 }
 export const DeleteCodeInterpreterResponse = S.suspend(() =>
   S.Struct({
     codeInterpreterId: S.String,
-    status: S.String,
+    status: CodeInterpreterStatus,
     lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotations({
@@ -3041,10 +3400,10 @@ export interface GetEvaluatorResponse {
   evaluatorArn: string;
   evaluatorId: string;
   evaluatorName: string;
-  description?: string | Redacted.Redacted<string>;
-  evaluatorConfig: (typeof EvaluatorConfig)["Type"];
-  level: string;
-  status: string;
+  description?: string | redacted.Redacted<string>;
+  evaluatorConfig: EvaluatorConfig;
+  level: EvaluatorLevel;
+  status: EvaluatorStatus;
   createdAt: Date;
   updatedAt: Date;
   lockedForModification?: boolean;
@@ -3056,8 +3415,8 @@ export const GetEvaluatorResponse = S.suspend(() =>
     evaluatorName: S.String,
     description: S.optional(SensitiveString),
     evaluatorConfig: EvaluatorConfig,
-    level: S.String,
-    status: S.String,
+    level: EvaluatorLevel,
+    status: EvaluatorStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lockedForModification: S.optional(S.Boolean),
@@ -3069,14 +3428,14 @@ export interface UpdateEvaluatorResponse {
   evaluatorArn: string;
   evaluatorId: string;
   updatedAt: Date;
-  status: string;
+  status: EvaluatorStatus;
 }
 export const UpdateEvaluatorResponse = S.suspend(() =>
   S.Struct({
     evaluatorArn: S.String,
     evaluatorId: S.String,
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    status: S.String,
+    status: EvaluatorStatus,
   }),
 ).annotations({
   identifier: "UpdateEvaluatorResponse",
@@ -3084,22 +3443,26 @@ export const UpdateEvaluatorResponse = S.suspend(() =>
 export interface DeleteEvaluatorResponse {
   evaluatorArn: string;
   evaluatorId: string;
-  status: string;
+  status: EvaluatorStatus;
 }
 export const DeleteEvaluatorResponse = S.suspend(() =>
-  S.Struct({ evaluatorArn: S.String, evaluatorId: S.String, status: S.String }),
+  S.Struct({
+    evaluatorArn: S.String,
+    evaluatorId: S.String,
+    status: EvaluatorStatus,
+  }),
 ).annotations({
   identifier: "DeleteEvaluatorResponse",
 }) as any as S.Schema<DeleteEvaluatorResponse>;
 export interface DeleteGatewayResponse {
   gatewayId: string;
-  status: string;
-  statusReasons?: StatusReasons;
+  status: GatewayStatus;
+  statusReasons?: string[];
 }
 export const DeleteGatewayResponse = S.suspend(() =>
   S.Struct({
     gatewayId: S.String,
-    status: S.String,
+    status: GatewayStatus,
     statusReasons: S.optional(StatusReasons),
   }),
 ).annotations({
@@ -3111,20 +3474,20 @@ export interface GetGatewayResponse {
   gatewayUrl?: string;
   createdAt: Date;
   updatedAt: Date;
-  status: string;
-  statusReasons?: StatusReasons;
-  name: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  status: GatewayStatus;
+  statusReasons?: string[];
+  name: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   roleArn?: string;
-  protocolType: string;
-  protocolConfiguration?: (typeof GatewayProtocolConfiguration)["Type"];
-  authorizerType: string;
-  authorizerConfiguration?: (typeof AuthorizerConfiguration)["Type"];
+  protocolType: GatewayProtocolType;
+  protocolConfiguration?: GatewayProtocolConfiguration;
+  authorizerType: AuthorizerType;
+  authorizerConfiguration?: AuthorizerConfiguration;
   kmsKeyArn?: string;
-  interceptorConfigurations?: GatewayInterceptorConfigurations;
+  interceptorConfigurations?: GatewayInterceptorConfiguration[];
   policyEngineConfiguration?: GatewayPolicyEngineConfiguration;
   workloadIdentityDetails?: WorkloadIdentityDetails;
-  exceptionLevel?: string;
+  exceptionLevel?: ExceptionLevel;
 }
 export const GetGatewayResponse = S.suspend(() =>
   S.Struct({
@@ -3133,20 +3496,20 @@ export const GetGatewayResponse = S.suspend(() =>
     gatewayUrl: S.optional(S.String),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    status: S.String,
+    status: GatewayStatus,
     statusReasons: S.optional(StatusReasons),
     name: SensitiveString,
     description: S.optional(SensitiveString),
     roleArn: S.optional(S.String),
-    protocolType: S.String,
+    protocolType: GatewayProtocolType,
     protocolConfiguration: S.optional(GatewayProtocolConfiguration),
-    authorizerType: S.String,
+    authorizerType: AuthorizerType,
     authorizerConfiguration: S.optional(AuthorizerConfiguration),
     kmsKeyArn: S.optional(S.String),
     interceptorConfigurations: S.optional(GatewayInterceptorConfigurations),
     policyEngineConfiguration: S.optional(GatewayPolicyEngineConfiguration),
     workloadIdentityDetails: S.optional(WorkloadIdentityDetails),
-    exceptionLevel: S.optional(S.String),
+    exceptionLevel: S.optional(ExceptionLevel),
   }),
 ).annotations({
   identifier: "GetGatewayResponse",
@@ -3157,20 +3520,20 @@ export interface UpdateGatewayResponse {
   gatewayUrl?: string;
   createdAt: Date;
   updatedAt: Date;
-  status: string;
-  statusReasons?: StatusReasons;
-  name: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  status: GatewayStatus;
+  statusReasons?: string[];
+  name: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   roleArn?: string;
-  protocolType: string;
-  protocolConfiguration?: (typeof GatewayProtocolConfiguration)["Type"];
-  authorizerType: string;
-  authorizerConfiguration?: (typeof AuthorizerConfiguration)["Type"];
+  protocolType: GatewayProtocolType;
+  protocolConfiguration?: GatewayProtocolConfiguration;
+  authorizerType: AuthorizerType;
+  authorizerConfiguration?: AuthorizerConfiguration;
   kmsKeyArn?: string;
-  interceptorConfigurations?: GatewayInterceptorConfigurations;
+  interceptorConfigurations?: GatewayInterceptorConfiguration[];
   policyEngineConfiguration?: GatewayPolicyEngineConfiguration;
   workloadIdentityDetails?: WorkloadIdentityDetails;
-  exceptionLevel?: string;
+  exceptionLevel?: ExceptionLevel;
 }
 export const UpdateGatewayResponse = S.suspend(() =>
   S.Struct({
@@ -3179,20 +3542,20 @@ export const UpdateGatewayResponse = S.suspend(() =>
     gatewayUrl: S.optional(S.String),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    status: S.String,
+    status: GatewayStatus,
     statusReasons: S.optional(StatusReasons),
     name: SensitiveString,
     description: S.optional(SensitiveString),
     roleArn: S.optional(S.String),
-    protocolType: S.String,
+    protocolType: GatewayProtocolType,
     protocolConfiguration: S.optional(GatewayProtocolConfiguration),
-    authorizerType: S.String,
+    authorizerType: AuthorizerType,
     authorizerConfiguration: S.optional(AuthorizerConfiguration),
     kmsKeyArn: S.optional(S.String),
     interceptorConfigurations: S.optional(GatewayInterceptorConfigurations),
     policyEngineConfiguration: S.optional(GatewayPolicyEngineConfiguration),
     workloadIdentityDetails: S.optional(WorkloadIdentityDetails),
-    exceptionLevel: S.optional(S.String),
+    exceptionLevel: S.optional(ExceptionLevel),
   }),
 ).annotations({
   identifier: "UpdateGatewayResponse",
@@ -3200,14 +3563,14 @@ export const UpdateGatewayResponse = S.suspend(() =>
 export interface DeleteGatewayTargetResponse {
   gatewayArn: string;
   targetId: string;
-  status: string;
-  statusReasons?: StatusReasons;
+  status: TargetStatus;
+  statusReasons?: string[];
 }
 export const DeleteGatewayTargetResponse = S.suspend(() =>
   S.Struct({
     gatewayArn: S.String,
     targetId: S.String,
-    status: S.String,
+    status: TargetStatus,
     statusReasons: S.optional(StatusReasons),
   }),
 ).annotations({
@@ -3218,12 +3581,12 @@ export interface GetGatewayTargetResponse {
   targetId: string;
   createdAt: Date;
   updatedAt: Date;
-  status: string;
-  statusReasons?: StatusReasons;
-  name: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
-  targetConfiguration: (typeof TargetConfiguration)["Type"];
-  credentialProviderConfigurations: CredentialProviderConfigurations;
+  status: TargetStatus;
+  statusReasons?: string[];
+  name: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  targetConfiguration: TargetConfiguration;
+  credentialProviderConfigurations: CredentialProviderConfiguration[];
   lastSynchronizedAt?: Date;
   metadataConfiguration?: MetadataConfiguration;
 }
@@ -3233,7 +3596,7 @@ export const GetGatewayTargetResponse = S.suspend(() =>
     targetId: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    status: S.String,
+    status: TargetStatus,
     statusReasons: S.optional(StatusReasons),
     name: SensitiveString,
     description: S.optional(SensitiveString),
@@ -3250,12 +3613,12 @@ export interface UpdateGatewayTargetResponse {
   targetId: string;
   createdAt: Date;
   updatedAt: Date;
-  status: string;
-  statusReasons?: StatusReasons;
-  name: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
-  targetConfiguration: (typeof TargetConfiguration)["Type"];
-  credentialProviderConfigurations: CredentialProviderConfigurations;
+  status: TargetStatus;
+  statusReasons?: string[];
+  name: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  targetConfiguration: TargetConfiguration;
+  credentialProviderConfigurations: CredentialProviderConfiguration[];
   lastSynchronizedAt?: Date;
   metadataConfiguration?: MetadataConfiguration;
 }
@@ -3265,7 +3628,7 @@ export const UpdateGatewayTargetResponse = S.suspend(() =>
     targetId: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    status: S.String,
+    status: TargetStatus,
     statusReasons: S.optional(StatusReasons),
     name: SensitiveString,
     description: S.optional(SensitiveString),
@@ -3279,15 +3642,15 @@ export const UpdateGatewayTargetResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateGatewayTargetResponse>;
 export interface DeleteMemoryOutput {
   memoryId: string;
-  status?: string;
+  status?: MemoryStatus;
 }
 export const DeleteMemoryOutput = S.suspend(() =>
-  S.Struct({ memoryId: S.String, status: S.optional(S.String) }),
+  S.Struct({ memoryId: S.String, status: S.optional(MemoryStatus) }),
 ).annotations({
   identifier: "DeleteMemoryOutput",
 }) as any as S.Schema<DeleteMemoryOutput>;
 export interface CustomOauth2ProviderConfigOutput {
-  oauthDiscovery: (typeof Oauth2Discovery)["Type"];
+  oauthDiscovery: Oauth2Discovery;
   clientId?: string;
 }
 export const CustomOauth2ProviderConfigOutput = S.suspend(() =>
@@ -3296,7 +3659,7 @@ export const CustomOauth2ProviderConfigOutput = S.suspend(() =>
   identifier: "CustomOauth2ProviderConfigOutput",
 }) as any as S.Schema<CustomOauth2ProviderConfigOutput>;
 export interface GoogleOauth2ProviderConfigOutput {
-  oauthDiscovery: (typeof Oauth2Discovery)["Type"];
+  oauthDiscovery: Oauth2Discovery;
   clientId?: string;
 }
 export const GoogleOauth2ProviderConfigOutput = S.suspend(() =>
@@ -3305,7 +3668,7 @@ export const GoogleOauth2ProviderConfigOutput = S.suspend(() =>
   identifier: "GoogleOauth2ProviderConfigOutput",
 }) as any as S.Schema<GoogleOauth2ProviderConfigOutput>;
 export interface GithubOauth2ProviderConfigOutput {
-  oauthDiscovery: (typeof Oauth2Discovery)["Type"];
+  oauthDiscovery: Oauth2Discovery;
   clientId?: string;
 }
 export const GithubOauth2ProviderConfigOutput = S.suspend(() =>
@@ -3314,7 +3677,7 @@ export const GithubOauth2ProviderConfigOutput = S.suspend(() =>
   identifier: "GithubOauth2ProviderConfigOutput",
 }) as any as S.Schema<GithubOauth2ProviderConfigOutput>;
 export interface SlackOauth2ProviderConfigOutput {
-  oauthDiscovery: (typeof Oauth2Discovery)["Type"];
+  oauthDiscovery: Oauth2Discovery;
   clientId?: string;
 }
 export const SlackOauth2ProviderConfigOutput = S.suspend(() =>
@@ -3323,7 +3686,7 @@ export const SlackOauth2ProviderConfigOutput = S.suspend(() =>
   identifier: "SlackOauth2ProviderConfigOutput",
 }) as any as S.Schema<SlackOauth2ProviderConfigOutput>;
 export interface SalesforceOauth2ProviderConfigOutput {
-  oauthDiscovery: (typeof Oauth2Discovery)["Type"];
+  oauthDiscovery: Oauth2Discovery;
   clientId?: string;
 }
 export const SalesforceOauth2ProviderConfigOutput = S.suspend(() =>
@@ -3332,7 +3695,7 @@ export const SalesforceOauth2ProviderConfigOutput = S.suspend(() =>
   identifier: "SalesforceOauth2ProviderConfigOutput",
 }) as any as S.Schema<SalesforceOauth2ProviderConfigOutput>;
 export interface MicrosoftOauth2ProviderConfigOutput {
-  oauthDiscovery: (typeof Oauth2Discovery)["Type"];
+  oauthDiscovery: Oauth2Discovery;
   clientId?: string;
 }
 export const MicrosoftOauth2ProviderConfigOutput = S.suspend(() =>
@@ -3341,7 +3704,7 @@ export const MicrosoftOauth2ProviderConfigOutput = S.suspend(() =>
   identifier: "MicrosoftOauth2ProviderConfigOutput",
 }) as any as S.Schema<MicrosoftOauth2ProviderConfigOutput>;
 export interface AtlassianOauth2ProviderConfigOutput {
-  oauthDiscovery: (typeof Oauth2Discovery)["Type"];
+  oauthDiscovery: Oauth2Discovery;
   clientId?: string;
 }
 export const AtlassianOauth2ProviderConfigOutput = S.suspend(() =>
@@ -3350,7 +3713,7 @@ export const AtlassianOauth2ProviderConfigOutput = S.suspend(() =>
   identifier: "AtlassianOauth2ProviderConfigOutput",
 }) as any as S.Schema<AtlassianOauth2ProviderConfigOutput>;
 export interface LinkedinOauth2ProviderConfigOutput {
-  oauthDiscovery: (typeof Oauth2Discovery)["Type"];
+  oauthDiscovery: Oauth2Discovery;
   clientId?: string;
 }
 export const LinkedinOauth2ProviderConfigOutput = S.suspend(() =>
@@ -3359,7 +3722,7 @@ export const LinkedinOauth2ProviderConfigOutput = S.suspend(() =>
   identifier: "LinkedinOauth2ProviderConfigOutput",
 }) as any as S.Schema<LinkedinOauth2ProviderConfigOutput>;
 export interface IncludedOauth2ProviderConfigOutput {
-  oauthDiscovery: (typeof Oauth2Discovery)["Type"];
+  oauthDiscovery: Oauth2Discovery;
   clientId?: string;
 }
 export const IncludedOauth2ProviderConfigOutput = S.suspend(() =>
@@ -3401,10 +3764,10 @@ export const Oauth2ProviderConfigOutput = S.Union(
 export interface UpdateOauth2CredentialProviderResponse {
   clientSecretArn: Secret;
   name: string;
-  credentialProviderVendor: string;
+  credentialProviderVendor: CredentialProviderVendorType;
   credentialProviderArn: string;
   callbackUrl?: string;
-  oauth2ProviderConfigOutput: (typeof Oauth2ProviderConfigOutput)["Type"];
+  oauth2ProviderConfigOutput: Oauth2ProviderConfigOutput;
   createdTime: Date;
   lastUpdatedTime: Date;
 }
@@ -3412,7 +3775,7 @@ export const UpdateOauth2CredentialProviderResponse = S.suspend(() =>
   S.Struct({
     clientSecretArn: Secret,
     name: S.String,
-    credentialProviderVendor: S.String,
+    credentialProviderVendor: CredentialProviderVendorType,
     credentialProviderArn: S.String,
     callbackUrl: S.optional(S.String),
     oauth2ProviderConfigOutput: Oauth2ProviderConfigOutput,
@@ -3426,8 +3789,8 @@ export interface UpdateOnlineEvaluationConfigResponse {
   onlineEvaluationConfigArn: string;
   onlineEvaluationConfigId: string;
   updatedAt: Date;
-  status: string;
-  executionStatus: string;
+  status: OnlineEvaluationConfigStatus;
+  executionStatus: OnlineEvaluationExecutionStatus;
   failureReason?: string;
 }
 export const UpdateOnlineEvaluationConfigResponse = S.suspend(() =>
@@ -3435,8 +3798,8 @@ export const UpdateOnlineEvaluationConfigResponse = S.suspend(() =>
     onlineEvaluationConfigArn: S.String,
     onlineEvaluationConfigId: S.String,
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    status: S.String,
-    executionStatus: S.String,
+    status: OnlineEvaluationConfigStatus,
+    executionStatus: OnlineEvaluationExecutionStatus,
     failureReason: S.optional(S.String),
   }),
 ).annotations({
@@ -3445,13 +3808,13 @@ export const UpdateOnlineEvaluationConfigResponse = S.suspend(() =>
 export interface DeleteOnlineEvaluationConfigResponse {
   onlineEvaluationConfigArn: string;
   onlineEvaluationConfigId: string;
-  status: string;
+  status: OnlineEvaluationConfigStatus;
 }
 export const DeleteOnlineEvaluationConfigResponse = S.suspend(() =>
   S.Struct({
     onlineEvaluationConfigArn: S.String,
     onlineEvaluationConfigId: S.String,
-    status: S.String,
+    status: OnlineEvaluationConfigStatus,
   }),
 ).annotations({
   identifier: "DeleteOnlineEvaluationConfigResponse",
@@ -3459,12 +3822,12 @@ export const DeleteOnlineEvaluationConfigResponse = S.suspend(() =>
 export interface CreatePolicyEngineResponse {
   policyEngineId: string;
   name: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   createdAt: Date;
   updatedAt: Date;
   policyEngineArn: string;
-  status: string;
-  statusReasons: PolicyStatusReasons;
+  status: PolicyEngineStatus;
+  statusReasons: string[];
 }
 export const CreatePolicyEngineResponse = S.suspend(() =>
   S.Struct({
@@ -3474,7 +3837,7 @@ export const CreatePolicyEngineResponse = S.suspend(() =>
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     policyEngineArn: S.String,
-    status: S.String,
+    status: PolicyEngineStatus,
     statusReasons: PolicyStatusReasons,
   }),
 ).annotations({
@@ -3483,12 +3846,12 @@ export const CreatePolicyEngineResponse = S.suspend(() =>
 export interface GetPolicyEngineResponse {
   policyEngineId: string;
   name: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   createdAt: Date;
   updatedAt: Date;
   policyEngineArn: string;
-  status: string;
-  statusReasons: PolicyStatusReasons;
+  status: PolicyEngineStatus;
+  statusReasons: string[];
 }
 export const GetPolicyEngineResponse = S.suspend(() =>
   S.Struct({
@@ -3498,7 +3861,7 @@ export const GetPolicyEngineResponse = S.suspend(() =>
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     policyEngineArn: S.String,
-    status: S.String,
+    status: PolicyEngineStatus,
     statusReasons: PolicyStatusReasons,
   }),
 ).annotations({
@@ -3507,12 +3870,12 @@ export const GetPolicyEngineResponse = S.suspend(() =>
 export interface UpdatePolicyEngineResponse {
   policyEngineId: string;
   name: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   createdAt: Date;
   updatedAt: Date;
   policyEngineArn: string;
-  status: string;
-  statusReasons: PolicyStatusReasons;
+  status: PolicyEngineStatus;
+  statusReasons: string[];
 }
 export const UpdatePolicyEngineResponse = S.suspend(() =>
   S.Struct({
@@ -3522,7 +3885,7 @@ export const UpdatePolicyEngineResponse = S.suspend(() =>
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     policyEngineArn: S.String,
-    status: S.String,
+    status: PolicyEngineStatus,
     statusReasons: PolicyStatusReasons,
   }),
 ).annotations({
@@ -3531,12 +3894,12 @@ export const UpdatePolicyEngineResponse = S.suspend(() =>
 export interface DeletePolicyEngineResponse {
   policyEngineId: string;
   name: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   createdAt: Date;
   updatedAt: Date;
   policyEngineArn: string;
-  status: string;
-  statusReasons: PolicyStatusReasons;
+  status: PolicyEngineStatus;
+  statusReasons: string[];
 }
 export const DeletePolicyEngineResponse = S.suspend(() =>
   S.Struct({
@@ -3546,7 +3909,7 @@ export const DeletePolicyEngineResponse = S.suspend(() =>
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     policyEngineArn: S.String,
-    status: S.String,
+    status: PolicyEngineStatus,
     statusReasons: PolicyStatusReasons,
   }),
 ).annotations({
@@ -3554,8 +3917,8 @@ export const DeletePolicyEngineResponse = S.suspend(() =>
 }) as any as S.Schema<DeletePolicyEngineResponse>;
 export interface StartPolicyGenerationRequest {
   policyEngineId: string;
-  resource: (typeof Resource)["Type"];
-  content: (typeof Content)["Type"];
+  resource: Resource;
+  content: Content;
   name: string;
   clientToken?: string;
 }
@@ -3587,11 +3950,11 @@ export interface GetPolicyGenerationResponse {
   policyGenerationId: string;
   name: string;
   policyGenerationArn: string;
-  resource: (typeof Resource)["Type"];
+  resource: Resource;
   createdAt: Date;
   updatedAt: Date;
-  status: string;
-  statusReasons: PolicyStatusReasons;
+  status: PolicyGenerationStatus;
+  statusReasons: string[];
   findings?: string;
 }
 export const GetPolicyGenerationResponse = S.suspend(() =>
@@ -3603,7 +3966,7 @@ export const GetPolicyGenerationResponse = S.suspend(() =>
     resource: Resource,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    status: S.String,
+    status: PolicyGenerationStatus,
     statusReasons: PolicyStatusReasons,
     findings: S.optional(S.String),
   }),
@@ -3614,13 +3977,13 @@ export interface GetPolicyResponse {
   policyId: string;
   name: string;
   policyEngineId: string;
-  definition: (typeof PolicyDefinition)["Type"];
-  description?: string | Redacted.Redacted<string>;
+  definition: PolicyDefinition;
+  description?: string | redacted.Redacted<string>;
   createdAt: Date;
   updatedAt: Date;
   policyArn: string;
-  status: string;
-  statusReasons: PolicyStatusReasons;
+  status: PolicyStatus;
+  statusReasons: string[];
 }
 export const GetPolicyResponse = S.suspend(() =>
   S.Struct({
@@ -3632,7 +3995,7 @@ export const GetPolicyResponse = S.suspend(() =>
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     policyArn: S.String,
-    status: S.String,
+    status: PolicyStatus,
     statusReasons: PolicyStatusReasons,
   }),
 ).annotations({
@@ -3642,13 +4005,13 @@ export interface UpdatePolicyResponse {
   policyId: string;
   name: string;
   policyEngineId: string;
-  definition: (typeof PolicyDefinition)["Type"];
-  description?: string | Redacted.Redacted<string>;
+  definition: PolicyDefinition;
+  description?: string | redacted.Redacted<string>;
   createdAt: Date;
   updatedAt: Date;
   policyArn: string;
-  status: string;
-  statusReasons: PolicyStatusReasons;
+  status: PolicyStatus;
+  statusReasons: string[];
 }
 export const UpdatePolicyResponse = S.suspend(() =>
   S.Struct({
@@ -3660,7 +4023,7 @@ export const UpdatePolicyResponse = S.suspend(() =>
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     policyArn: S.String,
-    status: S.String,
+    status: PolicyStatus,
     statusReasons: PolicyStatusReasons,
   }),
 ).annotations({
@@ -3670,13 +4033,13 @@ export interface DeletePolicyResponse {
   policyId: string;
   name: string;
   policyEngineId: string;
-  definition: (typeof PolicyDefinition)["Type"];
-  description?: string | Redacted.Redacted<string>;
+  definition: PolicyDefinition;
+  description?: string | redacted.Redacted<string>;
   createdAt: Date;
   updatedAt: Date;
   policyArn: string;
-  status: string;
-  statusReasons: PolicyStatusReasons;
+  status: PolicyStatus;
+  statusReasons: string[];
 }
 export const DeletePolicyResponse = S.suspend(() =>
   S.Struct({
@@ -3688,7 +4051,7 @@ export const DeletePolicyResponse = S.suspend(() =>
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     policyArn: S.String,
-    status: S.String,
+    status: PolicyStatus,
     statusReasons: PolicyStatusReasons,
   }),
 ).annotations({
@@ -3697,7 +4060,7 @@ export const DeletePolicyResponse = S.suspend(() =>
 export interface CreateWorkloadIdentityResponse {
   name: string;
   workloadIdentityArn: string;
-  allowedResourceOauth2ReturnUrls?: ResourceOauth2ReturnUrlListType;
+  allowedResourceOauth2ReturnUrls?: string[];
 }
 export const CreateWorkloadIdentityResponse = S.suspend(() =>
   S.Struct({
@@ -3713,7 +4076,7 @@ export const CreateWorkloadIdentityResponse = S.suspend(() =>
 export interface GetWorkloadIdentityResponse {
   name: string;
   workloadIdentityArn: string;
-  allowedResourceOauth2ReturnUrls?: ResourceOauth2ReturnUrlListType;
+  allowedResourceOauth2ReturnUrls?: string[];
   createdTime: Date;
   lastUpdatedTime: Date;
 }
@@ -3733,7 +4096,7 @@ export const GetWorkloadIdentityResponse = S.suspend(() =>
 export interface UpdateWorkloadIdentityResponse {
   name: string;
   workloadIdentityArn: string;
-  allowedResourceOauth2ReturnUrls?: ResourceOauth2ReturnUrlListType;
+  allowedResourceOauth2ReturnUrls?: string[];
   createdTime: Date;
   lastUpdatedTime: Date;
 }
@@ -3750,10 +4113,12 @@ export const UpdateWorkloadIdentityResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateWorkloadIdentityResponse",
 }) as any as S.Schema<UpdateWorkloadIdentityResponse>;
+export type EvaluatorType = "Builtin" | "Custom";
+export const EvaluatorType = S.Literal("Builtin", "Custom");
 export interface SemanticMemoryStrategyInput {
   name: string;
-  description?: string | Redacted.Redacted<string>;
-  namespaces?: NamespacesList;
+  description?: string | redacted.Redacted<string>;
+  namespaces?: string[];
 }
 export const SemanticMemoryStrategyInput = S.suspend(() =>
   S.Struct({
@@ -3766,8 +4131,8 @@ export const SemanticMemoryStrategyInput = S.suspend(() =>
 }) as any as S.Schema<SemanticMemoryStrategyInput>;
 export interface SummaryMemoryStrategyInput {
   name: string;
-  description?: string | Redacted.Redacted<string>;
-  namespaces?: NamespacesList;
+  description?: string | redacted.Redacted<string>;
+  namespaces?: string[];
 }
 export const SummaryMemoryStrategyInput = S.suspend(() =>
   S.Struct({
@@ -3780,8 +4145,8 @@ export const SummaryMemoryStrategyInput = S.suspend(() =>
 }) as any as S.Schema<SummaryMemoryStrategyInput>;
 export interface UserPreferenceMemoryStrategyInput {
   name: string;
-  description?: string | Redacted.Redacted<string>;
-  namespaces?: NamespacesList;
+  description?: string | redacted.Redacted<string>;
+  namespaces?: string[];
 }
 export const UserPreferenceMemoryStrategyInput = S.suspend(() =>
   S.Struct({
@@ -3803,12 +4168,12 @@ export const DeleteMemoryStrategyInput = S.suspend(() =>
 export type DeleteMemoryStrategiesList = DeleteMemoryStrategyInput[];
 export const DeleteMemoryStrategiesList = S.Array(DeleteMemoryStrategyInput);
 export interface AgentRuntimeEndpoint {
-  name: string | Redacted.Redacted<string>;
+  name: string | redacted.Redacted<string>;
   liveVersion?: string;
   targetVersion?: string;
   agentRuntimeEndpointArn: string;
   agentRuntimeArn: string;
-  status: string;
+  status: AgentRuntimeEndpointStatus;
   id: string;
   description?: string;
   createdAt: Date;
@@ -3821,7 +4186,7 @@ export const AgentRuntimeEndpoint = S.suspend(() =>
     targetVersion: S.optional(S.String),
     agentRuntimeEndpointArn: S.String,
     agentRuntimeArn: S.String,
-    status: S.String,
+    status: AgentRuntimeEndpointStatus,
     id: S.String,
     description: S.optional(S.String),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -3874,8 +4239,8 @@ export interface BrowserSummary {
   browserId: string;
   browserArn: string;
   name?: string;
-  description?: string | Redacted.Redacted<string>;
-  status: string;
+  description?: string | redacted.Redacted<string>;
+  status: BrowserStatus;
   createdAt: Date;
   lastUpdatedAt?: Date;
 }
@@ -3885,7 +4250,7 @@ export const BrowserSummary = S.suspend(() =>
     browserArn: S.String,
     name: S.optional(S.String),
     description: S.optional(SensitiveString),
-    status: S.String,
+    status: BrowserStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
@@ -3898,8 +4263,8 @@ export interface CodeInterpreterSummary {
   codeInterpreterId: string;
   codeInterpreterArn: string;
   name?: string;
-  description?: string | Redacted.Redacted<string>;
-  status: string;
+  description?: string | redacted.Redacted<string>;
+  status: CodeInterpreterStatus;
   createdAt: Date;
   lastUpdatedAt?: Date;
 }
@@ -3909,7 +4274,7 @@ export const CodeInterpreterSummary = S.suspend(() =>
     codeInterpreterArn: S.String,
     name: S.optional(S.String),
     description: S.optional(SensitiveString),
-    status: S.String,
+    status: CodeInterpreterStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
@@ -3922,10 +4287,10 @@ export interface EvaluatorSummary {
   evaluatorArn: string;
   evaluatorId: string;
   evaluatorName: string;
-  description?: string | Redacted.Redacted<string>;
-  evaluatorType: string;
-  level?: string;
-  status: string;
+  description?: string | redacted.Redacted<string>;
+  evaluatorType: EvaluatorType;
+  level?: EvaluatorLevel;
+  status: EvaluatorStatus;
   createdAt: Date;
   updatedAt: Date;
   lockedForModification?: boolean;
@@ -3936,9 +4301,9 @@ export const EvaluatorSummary = S.suspend(() =>
     evaluatorId: S.String,
     evaluatorName: S.String,
     description: S.optional(SensitiveString),
-    evaluatorType: S.String,
-    level: S.optional(S.String),
-    status: S.String,
+    evaluatorType: EvaluatorType,
+    level: S.optional(EvaluatorLevel),
+    status: EvaluatorStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lockedForModification: S.optional(S.Boolean),
@@ -3950,24 +4315,24 @@ export type EvaluatorSummaryList = EvaluatorSummary[];
 export const EvaluatorSummaryList = S.Array(EvaluatorSummary);
 export interface GatewaySummary {
   gatewayId: string;
-  name: string | Redacted.Redacted<string>;
-  status: string;
-  description?: string | Redacted.Redacted<string>;
+  name: string | redacted.Redacted<string>;
+  status: GatewayStatus;
+  description?: string | redacted.Redacted<string>;
   createdAt: Date;
   updatedAt: Date;
-  authorizerType: string;
-  protocolType: string;
+  authorizerType: AuthorizerType;
+  protocolType: GatewayProtocolType;
 }
 export const GatewaySummary = S.suspend(() =>
   S.Struct({
     gatewayId: S.String,
     name: SensitiveString,
-    status: S.String,
+    status: GatewayStatus,
     description: S.optional(SensitiveString),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    authorizerType: S.String,
-    protocolType: S.String,
+    authorizerType: AuthorizerType,
+    protocolType: GatewayProtocolType,
   }),
 ).annotations({
   identifier: "GatewaySummary",
@@ -3976,9 +4341,9 @@ export type GatewaySummaries = GatewaySummary[];
 export const GatewaySummaries = S.Array(GatewaySummary);
 export interface TargetSummary {
   targetId: string;
-  name: string | Redacted.Redacted<string>;
-  status: string;
-  description?: string | Redacted.Redacted<string>;
+  name: string | redacted.Redacted<string>;
+  status: TargetStatus;
+  description?: string | redacted.Redacted<string>;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -3986,7 +4351,7 @@ export const TargetSummary = S.suspend(() =>
   S.Struct({
     targetId: S.String,
     name: SensitiveString,
-    status: S.String,
+    status: TargetStatus,
     description: S.optional(SensitiveString),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -4001,12 +4366,12 @@ export interface GatewayTarget {
   targetId: string;
   createdAt: Date;
   updatedAt: Date;
-  status: string;
-  statusReasons?: StatusReasons;
-  name: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
-  targetConfiguration: (typeof TargetConfiguration)["Type"];
-  credentialProviderConfigurations: CredentialProviderConfigurations;
+  status: TargetStatus;
+  statusReasons?: string[];
+  name: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  targetConfiguration: TargetConfiguration;
+  credentialProviderConfigurations: CredentialProviderConfiguration[];
   lastSynchronizedAt?: Date;
   metadataConfiguration?: MetadataConfiguration;
 }
@@ -4016,7 +4381,7 @@ export const GatewayTarget = S.suspend(() =>
     targetId: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    status: S.String,
+    status: TargetStatus,
     statusReasons: S.optional(StatusReasons),
     name: SensitiveString,
     description: S.optional(SensitiveString),
@@ -4033,7 +4398,7 @@ export const GatewayTargetList = S.Array(GatewayTarget);
 export interface MemorySummary {
   arn?: string;
   id?: string;
-  status?: string;
+  status?: MemoryStatus;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -4041,7 +4406,7 @@ export const MemorySummary = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     id: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(MemoryStatus),
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
@@ -4052,7 +4417,7 @@ export type MemorySummaryList = MemorySummary[];
 export const MemorySummaryList = S.Array(MemorySummary);
 export interface Oauth2CredentialProviderItem {
   name: string;
-  credentialProviderVendor: string;
+  credentialProviderVendor: CredentialProviderVendorType;
   credentialProviderArn: string;
   createdTime: Date;
   lastUpdatedTime: Date;
@@ -4060,7 +4425,7 @@ export interface Oauth2CredentialProviderItem {
 export const Oauth2CredentialProviderItem = S.suspend(() =>
   S.Struct({
     name: S.String,
-    credentialProviderVendor: S.String,
+    credentialProviderVendor: CredentialProviderVendorType,
     credentialProviderArn: S.String,
     createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -4074,9 +4439,9 @@ export interface OnlineEvaluationConfigSummary {
   onlineEvaluationConfigArn: string;
   onlineEvaluationConfigId: string;
   onlineEvaluationConfigName: string;
-  description?: string | Redacted.Redacted<string>;
-  status: string;
-  executionStatus: string;
+  description?: string | redacted.Redacted<string>;
+  status: OnlineEvaluationConfigStatus;
+  executionStatus: OnlineEvaluationExecutionStatus;
   createdAt: Date;
   updatedAt: Date;
   failureReason?: string;
@@ -4087,8 +4452,8 @@ export const OnlineEvaluationConfigSummary = S.suspend(() =>
     onlineEvaluationConfigId: S.String,
     onlineEvaluationConfigName: S.String,
     description: S.optional(SensitiveString),
-    status: S.String,
-    executionStatus: S.String,
+    status: OnlineEvaluationConfigStatus,
+    executionStatus: OnlineEvaluationExecutionStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     failureReason: S.optional(S.String),
@@ -4103,12 +4468,12 @@ export const OnlineEvaluationConfigSummaryList = S.Array(
 export interface PolicyEngine {
   policyEngineId: string;
   name: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   createdAt: Date;
   updatedAt: Date;
   policyEngineArn: string;
-  status: string;
-  statusReasons: PolicyStatusReasons;
+  status: PolicyEngineStatus;
+  statusReasons: string[];
 }
 export const PolicyEngine = S.suspend(() =>
   S.Struct({
@@ -4118,7 +4483,7 @@ export const PolicyEngine = S.suspend(() =>
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     policyEngineArn: S.String,
-    status: S.String,
+    status: PolicyEngineStatus,
     statusReasons: PolicyStatusReasons,
   }),
 ).annotations({ identifier: "PolicyEngine" }) as any as S.Schema<PolicyEngine>;
@@ -4129,11 +4494,11 @@ export interface PolicyGeneration {
   policyGenerationId: string;
   name: string;
   policyGenerationArn: string;
-  resource: (typeof Resource)["Type"];
+  resource: Resource;
   createdAt: Date;
   updatedAt: Date;
-  status: string;
-  statusReasons: PolicyStatusReasons;
+  status: PolicyGenerationStatus;
+  statusReasons: string[];
   findings?: string;
 }
 export const PolicyGeneration = S.suspend(() =>
@@ -4145,7 +4510,7 @@ export const PolicyGeneration = S.suspend(() =>
     resource: Resource,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    status: S.String,
+    status: PolicyGenerationStatus,
     statusReasons: PolicyStatusReasons,
     findings: S.optional(S.String),
   }),
@@ -4158,13 +4523,13 @@ export interface Policy {
   policyId: string;
   name: string;
   policyEngineId: string;
-  definition: (typeof PolicyDefinition)["Type"];
-  description?: string | Redacted.Redacted<string>;
+  definition: PolicyDefinition;
+  description?: string | redacted.Redacted<string>;
   createdAt: Date;
   updatedAt: Date;
   policyArn: string;
-  status: string;
-  statusReasons: PolicyStatusReasons;
+  status: PolicyStatus;
+  statusReasons: string[];
 }
 export const Policy = S.suspend(() =>
   S.Struct({
@@ -4176,7 +4541,7 @@ export const Policy = S.suspend(() =>
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     policyArn: S.String,
-    status: S.String,
+    status: PolicyStatus,
     statusReasons: PolicyStatusReasons,
   }),
 ).annotations({ identifier: "Policy" }) as any as S.Schema<Policy>;
@@ -4194,13 +4559,54 @@ export const WorkloadIdentityType = S.suspend(() =>
 export type WorkloadIdentityList = WorkloadIdentityType[];
 export const WorkloadIdentityList = S.Array(WorkloadIdentityType);
 export interface EpisodicReflectionConfigurationInput {
-  namespaces: NamespacesList;
+  namespaces: string[];
 }
 export const EpisodicReflectionConfigurationInput = S.suspend(() =>
   S.Struct({ namespaces: NamespacesList }),
 ).annotations({
   identifier: "EpisodicReflectionConfigurationInput",
 }) as any as S.Schema<EpisodicReflectionConfigurationInput>;
+export type MemoryStrategyType =
+  | "SEMANTIC"
+  | "SUMMARIZATION"
+  | "USER_PREFERENCE"
+  | "CUSTOM"
+  | "EPISODIC";
+export const MemoryStrategyType = S.Literal(
+  "SEMANTIC",
+  "SUMMARIZATION",
+  "USER_PREFERENCE",
+  "CUSTOM",
+  "EPISODIC",
+);
+export type MemoryStrategyStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "DELETING"
+  | "FAILED";
+export const MemoryStrategyStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "DELETING",
+  "FAILED",
+);
+export type FindingType =
+  | "VALID"
+  | "INVALID"
+  | "NOT_TRANSLATABLE"
+  | "ALLOW_ALL"
+  | "ALLOW_NONE"
+  | "DENY_ALL"
+  | "DENY_NONE";
+export const FindingType = S.Literal(
+  "VALID",
+  "INVALID",
+  "NOT_TRANSLATABLE",
+  "ALLOW_ALL",
+  "ALLOW_NONE",
+  "DENY_ALL",
+  "DENY_NONE",
+);
 export interface SetTokenVaultCMKResponse {
   tokenVaultId: string;
   kmsConfiguration: KmsConfiguration;
@@ -4216,7 +4622,7 @@ export const SetTokenVaultCMKResponse = S.suspend(() =>
   identifier: "SetTokenVaultCMKResponse",
 }) as any as S.Schema<SetTokenVaultCMKResponse>;
 export interface ListAgentRuntimeEndpointsResponse {
-  runtimeEndpoints: AgentRuntimeEndpoints;
+  runtimeEndpoints: AgentRuntimeEndpoint[];
   nextToken?: string;
 }
 export const ListAgentRuntimeEndpointsResponse = S.suspend(() =>
@@ -4236,16 +4642,16 @@ export interface GetAgentRuntimeResponse {
   lastUpdatedAt: Date;
   roleArn: string;
   networkConfiguration: NetworkConfiguration;
-  status: string;
+  status: AgentRuntimeStatus;
   lifecycleConfiguration: LifecycleConfiguration;
   failureReason?: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   workloadIdentityDetails?: WorkloadIdentityDetails;
-  agentRuntimeArtifact?: (typeof AgentRuntimeArtifact)["Type"];
+  agentRuntimeArtifact?: AgentRuntimeArtifact;
   protocolConfiguration?: ProtocolConfiguration;
-  environmentVariables?: EnvironmentVariablesMap;
-  authorizerConfiguration?: (typeof AuthorizerConfiguration)["Type"];
-  requestHeaderConfiguration?: (typeof RequestHeaderConfiguration)["Type"];
+  environmentVariables?: { [key: string]: string };
+  authorizerConfiguration?: AuthorizerConfiguration;
+  requestHeaderConfiguration?: RequestHeaderConfiguration;
 }
 export const GetAgentRuntimeResponse = S.suspend(() =>
   S.Struct({
@@ -4257,7 +4663,7 @@ export const GetAgentRuntimeResponse = S.suspend(() =>
     lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     roleArn: S.String,
     networkConfiguration: NetworkConfiguration,
-    status: S.String,
+    status: AgentRuntimeStatus,
     lifecycleConfiguration: LifecycleConfiguration,
     failureReason: S.optional(S.String),
     description: S.optional(SensitiveString),
@@ -4272,7 +4678,7 @@ export const GetAgentRuntimeResponse = S.suspend(() =>
   identifier: "GetAgentRuntimeResponse",
 }) as any as S.Schema<GetAgentRuntimeResponse>;
 export interface ListAgentRuntimesResponse {
-  agentRuntimes: AgentRuntimes;
+  agentRuntimes: AgentRuntime[];
   nextToken?: string;
 }
 export const ListAgentRuntimesResponse = S.suspend(() =>
@@ -4295,7 +4701,7 @@ export const CreateApiKeyCredentialProviderResponse = S.suspend(() =>
   identifier: "CreateApiKeyCredentialProviderResponse",
 }) as any as S.Schema<CreateApiKeyCredentialProviderResponse>;
 export interface ListApiKeyCredentialProvidersResponse {
-  credentialProviders: ApiKeyCredentialProviders;
+  credentialProviders: ApiKeyCredentialProviderItem[];
   nextToken?: string;
 }
 export const ListApiKeyCredentialProvidersResponse = S.suspend(() =>
@@ -4308,13 +4714,13 @@ export const ListApiKeyCredentialProvidersResponse = S.suspend(() =>
 }) as any as S.Schema<ListApiKeyCredentialProvidersResponse>;
 export interface CreateBrowserRequest {
   name: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   executionRoleArn?: string;
   networkConfiguration: BrowserNetworkConfiguration;
   recording?: RecordingConfig;
   browserSigning?: BrowserSigningConfigInput;
   clientToken?: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const CreateBrowserRequest = S.suspend(() =>
   S.Struct({
@@ -4343,12 +4749,12 @@ export interface GetBrowserResponse {
   browserId: string;
   browserArn: string;
   name: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   executionRoleArn?: string;
   networkConfiguration: BrowserNetworkConfiguration;
   recording?: RecordingConfig;
   browserSigning?: BrowserSigningConfigOutput;
-  status: string;
+  status: BrowserStatus;
   failureReason?: string;
   createdAt: Date;
   lastUpdatedAt: Date;
@@ -4363,7 +4769,7 @@ export const GetBrowserResponse = S.suspend(() =>
     networkConfiguration: BrowserNetworkConfiguration,
     recording: S.optional(RecordingConfig),
     browserSigning: S.optional(BrowserSigningConfigOutput),
-    status: S.String,
+    status: BrowserStatus,
     failureReason: S.optional(S.String),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -4372,7 +4778,7 @@ export const GetBrowserResponse = S.suspend(() =>
   identifier: "GetBrowserResponse",
 }) as any as S.Schema<GetBrowserResponse>;
 export interface ListBrowsersResponse {
-  browserSummaries: BrowserSummaries;
+  browserSummaries: BrowserSummary[];
   nextToken?: string;
 }
 export const ListBrowsersResponse = S.suspend(() =>
@@ -4387,20 +4793,20 @@ export interface CreateCodeInterpreterResponse {
   codeInterpreterId: string;
   codeInterpreterArn: string;
   createdAt: Date;
-  status: string;
+  status: CodeInterpreterStatus;
 }
 export const CreateCodeInterpreterResponse = S.suspend(() =>
   S.Struct({
     codeInterpreterId: S.String,
     codeInterpreterArn: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    status: S.String,
+    status: CodeInterpreterStatus,
   }),
 ).annotations({
   identifier: "CreateCodeInterpreterResponse",
 }) as any as S.Schema<CreateCodeInterpreterResponse>;
 export interface ListCodeInterpretersResponse {
-  codeInterpreterSummaries: CodeInterpreterSummaries;
+  codeInterpreterSummaries: CodeInterpreterSummary[];
   nextToken?: string;
 }
 export const ListCodeInterpretersResponse = S.suspend(() =>
@@ -4412,7 +4818,7 @@ export const ListCodeInterpretersResponse = S.suspend(() =>
   identifier: "ListCodeInterpretersResponse",
 }) as any as S.Schema<ListCodeInterpretersResponse>;
 export interface ListEvaluatorsResponse {
-  evaluators: EvaluatorSummaryList;
+  evaluators: EvaluatorSummary[];
   nextToken?: string;
 }
 export const ListEvaluatorsResponse = S.suspend(() =>
@@ -4424,7 +4830,7 @@ export const ListEvaluatorsResponse = S.suspend(() =>
   identifier: "ListEvaluatorsResponse",
 }) as any as S.Schema<ListEvaluatorsResponse>;
 export interface ListGatewaysResponse {
-  items: GatewaySummaries;
+  items: GatewaySummary[];
   nextToken?: string;
 }
 export const ListGatewaysResponse = S.suspend(() =>
@@ -4433,7 +4839,7 @@ export const ListGatewaysResponse = S.suspend(() =>
   identifier: "ListGatewaysResponse",
 }) as any as S.Schema<ListGatewaysResponse>;
 export interface ListGatewayTargetsResponse {
-  items: TargetSummaries;
+  items: TargetSummary[];
   nextToken?: string;
 }
 export const ListGatewayTargetsResponse = S.suspend(() =>
@@ -4442,7 +4848,7 @@ export const ListGatewayTargetsResponse = S.suspend(() =>
   identifier: "ListGatewayTargetsResponse",
 }) as any as S.Schema<ListGatewayTargetsResponse>;
 export interface SynchronizeGatewayTargetsResponse {
-  targets?: GatewayTargetList;
+  targets?: GatewayTarget[];
 }
 export const SynchronizeGatewayTargetsResponse = S.suspend(() =>
   S.Struct({ targets: S.optional(GatewayTargetList) }),
@@ -4450,7 +4856,7 @@ export const SynchronizeGatewayTargetsResponse = S.suspend(() =>
   identifier: "SynchronizeGatewayTargetsResponse",
 }) as any as S.Schema<SynchronizeGatewayTargetsResponse>;
 export interface ListMemoriesOutput {
-  memories: MemorySummaryList;
+  memories: MemorySummary[];
   nextToken?: string;
 }
 export const ListMemoriesOutput = S.suspend(() =>
@@ -4459,7 +4865,7 @@ export const ListMemoriesOutput = S.suspend(() =>
   identifier: "ListMemoriesOutput",
 }) as any as S.Schema<ListMemoriesOutput>;
 export interface ListOauth2CredentialProvidersResponse {
-  credentialProviders: Oauth2CredentialProviders;
+  credentialProviders: Oauth2CredentialProviderItem[];
   nextToken?: string;
 }
 export const ListOauth2CredentialProvidersResponse = S.suspend(() =>
@@ -4471,7 +4877,7 @@ export const ListOauth2CredentialProvidersResponse = S.suspend(() =>
   identifier: "ListOauth2CredentialProvidersResponse",
 }) as any as S.Schema<ListOauth2CredentialProvidersResponse>;
 export interface ListOnlineEvaluationConfigsResponse {
-  onlineEvaluationConfigs: OnlineEvaluationConfigSummaryList;
+  onlineEvaluationConfigs: OnlineEvaluationConfigSummary[];
   nextToken?: string;
 }
 export const ListOnlineEvaluationConfigsResponse = S.suspend(() =>
@@ -4483,7 +4889,7 @@ export const ListOnlineEvaluationConfigsResponse = S.suspend(() =>
   identifier: "ListOnlineEvaluationConfigsResponse",
 }) as any as S.Schema<ListOnlineEvaluationConfigsResponse>;
 export interface ListPolicyEnginesResponse {
-  policyEngines: PolicyEngines;
+  policyEngines: PolicyEngine[];
   nextToken?: string;
 }
 export const ListPolicyEnginesResponse = S.suspend(() =>
@@ -4496,11 +4902,11 @@ export interface StartPolicyGenerationResponse {
   policyGenerationId: string;
   name: string;
   policyGenerationArn: string;
-  resource: (typeof Resource)["Type"];
+  resource: Resource;
   createdAt: Date;
   updatedAt: Date;
-  status: string;
-  statusReasons: PolicyStatusReasons;
+  status: PolicyGenerationStatus;
+  statusReasons: string[];
   findings?: string;
 }
 export const StartPolicyGenerationResponse = S.suspend(() =>
@@ -4512,7 +4918,7 @@ export const StartPolicyGenerationResponse = S.suspend(() =>
     resource: Resource,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    status: S.String,
+    status: PolicyGenerationStatus,
     statusReasons: PolicyStatusReasons,
     findings: S.optional(S.String),
   }),
@@ -4520,7 +4926,7 @@ export const StartPolicyGenerationResponse = S.suspend(() =>
   identifier: "StartPolicyGenerationResponse",
 }) as any as S.Schema<StartPolicyGenerationResponse>;
 export interface ListPolicyGenerationsResponse {
-  policyGenerations: PolicyGenerations;
+  policyGenerations: PolicyGeneration[];
   nextToken?: string;
 }
 export const ListPolicyGenerationsResponse = S.suspend(() =>
@@ -4533,9 +4939,9 @@ export const ListPolicyGenerationsResponse = S.suspend(() =>
 }) as any as S.Schema<ListPolicyGenerationsResponse>;
 export interface CreatePolicyRequest {
   name: string;
-  definition: (typeof PolicyDefinition)["Type"];
-  description?: string | Redacted.Redacted<string>;
-  validationMode?: string;
+  definition: PolicyDefinition;
+  description?: string | redacted.Redacted<string>;
+  validationMode?: PolicyValidationMode;
   policyEngineId: string;
   clientToken?: string;
 }
@@ -4544,7 +4950,7 @@ export const CreatePolicyRequest = S.suspend(() =>
     name: S.String,
     definition: PolicyDefinition,
     description: S.optional(SensitiveString),
-    validationMode: S.optional(S.String),
+    validationMode: S.optional(PolicyValidationMode),
     policyEngineId: S.String.pipe(T.HttpLabel("policyEngineId")),
     clientToken: S.optional(S.String),
   }).pipe(
@@ -4564,7 +4970,7 @@ export const CreatePolicyRequest = S.suspend(() =>
   identifier: "CreatePolicyRequest",
 }) as any as S.Schema<CreatePolicyRequest>;
 export interface ListPoliciesResponse {
-  policies: Policies;
+  policies: Policy[];
   nextToken?: string;
 }
 export const ListPoliciesResponse = S.suspend(() =>
@@ -4573,7 +4979,7 @@ export const ListPoliciesResponse = S.suspend(() =>
   identifier: "ListPoliciesResponse",
 }) as any as S.Schema<ListPoliciesResponse>;
 export interface ListWorkloadIdentitiesResponse {
-  workloadIdentities: WorkloadIdentityList;
+  workloadIdentities: WorkloadIdentityType[];
   nextToken?: string;
 }
 export const ListWorkloadIdentitiesResponse = S.suspend(() =>
@@ -4586,8 +4992,8 @@ export const ListWorkloadIdentitiesResponse = S.suspend(() =>
 }) as any as S.Schema<ListWorkloadIdentitiesResponse>;
 export interface EpisodicMemoryStrategyInput {
   name: string;
-  description?: string | Redacted.Redacted<string>;
-  namespaces?: NamespacesList;
+  description?: string | redacted.Redacted<string>;
+  namespaces?: string[];
   reflectionConfiguration?: EpisodicReflectionConfigurationInput;
 }
 export const EpisodicMemoryStrategyInput = S.suspend(() =>
@@ -4609,14 +5015,30 @@ export const CloudWatchOutputConfig = S.suspend(() =>
   identifier: "CloudWatchOutputConfig",
 }) as any as S.Schema<CloudWatchOutputConfig>;
 export interface Finding {
-  type?: string;
+  type?: FindingType;
   description?: string;
 }
 export const Finding = S.suspend(() =>
-  S.Struct({ type: S.optional(S.String), description: S.optional(S.String) }),
+  S.Struct({
+    type: S.optional(FindingType),
+    description: S.optional(S.String),
+  }),
 ).annotations({ identifier: "Finding" }) as any as S.Schema<Finding>;
 export type Findings = Finding[];
 export const Findings = S.Array(Finding);
+export type OverrideType =
+  | "SEMANTIC_OVERRIDE"
+  | "SUMMARY_OVERRIDE"
+  | "USER_PREFERENCE_OVERRIDE"
+  | "SELF_MANAGED"
+  | "EPISODIC_OVERRIDE";
+export const OverrideType = S.Literal(
+  "SEMANTIC_OVERRIDE",
+  "SUMMARY_OVERRIDE",
+  "USER_PREFERENCE_OVERRIDE",
+  "SELF_MANAGED",
+  "EPISODIC_OVERRIDE",
+);
 export interface OutputConfig {
   cloudWatchConfig: CloudWatchOutputConfig;
 }
@@ -4625,9 +5047,9 @@ export const OutputConfig = S.suspend(() =>
 ).annotations({ identifier: "OutputConfig" }) as any as S.Schema<OutputConfig>;
 export interface PolicyGenerationAsset {
   policyGenerationAssetId: string;
-  definition?: (typeof PolicyDefinition)["Type"];
+  definition?: PolicyDefinition;
   rawTextFragment: string;
-  findings: Findings;
+  findings: Finding[];
 }
 export const PolicyGenerationAsset = S.suspend(() =>
   S.Struct({
@@ -4645,32 +5067,32 @@ export interface CreateBrowserResponse {
   browserId: string;
   browserArn: string;
   createdAt: Date;
-  status: string;
+  status: BrowserStatus;
 }
 export const CreateBrowserResponse = S.suspend(() =>
   S.Struct({
     browserId: S.String,
     browserArn: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    status: S.String,
+    status: BrowserStatus,
   }),
 ).annotations({
   identifier: "CreateBrowserResponse",
 }) as any as S.Schema<CreateBrowserResponse>;
 export interface CreateGatewayRequest {
-  name: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  name: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   clientToken?: string;
   roleArn: string;
-  protocolType: string;
-  protocolConfiguration?: (typeof GatewayProtocolConfiguration)["Type"];
-  authorizerType: string;
-  authorizerConfiguration?: (typeof AuthorizerConfiguration)["Type"];
+  protocolType: GatewayProtocolType;
+  protocolConfiguration?: GatewayProtocolConfiguration;
+  authorizerType: AuthorizerType;
+  authorizerConfiguration?: AuthorizerConfiguration;
   kmsKeyArn?: string;
-  interceptorConfigurations?: GatewayInterceptorConfigurations;
+  interceptorConfigurations?: GatewayInterceptorConfiguration[];
   policyEngineConfiguration?: GatewayPolicyEngineConfiguration;
-  exceptionLevel?: string;
-  tags?: TagsMap;
+  exceptionLevel?: ExceptionLevel;
+  tags?: { [key: string]: string };
 }
 export const CreateGatewayRequest = S.suspend(() =>
   S.Struct({
@@ -4678,14 +5100,14 @@ export const CreateGatewayRequest = S.suspend(() =>
     description: S.optional(SensitiveString),
     clientToken: S.optional(S.String),
     roleArn: S.String,
-    protocolType: S.String,
+    protocolType: GatewayProtocolType,
     protocolConfiguration: S.optional(GatewayProtocolConfiguration),
-    authorizerType: S.String,
+    authorizerType: AuthorizerType,
     authorizerConfiguration: S.optional(AuthorizerConfiguration),
     kmsKeyArn: S.optional(S.String),
     interceptorConfigurations: S.optional(GatewayInterceptorConfigurations),
     policyEngineConfiguration: S.optional(GatewayPolicyEngineConfiguration),
-    exceptionLevel: S.optional(S.String),
+    exceptionLevel: S.optional(ExceptionLevel),
     tags: S.optional(TagsMap),
   }).pipe(
     T.all(
@@ -4701,7 +5123,7 @@ export const CreateGatewayRequest = S.suspend(() =>
   identifier: "CreateGatewayRequest",
 }) as any as S.Schema<CreateGatewayRequest>;
 export interface SemanticOverrideExtractionConfigurationInput {
-  appendToPrompt: string | Redacted.Redacted<string>;
+  appendToPrompt: string | redacted.Redacted<string>;
   modelId: string;
 }
 export const SemanticOverrideExtractionConfigurationInput = S.suspend(() =>
@@ -4710,7 +5132,7 @@ export const SemanticOverrideExtractionConfigurationInput = S.suspend(() =>
   identifier: "SemanticOverrideExtractionConfigurationInput",
 }) as any as S.Schema<SemanticOverrideExtractionConfigurationInput>;
 export interface SemanticOverrideConsolidationConfigurationInput {
-  appendToPrompt: string | Redacted.Redacted<string>;
+  appendToPrompt: string | redacted.Redacted<string>;
   modelId: string;
 }
 export const SemanticOverrideConsolidationConfigurationInput = S.suspend(() =>
@@ -4719,7 +5141,7 @@ export const SemanticOverrideConsolidationConfigurationInput = S.suspend(() =>
   identifier: "SemanticOverrideConsolidationConfigurationInput",
 }) as any as S.Schema<SemanticOverrideConsolidationConfigurationInput>;
 export interface SummaryOverrideConsolidationConfigurationInput {
-  appendToPrompt: string | Redacted.Redacted<string>;
+  appendToPrompt: string | redacted.Redacted<string>;
   modelId: string;
 }
 export const SummaryOverrideConsolidationConfigurationInput = S.suspend(() =>
@@ -4728,7 +5150,7 @@ export const SummaryOverrideConsolidationConfigurationInput = S.suspend(() =>
   identifier: "SummaryOverrideConsolidationConfigurationInput",
 }) as any as S.Schema<SummaryOverrideConsolidationConfigurationInput>;
 export interface UserPreferenceOverrideExtractionConfigurationInput {
-  appendToPrompt: string | Redacted.Redacted<string>;
+  appendToPrompt: string | redacted.Redacted<string>;
   modelId: string;
 }
 export const UserPreferenceOverrideExtractionConfigurationInput = S.suspend(
@@ -4737,7 +5159,7 @@ export const UserPreferenceOverrideExtractionConfigurationInput = S.suspend(
   identifier: "UserPreferenceOverrideExtractionConfigurationInput",
 }) as any as S.Schema<UserPreferenceOverrideExtractionConfigurationInput>;
 export interface UserPreferenceOverrideConsolidationConfigurationInput {
-  appendToPrompt: string | Redacted.Redacted<string>;
+  appendToPrompt: string | redacted.Redacted<string>;
   modelId: string;
 }
 export const UserPreferenceOverrideConsolidationConfigurationInput = S.suspend(
@@ -4746,7 +5168,7 @@ export const UserPreferenceOverrideConsolidationConfigurationInput = S.suspend(
   identifier: "UserPreferenceOverrideConsolidationConfigurationInput",
 }) as any as S.Schema<UserPreferenceOverrideConsolidationConfigurationInput>;
 export interface EpisodicOverrideExtractionConfigurationInput {
-  appendToPrompt: string | Redacted.Redacted<string>;
+  appendToPrompt: string | redacted.Redacted<string>;
   modelId: string;
 }
 export const EpisodicOverrideExtractionConfigurationInput = S.suspend(() =>
@@ -4755,7 +5177,7 @@ export const EpisodicOverrideExtractionConfigurationInput = S.suspend(() =>
   identifier: "EpisodicOverrideExtractionConfigurationInput",
 }) as any as S.Schema<EpisodicOverrideExtractionConfigurationInput>;
 export interface EpisodicOverrideConsolidationConfigurationInput {
-  appendToPrompt: string | Redacted.Redacted<string>;
+  appendToPrompt: string | redacted.Redacted<string>;
   modelId: string;
 }
 export const EpisodicOverrideConsolidationConfigurationInput = S.suspend(() =>
@@ -4764,9 +5186,9 @@ export const EpisodicOverrideConsolidationConfigurationInput = S.suspend(() =>
   identifier: "EpisodicOverrideConsolidationConfigurationInput",
 }) as any as S.Schema<EpisodicOverrideConsolidationConfigurationInput>;
 export interface EpisodicOverrideReflectionConfigurationInput {
-  appendToPrompt: string | Redacted.Redacted<string>;
+  appendToPrompt: string | redacted.Redacted<string>;
   modelId: string;
-  namespaces?: NamespacesList;
+  namespaces?: string[];
 }
 export const EpisodicOverrideReflectionConfigurationInput = S.suspend(() =>
   S.Struct({
@@ -4861,9 +5283,9 @@ export interface GetOauth2CredentialProviderResponse {
   clientSecretArn: Secret;
   name: string;
   credentialProviderArn: string;
-  credentialProviderVendor: string;
+  credentialProviderVendor: CredentialProviderVendorType;
   callbackUrl?: string;
-  oauth2ProviderConfigOutput: (typeof Oauth2ProviderConfigOutput)["Type"];
+  oauth2ProviderConfigOutput: Oauth2ProviderConfigOutput;
   createdTime: Date;
   lastUpdatedTime: Date;
 }
@@ -4872,7 +5294,7 @@ export const GetOauth2CredentialProviderResponse = S.suspend(() =>
     clientSecretArn: Secret,
     name: S.String,
     credentialProviderArn: S.String,
-    credentialProviderVendor: S.String,
+    credentialProviderVendor: CredentialProviderVendorType,
     callbackUrl: S.optional(S.String),
     oauth2ProviderConfigOutput: Oauth2ProviderConfigOutput,
     createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -4884,10 +5306,10 @@ export const GetOauth2CredentialProviderResponse = S.suspend(() =>
 export interface CreateOnlineEvaluationConfigRequest {
   clientToken?: string;
   onlineEvaluationConfigName: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   rule: Rule;
-  dataSourceConfig: (typeof DataSourceConfig)["Type"];
-  evaluators: EvaluatorList;
+  dataSourceConfig: DataSourceConfig;
+  evaluators: EvaluatorReference[];
   evaluationExecutionRoleArn: string;
   enableOnCreate: boolean;
 }
@@ -4918,14 +5340,14 @@ export interface GetOnlineEvaluationConfigResponse {
   onlineEvaluationConfigArn: string;
   onlineEvaluationConfigId: string;
   onlineEvaluationConfigName: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   rule: Rule;
-  dataSourceConfig: (typeof DataSourceConfig)["Type"];
-  evaluators: EvaluatorList;
+  dataSourceConfig: DataSourceConfig;
+  evaluators: EvaluatorReference[];
   outputConfig?: OutputConfig;
   evaluationExecutionRoleArn?: string;
-  status: string;
-  executionStatus: string;
+  status: OnlineEvaluationConfigStatus;
+  executionStatus: OnlineEvaluationExecutionStatus;
   createdAt: Date;
   updatedAt: Date;
   failureReason?: string;
@@ -4941,8 +5363,8 @@ export const GetOnlineEvaluationConfigResponse = S.suspend(() =>
     evaluators: EvaluatorList,
     outputConfig: S.optional(OutputConfig),
     evaluationExecutionRoleArn: S.optional(S.String),
-    status: S.String,
-    executionStatus: S.String,
+    status: OnlineEvaluationConfigStatus,
+    executionStatus: OnlineEvaluationExecutionStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     failureReason: S.optional(S.String),
@@ -4951,7 +5373,7 @@ export const GetOnlineEvaluationConfigResponse = S.suspend(() =>
   identifier: "GetOnlineEvaluationConfigResponse",
 }) as any as S.Schema<GetOnlineEvaluationConfigResponse>;
 export interface ListPolicyGenerationAssetsResponse {
-  policyGenerationAssets?: PolicyGenerationAssets;
+  policyGenerationAssets?: PolicyGenerationAsset[];
   nextToken?: string;
 }
 export const ListPolicyGenerationAssetsResponse = S.suspend(() =>
@@ -4966,13 +5388,13 @@ export interface CreatePolicyResponse {
   policyId: string;
   name: string;
   policyEngineId: string;
-  definition: (typeof PolicyDefinition)["Type"];
-  description?: string | Redacted.Redacted<string>;
+  definition: PolicyDefinition;
+  description?: string | redacted.Redacted<string>;
   createdAt: Date;
   updatedAt: Date;
   policyArn: string;
-  status: string;
-  statusReasons: PolicyStatusReasons;
+  status: PolicyStatus;
+  statusReasons: string[];
 }
 export const CreatePolicyResponse = S.suspend(() =>
   S.Struct({
@@ -4984,7 +5406,7 @@ export const CreatePolicyResponse = S.suspend(() =>
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     policyArn: S.String,
-    status: S.String,
+    status: PolicyStatus,
     statusReasons: PolicyStatusReasons,
   }),
 ).annotations({
@@ -5041,7 +5463,7 @@ export const EpisodicOverrideConfigurationInput = S.suspend(() =>
   identifier: "EpisodicOverrideConfigurationInput",
 }) as any as S.Schema<EpisodicOverrideConfigurationInput>;
 export type ModifyExtractionConfiguration = {
-  customExtractionConfiguration: (typeof CustomExtractionConfigurationInput)["Type"];
+  customExtractionConfiguration: CustomExtractionConfigurationInput;
 };
 export const ModifyExtractionConfiguration = S.Union(
   S.Struct({
@@ -5049,7 +5471,7 @@ export const ModifyExtractionConfiguration = S.Union(
   }),
 );
 export type ModifyConsolidationConfiguration = {
-  customConsolidationConfiguration: (typeof CustomConsolidationConfigurationInput)["Type"];
+  customConsolidationConfiguration: CustomConsolidationConfigurationInput;
 };
 export const ModifyConsolidationConfiguration = S.Union(
   S.Struct({
@@ -5058,9 +5480,7 @@ export const ModifyConsolidationConfiguration = S.Union(
 );
 export type ModifyReflectionConfiguration =
   | { episodicReflectionConfiguration: EpisodicReflectionConfigurationInput }
-  | {
-      customReflectionConfiguration: (typeof CustomReflectionConfigurationInput)["Type"];
-    };
+  | { customReflectionConfiguration: CustomReflectionConfigurationInput };
 export const ModifyReflectionConfiguration = S.Union(
   S.Struct({
     episodicReflectionConfiguration: EpisodicReflectionConfigurationInput,
@@ -5102,11 +5522,10 @@ export const TriggerConditionInput = S.Union(
   S.Struct({ tokenBasedTrigger: TokenBasedTriggerInput }),
   S.Struct({ timeBasedTrigger: TimeBasedTriggerInput }),
 );
-export type TriggerConditionInputList =
-  (typeof TriggerConditionInput)["Type"][];
+export type TriggerConditionInputList = TriggerConditionInput[];
 export const TriggerConditionInputList = S.Array(TriggerConditionInput);
 export interface ModifySelfManagedConfiguration {
-  triggerConditions?: TriggerConditionInputList;
+  triggerConditions?: TriggerConditionInput[];
   invocationConfiguration?: ModifyInvocationConfigurationInput;
   historicalContextWindowSize?: number;
 }
@@ -5119,10 +5538,23 @@ export const ModifySelfManagedConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ModifySelfManagedConfiguration",
 }) as any as S.Schema<ModifySelfManagedConfiguration>;
+export type ValidationExceptionReason =
+  | "CannotParse"
+  | "FieldValidationFailed"
+  | "IdempotentParameterMismatchException"
+  | "EventInOtherSession"
+  | "ResourceConflict";
+export const ValidationExceptionReason = S.Literal(
+  "CannotParse",
+  "FieldValidationFailed",
+  "IdempotentParameterMismatchException",
+  "EventInOtherSession",
+  "ResourceConflict",
+);
 export interface ModifyStrategyConfiguration {
-  extraction?: (typeof ModifyExtractionConfiguration)["Type"];
-  consolidation?: (typeof ModifyConsolidationConfiguration)["Type"];
-  reflection?: (typeof ModifyReflectionConfiguration)["Type"];
+  extraction?: ModifyExtractionConfiguration;
+  consolidation?: ModifyConsolidationConfiguration;
+  reflection?: ModifyReflectionConfiguration;
   selfManagedConfiguration?: ModifySelfManagedConfiguration;
 }
 export const ModifyStrategyConfiguration = S.suspend(() =>
@@ -5141,20 +5573,20 @@ export interface CreateGatewayResponse {
   gatewayUrl?: string;
   createdAt: Date;
   updatedAt: Date;
-  status: string;
-  statusReasons?: StatusReasons;
-  name: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  status: GatewayStatus;
+  statusReasons?: string[];
+  name: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   roleArn?: string;
-  protocolType: string;
-  protocolConfiguration?: (typeof GatewayProtocolConfiguration)["Type"];
-  authorizerType: string;
-  authorizerConfiguration?: (typeof AuthorizerConfiguration)["Type"];
+  protocolType: GatewayProtocolType;
+  protocolConfiguration?: GatewayProtocolConfiguration;
+  authorizerType: AuthorizerType;
+  authorizerConfiguration?: AuthorizerConfiguration;
   kmsKeyArn?: string;
-  interceptorConfigurations?: GatewayInterceptorConfigurations;
+  interceptorConfigurations?: GatewayInterceptorConfiguration[];
   policyEngineConfiguration?: GatewayPolicyEngineConfiguration;
   workloadIdentityDetails?: WorkloadIdentityDetails;
-  exceptionLevel?: string;
+  exceptionLevel?: ExceptionLevel;
 }
 export const CreateGatewayResponse = S.suspend(() =>
   S.Struct({
@@ -5163,26 +5595,26 @@ export const CreateGatewayResponse = S.suspend(() =>
     gatewayUrl: S.optional(S.String),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    status: S.String,
+    status: GatewayStatus,
     statusReasons: S.optional(StatusReasons),
     name: SensitiveString,
     description: S.optional(SensitiveString),
     roleArn: S.optional(S.String),
-    protocolType: S.String,
+    protocolType: GatewayProtocolType,
     protocolConfiguration: S.optional(GatewayProtocolConfiguration),
-    authorizerType: S.String,
+    authorizerType: AuthorizerType,
     authorizerConfiguration: S.optional(AuthorizerConfiguration),
     kmsKeyArn: S.optional(S.String),
     interceptorConfigurations: S.optional(GatewayInterceptorConfigurations),
     policyEngineConfiguration: S.optional(GatewayPolicyEngineConfiguration),
     workloadIdentityDetails: S.optional(WorkloadIdentityDetails),
-    exceptionLevel: S.optional(S.String),
+    exceptionLevel: S.optional(ExceptionLevel),
   }),
 ).annotations({
   identifier: "CreateGatewayResponse",
 }) as any as S.Schema<CreateGatewayResponse>;
 export interface EpisodicReflectionConfiguration {
-  namespaces: NamespacesList;
+  namespaces: string[];
 }
 export const EpisodicReflectionConfiguration = S.suspend(() =>
   S.Struct({ namespaces: NamespacesList }),
@@ -5200,14 +5632,14 @@ export const InvocationConfiguration = S.suspend(() =>
 }) as any as S.Schema<InvocationConfiguration>;
 export interface CreateOauth2CredentialProviderRequest {
   name: string;
-  credentialProviderVendor: string;
-  oauth2ProviderConfigInput: (typeof Oauth2ProviderConfigInput)["Type"];
-  tags?: TagsMap;
+  credentialProviderVendor: CredentialProviderVendorType;
+  oauth2ProviderConfigInput: Oauth2ProviderConfigInput;
+  tags?: { [key: string]: string };
 }
 export const CreateOauth2CredentialProviderRequest = S.suspend(() =>
   S.Struct({
     name: S.String,
-    credentialProviderVendor: S.String,
+    credentialProviderVendor: CredentialProviderVendorType,
     oauth2ProviderConfigInput: Oauth2ProviderConfigInput,
     tags: S.optional(TagsMap),
   }).pipe(
@@ -5231,8 +5663,8 @@ export interface CreateOnlineEvaluationConfigResponse {
   onlineEvaluationConfigId: string;
   createdAt: Date;
   outputConfig?: OutputConfig;
-  status: string;
-  executionStatus: string;
+  status: OnlineEvaluationConfigStatus;
+  executionStatus: OnlineEvaluationExecutionStatus;
   failureReason?: string;
 }
 export const CreateOnlineEvaluationConfigResponse = S.suspend(() =>
@@ -5241,8 +5673,8 @@ export const CreateOnlineEvaluationConfigResponse = S.suspend(() =>
     onlineEvaluationConfigId: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     outputConfig: S.optional(OutputConfig),
-    status: S.String,
-    executionStatus: S.String,
+    status: OnlineEvaluationConfigStatus,
+    executionStatus: OnlineEvaluationExecutionStatus,
     failureReason: S.optional(S.String),
   }),
 ).annotations({
@@ -5257,8 +5689,8 @@ export const SchemaProperties = S.Record({
 }) as any as S.Schema<SchemaProperties>;
 export interface ModifyMemoryStrategyInput {
   memoryStrategyId: string;
-  description?: string | Redacted.Redacted<string>;
-  namespaces?: NamespacesList;
+  description?: string | redacted.Redacted<string>;
+  namespaces?: string[];
   configuration?: ModifyStrategyConfiguration;
 }
 export const ModifyMemoryStrategyInput = S.suspend(() =>
@@ -5274,7 +5706,7 @@ export const ModifyMemoryStrategyInput = S.suspend(() =>
 export type ModifyMemoryStrategiesList = ModifyMemoryStrategyInput[];
 export const ModifyMemoryStrategiesList = S.Array(ModifyMemoryStrategyInput);
 export interface SelfManagedConfigurationInput {
-  triggerConditions?: TriggerConditionInputList;
+  triggerConditions?: TriggerConditionInput[];
   invocationConfiguration: InvocationConfigurationInput;
   historicalContextWindowSize?: number;
 }
@@ -5299,7 +5731,7 @@ export const ValidationExceptionField = S.suspend(() =>
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export interface SemanticExtractionOverride {
-  appendToPrompt: string | Redacted.Redacted<string>;
+  appendToPrompt: string | redacted.Redacted<string>;
   modelId: string;
 }
 export const SemanticExtractionOverride = S.suspend(() =>
@@ -5308,7 +5740,7 @@ export const SemanticExtractionOverride = S.suspend(() =>
   identifier: "SemanticExtractionOverride",
 }) as any as S.Schema<SemanticExtractionOverride>;
 export interface UserPreferenceExtractionOverride {
-  appendToPrompt: string | Redacted.Redacted<string>;
+  appendToPrompt: string | redacted.Redacted<string>;
   modelId: string;
 }
 export const UserPreferenceExtractionOverride = S.suspend(() =>
@@ -5317,7 +5749,7 @@ export const UserPreferenceExtractionOverride = S.suspend(() =>
   identifier: "UserPreferenceExtractionOverride",
 }) as any as S.Schema<UserPreferenceExtractionOverride>;
 export interface EpisodicExtractionOverride {
-  appendToPrompt: string | Redacted.Redacted<string>;
+  appendToPrompt: string | redacted.Redacted<string>;
   modelId: string;
 }
 export const EpisodicExtractionOverride = S.suspend(() =>
@@ -5326,7 +5758,7 @@ export const EpisodicExtractionOverride = S.suspend(() =>
   identifier: "EpisodicExtractionOverride",
 }) as any as S.Schema<EpisodicExtractionOverride>;
 export interface SemanticConsolidationOverride {
-  appendToPrompt: string | Redacted.Redacted<string>;
+  appendToPrompt: string | redacted.Redacted<string>;
   modelId: string;
 }
 export const SemanticConsolidationOverride = S.suspend(() =>
@@ -5335,7 +5767,7 @@ export const SemanticConsolidationOverride = S.suspend(() =>
   identifier: "SemanticConsolidationOverride",
 }) as any as S.Schema<SemanticConsolidationOverride>;
 export interface SummaryConsolidationOverride {
-  appendToPrompt: string | Redacted.Redacted<string>;
+  appendToPrompt: string | redacted.Redacted<string>;
   modelId: string;
 }
 export const SummaryConsolidationOverride = S.suspend(() =>
@@ -5344,7 +5776,7 @@ export const SummaryConsolidationOverride = S.suspend(() =>
   identifier: "SummaryConsolidationOverride",
 }) as any as S.Schema<SummaryConsolidationOverride>;
 export interface UserPreferenceConsolidationOverride {
-  appendToPrompt: string | Redacted.Redacted<string>;
+  appendToPrompt: string | redacted.Redacted<string>;
   modelId: string;
 }
 export const UserPreferenceConsolidationOverride = S.suspend(() =>
@@ -5353,7 +5785,7 @@ export const UserPreferenceConsolidationOverride = S.suspend(() =>
   identifier: "UserPreferenceConsolidationOverride",
 }) as any as S.Schema<UserPreferenceConsolidationOverride>;
 export interface EpisodicConsolidationOverride {
-  appendToPrompt: string | Redacted.Redacted<string>;
+  appendToPrompt: string | redacted.Redacted<string>;
   modelId: string;
 }
 export const EpisodicConsolidationOverride = S.suspend(() =>
@@ -5362,9 +5794,9 @@ export const EpisodicConsolidationOverride = S.suspend(() =>
   identifier: "EpisodicConsolidationOverride",
 }) as any as S.Schema<EpisodicConsolidationOverride>;
 export interface EpisodicReflectionOverride {
-  appendToPrompt: string | Redacted.Redacted<string>;
+  appendToPrompt: string | redacted.Redacted<string>;
   modelId: string;
-  namespaces?: NamespacesList;
+  namespaces?: string[];
 }
 export const EpisodicReflectionOverride = S.suspend(() =>
   S.Struct({
@@ -5416,9 +5848,9 @@ export const CustomConfigurationInput = S.Union(
 );
 export interface CustomMemoryStrategyInput {
   name: string;
-  description?: string | Redacted.Redacted<string>;
-  namespaces?: NamespacesList;
-  configuration?: (typeof CustomConfigurationInput)["Type"];
+  description?: string | redacted.Redacted<string>;
+  namespaces?: string[];
+  configuration?: CustomConfigurationInput;
 }
 export const CustomMemoryStrategyInput = S.suspend(() =>
   S.Struct({
@@ -5443,12 +5875,12 @@ export const MemoryStrategyInput = S.Union(
   S.Struct({ customMemoryStrategy: CustomMemoryStrategyInput }),
   S.Struct({ episodicMemoryStrategy: EpisodicMemoryStrategyInput }),
 );
-export type MemoryStrategyInputList = (typeof MemoryStrategyInput)["Type"][];
+export type MemoryStrategyInputList = MemoryStrategyInput[];
 export const MemoryStrategyInputList = S.Array(MemoryStrategyInput);
 export interface ModifyMemoryStrategies {
-  addMemoryStrategies?: MemoryStrategyInputList;
-  modifyMemoryStrategies?: ModifyMemoryStrategiesList;
-  deleteMemoryStrategies?: DeleteMemoryStrategiesList;
+  addMemoryStrategies?: MemoryStrategyInput[];
+  modifyMemoryStrategies?: ModifyMemoryStrategyInput[];
+  deleteMemoryStrategies?: DeleteMemoryStrategyInput[];
 }
 export const ModifyMemoryStrategies = S.suspend(() =>
   S.Struct({
@@ -5461,17 +5893,17 @@ export const ModifyMemoryStrategies = S.suspend(() =>
 }) as any as S.Schema<ModifyMemoryStrategies>;
 export interface CreateAgentRuntimeRequest {
   agentRuntimeName: string;
-  agentRuntimeArtifact: (typeof AgentRuntimeArtifact)["Type"];
+  agentRuntimeArtifact: AgentRuntimeArtifact;
   roleArn: string;
   networkConfiguration: NetworkConfiguration;
   clientToken?: string;
-  description?: string | Redacted.Redacted<string>;
-  authorizerConfiguration?: (typeof AuthorizerConfiguration)["Type"];
-  requestHeaderConfiguration?: (typeof RequestHeaderConfiguration)["Type"];
+  description?: string | redacted.Redacted<string>;
+  authorizerConfiguration?: AuthorizerConfiguration;
+  requestHeaderConfiguration?: RequestHeaderConfiguration;
   protocolConfiguration?: ProtocolConfiguration;
   lifecycleConfiguration?: LifecycleConfiguration;
-  environmentVariables?: EnvironmentVariablesMap;
-  tags?: TagsMap;
+  environmentVariables?: { [key: string]: string };
+  tags?: { [key: string]: string };
 }
 export const CreateAgentRuntimeRequest = S.suspend(() =>
   S.Struct({
@@ -5503,9 +5935,9 @@ export const CreateAgentRuntimeRequest = S.suspend(() =>
 export interface CreateEvaluatorRequest {
   clientToken?: string;
   evaluatorName: string;
-  description?: string | Redacted.Redacted<string>;
-  evaluatorConfig: (typeof EvaluatorConfig)["Type"];
-  level: string;
+  description?: string | redacted.Redacted<string>;
+  evaluatorConfig: EvaluatorConfig;
+  level: EvaluatorLevel;
 }
 export const CreateEvaluatorRequest = S.suspend(() =>
   S.Struct({
@@ -5513,7 +5945,7 @@ export const CreateEvaluatorRequest = S.suspend(() =>
     evaluatorName: S.String,
     description: S.optional(SensitiveString),
     evaluatorConfig: EvaluatorConfig,
-    level: S.String,
+    level: EvaluatorLevel,
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/evaluators/create" }),
@@ -5566,12 +5998,12 @@ export const TriggerCondition = S.Union(
   S.Struct({ tokenBasedTrigger: TokenBasedTrigger }),
   S.Struct({ timeBasedTrigger: TimeBasedTrigger }),
 );
-export type TriggerConditionsList = (typeof TriggerCondition)["Type"][];
+export type TriggerConditionsList = TriggerCondition[];
 export const TriggerConditionsList = S.Array(TriggerCondition);
 export interface UpdateMemoryInput {
   clientToken?: string;
   memoryId: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   eventExpiryDuration?: number;
   memoryExecutionRoleArn?: string;
   memoryStrategies?: ModifyMemoryStrategies;
@@ -5602,7 +6034,7 @@ export interface CreateOauth2CredentialProviderResponse {
   name: string;
   credentialProviderArn: string;
   callbackUrl?: string;
-  oauth2ProviderConfigOutput?: (typeof Oauth2ProviderConfigOutput)["Type"];
+  oauth2ProviderConfigOutput?: Oauth2ProviderConfigOutput;
 }
 export const CreateOauth2CredentialProviderResponse = S.suspend(() =>
   S.Struct({
@@ -5616,13 +6048,13 @@ export const CreateOauth2CredentialProviderResponse = S.suspend(() =>
   identifier: "CreateOauth2CredentialProviderResponse",
 }) as any as S.Schema<CreateOauth2CredentialProviderResponse>;
 export type ExtractionConfiguration = {
-  customExtractionConfiguration: (typeof CustomExtractionConfiguration)["Type"];
+  customExtractionConfiguration: CustomExtractionConfiguration;
 };
 export const ExtractionConfiguration = S.Union(
   S.Struct({ customExtractionConfiguration: CustomExtractionConfiguration }),
 );
 export type ConsolidationConfiguration = {
-  customConsolidationConfiguration: (typeof CustomConsolidationConfiguration)["Type"];
+  customConsolidationConfiguration: CustomConsolidationConfiguration;
 };
 export const ConsolidationConfiguration = S.Union(
   S.Struct({
@@ -5630,9 +6062,7 @@ export const ConsolidationConfiguration = S.Union(
   }),
 );
 export type ReflectionConfiguration =
-  | {
-      customReflectionConfiguration: (typeof CustomReflectionConfiguration)["Type"];
-    }
+  | { customReflectionConfiguration: CustomReflectionConfiguration }
   | { episodicReflectionConfiguration: EpisodicReflectionConfiguration };
 export const ReflectionConfiguration = S.Union(
   S.Struct({ customReflectionConfiguration: CustomReflectionConfiguration }),
@@ -5641,7 +6071,7 @@ export const ReflectionConfiguration = S.Union(
   }),
 );
 export interface SelfManagedConfiguration {
-  triggerConditions: TriggerConditionsList;
+  triggerConditions: TriggerCondition[];
   invocationConfiguration: InvocationConfiguration;
   historicalContextWindowSize: number;
 }
@@ -5655,15 +6085,15 @@ export const SelfManagedConfiguration = S.suspend(() =>
   identifier: "SelfManagedConfiguration",
 }) as any as S.Schema<SelfManagedConfiguration>;
 export interface StrategyConfiguration {
-  type?: string;
-  extraction?: (typeof ExtractionConfiguration)["Type"];
-  consolidation?: (typeof ConsolidationConfiguration)["Type"];
-  reflection?: (typeof ReflectionConfiguration)["Type"];
+  type?: OverrideType;
+  extraction?: ExtractionConfiguration;
+  consolidation?: ConsolidationConfiguration;
+  reflection?: ReflectionConfiguration;
   selfManagedConfiguration?: SelfManagedConfiguration;
 }
 export const StrategyConfiguration = S.suspend(() =>
   S.Struct({
-    type: S.optional(S.String),
+    type: S.optional(OverrideType),
     extraction: S.optional(ExtractionConfiguration),
     consolidation: S.optional(ConsolidationConfiguration),
     reflection: S.optional(ReflectionConfiguration),
@@ -5678,7 +6108,7 @@ export interface CreateAgentRuntimeResponse {
   agentRuntimeId: string;
   agentRuntimeVersion: string;
   createdAt: Date;
-  status: string;
+  status: AgentRuntimeStatus;
 }
 export const CreateAgentRuntimeResponse = S.suspend(() =>
   S.Struct({
@@ -5687,7 +6117,7 @@ export const CreateAgentRuntimeResponse = S.suspend(() =>
     agentRuntimeId: S.String,
     agentRuntimeVersion: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    status: S.String,
+    status: AgentRuntimeStatus,
   }),
 ).annotations({
   identifier: "CreateAgentRuntimeResponse",
@@ -5696,14 +6126,14 @@ export interface CreateEvaluatorResponse {
   evaluatorArn: string;
   evaluatorId: string;
   createdAt: Date;
-  status: string;
+  status: EvaluatorStatus;
 }
 export const CreateEvaluatorResponse = S.suspend(() =>
   S.Struct({
     evaluatorArn: S.String,
     evaluatorId: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    status: S.String,
+    status: EvaluatorStatus,
   }),
 ).annotations({
   identifier: "CreateEvaluatorResponse",
@@ -5711,12 +6141,12 @@ export const CreateEvaluatorResponse = S.suspend(() =>
 export interface CreateMemoryInput {
   clientToken?: string;
   name: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   encryptionKeyArn?: string;
   memoryExecutionRoleArn?: string;
   eventExpiryDuration: number;
-  memoryStrategies?: MemoryStrategyInputList;
-  tags?: TagsMap;
+  memoryStrategies?: MemoryStrategyInput[];
+  tags?: { [key: string]: string };
 }
 export const CreateMemoryInput = S.suspend(() =>
   S.Struct({
@@ -5744,13 +6174,13 @@ export const CreateMemoryInput = S.suspend(() =>
 export interface MemoryStrategy {
   strategyId: string;
   name: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   configuration?: StrategyConfiguration;
-  type: string;
-  namespaces: NamespacesList;
+  type: MemoryStrategyType;
+  namespaces: string[];
   createdAt?: Date;
   updatedAt?: Date;
-  status?: string;
+  status?: MemoryStrategyStatus;
 }
 export const MemoryStrategy = S.suspend(() =>
   S.Struct({
@@ -5758,11 +6188,11 @@ export const MemoryStrategy = S.suspend(() =>
     name: S.String,
     description: S.optional(SensitiveString),
     configuration: S.optional(StrategyConfiguration),
-    type: S.String,
+    type: MemoryStrategyType,
     namespaces: NamespacesList,
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(S.String),
+    status: S.optional(MemoryStrategyStatus),
   }),
 ).annotations({
   identifier: "MemoryStrategy",
@@ -5773,15 +6203,15 @@ export interface Memory {
   arn: string;
   id: string;
   name: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   encryptionKeyArn?: string;
   memoryExecutionRoleArn?: string;
   eventExpiryDuration: number;
-  status: string;
+  status: MemoryStatus;
   failureReason?: string;
   createdAt: Date;
   updatedAt: Date;
-  strategies?: MemoryStrategyList;
+  strategies?: MemoryStrategy[];
 }
 export const Memory = S.suspend(() =>
   S.Struct({
@@ -5792,7 +6222,7 @@ export const Memory = S.suspend(() =>
     encryptionKeyArn: S.optional(S.String),
     memoryExecutionRoleArn: S.optional(S.String),
     eventExpiryDuration: S.Number,
-    status: S.String,
+    status: MemoryStatus,
     failureReason: S.optional(S.String),
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -5809,11 +6239,11 @@ export const UpdateMemoryOutput = S.suspend(() =>
 }) as any as S.Schema<UpdateMemoryOutput>;
 export interface CreateGatewayTargetRequest {
   gatewayIdentifier: string;
-  name: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  name: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   clientToken?: string;
-  targetConfiguration: (typeof TargetConfiguration)["Type"];
-  credentialProviderConfigurations?: CredentialProviderConfigurations;
+  targetConfiguration: TargetConfiguration;
+  credentialProviderConfigurations?: CredentialProviderConfiguration[];
   metadataConfiguration?: MetadataConfiguration;
 }
 export const CreateGatewayTargetRequest = S.suspend(() =>
@@ -5861,12 +6291,12 @@ export interface CreateGatewayTargetResponse {
   targetId: string;
   createdAt: Date;
   updatedAt: Date;
-  status: string;
-  statusReasons?: StatusReasons;
-  name: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
-  targetConfiguration: (typeof TargetConfiguration)["Type"];
-  credentialProviderConfigurations: CredentialProviderConfigurations;
+  status: TargetStatus;
+  statusReasons?: string[];
+  name: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  targetConfiguration: TargetConfiguration;
+  credentialProviderConfigurations: CredentialProviderConfiguration[];
   lastSynchronizedAt?: Date;
   metadataConfiguration?: MetadataConfiguration;
 }
@@ -5876,7 +6306,7 @@ export const CreateGatewayTargetResponse = S.suspend(() =>
     targetId: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    status: S.String,
+    status: TargetStatus,
     statusReasons: S.optional(StatusReasons),
     name: SensitiveString,
     description: S.optional(SensitiveString),
@@ -5943,7 +6373,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     message: S.String,
-    reason: S.String,
+    reason: ValidationExceptionReason,
     fieldList: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
@@ -5959,7 +6389,7 @@ export class ThrottledException extends S.TaggedError<ThrottledException>()(
  */
 export const getBrowser: (
   input: GetBrowserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBrowserResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5984,7 +6414,7 @@ export const getBrowser: (
  */
 export const getCodeInterpreter: (
   input: GetCodeInterpreterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCodeInterpreterResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6009,7 +6439,7 @@ export const getCodeInterpreter: (
  */
 export const deleteAgentRuntimeEndpoint: (
   input: DeleteAgentRuntimeEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAgentRuntimeEndpointResponse,
   | AccessDeniedException
   | ConflictException
@@ -6034,7 +6464,7 @@ export const deleteAgentRuntimeEndpoint: (
  */
 export const deleteAgentRuntime: (
   input: DeleteAgentRuntimeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAgentRuntimeResponse,
   | AccessDeniedException
   | ConflictException
@@ -6060,7 +6490,7 @@ export const deleteAgentRuntime: (
 export const listAgentRuntimeEndpoints: {
   (
     input: ListAgentRuntimeEndpointsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAgentRuntimeEndpointsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6071,7 +6501,7 @@ export const listAgentRuntimeEndpoints: {
   >;
   pages: (
     input: ListAgentRuntimeEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAgentRuntimeEndpointsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6082,7 +6512,7 @@ export const listAgentRuntimeEndpoints: {
   >;
   items: (
     input: ListAgentRuntimeEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AgentRuntimeEndpoint,
     | AccessDeniedException
     | InternalServerException
@@ -6112,7 +6542,7 @@ export const listAgentRuntimeEndpoints: {
  */
 export const createOauth2CredentialProvider: (
   input: CreateOauth2CredentialProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateOauth2CredentialProviderResponse,
   | AccessDeniedException
   | ConflictException
@@ -6150,7 +6580,7 @@ export const createOauth2CredentialProvider: (
 export const listMemories: {
   (
     input: ListMemoriesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMemoriesOutput,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -6162,7 +6592,7 @@ export const listMemories: {
   >;
   pages: (
     input: ListMemoriesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMemoriesOutput,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -6174,7 +6604,7 @@ export const listMemories: {
   >;
   items: (
     input: ListMemoriesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MemorySummary,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -6206,7 +6636,7 @@ export const listMemories: {
  */
 export const createCodeInterpreter: (
   input: CreateCodeInterpreterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCodeInterpreterResponse,
   | AccessDeniedException
   | ConflictException
@@ -6233,7 +6663,7 @@ export const createCodeInterpreter: (
  */
 export const getOnlineEvaluationConfig: (
   input: GetOnlineEvaluationConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetOnlineEvaluationConfigResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6259,7 +6689,7 @@ export const getOnlineEvaluationConfig: (
 export const listPolicyGenerationAssets: {
   (
     input: ListPolicyGenerationAssetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPolicyGenerationAssetsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6271,7 +6701,7 @@ export const listPolicyGenerationAssets: {
   >;
   pages: (
     input: ListPolicyGenerationAssetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPolicyGenerationAssetsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6283,7 +6713,7 @@ export const listPolicyGenerationAssets: {
   >;
   items: (
     input: ListPolicyGenerationAssetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PolicyGenerationAsset,
     | AccessDeniedException
     | InternalServerException
@@ -6315,7 +6745,7 @@ export const listPolicyGenerationAssets: {
  */
 export const createPolicy: (
   input: CreatePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -6344,7 +6774,7 @@ export const createPolicy: (
  */
 export const createAgentRuntimeEndpoint: (
   input: CreateAgentRuntimeEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAgentRuntimeEndpointResponse,
   | AccessDeniedException
   | ConflictException
@@ -6373,7 +6803,7 @@ export const createAgentRuntimeEndpoint: (
  */
 export const getAgentRuntime: (
   input: GetAgentRuntimeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAgentRuntimeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6398,7 +6828,7 @@ export const getAgentRuntime: (
  */
 export const synchronizeGatewayTargets: (
   input: SynchronizeGatewayTargetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SynchronizeGatewayTargetsResponse,
   | AccessDeniedException
   | ConflictException
@@ -6427,7 +6857,7 @@ export const synchronizeGatewayTargets: (
  */
 export const startPolicyGeneration: (
   input: StartPolicyGenerationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartPolicyGenerationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6457,7 +6887,7 @@ export const startPolicyGeneration: (
 export const listPolicyGenerations: {
   (
     input: ListPolicyGenerationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPolicyGenerationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6469,7 +6899,7 @@ export const listPolicyGenerations: {
   >;
   pages: (
     input: ListPolicyGenerationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPolicyGenerationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6481,7 +6911,7 @@ export const listPolicyGenerations: {
   >;
   items: (
     input: ListPolicyGenerationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PolicyGeneration,
     | AccessDeniedException
     | InternalServerException
@@ -6514,7 +6944,7 @@ export const listPolicyGenerations: {
 export const listPolicies: {
   (
     input: ListPoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPoliciesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6526,7 +6956,7 @@ export const listPolicies: {
   >;
   pages: (
     input: ListPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPoliciesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6538,7 +6968,7 @@ export const listPolicies: {
   >;
   items: (
     input: ListPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Policy,
     | AccessDeniedException
     | InternalServerException
@@ -6572,7 +7002,7 @@ export const listPolicies: {
  */
 export const getResourcePolicy: (
   input: GetResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6599,7 +7029,7 @@ export const getResourcePolicy: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6626,7 +7056,7 @@ export const listTagsForResource: (
  */
 export const putResourcePolicy: (
   input: PutResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6653,7 +7083,7 @@ export const putResourcePolicy: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6680,7 +7110,7 @@ export const tagResource: (
  */
 export const getAgentRuntimeEndpoint: (
   input: GetAgentRuntimeEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAgentRuntimeEndpointResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6706,7 +7136,7 @@ export const getAgentRuntimeEndpoint: (
 export const listAgentRuntimeVersions: {
   (
     input: ListAgentRuntimeVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAgentRuntimeVersionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6718,7 +7148,7 @@ export const listAgentRuntimeVersions: {
   >;
   pages: (
     input: ListAgentRuntimeVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAgentRuntimeVersionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6730,7 +7160,7 @@ export const listAgentRuntimeVersions: {
   >;
   items: (
     input: ListAgentRuntimeVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AgentRuntime,
     | AccessDeniedException
     | InternalServerException
@@ -6762,7 +7192,7 @@ export const listAgentRuntimeVersions: {
  */
 export const getEvaluator: (
   input: GetEvaluatorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEvaluatorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6787,7 +7217,7 @@ export const getEvaluator: (
  */
 export const getGateway: (
   input: GetGatewayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetGatewayResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6812,7 +7242,7 @@ export const getGateway: (
  */
 export const getGatewayTarget: (
   input: GetGatewayTargetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetGatewayTargetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6837,7 +7267,7 @@ export const getGatewayTarget: (
  */
 export const getPolicyEngine: (
   input: GetPolicyEngineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPolicyEngineResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6862,7 +7292,7 @@ export const getPolicyEngine: (
  */
 export const getPolicyGeneration: (
   input: GetPolicyGenerationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPolicyGenerationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6887,7 +7317,7 @@ export const getPolicyGeneration: (
  */
 export const getPolicy: (
   input: GetPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6914,7 +7344,7 @@ export const getPolicy: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6939,7 +7369,7 @@ export const untagResource: (
  */
 export const updateAgentRuntimeEndpoint: (
   input: UpdateAgentRuntimeEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAgentRuntimeEndpointResponse,
   | AccessDeniedException
   | ConflictException
@@ -6968,7 +7398,7 @@ export const updateAgentRuntimeEndpoint: (
  */
 export const updateAgentRuntime: (
   input: UpdateAgentRuntimeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAgentRuntimeResponse,
   | AccessDeniedException
   | ConflictException
@@ -6997,7 +7427,7 @@ export const updateAgentRuntime: (
  */
 export const deleteBrowser: (
   input: DeleteBrowserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBrowserResponse,
   | AccessDeniedException
   | ConflictException
@@ -7026,7 +7456,7 @@ export const deleteBrowser: (
  */
 export const deleteCodeInterpreter: (
   input: DeleteCodeInterpreterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCodeInterpreterResponse,
   | AccessDeniedException
   | ConflictException
@@ -7055,7 +7485,7 @@ export const deleteCodeInterpreter: (
  */
 export const updateEvaluator: (
   input: UpdateEvaluatorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEvaluatorResponse,
   | AccessDeniedException
   | ConflictException
@@ -7084,7 +7514,7 @@ export const updateEvaluator: (
  */
 export const deleteEvaluator: (
   input: DeleteEvaluatorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEvaluatorResponse,
   | AccessDeniedException
   | ConflictException
@@ -7111,7 +7541,7 @@ export const deleteEvaluator: (
  */
 export const deleteGateway: (
   input: DeleteGatewayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGatewayResponse,
   | AccessDeniedException
   | ConflictException
@@ -7138,7 +7568,7 @@ export const deleteGateway: (
  */
 export const updateGateway: (
   input: UpdateGatewayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGatewayResponse,
   | AccessDeniedException
   | ConflictException
@@ -7167,7 +7597,7 @@ export const updateGateway: (
  */
 export const deleteGatewayTarget: (
   input: DeleteGatewayTargetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGatewayTargetResponse,
   | AccessDeniedException
   | ConflictException
@@ -7194,7 +7624,7 @@ export const deleteGatewayTarget: (
  */
 export const updateGatewayTarget: (
   input: UpdateGatewayTargetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGatewayTargetResponse,
   | AccessDeniedException
   | ConflictException
@@ -7223,7 +7653,7 @@ export const updateGatewayTarget: (
  */
 export const updateOnlineEvaluationConfig: (
   input: UpdateOnlineEvaluationConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateOnlineEvaluationConfigResponse,
   | AccessDeniedException
   | ConflictException
@@ -7252,7 +7682,7 @@ export const updateOnlineEvaluationConfig: (
  */
 export const deleteOnlineEvaluationConfig: (
   input: DeleteOnlineEvaluationConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteOnlineEvaluationConfigResponse,
   | AccessDeniedException
   | ConflictException
@@ -7279,7 +7709,7 @@ export const deleteOnlineEvaluationConfig: (
  */
 export const updatePolicyEngine: (
   input: UpdatePolicyEngineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePolicyEngineResponse,
   | AccessDeniedException
   | ConflictException
@@ -7306,7 +7736,7 @@ export const updatePolicyEngine: (
  */
 export const deletePolicyEngine: (
   input: DeletePolicyEngineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePolicyEngineResponse,
   | AccessDeniedException
   | ConflictException
@@ -7333,7 +7763,7 @@ export const deletePolicyEngine: (
  */
 export const updatePolicy: (
   input: UpdatePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -7360,7 +7790,7 @@ export const updatePolicy: (
  */
 export const deletePolicy: (
   input: DeletePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -7388,7 +7818,7 @@ export const deletePolicy: (
 export const listAgentRuntimes: {
   (
     input: ListAgentRuntimesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAgentRuntimesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7399,7 +7829,7 @@ export const listAgentRuntimes: {
   >;
   pages: (
     input: ListAgentRuntimesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAgentRuntimesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7410,7 +7840,7 @@ export const listAgentRuntimes: {
   >;
   items: (
     input: ListAgentRuntimesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AgentRuntime,
     | AccessDeniedException
     | InternalServerException
@@ -7441,7 +7871,7 @@ export const listAgentRuntimes: {
 export const listBrowsers: {
   (
     input: ListBrowsersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBrowsersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7452,7 +7882,7 @@ export const listBrowsers: {
   >;
   pages: (
     input: ListBrowsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBrowsersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7463,7 +7893,7 @@ export const listBrowsers: {
   >;
   items: (
     input: ListBrowsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BrowserSummary,
     | AccessDeniedException
     | InternalServerException
@@ -7494,7 +7924,7 @@ export const listBrowsers: {
 export const listCodeInterpreters: {
   (
     input: ListCodeInterpretersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCodeInterpretersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7505,7 +7935,7 @@ export const listCodeInterpreters: {
   >;
   pages: (
     input: ListCodeInterpretersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCodeInterpretersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7516,7 +7946,7 @@ export const listCodeInterpreters: {
   >;
   items: (
     input: ListCodeInterpretersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CodeInterpreterSummary,
     | AccessDeniedException
     | InternalServerException
@@ -7547,7 +7977,7 @@ export const listCodeInterpreters: {
 export const listEvaluators: {
   (
     input: ListEvaluatorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEvaluatorsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7558,7 +7988,7 @@ export const listEvaluators: {
   >;
   pages: (
     input: ListEvaluatorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEvaluatorsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7569,7 +7999,7 @@ export const listEvaluators: {
   >;
   items: (
     input: ListEvaluatorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EvaluatorSummary,
     | AccessDeniedException
     | InternalServerException
@@ -7600,7 +8030,7 @@ export const listEvaluators: {
 export const listGateways: {
   (
     input: ListGatewaysRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGatewaysResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7611,7 +8041,7 @@ export const listGateways: {
   >;
   pages: (
     input: ListGatewaysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGatewaysResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7622,7 +8052,7 @@ export const listGateways: {
   >;
   items: (
     input: ListGatewaysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GatewaySummary,
     | AccessDeniedException
     | InternalServerException
@@ -7653,7 +8083,7 @@ export const listGateways: {
 export const listGatewayTargets: {
   (
     input: ListGatewayTargetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGatewayTargetsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7664,7 +8094,7 @@ export const listGatewayTargets: {
   >;
   pages: (
     input: ListGatewayTargetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGatewayTargetsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7675,7 +8105,7 @@ export const listGatewayTargets: {
   >;
   items: (
     input: ListGatewayTargetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TargetSummary,
     | AccessDeniedException
     | InternalServerException
@@ -7706,7 +8136,7 @@ export const listGatewayTargets: {
 export const listOnlineEvaluationConfigs: {
   (
     input: ListOnlineEvaluationConfigsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOnlineEvaluationConfigsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7717,7 +8147,7 @@ export const listOnlineEvaluationConfigs: {
   >;
   pages: (
     input: ListOnlineEvaluationConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOnlineEvaluationConfigsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7728,7 +8158,7 @@ export const listOnlineEvaluationConfigs: {
   >;
   items: (
     input: ListOnlineEvaluationConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OnlineEvaluationConfigSummary,
     | AccessDeniedException
     | InternalServerException
@@ -7759,7 +8189,7 @@ export const listOnlineEvaluationConfigs: {
 export const listPolicyEngines: {
   (
     input: ListPolicyEnginesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPolicyEnginesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7770,7 +8200,7 @@ export const listPolicyEngines: {
   >;
   pages: (
     input: ListPolicyEnginesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPolicyEnginesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7781,7 +8211,7 @@ export const listPolicyEngines: {
   >;
   items: (
     input: ListPolicyEnginesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PolicyEngine,
     | AccessDeniedException
     | InternalServerException
@@ -7813,7 +8243,7 @@ export const listPolicyEngines: {
  */
 export const deleteResourcePolicy: (
   input: DeleteResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7838,7 +8268,7 @@ export const deleteResourcePolicy: (
  */
 export const createPolicyEngine: (
   input: CreatePolicyEngineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePolicyEngineResponse,
   | AccessDeniedException
   | ConflictException
@@ -7865,7 +8295,7 @@ export const createPolicyEngine: (
  */
 export const createBrowser: (
   input: CreateBrowserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBrowserResponse,
   | AccessDeniedException
   | ConflictException
@@ -7894,7 +8324,7 @@ export const createBrowser: (
  */
 export const createGateway: (
   input: CreateGatewayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGatewayResponse,
   | AccessDeniedException
   | ConflictException
@@ -7921,7 +8351,7 @@ export const createGateway: (
  */
 export const getOauth2CredentialProvider: (
   input: GetOauth2CredentialProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetOauth2CredentialProviderResponse,
   | AccessDeniedException
   | DecryptionFailure
@@ -7950,7 +8380,7 @@ export const getOauth2CredentialProvider: (
  */
 export const createOnlineEvaluationConfig: (
   input: CreateOnlineEvaluationConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateOnlineEvaluationConfigResponse,
   | AccessDeniedException
   | ConflictException
@@ -7977,7 +8407,7 @@ export const createOnlineEvaluationConfig: (
  */
 export const getApiKeyCredentialProvider: (
   input: GetApiKeyCredentialProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetApiKeyCredentialProviderResponse,
   | AccessDeniedException
   | DecryptionFailure
@@ -8007,7 +8437,7 @@ export const getApiKeyCredentialProvider: (
 export const listApiKeyCredentialProviders: {
   (
     input: ListApiKeyCredentialProvidersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApiKeyCredentialProvidersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8020,7 +8450,7 @@ export const listApiKeyCredentialProviders: {
   >;
   pages: (
     input: ListApiKeyCredentialProvidersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApiKeyCredentialProvidersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8033,7 +8463,7 @@ export const listApiKeyCredentialProviders: {
   >;
   items: (
     input: ListApiKeyCredentialProvidersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ApiKeyCredentialProviderItem,
     | AccessDeniedException
     | InternalServerException
@@ -8068,7 +8498,7 @@ export const listApiKeyCredentialProviders: {
 export const listOauth2CredentialProviders: {
   (
     input: ListOauth2CredentialProvidersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOauth2CredentialProvidersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8081,7 +8511,7 @@ export const listOauth2CredentialProviders: {
   >;
   pages: (
     input: ListOauth2CredentialProvidersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOauth2CredentialProvidersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8094,7 +8524,7 @@ export const listOauth2CredentialProviders: {
   >;
   items: (
     input: ListOauth2CredentialProvidersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Oauth2CredentialProviderItem,
     | AccessDeniedException
     | InternalServerException
@@ -8129,7 +8559,7 @@ export const listOauth2CredentialProviders: {
 export const listWorkloadIdentities: {
   (
     input: ListWorkloadIdentitiesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkloadIdentitiesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8142,7 +8572,7 @@ export const listWorkloadIdentities: {
   >;
   pages: (
     input: ListWorkloadIdentitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkloadIdentitiesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8155,7 +8585,7 @@ export const listWorkloadIdentities: {
   >;
   items: (
     input: ListWorkloadIdentitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkloadIdentityType,
     | AccessDeniedException
     | InternalServerException
@@ -8189,7 +8619,7 @@ export const listWorkloadIdentities: {
  */
 export const getTokenVault: (
   input: GetTokenVaultRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTokenVaultResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8216,7 +8646,7 @@ export const getTokenVault: (
  */
 export const createWorkloadIdentity: (
   input: CreateWorkloadIdentityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkloadIdentityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8243,7 +8673,7 @@ export const createWorkloadIdentity: (
  */
 export const getWorkloadIdentity: (
   input: GetWorkloadIdentityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkloadIdentityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8270,7 +8700,7 @@ export const getWorkloadIdentity: (
  */
 export const updateWorkloadIdentity: (
   input: UpdateWorkloadIdentityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkloadIdentityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8297,7 +8727,7 @@ export const updateWorkloadIdentity: (
  */
 export const deleteApiKeyCredentialProvider: (
   input: DeleteApiKeyCredentialProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApiKeyCredentialProviderResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8324,7 +8754,7 @@ export const deleteApiKeyCredentialProvider: (
  */
 export const deleteOauth2CredentialProvider: (
   input: DeleteOauth2CredentialProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteOauth2CredentialProviderResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8351,7 +8781,7 @@ export const deleteOauth2CredentialProvider: (
  */
 export const deleteWorkloadIdentity: (
   input: DeleteWorkloadIdentityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkloadIdentityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8378,7 +8808,7 @@ export const deleteWorkloadIdentity: (
  */
 export const updateApiKeyCredentialProvider: (
   input: UpdateApiKeyCredentialProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateApiKeyCredentialProviderResponse,
   | AccessDeniedException
   | ConflictException
@@ -8413,7 +8843,7 @@ export const updateApiKeyCredentialProvider: (
  */
 export const setTokenVaultCMK: (
   input: SetTokenVaultCMKRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetTokenVaultCMKResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -8442,7 +8872,7 @@ export const setTokenVaultCMK: (
  */
 export const updateOauth2CredentialProvider: (
   input: UpdateOauth2CredentialProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateOauth2CredentialProviderResponse,
   | AccessDeniedException
   | ConflictException
@@ -8477,7 +8907,7 @@ export const updateOauth2CredentialProvider: (
  */
 export const createApiKeyCredentialProvider: (
   input: CreateApiKeyCredentialProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateApiKeyCredentialProviderResponse,
   | AccessDeniedException
   | ConflictException
@@ -8514,7 +8944,7 @@ export const createApiKeyCredentialProvider: (
  */
 export const deleteMemory: (
   input: DeleteMemoryInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMemoryOutput,
   | AccessDeniedException
   | ConflictException
@@ -8541,7 +8971,7 @@ export const deleteMemory: (
  */
 export const createAgentRuntime: (
   input: CreateAgentRuntimeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAgentRuntimeResponse,
   | AccessDeniedException
   | ConflictException
@@ -8568,7 +8998,7 @@ export const createAgentRuntime: (
  */
 export const createEvaluator: (
   input: CreateEvaluatorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEvaluatorResponse,
   | AccessDeniedException
   | ConflictException
@@ -8595,7 +9025,7 @@ export const createEvaluator: (
  */
 export const updateMemory: (
   input: UpdateMemoryInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMemoryOutput,
   | AccessDeniedException
   | ConflictException
@@ -8624,7 +9054,7 @@ export const updateMemory: (
  */
 export const createMemory: (
   input: CreateMemoryInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMemoryOutput,
   | AccessDeniedException
   | ConflictException
@@ -8653,7 +9083,7 @@ export const createMemory: (
  */
 export const getMemory: (
   input: GetMemoryInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetMemoryOutput,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -8678,7 +9108,7 @@ export const getMemory: (
  */
 export const createGatewayTarget: (
   input: CreateGatewayTargetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGatewayTargetResponse,
   | AccessDeniedException
   | ConflictException

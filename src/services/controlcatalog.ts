@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -148,12 +148,18 @@ export type ControlArnFilterList = string[];
 export const ControlArnFilterList = S.Array(S.String);
 export type CommonControlArnFilterList = string[];
 export const CommonControlArnFilterList = S.Array(S.String);
-export type MappingTypeFilterList = string[];
-export const MappingTypeFilterList = S.Array(S.String);
+export type MappingType = "FRAMEWORK" | "COMMON_CONTROL" | "RELATED_CONTROL";
+export const MappingType = S.Literal(
+  "FRAMEWORK",
+  "COMMON_CONTROL",
+  "RELATED_CONTROL",
+);
+export type MappingTypeFilterList = MappingType[];
+export const MappingTypeFilterList = S.Array(MappingType);
 export interface ControlMappingFilter {
-  ControlArns?: ControlArnFilterList;
-  CommonControlArns?: CommonControlArnFilterList;
-  MappingTypes?: MappingTypeFilterList;
+  ControlArns?: string[];
+  CommonControlArns?: string[];
+  MappingTypes?: MappingType[];
 }
 export const ControlMappingFilter = S.suspend(() =>
   S.Struct({
@@ -166,6 +172,14 @@ export const ControlMappingFilter = S.suspend(() =>
 }) as any as S.Schema<ControlMappingFilter>;
 export type ControlAliases = string[];
 export const ControlAliases = S.Array(S.String);
+export type ControlBehavior = "PREVENTIVE" | "PROACTIVE" | "DETECTIVE";
+export const ControlBehavior = S.Literal(
+  "PREVENTIVE",
+  "PROACTIVE",
+  "DETECTIVE",
+);
+export type ControlSeverity = "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
+export const ControlSeverity = S.Literal("LOW", "MEDIUM", "HIGH", "CRITICAL");
 export type GovernedResources = string[];
 export const GovernedResources = S.Array(S.String);
 export type ImplementationTypeFilterList = string[];
@@ -205,11 +219,13 @@ export const ObjectiveResourceFilter = S.suspend(() =>
 }) as any as S.Schema<ObjectiveResourceFilter>;
 export type ObjectiveResourceFilterList = ObjectiveResourceFilter[];
 export const ObjectiveResourceFilterList = S.Array(ObjectiveResourceFilter);
+export type ControlScope = "GLOBAL" | "REGIONAL";
+export const ControlScope = S.Literal("GLOBAL", "REGIONAL");
 export type DeployableRegions = string[];
 export const DeployableRegions = S.Array(S.String);
 export interface ImplementationFilter {
-  Types?: ImplementationTypeFilterList;
-  Identifiers?: ImplementationIdentifierFilterList;
+  Types?: string[];
+  Identifiers?: string[];
 }
 export const ImplementationFilter = S.suspend(() =>
   S.Struct({
@@ -230,7 +246,7 @@ export const DomainResourceFilter = S.suspend(() =>
 export type DomainResourceFilterList = DomainResourceFilter[];
 export const DomainResourceFilterList = S.Array(DomainResourceFilter);
 export interface CommonControlFilter {
-  Objectives?: ObjectiveResourceFilterList;
+  Objectives?: ObjectiveResourceFilter[];
 }
 export const CommonControlFilter = S.suspend(() =>
   S.Struct({ Objectives: S.optional(ObjectiveResourceFilterList) }),
@@ -238,12 +254,12 @@ export const CommonControlFilter = S.suspend(() =>
   identifier: "CommonControlFilter",
 }) as any as S.Schema<CommonControlFilter>;
 export interface RegionConfiguration {
-  Scope: string;
-  DeployableRegions?: DeployableRegions;
+  Scope: ControlScope;
+  DeployableRegions?: string[];
 }
 export const RegionConfiguration = S.suspend(() =>
   S.Struct({
-    Scope: S.String,
+    Scope: ControlScope,
     DeployableRegions: S.optional(DeployableRegions),
   }),
 ).annotations({
@@ -297,7 +313,7 @@ export const DomainSummary = S.suspend(() =>
 export type DomainSummaryList = DomainSummary[];
 export const DomainSummaryList = S.Array(DomainSummary);
 export interface ObjectiveFilter {
-  Domains?: DomainResourceFilterList;
+  Domains?: DomainResourceFilter[];
 }
 export const ObjectiveFilter = S.suspend(() =>
   S.Struct({ Domains: S.optional(DomainResourceFilterList) }),
@@ -329,16 +345,16 @@ export const ListCommonControlsRequest = S.suspend(() =>
 }) as any as S.Schema<ListCommonControlsRequest>;
 export interface GetControlResponse {
   Arn: string;
-  Aliases?: ControlAliases;
+  Aliases?: string[];
   Name: string;
   Description: string;
-  Behavior: string;
-  Severity?: string;
+  Behavior: ControlBehavior;
+  Severity?: ControlSeverity;
   RegionConfiguration: RegionConfiguration;
   Implementation?: ImplementationDetails;
-  Parameters?: ControlParameters;
+  Parameters?: ControlParameter[];
   CreateTime?: Date;
-  GovernedResources?: GovernedResources;
+  GovernedResources?: string[];
 }
 export const GetControlResponse = S.suspend(() =>
   S.Struct({
@@ -346,8 +362,8 @@ export const GetControlResponse = S.suspend(() =>
     Aliases: S.optional(ControlAliases),
     Name: S.String,
     Description: S.String,
-    Behavior: S.String,
-    Severity: S.optional(S.String),
+    Behavior: ControlBehavior,
+    Severity: S.optional(ControlSeverity),
     RegionConfiguration: RegionConfiguration,
     Implementation: S.optional(ImplementationDetails),
     Parameters: S.optional(ControlParameters),
@@ -381,7 +397,7 @@ export const ListControlsRequest = S.suspend(() =>
   identifier: "ListControlsRequest",
 }) as any as S.Schema<ListControlsRequest>;
 export interface ListDomainsResponse {
-  Domains: DomainSummaryList;
+  Domains: DomainSummary[];
   NextToken?: string;
 }
 export const ListDomainsResponse = S.suspend(() =>
@@ -412,6 +428,15 @@ export const ListObjectivesRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListObjectivesRequest",
 }) as any as S.Schema<ListObjectivesRequest>;
+export type ControlRelationType =
+  | "COMPLEMENTARY"
+  | "ALTERNATIVE"
+  | "MUTUALLY_EXCLUSIVE";
+export const ControlRelationType = S.Literal(
+  "COMPLEMENTARY",
+  "ALTERNATIVE",
+  "MUTUALLY_EXCLUSIVE",
+);
 export interface AssociatedDomainSummary {
   Arn?: string;
   Name?: string;
@@ -462,15 +487,18 @@ export const CommonControlMappingDetails = S.suspend(() =>
 }) as any as S.Schema<CommonControlMappingDetails>;
 export interface RelatedControlMappingDetails {
   ControlArn?: string;
-  RelationType: string;
+  RelationType: ControlRelationType;
 }
 export const RelatedControlMappingDetails = S.suspend(() =>
-  S.Struct({ ControlArn: S.optional(S.String), RelationType: S.String }),
+  S.Struct({
+    ControlArn: S.optional(S.String),
+    RelationType: ControlRelationType,
+  }),
 ).annotations({
   identifier: "RelatedControlMappingDetails",
 }) as any as S.Schema<RelatedControlMappingDetails>;
 export interface ListObjectivesResponse {
-  Objectives: ObjectiveSummaryList;
+  Objectives: ObjectiveSummary[];
   NextToken?: string;
 }
 export const ListObjectivesResponse = S.suspend(() =>
@@ -510,11 +538,15 @@ export const ImplementationSummary = S.suspend(() =>
 }) as any as S.Schema<ImplementationSummary>;
 export interface ControlMapping {
   ControlArn: string;
-  MappingType: string;
-  Mapping: (typeof Mapping)["Type"];
+  MappingType: MappingType;
+  Mapping: Mapping;
 }
 export const ControlMapping = S.suspend(() =>
-  S.Struct({ ControlArn: S.String, MappingType: S.String, Mapping: Mapping }),
+  S.Struct({
+    ControlArn: S.String,
+    MappingType: MappingType,
+    Mapping: Mapping,
+  }),
 ).annotations({
   identifier: "ControlMapping",
 }) as any as S.Schema<ControlMapping>;
@@ -546,14 +578,14 @@ export type CommonControlSummaryList = CommonControlSummary[];
 export const CommonControlSummaryList = S.Array(CommonControlSummary);
 export interface ControlSummary {
   Arn: string;
-  Aliases?: ControlAliases;
+  Aliases?: string[];
   Name: string;
   Description: string;
-  Behavior?: string;
-  Severity?: string;
+  Behavior?: ControlBehavior;
+  Severity?: ControlSeverity;
   Implementation?: ImplementationSummary;
   CreateTime?: Date;
-  GovernedResources?: GovernedResources;
+  GovernedResources?: string[];
 }
 export const ControlSummary = S.suspend(() =>
   S.Struct({
@@ -561,8 +593,8 @@ export const ControlSummary = S.suspend(() =>
     Aliases: S.optional(ControlAliases),
     Name: S.String,
     Description: S.String,
-    Behavior: S.optional(S.String),
-    Severity: S.optional(S.String),
+    Behavior: S.optional(ControlBehavior),
+    Severity: S.optional(ControlSeverity),
     Implementation: S.optional(ImplementationSummary),
     CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     GovernedResources: S.optional(GovernedResources),
@@ -573,7 +605,7 @@ export const ControlSummary = S.suspend(() =>
 export type Controls = ControlSummary[];
 export const Controls = S.Array(ControlSummary);
 export interface ListControlMappingsResponse {
-  ControlMappings: ControlMappings;
+  ControlMappings: ControlMapping[];
   NextToken?: string;
 }
 export const ListControlMappingsResponse = S.suspend(() =>
@@ -585,7 +617,7 @@ export const ListControlMappingsResponse = S.suspend(() =>
   identifier: "ListControlMappingsResponse",
 }) as any as S.Schema<ListControlMappingsResponse>;
 export interface ListCommonControlsResponse {
-  CommonControls: CommonControlSummaryList;
+  CommonControls: CommonControlSummary[];
   NextToken?: string;
 }
 export const ListCommonControlsResponse = S.suspend(() =>
@@ -597,7 +629,7 @@ export const ListCommonControlsResponse = S.suspend(() =>
   identifier: "ListCommonControlsResponse",
 }) as any as S.Schema<ListCommonControlsResponse>;
 export interface ListControlsResponse {
-  Controls: Controls;
+  Controls: ControlSummary[];
   NextToken?: string;
 }
 export const ListControlsResponse = S.suspend(() =>
@@ -639,7 +671,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listObjectives: {
   (
     input: ListObjectivesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListObjectivesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -650,7 +682,7 @@ export const listObjectives: {
   >;
   pages: (
     input: ListObjectivesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListObjectivesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -661,7 +693,7 @@ export const listObjectives: {
   >;
   items: (
     input: ListObjectivesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ObjectiveSummary,
     | AccessDeniedException
     | InternalServerException
@@ -692,7 +724,7 @@ export const listObjectives: {
 export const listDomains: {
   (
     input: ListDomainsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDomainsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -703,7 +735,7 @@ export const listDomains: {
   >;
   pages: (
     input: ListDomainsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDomainsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -714,7 +746,7 @@ export const listDomains: {
   >;
   items: (
     input: ListDomainsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DomainSummary,
     | AccessDeniedException
     | InternalServerException
@@ -745,7 +777,7 @@ export const listDomains: {
 export const listControlMappings: {
   (
     input: ListControlMappingsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListControlMappingsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -756,7 +788,7 @@ export const listControlMappings: {
   >;
   pages: (
     input: ListControlMappingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListControlMappingsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -767,7 +799,7 @@ export const listControlMappings: {
   >;
   items: (
     input: ListControlMappingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ControlMapping,
     | AccessDeniedException
     | InternalServerException
@@ -800,7 +832,7 @@ export const listControlMappings: {
 export const listCommonControls: {
   (
     input: ListCommonControlsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCommonControlsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -811,7 +843,7 @@ export const listCommonControls: {
   >;
   pages: (
     input: ListCommonControlsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCommonControlsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -822,7 +854,7 @@ export const listCommonControls: {
   >;
   items: (
     input: ListCommonControlsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CommonControlSummary,
     | AccessDeniedException
     | InternalServerException
@@ -854,7 +886,7 @@ export const listCommonControls: {
  */
 export const getControl: (
   input: GetControlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetControlResponse,
   | AccessDeniedException
   | InternalServerException
@@ -880,7 +912,7 @@ export const getControl: (
 export const listControls: {
   (
     input: ListControlsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListControlsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -891,7 +923,7 @@ export const listControls: {
   >;
   pages: (
     input: ListControlsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListControlsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -902,7 +934,7 @@ export const listControls: {
   >;
   items: (
     input: ListControlsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ControlSummary,
     | AccessDeniedException
     | InternalServerException

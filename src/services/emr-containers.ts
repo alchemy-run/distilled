@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -115,10 +115,10 @@ export type StringEmpty256 = string;
 export type ClusterId = string;
 export type TemplateParameterName = string;
 export type VirtualClusterArn = string;
-export type EntryPointPath = string | Redacted.Redacted<string>;
-export type EntryPointArgument = string | Redacted.Redacted<string>;
-export type SparkSubmitParameters = string | Redacted.Redacted<string>;
-export type SparkSqlParameters = string | Redacted.Redacted<string>;
+export type EntryPointPath = string | redacted.Redacted<string>;
+export type EntryPointArgument = string | redacted.Redacted<string>;
+export type SparkSubmitParameters = string | redacted.Redacted<string>;
+export type SparkSqlParameters = string | redacted.Redacted<string>;
 export type JobArn = string;
 export type RequestIdentityUserArn = string;
 export type String256 = string;
@@ -126,7 +126,7 @@ export type JobTemplateArn = string;
 export type EndpointArn = string;
 export type UriString = string;
 export type SecurityConfigurationArn = string;
-export type Token = string | Redacted.Redacted<string>;
+export type Token = string | redacted.Redacted<string>;
 export type TemplateParameter = string;
 export type LogGroupName = string;
 export type RotationSize = string;
@@ -137,14 +137,57 @@ export type Base64Encoded = string;
 export type SecretsManagerArn = string;
 
 //# Schemas
-export type JobRunStates = string[];
-export const JobRunStates = S.Array(S.String);
+export type JobRunState =
+  | "PENDING"
+  | "SUBMITTED"
+  | "RUNNING"
+  | "FAILED"
+  | "CANCELLED"
+  | "CANCEL_PENDING"
+  | "COMPLETED";
+export const JobRunState = S.Literal(
+  "PENDING",
+  "SUBMITTED",
+  "RUNNING",
+  "FAILED",
+  "CANCELLED",
+  "CANCEL_PENDING",
+  "COMPLETED",
+);
+export type JobRunStates = JobRunState[];
+export const JobRunStates = S.Array(JobRunState);
 export type EndpointTypes = string[];
 export const EndpointTypes = S.Array(S.String);
-export type EndpointStates = string[];
-export const EndpointStates = S.Array(S.String);
-export type VirtualClusterStates = string[];
-export const VirtualClusterStates = S.Array(S.String);
+export type EndpointState =
+  | "CREATING"
+  | "ACTIVE"
+  | "TERMINATING"
+  | "TERMINATED"
+  | "TERMINATED_WITH_ERRORS";
+export const EndpointState = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "TERMINATING",
+  "TERMINATED",
+  "TERMINATED_WITH_ERRORS",
+);
+export type EndpointStates = EndpointState[];
+export const EndpointStates = S.Array(EndpointState);
+export type ContainerProviderType = "EKS";
+export const ContainerProviderType = S.Literal("EKS");
+export type VirtualClusterState =
+  | "RUNNING"
+  | "TERMINATING"
+  | "TERMINATED"
+  | "ARRESTED";
+export const VirtualClusterState = S.Literal(
+  "RUNNING",
+  "TERMINATING",
+  "TERMINATED",
+  "ARRESTED",
+);
+export type VirtualClusterStates = VirtualClusterState[];
+export const VirtualClusterStates = S.Array(VirtualClusterState);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface CancelJobRunRequest {
@@ -184,12 +227,16 @@ export const EksInfo = S.suspend(() =>
 export type ContainerInfo = { eksInfo: EksInfo };
 export const ContainerInfo = S.Union(S.Struct({ eksInfo: EksInfo }));
 export interface ContainerProvider {
-  type: string;
+  type: ContainerProviderType;
   id: string;
-  info?: (typeof ContainerInfo)["Type"];
+  info?: ContainerInfo;
 }
 export const ContainerProvider = S.suspend(() =>
-  S.Struct({ type: S.String, id: S.String, info: S.optional(ContainerInfo) }),
+  S.Struct({
+    type: ContainerProviderType,
+    id: S.String,
+    info: S.optional(ContainerInfo),
+  }),
 ).annotations({
   identifier: "ContainerProvider",
 }) as any as S.Schema<ContainerProvider>;
@@ -199,7 +246,7 @@ export interface CreateVirtualClusterRequest {
   name: string;
   containerProvider: ContainerProvider;
   clientToken: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   securityConfigurationId?: string;
 }
 export const CreateVirtualClusterRequest = S.suspend(() =>
@@ -420,7 +467,7 @@ export interface ListJobRunsRequest {
   createdBefore?: Date;
   createdAfter?: Date;
   name?: string;
-  states?: JobRunStates;
+  states?: JobRunState[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -486,8 +533,8 @@ export interface ListManagedEndpointsRequest {
   virtualClusterId: string;
   createdBefore?: Date;
   createdAfter?: Date;
-  types?: EndpointTypes;
-  states?: EndpointStates;
+  types?: string[];
+  states?: EndpointState[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -568,10 +615,10 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListVirtualClustersRequest {
   containerProviderId?: string;
-  containerProviderType?: string;
+  containerProviderType?: ContainerProviderType;
   createdAfter?: Date;
   createdBefore?: Date;
-  states?: VirtualClusterStates;
+  states?: VirtualClusterState[];
   maxResults?: number;
   nextToken?: string;
   eksAccessEntryIntegrated?: boolean;
@@ -581,7 +628,7 @@ export const ListVirtualClustersRequest = S.suspend(() =>
     containerProviderId: S.optional(S.String).pipe(
       T.HttpQuery("containerProviderId"),
     ),
-    containerProviderType: S.optional(S.String).pipe(
+    containerProviderType: S.optional(ContainerProviderType).pipe(
       T.HttpQuery("containerProviderType"),
     ),
     createdAfter: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
@@ -611,7 +658,7 @@ export const ListVirtualClustersRequest = S.suspend(() =>
 }) as any as S.Schema<ListVirtualClustersRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -636,7 +683,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -665,16 +712,20 @@ export const ConfigurationList = S.Array(
     identifier: "Configuration",
   }),
 ) as any as S.Schema<ConfigurationList>;
+export type AllowAWSToRetainLogs = "ENABLED" | "DISABLED";
+export const AllowAWSToRetainLogs = S.Literal("ENABLED", "DISABLED");
 export interface ManagedLogs {
-  allowAWSToRetainLogs?: string;
+  allowAWSToRetainLogs?: AllowAWSToRetainLogs;
   encryptionKeyArn?: string;
 }
 export const ManagedLogs = S.suspend(() =>
   S.Struct({
-    allowAWSToRetainLogs: S.optional(S.String),
+    allowAWSToRetainLogs: S.optional(AllowAWSToRetainLogs),
     encryptionKeyArn: S.optional(S.String),
   }),
 ).annotations({ identifier: "ManagedLogs" }) as any as S.Schema<ManagedLogs>;
+export type PersistentAppUI = "ENABLED" | "DISABLED";
+export const PersistentAppUI = S.Literal("ENABLED", "DISABLED");
 export interface CloudWatchMonitoringConfiguration {
   logGroupName: string;
   logStreamNamePrefix?: string;
@@ -706,7 +757,7 @@ export const ContainerLogRotationConfiguration = S.suspend(() =>
 }) as any as S.Schema<ContainerLogRotationConfiguration>;
 export interface MonitoringConfiguration {
   managedLogs?: ManagedLogs;
-  persistentAppUI?: string;
+  persistentAppUI?: PersistentAppUI;
   cloudWatchMonitoringConfiguration?: CloudWatchMonitoringConfiguration;
   s3MonitoringConfiguration?: S3MonitoringConfiguration;
   containerLogRotationConfiguration?: ContainerLogRotationConfiguration;
@@ -714,7 +765,7 @@ export interface MonitoringConfiguration {
 export const MonitoringConfiguration = S.suspend(() =>
   S.Struct({
     managedLogs: S.optional(ManagedLogs),
-    persistentAppUI: S.optional(S.String),
+    persistentAppUI: S.optional(PersistentAppUI),
     cloudWatchMonitoringConfiguration: S.optional(
       CloudWatchMonitoringConfiguration,
     ),
@@ -727,7 +778,7 @@ export const MonitoringConfiguration = S.suspend(() =>
   identifier: "MonitoringConfiguration",
 }) as any as S.Schema<MonitoringConfiguration>;
 export interface ConfigurationOverrides {
-  applicationConfiguration?: ConfigurationList;
+  applicationConfiguration?: Configuration[];
   monitoringConfiguration?: MonitoringConfiguration;
 }
 export const ConfigurationOverrides = S.suspend(() =>
@@ -738,12 +789,12 @@ export const ConfigurationOverrides = S.suspend(() =>
 ).annotations({
   identifier: "ConfigurationOverrides",
 }) as any as S.Schema<ConfigurationOverrides>;
-export type EntryPointArguments = string | Redacted.Redacted<string>[];
+export type EntryPointArguments = string | redacted.Redacted<string>[];
 export const EntryPointArguments = S.Array(SensitiveString);
 export interface SparkSubmitJobDriver {
-  entryPoint: string | Redacted.Redacted<string>;
-  entryPointArguments?: EntryPointArguments;
-  sparkSubmitParameters?: string | Redacted.Redacted<string>;
+  entryPoint: string | redacted.Redacted<string>;
+  entryPointArguments?: string | redacted.Redacted<string>[];
+  sparkSubmitParameters?: string | redacted.Redacted<string>;
 }
 export const SparkSubmitJobDriver = S.suspend(() =>
   S.Struct({
@@ -755,8 +806,8 @@ export const SparkSubmitJobDriver = S.suspend(() =>
   identifier: "SparkSubmitJobDriver",
 }) as any as S.Schema<SparkSubmitJobDriver>;
 export interface SparkSqlJobDriver {
-  entryPoint?: string | Redacted.Redacted<string>;
-  sparkSqlParameters?: string | Redacted.Redacted<string>;
+  entryPoint?: string | redacted.Redacted<string>;
+  sparkSqlParameters?: string | redacted.Redacted<string>;
 }
 export const SparkSqlJobDriver = S.suspend(() =>
   S.Struct({
@@ -776,6 +827,17 @@ export const JobDriver = S.suspend(() =>
     sparkSqlJobDriver: S.optional(SparkSqlJobDriver),
   }),
 ).annotations({ identifier: "JobDriver" }) as any as S.Schema<JobDriver>;
+export type FailureReason =
+  | "INTERNAL_ERROR"
+  | "USER_ERROR"
+  | "VALIDATION_ERROR"
+  | "CLUSTER_UNAVAILABLE";
+export const FailureReason = S.Literal(
+  "INTERNAL_ERROR",
+  "USER_ERROR",
+  "VALIDATION_ERROR",
+  "CLUSTER_UNAVAILABLE",
+);
 export interface RetryPolicyConfiguration {
   maxAttempts: number;
 }
@@ -797,7 +859,7 @@ export interface JobRun {
   name?: string;
   virtualClusterId?: string;
   arn?: string;
-  state?: string;
+  state?: JobRunState;
   clientToken?: string;
   executionRoleArn?: string;
   releaseLabel?: string;
@@ -807,8 +869,8 @@ export interface JobRun {
   createdBy?: string;
   finishedAt?: Date;
   stateDetails?: string;
-  failureReason?: string;
-  tags?: TagMap;
+  failureReason?: FailureReason;
+  tags?: { [key: string]: string };
   retryPolicyConfiguration?: RetryPolicyConfiguration;
   retryPolicyExecution?: RetryPolicyExecution;
 }
@@ -818,7 +880,7 @@ export const JobRun = S.suspend(() =>
     name: S.optional(S.String),
     virtualClusterId: S.optional(S.String),
     arn: S.optional(S.String),
-    state: S.optional(S.String),
+    state: S.optional(JobRunState),
     clientToken: S.optional(S.String),
     executionRoleArn: S.optional(S.String),
     releaseLabel: S.optional(S.String),
@@ -828,7 +890,7 @@ export const JobRun = S.suspend(() =>
     createdBy: S.optional(S.String),
     finishedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     stateDetails: S.optional(S.String),
-    failureReason: S.optional(S.String),
+    failureReason: S.optional(FailureReason),
     tags: S.optional(TagMap),
     retryPolicyConfiguration: S.optional(RetryPolicyConfiguration),
     retryPolicyExecution: S.optional(RetryPolicyExecution),
@@ -873,7 +935,7 @@ export const ParametricMonitoringConfiguration = S.suspend(() =>
   identifier: "ParametricMonitoringConfiguration",
 }) as any as S.Schema<ParametricMonitoringConfiguration>;
 export interface ParametricConfigurationOverrides {
-  applicationConfiguration?: ConfigurationList;
+  applicationConfiguration?: Configuration[];
   monitoringConfiguration?: ParametricMonitoringConfiguration;
 }
 export const ParametricConfigurationOverrides = S.suspend(() =>
@@ -884,12 +946,17 @@ export const ParametricConfigurationOverrides = S.suspend(() =>
 ).annotations({
   identifier: "ParametricConfigurationOverrides",
 }) as any as S.Schema<ParametricConfigurationOverrides>;
+export type TemplateParameterDataType = "NUMBER" | "STRING";
+export const TemplateParameterDataType = S.Literal("NUMBER", "STRING");
 export interface TemplateParameterConfiguration {
-  type?: string;
+  type?: TemplateParameterDataType;
   defaultValue?: string;
 }
 export const TemplateParameterConfiguration = S.suspend(() =>
-  S.Struct({ type: S.optional(S.String), defaultValue: S.optional(S.String) }),
+  S.Struct({
+    type: S.optional(TemplateParameterDataType),
+    defaultValue: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "TemplateParameterConfiguration",
 }) as any as S.Schema<TemplateParameterConfiguration>;
@@ -905,8 +972,8 @@ export interface JobTemplateData {
   releaseLabel: string;
   configurationOverrides?: ParametricConfigurationOverrides;
   jobDriver: JobDriver;
-  parameterConfiguration?: TemplateParameterConfigurationMap;
-  jobTags?: TagMap;
+  parameterConfiguration?: { [key: string]: TemplateParameterConfiguration };
+  jobTags?: { [key: string]: string };
 }
 export const JobTemplateData = S.suspend(() =>
   S.Struct({
@@ -926,7 +993,7 @@ export interface JobTemplate {
   arn?: string;
   createdAt?: Date;
   createdBy?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   jobTemplateData: JobTemplateData;
   kmsKeyArn?: string;
   decryptionError?: string;
@@ -964,7 +1031,7 @@ export interface Endpoint {
   arn?: string;
   virtualClusterId?: string;
   type?: string;
-  state?: string;
+  state?: EndpointState;
   releaseLabel?: string;
   executionRoleArn?: string;
   certificateArn?: string;
@@ -973,10 +1040,10 @@ export interface Endpoint {
   serverUrl?: string;
   createdAt?: Date;
   securityGroup?: string;
-  subnetIds?: SubnetIds;
+  subnetIds?: string[];
   stateDetails?: string;
-  failureReason?: string;
-  tags?: TagMap;
+  failureReason?: FailureReason;
+  tags?: { [key: string]: string };
 }
 export const Endpoint = S.suspend(() =>
   S.Struct({
@@ -985,7 +1052,7 @@ export const Endpoint = S.suspend(() =>
     arn: S.optional(S.String),
     virtualClusterId: S.optional(S.String),
     type: S.optional(S.String),
-    state: S.optional(S.String),
+    state: S.optional(EndpointState),
     releaseLabel: S.optional(S.String),
     executionRoleArn: S.optional(S.String),
     certificateArn: S.optional(S.String),
@@ -996,7 +1063,7 @@ export const Endpoint = S.suspend(() =>
     securityGroup: S.optional(S.String),
     subnetIds: S.optional(SubnetIds),
     stateDetails: S.optional(S.String),
-    failureReason: S.optional(S.String),
+    failureReason: S.optional(FailureReason),
     tags: S.optional(TagMap),
   }),
 ).annotations({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
@@ -1028,14 +1095,16 @@ export const LakeFormationConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "LakeFormationConfiguration",
 }) as any as S.Schema<LakeFormationConfiguration>;
+export type CertificateProviderType = "PEM";
+export const CertificateProviderType = S.Literal("PEM");
 export interface TLSCertificateConfiguration {
-  certificateProviderType?: string;
+  certificateProviderType?: CertificateProviderType;
   publicCertificateSecretArn?: string;
   privateCertificateSecretArn?: string;
 }
 export const TLSCertificateConfiguration = S.suspend(() =>
   S.Struct({
-    certificateProviderType: S.optional(S.String),
+    certificateProviderType: S.optional(CertificateProviderType),
     publicCertificateSecretArn: S.optional(S.String),
     privateCertificateSecretArn: S.optional(S.String),
   }),
@@ -1093,7 +1162,7 @@ export interface SecurityConfiguration {
   createdAt?: Date;
   createdBy?: string;
   securityConfigurationData?: SecurityConfigurationData;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const SecurityConfiguration = S.suspend(() =>
   S.Struct({
@@ -1114,10 +1183,10 @@ export interface VirtualCluster {
   id?: string;
   name?: string;
   arn?: string;
-  state?: string;
+  state?: VirtualClusterState;
   containerProvider?: ContainerProvider;
   createdAt?: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   securityConfigurationId?: string;
 }
 export const VirtualCluster = S.suspend(() =>
@@ -1125,7 +1194,7 @@ export const VirtualCluster = S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
     arn: S.optional(S.String),
-    state: S.optional(S.String),
+    state: S.optional(VirtualClusterState),
     containerProvider: S.optional(ContainerProvider),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     tags: S.optional(TagMap),
@@ -1196,7 +1265,7 @@ export const DeleteVirtualClusterResponse = S.suspend(() =>
   identifier: "DeleteVirtualClusterResponse",
 }) as any as S.Schema<DeleteVirtualClusterResponse>;
 export interface ListJobRunsResponse {
-  jobRuns?: JobRuns;
+  jobRuns?: JobRun[];
   nextToken?: string;
 }
 export const ListJobRunsResponse = S.suspend(() =>
@@ -1205,7 +1274,7 @@ export const ListJobRunsResponse = S.suspend(() =>
   identifier: "ListJobRunsResponse",
 }) as any as S.Schema<ListJobRunsResponse>;
 export interface ListJobTemplatesResponse {
-  templates?: JobTemplates;
+  templates?: JobTemplate[];
   nextToken?: string;
 }
 export const ListJobTemplatesResponse = S.suspend(() =>
@@ -1217,7 +1286,7 @@ export const ListJobTemplatesResponse = S.suspend(() =>
   identifier: "ListJobTemplatesResponse",
 }) as any as S.Schema<ListJobTemplatesResponse>;
 export interface ListManagedEndpointsResponse {
-  endpoints?: Endpoints;
+  endpoints?: Endpoint[];
   nextToken?: string;
 }
 export const ListManagedEndpointsResponse = S.suspend(() =>
@@ -1229,7 +1298,7 @@ export const ListManagedEndpointsResponse = S.suspend(() =>
   identifier: "ListManagedEndpointsResponse",
 }) as any as S.Schema<ListManagedEndpointsResponse>;
 export interface ListSecurityConfigurationsResponse {
-  securityConfigurations?: SecurityConfigurations;
+  securityConfigurations?: SecurityConfiguration[];
   nextToken?: string;
 }
 export const ListSecurityConfigurationsResponse = S.suspend(() =>
@@ -1241,7 +1310,7 @@ export const ListSecurityConfigurationsResponse = S.suspend(() =>
   identifier: "ListSecurityConfigurationsResponse",
 }) as any as S.Schema<ListSecurityConfigurationsResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -1249,7 +1318,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListVirtualClustersResponse {
-  virtualClusters?: VirtualClusters;
+  virtualClusters?: VirtualCluster[];
   nextToken?: string;
 }
 export const ListVirtualClustersResponse = S.suspend(() =>
@@ -1260,7 +1329,7 @@ export const ListVirtualClustersResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListVirtualClustersResponse",
 }) as any as S.Schema<ListVirtualClustersResponse>;
-export type Credentials = { token: string | Redacted.Redacted<string> };
+export type Credentials = { token: string | redacted.Redacted<string> };
 export const Credentials = S.Union(S.Struct({ token: SensitiveString }));
 export type SensitivePropertiesMap = { [key: string]: string };
 export const SensitivePropertiesMap = S.Record({
@@ -1293,7 +1362,7 @@ export const DescribeVirtualClusterResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeVirtualClusterResponse>;
 export interface GetManagedEndpointSessionCredentialsResponse {
   id?: string;
-  credentials?: (typeof Credentials)["Type"];
+  credentials?: Credentials;
   expiresAt?: Date;
 }
 export const GetManagedEndpointSessionCredentialsResponse = S.suspend(() =>
@@ -1313,9 +1382,9 @@ export interface StartJobRunRequest {
   releaseLabel?: string;
   jobDriver?: JobDriver;
   configurationOverrides?: ConfigurationOverrides;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   jobTemplateId?: string;
-  jobTemplateParameters?: TemplateParameterInputMap;
+  jobTemplateParameters?: { [key: string]: string };
   retryPolicyConfiguration?: RetryPolicyConfiguration;
 }
 export const StartJobRunRequest = S.suspend(() =>
@@ -1349,8 +1418,8 @@ export const StartJobRunRequest = S.suspend(() =>
 }) as any as S.Schema<StartJobRunRequest>;
 export interface Configuration {
   classification: string;
-  properties?: SensitivePropertiesMap;
-  configurations?: ConfigurationList;
+  properties?: { [key: string]: string };
+  configurations?: Configuration[];
 }
 export const Configuration = S.suspend(() =>
   S.Struct({
@@ -1374,7 +1443,7 @@ export interface CreateManagedEndpointRequest {
   certificateArn?: string;
   configurationOverrides?: ConfigurationOverrides;
   clientToken: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateManagedEndpointRequest = S.suspend(() =>
   S.Struct({
@@ -1439,7 +1508,7 @@ export interface CreateJobTemplateRequest {
   name: string;
   clientToken: string;
   jobTemplateData: JobTemplateData;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   kmsKeyArn?: string;
 }
 export const CreateJobTemplateRequest = S.suspend(() =>
@@ -1499,7 +1568,7 @@ export interface CreateSecurityConfigurationRequest {
   name: string;
   containerProvider?: ContainerProvider;
   securityConfigurationData: SecurityConfigurationData;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateSecurityConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -1565,7 +1634,7 @@ export class RequestThrottledException extends S.TaggedError<RequestThrottledExc
  */
 export const cancelJobRun: (
   input: CancelJobRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelJobRunResponse,
   InternalServerException | ValidationException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -1579,7 +1648,7 @@ export const cancelJobRun: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1600,7 +1669,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1624,7 +1693,7 @@ export const listTagsForResource: (
  */
 export const createVirtualCluster: (
   input: CreateVirtualClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVirtualClusterResponse,
   | EKSRequestThrottledException
   | InternalServerException
@@ -1650,7 +1719,7 @@ export const createVirtualCluster: (
  */
 export const describeJobTemplate: (
   input: DescribeJobTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeJobTemplateResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1675,7 +1744,7 @@ export const describeJobTemplate: (
  */
 export const describeSecurityConfiguration: (
   input: DescribeSecurityConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSecurityConfigurationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1701,7 +1770,7 @@ export const describeSecurityConfiguration: (
  */
 export const describeVirtualCluster: (
   input: DescribeVirtualClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeVirtualClusterResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1725,7 +1794,7 @@ export const describeVirtualCluster: (
  */
 export const deleteJobTemplate: (
   input: DeleteJobTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteJobTemplateResponse,
   InternalServerException | ValidationException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -1740,7 +1809,7 @@ export const deleteJobTemplate: (
  */
 export const deleteManagedEndpoint: (
   input: DeleteManagedEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteManagedEndpointResponse,
   InternalServerException | ValidationException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -1757,7 +1826,7 @@ export const deleteManagedEndpoint: (
  */
 export const deleteVirtualCluster: (
   input: DeleteVirtualClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVirtualClusterResponse,
   InternalServerException | ValidationException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -1773,21 +1842,21 @@ export const deleteVirtualCluster: (
 export const listJobRuns: {
   (
     input: ListJobRunsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListJobRunsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListJobRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListJobRunsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     JobRun,
     InternalServerException | ValidationException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
@@ -1812,21 +1881,21 @@ export const listJobRuns: {
 export const listJobTemplates: {
   (
     input: ListJobTemplatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListJobTemplatesResponse,
     InternalServerException | ValidationException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListJobTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListJobTemplatesResponse,
     InternalServerException | ValidationException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     JobTemplate,
     InternalServerException | ValidationException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
@@ -1849,21 +1918,21 @@ export const listJobTemplates: {
 export const listManagedEndpoints: {
   (
     input: ListManagedEndpointsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListManagedEndpointsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListManagedEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListManagedEndpointsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListManagedEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Endpoint,
     InternalServerException | ValidationException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
@@ -1889,21 +1958,21 @@ export const listManagedEndpoints: {
 export const listSecurityConfigurations: {
   (
     input: ListSecurityConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSecurityConfigurationsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSecurityConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSecurityConfigurationsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSecurityConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SecurityConfiguration,
     InternalServerException | ValidationException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
@@ -1930,21 +1999,21 @@ export const listSecurityConfigurations: {
 export const listVirtualClusters: {
   (
     input: ListVirtualClustersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVirtualClustersResponse,
     InternalServerException | ValidationException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListVirtualClustersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVirtualClustersResponse,
     InternalServerException | ValidationException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVirtualClustersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     VirtualCluster,
     InternalServerException | ValidationException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
@@ -1973,7 +2042,7 @@ export const listVirtualClusters: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1995,7 +2064,7 @@ export const tagResource: (
  */
 export const describeJobRun: (
   input: DescribeJobRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeJobRunResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2017,7 +2086,7 @@ export const describeJobRun: (
  */
 export const describeManagedEndpoint: (
   input: DescribeManagedEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeManagedEndpointResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2038,7 +2107,7 @@ export const describeManagedEndpoint: (
  */
 export const getManagedEndpointSessionCredentials: (
   input: GetManagedEndpointSessionCredentialsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetManagedEndpointSessionCredentialsResponse,
   | InternalServerException
   | RequestThrottledException
@@ -2062,7 +2131,7 @@ export const getManagedEndpointSessionCredentials: (
  */
 export const startJobRun: (
   input: StartJobRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartJobRunResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2084,7 +2153,7 @@ export const startJobRun: (
  */
 export const createManagedEndpoint: (
   input: CreateManagedEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateManagedEndpointResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2108,7 +2177,7 @@ export const createManagedEndpoint: (
  */
 export const createJobTemplate: (
   input: CreateJobTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateJobTemplateResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2132,7 +2201,7 @@ export const createJobTemplate: (
  */
 export const createSecurityConfiguration: (
   input: CreateSecurityConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSecurityConfigurationResponse,
   InternalServerException | ValidationException | CommonErrors,
   Creds | Region | HttpClient.HttpClient

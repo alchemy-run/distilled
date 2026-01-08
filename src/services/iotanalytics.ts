@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -564,13 +564,15 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
+export type LoggingLevel = "ERROR";
+export const LoggingLevel = S.Literal("ERROR");
 export interface LoggingOptions {
   roleArn: string;
-  level: string;
+  level: LoggingLevel;
   enabled: boolean;
 }
 export const LoggingOptions = S.suspend(() =>
-  S.Struct({ roleArn: S.String, level: S.String, enabled: S.Boolean }),
+  S.Struct({ roleArn: S.String, level: LoggingLevel, enabled: S.Boolean }),
 ).annotations({
   identifier: "LoggingOptions",
 }) as any as S.Schema<LoggingOptions>;
@@ -643,7 +645,7 @@ export const AttributeNameMapping = S.Record({
 });
 export interface AddAttributesActivity {
   name: string;
-  attributes: AttributeNameMapping;
+  attributes: { [key: string]: string };
   next?: string;
 }
 export const AddAttributesActivity = S.suspend(() =>
@@ -659,7 +661,7 @@ export type AttributeNames = string[];
 export const AttributeNames = S.Array(S.String);
 export interface RemoveAttributesActivity {
   name: string;
-  attributes: AttributeNames;
+  attributes: string[];
   next?: string;
 }
 export const RemoveAttributesActivity = S.suspend(() =>
@@ -673,7 +675,7 @@ export const RemoveAttributesActivity = S.suspend(() =>
 }) as any as S.Schema<RemoveAttributesActivity>;
 export interface SelectAttributesActivity {
   name: string;
-  attributes: AttributeNames;
+  attributes: string[];
   next?: string;
 }
 export const SelectAttributesActivity = S.suspend(() =>
@@ -775,7 +777,7 @@ export const PipelineActivity = S.suspend(() =>
 }) as any as S.Schema<PipelineActivity>;
 export interface RunPipelineActivityRequest {
   pipelineActivity: PipelineActivity;
-  payloads: MessagePayloads;
+  payloads: Uint8Array[];
 }
 export const RunPipelineActivityRequest = S.suspend(() =>
   S.Struct({
@@ -834,7 +836,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagList;
+  tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -859,7 +861,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -970,19 +972,21 @@ export type QueryFilters = QueryFilter[];
 export const QueryFilters = S.Array(QueryFilter);
 export interface SqlQueryDatasetAction {
   sqlQuery: string;
-  filters?: QueryFilters;
+  filters?: QueryFilter[];
 }
 export const SqlQueryDatasetAction = S.suspend(() =>
   S.Struct({ sqlQuery: S.String, filters: S.optional(QueryFilters) }),
 ).annotations({
   identifier: "SqlQueryDatasetAction",
 }) as any as S.Schema<SqlQueryDatasetAction>;
+export type ComputeType = "ACU_1" | "ACU_2";
+export const ComputeType = S.Literal("ACU_1", "ACU_2");
 export interface ResourceConfiguration {
-  computeType: string;
+  computeType: ComputeType;
   volumeSizeInGB: number;
 }
 export const ResourceConfiguration = S.suspend(() =>
-  S.Struct({ computeType: S.String, volumeSizeInGB: S.Number }),
+  S.Struct({ computeType: ComputeType, volumeSizeInGB: S.Number }),
 ).annotations({
   identifier: "ResourceConfiguration",
 }) as any as S.Schema<ResourceConfiguration>;
@@ -1024,7 +1028,7 @@ export interface ContainerDatasetAction {
   image: string;
   executionRoleArn: string;
   resourceConfiguration: ResourceConfiguration;
-  variables?: Variables;
+  variables?: Variable[];
 }
 export const ContainerDatasetAction = S.suspend(() =>
   S.Struct({
@@ -1188,12 +1192,12 @@ export type LateDataRules = LateDataRule[];
 export const LateDataRules = S.Array(LateDataRule);
 export interface UpdateDatasetRequest {
   datasetName: string;
-  actions: DatasetActions;
-  triggers?: DatasetTriggers;
-  contentDeliveryRules?: DatasetContentDeliveryRules;
+  actions: DatasetAction[];
+  triggers?: DatasetTrigger[];
+  contentDeliveryRules?: DatasetContentDeliveryRule[];
   retentionPeriod?: RetentionPeriod;
   versioningConfiguration?: VersioningConfiguration;
-  lateDataRules?: LateDataRules;
+  lateDataRules?: LateDataRule[];
 }
 export const UpdateDatasetRequest = S.suspend(() =>
   S.Struct({
@@ -1285,7 +1289,7 @@ export const Column = S.suspend(() =>
 export type Columns = Column[];
 export const Columns = S.Array(Column);
 export interface SchemaDefinition {
-  columns?: Columns;
+  columns?: Column[];
 }
 export const SchemaDefinition = S.suspend(() =>
   S.Struct({ columns: S.optional(Columns) }),
@@ -1315,7 +1319,7 @@ export const FileFormatConfiguration = S.suspend(() =>
 export interface UpdateDatastoreRequest {
   datastoreName: string;
   retentionPeriod?: RetentionPeriod;
-  datastoreStorage?: (typeof DatastoreStorage)["Type"];
+  datastoreStorage?: DatastoreStorage;
   fileFormatConfiguration?: FileFormatConfiguration;
 }
 export const UpdateDatastoreRequest = S.suspend(() =>
@@ -1347,7 +1351,7 @@ export type PipelineActivities = PipelineActivity[];
 export const PipelineActivities = S.Array(PipelineActivity);
 export interface UpdatePipelineRequest {
   pipelineName: string;
-  pipelineActivities: PipelineActivities;
+  pipelineActivities: PipelineActivity[];
 }
 export const UpdatePipelineRequest = S.suspend(() =>
   S.Struct({
@@ -1382,7 +1386,7 @@ export const Message = S.suspend(() =>
 export type Messages = Message[];
 export const Messages = S.Array(Message);
 export interface ChannelMessages {
-  s3Paths?: S3PathChannelMessages;
+  s3Paths?: string[];
 }
 export const ChannelMessages = S.suspend(() =>
   S.Struct({ s3Paths: S.optional(S3PathChannelMessages) }),
@@ -1391,7 +1395,7 @@ export const ChannelMessages = S.suspend(() =>
 }) as any as S.Schema<ChannelMessages>;
 export interface BatchPutMessageRequest {
   channelName: string;
-  messages: Messages;
+  messages: Message[];
 }
 export const BatchPutMessageRequest = S.suspend(() =>
   S.Struct({ channelName: S.String, messages: Messages }).pipe(
@@ -1424,7 +1428,7 @@ export const DescribeLoggingOptionsResponse = S.suspend(() =>
   identifier: "DescribeLoggingOptionsResponse",
 }) as any as S.Schema<DescribeLoggingOptionsResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagList) }),
@@ -1432,7 +1436,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface RunPipelineActivityResponse {
-  payloads?: MessagePayloads;
+  payloads?: Uint8Array[];
   logResult?: string;
 }
 export const RunPipelineActivityResponse = S.suspend(() =>
@@ -1444,7 +1448,7 @@ export const RunPipelineActivityResponse = S.suspend(() =>
   identifier: "RunPipelineActivityResponse",
 }) as any as S.Schema<RunPipelineActivityResponse>;
 export interface SampleChannelDataResponse {
-  payloads?: MessagePayloads;
+  payloads?: Uint8Array[];
 }
 export const SampleChannelDataResponse = S.suspend(() =>
   S.Struct({ payloads: S.optional(MessagePayloads) }),
@@ -1476,11 +1480,21 @@ export const StartPipelineReprocessingRequest = S.suspend(() =>
 ).annotations({
   identifier: "StartPipelineReprocessingRequest",
 }) as any as S.Schema<StartPipelineReprocessingRequest>;
+export type ChannelStatus = "CREATING" | "ACTIVE" | "DELETING";
+export const ChannelStatus = S.Literal("CREATING", "ACTIVE", "DELETING");
+export type DatasetStatus = "CREATING" | "ACTIVE" | "DELETING";
+export const DatasetStatus = S.Literal("CREATING", "ACTIVE", "DELETING");
+export type DatastoreStatus = "CREATING" | "ACTIVE" | "DELETING";
+export const DatastoreStatus = S.Literal("CREATING", "ACTIVE", "DELETING");
+export type DatasetContentState = "CREATING" | "SUCCEEDED" | "FAILED";
+export const DatasetContentState = S.Literal("CREATING", "SUCCEEDED", "FAILED");
+export type FileFormatType = "JSON" | "PARQUET";
+export const FileFormatType = S.Literal("JSON", "PARQUET");
 export interface Channel {
   name?: string;
   storage?: ChannelStorage;
   arn?: string;
-  status?: string;
+  status?: ChannelStatus;
   retentionPeriod?: RetentionPeriod;
   creationTime?: Date;
   lastUpdateTime?: Date;
@@ -1491,7 +1505,7 @@ export const Channel = S.suspend(() =>
     name: S.optional(S.String),
     storage: S.optional(ChannelStorage),
     arn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ChannelStatus),
     retentionPeriod: S.optional(RetentionPeriod),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1503,15 +1517,15 @@ export const Channel = S.suspend(() =>
 export interface Dataset {
   name?: string;
   arn?: string;
-  actions?: DatasetActions;
-  triggers?: DatasetTriggers;
-  contentDeliveryRules?: DatasetContentDeliveryRules;
-  status?: string;
+  actions?: DatasetAction[];
+  triggers?: DatasetTrigger[];
+  contentDeliveryRules?: DatasetContentDeliveryRule[];
+  status?: DatasetStatus;
   creationTime?: Date;
   lastUpdateTime?: Date;
   retentionPeriod?: RetentionPeriod;
   versioningConfiguration?: VersioningConfiguration;
-  lateDataRules?: LateDataRules;
+  lateDataRules?: LateDataRule[];
 }
 export const Dataset = S.suspend(() =>
   S.Struct({
@@ -1520,7 +1534,7 @@ export const Dataset = S.suspend(() =>
     actions: S.optional(DatasetActions),
     triggers: S.optional(DatasetTriggers),
     contentDeliveryRules: S.optional(DatasetContentDeliveryRules),
-    status: S.optional(S.String),
+    status: S.optional(DatasetStatus),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     retentionPeriod: S.optional(RetentionPeriod),
@@ -1558,7 +1572,7 @@ export const DatastorePartition = S.suspend(() =>
 export type Partitions = DatastorePartition[];
 export const Partitions = S.Array(DatastorePartition);
 export interface DatastorePartitions {
-  partitions?: Partitions;
+  partitions?: DatastorePartition[];
 }
 export const DatastorePartitions = S.suspend(() =>
   S.Struct({ partitions: S.optional(Partitions) }),
@@ -1567,9 +1581,9 @@ export const DatastorePartitions = S.suspend(() =>
 }) as any as S.Schema<DatastorePartitions>;
 export interface Datastore {
   name?: string;
-  storage?: (typeof DatastoreStorage)["Type"];
+  storage?: DatastoreStorage;
   arn?: string;
-  status?: string;
+  status?: DatastoreStatus;
   retentionPeriod?: RetentionPeriod;
   creationTime?: Date;
   lastUpdateTime?: Date;
@@ -1582,7 +1596,7 @@ export const Datastore = S.suspend(() =>
     name: S.optional(S.String),
     storage: S.optional(DatastoreStorage),
     arn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(DatastoreStatus),
     retentionPeriod: S.optional(RetentionPeriod),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1623,11 +1637,14 @@ export const DatasetEntry = S.suspend(() =>
 export type DatasetEntries = DatasetEntry[];
 export const DatasetEntries = S.Array(DatasetEntry);
 export interface DatasetContentStatus {
-  state?: string;
+  state?: DatasetContentState;
   reason?: string;
 }
 export const DatasetContentStatus = S.suspend(() =>
-  S.Struct({ state: S.optional(S.String), reason: S.optional(S.String) }),
+  S.Struct({
+    state: S.optional(DatasetContentState),
+    reason: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "DatasetContentStatus",
 }) as any as S.Schema<DatasetContentStatus>;
@@ -1651,15 +1668,26 @@ export const DatasetContentSummary = S.suspend(() =>
 }) as any as S.Schema<DatasetContentSummary>;
 export type DatasetContentSummaries = DatasetContentSummary[];
 export const DatasetContentSummaries = S.Array(DatasetContentSummary);
+export type ReprocessingStatus =
+  | "RUNNING"
+  | "SUCCEEDED"
+  | "CANCELLED"
+  | "FAILED";
+export const ReprocessingStatus = S.Literal(
+  "RUNNING",
+  "SUCCEEDED",
+  "CANCELLED",
+  "FAILED",
+);
 export interface ReprocessingSummary {
   id?: string;
-  status?: string;
+  status?: ReprocessingStatus;
   creationTime?: Date;
 }
 export const ReprocessingSummary = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ReprocessingStatus),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({
@@ -1669,7 +1697,7 @@ export type ReprocessingSummaries = ReprocessingSummary[];
 export const ReprocessingSummaries = S.Array(ReprocessingSummary);
 export interface PipelineSummary {
   pipelineName?: string;
-  reprocessingSummaries?: ReprocessingSummaries;
+  reprocessingSummaries?: ReprocessingSummary[];
   creationTime?: Date;
   lastUpdateTime?: Date;
 }
@@ -1691,6 +1719,8 @@ export const ServiceManagedChannelS3StorageSummary = S.suspend(() =>
 ).annotations({
   identifier: "ServiceManagedChannelS3StorageSummary",
 }) as any as S.Schema<ServiceManagedChannelS3StorageSummary>;
+export type DatasetActionType = "QUERY" | "CONTAINER";
+export const DatasetActionType = S.Literal("QUERY", "CONTAINER");
 export interface ServiceManagedDatastoreS3StorageSummary {}
 export const ServiceManagedDatastoreS3StorageSummary = S.suspend(() =>
   S.Struct({}),
@@ -1701,7 +1731,7 @@ export interface CreateChannelRequest {
   channelName: string;
   channelStorage?: ChannelStorage;
   retentionPeriod?: RetentionPeriod;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateChannelRequest = S.suspend(() =>
   S.Struct({
@@ -1743,7 +1773,7 @@ export const DescribeDatastoreResponse = S.suspend(() =>
   identifier: "DescribeDatastoreResponse",
 }) as any as S.Schema<DescribeDatastoreResponse>;
 export interface GetDatasetContentResponse {
-  entries?: DatasetEntries;
+  entries?: DatasetEntry[];
   timestamp?: Date;
   status?: DatasetContentStatus;
 }
@@ -1757,7 +1787,7 @@ export const GetDatasetContentResponse = S.suspend(() =>
   identifier: "GetDatasetContentResponse",
 }) as any as S.Schema<GetDatasetContentResponse>;
 export interface ListDatasetContentsResponse {
-  datasetContentSummaries?: DatasetContentSummaries;
+  datasetContentSummaries?: DatasetContentSummary[];
   nextToken?: string;
 }
 export const ListDatasetContentsResponse = S.suspend(() =>
@@ -1769,7 +1799,7 @@ export const ListDatasetContentsResponse = S.suspend(() =>
   identifier: "ListDatasetContentsResponse",
 }) as any as S.Schema<ListDatasetContentsResponse>;
 export interface ListPipelinesResponse {
-  pipelineSummaries?: PipelineSummaries;
+  pipelineSummaries?: PipelineSummary[];
   nextToken?: string;
 }
 export const ListPipelinesResponse = S.suspend(() =>
@@ -1790,12 +1820,12 @@ export const StartPipelineReprocessingResponse = S.suspend(() =>
 }) as any as S.Schema<StartPipelineReprocessingResponse>;
 export interface DatasetActionSummary {
   actionName?: string;
-  actionType?: string;
+  actionType?: DatasetActionType;
 }
 export const DatasetActionSummary = S.suspend(() =>
   S.Struct({
     actionName: S.optional(S.String),
-    actionType: S.optional(S.String),
+    actionType: S.optional(DatasetActionType),
   }),
 ).annotations({
   identifier: "DatasetActionSummary",
@@ -1829,8 +1859,8 @@ export const ChannelStatistics = S.suspend(() =>
 export interface Pipeline {
   name?: string;
   arn?: string;
-  activities?: PipelineActivities;
-  reprocessingSummaries?: ReprocessingSummaries;
+  activities?: PipelineActivity[];
+  reprocessingSummaries?: ReprocessingSummary[];
   creationTime?: Date;
   lastUpdateTime?: Date;
 }
@@ -1846,16 +1876,16 @@ export const Pipeline = S.suspend(() =>
 ).annotations({ identifier: "Pipeline" }) as any as S.Schema<Pipeline>;
 export interface DatasetSummary {
   datasetName?: string;
-  status?: string;
+  status?: DatasetStatus;
   creationTime?: Date;
   lastUpdateTime?: Date;
-  triggers?: DatasetTriggers;
-  actions?: DatasetActionSummaries;
+  triggers?: DatasetTrigger[];
+  actions?: DatasetActionSummary[];
 }
 export const DatasetSummary = S.suspend(() =>
   S.Struct({
     datasetName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(DatasetStatus),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     triggers: S.optional(DatasetTriggers),
@@ -1895,7 +1925,7 @@ export const CustomerManagedDatastoreS3StorageSummary = S.suspend(() =>
   identifier: "CustomerManagedDatastoreS3StorageSummary",
 }) as any as S.Schema<CustomerManagedDatastoreS3StorageSummary>;
 export interface BatchPutMessageResponse {
-  batchPutMessageErrorEntries?: BatchPutMessageErrorEntries;
+  batchPutMessageErrorEntries?: BatchPutMessageErrorEntry[];
 }
 export const BatchPutMessageResponse = S.suspend(() =>
   S.Struct({
@@ -1920,8 +1950,8 @@ export const CreateChannelResponse = S.suspend(() =>
 }) as any as S.Schema<CreateChannelResponse>;
 export interface CreatePipelineRequest {
   pipelineName: string;
-  pipelineActivities: PipelineActivities;
-  tags?: TagList;
+  pipelineActivities: PipelineActivity[];
+  tags?: Tag[];
 }
 export const CreatePipelineRequest = S.suspend(() =>
   S.Struct({
@@ -1962,7 +1992,7 @@ export const DescribePipelineResponse = S.suspend(() =>
   identifier: "DescribePipelineResponse",
 }) as any as S.Schema<DescribePipelineResponse>;
 export interface ListDatasetsResponse {
-  datasetSummaries?: DatasetSummaries;
+  datasetSummaries?: DatasetSummary[];
   nextToken?: string;
 }
 export const ListDatasetsResponse = S.suspend(() =>
@@ -1998,7 +2028,7 @@ export const IotSiteWiseCustomerManagedDatastoreS3StorageSummary = S.suspend(
 export interface ChannelSummary {
   channelName?: string;
   channelStorage?: ChannelStorageSummary;
-  status?: string;
+  status?: ChannelStatus;
   creationTime?: Date;
   lastUpdateTime?: Date;
   lastMessageArrivalTime?: Date;
@@ -2007,7 +2037,7 @@ export const ChannelSummary = S.suspend(() =>
   S.Struct({
     channelName: S.optional(S.String),
     channelStorage: S.optional(ChannelStorageSummary),
-    status: S.optional(S.String),
+    status: S.optional(ChannelStatus),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastMessageArrivalTime: S.optional(
@@ -2033,13 +2063,13 @@ export const DatastoreIotSiteWiseMultiLayerStorageSummary = S.suspend(() =>
 }) as any as S.Schema<DatastoreIotSiteWiseMultiLayerStorageSummary>;
 export interface CreateDatasetRequest {
   datasetName: string;
-  actions: DatasetActions;
-  triggers?: DatasetTriggers;
-  contentDeliveryRules?: DatasetContentDeliveryRules;
+  actions: DatasetAction[];
+  triggers?: DatasetTrigger[];
+  contentDeliveryRules?: DatasetContentDeliveryRule[];
   retentionPeriod?: RetentionPeriod;
   versioningConfiguration?: VersioningConfiguration;
-  tags?: TagList;
-  lateDataRules?: LateDataRules;
+  tags?: Tag[];
+  lateDataRules?: LateDataRule[];
 }
 export const CreateDatasetRequest = S.suspend(() =>
   S.Struct({
@@ -2066,9 +2096,9 @@ export const CreateDatasetRequest = S.suspend(() =>
 }) as any as S.Schema<CreateDatasetRequest>;
 export interface CreateDatastoreRequest {
   datastoreName: string;
-  datastoreStorage?: (typeof DatastoreStorage)["Type"];
+  datastoreStorage?: DatastoreStorage;
   retentionPeriod?: RetentionPeriod;
-  tags?: TagList;
+  tags?: Tag[];
   fileFormatConfiguration?: FileFormatConfiguration;
   datastorePartitions?: DatastorePartitions;
 }
@@ -2106,7 +2136,7 @@ export const CreatePipelineResponse = S.suspend(() =>
   identifier: "CreatePipelineResponse",
 }) as any as S.Schema<CreatePipelineResponse>;
 export interface ListChannelsResponse {
-  channelSummaries?: ChannelSummaries;
+  channelSummaries?: ChannelSummary[];
   nextToken?: string;
 }
 export const ListChannelsResponse = S.suspend(() =>
@@ -2136,24 +2166,24 @@ export const DatastoreStorageSummary = S.suspend(() =>
 export interface DatastoreSummary {
   datastoreName?: string;
   datastoreStorage?: DatastoreStorageSummary;
-  status?: string;
+  status?: DatastoreStatus;
   creationTime?: Date;
   lastUpdateTime?: Date;
   lastMessageArrivalTime?: Date;
-  fileFormatType?: string;
+  fileFormatType?: FileFormatType;
   datastorePartitions?: DatastorePartitions;
 }
 export const DatastoreSummary = S.suspend(() =>
   S.Struct({
     datastoreName: S.optional(S.String),
     datastoreStorage: S.optional(DatastoreStorageSummary),
-    status: S.optional(S.String),
+    status: S.optional(DatastoreStatus),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastMessageArrivalTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    fileFormatType: S.optional(S.String),
+    fileFormatType: S.optional(FileFormatType),
     datastorePartitions: S.optional(DatastorePartitions),
   }),
 ).annotations({
@@ -2190,7 +2220,7 @@ export const CreateDatastoreResponse = S.suspend(() =>
   identifier: "CreateDatastoreResponse",
 }) as any as S.Schema<CreateDatastoreResponse>;
 export interface ListDatastoresResponse {
-  datastoreSummaries?: DatastoreSummaries;
+  datastoreSummaries?: DatastoreSummary[];
   nextToken?: string;
 }
 export const ListDatastoresResponse = S.suspend(() =>
@@ -2243,7 +2273,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
 export const listPipelines: {
   (
     input: ListPipelinesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPipelinesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -2254,7 +2284,7 @@ export const listPipelines: {
   >;
   pages: (
     input: ListPipelinesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPipelinesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -2265,7 +2295,7 @@ export const listPipelines: {
   >;
   items: (
     input: ListPipelinesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalFailureException
     | InvalidRequestException
@@ -2294,7 +2324,7 @@ export const listPipelines: {
  */
 export const startPipelineReprocessing: (
   input: StartPipelineReprocessingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartPipelineReprocessingResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2321,7 +2351,7 @@ export const startPipelineReprocessing: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2348,7 +2378,7 @@ export const listTagsForResource: (
  */
 export const describeDataset: (
   input: DescribeDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDatasetResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2373,7 +2403,7 @@ export const describeDataset: (
  */
 export const describeDatastore: (
   input: DescribeDatastoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDatastoreResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2398,7 +2428,7 @@ export const describeDatastore: (
  */
 export const getDatasetContent: (
   input: GetDatasetContentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDatasetContentResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2424,7 +2454,7 @@ export const getDatasetContent: (
 export const listDatasetContents: {
   (
     input: ListDatasetContentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDatasetContentsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -2436,7 +2466,7 @@ export const listDatasetContents: {
   >;
   pages: (
     input: ListDatasetContentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDatasetContentsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -2448,7 +2478,7 @@ export const listDatasetContents: {
   >;
   items: (
     input: ListDatasetContentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalFailureException
     | InvalidRequestException
@@ -2480,7 +2510,7 @@ export const listDatasetContents: {
  */
 export const createDatasetContent: (
   input: CreateDatasetContentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDatasetContentResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2505,7 +2535,7 @@ export const createDatasetContent: (
  */
 export const describeLoggingOptions: (
   input: DescribeLoggingOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeLoggingOptionsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2531,7 +2561,7 @@ export const describeLoggingOptions: (
  */
 export const sampleChannelData: (
   input: SampleChannelDataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SampleChannelDataResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2556,7 +2586,7 @@ export const sampleChannelData: (
  */
 export const deleteChannel: (
   input: DeleteChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteChannelResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2584,7 +2614,7 @@ export const deleteChannel: (
  */
 export const deleteDataset: (
   input: DeleteDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDatasetResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2609,7 +2639,7 @@ export const deleteDataset: (
  */
 export const deleteDatasetContent: (
   input: DeleteDatasetContentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDatasetContentResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2634,7 +2664,7 @@ export const deleteDatasetContent: (
  */
 export const deleteDatastore: (
   input: DeleteDatastoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDatastoreResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2659,7 +2689,7 @@ export const deleteDatastore: (
  */
 export const deletePipeline: (
   input: DeletePipelineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePipelineResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2684,7 +2714,7 @@ export const deletePipeline: (
  */
 export const updateChannel: (
   input: UpdateChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateChannelResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2709,7 +2739,7 @@ export const updateChannel: (
  */
 export const updateDataset: (
   input: UpdateDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDatasetResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2734,7 +2764,7 @@ export const updateDataset: (
  */
 export const updateDatastore: (
   input: UpdateDatastoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDatastoreResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2759,7 +2789,7 @@ export const updateDatastore: (
  */
 export const batchPutMessage: (
   input: BatchPutMessageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchPutMessageResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2784,7 +2814,7 @@ export const batchPutMessage: (
  */
 export const runPipelineActivity: (
   input: RunPipelineActivityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RunPipelineActivityResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2812,7 +2842,7 @@ export const runPipelineActivity: (
  */
 export const putLoggingOptions: (
   input: PutLoggingOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutLoggingOptionsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2835,7 +2865,7 @@ export const putLoggingOptions: (
  */
 export const cancelPipelineReprocessing: (
   input: CancelPipelineReprocessingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelPipelineReprocessingResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2860,7 +2890,7 @@ export const cancelPipelineReprocessing: (
  */
 export const describeChannel: (
   input: DescribeChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeChannelResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2885,7 +2915,7 @@ export const describeChannel: (
  */
 export const describePipeline: (
   input: DescribePipelineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePipelineResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2911,7 +2941,7 @@ export const describePipeline: (
 export const listDatasets: {
   (
     input: ListDatasetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDatasetsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -2922,7 +2952,7 @@ export const listDatasets: {
   >;
   pages: (
     input: ListDatasetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDatasetsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -2933,7 +2963,7 @@ export const listDatasets: {
   >;
   items: (
     input: ListDatasetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalFailureException
     | InvalidRequestException
@@ -2963,7 +2993,7 @@ export const listDatasets: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2990,7 +3020,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -3019,7 +3049,7 @@ export const untagResource: (
  */
 export const updatePipeline: (
   input: UpdatePipelineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePipelineResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -3047,7 +3077,7 @@ export const updatePipeline: (
  */
 export const createChannel: (
   input: CreateChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateChannelResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -3077,7 +3107,7 @@ export const createChannel: (
  */
 export const createPipeline: (
   input: CreatePipelineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePipelineResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -3105,7 +3135,7 @@ export const createPipeline: (
 export const listChannels: {
   (
     input: ListChannelsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListChannelsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -3116,7 +3146,7 @@ export const listChannels: {
   >;
   pages: (
     input: ListChannelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListChannelsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -3127,7 +3157,7 @@ export const listChannels: {
   >;
   items: (
     input: ListChannelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalFailureException
     | InvalidRequestException
@@ -3160,7 +3190,7 @@ export const listChannels: {
  */
 export const createDataset: (
   input: CreateDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDatasetResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -3187,7 +3217,7 @@ export const createDataset: (
  */
 export const createDatastore: (
   input: CreateDatastoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDatastoreResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -3215,7 +3245,7 @@ export const createDatastore: (
 export const listDatastores: {
   (
     input: ListDatastoresRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDatastoresResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -3226,7 +3256,7 @@ export const listDatastores: {
   >;
   pages: (
     input: ListDatastoresRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDatastoresResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -3237,7 +3267,7 @@ export const listDatastores: {
   >;
   items: (
     input: ListDatastoresRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalFailureException
     | InvalidRequestException

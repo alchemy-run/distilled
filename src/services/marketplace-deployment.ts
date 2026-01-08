@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -91,7 +91,7 @@ export type Catalog = string;
 export type ResourceId = string;
 export type ClientToken = string;
 export type DeploymentParameterName = string;
-export type SecretString = string | Redacted.Redacted<string>;
+export type SecretString = string | redacted.Redacted<string>;
 export type TagKey = string;
 export type TagValue = string;
 export type ResourceArn = string;
@@ -119,7 +119,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: StringList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -146,7 +146,7 @@ export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
 export interface DeploymentParameterInput {
   name: string;
-  secretString: string | Redacted.Redacted<string>;
+  secretString: string | redacted.Redacted<string>;
 }
 export const DeploymentParameterInput = S.suspend(() =>
   S.Struct({ name: S.String, secretString: SensitiveString }),
@@ -156,7 +156,7 @@ export const DeploymentParameterInput = S.suspend(() =>
 export type TagsMap = { [key: string]: string };
 export const TagsMap = S.Record({ key: S.String, value: S.String });
 export interface ListTagsForResourceResponse {
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -165,7 +165,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -193,7 +193,7 @@ export interface PutDeploymentParameterRequest {
   productId: string;
   agreementId: string;
   deploymentParameter: DeploymentParameterInput;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   expirationDate?: Date;
   clientToken?: string;
 }
@@ -226,7 +226,7 @@ export interface PutDeploymentParameterResponse {
   resourceArn: string;
   agreementId: string;
   deploymentParameterId: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const PutDeploymentParameterResponse = S.suspend(() =>
   S.Struct({
@@ -277,7 +277,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -302,7 +302,7 @@ export const listTagsForResource: (
  */
 export const putDeploymentParameter: (
   input: PutDeploymentParameterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutDeploymentParameterResponse,
   | AccessDeniedException
   | ConflictException
@@ -331,7 +331,7 @@ export const putDeploymentParameter: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -358,7 +358,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException

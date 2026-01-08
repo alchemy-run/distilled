@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -170,6 +170,8 @@ export const DescribeLoggingOptionsRequest = S.suspend(() =>
 ).annotations({
   identifier: "DescribeLoggingOptionsRequest",
 }) as any as S.Schema<DescribeLoggingOptionsRequest>;
+export type EvaluationMethod = "BATCH" | "SERIAL";
+export const EvaluationMethod = S.Literal("BATCH", "SERIAL");
 export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
 export interface DeleteAlarmModelRequest {
@@ -474,6 +476,8 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
+export type LoggingLevel = "ERROR" | "INFO" | "DEBUG";
+export const LoggingLevel = S.Literal("ERROR", "INFO", "DEBUG");
 export interface DetectorDebugOption {
   detectorModelName: string;
   keyValue?: string;
@@ -487,14 +491,14 @@ export type DetectorDebugOptions = DetectorDebugOption[];
 export const DetectorDebugOptions = S.Array(DetectorDebugOption);
 export interface LoggingOptions {
   roleArn: string;
-  level: string;
+  level: LoggingLevel;
   enabled: boolean;
-  detectorDebugOptions?: DetectorDebugOptions;
+  detectorDebugOptions?: DetectorDebugOption[];
 }
 export const LoggingOptions = S.suspend(() =>
   S.Struct({
     roleArn: S.String,
-    level: S.String,
+    level: LoggingLevel,
     enabled: S.Boolean,
     detectorDebugOptions: S.optional(DetectorDebugOptions),
   }),
@@ -533,12 +537,14 @@ export const SetVariableAction = S.suspend(() =>
 ).annotations({
   identifier: "SetVariableAction",
 }) as any as S.Schema<SetVariableAction>;
+export type PayloadType = "STRING" | "JSON";
+export const PayloadType = S.Literal("STRING", "JSON");
 export interface Payload {
   contentExpression: string;
-  type: string;
+  type: PayloadType;
 }
 export const Payload = S.suspend(() =>
-  S.Struct({ contentExpression: S.String, type: S.String }),
+  S.Struct({ contentExpression: S.String, type: PayloadType }),
 ).annotations({ identifier: "Payload" }) as any as S.Schema<Payload>;
 export interface SNSTopicPublishAction {
   targetArn: string;
@@ -761,7 +767,7 @@ export const Actions = S.Array(Action);
 export interface Event {
   eventName: string;
   condition?: string;
-  actions?: Actions;
+  actions?: Action[];
 }
 export const Event = S.suspend(() =>
   S.Struct({
@@ -775,7 +781,7 @@ export const Events = S.Array(Event);
 export interface TransitionEvent {
   eventName: string;
   condition: string;
-  actions?: Actions;
+  actions?: Action[];
   nextState: string;
 }
 export const TransitionEvent = S.suspend(() =>
@@ -791,8 +797,8 @@ export const TransitionEvent = S.suspend(() =>
 export type TransitionEvents = TransitionEvent[];
 export const TransitionEvents = S.Array(TransitionEvent);
 export interface OnInputLifecycle {
-  events?: Events;
-  transitionEvents?: TransitionEvents;
+  events?: Event[];
+  transitionEvents?: TransitionEvent[];
 }
 export const OnInputLifecycle = S.suspend(() =>
   S.Struct({
@@ -803,7 +809,7 @@ export const OnInputLifecycle = S.suspend(() =>
   identifier: "OnInputLifecycle",
 }) as any as S.Schema<OnInputLifecycle>;
 export interface OnEnterLifecycle {
-  events?: Events;
+  events?: Event[];
 }
 export const OnEnterLifecycle = S.suspend(() =>
   S.Struct({ events: S.optional(Events) }),
@@ -811,7 +817,7 @@ export const OnEnterLifecycle = S.suspend(() =>
   identifier: "OnEnterLifecycle",
 }) as any as S.Schema<OnEnterLifecycle>;
 export interface OnExitLifecycle {
-  events?: Events;
+  events?: Event[];
 }
 export const OnExitLifecycle = S.suspend(() =>
   S.Struct({ events: S.optional(Events) }),
@@ -835,7 +841,7 @@ export const State = S.suspend(() =>
 export type States = State[];
 export const States = S.Array(State);
 export interface DetectorModelDefinition {
-  states: States;
+  states: State[];
   initialStateName: string;
 }
 export const DetectorModelDefinition = S.suspend(() =>
@@ -871,7 +877,7 @@ export type Tags = Tag[];
 export const Tags = S.Array(Tag);
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: Tags;
+  tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -896,7 +902,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeys;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -919,15 +925,30 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
+export type ComparisonOperator =
+  | "GREATER"
+  | "GREATER_OR_EQUAL"
+  | "LESS"
+  | "LESS_OR_EQUAL"
+  | "EQUAL"
+  | "NOT_EQUAL";
+export const ComparisonOperator = S.Literal(
+  "GREATER",
+  "GREATER_OR_EQUAL",
+  "LESS",
+  "LESS_OR_EQUAL",
+  "EQUAL",
+  "NOT_EQUAL",
+);
 export interface SimpleRule {
   inputProperty: string;
-  comparisonOperator: string;
+  comparisonOperator: ComparisonOperator;
   threshold: string;
 }
 export const SimpleRule = S.suspend(() =>
   S.Struct({
     inputProperty: S.String,
-    comparisonOperator: S.String,
+    comparisonOperator: ComparisonOperator,
     threshold: S.String,
   }),
 ).annotations({ identifier: "SimpleRule" }) as any as S.Schema<SimpleRule>;
@@ -965,7 +986,7 @@ export const RecipientDetails = S.Array(RecipientDetail);
 export interface SMSConfiguration {
   senderId?: string;
   additionalMessage?: string;
-  recipients: RecipientDetails;
+  recipients: RecipientDetail[];
 }
 export const SMSConfiguration = S.suspend(() =>
   S.Struct({
@@ -989,7 +1010,7 @@ export const EmailContent = S.suspend(() =>
   }),
 ).annotations({ identifier: "EmailContent" }) as any as S.Schema<EmailContent>;
 export interface EmailRecipients {
-  to?: RecipientDetails;
+  to?: RecipientDetail[];
 }
 export const EmailRecipients = S.suspend(() =>
   S.Struct({ to: S.optional(RecipientDetails) }),
@@ -1014,8 +1035,8 @@ export type EmailConfigurations = EmailConfiguration[];
 export const EmailConfigurations = S.Array(EmailConfiguration);
 export interface NotificationAction {
   action: NotificationTargetActions;
-  smsConfigurations?: SMSConfigurations;
-  emailConfigurations?: EmailConfigurations;
+  smsConfigurations?: SMSConfiguration[];
+  emailConfigurations?: EmailConfiguration[];
 }
 export const NotificationAction = S.suspend(() =>
   S.Struct({
@@ -1029,7 +1050,7 @@ export const NotificationAction = S.suspend(() =>
 export type NotificationActions = NotificationAction[];
 export const NotificationActions = S.Array(NotificationAction);
 export interface AlarmNotification {
-  notificationActions?: NotificationActions;
+  notificationActions?: NotificationAction[];
 }
 export const AlarmNotification = S.suspend(() =>
   S.Struct({ notificationActions: S.optional(NotificationActions) }),
@@ -1063,7 +1084,7 @@ export const AlarmAction = S.suspend(() =>
 export type AlarmActions = AlarmAction[];
 export const AlarmActions = S.Array(AlarmAction);
 export interface AlarmEventActions {
-  alarmActions?: AlarmActions;
+  alarmActions?: AlarmAction[];
 }
 export const AlarmEventActions = S.suspend(() =>
   S.Struct({ alarmActions: S.optional(AlarmActions) }),
@@ -1136,7 +1157,7 @@ export interface UpdateDetectorModelRequest {
   detectorModelDefinition: DetectorModelDefinition;
   detectorModelDescription?: string;
   roleArn: string;
-  evaluationMethod?: string;
+  evaluationMethod?: EvaluationMethod;
 }
 export const UpdateDetectorModelRequest = S.suspend(() =>
   S.Struct({
@@ -1144,7 +1165,7 @@ export const UpdateDetectorModelRequest = S.suspend(() =>
     detectorModelDefinition: DetectorModelDefinition,
     detectorModelDescription: S.optional(S.String),
     roleArn: S.String,
-    evaluationMethod: S.optional(S.String),
+    evaluationMethod: S.optional(EvaluationMethod),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/detector-models/{detectorModelName}" }),
@@ -1167,7 +1188,7 @@ export const Attribute = S.suspend(() =>
 export type Attributes = Attribute[];
 export const Attributes = S.Array(Attribute);
 export interface InputDefinition {
-  attributes: Attributes;
+  attributes: Attribute[];
 }
 export const InputDefinition = S.suspend(() =>
   S.Struct({ attributes: Attributes }),
@@ -1197,12 +1218,25 @@ export const UpdateInputRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateInputRequest",
 }) as any as S.Schema<UpdateInputRequest>;
+export type AlarmModelVersionStatus =
+  | "ACTIVE"
+  | "ACTIVATING"
+  | "INACTIVE"
+  | "FAILED";
+export const AlarmModelVersionStatus = S.Literal(
+  "ACTIVE",
+  "ACTIVATING",
+  "INACTIVE",
+  "FAILED",
+);
+export type AnalysisStatus = "RUNNING" | "COMPLETE" | "FAILED";
+export const AnalysisStatus = S.Literal("RUNNING", "COMPLETE", "FAILED");
 export interface DescribeAlarmModelResponse {
   creationTime?: Date;
   alarmModelArn?: string;
   alarmModelVersion?: string;
   lastUpdateTime?: Date;
-  status?: string;
+  status?: AlarmModelVersionStatus;
   statusMessage?: string;
   alarmModelName?: string;
   alarmModelDescription?: string;
@@ -1220,7 +1254,7 @@ export const DescribeAlarmModelResponse = S.suspend(() =>
     alarmModelArn: S.optional(S.String),
     alarmModelVersion: S.optional(S.String),
     lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(S.String),
+    status: S.optional(AlarmModelVersionStatus),
     statusMessage: S.optional(S.String),
     alarmModelName: S.optional(S.String),
     alarmModelDescription: S.optional(S.String),
@@ -1236,15 +1270,15 @@ export const DescribeAlarmModelResponse = S.suspend(() =>
   identifier: "DescribeAlarmModelResponse",
 }) as any as S.Schema<DescribeAlarmModelResponse>;
 export interface DescribeDetectorModelAnalysisResponse {
-  status?: string;
+  status?: AnalysisStatus;
 }
 export const DescribeDetectorModelAnalysisResponse = S.suspend(() =>
-  S.Struct({ status: S.optional(S.String) }),
+  S.Struct({ status: S.optional(AnalysisStatus) }),
 ).annotations({
   identifier: "DescribeDetectorModelAnalysisResponse",
 }) as any as S.Schema<DescribeDetectorModelAnalysisResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: Tags;
+  tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -1264,7 +1298,7 @@ export interface UpdateAlarmModelResponse {
   alarmModelArn?: string;
   alarmModelVersion?: string;
   lastUpdateTime?: Date;
-  status?: string;
+  status?: AlarmModelVersionStatus;
 }
 export const UpdateAlarmModelResponse = S.suspend(() =>
   S.Struct({
@@ -1272,11 +1306,30 @@ export const UpdateAlarmModelResponse = S.suspend(() =>
     alarmModelArn: S.optional(S.String),
     alarmModelVersion: S.optional(S.String),
     lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(S.String),
+    status: S.optional(AlarmModelVersionStatus),
   }),
 ).annotations({
   identifier: "UpdateAlarmModelResponse",
 }) as any as S.Schema<UpdateAlarmModelResponse>;
+export type AnalysisResultLevel = "INFO" | "WARNING" | "ERROR";
+export const AnalysisResultLevel = S.Literal("INFO", "WARNING", "ERROR");
+export type DetectorModelVersionStatus =
+  | "ACTIVE"
+  | "ACTIVATING"
+  | "INACTIVE"
+  | "DEPRECATED"
+  | "DRAFT"
+  | "PAUSED"
+  | "FAILED";
+export const DetectorModelVersionStatus = S.Literal(
+  "ACTIVE",
+  "ACTIVATING",
+  "INACTIVE",
+  "DEPRECATED",
+  "DRAFT",
+  "PAUSED",
+  "FAILED",
+);
 export interface IotEventsInputIdentifier {
   inputName: string;
 }
@@ -1285,6 +1338,13 @@ export const IotEventsInputIdentifier = S.suspend(() =>
 ).annotations({
   identifier: "IotEventsInputIdentifier",
 }) as any as S.Schema<IotEventsInputIdentifier>;
+export type InputStatus = "CREATING" | "UPDATING" | "ACTIVE" | "DELETING";
+export const InputStatus = S.Literal(
+  "CREATING",
+  "UPDATING",
+  "ACTIVE",
+  "DELETING",
+);
 export interface DetectorModelConfiguration {
   detectorModelName?: string;
   detectorModelVersion?: string;
@@ -1293,9 +1353,9 @@ export interface DetectorModelConfiguration {
   roleArn?: string;
   creationTime?: Date;
   lastUpdateTime?: Date;
-  status?: string;
+  status?: DetectorModelVersionStatus;
   key?: string;
-  evaluationMethod?: string;
+  evaluationMethod?: EvaluationMethod;
 }
 export const DetectorModelConfiguration = S.suspend(() =>
   S.Struct({
@@ -1306,9 +1366,9 @@ export const DetectorModelConfiguration = S.suspend(() =>
     roleArn: S.optional(S.String),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(S.String),
+    status: S.optional(DetectorModelVersionStatus),
     key: S.optional(S.String),
-    evaluationMethod: S.optional(S.String),
+    evaluationMethod: S.optional(EvaluationMethod),
   }),
 ).annotations({
   identifier: "DetectorModelConfiguration",
@@ -1331,7 +1391,7 @@ export interface InputConfiguration {
   inputArn: string;
   creationTime: Date;
   lastUpdateTime: Date;
-  status: string;
+  status: InputStatus;
 }
 export const InputConfiguration = S.suspend(() =>
   S.Struct({
@@ -1340,7 +1400,7 @@ export const InputConfiguration = S.suspend(() =>
     inputArn: S.String,
     creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastUpdateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    status: S.String,
+    status: InputStatus,
   }),
 ).annotations({
   identifier: "InputConfiguration",
@@ -1378,7 +1438,7 @@ export interface AlarmModelVersionSummary {
   roleArn?: string;
   creationTime?: Date;
   lastUpdateTime?: Date;
-  status?: string;
+  status?: AlarmModelVersionStatus;
   statusMessage?: string;
 }
 export const AlarmModelVersionSummary = S.suspend(() =>
@@ -1389,7 +1449,7 @@ export const AlarmModelVersionSummary = S.suspend(() =>
     roleArn: S.optional(S.String),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(S.String),
+    status: S.optional(AlarmModelVersionStatus),
     statusMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -1420,8 +1480,8 @@ export interface DetectorModelVersionSummary {
   roleArn?: string;
   creationTime?: Date;
   lastUpdateTime?: Date;
-  status?: string;
-  evaluationMethod?: string;
+  status?: DetectorModelVersionStatus;
+  evaluationMethod?: EvaluationMethod;
 }
 export const DetectorModelVersionSummary = S.suspend(() =>
   S.Struct({
@@ -1431,8 +1491,8 @@ export const DetectorModelVersionSummary = S.suspend(() =>
     roleArn: S.optional(S.String),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(S.String),
-    evaluationMethod: S.optional(S.String),
+    status: S.optional(DetectorModelVersionStatus),
+    evaluationMethod: S.optional(EvaluationMethod),
   }),
 ).annotations({
   identifier: "DetectorModelVersionSummary",
@@ -1447,7 +1507,7 @@ export interface InputSummary {
   inputArn?: string;
   creationTime?: Date;
   lastUpdateTime?: Date;
-  status?: string;
+  status?: InputStatus;
 }
 export const InputSummary = S.suspend(() =>
   S.Struct({
@@ -1456,7 +1516,7 @@ export const InputSummary = S.suspend(() =>
     inputArn: S.optional(S.String),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(S.String),
+    status: S.optional(InputStatus),
   }),
 ).annotations({ identifier: "InputSummary" }) as any as S.Schema<InputSummary>;
 export type InputSummaries = InputSummary[];
@@ -1474,7 +1534,7 @@ export interface CreateInputRequest {
   inputName: string;
   inputDescription?: string;
   inputDefinition: InputDefinition;
-  tags?: Tags;
+  tags?: Tag[];
 }
 export const CreateInputRequest = S.suspend(() =>
   S.Struct({
@@ -1520,7 +1580,7 @@ export const DescribeLoggingOptionsResponse = S.suspend(() =>
   identifier: "DescribeLoggingOptionsResponse",
 }) as any as S.Schema<DescribeLoggingOptionsResponse>;
 export interface ListAlarmModelsResponse {
-  alarmModelSummaries?: AlarmModelSummaries;
+  alarmModelSummaries?: AlarmModelSummary[];
   nextToken?: string;
 }
 export const ListAlarmModelsResponse = S.suspend(() =>
@@ -1532,7 +1592,7 @@ export const ListAlarmModelsResponse = S.suspend(() =>
   identifier: "ListAlarmModelsResponse",
 }) as any as S.Schema<ListAlarmModelsResponse>;
 export interface ListAlarmModelVersionsResponse {
-  alarmModelVersionSummaries?: AlarmModelVersionSummaries;
+  alarmModelVersionSummaries?: AlarmModelVersionSummary[];
   nextToken?: string;
 }
 export const ListAlarmModelVersionsResponse = S.suspend(() =>
@@ -1544,7 +1604,7 @@ export const ListAlarmModelVersionsResponse = S.suspend(() =>
   identifier: "ListAlarmModelVersionsResponse",
 }) as any as S.Schema<ListAlarmModelVersionsResponse>;
 export interface ListDetectorModelsResponse {
-  detectorModelSummaries?: DetectorModelSummaries;
+  detectorModelSummaries?: DetectorModelSummary[];
   nextToken?: string;
 }
 export const ListDetectorModelsResponse = S.suspend(() =>
@@ -1556,7 +1616,7 @@ export const ListDetectorModelsResponse = S.suspend(() =>
   identifier: "ListDetectorModelsResponse",
 }) as any as S.Schema<ListDetectorModelsResponse>;
 export interface ListDetectorModelVersionsResponse {
-  detectorModelVersionSummaries?: DetectorModelVersionSummaries;
+  detectorModelVersionSummaries?: DetectorModelVersionSummary[];
   nextToken?: string;
 }
 export const ListDetectorModelVersionsResponse = S.suspend(() =>
@@ -1568,7 +1628,7 @@ export const ListDetectorModelVersionsResponse = S.suspend(() =>
   identifier: "ListDetectorModelVersionsResponse",
 }) as any as S.Schema<ListDetectorModelVersionsResponse>;
 export interface ListInputsResponse {
-  inputSummaries?: InputSummaries;
+  inputSummaries?: InputSummary[];
   nextToken?: string;
 }
 export const ListInputsResponse = S.suspend(() =>
@@ -1621,14 +1681,14 @@ export const IotSiteWiseInputIdentifier = S.suspend(() =>
 }) as any as S.Schema<IotSiteWiseInputIdentifier>;
 export interface AnalysisResult {
   type?: string;
-  level?: string;
+  level?: AnalysisResultLevel;
   message?: string;
-  locations?: AnalysisResultLocations;
+  locations?: AnalysisResultLocation[];
 }
 export const AnalysisResult = S.suspend(() =>
   S.Struct({
     type: S.optional(S.String),
-    level: S.optional(S.String),
+    level: S.optional(AnalysisResultLevel),
     message: S.optional(S.String),
     locations: S.optional(AnalysisResultLocations),
   }),
@@ -1658,7 +1718,7 @@ export const CreateInputResponse = S.suspend(() =>
   identifier: "CreateInputResponse",
 }) as any as S.Schema<CreateInputResponse>;
 export interface GetDetectorModelAnalysisResultsResponse {
-  analysisResults?: AnalysisResults;
+  analysisResults?: AnalysisResult[];
   nextToken?: string;
 }
 export const GetDetectorModelAnalysisResultsResponse = S.suspend(() =>
@@ -1707,7 +1767,7 @@ export interface CreateAlarmModelRequest {
   alarmModelName: string;
   alarmModelDescription?: string;
   roleArn: string;
-  tags?: Tags;
+  tags?: Tag[];
   key?: string;
   severity?: number;
   alarmRule: AlarmRule;
@@ -1741,7 +1801,7 @@ export const CreateAlarmModelRequest = S.suspend(() =>
   identifier: "CreateAlarmModelRequest",
 }) as any as S.Schema<CreateAlarmModelRequest>;
 export interface ListInputRoutingsResponse {
-  routedResources?: RoutedResources;
+  routedResources?: RoutedResource[];
   nextToken?: string;
 }
 export const ListInputRoutingsResponse = S.suspend(() =>
@@ -1757,7 +1817,7 @@ export interface CreateAlarmModelResponse {
   alarmModelArn?: string;
   alarmModelVersion?: string;
   lastUpdateTime?: Date;
-  status?: string;
+  status?: AlarmModelVersionStatus;
 }
 export const CreateAlarmModelResponse = S.suspend(() =>
   S.Struct({
@@ -1765,7 +1825,7 @@ export const CreateAlarmModelResponse = S.suspend(() =>
     alarmModelArn: S.optional(S.String),
     alarmModelVersion: S.optional(S.String),
     lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(S.String),
+    status: S.optional(AlarmModelVersionStatus),
   }),
 ).annotations({
   identifier: "CreateAlarmModelResponse",
@@ -1776,8 +1836,8 @@ export interface CreateDetectorModelRequest {
   detectorModelDescription?: string;
   key?: string;
   roleArn: string;
-  tags?: Tags;
-  evaluationMethod?: string;
+  tags?: Tag[];
+  evaluationMethod?: EvaluationMethod;
 }
 export const CreateDetectorModelRequest = S.suspend(() =>
   S.Struct({
@@ -1787,7 +1847,7 @@ export const CreateDetectorModelRequest = S.suspend(() =>
     key: S.optional(S.String),
     roleArn: S.String,
     tags: S.optional(Tags),
-    evaluationMethod: S.optional(S.String),
+    evaluationMethod: S.optional(EvaluationMethod),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/detector-models" }),
@@ -1861,7 +1921,7 @@ export class UnsupportedOperationException extends S.TaggedError<UnsupportedOper
  */
 export const listAlarmModels: (
   input: ListAlarmModelsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListAlarmModelsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1886,7 +1946,7 @@ export const listAlarmModels: (
  */
 export const startDetectorModelAnalysis: (
   input: StartDetectorModelAnalysisRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartDetectorModelAnalysisResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1912,7 +1972,7 @@ export const startDetectorModelAnalysis: (
  */
 export const updateDetectorModel: (
   input: UpdateDetectorModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDetectorModelResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1939,7 +1999,7 @@ export const updateDetectorModel: (
  */
 export const updateInput: (
   input: UpdateInputRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateInputResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1966,7 +2026,7 @@ export const updateInput: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1992,7 +2052,7 @@ export const listTagsForResource: (
  */
 export const updateAlarmModel: (
   input: UpdateAlarmModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAlarmModelResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2020,7 +2080,7 @@ export const updateAlarmModel: (
  */
 export const deleteDetectorModel: (
   input: DeleteDetectorModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDetectorModelResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2047,7 +2107,7 @@ export const deleteDetectorModel: (
  */
 export const deleteInput: (
   input: DeleteInputRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteInputResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2074,7 +2134,7 @@ export const deleteInput: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2099,7 +2159,7 @@ export const untagResource: (
  */
 export const describeInput: (
   input: DescribeInputRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeInputResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2125,7 +2185,7 @@ export const describeInput: (
  */
 export const listAlarmModelVersions: (
   input: ListAlarmModelVersionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListAlarmModelVersionsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2151,7 +2211,7 @@ export const listAlarmModelVersions: (
  */
 export const listDetectorModelVersions: (
   input: ListDetectorModelVersionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDetectorModelVersionsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2177,7 +2237,7 @@ export const listDetectorModelVersions: (
  */
 export const describeAlarmModel: (
   input: DescribeAlarmModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAlarmModelResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2204,7 +2264,7 @@ export const describeAlarmModel: (
  */
 export const describeDetectorModelAnalysis: (
   input: DescribeDetectorModelAnalysisRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDetectorModelAnalysisResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2230,7 +2290,7 @@ export const describeDetectorModelAnalysis: (
  */
 export const deleteAlarmModel: (
   input: DeleteAlarmModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAlarmModelResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2258,7 +2318,7 @@ export const deleteAlarmModel: (
  */
 export const listDetectorModels: (
   input: ListDetectorModelsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDetectorModelsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2281,7 +2341,7 @@ export const listDetectorModels: (
  */
 export const listInputs: (
   input: ListInputsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListInputsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2305,7 +2365,7 @@ export const listInputs: (
  */
 export const describeDetectorModel: (
   input: DescribeDetectorModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDetectorModelResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2332,7 +2392,7 @@ export const describeDetectorModel: (
  */
 export const getDetectorModelAnalysisResults: (
   input: GetDetectorModelAnalysisResultsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDetectorModelAnalysisResultsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2358,7 +2418,7 @@ export const getDetectorModelAnalysisResults: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2385,7 +2445,7 @@ export const tagResource: (
  */
 export const createInput: (
   input: CreateInputRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateInputResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2410,7 +2470,7 @@ export const createInput: (
  */
 export const listInputRoutings: (
   input: ListInputRoutingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListInputRoutingsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2440,7 +2500,7 @@ export const listInputRoutings: (
  */
 export const putLoggingOptions: (
   input: PutLoggingOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutLoggingOptionsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2467,7 +2527,7 @@ export const putLoggingOptions: (
  */
 export const describeLoggingOptions: (
   input: DescribeLoggingOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeLoggingOptionsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2496,7 +2556,7 @@ export const describeLoggingOptions: (
  */
 export const createAlarmModel: (
   input: CreateAlarmModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAlarmModelResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2525,7 +2585,7 @@ export const createAlarmModel: (
  */
 export const createDetectorModel: (
   input: CreateDetectorModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDetectorModelResponse,
   | InternalFailureException
   | InvalidRequestException

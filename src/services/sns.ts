@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -98,10 +98,10 @@ export type topicARN = string;
 export type label = string;
 export type delegate = string;
 export type action = string;
-export type PhoneNumber = string | Redacted.Redacted<string>;
+export type PhoneNumber = string | redacted.Redacted<string>;
 export type token = string;
 export type authenticateOnUnsubscribe = string;
-export type PhoneNumberString = string | Redacted.Redacted<string>;
+export type PhoneNumberString = string | redacted.Redacted<string>;
 export type topicName = string;
 export type attributeValue = string;
 export type subscriptionARN = string;
@@ -143,6 +143,35 @@ export type DelegatesList = string[];
 export const DelegatesList = S.Array(S.String);
 export type ActionsList = string[];
 export const ActionsList = S.Array(S.String);
+export type LanguageCodeString =
+  | "en-US"
+  | "en-GB"
+  | "es-419"
+  | "es-ES"
+  | "de-DE"
+  | "fr-CA"
+  | "fr-FR"
+  | "it-IT"
+  | "ja-JP"
+  | "pt-BR"
+  | "kr-KR"
+  | "zh-CN"
+  | "zh-TW";
+export const LanguageCodeString = S.Literal(
+  "en-US",
+  "en-GB",
+  "es-419",
+  "es-ES",
+  "de-DE",
+  "fr-CA",
+  "fr-FR",
+  "it-IT",
+  "ja-JP",
+  "pt-BR",
+  "kr-KR",
+  "zh-CN",
+  "zh-TW",
+);
 export type ListString = string[];
 export const ListString = S.Array(S.String);
 export type TagKeyList = string[];
@@ -150,8 +179,8 @@ export const TagKeyList = S.Array(S.String);
 export interface AddPermissionInput {
   TopicArn: string;
   Label: string;
-  AWSAccountId: DelegatesList;
-  ActionName: ActionsList;
+  AWSAccountId: string[];
+  ActionName: string[];
 }
 export const AddPermissionInput = S.suspend(() =>
   S.Struct({
@@ -180,7 +209,7 @@ export const AddPermissionResponse = S.suspend(() =>
   identifier: "AddPermissionResponse",
 }) as any as S.Schema<AddPermissionResponse>;
 export interface CheckIfPhoneNumberIsOptedOutInput {
-  phoneNumber: string | Redacted.Redacted<string>;
+  phoneNumber: string | redacted.Redacted<string>;
 }
 export const CheckIfPhoneNumberIsOptedOutInput = S.suspend(() =>
   S.Struct({ phoneNumber: SensitiveString }).pipe(
@@ -227,7 +256,7 @@ export interface CreatePlatformEndpointInput {
   PlatformApplicationArn: string;
   Token: string;
   CustomUserData?: string;
-  Attributes?: MapStringToString;
+  Attributes?: { [key: string]: string };
 }
 export const CreatePlatformEndpointInput = S.suspend(() =>
   S.Struct({
@@ -250,13 +279,13 @@ export const CreatePlatformEndpointInput = S.suspend(() =>
   identifier: "CreatePlatformEndpointInput",
 }) as any as S.Schema<CreatePlatformEndpointInput>;
 export interface CreateSMSSandboxPhoneNumberInput {
-  PhoneNumber: string | Redacted.Redacted<string>;
-  LanguageCode?: string;
+  PhoneNumber: string | redacted.Redacted<string>;
+  LanguageCode?: LanguageCodeString;
 }
 export const CreateSMSSandboxPhoneNumberInput = S.suspend(() =>
   S.Struct({
     PhoneNumber: SensitiveString,
-    LanguageCode: S.optional(S.String),
+    LanguageCode: S.optional(LanguageCodeString),
   }).pipe(
     T.all(
       ns,
@@ -326,7 +355,7 @@ export const DeletePlatformApplicationResponse = S.suspend(() =>
   identifier: "DeletePlatformApplicationResponse",
 }) as any as S.Schema<DeletePlatformApplicationResponse>;
 export interface DeleteSMSSandboxPhoneNumberInput {
-  PhoneNumber: string | Redacted.Redacted<string>;
+  PhoneNumber: string | redacted.Redacted<string>;
 }
 export const DeleteSMSSandboxPhoneNumberInput = S.suspend(() =>
   S.Struct({ PhoneNumber: SensitiveString }).pipe(
@@ -428,7 +457,7 @@ export const GetPlatformApplicationAttributesInput = S.suspend(() =>
   identifier: "GetPlatformApplicationAttributesInput",
 }) as any as S.Schema<GetPlatformApplicationAttributesInput>;
 export interface GetSMSAttributesInput {
-  attributes?: ListString;
+  attributes?: string[];
 }
 export const GetSMSAttributesInput = S.suspend(() =>
   S.Struct({ attributes: S.optional(ListString) }).pipe(
@@ -665,7 +694,7 @@ export const ListTopicsInput = S.suspend(() =>
   identifier: "ListTopicsInput",
 }) as any as S.Schema<ListTopicsInput>;
 export interface OptInPhoneNumberInput {
-  phoneNumber: string | Redacted.Redacted<string>;
+  phoneNumber: string | redacted.Redacted<string>;
 }
 export const OptInPhoneNumberInput = S.suspend(() =>
   S.Struct({ phoneNumber: SensitiveString }).pipe(
@@ -740,7 +769,7 @@ export const RemovePermissionResponse = S.suspend(() =>
 }) as any as S.Schema<RemovePermissionResponse>;
 export interface SetEndpointAttributesInput {
   EndpointArn: string;
-  Attributes: MapStringToString;
+  Attributes: { [key: string]: string };
 }
 export const SetEndpointAttributesInput = S.suspend(() =>
   S.Struct({ EndpointArn: S.String, Attributes: MapStringToString }).pipe(
@@ -765,7 +794,7 @@ export const SetEndpointAttributesResponse = S.suspend(() =>
 }) as any as S.Schema<SetEndpointAttributesResponse>;
 export interface SetPlatformApplicationAttributesInput {
   PlatformApplicationArn: string;
-  Attributes: MapStringToString;
+  Attributes: { [key: string]: string };
 }
 export const SetPlatformApplicationAttributesInput = S.suspend(() =>
   S.Struct({
@@ -792,7 +821,7 @@ export const SetPlatformApplicationAttributesResponse = S.suspend(() =>
   identifier: "SetPlatformApplicationAttributesResponse",
 }) as any as S.Schema<SetPlatformApplicationAttributesResponse>;
 export interface SetSMSAttributesInput {
-  attributes: MapStringToString;
+  attributes: { [key: string]: string };
 }
 export const SetSMSAttributesInput = S.suspend(() =>
   S.Struct({ attributes: MapStringToString }).pipe(
@@ -886,7 +915,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
@@ -935,7 +964,7 @@ export const UnsubscribeResponse = S.suspend(() =>
 }) as any as S.Schema<UnsubscribeResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
@@ -959,7 +988,7 @@ export const UntagResourceResponse = S.suspend(() =>
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface VerifySMSSandboxPhoneNumberInput {
-  PhoneNumber: string | Redacted.Redacted<string>;
+  PhoneNumber: string | redacted.Redacted<string>;
   OneTimePassword: string;
 }
 export const VerifySMSSandboxPhoneNumberInput = S.suspend(() =>
@@ -985,7 +1014,7 @@ export const VerifySMSSandboxPhoneNumberResult = S.suspend(() =>
 }) as any as S.Schema<VerifySMSSandboxPhoneNumberResult>;
 export type TopicAttributesMap = { [key: string]: string };
 export const TopicAttributesMap = S.Record({ key: S.String, value: S.String });
-export type PhoneNumberList = string | Redacted.Redacted<string>[];
+export type PhoneNumberList = string | redacted.Redacted<string>[];
 export const PhoneNumberList = S.Array(SensitiveString);
 export interface MessageAttributeValue {
   DataType: string;
@@ -1013,7 +1042,7 @@ export interface PublishBatchRequestEntry {
   Message: string;
   Subject?: string;
   MessageStructure?: string;
-  MessageAttributes?: MessageAttributeMap;
+  MessageAttributes?: { [key: string]: MessageAttributeValue };
   MessageDeduplicationId?: string;
   MessageGroupId?: string;
 }
@@ -1056,7 +1085,7 @@ export const ConfirmSubscriptionResponse = S.suspend(() =>
 export interface CreatePlatformApplicationInput {
   Name: string;
   Platform: string;
-  Attributes: MapStringToString;
+  Attributes: { [key: string]: string };
 }
 export const CreatePlatformApplicationInput = S.suspend(() =>
   S.Struct({
@@ -1087,8 +1116,8 @@ export const CreateEndpointResponse = S.suspend(() =>
 }) as any as S.Schema<CreateEndpointResponse>;
 export interface CreateTopicInput {
   Name: string;
-  Attributes?: TopicAttributesMap;
-  Tags?: TagList;
+  Attributes?: { [key: string]: string };
+  Tags?: Tag[];
   DataProtectionPolicy?: string;
 }
 export const CreateTopicInput = S.suspend(() =>
@@ -1120,7 +1149,7 @@ export const GetDataProtectionPolicyResponse = S.suspend(() =>
   identifier: "GetDataProtectionPolicyResponse",
 }) as any as S.Schema<GetDataProtectionPolicyResponse>;
 export interface GetEndpointAttributesResponse {
-  Attributes?: MapStringToString;
+  Attributes?: { [key: string]: string };
 }
 export const GetEndpointAttributesResponse = S.suspend(() =>
   S.Struct({ Attributes: S.optional(MapStringToString) }).pipe(ns),
@@ -1128,7 +1157,7 @@ export const GetEndpointAttributesResponse = S.suspend(() =>
   identifier: "GetEndpointAttributesResponse",
 }) as any as S.Schema<GetEndpointAttributesResponse>;
 export interface GetPlatformApplicationAttributesResponse {
-  Attributes?: MapStringToString;
+  Attributes?: { [key: string]: string };
 }
 export const GetPlatformApplicationAttributesResponse = S.suspend(() =>
   S.Struct({ Attributes: S.optional(MapStringToString) }).pipe(ns),
@@ -1136,7 +1165,7 @@ export const GetPlatformApplicationAttributesResponse = S.suspend(() =>
   identifier: "GetPlatformApplicationAttributesResponse",
 }) as any as S.Schema<GetPlatformApplicationAttributesResponse>;
 export interface GetSMSAttributesResponse {
-  attributes?: MapStringToString;
+  attributes?: { [key: string]: string };
 }
 export const GetSMSAttributesResponse = S.suspend(() =>
   S.Struct({ attributes: S.optional(MapStringToString) }).pipe(ns),
@@ -1144,7 +1173,7 @@ export const GetSMSAttributesResponse = S.suspend(() =>
   identifier: "GetSMSAttributesResponse",
 }) as any as S.Schema<GetSMSAttributesResponse>;
 export interface GetSubscriptionAttributesResponse {
-  Attributes?: SubscriptionAttributesMap;
+  Attributes?: { [key: string]: string };
 }
 export const GetSubscriptionAttributesResponse = S.suspend(() =>
   S.Struct({ Attributes: S.optional(SubscriptionAttributesMap) }).pipe(ns),
@@ -1152,7 +1181,7 @@ export const GetSubscriptionAttributesResponse = S.suspend(() =>
   identifier: "GetSubscriptionAttributesResponse",
 }) as any as S.Schema<GetSubscriptionAttributesResponse>;
 export interface GetTopicAttributesResponse {
-  Attributes?: TopicAttributesMap;
+  Attributes?: { [key: string]: string };
 }
 export const GetTopicAttributesResponse = S.suspend(() =>
   S.Struct({ Attributes: S.optional(TopicAttributesMap) }).pipe(ns),
@@ -1160,7 +1189,7 @@ export const GetTopicAttributesResponse = S.suspend(() =>
   identifier: "GetTopicAttributesResponse",
 }) as any as S.Schema<GetTopicAttributesResponse>;
 export interface ListPhoneNumbersOptedOutResponse {
-  phoneNumbers?: PhoneNumberList;
+  phoneNumbers?: string | redacted.Redacted<string>[];
   nextToken?: string;
 }
 export const ListPhoneNumbersOptedOutResponse = S.suspend(() =>
@@ -1190,7 +1219,7 @@ export const Subscription = S.suspend(() =>
 export type SubscriptionsList = Subscription[];
 export const SubscriptionsList = S.Array(Subscription);
 export interface ListSubscriptionsByTopicResponse {
-  Subscriptions?: SubscriptionsList;
+  Subscriptions?: Subscription[];
   NextToken?: string;
 }
 export const ListSubscriptionsByTopicResponse = S.suspend(() =>
@@ -1202,7 +1231,7 @@ export const ListSubscriptionsByTopicResponse = S.suspend(() =>
   identifier: "ListSubscriptionsByTopicResponse",
 }) as any as S.Schema<ListSubscriptionsByTopicResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
@@ -1211,7 +1240,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface PublishBatchInput {
   TopicArn: string;
-  PublishBatchRequestEntries: PublishBatchRequestEntryList;
+  PublishBatchRequestEntries: PublishBatchRequestEntry[];
 }
 export const PublishBatchInput = S.suspend(() =>
   S.Struct({
@@ -1235,7 +1264,7 @@ export interface SubscribeInput {
   TopicArn: string;
   Protocol: string;
   Endpoint?: string;
-  Attributes?: SubscriptionAttributesMap;
+  Attributes?: { [key: string]: string };
   ReturnSubscriptionArn?: boolean;
 }
 export const SubscribeInput = S.suspend(() =>
@@ -1259,11 +1288,20 @@ export const SubscribeInput = S.suspend(() =>
 ).annotations({
   identifier: "SubscribeInput",
 }) as any as S.Schema<SubscribeInput>;
-export type NumberCapabilityList = string[];
-export const NumberCapabilityList = S.Array(S.String);
+export type RouteType = "Transactional" | "Promotional" | "Premium";
+export const RouteType = S.Literal("Transactional", "Promotional", "Premium");
+export type NumberCapability = "SMS" | "MMS" | "VOICE";
+export const NumberCapability = S.Literal("SMS", "MMS", "VOICE");
+export type NumberCapabilityList = NumberCapability[];
+export const NumberCapabilityList = S.Array(NumberCapability);
+export type SMSSandboxPhoneNumberVerificationStatus = "Pending" | "Verified";
+export const SMSSandboxPhoneNumberVerificationStatus = S.Literal(
+  "Pending",
+  "Verified",
+);
 export interface Endpoint {
   EndpointArn?: string;
-  Attributes?: MapStringToString;
+  Attributes?: { [key: string]: string };
 }
 export const Endpoint = S.suspend(() =>
   S.Struct({
@@ -1275,11 +1313,11 @@ export type ListOfEndpoints = Endpoint[];
 export const ListOfEndpoints = S.Array(Endpoint);
 export interface PhoneNumberInformation {
   CreatedAt?: Date;
-  PhoneNumber?: string | Redacted.Redacted<string>;
+  PhoneNumber?: string | redacted.Redacted<string>;
   Status?: string;
   Iso2CountryCode?: string;
-  RouteType?: string;
-  NumberCapabilities?: NumberCapabilityList;
+  RouteType?: RouteType;
+  NumberCapabilities?: NumberCapability[];
 }
 export const PhoneNumberInformation = S.suspend(() =>
   S.Struct({
@@ -1287,7 +1325,7 @@ export const PhoneNumberInformation = S.suspend(() =>
     PhoneNumber: S.optional(SensitiveString),
     Status: S.optional(S.String),
     Iso2CountryCode: S.optional(S.String),
-    RouteType: S.optional(S.String),
+    RouteType: S.optional(RouteType),
     NumberCapabilities: S.optional(NumberCapabilityList),
   }),
 ).annotations({
@@ -1297,7 +1335,7 @@ export type PhoneNumberInformationList = PhoneNumberInformation[];
 export const PhoneNumberInformationList = S.Array(PhoneNumberInformation);
 export interface PlatformApplication {
   PlatformApplicationArn?: string;
-  Attributes?: MapStringToString;
+  Attributes?: { [key: string]: string };
 }
 export const PlatformApplication = S.suspend(() =>
   S.Struct({
@@ -1310,13 +1348,13 @@ export const PlatformApplication = S.suspend(() =>
 export type ListOfPlatformApplications = PlatformApplication[];
 export const ListOfPlatformApplications = S.Array(PlatformApplication);
 export interface SMSSandboxPhoneNumber {
-  PhoneNumber?: string | Redacted.Redacted<string>;
-  Status?: string;
+  PhoneNumber?: string | redacted.Redacted<string>;
+  Status?: SMSSandboxPhoneNumberVerificationStatus;
 }
 export const SMSSandboxPhoneNumber = S.suspend(() =>
   S.Struct({
     PhoneNumber: S.optional(SensitiveString),
-    Status: S.optional(S.String),
+    Status: S.optional(SMSSandboxPhoneNumberVerificationStatus),
   }),
 ).annotations({
   identifier: "SMSSandboxPhoneNumber",
@@ -1348,7 +1386,7 @@ export const CreateTopicResponse = S.suspend(() =>
   identifier: "CreateTopicResponse",
 }) as any as S.Schema<CreateTopicResponse>;
 export interface ListEndpointsByPlatformApplicationResponse {
-  Endpoints?: ListOfEndpoints;
+  Endpoints?: Endpoint[];
   NextToken?: string;
 }
 export const ListEndpointsByPlatformApplicationResponse = S.suspend(() =>
@@ -1361,7 +1399,7 @@ export const ListEndpointsByPlatformApplicationResponse = S.suspend(() =>
 }) as any as S.Schema<ListEndpointsByPlatformApplicationResponse>;
 export interface ListOriginationNumbersResult {
   NextToken?: string;
-  PhoneNumbers?: PhoneNumberInformationList;
+  PhoneNumbers?: PhoneNumberInformation[];
 }
 export const ListOriginationNumbersResult = S.suspend(() =>
   S.Struct({
@@ -1372,7 +1410,7 @@ export const ListOriginationNumbersResult = S.suspend(() =>
   identifier: "ListOriginationNumbersResult",
 }) as any as S.Schema<ListOriginationNumbersResult>;
 export interface ListPlatformApplicationsResponse {
-  PlatformApplications?: ListOfPlatformApplications;
+  PlatformApplications?: PlatformApplication[];
   NextToken?: string;
 }
 export const ListPlatformApplicationsResponse = S.suspend(() =>
@@ -1384,7 +1422,7 @@ export const ListPlatformApplicationsResponse = S.suspend(() =>
   identifier: "ListPlatformApplicationsResponse",
 }) as any as S.Schema<ListPlatformApplicationsResponse>;
 export interface ListSMSSandboxPhoneNumbersResult {
-  PhoneNumbers: SMSSandboxPhoneNumberList;
+  PhoneNumbers: SMSSandboxPhoneNumber[];
   NextToken?: string;
 }
 export const ListSMSSandboxPhoneNumbersResult = S.suspend(() =>
@@ -1396,7 +1434,7 @@ export const ListSMSSandboxPhoneNumbersResult = S.suspend(() =>
   identifier: "ListSMSSandboxPhoneNumbersResult",
 }) as any as S.Schema<ListSMSSandboxPhoneNumbersResult>;
 export interface ListSubscriptionsResponse {
-  Subscriptions?: SubscriptionsList;
+  Subscriptions?: Subscription[];
   NextToken?: string;
 }
 export const ListSubscriptionsResponse = S.suspend(() =>
@@ -1408,7 +1446,7 @@ export const ListSubscriptionsResponse = S.suspend(() =>
   identifier: "ListSubscriptionsResponse",
 }) as any as S.Schema<ListSubscriptionsResponse>;
 export interface ListTopicsResponse {
-  Topics?: TopicsList;
+  Topics?: Topic[];
   NextToken?: string;
 }
 export const ListTopicsResponse = S.suspend(() =>
@@ -1422,11 +1460,11 @@ export const ListTopicsResponse = S.suspend(() =>
 export interface PublishInput {
   TopicArn?: string;
   TargetArn?: string;
-  PhoneNumber?: string | Redacted.Redacted<string>;
+  PhoneNumber?: string | redacted.Redacted<string>;
   Message: string;
   Subject?: string;
   MessageStructure?: string;
-  MessageAttributes?: MessageAttributeMap;
+  MessageAttributes?: { [key: string]: MessageAttributeValue };
   MessageDeduplicationId?: string;
   MessageGroupId?: string;
 }
@@ -1508,8 +1546,8 @@ export const PublishResponse = S.suspend(() =>
   identifier: "PublishResponse",
 }) as any as S.Schema<PublishResponse>;
 export interface PublishBatchResponse {
-  Successful?: PublishBatchResultEntryList;
-  Failed?: BatchResultErrorEntryList;
+  Successful?: PublishBatchResultEntry[];
+  Failed?: BatchResultErrorEntry[];
 }
 export const PublishBatchResponse = S.suspend(() =>
   S.Struct({
@@ -1717,7 +1755,7 @@ export class TooManyEntriesInBatchRequestException extends S.TaggedError<TooMany
  */
 export const getSMSSandboxAccountStatus: (
   input: GetSMSSandboxAccountStatusInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSMSSandboxAccountStatusResult,
   | AuthorizationErrorException
   | InternalErrorException
@@ -1775,7 +1813,7 @@ export const getSMSSandboxAccountStatus: (
  */
 export const createPlatformApplication: (
   input: CreatePlatformApplicationInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePlatformApplicationResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -1807,7 +1845,7 @@ export const createPlatformApplication: (
 export const listPlatformApplications: {
   (
     input: ListPlatformApplicationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPlatformApplicationsResponse,
     | AuthorizationErrorException
     | InternalErrorException
@@ -1817,7 +1855,7 @@ export const listPlatformApplications: {
   >;
   pages: (
     input: ListPlatformApplicationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPlatformApplicationsResponse,
     | AuthorizationErrorException
     | InternalErrorException
@@ -1827,7 +1865,7 @@ export const listPlatformApplications: {
   >;
   items: (
     input: ListPlatformApplicationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PlatformApplication,
     | AuthorizationErrorException
     | InternalErrorException
@@ -1860,7 +1898,7 @@ export const listPlatformApplications: {
 export const listSubscriptions: {
   (
     input: ListSubscriptionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSubscriptionsResponse,
     | AuthorizationErrorException
     | InternalErrorException
@@ -1870,7 +1908,7 @@ export const listSubscriptions: {
   >;
   pages: (
     input: ListSubscriptionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSubscriptionsResponse,
     | AuthorizationErrorException
     | InternalErrorException
@@ -1880,7 +1918,7 @@ export const listSubscriptions: {
   >;
   items: (
     input: ListSubscriptionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Subscription,
     | AuthorizationErrorException
     | InternalErrorException
@@ -1913,7 +1951,7 @@ export const listSubscriptions: {
 export const listTopics: {
   (
     input: ListTopicsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTopicsResponse,
     | AuthorizationErrorException
     | InternalErrorException
@@ -1923,7 +1961,7 @@ export const listTopics: {
   >;
   pages: (
     input: ListTopicsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTopicsResponse,
     | AuthorizationErrorException
     | InternalErrorException
@@ -1933,7 +1971,7 @@ export const listTopics: {
   >;
   items: (
     input: ListTopicsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Topic,
     | AuthorizationErrorException
     | InternalErrorException
@@ -1965,7 +2003,7 @@ export const listTopics: {
  */
 export const checkIfPhoneNumberIsOptedOut: (
   input: CheckIfPhoneNumberIsOptedOutInput,
-) => Effect.Effect<
+) => effect.Effect<
   CheckIfPhoneNumberIsOptedOutResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -1990,7 +2028,7 @@ export const checkIfPhoneNumberIsOptedOut: (
  */
 export const getSMSAttributes: (
   input: GetSMSAttributesInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSMSAttributesResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2022,7 +2060,7 @@ export const getSMSAttributes: (
 export const listPhoneNumbersOptedOut: {
   (
     input: ListPhoneNumbersOptedOutInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPhoneNumbersOptedOutResponse,
     | AuthorizationErrorException
     | InternalErrorException
@@ -2033,7 +2071,7 @@ export const listPhoneNumbersOptedOut: {
   >;
   pages: (
     input: ListPhoneNumbersOptedOutInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPhoneNumbersOptedOutResponse,
     | AuthorizationErrorException
     | InternalErrorException
@@ -2044,7 +2082,7 @@ export const listPhoneNumbersOptedOut: {
   >;
   items: (
     input: ListPhoneNumbersOptedOutInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PhoneNumber,
     | AuthorizationErrorException
     | InternalErrorException
@@ -2078,7 +2116,7 @@ export const listPhoneNumbersOptedOut: {
  */
 export const deleteEndpoint: (
   input: DeleteEndpointInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEndpointResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2104,7 +2142,7 @@ export const deleteEndpoint: (
  */
 export const deletePlatformApplication: (
   input: DeletePlatformApplicationInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePlatformApplicationResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2130,7 +2168,7 @@ export const deletePlatformApplication: (
  */
 export const optInPhoneNumber: (
   input: OptInPhoneNumberInput,
-) => Effect.Effect<
+) => effect.Effect<
   OptInPhoneNumberResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2163,7 +2201,7 @@ export const optInPhoneNumber: (
  */
 export const setSMSAttributes: (
   input: SetSMSAttributesInput,
-) => Effect.Effect<
+) => effect.Effect<
   SetSMSAttributesResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2191,7 +2229,7 @@ export const setSMSAttributes: (
  */
 export const addPermission: (
   input: AddPermissionInput,
-) => Effect.Effect<
+) => effect.Effect<
   AddPermissionResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2219,7 +2257,7 @@ export const addPermission: (
 export const listOriginationNumbers: {
   (
     input: ListOriginationNumbersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOriginationNumbersResult,
     | AuthorizationErrorException
     | InternalErrorException
@@ -2231,7 +2269,7 @@ export const listOriginationNumbers: {
   >;
   pages: (
     input: ListOriginationNumbersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOriginationNumbersResult,
     | AuthorizationErrorException
     | InternalErrorException
@@ -2243,7 +2281,7 @@ export const listOriginationNumbers: {
   >;
   items: (
     input: ListOriginationNumbersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PhoneNumberInformation,
     | AuthorizationErrorException
     | InternalErrorException
@@ -2286,7 +2324,7 @@ export const listOriginationNumbers: {
 export const listSMSSandboxPhoneNumbers: {
   (
     input: ListSMSSandboxPhoneNumbersInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSMSSandboxPhoneNumbersResult,
     | AuthorizationErrorException
     | InternalErrorException
@@ -2298,7 +2336,7 @@ export const listSMSSandboxPhoneNumbers: {
   >;
   pages: (
     input: ListSMSSandboxPhoneNumbersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSMSSandboxPhoneNumbersResult,
     | AuthorizationErrorException
     | InternalErrorException
@@ -2310,7 +2348,7 @@ export const listSMSSandboxPhoneNumbers: {
   >;
   items: (
     input: ListSMSSandboxPhoneNumbersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SMSSandboxPhoneNumber,
     | AuthorizationErrorException
     | InternalErrorException
@@ -2353,7 +2391,7 @@ export const listSMSSandboxPhoneNumbers: {
 export const listEndpointsByPlatformApplication: {
   (
     input: ListEndpointsByPlatformApplicationInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEndpointsByPlatformApplicationResponse,
     | AuthorizationErrorException
     | InternalErrorException
@@ -2365,7 +2403,7 @@ export const listEndpointsByPlatformApplication: {
   >;
   pages: (
     input: ListEndpointsByPlatformApplicationInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEndpointsByPlatformApplicationResponse,
     | AuthorizationErrorException
     | InternalErrorException
@@ -2377,7 +2415,7 @@ export const listEndpointsByPlatformApplication: {
   >;
   items: (
     input: ListEndpointsByPlatformApplicationInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Endpoint,
     | AuthorizationErrorException
     | InternalErrorException
@@ -2422,7 +2460,7 @@ export const listEndpointsByPlatformApplication: {
  */
 export const createPlatformEndpoint: (
   input: CreatePlatformEndpointInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEndpointResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2449,7 +2487,7 @@ export const createPlatformEndpoint: (
  */
 export const getEndpointAttributes: (
   input: GetEndpointAttributesInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetEndpointAttributesResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2476,7 +2514,7 @@ export const getEndpointAttributes: (
  */
 export const getPlatformApplicationAttributes: (
   input: GetPlatformApplicationAttributesInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetPlatformApplicationAttributesResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2501,7 +2539,7 @@ export const getPlatformApplicationAttributes: (
  */
 export const getSubscriptionAttributes: (
   input: GetSubscriptionAttributesInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSubscriptionAttributesResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2530,7 +2568,7 @@ export const getSubscriptionAttributes: (
 export const listSubscriptionsByTopic: {
   (
     input: ListSubscriptionsByTopicInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSubscriptionsByTopicResponse,
     | AuthorizationErrorException
     | InternalErrorException
@@ -2542,7 +2580,7 @@ export const listSubscriptionsByTopic: {
   >;
   pages: (
     input: ListSubscriptionsByTopicInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSubscriptionsByTopicResponse,
     | AuthorizationErrorException
     | InternalErrorException
@@ -2554,7 +2592,7 @@ export const listSubscriptionsByTopic: {
   >;
   items: (
     input: ListSubscriptionsByTopicInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Subscription,
     | AuthorizationErrorException
     | InternalErrorException
@@ -2589,7 +2627,7 @@ export const listSubscriptionsByTopic: {
  */
 export const removePermission: (
   input: RemovePermissionInput,
-) => Effect.Effect<
+) => effect.Effect<
   RemovePermissionResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2616,7 +2654,7 @@ export const removePermission: (
  */
 export const setEndpointAttributes: (
   input: SetEndpointAttributesInput,
-) => Effect.Effect<
+) => effect.Effect<
   SetEndpointAttributesResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2645,7 +2683,7 @@ export const setEndpointAttributes: (
  */
 export const setPlatformApplicationAttributes: (
   input: SetPlatformApplicationAttributesInput,
-) => Effect.Effect<
+) => effect.Effect<
   SetPlatformApplicationAttributesResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2671,7 +2709,7 @@ export const setPlatformApplicationAttributes: (
  */
 export const getDataProtectionPolicy: (
   input: GetDataProtectionPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataProtectionPolicyResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2699,7 +2737,7 @@ export const getDataProtectionPolicy: (
  */
 export const getTopicAttributes: (
   input: GetTopicAttributesInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetTopicAttributesResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2727,7 +2765,7 @@ export const getTopicAttributes: (
  */
 export const putDataProtectionPolicy: (
   input: PutDataProtectionPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutDataProtectionPolicyResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2758,7 +2796,7 @@ export const putDataProtectionPolicy: (
  */
 export const setTopicAttributes: (
   input: SetTopicAttributesInput,
-) => Effect.Effect<
+) => effect.Effect<
   SetTopicAttributesResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2792,7 +2830,7 @@ export const setTopicAttributes: (
  */
 export const unsubscribe: (
   input: UnsubscribeInput,
-) => Effect.Effect<
+) => effect.Effect<
   UnsubscribeResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2827,7 +2865,7 @@ export const unsubscribe: (
  */
 export const createSMSSandboxPhoneNumber: (
   input: CreateSMSSandboxPhoneNumberInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSMSSandboxPhoneNumberResult,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2855,7 +2893,7 @@ export const createSMSSandboxPhoneNumber: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AuthorizationErrorException
   | ConcurrentAccessException
@@ -2892,7 +2930,7 @@ export const listTagsForResource: (
  */
 export const verifySMSSandboxPhoneNumber: (
   input: VerifySMSSandboxPhoneNumberInput,
-) => Effect.Effect<
+) => effect.Effect<
   VerifySMSSandboxPhoneNumberResult,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2920,7 +2958,7 @@ export const verifySMSSandboxPhoneNumber: (
  */
 export const setSubscriptionAttributes: (
   input: SetSubscriptionAttributesInput,
-) => Effect.Effect<
+) => effect.Effect<
   SetSubscriptionAttributesResponse,
   | AuthorizationErrorException
   | FilterPolicyLimitExceededException
@@ -2957,7 +2995,7 @@ export const setSubscriptionAttributes: (
  */
 export const deleteSMSSandboxPhoneNumber: (
   input: DeleteSMSSandboxPhoneNumberInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSMSSandboxPhoneNumberResult,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2987,7 +3025,7 @@ export const deleteSMSSandboxPhoneNumber: (
  */
 export const deleteTopic: (
   input: DeleteTopicInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTopicResponse,
   | AuthorizationErrorException
   | ConcurrentAccessException
@@ -3027,7 +3065,7 @@ export const deleteTopic: (
  */
 export const subscribe: (
   input: SubscribeInput,
-) => Effect.Effect<
+) => effect.Effect<
   SubscribeResponse,
   | AuthorizationErrorException
   | FilterPolicyLimitExceededException
@@ -3064,7 +3102,7 @@ export const subscribe: (
  */
 export const confirmSubscription: (
   input: ConfirmSubscriptionInput,
-) => Effect.Effect<
+) => effect.Effect<
   ConfirmSubscriptionResponse,
   | AuthorizationErrorException
   | FilterPolicyLimitExceededException
@@ -3109,7 +3147,7 @@ export const confirmSubscription: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AuthorizationErrorException
   | ConcurrentAccessException
@@ -3141,7 +3179,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AuthorizationErrorException
   | ConcurrentAccessException
@@ -3176,7 +3214,7 @@ export const untagResource: (
  */
 export const createTopic: (
   input: CreateTopicInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTopicResponse,
   | AuthorizationErrorException
   | ConcurrentAccessException
@@ -3229,7 +3267,7 @@ export const createTopic: (
  */
 export const publish: (
   input: PublishInput,
-) => Effect.Effect<
+) => effect.Effect<
   PublishResponse,
   | AuthorizationErrorException
   | EndpointDisabledException
@@ -3313,7 +3351,7 @@ export const publish: (
  */
 export const publishBatch: (
   input: PublishBatchInput,
-) => Effect.Effect<
+) => effect.Effect<
   PublishBatchResponse,
   | AuthorizationErrorException
   | BatchEntryIdsNotDistinctException

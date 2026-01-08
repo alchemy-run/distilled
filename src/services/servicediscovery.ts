@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -128,12 +128,27 @@ export type Message = string;
 export type Code = string;
 
 //# Schemas
+export type ServiceTypeOption = "HTTP";
+export const ServiceTypeOption = S.Literal("HTTP");
 export type ServiceAttributeKeyList = string[];
 export const ServiceAttributeKeyList = S.Array(S.String);
+export type HealthStatusFilter =
+  | "HEALTHY"
+  | "UNHEALTHY"
+  | "ALL"
+  | "HEALTHY_OR_ELSE_ALL";
+export const HealthStatusFilter = S.Literal(
+  "HEALTHY",
+  "UNHEALTHY",
+  "ALL",
+  "HEALTHY_OR_ELSE_ALL",
+);
 export type InstanceIdList = string[];
 export const InstanceIdList = S.Array(S.String.pipe(T.XmlName("InstanceId")));
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type CustomHealthStatus = "HEALTHY" | "UNHEALTHY";
+export const CustomHealthStatus = S.Literal("HEALTHY", "UNHEALTHY");
 export interface DeleteNamespaceRequest {
   Id: string;
 }
@@ -160,7 +175,7 @@ export const DeleteServiceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<DeleteServiceResponse>;
 export interface DeleteServiceAttributesRequest {
   ServiceId: string;
-  Attributes: ServiceAttributeKeyList;
+  Attributes: string[];
 }
 export const DeleteServiceAttributesRequest = S.suspend(() =>
   S.Struct({ ServiceId: S.String, Attributes: ServiceAttributeKeyList }).pipe(
@@ -215,7 +230,7 @@ export const GetInstanceRequest = S.suspend(() =>
 }) as any as S.Schema<GetInstanceRequest>;
 export interface GetInstancesHealthStatusRequest {
   ServiceId: string;
-  Instances?: InstanceIdList;
+  Instances?: string[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -304,7 +319,7 @@ export interface RegisterInstanceRequest {
   ServiceId: string;
   InstanceId: string;
   CreatorRequestId?: string;
-  Attributes: Attributes;
+  Attributes: { [key: string]: string };
 }
 export const RegisterInstanceRequest = S.suspend(() =>
   S.Struct({
@@ -329,7 +344,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagResourceRequest {
   ResourceARN: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
@@ -344,7 +359,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceARN: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
@@ -360,13 +375,13 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 export interface UpdateInstanceCustomHealthStatusRequest {
   ServiceId: string;
   InstanceId: string;
-  Status: string;
+  Status: CustomHealthStatus;
 }
 export const UpdateInstanceCustomHealthStatusRequest = S.suspend(() =>
   S.Struct({
     ServiceId: S.String,
     InstanceId: S.String,
-    Status: S.String,
+    Status: CustomHealthStatus,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -379,16 +394,48 @@ export const UpdateInstanceCustomHealthStatusResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateInstanceCustomHealthStatusResponse",
 }) as any as S.Schema<UpdateInstanceCustomHealthStatusResponse>;
+export type RoutingPolicy = "MULTIVALUE" | "WEIGHTED";
+export const RoutingPolicy = S.Literal("MULTIVALUE", "WEIGHTED");
+export type HealthCheckType = "HTTP" | "HTTPS" | "TCP";
+export const HealthCheckType = S.Literal("HTTP", "HTTPS", "TCP");
+export type NamespaceFilterName =
+  | "TYPE"
+  | "NAME"
+  | "HTTP_NAME"
+  | "RESOURCE_OWNER";
+export const NamespaceFilterName = S.Literal(
+  "TYPE",
+  "NAME",
+  "HTTP_NAME",
+  "RESOURCE_OWNER",
+);
 export type FilterValues = string[];
 export const FilterValues = S.Array(S.String.pipe(T.XmlName("item")));
+export type FilterCondition = "EQ" | "IN" | "BETWEEN" | "BEGINS_WITH";
+export const FilterCondition = S.Literal("EQ", "IN", "BETWEEN", "BEGINS_WITH");
+export type OperationFilterName =
+  | "NAMESPACE_ID"
+  | "SERVICE_ID"
+  | "STATUS"
+  | "TYPE"
+  | "UPDATE_DATE";
+export const OperationFilterName = S.Literal(
+  "NAMESPACE_ID",
+  "SERVICE_ID",
+  "STATUS",
+  "TYPE",
+  "UPDATE_DATE",
+);
+export type ServiceFilterName = "NAMESPACE_ID" | "RESOURCE_OWNER";
+export const ServiceFilterName = S.Literal("NAMESPACE_ID", "RESOURCE_OWNER");
 export interface HealthCheckConfig {
-  Type: string;
+  Type: HealthCheckType;
   ResourcePath?: string;
   FailureThreshold?: number;
 }
 export const HealthCheckConfig = S.suspend(() =>
   S.Struct({
-    Type: S.String,
+    Type: HealthCheckType,
     ResourcePath: S.optional(S.String),
     FailureThreshold: S.optional(S.Number),
   }),
@@ -404,15 +451,15 @@ export const HealthCheckCustomConfig = S.suspend(() =>
   identifier: "HealthCheckCustomConfig",
 }) as any as S.Schema<HealthCheckCustomConfig>;
 export interface NamespaceFilter {
-  Name: string;
-  Values: FilterValues;
-  Condition?: string;
+  Name: NamespaceFilterName;
+  Values: string[];
+  Condition?: FilterCondition;
 }
 export const NamespaceFilter = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: NamespaceFilterName,
     Values: FilterValues,
-    Condition: S.optional(S.String),
+    Condition: S.optional(FilterCondition),
   }),
 ).annotations({
   identifier: "NamespaceFilter",
@@ -424,15 +471,15 @@ export const NamespaceFilters = S.Array(
   }),
 );
 export interface OperationFilter {
-  Name: string;
-  Values: FilterValues;
-  Condition?: string;
+  Name: OperationFilterName;
+  Values: string[];
+  Condition?: FilterCondition;
 }
 export const OperationFilter = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: OperationFilterName,
     Values: FilterValues,
-    Condition: S.optional(S.String),
+    Condition: S.optional(FilterCondition),
   }),
 ).annotations({
   identifier: "OperationFilter",
@@ -444,15 +491,15 @@ export const OperationFilters = S.Array(
   }),
 );
 export interface ServiceFilter {
-  Name: string;
-  Values: FilterValues;
-  Condition?: string;
+  Name: ServiceFilterName;
+  Values: string[];
+  Condition?: FilterCondition;
 }
 export const ServiceFilter = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: ServiceFilterName,
     Values: FilterValues,
-    Condition: S.optional(S.String),
+    Condition: S.optional(FilterCondition),
   }),
 ).annotations({
   identifier: "ServiceFilter",
@@ -476,11 +523,13 @@ export const ServiceAttributesMap = S.Record({
   key: S.String,
   value: S.String,
 });
+export type RecordType = "SRV" | "A" | "AAAA" | "CNAME";
+export const RecordType = S.Literal("SRV", "A", "AAAA", "CNAME");
 export interface CreateHttpNamespaceRequest {
   Name: string;
   CreatorRequestId?: string;
   Description?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateHttpNamespaceRequest = S.suspend(() =>
   S.Struct({
@@ -514,9 +563,9 @@ export interface DiscoverInstancesRequest {
   NamespaceName: string;
   ServiceName: string;
   MaxResults?: number;
-  QueryParameters?: Attributes;
-  OptionalParameters?: Attributes;
-  HealthStatus?: string;
+  QueryParameters?: { [key: string]: string };
+  OptionalParameters?: { [key: string]: string };
+  HealthStatus?: HealthStatusFilter;
   OwnerAccount?: string;
 }
 export const DiscoverInstancesRequest = S.suspend(() =>
@@ -526,7 +575,7 @@ export const DiscoverInstancesRequest = S.suspend(() =>
     MaxResults: S.optional(S.Number),
     QueryParameters: S.optional(Attributes),
     OptionalParameters: S.optional(Attributes),
-    HealthStatus: S.optional(S.String),
+    HealthStatus: S.optional(HealthStatusFilter),
     OwnerAccount: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -545,7 +594,7 @@ export const DiscoverInstancesRevisionResponse = S.suspend(() =>
 export interface ListNamespacesRequest {
   NextToken?: string;
   MaxResults?: number;
-  Filters?: NamespaceFilters;
+  Filters?: NamespaceFilter[];
 }
 export const ListNamespacesRequest = S.suspend(() =>
   S.Struct({
@@ -561,7 +610,7 @@ export const ListNamespacesRequest = S.suspend(() =>
 export interface ListOperationsRequest {
   NextToken?: string;
   MaxResults?: number;
-  Filters?: OperationFilters;
+  Filters?: OperationFilter[];
 }
 export const ListOperationsRequest = S.suspend(() =>
   S.Struct({
@@ -577,7 +626,7 @@ export const ListOperationsRequest = S.suspend(() =>
 export interface ListServicesRequest {
   NextToken?: string;
   MaxResults?: number;
-  Filters?: ServiceFilters;
+  Filters?: ServiceFilter[];
 }
 export const ListServicesRequest = S.suspend(() =>
   S.Struct({
@@ -591,7 +640,7 @@ export const ListServicesRequest = S.suspend(() =>
   identifier: "ListServicesRequest",
 }) as any as S.Schema<ListServicesRequest>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }),
@@ -624,7 +673,7 @@ export const UpdateHttpNamespaceRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateHttpNamespaceRequest>;
 export interface UpdateServiceAttributesRequest {
   ServiceId: string;
-  Attributes: ServiceAttributesMap;
+  Attributes: { [key: string]: string };
 }
 export const UpdateServiceAttributesRequest = S.suspend(() =>
   S.Struct({ ServiceId: S.String, Attributes: ServiceAttributesMap }).pipe(
@@ -654,16 +703,44 @@ export const PublicDnsPropertiesMutable = S.suspend(() =>
   identifier: "PublicDnsPropertiesMutable",
 }) as any as S.Schema<PublicDnsPropertiesMutable>;
 export interface DnsRecord {
-  Type: string;
+  Type: RecordType;
   TTL: number;
 }
 export const DnsRecord = S.suspend(() =>
-  S.Struct({ Type: S.String, TTL: S.Number }),
+  S.Struct({ Type: RecordType, TTL: S.Number }),
 ).annotations({ identifier: "DnsRecord" }) as any as S.Schema<DnsRecord>;
 export type DnsRecordList = DnsRecord[];
 export const DnsRecordList = S.Array(DnsRecord);
+export type HealthStatus = "HEALTHY" | "UNHEALTHY" | "UNKNOWN";
+export const HealthStatus = S.Literal("HEALTHY", "UNHEALTHY", "UNKNOWN");
+export type NamespaceType = "DNS_PUBLIC" | "DNS_PRIVATE" | "HTTP";
+export const NamespaceType = S.Literal("DNS_PUBLIC", "DNS_PRIVATE", "HTTP");
+export type OperationType =
+  | "CREATE_NAMESPACE"
+  | "DELETE_NAMESPACE"
+  | "UPDATE_NAMESPACE"
+  | "UPDATE_SERVICE"
+  | "REGISTER_INSTANCE"
+  | "DEREGISTER_INSTANCE";
+export const OperationType = S.Literal(
+  "CREATE_NAMESPACE",
+  "DELETE_NAMESPACE",
+  "UPDATE_NAMESPACE",
+  "UPDATE_SERVICE",
+  "REGISTER_INSTANCE",
+  "DEREGISTER_INSTANCE",
+);
+export type OperationStatus = "SUBMITTED" | "PENDING" | "SUCCESS" | "FAIL";
+export const OperationStatus = S.Literal(
+  "SUBMITTED",
+  "PENDING",
+  "SUCCESS",
+  "FAIL",
+);
+export type ServiceType = "HTTP" | "DNS_HTTP" | "DNS";
+export const ServiceType = S.Literal("HTTP", "DNS_HTTP", "DNS");
 export interface DnsConfigChange {
-  DnsRecords: DnsRecordList;
+  DnsRecords: DnsRecord[];
 }
 export const DnsConfigChange = S.suspend(() =>
   S.Struct({ DnsRecords: DnsRecordList }),
@@ -680,20 +757,20 @@ export const PublicDnsNamespaceProperties = S.suspend(() =>
 }) as any as S.Schema<PublicDnsNamespaceProperties>;
 export interface DnsConfig {
   NamespaceId?: string;
-  RoutingPolicy?: string;
-  DnsRecords: DnsRecordList;
+  RoutingPolicy?: RoutingPolicy;
+  DnsRecords: DnsRecord[];
 }
 export const DnsConfig = S.suspend(() =>
   S.Struct({
     NamespaceId: S.optional(S.String),
-    RoutingPolicy: S.optional(S.String),
+    RoutingPolicy: S.optional(RoutingPolicy),
     DnsRecords: DnsRecordList,
   }),
 ).annotations({ identifier: "DnsConfig" }) as any as S.Schema<DnsConfig>;
 export interface Instance {
   Id: string;
   CreatorRequestId?: string;
-  Attributes?: Attributes;
+  Attributes?: { [key: string]: string };
   CreatedByAccount?: string;
 }
 export const Instance = S.suspend(() =>
@@ -704,10 +781,10 @@ export const Instance = S.suspend(() =>
     CreatedByAccount: S.optional(S.String),
   }),
 ).annotations({ identifier: "Instance" }) as any as S.Schema<Instance>;
-export type InstanceHealthStatusMap = { [key: string]: string };
+export type InstanceHealthStatusMap = { [key: string]: HealthStatus };
 export const InstanceHealthStatusMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: HealthStatus,
 });
 export interface Service {
   Id?: string;
@@ -718,7 +795,7 @@ export interface Service {
   Description?: string;
   InstanceCount?: number;
   DnsConfig?: DnsConfig;
-  Type?: string;
+  Type?: ServiceType;
   HealthCheckConfig?: HealthCheckConfig;
   HealthCheckCustomConfig?: HealthCheckCustomConfig;
   CreateDate?: Date;
@@ -735,7 +812,7 @@ export const Service = S.suspend(() =>
     Description: S.optional(S.String),
     InstanceCount: S.optional(S.Number),
     DnsConfig: S.optional(DnsConfig),
-    Type: S.optional(S.String),
+    Type: S.optional(ServiceType),
     HealthCheckConfig: S.optional(HealthCheckConfig),
     HealthCheckCustomConfig: S.optional(HealthCheckCustomConfig),
     CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -746,7 +823,7 @@ export const Service = S.suspend(() =>
 export interface ServiceAttributes {
   ServiceArn?: string;
   ResourceOwner?: string;
-  Attributes?: ServiceAttributesMap;
+  Attributes?: { [key: string]: string };
 }
 export const ServiceAttributes = S.suspend(() =>
   S.Struct({
@@ -759,7 +836,7 @@ export const ServiceAttributes = S.suspend(() =>
 }) as any as S.Schema<ServiceAttributes>;
 export interface InstanceSummary {
   Id?: string;
-  Attributes?: Attributes;
+  Attributes?: { [key: string]: string };
   CreatedByAccount?: string;
 }
 export const InstanceSummary = S.suspend(() =>
@@ -791,6 +868,12 @@ export const ServiceChange = S.suspend(() =>
 ).annotations({
   identifier: "ServiceChange",
 }) as any as S.Schema<ServiceChange>;
+export type OperationTargetType = "NAMESPACE" | "SERVICE" | "INSTANCE";
+export const OperationTargetType = S.Literal(
+  "NAMESPACE",
+  "SERVICE",
+  "INSTANCE",
+);
 export interface SOAChange {
   TTL: number;
 }
@@ -817,7 +900,7 @@ export interface CreatePublicDnsNamespaceRequest {
   Name: string;
   CreatorRequestId?: string;
   Description?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   Properties?: PublicDnsNamespaceProperties;
 }
 export const CreatePublicDnsNamespaceRequest = S.suspend(() =>
@@ -841,8 +924,8 @@ export interface CreateServiceRequest {
   DnsConfig?: DnsConfig;
   HealthCheckConfig?: HealthCheckConfig;
   HealthCheckCustomConfig?: HealthCheckCustomConfig;
-  Tags?: TagList;
-  Type?: string;
+  Tags?: Tag[];
+  Type?: ServiceTypeOption;
 }
 export const CreateServiceRequest = S.suspend(() =>
   S.Struct({
@@ -854,7 +937,7 @@ export const CreateServiceRequest = S.suspend(() =>
     HealthCheckConfig: S.optional(HealthCheckConfig),
     HealthCheckCustomConfig: S.optional(HealthCheckCustomConfig),
     Tags: S.optional(TagList),
-    Type: S.optional(S.String),
+    Type: S.optional(ServiceTypeOption),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -874,7 +957,7 @@ export const GetInstanceResponse = S.suspend(() =>
   identifier: "GetInstanceResponse",
 }) as any as S.Schema<GetInstanceResponse>;
 export interface GetInstancesHealthStatusResponse {
-  Status?: InstanceHealthStatusMap;
+  Status?: { [key: string]: HealthStatus };
   NextToken?: string;
 }
 export const GetInstancesHealthStatusResponse = S.suspend(() =>
@@ -903,7 +986,7 @@ export const GetServiceAttributesResponse = S.suspend(() =>
 }) as any as S.Schema<GetServiceAttributesResponse>;
 export interface ListInstancesResponse {
   ResourceOwner?: string;
-  Instances?: InstanceSummaryList;
+  Instances?: InstanceSummary[];
   NextToken?: string;
 }
 export const ListInstancesResponse = S.suspend(() =>
@@ -942,8 +1025,10 @@ export const PrivateDnsPropertiesMutable = S.suspend(() =>
 ).annotations({
   identifier: "PrivateDnsPropertiesMutable",
 }) as any as S.Schema<PrivateDnsPropertiesMutable>;
-export type OperationTargetsMap = { [key: string]: string };
-export const OperationTargetsMap = S.Record({ key: S.String, value: S.String });
+export type OperationTargetsMap = { [key in OperationTargetType]?: string };
+export const OperationTargetsMap = S.partial(
+  S.Record({ key: OperationTargetType, value: S.String }),
+);
 export interface PublicDnsNamespacePropertiesChange {
   DnsProperties: PublicDnsPropertiesMutableChange;
 }
@@ -964,15 +1049,15 @@ export interface HttpInstanceSummary {
   InstanceId?: string;
   NamespaceName?: string;
   ServiceName?: string;
-  HealthStatus?: string;
-  Attributes?: Attributes;
+  HealthStatus?: HealthStatus;
+  Attributes?: { [key: string]: string };
 }
 export const HttpInstanceSummary = S.suspend(() =>
   S.Struct({
     InstanceId: S.optional(S.String),
     NamespaceName: S.optional(S.String),
     ServiceName: S.optional(S.String),
-    HealthStatus: S.optional(S.String),
+    HealthStatus: S.optional(HealthStatus),
     Attributes: S.optional(Attributes),
   }),
 ).annotations({
@@ -983,20 +1068,20 @@ export const HttpInstanceSummaryList = S.Array(HttpInstanceSummary);
 export interface Operation {
   Id?: string;
   OwnerAccount?: string;
-  Type?: string;
-  Status?: string;
+  Type?: OperationType;
+  Status?: OperationStatus;
   ErrorMessage?: string;
   ErrorCode?: string;
   CreateDate?: Date;
   UpdateDate?: Date;
-  Targets?: OperationTargetsMap;
+  Targets?: { [key: string]: string };
 }
 export const Operation = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     OwnerAccount: S.optional(S.String),
-    Type: S.optional(S.String),
-    Status: S.optional(S.String),
+    Type: S.optional(OperationType),
+    Status: S.optional(OperationStatus),
     ErrorMessage: S.optional(S.String),
     ErrorCode: S.optional(S.String),
     CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1038,7 +1123,7 @@ export interface NamespaceSummary {
   Arn?: string;
   ResourceOwner?: string;
   Name?: string;
-  Type?: string;
+  Type?: NamespaceType;
   Description?: string;
   ServiceCount?: number;
   Properties?: NamespaceProperties;
@@ -1050,7 +1135,7 @@ export const NamespaceSummary = S.suspend(() =>
     Arn: S.optional(S.String),
     ResourceOwner: S.optional(S.String),
     Name: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(NamespaceType),
     Description: S.optional(S.String),
     ServiceCount: S.optional(S.Number),
     Properties: S.optional(NamespaceProperties),
@@ -1063,10 +1148,10 @@ export type NamespaceSummariesList = NamespaceSummary[];
 export const NamespaceSummariesList = S.Array(NamespaceSummary);
 export interface OperationSummary {
   Id?: string;
-  Status?: string;
+  Status?: OperationStatus;
 }
 export const OperationSummary = S.suspend(() =>
-  S.Struct({ Id: S.optional(S.String), Status: S.optional(S.String) }),
+  S.Struct({ Id: S.optional(S.String), Status: S.optional(OperationStatus) }),
 ).annotations({
   identifier: "OperationSummary",
 }) as any as S.Schema<OperationSummary>;
@@ -1081,7 +1166,7 @@ export interface ServiceSummary {
   Arn?: string;
   ResourceOwner?: string;
   Name?: string;
-  Type?: string;
+  Type?: ServiceType;
   Description?: string;
   InstanceCount?: number;
   DnsConfig?: DnsConfig;
@@ -1096,7 +1181,7 @@ export const ServiceSummary = S.suspend(() =>
     Arn: S.optional(S.String),
     ResourceOwner: S.optional(S.String),
     Name: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(ServiceType),
     Description: S.optional(S.String),
     InstanceCount: S.optional(S.Number),
     DnsConfig: S.optional(DnsConfig),
@@ -1135,7 +1220,7 @@ export interface CreatePrivateDnsNamespaceRequest {
   CreatorRequestId?: string;
   Description?: string;
   Vpc: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   Properties?: PrivateDnsNamespaceProperties;
 }
 export const CreatePrivateDnsNamespaceRequest = S.suspend(() =>
@@ -1169,7 +1254,7 @@ export const CreateServiceResponse = S.suspend(() =>
   identifier: "CreateServiceResponse",
 }) as any as S.Schema<CreateServiceResponse>;
 export interface DiscoverInstancesResponse {
-  Instances?: HttpInstanceSummaryList;
+  Instances?: HttpInstanceSummary[];
   InstancesRevision?: number;
 }
 export const DiscoverInstancesResponse = S.suspend(() =>
@@ -1189,7 +1274,7 @@ export const GetOperationResponse = S.suspend(() =>
   identifier: "GetOperationResponse",
 }) as any as S.Schema<GetOperationResponse>;
 export interface ListNamespacesResponse {
-  Namespaces?: NamespaceSummariesList;
+  Namespaces?: NamespaceSummary[];
   NextToken?: string;
 }
 export const ListNamespacesResponse = S.suspend(() =>
@@ -1201,7 +1286,7 @@ export const ListNamespacesResponse = S.suspend(() =>
   identifier: "ListNamespacesResponse",
 }) as any as S.Schema<ListNamespacesResponse>;
 export interface ListOperationsResponse {
-  Operations?: OperationSummaryList;
+  Operations?: OperationSummary[];
   NextToken?: string;
 }
 export const ListOperationsResponse = S.suspend(() =>
@@ -1213,7 +1298,7 @@ export const ListOperationsResponse = S.suspend(() =>
   identifier: "ListOperationsResponse",
 }) as any as S.Schema<ListOperationsResponse>;
 export interface ListServicesResponse {
-  Services?: ServiceSummariesList;
+  Services?: ServiceSummary[];
   NextToken?: string;
 }
 export const ListServicesResponse = S.suspend(() =>
@@ -1261,7 +1346,7 @@ export interface Namespace {
   Arn?: string;
   ResourceOwner?: string;
   Name?: string;
-  Type?: string;
+  Type?: NamespaceType;
   Description?: string;
   ServiceCount?: number;
   Properties?: NamespaceProperties;
@@ -1274,7 +1359,7 @@ export const Namespace = S.suspend(() =>
     Arn: S.optional(S.String),
     ResourceOwner: S.optional(S.String),
     Name: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(NamespaceType),
     Description: S.optional(S.String),
     ServiceCount: S.optional(S.Number),
     Properties: S.optional(NamespaceProperties),
@@ -1420,7 +1505,7 @@ export class ServiceAlreadyExists extends S.TaggedError<ServiceAlreadyExists>()(
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   InvalidInput | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1435,7 +1520,7 @@ export const listTagsForResource: (
  */
 export const updateHttpNamespace: (
   input: UpdateHttpNamespaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateHttpNamespaceResponse,
   | DuplicateRequest
   | InvalidInput
@@ -1453,7 +1538,7 @@ export const updateHttpNamespace: (
  */
 export const deleteServiceAttributes: (
   input: DeleteServiceAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteServiceAttributesResponse,
   InvalidInput | ServiceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1468,7 +1553,7 @@ export const deleteServiceAttributes: (
  */
 export const deleteNamespace: (
   input: DeleteNamespaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteNamespaceResponse,
   | DuplicateRequest
   | InvalidInput
@@ -1486,7 +1571,7 @@ export const deleteNamespace: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   InvalidInput | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1500,7 +1585,7 @@ export const untagResource: (
  */
 export const getInstance: (
   input: GetInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInstanceResponse,
   InstanceNotFound | InvalidInput | ServiceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1520,21 +1605,21 @@ export const getInstance: (
 export const getInstancesHealthStatus: {
   (
     input: GetInstancesHealthStatusRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetInstancesHealthStatusResponse,
     InstanceNotFound | InvalidInput | ServiceNotFound | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: GetInstancesHealthStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetInstancesHealthStatusResponse,
     InstanceNotFound | InvalidInput | ServiceNotFound | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetInstancesHealthStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InstanceNotFound | InvalidInput | ServiceNotFound | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1555,7 +1640,7 @@ export const getInstancesHealthStatus: {
  */
 export const deleteService: (
   input: DeleteServiceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteServiceResponse,
   InvalidInput | ResourceInUse | ServiceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1569,7 +1654,7 @@ export const deleteService: (
  */
 export const getService: (
   input: GetServiceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceResponse,
   InvalidInput | ServiceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1583,7 +1668,7 @@ export const getService: (
  */
 export const getServiceAttributes: (
   input: GetServiceAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceAttributesResponse,
   InvalidInput | ServiceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1599,21 +1684,21 @@ export const getServiceAttributes: (
 export const listInstances: {
   (
     input: ListInstancesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInstancesResponse,
     InvalidInput | ServiceNotFound | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInstancesResponse,
     InvalidInput | ServiceNotFound | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidInput | ServiceNotFound | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1641,7 +1726,7 @@ export const listInstances: {
  */
 export const updateInstanceCustomHealthStatus: (
   input: UpdateInstanceCustomHealthStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateInstanceCustomHealthStatusResponse,
   | CustomHealthNotFound
   | InstanceNotFound
@@ -1664,7 +1749,7 @@ export const updateInstanceCustomHealthStatus: (
  */
 export const updateServiceAttributes: (
   input: UpdateServiceAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateServiceAttributesResponse,
   | InvalidInput
   | ServiceAttributesLimitExceededException
@@ -1686,7 +1771,7 @@ export const updateServiceAttributes: (
  */
 export const deregisterInstance: (
   input: DeregisterInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterInstanceResponse,
   | DuplicateRequest
   | InstanceNotFound
@@ -1711,7 +1796,7 @@ export const deregisterInstance: (
  */
 export const discoverInstancesRevision: (
   input: DiscoverInstancesRevisionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DiscoverInstancesRevisionResponse,
   | InvalidInput
   | NamespaceNotFound
@@ -1735,21 +1820,21 @@ export const discoverInstancesRevision: (
 export const listNamespaces: {
   (
     input: ListNamespacesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListNamespacesResponse,
     InvalidInput | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListNamespacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListNamespacesResponse,
     InvalidInput | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListNamespacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidInput | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1770,21 +1855,21 @@ export const listNamespaces: {
 export const listOperations: {
   (
     input: ListOperationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOperationsResponse,
     InvalidInput | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListOperationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOperationsResponse,
     InvalidInput | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOperationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidInput | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1806,21 +1891,21 @@ export const listOperations: {
 export const listServices: {
   (
     input: ListServicesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServicesResponse,
     InvalidInput | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListServicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServicesResponse,
     InvalidInput | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidInput | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1868,7 +1953,7 @@ export const listServices: {
  */
 export const updateService: (
   input: UpdateServiceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateServiceResponse,
   DuplicateRequest | InvalidInput | ServiceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1914,7 +1999,7 @@ export const updateService: (
  */
 export const registerInstance: (
   input: RegisterInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterInstanceResponse,
   | DuplicateRequest
   | InvalidInput
@@ -1943,7 +2028,7 @@ export const registerInstance: (
  */
 export const discoverInstances: (
   input: DiscoverInstancesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DiscoverInstancesResponse,
   | InvalidInput
   | NamespaceNotFound
@@ -1966,7 +2051,7 @@ export const discoverInstances: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InvalidInput
   | ResourceNotFoundException
@@ -1991,7 +2076,7 @@ export const tagResource: (
  */
 export const createPublicDnsNamespace: (
   input: CreatePublicDnsNamespaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePublicDnsNamespaceResponse,
   | DuplicateRequest
   | InvalidInput
@@ -2021,7 +2106,7 @@ export const createPublicDnsNamespace: (
  */
 export const createHttpNamespace: (
   input: CreateHttpNamespaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateHttpNamespaceResponse,
   | DuplicateRequest
   | InvalidInput
@@ -2053,7 +2138,7 @@ export const createHttpNamespace: (
  */
 export const createPrivateDnsNamespace: (
   input: CreatePrivateDnsNamespaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePrivateDnsNamespaceResponse,
   | DuplicateRequest
   | InvalidInput
@@ -2078,7 +2163,7 @@ export const createPrivateDnsNamespace: (
  */
 export const getNamespace: (
   input: GetNamespaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetNamespaceResponse,
   InvalidInput | NamespaceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2095,7 +2180,7 @@ export const getNamespace: (
  */
 export const getOperation: (
   input: GetOperationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetOperationResponse,
   InvalidInput | OperationNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2109,7 +2194,7 @@ export const getOperation: (
  */
 export const updatePublicDnsNamespace: (
   input: UpdatePublicDnsNamespaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePublicDnsNamespaceResponse,
   | DuplicateRequest
   | InvalidInput
@@ -2149,7 +2234,7 @@ export const updatePublicDnsNamespace: (
  */
 export const createService: (
   input: CreateServiceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateServiceResponse,
   | InvalidInput
   | NamespaceNotFound
@@ -2175,7 +2260,7 @@ export const createService: (
  */
 export const updatePrivateDnsNamespace: (
   input: UpdatePrivateDnsNamespaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePrivateDnsNamespaceResponse,
   | DuplicateRequest
   | InvalidInput

@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -63,7 +63,7 @@ export type TagKey = string;
 export type EngagementContextIdentifier = string;
 export type EngagementTitle = string;
 export type EngagementDescription = string;
-export type AwsAccount = string | Redacted.Redacted<string>;
+export type AwsAccount = string | redacted.Redacted<string>;
 export type EngagementPageSize = number;
 export type MemberPageSize = number;
 export type EngagementInvitationArnOrIdentifier = string;
@@ -79,12 +79,12 @@ export type ResourceSnapshotRevision = number;
 export type ResourceSnapshotJobIdentifier = string;
 export type SolutionIdentifier = string;
 export type TagValue = string;
-export type InvitationMessage = string | Redacted.Redacted<string>;
-export type PiiString = string | Redacted.Redacted<string>;
-export type Email = string | Redacted.Redacted<string>;
-export type Name = string | Redacted.Redacted<string>;
-export type JobTitle = string | Redacted.Redacted<string>;
-export type PhoneNumber = string | Redacted.Redacted<string>;
+export type InvitationMessage = string | redacted.Redacted<string>;
+export type PiiString = string | redacted.Redacted<string>;
+export type Email = string | redacted.Redacted<string>;
+export type Name = string | redacted.Redacted<string>;
+export type JobTitle = string | redacted.Redacted<string>;
+export type PhoneNumber = string | redacted.Redacted<string>;
 export type ResourceSnapshotJobRoleArn = string;
 export type EngagementArn = string;
 export type TaskIdentifier = string;
@@ -94,71 +94,176 @@ export type OpportunityArn = string;
 export type ResourceArn = string;
 export type ResourceSnapshotJobArn = string;
 export type LeadQualificationStatus = string;
-export type WebsiteUrl = string | Redacted.Redacted<string>;
-export type DunsNumber = string | Redacted.Redacted<string>;
-export type Amount = string | Redacted.Redacted<string>;
+export type WebsiteUrl = string | redacted.Redacted<string>;
+export type DunsNumber = string | redacted.Redacted<string>;
+export type Amount = string | redacted.Redacted<string>;
 export type EstimationUrl = string;
-export type MemberCompanyName = string | Redacted.Redacted<string>;
+export type MemberCompanyName = string | redacted.Redacted<string>;
 export type AwsMarketplaceOfferIdentifier = string;
 export type AwsMarketplaceOfferSetIdentifier = string;
 export type AwsProductIdentifier = string;
 export type ResourceSnapshotArn = string;
-export type CompanyName = string | Redacted.Redacted<string>;
-export type CompanyWebsiteUrl = string | Redacted.Redacted<string>;
+export type CompanyName = string | redacted.Redacted<string>;
+export type CompanyWebsiteUrl = string | redacted.Redacted<string>;
 export type EngagementCustomerProjectTitle = string;
 export type EngagementCustomerBusinessProblem =
   | string
-  | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
 export type AwsMaturity = string;
 export type LeadSourceType = string;
 export type LeadSourceId = string;
 export type LeadSourceName = string;
 export type EngagementUseCase = string;
 export type CustomerAction = string;
-export type Alias = string | Redacted.Redacted<string>;
-export type AddressPart = string | Redacted.Redacted<string>;
-export type SenderContactEmail = string | Redacted.Redacted<string>;
+export type Alias = string | redacted.Redacted<string>;
+export type AddressPart = string | redacted.Redacted<string>;
+export type SenderContactEmail = string | redacted.Redacted<string>;
 export type SolutionArn = string;
-export type MonetaryAmount = string | Redacted.Redacted<string>;
+export type MonetaryAmount = string | redacted.Redacted<string>;
 export type EngagementInvitationArn = string;
 
 //# Schemas
+export type EngagementContextType = "CustomerProject" | "Lead";
+export const EngagementContextType = S.Literal("CustomerProject", "Lead");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export type AwsAccountList = string | Redacted.Redacted<string>[];
+export type AwsAccountList = string | redacted.Redacted<string>[];
 export const AwsAccountList = S.Array(SensitiveString);
-export type EngagementContextTypeList = string[];
-export const EngagementContextTypeList = S.Array(S.String);
+export type EngagementContextTypeList = EngagementContextType[];
+export const EngagementContextTypeList = S.Array(EngagementContextType);
 export type EngagementIdentifiers = string[];
 export const EngagementIdentifiers = S.Array(S.String);
-export type TaskStatuses = string[];
-export const TaskStatuses = S.Array(S.String);
+export type TaskStatus = "IN_PROGRESS" | "COMPLETE" | "FAILED";
+export const TaskStatus = S.Literal("IN_PROGRESS", "COMPLETE", "FAILED");
+export type TaskStatuses = TaskStatus[];
+export const TaskStatuses = S.Array(TaskStatus);
 export type OpportunityIdentifiers = string[];
 export const OpportunityIdentifiers = S.Array(S.String);
 export type EngagementInvitationIdentifiers = string[];
 export const EngagementInvitationIdentifiers = S.Array(S.String);
 export type TaskIdentifiers = string[];
 export const TaskIdentifiers = S.Array(S.String);
-export type EngagementInvitationsPayloadType = string[];
-export const EngagementInvitationsPayloadType = S.Array(S.String);
-export type InvitationStatusList = string[];
-export const InvitationStatusList = S.Array(S.String);
-export type AwsAccountIdOrAliasList = string | Redacted.Redacted<string>[];
+export type EngagementInvitationPayloadType =
+  | "OpportunityInvitation"
+  | "LeadInvitation";
+export const EngagementInvitationPayloadType = S.Literal(
+  "OpportunityInvitation",
+  "LeadInvitation",
+);
+export type EngagementInvitationsPayloadType =
+  EngagementInvitationPayloadType[];
+export const EngagementInvitationsPayloadType = S.Array(
+  EngagementInvitationPayloadType,
+);
+export type ParticipantType = "SENDER" | "RECEIVER";
+export const ParticipantType = S.Literal("SENDER", "RECEIVER");
+export type InvitationStatus = "ACCEPTED" | "PENDING" | "REJECTED" | "EXPIRED";
+export const InvitationStatus = S.Literal(
+  "ACCEPTED",
+  "PENDING",
+  "REJECTED",
+  "EXPIRED",
+);
+export type InvitationStatusList = InvitationStatus[];
+export const InvitationStatusList = S.Array(InvitationStatus);
+export type AwsAccountIdOrAliasList = string | redacted.Redacted<string>[];
 export const AwsAccountIdOrAliasList = S.Array(SensitiveString);
-export type PrimaryNeedsFromAws = string[];
-export const PrimaryNeedsFromAws = S.Array(S.String);
+export type PrimaryNeedFromAws =
+  | "Co-Sell - Architectural Validation"
+  | "Co-Sell - Business Presentation"
+  | "Co-Sell - Competitive Information"
+  | "Co-Sell - Pricing Assistance"
+  | "Co-Sell - Technical Consultation"
+  | "Co-Sell - Total Cost of Ownership Evaluation"
+  | "Co-Sell - Deal Support"
+  | "Co-Sell - Support for Public Tender / RFx";
+export const PrimaryNeedFromAws = S.Literal(
+  "Co-Sell - Architectural Validation",
+  "Co-Sell - Business Presentation",
+  "Co-Sell - Competitive Information",
+  "Co-Sell - Pricing Assistance",
+  "Co-Sell - Technical Consultation",
+  "Co-Sell - Total Cost of Ownership Evaluation",
+  "Co-Sell - Deal Support",
+  "Co-Sell - Support for Public Tender / RFx",
+);
+export type PrimaryNeedsFromAws = PrimaryNeedFromAws[];
+export const PrimaryNeedsFromAws = S.Array(PrimaryNeedFromAws);
+export type NationalSecurity = "Yes" | "No";
+export const NationalSecurity = S.Literal("Yes", "No");
+export type OpportunityType = "Net New Business" | "Flat Renewal" | "Expansion";
+export const OpportunityType = S.Literal(
+  "Net New Business",
+  "Flat Renewal",
+  "Expansion",
+);
+export type OpportunityOrigin = "AWS Referral" | "Partner Referral";
+export const OpportunityOrigin = S.Literal("AWS Referral", "Partner Referral");
 export type FilterIdentifier = string[];
 export const FilterIdentifier = S.Array(S.String);
-export type FilterLifeCycleStage = string[];
-export const FilterLifeCycleStage = S.Array(S.String);
-export type FilterLifeCycleReviewStatus = string[];
-export const FilterLifeCycleReviewStatus = S.Array(S.String);
+export type Stage =
+  | "Prospect"
+  | "Qualified"
+  | "Technical Validation"
+  | "Business Validation"
+  | "Committed"
+  | "Launched"
+  | "Closed Lost";
+export const Stage = S.Literal(
+  "Prospect",
+  "Qualified",
+  "Technical Validation",
+  "Business Validation",
+  "Committed",
+  "Launched",
+  "Closed Lost",
+);
+export type FilterLifeCycleStage = Stage[];
+export const FilterLifeCycleStage = S.Array(Stage);
+export type ReviewStatus =
+  | "Pending Submission"
+  | "Submitted"
+  | "In review"
+  | "Approved"
+  | "Rejected"
+  | "Action Required";
+export const ReviewStatus = S.Literal(
+  "Pending Submission",
+  "Submitted",
+  "In review",
+  "Approved",
+  "Rejected",
+  "Action Required",
+);
+export type FilterLifeCycleReviewStatus = ReviewStatus[];
+export const FilterLifeCycleReviewStatus = S.Array(ReviewStatus);
 export type StringList = string[];
 export const StringList = S.Array(S.String);
+export type RelatedEntityType =
+  | "Solutions"
+  | "AwsProducts"
+  | "AwsMarketplaceOffers"
+  | "AwsMarketplaceOfferSets";
+export const RelatedEntityType = S.Literal(
+  "Solutions",
+  "AwsProducts",
+  "AwsMarketplaceOffers",
+  "AwsMarketplaceOfferSets",
+);
+export type SalesInvolvementType = "For Visibility Only" | "Co-Sell";
+export const SalesInvolvementType = S.Literal("For Visibility Only", "Co-Sell");
+export type Visibility = "Full" | "Limited";
+export const Visibility = S.Literal("Full", "Limited");
 export type ContextIdentifiers = string[];
 export const ContextIdentifiers = S.Array(S.String);
-export type FilterStatus = string[];
-export const FilterStatus = S.Array(S.String);
+export type ResourceType = "Opportunity";
+export const ResourceType = S.Literal("Opportunity");
+export type ResourceSnapshotJobStatus = "Running" | "Stopped";
+export const ResourceSnapshotJobStatus = S.Literal("Running", "Stopped");
+export type SolutionStatus = "Active" | "Inactive" | "Draft";
+export const SolutionStatus = S.Literal("Active", "Inactive", "Draft");
+export type FilterStatus = SolutionStatus[];
+export const FilterStatus = S.Array(SolutionStatus);
 export type SolutionIdentifiers = string[];
 export const SolutionIdentifiers = S.Array(S.String);
 export interface GetSellingSystemSettingsRequest {
@@ -218,7 +323,7 @@ export const PutSellingSystemSettingsRequest = S.suspend(() =>
 }) as any as S.Schema<PutSellingSystemSettingsRequest>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
@@ -294,7 +399,7 @@ export interface StartEngagementByAcceptingInvitationTaskRequest {
   Catalog: string;
   ClientToken: string;
   Identifier: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const StartEngagementByAcceptingInvitationTaskRequest = S.suspend(() =>
   S.Struct({
@@ -318,12 +423,16 @@ export const StartEngagementByAcceptingInvitationTaskRequest = S.suspend(() =>
 ).annotations({
   identifier: "StartEngagementByAcceptingInvitationTaskRequest",
 }) as any as S.Schema<StartEngagementByAcceptingInvitationTaskRequest>;
+export type SortOrder = "ASCENDING" | "DESCENDING";
+export const SortOrder = S.Literal("ASCENDING", "DESCENDING");
+export type ListTasksSortName = "StartTime";
+export const ListTasksSortName = S.Literal("StartTime");
 export interface ListTasksSortBase {
-  SortOrder: string;
-  SortBy: string;
+  SortOrder: SortOrder;
+  SortBy: ListTasksSortName;
 }
 export const ListTasksSortBase = S.suspend(() =>
-  S.Struct({ SortOrder: S.String, SortBy: S.String }),
+  S.Struct({ SortOrder: SortOrder, SortBy: ListTasksSortName }),
 ).annotations({
   identifier: "ListTasksSortBase",
 }) as any as S.Schema<ListTasksSortBase>;
@@ -332,10 +441,10 @@ export interface ListEngagementFromOpportunityTasksRequest {
   NextToken?: string;
   Sort?: ListTasksSortBase;
   Catalog: string;
-  TaskStatus?: TaskStatuses;
-  TaskIdentifier?: TaskIdentifiers;
-  OpportunityIdentifier?: OpportunityIdentifiers;
-  EngagementIdentifier?: EngagementIdentifiers;
+  TaskStatus?: TaskStatus[];
+  TaskIdentifier?: string[];
+  OpportunityIdentifier?: string[];
+  EngagementIdentifier?: string[];
 }
 export const ListEngagementFromOpportunityTasksRequest = S.suspend(() =>
   S.Struct({
@@ -449,34 +558,594 @@ export const GetOpportunityRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetOpportunityRequest",
 }) as any as S.Schema<GetOpportunityRequest>;
+export type Industry =
+  | "Aerospace"
+  | "Agriculture"
+  | "Automotive"
+  | "Computers and Electronics"
+  | "Consumer Goods"
+  | "Education"
+  | "Energy - Oil and Gas"
+  | "Energy - Power and Utilities"
+  | "Financial Services"
+  | "Gaming"
+  | "Government"
+  | "Healthcare"
+  | "Hospitality"
+  | "Life Sciences"
+  | "Manufacturing"
+  | "Marketing and Advertising"
+  | "Media and Entertainment"
+  | "Mining"
+  | "Non-Profit Organization"
+  | "Professional Services"
+  | "Real Estate and Construction"
+  | "Retail"
+  | "Software and Internet"
+  | "Telecommunications"
+  | "Transportation and Logistics"
+  | "Travel"
+  | "Wholesale and Distribution"
+  | "Other";
+export const Industry = S.Literal(
+  "Aerospace",
+  "Agriculture",
+  "Automotive",
+  "Computers and Electronics",
+  "Consumer Goods",
+  "Education",
+  "Energy - Oil and Gas",
+  "Energy - Power and Utilities",
+  "Financial Services",
+  "Gaming",
+  "Government",
+  "Healthcare",
+  "Hospitality",
+  "Life Sciences",
+  "Manufacturing",
+  "Marketing and Advertising",
+  "Media and Entertainment",
+  "Mining",
+  "Non-Profit Organization",
+  "Professional Services",
+  "Real Estate and Construction",
+  "Retail",
+  "Software and Internet",
+  "Telecommunications",
+  "Transportation and Logistics",
+  "Travel",
+  "Wholesale and Distribution",
+  "Other",
+);
+export type CountryCode =
+  | "US"
+  | "AF"
+  | "AX"
+  | "AL"
+  | "DZ"
+  | "AS"
+  | "AD"
+  | "AO"
+  | "AI"
+  | "AQ"
+  | "AG"
+  | "AR"
+  | "AM"
+  | "AW"
+  | "AU"
+  | "AT"
+  | "AZ"
+  | "BS"
+  | "BH"
+  | "BD"
+  | "BB"
+  | "BY"
+  | "BE"
+  | "BZ"
+  | "BJ"
+  | "BM"
+  | "BT"
+  | "BO"
+  | "BQ"
+  | "BA"
+  | "BW"
+  | "BV"
+  | "BR"
+  | "IO"
+  | "BN"
+  | "BG"
+  | "BF"
+  | "BI"
+  | "KH"
+  | "CM"
+  | "CA"
+  | "CV"
+  | "KY"
+  | "CF"
+  | "TD"
+  | "CL"
+  | "CN"
+  | "CX"
+  | "CC"
+  | "CO"
+  | "KM"
+  | "CG"
+  | "CK"
+  | "CR"
+  | "CI"
+  | "HR"
+  | "CU"
+  | "CW"
+  | "CY"
+  | "CZ"
+  | "CD"
+  | "DK"
+  | "DJ"
+  | "DM"
+  | "DO"
+  | "EC"
+  | "EG"
+  | "SV"
+  | "GQ"
+  | "ER"
+  | "EE"
+  | "ET"
+  | "FK"
+  | "FO"
+  | "FJ"
+  | "FI"
+  | "FR"
+  | "GF"
+  | "PF"
+  | "TF"
+  | "GA"
+  | "GM"
+  | "GE"
+  | "DE"
+  | "GH"
+  | "GI"
+  | "GR"
+  | "GL"
+  | "GD"
+  | "GP"
+  | "GU"
+  | "GT"
+  | "GG"
+  | "GN"
+  | "GW"
+  | "GY"
+  | "HT"
+  | "HM"
+  | "VA"
+  | "HN"
+  | "HK"
+  | "HU"
+  | "IS"
+  | "IN"
+  | "ID"
+  | "IR"
+  | "IQ"
+  | "IE"
+  | "IM"
+  | "IL"
+  | "IT"
+  | "JM"
+  | "JP"
+  | "JE"
+  | "JO"
+  | "KZ"
+  | "KE"
+  | "KI"
+  | "KR"
+  | "KW"
+  | "KG"
+  | "LA"
+  | "LV"
+  | "LB"
+  | "LS"
+  | "LR"
+  | "LY"
+  | "LI"
+  | "LT"
+  | "LU"
+  | "MO"
+  | "MK"
+  | "MG"
+  | "MW"
+  | "MY"
+  | "MV"
+  | "ML"
+  | "MT"
+  | "MH"
+  | "MQ"
+  | "MR"
+  | "MU"
+  | "YT"
+  | "MX"
+  | "FM"
+  | "MD"
+  | "MC"
+  | "MN"
+  | "ME"
+  | "MS"
+  | "MA"
+  | "MZ"
+  | "MM"
+  | "NA"
+  | "NR"
+  | "NP"
+  | "NL"
+  | "AN"
+  | "NC"
+  | "NZ"
+  | "NI"
+  | "NE"
+  | "NG"
+  | "NU"
+  | "NF"
+  | "MP"
+  | "NO"
+  | "OM"
+  | "PK"
+  | "PW"
+  | "PS"
+  | "PA"
+  | "PG"
+  | "PY"
+  | "PE"
+  | "PH"
+  | "PN"
+  | "PL"
+  | "PT"
+  | "PR"
+  | "QA"
+  | "RE"
+  | "RO"
+  | "RU"
+  | "RW"
+  | "BL"
+  | "SH"
+  | "KN"
+  | "LC"
+  | "MF"
+  | "PM"
+  | "VC"
+  | "WS"
+  | "SM"
+  | "ST"
+  | "SA"
+  | "SN"
+  | "RS"
+  | "SC"
+  | "SL"
+  | "SG"
+  | "SX"
+  | "SK"
+  | "SI"
+  | "SB"
+  | "SO"
+  | "ZA"
+  | "GS"
+  | "SS"
+  | "ES"
+  | "LK"
+  | "SD"
+  | "SR"
+  | "SJ"
+  | "SZ"
+  | "SE"
+  | "CH"
+  | "SY"
+  | "TW"
+  | "TJ"
+  | "TZ"
+  | "TH"
+  | "TL"
+  | "TG"
+  | "TK"
+  | "TO"
+  | "TT"
+  | "TN"
+  | "TR"
+  | "TM"
+  | "TC"
+  | "TV"
+  | "UG"
+  | "UA"
+  | "AE"
+  | "GB"
+  | "UM"
+  | "UY"
+  | "UZ"
+  | "VU"
+  | "VE"
+  | "VN"
+  | "VG"
+  | "VI"
+  | "WF"
+  | "EH"
+  | "YE"
+  | "ZM"
+  | "ZW";
+export const CountryCode = S.Literal(
+  "US",
+  "AF",
+  "AX",
+  "AL",
+  "DZ",
+  "AS",
+  "AD",
+  "AO",
+  "AI",
+  "AQ",
+  "AG",
+  "AR",
+  "AM",
+  "AW",
+  "AU",
+  "AT",
+  "AZ",
+  "BS",
+  "BH",
+  "BD",
+  "BB",
+  "BY",
+  "BE",
+  "BZ",
+  "BJ",
+  "BM",
+  "BT",
+  "BO",
+  "BQ",
+  "BA",
+  "BW",
+  "BV",
+  "BR",
+  "IO",
+  "BN",
+  "BG",
+  "BF",
+  "BI",
+  "KH",
+  "CM",
+  "CA",
+  "CV",
+  "KY",
+  "CF",
+  "TD",
+  "CL",
+  "CN",
+  "CX",
+  "CC",
+  "CO",
+  "KM",
+  "CG",
+  "CK",
+  "CR",
+  "CI",
+  "HR",
+  "CU",
+  "CW",
+  "CY",
+  "CZ",
+  "CD",
+  "DK",
+  "DJ",
+  "DM",
+  "DO",
+  "EC",
+  "EG",
+  "SV",
+  "GQ",
+  "ER",
+  "EE",
+  "ET",
+  "FK",
+  "FO",
+  "FJ",
+  "FI",
+  "FR",
+  "GF",
+  "PF",
+  "TF",
+  "GA",
+  "GM",
+  "GE",
+  "DE",
+  "GH",
+  "GI",
+  "GR",
+  "GL",
+  "GD",
+  "GP",
+  "GU",
+  "GT",
+  "GG",
+  "GN",
+  "GW",
+  "GY",
+  "HT",
+  "HM",
+  "VA",
+  "HN",
+  "HK",
+  "HU",
+  "IS",
+  "IN",
+  "ID",
+  "IR",
+  "IQ",
+  "IE",
+  "IM",
+  "IL",
+  "IT",
+  "JM",
+  "JP",
+  "JE",
+  "JO",
+  "KZ",
+  "KE",
+  "KI",
+  "KR",
+  "KW",
+  "KG",
+  "LA",
+  "LV",
+  "LB",
+  "LS",
+  "LR",
+  "LY",
+  "LI",
+  "LT",
+  "LU",
+  "MO",
+  "MK",
+  "MG",
+  "MW",
+  "MY",
+  "MV",
+  "ML",
+  "MT",
+  "MH",
+  "MQ",
+  "MR",
+  "MU",
+  "YT",
+  "MX",
+  "FM",
+  "MD",
+  "MC",
+  "MN",
+  "ME",
+  "MS",
+  "MA",
+  "MZ",
+  "MM",
+  "NA",
+  "NR",
+  "NP",
+  "NL",
+  "AN",
+  "NC",
+  "NZ",
+  "NI",
+  "NE",
+  "NG",
+  "NU",
+  "NF",
+  "MP",
+  "NO",
+  "OM",
+  "PK",
+  "PW",
+  "PS",
+  "PA",
+  "PG",
+  "PY",
+  "PE",
+  "PH",
+  "PN",
+  "PL",
+  "PT",
+  "PR",
+  "QA",
+  "RE",
+  "RO",
+  "RU",
+  "RW",
+  "BL",
+  "SH",
+  "KN",
+  "LC",
+  "MF",
+  "PM",
+  "VC",
+  "WS",
+  "SM",
+  "ST",
+  "SA",
+  "SN",
+  "RS",
+  "SC",
+  "SL",
+  "SG",
+  "SX",
+  "SK",
+  "SI",
+  "SB",
+  "SO",
+  "ZA",
+  "GS",
+  "SS",
+  "ES",
+  "LK",
+  "SD",
+  "SR",
+  "SJ",
+  "SZ",
+  "SE",
+  "CH",
+  "SY",
+  "TW",
+  "TJ",
+  "TZ",
+  "TH",
+  "TL",
+  "TG",
+  "TK",
+  "TO",
+  "TT",
+  "TN",
+  "TR",
+  "TM",
+  "TC",
+  "TV",
+  "UG",
+  "UA",
+  "AE",
+  "GB",
+  "UM",
+  "UY",
+  "UZ",
+  "VU",
+  "VE",
+  "VN",
+  "VG",
+  "VI",
+  "WF",
+  "EH",
+  "YE",
+  "ZM",
+  "ZW",
+);
 export interface Address {
-  City?: string | Redacted.Redacted<string>;
-  PostalCode?: string | Redacted.Redacted<string>;
-  StateOrRegion?: string | Redacted.Redacted<string>;
-  CountryCode?: string;
-  StreetAddress?: string | Redacted.Redacted<string>;
+  City?: string | redacted.Redacted<string>;
+  PostalCode?: string | redacted.Redacted<string>;
+  StateOrRegion?: string | redacted.Redacted<string>;
+  CountryCode?: CountryCode;
+  StreetAddress?: string | redacted.Redacted<string>;
 }
 export const Address = S.suspend(() =>
   S.Struct({
     City: S.optional(SensitiveString),
     PostalCode: S.optional(SensitiveString),
     StateOrRegion: S.optional(SensitiveString),
-    CountryCode: S.optional(S.String),
+    CountryCode: S.optional(CountryCode),
     StreetAddress: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "Address" }) as any as S.Schema<Address>;
 export interface Account {
-  Industry?: string;
+  Industry?: Industry;
   OtherIndustry?: string;
-  CompanyName: string | Redacted.Redacted<string>;
-  WebsiteUrl?: string | Redacted.Redacted<string>;
-  AwsAccountId?: string | Redacted.Redacted<string>;
+  CompanyName: string | redacted.Redacted<string>;
+  WebsiteUrl?: string | redacted.Redacted<string>;
+  AwsAccountId?: string | redacted.Redacted<string>;
   Address?: Address;
-  Duns?: string | Redacted.Redacted<string>;
+  Duns?: string | redacted.Redacted<string>;
 }
 export const Account = S.suspend(() =>
   S.Struct({
-    Industry: S.optional(S.String),
+    Industry: S.optional(Industry),
     OtherIndustry: S.optional(S.String),
     CompanyName: SensitiveString,
     WebsiteUrl: S.optional(SensitiveString),
@@ -486,11 +1155,11 @@ export const Account = S.suspend(() =>
   }),
 ).annotations({ identifier: "Account" }) as any as S.Schema<Account>;
 export interface Contact {
-  Email?: string | Redacted.Redacted<string>;
-  FirstName?: string | Redacted.Redacted<string>;
-  LastName?: string | Redacted.Redacted<string>;
-  BusinessTitle?: string | Redacted.Redacted<string>;
-  Phone?: string | Redacted.Redacted<string>;
+  Email?: string | redacted.Redacted<string>;
+  FirstName?: string | redacted.Redacted<string>;
+  LastName?: string | redacted.Redacted<string>;
+  BusinessTitle?: string | redacted.Redacted<string>;
+  Phone?: string | redacted.Redacted<string>;
 }
 export const Contact = S.suspend(() =>
   S.Struct({
@@ -505,7 +1174,7 @@ export type CustomerContactsList = Contact[];
 export const CustomerContactsList = S.Array(Contact);
 export interface Customer {
   Account?: Account;
-  Contacts?: CustomerContactsList;
+  Contacts?: Contact[];
 }
 export const Customer = S.suspend(() =>
   S.Struct({
@@ -513,20 +1182,376 @@ export const Customer = S.suspend(() =>
     Contacts: S.optional(CustomerContactsList),
   }),
 ).annotations({ identifier: "Customer" }) as any as S.Schema<Customer>;
-export type DeliveryModels = string[];
-export const DeliveryModels = S.Array(S.String);
+export type DeliveryModel =
+  | "SaaS or PaaS"
+  | "BYOL or AMI"
+  | "Managed Services"
+  | "Professional Services"
+  | "Resell"
+  | "Other";
+export const DeliveryModel = S.Literal(
+  "SaaS or PaaS",
+  "BYOL or AMI",
+  "Managed Services",
+  "Professional Services",
+  "Resell",
+  "Other",
+);
+export type DeliveryModels = DeliveryModel[];
+export const DeliveryModels = S.Array(DeliveryModel);
+export type CurrencyCode =
+  | "USD"
+  | "EUR"
+  | "GBP"
+  | "AUD"
+  | "CAD"
+  | "CNY"
+  | "NZD"
+  | "INR"
+  | "JPY"
+  | "CHF"
+  | "SEK"
+  | "AED"
+  | "AFN"
+  | "ALL"
+  | "AMD"
+  | "ANG"
+  | "AOA"
+  | "ARS"
+  | "AWG"
+  | "AZN"
+  | "BAM"
+  | "BBD"
+  | "BDT"
+  | "BGN"
+  | "BHD"
+  | "BIF"
+  | "BMD"
+  | "BND"
+  | "BOB"
+  | "BOV"
+  | "BRL"
+  | "BSD"
+  | "BTN"
+  | "BWP"
+  | "BYN"
+  | "BZD"
+  | "CDF"
+  | "CHE"
+  | "CHW"
+  | "CLF"
+  | "CLP"
+  | "COP"
+  | "COU"
+  | "CRC"
+  | "CUC"
+  | "CUP"
+  | "CVE"
+  | "CZK"
+  | "DJF"
+  | "DKK"
+  | "DOP"
+  | "DZD"
+  | "EGP"
+  | "ERN"
+  | "ETB"
+  | "FJD"
+  | "FKP"
+  | "GEL"
+  | "GHS"
+  | "GIP"
+  | "GMD"
+  | "GNF"
+  | "GTQ"
+  | "GYD"
+  | "HKD"
+  | "HNL"
+  | "HRK"
+  | "HTG"
+  | "HUF"
+  | "IDR"
+  | "ILS"
+  | "IQD"
+  | "IRR"
+  | "ISK"
+  | "JMD"
+  | "JOD"
+  | "KES"
+  | "KGS"
+  | "KHR"
+  | "KMF"
+  | "KPW"
+  | "KRW"
+  | "KWD"
+  | "KYD"
+  | "KZT"
+  | "LAK"
+  | "LBP"
+  | "LKR"
+  | "LRD"
+  | "LSL"
+  | "LYD"
+  | "MAD"
+  | "MDL"
+  | "MGA"
+  | "MKD"
+  | "MMK"
+  | "MNT"
+  | "MOP"
+  | "MRU"
+  | "MUR"
+  | "MVR"
+  | "MWK"
+  | "MXN"
+  | "MXV"
+  | "MYR"
+  | "MZN"
+  | "NAD"
+  | "NGN"
+  | "NIO"
+  | "NOK"
+  | "NPR"
+  | "OMR"
+  | "PAB"
+  | "PEN"
+  | "PGK"
+  | "PHP"
+  | "PKR"
+  | "PLN"
+  | "PYG"
+  | "QAR"
+  | "RON"
+  | "RSD"
+  | "RUB"
+  | "RWF"
+  | "SAR"
+  | "SBD"
+  | "SCR"
+  | "SDG"
+  | "SGD"
+  | "SHP"
+  | "SLL"
+  | "SOS"
+  | "SRD"
+  | "SSP"
+  | "STN"
+  | "SVC"
+  | "SYP"
+  | "SZL"
+  | "THB"
+  | "TJS"
+  | "TMT"
+  | "TND"
+  | "TOP"
+  | "TRY"
+  | "TTD"
+  | "TWD"
+  | "TZS"
+  | "UAH"
+  | "UGX"
+  | "USN"
+  | "UYI"
+  | "UYU"
+  | "UZS"
+  | "VEF"
+  | "VND"
+  | "VUV"
+  | "WST"
+  | "XAF"
+  | "XCD"
+  | "XDR"
+  | "XOF"
+  | "XPF"
+  | "XSU"
+  | "XUA"
+  | "YER"
+  | "ZAR"
+  | "ZMW"
+  | "ZWL";
+export const CurrencyCode = S.Literal(
+  "USD",
+  "EUR",
+  "GBP",
+  "AUD",
+  "CAD",
+  "CNY",
+  "NZD",
+  "INR",
+  "JPY",
+  "CHF",
+  "SEK",
+  "AED",
+  "AFN",
+  "ALL",
+  "AMD",
+  "ANG",
+  "AOA",
+  "ARS",
+  "AWG",
+  "AZN",
+  "BAM",
+  "BBD",
+  "BDT",
+  "BGN",
+  "BHD",
+  "BIF",
+  "BMD",
+  "BND",
+  "BOB",
+  "BOV",
+  "BRL",
+  "BSD",
+  "BTN",
+  "BWP",
+  "BYN",
+  "BZD",
+  "CDF",
+  "CHE",
+  "CHW",
+  "CLF",
+  "CLP",
+  "COP",
+  "COU",
+  "CRC",
+  "CUC",
+  "CUP",
+  "CVE",
+  "CZK",
+  "DJF",
+  "DKK",
+  "DOP",
+  "DZD",
+  "EGP",
+  "ERN",
+  "ETB",
+  "FJD",
+  "FKP",
+  "GEL",
+  "GHS",
+  "GIP",
+  "GMD",
+  "GNF",
+  "GTQ",
+  "GYD",
+  "HKD",
+  "HNL",
+  "HRK",
+  "HTG",
+  "HUF",
+  "IDR",
+  "ILS",
+  "IQD",
+  "IRR",
+  "ISK",
+  "JMD",
+  "JOD",
+  "KES",
+  "KGS",
+  "KHR",
+  "KMF",
+  "KPW",
+  "KRW",
+  "KWD",
+  "KYD",
+  "KZT",
+  "LAK",
+  "LBP",
+  "LKR",
+  "LRD",
+  "LSL",
+  "LYD",
+  "MAD",
+  "MDL",
+  "MGA",
+  "MKD",
+  "MMK",
+  "MNT",
+  "MOP",
+  "MRU",
+  "MUR",
+  "MVR",
+  "MWK",
+  "MXN",
+  "MXV",
+  "MYR",
+  "MZN",
+  "NAD",
+  "NGN",
+  "NIO",
+  "NOK",
+  "NPR",
+  "OMR",
+  "PAB",
+  "PEN",
+  "PGK",
+  "PHP",
+  "PKR",
+  "PLN",
+  "PYG",
+  "QAR",
+  "RON",
+  "RSD",
+  "RUB",
+  "RWF",
+  "SAR",
+  "SBD",
+  "SCR",
+  "SDG",
+  "SGD",
+  "SHP",
+  "SLL",
+  "SOS",
+  "SRD",
+  "SSP",
+  "STN",
+  "SVC",
+  "SYP",
+  "SZL",
+  "THB",
+  "TJS",
+  "TMT",
+  "TND",
+  "TOP",
+  "TRY",
+  "TTD",
+  "TWD",
+  "TZS",
+  "UAH",
+  "UGX",
+  "USN",
+  "UYI",
+  "UYU",
+  "UZS",
+  "VEF",
+  "VND",
+  "VUV",
+  "WST",
+  "XAF",
+  "XCD",
+  "XDR",
+  "XOF",
+  "XPF",
+  "XSU",
+  "XUA",
+  "YER",
+  "ZAR",
+  "ZMW",
+  "ZWL",
+);
+export type PaymentFrequency = "Monthly";
+export const PaymentFrequency = S.Literal("Monthly");
 export interface ExpectedCustomerSpend {
-  Amount?: string | Redacted.Redacted<string>;
-  CurrencyCode: string;
-  Frequency: string;
+  Amount?: string | redacted.Redacted<string>;
+  CurrencyCode: CurrencyCode;
+  Frequency: PaymentFrequency;
   TargetCompany: string;
   EstimationUrl?: string;
 }
 export const ExpectedCustomerSpend = S.suspend(() =>
   S.Struct({
     Amount: S.optional(SensitiveString),
-    CurrencyCode: S.String,
-    Frequency: S.String,
+    CurrencyCode: CurrencyCode,
+    Frequency: PaymentFrequency,
     TargetCompany: S.String,
     EstimationUrl: S.optional(S.String),
   }),
@@ -537,22 +1562,68 @@ export type ExpectedCustomerSpendList = ExpectedCustomerSpend[];
 export const ExpectedCustomerSpendList = S.Array(ExpectedCustomerSpend);
 export type ApnPrograms = string[];
 export const ApnPrograms = S.Array(S.String);
-export type SalesActivities = string[];
-export const SalesActivities = S.Array(S.String);
+export type SalesActivity =
+  | "Initialized discussions with customer"
+  | "Customer has shown interest in solution"
+  | "Conducted POC / Demo"
+  | "In evaluation / planning stage"
+  | "Agreed on solution to Business Problem"
+  | "Completed Action Plan"
+  | "Finalized Deployment Need"
+  | "SOW Signed";
+export const SalesActivity = S.Literal(
+  "Initialized discussions with customer",
+  "Customer has shown interest in solution",
+  "Conducted POC / Demo",
+  "In evaluation / planning stage",
+  "Agreed on solution to Business Problem",
+  "Completed Action Plan",
+  "Finalized Deployment Need",
+  "SOW Signed",
+);
+export type SalesActivities = SalesActivity[];
+export const SalesActivities = S.Array(SalesActivity);
+export type CompetitorName =
+  | "Oracle Cloud"
+  | "On-Prem"
+  | "Co-location"
+  | "Akamai"
+  | "AliCloud"
+  | "Google Cloud Platform"
+  | "IBM Softlayer"
+  | "Microsoft Azure"
+  | "Other- Cost Optimization"
+  | "No Competition"
+  | "*Other";
+export const CompetitorName = S.Literal(
+  "Oracle Cloud",
+  "On-Prem",
+  "Co-location",
+  "Akamai",
+  "AliCloud",
+  "Google Cloud Platform",
+  "IBM Softlayer",
+  "Microsoft Azure",
+  "Other- Cost Optimization",
+  "No Competition",
+  "*Other",
+);
+export type AwsPartition = "aws-eusc";
+export const AwsPartition = S.Literal("aws-eusc");
 export interface Project {
-  DeliveryModels?: DeliveryModels;
-  ExpectedCustomerSpend?: ExpectedCustomerSpendList;
-  Title?: string | Redacted.Redacted<string>;
-  ApnPrograms?: ApnPrograms;
-  CustomerBusinessProblem?: string | Redacted.Redacted<string>;
+  DeliveryModels?: DeliveryModel[];
+  ExpectedCustomerSpend?: ExpectedCustomerSpend[];
+  Title?: string | redacted.Redacted<string>;
+  ApnPrograms?: string[];
+  CustomerBusinessProblem?: string | redacted.Redacted<string>;
   CustomerUseCase?: string;
   RelatedOpportunityIdentifier?: string;
-  SalesActivities?: SalesActivities;
-  CompetitorName?: string;
+  SalesActivities?: SalesActivity[];
+  CompetitorName?: CompetitorName;
   OtherCompetitorNames?: string;
-  OtherSolutionDescription?: string | Redacted.Redacted<string>;
+  OtherSolutionDescription?: string | redacted.Redacted<string>;
   AdditionalComments?: string;
-  AwsPartition?: string;
+  AwsPartition?: AwsPartition;
 }
 export const Project = S.suspend(() =>
   S.Struct({
@@ -564,51 +1635,90 @@ export const Project = S.suspend(() =>
     CustomerUseCase: S.optional(S.String),
     RelatedOpportunityIdentifier: S.optional(S.String),
     SalesActivities: S.optional(SalesActivities),
-    CompetitorName: S.optional(S.String),
+    CompetitorName: S.optional(CompetitorName),
     OtherCompetitorNames: S.optional(S.String),
     OtherSolutionDescription: S.optional(SensitiveString),
     AdditionalComments: S.optional(S.String),
-    AwsPartition: S.optional(S.String),
+    AwsPartition: S.optional(AwsPartition),
   }),
 ).annotations({ identifier: "Project" }) as any as S.Schema<Project>;
+export type MarketingSource = "Marketing Activity" | "None";
+export const MarketingSource = S.Literal("Marketing Activity", "None");
 export type UseCases = string[];
 export const UseCases = S.Array(S.String);
-export type Channels = string[];
-export const Channels = S.Array(S.String);
+export type Channel =
+  | "AWS Marketing Central"
+  | "Content Syndication"
+  | "Display"
+  | "Email"
+  | "Live Event"
+  | "Out Of Home (OOH)"
+  | "Print"
+  | "Search"
+  | "Social"
+  | "Telemarketing"
+  | "TV"
+  | "Video"
+  | "Virtual Event";
+export const Channel = S.Literal(
+  "AWS Marketing Central",
+  "Content Syndication",
+  "Display",
+  "Email",
+  "Live Event",
+  "Out Of Home (OOH)",
+  "Print",
+  "Search",
+  "Social",
+  "Telemarketing",
+  "TV",
+  "Video",
+  "Virtual Event",
+);
+export type Channels = Channel[];
+export const Channels = S.Array(Channel);
+export type AwsFundingUsed = "Yes" | "No";
+export const AwsFundingUsed = S.Literal("Yes", "No");
 export interface Marketing {
   CampaignName?: string;
-  Source?: string;
-  UseCases?: UseCases;
-  Channels?: Channels;
-  AwsFundingUsed?: string;
+  Source?: MarketingSource;
+  UseCases?: string[];
+  Channels?: Channel[];
+  AwsFundingUsed?: AwsFundingUsed;
 }
 export const Marketing = S.suspend(() =>
   S.Struct({
     CampaignName: S.optional(S.String),
-    Source: S.optional(S.String),
+    Source: S.optional(MarketingSource),
     UseCases: S.optional(UseCases),
     Channels: S.optional(Channels),
-    AwsFundingUsed: S.optional(S.String),
+    AwsFundingUsed: S.optional(AwsFundingUsed),
   }),
 ).annotations({ identifier: "Marketing" }) as any as S.Schema<Marketing>;
+export type RevenueModel = "Contract" | "Pay-as-you-go" | "Subscription";
+export const RevenueModel = S.Literal(
+  "Contract",
+  "Pay-as-you-go",
+  "Subscription",
+);
 export interface MonetaryValue {
   Amount: string;
-  CurrencyCode: string;
+  CurrencyCode: CurrencyCode;
 }
 export const MonetaryValue = S.suspend(() =>
-  S.Struct({ Amount: S.String, CurrencyCode: S.String }),
+  S.Struct({ Amount: S.String, CurrencyCode: CurrencyCode }),
 ).annotations({
   identifier: "MonetaryValue",
 }) as any as S.Schema<MonetaryValue>;
 export interface SoftwareRevenue {
-  DeliveryModel?: string;
+  DeliveryModel?: RevenueModel;
   Value?: MonetaryValue;
   EffectiveDate?: string;
   ExpirationDate?: string;
 }
 export const SoftwareRevenue = S.suspend(() =>
   S.Struct({
-    DeliveryModel: S.optional(S.String),
+    DeliveryModel: S.optional(RevenueModel),
     Value: S.optional(MonetaryValue),
     EffectiveDate: S.optional(S.String),
     ExpirationDate: S.optional(S.String),
@@ -616,6 +1726,47 @@ export const SoftwareRevenue = S.suspend(() =>
 ).annotations({
   identifier: "SoftwareRevenue",
 }) as any as S.Schema<SoftwareRevenue>;
+export type ClosedLostReason =
+  | "Customer Deficiency"
+  | "Delay / Cancellation of Project"
+  | "Legal / Tax / Regulatory"
+  | "Lost to Competitor - Google"
+  | "Lost to Competitor - Microsoft"
+  | "Lost to Competitor - SoftLayer"
+  | "Lost to Competitor - VMWare"
+  | "Lost to Competitor - Other"
+  | "No Opportunity"
+  | "On Premises Deployment"
+  | "Partner Gap"
+  | "Price"
+  | "Security / Compliance"
+  | "Technical Limitations"
+  | "Customer Experience"
+  | "Other"
+  | "People/Relationship/Governance"
+  | "Product/Technology"
+  | "Financial/Commercial";
+export const ClosedLostReason = S.Literal(
+  "Customer Deficiency",
+  "Delay / Cancellation of Project",
+  "Legal / Tax / Regulatory",
+  "Lost to Competitor - Google",
+  "Lost to Competitor - Microsoft",
+  "Lost to Competitor - SoftLayer",
+  "Lost to Competitor - VMWare",
+  "Lost to Competitor - Other",
+  "No Opportunity",
+  "On Premises Deployment",
+  "Partner Gap",
+  "Price",
+  "Security / Compliance",
+  "Technical Limitations",
+  "Customer Experience",
+  "Other",
+  "People/Relationship/Governance",
+  "Product/Technology",
+  "Financial/Commercial",
+);
 export interface NextStepsHistory {
   Value: string;
   Time: Date;
@@ -631,22 +1782,22 @@ export const NextStepsHistory = S.suspend(() =>
 export type NextStepsHistories = NextStepsHistory[];
 export const NextStepsHistories = S.Array(NextStepsHistory);
 export interface LifeCycle {
-  Stage?: string;
-  ClosedLostReason?: string;
-  NextSteps?: string | Redacted.Redacted<string>;
+  Stage?: Stage;
+  ClosedLostReason?: ClosedLostReason;
+  NextSteps?: string | redacted.Redacted<string>;
   TargetCloseDate?: string;
-  ReviewStatus?: string;
+  ReviewStatus?: ReviewStatus;
   ReviewComments?: string;
   ReviewStatusReason?: string;
-  NextStepsHistory?: NextStepsHistories;
+  NextStepsHistory?: NextStepsHistory[];
 }
 export const LifeCycle = S.suspend(() =>
   S.Struct({
-    Stage: S.optional(S.String),
-    ClosedLostReason: S.optional(S.String),
+    Stage: S.optional(Stage),
+    ClosedLostReason: S.optional(ClosedLostReason),
     NextSteps: S.optional(SensitiveString),
     TargetCloseDate: S.optional(S.String),
-    ReviewStatus: S.optional(S.String),
+    ReviewStatus: S.optional(ReviewStatus),
     ReviewComments: S.optional(S.String),
     ReviewStatusReason: S.optional(S.String),
     NextStepsHistory: S.optional(NextStepsHistories),
@@ -654,12 +1805,12 @@ export const LifeCycle = S.suspend(() =>
 ).annotations({ identifier: "LifeCycle" }) as any as S.Schema<LifeCycle>;
 export interface UpdateOpportunityRequest {
   Catalog: string;
-  PrimaryNeedsFromAws?: PrimaryNeedsFromAws;
-  NationalSecurity?: string;
+  PrimaryNeedsFromAws?: PrimaryNeedFromAws[];
+  NationalSecurity?: NationalSecurity;
   PartnerOpportunityIdentifier?: string;
   Customer?: Customer;
   Project?: Project;
-  OpportunityType?: string;
+  OpportunityType?: OpportunityType;
   Marketing?: Marketing;
   SoftwareRevenue?: SoftwareRevenue;
   LastModifiedDate: Date;
@@ -670,11 +1821,11 @@ export const UpdateOpportunityRequest = S.suspend(() =>
   S.Struct({
     Catalog: S.String,
     PrimaryNeedsFromAws: S.optional(PrimaryNeedsFromAws),
-    NationalSecurity: S.optional(S.String),
+    NationalSecurity: S.optional(NationalSecurity),
     PartnerOpportunityIdentifier: S.optional(S.String),
     Customer: S.optional(Customer),
     Project: S.optional(Project),
-    OpportunityType: S.optional(S.String),
+    OpportunityType: S.optional(OpportunityType),
     Marketing: S.optional(Marketing),
     SoftwareRevenue: S.optional(SoftwareRevenue),
     LastModifiedDate: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -696,14 +1847,14 @@ export const UpdateOpportunityRequest = S.suspend(() =>
 export interface AssociateOpportunityRequest {
   Catalog: string;
   OpportunityIdentifier: string;
-  RelatedEntityType: string;
+  RelatedEntityType: RelatedEntityType;
   RelatedEntityIdentifier: string;
 }
 export const AssociateOpportunityRequest = S.suspend(() =>
   S.Struct({
     Catalog: S.String,
     OpportunityIdentifier: S.String,
-    RelatedEntityType: S.String,
+    RelatedEntityType: RelatedEntityType,
     RelatedEntityIdentifier: S.String,
   }).pipe(
     T.all(
@@ -727,14 +1878,14 @@ export const AssociateOpportunityResponse = S.suspend(() =>
 export interface DisassociateOpportunityRequest {
   Catalog: string;
   OpportunityIdentifier: string;
-  RelatedEntityType: string;
+  RelatedEntityType: RelatedEntityType;
   RelatedEntityIdentifier: string;
 }
 export const DisassociateOpportunityRequest = S.suspend(() =>
   S.Struct({
     Catalog: S.String,
     OpportunityIdentifier: S.String,
-    RelatedEntityType: S.String,
+    RelatedEntityType: RelatedEntityType,
     RelatedEntityIdentifier: S.String,
   }).pipe(
     T.all(
@@ -776,15 +1927,15 @@ export const GetAwsOpportunitySummaryRequest = S.suspend(() =>
 export interface SubmitOpportunityRequest {
   Catalog: string;
   Identifier: string;
-  InvolvementType: string;
-  Visibility?: string;
+  InvolvementType: SalesInvolvementType;
+  Visibility?: Visibility;
 }
 export const SubmitOpportunityRequest = S.suspend(() =>
   S.Struct({
     Catalog: S.String,
     Identifier: S.String,
-    InvolvementType: S.String,
-    Visibility: S.optional(S.String),
+    InvolvementType: SalesInvolvementType,
+    Visibility: S.optional(Visibility),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/SubmitOpportunity" }),
@@ -809,7 +1960,7 @@ export interface StartOpportunityFromEngagementTaskRequest {
   ClientToken: string;
   Identifier: string;
   ContextIdentifier: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const StartOpportunityFromEngagementTaskRequest = S.suspend(() =>
   S.Struct({
@@ -836,11 +1987,11 @@ export interface ListOpportunityFromEngagementTasksRequest {
   NextToken?: string;
   Sort?: ListTasksSortBase;
   Catalog: string;
-  TaskStatus?: TaskStatuses;
-  TaskIdentifier?: TaskIdentifiers;
-  OpportunityIdentifier?: OpportunityIdentifiers;
-  EngagementIdentifier?: EngagementIdentifiers;
-  ContextIdentifier?: ContextIdentifiers;
+  TaskStatus?: TaskStatus[];
+  TaskIdentifier?: string[];
+  OpportunityIdentifier?: string[];
+  EngagementIdentifier?: string[];
+  ContextIdentifier?: string[];
 }
 export const ListOpportunityFromEngagementTasksRequest = S.suspend(() =>
   S.Struct({
@@ -869,7 +2020,7 @@ export const ListOpportunityFromEngagementTasksRequest = S.suspend(() =>
 export interface CreateResourceSnapshotRequest {
   Catalog: string;
   EngagementIdentifier: string;
-  ResourceType: string;
+  ResourceType: ResourceType;
   ResourceIdentifier: string;
   ResourceSnapshotTemplateIdentifier: string;
   ClientToken: string;
@@ -878,7 +2029,7 @@ export const CreateResourceSnapshotRequest = S.suspend(() =>
   S.Struct({
     Catalog: S.String,
     EngagementIdentifier: S.String,
-    ResourceType: S.String,
+    ResourceType: ResourceType,
     ResourceIdentifier: S.String,
     ResourceSnapshotTemplateIdentifier: S.String,
     ClientToken: S.String,
@@ -898,7 +2049,7 @@ export const CreateResourceSnapshotRequest = S.suspend(() =>
 export interface GetResourceSnapshotRequest {
   Catalog: string;
   EngagementIdentifier: string;
-  ResourceType: string;
+  ResourceType: ResourceType;
   ResourceIdentifier: string;
   ResourceSnapshotTemplateIdentifier: string;
   Revision?: number;
@@ -907,7 +2058,7 @@ export const GetResourceSnapshotRequest = S.suspend(() =>
   S.Struct({
     Catalog: S.String,
     EngagementIdentifier: S.String,
-    ResourceType: S.String,
+    ResourceType: ResourceType,
     ResourceIdentifier: S.String,
     ResourceSnapshotTemplateIdentifier: S.String,
     Revision: S.optional(S.Number),
@@ -929,9 +2080,9 @@ export interface ListEngagementResourceAssociationsRequest {
   MaxResults?: number;
   NextToken?: string;
   EngagementIdentifier?: string;
-  ResourceType?: string;
+  ResourceType?: ResourceType;
   ResourceIdentifier?: string;
-  CreatedBy?: string | Redacted.Redacted<string>;
+  CreatedBy?: string | redacted.Redacted<string>;
 }
 export const ListEngagementResourceAssociationsRequest = S.suspend(() =>
   S.Struct({
@@ -939,7 +2090,7 @@ export const ListEngagementResourceAssociationsRequest = S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     EngagementIdentifier: S.optional(S.String),
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(ResourceType),
     ResourceIdentifier: S.optional(S.String),
     CreatedBy: S.optional(SensitiveString),
   }).pipe(
@@ -960,10 +2111,10 @@ export interface ListResourceSnapshotsRequest {
   MaxResults?: number;
   NextToken?: string;
   EngagementIdentifier: string;
-  ResourceType?: string;
+  ResourceType?: ResourceType;
   ResourceIdentifier?: string;
   ResourceSnapshotTemplateIdentifier?: string;
-  CreatedBy?: string | Redacted.Redacted<string>;
+  CreatedBy?: string | redacted.Redacted<string>;
 }
 export const ListResourceSnapshotsRequest = S.suspend(() =>
   S.Struct({
@@ -971,7 +2122,7 @@ export const ListResourceSnapshotsRequest = S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     EngagementIdentifier: S.String,
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(ResourceType),
     ResourceIdentifier: S.optional(S.String),
     ResourceSnapshotTemplateIdentifier: S.optional(S.String),
     CreatedBy: S.optional(SensitiveString),
@@ -992,17 +2143,17 @@ export interface CreateResourceSnapshotJobRequest {
   Catalog: string;
   ClientToken: string;
   EngagementIdentifier: string;
-  ResourceType: string;
+  ResourceType: ResourceType;
   ResourceIdentifier: string;
   ResourceSnapshotTemplateIdentifier: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateResourceSnapshotJobRequest = S.suspend(() =>
   S.Struct({
     Catalog: S.String,
     ClientToken: S.String,
     EngagementIdentifier: S.String,
-    ResourceType: S.String,
+    ResourceType: ResourceType,
     ResourceIdentifier: S.String,
     ResourceSnapshotTemplateIdentifier: S.String,
     Tags: S.optional(TagList),
@@ -1109,25 +2260,59 @@ export const StopResourceSnapshotJobResponse = S.suspend(() =>
 ).annotations({
   identifier: "StopResourceSnapshotJobResponse",
 }) as any as S.Schema<StopResourceSnapshotJobResponse>;
+export type EngagementSortName = "CreatedDate";
+export const EngagementSortName = S.Literal("CreatedDate");
+export type OpportunityEngagementInvitationSortName = "InvitationDate";
+export const OpportunityEngagementInvitationSortName =
+  S.Literal("InvitationDate");
+export type OpportunitySortName =
+  | "LastModifiedDate"
+  | "Identifier"
+  | "CustomerCompanyName";
+export const OpportunitySortName = S.Literal(
+  "LastModifiedDate",
+  "Identifier",
+  "CustomerCompanyName",
+);
+export type SortBy = "CreatedDate";
+export const SortBy = S.Literal("CreatedDate");
+export type SolutionSortName =
+  | "Identifier"
+  | "Name"
+  | "Status"
+  | "Category"
+  | "CreatedDate";
+export const SolutionSortName = S.Literal(
+  "Identifier",
+  "Name",
+  "Status",
+  "Category",
+  "CreatedDate",
+);
+export type AccessDeniedExceptionErrorCode =
+  "INCOMPATIBLE_BENEFIT_AWS_PARTNER_STATE";
+export const AccessDeniedExceptionErrorCode = S.Literal(
+  "INCOMPATIBLE_BENEFIT_AWS_PARTNER_STATE",
+);
 export interface EngagementCustomer {
-  Industry: string;
-  CompanyName: string | Redacted.Redacted<string>;
-  WebsiteUrl: string | Redacted.Redacted<string>;
-  CountryCode: string;
+  Industry: Industry;
+  CompanyName: string | redacted.Redacted<string>;
+  WebsiteUrl: string | redacted.Redacted<string>;
+  CountryCode: CountryCode;
 }
 export const EngagementCustomer = S.suspend(() =>
   S.Struct({
-    Industry: S.String,
+    Industry: Industry,
     CompanyName: SensitiveString,
     WebsiteUrl: SensitiveString,
-    CountryCode: S.String,
+    CountryCode: CountryCode,
   }),
 ).annotations({
   identifier: "EngagementCustomer",
 }) as any as S.Schema<EngagementCustomer>;
 export interface EngagementCustomerProjectDetails {
   Title: string;
-  BusinessProblem: string | Redacted.Redacted<string>;
+  BusinessProblem: string | redacted.Redacted<string>;
   TargetCompletionDate: string;
 }
 export const EngagementCustomerProjectDetails = S.suspend(() =>
@@ -1152,45 +2337,58 @@ export const CustomerProjectsContext = S.suspend(() =>
   identifier: "CustomerProjectsContext",
 }) as any as S.Schema<CustomerProjectsContext>;
 export interface AddressSummary {
-  City?: string | Redacted.Redacted<string>;
-  PostalCode?: string | Redacted.Redacted<string>;
-  StateOrRegion?: string | Redacted.Redacted<string>;
-  CountryCode?: string;
+  City?: string | redacted.Redacted<string>;
+  PostalCode?: string | redacted.Redacted<string>;
+  StateOrRegion?: string | redacted.Redacted<string>;
+  CountryCode?: CountryCode;
 }
 export const AddressSummary = S.suspend(() =>
   S.Struct({
     City: S.optional(SensitiveString),
     PostalCode: S.optional(SensitiveString),
     StateOrRegion: S.optional(SensitiveString),
-    CountryCode: S.optional(S.String),
+    CountryCode: S.optional(CountryCode),
   }),
 ).annotations({
   identifier: "AddressSummary",
 }) as any as S.Schema<AddressSummary>;
+export type MarketSegment =
+  | "Enterprise"
+  | "Large"
+  | "Medium"
+  | "Small"
+  | "Micro";
+export const MarketSegment = S.Literal(
+  "Enterprise",
+  "Large",
+  "Medium",
+  "Small",
+  "Micro",
+);
 export interface LeadCustomer {
-  Industry?: string;
-  CompanyName: string | Redacted.Redacted<string>;
-  WebsiteUrl?: string | Redacted.Redacted<string>;
+  Industry?: Industry;
+  CompanyName: string | redacted.Redacted<string>;
+  WebsiteUrl?: string | redacted.Redacted<string>;
   Address: AddressSummary;
   AwsMaturity?: string;
-  MarketSegment?: string;
+  MarketSegment?: MarketSegment;
 }
 export const LeadCustomer = S.suspend(() =>
   S.Struct({
-    Industry: S.optional(S.String),
+    Industry: S.optional(Industry),
     CompanyName: SensitiveString,
     WebsiteUrl: S.optional(SensitiveString),
     Address: AddressSummary,
     AwsMaturity: S.optional(S.String),
-    MarketSegment: S.optional(S.String),
+    MarketSegment: S.optional(MarketSegment),
   }),
 ).annotations({ identifier: "LeadCustomer" }) as any as S.Schema<LeadCustomer>;
 export interface LeadContact {
-  BusinessTitle: string | Redacted.Redacted<string>;
-  Email: string | Redacted.Redacted<string>;
-  FirstName: string | Redacted.Redacted<string>;
-  LastName: string | Redacted.Redacted<string>;
-  Phone?: string | Redacted.Redacted<string>;
+  BusinessTitle: string | redacted.Redacted<string>;
+  Email: string | redacted.Redacted<string>;
+  FirstName: string | redacted.Redacted<string>;
+  LastName: string | redacted.Redacted<string>;
+  Phone?: string | redacted.Redacted<string>;
 }
 export const LeadContact = S.suspend(() =>
   S.Struct({
@@ -1208,7 +2406,7 @@ export interface LeadInteraction {
   Usecase?: string;
   InteractionDate?: Date;
   CustomerAction: string;
-  BusinessProblem?: string | Redacted.Redacted<string>;
+  BusinessProblem?: string | redacted.Redacted<string>;
   Contact: LeadContact;
 }
 export const LeadInteraction = S.suspend(() =>
@@ -1230,7 +2428,7 @@ export const LeadInteractionList = S.Array(LeadInteraction);
 export interface LeadContext {
   QualificationStatus?: string;
   Customer: LeadCustomer;
-  Interactions: LeadInteractionList;
+  Interactions: LeadInteraction[];
 }
 export const LeadContext = S.suspend(() =>
   S.Struct({
@@ -1248,13 +2446,13 @@ export const EngagementContextPayload = S.Union(
 );
 export interface EngagementContextDetails {
   Id?: string;
-  Type: string;
-  Payload?: (typeof EngagementContextPayload)["Type"];
+  Type: EngagementContextType;
+  Payload?: EngagementContextPayload;
 }
 export const EngagementContextDetails = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
-    Type: S.String,
+    Type: EngagementContextType,
     Payload: S.optional(EngagementContextPayload),
   }),
 ).annotations({
@@ -1263,40 +2461,93 @@ export const EngagementContextDetails = S.suspend(() =>
 export type EngagementContexts = EngagementContextDetails[];
 export const EngagementContexts = S.Array(EngagementContextDetails);
 export interface EngagementSort {
-  SortOrder: string;
-  SortBy: string;
+  SortOrder: SortOrder;
+  SortBy: EngagementSortName;
 }
 export const EngagementSort = S.suspend(() =>
-  S.Struct({ SortOrder: S.String, SortBy: S.String }),
+  S.Struct({ SortOrder: SortOrder, SortBy: EngagementSortName }),
 ).annotations({
   identifier: "EngagementSort",
 }) as any as S.Schema<EngagementSort>;
+export type ReasonCode =
+  | "InvitationAccessDenied"
+  | "InvitationValidationFailed"
+  | "EngagementAccessDenied"
+  | "OpportunityAccessDenied"
+  | "ResourceSnapshotJobAccessDenied"
+  | "ResourceSnapshotJobValidationFailed"
+  | "ResourceSnapshotJobConflict"
+  | "EngagementValidationFailed"
+  | "EngagementConflict"
+  | "OpportunitySubmissionFailed"
+  | "EngagementInvitationConflict"
+  | "InternalError"
+  | "OpportunityValidationFailed"
+  | "OpportunityConflict"
+  | "ResourceSnapshotAccessDenied"
+  | "ResourceSnapshotValidationFailed"
+  | "ResourceSnapshotConflict"
+  | "ServiceQuotaExceeded"
+  | "RequestThrottled"
+  | "ContextNotFound"
+  | "CustomerProjectContextNotPermitted"
+  | "DisqualifiedLeadNotPermitted";
+export const ReasonCode = S.Literal(
+  "InvitationAccessDenied",
+  "InvitationValidationFailed",
+  "EngagementAccessDenied",
+  "OpportunityAccessDenied",
+  "ResourceSnapshotJobAccessDenied",
+  "ResourceSnapshotJobValidationFailed",
+  "ResourceSnapshotJobConflict",
+  "EngagementValidationFailed",
+  "EngagementConflict",
+  "OpportunitySubmissionFailed",
+  "EngagementInvitationConflict",
+  "InternalError",
+  "OpportunityValidationFailed",
+  "OpportunityConflict",
+  "ResourceSnapshotAccessDenied",
+  "ResourceSnapshotValidationFailed",
+  "ResourceSnapshotConflict",
+  "ServiceQuotaExceeded",
+  "RequestThrottled",
+  "ContextNotFound",
+  "CustomerProjectContextNotPermitted",
+  "DisqualifiedLeadNotPermitted",
+);
 export interface AwsSubmission {
-  InvolvementType: string;
-  Visibility?: string;
+  InvolvementType: SalesInvolvementType;
+  Visibility?: Visibility;
 }
 export const AwsSubmission = S.suspend(() =>
-  S.Struct({ InvolvementType: S.String, Visibility: S.optional(S.String) }),
+  S.Struct({
+    InvolvementType: SalesInvolvementType,
+    Visibility: S.optional(Visibility),
+  }),
 ).annotations({
   identifier: "AwsSubmission",
 }) as any as S.Schema<AwsSubmission>;
 export interface OpportunityEngagementInvitationSort {
-  SortOrder: string;
-  SortBy: string;
+  SortOrder: SortOrder;
+  SortBy: OpportunityEngagementInvitationSortName;
 }
 export const OpportunityEngagementInvitationSort = S.suspend(() =>
-  S.Struct({ SortOrder: S.String, SortBy: S.String }),
+  S.Struct({
+    SortOrder: SortOrder,
+    SortBy: OpportunityEngagementInvitationSortName,
+  }),
 ).annotations({
   identifier: "OpportunityEngagementInvitationSort",
 }) as any as S.Schema<OpportunityEngagementInvitationSort>;
 export type PartnerOpportunityTeamMembersList = Contact[];
 export const PartnerOpportunityTeamMembersList = S.Array(Contact);
 export interface OpportunitySort {
-  SortOrder: string;
-  SortBy: string;
+  SortOrder: SortOrder;
+  SortBy: OpportunitySortName;
 }
 export const OpportunitySort = S.suspend(() =>
-  S.Struct({ SortOrder: S.String, SortBy: S.String }),
+  S.Struct({ SortOrder: SortOrder, SortBy: OpportunitySortName }),
 ).annotations({
   identifier: "OpportunitySort",
 }) as any as S.Schema<OpportunitySort>;
@@ -1317,11 +2568,11 @@ export const LastModifiedDate = S.suspend(() =>
   identifier: "LastModifiedDate",
 }) as any as S.Schema<LastModifiedDate>;
 export interface AssigneeContact {
-  Email: string | Redacted.Redacted<string>;
-  FirstName: string | Redacted.Redacted<string>;
-  LastName: string | Redacted.Redacted<string>;
-  Phone?: string | Redacted.Redacted<string>;
-  BusinessTitle: string | Redacted.Redacted<string>;
+  Email: string | redacted.Redacted<string>;
+  FirstName: string | redacted.Redacted<string>;
+  LastName: string | redacted.Redacted<string>;
+  Phone?: string | redacted.Redacted<string>;
+  BusinessTitle: string | redacted.Redacted<string>;
 }
 export const AssigneeContact = S.suspend(() =>
   S.Struct({
@@ -1334,19 +2585,32 @@ export const AssigneeContact = S.suspend(() =>
 ).annotations({
   identifier: "AssigneeContact",
 }) as any as S.Schema<AssigneeContact>;
+export type InvolvementTypeChangeReason =
+  | "Expansion Opportunity"
+  | "Change in Deal Information"
+  | "Customer Requested"
+  | "Technical Complexity"
+  | "Risk Mitigation";
+export const InvolvementTypeChangeReason = S.Literal(
+  "Expansion Opportunity",
+  "Change in Deal Information",
+  "Customer Requested",
+  "Technical Complexity",
+  "Risk Mitigation",
+);
 export interface SortObject {
-  SortBy?: string;
-  SortOrder?: string;
+  SortBy?: SortBy;
+  SortOrder?: SortOrder;
 }
 export const SortObject = S.suspend(() =>
-  S.Struct({ SortBy: S.optional(S.String), SortOrder: S.optional(S.String) }),
+  S.Struct({ SortBy: S.optional(SortBy), SortOrder: S.optional(SortOrder) }),
 ).annotations({ identifier: "SortObject" }) as any as S.Schema<SortObject>;
 export interface SolutionSort {
-  SortOrder: string;
-  SortBy: string;
+  SortOrder: SortOrder;
+  SortBy: SolutionSortName;
 }
 export const SolutionSort = S.suspend(() =>
-  S.Struct({ SortOrder: S.String, SortBy: S.String }),
+  S.Struct({ SortOrder: SortOrder, SortBy: SolutionSortName }),
 ).annotations({ identifier: "SolutionSort" }) as any as S.Schema<SolutionSort>;
 export interface GetSellingSystemSettingsResponse {
   Catalog: string;
@@ -1361,7 +2625,7 @@ export const GetSellingSystemSettingsResponse = S.suspend(() =>
   identifier: "GetSellingSystemSettingsResponse",
 }) as any as S.Schema<GetSellingSystemSettingsResponse>;
 export interface ListTagsForResourceResponse {
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: TagList }),
@@ -1382,7 +2646,7 @@ export const PutSellingSystemSettingsResponse = S.suspend(() =>
 }) as any as S.Schema<PutSellingSystemSettingsResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
@@ -1407,7 +2671,7 @@ export interface CreateEngagementRequest {
   ClientToken: string;
   Title: string;
   Description: string;
-  Contexts?: EngagementContexts;
+  Contexts?: EngagementContextDetails[];
 }
 export const CreateEngagementRequest = S.suspend(() =>
   S.Struct({
@@ -1435,11 +2699,11 @@ export interface GetEngagementResponse {
   Title?: string;
   Description?: string;
   CreatedAt?: Date;
-  CreatedBy?: string | Redacted.Redacted<string>;
+  CreatedBy?: string | redacted.Redacted<string>;
   MemberCount?: number;
   ModifiedAt?: Date;
-  ModifiedBy?: string | Redacted.Redacted<string>;
-  Contexts?: EngagementContexts;
+  ModifiedBy?: string | redacted.Redacted<string>;
+  Contexts?: EngagementContextDetails[];
 }
 export const GetEngagementResponse = S.suspend(() =>
   S.Struct({
@@ -1459,14 +2723,14 @@ export const GetEngagementResponse = S.suspend(() =>
 }) as any as S.Schema<GetEngagementResponse>;
 export interface ListEngagementsRequest {
   Catalog: string;
-  CreatedBy?: AwsAccountList;
-  ExcludeCreatedBy?: AwsAccountList;
-  ContextTypes?: EngagementContextTypeList;
-  ExcludeContextTypes?: EngagementContextTypeList;
+  CreatedBy?: string | redacted.Redacted<string>[];
+  ExcludeCreatedBy?: string | redacted.Redacted<string>[];
+  ContextTypes?: EngagementContextType[];
+  ExcludeContextTypes?: EngagementContextType[];
   Sort?: EngagementSort;
   MaxResults?: number;
   NextToken?: string;
-  EngagementIdentifier?: EngagementIdentifiers;
+  EngagementIdentifier?: string[];
 }
 export const ListEngagementsRequest = S.suspend(() =>
   S.Struct({
@@ -1496,9 +2760,9 @@ export interface StartEngagementByAcceptingInvitationTaskResponse {
   TaskId?: string;
   TaskArn?: string;
   StartTime?: Date;
-  TaskStatus?: string;
+  TaskStatus?: TaskStatus;
   Message?: string;
-  ReasonCode?: string;
+  ReasonCode?: ReasonCode;
   OpportunityId?: string;
   ResourceSnapshotJobId?: string;
   EngagementInvitationId?: string;
@@ -1508,9 +2772,9 @@ export const StartEngagementByAcceptingInvitationTaskResponse = S.suspend(() =>
     TaskId: S.optional(S.String),
     TaskArn: S.optional(S.String),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    TaskStatus: S.optional(S.String),
+    TaskStatus: S.optional(TaskStatus),
     Message: S.optional(S.String),
-    ReasonCode: S.optional(S.String),
+    ReasonCode: S.optional(ReasonCode),
     OpportunityId: S.optional(S.String),
     ResourceSnapshotJobId: S.optional(S.String),
     EngagementInvitationId: S.optional(S.String),
@@ -1523,10 +2787,10 @@ export interface ListEngagementByAcceptingInvitationTasksRequest {
   NextToken?: string;
   Sort?: ListTasksSortBase;
   Catalog: string;
-  TaskStatus?: TaskStatuses;
-  OpportunityIdentifier?: OpportunityIdentifiers;
-  EngagementInvitationIdentifier?: EngagementInvitationIdentifiers;
-  TaskIdentifier?: TaskIdentifiers;
+  TaskStatus?: TaskStatus[];
+  OpportunityIdentifier?: string[];
+  EngagementInvitationIdentifier?: string[];
+  TaskIdentifier?: string[];
 }
 export const ListEngagementByAcceptingInvitationTasksRequest = S.suspend(() =>
   S.Struct({
@@ -1559,7 +2823,7 @@ export interface StartEngagementFromOpportunityTaskRequest {
   ClientToken: string;
   Identifier: string;
   AwsSubmission: AwsSubmission;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const StartEngagementFromOpportunityTaskRequest = S.suspend(() =>
   S.Struct({
@@ -1586,11 +2850,11 @@ export interface ListEngagementInvitationsRequest {
   MaxResults?: number;
   NextToken?: string;
   Sort?: OpportunityEngagementInvitationSort;
-  PayloadType?: EngagementInvitationsPayloadType;
-  ParticipantType: string;
-  Status?: InvitationStatusList;
-  EngagementIdentifier?: EngagementIdentifiers;
-  SenderAwsAccountId?: AwsAccountIdOrAliasList;
+  PayloadType?: EngagementInvitationPayloadType[];
+  ParticipantType: ParticipantType;
+  Status?: InvitationStatus[];
+  EngagementIdentifier?: string[];
+  SenderAwsAccountId?: string | redacted.Redacted<string>[];
 }
 export const ListEngagementInvitationsRequest = S.suspend(() =>
   S.Struct({
@@ -1599,7 +2863,7 @@ export const ListEngagementInvitationsRequest = S.suspend(() =>
     NextToken: S.optional(S.String),
     Sort: S.optional(OpportunityEngagementInvitationSort),
     PayloadType: S.optional(EngagementInvitationsPayloadType),
-    ParticipantType: S.String,
+    ParticipantType: ParticipantType,
     Status: S.optional(InvitationStatusList),
     EngagementIdentifier: S.optional(EngagementIdentifiers),
     SenderAwsAccountId: S.optional(AwsAccountIdOrAliasList),
@@ -1634,10 +2898,10 @@ export interface ListOpportunitiesRequest {
   NextToken?: string;
   Sort?: OpportunitySort;
   LastModifiedDate?: LastModifiedDate;
-  Identifier?: FilterIdentifier;
-  LifeCycleStage?: FilterLifeCycleStage;
-  LifeCycleReviewStatus?: FilterLifeCycleReviewStatus;
-  CustomerCompanyName?: StringList;
+  Identifier?: string[];
+  LifeCycleStage?: Stage[];
+  LifeCycleReviewStatus?: ReviewStatus[];
+  CustomerCompanyName?: string[];
 }
 export const ListOpportunitiesRequest = S.suspend(() =>
   S.Struct({
@@ -1696,9 +2960,9 @@ export interface StartOpportunityFromEngagementTaskResponse {
   TaskId?: string;
   TaskArn?: string;
   StartTime?: Date;
-  TaskStatus?: string;
+  TaskStatus?: TaskStatus;
   Message?: string;
-  ReasonCode?: string;
+  ReasonCode?: ReasonCode;
   OpportunityId?: string;
   ResourceSnapshotJobId?: string;
   EngagementId?: string;
@@ -1709,9 +2973,9 @@ export const StartOpportunityFromEngagementTaskResponse = S.suspend(() =>
     TaskId: S.optional(S.String),
     TaskArn: S.optional(S.String),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    TaskStatus: S.optional(S.String),
+    TaskStatus: S.optional(TaskStatus),
     Message: S.optional(S.String),
-    ReasonCode: S.optional(S.String),
+    ReasonCode: S.optional(ReasonCode),
     OpportunityId: S.optional(S.String),
     ResourceSnapshotJobId: S.optional(S.String),
     EngagementId: S.optional(S.String),
@@ -1743,12 +3007,12 @@ export interface GetResourceSnapshotJobResponse {
   Id?: string;
   Arn?: string;
   EngagementId?: string;
-  ResourceType?: string;
+  ResourceType?: ResourceType;
   ResourceId?: string;
   ResourceArn?: string;
   ResourceSnapshotTemplateName?: string;
   CreatedAt?: Date;
-  Status?: string;
+  Status?: ResourceSnapshotJobStatus;
   LastSuccessfulExecutionDate?: Date;
   LastFailure?: string;
 }
@@ -1758,12 +3022,12 @@ export const GetResourceSnapshotJobResponse = S.suspend(() =>
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
     EngagementId: S.optional(S.String),
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(ResourceType),
     ResourceId: S.optional(S.String),
     ResourceArn: S.optional(S.String),
     ResourceSnapshotTemplateName: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    Status: S.optional(S.String),
+    Status: S.optional(ResourceSnapshotJobStatus),
     LastSuccessfulExecutionDate: S.optional(
       S.Date.pipe(T.TimestampFormat("date-time")),
     ),
@@ -1777,7 +3041,7 @@ export interface ListResourceSnapshotJobsRequest {
   MaxResults?: number;
   NextToken?: string;
   EngagementIdentifier?: string;
-  Status?: string;
+  Status?: ResourceSnapshotJobStatus;
   Sort?: SortObject;
 }
 export const ListResourceSnapshotJobsRequest = S.suspend(() =>
@@ -1786,7 +3050,7 @@ export const ListResourceSnapshotJobsRequest = S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     EngagementIdentifier: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ResourceSnapshotJobStatus),
     Sort: S.optional(SortObject),
   }).pipe(
     T.all(
@@ -1806,9 +3070,9 @@ export interface ListSolutionsRequest {
   MaxResults?: number;
   NextToken?: string;
   Sort?: SolutionSort;
-  Status?: FilterStatus;
-  Identifier?: SolutionIdentifiers;
-  Category?: StringList;
+  Status?: SolutionStatus[];
+  Identifier?: string[];
+  Category?: string[];
 }
 export const ListSolutionsRequest = S.suspend(() =>
   S.Struct({
@@ -1852,8 +3116,196 @@ export type AwsMarketplaceOfferSetIdentifiers = string[];
 export const AwsMarketplaceOfferSetIdentifiers = S.Array(S.String);
 export type AwsProductIdentifiers = string[];
 export const AwsProductIdentifiers = S.Array(S.String);
-export type ReceiverResponsibilityList = string[];
-export const ReceiverResponsibilityList = S.Array(S.String);
+export type AwsClosedLostReason =
+  | "Administrative"
+  | "Business Associate Agreement"
+  | "Company Acquired/Dissolved"
+  | "Competitive Offering"
+  | "Customer Data Requirement"
+  | "Customer Deficiency"
+  | "Customer Experience"
+  | "Delay / Cancellation of Project"
+  | "Duplicate"
+  | "Duplicate Opportunity"
+  | "Executive Blocker"
+  | "Failed Vetting"
+  | "Feature Limitation"
+  | "Financial/Commercial"
+  | "Insufficient Amazon Value"
+  | "Insufficient AWS Value"
+  | "International Constraints"
+  | "Legal / Tax / Regulatory"
+  | "Legal Terms and Conditions"
+  | "Lost to Competitor"
+  | "Lost to Competitor - Google"
+  | "Lost to Competitor - Microsoft"
+  | "Lost to Competitor - Other"
+  | "Lost to Competitor - Rackspace"
+  | "Lost to Competitor - SoftLayer"
+  | "Lost to Competitor - VMWare"
+  | "No Customer Reference"
+  | "No Integration Resources"
+  | "No Opportunity"
+  | "No Perceived Value of MP"
+  | "No Response"
+  | "Not Committed to AWS"
+  | "No Update"
+  | "On Premises Deployment"
+  | "Other"
+  | "Other (Details in Description)"
+  | "Partner Gap"
+  | "Past Due"
+  | "People/Relationship/Governance"
+  | "Platform Technology Limitation"
+  | "Preference for Competitor"
+  | "Price"
+  | "Product/Technology"
+  | "Product Not on AWS"
+  | "Security / Compliance"
+  | "Self-Service"
+  | "Technical Limitations"
+  | "Term Sheet Impasse";
+export const AwsClosedLostReason = S.Literal(
+  "Administrative",
+  "Business Associate Agreement",
+  "Company Acquired/Dissolved",
+  "Competitive Offering",
+  "Customer Data Requirement",
+  "Customer Deficiency",
+  "Customer Experience",
+  "Delay / Cancellation of Project",
+  "Duplicate",
+  "Duplicate Opportunity",
+  "Executive Blocker",
+  "Failed Vetting",
+  "Feature Limitation",
+  "Financial/Commercial",
+  "Insufficient Amazon Value",
+  "Insufficient AWS Value",
+  "International Constraints",
+  "Legal / Tax / Regulatory",
+  "Legal Terms and Conditions",
+  "Lost to Competitor",
+  "Lost to Competitor - Google",
+  "Lost to Competitor - Microsoft",
+  "Lost to Competitor - Other",
+  "Lost to Competitor - Rackspace",
+  "Lost to Competitor - SoftLayer",
+  "Lost to Competitor - VMWare",
+  "No Customer Reference",
+  "No Integration Resources",
+  "No Opportunity",
+  "No Perceived Value of MP",
+  "No Response",
+  "Not Committed to AWS",
+  "No Update",
+  "On Premises Deployment",
+  "Other",
+  "Other (Details in Description)",
+  "Partner Gap",
+  "Past Due",
+  "People/Relationship/Governance",
+  "Platform Technology Limitation",
+  "Preference for Competitor",
+  "Price",
+  "Product/Technology",
+  "Product Not on AWS",
+  "Security / Compliance",
+  "Self-Service",
+  "Technical Limitations",
+  "Term Sheet Impasse",
+);
+export type AwsOpportunityStage =
+  | "Not Started"
+  | "In Progress"
+  | "Prospect"
+  | "Engaged"
+  | "Identified"
+  | "Qualify"
+  | "Research"
+  | "Seller Engaged"
+  | "Evaluating"
+  | "Seller Registered"
+  | "Term Sheet Negotiation"
+  | "Contract Negotiation"
+  | "Onboarding"
+  | "Building Integration"
+  | "Qualified"
+  | "On-hold"
+  | "Technical Validation"
+  | "Business Validation"
+  | "Committed"
+  | "Launched"
+  | "Deferred to Partner"
+  | "Closed Lost"
+  | "Completed"
+  | "Closed Incomplete";
+export const AwsOpportunityStage = S.Literal(
+  "Not Started",
+  "In Progress",
+  "Prospect",
+  "Engaged",
+  "Identified",
+  "Qualify",
+  "Research",
+  "Seller Engaged",
+  "Evaluating",
+  "Seller Registered",
+  "Term Sheet Negotiation",
+  "Contract Negotiation",
+  "Onboarding",
+  "Building Integration",
+  "Qualified",
+  "On-hold",
+  "Technical Validation",
+  "Business Validation",
+  "Committed",
+  "Launched",
+  "Deferred to Partner",
+  "Closed Lost",
+  "Completed",
+  "Closed Incomplete",
+);
+export type AwsMemberBusinessTitle =
+  | "AWSSalesRep"
+  | "AWSAccountOwner"
+  | "WWPSPDM"
+  | "PDM"
+  | "PSM"
+  | "ISVSM";
+export const AwsMemberBusinessTitle = S.Literal(
+  "AWSSalesRep",
+  "AWSAccountOwner",
+  "WWPSPDM",
+  "PDM",
+  "PSM",
+  "ISVSM",
+);
+export type EngagementScore = "High" | "Medium" | "Low";
+export const EngagementScore = S.Literal("High", "Medium", "Low");
+export type ReceiverResponsibility =
+  | "Distributor"
+  | "Reseller"
+  | "Hardware Partner"
+  | "Managed Service Provider"
+  | "Software Partner"
+  | "Services Partner"
+  | "Training Partner"
+  | "Co-Sell Facilitator"
+  | "Facilitator";
+export const ReceiverResponsibility = S.Literal(
+  "Distributor",
+  "Reseller",
+  "Hardware Partner",
+  "Managed Service Provider",
+  "Software Partner",
+  "Services Partner",
+  "Training Partner",
+  "Co-Sell Facilitator",
+  "Facilitator",
+);
+export type ReceiverResponsibilityList = ReceiverResponsibility[];
+export const ReceiverResponsibilityList = S.Array(ReceiverResponsibility);
 export type UpdateEngagementContextPayload =
   | { Lead: UpdateLeadContext }
   | { CustomerProject: CustomerProjectsContext };
@@ -1862,9 +3314,9 @@ export const UpdateEngagementContextPayload = S.Union(
   S.Struct({ CustomerProject: CustomerProjectsContext }),
 );
 export interface EngagementMember {
-  CompanyName?: string | Redacted.Redacted<string>;
+  CompanyName?: string | redacted.Redacted<string>;
   WebsiteUrl?: string;
-  AccountId?: string | Redacted.Redacted<string>;
+  AccountId?: string | redacted.Redacted<string>;
 }
 export const EngagementMember = S.suspend(() =>
   S.Struct({
@@ -1881,9 +3333,9 @@ export interface ListEngagementFromOpportunityTaskSummary {
   TaskId?: string;
   TaskArn?: string;
   StartTime?: Date;
-  TaskStatus?: string;
+  TaskStatus?: TaskStatus;
   Message?: string;
-  ReasonCode?: string;
+  ReasonCode?: ReasonCode;
   OpportunityId?: string;
   ResourceSnapshotJobId?: string;
   EngagementId?: string;
@@ -1894,9 +3346,9 @@ export const ListEngagementFromOpportunityTaskSummary = S.suspend(() =>
     TaskId: S.optional(S.String),
     TaskArn: S.optional(S.String),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    TaskStatus: S.optional(S.String),
+    TaskStatus: S.optional(TaskStatus),
     Message: S.optional(S.String),
-    ReasonCode: S.optional(S.String),
+    ReasonCode: S.optional(ReasonCode),
     OpportunityId: S.optional(S.String),
     ResourceSnapshotJobId: S.optional(S.String),
     EngagementId: S.optional(S.String),
@@ -1911,7 +3363,7 @@ export const ListEngagementFromOpportunityTaskSummaries = S.Array(
   ListEngagementFromOpportunityTaskSummary,
 );
 export interface EngagementMemberSummary {
-  CompanyName?: string | Redacted.Redacted<string>;
+  CompanyName?: string | redacted.Redacted<string>;
   WebsiteUrl?: string;
 }
 export const EngagementMemberSummary = S.suspend(() =>
@@ -1925,10 +3377,10 @@ export const EngagementMemberSummary = S.suspend(() =>
 export type EngagementMemberSummaries = EngagementMemberSummary[];
 export const EngagementMemberSummaries = S.Array(EngagementMemberSummary);
 export interface RelatedEntityIdentifiers {
-  AwsMarketplaceOffers?: AwsMarketplaceOfferIdentifiers;
-  AwsMarketplaceOfferSets?: AwsMarketplaceOfferSetIdentifiers;
-  Solutions?: SolutionIdentifiers;
-  AwsProducts?: AwsProductIdentifiers;
+  AwsMarketplaceOffers?: string[];
+  AwsMarketplaceOfferSets?: string[];
+  Solutions?: string[];
+  AwsProducts?: string[];
 }
 export const RelatedEntityIdentifiers = S.suspend(() =>
   S.Struct({
@@ -1941,17 +3393,17 @@ export const RelatedEntityIdentifiers = S.suspend(() =>
   identifier: "RelatedEntityIdentifiers",
 }) as any as S.Schema<RelatedEntityIdentifiers>;
 export interface AwsTeamMember {
-  Email?: string | Redacted.Redacted<string>;
-  FirstName?: string | Redacted.Redacted<string>;
-  LastName?: string | Redacted.Redacted<string>;
-  BusinessTitle?: string;
+  Email?: string | redacted.Redacted<string>;
+  FirstName?: string | redacted.Redacted<string>;
+  LastName?: string | redacted.Redacted<string>;
+  BusinessTitle?: AwsMemberBusinessTitle;
 }
 export const AwsTeamMember = S.suspend(() =>
   S.Struct({
     Email: S.optional(SensitiveString),
     FirstName: S.optional(SensitiveString),
     LastName: S.optional(SensitiveString),
-    BusinessTitle: S.optional(S.String),
+    BusinessTitle: S.optional(AwsMemberBusinessTitle),
   }),
 ).annotations({
   identifier: "AwsTeamMember",
@@ -1959,8 +3411,8 @@ export const AwsTeamMember = S.suspend(() =>
 export type AwsOpportunityTeamMembersList = AwsTeamMember[];
 export const AwsOpportunityTeamMembersList = S.Array(AwsTeamMember);
 export interface AwsOpportunityRelatedEntities {
-  AwsProducts?: AwsProductIdentifiers;
-  Solutions?: SolutionIdentifiers;
+  AwsProducts?: string[];
+  Solutions?: string[];
 }
 export const AwsOpportunityRelatedEntities = S.suspend(() =>
   S.Struct({
@@ -1971,7 +3423,7 @@ export const AwsOpportunityRelatedEntities = S.suspend(() =>
   identifier: "AwsOpportunityRelatedEntities",
 }) as any as S.Schema<AwsOpportunityRelatedEntities>;
 export interface AwsOpportunityCustomer {
-  Contacts?: CustomerContactsList;
+  Contacts?: Contact[];
 }
 export const AwsOpportunityCustomer = S.suspend(() =>
   S.Struct({ Contacts: S.optional(CustomerContactsList) }),
@@ -1979,13 +3431,13 @@ export const AwsOpportunityCustomer = S.suspend(() =>
   identifier: "AwsOpportunityCustomer",
 }) as any as S.Schema<AwsOpportunityCustomer>;
 export interface AwsOpportunityProject {
-  ExpectedCustomerSpend?: ExpectedCustomerSpendList;
-  AwsPartition?: string;
+  ExpectedCustomerSpend?: ExpectedCustomerSpend[];
+  AwsPartition?: AwsPartition;
 }
 export const AwsOpportunityProject = S.suspend(() =>
   S.Struct({
     ExpectedCustomerSpend: S.optional(ExpectedCustomerSpendList),
-    AwsPartition: S.optional(S.String),
+    AwsPartition: S.optional(AwsPartition),
   }),
 ).annotations({
   identifier: "AwsOpportunityProject",
@@ -1994,9 +3446,9 @@ export interface ListOpportunityFromEngagementTaskSummary {
   TaskId?: string;
   TaskArn?: string;
   StartTime?: Date;
-  TaskStatus?: string;
+  TaskStatus?: TaskStatus;
   Message?: string;
-  ReasonCode?: string;
+  ReasonCode?: ReasonCode;
   OpportunityId?: string;
   ResourceSnapshotJobId?: string;
   EngagementId?: string;
@@ -2007,9 +3459,9 @@ export const ListOpportunityFromEngagementTaskSummary = S.suspend(() =>
     TaskId: S.optional(S.String),
     TaskArn: S.optional(S.String),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    TaskStatus: S.optional(S.String),
+    TaskStatus: S.optional(TaskStatus),
     Message: S.optional(S.String),
-    ReasonCode: S.optional(S.String),
+    ReasonCode: S.optional(ReasonCode),
     OpportunityId: S.optional(S.String),
     ResourceSnapshotJobId: S.optional(S.String),
     EngagementId: S.optional(S.String),
@@ -2026,15 +3478,15 @@ export const ListOpportunityFromEngagementTaskSummaries = S.Array(
 export interface EngagementResourceAssociationSummary {
   Catalog: string;
   EngagementId?: string;
-  ResourceType?: string;
+  ResourceType?: ResourceType;
   ResourceId?: string;
-  CreatedBy?: string | Redacted.Redacted<string>;
+  CreatedBy?: string | redacted.Redacted<string>;
 }
 export const EngagementResourceAssociationSummary = S.suspend(() =>
   S.Struct({
     Catalog: S.String,
     EngagementId: S.optional(S.String),
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(ResourceType),
     ResourceId: S.optional(S.String),
     CreatedBy: S.optional(SensitiveString),
   }),
@@ -2049,16 +3501,16 @@ export const EngagementResourceAssociationSummaryList = S.Array(
 export interface ResourceSnapshotSummary {
   Arn?: string;
   Revision?: number;
-  ResourceType?: string;
+  ResourceType?: ResourceType;
   ResourceId?: string;
   ResourceSnapshotTemplateName?: string;
-  CreatedBy?: string | Redacted.Redacted<string>;
+  CreatedBy?: string | redacted.Redacted<string>;
 }
 export const ResourceSnapshotSummary = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     Revision: S.optional(S.Number),
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(ResourceType),
     ResourceId: S.optional(S.String),
     ResourceSnapshotTemplateName: S.optional(S.String),
     CreatedBy: S.optional(SensitiveString),
@@ -2069,8 +3521,8 @@ export const ResourceSnapshotSummary = S.suspend(() =>
 export type ResourceSnapshotSummaryList = ResourceSnapshotSummary[];
 export const ResourceSnapshotSummaryList = S.Array(ResourceSnapshotSummary);
 export interface AccountReceiver {
-  Alias?: string | Redacted.Redacted<string>;
-  AwsAccountId: string | Redacted.Redacted<string>;
+  Alias?: string | redacted.Redacted<string>;
+  AwsAccountId: string | redacted.Redacted<string>;
 }
 export const AccountReceiver = S.suspend(() =>
   S.Struct({
@@ -2085,8 +3537,8 @@ export interface UpdateEngagementContextRequest {
   EngagementIdentifier: string;
   ContextIdentifier: string;
   EngagementLastModifiedAt: Date;
-  Type: string;
-  Payload: (typeof UpdateEngagementContextPayload)["Type"];
+  Type: EngagementContextType;
+  Payload: UpdateEngagementContextPayload;
 }
 export const UpdateEngagementContextRequest = S.suspend(() =>
   S.Struct({
@@ -2094,7 +3546,7 @@ export const UpdateEngagementContextRequest = S.suspend(() =>
     EngagementIdentifier: S.String,
     ContextIdentifier: S.String,
     EngagementLastModifiedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    Type: S.String,
+    Type: EngagementContextType,
     Payload: UpdateEngagementContextPayload,
   }).pipe(
     T.all(
@@ -2124,7 +3576,7 @@ export const CreateEngagementResponse = S.suspend(() =>
   identifier: "CreateEngagementResponse",
 }) as any as S.Schema<CreateEngagementResponse>;
 export interface ListEngagementMembersResponse {
-  EngagementMemberList: EngagementMembers;
+  EngagementMemberList: EngagementMember[];
   NextToken?: string;
 }
 export const ListEngagementMembersResponse = S.suspend(() =>
@@ -2139,9 +3591,9 @@ export interface StartEngagementFromOpportunityTaskResponse {
   TaskId?: string;
   TaskArn?: string;
   StartTime?: Date;
-  TaskStatus?: string;
+  TaskStatus?: TaskStatus;
   Message?: string;
-  ReasonCode?: string;
+  ReasonCode?: ReasonCode;
   OpportunityId?: string;
   ResourceSnapshotJobId?: string;
   EngagementId?: string;
@@ -2152,9 +3604,9 @@ export const StartEngagementFromOpportunityTaskResponse = S.suspend(() =>
     TaskId: S.optional(S.String),
     TaskArn: S.optional(S.String),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    TaskStatus: S.optional(S.String),
+    TaskStatus: S.optional(TaskStatus),
     Message: S.optional(S.String),
-    ReasonCode: S.optional(S.String),
+    ReasonCode: S.optional(ReasonCode),
     OpportunityId: S.optional(S.String),
     ResourceSnapshotJobId: S.optional(S.String),
     EngagementId: S.optional(S.String),
@@ -2164,7 +3616,7 @@ export const StartEngagementFromOpportunityTaskResponse = S.suspend(() =>
   identifier: "StartEngagementFromOpportunityTaskResponse",
 }) as any as S.Schema<StartEngagementFromOpportunityTaskResponse>;
 export interface ListEngagementFromOpportunityTasksResponse {
-  TaskSummaries?: ListEngagementFromOpportunityTaskSummaries;
+  TaskSummaries?: ListEngagementFromOpportunityTaskSummary[];
   NextToken?: string;
 }
 export const ListEngagementFromOpportunityTasksResponse = S.suspend(() =>
@@ -2178,11 +3630,11 @@ export const ListEngagementFromOpportunityTasksResponse = S.suspend(() =>
 export type Receiver = { Account: AccountReceiver };
 export const Receiver = S.Union(S.Struct({ Account: AccountReceiver }));
 export interface SenderContact {
-  Email: string | Redacted.Redacted<string>;
-  FirstName?: string | Redacted.Redacted<string>;
-  LastName?: string | Redacted.Redacted<string>;
-  BusinessTitle?: string | Redacted.Redacted<string>;
-  Phone?: string | Redacted.Redacted<string>;
+  Email: string | redacted.Redacted<string>;
+  FirstName?: string | redacted.Redacted<string>;
+  LastName?: string | redacted.Redacted<string>;
+  BusinessTitle?: string | redacted.Redacted<string>;
+  Phone?: string | redacted.Redacted<string>;
 }
 export const SenderContact = S.suspend(() =>
   S.Struct({
@@ -2198,10 +3650,10 @@ export const SenderContact = S.suspend(() =>
 export type SenderContactList = SenderContact[];
 export const SenderContactList = S.Array(SenderContact);
 export interface ProjectDetails {
-  BusinessProblem: string | Redacted.Redacted<string>;
+  BusinessProblem: string | redacted.Redacted<string>;
   Title: string;
   TargetCompletionDate: string;
-  ExpectedCustomerSpend: ExpectedCustomerSpendList;
+  ExpectedCustomerSpend: ExpectedCustomerSpend[];
 }
 export const ProjectDetails = S.suspend(() =>
   S.Struct({
@@ -2214,8 +3666,8 @@ export const ProjectDetails = S.suspend(() =>
   identifier: "ProjectDetails",
 }) as any as S.Schema<ProjectDetails>;
 export interface OpportunityInvitationPayload {
-  SenderContacts?: SenderContactList;
-  ReceiverResponsibilities: ReceiverResponsibilityList;
+  SenderContacts?: SenderContact[];
+  ReceiverResponsibilities: ReceiverResponsibility[];
   Customer: EngagementCustomer;
   Project: ProjectDetails;
 }
@@ -2230,21 +3682,21 @@ export const OpportunityInvitationPayload = S.suspend(() =>
   identifier: "OpportunityInvitationPayload",
 }) as any as S.Schema<OpportunityInvitationPayload>;
 export interface LeadInvitationCustomer {
-  Industry?: string;
-  CompanyName: string | Redacted.Redacted<string>;
-  WebsiteUrl?: string | Redacted.Redacted<string>;
-  CountryCode: string;
+  Industry?: Industry;
+  CompanyName: string | redacted.Redacted<string>;
+  WebsiteUrl?: string | redacted.Redacted<string>;
+  CountryCode: CountryCode;
   AwsMaturity?: string;
-  MarketSegment?: string;
+  MarketSegment?: MarketSegment;
 }
 export const LeadInvitationCustomer = S.suspend(() =>
   S.Struct({
-    Industry: S.optional(S.String),
+    Industry: S.optional(Industry),
     CompanyName: SensitiveString,
     WebsiteUrl: S.optional(SensitiveString),
-    CountryCode: S.String,
+    CountryCode: CountryCode,
     AwsMaturity: S.optional(S.String),
-    MarketSegment: S.optional(S.String),
+    MarketSegment: S.optional(MarketSegment),
   }),
 ).annotations({
   identifier: "LeadInvitationCustomer",
@@ -2254,7 +3706,7 @@ export interface LeadInvitationInteraction {
   SourceId: string;
   SourceName: string;
   Usecase?: string;
-  ContactBusinessTitle: string | Redacted.Redacted<string>;
+  ContactBusinessTitle: string | redacted.Redacted<string>;
 }
 export const LeadInvitationInteraction = S.suspend(() =>
   S.Struct({
@@ -2288,31 +3740,31 @@ export const Payload = S.Union(
 );
 export interface GetEngagementInvitationResponse {
   Arn?: string;
-  PayloadType?: string;
+  PayloadType?: EngagementInvitationPayloadType;
   Id: string;
   EngagementId?: string;
   EngagementTitle?: string;
-  Status?: string;
+  Status?: InvitationStatus;
   InvitationDate?: Date;
   ExpirationDate?: Date;
-  SenderAwsAccountId?: string | Redacted.Redacted<string>;
+  SenderAwsAccountId?: string | redacted.Redacted<string>;
   SenderCompanyName?: string;
-  Receiver?: (typeof Receiver)["Type"];
+  Receiver?: Receiver;
   Catalog: string;
   RejectionReason?: string;
-  Payload?: (typeof Payload)["Type"];
-  InvitationMessage?: string | Redacted.Redacted<string>;
+  Payload?: Payload;
+  InvitationMessage?: string | redacted.Redacted<string>;
   EngagementDescription?: string;
-  ExistingMembers?: EngagementMemberSummaries;
+  ExistingMembers?: EngagementMemberSummary[];
 }
 export const GetEngagementInvitationResponse = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
-    PayloadType: S.optional(S.String),
+    PayloadType: S.optional(EngagementInvitationPayloadType),
     Id: S.String,
     EngagementId: S.optional(S.String),
     EngagementTitle: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(InvitationStatus),
     InvitationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     ExpirationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     SenderAwsAccountId: S.optional(SensitiveString),
@@ -2330,12 +3782,12 @@ export const GetEngagementInvitationResponse = S.suspend(() =>
 }) as any as S.Schema<GetEngagementInvitationResponse>;
 export interface GetOpportunityResponse {
   Catalog: string;
-  PrimaryNeedsFromAws?: PrimaryNeedsFromAws;
-  NationalSecurity?: string;
+  PrimaryNeedsFromAws?: PrimaryNeedFromAws[];
+  NationalSecurity?: NationalSecurity;
   PartnerOpportunityIdentifier?: string;
   Customer?: Customer;
   Project?: Project;
-  OpportunityType?: string;
+  OpportunityType?: OpportunityType;
   Marketing?: Marketing;
   SoftwareRevenue?: SoftwareRevenue;
   Id: string;
@@ -2344,17 +3796,17 @@ export interface GetOpportunityResponse {
   CreatedDate: Date;
   RelatedEntityIdentifiers: RelatedEntityIdentifiers;
   LifeCycle?: LifeCycle;
-  OpportunityTeam?: PartnerOpportunityTeamMembersList;
+  OpportunityTeam?: Contact[];
 }
 export const GetOpportunityResponse = S.suspend(() =>
   S.Struct({
     Catalog: S.String,
     PrimaryNeedsFromAws: S.optional(PrimaryNeedsFromAws),
-    NationalSecurity: S.optional(S.String),
+    NationalSecurity: S.optional(NationalSecurity),
     PartnerOpportunityIdentifier: S.optional(S.String),
     Customer: S.optional(Customer),
     Project: S.optional(Project),
-    OpportunityType: S.optional(S.String),
+    OpportunityType: S.optional(OpportunityType),
     Marketing: S.optional(Marketing),
     SoftwareRevenue: S.optional(SoftwareRevenue),
     Id: S.String,
@@ -2369,7 +3821,7 @@ export const GetOpportunityResponse = S.suspend(() =>
   identifier: "GetOpportunityResponse",
 }) as any as S.Schema<GetOpportunityResponse>;
 export interface ListOpportunityFromEngagementTasksResponse {
-  TaskSummaries?: ListOpportunityFromEngagementTaskSummaries;
+  TaskSummaries?: ListOpportunityFromEngagementTaskSummary[];
   NextToken?: string;
 }
 export const ListOpportunityFromEngagementTasksResponse = S.suspend(() =>
@@ -2381,7 +3833,7 @@ export const ListOpportunityFromEngagementTasksResponse = S.suspend(() =>
   identifier: "ListOpportunityFromEngagementTasksResponse",
 }) as any as S.Schema<ListOpportunityFromEngagementTasksResponse>;
 export interface ListEngagementResourceAssociationsResponse {
-  EngagementResourceAssociationSummaries: EngagementResourceAssociationSummaryList;
+  EngagementResourceAssociationSummaries: EngagementResourceAssociationSummary[];
   NextToken?: string;
 }
 export const ListEngagementResourceAssociationsResponse = S.suspend(() =>
@@ -2394,7 +3846,7 @@ export const ListEngagementResourceAssociationsResponse = S.suspend(() =>
   identifier: "ListEngagementResourceAssociationsResponse",
 }) as any as S.Schema<ListEngagementResourceAssociationsResponse>;
 export interface ListResourceSnapshotsResponse {
-  ResourceSnapshotSummaries: ResourceSnapshotSummaryList;
+  ResourceSnapshotSummaries: ResourceSnapshotSummary[];
   NextToken?: string;
 }
 export const ListResourceSnapshotsResponse = S.suspend(() =>
@@ -2424,11 +3876,11 @@ export interface EngagementSummary {
   Id?: string;
   Title?: string;
   CreatedAt?: Date;
-  CreatedBy?: string | Redacted.Redacted<string>;
+  CreatedBy?: string | redacted.Redacted<string>;
   MemberCount?: number;
   ModifiedAt?: Date;
-  ModifiedBy?: string | Redacted.Redacted<string>;
-  ContextTypes?: EngagementContextTypeList;
+  ModifiedBy?: string | redacted.Redacted<string>;
+  ContextTypes?: EngagementContextType[];
 }
 export const EngagementSummary = S.suspend(() =>
   S.Struct({
@@ -2451,9 +3903,9 @@ export interface ListEngagementByAcceptingInvitationTaskSummary {
   TaskId?: string;
   TaskArn?: string;
   StartTime?: Date;
-  TaskStatus?: string;
+  TaskStatus?: TaskStatus;
   Message?: string;
-  ReasonCode?: string;
+  ReasonCode?: ReasonCode;
   OpportunityId?: string;
   ResourceSnapshotJobId?: string;
   EngagementInvitationId?: string;
@@ -2463,9 +3915,9 @@ export const ListEngagementByAcceptingInvitationTaskSummary = S.suspend(() =>
     TaskId: S.optional(S.String),
     TaskArn: S.optional(S.String),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    TaskStatus: S.optional(S.String),
+    TaskStatus: S.optional(TaskStatus),
     Message: S.optional(S.String),
-    ReasonCode: S.optional(S.String),
+    ReasonCode: S.optional(ReasonCode),
     OpportunityId: S.optional(S.String),
     ResourceSnapshotJobId: S.optional(S.String),
     EngagementInvitationId: S.optional(S.String),
@@ -2480,34 +3932,34 @@ export const ListEngagementByAcceptingInvitationTaskSummaries = S.Array(
 );
 export interface EngagementInvitationSummary {
   Arn?: string;
-  PayloadType?: string;
+  PayloadType?: EngagementInvitationPayloadType;
   Id: string;
   EngagementId?: string;
   EngagementTitle?: string;
-  Status?: string;
+  Status?: InvitationStatus;
   InvitationDate?: Date;
   ExpirationDate?: Date;
-  SenderAwsAccountId?: string | Redacted.Redacted<string>;
+  SenderAwsAccountId?: string | redacted.Redacted<string>;
   SenderCompanyName?: string;
-  Receiver?: (typeof Receiver)["Type"];
+  Receiver?: Receiver;
   Catalog: string;
-  ParticipantType?: string;
+  ParticipantType?: ParticipantType;
 }
 export const EngagementInvitationSummary = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
-    PayloadType: S.optional(S.String),
+    PayloadType: S.optional(EngagementInvitationPayloadType),
     Id: S.String,
     EngagementId: S.optional(S.String),
     EngagementTitle: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(InvitationStatus),
     InvitationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     ExpirationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     SenderAwsAccountId: S.optional(SensitiveString),
     SenderCompanyName: S.optional(S.String),
     Receiver: S.optional(Receiver),
     Catalog: S.String,
-    ParticipantType: S.optional(S.String),
+    ParticipantType: S.optional(ParticipantType),
   }),
 ).annotations({
   identifier: "EngagementInvitationSummary",
@@ -2518,16 +3970,16 @@ export const EngagementInvitationSummaries = S.Array(
 );
 export interface AwsOpportunityLifeCycle {
   TargetCloseDate?: string;
-  ClosedLostReason?: string;
-  Stage?: string;
-  NextSteps?: string | Redacted.Redacted<string>;
-  NextStepsHistory?: ProfileNextStepsHistories;
+  ClosedLostReason?: AwsClosedLostReason;
+  Stage?: AwsOpportunityStage;
+  NextSteps?: string | redacted.Redacted<string>;
+  NextStepsHistory?: ProfileNextStepsHistory[];
 }
 export const AwsOpportunityLifeCycle = S.suspend(() =>
   S.Struct({
     TargetCloseDate: S.optional(S.String),
-    ClosedLostReason: S.optional(S.String),
-    Stage: S.optional(S.String),
+    ClosedLostReason: S.optional(AwsClosedLostReason),
+    Stage: S.optional(AwsOpportunityStage),
     NextSteps: S.optional(SensitiveString),
     NextStepsHistory: S.optional(ProfileNextStepsHistories),
   }),
@@ -2538,14 +3990,14 @@ export interface ResourceSnapshotJobSummary {
   Id?: string;
   Arn?: string;
   EngagementId?: string;
-  Status?: string;
+  Status?: ResourceSnapshotJobStatus;
 }
 export const ResourceSnapshotJobSummary = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
     EngagementId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ResourceSnapshotJobStatus),
   }),
 ).annotations({
   identifier: "ResourceSnapshotJobSummary",
@@ -2559,7 +4011,7 @@ export interface SolutionBase {
   Id: string;
   Arn?: string;
   Name: string;
-  Status: string;
+  Status: SolutionStatus;
   Category: string;
   CreatedDate: Date;
 }
@@ -2569,7 +4021,7 @@ export const SolutionBase = S.suspend(() =>
     Id: S.String,
     Arn: S.optional(S.String),
     Name: S.String,
-    Status: S.String,
+    Status: SolutionStatus,
     Category: S.String,
     CreatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
   }),
@@ -2578,26 +4030,26 @@ export type SolutionList = SolutionBase[];
 export const SolutionList = S.Array(SolutionBase);
 export interface LifeCycleForView {
   TargetCloseDate?: string;
-  ReviewStatus?: string;
-  Stage?: string;
-  NextSteps?: string | Redacted.Redacted<string>;
+  ReviewStatus?: ReviewStatus;
+  Stage?: Stage;
+  NextSteps?: string | redacted.Redacted<string>;
 }
 export const LifeCycleForView = S.suspend(() =>
   S.Struct({
     TargetCloseDate: S.optional(S.String),
-    ReviewStatus: S.optional(S.String),
-    Stage: S.optional(S.String),
+    ReviewStatus: S.optional(ReviewStatus),
+    Stage: S.optional(Stage),
     NextSteps: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "LifeCycleForView",
 }) as any as S.Schema<LifeCycleForView>;
 export interface ProjectView {
-  DeliveryModels?: DeliveryModels;
-  ExpectedCustomerSpend?: ExpectedCustomerSpendList;
+  DeliveryModels?: DeliveryModel[];
+  ExpectedCustomerSpend?: ExpectedCustomerSpend[];
   CustomerUseCase?: string;
-  SalesActivities?: SalesActivities;
-  OtherSolutionDescription?: string | Redacted.Redacted<string>;
+  SalesActivities?: SalesActivity[];
+  OtherSolutionDescription?: string | redacted.Redacted<string>;
 }
 export const ProjectView = S.suspend(() =>
   S.Struct({
@@ -2625,7 +4077,7 @@ export const UpdateEngagementContextResponse = S.suspend(() =>
   identifier: "UpdateEngagementContextResponse",
 }) as any as S.Schema<UpdateEngagementContextResponse>;
 export interface ListEngagementsResponse {
-  EngagementSummaryList: EngagementSummaryList;
+  EngagementSummaryList: EngagementSummary[];
   NextToken?: string;
 }
 export const ListEngagementsResponse = S.suspend(() =>
@@ -2637,7 +4089,7 @@ export const ListEngagementsResponse = S.suspend(() =>
   identifier: "ListEngagementsResponse",
 }) as any as S.Schema<ListEngagementsResponse>;
 export interface ListEngagementByAcceptingInvitationTasksResponse {
-  TaskSummaries?: ListEngagementByAcceptingInvitationTaskSummaries;
+  TaskSummaries?: ListEngagementByAcceptingInvitationTaskSummary[];
   NextToken?: string;
 }
 export const ListEngagementByAcceptingInvitationTasksResponse = S.suspend(() =>
@@ -2649,7 +4101,7 @@ export const ListEngagementByAcceptingInvitationTasksResponse = S.suspend(() =>
   identifier: "ListEngagementByAcceptingInvitationTasksResponse",
 }) as any as S.Schema<ListEngagementByAcceptingInvitationTasksResponse>;
 export interface ListEngagementInvitationsResponse {
-  EngagementInvitationSummaries?: EngagementInvitationSummaries;
+  EngagementInvitationSummaries?: EngagementInvitationSummary[];
   NextToken?: string;
 }
 export const ListEngagementInvitationsResponse = S.suspend(() =>
@@ -2662,34 +4114,34 @@ export const ListEngagementInvitationsResponse = S.suspend(() =>
 }) as any as S.Schema<ListEngagementInvitationsResponse>;
 export interface CreateOpportunityRequest {
   Catalog: string;
-  PrimaryNeedsFromAws?: PrimaryNeedsFromAws;
-  NationalSecurity?: string;
+  PrimaryNeedsFromAws?: PrimaryNeedFromAws[];
+  NationalSecurity?: NationalSecurity;
   PartnerOpportunityIdentifier?: string;
   Customer?: Customer;
   Project?: Project;
-  OpportunityType?: string;
+  OpportunityType?: OpportunityType;
   Marketing?: Marketing;
   SoftwareRevenue?: SoftwareRevenue;
   ClientToken: string;
   LifeCycle?: LifeCycle;
-  Origin?: string;
-  OpportunityTeam?: PartnerOpportunityTeamMembersList;
-  Tags?: TagList;
+  Origin?: OpportunityOrigin;
+  OpportunityTeam?: Contact[];
+  Tags?: Tag[];
 }
 export const CreateOpportunityRequest = S.suspend(() =>
   S.Struct({
     Catalog: S.String,
     PrimaryNeedsFromAws: S.optional(PrimaryNeedsFromAws),
-    NationalSecurity: S.optional(S.String),
+    NationalSecurity: S.optional(NationalSecurity),
     PartnerOpportunityIdentifier: S.optional(S.String),
     Customer: S.optional(Customer),
     Project: S.optional(Project),
-    OpportunityType: S.optional(S.String),
+    OpportunityType: S.optional(OpportunityType),
     Marketing: S.optional(Marketing),
     SoftwareRevenue: S.optional(SoftwareRevenue),
     ClientToken: S.String,
     LifeCycle: S.optional(LifeCycle),
-    Origin: S.optional(S.String),
+    Origin: S.optional(OpportunityOrigin),
     OpportunityTeam: S.optional(PartnerOpportunityTeamMembersList),
     Tags: S.optional(TagList),
   }).pipe(
@@ -2706,7 +4158,7 @@ export const CreateOpportunityRequest = S.suspend(() =>
   identifier: "CreateOpportunityRequest",
 }) as any as S.Schema<CreateOpportunityRequest>;
 export interface ListResourceSnapshotJobsResponse {
-  ResourceSnapshotJobSummaries: ResourceSnapshotJobSummaryList;
+  ResourceSnapshotJobSummaries: ResourceSnapshotJobSummary[];
   NextToken?: string;
 }
 export const ListResourceSnapshotJobsResponse = S.suspend(() =>
@@ -2718,7 +4170,7 @@ export const ListResourceSnapshotJobsResponse = S.suspend(() =>
   identifier: "ListResourceSnapshotJobsResponse",
 }) as any as S.Schema<ListResourceSnapshotJobsResponse>;
 export interface ListSolutionsResponse {
-  SolutionSummaries: SolutionList;
+  SolutionSummaries: SolutionBase[];
   NextToken?: string;
 }
 export const ListSolutionsResponse = S.suspend(() =>
@@ -2730,21 +4182,21 @@ export const ListSolutionsResponse = S.suspend(() =>
   identifier: "ListSolutionsResponse",
 }) as any as S.Schema<ListSolutionsResponse>;
 export interface LifeCycleSummary {
-  Stage?: string;
-  ClosedLostReason?: string;
-  NextSteps?: string | Redacted.Redacted<string>;
+  Stage?: Stage;
+  ClosedLostReason?: ClosedLostReason;
+  NextSteps?: string | redacted.Redacted<string>;
   TargetCloseDate?: string;
-  ReviewStatus?: string;
+  ReviewStatus?: ReviewStatus;
   ReviewComments?: string;
   ReviewStatusReason?: string;
 }
 export const LifeCycleSummary = S.suspend(() =>
   S.Struct({
-    Stage: S.optional(S.String),
-    ClosedLostReason: S.optional(S.String),
+    Stage: S.optional(Stage),
+    ClosedLostReason: S.optional(ClosedLostReason),
     NextSteps: S.optional(SensitiveString),
     TargetCloseDate: S.optional(S.String),
-    ReviewStatus: S.optional(S.String),
+    ReviewStatus: S.optional(ReviewStatus),
     ReviewComments: S.optional(S.String),
     ReviewStatusReason: S.optional(S.String),
   }),
@@ -2752,8 +4204,8 @@ export const LifeCycleSummary = S.suspend(() =>
   identifier: "LifeCycleSummary",
 }) as any as S.Schema<LifeCycleSummary>;
 export interface ProjectSummary {
-  DeliveryModels?: DeliveryModels;
-  ExpectedCustomerSpend?: ExpectedCustomerSpendList;
+  DeliveryModels?: DeliveryModel[];
+  ExpectedCustomerSpend?: ExpectedCustomerSpend[];
 }
 export const ProjectSummary = S.suspend(() =>
   S.Struct({
@@ -2764,17 +4216,17 @@ export const ProjectSummary = S.suspend(() =>
   identifier: "ProjectSummary",
 }) as any as S.Schema<ProjectSummary>;
 export interface OpportunitySummaryView {
-  OpportunityType?: string;
+  OpportunityType?: OpportunityType;
   Lifecycle?: LifeCycleForView;
-  OpportunityTeam?: PartnerOpportunityTeamMembersList;
-  PrimaryNeedsFromAws?: PrimaryNeedsFromAws;
+  OpportunityTeam?: Contact[];
+  PrimaryNeedsFromAws?: PrimaryNeedFromAws[];
   Customer?: Customer;
   Project?: ProjectView;
   RelatedEntityIdentifiers?: RelatedEntityIdentifiers;
 }
 export const OpportunitySummaryView = S.suspend(() =>
   S.Struct({
-    OpportunityType: S.optional(S.String),
+    OpportunityType: S.optional(OpportunityType),
     Lifecycle: S.optional(LifeCycleForView),
     OpportunityTeam: S.optional(PartnerOpportunityTeamMembersList),
     PrimaryNeedsFromAws: S.optional(PrimaryNeedsFromAws),
@@ -2785,12 +4237,12 @@ export const OpportunitySummaryView = S.suspend(() =>
 ).annotations({
   identifier: "OpportunitySummaryView",
 }) as any as S.Schema<OpportunitySummaryView>;
-export type AmountMap = { [key: string]: string | Redacted.Redacted<string> };
+export type AmountMap = { [key: string]: string | redacted.Redacted<string> };
 export const AmountMap = S.Record({ key: S.String, value: SensitiveString });
 export interface Invitation {
-  Message: string | Redacted.Redacted<string>;
-  Receiver: (typeof Receiver)["Type"];
-  Payload: (typeof Payload)["Type"];
+  Message: string | redacted.Redacted<string>;
+  Receiver: Receiver;
+  Payload: Payload;
 }
 export const Invitation = S.suspend(() =>
   S.Struct({ Message: SensitiveString, Receiver: Receiver, Payload: Payload }),
@@ -2802,15 +4254,15 @@ export const ResourceSnapshotPayload = S.Union(
   S.Struct({ OpportunitySummary: OpportunitySummaryView }),
 );
 export interface AccountSummary {
-  Industry?: string;
+  Industry?: Industry;
   OtherIndustry?: string;
-  CompanyName: string | Redacted.Redacted<string>;
-  WebsiteUrl?: string | Redacted.Redacted<string>;
+  CompanyName: string | redacted.Redacted<string>;
+  WebsiteUrl?: string | redacted.Redacted<string>;
   Address?: AddressSummary;
 }
 export const AccountSummary = S.suspend(() =>
   S.Struct({
-    Industry: S.optional(S.String),
+    Industry: S.optional(Industry),
     OtherIndustry: S.optional(S.String),
     CompanyName: SensitiveString,
     WebsiteUrl: S.optional(SensitiveString),
@@ -2823,15 +4275,15 @@ export interface CreateEngagementContextRequest {
   Catalog: string;
   EngagementIdentifier: string;
   ClientToken: string;
-  Type: string;
-  Payload: (typeof EngagementContextPayload)["Type"];
+  Type: EngagementContextType;
+  Payload: EngagementContextPayload;
 }
 export const CreateEngagementContextRequest = S.suspend(() =>
   S.Struct({
     Catalog: S.String,
     EngagementIdentifier: S.String,
     ClientToken: S.String,
-    Type: S.String,
+    Type: EngagementContextType,
     Payload: EngagementContextPayload,
   }).pipe(
     T.all(
@@ -2887,7 +4339,7 @@ export const CreateOpportunityResponse = S.suspend(() =>
 }) as any as S.Schema<CreateOpportunityResponse>;
 export interface AwsProductOptimization {
   Description: string;
-  SavingsAmount: string | Redacted.Redacted<string>;
+  SavingsAmount: string | redacted.Redacted<string>;
 }
 export const AwsProductOptimization = S.suspend(() =>
   S.Struct({ Description: S.String, SavingsAmount: SensitiveString }),
@@ -2899,14 +4351,14 @@ export const AwsProductOptimizationsList = S.Array(AwsProductOptimization);
 export interface GetResourceSnapshotResponse {
   Catalog: string;
   Arn?: string;
-  CreatedBy?: string | Redacted.Redacted<string>;
+  CreatedBy?: string | redacted.Redacted<string>;
   CreatedAt?: Date;
   EngagementId?: string;
-  ResourceType?: string;
+  ResourceType?: ResourceType;
   ResourceId?: string;
   ResourceSnapshotTemplateName?: string;
   Revision?: number;
-  Payload?: (typeof ResourceSnapshotPayload)["Type"];
+  Payload?: ResourceSnapshotPayload;
 }
 export const GetResourceSnapshotResponse = S.suspend(() =>
   S.Struct({
@@ -2915,7 +4367,7 @@ export const GetResourceSnapshotResponse = S.suspend(() =>
     CreatedBy: S.optional(SensitiveString),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     EngagementId: S.optional(S.String),
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(ResourceType),
     ResourceId: S.optional(S.String),
     ResourceSnapshotTemplateName: S.optional(S.String),
     Revision: S.optional(S.Number),
@@ -2935,11 +4387,11 @@ export const CustomerSummary = S.suspend(() =>
 export interface AwsProductDetails {
   ProductCode: string;
   ServiceCode?: string;
-  Categories: StringList;
-  Amount?: string | Redacted.Redacted<string>;
-  OptimizedAmount?: string | Redacted.Redacted<string>;
-  PotentialSavingsAmount?: string | Redacted.Redacted<string>;
-  Optimizations: AwsProductOptimizationsList;
+  Categories: string[];
+  Amount?: string | redacted.Redacted<string>;
+  OptimizedAmount?: string | redacted.Redacted<string>;
+  PotentialSavingsAmount?: string | redacted.Redacted<string>;
+  Optimizations: AwsProductOptimization[];
 }
 export const AwsProductDetails = S.suspend(() =>
   S.Struct({
@@ -2956,12 +4408,19 @@ export const AwsProductDetails = S.suspend(() =>
 }) as any as S.Schema<AwsProductDetails>;
 export type AwsProductsList = AwsProductDetails[];
 export const AwsProductsList = S.Array(AwsProductDetails);
+export type ValidationExceptionReason =
+  | "REQUEST_VALIDATION_FAILED"
+  | "BUSINESS_VALIDATION_FAILED";
+export const ValidationExceptionReason = S.Literal(
+  "REQUEST_VALIDATION_FAILED",
+  "BUSINESS_VALIDATION_FAILED",
+);
 export interface OpportunitySummary {
   Catalog: string;
   Id?: string;
   Arn?: string;
   PartnerOpportunityIdentifier?: string;
-  OpportunityType?: string;
+  OpportunityType?: OpportunityType;
   LastModifiedDate?: Date;
   CreatedDate?: Date;
   LifeCycle?: LifeCycleSummary;
@@ -2974,7 +4433,7 @@ export const OpportunitySummary = S.suspend(() =>
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
     PartnerOpportunityIdentifier: S.optional(S.String),
-    OpportunityType: S.optional(S.String),
+    OpportunityType: S.optional(OpportunityType),
     LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     LifeCycle: S.optional(LifeCycleSummary),
@@ -2987,18 +4446,18 @@ export const OpportunitySummary = S.suspend(() =>
 export type OpportunitySummaries = OpportunitySummary[];
 export const OpportunitySummaries = S.Array(OpportunitySummary);
 export interface AwsProductInsights {
-  CurrencyCode: string;
-  Frequency: string;
-  TotalAmount?: string | Redacted.Redacted<string>;
-  TotalOptimizedAmount?: string | Redacted.Redacted<string>;
-  TotalPotentialSavingsAmount?: string | Redacted.Redacted<string>;
-  TotalAmountByCategory: AmountMap;
-  AwsProducts: AwsProductsList;
+  CurrencyCode: CurrencyCode;
+  Frequency: PaymentFrequency;
+  TotalAmount?: string | redacted.Redacted<string>;
+  TotalOptimizedAmount?: string | redacted.Redacted<string>;
+  TotalPotentialSavingsAmount?: string | redacted.Redacted<string>;
+  TotalAmountByCategory: { [key: string]: string | redacted.Redacted<string> };
+  AwsProducts: AwsProductDetails[];
 }
 export const AwsProductInsights = S.suspend(() =>
   S.Struct({
-    CurrencyCode: S.String,
-    Frequency: S.String,
+    CurrencyCode: CurrencyCode,
+    Frequency: PaymentFrequency,
     TotalAmount: S.optional(SensitiveString),
     TotalOptimizedAmount: S.optional(SensitiveString),
     TotalPotentialSavingsAmount: S.optional(SensitiveString),
@@ -3036,7 +4495,7 @@ export const CreateEngagementInvitationResponse = S.suspend(() =>
   identifier: "CreateEngagementInvitationResponse",
 }) as any as S.Schema<CreateEngagementInvitationResponse>;
 export interface ListOpportunitiesResponse {
-  OpportunitySummaries: OpportunitySummaries;
+  OpportunitySummaries: OpportunitySummary[];
   NextToken?: string;
 }
 export const ListOpportunitiesResponse = S.suspend(() =>
@@ -3047,6 +4506,29 @@ export const ListOpportunitiesResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListOpportunitiesResponse",
 }) as any as S.Schema<ListOpportunitiesResponse>;
+export type ValidationExceptionErrorCode =
+  | "REQUIRED_FIELD_MISSING"
+  | "INVALID_ENUM_VALUE"
+  | "INVALID_STRING_FORMAT"
+  | "INVALID_VALUE"
+  | "NOT_ENOUGH_VALUES"
+  | "TOO_MANY_VALUES"
+  | "INVALID_RESOURCE_STATE"
+  | "DUPLICATE_KEY_VALUE"
+  | "VALUE_OUT_OF_RANGE"
+  | "ACTION_NOT_PERMITTED";
+export const ValidationExceptionErrorCode = S.Literal(
+  "REQUIRED_FIELD_MISSING",
+  "INVALID_ENUM_VALUE",
+  "INVALID_STRING_FORMAT",
+  "INVALID_VALUE",
+  "NOT_ENOUGH_VALUES",
+  "TOO_MANY_VALUES",
+  "INVALID_RESOURCE_STATE",
+  "DUPLICATE_KEY_VALUE",
+  "VALUE_OUT_OF_RANGE",
+  "ACTION_NOT_PERMITTED",
+);
 export interface AwsProductsSpendInsightsBySource {
   Partner?: AwsProductInsights;
   AWS?: AwsProductInsights;
@@ -3062,13 +4544,13 @@ export const AwsProductsSpendInsightsBySource = S.suspend(() =>
 export interface ValidationExceptionError {
   FieldName?: string;
   Message: string;
-  Code: string;
+  Code: ValidationExceptionErrorCode;
 }
 export const ValidationExceptionError = S.suspend(() =>
   S.Struct({
     FieldName: S.optional(S.String),
     Message: S.String,
-    Code: S.String,
+    Code: ValidationExceptionErrorCode,
   }),
 ).annotations({
   identifier: "ValidationExceptionError",
@@ -3077,13 +4559,13 @@ export type ValidationExceptionErrorList = ValidationExceptionError[];
 export const ValidationExceptionErrorList = S.Array(ValidationExceptionError);
 export interface AwsOpportunityInsights {
   NextBestActions?: string;
-  EngagementScore?: string;
+  EngagementScore?: EngagementScore;
   AwsProductsSpendInsightsBySource?: AwsProductsSpendInsightsBySource;
 }
 export const AwsOpportunityInsights = S.suspend(() =>
   S.Struct({
     NextBestActions: S.optional(S.String),
-    EngagementScore: S.optional(S.String),
+    EngagementScore: S.optional(EngagementScore),
     AwsProductsSpendInsightsBySource: S.optional(
       AwsProductsSpendInsightsBySource,
     ),
@@ -3093,13 +4575,13 @@ export const AwsOpportunityInsights = S.suspend(() =>
 }) as any as S.Schema<AwsOpportunityInsights>;
 export interface GetAwsOpportunitySummaryResponse {
   RelatedOpportunityId?: string;
-  Origin?: string;
-  InvolvementType?: string;
-  Visibility?: string;
+  Origin?: OpportunityOrigin;
+  InvolvementType?: SalesInvolvementType;
+  Visibility?: Visibility;
   LifeCycle?: AwsOpportunityLifeCycle;
-  OpportunityTeam?: AwsOpportunityTeamMembersList;
+  OpportunityTeam?: AwsTeamMember[];
   Insights?: AwsOpportunityInsights;
-  InvolvementTypeChangeReason?: string;
+  InvolvementTypeChangeReason?: InvolvementTypeChangeReason;
   RelatedEntityIds?: AwsOpportunityRelatedEntities;
   Customer?: AwsOpportunityCustomer;
   Project?: AwsOpportunityProject;
@@ -3108,13 +4590,13 @@ export interface GetAwsOpportunitySummaryResponse {
 export const GetAwsOpportunitySummaryResponse = S.suspend(() =>
   S.Struct({
     RelatedOpportunityId: S.optional(S.String),
-    Origin: S.optional(S.String),
-    InvolvementType: S.optional(S.String),
-    Visibility: S.optional(S.String),
+    Origin: S.optional(OpportunityOrigin),
+    InvolvementType: S.optional(SalesInvolvementType),
+    Visibility: S.optional(Visibility),
     LifeCycle: S.optional(AwsOpportunityLifeCycle),
     OpportunityTeam: S.optional(AwsOpportunityTeamMembersList),
     Insights: S.optional(AwsOpportunityInsights),
-    InvolvementTypeChangeReason: S.optional(S.String),
+    InvolvementTypeChangeReason: S.optional(InvolvementTypeChangeReason),
     RelatedEntityIds: S.optional(AwsOpportunityRelatedEntities),
     Customer: S.optional(AwsOpportunityCustomer),
     Project: S.optional(AwsOpportunityProject),
@@ -3127,7 +4609,10 @@ export const GetAwsOpportunitySummaryResponse = S.suspend(() =>
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+  {
+    Message: S.optional(S.String),
+    Reason: S.optional(AccessDeniedExceptionErrorCode),
+  },
 ).pipe(C.withAuthError) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
@@ -3153,7 +4638,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     Message: S.String,
-    Reason: S.String,
+    Reason: ValidationExceptionReason,
     ErrorList: S.optional(ValidationExceptionErrorList),
   },
 ).pipe(C.withBadRequestError) {}
@@ -3164,7 +4649,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const getEngagement: (
   input: GetEngagementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEngagementResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3189,7 +4674,7 @@ export const getEngagement: (
  */
 export const getAwsOpportunitySummary: (
   input: GetAwsOpportunitySummaryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAwsOpportunitySummaryResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3226,7 +4711,7 @@ export const getAwsOpportunitySummary: (
  */
 export const createOpportunity: (
   input: CreateOpportunityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateOpportunityResponse,
   | AccessDeniedException
   | ConflictException
@@ -3253,7 +4738,7 @@ export const createOpportunity: (
  */
 export const getResourceSnapshot: (
   input: GetResourceSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourceSnapshotResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3278,7 +4763,7 @@ export const getResourceSnapshot: (
  */
 export const startEngagementFromOpportunityTask: (
   input: StartEngagementFromOpportunityTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartEngagementFromOpportunityTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -3308,7 +4793,7 @@ export const startEngagementFromOpportunityTask: (
 export const listEngagements: {
   (
     input: ListEngagementsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEngagementsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3320,7 +4805,7 @@ export const listEngagements: {
   >;
   pages: (
     input: ListEngagementsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEngagementsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3332,7 +4817,7 @@ export const listEngagements: {
   >;
   items: (
     input: ListEngagementsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EngagementSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3365,7 +4850,7 @@ export const listEngagements: {
 export const listEngagementByAcceptingInvitationTasks: {
   (
     input: ListEngagementByAcceptingInvitationTasksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEngagementByAcceptingInvitationTasksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3377,7 +4862,7 @@ export const listEngagementByAcceptingInvitationTasks: {
   >;
   pages: (
     input: ListEngagementByAcceptingInvitationTasksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEngagementByAcceptingInvitationTasksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3389,7 +4874,7 @@ export const listEngagementByAcceptingInvitationTasks: {
   >;
   items: (
     input: ListEngagementByAcceptingInvitationTasksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEngagementByAcceptingInvitationTaskSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3422,7 +4907,7 @@ export const listEngagementByAcceptingInvitationTasks: {
 export const listEngagementInvitations: {
   (
     input: ListEngagementInvitationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEngagementInvitationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3434,7 +4919,7 @@ export const listEngagementInvitations: {
   >;
   pages: (
     input: ListEngagementInvitationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEngagementInvitationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3446,7 +4931,7 @@ export const listEngagementInvitations: {
   >;
   items: (
     input: ListEngagementInvitationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EngagementInvitationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3479,7 +4964,7 @@ export const listEngagementInvitations: {
 export const listResourceSnapshotJobs: {
   (
     input: ListResourceSnapshotJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResourceSnapshotJobsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3491,7 +4976,7 @@ export const listResourceSnapshotJobs: {
   >;
   pages: (
     input: ListResourceSnapshotJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResourceSnapshotJobsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3503,7 +4988,7 @@ export const listResourceSnapshotJobs: {
   >;
   items: (
     input: ListResourceSnapshotJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResourceSnapshotJobSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3536,7 +5021,7 @@ export const listResourceSnapshotJobs: {
 export const listSolutions: {
   (
     input: ListSolutionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSolutionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3548,7 +5033,7 @@ export const listSolutions: {
   >;
   pages: (
     input: ListSolutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSolutionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3560,7 +5045,7 @@ export const listSolutions: {
   >;
   items: (
     input: ListSolutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SolutionBase,
     | AccessDeniedException
     | InternalServerException
@@ -3593,7 +5078,7 @@ export const listSolutions: {
 export const listEngagementMembers: {
   (
     input: ListEngagementMembersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEngagementMembersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3605,7 +5090,7 @@ export const listEngagementMembers: {
   >;
   pages: (
     input: ListEngagementMembersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEngagementMembersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3617,7 +5102,7 @@ export const listEngagementMembers: {
   >;
   items: (
     input: ListEngagementMembersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EngagementMember,
     | AccessDeniedException
     | InternalServerException
@@ -3650,7 +5135,7 @@ export const listEngagementMembers: {
 export const listEngagementFromOpportunityTasks: {
   (
     input: ListEngagementFromOpportunityTasksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEngagementFromOpportunityTasksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3662,7 +5147,7 @@ export const listEngagementFromOpportunityTasks: {
   >;
   pages: (
     input: ListEngagementFromOpportunityTasksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEngagementFromOpportunityTasksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3674,7 +5159,7 @@ export const listEngagementFromOpportunityTasks: {
   >;
   items: (
     input: ListEngagementFromOpportunityTasksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEngagementFromOpportunityTaskSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3706,7 +5191,7 @@ export const listEngagementFromOpportunityTasks: {
  */
 export const getEngagementInvitation: (
   input: GetEngagementInvitationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEngagementInvitationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3733,7 +5218,7 @@ export const getEngagementInvitation: (
  */
 export const getOpportunity: (
   input: GetOpportunityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetOpportunityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3759,7 +5244,7 @@ export const getOpportunity: (
 export const listOpportunityFromEngagementTasks: {
   (
     input: ListOpportunityFromEngagementTasksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOpportunityFromEngagementTasksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3771,7 +5256,7 @@ export const listOpportunityFromEngagementTasks: {
   >;
   pages: (
     input: ListOpportunityFromEngagementTasksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOpportunityFromEngagementTasksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3783,7 +5268,7 @@ export const listOpportunityFromEngagementTasks: {
   >;
   items: (
     input: ListOpportunityFromEngagementTasksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOpportunityFromEngagementTaskSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3816,7 +5301,7 @@ export const listOpportunityFromEngagementTasks: {
 export const listEngagementResourceAssociations: {
   (
     input: ListEngagementResourceAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEngagementResourceAssociationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3828,7 +5313,7 @@ export const listEngagementResourceAssociations: {
   >;
   pages: (
     input: ListEngagementResourceAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEngagementResourceAssociationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3840,7 +5325,7 @@ export const listEngagementResourceAssociations: {
   >;
   items: (
     input: ListEngagementResourceAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EngagementResourceAssociationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3883,7 +5368,7 @@ export const listEngagementResourceAssociations: {
 export const listResourceSnapshots: {
   (
     input: ListResourceSnapshotsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResourceSnapshotsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3895,7 +5380,7 @@ export const listResourceSnapshots: {
   >;
   pages: (
     input: ListResourceSnapshotsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResourceSnapshotsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3907,7 +5392,7 @@ export const listResourceSnapshots: {
   >;
   items: (
     input: ListResourceSnapshotsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResourceSnapshotSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3941,7 +5426,7 @@ export const listResourceSnapshots: {
  */
 export const updateOpportunity: (
   input: UpdateOpportunityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateOpportunityResponse,
   | AccessDeniedException
   | ConflictException
@@ -3968,7 +5453,7 @@ export const updateOpportunity: (
  */
 export const acceptEngagementInvitation: (
   input: AcceptEngagementInvitationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AcceptEngagementInvitationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3995,7 +5480,7 @@ export const acceptEngagementInvitation: (
  */
 export const rejectEngagementInvitation: (
   input: RejectEngagementInvitationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RejectEngagementInvitationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4022,7 +5507,7 @@ export const rejectEngagementInvitation: (
  */
 export const deleteResourceSnapshotJob: (
   input: DeleteResourceSnapshotJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourceSnapshotJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -4049,7 +5534,7 @@ export const deleteResourceSnapshotJob: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -4078,7 +5563,7 @@ export const tagResource: (
  */
 export const assignOpportunity: (
   input: AssignOpportunityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssignOpportunityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4103,7 +5588,7 @@ export const assignOpportunity: (
  */
 export const getResourceSnapshotJob: (
   input: GetResourceSnapshotJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourceSnapshotJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4142,7 +5627,7 @@ export const getResourceSnapshotJob: (
  */
 export const associateOpportunity: (
   input: AssociateOpportunityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateOpportunityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4169,7 +5654,7 @@ export const associateOpportunity: (
  */
 export const disassociateOpportunity: (
   input: DisassociateOpportunityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateOpportunityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4194,7 +5679,7 @@ export const disassociateOpportunity: (
  */
 export const submitOpportunity: (
   input: SubmitOpportunityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SubmitOpportunityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4219,7 +5704,7 @@ export const submitOpportunity: (
  */
 export const startResourceSnapshotJob: (
   input: StartResourceSnapshotJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartResourceSnapshotJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4244,7 +5729,7 @@ export const startResourceSnapshotJob: (
  */
 export const stopResourceSnapshotJob: (
   input: StopResourceSnapshotJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopResourceSnapshotJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4269,7 +5754,7 @@ export const stopResourceSnapshotJob: (
  */
 export const getSellingSystemSettings: (
   input: GetSellingSystemSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSellingSystemSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4294,7 +5779,7 @@ export const getSellingSystemSettings: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4319,7 +5804,7 @@ export const listTagsForResource: (
  */
 export const putSellingSystemSettings: (
   input: PutSellingSystemSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutSellingSystemSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4344,7 +5829,7 @@ export const putSellingSystemSettings: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -4371,7 +5856,7 @@ export const untagResource: (
  */
 export const startEngagementByAcceptingInvitationTask: (
   input: StartEngagementByAcceptingInvitationTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartEngagementByAcceptingInvitationTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -4400,7 +5885,7 @@ export const startEngagementByAcceptingInvitationTask: (
  */
 export const startOpportunityFromEngagementTask: (
   input: StartOpportunityFromEngagementTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartOpportunityFromEngagementTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -4429,7 +5914,7 @@ export const startOpportunityFromEngagementTask: (
  */
 export const createResourceSnapshot: (
   input: CreateResourceSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateResourceSnapshotResponse,
   | AccessDeniedException
   | ConflictException
@@ -4458,7 +5943,7 @@ export const createResourceSnapshot: (
  */
 export const createResourceSnapshotJob: (
   input: CreateResourceSnapshotJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateResourceSnapshotJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -4487,7 +5972,7 @@ export const createResourceSnapshotJob: (
  */
 export const createEngagement: (
   input: CreateEngagementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEngagementResponse,
   | AccessDeniedException
   | ConflictException
@@ -4516,7 +6001,7 @@ export const createEngagement: (
  */
 export const updateEngagementContext: (
   input: UpdateEngagementContextRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEngagementContextResponse,
   | AccessDeniedException
   | ConflictException
@@ -4545,7 +6030,7 @@ export const updateEngagementContext: (
  */
 export const createEngagementContext: (
   input: CreateEngagementContextRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEngagementContextResponse,
   | AccessDeniedException
   | ConflictException
@@ -4574,7 +6059,7 @@ export const createEngagementContext: (
  */
 export const createEngagementInvitation: (
   input: CreateEngagementInvitationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEngagementInvitationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4614,7 +6099,7 @@ export const createEngagementInvitation: (
 export const listOpportunities: {
   (
     input: ListOpportunitiesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOpportunitiesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4626,7 +6111,7 @@ export const listOpportunities: {
   >;
   pages: (
     input: ListOpportunitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOpportunitiesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4638,7 +6123,7 @@ export const listOpportunities: {
   >;
   items: (
     input: ListOpportunitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OpportunitySummary,
     | AccessDeniedException
     | InternalServerException

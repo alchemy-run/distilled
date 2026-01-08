@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -92,24 +92,25 @@ export type BotAliasIdentifier = string;
 export type LocaleId = string;
 export type SessionId = string;
 export type NonEmptyString = string;
-export type Text = string | Redacted.Redacted<string>;
-export type SensitiveNonEmptyString = string | Redacted.Redacted<string>;
+export type Text = string | redacted.Redacted<string>;
+export type SensitiveNonEmptyString = string | redacted.Redacted<string>;
 export type AttachmentTitle = string;
 export type AttachmentUrl = string;
 export type ActiveContextName = string;
 export type EventId = string;
 export type EpochMillis = number;
-export type DTMFRegex = string | Redacted.Redacted<string>;
+export type DTMFRegex = string | redacted.Redacted<string>;
 export type Name = string;
 export type ButtonText = string;
 export type ButtonValue = string;
 export type ActiveContextTimeToLiveInSeconds = number;
 export type ActiveContextTurnsToLive = number;
 export type ParameterName = string;
-export type Double = number;
 export type RuntimeHintPhrase = string;
 
 //# Schemas
+export type ConversationMode = "AUDIO" | "TEXT";
+export const ConversationMode = S.Literal("AUDIO", "TEXT");
 export interface DeleteSessionRequest {
   botId: string;
   botAliasId: string;
@@ -166,6 +167,23 @@ export const GetSessionRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetSessionRequest",
 }) as any as S.Schema<GetSessionRequest>;
+export type DialogActionType =
+  | "Close"
+  | "ConfirmIntent"
+  | "Delegate"
+  | "ElicitIntent"
+  | "ElicitSlot"
+  | "None";
+export const DialogActionType = S.Literal(
+  "Close",
+  "ConfirmIntent",
+  "Delegate",
+  "ElicitIntent",
+  "ElicitSlot",
+  "None",
+);
+export type StyleType = "Default" | "SpellByLetter" | "SpellByWord";
+export const StyleType = S.Literal("Default", "SpellByLetter", "SpellByWord");
 export interface ElicitSubSlot {
   name: string;
   subSlotToElicit?: ElicitSubSlot;
@@ -183,16 +201,16 @@ export const ElicitSubSlot = S.suspend(() =>
   identifier: "ElicitSubSlot",
 }) as any as S.Schema<ElicitSubSlot>;
 export interface DialogAction {
-  type: string;
+  type: DialogActionType;
   slotToElicit?: string;
-  slotElicitationStyle?: string;
+  slotElicitationStyle?: StyleType;
   subSlotToElicit?: ElicitSubSlot;
 }
 export const DialogAction = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: DialogActionType,
     slotToElicit: S.optional(S.String),
-    slotElicitationStyle: S.optional(S.String),
+    slotElicitationStyle: S.optional(StyleType),
     subSlotToElicit: S.optional(ElicitSubSlot),
   }),
 ).annotations({ identifier: "DialogAction" }) as any as S.Schema<DialogAction>;
@@ -203,18 +221,35 @@ export const Slots = S.Record({
     identifier: "Slot",
   }),
 }) as any as S.Schema<Slots>;
+export type IntentState =
+  | "Failed"
+  | "Fulfilled"
+  | "InProgress"
+  | "ReadyForFulfillment"
+  | "Waiting"
+  | "FulfillmentInProgress";
+export const IntentState = S.Literal(
+  "Failed",
+  "Fulfilled",
+  "InProgress",
+  "ReadyForFulfillment",
+  "Waiting",
+  "FulfillmentInProgress",
+);
+export type ConfirmationState = "Confirmed" | "Denied" | "None";
+export const ConfirmationState = S.Literal("Confirmed", "Denied", "None");
 export interface Intent {
   name: string;
-  slots?: Slots;
-  state?: string;
-  confirmationState?: string;
+  slots?: { [key: string]: Slot };
+  state?: IntentState;
+  confirmationState?: ConfirmationState;
 }
 export const Intent = S.suspend(() =>
   S.Struct({
     name: S.String,
     slots: S.optional(Slots),
-    state: S.optional(S.String),
-    confirmationState: S.optional(S.String),
+    state: S.optional(IntentState),
+    confirmationState: S.optional(ConfirmationState),
   }),
 ).annotations({ identifier: "Intent" }) as any as S.Schema<Intent>;
 export interface ActiveContextTimeToLive {
@@ -227,7 +262,7 @@ export const ActiveContextTimeToLive = S.suspend(() =>
   identifier: "ActiveContextTimeToLive",
 }) as any as S.Schema<ActiveContextTimeToLive>;
 export type ActiveContextParametersMap = {
-  [key: string]: string | Redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string>;
 };
 export const ActiveContextParametersMap = S.Record({
   key: S.String,
@@ -236,7 +271,7 @@ export const ActiveContextParametersMap = S.Record({
 export interface ActiveContext {
   name: string;
   timeToLive: ActiveContextTimeToLive;
-  contextAttributes: ActiveContextParametersMap;
+  contextAttributes: { [key: string]: string | redacted.Redacted<string> };
 }
 export const ActiveContext = S.suspend(() =>
   S.Struct({
@@ -258,7 +293,9 @@ export const SlotHintsSlotMap = S.Record({
     (): S.Schema<RuntimeHintDetails, any> => RuntimeHintDetails,
   ).annotations({ identifier: "RuntimeHintDetails" }),
 }) as any as S.Schema<SlotHintsSlotMap>;
-export type SlotHintsIntentMap = { [key: string]: SlotHintsSlotMap };
+export type SlotHintsIntentMap = {
+  [key: string]: { [key: string]: RuntimeHintDetails };
+};
 export const SlotHintsIntentMap = S.Record({
   key: S.String,
   value: S.suspend(() => SlotHintsSlotMap).annotations({
@@ -266,7 +303,7 @@ export const SlotHintsIntentMap = S.Record({
   }),
 });
 export interface RuntimeHints {
-  slotHints?: SlotHintsIntentMap;
+  slotHints?: { [key: string]: { [key: string]: RuntimeHintDetails } };
 }
 export const RuntimeHints = S.suspend(() =>
   S.Struct({ slotHints: S.optional(SlotHintsIntentMap) }),
@@ -274,8 +311,8 @@ export const RuntimeHints = S.suspend(() =>
 export interface SessionState {
   dialogAction?: DialogAction;
   intent?: Intent;
-  activeContexts?: ActiveContextsList;
-  sessionAttributes?: StringMap;
+  activeContexts?: ActiveContext[];
+  sessionAttributes?: { [key: string]: string };
   originatingRequestId?: string;
   runtimeHints?: RuntimeHints;
 }
@@ -294,9 +331,9 @@ export interface RecognizeTextRequest {
   botAliasId: string;
   localeId: string;
   sessionId: string;
-  text: string | Redacted.Redacted<string>;
+  text: string | redacted.Redacted<string>;
   sessionState?: SessionState;
-  requestAttributes?: StringMap;
+  requestAttributes?: { [key: string]: string };
 }
 export const RecognizeTextRequest = S.suspend(() =>
   S.Struct({
@@ -328,8 +365,8 @@ export interface RecognizeUtteranceRequest {
   botAliasId: string;
   localeId: string;
   sessionId: string;
-  sessionState?: string | Redacted.Redacted<string>;
-  requestAttributes?: string | Redacted.Redacted<string>;
+  sessionState?: string | redacted.Redacted<string>;
+  requestAttributes?: string | redacted.Redacted<string>;
   requestContentType: string;
   responseContentType?: string;
   inputStream?: T.StreamingInputBody;
@@ -367,6 +404,17 @@ export const RecognizeUtteranceRequest = S.suspend(() =>
 ).annotations({
   identifier: "RecognizeUtteranceRequest",
 }) as any as S.Schema<RecognizeUtteranceRequest>;
+export type MessageContentType =
+  | "CustomPayload"
+  | "ImageResponseCard"
+  | "PlainText"
+  | "SSML";
+export const MessageContentType = S.Literal(
+  "CustomPayload",
+  "ImageResponseCard",
+  "PlainText",
+  "SSML",
+);
 export interface DeleteSessionResponse {
   botId?: string;
   botAliasId?: string;
@@ -421,6 +469,8 @@ export const RecognizeUtteranceResponse = S.suspend(() =>
 ).annotations({
   identifier: "RecognizeUtteranceResponse",
 }) as any as S.Schema<RecognizeUtteranceResponse>;
+export type InterpretationSource = "Bedrock" | "Lex";
+export const InterpretationSource = S.Literal("Bedrock", "Lex");
 export interface Button {
   text: string;
   value: string;
@@ -434,7 +484,7 @@ export interface ImageResponseCard {
   title: string;
   subtitle?: string;
   imageUrl?: string;
-  buttons?: ButtonsList;
+  buttons?: Button[];
 }
 export const ImageResponseCard = S.suspend(() =>
   S.Struct({
@@ -447,24 +497,24 @@ export const ImageResponseCard = S.suspend(() =>
   identifier: "ImageResponseCard",
 }) as any as S.Schema<ImageResponseCard>;
 export interface Message {
-  content?: string | Redacted.Redacted<string>;
-  contentType: string;
+  content?: string | redacted.Redacted<string>;
+  contentType: MessageContentType;
   imageResponseCard?: ImageResponseCard;
 }
 export const Message = S.suspend(() =>
   S.Struct({
     content: S.optional(SensitiveString),
-    contentType: S.String,
+    contentType: MessageContentType,
     imageResponseCard: S.optional(ImageResponseCard),
   }),
 ).annotations({ identifier: "Message" }) as any as S.Schema<Message>;
 export type Messages = Message[];
 export const Messages = S.Array(Message);
 export interface ConfigurationEvent {
-  requestAttributes?: StringMap;
+  requestAttributes?: { [key: string]: string };
   responseContentType: string;
   sessionState?: SessionState;
-  welcomeMessages?: Messages;
+  welcomeMessages?: Message[];
   disablePlayback?: boolean;
   eventId?: string;
   clientTimestampMillis?: number;
@@ -499,7 +549,7 @@ export const AudioInputEvent = S.suspend(() =>
   identifier: "AudioInputEvent",
 }) as any as S.Schema<AudioInputEvent>;
 export interface DTMFInputEvent {
-  inputCharacter: string | Redacted.Redacted<string>;
+  inputCharacter: string | redacted.Redacted<string>;
   eventId?: string;
   clientTimestampMillis?: number;
 }
@@ -513,7 +563,7 @@ export const DTMFInputEvent = S.suspend(() =>
   identifier: "DTMFInputEvent",
 }) as any as S.Schema<DTMFInputEvent>;
 export interface TextInputEvent {
-  text: string | Redacted.Redacted<string>;
+  text: string | redacted.Redacted<string>;
   eventId?: string;
   clientTimestampMillis?: number;
 }
@@ -559,6 +609,13 @@ export const RecognizedBotMember = S.suspend(() =>
 ).annotations({
   identifier: "RecognizedBotMember",
 }) as any as S.Schema<RecognizedBotMember>;
+export type StartConversationRequestEventStream =
+  | { ConfigurationEvent: ConfigurationEvent }
+  | { AudioInputEvent: AudioInputEvent }
+  | { DTMFInputEvent: DTMFInputEvent }
+  | { TextInputEvent: TextInputEvent }
+  | { PlaybackCompletionEvent: PlaybackCompletionEvent }
+  | { DisconnectionEvent: DisconnectionEvent };
 export const StartConversationRequestEventStream = T.InputEventStream(
   S.Union(
     S.Struct({ ConfigurationEvent: ConfigurationEvent }),
@@ -568,7 +625,18 @@ export const StartConversationRequestEventStream = T.InputEventStream(
     S.Struct({ PlaybackCompletionEvent: PlaybackCompletionEvent }),
     S.Struct({ DisconnectionEvent: DisconnectionEvent }),
   ),
+) as any as S.Schema<
+  stream.Stream<StartConversationRequestEventStream, Error, never>
+>;
+export type SentimentType = "MIXED" | "NEGATIVE" | "NEUTRAL" | "POSITIVE";
+export const SentimentType = S.Literal(
+  "MIXED",
+  "NEGATIVE",
+  "NEUTRAL",
+  "POSITIVE",
 );
+export type Shape = "Scalar" | "List" | "Composite";
+export const Shape = S.Literal("Scalar", "List", "Composite");
 export type Values = Slot[];
 export const Values = S.Array(
   S.suspend((): S.Schema<Slot, any> => Slot).annotations({
@@ -600,12 +668,12 @@ export const SentimentScore = S.suspend(() =>
   identifier: "SentimentScore",
 }) as any as S.Schema<SentimentScore>;
 export interface SentimentResponse {
-  sentiment?: string;
+  sentiment?: SentimentType;
   sentimentScore?: SentimentScore;
 }
 export const SentimentResponse = S.suspend(() =>
   S.Struct({
-    sentiment: S.optional(S.String),
+    sentiment: S.optional(SentimentType),
     sentimentScore: S.optional(SentimentScore),
   }),
 ).annotations({
@@ -615,14 +683,14 @@ export interface Interpretation {
   nluConfidence?: ConfidenceScore;
   sentimentResponse?: SentimentResponse;
   intent?: Intent;
-  interpretationSource?: string;
+  interpretationSource?: InterpretationSource;
 }
 export const Interpretation = S.suspend(() =>
   S.Struct({
     nluConfidence: S.optional(ConfidenceScore),
     sentimentResponse: S.optional(SentimentResponse),
     intent: S.optional(Intent),
-    interpretationSource: S.optional(S.String),
+    interpretationSource: S.optional(InterpretationSource),
   }),
 ).annotations({
   identifier: "Interpretation",
@@ -630,10 +698,10 @@ export const Interpretation = S.suspend(() =>
 export type Interpretations = Interpretation[];
 export const Interpretations = S.Array(Interpretation);
 export interface RecognizeTextResponse {
-  messages?: Messages;
+  messages?: Message[];
   sessionState?: SessionState;
-  interpretations?: Interpretations;
-  requestAttributes?: StringMap;
+  interpretations?: Interpretation[];
+  requestAttributes?: { [key: string]: string };
   sessionId?: string;
   recognizedBotMember?: RecognizedBotMember;
 }
@@ -654,8 +722,12 @@ export interface StartConversationRequest {
   botAliasId: string;
   localeId: string;
   sessionId: string;
-  conversationMode?: string;
-  requestEventStream: (typeof StartConversationRequestEventStream)["Type"];
+  conversationMode?: ConversationMode;
+  requestEventStream: stream.Stream<
+    StartConversationRequestEventStream,
+    Error,
+    never
+  >;
 }
 export const StartConversationRequest = S.suspend(() =>
   S.Struct({
@@ -663,7 +735,7 @@ export const StartConversationRequest = S.suspend(() =>
     botAliasId: S.String.pipe(T.HttpLabel("botAliasId")),
     localeId: S.String.pipe(T.HttpLabel("localeId")),
     sessionId: S.String.pipe(T.HttpLabel("sessionId")),
-    conversationMode: S.optional(S.String).pipe(
+    conversationMode: S.optional(ConversationMode).pipe(
       T.HttpHeader("x-amz-lex-conversation-mode"),
     ),
     requestEventStream: StartConversationRequestEventStream.pipe(
@@ -690,7 +762,7 @@ export const StringList = S.Array(S.String);
 export interface Value {
   originalValue?: string;
   interpretedValue: string;
-  resolvedValues?: StringList;
+  resolvedValues?: string[];
 }
 export const Value = S.suspend(() =>
   S.Struct({
@@ -701,14 +773,14 @@ export const Value = S.suspend(() =>
 ).annotations({ identifier: "Value" }) as any as S.Schema<Value>;
 export interface Slot {
   value?: Value;
-  shape?: string;
-  values?: Values;
-  subSlots?: Slots;
+  shape?: Shape;
+  values?: Slot[];
+  subSlots?: { [key: string]: Slot };
 }
 export const Slot = S.suspend(() =>
   S.Struct({
     value: S.optional(Value),
-    shape: S.optional(S.String),
+    shape: S.optional(Shape),
     values: S.optional(
       S.suspend(() => Values).annotations({ identifier: "Values" }),
     ),
@@ -727,10 +799,21 @@ export const RuntimeHintValue = S.suspend(() =>
 }) as any as S.Schema<RuntimeHintValue>;
 export type RuntimeHintValuesList = RuntimeHintValue[];
 export const RuntimeHintValuesList = S.Array(RuntimeHintValue);
+export type PlaybackInterruptionReason =
+  | "DTMF_START_DETECTED"
+  | "TEXT_DETECTED"
+  | "VOICE_START_DETECTED";
+export const PlaybackInterruptionReason = S.Literal(
+  "DTMF_START_DETECTED",
+  "TEXT_DETECTED",
+  "VOICE_START_DETECTED",
+);
+export type InputMode = "Text" | "Speech" | "DTMF";
+export const InputMode = S.Literal("Text", "Speech", "DTMF");
 export interface GetSessionResponse {
   sessionId?: string;
-  messages?: Messages;
-  interpretations?: Interpretations;
+  messages?: Message[];
+  interpretations?: Interpretation[];
   sessionState?: SessionState;
 }
 export const GetSessionResponse = S.suspend(() =>
@@ -744,8 +827,8 @@ export const GetSessionResponse = S.suspend(() =>
   identifier: "GetSessionResponse",
 }) as any as S.Schema<GetSessionResponse>;
 export interface RuntimeHintDetails {
-  runtimeHintValues?: RuntimeHintValuesList;
-  subSlotHints?: SlotHintsSlotMap;
+  runtimeHintValues?: RuntimeHintValue[];
+  subSlotHints?: { [key: string]: RuntimeHintDetails };
 }
 export const RuntimeHintDetails = S.suspend(() =>
   S.Struct({
@@ -760,13 +843,13 @@ export const RuntimeHintDetails = S.suspend(() =>
   identifier: "RuntimeHintDetails",
 }) as any as S.Schema<RuntimeHintDetails>;
 export interface PlaybackInterruptionEvent {
-  eventReason?: string;
+  eventReason?: PlaybackInterruptionReason;
   causedByEventId?: string;
   eventId?: string;
 }
 export const PlaybackInterruptionEvent = S.suspend(() =>
   S.Struct({
-    eventReason: S.optional(S.String),
+    eventReason: S.optional(PlaybackInterruptionReason),
     causedByEventId: S.optional(S.String),
     eventId: S.optional(S.String),
   }),
@@ -783,17 +866,17 @@ export const TranscriptEvent = S.suspend(() =>
   identifier: "TranscriptEvent",
 }) as any as S.Schema<TranscriptEvent>;
 export interface IntentResultEvent {
-  inputMode?: string;
-  interpretations?: Interpretations;
+  inputMode?: InputMode;
+  interpretations?: Interpretation[];
   sessionState?: SessionState;
-  requestAttributes?: StringMap;
+  requestAttributes?: { [key: string]: string };
   sessionId?: string;
   eventId?: string;
   recognizedBotMember?: RecognizedBotMember;
 }
 export const IntentResultEvent = S.suspend(() =>
   S.Struct({
-    inputMode: S.optional(S.String),
+    inputMode: S.optional(InputMode),
     interpretations: S.optional(Interpretations),
     sessionState: S.optional(SessionState),
     requestAttributes: S.optional(StringMap),
@@ -805,7 +888,7 @@ export const IntentResultEvent = S.suspend(() =>
   identifier: "IntentResultEvent",
 }) as any as S.Schema<IntentResultEvent>;
 export interface TextResponseEvent {
-  messages?: Messages;
+  messages?: Message[];
   eventId?: string;
 }
 export const TextResponseEvent = S.suspend(() =>
@@ -835,6 +918,21 @@ export const HeartbeatEvent = S.suspend(() =>
 ).annotations({
   identifier: "HeartbeatEvent",
 }) as any as S.Schema<HeartbeatEvent>;
+export type StartConversationResponseEventStream =
+  | { PlaybackInterruptionEvent: PlaybackInterruptionEvent }
+  | { TranscriptEvent: TranscriptEvent }
+  | { IntentResultEvent: IntentResultEvent }
+  | { TextResponseEvent: TextResponseEvent }
+  | { AudioResponseEvent: AudioResponseEvent }
+  | { HeartbeatEvent: HeartbeatEvent }
+  | { AccessDeniedException: AccessDeniedException }
+  | { ResourceNotFoundException: ResourceNotFoundException }
+  | { ValidationException: ValidationException }
+  | { ThrottlingException: ThrottlingException }
+  | { InternalServerException: InternalServerException }
+  | { ConflictException: ConflictException }
+  | { DependencyFailedException: DependencyFailedException }
+  | { BadGatewayException: BadGatewayException };
 export const StartConversationResponseEventStream = T.EventStream(
   S.Union(
     S.Struct({ PlaybackInterruptionEvent: PlaybackInterruptionEvent }),
@@ -884,9 +982,15 @@ export const StartConversationResponseEventStream = T.EventStream(
       }),
     }),
   ),
-);
+) as any as S.Schema<
+  stream.Stream<StartConversationResponseEventStream, Error, never>
+>;
 export interface StartConversationResponse {
-  responseEventStream?: (typeof StartConversationResponseEventStream)["Type"];
+  responseEventStream?: stream.Stream<
+    StartConversationResponseEventStream,
+    Error,
+    never
+  >;
 }
 export const StartConversationResponse = S.suspend(() =>
   S.Struct({
@@ -902,9 +1006,9 @@ export interface PutSessionRequest {
   botAliasId: string;
   localeId: string;
   sessionId: string;
-  messages?: Messages;
+  messages?: Message[];
   sessionState: SessionState;
-  requestAttributes?: StringMap;
+  requestAttributes?: { [key: string]: string };
   responseContentType?: string;
 }
 export const PutSessionRequest = S.suspend(() =>
@@ -1016,7 +1120,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const deleteSession: (
   input: DeleteSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1053,7 +1157,7 @@ export const deleteSession: (
  */
 export const getSession: (
   input: GetSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSessionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1103,7 +1207,7 @@ export const getSession: (
  */
 export const recognizeText: (
   input: RecognizeTextRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RecognizeTextResponse,
   | AccessDeniedException
   | BadGatewayException
@@ -1182,7 +1286,7 @@ export const recognizeText: (
  */
 export const recognizeUtterance: (
   input: RecognizeUtteranceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RecognizeUtteranceResponse,
   | AccessDeniedException
   | BadGatewayException
@@ -1257,7 +1361,7 @@ export const recognizeUtterance: (
  */
 export const startConversation: (
   input: StartConversationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartConversationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1282,7 +1386,7 @@ export const startConversation: (
  */
 export const putSession: (
   input: PutSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutSessionResponse,
   | AccessDeniedException
   | BadGatewayException

@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -111,21 +111,21 @@ export type Tr34KeyBlockFormat = string;
 export type EvenHexLengthBetween16And32 = string;
 export type WrappingKeySpec = string;
 export type HexLength20Or24 = string;
-export type Tr31WrappedKeyBlock = string | Redacted.Redacted<string>;
-export type Tr34WrappedKeyBlock = string | Redacted.Redacted<string>;
-export type WrappedKeyCryptogram = string | Redacted.Redacted<string>;
+export type Tr31WrappedKeyBlock = string | redacted.Redacted<string>;
+export type Tr34WrappedKeyBlock = string | redacted.Redacted<string>;
+export type WrappedKeyCryptogram = string | redacted.Redacted<string>;
 export type KeyCheckValue = string;
 export type KeyOrigin = string;
 export type MultiRegionKeyType = string;
 export type KeyExportability = string;
 export type KeyVersion = string;
 export type SharedInformation = string;
-export type CertificateSigningRequestType = string | Redacted.Redacted<string>;
-export type OptionalBlockId = string | Redacted.Redacted<string>;
-export type OptionalBlockValue = string | Redacted.Redacted<string>;
+export type CertificateSigningRequestType = string | redacted.Redacted<string>;
+export type OptionalBlockId = string | redacted.Redacted<string>;
+export type OptionalBlockValue = string | redacted.Redacted<string>;
 export type KeyReplicationState = string;
 export type WrappedKeyMaterialFormat = string;
-export type KeyMaterial = string | Redacted.Redacted<string>;
+export type KeyMaterial = string | redacted.Redacted<string>;
 
 //# Schemas
 export interface GetDefaultKeyReplicationRegionsInput {}
@@ -141,7 +141,7 @@ export const Regions = S.Array(S.String);
 export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
 export interface DisableDefaultKeyReplicationRegionsInput {
-  ReplicationRegions: Regions;
+  ReplicationRegions: string[];
 }
 export const DisableDefaultKeyReplicationRegionsInput = S.suspend(() =>
   S.Struct({ ReplicationRegions: Regions }).pipe(
@@ -151,7 +151,7 @@ export const DisableDefaultKeyReplicationRegionsInput = S.suspend(() =>
   identifier: "DisableDefaultKeyReplicationRegionsInput",
 }) as any as S.Schema<DisableDefaultKeyReplicationRegionsInput>;
 export interface EnableDefaultKeyReplicationRegionsInput {
-  ReplicationRegions: Regions;
+  ReplicationRegions: string[];
 }
 export const EnableDefaultKeyReplicationRegionsInput = S.suspend(() =>
   S.Struct({ ReplicationRegions: Regions }).pipe(
@@ -161,7 +161,7 @@ export const EnableDefaultKeyReplicationRegionsInput = S.suspend(() =>
   identifier: "EnableDefaultKeyReplicationRegionsInput",
 }) as any as S.Schema<EnableDefaultKeyReplicationRegionsInput>;
 export interface GetDefaultKeyReplicationRegionsOutput {
-  EnabledReplicationRegions: Regions;
+  EnabledReplicationRegions: string[];
 }
 export const GetDefaultKeyReplicationRegionsOutput = S.suspend(() =>
   S.Struct({ EnabledReplicationRegions: Regions }),
@@ -218,16 +218,16 @@ export const ListTagsForResourceInput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceInput>;
 export interface Tag {
   Key: string;
-  Value: string;
+  Value?: string;
 }
 export const Tag = S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
+  S.Struct({ Key: S.String, Value: S.optional(S.String) }),
 ).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type Tags = Tag[];
 export const Tags = S.Array(Tag);
 export interface TagResourceInput {
   ResourceArn: string;
-  Tags: Tags;
+  Tags: Tag[];
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: Tags }).pipe(
@@ -242,7 +242,7 @@ export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceOutput>;
 export interface UntagResourceInput {
   ResourceArn: string;
-  TagKeys: TagKeys;
+  TagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeys }).pipe(
@@ -357,7 +357,7 @@ export const ListKeysInput = S.suspend(() =>
 }) as any as S.Schema<ListKeysInput>;
 export interface AddKeyReplicationRegionsInput {
   KeyIdentifier: string;
-  ReplicationRegions: Regions;
+  ReplicationRegions: string[];
 }
 export const AddKeyReplicationRegionsInput = S.suspend(() =>
   S.Struct({ KeyIdentifier: S.String, ReplicationRegions: Regions }).pipe(
@@ -368,7 +368,7 @@ export const AddKeyReplicationRegionsInput = S.suspend(() =>
 }) as any as S.Schema<AddKeyReplicationRegionsInput>;
 export interface RemoveKeyReplicationRegionsInput {
   KeyIdentifier: string;
-  ReplicationRegions: Regions;
+  ReplicationRegions: string[];
 }
 export const RemoveKeyReplicationRegionsInput = S.suspend(() =>
   S.Struct({ KeyIdentifier: S.String, ReplicationRegions: Regions }).pipe(
@@ -438,8 +438,48 @@ export const Alias = S.suspend(() =>
 ).annotations({ identifier: "Alias" }) as any as S.Schema<Alias>;
 export type Aliases = Alias[];
 export const Aliases = S.Array(Alias);
+export type SymmetricKeyAlgorithm =
+  | "TDES_2KEY"
+  | "TDES_3KEY"
+  | "AES_128"
+  | "AES_192"
+  | "AES_256"
+  | "HMAC_SHA256"
+  | "HMAC_SHA384"
+  | "HMAC_SHA512"
+  | "HMAC_SHA224";
+export const SymmetricKeyAlgorithm = S.Literal(
+  "TDES_2KEY",
+  "TDES_3KEY",
+  "AES_128",
+  "AES_192",
+  "AES_256",
+  "HMAC_SHA256",
+  "HMAC_SHA384",
+  "HMAC_SHA512",
+  "HMAC_SHA224",
+);
+export type KeyDerivationFunction = "NIST_SP800" | "ANSI_X963";
+export const KeyDerivationFunction = S.Literal("NIST_SP800", "ANSI_X963");
+export type KeyDerivationHashAlgorithm = "SHA_256" | "SHA_384" | "SHA_512";
+export const KeyDerivationHashAlgorithm = S.Literal(
+  "SHA_256",
+  "SHA_384",
+  "SHA_512",
+);
+export type As2805KeyVariant =
+  | "TERMINAL_MAJOR_KEY_VARIANT_00"
+  | "PIN_ENCRYPTION_KEY_VARIANT_28"
+  | "MESSAGE_AUTHENTICATION_KEY_VARIANT_24"
+  | "DATA_ENCRYPTION_KEY_VARIANT_22";
+export const As2805KeyVariant = S.Literal(
+  "TERMINAL_MAJOR_KEY_VARIANT_00",
+  "PIN_ENCRYPTION_KEY_VARIANT_28",
+  "MESSAGE_AUTHENTICATION_KEY_VARIANT_24",
+  "DATA_ENCRYPTION_KEY_VARIANT_22",
+);
 export interface DisableDefaultKeyReplicationRegionsOutput {
-  EnabledReplicationRegions: Regions;
+  EnabledReplicationRegions: string[];
 }
 export const DisableDefaultKeyReplicationRegionsOutput = S.suspend(() =>
   S.Struct({ EnabledReplicationRegions: Regions }),
@@ -447,7 +487,7 @@ export const DisableDefaultKeyReplicationRegionsOutput = S.suspend(() =>
   identifier: "DisableDefaultKeyReplicationRegionsOutput",
 }) as any as S.Schema<DisableDefaultKeyReplicationRegionsOutput>;
 export interface EnableDefaultKeyReplicationRegionsOutput {
-  EnabledReplicationRegions: Regions;
+  EnabledReplicationRegions: string[];
 }
 export const EnableDefaultKeyReplicationRegionsOutput = S.suspend(() =>
   S.Struct({ EnabledReplicationRegions: Regions }),
@@ -520,7 +560,7 @@ export const GetPublicKeyCertificateOutput = S.suspend(() =>
   identifier: "GetPublicKeyCertificateOutput",
 }) as any as S.Schema<GetPublicKeyCertificateOutput>;
 export interface ListTagsForResourceOutput {
-  Tags: Tags;
+  Tags: Tag[];
   NextToken?: string;
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
@@ -545,7 +585,7 @@ export const UpdateAliasOutput = S.suspend(() =>
   identifier: "UpdateAliasOutput",
 }) as any as S.Schema<UpdateAliasOutput>;
 export interface ListAliasesOutput {
-  Aliases: Aliases;
+  Aliases: Alias[];
   NextToken?: string;
 }
 export const ListAliasesOutput = S.suspend(() =>
@@ -626,7 +666,7 @@ export interface Key {
   DeriveKeyUsage?: string;
   MultiRegionKeyType?: string;
   PrimaryRegion?: string;
-  ReplicationStatus?: ReplicationStatus;
+  ReplicationStatus?: { [key: string]: ReplicationStatusType };
   UsingDefaultReplicationRegions?: boolean;
 }
 export const Key = S.suspend(() =>
@@ -708,7 +748,7 @@ export const StopKeyUsageOutput = S.suspend(() =>
   identifier: "StopKeyUsageOutput",
 }) as any as S.Schema<StopKeyUsageOutput>;
 export type OptionalBlocks = {
-  [key: string]: string | Redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string>;
 };
 export const OptionalBlocks = S.Record({
   key: S.String,
@@ -718,7 +758,7 @@ export interface KeyBlockHeaders {
   KeyModesOfUse?: KeyModesOfUse;
   KeyExportability?: string;
   KeyVersion?: string;
-  OptionalBlocks?: OptionalBlocks;
+  OptionalBlocks?: { [key: string]: string | redacted.Redacted<string> };
 }
 export const KeyBlockHeaders = S.suspend(() =>
   S.Struct({
@@ -770,10 +810,13 @@ export const ExportKeyCryptogram = S.suspend(() =>
 }) as any as S.Schema<ExportKeyCryptogram>;
 export interface ExportAs2805KeyCryptogram {
   WrappingKeyIdentifier: string;
-  As2805KeyVariant: string;
+  As2805KeyVariant: As2805KeyVariant;
 }
 export const ExportAs2805KeyCryptogram = S.suspend(() =>
-  S.Struct({ WrappingKeyIdentifier: S.String, As2805KeyVariant: S.String }),
+  S.Struct({
+    WrappingKeyIdentifier: S.String,
+    As2805KeyVariant: As2805KeyVariant,
+  }),
 ).annotations({
   identifier: "ExportAs2805KeyCryptogram",
 }) as any as S.Schema<ExportAs2805KeyCryptogram>;
@@ -810,7 +853,7 @@ export const TrustedCertificatePublicKey = S.suspend(() =>
 }) as any as S.Schema<TrustedCertificatePublicKey>;
 export interface ImportTr31KeyBlock {
   WrappingKeyIdentifier: string;
-  WrappedKeyBlock: string | Redacted.Redacted<string>;
+  WrappedKeyBlock: string | redacted.Redacted<string>;
 }
 export const ImportTr31KeyBlock = S.suspend(() =>
   S.Struct({
@@ -826,7 +869,7 @@ export interface ImportTr34KeyBlock {
   ImportToken?: string;
   WrappingKeyIdentifier?: string;
   WrappingKeyCertificate?: string;
-  WrappedKeyBlock: string | Redacted.Redacted<string>;
+  WrappedKeyBlock: string | redacted.Redacted<string>;
   KeyBlockFormat: string;
   RandomNonce?: string;
 }
@@ -847,7 +890,7 @@ export const ImportTr34KeyBlock = S.suspend(() =>
 export interface ImportKeyCryptogram {
   KeyAttributes: KeyAttributes;
   Exportable: boolean;
-  WrappedKeyCryptogram: string | Redacted.Redacted<string>;
+  WrappedKeyCryptogram: string | redacted.Redacted<string>;
   ImportToken: string;
   WrappingSpec?: string;
 }
@@ -870,20 +913,20 @@ export interface ImportDiffieHellmanTr31KeyBlock {
   PrivateKeyIdentifier: string;
   CertificateAuthorityPublicKeyIdentifier: string;
   PublicKeyCertificate: string;
-  DeriveKeyAlgorithm: string;
-  KeyDerivationFunction: string;
-  KeyDerivationHashAlgorithm: string;
-  DerivationData: (typeof DiffieHellmanDerivationData)["Type"];
-  WrappedKeyBlock: string | Redacted.Redacted<string>;
+  DeriveKeyAlgorithm: SymmetricKeyAlgorithm;
+  KeyDerivationFunction: KeyDerivationFunction;
+  KeyDerivationHashAlgorithm: KeyDerivationHashAlgorithm;
+  DerivationData: DiffieHellmanDerivationData;
+  WrappedKeyBlock: string | redacted.Redacted<string>;
 }
 export const ImportDiffieHellmanTr31KeyBlock = S.suspend(() =>
   S.Struct({
     PrivateKeyIdentifier: S.String,
     CertificateAuthorityPublicKeyIdentifier: S.String,
     PublicKeyCertificate: S.String,
-    DeriveKeyAlgorithm: S.String,
-    KeyDerivationFunction: S.String,
-    KeyDerivationHashAlgorithm: S.String,
+    DeriveKeyAlgorithm: SymmetricKeyAlgorithm,
+    KeyDerivationFunction: KeyDerivationFunction,
+    KeyDerivationHashAlgorithm: KeyDerivationHashAlgorithm,
     DerivationData: DiffieHellmanDerivationData,
     WrappedKeyBlock: SensitiveString,
   }),
@@ -891,16 +934,16 @@ export const ImportDiffieHellmanTr31KeyBlock = S.suspend(() =>
   identifier: "ImportDiffieHellmanTr31KeyBlock",
 }) as any as S.Schema<ImportDiffieHellmanTr31KeyBlock>;
 export interface ImportAs2805KeyCryptogram {
-  As2805KeyVariant: string;
+  As2805KeyVariant: As2805KeyVariant;
   KeyModesOfUse: KeyModesOfUse;
   KeyAlgorithm: string;
   Exportable: boolean;
   WrappingKeyIdentifier: string;
-  WrappedKeyCryptogram: string | Redacted.Redacted<string>;
+  WrappedKeyCryptogram: string | redacted.Redacted<string>;
 }
 export const ImportAs2805KeyCryptogram = S.suspend(() =>
   S.Struct({
-    As2805KeyVariant: S.String,
+    As2805KeyVariant: As2805KeyVariant,
     KeyModesOfUse: KeyModesOfUse,
     KeyAlgorithm: S.String,
     Exportable: S.Boolean,
@@ -964,7 +1007,7 @@ export const KeySummary = S.suspend(() =>
 export type KeySummaryList = KeySummary[];
 export const KeySummaryList = S.Array(KeySummary);
 export interface GetCertificateSigningRequestOutput {
-  CertificateSigningRequest: string | Redacted.Redacted<string>;
+  CertificateSigningRequest: string | redacted.Redacted<string>;
 }
 export const GetCertificateSigningRequestOutput = S.suspend(() =>
   S.Struct({ CertificateSigningRequest: SensitiveString }),
@@ -972,11 +1015,11 @@ export const GetCertificateSigningRequestOutput = S.suspend(() =>
   identifier: "GetCertificateSigningRequestOutput",
 }) as any as S.Schema<GetCertificateSigningRequestOutput>;
 export interface ImportKeyInput {
-  KeyMaterial: (typeof ImportKeyMaterial)["Type"];
+  KeyMaterial: ImportKeyMaterial;
   KeyCheckValueAlgorithm?: string;
   Enabled?: boolean;
-  Tags?: Tags;
-  ReplicationRegions?: Regions;
+  Tags?: Tag[];
+  ReplicationRegions?: string[];
 }
 export const ImportKeyInput = S.suspend(() =>
   S.Struct({
@@ -1004,9 +1047,9 @@ export interface CreateKeyInput {
   KeyCheckValueAlgorithm?: string;
   Exportable: boolean;
   Enabled?: boolean;
-  Tags?: Tags;
+  Tags?: Tag[];
   DeriveKeyUsage?: string;
-  ReplicationRegions?: Regions;
+  ReplicationRegions?: string[];
 }
 export const CreateKeyInput = S.suspend(() =>
   S.Struct({
@@ -1024,7 +1067,7 @@ export const CreateKeyInput = S.suspend(() =>
   identifier: "CreateKeyInput",
 }) as any as S.Schema<CreateKeyInput>;
 export interface ListKeysOutput {
-  Keys: KeySummaryList;
+  Keys: KeySummary[];
   NextToken?: string;
 }
 export const ListKeysOutput = S.suspend(() =>
@@ -1036,10 +1079,10 @@ export interface ExportDiffieHellmanTr31KeyBlock {
   PrivateKeyIdentifier: string;
   CertificateAuthorityPublicKeyIdentifier: string;
   PublicKeyCertificate: string;
-  DeriveKeyAlgorithm: string;
-  KeyDerivationFunction: string;
-  KeyDerivationHashAlgorithm: string;
-  DerivationData: (typeof DiffieHellmanDerivationData)["Type"];
+  DeriveKeyAlgorithm: SymmetricKeyAlgorithm;
+  KeyDerivationFunction: KeyDerivationFunction;
+  KeyDerivationHashAlgorithm: KeyDerivationHashAlgorithm;
+  DerivationData: DiffieHellmanDerivationData;
   KeyBlockHeaders?: KeyBlockHeaders;
 }
 export const ExportDiffieHellmanTr31KeyBlock = S.suspend(() =>
@@ -1047,9 +1090,9 @@ export const ExportDiffieHellmanTr31KeyBlock = S.suspend(() =>
     PrivateKeyIdentifier: S.String,
     CertificateAuthorityPublicKeyIdentifier: S.String,
     PublicKeyCertificate: S.String,
-    DeriveKeyAlgorithm: S.String,
-    KeyDerivationFunction: S.String,
-    KeyDerivationHashAlgorithm: S.String,
+    DeriveKeyAlgorithm: SymmetricKeyAlgorithm,
+    KeyDerivationFunction: KeyDerivationFunction,
+    KeyDerivationHashAlgorithm: KeyDerivationHashAlgorithm,
     DerivationData: DiffieHellmanDerivationData,
     KeyBlockHeaders: S.optional(KeyBlockHeaders),
   }),
@@ -1098,7 +1141,7 @@ export const ExportKeyMaterial = S.Union(
   S.Struct({ As2805KeyCryptogram: ExportAs2805KeyCryptogram }),
 );
 export interface ExportKeyInput {
-  KeyMaterial: (typeof ExportKeyMaterial)["Type"];
+  KeyMaterial: ExportKeyMaterial;
   ExportKeyIdentifier: string;
   ExportAttributes?: ExportAttributes;
 }
@@ -1122,7 +1165,7 @@ export const GetKeyOutput = S.suspend(() => S.Struct({ Key: Key })).annotations(
 export interface WrappedKey {
   WrappingKeyArn: string;
   WrappedKeyMaterialFormat: string;
-  KeyMaterial: string | Redacted.Redacted<string>;
+  KeyMaterial: string | redacted.Redacted<string>;
   KeyCheckValue?: string;
   KeyCheckValueAlgorithm?: string;
 }
@@ -1188,7 +1231,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const getPublicKeyCertificate: (
   input: GetPublicKeyCertificateInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetPublicKeyCertificateOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1309,7 +1352,7 @@ export const getPublicKeyCertificate: (
  */
 export const importKey: (
   input: ImportKeyInput,
-) => Effect.Effect<
+) => effect.Effect<
   ImportKeyOutput,
   | AccessDeniedException
   | ConflictException
@@ -1350,7 +1393,7 @@ export const importKey: (
  */
 export const getKey: (
   input: GetKeyInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetKeyOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1390,7 +1433,7 @@ export const getKey: (
 export const listKeys: {
   (
     input: ListKeysInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListKeysOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1403,7 +1446,7 @@ export const listKeys: {
   >;
   pages: (
     input: ListKeysInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListKeysOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1416,7 +1459,7 @@ export const listKeys: {
   >;
   items: (
     input: ListKeysInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     KeySummary,
     | AccessDeniedException
     | InternalServerException
@@ -1462,7 +1505,7 @@ export const listKeys: {
  */
 export const updateAlias: (
   input: UpdateAliasInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAliasOutput,
   | AccessDeniedException
   | ConflictException
@@ -1505,7 +1548,7 @@ export const updateAlias: (
  */
 export const deleteKey: (
   input: DeleteKeyInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteKeyOutput,
   | AccessDeniedException
   | ConflictException
@@ -1544,7 +1587,7 @@ export const deleteKey: (
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -1587,7 +1630,7 @@ export const untagResource: (
  */
 export const deleteAlias: (
   input: DeleteAliasInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAliasOutput,
   | AccessDeniedException
   | ConflictException
@@ -1627,7 +1670,7 @@ export const deleteAlias: (
 export const listTagsForResource: {
   (
     input: ListTagsForResourceInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTagsForResourceOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1640,7 +1683,7 @@ export const listTagsForResource: {
   >;
   pages: (
     input: ListTagsForResourceInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTagsForResourceOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1653,7 +1696,7 @@ export const listTagsForResource: {
   >;
   items: (
     input: ListTagsForResourceInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Tag,
     | AccessDeniedException
     | InternalServerException
@@ -1699,7 +1742,7 @@ export const listTagsForResource: {
  */
 export const getAlias: (
   input: GetAliasInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetAliasOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1741,7 +1784,7 @@ export const getAlias: (
 export const listAliases: {
   (
     input: ListAliasesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAliasesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1754,7 +1797,7 @@ export const listAliases: {
   >;
   pages: (
     input: ListAliasesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAliasesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1767,7 +1810,7 @@ export const listAliases: {
   >;
   items: (
     input: ListAliasesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Alias,
     | AccessDeniedException
     | InternalServerException
@@ -1801,7 +1844,7 @@ export const listAliases: {
  */
 export const getCertificateSigningRequest: (
   input: GetCertificateSigningRequestInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetCertificateSigningRequestOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1848,7 +1891,7 @@ export const getCertificateSigningRequest: (
  */
 export const createKey: (
   input: CreateKeyInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateKeyOutput,
   | AccessDeniedException
   | ConflictException
@@ -1895,7 +1938,7 @@ export const createKey: (
  */
 export const createAlias: (
   input: CreateAliasInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAliasOutput,
   | AccessDeniedException
   | ConflictException
@@ -1936,7 +1979,7 @@ export const createAlias: (
  */
 export const getParametersForExport: (
   input: GetParametersForExportInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetParametersForExportOutput,
   | AccessDeniedException
   | ConflictException
@@ -1977,7 +2020,7 @@ export const getParametersForExport: (
  */
 export const getParametersForImport: (
   input: GetParametersForImportInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetParametersForImportOutput,
   | AccessDeniedException
   | ConflictException
@@ -2022,7 +2065,7 @@ export const getParametersForImport: (
  */
 export const addKeyReplicationRegions: (
   input: AddKeyReplicationRegionsInput,
-) => Effect.Effect<
+) => effect.Effect<
   AddKeyReplicationRegionsOutput,
   | AccessDeniedException
   | ConflictException
@@ -2063,7 +2106,7 @@ export const addKeyReplicationRegions: (
  */
 export const removeKeyReplicationRegions: (
   input: RemoveKeyReplicationRegionsInput,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveKeyReplicationRegionsOutput,
   | AccessDeniedException
   | ConflictException
@@ -2104,7 +2147,7 @@ export const removeKeyReplicationRegions: (
  */
 export const restoreKey: (
   input: RestoreKeyInput,
-) => Effect.Effect<
+) => effect.Effect<
   RestoreKeyOutput,
   | AccessDeniedException
   | ConflictException
@@ -2141,7 +2184,7 @@ export const restoreKey: (
  */
 export const startKeyUsage: (
   input: StartKeyUsageInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartKeyUsageOutput,
   | AccessDeniedException
   | ConflictException
@@ -2182,7 +2225,7 @@ export const startKeyUsage: (
  */
 export const stopKeyUsage: (
   input: StopKeyUsageInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopKeyUsageOutput,
   | AccessDeniedException
   | ConflictException
@@ -2225,7 +2268,7 @@ export const stopKeyUsage: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -2268,7 +2311,7 @@ export const tagResource: (
  */
 export const disableDefaultKeyReplicationRegions: (
   input: DisableDefaultKeyReplicationRegionsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisableDefaultKeyReplicationRegionsOutput,
   | AccessDeniedException
   | ConflictException
@@ -2309,7 +2352,7 @@ export const disableDefaultKeyReplicationRegions: (
  */
 export const enableDefaultKeyReplicationRegions: (
   input: EnableDefaultKeyReplicationRegionsInput,
-) => Effect.Effect<
+) => effect.Effect<
   EnableDefaultKeyReplicationRegionsOutput,
   | AccessDeniedException
   | ConflictException
@@ -2348,7 +2391,7 @@ export const enableDefaultKeyReplicationRegions: (
  */
 export const getDefaultKeyReplicationRegions: (
   input: GetDefaultKeyReplicationRegionsInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetDefaultKeyReplicationRegionsOutput,
   | AccessDeniedException
   | ConflictException
@@ -2465,7 +2508,7 @@ export const getDefaultKeyReplicationRegions: (
  */
 export const exportKey: (
   input: ExportKeyInput,
-) => Effect.Effect<
+) => effect.Effect<
   ExportKeyOutput,
   | AccessDeniedException
   | ConflictException

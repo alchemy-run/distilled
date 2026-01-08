@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -88,7 +88,6 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type Name = string;
-export type Integer = number;
 export type ForecastType = string;
 export type Frequency = string;
 export type Arn = string;
@@ -100,18 +99,16 @@ export type LocalDateTime = string;
 export type LongArn = string;
 export type NextToken = string;
 export type MaxResults = number;
-export type TagKey = string | Redacted.Redacted<string>;
+export type TagKey = string | redacted.Redacted<string>;
 export type KMSKeyArn = string;
-export type TagValue = string | Redacted.Redacted<string>;
+export type TagValue = string | redacted.Redacted<string>;
 export type DayOfMonth = number;
 export type Hour = number;
 export type ParameterKey = string;
 export type ParameterValue = string;
 export type ErrorMessage = string;
-export type Long = number;
 export type Status = string;
 export type Message = string;
-export type Double = number;
 export type EvaluationState = string;
 export type S3Path = string;
 export type Value = string;
@@ -124,15 +121,61 @@ export type ForecastTypes = string[];
 export const ForecastTypes = S.Array(S.String);
 export type ForecastDimensions = string[];
 export const ForecastDimensions = S.Array(S.String);
+export type OptimizationMetric =
+  | "WAPE"
+  | "RMSE"
+  | "AverageWeightedQuantileLoss"
+  | "MASE"
+  | "MAPE";
+export const OptimizationMetric = S.Literal(
+  "WAPE",
+  "RMSE",
+  "AverageWeightedQuantileLoss",
+  "MASE",
+  "MAPE",
+);
+export type Domain =
+  | "RETAIL"
+  | "CUSTOM"
+  | "INVENTORY_PLANNING"
+  | "EC2_CAPACITY"
+  | "WORK_FORCE"
+  | "WEB_TRAFFIC"
+  | "METRICS";
+export const Domain = S.Literal(
+  "RETAIL",
+  "CUSTOM",
+  "INVENTORY_PLANNING",
+  "EC2_CAPACITY",
+  "WORK_FORCE",
+  "WEB_TRAFFIC",
+  "METRICS",
+);
+export type DatasetType =
+  | "TARGET_TIME_SERIES"
+  | "RELATED_TIME_SERIES"
+  | "ITEM_METADATA";
+export const DatasetType = S.Literal(
+  "TARGET_TIME_SERIES",
+  "RELATED_TIME_SERIES",
+  "ITEM_METADATA",
+);
 export type ArnList = string[];
 export const ArnList = S.Array(S.String);
+export type ImportMode = "FULL" | "INCREMENTAL";
+export const ImportMode = S.Literal("FULL", "INCREMENTAL");
+export type AutoMLOverrideStrategy = "LatencyOptimized" | "AccuracyOptimized";
+export const AutoMLOverrideStrategy = S.Literal(
+  "LatencyOptimized",
+  "AccuracyOptimized",
+);
 export type WhatIfForecastArnListForExport = string[];
 export const WhatIfForecastArnListForExport = S.Array(S.String);
-export type TagKeys = string | Redacted.Redacted<string>[];
+export type TagKeys = string | redacted.Redacted<string>[];
 export const TagKeys = S.Array(SensitiveString);
 export interface Tag {
-  Key: string | Redacted.Redacted<string>;
-  Value: string | Redacted.Redacted<string>;
+  Key: string | redacted.Redacted<string>;
+  Value: string | redacted.Redacted<string>;
 }
 export const Tag = S.suspend(() =>
   S.Struct({ Key: SensitiveString, Value: SensitiveString }),
@@ -141,14 +184,14 @@ export type Tags = Tag[];
 export const Tags = S.Array(Tag);
 export interface CreateDatasetGroupRequest {
   DatasetGroupName: string;
-  Domain: string;
-  DatasetArns?: ArnList;
-  Tags?: Tags;
+  Domain: Domain;
+  DatasetArns?: string[];
+  Tags?: Tag[];
 }
 export const CreateDatasetGroupRequest = S.suspend(() =>
   S.Struct({
     DatasetGroupName: S.String,
-    Domain: S.String,
+    Domain: Domain,
     DatasetArns: S.optional(ArnList),
     Tags: S.optional(Tags),
   }).pipe(
@@ -181,7 +224,7 @@ export interface CreateForecastExportJobRequest {
   ForecastExportJobName: string;
   ForecastArn: string;
   Destination: DataDestination;
-  Tags?: Tags;
+  Tags?: Tag[];
   Format?: string;
 }
 export const CreateForecastExportJobRequest = S.suspend(() =>
@@ -200,7 +243,7 @@ export const CreateForecastExportJobRequest = S.suspend(() =>
 export interface CreateMonitorRequest {
   MonitorName: string;
   ResourceArn: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreateMonitorRequest = S.suspend(() =>
   S.Struct({
@@ -217,7 +260,7 @@ export interface CreatePredictorBacktestExportJobRequest {
   PredictorBacktestExportJobName: string;
   PredictorArn: string;
   Destination: DataDestination;
-  Tags?: Tags;
+  Tags?: Tag[];
   Format?: string;
 }
 export const CreatePredictorBacktestExportJobRequest = S.suspend(() =>
@@ -239,14 +282,27 @@ export interface DataSource {
 export const DataSource = S.suspend(() =>
   S.Struct({ S3Config: S3Config }),
 ).annotations({ identifier: "DataSource" }) as any as S.Schema<DataSource>;
+export type AttributeType =
+  | "string"
+  | "integer"
+  | "float"
+  | "timestamp"
+  | "geolocation";
+export const AttributeType = S.Literal(
+  "string",
+  "integer",
+  "float",
+  "timestamp",
+  "geolocation",
+);
 export interface SchemaAttribute {
   AttributeName?: string;
-  AttributeType?: string;
+  AttributeType?: AttributeType;
 }
 export const SchemaAttribute = S.suspend(() =>
   S.Struct({
     AttributeName: S.optional(S.String),
-    AttributeType: S.optional(S.String),
+    AttributeType: S.optional(AttributeType),
   }),
 ).annotations({
   identifier: "SchemaAttribute",
@@ -254,7 +310,7 @@ export const SchemaAttribute = S.suspend(() =>
 export type SchemaAttributes = SchemaAttribute[];
 export const SchemaAttributes = S.Array(SchemaAttribute);
 export interface Schema {
-  Attributes?: SchemaAttributes;
+  Attributes?: SchemaAttribute[];
 }
 export const Schema = S.suspend(() =>
   S.Struct({ Attributes: S.optional(SchemaAttributes) }),
@@ -285,7 +341,7 @@ export interface CreateWhatIfAnalysisRequest {
   WhatIfAnalysisName: string;
   ForecastArn: string;
   TimeSeriesSelector?: TimeSeriesSelector;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreateWhatIfAnalysisRequest = S.suspend(() =>
   S.Struct({
@@ -301,9 +357,9 @@ export const CreateWhatIfAnalysisRequest = S.suspend(() =>
 }) as any as S.Schema<CreateWhatIfAnalysisRequest>;
 export interface CreateWhatIfForecastExportRequest {
   WhatIfForecastExportName: string;
-  WhatIfForecastArns: WhatIfForecastArnListForExport;
+  WhatIfForecastArns: string[];
   Destination: DataDestination;
-  Tags?: Tags;
+  Tags?: Tag[];
   Format?: string;
 }
 export const CreateWhatIfForecastExportRequest = S.suspend(() =>
@@ -715,20 +771,26 @@ export const ListDatasetsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListDatasetsRequest",
 }) as any as S.Schema<ListDatasetsRequest>;
+export type FilterConditionString = "IS" | "IS_NOT";
+export const FilterConditionString = S.Literal("IS", "IS_NOT");
 export interface Filter {
   Key: string;
   Value: string;
-  Condition: string;
+  Condition: FilterConditionString;
 }
 export const Filter = S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String, Condition: S.String }),
+  S.Struct({
+    Key: S.String,
+    Value: S.String,
+    Condition: FilterConditionString,
+  }),
 ).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type Filters = Filter[];
 export const Filters = S.Array(Filter);
 export interface ListExplainabilitiesRequest {
   NextToken?: string;
   MaxResults?: number;
-  Filters?: Filters;
+  Filters?: Filter[];
 }
 export const ListExplainabilitiesRequest = S.suspend(() =>
   S.Struct({
@@ -744,7 +806,7 @@ export const ListExplainabilitiesRequest = S.suspend(() =>
 export interface ListExplainabilityExportsRequest {
   NextToken?: string;
   MaxResults?: number;
-  Filters?: Filters;
+  Filters?: Filter[];
 }
 export const ListExplainabilityExportsRequest = S.suspend(() =>
   S.Struct({
@@ -760,7 +822,7 @@ export const ListExplainabilityExportsRequest = S.suspend(() =>
 export interface ListForecastExportJobsRequest {
   NextToken?: string;
   MaxResults?: number;
-  Filters?: Filters;
+  Filters?: Filter[];
 }
 export const ListForecastExportJobsRequest = S.suspend(() =>
   S.Struct({
@@ -776,7 +838,7 @@ export const ListForecastExportJobsRequest = S.suspend(() =>
 export interface ListForecastsRequest {
   NextToken?: string;
   MaxResults?: number;
-  Filters?: Filters;
+  Filters?: Filter[];
 }
 export const ListForecastsRequest = S.suspend(() =>
   S.Struct({
@@ -793,7 +855,7 @@ export interface ListMonitorEvaluationsRequest {
   NextToken?: string;
   MaxResults?: number;
   MonitorArn: string;
-  Filters?: Filters;
+  Filters?: Filter[];
 }
 export const ListMonitorEvaluationsRequest = S.suspend(() =>
   S.Struct({
@@ -810,7 +872,7 @@ export const ListMonitorEvaluationsRequest = S.suspend(() =>
 export interface ListMonitorsRequest {
   NextToken?: string;
   MaxResults?: number;
-  Filters?: Filters;
+  Filters?: Filter[];
 }
 export const ListMonitorsRequest = S.suspend(() =>
   S.Struct({
@@ -826,7 +888,7 @@ export const ListMonitorsRequest = S.suspend(() =>
 export interface ListPredictorBacktestExportJobsRequest {
   NextToken?: string;
   MaxResults?: number;
-  Filters?: Filters;
+  Filters?: Filter[];
 }
 export const ListPredictorBacktestExportJobsRequest = S.suspend(() =>
   S.Struct({
@@ -842,7 +904,7 @@ export const ListPredictorBacktestExportJobsRequest = S.suspend(() =>
 export interface ListPredictorsRequest {
   NextToken?: string;
   MaxResults?: number;
-  Filters?: Filters;
+  Filters?: Filter[];
 }
 export const ListPredictorsRequest = S.suspend(() =>
   S.Struct({
@@ -868,7 +930,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 export interface ListWhatIfAnalysesRequest {
   NextToken?: string;
   MaxResults?: number;
-  Filters?: Filters;
+  Filters?: Filter[];
 }
 export const ListWhatIfAnalysesRequest = S.suspend(() =>
   S.Struct({
@@ -884,7 +946,7 @@ export const ListWhatIfAnalysesRequest = S.suspend(() =>
 export interface ListWhatIfForecastExportsRequest {
   NextToken?: string;
   MaxResults?: number;
-  Filters?: Filters;
+  Filters?: Filter[];
 }
 export const ListWhatIfForecastExportsRequest = S.suspend(() =>
   S.Struct({
@@ -900,7 +962,7 @@ export const ListWhatIfForecastExportsRequest = S.suspend(() =>
 export interface ListWhatIfForecastsRequest {
   NextToken?: string;
   MaxResults?: number;
-  Filters?: Filters;
+  Filters?: Filter[];
 }
 export const ListWhatIfForecastsRequest = S.suspend(() =>
   S.Struct({
@@ -943,7 +1005,7 @@ export const StopResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<StopResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: Tags;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: Tags }).pipe(
@@ -958,7 +1020,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeys;
+  TagKeys: string | redacted.Redacted<string>[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeys }).pipe(
@@ -973,7 +1035,7 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateDatasetGroupRequest {
   DatasetGroupArn: string;
-  DatasetArns: ArnList;
+  DatasetArns: string[];
 }
 export const UpdateDatasetGroupRequest = S.suspend(() =>
   S.Struct({ DatasetGroupArn: S.String, DatasetArns: ArnList }).pipe(
@@ -988,6 +1050,54 @@ export const UpdateDatasetGroupResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateDatasetGroupResponse",
 }) as any as S.Schema<UpdateDatasetGroupResponse>;
+export type Month =
+  | "JANUARY"
+  | "FEBRUARY"
+  | "MARCH"
+  | "APRIL"
+  | "MAY"
+  | "JUNE"
+  | "JULY"
+  | "AUGUST"
+  | "SEPTEMBER"
+  | "OCTOBER"
+  | "NOVEMBER"
+  | "DECEMBER";
+export const Month = S.Literal(
+  "JANUARY",
+  "FEBRUARY",
+  "MARCH",
+  "APRIL",
+  "MAY",
+  "JUNE",
+  "JULY",
+  "AUGUST",
+  "SEPTEMBER",
+  "OCTOBER",
+  "NOVEMBER",
+  "DECEMBER",
+);
+export type DayOfWeek =
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
+export const DayOfWeek = S.Literal(
+  "MONDAY",
+  "TUESDAY",
+  "WEDNESDAY",
+  "THURSDAY",
+  "FRIDAY",
+  "SATURDAY",
+  "SUNDAY",
+);
+export type TimeSeriesGranularity = "ALL" | "SPECIFIC";
+export const TimeSeriesGranularity = S.Literal("ALL", "SPECIFIC");
+export type TimePointGranularity = "ALL" | "SPECIFIC";
+export const TimePointGranularity = S.Literal("ALL", "SPECIFIC");
 export interface EncryptionConfig {
   RoleArn: string;
   KMSKeyArn: string;
@@ -1006,27 +1116,30 @@ export const MonitorConfig = S.suspend(() =>
   identifier: "MonitorConfig",
 }) as any as S.Schema<MonitorConfig>;
 export interface TimeAlignmentBoundary {
-  Month?: string;
+  Month?: Month;
   DayOfMonth?: number;
-  DayOfWeek?: string;
+  DayOfWeek?: DayOfWeek;
   Hour?: number;
 }
 export const TimeAlignmentBoundary = S.suspend(() =>
   S.Struct({
-    Month: S.optional(S.String),
+    Month: S.optional(Month),
     DayOfMonth: S.optional(S.Number),
-    DayOfWeek: S.optional(S.String),
+    DayOfWeek: S.optional(DayOfWeek),
     Hour: S.optional(S.Number),
   }),
 ).annotations({
   identifier: "TimeAlignmentBoundary",
 }) as any as S.Schema<TimeAlignmentBoundary>;
 export interface ExplainabilityConfig {
-  TimeSeriesGranularity: string;
-  TimePointGranularity: string;
+  TimeSeriesGranularity: TimeSeriesGranularity;
+  TimePointGranularity: TimePointGranularity;
 }
 export const ExplainabilityConfig = S.suspend(() =>
-  S.Struct({ TimeSeriesGranularity: S.String, TimePointGranularity: S.String }),
+  S.Struct({
+    TimeSeriesGranularity: TimeSeriesGranularity,
+    TimePointGranularity: TimePointGranularity,
+  }),
 ).annotations({
   identifier: "ExplainabilityConfig",
 }) as any as S.Schema<ExplainabilityConfig>;
@@ -1062,6 +1175,15 @@ export const TimeSeriesReplacementsDataSource = S.suspend(() =>
 }) as any as S.Schema<TimeSeriesReplacementsDataSource>;
 export type LongArnList = string[];
 export const LongArnList = S.Array(S.String);
+export type Operation = "ADD" | "SUBTRACT" | "MULTIPLY" | "DIVIDE";
+export const Operation = S.Literal("ADD", "SUBTRACT", "MULTIPLY", "DIVIDE");
+export type Condition = "EQUALS" | "NOT_EQUALS" | "LESS_THAN" | "GREATER_THAN";
+export const Condition = S.Literal(
+  "EQUALS",
+  "NOT_EQUALS",
+  "LESS_THAN",
+  "GREATER_THAN",
+);
 export interface CreateDatasetGroupResponse {
   DatasetGroupArn?: string;
 }
@@ -1079,7 +1201,7 @@ export interface CreateExplainabilityRequest {
   EnableVisualization?: boolean;
   StartDateTime?: string;
   EndDateTime?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreateExplainabilityRequest = S.suspend(() =>
   S.Struct({
@@ -1102,7 +1224,7 @@ export interface CreateExplainabilityExportRequest {
   ExplainabilityExportName: string;
   ExplainabilityArn: string;
   Destination: DataDestination;
-  Tags?: Tags;
+  Tags?: Tag[];
   Format?: string;
 }
 export const CreateExplainabilityExportRequest = S.suspend(() =>
@@ -1161,8 +1283,8 @@ export const CreateWhatIfForecastExportResponse = S.suspend(() =>
 export interface DescribeDatasetResponse {
   DatasetArn?: string;
   DatasetName?: string;
-  Domain?: string;
-  DatasetType?: string;
+  Domain?: Domain;
+  DatasetType?: DatasetType;
   DataFrequency?: string;
   Schema?: Schema;
   EncryptionConfig?: EncryptionConfig;
@@ -1174,8 +1296,8 @@ export const DescribeDatasetResponse = S.suspend(() =>
   S.Struct({
     DatasetArn: S.optional(S.String),
     DatasetName: S.optional(S.String),
-    Domain: S.optional(S.String),
-    DatasetType: S.optional(S.String),
+    Domain: S.optional(Domain),
+    DatasetType: S.optional(DatasetType),
     DataFrequency: S.optional(S.String),
     Schema: S.optional(Schema),
     EncryptionConfig: S.optional(EncryptionConfig),
@@ -1191,8 +1313,8 @@ export const DescribeDatasetResponse = S.suspend(() =>
 export interface DescribeDatasetGroupResponse {
   DatasetGroupName?: string;
   DatasetGroupArn?: string;
-  DatasetArns?: ArnList;
-  Domain?: string;
+  DatasetArns?: string[];
+  Domain?: Domain;
   Status?: string;
   CreationTime?: Date;
   LastModificationTime?: Date;
@@ -1202,7 +1324,7 @@ export const DescribeDatasetGroupResponse = S.suspend(() =>
     DatasetGroupName: S.optional(S.String),
     DatasetGroupArn: S.optional(S.String),
     DatasetArns: S.optional(ArnList),
-    Domain: S.optional(S.String),
+    Domain: S.optional(Domain),
     Status: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModificationTime: S.optional(
@@ -1281,7 +1403,7 @@ export const DescribeExplainabilityExportResponse = S.suspend(() =>
 export interface DescribeForecastResponse {
   ForecastArn?: string;
   ForecastName?: string;
-  ForecastTypes?: ForecastTypes;
+  ForecastTypes?: string[];
   PredictorArn?: string;
   DatasetGroupArn?: string;
   EstimatedTimeRemainingInMinutes?: number;
@@ -1396,22 +1518,22 @@ export const DescribeWhatIfAnalysisResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeWhatIfAnalysisResponse>;
 export interface Action {
   AttributeName: string;
-  Operation: string;
+  Operation: Operation;
   Value: number;
 }
 export const Action = S.suspend(() =>
-  S.Struct({ AttributeName: S.String, Operation: S.String, Value: S.Number }),
+  S.Struct({ AttributeName: S.String, Operation: Operation, Value: S.Number }),
 ).annotations({ identifier: "Action" }) as any as S.Schema<Action>;
 export interface TimeSeriesCondition {
   AttributeName: string;
   AttributeValue: string;
-  Condition: string;
+  Condition: Condition;
 }
 export const TimeSeriesCondition = S.suspend(() =>
   S.Struct({
     AttributeName: S.String,
     AttributeValue: S.String,
-    Condition: S.String,
+    Condition: Condition,
   }),
 ).annotations({
   identifier: "TimeSeriesCondition",
@@ -1420,7 +1542,7 @@ export type TimeSeriesConditions = TimeSeriesCondition[];
 export const TimeSeriesConditions = S.Array(TimeSeriesCondition);
 export interface TimeSeriesTransformation {
   Action?: Action;
-  TimeSeriesConditions?: TimeSeriesConditions;
+  TimeSeriesConditions?: TimeSeriesCondition[];
 }
 export const TimeSeriesTransformation = S.suspend(() =>
   S.Struct({
@@ -1441,9 +1563,9 @@ export interface DescribeWhatIfForecastResponse {
   Message?: string;
   CreationTime?: Date;
   LastModificationTime?: Date;
-  TimeSeriesTransformations?: TimeSeriesTransformations;
+  TimeSeriesTransformations?: TimeSeriesTransformation[];
   TimeSeriesReplacementsDataSource?: TimeSeriesReplacementsDataSource;
-  ForecastTypes?: ForecastTypes;
+  ForecastTypes?: string[];
 }
 export const DescribeWhatIfForecastResponse = S.suspend(() =>
   S.Struct({
@@ -1469,7 +1591,7 @@ export const DescribeWhatIfForecastResponse = S.suspend(() =>
 export interface DescribeWhatIfForecastExportResponse {
   WhatIfForecastExportArn?: string;
   WhatIfForecastExportName?: string;
-  WhatIfForecastArns?: LongArnList;
+  WhatIfForecastArns?: string[];
   Destination?: DataDestination;
   Message?: string;
   Status?: string;
@@ -1499,7 +1621,7 @@ export const DescribeWhatIfForecastExportResponse = S.suspend(() =>
 export interface ListDatasetImportJobsRequest {
   NextToken?: string;
   MaxResults?: number;
-  Filters?: Filters;
+  Filters?: Filter[];
 }
 export const ListDatasetImportJobsRequest = S.suspend(() =>
   S.Struct({
@@ -1513,7 +1635,7 @@ export const ListDatasetImportJobsRequest = S.suspend(() =>
   identifier: "ListDatasetImportJobsRequest",
 }) as any as S.Schema<ListDatasetImportJobsRequest>;
 export interface ListTagsForResourceResponse {
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }),
@@ -1531,11 +1653,26 @@ export const SupplementaryFeature = S.suspend(() =>
 }) as any as S.Schema<SupplementaryFeature>;
 export type SupplementaryFeatures = SupplementaryFeature[];
 export const SupplementaryFeatures = S.Array(SupplementaryFeature);
+export type State = "Active" | "Deleted";
+export const State = S.Literal("Active", "Deleted");
 export type Values = string[];
 export const Values = S.Array(S.String);
+export type ScalingType =
+  | "Auto"
+  | "Linear"
+  | "Logarithmic"
+  | "ReverseLogarithmic";
+export const ScalingType = S.Literal(
+  "Auto",
+  "Linear",
+  "Logarithmic",
+  "ReverseLogarithmic",
+);
+export type FeaturizationMethodName = "filling";
+export const FeaturizationMethodName = S.Literal("filling");
 export interface InputDataConfig {
   DatasetGroupArn: string;
-  SupplementaryFeatures?: SupplementaryFeatures;
+  SupplementaryFeatures?: SupplementaryFeature[];
 }
 export const InputDataConfig = S.suspend(() =>
   S.Struct({
@@ -1547,10 +1684,10 @@ export const InputDataConfig = S.suspend(() =>
 }) as any as S.Schema<InputDataConfig>;
 export interface ReferencePredictorSummary {
   Arn?: string;
-  State?: string;
+  State?: State;
 }
 export const ReferencePredictorSummary = S.suspend(() =>
-  S.Struct({ Arn: S.optional(S.String), State: S.optional(S.String) }),
+  S.Struct({ Arn: S.optional(S.String), State: S.optional(State) }),
 ).annotations({
   identifier: "ReferencePredictorSummary",
 }) as any as S.Schema<ReferencePredictorSummary>;
@@ -1596,8 +1733,8 @@ export const DatasetGroups = S.Array(DatasetGroupSummary);
 export interface DatasetSummary {
   DatasetArn?: string;
   DatasetName?: string;
-  DatasetType?: string;
-  Domain?: string;
+  DatasetType?: DatasetType;
+  Domain?: Domain;
   CreationTime?: Date;
   LastModificationTime?: Date;
 }
@@ -1605,8 +1742,8 @@ export const DatasetSummary = S.suspend(() =>
   S.Struct({
     DatasetArn: S.optional(S.String),
     DatasetName: S.optional(S.String),
-    DatasetType: S.optional(S.String),
-    Domain: S.optional(S.String),
+    DatasetType: S.optional(DatasetType),
+    Domain: S.optional(Domain),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModificationTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1837,7 +1974,7 @@ export type WhatIfAnalyses = WhatIfAnalysisSummary[];
 export const WhatIfAnalyses = S.Array(WhatIfAnalysisSummary);
 export interface WhatIfForecastExportSummary {
   WhatIfForecastExportArn?: string;
-  WhatIfForecastArns?: WhatIfForecastArnListForExport;
+  WhatIfForecastArns?: string[];
   WhatIfForecastExportName?: string;
   Destination?: DataDestination;
   Status?: string;
@@ -1891,11 +2028,11 @@ export type WhatIfForecasts = WhatIfForecastSummary[];
 export const WhatIfForecasts = S.Array(WhatIfForecastSummary);
 export type Transformations = { [key: string]: string };
 export const Transformations = S.Record({ key: S.String, value: S.String });
-export type Configuration = { [key: string]: Values };
+export type Configuration = { [key: string]: string[] };
 export const Configuration = S.Record({ key: S.String, value: Values });
 export interface CategoricalParameterRange {
   Name: string;
-  Values: Values;
+  Values: string[];
 }
 export const CategoricalParameterRange = S.suspend(() =>
   S.Struct({ Name: S.String, Values: Values }),
@@ -1908,14 +2045,14 @@ export interface ContinuousParameterRange {
   Name: string;
   MaxValue: number;
   MinValue: number;
-  ScalingType?: string;
+  ScalingType?: ScalingType;
 }
 export const ContinuousParameterRange = S.suspend(() =>
   S.Struct({
     Name: S.String,
     MaxValue: S.Number,
     MinValue: S.Number,
-    ScalingType: S.optional(S.String),
+    ScalingType: S.optional(ScalingType),
   }),
 ).annotations({
   identifier: "ContinuousParameterRange",
@@ -1926,34 +2063,36 @@ export interface IntegerParameterRange {
   Name: string;
   MaxValue: number;
   MinValue: number;
-  ScalingType?: string;
+  ScalingType?: ScalingType;
 }
 export const IntegerParameterRange = S.suspend(() =>
   S.Struct({
     Name: S.String,
     MaxValue: S.Number,
     MinValue: S.Number,
-    ScalingType: S.optional(S.String),
+    ScalingType: S.optional(ScalingType),
   }),
 ).annotations({
   identifier: "IntegerParameterRange",
 }) as any as S.Schema<IntegerParameterRange>;
 export type IntegerParameterRanges = IntegerParameterRange[];
 export const IntegerParameterRanges = S.Array(IntegerParameterRange);
+export type EvaluationType = "SUMMARY" | "COMPUTED";
+export const EvaluationType = S.Literal("SUMMARY", "COMPUTED");
 export interface CreateDatasetRequest {
   DatasetName: string;
-  Domain: string;
-  DatasetType: string;
+  Domain: Domain;
+  DatasetType: DatasetType;
   DataFrequency?: string;
   Schema: Schema;
   EncryptionConfig?: EncryptionConfig;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreateDatasetRequest = S.suspend(() =>
   S.Struct({
     DatasetName: S.String,
-    Domain: S.String,
-    DatasetType: S.String,
+    Domain: Domain,
+    DatasetType: DatasetType,
     DataFrequency: S.optional(S.String),
     Schema: Schema,
     EncryptionConfig: S.optional(EncryptionConfig),
@@ -1972,9 +2111,9 @@ export interface CreateDatasetImportJobRequest {
   TimeZone?: string;
   UseGeolocationForTimeZone?: boolean;
   GeolocationFormat?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
   Format?: string;
-  ImportMode?: string;
+  ImportMode?: ImportMode;
 }
 export const CreateDatasetImportJobRequest = S.suspend(() =>
   S.Struct({
@@ -1987,7 +2126,7 @@ export const CreateDatasetImportJobRequest = S.suspend(() =>
     GeolocationFormat: S.optional(S.String),
     Tags: S.optional(Tags),
     Format: S.optional(S.String),
-    ImportMode: S.optional(S.String),
+    ImportMode: S.optional(ImportMode),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -2013,8 +2152,8 @@ export const CreateExplainabilityExportResponse = S.suspend(() =>
 export interface CreateForecastRequest {
   ForecastName: string;
   PredictorArn: string;
-  ForecastTypes?: ForecastTypes;
-  Tags?: Tags;
+  ForecastTypes?: string[];
+  Tags?: Tag[];
   TimeSeriesSelector?: TimeSeriesSelector;
 }
 export const CreateForecastRequest = S.suspend(() =>
@@ -2033,9 +2172,9 @@ export const CreateForecastRequest = S.suspend(() =>
 export interface CreateWhatIfForecastRequest {
   WhatIfForecastName: string;
   WhatIfAnalysisArn: string;
-  TimeSeriesTransformations?: TimeSeriesTransformations;
+  TimeSeriesTransformations?: TimeSeriesTransformation[];
   TimeSeriesReplacementsDataSource?: TimeSeriesReplacementsDataSource;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreateWhatIfForecastRequest = S.suspend(() =>
   S.Struct({
@@ -2054,7 +2193,7 @@ export const CreateWhatIfForecastRequest = S.suspend(() =>
 }) as any as S.Schema<CreateWhatIfForecastRequest>;
 export interface AttributeConfig {
   AttributeName: string;
-  Transformations: Transformations;
+  Transformations: { [key: string]: string };
 }
 export const AttributeConfig = S.suspend(() =>
   S.Struct({ AttributeName: S.String, Transformations: Transformations }),
@@ -2065,7 +2204,7 @@ export type AttributeConfigs = AttributeConfig[];
 export const AttributeConfigs = S.Array(AttributeConfig);
 export interface AdditionalDataset {
   Name: string;
-  Configuration?: Configuration;
+  Configuration?: { [key: string]: string[] };
 }
 export const AdditionalDataset = S.suspend(() =>
   S.Struct({ Name: S.String, Configuration: S.optional(Configuration) }),
@@ -2076,8 +2215,8 @@ export type AdditionalDatasets = AdditionalDataset[];
 export const AdditionalDatasets = S.Array(AdditionalDataset);
 export interface DataConfig {
   DatasetGroupArn: string;
-  AttributeConfigs?: AttributeConfigs;
-  AdditionalDatasets?: AdditionalDatasets;
+  AttributeConfigs?: AttributeConfig[];
+  AdditionalDatasets?: AdditionalDataset[];
 }
 export const DataConfig = S.suspend(() =>
   S.Struct({
@@ -2090,10 +2229,10 @@ export interface DescribeAutoPredictorResponse {
   PredictorArn?: string;
   PredictorName?: string;
   ForecastHorizon?: number;
-  ForecastTypes?: ForecastTypes;
+  ForecastTypes?: string[];
   ForecastFrequency?: string;
-  ForecastDimensions?: ForecastDimensions;
-  DatasetImportJobArns?: ArnList;
+  ForecastDimensions?: string[];
+  DatasetImportJobArns?: string[];
   DataConfig?: DataConfig;
   EncryptionConfig?: EncryptionConfig;
   ReferencePredictorSummary?: ReferencePredictorSummary;
@@ -2102,7 +2241,7 @@ export interface DescribeAutoPredictorResponse {
   Message?: string;
   CreationTime?: Date;
   LastModificationTime?: Date;
-  OptimizationMetric?: string;
+  OptimizationMetric?: OptimizationMetric;
   ExplainabilityInfo?: ExplainabilityInfo;
   MonitorInfo?: MonitorInfo;
   TimeAlignmentBoundary?: TimeAlignmentBoundary;
@@ -2126,7 +2265,7 @@ export const DescribeAutoPredictorResponse = S.suspend(() =>
     LastModificationTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    OptimizationMetric: S.optional(S.String),
+    OptimizationMetric: S.optional(OptimizationMetric),
     ExplainabilityInfo: S.optional(ExplainabilityInfo),
     MonitorInfo: S.optional(MonitorInfo),
     TimeAlignmentBoundary: S.optional(TimeAlignmentBoundary),
@@ -2135,7 +2274,7 @@ export const DescribeAutoPredictorResponse = S.suspend(() =>
   identifier: "DescribeAutoPredictorResponse",
 }) as any as S.Schema<DescribeAutoPredictorResponse>;
 export interface ListDatasetGroupsResponse {
-  DatasetGroups?: DatasetGroups;
+  DatasetGroups?: DatasetGroupSummary[];
   NextToken?: string;
 }
 export const ListDatasetGroupsResponse = S.suspend(() =>
@@ -2147,7 +2286,7 @@ export const ListDatasetGroupsResponse = S.suspend(() =>
   identifier: "ListDatasetGroupsResponse",
 }) as any as S.Schema<ListDatasetGroupsResponse>;
 export interface ListDatasetsResponse {
-  Datasets?: Datasets;
+  Datasets?: DatasetSummary[];
   NextToken?: string;
 }
 export const ListDatasetsResponse = S.suspend(() =>
@@ -2156,7 +2295,7 @@ export const ListDatasetsResponse = S.suspend(() =>
   identifier: "ListDatasetsResponse",
 }) as any as S.Schema<ListDatasetsResponse>;
 export interface ListExplainabilitiesResponse {
-  Explainabilities?: Explainabilities;
+  Explainabilities?: ExplainabilitySummary[];
   NextToken?: string;
 }
 export const ListExplainabilitiesResponse = S.suspend(() =>
@@ -2168,7 +2307,7 @@ export const ListExplainabilitiesResponse = S.suspend(() =>
   identifier: "ListExplainabilitiesResponse",
 }) as any as S.Schema<ListExplainabilitiesResponse>;
 export interface ListExplainabilityExportsResponse {
-  ExplainabilityExports?: ExplainabilityExports;
+  ExplainabilityExports?: ExplainabilityExportSummary[];
   NextToken?: string;
 }
 export const ListExplainabilityExportsResponse = S.suspend(() =>
@@ -2180,7 +2319,7 @@ export const ListExplainabilityExportsResponse = S.suspend(() =>
   identifier: "ListExplainabilityExportsResponse",
 }) as any as S.Schema<ListExplainabilityExportsResponse>;
 export interface ListForecastExportJobsResponse {
-  ForecastExportJobs?: ForecastExportJobs;
+  ForecastExportJobs?: ForecastExportJobSummary[];
   NextToken?: string;
 }
 export const ListForecastExportJobsResponse = S.suspend(() =>
@@ -2192,7 +2331,7 @@ export const ListForecastExportJobsResponse = S.suspend(() =>
   identifier: "ListForecastExportJobsResponse",
 }) as any as S.Schema<ListForecastExportJobsResponse>;
 export interface ListForecastsResponse {
-  Forecasts?: Forecasts;
+  Forecasts?: ForecastSummary[];
   NextToken?: string;
 }
 export const ListForecastsResponse = S.suspend(() =>
@@ -2204,7 +2343,7 @@ export const ListForecastsResponse = S.suspend(() =>
   identifier: "ListForecastsResponse",
 }) as any as S.Schema<ListForecastsResponse>;
 export interface ListMonitorsResponse {
-  Monitors?: Monitors;
+  Monitors?: MonitorSummary[];
   NextToken?: string;
 }
 export const ListMonitorsResponse = S.suspend(() =>
@@ -2213,7 +2352,7 @@ export const ListMonitorsResponse = S.suspend(() =>
   identifier: "ListMonitorsResponse",
 }) as any as S.Schema<ListMonitorsResponse>;
 export interface ListPredictorBacktestExportJobsResponse {
-  PredictorBacktestExportJobs?: PredictorBacktestExportJobs;
+  PredictorBacktestExportJobs?: PredictorBacktestExportJobSummary[];
   NextToken?: string;
 }
 export const ListPredictorBacktestExportJobsResponse = S.suspend(() =>
@@ -2225,7 +2364,7 @@ export const ListPredictorBacktestExportJobsResponse = S.suspend(() =>
   identifier: "ListPredictorBacktestExportJobsResponse",
 }) as any as S.Schema<ListPredictorBacktestExportJobsResponse>;
 export interface ListPredictorsResponse {
-  Predictors?: Predictors;
+  Predictors?: PredictorSummary[];
   NextToken?: string;
 }
 export const ListPredictorsResponse = S.suspend(() =>
@@ -2237,7 +2376,7 @@ export const ListPredictorsResponse = S.suspend(() =>
   identifier: "ListPredictorsResponse",
 }) as any as S.Schema<ListPredictorsResponse>;
 export interface ListWhatIfAnalysesResponse {
-  WhatIfAnalyses?: WhatIfAnalyses;
+  WhatIfAnalyses?: WhatIfAnalysisSummary[];
   NextToken?: string;
 }
 export const ListWhatIfAnalysesResponse = S.suspend(() =>
@@ -2249,7 +2388,7 @@ export const ListWhatIfAnalysesResponse = S.suspend(() =>
   identifier: "ListWhatIfAnalysesResponse",
 }) as any as S.Schema<ListWhatIfAnalysesResponse>;
 export interface ListWhatIfForecastExportsResponse {
-  WhatIfForecastExports?: WhatIfForecastExports;
+  WhatIfForecastExports?: WhatIfForecastExportSummary[];
   NextToken?: string;
 }
 export const ListWhatIfForecastExportsResponse = S.suspend(() =>
@@ -2261,7 +2400,7 @@ export const ListWhatIfForecastExportsResponse = S.suspend(() =>
   identifier: "ListWhatIfForecastExportsResponse",
 }) as any as S.Schema<ListWhatIfForecastExportsResponse>;
 export interface ListWhatIfForecastsResponse {
-  WhatIfForecasts?: WhatIfForecasts;
+  WhatIfForecasts?: WhatIfForecastSummary[];
   NextToken?: string;
 }
 export const ListWhatIfForecastsResponse = S.suspend(() =>
@@ -2273,9 +2412,9 @@ export const ListWhatIfForecastsResponse = S.suspend(() =>
   identifier: "ListWhatIfForecastsResponse",
 }) as any as S.Schema<ListWhatIfForecastsResponse>;
 export interface ParameterRanges {
-  CategoricalParameterRanges?: CategoricalParameterRanges;
-  ContinuousParameterRanges?: ContinuousParameterRanges;
-  IntegerParameterRanges?: IntegerParameterRanges;
+  CategoricalParameterRanges?: CategoricalParameterRange[];
+  ContinuousParameterRanges?: ContinuousParameterRange[];
+  IntegerParameterRanges?: IntegerParameterRange[];
 }
 export const ParameterRanges = S.suspend(() =>
   S.Struct({
@@ -2377,7 +2516,7 @@ export interface DatasetImportJobSummary {
   Message?: string;
   CreationTime?: Date;
   LastModificationTime?: Date;
-  ImportMode?: string;
+  ImportMode?: ImportMode;
 }
 export const DatasetImportJobSummary = S.suspend(() =>
   S.Struct({
@@ -2390,7 +2529,7 @@ export const DatasetImportJobSummary = S.suspend(() =>
     LastModificationTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    ImportMode: S.optional(S.String),
+    ImportMode: S.optional(ImportMode),
   }),
 ).annotations({
   identifier: "DatasetImportJobSummary",
@@ -2406,7 +2545,7 @@ export interface PredictorMonitorEvaluation {
   WindowEndDatetime?: Date;
   PredictorEvent?: PredictorEvent;
   MonitorDataSource?: MonitorDataSource;
-  MetricResults?: MetricResults;
+  MetricResults?: MetricResult[];
   NumItemsEvaluated?: number;
   Message?: string;
 }
@@ -2434,12 +2573,12 @@ export const PredictorMonitorEvaluation = S.suspend(() =>
 export type PredictorMonitorEvaluations = PredictorMonitorEvaluation[];
 export const PredictorMonitorEvaluations = S.Array(PredictorMonitorEvaluation);
 export interface FeaturizationMethod {
-  FeaturizationMethodName: string;
-  FeaturizationMethodParameters?: FeaturizationMethodParameters;
+  FeaturizationMethodName: FeaturizationMethodName;
+  FeaturizationMethodParameters?: { [key: string]: string };
 }
 export const FeaturizationMethod = S.suspend(() =>
   S.Struct({
-    FeaturizationMethodName: S.String,
+    FeaturizationMethodName: FeaturizationMethodName,
     FeaturizationMethodParameters: S.optional(FeaturizationMethodParameters),
   }),
 ).annotations({
@@ -2481,15 +2620,15 @@ export const TestWindowDetails = S.Array(TestWindowSummary);
 export interface CreateAutoPredictorRequest {
   PredictorName: string;
   ForecastHorizon?: number;
-  ForecastTypes?: ForecastTypes;
-  ForecastDimensions?: ForecastDimensions;
+  ForecastTypes?: string[];
+  ForecastDimensions?: string[];
   ForecastFrequency?: string;
   DataConfig?: DataConfig;
   EncryptionConfig?: EncryptionConfig;
   ReferencePredictorArn?: string;
-  OptimizationMetric?: string;
+  OptimizationMetric?: OptimizationMetric;
   ExplainPredictor?: boolean;
-  Tags?: Tags;
+  Tags?: Tag[];
   MonitorConfig?: MonitorConfig;
   TimeAlignmentBoundary?: TimeAlignmentBoundary;
 }
@@ -2503,7 +2642,7 @@ export const CreateAutoPredictorRequest = S.suspend(() =>
     DataConfig: S.optional(DataConfig),
     EncryptionConfig: S.optional(EncryptionConfig),
     ReferencePredictorArn: S.optional(S.String),
-    OptimizationMetric: S.optional(S.String),
+    OptimizationMetric: S.optional(OptimizationMetric),
     ExplainPredictor: S.optional(S.Boolean),
     Tags: S.optional(Tags),
     MonitorConfig: S.optional(MonitorConfig),
@@ -2556,14 +2695,14 @@ export interface DescribeDatasetImportJobResponse {
   GeolocationFormat?: string;
   DataSource?: DataSource;
   EstimatedTimeRemainingInMinutes?: number;
-  FieldStatistics?: FieldStatistics;
+  FieldStatistics?: { [key: string]: Statistics };
   DataSize?: number;
   Status?: string;
   Message?: string;
   CreationTime?: Date;
   LastModificationTime?: Date;
   Format?: string;
-  ImportMode?: string;
+  ImportMode?: ImportMode;
 }
 export const DescribeDatasetImportJobResponse = S.suspend(() =>
   S.Struct({
@@ -2585,13 +2724,13 @@ export const DescribeDatasetImportJobResponse = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     Format: S.optional(S.String),
-    ImportMode: S.optional(S.String),
+    ImportMode: S.optional(ImportMode),
   }),
 ).annotations({
   identifier: "DescribeDatasetImportJobResponse",
 }) as any as S.Schema<DescribeDatasetImportJobResponse>;
 export interface ListDatasetImportJobsResponse {
-  DatasetImportJobs?: DatasetImportJobs;
+  DatasetImportJobs?: DatasetImportJobSummary[];
   NextToken?: string;
 }
 export const ListDatasetImportJobsResponse = S.suspend(() =>
@@ -2604,7 +2743,7 @@ export const ListDatasetImportJobsResponse = S.suspend(() =>
 }) as any as S.Schema<ListDatasetImportJobsResponse>;
 export interface ListMonitorEvaluationsResponse {
   NextToken?: string;
-  PredictorMonitorEvaluations?: PredictorMonitorEvaluations;
+  PredictorMonitorEvaluations?: PredictorMonitorEvaluation[];
 }
 export const ListMonitorEvaluationsResponse = S.suspend(() =>
   S.Struct({
@@ -2616,7 +2755,7 @@ export const ListMonitorEvaluationsResponse = S.suspend(() =>
 }) as any as S.Schema<ListMonitorEvaluationsResponse>;
 export interface Featurization {
   AttributeName: string;
-  FeaturizationPipeline?: FeaturizationPipeline;
+  FeaturizationPipeline?: FeaturizationMethod[];
 }
 export const Featurization = S.suspend(() =>
   S.Struct({
@@ -2629,7 +2768,7 @@ export const Featurization = S.suspend(() =>
 export type Featurizations = Featurization[];
 export const Featurizations = S.Array(Featurization);
 export interface PredictorBaseline {
-  BaselineMetrics?: BaselineMetrics;
+  BaselineMetrics?: BaselineMetric[];
 }
 export const PredictorBaseline = S.suspend(() =>
   S.Struct({ BaselineMetrics: S.optional(BaselineMetrics) }),
@@ -2638,7 +2777,7 @@ export const PredictorBaseline = S.suspend(() =>
 }) as any as S.Schema<PredictorBaseline>;
 export interface PredictorExecution {
   AlgorithmArn?: string;
-  TestWindows?: TestWindowDetails;
+  TestWindows?: TestWindowSummary[];
 }
 export const PredictorExecution = S.suspend(() =>
   S.Struct({
@@ -2681,8 +2820,8 @@ export type ErrorMetrics = ErrorMetric[];
 export const ErrorMetrics = S.Array(ErrorMetric);
 export interface FeaturizationConfig {
   ForecastFrequency: string;
-  ForecastDimensions?: ForecastDimensions;
-  Featurizations?: Featurizations;
+  ForecastDimensions?: string[];
+  Featurizations?: Featurization[];
 }
 export const FeaturizationConfig = S.suspend(() =>
   S.Struct({
@@ -2700,7 +2839,7 @@ export const Baseline = S.suspend(() =>
   S.Struct({ PredictorBaseline: S.optional(PredictorBaseline) }),
 ).annotations({ identifier: "Baseline" }) as any as S.Schema<Baseline>;
 export interface PredictorExecutionDetails {
-  PredictorExecutions?: PredictorExecutions;
+  PredictorExecutions?: PredictorExecution[];
 }
 export const PredictorExecutionDetails = S.suspend(() =>
   S.Struct({ PredictorExecutions: S.optional(PredictorExecutions) }),
@@ -2709,8 +2848,8 @@ export const PredictorExecutionDetails = S.suspend(() =>
 }) as any as S.Schema<PredictorExecutionDetails>;
 export interface Metrics {
   RMSE?: number;
-  WeightedQuantileLosses?: WeightedQuantileLosses;
-  ErrorMetrics?: ErrorMetrics;
+  WeightedQuantileLosses?: WeightedQuantileLoss[];
+  ErrorMetrics?: ErrorMetric[];
   AverageWeightedQuantileLoss?: number;
 }
 export const Metrics = S.suspend(() =>
@@ -2733,18 +2872,18 @@ export interface CreatePredictorRequest {
   PredictorName: string;
   AlgorithmArn?: string;
   ForecastHorizon: number;
-  ForecastTypes?: ForecastTypes;
+  ForecastTypes?: string[];
   PerformAutoML?: boolean;
-  AutoMLOverrideStrategy?: string;
+  AutoMLOverrideStrategy?: AutoMLOverrideStrategy;
   PerformHPO?: boolean;
-  TrainingParameters?: TrainingParameters;
+  TrainingParameters?: { [key: string]: string };
   EvaluationParameters?: EvaluationParameters;
   HPOConfig?: HyperParameterTuningJobConfig;
   InputDataConfig: InputDataConfig;
   FeaturizationConfig: FeaturizationConfig;
   EncryptionConfig?: EncryptionConfig;
-  Tags?: Tags;
-  OptimizationMetric?: string;
+  Tags?: Tag[];
+  OptimizationMetric?: OptimizationMetric;
 }
 export const CreatePredictorRequest = S.suspend(() =>
   S.Struct({
@@ -2753,7 +2892,7 @@ export const CreatePredictorRequest = S.suspend(() =>
     ForecastHorizon: S.Number,
     ForecastTypes: S.optional(ForecastTypes),
     PerformAutoML: S.optional(S.Boolean),
-    AutoMLOverrideStrategy: S.optional(S.String),
+    AutoMLOverrideStrategy: S.optional(AutoMLOverrideStrategy),
     PerformHPO: S.optional(S.Boolean),
     TrainingParameters: S.optional(TrainingParameters),
     EvaluationParameters: S.optional(EvaluationParameters),
@@ -2762,7 +2901,7 @@ export const CreatePredictorRequest = S.suspend(() =>
     FeaturizationConfig: FeaturizationConfig,
     EncryptionConfig: S.optional(EncryptionConfig),
     Tags: S.optional(Tags),
-    OptimizationMetric: S.optional(S.String),
+    OptimizationMetric: S.optional(OptimizationMetric),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -2807,13 +2946,13 @@ export interface DescribePredictorResponse {
   PredictorArn?: string;
   PredictorName?: string;
   AlgorithmArn?: string;
-  AutoMLAlgorithmArns?: ArnList;
+  AutoMLAlgorithmArns?: string[];
   ForecastHorizon?: number;
-  ForecastTypes?: ForecastTypes;
+  ForecastTypes?: string[];
   PerformAutoML?: boolean;
-  AutoMLOverrideStrategy?: string;
+  AutoMLOverrideStrategy?: AutoMLOverrideStrategy;
   PerformHPO?: boolean;
-  TrainingParameters?: TrainingParameters;
+  TrainingParameters?: { [key: string]: string };
   EvaluationParameters?: EvaluationParameters;
   HPOConfig?: HyperParameterTuningJobConfig;
   InputDataConfig?: InputDataConfig;
@@ -2822,12 +2961,12 @@ export interface DescribePredictorResponse {
   PredictorExecutionDetails?: PredictorExecutionDetails;
   EstimatedTimeRemainingInMinutes?: number;
   IsAutoPredictor?: boolean;
-  DatasetImportJobArns?: ArnList;
+  DatasetImportJobArns?: string[];
   Status?: string;
   Message?: string;
   CreationTime?: Date;
   LastModificationTime?: Date;
-  OptimizationMetric?: string;
+  OptimizationMetric?: OptimizationMetric;
 }
 export const DescribePredictorResponse = S.suspend(() =>
   S.Struct({
@@ -2838,7 +2977,7 @@ export const DescribePredictorResponse = S.suspend(() =>
     ForecastHorizon: S.optional(S.Number),
     ForecastTypes: S.optional(ForecastTypes),
     PerformAutoML: S.optional(S.Boolean),
-    AutoMLOverrideStrategy: S.optional(S.String),
+    AutoMLOverrideStrategy: S.optional(AutoMLOverrideStrategy),
     PerformHPO: S.optional(S.Boolean),
     TrainingParameters: S.optional(TrainingParameters),
     EvaluationParameters: S.optional(EvaluationParameters),
@@ -2856,7 +2995,7 @@ export const DescribePredictorResponse = S.suspend(() =>
     LastModificationTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    OptimizationMetric: S.optional(S.String),
+    OptimizationMetric: S.optional(OptimizationMetric),
   }),
 ).annotations({
   identifier: "DescribePredictorResponse",
@@ -2865,7 +3004,7 @@ export interface WindowSummary {
   TestWindowStart?: Date;
   TestWindowEnd?: Date;
   ItemCount?: number;
-  EvaluationType?: string;
+  EvaluationType?: EvaluationType;
   Metrics?: Metrics;
 }
 export const WindowSummary = S.suspend(() =>
@@ -2875,7 +3014,7 @@ export const WindowSummary = S.suspend(() =>
     ),
     TestWindowEnd: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ItemCount: S.optional(S.Number),
-    EvaluationType: S.optional(S.String),
+    EvaluationType: S.optional(EvaluationType),
     Metrics: S.optional(Metrics),
   }),
 ).annotations({
@@ -2885,7 +3024,7 @@ export type TestWindows = WindowSummary[];
 export const TestWindows = S.Array(WindowSummary);
 export interface EvaluationResult {
   AlgorithmArn?: string;
-  TestWindows?: TestWindows;
+  TestWindows?: WindowSummary[];
 }
 export const EvaluationResult = S.suspend(() =>
   S.Struct({
@@ -2906,17 +3045,17 @@ export const CreatePredictorResponse = S.suspend(() =>
   identifier: "CreatePredictorResponse",
 }) as any as S.Schema<CreatePredictorResponse>;
 export interface GetAccuracyMetricsResponse {
-  PredictorEvaluationResults?: PredictorEvaluationResults;
+  PredictorEvaluationResults?: EvaluationResult[];
   IsAutoPredictor?: boolean;
-  AutoMLOverrideStrategy?: string;
-  OptimizationMetric?: string;
+  AutoMLOverrideStrategy?: AutoMLOverrideStrategy;
+  OptimizationMetric?: OptimizationMetric;
 }
 export const GetAccuracyMetricsResponse = S.suspend(() =>
   S.Struct({
     PredictorEvaluationResults: S.optional(PredictorEvaluationResults),
     IsAutoPredictor: S.optional(S.Boolean),
-    AutoMLOverrideStrategy: S.optional(S.String),
-    OptimizationMetric: S.optional(S.String),
+    AutoMLOverrideStrategy: S.optional(AutoMLOverrideStrategy),
+    OptimizationMetric: S.optional(OptimizationMetric),
   }),
 ).annotations({
   identifier: "GetAccuracyMetricsResponse",
@@ -2963,7 +3102,7 @@ export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlread
  */
 export const describeDataset: (
   input: DescribeDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDatasetResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2977,7 +3116,7 @@ export const describeDataset: (
  */
 export const resumeResource: (
   input: ResumeResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResumeResourceResponse,
   | InvalidInputException
   | LimitExceededException
@@ -3004,7 +3143,7 @@ export const resumeResource: (
  */
 export const deleteDatasetGroup: (
   input: DeleteDatasetGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDatasetGroupResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -3028,7 +3167,7 @@ export const deleteDatasetGroup: (
  */
 export const deleteDatasetImportJob: (
   input: DeleteDatasetImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDatasetImportJobResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -3052,7 +3191,7 @@ export const deleteDatasetImportJob: (
  */
 export const deleteExplainability: (
   input: DeleteExplainabilityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteExplainabilityResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -3073,7 +3212,7 @@ export const deleteExplainability: (
  */
 export const deleteExplainabilityExport: (
   input: DeleteExplainabilityExportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteExplainabilityExportResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -3099,7 +3238,7 @@ export const deleteExplainabilityExport: (
  */
 export const deleteForecast: (
   input: DeleteForecastRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteForecastResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -3122,7 +3261,7 @@ export const deleteForecast: (
  */
 export const deleteForecastExportJob: (
   input: DeleteForecastExportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteForecastExportJobResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -3143,7 +3282,7 @@ export const deleteForecastExportJob: (
  */
 export const deleteMonitor: (
   input: DeleteMonitorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMonitorResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -3165,7 +3304,7 @@ export const deleteMonitor: (
  */
 export const deletePredictor: (
   input: DeletePredictorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePredictorResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -3186,7 +3325,7 @@ export const deletePredictor: (
  */
 export const deletePredictorBacktestExportJob: (
   input: DeletePredictorBacktestExportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePredictorBacktestExportJobResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -3227,7 +3366,7 @@ export const deletePredictorBacktestExportJob: (
  */
 export const deleteResourceTree: (
   input: DeleteResourceTreeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourceTreeResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -3251,7 +3390,7 @@ export const deleteResourceTree: (
  */
 export const deleteWhatIfAnalysis: (
   input: DeleteWhatIfAnalysisRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWhatIfAnalysisResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -3275,7 +3414,7 @@ export const deleteWhatIfAnalysis: (
  */
 export const deleteWhatIfForecast: (
   input: DeleteWhatIfForecastRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWhatIfForecastResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -3297,7 +3436,7 @@ export const deleteWhatIfForecast: (
  */
 export const deleteWhatIfForecastExport: (
   input: DeleteWhatIfForecastExportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWhatIfForecastExportResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -3322,7 +3461,7 @@ export const deleteWhatIfForecastExport: (
  */
 export const updateDatasetGroup: (
   input: UpdateDatasetGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDatasetGroupResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -3355,7 +3494,7 @@ export const updateDatasetGroup: (
  */
 export const describeDatasetGroup: (
   input: DescribeDatasetGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDatasetGroupResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3369,7 +3508,7 @@ export const describeDatasetGroup: (
  */
 export const describeExplainability: (
   input: DescribeExplainabilityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeExplainabilityResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3383,7 +3522,7 @@ export const describeExplainability: (
  */
 export const describeExplainabilityExport: (
   input: DescribeExplainabilityExportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeExplainabilityExportResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3411,7 +3550,7 @@ export const describeExplainabilityExport: (
  */
 export const describeForecast: (
   input: DescribeForecastRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeForecastResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3437,7 +3576,7 @@ export const describeForecast: (
  */
 export const describeForecastExportJob: (
   input: DescribeForecastExportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeForecastExportJobResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3463,7 +3602,7 @@ export const describeForecastExportJob: (
  */
 export const describePredictorBacktestExportJob: (
   input: DescribePredictorBacktestExportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePredictorBacktestExportJobResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3487,7 +3626,7 @@ export const describePredictorBacktestExportJob: (
  */
 export const describeWhatIfAnalysis: (
   input: DescribeWhatIfAnalysisRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeWhatIfAnalysisResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3511,7 +3650,7 @@ export const describeWhatIfAnalysis: (
  */
 export const describeWhatIfForecast: (
   input: DescribeWhatIfForecastRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeWhatIfForecastResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3535,7 +3674,7 @@ export const describeWhatIfForecast: (
  */
 export const describeWhatIfForecastExport: (
   input: DescribeWhatIfForecastExportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeWhatIfForecastExportResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3549,7 +3688,7 @@ export const describeWhatIfForecastExport: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3563,7 +3702,7 @@ export const listTagsForResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3583,7 +3722,7 @@ export const untagResource: (
  */
 export const deleteDataset: (
   input: DeleteDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDatasetResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -3604,7 +3743,7 @@ export const deleteDataset: (
  */
 export const describeAutoPredictor: (
   input: DescribeAutoPredictorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAutoPredictorResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3639,7 +3778,7 @@ export const describeAutoPredictor: (
  */
 export const stopResource: (
   input: StopResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopResourceResponse,
   | InvalidInputException
   | LimitExceededException
@@ -3663,7 +3802,7 @@ export const stopResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InvalidInputException
   | LimitExceededException
@@ -3700,7 +3839,7 @@ export const tagResource: (
  */
 export const describeDatasetImportJob: (
   input: DescribeDatasetImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDatasetImportJobResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3719,21 +3858,21 @@ export const describeDatasetImportJob: (
 export const listDatasetGroups: {
   (
     input: ListDatasetGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDatasetGroupsResponse,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListDatasetGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDatasetGroupsResponse,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDatasetGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DatasetGroupSummary,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3759,21 +3898,21 @@ export const listDatasetGroups: {
 export const listDatasetImportJobs: {
   (
     input: ListDatasetImportJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDatasetImportJobsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListDatasetImportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDatasetImportJobsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDatasetImportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DatasetImportJobSummary,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3799,7 +3938,7 @@ export const listDatasetImportJobs: {
 export const listMonitorEvaluations: {
   (
     input: ListMonitorEvaluationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMonitorEvaluationsResponse,
     | InvalidInputException
     | InvalidNextTokenException
@@ -3809,7 +3948,7 @@ export const listMonitorEvaluations: {
   >;
   pages: (
     input: ListMonitorEvaluationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMonitorEvaluationsResponse,
     | InvalidInputException
     | InvalidNextTokenException
@@ -3819,7 +3958,7 @@ export const listMonitorEvaluations: {
   >;
   items: (
     input: ListMonitorEvaluationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PredictorMonitorEvaluation,
     | InvalidInputException
     | InvalidNextTokenException
@@ -3850,21 +3989,21 @@ export const listMonitorEvaluations: {
 export const listDatasets: {
   (
     input: ListDatasetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDatasetsResponse,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListDatasetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDatasetsResponse,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDatasetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DatasetSummary,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3891,21 +4030,21 @@ export const listDatasets: {
 export const listExplainabilities: {
   (
     input: ListExplainabilitiesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListExplainabilitiesResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListExplainabilitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListExplainabilitiesResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListExplainabilitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExplainabilitySummary,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3931,21 +4070,21 @@ export const listExplainabilities: {
 export const listExplainabilityExports: {
   (
     input: ListExplainabilityExportsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListExplainabilityExportsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListExplainabilityExportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListExplainabilityExportsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListExplainabilityExportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExplainabilityExportSummary,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3970,21 +4109,21 @@ export const listExplainabilityExports: {
 export const listForecastExportJobs: {
   (
     input: ListForecastExportJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListForecastExportJobsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListForecastExportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListForecastExportJobsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListForecastExportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ForecastExportJobSummary,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -4010,21 +4149,21 @@ export const listForecastExportJobs: {
 export const listForecasts: {
   (
     input: ListForecastsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListForecastsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListForecastsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListForecastsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListForecastsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ForecastSummary,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -4047,21 +4186,21 @@ export const listForecasts: {
 export const listMonitors: {
   (
     input: ListMonitorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMonitorsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListMonitorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMonitorsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMonitorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MonitorSummary,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -4087,21 +4226,21 @@ export const listMonitors: {
 export const listPredictorBacktestExportJobs: {
   (
     input: ListPredictorBacktestExportJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPredictorBacktestExportJobsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListPredictorBacktestExportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPredictorBacktestExportJobsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPredictorBacktestExportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PredictorBacktestExportJobSummary,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -4128,21 +4267,21 @@ export const listPredictorBacktestExportJobs: {
 export const listPredictors: {
   (
     input: ListPredictorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPredictorsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListPredictorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPredictorsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPredictorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PredictorSummary,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -4164,21 +4303,21 @@ export const listPredictors: {
 export const listWhatIfAnalyses: {
   (
     input: ListWhatIfAnalysesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWhatIfAnalysesResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListWhatIfAnalysesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWhatIfAnalysesResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWhatIfAnalysesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WhatIfAnalysisSummary,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -4200,21 +4339,21 @@ export const listWhatIfAnalyses: {
 export const listWhatIfForecastExports: {
   (
     input: ListWhatIfForecastExportsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWhatIfForecastExportsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListWhatIfForecastExportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWhatIfForecastExportsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWhatIfForecastExportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WhatIfForecastExportSummary,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -4236,21 +4375,21 @@ export const listWhatIfForecastExports: {
 export const listWhatIfForecasts: {
   (
     input: ListWhatIfForecastsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWhatIfForecastsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListWhatIfForecastsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWhatIfForecastsResponse,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWhatIfForecastsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WhatIfForecastSummary,
     InvalidInputException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -4281,7 +4420,7 @@ export const listWhatIfForecasts: {
  */
 export const createDatasetGroup: (
   input: CreateDatasetGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDatasetGroupResponse,
   | InvalidInputException
   | LimitExceededException
@@ -4323,7 +4462,7 @@ export const createDatasetGroup: (
  */
 export const createForecastExportJob: (
   input: CreateForecastExportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateForecastExportJobResponse,
   | InvalidInputException
   | LimitExceededException
@@ -4349,7 +4488,7 @@ export const createForecastExportJob: (
  */
 export const createMonitor: (
   input: CreateMonitorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMonitorResponse,
   | InvalidInputException
   | LimitExceededException
@@ -4389,7 +4528,7 @@ export const createMonitor: (
  */
 export const createPredictorBacktestExportJob: (
   input: CreatePredictorBacktestExportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePredictorBacktestExportJobResponse,
   | InvalidInputException
   | LimitExceededException
@@ -4430,7 +4569,7 @@ export const createPredictorBacktestExportJob: (
  */
 export const createWhatIfAnalysis: (
   input: CreateWhatIfAnalysisRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWhatIfAnalysisResponse,
   | InvalidInputException
   | LimitExceededException
@@ -4473,7 +4612,7 @@ export const createWhatIfAnalysis: (
  */
 export const createWhatIfForecastExport: (
   input: CreateWhatIfForecastExportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWhatIfForecastExportResponse,
   | InvalidInputException
   | LimitExceededException
@@ -4577,7 +4716,7 @@ export const createWhatIfForecastExport: (
  */
 export const createExplainability: (
   input: CreateExplainabilityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateExplainabilityResponse,
   | InvalidInputException
   | LimitExceededException
@@ -4610,7 +4749,7 @@ export const createExplainability: (
  */
 export const createExplainabilityExport: (
   input: CreateExplainabilityExportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateExplainabilityExportResponse,
   | InvalidInputException
   | LimitExceededException
@@ -4670,7 +4809,7 @@ export const createExplainabilityExport: (
  */
 export const createDataset: (
   input: CreateDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDatasetResponse,
   | InvalidInputException
   | LimitExceededException
@@ -4712,7 +4851,7 @@ export const createDataset: (
  */
 export const createDatasetImportJob: (
   input: CreateDatasetImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDatasetImportJobResponse,
   | InvalidInputException
   | LimitExceededException
@@ -4759,7 +4898,7 @@ export const createDatasetImportJob: (
  */
 export const createForecast: (
   input: CreateForecastRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateForecastResponse,
   | InvalidInputException
   | LimitExceededException
@@ -4785,7 +4924,7 @@ export const createForecast: (
  */
 export const createWhatIfForecast: (
   input: CreateWhatIfForecastRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWhatIfForecastResponse,
   | InvalidInputException
   | LimitExceededException
@@ -4845,7 +4984,7 @@ export const createWhatIfForecast: (
  */
 export const createAutoPredictor: (
   input: CreateAutoPredictorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAutoPredictorResponse,
   | InvalidInputException
   | LimitExceededException
@@ -4884,7 +5023,7 @@ export const createAutoPredictor: (
  */
 export const describeMonitor: (
   input: DescribeMonitorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeMonitorResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4919,7 +5058,7 @@ export const describeMonitor: (
  */
 export const describePredictor: (
   input: DescribePredictorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePredictorResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4984,7 +5123,7 @@ export const describePredictor: (
  */
 export const createPredictor: (
   input: CreatePredictorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePredictorResponse,
   | InvalidInputException
   | LimitExceededException
@@ -5026,7 +5165,7 @@ export const createPredictor: (
  */
 export const getAccuracyMetrics: (
   input: GetAccuracyMetricsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccuracyMetricsResponse,
   | InvalidInputException
   | ResourceInUseException

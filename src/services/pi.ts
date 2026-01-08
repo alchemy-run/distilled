@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -91,7 +91,6 @@ const rules = T.EndpointResolver((p, _) => {
 export type IdentifierString = string;
 export type AnalysisReportId = string;
 export type RequestString = string;
-export type Integer = number;
 export type SanitizedString = string;
 export type MaxResults = number;
 export type NextToken = string;
@@ -101,31 +100,47 @@ export type TagValue = string;
 export type Limit = number;
 export type ErrorString = string;
 export type Description = string;
-export type MarkdownString = string | Redacted.Redacted<string>;
-export type Double = number;
+export type MarkdownString = string | redacted.Redacted<string>;
 export type DescriptiveString = string;
 
 //# Schemas
+export type ServiceType = "RDS" | "DOCDB";
+export const ServiceType = S.Literal("RDS", "DOCDB");
 export type AdditionalMetricsList = string[];
 export const AdditionalMetricsList = S.Array(S.String);
 export type RequestedDimensionList = string[];
 export const RequestedDimensionList = S.Array(S.String);
+export type TextFormat = "PLAIN_TEXT" | "MARKDOWN";
+export const TextFormat = S.Literal("PLAIN_TEXT", "MARKDOWN");
+export type AcceptLanguage = "EN_US";
+export const AcceptLanguage = S.Literal("EN_US");
+export type PeriodAlignment = "END_TIME" | "START_TIME";
+export const PeriodAlignment = S.Literal("END_TIME", "START_TIME");
 export type DimensionsMetricList = string[];
 export const DimensionsMetricList = S.Array(S.String);
-export type AuthorizedActionsList = string[];
-export const AuthorizedActionsList = S.Array(S.String);
+export type FineGrainedAction =
+  | "DescribeDimensionKeys"
+  | "GetDimensionKeyDetails"
+  | "GetResourceMetrics";
+export const FineGrainedAction = S.Literal(
+  "DescribeDimensionKeys",
+  "GetDimensionKeyDetails",
+  "GetResourceMetrics",
+);
+export type AuthorizedActionsList = FineGrainedAction[];
+export const AuthorizedActionsList = S.Array(FineGrainedAction);
 export type MetricTypeList = string[];
 export const MetricTypeList = S.Array(S.String);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface DeletePerformanceAnalysisReportRequest {
-  ServiceType: string;
+  ServiceType: ServiceType;
   Identifier: string;
   AnalysisReportId: string;
 }
 export const DeletePerformanceAnalysisReportRequest = S.suspend(() =>
   S.Struct({
-    ServiceType: S.String,
+    ServiceType: ServiceType,
     Identifier: S.String,
     AnalysisReportId: S.String,
   }).pipe(
@@ -149,15 +164,15 @@ export const DeletePerformanceAnalysisReportResponse = S.suspend(() =>
   identifier: "DeletePerformanceAnalysisReportResponse",
 }) as any as S.Schema<DeletePerformanceAnalysisReportResponse>;
 export interface GetDimensionKeyDetailsRequest {
-  ServiceType: string;
+  ServiceType: ServiceType;
   Identifier: string;
   Group: string;
   GroupIdentifier: string;
-  RequestedDimensions?: RequestedDimensionList;
+  RequestedDimensions?: string[];
 }
 export const GetDimensionKeyDetailsRequest = S.suspend(() =>
   S.Struct({
-    ServiceType: S.String,
+    ServiceType: ServiceType,
     Identifier: S.String,
     Group: S.String,
     GroupIdentifier: S.String,
@@ -177,19 +192,19 @@ export const GetDimensionKeyDetailsRequest = S.suspend(() =>
   identifier: "GetDimensionKeyDetailsRequest",
 }) as any as S.Schema<GetDimensionKeyDetailsRequest>;
 export interface GetPerformanceAnalysisReportRequest {
-  ServiceType: string;
+  ServiceType: ServiceType;
   Identifier: string;
   AnalysisReportId: string;
-  TextFormat?: string;
-  AcceptLanguage?: string;
+  TextFormat?: TextFormat;
+  AcceptLanguage?: AcceptLanguage;
 }
 export const GetPerformanceAnalysisReportRequest = S.suspend(() =>
   S.Struct({
-    ServiceType: S.String,
+    ServiceType: ServiceType,
     Identifier: S.String,
     AnalysisReportId: S.String,
-    TextFormat: S.optional(S.String),
-    AcceptLanguage: S.optional(S.String),
+    TextFormat: S.optional(TextFormat),
+    AcceptLanguage: S.optional(AcceptLanguage),
   }).pipe(
     T.all(
       ns,
@@ -205,11 +220,11 @@ export const GetPerformanceAnalysisReportRequest = S.suspend(() =>
   identifier: "GetPerformanceAnalysisReportRequest",
 }) as any as S.Schema<GetPerformanceAnalysisReportRequest>;
 export interface GetResourceMetadataRequest {
-  ServiceType: string;
+  ServiceType: ServiceType;
   Identifier: string;
 }
 export const GetResourceMetadataRequest = S.suspend(() =>
-  S.Struct({ ServiceType: S.String, Identifier: S.String }).pipe(
+  S.Struct({ ServiceType: ServiceType, Identifier: S.String }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -224,16 +239,16 @@ export const GetResourceMetadataRequest = S.suspend(() =>
   identifier: "GetResourceMetadataRequest",
 }) as any as S.Schema<GetResourceMetadataRequest>;
 export interface ListAvailableResourceDimensionsRequest {
-  ServiceType: string;
+  ServiceType: ServiceType;
   Identifier: string;
-  Metrics: DimensionsMetricList;
+  Metrics: string[];
   MaxResults?: number;
   NextToken?: string;
-  AuthorizedActions?: AuthorizedActionsList;
+  AuthorizedActions?: FineGrainedAction[];
 }
 export const ListAvailableResourceDimensionsRequest = S.suspend(() =>
   S.Struct({
-    ServiceType: S.String,
+    ServiceType: ServiceType,
     Identifier: S.String,
     Metrics: DimensionsMetricList,
     MaxResults: S.optional(S.Number),
@@ -254,15 +269,15 @@ export const ListAvailableResourceDimensionsRequest = S.suspend(() =>
   identifier: "ListAvailableResourceDimensionsRequest",
 }) as any as S.Schema<ListAvailableResourceDimensionsRequest>;
 export interface ListAvailableResourceMetricsRequest {
-  ServiceType: string;
+  ServiceType: ServiceType;
   Identifier: string;
-  MetricTypes: MetricTypeList;
+  MetricTypes: string[];
   NextToken?: string;
   MaxResults?: number;
 }
 export const ListAvailableResourceMetricsRequest = S.suspend(() =>
   S.Struct({
-    ServiceType: S.String,
+    ServiceType: ServiceType,
     Identifier: S.String,
     MetricTypes: MetricTypeList,
     NextToken: S.optional(S.String),
@@ -282,7 +297,7 @@ export const ListAvailableResourceMetricsRequest = S.suspend(() =>
   identifier: "ListAvailableResourceMetricsRequest",
 }) as any as S.Schema<ListAvailableResourceMetricsRequest>;
 export interface ListPerformanceAnalysisReportsRequest {
-  ServiceType: string;
+  ServiceType: ServiceType;
   Identifier: string;
   NextToken?: string;
   MaxResults?: number;
@@ -290,7 +305,7 @@ export interface ListPerformanceAnalysisReportsRequest {
 }
 export const ListPerformanceAnalysisReportsRequest = S.suspend(() =>
   S.Struct({
-    ServiceType: S.String,
+    ServiceType: ServiceType,
     Identifier: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
@@ -310,11 +325,11 @@ export const ListPerformanceAnalysisReportsRequest = S.suspend(() =>
   identifier: "ListPerformanceAnalysisReportsRequest",
 }) as any as S.Schema<ListPerformanceAnalysisReportsRequest>;
 export interface ListTagsForResourceRequest {
-  ServiceType: string;
+  ServiceType: ServiceType;
   ResourceARN: string;
 }
 export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ ServiceType: S.String, ResourceARN: S.String }).pipe(
+  S.Struct({ ServiceType: ServiceType, ResourceARN: S.String }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -338,13 +353,13 @@ export const Tag = S.suspend(() =>
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagResourceRequest {
-  ServiceType: string;
+  ServiceType: ServiceType;
   ResourceARN: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
-    ServiceType: S.String,
+    ServiceType: ServiceType,
     ResourceARN: S.String,
     Tags: TagList,
   }).pipe(
@@ -368,13 +383,13 @@ export const TagResourceResponse = S.suspend(() =>
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
-  ServiceType: string;
+  ServiceType: ServiceType;
   ResourceARN: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
-    ServiceType: S.String,
+    ServiceType: ServiceType,
     ResourceARN: S.String,
     TagKeys: TagKeyList,
   }).pipe(
@@ -401,7 +416,7 @@ export type SanitizedStringList = string[];
 export const SanitizedStringList = S.Array(S.String);
 export interface DimensionGroup {
   Group: string;
-  Dimensions?: SanitizedStringList;
+  Dimensions?: string[];
   Limit?: number;
 }
 export const DimensionGroup = S.suspend(() =>
@@ -421,7 +436,7 @@ export const MetricQueryFilterMap = S.Record({
 export interface MetricQuery {
   Metric: string;
   GroupBy?: DimensionGroup;
-  Filter?: MetricQueryFilterMap;
+  Filter?: { [key: string]: string };
 }
 export const MetricQuery = S.suspend(() =>
   S.Struct({
@@ -433,15 +448,15 @@ export const MetricQuery = S.suspend(() =>
 export type MetricQueryList = MetricQuery[];
 export const MetricQueryList = S.Array(MetricQuery);
 export interface CreatePerformanceAnalysisReportRequest {
-  ServiceType: string;
+  ServiceType: ServiceType;
   Identifier: string;
   StartTime: Date;
   EndTime: Date;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreatePerformanceAnalysisReportRequest = S.suspend(() =>
   S.Struct({
-    ServiceType: S.String,
+    ServiceType: ServiceType,
     Identifier: S.String,
     StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -461,22 +476,22 @@ export const CreatePerformanceAnalysisReportRequest = S.suspend(() =>
   identifier: "CreatePerformanceAnalysisReportRequest",
 }) as any as S.Schema<CreatePerformanceAnalysisReportRequest>;
 export interface DescribeDimensionKeysRequest {
-  ServiceType: string;
+  ServiceType: ServiceType;
   Identifier: string;
   StartTime: Date;
   EndTime: Date;
   Metric: string;
   PeriodInSeconds?: number;
   GroupBy: DimensionGroup;
-  AdditionalMetrics?: AdditionalMetricsList;
+  AdditionalMetrics?: string[];
   PartitionBy?: DimensionGroup;
-  Filter?: MetricQueryFilterMap;
+  Filter?: { [key: string]: string };
   MaxResults?: number;
   NextToken?: string;
 }
 export const DescribeDimensionKeysRequest = S.suspend(() =>
   S.Struct({
-    ServiceType: S.String,
+    ServiceType: ServiceType,
     Identifier: S.String,
     StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -503,19 +518,19 @@ export const DescribeDimensionKeysRequest = S.suspend(() =>
   identifier: "DescribeDimensionKeysRequest",
 }) as any as S.Schema<DescribeDimensionKeysRequest>;
 export interface GetResourceMetricsRequest {
-  ServiceType: string;
+  ServiceType: ServiceType;
   Identifier: string;
-  MetricQueries: MetricQueryList;
+  MetricQueries: MetricQuery[];
   StartTime: Date;
   EndTime: Date;
   PeriodInSeconds?: number;
   MaxResults?: number;
   NextToken?: string;
-  PeriodAlignment?: string;
+  PeriodAlignment?: PeriodAlignment;
 }
 export const GetResourceMetricsRequest = S.suspend(() =>
   S.Struct({
-    ServiceType: S.String,
+    ServiceType: ServiceType,
     Identifier: S.String,
     MetricQueries: MetricQueryList,
     StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -523,7 +538,7 @@ export const GetResourceMetricsRequest = S.suspend(() =>
     PeriodInSeconds: S.optional(S.Number),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-    PeriodAlignment: S.optional(S.String),
+    PeriodAlignment: S.optional(PeriodAlignment),
   }).pipe(
     T.all(
       ns,
@@ -539,23 +554,27 @@ export const GetResourceMetricsRequest = S.suspend(() =>
   identifier: "GetResourceMetricsRequest",
 }) as any as S.Schema<GetResourceMetricsRequest>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
 ).annotations({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
+export type DetailStatus = "AVAILABLE" | "PROCESSING" | "UNAVAILABLE";
+export const DetailStatus = S.Literal("AVAILABLE", "PROCESSING", "UNAVAILABLE");
+export type AnalysisStatus = "RUNNING" | "SUCCEEDED" | "FAILED";
+export const AnalysisStatus = S.Literal("RUNNING", "SUCCEEDED", "FAILED");
 export interface DimensionKeyDetail {
   Value?: string;
   Dimension?: string;
-  Status?: string;
+  Status?: DetailStatus;
 }
 export const DimensionKeyDetail = S.suspend(() =>
   S.Struct({
     Value: S.optional(S.String),
     Dimension: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(DetailStatus),
   }),
 ).annotations({
   identifier: "DimensionKeyDetail",
@@ -583,8 +602,8 @@ export interface AnalysisReportSummary {
   CreateTime?: Date;
   StartTime?: Date;
   EndTime?: Date;
-  Status?: string;
-  Tags?: TagList;
+  Status?: AnalysisStatus;
+  Tags?: Tag[];
 }
 export const AnalysisReportSummary = S.suspend(() =>
   S.Struct({
@@ -592,7 +611,7 @@ export const AnalysisReportSummary = S.suspend(() =>
     CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
+    Status: S.optional(AnalysisStatus),
     Tags: S.optional(TagList),
   }),
 ).annotations({
@@ -600,6 +619,25 @@ export const AnalysisReportSummary = S.suspend(() =>
 }) as any as S.Schema<AnalysisReportSummary>;
 export type AnalysisReportSummaryList = AnalysisReportSummary[];
 export const AnalysisReportSummaryList = S.Array(AnalysisReportSummary);
+export type ContextType = "CAUSAL" | "CONTEXTUAL";
+export const ContextType = S.Literal("CAUSAL", "CONTEXTUAL");
+export type Severity = "LOW" | "MEDIUM" | "HIGH";
+export const Severity = S.Literal("LOW", "MEDIUM", "HIGH");
+export type FeatureStatus =
+  | "ENABLED"
+  | "DISABLED"
+  | "UNSUPPORTED"
+  | "ENABLED_PENDING_REBOOT"
+  | "DISABLED_PENDING_REBOOT"
+  | "UNKNOWN";
+export const FeatureStatus = S.Literal(
+  "ENABLED",
+  "DISABLED",
+  "UNSUPPORTED",
+  "ENABLED_PENDING_REBOOT",
+  "DISABLED_PENDING_REBOOT",
+  "UNKNOWN",
+);
 export interface CreatePerformanceAnalysisReportResponse {
   AnalysisReportId?: string;
 }
@@ -609,7 +647,7 @@ export const CreatePerformanceAnalysisReportResponse = S.suspend(() =>
   identifier: "CreatePerformanceAnalysisReportResponse",
 }) as any as S.Schema<CreatePerformanceAnalysisReportResponse>;
 export interface GetDimensionKeyDetailsResponse {
-  Dimensions?: DimensionKeyDetailList;
+  Dimensions?: DimensionKeyDetail[];
 }
 export const GetDimensionKeyDetailsResponse = S.suspend(() =>
   S.Struct({ Dimensions: S.optional(DimensionKeyDetailList) }).pipe(ns),
@@ -617,7 +655,7 @@ export const GetDimensionKeyDetailsResponse = S.suspend(() =>
   identifier: "GetDimensionKeyDetailsResponse",
 }) as any as S.Schema<GetDimensionKeyDetailsResponse>;
 export interface ListAvailableResourceMetricsResponse {
-  Metrics?: ResponseResourceMetricList;
+  Metrics?: ResponseResourceMetric[];
   NextToken?: string;
 }
 export const ListAvailableResourceMetricsResponse = S.suspend(() =>
@@ -629,7 +667,7 @@ export const ListAvailableResourceMetricsResponse = S.suspend(() =>
   identifier: "ListAvailableResourceMetricsResponse",
 }) as any as S.Schema<ListAvailableResourceMetricsResponse>;
 export interface ListPerformanceAnalysisReportsResponse {
-  AnalysisReports?: AnalysisReportSummaryList;
+  AnalysisReports?: AnalysisReportSummary[];
   NextToken?: string;
 }
 export const ListPerformanceAnalysisReportsResponse = S.suspend(() =>
@@ -643,10 +681,10 @@ export const ListPerformanceAnalysisReportsResponse = S.suspend(() =>
 export type MetricValuesList = number[];
 export const MetricValuesList = S.Array(S.Number);
 export interface FeatureMetadata {
-  Status?: string;
+  Status?: FeatureStatus;
 }
 export const FeatureMetadata = S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String) }),
+  S.Struct({ Status: S.optional(FeatureStatus) }),
 ).annotations({
   identifier: "FeatureMetadata",
 }) as any as S.Schema<FeatureMetadata>;
@@ -657,7 +695,7 @@ export const FeatureMetadataMap = S.Record({
 });
 export interface Recommendation {
   RecommendationId?: string;
-  RecommendationDescription?: string | Redacted.Redacted<string>;
+  RecommendationDescription?: string | redacted.Redacted<string>;
 }
 export const Recommendation = S.suspend(() =>
   S.Struct({
@@ -681,7 +719,7 @@ export type DimensionDetailList = DimensionDetail[];
 export const DimensionDetailList = S.Array(DimensionDetail);
 export interface GetResourceMetadataResponse {
   Identifier?: string;
-  Features?: FeatureMetadataMap;
+  Features?: { [key: string]: FeatureMetadata };
 }
 export const GetResourceMetadataResponse = S.suspend(() =>
   S.Struct({
@@ -700,7 +738,7 @@ export const AdditionalMetricsMap = S.Record({
 });
 export interface ResponseResourceMetricKey {
   Metric: string;
-  Dimensions?: DimensionMap;
+  Dimensions?: { [key: string]: string };
 }
 export const ResponseResourceMetricKey = S.suspend(() =>
   S.Struct({ Metric: S.String, Dimensions: S.optional(DimensionMap) }),
@@ -721,7 +759,7 @@ export type DataPointsList = DataPoint[];
 export const DataPointsList = S.Array(DataPoint);
 export interface DimensionGroupDetail {
   Group?: string;
-  Dimensions?: DimensionDetailList;
+  Dimensions?: DimensionDetail[];
 }
 export const DimensionGroupDetail = S.suspend(() =>
   S.Struct({
@@ -734,7 +772,7 @@ export const DimensionGroupDetail = S.suspend(() =>
 export type DimensionGroupDetailList = DimensionGroupDetail[];
 export const DimensionGroupDetailList = S.Array(DimensionGroupDetail);
 export interface ResponsePartitionKey {
-  Dimensions: DimensionMap;
+  Dimensions: { [key: string]: string };
 }
 export const ResponsePartitionKey = S.suspend(() =>
   S.Struct({ Dimensions: DimensionMap }),
@@ -744,10 +782,10 @@ export const ResponsePartitionKey = S.suspend(() =>
 export type ResponsePartitionKeyList = ResponsePartitionKey[];
 export const ResponsePartitionKeyList = S.Array(ResponsePartitionKey);
 export interface DimensionKeyDescription {
-  Dimensions?: DimensionMap;
+  Dimensions?: { [key: string]: string };
   Total?: number;
-  AdditionalMetrics?: AdditionalMetricsMap;
-  Partitions?: MetricValuesList;
+  AdditionalMetrics?: { [key: string]: number };
+  Partitions?: number[];
 }
 export const DimensionKeyDescription = S.suspend(() =>
   S.Struct({
@@ -763,7 +801,7 @@ export type DimensionKeyDescriptionList = DimensionKeyDescription[];
 export const DimensionKeyDescriptionList = S.Array(DimensionKeyDescription);
 export interface MetricKeyDataPoints {
   Key?: ResponseResourceMetricKey;
-  DataPoints?: DataPointsList;
+  DataPoints?: DataPoint[];
 }
 export const MetricKeyDataPoints = S.suspend(() =>
   S.Struct({
@@ -777,7 +815,7 @@ export type MetricKeyDataPointsList = MetricKeyDataPoints[];
 export const MetricKeyDataPointsList = S.Array(MetricKeyDataPoints);
 export interface MetricDimensionGroups {
   Metric?: string;
-  Groups?: DimensionGroupDetailList;
+  Groups?: DimensionGroupDetail[];
 }
 export const MetricDimensionGroups = S.suspend(() =>
   S.Struct({
@@ -792,8 +830,8 @@ export const MetricDimensionsList = S.Array(MetricDimensionGroups);
 export interface DescribeDimensionKeysResponse {
   AlignedStartTime?: Date;
   AlignedEndTime?: Date;
-  PartitionKeys?: ResponsePartitionKeyList;
-  Keys?: DimensionKeyDescriptionList;
+  PartitionKeys?: ResponsePartitionKey[];
+  Keys?: DimensionKeyDescription[];
   NextToken?: string;
 }
 export const DescribeDimensionKeysResponse = S.suspend(() =>
@@ -815,7 +853,7 @@ export interface GetResourceMetricsResponse {
   AlignedStartTime?: Date;
   AlignedEndTime?: Date;
   Identifier?: string;
-  MetricList?: MetricKeyDataPointsList;
+  MetricList?: MetricKeyDataPoints[];
   NextToken?: string;
 }
 export const GetResourceMetricsResponse = S.suspend(() =>
@@ -832,7 +870,7 @@ export const GetResourceMetricsResponse = S.suspend(() =>
   identifier: "GetResourceMetricsResponse",
 }) as any as S.Schema<GetResourceMetricsResponse>;
 export interface ListAvailableResourceDimensionsResponse {
-  MetricDimensions?: MetricDimensionsList;
+  MetricDimensions?: MetricDimensionGroups[];
   NextToken?: string;
 }
 export const ListAvailableResourceDimensionsResponse = S.suspend(() =>
@@ -846,8 +884,8 @@ export const ListAvailableResourceDimensionsResponse = S.suspend(() =>
 export interface PerformanceInsightsMetric {
   Metric?: string;
   DisplayName?: string;
-  Dimensions?: DescriptiveMap;
-  Filter?: DescriptiveMap;
+  Dimensions?: { [key: string]: string };
+  Filter?: { [key: string]: string };
   Value?: number;
 }
 export const PerformanceInsightsMetric = S.suspend(() =>
@@ -874,24 +912,24 @@ export const DataList = S.Array(Data);
 export interface Insight {
   InsightId: string;
   InsightType?: string;
-  Context?: string;
+  Context?: ContextType;
   StartTime?: Date;
   EndTime?: Date;
-  Severity?: string;
-  SupportingInsights?: InsightList;
-  Description?: string | Redacted.Redacted<string>;
-  Recommendations?: RecommendationList;
-  InsightData?: DataList;
-  BaselineData?: DataList;
+  Severity?: Severity;
+  SupportingInsights?: Insight[];
+  Description?: string | redacted.Redacted<string>;
+  Recommendations?: Recommendation[];
+  InsightData?: Data[];
+  BaselineData?: Data[];
 }
 export const Insight = S.suspend(() =>
   S.Struct({
     InsightId: S.String,
     InsightType: S.optional(S.String),
-    Context: S.optional(S.String),
+    Context: S.optional(ContextType),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Severity: S.optional(S.String),
+    Severity: S.optional(Severity),
     SupportingInsights: S.optional(
       S.suspend(() => InsightList).annotations({ identifier: "InsightList" }),
     ),
@@ -910,22 +948,22 @@ export const InsightList = S.Array(
 export interface AnalysisReport {
   AnalysisReportId: string;
   Identifier?: string;
-  ServiceType?: string;
+  ServiceType?: ServiceType;
   CreateTime?: Date;
   StartTime?: Date;
   EndTime?: Date;
-  Status?: string;
-  Insights?: InsightList;
+  Status?: AnalysisStatus;
+  Insights?: Insight[];
 }
 export const AnalysisReport = S.suspend(() =>
   S.Struct({
     AnalysisReportId: S.String,
     Identifier: S.optional(S.String),
-    ServiceType: S.optional(S.String),
+    ServiceType: S.optional(ServiceType),
     CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
+    Status: S.optional(AnalysisStatus),
     Insights: S.optional(InsightList),
   }),
 ).annotations({
@@ -960,7 +998,7 @@ export class NotAuthorizedException extends S.TaggedError<NotAuthorizedException
  */
 export const deletePerformanceAnalysisReport: (
   input: DeletePerformanceAnalysisReportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePerformanceAnalysisReportResponse,
   | InternalServiceError
   | InvalidArgumentException
@@ -982,7 +1020,7 @@ export const deletePerformanceAnalysisReport: (
  */
 export const getResourceMetadata: (
   input: GetResourceMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourceMetadataResponse,
   | InternalServiceError
   | InvalidArgumentException
@@ -1006,7 +1044,7 @@ export const getResourceMetadata: (
  */
 export const getDimensionKeyDetails: (
   input: GetDimensionKeyDetailsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDimensionKeyDetailsResponse,
   | InternalServiceError
   | InvalidArgumentException
@@ -1028,7 +1066,7 @@ export const getDimensionKeyDetails: (
 export const listAvailableResourceMetrics: {
   (
     input: ListAvailableResourceMetricsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAvailableResourceMetricsResponse,
     | InternalServiceError
     | InvalidArgumentException
@@ -1038,7 +1076,7 @@ export const listAvailableResourceMetrics: {
   >;
   pages: (
     input: ListAvailableResourceMetricsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAvailableResourceMetricsResponse,
     | InternalServiceError
     | InvalidArgumentException
@@ -1048,7 +1086,7 @@ export const listAvailableResourceMetrics: {
   >;
   items: (
     input: ListAvailableResourceMetricsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServiceError
     | InvalidArgumentException
@@ -1076,7 +1114,7 @@ export const listAvailableResourceMetrics: {
 export const listPerformanceAnalysisReports: {
   (
     input: ListPerformanceAnalysisReportsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPerformanceAnalysisReportsResponse,
     | InternalServiceError
     | InvalidArgumentException
@@ -1086,7 +1124,7 @@ export const listPerformanceAnalysisReports: {
   >;
   pages: (
     input: ListPerformanceAnalysisReportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPerformanceAnalysisReportsResponse,
     | InternalServiceError
     | InvalidArgumentException
@@ -1096,7 +1134,7 @@ export const listPerformanceAnalysisReports: {
   >;
   items: (
     input: ListPerformanceAnalysisReportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServiceError
     | InvalidArgumentException
@@ -1123,7 +1161,7 @@ export const listPerformanceAnalysisReports: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServiceError
   | InvalidArgumentException
@@ -1144,7 +1182,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServiceError
   | InvalidArgumentException
@@ -1165,7 +1203,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServiceError
   | InvalidArgumentException
@@ -1187,7 +1225,7 @@ export const untagResource: (
  */
 export const createPerformanceAnalysisReport: (
   input: CreatePerformanceAnalysisReportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePerformanceAnalysisReportResponse,
   | InternalServiceError
   | InvalidArgumentException
@@ -1212,7 +1250,7 @@ export const createPerformanceAnalysisReport: (
 export const describeDimensionKeys: {
   (
     input: DescribeDimensionKeysRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeDimensionKeysResponse,
     | InternalServiceError
     | InvalidArgumentException
@@ -1222,7 +1260,7 @@ export const describeDimensionKeys: {
   >;
   pages: (
     input: DescribeDimensionKeysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeDimensionKeysResponse,
     | InternalServiceError
     | InvalidArgumentException
@@ -1232,7 +1270,7 @@ export const describeDimensionKeys: {
   >;
   items: (
     input: DescribeDimensionKeysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServiceError
     | InvalidArgumentException
@@ -1265,7 +1303,7 @@ export const describeDimensionKeys: {
 export const getResourceMetrics: {
   (
     input: GetResourceMetricsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetResourceMetricsResponse,
     | InternalServiceError
     | InvalidArgumentException
@@ -1275,7 +1313,7 @@ export const getResourceMetrics: {
   >;
   pages: (
     input: GetResourceMetricsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetResourceMetricsResponse,
     | InternalServiceError
     | InvalidArgumentException
@@ -1285,7 +1323,7 @@ export const getResourceMetrics: {
   >;
   items: (
     input: GetResourceMetricsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServiceError
     | InvalidArgumentException
@@ -1313,7 +1351,7 @@ export const getResourceMetrics: {
 export const listAvailableResourceDimensions: {
   (
     input: ListAvailableResourceDimensionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAvailableResourceDimensionsResponse,
     | InternalServiceError
     | InvalidArgumentException
@@ -1323,7 +1361,7 @@ export const listAvailableResourceDimensions: {
   >;
   pages: (
     input: ListAvailableResourceDimensionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAvailableResourceDimensionsResponse,
     | InternalServiceError
     | InvalidArgumentException
@@ -1333,7 +1371,7 @@ export const listAvailableResourceDimensions: {
   >;
   items: (
     input: ListAvailableResourceDimensionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServiceError
     | InvalidArgumentException
@@ -1363,7 +1401,7 @@ export const listAvailableResourceDimensions: {
  */
 export const getPerformanceAnalysisReport: (
   input: GetPerformanceAnalysisReportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPerformanceAnalysisReportResponse,
   | InternalServiceError
   | InvalidArgumentException

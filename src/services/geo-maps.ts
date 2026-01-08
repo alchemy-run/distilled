@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -162,15 +162,15 @@ const rules = T.EndpointResolver((p, _) => {
 export type MapStyle = string;
 export type ColorScheme = string;
 export type Variant = string;
-export type PositionListString = string | Redacted.Redacted<string>;
-export type PositionString = string | Redacted.Redacted<string>;
-export type CompactOverlay = string | Redacted.Redacted<string>;
-export type GeoJsonOverlay = string | Redacted.Redacted<string>;
+export type PositionListString = string | redacted.Redacted<string>;
+export type PositionString = string | redacted.Redacted<string>;
+export type CompactOverlay = string | redacted.Redacted<string>;
+export type GeoJsonOverlay = string | redacted.Redacted<string>;
 export type SensitiveInteger = number;
-export type ApiKey = string | Redacted.Redacted<string>;
+export type ApiKey = string | redacted.Redacted<string>;
 export type LabelSize = string;
 export type LanguageTag = string;
-export type CountryCode = string | Redacted.Redacted<string>;
+export type CountryCode = string | redacted.Redacted<string>;
 export type MapFeatureMode = string;
 export type DistanceMeters = number;
 export type ScaleBarUnit = string;
@@ -182,7 +182,7 @@ export type Traffic = string;
 export type TravelMode = string;
 export type TileAdditionalFeature = string;
 export type Tileset = string;
-export type SensitiveString = string | Redacted.Redacted<string>;
+export type SensitiveString = string | redacted.Redacted<string>;
 export type ValidationExceptionReason = string;
 
 //# Schemas
@@ -240,19 +240,19 @@ export const GetSpritesRequest = S.suspend(() =>
   identifier: "GetSpritesRequest",
 }) as any as S.Schema<GetSpritesRequest>;
 export interface GetStaticMapRequest {
-  BoundingBox?: string | Redacted.Redacted<string>;
-  BoundedPositions?: string | Redacted.Redacted<string>;
-  Center?: string | Redacted.Redacted<string>;
+  BoundingBox?: string | redacted.Redacted<string>;
+  BoundedPositions?: string | redacted.Redacted<string>;
+  Center?: string | redacted.Redacted<string>;
   ColorScheme?: string;
-  CompactOverlay?: string | Redacted.Redacted<string>;
+  CompactOverlay?: string | redacted.Redacted<string>;
   CropLabels?: boolean;
-  GeoJsonOverlay?: string | Redacted.Redacted<string>;
+  GeoJsonOverlay?: string | redacted.Redacted<string>;
   Height: number;
-  Key?: string | Redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string>;
   LabelSize?: string;
   Language?: string;
   Padding?: number;
-  PoliticalView?: string | Redacted.Redacted<string>;
+  PoliticalView?: string | redacted.Redacted<string>;
   PointsOfInterests?: string;
   Radius?: number;
   FileName: string;
@@ -307,12 +307,12 @@ export const GetStaticMapRequest = S.suspend(() =>
 export interface GetStyleDescriptorRequest {
   Style: string;
   ColorScheme?: string;
-  PoliticalView?: string | Redacted.Redacted<string>;
+  PoliticalView?: string | redacted.Redacted<string>;
   Terrain?: string;
   ContourDensity?: string;
   Traffic?: string;
-  TravelModes?: TravelModeList;
-  Key?: string | Redacted.Redacted<string>;
+  TravelModes?: string[];
+  Key?: string | redacted.Redacted<string>;
 }
 export const GetStyleDescriptorRequest = S.suspend(() =>
   S.Struct({
@@ -340,12 +340,12 @@ export const GetStyleDescriptorRequest = S.suspend(() =>
   identifier: "GetStyleDescriptorRequest",
 }) as any as S.Schema<GetStyleDescriptorRequest>;
 export interface GetTileRequest {
-  AdditionalFeatures?: TileAdditionalFeatureList;
+  AdditionalFeatures?: string[];
   Tileset: string;
-  Z: string | Redacted.Redacted<string>;
-  X: string | Redacted.Redacted<string>;
-  Y: string | Redacted.Redacted<string>;
-  Key?: string | Redacted.Redacted<string>;
+  Z: string | redacted.Redacted<string>;
+  X: string | redacted.Redacted<string>;
+  Y: string | redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string>;
 }
 export const GetTileRequest = S.suspend(() =>
   S.Struct({
@@ -505,7 +505,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const getGlyphs: (
   input: GetGlyphsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetGlyphsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -521,7 +521,7 @@ export const getGlyphs: (
  */
 export const getSprites: (
   input: GetSpritesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSpritesResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -537,7 +537,7 @@ export const getSprites: (
  */
 export const getStyleDescriptor: (
   input: GetStyleDescriptorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetStyleDescriptorResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -559,7 +559,7 @@ export const getStyleDescriptor: (
  */
 export const getStaticMap: (
   input: GetStaticMapRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetStaticMapResponse,
   | AccessDeniedException
   | InternalServerException
@@ -584,7 +584,7 @@ export const getStaticMap: (
  */
 export const getTile: (
   input: GetTileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTileResponse,
   | AccessDeniedException
   | InternalServerException

@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -102,8 +102,6 @@ export type BoxedDouble = number;
 export type RecordsUpdated = number;
 export type ErrorMessage = string;
 export type FormattedSqlRecords = string;
-export type Integer = number;
-export type Long = number;
 export type BoxedInteger = number;
 export type BoxedFloat = number;
 
@@ -243,11 +241,11 @@ export const DoubleArray = S.Array(S.Number);
 export type StringArray = string[];
 export const StringArray = S.Array(S.String);
 export type ArrayValue =
-  | { booleanValues: BooleanArray }
-  | { longValues: LongArray }
-  | { doubleValues: DoubleArray }
-  | { stringValues: StringArray }
-  | { arrayValues: ArrayOfArray };
+  | { booleanValues: boolean[] }
+  | { longValues: number[] }
+  | { doubleValues: number[] }
+  | { stringValues: string[] }
+  | { arrayValues: ArrayValue[] };
 export const ArrayValue = S.Union(
   S.Struct({ booleanValues: BooleanArray }),
   S.Struct({ longValues: LongArray }),
@@ -278,7 +276,7 @@ export const Field = S.Union(
 );
 export interface SqlParameter {
   name?: string;
-  value?: (typeof Field)["Type"];
+  value?: Field;
   typeHint?: string;
 }
 export const SqlParameter = S.suspend(() =>
@@ -296,7 +294,7 @@ export interface ExecuteStatementRequest {
   sql: string;
   database?: string;
   schema?: string;
-  parameters?: SqlParametersList;
+  parameters?: SqlParameter[];
   transactionId?: string;
   includeResultMetadata?: boolean;
   continueAfterTimeout?: boolean;
@@ -341,11 +339,11 @@ export type ArrayOfArray = ArrayValue[];
 export const ArrayOfArray = S.Array(
   S.suspend(() => ArrayValue).annotations({ identifier: "ArrayValue" }),
 ) as any as S.Schema<ArrayOfArray>;
-export type FieldList = (typeof Field)["Type"][];
+export type FieldList = Field[];
 export const FieldList = S.Array(Field);
-export type SqlRecords = FieldList[];
+export type SqlRecords = Field[][];
 export const SqlRecords = S.Array(FieldList);
-export type SqlParameterSets = SqlParametersList[];
+export type SqlParameterSets = SqlParameter[][];
 export const SqlParameterSets = S.Array(SqlParametersList);
 export interface ColumnMetadata {
   name?: string;
@@ -387,7 +385,7 @@ export type Metadata = ColumnMetadata[];
 export const Metadata = S.Array(ColumnMetadata);
 export interface ResultSetMetadata {
   columnCount?: number;
-  columnMetadata?: Metadata;
+  columnMetadata?: ColumnMetadata[];
 }
 export const ResultSetMetadata = S.suspend(() =>
   S.Struct({
@@ -403,7 +401,7 @@ export interface BatchExecuteStatementRequest {
   sql: string;
   database?: string;
   schema?: string;
-  parameterSets?: SqlParameterSets;
+  parameterSets?: SqlParameter[][];
   transactionId?: string;
 }
 export const BatchExecuteStatementRequest = S.suspend(() =>
@@ -433,10 +431,10 @@ export const ArrayValueList = S.Array(
   S.suspend(() => Value).annotations({ identifier: "Value" }),
 ) as any as S.Schema<ArrayValueList>;
 export interface ExecuteStatementResponse {
-  records?: SqlRecords;
-  columnMetadata?: Metadata;
+  records?: Field[][];
+  columnMetadata?: ColumnMetadata[];
   numberOfRecordsUpdated?: number;
-  generatedFields?: FieldList;
+  generatedFields?: Field[];
   formattedRecords?: string;
 }
 export const ExecuteStatementResponse = S.suspend(() =>
@@ -451,7 +449,7 @@ export const ExecuteStatementResponse = S.suspend(() =>
   identifier: "ExecuteStatementResponse",
 }) as any as S.Schema<ExecuteStatementResponse>;
 export interface StructValue {
-  attributes?: ArrayValueList;
+  attributes?: Value[];
 }
 export const StructValue = S.suspend(() =>
   S.Struct({
@@ -471,7 +469,7 @@ export type Value =
   | { realValue: number }
   | { stringValue: string }
   | { blobValue: Uint8Array }
-  | { arrayValues: ArrayValueList }
+  | { arrayValues: Value[] }
   | { structValue: StructValue };
 export const Value = S.Union(
   S.Struct({ isNull: S.Boolean }),
@@ -498,7 +496,7 @@ export const Row = S.Array(
   S.suspend(() => Value).annotations({ identifier: "Value" }),
 );
 export interface UpdateResult {
-  generatedFields?: FieldList;
+  generatedFields?: Field[];
 }
 export const UpdateResult = S.suspend(() =>
   S.Struct({ generatedFields: S.optional(FieldList) }),
@@ -506,7 +504,7 @@ export const UpdateResult = S.suspend(() =>
 export type UpdateResults = UpdateResult[];
 export const UpdateResults = S.Array(UpdateResult);
 export interface Record {
-  values?: Row;
+  values?: Value[];
 }
 export const Record = S.suspend(() =>
   S.Struct({ values: S.optional(Row) }),
@@ -514,7 +512,7 @@ export const Record = S.suspend(() =>
 export type Records = Record[];
 export const Records = S.Array(Record);
 export interface BatchExecuteStatementResponse {
-  updateResults?: UpdateResults;
+  updateResults?: UpdateResult[];
 }
 export const BatchExecuteStatementResponse = S.suspend(() =>
   S.Struct({ updateResults: S.optional(UpdateResults) }),
@@ -523,7 +521,7 @@ export const BatchExecuteStatementResponse = S.suspend(() =>
 }) as any as S.Schema<BatchExecuteStatementResponse>;
 export interface ResultFrame {
   resultSetMetadata?: ResultSetMetadata;
-  records?: Records;
+  records?: Record[];
 }
 export const ResultFrame = S.suspend(() =>
   S.Struct({
@@ -546,7 +544,7 @@ export const SqlStatementResult = S.suspend(() =>
 export type SqlStatementResults = SqlStatementResult[];
 export const SqlStatementResults = S.Array(SqlStatementResult);
 export interface ExecuteSqlResponse {
-  sqlStatementResults?: SqlStatementResults;
+  sqlStatementResults?: SqlStatementResult[];
 }
 export const ExecuteSqlResponse = S.suspend(() =>
   S.Struct({ sqlStatementResults: S.optional(SqlStatementResults) }),
@@ -634,7 +632,7 @@ export class UnsupportedResultException extends S.TaggedError<UnsupportedResultE
  */
 export const executeSql: (
   input: ExecuteSqlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ExecuteSqlResponse,
   | AccessDeniedException
   | BadRequestException
@@ -659,7 +657,7 @@ export const executeSql: (
  */
 export const rollbackTransaction: (
   input: RollbackTransactionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RollbackTransactionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -719,7 +717,7 @@ export const rollbackTransaction: (
  */
 export const batchExecuteStatement: (
   input: BatchExecuteStatementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchExecuteStatementResponse,
   | AccessDeniedException
   | BadRequestException
@@ -773,7 +771,7 @@ export const batchExecuteStatement: (
  */
 export const beginTransaction: (
   input: BeginTransactionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BeginTransactionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -819,7 +817,7 @@ export const beginTransaction: (
  */
 export const commitTransaction: (
   input: CommitTransactionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CommitTransactionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -870,7 +868,7 @@ export const commitTransaction: (
  */
 export const executeStatement: (
   input: ExecuteStatementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ExecuteStatementResponse,
   | AccessDeniedException
   | BadRequestException

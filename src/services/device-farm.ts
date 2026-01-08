@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -91,8 +91,6 @@ const rules = T.EndpointResolver((p, _) => {
 export type AmazonResourceName = string;
 export type Name = string;
 export type Message = string;
-export type Integer = number;
-export type Long = number;
 export type PercentInteger = number;
 export type JobTimeoutMinutes = number;
 export type AmazonRoleResourceName = string;
@@ -119,11 +117,10 @@ export type EnvironmentVariableValue = string;
 export type AWSAccountNumber = string;
 export type Filter = string;
 export type TagValue = string;
-export type SensitiveString = string | Redacted.Redacted<string>;
+export type SensitiveString = string | redacted.Redacted<string>;
 export type DeviceProxyHost = string;
 export type DeviceProxyPort = number;
-export type Double = number;
-export type SensitiveURL = string | Redacted.Redacted<string>;
+export type SensitiveURL = string | redacted.Redacted<string>;
 export type Metadata = string;
 export type URL = string;
 export type TransactionIdentifier = string;
@@ -148,6 +145,120 @@ export const GetAccountSettingsRequest = S.suspend(() =>
 }) as any as S.Schema<GetAccountSettingsRequest>;
 export type PackageIds = string[];
 export const PackageIds = S.Array(S.String);
+export type NetworkProfileType = "CURATED" | "PRIVATE";
+export const NetworkProfileType = S.Literal("CURATED", "PRIVATE");
+export type InteractionMode = "INTERACTIVE" | "NO_VIDEO" | "VIDEO_ONLY";
+export const InteractionMode = S.Literal(
+  "INTERACTIVE",
+  "NO_VIDEO",
+  "VIDEO_ONLY",
+);
+export type UploadType =
+  | "ANDROID_APP"
+  | "IOS_APP"
+  | "WEB_APP"
+  | "EXTERNAL_DATA"
+  | "APPIUM_JAVA_JUNIT_TEST_PACKAGE"
+  | "APPIUM_JAVA_TESTNG_TEST_PACKAGE"
+  | "APPIUM_PYTHON_TEST_PACKAGE"
+  | "APPIUM_NODE_TEST_PACKAGE"
+  | "APPIUM_RUBY_TEST_PACKAGE"
+  | "APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE"
+  | "APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE"
+  | "APPIUM_WEB_PYTHON_TEST_PACKAGE"
+  | "APPIUM_WEB_NODE_TEST_PACKAGE"
+  | "APPIUM_WEB_RUBY_TEST_PACKAGE"
+  | "CALABASH_TEST_PACKAGE"
+  | "INSTRUMENTATION_TEST_PACKAGE"
+  | "UIAUTOMATION_TEST_PACKAGE"
+  | "UIAUTOMATOR_TEST_PACKAGE"
+  | "XCTEST_TEST_PACKAGE"
+  | "XCTEST_UI_TEST_PACKAGE"
+  | "APPIUM_JAVA_JUNIT_TEST_SPEC"
+  | "APPIUM_JAVA_TESTNG_TEST_SPEC"
+  | "APPIUM_PYTHON_TEST_SPEC"
+  | "APPIUM_NODE_TEST_SPEC"
+  | "APPIUM_RUBY_TEST_SPEC"
+  | "APPIUM_WEB_JAVA_JUNIT_TEST_SPEC"
+  | "APPIUM_WEB_JAVA_TESTNG_TEST_SPEC"
+  | "APPIUM_WEB_PYTHON_TEST_SPEC"
+  | "APPIUM_WEB_NODE_TEST_SPEC"
+  | "APPIUM_WEB_RUBY_TEST_SPEC"
+  | "INSTRUMENTATION_TEST_SPEC"
+  | "XCTEST_UI_TEST_SPEC";
+export const UploadType = S.Literal(
+  "ANDROID_APP",
+  "IOS_APP",
+  "WEB_APP",
+  "EXTERNAL_DATA",
+  "APPIUM_JAVA_JUNIT_TEST_PACKAGE",
+  "APPIUM_JAVA_TESTNG_TEST_PACKAGE",
+  "APPIUM_PYTHON_TEST_PACKAGE",
+  "APPIUM_NODE_TEST_PACKAGE",
+  "APPIUM_RUBY_TEST_PACKAGE",
+  "APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE",
+  "APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE",
+  "APPIUM_WEB_PYTHON_TEST_PACKAGE",
+  "APPIUM_WEB_NODE_TEST_PACKAGE",
+  "APPIUM_WEB_RUBY_TEST_PACKAGE",
+  "CALABASH_TEST_PACKAGE",
+  "INSTRUMENTATION_TEST_PACKAGE",
+  "UIAUTOMATION_TEST_PACKAGE",
+  "UIAUTOMATOR_TEST_PACKAGE",
+  "XCTEST_TEST_PACKAGE",
+  "XCTEST_UI_TEST_PACKAGE",
+  "APPIUM_JAVA_JUNIT_TEST_SPEC",
+  "APPIUM_JAVA_TESTNG_TEST_SPEC",
+  "APPIUM_PYTHON_TEST_SPEC",
+  "APPIUM_NODE_TEST_SPEC",
+  "APPIUM_RUBY_TEST_SPEC",
+  "APPIUM_WEB_JAVA_JUNIT_TEST_SPEC",
+  "APPIUM_WEB_JAVA_TESTNG_TEST_SPEC",
+  "APPIUM_WEB_PYTHON_TEST_SPEC",
+  "APPIUM_WEB_NODE_TEST_SPEC",
+  "APPIUM_WEB_RUBY_TEST_SPEC",
+  "INSTRUMENTATION_TEST_SPEC",
+  "XCTEST_UI_TEST_SPEC",
+);
+export type TestType =
+  | "BUILTIN_FUZZ"
+  | "APPIUM_JAVA_JUNIT"
+  | "APPIUM_JAVA_TESTNG"
+  | "APPIUM_PYTHON"
+  | "APPIUM_NODE"
+  | "APPIUM_RUBY"
+  | "APPIUM_WEB_JAVA_JUNIT"
+  | "APPIUM_WEB_JAVA_TESTNG"
+  | "APPIUM_WEB_PYTHON"
+  | "APPIUM_WEB_NODE"
+  | "APPIUM_WEB_RUBY"
+  | "INSTRUMENTATION"
+  | "XCTEST"
+  | "XCTEST_UI";
+export const TestType = S.Literal(
+  "BUILTIN_FUZZ",
+  "APPIUM_JAVA_JUNIT",
+  "APPIUM_JAVA_TESTNG",
+  "APPIUM_PYTHON",
+  "APPIUM_NODE",
+  "APPIUM_RUBY",
+  "APPIUM_WEB_JAVA_JUNIT",
+  "APPIUM_WEB_JAVA_TESTNG",
+  "APPIUM_WEB_PYTHON",
+  "APPIUM_WEB_NODE",
+  "APPIUM_WEB_RUBY",
+  "INSTRUMENTATION",
+  "XCTEST",
+  "XCTEST_UI",
+);
+export type ArtifactCategory = "SCREENSHOT" | "FILE" | "LOG";
+export const ArtifactCategory = S.Literal("SCREENSHOT", "FILE", "LOG");
+export type DevicePoolType = "CURATED" | "PRIVATE";
+export const DevicePoolType = S.Literal("CURATED", "PRIVATE");
+export type TestGridSessionArtifactCategory = "VIDEO" | "LOG";
+export const TestGridSessionArtifactCategory = S.Literal("VIDEO", "LOG");
+export type TestGridSessionStatus = "ACTIVE" | "CLOSED" | "ERRORED";
+export const TestGridSessionStatus = S.Literal("ACTIVE", "CLOSED", "ERRORED");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export type InstanceLabels = string[];
@@ -156,7 +267,7 @@ export interface CreateInstanceProfileRequest {
   name: string;
   description?: string;
   packageCleanup?: boolean;
-  excludeAppPackagesFromCleanup?: PackageIds;
+  excludeAppPackagesFromCleanup?: string[];
   rebootAfterUse?: boolean;
 }
 export const CreateInstanceProfileRequest = S.suspend(() =>
@@ -184,7 +295,7 @@ export interface CreateNetworkProfileRequest {
   projectArn: string;
   name: string;
   description?: string;
-  type?: string;
+  type?: NetworkProfileType;
   uplinkBandwidthBits?: number;
   downlinkBandwidthBits?: number;
   uplinkDelayMs?: number;
@@ -199,7 +310,7 @@ export const CreateNetworkProfileRequest = S.suspend(() =>
     projectArn: S.String,
     name: S.String,
     description: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(NetworkProfileType),
     uplinkBandwidthBits: S.optional(S.Number),
     downlinkBandwidthBits: S.optional(S.Number),
     uplinkDelayMs: S.optional(S.Number),
@@ -244,14 +355,14 @@ export const CreateTestGridUrlRequest = S.suspend(() =>
 export interface CreateUploadRequest {
   projectArn: string;
   name: string;
-  type: string;
+  type: UploadType;
   contentType?: string;
 }
 export const CreateUploadRequest = S.suspend(() =>
   S.Struct({
     projectArn: S.String,
     name: S.String,
-    type: S.String,
+    type: UploadType,
     contentType: S.optional(S.String),
   }).pipe(
     T.all(
@@ -824,13 +935,13 @@ export const InstallToRemoteAccessSessionRequest = S.suspend(() =>
 }) as any as S.Schema<InstallToRemoteAccessSessionRequest>;
 export interface ListArtifactsRequest {
   arn: string;
-  type: string;
+  type: ArtifactCategory;
   nextToken?: string;
 }
 export const ListArtifactsRequest = S.suspend(() =>
   S.Struct({
     arn: S.String,
-    type: S.String,
+    type: ArtifactCategory,
     nextToken: S.optional(S.String),
   }).pipe(
     T.all(
@@ -870,13 +981,13 @@ export const ListDeviceInstancesRequest = S.suspend(() =>
 }) as any as S.Schema<ListDeviceInstancesRequest>;
 export interface ListDevicePoolsRequest {
   arn: string;
-  type?: string;
+  type?: DevicePoolType;
   nextToken?: string;
 }
 export const ListDevicePoolsRequest = S.suspend(() =>
   S.Struct({
     arn: S.String,
-    type: S.optional(S.String),
+    type: S.optional(DevicePoolType),
     nextToken: S.optional(S.String),
   }).pipe(
     T.all(
@@ -935,13 +1046,13 @@ export const ListJobsRequest = S.suspend(() =>
 }) as any as S.Schema<ListJobsRequest>;
 export interface ListNetworkProfilesRequest {
   arn: string;
-  type?: string;
+  type?: NetworkProfileType;
   nextToken?: string;
 }
 export const ListNetworkProfilesRequest = S.suspend(() =>
   S.Struct({
     arn: S.String,
-    type: S.optional(S.String),
+    type: S.optional(NetworkProfileType),
     nextToken: S.optional(S.String),
   }).pipe(
     T.all(
@@ -1172,14 +1283,14 @@ export const ListTestGridSessionActionsRequest = S.suspend(() =>
 }) as any as S.Schema<ListTestGridSessionActionsRequest>;
 export interface ListTestGridSessionArtifactsRequest {
   sessionArn: string;
-  type?: string;
+  type?: TestGridSessionArtifactCategory;
   maxResult?: number;
   nextToken?: string;
 }
 export const ListTestGridSessionArtifactsRequest = S.suspend(() =>
   S.Struct({
     sessionArn: S.String,
-    type: S.optional(S.String),
+    type: S.optional(TestGridSessionArtifactCategory),
     maxResult: S.optional(S.Number),
     nextToken: S.optional(S.String),
   }).pipe(
@@ -1198,7 +1309,7 @@ export const ListTestGridSessionArtifactsRequest = S.suspend(() =>
 }) as any as S.Schema<ListTestGridSessionArtifactsRequest>;
 export interface ListTestGridSessionsRequest {
   projectArn: string;
-  status?: string;
+  status?: TestGridSessionStatus;
   creationTimeAfter?: Date;
   creationTimeBefore?: Date;
   endTimeAfter?: Date;
@@ -1209,7 +1320,7 @@ export interface ListTestGridSessionsRequest {
 export const ListTestGridSessionsRequest = S.suspend(() =>
   S.Struct({
     projectArn: S.String,
-    status: S.optional(S.String),
+    status: S.optional(TestGridSessionStatus),
     creationTimeAfter: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1274,13 +1385,13 @@ export const ListUniqueProblemsRequest = S.suspend(() =>
 }) as any as S.Schema<ListUniqueProblemsRequest>;
 export interface ListUploadsRequest {
   arn: string;
-  type?: string;
+  type?: UploadType;
   nextToken?: string;
 }
 export const ListUploadsRequest = S.suspend(() =>
   S.Struct({
     arn: S.String,
-    type: S.optional(S.String),
+    type: S.optional(UploadType),
     nextToken: S.optional(S.String),
   }).pipe(
     T.all(
@@ -1417,7 +1528,7 @@ export const StopRunRequest = S.suspend(() =>
 }) as any as S.Schema<StopRunRequest>;
 export interface UntagResourceRequest {
   ResourceARN: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
@@ -1443,7 +1554,7 @@ export const UntagResourceResponse = S.suspend(() =>
 export interface UpdateDeviceInstanceRequest {
   arn: string;
   profileArn?: string;
-  labels?: InstanceLabels;
+  labels?: string[];
 }
 export const UpdateDeviceInstanceRequest = S.suspend(() =>
   S.Struct({
@@ -1464,15 +1575,63 @@ export const UpdateDeviceInstanceRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateDeviceInstanceRequest",
 }) as any as S.Schema<UpdateDeviceInstanceRequest>;
+export type DeviceAttribute =
+  | "ARN"
+  | "PLATFORM"
+  | "FORM_FACTOR"
+  | "MANUFACTURER"
+  | "REMOTE_ACCESS_ENABLED"
+  | "REMOTE_DEBUG_ENABLED"
+  | "APPIUM_VERSION"
+  | "INSTANCE_ARN"
+  | "INSTANCE_LABELS"
+  | "FLEET_TYPE"
+  | "OS_VERSION"
+  | "MODEL"
+  | "AVAILABILITY";
+export const DeviceAttribute = S.Literal(
+  "ARN",
+  "PLATFORM",
+  "FORM_FACTOR",
+  "MANUFACTURER",
+  "REMOTE_ACCESS_ENABLED",
+  "REMOTE_DEBUG_ENABLED",
+  "APPIUM_VERSION",
+  "INSTANCE_ARN",
+  "INSTANCE_LABELS",
+  "FLEET_TYPE",
+  "OS_VERSION",
+  "MODEL",
+  "AVAILABILITY",
+);
+export type RuleOperator =
+  | "EQUALS"
+  | "LESS_THAN"
+  | "LESS_THAN_OR_EQUALS"
+  | "GREATER_THAN"
+  | "GREATER_THAN_OR_EQUALS"
+  | "IN"
+  | "NOT_IN"
+  | "CONTAINS";
+export const RuleOperator = S.Literal(
+  "EQUALS",
+  "LESS_THAN",
+  "LESS_THAN_OR_EQUALS",
+  "GREATER_THAN",
+  "GREATER_THAN_OR_EQUALS",
+  "IN",
+  "NOT_IN",
+  "CONTAINS",
+);
 export interface Rule {
-  attribute?: string;
-  operator?: string;
+  attribute?: DeviceAttribute;
+  operator?: RuleOperator;
   value?: string;
 }
 export const Rule = S.suspend(() =>
   S.Struct({
-    attribute: S.optional(S.String),
-    operator: S.optional(S.String),
+    attribute: S.optional(DeviceAttribute),
+    operator: S.optional(RuleOperator),
     value: S.optional(S.String),
   }),
 ).annotations({ identifier: "Rule" }) as any as S.Schema<Rule>;
@@ -1482,7 +1641,7 @@ export interface UpdateDevicePoolRequest {
   arn: string;
   name?: string;
   description?: string;
-  rules?: Rules;
+  rules?: Rule[];
   maxDevices?: number;
   clearMaxDevices?: boolean;
 }
@@ -1513,7 +1672,7 @@ export interface UpdateInstanceProfileRequest {
   name?: string;
   description?: string;
   packageCleanup?: boolean;
-  excludeAppPackagesFromCleanup?: PackageIds;
+  excludeAppPackagesFromCleanup?: string[];
   rebootAfterUse?: boolean;
 }
 export const UpdateInstanceProfileRequest = S.suspend(() =>
@@ -1542,7 +1701,7 @@ export interface UpdateNetworkProfileRequest {
   arn: string;
   name?: string;
   description?: string;
-  type?: string;
+  type?: NetworkProfileType;
   uplinkBandwidthBits?: number;
   downlinkBandwidthBits?: number;
   uplinkDelayMs?: number;
@@ -1557,7 +1716,7 @@ export const UpdateNetworkProfileRequest = S.suspend(() =>
     arn: S.String,
     name: S.optional(S.String),
     description: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(NetworkProfileType),
     uplinkBandwidthBits: S.optional(S.Number),
     downlinkBandwidthBits: S.optional(S.Number),
     uplinkDelayMs: S.optional(S.Number),
@@ -1585,8 +1744,8 @@ export const VpcSecurityGroupIds = S.Array(S.String);
 export type VpcSubnetIds = string[];
 export const VpcSubnetIds = S.Array(S.String);
 export interface VpcConfig {
-  securityGroupIds: VpcSecurityGroupIds;
-  subnetIds: VpcSubnetIds;
+  securityGroupIds: string[];
+  subnetIds: string[];
   vpcId: string;
 }
 export const VpcConfig = S.suspend(() =>
@@ -1612,7 +1771,7 @@ export interface UpdateProjectRequest {
   name?: string;
   defaultJobTimeoutMinutes?: number;
   vpcConfig?: VpcConfig;
-  environmentVariables?: EnvironmentVariables;
+  environmentVariables?: EnvironmentVariable[];
   executionRoleArn?: string;
 }
 export const UpdateProjectRequest = S.suspend(() =>
@@ -1642,8 +1801,8 @@ export const SecurityGroupIds = S.Array(S.String);
 export type SubnetIds = string[];
 export const SubnetIds = S.Array(S.String);
 export interface TestGridVpcConfig {
-  securityGroupIds: SecurityGroupIds;
-  subnetIds: SubnetIds;
+  securityGroupIds: string[];
+  subnetIds: string[];
   vpcId: string;
 }
 export const TestGridVpcConfig = S.suspend(() =>
@@ -1737,14 +1896,54 @@ export const UpdateVPCEConfigurationRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateVPCEConfigurationRequest>;
 export type AuxiliaryAppArnList = string[];
 export const AuxiliaryAppArnList = S.Array(S.String);
+export type BillingMethod = "METERED" | "UNMETERED";
+export const BillingMethod = S.Literal("METERED", "UNMETERED");
 export type AmazonResourceNames = string[];
 export const AmazonResourceNames = S.Array(S.String);
+export type DeviceFilterAttribute =
+  | "ARN"
+  | "PLATFORM"
+  | "OS_VERSION"
+  | "MODEL"
+  | "AVAILABILITY"
+  | "FORM_FACTOR"
+  | "MANUFACTURER"
+  | "REMOTE_ACCESS_ENABLED"
+  | "REMOTE_DEBUG_ENABLED"
+  | "INSTANCE_ARN"
+  | "INSTANCE_LABELS"
+  | "FLEET_TYPE";
+export const DeviceFilterAttribute = S.Literal(
+  "ARN",
+  "PLATFORM",
+  "OS_VERSION",
+  "MODEL",
+  "AVAILABILITY",
+  "FORM_FACTOR",
+  "MANUFACTURER",
+  "REMOTE_ACCESS_ENABLED",
+  "REMOTE_DEBUG_ENABLED",
+  "INSTANCE_ARN",
+  "INSTANCE_LABELS",
+  "FLEET_TYPE",
+);
 export type DeviceFilterValues = string[];
 export const DeviceFilterValues = S.Array(S.String);
+export type InstanceStatus =
+  | "IN_USE"
+  | "PREPARING"
+  | "AVAILABLE"
+  | "NOT_AVAILABLE";
+export const InstanceStatus = S.Literal(
+  "IN_USE",
+  "PREPARING",
+  "AVAILABLE",
+  "NOT_AVAILABLE",
+);
 export interface InstanceProfile {
   arn?: string;
   packageCleanup?: boolean;
-  excludeAppPackagesFromCleanup?: PackageIds;
+  excludeAppPackagesFromCleanup?: string[];
   rebootAfterUse?: boolean;
   name?: string;
   description?: string;
@@ -1764,8 +1963,8 @@ export const InstanceProfile = S.suspend(() =>
 export interface DeviceInstance {
   arn?: string;
   deviceArn?: string;
-  labels?: InstanceLabels;
-  status?: string;
+  labels?: string[];
+  status?: InstanceStatus;
   udid?: string;
   instanceProfile?: InstanceProfile;
 }
@@ -1774,7 +1973,7 @@ export const DeviceInstance = S.suspend(() =>
     arn: S.optional(S.String),
     deviceArn: S.optional(S.String),
     labels: S.optional(InstanceLabels),
-    status: S.optional(S.String),
+    status: S.optional(InstanceStatus),
     udid: S.optional(S.String),
     instanceProfile: S.optional(InstanceProfile),
   }),
@@ -1787,8 +1986,8 @@ export interface DevicePool {
   arn?: string;
   name?: string;
   description?: string;
-  type?: string;
-  rules?: Rules;
+  type?: DevicePoolType;
+  rules?: Rule[];
   maxDevices?: number;
 }
 export const DevicePool = S.suspend(() =>
@@ -1796,7 +1995,7 @@ export const DevicePool = S.suspend(() =>
     arn: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(DevicePoolType),
     rules: S.optional(Rules),
     maxDevices: S.optional(S.Number),
   }),
@@ -1804,14 +2003,14 @@ export const DevicePool = S.suspend(() =>
 export type DevicePools = DevicePool[];
 export const DevicePools = S.Array(DevicePool);
 export interface DeviceFilter {
-  attribute: string;
-  operator: string;
-  values: DeviceFilterValues;
+  attribute: DeviceFilterAttribute;
+  operator: RuleOperator;
+  values: string[];
 }
 export const DeviceFilter = S.suspend(() =>
   S.Struct({
-    attribute: S.String,
-    operator: S.String,
+    attribute: DeviceFilterAttribute,
+    operator: RuleOperator,
     values: DeviceFilterValues,
   }),
 ).annotations({ identifier: "DeviceFilter" }) as any as S.Schema<DeviceFilter>;
@@ -1819,6 +2018,44 @@ export type DeviceFilters = DeviceFilter[];
 export const DeviceFilters = S.Array(DeviceFilter);
 export type InstanceProfiles = InstanceProfile[];
 export const InstanceProfiles = S.Array(InstanceProfile);
+export type ExecutionStatus =
+  | "PENDING"
+  | "PENDING_CONCURRENCY"
+  | "PENDING_DEVICE"
+  | "PROCESSING"
+  | "SCHEDULING"
+  | "PREPARING"
+  | "RUNNING"
+  | "COMPLETED"
+  | "STOPPING";
+export const ExecutionStatus = S.Literal(
+  "PENDING",
+  "PENDING_CONCURRENCY",
+  "PENDING_DEVICE",
+  "PROCESSING",
+  "SCHEDULING",
+  "PREPARING",
+  "RUNNING",
+  "COMPLETED",
+  "STOPPING",
+);
+export type ExecutionResult =
+  | "PENDING"
+  | "PASSED"
+  | "WARNED"
+  | "FAILED"
+  | "SKIPPED"
+  | "ERRORED"
+  | "STOPPED";
+export const ExecutionResult = S.Literal(
+  "PENDING",
+  "PASSED",
+  "WARNED",
+  "FAILED",
+  "SKIPPED",
+  "ERRORED",
+  "STOPPED",
+);
 export interface Counters {
   total?: number;
   passed?: number;
@@ -1839,6 +2076,10 @@ export const Counters = S.suspend(() =>
     skipped: S.optional(S.Number),
   }),
 ).annotations({ identifier: "Counters" }) as any as S.Schema<Counters>;
+export type DeviceFormFactor = "PHONE" | "TABLET";
+export const DeviceFormFactor = S.Literal("PHONE", "TABLET");
+export type DevicePlatform = "ANDROID" | "IOS";
+export const DevicePlatform = S.Literal("ANDROID", "IOS");
 export interface CPU {
   frequency?: string;
   architecture?: string;
@@ -1858,14 +2099,25 @@ export interface Resolution {
 export const Resolution = S.suspend(() =>
   S.Struct({ width: S.optional(S.Number), height: S.optional(S.Number) }),
 ).annotations({ identifier: "Resolution" }) as any as S.Schema<Resolution>;
+export type DeviceAvailability =
+  | "TEMPORARY_NOT_AVAILABLE"
+  | "BUSY"
+  | "AVAILABLE"
+  | "HIGHLY_AVAILABLE";
+export const DeviceAvailability = S.Literal(
+  "TEMPORARY_NOT_AVAILABLE",
+  "BUSY",
+  "AVAILABLE",
+  "HIGHLY_AVAILABLE",
+);
 export interface Device {
   arn?: string;
   name?: string;
   manufacturer?: string;
   model?: string;
   modelId?: string;
-  formFactor?: string;
-  platform?: string;
+  formFactor?: DeviceFormFactor;
+  platform?: DevicePlatform;
   os?: string;
   cpu?: CPU;
   resolution?: Resolution;
@@ -1878,8 +2130,8 @@ export interface Device {
   remoteDebugEnabled?: boolean;
   fleetType?: string;
   fleetName?: string;
-  instances?: DeviceInstances;
-  availability?: string;
+  instances?: DeviceInstance[];
+  availability?: DeviceAvailability;
 }
 export const Device = S.suspend(() =>
   S.Struct({
@@ -1888,8 +2140,8 @@ export const Device = S.suspend(() =>
     manufacturer: S.optional(S.String),
     model: S.optional(S.String),
     modelId: S.optional(S.String),
-    formFactor: S.optional(S.String),
-    platform: S.optional(S.String),
+    formFactor: S.optional(DeviceFormFactor),
+    platform: S.optional(DevicePlatform),
     os: S.optional(S.String),
     cpu: S.optional(CPU),
     resolution: S.optional(Resolution),
@@ -1903,7 +2155,7 @@ export const Device = S.suspend(() =>
     fleetType: S.optional(S.String),
     fleetName: S.optional(S.String),
     instances: S.optional(DeviceInstances),
-    availability: S.optional(S.String),
+    availability: S.optional(DeviceAvailability),
   }),
 ).annotations({ identifier: "Device" }) as any as S.Schema<Device>;
 export interface DeviceMinutes {
@@ -1923,10 +2175,10 @@ export const DeviceMinutes = S.suspend(() =>
 export interface Job {
   arn?: string;
   name?: string;
-  type?: string;
+  type?: TestType;
   created?: Date;
-  status?: string;
-  result?: string;
+  status?: ExecutionStatus;
+  result?: ExecutionResult;
   started?: Date;
   stopped?: Date;
   counters?: Counters;
@@ -1941,10 +2193,10 @@ export const Job = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     name: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(TestType),
     created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(S.String),
-    result: S.optional(S.String),
+    status: S.optional(ExecutionStatus),
+    result: S.optional(ExecutionResult),
     started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     stopped: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     counters: S.optional(Counters),
@@ -1962,7 +2214,7 @@ export interface NetworkProfile {
   arn?: string;
   name?: string;
   description?: string;
-  type?: string;
+  type?: NetworkProfileType;
   uplinkBandwidthBits?: number;
   downlinkBandwidthBits?: number;
   uplinkDelayMs?: number;
@@ -1977,7 +2229,7 @@ export const NetworkProfile = S.suspend(() =>
     arn: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(NetworkProfileType),
     uplinkBandwidthBits: S.optional(S.Number),
     downlinkBandwidthBits: S.optional(S.Number),
     uplinkDelayMs: S.optional(S.Number),
@@ -1998,7 +2250,7 @@ export interface Project {
   defaultJobTimeoutMinutes?: number;
   created?: Date;
   vpcConfig?: VpcConfig;
-  environmentVariables?: EnvironmentVariables;
+  environmentVariables?: EnvironmentVariable[];
   executionRoleArn?: string;
 }
 export const Project = S.suspend(() =>
@@ -2022,8 +2274,8 @@ export const DeviceProxy = S.suspend(() =>
   S.Struct({ host: S.String, port: S.Number }),
 ).annotations({ identifier: "DeviceProxy" }) as any as S.Schema<DeviceProxy>;
 export interface RemoteAccessEndpoints {
-  remoteDriverEndpoint?: string | Redacted.Redacted<string>;
-  interactiveEndpoint?: string | Redacted.Redacted<string>;
+  remoteDriverEndpoint?: string | redacted.Redacted<string>;
+  interactiveEndpoint?: string | redacted.Redacted<string>;
 }
 export const RemoteAccessEndpoints = S.suspend(() =>
   S.Struct({
@@ -2037,18 +2289,18 @@ export interface RemoteAccessSession {
   arn?: string;
   name?: string;
   created?: Date;
-  status?: string;
-  result?: string;
+  status?: ExecutionStatus;
+  result?: ExecutionResult;
   message?: string;
   started?: Date;
   stopped?: Date;
   device?: Device;
   instanceArn?: string;
-  billingMethod?: string;
+  billingMethod?: BillingMethod;
   deviceMinutes?: DeviceMinutes;
   endpoint?: string;
   deviceUdid?: string;
-  interactionMode?: string;
+  interactionMode?: InteractionMode;
   skipAppResign?: boolean;
   vpcConfig?: VpcConfig;
   deviceProxy?: DeviceProxy;
@@ -2060,18 +2312,18 @@ export const RemoteAccessSession = S.suspend(() =>
     arn: S.optional(S.String),
     name: S.optional(S.String),
     created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(S.String),
-    result: S.optional(S.String),
+    status: S.optional(ExecutionStatus),
+    result: S.optional(ExecutionResult),
     message: S.optional(S.String),
     started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     stopped: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     device: S.optional(Device),
     instanceArn: S.optional(S.String),
-    billingMethod: S.optional(S.String),
+    billingMethod: S.optional(BillingMethod),
     deviceMinutes: S.optional(DeviceMinutes),
     endpoint: S.optional(S.String),
     deviceUdid: S.optional(S.String),
-    interactionMode: S.optional(S.String),
+    interactionMode: S.optional(InteractionMode),
     skipAppResign: S.optional(S.Boolean),
     vpcConfig: S.optional(VpcConfig),
     deviceProxy: S.optional(DeviceProxy),
@@ -2083,6 +2335,13 @@ export const RemoteAccessSession = S.suspend(() =>
 }) as any as S.Schema<RemoteAccessSession>;
 export type RemoteAccessSessions = RemoteAccessSession[];
 export const RemoteAccessSessions = S.Array(RemoteAccessSession);
+export type ExecutionResultCode =
+  | "PARSING_FAILED"
+  | "VPC_ENDPOINT_SETUP_FAILED";
+export const ExecutionResultCode = S.Literal(
+  "PARSING_FAILED",
+  "VPC_ENDPOINT_SETUP_FAILED",
+);
 export interface Radios {
   wifi?: boolean;
   bluetooth?: boolean;
@@ -2111,9 +2370,9 @@ export const AndroidPaths = S.Array(S.String);
 export type DeviceHostPaths = string[];
 export const DeviceHostPaths = S.Array(S.String);
 export interface CustomerArtifactPaths {
-  iosPaths?: IosPaths;
-  androidPaths?: AndroidPaths;
-  deviceHostPaths?: DeviceHostPaths;
+  iosPaths?: string[];
+  androidPaths?: string[];
+  deviceHostPaths?: string[];
 }
 export const CustomerArtifactPaths = S.suspend(() =>
   S.Struct({
@@ -2125,7 +2384,7 @@ export const CustomerArtifactPaths = S.suspend(() =>
   identifier: "CustomerArtifactPaths",
 }) as any as S.Schema<CustomerArtifactPaths>;
 export interface DeviceSelectionResult {
-  filters?: DeviceFilters;
+  filters?: DeviceFilter[];
   matchedDevicesCount?: number;
   maxDevices?: number;
 }
@@ -2141,23 +2400,23 @@ export const DeviceSelectionResult = S.suspend(() =>
 export interface Run {
   arn?: string;
   name?: string;
-  type?: string;
-  platform?: string;
+  type?: TestType;
+  platform?: DevicePlatform;
   created?: Date;
-  status?: string;
-  result?: string;
+  status?: ExecutionStatus;
+  result?: ExecutionResult;
   started?: Date;
   stopped?: Date;
   counters?: Counters;
   message?: string;
   totalJobs?: number;
   completedJobs?: number;
-  billingMethod?: string;
+  billingMethod?: BillingMethod;
   deviceMinutes?: DeviceMinutes;
   networkProfile?: NetworkProfile;
   deviceProxy?: DeviceProxy;
   parsingResultUrl?: string;
-  resultCode?: string;
+  resultCode?: ExecutionResultCode;
   seed?: number;
   appUpload?: string;
   eventCount?: number;
@@ -2173,29 +2432,29 @@ export interface Run {
   deviceSelectionResult?: DeviceSelectionResult;
   vpcConfig?: VpcConfig;
   executionRoleArn?: string;
-  environmentVariables?: EnvironmentVariables;
+  environmentVariables?: EnvironmentVariable[];
 }
 export const Run = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     name: S.optional(S.String),
-    type: S.optional(S.String),
-    platform: S.optional(S.String),
+    type: S.optional(TestType),
+    platform: S.optional(DevicePlatform),
     created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(S.String),
-    result: S.optional(S.String),
+    status: S.optional(ExecutionStatus),
+    result: S.optional(ExecutionResult),
     started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     stopped: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     counters: S.optional(Counters),
     message: S.optional(S.String),
     totalJobs: S.optional(S.Number),
     completedJobs: S.optional(S.Number),
-    billingMethod: S.optional(S.String),
+    billingMethod: S.optional(BillingMethod),
     deviceMinutes: S.optional(DeviceMinutes),
     networkProfile: S.optional(NetworkProfile),
     deviceProxy: S.optional(DeviceProxy),
     parsingResultUrl: S.optional(S.String),
-    resultCode: S.optional(S.String),
+    resultCode: S.optional(ExecutionResultCode),
     seed: S.optional(S.Number),
     appUpload: S.optional(S.String),
     eventCount: S.optional(S.Number),
@@ -2219,10 +2478,10 @@ export const Runs = S.Array(Run);
 export interface Suite {
   arn?: string;
   name?: string;
-  type?: string;
+  type?: TestType;
   created?: Date;
-  status?: string;
-  result?: string;
+  status?: ExecutionStatus;
+  result?: ExecutionResult;
   started?: Date;
   stopped?: Date;
   counters?: Counters;
@@ -2233,10 +2492,10 @@ export const Suite = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     name: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(TestType),
     created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(S.String),
-    result: S.optional(S.String),
+    status: S.optional(ExecutionStatus),
+    result: S.optional(ExecutionResult),
     started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     stopped: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     counters: S.optional(Counters),
@@ -2268,7 +2527,7 @@ export type TestGridProjects = TestGridProject[];
 export const TestGridProjects = S.Array(TestGridProject);
 export interface TestGridSession {
   arn?: string;
-  status?: string;
+  status?: TestGridSessionStatus;
   created?: Date;
   ended?: Date;
   billingMinutes?: number;
@@ -2277,7 +2536,7 @@ export interface TestGridSession {
 export const TestGridSession = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(TestGridSessionStatus),
     created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ended: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     billingMinutes: S.optional(S.Number),
@@ -2291,10 +2550,10 @@ export const TestGridSessions = S.Array(TestGridSession);
 export interface Test {
   arn?: string;
   name?: string;
-  type?: string;
+  type?: TestType;
   created?: Date;
-  status?: string;
-  result?: string;
+  status?: ExecutionStatus;
+  result?: ExecutionResult;
   started?: Date;
   stopped?: Date;
   counters?: Counters;
@@ -2305,10 +2564,10 @@ export const Test = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     name: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(TestType),
     created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(S.String),
-    result: S.optional(S.String),
+    status: S.optional(ExecutionStatus),
+    result: S.optional(ExecutionResult),
     started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     stopped: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     counters: S.optional(Counters),
@@ -2318,30 +2577,43 @@ export const Test = S.suspend(() =>
 ).annotations({ identifier: "Test" }) as any as S.Schema<Test>;
 export type Tests = Test[];
 export const Tests = S.Array(Test);
+export type UploadStatus =
+  | "INITIALIZED"
+  | "PROCESSING"
+  | "SUCCEEDED"
+  | "FAILED";
+export const UploadStatus = S.Literal(
+  "INITIALIZED",
+  "PROCESSING",
+  "SUCCEEDED",
+  "FAILED",
+);
+export type UploadCategory = "CURATED" | "PRIVATE";
+export const UploadCategory = S.Literal("CURATED", "PRIVATE");
 export interface Upload {
   arn?: string;
   name?: string;
   created?: Date;
-  type?: string;
-  status?: string;
-  url?: string | Redacted.Redacted<string>;
+  type?: UploadType;
+  status?: UploadStatus;
+  url?: string | redacted.Redacted<string>;
   metadata?: string;
   contentType?: string;
   message?: string;
-  category?: string;
+  category?: UploadCategory;
 }
 export const Upload = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     name: S.optional(S.String),
     created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    type: S.optional(S.String),
-    status: S.optional(S.String),
+    type: S.optional(UploadType),
+    status: S.optional(UploadStatus),
     url: S.optional(SensitiveString),
     metadata: S.optional(S.String),
     contentType: S.optional(S.String),
     message: S.optional(S.String),
-    category: S.optional(S.String),
+    category: S.optional(UploadCategory),
   }),
 ).annotations({ identifier: "Upload" }) as any as S.Schema<Upload>;
 export type Uploads = Upload[];
@@ -2367,7 +2639,7 @@ export const VPCEConfiguration = S.suspend(() =>
 export type VPCEConfigurations = VPCEConfiguration[];
 export const VPCEConfigurations = S.Array(VPCEConfiguration);
 export interface DeviceSelectionConfiguration {
-  filters: DeviceFilters;
+  filters: DeviceFilter[];
   maxDevices: number;
 }
 export const DeviceSelectionConfiguration = S.suspend(() =>
@@ -2406,7 +2678,7 @@ export interface CreateDevicePoolRequest {
   projectArn: string;
   name: string;
   description?: string;
-  rules: Rules;
+  rules: Rule[];
   maxDevices?: number;
 }
 export const CreateDevicePoolRequest = S.suspend(() =>
@@ -2434,7 +2706,7 @@ export interface CreateProjectRequest {
   name: string;
   defaultJobTimeoutMinutes?: number;
   vpcConfig?: VpcConfig;
-  environmentVariables?: EnvironmentVariables;
+  environmentVariables?: EnvironmentVariable[];
   executionRoleArn?: string;
 }
 export const CreateProjectRequest = S.suspend(() =>
@@ -2483,7 +2755,7 @@ export const CreateTestGridProjectRequest = S.suspend(() =>
   identifier: "CreateTestGridProjectRequest",
 }) as any as S.Schema<CreateTestGridProjectRequest>;
 export interface CreateTestGridUrlResult {
-  url?: string | Redacted.Redacted<string>;
+  url?: string | redacted.Redacted<string>;
   expires?: Date;
 }
 export const CreateTestGridUrlResult = S.suspend(() =>
@@ -2535,7 +2807,7 @@ export const InstallToRemoteAccessSessionResult = S.suspend(() =>
   identifier: "InstallToRemoteAccessSessionResult",
 }) as any as S.Schema<InstallToRemoteAccessSessionResult>;
 export interface ListDeviceInstancesResult {
-  deviceInstances?: DeviceInstances;
+  deviceInstances?: DeviceInstance[];
   nextToken?: string;
 }
 export const ListDeviceInstancesResult = S.suspend(() =>
@@ -2547,7 +2819,7 @@ export const ListDeviceInstancesResult = S.suspend(() =>
   identifier: "ListDeviceInstancesResult",
 }) as any as S.Schema<ListDeviceInstancesResult>;
 export interface ListDevicePoolsResult {
-  devicePools?: DevicePools;
+  devicePools?: DevicePool[];
   nextToken?: string;
 }
 export const ListDevicePoolsResult = S.suspend(() =>
@@ -2561,7 +2833,7 @@ export const ListDevicePoolsResult = S.suspend(() =>
 export interface ListDevicesRequest {
   arn?: string;
   nextToken?: string;
-  filters?: DeviceFilters;
+  filters?: DeviceFilter[];
 }
 export const ListDevicesRequest = S.suspend(() =>
   S.Struct({
@@ -2583,7 +2855,7 @@ export const ListDevicesRequest = S.suspend(() =>
   identifier: "ListDevicesRequest",
 }) as any as S.Schema<ListDevicesRequest>;
 export interface ListInstanceProfilesResult {
-  instanceProfiles?: InstanceProfiles;
+  instanceProfiles?: InstanceProfile[];
   nextToken?: string;
 }
 export const ListInstanceProfilesResult = S.suspend(() =>
@@ -2595,7 +2867,7 @@ export const ListInstanceProfilesResult = S.suspend(() =>
   identifier: "ListInstanceProfilesResult",
 }) as any as S.Schema<ListInstanceProfilesResult>;
 export interface ListJobsResult {
-  jobs?: Jobs;
+  jobs?: Job[];
   nextToken?: string;
 }
 export const ListJobsResult = S.suspend(() =>
@@ -2606,7 +2878,7 @@ export const ListJobsResult = S.suspend(() =>
   identifier: "ListJobsResult",
 }) as any as S.Schema<ListJobsResult>;
 export interface ListNetworkProfilesResult {
-  networkProfiles?: NetworkProfiles;
+  networkProfiles?: NetworkProfile[];
   nextToken?: string;
 }
 export const ListNetworkProfilesResult = S.suspend(() =>
@@ -2618,7 +2890,7 @@ export const ListNetworkProfilesResult = S.suspend(() =>
   identifier: "ListNetworkProfilesResult",
 }) as any as S.Schema<ListNetworkProfilesResult>;
 export interface ListProjectsResult {
-  projects?: Projects;
+  projects?: Project[];
   nextToken?: string;
 }
 export const ListProjectsResult = S.suspend(() =>
@@ -2630,7 +2902,7 @@ export const ListProjectsResult = S.suspend(() =>
   identifier: "ListProjectsResult",
 }) as any as S.Schema<ListProjectsResult>;
 export interface ListRemoteAccessSessionsResult {
-  remoteAccessSessions?: RemoteAccessSessions;
+  remoteAccessSessions?: RemoteAccessSession[];
   nextToken?: string;
 }
 export const ListRemoteAccessSessionsResult = S.suspend(() =>
@@ -2642,7 +2914,7 @@ export const ListRemoteAccessSessionsResult = S.suspend(() =>
   identifier: "ListRemoteAccessSessionsResult",
 }) as any as S.Schema<ListRemoteAccessSessionsResult>;
 export interface ListRunsResult {
-  runs?: Runs;
+  runs?: Run[];
   nextToken?: string;
 }
 export const ListRunsResult = S.suspend(() =>
@@ -2653,7 +2925,7 @@ export const ListRunsResult = S.suspend(() =>
   identifier: "ListRunsResult",
 }) as any as S.Schema<ListRunsResult>;
 export interface ListSuitesResult {
-  suites?: Suites;
+  suites?: Suite[];
   nextToken?: string;
 }
 export const ListSuitesResult = S.suspend(() =>
@@ -2665,7 +2937,7 @@ export const ListSuitesResult = S.suspend(() =>
   identifier: "ListSuitesResult",
 }) as any as S.Schema<ListSuitesResult>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
@@ -2673,7 +2945,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListTestGridProjectsResult {
-  testGridProjects?: TestGridProjects;
+  testGridProjects?: TestGridProject[];
   nextToken?: string;
 }
 export const ListTestGridProjectsResult = S.suspend(() =>
@@ -2685,7 +2957,7 @@ export const ListTestGridProjectsResult = S.suspend(() =>
   identifier: "ListTestGridProjectsResult",
 }) as any as S.Schema<ListTestGridProjectsResult>;
 export interface ListTestGridSessionsResult {
-  testGridSessions?: TestGridSessions;
+  testGridSessions?: TestGridSession[];
   nextToken?: string;
 }
 export const ListTestGridSessionsResult = S.suspend(() =>
@@ -2697,7 +2969,7 @@ export const ListTestGridSessionsResult = S.suspend(() =>
   identifier: "ListTestGridSessionsResult",
 }) as any as S.Schema<ListTestGridSessionsResult>;
 export interface ListTestsResult {
-  tests?: Tests;
+  tests?: Test[];
   nextToken?: string;
 }
 export const ListTestsResult = S.suspend(() =>
@@ -2708,7 +2980,7 @@ export const ListTestsResult = S.suspend(() =>
   identifier: "ListTestsResult",
 }) as any as S.Schema<ListTestsResult>;
 export interface ListUploadsResult {
-  uploads?: Uploads;
+  uploads?: Upload[];
   nextToken?: string;
 }
 export const ListUploadsResult = S.suspend(() =>
@@ -2720,7 +2992,7 @@ export const ListUploadsResult = S.suspend(() =>
   identifier: "ListUploadsResult",
 }) as any as S.Schema<ListUploadsResult>;
 export interface ListVPCEConfigurationsResult {
-  vpceConfigurations?: VPCEConfigurations;
+  vpceConfigurations?: VPCEConfiguration[];
   nextToken?: string;
 }
 export const ListVPCEConfigurationsResult = S.suspend(() =>
@@ -2731,26 +3003,34 @@ export const ListVPCEConfigurationsResult = S.suspend(() =>
 ).annotations({
   identifier: "ListVPCEConfigurationsResult",
 }) as any as S.Schema<ListVPCEConfigurationsResult>;
+export type OfferingTransactionType = "PURCHASE" | "RENEW" | "SYSTEM";
+export const OfferingTransactionType = S.Literal("PURCHASE", "RENEW", "SYSTEM");
+export type OfferingType = "RECURRING";
+export const OfferingType = S.Literal("RECURRING");
+export type CurrencyCode = "USD";
+export const CurrencyCode = S.Literal("USD");
 export interface MonetaryAmount {
   amount?: number;
-  currencyCode?: string;
+  currencyCode?: CurrencyCode;
 }
 export const MonetaryAmount = S.suspend(() =>
   S.Struct({
     amount: S.optional(S.Number),
-    currencyCode: S.optional(S.String),
+    currencyCode: S.optional(CurrencyCode),
   }),
 ).annotations({
   identifier: "MonetaryAmount",
 }) as any as S.Schema<MonetaryAmount>;
+export type RecurringChargeFrequency = "MONTHLY";
+export const RecurringChargeFrequency = S.Literal("MONTHLY");
 export interface RecurringCharge {
   cost?: MonetaryAmount;
-  frequency?: string;
+  frequency?: RecurringChargeFrequency;
 }
 export const RecurringCharge = S.suspend(() =>
   S.Struct({
     cost: S.optional(MonetaryAmount),
-    frequency: S.optional(S.String),
+    frequency: S.optional(RecurringChargeFrequency),
   }),
 ).annotations({
   identifier: "RecurringCharge",
@@ -2760,28 +3040,28 @@ export const RecurringCharges = S.Array(RecurringCharge);
 export interface Offering {
   id?: string;
   description?: string;
-  type?: string;
-  platform?: string;
-  recurringCharges?: RecurringCharges;
+  type?: OfferingType;
+  platform?: DevicePlatform;
+  recurringCharges?: RecurringCharge[];
 }
 export const Offering = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     description: S.optional(S.String),
-    type: S.optional(S.String),
-    platform: S.optional(S.String),
+    type: S.optional(OfferingType),
+    platform: S.optional(DevicePlatform),
     recurringCharges: S.optional(RecurringCharges),
   }),
 ).annotations({ identifier: "Offering" }) as any as S.Schema<Offering>;
 export interface OfferingStatus {
-  type?: string;
+  type?: OfferingTransactionType;
   offering?: Offering;
   quantity?: number;
   effectiveOn?: Date;
 }
 export const OfferingStatus = S.suspend(() =>
   S.Struct({
-    type: S.optional(S.String),
+    type: S.optional(OfferingTransactionType),
     offering: S.optional(Offering),
     quantity: S.optional(S.Number),
     effectiveOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2826,15 +3106,15 @@ export const RenewOfferingResult = S.suspend(() =>
 export type TestParameters = { [key: string]: string };
 export const TestParameters = S.Record({ key: S.String, value: S.String });
 export interface ScheduleRunTest {
-  type: string;
+  type: TestType;
   testPackageArn?: string;
   testSpecArn?: string;
   filter?: string;
-  parameters?: TestParameters;
+  parameters?: { [key: string]: string };
 }
 export const ScheduleRunTest = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: TestType,
     testPackageArn: S.optional(S.String),
     testSpecArn: S.optional(S.String),
     filter: S.optional(S.String),
@@ -2848,13 +3128,13 @@ export interface ScheduleRunConfiguration {
   networkProfileArn?: string;
   locale?: string;
   location?: Location;
-  vpceConfigurationArns?: AmazonResourceNames;
+  vpceConfigurationArns?: string[];
   deviceProxy?: DeviceProxy;
   customerArtifactPaths?: CustomerArtifactPaths;
   radios?: Radios;
-  auxiliaryApps?: AmazonResourceNames;
-  billingMethod?: string;
-  environmentVariables?: EnvironmentVariables;
+  auxiliaryApps?: string[];
+  billingMethod?: BillingMethod;
+  environmentVariables?: EnvironmentVariable[];
   executionRoleArn?: string;
 }
 export const ScheduleRunConfiguration = S.suspend(() =>
@@ -2868,7 +3148,7 @@ export const ScheduleRunConfiguration = S.suspend(() =>
     customerArtifactPaths: S.optional(CustomerArtifactPaths),
     radios: S.optional(Radios),
     auxiliaryApps: S.optional(AmazonResourceNames),
-    billingMethod: S.optional(S.String),
+    billingMethod: S.optional(BillingMethod),
     environmentVariables: S.optional(EnvironmentVariables),
     executionRoleArn: S.optional(S.String),
   }),
@@ -2935,7 +3215,7 @@ export const StopRunResult = S.suspend(() =>
 }) as any as S.Schema<StopRunResult>;
 export interface TagResourceRequest {
   ResourceARN: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
@@ -3022,8 +3302,10 @@ export const UpdateVPCEConfigurationResult = S.suspend(() =>
 ).annotations({
   identifier: "UpdateVPCEConfigurationResult",
 }) as any as S.Schema<UpdateVPCEConfigurationResult>;
-export type PurchasedDevicesMap = { [key: string]: number };
-export const PurchasedDevicesMap = S.Record({ key: S.String, value: S.Number });
+export type PurchasedDevicesMap = { [key in DevicePlatform]?: number };
+export const PurchasedDevicesMap = S.partial(
+  S.Record({ key: DevicePlatform, value: S.Number }),
+);
 export interface TrialMinutes {
   total?: number;
   remaining?: number;
@@ -3033,16 +3315,118 @@ export const TrialMinutes = S.suspend(() =>
 ).annotations({ identifier: "TrialMinutes" }) as any as S.Schema<TrialMinutes>;
 export type MaxSlotMap = { [key: string]: number };
 export const MaxSlotMap = S.Record({ key: S.String, value: S.Number });
+export type ArtifactType =
+  | "UNKNOWN"
+  | "SCREENSHOT"
+  | "DEVICE_LOG"
+  | "MESSAGE_LOG"
+  | "VIDEO_LOG"
+  | "RESULT_LOG"
+  | "SERVICE_LOG"
+  | "WEBKIT_LOG"
+  | "INSTRUMENTATION_OUTPUT"
+  | "EXERCISER_MONKEY_OUTPUT"
+  | "CALABASH_JSON_OUTPUT"
+  | "CALABASH_PRETTY_OUTPUT"
+  | "CALABASH_STANDARD_OUTPUT"
+  | "CALABASH_JAVA_XML_OUTPUT"
+  | "AUTOMATION_OUTPUT"
+  | "APPIUM_SERVER_OUTPUT"
+  | "APPIUM_JAVA_OUTPUT"
+  | "APPIUM_JAVA_XML_OUTPUT"
+  | "APPIUM_PYTHON_OUTPUT"
+  | "APPIUM_PYTHON_XML_OUTPUT"
+  | "EXPLORER_EVENT_LOG"
+  | "EXPLORER_SUMMARY_LOG"
+  | "APPLICATION_CRASH_REPORT"
+  | "XCTEST_LOG"
+  | "VIDEO"
+  | "CUSTOMER_ARTIFACT"
+  | "CUSTOMER_ARTIFACT_LOG"
+  | "TESTSPEC_OUTPUT";
+export const ArtifactType = S.Literal(
+  "UNKNOWN",
+  "SCREENSHOT",
+  "DEVICE_LOG",
+  "MESSAGE_LOG",
+  "VIDEO_LOG",
+  "RESULT_LOG",
+  "SERVICE_LOG",
+  "WEBKIT_LOG",
+  "INSTRUMENTATION_OUTPUT",
+  "EXERCISER_MONKEY_OUTPUT",
+  "CALABASH_JSON_OUTPUT",
+  "CALABASH_PRETTY_OUTPUT",
+  "CALABASH_STANDARD_OUTPUT",
+  "CALABASH_JAVA_XML_OUTPUT",
+  "AUTOMATION_OUTPUT",
+  "APPIUM_SERVER_OUTPUT",
+  "APPIUM_JAVA_OUTPUT",
+  "APPIUM_JAVA_XML_OUTPUT",
+  "APPIUM_PYTHON_OUTPUT",
+  "APPIUM_PYTHON_XML_OUTPUT",
+  "EXPLORER_EVENT_LOG",
+  "EXPLORER_SUMMARY_LOG",
+  "APPLICATION_CRASH_REPORT",
+  "XCTEST_LOG",
+  "VIDEO",
+  "CUSTOMER_ARTIFACT",
+  "CUSTOMER_ARTIFACT_LOG",
+  "TESTSPEC_OUTPUT",
+);
+export type SampleType =
+  | "CPU"
+  | "MEMORY"
+  | "THREADS"
+  | "RX_RATE"
+  | "TX_RATE"
+  | "RX"
+  | "TX"
+  | "NATIVE_FRAMES"
+  | "NATIVE_FPS"
+  | "NATIVE_MIN_DRAWTIME"
+  | "NATIVE_AVG_DRAWTIME"
+  | "NATIVE_MAX_DRAWTIME"
+  | "OPENGL_FRAMES"
+  | "OPENGL_FPS"
+  | "OPENGL_MIN_DRAWTIME"
+  | "OPENGL_AVG_DRAWTIME"
+  | "OPENGL_MAX_DRAWTIME";
+export const SampleType = S.Literal(
+  "CPU",
+  "MEMORY",
+  "THREADS",
+  "RX_RATE",
+  "TX_RATE",
+  "RX",
+  "TX",
+  "NATIVE_FRAMES",
+  "NATIVE_FPS",
+  "NATIVE_MIN_DRAWTIME",
+  "NATIVE_AVG_DRAWTIME",
+  "NATIVE_MAX_DRAWTIME",
+  "OPENGL_FRAMES",
+  "OPENGL_FPS",
+  "OPENGL_MIN_DRAWTIME",
+  "OPENGL_AVG_DRAWTIME",
+  "OPENGL_MAX_DRAWTIME",
+);
+export type TestGridSessionArtifactType = "UNKNOWN" | "VIDEO" | "SELENIUM_LOG";
+export const TestGridSessionArtifactType = S.Literal(
+  "UNKNOWN",
+  "VIDEO",
+  "SELENIUM_LOG",
+);
 export interface CreateRemoteAccessSessionConfiguration {
-  auxiliaryApps?: AuxiliaryAppArnList;
-  billingMethod?: string;
-  vpceConfigurationArns?: AmazonResourceNames;
+  auxiliaryApps?: string[];
+  billingMethod?: BillingMethod;
+  vpceConfigurationArns?: string[];
   deviceProxy?: DeviceProxy;
 }
 export const CreateRemoteAccessSessionConfiguration = S.suspend(() =>
   S.Struct({
     auxiliaryApps: S.optional(AuxiliaryAppArnList),
-    billingMethod: S.optional(S.String),
+    billingMethod: S.optional(BillingMethod),
     vpceConfigurationArns: S.optional(AmazonResourceNames),
     deviceProxy: S.optional(DeviceProxy),
   }),
@@ -3051,11 +3435,11 @@ export const CreateRemoteAccessSessionConfiguration = S.suspend(() =>
 }) as any as S.Schema<CreateRemoteAccessSessionConfiguration>;
 export interface AccountSettings {
   awsAccountNumber?: string;
-  unmeteredDevices?: PurchasedDevicesMap;
-  unmeteredRemoteAccessDevices?: PurchasedDevicesMap;
+  unmeteredDevices?: { [key: string]: number };
+  unmeteredRemoteAccessDevices?: { [key: string]: number };
   maxJobTimeoutMinutes?: number;
   trialMinutes?: TrialMinutes;
-  maxSlots?: MaxSlotMap;
+  maxSlots?: { [key: string]: number };
   defaultJobTimeoutMinutes?: number;
   skipAppResign?: boolean;
 }
@@ -3076,7 +3460,7 @@ export const AccountSettings = S.suspend(() =>
 export interface Artifact {
   arn?: string;
   name?: string;
-  type?: string;
+  type?: ArtifactType;
   extension?: string;
   url?: string;
 }
@@ -3084,7 +3468,7 @@ export const Artifact = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     name: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(ArtifactType),
     extension: S.optional(S.String),
     url: S.optional(S.String),
   }),
@@ -3106,13 +3490,13 @@ export type OfferingPromotions = OfferingPromotion[];
 export const OfferingPromotions = S.Array(OfferingPromotion);
 export interface Sample {
   arn?: string;
-  type?: string;
+  type?: SampleType;
   url?: string;
 }
 export const Sample = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(SampleType),
     url: S.optional(S.String),
   }),
 ).annotations({ identifier: "Sample" }) as any as S.Schema<Sample>;
@@ -3140,13 +3524,13 @@ export type TestGridSessionActions = TestGridSessionAction[];
 export const TestGridSessionActions = S.Array(TestGridSessionAction);
 export interface TestGridSessionArtifact {
   filename?: string;
-  type?: string;
-  url?: string | Redacted.Redacted<string>;
+  type?: TestGridSessionArtifactType;
+  url?: string | redacted.Redacted<string>;
 }
 export const TestGridSessionArtifact = S.suspend(() =>
   S.Struct({
     filename: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(TestGridSessionArtifactType),
     url: S.optional(SensitiveString),
   }),
 ).annotations({
@@ -3193,7 +3577,7 @@ export interface CreateRemoteAccessSessionRequest {
   instanceArn?: string;
   name?: string;
   configuration?: CreateRemoteAccessSessionConfiguration;
-  interactionMode?: string;
+  interactionMode?: InteractionMode;
   skipAppResign?: boolean;
 }
 export const CreateRemoteAccessSessionRequest = S.suspend(() =>
@@ -3204,7 +3588,7 @@ export const CreateRemoteAccessSessionRequest = S.suspend(() =>
     instanceArn: S.optional(S.String),
     name: S.optional(S.String),
     configuration: S.optional(CreateRemoteAccessSessionConfiguration),
-    interactionMode: S.optional(S.String),
+    interactionMode: S.optional(InteractionMode),
     skipAppResign: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -3271,7 +3655,7 @@ export const GetDevicePoolResult = S.suspend(() =>
 export interface GetDevicePoolCompatibilityRequest {
   devicePoolArn: string;
   appArn?: string;
-  testType?: string;
+  testType?: TestType;
   test?: ScheduleRunTest;
   configuration?: ScheduleRunConfiguration;
   projectArn?: string;
@@ -3280,7 +3664,7 @@ export const GetDevicePoolCompatibilityRequest = S.suspend(() =>
   S.Struct({
     devicePoolArn: S.String,
     appArn: S.optional(S.String),
-    testType: S.optional(S.String),
+    testType: S.optional(TestType),
     test: S.optional(ScheduleRunTest),
     configuration: S.optional(ScheduleRunConfiguration),
     projectArn: S.optional(S.String),
@@ -3339,7 +3723,7 @@ export const GetTestGridSessionResult = S.suspend(() =>
   identifier: "GetTestGridSessionResult",
 }) as any as S.Schema<GetTestGridSessionResult>;
 export interface ListArtifactsResult {
-  artifacts?: Artifacts;
+  artifacts?: Artifact[];
   nextToken?: string;
 }
 export const ListArtifactsResult = S.suspend(() =>
@@ -3351,7 +3735,7 @@ export const ListArtifactsResult = S.suspend(() =>
   identifier: "ListArtifactsResult",
 }) as any as S.Schema<ListArtifactsResult>;
 export interface ListDevicesResult {
-  devices?: Devices;
+  devices?: Device[];
   nextToken?: string;
 }
 export const ListDevicesResult = S.suspend(() =>
@@ -3363,7 +3747,7 @@ export const ListDevicesResult = S.suspend(() =>
   identifier: "ListDevicesResult",
 }) as any as S.Schema<ListDevicesResult>;
 export interface ListOfferingPromotionsResult {
-  offeringPromotions?: OfferingPromotions;
+  offeringPromotions?: OfferingPromotion[];
   nextToken?: string;
 }
 export const ListOfferingPromotionsResult = S.suspend(() =>
@@ -3375,7 +3759,7 @@ export const ListOfferingPromotionsResult = S.suspend(() =>
   identifier: "ListOfferingPromotionsResult",
 }) as any as S.Schema<ListOfferingPromotionsResult>;
 export interface ListSamplesResult {
-  samples?: Samples;
+  samples?: Sample[];
   nextToken?: string;
 }
 export const ListSamplesResult = S.suspend(() =>
@@ -3387,7 +3771,7 @@ export const ListSamplesResult = S.suspend(() =>
   identifier: "ListSamplesResult",
 }) as any as S.Schema<ListSamplesResult>;
 export interface ListTestGridSessionActionsResult {
-  actions?: TestGridSessionActions;
+  actions?: TestGridSessionAction[];
   nextToken?: string;
 }
 export const ListTestGridSessionActionsResult = S.suspend(() =>
@@ -3399,7 +3783,7 @@ export const ListTestGridSessionActionsResult = S.suspend(() =>
   identifier: "ListTestGridSessionActionsResult",
 }) as any as S.Schema<ListTestGridSessionActionsResult>;
 export interface ListTestGridSessionArtifactsResult {
-  artifacts?: TestGridSessionArtifacts;
+  artifacts?: TestGridSessionArtifact[];
   nextToken?: string;
 }
 export const ListTestGridSessionArtifactsResult = S.suspend(() =>
@@ -3450,8 +3834,8 @@ export const GetJobResult = S.suspend(() =>
   S.Struct({ job: S.optional(Job) }).pipe(ns),
 ).annotations({ identifier: "GetJobResult" }) as any as S.Schema<GetJobResult>;
 export interface GetOfferingStatusResult {
-  current?: OfferingStatusMap;
-  nextPeriod?: OfferingStatusMap;
+  current?: { [key: string]: OfferingStatus };
+  nextPeriod?: { [key: string]: OfferingStatus };
   nextToken?: string;
 }
 export const GetOfferingStatusResult = S.suspend(() =>
@@ -3478,7 +3862,7 @@ export const GetRunResult = S.suspend(() =>
   S.Struct({ run: S.optional(Run) }).pipe(ns),
 ).annotations({ identifier: "GetRunResult" }) as any as S.Schema<GetRunResult>;
 export interface ListOfferingsResult {
-  offerings?: Offerings;
+  offerings?: Offering[];
   nextToken?: string;
 }
 export const ListOfferingsResult = S.suspend(() =>
@@ -3490,7 +3874,7 @@ export const ListOfferingsResult = S.suspend(() =>
   identifier: "ListOfferingsResult",
 }) as any as S.Schema<ListOfferingsResult>;
 export interface ListOfferingTransactionsResult {
-  offeringTransactions?: OfferingTransactions;
+  offeringTransactions?: OfferingTransaction[];
   nextToken?: string;
 }
 export const ListOfferingTransactionsResult = S.suspend(() =>
@@ -3516,7 +3900,7 @@ export interface Problem {
   suite?: ProblemDetail;
   test?: ProblemDetail;
   device?: Device;
-  result?: string;
+  result?: ExecutionResult;
   message?: string;
 }
 export const Problem = S.suspend(() =>
@@ -3526,7 +3910,7 @@ export const Problem = S.suspend(() =>
     suite: S.optional(ProblemDetail),
     test: S.optional(ProblemDetail),
     device: S.optional(Device),
-    result: S.optional(S.String),
+    result: S.optional(ExecutionResult),
     message: S.optional(S.String),
   }),
 ).annotations({ identifier: "Problem" }) as any as S.Schema<Problem>;
@@ -3534,10 +3918,13 @@ export type Problems = Problem[];
 export const Problems = S.Array(Problem);
 export interface IncompatibilityMessage {
   message?: string;
-  type?: string;
+  type?: DeviceAttribute;
 }
 export const IncompatibilityMessage = S.suspend(() =>
-  S.Struct({ message: S.optional(S.String), type: S.optional(S.String) }),
+  S.Struct({
+    message: S.optional(S.String),
+    type: S.optional(DeviceAttribute),
+  }),
 ).annotations({
   identifier: "IncompatibilityMessage",
 }) as any as S.Schema<IncompatibilityMessage>;
@@ -3545,7 +3932,7 @@ export type IncompatibilityMessages = IncompatibilityMessage[];
 export const IncompatibilityMessages = S.Array(IncompatibilityMessage);
 export interface UniqueProblem {
   message?: string;
-  problems?: Problems;
+  problems?: Problem[];
 }
 export const UniqueProblem = S.suspend(() =>
   S.Struct({ message: S.optional(S.String), problems: S.optional(Problems) }),
@@ -3557,7 +3944,7 @@ export const UniqueProblems = S.Array(UniqueProblem);
 export interface DevicePoolCompatibilityResult {
   device?: Device;
   compatible?: boolean;
-  incompatibilityMessages?: IncompatibilityMessages;
+  incompatibilityMessages?: IncompatibilityMessage[];
 }
 export const DevicePoolCompatibilityResult = S.suspend(() =>
   S.Struct({
@@ -3573,15 +3960,14 @@ export const DevicePoolCompatibilityResults = S.Array(
   DevicePoolCompatibilityResult,
 );
 export type UniqueProblemsByExecutionResultMap = {
-  [key: string]: UniqueProblems;
+  [key in ExecutionResult]?: UniqueProblem[];
 };
-export const UniqueProblemsByExecutionResultMap = S.Record({
-  key: S.String,
-  value: UniqueProblems,
-});
+export const UniqueProblemsByExecutionResultMap = S.partial(
+  S.Record({ key: ExecutionResult, value: UniqueProblems }),
+);
 export interface GetDevicePoolCompatibilityResult {
-  compatibleDevices?: DevicePoolCompatibilityResults;
-  incompatibleDevices?: DevicePoolCompatibilityResults;
+  compatibleDevices?: DevicePoolCompatibilityResult[];
+  incompatibleDevices?: DevicePoolCompatibilityResult[];
 }
 export const GetDevicePoolCompatibilityResult = S.suspend(() =>
   S.Struct({
@@ -3592,7 +3978,7 @@ export const GetDevicePoolCompatibilityResult = S.suspend(() =>
   identifier: "GetDevicePoolCompatibilityResult",
 }) as any as S.Schema<GetDevicePoolCompatibilityResult>;
 export interface ListUniqueProblemsResult {
-  uniqueProblems?: UniqueProblemsByExecutionResultMap;
+  uniqueProblems?: { [key: string]: UniqueProblem[] };
   nextToken?: string;
 }
 export const ListUniqueProblemsResult = S.suspend(() =>
@@ -3661,21 +4047,21 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
 export const listTestGridProjects: {
   (
     input: ListTestGridProjectsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTestGridProjectsResult,
     ArgumentException | InternalServiceException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListTestGridProjectsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTestGridProjectsResult,
     ArgumentException | InternalServiceException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTestGridProjectsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     ArgumentException | InternalServiceException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3696,7 +4082,7 @@ export const listTestGridProjects: {
 export const listTestGridSessionActions: {
   (
     input: ListTestGridSessionActionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTestGridSessionActionsResult,
     | ArgumentException
     | InternalServiceException
@@ -3706,7 +4092,7 @@ export const listTestGridSessionActions: {
   >;
   pages: (
     input: ListTestGridSessionActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTestGridSessionActionsResult,
     | ArgumentException
     | InternalServiceException
@@ -3716,7 +4102,7 @@ export const listTestGridSessionActions: {
   >;
   items: (
     input: ListTestGridSessionActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | ArgumentException
     | InternalServiceException
@@ -3740,7 +4126,7 @@ export const listTestGridSessionActions: {
 export const listTestGridSessionArtifacts: {
   (
     input: ListTestGridSessionArtifactsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTestGridSessionArtifactsResult,
     | ArgumentException
     | InternalServiceException
@@ -3750,7 +4136,7 @@ export const listTestGridSessionArtifacts: {
   >;
   pages: (
     input: ListTestGridSessionArtifactsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTestGridSessionArtifactsResult,
     | ArgumentException
     | InternalServiceException
@@ -3760,7 +4146,7 @@ export const listTestGridSessionArtifacts: {
   >;
   items: (
     input: ListTestGridSessionArtifactsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | ArgumentException
     | InternalServiceException
@@ -3784,7 +4170,7 @@ export const listTestGridSessionArtifacts: {
  */
 export const listVPCEConfigurations: (
   input: ListVPCEConfigurationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListVPCEConfigurationsResult,
   ArgumentException | ServiceAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3798,7 +4184,7 @@ export const listVPCEConfigurations: (
  */
 export const updateVPCEConfiguration: (
   input: UpdateVPCEConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateVPCEConfigurationResult,
   | ArgumentException
   | InvalidOperationException
@@ -3823,7 +4209,7 @@ export const updateVPCEConfiguration: (
  */
 export const deleteTestGridProject: (
   input: DeleteTestGridProjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTestGridProjectResult,
   | ArgumentException
   | CannotDeleteException
@@ -3846,7 +4232,7 @@ export const deleteTestGridProject: (
  */
 export const getInstanceProfile: (
   input: GetInstanceProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInstanceProfileResult,
   | ArgumentException
   | LimitExceededException
@@ -3869,7 +4255,7 @@ export const getInstanceProfile: (
  */
 export const getNetworkProfile: (
   input: GetNetworkProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetNetworkProfileResult,
   | ArgumentException
   | LimitExceededException
@@ -3892,7 +4278,7 @@ export const getNetworkProfile: (
  */
 export const getUpload: (
   input: GetUploadRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUploadResult,
   | ArgumentException
   | LimitExceededException
@@ -3917,7 +4303,7 @@ export const getUpload: (
  */
 export const installToRemoteAccessSession: (
   input: InstallToRemoteAccessSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   InstallToRemoteAccessSessionResult,
   | ArgumentException
   | LimitExceededException
@@ -3941,7 +4327,7 @@ export const installToRemoteAccessSession: (
  */
 export const listDeviceInstances: (
   input: ListDeviceInstancesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDeviceInstancesResult,
   | ArgumentException
   | LimitExceededException
@@ -3965,7 +4351,7 @@ export const listDeviceInstances: (
 export const listDevicePools: {
   (
     input: ListDevicePoolsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDevicePoolsResult,
     | ArgumentException
     | LimitExceededException
@@ -3976,7 +4362,7 @@ export const listDevicePools: {
   >;
   pages: (
     input: ListDevicePoolsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDevicePoolsResult,
     | ArgumentException
     | LimitExceededException
@@ -3987,7 +4373,7 @@ export const listDevicePools: {
   >;
   items: (
     input: ListDevicePoolsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DevicePool,
     | ArgumentException
     | LimitExceededException
@@ -4016,7 +4402,7 @@ export const listDevicePools: {
  */
 export const listInstanceProfiles: (
   input: ListInstanceProfilesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListInstanceProfilesResult,
   | ArgumentException
   | LimitExceededException
@@ -4040,7 +4426,7 @@ export const listInstanceProfiles: (
 export const listJobs: {
   (
     input: ListJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListJobsResult,
     | ArgumentException
     | LimitExceededException
@@ -4051,7 +4437,7 @@ export const listJobs: {
   >;
   pages: (
     input: ListJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListJobsResult,
     | ArgumentException
     | LimitExceededException
@@ -4062,7 +4448,7 @@ export const listJobs: {
   >;
   items: (
     input: ListJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Job,
     | ArgumentException
     | LimitExceededException
@@ -4091,7 +4477,7 @@ export const listJobs: {
  */
 export const listNetworkProfiles: (
   input: ListNetworkProfilesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListNetworkProfilesResult,
   | ArgumentException
   | LimitExceededException
@@ -4115,7 +4501,7 @@ export const listNetworkProfiles: (
 export const listProjects: {
   (
     input: ListProjectsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProjectsResult,
     | ArgumentException
     | LimitExceededException
@@ -4126,7 +4512,7 @@ export const listProjects: {
   >;
   pages: (
     input: ListProjectsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProjectsResult,
     | ArgumentException
     | LimitExceededException
@@ -4137,7 +4523,7 @@ export const listProjects: {
   >;
   items: (
     input: ListProjectsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Project,
     | ArgumentException
     | LimitExceededException
@@ -4166,7 +4552,7 @@ export const listProjects: {
  */
 export const listRemoteAccessSessions: (
   input: ListRemoteAccessSessionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListRemoteAccessSessionsResult,
   | ArgumentException
   | LimitExceededException
@@ -4190,7 +4576,7 @@ export const listRemoteAccessSessions: (
 export const listRuns: {
   (
     input: ListRunsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRunsResult,
     | ArgumentException
     | LimitExceededException
@@ -4201,7 +4587,7 @@ export const listRuns: {
   >;
   pages: (
     input: ListRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRunsResult,
     | ArgumentException
     | LimitExceededException
@@ -4212,7 +4598,7 @@ export const listRuns: {
   >;
   items: (
     input: ListRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Run,
     | ArgumentException
     | LimitExceededException
@@ -4242,7 +4628,7 @@ export const listRuns: {
 export const listSuites: {
   (
     input: ListSuitesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSuitesResult,
     | ArgumentException
     | LimitExceededException
@@ -4253,7 +4639,7 @@ export const listSuites: {
   >;
   pages: (
     input: ListSuitesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSuitesResult,
     | ArgumentException
     | LimitExceededException
@@ -4264,7 +4650,7 @@ export const listSuites: {
   >;
   items: (
     input: ListSuitesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Suite,
     | ArgumentException
     | LimitExceededException
@@ -4294,7 +4680,7 @@ export const listSuites: {
 export const listTests: {
   (
     input: ListTestsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTestsResult,
     | ArgumentException
     | LimitExceededException
@@ -4305,7 +4691,7 @@ export const listTests: {
   >;
   pages: (
     input: ListTestsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTestsResult,
     | ArgumentException
     | LimitExceededException
@@ -4316,7 +4702,7 @@ export const listTests: {
   >;
   items: (
     input: ListTestsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Test,
     | ArgumentException
     | LimitExceededException
@@ -4346,7 +4732,7 @@ export const listTests: {
 export const listUploads: {
   (
     input: ListUploadsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUploadsResult,
     | ArgumentException
     | LimitExceededException
@@ -4357,7 +4743,7 @@ export const listUploads: {
   >;
   pages: (
     input: ListUploadsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUploadsResult,
     | ArgumentException
     | LimitExceededException
@@ -4368,7 +4754,7 @@ export const listUploads: {
   >;
   items: (
     input: ListUploadsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Upload,
     | ArgumentException
     | LimitExceededException
@@ -4400,7 +4786,7 @@ export const listUploads: {
  */
 export const stopJob: (
   input: StopJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopJobResult,
   | ArgumentException
   | LimitExceededException
@@ -4423,7 +4809,7 @@ export const stopJob: (
  */
 export const stopRemoteAccessSession: (
   input: StopRemoteAccessSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopRemoteAccessSessionResult,
   | ArgumentException
   | LimitExceededException
@@ -4449,7 +4835,7 @@ export const stopRemoteAccessSession: (
  */
 export const stopRun: (
   input: StopRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopRunResult,
   | ArgumentException
   | LimitExceededException
@@ -4472,7 +4858,7 @@ export const stopRun: (
  */
 export const updateDeviceInstance: (
   input: UpdateDeviceInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDeviceInstanceResult,
   | ArgumentException
   | LimitExceededException
@@ -4497,7 +4883,7 @@ export const updateDeviceInstance: (
  */
 export const updateDevicePool: (
   input: UpdateDevicePoolRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDevicePoolResult,
   | ArgumentException
   | LimitExceededException
@@ -4520,7 +4906,7 @@ export const updateDevicePool: (
  */
 export const updateInstanceProfile: (
   input: UpdateInstanceProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateInstanceProfileResult,
   | ArgumentException
   | LimitExceededException
@@ -4543,7 +4929,7 @@ export const updateInstanceProfile: (
  */
 export const updateNetworkProfile: (
   input: UpdateNetworkProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateNetworkProfileResult,
   | ArgumentException
   | LimitExceededException
@@ -4567,7 +4953,7 @@ export const updateNetworkProfile: (
  */
 export const updateProject: (
   input: UpdateProjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProjectResult,
   | ArgumentException
   | LimitExceededException
@@ -4590,7 +4976,7 @@ export const updateProject: (
  */
 export const updateUpload: (
   input: UpdateUploadRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUploadResult,
   | ArgumentException
   | LimitExceededException
@@ -4613,7 +4999,7 @@ export const updateUpload: (
  */
 export const deleteInstanceProfile: (
   input: DeleteInstanceProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteInstanceProfileResult,
   | ArgumentException
   | LimitExceededException
@@ -4636,7 +5022,7 @@ export const deleteInstanceProfile: (
  */
 export const deleteNetworkProfile: (
   input: DeleteNetworkProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteNetworkProfileResult,
   | ArgumentException
   | LimitExceededException
@@ -4661,7 +5047,7 @@ export const deleteNetworkProfile: (
  */
 export const deleteProject: (
   input: DeleteProjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProjectResult,
   | ArgumentException
   | LimitExceededException
@@ -4686,7 +5072,7 @@ export const deleteProject: (
  */
 export const deleteRemoteAccessSession: (
   input: DeleteRemoteAccessSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRemoteAccessSessionResult,
   | ArgumentException
   | LimitExceededException
@@ -4711,7 +5097,7 @@ export const deleteRemoteAccessSession: (
  */
 export const deleteRun: (
   input: DeleteRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRunResult,
   | ArgumentException
   | LimitExceededException
@@ -4734,7 +5120,7 @@ export const deleteRun: (
  */
 export const deleteUpload: (
   input: DeleteUploadRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUploadResult,
   | ArgumentException
   | LimitExceededException
@@ -4757,7 +5143,7 @@ export const deleteUpload: (
  */
 export const createDevicePool: (
   input: CreateDevicePoolRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDevicePoolResult,
   | ArgumentException
   | LimitExceededException
@@ -4781,7 +5167,7 @@ export const createDevicePool: (
  */
 export const createInstanceProfile: (
   input: CreateInstanceProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateInstanceProfileResult,
   | ArgumentException
   | LimitExceededException
@@ -4804,7 +5190,7 @@ export const createInstanceProfile: (
  */
 export const createNetworkProfile: (
   input: CreateNetworkProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateNetworkProfileResult,
   | ArgumentException
   | LimitExceededException
@@ -4827,7 +5213,7 @@ export const createNetworkProfile: (
  */
 export const createUpload: (
   input: CreateUploadRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUploadResult,
   | ArgumentException
   | LimitExceededException
@@ -4851,7 +5237,7 @@ export const createUpload: (
  */
 export const createVPCEConfiguration: (
   input: CreateVPCEConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVPCEConfigurationResult,
   | ArgumentException
   | LimitExceededException
@@ -4869,7 +5255,7 @@ export const createVPCEConfiguration: (
  */
 export const deleteDevicePool: (
   input: DeleteDevicePoolRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDevicePoolResult,
   | ArgumentException
   | LimitExceededException
@@ -4893,7 +5279,7 @@ export const deleteDevicePool: (
  */
 export const getAccountSettings: (
   input: GetAccountSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccountSettingsResult,
   | ArgumentException
   | LimitExceededException
@@ -4916,7 +5302,7 @@ export const getAccountSettings: (
  */
 export const getDeviceInstance: (
   input: GetDeviceInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDeviceInstanceResult,
   | ArgumentException
   | LimitExceededException
@@ -4939,7 +5325,7 @@ export const getDeviceInstance: (
  */
 export const getDevicePool: (
   input: GetDevicePoolRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDevicePoolResult,
   | ArgumentException
   | LimitExceededException
@@ -4962,7 +5348,7 @@ export const getDevicePool: (
  */
 export const getProject: (
   input: GetProjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetProjectResult,
   | ArgumentException
   | LimitExceededException
@@ -4985,7 +5371,7 @@ export const getProject: (
  */
 export const getSuite: (
   input: GetSuiteRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSuiteResult,
   | ArgumentException
   | LimitExceededException
@@ -5008,7 +5394,7 @@ export const getSuite: (
  */
 export const getTest: (
   input: GetTestRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTestResult,
   | ArgumentException
   | LimitExceededException
@@ -5032,7 +5418,7 @@ export const getTest: (
 export const listTestGridSessions: {
   (
     input: ListTestGridSessionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTestGridSessionsResult,
     | ArgumentException
     | InternalServiceException
@@ -5042,7 +5428,7 @@ export const listTestGridSessions: {
   >;
   pages: (
     input: ListTestGridSessionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTestGridSessionsResult,
     | ArgumentException
     | InternalServiceException
@@ -5052,7 +5438,7 @@ export const listTestGridSessions: {
   >;
   items: (
     input: ListTestGridSessionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | ArgumentException
     | InternalServiceException
@@ -5075,7 +5461,7 @@ export const listTestGridSessions: {
  */
 export const updateTestGridProject: (
   input: UpdateTestGridProjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTestGridProjectResult,
   | ArgumentException
   | InternalServiceException
@@ -5099,7 +5485,7 @@ export const updateTestGridProject: (
  */
 export const createTestGridUrl: (
   input: CreateTestGridUrlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTestGridUrlResult,
   | ArgumentException
   | InternalServiceException
@@ -5117,7 +5503,7 @@ export const createTestGridUrl: (
  */
 export const createTestGridProject: (
   input: CreateTestGridProjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTestGridProjectResult,
   | ArgumentException
   | InternalServiceException
@@ -5134,7 +5520,7 @@ export const createTestGridProject: (
  */
 export const getTestGridProject: (
   input: GetTestGridProjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTestGridProjectResult,
   | ArgumentException
   | InternalServiceException
@@ -5155,7 +5541,7 @@ export const getTestGridProject: (
  */
 export const getTestGridSession: (
   input: GetTestGridSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTestGridSessionResult,
   | ArgumentException
   | InternalServiceException
@@ -5173,7 +5559,7 @@ export const getTestGridSession: (
  */
 export const getVPCEConfiguration: (
   input: GetVPCEConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetVPCEConfigurationResult,
   | ArgumentException
   | NotFoundException
@@ -5191,7 +5577,7 @@ export const getVPCEConfiguration: (
 export const listArtifacts: {
   (
     input: ListArtifactsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListArtifactsResult,
     | ArgumentException
     | LimitExceededException
@@ -5202,7 +5588,7 @@ export const listArtifacts: {
   >;
   pages: (
     input: ListArtifactsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListArtifactsResult,
     | ArgumentException
     | LimitExceededException
@@ -5213,7 +5599,7 @@ export const listArtifacts: {
   >;
   items: (
     input: ListArtifactsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Artifact,
     | ArgumentException
     | LimitExceededException
@@ -5243,7 +5629,7 @@ export const listArtifacts: {
 export const listDevices: {
   (
     input: ListDevicesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDevicesResult,
     | ArgumentException
     | LimitExceededException
@@ -5254,7 +5640,7 @@ export const listDevices: {
   >;
   pages: (
     input: ListDevicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDevicesResult,
     | ArgumentException
     | LimitExceededException
@@ -5265,7 +5651,7 @@ export const listDevices: {
   >;
   items: (
     input: ListDevicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Device,
     | ArgumentException
     | LimitExceededException
@@ -5295,7 +5681,7 @@ export const listDevices: {
 export const listSamples: {
   (
     input: ListSamplesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSamplesResult,
     | ArgumentException
     | LimitExceededException
@@ -5306,7 +5692,7 @@ export const listSamples: {
   >;
   pages: (
     input: ListSamplesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSamplesResult,
     | ArgumentException
     | LimitExceededException
@@ -5317,7 +5703,7 @@ export const listSamples: {
   >;
   items: (
     input: ListSamplesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Sample,
     | ArgumentException
     | LimitExceededException
@@ -5346,7 +5732,7 @@ export const listSamples: {
  */
 export const deleteVPCEConfiguration: (
   input: DeleteVPCEConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVPCEConfigurationResult,
   | ArgumentException
   | InvalidOperationException
@@ -5369,7 +5755,7 @@ export const deleteVPCEConfiguration: (
  */
 export const createRemoteAccessSession: (
   input: CreateRemoteAccessSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRemoteAccessSessionResult,
   | ArgumentException
   | LimitExceededException
@@ -5392,7 +5778,7 @@ export const createRemoteAccessSession: (
  */
 export const getDevice: (
   input: GetDeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDeviceResult,
   | ArgumentException
   | LimitExceededException
@@ -5415,7 +5801,7 @@ export const getDevice: (
  */
 export const getJob: (
   input: GetJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetJobResult,
   | ArgumentException
   | LimitExceededException
@@ -5438,7 +5824,7 @@ export const getJob: (
  */
 export const getRemoteAccessSession: (
   input: GetRemoteAccessSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRemoteAccessSessionResult,
   | ArgumentException
   | LimitExceededException
@@ -5461,7 +5847,7 @@ export const getRemoteAccessSession: (
  */
 export const getRun: (
   input: GetRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRunResult,
   | ArgumentException
   | LimitExceededException
@@ -5486,7 +5872,7 @@ export const getRun: (
  */
 export const listOfferingPromotions: (
   input: ListOfferingPromotionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListOfferingPromotionsResult,
   | ArgumentException
   | LimitExceededException
@@ -5515,7 +5901,7 @@ export const listOfferingPromotions: (
 export const listOfferings: {
   (
     input: ListOfferingsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOfferingsResult,
     | ArgumentException
     | LimitExceededException
@@ -5527,7 +5913,7 @@ export const listOfferings: {
   >;
   pages: (
     input: ListOfferingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOfferingsResult,
     | ArgumentException
     | LimitExceededException
@@ -5539,7 +5925,7 @@ export const listOfferings: {
   >;
   items: (
     input: ListOfferingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Offering,
     | ArgumentException
     | LimitExceededException
@@ -5574,7 +5960,7 @@ export const listOfferings: {
 export const listOfferingTransactions: {
   (
     input: ListOfferingTransactionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOfferingTransactionsResult,
     | ArgumentException
     | LimitExceededException
@@ -5586,7 +5972,7 @@ export const listOfferingTransactions: {
   >;
   pages: (
     input: ListOfferingTransactionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOfferingTransactionsResult,
     | ArgumentException
     | LimitExceededException
@@ -5598,7 +5984,7 @@ export const listOfferingTransactions: {
   >;
   items: (
     input: ListOfferingTransactionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OfferingTransaction,
     | ArgumentException
     | LimitExceededException
@@ -5629,7 +6015,7 @@ export const listOfferingTransactions: {
  */
 export const scheduleRun: (
   input: ScheduleRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ScheduleRunResult,
   | ArgumentException
   | IdempotencyException
@@ -5654,7 +6040,7 @@ export const scheduleRun: (
  */
 export const createProject: (
   input: CreateProjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProjectResult,
   | ArgumentException
   | LimitExceededException
@@ -5682,7 +6068,7 @@ export const createProject: (
  */
 export const purchaseOffering: (
   input: PurchaseOfferingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PurchaseOfferingResult,
   | ArgumentException
   | LimitExceededException
@@ -5709,7 +6095,7 @@ export const purchaseOffering: (
  */
 export const renewOffering: (
   input: RenewOfferingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RenewOfferingResult,
   | ArgumentException
   | LimitExceededException
@@ -5738,7 +6124,7 @@ export const renewOffering: (
 export const getOfferingStatus: {
   (
     input: GetOfferingStatusRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetOfferingStatusResult,
     | ArgumentException
     | LimitExceededException
@@ -5750,7 +6136,7 @@ export const getOfferingStatus: {
   >;
   pages: (
     input: GetOfferingStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetOfferingStatusResult,
     | ArgumentException
     | LimitExceededException
@@ -5762,7 +6148,7 @@ export const getOfferingStatus: {
   >;
   items: (
     input: GetOfferingStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | ArgumentException
     | LimitExceededException
@@ -5789,7 +6175,7 @@ export const getOfferingStatus: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   ArgumentException | NotFoundException | TagOperationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5803,7 +6189,7 @@ export const listTagsForResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   ArgumentException | NotFoundException | TagOperationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5817,7 +6203,7 @@ export const untagResource: (
  */
 export const getDevicePoolCompatibility: (
   input: GetDevicePoolCompatibilityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDevicePoolCompatibilityResult,
   | ArgumentException
   | LimitExceededException
@@ -5846,7 +6232,7 @@ export const getDevicePoolCompatibility: (
 export const listUniqueProblems: {
   (
     input: ListUniqueProblemsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUniqueProblemsResult,
     | ArgumentException
     | LimitExceededException
@@ -5857,7 +6243,7 @@ export const listUniqueProblems: {
   >;
   pages: (
     input: ListUniqueProblemsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUniqueProblemsResult,
     | ArgumentException
     | LimitExceededException
@@ -5868,7 +6254,7 @@ export const listUniqueProblems: {
   >;
   items: (
     input: ListUniqueProblemsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | ArgumentException
     | LimitExceededException
@@ -5899,7 +6285,7 @@ export const listUniqueProblems: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | ArgumentException
   | NotFoundException

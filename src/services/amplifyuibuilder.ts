@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -93,7 +93,7 @@ export type AppId = string;
 export type Uuid = string;
 export type ListCodegenJobsLimit = number;
 export type ListEntityLimit = number;
-export type SensitiveString = string | Redacted.Redacted<string>;
+export type SensitiveString = string | redacted.Redacted<string>;
 export type TagValue = string;
 export type ComponentName = string;
 export type ComponentType = string;
@@ -149,7 +149,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -558,10 +558,12 @@ export const ExportThemesRequest = S.suspend(() =>
 ).annotations({
   identifier: "ExportThemesRequest",
 }) as any as S.Schema<ExportThemesRequest>;
+export type FormActionType = "create" | "update";
+export const FormActionType = S.Literal("create", "update");
 export interface ExchangeCodeForTokenRequestBody {
-  code: string | Redacted.Redacted<string>;
+  code: string | redacted.Redacted<string>;
   redirectUri: string;
-  clientId?: string | Redacted.Redacted<string>;
+  clientId?: string | redacted.Redacted<string>;
 }
 export const ExchangeCodeForTokenRequestBody = S.suspend(() =>
   S.Struct({
@@ -581,8 +583,8 @@ export const PutMetadataFlagBody = S.suspend(() =>
   identifier: "PutMetadataFlagBody",
 }) as any as S.Schema<PutMetadataFlagBody>;
 export interface RefreshTokenRequestBody {
-  token: string | Redacted.Redacted<string>;
-  clientId?: string | Redacted.Redacted<string>;
+  token: string | redacted.Redacted<string>;
+  clientId?: string | redacted.Redacted<string>;
 }
 export const RefreshTokenRequestBody = S.suspend(() =>
   S.Struct({ token: SensitiveString, clientId: S.optional(SensitiveString) }),
@@ -620,10 +622,10 @@ export interface ComponentProperty {
   collectionBindingProperties?: ComponentPropertyBindingProperties;
   defaultValue?: string;
   model?: string;
-  bindings?: FormBindings;
+  bindings?: { [key: string]: FormBindingElement };
   event?: string;
   userAttribute?: string;
-  concat?: ComponentPropertyList;
+  concat?: ComponentProperty[];
   condition?: ComponentConditionProperty;
   configured?: boolean;
   type?: string;
@@ -684,14 +686,14 @@ export const ComponentOverridesValue = S.Record({
   key: S.String,
   value: S.String,
 });
-export type ComponentOverrides = { [key: string]: ComponentOverridesValue };
+export type ComponentOverrides = { [key: string]: { [key: string]: string } };
 export const ComponentOverrides = S.Record({
   key: S.String,
   value: ComponentOverridesValue,
 });
 export interface ComponentVariant {
-  variantValues?: ComponentVariantValues;
-  overrides?: ComponentOverrides;
+  variantValues?: { [key: string]: string };
+  overrides?: { [key: string]: { [key: string]: string } };
 }
 export const ComponentVariant = S.suspend(() =>
   S.Struct({
@@ -712,7 +714,7 @@ export const PredicateList = S.Array(
 export interface ComponentBindingPropertiesValueProperties {
   model?: string;
   field?: string;
-  predicates?: PredicateList;
+  predicates?: Predicate[];
   userAttribute?: string;
   bucket?: string;
   key?: string;
@@ -754,18 +756,20 @@ export const ComponentBindingProperties = S.Record({
   key: S.String,
   value: ComponentBindingPropertiesValue,
 });
+export type SortDirection = "ASC" | "DESC";
+export const SortDirection = S.Literal("ASC", "DESC");
 export interface SortProperty {
   field: string;
-  direction: string;
+  direction: SortDirection;
 }
 export const SortProperty = S.suspend(() =>
-  S.Struct({ field: S.String, direction: S.String }),
+  S.Struct({ field: S.String, direction: SortDirection }),
 ).annotations({ identifier: "SortProperty" }) as any as S.Schema<SortProperty>;
 export type SortPropertyList = SortProperty[];
 export const SortPropertyList = S.Array(SortProperty);
 export interface Predicate {
-  or?: PredicateList;
-  and?: PredicateList;
+  or?: Predicate[];
+  and?: Predicate[];
   field?: string;
   operator?: string;
   operand?: string;
@@ -793,9 +797,9 @@ export type IdentifierList = string[];
 export const IdentifierList = S.Array(S.String);
 export interface ComponentDataConfiguration {
   model: string;
-  sort?: SortPropertyList;
+  sort?: SortProperty[];
   predicate?: Predicate;
-  identifiers?: IdentifierList;
+  identifiers?: string[];
 }
 export const ComponentDataConfiguration = S.suspend(() =>
   S.Struct({
@@ -836,7 +840,7 @@ export interface ActionParameters {
   global?: ComponentProperty;
   model?: string;
   id?: ComponentProperty;
-  fields?: ComponentProperties;
+  fields?: { [key: string]: ComponentProperty };
   state?: MutationActionSetStateParameter;
 }
 export const ActionParameters = S.suspend(() =>
@@ -878,13 +882,13 @@ export interface UpdateComponentData {
   name?: string;
   sourceId?: string;
   componentType?: string;
-  properties?: ComponentProperties;
-  children?: ComponentChildList;
-  variants?: ComponentVariants;
-  overrides?: ComponentOverrides;
-  bindingProperties?: ComponentBindingProperties;
-  collectionProperties?: ComponentCollectionProperties;
-  events?: ComponentEvents;
+  properties?: { [key: string]: ComponentProperty };
+  children?: ComponentChild[];
+  variants?: ComponentVariant[];
+  overrides?: { [key: string]: { [key: string]: string } };
+  bindingProperties?: { [key: string]: ComponentBindingPropertiesValue };
+  collectionProperties?: { [key: string]: ComponentDataConfiguration };
+  events?: { [key: string]: ComponentEvent };
   schemaVersion?: string;
 }
 export const UpdateComponentData = S.suspend(() =>
@@ -912,16 +916,16 @@ export interface Component {
   id: string;
   name: string;
   componentType: string;
-  properties: ComponentProperties;
-  children?: ComponentChildList;
-  variants: ComponentVariants;
-  overrides: ComponentOverrides;
-  bindingProperties: ComponentBindingProperties;
-  collectionProperties?: ComponentCollectionProperties;
+  properties: { [key: string]: ComponentProperty };
+  children?: ComponentChild[];
+  variants: ComponentVariant[];
+  overrides: { [key: string]: { [key: string]: string } };
+  bindingProperties: { [key: string]: ComponentBindingPropertiesValue };
+  collectionProperties?: { [key: string]: ComponentDataConfiguration };
   createdAt: Date;
   modifiedAt?: Date;
-  tags?: Tags;
-  events?: ComponentEvents;
+  tags?: { [key: string]: string };
+  events?: { [key: string]: ComponentEvent };
   schemaVersion?: string;
 }
 export const Component = S.suspend(() =>
@@ -956,12 +960,14 @@ export const FormDataTypeConfig = S.suspend(() =>
 ).annotations({
   identifier: "FormDataTypeConfig",
 }) as any as S.Schema<FormDataTypeConfig>;
+export type FixedPosition = "first";
+export const FixedPosition = S.Literal("first");
 export type FieldPosition =
-  | { fixed: string }
+  | { fixed: FixedPosition }
   | { rightOf: string }
   | { below: string };
 export const FieldPosition = S.Union(
-  S.Struct({ fixed: S.String }),
+  S.Struct({ fixed: FixedPosition }),
   S.Struct({ rightOf: S.String }),
   S.Struct({ below: S.String }),
 );
@@ -977,7 +983,7 @@ export const FormInputValuePropertyBindingProperties = S.suspend(() =>
 export interface FormInputValueProperty {
   value?: string;
   bindingProperties?: FormInputValuePropertyBindingProperties;
-  concat?: FormInputValuePropertyList;
+  concat?: FormInputValueProperty[];
 }
 export const FormInputValueProperty = S.suspend(() =>
   S.Struct({
@@ -1032,8 +1038,8 @@ export const FormInputBindingProperties = S.Record({
   value: FormInputBindingPropertiesValue,
 });
 export interface ValueMappings {
-  values: ValueMappingList;
-  bindingProperties?: FormInputBindingProperties;
+  values: ValueMapping[];
+  bindingProperties?: { [key: string]: FormInputBindingPropertiesValue };
 }
 export const ValueMappings = S.suspend(() =>
   S.Struct({
@@ -1043,11 +1049,13 @@ export const ValueMappings = S.suspend(() =>
 ).annotations({
   identifier: "ValueMappings",
 }) as any as S.Schema<ValueMappings>;
+export type StorageAccessLevel = "public" | "protected" | "private";
+export const StorageAccessLevel = S.Literal("public", "protected", "private");
 export type StrValues = string[];
 export const StrValues = S.Array(S.String);
 export interface FileUploaderFieldConfig {
-  accessLevel: string;
-  acceptedFileTypes: StrValues;
+  accessLevel: StorageAccessLevel;
+  acceptedFileTypes: string[];
   showThumbnails?: boolean;
   isResumable?: boolean;
   maxFileCount?: number;
@@ -1055,7 +1063,7 @@ export interface FileUploaderFieldConfig {
 }
 export const FileUploaderFieldConfig = S.suspend(() =>
   S.Struct({
-    accessLevel: S.String,
+    accessLevel: StorageAccessLevel,
     acceptedFileTypes: StrValues,
     showThumbnails: S.optional(S.Boolean),
     isResumable: S.optional(S.Boolean),
@@ -1109,8 +1117,8 @@ export type NumValues = number[];
 export const NumValues = S.Array(S.Number);
 export interface FieldValidationConfiguration {
   type: string;
-  strValues?: StrValues;
-  numValues?: NumValues;
+  strValues?: string[];
+  numValues?: number[];
   validationMessage?: string;
 }
 export const FieldValidationConfiguration = S.suspend(() =>
@@ -1127,10 +1135,10 @@ export type ValidationsList = FieldValidationConfiguration[];
 export const ValidationsList = S.Array(FieldValidationConfiguration);
 export interface FieldConfig {
   label?: string;
-  position?: (typeof FieldPosition)["Type"];
+  position?: FieldPosition;
   excluded?: boolean;
   inputType?: FieldInputConfig;
-  validations?: ValidationsList;
+  validations?: FieldValidationConfiguration[];
 }
 export const FieldConfig = S.suspend(() =>
   S.Struct({
@@ -1149,9 +1157,9 @@ export const FormStyleConfig = S.Union(
   S.Struct({ value: S.String }),
 );
 export interface FormStyle {
-  horizontalGap?: (typeof FormStyleConfig)["Type"];
-  verticalGap?: (typeof FormStyleConfig)["Type"];
-  outerPadding?: (typeof FormStyleConfig)["Type"];
+  horizontalGap?: FormStyleConfig;
+  verticalGap?: FormStyleConfig;
+  outerPadding?: FormStyleConfig;
 }
 export const FormStyle = S.suspend(() =>
   S.Struct({
@@ -1162,7 +1170,7 @@ export const FormStyle = S.suspend(() =>
 ).annotations({ identifier: "FormStyle" }) as any as S.Schema<FormStyle>;
 export interface SectionalElement {
   type: string;
-  position?: (typeof FieldPosition)["Type"];
+  position?: FieldPosition;
   text?: string;
   level?: number;
   orientation?: string;
@@ -1185,10 +1193,12 @@ export const SectionalElementMap = S.Record({
   key: S.String,
   value: SectionalElement,
 });
+export type FormButtonsPosition = "top" | "bottom" | "top_and_bottom";
+export const FormButtonsPosition = S.Literal("top", "bottom", "top_and_bottom");
 export interface FormButton {
   excluded?: boolean;
   children?: string;
-  position?: (typeof FieldPosition)["Type"];
+  position?: FieldPosition;
 }
 export const FormButton = S.suspend(() =>
   S.Struct({
@@ -1198,14 +1208,14 @@ export const FormButton = S.suspend(() =>
   }),
 ).annotations({ identifier: "FormButton" }) as any as S.Schema<FormButton>;
 export interface FormCTA {
-  position?: string;
+  position?: FormButtonsPosition;
   clear?: FormButton;
   cancel?: FormButton;
   submit?: FormButton;
 }
 export const FormCTA = S.suspend(() =>
   S.Struct({
-    position: S.optional(S.String),
+    position: S.optional(FormButtonsPosition),
     clear: S.optional(FormButton),
     cancel: S.optional(FormButton),
     submit: S.optional(FormButton),
@@ -1214,10 +1224,10 @@ export const FormCTA = S.suspend(() =>
 export interface UpdateFormData {
   name?: string;
   dataType?: FormDataTypeConfig;
-  formActionType?: string;
-  fields?: FieldsMap;
+  formActionType?: FormActionType;
+  fields?: { [key: string]: FieldConfig };
   style?: FormStyle;
-  sectionalElements?: SectionalElementMap;
+  sectionalElements?: { [key: string]: SectionalElement };
   schemaVersion?: string;
   cta?: FormCTA;
   labelDecorator?: string;
@@ -1226,7 +1236,7 @@ export const UpdateFormData = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     dataType: S.optional(FormDataTypeConfig),
-    formActionType: S.optional(S.String),
+    formActionType: S.optional(FormActionType),
     fields: S.optional(FieldsMap),
     style: S.optional(FormStyle),
     sectionalElements: S.optional(SectionalElementMap),
@@ -1242,13 +1252,13 @@ export interface Form {
   environmentName: string;
   id: string;
   name: string;
-  formActionType: string;
+  formActionType: FormActionType;
   style: FormStyle;
   dataType: FormDataTypeConfig;
-  fields: FieldsMap;
-  sectionalElements: SectionalElementMap;
+  fields: { [key: string]: FieldConfig };
+  sectionalElements: { [key: string]: SectionalElement };
   schemaVersion: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   cta?: FormCTA;
   labelDecorator?: string;
 }
@@ -1258,7 +1268,7 @@ export const Form = S.suspend(() =>
     environmentName: S.String,
     id: S.String,
     name: S.String,
-    formActionType: S.String,
+    formActionType: FormActionType,
     style: FormStyle,
     dataType: FormDataTypeConfig,
     fields: FieldsMap,
@@ -1280,8 +1290,8 @@ export const ThemeValuesList = S.Array(
 export interface UpdateThemeData {
   id?: string;
   name?: string;
-  values: ThemeValuesList;
-  overrides?: ThemeValuesList;
+  values: ThemeValues[];
+  overrides?: ThemeValues[];
 }
 export const UpdateThemeData = S.suspend(() =>
   S.Struct({
@@ -1300,9 +1310,9 @@ export interface Theme {
   name: string;
   createdAt: Date;
   modifiedAt?: Date;
-  values: ThemeValuesList;
-  overrides?: ThemeValuesList;
-  tags?: Tags;
+  values: ThemeValues[];
+  overrides?: ThemeValues[];
+  tags?: { [key: string]: string };
 }
 export const Theme = S.suspend(() =>
   S.Struct({
@@ -1319,6 +1329,8 @@ export const Theme = S.suspend(() =>
 ).annotations({ identifier: "Theme" }) as any as S.Schema<Theme>;
 export type ThemeList = Theme[];
 export const ThemeList = S.Array(Theme);
+export type CodegenJobGenericDataSourceType = "DataStore";
+export const CodegenJobGenericDataSourceType = S.Literal("DataStore");
 export interface ExchangeCodeForTokenRequest {
   provider: string;
   request: ExchangeCodeForTokenRequestBody;
@@ -1343,7 +1355,7 @@ export const ExchangeCodeForTokenRequest = S.suspend(() =>
   identifier: "ExchangeCodeForTokenRequest",
 }) as any as S.Schema<ExchangeCodeForTokenRequest>;
 export interface ListTagsForResourceResponse {
-  tags: Tags;
+  tags: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: Tags }),
@@ -1411,7 +1423,7 @@ export const RefreshTokenRequest = S.suspend(() =>
 }) as any as S.Schema<RefreshTokenRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: Tags;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1467,7 +1479,7 @@ export const UpdateComponentRequest = S.suspend(() =>
   identifier: "UpdateComponentRequest",
 }) as any as S.Schema<UpdateComponentRequest>;
 export interface ExportComponentsResponse {
-  entities: ComponentList;
+  entities: Component[];
   nextToken?: string;
 }
 export const ExportComponentsResponse = S.suspend(() =>
@@ -1508,7 +1520,7 @@ export const UpdateFormRequest = S.suspend(() =>
   identifier: "UpdateFormRequest",
 }) as any as S.Schema<UpdateFormRequest>;
 export interface ExportFormsResponse {
-  entities: FormList;
+  entities: Form[];
   nextToken?: string;
 }
 export const ExportFormsResponse = S.suspend(() =>
@@ -1549,7 +1561,7 @@ export const UpdateThemeRequest = S.suspend(() =>
   identifier: "UpdateThemeRequest",
 }) as any as S.Schema<UpdateThemeRequest>;
 export interface ExportThemesResponse {
-  entities: ThemeList;
+  entities: Theme[];
   nextToken?: string;
 }
 export const ExportThemesResponse = S.suspend(() =>
@@ -1569,12 +1581,14 @@ export const CodegenFeatureFlags = S.suspend(() =>
 ).annotations({
   identifier: "CodegenFeatureFlags",
 }) as any as S.Schema<CodegenFeatureFlags>;
+export type CodegenJobStatus = "in_progress" | "failed" | "succeeded";
+export const CodegenJobStatus = S.Literal("in_progress", "failed", "succeeded");
 export interface ComponentChild {
   componentType: string;
   name: string;
-  properties: ComponentProperties;
-  children?: ComponentChildList;
-  events?: ComponentEvents;
+  properties: { [key: string]: ComponentProperty };
+  children?: ComponentChild[];
+  events?: { [key: string]: ComponentEvent };
   sourceId?: string;
 }
 export const ComponentChild = S.suspend(() =>
@@ -1593,6 +1607,12 @@ export const ComponentChild = S.suspend(() =>
 ).annotations({
   identifier: "ComponentChild",
 }) as any as S.Schema<ComponentChild>;
+export type JSModule = "es2020" | "esnext";
+export const JSModule = S.Literal("es2020", "esnext");
+export type JSTarget = "es2015" | "es2020";
+export const JSTarget = S.Literal("es2015", "es2020");
+export type JSScript = "jsx" | "tsx" | "js";
+export const JSScript = S.Literal("jsx", "tsx", "js");
 export type ComponentPropertyList = ComponentProperty[];
 export const ComponentPropertyList = S.Array(
   S.suspend(
@@ -1645,7 +1665,7 @@ export interface FormSummary {
   appId: string;
   dataType: FormDataTypeConfig;
   environmentName: string;
-  formActionType: string;
+  formActionType: FormActionType;
   id: string;
   name: string;
 }
@@ -1654,7 +1674,7 @@ export const FormSummary = S.suspend(() =>
     appId: S.String,
     dataType: FormDataTypeConfig,
     environmentName: S.String,
-    formActionType: S.String,
+    formActionType: FormActionType,
     id: S.String,
     name: S.String,
   }),
@@ -1679,7 +1699,7 @@ export type ThemeSummaryList = ThemeSummary[];
 export const ThemeSummaryList = S.Array(ThemeSummary);
 export interface ThemeValue {
   value?: string;
-  children?: ThemeValuesList;
+  children?: ThemeValues[];
 }
 export const ThemeValue = S.suspend(() =>
   S.Struct({
@@ -1692,9 +1712,9 @@ export const ThemeValue = S.suspend(() =>
   }),
 ).annotations({ identifier: "ThemeValue" }) as any as S.Schema<ThemeValue>;
 export interface ExchangeCodeForTokenResponse {
-  accessToken: string | Redacted.Redacted<string>;
+  accessToken: string | redacted.Redacted<string>;
   expiresIn: number;
-  refreshToken: string | Redacted.Redacted<string>;
+  refreshToken: string | redacted.Redacted<string>;
 }
 export const ExchangeCodeForTokenResponse = S.suspend(() =>
   S.Struct({
@@ -1706,7 +1726,7 @@ export const ExchangeCodeForTokenResponse = S.suspend(() =>
   identifier: "ExchangeCodeForTokenResponse",
 }) as any as S.Schema<ExchangeCodeForTokenResponse>;
 export interface GetMetadataResponse {
-  features: FeaturesMap;
+  features: { [key: string]: string };
 }
 export const GetMetadataResponse = S.suspend(() =>
   S.Struct({ features: FeaturesMap }),
@@ -1714,7 +1734,7 @@ export const GetMetadataResponse = S.suspend(() =>
   identifier: "GetMetadataResponse",
 }) as any as S.Schema<GetMetadataResponse>;
 export interface RefreshTokenResponse {
-  accessToken: string | Redacted.Redacted<string>;
+  accessToken: string | redacted.Redacted<string>;
   expiresIn: number;
 }
 export const RefreshTokenResponse = S.suspend(() =>
@@ -1735,7 +1755,7 @@ export const CodegenPrimaryKeysList = S.Array(S.String);
 export type CodegenGenericDataEnumValuesList = string[];
 export const CodegenGenericDataEnumValuesList = S.Array(S.String);
 export interface ListCodegenJobsResponse {
-  entities: CodegenJobSummaryList;
+  entities: CodegenJobSummary[];
   nextToken?: string;
 }
 export const ListCodegenJobsResponse = S.suspend(() =>
@@ -1771,7 +1791,7 @@ export const UpdateComponentResponse = S.suspend(() =>
   identifier: "UpdateComponentResponse",
 }) as any as S.Schema<UpdateComponentResponse>;
 export interface ListComponentsResponse {
-  entities: ComponentSummaryList;
+  entities: ComponentSummary[];
   nextToken?: string;
 }
 export const ListComponentsResponse = S.suspend(() =>
@@ -1804,7 +1824,7 @@ export const UpdateFormResponse = S.suspend(() =>
   identifier: "UpdateFormResponse",
 }) as any as S.Schema<UpdateFormResponse>;
 export interface ListFormsResponse {
-  entities: FormSummaryList;
+  entities: FormSummary[];
   nextToken?: string;
 }
 export const ListFormsResponse = S.suspend(() =>
@@ -1837,7 +1857,7 @@ export const UpdateThemeResponse = S.suspend(() =>
   identifier: "UpdateThemeResponse",
 }) as any as S.Schema<UpdateThemeResponse>;
 export interface ListThemesResponse {
-  entities: ThemeSummaryList;
+  entities: ThemeSummary[];
   nextToken?: string;
 }
 export const ListThemesResponse = S.suspend(() =>
@@ -1891,7 +1911,7 @@ export const ReactCodegenDependencies = S.Record({
   value: S.String,
 });
 export interface CodegenGenericDataEnum {
-  values: CodegenGenericDataEnumValuesList;
+  values: string[];
 }
 export const CodegenGenericDataEnum = S.suspend(() =>
   S.Struct({ values: CodegenGenericDataEnumValuesList }),
@@ -1956,19 +1976,19 @@ export const ApiConfiguration = S.Union(
   S.Struct({ noApiConfig: NoApiRenderConfig }),
 );
 export interface ReactStartCodegenJobData {
-  module?: string;
-  target?: string;
-  script?: string;
+  module?: JSModule;
+  target?: JSTarget;
+  script?: JSScript;
   renderTypeDeclarations?: boolean;
   inlineSourceMap?: boolean;
-  apiConfiguration?: (typeof ApiConfiguration)["Type"];
-  dependencies?: ReactCodegenDependencies;
+  apiConfiguration?: ApiConfiguration;
+  dependencies?: { [key: string]: string };
 }
 export const ReactStartCodegenJobData = S.suspend(() =>
   S.Struct({
-    module: S.optional(S.String),
-    target: S.optional(S.String),
-    script: S.optional(S.String),
+    module: S.optional(JSModule),
+    target: S.optional(JSTarget),
+    script: S.optional(JSScript),
     renderTypeDeclarations: S.optional(S.Boolean),
     inlineSourceMap: S.optional(S.Boolean),
     apiConfiguration: S.optional(ApiConfiguration),
@@ -1981,24 +2001,67 @@ export type CodegenJobRenderConfig = { react: ReactStartCodegenJobData };
 export const CodegenJobRenderConfig = S.Union(
   S.Struct({ react: ReactStartCodegenJobData }),
 );
+export type CodegenGenericDataFieldDataType =
+  | "ID"
+  | "String"
+  | "Int"
+  | "Float"
+  | "AWSDate"
+  | "AWSTime"
+  | "AWSDateTime"
+  | "AWSTimestamp"
+  | "AWSEmail"
+  | "AWSURL"
+  | "AWSIPAddress"
+  | "Boolean"
+  | "AWSJSON"
+  | "AWSPhone"
+  | "Enum"
+  | "Model"
+  | "NonModel";
+export const CodegenGenericDataFieldDataType = S.Literal(
+  "ID",
+  "String",
+  "Int",
+  "Float",
+  "AWSDate",
+  "AWSTime",
+  "AWSDateTime",
+  "AWSTimestamp",
+  "AWSEmail",
+  "AWSURL",
+  "AWSIPAddress",
+  "Boolean",
+  "AWSJSON",
+  "AWSPhone",
+  "Enum",
+  "Model",
+  "NonModel",
+);
+export type GenericDataRelationshipType = "HAS_MANY" | "HAS_ONE" | "BELONGS_TO";
+export const GenericDataRelationshipType = S.Literal(
+  "HAS_MANY",
+  "HAS_ONE",
+  "BELONGS_TO",
+);
 export type RelatedModelFieldsList = string[];
 export const RelatedModelFieldsList = S.Array(S.String);
 export type AssociatedFieldsList = string[];
 export const AssociatedFieldsList = S.Array(S.String);
 export interface CodegenGenericDataRelationshipType {
-  type: string;
+  type: GenericDataRelationshipType;
   relatedModelName: string;
-  relatedModelFields?: RelatedModelFieldsList;
+  relatedModelFields?: string[];
   canUnlinkAssociatedModel?: boolean;
   relatedJoinFieldName?: string;
   relatedJoinTableName?: string;
   belongsToFieldOnRelatedModel?: string;
-  associatedFields?: AssociatedFieldsList;
+  associatedFields?: string[];
   isHasManyIndex?: boolean;
 }
 export const CodegenGenericDataRelationshipType = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: GenericDataRelationshipType,
     relatedModelName: S.String,
     relatedModelFields: S.optional(RelatedModelFieldsList),
     canUnlinkAssociatedModel: S.optional(S.Boolean),
@@ -2012,7 +2075,7 @@ export const CodegenGenericDataRelationshipType = S.suspend(() =>
   identifier: "CodegenGenericDataRelationshipType",
 }) as any as S.Schema<CodegenGenericDataRelationshipType>;
 export interface CodegenGenericDataField {
-  dataType: string;
+  dataType: CodegenGenericDataFieldDataType;
   dataTypeValue: string;
   required: boolean;
   readOnly: boolean;
@@ -2021,7 +2084,7 @@ export interface CodegenGenericDataField {
 }
 export const CodegenGenericDataField = S.suspend(() =>
   S.Struct({
-    dataType: S.String,
+    dataType: CodegenGenericDataFieldDataType,
     dataTypeValue: S.String,
     required: S.Boolean,
     readOnly: S.Boolean,
@@ -2039,9 +2102,9 @@ export const CodegenGenericDataFields = S.Record({
   value: CodegenGenericDataField,
 });
 export interface CodegenGenericDataModel {
-  fields: CodegenGenericDataFields;
+  fields: { [key: string]: CodegenGenericDataField };
   isJoinTable?: boolean;
-  primaryKeys: CodegenPrimaryKeysList;
+  primaryKeys: string[];
 }
 export const CodegenGenericDataModel = S.suspend(() =>
   S.Struct({
@@ -2072,7 +2135,7 @@ export const CodegenGenericDataNonModelFields = S.Record({
   value: CodegenGenericDataField,
 });
 export interface CodegenGenericDataNonModel {
-  fields: CodegenGenericDataNonModelFields;
+  fields: { [key: string]: CodegenGenericDataField };
 }
 export const CodegenGenericDataNonModel = S.suspend(() =>
   S.Struct({ fields: CodegenGenericDataNonModelFields }),
@@ -2087,14 +2150,14 @@ export const CodegenGenericDataNonModels = S.Record({
   value: CodegenGenericDataNonModel,
 });
 export interface CodegenJobGenericDataSchema {
-  dataSourceType: string;
-  models: CodegenGenericDataModels;
-  enums: CodegenGenericDataEnums;
-  nonModels: CodegenGenericDataNonModels;
+  dataSourceType: CodegenJobGenericDataSourceType;
+  models: { [key: string]: CodegenGenericDataModel };
+  enums: { [key: string]: CodegenGenericDataEnum };
+  nonModels: { [key: string]: CodegenGenericDataNonModel };
 }
 export const CodegenJobGenericDataSchema = S.suspend(() =>
   S.Struct({
-    dataSourceType: S.String,
+    dataSourceType: CodegenJobGenericDataSourceType,
     models: CodegenGenericDataModels,
     enums: CodegenGenericDataEnums,
     nonModels: CodegenGenericDataNonModels,
@@ -2106,17 +2169,17 @@ export interface CodegenJob {
   id: string;
   appId: string;
   environmentName: string;
-  renderConfig?: (typeof CodegenJobRenderConfig)["Type"];
+  renderConfig?: CodegenJobRenderConfig;
   genericDataSchema?: CodegenJobGenericDataSchema;
   autoGenerateForms?: boolean;
   features?: CodegenFeatureFlags;
-  status?: string;
+  status?: CodegenJobStatus;
   statusMessage?: string;
   asset?: CodegenJobAsset;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   createdAt?: Date;
   modifiedAt?: Date;
-  dependencies?: CodegenDependencies;
+  dependencies?: CodegenDependency[];
 }
 export const CodegenJob = S.suspend(() =>
   S.Struct({
@@ -2127,7 +2190,7 @@ export const CodegenJob = S.suspend(() =>
     genericDataSchema: S.optional(CodegenJobGenericDataSchema),
     autoGenerateForms: S.optional(S.Boolean),
     features: S.optional(CodegenFeatureFlags),
-    status: S.optional(S.String),
+    status: S.optional(CodegenJobStatus),
     statusMessage: S.optional(S.String),
     asset: S.optional(CodegenJobAsset),
     tags: S.optional(Tags),
@@ -2138,9 +2201,9 @@ export const CodegenJob = S.suspend(() =>
 ).annotations({ identifier: "CodegenJob" }) as any as S.Schema<CodegenJob>;
 export interface CreateThemeData {
   name: string;
-  values: ThemeValuesList;
-  overrides?: ThemeValuesList;
-  tags?: Tags;
+  values: ThemeValues[];
+  overrides?: ThemeValues[];
+  tags?: { [key: string]: string };
 }
 export const CreateThemeData = S.suspend(() =>
   S.Struct({
@@ -2216,14 +2279,14 @@ export interface CreateComponentData {
   name: string;
   sourceId?: string;
   componentType: string;
-  properties: ComponentProperties;
-  children?: ComponentChildList;
-  variants: ComponentVariants;
-  overrides: ComponentOverrides;
-  bindingProperties: ComponentBindingProperties;
-  collectionProperties?: ComponentCollectionProperties;
-  tags?: Tags;
-  events?: ComponentEvents;
+  properties: { [key: string]: ComponentProperty };
+  children?: ComponentChild[];
+  variants: ComponentVariant[];
+  overrides: { [key: string]: { [key: string]: string } };
+  bindingProperties: { [key: string]: ComponentBindingPropertiesValue };
+  collectionProperties?: { [key: string]: ComponentDataConfiguration };
+  tags?: { [key: string]: string };
+  events?: { [key: string]: ComponentEvent };
   schemaVersion?: string;
 }
 export const CreateComponentData = S.suspend(() =>
@@ -2287,11 +2350,11 @@ export const CreateComponentResponse = S.suspend(() =>
   identifier: "CreateComponentResponse",
 }) as any as S.Schema<CreateComponentResponse>;
 export interface StartCodegenJobData {
-  renderConfig: (typeof CodegenJobRenderConfig)["Type"];
+  renderConfig: CodegenJobRenderConfig;
   genericDataSchema?: CodegenJobGenericDataSchema;
   autoGenerateForms?: boolean;
   features?: CodegenFeatureFlags;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const StartCodegenJobData = S.suspend(() =>
   S.Struct({
@@ -2337,20 +2400,20 @@ export const StartCodegenJobRequest = S.suspend(() =>
 export interface CreateFormData {
   name: string;
   dataType: FormDataTypeConfig;
-  formActionType: string;
-  fields: FieldsMap;
+  formActionType: FormActionType;
+  fields: { [key: string]: FieldConfig };
   style: FormStyle;
-  sectionalElements: SectionalElementMap;
+  sectionalElements: { [key: string]: SectionalElement };
   schemaVersion: string;
   cta?: FormCTA;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   labelDecorator?: string;
 }
 export const CreateFormData = S.suspend(() =>
   S.Struct({
     name: S.String,
     dataType: FormDataTypeConfig,
-    formActionType: S.String,
+    formActionType: FormActionType,
     fields: FieldsMap,
     style: FormStyle,
     sectionalElements: SectionalElementMap,
@@ -2455,7 +2518,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  */
 export const refreshToken: (
   input: RefreshTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RefreshTokenResponse,
   InvalidParameterException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2471,21 +2534,21 @@ export const refreshToken: (
 export const listComponents: {
   (
     input: ListComponentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListComponentsResponse,
     InternalServerException | InvalidParameterException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListComponentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListComponentsResponse,
     InternalServerException | InvalidParameterException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListComponentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ComponentSummary,
     InternalServerException | InvalidParameterException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2507,21 +2570,21 @@ export const listComponents: {
 export const listForms: {
   (
     input: ListFormsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFormsResponse,
     InternalServerException | InvalidParameterException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListFormsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFormsResponse,
     InternalServerException | InvalidParameterException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFormsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FormSummary,
     InternalServerException | InvalidParameterException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2544,21 +2607,21 @@ export const listForms: {
 export const listThemes: {
   (
     input: ListThemesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListThemesResponse,
     InternalServerException | InvalidParameterException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListThemesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListThemesResponse,
     InternalServerException | InvalidParameterException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListThemesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ThemeSummary,
     InternalServerException | InvalidParameterException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2580,21 +2643,21 @@ export const listThemes: {
 export const exportComponents: {
   (
     input: ExportComponentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ExportComponentsResponse,
     InternalServerException | InvalidParameterException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ExportComponentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExportComponentsResponse,
     InternalServerException | InvalidParameterException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ExportComponentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Component,
     InternalServerException | InvalidParameterException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2615,21 +2678,21 @@ export const exportComponents: {
 export const exportForms: {
   (
     input: ExportFormsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ExportFormsResponse,
     InternalServerException | InvalidParameterException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ExportFormsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExportFormsResponse,
     InternalServerException | InvalidParameterException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ExportFormsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Form,
     InternalServerException | InvalidParameterException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2650,21 +2713,21 @@ export const exportForms: {
 export const exportThemes: {
   (
     input: ExportThemesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ExportThemesResponse,
     InternalServerException | InvalidParameterException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ExportThemesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExportThemesResponse,
     InternalServerException | InvalidParameterException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ExportThemesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Theme,
     InternalServerException | InvalidParameterException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2686,7 +2749,7 @@ export const exportThemes: {
  */
 export const exchangeCodeForToken: (
   input: ExchangeCodeForTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ExchangeCodeForTokenResponse,
   InvalidParameterException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2700,7 +2763,7 @@ export const exchangeCodeForToken: (
  */
 export const putMetadataFlag: (
   input: PutMetadataFlagRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutMetadataFlagResponse,
   InvalidParameterException | UnauthorizedException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2715,7 +2778,7 @@ export const putMetadataFlag: (
 export const listCodegenJobs: {
   (
     input: ListCodegenJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCodegenJobsResponse,
     | InternalServerException
     | InvalidParameterException
@@ -2725,7 +2788,7 @@ export const listCodegenJobs: {
   >;
   pages: (
     input: ListCodegenJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCodegenJobsResponse,
     | InternalServerException
     | InvalidParameterException
@@ -2735,7 +2798,7 @@ export const listCodegenJobs: {
   >;
   items: (
     input: ListCodegenJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CodegenJobSummary,
     | InternalServerException
     | InvalidParameterException
@@ -2763,7 +2826,7 @@ export const listCodegenJobs: {
  */
 export const getComponent: (
   input: GetComponentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetComponentResponse,
   | InternalServerException
   | InvalidParameterException
@@ -2784,7 +2847,7 @@ export const getComponent: (
  */
 export const updateComponent: (
   input: UpdateComponentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateComponentResponse,
   | InternalServerException
   | InvalidParameterException
@@ -2805,7 +2868,7 @@ export const updateComponent: (
  */
 export const getMetadata: (
   input: GetMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMetadataResponse,
   InvalidParameterException | UnauthorizedException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2819,7 +2882,7 @@ export const getMetadata: (
  */
 export const getForm: (
   input: GetFormRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFormResponse,
   | InternalServerException
   | InvalidParameterException
@@ -2840,7 +2903,7 @@ export const getForm: (
  */
 export const getTheme: (
   input: GetThemeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetThemeResponse,
   | InternalServerException
   | InvalidParameterException
@@ -2861,7 +2924,7 @@ export const getTheme: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerException
   | InvalidParameterException
@@ -2886,7 +2949,7 @@ export const untagResource: (
  */
 export const deleteComponent: (
   input: DeleteComponentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteComponentResponse,
   | InternalServerException
   | InvalidParameterException
@@ -2907,7 +2970,7 @@ export const deleteComponent: (
  */
 export const deleteForm: (
   input: DeleteFormRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFormResponse,
   | InternalServerException
   | InvalidParameterException
@@ -2928,7 +2991,7 @@ export const deleteForm: (
  */
 export const deleteTheme: (
   input: DeleteThemeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteThemeResponse,
   | InternalServerException
   | InvalidParameterException
@@ -2949,7 +3012,7 @@ export const deleteTheme: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | InvalidParameterException
@@ -2974,7 +3037,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | InvalidParameterException
@@ -2999,7 +3062,7 @@ export const tagResource: (
  */
 export const getCodegenJob: (
   input: GetCodegenJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCodegenJobResponse,
   | InternalServerException
   | InvalidParameterException
@@ -3022,7 +3085,7 @@ export const getCodegenJob: (
  */
 export const updateForm: (
   input: UpdateFormRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFormResponse,
   | InternalServerException
   | InvalidParameterException
@@ -3043,7 +3106,7 @@ export const updateForm: (
  */
 export const updateTheme: (
   input: UpdateThemeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateThemeResponse,
   | InternalServerException
   | InvalidParameterException
@@ -3064,7 +3127,7 @@ export const updateTheme: (
  */
 export const createTheme: (
   input: CreateThemeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateThemeResponse,
   | InternalServerException
   | InvalidParameterException
@@ -3087,7 +3150,7 @@ export const createTheme: (
  */
 export const createComponent: (
   input: CreateComponentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateComponentResponse,
   | InternalServerException
   | InvalidParameterException
@@ -3110,7 +3173,7 @@ export const createComponent: (
  */
 export const startCodegenJob: (
   input: StartCodegenJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartCodegenJobResponse,
   | InternalServerException
   | InvalidParameterException
@@ -3131,7 +3194,7 @@ export const startCodegenJob: (
  */
 export const createForm: (
   input: CreateFormRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFormResponse,
   | InternalServerException
   | InvalidParameterException

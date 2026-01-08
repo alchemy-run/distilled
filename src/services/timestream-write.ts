@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -102,7 +102,7 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Newtypes
-export type ClientRequestToken = string | Redacted.Redacted<string>;
+export type ClientRequestToken = string | redacted.Redacted<string>;
 export type ResourceCreateAPIName = string;
 export type RecordVersion = number;
 export type StringValue2048 = string;
@@ -115,7 +115,6 @@ export type TagKey = string;
 export type TagValue = string;
 export type MemoryStoreRetentionPeriodInHours = number;
 export type MagneticStoreRetentionPeriodInDays = number;
-export type Long = number;
 export type SchemaName = string;
 export type StringValue256 = string;
 export type ErrorMessage = string;
@@ -124,7 +123,6 @@ export type S3ObjectKey = string;
 export type StringValue1 = string;
 export type S3ObjectKeyPrefix = string;
 export type SchemaValue = string;
-export type Integer = number;
 export type RecordIndex = number;
 
 //# Schemas
@@ -136,50 +134,93 @@ export const DescribeEndpointsRequest = S.suspend(() =>
 ).annotations({
   identifier: "DescribeEndpointsRequest",
 }) as any as S.Schema<DescribeEndpointsRequest>;
+export type BatchLoadStatus =
+  | "CREATED"
+  | "IN_PROGRESS"
+  | "FAILED"
+  | "SUCCEEDED"
+  | "PROGRESS_STOPPED"
+  | "PENDING_RESUME";
+export const BatchLoadStatus = S.Literal(
+  "CREATED",
+  "IN_PROGRESS",
+  "FAILED",
+  "SUCCEEDED",
+  "PROGRESS_STOPPED",
+  "PENDING_RESUME",
+);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type DimensionValueType = "VARCHAR";
+export const DimensionValueType = S.Literal("VARCHAR");
 export interface Dimension {
   Name: string;
   Value: string;
-  DimensionValueType?: string;
+  DimensionValueType?: DimensionValueType;
 }
 export const Dimension = S.suspend(() =>
   S.Struct({
     Name: S.String,
     Value: S.String,
-    DimensionValueType: S.optional(S.String),
+    DimensionValueType: S.optional(DimensionValueType),
   }),
 ).annotations({ identifier: "Dimension" }) as any as S.Schema<Dimension>;
 export type Dimensions = Dimension[];
 export const Dimensions = S.Array(Dimension);
+export type MeasureValueType =
+  | "DOUBLE"
+  | "BIGINT"
+  | "VARCHAR"
+  | "BOOLEAN"
+  | "TIMESTAMP"
+  | "MULTI";
+export const MeasureValueType = S.Literal(
+  "DOUBLE",
+  "BIGINT",
+  "VARCHAR",
+  "BOOLEAN",
+  "TIMESTAMP",
+  "MULTI",
+);
+export type TimeUnit =
+  | "MILLISECONDS"
+  | "SECONDS"
+  | "MICROSECONDS"
+  | "NANOSECONDS";
+export const TimeUnit = S.Literal(
+  "MILLISECONDS",
+  "SECONDS",
+  "MICROSECONDS",
+  "NANOSECONDS",
+);
 export interface MeasureValue {
   Name: string;
   Value: string;
-  Type: string;
+  Type: MeasureValueType;
 }
 export const MeasureValue = S.suspend(() =>
-  S.Struct({ Name: S.String, Value: S.String, Type: S.String }),
+  S.Struct({ Name: S.String, Value: S.String, Type: MeasureValueType }),
 ).annotations({ identifier: "MeasureValue" }) as any as S.Schema<MeasureValue>;
 export type MeasureValues = MeasureValue[];
 export const MeasureValues = S.Array(MeasureValue);
 export interface Record {
-  Dimensions?: Dimensions;
+  Dimensions?: Dimension[];
   MeasureName?: string;
   MeasureValue?: string;
-  MeasureValueType?: string;
+  MeasureValueType?: MeasureValueType;
   Time?: string;
-  TimeUnit?: string;
+  TimeUnit?: TimeUnit;
   Version?: number;
-  MeasureValues?: MeasureValues;
+  MeasureValues?: MeasureValue[];
 }
 export const Record = S.suspend(() =>
   S.Struct({
     Dimensions: S.optional(Dimensions),
     MeasureName: S.optional(S.String),
     MeasureValue: S.optional(S.String),
-    MeasureValueType: S.optional(S.String),
+    MeasureValueType: S.optional(MeasureValueType),
     Time: S.optional(S.String),
-    TimeUnit: S.optional(S.String),
+    TimeUnit: S.optional(TimeUnit),
     Version: S.optional(S.Number),
     MeasureValues: S.optional(MeasureValues),
   }),
@@ -249,13 +290,13 @@ export const DescribeTableRequest = S.suspend(() =>
 export interface ListBatchLoadTasksRequest {
   NextToken?: string;
   MaxResults?: number;
-  TaskStatus?: string;
+  TaskStatus?: BatchLoadStatus;
 }
 export const ListBatchLoadTasksRequest = S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-    TaskStatus: S.optional(S.String),
+    TaskStatus: S.optional(BatchLoadStatus),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -329,7 +370,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagResourceRequest {
   ResourceARN: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
@@ -344,7 +385,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceARN: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
@@ -380,17 +421,19 @@ export const RetentionProperties = S.suspend(() =>
 ).annotations({
   identifier: "RetentionProperties",
 }) as any as S.Schema<RetentionProperties>;
+export type S3EncryptionOption = "SSE_S3" | "SSE_KMS";
+export const S3EncryptionOption = S.Literal("SSE_S3", "SSE_KMS");
 export interface S3Configuration {
   BucketName?: string;
   ObjectKeyPrefix?: string;
-  EncryptionOption?: string;
+  EncryptionOption?: S3EncryptionOption;
   KmsKeyId?: string;
 }
 export const S3Configuration = S.suspend(() =>
   S.Struct({
     BucketName: S.optional(S.String),
     ObjectKeyPrefix: S.optional(S.String),
-    EncryptionOption: S.optional(S.String),
+    EncryptionOption: S.optional(S3EncryptionOption),
     KmsKeyId: S.optional(S.String),
   }),
 ).annotations({
@@ -418,22 +461,26 @@ export const MagneticStoreWriteProperties = S.suspend(() =>
 ).annotations({
   identifier: "MagneticStoreWriteProperties",
 }) as any as S.Schema<MagneticStoreWriteProperties>;
+export type PartitionKeyType = "DIMENSION" | "MEASURE";
+export const PartitionKeyType = S.Literal("DIMENSION", "MEASURE");
+export type PartitionKeyEnforcementLevel = "REQUIRED" | "OPTIONAL";
+export const PartitionKeyEnforcementLevel = S.Literal("REQUIRED", "OPTIONAL");
 export interface PartitionKey {
-  Type: string;
+  Type: PartitionKeyType;
   Name?: string;
-  EnforcementInRecord?: string;
+  EnforcementInRecord?: PartitionKeyEnforcementLevel;
 }
 export const PartitionKey = S.suspend(() =>
   S.Struct({
-    Type: S.String,
+    Type: PartitionKeyType,
     Name: S.optional(S.String),
-    EnforcementInRecord: S.optional(S.String),
+    EnforcementInRecord: S.optional(PartitionKeyEnforcementLevel),
   }),
 ).annotations({ identifier: "PartitionKey" }) as any as S.Schema<PartitionKey>;
 export type PartitionKeyList = PartitionKey[];
 export const PartitionKeyList = S.Array(PartitionKey);
 export interface Schema {
-  CompositePartitionKey?: PartitionKeyList;
+  CompositePartitionKey?: PartitionKey[];
 }
 export const Schema = S.suspend(() =>
   S.Struct({ CompositePartitionKey: S.optional(PartitionKeyList) }),
@@ -458,6 +505,8 @@ export const UpdateTableRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateTableRequest",
 }) as any as S.Schema<UpdateTableRequest>;
+export type BatchLoadDataFormat = "CSV";
+export const BatchLoadDataFormat = S.Literal("CSV");
 export interface Endpoint {
   Address: string;
   CachePeriodInMinutes: number;
@@ -489,11 +538,13 @@ export const Database = S.suspend(() =>
 ).annotations({ identifier: "Database" }) as any as S.Schema<Database>;
 export type DatabaseList = Database[];
 export const DatabaseList = S.Array(Database);
+export type TableStatus = "ACTIVE" | "DELETING" | "RESTORING";
+export const TableStatus = S.Literal("ACTIVE", "DELETING", "RESTORING");
 export interface Table {
   Arn?: string;
   TableName?: string;
   DatabaseName?: string;
-  TableStatus?: string;
+  TableStatus?: TableStatus;
   RetentionProperties?: RetentionProperties;
   CreationTime?: Date;
   LastUpdatedTime?: Date;
@@ -505,7 +556,7 @@ export const Table = S.suspend(() =>
     Arn: S.optional(S.String),
     TableName: S.optional(S.String),
     DatabaseName: S.optional(S.String),
-    TableStatus: S.optional(S.String),
+    TableStatus: S.optional(TableStatus),
     RetentionProperties: S.optional(RetentionProperties),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedTime: S.optional(
@@ -520,7 +571,7 @@ export const TableList = S.Array(Table);
 export interface CreateDatabaseRequest {
   DatabaseName: string;
   KmsKeyId?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateDatabaseRequest = S.suspend(() =>
   S.Struct({
@@ -534,7 +585,7 @@ export const CreateDatabaseRequest = S.suspend(() =>
   identifier: "CreateDatabaseRequest",
 }) as any as S.Schema<CreateDatabaseRequest>;
 export interface DescribeEndpointsResponse {
-  Endpoints: Endpoints;
+  Endpoints: Endpoint[];
 }
 export const DescribeEndpointsResponse = S.suspend(() =>
   S.Struct({ Endpoints: Endpoints }),
@@ -542,7 +593,7 @@ export const DescribeEndpointsResponse = S.suspend(() =>
   identifier: "DescribeEndpointsResponse",
 }) as any as S.Schema<DescribeEndpointsResponse>;
 export interface ListDatabasesResponse {
-  Databases?: DatabaseList;
+  Databases?: Database[];
   NextToken?: string;
 }
 export const ListDatabasesResponse = S.suspend(() =>
@@ -554,7 +605,7 @@ export const ListDatabasesResponse = S.suspend(() =>
   identifier: "ListDatabasesResponse",
 }) as any as S.Schema<ListDatabasesResponse>;
 export interface ListTablesResponse {
-  Tables?: TableList;
+  Tables?: Table[];
   NextToken?: string;
 }
 export const ListTablesResponse = S.suspend(() =>
@@ -563,7 +614,7 @@ export const ListTablesResponse = S.suspend(() =>
   identifier: "ListTablesResponse",
 }) as any as S.Schema<ListTablesResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }),
@@ -628,14 +679,14 @@ export const CsvConfiguration = S.suspend(() =>
 export interface ReportS3Configuration {
   BucketName: string;
   ObjectKeyPrefix?: string;
-  EncryptionOption?: string;
+  EncryptionOption?: S3EncryptionOption;
   KmsKeyId?: string;
 }
 export const ReportS3Configuration = S.suspend(() =>
   S.Struct({
     BucketName: S.String,
     ObjectKeyPrefix: S.optional(S.String),
-    EncryptionOption: S.optional(S.String),
+    EncryptionOption: S.optional(S3EncryptionOption),
     KmsKeyId: S.optional(S.String),
   }),
 ).annotations({
@@ -644,13 +695,13 @@ export const ReportS3Configuration = S.suspend(() =>
 export interface DataSourceConfiguration {
   DataSourceS3Configuration: DataSourceS3Configuration;
   CsvConfiguration?: CsvConfiguration;
-  DataFormat: string;
+  DataFormat: BatchLoadDataFormat;
 }
 export const DataSourceConfiguration = S.suspend(() =>
   S.Struct({
     DataSourceS3Configuration: DataSourceS3Configuration,
     CsvConfiguration: S.optional(CsvConfiguration),
-    DataFormat: S.String,
+    DataFormat: BatchLoadDataFormat,
   }),
 ).annotations({
   identifier: "DataSourceConfiguration",
@@ -665,7 +716,7 @@ export const ReportConfiguration = S.suspend(() =>
 }) as any as S.Schema<ReportConfiguration>;
 export interface BatchLoadTask {
   TaskId?: string;
-  TaskStatus?: string;
+  TaskStatus?: BatchLoadStatus;
   DatabaseName?: string;
   TableName?: string;
   CreationTime?: Date;
@@ -675,7 +726,7 @@ export interface BatchLoadTask {
 export const BatchLoadTask = S.suspend(() =>
   S.Struct({
     TaskId: S.optional(S.String),
-    TaskStatus: S.optional(S.String),
+    TaskStatus: S.optional(BatchLoadStatus),
     DatabaseName: S.optional(S.String),
     TableName: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -703,16 +754,29 @@ export const DimensionMapping = S.suspend(() =>
 }) as any as S.Schema<DimensionMapping>;
 export type DimensionMappings = DimensionMapping[];
 export const DimensionMappings = S.Array(DimensionMapping);
+export type ScalarMeasureValueType =
+  | "DOUBLE"
+  | "BIGINT"
+  | "BOOLEAN"
+  | "VARCHAR"
+  | "TIMESTAMP";
+export const ScalarMeasureValueType = S.Literal(
+  "DOUBLE",
+  "BIGINT",
+  "BOOLEAN",
+  "VARCHAR",
+  "TIMESTAMP",
+);
 export interface MultiMeasureAttributeMapping {
   SourceColumn: string;
   TargetMultiMeasureAttributeName?: string;
-  MeasureValueType?: string;
+  MeasureValueType?: ScalarMeasureValueType;
 }
 export const MultiMeasureAttributeMapping = S.suspend(() =>
   S.Struct({
     SourceColumn: S.String,
     TargetMultiMeasureAttributeName: S.optional(S.String),
-    MeasureValueType: S.optional(S.String),
+    MeasureValueType: S.optional(ScalarMeasureValueType),
   }),
 ).annotations({
   identifier: "MultiMeasureAttributeMapping",
@@ -725,15 +789,15 @@ export interface MixedMeasureMapping {
   MeasureName?: string;
   SourceColumn?: string;
   TargetMeasureName?: string;
-  MeasureValueType: string;
-  MultiMeasureAttributeMappings?: MultiMeasureAttributeMappingList;
+  MeasureValueType: MeasureValueType;
+  MultiMeasureAttributeMappings?: MultiMeasureAttributeMapping[];
 }
 export const MixedMeasureMapping = S.suspend(() =>
   S.Struct({
     MeasureName: S.optional(S.String),
     SourceColumn: S.optional(S.String),
     TargetMeasureName: S.optional(S.String),
-    MeasureValueType: S.String,
+    MeasureValueType: MeasureValueType,
     MultiMeasureAttributeMappings: S.optional(MultiMeasureAttributeMappingList),
   }),
 ).annotations({
@@ -767,7 +831,7 @@ export const DescribeTableResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeTableResponse>;
 export interface ListBatchLoadTasksResponse {
   NextToken?: string;
-  BatchLoadTasks?: BatchLoadTaskList;
+  BatchLoadTasks?: BatchLoadTask[];
 }
 export const ListBatchLoadTasksResponse = S.suspend(() =>
   S.Struct({
@@ -781,7 +845,7 @@ export interface WriteRecordsRequest {
   DatabaseName: string;
   TableName: string;
   CommonAttributes?: Record;
-  Records: Records;
+  Records: Record[];
 }
 export const WriteRecordsRequest = S.suspend(() =>
   S.Struct({
@@ -817,7 +881,7 @@ export const BatchLoadProgressReport = S.suspend(() =>
 }) as any as S.Schema<BatchLoadProgressReport>;
 export interface MultiMeasureMappings {
   TargetMultiMeasureName?: string;
-  MultiMeasureAttributeMappings: MultiMeasureAttributeMappingList;
+  MultiMeasureAttributeMappings: MultiMeasureAttributeMapping[];
 }
 export const MultiMeasureMappings = S.suspend(() =>
   S.Struct({
@@ -829,16 +893,16 @@ export const MultiMeasureMappings = S.suspend(() =>
 }) as any as S.Schema<MultiMeasureMappings>;
 export interface DataModel {
   TimeColumn?: string;
-  TimeUnit?: string;
-  DimensionMappings: DimensionMappings;
+  TimeUnit?: TimeUnit;
+  DimensionMappings: DimensionMapping[];
   MultiMeasureMappings?: MultiMeasureMappings;
-  MixedMeasureMappings?: MixedMeasureMappingList;
+  MixedMeasureMappings?: MixedMeasureMapping[];
   MeasureNameColumn?: string;
 }
 export const DataModel = S.suspend(() =>
   S.Struct({
     TimeColumn: S.optional(S.String),
-    TimeUnit: S.optional(S.String),
+    TimeUnit: S.optional(TimeUnit),
     DimensionMappings: DimensionMappings,
     MultiMeasureMappings: S.optional(MultiMeasureMappings),
     MixedMeasureMappings: S.optional(MixedMeasureMappingList),
@@ -866,7 +930,7 @@ export interface BatchLoadTaskDescription {
   DataModelConfiguration?: DataModelConfiguration;
   TargetDatabaseName?: string;
   TargetTableName?: string;
-  TaskStatus?: string;
+  TaskStatus?: BatchLoadStatus;
   RecordVersion?: number;
   CreationTime?: Date;
   LastUpdatedTime?: Date;
@@ -882,7 +946,7 @@ export const BatchLoadTaskDescription = S.suspend(() =>
     DataModelConfiguration: S.optional(DataModelConfiguration),
     TargetDatabaseName: S.optional(S.String),
     TargetTableName: S.optional(S.String),
-    TaskStatus: S.optional(S.String),
+    TaskStatus: S.optional(BatchLoadStatus),
     RecordVersion: S.optional(S.Number),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedTime: S.optional(
@@ -897,7 +961,7 @@ export interface CreateTableRequest {
   DatabaseName: string;
   TableName: string;
   RetentionProperties?: RetentionProperties;
-  Tags?: TagList;
+  Tags?: Tag[];
   MagneticStoreWriteProperties?: MagneticStoreWriteProperties;
   Schema?: Schema;
 }
@@ -938,7 +1002,7 @@ export const RecordsIngested = S.suspend(() =>
   identifier: "RecordsIngested",
 }) as any as S.Schema<RecordsIngested>;
 export interface CreateBatchLoadTaskRequest {
-  ClientToken?: string | Redacted.Redacted<string>;
+  ClientToken?: string | redacted.Redacted<string>;
   DataModelConfiguration?: DataModelConfiguration;
   DataSourceConfiguration: DataSourceConfiguration;
   ReportConfiguration: ReportConfiguration;
@@ -1052,7 +1116,7 @@ export class RejectedRecordsException extends S.TaggedError<RejectedRecordsExcep
  */
 export const describeBatchLoadTask: (
   input: DescribeBatchLoadTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeBatchLoadTaskResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1080,7 +1144,7 @@ export const describeBatchLoadTask: (
 export const listBatchLoadTasks: {
   (
     input: ListBatchLoadTasksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBatchLoadTasksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1092,7 +1156,7 @@ export const listBatchLoadTasks: {
   >;
   pages: (
     input: ListBatchLoadTasksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBatchLoadTasksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1104,7 +1168,7 @@ export const listBatchLoadTasks: {
   >;
   items: (
     input: ListBatchLoadTasksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -1137,7 +1201,7 @@ export const listBatchLoadTasks: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InvalidEndpointException
   | ResourceNotFoundException
@@ -1178,7 +1242,7 @@ export const tagResource: (
  */
 export const describeEndpoints: (
   input: DescribeEndpointsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEndpointsResponse,
   | InternalServerException
   | ThrottlingException
@@ -1198,7 +1262,7 @@ export const describeEndpoints: (
 export const listDatabases: {
   (
     input: ListDatabasesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDatabasesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1210,7 +1274,7 @@ export const listDatabases: {
   >;
   pages: (
     input: ListDatabasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDatabasesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1222,7 +1286,7 @@ export const listDatabases: {
   >;
   items: (
     input: ListDatabasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -1256,7 +1320,7 @@ export const listDatabases: {
 export const listTables: {
   (
     input: ListTablesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTablesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1269,7 +1333,7 @@ export const listTables: {
   >;
   pages: (
     input: ListTablesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTablesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1282,7 +1346,7 @@ export const listTables: {
   >;
   items: (
     input: ListTablesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -1321,7 +1385,7 @@ export const listTables: {
  */
 export const updateTable: (
   input: UpdateTableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTableResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1356,7 +1420,7 @@ export const updateTable: (
  */
 export const deleteTable: (
   input: DeleteTableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTableResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1383,7 +1447,7 @@ export const deleteTable: (
  */
 export const resumeBatchLoadTask: (
   input: ResumeBatchLoadTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResumeBatchLoadTaskResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1410,7 +1474,7 @@ export const resumeBatchLoadTask: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InvalidEndpointException
   | ResourceNotFoundException
@@ -1444,7 +1508,7 @@ export const listTagsForResource: (
  */
 export const deleteDatabase: (
   input: DeleteDatabaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDatabaseResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1474,7 +1538,7 @@ export const deleteDatabase: (
  */
 export const describeDatabase: (
   input: DescribeDatabaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDatabaseResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1504,7 +1568,7 @@ export const describeDatabase: (
  */
 export const describeTable: (
   input: DescribeTableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeTableResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1536,7 +1600,7 @@ export const describeTable: (
  */
 export const updateDatabase: (
   input: UpdateDatabaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDatabaseResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1565,7 +1629,7 @@ export const updateDatabase: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InvalidEndpointException
   | ResourceNotFoundException
@@ -1592,7 +1656,7 @@ export const untagResource: (
  */
 export const createDatabase: (
   input: CreateDatabaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDatabaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -1626,7 +1690,7 @@ export const createDatabase: (
  */
 export const createTable: (
   input: CreateTableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTableResponse,
   | AccessDeniedException
   | ConflictException
@@ -1665,7 +1729,7 @@ export const createTable: (
  */
 export const createBatchLoadTask: (
   input: CreateBatchLoadTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBatchLoadTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -1738,7 +1802,7 @@ export const createBatchLoadTask: (
  */
 export const writeRecords: (
   input: WriteRecordsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   WriteRecordsResponse,
   | AccessDeniedException
   | InternalServerException

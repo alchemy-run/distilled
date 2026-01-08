@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -78,6 +78,56 @@ export type ComponentType = string;
 //# Schemas
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type MonitorStatus =
+  | "PENDING"
+  | "ACTIVE"
+  | "INACTIVE"
+  | "ERROR"
+  | "DELETING";
+export const MonitorStatus = S.Literal(
+  "PENDING",
+  "ACTIVE",
+  "INACTIVE",
+  "ERROR",
+  "DELETING",
+);
+export type MonitorMetric =
+  | "ROUND_TRIP_TIME"
+  | "TIMEOUTS"
+  | "RETRANSMISSIONS"
+  | "DATA_TRANSFERRED";
+export const MonitorMetric = S.Literal(
+  "ROUND_TRIP_TIME",
+  "TIMEOUTS",
+  "RETRANSMISSIONS",
+  "DATA_TRANSFERRED",
+);
+export type DestinationCategory =
+  | "INTRA_AZ"
+  | "INTER_AZ"
+  | "INTER_VPC"
+  | "UNCLASSIFIED"
+  | "AMAZON_S3"
+  | "AMAZON_DYNAMODB"
+  | "INTER_REGION";
+export const DestinationCategory = S.Literal(
+  "INTRA_AZ",
+  "INTER_AZ",
+  "INTER_VPC",
+  "UNCLASSIFIED",
+  "AMAZON_S3",
+  "AMAZON_DYNAMODB",
+  "INTER_REGION",
+);
+export type WorkloadInsightsMetric =
+  | "TIMEOUTS"
+  | "RETRANSMISSIONS"
+  | "DATA_TRANSFERRED";
+export const WorkloadInsightsMetric = S.Literal(
+  "TIMEOUTS",
+  "RETRANSMISSIONS",
+  "DATA_TRANSFERRED",
+);
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
@@ -97,7 +147,7 @@ export const ListTagsForResourceInput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceInput>;
 export interface UntagResourceInput {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({
@@ -137,23 +187,49 @@ export const GetMonitorInput = S.suspend(() =>
 ).annotations({
   identifier: "GetMonitorInput",
 }) as any as S.Schema<GetMonitorInput>;
+export type MonitorLocalResourceType =
+  | "AWS::EC2::VPC"
+  | "AWS::AvailabilityZone"
+  | "AWS::EC2::Subnet"
+  | "AWS::Region"
+  | "AWS::EKS::Cluster";
+export const MonitorLocalResourceType = S.Literal(
+  "AWS::EC2::VPC",
+  "AWS::AvailabilityZone",
+  "AWS::EC2::Subnet",
+  "AWS::Region",
+  "AWS::EKS::Cluster",
+);
 export interface MonitorLocalResource {
-  type: string;
+  type: MonitorLocalResourceType;
   identifier: string;
 }
 export const MonitorLocalResource = S.suspend(() =>
-  S.Struct({ type: S.String, identifier: S.String }),
+  S.Struct({ type: MonitorLocalResourceType, identifier: S.String }),
 ).annotations({
   identifier: "MonitorLocalResource",
 }) as any as S.Schema<MonitorLocalResource>;
 export type MonitorLocalResources = MonitorLocalResource[];
 export const MonitorLocalResources = S.Array(MonitorLocalResource);
+export type MonitorRemoteResourceType =
+  | "AWS::EC2::VPC"
+  | "AWS::AvailabilityZone"
+  | "AWS::EC2::Subnet"
+  | "AWS::AWSService"
+  | "AWS::Region";
+export const MonitorRemoteResourceType = S.Literal(
+  "AWS::EC2::VPC",
+  "AWS::AvailabilityZone",
+  "AWS::EC2::Subnet",
+  "AWS::AWSService",
+  "AWS::Region",
+);
 export interface MonitorRemoteResource {
-  type: string;
+  type: MonitorRemoteResourceType;
   identifier: string;
 }
 export const MonitorRemoteResource = S.suspend(() =>
-  S.Struct({ type: S.String, identifier: S.String }),
+  S.Struct({ type: MonitorRemoteResourceType, identifier: S.String }),
 ).annotations({
   identifier: "MonitorRemoteResource",
 }) as any as S.Schema<MonitorRemoteResource>;
@@ -161,10 +237,10 @@ export type MonitorRemoteResources = MonitorRemoteResource[];
 export const MonitorRemoteResources = S.Array(MonitorRemoteResource);
 export interface UpdateMonitorInput {
   monitorName: string;
-  localResourcesToAdd?: MonitorLocalResources;
-  localResourcesToRemove?: MonitorLocalResources;
-  remoteResourcesToAdd?: MonitorRemoteResources;
-  remoteResourcesToRemove?: MonitorRemoteResources;
+  localResourcesToAdd?: MonitorLocalResource[];
+  localResourcesToRemove?: MonitorLocalResource[];
+  remoteResourcesToAdd?: MonitorRemoteResource[];
+  remoteResourcesToRemove?: MonitorRemoteResource[];
   clientToken?: string;
 }
 export const UpdateMonitorInput = S.suspend(() =>
@@ -212,13 +288,13 @@ export const DeleteMonitorOutput = S.suspend(() => S.Struct({})).annotations({
 export interface ListMonitorsInput {
   nextToken?: string;
   maxResults?: number;
-  monitorStatus?: string;
+  monitorStatus?: MonitorStatus;
 }
 export const ListMonitorsInput = S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    monitorStatus: S.optional(S.String).pipe(T.HttpQuery("monitorStatus")),
+    monitorStatus: S.optional(MonitorStatus).pipe(T.HttpQuery("monitorStatus")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/monitors" }),
@@ -288,8 +364,8 @@ export interface StartQueryMonitorTopContributorsInput {
   monitorName: string;
   startTime: Date;
   endTime: Date;
-  metricName: string;
-  destinationCategory: string;
+  metricName: MonitorMetric;
+  destinationCategory: DestinationCategory;
   limit?: number;
 }
 export const StartQueryMonitorTopContributorsInput = S.suspend(() =>
@@ -297,8 +373,8 @@ export const StartQueryMonitorTopContributorsInput = S.suspend(() =>
     monitorName: S.String.pipe(T.HttpLabel("monitorName")),
     startTime: S.Date.pipe(T.TimestampFormat("date-time")),
     endTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    metricName: S.String,
-    destinationCategory: S.String,
+    metricName: MonitorMetric,
+    destinationCategory: DestinationCategory,
     limit: S.optional(S.Number),
   }).pipe(
     T.all(
@@ -365,12 +441,14 @@ export const GetScopeInput = S.suspend(() =>
 }) as any as S.Schema<GetScopeInput>;
 export type TargetId = { accountId: string };
 export const TargetId = S.Union(S.Struct({ accountId: S.String }));
+export type TargetType = "ACCOUNT";
+export const TargetType = S.Literal("ACCOUNT");
 export interface TargetIdentifier {
-  targetId: (typeof TargetId)["Type"];
-  targetType: string;
+  targetId: TargetId;
+  targetType: TargetType;
 }
 export const TargetIdentifier = S.suspend(() =>
-  S.Struct({ targetId: TargetId, targetType: S.String }),
+  S.Struct({ targetId: TargetId, targetType: TargetType }),
 ).annotations({
   identifier: "TargetIdentifier",
 }) as any as S.Schema<TargetIdentifier>;
@@ -387,8 +465,8 @@ export type TargetResourceList = TargetResource[];
 export const TargetResourceList = S.Array(TargetResource);
 export interface UpdateScopeInput {
   scopeId: string;
-  resourcesToAdd?: TargetResourceList;
-  resourcesToDelete?: TargetResourceList;
+  resourcesToAdd?: TargetResource[];
+  resourcesToDelete?: TargetResource[];
 }
 export const UpdateScopeInput = S.suspend(() =>
   S.Struct({
@@ -562,8 +640,8 @@ export interface StartQueryWorkloadInsightsTopContributorsInput {
   scopeId: string;
   startTime: Date;
   endTime: Date;
-  metricName: string;
-  destinationCategory: string;
+  metricName: WorkloadInsightsMetric;
+  destinationCategory: DestinationCategory;
   limit?: number;
 }
 export const StartQueryWorkloadInsightsTopContributorsInput = S.suspend(() =>
@@ -571,8 +649,8 @@ export const StartQueryWorkloadInsightsTopContributorsInput = S.suspend(() =>
     scopeId: S.String.pipe(T.HttpLabel("scopeId")),
     startTime: S.Date.pipe(T.TimestampFormat("date-time")),
     endTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    metricName: S.String,
-    destinationCategory: S.String,
+    metricName: WorkloadInsightsMetric,
+    destinationCategory: DestinationCategory,
     limit: S.optional(S.Number),
   }).pipe(
     T.all(
@@ -594,8 +672,8 @@ export interface StartQueryWorkloadInsightsTopContributorsDataInput {
   scopeId: string;
   startTime: Date;
   endTime: Date;
-  metricName: string;
-  destinationCategory: string;
+  metricName: WorkloadInsightsMetric;
+  destinationCategory: DestinationCategory;
 }
 export const StartQueryWorkloadInsightsTopContributorsDataInput = S.suspend(
   () =>
@@ -603,8 +681,8 @@ export const StartQueryWorkloadInsightsTopContributorsDataInput = S.suspend(
       scopeId: S.String.pipe(T.HttpLabel("scopeId")),
       startTime: S.Date.pipe(T.TimestampFormat("date-time")),
       endTime: S.Date.pipe(T.TimestampFormat("date-time")),
-      metricName: S.String,
-      destinationCategory: S.String,
+      metricName: WorkloadInsightsMetric,
+      destinationCategory: DestinationCategory,
     }).pipe(
       T.all(
         T.Http({
@@ -683,8 +761,91 @@ export const StopQueryWorkloadInsightsTopContributorsDataOutput = S.suspend(
 }) as any as S.Schema<StopQueryWorkloadInsightsTopContributorsDataOutput>;
 export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
+export type MetricUnit =
+  | "Seconds"
+  | "Microseconds"
+  | "Milliseconds"
+  | "Bytes"
+  | "Kilobytes"
+  | "Megabytes"
+  | "Gigabytes"
+  | "Terabytes"
+  | "Bits"
+  | "Kilobits"
+  | "Megabits"
+  | "Gigabits"
+  | "Terabits"
+  | "Percent"
+  | "Count"
+  | "Bytes/Second"
+  | "Kilobytes/Second"
+  | "Megabytes/Second"
+  | "Gigabytes/Second"
+  | "Terabytes/Second"
+  | "Bits/Second"
+  | "Kilobits/Second"
+  | "Megabits/Second"
+  | "Gigabits/Second"
+  | "Terabits/Second"
+  | "Count/Second"
+  | "None";
+export const MetricUnit = S.Literal(
+  "Seconds",
+  "Microseconds",
+  "Milliseconds",
+  "Bytes",
+  "Kilobytes",
+  "Megabytes",
+  "Gigabytes",
+  "Terabytes",
+  "Bits",
+  "Kilobits",
+  "Megabits",
+  "Gigabits",
+  "Terabits",
+  "Percent",
+  "Count",
+  "Bytes/Second",
+  "Kilobytes/Second",
+  "Megabytes/Second",
+  "Gigabytes/Second",
+  "Terabytes/Second",
+  "Bits/Second",
+  "Kilobits/Second",
+  "Megabits/Second",
+  "Gigabits/Second",
+  "Terabits/Second",
+  "Count/Second",
+  "None",
+);
+export type QueryStatus =
+  | "QUEUED"
+  | "RUNNING"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "CANCELED";
+export const QueryStatus = S.Literal(
+  "QUEUED",
+  "RUNNING",
+  "SUCCEEDED",
+  "FAILED",
+  "CANCELED",
+);
+export type ScopeStatus =
+  | "SUCCEEDED"
+  | "IN_PROGRESS"
+  | "FAILED"
+  | "DEACTIVATING"
+  | "DEACTIVATED";
+export const ScopeStatus = S.Literal(
+  "SUCCEEDED",
+  "IN_PROGRESS",
+  "FAILED",
+  "DEACTIVATING",
+  "DEACTIVATED",
+);
 export interface ListTagsForResourceOutput {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -693,7 +854,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -718,11 +879,11 @@ export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceOutput>;
 export interface CreateMonitorInput {
   monitorName: string;
-  localResources: MonitorLocalResources;
-  remoteResources?: MonitorRemoteResources;
+  localResources: MonitorLocalResource[];
+  remoteResources?: MonitorRemoteResource[];
   scopeArn: string;
   clientToken?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateMonitorInput = S.suspend(() =>
   S.Struct({
@@ -748,18 +909,18 @@ export const CreateMonitorInput = S.suspend(() =>
 export interface GetMonitorOutput {
   monitorArn: string;
   monitorName: string;
-  monitorStatus: string;
-  localResources: MonitorLocalResources;
-  remoteResources: MonitorRemoteResources;
+  monitorStatus: MonitorStatus;
+  localResources: MonitorLocalResource[];
+  remoteResources: MonitorRemoteResource[];
   createdAt: Date;
   modifiedAt: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const GetMonitorOutput = S.suspend(() =>
   S.Struct({
     monitorArn: S.String,
     monitorName: S.String,
-    monitorStatus: S.String,
+    monitorStatus: MonitorStatus,
     localResources: MonitorLocalResources,
     remoteResources: MonitorRemoteResources,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -772,18 +933,18 @@ export const GetMonitorOutput = S.suspend(() =>
 export interface UpdateMonitorOutput {
   monitorArn: string;
   monitorName: string;
-  monitorStatus: string;
-  localResources: MonitorLocalResources;
-  remoteResources: MonitorRemoteResources;
+  monitorStatus: MonitorStatus;
+  localResources: MonitorLocalResource[];
+  remoteResources: MonitorRemoteResource[];
   createdAt: Date;
   modifiedAt: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const UpdateMonitorOutput = S.suspend(() =>
   S.Struct({
     monitorArn: S.String,
     monitorName: S.String,
-    monitorStatus: S.String,
+    monitorStatus: MonitorStatus,
     localResources: MonitorLocalResources,
     remoteResources: MonitorRemoteResources,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -794,10 +955,10 @@ export const UpdateMonitorOutput = S.suspend(() =>
   identifier: "UpdateMonitorOutput",
 }) as any as S.Schema<UpdateMonitorOutput>;
 export interface GetQueryStatusMonitorTopContributorsOutput {
-  status: string;
+  status: QueryStatus;
 }
 export const GetQueryStatusMonitorTopContributorsOutput = S.suspend(() =>
-  S.Struct({ status: S.String }),
+  S.Struct({ status: QueryStatus }),
 ).annotations({
   identifier: "GetQueryStatusMonitorTopContributorsOutput",
 }) as any as S.Schema<GetQueryStatusMonitorTopContributorsOutput>;
@@ -811,15 +972,15 @@ export const StartQueryMonitorTopContributorsOutput = S.suspend(() =>
 }) as any as S.Schema<StartQueryMonitorTopContributorsOutput>;
 export interface GetScopeOutput {
   scopeId: string;
-  status: string;
+  status: ScopeStatus;
   scopeArn: string;
-  targets: TargetResourceList;
-  tags?: TagMap;
+  targets: TargetResource[];
+  tags?: { [key: string]: string };
 }
 export const GetScopeOutput = S.suspend(() =>
   S.Struct({
     scopeId: S.String,
-    status: S.String,
+    status: ScopeStatus,
     scopeArn: S.String,
     targets: TargetResourceList,
     tags: S.optional(TagMap),
@@ -829,14 +990,14 @@ export const GetScopeOutput = S.suspend(() =>
 }) as any as S.Schema<GetScopeOutput>;
 export interface UpdateScopeOutput {
   scopeId: string;
-  status: string;
+  status: ScopeStatus;
   scopeArn: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const UpdateScopeOutput = S.suspend(() =>
   S.Struct({
     scopeId: S.String,
-    status: S.String,
+    status: ScopeStatus,
     scopeArn: S.String,
     tags: S.optional(TagMap),
   }),
@@ -844,18 +1005,18 @@ export const UpdateScopeOutput = S.suspend(() =>
   identifier: "UpdateScopeOutput",
 }) as any as S.Schema<UpdateScopeOutput>;
 export interface GetQueryStatusWorkloadInsightsTopContributorsOutput {
-  status: string;
+  status: QueryStatus;
 }
 export const GetQueryStatusWorkloadInsightsTopContributorsOutput = S.suspend(
-  () => S.Struct({ status: S.String }),
+  () => S.Struct({ status: QueryStatus }),
 ).annotations({
   identifier: "GetQueryStatusWorkloadInsightsTopContributorsOutput",
 }) as any as S.Schema<GetQueryStatusWorkloadInsightsTopContributorsOutput>;
 export interface GetQueryStatusWorkloadInsightsTopContributorsDataOutput {
-  status: string;
+  status: QueryStatus;
 }
 export const GetQueryStatusWorkloadInsightsTopContributorsDataOutput =
-  S.suspend(() => S.Struct({ status: S.String })).annotations({
+  S.suspend(() => S.Struct({ status: QueryStatus })).annotations({
     identifier: "GetQueryStatusWorkloadInsightsTopContributorsDataOutput",
   }) as any as S.Schema<GetQueryStatusWorkloadInsightsTopContributorsDataOutput>;
 export interface StartQueryWorkloadInsightsTopContributorsOutput {
@@ -883,13 +1044,13 @@ export const WorkloadInsightsTopContributorsValuesList = S.Array(S.Number);
 export interface MonitorSummary {
   monitorArn: string;
   monitorName: string;
-  monitorStatus: string;
+  monitorStatus: MonitorStatus;
 }
 export const MonitorSummary = S.suspend(() =>
   S.Struct({
     monitorArn: S.String,
     monitorName: S.String,
-    monitorStatus: S.String,
+    monitorStatus: MonitorStatus,
   }),
 ).annotations({
   identifier: "MonitorSummary",
@@ -898,11 +1059,11 @@ export type MonitorList = MonitorSummary[];
 export const MonitorList = S.Array(MonitorSummary);
 export interface ScopeSummary {
   scopeId: string;
-  status: string;
+  status: ScopeStatus;
   scopeArn: string;
 }
 export const ScopeSummary = S.suspend(() =>
-  S.Struct({ scopeId: S.String, status: S.String, scopeArn: S.String }),
+  S.Struct({ scopeId: S.String, status: ScopeStatus, scopeArn: S.String }),
 ).annotations({ identifier: "ScopeSummary" }) as any as S.Schema<ScopeSummary>;
 export type ScopeSummaryList = ScopeSummary[];
 export const ScopeSummaryList = S.Array(ScopeSummary);
@@ -938,8 +1099,8 @@ export const WorkloadInsightsTopContributorsRowList = S.Array(
   WorkloadInsightsTopContributorsRow,
 );
 export interface WorkloadInsightsTopContributorsDataPoint {
-  timestamps: WorkloadInsightsTopContributorsTimestampsList;
-  values: WorkloadInsightsTopContributorsValuesList;
+  timestamps: Date[];
+  values: number[];
   label: string;
 }
 export const WorkloadInsightsTopContributorsDataPoint = S.suspend(() =>
@@ -959,18 +1120,18 @@ export const WorkloadInsightsTopContributorsDataPoints = S.Array(
 export interface CreateMonitorOutput {
   monitorArn: string;
   monitorName: string;
-  monitorStatus: string;
-  localResources: MonitorLocalResources;
-  remoteResources: MonitorRemoteResources;
+  monitorStatus: MonitorStatus;
+  localResources: MonitorLocalResource[];
+  remoteResources: MonitorRemoteResource[];
   createdAt: Date;
   modifiedAt: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateMonitorOutput = S.suspend(() =>
   S.Struct({
     monitorArn: S.String,
     monitorName: S.String,
-    monitorStatus: S.String,
+    monitorStatus: MonitorStatus,
     localResources: MonitorLocalResources,
     remoteResources: MonitorRemoteResources,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -981,7 +1142,7 @@ export const CreateMonitorOutput = S.suspend(() =>
   identifier: "CreateMonitorOutput",
 }) as any as S.Schema<CreateMonitorOutput>;
 export interface ListMonitorsOutput {
-  monitors: MonitorList;
+  monitors: MonitorSummary[];
   nextToken?: string;
 }
 export const ListMonitorsOutput = S.suspend(() =>
@@ -990,7 +1151,7 @@ export const ListMonitorsOutput = S.suspend(() =>
   identifier: "ListMonitorsOutput",
 }) as any as S.Schema<ListMonitorsOutput>;
 export interface ListScopesOutput {
-  scopes: ScopeSummaryList;
+  scopes: ScopeSummary[];
   nextToken?: string;
 }
 export const ListScopesOutput = S.suspend(() =>
@@ -999,7 +1160,7 @@ export const ListScopesOutput = S.suspend(() =>
   identifier: "ListScopesOutput",
 }) as any as S.Schema<ListScopesOutput>;
 export interface GetQueryResultsWorkloadInsightsTopContributorsOutput {
-  topContributors?: WorkloadInsightsTopContributorsRowList;
+  topContributors?: WorkloadInsightsTopContributorsRow[];
   nextToken?: string;
 }
 export const GetQueryResultsWorkloadInsightsTopContributorsOutput = S.suspend(
@@ -1012,14 +1173,14 @@ export const GetQueryResultsWorkloadInsightsTopContributorsOutput = S.suspend(
   identifier: "GetQueryResultsWorkloadInsightsTopContributorsOutput",
 }) as any as S.Schema<GetQueryResultsWorkloadInsightsTopContributorsOutput>;
 export interface GetQueryResultsWorkloadInsightsTopContributorsDataOutput {
-  unit: string;
-  datapoints: WorkloadInsightsTopContributorsDataPoints;
+  unit: MetricUnit;
+  datapoints: WorkloadInsightsTopContributorsDataPoint[];
   nextToken?: string;
 }
 export const GetQueryResultsWorkloadInsightsTopContributorsDataOutput =
   S.suspend(() =>
     S.Struct({
-      unit: S.String,
+      unit: MetricUnit,
       datapoints: WorkloadInsightsTopContributorsDataPoints,
       nextToken: S.optional(S.String),
     }),
@@ -1073,7 +1234,7 @@ export interface MonitorTopContributorsRow {
   localAz?: string;
   localSubnetId?: string;
   targetPort?: number;
-  destinationCategory?: string;
+  destinationCategory?: DestinationCategory;
   remoteVpcId?: string;
   remoteRegion?: string;
   remoteAz?: string;
@@ -1082,7 +1243,7 @@ export interface MonitorTopContributorsRow {
   remoteIp?: string;
   dnatIp?: string;
   value?: number;
-  traversedConstructs?: TraversedConstructsList;
+  traversedConstructs?: TraversedComponent[];
   kubernetesMetadata?: KubernetesMetadata;
   localInstanceArn?: string;
   localSubnetArn?: string;
@@ -1101,7 +1262,7 @@ export const MonitorTopContributorsRow = S.suspend(() =>
     localAz: S.optional(S.String),
     localSubnetId: S.optional(S.String),
     targetPort: S.optional(S.Number),
-    destinationCategory: S.optional(S.String),
+    destinationCategory: S.optional(DestinationCategory),
     remoteVpcId: S.optional(S.String),
     remoteRegion: S.optional(S.String),
     remoteAz: S.optional(S.String),
@@ -1125,13 +1286,13 @@ export const MonitorTopContributorsRow = S.suspend(() =>
 export type MonitorTopContributorsRowList = MonitorTopContributorsRow[];
 export const MonitorTopContributorsRowList = S.Array(MonitorTopContributorsRow);
 export interface GetQueryResultsMonitorTopContributorsOutput {
-  unit?: string;
-  topContributors?: MonitorTopContributorsRowList;
+  unit?: MetricUnit;
+  topContributors?: MonitorTopContributorsRow[];
   nextToken?: string;
 }
 export const GetQueryResultsMonitorTopContributorsOutput = S.suspend(() =>
   S.Struct({
-    unit: S.optional(S.String),
+    unit: S.optional(MetricUnit),
     topContributors: S.optional(MonitorTopContributorsRowList),
     nextToken: S.optional(S.String),
   }),
@@ -1139,9 +1300,9 @@ export const GetQueryResultsMonitorTopContributorsOutput = S.suspend(() =>
   identifier: "GetQueryResultsMonitorTopContributorsOutput",
 }) as any as S.Schema<GetQueryResultsMonitorTopContributorsOutput>;
 export interface CreateScopeInput {
-  targets: TargetResourceList;
+  targets: TargetResource[];
   clientToken?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateScopeInput = S.suspend(() =>
   S.Struct({
@@ -1163,14 +1324,14 @@ export const CreateScopeInput = S.suspend(() =>
 }) as any as S.Schema<CreateScopeInput>;
 export interface CreateScopeOutput {
   scopeId: string;
-  status: string;
+  status: ScopeStatus;
   scopeArn: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateScopeOutput = S.suspend(() =>
   S.Struct({
     scopeId: S.String,
-    status: S.String,
+    status: ScopeStatus,
     scopeArn: S.String,
     tags: S.optional(TagMap),
   }),
@@ -1217,7 +1378,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listMonitors: {
   (
     input: ListMonitorsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMonitorsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1228,7 +1389,7 @@ export const listMonitors: {
   >;
   pages: (
     input: ListMonitorsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMonitorsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1239,7 +1400,7 @@ export const listMonitors: {
   >;
   items: (
     input: ListMonitorsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MonitorSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1279,7 +1440,7 @@ export const listMonitors: {
  */
 export const createScope: (
   input: CreateScopeInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateScopeOutput,
   | AccessDeniedException
   | ConflictException
@@ -1307,7 +1468,7 @@ export const createScope: (
 export const listScopes: {
   (
     input: ListScopesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListScopesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1319,7 +1480,7 @@ export const listScopes: {
   >;
   pages: (
     input: ListScopesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListScopesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1331,7 +1492,7 @@ export const listScopes: {
   >;
   items: (
     input: ListScopesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ScopeSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1370,7 +1531,7 @@ export const listScopes: {
 export const getQueryResultsWorkloadInsightsTopContributors: {
   (
     input: GetQueryResultsWorkloadInsightsTopContributorsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetQueryResultsWorkloadInsightsTopContributorsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1383,7 +1544,7 @@ export const getQueryResultsWorkloadInsightsTopContributors: {
   >;
   pages: (
     input: GetQueryResultsWorkloadInsightsTopContributorsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetQueryResultsWorkloadInsightsTopContributorsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1396,7 +1557,7 @@ export const getQueryResultsWorkloadInsightsTopContributors: {
   >;
   items: (
     input: GetQueryResultsWorkloadInsightsTopContributorsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkloadInsightsTopContributorsRow,
     | AccessDeniedException
     | InternalServerException
@@ -1439,7 +1600,7 @@ export const getQueryResultsWorkloadInsightsTopContributors: {
 export const getQueryResultsWorkloadInsightsTopContributorsData: {
   (
     input: GetQueryResultsWorkloadInsightsTopContributorsDataInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetQueryResultsWorkloadInsightsTopContributorsDataOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1452,7 +1613,7 @@ export const getQueryResultsWorkloadInsightsTopContributorsData: {
   >;
   pages: (
     input: GetQueryResultsWorkloadInsightsTopContributorsDataInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetQueryResultsWorkloadInsightsTopContributorsDataOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1465,7 +1626,7 @@ export const getQueryResultsWorkloadInsightsTopContributorsData: {
   >;
   items: (
     input: GetQueryResultsWorkloadInsightsTopContributorsDataInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkloadInsightsTopContributorsDataPoint,
     | AccessDeniedException
     | InternalServerException
@@ -1499,7 +1660,7 @@ export const getQueryResultsWorkloadInsightsTopContributorsData: {
  */
 export const updateScope: (
   input: UpdateScopeInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateScopeOutput,
   | AccessDeniedException
   | ConflictException
@@ -1528,7 +1689,7 @@ export const updateScope: (
  */
 export const deleteMonitor: (
   input: DeleteMonitorInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMonitorOutput,
   | AccessDeniedException
   | ConflictException
@@ -1555,7 +1716,7 @@ export const deleteMonitor: (
  */
 export const deleteScope: (
   input: DeleteScopeInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteScopeOutput,
   | AccessDeniedException
   | ConflictException
@@ -1584,7 +1745,7 @@ export const deleteScope: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -1611,7 +1772,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -1638,7 +1799,7 @@ export const tagResource: (
  */
 export const updateMonitor: (
   input: UpdateMonitorInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMonitorOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1663,7 +1824,7 @@ export const updateMonitor: (
  */
 export const getScope: (
   input: GetScopeInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetScopeOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1690,7 +1851,7 @@ export const getScope: (
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -1717,7 +1878,7 @@ export const untagResource: (
  */
 export const getMonitor: (
   input: GetMonitorInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetMonitorOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1746,7 +1907,7 @@ export const getMonitor: (
  */
 export const getQueryStatusMonitorTopContributors: (
   input: GetQueryStatusMonitorTopContributorsInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetQueryStatusMonitorTopContributorsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1775,7 +1936,7 @@ export const getQueryStatusMonitorTopContributors: (
  */
 export const startQueryMonitorTopContributors: (
   input: StartQueryMonitorTopContributorsInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartQueryMonitorTopContributorsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1804,7 +1965,7 @@ export const startQueryMonitorTopContributors: (
  */
 export const getQueryStatusWorkloadInsightsTopContributors: (
   input: GetQueryStatusWorkloadInsightsTopContributorsInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetQueryStatusWorkloadInsightsTopContributorsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1835,7 +1996,7 @@ export const getQueryStatusWorkloadInsightsTopContributors: (
  */
 export const getQueryStatusWorkloadInsightsTopContributorsData: (
   input: GetQueryStatusWorkloadInsightsTopContributorsDataInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetQueryStatusWorkloadInsightsTopContributorsDataOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1864,7 +2025,7 @@ export const getQueryStatusWorkloadInsightsTopContributorsData: (
  */
 export const startQueryWorkloadInsightsTopContributors: (
   input: StartQueryWorkloadInsightsTopContributorsInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartQueryWorkloadInsightsTopContributorsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1893,7 +2054,7 @@ export const startQueryWorkloadInsightsTopContributors: (
  */
 export const startQueryWorkloadInsightsTopContributorsData: (
   input: StartQueryWorkloadInsightsTopContributorsDataInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartQueryWorkloadInsightsTopContributorsDataOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1920,7 +2081,7 @@ export const startQueryWorkloadInsightsTopContributorsData: (
  */
 export const stopQueryMonitorTopContributors: (
   input: StopQueryMonitorTopContributorsInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopQueryMonitorTopContributorsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1947,7 +2108,7 @@ export const stopQueryMonitorTopContributors: (
  */
 export const stopQueryWorkloadInsightsTopContributors: (
   input: StopQueryWorkloadInsightsTopContributorsInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopQueryWorkloadInsightsTopContributorsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1974,7 +2135,7 @@ export const stopQueryWorkloadInsightsTopContributors: (
  */
 export const stopQueryWorkloadInsightsTopContributorsData: (
   input: StopQueryWorkloadInsightsTopContributorsDataInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopQueryWorkloadInsightsTopContributorsDataOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1999,7 +2160,7 @@ export const stopQueryWorkloadInsightsTopContributorsData: (
  */
 export const createMonitor: (
   input: CreateMonitorInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMonitorOutput,
   | AccessDeniedException
   | ConflictException
@@ -2031,7 +2192,7 @@ export const createMonitor: (
 export const getQueryResultsMonitorTopContributors: {
   (
     input: GetQueryResultsMonitorTopContributorsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetQueryResultsMonitorTopContributorsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2044,7 +2205,7 @@ export const getQueryResultsMonitorTopContributors: {
   >;
   pages: (
     input: GetQueryResultsMonitorTopContributorsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetQueryResultsMonitorTopContributorsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2057,7 +2218,7 @@ export const getQueryResultsMonitorTopContributors: {
   >;
   items: (
     input: GetQueryResultsMonitorTopContributorsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MonitorTopContributorsRow,
     | AccessDeniedException
     | InternalServerException

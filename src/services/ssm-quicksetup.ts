@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -171,7 +171,7 @@ export type FilterValues = string[];
 export const FilterValues = S.Array(S.String);
 export interface Filter {
   Key: string;
-  Values: FilterValues;
+  Values: string[];
 }
 export const Filter = S.suspend(() =>
   S.Struct({ Key: S.String, Values: FilterValues }),
@@ -181,7 +181,7 @@ export const FiltersList = S.Array(Filter);
 export interface ListConfigurationsInput {
   StartingToken?: string;
   MaxItems?: number;
-  Filters?: FiltersList;
+  Filters?: Filter[];
   ManagerArn?: string;
   ConfigurationDefinitionId?: string;
 }
@@ -226,7 +226,7 @@ export type TagsMap = { [key: string]: string };
 export const TagsMap = S.Record({ key: S.String, value: S.String });
 export interface TagResourceInput {
   ResourceArn: string;
-  Tags: TagsMap;
+  Tags: { [key: string]: string };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -251,7 +251,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceInput {
   ResourceArn: string;
-  TagKeys: TagKeys;
+  TagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({
@@ -333,7 +333,7 @@ export const ConfigurationParametersMap = S.Record({
 });
 export interface ConfigurationDefinitionInput {
   Type: string;
-  Parameters: ConfigurationParametersMap;
+  Parameters: { [key: string]: string };
   TypeVersion?: string;
   LocalDeploymentExecutionRoleName?: string;
   LocalDeploymentAdministrationRoleArn?: string;
@@ -375,8 +375,8 @@ export const QuickSetupTypeList = S.Array(QuickSetupTypeOutput);
 export interface CreateConfigurationManagerInput {
   Name?: string;
   Description?: string;
-  ConfigurationDefinitions: ConfigurationDefinitionsInputList;
-  Tags?: TagsMap;
+  ConfigurationDefinitions: ConfigurationDefinitionInput[];
+  Tags?: { [key: string]: string };
 }
 export const CreateConfigurationManagerInput = S.suspend(() =>
   S.Struct({
@@ -408,7 +408,7 @@ export const GetServiceSettingsOutput = S.suspend(() =>
 export interface ListConfigurationManagersInput {
   StartingToken?: string;
   MaxItems?: number;
-  Filters?: FiltersList;
+  Filters?: Filter[];
 }
 export const ListConfigurationManagersInput = S.suspend(() =>
   S.Struct({
@@ -429,7 +429,7 @@ export const ListConfigurationManagersInput = S.suspend(() =>
   identifier: "ListConfigurationManagersInput",
 }) as any as S.Schema<ListConfigurationManagersInput>;
 export interface ListQuickSetupTypesOutput {
-  QuickSetupTypeList?: QuickSetupTypeList;
+  QuickSetupTypeList?: QuickSetupTypeOutput[];
 }
 export const ListQuickSetupTypesOutput = S.suspend(() =>
   S.Struct({ QuickSetupTypeList: S.optional(QuickSetupTypeList) }),
@@ -440,7 +440,7 @@ export interface UpdateConfigurationDefinitionInput {
   ManagerArn: string;
   Id: string;
   TypeVersion?: string;
-  Parameters?: ConfigurationParametersMap;
+  Parameters?: { [key: string]: string };
   LocalDeploymentExecutionRoleName?: string;
   LocalDeploymentAdministrationRoleArn?: string;
 }
@@ -474,9 +474,34 @@ export const UpdateConfigurationDefinitionResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateConfigurationDefinitionResponse",
 }) as any as S.Schema<UpdateConfigurationDefinitionResponse>;
+export type StatusType = "Deployment" | "AsyncExecutions";
+export const StatusType = S.Literal("Deployment", "AsyncExecutions");
+export type Status =
+  | "INITIALIZING"
+  | "DEPLOYING"
+  | "SUCCEEDED"
+  | "DELETING"
+  | "STOPPING"
+  | "FAILED"
+  | "STOPPED"
+  | "DELETE_FAILED"
+  | "STOP_FAILED"
+  | "NONE";
+export const Status = S.Literal(
+  "INITIALIZING",
+  "DEPLOYING",
+  "SUCCEEDED",
+  "DELETING",
+  "STOPPING",
+  "FAILED",
+  "STOPPED",
+  "DELETE_FAILED",
+  "STOP_FAILED",
+  "NONE",
+);
 export interface ConfigurationDefinition {
   Type: string;
-  Parameters: ConfigurationParametersMap;
+  Parameters: { [key: string]: string };
   TypeVersion?: string;
   LocalDeploymentExecutionRoleName?: string;
   LocalDeploymentAdministrationRoleArn?: string;
@@ -499,16 +524,16 @@ export const ConfigurationDefinitionsList = S.Array(ConfigurationDefinition);
 export type StatusDetails = { [key: string]: string };
 export const StatusDetails = S.Record({ key: S.String, value: S.String });
 export interface StatusSummary {
-  StatusType: string;
-  Status?: string;
+  StatusType: StatusType;
+  Status?: Status;
   StatusMessage?: string;
   LastUpdatedAt: Date;
-  StatusDetails?: StatusDetails;
+  StatusDetails?: { [key: string]: string };
 }
 export const StatusSummary = S.suspend(() =>
   S.Struct({
-    StatusType: S.String,
-    Status: S.optional(S.String),
+    StatusType: StatusType,
+    Status: S.optional(Status),
     StatusMessage: S.optional(S.String),
     LastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     StatusDetails: S.optional(StatusDetails),
@@ -527,8 +552,8 @@ export interface ConfigurationSummary {
   Region?: string;
   Account?: string;
   CreatedAt?: Date;
-  FirstClassParameters?: ConfigurationParametersMap;
-  StatusSummaries?: StatusSummariesList;
+  FirstClassParameters?: { [key: string]: string };
+  StatusSummaries?: StatusSummary[];
 }
 export const ConfigurationSummary = S.suspend(() =>
   S.Struct({
@@ -571,9 +596,9 @@ export interface GetConfigurationManagerOutput {
   Name?: string;
   CreatedAt?: Date;
   LastModifiedAt?: Date;
-  StatusSummaries?: StatusSummariesList;
-  ConfigurationDefinitions?: ConfigurationDefinitionsList;
-  Tags?: TagsMap;
+  StatusSummaries?: StatusSummary[];
+  ConfigurationDefinitions?: ConfigurationDefinition[];
+  Tags?: { [key: string]: string };
 }
 export const GetConfigurationManagerOutput = S.suspend(() =>
   S.Struct({
@@ -590,7 +615,7 @@ export const GetConfigurationManagerOutput = S.suspend(() =>
   identifier: "GetConfigurationManagerOutput",
 }) as any as S.Schema<GetConfigurationManagerOutput>;
 export interface ListConfigurationsOutput {
-  ConfigurationsList?: ConfigurationsList;
+  ConfigurationsList?: ConfigurationSummary[];
   NextToken?: string;
 }
 export const ListConfigurationsOutput = S.suspend(() =>
@@ -602,7 +627,7 @@ export const ListConfigurationsOutput = S.suspend(() =>
   identifier: "ListConfigurationsOutput",
 }) as any as S.Schema<ListConfigurationsOutput>;
 export interface ListTagsForResourceResponse {
-  Tags?: Tags;
+  Tags?: TagEntry[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }),
@@ -619,8 +644,8 @@ export interface GetConfigurationOutput {
   Region?: string;
   CreatedAt?: Date;
   LastModifiedAt?: Date;
-  StatusSummaries?: StatusSummariesList;
-  Parameters?: ConfigurationParametersMap;
+  StatusSummaries?: StatusSummary[];
+  Parameters?: { [key: string]: string };
 }
 export const GetConfigurationOutput = S.suspend(() =>
   S.Struct({
@@ -643,7 +668,7 @@ export interface ConfigurationDefinitionSummary {
   Id?: string;
   Type?: string;
   TypeVersion?: string;
-  FirstClassParameters?: ConfigurationParametersMap;
+  FirstClassParameters?: { [key: string]: string };
 }
 export const ConfigurationDefinitionSummary = S.suspend(() =>
   S.Struct({
@@ -664,8 +689,8 @@ export interface ConfigurationManagerSummary {
   ManagerArn: string;
   Description?: string;
   Name?: string;
-  StatusSummaries?: StatusSummariesList;
-  ConfigurationDefinitionSummaries?: ConfigurationDefinitionSummariesList;
+  StatusSummaries?: StatusSummary[];
+  ConfigurationDefinitionSummaries?: ConfigurationDefinitionSummary[];
 }
 export const ConfigurationManagerSummary = S.suspend(() =>
   S.Struct({
@@ -683,7 +708,7 @@ export const ConfigurationManagerSummary = S.suspend(() =>
 export type ConfigurationManagerList = ConfigurationManagerSummary[];
 export const ConfigurationManagerList = S.Array(ConfigurationManagerSummary);
 export interface ListConfigurationManagersOutput {
-  ConfigurationManagersList?: ConfigurationManagerList;
+  ConfigurationManagersList?: ConfigurationManagerSummary[];
   NextToken?: string;
 }
 export const ListConfigurationManagersOutput = S.suspend(() =>
@@ -729,7 +754,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const getServiceSettings: (
   input: GetServiceSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceSettingsOutput,
   | AccessDeniedException
   | ConflictException
@@ -752,7 +777,7 @@ export const getServiceSettings: (
  */
 export const listQuickSetupTypes: (
   input: ListQuickSetupTypesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListQuickSetupTypesOutput,
   | AccessDeniedException
   | ConflictException
@@ -775,7 +800,7 @@ export const listQuickSetupTypes: (
  */
 export const getConfiguration: (
   input: GetConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetConfigurationOutput,
   | AccessDeniedException
   | ConflictException
@@ -802,7 +827,7 @@ export const getConfiguration: (
  */
 export const getConfigurationManager: (
   input: GetConfigurationManagerInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetConfigurationManagerOutput,
   | AccessDeniedException
   | ConflictException
@@ -830,7 +855,7 @@ export const getConfigurationManager: (
 export const listConfigurations: {
   (
     input: ListConfigurationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConfigurationsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -842,7 +867,7 @@ export const listConfigurations: {
   >;
   pages: (
     input: ListConfigurationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConfigurationsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -854,7 +879,7 @@ export const listConfigurations: {
   >;
   items: (
     input: ListConfigurationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConfigurationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -886,7 +911,7 @@ export const listConfigurations: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -913,7 +938,7 @@ export const listTagsForResource: (
  */
 export const updateConfigurationDefinition: (
   input: UpdateConfigurationDefinitionInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConfigurationDefinitionResponse,
   | AccessDeniedException
   | ConflictException
@@ -940,7 +965,7 @@ export const updateConfigurationDefinition: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -967,7 +992,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -994,7 +1019,7 @@ export const untagResource: (
  */
 export const updateConfigurationManager: (
   input: UpdateConfigurationManagerInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConfigurationManagerResponse,
   | AccessDeniedException
   | ConflictException
@@ -1021,7 +1046,7 @@ export const updateConfigurationManager: (
  */
 export const updateServiceSettings: (
   input: UpdateServiceSettingsInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateServiceSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -1048,7 +1073,7 @@ export const updateServiceSettings: (
  */
 export const createConfigurationManager: (
   input: CreateConfigurationManagerInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConfigurationManagerOutput,
   | AccessDeniedException
   | ConflictException
@@ -1073,7 +1098,7 @@ export const createConfigurationManager: (
  */
 export const deleteConfigurationManager: (
   input: DeleteConfigurationManagerInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConfigurationManagerResponse,
   | AccessDeniedException
   | ConflictException
@@ -1101,7 +1126,7 @@ export const deleteConfigurationManager: (
 export const listConfigurationManagers: {
   (
     input: ListConfigurationManagersInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConfigurationManagersOutput,
     | AccessDeniedException
     | ConflictException
@@ -1113,7 +1138,7 @@ export const listConfigurationManagers: {
   >;
   pages: (
     input: ListConfigurationManagersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConfigurationManagersOutput,
     | AccessDeniedException
     | ConflictException
@@ -1125,7 +1150,7 @@ export const listConfigurationManagers: {
   >;
   items: (
     input: ListConfigurationManagersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConfigurationManagerSummary,
     | AccessDeniedException
     | ConflictException

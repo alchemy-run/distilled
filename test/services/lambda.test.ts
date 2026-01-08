@@ -24,6 +24,7 @@ import {
   tagResource,
   untagResource,
   updateFunctionConfiguration,
+  type Runtime,
 } from "../../src/services/lambda.ts";
 import {
   createQueue,
@@ -99,7 +100,7 @@ const waitForFunctionActive = (functionName: string) =>
       if (state === undefined || state === "Active") {
         return Effect.succeed(config);
       }
-      if (state === "Pending" || state === "InProgress") {
+      if (state === "Pending" || state === "ActiveNonInvocable") {
         return Effect.fail(new Error(`Function state is ${state}`));
       }
       return Effect.succeed(config);
@@ -114,7 +115,7 @@ const waitForFunctionActive = (functionName: string) =>
 const withFunction = <A, E, R>(
   config: {
     FunctionName: string;
-    Runtime?: string;
+    Runtime?: Runtime;
     Handler?: string;
     Description?: string;
     Timeout?: number;

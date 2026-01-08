@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -158,18 +158,72 @@ export const GetServiceRoleForAccountRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetServiceRoleForAccountRequest",
 }) as any as S.Schema<GetServiceRoleForAccountRequest>;
+export type DeploymentType =
+  | "NewDeployment"
+  | "Redeployment"
+  | "ResetDeployment"
+  | "ForceResetDeployment";
+export const DeploymentType = S.Literal(
+  "NewDeployment",
+  "Redeployment",
+  "ResetDeployment",
+  "ForceResetDeployment",
+);
+export type SoftwareToUpdate = "core" | "ota_agent";
+export const SoftwareToUpdate = S.Literal("core", "ota_agent");
+export type UpdateAgentLogLevel =
+  | "NONE"
+  | "TRACE"
+  | "DEBUG"
+  | "VERBOSE"
+  | "INFO"
+  | "WARN"
+  | "ERROR"
+  | "FATAL";
+export const UpdateAgentLogLevel = S.Literal(
+  "NONE",
+  "TRACE",
+  "DEBUG",
+  "VERBOSE",
+  "INFO",
+  "WARN",
+  "ERROR",
+  "FATAL",
+);
 export type UpdateTargets = string[];
 export const UpdateTargets = S.Array(S.String);
+export type UpdateTargetsArchitecture =
+  | "armv6l"
+  | "armv7l"
+  | "x86_64"
+  | "aarch64";
+export const UpdateTargetsArchitecture = S.Literal(
+  "armv6l",
+  "armv7l",
+  "x86_64",
+  "aarch64",
+);
+export type UpdateTargetsOperatingSystem =
+  | "ubuntu"
+  | "raspbian"
+  | "amazon_linux"
+  | "openwrt";
+export const UpdateTargetsOperatingSystem = S.Literal(
+  "ubuntu",
+  "raspbian",
+  "amazon_linux",
+  "openwrt",
+);
 export type __listOf__string = string[];
 export const __listOf__string = S.Array(S.String);
 export interface AssociateRoleToGroupRequest {
   GroupId: string;
-  RoleArn: string;
+  RoleArn?: string;
 }
 export const AssociateRoleToGroupRequest = S.suspend(() =>
   S.Struct({
     GroupId: S.String.pipe(T.HttpLabel("GroupId")),
-    RoleArn: S.String,
+    RoleArn: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/greengrass/groups/{GroupId}/role" }),
@@ -184,10 +238,10 @@ export const AssociateRoleToGroupRequest = S.suspend(() =>
   identifier: "AssociateRoleToGroupRequest",
 }) as any as S.Schema<AssociateRoleToGroupRequest>;
 export interface AssociateServiceRoleToAccountRequest {
-  RoleArn: string;
+  RoleArn?: string;
 }
 export const AssociateServiceRoleToAccountRequest = S.suspend(() =>
-  S.Struct({ RoleArn: S.String }).pipe(
+  S.Struct({ RoleArn: S.optional(S.String) }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/greengrass/servicerole" }),
       svc,
@@ -203,7 +257,7 @@ export const AssociateServiceRoleToAccountRequest = S.suspend(() =>
 export interface CreateDeploymentRequest {
   AmznClientToken?: string;
   DeploymentId?: string;
-  DeploymentType: string;
+  DeploymentType?: DeploymentType;
   GroupId: string;
   GroupVersionId?: string;
 }
@@ -213,7 +267,7 @@ export const CreateDeploymentRequest = S.suspend(() =>
       T.HttpHeader("X-Amzn-Client-Token"),
     ),
     DeploymentId: S.optional(S.String),
-    DeploymentType: S.String,
+    DeploymentType: S.optional(DeploymentType),
     GroupId: S.String.pipe(T.HttpLabel("GroupId")),
     GroupVersionId: S.optional(S.String),
   }).pipe(
@@ -297,24 +351,24 @@ export const CreateGroupVersionRequest = S.suspend(() =>
 }) as any as S.Schema<CreateGroupVersionRequest>;
 export interface CreateSoftwareUpdateJobRequest {
   AmznClientToken?: string;
-  S3UrlSignerRole: string;
-  SoftwareToUpdate: string;
-  UpdateAgentLogLevel?: string;
-  UpdateTargets: UpdateTargets;
-  UpdateTargetsArchitecture: string;
-  UpdateTargetsOperatingSystem: string;
+  S3UrlSignerRole?: string;
+  SoftwareToUpdate?: SoftwareToUpdate;
+  UpdateAgentLogLevel?: UpdateAgentLogLevel;
+  UpdateTargets?: string[];
+  UpdateTargetsArchitecture?: UpdateTargetsArchitecture;
+  UpdateTargetsOperatingSystem?: UpdateTargetsOperatingSystem;
 }
 export const CreateSoftwareUpdateJobRequest = S.suspend(() =>
   S.Struct({
     AmznClientToken: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-Client-Token"),
     ),
-    S3UrlSignerRole: S.String,
-    SoftwareToUpdate: S.String,
-    UpdateAgentLogLevel: S.optional(S.String),
-    UpdateTargets: UpdateTargets,
-    UpdateTargetsArchitecture: S.String,
-    UpdateTargetsOperatingSystem: S.String,
+    S3UrlSignerRole: S.optional(S.String),
+    SoftwareToUpdate: S.optional(SoftwareToUpdate),
+    UpdateAgentLogLevel: S.optional(UpdateAgentLogLevel),
+    UpdateTargets: S.optional(UpdateTargets),
+    UpdateTargetsArchitecture: S.optional(UpdateTargetsArchitecture),
+    UpdateTargetsOperatingSystem: S.optional(UpdateTargetsOperatingSystem),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/greengrass/updates" }),
@@ -1641,17 +1695,17 @@ export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
 export interface StartBulkDeploymentRequest {
   AmznClientToken?: string;
-  ExecutionRoleArn: string;
-  InputFileUri: string;
-  tags?: Tags;
+  ExecutionRoleArn?: string;
+  InputFileUri?: string;
+  tags?: { [key: string]: string };
 }
 export const StartBulkDeploymentRequest = S.suspend(() =>
   S.Struct({
     AmznClientToken: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-Client-Token"),
     ),
-    ExecutionRoleArn: S.String,
-    InputFileUri: S.String,
+    ExecutionRoleArn: S.optional(S.String),
+    InputFileUri: S.optional(S.String),
     tags: S.optional(Tags),
   }).pipe(
     T.all(
@@ -1696,7 +1750,7 @@ export const StopBulkDeploymentResponse = S.suspend(() =>
 }) as any as S.Schema<StopBulkDeploymentResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1721,12 +1775,12 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: __listOf__string;
+  TagKeys?: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    TagKeys: __listOf__string.pipe(T.HttpQuery("tagKeys")),
+    TagKeys: S.optional(__listOf__string).pipe(T.HttpQuery("tagKeys")),
   }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
@@ -2005,24 +2059,32 @@ export const UpdateSubscriptionDefinitionResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateSubscriptionDefinitionResponse",
 }) as any as S.Schema<UpdateSubscriptionDefinitionResponse>;
+export type LoggerComponent = "GreengrassSystem" | "Lambda";
+export const LoggerComponent = S.Literal("GreengrassSystem", "Lambda");
+export type LoggerLevel = "DEBUG" | "INFO" | "WARN" | "ERROR" | "FATAL";
+export const LoggerLevel = S.Literal("DEBUG", "INFO", "WARN", "ERROR", "FATAL");
+export type LoggerType = "FileSystem" | "AWSCloudWatch";
+export const LoggerType = S.Literal("FileSystem", "AWSCloudWatch");
+export type Telemetry = "On" | "Off";
+export const Telemetry = S.Literal("On", "Off");
 export type __mapOf__string = { [key: string]: string };
 export const __mapOf__string = S.Record({ key: S.String, value: S.String });
 export interface Connector {
-  ConnectorArn: string;
-  Id: string;
-  Parameters?: __mapOf__string;
+  ConnectorArn?: string;
+  Id?: string;
+  Parameters?: { [key: string]: string };
 }
 export const Connector = S.suspend(() =>
   S.Struct({
-    ConnectorArn: S.String,
-    Id: S.String,
+    ConnectorArn: S.optional(S.String),
+    Id: S.optional(S.String),
     Parameters: S.optional(__mapOf__string),
   }),
 ).annotations({ identifier: "Connector" }) as any as S.Schema<Connector>;
 export type __listOfConnector = Connector[];
 export const __listOfConnector = S.Array(Connector);
 export interface ConnectorDefinitionVersion {
-  Connectors?: __listOfConnector;
+  Connectors?: Connector[];
 }
 export const ConnectorDefinitionVersion = S.suspend(() =>
   S.Struct({ Connectors: S.optional(__listOfConnector) }),
@@ -2030,23 +2092,23 @@ export const ConnectorDefinitionVersion = S.suspend(() =>
   identifier: "ConnectorDefinitionVersion",
 }) as any as S.Schema<ConnectorDefinitionVersion>;
 export interface Core {
-  CertificateArn: string;
-  Id: string;
+  CertificateArn?: string;
+  Id?: string;
   SyncShadow?: boolean;
-  ThingArn: string;
+  ThingArn?: string;
 }
 export const Core = S.suspend(() =>
   S.Struct({
-    CertificateArn: S.String,
-    Id: S.String,
+    CertificateArn: S.optional(S.String),
+    Id: S.optional(S.String),
     SyncShadow: S.optional(S.Boolean),
-    ThingArn: S.String,
+    ThingArn: S.optional(S.String),
   }),
 ).annotations({ identifier: "Core" }) as any as S.Schema<Core>;
 export type __listOfCore = Core[];
 export const __listOfCore = S.Array(Core);
 export interface CoreDefinitionVersion {
-  Cores?: __listOfCore;
+  Cores?: Core[];
 }
 export const CoreDefinitionVersion = S.suspend(() =>
   S.Struct({ Cores: S.optional(__listOfCore) }),
@@ -2054,29 +2116,34 @@ export const CoreDefinitionVersion = S.suspend(() =>
   identifier: "CoreDefinitionVersion",
 }) as any as S.Schema<CoreDefinitionVersion>;
 export interface Device {
-  CertificateArn: string;
-  Id: string;
+  CertificateArn?: string;
+  Id?: string;
   SyncShadow?: boolean;
-  ThingArn: string;
+  ThingArn?: string;
 }
 export const Device = S.suspend(() =>
   S.Struct({
-    CertificateArn: S.String,
-    Id: S.String,
+    CertificateArn: S.optional(S.String),
+    Id: S.optional(S.String),
     SyncShadow: S.optional(S.Boolean),
-    ThingArn: S.String,
+    ThingArn: S.optional(S.String),
   }),
 ).annotations({ identifier: "Device" }) as any as S.Schema<Device>;
 export type __listOfDevice = Device[];
 export const __listOfDevice = S.Array(Device);
 export interface DeviceDefinitionVersion {
-  Devices?: __listOfDevice;
+  Devices?: Device[];
 }
 export const DeviceDefinitionVersion = S.suspend(() =>
   S.Struct({ Devices: S.optional(__listOfDevice) }),
 ).annotations({
   identifier: "DeviceDefinitionVersion",
 }) as any as S.Schema<DeviceDefinitionVersion>;
+export type FunctionIsolationMode = "GreengrassContainer" | "NoContainer";
+export const FunctionIsolationMode = S.Literal(
+  "GreengrassContainer",
+  "NoContainer",
+);
 export interface FunctionRunAsConfig {
   Gid?: number;
   Uid?: number;
@@ -2087,12 +2154,12 @@ export const FunctionRunAsConfig = S.suspend(() =>
   identifier: "FunctionRunAsConfig",
 }) as any as S.Schema<FunctionRunAsConfig>;
 export interface FunctionDefaultExecutionConfig {
-  IsolationMode?: string;
+  IsolationMode?: FunctionIsolationMode;
   RunAs?: FunctionRunAsConfig;
 }
 export const FunctionDefaultExecutionConfig = S.suspend(() =>
   S.Struct({
-    IsolationMode: S.optional(S.String),
+    IsolationMode: S.optional(FunctionIsolationMode),
     RunAs: S.optional(FunctionRunAsConfig),
   }),
 ).annotations({
@@ -2106,24 +2173,31 @@ export const FunctionDefaultConfig = S.suspend(() =>
 ).annotations({
   identifier: "FunctionDefaultConfig",
 }) as any as S.Schema<FunctionDefaultConfig>;
+export type EncodingType = "binary" | "json";
+export const EncodingType = S.Literal("binary", "json");
 export interface FunctionExecutionConfig {
-  IsolationMode?: string;
+  IsolationMode?: FunctionIsolationMode;
   RunAs?: FunctionRunAsConfig;
 }
 export const FunctionExecutionConfig = S.suspend(() =>
   S.Struct({
-    IsolationMode: S.optional(S.String),
+    IsolationMode: S.optional(FunctionIsolationMode),
     RunAs: S.optional(FunctionRunAsConfig),
   }),
 ).annotations({
   identifier: "FunctionExecutionConfig",
 }) as any as S.Schema<FunctionExecutionConfig>;
+export type Permission = "ro" | "rw";
+export const Permission = S.Literal("ro", "rw");
 export interface ResourceAccessPolicy {
-  Permission?: string;
-  ResourceId: string;
+  Permission?: Permission;
+  ResourceId?: string;
 }
 export const ResourceAccessPolicy = S.suspend(() =>
-  S.Struct({ Permission: S.optional(S.String), ResourceId: S.String }),
+  S.Struct({
+    Permission: S.optional(Permission),
+    ResourceId: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "ResourceAccessPolicy",
 }) as any as S.Schema<ResourceAccessPolicy>;
@@ -2132,8 +2206,8 @@ export const __listOfResourceAccessPolicy = S.Array(ResourceAccessPolicy);
 export interface FunctionConfigurationEnvironment {
   AccessSysfs?: boolean;
   Execution?: FunctionExecutionConfig;
-  ResourceAccessPolicies?: __listOfResourceAccessPolicy;
-  Variables?: __mapOf__string;
+  ResourceAccessPolicies?: ResourceAccessPolicy[];
+  Variables?: { [key: string]: string };
 }
 export const FunctionConfigurationEnvironment = S.suspend(() =>
   S.Struct({
@@ -2146,7 +2220,7 @@ export const FunctionConfigurationEnvironment = S.suspend(() =>
   identifier: "FunctionConfigurationEnvironment",
 }) as any as S.Schema<FunctionConfigurationEnvironment>;
 export interface FunctionConfiguration {
-  EncodingType?: string;
+  EncodingType?: EncodingType;
   Environment?: FunctionConfigurationEnvironment;
   ExecArgs?: string;
   Executable?: string;
@@ -2157,7 +2231,7 @@ export interface FunctionConfiguration {
 }
 export const FunctionConfiguration = S.suspend(() =>
   S.Struct({
-    EncodingType: S.optional(S.String),
+    EncodingType: S.optional(EncodingType),
     Environment: S.optional(FunctionConfigurationEnvironment),
     ExecArgs: S.optional(S.String),
     Executable: S.optional(S.String),
@@ -2172,20 +2246,20 @@ export const FunctionConfiguration = S.suspend(() =>
 export interface Function {
   FunctionArn?: string;
   FunctionConfiguration?: FunctionConfiguration;
-  Id: string;
+  Id?: string;
 }
 export const Function = S.suspend(() =>
   S.Struct({
     FunctionArn: S.optional(S.String),
     FunctionConfiguration: S.optional(FunctionConfiguration),
-    Id: S.String,
+    Id: S.optional(S.String),
   }),
 ).annotations({ identifier: "Function" }) as any as S.Schema<Function>;
 export type __listOfFunction = Function[];
 export const __listOfFunction = S.Array(Function);
 export interface FunctionDefinitionVersion {
   DefaultConfig?: FunctionDefaultConfig;
-  Functions?: __listOfFunction;
+  Functions?: Function[];
 }
 export const FunctionDefinitionVersion = S.suspend(() =>
   S.Struct({
@@ -2216,25 +2290,25 @@ export const GroupVersion = S.suspend(() =>
   }),
 ).annotations({ identifier: "GroupVersion" }) as any as S.Schema<GroupVersion>;
 export interface Logger {
-  Component: string;
-  Id: string;
-  Level: string;
+  Component?: LoggerComponent;
+  Id?: string;
+  Level?: LoggerLevel;
   Space?: number;
-  Type: string;
+  Type?: LoggerType;
 }
 export const Logger = S.suspend(() =>
   S.Struct({
-    Component: S.String,
-    Id: S.String,
-    Level: S.String,
+    Component: S.optional(LoggerComponent),
+    Id: S.optional(S.String),
+    Level: S.optional(LoggerLevel),
     Space: S.optional(S.Number),
-    Type: S.String,
+    Type: S.optional(LoggerType),
   }),
 ).annotations({ identifier: "Logger" }) as any as S.Schema<Logger>;
 export type __listOfLogger = Logger[];
 export const __listOfLogger = S.Array(Logger);
 export interface LoggerDefinitionVersion {
-  Loggers?: __listOfLogger;
+  Loggers?: Logger[];
 }
 export const LoggerDefinitionVersion = S.suspend(() =>
   S.Struct({ Loggers: S.optional(__listOfLogger) }),
@@ -2280,11 +2354,14 @@ export const LocalVolumeResourceData = S.suspend(() =>
   identifier: "LocalVolumeResourceData",
 }) as any as S.Schema<LocalVolumeResourceData>;
 export interface ResourceDownloadOwnerSetting {
-  GroupOwner: string;
-  GroupPermission: string;
+  GroupOwner?: string;
+  GroupPermission?: Permission;
 }
 export const ResourceDownloadOwnerSetting = S.suspend(() =>
-  S.Struct({ GroupOwner: S.String, GroupPermission: S.String }),
+  S.Struct({
+    GroupOwner: S.optional(S.String),
+    GroupPermission: S.optional(Permission),
+  }),
 ).annotations({
   identifier: "ResourceDownloadOwnerSetting",
 }) as any as S.Schema<ResourceDownloadOwnerSetting>;
@@ -2318,7 +2395,7 @@ export const SageMakerMachineLearningModelResourceData = S.suspend(() =>
 }) as any as S.Schema<SageMakerMachineLearningModelResourceData>;
 export interface SecretsManagerSecretResourceData {
   ARN?: string;
-  AdditionalStagingLabelsToDownload?: __listOf__string;
+  AdditionalStagingLabelsToDownload?: string[];
 }
 export const SecretsManagerSecretResourceData = S.suspend(() =>
   S.Struct({
@@ -2353,21 +2430,21 @@ export const ResourceDataContainer = S.suspend(() =>
   identifier: "ResourceDataContainer",
 }) as any as S.Schema<ResourceDataContainer>;
 export interface Resource {
-  Id: string;
-  Name: string;
-  ResourceDataContainer: ResourceDataContainer;
+  Id?: string;
+  Name?: string;
+  ResourceDataContainer?: ResourceDataContainer;
 }
 export const Resource = S.suspend(() =>
   S.Struct({
-    Id: S.String,
-    Name: S.String,
-    ResourceDataContainer: ResourceDataContainer,
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    ResourceDataContainer: S.optional(ResourceDataContainer),
   }),
 ).annotations({ identifier: "Resource" }) as any as S.Schema<Resource>;
 export type __listOfResource = Resource[];
 export const __listOfResource = S.Array(Resource);
 export interface ResourceDefinitionVersion {
-  Resources?: __listOfResource;
+  Resources?: Resource[];
 }
 export const ResourceDefinitionVersion = S.suspend(() =>
   S.Struct({ Resources: S.optional(__listOfResource) }),
@@ -2375,29 +2452,44 @@ export const ResourceDefinitionVersion = S.suspend(() =>
   identifier: "ResourceDefinitionVersion",
 }) as any as S.Schema<ResourceDefinitionVersion>;
 export interface Subscription {
-  Id: string;
-  Source: string;
-  Subject: string;
-  Target: string;
+  Id?: string;
+  Source?: string;
+  Subject?: string;
+  Target?: string;
 }
 export const Subscription = S.suspend(() =>
   S.Struct({
-    Id: S.String,
-    Source: S.String,
-    Subject: S.String,
-    Target: S.String,
+    Id: S.optional(S.String),
+    Source: S.optional(S.String),
+    Subject: S.optional(S.String),
+    Target: S.optional(S.String),
   }),
 ).annotations({ identifier: "Subscription" }) as any as S.Schema<Subscription>;
 export type __listOfSubscription = Subscription[];
 export const __listOfSubscription = S.Array(Subscription);
 export interface SubscriptionDefinitionVersion {
-  Subscriptions?: __listOfSubscription;
+  Subscriptions?: Subscription[];
 }
 export const SubscriptionDefinitionVersion = S.suspend(() =>
   S.Struct({ Subscriptions: S.optional(__listOfSubscription) }),
 ).annotations({
   identifier: "SubscriptionDefinitionVersion",
 }) as any as S.Schema<SubscriptionDefinitionVersion>;
+export type BulkDeploymentStatus =
+  | "Initializing"
+  | "Running"
+  | "Completed"
+  | "Stopping"
+  | "Stopped"
+  | "Failed";
+export const BulkDeploymentStatus = S.Literal(
+  "Initializing",
+  "Running",
+  "Completed",
+  "Stopping",
+  "Stopped",
+  "Failed",
+);
 export interface ConnectivityInfo {
   HostAddress?: string;
   Id?: string;
@@ -2417,10 +2509,10 @@ export const ConnectivityInfo = S.suspend(() =>
 export type __listOfConnectivityInfo = ConnectivityInfo[];
 export const __listOfConnectivityInfo = S.Array(ConnectivityInfo);
 export interface TelemetryConfigurationUpdate {
-  Telemetry: string;
+  Telemetry?: Telemetry;
 }
 export const TelemetryConfigurationUpdate = S.suspend(() =>
-  S.Struct({ Telemetry: S.String }),
+  S.Struct({ Telemetry: S.optional(Telemetry) }),
 ).annotations({
   identifier: "TelemetryConfigurationUpdate",
 }) as any as S.Schema<TelemetryConfigurationUpdate>;
@@ -2444,7 +2536,7 @@ export interface CreateConnectorDefinitionRequest {
   AmznClientToken?: string;
   InitialVersion?: ConnectorDefinitionVersion;
   Name?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateConnectorDefinitionRequest = S.suspend(() =>
   S.Struct({
@@ -2471,7 +2563,7 @@ export interface CreateCoreDefinitionRequest {
   AmznClientToken?: string;
   InitialVersion?: CoreDefinitionVersion;
   Name?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateCoreDefinitionRequest = S.suspend(() =>
   S.Struct({
@@ -2497,7 +2589,7 @@ export const CreateCoreDefinitionRequest = S.suspend(() =>
 export interface CreateCoreDefinitionVersionRequest {
   AmznClientToken?: string;
   CoreDefinitionId: string;
-  Cores?: __listOfCore;
+  Cores?: Core[];
 }
 export const CreateCoreDefinitionVersionRequest = S.suspend(() =>
   S.Struct({
@@ -2538,7 +2630,7 @@ export interface CreateDeviceDefinitionRequest {
   AmznClientToken?: string;
   InitialVersion?: DeviceDefinitionVersion;
   Name?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateDeviceDefinitionRequest = S.suspend(() =>
   S.Struct({
@@ -2564,7 +2656,7 @@ export const CreateDeviceDefinitionRequest = S.suspend(() =>
 export interface CreateDeviceDefinitionVersionRequest {
   AmznClientToken?: string;
   DeviceDefinitionId: string;
-  Devices?: __listOfDevice;
+  Devices?: Device[];
 }
 export const CreateDeviceDefinitionVersionRequest = S.suspend(() =>
   S.Struct({
@@ -2593,7 +2685,7 @@ export interface CreateFunctionDefinitionRequest {
   AmznClientToken?: string;
   InitialVersion?: FunctionDefinitionVersion;
   Name?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateFunctionDefinitionRequest = S.suspend(() =>
   S.Struct({
@@ -2619,8 +2711,8 @@ export const CreateFunctionDefinitionRequest = S.suspend(() =>
 export interface CreateGroupRequest {
   AmznClientToken?: string;
   InitialVersion?: GroupVersion;
-  Name: string;
-  tags?: Tags;
+  Name?: string;
+  tags?: { [key: string]: string };
 }
 export const CreateGroupRequest = S.suspend(() =>
   S.Struct({
@@ -2628,7 +2720,7 @@ export const CreateGroupRequest = S.suspend(() =>
       T.HttpHeader("X-Amzn-Client-Token"),
     ),
     InitialVersion: S.optional(GroupVersion),
-    Name: S.String,
+    Name: S.optional(S.String),
     tags: S.optional(Tags),
   }).pipe(
     T.all(
@@ -2671,7 +2763,7 @@ export interface CreateLoggerDefinitionRequest {
   AmznClientToken?: string;
   InitialVersion?: LoggerDefinitionVersion;
   Name?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateLoggerDefinitionRequest = S.suspend(() =>
   S.Struct({
@@ -2697,7 +2789,7 @@ export const CreateLoggerDefinitionRequest = S.suspend(() =>
 export interface CreateLoggerDefinitionVersionRequest {
   AmznClientToken?: string;
   LoggerDefinitionId: string;
-  Loggers?: __listOfLogger;
+  Loggers?: Logger[];
 }
 export const CreateLoggerDefinitionVersionRequest = S.suspend(() =>
   S.Struct({
@@ -2726,7 +2818,7 @@ export interface CreateResourceDefinitionRequest {
   AmznClientToken?: string;
   InitialVersion?: ResourceDefinitionVersion;
   Name?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateResourceDefinitionRequest = S.suspend(() =>
   S.Struct({
@@ -2767,7 +2859,7 @@ export interface CreateSubscriptionDefinitionRequest {
   AmznClientToken?: string;
   InitialVersion?: SubscriptionDefinitionVersion;
   Name?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateSubscriptionDefinitionRequest = S.suspend(() =>
   S.Struct({
@@ -2793,7 +2885,7 @@ export const CreateSubscriptionDefinitionRequest = S.suspend(() =>
 export interface CreateSubscriptionDefinitionVersionRequest {
   AmznClientToken?: string;
   SubscriptionDefinitionId: string;
-  Subscriptions?: __listOfSubscription;
+  Subscriptions?: Subscription[];
 }
 export const CreateSubscriptionDefinitionVersionRequest = S.suspend(() =>
   S.Struct({
@@ -2841,7 +2933,7 @@ export const GetAssociatedRoleResponse = S.suspend(() =>
   identifier: "GetAssociatedRoleResponse",
 }) as any as S.Schema<GetAssociatedRoleResponse>;
 export interface GetConnectivityInfoResponse {
-  ConnectivityInfo?: __listOfConnectivityInfo;
+  ConnectivityInfo?: ConnectivityInfo[];
   Message?: string;
 }
 export const GetConnectivityInfoResponse = S.suspend(() =>
@@ -2860,7 +2952,7 @@ export interface GetConnectorDefinitionResponse {
   LatestVersion?: string;
   LatestVersionArn?: string;
   Name?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const GetConnectorDefinitionResponse = S.suspend(() =>
   S.Struct({
@@ -2904,7 +2996,7 @@ export interface GetCoreDefinitionResponse {
   LatestVersion?: string;
   LatestVersionArn?: string;
   Name?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const GetCoreDefinitionResponse = S.suspend(() =>
   S.Struct({
@@ -2954,15 +3046,15 @@ export type ErrorDetails = ErrorDetail[];
 export const ErrorDetails = S.Array(ErrorDetail);
 export interface GetDeploymentStatusResponse {
   DeploymentStatus?: string;
-  DeploymentType?: string;
-  ErrorDetails?: ErrorDetails;
+  DeploymentType?: DeploymentType;
+  ErrorDetails?: ErrorDetail[];
   ErrorMessage?: string;
   UpdatedAt?: string;
 }
 export const GetDeploymentStatusResponse = S.suspend(() =>
   S.Struct({
     DeploymentStatus: S.optional(S.String),
-    DeploymentType: S.optional(S.String),
+    DeploymentType: S.optional(DeploymentType),
     ErrorDetails: S.optional(ErrorDetails),
     ErrorMessage: S.optional(S.String),
     UpdatedAt: S.optional(S.String),
@@ -2978,7 +3070,7 @@ export interface GetDeviceDefinitionResponse {
   LatestVersion?: string;
   LatestVersionArn?: string;
   Name?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const GetDeviceDefinitionResponse = S.suspend(() =>
   S.Struct({
@@ -3022,7 +3114,7 @@ export interface GetFunctionDefinitionResponse {
   LatestVersion?: string;
   LatestVersionArn?: string;
   Name?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const GetFunctionDefinitionResponse = S.suspend(() =>
   S.Struct({
@@ -3066,7 +3158,7 @@ export interface GetGroupResponse {
   LatestVersion?: string;
   LatestVersionArn?: string;
   Name?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const GetGroupResponse = S.suspend(() =>
   S.Struct({
@@ -3136,7 +3228,7 @@ export interface GetLoggerDefinitionResponse {
   LatestVersion?: string;
   LatestVersionArn?: string;
   Name?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const GetLoggerDefinitionResponse = S.suspend(() =>
   S.Struct({
@@ -3178,7 +3270,7 @@ export interface GetResourceDefinitionResponse {
   LatestVersion?: string;
   LatestVersionArn?: string;
   Name?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const GetResourceDefinitionResponse = S.suspend(() =>
   S.Struct({
@@ -3220,7 +3312,7 @@ export interface GetSubscriptionDefinitionResponse {
   LatestVersion?: string;
   LatestVersionArn?: string;
   Name?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const GetSubscriptionDefinitionResponse = S.suspend(() =>
   S.Struct({
@@ -3264,7 +3356,7 @@ export interface DefinitionInformation {
   LatestVersion?: string;
   LatestVersionArn?: string;
   Name?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const DefinitionInformation = S.suspend(() =>
   S.Struct({
@@ -3283,7 +3375,7 @@ export const DefinitionInformation = S.suspend(() =>
 export type __listOfDefinitionInformation = DefinitionInformation[];
 export const __listOfDefinitionInformation = S.Array(DefinitionInformation);
 export interface ListCoreDefinitionsResponse {
-  Definitions?: __listOfDefinitionInformation;
+  Definitions?: DefinitionInformation[];
   NextToken?: string;
 }
 export const ListCoreDefinitionsResponse = S.suspend(() =>
@@ -3314,7 +3406,7 @@ export type __listOfVersionInformation = VersionInformation[];
 export const __listOfVersionInformation = S.Array(VersionInformation);
 export interface ListCoreDefinitionVersionsResponse {
   NextToken?: string;
-  Versions?: __listOfVersionInformation;
+  Versions?: VersionInformation[];
 }
 export const ListCoreDefinitionVersionsResponse = S.suspend(() =>
   S.Struct({
@@ -3325,7 +3417,7 @@ export const ListCoreDefinitionVersionsResponse = S.suspend(() =>
   identifier: "ListCoreDefinitionVersionsResponse",
 }) as any as S.Schema<ListCoreDefinitionVersionsResponse>;
 export interface ListDeviceDefinitionsResponse {
-  Definitions?: __listOfDefinitionInformation;
+  Definitions?: DefinitionInformation[];
   NextToken?: string;
 }
 export const ListDeviceDefinitionsResponse = S.suspend(() =>
@@ -3338,7 +3430,7 @@ export const ListDeviceDefinitionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListDeviceDefinitionsResponse>;
 export interface ListDeviceDefinitionVersionsResponse {
   NextToken?: string;
-  Versions?: __listOfVersionInformation;
+  Versions?: VersionInformation[];
 }
 export const ListDeviceDefinitionVersionsResponse = S.suspend(() =>
   S.Struct({
@@ -3349,7 +3441,7 @@ export const ListDeviceDefinitionVersionsResponse = S.suspend(() =>
   identifier: "ListDeviceDefinitionVersionsResponse",
 }) as any as S.Schema<ListDeviceDefinitionVersionsResponse>;
 export interface ListFunctionDefinitionsResponse {
-  Definitions?: __listOfDefinitionInformation;
+  Definitions?: DefinitionInformation[];
   NextToken?: string;
 }
 export const ListFunctionDefinitionsResponse = S.suspend(() =>
@@ -3362,7 +3454,7 @@ export const ListFunctionDefinitionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListFunctionDefinitionsResponse>;
 export interface ListFunctionDefinitionVersionsResponse {
   NextToken?: string;
-  Versions?: __listOfVersionInformation;
+  Versions?: VersionInformation[];
 }
 export const ListFunctionDefinitionVersionsResponse = S.suspend(() =>
   S.Struct({
@@ -3374,7 +3466,7 @@ export const ListFunctionDefinitionVersionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListFunctionDefinitionVersionsResponse>;
 export interface ListGroupVersionsResponse {
   NextToken?: string;
-  Versions?: __listOfVersionInformation;
+  Versions?: VersionInformation[];
 }
 export const ListGroupVersionsResponse = S.suspend(() =>
   S.Struct({
@@ -3385,7 +3477,7 @@ export const ListGroupVersionsResponse = S.suspend(() =>
   identifier: "ListGroupVersionsResponse",
 }) as any as S.Schema<ListGroupVersionsResponse>;
 export interface ListLoggerDefinitionsResponse {
-  Definitions?: __listOfDefinitionInformation;
+  Definitions?: DefinitionInformation[];
   NextToken?: string;
 }
 export const ListLoggerDefinitionsResponse = S.suspend(() =>
@@ -3398,7 +3490,7 @@ export const ListLoggerDefinitionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListLoggerDefinitionsResponse>;
 export interface ListLoggerDefinitionVersionsResponse {
   NextToken?: string;
-  Versions?: __listOfVersionInformation;
+  Versions?: VersionInformation[];
 }
 export const ListLoggerDefinitionVersionsResponse = S.suspend(() =>
   S.Struct({
@@ -3409,7 +3501,7 @@ export const ListLoggerDefinitionVersionsResponse = S.suspend(() =>
   identifier: "ListLoggerDefinitionVersionsResponse",
 }) as any as S.Schema<ListLoggerDefinitionVersionsResponse>;
 export interface ListResourceDefinitionsResponse {
-  Definitions?: __listOfDefinitionInformation;
+  Definitions?: DefinitionInformation[];
   NextToken?: string;
 }
 export const ListResourceDefinitionsResponse = S.suspend(() =>
@@ -3422,7 +3514,7 @@ export const ListResourceDefinitionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListResourceDefinitionsResponse>;
 export interface ListResourceDefinitionVersionsResponse {
   NextToken?: string;
-  Versions?: __listOfVersionInformation;
+  Versions?: VersionInformation[];
 }
 export const ListResourceDefinitionVersionsResponse = S.suspend(() =>
   S.Struct({
@@ -3433,7 +3525,7 @@ export const ListResourceDefinitionVersionsResponse = S.suspend(() =>
   identifier: "ListResourceDefinitionVersionsResponse",
 }) as any as S.Schema<ListResourceDefinitionVersionsResponse>;
 export interface ListSubscriptionDefinitionsResponse {
-  Definitions?: __listOfDefinitionInformation;
+  Definitions?: DefinitionInformation[];
   NextToken?: string;
 }
 export const ListSubscriptionDefinitionsResponse = S.suspend(() =>
@@ -3446,7 +3538,7 @@ export const ListSubscriptionDefinitionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListSubscriptionDefinitionsResponse>;
 export interface ListSubscriptionDefinitionVersionsResponse {
   NextToken?: string;
-  Versions?: __listOfVersionInformation;
+  Versions?: VersionInformation[];
 }
 export const ListSubscriptionDefinitionVersionsResponse = S.suspend(() =>
   S.Struct({
@@ -3457,7 +3549,7 @@ export const ListSubscriptionDefinitionVersionsResponse = S.suspend(() =>
   identifier: "ListSubscriptionDefinitionVersionsResponse",
 }) as any as S.Schema<ListSubscriptionDefinitionVersionsResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -3489,7 +3581,7 @@ export const StartBulkDeploymentResponse = S.suspend(() =>
   identifier: "StartBulkDeploymentResponse",
 }) as any as S.Schema<StartBulkDeploymentResponse>;
 export interface UpdateConnectivityInfoRequest {
-  ConnectivityInfo?: __listOfConnectivityInfo;
+  ConnectivityInfo?: ConnectivityInfo[];
   ThingName: string;
 }
 export const UpdateConnectivityInfoRequest = S.suspend(() =>
@@ -3575,8 +3667,8 @@ export interface BulkDeploymentResult {
   DeploymentArn?: string;
   DeploymentId?: string;
   DeploymentStatus?: string;
-  DeploymentType?: string;
-  ErrorDetails?: ErrorDetails;
+  DeploymentType?: DeploymentType;
+  ErrorDetails?: ErrorDetail[];
   ErrorMessage?: string;
   GroupArn?: string;
 }
@@ -3586,7 +3678,7 @@ export const BulkDeploymentResult = S.suspend(() =>
     DeploymentArn: S.optional(S.String),
     DeploymentId: S.optional(S.String),
     DeploymentStatus: S.optional(S.String),
-    DeploymentType: S.optional(S.String),
+    DeploymentType: S.optional(DeploymentType),
     ErrorDetails: S.optional(ErrorDetails),
     ErrorMessage: S.optional(S.String),
     GroupArn: S.optional(S.String),
@@ -3616,7 +3708,7 @@ export interface Deployment {
   CreatedAt?: string;
   DeploymentArn?: string;
   DeploymentId?: string;
-  DeploymentType?: string;
+  DeploymentType?: DeploymentType;
   GroupArn?: string;
 }
 export const Deployment = S.suspend(() =>
@@ -3624,7 +3716,7 @@ export const Deployment = S.suspend(() =>
     CreatedAt: S.optional(S.String),
     DeploymentArn: S.optional(S.String),
     DeploymentId: S.optional(S.String),
-    DeploymentType: S.optional(S.String),
+    DeploymentType: S.optional(DeploymentType),
     GroupArn: S.optional(S.String),
   }),
 ).annotations({ identifier: "Deployment" }) as any as S.Schema<Deployment>;
@@ -3671,6 +3763,8 @@ export const GroupInformation = S.suspend(() =>
 }) as any as S.Schema<GroupInformation>;
 export type __listOfGroupInformation = GroupInformation[];
 export const __listOfGroupInformation = S.Array(GroupInformation);
+export type ConfigurationSyncStatus = "InSync" | "OutOfSync";
+export const ConfigurationSyncStatus = S.Literal("InSync", "OutOfSync");
 export interface CreateConnectorDefinitionResponse {
   Arn?: string;
   CreationTimestamp?: string;
@@ -3696,7 +3790,7 @@ export const CreateConnectorDefinitionResponse = S.suspend(() =>
 export interface CreateConnectorDefinitionVersionRequest {
   AmznClientToken?: string;
   ConnectorDefinitionId: string;
-  Connectors?: __listOfConnector;
+  Connectors?: Connector[];
 }
 export const CreateConnectorDefinitionVersionRequest = S.suspend(() =>
   S.Struct({
@@ -3941,16 +4035,16 @@ export const CreateSubscriptionDefinitionVersionResponse = S.suspend(() =>
 }) as any as S.Schema<CreateSubscriptionDefinitionVersionResponse>;
 export interface GetBulkDeploymentStatusResponse {
   BulkDeploymentMetrics?: BulkDeploymentMetrics;
-  BulkDeploymentStatus?: string;
+  BulkDeploymentStatus?: BulkDeploymentStatus;
   CreatedAt?: string;
-  ErrorDetails?: ErrorDetails;
+  ErrorDetails?: ErrorDetail[];
   ErrorMessage?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const GetBulkDeploymentStatusResponse = S.suspend(() =>
   S.Struct({
     BulkDeploymentMetrics: S.optional(BulkDeploymentMetrics),
-    BulkDeploymentStatus: S.optional(S.String),
+    BulkDeploymentStatus: S.optional(BulkDeploymentStatus),
     CreatedAt: S.optional(S.String),
     ErrorDetails: S.optional(ErrorDetails),
     ErrorMessage: S.optional(S.String),
@@ -3960,7 +4054,7 @@ export const GetBulkDeploymentStatusResponse = S.suspend(() =>
   identifier: "GetBulkDeploymentStatusResponse",
 }) as any as S.Schema<GetBulkDeploymentStatusResponse>;
 export interface ListBulkDeploymentDetailedReportsResponse {
-  Deployments?: BulkDeploymentResults;
+  Deployments?: BulkDeploymentResult[];
   NextToken?: string;
 }
 export const ListBulkDeploymentDetailedReportsResponse = S.suspend(() =>
@@ -3972,7 +4066,7 @@ export const ListBulkDeploymentDetailedReportsResponse = S.suspend(() =>
   identifier: "ListBulkDeploymentDetailedReportsResponse",
 }) as any as S.Schema<ListBulkDeploymentDetailedReportsResponse>;
 export interface ListBulkDeploymentsResponse {
-  BulkDeployments?: BulkDeployments;
+  BulkDeployments?: BulkDeployment[];
   NextToken?: string;
 }
 export const ListBulkDeploymentsResponse = S.suspend(() =>
@@ -3984,7 +4078,7 @@ export const ListBulkDeploymentsResponse = S.suspend(() =>
   identifier: "ListBulkDeploymentsResponse",
 }) as any as S.Schema<ListBulkDeploymentsResponse>;
 export interface ListConnectorDefinitionsResponse {
-  Definitions?: __listOfDefinitionInformation;
+  Definitions?: DefinitionInformation[];
   NextToken?: string;
 }
 export const ListConnectorDefinitionsResponse = S.suspend(() =>
@@ -3997,7 +4091,7 @@ export const ListConnectorDefinitionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListConnectorDefinitionsResponse>;
 export interface ListConnectorDefinitionVersionsResponse {
   NextToken?: string;
-  Versions?: __listOfVersionInformation;
+  Versions?: VersionInformation[];
 }
 export const ListConnectorDefinitionVersionsResponse = S.suspend(() =>
   S.Struct({
@@ -4008,7 +4102,7 @@ export const ListConnectorDefinitionVersionsResponse = S.suspend(() =>
   identifier: "ListConnectorDefinitionVersionsResponse",
 }) as any as S.Schema<ListConnectorDefinitionVersionsResponse>;
 export interface ListDeploymentsResponse {
-  Deployments?: Deployments;
+  Deployments?: Deployment[];
   NextToken?: string;
 }
 export const ListDeploymentsResponse = S.suspend(() =>
@@ -4020,7 +4114,7 @@ export const ListDeploymentsResponse = S.suspend(() =>
   identifier: "ListDeploymentsResponse",
 }) as any as S.Schema<ListDeploymentsResponse>;
 export interface ListGroupCertificateAuthoritiesResponse {
-  GroupCertificateAuthorities?: __listOfGroupCertificateAuthorityProperties;
+  GroupCertificateAuthorities?: GroupCertificateAuthorityProperties[];
 }
 export const ListGroupCertificateAuthoritiesResponse = S.suspend(() =>
   S.Struct({
@@ -4032,7 +4126,7 @@ export const ListGroupCertificateAuthoritiesResponse = S.suspend(() =>
   identifier: "ListGroupCertificateAuthoritiesResponse",
 }) as any as S.Schema<ListGroupCertificateAuthoritiesResponse>;
 export interface ListGroupsResponse {
-  Groups?: __listOfGroupInformation;
+  Groups?: GroupInformation[];
   NextToken?: string;
 }
 export const ListGroupsResponse = S.suspend(() =>
@@ -4056,13 +4150,13 @@ export const UpdateConnectivityInfoResponse = S.suspend(() =>
   identifier: "UpdateConnectivityInfoResponse",
 }) as any as S.Schema<UpdateConnectivityInfoResponse>;
 export interface TelemetryConfiguration {
-  ConfigurationSyncStatus?: string;
-  Telemetry: string;
+  ConfigurationSyncStatus?: ConfigurationSyncStatus;
+  Telemetry?: Telemetry;
 }
 export const TelemetryConfiguration = S.suspend(() =>
   S.Struct({
-    ConfigurationSyncStatus: S.optional(S.String),
-    Telemetry: S.String,
+    ConfigurationSyncStatus: S.optional(ConfigurationSyncStatus),
+    Telemetry: S.optional(Telemetry),
   }),
 ).annotations({
   identifier: "TelemetryConfiguration",
@@ -4103,7 +4197,7 @@ export interface CreateFunctionDefinitionVersionRequest {
   AmznClientToken?: string;
   DefaultConfig?: FunctionDefaultConfig;
   FunctionDefinitionId: string;
-  Functions?: __listOfFunction;
+  Functions?: Function[];
 }
 export const CreateFunctionDefinitionVersionRequest = S.suspend(() =>
   S.Struct({
@@ -4132,7 +4226,7 @@ export const CreateFunctionDefinitionVersionRequest = S.suspend(() =>
 export interface CreateResourceDefinitionVersionRequest {
   AmznClientToken?: string;
   ResourceDefinitionId: string;
-  Resources?: __listOfResource;
+  Resources?: Resource[];
 }
 export const CreateResourceDefinitionVersionRequest = S.suspend(() =>
   S.Struct({
@@ -4206,7 +4300,7 @@ export class BadRequestException extends S.TaggedError<BadRequestException>()(
  */
 export const disassociateServiceRoleFromAccount: (
   input: DisassociateServiceRoleFromAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateServiceRoleFromAccountResponse,
   InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4220,7 +4314,7 @@ export const disassociateServiceRoleFromAccount: (
  */
 export const listCoreDefinitions: (
   input: ListCoreDefinitionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListCoreDefinitionsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4234,7 +4328,7 @@ export const listCoreDefinitions: (
  */
 export const listDeviceDefinitions: (
   input: ListDeviceDefinitionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDeviceDefinitionsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4248,7 +4342,7 @@ export const listDeviceDefinitions: (
  */
 export const listFunctionDefinitions: (
   input: ListFunctionDefinitionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListFunctionDefinitionsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4262,7 +4356,7 @@ export const listFunctionDefinitions: (
  */
 export const listLoggerDefinitions: (
   input: ListLoggerDefinitionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListLoggerDefinitionsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4276,7 +4370,7 @@ export const listLoggerDefinitions: (
  */
 export const listResourceDefinitions: (
   input: ListResourceDefinitionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListResourceDefinitionsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4290,7 +4384,7 @@ export const listResourceDefinitions: (
  */
 export const listSubscriptionDefinitions: (
   input: ListSubscriptionDefinitionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListSubscriptionDefinitionsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4304,7 +4398,7 @@ export const listSubscriptionDefinitions: (
  */
 export const getServiceRoleForAccount: (
   input: GetServiceRoleForAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceRoleForAccountResponse,
   InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4318,7 +4412,7 @@ export const getServiceRoleForAccount: (
  */
 export const deleteConnectorDefinition: (
   input: DeleteConnectorDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConnectorDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4332,7 +4426,7 @@ export const deleteConnectorDefinition: (
  */
 export const getBulkDeploymentStatus: (
   input: GetBulkDeploymentStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBulkDeploymentStatusResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4346,7 +4440,7 @@ export const getBulkDeploymentStatus: (
  */
 export const listBulkDeploymentDetailedReports: (
   input: ListBulkDeploymentDetailedReportsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListBulkDeploymentDetailedReportsResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4360,7 +4454,7 @@ export const listBulkDeploymentDetailedReports: (
  */
 export const listBulkDeployments: (
   input: ListBulkDeploymentsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListBulkDeploymentsResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4374,7 +4468,7 @@ export const listBulkDeployments: (
  */
 export const listConnectorDefinitions: (
   input: ListConnectorDefinitionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListConnectorDefinitionsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4388,7 +4482,7 @@ export const listConnectorDefinitions: (
  */
 export const listConnectorDefinitionVersions: (
   input: ListConnectorDefinitionVersionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListConnectorDefinitionVersionsResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4402,7 +4496,7 @@ export const listConnectorDefinitionVersions: (
  */
 export const listDeployments: (
   input: ListDeploymentsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDeploymentsResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4416,7 +4510,7 @@ export const listDeployments: (
  */
 export const listGroupCertificateAuthorities: (
   input: ListGroupCertificateAuthoritiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListGroupCertificateAuthoritiesResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4430,7 +4524,7 @@ export const listGroupCertificateAuthorities: (
  */
 export const listGroups: (
   input: ListGroupsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListGroupsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4444,7 +4538,7 @@ export const listGroups: (
  */
 export const updateConnectivityInfo: (
   input: UpdateConnectivityInfoRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConnectivityInfoResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4458,7 +4552,7 @@ export const updateConnectivityInfo: (
  */
 export const deleteCoreDefinition: (
   input: DeleteCoreDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCoreDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4472,7 +4566,7 @@ export const deleteCoreDefinition: (
  */
 export const deleteDeviceDefinition: (
   input: DeleteDeviceDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDeviceDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4486,7 +4580,7 @@ export const deleteDeviceDefinition: (
  */
 export const deleteFunctionDefinition: (
   input: DeleteFunctionDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFunctionDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4500,7 +4594,7 @@ export const deleteFunctionDefinition: (
  */
 export const deleteGroup: (
   input: DeleteGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGroupResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4514,7 +4608,7 @@ export const deleteGroup: (
  */
 export const deleteLoggerDefinition: (
   input: DeleteLoggerDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLoggerDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4528,7 +4622,7 @@ export const deleteLoggerDefinition: (
  */
 export const deleteResourceDefinition: (
   input: DeleteResourceDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourceDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4542,7 +4636,7 @@ export const deleteResourceDefinition: (
  */
 export const deleteSubscriptionDefinition: (
   input: DeleteSubscriptionDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSubscriptionDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4556,7 +4650,7 @@ export const deleteSubscriptionDefinition: (
  */
 export const stopBulkDeployment: (
   input: StopBulkDeploymentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopBulkDeploymentResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4570,7 +4664,7 @@ export const stopBulkDeployment: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4584,7 +4678,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4598,7 +4692,7 @@ export const untagResource: (
  */
 export const updateConnectorDefinition: (
   input: UpdateConnectorDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConnectorDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4612,7 +4706,7 @@ export const updateConnectorDefinition: (
  */
 export const updateCoreDefinition: (
   input: UpdateCoreDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCoreDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4626,7 +4720,7 @@ export const updateCoreDefinition: (
  */
 export const updateDeviceDefinition: (
   input: UpdateDeviceDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDeviceDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4640,7 +4734,7 @@ export const updateDeviceDefinition: (
  */
 export const updateFunctionDefinition: (
   input: UpdateFunctionDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFunctionDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4654,7 +4748,7 @@ export const updateFunctionDefinition: (
  */
 export const updateGroup: (
   input: UpdateGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGroupResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4668,7 +4762,7 @@ export const updateGroup: (
  */
 export const updateLoggerDefinition: (
   input: UpdateLoggerDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLoggerDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4682,7 +4776,7 @@ export const updateLoggerDefinition: (
  */
 export const updateResourceDefinition: (
   input: UpdateResourceDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateResourceDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4696,7 +4790,7 @@ export const updateResourceDefinition: (
  */
 export const updateSubscriptionDefinition: (
   input: UpdateSubscriptionDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSubscriptionDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4710,7 +4804,7 @@ export const updateSubscriptionDefinition: (
  */
 export const associateRoleToGroup: (
   input: AssociateRoleToGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateRoleToGroupResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4724,7 +4818,7 @@ export const associateRoleToGroup: (
  */
 export const associateServiceRoleToAccount: (
   input: AssociateServiceRoleToAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateServiceRoleToAccountResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4738,7 +4832,7 @@ export const associateServiceRoleToAccount: (
  */
 export const createDeployment: (
   input: CreateDeploymentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDeploymentResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4752,7 +4846,7 @@ export const createDeployment: (
  */
 export const createGroupCertificateAuthority: (
   input: CreateGroupCertificateAuthorityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGroupCertificateAuthorityResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4766,7 +4860,7 @@ export const createGroupCertificateAuthority: (
  */
 export const createGroupVersion: (
   input: CreateGroupVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGroupVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4780,7 +4874,7 @@ export const createGroupVersion: (
  */
 export const createSoftwareUpdateJob: (
   input: CreateSoftwareUpdateJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSoftwareUpdateJobResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4794,7 +4888,7 @@ export const createSoftwareUpdateJob: (
  */
 export const disassociateRoleFromGroup: (
   input: DisassociateRoleFromGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateRoleFromGroupResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4808,7 +4902,7 @@ export const disassociateRoleFromGroup: (
  */
 export const getAssociatedRole: (
   input: GetAssociatedRoleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAssociatedRoleResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4822,7 +4916,7 @@ export const getAssociatedRole: (
  */
 export const getConnectivityInfo: (
   input: GetConnectivityInfoRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConnectivityInfoResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4836,7 +4930,7 @@ export const getConnectivityInfo: (
  */
 export const getConnectorDefinition: (
   input: GetConnectorDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConnectorDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4850,7 +4944,7 @@ export const getConnectorDefinition: (
  */
 export const getConnectorDefinitionVersion: (
   input: GetConnectorDefinitionVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConnectorDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4864,7 +4958,7 @@ export const getConnectorDefinitionVersion: (
  */
 export const getCoreDefinition: (
   input: GetCoreDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCoreDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4878,7 +4972,7 @@ export const getCoreDefinition: (
  */
 export const getCoreDefinitionVersion: (
   input: GetCoreDefinitionVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCoreDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4892,7 +4986,7 @@ export const getCoreDefinitionVersion: (
  */
 export const getDeploymentStatus: (
   input: GetDeploymentStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDeploymentStatusResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4906,7 +5000,7 @@ export const getDeploymentStatus: (
  */
 export const getDeviceDefinition: (
   input: GetDeviceDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDeviceDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4920,7 +5014,7 @@ export const getDeviceDefinition: (
  */
 export const getDeviceDefinitionVersion: (
   input: GetDeviceDefinitionVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDeviceDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4934,7 +5028,7 @@ export const getDeviceDefinitionVersion: (
  */
 export const getFunctionDefinition: (
   input: GetFunctionDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFunctionDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4948,7 +5042,7 @@ export const getFunctionDefinition: (
  */
 export const getFunctionDefinitionVersion: (
   input: GetFunctionDefinitionVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFunctionDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4962,7 +5056,7 @@ export const getFunctionDefinitionVersion: (
  */
 export const getGroup: (
   input: GetGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetGroupResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4976,7 +5070,7 @@ export const getGroup: (
  */
 export const getGroupCertificateAuthority: (
   input: GetGroupCertificateAuthorityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetGroupCertificateAuthorityResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4990,7 +5084,7 @@ export const getGroupCertificateAuthority: (
  */
 export const getGroupCertificateConfiguration: (
   input: GetGroupCertificateConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetGroupCertificateConfigurationResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5004,7 +5098,7 @@ export const getGroupCertificateConfiguration: (
  */
 export const getGroupVersion: (
   input: GetGroupVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetGroupVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5018,7 +5112,7 @@ export const getGroupVersion: (
  */
 export const getLoggerDefinition: (
   input: GetLoggerDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLoggerDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5032,7 +5126,7 @@ export const getLoggerDefinition: (
  */
 export const getLoggerDefinitionVersion: (
   input: GetLoggerDefinitionVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLoggerDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5046,7 +5140,7 @@ export const getLoggerDefinitionVersion: (
  */
 export const getResourceDefinition: (
   input: GetResourceDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourceDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5060,7 +5154,7 @@ export const getResourceDefinition: (
  */
 export const getResourceDefinitionVersion: (
   input: GetResourceDefinitionVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourceDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5074,7 +5168,7 @@ export const getResourceDefinitionVersion: (
  */
 export const getSubscriptionDefinition: (
   input: GetSubscriptionDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSubscriptionDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5088,7 +5182,7 @@ export const getSubscriptionDefinition: (
  */
 export const getSubscriptionDefinitionVersion: (
   input: GetSubscriptionDefinitionVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSubscriptionDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5102,7 +5196,7 @@ export const getSubscriptionDefinitionVersion: (
  */
 export const listCoreDefinitionVersions: (
   input: ListCoreDefinitionVersionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListCoreDefinitionVersionsResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5116,7 +5210,7 @@ export const listCoreDefinitionVersions: (
  */
 export const listDeviceDefinitionVersions: (
   input: ListDeviceDefinitionVersionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDeviceDefinitionVersionsResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5130,7 +5224,7 @@ export const listDeviceDefinitionVersions: (
  */
 export const listFunctionDefinitionVersions: (
   input: ListFunctionDefinitionVersionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListFunctionDefinitionVersionsResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5144,7 +5238,7 @@ export const listFunctionDefinitionVersions: (
  */
 export const listGroupVersions: (
   input: ListGroupVersionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListGroupVersionsResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5158,7 +5252,7 @@ export const listGroupVersions: (
  */
 export const listLoggerDefinitionVersions: (
   input: ListLoggerDefinitionVersionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListLoggerDefinitionVersionsResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5172,7 +5266,7 @@ export const listLoggerDefinitionVersions: (
  */
 export const listResourceDefinitionVersions: (
   input: ListResourceDefinitionVersionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListResourceDefinitionVersionsResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5186,7 +5280,7 @@ export const listResourceDefinitionVersions: (
  */
 export const listSubscriptionDefinitionVersions: (
   input: ListSubscriptionDefinitionVersionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListSubscriptionDefinitionVersionsResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5200,7 +5294,7 @@ export const listSubscriptionDefinitionVersions: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5214,7 +5308,7 @@ export const listTagsForResource: (
  */
 export const resetDeployments: (
   input: ResetDeploymentsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResetDeploymentsResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5228,7 +5322,7 @@ export const resetDeployments: (
  */
 export const startBulkDeployment: (
   input: StartBulkDeploymentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartBulkDeploymentResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5242,7 +5336,7 @@ export const startBulkDeployment: (
  */
 export const updateGroupCertificateConfiguration: (
   input: UpdateGroupCertificateConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGroupCertificateConfigurationResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5256,7 +5350,7 @@ export const updateGroupCertificateConfiguration: (
  */
 export const updateThingRuntimeConfiguration: (
   input: UpdateThingRuntimeConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateThingRuntimeConfigurationResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5270,7 +5364,7 @@ export const updateThingRuntimeConfiguration: (
  */
 export const createConnectorDefinition: (
   input: CreateConnectorDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConnectorDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5284,7 +5378,7 @@ export const createConnectorDefinition: (
  */
 export const createCoreDefinition: (
   input: CreateCoreDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCoreDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5298,7 +5392,7 @@ export const createCoreDefinition: (
  */
 export const createCoreDefinitionVersion: (
   input: CreateCoreDefinitionVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCoreDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5312,7 +5406,7 @@ export const createCoreDefinitionVersion: (
  */
 export const createDeviceDefinition: (
   input: CreateDeviceDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDeviceDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5326,7 +5420,7 @@ export const createDeviceDefinition: (
  */
 export const createDeviceDefinitionVersion: (
   input: CreateDeviceDefinitionVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDeviceDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5340,7 +5434,7 @@ export const createDeviceDefinitionVersion: (
  */
 export const createFunctionDefinition: (
   input: CreateFunctionDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFunctionDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5354,7 +5448,7 @@ export const createFunctionDefinition: (
  */
 export const createGroup: (
   input: CreateGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGroupResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5368,7 +5462,7 @@ export const createGroup: (
  */
 export const createLoggerDefinition: (
   input: CreateLoggerDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLoggerDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5382,7 +5476,7 @@ export const createLoggerDefinition: (
  */
 export const createLoggerDefinitionVersion: (
   input: CreateLoggerDefinitionVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLoggerDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5396,7 +5490,7 @@ export const createLoggerDefinitionVersion: (
  */
 export const createResourceDefinition: (
   input: CreateResourceDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateResourceDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5410,7 +5504,7 @@ export const createResourceDefinition: (
  */
 export const createSubscriptionDefinition: (
   input: CreateSubscriptionDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSubscriptionDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5424,7 +5518,7 @@ export const createSubscriptionDefinition: (
  */
 export const createSubscriptionDefinitionVersion: (
   input: CreateSubscriptionDefinitionVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSubscriptionDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5438,7 +5532,7 @@ export const createSubscriptionDefinitionVersion: (
  */
 export const createConnectorDefinitionVersion: (
   input: CreateConnectorDefinitionVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConnectorDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5452,7 +5546,7 @@ export const createConnectorDefinitionVersion: (
  */
 export const getThingRuntimeConfiguration: (
   input: GetThingRuntimeConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetThingRuntimeConfigurationResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5466,7 +5560,7 @@ export const getThingRuntimeConfiguration: (
  */
 export const createFunctionDefinitionVersion: (
   input: CreateFunctionDefinitionVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFunctionDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5480,7 +5574,7 @@ export const createFunctionDefinitionVersion: (
  */
 export const createResourceDefinitionVersion: (
   input: CreateResourceDefinitionVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateResourceDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

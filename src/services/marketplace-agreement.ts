@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -137,9 +137,32 @@ export const GetAgreementTermsInput = S.suspend(() =>
 }) as any as S.Schema<GetAgreementTermsInput>;
 export type FilterValueList = string[];
 export const FilterValueList = S.Array(S.String);
+export type SortOrder = "ASCENDING" | "DESCENDING";
+export const SortOrder = S.Literal("ASCENDING", "DESCENDING");
+export type AgreementStatus =
+  | "ACTIVE"
+  | "ARCHIVED"
+  | "CANCELLED"
+  | "EXPIRED"
+  | "RENEWED"
+  | "REPLACED"
+  | "ROLLED_BACK"
+  | "SUPERSEDED"
+  | "TERMINATED";
+export const AgreementStatus = S.Literal(
+  "ACTIVE",
+  "ARCHIVED",
+  "CANCELLED",
+  "EXPIRED",
+  "RENEWED",
+  "REPLACED",
+  "ROLLED_BACK",
+  "SUPERSEDED",
+  "TERMINATED",
+);
 export interface Filter {
   name?: string;
-  values?: FilterValueList;
+  values?: string[];
 }
 export const Filter = S.suspend(() =>
   S.Struct({ name: S.optional(S.String), values: S.optional(FilterValueList) }),
@@ -148,14 +171,14 @@ export type FilterList = Filter[];
 export const FilterList = S.Array(Filter);
 export interface Sort {
   sortBy?: string;
-  sortOrder?: string;
+  sortOrder?: SortOrder;
 }
 export const Sort = S.suspend(() =>
-  S.Struct({ sortBy: S.optional(S.String), sortOrder: S.optional(S.String) }),
+  S.Struct({ sortBy: S.optional(S.String), sortOrder: S.optional(SortOrder) }),
 ).annotations({ identifier: "Sort" }) as any as S.Schema<Sort>;
 export interface SearchAgreementsInput {
   catalog?: string;
-  filters?: FilterList;
+  filters?: Filter[];
   sort?: Sort;
   maxResults?: number;
   nextToken?: string;
@@ -272,7 +295,7 @@ export interface FixedUpfrontPricingTerm {
   currencyCode?: string;
   duration?: string;
   price?: string;
-  grants?: GrantList;
+  grants?: GrantItem[];
 }
 export const FixedUpfrontPricingTerm = S.suspend(() =>
   S.Struct({
@@ -285,8 +308,15 @@ export const FixedUpfrontPricingTerm = S.suspend(() =>
 ).annotations({
   identifier: "FixedUpfrontPricingTerm",
 }) as any as S.Schema<FixedUpfrontPricingTerm>;
+export type PaymentRequestApprovalStrategy =
+  | "AUTO_APPROVE_ON_EXPIRATION"
+  | "WAIT_FOR_APPROVAL";
+export const PaymentRequestApprovalStrategy = S.Literal(
+  "AUTO_APPROVE_ON_EXPIRATION",
+  "WAIT_FOR_APPROVAL",
+);
 export interface ProposalSummary {
-  resources?: Resources;
+  resources?: Resource[];
   offerId?: string;
   offerSetId?: string;
 }
@@ -308,7 +338,7 @@ export interface AgreementViewSummary {
   acceptor?: Acceptor;
   proposer?: Proposer;
   proposalSummary?: ProposalSummary;
-  status?: string;
+  status?: AgreementStatus;
 }
 export const AgreementViewSummary = S.suspend(() =>
   S.Struct({
@@ -320,7 +350,7 @@ export const AgreementViewSummary = S.suspend(() =>
     acceptor: S.optional(Acceptor),
     proposer: S.optional(Proposer),
     proposalSummary: S.optional(ProposalSummary),
-    status: S.optional(S.String),
+    status: S.optional(AgreementStatus),
   }),
 ).annotations({
   identifier: "AgreementViewSummary",
@@ -362,12 +392,12 @@ export const ScheduleItem = S.suspend(() =>
 export type ScheduleList = ScheduleItem[];
 export const ScheduleList = S.Array(ScheduleItem);
 export interface VariablePaymentTermConfiguration {
-  paymentRequestApprovalStrategy: string;
+  paymentRequestApprovalStrategy: PaymentRequestApprovalStrategy;
   expirationDuration?: string;
 }
 export const VariablePaymentTermConfiguration = S.suspend(() =>
   S.Struct({
-    paymentRequestApprovalStrategy: S.String,
+    paymentRequestApprovalStrategy: PaymentRequestApprovalStrategy,
     expirationDuration: S.optional(S.String),
   }),
 ).annotations({
@@ -383,7 +413,7 @@ export interface DescribeAgreementOutput {
   agreementType?: string;
   estimatedCharges?: EstimatedCharges;
   proposalSummary?: ProposalSummary;
-  status?: string;
+  status?: AgreementStatus;
 }
 export const DescribeAgreementOutput = S.suspend(() =>
   S.Struct({
@@ -396,13 +426,13 @@ export const DescribeAgreementOutput = S.suspend(() =>
     agreementType: S.optional(S.String),
     estimatedCharges: S.optional(EstimatedCharges),
     proposalSummary: S.optional(ProposalSummary),
-    status: S.optional(S.String),
+    status: S.optional(AgreementStatus),
   }),
 ).annotations({
   identifier: "DescribeAgreementOutput",
 }) as any as S.Schema<DescribeAgreementOutput>;
 export interface SearchAgreementsOutput {
-  agreementViewSummaries?: AgreementViewSummaryList;
+  agreementViewSummaries?: AgreementViewSummary[];
   nextToken?: string;
 }
 export const SearchAgreementsOutput = S.suspend(() =>
@@ -415,7 +445,7 @@ export const SearchAgreementsOutput = S.suspend(() =>
 }) as any as S.Schema<SearchAgreementsOutput>;
 export interface LegalTerm {
   type?: string;
-  documents?: DocumentList;
+  documents?: DocumentItem[];
 }
 export const LegalTerm = S.suspend(() =>
   S.Struct({ type: S.optional(S.String), documents: S.optional(DocumentList) }),
@@ -433,7 +463,7 @@ export const RenewalTerm = S.suspend(() =>
 export interface PaymentScheduleTerm {
   type?: string;
   currencyCode?: string;
-  schedule?: ScheduleList;
+  schedule?: ScheduleItem[];
 }
 export const PaymentScheduleTerm = S.suspend(() =>
   S.Struct({
@@ -447,7 +477,7 @@ export const PaymentScheduleTerm = S.suspend(() =>
 export interface FreeTrialPricingTerm {
   type?: string;
   duration?: string;
-  grants?: GrantList;
+  grants?: GrantItem[];
 }
 export const FreeTrialPricingTerm = S.suspend(() =>
   S.Struct({
@@ -510,7 +540,7 @@ export const Dimension = S.suspend(() =>
 export type DimensionList = Dimension[];
 export const DimensionList = S.Array(Dimension);
 export interface UsageBasedRateCardItem {
-  rateCard?: RateCardList;
+  rateCard?: RateCardItem[];
 }
 export const UsageBasedRateCardItem = S.suspend(() =>
   S.Struct({ rateCard: S.optional(RateCardList) }),
@@ -522,7 +552,7 @@ export const UsageBasedRateCardList = S.Array(UsageBasedRateCardItem);
 export interface ConfigurableUpfrontRateCardItem {
   selector?: Selector;
   constraints?: Constraints;
-  rateCard?: RateCardList;
+  rateCard?: RateCardItem[];
 }
 export const ConfigurableUpfrontRateCardItem = S.suspend(() =>
   S.Struct({
@@ -539,7 +569,7 @@ export const ConfigurableUpfrontRateCardList = S.Array(
 );
 export interface ConfigurableUpfrontPricingTermConfiguration {
   selectorValue: string;
-  dimensions: DimensionList;
+  dimensions: Dimension[];
 }
 export const ConfigurableUpfrontPricingTermConfiguration = S.suspend(() =>
   S.Struct({ selectorValue: S.String, dimensions: DimensionList }),
@@ -549,7 +579,7 @@ export const ConfigurableUpfrontPricingTermConfiguration = S.suspend(() =>
 export interface UsageBasedPricingTerm {
   type?: string;
   currencyCode?: string;
-  rateCards?: UsageBasedRateCardList;
+  rateCards?: UsageBasedRateCardItem[];
 }
 export const UsageBasedPricingTerm = S.suspend(() =>
   S.Struct({
@@ -563,7 +593,7 @@ export const UsageBasedPricingTerm = S.suspend(() =>
 export interface ConfigurableUpfrontPricingTerm {
   type?: string;
   currencyCode?: string;
-  rateCards?: ConfigurableUpfrontRateCardList;
+  rateCards?: ConfigurableUpfrontRateCardItem[];
   configuration?: ConfigurableUpfrontPricingTermConfiguration;
 }
 export const ConfigurableUpfrontPricingTerm = S.suspend(() =>
@@ -603,10 +633,10 @@ export const AcceptedTerm = S.Union(
   S.Struct({ fixedUpfrontPricingTerm: FixedUpfrontPricingTerm }),
   S.Struct({ variablePaymentTerm: VariablePaymentTerm }),
 );
-export type AcceptedTermList = (typeof AcceptedTerm)["Type"][];
+export type AcceptedTermList = AcceptedTerm[];
 export const AcceptedTermList = S.Array(AcceptedTerm);
 export interface GetAgreementTermsOutput {
-  acceptedTerms?: AcceptedTermList;
+  acceptedTerms?: AcceptedTerm[];
   nextToken?: string;
 }
 export const GetAgreementTermsOutput = S.suspend(() =>
@@ -617,6 +647,33 @@ export const GetAgreementTermsOutput = S.suspend(() =>
 ).annotations({
   identifier: "GetAgreementTermsOutput",
 }) as any as S.Schema<GetAgreementTermsOutput>;
+export type ResourceType = "Agreement";
+export const ResourceType = S.Literal("Agreement");
+export type ValidationExceptionReason =
+  | "INVALID_AGREEMENT_ID"
+  | "MISSING_AGREEMENT_ID"
+  | "INVALID_CATALOG"
+  | "INVALID_FILTER_NAME"
+  | "INVALID_FILTER_VALUES"
+  | "INVALID_SORT_BY"
+  | "INVALID_SORT_ORDER"
+  | "INVALID_NEXT_TOKEN"
+  | "INVALID_MAX_RESULTS"
+  | "UNSUPPORTED_FILTERS"
+  | "OTHER";
+export const ValidationExceptionReason = S.Literal(
+  "INVALID_AGREEMENT_ID",
+  "MISSING_AGREEMENT_ID",
+  "INVALID_CATALOG",
+  "INVALID_FILTER_NAME",
+  "INVALID_FILTER_VALUES",
+  "INVALID_SORT_BY",
+  "INVALID_SORT_ORDER",
+  "INVALID_NEXT_TOKEN",
+  "INVALID_MAX_RESULTS",
+  "UNSUPPORTED_FILTERS",
+  "OTHER",
+);
 export interface ValidationExceptionField {
   name: string;
   message: string;
@@ -644,7 +701,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
     requestId: S.optional(S.String),
     message: S.optional(S.String),
     resourceId: S.optional(S.String),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
   },
 ).pipe(C.withBadRequestError) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
@@ -656,7 +713,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   {
     requestId: S.optional(S.String),
     message: S.optional(S.String),
-    reason: S.optional(S.String),
+    reason: S.optional(ValidationExceptionReason),
     fields: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
@@ -744,7 +801,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const searchAgreements: {
   (
     input: SearchAgreementsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchAgreementsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -755,7 +812,7 @@ export const searchAgreements: {
   >;
   pages: (
     input: SearchAgreementsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchAgreementsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -766,7 +823,7 @@ export const searchAgreements: {
   >;
   items: (
     input: SearchAgreementsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -806,7 +863,7 @@ export const searchAgreements: {
 export const getAgreementTerms: {
   (
     input: GetAgreementTermsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetAgreementTermsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -818,7 +875,7 @@ export const getAgreementTerms: {
   >;
   pages: (
     input: GetAgreementTermsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetAgreementTermsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -830,7 +887,7 @@ export const getAgreementTerms: {
   >;
   items: (
     input: GetAgreementTermsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -861,7 +918,7 @@ export const getAgreementTerms: {
  */
 export const describeAgreement: (
   input: DescribeAgreementInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAgreementOutput,
   | AccessDeniedException
   | InternalServerException

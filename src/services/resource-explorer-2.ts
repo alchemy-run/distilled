@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -90,7 +90,7 @@ const rules = T.EndpointResolver((p, _) => {
 export type IndexType = string;
 export type IndexState = string;
 export type AccountId = string;
-export type QueryString = string | Redacted.Redacted<string>;
+export type QueryString = string | redacted.Redacted<string>;
 export type ViewName = string;
 export type AWSServiceAccessStatus = string;
 export type OperationStatus = string;
@@ -151,7 +151,7 @@ export const AccountIdList = S.Array(S.String);
 export type StringList = string[];
 export const StringList = S.Array(S.String);
 export interface BatchGetViewInput {
-  ViewArns?: ViewArnList;
+  ViewArns?: string[];
 }
 export const BatchGetViewInput = S.suspend(() =>
   S.Struct({ ViewArns: S.optional(ViewArnList) }).pipe(
@@ -168,8 +168,8 @@ export const BatchGetViewInput = S.suspend(() =>
   identifier: "BatchGetViewInput",
 }) as any as S.Schema<BatchGetViewInput>;
 export interface CreateResourceExplorerSetupInput {
-  RegionList: RegionList;
-  AggregatorRegions?: RegionList;
+  RegionList: string[];
+  AggregatorRegions?: string[];
   ViewName: string;
 }
 export const CreateResourceExplorerSetupInput = S.suspend(() =>
@@ -191,7 +191,7 @@ export const CreateResourceExplorerSetupInput = S.suspend(() =>
   identifier: "CreateResourceExplorerSetupInput",
 }) as any as S.Schema<CreateResourceExplorerSetupInput>;
 export interface DeleteResourceExplorerSetupInput {
-  RegionList?: RegionList;
+  RegionList?: string[];
   DeleteInAllRegions?: boolean;
 }
 export const DeleteResourceExplorerSetupInput = S.suspend(() =>
@@ -286,7 +286,7 @@ export const GetServiceViewInput = S.suspend(() =>
   identifier: "GetServiceViewInput",
 }) as any as S.Schema<GetServiceViewInput>;
 export interface ListIndexesForMembersInput {
-  AccountIdList: AccountIdList;
+  AccountIdList: string[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -332,7 +332,7 @@ export const ListManagedViewsInput = S.suspend(() =>
   identifier: "ListManagedViewsInput",
 }) as any as S.Schema<ListManagedViewsInput>;
 export interface ListServiceIndexesInput {
-  Regions?: RegionList;
+  Regions?: string[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -435,7 +435,7 @@ export const ListTagsForResourceInput = S.suspend(() =>
   identifier: "ListTagsForResourceInput",
 }) as any as S.Schema<ListTagsForResourceInput>;
 export interface SearchInput {
-  QueryString: string | Redacted.Redacted<string>;
+  QueryString: string | redacted.Redacted<string>;
   MaxResults?: number;
   ViewArn?: string;
   NextToken?: string;
@@ -461,7 +461,7 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface TagResourceInput {
   resourceArn: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -486,7 +486,7 @@ export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceOutput>;
 export interface UntagResourceInput {
   resourceArn: string;
-  tagKeys: StringList;
+  tagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({
@@ -511,7 +511,7 @@ export const UntagResourceOutput = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceOutput>;
 export interface CreateIndexInput {
   ClientToken?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateIndexInput = S.suspend(() =>
   S.Struct({
@@ -567,7 +567,7 @@ export const DeleteIndexInput = S.suspend(() =>
 }) as any as S.Schema<DeleteIndexInput>;
 export interface ListIndexesInput {
   Type?: string;
-  Regions?: RegionList;
+  Regions?: string[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -623,7 +623,7 @@ export const SearchFilter = S.suspend(() =>
 ).annotations({ identifier: "SearchFilter" }) as any as S.Schema<SearchFilter>;
 export interface UpdateViewInput {
   ViewArn: string;
-  IncludedProperties?: IncludedPropertyList;
+  IncludedProperties?: IncludedProperty[];
   Filters?: SearchFilter;
 }
 export const UpdateViewInput = S.suspend(() =>
@@ -743,11 +743,11 @@ export interface GetIndexOutput {
   Arn?: string;
   Type?: string;
   State?: string;
-  ReplicatingFrom?: RegionList;
-  ReplicatingTo?: RegionList;
+  ReplicatingFrom?: string[];
+  ReplicatingTo?: string[];
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const GetIndexOutput = S.suspend(() =>
   S.Struct({
@@ -765,7 +765,7 @@ export const GetIndexOutput = S.suspend(() =>
 }) as any as S.Schema<GetIndexOutput>;
 export interface ListManagedViewsOutput {
   NextToken?: string;
-  ManagedViews?: ManagedViewArnList;
+  ManagedViews?: string[];
 }
 export const ListManagedViewsOutput = S.suspend(() =>
   S.Struct({
@@ -802,7 +802,7 @@ export const ListResourcesInput = S.suspend(() =>
 }) as any as S.Schema<ListResourcesInput>;
 export interface ListServiceViewsOutput {
   NextToken?: string;
-  ServiceViews?: ServiceViewArnList;
+  ServiceViews?: string[];
 }
 export const ListServiceViewsOutput = S.suspend(() =>
   S.Struct({
@@ -813,7 +813,7 @@ export const ListServiceViewsOutput = S.suspend(() =>
   identifier: "ListServiceViewsOutput",
 }) as any as S.Schema<ListServiceViewsOutput>;
 export interface ListTagsForResourceOutput {
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -879,7 +879,7 @@ export const Index = S.suspend(() =>
 export type IndexList = Index[];
 export const IndexList = S.Array(Index);
 export interface ListIndexesOutput {
-  Indexes?: IndexList;
+  Indexes?: Index[];
   NextToken?: string;
 }
 export const ListIndexesOutput = S.suspend(() =>
@@ -890,10 +890,10 @@ export const ListIndexesOutput = S.suspend(() =>
 export interface CreateViewInput {
   ClientToken?: string;
   ViewName: string;
-  IncludedProperties?: IncludedPropertyList;
+  IncludedProperties?: IncludedProperty[];
   Scope?: string;
   Filters?: SearchFilter;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateViewInput = S.suspend(() =>
   S.Struct({
@@ -921,7 +921,7 @@ export interface View {
   Owner?: string;
   LastUpdatedAt?: Date;
   Scope?: string;
-  IncludedProperties?: IncludedPropertyList;
+  IncludedProperties?: IncludedProperty[];
   Filters?: SearchFilter;
 }
 export const View = S.suspend(() =>
@@ -936,7 +936,7 @@ export const View = S.suspend(() =>
 ).annotations({ identifier: "View" }) as any as S.Schema<View>;
 export interface GetViewOutput {
   View?: View;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const GetViewOutput = S.suspend(() =>
   S.Struct({ View: S.optional(View), Tags: S.optional(TagMap) }),
@@ -960,7 +960,7 @@ export const DeleteViewOutput = S.suspend(() =>
   identifier: "DeleteViewOutput",
 }) as any as S.Schema<DeleteViewOutput>;
 export interface ListViewsOutput {
-  Views?: ViewArnList;
+  Views?: string[];
   NextToken?: string;
 }
 export const ListViewsOutput = S.suspend(() =>
@@ -996,7 +996,7 @@ export interface ManagedView {
   LastUpdatedAt?: Date;
   Owner?: string;
   Scope?: string;
-  IncludedProperties?: IncludedPropertyList;
+  IncludedProperties?: IncludedProperty[];
   Filters?: SearchFilter;
   ResourcePolicy?: string;
   Version?: string;
@@ -1018,7 +1018,7 @@ export const ManagedView = S.suspend(() =>
 export interface ServiceView {
   ServiceViewArn: string;
   Filters?: SearchFilter;
-  IncludedProperties?: IncludedPropertyList;
+  IncludedProperties?: IncludedProperty[];
   StreamingAccessForService?: string;
   ScopeType?: string;
 }
@@ -1088,8 +1088,8 @@ export const ResourceCount = S.suspend(() =>
   identifier: "ResourceCount",
 }) as any as S.Schema<ResourceCount>;
 export interface BatchGetViewOutput {
-  Views?: ViewList;
-  Errors?: BatchGetViewErrors;
+  Views?: View[];
+  Errors?: BatchGetViewError[];
 }
 export const BatchGetViewOutput = S.suspend(() =>
   S.Struct({
@@ -1116,7 +1116,7 @@ export const GetServiceViewOutput = S.suspend(() =>
   identifier: "GetServiceViewOutput",
 }) as any as S.Schema<GetServiceViewOutput>;
 export interface ListIndexesForMembersOutput {
-  Indexes?: MemberIndexList;
+  Indexes?: MemberIndex[];
   NextToken?: string;
 }
 export const ListIndexesForMembersOutput = S.suspend(() =>
@@ -1150,7 +1150,7 @@ export interface Resource {
   ResourceType?: string;
   Service?: string;
   LastReportedAt?: Date;
-  Properties?: ResourcePropertyList;
+  Properties?: ResourceProperty[];
 }
 export const Resource = S.suspend(() =>
   S.Struct({
@@ -1166,7 +1166,7 @@ export const Resource = S.suspend(() =>
 export type ResourceList = Resource[];
 export const ResourceList = S.Array(Resource);
 export interface ListResourcesOutput {
-  Resources?: ResourceList;
+  Resources?: Resource[];
   NextToken?: string;
   ViewArn?: string;
 }
@@ -1180,7 +1180,7 @@ export const ListResourcesOutput = S.suspend(() =>
   identifier: "ListResourcesOutput",
 }) as any as S.Schema<ListResourcesOutput>;
 export interface ListServiceIndexesOutput {
-  Indexes?: IndexList;
+  Indexes?: Index[];
   NextToken?: string;
 }
 export const ListServiceIndexesOutput = S.suspend(() =>
@@ -1189,7 +1189,7 @@ export const ListServiceIndexesOutput = S.suspend(() =>
   identifier: "ListServiceIndexesOutput",
 }) as any as S.Schema<ListServiceIndexesOutput>;
 export interface ListStreamingAccessForServicesOutput {
-  StreamingAccessForServices: StreamingAccessDetailsList;
+  StreamingAccessForServices: StreamingAccessDetails[];
   NextToken?: string;
 }
 export const ListStreamingAccessForServicesOutput = S.suspend(() =>
@@ -1201,7 +1201,7 @@ export const ListStreamingAccessForServicesOutput = S.suspend(() =>
   identifier: "ListStreamingAccessForServicesOutput",
 }) as any as S.Schema<ListStreamingAccessForServicesOutput>;
 export interface ListSupportedResourceTypesOutput {
-  ResourceTypes?: ResourceTypeList;
+  ResourceTypes?: SupportedResourceType[];
   NextToken?: string;
 }
 export const ListSupportedResourceTypesOutput = S.suspend(() =>
@@ -1240,7 +1240,7 @@ export const ViewStatus = S.suspend(() =>
   }),
 ).annotations({ identifier: "ViewStatus" }) as any as S.Schema<ViewStatus>;
 export interface SearchOutput {
-  Resources?: ResourceList;
+  Resources?: Resource[];
   NextToken?: string;
   ViewArn?: string;
   Count?: ResourceCount;
@@ -1291,7 +1291,7 @@ export const ValidationExceptionField = S.suspend(() =>
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export interface GetResourceExplorerSetupOutput {
-  Regions?: RegionStatusList;
+  Regions?: RegionStatus[];
   NextToken?: string;
 }
 export const GetResourceExplorerSetupOutput = S.suspend(() =>
@@ -1343,7 +1343,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const getAccountLevelServiceConfiguration: (
   input: GetAccountLevelServiceConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccountLevelServiceConfigurationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1367,7 +1367,7 @@ export const getAccountLevelServiceConfiguration: (
 export const listServiceIndexes: {
   (
     input: ListServiceIndexesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServiceIndexesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1378,7 +1378,7 @@ export const listServiceIndexes: {
   >;
   pages: (
     input: ListServiceIndexesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServiceIndexesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1389,7 +1389,7 @@ export const listServiceIndexes: {
   >;
   items: (
     input: ListServiceIndexesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Index,
     | AccessDeniedException
     | InternalServerException
@@ -1420,7 +1420,7 @@ export const listServiceIndexes: {
 export const listStreamingAccessForServices: {
   (
     input: ListStreamingAccessForServicesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStreamingAccessForServicesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1430,7 +1430,7 @@ export const listStreamingAccessForServices: {
   >;
   pages: (
     input: ListStreamingAccessForServicesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStreamingAccessForServicesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1440,7 +1440,7 @@ export const listStreamingAccessForServices: {
   >;
   items: (
     input: ListStreamingAccessForServicesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     StreamingAccessDetails,
     | AccessDeniedException
     | InternalServerException
@@ -1465,7 +1465,7 @@ export const listStreamingAccessForServices: {
 export const listSupportedResourceTypes: {
   (
     input: ListSupportedResourceTypesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSupportedResourceTypesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1476,7 +1476,7 @@ export const listSupportedResourceTypes: {
   >;
   pages: (
     input: ListSupportedResourceTypesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSupportedResourceTypesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1487,7 +1487,7 @@ export const listSupportedResourceTypes: {
   >;
   items: (
     input: ListSupportedResourceTypesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SupportedResourceType,
     | AccessDeniedException
     | InternalServerException
@@ -1517,7 +1517,7 @@ export const listSupportedResourceTypes: {
  */
 export const getIndex: (
   input: GetIndexRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIndexOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1558,7 +1558,7 @@ export const getIndex: (
  */
 export const updateIndexType: (
   input: UpdateIndexTypeInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateIndexTypeOutput,
   | AccessDeniedException
   | ConflictException
@@ -1589,7 +1589,7 @@ export const updateIndexType: (
  */
 export const deleteIndex: (
   input: DeleteIndexInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIndexOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1616,7 +1616,7 @@ export const deleteIndex: (
  */
 export const associateDefaultView: (
   input: AssociateDefaultViewInput,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateDefaultViewOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1641,7 +1641,7 @@ export const associateDefaultView: (
  */
 export const getDefaultView: (
   input: GetDefaultViewRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDefaultViewOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1666,7 +1666,7 @@ export const getDefaultView: (
  */
 export const getServiceIndex: (
   input: GetServiceIndexRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceIndexOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1692,7 +1692,7 @@ export const getServiceIndex: (
 export const listServiceViews: {
   (
     input: ListServiceViewsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServiceViewsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1703,7 +1703,7 @@ export const listServiceViews: {
   >;
   pages: (
     input: ListServiceViewsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServiceViewsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1714,7 +1714,7 @@ export const listServiceViews: {
   >;
   items: (
     input: ListServiceViewsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     string,
     | AccessDeniedException
     | InternalServerException
@@ -1764,7 +1764,7 @@ export const listServiceViews: {
  */
 export const createIndex: (
   input: CreateIndexInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateIndexOutput,
   | AccessDeniedException
   | ConflictException
@@ -1790,7 +1790,7 @@ export const createIndex: (
 export const listIndexes: {
   (
     input: ListIndexesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListIndexesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1801,7 +1801,7 @@ export const listIndexes: {
   >;
   pages: (
     input: ListIndexesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListIndexesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1812,7 +1812,7 @@ export const listIndexes: {
   >;
   items: (
     input: ListIndexesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Index,
     | AccessDeniedException
     | InternalServerException
@@ -1845,7 +1845,7 @@ export const listIndexes: {
 export const listViews: {
   (
     input: ListViewsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListViewsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1856,7 +1856,7 @@ export const listViews: {
   >;
   pages: (
     input: ListViewsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListViewsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1867,7 +1867,7 @@ export const listViews: {
   >;
   items: (
     input: ListViewsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     string,
     | AccessDeniedException
     | InternalServerException
@@ -1897,7 +1897,7 @@ export const listViews: {
  */
 export const createResourceExplorerSetup: (
   input: CreateResourceExplorerSetupInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateResourceExplorerSetupOutput,
   | AccessDeniedException
   | ConflictException
@@ -1922,7 +1922,7 @@ export const createResourceExplorerSetup: (
  */
 export const deleteResourceExplorerSetup: (
   input: DeleteResourceExplorerSetupInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourceExplorerSetupOutput,
   | AccessDeniedException
   | ConflictException
@@ -1949,7 +1949,7 @@ export const deleteResourceExplorerSetup: (
  */
 export const disassociateDefaultView: (
   input: DisassociateDefaultViewRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateDefaultViewResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1974,7 +1974,7 @@ export const disassociateDefaultView: (
  */
 export const getServiceView: (
   input: GetServiceViewInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceViewOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2000,7 +2000,7 @@ export const getServiceView: (
 export const listIndexesForMembers: {
   (
     input: ListIndexesForMembersInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListIndexesForMembersOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2011,7 +2011,7 @@ export const listIndexesForMembers: {
   >;
   pages: (
     input: ListIndexesForMembersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListIndexesForMembersOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2022,7 +2022,7 @@ export const listIndexesForMembers: {
   >;
   items: (
     input: ListIndexesForMembersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MemberIndex,
     | AccessDeniedException
     | InternalServerException
@@ -2053,7 +2053,7 @@ export const listIndexesForMembers: {
 export const listManagedViews: {
   (
     input: ListManagedViewsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListManagedViewsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2065,7 +2065,7 @@ export const listManagedViews: {
   >;
   pages: (
     input: ListManagedViewsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListManagedViewsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2077,7 +2077,7 @@ export const listManagedViews: {
   >;
   items: (
     input: ListManagedViewsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     string,
     | AccessDeniedException
     | InternalServerException
@@ -2116,7 +2116,7 @@ export const listManagedViews: {
 export const search: {
   (
     input: SearchInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2129,7 +2129,7 @@ export const search: {
   >;
   pages: (
     input: SearchInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2142,7 +2142,7 @@ export const search: {
   >;
   items: (
     input: SearchInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Resource,
     | AccessDeniedException
     | InternalServerException
@@ -2177,7 +2177,7 @@ export const search: {
 export const listResources: {
   (
     input: ListResourcesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResourcesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2190,7 +2190,7 @@ export const listResources: {
   >;
   pages: (
     input: ListResourcesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResourcesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2203,7 +2203,7 @@ export const listResources: {
   >;
   items: (
     input: ListResourcesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Resource,
     | AccessDeniedException
     | InternalServerException
@@ -2237,7 +2237,7 @@ export const listResources: {
  */
 export const updateView: (
   input: UpdateViewInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateViewOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2264,7 +2264,7 @@ export const updateView: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2291,7 +2291,7 @@ export const listTagsForResource: (
  */
 export const getView: (
   input: GetViewInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetViewOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2320,7 +2320,7 @@ export const getView: (
  */
 export const deleteView: (
   input: DeleteViewInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteViewOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2347,7 +2347,7 @@ export const deleteView: (
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2374,7 +2374,7 @@ export const untagResource: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -2401,7 +2401,7 @@ export const tagResource: (
  */
 export const batchGetView: (
   input: BatchGetViewInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetViewOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2426,7 +2426,7 @@ export const batchGetView: (
  */
 export const getManagedView: (
   input: GetManagedViewInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetManagedViewOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2455,7 +2455,7 @@ export const getManagedView: (
  */
 export const createView: (
   input: CreateViewInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateViewOutput,
   | AccessDeniedException
   | ConflictException
@@ -2485,7 +2485,7 @@ export const createView: (
 export const getResourceExplorerSetup: {
   (
     input: GetResourceExplorerSetupInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetResourceExplorerSetupOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2497,7 +2497,7 @@ export const getResourceExplorerSetup: {
   >;
   pages: (
     input: GetResourceExplorerSetupInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetResourceExplorerSetupOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2509,7 +2509,7 @@ export const getResourceExplorerSetup: {
   >;
   items: (
     input: GetResourceExplorerSetupInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RegionStatus,
     | AccessDeniedException
     | InternalServerException

@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -72,7 +72,7 @@ export type DescriptionString = string;
 export type BasicStringWithoutSpace = string;
 export type SensitiveBasicStringWithoutSpace =
   | string
-  | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
 export type InvoiceUnitArnString = string;
 export type ProcurementPortalPreferenceArnString = string;
 export type StringWithoutNewLine = string;
@@ -92,10 +92,31 @@ export type CurrencyCode = string;
 //# Schemas
 export type AccountIdList = string[];
 export const AccountIdList = S.Array(S.String);
+export type ProcurementPortalName = "SAP_BUSINESS_NETWORK" | "COUPA";
+export const ProcurementPortalName = S.Literal("SAP_BUSINESS_NETWORK", "COUPA");
+export type BuyerDomain = "NetworkID";
+export const BuyerDomain = S.Literal("NetworkID");
+export type SupplierDomain = "NetworkID";
+export const SupplierDomain = S.Literal("NetworkID");
 export type ResourceTagKeyList = string[];
 export const ResourceTagKeyList = S.Array(S.String);
+export type ProcurementPortalPreferenceStatus =
+  | "PENDING_VERIFICATION"
+  | "TEST_INITIALIZED"
+  | "TEST_INITIALIZATION_FAILED"
+  | "TEST_FAILED"
+  | "ACTIVE"
+  | "SUSPENDED";
+export const ProcurementPortalPreferenceStatus = S.Literal(
+  "PENDING_VERIFICATION",
+  "TEST_INITIALIZED",
+  "TEST_INITIALIZATION_FAILED",
+  "TEST_FAILED",
+  "ACTIVE",
+  "SUSPENDED",
+);
 export interface BatchGetInvoiceProfileRequest {
-  AccountIds: AccountIdList;
+  AccountIds: string[];
 }
 export const BatchGetInvoiceProfileRequest = S.suspend(() =>
   S.Struct({ AccountIds: AccountIdList }).pipe(
@@ -187,8 +208,8 @@ export const InvoiceUnitArns = S.Array(S.String);
 export type SellerOfRecords = string[];
 export const SellerOfRecords = S.Array(S.String);
 export interface ProcurementPortalPreferenceSelector {
-  InvoiceUnitArns?: InvoiceUnitArns;
-  SellerOfRecords?: SellerOfRecords;
+  InvoiceUnitArns?: string[];
+  SellerOfRecords?: string[];
 }
 export const ProcurementPortalPreferenceSelector = S.suspend(() =>
   S.Struct({
@@ -199,18 +220,18 @@ export const ProcurementPortalPreferenceSelector = S.suspend(() =>
   identifier: "ProcurementPortalPreferenceSelector",
 }) as any as S.Schema<ProcurementPortalPreferenceSelector>;
 export interface TestEnvPreferenceInput {
-  BuyerDomain: string;
+  BuyerDomain: BuyerDomain;
   BuyerIdentifier: string;
-  SupplierDomain: string;
+  SupplierDomain: SupplierDomain;
   SupplierIdentifier: string;
   ProcurementPortalSharedSecret?: string;
   ProcurementPortalInstanceEndpoint?: string;
 }
 export const TestEnvPreferenceInput = S.suspend(() =>
   S.Struct({
-    BuyerDomain: S.String,
+    BuyerDomain: BuyerDomain,
     BuyerIdentifier: S.String,
-    SupplierDomain: S.String,
+    SupplierDomain: SupplierDomain,
     SupplierIdentifier: S.String,
     ProcurementPortalSharedSecret: S.optional(S.String),
     ProcurementPortalInstanceEndpoint: S.optional(S.String),
@@ -218,30 +239,68 @@ export const TestEnvPreferenceInput = S.suspend(() =>
 ).annotations({
   identifier: "TestEnvPreferenceInput",
 }) as any as S.Schema<TestEnvPreferenceInput>;
-export type EinvoiceDeliveryDocumentTypes = string[];
-export const EinvoiceDeliveryDocumentTypes = S.Array(S.String);
-export type EinvoiceDeliveryAttachmentTypes = string[];
-export const EinvoiceDeliveryAttachmentTypes = S.Array(S.String);
+export type EinvoiceDeliveryDocumentType =
+  | "AWS_CLOUD_INVOICE"
+  | "AWS_CLOUD_CREDIT_MEMO"
+  | "AWS_MARKETPLACE_INVOICE"
+  | "AWS_MARKETPLACE_CREDIT_MEMO"
+  | "AWS_REQUEST_FOR_PAYMENT";
+export const EinvoiceDeliveryDocumentType = S.Literal(
+  "AWS_CLOUD_INVOICE",
+  "AWS_CLOUD_CREDIT_MEMO",
+  "AWS_MARKETPLACE_INVOICE",
+  "AWS_MARKETPLACE_CREDIT_MEMO",
+  "AWS_REQUEST_FOR_PAYMENT",
+);
+export type EinvoiceDeliveryDocumentTypes = EinvoiceDeliveryDocumentType[];
+export const EinvoiceDeliveryDocumentTypes = S.Array(
+  EinvoiceDeliveryDocumentType,
+);
+export type EinvoiceDeliveryAttachmentType = "INVOICE_PDF" | "RFP_PDF";
+export const EinvoiceDeliveryAttachmentType = S.Literal(
+  "INVOICE_PDF",
+  "RFP_PDF",
+);
+export type EinvoiceDeliveryAttachmentTypes = EinvoiceDeliveryAttachmentType[];
+export const EinvoiceDeliveryAttachmentTypes = S.Array(
+  EinvoiceDeliveryAttachmentType,
+);
+export type Protocol = "CXML";
+export const Protocol = S.Literal("CXML");
+export type PurchaseOrderDataSourceType =
+  | "ASSOCIATED_PURCHASE_ORDER_REQUIRED"
+  | "PURCHASE_ORDER_NOT_REQUIRED";
+export const PurchaseOrderDataSourceType = S.Literal(
+  "ASSOCIATED_PURCHASE_ORDER_REQUIRED",
+  "PURCHASE_ORDER_NOT_REQUIRED",
+);
 export interface PurchaseOrderDataSource {
-  EinvoiceDeliveryDocumentType?: string;
-  PurchaseOrderDataSourceType?: string;
+  EinvoiceDeliveryDocumentType?: EinvoiceDeliveryDocumentType;
+  PurchaseOrderDataSourceType?: PurchaseOrderDataSourceType;
 }
 export const PurchaseOrderDataSource = S.suspend(() =>
   S.Struct({
-    EinvoiceDeliveryDocumentType: S.optional(S.String),
-    PurchaseOrderDataSourceType: S.optional(S.String),
+    EinvoiceDeliveryDocumentType: S.optional(EinvoiceDeliveryDocumentType),
+    PurchaseOrderDataSourceType: S.optional(PurchaseOrderDataSourceType),
   }),
 ).annotations({
   identifier: "PurchaseOrderDataSource",
 }) as any as S.Schema<PurchaseOrderDataSource>;
 export type PurchaseOrderDataSources = PurchaseOrderDataSource[];
 export const PurchaseOrderDataSources = S.Array(PurchaseOrderDataSource);
+export type ConnectionTestingMethod =
+  | "PROD_ENV_DOLLAR_TEST"
+  | "TEST_ENV_REPLAY_TEST";
+export const ConnectionTestingMethod = S.Literal(
+  "PROD_ENV_DOLLAR_TEST",
+  "TEST_ENV_REPLAY_TEST",
+);
 export interface EinvoiceDeliveryPreference {
-  EinvoiceDeliveryDocumentTypes: EinvoiceDeliveryDocumentTypes;
-  EinvoiceDeliveryAttachmentTypes?: EinvoiceDeliveryAttachmentTypes;
-  Protocol: string;
-  PurchaseOrderDataSources: PurchaseOrderDataSources;
-  ConnectionTestingMethod: string;
+  EinvoiceDeliveryDocumentTypes: EinvoiceDeliveryDocumentType[];
+  EinvoiceDeliveryAttachmentTypes?: EinvoiceDeliveryAttachmentType[];
+  Protocol: Protocol;
+  PurchaseOrderDataSources: PurchaseOrderDataSource[];
+  ConnectionTestingMethod: ConnectionTestingMethod;
   EinvoiceDeliveryActivationDate: Date;
 }
 export const EinvoiceDeliveryPreference = S.suspend(() =>
@@ -250,9 +309,9 @@ export const EinvoiceDeliveryPreference = S.suspend(() =>
     EinvoiceDeliveryAttachmentTypes: S.optional(
       EinvoiceDeliveryAttachmentTypes,
     ),
-    Protocol: S.String,
+    Protocol: Protocol,
     PurchaseOrderDataSources: PurchaseOrderDataSources,
-    ConnectionTestingMethod: S.String,
+    ConnectionTestingMethod: ConnectionTestingMethod,
     EinvoiceDeliveryActivationDate: S.Date.pipe(
       T.TimestampFormat("epoch-seconds"),
     ),
@@ -272,13 +331,13 @@ export const Contacts = S.Array(Contact);
 export interface PutProcurementPortalPreferenceRequest {
   ProcurementPortalPreferenceArn: string;
   Selector?: ProcurementPortalPreferenceSelector;
-  ProcurementPortalSharedSecret?: string | Redacted.Redacted<string>;
+  ProcurementPortalSharedSecret?: string | redacted.Redacted<string>;
   ProcurementPortalInstanceEndpoint?: string;
   TestEnvPreference?: TestEnvPreferenceInput;
   EinvoiceDeliveryEnabled: boolean;
   EinvoiceDeliveryPreference?: EinvoiceDeliveryPreference;
   PurchaseOrderRetrievalEnabled: boolean;
-  Contacts: Contacts;
+  Contacts: Contact[];
 }
 export const PutProcurementPortalPreferenceRequest = S.suspend(() =>
   S.Struct({
@@ -308,7 +367,7 @@ export type ResourceTagList = ResourceTag[];
 export const ResourceTagList = S.Array(ResourceTag);
 export interface TagResourceRequest {
   ResourceArn: string;
-  ResourceTags: ResourceTagList;
+  ResourceTags: ResourceTag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, ResourceTags: ResourceTagList }).pipe(
@@ -323,7 +382,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  ResourceTagKeys: ResourceTagKeyList;
+  ResourceTagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, ResourceTagKeys: ResourceTagKeyList }).pipe(
@@ -339,8 +398,8 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 export type RuleAccountIdList = string[];
 export const RuleAccountIdList = S.Array(S.String);
 export interface InvoiceUnitRule {
-  LinkedAccounts?: RuleAccountIdList;
-  BillSourceAccounts?: RuleAccountIdList;
+  LinkedAccounts?: string[];
+  BillSourceAccounts?: string[];
 }
 export const InvoiceUnitRule = S.suspend(() =>
   S.Struct({
@@ -370,17 +429,21 @@ export const UpdateInvoiceUnitRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateInvoiceUnitRequest>;
 export interface UpdateProcurementPortalPreferenceStatusRequest {
   ProcurementPortalPreferenceArn: string;
-  EinvoiceDeliveryPreferenceStatus?: string;
+  EinvoiceDeliveryPreferenceStatus?: ProcurementPortalPreferenceStatus;
   EinvoiceDeliveryPreferenceStatusReason?: string;
-  PurchaseOrderRetrievalPreferenceStatus?: string;
+  PurchaseOrderRetrievalPreferenceStatus?: ProcurementPortalPreferenceStatus;
   PurchaseOrderRetrievalPreferenceStatusReason?: string;
 }
 export const UpdateProcurementPortalPreferenceStatusRequest = S.suspend(() =>
   S.Struct({
     ProcurementPortalPreferenceArn: S.String,
-    EinvoiceDeliveryPreferenceStatus: S.optional(S.String),
+    EinvoiceDeliveryPreferenceStatus: S.optional(
+      ProcurementPortalPreferenceStatus,
+    ),
     EinvoiceDeliveryPreferenceStatusReason: S.optional(S.String),
-    PurchaseOrderRetrievalPreferenceStatus: S.optional(S.String),
+    PurchaseOrderRetrievalPreferenceStatus: S.optional(
+      ProcurementPortalPreferenceStatus,
+    ),
     PurchaseOrderRetrievalPreferenceStatusReason: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -388,22 +451,27 @@ export const UpdateProcurementPortalPreferenceStatusRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateProcurementPortalPreferenceStatusRequest",
 }) as any as S.Schema<UpdateProcurementPortalPreferenceStatusRequest>;
+export type ListInvoiceSummariesResourceType = "ACCOUNT_ID" | "INVOICE_ID";
+export const ListInvoiceSummariesResourceType = S.Literal(
+  "ACCOUNT_ID",
+  "INVOICE_ID",
+);
 export type InvoiceUnitNames = string[];
 export const InvoiceUnitNames = S.Array(S.String);
 export interface InvoiceSummariesSelector {
-  ResourceType: string;
+  ResourceType: ListInvoiceSummariesResourceType;
   Value: string;
 }
 export const InvoiceSummariesSelector = S.suspend(() =>
-  S.Struct({ ResourceType: S.String, Value: S.String }),
+  S.Struct({ ResourceType: ListInvoiceSummariesResourceType, Value: S.String }),
 ).annotations({
   identifier: "InvoiceSummariesSelector",
 }) as any as S.Schema<InvoiceSummariesSelector>;
 export interface Filters {
-  Names?: InvoiceUnitNames;
-  InvoiceReceivers?: AccountIdList;
-  Accounts?: AccountIdList;
-  BillSourceAccounts?: AccountIdList;
+  Names?: string[];
+  InvoiceReceivers?: string[];
+  Accounts?: string[];
+  BillSourceAccounts?: string[];
 }
 export const Filters = S.suspend(() =>
   S.Struct({
@@ -419,7 +487,7 @@ export interface CreateInvoiceUnitRequest {
   Description?: string;
   TaxInheritanceDisabled?: boolean;
   Rule: InvoiceUnitRule;
-  ResourceTags?: ResourceTagList;
+  ResourceTags?: ResourceTag[];
 }
 export const CreateInvoiceUnitRequest = S.suspend(() =>
   S.Struct({
@@ -492,7 +560,7 @@ export const ListInvoiceUnitsRequest = S.suspend(() =>
   identifier: "ListInvoiceUnitsRequest",
 }) as any as S.Schema<ListInvoiceUnitsRequest>;
 export interface ListTagsForResourceResponse {
-  ResourceTags?: ResourceTagList;
+  ResourceTags?: ResourceTag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ ResourceTags: S.optional(ResourceTagList) }),
@@ -559,17 +627,17 @@ export const InvoiceSummariesFilter = S.suspend(() =>
 export interface ProcurementPortalPreferenceSummary {
   AwsAccountId: string;
   ProcurementPortalPreferenceArn: string;
-  ProcurementPortalName: string;
-  BuyerDomain: string;
+  ProcurementPortalName: ProcurementPortalName;
+  BuyerDomain: BuyerDomain;
   BuyerIdentifier: string;
-  SupplierDomain: string;
+  SupplierDomain: SupplierDomain;
   SupplierIdentifier: string;
   Selector?: ProcurementPortalPreferenceSelector;
   EinvoiceDeliveryEnabled: boolean;
   PurchaseOrderRetrievalEnabled: boolean;
-  EinvoiceDeliveryPreferenceStatus?: string;
+  EinvoiceDeliveryPreferenceStatus?: ProcurementPortalPreferenceStatus;
   EinvoiceDeliveryPreferenceStatusReason?: string;
-  PurchaseOrderRetrievalPreferenceStatus?: string;
+  PurchaseOrderRetrievalPreferenceStatus?: ProcurementPortalPreferenceStatus;
   PurchaseOrderRetrievalPreferenceStatusReason?: string;
   Version: number;
   CreateDate: Date;
@@ -579,17 +647,21 @@ export const ProcurementPortalPreferenceSummary = S.suspend(() =>
   S.Struct({
     AwsAccountId: S.String,
     ProcurementPortalPreferenceArn: S.String,
-    ProcurementPortalName: S.String,
-    BuyerDomain: S.String,
+    ProcurementPortalName: ProcurementPortalName,
+    BuyerDomain: BuyerDomain,
     BuyerIdentifier: S.String,
-    SupplierDomain: S.String,
+    SupplierDomain: SupplierDomain,
     SupplierIdentifier: S.String,
     Selector: S.optional(ProcurementPortalPreferenceSelector),
     EinvoiceDeliveryEnabled: S.Boolean,
     PurchaseOrderRetrievalEnabled: S.Boolean,
-    EinvoiceDeliveryPreferenceStatus: S.optional(S.String),
+    EinvoiceDeliveryPreferenceStatus: S.optional(
+      ProcurementPortalPreferenceStatus,
+    ),
     EinvoiceDeliveryPreferenceStatusReason: S.optional(S.String),
-    PurchaseOrderRetrievalPreferenceStatus: S.optional(S.String),
+    PurchaseOrderRetrievalPreferenceStatus: S.optional(
+      ProcurementPortalPreferenceStatus,
+    ),
     PurchaseOrderRetrievalPreferenceStatusReason: S.optional(S.String),
     Version: S.Number,
     CreateDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -612,28 +684,28 @@ export const CreateInvoiceUnitResponse = S.suspend(() =>
   identifier: "CreateInvoiceUnitResponse",
 }) as any as S.Schema<CreateInvoiceUnitResponse>;
 export interface CreateProcurementPortalPreferenceRequest {
-  ProcurementPortalName: string;
-  BuyerDomain: string;
+  ProcurementPortalName: ProcurementPortalName;
+  BuyerDomain: BuyerDomain;
   BuyerIdentifier: string;
-  SupplierDomain: string;
+  SupplierDomain: SupplierDomain;
   SupplierIdentifier: string;
   Selector?: ProcurementPortalPreferenceSelector;
-  ProcurementPortalSharedSecret?: string | Redacted.Redacted<string>;
+  ProcurementPortalSharedSecret?: string | redacted.Redacted<string>;
   ProcurementPortalInstanceEndpoint?: string;
   TestEnvPreference?: TestEnvPreferenceInput;
   EinvoiceDeliveryEnabled: boolean;
   EinvoiceDeliveryPreference?: EinvoiceDeliveryPreference;
   PurchaseOrderRetrievalEnabled: boolean;
-  Contacts: Contacts;
-  ResourceTags?: ResourceTagList;
+  Contacts: Contact[];
+  ResourceTags?: ResourceTag[];
   ClientToken?: string;
 }
 export const CreateProcurementPortalPreferenceRequest = S.suspend(() =>
   S.Struct({
-    ProcurementPortalName: S.String,
-    BuyerDomain: S.String,
+    ProcurementPortalName: ProcurementPortalName,
+    BuyerDomain: BuyerDomain,
     BuyerIdentifier: S.String,
-    SupplierDomain: S.String,
+    SupplierDomain: SupplierDomain,
     SupplierIdentifier: S.String,
     Selector: S.optional(ProcurementPortalPreferenceSelector),
     ProcurementPortalSharedSecret: S.optional(SensitiveString),
@@ -670,7 +742,7 @@ export const ListInvoiceSummariesRequest = S.suspend(() =>
   identifier: "ListInvoiceSummariesRequest",
 }) as any as S.Schema<ListInvoiceSummariesRequest>;
 export interface ListProcurementPortalPreferencesResponse {
-  ProcurementPortalPreferences?: ProcurementPortalPreferenceSummaries;
+  ProcurementPortalPreferences?: ProcurementPortalPreferenceSummary[];
   NextToken?: string;
 }
 export const ListProcurementPortalPreferencesResponse = S.suspend(() =>
@@ -726,9 +798,9 @@ export const SupplementalDocument = S.suspend(() =>
 export type SupplementalDocuments = SupplementalDocument[];
 export const SupplementalDocuments = S.Array(SupplementalDocument);
 export interface TestEnvPreference {
-  BuyerDomain: string;
+  BuyerDomain: BuyerDomain;
   BuyerIdentifier: string;
-  SupplierDomain: string;
+  SupplierDomain: SupplierDomain;
   SupplierIdentifier: string;
   ProcurementPortalSharedSecret?: string;
   ProcurementPortalInstanceEndpoint?: string;
@@ -736,9 +808,9 @@ export interface TestEnvPreference {
 }
 export const TestEnvPreference = S.suspend(() =>
   S.Struct({
-    BuyerDomain: S.String,
+    BuyerDomain: BuyerDomain,
     BuyerIdentifier: S.String,
-    SupplierDomain: S.String,
+    SupplierDomain: SupplierDomain,
     SupplierIdentifier: S.String,
     ProcurementPortalSharedSecret: S.optional(S.String),
     ProcurementPortalInstanceEndpoint: S.optional(S.String),
@@ -751,9 +823,9 @@ export interface InvoiceProfile {
   AccountId?: string;
   ReceiverName?: string;
   ReceiverAddress?: ReceiverAddress;
-  ReceiverEmail?: string | Redacted.Redacted<string>;
+  ReceiverEmail?: string | redacted.Redacted<string>;
   Issuer?: string;
-  TaxRegistrationNumber?: string | Redacted.Redacted<string>;
+  TaxRegistrationNumber?: string | redacted.Redacted<string>;
 }
 export const InvoiceProfile = S.suspend(() =>
   S.Struct({
@@ -773,7 +845,7 @@ export interface InvoicePDF {
   InvoiceId?: string;
   DocumentUrl?: string;
   DocumentUrlExpirationDate?: Date;
-  SupplementalDocuments?: SupplementalDocuments;
+  SupplementalDocuments?: SupplementalDocument[];
 }
 export const InvoicePDF = S.suspend(() =>
   S.Struct({
@@ -788,10 +860,10 @@ export const InvoicePDF = S.suspend(() =>
 export interface ProcurementPortalPreference {
   AwsAccountId: string;
   ProcurementPortalPreferenceArn: string;
-  ProcurementPortalName: string;
-  BuyerDomain: string;
+  ProcurementPortalName: ProcurementPortalName;
+  BuyerDomain: BuyerDomain;
   BuyerIdentifier: string;
-  SupplierDomain: string;
+  SupplierDomain: SupplierDomain;
   SupplierIdentifier: string;
   Selector?: ProcurementPortalPreferenceSelector;
   ProcurementPortalSharedSecret?: string;
@@ -801,10 +873,10 @@ export interface ProcurementPortalPreference {
   EinvoiceDeliveryEnabled: boolean;
   EinvoiceDeliveryPreference?: EinvoiceDeliveryPreference;
   PurchaseOrderRetrievalEnabled: boolean;
-  Contacts?: Contacts;
-  EinvoiceDeliveryPreferenceStatus?: string;
+  Contacts?: Contact[];
+  EinvoiceDeliveryPreferenceStatus?: ProcurementPortalPreferenceStatus;
   EinvoiceDeliveryPreferenceStatusReason?: string;
-  PurchaseOrderRetrievalPreferenceStatus?: string;
+  PurchaseOrderRetrievalPreferenceStatus?: ProcurementPortalPreferenceStatus;
   PurchaseOrderRetrievalPreferenceStatusReason?: string;
   Version: number;
   CreateDate: Date;
@@ -814,10 +886,10 @@ export const ProcurementPortalPreference = S.suspend(() =>
   S.Struct({
     AwsAccountId: S.String,
     ProcurementPortalPreferenceArn: S.String,
-    ProcurementPortalName: S.String,
-    BuyerDomain: S.String,
+    ProcurementPortalName: ProcurementPortalName,
+    BuyerDomain: BuyerDomain,
     BuyerIdentifier: S.String,
-    SupplierDomain: S.String,
+    SupplierDomain: SupplierDomain,
     SupplierIdentifier: S.String,
     Selector: S.optional(ProcurementPortalPreferenceSelector),
     ProcurementPortalSharedSecret: S.optional(S.String),
@@ -828,9 +900,13 @@ export const ProcurementPortalPreference = S.suspend(() =>
     EinvoiceDeliveryPreference: S.optional(EinvoiceDeliveryPreference),
     PurchaseOrderRetrievalEnabled: S.Boolean,
     Contacts: S.optional(Contacts),
-    EinvoiceDeliveryPreferenceStatus: S.optional(S.String),
+    EinvoiceDeliveryPreferenceStatus: S.optional(
+      ProcurementPortalPreferenceStatus,
+    ),
     EinvoiceDeliveryPreferenceStatusReason: S.optional(S.String),
-    PurchaseOrderRetrievalPreferenceStatus: S.optional(S.String),
+    PurchaseOrderRetrievalPreferenceStatus: S.optional(
+      ProcurementPortalPreferenceStatus,
+    ),
     PurchaseOrderRetrievalPreferenceStatusReason: S.optional(S.String),
     Version: S.Number,
     CreateDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -862,7 +938,7 @@ export const InvoiceUnit = S.suspend(() =>
 export type InvoiceUnits = InvoiceUnit[];
 export const InvoiceUnits = S.Array(InvoiceUnit);
 export interface BatchGetInvoiceProfileResponse {
-  Profiles?: ProfileList;
+  Profiles?: InvoiceProfile[];
 }
 export const BatchGetInvoiceProfileResponse = S.suspend(() =>
   S.Struct({ Profiles: S.optional(ProfileList) }),
@@ -894,7 +970,7 @@ export const GetProcurementPortalPreferenceResponse = S.suspend(() =>
   identifier: "GetProcurementPortalPreferenceResponse",
 }) as any as S.Schema<GetProcurementPortalPreferenceResponse>;
 export interface ListInvoiceUnitsResponse {
-  InvoiceUnits?: InvoiceUnits;
+  InvoiceUnits?: InvoiceUnit[];
   NextToken?: string;
 }
 export const ListInvoiceUnitsResponse = S.suspend(() =>
@@ -905,6 +981,39 @@ export const ListInvoiceUnitsResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListInvoiceUnitsResponse",
 }) as any as S.Schema<ListInvoiceUnitsResponse>;
+export type InvoiceType = "INVOICE" | "CREDIT_MEMO";
+export const InvoiceType = S.Literal("INVOICE", "CREDIT_MEMO");
+export type ValidationExceptionReason =
+  | "nonMemberPresent"
+  | "maxAccountsExceeded"
+  | "maxInvoiceUnitsExceeded"
+  | "duplicateInvoiceUnit"
+  | "mutualExclusionError"
+  | "accountMembershipError"
+  | "taxSettingsError"
+  | "expiredNextToken"
+  | "invalidNextToken"
+  | "invalidInput"
+  | "fieldValidationFailed"
+  | "cannotParse"
+  | "unknownOperation"
+  | "other";
+export const ValidationExceptionReason = S.Literal(
+  "nonMemberPresent",
+  "maxAccountsExceeded",
+  "maxInvoiceUnitsExceeded",
+  "duplicateInvoiceUnit",
+  "mutualExclusionError",
+  "accountMembershipError",
+  "taxSettingsError",
+  "expiredNextToken",
+  "invalidNextToken",
+  "invalidInput",
+  "fieldValidationFailed",
+  "cannotParse",
+  "unknownOperation",
+  "other",
+);
 export interface Entity {
   InvoicingEntity?: string;
 }
@@ -985,7 +1094,7 @@ export const FeesBreakdownAmount = S.suspend(() =>
 export type FeesBreakdownAmountList = FeesBreakdownAmount[];
 export const FeesBreakdownAmountList = S.Array(FeesBreakdownAmount);
 export interface DiscountsBreakdown {
-  Breakdown?: DiscountsBreakdownAmountList;
+  Breakdown?: DiscountsBreakdownAmount[];
   TotalAmount?: string;
 }
 export const DiscountsBreakdown = S.suspend(() =>
@@ -997,7 +1106,7 @@ export const DiscountsBreakdown = S.suspend(() =>
   identifier: "DiscountsBreakdown",
 }) as any as S.Schema<DiscountsBreakdown>;
 export interface TaxesBreakdown {
-  Breakdown?: TaxesBreakdownAmountList;
+  Breakdown?: TaxesBreakdownAmount[];
   TotalAmount?: string;
 }
 export const TaxesBreakdown = S.suspend(() =>
@@ -1009,7 +1118,7 @@ export const TaxesBreakdown = S.suspend(() =>
   identifier: "TaxesBreakdown",
 }) as any as S.Schema<TaxesBreakdown>;
 export interface FeesBreakdown {
-  Breakdown?: FeesBreakdownAmountList;
+  Breakdown?: FeesBreakdownAmount[];
   TotalAmount?: string;
 }
 export const FeesBreakdown = S.suspend(() =>
@@ -1061,7 +1170,7 @@ export interface InvoiceSummary {
   DueDate?: Date;
   Entity?: Entity;
   BillingPeriod?: BillingPeriod;
-  InvoiceType?: string;
+  InvoiceType?: InvoiceType;
   OriginalInvoiceId?: string;
   PurchaseOrderNumber?: string;
   BaseCurrencyAmount?: InvoiceCurrencyAmount;
@@ -1076,7 +1185,7 @@ export const InvoiceSummary = S.suspend(() =>
     DueDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Entity: S.optional(Entity),
     BillingPeriod: S.optional(BillingPeriod),
-    InvoiceType: S.optional(S.String),
+    InvoiceType: S.optional(InvoiceType),
     OriginalInvoiceId: S.optional(S.String),
     PurchaseOrderNumber: S.optional(S.String),
     BaseCurrencyAmount: S.optional(InvoiceCurrencyAmount),
@@ -1089,7 +1198,7 @@ export const InvoiceSummary = S.suspend(() =>
 export type InvoiceSummaries = InvoiceSummary[];
 export const InvoiceSummaries = S.Array(InvoiceSummary);
 export interface ListInvoiceSummariesResponse {
-  InvoiceSummaries: InvoiceSummaries;
+  InvoiceSummaries: InvoiceSummary[];
   NextToken?: string;
 }
 export const ListInvoiceSummariesResponse = S.suspend(() =>
@@ -1147,7 +1256,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   {
     message: S.optional(S.String),
     resourceName: S.optional(S.String),
-    reason: S.optional(S.String),
+    reason: S.optional(ValidationExceptionReason),
     fieldList: S.optional(ValidationExceptionFieldList),
   },
   T.AwsQueryError({ code: "InvoicingValidation", httpResponseCode: 400 }),
@@ -1159,7 +1268,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const createInvoiceUnit: (
   input: CreateInvoiceUnitRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateInvoiceUnitResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1182,7 +1291,7 @@ export const createInvoiceUnit: (
  */
 export const updateInvoiceUnit: (
   input: UpdateInvoiceUnitRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateInvoiceUnitResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1207,7 +1316,7 @@ export const updateInvoiceUnit: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1232,7 +1341,7 @@ export const untagResource: (
  */
 export const deleteInvoiceUnit: (
   input: DeleteInvoiceUnitRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteInvoiceUnitResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1257,7 +1366,7 @@ export const deleteInvoiceUnit: (
  */
 export const getInvoiceUnit: (
   input: GetInvoiceUnitRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInvoiceUnitResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1282,7 +1391,7 @@ export const getInvoiceUnit: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1307,7 +1416,7 @@ export const listTagsForResource: (
  */
 export const batchGetInvoiceProfile: (
   input: BatchGetInvoiceProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetInvoiceProfileResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1332,7 +1441,7 @@ export const batchGetInvoiceProfile: (
  */
 export const getInvoicePDF: (
   input: GetInvoicePDFRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInvoicePDFResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1358,7 +1467,7 @@ export const getInvoicePDF: (
 export const listProcurementPortalPreferences: {
   (
     input: ListProcurementPortalPreferencesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProcurementPortalPreferencesResponse,
     | AccessDeniedException
     | ConflictException
@@ -1371,7 +1480,7 @@ export const listProcurementPortalPreferences: {
   >;
   pages: (
     input: ListProcurementPortalPreferencesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProcurementPortalPreferencesResponse,
     | AccessDeniedException
     | ConflictException
@@ -1384,7 +1493,7 @@ export const listProcurementPortalPreferences: {
   >;
   items: (
     input: ListProcurementPortalPreferencesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProcurementPortalPreferenceSummary,
     | AccessDeniedException
     | ConflictException
@@ -1419,7 +1528,7 @@ export const listProcurementPortalPreferences: {
 export const listInvoiceUnits: {
   (
     input: ListInvoiceUnitsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInvoiceUnitsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1430,7 +1539,7 @@ export const listInvoiceUnits: {
   >;
   pages: (
     input: ListInvoiceUnitsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInvoiceUnitsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1441,7 +1550,7 @@ export const listInvoiceUnits: {
   >;
   items: (
     input: ListInvoiceUnitsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     InvoiceUnit,
     | AccessDeniedException
     | InternalServerException
@@ -1471,7 +1580,7 @@ export const listInvoiceUnits: {
  */
 export const createProcurementPortalPreference: (
   input: CreateProcurementPortalPreferenceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProcurementPortalPreferenceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1498,7 +1607,7 @@ export const createProcurementPortalPreference: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1525,7 +1634,7 @@ export const tagResource: (
  */
 export const updateProcurementPortalPreferenceStatus: (
   input: UpdateProcurementPortalPreferenceStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProcurementPortalPreferenceStatusResponse,
   | AccessDeniedException
   | ConflictException
@@ -1554,7 +1663,7 @@ export const updateProcurementPortalPreferenceStatus: (
  */
 export const deleteProcurementPortalPreference: (
   input: DeleteProcurementPortalPreferenceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProcurementPortalPreferenceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1581,7 +1690,7 @@ export const deleteProcurementPortalPreference: (
  */
 export const putProcurementPortalPreference: (
   input: PutProcurementPortalPreferenceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutProcurementPortalPreferenceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1610,7 +1719,7 @@ export const putProcurementPortalPreference: (
  */
 export const getProcurementPortalPreference: (
   input: GetProcurementPortalPreferenceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetProcurementPortalPreferenceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1640,7 +1749,7 @@ export const getProcurementPortalPreference: (
 export const listInvoiceSummaries: {
   (
     input: ListInvoiceSummariesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInvoiceSummariesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1652,7 +1761,7 @@ export const listInvoiceSummaries: {
   >;
   pages: (
     input: ListInvoiceSummariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInvoiceSummariesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1664,7 +1773,7 @@ export const listInvoiceSummaries: {
   >;
   items: (
     input: ListInvoiceSummariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     InvoiceSummary,
     | AccessDeniedException
     | InternalServerException

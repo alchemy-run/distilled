@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -88,40 +88,53 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type GuidString = string;
-export type ExternalUserId = string | Redacted.Redacted<string>;
-export type ClientRequestToken = string | Redacted.Redacted<string>;
+export type ExternalUserId = string | redacted.Redacted<string>;
+export type ClientRequestToken = string | redacted.Redacted<string>;
 export type MediaRegion = string;
-export type ExternalMeetingId = string | Redacted.Redacted<string>;
+export type ExternalMeetingId = string | redacted.Redacted<string>;
 export type PrimaryMeetingId = string;
 export type TenantId = string;
 export type ResultMax = number;
 export type AmazonResourceName = string;
 export type TagKey = string;
-export type Arn = string | Redacted.Redacted<string>;
+export type Arn = string | redacted.Redacted<string>;
 export type TagValue = string;
 export type AttendeeMax = number;
 export type TranscribePiiEntityTypes = string;
 export type TranscribeLanguageModelName = string;
 export type TranscribeLanguageOptions = string;
 export type TranscribeVocabularyNamesOrFilterNamesString = string;
-export type JoinTokenString = string | Redacted.Redacted<string>;
+export type JoinTokenString = string | redacted.Redacted<string>;
 export type RetryAfterSeconds = string;
 
 //# Schemas
 export type TenantIdList = string[];
 export const TenantIdList = S.Array(S.String);
+export type MediaPlacementNetworkType = "Ipv4Only" | "DualStack";
+export const MediaPlacementNetworkType = S.Literal("Ipv4Only", "DualStack");
+export type MediaCapabilities = "SendReceive" | "Send" | "Receive" | "None";
+export const MediaCapabilities = S.Literal(
+  "SendReceive",
+  "Send",
+  "Receive",
+  "None",
+);
 export interface AttendeeCapabilities {
-  Audio: string;
-  Video: string;
-  Content: string;
+  Audio: MediaCapabilities;
+  Video: MediaCapabilities;
+  Content: MediaCapabilities;
 }
 export const AttendeeCapabilities = S.suspend(() =>
-  S.Struct({ Audio: S.String, Video: S.String, Content: S.String }),
+  S.Struct({
+    Audio: MediaCapabilities,
+    Video: MediaCapabilities,
+    Content: MediaCapabilities,
+  }),
 ).annotations({
   identifier: "AttendeeCapabilities",
 }) as any as S.Schema<AttendeeCapabilities>;
 export interface CreateAttendeeRequestItem {
-  ExternalUserId: string | Redacted.Redacted<string>;
+  ExternalUserId: string | redacted.Redacted<string>;
   Capabilities?: AttendeeCapabilities;
 }
 export const CreateAttendeeRequestItem = S.suspend(() =>
@@ -141,7 +154,7 @@ export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface CreateAttendeeRequest {
   MeetingId: string;
-  ExternalUserId: string | Redacted.Redacted<string>;
+  ExternalUserId: string | redacted.Redacted<string>;
   Capabilities?: AttendeeCapabilities;
 }
 export const CreateAttendeeRequest = S.suspend(() =>
@@ -162,27 +175,33 @@ export const CreateAttendeeRequest = S.suspend(() =>
 ).annotations({
   identifier: "CreateAttendeeRequest",
 }) as any as S.Schema<CreateAttendeeRequest>;
+export type MeetingFeatureStatus = "AVAILABLE" | "UNAVAILABLE";
+export const MeetingFeatureStatus = S.Literal("AVAILABLE", "UNAVAILABLE");
 export interface AudioFeatures {
-  EchoReduction?: string;
+  EchoReduction?: MeetingFeatureStatus;
 }
 export const AudioFeatures = S.suspend(() =>
-  S.Struct({ EchoReduction: S.optional(S.String) }),
+  S.Struct({ EchoReduction: S.optional(MeetingFeatureStatus) }),
 ).annotations({
   identifier: "AudioFeatures",
 }) as any as S.Schema<AudioFeatures>;
+export type VideoResolution = "None" | "HD" | "FHD";
+export const VideoResolution = S.Literal("None", "HD", "FHD");
 export interface VideoFeatures {
-  MaxResolution?: string;
+  MaxResolution?: VideoResolution;
 }
 export const VideoFeatures = S.suspend(() =>
-  S.Struct({ MaxResolution: S.optional(S.String) }),
+  S.Struct({ MaxResolution: S.optional(VideoResolution) }),
 ).annotations({
   identifier: "VideoFeatures",
 }) as any as S.Schema<VideoFeatures>;
+export type ContentResolution = "None" | "FHD" | "UHD";
+export const ContentResolution = S.Literal("None", "FHD", "UHD");
 export interface ContentFeatures {
-  MaxResolution?: string;
+  MaxResolution?: ContentResolution;
 }
 export const ContentFeatures = S.suspend(() =>
-  S.Struct({ MaxResolution: S.optional(S.String) }),
+  S.Struct({ MaxResolution: S.optional(ContentResolution) }),
 ).annotations({
   identifier: "ContentFeatures",
 }) as any as S.Schema<ContentFeatures>;
@@ -211,9 +230,9 @@ export const MeetingFeaturesConfiguration = S.suspend(() =>
   identifier: "MeetingFeaturesConfiguration",
 }) as any as S.Schema<MeetingFeaturesConfiguration>;
 export interface NotificationsConfiguration {
-  LambdaFunctionArn?: string | Redacted.Redacted<string>;
-  SnsTopicArn?: string | Redacted.Redacted<string>;
-  SqsQueueArn?: string | Redacted.Redacted<string>;
+  LambdaFunctionArn?: string | redacted.Redacted<string>;
+  SnsTopicArn?: string | redacted.Redacted<string>;
+  SqsQueueArn?: string | redacted.Redacted<string>;
 }
 export const NotificationsConfiguration = S.suspend(() =>
   S.Struct({
@@ -234,17 +253,17 @@ export const Tag = S.suspend(() =>
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface CreateMeetingWithAttendeesRequest {
-  ClientRequestToken: string | Redacted.Redacted<string>;
+  ClientRequestToken: string | redacted.Redacted<string>;
   MediaRegion: string;
-  MeetingHostId?: string | Redacted.Redacted<string>;
-  ExternalMeetingId: string | Redacted.Redacted<string>;
+  MeetingHostId?: string | redacted.Redacted<string>;
+  ExternalMeetingId: string | redacted.Redacted<string>;
   MeetingFeatures?: MeetingFeaturesConfiguration;
   NotificationsConfiguration?: NotificationsConfiguration;
-  Attendees: CreateMeetingWithAttendeesRequestItemList;
+  Attendees: CreateAttendeeRequestItem[];
   PrimaryMeetingId?: string;
-  TenantIds?: TenantIdList;
-  Tags?: TagList;
-  MediaPlacementNetworkType?: string;
+  TenantIds?: string[];
+  Tags?: Tag[];
+  MediaPlacementNetworkType?: MediaPlacementNetworkType;
 }
 export const CreateMeetingWithAttendeesRequest = S.suspend(() =>
   S.Struct({
@@ -258,7 +277,7 @@ export const CreateMeetingWithAttendeesRequest = S.suspend(() =>
     PrimaryMeetingId: S.optional(S.String),
     TenantIds: S.optional(TenantIdList),
     Tags: S.optional(TagList),
-    MediaPlacementNetworkType: S.optional(S.String),
+    MediaPlacementNetworkType: S.optional(MediaPlacementNetworkType),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/meetings?operation=create-attendees" }),
@@ -430,7 +449,7 @@ export const StopMeetingTranscriptionResponse = S.suspend(() =>
 }) as any as S.Schema<StopMeetingTranscriptionResponse>;
 export interface TagResourceRequest {
   ResourceARN: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
@@ -452,7 +471,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceARN: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
@@ -511,9 +530,9 @@ export const AttendeeIdItem = S.suspend(() =>
 export type AttendeeIdsList = AttendeeIdItem[];
 export const AttendeeIdsList = S.Array(AttendeeIdItem);
 export interface Attendee {
-  ExternalUserId?: string | Redacted.Redacted<string>;
+  ExternalUserId?: string | redacted.Redacted<string>;
   AttendeeId?: string;
-  JoinToken?: string | Redacted.Redacted<string>;
+  JoinToken?: string | redacted.Redacted<string>;
   Capabilities?: AttendeeCapabilities;
 }
 export const Attendee = S.suspend(() =>
@@ -526,9 +545,123 @@ export const Attendee = S.suspend(() =>
 ).annotations({ identifier: "Attendee" }) as any as S.Schema<Attendee>;
 export type AttendeeList = Attendee[];
 export const AttendeeList = S.Array(Attendee);
+export type TranscribeLanguageCode =
+  | "en-US"
+  | "en-GB"
+  | "es-US"
+  | "fr-CA"
+  | "fr-FR"
+  | "en-AU"
+  | "it-IT"
+  | "de-DE"
+  | "pt-BR"
+  | "ja-JP"
+  | "ko-KR"
+  | "zh-CN"
+  | "th-TH"
+  | "hi-IN";
+export const TranscribeLanguageCode = S.Literal(
+  "en-US",
+  "en-GB",
+  "es-US",
+  "fr-CA",
+  "fr-FR",
+  "en-AU",
+  "it-IT",
+  "de-DE",
+  "pt-BR",
+  "ja-JP",
+  "ko-KR",
+  "zh-CN",
+  "th-TH",
+  "hi-IN",
+);
+export type TranscribeVocabularyFilterMethod = "remove" | "mask" | "tag";
+export const TranscribeVocabularyFilterMethod = S.Literal(
+  "remove",
+  "mask",
+  "tag",
+);
+export type TranscribeRegion =
+  | "us-east-2"
+  | "us-east-1"
+  | "us-west-2"
+  | "ap-northeast-2"
+  | "ap-southeast-2"
+  | "ap-northeast-1"
+  | "ca-central-1"
+  | "eu-central-1"
+  | "eu-west-1"
+  | "eu-west-2"
+  | "sa-east-1"
+  | "auto"
+  | "us-gov-west-1";
+export const TranscribeRegion = S.Literal(
+  "us-east-2",
+  "us-east-1",
+  "us-west-2",
+  "ap-northeast-2",
+  "ap-southeast-2",
+  "ap-northeast-1",
+  "ca-central-1",
+  "eu-central-1",
+  "eu-west-1",
+  "eu-west-2",
+  "sa-east-1",
+  "auto",
+  "us-gov-west-1",
+);
+export type TranscribePartialResultsStability = "low" | "medium" | "high";
+export const TranscribePartialResultsStability = S.Literal(
+  "low",
+  "medium",
+  "high",
+);
+export type TranscribeContentIdentificationType = "PII";
+export const TranscribeContentIdentificationType = S.Literal("PII");
+export type TranscribeContentRedactionType = "PII";
+export const TranscribeContentRedactionType = S.Literal("PII");
+export type TranscribeMedicalLanguageCode = "en-US";
+export const TranscribeMedicalLanguageCode = S.Literal("en-US");
+export type TranscribeMedicalSpecialty =
+  | "PRIMARYCARE"
+  | "CARDIOLOGY"
+  | "NEUROLOGY"
+  | "ONCOLOGY"
+  | "RADIOLOGY"
+  | "UROLOGY";
+export const TranscribeMedicalSpecialty = S.Literal(
+  "PRIMARYCARE",
+  "CARDIOLOGY",
+  "NEUROLOGY",
+  "ONCOLOGY",
+  "RADIOLOGY",
+  "UROLOGY",
+);
+export type TranscribeMedicalType = "CONVERSATION" | "DICTATION";
+export const TranscribeMedicalType = S.Literal("CONVERSATION", "DICTATION");
+export type TranscribeMedicalRegion =
+  | "us-east-1"
+  | "us-east-2"
+  | "us-west-2"
+  | "ap-southeast-2"
+  | "ca-central-1"
+  | "eu-west-1"
+  | "auto";
+export const TranscribeMedicalRegion = S.Literal(
+  "us-east-1",
+  "us-east-2",
+  "us-west-2",
+  "ap-southeast-2",
+  "ca-central-1",
+  "eu-west-1",
+  "auto",
+);
+export type TranscribeMedicalContentIdentificationType = "PHI";
+export const TranscribeMedicalContentIdentificationType = S.Literal("PHI");
 export interface BatchCreateAttendeeRequest {
   MeetingId: string;
-  Attendees: CreateAttendeeRequestItemList;
+  Attendees: CreateAttendeeRequestItem[];
 }
 export const BatchCreateAttendeeRequest = S.suspend(() =>
   S.Struct({
@@ -552,7 +685,7 @@ export const BatchCreateAttendeeRequest = S.suspend(() =>
 }) as any as S.Schema<BatchCreateAttendeeRequest>;
 export interface BatchUpdateAttendeeCapabilitiesExceptRequest {
   MeetingId: string;
-  ExcludedAttendeeIds: AttendeeIdsList;
+  ExcludedAttendeeIds: AttendeeIdItem[];
   Capabilities: AttendeeCapabilities;
 }
 export const BatchUpdateAttendeeCapabilitiesExceptRequest = S.suspend(() =>
@@ -616,13 +749,13 @@ export const MediaPlacement = S.suspend(() =>
 }) as any as S.Schema<MediaPlacement>;
 export interface Meeting {
   MeetingId?: string;
-  MeetingHostId?: string | Redacted.Redacted<string>;
-  ExternalMeetingId?: string | Redacted.Redacted<string>;
+  MeetingHostId?: string | redacted.Redacted<string>;
+  ExternalMeetingId?: string | redacted.Redacted<string>;
   MediaRegion?: string;
   MediaPlacement?: MediaPlacement;
   MeetingFeatures?: MeetingFeaturesConfiguration;
   PrimaryMeetingId?: string;
-  TenantIds?: TenantIdList;
+  TenantIds?: string[];
   MeetingArn?: string;
 }
 export const Meeting = S.suspend(() =>
@@ -647,7 +780,7 @@ export const GetMeetingResponse = S.suspend(() =>
   identifier: "GetMeetingResponse",
 }) as any as S.Schema<GetMeetingResponse>;
 export interface ListAttendeesResponse {
-  Attendees?: AttendeeList;
+  Attendees?: Attendee[];
   NextToken?: string;
 }
 export const ListAttendeesResponse = S.suspend(() =>
@@ -659,7 +792,7 @@ export const ListAttendeesResponse = S.suspend(() =>
   identifier: "ListAttendeesResponse",
 }) as any as S.Schema<ListAttendeesResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }),
@@ -675,39 +808,39 @@ export const UpdateAttendeeCapabilitiesResponse = S.suspend(() =>
   identifier: "UpdateAttendeeCapabilitiesResponse",
 }) as any as S.Schema<UpdateAttendeeCapabilitiesResponse>;
 export interface EngineTranscribeSettings {
-  LanguageCode?: string;
-  VocabularyFilterMethod?: string;
+  LanguageCode?: TranscribeLanguageCode;
+  VocabularyFilterMethod?: TranscribeVocabularyFilterMethod;
   VocabularyFilterName?: string;
   VocabularyName?: string;
-  Region?: string;
+  Region?: TranscribeRegion;
   EnablePartialResultsStabilization?: boolean;
-  PartialResultsStability?: string;
-  ContentIdentificationType?: string;
-  ContentRedactionType?: string;
+  PartialResultsStability?: TranscribePartialResultsStability;
+  ContentIdentificationType?: TranscribeContentIdentificationType;
+  ContentRedactionType?: TranscribeContentRedactionType;
   PiiEntityTypes?: string;
   LanguageModelName?: string;
   IdentifyLanguage?: boolean;
   LanguageOptions?: string;
-  PreferredLanguage?: string;
+  PreferredLanguage?: TranscribeLanguageCode;
   VocabularyNames?: string;
   VocabularyFilterNames?: string;
 }
 export const EngineTranscribeSettings = S.suspend(() =>
   S.Struct({
-    LanguageCode: S.optional(S.String),
-    VocabularyFilterMethod: S.optional(S.String),
+    LanguageCode: S.optional(TranscribeLanguageCode),
+    VocabularyFilterMethod: S.optional(TranscribeVocabularyFilterMethod),
     VocabularyFilterName: S.optional(S.String),
     VocabularyName: S.optional(S.String),
-    Region: S.optional(S.String),
+    Region: S.optional(TranscribeRegion),
     EnablePartialResultsStabilization: S.optional(S.Boolean),
-    PartialResultsStability: S.optional(S.String),
-    ContentIdentificationType: S.optional(S.String),
-    ContentRedactionType: S.optional(S.String),
+    PartialResultsStability: S.optional(TranscribePartialResultsStability),
+    ContentIdentificationType: S.optional(TranscribeContentIdentificationType),
+    ContentRedactionType: S.optional(TranscribeContentRedactionType),
     PiiEntityTypes: S.optional(S.String),
     LanguageModelName: S.optional(S.String),
     IdentifyLanguage: S.optional(S.Boolean),
     LanguageOptions: S.optional(S.String),
-    PreferredLanguage: S.optional(S.String),
+    PreferredLanguage: S.optional(TranscribeLanguageCode),
     VocabularyNames: S.optional(S.String),
     VocabularyFilterNames: S.optional(S.String),
   }),
@@ -715,27 +848,29 @@ export const EngineTranscribeSettings = S.suspend(() =>
   identifier: "EngineTranscribeSettings",
 }) as any as S.Schema<EngineTranscribeSettings>;
 export interface EngineTranscribeMedicalSettings {
-  LanguageCode: string;
-  Specialty: string;
-  Type: string;
+  LanguageCode: TranscribeMedicalLanguageCode;
+  Specialty: TranscribeMedicalSpecialty;
+  Type: TranscribeMedicalType;
   VocabularyName?: string;
-  Region?: string;
-  ContentIdentificationType?: string;
+  Region?: TranscribeMedicalRegion;
+  ContentIdentificationType?: TranscribeMedicalContentIdentificationType;
 }
 export const EngineTranscribeMedicalSettings = S.suspend(() =>
   S.Struct({
-    LanguageCode: S.String,
-    Specialty: S.String,
-    Type: S.String,
+    LanguageCode: TranscribeMedicalLanguageCode,
+    Specialty: TranscribeMedicalSpecialty,
+    Type: TranscribeMedicalType,
     VocabularyName: S.optional(S.String),
-    Region: S.optional(S.String),
-    ContentIdentificationType: S.optional(S.String),
+    Region: S.optional(TranscribeMedicalRegion),
+    ContentIdentificationType: S.optional(
+      TranscribeMedicalContentIdentificationType,
+    ),
   }),
 ).annotations({
   identifier: "EngineTranscribeMedicalSettings",
 }) as any as S.Schema<EngineTranscribeMedicalSettings>;
 export interface CreateAttendeeError {
-  ExternalUserId?: string | Redacted.Redacted<string>;
+  ExternalUserId?: string | redacted.Redacted<string>;
   ErrorCode?: string;
   ErrorMessage?: string;
 }
@@ -765,8 +900,8 @@ export const TranscriptionConfiguration = S.suspend(() =>
   identifier: "TranscriptionConfiguration",
 }) as any as S.Schema<TranscriptionConfiguration>;
 export interface BatchCreateAttendeeResponse {
-  Attendees?: AttendeeList;
-  Errors?: BatchCreateAttendeeErrorList;
+  Attendees?: Attendee[];
+  Errors?: CreateAttendeeError[];
 }
 export const BatchCreateAttendeeResponse = S.suspend(() =>
   S.Struct({
@@ -785,16 +920,16 @@ export const CreateAttendeeResponse = S.suspend(() =>
   identifier: "CreateAttendeeResponse",
 }) as any as S.Schema<CreateAttendeeResponse>;
 export interface CreateMeetingRequest {
-  ClientRequestToken: string | Redacted.Redacted<string>;
+  ClientRequestToken: string | redacted.Redacted<string>;
   MediaRegion: string;
-  MeetingHostId?: string | Redacted.Redacted<string>;
-  ExternalMeetingId: string | Redacted.Redacted<string>;
+  MeetingHostId?: string | redacted.Redacted<string>;
+  ExternalMeetingId: string | redacted.Redacted<string>;
   NotificationsConfiguration?: NotificationsConfiguration;
   MeetingFeatures?: MeetingFeaturesConfiguration;
   PrimaryMeetingId?: string;
-  TenantIds?: TenantIdList;
-  Tags?: TagList;
-  MediaPlacementNetworkType?: string;
+  TenantIds?: string[];
+  Tags?: Tag[];
+  MediaPlacementNetworkType?: MediaPlacementNetworkType;
 }
 export const CreateMeetingRequest = S.suspend(() =>
   S.Struct({
@@ -807,7 +942,7 @@ export const CreateMeetingRequest = S.suspend(() =>
     PrimaryMeetingId: S.optional(S.String),
     TenantIds: S.optional(TenantIdList),
     Tags: S.optional(TagList),
-    MediaPlacementNetworkType: S.optional(S.String),
+    MediaPlacementNetworkType: S.optional(MediaPlacementNetworkType),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/meetings" }),
@@ -861,8 +996,8 @@ export const CreateMeetingResponse = S.suspend(() =>
 }) as any as S.Schema<CreateMeetingResponse>;
 export interface CreateMeetingWithAttendeesResponse {
   Meeting?: Meeting;
-  Attendees?: AttendeeList;
-  Errors?: BatchCreateAttendeeErrorList;
+  Attendees?: Attendee[];
+  Errors?: CreateAttendeeError[];
 }
 export const CreateMeetingWithAttendeesResponse = S.suspend(() =>
   S.Struct({
@@ -984,7 +1119,7 @@ export class UnprocessableEntityException extends S.TaggedError<UnprocessableEnt
  */
 export const deleteAttendee: (
   input: DeleteAttendeeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAttendeeResponse,
   | BadRequestException
   | ForbiddenException
@@ -1013,7 +1148,7 @@ export const deleteAttendee: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -1075,7 +1210,7 @@ export const tagResource: (
  */
 export const updateAttendeeCapabilities: (
   input: UpdateAttendeeCapabilitiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAttendeeCapabilitiesResponse,
   | BadRequestException
   | ConflictException
@@ -1108,7 +1243,7 @@ export const updateAttendeeCapabilities: (
  */
 export const getAttendee: (
   input: GetAttendeeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAttendeeResponse,
   | BadRequestException
   | ForbiddenException
@@ -1139,7 +1274,7 @@ export const getAttendee: (
  */
 export const getMeeting: (
   input: GetMeetingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMeetingResponse,
   | BadRequestException
   | ForbiddenException
@@ -1171,7 +1306,7 @@ export const getMeeting: (
 export const listAttendees: {
   (
     input: ListAttendeesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAttendeesResponse,
     | BadRequestException
     | ForbiddenException
@@ -1185,7 +1320,7 @@ export const listAttendees: {
   >;
   pages: (
     input: ListAttendeesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAttendeesResponse,
     | BadRequestException
     | ForbiddenException
@@ -1199,7 +1334,7 @@ export const listAttendees: {
   >;
   items: (
     input: ListAttendeesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -1237,7 +1372,7 @@ export const listAttendees: {
  */
 export const deleteMeeting: (
   input: DeleteMeetingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMeetingResponse,
   | BadRequestException
   | ForbiddenException
@@ -1295,7 +1430,7 @@ export const deleteMeeting: (
  */
 export const batchUpdateAttendeeCapabilitiesExcept: (
   input: BatchUpdateAttendeeCapabilitiesExceptRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchUpdateAttendeeCapabilitiesExceptResponse,
   | BadRequestException
   | ConflictException
@@ -1339,7 +1474,7 @@ export const batchUpdateAttendeeCapabilitiesExcept: (
  */
 export const createMeeting: (
   input: CreateMeetingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMeetingResponse,
   | BadRequestException
   | ConflictException
@@ -1383,7 +1518,7 @@ export const createMeeting: (
  */
 export const createMeetingWithAttendees: (
   input: CreateMeetingWithAttendeesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMeetingWithAttendeesResponse,
   | BadRequestException
   | ConflictException
@@ -1414,7 +1549,7 @@ export const createMeetingWithAttendees: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -1460,7 +1595,7 @@ export const listTagsForResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -1505,7 +1640,7 @@ export const untagResource: (
  */
 export const startMeetingTranscription: (
   input: StartMeetingTranscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartMeetingTranscriptionResponse,
   | BadRequestException
   | ForbiddenException
@@ -1547,7 +1682,7 @@ export const startMeetingTranscription: (
  */
 export const stopMeetingTranscription: (
   input: StopMeetingTranscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopMeetingTranscriptionResponse,
   | BadRequestException
   | ForbiddenException
@@ -1579,7 +1714,7 @@ export const stopMeetingTranscription: (
  */
 export const batchCreateAttendee: (
   input: BatchCreateAttendeeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchCreateAttendeeResponse,
   | BadRequestException
   | ForbiddenException
@@ -1615,7 +1750,7 @@ export const batchCreateAttendee: (
  */
 export const createAttendee: (
   input: CreateAttendeeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAttendeeResponse,
   | BadRequestException
   | ForbiddenException

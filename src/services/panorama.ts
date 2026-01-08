@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -121,7 +121,7 @@ export type ManifestPayloadData = string;
 export type ManifestOverridesPayloadData = string;
 export type TagValue = string;
 export type TemplateKey = string;
-export type TemplateValue = string | Redacted.Redacted<string>;
+export type TemplateValue = string | redacted.Redacted<string>;
 export type JobResourceType = string;
 export type NodeInstanceId = string;
 export type NodeSignalValue = string;
@@ -184,7 +184,7 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface CreatePackageRequest {
   PackageName: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreatePackageRequest = S.suspend(() =>
   S.Struct({ PackageName: S.String, Tags: S.optional(TagMap) }).pipe(
@@ -766,7 +766,7 @@ export const RemoveApplicationInstanceResponse = S.suspend(() =>
 }) as any as S.Schema<RemoveApplicationInstanceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagMap;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -791,7 +791,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -842,7 +842,7 @@ export const ManifestOverridesPayload = S.Union(
   S.Struct({ PayloadData: S.String }),
 );
 export type TemplateParametersMap = {
-  [key: string]: string | Redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string>;
 };
 export const TemplateParametersMap = S.Record({
   key: S.String,
@@ -850,7 +850,7 @@ export const TemplateParametersMap = S.Record({
 });
 export interface JobResourceTags {
   ResourceType: string;
-  Tags: TagMap;
+  Tags: { [key: string]: string };
 }
 export const JobResourceTags = S.suspend(() =>
   S.Struct({ ResourceType: S.String, Tags: TagMap }),
@@ -875,12 +875,12 @@ export const NtpServerList = S.Array(S.String);
 export interface CreateApplicationInstanceRequest {
   Name?: string;
   Description?: string;
-  ManifestPayload: (typeof ManifestPayload)["Type"];
-  ManifestOverridesPayload?: (typeof ManifestOverridesPayload)["Type"];
+  ManifestPayload: ManifestPayload;
+  ManifestOverridesPayload?: ManifestOverridesPayload;
   ApplicationInstanceIdToReplace?: string;
   RuntimeRoleArn?: string;
   DefaultRuntimeContextDevice: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateApplicationInstanceRequest = S.suspend(() =>
   S.Struct({
@@ -911,8 +911,8 @@ export interface CreateNodeFromTemplateJobRequest {
   OutputPackageVersion: string;
   NodeName: string;
   NodeDescription?: string;
-  TemplateParameters: TemplateParametersMap;
-  JobTags?: JobTagsList;
+  TemplateParameters: { [key: string]: string | redacted.Redacted<string> };
+  JobTags?: JobResourceTags[];
 }
 export const CreateNodeFromTemplateJobRequest = S.suspend(() =>
   S.Struct({
@@ -948,8 +948,8 @@ export interface DescribeApplicationInstanceDetailsResponse {
   Name?: string;
   Description?: string;
   DefaultRuntimeContextDevice?: string;
-  ManifestPayload?: (typeof ManifestPayload)["Type"];
-  ManifestOverridesPayload?: (typeof ManifestOverridesPayload)["Type"];
+  ManifestPayload?: ManifestPayload;
+  ManifestOverridesPayload?: ManifestOverridesPayload;
   ApplicationInstanceIdToReplace?: string;
   CreatedTime?: Date;
   ApplicationInstanceId?: string;
@@ -1005,8 +1005,8 @@ export interface DescribeNodeFromTemplateJobResponse {
   NodeName: string;
   NodeDescription?: string;
   TemplateType: string;
-  TemplateParameters: TemplateParametersMap;
-  JobTags?: JobTagsList;
+  TemplateParameters: { [key: string]: string | redacted.Redacted<string> };
+  JobTags?: JobResourceTags[];
 }
 export const DescribeNodeFromTemplateJobResponse = S.suspend(() =>
   S.Struct({
@@ -1049,10 +1049,10 @@ export interface DescribePackageResponse {
   PackageName: string;
   Arn: string;
   StorageLocation: StorageLocation;
-  ReadAccessPrincipalArns?: PrincipalArnsList;
-  WriteAccessPrincipalArns?: PrincipalArnsList;
+  ReadAccessPrincipalArns?: string[];
+  WriteAccessPrincipalArns?: string[];
   CreatedTime: Date;
-  Tags: TagMap;
+  Tags: { [key: string]: string };
 }
 export const DescribePackageResponse = S.suspend(() =>
   S.Struct({
@@ -1097,7 +1097,7 @@ export const DescribePackageVersionResponse = S.suspend(() =>
   identifier: "DescribePackageVersionResponse",
 }) as any as S.Schema<DescribePackageVersionResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -1106,7 +1106,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface SignalApplicationInstanceNodeInstancesRequest {
   ApplicationInstanceId: string;
-  NodeSignals: NodeSignalList;
+  NodeSignals: NodeSignal[];
 }
 export const SignalApplicationInstanceNodeInstancesRequest = S.suspend(() =>
   S.Struct({
@@ -1161,7 +1161,7 @@ export const PackageVersionOutputConfig = S.suspend(() =>
   identifier: "PackageVersionOutputConfig",
 }) as any as S.Schema<PackageVersionOutputConfig>;
 export interface NtpPayload {
-  NtpServers: NtpServerList;
+  NtpServers: string[];
 }
 export const NtpPayload = S.suspend(() =>
   S.Struct({ NtpServers: NtpServerList }),
@@ -1279,8 +1279,8 @@ export interface ApplicationInstance {
   StatusDescription?: string;
   CreatedTime?: Date;
   Arn?: string;
-  Tags?: TagMap;
-  RuntimeContextStates?: ReportedRuntimeContextStates;
+  Tags?: { [key: string]: string };
+  RuntimeContextStates?: ReportedRuntimeContextState[];
 }
 export const ApplicationInstance = S.suspend(() =>
   S.Struct({
@@ -1312,7 +1312,7 @@ export interface Device {
   Brand?: string;
   CurrentSoftware?: string;
   Description?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   Type?: string;
   LatestDeviceJob?: LatestDeviceJob;
   DeviceAggregatedStatus?: string;
@@ -1439,7 +1439,7 @@ export interface PackageListItem {
   PackageName?: string;
   Arn?: string;
   CreatedTime?: Date;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const PackageListItem = S.suspend(() =>
   S.Struct({
@@ -1469,7 +1469,7 @@ export const S3Location = S.suspend(() =>
 export interface StaticIpConnectionInfo {
   IpAddress: string;
   Mask: string;
-  Dns: DnsList;
+  Dns: string[];
   DefaultGateway: string;
 }
 export const StaticIpConnectionInfo = S.suspend(() =>
@@ -1491,7 +1491,7 @@ export const CreateApplicationInstanceResponse = S.suspend(() =>
   identifier: "CreateApplicationInstanceResponse",
 }) as any as S.Schema<CreateApplicationInstanceResponse>;
 export interface CreateJobForDevicesRequest {
-  DeviceIds: DeviceIdList;
+  DeviceIds: string[];
   DeviceJobConfig?: DeviceJobConfig;
   JobType: string;
 }
@@ -1549,8 +1549,8 @@ export interface DescribeApplicationInstanceResponse {
   LastUpdatedTime?: Date;
   ApplicationInstanceId?: string;
   Arn?: string;
-  Tags?: TagMap;
-  RuntimeContextStates?: ReportedRuntimeContextStates;
+  Tags?: { [key: string]: string };
+  RuntimeContextStates?: ReportedRuntimeContextState[];
 }
 export const DescribeApplicationInstanceResponse = S.suspend(() =>
   S.Struct({
@@ -1576,7 +1576,7 @@ export const DescribeApplicationInstanceResponse = S.suspend(() =>
   identifier: "DescribeApplicationInstanceResponse",
 }) as any as S.Schema<DescribeApplicationInstanceResponse>;
 export interface ListApplicationInstanceDependenciesResponse {
-  PackageObjects?: PackageObjects;
+  PackageObjects?: PackageObject[];
   NextToken?: string;
 }
 export const ListApplicationInstanceDependenciesResponse = S.suspend(() =>
@@ -1588,7 +1588,7 @@ export const ListApplicationInstanceDependenciesResponse = S.suspend(() =>
   identifier: "ListApplicationInstanceDependenciesResponse",
 }) as any as S.Schema<ListApplicationInstanceDependenciesResponse>;
 export interface ListApplicationInstanceNodeInstancesResponse {
-  NodeInstances?: NodeInstances;
+  NodeInstances?: NodeInstance[];
   NextToken?: string;
 }
 export const ListApplicationInstanceNodeInstancesResponse = S.suspend(() =>
@@ -1600,7 +1600,7 @@ export const ListApplicationInstanceNodeInstancesResponse = S.suspend(() =>
   identifier: "ListApplicationInstanceNodeInstancesResponse",
 }) as any as S.Schema<ListApplicationInstanceNodeInstancesResponse>;
 export interface ListApplicationInstancesResponse {
-  ApplicationInstances?: ApplicationInstances;
+  ApplicationInstances?: ApplicationInstance[];
   NextToken?: string;
 }
 export const ListApplicationInstancesResponse = S.suspend(() =>
@@ -1612,7 +1612,7 @@ export const ListApplicationInstancesResponse = S.suspend(() =>
   identifier: "ListApplicationInstancesResponse",
 }) as any as S.Schema<ListApplicationInstancesResponse>;
 export interface ListDevicesResponse {
-  Devices: DeviceList;
+  Devices: Device[];
   NextToken?: string;
 }
 export const ListDevicesResponse = S.suspend(() =>
@@ -1621,7 +1621,7 @@ export const ListDevicesResponse = S.suspend(() =>
   identifier: "ListDevicesResponse",
 }) as any as S.Schema<ListDevicesResponse>;
 export interface ListDevicesJobsResponse {
-  DeviceJobs?: DeviceJobList;
+  DeviceJobs?: DeviceJob[];
   NextToken?: string;
 }
 export const ListDevicesJobsResponse = S.suspend(() =>
@@ -1633,7 +1633,7 @@ export const ListDevicesJobsResponse = S.suspend(() =>
   identifier: "ListDevicesJobsResponse",
 }) as any as S.Schema<ListDevicesJobsResponse>;
 export interface ListNodeFromTemplateJobsResponse {
-  NodeFromTemplateJobs: NodeFromTemplateJobList;
+  NodeFromTemplateJobs: NodeFromTemplateJob[];
   NextToken?: string;
 }
 export const ListNodeFromTemplateJobsResponse = S.suspend(() =>
@@ -1645,7 +1645,7 @@ export const ListNodeFromTemplateJobsResponse = S.suspend(() =>
   identifier: "ListNodeFromTemplateJobsResponse",
 }) as any as S.Schema<ListNodeFromTemplateJobsResponse>;
 export interface ListNodesResponse {
-  Nodes?: NodesList;
+  Nodes?: Node[];
   NextToken?: string;
 }
 export const ListNodesResponse = S.suspend(() =>
@@ -1654,7 +1654,7 @@ export const ListNodesResponse = S.suspend(() =>
   identifier: "ListNodesResponse",
 }) as any as S.Schema<ListNodesResponse>;
 export interface ListPackageImportJobsResponse {
-  PackageImportJobs: PackageImportJobList;
+  PackageImportJobs: PackageImportJob[];
   NextToken?: string;
 }
 export const ListPackageImportJobsResponse = S.suspend(() =>
@@ -1666,7 +1666,7 @@ export const ListPackageImportJobsResponse = S.suspend(() =>
   identifier: "ListPackageImportJobsResponse",
 }) as any as S.Schema<ListPackageImportJobsResponse>;
 export interface ListPackagesResponse {
-  Packages?: PackageList;
+  Packages?: PackageListItem[];
   NextToken?: string;
 }
 export const ListPackagesResponse = S.suspend(() =>
@@ -1819,8 +1819,8 @@ export const NetworkStatus = S.suspend(() =>
   identifier: "NetworkStatus",
 }) as any as S.Schema<NetworkStatus>;
 export interface NodeInterface {
-  Inputs: InputPortList;
-  Outputs: OutputPortList;
+  Inputs: NodeInputPort[];
+  Outputs: NodeOutputPort[];
 }
 export const NodeInterface = S.suspend(() =>
   S.Struct({ Inputs: InputPortList, Outputs: OutputPortList }),
@@ -1862,7 +1862,7 @@ export interface CreatePackageImportJobRequest {
   InputConfig: PackageImportJobInputConfig;
   OutputConfig: PackageImportJobOutputConfig;
   ClientToken: string;
-  JobTags?: JobTagsList;
+  JobTags?: JobResourceTags[];
 }
 export const CreatePackageImportJobRequest = S.suspend(() =>
   S.Struct({
@@ -1896,11 +1896,11 @@ export interface DescribeDeviceResponse {
   LatestSoftware?: string;
   CurrentSoftware?: string;
   SerialNumber?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   NetworkingConfiguration?: NetworkPayload;
   CurrentNetworkingStatus?: NetworkStatus;
   LeaseExpirationTime?: Date;
-  AlternateSoftwares?: AlternateSoftwares;
+  AlternateSoftwares?: AlternateSoftwareMetadata[];
   LatestAlternateSoftware?: string;
   Brand?: string;
   LatestDeviceJob?: LatestDeviceJob;
@@ -1981,7 +1981,7 @@ export interface DescribePackageImportJobResponse {
   LastUpdatedTime: Date;
   Status: string;
   StatusMessage: string;
-  JobTags?: JobTagsList;
+  JobTags?: JobResourceTags[];
 }
 export const DescribePackageImportJobResponse = S.suspend(() =>
   S.Struct({
@@ -2003,7 +2003,7 @@ export const DescribePackageImportJobResponse = S.suspend(() =>
 export interface ProvisionDeviceRequest {
   Name: string;
   Description?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   NetworkingConfiguration?: NetworkPayload;
 }
 export const ProvisionDeviceRequest = S.suspend(() =>
@@ -2060,7 +2060,7 @@ export const ValidationExceptionField = S.suspend(() =>
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export interface CreateJobForDevicesResponse {
-  Jobs: JobList;
+  Jobs: Job[];
 }
 export const CreateJobForDevicesResponse = S.suspend(() =>
   S.Struct({ Jobs: JobList }),
@@ -2148,21 +2148,21 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listApplicationInstanceDependencies: {
   (
     input: ListApplicationInstanceDependenciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationInstanceDependenciesResponse,
     AccessDeniedException | InternalServerException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListApplicationInstanceDependenciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationInstanceDependenciesResponse,
     AccessDeniedException | InternalServerException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationInstanceDependenciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     AccessDeniedException | InternalServerException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -2183,21 +2183,21 @@ export const listApplicationInstanceDependencies: {
 export const listApplicationInstanceNodeInstances: {
   (
     input: ListApplicationInstanceNodeInstancesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationInstanceNodeInstancesResponse,
     AccessDeniedException | InternalServerException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListApplicationInstanceNodeInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationInstanceNodeInstancesResponse,
     AccessDeniedException | InternalServerException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationInstanceNodeInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     AccessDeniedException | InternalServerException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -2218,21 +2218,21 @@ export const listApplicationInstanceNodeInstances: {
 export const listApplicationInstances: {
   (
     input: ListApplicationInstancesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationInstancesResponse,
     AccessDeniedException | InternalServerException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListApplicationInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationInstancesResponse,
     AccessDeniedException | InternalServerException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     AccessDeniedException | InternalServerException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -2252,7 +2252,7 @@ export const listApplicationInstances: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2273,7 +2273,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2294,7 +2294,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2315,7 +2315,7 @@ export const listTagsForResource: (
  */
 export const createApplicationInstance: (
   input: CreateApplicationInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateApplicationInstanceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2341,7 +2341,7 @@ export const createApplicationInstance: (
  */
 export const deletePackage: (
   input: DeletePackageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePackageResponse,
   | AccessDeniedException
   | ConflictException
@@ -2366,7 +2366,7 @@ export const deletePackage: (
  */
 export const describeDevice: (
   input: DescribeDeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDeviceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2389,7 +2389,7 @@ export const describeDevice: (
  */
 export const describeNode: (
   input: DescribeNodeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeNodeResponse,
   | AccessDeniedException
   | ConflictException
@@ -2414,7 +2414,7 @@ export const describeNode: (
  */
 export const describePackageImportJob: (
   input: DescribePackageImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePackageImportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -2437,7 +2437,7 @@ export const describePackageImportJob: (
  */
 export const signalApplicationInstanceNodeInstances: (
   input: SignalApplicationInstanceNodeInstancesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SignalApplicationInstanceNodeInstancesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2460,7 +2460,7 @@ export const signalApplicationInstanceNodeInstances: (
  */
 export const describeApplicationInstanceDetails: (
   input: DescribeApplicationInstanceDetailsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeApplicationInstanceDetailsResponse,
   | AccessDeniedException
   | ConflictException
@@ -2485,7 +2485,7 @@ export const describeApplicationInstanceDetails: (
  */
 export const describeDeviceJob: (
   input: DescribeDeviceJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDeviceJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -2510,7 +2510,7 @@ export const describeDeviceJob: (
  */
 export const describeNodeFromTemplateJob: (
   input: DescribeNodeFromTemplateJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeNodeFromTemplateJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -2533,7 +2533,7 @@ export const describeNodeFromTemplateJob: (
  */
 export const describePackage: (
   input: DescribePackageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePackageResponse,
   | AccessDeniedException
   | ConflictException
@@ -2558,7 +2558,7 @@ export const describePackage: (
  */
 export const describePackageVersion: (
   input: DescribePackageVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePackageVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2583,7 +2583,7 @@ export const describePackageVersion: (
  */
 export const updateDeviceMetadata: (
   input: UpdateDeviceMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDeviceMetadataResponse,
   | AccessDeniedException
   | ConflictException
@@ -2608,7 +2608,7 @@ export const updateDeviceMetadata: (
  */
 export const deregisterPackageVersion: (
   input: DeregisterPackageVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterPackageVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2633,7 +2633,7 @@ export const deregisterPackageVersion: (
  */
 export const registerPackageVersion: (
   input: RegisterPackageVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterPackageVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2656,7 +2656,7 @@ export const registerPackageVersion: (
  */
 export const removeApplicationInstance: (
   input: RemoveApplicationInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveApplicationInstanceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2681,7 +2681,7 @@ export const removeApplicationInstance: (
  */
 export const deleteDevice: (
   input: DeleteDeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDeviceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2706,7 +2706,7 @@ export const deleteDevice: (
  */
 export const createNodeFromTemplateJob: (
   input: CreateNodeFromTemplateJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateNodeFromTemplateJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -2729,7 +2729,7 @@ export const createNodeFromTemplateJob: (
  */
 export const createPackage: (
   input: CreatePackageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePackageResponse,
   | AccessDeniedException
   | ConflictException
@@ -2752,7 +2752,7 @@ export const createPackage: (
  */
 export const describeApplicationInstance: (
   input: DescribeApplicationInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeApplicationInstanceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2778,7 +2778,7 @@ export const describeApplicationInstance: (
 export const listDevices: {
   (
     input: ListDevicesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDevicesResponse,
     | AccessDeniedException
     | ConflictException
@@ -2789,7 +2789,7 @@ export const listDevices: {
   >;
   pages: (
     input: ListDevicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDevicesResponse,
     | AccessDeniedException
     | ConflictException
@@ -2800,7 +2800,7 @@ export const listDevices: {
   >;
   items: (
     input: ListDevicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | ConflictException
@@ -2830,7 +2830,7 @@ export const listDevices: {
 export const listDevicesJobs: {
   (
     input: ListDevicesJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDevicesJobsResponse,
     | AccessDeniedException
     | ConflictException
@@ -2842,7 +2842,7 @@ export const listDevicesJobs: {
   >;
   pages: (
     input: ListDevicesJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDevicesJobsResponse,
     | AccessDeniedException
     | ConflictException
@@ -2854,7 +2854,7 @@ export const listDevicesJobs: {
   >;
   items: (
     input: ListDevicesJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | ConflictException
@@ -2886,7 +2886,7 @@ export const listDevicesJobs: {
 export const listNodeFromTemplateJobs: {
   (
     input: ListNodeFromTemplateJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListNodeFromTemplateJobsResponse,
     | AccessDeniedException
     | ConflictException
@@ -2897,7 +2897,7 @@ export const listNodeFromTemplateJobs: {
   >;
   pages: (
     input: ListNodeFromTemplateJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListNodeFromTemplateJobsResponse,
     | AccessDeniedException
     | ConflictException
@@ -2908,7 +2908,7 @@ export const listNodeFromTemplateJobs: {
   >;
   items: (
     input: ListNodeFromTemplateJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | ConflictException
@@ -2938,7 +2938,7 @@ export const listNodeFromTemplateJobs: {
 export const listNodes: {
   (
     input: ListNodesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListNodesResponse,
     | ConflictException
     | InternalServerException
@@ -2948,7 +2948,7 @@ export const listNodes: {
   >;
   pages: (
     input: ListNodesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListNodesResponse,
     | ConflictException
     | InternalServerException
@@ -2958,7 +2958,7 @@ export const listNodes: {
   >;
   items: (
     input: ListNodesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | ConflictException
     | InternalServerException
@@ -2982,7 +2982,7 @@ export const listNodes: {
 export const listPackageImportJobs: {
   (
     input: ListPackageImportJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPackageImportJobsResponse,
     | AccessDeniedException
     | ConflictException
@@ -2993,7 +2993,7 @@ export const listPackageImportJobs: {
   >;
   pages: (
     input: ListPackageImportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPackageImportJobsResponse,
     | AccessDeniedException
     | ConflictException
@@ -3004,7 +3004,7 @@ export const listPackageImportJobs: {
   >;
   items: (
     input: ListPackageImportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | ConflictException
@@ -3034,7 +3034,7 @@ export const listPackageImportJobs: {
 export const listPackages: {
   (
     input: ListPackagesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPackagesResponse,
     | AccessDeniedException
     | ConflictException
@@ -3046,7 +3046,7 @@ export const listPackages: {
   >;
   pages: (
     input: ListPackagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPackagesResponse,
     | AccessDeniedException
     | ConflictException
@@ -3058,7 +3058,7 @@ export const listPackages: {
   >;
   items: (
     input: ListPackagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | ConflictException
@@ -3089,7 +3089,7 @@ export const listPackages: {
  */
 export const createJobForDevices: (
   input: CreateJobForDevicesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateJobForDevicesResponse,
   | AccessDeniedException
   | ConflictException
@@ -3114,7 +3114,7 @@ export const createJobForDevices: (
  */
 export const createPackageImportJob: (
   input: CreatePackageImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePackageImportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -3140,7 +3140,7 @@ export const createPackageImportJob: (
  */
 export const provisionDevice: (
   input: ProvisionDeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ProvisionDeviceResponse,
   | AccessDeniedException
   | ConflictException

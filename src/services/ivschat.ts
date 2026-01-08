@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -88,7 +88,7 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type RoomIdentifier = string;
-export type UserID = string | Redacted.Redacted<string>;
+export type UserID = string | redacted.Redacted<string>;
 export type ChatTokenCapability = string;
 export type SessionDurationInMinutes = number;
 export type LoggingConfigurationName = string;
@@ -118,7 +118,7 @@ export type UpdateLoggingConfigurationState = string;
 export type BucketName = string;
 export type LogGroupName = string;
 export type DeliveryStreamName = string;
-export type ChatToken = string | Redacted.Redacted<string>;
+export type ChatToken = string | redacted.Redacted<string>;
 export type ResourceId = string;
 export type ResourceType = string;
 export type CreateLoggingConfigurationState = string;
@@ -202,7 +202,7 @@ export const DeleteRoomResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<DeleteRoomResponse>;
 export interface DisconnectUserRequest {
   roomIdentifier: string;
-  userId: string | Redacted.Redacted<string>;
+  userId: string | redacted.Redacted<string>;
   reason?: string;
 }
 export const DisconnectUserRequest = S.suspend(() =>
@@ -330,7 +330,7 @@ export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: Tags;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -355,7 +355,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -414,7 +414,7 @@ export const DestinationConfiguration = S.Union(
 export interface UpdateLoggingConfigurationRequest {
   identifier: string;
   name?: string;
-  destinationConfiguration?: (typeof DestinationConfiguration)["Type"];
+  destinationConfiguration?: DestinationConfiguration;
 }
 export const UpdateLoggingConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -449,7 +449,7 @@ export interface UpdateRoomRequest {
   maximumMessageRatePerSecond?: number;
   maximumMessageLength?: number;
   messageReviewHandler?: MessageReviewHandler;
-  loggingConfigurationIdentifiers?: LoggingConfigurationIdentifierList;
+  loggingConfigurationIdentifiers?: string[];
 }
 export const UpdateRoomRequest = S.suspend(() =>
   S.Struct({
@@ -480,10 +480,10 @@ export type EventAttributes = { [key: string]: string };
 export const EventAttributes = S.Record({ key: S.String, value: S.String });
 export interface CreateChatTokenRequest {
   roomIdentifier: string;
-  userId: string | Redacted.Redacted<string>;
-  capabilities?: ChatTokenCapabilities;
+  userId: string | redacted.Redacted<string>;
+  capabilities?: string[];
   sessionDurationInMinutes?: number;
-  attributes?: ChatTokenAttributes;
+  attributes?: { [key: string]: string };
 }
 export const CreateChatTokenRequest = S.suspend(() =>
   S.Struct({
@@ -510,8 +510,8 @@ export interface CreateRoomRequest {
   maximumMessageRatePerSecond?: number;
   maximumMessageLength?: number;
   messageReviewHandler?: MessageReviewHandler;
-  tags?: Tags;
-  loggingConfigurationIdentifiers?: LoggingConfigurationIdentifierList;
+  tags?: { [key: string]: string };
+  loggingConfigurationIdentifiers?: string[];
 }
 export const CreateRoomRequest = S.suspend(() =>
   S.Struct({
@@ -550,9 +550,9 @@ export interface GetLoggingConfigurationResponse {
   createTime?: Date;
   updateTime?: Date;
   name?: string;
-  destinationConfiguration?: (typeof DestinationConfiguration)["Type"];
+  destinationConfiguration?: DestinationConfiguration;
   state?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const GetLoggingConfigurationResponse = S.suspend(() =>
   S.Struct({
@@ -577,8 +577,8 @@ export interface GetRoomResponse {
   maximumMessageRatePerSecond?: number;
   maximumMessageLength?: number;
   messageReviewHandler?: MessageReviewHandler;
-  tags?: Tags;
-  loggingConfigurationIdentifiers?: LoggingConfigurationIdentifierList;
+  tags?: { [key: string]: string };
+  loggingConfigurationIdentifiers?: string[];
 }
 export const GetRoomResponse = S.suspend(() =>
   S.Struct({
@@ -599,7 +599,7 @@ export const GetRoomResponse = S.suspend(() =>
   identifier: "GetRoomResponse",
 }) as any as S.Schema<GetRoomResponse>;
 export interface ListTagsForResourceResponse {
-  tags: Tags;
+  tags: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: Tags }),
@@ -609,7 +609,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 export interface SendEventRequest {
   roomIdentifier: string;
   eventName: string;
-  attributes?: EventAttributes;
+  attributes?: { [key: string]: string };
 }
 export const SendEventRequest = S.suspend(() =>
   S.Struct({
@@ -635,9 +635,9 @@ export interface UpdateLoggingConfigurationResponse {
   createTime?: Date;
   updateTime?: Date;
   name?: string;
-  destinationConfiguration?: (typeof DestinationConfiguration)["Type"];
+  destinationConfiguration?: DestinationConfiguration;
   state?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const UpdateLoggingConfigurationResponse = S.suspend(() =>
   S.Struct({
@@ -662,8 +662,8 @@ export interface UpdateRoomResponse {
   maximumMessageRatePerSecond?: number;
   maximumMessageLength?: number;
   messageReviewHandler?: MessageReviewHandler;
-  tags?: Tags;
-  loggingConfigurationIdentifiers?: LoggingConfigurationIdentifierList;
+  tags?: { [key: string]: string };
+  loggingConfigurationIdentifiers?: string[];
 }
 export const UpdateRoomResponse = S.suspend(() =>
   S.Struct({
@@ -689,9 +689,9 @@ export interface LoggingConfigurationSummary {
   createTime?: Date;
   updateTime?: Date;
   name?: string;
-  destinationConfiguration?: (typeof DestinationConfiguration)["Type"];
+  destinationConfiguration?: DestinationConfiguration;
   state?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const LoggingConfigurationSummary = S.suspend(() =>
   S.Struct({
@@ -716,8 +716,8 @@ export interface RoomSummary {
   messageReviewHandler?: MessageReviewHandler;
   createTime?: Date;
   updateTime?: Date;
-  tags?: Tags;
-  loggingConfigurationIdentifiers?: LoggingConfigurationIdentifierList;
+  tags?: { [key: string]: string };
+  loggingConfigurationIdentifiers?: string[];
 }
 export const RoomSummary = S.suspend(() =>
   S.Struct({
@@ -736,7 +736,7 @@ export const RoomSummary = S.suspend(() =>
 export type RoomList = RoomSummary[];
 export const RoomList = S.Array(RoomSummary);
 export interface CreateChatTokenResponse {
-  token?: string | Redacted.Redacted<string>;
+  token?: string | redacted.Redacted<string>;
   tokenExpirationTime?: Date;
   sessionExpirationTime?: Date;
 }
@@ -755,8 +755,8 @@ export const CreateChatTokenResponse = S.suspend(() =>
 }) as any as S.Schema<CreateChatTokenResponse>;
 export interface CreateLoggingConfigurationRequest {
   name?: string;
-  destinationConfiguration: (typeof DestinationConfiguration)["Type"];
-  tags?: Tags;
+  destinationConfiguration: DestinationConfiguration;
+  tags?: { [key: string]: string };
 }
 export const CreateLoggingConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -785,8 +785,8 @@ export interface CreateRoomResponse {
   maximumMessageRatePerSecond?: number;
   maximumMessageLength?: number;
   messageReviewHandler?: MessageReviewHandler;
-  tags?: Tags;
-  loggingConfigurationIdentifiers?: LoggingConfigurationIdentifierList;
+  tags?: { [key: string]: string };
+  loggingConfigurationIdentifiers?: string[];
 }
 export const CreateRoomResponse = S.suspend(() =>
   S.Struct({
@@ -807,7 +807,7 @@ export const CreateRoomResponse = S.suspend(() =>
   identifier: "CreateRoomResponse",
 }) as any as S.Schema<CreateRoomResponse>;
 export interface ListLoggingConfigurationsResponse {
-  loggingConfigurations: LoggingConfigurationList;
+  loggingConfigurations: LoggingConfigurationSummary[];
   nextToken?: string;
 }
 export const ListLoggingConfigurationsResponse = S.suspend(() =>
@@ -819,7 +819,7 @@ export const ListLoggingConfigurationsResponse = S.suspend(() =>
   identifier: "ListLoggingConfigurationsResponse",
 }) as any as S.Schema<ListLoggingConfigurationsResponse>;
 export interface ListRoomsResponse {
-  rooms: RoomList;
+  rooms: RoomSummary[];
   nextToken?: string;
 }
 export const ListRoomsResponse = S.suspend(() =>
@@ -841,9 +841,9 @@ export interface CreateLoggingConfigurationResponse {
   createTime?: Date;
   updateTime?: Date;
   name?: string;
-  destinationConfiguration?: (typeof DestinationConfiguration)["Type"];
+  destinationConfiguration?: DestinationConfiguration;
   state?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateLoggingConfigurationResponse = S.suspend(() =>
   S.Struct({
@@ -925,7 +925,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const getLoggingConfiguration: (
   input: GetLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLoggingConfigurationResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -948,21 +948,21 @@ export const getLoggingConfiguration: (
 export const listLoggingConfigurations: {
   (
     input: ListLoggingConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLoggingConfigurationsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListLoggingConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLoggingConfigurationsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLoggingConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -984,7 +984,7 @@ export const listLoggingConfigurations: {
 export const listRooms: {
   (
     input: ListRoomsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRoomsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -994,7 +994,7 @@ export const listRooms: {
   >;
   pages: (
     input: ListRoomsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRoomsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -1004,7 +1004,7 @@ export const listRooms: {
   >;
   items: (
     input: ListRoomsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -1031,7 +1031,7 @@ export const listRooms: {
  */
 export const updateLoggingConfiguration: (
   input: UpdateLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLoggingConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1056,7 +1056,7 @@ export const updateLoggingConfiguration: (
  */
 export const updateRoom: (
   input: UpdateRoomRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRoomResponse,
   | AccessDeniedException
   | PendingVerification
@@ -1079,7 +1079,7 @@ export const updateRoom: (
  */
 export const deleteRoom: (
   input: DeleteRoomRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRoomResponse,
   | AccessDeniedException
   | PendingVerification
@@ -1116,7 +1116,7 @@ export const deleteRoom: (
  */
 export const createChatToken: (
   input: CreateChatTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateChatTokenResponse,
   | AccessDeniedException
   | PendingVerification
@@ -1139,7 +1139,7 @@ export const createChatToken: (
  */
 export const deleteLoggingConfiguration: (
   input: DeleteLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLoggingConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1164,7 +1164,7 @@ export const deleteLoggingConfiguration: (
  */
 export const getRoom: (
   input: GetRoomRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRoomResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1185,7 +1185,7 @@ export const getRoom: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1206,7 +1206,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1227,7 +1227,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1250,7 +1250,7 @@ export const listTagsForResource: (
  */
 export const sendEvent: (
   input: SendEventRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendEventResponse,
   | AccessDeniedException
   | PendingVerification
@@ -1275,7 +1275,7 @@ export const sendEvent: (
  */
 export const createRoom: (
   input: CreateRoomRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRoomResponse,
   | AccessDeniedException
   | ConflictException
@@ -1304,7 +1304,7 @@ export const createRoom: (
  */
 export const disconnectUser: (
   input: DisconnectUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisconnectUserResponse,
   | AccessDeniedException
   | PendingVerification
@@ -1332,7 +1332,7 @@ export const disconnectUser: (
  */
 export const deleteMessage: (
   input: DeleteMessageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMessageResponse,
   | AccessDeniedException
   | PendingVerification
@@ -1358,7 +1358,7 @@ export const deleteMessage: (
  */
 export const createLoggingConfiguration: (
   input: CreateLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLoggingConfigurationResponse,
   | AccessDeniedException
   | ConflictException

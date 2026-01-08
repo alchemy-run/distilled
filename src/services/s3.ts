@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -3022,7 +3022,7 @@ export type MpuObjectSize = number;
 export type IfMatch = string;
 export type IfNoneMatch = string;
 export type SSECustomerAlgorithm = string;
-export type SSECustomerKey = string | Redacted.Redacted<string>;
+export type SSECustomerKey = string | redacted.Redacted<string>;
 export type SSECustomerKeyMD5 = string;
 export type CacheControl = string;
 export type ContentDisposition = string;
@@ -3038,10 +3038,10 @@ export type GrantRead = string;
 export type GrantReadACP = string;
 export type GrantWriteACP = string;
 export type WebsiteRedirectLocation = string;
-export type SSEKMSKeyId = string | Redacted.Redacted<string>;
-export type SSEKMSEncryptionContext = string | Redacted.Redacted<string>;
+export type SSEKMSKeyId = string | redacted.Redacted<string>;
+export type SSEKMSEncryptionContext = string | redacted.Redacted<string>;
 export type CopySourceSSECustomerAlgorithm = string;
-export type CopySourceSSECustomerKey = string | Redacted.Redacted<string>;
+export type CopySourceSSECustomerKey = string | redacted.Redacted<string>;
 export type CopySourceSSECustomerKeyMD5 = string;
 export type TaggingHeader = string;
 export type GrantWrite = string;
@@ -3150,7 +3150,7 @@ export type QuoteCharacter = string;
 export type KmsKeyArn = string;
 export type RecordExpirationDays = number;
 export type AccessKeyIdValue = string;
-export type SessionCredentialValue = string | Redacted.Redacted<string>;
+export type SessionCredentialValue = string | redacted.Redacted<string>;
 export type MetadataTableStatus = string;
 export type EmailAddress = string;
 export type URI = string;
@@ -3181,15 +3181,162 @@ export type BytesReturned = number;
 export type RestoreOutputPath = string;
 
 //# Schemas
-export type ObjectAttributesList = string[];
-export const ObjectAttributesList = S.Array(S.String);
-export type OptionalObjectAttributesList = string[];
-export const OptionalObjectAttributesList = S.Array(S.String);
+export type RequestPayer = "requester";
+export const RequestPayer = S.Literal("requester");
+export type ChecksumType = "COMPOSITE" | "FULL_OBJECT";
+export const ChecksumType = S.Literal("COMPOSITE", "FULL_OBJECT");
+export type ObjectCannedACL =
+  | "private"
+  | "public-read"
+  | "public-read-write"
+  | "authenticated-read"
+  | "aws-exec-read"
+  | "bucket-owner-read"
+  | "bucket-owner-full-control";
+export const ObjectCannedACL = S.Literal(
+  "private",
+  "public-read",
+  "public-read-write",
+  "authenticated-read",
+  "aws-exec-read",
+  "bucket-owner-read",
+  "bucket-owner-full-control",
+);
+export type ChecksumAlgorithm =
+  | "CRC32"
+  | "CRC32C"
+  | "SHA1"
+  | "SHA256"
+  | "CRC64NVME";
+export const ChecksumAlgorithm = S.Literal(
+  "CRC32",
+  "CRC32C",
+  "SHA1",
+  "SHA256",
+  "CRC64NVME",
+);
+export type MetadataDirective = "COPY" | "REPLACE";
+export const MetadataDirective = S.Literal("COPY", "REPLACE");
+export type TaggingDirective = "COPY" | "REPLACE";
+export const TaggingDirective = S.Literal("COPY", "REPLACE");
+export type ServerSideEncryption =
+  | "AES256"
+  | "aws:fsx"
+  | "aws:kms"
+  | "aws:kms:dsse";
+export const ServerSideEncryption = S.Literal(
+  "AES256",
+  "aws:fsx",
+  "aws:kms",
+  "aws:kms:dsse",
+);
+export type StorageClass =
+  | "STANDARD"
+  | "REDUCED_REDUNDANCY"
+  | "STANDARD_IA"
+  | "ONEZONE_IA"
+  | "INTELLIGENT_TIERING"
+  | "GLACIER"
+  | "DEEP_ARCHIVE"
+  | "OUTPOSTS"
+  | "GLACIER_IR"
+  | "SNOW"
+  | "EXPRESS_ONEZONE"
+  | "FSX_OPENZFS"
+  | "FSX_ONTAP";
+export const StorageClass = S.Literal(
+  "STANDARD",
+  "REDUCED_REDUNDANCY",
+  "STANDARD_IA",
+  "ONEZONE_IA",
+  "INTELLIGENT_TIERING",
+  "GLACIER",
+  "DEEP_ARCHIVE",
+  "OUTPOSTS",
+  "GLACIER_IR",
+  "SNOW",
+  "EXPRESS_ONEZONE",
+  "FSX_OPENZFS",
+  "FSX_ONTAP",
+);
+export type ObjectLockMode = "GOVERNANCE" | "COMPLIANCE";
+export const ObjectLockMode = S.Literal("GOVERNANCE", "COMPLIANCE");
+export type ObjectLockLegalHoldStatus = "ON" | "OFF";
+export const ObjectLockLegalHoldStatus = S.Literal("ON", "OFF");
+export type BucketCannedACL =
+  | "private"
+  | "public-read"
+  | "public-read-write"
+  | "authenticated-read";
+export const BucketCannedACL = S.Literal(
+  "private",
+  "public-read",
+  "public-read-write",
+  "authenticated-read",
+);
+export type ObjectOwnership =
+  | "BucketOwnerPreferred"
+  | "ObjectWriter"
+  | "BucketOwnerEnforced";
+export const ObjectOwnership = S.Literal(
+  "BucketOwnerPreferred",
+  "ObjectWriter",
+  "BucketOwnerEnforced",
+);
+export type SessionMode = "ReadOnly" | "ReadWrite";
+export const SessionMode = S.Literal("ReadOnly", "ReadWrite");
+export type ChecksumMode = "ENABLED";
+export const ChecksumMode = S.Literal("ENABLED");
+export type ObjectAttributes =
+  | "ETag"
+  | "Checksum"
+  | "ObjectParts"
+  | "StorageClass"
+  | "ObjectSize";
+export const ObjectAttributes = S.Literal(
+  "ETag",
+  "Checksum",
+  "ObjectParts",
+  "StorageClass",
+  "ObjectSize",
+);
+export type ObjectAttributesList = ObjectAttributes[];
+export const ObjectAttributesList = S.Array(ObjectAttributes);
+export type EncodingType = "url";
+export const EncodingType = S.Literal("url");
+export type OptionalObjectAttributes = "RestoreStatus";
+export const OptionalObjectAttributes = S.Literal("RestoreStatus");
+export type OptionalObjectAttributesList = OptionalObjectAttributes[];
+export const OptionalObjectAttributesList = S.Array(OptionalObjectAttributes);
+export type TransitionDefaultMinimumObjectSize =
+  | "varies_by_storage_class"
+  | "all_storage_classes_128K";
+export const TransitionDefaultMinimumObjectSize = S.Literal(
+  "varies_by_storage_class",
+  "all_storage_classes_128K",
+);
+export type ExpressionType = "SQL";
+export const ExpressionType = S.Literal("SQL");
+export type ReplicationStatus =
+  | "COMPLETE"
+  | "PENDING"
+  | "FAILED"
+  | "REPLICA"
+  | "COMPLETED";
+export const ReplicationStatus = S.Literal(
+  "COMPLETE",
+  "PENDING",
+  "FAILED",
+  "REPLICA",
+  "COMPLETED",
+);
+export type RequestCharged = "requester";
+export const RequestCharged = S.Literal("requester");
 export interface AbortMultipartUploadRequest {
   Bucket: string;
   Key: string;
   UploadId: string;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
   ExpectedBucketOwner?: string;
   IfMatchInitiatedTime?: Date;
 }
@@ -3198,7 +3345,7 @@ export const AbortMultipartUploadRequest = S.suspend(() =>
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
     UploadId: S.String.pipe(T.HttpQuery("uploadId")),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
     ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -3227,7 +3374,7 @@ export const AbortMultipartUploadRequest = S.suspend(() =>
 export type Metadata = { [key: string]: string };
 export const Metadata = S.Record({ key: S.String, value: S.String });
 export interface CreateMultipartUploadRequest {
-  ACL?: string;
+  ACL?: ObjectCannedACL;
   Bucket: string;
   CacheControl?: string;
   ContentDisposition?: string;
@@ -3240,28 +3387,28 @@ export interface CreateMultipartUploadRequest {
   GrantReadACP?: string;
   GrantWriteACP?: string;
   Key: string;
-  Metadata?: Metadata;
-  ServerSideEncryption?: string;
-  StorageClass?: string;
+  Metadata?: { [key: string]: string };
+  ServerSideEncryption?: ServerSideEncryption;
+  StorageClass?: StorageClass;
   WebsiteRedirectLocation?: string;
   SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string | Redacted.Redacted<string>;
+  SSECustomerKey?: string | redacted.Redacted<string>;
   SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string | Redacted.Redacted<string>;
-  SSEKMSEncryptionContext?: string | Redacted.Redacted<string>;
+  SSEKMSKeyId?: string | redacted.Redacted<string>;
+  SSEKMSEncryptionContext?: string | redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
   Tagging?: string;
-  ObjectLockMode?: string;
+  ObjectLockMode?: ObjectLockMode;
   ObjectLockRetainUntilDate?: Date;
-  ObjectLockLegalHoldStatus?: string;
+  ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus;
   ExpectedBucketOwner?: string;
-  ChecksumAlgorithm?: string;
-  ChecksumType?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
+  ChecksumType?: ChecksumType;
 }
 export const CreateMultipartUploadRequest = S.suspend(() =>
   S.Struct({
-    ACL: S.optional(S.String).pipe(T.HttpHeader("x-amz-acl")),
+    ACL: S.optional(ObjectCannedACL).pipe(T.HttpHeader("x-amz-acl")),
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
     ContentDisposition: S.optional(S.String).pipe(
@@ -3287,10 +3434,10 @@ export const CreateMultipartUploadRequest = S.suspend(() =>
     ),
     Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
     Metadata: S.optional(Metadata).pipe(T.HttpPrefixHeaders("x-amz-meta-")),
-    ServerSideEncryption: S.optional(S.String).pipe(
+    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
       T.HttpHeader("x-amz-server-side-encryption"),
     ),
-    StorageClass: S.optional(S.String).pipe(
+    StorageClass: S.optional(StorageClass).pipe(
       T.HttpHeader("x-amz-storage-class"),
     ),
     WebsiteRedirectLocation: S.optional(S.String).pipe(
@@ -3314,26 +3461,26 @@ export const CreateMultipartUploadRequest = S.suspend(() =>
     BucketKeyEnabled: S.optional(S.Boolean).pipe(
       T.HttpHeader("x-amz-server-side-encryption-bucket-key-enabled"),
     ),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
     Tagging: S.optional(S.String).pipe(T.HttpHeader("x-amz-tagging")),
-    ObjectLockMode: S.optional(S.String).pipe(
+    ObjectLockMode: S.optional(ObjectLockMode).pipe(
       T.HttpHeader("x-amz-object-lock-mode"),
     ),
     ObjectLockRetainUntilDate: S.optional(
       S.Date.pipe(T.TimestampFormat("http-date")),
     ).pipe(T.HttpHeader("x-amz-object-lock-retain-until-date")),
-    ObjectLockLegalHoldStatus: S.optional(S.String).pipe(
+    ObjectLockLegalHoldStatus: S.optional(ObjectLockLegalHoldStatus).pipe(
       T.HttpHeader("x-amz-object-lock-legal-hold"),
     ),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-checksum-algorithm"),
     ),
-    ChecksumType: S.optional(S.String).pipe(
+    ChecksumType: S.optional(ChecksumType).pipe(
       T.HttpHeader("x-amz-checksum-type"),
     ),
   }).pipe(
@@ -3351,20 +3498,20 @@ export const CreateMultipartUploadRequest = S.suspend(() =>
   identifier: "CreateMultipartUploadRequest",
 }) as any as S.Schema<CreateMultipartUploadRequest>;
 export interface CreateSessionRequest {
-  SessionMode?: string;
+  SessionMode?: SessionMode;
   Bucket: string;
-  ServerSideEncryption?: string;
-  SSEKMSKeyId?: string | Redacted.Redacted<string>;
-  SSEKMSEncryptionContext?: string | Redacted.Redacted<string>;
+  ServerSideEncryption?: ServerSideEncryption;
+  SSEKMSKeyId?: string | redacted.Redacted<string>;
+  SSEKMSEncryptionContext?: string | redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
 }
 export const CreateSessionRequest = S.suspend(() =>
   S.Struct({
-    SessionMode: S.optional(S.String).pipe(
+    SessionMode: S.optional(SessionMode).pipe(
       T.HttpHeader("x-amz-create-session-mode"),
     ),
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ServerSideEncryption: S.optional(S.String).pipe(
+    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
       T.HttpHeader("x-amz-server-side-encryption"),
     ),
     SSEKMSKeyId: S.optional(SensitiveString).pipe(
@@ -3870,7 +4017,7 @@ export interface DeleteObjectRequest {
   Key: string;
   MFA?: string;
   VersionId?: string;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
   BypassGovernanceRetention?: boolean;
   ExpectedBucketOwner?: string;
   IfMatch?: string;
@@ -3883,7 +4030,7 @@ export const DeleteObjectRequest = S.suspend(() =>
     Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
     MFA: S.optional(S.String).pipe(T.HttpHeader("x-amz-mfa")),
     VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
     BypassGovernanceRetention: S.optional(S.Boolean).pipe(
@@ -3997,7 +4144,7 @@ export const GetBucketAbacRequest = S.suspend(() =>
 export interface GetBucketAccelerateConfigurationRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
 }
 export const GetBucketAccelerateConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -4005,7 +4152,7 @@ export const GetBucketAccelerateConfigurationRequest = S.suspend(() =>
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
   }).pipe(
@@ -4584,12 +4731,12 @@ export interface GetObjectRequest {
   ResponseExpires?: Date;
   VersionId?: string;
   SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string | Redacted.Redacted<string>;
+  SSECustomerKey?: string | redacted.Redacted<string>;
   SSECustomerKeyMD5?: string;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
   PartNumber?: number;
   ExpectedBucketOwner?: string;
-  ChecksumMode?: string;
+  ChecksumMode?: ChecksumMode;
 }
 export const GetObjectRequest = S.suspend(() =>
   S.Struct({
@@ -4632,14 +4779,14 @@ export const GetObjectRequest = S.suspend(() =>
     SSECustomerKeyMD5: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
     ),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
     PartNumber: S.optional(S.Number).pipe(T.HttpQuery("partNumber")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-    ChecksumMode: S.optional(S.String).pipe(
+    ChecksumMode: S.optional(ChecksumMode).pipe(
       T.HttpHeader("x-amz-checksum-mode"),
     ),
   }).pipe(
@@ -4663,7 +4810,7 @@ export interface GetObjectAclRequest {
   Bucket: string;
   Key: string;
   VersionId?: string;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
   ExpectedBucketOwner?: string;
 }
 export const GetObjectAclRequest = S.suspend(() =>
@@ -4671,7 +4818,7 @@ export const GetObjectAclRequest = S.suspend(() =>
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
     VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
     ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -4698,11 +4845,11 @@ export interface GetObjectAttributesRequest {
   MaxParts?: number;
   PartNumberMarker?: string;
   SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string | Redacted.Redacted<string>;
+  SSECustomerKey?: string | redacted.Redacted<string>;
   SSECustomerKeyMD5?: string;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
   ExpectedBucketOwner?: string;
-  ObjectAttributes: ObjectAttributesList;
+  ObjectAttributes: ObjectAttributes[];
 }
 export const GetObjectAttributesRequest = S.suspend(() =>
   S.Struct({
@@ -4722,7 +4869,7 @@ export const GetObjectAttributesRequest = S.suspend(() =>
     SSECustomerKeyMD5: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
     ),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
     ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -4749,7 +4896,7 @@ export interface GetObjectLegalHoldRequest {
   Bucket: string;
   Key: string;
   VersionId?: string;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
   ExpectedBucketOwner?: string;
 }
 export const GetObjectLegalHoldRequest = S.suspend(() =>
@@ -4757,7 +4904,7 @@ export const GetObjectLegalHoldRequest = S.suspend(() =>
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Key: S.String.pipe(T.HttpLabel("Key")),
     VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
     ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -4805,7 +4952,7 @@ export interface GetObjectRetentionRequest {
   Bucket: string;
   Key: string;
   VersionId?: string;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
   ExpectedBucketOwner?: string;
 }
 export const GetObjectRetentionRequest = S.suspend(() =>
@@ -4813,7 +4960,7 @@ export const GetObjectRetentionRequest = S.suspend(() =>
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Key: S.String.pipe(T.HttpLabel("Key")),
     VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
     ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -4838,7 +4985,7 @@ export interface GetObjectTaggingRequest {
   Key: string;
   VersionId?: string;
   ExpectedBucketOwner?: string;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
 }
 export const GetObjectTaggingRequest = S.suspend(() =>
   S.Struct({
@@ -4848,7 +4995,7 @@ export const GetObjectTaggingRequest = S.suspend(() =>
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
   }).pipe(
@@ -4868,14 +5015,14 @@ export const GetObjectTaggingRequest = S.suspend(() =>
 export interface GetObjectTorrentRequest {
   Bucket: string;
   Key: string;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
   ExpectedBucketOwner?: string;
 }
 export const GetObjectTorrentRequest = S.suspend(() =>
   S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Key: S.String.pipe(T.HttpLabel("Key")),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
     ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -4960,12 +5107,12 @@ export interface HeadObjectRequest {
   ResponseExpires?: Date;
   VersionId?: string;
   SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string | Redacted.Redacted<string>;
+  SSECustomerKey?: string | redacted.Redacted<string>;
   SSECustomerKeyMD5?: string;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
   PartNumber?: number;
   ExpectedBucketOwner?: string;
-  ChecksumMode?: string;
+  ChecksumMode?: ChecksumMode;
 }
 export const HeadObjectRequest = S.suspend(() =>
   S.Struct({
@@ -5008,14 +5155,14 @@ export const HeadObjectRequest = S.suspend(() =>
     SSECustomerKeyMD5: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
     ),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
     PartNumber: S.optional(S.Number).pipe(T.HttpQuery("partNumber")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-    ChecksumMode: S.optional(S.String).pipe(
+    ChecksumMode: S.optional(ChecksumMode).pipe(
       T.HttpHeader("x-amz-checksum-mode"),
     ),
   }).pipe(
@@ -5217,19 +5364,19 @@ export const ListDirectoryBucketsRequest = S.suspend(() =>
 export interface ListMultipartUploadsRequest {
   Bucket: string;
   Delimiter?: string;
-  EncodingType?: string;
+  EncodingType?: EncodingType;
   KeyMarker?: string;
   MaxUploads?: number;
   Prefix?: string;
   UploadIdMarker?: string;
   ExpectedBucketOwner?: string;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
 }
 export const ListMultipartUploadsRequest = S.suspend(() =>
   S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Delimiter: S.optional(S.String).pipe(T.HttpQuery("delimiter")),
-    EncodingType: S.optional(S.String).pipe(T.HttpQuery("encoding-type")),
+    EncodingType: S.optional(EncodingType).pipe(T.HttpQuery("encoding-type")),
     KeyMarker: S.optional(S.String).pipe(T.HttpQuery("key-marker")),
     MaxUploads: S.optional(S.Number).pipe(T.HttpQuery("max-uploads")),
     Prefix: S.optional(S.String).pipe(
@@ -5240,7 +5387,7 @@ export const ListMultipartUploadsRequest = S.suspend(() =>
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
   }).pipe(
@@ -5260,26 +5407,26 @@ export const ListMultipartUploadsRequest = S.suspend(() =>
 export interface ListObjectsRequest {
   Bucket: string;
   Delimiter?: string;
-  EncodingType?: string;
+  EncodingType?: EncodingType;
   Marker?: string;
   MaxKeys?: number;
   Prefix?: string;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
   ExpectedBucketOwner?: string;
-  OptionalObjectAttributes?: OptionalObjectAttributesList;
+  OptionalObjectAttributes?: OptionalObjectAttributes[];
 }
 export const ListObjectsRequest = S.suspend(() =>
   S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Delimiter: S.optional(S.String).pipe(T.HttpQuery("delimiter")),
-    EncodingType: S.optional(S.String).pipe(T.HttpQuery("encoding-type")),
+    EncodingType: S.optional(EncodingType).pipe(T.HttpQuery("encoding-type")),
     Marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
     MaxKeys: S.optional(S.Number).pipe(T.HttpQuery("max-keys")),
     Prefix: S.optional(S.String).pipe(
       T.HttpQuery("prefix"),
       T.ContextParam("Prefix"),
     ),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
     ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -5305,21 +5452,21 @@ export const ListObjectsRequest = S.suspend(() =>
 export interface ListObjectsV2Request {
   Bucket: string;
   Delimiter?: string;
-  EncodingType?: string;
+  EncodingType?: EncodingType;
   MaxKeys?: number;
   Prefix?: string;
   ContinuationToken?: string;
   FetchOwner?: boolean;
   StartAfter?: string;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
   ExpectedBucketOwner?: string;
-  OptionalObjectAttributes?: OptionalObjectAttributesList;
+  OptionalObjectAttributes?: OptionalObjectAttributes[];
 }
 export const ListObjectsV2Request = S.suspend(() =>
   S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Delimiter: S.optional(S.String).pipe(T.HttpQuery("delimiter")),
-    EncodingType: S.optional(S.String).pipe(T.HttpQuery("encoding-type")),
+    EncodingType: S.optional(EncodingType).pipe(T.HttpQuery("encoding-type")),
     MaxKeys: S.optional(S.Number).pipe(T.HttpQuery("max-keys")),
     Prefix: S.optional(S.String).pipe(
       T.HttpQuery("prefix"),
@@ -5330,7 +5477,7 @@ export const ListObjectsV2Request = S.suspend(() =>
     ),
     FetchOwner: S.optional(S.Boolean).pipe(T.HttpQuery("fetch-owner")),
     StartAfter: S.optional(S.String).pipe(T.HttpQuery("start-after")),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
     ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -5356,20 +5503,20 @@ export const ListObjectsV2Request = S.suspend(() =>
 export interface ListObjectVersionsRequest {
   Bucket: string;
   Delimiter?: string;
-  EncodingType?: string;
+  EncodingType?: EncodingType;
   KeyMarker?: string;
   MaxKeys?: number;
   Prefix?: string;
   VersionIdMarker?: string;
   ExpectedBucketOwner?: string;
-  RequestPayer?: string;
-  OptionalObjectAttributes?: OptionalObjectAttributesList;
+  RequestPayer?: RequestPayer;
+  OptionalObjectAttributes?: OptionalObjectAttributes[];
 }
 export const ListObjectVersionsRequest = S.suspend(() =>
   S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Delimiter: S.optional(S.String).pipe(T.HttpQuery("delimiter")),
-    EncodingType: S.optional(S.String).pipe(T.HttpQuery("encoding-type")),
+    EncodingType: S.optional(EncodingType).pipe(T.HttpQuery("encoding-type")),
     KeyMarker: S.optional(S.String).pipe(T.HttpQuery("key-marker")),
     MaxKeys: S.optional(S.Number).pipe(T.HttpQuery("max-keys")),
     Prefix: S.optional(S.String).pipe(
@@ -5382,7 +5529,7 @@ export const ListObjectVersionsRequest = S.suspend(() =>
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
     OptionalObjectAttributes: S.optional(OptionalObjectAttributesList).pipe(
@@ -5408,10 +5555,10 @@ export interface ListPartsRequest {
   MaxParts?: number;
   PartNumberMarker?: string;
   UploadId: string;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
   ExpectedBucketOwner?: string;
   SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string | Redacted.Redacted<string>;
+  SSECustomerKey?: string | redacted.Redacted<string>;
   SSECustomerKeyMD5?: string;
 }
 export const ListPartsRequest = S.suspend(() =>
@@ -5423,7 +5570,7 @@ export const ListPartsRequest = S.suspend(() =>
       T.HttpQuery("part-number-marker"),
     ),
     UploadId: S.String.pipe(T.HttpQuery("uploadId")),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
     ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -5455,7 +5602,7 @@ export const ListPartsRequest = S.suspend(() =>
 export interface PutBucketPolicyRequest {
   Bucket: string;
   ContentMD5?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
   ConfirmRemoveSelfBucketAccess?: boolean;
   Policy: string;
   ExpectedBucketOwner?: string;
@@ -5464,7 +5611,7 @@ export const PutBucketPolicyRequest = S.suspend(() =>
   S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
     ConfirmRemoveSelfBucketAccess: S.optional(S.Boolean).pipe(
@@ -5500,7 +5647,7 @@ export const PutBucketPolicyResponse = S.suspend(() =>
   identifier: "PutBucketPolicyResponse",
 }) as any as S.Schema<PutBucketPolicyResponse>;
 export interface PutObjectRequest {
-  ACL?: string;
+  ACL?: ObjectCannedACL;
   Body?: T.StreamingInputBody;
   Bucket: string;
   CacheControl?: string;
@@ -5510,7 +5657,7 @@ export interface PutObjectRequest {
   ContentLength?: number;
   ContentMD5?: string;
   ContentType?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
   ChecksumCRC32?: string;
   ChecksumCRC32C?: string;
   ChecksumCRC64NVME?: string;
@@ -5525,26 +5672,26 @@ export interface PutObjectRequest {
   GrantWriteACP?: string;
   Key: string;
   WriteOffsetBytes?: number;
-  Metadata?: Metadata;
-  ServerSideEncryption?: string;
-  StorageClass?: string;
+  Metadata?: { [key: string]: string };
+  ServerSideEncryption?: ServerSideEncryption;
+  StorageClass?: StorageClass;
   WebsiteRedirectLocation?: string;
   SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string | Redacted.Redacted<string>;
+  SSECustomerKey?: string | redacted.Redacted<string>;
   SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string | Redacted.Redacted<string>;
-  SSEKMSEncryptionContext?: string | Redacted.Redacted<string>;
+  SSEKMSKeyId?: string | redacted.Redacted<string>;
+  SSEKMSEncryptionContext?: string | redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
   Tagging?: string;
-  ObjectLockMode?: string;
+  ObjectLockMode?: ObjectLockMode;
   ObjectLockRetainUntilDate?: Date;
-  ObjectLockLegalHoldStatus?: string;
+  ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus;
   ExpectedBucketOwner?: string;
 }
 export const PutObjectRequest = S.suspend(() =>
   S.Struct({
-    ACL: S.optional(S.String).pipe(T.HttpHeader("x-amz-acl")),
+    ACL: S.optional(ObjectCannedACL).pipe(T.HttpHeader("x-amz-acl")),
     Body: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
@@ -5560,7 +5707,7 @@ export const PutObjectRequest = S.suspend(() =>
     ContentLength: S.optional(S.Number).pipe(T.HttpHeader("Content-Length")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
     ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
     ChecksumCRC32: S.optional(S.String).pipe(
@@ -5596,10 +5743,10 @@ export const PutObjectRequest = S.suspend(() =>
       T.HttpHeader("x-amz-write-offset-bytes"),
     ),
     Metadata: S.optional(Metadata).pipe(T.HttpPrefixHeaders("x-amz-meta-")),
-    ServerSideEncryption: S.optional(S.String).pipe(
+    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
       T.HttpHeader("x-amz-server-side-encryption"),
     ),
-    StorageClass: S.optional(S.String).pipe(
+    StorageClass: S.optional(StorageClass).pipe(
       T.HttpHeader("x-amz-storage-class"),
     ),
     WebsiteRedirectLocation: S.optional(S.String).pipe(
@@ -5623,17 +5770,17 @@ export const PutObjectRequest = S.suspend(() =>
     BucketKeyEnabled: S.optional(S.Boolean).pipe(
       T.HttpHeader("x-amz-server-side-encryption-bucket-key-enabled"),
     ),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
     Tagging: S.optional(S.String).pipe(T.HttpHeader("x-amz-tagging")),
-    ObjectLockMode: S.optional(S.String).pipe(
+    ObjectLockMode: S.optional(ObjectLockMode).pipe(
       T.HttpHeader("x-amz-object-lock-mode"),
     ),
     ObjectLockRetainUntilDate: S.optional(
       S.Date.pipe(T.TimestampFormat("http-date")),
     ).pipe(T.HttpHeader("x-amz-object-lock-retain-until-date")),
-    ObjectLockLegalHoldStatus: S.optional(S.String).pipe(
+    ObjectLockLegalHoldStatus: S.optional(ObjectLockLegalHoldStatus).pipe(
       T.HttpHeader("x-amz-object-lock-legal-hold"),
     ),
     ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -5656,12 +5803,18 @@ export const PutObjectRequest = S.suspend(() =>
 ).annotations({
   identifier: "PutObjectRequest",
 }) as any as S.Schema<PutObjectRequest>;
+export type Type = "CanonicalUser" | "AmazonCustomerByEmail" | "Group";
+export const Type = S.Literal(
+  "CanonicalUser",
+  "AmazonCustomerByEmail",
+  "Group",
+);
 export interface Grantee {
   DisplayName?: string;
   EmailAddress?: string;
   ID?: string;
   URI?: string;
-  Type: string;
+  Type: Type;
 }
 export const Grantee = S.suspend(() =>
   S.Struct({
@@ -5669,15 +5822,31 @@ export const Grantee = S.suspend(() =>
     EmailAddress: S.optional(S.String),
     ID: S.optional(S.String),
     URI: S.optional(S.String),
-    Type: S.String.pipe(T.XmlName("xsi:type"), T.XmlAttribute()),
+    Type: Type.pipe(T.XmlName("xsi:type"), T.XmlAttribute()),
   }),
 ).annotations({ identifier: "Grantee" }) as any as S.Schema<Grantee>;
+export type Permission =
+  | "FULL_CONTROL"
+  | "WRITE"
+  | "WRITE_ACP"
+  | "READ"
+  | "READ_ACP";
+export const Permission = S.Literal(
+  "FULL_CONTROL",
+  "WRITE",
+  "WRITE_ACP",
+  "READ",
+  "READ_ACP",
+);
 export interface Grant {
   Grantee?: Grantee;
-  Permission?: string;
+  Permission?: Permission;
 }
 export const Grant = S.suspend(() =>
-  S.Struct({ Grantee: S.optional(Grantee), Permission: S.optional(S.String) }),
+  S.Struct({
+    Grantee: S.optional(Grantee),
+    Permission: S.optional(Permission),
+  }),
 ).annotations({ identifier: "Grant" }) as any as S.Schema<Grant>;
 export type Grants = Grant[];
 export const Grants = S.Array(
@@ -5691,7 +5860,7 @@ export const Owner = S.suspend(() =>
   S.Struct({ DisplayName: S.optional(S.String), ID: S.optional(S.String) }),
 ).annotations({ identifier: "Owner" }) as any as S.Schema<Owner>;
 export interface AccessControlPolicy {
-  Grants?: Grants;
+  Grants?: Grant[];
   Owner?: Owner;
 }
 export const AccessControlPolicy = S.suspend(() =>
@@ -5703,30 +5872,30 @@ export const AccessControlPolicy = S.suspend(() =>
   identifier: "AccessControlPolicy",
 }) as any as S.Schema<AccessControlPolicy>;
 export interface PutObjectAclRequest {
-  ACL?: string;
+  ACL?: ObjectCannedACL;
   AccessControlPolicy?: AccessControlPolicy;
   Bucket: string;
   ContentMD5?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
   GrantFullControl?: string;
   GrantRead?: string;
   GrantReadACP?: string;
   GrantWrite?: string;
   GrantWriteACP?: string;
   Key: string;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
   VersionId?: string;
   ExpectedBucketOwner?: string;
 }
 export const PutObjectAclRequest = S.suspend(() =>
   S.Struct({
-    ACL: S.optional(S.String).pipe(T.HttpHeader("x-amz-acl")),
+    ACL: S.optional(ObjectCannedACL).pipe(T.HttpHeader("x-amz-acl")),
     AccessControlPolicy: S.optional(AccessControlPolicy)
       .pipe(T.HttpPayload(), T.XmlName("AccessControlPolicy"))
       .annotations({ identifier: "AccessControlPolicy" }),
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
     GrantFullControl: S.optional(S.String).pipe(
@@ -5741,7 +5910,7 @@ export const PutObjectAclRequest = S.suspend(() =>
       T.HttpHeader("x-amz-grant-write-acp"),
     ),
     Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
     VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
@@ -5778,7 +5947,7 @@ export const TagSet = S.Array(
   Tag.pipe(T.XmlName("Tag")).annotations({ identifier: "Tag" }),
 );
 export interface Tagging {
-  TagSet: TagSet;
+  TagSet: Tag[];
 }
 export const Tagging = S.suspend(() =>
   S.Struct({ TagSet: TagSet }),
@@ -5788,10 +5957,10 @@ export interface PutObjectTaggingRequest {
   Key: string;
   VersionId?: string;
   ContentMD5?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
   Tagging: Tagging;
   ExpectedBucketOwner?: string;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
 }
 export const PutObjectTaggingRequest = S.suspend(() =>
   S.Struct({
@@ -5799,7 +5968,7 @@ export const PutObjectTaggingRequest = S.suspend(() =>
     Key: S.String.pipe(T.HttpLabel("Key")),
     VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
     Tagging: Tagging.pipe(T.HttpPayload(), T.XmlName("Tagging")).annotations({
@@ -5808,7 +5977,7 @@ export const PutObjectTaggingRequest = S.suspend(() =>
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
   }).pipe(
@@ -5896,7 +6065,7 @@ export interface UploadPartRequest {
   Bucket: string;
   ContentLength?: number;
   ContentMD5?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
   ChecksumCRC32?: string;
   ChecksumCRC32C?: string;
   ChecksumCRC64NVME?: string;
@@ -5906,9 +6075,9 @@ export interface UploadPartRequest {
   PartNumber: number;
   UploadId: string;
   SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string | Redacted.Redacted<string>;
+  SSECustomerKey?: string | redacted.Redacted<string>;
   SSECustomerKeyMD5?: string;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
   ExpectedBucketOwner?: string;
 }
 export const UploadPartRequest = S.suspend(() =>
@@ -5917,7 +6086,7 @@ export const UploadPartRequest = S.suspend(() =>
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentLength: S.optional(S.Number).pipe(T.HttpHeader("Content-Length")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
     ChecksumCRC32: S.optional(S.String).pipe(
@@ -5947,7 +6116,7 @@ export const UploadPartRequest = S.suspend(() =>
     SSECustomerKeyMD5: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
     ),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
     ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -5982,12 +6151,12 @@ export interface UploadPartCopyRequest {
   PartNumber: number;
   UploadId: string;
   SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string | Redacted.Redacted<string>;
+  SSECustomerKey?: string | redacted.Redacted<string>;
   SSECustomerKeyMD5?: string;
   CopySourceSSECustomerAlgorithm?: string;
-  CopySourceSSECustomerKey?: string | Redacted.Redacted<string>;
+  CopySourceSSECustomerKey?: string | redacted.Redacted<string>;
   CopySourceSSECustomerKeyMD5?: string;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
   ExpectedBucketOwner?: string;
   ExpectedSourceBucketOwner?: string;
 }
@@ -6033,7 +6202,7 @@ export const UploadPartCopyRequest = S.suspend(() =>
     CopySourceSSECustomerKeyMD5: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-copy-source-server-side-encryption-customer-key-MD5"),
     ),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
     ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -6083,19 +6252,19 @@ export interface WriteGetObjectResponseRequest {
   Expiration?: string;
   LastModified?: Date;
   MissingMeta?: number;
-  Metadata?: Metadata;
-  ObjectLockMode?: string;
-  ObjectLockLegalHoldStatus?: string;
+  Metadata?: { [key: string]: string };
+  ObjectLockMode?: ObjectLockMode;
+  ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus;
   ObjectLockRetainUntilDate?: Date;
   PartsCount?: number;
-  ReplicationStatus?: string;
-  RequestCharged?: string;
+  ReplicationStatus?: ReplicationStatus;
+  RequestCharged?: RequestCharged;
   Restore?: string;
-  ServerSideEncryption?: string;
+  ServerSideEncryption?: ServerSideEncryption;
   SSECustomerAlgorithm?: string;
-  SSEKMSKeyId?: string | Redacted.Redacted<string>;
+  SSEKMSKeyId?: string | redacted.Redacted<string>;
   SSECustomerKeyMD5?: string;
-  StorageClass?: string;
+  StorageClass?: StorageClass;
   TagCount?: number;
   VersionId?: string;
   BucketKeyEnabled?: boolean;
@@ -6167,10 +6336,10 @@ export const WriteGetObjectResponseRequest = S.suspend(() =>
       T.HttpHeader("x-amz-fwd-header-x-amz-missing-meta"),
     ),
     Metadata: S.optional(Metadata).pipe(T.HttpPrefixHeaders("x-amz-meta-")),
-    ObjectLockMode: S.optional(S.String).pipe(
+    ObjectLockMode: S.optional(ObjectLockMode).pipe(
       T.HttpHeader("x-amz-fwd-header-x-amz-object-lock-mode"),
     ),
-    ObjectLockLegalHoldStatus: S.optional(S.String).pipe(
+    ObjectLockLegalHoldStatus: S.optional(ObjectLockLegalHoldStatus).pipe(
       T.HttpHeader("x-amz-fwd-header-x-amz-object-lock-legal-hold"),
     ),
     ObjectLockRetainUntilDate: S.optional(
@@ -6181,16 +6350,16 @@ export const WriteGetObjectResponseRequest = S.suspend(() =>
     PartsCount: S.optional(S.Number).pipe(
       T.HttpHeader("x-amz-fwd-header-x-amz-mp-parts-count"),
     ),
-    ReplicationStatus: S.optional(S.String).pipe(
+    ReplicationStatus: S.optional(ReplicationStatus).pipe(
       T.HttpHeader("x-amz-fwd-header-x-amz-replication-status"),
     ),
-    RequestCharged: S.optional(S.String).pipe(
+    RequestCharged: S.optional(RequestCharged).pipe(
       T.HttpHeader("x-amz-fwd-header-x-amz-request-charged"),
     ),
     Restore: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-fwd-header-x-amz-restore"),
     ),
-    ServerSideEncryption: S.optional(S.String).pipe(
+    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
       T.HttpHeader("x-amz-fwd-header-x-amz-server-side-encryption"),
     ),
     SSECustomerAlgorithm: S.optional(S.String).pipe(
@@ -6208,7 +6377,7 @@ export const WriteGetObjectResponseRequest = S.suspend(() =>
         "x-amz-fwd-header-x-amz-server-side-encryption-customer-key-MD5",
       ),
     ),
-    StorageClass: S.optional(S.String).pipe(
+    StorageClass: S.optional(StorageClass).pipe(
       T.HttpHeader("x-amz-fwd-header-x-amz-storage-class"),
     ),
     TagCount: S.optional(S.Number).pipe(
@@ -6243,9 +6412,121 @@ export const WriteGetObjectResponseResponse = S.suspend(() =>
 ).annotations({
   identifier: "WriteGetObjectResponseResponse",
 }) as any as S.Schema<WriteGetObjectResponseResponse>;
-export type InventoryOptionalFields = string[];
+export type BucketLocationConstraint =
+  | "af-south-1"
+  | "ap-east-1"
+  | "ap-northeast-1"
+  | "ap-northeast-2"
+  | "ap-northeast-3"
+  | "ap-south-1"
+  | "ap-south-2"
+  | "ap-southeast-1"
+  | "ap-southeast-2"
+  | "ap-southeast-3"
+  | "ap-southeast-4"
+  | "ap-southeast-5"
+  | "ca-central-1"
+  | "cn-north-1"
+  | "cn-northwest-1"
+  | "EU"
+  | "eu-central-1"
+  | "eu-central-2"
+  | "eu-north-1"
+  | "eu-south-1"
+  | "eu-south-2"
+  | "eu-west-1"
+  | "eu-west-2"
+  | "eu-west-3"
+  | "il-central-1"
+  | "me-central-1"
+  | "me-south-1"
+  | "sa-east-1"
+  | "us-east-2"
+  | "us-gov-east-1"
+  | "us-gov-west-1"
+  | "us-west-1"
+  | "us-west-2";
+export const BucketLocationConstraint = S.Literal(
+  "af-south-1",
+  "ap-east-1",
+  "ap-northeast-1",
+  "ap-northeast-2",
+  "ap-northeast-3",
+  "ap-south-1",
+  "ap-south-2",
+  "ap-southeast-1",
+  "ap-southeast-2",
+  "ap-southeast-3",
+  "ap-southeast-4",
+  "ap-southeast-5",
+  "ca-central-1",
+  "cn-north-1",
+  "cn-northwest-1",
+  "EU",
+  "eu-central-1",
+  "eu-central-2",
+  "eu-north-1",
+  "eu-south-1",
+  "eu-south-2",
+  "eu-west-1",
+  "eu-west-2",
+  "eu-west-3",
+  "il-central-1",
+  "me-central-1",
+  "me-south-1",
+  "sa-east-1",
+  "us-east-2",
+  "us-gov-east-1",
+  "us-gov-west-1",
+  "us-west-1",
+  "us-west-2",
+);
+export type BucketAbacStatus = "Enabled" | "Disabled";
+export const BucketAbacStatus = S.Literal("Enabled", "Disabled");
+export type BucketAccelerateStatus = "Enabled" | "Suspended";
+export const BucketAccelerateStatus = S.Literal("Enabled", "Suspended");
+export type IntelligentTieringStatus = "Enabled" | "Disabled";
+export const IntelligentTieringStatus = S.Literal("Enabled", "Disabled");
+export type InventoryIncludedObjectVersions = "All" | "Current";
+export const InventoryIncludedObjectVersions = S.Literal("All", "Current");
+export type InventoryOptionalField =
+  | "Size"
+  | "LastModifiedDate"
+  | "StorageClass"
+  | "ETag"
+  | "IsMultipartUploaded"
+  | "ReplicationStatus"
+  | "EncryptionStatus"
+  | "ObjectLockRetainUntilDate"
+  | "ObjectLockMode"
+  | "ObjectLockLegalHoldStatus"
+  | "IntelligentTieringAccessTier"
+  | "BucketKeyStatus"
+  | "ChecksumAlgorithm"
+  | "ObjectAccessControlList"
+  | "ObjectOwner"
+  | "LifecycleExpirationDate";
+export const InventoryOptionalField = S.Literal(
+  "Size",
+  "LastModifiedDate",
+  "StorageClass",
+  "ETag",
+  "IsMultipartUploaded",
+  "ReplicationStatus",
+  "EncryptionStatus",
+  "ObjectLockRetainUntilDate",
+  "ObjectLockMode",
+  "ObjectLockLegalHoldStatus",
+  "IntelligentTieringAccessTier",
+  "BucketKeyStatus",
+  "ChecksumAlgorithm",
+  "ObjectAccessControlList",
+  "ObjectOwner",
+  "LifecycleExpirationDate",
+);
+export type InventoryOptionalFields = InventoryOptionalField[];
 export const InventoryOptionalFields = S.Array(
-  S.String.pipe(T.XmlName("Field")),
+  InventoryOptionalField.pipe(T.XmlName("Field")),
 );
 export interface EventBridgeConfiguration {}
 export const EventBridgeConfiguration = S.suspend(() =>
@@ -6253,13 +6534,37 @@ export const EventBridgeConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "EventBridgeConfiguration",
 }) as any as S.Schema<EventBridgeConfiguration>;
+export type Payer = "Requester" | "BucketOwner";
+export const Payer = S.Literal("Requester", "BucketOwner");
+export type MFADelete = "Enabled" | "Disabled";
+export const MFADelete = S.Literal("Enabled", "Disabled");
+export type BucketVersioningStatus = "Enabled" | "Suspended";
+export const BucketVersioningStatus = S.Literal("Enabled", "Suspended");
+export type ObjectLockEnabled = "Enabled";
+export const ObjectLockEnabled = S.Literal("Enabled");
+export type ObjectLockRetentionMode = "GOVERNANCE" | "COMPLIANCE";
+export const ObjectLockRetentionMode = S.Literal("GOVERNANCE", "COMPLIANCE");
+export type RestoreRequestType = "SELECT";
+export const RestoreRequestType = S.Literal("SELECT");
+export type Tier = "Standard" | "Bulk" | "Expedited";
+export const Tier = S.Literal("Standard", "Bulk", "Expedited");
+export type CompressionType = "NONE" | "GZIP" | "BZIP2";
+export const CompressionType = S.Literal("NONE", "GZIP", "BZIP2");
 export interface ParquetInput {}
 export const ParquetInput = S.suspend(() => S.Struct({})).annotations({
   identifier: "ParquetInput",
 }) as any as S.Schema<ParquetInput>;
+export type InventoryConfigurationState = "ENABLED" | "DISABLED";
+export const InventoryConfigurationState = S.Literal("ENABLED", "DISABLED");
+export type MFADeleteStatus = "Enabled" | "Disabled";
+export const MFADeleteStatus = S.Literal("Enabled", "Disabled");
+export type LocationType = "AvailabilityZone" | "LocalZone";
+export const LocationType = S.Literal("AvailabilityZone", "LocalZone");
+export type ArchiveStatus = "ARCHIVE_ACCESS" | "DEEP_ARCHIVE_ACCESS";
+export const ArchiveStatus = S.Literal("ARCHIVE_ACCESS", "DEEP_ARCHIVE_ACCESS");
 export interface AnalyticsAndOperator {
   Prefix?: string;
-  Tags?: TagSet;
+  Tags?: Tag[];
 }
 export const AnalyticsAndOperator = S.suspend(() =>
   S.Struct({
@@ -6278,15 +6583,19 @@ export const AnalyticsFilter = S.Union(
   S.Struct({ Tag: Tag }),
   S.Struct({ And: AnalyticsAndOperator }),
 );
+export type StorageClassAnalysisSchemaVersion = "V_1";
+export const StorageClassAnalysisSchemaVersion = S.Literal("V_1");
+export type AnalyticsS3ExportFileFormat = "CSV";
+export const AnalyticsS3ExportFileFormat = S.Literal("CSV");
 export interface AnalyticsS3BucketDestination {
-  Format: string;
+  Format: AnalyticsS3ExportFileFormat;
   BucketAccountId?: string;
   Bucket: string;
   Prefix?: string;
 }
 export const AnalyticsS3BucketDestination = S.suspend(() =>
   S.Struct({
-    Format: S.String,
+    Format: AnalyticsS3ExportFileFormat,
     BucketAccountId: S.optional(S.String),
     Bucket: S.String,
     Prefix: S.optional(S.String),
@@ -6303,12 +6612,12 @@ export const AnalyticsExportDestination = S.suspend(() =>
   identifier: "AnalyticsExportDestination",
 }) as any as S.Schema<AnalyticsExportDestination>;
 export interface StorageClassAnalysisDataExport {
-  OutputSchemaVersion: string;
+  OutputSchemaVersion: StorageClassAnalysisSchemaVersion;
   Destination: AnalyticsExportDestination;
 }
 export const StorageClassAnalysisDataExport = S.suspend(() =>
   S.Struct({
-    OutputSchemaVersion: S.String,
+    OutputSchemaVersion: StorageClassAnalysisSchemaVersion,
     Destination: AnalyticsExportDestination,
   }),
 ).annotations({
@@ -6324,7 +6633,7 @@ export const StorageClassAnalysis = S.suspend(() =>
 }) as any as S.Schema<StorageClassAnalysis>;
 export interface AnalyticsConfiguration {
   Id: string;
-  Filter?: (typeof AnalyticsFilter)["Type"];
+  Filter?: AnalyticsFilter;
   StorageClassAnalysis: StorageClassAnalysis;
 }
 export const AnalyticsConfiguration = S.suspend(() =>
@@ -6340,7 +6649,7 @@ export type AnalyticsConfigurationList = AnalyticsConfiguration[];
 export const AnalyticsConfigurationList = S.Array(AnalyticsConfiguration);
 export interface IntelligentTieringAndOperator {
   Prefix?: string;
-  Tags?: TagSet;
+  Tags?: Tag[];
 }
 export const IntelligentTieringAndOperator = S.suspend(() =>
   S.Struct({
@@ -6364,26 +6673,33 @@ export const IntelligentTieringFilter = S.suspend(() =>
 ).annotations({
   identifier: "IntelligentTieringFilter",
 }) as any as S.Schema<IntelligentTieringFilter>;
+export type IntelligentTieringAccessTier =
+  | "ARCHIVE_ACCESS"
+  | "DEEP_ARCHIVE_ACCESS";
+export const IntelligentTieringAccessTier = S.Literal(
+  "ARCHIVE_ACCESS",
+  "DEEP_ARCHIVE_ACCESS",
+);
 export interface Tiering {
   Days: number;
-  AccessTier: string;
+  AccessTier: IntelligentTieringAccessTier;
 }
 export const Tiering = S.suspend(() =>
-  S.Struct({ Days: S.Number, AccessTier: S.String }),
+  S.Struct({ Days: S.Number, AccessTier: IntelligentTieringAccessTier }),
 ).annotations({ identifier: "Tiering" }) as any as S.Schema<Tiering>;
 export type TieringList = Tiering[];
 export const TieringList = S.Array(Tiering);
 export interface IntelligentTieringConfiguration {
   Id: string;
   Filter?: IntelligentTieringFilter;
-  Status: string;
-  Tierings: TieringList;
+  Status: IntelligentTieringStatus;
+  Tierings: Tiering[];
 }
 export const IntelligentTieringConfiguration = S.suspend(() =>
   S.Struct({
     Id: S.String,
     Filter: S.optional(IntelligentTieringFilter),
-    Status: S.String,
+    Status: IntelligentTieringStatus,
     Tierings: TieringList.pipe(T.XmlName("Tiering"), T.XmlFlattened()),
   }),
 ).annotations({
@@ -6394,12 +6710,14 @@ export type IntelligentTieringConfigurationList =
 export const IntelligentTieringConfigurationList = S.Array(
   IntelligentTieringConfiguration,
 );
+export type InventoryFormat = "CSV" | "ORC" | "Parquet";
+export const InventoryFormat = S.Literal("CSV", "ORC", "Parquet");
 export interface SSES3 {}
 export const SSES3 = S.suspend(() =>
   S.Struct({}).pipe(T.XmlName("SSE-S3")),
 ).annotations({ identifier: "SSES3" }) as any as S.Schema<SSES3>;
 export interface SSEKMS {
-  KeyId: string | Redacted.Redacted<string>;
+  KeyId: string | redacted.Redacted<string>;
 }
 export const SSEKMS = S.suspend(() =>
   S.Struct({ KeyId: SensitiveString }).pipe(T.XmlName("SSE-KMS")),
@@ -6423,7 +6741,7 @@ export const InventoryEncryption = S.suspend(() =>
 export interface InventoryS3BucketDestination {
   AccountId?: string;
   Bucket: string;
-  Format: string;
+  Format: InventoryFormat;
   Prefix?: string;
   Encryption?: InventoryEncryption;
 }
@@ -6431,7 +6749,7 @@ export const InventoryS3BucketDestination = S.suspend(() =>
   S.Struct({
     AccountId: S.optional(S.String),
     Bucket: S.String,
-    Format: S.String,
+    Format: InventoryFormat,
     Prefix: S.optional(S.String),
     Encryption: S.optional(InventoryEncryption),
   }),
@@ -6454,11 +6772,13 @@ export const InventoryFilter = S.suspend(() =>
 ).annotations({
   identifier: "InventoryFilter",
 }) as any as S.Schema<InventoryFilter>;
+export type InventoryFrequency = "Daily" | "Weekly";
+export const InventoryFrequency = S.Literal("Daily", "Weekly");
 export interface InventorySchedule {
-  Frequency: string;
+  Frequency: InventoryFrequency;
 }
 export const InventorySchedule = S.suspend(() =>
-  S.Struct({ Frequency: S.String }),
+  S.Struct({ Frequency: InventoryFrequency }),
 ).annotations({
   identifier: "InventorySchedule",
 }) as any as S.Schema<InventorySchedule>;
@@ -6467,8 +6787,8 @@ export interface InventoryConfiguration {
   IsEnabled: boolean;
   Filter?: InventoryFilter;
   Id: string;
-  IncludedObjectVersions: string;
-  OptionalFields?: InventoryOptionalFields;
+  IncludedObjectVersions: InventoryIncludedObjectVersions;
+  OptionalFields?: InventoryOptionalField[];
   Schedule: InventorySchedule;
 }
 export const InventoryConfiguration = S.suspend(() =>
@@ -6477,7 +6797,7 @@ export const InventoryConfiguration = S.suspend(() =>
     IsEnabled: S.Boolean,
     Filter: S.optional(InventoryFilter),
     Id: S.String,
-    IncludedObjectVersions: S.String,
+    IncludedObjectVersions: InventoryIncludedObjectVersions,
     OptionalFields: S.optional(InventoryOptionalFields),
     Schedule: InventorySchedule,
   }),
@@ -6488,7 +6808,7 @@ export type InventoryConfigurationList = InventoryConfiguration[];
 export const InventoryConfigurationList = S.Array(InventoryConfiguration);
 export interface MetricsAndOperator {
   Prefix?: string;
-  Tags?: TagSet;
+  Tags?: Tag[];
   AccessPointArn?: string;
 }
 export const MetricsAndOperator = S.suspend(() =>
@@ -6513,7 +6833,7 @@ export const MetricsFilter = S.Union(
 );
 export interface MetricsConfiguration {
   Id: string;
-  Filter?: (typeof MetricsFilter)["Type"];
+  Filter?: MetricsFilter;
 }
 export const MetricsConfiguration = S.suspend(() =>
   S.Struct({ Id: S.String, Filter: S.optional(MetricsFilter) }),
@@ -6523,54 +6843,54 @@ export const MetricsConfiguration = S.suspend(() =>
 export type MetricsConfigurationList = MetricsConfiguration[];
 export const MetricsConfigurationList = S.Array(MetricsConfiguration);
 export interface AbacStatus {
-  Status?: string;
+  Status?: BucketAbacStatus;
 }
 export const AbacStatus = S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String) }),
+  S.Struct({ Status: S.optional(BucketAbacStatus) }),
 ).annotations({ identifier: "AbacStatus" }) as any as S.Schema<AbacStatus>;
 export interface AccelerateConfiguration {
-  Status?: string;
+  Status?: BucketAccelerateStatus;
 }
 export const AccelerateConfiguration = S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String) }),
+  S.Struct({ Status: S.optional(BucketAccelerateStatus) }),
 ).annotations({
   identifier: "AccelerateConfiguration",
 }) as any as S.Schema<AccelerateConfiguration>;
 export interface RequestPaymentConfiguration {
-  Payer: string;
+  Payer: Payer;
 }
 export const RequestPaymentConfiguration = S.suspend(() =>
-  S.Struct({ Payer: S.String }),
+  S.Struct({ Payer: Payer }),
 ).annotations({
   identifier: "RequestPaymentConfiguration",
 }) as any as S.Schema<RequestPaymentConfiguration>;
 export interface VersioningConfiguration {
-  MFADelete?: string;
-  Status?: string;
+  MFADelete?: MFADelete;
+  Status?: BucketVersioningStatus;
 }
 export const VersioningConfiguration = S.suspend(() =>
   S.Struct({
-    MFADelete: S.optional(S.String).pipe(T.XmlName("MfaDelete")),
-    Status: S.optional(S.String),
+    MFADelete: S.optional(MFADelete).pipe(T.XmlName("MfaDelete")),
+    Status: S.optional(BucketVersioningStatus),
   }),
 ).annotations({
   identifier: "VersioningConfiguration",
 }) as any as S.Schema<VersioningConfiguration>;
 export interface ObjectLockLegalHold {
-  Status?: string;
+  Status?: ObjectLockLegalHoldStatus;
 }
 export const ObjectLockLegalHold = S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String) }),
+  S.Struct({ Status: S.optional(ObjectLockLegalHoldStatus) }),
 ).annotations({
   identifier: "ObjectLockLegalHold",
 }) as any as S.Schema<ObjectLockLegalHold>;
 export interface ObjectLockRetention {
-  Mode?: string;
+  Mode?: ObjectLockRetentionMode;
   RetainUntilDate?: Date;
 }
 export const ObjectLockRetention = S.suspend(() =>
   S.Struct({
-    Mode: S.optional(S.String),
+    Mode: S.optional(ObjectLockRetentionMode),
     RetainUntilDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotations({
@@ -6611,6 +6931,13 @@ export interface ScanRange {
 export const ScanRange = S.suspend(() =>
   S.Struct({ Start: S.optional(S.Number), End: S.optional(S.Number) }),
 ).annotations({ identifier: "ScanRange" }) as any as S.Schema<ScanRange>;
+export type DataRedundancy = "SingleAvailabilityZone" | "SingleLocalZone";
+export const DataRedundancy = S.Literal(
+  "SingleAvailabilityZone",
+  "SingleLocalZone",
+);
+export type BucketType = "Directory";
+export const BucketType = S.Literal("Directory");
 export type AllowedHeaders = string[];
 export const AllowedHeaders = S.Array(S.String);
 export type AllowedMethods = string[];
@@ -6619,14 +6946,87 @@ export type AllowedOrigins = string[];
 export const AllowedOrigins = S.Array(S.String);
 export type ExposeHeaders = string[];
 export const ExposeHeaders = S.Array(S.String);
-export type EventList = string[];
-export const EventList = S.Array(S.String);
+export type ExpirationStatus = "Enabled" | "Disabled";
+export const ExpirationStatus = S.Literal("Enabled", "Disabled");
+export type Event =
+  | "s3:ReducedRedundancyLostObject"
+  | "s3:ObjectCreated:*"
+  | "s3:ObjectCreated:Put"
+  | "s3:ObjectCreated:Post"
+  | "s3:ObjectCreated:Copy"
+  | "s3:ObjectCreated:CompleteMultipartUpload"
+  | "s3:ObjectRemoved:*"
+  | "s3:ObjectRemoved:Delete"
+  | "s3:ObjectRemoved:DeleteMarkerCreated"
+  | "s3:ObjectRestore:*"
+  | "s3:ObjectRestore:Post"
+  | "s3:ObjectRestore:Completed"
+  | "s3:Replication:*"
+  | "s3:Replication:OperationFailedReplication"
+  | "s3:Replication:OperationNotTracked"
+  | "s3:Replication:OperationMissedThreshold"
+  | "s3:Replication:OperationReplicatedAfterThreshold"
+  | "s3:ObjectRestore:Delete"
+  | "s3:LifecycleTransition"
+  | "s3:IntelligentTiering"
+  | "s3:ObjectAcl:Put"
+  | "s3:LifecycleExpiration:*"
+  | "s3:LifecycleExpiration:Delete"
+  | "s3:LifecycleExpiration:DeleteMarkerCreated"
+  | "s3:ObjectTagging:*"
+  | "s3:ObjectTagging:Put"
+  | "s3:ObjectTagging:Delete";
+export const Event = S.Literal(
+  "s3:ReducedRedundancyLostObject",
+  "s3:ObjectCreated:*",
+  "s3:ObjectCreated:Put",
+  "s3:ObjectCreated:Post",
+  "s3:ObjectCreated:Copy",
+  "s3:ObjectCreated:CompleteMultipartUpload",
+  "s3:ObjectRemoved:*",
+  "s3:ObjectRemoved:Delete",
+  "s3:ObjectRemoved:DeleteMarkerCreated",
+  "s3:ObjectRestore:*",
+  "s3:ObjectRestore:Post",
+  "s3:ObjectRestore:Completed",
+  "s3:Replication:*",
+  "s3:Replication:OperationFailedReplication",
+  "s3:Replication:OperationNotTracked",
+  "s3:Replication:OperationMissedThreshold",
+  "s3:Replication:OperationReplicatedAfterThreshold",
+  "s3:ObjectRestore:Delete",
+  "s3:LifecycleTransition",
+  "s3:IntelligentTiering",
+  "s3:ObjectAcl:Put",
+  "s3:LifecycleExpiration:*",
+  "s3:LifecycleExpiration:Delete",
+  "s3:LifecycleExpiration:DeleteMarkerCreated",
+  "s3:ObjectTagging:*",
+  "s3:ObjectTagging:Put",
+  "s3:ObjectTagging:Delete",
+);
+export type EventList = Event[];
+export const EventList = S.Array(Event);
+export type ReplicationRuleStatus = "Enabled" | "Disabled";
+export const ReplicationRuleStatus = S.Literal("Enabled", "Disabled");
+export type Protocol = "http" | "https";
+export const Protocol = S.Literal("http", "https");
+export type FileHeaderInfo = "USE" | "IGNORE" | "NONE";
+export const FileHeaderInfo = S.Literal("USE", "IGNORE", "NONE");
+export type JSONType = "DOCUMENT" | "LINES";
+export const JSONType = S.Literal("DOCUMENT", "LINES");
+export type QuoteFields = "ALWAYS" | "ASNEEDED";
+export const QuoteFields = S.Literal("ALWAYS", "ASNEEDED");
+export type TableSseAlgorithm = "aws:kms" | "AES256";
+export const TableSseAlgorithm = S.Literal("aws:kms", "AES256");
+export type ExpirationState = "ENABLED" | "DISABLED";
+export const ExpirationState = S.Literal("ENABLED", "DISABLED");
 export interface AbortMultipartUploadOutput {
-  RequestCharged?: string;
+  RequestCharged?: RequestCharged;
 }
 export const AbortMultipartUploadOutput = S.suspend(() =>
   S.Struct({
-    RequestCharged: S.optional(S.String).pipe(
+    RequestCharged: S.optional(RequestCharged).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
   }).pipe(ns),
@@ -6634,10 +7034,10 @@ export const AbortMultipartUploadOutput = S.suspend(() =>
   identifier: "AbortMultipartUploadOutput",
 }) as any as S.Schema<AbortMultipartUploadOutput>;
 export interface CopyObjectRequest {
-  ACL?: string;
+  ACL?: ObjectCannedACL;
   Bucket: string;
   CacheControl?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
   ContentDisposition?: string;
   ContentEncoding?: string;
   ContentLanguage?: string;
@@ -6655,35 +7055,35 @@ export interface CopyObjectRequest {
   IfMatch?: string;
   IfNoneMatch?: string;
   Key: string;
-  Metadata?: Metadata;
-  MetadataDirective?: string;
-  TaggingDirective?: string;
-  ServerSideEncryption?: string;
-  StorageClass?: string;
+  Metadata?: { [key: string]: string };
+  MetadataDirective?: MetadataDirective;
+  TaggingDirective?: TaggingDirective;
+  ServerSideEncryption?: ServerSideEncryption;
+  StorageClass?: StorageClass;
   WebsiteRedirectLocation?: string;
   SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string | Redacted.Redacted<string>;
+  SSECustomerKey?: string | redacted.Redacted<string>;
   SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string | Redacted.Redacted<string>;
-  SSEKMSEncryptionContext?: string | Redacted.Redacted<string>;
+  SSEKMSKeyId?: string | redacted.Redacted<string>;
+  SSEKMSEncryptionContext?: string | redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
   CopySourceSSECustomerAlgorithm?: string;
-  CopySourceSSECustomerKey?: string | Redacted.Redacted<string>;
+  CopySourceSSECustomerKey?: string | redacted.Redacted<string>;
   CopySourceSSECustomerKeyMD5?: string;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
   Tagging?: string;
-  ObjectLockMode?: string;
+  ObjectLockMode?: ObjectLockMode;
   ObjectLockRetainUntilDate?: Date;
-  ObjectLockLegalHoldStatus?: string;
+  ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus;
   ExpectedBucketOwner?: string;
   ExpectedSourceBucketOwner?: string;
 }
 export const CopyObjectRequest = S.suspend(() =>
   S.Struct({
-    ACL: S.optional(S.String).pipe(T.HttpHeader("x-amz-acl")),
+    ACL: S.optional(ObjectCannedACL).pipe(T.HttpHeader("x-amz-acl")),
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-checksum-algorithm"),
     ),
     ContentDisposition: S.optional(S.String).pipe(
@@ -6727,16 +7127,16 @@ export const CopyObjectRequest = S.suspend(() =>
     IfNoneMatch: S.optional(S.String).pipe(T.HttpHeader("If-None-Match")),
     Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
     Metadata: S.optional(Metadata).pipe(T.HttpPrefixHeaders("x-amz-meta-")),
-    MetadataDirective: S.optional(S.String).pipe(
+    MetadataDirective: S.optional(MetadataDirective).pipe(
       T.HttpHeader("x-amz-metadata-directive"),
     ),
-    TaggingDirective: S.optional(S.String).pipe(
+    TaggingDirective: S.optional(TaggingDirective).pipe(
       T.HttpHeader("x-amz-tagging-directive"),
     ),
-    ServerSideEncryption: S.optional(S.String).pipe(
+    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
       T.HttpHeader("x-amz-server-side-encryption"),
     ),
-    StorageClass: S.optional(S.String).pipe(
+    StorageClass: S.optional(StorageClass).pipe(
       T.HttpHeader("x-amz-storage-class"),
     ),
     WebsiteRedirectLocation: S.optional(S.String).pipe(
@@ -6771,17 +7171,17 @@ export const CopyObjectRequest = S.suspend(() =>
     CopySourceSSECustomerKeyMD5: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-copy-source-server-side-encryption-customer-key-MD5"),
     ),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
     Tagging: S.optional(S.String).pipe(T.HttpHeader("x-amz-tagging")),
-    ObjectLockMode: S.optional(S.String).pipe(
+    ObjectLockMode: S.optional(ObjectLockMode).pipe(
       T.HttpHeader("x-amz-object-lock-mode"),
     ),
     ObjectLockRetainUntilDate: S.optional(
       S.Date.pipe(T.TimestampFormat("http-date")),
     ).pipe(T.HttpHeader("x-amz-object-lock-retain-until-date")),
-    ObjectLockLegalHoldStatus: S.optional(S.String).pipe(
+    ObjectLockLegalHoldStatus: S.optional(ObjectLockLegalHoldStatus).pipe(
       T.HttpHeader("x-amz-object-lock-legal-hold"),
     ),
     ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -6811,15 +7211,15 @@ export interface CreateMultipartUploadOutput {
   Bucket?: string;
   Key?: string;
   UploadId?: string;
-  ServerSideEncryption?: string;
+  ServerSideEncryption?: ServerSideEncryption;
   SSECustomerAlgorithm?: string;
   SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string | Redacted.Redacted<string>;
-  SSEKMSEncryptionContext?: string | Redacted.Redacted<string>;
+  SSEKMSKeyId?: string | redacted.Redacted<string>;
+  SSEKMSEncryptionContext?: string | redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
-  RequestCharged?: string;
-  ChecksumAlgorithm?: string;
-  ChecksumType?: string;
+  RequestCharged?: RequestCharged;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
+  ChecksumType?: ChecksumType;
 }
 export const CreateMultipartUploadOutput = S.suspend(() =>
   S.Struct({
@@ -6830,7 +7230,7 @@ export const CreateMultipartUploadOutput = S.suspend(() =>
     Bucket: S.optional(S.String).pipe(T.XmlName("Bucket")),
     Key: S.optional(S.String),
     UploadId: S.optional(S.String),
-    ServerSideEncryption: S.optional(S.String).pipe(
+    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
       T.HttpHeader("x-amz-server-side-encryption"),
     ),
     SSECustomerAlgorithm: S.optional(S.String).pipe(
@@ -6848,13 +7248,13 @@ export const CreateMultipartUploadOutput = S.suspend(() =>
     BucketKeyEnabled: S.optional(S.Boolean).pipe(
       T.HttpHeader("x-amz-server-side-encryption-bucket-key-enabled"),
     ),
-    RequestCharged: S.optional(S.String).pipe(
+    RequestCharged: S.optional(RequestCharged).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-checksum-algorithm"),
     ),
-    ChecksumType: S.optional(S.String).pipe(
+    ChecksumType: S.optional(ChecksumType).pipe(
       T.HttpHeader("x-amz-checksum-type"),
     ),
   }).pipe(T.all(T.XmlName("InitiateMultipartUploadResult"), ns)),
@@ -6864,7 +7264,7 @@ export const CreateMultipartUploadOutput = S.suspend(() =>
 export interface DeleteObjectOutput {
   DeleteMarker?: boolean;
   VersionId?: string;
-  RequestCharged?: string;
+  RequestCharged?: RequestCharged;
 }
 export const DeleteObjectOutput = S.suspend(() =>
   S.Struct({
@@ -6872,7 +7272,7 @@ export const DeleteObjectOutput = S.suspend(() =>
       T.HttpHeader("x-amz-delete-marker"),
     ),
     VersionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-version-id")),
-    RequestCharged: S.optional(S.String).pipe(
+    RequestCharged: S.optional(RequestCharged).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
   }).pipe(ns),
@@ -6902,13 +7302,13 @@ export const GetBucketAbacOutput = S.suspend(() =>
   identifier: "GetBucketAbacOutput",
 }) as any as S.Schema<GetBucketAbacOutput>;
 export interface GetBucketAccelerateConfigurationOutput {
-  Status?: string;
-  RequestCharged?: string;
+  Status?: BucketAccelerateStatus;
+  RequestCharged?: RequestCharged;
 }
 export const GetBucketAccelerateConfigurationOutput = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
-    RequestCharged: S.optional(S.String).pipe(
+    Status: S.optional(BucketAccelerateStatus),
+    RequestCharged: S.optional(RequestCharged).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
   }).pipe(T.all(T.XmlName("AccelerateConfiguration"), ns)),
@@ -6917,7 +7317,7 @@ export const GetBucketAccelerateConfigurationOutput = S.suspend(() =>
 }) as any as S.Schema<GetBucketAccelerateConfigurationOutput>;
 export interface GetBucketAclOutput {
   Owner?: Owner;
-  Grants?: Grants;
+  Grants?: Grant[];
 }
 export const GetBucketAclOutput = S.suspend(() =>
   S.Struct({
@@ -6941,10 +7341,10 @@ export const GetBucketAnalyticsConfigurationOutput = S.suspend(() =>
 }) as any as S.Schema<GetBucketAnalyticsConfigurationOutput>;
 export interface CORSRule {
   ID?: string;
-  AllowedHeaders?: AllowedHeaders;
-  AllowedMethods: AllowedMethods;
-  AllowedOrigins: AllowedOrigins;
-  ExposeHeaders?: ExposeHeaders;
+  AllowedHeaders?: string[];
+  AllowedMethods: string[];
+  AllowedOrigins: string[];
+  ExposeHeaders?: string[];
   MaxAgeSeconds?: number;
 }
 export const CORSRule = S.suspend(() =>
@@ -6972,7 +7372,7 @@ export const CORSRule = S.suspend(() =>
 export type CORSRules = CORSRule[];
 export const CORSRules = S.Array(CORSRule);
 export interface GetBucketCorsOutput {
-  CORSRules?: CORSRules;
+  CORSRules?: CORSRule[];
 }
 export const GetBucketCorsOutput = S.suspend(() =>
   S.Struct({
@@ -6985,23 +7385,25 @@ export const GetBucketCorsOutput = S.suspend(() =>
   identifier: "GetBucketCorsOutput",
 }) as any as S.Schema<GetBucketCorsOutput>;
 export interface ServerSideEncryptionByDefault {
-  SSEAlgorithm: string;
-  KMSMasterKeyID?: string | Redacted.Redacted<string>;
+  SSEAlgorithm: ServerSideEncryption;
+  KMSMasterKeyID?: string | redacted.Redacted<string>;
 }
 export const ServerSideEncryptionByDefault = S.suspend(() =>
   S.Struct({
-    SSEAlgorithm: S.String,
+    SSEAlgorithm: ServerSideEncryption,
     KMSMasterKeyID: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ServerSideEncryptionByDefault",
 }) as any as S.Schema<ServerSideEncryptionByDefault>;
-export type EncryptionTypeList = string[];
+export type EncryptionType = "NONE" | "SSE-C";
+export const EncryptionType = S.Literal("NONE", "SSE-C");
+export type EncryptionTypeList = EncryptionType[];
 export const EncryptionTypeList = S.Array(
-  S.String.pipe(T.XmlName("EncryptionType")),
+  EncryptionType.pipe(T.XmlName("EncryptionType")),
 );
 export interface BlockedEncryptionTypes {
-  EncryptionType?: EncryptionTypeList;
+  EncryptionType?: EncryptionType[];
 }
 export const BlockedEncryptionTypes = S.suspend(() =>
   S.Struct({
@@ -7029,7 +7431,7 @@ export const ServerSideEncryptionRule = S.suspend(() =>
 export type ServerSideEncryptionRules = ServerSideEncryptionRule[];
 export const ServerSideEncryptionRules = S.Array(ServerSideEncryptionRule);
 export interface ServerSideEncryptionConfiguration {
-  Rules: ServerSideEncryptionRules;
+  Rules: ServerSideEncryptionRule[];
 }
 export const ServerSideEncryptionConfiguration = S.suspend(() =>
   S.Struct({
@@ -7092,7 +7494,7 @@ export const LifecycleExpiration = S.suspend(() =>
 }) as any as S.Schema<LifecycleExpiration>;
 export interface LifecycleRuleAndOperator {
   Prefix?: string;
-  Tags?: TagSet;
+  Tags?: Tag[];
   ObjectSizeGreaterThan?: number;
   ObjectSizeLessThan?: number;
 }
@@ -7124,29 +7526,44 @@ export const LifecycleRuleFilter = S.suspend(() =>
 ).annotations({
   identifier: "LifecycleRuleFilter",
 }) as any as S.Schema<LifecycleRuleFilter>;
+export type TransitionStorageClass =
+  | "GLACIER"
+  | "STANDARD_IA"
+  | "ONEZONE_IA"
+  | "INTELLIGENT_TIERING"
+  | "DEEP_ARCHIVE"
+  | "GLACIER_IR";
+export const TransitionStorageClass = S.Literal(
+  "GLACIER",
+  "STANDARD_IA",
+  "ONEZONE_IA",
+  "INTELLIGENT_TIERING",
+  "DEEP_ARCHIVE",
+  "GLACIER_IR",
+);
 export interface Transition {
   Date?: Date;
   Days?: number;
-  StorageClass?: string;
+  StorageClass?: TransitionStorageClass;
 }
 export const Transition = S.suspend(() =>
   S.Struct({
     Date: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     Days: S.optional(S.Number),
-    StorageClass: S.optional(S.String),
+    StorageClass: S.optional(TransitionStorageClass),
   }),
 ).annotations({ identifier: "Transition" }) as any as S.Schema<Transition>;
 export type TransitionList = Transition[];
 export const TransitionList = S.Array(Transition);
 export interface NoncurrentVersionTransition {
   NoncurrentDays?: number;
-  StorageClass?: string;
+  StorageClass?: TransitionStorageClass;
   NewerNoncurrentVersions?: number;
 }
 export const NoncurrentVersionTransition = S.suspend(() =>
   S.Struct({
     NoncurrentDays: S.optional(S.Number),
-    StorageClass: S.optional(S.String),
+    StorageClass: S.optional(TransitionStorageClass),
     NewerNoncurrentVersions: S.optional(S.Number),
   }),
 ).annotations({
@@ -7181,9 +7598,9 @@ export interface LifecycleRule {
   ID?: string;
   Prefix?: string;
   Filter?: LifecycleRuleFilter;
-  Status: string;
-  Transitions?: TransitionList;
-  NoncurrentVersionTransitions?: NoncurrentVersionTransitionList;
+  Status: ExpirationStatus;
+  Transitions?: Transition[];
+  NoncurrentVersionTransitions?: NoncurrentVersionTransition[];
   NoncurrentVersionExpiration?: NoncurrentVersionExpiration;
   AbortIncompleteMultipartUpload?: AbortIncompleteMultipartUpload;
 }
@@ -7193,7 +7610,7 @@ export const LifecycleRule = S.suspend(() =>
     ID: S.optional(S.String),
     Prefix: S.optional(S.String),
     Filter: S.optional(LifecycleRuleFilter),
-    Status: S.String,
+    Status: ExpirationStatus,
     Transitions: S.optional(TransitionList).pipe(
       T.XmlName("Transition"),
       T.XmlFlattened(),
@@ -7210,35 +7627,40 @@ export const LifecycleRule = S.suspend(() =>
 export type LifecycleRules = LifecycleRule[];
 export const LifecycleRules = S.Array(LifecycleRule);
 export interface GetBucketLifecycleConfigurationOutput {
-  Rules?: LifecycleRules;
-  TransitionDefaultMinimumObjectSize?: string;
+  Rules?: LifecycleRule[];
+  TransitionDefaultMinimumObjectSize?: TransitionDefaultMinimumObjectSize;
 }
 export const GetBucketLifecycleConfigurationOutput = S.suspend(() =>
   S.Struct({
     Rules: S.optional(LifecycleRules).pipe(T.XmlName("Rule"), T.XmlFlattened()),
-    TransitionDefaultMinimumObjectSize: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-transition-default-minimum-object-size"),
-    ),
+    TransitionDefaultMinimumObjectSize: S.optional(
+      TransitionDefaultMinimumObjectSize,
+    ).pipe(T.HttpHeader("x-amz-transition-default-minimum-object-size")),
   }).pipe(T.all(T.XmlName("LifecycleConfiguration"), ns)),
 ).annotations({
   identifier: "GetBucketLifecycleConfigurationOutput",
 }) as any as S.Schema<GetBucketLifecycleConfigurationOutput>;
 export interface GetBucketLocationOutput {
-  LocationConstraint?: string;
+  LocationConstraint?: BucketLocationConstraint;
 }
 export const GetBucketLocationOutput = S.suspend(() =>
-  S.Struct({ LocationConstraint: S.optional(S.String) }).pipe(
+  S.Struct({ LocationConstraint: S.optional(BucketLocationConstraint) }).pipe(
     T.all(T.XmlName("LocationConstraint"), ns, T.S3UnwrappedXmlOutput()),
   ),
 ).annotations({
   identifier: "GetBucketLocationOutput",
 }) as any as S.Schema<GetBucketLocationOutput>;
+export type BucketLogsPermission = "FULL_CONTROL" | "READ" | "WRITE";
+export const BucketLogsPermission = S.Literal("FULL_CONTROL", "READ", "WRITE");
 export interface TargetGrant {
   Grantee?: Grantee;
-  Permission?: string;
+  Permission?: BucketLogsPermission;
 }
 export const TargetGrant = S.suspend(() =>
-  S.Struct({ Grantee: S.optional(Grantee), Permission: S.optional(S.String) }),
+  S.Struct({
+    Grantee: S.optional(Grantee),
+    Permission: S.optional(BucketLogsPermission),
+  }),
 ).annotations({ identifier: "TargetGrant" }) as any as S.Schema<TargetGrant>;
 export type TargetGrants = TargetGrant[];
 export const TargetGrants = S.Array(
@@ -7250,11 +7672,13 @@ export interface SimplePrefix {}
 export const SimplePrefix = S.suspend(() =>
   S.Struct({}).pipe(T.XmlName("SimplePrefix")),
 ).annotations({ identifier: "SimplePrefix" }) as any as S.Schema<SimplePrefix>;
+export type PartitionDateSource = "EventTime" | "DeliveryTime";
+export const PartitionDateSource = S.Literal("EventTime", "DeliveryTime");
 export interface PartitionedPrefix {
-  PartitionDateSource?: string;
+  PartitionDateSource?: PartitionDateSource;
 }
 export const PartitionedPrefix = S.suspend(() =>
-  S.Struct({ PartitionDateSource: S.optional(S.String) }).pipe(
+  S.Struct({ PartitionDateSource: S.optional(PartitionDateSource) }).pipe(
     T.XmlName("PartitionedPrefix"),
   ),
 ).annotations({
@@ -7278,7 +7702,7 @@ export const TargetObjectKeyFormat = S.suspend(() =>
 }) as any as S.Schema<TargetObjectKeyFormat>;
 export interface LoggingEnabled {
   TargetBucket: string;
-  TargetGrants?: TargetGrants;
+  TargetGrants?: TargetGrant[];
   TargetPrefix: string;
   TargetObjectKeyFormat?: TargetObjectKeyFormat;
 }
@@ -7315,17 +7739,17 @@ export const GetBucketMetricsConfigurationOutput = S.suspend(() =>
   identifier: "GetBucketMetricsConfigurationOutput",
 }) as any as S.Schema<GetBucketMetricsConfigurationOutput>;
 export interface OwnershipControlsRule {
-  ObjectOwnership: string;
+  ObjectOwnership: ObjectOwnership;
 }
 export const OwnershipControlsRule = S.suspend(() =>
-  S.Struct({ ObjectOwnership: S.String }),
+  S.Struct({ ObjectOwnership: ObjectOwnership }),
 ).annotations({
   identifier: "OwnershipControlsRule",
 }) as any as S.Schema<OwnershipControlsRule>;
 export type OwnershipControlsRules = OwnershipControlsRule[];
 export const OwnershipControlsRules = S.Array(OwnershipControlsRule);
 export interface OwnershipControls {
-  Rules: OwnershipControlsRules;
+  Rules: OwnershipControlsRule[];
 }
 export const OwnershipControls = S.suspend(() =>
   S.Struct({
@@ -7356,7 +7780,7 @@ export const GetBucketPolicyOutput = S.suspend(() =>
 }) as any as S.Schema<GetBucketPolicyOutput>;
 export interface ReplicationRuleAndOperator {
   Prefix?: string;
-  Tags?: TagSet;
+  Tags?: Tag[];
 }
 export const ReplicationRuleAndOperator = S.suspend(() =>
   S.Struct({
@@ -7380,19 +7804,23 @@ export const ReplicationRuleFilter = S.suspend(() =>
 ).annotations({
   identifier: "ReplicationRuleFilter",
 }) as any as S.Schema<ReplicationRuleFilter>;
+export type SseKmsEncryptedObjectsStatus = "Enabled" | "Disabled";
+export const SseKmsEncryptedObjectsStatus = S.Literal("Enabled", "Disabled");
 export interface SseKmsEncryptedObjects {
-  Status: string;
+  Status: SseKmsEncryptedObjectsStatus;
 }
 export const SseKmsEncryptedObjects = S.suspend(() =>
-  S.Struct({ Status: S.String }),
+  S.Struct({ Status: SseKmsEncryptedObjectsStatus }),
 ).annotations({
   identifier: "SseKmsEncryptedObjects",
 }) as any as S.Schema<SseKmsEncryptedObjects>;
+export type ReplicaModificationsStatus = "Enabled" | "Disabled";
+export const ReplicaModificationsStatus = S.Literal("Enabled", "Disabled");
 export interface ReplicaModifications {
-  Status: string;
+  Status: ReplicaModificationsStatus;
 }
 export const ReplicaModifications = S.suspend(() =>
-  S.Struct({ Status: S.String }),
+  S.Struct({ Status: ReplicaModificationsStatus }),
 ).annotations({
   identifier: "ReplicaModifications",
 }) as any as S.Schema<ReplicaModifications>;
@@ -7408,19 +7836,23 @@ export const SourceSelectionCriteria = S.suspend(() =>
 ).annotations({
   identifier: "SourceSelectionCriteria",
 }) as any as S.Schema<SourceSelectionCriteria>;
+export type ExistingObjectReplicationStatus = "Enabled" | "Disabled";
+export const ExistingObjectReplicationStatus = S.Literal("Enabled", "Disabled");
 export interface ExistingObjectReplication {
-  Status: string;
+  Status: ExistingObjectReplicationStatus;
 }
 export const ExistingObjectReplication = S.suspend(() =>
-  S.Struct({ Status: S.String }),
+  S.Struct({ Status: ExistingObjectReplicationStatus }),
 ).annotations({
   identifier: "ExistingObjectReplication",
 }) as any as S.Schema<ExistingObjectReplication>;
+export type OwnerOverride = "Destination";
+export const OwnerOverride = S.Literal("Destination");
 export interface AccessControlTranslation {
-  Owner: string;
+  Owner: OwnerOverride;
 }
 export const AccessControlTranslation = S.suspend(() =>
-  S.Struct({ Owner: S.String }),
+  S.Struct({ Owner: OwnerOverride }),
 ).annotations({
   identifier: "AccessControlTranslation",
 }) as any as S.Schema<AccessControlTranslation>;
@@ -7432,6 +7864,8 @@ export const EncryptionConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "EncryptionConfiguration",
 }) as any as S.Schema<EncryptionConfiguration>;
+export type ReplicationTimeStatus = "Enabled" | "Disabled";
+export const ReplicationTimeStatus = S.Literal("Enabled", "Disabled");
 export interface ReplicationTimeValue {
   Minutes?: number;
 }
@@ -7441,28 +7875,30 @@ export const ReplicationTimeValue = S.suspend(() =>
   identifier: "ReplicationTimeValue",
 }) as any as S.Schema<ReplicationTimeValue>;
 export interface ReplicationTime {
-  Status: string;
+  Status: ReplicationTimeStatus;
   Time: ReplicationTimeValue;
 }
 export const ReplicationTime = S.suspend(() =>
-  S.Struct({ Status: S.String, Time: ReplicationTimeValue }),
+  S.Struct({ Status: ReplicationTimeStatus, Time: ReplicationTimeValue }),
 ).annotations({
   identifier: "ReplicationTime",
 }) as any as S.Schema<ReplicationTime>;
+export type MetricsStatus = "Enabled" | "Disabled";
+export const MetricsStatus = S.Literal("Enabled", "Disabled");
 export interface Metrics {
-  Status: string;
+  Status: MetricsStatus;
   EventThreshold?: ReplicationTimeValue;
 }
 export const Metrics = S.suspend(() =>
   S.Struct({
-    Status: S.String,
+    Status: MetricsStatus,
     EventThreshold: S.optional(ReplicationTimeValue),
   }),
 ).annotations({ identifier: "Metrics" }) as any as S.Schema<Metrics>;
 export interface Destination {
   Bucket: string;
   Account?: string;
-  StorageClass?: string;
+  StorageClass?: StorageClass;
   AccessControlTranslation?: AccessControlTranslation;
   EncryptionConfiguration?: EncryptionConfiguration;
   ReplicationTime?: ReplicationTime;
@@ -7472,18 +7908,20 @@ export const Destination = S.suspend(() =>
   S.Struct({
     Bucket: S.String,
     Account: S.optional(S.String),
-    StorageClass: S.optional(S.String),
+    StorageClass: S.optional(StorageClass),
     AccessControlTranslation: S.optional(AccessControlTranslation),
     EncryptionConfiguration: S.optional(EncryptionConfiguration),
     ReplicationTime: S.optional(ReplicationTime),
     Metrics: S.optional(Metrics),
   }),
 ).annotations({ identifier: "Destination" }) as any as S.Schema<Destination>;
+export type DeleteMarkerReplicationStatus = "Enabled" | "Disabled";
+export const DeleteMarkerReplicationStatus = S.Literal("Enabled", "Disabled");
 export interface DeleteMarkerReplication {
-  Status?: string;
+  Status?: DeleteMarkerReplicationStatus;
 }
 export const DeleteMarkerReplication = S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String) }),
+  S.Struct({ Status: S.optional(DeleteMarkerReplicationStatus) }),
 ).annotations({
   identifier: "DeleteMarkerReplication",
 }) as any as S.Schema<DeleteMarkerReplication>;
@@ -7492,7 +7930,7 @@ export interface ReplicationRule {
   Priority?: number;
   Prefix?: string;
   Filter?: ReplicationRuleFilter;
-  Status: string;
+  Status: ReplicationRuleStatus;
   SourceSelectionCriteria?: SourceSelectionCriteria;
   ExistingObjectReplication?: ExistingObjectReplication;
   Destination: Destination;
@@ -7504,7 +7942,7 @@ export const ReplicationRule = S.suspend(() =>
     Priority: S.optional(S.Number),
     Prefix: S.optional(S.String),
     Filter: S.optional(ReplicationRuleFilter),
-    Status: S.String,
+    Status: ReplicationRuleStatus,
     SourceSelectionCriteria: S.optional(SourceSelectionCriteria),
     ExistingObjectReplication: S.optional(ExistingObjectReplication),
     Destination: Destination,
@@ -7517,7 +7955,7 @@ export type ReplicationRules = ReplicationRule[];
 export const ReplicationRules = S.Array(ReplicationRule);
 export interface ReplicationConfiguration {
   Role: string;
-  Rules: ReplicationRules;
+  Rules: ReplicationRule[];
 }
 export const ReplicationConfiguration = S.suspend(() =>
   S.Struct({
@@ -7540,17 +7978,17 @@ export const GetBucketReplicationOutput = S.suspend(() =>
   identifier: "GetBucketReplicationOutput",
 }) as any as S.Schema<GetBucketReplicationOutput>;
 export interface GetBucketRequestPaymentOutput {
-  Payer?: string;
+  Payer?: Payer;
 }
 export const GetBucketRequestPaymentOutput = S.suspend(() =>
-  S.Struct({ Payer: S.optional(S.String) }).pipe(
+  S.Struct({ Payer: S.optional(Payer) }).pipe(
     T.all(T.XmlName("RequestPaymentConfiguration"), ns),
   ),
 ).annotations({
   identifier: "GetBucketRequestPaymentOutput",
 }) as any as S.Schema<GetBucketRequestPaymentOutput>;
 export interface GetBucketTaggingOutput {
-  TagSet: TagSet;
+  TagSet: Tag[];
 }
 export const GetBucketTaggingOutput = S.suspend(() =>
   S.Struct({ TagSet: TagSet }).pipe(T.all(T.XmlName("Tagging"), ns)),
@@ -7558,23 +7996,23 @@ export const GetBucketTaggingOutput = S.suspend(() =>
   identifier: "GetBucketTaggingOutput",
 }) as any as S.Schema<GetBucketTaggingOutput>;
 export interface GetBucketVersioningOutput {
-  Status?: string;
-  MFADelete?: string;
+  Status?: BucketVersioningStatus;
+  MFADelete?: MFADeleteStatus;
 }
 export const GetBucketVersioningOutput = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
-    MFADelete: S.optional(S.String).pipe(T.XmlName("MfaDelete")),
+    Status: S.optional(BucketVersioningStatus),
+    MFADelete: S.optional(MFADeleteStatus).pipe(T.XmlName("MfaDelete")),
   }).pipe(T.all(T.XmlName("VersioningConfiguration"), ns)),
 ).annotations({
   identifier: "GetBucketVersioningOutput",
 }) as any as S.Schema<GetBucketVersioningOutput>;
 export interface RedirectAllRequestsTo {
   HostName: string;
-  Protocol?: string;
+  Protocol?: Protocol;
 }
 export const RedirectAllRequestsTo = S.suspend(() =>
-  S.Struct({ HostName: S.String, Protocol: S.optional(S.String) }),
+  S.Struct({ HostName: S.String, Protocol: S.optional(Protocol) }),
 ).annotations({
   identifier: "RedirectAllRequestsTo",
 }) as any as S.Schema<RedirectAllRequestsTo>;
@@ -7607,7 +8045,7 @@ export const Condition = S.suspend(() =>
 export interface Redirect {
   HostName?: string;
   HttpRedirectCode?: string;
-  Protocol?: string;
+  Protocol?: Protocol;
   ReplaceKeyPrefixWith?: string;
   ReplaceKeyWith?: string;
 }
@@ -7615,7 +8053,7 @@ export const Redirect = S.suspend(() =>
   S.Struct({
     HostName: S.optional(S.String),
     HttpRedirectCode: S.optional(S.String),
-    Protocol: S.optional(S.String),
+    Protocol: S.optional(Protocol),
     ReplaceKeyPrefixWith: S.optional(S.String),
     ReplaceKeyWith: S.optional(S.String),
   }),
@@ -7637,7 +8075,7 @@ export interface GetBucketWebsiteOutput {
   RedirectAllRequestsTo?: RedirectAllRequestsTo;
   IndexDocument?: IndexDocument;
   ErrorDocument?: ErrorDocument;
-  RoutingRules?: RoutingRules;
+  RoutingRules?: RoutingRule[];
 }
 export const GetBucketWebsiteOutput = S.suspend(() =>
   S.Struct({
@@ -7663,7 +8101,7 @@ export interface GetObjectOutput {
   ChecksumCRC64NVME?: string;
   ChecksumSHA1?: string;
   ChecksumSHA256?: string;
-  ChecksumType?: string;
+  ChecksumType?: ChecksumType;
   MissingMeta?: number;
   VersionId?: string;
   CacheControl?: string;
@@ -7674,20 +8112,20 @@ export interface GetObjectOutput {
   ContentType?: string;
   Expires?: string;
   WebsiteRedirectLocation?: string;
-  ServerSideEncryption?: string;
-  Metadata?: Metadata;
+  ServerSideEncryption?: ServerSideEncryption;
+  Metadata?: { [key: string]: string };
   SSECustomerAlgorithm?: string;
   SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string | Redacted.Redacted<string>;
+  SSEKMSKeyId?: string | redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
-  StorageClass?: string;
-  RequestCharged?: string;
-  ReplicationStatus?: string;
+  StorageClass?: StorageClass;
+  RequestCharged?: RequestCharged;
+  ReplicationStatus?: ReplicationStatus;
   PartsCount?: number;
   TagCount?: number;
-  ObjectLockMode?: string;
+  ObjectLockMode?: ObjectLockMode;
   ObjectLockRetainUntilDate?: Date;
-  ObjectLockLegalHoldStatus?: string;
+  ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus;
 }
 export const GetObjectOutput = S.suspend(() =>
   S.Struct({
@@ -7718,7 +8156,7 @@ export const GetObjectOutput = S.suspend(() =>
     ChecksumSHA256: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-checksum-sha256"),
     ),
-    ChecksumType: S.optional(S.String).pipe(
+    ChecksumType: S.optional(ChecksumType).pipe(
       T.HttpHeader("x-amz-checksum-type"),
     ),
     MissingMeta: S.optional(S.Number).pipe(T.HttpHeader("x-amz-missing-meta")),
@@ -7739,7 +8177,7 @@ export const GetObjectOutput = S.suspend(() =>
     WebsiteRedirectLocation: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-website-redirect-location"),
     ),
-    ServerSideEncryption: S.optional(S.String).pipe(
+    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
       T.HttpHeader("x-amz-server-side-encryption"),
     ),
     Metadata: S.optional(Metadata).pipe(T.HttpPrefixHeaders("x-amz-meta-")),
@@ -7755,24 +8193,24 @@ export const GetObjectOutput = S.suspend(() =>
     BucketKeyEnabled: S.optional(S.Boolean).pipe(
       T.HttpHeader("x-amz-server-side-encryption-bucket-key-enabled"),
     ),
-    StorageClass: S.optional(S.String).pipe(
+    StorageClass: S.optional(StorageClass).pipe(
       T.HttpHeader("x-amz-storage-class"),
     ),
-    RequestCharged: S.optional(S.String).pipe(
+    RequestCharged: S.optional(RequestCharged).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
-    ReplicationStatus: S.optional(S.String).pipe(
+    ReplicationStatus: S.optional(ReplicationStatus).pipe(
       T.HttpHeader("x-amz-replication-status"),
     ),
     PartsCount: S.optional(S.Number).pipe(T.HttpHeader("x-amz-mp-parts-count")),
     TagCount: S.optional(S.Number).pipe(T.HttpHeader("x-amz-tagging-count")),
-    ObjectLockMode: S.optional(S.String).pipe(
+    ObjectLockMode: S.optional(ObjectLockMode).pipe(
       T.HttpHeader("x-amz-object-lock-mode"),
     ),
     ObjectLockRetainUntilDate: S.optional(
       S.Date.pipe(T.TimestampFormat("http-date")),
     ).pipe(T.HttpHeader("x-amz-object-lock-retain-until-date")),
-    ObjectLockLegalHoldStatus: S.optional(S.String).pipe(
+    ObjectLockLegalHoldStatus: S.optional(ObjectLockLegalHoldStatus).pipe(
       T.HttpHeader("x-amz-object-lock-legal-hold"),
     ),
   }).pipe(ns),
@@ -7781,14 +8219,14 @@ export const GetObjectOutput = S.suspend(() =>
 }) as any as S.Schema<GetObjectOutput>;
 export interface GetObjectAclOutput {
   Owner?: Owner;
-  Grants?: Grants;
-  RequestCharged?: string;
+  Grants?: Grant[];
+  RequestCharged?: RequestCharged;
 }
 export const GetObjectAclOutput = S.suspend(() =>
   S.Struct({
     Owner: S.optional(Owner),
     Grants: S.optional(Grants).pipe(T.XmlName("AccessControlList")),
-    RequestCharged: S.optional(S.String).pipe(
+    RequestCharged: S.optional(RequestCharged).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
   }).pipe(T.all(T.XmlName("AccessControlPolicy"), ns)),
@@ -7808,13 +8246,13 @@ export const GetObjectLegalHoldOutput = S.suspend(() =>
   identifier: "GetObjectLegalHoldOutput",
 }) as any as S.Schema<GetObjectLegalHoldOutput>;
 export interface DefaultRetention {
-  Mode?: string;
+  Mode?: ObjectLockRetentionMode;
   Days?: number;
   Years?: number;
 }
 export const DefaultRetention = S.suspend(() =>
   S.Struct({
-    Mode: S.optional(S.String),
+    Mode: S.optional(ObjectLockRetentionMode),
     Days: S.optional(S.Number),
     Years: S.optional(S.Number),
   }),
@@ -7830,12 +8268,12 @@ export const ObjectLockRule = S.suspend(() =>
   identifier: "ObjectLockRule",
 }) as any as S.Schema<ObjectLockRule>;
 export interface ObjectLockConfiguration {
-  ObjectLockEnabled?: string;
+  ObjectLockEnabled?: ObjectLockEnabled;
   Rule?: ObjectLockRule;
 }
 export const ObjectLockConfiguration = S.suspend(() =>
   S.Struct({
-    ObjectLockEnabled: S.optional(S.String),
+    ObjectLockEnabled: S.optional(ObjectLockEnabled),
     Rule: S.optional(ObjectLockRule),
   }),
 ).annotations({
@@ -7867,7 +8305,7 @@ export const GetObjectRetentionOutput = S.suspend(() =>
 }) as any as S.Schema<GetObjectRetentionOutput>;
 export interface GetObjectTaggingOutput {
   VersionId?: string;
-  TagSet: TagSet;
+  TagSet: Tag[];
 }
 export const GetObjectTaggingOutput = S.suspend(() =>
   S.Struct({
@@ -7879,12 +8317,12 @@ export const GetObjectTaggingOutput = S.suspend(() =>
 }) as any as S.Schema<GetObjectTaggingOutput>;
 export interface GetObjectTorrentOutput {
   Body?: T.StreamingOutputBody;
-  RequestCharged?: string;
+  RequestCharged?: RequestCharged;
 }
 export const GetObjectTorrentOutput = S.suspend(() =>
   S.Struct({
     Body: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-    RequestCharged: S.optional(S.String).pipe(
+    RequestCharged: S.optional(RequestCharged).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
   }).pipe(ns),
@@ -7905,7 +8343,7 @@ export const GetPublicAccessBlockOutput = S.suspend(() =>
 }) as any as S.Schema<GetPublicAccessBlockOutput>;
 export interface HeadBucketOutput {
   BucketArn?: string;
-  BucketLocationType?: string;
+  BucketLocationType?: LocationType;
   BucketLocationName?: string;
   BucketRegion?: string;
   AccessPointAlias?: boolean;
@@ -7913,7 +8351,7 @@ export interface HeadBucketOutput {
 export const HeadBucketOutput = S.suspend(() =>
   S.Struct({
     BucketArn: S.optional(S.String).pipe(T.HttpHeader("x-amz-bucket-arn")),
-    BucketLocationType: S.optional(S.String).pipe(
+    BucketLocationType: S.optional(LocationType).pipe(
       T.HttpHeader("x-amz-bucket-location-type"),
     ),
     BucketLocationName: S.optional(S.String).pipe(
@@ -7934,7 +8372,7 @@ export interface HeadObjectOutput {
   AcceptRanges?: string;
   Expiration?: string;
   Restore?: string;
-  ArchiveStatus?: string;
+  ArchiveStatus?: ArchiveStatus;
   LastModified?: Date;
   ContentLength?: number;
   ChecksumCRC32?: string;
@@ -7942,7 +8380,7 @@ export interface HeadObjectOutput {
   ChecksumCRC64NVME?: string;
   ChecksumSHA1?: string;
   ChecksumSHA256?: string;
-  ChecksumType?: string;
+  ChecksumType?: ChecksumType;
   ETag?: string;
   MissingMeta?: number;
   VersionId?: string;
@@ -7954,20 +8392,20 @@ export interface HeadObjectOutput {
   ContentRange?: string;
   Expires?: string;
   WebsiteRedirectLocation?: string;
-  ServerSideEncryption?: string;
-  Metadata?: Metadata;
+  ServerSideEncryption?: ServerSideEncryption;
+  Metadata?: { [key: string]: string };
   SSECustomerAlgorithm?: string;
   SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string | Redacted.Redacted<string>;
+  SSEKMSKeyId?: string | redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
-  StorageClass?: string;
-  RequestCharged?: string;
-  ReplicationStatus?: string;
+  StorageClass?: StorageClass;
+  RequestCharged?: RequestCharged;
+  ReplicationStatus?: ReplicationStatus;
   PartsCount?: number;
   TagCount?: number;
-  ObjectLockMode?: string;
+  ObjectLockMode?: ObjectLockMode;
   ObjectLockRetainUntilDate?: Date;
-  ObjectLockLegalHoldStatus?: string;
+  ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus;
 }
 export const HeadObjectOutput = S.suspend(() =>
   S.Struct({
@@ -7977,7 +8415,7 @@ export const HeadObjectOutput = S.suspend(() =>
     AcceptRanges: S.optional(S.String).pipe(T.HttpHeader("accept-ranges")),
     Expiration: S.optional(S.String).pipe(T.HttpHeader("x-amz-expiration")),
     Restore: S.optional(S.String).pipe(T.HttpHeader("x-amz-restore")),
-    ArchiveStatus: S.optional(S.String).pipe(
+    ArchiveStatus: S.optional(ArchiveStatus).pipe(
       T.HttpHeader("x-amz-archive-status"),
     ),
     LastModified: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
@@ -7999,7 +8437,7 @@ export const HeadObjectOutput = S.suspend(() =>
     ChecksumSHA256: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-checksum-sha256"),
     ),
-    ChecksumType: S.optional(S.String).pipe(
+    ChecksumType: S.optional(ChecksumType).pipe(
       T.HttpHeader("x-amz-checksum-type"),
     ),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -8021,7 +8459,7 @@ export const HeadObjectOutput = S.suspend(() =>
     WebsiteRedirectLocation: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-website-redirect-location"),
     ),
-    ServerSideEncryption: S.optional(S.String).pipe(
+    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
       T.HttpHeader("x-amz-server-side-encryption"),
     ),
     Metadata: S.optional(Metadata).pipe(T.HttpPrefixHeaders("x-amz-meta-")),
@@ -8037,24 +8475,24 @@ export const HeadObjectOutput = S.suspend(() =>
     BucketKeyEnabled: S.optional(S.Boolean).pipe(
       T.HttpHeader("x-amz-server-side-encryption-bucket-key-enabled"),
     ),
-    StorageClass: S.optional(S.String).pipe(
+    StorageClass: S.optional(StorageClass).pipe(
       T.HttpHeader("x-amz-storage-class"),
     ),
-    RequestCharged: S.optional(S.String).pipe(
+    RequestCharged: S.optional(RequestCharged).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
-    ReplicationStatus: S.optional(S.String).pipe(
+    ReplicationStatus: S.optional(ReplicationStatus).pipe(
       T.HttpHeader("x-amz-replication-status"),
     ),
     PartsCount: S.optional(S.Number).pipe(T.HttpHeader("x-amz-mp-parts-count")),
     TagCount: S.optional(S.Number).pipe(T.HttpHeader("x-amz-tagging-count")),
-    ObjectLockMode: S.optional(S.String).pipe(
+    ObjectLockMode: S.optional(ObjectLockMode).pipe(
       T.HttpHeader("x-amz-object-lock-mode"),
     ),
     ObjectLockRetainUntilDate: S.optional(
       S.Date.pipe(T.TimestampFormat("http-date")),
     ).pipe(T.HttpHeader("x-amz-object-lock-retain-until-date")),
-    ObjectLockLegalHoldStatus: S.optional(S.String).pipe(
+    ObjectLockLegalHoldStatus: S.optional(ObjectLockLegalHoldStatus).pipe(
       T.HttpHeader("x-amz-object-lock-legal-hold"),
     ),
   }).pipe(ns),
@@ -8065,7 +8503,7 @@ export interface ListBucketAnalyticsConfigurationsOutput {
   IsTruncated?: boolean;
   ContinuationToken?: string;
   NextContinuationToken?: string;
-  AnalyticsConfigurationList?: AnalyticsConfigurationList;
+  AnalyticsConfigurationList?: AnalyticsConfiguration[];
 }
 export const ListBucketAnalyticsConfigurationsOutput = S.suspend(() =>
   S.Struct({
@@ -8084,7 +8522,7 @@ export interface ListBucketIntelligentTieringConfigurationsOutput {
   IsTruncated?: boolean;
   ContinuationToken?: string;
   NextContinuationToken?: string;
-  IntelligentTieringConfigurationList?: IntelligentTieringConfigurationList;
+  IntelligentTieringConfigurationList?: IntelligentTieringConfiguration[];
 }
 export const ListBucketIntelligentTieringConfigurationsOutput = S.suspend(() =>
   S.Struct({
@@ -8100,7 +8538,7 @@ export const ListBucketIntelligentTieringConfigurationsOutput = S.suspend(() =>
 }) as any as S.Schema<ListBucketIntelligentTieringConfigurationsOutput>;
 export interface ListBucketInventoryConfigurationsOutput {
   ContinuationToken?: string;
-  InventoryConfigurationList?: InventoryConfigurationList;
+  InventoryConfigurationList?: InventoryConfiguration[];
   IsTruncated?: boolean;
   NextContinuationToken?: string;
 }
@@ -8121,7 +8559,7 @@ export interface ListBucketMetricsConfigurationsOutput {
   IsTruncated?: boolean;
   ContinuationToken?: string;
   NextContinuationToken?: string;
-  MetricsConfigurationList?: MetricsConfigurationList;
+  MetricsConfigurationList?: MetricsConfiguration[];
 }
 export const ListBucketMetricsConfigurationsOutput = S.suspend(() =>
   S.Struct({
@@ -8155,7 +8593,7 @@ export const Buckets = S.Array(
   Bucket.pipe(T.XmlName("Bucket")).annotations({ identifier: "Bucket" }),
 );
 export interface ListDirectoryBucketsOutput {
-  Buckets?: Buckets;
+  Buckets?: Bucket[];
   ContinuationToken?: string;
 }
 export const ListDirectoryBucketsOutput = S.suspend(() =>
@@ -8166,8 +8604,37 @@ export const ListDirectoryBucketsOutput = S.suspend(() =>
 ).annotations({
   identifier: "ListDirectoryBucketsOutput",
 }) as any as S.Schema<ListDirectoryBucketsOutput>;
-export type ChecksumAlgorithmList = string[];
-export const ChecksumAlgorithmList = S.Array(S.String);
+export type ChecksumAlgorithmList = ChecksumAlgorithm[];
+export const ChecksumAlgorithmList = S.Array(ChecksumAlgorithm);
+export type ObjectStorageClass =
+  | "STANDARD"
+  | "REDUCED_REDUNDANCY"
+  | "GLACIER"
+  | "STANDARD_IA"
+  | "ONEZONE_IA"
+  | "INTELLIGENT_TIERING"
+  | "DEEP_ARCHIVE"
+  | "OUTPOSTS"
+  | "GLACIER_IR"
+  | "SNOW"
+  | "EXPRESS_ONEZONE"
+  | "FSX_OPENZFS"
+  | "FSX_ONTAP";
+export const ObjectStorageClass = S.Literal(
+  "STANDARD",
+  "REDUCED_REDUNDANCY",
+  "GLACIER",
+  "STANDARD_IA",
+  "ONEZONE_IA",
+  "INTELLIGENT_TIERING",
+  "DEEP_ARCHIVE",
+  "OUTPOSTS",
+  "GLACIER_IR",
+  "SNOW",
+  "EXPRESS_ONEZONE",
+  "FSX_OPENZFS",
+  "FSX_ONTAP",
+);
 export interface RestoreStatus {
   IsRestoreInProgress?: boolean;
   RestoreExpiryDate?: Date;
@@ -8184,10 +8651,10 @@ export interface Object {
   Key?: string;
   LastModified?: Date;
   ETag?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithmList;
-  ChecksumType?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm[];
+  ChecksumType?: ChecksumType;
   Size?: number;
-  StorageClass?: string;
+  StorageClass?: ObjectStorageClass;
   Owner?: Owner;
   RestoreStatus?: RestoreStatus;
 }
@@ -8197,9 +8664,9 @@ export const Object = S.suspend(() =>
     LastModified: S.optional(S.Date),
     ETag: S.optional(S.String),
     ChecksumAlgorithm: S.optional(ChecksumAlgorithmList).pipe(T.XmlFlattened()),
-    ChecksumType: S.optional(S.String),
+    ChecksumType: S.optional(ChecksumType),
     Size: S.optional(S.Number),
-    StorageClass: S.optional(S.String),
+    StorageClass: S.optional(ObjectStorageClass),
     Owner: S.optional(Owner),
     RestoreStatus: S.optional(RestoreStatus),
   }),
@@ -8216,18 +8683,18 @@ export type CommonPrefixList = CommonPrefix[];
 export const CommonPrefixList = S.Array(CommonPrefix);
 export interface ListObjectsV2Output {
   IsTruncated?: boolean;
-  Contents?: ObjectList;
+  Contents?: Object[];
   Name?: string;
   Prefix?: string;
   Delimiter?: string;
   MaxKeys?: number;
-  CommonPrefixes?: CommonPrefixList;
-  EncodingType?: string;
+  CommonPrefixes?: CommonPrefix[];
+  EncodingType?: EncodingType;
   KeyCount?: number;
   ContinuationToken?: string;
   NextContinuationToken?: string;
   StartAfter?: string;
-  RequestCharged?: string;
+  RequestCharged?: RequestCharged;
 }
 export const ListObjectsV2Output = S.suspend(() =>
   S.Struct({
@@ -8238,12 +8705,12 @@ export const ListObjectsV2Output = S.suspend(() =>
     Delimiter: S.optional(S.String),
     MaxKeys: S.optional(S.Number),
     CommonPrefixes: S.optional(CommonPrefixList).pipe(T.XmlFlattened()),
-    EncodingType: S.optional(S.String),
+    EncodingType: S.optional(EncodingType),
     KeyCount: S.optional(S.Number),
     ContinuationToken: S.optional(S.String),
     NextContinuationToken: S.optional(S.String),
     StartAfter: S.optional(S.String),
-    RequestCharged: S.optional(S.String).pipe(
+    RequestCharged: S.optional(RequestCharged).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
   }).pipe(T.all(T.XmlName("ListBucketResult"), ns)),
@@ -8253,7 +8720,7 @@ export const ListObjectsV2Output = S.suspend(() =>
 export interface PutBucketAbacRequest {
   Bucket: string;
   ContentMD5?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
   ExpectedBucketOwner?: string;
   AbacStatus: AbacStatus;
 }
@@ -8261,7 +8728,7 @@ export const PutBucketAbacRequest = S.suspend(() =>
   S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
     ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -8298,7 +8765,7 @@ export interface PutBucketAccelerateConfigurationRequest {
   Bucket: string;
   AccelerateConfiguration: AccelerateConfiguration;
   ExpectedBucketOwner?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
 }
 export const PutBucketAccelerateConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -8310,7 +8777,7 @@ export const PutBucketAccelerateConfigurationRequest = S.suspend(() =>
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
   }).pipe(
@@ -8340,7 +8807,7 @@ export const PutBucketAccelerateConfigurationResponse = S.suspend(() =>
 export interface PutBucketRequestPaymentRequest {
   Bucket: string;
   ContentMD5?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
   RequestPaymentConfiguration: RequestPaymentConfiguration;
   ExpectedBucketOwner?: string;
 }
@@ -8348,7 +8815,7 @@ export const PutBucketRequestPaymentRequest = S.suspend(() =>
   S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
     RequestPaymentConfiguration: RequestPaymentConfiguration.pipe(
@@ -8386,7 +8853,7 @@ export const PutBucketRequestPaymentResponse = S.suspend(() =>
 export interface PutBucketTaggingRequest {
   Bucket: string;
   ContentMD5?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
   Tagging: Tagging;
   ExpectedBucketOwner?: string;
 }
@@ -8394,7 +8861,7 @@ export const PutBucketTaggingRequest = S.suspend(() =>
   S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
     Tagging: Tagging.pipe(T.HttpPayload(), T.XmlName("Tagging")).annotations({
@@ -8431,7 +8898,7 @@ export const PutBucketTaggingResponse = S.suspend(() =>
 export interface PutBucketVersioningRequest {
   Bucket: string;
   ContentMD5?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
   MFA?: string;
   VersioningConfiguration: VersioningConfiguration;
   ExpectedBucketOwner?: string;
@@ -8440,7 +8907,7 @@ export const PutBucketVersioningRequest = S.suspend(() =>
   S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
     MFA: S.optional(S.String).pipe(T.HttpHeader("x-amz-mfa")),
@@ -8484,16 +8951,16 @@ export interface PutObjectOutput {
   ChecksumCRC64NVME?: string;
   ChecksumSHA1?: string;
   ChecksumSHA256?: string;
-  ChecksumType?: string;
-  ServerSideEncryption?: string;
+  ChecksumType?: ChecksumType;
+  ServerSideEncryption?: ServerSideEncryption;
   VersionId?: string;
   SSECustomerAlgorithm?: string;
   SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string | Redacted.Redacted<string>;
-  SSEKMSEncryptionContext?: string | Redacted.Redacted<string>;
+  SSEKMSKeyId?: string | redacted.Redacted<string>;
+  SSEKMSEncryptionContext?: string | redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
   Size?: number;
-  RequestCharged?: string;
+  RequestCharged?: RequestCharged;
 }
 export const PutObjectOutput = S.suspend(() =>
   S.Struct({
@@ -8514,10 +8981,10 @@ export const PutObjectOutput = S.suspend(() =>
     ChecksumSHA256: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-checksum-sha256"),
     ),
-    ChecksumType: S.optional(S.String).pipe(
+    ChecksumType: S.optional(ChecksumType).pipe(
       T.HttpHeader("x-amz-checksum-type"),
     ),
-    ServerSideEncryption: S.optional(S.String).pipe(
+    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
       T.HttpHeader("x-amz-server-side-encryption"),
     ),
     VersionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-version-id")),
@@ -8537,7 +9004,7 @@ export const PutObjectOutput = S.suspend(() =>
       T.HttpHeader("x-amz-server-side-encryption-bucket-key-enabled"),
     ),
     Size: S.optional(S.Number).pipe(T.HttpHeader("x-amz-object-size")),
-    RequestCharged: S.optional(S.String).pipe(
+    RequestCharged: S.optional(RequestCharged).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
   }).pipe(ns),
@@ -8545,11 +9012,11 @@ export const PutObjectOutput = S.suspend(() =>
   identifier: "PutObjectOutput",
 }) as any as S.Schema<PutObjectOutput>;
 export interface PutObjectAclOutput {
-  RequestCharged?: string;
+  RequestCharged?: RequestCharged;
 }
 export const PutObjectAclOutput = S.suspend(() =>
   S.Struct({
-    RequestCharged: S.optional(S.String).pipe(
+    RequestCharged: S.optional(RequestCharged).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
   }).pipe(ns),
@@ -8560,10 +9027,10 @@ export interface PutObjectLegalHoldRequest {
   Bucket: string;
   Key: string;
   LegalHold?: ObjectLockLegalHold;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
   VersionId?: string;
   ContentMD5?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
   ExpectedBucketOwner?: string;
 }
 export const PutObjectLegalHoldRequest = S.suspend(() =>
@@ -8573,12 +9040,12 @@ export const PutObjectLegalHoldRequest = S.suspend(() =>
     LegalHold: S.optional(ObjectLockLegalHold)
       .pipe(T.HttpPayload(), T.XmlName("LegalHold"))
       .annotations({ identifier: "ObjectLockLegalHold" }),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
     VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
     ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -8606,11 +9073,11 @@ export interface PutObjectRetentionRequest {
   Bucket: string;
   Key: string;
   Retention?: ObjectLockRetention;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
   VersionId?: string;
   BypassGovernanceRetention?: boolean;
   ContentMD5?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
   ExpectedBucketOwner?: string;
 }
 export const PutObjectRetentionRequest = S.suspend(() =>
@@ -8620,7 +9087,7 @@ export const PutObjectRetentionRequest = S.suspend(() =>
     Retention: S.optional(ObjectLockRetention)
       .pipe(T.HttpPayload(), T.XmlName("Retention"))
       .annotations({ identifier: "ObjectLockRetention" }),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
     VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
@@ -8628,7 +9095,7 @@ export const PutObjectRetentionRequest = S.suspend(() =>
       T.HttpHeader("x-amz-bypass-governance-retention"),
     ),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
     ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -8665,7 +9132,7 @@ export const PutObjectTaggingOutput = S.suspend(() =>
 export interface PutPublicAccessBlockRequest {
   Bucket: string;
   ContentMD5?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
   PublicAccessBlockConfiguration: PublicAccessBlockConfiguration;
   ExpectedBucketOwner?: string;
 }
@@ -8673,7 +9140,7 @@ export const PutPublicAccessBlockRequest = S.suspend(() =>
   S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
     PublicAccessBlockConfiguration: PublicAccessBlockConfiguration.pipe(
@@ -8709,7 +9176,7 @@ export const PutPublicAccessBlockResponse = S.suspend(() =>
   identifier: "PutPublicAccessBlockResponse",
 }) as any as S.Schema<PutPublicAccessBlockResponse>;
 export interface UploadPartOutput {
-  ServerSideEncryption?: string;
+  ServerSideEncryption?: ServerSideEncryption;
   ETag?: string;
   ChecksumCRC32?: string;
   ChecksumCRC32C?: string;
@@ -8718,13 +9185,13 @@ export interface UploadPartOutput {
   ChecksumSHA256?: string;
   SSECustomerAlgorithm?: string;
   SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string | Redacted.Redacted<string>;
+  SSEKMSKeyId?: string | redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
-  RequestCharged?: string;
+  RequestCharged?: RequestCharged;
 }
 export const UploadPartOutput = S.suspend(() =>
   S.Struct({
-    ServerSideEncryption: S.optional(S.String).pipe(
+    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
       T.HttpHeader("x-amz-server-side-encryption"),
     ),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -8755,7 +9222,7 @@ export const UploadPartOutput = S.suspend(() =>
     BucketKeyEnabled: S.optional(S.Boolean).pipe(
       T.HttpHeader("x-amz-server-side-encryption-bucket-key-enabled"),
     ),
-    RequestCharged: S.optional(S.String).pipe(
+    RequestCharged: S.optional(RequestCharged).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
   }).pipe(ns),
@@ -8787,37 +9254,40 @@ export const CompletedPart = S.suspend(() =>
 export type CompletedPartList = CompletedPart[];
 export const CompletedPartList = S.Array(CompletedPart);
 export interface LocationInfo {
-  Type?: string;
+  Type?: LocationType;
   Name?: string;
 }
 export const LocationInfo = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String), Name: S.optional(S.String) }),
+  S.Struct({ Type: S.optional(LocationType), Name: S.optional(S.String) }),
 ).annotations({ identifier: "LocationInfo" }) as any as S.Schema<LocationInfo>;
 export interface BucketInfo {
-  DataRedundancy?: string;
-  Type?: string;
+  DataRedundancy?: DataRedundancy;
+  Type?: BucketType;
 }
 export const BucketInfo = S.suspend(() =>
   S.Struct({
-    DataRedundancy: S.optional(S.String),
-    Type: S.optional(S.String),
+    DataRedundancy: S.optional(DataRedundancy),
+    Type: S.optional(BucketType),
   }),
 ).annotations({ identifier: "BucketInfo" }) as any as S.Schema<BucketInfo>;
 export interface RecordExpiration {
-  Expiration: string;
+  Expiration: ExpirationState;
   Days?: number;
 }
 export const RecordExpiration = S.suspend(() =>
-  S.Struct({ Expiration: S.String, Days: S.optional(S.Number) }),
+  S.Struct({ Expiration: ExpirationState, Days: S.optional(S.Number) }),
 ).annotations({
   identifier: "RecordExpiration",
 }) as any as S.Schema<RecordExpiration>;
 export interface MetadataTableEncryptionConfiguration {
-  SseAlgorithm: string;
+  SseAlgorithm: TableSseAlgorithm;
   KmsKeyArn?: string;
 }
 export const MetadataTableEncryptionConfiguration = S.suspend(() =>
-  S.Struct({ SseAlgorithm: S.String, KmsKeyArn: S.optional(S.String) }),
+  S.Struct({
+    SseAlgorithm: TableSseAlgorithm,
+    KmsKeyArn: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "MetadataTableEncryptionConfiguration",
 }) as any as S.Schema<MetadataTableEncryptionConfiguration>;
@@ -8834,12 +9304,12 @@ export const JournalTableConfiguration = S.suspend(() =>
   identifier: "JournalTableConfiguration",
 }) as any as S.Schema<JournalTableConfiguration>;
 export interface InventoryTableConfiguration {
-  ConfigurationState: string;
+  ConfigurationState: InventoryConfigurationState;
   EncryptionConfiguration?: MetadataTableEncryptionConfiguration;
 }
 export const InventoryTableConfiguration = S.suspend(() =>
   S.Struct({
-    ConfigurationState: S.String,
+    ConfigurationState: InventoryConfigurationState,
     EncryptionConfiguration: S.optional(MetadataTableEncryptionConfiguration),
   }),
 ).annotations({
@@ -8874,17 +9344,21 @@ export const ObjectIdentifier = S.suspend(() =>
 }) as any as S.Schema<ObjectIdentifier>;
 export type ObjectIdentifierList = ObjectIdentifier[];
 export const ObjectIdentifierList = S.Array(ObjectIdentifier);
+export type ObjectVersionStorageClass = "STANDARD";
+export const ObjectVersionStorageClass = S.Literal("STANDARD");
+export type FilterRuleName = "prefix" | "suffix";
+export const FilterRuleName = S.Literal("prefix", "suffix");
 export interface FilterRule {
-  Name?: string;
+  Name?: FilterRuleName;
   Value?: string;
 }
 export const FilterRule = S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
+  S.Struct({ Name: S.optional(FilterRuleName), Value: S.optional(S.String) }),
 ).annotations({ identifier: "FilterRule" }) as any as S.Schema<FilterRule>;
 export type FilterRuleList = FilterRule[];
 export const FilterRuleList = S.Array(FilterRule);
 export interface S3KeyFilter {
-  FilterRules?: FilterRuleList;
+  FilterRules?: FilterRule[];
 }
 export const S3KeyFilter = S.suspend(() =>
   S.Struct({
@@ -8909,7 +9383,7 @@ export const NotificationConfigurationFilter = S.suspend(() =>
 export interface QueueConfiguration {
   Id?: string;
   QueueArn: string;
-  Events: EventList;
+  Events: Event[];
   Filter?: NotificationConfigurationFilter;
 }
 export const QueueConfiguration = S.suspend(() =>
@@ -8927,7 +9401,7 @@ export const QueueConfigurationList = S.Array(QueueConfiguration);
 export interface LambdaFunctionConfiguration {
   Id?: string;
   LambdaFunctionArn: string;
-  Events: EventList;
+  Events: Event[];
   Filter?: NotificationConfigurationFilter;
 }
 export const LambdaFunctionConfiguration = S.suspend(() =>
@@ -8945,15 +9419,15 @@ export const LambdaFunctionConfigurationList = S.Array(
   LambdaFunctionConfiguration,
 );
 export interface GlacierJobParameters {
-  Tier: string;
+  Tier: Tier;
 }
 export const GlacierJobParameters = S.suspend(() =>
-  S.Struct({ Tier: S.String }),
+  S.Struct({ Tier: Tier }),
 ).annotations({
   identifier: "GlacierJobParameters",
 }) as any as S.Schema<GlacierJobParameters>;
 export interface CSVInput {
-  FileHeaderInfo?: string;
+  FileHeaderInfo?: FileHeaderInfo;
   Comments?: string;
   QuoteEscapeCharacter?: string;
   RecordDelimiter?: string;
@@ -8963,7 +9437,7 @@ export interface CSVInput {
 }
 export const CSVInput = S.suspend(() =>
   S.Struct({
-    FileHeaderInfo: S.optional(S.String),
+    FileHeaderInfo: S.optional(FileHeaderInfo),
     Comments: S.optional(S.String),
     QuoteEscapeCharacter: S.optional(S.String),
     RecordDelimiter: S.optional(S.String),
@@ -8973,21 +9447,21 @@ export const CSVInput = S.suspend(() =>
   }),
 ).annotations({ identifier: "CSVInput" }) as any as S.Schema<CSVInput>;
 export interface JSONInput {
-  Type?: string;
+  Type?: JSONType;
 }
 export const JSONInput = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String) }),
+  S.Struct({ Type: S.optional(JSONType) }),
 ).annotations({ identifier: "JSONInput" }) as any as S.Schema<JSONInput>;
 export interface InputSerialization {
   CSV?: CSVInput;
-  CompressionType?: string;
+  CompressionType?: CompressionType;
   JSON?: JSONInput;
   Parquet?: ParquetInput;
 }
 export const InputSerialization = S.suspend(() =>
   S.Struct({
     CSV: S.optional(CSVInput),
-    CompressionType: S.optional(S.String),
+    CompressionType: S.optional(CompressionType),
     JSON: S.optional(JSONInput),
     Parquet: S.optional(ParquetInput),
   }),
@@ -8995,7 +9469,7 @@ export const InputSerialization = S.suspend(() =>
   identifier: "InputSerialization",
 }) as any as S.Schema<InputSerialization>;
 export interface CSVOutput {
-  QuoteFields?: string;
+  QuoteFields?: QuoteFields;
   QuoteEscapeCharacter?: string;
   RecordDelimiter?: string;
   FieldDelimiter?: string;
@@ -9003,7 +9477,7 @@ export interface CSVOutput {
 }
 export const CSVOutput = S.suspend(() =>
   S.Struct({
-    QuoteFields: S.optional(S.String),
+    QuoteFields: S.optional(QuoteFields),
     QuoteEscapeCharacter: S.optional(S.String),
     RecordDelimiter: S.optional(S.String),
     FieldDelimiter: S.optional(S.String),
@@ -9027,14 +9501,14 @@ export const OutputSerialization = S.suspend(() =>
 }) as any as S.Schema<OutputSerialization>;
 export interface SelectParameters {
   InputSerialization: InputSerialization;
-  ExpressionType: string;
+  ExpressionType: ExpressionType;
   Expression: string;
   OutputSerialization: OutputSerialization;
 }
 export const SelectParameters = S.suspend(() =>
   S.Struct({
     InputSerialization: InputSerialization,
-    ExpressionType: S.String,
+    ExpressionType: ExpressionType,
     Expression: S.String,
     OutputSerialization: OutputSerialization,
   }),
@@ -9042,7 +9516,7 @@ export const SelectParameters = S.suspend(() =>
   identifier: "SelectParameters",
 }) as any as S.Schema<SelectParameters>;
 export interface CompletedMultipartUpload {
-  Parts?: CompletedPartList;
+  Parts?: CompletedPart[];
 }
 export const CompletedMultipartUpload = S.suspend(() =>
   S.Struct({
@@ -9055,14 +9529,14 @@ export const CompletedMultipartUpload = S.suspend(() =>
   identifier: "CompletedMultipartUpload",
 }) as any as S.Schema<CompletedMultipartUpload>;
 export interface CreateBucketConfiguration {
-  LocationConstraint?: string;
+  LocationConstraint?: BucketLocationConstraint;
   Location?: LocationInfo;
   Bucket?: BucketInfo;
-  Tags?: TagSet;
+  Tags?: Tag[];
 }
 export const CreateBucketConfiguration = S.suspend(() =>
   S.Struct({
-    LocationConstraint: S.optional(S.String),
+    LocationConstraint: S.optional(BucketLocationConstraint),
     Location: S.optional(LocationInfo),
     Bucket: S.optional(BucketInfo),
     Tags: S.optional(TagSet),
@@ -9092,8 +9566,8 @@ export const MetadataTableConfiguration = S.suspend(() =>
 }) as any as S.Schema<MetadataTableConfiguration>;
 export interface SessionCredentials {
   AccessKeyId: string;
-  SecretAccessKey: string | Redacted.Redacted<string>;
-  SessionToken: string | Redacted.Redacted<string>;
+  SecretAccessKey: string | redacted.Redacted<string>;
+  SessionToken: string | redacted.Redacted<string>;
   Expiration: Date;
 }
 export const SessionCredentials = S.suspend(() =>
@@ -9107,7 +9581,7 @@ export const SessionCredentials = S.suspend(() =>
   identifier: "SessionCredentials",
 }) as any as S.Schema<SessionCredentials>;
 export interface Delete {
-  Objects: ObjectIdentifierList;
+  Objects: ObjectIdentifier[];
   Quiet?: boolean;
 }
 export const Delete = S.suspend(() =>
@@ -9128,7 +9602,7 @@ export interface Checksum {
   ChecksumCRC64NVME?: string;
   ChecksumSHA1?: string;
   ChecksumSHA256?: string;
-  ChecksumType?: string;
+  ChecksumType?: ChecksumType;
 }
 export const Checksum = S.suspend(() =>
   S.Struct({
@@ -9137,7 +9611,7 @@ export const Checksum = S.suspend(() =>
     ChecksumCRC64NVME: S.optional(S.String),
     ChecksumSHA1: S.optional(S.String),
     ChecksumSHA256: S.optional(S.String),
-    ChecksumType: S.optional(S.String),
+    ChecksumType: S.optional(ChecksumType),
   }),
 ).annotations({ identifier: "Checksum" }) as any as S.Schema<Checksum>;
 export interface Initiator {
@@ -9151,22 +9625,22 @@ export interface MultipartUpload {
   UploadId?: string;
   Key?: string;
   Initiated?: Date;
-  StorageClass?: string;
+  StorageClass?: StorageClass;
   Owner?: Owner;
   Initiator?: Initiator;
-  ChecksumAlgorithm?: string;
-  ChecksumType?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
+  ChecksumType?: ChecksumType;
 }
 export const MultipartUpload = S.suspend(() =>
   S.Struct({
     UploadId: S.optional(S.String),
     Key: S.optional(S.String),
     Initiated: S.optional(S.Date),
-    StorageClass: S.optional(S.String),
+    StorageClass: S.optional(StorageClass),
     Owner: S.optional(Owner),
     Initiator: S.optional(Initiator),
-    ChecksumAlgorithm: S.optional(S.String),
-    ChecksumType: S.optional(S.String),
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm),
+    ChecksumType: S.optional(ChecksumType),
   }),
 ).annotations({
   identifier: "MultipartUpload",
@@ -9175,10 +9649,10 @@ export type MultipartUploadList = MultipartUpload[];
 export const MultipartUploadList = S.Array(MultipartUpload);
 export interface ObjectVersion {
   ETag?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithmList;
-  ChecksumType?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm[];
+  ChecksumType?: ChecksumType;
   Size?: number;
-  StorageClass?: string;
+  StorageClass?: ObjectVersionStorageClass;
   Key?: string;
   VersionId?: string;
   IsLatest?: boolean;
@@ -9190,9 +9664,9 @@ export const ObjectVersion = S.suspend(() =>
   S.Struct({
     ETag: S.optional(S.String),
     ChecksumAlgorithm: S.optional(ChecksumAlgorithmList).pipe(T.XmlFlattened()),
-    ChecksumType: S.optional(S.String),
+    ChecksumType: S.optional(ChecksumType),
     Size: S.optional(S.Number),
-    StorageClass: S.optional(S.String),
+    StorageClass: S.optional(ObjectVersionStorageClass),
     Key: S.optional(S.String),
     VersionId: S.optional(S.String),
     IsLatest: S.optional(S.Boolean),
@@ -9252,7 +9726,7 @@ export const Part = S.suspend(() =>
 export type Parts = Part[];
 export const Parts = S.Array(Part);
 export interface CORSConfiguration {
-  CORSRules: CORSRules;
+  CORSRules: CORSRule[];
 }
 export const CORSConfiguration = S.suspend(() =>
   S.Struct({
@@ -9262,12 +9736,12 @@ export const CORSConfiguration = S.suspend(() =>
   identifier: "CORSConfiguration",
 }) as any as S.Schema<CORSConfiguration>;
 export interface InventoryTableConfigurationUpdates {
-  ConfigurationState: string;
+  ConfigurationState: InventoryConfigurationState;
   EncryptionConfiguration?: MetadataTableEncryptionConfiguration;
 }
 export const InventoryTableConfigurationUpdates = S.suspend(() =>
   S.Struct({
-    ConfigurationState: S.String,
+    ConfigurationState: InventoryConfigurationState,
     EncryptionConfiguration: S.optional(MetadataTableEncryptionConfiguration),
   }),
 ).annotations({
@@ -9313,14 +9787,14 @@ export interface CompleteMultipartUploadRequest {
   ChecksumCRC64NVME?: string;
   ChecksumSHA1?: string;
   ChecksumSHA256?: string;
-  ChecksumType?: string;
+  ChecksumType?: ChecksumType;
   MpuObjectSize?: number;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
   ExpectedBucketOwner?: string;
   IfMatch?: string;
   IfNoneMatch?: string;
   SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string | Redacted.Redacted<string>;
+  SSECustomerKey?: string | redacted.Redacted<string>;
   SSECustomerKeyMD5?: string;
 }
 export const CompleteMultipartUploadRequest = S.suspend(() =>
@@ -9346,13 +9820,13 @@ export const CompleteMultipartUploadRequest = S.suspend(() =>
     ChecksumSHA256: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-checksum-sha256"),
     ),
-    ChecksumType: S.optional(S.String).pipe(
+    ChecksumType: S.optional(ChecksumType).pipe(
       T.HttpHeader("x-amz-checksum-type"),
     ),
     MpuObjectSize: S.optional(S.Number).pipe(
       T.HttpHeader("x-amz-mp-object-size"),
     ),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
     ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -9384,7 +9858,7 @@ export const CompleteMultipartUploadRequest = S.suspend(() =>
   identifier: "CompleteMultipartUploadRequest",
 }) as any as S.Schema<CompleteMultipartUploadRequest>;
 export interface CreateBucketRequest {
-  ACL?: string;
+  ACL?: BucketCannedACL;
   Bucket: string;
   CreateBucketConfiguration?: CreateBucketConfiguration;
   GrantFullControl?: string;
@@ -9393,11 +9867,11 @@ export interface CreateBucketRequest {
   GrantWrite?: string;
   GrantWriteACP?: string;
   ObjectLockEnabledForBucket?: boolean;
-  ObjectOwnership?: string;
+  ObjectOwnership?: ObjectOwnership;
 }
 export const CreateBucketRequest = S.suspend(() =>
   S.Struct({
-    ACL: S.optional(S.String).pipe(T.HttpHeader("x-amz-acl")),
+    ACL: S.optional(BucketCannedACL).pipe(T.HttpHeader("x-amz-acl")),
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     CreateBucketConfiguration: S.optional(CreateBucketConfiguration)
       .pipe(T.HttpPayload(), T.XmlName("CreateBucketConfiguration"))
@@ -9416,7 +9890,7 @@ export const CreateBucketRequest = S.suspend(() =>
     ObjectLockEnabledForBucket: S.optional(S.Boolean).pipe(
       T.HttpHeader("x-amz-bucket-object-lock-enabled"),
     ),
-    ObjectOwnership: S.optional(S.String).pipe(
+    ObjectOwnership: S.optional(ObjectOwnership).pipe(
       T.HttpHeader("x-amz-object-ownership"),
     ),
   }).pipe(
@@ -9440,7 +9914,7 @@ export const CreateBucketRequest = S.suspend(() =>
 export interface CreateBucketMetadataConfigurationRequest {
   Bucket: string;
   ContentMD5?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
   MetadataConfiguration: MetadataConfiguration;
   ExpectedBucketOwner?: string;
 }
@@ -9448,7 +9922,7 @@ export const CreateBucketMetadataConfigurationRequest = S.suspend(() =>
   S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
     MetadataConfiguration: MetadataConfiguration.pipe(
@@ -9486,7 +9960,7 @@ export const CreateBucketMetadataConfigurationResponse = S.suspend(() =>
 export interface CreateBucketMetadataTableConfigurationRequest {
   Bucket: string;
   ContentMD5?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
   MetadataTableConfiguration: MetadataTableConfiguration;
   ExpectedBucketOwner?: string;
 }
@@ -9494,7 +9968,7 @@ export const CreateBucketMetadataTableConfigurationRequest = S.suspend(() =>
   S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
     MetadataTableConfiguration: MetadataTableConfiguration.pipe(
@@ -9530,15 +10004,15 @@ export const CreateBucketMetadataTableConfigurationResponse = S.suspend(() =>
   identifier: "CreateBucketMetadataTableConfigurationResponse",
 }) as any as S.Schema<CreateBucketMetadataTableConfigurationResponse>;
 export interface CreateSessionOutput {
-  ServerSideEncryption?: string;
-  SSEKMSKeyId?: string | Redacted.Redacted<string>;
-  SSEKMSEncryptionContext?: string | Redacted.Redacted<string>;
+  ServerSideEncryption?: ServerSideEncryption;
+  SSEKMSKeyId?: string | redacted.Redacted<string>;
+  SSEKMSEncryptionContext?: string | redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
   Credentials: SessionCredentials;
 }
 export const CreateSessionOutput = S.suspend(() =>
   S.Struct({
-    ServerSideEncryption: S.optional(S.String).pipe(
+    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
       T.HttpHeader("x-amz-server-side-encryption"),
     ),
     SSEKMSKeyId: S.optional(SensitiveString).pipe(
@@ -9561,10 +10035,10 @@ export interface DeleteObjectsRequest {
   Bucket: string;
   Delete: Delete;
   MFA?: string;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
   BypassGovernanceRetention?: boolean;
   ExpectedBucketOwner?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
 }
 export const DeleteObjectsRequest = S.suspend(() =>
   S.Struct({
@@ -9573,7 +10047,7 @@ export const DeleteObjectsRequest = S.suspend(() =>
       identifier: "Delete",
     }),
     MFA: S.optional(S.String).pipe(T.HttpHeader("x-amz-mfa")),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
     BypassGovernanceRetention: S.optional(S.Boolean).pipe(
@@ -9582,7 +10056,7 @@ export const DeleteObjectsRequest = S.suspend(() =>
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
   }).pipe(
@@ -9616,7 +10090,7 @@ export const GetBucketPolicyStatusOutput = S.suspend(() =>
   identifier: "GetBucketPolicyStatusOutput",
 }) as any as S.Schema<GetBucketPolicyStatusOutput>;
 export interface ListBucketsOutput {
-  Buckets?: Buckets;
+  Buckets?: Bucket[];
   Owner?: Owner;
   ContinuationToken?: string;
   Prefix?: string;
@@ -9641,10 +10115,10 @@ export interface ListMultipartUploadsOutput {
   NextUploadIdMarker?: string;
   MaxUploads?: number;
   IsTruncated?: boolean;
-  Uploads?: MultipartUploadList;
-  CommonPrefixes?: CommonPrefixList;
-  EncodingType?: string;
-  RequestCharged?: string;
+  Uploads?: MultipartUpload[];
+  CommonPrefixes?: CommonPrefix[];
+  EncodingType?: EncodingType;
+  RequestCharged?: RequestCharged;
 }
 export const ListMultipartUploadsOutput = S.suspend(() =>
   S.Struct({
@@ -9662,8 +10136,8 @@ export const ListMultipartUploadsOutput = S.suspend(() =>
       T.XmlFlattened(),
     ),
     CommonPrefixes: S.optional(CommonPrefixList).pipe(T.XmlFlattened()),
-    EncodingType: S.optional(S.String),
-    RequestCharged: S.optional(S.String).pipe(
+    EncodingType: S.optional(EncodingType),
+    RequestCharged: S.optional(RequestCharged).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
   }).pipe(T.all(T.XmlName("ListMultipartUploadsResult"), ns)),
@@ -9676,15 +10150,15 @@ export interface ListObjectVersionsOutput {
   VersionIdMarker?: string;
   NextKeyMarker?: string;
   NextVersionIdMarker?: string;
-  Versions?: ObjectVersionList;
-  DeleteMarkers?: DeleteMarkers;
+  Versions?: ObjectVersion[];
+  DeleteMarkers?: DeleteMarkerEntry[];
   Name?: string;
   Prefix?: string;
   Delimiter?: string;
   MaxKeys?: number;
-  CommonPrefixes?: CommonPrefixList;
-  EncodingType?: string;
-  RequestCharged?: string;
+  CommonPrefixes?: CommonPrefix[];
+  EncodingType?: EncodingType;
+  RequestCharged?: RequestCharged;
 }
 export const ListObjectVersionsOutput = S.suspend(() =>
   S.Struct({
@@ -9706,8 +10180,8 @@ export const ListObjectVersionsOutput = S.suspend(() =>
     Delimiter: S.optional(S.String),
     MaxKeys: S.optional(S.Number),
     CommonPrefixes: S.optional(CommonPrefixList).pipe(T.XmlFlattened()),
-    EncodingType: S.optional(S.String),
-    RequestCharged: S.optional(S.String).pipe(
+    EncodingType: S.optional(EncodingType),
+    RequestCharged: S.optional(RequestCharged).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
   }).pipe(T.all(T.XmlName("ListVersionsResult"), ns)),
@@ -9724,13 +10198,13 @@ export interface ListPartsOutput {
   NextPartNumberMarker?: string;
   MaxParts?: number;
   IsTruncated?: boolean;
-  Parts?: Parts;
+  Parts?: Part[];
   Initiator?: Initiator;
   Owner?: Owner;
-  StorageClass?: string;
-  RequestCharged?: string;
-  ChecksumAlgorithm?: string;
-  ChecksumType?: string;
+  StorageClass?: StorageClass;
+  RequestCharged?: RequestCharged;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
+  ChecksumType?: ChecksumType;
 }
 export const ListPartsOutput = S.suspend(() =>
   S.Struct({
@@ -9748,12 +10222,12 @@ export const ListPartsOutput = S.suspend(() =>
     Parts: S.optional(Parts).pipe(T.XmlName("Part"), T.XmlFlattened()),
     Initiator: S.optional(Initiator),
     Owner: S.optional(Owner),
-    StorageClass: S.optional(S.String),
-    RequestCharged: S.optional(S.String).pipe(
+    StorageClass: S.optional(StorageClass),
+    RequestCharged: S.optional(RequestCharged).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
-    ChecksumAlgorithm: S.optional(S.String),
-    ChecksumType: S.optional(S.String),
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm),
+    ChecksumType: S.optional(ChecksumType),
   }).pipe(T.all(T.XmlName("ListPartsResult"), ns)),
 ).annotations({
   identifier: "ListPartsOutput",
@@ -9762,7 +10236,7 @@ export interface PutBucketCorsRequest {
   Bucket: string;
   CORSConfiguration: CORSConfiguration;
   ContentMD5?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
   ExpectedBucketOwner?: string;
 }
 export const PutBucketCorsRequest = S.suspend(() =>
@@ -9773,7 +10247,7 @@ export const PutBucketCorsRequest = S.suspend(() =>
       T.XmlName("CORSConfiguration"),
     ).annotations({ identifier: "CORSConfiguration" }),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
     ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -9809,7 +10283,7 @@ export interface PutBucketOwnershipControlsRequest {
   ContentMD5?: string;
   ExpectedBucketOwner?: string;
   OwnershipControls: OwnershipControls;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
 }
 export const PutBucketOwnershipControlsRequest = S.suspend(() =>
   S.Struct({
@@ -9822,7 +10296,7 @@ export const PutBucketOwnershipControlsRequest = S.suspend(() =>
       T.HttpPayload(),
       T.XmlName("OwnershipControls"),
     ).annotations({ identifier: "OwnershipControls" }),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
   }).pipe(
@@ -9851,11 +10325,11 @@ export const PutBucketOwnershipControlsResponse = S.suspend(() =>
   identifier: "PutBucketOwnershipControlsResponse",
 }) as any as S.Schema<PutBucketOwnershipControlsResponse>;
 export interface PutObjectLegalHoldOutput {
-  RequestCharged?: string;
+  RequestCharged?: RequestCharged;
 }
 export const PutObjectLegalHoldOutput = S.suspend(() =>
   S.Struct({
-    RequestCharged: S.optional(S.String).pipe(
+    RequestCharged: S.optional(RequestCharged).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
   }).pipe(ns),
@@ -9863,11 +10337,11 @@ export const PutObjectLegalHoldOutput = S.suspend(() =>
   identifier: "PutObjectLegalHoldOutput",
 }) as any as S.Schema<PutObjectLegalHoldOutput>;
 export interface PutObjectRetentionOutput {
-  RequestCharged?: string;
+  RequestCharged?: RequestCharged;
 }
 export const PutObjectRetentionOutput = S.suspend(() =>
   S.Struct({
-    RequestCharged: S.optional(S.String).pipe(
+    RequestCharged: S.optional(RequestCharged).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
   }).pipe(ns),
@@ -9878,10 +10352,10 @@ export interface SelectObjectContentRequest {
   Bucket: string;
   Key: string;
   SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string | Redacted.Redacted<string>;
+  SSECustomerKey?: string | redacted.Redacted<string>;
   SSECustomerKeyMD5?: string;
   Expression: string;
-  ExpressionType: string;
+  ExpressionType: ExpressionType;
   RequestProgress?: RequestProgress;
   InputSerialization: InputSerialization;
   OutputSerialization: OutputSerialization;
@@ -9902,7 +10376,7 @@ export const SelectObjectContentRequest = S.suspend(() =>
       T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
     ),
     Expression: S.String,
-    ExpressionType: S.String,
+    ExpressionType: ExpressionType,
     RequestProgress: S.optional(RequestProgress),
     InputSerialization: InputSerialization,
     OutputSerialization: OutputSerialization,
@@ -9927,7 +10401,7 @@ export const SelectObjectContentRequest = S.suspend(() =>
 export interface UpdateBucketMetadataInventoryTableConfigurationRequest {
   Bucket: string;
   ContentMD5?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
   InventoryTableConfiguration: InventoryTableConfigurationUpdates;
   ExpectedBucketOwner?: string;
 }
@@ -9936,7 +10410,7 @@ export const UpdateBucketMetadataInventoryTableConfigurationRequest = S.suspend(
     S.Struct({
       Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
       ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-      ChecksumAlgorithm: S.optional(S.String).pipe(
+      ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
         T.HttpHeader("x-amz-sdk-checksum-algorithm"),
       ),
       InventoryTableConfiguration: InventoryTableConfigurationUpdates.pipe(
@@ -9973,7 +10447,7 @@ export const UpdateBucketMetadataInventoryTableConfigurationResponse =
 export interface UpdateBucketMetadataJournalTableConfigurationRequest {
   Bucket: string;
   ContentMD5?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
   JournalTableConfiguration: JournalTableConfigurationUpdates;
   ExpectedBucketOwner?: string;
 }
@@ -9982,7 +10456,7 @@ export const UpdateBucketMetadataJournalTableConfigurationRequest = S.suspend(
     S.Struct({
       Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
       ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-      ChecksumAlgorithm: S.optional(S.String).pipe(
+      ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
         T.HttpHeader("x-amz-sdk-checksum-algorithm"),
       ),
       JournalTableConfiguration: JournalTableConfigurationUpdates.pipe(
@@ -10020,12 +10494,12 @@ export const UpdateBucketMetadataJournalTableConfigurationResponse = S.suspend(
 export interface UploadPartCopyOutput {
   CopySourceVersionId?: string;
   CopyPartResult?: CopyPartResult;
-  ServerSideEncryption?: string;
+  ServerSideEncryption?: ServerSideEncryption;
   SSECustomerAlgorithm?: string;
   SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string | Redacted.Redacted<string>;
+  SSEKMSKeyId?: string | redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
-  RequestCharged?: string;
+  RequestCharged?: RequestCharged;
 }
 export const UploadPartCopyOutput = S.suspend(() =>
   S.Struct({
@@ -10035,7 +10509,7 @@ export const UploadPartCopyOutput = S.suspend(() =>
     CopyPartResult: S.optional(CopyPartResult)
       .pipe(T.HttpPayload())
       .annotations({ identifier: "CopyPartResult" }),
-    ServerSideEncryption: S.optional(S.String).pipe(
+    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
       T.HttpHeader("x-amz-server-side-encryption"),
     ),
     SSECustomerAlgorithm: S.optional(S.String).pipe(
@@ -10050,7 +10524,7 @@ export const UploadPartCopyOutput = S.suspend(() =>
     BucketKeyEnabled: S.optional(S.Boolean).pipe(
       T.HttpHeader("x-amz-server-side-encryption-bucket-key-enabled"),
     ),
-    RequestCharged: S.optional(S.String).pipe(
+    RequestCharged: S.optional(RequestCharged).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
   }).pipe(ns),
@@ -10089,14 +10563,16 @@ export const ObjectPart = S.suspend(() =>
 ).annotations({ identifier: "ObjectPart" }) as any as S.Schema<ObjectPart>;
 export type PartsList = ObjectPart[];
 export const PartsList = S.Array(ObjectPart);
+export type S3TablesBucketType = "aws" | "customer";
+export const S3TablesBucketType = S.Literal("aws", "customer");
 export interface Encryption {
-  EncryptionType: string;
-  KMSKeyId?: string | Redacted.Redacted<string>;
+  EncryptionType: ServerSideEncryption;
+  KMSKeyId?: string | redacted.Redacted<string>;
   KMSContext?: string;
 }
 export const Encryption = S.suspend(() =>
   S.Struct({
-    EncryptionType: S.String,
+    EncryptionType: ServerSideEncryption,
     KMSKeyId: S.optional(SensitiveString),
     KMSContext: S.optional(S.String),
   }),
@@ -10119,7 +10595,7 @@ export const UserMetadata = S.Array(
 export interface CopyObjectResult {
   ETag?: string;
   LastModified?: Date;
-  ChecksumType?: string;
+  ChecksumType?: ChecksumType;
   ChecksumCRC32?: string;
   ChecksumCRC32C?: string;
   ChecksumCRC64NVME?: string;
@@ -10130,7 +10606,7 @@ export const CopyObjectResult = S.suspend(() =>
   S.Struct({
     ETag: S.optional(S.String),
     LastModified: S.optional(S.Date),
-    ChecksumType: S.optional(S.String),
+    ChecksumType: S.optional(ChecksumType),
     ChecksumCRC32: S.optional(S.String),
     ChecksumCRC32C: S.optional(S.String),
     ChecksumCRC64NVME: S.optional(S.String),
@@ -10146,7 +10622,7 @@ export interface GetObjectAttributesParts {
   NextPartNumberMarker?: string;
   MaxParts?: number;
   IsTruncated?: boolean;
-  Parts?: PartsList;
+  Parts?: ObjectPart[];
 }
 export const GetObjectAttributesParts = S.suspend(() =>
   S.Struct({
@@ -10164,7 +10640,7 @@ export interface WebsiteConfiguration {
   ErrorDocument?: ErrorDocument;
   IndexDocument?: IndexDocument;
   RedirectAllRequestsTo?: RedirectAllRequestsTo;
-  RoutingRules?: RoutingRules;
+  RoutingRules?: RoutingRule[];
 }
 export const WebsiteConfiguration = S.suspend(() =>
   S.Struct({
@@ -10177,13 +10653,13 @@ export const WebsiteConfiguration = S.suspend(() =>
   identifier: "WebsiteConfiguration",
 }) as any as S.Schema<WebsiteConfiguration>;
 export interface DestinationResult {
-  TableBucketType?: string;
+  TableBucketType?: S3TablesBucketType;
   TableBucketArn?: string;
   TableNamespace?: string;
 }
 export const DestinationResult = S.suspend(() =>
   S.Struct({
-    TableBucketType: S.optional(S.String),
+    TableBucketType: S.optional(S3TablesBucketType),
     TableBucketArn: S.optional(S.String),
     TableNamespace: S.optional(S.String),
   }),
@@ -10209,7 +10685,7 @@ export const JournalTableConfigurationResult = S.suspend(() =>
   identifier: "JournalTableConfigurationResult",
 }) as any as S.Schema<JournalTableConfigurationResult>;
 export interface InventoryTableConfigurationResult {
-  ConfigurationState: string;
+  ConfigurationState: InventoryConfigurationState;
   TableStatus?: string;
   Error?: ErrorDetails;
   TableName?: string;
@@ -10217,7 +10693,7 @@ export interface InventoryTableConfigurationResult {
 }
 export const InventoryTableConfigurationResult = S.suspend(() =>
   S.Struct({
-    ConfigurationState: S.String,
+    ConfigurationState: InventoryConfigurationState,
     TableStatus: S.optional(S.String),
     Error: S.optional(ErrorDetails),
     TableName: S.optional(S.String),
@@ -10246,22 +10722,22 @@ export interface S3Location {
   BucketName: string;
   Prefix: string;
   Encryption?: Encryption;
-  CannedACL?: string;
-  AccessControlList?: Grants;
+  CannedACL?: ObjectCannedACL;
+  AccessControlList?: Grant[];
   Tagging?: Tagging;
-  UserMetadata?: UserMetadata;
-  StorageClass?: string;
+  UserMetadata?: MetadataEntry[];
+  StorageClass?: StorageClass;
 }
 export const S3Location = S.suspend(() =>
   S.Struct({
     BucketName: S.String,
     Prefix: S.String,
     Encryption: S.optional(Encryption),
-    CannedACL: S.optional(S.String),
+    CannedACL: S.optional(ObjectCannedACL),
     AccessControlList: S.optional(Grants),
     Tagging: S.optional(Tagging),
     UserMetadata: S.optional(UserMetadata),
-    StorageClass: S.optional(S.String),
+    StorageClass: S.optional(StorageClass),
   }),
 ).annotations({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
 export interface CompleteMultipartUploadOutput {
@@ -10275,12 +10751,12 @@ export interface CompleteMultipartUploadOutput {
   ChecksumCRC64NVME?: string;
   ChecksumSHA1?: string;
   ChecksumSHA256?: string;
-  ChecksumType?: string;
-  ServerSideEncryption?: string;
+  ChecksumType?: ChecksumType;
+  ServerSideEncryption?: ServerSideEncryption;
   VersionId?: string;
-  SSEKMSKeyId?: string | Redacted.Redacted<string>;
+  SSEKMSKeyId?: string | redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
-  RequestCharged?: string;
+  RequestCharged?: RequestCharged;
 }
 export const CompleteMultipartUploadOutput = S.suspend(() =>
   S.Struct({
@@ -10294,8 +10770,8 @@ export const CompleteMultipartUploadOutput = S.suspend(() =>
     ChecksumCRC64NVME: S.optional(S.String),
     ChecksumSHA1: S.optional(S.String),
     ChecksumSHA256: S.optional(S.String),
-    ChecksumType: S.optional(S.String),
-    ServerSideEncryption: S.optional(S.String).pipe(
+    ChecksumType: S.optional(ChecksumType),
+    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
       T.HttpHeader("x-amz-server-side-encryption"),
     ),
     VersionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-version-id")),
@@ -10305,7 +10781,7 @@ export const CompleteMultipartUploadOutput = S.suspend(() =>
     BucketKeyEnabled: S.optional(S.Boolean).pipe(
       T.HttpHeader("x-amz-server-side-encryption-bucket-key-enabled"),
     ),
-    RequestCharged: S.optional(S.String).pipe(
+    RequestCharged: S.optional(RequestCharged).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
   }).pipe(T.all(T.XmlName("CompleteMultipartUploadResult"), ns)),
@@ -10317,13 +10793,13 @@ export interface CopyObjectOutput {
   Expiration?: string;
   CopySourceVersionId?: string;
   VersionId?: string;
-  ServerSideEncryption?: string;
+  ServerSideEncryption?: ServerSideEncryption;
   SSECustomerAlgorithm?: string;
   SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string | Redacted.Redacted<string>;
-  SSEKMSEncryptionContext?: string | Redacted.Redacted<string>;
+  SSEKMSKeyId?: string | redacted.Redacted<string>;
+  SSEKMSEncryptionContext?: string | redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
-  RequestCharged?: string;
+  RequestCharged?: RequestCharged;
 }
 export const CopyObjectOutput = S.suspend(() =>
   S.Struct({
@@ -10335,7 +10811,7 @@ export const CopyObjectOutput = S.suspend(() =>
       T.HttpHeader("x-amz-copy-source-version-id"),
     ),
     VersionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-version-id")),
-    ServerSideEncryption: S.optional(S.String).pipe(
+    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
       T.HttpHeader("x-amz-server-side-encryption"),
     ),
     SSECustomerAlgorithm: S.optional(S.String).pipe(
@@ -10353,7 +10829,7 @@ export const CopyObjectOutput = S.suspend(() =>
     BucketKeyEnabled: S.optional(S.Boolean).pipe(
       T.HttpHeader("x-amz-server-side-encryption-bucket-key-enabled"),
     ),
-    RequestCharged: S.optional(S.String).pipe(
+    RequestCharged: S.optional(RequestCharged).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
   }).pipe(ns),
@@ -10376,11 +10852,11 @@ export interface GetObjectAttributesOutput {
   DeleteMarker?: boolean;
   LastModified?: Date;
   VersionId?: string;
-  RequestCharged?: string;
+  RequestCharged?: RequestCharged;
   ETag?: string;
   Checksum?: Checksum;
   ObjectParts?: GetObjectAttributesParts;
-  StorageClass?: string;
+  StorageClass?: StorageClass;
   ObjectSize?: number;
 }
 export const GetObjectAttributesOutput = S.suspend(() =>
@@ -10392,13 +10868,13 @@ export const GetObjectAttributesOutput = S.suspend(() =>
       T.HttpHeader("Last-Modified"),
     ),
     VersionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-version-id")),
-    RequestCharged: S.optional(S.String).pipe(
+    RequestCharged: S.optional(RequestCharged).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
     ETag: S.optional(S.String),
     Checksum: S.optional(Checksum),
     ObjectParts: S.optional(GetObjectAttributesParts),
-    StorageClass: S.optional(S.String),
+    StorageClass: S.optional(StorageClass),
     ObjectSize: S.optional(S.Number),
   }).pipe(T.all(T.XmlName("GetObjectAttributesResponse"), ns)),
 ).annotations({
@@ -10408,14 +10884,14 @@ export interface ListObjectsOutput {
   IsTruncated?: boolean;
   Marker?: string;
   NextMarker?: string;
-  Contents?: ObjectList;
+  Contents?: Object[];
   Name?: string;
   Prefix?: string;
   Delimiter?: string;
   MaxKeys?: number;
-  CommonPrefixes?: CommonPrefixList;
-  EncodingType?: string;
-  RequestCharged?: string;
+  CommonPrefixes?: CommonPrefix[];
+  EncodingType?: EncodingType;
+  RequestCharged?: RequestCharged;
 }
 export const ListObjectsOutput = S.suspend(() =>
   S.Struct({
@@ -10428,8 +10904,8 @@ export const ListObjectsOutput = S.suspend(() =>
     Delimiter: S.optional(S.String),
     MaxKeys: S.optional(S.Number),
     CommonPrefixes: S.optional(CommonPrefixList).pipe(T.XmlFlattened()),
-    EncodingType: S.optional(S.String),
-    RequestCharged: S.optional(S.String).pipe(
+    EncodingType: S.optional(EncodingType),
+    RequestCharged: S.optional(RequestCharged).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
   }).pipe(T.all(T.XmlName("ListBucketResult"), ns)),
@@ -10437,11 +10913,11 @@ export const ListObjectsOutput = S.suspend(() =>
   identifier: "ListObjectsOutput",
 }) as any as S.Schema<ListObjectsOutput>;
 export interface PutBucketAclRequest {
-  ACL?: string;
+  ACL?: BucketCannedACL;
   AccessControlPolicy?: AccessControlPolicy;
   Bucket: string;
   ContentMD5?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
   GrantFullControl?: string;
   GrantRead?: string;
   GrantReadACP?: string;
@@ -10451,13 +10927,13 @@ export interface PutBucketAclRequest {
 }
 export const PutBucketAclRequest = S.suspend(() =>
   S.Struct({
-    ACL: S.optional(S.String).pipe(T.HttpHeader("x-amz-acl")),
+    ACL: S.optional(BucketCannedACL).pipe(T.HttpHeader("x-amz-acl")),
     AccessControlPolicy: S.optional(AccessControlPolicy)
       .pipe(T.HttpPayload(), T.XmlName("AccessControlPolicy"))
       .annotations({ identifier: "AccessControlPolicy" }),
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
     GrantFullControl: S.optional(S.String).pipe(
@@ -10502,7 +10978,7 @@ export const PutBucketAclResponse = S.suspend(() =>
 export interface PutBucketEncryptionRequest {
   Bucket: string;
   ContentMD5?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
   ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration;
   ExpectedBucketOwner?: string;
 }
@@ -10510,7 +10986,7 @@ export const PutBucketEncryptionRequest = S.suspend(() =>
   S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
     ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration.pipe(
@@ -10624,7 +11100,7 @@ export const PutBucketMetricsConfigurationResponse = S.suspend(() =>
 export interface PutBucketWebsiteRequest {
   Bucket: string;
   ContentMD5?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
   WebsiteConfiguration: WebsiteConfiguration;
   ExpectedBucketOwner?: string;
 }
@@ -10632,7 +11108,7 @@ export const PutBucketWebsiteRequest = S.suspend(() =>
   S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
     WebsiteConfiguration: WebsiteConfiguration.pipe(
@@ -10670,10 +11146,10 @@ export const PutBucketWebsiteResponse = S.suspend(() =>
 export interface PutObjectLockConfigurationRequest {
   Bucket: string;
   ObjectLockConfiguration?: ObjectLockConfiguration;
-  RequestPayer?: string;
+  RequestPayer?: RequestPayer;
   Token?: string;
   ContentMD5?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
   ExpectedBucketOwner?: string;
 }
 export const PutObjectLockConfigurationRequest = S.suspend(() =>
@@ -10682,14 +11158,14 @@ export const PutObjectLockConfigurationRequest = S.suspend(() =>
     ObjectLockConfiguration: S.optional(ObjectLockConfiguration)
       .pipe(T.HttpPayload(), T.XmlName("ObjectLockConfiguration"))
       .annotations({ identifier: "ObjectLockConfiguration" }),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
     Token: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-bucket-object-lock-token"),
     ),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
     ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -10812,7 +11288,7 @@ export const GetBucketMetadataTableConfigurationResult = S.suspend(() =>
   identifier: "GetBucketMetadataTableConfigurationResult",
 }) as any as S.Schema<GetBucketMetadataTableConfigurationResult>;
 export interface BucketLifecycleConfiguration {
-  Rules: LifecycleRules;
+  Rules: LifecycleRule[];
 }
 export const BucketLifecycleConfiguration = S.suspend(() =>
   S.Struct({ Rules: LifecycleRules.pipe(T.XmlName("Rule"), T.XmlFlattened()) }),
@@ -10830,8 +11306,8 @@ export const BucketLoggingStatus = S.suspend(() =>
 export interface RestoreRequest {
   Days?: number;
   GlacierJobParameters?: GlacierJobParameters;
-  Type?: string;
-  Tier?: string;
+  Type?: RestoreRequestType;
+  Tier?: Tier;
   Description?: string;
   SelectParameters?: SelectParameters;
   OutputLocation?: OutputLocation;
@@ -10840,8 +11316,8 @@ export const RestoreRequest = S.suspend(() =>
   S.Struct({
     Days: S.optional(S.Number),
     GlacierJobParameters: S.optional(GlacierJobParameters),
-    Type: S.optional(S.String),
-    Tier: S.optional(S.String),
+    Type: S.optional(RestoreRequestType),
+    Tier: S.optional(Tier),
     Description: S.optional(S.String),
     SelectParameters: S.optional(SelectParameters),
     OutputLocation: S.optional(OutputLocation),
@@ -10850,14 +11326,14 @@ export const RestoreRequest = S.suspend(() =>
   identifier: "RestoreRequest",
 }) as any as S.Schema<RestoreRequest>;
 export interface DeleteObjectsOutput {
-  Deleted?: DeletedObjects;
-  RequestCharged?: string;
-  Errors?: Errors;
+  Deleted?: DeletedObject[];
+  RequestCharged?: RequestCharged;
+  Errors?: Error[];
 }
 export const DeleteObjectsOutput = S.suspend(() =>
   S.Struct({
     Deleted: S.optional(DeletedObjects).pipe(T.XmlFlattened()),
-    RequestCharged: S.optional(S.String).pipe(
+    RequestCharged: S.optional(RequestCharged).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
     Errors: S.optional(Errors).pipe(T.XmlName("Error"), T.XmlFlattened()),
@@ -10895,15 +11371,15 @@ export const GetBucketMetadataTableConfigurationOutput = S.suspend(() =>
 }) as any as S.Schema<GetBucketMetadataTableConfigurationOutput>;
 export interface PutBucketLifecycleConfigurationRequest {
   Bucket: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
   LifecycleConfiguration?: BucketLifecycleConfiguration;
   ExpectedBucketOwner?: string;
-  TransitionDefaultMinimumObjectSize?: string;
+  TransitionDefaultMinimumObjectSize?: TransitionDefaultMinimumObjectSize;
 }
 export const PutBucketLifecycleConfigurationRequest = S.suspend(() =>
   S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
     LifecycleConfiguration: S.optional(BucketLifecycleConfiguration)
@@ -10912,9 +11388,9 @@ export const PutBucketLifecycleConfigurationRequest = S.suspend(() =>
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-    TransitionDefaultMinimumObjectSize: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-transition-default-minimum-object-size"),
-    ),
+    TransitionDefaultMinimumObjectSize: S.optional(
+      TransitionDefaultMinimumObjectSize,
+    ).pipe(T.HttpHeader("x-amz-transition-default-minimum-object-size")),
   }).pipe(
     T.all(
       ns,
@@ -10938,7 +11414,7 @@ export interface PutBucketLoggingRequest {
   Bucket: string;
   BucketLoggingStatus: BucketLoggingStatus;
   ContentMD5?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
   ExpectedBucketOwner?: string;
 }
 export const PutBucketLoggingRequest = S.suspend(() =>
@@ -10949,7 +11425,7 @@ export const PutBucketLoggingRequest = S.suspend(() =>
       T.XmlName("BucketLoggingStatus"),
     ).annotations({ identifier: "BucketLoggingStatus" }),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
     ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -10981,11 +11457,11 @@ export const PutBucketLoggingResponse = S.suspend(() =>
   identifier: "PutBucketLoggingResponse",
 }) as any as S.Schema<PutBucketLoggingResponse>;
 export interface PutObjectLockConfigurationOutput {
-  RequestCharged?: string;
+  RequestCharged?: RequestCharged;
 }
 export const PutObjectLockConfigurationOutput = S.suspend(() =>
   S.Struct({
-    RequestCharged: S.optional(S.String).pipe(
+    RequestCharged: S.optional(RequestCharged).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
   }).pipe(ns),
@@ -10997,8 +11473,8 @@ export interface RestoreObjectRequest {
   Key: string;
   VersionId?: string;
   RestoreRequest?: RestoreRequest;
-  RequestPayer?: string;
-  ChecksumAlgorithm?: string;
+  RequestPayer?: RequestPayer;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
   ExpectedBucketOwner?: string;
 }
 export const RestoreObjectRequest = S.suspend(() =>
@@ -11009,10 +11485,10 @@ export const RestoreObjectRequest = S.suspend(() =>
     RestoreRequest: S.optional(RestoreRequest)
       .pipe(T.HttpPayload(), T.XmlName("RestoreRequest"))
       .annotations({ identifier: "RestoreRequest" }),
-    RequestPayer: S.optional(S.String).pipe(
+    RequestPayer: S.optional(RequestPayer).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
     ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -11038,7 +11514,7 @@ export const RestoreObjectRequest = S.suspend(() =>
 export interface TopicConfiguration {
   Id?: string;
   TopicArn: string;
-  Events: EventList;
+  Events: Event[];
   Filter?: NotificationConfigurationFilter;
 }
 export const TopicConfiguration = S.suspend(() =>
@@ -11060,9 +11536,9 @@ export const RecordsEvent = S.suspend(() =>
   S.Struct({ Payload: S.optional(T.Blob).pipe(T.EventPayload()) }),
 ).annotations({ identifier: "RecordsEvent" }) as any as S.Schema<RecordsEvent>;
 export interface NotificationConfiguration {
-  TopicConfigurations?: TopicConfigurationList;
-  QueueConfigurations?: QueueConfigurationList;
-  LambdaFunctionConfigurations?: LambdaFunctionConfigurationList;
+  TopicConfigurations?: TopicConfiguration[];
+  QueueConfigurations?: QueueConfiguration[];
+  LambdaFunctionConfigurations?: LambdaFunctionConfiguration[];
   EventBridgeConfiguration?: EventBridgeConfiguration;
 }
 export const NotificationConfiguration = S.suspend(() =>
@@ -11184,13 +11660,13 @@ export const PutBucketInventoryConfigurationResponse = S.suspend(() =>
   identifier: "PutBucketInventoryConfigurationResponse",
 }) as any as S.Schema<PutBucketInventoryConfigurationResponse>;
 export interface PutBucketLifecycleConfigurationOutput {
-  TransitionDefaultMinimumObjectSize?: string;
+  TransitionDefaultMinimumObjectSize?: TransitionDefaultMinimumObjectSize;
 }
 export const PutBucketLifecycleConfigurationOutput = S.suspend(() =>
   S.Struct({
-    TransitionDefaultMinimumObjectSize: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-transition-default-minimum-object-size"),
-    ),
+    TransitionDefaultMinimumObjectSize: S.optional(
+      TransitionDefaultMinimumObjectSize,
+    ).pipe(T.HttpHeader("x-amz-transition-default-minimum-object-size")),
   }).pipe(ns),
 ).annotations({
   identifier: "PutBucketLifecycleConfigurationOutput",
@@ -11238,7 +11714,7 @@ export const PutBucketNotificationConfigurationResponse = S.suspend(() =>
 export interface PutBucketReplicationRequest {
   Bucket: string;
   ContentMD5?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
   ReplicationConfiguration: ReplicationConfiguration;
   Token?: string;
   ExpectedBucketOwner?: string;
@@ -11247,7 +11723,7 @@ export const PutBucketReplicationRequest = S.suspend(() =>
   S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
     ReplicationConfiguration: ReplicationConfiguration.pipe(
@@ -11286,12 +11762,12 @@ export const PutBucketReplicationResponse = S.suspend(() =>
   identifier: "PutBucketReplicationResponse",
 }) as any as S.Schema<PutBucketReplicationResponse>;
 export interface RestoreObjectOutput {
-  RequestCharged?: string;
+  RequestCharged?: RequestCharged;
   RestoreOutputPath?: string;
 }
 export const RestoreObjectOutput = S.suspend(() =>
   S.Struct({
-    RequestCharged: S.optional(S.String).pipe(
+    RequestCharged: S.optional(RequestCharged).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
     RestoreOutputPath: S.optional(S.String).pipe(
@@ -11323,6 +11799,12 @@ export const ProgressEvent = S.suspend(() =>
 ).annotations({
   identifier: "ProgressEvent",
 }) as any as S.Schema<ProgressEvent>;
+export type SelectObjectContentEventStream =
+  | { Records: RecordsEvent }
+  | { Stats: StatsEvent }
+  | { Progress: ProgressEvent }
+  | { Cont: ContinuationEvent }
+  | { End: EndEvent };
 export const SelectObjectContentEventStream = T.EventStream(
   S.Union(
     S.Struct({ Records: RecordsEvent }),
@@ -11331,9 +11813,11 @@ export const SelectObjectContentEventStream = T.EventStream(
     S.Struct({ Cont: ContinuationEvent }),
     S.Struct({ End: EndEvent }),
   ),
-);
+) as any as S.Schema<
+  stream.Stream<SelectObjectContentEventStream, Error, never>
+>;
 export interface SelectObjectContentOutput {
-  Payload?: (typeof SelectObjectContentEventStream)["Type"];
+  Payload?: stream.Stream<SelectObjectContentEventStream, Error, never>;
 }
 export const SelectObjectContentOutput = S.suspend(() =>
   S.Struct({
@@ -11421,7 +11905,10 @@ export class TooManyParts extends S.TaggedError<TooManyParts>()(
 ).pipe(C.withBadRequestError) {}
 export class InvalidObjectState extends S.TaggedError<InvalidObjectState>()(
   "InvalidObjectState",
-  { StorageClass: S.optional(S.String), AccessTier: S.optional(S.String) },
+  {
+    StorageClass: S.optional(StorageClass),
+    AccessTier: S.optional(IntelligentTieringAccessTier),
+  },
 ).pipe(C.withAuthError) {}
 export class MalformedXML extends S.TaggedError<MalformedXML>()(
   "MalformedXML",
@@ -11502,7 +11989,7 @@ export class ObjectAlreadyInActiveTierError extends S.TaggedError<ObjectAlreadyI
  */
 export const deleteBucket: (
   input: DeleteBucketRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBucketResponse,
   BucketNotEmpty | NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -11537,7 +12024,7 @@ export const deleteBucket: (
  */
 export const deleteBucketAnalyticsConfiguration: (
   input: DeleteBucketAnalyticsConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBucketAnalyticsConfigurationResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -11567,7 +12054,7 @@ export const deleteBucketAnalyticsConfiguration: (
  */
 export const deleteBucketCors: (
   input: DeleteBucketCorsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBucketCorsResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -11616,7 +12103,7 @@ export const deleteBucketCors: (
  */
 export const deleteBucketEncryption: (
   input: DeleteBucketEncryptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBucketEncryptionResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -11648,7 +12135,7 @@ export const deleteBucketEncryption: (
  */
 export const deleteBucketIntelligentTieringConfiguration: (
   input: DeleteBucketIntelligentTieringConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBucketIntelligentTieringConfigurationResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -11681,7 +12168,7 @@ export const deleteBucketIntelligentTieringConfiguration: (
  */
 export const deleteBucketInventoryConfiguration: (
   input: DeleteBucketInventoryConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBucketInventoryConfigurationResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -11741,7 +12228,7 @@ export const deleteBucketInventoryConfiguration: (
  */
 export const deleteBucketLifecycle: (
   input: DeleteBucketLifecycleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBucketLifecycleResponse,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -11783,7 +12270,7 @@ export const deleteBucketLifecycle: (
  */
 export const deleteBucketMetadataConfiguration: (
   input: DeleteBucketMetadataConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBucketMetadataConfigurationResponse,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -11831,7 +12318,7 @@ export const deleteBucketMetadataConfiguration: (
  */
 export const deleteBucketMetadataTableConfiguration: (
   input: DeleteBucketMetadataTableConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBucketMetadataTableConfigurationResponse,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -11868,7 +12355,7 @@ export const deleteBucketMetadataTableConfiguration: (
  */
 export const deleteBucketMetricsConfiguration: (
   input: DeleteBucketMetricsConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBucketMetricsConfigurationResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -11897,7 +12384,7 @@ export const deleteBucketMetricsConfiguration: (
  */
 export const deleteBucketOwnershipControls: (
   input: DeleteBucketOwnershipControlsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBucketOwnershipControlsResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -11957,7 +12444,7 @@ export const deleteBucketOwnershipControls: (
  */
 export const deleteBucketPolicy: (
   input: DeleteBucketPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBucketPolicyResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -11991,7 +12478,7 @@ export const deleteBucketPolicy: (
  */
 export const deleteBucketReplication: (
   input: DeleteBucketReplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBucketReplicationResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -12020,7 +12507,7 @@ export const deleteBucketReplication: (
  */
 export const deleteBucketTagging: (
   input: DeleteBucketTaggingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBucketTaggingResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -12055,7 +12542,7 @@ export const deleteBucketTagging: (
  */
 export const deleteBucketWebsite: (
   input: DeleteBucketWebsiteRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBucketWebsiteResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -12089,7 +12576,7 @@ export const deleteBucketWebsite: (
  */
 export const deletePublicAccessBlock: (
   input: DeletePublicAccessBlockRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePublicAccessBlockResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -12129,7 +12616,7 @@ export const deletePublicAccessBlock: (
  */
 export const getBucketNotificationConfiguration: (
   input: GetBucketNotificationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   NotificationConfiguration,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -12197,7 +12684,7 @@ export const getBucketNotificationConfiguration: (
  */
 export const putBucketPolicy: (
   input: PutBucketPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutBucketPolicyResponse,
   AccessDenied | MalformedPolicy | NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -12253,7 +12740,7 @@ export const putBucketPolicy: (
  */
 export const renameObject: (
   input: RenameObjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RenameObjectOutput,
   IdempotencyParameterMismatch | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -12307,7 +12794,7 @@ export const renameObject: (
  */
 export const writeGetObjectResponse: (
   input: WriteGetObjectResponseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   WriteGetObjectResponseResponse,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -12372,7 +12859,7 @@ export const writeGetObjectResponse: (
  */
 export const abortMultipartUpload: (
   input: AbortMultipartUploadRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AbortMultipartUploadOutput,
   NoSuchUpload | NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -12557,7 +13044,7 @@ export const abortMultipartUpload: (
  */
 export const createMultipartUpload: (
   input: CreateMultipartUploadRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMultipartUploadOutput,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -12658,7 +13145,7 @@ export const createMultipartUpload: (
  */
 export const deleteObject: (
   input: DeleteObjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteObjectOutput,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -12690,7 +13177,7 @@ export const deleteObject: (
  */
 export const deleteObjectTagging: (
   input: DeleteObjectTaggingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteObjectTaggingOutput,
   NoSuchKey | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -12704,7 +13191,7 @@ export const deleteObjectTagging: (
  */
 export const getBucketAbac: (
   input: GetBucketAbacRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketAbacOutput,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -12744,7 +13231,7 @@ export const getBucketAbac: (
  */
 export const getBucketAccelerateConfiguration: (
   input: GetBucketAccelerateConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketAccelerateConfigurationOutput,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -12782,7 +13269,7 @@ export const getBucketAccelerateConfiguration: (
  */
 export const getBucketAcl: (
   input: GetBucketAclRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketAclOutput,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -12817,7 +13304,7 @@ export const getBucketAcl: (
  */
 export const getBucketAnalyticsConfiguration: (
   input: GetBucketAnalyticsConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketAnalyticsConfigurationOutput,
   NoSuchBucket | NoSuchConfiguration | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -12854,7 +13341,7 @@ export const getBucketAnalyticsConfiguration: (
  */
 export const getBucketCors: (
   input: GetBucketCorsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketCorsOutput,
   NoSuchBucket | NoSuchCORSConfiguration | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -12903,7 +13390,7 @@ export const getBucketCors: (
  */
 export const getBucketEncryption: (
   input: GetBucketEncryptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketEncryptionOutput,
   NoSuchBucket | ParseError | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -12935,7 +13422,7 @@ export const getBucketEncryption: (
  */
 export const getBucketIntelligentTieringConfiguration: (
   input: GetBucketIntelligentTieringConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketIntelligentTieringConfigurationOutput,
   NoSuchBucket | NoSuchConfiguration | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -12969,7 +13456,7 @@ export const getBucketIntelligentTieringConfiguration: (
  */
 export const getBucketInventoryConfiguration: (
   input: GetBucketInventoryConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketInventoryConfigurationOutput,
   NoSuchBucket | NoSuchConfiguration | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -13046,7 +13533,7 @@ export const getBucketInventoryConfiguration: (
  */
 export const getBucketLifecycleConfiguration: (
   input: GetBucketLifecycleConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketLifecycleConfigurationOutput,
   NoSuchBucket | NoSuchLifecycleConfiguration | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -13092,7 +13579,7 @@ export const getBucketLifecycleConfiguration: (
  */
 export const getBucketLocation: (
   input: GetBucketLocationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketLocationOutput,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -13117,7 +13604,7 @@ export const getBucketLocation: (
  */
 export const getBucketLogging: (
   input: GetBucketLoggingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketLoggingOutput,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -13155,7 +13642,7 @@ export const getBucketLogging: (
  */
 export const getBucketMetricsConfiguration: (
   input: GetBucketMetricsConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketMetricsConfigurationOutput,
   NoSuchBucket | NoSuchConfiguration | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -13194,7 +13681,7 @@ export const getBucketMetricsConfiguration: (
  */
 export const getBucketOwnershipControls: (
   input: GetBucketOwnershipControlsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketOwnershipControlsOutput,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -13260,7 +13747,7 @@ export const getBucketOwnershipControls: (
  */
 export const getBucketPolicy: (
   input: GetBucketPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketPolicyOutput,
   NoSuchBucket | NoSuchBucketPolicy | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -13301,7 +13788,7 @@ export const getBucketPolicy: (
  */
 export const getBucketReplication: (
   input: GetBucketReplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketReplicationOutput,
   NoSuchBucket | ReplicationConfigurationNotFoundError | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -13324,7 +13811,7 @@ export const getBucketReplication: (
  */
 export const getBucketRequestPayment: (
   input: GetBucketRequestPaymentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketRequestPaymentOutput,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -13359,7 +13846,7 @@ export const getBucketRequestPayment: (
  */
 export const getBucketTagging: (
   input: GetBucketTaggingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketTaggingOutput,
   NoSuchBucket | NoSuchTagSet | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -13391,7 +13878,7 @@ export const getBucketTagging: (
  */
 export const getBucketVersioning: (
   input: GetBucketVersioningRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketVersioningOutput,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -13421,7 +13908,7 @@ export const getBucketVersioning: (
  */
 export const getBucketWebsite: (
   input: GetBucketWebsiteRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketWebsiteOutput,
   NoSuchBucket | NoSuchWebsiteConfiguration | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -13462,7 +13949,7 @@ export const getBucketWebsite: (
  */
 export const getObjectAcl: (
   input: GetObjectAclRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetObjectAclOutput,
   NoSuchKey | NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -13486,7 +13973,7 @@ export const getObjectAcl: (
  */
 export const getObjectLegalHold: (
   input: GetObjectLegalHoldRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetObjectLegalHoldOutput,
   InvalidRequest | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -13510,7 +13997,7 @@ export const getObjectLegalHold: (
  */
 export const getObjectLockConfiguration: (
   input: GetObjectLockConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetObjectLockConfigurationOutput,
   NoSuchBucket | ObjectLockConfigurationNotFoundError | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -13534,7 +14021,7 @@ export const getObjectLockConfiguration: (
  */
 export const getObjectRetention: (
   input: GetObjectRetentionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetObjectRetentionOutput,
   InvalidRequest | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -13571,7 +14058,7 @@ export const getObjectRetention: (
  */
 export const getObjectTagging: (
   input: GetObjectTaggingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetObjectTaggingOutput,
   NoSuchBucket | NoSuchKey | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -13601,7 +14088,7 @@ export const getObjectTagging: (
  */
 export const getObjectTorrent: (
   input: GetObjectTorrentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetObjectTorrentOutput,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -13645,7 +14132,7 @@ export const getObjectTorrent: (
  */
 export const getPublicAccessBlock: (
   input: GetPublicAccessBlockRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPublicAccessBlockOutput,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -13718,7 +14205,7 @@ export const getPublicAccessBlock: (
  */
 export const headBucket: (
   input: HeadBucketRequest,
-) => Effect.Effect<
+) => effect.Effect<
   HeadBucketOutput,
   NotFound | ParseError | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -13837,7 +14324,7 @@ export const headBucket: (
  */
 export const headObject: (
   input: HeadObjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   HeadObjectOutput,
   NotFound | ParseError | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -13880,7 +14367,7 @@ export const headObject: (
  */
 export const listBucketAnalyticsConfigurations: (
   input: ListBucketAnalyticsConfigurationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListBucketAnalyticsConfigurationsOutput,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -13912,7 +14399,7 @@ export const listBucketAnalyticsConfigurations: (
  */
 export const listBucketIntelligentTieringConfigurations: (
   input: ListBucketIntelligentTieringConfigurationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListBucketIntelligentTieringConfigurationsOutput,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -13953,7 +14440,7 @@ export const listBucketIntelligentTieringConfigurations: (
  */
 export const listBucketInventoryConfigurations: (
   input: ListBucketInventoryConfigurationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListBucketInventoryConfigurationsOutput,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -13996,7 +14483,7 @@ export const listBucketInventoryConfigurations: (
  */
 export const listBucketMetricsConfigurations: (
   input: ListBucketMetricsConfigurationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListBucketMetricsConfigurationsOutput,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -14035,21 +14522,21 @@ export const listBucketMetricsConfigurations: (
 export const listDirectoryBuckets: {
   (
     input: ListDirectoryBucketsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDirectoryBucketsOutput,
     CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListDirectoryBucketsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDirectoryBucketsOutput,
     CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListDirectoryBucketsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Bucket,
     CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -14134,21 +14621,21 @@ export const listDirectoryBuckets: {
 export const listObjectsV2: {
   (
     input: ListObjectsV2Request,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListObjectsV2Output,
     NoSuchBucket | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListObjectsV2Request,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListObjectsV2Output,
     NoSuchBucket | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListObjectsV2Request,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     NoSuchBucket | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -14168,7 +14655,7 @@ export const listObjectsV2: {
  */
 export const putBucketAbac: (
   input: PutBucketAbacRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutBucketAbacResponse,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -14215,7 +14702,7 @@ export const putBucketAbac: (
  */
 export const putBucketAccelerateConfiguration: (
   input: PutBucketAccelerateConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutBucketAccelerateConfigurationResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -14242,7 +14729,7 @@ export const putBucketAccelerateConfiguration: (
  */
 export const putBucketRequestPayment: (
   input: PutBucketRequestPaymentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutBucketRequestPaymentResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -14295,7 +14782,7 @@ export const putBucketRequestPayment: (
  */
 export const putBucketTagging: (
   input: PutBucketTaggingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutBucketTaggingResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -14349,7 +14836,7 @@ export const putBucketTagging: (
  */
 export const putBucketVersioning: (
   input: PutBucketVersioningRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutBucketVersioningResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -14471,7 +14958,7 @@ export const putBucketVersioning: (
  */
 export const putObject: (
   input: PutObjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutObjectOutput,
   | EncryptionTypeMismatch
   | InvalidRequest
@@ -14636,7 +15123,7 @@ export const putObject: (
  */
 export const putObjectAcl: (
   input: PutObjectAclRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutObjectAclOutput,
   NoSuchKey | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -14687,7 +15174,7 @@ export const putObjectAcl: (
  */
 export const putObjectTagging: (
   input: PutObjectTaggingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutObjectTaggingOutput,
   NoSuchKey | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -14728,7 +15215,7 @@ export const putObjectTagging: (
  */
 export const putPublicAccessBlock: (
   input: PutPublicAccessBlockRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutPublicAccessBlockResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -14879,7 +15366,7 @@ export const putPublicAccessBlock: (
  */
 export const uploadPart: (
   input: UploadPartRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UploadPartOutput,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -14946,7 +15433,7 @@ export const uploadPart: (
  */
 export const createBucketMetadataConfiguration: (
   input: CreateBucketMetadataConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBucketMetadataConfigurationResponse,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -15005,7 +15492,7 @@ export const createBucketMetadataConfiguration: (
  */
 export const createBucketMetadataTableConfiguration: (
   input: CreateBucketMetadataTableConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBucketMetadataTableConfigurationResponse,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -15111,7 +15598,7 @@ export const createBucketMetadataTableConfiguration: (
  */
 export const createSession: (
   input: CreateSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSessionOutput,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -15144,7 +15631,7 @@ export const createSession: (
  */
 export const getBucketPolicyStatus: (
   input: GetBucketPolicyStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketPolicyStatusOutput,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -15287,7 +15774,7 @@ export const getBucketPolicyStatus: (
  */
 export const getObject: (
   input: GetObjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetObjectOutput,
   InvalidObjectState | NoSuchKey | NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -15317,21 +15804,21 @@ export const getObject: (
 export const listBuckets: {
   (
     input: ListBucketsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBucketsOutput,
     CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListBucketsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBucketsOutput,
     CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListBucketsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Bucket,
     CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -15436,7 +15923,7 @@ export const listBuckets: {
  */
 export const listMultipartUploads: (
   input: ListMultipartUploadsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListMultipartUploadsOutput,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -15473,7 +15960,7 @@ export const listMultipartUploads: (
  */
 export const listObjectVersions: (
   input: ListObjectVersionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListObjectVersionsOutput,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -15547,21 +16034,21 @@ export const listObjectVersions: (
 export const listParts: {
   (
     input: ListPartsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPartsOutput,
     NoSuchBucket | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListPartsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPartsOutput,
     NoSuchBucket | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListPartsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Part,
     NoSuchBucket | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -15625,7 +16112,7 @@ export const listParts: {
  */
 export const putBucketCors: (
   input: PutBucketCorsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutBucketCorsResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -15653,7 +16140,7 @@ export const putBucketCors: (
  */
 export const putBucketOwnershipControls: (
   input: PutBucketOwnershipControlsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutBucketOwnershipControlsResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -15673,7 +16160,7 @@ export const putBucketOwnershipControls: (
  */
 export const putObjectLegalHold: (
   input: PutObjectLegalHoldRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutObjectLegalHoldOutput,
   MalformedXML | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -15696,7 +16183,7 @@ export const putObjectLegalHold: (
  */
 export const putObjectRetention: (
   input: PutObjectRetentionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutObjectRetentionOutput,
   InvalidRequest | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -15753,7 +16240,7 @@ export const putObjectRetention: (
  */
 export const updateBucketMetadataInventoryTableConfiguration: (
   input: UpdateBucketMetadataInventoryTableConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateBucketMetadataInventoryTableConfigurationResponse,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -15788,7 +16275,7 @@ export const updateBucketMetadataInventoryTableConfiguration: (
  */
 export const updateBucketMetadataJournalTableConfiguration: (
   input: UpdateBucketMetadataJournalTableConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateBucketMetadataJournalTableConfigurationResponse,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -15959,7 +16446,7 @@ export const updateBucketMetadataJournalTableConfiguration: (
  */
 export const uploadPartCopy: (
   input: UploadPartCopyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UploadPartCopyOutput,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -16083,7 +16570,7 @@ export const uploadPartCopy: (
  */
 export const completeMultipartUpload: (
   input: CompleteMultipartUploadRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CompleteMultipartUploadOutput,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -16254,7 +16741,7 @@ export const completeMultipartUpload: (
  */
 export const copyObject: (
   input: CopyObjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CopyObjectOutput,
   ObjectNotInActiveTierError | NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -16370,7 +16857,7 @@ export const copyObject: (
  */
 export const createBucket: (
   input: CreateBucketRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBucketOutput,
   | BucketAlreadyExists
   | BucketAlreadyOwnedByYou
@@ -16534,7 +17021,7 @@ export const createBucket: (
  */
 export const getObjectAttributes: (
   input: GetObjectAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetObjectAttributesOutput,
   NoSuchKey | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -16571,7 +17058,7 @@ export const getObjectAttributes: (
  */
 export const listObjects: (
   input: ListObjectsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListObjectsOutput,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -16727,7 +17214,7 @@ export const listObjects: (
  */
 export const putBucketAcl: (
   input: PutBucketAclRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutBucketAclResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -16823,7 +17310,7 @@ export const putBucketAcl: (
  */
 export const putBucketEncryption: (
   input: PutBucketEncryptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutBucketEncryptionResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -16881,7 +17368,7 @@ export const putBucketEncryption: (
  */
 export const putBucketIntelligentTieringConfiguration: (
   input: PutBucketIntelligentTieringConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutBucketIntelligentTieringConfigurationResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -16927,7 +17414,7 @@ export const putBucketIntelligentTieringConfiguration: (
  */
 export const putBucketMetricsConfiguration: (
   input: PutBucketMetricsConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutBucketMetricsConfigurationResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -17009,7 +17496,7 @@ export const putBucketMetricsConfiguration: (
  */
 export const putBucketWebsite: (
   input: PutBucketWebsiteRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutBucketWebsiteResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -17112,7 +17599,7 @@ export const putBucketWebsite: (
  */
 export const deleteObjects: (
   input: DeleteObjectsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteObjectsOutput,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -17153,7 +17640,7 @@ export const deleteObjects: (
  */
 export const getBucketMetadataConfiguration: (
   input: GetBucketMetadataConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketMetadataConfigurationOutput,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -17200,7 +17687,7 @@ export const getBucketMetadataConfiguration: (
  */
 export const getBucketMetadataTableConfiguration: (
   input: GetBucketMetadataTableConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketMetadataTableConfigurationOutput,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -17279,7 +17766,7 @@ export const getBucketMetadataTableConfiguration: (
  */
 export const putBucketLogging: (
   input: PutBucketLoggingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutBucketLoggingResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -17309,7 +17796,7 @@ export const putBucketLogging: (
  */
 export const putObjectLockConfiguration: (
   input: PutObjectLockConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutObjectLockConfigurationOutput,
   InvalidBucketState | NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -17383,7 +17870,7 @@ export const putObjectLockConfiguration: (
  */
 export const putBucketAnalyticsConfiguration: (
   input: PutBucketAnalyticsConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutBucketAnalyticsConfigurationResponse,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -17466,7 +17953,7 @@ export const putBucketAnalyticsConfiguration: (
  */
 export const putBucketInventoryConfiguration: (
   input: PutBucketInventoryConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutBucketInventoryConfigurationResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -17573,7 +18060,7 @@ export const putBucketInventoryConfiguration: (
  */
 export const putBucketLifecycleConfiguration: (
   input: PutBucketLifecycleConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutBucketLifecycleConfigurationOutput,
   InvalidRequest | MalformedXML | NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -17637,7 +18124,7 @@ export const putBucketLifecycleConfiguration: (
  */
 export const putBucketNotificationConfiguration: (
   input: PutBucketNotificationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutBucketNotificationConfigurationResponse,
   NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -17709,7 +18196,7 @@ export const putBucketNotificationConfiguration: (
  */
 export const putBucketReplication: (
   input: PutBucketReplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutBucketReplicationResponse,
   InvalidRequest | NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -17860,7 +18347,7 @@ export const putBucketReplication: (
  */
 export const restoreObject: (
   input: RestoreObjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RestoreObjectOutput,
   ObjectAlreadyInActiveTierError | NoSuchKey | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -17962,7 +18449,7 @@ export const restoreObject: (
  */
 export const selectObjectContent: (
   input: SelectObjectContentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SelectObjectContentOutput,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient

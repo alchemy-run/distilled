@@ -10,6 +10,7 @@ const { values } = parseArgs({
 const repos: Array<string | { repo: string; name: string }> = [
   { repo: "aws/api-models-aws", name: "aws-models" }, // alias: aws-models
   "smithy-lang/smithy",
+  "smithy-lang/smithy-typescript",
   "aws/aws-sdk-js-v3",
 ];
 

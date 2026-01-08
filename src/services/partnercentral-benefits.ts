@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -66,10 +66,10 @@ export type BenefitApplicationStage = string;
 export type TaggableResourceArn = string;
 export type TagKey = string;
 export type TagValue = string;
-export type ContactEmail = string | Redacted.Redacted<string>;
-export type ContactFirstName = string | Redacted.Redacted<string>;
-export type ContactLastName = string | Redacted.Redacted<string>;
-export type ContactPhone = string | Redacted.Redacted<string>;
+export type ContactEmail = string | redacted.Redacted<string>;
+export type ContactFirstName = string | redacted.Redacted<string>;
+export type ContactLastName = string | redacted.Redacted<string>;
+export type ContactPhone = string | redacted.Redacted<string>;
 export type FileURI = string;
 export type BenefitApplicationId = string;
 export type BenefitAllocationId = string;
@@ -78,24 +78,49 @@ export type StatusReasonCode = string;
 export type BenefitAllocationName = string;
 
 //# Schemas
-export type FulfillmentTypes = string[];
-export const FulfillmentTypes = S.Array(S.String);
+export type FulfillmentType = "CREDITS" | "CASH" | "ACCESS";
+export const FulfillmentType = S.Literal("CREDITS", "CASH", "ACCESS");
+export type FulfillmentTypes = FulfillmentType[];
+export const FulfillmentTypes = S.Array(FulfillmentType);
 export type Arns = string[];
 export const Arns = S.Array(S.String);
 export type BenefitIdentifiers = string[];
 export const BenefitIdentifiers = S.Array(S.String);
 export type BenefitApplicationIdentifierList = string[];
 export const BenefitApplicationIdentifierList = S.Array(S.String);
-export type BenefitAllocationStatusList = string[];
-export const BenefitAllocationStatusList = S.Array(S.String);
+export type BenefitAllocationStatus = "ACTIVE" | "INACTIVE" | "FULFILLED";
+export const BenefitAllocationStatus = S.Literal(
+  "ACTIVE",
+  "INACTIVE",
+  "FULFILLED",
+);
+export type BenefitAllocationStatusList = BenefitAllocationStatus[];
+export const BenefitAllocationStatusList = S.Array(BenefitAllocationStatus);
 export type Programs = string[];
 export const Programs = S.Array(S.String);
-export type Statuses = string[];
-export const Statuses = S.Array(S.String);
+export type BenefitApplicationStatus =
+  | "PENDING_SUBMISSION"
+  | "IN_REVIEW"
+  | "ACTION_REQUIRED"
+  | "APPROVED"
+  | "REJECTED"
+  | "CANCELED";
+export const BenefitApplicationStatus = S.Literal(
+  "PENDING_SUBMISSION",
+  "IN_REVIEW",
+  "ACTION_REQUIRED",
+  "APPROVED",
+  "REJECTED",
+  "CANCELED",
+);
+export type Statuses = BenefitApplicationStatus[];
+export const Statuses = S.Array(BenefitApplicationStatus);
 export type Stages = string[];
 export const Stages = S.Array(S.String);
-export type BenefitStatuses = string[];
-export const BenefitStatuses = S.Array(S.String);
+export type BenefitStatus = "ACTIVE" | "INACTIVE";
+export const BenefitStatus = S.Literal("ACTIVE", "INACTIVE");
+export type BenefitStatuses = BenefitStatus[];
+export const BenefitStatuses = S.Array(BenefitStatus);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface AssociateBenefitApplicationResourceInput {
@@ -234,10 +259,10 @@ export const GetBenefitApplicationInput = S.suspend(() =>
 }) as any as S.Schema<GetBenefitApplicationInput>;
 export interface ListBenefitAllocationsInput {
   Catalog: string;
-  FulfillmentTypes?: FulfillmentTypes;
-  BenefitIdentifiers?: BenefitIdentifiers;
-  BenefitApplicationIdentifiers?: BenefitApplicationIdentifierList;
-  Status?: BenefitAllocationStatusList;
+  FulfillmentTypes?: FulfillmentType[];
+  BenefitIdentifiers?: string[];
+  BenefitApplicationIdentifiers?: string[];
+  Status?: BenefitAllocationStatus[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -265,9 +290,9 @@ export const ListBenefitAllocationsInput = S.suspend(() =>
 }) as any as S.Schema<ListBenefitAllocationsInput>;
 export interface ListBenefitsInput {
   Catalog: string;
-  Programs?: Programs;
-  FulfillmentTypes?: FulfillmentTypes;
-  Status?: BenefitStatuses;
+  Programs?: string[];
+  FulfillmentTypes?: FulfillmentType[];
+  Status?: BenefitStatus[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -375,7 +400,7 @@ export type Tags = Tag[];
 export const Tags = S.Array(Tag);
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: Tags;
+  tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: Tags }).pipe(
@@ -397,7 +422,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
@@ -418,11 +443,11 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface Contact {
-  Email?: string | Redacted.Redacted<string>;
-  FirstName?: string | Redacted.Redacted<string>;
-  LastName?: string | Redacted.Redacted<string>;
+  Email?: string | redacted.Redacted<string>;
+  FirstName?: string | redacted.Redacted<string>;
+  LastName?: string | redacted.Redacted<string>;
   BusinessTitle?: string;
-  Phone?: string | Redacted.Redacted<string>;
+  Phone?: string | redacted.Redacted<string>;
 }
 export const Contact = S.suspend(() =>
   S.Struct({
@@ -452,8 +477,8 @@ export interface UpdateBenefitApplicationInput {
   Identifier: string;
   Revision: string;
   BenefitApplicationDetails?: any;
-  PartnerContacts?: Contacts;
-  FileDetails?: FileInputDetails;
+  PartnerContacts?: Contact[];
+  FileDetails?: FileInput[];
 }
 export const UpdateBenefitApplicationInput = S.suspend(() =>
   S.Struct({
@@ -479,6 +504,8 @@ export const UpdateBenefitApplicationInput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateBenefitApplicationInput",
 }) as any as S.Schema<UpdateBenefitApplicationInput>;
+export type ResourceType = "OPPORTUNITY" | "BENEFIT_ALLOCATION";
+export const ResourceType = S.Literal("OPPORTUNITY", "BENEFIT_ALLOCATION");
 export interface Amendment {
   FieldPath: string;
   NewValue: string;
@@ -491,13 +518,13 @@ export const AmendmentList = S.Array(Amendment);
 export type StatusReasonCodes = string[];
 export const StatusReasonCodes = S.Array(S.String);
 export interface AssociatedResource {
-  ResourceType?: string;
+  ResourceType?: ResourceType;
   ResourceIdentifier?: string;
   ResourceArn?: string;
 }
 export const AssociatedResource = S.suspend(() =>
   S.Struct({
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(ResourceType),
     ResourceIdentifier: S.optional(S.String),
     ResourceArn: S.optional(S.String),
   }),
@@ -512,7 +539,7 @@ export interface AmendBenefitApplicationInput {
   Revision: string;
   Identifier: string;
   AmendmentReason: string;
-  Amendments: AmendmentList;
+  Amendments: Amendment[];
 }
 export const AmendBenefitApplicationInput = S.suspend(() =>
   S.Struct({
@@ -561,12 +588,12 @@ export interface CreateBenefitApplicationInput {
   Name?: string;
   Description?: string;
   BenefitIdentifier: string;
-  FulfillmentTypes?: FulfillmentTypes;
+  FulfillmentTypes?: FulfillmentType[];
   BenefitApplicationDetails?: any;
-  Tags?: Tags;
-  AssociatedResources?: Arns;
-  PartnerContacts?: Contacts;
-  FileDetails?: FileInputDetails;
+  Tags?: Tag[];
+  AssociatedResources?: string[];
+  PartnerContacts?: Contact[];
+  FileDetails?: FileInput[];
 }
 export const CreateBenefitApplicationInput = S.suspend(() =>
   S.Struct({
@@ -614,10 +641,10 @@ export interface GetBenefitOutput {
   Arn?: string;
   Name?: string;
   Description?: string;
-  Programs?: Programs;
-  FulfillmentTypes?: FulfillmentTypes;
+  Programs?: string[];
+  FulfillmentTypes?: FulfillmentType[];
   BenefitRequestSchema?: any;
-  Status?: string;
+  Status?: BenefitStatus;
 }
 export const GetBenefitOutput = S.suspend(() =>
   S.Struct({
@@ -629,20 +656,20 @@ export const GetBenefitOutput = S.suspend(() =>
     Programs: S.optional(Programs),
     FulfillmentTypes: S.optional(FulfillmentTypes),
     BenefitRequestSchema: S.optional(S.Any),
-    Status: S.optional(S.String),
+    Status: S.optional(BenefitStatus),
   }),
 ).annotations({
   identifier: "GetBenefitOutput",
 }) as any as S.Schema<GetBenefitOutput>;
 export interface ListBenefitApplicationsInput {
   Catalog: string;
-  Programs?: Programs;
-  FulfillmentTypes?: FulfillmentTypes;
-  BenefitIdentifiers?: BenefitIdentifiers;
-  Status?: Statuses;
-  Stages?: Stages;
-  AssociatedResources?: AssociatedResources;
-  AssociatedResourceArns?: Arns;
+  Programs?: string[];
+  FulfillmentTypes?: FulfillmentType[];
+  BenefitIdentifiers?: string[];
+  Status?: BenefitApplicationStatus[];
+  Stages?: string[];
+  AssociatedResources?: AssociatedResource[];
+  AssociatedResourceArns?: string[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -672,7 +699,7 @@ export const ListBenefitApplicationsInput = S.suspend(() =>
   identifier: "ListBenefitApplicationsInput",
 }) as any as S.Schema<ListBenefitApplicationsInput>;
 export interface ListTagsForResourceResponse {
-  tags?: Tags;
+  tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -693,6 +720,27 @@ export const UpdateBenefitApplicationOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateBenefitApplicationOutput",
 }) as any as S.Schema<UpdateBenefitApplicationOutput>;
+export type FileType =
+  | "application/msword"
+  | "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+  | "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+  | "application/pdf"
+  | "image/png"
+  | "image/jpeg"
+  | "image/svg+xml"
+  | "text/csv";
+export const FileType = S.Literal(
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  "application/pdf",
+  "image/png",
+  "image/jpeg",
+  "image/svg+xml",
+  "text/csv",
+);
 export type BenefitIds = string[];
 export const BenefitIds = S.Array(S.String);
 export interface FileDetail {
@@ -701,7 +749,7 @@ export interface FileDetail {
   FileName?: string;
   FileStatus?: string;
   FileStatusReason?: string;
-  FileType?: string;
+  FileType?: FileType;
   CreatedBy?: string;
   CreatedAt?: Date;
 }
@@ -712,7 +760,7 @@ export const FileDetail = S.suspend(() =>
     FileName: S.optional(S.String),
     FileStatus: S.optional(S.String),
     FileStatusReason: S.optional(S.String),
-    FileType: S.optional(S.String),
+    FileType: S.optional(FileType),
     CreatedBy: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
@@ -723,22 +771,22 @@ export interface BenefitAllocationSummary {
   Id?: string;
   Catalog?: string;
   Arn?: string;
-  Status?: string;
+  Status?: BenefitAllocationStatus;
   StatusReason?: string;
   Name?: string;
   BenefitId?: string;
   BenefitApplicationId?: string;
-  FulfillmentTypes?: FulfillmentTypes;
+  FulfillmentTypes?: FulfillmentType[];
   CreatedAt?: Date;
   ExpiresAt?: Date;
-  ApplicableBenefitIds?: BenefitIds;
+  ApplicableBenefitIds?: string[];
 }
 export const BenefitAllocationSummary = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Catalog: S.optional(S.String),
     Arn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(BenefitAllocationStatus),
     StatusReason: S.optional(S.String),
     Name: S.optional(S.String),
     BenefitId: S.optional(S.String),
@@ -759,9 +807,9 @@ export interface BenefitSummary {
   Arn?: string;
   Name?: string;
   Description?: string;
-  Programs?: Programs;
-  FulfillmentTypes?: FulfillmentTypes;
-  Status?: string;
+  Programs?: string[];
+  FulfillmentTypes?: FulfillmentType[];
+  Status?: BenefitStatus;
 }
 export const BenefitSummary = S.suspend(() =>
   S.Struct({
@@ -772,7 +820,7 @@ export const BenefitSummary = S.suspend(() =>
     Description: S.optional(S.String),
     Programs: S.optional(Programs),
     FulfillmentTypes: S.optional(FulfillmentTypes),
-    Status: S.optional(S.String),
+    Status: S.optional(BenefitStatus),
   }),
 ).annotations({
   identifier: "BenefitSummary",
@@ -800,20 +848,20 @@ export interface GetBenefitApplicationOutput {
   BenefitId?: string;
   Name?: string;
   Description?: string;
-  FulfillmentTypes?: FulfillmentTypes;
+  FulfillmentTypes?: FulfillmentType[];
   BenefitApplicationDetails?: any;
-  Programs?: Programs;
-  Status?: string;
+  Programs?: string[];
+  Status?: BenefitApplicationStatus;
   Stage?: string;
   StatusReason?: string;
   StatusReasonCode?: string;
-  StatusReasonCodes?: StatusReasonCodes;
+  StatusReasonCodes?: string[];
   CreatedAt?: Date;
   UpdatedAt?: Date;
   Revision?: string;
-  AssociatedResources?: Arns;
-  PartnerContacts?: Contacts;
-  FileDetails?: FileDetails;
+  AssociatedResources?: string[];
+  PartnerContacts?: Contact[];
+  FileDetails?: FileDetail[];
 }
 export const GetBenefitApplicationOutput = S.suspend(() =>
   S.Struct({
@@ -826,7 +874,7 @@ export const GetBenefitApplicationOutput = S.suspend(() =>
     FulfillmentTypes: S.optional(FulfillmentTypes),
     BenefitApplicationDetails: S.optional(S.Any),
     Programs: S.optional(Programs),
-    Status: S.optional(S.String),
+    Status: S.optional(BenefitApplicationStatus),
     Stage: S.optional(S.String),
     StatusReason: S.optional(S.String),
     StatusReasonCode: S.optional(S.String),
@@ -842,7 +890,7 @@ export const GetBenefitApplicationOutput = S.suspend(() =>
   identifier: "GetBenefitApplicationOutput",
 }) as any as S.Schema<GetBenefitApplicationOutput>;
 export interface ListBenefitAllocationsOutput {
-  BenefitAllocationSummaries?: BenefitAllocationSummaries;
+  BenefitAllocationSummaries?: BenefitAllocationSummary[];
   NextToken?: string;
 }
 export const ListBenefitAllocationsOutput = S.suspend(() =>
@@ -854,7 +902,7 @@ export const ListBenefitAllocationsOutput = S.suspend(() =>
   identifier: "ListBenefitAllocationsOutput",
 }) as any as S.Schema<ListBenefitAllocationsOutput>;
 export interface ListBenefitsOutput {
-  BenefitSummaries?: BenefitSummaries;
+  BenefitSummaries?: BenefitSummary[];
   NextToken?: string;
 }
 export const ListBenefitsOutput = S.suspend(() =>
@@ -865,12 +913,205 @@ export const ListBenefitsOutput = S.suspend(() =>
 ).annotations({
   identifier: "ListBenefitsOutput",
 }) as any as S.Schema<ListBenefitsOutput>;
+export type CurrencyCode =
+  | "AED"
+  | "AMD"
+  | "ARS"
+  | "AUD"
+  | "AWG"
+  | "AZN"
+  | "BBD"
+  | "BDT"
+  | "BGN"
+  | "BMD"
+  | "BND"
+  | "BOB"
+  | "BRL"
+  | "BSD"
+  | "BYR"
+  | "BZD"
+  | "CAD"
+  | "CHF"
+  | "CLP"
+  | "CNY"
+  | "COP"
+  | "CRC"
+  | "CZK"
+  | "DKK"
+  | "DOP"
+  | "EEK"
+  | "EGP"
+  | "EUR"
+  | "GBP"
+  | "GEL"
+  | "GHS"
+  | "GTQ"
+  | "GYD"
+  | "HKD"
+  | "HNL"
+  | "HRK"
+  | "HTG"
+  | "HUF"
+  | "IDR"
+  | "ILS"
+  | "INR"
+  | "ISK"
+  | "JMD"
+  | "JPY"
+  | "KES"
+  | "KHR"
+  | "KRW"
+  | "KYD"
+  | "KZT"
+  | "LBP"
+  | "LKR"
+  | "LTL"
+  | "LVL"
+  | "MAD"
+  | "MNT"
+  | "MOP"
+  | "MUR"
+  | "MVR"
+  | "MXN"
+  | "MYR"
+  | "NAD"
+  | "NGN"
+  | "NIO"
+  | "NOK"
+  | "NZD"
+  | "PAB"
+  | "PEN"
+  | "PHP"
+  | "PKR"
+  | "PLN"
+  | "PYG"
+  | "QAR"
+  | "RON"
+  | "RUB"
+  | "SAR"
+  | "SEK"
+  | "SGD"
+  | "SIT"
+  | "SKK"
+  | "THB"
+  | "TND"
+  | "TRY"
+  | "TTD"
+  | "TWD"
+  | "TZS"
+  | "UAH"
+  | "USD"
+  | "UYU"
+  | "UZS"
+  | "VND"
+  | "XAF"
+  | "XCD"
+  | "XOF"
+  | "XPF"
+  | "ZAR";
+export const CurrencyCode = S.Literal(
+  "AED",
+  "AMD",
+  "ARS",
+  "AUD",
+  "AWG",
+  "AZN",
+  "BBD",
+  "BDT",
+  "BGN",
+  "BMD",
+  "BND",
+  "BOB",
+  "BRL",
+  "BSD",
+  "BYR",
+  "BZD",
+  "CAD",
+  "CHF",
+  "CLP",
+  "CNY",
+  "COP",
+  "CRC",
+  "CZK",
+  "DKK",
+  "DOP",
+  "EEK",
+  "EGP",
+  "EUR",
+  "GBP",
+  "GEL",
+  "GHS",
+  "GTQ",
+  "GYD",
+  "HKD",
+  "HNL",
+  "HRK",
+  "HTG",
+  "HUF",
+  "IDR",
+  "ILS",
+  "INR",
+  "ISK",
+  "JMD",
+  "JPY",
+  "KES",
+  "KHR",
+  "KRW",
+  "KYD",
+  "KZT",
+  "LBP",
+  "LKR",
+  "LTL",
+  "LVL",
+  "MAD",
+  "MNT",
+  "MOP",
+  "MUR",
+  "MVR",
+  "MXN",
+  "MYR",
+  "NAD",
+  "NGN",
+  "NIO",
+  "NOK",
+  "NZD",
+  "PAB",
+  "PEN",
+  "PHP",
+  "PKR",
+  "PLN",
+  "PYG",
+  "QAR",
+  "RON",
+  "RUB",
+  "SAR",
+  "SEK",
+  "SGD",
+  "SIT",
+  "SKK",
+  "THB",
+  "TND",
+  "TRY",
+  "TTD",
+  "TWD",
+  "TZS",
+  "UAH",
+  "USD",
+  "UYU",
+  "UZS",
+  "VND",
+  "XAF",
+  "XCD",
+  "XOF",
+  "XPF",
+  "ZAR",
+);
 export interface MonetaryValue {
   Amount: string;
-  CurrencyCode: string;
+  CurrencyCode: CurrencyCode;
 }
 export const MonetaryValue = S.suspend(() =>
-  S.Struct({ Amount: S.String, CurrencyCode: S.String }),
+  S.Struct({ Amount: S.String, CurrencyCode: CurrencyCode }),
 ).annotations({
   identifier: "MonetaryValue",
 }) as any as S.Schema<MonetaryValue>;
@@ -916,7 +1157,7 @@ export interface CreditCode {
   AwsAccountId: string;
   Value: MonetaryValue;
   AwsCreditCode: string;
-  Status: string;
+  Status: BenefitAllocationStatus;
   IssuedAt: Date;
   ExpiresAt: Date;
 }
@@ -925,7 +1166,7 @@ export const CreditCode = S.suspend(() =>
     AwsAccountId: S.String,
     Value: MonetaryValue,
     AwsCreditCode: S.String,
-    Status: S.String,
+    Status: BenefitAllocationStatus,
     IssuedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     ExpiresAt: S.Date.pipe(T.TimestampFormat("date-time")),
   }),
@@ -947,7 +1188,7 @@ export const DisbursementDetails = S.suspend(() =>
 export interface CreditDetails {
   AllocatedAmount: MonetaryValue;
   IssuedAmount: MonetaryValue;
-  Codes: CreditCodes;
+  Codes: CreditCode[];
 }
 export const CreditDetails = S.suspend(() =>
   S.Struct({
@@ -977,14 +1218,14 @@ export interface BenefitApplicationSummary {
   Id?: string;
   Arn?: string;
   BenefitId?: string;
-  Programs?: Programs;
-  FulfillmentTypes?: FulfillmentTypes;
-  Status?: string;
+  Programs?: string[];
+  FulfillmentTypes?: FulfillmentType[];
+  Status?: BenefitApplicationStatus;
   Stage?: string;
   CreatedAt?: Date;
   UpdatedAt?: Date;
-  BenefitApplicationDetails?: Attributes;
-  AssociatedResources?: Arns;
+  BenefitApplicationDetails?: { [key: string]: string };
+  AssociatedResources?: string[];
 }
 export const BenefitApplicationSummary = S.suspend(() =>
   S.Struct({
@@ -995,7 +1236,7 @@ export const BenefitApplicationSummary = S.suspend(() =>
     BenefitId: S.optional(S.String),
     Programs: S.optional(Programs),
     FulfillmentTypes: S.optional(FulfillmentTypes),
-    Status: S.optional(S.String),
+    Status: S.optional(BenefitApplicationStatus),
     Stage: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -1013,13 +1254,13 @@ export interface GetBenefitAllocationOutput {
   Arn?: string;
   Name?: string;
   Description?: string;
-  Status?: string;
+  Status?: BenefitAllocationStatus;
   StatusReason?: string;
   BenefitApplicationId?: string;
   BenefitId?: string;
-  FulfillmentType?: string;
-  ApplicableBenefitIds?: BenefitIdentifiers;
-  FulfillmentDetail?: (typeof FulfillmentDetails)["Type"];
+  FulfillmentType?: FulfillmentType;
+  ApplicableBenefitIds?: string[];
+  FulfillmentDetail?: FulfillmentDetails;
   CreatedAt?: Date;
   UpdatedAt?: Date;
   StartsAt?: Date;
@@ -1032,11 +1273,11 @@ export const GetBenefitAllocationOutput = S.suspend(() =>
     Arn: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(BenefitAllocationStatus),
     StatusReason: S.optional(S.String),
     BenefitApplicationId: S.optional(S.String),
     BenefitId: S.optional(S.String),
-    FulfillmentType: S.optional(S.String),
+    FulfillmentType: S.optional(FulfillmentType),
     ApplicableBenefitIds: S.optional(BenefitIdentifiers),
     FulfillmentDetail: S.optional(FulfillmentDetails),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -1048,7 +1289,7 @@ export const GetBenefitAllocationOutput = S.suspend(() =>
   identifier: "GetBenefitAllocationOutput",
 }) as any as S.Schema<GetBenefitAllocationOutput>;
 export interface ListBenefitApplicationsOutput {
-  BenefitApplicationSummaries?: BenefitApplicationSummaries;
+  BenefitApplicationSummaries?: BenefitApplicationSummary[];
   NextToken?: string;
 }
 export const ListBenefitApplicationsOutput = S.suspend(() =>
@@ -1059,13 +1300,53 @@ export const ListBenefitApplicationsOutput = S.suspend(() =>
 ).annotations({
   identifier: "ListBenefitApplicationsOutput",
 }) as any as S.Schema<ListBenefitApplicationsOutput>;
+export type ValidationExceptionReason =
+  | "unknownOperation"
+  | "cannotParse"
+  | "fieldValidationFailed"
+  | "other"
+  | "BUSINESS_VALIDATION_FAILED";
+export const ValidationExceptionReason = S.Literal(
+  "unknownOperation",
+  "cannotParse",
+  "fieldValidationFailed",
+  "other",
+  "BUSINESS_VALIDATION_FAILED",
+);
+export type ValidationExceptionErrorCode =
+  | "REQUIRED_FIELD_MISSING"
+  | "INVALID_ENUM_VALUE"
+  | "INVALID_STRING_FORMAT"
+  | "INVALID_VALUE"
+  | "NOT_ENOUGH_VALUES"
+  | "TOO_MANY_VALUES"
+  | "INVALID_RESOURCE_STATE"
+  | "DUPLICATE_KEY_VALUE"
+  | "VALUE_OUT_OF_RANGE"
+  | "ACTION_NOT_PERMITTED";
+export const ValidationExceptionErrorCode = S.Literal(
+  "REQUIRED_FIELD_MISSING",
+  "INVALID_ENUM_VALUE",
+  "INVALID_STRING_FORMAT",
+  "INVALID_VALUE",
+  "NOT_ENOUGH_VALUES",
+  "TOO_MANY_VALUES",
+  "INVALID_RESOURCE_STATE",
+  "DUPLICATE_KEY_VALUE",
+  "VALUE_OUT_OF_RANGE",
+  "ACTION_NOT_PERMITTED",
+);
 export interface ValidationExceptionField {
   Name: string;
   Message: string;
-  Code?: string;
+  Code?: ValidationExceptionErrorCode;
 }
 export const ValidationExceptionField = S.suspend(() =>
-  S.Struct({ Name: S.String, Message: S.String, Code: S.optional(S.String) }),
+  S.Struct({
+    Name: S.String,
+    Message: S.String,
+    Code: S.optional(ValidationExceptionErrorCode),
+  }),
 ).annotations({
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
@@ -1107,7 +1388,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     Message: S.String,
-    Reason: S.String,
+    Reason: ValidationExceptionReason,
     FieldList: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
@@ -1118,7 +1399,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const getBenefit: (
   input: GetBenefitInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetBenefitOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1143,7 +1424,7 @@ export const getBenefit: (
  */
 export const getBenefitAllocation: (
   input: GetBenefitAllocationInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetBenefitAllocationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1169,7 +1450,7 @@ export const getBenefitAllocation: (
 export const listBenefitApplications: {
   (
     input: ListBenefitApplicationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBenefitApplicationsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1181,7 +1462,7 @@ export const listBenefitApplications: {
   >;
   pages: (
     input: ListBenefitApplicationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBenefitApplicationsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1193,7 +1474,7 @@ export const listBenefitApplications: {
   >;
   items: (
     input: ListBenefitApplicationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BenefitApplicationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1225,7 +1506,7 @@ export const listBenefitApplications: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1254,7 +1535,7 @@ export const tagResource: (
  */
 export const getBenefitApplication: (
   input: GetBenefitApplicationInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetBenefitApplicationOutput,
   | AccessDeniedException
   | ConflictException
@@ -1282,7 +1563,7 @@ export const getBenefitApplication: (
 export const listBenefitAllocations: {
   (
     input: ListBenefitAllocationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBenefitAllocationsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1294,7 +1575,7 @@ export const listBenefitAllocations: {
   >;
   pages: (
     input: ListBenefitAllocationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBenefitAllocationsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1306,7 +1587,7 @@ export const listBenefitAllocations: {
   >;
   items: (
     input: ListBenefitAllocationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BenefitAllocationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1339,7 +1620,7 @@ export const listBenefitAllocations: {
 export const listBenefits: {
   (
     input: ListBenefitsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBenefitsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1351,7 +1632,7 @@ export const listBenefits: {
   >;
   pages: (
     input: ListBenefitsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBenefitsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1363,7 +1644,7 @@ export const listBenefits: {
   >;
   items: (
     input: ListBenefitsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BenefitSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1395,7 +1676,7 @@ export const listBenefits: {
  */
 export const disassociateBenefitApplicationResource: (
   input: DisassociateBenefitApplicationResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateBenefitApplicationResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -1422,7 +1703,7 @@ export const disassociateBenefitApplicationResource: (
  */
 export const updateBenefitApplication: (
   input: UpdateBenefitApplicationInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateBenefitApplicationOutput,
   | AccessDeniedException
   | ConflictException
@@ -1449,7 +1730,7 @@ export const updateBenefitApplication: (
  */
 export const recallBenefitApplication: (
   input: RecallBenefitApplicationInput,
-) => Effect.Effect<
+) => effect.Effect<
   RecallBenefitApplicationOutput,
   | AccessDeniedException
   | ConflictException
@@ -1476,7 +1757,7 @@ export const recallBenefitApplication: (
  */
 export const submitBenefitApplication: (
   input: SubmitBenefitApplicationInput,
-) => Effect.Effect<
+) => effect.Effect<
   SubmitBenefitApplicationOutput,
   | AccessDeniedException
   | ConflictException
@@ -1503,7 +1784,7 @@ export const submitBenefitApplication: (
  */
 export const amendBenefitApplication: (
   input: AmendBenefitApplicationInput,
-) => Effect.Effect<
+) => effect.Effect<
   AmendBenefitApplicationOutput,
   | AccessDeniedException
   | ConflictException
@@ -1530,7 +1811,7 @@ export const amendBenefitApplication: (
  */
 export const associateBenefitApplicationResource: (
   input: AssociateBenefitApplicationResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateBenefitApplicationResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -1557,7 +1838,7 @@ export const associateBenefitApplicationResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1582,7 +1863,7 @@ export const listTagsForResource: (
  */
 export const cancelBenefitApplication: (
   input: CancelBenefitApplicationInput,
-) => Effect.Effect<
+) => effect.Effect<
   CancelBenefitApplicationOutput,
   | AccessDeniedException
   | ConflictException
@@ -1609,7 +1890,7 @@ export const cancelBenefitApplication: (
  */
 export const createBenefitApplication: (
   input: CreateBenefitApplicationInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBenefitApplicationOutput,
   | AccessDeniedException
   | ConflictException
@@ -1636,7 +1917,7 @@ export const createBenefitApplication: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException

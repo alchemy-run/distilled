@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -229,12 +229,61 @@ export type AccountIdList = string[];
 export const AccountIdList = S.Array(S.String);
 export type OrganizationalUnitIdList = string[];
 export const OrganizationalUnitIdList = S.Array(S.String);
+export type OrganizationResourceCollectionType =
+  | "AWS_CLOUD_FORMATION"
+  | "AWS_SERVICE"
+  | "AWS_ACCOUNT"
+  | "AWS_TAGS";
+export const OrganizationResourceCollectionType = S.Literal(
+  "AWS_CLOUD_FORMATION",
+  "AWS_SERVICE",
+  "AWS_ACCOUNT",
+  "AWS_TAGS",
+);
+export type ResourceCollectionType =
+  | "AWS_CLOUD_FORMATION"
+  | "AWS_SERVICE"
+  | "AWS_TAGS";
+export const ResourceCollectionType = S.Literal(
+  "AWS_CLOUD_FORMATION",
+  "AWS_SERVICE",
+  "AWS_TAGS",
+);
 export type ListInsightsAccountIdList = string[];
 export const ListInsightsAccountIdList = S.Array(S.String);
 export type ListInsightsOrganizationalUnitIdList = string[];
 export const ListInsightsOrganizationalUnitIdList = S.Array(S.String);
+export type Locale =
+  | "DE_DE"
+  | "EN_US"
+  | "EN_GB"
+  | "ES_ES"
+  | "FR_FR"
+  | "IT_IT"
+  | "JA_JP"
+  | "KO_KR"
+  | "PT_BR"
+  | "ZH_CN"
+  | "ZH_TW";
+export const Locale = S.Literal(
+  "DE_DE",
+  "EN_US",
+  "EN_GB",
+  "ES_ES",
+  "FR_FR",
+  "IT_IT",
+  "JA_JP",
+  "KO_KR",
+  "PT_BR",
+  "ZH_CN",
+  "ZH_TW",
+);
+export type InsightType = "REACTIVE" | "PROACTIVE";
+export const InsightType = S.Literal("REACTIVE", "PROACTIVE");
 export type SearchInsightsAccountIdList = string[];
 export const SearchInsightsAccountIdList = S.Array(S.String);
+export type UpdateResourceCollectionAction = "ADD" | "REMOVE";
+export const UpdateResourceCollectionAction = S.Literal("ADD", "REMOVE");
 export interface DeleteInsightRequest {
   Id: string;
 }
@@ -355,8 +404,8 @@ export const DescribeInsightRequest = S.suspend(() =>
   identifier: "DescribeInsightRequest",
 }) as any as S.Schema<DescribeInsightRequest>;
 export interface DescribeOrganizationHealthRequest {
-  AccountIds?: AccountIdList;
-  OrganizationalUnitIds?: OrganizationalUnitIdList;
+  AccountIds?: string[];
+  OrganizationalUnitIds?: string[];
 }
 export const DescribeOrganizationHealthRequest = S.suspend(() =>
   S.Struct({
@@ -378,8 +427,8 @@ export const DescribeOrganizationHealthRequest = S.suspend(() =>
 export interface DescribeOrganizationOverviewRequest {
   FromTime: Date;
   ToTime?: Date;
-  AccountIds?: AccountIdList;
-  OrganizationalUnitIds?: OrganizationalUnitIdList;
+  AccountIds?: string[];
+  OrganizationalUnitIds?: string[];
 }
 export const DescribeOrganizationOverviewRequest = S.suspend(() =>
   S.Struct({
@@ -401,16 +450,16 @@ export const DescribeOrganizationOverviewRequest = S.suspend(() =>
   identifier: "DescribeOrganizationOverviewRequest",
 }) as any as S.Schema<DescribeOrganizationOverviewRequest>;
 export interface DescribeOrganizationResourceCollectionHealthRequest {
-  OrganizationResourceCollectionType: string;
-  AccountIds?: AccountIdList;
-  OrganizationalUnitIds?: OrganizationalUnitIdList;
+  OrganizationResourceCollectionType: OrganizationResourceCollectionType;
+  AccountIds?: string[];
+  OrganizationalUnitIds?: string[];
   NextToken?: string;
   MaxResults?: number;
 }
 export const DescribeOrganizationResourceCollectionHealthRequest = S.suspend(
   () =>
     S.Struct({
-      OrganizationResourceCollectionType: S.String,
+      OrganizationResourceCollectionType: OrganizationResourceCollectionType,
       AccountIds: S.optional(AccountIdList),
       OrganizationalUnitIds: S.optional(OrganizationalUnitIdList),
       NextToken: S.optional(S.String),
@@ -432,12 +481,12 @@ export const DescribeOrganizationResourceCollectionHealthRequest = S.suspend(
   identifier: "DescribeOrganizationResourceCollectionHealthRequest",
 }) as any as S.Schema<DescribeOrganizationResourceCollectionHealthRequest>;
 export interface DescribeResourceCollectionHealthRequest {
-  ResourceCollectionType: string;
+  ResourceCollectionType: ResourceCollectionType;
   NextToken?: string;
 }
 export const DescribeResourceCollectionHealthRequest = S.suspend(() =>
   S.Struct({
-    ResourceCollectionType: S.String.pipe(
+    ResourceCollectionType: ResourceCollectionType.pipe(
       T.HttpLabel("ResourceCollectionType"),
     ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
@@ -477,12 +526,12 @@ export const GetCostEstimationRequest = S.suspend(() =>
   identifier: "GetCostEstimationRequest",
 }) as any as S.Schema<GetCostEstimationRequest>;
 export interface GetResourceCollectionRequest {
-  ResourceCollectionType: string;
+  ResourceCollectionType: ResourceCollectionType;
   NextToken?: string;
 }
 export const GetResourceCollectionRequest = S.suspend(() =>
   S.Struct({
-    ResourceCollectionType: S.String.pipe(
+    ResourceCollectionType: ResourceCollectionType.pipe(
       T.HttpLabel("ResourceCollectionType"),
     ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
@@ -543,10 +592,10 @@ export const ListNotificationChannelsRequest = S.suspend(() =>
   identifier: "ListNotificationChannelsRequest",
 }) as any as S.Schema<ListNotificationChannelsRequest>;
 export interface ListInsightsOngoingStatusFilter {
-  Type: string;
+  Type: InsightType;
 }
 export const ListInsightsOngoingStatusFilter = S.suspend(() =>
-  S.Struct({ Type: S.String }),
+  S.Struct({ Type: InsightType }),
 ).annotations({
   identifier: "ListInsightsOngoingStatusFilter",
 }) as any as S.Schema<ListInsightsOngoingStatusFilter>;
@@ -561,11 +610,11 @@ export const EndTimeRange = S.suspend(() =>
   }),
 ).annotations({ identifier: "EndTimeRange" }) as any as S.Schema<EndTimeRange>;
 export interface ListInsightsClosedStatusFilter {
-  Type: string;
+  Type: InsightType;
   EndTimeRange: EndTimeRange;
 }
 export const ListInsightsClosedStatusFilter = S.suspend(() =>
-  S.Struct({ Type: S.String, EndTimeRange: EndTimeRange }),
+  S.Struct({ Type: InsightType, EndTimeRange: EndTimeRange }),
 ).annotations({
   identifier: "ListInsightsClosedStatusFilter",
 }) as any as S.Schema<ListInsightsClosedStatusFilter>;
@@ -582,11 +631,11 @@ export const StartTimeRange = S.suspend(() =>
   identifier: "StartTimeRange",
 }) as any as S.Schema<StartTimeRange>;
 export interface ListInsightsAnyStatusFilter {
-  Type: string;
+  Type: InsightType;
   StartTimeRange: StartTimeRange;
 }
 export const ListInsightsAnyStatusFilter = S.suspend(() =>
-  S.Struct({ Type: S.String, StartTimeRange: StartTimeRange }),
+  S.Struct({ Type: InsightType, StartTimeRange: StartTimeRange }),
 ).annotations({
   identifier: "ListInsightsAnyStatusFilter",
 }) as any as S.Schema<ListInsightsAnyStatusFilter>;
@@ -607,8 +656,8 @@ export const ListInsightsStatusFilter = S.suspend(() =>
 export interface ListOrganizationInsightsRequest {
   StatusFilter: ListInsightsStatusFilter;
   MaxResults?: number;
-  AccountIds?: ListInsightsAccountIdList;
-  OrganizationalUnitIds?: ListInsightsOrganizationalUnitIdList;
+  AccountIds?: string[];
+  OrganizationalUnitIds?: string[];
   NextToken?: string;
 }
 export const ListOrganizationInsightsRequest = S.suspend(() =>
@@ -634,14 +683,14 @@ export const ListOrganizationInsightsRequest = S.suspend(() =>
 export interface ListRecommendationsRequest {
   InsightId: string;
   NextToken?: string;
-  Locale?: string;
+  Locale?: Locale;
   AccountId?: string;
 }
 export const ListRecommendationsRequest = S.suspend(() =>
   S.Struct({
     InsightId: S.String,
     NextToken: S.optional(S.String),
-    Locale: S.optional(S.String),
+    Locale: S.optional(Locale),
     AccountId: S.optional(S.String),
   }).pipe(
     T.all(
@@ -679,11 +728,13 @@ export const RemoveNotificationChannelResponse = S.suspend(() =>
 ).annotations({
   identifier: "RemoveNotificationChannelResponse",
 }) as any as S.Schema<RemoveNotificationChannelResponse>;
+export type EventSourceOptInStatus = "ENABLED" | "DISABLED";
+export const EventSourceOptInStatus = S.Literal("ENABLED", "DISABLED");
 export interface AmazonCodeGuruProfilerIntegration {
-  Status?: string;
+  Status?: EventSourceOptInStatus;
 }
 export const AmazonCodeGuruProfilerIntegration = S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String) }),
+  S.Struct({ Status: S.optional(EventSourceOptInStatus) }),
 ).annotations({
   identifier: "AmazonCodeGuruProfilerIntegration",
 }) as any as S.Schema<AmazonCodeGuruProfilerIntegration>;
@@ -720,19 +771,115 @@ export const UpdateEventSourcesConfigResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateEventSourcesConfigResponse",
 }) as any as S.Schema<UpdateEventSourcesConfigResponse>;
-export type ResourceTypeFilters = string[];
-export const ResourceTypeFilters = S.Array(S.String);
-export type InsightSeverities = string[];
-export const InsightSeverities = S.Array(S.String);
-export type InsightStatuses = string[];
-export const InsightStatuses = S.Array(S.String);
+export type EventClass =
+  | "INFRASTRUCTURE"
+  | "DEPLOYMENT"
+  | "SECURITY_CHANGE"
+  | "CONFIG_CHANGE"
+  | "SCHEMA_CHANGE";
+export const EventClass = S.Literal(
+  "INFRASTRUCTURE",
+  "DEPLOYMENT",
+  "SECURITY_CHANGE",
+  "CONFIG_CHANGE",
+  "SCHEMA_CHANGE",
+);
+export type EventDataSource = "AWS_CLOUD_TRAIL" | "AWS_CODE_DEPLOY";
+export const EventDataSource = S.Literal("AWS_CLOUD_TRAIL", "AWS_CODE_DEPLOY");
+export type ResourcePermission = "FULL_PERMISSION" | "MISSING_PERMISSION";
+export const ResourcePermission = S.Literal(
+  "FULL_PERMISSION",
+  "MISSING_PERMISSION",
+);
+export type ResourceTypeFilter =
+  | "LOG_GROUPS"
+  | "CLOUDFRONT_DISTRIBUTION"
+  | "DYNAMODB_TABLE"
+  | "EC2_NAT_GATEWAY"
+  | "ECS_CLUSTER"
+  | "ECS_SERVICE"
+  | "EKS_CLUSTER"
+  | "ELASTIC_BEANSTALK_ENVIRONMENT"
+  | "ELASTIC_LOAD_BALANCER_LOAD_BALANCER"
+  | "ELASTIC_LOAD_BALANCING_V2_LOAD_BALANCER"
+  | "ELASTIC_LOAD_BALANCING_V2_TARGET_GROUP"
+  | "ELASTICACHE_CACHE_CLUSTER"
+  | "ELASTICSEARCH_DOMAIN"
+  | "KINESIS_STREAM"
+  | "LAMBDA_FUNCTION"
+  | "OPEN_SEARCH_SERVICE_DOMAIN"
+  | "RDS_DB_INSTANCE"
+  | "RDS_DB_CLUSTER"
+  | "REDSHIFT_CLUSTER"
+  | "ROUTE53_HOSTED_ZONE"
+  | "ROUTE53_HEALTH_CHECK"
+  | "S3_BUCKET"
+  | "SAGEMAKER_ENDPOINT"
+  | "SNS_TOPIC"
+  | "SQS_QUEUE"
+  | "STEP_FUNCTIONS_ACTIVITY"
+  | "STEP_FUNCTIONS_STATE_MACHINE";
+export const ResourceTypeFilter = S.Literal(
+  "LOG_GROUPS",
+  "CLOUDFRONT_DISTRIBUTION",
+  "DYNAMODB_TABLE",
+  "EC2_NAT_GATEWAY",
+  "ECS_CLUSTER",
+  "ECS_SERVICE",
+  "EKS_CLUSTER",
+  "ELASTIC_BEANSTALK_ENVIRONMENT",
+  "ELASTIC_LOAD_BALANCER_LOAD_BALANCER",
+  "ELASTIC_LOAD_BALANCING_V2_LOAD_BALANCER",
+  "ELASTIC_LOAD_BALANCING_V2_TARGET_GROUP",
+  "ELASTICACHE_CACHE_CLUSTER",
+  "ELASTICSEARCH_DOMAIN",
+  "KINESIS_STREAM",
+  "LAMBDA_FUNCTION",
+  "OPEN_SEARCH_SERVICE_DOMAIN",
+  "RDS_DB_INSTANCE",
+  "RDS_DB_CLUSTER",
+  "REDSHIFT_CLUSTER",
+  "ROUTE53_HOSTED_ZONE",
+  "ROUTE53_HEALTH_CHECK",
+  "S3_BUCKET",
+  "SAGEMAKER_ENDPOINT",
+  "SNS_TOPIC",
+  "SQS_QUEUE",
+  "STEP_FUNCTIONS_ACTIVITY",
+  "STEP_FUNCTIONS_STATE_MACHINE",
+);
+export type ResourceTypeFilters = ResourceTypeFilter[];
+export const ResourceTypeFilters = S.Array(ResourceTypeFilter);
+export type InsightFeedbackOption =
+  | "VALID_COLLECTION"
+  | "RECOMMENDATION_USEFUL"
+  | "ALERT_TOO_SENSITIVE"
+  | "DATA_NOISY_ANOMALY"
+  | "DATA_INCORRECT";
+export const InsightFeedbackOption = S.Literal(
+  "VALID_COLLECTION",
+  "RECOMMENDATION_USEFUL",
+  "ALERT_TOO_SENSITIVE",
+  "DATA_NOISY_ANOMALY",
+  "DATA_INCORRECT",
+);
+export type InsightSeverity = "LOW" | "MEDIUM" | "HIGH";
+export const InsightSeverity = S.Literal("LOW", "MEDIUM", "HIGH");
+export type InsightSeverities = InsightSeverity[];
+export const InsightSeverities = S.Array(InsightSeverity);
+export type InsightStatus = "ONGOING" | "CLOSED";
+export const InsightStatus = S.Literal("ONGOING", "CLOSED");
+export type InsightStatuses = InsightStatus[];
+export const InsightStatuses = S.Array(InsightStatus);
+export type CostEstimationStatus = "ONGOING" | "COMPLETED";
+export const CostEstimationStatus = S.Literal("ONGOING", "COMPLETED");
 export interface ListMonitoredResourcesFilters {
-  ResourcePermission: string;
-  ResourceTypeFilters: ResourceTypeFilters;
+  ResourcePermission: ResourcePermission;
+  ResourceTypeFilters: ResourceTypeFilter[];
 }
 export const ListMonitoredResourcesFilters = S.suspend(() =>
   S.Struct({
-    ResourcePermission: S.String,
+    ResourcePermission: ResourcePermission,
     ResourceTypeFilters: ResourceTypeFilters,
   }),
 ).annotations({
@@ -740,17 +887,20 @@ export const ListMonitoredResourcesFilters = S.suspend(() =>
 }) as any as S.Schema<ListMonitoredResourcesFilters>;
 export interface InsightFeedback {
   Id?: string;
-  Feedback?: string;
+  Feedback?: InsightFeedbackOption;
 }
 export const InsightFeedback = S.suspend(() =>
-  S.Struct({ Id: S.optional(S.String), Feedback: S.optional(S.String) }),
+  S.Struct({
+    Id: S.optional(S.String),
+    Feedback: S.optional(InsightFeedbackOption),
+  }),
 ).annotations({
   identifier: "InsightFeedback",
 }) as any as S.Schema<InsightFeedback>;
 export type StackNames = string[];
 export const StackNames = S.Array(S.String);
 export interface CloudFormationCollection {
-  StackNames?: StackNames;
+  StackNames?: string[];
 }
 export const CloudFormationCollection = S.suspend(() =>
   S.Struct({ StackNames: S.optional(StackNames) }),
@@ -761,7 +911,7 @@ export type TagValues = string[];
 export const TagValues = S.Array(S.String);
 export interface TagCollection {
   AppBoundaryKey: string;
-  TagValues: TagValues;
+  TagValues: string[];
 }
 export const TagCollection = S.suspend(() =>
   S.Struct({ AppBoundaryKey: S.String, TagValues: TagValues }),
@@ -772,7 +922,7 @@ export type TagCollections = TagCollection[];
 export const TagCollections = S.Array(TagCollection);
 export interface ResourceCollection {
   CloudFormation?: CloudFormationCollection;
-  Tags?: TagCollections;
+  Tags?: TagCollection[];
 }
 export const ResourceCollection = S.suspend(() =>
   S.Struct({
@@ -782,10 +932,63 @@ export const ResourceCollection = S.suspend(() =>
 ).annotations({
   identifier: "ResourceCollection",
 }) as any as S.Schema<ResourceCollection>;
-export type ServiceNames = string[];
-export const ServiceNames = S.Array(S.String);
+export type ServiceName =
+  | "API_GATEWAY"
+  | "APPLICATION_ELB"
+  | "AUTO_SCALING_GROUP"
+  | "CLOUD_FRONT"
+  | "DYNAMO_DB"
+  | "EC2"
+  | "ECS"
+  | "EKS"
+  | "ELASTIC_BEANSTALK"
+  | "ELASTI_CACHE"
+  | "ELB"
+  | "ES"
+  | "KINESIS"
+  | "LAMBDA"
+  | "NAT_GATEWAY"
+  | "NETWORK_ELB"
+  | "RDS"
+  | "REDSHIFT"
+  | "ROUTE_53"
+  | "S3"
+  | "SAGE_MAKER"
+  | "SNS"
+  | "SQS"
+  | "STEP_FUNCTIONS"
+  | "SWF";
+export const ServiceName = S.Literal(
+  "API_GATEWAY",
+  "APPLICATION_ELB",
+  "AUTO_SCALING_GROUP",
+  "CLOUD_FRONT",
+  "DYNAMO_DB",
+  "EC2",
+  "ECS",
+  "EKS",
+  "ELASTIC_BEANSTALK",
+  "ELASTI_CACHE",
+  "ELB",
+  "ES",
+  "KINESIS",
+  "LAMBDA",
+  "NAT_GATEWAY",
+  "NETWORK_ELB",
+  "RDS",
+  "REDSHIFT",
+  "ROUTE_53",
+  "S3",
+  "SAGE_MAKER",
+  "SNS",
+  "SQS",
+  "STEP_FUNCTIONS",
+  "SWF",
+);
+export type ServiceNames = ServiceName[];
+export const ServiceNames = S.Array(ServiceName);
 export interface ServiceCollection {
-  ServiceNames?: ServiceNames;
+  ServiceNames?: ServiceName[];
 }
 export const ServiceCollection = S.suspend(() =>
   S.Struct({ ServiceNames: S.optional(ServiceNames) }),
@@ -793,8 +996,8 @@ export const ServiceCollection = S.suspend(() =>
   identifier: "ServiceCollection",
 }) as any as S.Schema<ServiceCollection>;
 export interface SearchInsightsFilters {
-  Severities?: InsightSeverities;
-  Statuses?: InsightStatuses;
+  Severities?: InsightSeverity[];
+  Statuses?: InsightStatus[];
   ResourceCollection?: ResourceCollection;
   ServiceCollection?: ServiceCollection;
 }
@@ -809,8 +1012,8 @@ export const SearchInsightsFilters = S.suspend(() =>
   identifier: "SearchInsightsFilters",
 }) as any as S.Schema<SearchInsightsFilters>;
 export interface SearchOrganizationInsightsFilters {
-  Severities?: InsightSeverities;
-  Statuses?: InsightStatuses;
+  Severities?: InsightSeverity[];
+  Statuses?: InsightStatus[];
   ResourceCollection?: ResourceCollection;
   ServiceCollection?: ServiceCollection;
 }
@@ -824,8 +1027,30 @@ export const SearchOrganizationInsightsFilters = S.suspend(() =>
 ).annotations({
   identifier: "SearchOrganizationInsightsFilters",
 }) as any as S.Schema<SearchOrganizationInsightsFilters>;
-export type NotificationMessageTypes = string[];
-export const NotificationMessageTypes = S.Array(S.String);
+export type NotificationMessageType =
+  | "NEW_INSIGHT"
+  | "CLOSED_INSIGHT"
+  | "NEW_ASSOCIATION"
+  | "SEVERITY_UPGRADED"
+  | "NEW_RECOMMENDATION";
+export const NotificationMessageType = S.Literal(
+  "NEW_INSIGHT",
+  "CLOSED_INSIGHT",
+  "NEW_ASSOCIATION",
+  "SEVERITY_UPGRADED",
+  "NEW_RECOMMENDATION",
+);
+export type NotificationMessageTypes = NotificationMessageType[];
+export const NotificationMessageTypes = S.Array(NotificationMessageType);
+export type OptInStatus = "ENABLED" | "DISABLED";
+export const OptInStatus = S.Literal("ENABLED", "DISABLED");
+export type ServerSideEncryptionType =
+  | "CUSTOMER_MANAGED_KEY"
+  | "AWS_OWNED_KMS_KEY";
+export const ServerSideEncryptionType = S.Literal(
+  "CUSTOMER_MANAGED_KEY",
+  "AWS_OWNED_KMS_KEY",
+);
 export type CostEstimationStackNames = string[];
 export const CostEstimationStackNames = S.Array(S.String);
 export type CostEstimationTagValues = string[];
@@ -924,13 +1149,13 @@ export const ServiceInsightHealth = S.suspend(() =>
   identifier: "ServiceInsightHealth",
 }) as any as S.Schema<ServiceInsightHealth>;
 export interface ServiceHealth {
-  ServiceName?: string;
+  ServiceName?: ServiceName;
   Insight?: ServiceInsightHealth;
   AnalyzedResourceCount?: number;
 }
 export const ServiceHealth = S.suspend(() =>
   S.Struct({
-    ServiceName: S.optional(S.String),
+    ServiceName: S.optional(ServiceName),
     Insight: S.optional(ServiceInsightHealth),
     AnalyzedResourceCount: S.optional(S.Number),
   }),
@@ -956,10 +1181,10 @@ export const TagHealth = S.suspend(() =>
 export type TagHealths = TagHealth[];
 export const TagHealths = S.Array(TagHealth);
 export interface DescribeResourceCollectionHealthResponse {
-  CloudFormation?: CloudFormationHealths;
-  Service?: ServiceHealths;
+  CloudFormation?: CloudFormationHealth[];
+  Service?: ServiceHealth[];
   NextToken?: string;
-  Tags?: TagHealths;
+  Tags?: TagHealth[];
 }
 export const DescribeResourceCollectionHealthResponse = S.suspend(() =>
   S.Struct({
@@ -1020,7 +1245,7 @@ export interface SearchInsightsRequest {
   Filters?: SearchInsightsFilters;
   MaxResults?: number;
   NextToken?: string;
-  Type: string;
+  Type: InsightType;
 }
 export const SearchInsightsRequest = S.suspend(() =>
   S.Struct({
@@ -1028,7 +1253,7 @@ export const SearchInsightsRequest = S.suspend(() =>
     Filters: S.optional(SearchInsightsFilters),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-    Type: S.String,
+    Type: InsightType,
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/insights/search" }),
@@ -1043,12 +1268,12 @@ export const SearchInsightsRequest = S.suspend(() =>
   identifier: "SearchInsightsRequest",
 }) as any as S.Schema<SearchInsightsRequest>;
 export interface SearchOrganizationInsightsRequest {
-  AccountIds: SearchInsightsAccountIdList;
+  AccountIds: string[];
   StartTimeRange: StartTimeRange;
   Filters?: SearchOrganizationInsightsFilters;
   MaxResults?: number;
   NextToken?: string;
-  Type: string;
+  Type: InsightType;
 }
 export const SearchOrganizationInsightsRequest = S.suspend(() =>
   S.Struct({
@@ -1057,7 +1282,7 @@ export const SearchOrganizationInsightsRequest = S.suspend(() =>
     Filters: S.optional(SearchOrganizationInsightsFilters),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-    Type: S.String,
+    Type: InsightType,
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/organization/insights/search" }),
@@ -1080,8 +1305,8 @@ export const SnsChannelConfig = S.suspend(() =>
   identifier: "SnsChannelConfig",
 }) as any as S.Schema<SnsChannelConfig>;
 export interface NotificationFilterConfig {
-  Severities?: InsightSeverities;
-  MessageTypes?: NotificationMessageTypes;
+  Severities?: InsightSeverity[];
+  MessageTypes?: NotificationMessageType[];
 }
 export const NotificationFilterConfig = S.suspend(() =>
   S.Struct({
@@ -1091,36 +1316,47 @@ export const NotificationFilterConfig = S.suspend(() =>
 ).annotations({
   identifier: "NotificationFilterConfig",
 }) as any as S.Schema<NotificationFilterConfig>;
+export type AnomalySeverity = "LOW" | "MEDIUM" | "HIGH";
+export const AnomalySeverity = S.Literal("LOW", "MEDIUM", "HIGH");
+export type AnomalyStatus = "ONGOING" | "CLOSED";
+export const AnomalyStatus = S.Literal("ONGOING", "CLOSED");
+export type AnomalyType = "CAUSAL" | "CONTEXTUAL";
+export const AnomalyType = S.Literal("CAUSAL", "CONTEXTUAL");
 export interface OpsCenterIntegration {
-  OptInStatus?: string;
+  OptInStatus?: OptInStatus;
 }
 export const OpsCenterIntegration = S.suspend(() =>
-  S.Struct({ OptInStatus: S.optional(S.String) }),
+  S.Struct({ OptInStatus: S.optional(OptInStatus) }),
 ).annotations({
   identifier: "OpsCenterIntegration",
 }) as any as S.Schema<OpsCenterIntegration>;
 export interface LogsAnomalyDetectionIntegration {
-  OptInStatus?: string;
+  OptInStatus?: OptInStatus;
 }
 export const LogsAnomalyDetectionIntegration = S.suspend(() =>
-  S.Struct({ OptInStatus: S.optional(S.String) }),
+  S.Struct({ OptInStatus: S.optional(OptInStatus) }),
 ).annotations({
   identifier: "LogsAnomalyDetectionIntegration",
 }) as any as S.Schema<LogsAnomalyDetectionIntegration>;
 export interface KMSServerSideEncryptionIntegration {
   KMSKeyId?: string;
-  OptInStatus?: string;
-  Type?: string;
+  OptInStatus?: OptInStatus;
+  Type?: ServerSideEncryptionType;
 }
 export const KMSServerSideEncryptionIntegration = S.suspend(() =>
   S.Struct({
     KMSKeyId: S.optional(S.String),
-    OptInStatus: S.optional(S.String),
-    Type: S.optional(S.String),
+    OptInStatus: S.optional(OptInStatus),
+    Type: S.optional(ServerSideEncryptionType),
   }),
 ).annotations({
   identifier: "KMSServerSideEncryptionIntegration",
 }) as any as S.Schema<KMSServerSideEncryptionIntegration>;
+export type CostEstimationServiceResourceState = "ACTIVE" | "INACTIVE";
+export const CostEstimationServiceResourceState = S.Literal(
+  "ACTIVE",
+  "INACTIVE",
+);
 export interface EventTimeRange {
   FromTime: Date;
   ToTime: Date;
@@ -1134,7 +1370,7 @@ export const EventTimeRange = S.suspend(() =>
   identifier: "EventTimeRange",
 }) as any as S.Schema<EventTimeRange>;
 export interface CloudFormationCostEstimationResourceCollectionFilter {
-  StackNames?: CostEstimationStackNames;
+  StackNames?: string[];
 }
 export const CloudFormationCostEstimationResourceCollectionFilter = S.suspend(
   () => S.Struct({ StackNames: S.optional(CostEstimationStackNames) }),
@@ -1143,7 +1379,7 @@ export const CloudFormationCostEstimationResourceCollectionFilter = S.suspend(
 }) as any as S.Schema<CloudFormationCostEstimationResourceCollectionFilter>;
 export interface TagCostEstimationResourceCollectionFilter {
   AppBoundaryKey: string;
-  TagValues: CostEstimationTagValues;
+  TagValues: string[];
 }
 export const TagCostEstimationResourceCollectionFilter = S.suspend(() =>
   S.Struct({ AppBoundaryKey: S.String, TagValues: CostEstimationTagValues }),
@@ -1156,7 +1392,7 @@ export const TagCostEstimationResourceCollectionFilters = S.Array(
   TagCostEstimationResourceCollectionFilter,
 );
 export interface UpdateCloudFormationCollectionFilter {
-  StackNames?: UpdateStackNames;
+  StackNames?: string[];
 }
 export const UpdateCloudFormationCollectionFilter = S.suspend(() =>
   S.Struct({ StackNames: S.optional(UpdateStackNames) }),
@@ -1165,7 +1401,7 @@ export const UpdateCloudFormationCollectionFilter = S.suspend(() =>
 }) as any as S.Schema<UpdateCloudFormationCollectionFilter>;
 export interface UpdateTagCollectionFilter {
   AppBoundaryKey: string;
-  TagValues: UpdateTagValues;
+  TagValues: string[];
 }
 export const UpdateTagCollectionFilter = S.suspend(() =>
   S.Struct({ AppBoundaryKey: S.String, TagValues: UpdateTagValues }),
@@ -1175,31 +1411,31 @@ export const UpdateTagCollectionFilter = S.suspend(() =>
 export type UpdateTagCollectionFilters = UpdateTagCollectionFilter[];
 export const UpdateTagCollectionFilters = S.Array(UpdateTagCollectionFilter);
 export interface OpsCenterIntegrationConfig {
-  OptInStatus?: string;
+  OptInStatus?: OptInStatus;
 }
 export const OpsCenterIntegrationConfig = S.suspend(() =>
-  S.Struct({ OptInStatus: S.optional(S.String) }),
+  S.Struct({ OptInStatus: S.optional(OptInStatus) }),
 ).annotations({
   identifier: "OpsCenterIntegrationConfig",
 }) as any as S.Schema<OpsCenterIntegrationConfig>;
 export interface LogsAnomalyDetectionIntegrationConfig {
-  OptInStatus?: string;
+  OptInStatus?: OptInStatus;
 }
 export const LogsAnomalyDetectionIntegrationConfig = S.suspend(() =>
-  S.Struct({ OptInStatus: S.optional(S.String) }),
+  S.Struct({ OptInStatus: S.optional(OptInStatus) }),
 ).annotations({
   identifier: "LogsAnomalyDetectionIntegrationConfig",
 }) as any as S.Schema<LogsAnomalyDetectionIntegrationConfig>;
 export interface KMSServerSideEncryptionIntegrationConfig {
   KMSKeyId?: string;
-  OptInStatus?: string;
-  Type?: string;
+  OptInStatus?: OptInStatus;
+  Type?: ServerSideEncryptionType;
 }
 export const KMSServerSideEncryptionIntegrationConfig = S.suspend(() =>
   S.Struct({
     KMSKeyId: S.optional(S.String),
-    OptInStatus: S.optional(S.String),
-    Type: S.optional(S.String),
+    OptInStatus: S.optional(OptInStatus),
+    Type: S.optional(ServerSideEncryptionType),
   }),
 ).annotations({
   identifier: "KMSServerSideEncryptionIntegrationConfig",
@@ -1251,6 +1487,25 @@ export const CloudWatchMetricsDimension = S.suspend(() =>
 }) as any as S.Schema<CloudWatchMetricsDimension>;
 export type CloudWatchMetricsDimensions = CloudWatchMetricsDimension[];
 export const CloudWatchMetricsDimensions = S.Array(CloudWatchMetricsDimension);
+export type CloudWatchMetricsStat =
+  | "Sum"
+  | "Average"
+  | "SampleCount"
+  | "Minimum"
+  | "Maximum"
+  | "p99"
+  | "p90"
+  | "p50";
+export const CloudWatchMetricsStat = S.Literal(
+  "Sum",
+  "Average",
+  "SampleCount",
+  "Minimum",
+  "Maximum",
+  "p99",
+  "p90",
+  "p50",
+);
 export interface TimestampMetricValuePair {
   Timestamp?: Date;
   MetricValue?: number;
@@ -1265,14 +1520,23 @@ export const TimestampMetricValuePair = S.suspend(() =>
 }) as any as S.Schema<TimestampMetricValuePair>;
 export type TimestampMetricValuePairList = TimestampMetricValuePair[];
 export const TimestampMetricValuePairList = S.Array(TimestampMetricValuePair);
+export type CloudWatchMetricDataStatusCode =
+  | "Complete"
+  | "InternalError"
+  | "PartialData";
+export const CloudWatchMetricDataStatusCode = S.Literal(
+  "Complete",
+  "InternalError",
+  "PartialData",
+);
 export interface CloudWatchMetricsDataSummary {
-  TimestampMetricValuePairList?: TimestampMetricValuePairList;
-  StatusCode?: string;
+  TimestampMetricValuePairList?: TimestampMetricValuePair[];
+  StatusCode?: CloudWatchMetricDataStatusCode;
 }
 export const CloudWatchMetricsDataSummary = S.suspend(() =>
   S.Struct({
     TimestampMetricValuePairList: S.optional(TimestampMetricValuePairList),
-    StatusCode: S.optional(S.String),
+    StatusCode: S.optional(CloudWatchMetricDataStatusCode),
   }),
 ).annotations({
   identifier: "CloudWatchMetricsDataSummary",
@@ -1280,8 +1544,8 @@ export const CloudWatchMetricsDataSummary = S.suspend(() =>
 export interface CloudWatchMetricsDetail {
   MetricName?: string;
   Namespace?: string;
-  Dimensions?: CloudWatchMetricsDimensions;
-  Stat?: string;
+  Dimensions?: CloudWatchMetricsDimension[];
+  Stat?: CloudWatchMetricsStat;
   Unit?: string;
   Period?: number;
   MetricDataSummary?: CloudWatchMetricsDataSummary;
@@ -1291,7 +1555,7 @@ export const CloudWatchMetricsDetail = S.suspend(() =>
     MetricName: S.optional(S.String),
     Namespace: S.optional(S.String),
     Dimensions: S.optional(CloudWatchMetricsDimensions),
-    Stat: S.optional(S.String),
+    Stat: S.optional(CloudWatchMetricsStat),
     Unit: S.optional(S.String),
     Period: S.optional(S.Number),
     MetricDataSummary: S.optional(CloudWatchMetricsDataSummary),
@@ -1305,7 +1569,7 @@ export type PerformanceInsightsMetricDimensions = string[];
 export const PerformanceInsightsMetricDimensions = S.Array(S.String);
 export interface PerformanceInsightsMetricDimensionGroup {
   Group?: string;
-  Dimensions?: PerformanceInsightsMetricDimensions;
+  Dimensions?: string[];
   Limit?: number;
 }
 export const PerformanceInsightsMetricDimensionGroup = S.suspend(() =>
@@ -1325,7 +1589,7 @@ export const PerformanceInsightsMetricFilterMap = S.Record({
 export interface PerformanceInsightsMetricQuery {
   Metric?: string;
   GroupBy?: PerformanceInsightsMetricDimensionGroup;
-  Filter?: PerformanceInsightsMetricFilterMap;
+  Filter?: { [key: string]: string };
 }
 export const PerformanceInsightsMetricQuery = S.suspend(() =>
   S.Struct({
@@ -1396,9 +1660,9 @@ export interface PerformanceInsightsMetricsDetail {
   MetricDisplayName?: string;
   Unit?: string;
   MetricQuery?: PerformanceInsightsMetricQuery;
-  ReferenceData?: PerformanceInsightsReferenceDataList;
-  StatsAtAnomaly?: PerformanceInsightsStats;
-  StatsAtBaseline?: PerformanceInsightsStats;
+  ReferenceData?: PerformanceInsightsReferenceData[];
+  StatsAtAnomaly?: PerformanceInsightsStat[];
+  StatsAtBaseline?: PerformanceInsightsStat[];
 }
 export const PerformanceInsightsMetricsDetail = S.suspend(() =>
   S.Struct({
@@ -1418,8 +1682,8 @@ export const PerformanceInsightsMetricsDetails = S.Array(
   PerformanceInsightsMetricsDetail,
 );
 export interface AnomalySourceDetails {
-  CloudWatchMetrics?: CloudWatchMetricsDetails;
-  PerformanceInsightsMetrics?: PerformanceInsightsMetricsDetails;
+  CloudWatchMetrics?: CloudWatchMetricsDetail[];
+  PerformanceInsightsMetrics?: PerformanceInsightsMetricsDetail[];
 }
 export const AnomalySourceDetails = S.suspend(() =>
   S.Struct({
@@ -1442,30 +1706,30 @@ export type AnomalyResources = AnomalyResource[];
 export const AnomalyResources = S.Array(AnomalyResource);
 export interface ReactiveAnomaly {
   Id?: string;
-  Severity?: string;
-  Status?: string;
+  Severity?: AnomalySeverity;
+  Status?: AnomalyStatus;
   AnomalyTimeRange?: AnomalyTimeRange;
   AnomalyReportedTimeRange?: AnomalyReportedTimeRange;
   SourceDetails?: AnomalySourceDetails;
   AssociatedInsightId?: string;
   ResourceCollection?: ResourceCollection;
-  Type?: string;
+  Type?: AnomalyType;
   Name?: string;
   Description?: string;
   CausalAnomalyId?: string;
-  AnomalyResources?: AnomalyResources;
+  AnomalyResources?: AnomalyResource[];
 }
 export const ReactiveAnomaly = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
-    Severity: S.optional(S.String),
-    Status: S.optional(S.String),
+    Severity: S.optional(AnomalySeverity),
+    Status: S.optional(AnomalyStatus),
     AnomalyTimeRange: S.optional(AnomalyTimeRange),
     AnomalyReportedTimeRange: S.optional(AnomalyReportedTimeRange),
     SourceDetails: S.optional(AnomalySourceDetails),
     AssociatedInsightId: S.optional(S.String),
     ResourceCollection: S.optional(ResourceCollection),
-    Type: S.optional(S.String),
+    Type: S.optional(AnomalyType),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     CausalAnomalyId: S.optional(S.String),
@@ -1489,8 +1753,8 @@ export const InsightTimeRange = S.suspend(() =>
 export interface ReactiveInsight {
   Id?: string;
   Name?: string;
-  Severity?: string;
-  Status?: string;
+  Severity?: InsightSeverity;
+  Status?: InsightStatus;
   InsightTimeRange?: InsightTimeRange;
   ResourceCollection?: ResourceCollection;
   SsmOpsItemId?: string;
@@ -1500,8 +1764,8 @@ export const ReactiveInsight = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Name: S.optional(S.String),
-    Severity: S.optional(S.String),
-    Status: S.optional(S.String),
+    Severity: S.optional(InsightSeverity),
+    Status: S.optional(InsightStatus),
     InsightTimeRange: S.optional(InsightTimeRange),
     ResourceCollection: S.optional(ResourceCollection),
     SsmOpsItemId: S.optional(S.String),
@@ -1526,7 +1790,7 @@ export const ServiceIntegrationConfig = S.suspend(() =>
 }) as any as S.Schema<ServiceIntegrationConfig>;
 export interface ServiceResourceCost {
   Type?: string;
-  State?: string;
+  State?: CostEstimationServiceResourceState;
   Count?: number;
   UnitCost?: number;
   Cost?: number;
@@ -1534,7 +1798,7 @@ export interface ServiceResourceCost {
 export const ServiceResourceCost = S.suspend(() =>
   S.Struct({
     Type: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(CostEstimationServiceResourceState),
     Count: S.optional(S.Number),
     UnitCost: S.optional(S.Number),
     Cost: S.optional(S.Number),
@@ -1595,8 +1859,8 @@ export interface ProactiveOrganizationInsightSummary {
   AccountId?: string;
   OrganizationalUnitId?: string;
   Name?: string;
-  Severity?: string;
-  Status?: string;
+  Severity?: InsightSeverity;
+  Status?: InsightStatus;
   InsightTimeRange?: InsightTimeRange;
   PredictionTimeRange?: PredictionTimeRange;
   ResourceCollection?: ResourceCollection;
@@ -1608,8 +1872,8 @@ export const ProactiveOrganizationInsightSummary = S.suspend(() =>
     AccountId: S.optional(S.String),
     OrganizationalUnitId: S.optional(S.String),
     Name: S.optional(S.String),
-    Severity: S.optional(S.String),
-    Status: S.optional(S.String),
+    Severity: S.optional(InsightSeverity),
+    Status: S.optional(InsightStatus),
     InsightTimeRange: S.optional(InsightTimeRange),
     PredictionTimeRange: S.optional(PredictionTimeRange),
     ResourceCollection: S.optional(ResourceCollection),
@@ -1628,8 +1892,8 @@ export interface ReactiveOrganizationInsightSummary {
   AccountId?: string;
   OrganizationalUnitId?: string;
   Name?: string;
-  Severity?: string;
-  Status?: string;
+  Severity?: InsightSeverity;
+  Status?: InsightStatus;
   InsightTimeRange?: InsightTimeRange;
   ResourceCollection?: ResourceCollection;
   ServiceCollection?: ServiceCollection;
@@ -1640,8 +1904,8 @@ export const ReactiveOrganizationInsightSummary = S.suspend(() =>
     AccountId: S.optional(S.String),
     OrganizationalUnitId: S.optional(S.String),
     Name: S.optional(S.String),
-    Severity: S.optional(S.String),
-    Status: S.optional(S.String),
+    Severity: S.optional(InsightSeverity),
+    Status: S.optional(InsightStatus),
     InsightTimeRange: S.optional(InsightTimeRange),
     ResourceCollection: S.optional(ResourceCollection),
     ServiceCollection: S.optional(ServiceCollection),
@@ -1655,7 +1919,7 @@ export const ReactiveOrganizationInsights = S.Array(
 );
 export interface CostEstimationResourceCollectionFilter {
   CloudFormation?: CloudFormationCostEstimationResourceCollectionFilter;
-  Tags?: TagCostEstimationResourceCollectionFilters;
+  Tags?: TagCostEstimationResourceCollectionFilter[];
 }
 export const CostEstimationResourceCollectionFilter = S.suspend(() =>
   S.Struct({
@@ -1669,7 +1933,7 @@ export const CostEstimationResourceCollectionFilter = S.suspend(() =>
 }) as any as S.Schema<CostEstimationResourceCollectionFilter>;
 export interface UpdateResourceCollectionFilter {
   CloudFormation?: UpdateCloudFormationCollectionFilter;
-  Tags?: UpdateTagCollectionFilters;
+  Tags?: UpdateTagCollectionFilter[];
 }
 export const UpdateResourceCollectionFilter = S.suspend(() =>
   S.Struct({
@@ -1730,8 +1994,8 @@ export const DescribeServiceIntegrationResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeServiceIntegrationResponse>;
 export interface GetCostEstimationResponse {
   ResourceCollection?: CostEstimationResourceCollectionFilter;
-  Status?: string;
-  Costs?: ServiceResourceCosts;
+  Status?: CostEstimationStatus;
+  Costs?: ServiceResourceCost[];
   TimeRange?: CostEstimationTimeRange;
   TotalCost?: number;
   NextToken?: string;
@@ -1739,7 +2003,7 @@ export interface GetCostEstimationResponse {
 export const GetCostEstimationResponse = S.suspend(() =>
   S.Struct({
     ResourceCollection: S.optional(CostEstimationResourceCollectionFilter),
-    Status: S.optional(S.String),
+    Status: S.optional(CostEstimationStatus),
     Costs: S.optional(ServiceResourceCosts),
     TimeRange: S.optional(CostEstimationTimeRange),
     TotalCost: S.optional(S.Number),
@@ -1778,7 +2042,7 @@ export const ListAnomaliesForInsightRequest = S.suspend(() =>
   identifier: "ListAnomaliesForInsightRequest",
 }) as any as S.Schema<ListAnomaliesForInsightRequest>;
 export interface ListNotificationChannelsResponse {
-  Channels?: Channels;
+  Channels?: NotificationChannel[];
   NextToken?: string;
 }
 export const ListNotificationChannelsResponse = S.suspend(() =>
@@ -1787,8 +2051,8 @@ export const ListNotificationChannelsResponse = S.suspend(() =>
   identifier: "ListNotificationChannelsResponse",
 }) as any as S.Schema<ListNotificationChannelsResponse>;
 export interface ListOrganizationInsightsResponse {
-  ProactiveInsights?: ProactiveOrganizationInsights;
-  ReactiveInsights?: ReactiveOrganizationInsights;
+  ProactiveInsights?: ProactiveOrganizationInsightSummary[];
+  ReactiveInsights?: ReactiveOrganizationInsightSummary[];
   NextToken?: string;
 }
 export const ListOrganizationInsightsResponse = S.suspend(() =>
@@ -1805,20 +2069,20 @@ export const AssociatedResourceArns = S.Array(S.String);
 export interface ProactiveInsightSummary {
   Id?: string;
   Name?: string;
-  Severity?: string;
-  Status?: string;
+  Severity?: InsightSeverity;
+  Status?: InsightStatus;
   InsightTimeRange?: InsightTimeRange;
   PredictionTimeRange?: PredictionTimeRange;
   ResourceCollection?: ResourceCollection;
   ServiceCollection?: ServiceCollection;
-  AssociatedResourceArns?: AssociatedResourceArns;
+  AssociatedResourceArns?: string[];
 }
 export const ProactiveInsightSummary = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Name: S.optional(S.String),
-    Severity: S.optional(S.String),
-    Status: S.optional(S.String),
+    Severity: S.optional(InsightSeverity),
+    Status: S.optional(InsightStatus),
     InsightTimeRange: S.optional(InsightTimeRange),
     PredictionTimeRange: S.optional(PredictionTimeRange),
     ResourceCollection: S.optional(ResourceCollection),
@@ -1833,19 +2097,19 @@ export const ProactiveInsights = S.Array(ProactiveInsightSummary);
 export interface ReactiveInsightSummary {
   Id?: string;
   Name?: string;
-  Severity?: string;
-  Status?: string;
+  Severity?: InsightSeverity;
+  Status?: InsightStatus;
   InsightTimeRange?: InsightTimeRange;
   ResourceCollection?: ResourceCollection;
   ServiceCollection?: ServiceCollection;
-  AssociatedResourceArns?: AssociatedResourceArns;
+  AssociatedResourceArns?: string[];
 }
 export const ReactiveInsightSummary = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Name: S.optional(S.String),
-    Severity: S.optional(S.String),
-    Status: S.optional(S.String),
+    Severity: S.optional(InsightSeverity),
+    Status: S.optional(InsightStatus),
     InsightTimeRange: S.optional(InsightTimeRange),
     ResourceCollection: S.optional(ResourceCollection),
     ServiceCollection: S.optional(ServiceCollection),
@@ -1857,8 +2121,8 @@ export const ReactiveInsightSummary = S.suspend(() =>
 export type ReactiveInsights = ReactiveInsightSummary[];
 export const ReactiveInsights = S.Array(ReactiveInsightSummary);
 export interface SearchOrganizationInsightsResponse {
-  ProactiveInsights?: ProactiveInsights;
-  ReactiveInsights?: ReactiveInsights;
+  ProactiveInsights?: ProactiveInsightSummary[];
+  ReactiveInsights?: ReactiveInsightSummary[];
   NextToken?: string;
 }
 export const SearchOrganizationInsightsResponse = S.suspend(() =>
@@ -1898,12 +2162,12 @@ export const StartCostEstimationResponse = S.suspend(() =>
   identifier: "StartCostEstimationResponse",
 }) as any as S.Schema<StartCostEstimationResponse>;
 export interface UpdateResourceCollectionRequest {
-  Action: string;
+  Action: UpdateResourceCollectionAction;
   ResourceCollection: UpdateResourceCollectionFilter;
 }
 export const UpdateResourceCollectionRequest = S.suspend(() =>
   S.Struct({
-    Action: S.String,
+    Action: UpdateResourceCollectionAction,
     ResourceCollection: UpdateResourceCollectionFilter,
   }).pipe(
     T.all(
@@ -1974,7 +2238,7 @@ export const AccountInsightHealth = S.suspend(() =>
   identifier: "AccountInsightHealth",
 }) as any as S.Schema<AccountInsightHealth>;
 export interface CloudFormationCollectionFilter {
-  StackNames?: StackNames;
+  StackNames?: string[];
 }
 export const CloudFormationCollectionFilter = S.suspend(() =>
   S.Struct({ StackNames: S.optional(StackNames) }),
@@ -1983,7 +2247,7 @@ export const CloudFormationCollectionFilter = S.suspend(() =>
 }) as any as S.Schema<CloudFormationCollectionFilter>;
 export interface TagCollectionFilter {
   AppBoundaryKey: string;
-  TagValues: TagValues;
+  TagValues: string[];
 }
 export const TagCollectionFilter = S.suspend(() =>
   S.Struct({ AppBoundaryKey: S.String, TagValues: TagValues }),
@@ -1992,11 +2256,30 @@ export const TagCollectionFilter = S.suspend(() =>
 }) as any as S.Schema<TagCollectionFilter>;
 export type TagCollectionFilters = TagCollectionFilter[];
 export const TagCollectionFilters = S.Array(TagCollectionFilter);
+export type LogAnomalyType =
+  | "KEYWORD"
+  | "KEYWORD_TOKEN"
+  | "FORMAT"
+  | "HTTP_CODE"
+  | "BLOCK_FORMAT"
+  | "NUMERICAL_POINT"
+  | "NUMERICAL_NAN"
+  | "NEW_FIELD_NAME";
+export const LogAnomalyType = S.Literal(
+  "KEYWORD",
+  "KEYWORD_TOKEN",
+  "FORMAT",
+  "HTTP_CODE",
+  "BLOCK_FORMAT",
+  "NUMERICAL_POINT",
+  "NUMERICAL_NAN",
+  "NEW_FIELD_NAME",
+);
 export interface ProactiveInsight {
   Id?: string;
   Name?: string;
-  Severity?: string;
-  Status?: string;
+  Severity?: InsightSeverity;
+  Status?: InsightStatus;
   InsightTimeRange?: InsightTimeRange;
   PredictionTimeRange?: PredictionTimeRange;
   ResourceCollection?: ResourceCollection;
@@ -2007,8 +2290,8 @@ export const ProactiveInsight = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Name: S.optional(S.String),
-    Severity: S.optional(S.String),
-    Status: S.optional(S.String),
+    Severity: S.optional(InsightSeverity),
+    Status: S.optional(InsightStatus),
     InsightTimeRange: S.optional(InsightTimeRange),
     PredictionTimeRange: S.optional(PredictionTimeRange),
     ResourceCollection: S.optional(ResourceCollection),
@@ -2034,7 +2317,7 @@ export type AccountHealths = AccountHealth[];
 export const AccountHealths = S.Array(AccountHealth);
 export interface ResourceCollectionFilter {
   CloudFormation?: CloudFormationCollectionFilter;
-  Tags?: TagCollectionFilters;
+  Tags?: TagCollectionFilter[];
 }
 export const ResourceCollectionFilter = S.suspend(() =>
   S.Struct({
@@ -2047,18 +2330,18 @@ export const ResourceCollectionFilter = S.suspend(() =>
 export interface ListEventsFilters {
   InsightId?: string;
   EventTimeRange?: EventTimeRange;
-  EventClass?: string;
+  EventClass?: EventClass;
   EventSource?: string;
-  DataSource?: string;
+  DataSource?: EventDataSource;
   ResourceCollection?: ResourceCollection;
 }
 export const ListEventsFilters = S.suspend(() =>
   S.Struct({
     InsightId: S.optional(S.String),
     EventTimeRange: S.optional(EventTimeRange),
-    EventClass: S.optional(S.String),
+    EventClass: S.optional(EventClass),
     EventSource: S.optional(S.String),
-    DataSource: S.optional(S.String),
+    DataSource: S.optional(EventDataSource),
     ResourceCollection: S.optional(ResourceCollection),
   }),
 ).annotations({
@@ -2067,7 +2350,7 @@ export const ListEventsFilters = S.suspend(() =>
 export interface MonitoredResourceIdentifier {
   MonitoredResourceName?: string;
   Type?: string;
-  ResourcePermission?: string;
+  ResourcePermission?: ResourcePermission;
   LastUpdated?: Date;
   ResourceCollection?: ResourceCollection;
 }
@@ -2075,7 +2358,7 @@ export const MonitoredResourceIdentifier = S.suspend(() =>
   S.Struct({
     MonitoredResourceName: S.optional(S.String),
     Type: S.optional(S.String),
-    ResourcePermission: S.optional(S.String),
+    ResourcePermission: S.optional(ResourcePermission),
     LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ResourceCollection: S.optional(ResourceCollection),
   }),
@@ -2088,7 +2371,7 @@ export const MonitoredResourceIdentifiers = S.Array(
 );
 export interface LogAnomalyClass {
   LogStreamName?: string;
-  LogAnomalyType?: string;
+  LogAnomalyType?: LogAnomalyType;
   LogAnomalyToken?: string;
   LogEventId?: string;
   Explanation?: string;
@@ -2098,7 +2381,7 @@ export interface LogAnomalyClass {
 export const LogAnomalyClass = S.suspend(() =>
   S.Struct({
     LogStreamName: S.optional(S.String),
-    LogAnomalyType: S.optional(S.String),
+    LogAnomalyType: S.optional(LogAnomalyType),
     LogAnomalyToken: S.optional(S.String),
     LogEventId: S.optional(S.String),
     Explanation: S.optional(S.String),
@@ -2161,11 +2444,11 @@ export const DescribeInsightResponse = S.suspend(() =>
   identifier: "DescribeInsightResponse",
 }) as any as S.Schema<DescribeInsightResponse>;
 export interface DescribeOrganizationResourceCollectionHealthResponse {
-  CloudFormation?: CloudFormationHealths;
-  Service?: ServiceHealths;
-  Account?: AccountHealths;
+  CloudFormation?: CloudFormationHealth[];
+  Service?: ServiceHealth[];
+  Account?: AccountHealth[];
   NextToken?: string;
-  Tags?: TagHealths;
+  Tags?: TagHealth[];
 }
 export const DescribeOrganizationResourceCollectionHealthResponse = S.suspend(
   () =>
@@ -2240,7 +2523,7 @@ export const ListInsightsRequest = S.suspend(() =>
   identifier: "ListInsightsRequest",
 }) as any as S.Schema<ListInsightsRequest>;
 export interface ListMonitoredResourcesResponse {
-  MonitoredResourceIdentifiers: MonitoredResourceIdentifiers;
+  MonitoredResourceIdentifiers: MonitoredResourceIdentifier[];
   NextToken?: string;
 }
 export const ListMonitoredResourcesResponse = S.suspend(() =>
@@ -2252,8 +2535,8 @@ export const ListMonitoredResourcesResponse = S.suspend(() =>
   identifier: "ListMonitoredResourcesResponse",
 }) as any as S.Schema<ListMonitoredResourcesResponse>;
 export interface SearchInsightsResponse {
-  ProactiveInsights?: ProactiveInsights;
-  ReactiveInsights?: ReactiveInsights;
+  ProactiveInsights?: ProactiveInsightSummary[];
+  ReactiveInsights?: ReactiveInsightSummary[];
   NextToken?: string;
 }
 export const SearchInsightsResponse = S.suspend(() =>
@@ -2266,7 +2549,7 @@ export const SearchInsightsResponse = S.suspend(() =>
   identifier: "SearchInsightsResponse",
 }) as any as S.Schema<SearchInsightsResponse>;
 export interface LogAnomalyShowcase {
-  LogAnomalyClasses?: LogAnomalyClasses;
+  LogAnomalyClasses?: LogAnomalyClass[];
 }
 export const LogAnomalyShowcase = S.suspend(() =>
   S.Struct({ LogAnomalyClasses: S.optional(LogAnomalyClasses) }),
@@ -2277,7 +2560,7 @@ export type LogAnomalyShowcases = LogAnomalyShowcase[];
 export const LogAnomalyShowcases = S.Array(LogAnomalyShowcase);
 export interface RecommendationRelatedEvent {
   Name?: string;
-  Resources?: RecommendationRelatedEventResources;
+  Resources?: RecommendationRelatedEventResource[];
 }
 export const RecommendationRelatedEvent = S.suspend(() =>
   S.Struct({
@@ -2307,10 +2590,25 @@ export type RecommendationRelatedCloudWatchMetricsSourceDetails =
 export const RecommendationRelatedCloudWatchMetricsSourceDetails = S.Array(
   RecommendationRelatedCloudWatchMetricsSourceDetail,
 );
+export type ValidationExceptionReason =
+  | "UNKNOWN_OPERATION"
+  | "CANNOT_PARSE"
+  | "FIELD_VALIDATION_FAILED"
+  | "OTHER"
+  | "INVALID_PARAMETER_COMBINATION"
+  | "PARAMETER_INCONSISTENT_WITH_SERVICE_STATE";
+export const ValidationExceptionReason = S.Literal(
+  "UNKNOWN_OPERATION",
+  "CANNOT_PARSE",
+  "FIELD_VALIDATION_FAILED",
+  "OTHER",
+  "INVALID_PARAMETER_COMBINATION",
+  "PARAMETER_INCONSISTENT_WITH_SERVICE_STATE",
+);
 export interface ProactiveAnomalySummary {
   Id?: string;
-  Severity?: string;
-  Status?: string;
+  Severity?: AnomalySeverity;
+  Status?: AnomalyStatus;
   UpdateTime?: Date;
   AnomalyTimeRange?: AnomalyTimeRange;
   AnomalyReportedTimeRange?: AnomalyReportedTimeRange;
@@ -2320,14 +2618,14 @@ export interface ProactiveAnomalySummary {
   ResourceCollection?: ResourceCollection;
   Limit?: number;
   SourceMetadata?: AnomalySourceMetadata;
-  AnomalyResources?: AnomalyResources;
+  AnomalyResources?: AnomalyResource[];
   Description?: string;
 }
 export const ProactiveAnomalySummary = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
-    Severity: S.optional(S.String),
-    Status: S.optional(S.String),
+    Severity: S.optional(AnomalySeverity),
+    Status: S.optional(AnomalyStatus),
     UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     AnomalyTimeRange: S.optional(AnomalyTimeRange),
     AnomalyReportedTimeRange: S.optional(AnomalyReportedTimeRange),
@@ -2347,30 +2645,30 @@ export type ProactiveAnomalies = ProactiveAnomalySummary[];
 export const ProactiveAnomalies = S.Array(ProactiveAnomalySummary);
 export interface ReactiveAnomalySummary {
   Id?: string;
-  Severity?: string;
-  Status?: string;
+  Severity?: AnomalySeverity;
+  Status?: AnomalyStatus;
   AnomalyTimeRange?: AnomalyTimeRange;
   AnomalyReportedTimeRange?: AnomalyReportedTimeRange;
   SourceDetails?: AnomalySourceDetails;
   AssociatedInsightId?: string;
   ResourceCollection?: ResourceCollection;
-  Type?: string;
+  Type?: AnomalyType;
   Name?: string;
   Description?: string;
   CausalAnomalyId?: string;
-  AnomalyResources?: AnomalyResources;
+  AnomalyResources?: AnomalyResource[];
 }
 export const ReactiveAnomalySummary = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
-    Severity: S.optional(S.String),
-    Status: S.optional(S.String),
+    Severity: S.optional(AnomalySeverity),
+    Status: S.optional(AnomalyStatus),
     AnomalyTimeRange: S.optional(AnomalyTimeRange),
     AnomalyReportedTimeRange: S.optional(AnomalyReportedTimeRange),
     SourceDetails: S.optional(AnomalySourceDetails),
     AssociatedInsightId: S.optional(S.String),
     ResourceCollection: S.optional(ResourceCollection),
-    Type: S.optional(S.String),
+    Type: S.optional(AnomalyType),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     CausalAnomalyId: S.optional(S.String),
@@ -2386,7 +2684,7 @@ export interface AnomalousLogGroup {
   ImpactStartTime?: Date;
   ImpactEndTime?: Date;
   NumberOfLogLinesScanned?: number;
-  LogAnomalyShowcases?: LogAnomalyShowcases;
+  LogAnomalyShowcases?: LogAnomalyShowcase[];
 }
 export const AnomalousLogGroup = S.suspend(() =>
   S.Struct({
@@ -2404,7 +2702,7 @@ export const AnomalousLogGroup = S.suspend(() =>
 export type AnomalousLogGroups = AnomalousLogGroup[];
 export const AnomalousLogGroups = S.Array(AnomalousLogGroup);
 export interface RecommendationRelatedAnomalySourceDetail {
-  CloudWatchMetrics?: RecommendationRelatedCloudWatchMetricsSourceDetails;
+  CloudWatchMetrics?: RecommendationRelatedCloudWatchMetricsSourceDetail[];
 }
 export const RecommendationRelatedAnomalySourceDetail = S.suspend(() =>
   S.Struct({
@@ -2421,8 +2719,8 @@ export const RelatedAnomalySourceDetails = S.Array(
   RecommendationRelatedAnomalySourceDetail,
 );
 export interface ListAnomaliesForInsightResponse {
-  ProactiveAnomalies?: ProactiveAnomalies;
-  ReactiveAnomalies?: ReactiveAnomalies;
+  ProactiveAnomalies?: ProactiveAnomalySummary[];
+  ReactiveAnomalies?: ReactiveAnomalySummary[];
   NextToken?: string;
 }
 export const ListAnomaliesForInsightResponse = S.suspend(() =>
@@ -2436,7 +2734,7 @@ export const ListAnomaliesForInsightResponse = S.suspend(() =>
 }) as any as S.Schema<ListAnomaliesForInsightResponse>;
 export interface ListAnomalousLogGroupsResponse {
   InsightId: string;
-  AnomalousLogGroups: AnomalousLogGroups;
+  AnomalousLogGroups: AnomalousLogGroup[];
   NextToken?: string;
 }
 export const ListAnomalousLogGroupsResponse = S.suspend(() =>
@@ -2449,8 +2747,8 @@ export const ListAnomalousLogGroupsResponse = S.suspend(() =>
   identifier: "ListAnomalousLogGroupsResponse",
 }) as any as S.Schema<ListAnomalousLogGroupsResponse>;
 export interface ListInsightsResponse {
-  ProactiveInsights?: ProactiveInsights;
-  ReactiveInsights?: ReactiveInsights;
+  ProactiveInsights?: ProactiveInsightSummary[];
+  ReactiveInsights?: ReactiveInsightSummary[];
   NextToken?: string;
 }
 export const ListInsightsResponse = S.suspend(() =>
@@ -2463,8 +2761,8 @@ export const ListInsightsResponse = S.suspend(() =>
   identifier: "ListInsightsResponse",
 }) as any as S.Schema<ListInsightsResponse>;
 export interface RecommendationRelatedAnomaly {
-  Resources?: RecommendationRelatedAnomalyResources;
-  SourceDetails?: RelatedAnomalySourceDetails;
+  Resources?: RecommendationRelatedAnomalyResource[];
+  SourceDetails?: RecommendationRelatedAnomalySourceDetail[];
   AnomalyId?: string;
 }
 export const RecommendationRelatedAnomaly = S.suspend(() =>
@@ -2496,8 +2794,8 @@ export interface Recommendation {
   Link?: string;
   Name?: string;
   Reason?: string;
-  RelatedEvents?: RecommendationRelatedEvents;
-  RelatedAnomalies?: RecommendationRelatedAnomalies;
+  RelatedEvents?: RecommendationRelatedEvent[];
+  RelatedAnomalies?: RecommendationRelatedAnomaly[];
   Category?: string;
 }
 export const Recommendation = S.suspend(() =>
@@ -2516,7 +2814,7 @@ export const Recommendation = S.suspend(() =>
 export type Recommendations = Recommendation[];
 export const Recommendations = S.Array(Recommendation);
 export interface ListRecommendationsResponse {
-  Recommendations?: Recommendations;
+  Recommendations?: Recommendation[];
   NextToken?: string;
 }
 export const ListRecommendationsResponse = S.suspend(() =>
@@ -2549,9 +2847,9 @@ export interface Event {
   Time?: Date;
   EventSource?: string;
   Name?: string;
-  DataSource?: string;
-  EventClass?: string;
-  Resources?: EventResources;
+  DataSource?: EventDataSource;
+  EventClass?: EventClass;
+  Resources?: EventResource[];
 }
 export const Event = S.suspend(() =>
   S.Struct({
@@ -2560,15 +2858,15 @@ export const Event = S.suspend(() =>
     Time: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EventSource: S.optional(S.String),
     Name: S.optional(S.String),
-    DataSource: S.optional(S.String),
-    EventClass: S.optional(S.String),
+    DataSource: S.optional(EventDataSource),
+    EventClass: S.optional(EventClass),
     Resources: S.optional(EventResources),
   }),
 ).annotations({ identifier: "Event" }) as any as S.Schema<Event>;
 export type Events = Event[];
 export const Events = S.Array(Event);
 export interface ListEventsResponse {
-  Events: Events;
+  Events: Event[];
   NextToken?: string;
 }
 export const ListEventsResponse = S.suspend(() =>
@@ -2578,8 +2876,8 @@ export const ListEventsResponse = S.suspend(() =>
 }) as any as S.Schema<ListEventsResponse>;
 export interface ProactiveAnomaly {
   Id?: string;
-  Severity?: string;
-  Status?: string;
+  Severity?: AnomalySeverity;
+  Status?: AnomalyStatus;
   UpdateTime?: Date;
   AnomalyTimeRange?: AnomalyTimeRange;
   AnomalyReportedTimeRange?: AnomalyReportedTimeRange;
@@ -2589,14 +2887,14 @@ export interface ProactiveAnomaly {
   ResourceCollection?: ResourceCollection;
   Limit?: number;
   SourceMetadata?: AnomalySourceMetadata;
-  AnomalyResources?: AnomalyResources;
+  AnomalyResources?: AnomalyResource[];
   Description?: string;
 }
 export const ProactiveAnomaly = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
-    Severity: S.optional(S.String),
-    Status: S.optional(S.String),
+    Severity: S.optional(AnomalySeverity),
+    Status: S.optional(AnomalyStatus),
     UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     AnomalyTimeRange: S.optional(AnomalyTimeRange),
     AnomalyReportedTimeRange: S.optional(AnomalyReportedTimeRange),
@@ -2662,7 +2960,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     Message: S.String,
-    Reason: S.optional(S.String),
+    Reason: S.optional(ValidationExceptionReason),
     Fields: S.optional(ValidationExceptionFields),
   },
 ).pipe(C.withBadRequestError) {}
@@ -2675,7 +2973,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const describeAccountOverview: (
   input: DescribeAccountOverviewRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAccountOverviewResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2700,7 +2998,7 @@ export const describeAccountOverview: (
 export const listRecommendations: {
   (
     input: ListRecommendationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRecommendationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2712,7 +3010,7 @@ export const listRecommendations: {
   >;
   pages: (
     input: ListRecommendationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRecommendationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2724,7 +3022,7 @@ export const listRecommendations: {
   >;
   items: (
     input: ListRecommendationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Recommendation,
     | AccessDeniedException
     | InternalServerException
@@ -2758,7 +3056,7 @@ export const listRecommendations: {
 export const describeOrganizationResourceCollectionHealth: {
   (
     input: DescribeOrganizationResourceCollectionHealthRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeOrganizationResourceCollectionHealthResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2769,7 +3067,7 @@ export const describeOrganizationResourceCollectionHealth: {
   >;
   pages: (
     input: DescribeOrganizationResourceCollectionHealthRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeOrganizationResourceCollectionHealthResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2780,7 +3078,7 @@ export const describeOrganizationResourceCollectionHealth: {
   >;
   items: (
     input: DescribeOrganizationResourceCollectionHealthRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -2807,7 +3105,7 @@ export const describeOrganizationResourceCollectionHealth: {
  */
 export const describeServiceIntegration: (
   input: DescribeServiceIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeServiceIntegrationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2836,7 +3134,7 @@ export const describeServiceIntegration: (
 export const getResourceCollection: {
   (
     input: GetResourceCollectionRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetResourceCollectionResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2848,7 +3146,7 @@ export const getResourceCollection: {
   >;
   pages: (
     input: GetResourceCollectionRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetResourceCollectionResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2860,7 +3158,7 @@ export const getResourceCollection: {
   >;
   items: (
     input: GetResourceCollectionRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -2888,7 +3186,7 @@ export const getResourceCollection: {
 export const listMonitoredResources: {
   (
     input: ListMonitoredResourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMonitoredResourcesResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -2899,7 +3197,7 @@ export const listMonitoredResources: {
   >;
   pages: (
     input: ListMonitoredResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMonitoredResourcesResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -2910,7 +3208,7 @@ export const listMonitoredResources: {
   >;
   items: (
     input: ListMonitoredResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | ResourceNotFoundException
@@ -2947,7 +3245,7 @@ export const listMonitoredResources: {
 export const searchInsights: {
   (
     input: SearchInsightsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchInsightsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2958,7 +3256,7 @@ export const searchInsights: {
   >;
   pages: (
     input: SearchInsightsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchInsightsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2969,7 +3267,7 @@ export const searchInsights: {
   >;
   items: (
     input: SearchInsightsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3001,7 +3299,7 @@ export const searchInsights: {
  */
 export const describeEventSourcesConfig: (
   input: DescribeEventSourcesConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEventSourcesConfigResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3028,7 +3326,7 @@ export const describeEventSourcesConfig: (
 export const listNotificationChannels: {
   (
     input: ListNotificationChannelsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListNotificationChannelsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3039,7 +3337,7 @@ export const listNotificationChannels: {
   >;
   pages: (
     input: ListNotificationChannelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListNotificationChannelsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3050,7 +3348,7 @@ export const listNotificationChannels: {
   >;
   items: (
     input: ListNotificationChannelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NotificationChannel,
     | AccessDeniedException
     | InternalServerException
@@ -3080,7 +3378,7 @@ export const listNotificationChannels: {
 export const listOrganizationInsights: {
   (
     input: ListOrganizationInsightsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOrganizationInsightsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3091,7 +3389,7 @@ export const listOrganizationInsights: {
   >;
   pages: (
     input: ListOrganizationInsightsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOrganizationInsightsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3102,7 +3400,7 @@ export const listOrganizationInsights: {
   >;
   items: (
     input: ListOrganizationInsightsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3140,7 +3438,7 @@ export const listOrganizationInsights: {
 export const searchOrganizationInsights: {
   (
     input: SearchOrganizationInsightsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchOrganizationInsightsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3151,7 +3449,7 @@ export const searchOrganizationInsights: {
   >;
   pages: (
     input: SearchOrganizationInsightsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchOrganizationInsightsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3162,7 +3460,7 @@ export const searchOrganizationInsights: {
   >;
   items: (
     input: SearchOrganizationInsightsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3195,7 +3493,7 @@ export const searchOrganizationInsights: {
  */
 export const updateResourceCollection: (
   input: UpdateResourceCollectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateResourceCollectionResponse,
   | AccessDeniedException
   | ConflictException
@@ -3222,7 +3520,7 @@ export const updateResourceCollection: (
  */
 export const updateServiceIntegration: (
   input: UpdateServiceIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateServiceIntegrationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3248,7 +3546,7 @@ export const updateServiceIntegration: (
  */
 export const describeOrganizationHealth: (
   input: DescribeOrganizationHealthRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeOrganizationHealthResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3272,7 +3570,7 @@ export const describeOrganizationHealth: (
  */
 export const describeOrganizationOverview: (
   input: DescribeOrganizationOverviewRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeOrganizationOverviewResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3300,7 +3598,7 @@ export const describeOrganizationOverview: (
 export const describeResourceCollectionHealth: {
   (
     input: DescribeResourceCollectionHealthRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeResourceCollectionHealthResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3311,7 +3609,7 @@ export const describeResourceCollectionHealth: {
   >;
   pages: (
     input: DescribeResourceCollectionHealthRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeResourceCollectionHealthResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3322,7 +3620,7 @@ export const describeResourceCollectionHealth: {
   >;
   items: (
     input: DescribeResourceCollectionHealthRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3349,7 +3647,7 @@ export const describeResourceCollectionHealth: {
  */
 export const describeAccountHealth: (
   input: DescribeAccountHealthRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAccountHealthResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3374,7 +3672,7 @@ export const describeAccountHealth: (
  */
 export const updateEventSourcesConfig: (
   input: UpdateEventSourcesConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEventSourcesConfigResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3402,7 +3700,7 @@ export const updateEventSourcesConfig: (
 export const getCostEstimation: {
   (
     input: GetCostEstimationRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetCostEstimationResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3414,7 +3712,7 @@ export const getCostEstimation: {
   >;
   pages: (
     input: GetCostEstimationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetCostEstimationResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3426,7 +3724,7 @@ export const getCostEstimation: {
   >;
   items: (
     input: GetCostEstimationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3454,7 +3752,7 @@ export const getCostEstimation: {
  */
 export const startCostEstimation: (
   input: StartCostEstimationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartCostEstimationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3481,7 +3779,7 @@ export const startCostEstimation: (
  */
 export const putFeedback: (
   input: PutFeedbackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutFeedbackResponse,
   | AccessDeniedException
   | ConflictException
@@ -3510,7 +3808,7 @@ export const putFeedback: (
  */
 export const removeNotificationChannel: (
   input: RemoveNotificationChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveNotificationChannelResponse,
   | AccessDeniedException
   | ConflictException
@@ -3537,7 +3835,7 @@ export const removeNotificationChannel: (
  */
 export const describeFeedback: (
   input: DescribeFeedbackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeFeedbackResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3562,7 +3860,7 @@ export const describeFeedback: (
  */
 export const deleteInsight: (
   input: DeleteInsightRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteInsightResponse,
   | AccessDeniedException
   | ConflictException
@@ -3589,7 +3887,7 @@ export const deleteInsight: (
  */
 export const describeInsight: (
   input: DescribeInsightRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeInsightResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3616,7 +3914,7 @@ export const describeInsight: (
 export const listAnomaliesForInsight: {
   (
     input: ListAnomaliesForInsightRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAnomaliesForInsightResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3628,7 +3926,7 @@ export const listAnomaliesForInsight: {
   >;
   pages: (
     input: ListAnomaliesForInsightRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAnomaliesForInsightResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3640,7 +3938,7 @@ export const listAnomaliesForInsight: {
   >;
   items: (
     input: ListAnomaliesForInsightRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3672,7 +3970,7 @@ export const listAnomaliesForInsight: {
 export const listAnomalousLogGroups: {
   (
     input: ListAnomalousLogGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAnomalousLogGroupsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3684,7 +3982,7 @@ export const listAnomalousLogGroups: {
   >;
   pages: (
     input: ListAnomalousLogGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAnomalousLogGroupsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3696,7 +3994,7 @@ export const listAnomalousLogGroups: {
   >;
   items: (
     input: ListAnomalousLogGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3730,7 +4028,7 @@ export const listAnomalousLogGroups: {
 export const listInsights: {
   (
     input: ListInsightsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInsightsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3741,7 +4039,7 @@ export const listInsights: {
   >;
   pages: (
     input: ListInsightsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInsightsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3752,7 +4050,7 @@ export const listInsights: {
   >;
   items: (
     input: ListInsightsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3791,7 +4089,7 @@ export const listInsights: {
  */
 export const addNotificationChannel: (
   input: AddNotificationChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddNotificationChannelResponse,
   | AccessDeniedException
   | ConflictException
@@ -3822,7 +4120,7 @@ export const addNotificationChannel: (
 export const listEvents: {
   (
     input: ListEventsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEventsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3834,7 +4132,7 @@ export const listEvents: {
   >;
   pages: (
     input: ListEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEventsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3846,7 +4144,7 @@ export const listEvents: {
   >;
   items: (
     input: ListEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Event,
     | AccessDeniedException
     | InternalServerException
@@ -3878,7 +4176,7 @@ export const listEvents: {
  */
 export const describeAnomaly: (
   input: DescribeAnomalyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAnomalyResponse,
   | AccessDeniedException
   | InternalServerException

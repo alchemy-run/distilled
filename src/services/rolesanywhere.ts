@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -89,19 +89,19 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type AmazonResourceName = string;
 export type Uuid = string;
-export type TagKey = string | Redacted.Redacted<string>;
+export type TagKey = string | redacted.Redacted<string>;
 export type ResourceName = string;
 export type TrustAnchorArn = string;
 export type RoleArn = string;
 export type CertificateField = string;
 export type NotificationEvent = string;
 export type NotificationChannel = string;
-export type TagValue = string | Redacted.Redacted<string>;
+export type TagValue = string | redacted.Redacted<string>;
 export type ProfileArn = string;
 export type TrustAnchorType = string;
 
 //# Schemas
-export type TagKeyList = string | Redacted.Redacted<string>[];
+export type TagKeyList = string | redacted.Redacted<string>[];
 export const TagKeyList = S.Array(SensitiveString);
 export type RoleArnList = string[];
 export const RoleArnList = S.Array(S.String);
@@ -117,7 +117,7 @@ export type MappingRules = MappingRule[];
 export const MappingRules = S.Array(MappingRule);
 export interface AttributeMapping {
   certificateField?: string;
-  mappingRules?: MappingRules;
+  mappingRules?: MappingRule[];
 }
 export const AttributeMapping = S.suspend(() =>
   S.Struct({
@@ -137,13 +137,13 @@ export interface ProfileDetail {
   enabled?: boolean;
   createdBy?: string;
   sessionPolicy?: string;
-  roleArns?: RoleArnList;
-  managedPolicyArns?: ManagedPolicyList;
+  roleArns?: string[];
+  managedPolicyArns?: string[];
   createdAt?: Date;
   updatedAt?: Date;
   durationSeconds?: number;
   acceptRoleSessionName?: boolean;
-  attributeMappings?: AttributeMappings;
+  attributeMappings?: AttributeMapping[];
 }
 export const ProfileDetail = S.suspend(() =>
   S.Struct({
@@ -178,7 +178,7 @@ export const SourceData = S.Union(
 );
 export interface Source {
   sourceType?: string;
-  sourceData?: (typeof SourceData)["Type"];
+  sourceData?: SourceData;
 }
 export const Source = S.suspend(() =>
   S.Struct({
@@ -214,7 +214,7 @@ export interface TrustAnchorDetail {
   enabled?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
-  notificationSettings?: NotificationSettingDetails;
+  notificationSettings?: NotificationSettingDetail[];
 }
 export const TrustAnchorDetail = S.suspend(() =>
   S.Struct({
@@ -251,7 +251,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string | redacted.Redacted<string>[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
@@ -272,8 +272,8 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface Tag {
-  key: string | Redacted.Redacted<string>;
-  value: string | Redacted.Redacted<string>;
+  key: string | redacted.Redacted<string>;
+  value: string | redacted.Redacted<string>;
 }
 export const Tag = S.suspend(() =>
   S.Struct({ key: SensitiveString, value: SensitiveString }),
@@ -284,7 +284,7 @@ export interface ImportCrlRequest {
   name: string;
   crlData: Uint8Array;
   enabled?: boolean;
-  tags?: TagList;
+  tags?: Tag[];
   trustAnchorArn: string;
 }
 export const ImportCrlRequest = S.suspend(() =>
@@ -370,11 +370,11 @@ export interface CreateProfileRequest {
   name: string;
   requireInstanceProperties?: boolean;
   sessionPolicy?: string;
-  roleArns: RoleArnList;
-  managedPolicyArns?: ManagedPolicyList;
+  roleArns: string[];
+  managedPolicyArns?: string[];
   durationSeconds?: number;
   enabled?: boolean;
-  tags?: TagList;
+  tags?: Tag[];
   acceptRoleSessionName?: boolean;
 }
 export const CreateProfileRequest = S.suspend(() =>
@@ -422,8 +422,8 @@ export interface UpdateProfileRequest {
   profileId: string;
   name?: string;
   sessionPolicy?: string;
-  roleArns?: RoleArnList;
-  managedPolicyArns?: ManagedPolicyList;
+  roleArns?: string[];
+  managedPolicyArns?: string[];
   durationSeconds?: number;
   acceptRoleSessionName?: boolean;
 }
@@ -451,7 +451,7 @@ export const UpdateProfileRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateProfileRequest>;
 export interface ListProfilesResponse {
   nextToken?: string;
-  profiles?: ProfileDetails;
+  profiles?: ProfileDetail[];
 }
 export const ListProfilesResponse = S.suspend(() =>
   S.Struct({
@@ -464,7 +464,7 @@ export const ListProfilesResponse = S.suspend(() =>
 export interface DeleteAttributeMappingRequest {
   profileId: string;
   certificateField: string;
-  specifiers?: SpecifierList;
+  specifiers?: string[];
 }
 export const DeleteAttributeMappingRequest = S.suspend(() =>
   S.Struct({
@@ -543,7 +543,7 @@ export const UpdateTrustAnchorRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateTrustAnchorRequest>;
 export interface ListTrustAnchorsResponse {
   nextToken?: string;
-  trustAnchors?: TrustAnchorDetails;
+  trustAnchors?: TrustAnchorDetail[];
 }
 export const ListTrustAnchorsResponse = S.suspend(() =>
   S.Struct({
@@ -631,7 +631,7 @@ export const SubjectSummary = S.suspend(() =>
 export type SubjectSummaries = SubjectSummary[];
 export const SubjectSummaries = S.Array(SubjectSummary);
 export interface ListTagsForResourceResponse {
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagList) }),
@@ -640,7 +640,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface PutNotificationSettingsRequest {
   trustAnchorId: string;
-  notificationSettings: NotificationSettings;
+  notificationSettings: NotificationSetting[];
 }
 export const PutNotificationSettingsRequest = S.suspend(() =>
   S.Struct({
@@ -661,7 +661,7 @@ export const PutNotificationSettingsRequest = S.suspend(() =>
 }) as any as S.Schema<PutNotificationSettingsRequest>;
 export interface ResetNotificationSettingsRequest {
   trustAnchorId: string;
-  notificationSettingKeys: NotificationSettingKeys;
+  notificationSettingKeys: NotificationSettingKey[];
 }
 export const ResetNotificationSettingsRequest = S.suspend(() =>
   S.Struct({
@@ -682,7 +682,7 @@ export const ResetNotificationSettingsRequest = S.suspend(() =>
 }) as any as S.Schema<ResetNotificationSettingsRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagList;
+  tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
@@ -712,7 +712,7 @@ export const CrlDetailResponse = S.suspend(() =>
 }) as any as S.Schema<CrlDetailResponse>;
 export interface ListCrlsResponse {
   nextToken?: string;
-  crls?: CrlDetails;
+  crls?: CrlDetail[];
 }
 export const ListCrlsResponse = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), crls: S.optional(CrlDetails) }),
@@ -730,7 +730,7 @@ export const DeleteAttributeMappingResponse = S.suspend(() =>
 export interface PutAttributeMappingRequest {
   profileId: string;
   certificateField: string;
-  mappingRules: MappingRules;
+  mappingRules: MappingRule[];
 }
 export const PutAttributeMappingRequest = S.suspend(() =>
   S.Struct({
@@ -751,7 +751,7 @@ export const PutAttributeMappingRequest = S.suspend(() =>
   identifier: "PutAttributeMappingRequest",
 }) as any as S.Schema<PutAttributeMappingRequest>;
 export interface ListSubjectsResponse {
-  subjects?: SubjectSummaries;
+  subjects?: SubjectSummary[];
   nextToken?: string;
 }
 export const ListSubjectsResponse = S.suspend(() =>
@@ -798,8 +798,8 @@ export interface CreateTrustAnchorRequest {
   name: string;
   source: Source;
   enabled?: boolean;
-  tags?: TagList;
-  notificationSettings?: NotificationSettings;
+  tags?: Tag[];
+  notificationSettings?: NotificationSetting[];
 }
 export const CreateTrustAnchorRequest = S.suspend(() =>
   S.Struct({
@@ -855,7 +855,7 @@ export type InstancePropertyMap = { [key: string]: string };
 export const InstancePropertyMap = S.Record({ key: S.String, value: S.String });
 export interface InstanceProperty {
   seenAt?: Date;
-  properties?: InstancePropertyMap;
+  properties?: { [key: string]: string };
   failed?: boolean;
 }
 export const InstanceProperty = S.suspend(() =>
@@ -877,8 +877,8 @@ export interface SubjectDetail {
   lastSeenAt?: Date;
   createdAt?: Date;
   updatedAt?: Date;
-  credentials?: CredentialSummaries;
-  instanceProperties?: InstanceProperties;
+  credentials?: CredentialSummary[];
+  instanceProperties?: InstanceProperty[];
 }
 export const SubjectDetail = S.suspend(() =>
   S.Struct({
@@ -930,7 +930,7 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
  */
 export const getCrl: (
   input: ScalarCrlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CrlDetailResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -946,7 +946,7 @@ export const getCrl: (
  */
 export const deleteCrl: (
   input: ScalarCrlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CrlDetailResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -962,7 +962,7 @@ export const deleteCrl: (
  */
 export const createProfile: (
   input: CreateProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ProfileDetailResponse,
   AccessDeniedException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -976,7 +976,7 @@ export const createProfile: (
  */
 export const deleteAttributeMapping: (
   input: DeleteAttributeMappingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAttributeMappingResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1000,21 +1000,21 @@ export const deleteAttributeMapping: (
 export const listSubjects: {
   (
     input: ListRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSubjectsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSubjectsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SubjectSummary,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1036,7 +1036,7 @@ export const listSubjects: {
  */
 export const disableCrl: (
   input: ScalarCrlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CrlDetailResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1052,7 +1052,7 @@ export const disableCrl: (
  */
 export const getProfile: (
   input: ScalarProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ProfileDetailResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1068,7 +1068,7 @@ export const getProfile: (
  */
 export const updateProfile: (
   input: UpdateProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ProfileDetailResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1091,7 +1091,7 @@ export const updateProfile: (
  */
 export const getTrustAnchor: (
   input: ScalarTrustAnchorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TrustAnchorDetailResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1114,7 +1114,7 @@ export const getTrustAnchor: (
  */
 export const updateTrustAnchor: (
   input: UpdateTrustAnchorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TrustAnchorDetailResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1137,7 +1137,7 @@ export const updateTrustAnchor: (
  */
 export const enableCrl: (
   input: ScalarCrlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CrlDetailResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1153,7 +1153,7 @@ export const enableCrl: (
  */
 export const disableProfile: (
   input: ScalarProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ProfileDetailResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1169,7 +1169,7 @@ export const disableProfile: (
  */
 export const enableProfile: (
   input: ScalarProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ProfileDetailResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1185,7 +1185,7 @@ export const enableProfile: (
  */
 export const disableTrustAnchor: (
   input: ScalarTrustAnchorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TrustAnchorDetailResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1201,7 +1201,7 @@ export const disableTrustAnchor: (
  */
 export const enableTrustAnchor: (
   input: ScalarTrustAnchorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TrustAnchorDetailResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1217,7 +1217,7 @@ export const enableTrustAnchor: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1240,7 +1240,7 @@ export const untagResource: (
  */
 export const updateCrl: (
   input: UpdateCrlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CrlDetailResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1263,7 +1263,7 @@ export const updateCrl: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1287,21 +1287,21 @@ export const listTagsForResource: (
 export const listProfiles: {
   (
     input: ListRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProfilesResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProfilesResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProfileDetail,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1324,21 +1324,21 @@ export const listProfiles: {
 export const listTrustAnchors: {
   (
     input: ListRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTrustAnchorsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTrustAnchorsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TrustAnchorDetail,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1360,7 +1360,7 @@ export const listTrustAnchors: {
  */
 export const importCrl: (
   input: ImportCrlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CrlDetailResponse,
   AccessDeniedException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1377,21 +1377,21 @@ export const importCrl: (
 export const listCrls: {
   (
     input: ListRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCrlsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCrlsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CrlDetail,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1415,7 +1415,7 @@ export const listCrls: {
  */
 export const putNotificationSettings: (
   input: PutNotificationSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutNotificationSettingsResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1438,7 +1438,7 @@ export const putNotificationSettings: (
  */
 export const resetNotificationSettings: (
   input: ResetNotificationSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResetNotificationSettingsResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1461,7 +1461,7 @@ export const resetNotificationSettings: (
  */
 export const deleteProfile: (
   input: ScalarProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ProfileDetailResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1475,7 +1475,7 @@ export const deleteProfile: (
  */
 export const putAttributeMapping: (
   input: PutAttributeMappingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAttributeMappingResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1498,7 +1498,7 @@ export const putAttributeMapping: (
  */
 export const createTrustAnchor: (
   input: CreateTrustAnchorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TrustAnchorDetailResponse,
   AccessDeniedException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1514,7 +1514,7 @@ export const createTrustAnchor: (
  */
 export const deleteTrustAnchor: (
   input: ScalarTrustAnchorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TrustAnchorDetailResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1530,7 +1530,7 @@ export const deleteTrustAnchor: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1555,7 +1555,7 @@ export const tagResource: (
  */
 export const getSubject: (
   input: ScalarSubjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SubjectDetailResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

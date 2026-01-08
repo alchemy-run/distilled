@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -91,7 +91,7 @@ export type NetworkId = string;
 export type ClientToken = string;
 export type UserId = string;
 export type GenericString = string;
-export type SensitiveString = string | Redacted.Redacted<string>;
+export type SensitiveString = string | redacted.Redacted<string>;
 export type BotId = string;
 export type SecurityGroupId = string;
 export type Uname = string;
@@ -103,9 +103,23 @@ export type Unames = string[];
 export const Unames = S.Array(S.String);
 export type AppIds = string[];
 export const AppIds = S.Array(S.String);
+export type AccessLevel = "STANDARD" | "PREMIUM";
+export const AccessLevel = S.Literal("STANDARD", "PREMIUM");
+export type SortDirection = "ASC" | "DESC";
+export const SortDirection = S.Literal("ASC", "DESC");
+export type BotStatus = 1 | 2;
+export const BotStatus = S.Literal(1, 2);
+export type UserStatus = 1 | 2;
+export const UserStatus = S.Literal(1, 2);
+export type DataRetentionActionType = "ENABLE" | "DISABLE" | "PUBKEY_MSG_ACK";
+export const DataRetentionActionType = S.Literal(
+  "ENABLE",
+  "DISABLE",
+  "PUBKEY_MSG_ACK",
+);
 export interface BatchDeleteUserRequest {
   networkId: string;
-  userIds: UserIds;
+  userIds: string[];
   clientToken?: string;
 }
 export const BatchDeleteUserRequest = S.suspend(() =>
@@ -131,7 +145,7 @@ export const BatchDeleteUserRequest = S.suspend(() =>
 }) as any as S.Schema<BatchDeleteUserRequest>;
 export interface BatchLookupUserUnameRequest {
   networkId: string;
-  unames: Unames;
+  unames: string[];
   clientToken?: string;
 }
 export const BatchLookupUserUnameRequest = S.suspend(() =>
@@ -157,7 +171,7 @@ export const BatchLookupUserUnameRequest = S.suspend(() =>
 }) as any as S.Schema<BatchLookupUserUnameRequest>;
 export interface BatchReinviteUserRequest {
   networkId: string;
-  userIds: UserIds;
+  userIds: string[];
   clientToken?: string;
 }
 export const BatchReinviteUserRequest = S.suspend(() =>
@@ -181,7 +195,7 @@ export const BatchReinviteUserRequest = S.suspend(() =>
 export interface BatchResetDevicesForUserRequest {
   networkId: string;
   userId: string;
-  appIds: AppIds;
+  appIds: string[];
   clientToken?: string;
 }
 export const BatchResetDevicesForUserRequest = S.suspend(() =>
@@ -209,7 +223,7 @@ export const BatchResetDevicesForUserRequest = S.suspend(() =>
 export interface BatchToggleUserSuspendStatusRequest {
   networkId: string;
   suspend: boolean;
-  userIds: UserIds;
+  userIds: string[];
   clientToken?: string;
 }
 export const BatchToggleUserSuspendStatusRequest = S.suspend(() =>
@@ -239,7 +253,7 @@ export interface CreateBotRequest {
   username: string;
   displayName?: string;
   groupId: string;
-  challenge: string | Redacted.Redacted<string>;
+  challenge: string | redacted.Redacted<string>;
 }
 export const CreateBotRequest = S.suspend(() =>
   S.Struct({
@@ -303,14 +317,14 @@ export const CreateDataRetentionBotChallengeRequest = S.suspend(() =>
 }) as any as S.Schema<CreateDataRetentionBotChallengeRequest>;
 export interface CreateNetworkRequest {
   networkName: string;
-  accessLevel: string;
+  accessLevel: AccessLevel;
   enablePremiumFreeTrial?: boolean;
   encryptionKeyArn?: string;
 }
 export const CreateNetworkRequest = S.suspend(() =>
   S.Struct({
     networkName: S.String,
-    accessLevel: S.String,
+    accessLevel: AccessLevel,
     enablePremiumFreeTrial: S.optional(S.Boolean),
     encryptionKeyArn: S.optional(S.String),
   }).pipe(
@@ -528,7 +542,7 @@ export interface GetOidcInfoRequest {
   grantType?: string;
   redirectUri?: string;
   url?: string;
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | redacted.Redacted<string>;
   codeVerifier?: string;
   certificate?: string;
 }
@@ -629,7 +643,7 @@ export const GetUsersCountRequest = S.suspend(() =>
 export interface ListBlockedGuestUsersRequest {
   networkId: string;
   maxResults?: number;
-  sortDirection?: string;
+  sortDirection?: SortDirection;
   sortFields?: string;
   username?: string;
   admin?: string;
@@ -639,7 +653,7 @@ export const ListBlockedGuestUsersRequest = S.suspend(() =>
   S.Struct({
     networkId: S.String.pipe(T.HttpLabel("networkId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    sortDirection: S.optional(S.String).pipe(T.HttpQuery("sortDirection")),
+    sortDirection: S.optional(SortDirection).pipe(T.HttpQuery("sortDirection")),
     sortFields: S.optional(S.String).pipe(T.HttpQuery("sortFields")),
     username: S.optional(S.String).pipe(T.HttpQuery("username")),
     admin: S.optional(S.String).pipe(T.HttpQuery("admin")),
@@ -665,10 +679,10 @@ export interface ListBotsRequest {
   nextToken?: string;
   maxResults?: number;
   sortFields?: string;
-  sortDirection?: string;
+  sortDirection?: SortDirection;
   displayName?: string;
   username?: string;
-  status?: number;
+  status?: BotStatus;
   groupId?: string;
 }
 export const ListBotsRequest = S.suspend(() =>
@@ -677,10 +691,10 @@ export const ListBotsRequest = S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     sortFields: S.optional(S.String).pipe(T.HttpQuery("sortFields")),
-    sortDirection: S.optional(S.String).pipe(T.HttpQuery("sortDirection")),
+    sortDirection: S.optional(SortDirection).pipe(T.HttpQuery("sortDirection")),
     displayName: S.optional(S.String).pipe(T.HttpQuery("displayName")),
     username: S.optional(S.String).pipe(T.HttpQuery("username")),
-    status: S.optional(S.Number).pipe(T.HttpQuery("status")),
+    status: S.optional(BotStatus).pipe(T.HttpQuery("status")),
     groupId: S.optional(S.String).pipe(T.HttpQuery("groupId")),
   }).pipe(
     T.all(
@@ -701,7 +715,7 @@ export interface ListDevicesForUserRequest {
   nextToken?: string;
   maxResults?: number;
   sortFields?: string;
-  sortDirection?: string;
+  sortDirection?: SortDirection;
 }
 export const ListDevicesForUserRequest = S.suspend(() =>
   S.Struct({
@@ -710,7 +724,7 @@ export const ListDevicesForUserRequest = S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     sortFields: S.optional(S.String).pipe(T.HttpQuery("sortFields")),
-    sortDirection: S.optional(S.String).pipe(T.HttpQuery("sortDirection")),
+    sortDirection: S.optional(SortDirection).pipe(T.HttpQuery("sortDirection")),
   }).pipe(
     T.all(
       T.Http({
@@ -730,7 +744,7 @@ export const ListDevicesForUserRequest = S.suspend(() =>
 export interface ListGuestUsersRequest {
   networkId: string;
   maxResults?: number;
-  sortDirection?: string;
+  sortDirection?: SortDirection;
   sortFields?: string;
   username?: string;
   billingPeriod?: string;
@@ -740,7 +754,7 @@ export const ListGuestUsersRequest = S.suspend(() =>
   S.Struct({
     networkId: S.String.pipe(T.HttpLabel("networkId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    sortDirection: S.optional(S.String).pipe(T.HttpQuery("sortDirection")),
+    sortDirection: S.optional(SortDirection).pipe(T.HttpQuery("sortDirection")),
     sortFields: S.optional(S.String).pipe(T.HttpQuery("sortFields")),
     username: S.optional(S.String).pipe(T.HttpQuery("username")),
     billingPeriod: S.optional(S.String).pipe(T.HttpQuery("billingPeriod")),
@@ -761,14 +775,14 @@ export const ListGuestUsersRequest = S.suspend(() =>
 export interface ListNetworksRequest {
   maxResults?: number;
   sortFields?: string;
-  sortDirection?: string;
+  sortDirection?: SortDirection;
   nextToken?: string;
 }
 export const ListNetworksRequest = S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     sortFields: S.optional(S.String).pipe(T.HttpQuery("sortFields")),
-    sortDirection: S.optional(S.String).pipe(T.HttpQuery("sortDirection")),
+    sortDirection: S.optional(SortDirection).pipe(T.HttpQuery("sortDirection")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
     T.all(
@@ -788,7 +802,7 @@ export interface ListSecurityGroupsRequest {
   nextToken?: string;
   maxResults?: number;
   sortFields?: string;
-  sortDirection?: string;
+  sortDirection?: SortDirection;
 }
 export const ListSecurityGroupsRequest = S.suspend(() =>
   S.Struct({
@@ -796,7 +810,7 @@ export const ListSecurityGroupsRequest = S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     sortFields: S.optional(S.String).pipe(T.HttpQuery("sortFields")),
-    sortDirection: S.optional(S.String).pipe(T.HttpQuery("sortDirection")),
+    sortDirection: S.optional(SortDirection).pipe(T.HttpQuery("sortDirection")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/networks/{networkId}/security-groups" }),
@@ -816,7 +830,7 @@ export interface ListSecurityGroupUsersRequest {
   nextToken?: string;
   maxResults?: number;
   sortFields?: string;
-  sortDirection?: string;
+  sortDirection?: SortDirection;
 }
 export const ListSecurityGroupUsersRequest = S.suspend(() =>
   S.Struct({
@@ -825,7 +839,7 @@ export const ListSecurityGroupUsersRequest = S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     sortFields: S.optional(S.String).pipe(T.HttpQuery("sortFields")),
-    sortDirection: S.optional(S.String).pipe(T.HttpQuery("sortDirection")),
+    sortDirection: S.optional(SortDirection).pipe(T.HttpQuery("sortDirection")),
   }).pipe(
     T.all(
       T.Http({
@@ -847,11 +861,11 @@ export interface ListUsersRequest {
   nextToken?: string;
   maxResults?: number;
   sortFields?: string;
-  sortDirection?: string;
-  firstName?: string | Redacted.Redacted<string>;
-  lastName?: string | Redacted.Redacted<string>;
+  sortDirection?: SortDirection;
+  firstName?: string | redacted.Redacted<string>;
+  lastName?: string | redacted.Redacted<string>;
   username?: string;
-  status?: number;
+  status?: UserStatus;
   groupId?: string;
 }
 export const ListUsersRequest = S.suspend(() =>
@@ -860,11 +874,11 @@ export const ListUsersRequest = S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     sortFields: S.optional(S.String).pipe(T.HttpQuery("sortFields")),
-    sortDirection: S.optional(S.String).pipe(T.HttpQuery("sortDirection")),
+    sortDirection: S.optional(SortDirection).pipe(T.HttpQuery("sortDirection")),
     firstName: S.optional(SensitiveString).pipe(T.HttpQuery("firstName")),
     lastName: S.optional(SensitiveString).pipe(T.HttpQuery("lastName")),
     username: S.optional(S.String).pipe(T.HttpQuery("username")),
-    status: S.optional(S.Number).pipe(T.HttpQuery("status")),
+    status: S.optional(UserStatus).pipe(T.HttpQuery("status")),
     groupId: S.optional(S.String).pipe(T.HttpQuery("groupId")),
   }).pipe(
     T.all(
@@ -886,7 +900,7 @@ export interface RegisterOidcConfigRequest {
   extraAuthParams?: string;
   issuer: string;
   scopes: string;
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | redacted.Redacted<string>;
   ssoTokenBufferMinutes?: number;
   userId?: string;
 }
@@ -946,7 +960,7 @@ export interface UpdateBotRequest {
   botId: string;
   displayName?: string;
   groupId?: string;
-  challenge?: string | Redacted.Redacted<string>;
+  challenge?: string | redacted.Redacted<string>;
   suspend?: boolean;
 }
 export const UpdateBotRequest = S.suspend(() =>
@@ -972,12 +986,12 @@ export const UpdateBotRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateBotRequest>;
 export interface UpdateDataRetentionRequest {
   networkId: string;
-  actionType: string;
+  actionType: DataRetentionActionType;
 }
 export const UpdateDataRetentionRequest = S.suspend(() =>
   S.Struct({
     networkId: S.String.pipe(T.HttpLabel("networkId")),
-    actionType: S.String,
+    actionType: DataRetentionActionType,
   }).pipe(
     T.all(
       T.Http({
@@ -1052,9 +1066,9 @@ export const PermittedNetworksList = S.Array(S.String);
 export type SecurityGroupStringList = string[];
 export const SecurityGroupStringList = S.Array(S.String);
 export interface BatchCreateUserRequestItem {
-  firstName?: string | Redacted.Redacted<string>;
-  lastName?: string | Redacted.Redacted<string>;
-  securityGroupIds: SecurityGroupIdList;
+  firstName?: string | redacted.Redacted<string>;
+  lastName?: string | redacted.Redacted<string>;
+  securityGroupIds: string[];
   username: string;
   inviteCode?: string;
   inviteCodeTtl?: number;
@@ -1146,7 +1160,7 @@ export const PermittedWickrEnterpriseNetworksList = S.Array(
 );
 export interface SecurityGroupSettings {
   alwaysReauthenticate?: boolean;
-  atakPackageValues?: SecurityGroupStringList;
+  atakPackageValues?: string[];
   calling?: CallingSettings;
   checkForUpdates?: boolean;
   enableAtak?: boolean;
@@ -1171,15 +1185,15 @@ export interface SecurityGroupSettings {
   messageForwardingEnabled?: boolean;
   passwordRequirements?: PasswordRequirements;
   presenceEnabled?: boolean;
-  quickResponses?: SecurityGroupStringList;
+  quickResponses?: string[];
   showMasterRecoveryKey?: boolean;
   shredder?: ShredderSettings;
   ssoMaxIdleMinutes?: number;
   federationMode?: number;
   lockoutThreshold?: number;
-  permittedNetworks?: PermittedNetworksList;
-  permittedWickrAwsNetworks?: WickrAwsNetworksList;
-  permittedWickrEnterpriseNetworks?: PermittedWickrEnterpriseNetworksList;
+  permittedNetworks?: string[];
+  permittedWickrAwsNetworks?: WickrAwsNetworks[];
+  permittedWickrEnterpriseNetworks?: PermittedWickrEnterpriseNetwork[];
 }
 export const SecurityGroupSettings = S.suspend(() =>
   S.Struct({
@@ -1253,10 +1267,10 @@ export const SecurityGroupList = S.Array(SecurityGroup);
 export type StringList = string[];
 export const StringList = S.Array(S.String);
 export interface UpdateUserDetails {
-  firstName?: string | Redacted.Redacted<string>;
-  lastName?: string | Redacted.Redacted<string>;
+  firstName?: string | redacted.Redacted<string>;
+  lastName?: string | redacted.Redacted<string>;
   username?: string;
-  securityGroupIds?: SecurityGroupIdList;
+  securityGroupIds?: string[];
   inviteCode?: string;
   inviteCodeTtl?: number;
   codeValidation?: boolean;
@@ -1274,9 +1288,11 @@ export const UpdateUserDetails = S.suspend(() =>
 ).annotations({
   identifier: "UpdateUserDetails",
 }) as any as S.Schema<UpdateUserDetails>;
+export type Status = "DISABLED" | "ENABLED" | "FORCE_ENABLED";
+export const Status = S.Literal("DISABLED", "ENABLED", "FORCE_ENABLED");
 export interface BatchCreateUserRequest {
   networkId: string;
-  users: BatchCreateUserRequestItems;
+  users: BatchCreateUserRequestItem[];
   clientToken?: string;
 }
 export const BatchCreateUserRequest = S.suspend(() =>
@@ -1327,8 +1343,8 @@ export type BatchUserErrorResponseItems = BatchUserErrorResponseItem[];
 export const BatchUserErrorResponseItems = S.Array(BatchUserErrorResponseItem);
 export interface BatchReinviteUserResponse {
   message?: string;
-  successful?: BatchUserSuccessResponseItems;
-  failed?: BatchUserErrorResponseItems;
+  successful?: BatchUserSuccessResponseItem[];
+  failed?: BatchUserErrorResponseItem[];
 }
 export const BatchReinviteUserResponse = S.suspend(() =>
   S.Struct({
@@ -1341,8 +1357,8 @@ export const BatchReinviteUserResponse = S.suspend(() =>
 }) as any as S.Schema<BatchReinviteUserResponse>;
 export interface BatchToggleUserSuspendStatusResponse {
   message?: string;
-  successful?: BatchUserSuccessResponseItems;
-  failed?: BatchUserErrorResponseItems;
+  successful?: BatchUserSuccessResponseItem[];
+  failed?: BatchUserErrorResponseItem[];
 }
 export const BatchToggleUserSuspendStatusResponse = S.suspend(() =>
   S.Struct({
@@ -1382,7 +1398,7 @@ export const CreateDataRetentionBotResponse = S.suspend(() =>
   identifier: "CreateDataRetentionBotResponse",
 }) as any as S.Schema<CreateDataRetentionBotResponse>;
 export interface CreateDataRetentionBotChallengeResponse {
-  challenge: string | Redacted.Redacted<string>;
+  challenge: string | redacted.Redacted<string>;
 }
 export const CreateDataRetentionBotChallengeResponse = S.suspend(() =>
   S.Struct({ challenge: SensitiveString }),
@@ -1447,7 +1463,7 @@ export interface GetBotResponse {
   username?: string;
   uname?: string;
   pubkey?: string;
-  status?: number;
+  status?: BotStatus;
   groupId?: string;
   hasChallenge?: boolean;
   suspended?: boolean;
@@ -1460,7 +1476,7 @@ export const GetBotResponse = S.suspend(() =>
     username: S.optional(S.String),
     uname: S.optional(S.String),
     pubkey: S.optional(S.String),
-    status: S.optional(S.Number),
+    status: S.optional(BotStatus),
     groupId: S.optional(S.String),
     hasChallenge: S.optional(S.Boolean),
     suspended: S.optional(S.Boolean),
@@ -1502,7 +1518,7 @@ export const GetDataRetentionBotResponse = S.suspend(() =>
 export interface GetNetworkResponse {
   networkId: string;
   networkName: string;
-  accessLevel: string;
+  accessLevel: AccessLevel;
   awsAccountId: string;
   networkArn: string;
   standing?: number;
@@ -1514,7 +1530,7 @@ export const GetNetworkResponse = S.suspend(() =>
   S.Struct({
     networkId: S.String,
     networkName: S.String,
-    accessLevel: S.String,
+    accessLevel: AccessLevel,
     awsAccountId: S.String,
     networkArn: S.String,
     standing: S.optional(S.Number),
@@ -1527,15 +1543,15 @@ export const GetNetworkResponse = S.suspend(() =>
 }) as any as S.Schema<GetNetworkResponse>;
 export interface GetUserResponse {
   userId: string;
-  firstName?: string | Redacted.Redacted<string>;
-  lastName?: string | Redacted.Redacted<string>;
+  firstName?: string | redacted.Redacted<string>;
+  lastName?: string | redacted.Redacted<string>;
   username?: string;
   isAdmin?: boolean;
   suspended?: boolean;
   status?: number;
   lastActivity?: number;
   lastLogin?: number;
-  securityGroupIds?: SecurityGroupIdList;
+  securityGroupIds?: string[];
 }
 export const GetUserResponse = S.suspend(() =>
   S.Struct({
@@ -1572,7 +1588,7 @@ export const GetUsersCountResponse = S.suspend(() =>
   identifier: "GetUsersCountResponse",
 }) as any as S.Schema<GetUsersCountResponse>;
 export interface ListSecurityGroupsResponse {
-  securityGroups?: SecurityGroupList;
+  securityGroups?: SecurityGroup[];
   nextToken?: string;
 }
 export const ListSecurityGroupsResponse = S.suspend(() =>
@@ -1585,10 +1601,10 @@ export const ListSecurityGroupsResponse = S.suspend(() =>
 }) as any as S.Schema<ListSecurityGroupsResponse>;
 export interface User {
   userId?: string;
-  firstName?: string | Redacted.Redacted<string>;
-  lastName?: string | Redacted.Redacted<string>;
+  firstName?: string | redacted.Redacted<string>;
+  lastName?: string | redacted.Redacted<string>;
   username?: string;
-  securityGroups?: SecurityGroupIdList;
+  securityGroups?: string[];
   isAdmin?: boolean;
   suspended?: boolean;
   status?: number;
@@ -1631,7 +1647,7 @@ export type Users = User[];
 export const Users = S.Array(User);
 export interface ListUsersResponse {
   nextToken?: string;
-  users?: Users;
+  users?: User[];
 }
 export const ListUsersResponse = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), users: S.optional(Users) }),
@@ -1644,8 +1660,8 @@ export interface RegisterOidcConfigResponse {
   companyId: string;
   scopes: string;
   issuer: string;
-  clientSecret?: string | Redacted.Redacted<string>;
-  secret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | redacted.Redacted<string>;
+  secret?: string | redacted.Redacted<string>;
   redirectUrl?: string;
   userId?: string;
   customUsername?: string;
@@ -1677,15 +1693,15 @@ export const RegisterOidcConfigResponse = S.suspend(() =>
 export interface RegisterOidcConfigTestResponse {
   tokenEndpoint?: string;
   userinfoEndpoint?: string;
-  responseTypesSupported?: StringList;
-  scopesSupported?: StringList;
+  responseTypesSupported?: string[];
+  scopesSupported?: string[];
   issuer?: string;
   authorizationEndpoint?: string;
   endSessionEndpoint?: string;
   logoutEndpoint?: string;
-  grantTypesSupported?: StringList;
+  grantTypesSupported?: string[];
   revocationEndpoint?: string;
-  tokenEndpointAuthMethodsSupported?: StringList;
+  tokenEndpointAuthMethodsSupported?: string[];
   microsoftMultiRefreshToken?: boolean;
 }
 export const RegisterOidcConfigTestResponse = S.suspend(() =>
@@ -1762,10 +1778,10 @@ export const UpdateUserRequest = S.suspend(() =>
   identifier: "UpdateUserRequest",
 }) as any as S.Schema<UpdateUserRequest>;
 export interface ReadReceiptConfig {
-  status?: string;
+  status?: Status;
 }
 export const ReadReceiptConfig = S.suspend(() =>
-  S.Struct({ status: S.optional(S.String) }),
+  S.Struct({ status: S.optional(Status) }),
 ).annotations({
   identifier: "ReadReceiptConfig",
 }) as any as S.Schema<ReadReceiptConfig>;
@@ -1832,13 +1848,13 @@ export const BatchDeviceErrorResponseItems = S.Array(
 );
 export interface SecurityGroupSettingsRequest {
   lockoutThreshold?: number;
-  permittedNetworks?: PermittedNetworksList;
+  permittedNetworks?: string[];
   enableGuestFederation?: boolean;
   globalFederation?: boolean;
   federationMode?: number;
   enableRestrictedGlobalFederation?: boolean;
-  permittedWickrAwsNetworks?: WickrAwsNetworksList;
-  permittedWickrEnterpriseNetworks?: PermittedWickrEnterpriseNetworksList;
+  permittedWickrAwsNetworks?: WickrAwsNetworks[];
+  permittedWickrEnterpriseNetworks?: PermittedWickrEnterpriseNetwork[];
 }
 export const SecurityGroupSettingsRequest = S.suspend(() =>
   S.Struct({
@@ -1883,8 +1899,8 @@ export interface OidcConfigInfo {
   companyId: string;
   scopes: string;
   issuer: string;
-  clientSecret?: string | Redacted.Redacted<string>;
-  secret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | redacted.Redacted<string>;
+  secret?: string | redacted.Redacted<string>;
   redirectUrl?: string;
   userId?: string;
   customUsername?: string;
@@ -1959,7 +1975,7 @@ export interface Bot {
   username?: string;
   uname?: string;
   pubkey?: string;
-  status?: number;
+  status?: BotStatus;
   groupId?: string;
   hasChallenge?: boolean;
   suspended?: boolean;
@@ -1972,7 +1988,7 @@ export const Bot = S.suspend(() =>
     username: S.optional(S.String),
     uname: S.optional(S.String),
     pubkey: S.optional(S.String),
-    status: S.optional(S.Number),
+    status: S.optional(BotStatus),
     groupId: S.optional(S.String),
     hasChallenge: S.optional(S.Boolean),
     suspended: S.optional(S.Boolean),
@@ -2020,7 +2036,7 @@ export const GuestUserList = S.Array(GuestUser);
 export interface Network {
   networkId: string;
   networkName: string;
-  accessLevel: string;
+  accessLevel: AccessLevel;
   awsAccountId: string;
   networkArn: string;
   standing?: number;
@@ -2032,7 +2048,7 @@ export const Network = S.suspend(() =>
   S.Struct({
     networkId: S.String,
     networkName: S.String,
-    accessLevel: S.String,
+    accessLevel: AccessLevel,
     awsAccountId: S.String,
     networkArn: S.String,
     standing: S.optional(S.Number),
@@ -2059,8 +2075,8 @@ export const NetworkSettings = S.suspend(() =>
 }) as any as S.Schema<NetworkSettings>;
 export interface BatchCreateUserResponse {
   message?: string;
-  successful?: Users;
-  failed?: BatchUserErrorResponseItems;
+  successful?: User[];
+  failed?: BatchUserErrorResponseItem[];
 }
 export const BatchCreateUserResponse = S.suspend(() =>
   S.Struct({
@@ -2073,8 +2089,8 @@ export const BatchCreateUserResponse = S.suspend(() =>
 }) as any as S.Schema<BatchCreateUserResponse>;
 export interface BatchDeleteUserResponse {
   message?: string;
-  successful?: BatchUserSuccessResponseItems;
-  failed?: BatchUserErrorResponseItems;
+  successful?: BatchUserSuccessResponseItem[];
+  failed?: BatchUserErrorResponseItem[];
 }
 export const BatchDeleteUserResponse = S.suspend(() =>
   S.Struct({
@@ -2087,8 +2103,8 @@ export const BatchDeleteUserResponse = S.suspend(() =>
 }) as any as S.Schema<BatchDeleteUserResponse>;
 export interface BatchLookupUserUnameResponse {
   message?: string;
-  successful?: BatchUnameSuccessResponseItems;
-  failed?: BatchUnameErrorResponseItems;
+  successful?: BatchUnameSuccessResponseItem[];
+  failed?: BatchUnameErrorResponseItem[];
 }
 export const BatchLookupUserUnameResponse = S.suspend(() =>
   S.Struct({
@@ -2101,8 +2117,8 @@ export const BatchLookupUserUnameResponse = S.suspend(() =>
 }) as any as S.Schema<BatchLookupUserUnameResponse>;
 export interface BatchResetDevicesForUserResponse {
   message?: string;
-  successful?: BatchDeviceSuccessResponseItems;
-  failed?: BatchDeviceErrorResponseItems;
+  successful?: BatchDeviceSuccessResponseItem[];
+  failed?: BatchDeviceErrorResponseItem[];
 }
 export const BatchResetDevicesForUserResponse = S.suspend(() =>
   S.Struct({
@@ -2139,7 +2155,7 @@ export const CreateSecurityGroupRequest = S.suspend(() =>
   identifier: "CreateSecurityGroupRequest",
 }) as any as S.Schema<CreateSecurityGroupRequest>;
 export interface GetGuestUserHistoryCountResponse {
-  history: GuestUserHistoryCountList;
+  history: GuestUserHistoryCount[];
 }
 export const GetGuestUserHistoryCountResponse = S.suspend(() =>
   S.Struct({ history: GuestUserHistoryCountList }),
@@ -2147,7 +2163,7 @@ export const GetGuestUserHistoryCountResponse = S.suspend(() =>
   identifier: "GetGuestUserHistoryCountResponse",
 }) as any as S.Schema<GetGuestUserHistoryCountResponse>;
 export interface GetNetworkSettingsResponse {
-  settings: SettingsList;
+  settings: Setting[];
 }
 export const GetNetworkSettingsResponse = S.suspend(() =>
   S.Struct({ settings: SettingsList }),
@@ -2176,7 +2192,7 @@ export const GetSecurityGroupResponse = S.suspend(() =>
 }) as any as S.Schema<GetSecurityGroupResponse>;
 export interface ListBlockedGuestUsersResponse {
   nextToken?: string;
-  blocklist: BlockedGuestUserList;
+  blocklist: BlockedGuestUser[];
 }
 export const ListBlockedGuestUsersResponse = S.suspend(() =>
   S.Struct({
@@ -2187,7 +2203,7 @@ export const ListBlockedGuestUsersResponse = S.suspend(() =>
   identifier: "ListBlockedGuestUsersResponse",
 }) as any as S.Schema<ListBlockedGuestUsersResponse>;
 export interface ListBotsResponse {
-  bots: Bots;
+  bots: Bot[];
   nextToken?: string;
 }
 export const ListBotsResponse = S.suspend(() =>
@@ -2197,7 +2213,7 @@ export const ListBotsResponse = S.suspend(() =>
 }) as any as S.Schema<ListBotsResponse>;
 export interface ListDevicesForUserResponse {
   nextToken?: string;
-  devices: Devices;
+  devices: BasicDeviceObject[];
 }
 export const ListDevicesForUserResponse = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), devices: Devices }),
@@ -2206,7 +2222,7 @@ export const ListDevicesForUserResponse = S.suspend(() =>
 }) as any as S.Schema<ListDevicesForUserResponse>;
 export interface ListGuestUsersResponse {
   nextToken?: string;
-  guestlist: GuestUserList;
+  guestlist: GuestUser[];
 }
 export const ListGuestUsersResponse = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), guestlist: GuestUserList }),
@@ -2214,7 +2230,7 @@ export const ListGuestUsersResponse = S.suspend(() =>
   identifier: "ListGuestUsersResponse",
 }) as any as S.Schema<ListGuestUsersResponse>;
 export interface ListNetworksResponse {
-  networks: NetworkList;
+  networks: Network[];
   nextToken?: string;
 }
 export const ListNetworksResponse = S.suspend(() =>
@@ -2223,7 +2239,7 @@ export const ListNetworksResponse = S.suspend(() =>
   identifier: "ListNetworksResponse",
 }) as any as S.Schema<ListNetworksResponse>;
 export interface ListSecurityGroupUsersResponse {
-  users: Users;
+  users: User[];
   nextToken?: string;
 }
 export const ListSecurityGroupUsersResponse = S.suspend(() =>
@@ -2283,9 +2299,9 @@ export const UpdateSecurityGroupRequest = S.suspend(() =>
 export interface UpdateUserResponse {
   userId: string;
   networkId: string;
-  securityGroupIds?: SecurityGroupIdList;
-  firstName?: string | Redacted.Redacted<string>;
-  lastName?: string | Redacted.Redacted<string>;
+  securityGroupIds?: string[];
+  firstName?: string | redacted.Redacted<string>;
+  lastName?: string | redacted.Redacted<string>;
   middleName?: string;
   suspended: boolean;
   modified?: number;
@@ -2321,7 +2337,7 @@ export const CreateSecurityGroupResponse = S.suspend(() =>
   identifier: "CreateSecurityGroupResponse",
 }) as any as S.Schema<CreateSecurityGroupResponse>;
 export interface UpdateNetworkSettingsResponse {
-  settings: SettingsList;
+  settings: Setting[];
 }
 export const UpdateNetworkSettingsResponse = S.suspend(() =>
   S.Struct({ settings: SettingsList }),
@@ -2383,7 +2399,7 @@ export class ValidationError extends S.TaggedError<ValidationError>()(
 export const listNetworks: {
   (
     input: ListNetworksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListNetworksResponse,
     | BadRequestError
     | ForbiddenError
@@ -2396,7 +2412,7 @@ export const listNetworks: {
   >;
   pages: (
     input: ListNetworksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListNetworksResponse,
     | BadRequestError
     | ForbiddenError
@@ -2409,7 +2425,7 @@ export const listNetworks: {
   >;
   items: (
     input: ListNetworksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Network,
     | BadRequestError
     | ForbiddenError
@@ -2443,7 +2459,7 @@ export const listNetworks: {
  */
 export const createSecurityGroup: (
   input: CreateSecurityGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSecurityGroupResponse,
   | BadRequestError
   | ForbiddenError
@@ -2472,7 +2488,7 @@ export const createSecurityGroup: (
  */
 export const updateNetworkSettings: (
   input: UpdateNetworkSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateNetworkSettingsResponse,
   | BadRequestError
   | ForbiddenError
@@ -2501,7 +2517,7 @@ export const updateNetworkSettings: (
  */
 export const updateSecurityGroup: (
   input: UpdateSecurityGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSecurityGroupResponse,
   | BadRequestError
   | ForbiddenError
@@ -2530,7 +2546,7 @@ export const updateSecurityGroup: (
  */
 export const batchResetDevicesForUser: (
   input: BatchResetDevicesForUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchResetDevicesForUserResponse,
   | BadRequestError
   | ForbiddenError
@@ -2559,7 +2575,7 @@ export const batchResetDevicesForUser: (
  */
 export const getGuestUserHistoryCount: (
   input: GetGuestUserHistoryCountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetGuestUserHistoryCountResponse,
   | BadRequestError
   | ForbiddenError
@@ -2588,7 +2604,7 @@ export const getGuestUserHistoryCount: (
  */
 export const getNetworkSettings: (
   input: GetNetworkSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetNetworkSettingsResponse,
   | BadRequestError
   | ForbiddenError
@@ -2617,7 +2633,7 @@ export const getNetworkSettings: (
  */
 export const getOidcInfo: (
   input: GetOidcInfoRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetOidcInfoResponse,
   | BadRequestError
   | ForbiddenError
@@ -2646,7 +2662,7 @@ export const getOidcInfo: (
  */
 export const getSecurityGroup: (
   input: GetSecurityGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSecurityGroupResponse,
   | BadRequestError
   | ForbiddenError
@@ -2676,7 +2692,7 @@ export const getSecurityGroup: (
 export const listBlockedGuestUsers: {
   (
     input: ListBlockedGuestUsersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBlockedGuestUsersResponse,
     | BadRequestError
     | ForbiddenError
@@ -2690,7 +2706,7 @@ export const listBlockedGuestUsers: {
   >;
   pages: (
     input: ListBlockedGuestUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBlockedGuestUsersResponse,
     | BadRequestError
     | ForbiddenError
@@ -2704,7 +2720,7 @@ export const listBlockedGuestUsers: {
   >;
   items: (
     input: ListBlockedGuestUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BlockedGuestUser,
     | BadRequestError
     | ForbiddenError
@@ -2741,7 +2757,7 @@ export const listBlockedGuestUsers: {
 export const listBots: {
   (
     input: ListBotsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBotsResponse,
     | BadRequestError
     | ForbiddenError
@@ -2755,7 +2771,7 @@ export const listBots: {
   >;
   pages: (
     input: ListBotsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBotsResponse,
     | BadRequestError
     | ForbiddenError
@@ -2769,7 +2785,7 @@ export const listBots: {
   >;
   items: (
     input: ListBotsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Bot,
     | BadRequestError
     | ForbiddenError
@@ -2806,7 +2822,7 @@ export const listBots: {
 export const listDevicesForUser: {
   (
     input: ListDevicesForUserRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDevicesForUserResponse,
     | BadRequestError
     | ForbiddenError
@@ -2820,7 +2836,7 @@ export const listDevicesForUser: {
   >;
   pages: (
     input: ListDevicesForUserRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDevicesForUserResponse,
     | BadRequestError
     | ForbiddenError
@@ -2834,7 +2850,7 @@ export const listDevicesForUser: {
   >;
   items: (
     input: ListDevicesForUserRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BasicDeviceObject,
     | BadRequestError
     | ForbiddenError
@@ -2871,7 +2887,7 @@ export const listDevicesForUser: {
 export const listGuestUsers: {
   (
     input: ListGuestUsersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGuestUsersResponse,
     | BadRequestError
     | ForbiddenError
@@ -2885,7 +2901,7 @@ export const listGuestUsers: {
   >;
   pages: (
     input: ListGuestUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGuestUsersResponse,
     | BadRequestError
     | ForbiddenError
@@ -2899,7 +2915,7 @@ export const listGuestUsers: {
   >;
   items: (
     input: ListGuestUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GuestUser,
     | BadRequestError
     | ForbiddenError
@@ -2936,7 +2952,7 @@ export const listGuestUsers: {
 export const listSecurityGroupUsers: {
   (
     input: ListSecurityGroupUsersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSecurityGroupUsersResponse,
     | BadRequestError
     | ForbiddenError
@@ -2950,7 +2966,7 @@ export const listSecurityGroupUsers: {
   >;
   pages: (
     input: ListSecurityGroupUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSecurityGroupUsersResponse,
     | BadRequestError
     | ForbiddenError
@@ -2964,7 +2980,7 @@ export const listSecurityGroupUsers: {
   >;
   items: (
     input: ListSecurityGroupUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     User,
     | BadRequestError
     | ForbiddenError
@@ -3002,7 +3018,7 @@ export const listSecurityGroupUsers: {
  */
 export const updateUser: (
   input: UpdateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserResponse,
   | BadRequestError
   | ForbiddenError
@@ -3031,7 +3047,7 @@ export const updateUser: (
  */
 export const batchToggleUserSuspendStatus: (
   input: BatchToggleUserSuspendStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchToggleUserSuspendStatusResponse,
   | BadRequestError
   | ForbiddenError
@@ -3060,7 +3076,7 @@ export const batchToggleUserSuspendStatus: (
  */
 export const createBot: (
   input: CreateBotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBotResponse,
   | BadRequestError
   | ForbiddenError
@@ -3089,7 +3105,7 @@ export const createBot: (
  */
 export const createDataRetentionBot: (
   input: CreateDataRetentionBotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataRetentionBotResponse,
   | BadRequestError
   | ForbiddenError
@@ -3118,7 +3134,7 @@ export const createDataRetentionBot: (
  */
 export const createDataRetentionBotChallenge: (
   input: CreateDataRetentionBotChallengeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataRetentionBotChallengeResponse,
   | BadRequestError
   | ForbiddenError
@@ -3147,7 +3163,7 @@ export const createDataRetentionBotChallenge: (
  */
 export const createNetwork: (
   input: CreateNetworkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateNetworkResponse,
   | BadRequestError
   | ForbiddenError
@@ -3176,7 +3192,7 @@ export const createNetwork: (
  */
 export const deleteBot: (
   input: DeleteBotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBotResponse,
   | BadRequestError
   | ForbiddenError
@@ -3205,7 +3221,7 @@ export const deleteBot: (
  */
 export const deleteDataRetentionBot: (
   input: DeleteDataRetentionBotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDataRetentionBotResponse,
   | BadRequestError
   | ForbiddenError
@@ -3234,7 +3250,7 @@ export const deleteDataRetentionBot: (
  */
 export const deleteNetwork: (
   input: DeleteNetworkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteNetworkResponse,
   | BadRequestError
   | ForbiddenError
@@ -3263,7 +3279,7 @@ export const deleteNetwork: (
  */
 export const deleteSecurityGroup: (
   input: DeleteSecurityGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSecurityGroupResponse,
   | BadRequestError
   | ForbiddenError
@@ -3292,7 +3308,7 @@ export const deleteSecurityGroup: (
  */
 export const getBot: (
   input: GetBotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBotResponse,
   | BadRequestError
   | ForbiddenError
@@ -3321,7 +3337,7 @@ export const getBot: (
  */
 export const getBotsCount: (
   input: GetBotsCountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBotsCountResponse,
   | BadRequestError
   | ForbiddenError
@@ -3350,7 +3366,7 @@ export const getBotsCount: (
  */
 export const getDataRetentionBot: (
   input: GetDataRetentionBotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataRetentionBotResponse,
   | BadRequestError
   | ForbiddenError
@@ -3379,7 +3395,7 @@ export const getDataRetentionBot: (
  */
 export const getNetwork: (
   input: GetNetworkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetNetworkResponse,
   | BadRequestError
   | ForbiddenError
@@ -3408,7 +3424,7 @@ export const getNetwork: (
  */
 export const getUser: (
   input: GetUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUserResponse,
   | BadRequestError
   | ForbiddenError
@@ -3437,7 +3453,7 @@ export const getUser: (
  */
 export const getUsersCount: (
   input: GetUsersCountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUsersCountResponse,
   | BadRequestError
   | ForbiddenError
@@ -3467,7 +3483,7 @@ export const getUsersCount: (
 export const listSecurityGroups: {
   (
     input: ListSecurityGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSecurityGroupsResponse,
     | BadRequestError
     | ForbiddenError
@@ -3481,7 +3497,7 @@ export const listSecurityGroups: {
   >;
   pages: (
     input: ListSecurityGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSecurityGroupsResponse,
     | BadRequestError
     | ForbiddenError
@@ -3495,7 +3511,7 @@ export const listSecurityGroups: {
   >;
   items: (
     input: ListSecurityGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SecurityGroup,
     | BadRequestError
     | ForbiddenError
@@ -3532,7 +3548,7 @@ export const listSecurityGroups: {
 export const listUsers: {
   (
     input: ListUsersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUsersResponse,
     | BadRequestError
     | ForbiddenError
@@ -3546,7 +3562,7 @@ export const listUsers: {
   >;
   pages: (
     input: ListUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUsersResponse,
     | BadRequestError
     | ForbiddenError
@@ -3560,7 +3576,7 @@ export const listUsers: {
   >;
   items: (
     input: ListUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     User,
     | BadRequestError
     | ForbiddenError
@@ -3596,7 +3612,7 @@ export const listUsers: {
  */
 export const registerOidcConfig: (
   input: RegisterOidcConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterOidcConfigResponse,
   | BadRequestError
   | ForbiddenError
@@ -3625,7 +3641,7 @@ export const registerOidcConfig: (
  */
 export const registerOidcConfigTest: (
   input: RegisterOidcConfigTestRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterOidcConfigTestResponse,
   | BadRequestError
   | ForbiddenError
@@ -3654,7 +3670,7 @@ export const registerOidcConfigTest: (
  */
 export const updateBot: (
   input: UpdateBotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateBotResponse,
   | BadRequestError
   | ForbiddenError
@@ -3683,7 +3699,7 @@ export const updateBot: (
  */
 export const updateDataRetention: (
   input: UpdateDataRetentionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDataRetentionResponse,
   | BadRequestError
   | ForbiddenError
@@ -3712,7 +3728,7 @@ export const updateDataRetention: (
  */
 export const updateGuestUser: (
   input: UpdateGuestUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGuestUserResponse,
   | BadRequestError
   | ForbiddenError
@@ -3741,7 +3757,7 @@ export const updateGuestUser: (
  */
 export const updateNetwork: (
   input: UpdateNetworkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateNetworkResponse,
   | BadRequestError
   | ForbiddenError
@@ -3772,7 +3788,7 @@ export const updateNetwork: (
  */
 export const batchCreateUser: (
   input: BatchCreateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchCreateUserResponse,
   | BadRequestError
   | ForbiddenError
@@ -3801,7 +3817,7 @@ export const batchCreateUser: (
  */
 export const batchDeleteUser: (
   input: BatchDeleteUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDeleteUserResponse,
   | BadRequestError
   | ForbiddenError
@@ -3830,7 +3846,7 @@ export const batchDeleteUser: (
  */
 export const batchLookupUserUname: (
   input: BatchLookupUserUnameRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchLookupUserUnameResponse,
   | BadRequestError
   | ForbiddenError
@@ -3859,7 +3875,7 @@ export const batchLookupUserUname: (
  */
 export const batchReinviteUser: (
   input: BatchReinviteUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchReinviteUserResponse,
   | BadRequestError
   | ForbiddenError

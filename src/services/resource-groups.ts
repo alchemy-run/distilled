@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -136,6 +136,11 @@ export type ResourceArnList = string[];
 export const ResourceArnList = S.Array(S.String);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type GroupLifecycleEventsDesiredStatus = "ACTIVE" | "INACTIVE";
+export const GroupLifecycleEventsDesiredStatus = S.Literal(
+  "ACTIVE",
+  "INACTIVE",
+);
 export interface CancelTagSyncTaskInput {
   TaskArn: string;
 }
@@ -273,7 +278,7 @@ export const GetTagSyncTaskInput = S.suspend(() =>
 }) as any as S.Schema<GetTagSyncTaskInput>;
 export interface GroupResourcesInput {
   Group: string;
-  ResourceArns: ResourceArnList;
+  ResourceArns: string[];
 }
 export const GroupResourcesInput = S.suspend(() =>
   S.Struct({ Group: S.String, ResourceArns: ResourceArnList }).pipe(
@@ -293,7 +298,7 @@ export type GroupConfigurationParameterValueList = string[];
 export const GroupConfigurationParameterValueList = S.Array(S.String);
 export interface GroupConfigurationParameter {
   Name: string;
-  Values?: GroupConfigurationParameterValueList;
+  Values?: string[];
 }
 export const GroupConfigurationParameter = S.suspend(() =>
   S.Struct({
@@ -307,7 +312,7 @@ export type GroupParameterList = GroupConfigurationParameter[];
 export const GroupParameterList = S.Array(GroupConfigurationParameter);
 export interface GroupConfigurationItem {
   Type: string;
-  Parameters?: GroupParameterList;
+  Parameters?: GroupConfigurationParameter[];
 }
 export const GroupConfigurationItem = S.suspend(() =>
   S.Struct({ Type: S.String, Parameters: S.optional(GroupParameterList) }),
@@ -318,7 +323,7 @@ export type GroupConfigurationList = GroupConfigurationItem[];
 export const GroupConfigurationList = S.Array(GroupConfigurationItem);
 export interface PutGroupConfigurationInput {
   Group?: string;
-  Configuration?: GroupConfigurationList;
+  Configuration?: GroupConfigurationItem[];
 }
 export const PutGroupConfigurationInput = S.suspend(() =>
   S.Struct({
@@ -343,12 +348,17 @@ export const PutGroupConfigurationOutput = S.suspend(() =>
 ).annotations({
   identifier: "PutGroupConfigurationOutput",
 }) as any as S.Schema<PutGroupConfigurationOutput>;
+export type QueryType = "TAG_FILTERS_1_0" | "CLOUDFORMATION_STACK_1_0";
+export const QueryType = S.Literal(
+  "TAG_FILTERS_1_0",
+  "CLOUDFORMATION_STACK_1_0",
+);
 export interface ResourceQuery {
-  Type: string;
+  Type: QueryType;
   Query: string;
 }
 export const ResourceQuery = S.suspend(() =>
-  S.Struct({ Type: S.String, Query: S.String }),
+  S.Struct({ Type: QueryType, Query: S.String }),
 ).annotations({
   identifier: "ResourceQuery",
 }) as any as S.Schema<ResourceQuery>;
@@ -406,7 +416,7 @@ export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
 export interface TagInput {
   Arn: string;
-  Tags: Tags;
+  Tags: { [key: string]: string };
 }
 export const TagInput = S.suspend(() =>
   S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")), Tags: Tags }).pipe(
@@ -422,7 +432,7 @@ export const TagInput = S.suspend(() =>
 ).annotations({ identifier: "TagInput" }) as any as S.Schema<TagInput>;
 export interface UngroupResourcesInput {
   Group: string;
-  ResourceArns: ResourceArnList;
+  ResourceArns: string[];
 }
 export const UngroupResourcesInput = S.suspend(() =>
   S.Struct({ Group: S.String, ResourceArns: ResourceArnList }).pipe(
@@ -440,7 +450,7 @@ export const UngroupResourcesInput = S.suspend(() =>
 }) as any as S.Schema<UngroupResourcesInput>;
 export interface UntagInput {
   Arn: string;
-  Keys: TagKeyList;
+  Keys: string[];
 }
 export const UntagInput = S.suspend(() =>
   S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")), Keys: TagKeyList }).pipe(
@@ -455,10 +465,14 @@ export const UntagInput = S.suspend(() =>
   ),
 ).annotations({ identifier: "UntagInput" }) as any as S.Schema<UntagInput>;
 export interface UpdateAccountSettingsInput {
-  GroupLifecycleEventsDesiredStatus?: string;
+  GroupLifecycleEventsDesiredStatus?: GroupLifecycleEventsDesiredStatus;
 }
 export const UpdateAccountSettingsInput = S.suspend(() =>
-  S.Struct({ GroupLifecycleEventsDesiredStatus: S.optional(S.String) }).pipe(
+  S.Struct({
+    GroupLifecycleEventsDesiredStatus: S.optional(
+      GroupLifecycleEventsDesiredStatus,
+    ),
+  }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/update-account-settings" }),
       svc,
@@ -523,32 +537,70 @@ export const UpdateGroupQueryInput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateGroupQueryInput",
 }) as any as S.Schema<UpdateGroupQueryInput>;
+export type GroupLifecycleEventsStatus =
+  | "ACTIVE"
+  | "INACTIVE"
+  | "IN_PROGRESS"
+  | "ERROR";
+export const GroupLifecycleEventsStatus = S.Literal(
+  "ACTIVE",
+  "INACTIVE",
+  "IN_PROGRESS",
+  "ERROR",
+);
+export type ListGroupingStatusesFilterName = "status" | "resource-arn";
+export const ListGroupingStatusesFilterName = S.Literal(
+  "status",
+  "resource-arn",
+);
 export type ListGroupingStatusesFilterValues = string[];
 export const ListGroupingStatusesFilterValues = S.Array(S.String);
+export type ResourceFilterName = "resource-type";
+export const ResourceFilterName = S.Literal("resource-type");
 export type ResourceFilterValues = string[];
 export const ResourceFilterValues = S.Array(S.String);
+export type GroupFilterName =
+  | "resource-type"
+  | "configuration-type"
+  | "owner"
+  | "display-name"
+  | "criticality";
+export const GroupFilterName = S.Literal(
+  "resource-type",
+  "configuration-type",
+  "owner",
+  "display-name",
+  "criticality",
+);
 export type GroupFilterValues = string[];
 export const GroupFilterValues = S.Array(S.String);
 export interface AccountSettings {
-  GroupLifecycleEventsDesiredStatus?: string;
-  GroupLifecycleEventsStatus?: string;
+  GroupLifecycleEventsDesiredStatus?: GroupLifecycleEventsDesiredStatus;
+  GroupLifecycleEventsStatus?: GroupLifecycleEventsStatus;
   GroupLifecycleEventsStatusMessage?: string;
 }
 export const AccountSettings = S.suspend(() =>
   S.Struct({
-    GroupLifecycleEventsDesiredStatus: S.optional(S.String),
-    GroupLifecycleEventsStatus: S.optional(S.String),
+    GroupLifecycleEventsDesiredStatus: S.optional(
+      GroupLifecycleEventsDesiredStatus,
+    ),
+    GroupLifecycleEventsStatus: S.optional(GroupLifecycleEventsStatus),
     GroupLifecycleEventsStatusMessage: S.optional(S.String),
   }),
 ).annotations({
   identifier: "AccountSettings",
 }) as any as S.Schema<AccountSettings>;
+export type TagSyncTaskStatus = "ACTIVE" | "ERROR";
+export const TagSyncTaskStatus = S.Literal("ACTIVE", "ERROR");
 export interface ListGroupingStatusesFilter {
-  Name: string;
-  Values: ListGroupingStatusesFilterValues;
+  Name: ListGroupingStatusesFilterName;
+  Values: string[];
 }
 export const ListGroupingStatusesFilter = S.suspend(() =>
-  S.Struct({ Name: S.String, Values: ListGroupingStatusesFilterValues }),
+  S.Struct({
+    Name: ListGroupingStatusesFilterName,
+    Values: ListGroupingStatusesFilterValues,
+  }),
 ).annotations({
   identifier: "ListGroupingStatusesFilter",
 }) as any as S.Schema<ListGroupingStatusesFilter>;
@@ -557,22 +609,22 @@ export const ListGroupingStatusesFilterList = S.Array(
   ListGroupingStatusesFilter,
 );
 export interface ResourceFilter {
-  Name: string;
-  Values: ResourceFilterValues;
+  Name: ResourceFilterName;
+  Values: string[];
 }
 export const ResourceFilter = S.suspend(() =>
-  S.Struct({ Name: S.String, Values: ResourceFilterValues }),
+  S.Struct({ Name: ResourceFilterName, Values: ResourceFilterValues }),
 ).annotations({
   identifier: "ResourceFilter",
 }) as any as S.Schema<ResourceFilter>;
 export type ResourceFilterList = ResourceFilter[];
 export const ResourceFilterList = S.Array(ResourceFilter);
 export interface GroupFilter {
-  Name: string;
-  Values: GroupFilterValues;
+  Name: GroupFilterName;
+  Values: string[];
 }
 export const GroupFilter = S.suspend(() =>
-  S.Struct({ Name: S.String, Values: GroupFilterValues }),
+  S.Struct({ Name: GroupFilterName, Values: GroupFilterValues }),
 ).annotations({ identifier: "GroupFilter" }) as any as S.Schema<GroupFilter>;
 export type GroupFilterList = GroupFilter[];
 export const GroupFilterList = S.Array(GroupFilter);
@@ -604,7 +656,7 @@ export interface Group {
   Criticality?: number;
   Owner?: string;
   DisplayName?: string;
-  ApplicationTag?: ApplicationTag;
+  ApplicationTag?: { [key: string]: string };
 }
 export const Group = S.suspend(() =>
   S.Struct({
@@ -627,7 +679,7 @@ export const GetGroupOutput = S.suspend(() =>
 }) as any as S.Schema<GetGroupOutput>;
 export interface GetTagsOutput {
   Arn?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const GetTagsOutput = S.suspend(() =>
   S.Struct({ Arn: S.optional(S.String), Tags: S.optional(Tags) }),
@@ -642,7 +694,7 @@ export interface GetTagSyncTaskOutput {
   TagValue?: string;
   ResourceQuery?: ResourceQuery;
   RoleArn?: string;
-  Status?: string;
+  Status?: TagSyncTaskStatus;
   ErrorMessage?: string;
   CreatedAt?: Date;
 }
@@ -655,7 +707,7 @@ export const GetTagSyncTaskOutput = S.suspend(() =>
     TagValue: S.optional(S.String),
     ResourceQuery: S.optional(ResourceQuery),
     RoleArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(TagSyncTaskStatus),
     ErrorMessage: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -665,7 +717,7 @@ export const GetTagSyncTaskOutput = S.suspend(() =>
 export interface ListGroupingStatusesInput {
   Group: string;
   MaxResults?: number;
-  Filters?: ListGroupingStatusesFilterList;
+  Filters?: ListGroupingStatusesFilter[];
   NextToken?: string;
 }
 export const ListGroupingStatusesInput = S.suspend(() =>
@@ -690,7 +742,7 @@ export const ListGroupingStatusesInput = S.suspend(() =>
 export interface ListGroupResourcesInput {
   GroupName?: string;
   Group?: string;
-  Filters?: ResourceFilterList;
+  Filters?: ResourceFilter[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -715,7 +767,7 @@ export const ListGroupResourcesInput = S.suspend(() =>
   identifier: "ListGroupResourcesInput",
 }) as any as S.Schema<ListGroupResourcesInput>;
 export interface ListGroupsInput {
-  Filters?: GroupFilterList;
+  Filters?: GroupFilter[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -738,7 +790,7 @@ export const ListGroupsInput = S.suspend(() =>
   identifier: "ListGroupsInput",
 }) as any as S.Schema<ListGroupsInput>;
 export interface ListTagSyncTasksInput {
-  Filters?: ListTagSyncTasksFilterList;
+  Filters?: ListTagSyncTasksFilter[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -784,7 +836,7 @@ export const StartTagSyncTaskOutput = S.suspend(() =>
 }) as any as S.Schema<StartTagSyncTaskOutput>;
 export interface TagOutput {
   Arn?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const TagOutput = S.suspend(() =>
   S.Struct({ Arn: S.optional(S.String), Tags: S.optional(Tags) }),
@@ -816,9 +868,9 @@ export const PendingResource = S.suspend(() =>
 export type PendingResourceList = PendingResource[];
 export const PendingResourceList = S.Array(PendingResource);
 export interface UngroupResourcesOutput {
-  Succeeded?: ResourceArnList;
-  Failed?: FailedResourceList;
-  Pending?: PendingResourceList;
+  Succeeded?: string[];
+  Failed?: FailedResource[];
+  Pending?: PendingResource[];
 }
 export const UngroupResourcesOutput = S.suspend(() =>
   S.Struct({
@@ -831,7 +883,7 @@ export const UngroupResourcesOutput = S.suspend(() =>
 }) as any as S.Schema<UngroupResourcesOutput>;
 export interface UntagOutput {
   Arn?: string;
-  Keys?: TagKeyList;
+  Keys?: string[];
 }
 export const UntagOutput = S.suspend(() =>
   S.Struct({ Arn: S.optional(S.String), Keys: S.optional(TagKeyList) }),
@@ -867,17 +919,37 @@ export const UpdateGroupQueryOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateGroupQueryOutput",
 }) as any as S.Schema<UpdateGroupQueryOutput>;
+export type GroupConfigurationStatus =
+  | "UPDATING"
+  | "UPDATE_COMPLETE"
+  | "UPDATE_FAILED";
+export const GroupConfigurationStatus = S.Literal(
+  "UPDATING",
+  "UPDATE_COMPLETE",
+  "UPDATE_FAILED",
+);
+export type QueryErrorCode =
+  | "CLOUDFORMATION_STACK_INACTIVE"
+  | "CLOUDFORMATION_STACK_NOT_EXISTING"
+  | "CLOUDFORMATION_STACK_UNASSUMABLE_ROLE"
+  | "RESOURCE_TYPE_NOT_SUPPORTED";
+export const QueryErrorCode = S.Literal(
+  "CLOUDFORMATION_STACK_INACTIVE",
+  "CLOUDFORMATION_STACK_NOT_EXISTING",
+  "CLOUDFORMATION_STACK_UNASSUMABLE_ROLE",
+  "RESOURCE_TYPE_NOT_SUPPORTED",
+);
 export interface GroupConfiguration {
-  Configuration?: GroupConfigurationList;
-  ProposedConfiguration?: GroupConfigurationList;
-  Status?: string;
+  Configuration?: GroupConfigurationItem[];
+  ProposedConfiguration?: GroupConfigurationItem[];
+  Status?: GroupConfigurationStatus;
   FailureReason?: string;
 }
 export const GroupConfiguration = S.suspend(() =>
   S.Struct({
     Configuration: S.optional(GroupConfigurationList),
     ProposedConfiguration: S.optional(GroupConfigurationList),
-    Status: S.optional(S.String),
+    Status: S.optional(GroupConfigurationStatus),
     FailureReason: S.optional(S.String),
   }),
 ).annotations({
@@ -900,11 +972,14 @@ export const ResourceIdentifier = S.suspend(() =>
 export type ResourceIdentifierList = ResourceIdentifier[];
 export const ResourceIdentifierList = S.Array(ResourceIdentifier);
 export interface QueryError {
-  ErrorCode?: string;
+  ErrorCode?: QueryErrorCode;
   Message?: string;
 }
 export const QueryError = S.suspend(() =>
-  S.Struct({ ErrorCode: S.optional(S.String), Message: S.optional(S.String) }),
+  S.Struct({
+    ErrorCode: S.optional(QueryErrorCode),
+    Message: S.optional(S.String),
+  }),
 ).annotations({ identifier: "QueryError" }) as any as S.Schema<QueryError>;
 export type QueryErrorList = QueryError[];
 export const QueryErrorList = S.Array(QueryError);
@@ -912,8 +987,8 @@ export interface CreateGroupInput {
   Name: string;
   Description?: string;
   ResourceQuery?: ResourceQuery;
-  Tags?: Tags;
-  Configuration?: GroupConfigurationList;
+  Tags?: { [key: string]: string };
+  Configuration?: GroupConfigurationItem[];
   Criticality?: number;
   Owner?: string;
   DisplayName?: string;
@@ -958,9 +1033,9 @@ export const GetGroupQueryOutput = S.suspend(() =>
   identifier: "GetGroupQueryOutput",
 }) as any as S.Schema<GetGroupQueryOutput>;
 export interface GroupResourcesOutput {
-  Succeeded?: ResourceArnList;
-  Failed?: FailedResourceList;
-  Pending?: PendingResourceList;
+  Succeeded?: string[];
+  Failed?: FailedResource[];
+  Pending?: PendingResource[];
 }
 export const GroupResourcesOutput = S.suspend(() =>
   S.Struct({
@@ -972,9 +1047,9 @@ export const GroupResourcesOutput = S.suspend(() =>
   identifier: "GroupResourcesOutput",
 }) as any as S.Schema<GroupResourcesOutput>;
 export interface SearchResourcesOutput {
-  ResourceIdentifiers?: ResourceIdentifierList;
+  ResourceIdentifiers?: ResourceIdentifier[];
   NextToken?: string;
-  QueryErrors?: QueryErrorList;
+  QueryErrors?: QueryError[];
 }
 export const SearchResourcesOutput = S.suspend(() =>
   S.Struct({
@@ -985,10 +1060,19 @@ export const SearchResourcesOutput = S.suspend(() =>
 ).annotations({
   identifier: "SearchResourcesOutput",
 }) as any as S.Schema<SearchResourcesOutput>;
+export type GroupingType = "GROUP" | "UNGROUP";
+export const GroupingType = S.Literal("GROUP", "UNGROUP");
+export type GroupingStatus = "SUCCESS" | "FAILED" | "IN_PROGRESS" | "SKIPPED";
+export const GroupingStatus = S.Literal(
+  "SUCCESS",
+  "FAILED",
+  "IN_PROGRESS",
+  "SKIPPED",
+);
 export interface GroupingStatusesItem {
   ResourceArn?: string;
-  Action?: string;
-  Status?: string;
+  Action?: GroupingType;
+  Status?: GroupingStatus;
   ErrorMessage?: string;
   ErrorCode?: string;
   UpdatedAt?: Date;
@@ -996,8 +1080,8 @@ export interface GroupingStatusesItem {
 export const GroupingStatusesItem = S.suspend(() =>
   S.Struct({
     ResourceArn: S.optional(S.String),
-    Action: S.optional(S.String),
-    Status: S.optional(S.String),
+    Action: S.optional(GroupingType),
+    Status: S.optional(GroupingStatus),
     ErrorMessage: S.optional(S.String),
     ErrorCode: S.optional(S.String),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1037,7 +1121,7 @@ export interface TagSyncTaskItem {
   TagValue?: string;
   ResourceQuery?: ResourceQuery;
   RoleArn?: string;
-  Status?: string;
+  Status?: TagSyncTaskStatus;
   ErrorMessage?: string;
   CreatedAt?: Date;
 }
@@ -1050,7 +1134,7 @@ export const TagSyncTaskItem = S.suspend(() =>
     TagValue: S.optional(S.String),
     ResourceQuery: S.optional(ResourceQuery),
     RoleArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(TagSyncTaskStatus),
     ErrorMessage: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -1059,10 +1143,12 @@ export const TagSyncTaskItem = S.suspend(() =>
 }) as any as S.Schema<TagSyncTaskItem>;
 export type TagSyncTaskList = TagSyncTaskItem[];
 export const TagSyncTaskList = S.Array(TagSyncTaskItem);
+export type ResourceStatusValue = "PENDING";
+export const ResourceStatusValue = S.Literal("PENDING");
 export interface CreateGroupOutput {
   Group?: Group;
   ResourceQuery?: ResourceQuery;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
   GroupConfiguration?: GroupConfiguration;
 }
 export const CreateGroupOutput = S.suspend(() =>
@@ -1085,7 +1171,7 @@ export const DeleteGroupOutput = S.suspend(() =>
 }) as any as S.Schema<DeleteGroupOutput>;
 export interface ListGroupingStatusesOutput {
   Group?: string;
-  GroupingStatuses?: GroupingStatusesList;
+  GroupingStatuses?: GroupingStatusesItem[];
   NextToken?: string;
 }
 export const ListGroupingStatusesOutput = S.suspend(() =>
@@ -1098,8 +1184,8 @@ export const ListGroupingStatusesOutput = S.suspend(() =>
   identifier: "ListGroupingStatusesOutput",
 }) as any as S.Schema<ListGroupingStatusesOutput>;
 export interface ListGroupsOutput {
-  GroupIdentifiers?: GroupIdentifierList;
-  Groups?: GroupList;
+  GroupIdentifiers?: GroupIdentifier[];
+  Groups?: Group[];
   NextToken?: string;
 }
 export const ListGroupsOutput = S.suspend(() =>
@@ -1112,7 +1198,7 @@ export const ListGroupsOutput = S.suspend(() =>
   identifier: "ListGroupsOutput",
 }) as any as S.Schema<ListGroupsOutput>;
 export interface ListTagSyncTasksOutput {
-  TagSyncTasks?: TagSyncTaskList;
+  TagSyncTasks?: TagSyncTaskItem[];
   NextToken?: string;
 }
 export const ListTagSyncTasksOutput = S.suspend(() =>
@@ -1124,10 +1210,10 @@ export const ListTagSyncTasksOutput = S.suspend(() =>
   identifier: "ListTagSyncTasksOutput",
 }) as any as S.Schema<ListTagSyncTasksOutput>;
 export interface ResourceStatus {
-  Name?: string;
+  Name?: ResourceStatusValue;
 }
 export const ResourceStatus = S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String) }),
+  S.Struct({ Name: S.optional(ResourceStatusValue) }),
 ).annotations({
   identifier: "ResourceStatus",
 }) as any as S.Schema<ResourceStatus>;
@@ -1146,10 +1232,10 @@ export const ListGroupResourcesItem = S.suspend(() =>
 export type ListGroupResourcesItemList = ListGroupResourcesItem[];
 export const ListGroupResourcesItemList = S.Array(ListGroupResourcesItem);
 export interface ListGroupResourcesOutput {
-  Resources?: ListGroupResourcesItemList;
-  ResourceIdentifiers?: ResourceIdentifierList;
+  Resources?: ListGroupResourcesItem[];
+  ResourceIdentifiers?: ResourceIdentifier[];
   NextToken?: string;
-  QueryErrors?: QueryErrorList;
+  QueryErrors?: QueryError[];
 }
 export const ListGroupResourcesOutput = S.suspend(() =>
   S.Struct({
@@ -1208,7 +1294,7 @@ export class UnauthorizedException extends S.TaggedError<UnauthorizedException>(
  */
 export const createGroup: (
   input: CreateGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGroupOutput,
   | BadRequestException
   | ForbiddenException
@@ -1235,7 +1321,7 @@ export const createGroup: (
 export const listGroupingStatuses: {
   (
     input: ListGroupingStatusesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGroupingStatusesOutput,
     | BadRequestException
     | ForbiddenException
@@ -1247,7 +1333,7 @@ export const listGroupingStatuses: {
   >;
   pages: (
     input: ListGroupingStatusesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGroupingStatusesOutput,
     | BadRequestException
     | ForbiddenException
@@ -1259,7 +1345,7 @@ export const listGroupingStatuses: {
   >;
   items: (
     input: ListGroupingStatusesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GroupingStatusesItem,
     | BadRequestException
     | ForbiddenException
@@ -1298,7 +1384,7 @@ export const listGroupingStatuses: {
 export const listGroups: {
   (
     input: ListGroupsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGroupsOutput,
     | BadRequestException
     | ForbiddenException
@@ -1310,7 +1396,7 @@ export const listGroups: {
   >;
   pages: (
     input: ListGroupsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGroupsOutput,
     | BadRequestException
     | ForbiddenException
@@ -1322,7 +1408,7 @@ export const listGroups: {
   >;
   items: (
     input: ListGroupsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GroupIdentifier,
     | BadRequestException
     | ForbiddenException
@@ -1354,7 +1440,7 @@ export const listGroups: {
  */
 export const getAccountSettings: (
   input: GetAccountSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccountSettingsOutput,
   | BadRequestException
   | ForbiddenException
@@ -1384,7 +1470,7 @@ export const getAccountSettings: (
  */
 export const updateAccountSettings: (
   input: UpdateAccountSettingsInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAccountSettingsOutput,
   | BadRequestException
   | ForbiddenException
@@ -1416,7 +1502,7 @@ export const updateAccountSettings: (
  */
 export const deleteGroup: (
   input: DeleteGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGroupOutput,
   | BadRequestException
   | ForbiddenException
@@ -1450,7 +1536,7 @@ export const deleteGroup: (
  */
 export const getGroupConfiguration: (
   input: GetGroupConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetGroupConfigurationOutput,
   | BadRequestException
   | ForbiddenException
@@ -1485,7 +1571,7 @@ export const getGroupConfiguration: (
  */
 export const getGroupQuery: (
   input: GetGroupQueryInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetGroupQueryOutput,
   | BadRequestException
   | ForbiddenException
@@ -1529,7 +1615,7 @@ export const getGroupQuery: (
  */
 export const groupResources: (
   input: GroupResourcesInput,
-) => Effect.Effect<
+) => effect.Effect<
   GroupResourcesOutput,
   | BadRequestException
   | ForbiddenException
@@ -1562,7 +1648,7 @@ export const groupResources: (
  */
 export const getGroup: (
   input: GetGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetGroupOutput,
   | BadRequestException
   | ForbiddenException
@@ -1596,7 +1682,7 @@ export const getGroup: (
  */
 export const getTags: (
   input: GetTagsInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetTagsOutput,
   | BadRequestException
   | ForbiddenException
@@ -1635,7 +1721,7 @@ export const getTags: (
  */
 export const tag: (
   input: TagInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagOutput,
   | BadRequestException
   | ForbiddenException
@@ -1671,7 +1757,7 @@ export const tag: (
  */
 export const ungroupResources: (
   input: UngroupResourcesInput,
-) => Effect.Effect<
+) => effect.Effect<
   UngroupResourcesOutput,
   | BadRequestException
   | ForbiddenException
@@ -1704,7 +1790,7 @@ export const ungroupResources: (
  */
 export const untag: (
   input: UntagInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagOutput,
   | BadRequestException
   | ForbiddenException
@@ -1738,7 +1824,7 @@ export const untag: (
  */
 export const updateGroup: (
   input: UpdateGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGroupOutput,
   | BadRequestException
   | ForbiddenException
@@ -1772,7 +1858,7 @@ export const updateGroup: (
  */
 export const updateGroupQuery: (
   input: UpdateGroupQueryInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGroupQueryOutput,
   | BadRequestException
   | ForbiddenException
@@ -1807,7 +1893,7 @@ export const updateGroupQuery: (
  */
 export const putGroupConfiguration: (
   input: PutGroupConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutGroupConfigurationOutput,
   | BadRequestException
   | ForbiddenException
@@ -1842,7 +1928,7 @@ export const putGroupConfiguration: (
  */
 export const cancelTagSyncTask: (
   input: CancelTagSyncTaskInput,
-) => Effect.Effect<
+) => effect.Effect<
   CancelTagSyncTaskResponse,
   | BadRequestException
   | ForbiddenException
@@ -1883,7 +1969,7 @@ export const cancelTagSyncTask: (
 export const listGroupResources: {
   (
     input: ListGroupResourcesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGroupResourcesOutput,
     | BadRequestException
     | ForbiddenException
@@ -1897,7 +1983,7 @@ export const listGroupResources: {
   >;
   pages: (
     input: ListGroupResourcesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGroupResourcesOutput,
     | BadRequestException
     | ForbiddenException
@@ -1911,7 +1997,7 @@ export const listGroupResources: {
   >;
   items: (
     input: ListGroupResourcesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResourceIdentifier,
     | BadRequestException
     | ForbiddenException
@@ -1955,7 +2041,7 @@ export const listGroupResources: {
 export const listTagSyncTasks: {
   (
     input: ListTagSyncTasksInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTagSyncTasksOutput,
     | BadRequestException
     | ForbiddenException
@@ -1968,7 +2054,7 @@ export const listTagSyncTasks: {
   >;
   pages: (
     input: ListTagSyncTasksInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTagSyncTasksOutput,
     | BadRequestException
     | ForbiddenException
@@ -1981,7 +2067,7 @@ export const listTagSyncTasks: {
   >;
   items: (
     input: ListTagSyncTasksInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TagSyncTaskItem,
     | BadRequestException
     | ForbiddenException
@@ -2030,7 +2116,7 @@ export const listTagSyncTasks: {
 export const searchResources: {
   (
     input: SearchResourcesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchResourcesOutput,
     | BadRequestException
     | ForbiddenException
@@ -2043,7 +2129,7 @@ export const searchResources: {
   >;
   pages: (
     input: SearchResourcesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchResourcesOutput,
     | BadRequestException
     | ForbiddenException
@@ -2056,7 +2142,7 @@ export const searchResources: {
   >;
   items: (
     input: SearchResourcesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResourceIdentifier,
     | BadRequestException
     | ForbiddenException
@@ -2096,7 +2182,7 @@ export const searchResources: {
  */
 export const getTagSyncTask: (
   input: GetTagSyncTaskInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetTagSyncTaskOutput,
   | BadRequestException
   | ForbiddenException
@@ -2141,7 +2227,7 @@ export const getTagSyncTask: (
  */
 export const startTagSyncTask: (
   input: StartTagSyncTaskInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartTagSyncTaskOutput,
   | BadRequestException
   | ForbiddenException

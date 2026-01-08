@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -92,7 +92,6 @@ export type IdentityPoolId = string;
 export type IdentityId = string;
 export type DatasetName = string;
 export type IntegerString = number;
-export type Long = number;
 export type SyncSessionToken = string;
 export type PushToken = string;
 export type DeviceId = string;
@@ -104,10 +103,11 @@ export type AssumeRoleArn = string;
 export type StreamName = string;
 export type RecordKey = string;
 export type RecordValue = string;
-export type Integer = number;
 export type ExceptionMessage = string;
 
 //# Schemas
+export type Platform = "APNS" | "APNS_SANDBOX" | "GCM" | "ADM";
+export const Platform = S.Literal("APNS", "APNS_SANDBOX", "GCM", "ADM");
 export interface BulkPublishRequest {
   IdentityPoolId: string;
 }
@@ -387,14 +387,14 @@ export const ListRecordsRequest = S.suspend(() =>
 export interface RegisterDeviceRequest {
   IdentityPoolId: string;
   IdentityId: string;
-  Platform: string;
+  Platform: Platform;
   Token: string;
 }
 export const RegisterDeviceRequest = S.suspend(() =>
   S.Struct({
     IdentityPoolId: S.String.pipe(T.HttpLabel("IdentityPoolId")),
     IdentityId: S.String.pipe(T.HttpLabel("IdentityId")),
-    Platform: S.String,
+    Platform: Platform,
     Token: S.String,
   }).pipe(
     T.all(
@@ -485,6 +485,21 @@ export const UnsubscribeFromDatasetResponse = S.suspend(() =>
 }) as any as S.Schema<UnsubscribeFromDatasetResponse>;
 export type ApplicationArnList = string[];
 export const ApplicationArnList = S.Array(S.String);
+export type StreamingStatus = "ENABLED" | "DISABLED";
+export const StreamingStatus = S.Literal("ENABLED", "DISABLED");
+export type Operation = "replace" | "remove";
+export const Operation = S.Literal("replace", "remove");
+export type BulkPublishStatus =
+  | "NOT_STARTED"
+  | "IN_PROGRESS"
+  | "FAILED"
+  | "SUCCEEDED";
+export const BulkPublishStatus = S.Literal(
+  "NOT_STARTED",
+  "IN_PROGRESS",
+  "FAILED",
+  "SUCCEEDED",
+);
 export interface Dataset {
   IdentityId?: string;
   DatasetName?: string;
@@ -534,7 +549,7 @@ export const MergedDatasetNameList = S.Array(S.String);
 export type Events = { [key: string]: string };
 export const Events = S.Record({ key: S.String, value: S.String });
 export interface PushSync {
-  ApplicationArns?: ApplicationArnList;
+  ApplicationArns?: string[];
   RoleArn?: string;
 }
 export const PushSync = S.suspend(() =>
@@ -546,19 +561,19 @@ export const PushSync = S.suspend(() =>
 export interface CognitoStreams {
   StreamName?: string;
   RoleArn?: string;
-  StreamingStatus?: string;
+  StreamingStatus?: StreamingStatus;
 }
 export const CognitoStreams = S.suspend(() =>
   S.Struct({
     StreamName: S.optional(S.String),
     RoleArn: S.optional(S.String),
-    StreamingStatus: S.optional(S.String),
+    StreamingStatus: S.optional(StreamingStatus),
   }),
 ).annotations({
   identifier: "CognitoStreams",
 }) as any as S.Schema<CognitoStreams>;
 export interface RecordPatch {
-  Op: string;
+  Op: Operation;
   Key: string;
   Value?: string;
   SyncCount: number;
@@ -566,7 +581,7 @@ export interface RecordPatch {
 }
 export const RecordPatch = S.suspend(() =>
   S.Struct({
-    Op: S.String,
+    Op: Operation,
     Key: S.String,
     Value: S.optional(S.String),
     SyncCount: S.Number,
@@ -597,7 +612,7 @@ export interface GetBulkPublishDetailsResponse {
   IdentityPoolId?: string;
   BulkPublishStartTime?: Date;
   BulkPublishCompleteTime?: Date;
-  BulkPublishStatus?: string;
+  BulkPublishStatus?: BulkPublishStatus;
   FailureMessage?: string;
 }
 export const GetBulkPublishDetailsResponse = S.suspend(() =>
@@ -609,14 +624,14 @@ export const GetBulkPublishDetailsResponse = S.suspend(() =>
     BulkPublishCompleteTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    BulkPublishStatus: S.optional(S.String),
+    BulkPublishStatus: S.optional(BulkPublishStatus),
     FailureMessage: S.optional(S.String),
   }).pipe(ns),
 ).annotations({
   identifier: "GetBulkPublishDetailsResponse",
 }) as any as S.Schema<GetBulkPublishDetailsResponse>;
 export interface GetCognitoEventsResponse {
-  Events?: Events;
+  Events?: { [key: string]: string };
 }
 export const GetCognitoEventsResponse = S.suspend(() =>
   S.Struct({ Events: S.optional(Events) }).pipe(ns),
@@ -638,7 +653,7 @@ export const GetIdentityPoolConfigurationResponse = S.suspend(() =>
   identifier: "GetIdentityPoolConfigurationResponse",
 }) as any as S.Schema<GetIdentityPoolConfigurationResponse>;
 export interface ListDatasetsResponse {
-  Datasets?: DatasetList;
+  Datasets?: Dataset[];
   Count?: number;
   NextToken?: string;
 }
@@ -652,7 +667,7 @@ export const ListDatasetsResponse = S.suspend(() =>
   identifier: "ListDatasetsResponse",
 }) as any as S.Schema<ListDatasetsResponse>;
 export interface ListIdentityPoolUsageResponse {
-  IdentityPoolUsages?: IdentityPoolUsageList;
+  IdentityPoolUsages?: IdentityPoolUsage[];
   MaxResults?: number;
   Count?: number;
   NextToken?: string;
@@ -677,7 +692,7 @@ export const RegisterDeviceResponse = S.suspend(() =>
 }) as any as S.Schema<RegisterDeviceResponse>;
 export interface SetCognitoEventsRequest {
   IdentityPoolId: string;
-  Events: Events;
+  Events: { [key: string]: string };
 }
 export const SetCognitoEventsRequest = S.suspend(() =>
   S.Struct({
@@ -735,7 +750,7 @@ export interface UpdateRecordsRequest {
   IdentityId: string;
   DatasetName: string;
   DeviceId?: string;
-  RecordPatches?: RecordPatchList;
+  RecordPatches?: RecordPatch[];
   SyncSessionToken: string;
   ClientContext?: string;
 }
@@ -836,12 +851,12 @@ export const DescribeIdentityUsageResponse = S.suspend(() =>
   identifier: "DescribeIdentityUsageResponse",
 }) as any as S.Schema<DescribeIdentityUsageResponse>;
 export interface ListRecordsResponse {
-  Records?: RecordList;
+  Records?: Record[];
   NextToken?: string;
   Count?: number;
   DatasetSyncCount?: number;
   LastModifiedBy?: string;
-  MergedDatasetNames?: MergedDatasetNameList;
+  MergedDatasetNames?: string[];
   DatasetExists?: boolean;
   DatasetDeletedAfterRequestedSyncCount?: boolean;
   SyncSessionToken?: string;
@@ -876,7 +891,7 @@ export const SetIdentityPoolConfigurationResponse = S.suspend(() =>
   identifier: "SetIdentityPoolConfigurationResponse",
 }) as any as S.Schema<SetIdentityPoolConfigurationResponse>;
 export interface UpdateRecordsResponse {
-  Records?: RecordList;
+  Records?: Record[];
 }
 export const UpdateRecordsResponse = S.suspend(() =>
   S.Struct({ Records: S.optional(RecordList) }).pipe(ns),
@@ -1014,7 +1029,7 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
  */
 export const listDatasets: (
   input: ListDatasetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDatasetsResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1042,7 +1057,7 @@ export const listDatasets: (
  */
 export const deleteDataset: (
   input: DeleteDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDatasetResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1110,7 +1125,7 @@ export const deleteDataset: (
  */
 export const unsubscribeFromDataset: (
   input: UnsubscribeFromDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UnsubscribeFromDatasetResponse,
   | InternalErrorException
   | InvalidConfigurationException
@@ -1178,7 +1193,7 @@ export const unsubscribeFromDataset: (
  */
 export const registerDevice: (
   input: RegisterDeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterDeviceResponse,
   | InternalErrorException
   | InvalidConfigurationException
@@ -1207,7 +1222,7 @@ export const registerDevice: (
  */
 export const getBulkPublishDetails: (
   input: GetBulkPublishDetailsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBulkPublishDetailsResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1232,7 +1247,7 @@ export const getBulkPublishDetails: (
  */
 export const getCognitoEvents: (
   input: GetCognitoEventsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCognitoEventsResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1299,7 +1314,7 @@ export const getCognitoEvents: (
  */
 export const getIdentityPoolConfiguration: (
   input: GetIdentityPoolConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIdentityPoolConfigurationResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1326,7 +1341,7 @@ export const getIdentityPoolConfiguration: (
  */
 export const setCognitoEvents: (
   input: SetCognitoEventsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetCognitoEventsResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1394,7 +1409,7 @@ export const setCognitoEvents: (
  */
 export const describeIdentityPoolUsage: (
   input: DescribeIdentityPoolUsageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeIdentityPoolUsageResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1464,7 +1479,7 @@ export const describeIdentityPoolUsage: (
  */
 export const describeIdentityUsage: (
   input: DescribeIdentityUsageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeIdentityUsageResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1529,7 +1544,7 @@ export const describeIdentityUsage: (
  */
 export const subscribeToDataset: (
   input: SubscribeToDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SubscribeToDatasetResponse,
   | InternalErrorException
   | InvalidConfigurationException
@@ -1558,7 +1573,7 @@ export const subscribeToDataset: (
  */
 export const bulkPublish: (
   input: BulkPublishRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BulkPublishResponse,
   | AlreadyStreamedException
   | DuplicateRequestException
@@ -1632,7 +1647,7 @@ export const bulkPublish: (
  */
 export const setIdentityPoolConfiguration: (
   input: SetIdentityPoolConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetIdentityPoolConfigurationResponse,
   | ConcurrentModificationException
   | InternalErrorException
@@ -1713,7 +1728,7 @@ export const setIdentityPoolConfiguration: (
  */
 export const listIdentityPoolUsage: (
   input: ListIdentityPoolUsageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListIdentityPoolUsageResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1787,7 +1802,7 @@ export const listIdentityPoolUsage: (
  */
 export const listRecords: (
   input: ListRecordsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListRecordsResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1814,7 +1829,7 @@ export const listRecords: (
  */
 export const describeDataset: (
   input: DescribeDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDatasetResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1845,7 +1860,7 @@ export const describeDataset: (
  */
 export const updateRecords: (
   input: UpdateRecordsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRecordsResponse,
   | InternalErrorException
   | InvalidLambdaFunctionOutputException

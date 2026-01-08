@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -97,7 +97,6 @@ export type GetInsightEventsMaxResults = number;
 export type Token = string;
 export type GetInsightSummariesMaxResults = number;
 export type EntitySelectorExpression = string;
-export type NullableInteger = number;
 export type ResourcePolicyNextToken = string;
 export type AmazonResourceName = string;
 export type EncryptionKeyId = string;
@@ -125,7 +124,6 @@ export type BorrowCount = number;
 export type AnomalyCount = number;
 export type TotalCount = number;
 export type SampledAnomalyCount = number;
-export type NullableDouble = number;
 export type ErrorMessage = string;
 export type AttributeKey = string;
 export type AttributeValue = string;
@@ -133,11 +131,8 @@ export type MaxRate = number;
 export type CooldownWindowMinutes = number;
 export type InsightSummaryText = string;
 export type EventSummaryText = string;
-export type Integer = number;
-export type NullableLong = number;
 export type SegmentId = string;
 export type SegmentDocument = string;
-export type Double = number;
 export type SpanId = string;
 export type SpanDocument = string;
 export type AnnotationKey = string;
@@ -175,8 +170,20 @@ export const GetTraceSegmentDestinationRequest = S.suspend(() =>
 }) as any as S.Schema<GetTraceSegmentDestinationRequest>;
 export type TraceIdList = string[];
 export const TraceIdList = S.Array(S.String);
-export type InsightStateList = string[];
-export const InsightStateList = S.Array(S.String);
+export type InsightState = "ACTIVE" | "CLOSED";
+export const InsightState = S.Literal("ACTIVE", "CLOSED");
+export type InsightStateList = InsightState[];
+export const InsightStateList = S.Array(InsightState);
+export type TraceSegmentDestination = "XRay" | "CloudWatchLogs";
+export const TraceSegmentDestination = S.Literal("XRay", "CloudWatchLogs");
+export type TraceSegmentDestinationStatus = "PENDING" | "ACTIVE";
+export const TraceSegmentDestinationStatus = S.Literal("PENDING", "ACTIVE");
+export type TimeRangeType = "TraceId" | "Event" | "Service";
+export const TimeRangeType = S.Literal("TraceId", "Event", "Service");
+export type TraceFormatType = "XRAY" | "OTEL";
+export const TraceFormatType = S.Literal("XRAY", "OTEL");
+export type EncryptionType = "NONE" | "KMS";
+export const EncryptionType = S.Literal("NONE", "KMS");
 export type TraceSegmentDocumentList = string[];
 export const TraceSegmentDocumentList = S.Array(S.String);
 export type TraceIdListForRetrieval = string[];
@@ -184,7 +191,7 @@ export const TraceIdListForRetrieval = S.Array(S.String);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface BatchGetTracesRequest {
-  TraceIds: TraceIdList;
+  TraceIds: string[];
   NextToken?: string;
 }
 export const BatchGetTracesRequest = S.suspend(() =>
@@ -418,7 +425,7 @@ export const GetInsightImpactGraphRequest = S.suspend(() =>
   identifier: "GetInsightImpactGraphRequest",
 }) as any as S.Schema<GetInsightImpactGraphRequest>;
 export interface GetInsightSummariesRequest {
-  States?: InsightStateList;
+  States?: InsightState[];
   GroupARN?: string;
   GroupName?: string;
   StartTime: Date;
@@ -561,7 +568,7 @@ export const GetTimeSeriesServiceStatisticsRequest = S.suspend(() =>
   identifier: "GetTimeSeriesServiceStatisticsRequest",
 }) as any as S.Schema<GetTimeSeriesServiceStatisticsRequest>;
 export interface GetTraceGraphRequest {
-  TraceIds: TraceIdList;
+  TraceIds: string[];
   NextToken?: string;
 }
 export const GetTraceGraphRequest = S.suspend(() =>
@@ -579,11 +586,14 @@ export const GetTraceGraphRequest = S.suspend(() =>
   identifier: "GetTraceGraphRequest",
 }) as any as S.Schema<GetTraceGraphRequest>;
 export interface GetTraceSegmentDestinationResult {
-  Destination?: string;
-  Status?: string;
+  Destination?: TraceSegmentDestination;
+  Status?: TraceSegmentDestinationStatus;
 }
 export const GetTraceSegmentDestinationResult = S.suspend(() =>
-  S.Struct({ Destination: S.optional(S.String), Status: S.optional(S.String) }),
+  S.Struct({
+    Destination: S.optional(TraceSegmentDestination),
+    Status: S.optional(TraceSegmentDestinationStatus),
+  }),
 ).annotations({
   identifier: "GetTraceSegmentDestinationResult",
 }) as any as S.Schema<GetTraceSegmentDestinationResult>;
@@ -606,13 +616,13 @@ export const ListResourcePoliciesRequest = S.suspend(() =>
 }) as any as S.Schema<ListResourcePoliciesRequest>;
 export interface ListRetrievedTracesRequest {
   RetrievalToken: string;
-  TraceFormat?: string;
+  TraceFormat?: TraceFormatType;
   NextToken?: string;
 }
 export const ListRetrievedTracesRequest = S.suspend(() =>
   S.Struct({
     RetrievalToken: S.String,
-    TraceFormat: S.optional(S.String),
+    TraceFormat: S.optional(TraceFormatType),
     NextToken: S.optional(S.String),
   }).pipe(
     T.all(
@@ -647,10 +657,10 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface PutEncryptionConfigRequest {
   KeyId?: string;
-  Type: string;
+  Type: EncryptionType;
 }
 export const PutEncryptionConfigRequest = S.suspend(() =>
-  S.Struct({ KeyId: S.optional(S.String), Type: S.String }).pipe(
+  S.Struct({ KeyId: S.optional(S.String), Type: EncryptionType }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/PutEncryptionConfig" }),
       svc,
@@ -689,7 +699,7 @@ export const PutResourcePolicyRequest = S.suspend(() =>
   identifier: "PutResourcePolicyRequest",
 }) as any as S.Schema<PutResourcePolicyRequest>;
 export interface PutTraceSegmentsRequest {
-  TraceSegmentDocuments: TraceSegmentDocumentList;
+  TraceSegmentDocuments: string[];
 }
 export const PutTraceSegmentsRequest = S.suspend(() =>
   S.Struct({ TraceSegmentDocuments: TraceSegmentDocumentList }).pipe(
@@ -706,7 +716,7 @@ export const PutTraceSegmentsRequest = S.suspend(() =>
   identifier: "PutTraceSegmentsRequest",
 }) as any as S.Schema<PutTraceSegmentsRequest>;
 export interface StartTraceRetrievalRequest {
-  TraceIds: TraceIdListForRetrieval;
+  TraceIds: string[];
   StartTime: Date;
   EndTime: Date;
 }
@@ -739,7 +749,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagResourceRequest {
   ResourceARN: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
@@ -761,7 +771,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceARN: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
@@ -819,10 +829,10 @@ export const UpdateGroupRequest = S.suspend(() =>
   identifier: "UpdateGroupRequest",
 }) as any as S.Schema<UpdateGroupRequest>;
 export interface UpdateTraceSegmentDestinationRequest {
-  Destination?: string;
+  Destination?: TraceSegmentDestination;
 }
 export const UpdateTraceSegmentDestinationRequest = S.suspend(() =>
-  S.Struct({ Destination: S.optional(S.String) }).pipe(
+  S.Struct({ Destination: S.optional(TraceSegmentDestination) }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/UpdateTraceSegmentDestination" }),
       svc,
@@ -835,22 +845,41 @@ export const UpdateTraceSegmentDestinationRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateTraceSegmentDestinationRequest",
 }) as any as S.Schema<UpdateTraceSegmentDestinationRequest>;
+export type EncryptionStatus = "UPDATING" | "ACTIVE";
+export const EncryptionStatus = S.Literal("UPDATING", "ACTIVE");
+export type SamplingStrategyName = "PartialScan" | "FixedRate";
+export const SamplingStrategyName = S.Literal("PartialScan", "FixedRate");
 export type UnprocessedTraceIdList = string[];
 export const UnprocessedTraceIdList = S.Array(S.String);
 export interface EncryptionConfig {
   KeyId?: string;
-  Status?: string;
-  Type?: string;
+  Status?: EncryptionStatus;
+  Type?: EncryptionType;
 }
 export const EncryptionConfig = S.suspend(() =>
   S.Struct({
     KeyId: S.optional(S.String),
-    Status: S.optional(S.String),
-    Type: S.optional(S.String),
+    Status: S.optional(EncryptionStatus),
+    Type: S.optional(EncryptionType),
   }),
 ).annotations({
   identifier: "EncryptionConfig",
 }) as any as S.Schema<EncryptionConfig>;
+export type RetrievalStatus =
+  | "SCHEDULED"
+  | "RUNNING"
+  | "COMPLETE"
+  | "FAILED"
+  | "CANCELLED"
+  | "TIMEOUT";
+export const RetrievalStatus = S.Literal(
+  "SCHEDULED",
+  "RUNNING",
+  "COMPLETE",
+  "FAILED",
+  "CANCELLED",
+  "TIMEOUT",
+);
 export type AttributeMap = { [key: string]: string };
 export const AttributeMap = S.Record({ key: S.String, value: S.String });
 export interface SamplingRateBoost {
@@ -875,7 +904,7 @@ export interface SamplingRule {
   HTTPMethod: string;
   URLPath: string;
   Version: number;
-  Attributes?: AttributeMap;
+  Attributes?: { [key: string]: string };
   SamplingRateBoost?: SamplingRateBoost;
 }
 export const SamplingRule = S.suspend(() =>
@@ -962,11 +991,14 @@ export const SamplingBoostStatisticsDocumentList = S.Array(
   SamplingBoostStatisticsDocument,
 );
 export interface SamplingStrategy {
-  Name?: string;
+  Name?: SamplingStrategyName;
   Value?: number;
 }
 export const SamplingStrategy = S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Value: S.optional(S.Number) }),
+  S.Struct({
+    Name: S.optional(SamplingStrategyName),
+    Value: S.optional(S.Number),
+  }),
 ).annotations({
   identifier: "SamplingStrategy",
 }) as any as S.Schema<SamplingStrategy>;
@@ -982,7 +1014,7 @@ export interface SamplingRuleUpdate {
   ServiceType?: string;
   HTTPMethod?: string;
   URLPath?: string;
-  Attributes?: AttributeMap;
+  Attributes?: { [key: string]: string };
   SamplingRateBoost?: SamplingRateBoost;
 }
 export const SamplingRuleUpdate = S.suspend(() =>
@@ -1008,7 +1040,7 @@ export interface CreateGroupRequest {
   GroupName: string;
   FilterExpression?: string;
   InsightsConfiguration?: InsightsConfiguration;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateGroupRequest = S.suspend(() =>
   S.Struct({
@@ -1038,7 +1070,7 @@ export const GetEncryptionConfigResult = S.suspend(() =>
   identifier: "GetEncryptionConfigResult",
 }) as any as S.Schema<GetEncryptionConfigResult>;
 export interface GetSamplingRulesResult {
-  SamplingRuleRecords?: SamplingRuleRecordList;
+  SamplingRuleRecords?: SamplingRuleRecord[];
   NextToken?: string;
 }
 export const GetSamplingRulesResult = S.suspend(() =>
@@ -1050,8 +1082,8 @@ export const GetSamplingRulesResult = S.suspend(() =>
   identifier: "GetSamplingRulesResult",
 }) as any as S.Schema<GetSamplingRulesResult>;
 export interface GetSamplingTargetsRequest {
-  SamplingStatisticsDocuments: SamplingStatisticsDocumentList;
-  SamplingBoostStatisticsDocuments?: SamplingBoostStatisticsDocumentList;
+  SamplingStatisticsDocuments: SamplingStatisticsDocument[];
+  SamplingBoostStatisticsDocuments?: SamplingBoostStatisticsDocument[];
 }
 export const GetSamplingTargetsRequest = S.suspend(() =>
   S.Struct({
@@ -1133,7 +1165,7 @@ export type AliasNames = string[];
 export const AliasNames = S.Array(S.String);
 export interface Alias {
   Name?: string;
-  Names?: AliasNames;
+  Names?: string[];
   Type?: string;
 }
 export const Alias = S.suspend(() =>
@@ -1150,10 +1182,10 @@ export interface Edge {
   StartTime?: Date;
   EndTime?: Date;
   SummaryStatistics?: EdgeStatistics;
-  ResponseTimeHistogram?: Histogram;
-  Aliases?: AliasList;
+  ResponseTimeHistogram?: HistogramEntry[];
+  Aliases?: Alias[];
   EdgeType?: string;
-  ReceivedEventAgeHistogram?: Histogram;
+  ReceivedEventAgeHistogram?: HistogramEntry[];
 }
 export const Edge = S.suspend(() =>
   S.Struct({
@@ -1190,17 +1222,17 @@ export const ServiceStatistics = S.suspend(() =>
 export interface Service {
   ReferenceId?: number;
   Name?: string;
-  Names?: ServiceNames;
+  Names?: string[];
   Root?: boolean;
   AccountId?: string;
   Type?: string;
   State?: string;
   StartTime?: Date;
   EndTime?: Date;
-  Edges?: EdgeList;
+  Edges?: Edge[];
   SummaryStatistics?: ServiceStatistics;
-  DurationHistogram?: Histogram;
-  ResponseTimeHistogram?: Histogram;
+  DurationHistogram?: HistogramEntry[];
+  ResponseTimeHistogram?: HistogramEntry[];
 }
 export const Service = S.suspend(() =>
   S.Struct({
@@ -1222,7 +1254,7 @@ export const Service = S.suspend(() =>
 export type ServiceList = Service[];
 export const ServiceList = S.Array(Service);
 export interface GetTraceGraphResult {
-  Services?: ServiceList;
+  Services?: Service[];
   NextToken?: string;
 }
 export const GetTraceGraphResult = S.suspend(() =>
@@ -1236,7 +1268,7 @@ export const GetTraceGraphResult = S.suspend(() =>
 export interface GetTraceSummariesRequest {
   StartTime: Date;
   EndTime: Date;
-  TimeRangeType?: string;
+  TimeRangeType?: TimeRangeType;
   Sampling?: boolean;
   SamplingStrategy?: SamplingStrategy;
   FilterExpression?: string;
@@ -1246,7 +1278,7 @@ export const GetTraceSummariesRequest = S.suspend(() =>
   S.Struct({
     StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    TimeRangeType: S.optional(S.String),
+    TimeRangeType: S.optional(TimeRangeType),
     Sampling: S.optional(S.Boolean),
     SamplingStrategy: S.optional(SamplingStrategy),
     FilterExpression: S.optional(S.String),
@@ -1265,7 +1297,7 @@ export const GetTraceSummariesRequest = S.suspend(() =>
   identifier: "GetTraceSummariesRequest",
 }) as any as S.Schema<GetTraceSummariesRequest>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
   NextToken?: string;
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
@@ -1355,16 +1387,21 @@ export const UpdateSamplingRuleRequest = S.suspend(() =>
   identifier: "UpdateSamplingRuleRequest",
 }) as any as S.Schema<UpdateSamplingRuleRequest>;
 export interface UpdateTraceSegmentDestinationResult {
-  Destination?: string;
-  Status?: string;
+  Destination?: TraceSegmentDestination;
+  Status?: TraceSegmentDestinationStatus;
 }
 export const UpdateTraceSegmentDestinationResult = S.suspend(() =>
-  S.Struct({ Destination: S.optional(S.String), Status: S.optional(S.String) }),
+  S.Struct({
+    Destination: S.optional(TraceSegmentDestination),
+    Status: S.optional(TraceSegmentDestinationStatus),
+  }),
 ).annotations({
   identifier: "UpdateTraceSegmentDestinationResult",
 }) as any as S.Schema<UpdateTraceSegmentDestinationResult>;
-export type InsightCategoryList = string[];
-export const InsightCategoryList = S.Array(S.String);
+export type InsightCategory = "FAULT";
+export const InsightCategory = S.Literal("FAULT");
+export type InsightCategoryList = InsightCategory[];
+export const InsightCategoryList = S.Array(InsightCategory);
 export interface BackendConnectionErrors {
   TimeoutCount?: number;
   ConnectionRefusedCount?: number;
@@ -1425,7 +1462,7 @@ export const RequestImpactStatistics = S.suspend(() =>
 }) as any as S.Schema<RequestImpactStatistics>;
 export interface ServiceId {
   Name?: string;
-  Names?: ServiceNames;
+  Names?: string[];
   AccountId?: string;
   Type?: string;
 }
@@ -1452,7 +1489,7 @@ export interface InsightEvent {
   EventTime?: Date;
   ClientRequestImpactStatistics?: RequestImpactStatistics;
   RootCauseServiceRequestImpactStatistics?: RequestImpactStatistics;
-  TopAnomalousServices?: AnomalousServiceList;
+  TopAnomalousServices?: AnomalousService[];
 }
 export const InsightEvent = S.suspend(() =>
   S.Struct({
@@ -1472,14 +1509,14 @@ export interface InsightSummary {
   GroupARN?: string;
   GroupName?: string;
   RootCauseServiceId?: ServiceId;
-  Categories?: InsightCategoryList;
-  State?: string;
+  Categories?: InsightCategory[];
+  State?: InsightState;
   StartTime?: Date;
   EndTime?: Date;
   Summary?: string;
   ClientRequestImpactStatistics?: RequestImpactStatistics;
   RootCauseServiceRequestImpactStatistics?: RequestImpactStatistics;
-  TopAnomalousServices?: AnomalousServiceList;
+  TopAnomalousServices?: AnomalousService[];
   LastUpdateTime?: Date;
 }
 export const InsightSummary = S.suspend(() =>
@@ -1489,7 +1526,7 @@ export const InsightSummary = S.suspend(() =>
     GroupName: S.optional(S.String),
     RootCauseServiceId: S.optional(ServiceId),
     Categories: S.optional(InsightCategoryList),
-    State: S.optional(S.String),
+    State: S.optional(InsightState),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Summary: S.optional(S.String),
@@ -1581,7 +1618,7 @@ export const CreateGroupResult = S.suspend(() =>
 }) as any as S.Schema<CreateGroupResult>;
 export interface CreateSamplingRuleRequest {
   SamplingRule: SamplingRule;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateSamplingRuleRequest = S.suspend(() =>
   S.Struct({ SamplingRule: SamplingRule, Tags: S.optional(TagList) }).pipe(
@@ -1614,7 +1651,7 @@ export const GetGroupResult = S.suspend(() =>
   identifier: "GetGroupResult",
 }) as any as S.Schema<GetGroupResult>;
 export interface GetGroupsResult {
-  Groups?: GroupSummaryList;
+  Groups?: GroupSummary[];
   NextToken?: string;
 }
 export const GetGroupsResult = S.suspend(() =>
@@ -1626,7 +1663,7 @@ export const GetGroupsResult = S.suspend(() =>
   identifier: "GetGroupsResult",
 }) as any as S.Schema<GetGroupsResult>;
 export interface GetInsightEventsResult {
-  InsightEvents?: InsightEventList;
+  InsightEvents?: InsightEvent[];
   NextToken?: string;
 }
 export const GetInsightEventsResult = S.suspend(() =>
@@ -1638,7 +1675,7 @@ export const GetInsightEventsResult = S.suspend(() =>
   identifier: "GetInsightEventsResult",
 }) as any as S.Schema<GetInsightEventsResult>;
 export interface GetInsightSummariesResult {
-  InsightSummaries?: InsightSummaryList;
+  InsightSummaries?: InsightSummary[];
   NextToken?: string;
 }
 export const GetInsightSummariesResult = S.suspend(() =>
@@ -1650,7 +1687,7 @@ export const GetInsightSummariesResult = S.suspend(() =>
   identifier: "GetInsightSummariesResult",
 }) as any as S.Schema<GetInsightSummariesResult>;
 export interface GetSamplingStatisticSummariesResult {
-  SamplingStatisticSummaries?: SamplingStatisticSummaryList;
+  SamplingStatisticSummaries?: SamplingStatisticSummary[];
   NextToken?: string;
 }
 export const GetSamplingStatisticSummariesResult = S.suspend(() =>
@@ -1662,7 +1699,7 @@ export const GetSamplingStatisticSummariesResult = S.suspend(() =>
   identifier: "GetSamplingStatisticSummariesResult",
 }) as any as S.Schema<GetSamplingStatisticSummariesResult>;
 export interface ListResourcePoliciesResult {
-  ResourcePolicies?: ResourcePolicyList;
+  ResourcePolicies?: ResourcePolicy[];
   NextToken?: string;
 }
 export const ListResourcePoliciesResult = S.suspend(() =>
@@ -1674,7 +1711,7 @@ export const ListResourcePoliciesResult = S.suspend(() =>
   identifier: "ListResourcePoliciesResult",
 }) as any as S.Schema<ListResourcePoliciesResult>;
 export interface PutTelemetryRecordsRequest {
-  TelemetryRecords: TelemetryRecordList;
+  TelemetryRecords: TelemetryRecord[];
   EC2InstanceId?: string;
   Hostname?: string;
   ResourceARN?: string;
@@ -1705,7 +1742,7 @@ export const PutTelemetryRecordsResult = S.suspend(() =>
   identifier: "PutTelemetryRecordsResult",
 }) as any as S.Schema<PutTelemetryRecordsResult>;
 export interface PutTraceSegmentsResult {
-  UnprocessedTraceSegments?: UnprocessedTraceSegmentList;
+  UnprocessedTraceSegments?: UnprocessedTraceSegment[];
 }
 export const PutTraceSegmentsResult = S.suspend(() =>
   S.Struct({
@@ -1716,7 +1753,7 @@ export const PutTraceSegmentsResult = S.suspend(() =>
 }) as any as S.Schema<PutTraceSegmentsResult>;
 export interface UpdateIndexingRuleRequest {
   Name: string;
-  Rule: (typeof IndexingRuleValueUpdate)["Type"];
+  Rule: IndexingRuleValueUpdate;
 }
 export const UpdateIndexingRuleRequest = S.suspend(() =>
   S.Struct({ Name: S.String, Rule: IndexingRuleValueUpdate }).pipe(
@@ -1762,7 +1799,7 @@ export const InsightImpactGraphEdgeList = S.Array(InsightImpactGraphEdge);
 export interface GraphLink {
   ReferenceType?: string;
   SourceTraceId?: string;
-  DestinationTraceIds?: TraceIdList;
+  DestinationTraceIds?: string[];
 }
 export const GraphLink = S.suspend(() =>
   S.Struct({
@@ -1800,7 +1837,7 @@ export interface Trace {
   Id?: string;
   Duration?: number;
   LimitExceeded?: boolean;
-  Segments?: SegmentList;
+  Segments?: Segment[];
 }
 export const Trace = S.suspend(() =>
   S.Struct({
@@ -1817,14 +1854,14 @@ export interface Insight {
   GroupARN?: string;
   GroupName?: string;
   RootCauseServiceId?: ServiceId;
-  Categories?: InsightCategoryList;
-  State?: string;
+  Categories?: InsightCategory[];
+  State?: InsightState;
   StartTime?: Date;
   EndTime?: Date;
   Summary?: string;
   ClientRequestImpactStatistics?: RequestImpactStatistics;
   RootCauseServiceRequestImpactStatistics?: RequestImpactStatistics;
-  TopAnomalousServices?: AnomalousServiceList;
+  TopAnomalousServices?: AnomalousService[];
 }
 export const Insight = S.suspend(() =>
   S.Struct({
@@ -1833,7 +1870,7 @@ export const Insight = S.suspend(() =>
     GroupName: S.optional(S.String),
     RootCauseServiceId: S.optional(ServiceId),
     Categories: S.optional(InsightCategoryList),
-    State: S.optional(S.String),
+    State: S.optional(InsightState),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Summary: S.optional(S.String),
@@ -1848,9 +1885,9 @@ export interface InsightImpactGraphService {
   ReferenceId?: number;
   Type?: string;
   Name?: string;
-  Names?: ServiceNames;
+  Names?: string[];
   AccountId?: string;
-  Edges?: InsightImpactGraphEdgeList;
+  Edges?: InsightImpactGraphEdge[];
 }
 export const InsightImpactGraphService = S.suspend(() =>
   S.Struct({
@@ -1868,7 +1905,7 @@ export type InsightImpactGraphServiceList = InsightImpactGraphService[];
 export const InsightImpactGraphServiceList = S.Array(InsightImpactGraphService);
 export interface RetrievedService {
   Service?: Service;
-  Links?: LinksList;
+  Links?: GraphLink[];
 }
 export const RetrievedService = S.suspend(() =>
   S.Struct({ Service: S.optional(Service), Links: S.optional(LinksList) }),
@@ -1898,7 +1935,7 @@ export interface TimeSeriesServiceStatistics {
   EdgeSummaryStatistics?: EdgeStatistics;
   ServiceSummaryStatistics?: ServiceStatistics;
   ServiceForecastStatistics?: ForecastStatistics;
-  ResponseTimeHistogram?: Histogram;
+  ResponseTimeHistogram?: HistogramEntry[];
 }
 export const TimeSeriesServiceStatistics = S.suspend(() =>
   S.Struct({
@@ -1918,7 +1955,7 @@ export const TimeSeriesServiceStatisticsList = S.Array(
 export interface RetrievedTrace {
   Id?: string;
   Duration?: number;
-  Spans?: SpanList;
+  Spans?: Span[];
 }
 export const RetrievedTrace = S.suspend(() =>
   S.Struct({
@@ -1944,8 +1981,8 @@ export const ProbabilisticRuleValue = S.suspend(() =>
   identifier: "ProbabilisticRuleValue",
 }) as any as S.Schema<ProbabilisticRuleValue>;
 export interface BatchGetTracesResult {
-  Traces?: TraceList;
-  UnprocessedTraceIds?: UnprocessedTraceIdList;
+  Traces?: Trace[];
+  UnprocessedTraceIds?: string[];
   NextToken?: string;
 }
 export const BatchGetTracesResult = S.suspend(() =>
@@ -1979,7 +2016,7 @@ export interface GetInsightImpactGraphResult {
   EndTime?: Date;
   ServiceGraphStartTime?: Date;
   ServiceGraphEndTime?: Date;
-  Services?: InsightImpactGraphServiceList;
+  Services?: InsightImpactGraphService[];
   NextToken?: string;
 }
 export const GetInsightImpactGraphResult = S.suspend(() =>
@@ -2000,13 +2037,13 @@ export const GetInsightImpactGraphResult = S.suspend(() =>
   identifier: "GetInsightImpactGraphResult",
 }) as any as S.Schema<GetInsightImpactGraphResult>;
 export interface GetRetrievedTracesGraphResult {
-  RetrievalStatus?: string;
-  Services?: RetrievedServicesList;
+  RetrievalStatus?: RetrievalStatus;
+  Services?: RetrievedService[];
   NextToken?: string;
 }
 export const GetRetrievedTracesGraphResult = S.suspend(() =>
   S.Struct({
-    RetrievalStatus: S.optional(S.String),
+    RetrievalStatus: S.optional(RetrievalStatus),
     Services: S.optional(RetrievedServicesList),
     NextToken: S.optional(S.String),
   }),
@@ -2014,7 +2051,7 @@ export const GetRetrievedTracesGraphResult = S.suspend(() =>
   identifier: "GetRetrievedTracesGraphResult",
 }) as any as S.Schema<GetRetrievedTracesGraphResult>;
 export interface GetTimeSeriesServiceStatisticsResult {
-  TimeSeriesServiceStatistics?: TimeSeriesServiceStatisticsList;
+  TimeSeriesServiceStatistics?: TimeSeriesServiceStatistics[];
   ContainsOldGroupVersions?: boolean;
   NextToken?: string;
 }
@@ -2028,15 +2065,15 @@ export const GetTimeSeriesServiceStatisticsResult = S.suspend(() =>
   identifier: "GetTimeSeriesServiceStatisticsResult",
 }) as any as S.Schema<GetTimeSeriesServiceStatisticsResult>;
 export interface ListRetrievedTracesResult {
-  RetrievalStatus?: string;
-  TraceFormat?: string;
-  Traces?: TraceSpanList;
+  RetrievalStatus?: RetrievalStatus;
+  TraceFormat?: TraceFormatType;
+  Traces?: RetrievedTrace[];
   NextToken?: string;
 }
 export const ListRetrievedTracesResult = S.suspend(() =>
   S.Struct({
-    RetrievalStatus: S.optional(S.String),
-    TraceFormat: S.optional(S.String),
+    RetrievalStatus: S.optional(RetrievalStatus),
+    TraceFormat: S.optional(TraceFormatType),
     Traces: S.optional(TraceSpanList),
     NextToken: S.optional(S.String),
   }),
@@ -2050,7 +2087,7 @@ export const IndexingRuleValue = S.Union(
 export interface IndexingRule {
   Name?: string;
   ModifiedAt?: Date;
-  Rule?: (typeof IndexingRuleValue)["Type"];
+  Rule?: IndexingRuleValue;
 }
 export const IndexingRule = S.suspend(() =>
   S.Struct({
@@ -2097,7 +2134,7 @@ export const Http = S.suspend(() =>
 ).annotations({ identifier: "Http" }) as any as S.Schema<Http>;
 export interface TraceUser {
   UserName?: string;
-  ServiceIds?: ServiceIds;
+  ServiceIds?: ServiceId[];
 }
 export const TraceUser = S.suspend(() =>
   S.Struct({
@@ -2164,7 +2201,7 @@ export const SamplingTargetDocument = S.suspend(() =>
 export type SamplingTargetDocumentList = SamplingTargetDocument[];
 export const SamplingTargetDocumentList = S.Array(SamplingTargetDocument);
 export interface GetIndexingRulesResult {
-  IndexingRules?: IndexingRuleList;
+  IndexingRules?: IndexingRule[];
   NextToken?: string;
 }
 export const GetIndexingRulesResult = S.suspend(() =>
@@ -2176,10 +2213,10 @@ export const GetIndexingRulesResult = S.suspend(() =>
   identifier: "GetIndexingRulesResult",
 }) as any as S.Schema<GetIndexingRulesResult>;
 export interface GetSamplingTargetsResult {
-  SamplingTargetDocuments?: SamplingTargetDocumentList;
+  SamplingTargetDocuments?: SamplingTargetDocument[];
   LastRuleModification?: Date;
-  UnprocessedStatistics?: UnprocessedStatisticsList;
-  UnprocessedBoostStatistics?: UnprocessedStatisticsList;
+  UnprocessedStatistics?: UnprocessedStatistics[];
+  UnprocessedBoostStatistics?: UnprocessedStatistics[];
 }
 export const GetSamplingTargetsResult = S.suspend(() =>
   S.Struct({
@@ -2196,7 +2233,7 @@ export const GetSamplingTargetsResult = S.suspend(() =>
 export interface GetServiceGraphResult {
   StartTime?: Date;
   EndTime?: Date;
-  Services?: ServiceList;
+  Services?: Service[];
   ContainsOldGroupVersions?: boolean;
   NextToken?: string;
 }
@@ -2233,7 +2270,7 @@ export type RootCauseExceptions = RootCauseException[];
 export const RootCauseExceptions = S.Array(RootCauseException);
 export interface ErrorRootCauseEntity {
   Name?: string;
-  Exceptions?: RootCauseExceptions;
+  Exceptions?: RootCauseException[];
   Remote?: boolean;
 }
 export const ErrorRootCauseEntity = S.suspend(() =>
@@ -2266,8 +2303,8 @@ export const ResponseTimeRootCauseEntityPath = S.Array(
   ResponseTimeRootCauseEntity,
 );
 export interface ValueWithServiceIds {
-  AnnotationValue?: (typeof AnnotationValue)["Type"];
-  ServiceIds?: ServiceIds;
+  AnnotationValue?: AnnotationValue;
+  ServiceIds?: ServiceId[];
 }
 export const ValueWithServiceIds = S.suspend(() =>
   S.Struct({
@@ -2281,10 +2318,10 @@ export type ValuesWithServiceIds = ValueWithServiceIds[];
 export const ValuesWithServiceIds = S.Array(ValueWithServiceIds);
 export interface ErrorRootCauseService {
   Name?: string;
-  Names?: ServiceNames;
+  Names?: string[];
   Type?: string;
   AccountId?: string;
-  EntityPath?: ErrorRootCauseEntityPath;
+  EntityPath?: ErrorRootCauseEntity[];
   Inferred?: boolean;
 }
 export const ErrorRootCauseService = S.suspend(() =>
@@ -2303,10 +2340,10 @@ export type ErrorRootCauseServices = ErrorRootCauseService[];
 export const ErrorRootCauseServices = S.Array(ErrorRootCauseService);
 export interface ResponseTimeRootCauseService {
   Name?: string;
-  Names?: ServiceNames;
+  Names?: string[];
   Type?: string;
   AccountId?: string;
-  EntityPath?: ResponseTimeRootCauseEntityPath;
+  EntityPath?: ResponseTimeRootCauseEntity[];
   Inferred?: boolean;
 }
 export const ResponseTimeRootCauseService = S.suspend(() =>
@@ -2325,13 +2362,13 @@ export type ResponseTimeRootCauseServices = ResponseTimeRootCauseService[];
 export const ResponseTimeRootCauseServices = S.Array(
   ResponseTimeRootCauseService,
 );
-export type Annotations = { [key: string]: ValuesWithServiceIds };
+export type Annotations = { [key: string]: ValueWithServiceIds[] };
 export const Annotations = S.Record({
   key: S.String,
   value: ValuesWithServiceIds,
 });
 export interface ErrorRootCause {
-  Services?: ErrorRootCauseServices;
+  Services?: ErrorRootCauseService[];
   ClientImpacting?: boolean;
 }
 export const ErrorRootCause = S.suspend(() =>
@@ -2345,7 +2382,7 @@ export const ErrorRootCause = S.suspend(() =>
 export type ErrorRootCauses = ErrorRootCause[];
 export const ErrorRootCauses = S.Array(ErrorRootCause);
 export interface ResponseTimeRootCause {
-  Services?: ResponseTimeRootCauseServices;
+  Services?: ResponseTimeRootCauseService[];
   ClientImpacting?: boolean;
 }
 export const ResponseTimeRootCause = S.suspend(() =>
@@ -2360,7 +2397,7 @@ export type ResponseTimeRootCauses = ResponseTimeRootCause[];
 export const ResponseTimeRootCauses = S.Array(ResponseTimeRootCause);
 export interface FaultRootCauseEntity {
   Name?: string;
-  Exceptions?: RootCauseExceptions;
+  Exceptions?: RootCauseException[];
   Remote?: boolean;
 }
 export const FaultRootCauseEntity = S.suspend(() =>
@@ -2376,10 +2413,10 @@ export type FaultRootCauseEntityPath = FaultRootCauseEntity[];
 export const FaultRootCauseEntityPath = S.Array(FaultRootCauseEntity);
 export interface FaultRootCauseService {
   Name?: string;
-  Names?: ServiceNames;
+  Names?: string[];
   Type?: string;
   AccountId?: string;
-  EntityPath?: FaultRootCauseEntityPath;
+  EntityPath?: FaultRootCauseEntity[];
   Inferred?: boolean;
 }
 export const FaultRootCauseService = S.suspend(() =>
@@ -2397,7 +2434,7 @@ export const FaultRootCauseService = S.suspend(() =>
 export type FaultRootCauseServices = FaultRootCauseService[];
 export const FaultRootCauseServices = S.Array(FaultRootCauseService);
 export interface FaultRootCause {
-  Services?: FaultRootCauseServices;
+  Services?: FaultRootCauseService[];
   ClientImpacting?: boolean;
 }
 export const FaultRootCause = S.suspend(() =>
@@ -2420,16 +2457,16 @@ export interface TraceSummary {
   HasThrottle?: boolean;
   IsPartial?: boolean;
   Http?: Http;
-  Annotations?: Annotations;
-  Users?: TraceUsers;
-  ServiceIds?: ServiceIds;
-  ResourceARNs?: TraceResourceARNs;
-  InstanceIds?: TraceInstanceIds;
-  AvailabilityZones?: TraceAvailabilityZones;
+  Annotations?: { [key: string]: ValueWithServiceIds[] };
+  Users?: TraceUser[];
+  ServiceIds?: ServiceId[];
+  ResourceARNs?: ResourceARNDetail[];
+  InstanceIds?: InstanceIdDetail[];
+  AvailabilityZones?: AvailabilityZoneDetail[];
   EntryPoint?: ServiceId;
-  FaultRootCauses?: FaultRootCauses;
-  ErrorRootCauses?: ErrorRootCauses;
-  ResponseTimeRootCauses?: ResponseTimeRootCauses;
+  FaultRootCauses?: FaultRootCause[];
+  ErrorRootCauses?: ErrorRootCause[];
+  ResponseTimeRootCauses?: ResponseTimeRootCause[];
   Revision?: number;
   MatchedEventTime?: Date;
 }
@@ -2463,7 +2500,7 @@ export const TraceSummary = S.suspend(() =>
 export type TraceSummaryList = TraceSummary[];
 export const TraceSummaryList = S.Array(TraceSummary);
 export interface GetTraceSummariesResult {
-  TraceSummaries?: TraceSummaryList;
+  TraceSummaries?: TraceSummary[];
   ApproximateTime?: Date;
   TracesProcessedCount?: number;
   NextToken?: string;
@@ -2529,7 +2566,7 @@ export class PolicySizeLimitExceededException extends S.TaggedError<PolicySizeLi
  */
 export const deleteResourcePolicy: (
   input: DeleteResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourcePolicyResult,
   | InvalidPolicyRevisionIdException
   | InvalidRequestException
@@ -2550,7 +2587,7 @@ export const deleteResourcePolicy: (
  */
 export const deleteSamplingRule: (
   input: DeleteSamplingRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSamplingRuleResult,
   InvalidRequestException | ThrottledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2564,7 +2601,7 @@ export const deleteSamplingRule: (
  */
 export const getGroup: (
   input: GetGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetGroupResult,
   InvalidRequestException | ThrottledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2579,21 +2616,21 @@ export const getGroup: (
 export const getGroups: {
   (
     input: GetGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetGroupsResult,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: GetGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetGroupsResult,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GroupSummary,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2616,21 +2653,21 @@ export const getGroups: {
 export const getInsightEvents: {
   (
     input: GetInsightEventsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetInsightEventsResult,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: GetInsightEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetInsightEventsResult,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetInsightEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2651,21 +2688,21 @@ export const getInsightEvents: {
 export const getInsightSummaries: {
   (
     input: GetInsightSummariesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetInsightSummariesResult,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: GetInsightSummariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetInsightSummariesResult,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetInsightSummariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2686,21 +2723,21 @@ export const getInsightSummaries: {
 export const getSamplingStatisticSummaries: {
   (
     input: GetSamplingStatisticSummariesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetSamplingStatisticSummariesResult,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: GetSamplingStatisticSummariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetSamplingStatisticSummariesResult,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetSamplingStatisticSummariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SamplingStatisticSummary,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2721,21 +2758,21 @@ export const getSamplingStatisticSummaries: {
 export const listResourcePolicies: {
   (
     input: ListResourcePoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResourcePoliciesResult,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListResourcePoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResourcePoliciesResult,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResourcePoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResourcePolicy,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2755,7 +2792,7 @@ export const listResourcePolicies: {
  */
 export const putTelemetryRecords: (
   input: PutTelemetryRecordsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutTelemetryRecordsResult,
   InvalidRequestException | ThrottledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2820,7 +2857,7 @@ export const putTelemetryRecords: (
  */
 export const putTraceSegments: (
   input: PutTraceSegmentsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutTraceSegmentsResult,
   InvalidRequestException | ThrottledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2834,7 +2871,7 @@ export const putTraceSegments: (
  */
 export const updateSamplingRule: (
   input: UpdateSamplingRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSamplingRuleResult,
   InvalidRequestException | ThrottledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2849,7 +2886,7 @@ export const updateSamplingRule: (
 export const listTagsForResource: {
   (
     input: ListTagsForResourceRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTagsForResourceResponse,
     | InvalidRequestException
     | ResourceNotFoundException
@@ -2859,7 +2896,7 @@ export const listTagsForResource: {
   >;
   pages: (
     input: ListTagsForResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTagsForResourceResponse,
     | InvalidRequestException
     | ResourceNotFoundException
@@ -2869,7 +2906,7 @@ export const listTagsForResource: {
   >;
   items: (
     input: ListTagsForResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Tag,
     | InvalidRequestException
     | ResourceNotFoundException
@@ -2902,7 +2939,7 @@ export const listTagsForResource: {
  */
 export const startTraceRetrieval: (
   input: StartTraceRetrievalRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartTraceRetrievalResult,
   | InvalidRequestException
   | ResourceNotFoundException
@@ -2924,7 +2961,7 @@ export const startTraceRetrieval: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InvalidRequestException
   | ResourceNotFoundException
@@ -2945,7 +2982,7 @@ export const untagResource: (
  */
 export const getEncryptionConfig: (
   input: GetEncryptionConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEncryptionConfigResult,
   InvalidRequestException | ThrottledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2960,21 +2997,21 @@ export const getEncryptionConfig: (
 export const getSamplingRules: {
   (
     input: GetSamplingRulesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetSamplingRulesResult,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: GetSamplingRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetSamplingRulesResult,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetSamplingRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SamplingRuleRecord,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2995,21 +3032,21 @@ export const getSamplingRules: {
 export const getTraceGraph: {
   (
     input: GetTraceGraphRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetTraceGraphResult,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: GetTraceGraphRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetTraceGraphResult,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetTraceGraphRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Service,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3029,7 +3066,7 @@ export const getTraceGraph: {
  */
 export const putEncryptionConfig: (
   input: PutEncryptionConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutEncryptionConfigResult,
   InvalidRequestException | ThrottledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3043,7 +3080,7 @@ export const putEncryptionConfig: (
  */
 export const updateGroup: (
   input: UpdateGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGroupResult,
   InvalidRequestException | ThrottledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3057,7 +3094,7 @@ export const updateGroup: (
  */
 export const updateTraceSegmentDestination: (
   input: UpdateTraceSegmentDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTraceSegmentDestinationResult,
   InvalidRequestException | ThrottledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3071,7 +3108,7 @@ export const updateTraceSegmentDestination: (
  */
 export const deleteGroup: (
   input: DeleteGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGroupResult,
   InvalidRequestException | ThrottledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3085,7 +3122,7 @@ export const deleteGroup: (
  */
 export const getTraceSegmentDestination: (
   input: GetTraceSegmentDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTraceSegmentDestinationResult,
   InvalidRequestException | ThrottledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3099,7 +3136,7 @@ export const getTraceSegmentDestination: (
  */
 export const cancelTraceRetrieval: (
   input: CancelTraceRetrievalRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelTraceRetrievalResult,
   | InvalidRequestException
   | ResourceNotFoundException
@@ -3120,7 +3157,7 @@ export const cancelTraceRetrieval: (
  */
 export const createGroup: (
   input: CreateGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGroupResult,
   InvalidRequestException | ThrottledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3139,21 +3176,21 @@ export const createGroup: (
 export const batchGetTraces: {
   (
     input: BatchGetTracesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     BatchGetTracesResult,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: BatchGetTracesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BatchGetTracesResult,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: BatchGetTracesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Trace,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3175,7 +3212,7 @@ export const batchGetTraces: {
  */
 export const getInsight: (
   input: GetInsightRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInsightResult,
   InvalidRequestException | ThrottledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3190,7 +3227,7 @@ export const getInsight: (
  */
 export const getInsightImpactGraph: (
   input: GetInsightImpactGraphRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInsightImpactGraphResult,
   InvalidRequestException | ThrottledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3212,7 +3249,7 @@ export const getInsightImpactGraph: (
  */
 export const getRetrievedTracesGraph: (
   input: GetRetrievedTracesGraphRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRetrievedTracesGraphResult,
   | InvalidRequestException
   | ResourceNotFoundException
@@ -3235,21 +3272,21 @@ export const getRetrievedTracesGraph: (
 export const getTimeSeriesServiceStatistics: {
   (
     input: GetTimeSeriesServiceStatisticsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetTimeSeriesServiceStatisticsResult,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: GetTimeSeriesServiceStatisticsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetTimeSeriesServiceStatisticsResult,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetTimeSeriesServiceStatisticsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TimeSeriesServiceStatistics,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3277,7 +3314,7 @@ export const getTimeSeriesServiceStatistics: {
  */
 export const listRetrievedTraces: (
   input: ListRetrievedTracesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListRetrievedTracesResult,
   | InvalidRequestException
   | ResourceNotFoundException
@@ -3300,7 +3337,7 @@ export const listRetrievedTraces: (
  */
 export const updateIndexingRule: (
   input: UpdateIndexingRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateIndexingRuleResult,
   | InvalidRequestException
   | ResourceNotFoundException
@@ -3321,7 +3358,7 @@ export const updateIndexingRule: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InvalidRequestException
   | ResourceNotFoundException
@@ -3350,7 +3387,7 @@ export const tagResource: (
  */
 export const createSamplingRule: (
   input: CreateSamplingRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSamplingRuleResult,
   | InvalidRequestException
   | RuleLimitExceededException
@@ -3373,7 +3410,7 @@ export const createSamplingRule: (
  */
 export const getIndexingRules: (
   input: GetIndexingRulesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIndexingRulesResult,
   InvalidRequestException | ThrottledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3387,7 +3424,7 @@ export const getIndexingRules: (
  */
 export const getSamplingTargets: (
   input: GetSamplingTargetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSamplingTargetsResult,
   InvalidRequestException | ThrottledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3406,21 +3443,21 @@ export const getSamplingTargets: (
 export const getServiceGraph: {
   (
     input: GetServiceGraphRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetServiceGraphResult,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: GetServiceGraphRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetServiceGraphResult,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetServiceGraphRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Service,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3443,7 +3480,7 @@ export const getServiceGraph: {
  */
 export const putResourcePolicy: (
   input: PutResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourcePolicyResult,
   | InvalidPolicyRevisionIdException
   | LockoutPreventionException
@@ -3488,21 +3525,21 @@ export const putResourcePolicy: (
 export const getTraceSummaries: {
   (
     input: GetTraceSummariesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetTraceSummariesResult,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: GetTraceSummariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetTraceSummariesResult,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetTraceSummariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TraceSummary,
     InvalidRequestException | ThrottledException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient

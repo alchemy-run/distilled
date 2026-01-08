@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -111,6 +111,13 @@ export type TestCaseScenarioId = string;
 export type SystemMessage = string;
 
 //# Schemas
+export type AuthenticationMethod =
+  | "X509ClientCertificate"
+  | "SignatureVersion4";
+export const AuthenticationMethod = S.Literal(
+  "X509ClientCertificate",
+  "SignatureVersion4",
+);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface DeleteSuiteDefinitionRequest {
@@ -145,14 +152,14 @@ export interface GetEndpointRequest {
   thingArn?: string;
   certificateArn?: string;
   deviceRoleArn?: string;
-  authenticationMethod?: string;
+  authenticationMethod?: AuthenticationMethod;
 }
 export const GetEndpointRequest = S.suspend(() =>
   S.Struct({
     thingArn: S.optional(S.String).pipe(T.HttpQuery("thingArn")),
     certificateArn: S.optional(S.String).pipe(T.HttpQuery("certificateArn")),
     deviceRoleArn: S.optional(S.String).pipe(T.HttpQuery("deviceRoleArn")),
-    authenticationMethod: S.optional(S.String).pipe(
+    authenticationMethod: S.optional(AuthenticationMethod).pipe(
       T.HttpQuery("authenticationMethod"),
     ),
   }).pipe(
@@ -338,12 +345,12 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags?: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagMap,
+    tags: S.optional(TagMap),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
@@ -363,12 +370,12 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys?: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
+    tagKeys: S.optional(TagKeyList).pipe(T.HttpQuery("tagKeys")),
   }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
@@ -402,36 +409,47 @@ export const DeviceUnderTest = S.suspend(() =>
 }) as any as S.Schema<DeviceUnderTest>;
 export type DeviceUnderTestList = DeviceUnderTest[];
 export const DeviceUnderTestList = S.Array(DeviceUnderTest);
+export type Protocol =
+  | "MqttV3_1_1"
+  | "MqttV5"
+  | "MqttV3_1_1_OverWebSocket"
+  | "MqttV5_OverWebSocket";
+export const Protocol = S.Literal(
+  "MqttV3_1_1",
+  "MqttV5",
+  "MqttV3_1_1_OverWebSocket",
+  "MqttV5_OverWebSocket",
+);
 export interface SuiteDefinitionConfiguration {
-  suiteDefinitionName: string;
-  devices?: DeviceUnderTestList;
+  suiteDefinitionName?: string;
+  devices?: DeviceUnderTest[];
   intendedForQualification?: boolean;
   isLongDurationTest?: boolean;
-  rootGroup: string;
-  devicePermissionRoleArn: string;
-  protocol?: string;
+  rootGroup?: string;
+  devicePermissionRoleArn?: string;
+  protocol?: Protocol;
 }
 export const SuiteDefinitionConfiguration = S.suspend(() =>
   S.Struct({
-    suiteDefinitionName: S.String,
+    suiteDefinitionName: S.optional(S.String),
     devices: S.optional(DeviceUnderTestList),
     intendedForQualification: S.optional(S.Boolean),
     isLongDurationTest: S.optional(S.Boolean),
-    rootGroup: S.String,
-    devicePermissionRoleArn: S.String,
-    protocol: S.optional(S.String),
+    rootGroup: S.optional(S.String),
+    devicePermissionRoleArn: S.optional(S.String),
+    protocol: S.optional(Protocol),
   }),
 ).annotations({
   identifier: "SuiteDefinitionConfiguration",
 }) as any as S.Schema<SuiteDefinitionConfiguration>;
 export interface UpdateSuiteDefinitionRequest {
   suiteDefinitionId: string;
-  suiteDefinitionConfiguration: SuiteDefinitionConfiguration;
+  suiteDefinitionConfiguration?: SuiteDefinitionConfiguration;
 }
 export const UpdateSuiteDefinitionRequest = S.suspend(() =>
   S.Struct({
     suiteDefinitionId: S.String.pipe(T.HttpLabel("suiteDefinitionId")),
-    suiteDefinitionConfiguration: SuiteDefinitionConfiguration,
+    suiteDefinitionConfiguration: S.optional(SuiteDefinitionConfiguration),
   }).pipe(
     T.all(
       T.Http({ method: "PATCH", uri: "/suiteDefinitions/{suiteDefinitionId}" }),
@@ -447,14 +465,35 @@ export const UpdateSuiteDefinitionRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateSuiteDefinitionRequest>;
 export type SelectedTestList = string[];
 export const SelectedTestList = S.Array(S.String);
+export type SuiteRunStatus =
+  | "PASS"
+  | "FAIL"
+  | "CANCELED"
+  | "PENDING"
+  | "RUNNING"
+  | "STOPPING"
+  | "STOPPED"
+  | "PASS_WITH_WARNINGS"
+  | "ERROR";
+export const SuiteRunStatus = S.Literal(
+  "PASS",
+  "FAIL",
+  "CANCELED",
+  "PENDING",
+  "RUNNING",
+  "STOPPING",
+  "STOPPED",
+  "PASS_WITH_WARNINGS",
+  "ERROR",
+);
 export interface SuiteRunConfiguration {
-  primaryDevice: DeviceUnderTest;
-  selectedTestList?: SelectedTestList;
+  primaryDevice?: DeviceUnderTest;
+  selectedTestList?: string[];
   parallelRun?: boolean;
 }
 export const SuiteRunConfiguration = S.suspend(() =>
   S.Struct({
-    primaryDevice: DeviceUnderTest,
+    primaryDevice: S.optional(DeviceUnderTest),
     selectedTestList: S.optional(SelectedTestList),
     parallelRun: S.optional(S.Boolean),
   }),
@@ -477,7 +516,7 @@ export interface GetSuiteDefinitionResponse {
   suiteDefinitionConfiguration?: SuiteDefinitionConfiguration;
   createdAt?: Date;
   lastModifiedAt?: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const GetSuiteDefinitionResponse = S.suspend(() =>
   S.Struct({
@@ -502,7 +541,7 @@ export const GetSuiteRunReportResponse = S.suspend(() =>
   identifier: "GetSuiteRunReportResponse",
 }) as any as S.Schema<GetSuiteRunReportResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -512,14 +551,14 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 export interface StartSuiteRunRequest {
   suiteDefinitionId: string;
   suiteDefinitionVersion?: string;
-  suiteRunConfiguration: SuiteRunConfiguration;
-  tags?: TagMap;
+  suiteRunConfiguration?: SuiteRunConfiguration;
+  tags?: { [key: string]: string };
 }
 export const StartSuiteRunRequest = S.suspend(() =>
   S.Struct({
     suiteDefinitionId: S.String.pipe(T.HttpLabel("suiteDefinitionId")),
     suiteDefinitionVersion: S.optional(S.String),
-    suiteRunConfiguration: SuiteRunConfiguration,
+    suiteRunConfiguration: S.optional(SuiteRunConfiguration),
     tags: S.optional(TagMap),
   }).pipe(
     T.all(
@@ -560,10 +599,10 @@ export const UpdateSuiteDefinitionResponse = S.suspend(() =>
 export interface SuiteDefinitionInformation {
   suiteDefinitionId?: string;
   suiteDefinitionName?: string;
-  defaultDevices?: DeviceUnderTestList;
+  defaultDevices?: DeviceUnderTest[];
   intendedForQualification?: boolean;
   isLongDurationTest?: boolean;
-  protocol?: string;
+  protocol?: Protocol;
   createdAt?: Date;
 }
 export const SuiteDefinitionInformation = S.suspend(() =>
@@ -573,7 +612,7 @@ export const SuiteDefinitionInformation = S.suspend(() =>
     defaultDevices: S.optional(DeviceUnderTestList),
     intendedForQualification: S.optional(S.Boolean),
     isLongDurationTest: S.optional(S.Boolean),
-    protocol: S.optional(S.String),
+    protocol: S.optional(Protocol),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({
@@ -591,7 +630,7 @@ export interface SuiteRunInformation {
   createdAt?: Date;
   startedAt?: Date;
   endAt?: Date;
-  status?: string;
+  status?: SuiteRunStatus;
   passed?: number;
   failed?: number;
 }
@@ -604,7 +643,7 @@ export const SuiteRunInformation = S.suspend(() =>
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     startedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(S.String),
+    status: S.optional(SuiteRunStatus),
     passed: S.optional(S.Number),
     failed: S.optional(S.Number),
   }),
@@ -614,13 +653,13 @@ export const SuiteRunInformation = S.suspend(() =>
 export type SuiteRunsList = SuiteRunInformation[];
 export const SuiteRunsList = S.Array(SuiteRunInformation);
 export interface CreateSuiteDefinitionRequest {
-  suiteDefinitionConfiguration: SuiteDefinitionConfiguration;
-  tags?: TagMap;
+  suiteDefinitionConfiguration?: SuiteDefinitionConfiguration;
+  tags?: { [key: string]: string };
   clientToken?: string;
 }
 export const CreateSuiteDefinitionRequest = S.suspend(() =>
   S.Struct({
-    suiteDefinitionConfiguration: SuiteDefinitionConfiguration,
+    suiteDefinitionConfiguration: S.optional(SuiteDefinitionConfiguration),
     tags: S.optional(TagMap),
     clientToken: S.optional(S.String),
   }).pipe(
@@ -637,7 +676,7 @@ export const CreateSuiteDefinitionRequest = S.suspend(() =>
   identifier: "CreateSuiteDefinitionRequest",
 }) as any as S.Schema<CreateSuiteDefinitionRequest>;
 export interface ListSuiteDefinitionsResponse {
-  suiteDefinitionInformationList?: SuiteDefinitionInformationList;
+  suiteDefinitionInformationList?: SuiteDefinitionInformation[];
   nextToken?: string;
 }
 export const ListSuiteDefinitionsResponse = S.suspend(() =>
@@ -649,7 +688,7 @@ export const ListSuiteDefinitionsResponse = S.suspend(() =>
   identifier: "ListSuiteDefinitionsResponse",
 }) as any as S.Schema<ListSuiteDefinitionsResponse>;
 export interface ListSuiteRunsResponse {
-  suiteRunsList?: SuiteRunsList;
+  suiteRunsList?: SuiteRunInformation[];
   nextToken?: string;
 }
 export const ListSuiteRunsResponse = S.suspend(() =>
@@ -676,6 +715,27 @@ export const StartSuiteRunResponse = S.suspend(() =>
 ).annotations({
   identifier: "StartSuiteRunResponse",
 }) as any as S.Schema<StartSuiteRunResponse>;
+export type Status =
+  | "PASS"
+  | "FAIL"
+  | "CANCELED"
+  | "PENDING"
+  | "RUNNING"
+  | "STOPPING"
+  | "STOPPED"
+  | "PASS_WITH_WARNINGS"
+  | "ERROR";
+export const Status = S.Literal(
+  "PASS",
+  "FAIL",
+  "CANCELED",
+  "PENDING",
+  "RUNNING",
+  "STOPPING",
+  "STOPPED",
+  "PASS_WITH_WARNINGS",
+  "ERROR",
+);
 export interface CreateSuiteDefinitionResponse {
   suiteDefinitionId?: string;
   suiteDefinitionArn?: string;
@@ -692,18 +752,41 @@ export const CreateSuiteDefinitionResponse = S.suspend(() =>
 ).annotations({
   identifier: "CreateSuiteDefinitionResponse",
 }) as any as S.Schema<CreateSuiteDefinitionResponse>;
+export type TestCaseScenarioType = "Advanced" | "Basic";
+export const TestCaseScenarioType = S.Literal("Advanced", "Basic");
+export type TestCaseScenarioStatus =
+  | "PASS"
+  | "FAIL"
+  | "CANCELED"
+  | "PENDING"
+  | "RUNNING"
+  | "STOPPING"
+  | "STOPPED"
+  | "PASS_WITH_WARNINGS"
+  | "ERROR";
+export const TestCaseScenarioStatus = S.Literal(
+  "PASS",
+  "FAIL",
+  "CANCELED",
+  "PENDING",
+  "RUNNING",
+  "STOPPING",
+  "STOPPED",
+  "PASS_WITH_WARNINGS",
+  "ERROR",
+);
 export interface TestCaseScenario {
   testCaseScenarioId?: string;
-  testCaseScenarioType?: string;
-  status?: string;
+  testCaseScenarioType?: TestCaseScenarioType;
+  status?: TestCaseScenarioStatus;
   failure?: string;
   systemMessage?: string;
 }
 export const TestCaseScenario = S.suspend(() =>
   S.Struct({
     testCaseScenarioId: S.optional(S.String),
-    testCaseScenarioType: S.optional(S.String),
-    status: S.optional(S.String),
+    testCaseScenarioType: S.optional(TestCaseScenarioType),
+    status: S.optional(TestCaseScenarioStatus),
     failure: S.optional(S.String),
     systemMessage: S.optional(S.String),
   }),
@@ -716,20 +799,20 @@ export interface TestCaseRun {
   testCaseRunId?: string;
   testCaseDefinitionId?: string;
   testCaseDefinitionName?: string;
-  status?: string;
+  status?: Status;
   startTime?: Date;
   endTime?: Date;
   logUrl?: string;
   warnings?: string;
   failure?: string;
-  testScenarios?: TestCaseScenariosList;
+  testScenarios?: TestCaseScenario[];
 }
 export const TestCaseRun = S.suspend(() =>
   S.Struct({
     testCaseRunId: S.optional(S.String),
     testCaseDefinitionId: S.optional(S.String),
     testCaseDefinitionName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(Status),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     logUrl: S.optional(S.String),
@@ -743,7 +826,7 @@ export const TestCaseRuns = S.Array(TestCaseRun);
 export interface GroupResult {
   groupId?: string;
   groupName?: string;
-  tests?: TestCaseRuns;
+  tests?: TestCaseRun[];
 }
 export const GroupResult = S.suspend(() =>
   S.Struct({
@@ -755,7 +838,7 @@ export const GroupResult = S.suspend(() =>
 export type GroupResultList = GroupResult[];
 export const GroupResultList = S.Array(GroupResult);
 export interface TestResult {
-  groups?: GroupResultList;
+  groups?: GroupResult[];
 }
 export const TestResult = S.suspend(() =>
   S.Struct({ groups: S.optional(GroupResultList) }),
@@ -769,9 +852,9 @@ export interface GetSuiteRunResponse {
   testResult?: TestResult;
   startTime?: Date;
   endTime?: Date;
-  status?: string;
+  status?: SuiteRunStatus;
   errorReason?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const GetSuiteRunResponse = S.suspend(() =>
   S.Struct({
@@ -783,7 +866,7 @@ export const GetSuiteRunResponse = S.suspend(() =>
     testResult: S.optional(TestResult),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(S.String),
+    status: S.optional(SuiteRunStatus),
     errorReason: S.optional(S.String),
     tags: S.optional(TagMap),
   }),
@@ -817,7 +900,7 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
  */
 export const deleteSuiteDefinition: (
   input: DeleteSuiteDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSuiteDefinitionResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -831,7 +914,7 @@ export const deleteSuiteDefinition: (
  */
 export const getEndpoint: (
   input: GetEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEndpointResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -855,21 +938,21 @@ export const getEndpoint: (
 export const listSuiteDefinitions: {
   (
     input: ListSuiteDefinitionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSuiteDefinitionsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSuiteDefinitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSuiteDefinitionsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSuiteDefinitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -893,21 +976,21 @@ export const listSuiteDefinitions: {
 export const listSuiteRuns: {
   (
     input: ListSuiteRunsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSuiteRunsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSuiteRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSuiteRunsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSuiteRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -929,7 +1012,7 @@ export const listSuiteRuns: {
  */
 export const updateSuiteDefinition: (
   input: UpdateSuiteDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSuiteDefinitionResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -945,7 +1028,7 @@ export const updateSuiteDefinition: (
  */
 export const getSuiteDefinition: (
   input: GetSuiteDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSuiteDefinitionResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -968,7 +1051,7 @@ export const getSuiteDefinition: (
  */
 export const getSuiteRunReport: (
   input: GetSuiteRunReportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSuiteRunReportResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -991,7 +1074,7 @@ export const getSuiteRunReport: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1014,7 +1097,7 @@ export const listTagsForResource: (
  */
 export const stopSuiteRun: (
   input: StopSuiteRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopSuiteRunResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1037,7 +1120,7 @@ export const stopSuiteRun: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1060,7 +1143,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1083,7 +1166,7 @@ export const untagResource: (
  */
 export const createSuiteDefinition: (
   input: CreateSuiteDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSuiteDefinitionResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1099,7 +1182,7 @@ export const createSuiteDefinition: (
  */
 export const startSuiteRun: (
   input: StartSuiteRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartSuiteRunResponse,
   | ConflictException
   | InternalServerException
@@ -1118,7 +1201,7 @@ export const startSuiteRun: (
  */
 export const getSuiteRun: (
   input: GetSuiteRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSuiteRunResponse,
   | InternalServerException
   | ResourceNotFoundException

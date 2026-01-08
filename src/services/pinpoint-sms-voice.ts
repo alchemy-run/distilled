@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -241,8 +241,25 @@ export const KinesisFirehoseDestination = S.suspend(() =>
 ).annotations({
   identifier: "KinesisFirehoseDestination",
 }) as any as S.Schema<KinesisFirehoseDestination>;
-export type EventTypes = string[];
-export const EventTypes = S.Array(S.String);
+export type EventType =
+  | "INITIATED_CALL"
+  | "RINGING"
+  | "ANSWERED"
+  | "COMPLETED_CALL"
+  | "BUSY"
+  | "FAILED"
+  | "NO_ANSWER";
+export const EventType = S.Literal(
+  "INITIATED_CALL",
+  "RINGING",
+  "ANSWERED",
+  "COMPLETED_CALL",
+  "BUSY",
+  "FAILED",
+  "NO_ANSWER",
+);
+export type EventTypes = EventType[];
+export const EventTypes = S.Array(EventType);
 export interface SnsDestination {
   TopicArn?: string;
 }
@@ -255,7 +272,7 @@ export interface EventDestinationDefinition {
   CloudWatchLogsDestination?: CloudWatchLogsDestination;
   Enabled?: boolean;
   KinesisFirehoseDestination?: KinesisFirehoseDestination;
-  MatchingEventTypes?: EventTypes;
+  MatchingEventTypes?: EventType[];
   SnsDestination?: SnsDestination;
 }
 export const EventDestinationDefinition = S.suspend(() =>
@@ -304,7 +321,7 @@ export const UpdateConfigurationSetEventDestinationResponse = S.suspend(() =>
 export type ConfigurationSets = string[];
 export const ConfigurationSets = S.Array(S.String);
 export interface ListConfigurationSetsResponse {
-  ConfigurationSets?: ConfigurationSets;
+  ConfigurationSets?: string[];
   NextToken?: string;
 }
 export const ListConfigurationSetsResponse = S.suspend(() =>
@@ -355,7 +372,7 @@ export interface EventDestination {
   CloudWatchLogsDestination?: CloudWatchLogsDestination;
   Enabled?: boolean;
   KinesisFirehoseDestination?: KinesisFirehoseDestination;
-  MatchingEventTypes?: EventTypes;
+  MatchingEventTypes?: EventType[];
   Name?: string;
   SnsDestination?: SnsDestination;
 }
@@ -420,7 +437,7 @@ export const CreateConfigurationSetEventDestinationResponse = S.suspend(() =>
   identifier: "CreateConfigurationSetEventDestinationResponse",
 }) as any as S.Schema<CreateConfigurationSetEventDestinationResponse>;
 export interface GetConfigurationSetEventDestinationsResponse {
-  EventDestinations?: EventDestinations;
+  EventDestinations?: EventDestination[];
 }
 export const GetConfigurationSetEventDestinationsResponse = S.suspend(() =>
   S.Struct({ EventDestinations: S.optional(EventDestinations) }),
@@ -495,7 +512,7 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
  */
 export const listConfigurationSets: (
   input: ListConfigurationSetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListConfigurationSetsResponse,
   | BadRequestException
   | InternalServiceErrorException
@@ -516,7 +533,7 @@ export const listConfigurationSets: (
  */
 export const createConfigurationSet: (
   input: CreateConfigurationSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConfigurationSetResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -541,7 +558,7 @@ export const createConfigurationSet: (
  */
 export const getConfigurationSetEventDestinations: (
   input: GetConfigurationSetEventDestinationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConfigurationSetEventDestinationsResponse,
   | BadRequestException
   | InternalServiceErrorException
@@ -564,7 +581,7 @@ export const getConfigurationSetEventDestinations: (
  */
 export const deleteConfigurationSetEventDestination: (
   input: DeleteConfigurationSetEventDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConfigurationSetEventDestinationResponse,
   | BadRequestException
   | InternalServiceErrorException
@@ -587,7 +604,7 @@ export const deleteConfigurationSetEventDestination: (
  */
 export const updateConfigurationSetEventDestination: (
   input: UpdateConfigurationSetEventDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConfigurationSetEventDestinationResponse,
   | BadRequestException
   | InternalServiceErrorException
@@ -610,7 +627,7 @@ export const updateConfigurationSetEventDestination: (
  */
 export const deleteConfigurationSet: (
   input: DeleteConfigurationSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConfigurationSetResponse,
   | BadRequestException
   | InternalServiceErrorException
@@ -633,7 +650,7 @@ export const deleteConfigurationSet: (
  */
 export const sendVoiceMessage: (
   input: SendVoiceMessageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendVoiceMessageResponse,
   | BadRequestException
   | InternalServiceErrorException
@@ -654,7 +671,7 @@ export const sendVoiceMessage: (
  */
 export const createConfigurationSetEventDestination: (
   input: CreateConfigurationSetEventDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConfigurationSetEventDestinationResponse,
   | AlreadyExistsException
   | BadRequestException

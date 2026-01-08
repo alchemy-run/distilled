@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -98,8 +98,8 @@ export type WrapperInt = number;
 export type ReportGroupName = string;
 export type PageSize = number;
 export type Percentage = number;
-export type SensitiveNonEmptyString = string | Redacted.Redacted<string>;
-export type SensitiveString = string | Redacted.Redacted<string>;
+export type SensitiveNonEmptyString = string | redacted.Redacted<string>;
+export type SensitiveString = string | redacted.Redacted<string>;
 export type GitCloneDepth = number;
 export type WrapperLong = number;
 export type KeyInput = string;
@@ -140,6 +140,83 @@ export type ReportArns = string[];
 export const ReportArns = S.Array(S.String);
 export type SandboxIds = string[];
 export const SandboxIds = S.Array(S.String);
+export type EnvironmentType =
+  | "WINDOWS_CONTAINER"
+  | "LINUX_CONTAINER"
+  | "LINUX_GPU_CONTAINER"
+  | "ARM_CONTAINER"
+  | "WINDOWS_SERVER_2019_CONTAINER"
+  | "WINDOWS_SERVER_2022_CONTAINER"
+  | "LINUX_LAMBDA_CONTAINER"
+  | "ARM_LAMBDA_CONTAINER"
+  | "LINUX_EC2"
+  | "ARM_EC2"
+  | "WINDOWS_EC2"
+  | "MAC_ARM";
+export const EnvironmentType = S.Literal(
+  "WINDOWS_CONTAINER",
+  "LINUX_CONTAINER",
+  "LINUX_GPU_CONTAINER",
+  "ARM_CONTAINER",
+  "WINDOWS_SERVER_2019_CONTAINER",
+  "WINDOWS_SERVER_2022_CONTAINER",
+  "LINUX_LAMBDA_CONTAINER",
+  "ARM_LAMBDA_CONTAINER",
+  "LINUX_EC2",
+  "ARM_EC2",
+  "WINDOWS_EC2",
+  "MAC_ARM",
+);
+export type ComputeType =
+  | "BUILD_GENERAL1_SMALL"
+  | "BUILD_GENERAL1_MEDIUM"
+  | "BUILD_GENERAL1_LARGE"
+  | "BUILD_GENERAL1_XLARGE"
+  | "BUILD_GENERAL1_2XLARGE"
+  | "BUILD_LAMBDA_1GB"
+  | "BUILD_LAMBDA_2GB"
+  | "BUILD_LAMBDA_4GB"
+  | "BUILD_LAMBDA_8GB"
+  | "BUILD_LAMBDA_10GB"
+  | "ATTRIBUTE_BASED_COMPUTE"
+  | "CUSTOM_INSTANCE_TYPE";
+export const ComputeType = S.Literal(
+  "BUILD_GENERAL1_SMALL",
+  "BUILD_GENERAL1_MEDIUM",
+  "BUILD_GENERAL1_LARGE",
+  "BUILD_GENERAL1_XLARGE",
+  "BUILD_GENERAL1_2XLARGE",
+  "BUILD_LAMBDA_1GB",
+  "BUILD_LAMBDA_2GB",
+  "BUILD_LAMBDA_4GB",
+  "BUILD_LAMBDA_8GB",
+  "BUILD_LAMBDA_10GB",
+  "ATTRIBUTE_BASED_COMPUTE",
+  "CUSTOM_INSTANCE_TYPE",
+);
+export type FleetOverflowBehavior = "QUEUE" | "ON_DEMAND";
+export const FleetOverflowBehavior = S.Literal("QUEUE", "ON_DEMAND");
+export type SourceType =
+  | "CODECOMMIT"
+  | "CODEPIPELINE"
+  | "GITHUB"
+  | "GITLAB"
+  | "GITLAB_SELF_MANAGED"
+  | "S3"
+  | "BITBUCKET"
+  | "GITHUB_ENTERPRISE"
+  | "NO_SOURCE";
+export const SourceType = S.Literal(
+  "CODECOMMIT",
+  "CODEPIPELINE",
+  "GITHUB",
+  "GITLAB",
+  "GITLAB_SELF_MANAGED",
+  "S3",
+  "BITBUCKET",
+  "GITHUB_ENTERPRISE",
+  "NO_SOURCE",
+);
 export interface GitSubmodulesConfig {
   fetchSubmodules: boolean;
 }
@@ -148,12 +225,18 @@ export const GitSubmodulesConfig = S.suspend(() =>
 ).annotations({
   identifier: "GitSubmodulesConfig",
 }) as any as S.Schema<GitSubmodulesConfig>;
+export type SourceAuthType = "OAUTH" | "CODECONNECTIONS" | "SECRETS_MANAGER";
+export const SourceAuthType = S.Literal(
+  "OAUTH",
+  "CODECONNECTIONS",
+  "SECRETS_MANAGER",
+);
 export interface SourceAuth {
-  type: string;
+  type: SourceAuthType;
   resource?: string;
 }
 export const SourceAuth = S.suspend(() =>
-  S.Struct({ type: S.String, resource: S.optional(S.String) }),
+  S.Struct({ type: SourceAuthType, resource: S.optional(S.String) }),
 ).annotations({ identifier: "SourceAuth" }) as any as S.Schema<SourceAuth>;
 export interface BuildStatusConfig {
   context?: string;
@@ -165,7 +248,7 @@ export const BuildStatusConfig = S.suspend(() =>
   identifier: "BuildStatusConfig",
 }) as any as S.Schema<BuildStatusConfig>;
 export interface ProjectSource {
-  type: string;
+  type: SourceType;
   location?: string;
   gitCloneDepth?: number;
   gitSubmodulesConfig?: GitSubmodulesConfig;
@@ -178,7 +261,7 @@ export interface ProjectSource {
 }
 export const ProjectSource = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: SourceType,
     location: S.optional(S.String),
     gitCloneDepth: S.optional(S.Number),
     gitSubmodulesConfig: S.optional(GitSubmodulesConfig),
@@ -194,38 +277,147 @@ export const ProjectSource = S.suspend(() =>
 }) as any as S.Schema<ProjectSource>;
 export type ProjectSources = ProjectSource[];
 export const ProjectSources = S.Array(ProjectSource);
+export type ArtifactsType = "CODEPIPELINE" | "S3" | "NO_ARTIFACTS";
+export const ArtifactsType = S.Literal("CODEPIPELINE", "S3", "NO_ARTIFACTS");
+export type ArtifactNamespace = "NONE" | "BUILD_ID";
+export const ArtifactNamespace = S.Literal("NONE", "BUILD_ID");
+export type ArtifactPackaging = "NONE" | "ZIP";
+export const ArtifactPackaging = S.Literal("NONE", "ZIP");
+export type BucketOwnerAccess = "NONE" | "READ_ONLY" | "FULL";
+export const BucketOwnerAccess = S.Literal("NONE", "READ_ONLY", "FULL");
 export interface ProjectArtifacts {
-  type: string;
+  type: ArtifactsType;
   location?: string;
   path?: string;
-  namespaceType?: string;
+  namespaceType?: ArtifactNamespace;
   name?: string;
-  packaging?: string;
+  packaging?: ArtifactPackaging;
   overrideArtifactName?: boolean;
   encryptionDisabled?: boolean;
   artifactIdentifier?: string;
-  bucketOwnerAccess?: string;
+  bucketOwnerAccess?: BucketOwnerAccess;
 }
 export const ProjectArtifacts = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: ArtifactsType,
     location: S.optional(S.String),
     path: S.optional(S.String),
-    namespaceType: S.optional(S.String),
+    namespaceType: S.optional(ArtifactNamespace),
     name: S.optional(S.String),
-    packaging: S.optional(S.String),
+    packaging: S.optional(ArtifactPackaging),
     overrideArtifactName: S.optional(S.Boolean),
     encryptionDisabled: S.optional(S.Boolean),
     artifactIdentifier: S.optional(S.String),
-    bucketOwnerAccess: S.optional(S.String),
+    bucketOwnerAccess: S.optional(BucketOwnerAccess),
   }),
 ).annotations({
   identifier: "ProjectArtifacts",
 }) as any as S.Schema<ProjectArtifacts>;
 export type ProjectArtifactsList = ProjectArtifacts[];
 export const ProjectArtifactsList = S.Array(ProjectArtifacts);
+export type ReportType = "TEST" | "CODE_COVERAGE";
+export const ReportType = S.Literal("TEST", "CODE_COVERAGE");
+export type WebhookBuildType =
+  | "BUILD"
+  | "BUILD_BATCH"
+  | "RUNNER_BUILDKITE_BUILD";
+export const WebhookBuildType = S.Literal(
+  "BUILD",
+  "BUILD_BATCH",
+  "RUNNER_BUILDKITE_BUILD",
+);
+export type SortOrderType = "ASCENDING" | "DESCENDING";
+export const SortOrderType = S.Literal("ASCENDING", "DESCENDING");
+export type ReportCodeCoverageSortByType =
+  | "LINE_COVERAGE_PERCENTAGE"
+  | "FILE_PATH";
+export const ReportCodeCoverageSortByType = S.Literal(
+  "LINE_COVERAGE_PERCENTAGE",
+  "FILE_PATH",
+);
+export type ReportGroupTrendFieldType =
+  | "PASS_RATE"
+  | "DURATION"
+  | "TOTAL"
+  | "LINE_COVERAGE"
+  | "LINES_COVERED"
+  | "LINES_MISSED"
+  | "BRANCH_COVERAGE"
+  | "BRANCHES_COVERED"
+  | "BRANCHES_MISSED";
+export const ReportGroupTrendFieldType = S.Literal(
+  "PASS_RATE",
+  "DURATION",
+  "TOTAL",
+  "LINE_COVERAGE",
+  "LINES_COVERED",
+  "LINES_MISSED",
+  "BRANCH_COVERAGE",
+  "BRANCHES_COVERED",
+  "BRANCHES_MISSED",
+);
+export type ServerType =
+  | "GITHUB"
+  | "BITBUCKET"
+  | "GITHUB_ENTERPRISE"
+  | "GITLAB"
+  | "GITLAB_SELF_MANAGED";
+export const ServerType = S.Literal(
+  "GITHUB",
+  "BITBUCKET",
+  "GITHUB_ENTERPRISE",
+  "GITLAB",
+  "GITLAB_SELF_MANAGED",
+);
+export type AuthType =
+  | "OAUTH"
+  | "BASIC_AUTH"
+  | "PERSONAL_ACCESS_TOKEN"
+  | "CODECONNECTIONS"
+  | "SECRETS_MANAGER";
+export const AuthType = S.Literal(
+  "OAUTH",
+  "BASIC_AUTH",
+  "PERSONAL_ACCESS_TOKEN",
+  "CODECONNECTIONS",
+  "SECRETS_MANAGER",
+);
+export type FleetSortByType = "NAME" | "CREATED_TIME" | "LAST_MODIFIED_TIME";
+export const FleetSortByType = S.Literal(
+  "NAME",
+  "CREATED_TIME",
+  "LAST_MODIFIED_TIME",
+);
+export type ProjectSortByType = "NAME" | "CREATED_TIME" | "LAST_MODIFIED_TIME";
+export const ProjectSortByType = S.Literal(
+  "NAME",
+  "CREATED_TIME",
+  "LAST_MODIFIED_TIME",
+);
+export type ReportGroupSortByType =
+  | "NAME"
+  | "CREATED_TIME"
+  | "LAST_MODIFIED_TIME";
+export const ReportGroupSortByType = S.Literal(
+  "NAME",
+  "CREATED_TIME",
+  "LAST_MODIFIED_TIME",
+);
+export type SharedResourceSortByType = "ARN" | "MODIFIED_TIME";
+export const SharedResourceSortByType = S.Literal("ARN", "MODIFIED_TIME");
+export type RetryBuildBatchType = "RETRY_ALL_BUILDS" | "RETRY_FAILED_BUILDS";
+export const RetryBuildBatchType = S.Literal(
+  "RETRY_ALL_BUILDS",
+  "RETRY_FAILED_BUILDS",
+);
+export type ImagePullCredentialsType = "CODEBUILD" | "SERVICE_ROLE";
+export const ImagePullCredentialsType = S.Literal("CODEBUILD", "SERVICE_ROLE");
+export type CommandType = "SHELL";
+export const CommandType = S.Literal("SHELL");
+export type ProjectVisibilityType = "PUBLIC_READ" | "PRIVATE";
+export const ProjectVisibilityType = S.Literal("PUBLIC_READ", "PRIVATE");
 export interface BatchDeleteBuildsInput {
-  ids: BuildIds;
+  ids: string[];
 }
 export const BatchDeleteBuildsInput = S.suspend(() =>
   S.Struct({ ids: BuildIds }).pipe(
@@ -235,7 +427,7 @@ export const BatchDeleteBuildsInput = S.suspend(() =>
   identifier: "BatchDeleteBuildsInput",
 }) as any as S.Schema<BatchDeleteBuildsInput>;
 export interface BatchGetBuildBatchesInput {
-  ids: BuildBatchIds;
+  ids: string[];
 }
 export const BatchGetBuildBatchesInput = S.suspend(() =>
   S.Struct({ ids: BuildBatchIds }).pipe(
@@ -245,7 +437,7 @@ export const BatchGetBuildBatchesInput = S.suspend(() =>
   identifier: "BatchGetBuildBatchesInput",
 }) as any as S.Schema<BatchGetBuildBatchesInput>;
 export interface BatchGetBuildsInput {
-  ids: BuildIds;
+  ids: string[];
 }
 export const BatchGetBuildsInput = S.suspend(() =>
   S.Struct({ ids: BuildIds }).pipe(
@@ -256,7 +448,7 @@ export const BatchGetBuildsInput = S.suspend(() =>
 }) as any as S.Schema<BatchGetBuildsInput>;
 export interface BatchGetCommandExecutionsInput {
   sandboxId: string;
-  commandExecutionIds: CommandExecutionIds;
+  commandExecutionIds: string[];
 }
 export const BatchGetCommandExecutionsInput = S.suspend(() =>
   S.Struct({
@@ -269,7 +461,7 @@ export const BatchGetCommandExecutionsInput = S.suspend(() =>
   identifier: "BatchGetCommandExecutionsInput",
 }) as any as S.Schema<BatchGetCommandExecutionsInput>;
 export interface BatchGetFleetsInput {
-  names: FleetNames;
+  names: string[];
 }
 export const BatchGetFleetsInput = S.suspend(() =>
   S.Struct({ names: FleetNames }).pipe(
@@ -279,7 +471,7 @@ export const BatchGetFleetsInput = S.suspend(() =>
   identifier: "BatchGetFleetsInput",
 }) as any as S.Schema<BatchGetFleetsInput>;
 export interface BatchGetProjectsInput {
-  names: ProjectNames;
+  names: string[];
 }
 export const BatchGetProjectsInput = S.suspend(() =>
   S.Struct({ names: ProjectNames }).pipe(
@@ -289,7 +481,7 @@ export const BatchGetProjectsInput = S.suspend(() =>
   identifier: "BatchGetProjectsInput",
 }) as any as S.Schema<BatchGetProjectsInput>;
 export interface BatchGetReportGroupsInput {
-  reportGroupArns: ReportGroupArns;
+  reportGroupArns: string[];
 }
 export const BatchGetReportGroupsInput = S.suspend(() =>
   S.Struct({ reportGroupArns: ReportGroupArns }).pipe(
@@ -299,7 +491,7 @@ export const BatchGetReportGroupsInput = S.suspend(() =>
   identifier: "BatchGetReportGroupsInput",
 }) as any as S.Schema<BatchGetReportGroupsInput>;
 export interface BatchGetReportsInput {
-  reportArns: ReportArns;
+  reportArns: string[];
 }
 export const BatchGetReportsInput = S.suspend(() =>
   S.Struct({ reportArns: ReportArns }).pipe(
@@ -309,7 +501,7 @@ export const BatchGetReportsInput = S.suspend(() =>
   identifier: "BatchGetReportsInput",
 }) as any as S.Schema<BatchGetReportsInput>;
 export interface BatchGetSandboxesInput {
-  ids: SandboxIds;
+  ids: string[];
 }
 export const BatchGetSandboxesInput = S.suspend(() =>
   S.Struct({ ids: SandboxIds }).pipe(
@@ -431,8 +623,8 @@ export interface DescribeCodeCoveragesInput {
   reportArn: string;
   nextToken?: string;
   maxResults?: number;
-  sortOrder?: string;
-  sortBy?: string;
+  sortOrder?: SortOrderType;
+  sortBy?: ReportCodeCoverageSortByType;
   minLineCoveragePercentage?: number;
   maxLineCoveragePercentage?: number;
 }
@@ -441,8 +633,8 @@ export const DescribeCodeCoveragesInput = S.suspend(() =>
     reportArn: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-    sortOrder: S.optional(S.String),
-    sortBy: S.optional(S.String),
+    sortOrder: S.optional(SortOrderType),
+    sortBy: S.optional(ReportCodeCoverageSortByType),
     minLineCoveragePercentage: S.optional(S.Number),
     maxLineCoveragePercentage: S.optional(S.Number),
   }).pipe(
@@ -454,13 +646,13 @@ export const DescribeCodeCoveragesInput = S.suspend(() =>
 export interface GetReportGroupTrendInput {
   reportGroupArn: string;
   numOfReports?: number;
-  trendField: string;
+  trendField: ReportGroupTrendFieldType;
 }
 export const GetReportGroupTrendInput = S.suspend(() =>
   S.Struct({
     reportGroupArn: S.String,
     numOfReports: S.optional(S.Number),
-    trendField: S.String,
+    trendField: ReportGroupTrendFieldType,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -479,17 +671,17 @@ export const GetResourcePolicyInput = S.suspend(() =>
 }) as any as S.Schema<GetResourcePolicyInput>;
 export interface ImportSourceCredentialsInput {
   username?: string;
-  token: string | Redacted.Redacted<string>;
-  serverType: string;
-  authType: string;
+  token: string | redacted.Redacted<string>;
+  serverType: ServerType;
+  authType: AuthType;
   shouldOverwrite?: boolean;
 }
 export const ImportSourceCredentialsInput = S.suspend(() =>
   S.Struct({
     username: S.optional(S.String),
     token: SensitiveString,
-    serverType: S.String,
-    authType: S.String,
+    serverType: ServerType,
+    authType: AuthType,
     shouldOverwrite: S.optional(S.Boolean),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -513,11 +705,26 @@ export const InvalidateProjectCacheOutput = S.suspend(() =>
 ).annotations({
   identifier: "InvalidateProjectCacheOutput",
 }) as any as S.Schema<InvalidateProjectCacheOutput>;
+export type StatusType =
+  | "SUCCEEDED"
+  | "FAILED"
+  | "FAULT"
+  | "TIMED_OUT"
+  | "IN_PROGRESS"
+  | "STOPPED";
+export const StatusType = S.Literal(
+  "SUCCEEDED",
+  "FAILED",
+  "FAULT",
+  "TIMED_OUT",
+  "IN_PROGRESS",
+  "STOPPED",
+);
 export interface BuildBatchFilter {
-  status?: string;
+  status?: StatusType;
 }
 export const BuildBatchFilter = S.suspend(() =>
-  S.Struct({ status: S.optional(S.String) }),
+  S.Struct({ status: S.optional(StatusType) }),
 ).annotations({
   identifier: "BuildBatchFilter",
 }) as any as S.Schema<BuildBatchFilter>;
@@ -525,7 +732,7 @@ export interface ListBuildBatchesForProjectInput {
   projectName?: string;
   filter?: BuildBatchFilter;
   maxResults?: number;
-  sortOrder?: string;
+  sortOrder?: SortOrderType;
   nextToken?: string;
 }
 export const ListBuildBatchesForProjectInput = S.suspend(() =>
@@ -533,7 +740,7 @@ export const ListBuildBatchesForProjectInput = S.suspend(() =>
     projectName: S.optional(S.String),
     filter: S.optional(BuildBatchFilter),
     maxResults: S.optional(S.Number),
-    sortOrder: S.optional(S.String),
+    sortOrder: S.optional(SortOrderType),
     nextToken: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -542,12 +749,12 @@ export const ListBuildBatchesForProjectInput = S.suspend(() =>
   identifier: "ListBuildBatchesForProjectInput",
 }) as any as S.Schema<ListBuildBatchesForProjectInput>;
 export interface ListBuildsInput {
-  sortOrder?: string;
+  sortOrder?: SortOrderType;
   nextToken?: string;
 }
 export const ListBuildsInput = S.suspend(() =>
   S.Struct({
-    sortOrder: S.optional(S.String),
+    sortOrder: S.optional(SortOrderType),
     nextToken: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -557,13 +764,13 @@ export const ListBuildsInput = S.suspend(() =>
 }) as any as S.Schema<ListBuildsInput>;
 export interface ListBuildsForProjectInput {
   projectName: string;
-  sortOrder?: string;
+  sortOrder?: SortOrderType;
   nextToken?: string;
 }
 export const ListBuildsForProjectInput = S.suspend(() =>
   S.Struct({
     projectName: S.String,
-    sortOrder: S.optional(S.String),
+    sortOrder: S.optional(SortOrderType),
     nextToken: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -574,14 +781,14 @@ export const ListBuildsForProjectInput = S.suspend(() =>
 export interface ListCommandExecutionsForSandboxInput {
   sandboxId: string;
   maxResults?: number;
-  sortOrder?: string;
-  nextToken?: string | Redacted.Redacted<string>;
+  sortOrder?: SortOrderType;
+  nextToken?: string | redacted.Redacted<string>;
 }
 export const ListCommandExecutionsForSandboxInput = S.suspend(() =>
   S.Struct({
     sandboxId: S.String,
     maxResults: S.optional(S.Number),
-    sortOrder: S.optional(S.String),
+    sortOrder: S.optional(SortOrderType),
     nextToken: S.optional(SensitiveString),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -590,17 +797,17 @@ export const ListCommandExecutionsForSandboxInput = S.suspend(() =>
   identifier: "ListCommandExecutionsForSandboxInput",
 }) as any as S.Schema<ListCommandExecutionsForSandboxInput>;
 export interface ListFleetsInput {
-  nextToken?: string | Redacted.Redacted<string>;
+  nextToken?: string | redacted.Redacted<string>;
   maxResults?: number;
-  sortOrder?: string;
-  sortBy?: string;
+  sortOrder?: SortOrderType;
+  sortBy?: FleetSortByType;
 }
 export const ListFleetsInput = S.suspend(() =>
   S.Struct({
     nextToken: S.optional(SensitiveString),
     maxResults: S.optional(S.Number),
-    sortOrder: S.optional(S.String),
-    sortBy: S.optional(S.String),
+    sortOrder: S.optional(SortOrderType),
+    sortBy: S.optional(FleetSortByType),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -608,14 +815,14 @@ export const ListFleetsInput = S.suspend(() =>
   identifier: "ListFleetsInput",
 }) as any as S.Schema<ListFleetsInput>;
 export interface ListProjectsInput {
-  sortBy?: string;
-  sortOrder?: string;
+  sortBy?: ProjectSortByType;
+  sortOrder?: SortOrderType;
   nextToken?: string;
 }
 export const ListProjectsInput = S.suspend(() =>
   S.Struct({
-    sortBy: S.optional(S.String),
-    sortOrder: S.optional(S.String),
+    sortBy: S.optional(ProjectSortByType),
+    sortOrder: S.optional(SortOrderType),
     nextToken: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -624,15 +831,15 @@ export const ListProjectsInput = S.suspend(() =>
   identifier: "ListProjectsInput",
 }) as any as S.Schema<ListProjectsInput>;
 export interface ListReportGroupsInput {
-  sortOrder?: string;
-  sortBy?: string;
+  sortOrder?: SortOrderType;
+  sortBy?: ReportGroupSortByType;
   nextToken?: string;
   maxResults?: number;
 }
 export const ListReportGroupsInput = S.suspend(() =>
   S.Struct({
-    sortOrder: S.optional(S.String),
-    sortBy: S.optional(S.String),
+    sortOrder: S.optional(SortOrderType),
+    sortBy: S.optional(ReportGroupSortByType),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
   }).pipe(
@@ -641,16 +848,29 @@ export const ListReportGroupsInput = S.suspend(() =>
 ).annotations({
   identifier: "ListReportGroupsInput",
 }) as any as S.Schema<ListReportGroupsInput>;
+export type ReportStatusType =
+  | "GENERATING"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "INCOMPLETE"
+  | "DELETING";
+export const ReportStatusType = S.Literal(
+  "GENERATING",
+  "SUCCEEDED",
+  "FAILED",
+  "INCOMPLETE",
+  "DELETING",
+);
 export interface ReportFilter {
-  status?: string;
+  status?: ReportStatusType;
 }
 export const ReportFilter = S.suspend(() =>
-  S.Struct({ status: S.optional(S.String) }),
+  S.Struct({ status: S.optional(ReportStatusType) }),
 ).annotations({ identifier: "ReportFilter" }) as any as S.Schema<ReportFilter>;
 export interface ListReportsForReportGroupInput {
   reportGroupArn: string;
   nextToken?: string;
-  sortOrder?: string;
+  sortOrder?: SortOrderType;
   maxResults?: number;
   filter?: ReportFilter;
 }
@@ -658,7 +878,7 @@ export const ListReportsForReportGroupInput = S.suspend(() =>
   S.Struct({
     reportGroupArn: S.String,
     nextToken: S.optional(S.String),
-    sortOrder: S.optional(S.String),
+    sortOrder: S.optional(SortOrderType),
     maxResults: S.optional(S.Number),
     filter: S.optional(ReportFilter),
   }).pipe(
@@ -669,13 +889,13 @@ export const ListReportsForReportGroupInput = S.suspend(() =>
 }) as any as S.Schema<ListReportsForReportGroupInput>;
 export interface ListSandboxesInput {
   maxResults?: number;
-  sortOrder?: string;
+  sortOrder?: SortOrderType;
   nextToken?: string;
 }
 export const ListSandboxesInput = S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number),
-    sortOrder: S.optional(S.String),
+    sortOrder: S.optional(SortOrderType),
     nextToken: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -686,14 +906,14 @@ export const ListSandboxesInput = S.suspend(() =>
 export interface ListSandboxesForProjectInput {
   projectName: string;
   maxResults?: number;
-  sortOrder?: string;
-  nextToken?: string | Redacted.Redacted<string>;
+  sortOrder?: SortOrderType;
+  nextToken?: string | redacted.Redacted<string>;
 }
 export const ListSandboxesForProjectInput = S.suspend(() =>
   S.Struct({
     projectName: S.String,
     maxResults: S.optional(S.Number),
-    sortOrder: S.optional(S.String),
+    sortOrder: S.optional(SortOrderType),
     nextToken: S.optional(SensitiveString),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -702,15 +922,15 @@ export const ListSandboxesForProjectInput = S.suspend(() =>
   identifier: "ListSandboxesForProjectInput",
 }) as any as S.Schema<ListSandboxesForProjectInput>;
 export interface ListSharedProjectsInput {
-  sortBy?: string;
-  sortOrder?: string;
+  sortBy?: SharedResourceSortByType;
+  sortOrder?: SortOrderType;
   maxResults?: number;
   nextToken?: string;
 }
 export const ListSharedProjectsInput = S.suspend(() =>
   S.Struct({
-    sortBy: S.optional(S.String),
-    sortOrder: S.optional(S.String),
+    sortBy: S.optional(SharedResourceSortByType),
+    sortOrder: S.optional(SortOrderType),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
   }).pipe(
@@ -720,15 +940,15 @@ export const ListSharedProjectsInput = S.suspend(() =>
   identifier: "ListSharedProjectsInput",
 }) as any as S.Schema<ListSharedProjectsInput>;
 export interface ListSharedReportGroupsInput {
-  sortOrder?: string;
-  sortBy?: string;
+  sortOrder?: SortOrderType;
+  sortBy?: SharedResourceSortByType;
   nextToken?: string;
   maxResults?: number;
 }
 export const ListSharedReportGroupsInput = S.suspend(() =>
   S.Struct({
-    sortOrder: S.optional(S.String),
-    sortBy: S.optional(S.String),
+    sortOrder: S.optional(SortOrderType),
+    sortBy: S.optional(SharedResourceSortByType),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
   }).pipe(
@@ -765,13 +985,13 @@ export const RetryBuildInput = S.suspend(() =>
 export interface RetryBuildBatchInput {
   id?: string;
   idempotencyToken?: string;
-  retryType?: string;
+  retryType?: RetryBuildBatchType;
 }
 export const RetryBuildBatchInput = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     idempotencyToken: S.optional(S.String),
-    retryType: S.optional(S.String),
+    retryType: S.optional(RetryBuildBatchType),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -789,42 +1009,68 @@ export const ProjectSourceVersion = S.suspend(() =>
 }) as any as S.Schema<ProjectSourceVersion>;
 export type ProjectSecondarySourceVersions = ProjectSourceVersion[];
 export const ProjectSecondarySourceVersions = S.Array(ProjectSourceVersion);
+export type EnvironmentVariableType =
+  | "PLAINTEXT"
+  | "PARAMETER_STORE"
+  | "SECRETS_MANAGER";
+export const EnvironmentVariableType = S.Literal(
+  "PLAINTEXT",
+  "PARAMETER_STORE",
+  "SECRETS_MANAGER",
+);
 export interface EnvironmentVariable {
   name: string;
   value: string;
-  type?: string;
+  type?: EnvironmentVariableType;
 }
 export const EnvironmentVariable = S.suspend(() =>
-  S.Struct({ name: S.String, value: S.String, type: S.optional(S.String) }),
+  S.Struct({
+    name: S.String,
+    value: S.String,
+    type: S.optional(EnvironmentVariableType),
+  }),
 ).annotations({
   identifier: "EnvironmentVariable",
 }) as any as S.Schema<EnvironmentVariable>;
 export type EnvironmentVariables = EnvironmentVariable[];
 export const EnvironmentVariables = S.Array(EnvironmentVariable);
-export type ProjectCacheModes = string[];
-export const ProjectCacheModes = S.Array(S.String);
+export type CacheType = "NO_CACHE" | "S3" | "LOCAL";
+export const CacheType = S.Literal("NO_CACHE", "S3", "LOCAL");
+export type CacheMode =
+  | "LOCAL_DOCKER_LAYER_CACHE"
+  | "LOCAL_SOURCE_CACHE"
+  | "LOCAL_CUSTOM_CACHE";
+export const CacheMode = S.Literal(
+  "LOCAL_DOCKER_LAYER_CACHE",
+  "LOCAL_SOURCE_CACHE",
+  "LOCAL_CUSTOM_CACHE",
+);
+export type ProjectCacheModes = CacheMode[];
+export const ProjectCacheModes = S.Array(CacheMode);
 export interface ProjectCache {
-  type: string;
+  type: CacheType;
   location?: string;
-  modes?: ProjectCacheModes;
+  modes?: CacheMode[];
   cacheNamespace?: string;
 }
 export const ProjectCache = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: CacheType,
     location: S.optional(S.String),
     modes: S.optional(ProjectCacheModes),
     cacheNamespace: S.optional(S.String),
   }),
 ).annotations({ identifier: "ProjectCache" }) as any as S.Schema<ProjectCache>;
+export type LogsConfigStatusType = "ENABLED" | "DISABLED";
+export const LogsConfigStatusType = S.Literal("ENABLED", "DISABLED");
 export interface CloudWatchLogsConfig {
-  status: string;
+  status: LogsConfigStatusType;
   groupName?: string;
   streamName?: string;
 }
 export const CloudWatchLogsConfig = S.suspend(() =>
   S.Struct({
-    status: S.String,
+    status: LogsConfigStatusType,
     groupName: S.optional(S.String),
     streamName: S.optional(S.String),
   }),
@@ -832,17 +1078,17 @@ export const CloudWatchLogsConfig = S.suspend(() =>
   identifier: "CloudWatchLogsConfig",
 }) as any as S.Schema<CloudWatchLogsConfig>;
 export interface S3LogsConfig {
-  status: string;
+  status: LogsConfigStatusType;
   location?: string;
   encryptionDisabled?: boolean;
-  bucketOwnerAccess?: string;
+  bucketOwnerAccess?: BucketOwnerAccess;
 }
 export const S3LogsConfig = S.suspend(() =>
   S.Struct({
-    status: S.String,
+    status: LogsConfigStatusType,
     location: S.optional(S.String),
     encryptionDisabled: S.optional(S.Boolean),
-    bucketOwnerAccess: S.optional(S.String),
+    bucketOwnerAccess: S.optional(BucketOwnerAccess),
   }),
 ).annotations({ identifier: "S3LogsConfig" }) as any as S.Schema<S3LogsConfig>;
 export interface LogsConfig {
@@ -855,12 +1101,17 @@ export const LogsConfig = S.suspend(() =>
     s3Logs: S.optional(S3LogsConfig),
   }),
 ).annotations({ identifier: "LogsConfig" }) as any as S.Schema<LogsConfig>;
+export type CredentialProviderType = "SECRETS_MANAGER";
+export const CredentialProviderType = S.Literal("SECRETS_MANAGER");
 export interface RegistryCredential {
   credential: string;
-  credentialProvider: string;
+  credentialProvider: CredentialProviderType;
 }
 export const RegistryCredential = S.suspend(() =>
-  S.Struct({ credential: S.String, credentialProvider: S.String }),
+  S.Struct({
+    credential: S.String,
+    credentialProvider: CredentialProviderType,
+  }),
 ).annotations({
   identifier: "RegistryCredential",
 }) as any as S.Schema<RegistryCredential>;
@@ -870,8 +1121,8 @@ export type FleetsAllowed = string[];
 export const FleetsAllowed = S.Array(S.String);
 export interface BatchRestrictions {
   maximumBuildsAllowed?: number;
-  computeTypesAllowed?: ComputeTypesAllowed;
-  fleetsAllowed?: FleetsAllowed;
+  computeTypesAllowed?: string[];
+  fleetsAllowed?: string[];
 }
 export const BatchRestrictions = S.suspend(() =>
   S.Struct({
@@ -882,12 +1133,19 @@ export const BatchRestrictions = S.suspend(() =>
 ).annotations({
   identifier: "BatchRestrictions",
 }) as any as S.Schema<BatchRestrictions>;
+export type BatchReportModeType =
+  | "REPORT_INDIVIDUAL_BUILDS"
+  | "REPORT_AGGREGATED_BATCH";
+export const BatchReportModeType = S.Literal(
+  "REPORT_INDIVIDUAL_BUILDS",
+  "REPORT_AGGREGATED_BATCH",
+);
 export interface ProjectBuildBatchConfig {
   serviceRole?: string;
   combineArtifacts?: boolean;
   restrictions?: BatchRestrictions;
   timeoutInMins?: number;
-  batchReportMode?: string;
+  batchReportMode?: BatchReportModeType;
 }
 export const ProjectBuildBatchConfig = S.suspend(() =>
   S.Struct({
@@ -895,20 +1153,20 @@ export const ProjectBuildBatchConfig = S.suspend(() =>
     combineArtifacts: S.optional(S.Boolean),
     restrictions: S.optional(BatchRestrictions),
     timeoutInMins: S.optional(S.Number),
-    batchReportMode: S.optional(S.String),
+    batchReportMode: S.optional(BatchReportModeType),
   }),
 ).annotations({
   identifier: "ProjectBuildBatchConfig",
 }) as any as S.Schema<ProjectBuildBatchConfig>;
 export interface StartBuildBatchInput {
   projectName: string;
-  secondarySourcesOverride?: ProjectSources;
-  secondarySourcesVersionOverride?: ProjectSecondarySourceVersions;
+  secondarySourcesOverride?: ProjectSource[];
+  secondarySourcesVersionOverride?: ProjectSourceVersion[];
   sourceVersion?: string;
   artifactsOverride?: ProjectArtifacts;
-  secondaryArtifactsOverride?: ProjectArtifactsList;
-  environmentVariablesOverride?: EnvironmentVariables;
-  sourceTypeOverride?: string;
+  secondaryArtifactsOverride?: ProjectArtifacts[];
+  environmentVariablesOverride?: EnvironmentVariable[];
+  sourceTypeOverride?: SourceType;
   sourceLocationOverride?: string;
   sourceAuthOverride?: SourceAuth;
   gitCloneDepthOverride?: number;
@@ -916,9 +1174,9 @@ export interface StartBuildBatchInput {
   buildspecOverride?: string;
   insecureSslOverride?: boolean;
   reportBuildBatchStatusOverride?: boolean;
-  environmentTypeOverride?: string;
+  environmentTypeOverride?: EnvironmentType;
   imageOverride?: string;
-  computeTypeOverride?: string;
+  computeTypeOverride?: ComputeType;
   certificateOverride?: string;
   cacheOverride?: ProjectCache;
   serviceRoleOverride?: string;
@@ -929,7 +1187,7 @@ export interface StartBuildBatchInput {
   idempotencyToken?: string;
   logsConfigOverride?: LogsConfig;
   registryCredentialOverride?: RegistryCredential;
-  imagePullCredentialsTypeOverride?: string;
+  imagePullCredentialsTypeOverride?: ImagePullCredentialsType;
   buildBatchConfigOverride?: ProjectBuildBatchConfig;
   debugSessionEnabled?: boolean;
 }
@@ -942,7 +1200,7 @@ export const StartBuildBatchInput = S.suspend(() =>
     artifactsOverride: S.optional(ProjectArtifacts),
     secondaryArtifactsOverride: S.optional(ProjectArtifactsList),
     environmentVariablesOverride: S.optional(EnvironmentVariables),
-    sourceTypeOverride: S.optional(S.String),
+    sourceTypeOverride: S.optional(SourceType),
     sourceLocationOverride: S.optional(S.String),
     sourceAuthOverride: S.optional(SourceAuth),
     gitCloneDepthOverride: S.optional(S.Number),
@@ -950,9 +1208,9 @@ export const StartBuildBatchInput = S.suspend(() =>
     buildspecOverride: S.optional(S.String),
     insecureSslOverride: S.optional(S.Boolean),
     reportBuildBatchStatusOverride: S.optional(S.Boolean),
-    environmentTypeOverride: S.optional(S.String),
+    environmentTypeOverride: S.optional(EnvironmentType),
     imageOverride: S.optional(S.String),
-    computeTypeOverride: S.optional(S.String),
+    computeTypeOverride: S.optional(ComputeType),
     certificateOverride: S.optional(S.String),
     cacheOverride: S.optional(ProjectCache),
     serviceRoleOverride: S.optional(S.String),
@@ -963,7 +1221,7 @@ export const StartBuildBatchInput = S.suspend(() =>
     idempotencyToken: S.optional(S.String),
     logsConfigOverride: S.optional(LogsConfig),
     registryCredentialOverride: S.optional(RegistryCredential),
-    imagePullCredentialsTypeOverride: S.optional(S.String),
+    imagePullCredentialsTypeOverride: S.optional(ImagePullCredentialsType),
     buildBatchConfigOverride: S.optional(ProjectBuildBatchConfig),
     debugSessionEnabled: S.optional(S.Boolean),
   }).pipe(
@@ -974,14 +1232,14 @@ export const StartBuildBatchInput = S.suspend(() =>
 }) as any as S.Schema<StartBuildBatchInput>;
 export interface StartCommandExecutionInput {
   sandboxId: string;
-  command: string | Redacted.Redacted<string>;
-  type?: string;
+  command: string | redacted.Redacted<string>;
+  type?: CommandType;
 }
 export const StartCommandExecutionInput = S.suspend(() =>
   S.Struct({
     sandboxId: S.String,
     command: SensitiveString,
-    type: S.optional(S.String),
+    type: S.optional(CommandType),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -990,7 +1248,7 @@ export const StartCommandExecutionInput = S.suspend(() =>
 }) as any as S.Schema<StartCommandExecutionInput>;
 export interface StartSandboxInput {
   projectName?: string;
-  idempotencyToken?: string | Redacted.Redacted<string>;
+  idempotencyToken?: string | redacted.Redacted<string>;
 }
 export const StartSandboxInput = S.suspend(() =>
   S.Struct({
@@ -1042,11 +1300,13 @@ export const StopSandboxInput = S.suspend(() =>
 ).annotations({
   identifier: "StopSandboxInput",
 }) as any as S.Schema<StopSandboxInput>;
+export type MachineType = "GENERAL" | "NVME";
+export const MachineType = S.Literal("GENERAL", "NVME");
 export interface ComputeConfiguration {
   vCpu?: number;
   memory?: number;
   disk?: number;
-  machineType?: string;
+  machineType?: MachineType;
   instanceType?: string;
 }
 export const ComputeConfiguration = S.suspend(() =>
@@ -1054,19 +1314,23 @@ export const ComputeConfiguration = S.suspend(() =>
     vCpu: S.optional(S.Number),
     memory: S.optional(S.Number),
     disk: S.optional(S.Number),
-    machineType: S.optional(S.String),
+    machineType: S.optional(MachineType),
     instanceType: S.optional(S.String),
   }),
 ).annotations({
   identifier: "ComputeConfiguration",
 }) as any as S.Schema<ComputeConfiguration>;
+export type FleetScalingType = "TARGET_TRACKING_SCALING";
+export const FleetScalingType = S.Literal("TARGET_TRACKING_SCALING");
+export type FleetScalingMetricType = "FLEET_UTILIZATION_RATE";
+export const FleetScalingMetricType = S.Literal("FLEET_UTILIZATION_RATE");
 export interface TargetTrackingScalingConfiguration {
-  metricType?: string;
+  metricType?: FleetScalingMetricType;
   targetValue?: number;
 }
 export const TargetTrackingScalingConfiguration = S.suspend(() =>
   S.Struct({
-    metricType: S.optional(S.String),
+    metricType: S.optional(FleetScalingMetricType),
     targetValue: S.optional(S.Number),
   }),
 ).annotations({
@@ -1078,13 +1342,13 @@ export const TargetTrackingScalingConfigurations = S.Array(
   TargetTrackingScalingConfiguration,
 );
 export interface ScalingConfigurationInput {
-  scalingType?: string;
-  targetTrackingScalingConfigs?: TargetTrackingScalingConfigurations;
+  scalingType?: FleetScalingType;
+  targetTrackingScalingConfigs?: TargetTrackingScalingConfiguration[];
   maxCapacity?: number;
 }
 export const ScalingConfigurationInput = S.suspend(() =>
   S.Struct({
-    scalingType: S.optional(S.String),
+    scalingType: S.optional(FleetScalingType),
     targetTrackingScalingConfigs: S.optional(
       TargetTrackingScalingConfigurations,
     ),
@@ -1099,8 +1363,8 @@ export type SecurityGroupIds = string[];
 export const SecurityGroupIds = S.Array(S.String);
 export interface VpcConfig {
   vpcId?: string;
-  subnets?: Subnets;
-  securityGroupIds?: SecurityGroupIds;
+  subnets?: string[];
+  securityGroupIds?: string[];
 }
 export const VpcConfig = S.suspend(() =>
   S.Struct({
@@ -1109,17 +1373,23 @@ export const VpcConfig = S.suspend(() =>
     securityGroupIds: S.optional(SecurityGroupIds),
   }),
 ).annotations({ identifier: "VpcConfig" }) as any as S.Schema<VpcConfig>;
+export type FleetProxyRuleBehavior = "ALLOW_ALL" | "DENY_ALL";
+export const FleetProxyRuleBehavior = S.Literal("ALLOW_ALL", "DENY_ALL");
+export type FleetProxyRuleType = "DOMAIN" | "IP";
+export const FleetProxyRuleType = S.Literal("DOMAIN", "IP");
+export type FleetProxyRuleEffectType = "ALLOW" | "DENY";
+export const FleetProxyRuleEffectType = S.Literal("ALLOW", "DENY");
 export type FleetProxyRuleEntities = string[];
 export const FleetProxyRuleEntities = S.Array(S.String);
 export interface FleetProxyRule {
-  type: string;
-  effect: string;
-  entities: FleetProxyRuleEntities;
+  type: FleetProxyRuleType;
+  effect: FleetProxyRuleEffectType;
+  entities: string[];
 }
 export const FleetProxyRule = S.suspend(() =>
   S.Struct({
-    type: S.String,
-    effect: S.String,
+    type: FleetProxyRuleType,
+    effect: FleetProxyRuleEffectType,
     entities: FleetProxyRuleEntities,
   }),
 ).annotations({
@@ -1128,12 +1398,12 @@ export const FleetProxyRule = S.suspend(() =>
 export type FleetProxyRules = FleetProxyRule[];
 export const FleetProxyRules = S.Array(FleetProxyRule);
 export interface ProxyConfiguration {
-  defaultBehavior?: string;
-  orderedProxyRules?: FleetProxyRules;
+  defaultBehavior?: FleetProxyRuleBehavior;
+  orderedProxyRules?: FleetProxyRule[];
 }
 export const ProxyConfiguration = S.suspend(() =>
   S.Struct({
-    defaultBehavior: S.optional(S.String),
+    defaultBehavior: S.optional(FleetProxyRuleBehavior),
     orderedProxyRules: S.optional(FleetProxyRules),
   }),
 ).annotations({
@@ -1151,26 +1421,26 @@ export const TagList = S.Array(Tag);
 export interface UpdateFleetInput {
   arn: string;
   baseCapacity?: number;
-  environmentType?: string;
-  computeType?: string;
+  environmentType?: EnvironmentType;
+  computeType?: ComputeType;
   computeConfiguration?: ComputeConfiguration;
   scalingConfiguration?: ScalingConfigurationInput;
-  overflowBehavior?: string;
+  overflowBehavior?: FleetOverflowBehavior;
   vpcConfig?: VpcConfig;
   proxyConfiguration?: ProxyConfiguration;
   imageId?: string;
   fleetServiceRole?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const UpdateFleetInput = S.suspend(() =>
   S.Struct({
     arn: S.String,
     baseCapacity: S.optional(S.Number),
-    environmentType: S.optional(S.String),
-    computeType: S.optional(S.String),
+    environmentType: S.optional(EnvironmentType),
+    computeType: S.optional(ComputeType),
     computeConfiguration: S.optional(ComputeConfiguration),
     scalingConfiguration: S.optional(ScalingConfigurationInput),
-    overflowBehavior: S.optional(S.String),
+    overflowBehavior: S.optional(FleetOverflowBehavior),
     vpcConfig: S.optional(VpcConfig),
     proxyConfiguration: S.optional(ProxyConfiguration),
     imageId: S.optional(S.String),
@@ -1198,49 +1468,51 @@ export const DockerServerStatus = S.suspend(() =>
   identifier: "DockerServerStatus",
 }) as any as S.Schema<DockerServerStatus>;
 export interface DockerServer {
-  computeType: string;
-  securityGroupIds?: SecurityGroupIds;
+  computeType: ComputeType;
+  securityGroupIds?: string[];
   status?: DockerServerStatus;
 }
 export const DockerServer = S.suspend(() =>
   S.Struct({
-    computeType: S.String,
+    computeType: ComputeType,
     securityGroupIds: S.optional(SecurityGroupIds),
     status: S.optional(DockerServerStatus),
   }),
 ).annotations({ identifier: "DockerServer" }) as any as S.Schema<DockerServer>;
 export interface ProjectEnvironment {
-  type: string;
+  type: EnvironmentType;
   image: string;
-  computeType: string;
+  computeType: ComputeType;
   computeConfiguration?: ComputeConfiguration;
   fleet?: ProjectFleet;
-  environmentVariables?: EnvironmentVariables;
+  environmentVariables?: EnvironmentVariable[];
   privilegedMode?: boolean;
   certificate?: string;
   registryCredential?: RegistryCredential;
-  imagePullCredentialsType?: string;
+  imagePullCredentialsType?: ImagePullCredentialsType;
   dockerServer?: DockerServer;
 }
 export const ProjectEnvironment = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: EnvironmentType,
     image: S.String,
-    computeType: S.String,
+    computeType: ComputeType,
     computeConfiguration: S.optional(ComputeConfiguration),
     fleet: S.optional(ProjectFleet),
     environmentVariables: S.optional(EnvironmentVariables),
     privilegedMode: S.optional(S.Boolean),
     certificate: S.optional(S.String),
     registryCredential: S.optional(RegistryCredential),
-    imagePullCredentialsType: S.optional(S.String),
+    imagePullCredentialsType: S.optional(ImagePullCredentialsType),
     dockerServer: S.optional(DockerServer),
   }),
 ).annotations({
   identifier: "ProjectEnvironment",
 }) as any as S.Schema<ProjectEnvironment>;
+export type FileSystemType = "EFS";
+export const FileSystemType = S.Literal("EFS");
 export interface ProjectFileSystemLocation {
-  type?: string;
+  type?: FileSystemType;
   location?: string;
   mountPoint?: string;
   identifier?: string;
@@ -1248,7 +1520,7 @@ export interface ProjectFileSystemLocation {
 }
 export const ProjectFileSystemLocation = S.suspend(() =>
   S.Struct({
-    type: S.optional(S.String),
+    type: S.optional(FileSystemType),
     location: S.optional(S.String),
     mountPoint: S.optional(S.String),
     identifier: S.optional(S.String),
@@ -1263,22 +1535,22 @@ export interface UpdateProjectInput {
   name: string;
   description?: string;
   source?: ProjectSource;
-  secondarySources?: ProjectSources;
+  secondarySources?: ProjectSource[];
   sourceVersion?: string;
-  secondarySourceVersions?: ProjectSecondarySourceVersions;
+  secondarySourceVersions?: ProjectSourceVersion[];
   artifacts?: ProjectArtifacts;
-  secondaryArtifacts?: ProjectArtifactsList;
+  secondaryArtifacts?: ProjectArtifacts[];
   cache?: ProjectCache;
   environment?: ProjectEnvironment;
   serviceRole?: string;
   timeoutInMinutes?: number;
   queuedTimeoutInMinutes?: number;
   encryptionKey?: string;
-  tags?: TagList;
+  tags?: Tag[];
   vpcConfig?: VpcConfig;
   badgeEnabled?: boolean;
   logsConfig?: LogsConfig;
-  fileSystemLocations?: ProjectFileSystemLocations;
+  fileSystemLocations?: ProjectFileSystemLocation[];
   buildBatchConfig?: ProjectBuildBatchConfig;
   concurrentBuildLimit?: number;
   autoRetryLimit?: number;
@@ -1315,13 +1587,13 @@ export const UpdateProjectInput = S.suspend(() =>
 }) as any as S.Schema<UpdateProjectInput>;
 export interface UpdateProjectVisibilityInput {
   projectArn: string;
-  projectVisibility: string;
+  projectVisibility: ProjectVisibilityType;
   resourceAccessRole?: string;
 }
 export const UpdateProjectVisibilityInput = S.suspend(() =>
   S.Struct({
     projectArn: S.String,
-    projectVisibility: S.String,
+    projectVisibility: ProjectVisibilityType,
     resourceAccessRole: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -1329,11 +1601,15 @@ export const UpdateProjectVisibilityInput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateProjectVisibilityInput",
 }) as any as S.Schema<UpdateProjectVisibilityInput>;
+export type ReportExportConfigType = "S3" | "NO_EXPORT";
+export const ReportExportConfigType = S.Literal("S3", "NO_EXPORT");
+export type ReportPackagingType = "ZIP" | "NONE";
+export const ReportPackagingType = S.Literal("ZIP", "NONE");
 export interface S3ReportExportConfig {
   bucket?: string;
   bucketOwner?: string;
   path?: string;
-  packaging?: string;
+  packaging?: ReportPackagingType;
   encryptionKey?: string;
   encryptionDisabled?: boolean;
 }
@@ -1342,7 +1618,7 @@ export const S3ReportExportConfig = S.suspend(() =>
     bucket: S.optional(S.String),
     bucketOwner: S.optional(S.String),
     path: S.optional(S.String),
-    packaging: S.optional(S.String),
+    packaging: S.optional(ReportPackagingType),
     encryptionKey: S.optional(S.String),
     encryptionDisabled: S.optional(S.Boolean),
   }),
@@ -1350,12 +1626,12 @@ export const S3ReportExportConfig = S.suspend(() =>
   identifier: "S3ReportExportConfig",
 }) as any as S.Schema<S3ReportExportConfig>;
 export interface ReportExportConfig {
-  exportConfigType?: string;
+  exportConfigType?: ReportExportConfigType;
   s3Destination?: S3ReportExportConfig;
 }
 export const ReportExportConfig = S.suspend(() =>
   S.Struct({
-    exportConfigType: S.optional(S.String),
+    exportConfigType: S.optional(ReportExportConfigType),
     s3Destination: S.optional(S3ReportExportConfig),
   }),
 ).annotations({
@@ -1364,7 +1640,7 @@ export const ReportExportConfig = S.suspend(() =>
 export interface UpdateReportGroupInput {
   arn: string;
   exportConfig?: ReportExportConfig;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const UpdateReportGroupInput = S.suspend(() =>
   S.Struct({
@@ -1377,14 +1653,39 @@ export const UpdateReportGroupInput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateReportGroupInput",
 }) as any as S.Schema<UpdateReportGroupInput>;
+export type WebhookFilterType =
+  | "EVENT"
+  | "BASE_REF"
+  | "HEAD_REF"
+  | "ACTOR_ACCOUNT_ID"
+  | "FILE_PATH"
+  | "COMMIT_MESSAGE"
+  | "WORKFLOW_NAME"
+  | "TAG_NAME"
+  | "RELEASE_NAME"
+  | "REPOSITORY_NAME"
+  | "ORGANIZATION_NAME";
+export const WebhookFilterType = S.Literal(
+  "EVENT",
+  "BASE_REF",
+  "HEAD_REF",
+  "ACTOR_ACCOUNT_ID",
+  "FILE_PATH",
+  "COMMIT_MESSAGE",
+  "WORKFLOW_NAME",
+  "TAG_NAME",
+  "RELEASE_NAME",
+  "REPOSITORY_NAME",
+  "ORGANIZATION_NAME",
+);
 export interface WebhookFilter {
-  type: string;
+  type: WebhookFilterType;
   pattern: string;
   excludeMatchedPattern?: boolean;
 }
 export const WebhookFilter = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: WebhookFilterType,
     pattern: S.String,
     excludeMatchedPattern: S.optional(S.Boolean),
   }),
@@ -1393,17 +1694,59 @@ export const WebhookFilter = S.suspend(() =>
 }) as any as S.Schema<WebhookFilter>;
 export type FilterGroup = WebhookFilter[];
 export const FilterGroup = S.Array(WebhookFilter);
-export type FilterGroups = FilterGroup[];
+export type FilterGroups = WebhookFilter[][];
 export const FilterGroups = S.Array(FilterGroup);
-export type PullRequestBuildApproverRoles = string[];
-export const PullRequestBuildApproverRoles = S.Array(S.String);
+export type PullRequestBuildCommentApproval =
+  | "DISABLED"
+  | "ALL_PULL_REQUESTS"
+  | "FORK_PULL_REQUESTS";
+export const PullRequestBuildCommentApproval = S.Literal(
+  "DISABLED",
+  "ALL_PULL_REQUESTS",
+  "FORK_PULL_REQUESTS",
+);
+export type PullRequestBuildApproverRole =
+  | "GITHUB_READ"
+  | "GITHUB_TRIAGE"
+  | "GITHUB_WRITE"
+  | "GITHUB_MAINTAIN"
+  | "GITHUB_ADMIN"
+  | "GITLAB_GUEST"
+  | "GITLAB_PLANNER"
+  | "GITLAB_REPORTER"
+  | "GITLAB_DEVELOPER"
+  | "GITLAB_MAINTAINER"
+  | "GITLAB_OWNER"
+  | "BITBUCKET_READ"
+  | "BITBUCKET_WRITE"
+  | "BITBUCKET_ADMIN";
+export const PullRequestBuildApproverRole = S.Literal(
+  "GITHUB_READ",
+  "GITHUB_TRIAGE",
+  "GITHUB_WRITE",
+  "GITHUB_MAINTAIN",
+  "GITHUB_ADMIN",
+  "GITLAB_GUEST",
+  "GITLAB_PLANNER",
+  "GITLAB_REPORTER",
+  "GITLAB_DEVELOPER",
+  "GITLAB_MAINTAINER",
+  "GITLAB_OWNER",
+  "BITBUCKET_READ",
+  "BITBUCKET_WRITE",
+  "BITBUCKET_ADMIN",
+);
+export type PullRequestBuildApproverRoles = PullRequestBuildApproverRole[];
+export const PullRequestBuildApproverRoles = S.Array(
+  PullRequestBuildApproverRole,
+);
 export interface PullRequestBuildPolicy {
-  requiresCommentApproval: string;
-  approverRoles?: PullRequestBuildApproverRoles;
+  requiresCommentApproval: PullRequestBuildCommentApproval;
+  approverRoles?: PullRequestBuildApproverRole[];
 }
 export const PullRequestBuildPolicy = S.suspend(() =>
   S.Struct({
-    requiresCommentApproval: S.String,
+    requiresCommentApproval: PullRequestBuildCommentApproval,
     approverRoles: S.optional(PullRequestBuildApproverRoles),
   }),
 ).annotations({
@@ -1413,8 +1756,8 @@ export interface UpdateWebhookInput {
   projectName: string;
   branchFilter?: string;
   rotateSecret?: boolean;
-  filterGroups?: FilterGroups;
-  buildType?: string;
+  filterGroups?: WebhookFilter[][];
+  buildType?: WebhookBuildType;
   pullRequestBuildPolicy?: PullRequestBuildPolicy;
 }
 export const UpdateWebhookInput = S.suspend(() =>
@@ -1423,7 +1766,7 @@ export const UpdateWebhookInput = S.suspend(() =>
     branchFilter: S.optional(S.String),
     rotateSecret: S.optional(S.Boolean),
     filterGroups: S.optional(FilterGroups),
-    buildType: S.optional(S.String),
+    buildType: S.optional(WebhookBuildType),
     pullRequestBuildPolicy: S.optional(PullRequestBuildPolicy),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -1431,13 +1774,37 @@ export const UpdateWebhookInput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateWebhookInput",
 }) as any as S.Schema<UpdateWebhookInput>;
+export type WebhookScopeType =
+  | "GITHUB_ORGANIZATION"
+  | "GITHUB_GLOBAL"
+  | "GITLAB_GROUP";
+export const WebhookScopeType = S.Literal(
+  "GITHUB_ORGANIZATION",
+  "GITHUB_GLOBAL",
+  "GITLAB_GROUP",
+);
+export type PlatformType =
+  | "DEBIAN"
+  | "AMAZON_LINUX"
+  | "UBUNTU"
+  | "WINDOWS_SERVER";
+export const PlatformType = S.Literal(
+  "DEBIAN",
+  "AMAZON_LINUX",
+  "UBUNTU",
+  "WINDOWS_SERVER",
+);
 export interface ScopeConfiguration {
   name: string;
   domain?: string;
-  scope: string;
+  scope: WebhookScopeType;
 }
 export const ScopeConfiguration = S.suspend(() =>
-  S.Struct({ name: S.String, domain: S.optional(S.String), scope: S.String }),
+  S.Struct({
+    name: S.String,
+    domain: S.optional(S.String),
+    scope: WebhookScopeType,
+  }),
 ).annotations({
   identifier: "ScopeConfiguration",
 }) as any as S.Schema<ScopeConfiguration>;
@@ -1456,15 +1823,15 @@ export type ProjectArns = string[];
 export const ProjectArns = S.Array(S.String);
 export interface SourceCredentialsInfo {
   arn?: string;
-  serverType?: string;
-  authType?: string;
+  serverType?: ServerType;
+  authType?: AuthType;
   resource?: string;
 }
 export const SourceCredentialsInfo = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
-    serverType: S.optional(S.String),
-    authType: S.optional(S.String),
+    serverType: S.optional(ServerType),
+    authType: S.optional(AuthType),
     resource: S.optional(S.String),
   }),
 ).annotations({
@@ -1472,11 +1839,34 @@ export const SourceCredentialsInfo = S.suspend(() =>
 }) as any as S.Schema<SourceCredentialsInfo>;
 export type SourceCredentialsInfos = SourceCredentialsInfo[];
 export const SourceCredentialsInfos = S.Array(SourceCredentialsInfo);
+export type LanguageType =
+  | "JAVA"
+  | "PYTHON"
+  | "NODE_JS"
+  | "RUBY"
+  | "GOLANG"
+  | "DOCKER"
+  | "ANDROID"
+  | "DOTNET"
+  | "BASE"
+  | "PHP";
+export const LanguageType = S.Literal(
+  "JAVA",
+  "PYTHON",
+  "NODE_JS",
+  "RUBY",
+  "GOLANG",
+  "DOCKER",
+  "ANDROID",
+  "DOTNET",
+  "BASE",
+  "PHP",
+);
 export interface CreateWebhookInput {
   projectName: string;
   branchFilter?: string;
-  filterGroups?: FilterGroups;
-  buildType?: string;
+  filterGroups?: WebhookFilter[][];
+  buildType?: WebhookBuildType;
   manualCreation?: boolean;
   scopeConfiguration?: ScopeConfiguration;
   pullRequestBuildPolicy?: PullRequestBuildPolicy;
@@ -1486,7 +1876,7 @@ export const CreateWebhookInput = S.suspend(() =>
     projectName: S.String,
     branchFilter: S.optional(S.String),
     filterGroups: S.optional(FilterGroups),
-    buildType: S.optional(S.String),
+    buildType: S.optional(WebhookBuildType),
     manualCreation: S.optional(S.Boolean),
     scopeConfiguration: S.optional(ScopeConfiguration),
     pullRequestBuildPolicy: S.optional(PullRequestBuildPolicy),
@@ -1509,8 +1899,8 @@ export type BuildsNotDeleted = BuildNotDeleted[];
 export const BuildsNotDeleted = S.Array(BuildNotDeleted);
 export interface DeleteBuildBatchOutput {
   statusCode?: string;
-  buildsDeleted?: BuildIds;
-  buildsNotDeleted?: BuildsNotDeleted;
+  buildsDeleted?: string[];
+  buildsNotDeleted?: BuildNotDeleted[];
 }
 export const DeleteBuildBatchOutput = S.suspend(() =>
   S.Struct({
@@ -1566,14 +1956,14 @@ export const ImportSourceCredentialsOutput = S.suspend(() =>
 export interface ListBuildBatchesInput {
   filter?: BuildBatchFilter;
   maxResults?: number;
-  sortOrder?: string;
+  sortOrder?: SortOrderType;
   nextToken?: string;
 }
 export const ListBuildBatchesInput = S.suspend(() =>
   S.Struct({
     filter: S.optional(BuildBatchFilter),
     maxResults: S.optional(S.Number),
-    sortOrder: S.optional(S.String),
+    sortOrder: S.optional(SortOrderType),
     nextToken: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -1582,7 +1972,7 @@ export const ListBuildBatchesInput = S.suspend(() =>
   identifier: "ListBuildBatchesInput",
 }) as any as S.Schema<ListBuildBatchesInput>;
 export interface ListBuildBatchesForProjectOutput {
-  ids?: BuildBatchIds;
+  ids?: string[];
   nextToken?: string;
 }
 export const ListBuildBatchesForProjectOutput = S.suspend(() =>
@@ -1591,7 +1981,7 @@ export const ListBuildBatchesForProjectOutput = S.suspend(() =>
   identifier: "ListBuildBatchesForProjectOutput",
 }) as any as S.Schema<ListBuildBatchesForProjectOutput>;
 export interface ListBuildsOutput {
-  ids?: BuildIds;
+  ids?: string[];
   nextToken?: string;
 }
 export const ListBuildsOutput = S.suspend(() =>
@@ -1600,7 +1990,7 @@ export const ListBuildsOutput = S.suspend(() =>
   identifier: "ListBuildsOutput",
 }) as any as S.Schema<ListBuildsOutput>;
 export interface ListBuildsForProjectOutput {
-  ids?: BuildIds;
+  ids?: string[];
   nextToken?: string;
 }
 export const ListBuildsForProjectOutput = S.suspend(() =>
@@ -1637,11 +2027,11 @@ export interface CommandExecution {
   startTime?: Date;
   endTime?: Date;
   status?: string;
-  command?: string | Redacted.Redacted<string>;
-  type?: string;
+  command?: string | redacted.Redacted<string>;
+  type?: CommandType;
   exitCode?: string;
-  standardOutputContent?: string | Redacted.Redacted<string>;
-  standardErrContent?: string | Redacted.Redacted<string>;
+  standardOutputContent?: string | redacted.Redacted<string>;
+  standardErrContent?: string | redacted.Redacted<string>;
   logs?: LogsLocation;
   sandboxArn?: string;
 }
@@ -1654,7 +2044,7 @@ export const CommandExecution = S.suspend(() =>
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     status: S.optional(S.String),
     command: S.optional(SensitiveString),
-    type: S.optional(S.String),
+    type: S.optional(CommandType),
     exitCode: S.optional(S.String),
     standardOutputContent: S.optional(SensitiveString),
     standardErrContent: S.optional(SensitiveString),
@@ -1667,7 +2057,7 @@ export const CommandExecution = S.suspend(() =>
 export type CommandExecutions = CommandExecution[];
 export const CommandExecutions = S.Array(CommandExecution);
 export interface ListCommandExecutionsForSandboxOutput {
-  commandExecutions?: CommandExecutions;
+  commandExecutions?: CommandExecution[];
   nextToken?: string;
 }
 export const ListCommandExecutionsForSandboxOutput = S.suspend(() =>
@@ -1680,7 +2070,7 @@ export const ListCommandExecutionsForSandboxOutput = S.suspend(() =>
 }) as any as S.Schema<ListCommandExecutionsForSandboxOutput>;
 export interface ListFleetsOutput {
   nextToken?: string;
-  fleets?: FleetArns;
+  fleets?: string[];
 }
 export const ListFleetsOutput = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), fleets: S.optional(FleetArns) }),
@@ -1689,7 +2079,7 @@ export const ListFleetsOutput = S.suspend(() =>
 }) as any as S.Schema<ListFleetsOutput>;
 export interface ListProjectsOutput {
   nextToken?: string;
-  projects?: ProjectNames;
+  projects?: string[];
 }
 export const ListProjectsOutput = S.suspend(() =>
   S.Struct({
@@ -1701,7 +2091,7 @@ export const ListProjectsOutput = S.suspend(() =>
 }) as any as S.Schema<ListProjectsOutput>;
 export interface ListReportGroupsOutput {
   nextToken?: string;
-  reportGroups?: ReportGroupArns;
+  reportGroups?: string[];
 }
 export const ListReportGroupsOutput = S.suspend(() =>
   S.Struct({
@@ -1712,14 +2102,14 @@ export const ListReportGroupsOutput = S.suspend(() =>
   identifier: "ListReportGroupsOutput",
 }) as any as S.Schema<ListReportGroupsOutput>;
 export interface ListReportsInput {
-  sortOrder?: string;
+  sortOrder?: SortOrderType;
   nextToken?: string;
   maxResults?: number;
   filter?: ReportFilter;
 }
 export const ListReportsInput = S.suspend(() =>
   S.Struct({
-    sortOrder: S.optional(S.String),
+    sortOrder: S.optional(SortOrderType),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     filter: S.optional(ReportFilter),
@@ -1731,7 +2121,7 @@ export const ListReportsInput = S.suspend(() =>
 }) as any as S.Schema<ListReportsInput>;
 export interface ListReportsForReportGroupOutput {
   nextToken?: string;
-  reports?: ReportArns;
+  reports?: string[];
 }
 export const ListReportsForReportGroupOutput = S.suspend(() =>
   S.Struct({
@@ -1742,7 +2132,7 @@ export const ListReportsForReportGroupOutput = S.suspend(() =>
   identifier: "ListReportsForReportGroupOutput",
 }) as any as S.Schema<ListReportsForReportGroupOutput>;
 export interface ListSandboxesOutput {
-  ids?: SandboxIds;
+  ids?: string[];
   nextToken?: string;
 }
 export const ListSandboxesOutput = S.suspend(() =>
@@ -1751,7 +2141,7 @@ export const ListSandboxesOutput = S.suspend(() =>
   identifier: "ListSandboxesOutput",
 }) as any as S.Schema<ListSandboxesOutput>;
 export interface ListSandboxesForProjectOutput {
-  ids?: SandboxIds;
+  ids?: string[];
   nextToken?: string;
 }
 export const ListSandboxesForProjectOutput = S.suspend(() =>
@@ -1761,7 +2151,7 @@ export const ListSandboxesForProjectOutput = S.suspend(() =>
 }) as any as S.Schema<ListSandboxesForProjectOutput>;
 export interface ListSharedProjectsOutput {
   nextToken?: string;
-  projects?: ProjectArns;
+  projects?: string[];
 }
 export const ListSharedProjectsOutput = S.suspend(() =>
   S.Struct({
@@ -1773,7 +2163,7 @@ export const ListSharedProjectsOutput = S.suspend(() =>
 }) as any as S.Schema<ListSharedProjectsOutput>;
 export interface ListSharedReportGroupsOutput {
   nextToken?: string;
-  reportGroups?: ReportGroupArns;
+  reportGroups?: string[];
 }
 export const ListSharedReportGroupsOutput = S.suspend(() =>
   S.Struct({
@@ -1784,7 +2174,7 @@ export const ListSharedReportGroupsOutput = S.suspend(() =>
   identifier: "ListSharedReportGroupsOutput",
 }) as any as S.Schema<ListSharedReportGroupsOutput>;
 export interface ListSourceCredentialsOutput {
-  sourceCredentialsInfos?: SourceCredentialsInfos;
+  sourceCredentialsInfos?: SourceCredentialsInfo[];
 }
 export const ListSourceCredentialsOutput = S.suspend(() =>
   S.Struct({ sourceCredentialsInfos: S.optional(SourceCredentialsInfos) }),
@@ -1799,6 +2189,31 @@ export const PutResourcePolicyOutput = S.suspend(() =>
 ).annotations({
   identifier: "PutResourcePolicyOutput",
 }) as any as S.Schema<PutResourcePolicyOutput>;
+export type BuildPhaseType =
+  | "SUBMITTED"
+  | "QUEUED"
+  | "PROVISIONING"
+  | "DOWNLOAD_SOURCE"
+  | "INSTALL"
+  | "PRE_BUILD"
+  | "BUILD"
+  | "POST_BUILD"
+  | "UPLOAD_ARTIFACTS"
+  | "FINALIZING"
+  | "COMPLETED";
+export const BuildPhaseType = S.Literal(
+  "SUBMITTED",
+  "QUEUED",
+  "PROVISIONING",
+  "DOWNLOAD_SOURCE",
+  "INSTALL",
+  "PRE_BUILD",
+  "BUILD",
+  "POST_BUILD",
+  "UPLOAD_ARTIFACTS",
+  "FINALIZING",
+  "COMPLETED",
+);
 export interface PhaseContext {
   statusCode?: string;
   message?: string;
@@ -1809,17 +2224,17 @@ export const PhaseContext = S.suspend(() =>
 export type PhaseContexts = PhaseContext[];
 export const PhaseContexts = S.Array(PhaseContext);
 export interface BuildPhase {
-  phaseType?: string;
-  phaseStatus?: string;
+  phaseType?: BuildPhaseType;
+  phaseStatus?: StatusType;
   startTime?: Date;
   endTime?: Date;
   durationInSeconds?: number;
-  contexts?: PhaseContexts;
+  contexts?: PhaseContext[];
 }
 export const BuildPhase = S.suspend(() =>
   S.Struct({
-    phaseType: S.optional(S.String),
-    phaseStatus: S.optional(S.String),
+    phaseType: S.optional(BuildPhaseType),
+    phaseStatus: S.optional(StatusType),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     durationInSeconds: S.optional(S.Number),
@@ -1835,7 +2250,7 @@ export interface BuildArtifacts {
   overrideArtifactName?: boolean;
   encryptionDisabled?: boolean;
   artifactIdentifier?: string;
-  bucketOwnerAccess?: string;
+  bucketOwnerAccess?: BucketOwnerAccess;
 }
 export const BuildArtifacts = S.suspend(() =>
   S.Struct({
@@ -1845,7 +2260,7 @@ export const BuildArtifacts = S.suspend(() =>
     overrideArtifactName: S.optional(S.Boolean),
     encryptionDisabled: S.optional(S.Boolean),
     artifactIdentifier: S.optional(S.String),
-    bucketOwnerAccess: S.optional(S.String),
+    bucketOwnerAccess: S.optional(BucketOwnerAccess),
   }),
 ).annotations({
   identifier: "BuildArtifacts",
@@ -1912,16 +2327,16 @@ export interface Build {
   startTime?: Date;
   endTime?: Date;
   currentPhase?: string;
-  buildStatus?: string;
+  buildStatus?: StatusType;
   sourceVersion?: string;
   resolvedSourceVersion?: string;
   projectName?: string;
-  phases?: BuildPhases;
+  phases?: BuildPhase[];
   source?: ProjectSource;
-  secondarySources?: ProjectSources;
-  secondarySourceVersions?: ProjectSecondarySourceVersions;
+  secondarySources?: ProjectSource[];
+  secondarySourceVersions?: ProjectSourceVersion[];
   artifacts?: BuildArtifacts;
-  secondaryArtifacts?: BuildArtifactsList;
+  secondaryArtifacts?: BuildArtifacts[];
   cache?: ProjectCache;
   environment?: ProjectEnvironment;
   serviceRole?: string;
@@ -1933,9 +2348,9 @@ export interface Build {
   vpcConfig?: VpcConfig;
   networkInterface?: NetworkInterface;
   encryptionKey?: string;
-  exportedEnvironmentVariables?: ExportedEnvironmentVariables;
-  reportArns?: BuildReportArns;
-  fileSystemLocations?: ProjectFileSystemLocations;
+  exportedEnvironmentVariables?: ExportedEnvironmentVariable[];
+  reportArns?: string[];
+  fileSystemLocations?: ProjectFileSystemLocation[];
   debugSession?: DebugSession;
   buildBatchArn?: string;
   autoRetryConfig?: AutoRetryConfig;
@@ -1948,7 +2363,7 @@ export const Build = S.suspend(() =>
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     currentPhase: S.optional(S.String),
-    buildStatus: S.optional(S.String),
+    buildStatus: S.optional(StatusType),
     sourceVersion: S.optional(S.String),
     resolvedSourceVersion: S.optional(S.String),
     projectName: S.optional(S.String),
@@ -1985,18 +2400,35 @@ export const RetryBuildOutput = S.suspend(() =>
 ).annotations({
   identifier: "RetryBuildOutput",
 }) as any as S.Schema<RetryBuildOutput>;
+export type BuildBatchPhaseType =
+  | "SUBMITTED"
+  | "DOWNLOAD_BATCHSPEC"
+  | "IN_PROGRESS"
+  | "COMBINE_ARTIFACTS"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "STOPPED";
+export const BuildBatchPhaseType = S.Literal(
+  "SUBMITTED",
+  "DOWNLOAD_BATCHSPEC",
+  "IN_PROGRESS",
+  "COMBINE_ARTIFACTS",
+  "SUCCEEDED",
+  "FAILED",
+  "STOPPED",
+);
 export interface BuildBatchPhase {
-  phaseType?: string;
-  phaseStatus?: string;
+  phaseType?: BuildBatchPhaseType;
+  phaseStatus?: StatusType;
   startTime?: Date;
   endTime?: Date;
   durationInSeconds?: number;
-  contexts?: PhaseContexts;
+  contexts?: PhaseContext[];
 }
 export const BuildBatchPhase = S.suspend(() =>
   S.Struct({
-    phaseType: S.optional(S.String),
-    phaseStatus: S.optional(S.String),
+    phaseType: S.optional(BuildBatchPhaseType),
+    phaseStatus: S.optional(StatusType),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     durationInSeconds: S.optional(S.Number),
@@ -2010,13 +2442,13 @@ export const BuildBatchPhases = S.Array(BuildBatchPhase);
 export type Identifiers = string[];
 export const Identifiers = S.Array(S.String);
 export interface ResolvedArtifact {
-  type?: string;
+  type?: ArtifactsType;
   location?: string;
   identifier?: string;
 }
 export const ResolvedArtifact = S.suspend(() =>
   S.Struct({
-    type: S.optional(S.String),
+    type: S.optional(ArtifactsType),
     location: S.optional(S.String),
     identifier: S.optional(S.String),
   }),
@@ -2028,15 +2460,15 @@ export const ResolvedSecondaryArtifacts = S.Array(ResolvedArtifact);
 export interface BuildSummary {
   arn?: string;
   requestedOn?: Date;
-  buildStatus?: string;
+  buildStatus?: StatusType;
   primaryArtifact?: ResolvedArtifact;
-  secondaryArtifacts?: ResolvedSecondaryArtifacts;
+  secondaryArtifacts?: ResolvedArtifact[];
 }
 export const BuildSummary = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     requestedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    buildStatus: S.optional(S.String),
+    buildStatus: S.optional(StatusType),
     primaryArtifact: S.optional(ResolvedArtifact),
     secondaryArtifacts: S.optional(ResolvedSecondaryArtifacts),
   }),
@@ -2045,10 +2477,10 @@ export type BuildSummaries = BuildSummary[];
 export const BuildSummaries = S.Array(BuildSummary);
 export interface BuildGroup {
   identifier?: string;
-  dependsOn?: Identifiers;
+  dependsOn?: string[];
   ignoreFailure?: boolean;
   currentBuildSummary?: BuildSummary;
-  priorBuildSummaryList?: BuildSummaries;
+  priorBuildSummaryList?: BuildSummary[];
 }
 export const BuildGroup = S.suspend(() =>
   S.Struct({
@@ -2067,16 +2499,16 @@ export interface BuildBatch {
   startTime?: Date;
   endTime?: Date;
   currentPhase?: string;
-  buildBatchStatus?: string;
+  buildBatchStatus?: StatusType;
   sourceVersion?: string;
   resolvedSourceVersion?: string;
   projectName?: string;
-  phases?: BuildBatchPhases;
+  phases?: BuildBatchPhase[];
   source?: ProjectSource;
-  secondarySources?: ProjectSources;
-  secondarySourceVersions?: ProjectSecondarySourceVersions;
+  secondarySources?: ProjectSource[];
+  secondarySourceVersions?: ProjectSourceVersion[];
   artifacts?: BuildArtifacts;
-  secondaryArtifacts?: BuildArtifactsList;
+  secondaryArtifacts?: BuildArtifacts[];
   cache?: ProjectCache;
   environment?: ProjectEnvironment;
   serviceRole?: string;
@@ -2088,11 +2520,11 @@ export interface BuildBatch {
   vpcConfig?: VpcConfig;
   encryptionKey?: string;
   buildBatchNumber?: number;
-  fileSystemLocations?: ProjectFileSystemLocations;
+  fileSystemLocations?: ProjectFileSystemLocation[];
   buildBatchConfig?: ProjectBuildBatchConfig;
-  buildGroups?: BuildGroups;
+  buildGroups?: BuildGroup[];
   debugSessionEnabled?: boolean;
-  reportArns?: BuildReportArns;
+  reportArns?: string[];
 }
 export const BuildBatch = S.suspend(() =>
   S.Struct({
@@ -2101,7 +2533,7 @@ export const BuildBatch = S.suspend(() =>
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     currentPhase: S.optional(S.String),
-    buildBatchStatus: S.optional(S.String),
+    buildBatchStatus: S.optional(StatusType),
     sourceVersion: S.optional(S.String),
     resolvedSourceVersion: S.optional(S.String),
     projectName: S.optional(S.String),
@@ -2139,13 +2571,13 @@ export const RetryBuildBatchOutput = S.suspend(() =>
 }) as any as S.Schema<RetryBuildBatchOutput>;
 export interface StartBuildInput {
   projectName: string;
-  secondarySourcesOverride?: ProjectSources;
-  secondarySourcesVersionOverride?: ProjectSecondarySourceVersions;
+  secondarySourcesOverride?: ProjectSource[];
+  secondarySourcesVersionOverride?: ProjectSourceVersion[];
   sourceVersion?: string;
   artifactsOverride?: ProjectArtifacts;
-  secondaryArtifactsOverride?: ProjectArtifactsList;
-  environmentVariablesOverride?: EnvironmentVariables;
-  sourceTypeOverride?: string;
+  secondaryArtifactsOverride?: ProjectArtifacts[];
+  environmentVariablesOverride?: EnvironmentVariable[];
+  sourceTypeOverride?: SourceType;
   sourceLocationOverride?: string;
   sourceAuthOverride?: SourceAuth;
   gitCloneDepthOverride?: number;
@@ -2154,9 +2586,9 @@ export interface StartBuildInput {
   insecureSslOverride?: boolean;
   reportBuildStatusOverride?: boolean;
   buildStatusConfigOverride?: BuildStatusConfig;
-  environmentTypeOverride?: string;
+  environmentTypeOverride?: EnvironmentType;
   imageOverride?: string;
-  computeTypeOverride?: string;
+  computeTypeOverride?: ComputeType;
   certificateOverride?: string;
   cacheOverride?: ProjectCache;
   serviceRoleOverride?: string;
@@ -2167,7 +2599,7 @@ export interface StartBuildInput {
   idempotencyToken?: string;
   logsConfigOverride?: LogsConfig;
   registryCredentialOverride?: RegistryCredential;
-  imagePullCredentialsTypeOverride?: string;
+  imagePullCredentialsTypeOverride?: ImagePullCredentialsType;
   debugSessionEnabled?: boolean;
   fleetOverride?: ProjectFleet;
   autoRetryLimitOverride?: number;
@@ -2181,7 +2613,7 @@ export const StartBuildInput = S.suspend(() =>
     artifactsOverride: S.optional(ProjectArtifacts),
     secondaryArtifactsOverride: S.optional(ProjectArtifactsList),
     environmentVariablesOverride: S.optional(EnvironmentVariables),
-    sourceTypeOverride: S.optional(S.String),
+    sourceTypeOverride: S.optional(SourceType),
     sourceLocationOverride: S.optional(S.String),
     sourceAuthOverride: S.optional(SourceAuth),
     gitCloneDepthOverride: S.optional(S.Number),
@@ -2190,9 +2622,9 @@ export const StartBuildInput = S.suspend(() =>
     insecureSslOverride: S.optional(S.Boolean),
     reportBuildStatusOverride: S.optional(S.Boolean),
     buildStatusConfigOverride: S.optional(BuildStatusConfig),
-    environmentTypeOverride: S.optional(S.String),
+    environmentTypeOverride: S.optional(EnvironmentType),
     imageOverride: S.optional(S.String),
-    computeTypeOverride: S.optional(S.String),
+    computeTypeOverride: S.optional(ComputeType),
     certificateOverride: S.optional(S.String),
     cacheOverride: S.optional(ProjectCache),
     serviceRoleOverride: S.optional(S.String),
@@ -2203,7 +2635,7 @@ export const StartBuildInput = S.suspend(() =>
     idempotencyToken: S.optional(S.String),
     logsConfigOverride: S.optional(LogsConfig),
     registryCredentialOverride: S.optional(RegistryCredential),
-    imagePullCredentialsTypeOverride: S.optional(S.String),
+    imagePullCredentialsTypeOverride: S.optional(ImagePullCredentialsType),
     debugSessionEnabled: S.optional(S.Boolean),
     fleetOverride: S.optional(ProjectFleet),
     autoRetryLimitOverride: S.optional(S.Number),
@@ -2231,16 +2663,16 @@ export const StartCommandExecutionOutput = S.suspend(() =>
 }) as any as S.Schema<StartCommandExecutionOutput>;
 export interface SandboxSessionPhase {
   phaseType?: string;
-  phaseStatus?: string;
+  phaseStatus?: StatusType;
   startTime?: Date;
   endTime?: Date;
   durationInSeconds?: number;
-  contexts?: PhaseContexts;
+  contexts?: PhaseContext[];
 }
 export const SandboxSessionPhase = S.suspend(() =>
   S.Struct({
     phaseType: S.optional(S.String),
-    phaseStatus: S.optional(S.String),
+    phaseStatus: S.optional(StatusType),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     durationInSeconds: S.optional(S.Number),
@@ -2257,7 +2689,7 @@ export interface SandboxSession {
   startTime?: Date;
   endTime?: Date;
   currentPhase?: string;
-  phases?: SandboxSessionPhases;
+  phases?: SandboxSessionPhase[];
   resolvedSourceVersion?: string;
   logs?: LogsLocation;
   networkInterface?: NetworkInterface;
@@ -2287,10 +2719,10 @@ export interface Sandbox {
   status?: string;
   source?: ProjectSource;
   sourceVersion?: string;
-  secondarySources?: ProjectSources;
-  secondarySourceVersions?: ProjectSecondarySourceVersions;
+  secondarySources?: ProjectSource[];
+  secondarySourceVersions?: ProjectSourceVersion[];
   environment?: ProjectEnvironment;
-  fileSystemLocations?: ProjectFileSystemLocations;
+  fileSystemLocations?: ProjectFileSystemLocation[];
   timeoutInMinutes?: number;
   queuedTimeoutInMinutes?: number;
   vpcConfig?: VpcConfig;
@@ -2355,27 +2787,59 @@ export const StopSandboxOutput = S.suspend(() =>
 ).annotations({
   identifier: "StopSandboxOutput",
 }) as any as S.Schema<StopSandboxOutput>;
+export type FleetStatusCode =
+  | "CREATING"
+  | "UPDATING"
+  | "ROTATING"
+  | "PENDING_DELETION"
+  | "DELETING"
+  | "CREATE_FAILED"
+  | "UPDATE_ROLLBACK_FAILED"
+  | "ACTIVE";
+export const FleetStatusCode = S.Literal(
+  "CREATING",
+  "UPDATING",
+  "ROTATING",
+  "PENDING_DELETION",
+  "DELETING",
+  "CREATE_FAILED",
+  "UPDATE_ROLLBACK_FAILED",
+  "ACTIVE",
+);
+export type FleetContextCode =
+  | "CREATE_FAILED"
+  | "UPDATE_FAILED"
+  | "ACTION_REQUIRED"
+  | "PENDING_DELETION"
+  | "INSUFFICIENT_CAPACITY";
+export const FleetContextCode = S.Literal(
+  "CREATE_FAILED",
+  "UPDATE_FAILED",
+  "ACTION_REQUIRED",
+  "PENDING_DELETION",
+  "INSUFFICIENT_CAPACITY",
+);
 export interface FleetStatus {
-  statusCode?: string;
-  context?: string;
+  statusCode?: FleetStatusCode;
+  context?: FleetContextCode;
   message?: string;
 }
 export const FleetStatus = S.suspend(() =>
   S.Struct({
-    statusCode: S.optional(S.String),
-    context: S.optional(S.String),
+    statusCode: S.optional(FleetStatusCode),
+    context: S.optional(FleetContextCode),
     message: S.optional(S.String),
   }),
 ).annotations({ identifier: "FleetStatus" }) as any as S.Schema<FleetStatus>;
 export interface ScalingConfigurationOutput {
-  scalingType?: string;
-  targetTrackingScalingConfigs?: TargetTrackingScalingConfigurations;
+  scalingType?: FleetScalingType;
+  targetTrackingScalingConfigs?: TargetTrackingScalingConfiguration[];
   maxCapacity?: number;
   desiredCapacity?: number;
 }
 export const ScalingConfigurationOutput = S.suspend(() =>
   S.Struct({
-    scalingType: S.optional(S.String),
+    scalingType: S.optional(FleetScalingType),
     targetTrackingScalingConfigs: S.optional(
       TargetTrackingScalingConfigurations,
     ),
@@ -2393,16 +2857,16 @@ export interface Fleet {
   lastModified?: Date;
   status?: FleetStatus;
   baseCapacity?: number;
-  environmentType?: string;
-  computeType?: string;
+  environmentType?: EnvironmentType;
+  computeType?: ComputeType;
   computeConfiguration?: ComputeConfiguration;
   scalingConfiguration?: ScalingConfigurationOutput;
-  overflowBehavior?: string;
+  overflowBehavior?: FleetOverflowBehavior;
   vpcConfig?: VpcConfig;
   proxyConfiguration?: ProxyConfiguration;
   imageId?: string;
   fleetServiceRole?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const Fleet = S.suspend(() =>
   S.Struct({
@@ -2413,11 +2877,11 @@ export const Fleet = S.suspend(() =>
     lastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     status: S.optional(FleetStatus),
     baseCapacity: S.optional(S.Number),
-    environmentType: S.optional(S.String),
-    computeType: S.optional(S.String),
+    environmentType: S.optional(EnvironmentType),
+    computeType: S.optional(ComputeType),
     computeConfiguration: S.optional(ComputeConfiguration),
     scalingConfiguration: S.optional(ScalingConfigurationOutput),
-    overflowBehavior: S.optional(S.String),
+    overflowBehavior: S.optional(FleetOverflowBehavior),
     vpcConfig: S.optional(VpcConfig),
     proxyConfiguration: S.optional(ProxyConfiguration),
     imageId: S.optional(S.String),
@@ -2433,17 +2897,28 @@ export const UpdateFleetOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateFleetOutput",
 }) as any as S.Schema<UpdateFleetOutput>;
+export type WebhookStatus =
+  | "CREATING"
+  | "CREATE_FAILED"
+  | "ACTIVE"
+  | "DELETING";
+export const WebhookStatus = S.Literal(
+  "CREATING",
+  "CREATE_FAILED",
+  "ACTIVE",
+  "DELETING",
+);
 export interface Webhook {
   url?: string;
   payloadUrl?: string;
   secret?: string;
   branchFilter?: string;
-  filterGroups?: FilterGroups;
-  buildType?: string;
+  filterGroups?: WebhookFilter[][];
+  buildType?: WebhookBuildType;
   manualCreation?: boolean;
   lastModifiedSecret?: Date;
   scopeConfiguration?: ScopeConfiguration;
-  status?: string;
+  status?: WebhookStatus;
   statusMessage?: string;
   pullRequestBuildPolicy?: PullRequestBuildPolicy;
 }
@@ -2454,13 +2929,13 @@ export const Webhook = S.suspend(() =>
     secret: S.optional(S.String),
     branchFilter: S.optional(S.String),
     filterGroups: S.optional(FilterGroups),
-    buildType: S.optional(S.String),
+    buildType: S.optional(WebhookBuildType),
     manualCreation: S.optional(S.Boolean),
     lastModifiedSecret: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     scopeConfiguration: S.optional(ScopeConfiguration),
-    status: S.optional(S.String),
+    status: S.optional(WebhookStatus),
     statusMessage: S.optional(S.String),
     pullRequestBuildPolicy: S.optional(PullRequestBuildPolicy),
   }),
@@ -2480,28 +2955,28 @@ export interface Project {
   arn?: string;
   description?: string;
   source?: ProjectSource;
-  secondarySources?: ProjectSources;
+  secondarySources?: ProjectSource[];
   sourceVersion?: string;
-  secondarySourceVersions?: ProjectSecondarySourceVersions;
+  secondarySourceVersions?: ProjectSourceVersion[];
   artifacts?: ProjectArtifacts;
-  secondaryArtifacts?: ProjectArtifactsList;
+  secondaryArtifacts?: ProjectArtifacts[];
   cache?: ProjectCache;
   environment?: ProjectEnvironment;
   serviceRole?: string;
   timeoutInMinutes?: number;
   queuedTimeoutInMinutes?: number;
   encryptionKey?: string;
-  tags?: TagList;
+  tags?: Tag[];
   created?: Date;
   lastModified?: Date;
   webhook?: Webhook;
   vpcConfig?: VpcConfig;
   badge?: ProjectBadge;
   logsConfig?: LogsConfig;
-  fileSystemLocations?: ProjectFileSystemLocations;
+  fileSystemLocations?: ProjectFileSystemLocation[];
   buildBatchConfig?: ProjectBuildBatchConfig;
   concurrentBuildLimit?: number;
-  projectVisibility?: string;
+  projectVisibility?: ProjectVisibilityType;
   publicProjectAlias?: string;
   resourceAccessRole?: string;
   autoRetryLimit?: number;
@@ -2533,7 +3008,7 @@ export const Project = S.suspend(() =>
     fileSystemLocations: S.optional(ProjectFileSystemLocations),
     buildBatchConfig: S.optional(ProjectBuildBatchConfig),
     concurrentBuildLimit: S.optional(S.Number),
-    projectVisibility: S.optional(S.String),
+    projectVisibility: S.optional(ProjectVisibilityType),
     publicProjectAlias: S.optional(S.String),
     resourceAccessRole: S.optional(S.String),
     autoRetryLimit: S.optional(S.Number),
@@ -2550,37 +3025,39 @@ export const UpdateProjectOutput = S.suspend(() =>
 export interface UpdateProjectVisibilityOutput {
   projectArn?: string;
   publicProjectAlias?: string;
-  projectVisibility?: string;
+  projectVisibility?: ProjectVisibilityType;
 }
 export const UpdateProjectVisibilityOutput = S.suspend(() =>
   S.Struct({
     projectArn: S.optional(S.String),
     publicProjectAlias: S.optional(S.String),
-    projectVisibility: S.optional(S.String),
+    projectVisibility: S.optional(ProjectVisibilityType),
   }),
 ).annotations({
   identifier: "UpdateProjectVisibilityOutput",
 }) as any as S.Schema<UpdateProjectVisibilityOutput>;
+export type ReportGroupStatusType = "ACTIVE" | "DELETING";
+export const ReportGroupStatusType = S.Literal("ACTIVE", "DELETING");
 export interface ReportGroup {
   arn?: string;
   name?: string;
-  type?: string;
+  type?: ReportType;
   exportConfig?: ReportExportConfig;
   created?: Date;
   lastModified?: Date;
-  tags?: TagList;
-  status?: string;
+  tags?: Tag[];
+  status?: ReportGroupStatusType;
 }
 export const ReportGroup = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     name: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(ReportType),
     exportConfig: S.optional(ReportExportConfig),
     created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     tags: S.optional(TagList),
-    status: S.optional(S.String),
+    status: S.optional(ReportGroupStatusType),
   }),
 ).annotations({ identifier: "ReportGroup" }) as any as S.Schema<ReportGroup>;
 export interface UpdateReportGroupOutput {
@@ -2663,7 +3140,7 @@ export const SSMSession = S.suspend(() =>
 export interface EnvironmentImage {
   name?: string;
   description?: string;
-  versions?: ImageVersions;
+  versions?: string[];
 }
 export const EnvironmentImage = S.suspend(() =>
   S.Struct({
@@ -2677,8 +3154,8 @@ export const EnvironmentImage = S.suspend(() =>
 export type EnvironmentImages = EnvironmentImage[];
 export const EnvironmentImages = S.Array(EnvironmentImage);
 export interface BatchDeleteBuildsOutput {
-  buildsDeleted?: BuildIds;
-  buildsNotDeleted?: BuildsNotDeleted;
+  buildsDeleted?: string[];
+  buildsNotDeleted?: BuildNotDeleted[];
 }
 export const BatchDeleteBuildsOutput = S.suspend(() =>
   S.Struct({
@@ -2689,8 +3166,8 @@ export const BatchDeleteBuildsOutput = S.suspend(() =>
   identifier: "BatchDeleteBuildsOutput",
 }) as any as S.Schema<BatchDeleteBuildsOutput>;
 export interface BatchGetCommandExecutionsOutput {
-  commandExecutions?: CommandExecutions;
-  commandExecutionsNotFound?: CommandExecutionIds;
+  commandExecutions?: CommandExecution[];
+  commandExecutionsNotFound?: string[];
 }
 export const BatchGetCommandExecutionsOutput = S.suspend(() =>
   S.Struct({
@@ -2701,8 +3178,8 @@ export const BatchGetCommandExecutionsOutput = S.suspend(() =>
   identifier: "BatchGetCommandExecutionsOutput",
 }) as any as S.Schema<BatchGetCommandExecutionsOutput>;
 export interface BatchGetReportGroupsOutput {
-  reportGroups?: ReportGroups;
-  reportGroupsNotFound?: ReportGroupArns;
+  reportGroups?: ReportGroup[];
+  reportGroupsNotFound?: string[];
 }
 export const BatchGetReportGroupsOutput = S.suspend(() =>
   S.Struct({
@@ -2715,26 +3192,26 @@ export const BatchGetReportGroupsOutput = S.suspend(() =>
 export interface CreateFleetInput {
   name: string;
   baseCapacity: number;
-  environmentType: string;
-  computeType: string;
+  environmentType: EnvironmentType;
+  computeType: ComputeType;
   computeConfiguration?: ComputeConfiguration;
   scalingConfiguration?: ScalingConfigurationInput;
-  overflowBehavior?: string;
+  overflowBehavior?: FleetOverflowBehavior;
   vpcConfig?: VpcConfig;
   proxyConfiguration?: ProxyConfiguration;
   imageId?: string;
   fleetServiceRole?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateFleetInput = S.suspend(() =>
   S.Struct({
     name: S.String,
     baseCapacity: S.Number,
-    environmentType: S.String,
-    computeType: S.String,
+    environmentType: EnvironmentType,
+    computeType: ComputeType,
     computeConfiguration: S.optional(ComputeConfiguration),
     scalingConfiguration: S.optional(ScalingConfigurationInput),
-    overflowBehavior: S.optional(S.String),
+    overflowBehavior: S.optional(FleetOverflowBehavior),
     vpcConfig: S.optional(VpcConfig),
     proxyConfiguration: S.optional(ProxyConfiguration),
     imageId: S.optional(S.String),
@@ -2748,14 +3225,14 @@ export const CreateFleetInput = S.suspend(() =>
 }) as any as S.Schema<CreateFleetInput>;
 export interface CreateReportGroupInput {
   name: string;
-  type: string;
+  type: ReportType;
   exportConfig: ReportExportConfig;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateReportGroupInput = S.suspend(() =>
   S.Struct({
     name: S.String,
-    type: S.String,
+    type: ReportType,
     exportConfig: ReportExportConfig,
     tags: S.optional(TagList),
   }).pipe(
@@ -2774,7 +3251,7 @@ export const CreateWebhookOutput = S.suspend(() =>
 }) as any as S.Schema<CreateWebhookOutput>;
 export interface DescribeCodeCoveragesOutput {
   nextToken?: string;
-  codeCoverages?: CodeCoverages;
+  codeCoverages?: CodeCoverage[];
 }
 export const DescribeCodeCoveragesOutput = S.suspend(() =>
   S.Struct({
@@ -2786,7 +3263,7 @@ export const DescribeCodeCoveragesOutput = S.suspend(() =>
 }) as any as S.Schema<DescribeCodeCoveragesOutput>;
 export interface GetReportGroupTrendOutput {
   stats?: ReportGroupTrendStats;
-  rawData?: ReportGroupTrendRawDataList;
+  rawData?: ReportWithRawData[];
 }
 export const GetReportGroupTrendOutput = S.suspend(() =>
   S.Struct({
@@ -2797,7 +3274,7 @@ export const GetReportGroupTrendOutput = S.suspend(() =>
   identifier: "GetReportGroupTrendOutput",
 }) as any as S.Schema<GetReportGroupTrendOutput>;
 export interface ListBuildBatchesOutput {
-  ids?: BuildBatchIds;
+  ids?: string[];
   nextToken?: string;
 }
 export const ListBuildBatchesOutput = S.suspend(() =>
@@ -2807,7 +3284,7 @@ export const ListBuildBatchesOutput = S.suspend(() =>
 }) as any as S.Schema<ListBuildBatchesOutput>;
 export interface ListReportsOutput {
   nextToken?: string;
-  reports?: ReportArns;
+  reports?: string[];
 }
 export const ListReportsOutput = S.suspend(() =>
   S.Struct({
@@ -2862,12 +3339,12 @@ export const CodeCoverageReportSummary = S.suspend(() =>
   identifier: "CodeCoverageReportSummary",
 }) as any as S.Schema<CodeCoverageReportSummary>;
 export interface EnvironmentLanguage {
-  language?: string;
-  images?: EnvironmentImages;
+  language?: LanguageType;
+  images?: EnvironmentImage[];
 }
 export const EnvironmentLanguage = S.suspend(() =>
   S.Struct({
-    language: S.optional(S.String),
+    language: S.optional(LanguageType),
     images: S.optional(EnvironmentImages),
   }),
 ).annotations({
@@ -2908,12 +3385,12 @@ export const TestCase = S.suspend(() =>
 export type TestCases = TestCase[];
 export const TestCases = S.Array(TestCase);
 export interface EnvironmentPlatform {
-  platform?: string;
-  languages?: EnvironmentLanguages;
+  platform?: PlatformType;
+  languages?: EnvironmentLanguage[];
 }
 export const EnvironmentPlatform = S.suspend(() =>
   S.Struct({
-    platform: S.optional(S.String),
+    platform: S.optional(PlatformType),
     languages: S.optional(EnvironmentLanguages),
   }),
 ).annotations({
@@ -2924,8 +3401,8 @@ export const EnvironmentPlatforms = S.Array(EnvironmentPlatform);
 export type ReportStatusCounts = { [key: string]: number };
 export const ReportStatusCounts = S.Record({ key: S.String, value: S.Number });
 export interface BatchGetBuildsOutput {
-  builds?: Builds;
-  buildsNotFound?: BuildIds;
+  builds?: Build[];
+  buildsNotFound?: string[];
 }
 export const BatchGetBuildsOutput = S.suspend(() =>
   S.Struct({
@@ -2936,8 +3413,8 @@ export const BatchGetBuildsOutput = S.suspend(() =>
   identifier: "BatchGetBuildsOutput",
 }) as any as S.Schema<BatchGetBuildsOutput>;
 export interface BatchGetFleetsOutput {
-  fleets?: Fleets;
-  fleetsNotFound?: FleetNames;
+  fleets?: Fleet[];
+  fleetsNotFound?: string[];
 }
 export const BatchGetFleetsOutput = S.suspend(() =>
   S.Struct({
@@ -2948,8 +3425,8 @@ export const BatchGetFleetsOutput = S.suspend(() =>
   identifier: "BatchGetFleetsOutput",
 }) as any as S.Schema<BatchGetFleetsOutput>;
 export interface BatchGetProjectsOutput {
-  projects?: Projects;
-  projectsNotFound?: ProjectNames;
+  projects?: Project[];
+  projectsNotFound?: string[];
 }
 export const BatchGetProjectsOutput = S.suspend(() =>
   S.Struct({
@@ -2971,22 +3448,22 @@ export interface CreateProjectInput {
   name: string;
   description?: string;
   source: ProjectSource;
-  secondarySources?: ProjectSources;
+  secondarySources?: ProjectSource[];
   sourceVersion?: string;
-  secondarySourceVersions?: ProjectSecondarySourceVersions;
+  secondarySourceVersions?: ProjectSourceVersion[];
   artifacts: ProjectArtifacts;
-  secondaryArtifacts?: ProjectArtifactsList;
+  secondaryArtifacts?: ProjectArtifacts[];
   cache?: ProjectCache;
   environment: ProjectEnvironment;
   serviceRole: string;
   timeoutInMinutes?: number;
   queuedTimeoutInMinutes?: number;
   encryptionKey?: string;
-  tags?: TagList;
+  tags?: Tag[];
   vpcConfig?: VpcConfig;
   badgeEnabled?: boolean;
   logsConfig?: LogsConfig;
-  fileSystemLocations?: ProjectFileSystemLocations;
+  fileSystemLocations?: ProjectFileSystemLocation[];
   buildBatchConfig?: ProjectBuildBatchConfig;
   concurrentBuildLimit?: number;
   autoRetryLimit?: number;
@@ -3031,7 +3508,7 @@ export const CreateReportGroupOutput = S.suspend(() =>
 }) as any as S.Schema<CreateReportGroupOutput>;
 export interface DescribeTestCasesOutput {
   nextToken?: string;
-  testCases?: TestCases;
+  testCases?: TestCase[];
 }
 export const DescribeTestCasesOutput = S.suspend(() =>
   S.Struct({
@@ -3042,7 +3519,7 @@ export const DescribeTestCasesOutput = S.suspend(() =>
   identifier: "DescribeTestCasesOutput",
 }) as any as S.Schema<DescribeTestCasesOutput>;
 export interface ListCuratedEnvironmentImagesOutput {
-  platforms?: EnvironmentPlatforms;
+  platforms?: EnvironmentPlatform[];
 }
 export const ListCuratedEnvironmentImagesOutput = S.suspend(() =>
   S.Struct({ platforms: S.optional(EnvironmentPlatforms) }),
@@ -3051,7 +3528,7 @@ export const ListCuratedEnvironmentImagesOutput = S.suspend(() =>
 }) as any as S.Schema<ListCuratedEnvironmentImagesOutput>;
 export interface TestReportSummary {
   total: number;
-  statusCounts: ReportStatusCounts;
+  statusCounts: { [key: string]: number };
   durationInNanoSeconds: number;
 }
 export const TestReportSummary = S.suspend(() =>
@@ -3065,11 +3542,11 @@ export const TestReportSummary = S.suspend(() =>
 }) as any as S.Schema<TestReportSummary>;
 export interface Report {
   arn?: string;
-  type?: string;
+  type?: ReportType;
   name?: string;
   reportGroupArn?: string;
   executionId?: string;
-  status?: string;
+  status?: ReportStatusType;
   created?: Date;
   expired?: Date;
   exportConfig?: ReportExportConfig;
@@ -3080,11 +3557,11 @@ export interface Report {
 export const Report = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(ReportType),
     name: S.optional(S.String),
     reportGroupArn: S.optional(S.String),
     executionId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ReportStatusType),
     created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     expired: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     exportConfig: S.optional(ReportExportConfig),
@@ -3098,8 +3575,8 @@ export const Reports = S.Array(Report);
 export type Sandboxes = Sandbox[];
 export const Sandboxes = S.Array(Sandbox);
 export interface BatchGetReportsOutput {
-  reports?: Reports;
-  reportsNotFound?: ReportArns;
+  reports?: Report[];
+  reportsNotFound?: string[];
 }
 export const BatchGetReportsOutput = S.suspend(() =>
   S.Struct({
@@ -3110,8 +3587,8 @@ export const BatchGetReportsOutput = S.suspend(() =>
   identifier: "BatchGetReportsOutput",
 }) as any as S.Schema<BatchGetReportsOutput>;
 export interface BatchGetSandboxesOutput {
-  sandboxes?: Sandboxes;
-  sandboxesNotFound?: SandboxIds;
+  sandboxes?: Sandbox[];
+  sandboxesNotFound?: string[];
 }
 export const BatchGetSandboxesOutput = S.suspend(() =>
   S.Struct({
@@ -3132,8 +3609,8 @@ export const CreateProjectOutput = S.suspend(() =>
 export type BuildBatches = BuildBatch[];
 export const BuildBatches = S.Array(BuildBatch);
 export interface BatchGetBuildBatchesOutput {
-  buildBatches?: BuildBatches;
-  buildBatchesNotFound?: BuildBatchIds;
+  buildBatches?: BuildBatch[];
+  buildBatchesNotFound?: string[];
 }
 export const BatchGetBuildBatchesOutput = S.suspend(() =>
   S.Struct({
@@ -3176,7 +3653,7 @@ export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlread
  */
 export const deleteFleet: (
   input: DeleteFleetInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFleetOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3191,21 +3668,21 @@ export const deleteFleet: (
 export const listBuilds: {
   (
     input: ListBuildsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBuildsOutput,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListBuildsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBuildsOutput,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBuildsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NonEmptyString,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3226,21 +3703,21 @@ export const listBuilds: {
 export const listFleets: {
   (
     input: ListFleetsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFleetsOutput,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListFleetsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFleetsOutput,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFleetsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3262,21 +3739,21 @@ export const listFleets: {
 export const listProjects: {
   (
     input: ListProjectsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProjectsOutput,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListProjectsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProjectsOutput,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProjectsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NonEmptyString,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3297,21 +3774,21 @@ export const listProjects: {
 export const listReportGroups: {
   (
     input: ListReportGroupsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReportGroupsOutput,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListReportGroupsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReportGroupsOutput,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListReportGroupsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NonEmptyString,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3333,21 +3810,21 @@ export const listReportGroups: {
 export const listSandboxes: {
   (
     input: ListSandboxesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSandboxesOutput,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSandboxesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSandboxesOutput,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSandboxesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NonEmptyString,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3369,21 +3846,21 @@ export const listSandboxes: {
 export const listSharedProjects: {
   (
     input: ListSharedProjectsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSharedProjectsOutput,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSharedProjectsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSharedProjectsOutput,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSharedProjectsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NonEmptyString,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3405,21 +3882,21 @@ export const listSharedProjects: {
 export const listSharedReportGroups: {
   (
     input: ListSharedReportGroupsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSharedReportGroupsOutput,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSharedReportGroupsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSharedReportGroupsOutput,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSharedReportGroupsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NonEmptyString,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3440,7 +3917,7 @@ export const listSharedReportGroups: {
  */
 export const listSourceCredentials: (
   input: ListSourceCredentialsInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListSourceCredentialsOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3454,7 +3931,7 @@ export const listSourceCredentials: (
  */
 export const deleteProject: (
   input: DeleteProjectInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProjectOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3468,7 +3945,7 @@ export const deleteProject: (
  */
 export const deleteReport: (
   input: DeleteReportInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteReportOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3482,7 +3959,7 @@ export const deleteReport: (
  */
 export const deleteReportGroup: (
   input: DeleteReportGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteReportGroupOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3496,7 +3973,7 @@ export const deleteReportGroup: (
  */
 export const deleteResourcePolicy: (
   input: DeleteResourcePolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourcePolicyOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3510,7 +3987,7 @@ export const deleteResourcePolicy: (
  */
 export const deleteBuildBatch: (
   input: DeleteBuildBatchInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBuildBatchOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3524,7 +4001,7 @@ export const deleteBuildBatch: (
  */
 export const batchDeleteBuilds: (
   input: BatchDeleteBuildsInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDeleteBuildsOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3538,7 +4015,7 @@ export const batchDeleteBuilds: (
  */
 export const batchGetCommandExecutions: (
   input: BatchGetCommandExecutionsInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetCommandExecutionsOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3552,7 +4029,7 @@ export const batchGetCommandExecutions: (
  */
 export const batchGetReportGroups: (
   input: BatchGetReportGroupsInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetReportGroupsOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3566,7 +4043,7 @@ export const batchGetReportGroups: (
  */
 export const deleteSourceCredentials: (
   input: DeleteSourceCredentialsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSourceCredentialsOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3581,21 +4058,21 @@ export const deleteSourceCredentials: (
 export const describeCodeCoverages: {
   (
     input: DescribeCodeCoveragesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeCodeCoveragesOutput,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeCodeCoveragesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeCodeCoveragesOutput,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeCodeCoveragesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CodeCoverage,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3616,7 +4093,7 @@ export const describeCodeCoverages: {
  */
 export const getReportGroupTrend: (
   input: GetReportGroupTrendInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetReportGroupTrendOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3631,21 +4108,21 @@ export const getReportGroupTrend: (
 export const listBuildBatches: {
   (
     input: ListBuildBatchesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBuildBatchesOutput,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListBuildBatchesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBuildBatchesOutput,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBuildBatchesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NonEmptyString,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3667,21 +4144,21 @@ export const listBuildBatches: {
 export const listReports: {
   (
     input: ListReportsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReportsOutput,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListReportsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReportsOutput,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListReportsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NonEmptyString,
     InvalidInputException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3706,7 +4183,7 @@ export const listReports: {
  */
 export const startBuild: (
   input: StartBuildInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartBuildOutput,
   | AccountLimitExceededException
   | InvalidInputException
@@ -3727,7 +4204,7 @@ export const startBuild: (
  */
 export const startSandbox: (
   input: StartSandboxInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartSandboxOutput,
   | AccountSuspendedException
   | InvalidInputException
@@ -3748,7 +4225,7 @@ export const startSandbox: (
  */
 export const startSandboxConnection: (
   input: StartSandboxConnectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartSandboxConnectionOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3764,7 +4241,7 @@ export const startSandboxConnection: (
  */
 export const deleteWebhook: (
   input: DeleteWebhookInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWebhookOutput,
   | InvalidInputException
   | OAuthProviderException
@@ -3785,7 +4262,7 @@ export const deleteWebhook: (
  */
 export const getResourcePolicy: (
   input: GetResourcePolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourcePolicyOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3800,21 +4277,21 @@ export const getResourcePolicy: (
 export const listBuildBatchesForProject: {
   (
     input: ListBuildBatchesForProjectInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBuildBatchesForProjectOutput,
     InvalidInputException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListBuildBatchesForProjectInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBuildBatchesForProjectOutput,
     InvalidInputException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBuildBatchesForProjectInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NonEmptyString,
     InvalidInputException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3837,21 +4314,21 @@ export const listBuildBatchesForProject: {
 export const listBuildsForProject: {
   (
     input: ListBuildsForProjectInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBuildsForProjectOutput,
     InvalidInputException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListBuildsForProjectInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBuildsForProjectOutput,
     InvalidInputException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBuildsForProjectInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NonEmptyString,
     InvalidInputException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3872,21 +4349,21 @@ export const listBuildsForProject: {
 export const listCommandExecutionsForSandbox: {
   (
     input: ListCommandExecutionsForSandboxInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCommandExecutionsForSandboxOutput,
     InvalidInputException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListCommandExecutionsForSandboxInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCommandExecutionsForSandboxOutput,
     InvalidInputException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCommandExecutionsForSandboxInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CommandExecution,
     InvalidInputException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3908,21 +4385,21 @@ export const listCommandExecutionsForSandbox: {
 export const listReportsForReportGroup: {
   (
     input: ListReportsForReportGroupInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReportsForReportGroupOutput,
     InvalidInputException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListReportsForReportGroupInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReportsForReportGroupOutput,
     InvalidInputException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListReportsForReportGroupInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NonEmptyString,
     InvalidInputException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3944,21 +4421,21 @@ export const listReportsForReportGroup: {
 export const listSandboxesForProject: {
   (
     input: ListSandboxesForProjectInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSandboxesForProjectOutput,
     InvalidInputException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSandboxesForProjectInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSandboxesForProjectOutput,
     InvalidInputException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSandboxesForProjectInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NonEmptyString,
     InvalidInputException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3980,7 +4457,7 @@ export const listSandboxesForProject: {
  */
 export const putResourcePolicy: (
   input: PutResourcePolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourcePolicyOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3994,7 +4471,7 @@ export const putResourcePolicy: (
  */
 export const retryBuildBatch: (
   input: RetryBuildBatchInput,
-) => Effect.Effect<
+) => effect.Effect<
   RetryBuildBatchOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4008,7 +4485,7 @@ export const retryBuildBatch: (
  */
 export const startBuildBatch: (
   input: StartBuildBatchInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartBuildBatchOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4022,7 +4499,7 @@ export const startBuildBatch: (
  */
 export const startCommandExecution: (
   input: StartCommandExecutionInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartCommandExecutionOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4036,7 +4513,7 @@ export const startCommandExecution: (
  */
 export const stopBuild: (
   input: StopBuildInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopBuildOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4050,7 +4527,7 @@ export const stopBuild: (
  */
 export const stopBuildBatch: (
   input: StopBuildBatchInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopBuildBatchOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4064,7 +4541,7 @@ export const stopBuildBatch: (
  */
 export const stopSandbox: (
   input: StopSandboxInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopSandboxOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4078,7 +4555,7 @@ export const stopSandbox: (
  */
 export const updateProject: (
   input: UpdateProjectInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProjectOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4118,7 +4595,7 @@ export const updateProject: (
  */
 export const updateProjectVisibility: (
   input: UpdateProjectVisibilityInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProjectVisibilityOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4132,7 +4609,7 @@ export const updateProjectVisibility: (
  */
 export const updateReportGroup: (
   input: UpdateReportGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateReportGroupOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4146,7 +4623,7 @@ export const updateReportGroup: (
  */
 export const invalidateProjectCache: (
   input: InvalidateProjectCacheInput,
-) => Effect.Effect<
+) => effect.Effect<
   InvalidateProjectCacheOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4160,7 +4637,7 @@ export const invalidateProjectCache: (
  */
 export const retryBuild: (
   input: RetryBuildInput,
-) => Effect.Effect<
+) => effect.Effect<
   RetryBuildOutput,
   | AccountLimitExceededException
   | InvalidInputException
@@ -4181,7 +4658,7 @@ export const retryBuild: (
  */
 export const updateFleet: (
   input: UpdateFleetInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFleetOutput,
   | AccountLimitExceededException
   | InvalidInputException
@@ -4204,7 +4681,7 @@ export const updateFleet: (
  */
 export const updateWebhook: (
   input: UpdateWebhookInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWebhookOutput,
   | InvalidInputException
   | OAuthProviderException
@@ -4225,7 +4702,7 @@ export const updateWebhook: (
  */
 export const batchGetBuilds: (
   input: BatchGetBuildsInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetBuildsOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4239,7 +4716,7 @@ export const batchGetBuilds: (
  */
 export const batchGetFleets: (
   input: BatchGetFleetsInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetFleetsOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4253,7 +4730,7 @@ export const batchGetFleets: (
  */
 export const batchGetProjects: (
   input: BatchGetProjectsInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetProjectsOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4268,21 +4745,21 @@ export const batchGetProjects: (
 export const describeTestCases: {
   (
     input: DescribeTestCasesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeTestCasesOutput,
     InvalidInputException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeTestCasesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeTestCasesOutput,
     InvalidInputException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeTestCasesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TestCase,
     InvalidInputException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -4304,7 +4781,7 @@ export const describeTestCases: {
  */
 export const importSourceCredentials: (
   input: ImportSourceCredentialsInput,
-) => Effect.Effect<
+) => effect.Effect<
   ImportSourceCredentialsOutput,
   | AccountLimitExceededException
   | InvalidInputException
@@ -4325,7 +4802,7 @@ export const importSourceCredentials: (
  */
 export const listCuratedEnvironmentImages: (
   input: ListCuratedEnvironmentImagesInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListCuratedEnvironmentImagesOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4348,7 +4825,7 @@ export const listCuratedEnvironmentImages: (
  */
 export const createWebhook: (
   input: CreateWebhookInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWebhookOutput,
   | InvalidInputException
   | OAuthProviderException
@@ -4371,7 +4848,7 @@ export const createWebhook: (
  */
 export const createFleet: (
   input: CreateFleetInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFleetOutput,
   | AccountLimitExceededException
   | InvalidInputException
@@ -4392,7 +4869,7 @@ export const createFleet: (
  */
 export const createReportGroup: (
   input: CreateReportGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateReportGroupOutput,
   | AccountLimitExceededException
   | InvalidInputException
@@ -4413,7 +4890,7 @@ export const createReportGroup: (
  */
 export const batchGetReports: (
   input: BatchGetReportsInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetReportsOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4427,7 +4904,7 @@ export const batchGetReports: (
  */
 export const batchGetSandboxes: (
   input: BatchGetSandboxesInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetSandboxesOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4441,7 +4918,7 @@ export const batchGetSandboxes: (
  */
 export const createProject: (
   input: CreateProjectInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProjectOutput,
   | AccountLimitExceededException
   | InvalidInputException
@@ -4462,7 +4939,7 @@ export const createProject: (
  */
 export const batchGetBuildBatches: (
   input: BatchGetBuildBatchesInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetBuildBatchesOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

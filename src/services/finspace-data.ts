@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -96,11 +96,11 @@ export type DatasetDescription = string;
 export type AliasString = string;
 export type StringValueLength1to255 = string;
 export type TimestampEpoch = number;
-export type PermissionGroupName = string | Redacted.Redacted<string>;
-export type PermissionGroupDescription = string | Redacted.Redacted<string>;
-export type Email = string | Redacted.Redacted<string>;
-export type FirstName = string | Redacted.Redacted<string>;
-export type LastName = string | Redacted.Redacted<string>;
+export type PermissionGroupName = string | redacted.Redacted<string>;
+export type PermissionGroupDescription = string | redacted.Redacted<string>;
+export type Email = string | redacted.Redacted<string>;
+export type FirstName = string | redacted.Redacted<string>;
+export type LastName = string | redacted.Redacted<string>;
 export type RoleArn = string;
 export type ChangesetId = string;
 export type DataViewId = string;
@@ -119,13 +119,13 @@ export type DatasetArn = string;
 export type DataViewArn = string;
 export type stringValueLength1to1024 = string;
 export type stringValueLength1to63 = string;
-export type Password = string | Redacted.Redacted<string>;
+export type Password = string | redacted.Redacted<string>;
 export type StringValueLength1to250 = string;
 export type ColumnName = string;
 export type ErrorMessage = string;
 export type AccessKeyId = string;
-export type SecretAccessKey = string | Redacted.Redacted<string>;
-export type SessionToken = string | Redacted.Redacted<string>;
+export type SecretAccessKey = string | redacted.Redacted<string>;
+export type SessionToken = string | redacted.Redacted<string>;
 export type S3BucketName = string;
 export type S3Key = string;
 export type StringValueLength1to2552 = string;
@@ -134,12 +134,39 @@ export type ColumnDescription = string;
 export type ErrorMessage2 = string;
 
 //# Schemas
+export type ChangeType = "REPLACE" | "APPEND" | "MODIFY";
+export const ChangeType = S.Literal("REPLACE", "APPEND", "MODIFY");
+export type DatasetKind = "TABULAR" | "NON_TABULAR";
+export const DatasetKind = S.Literal("TABULAR", "NON_TABULAR");
 export type SortColumnList = string[];
 export const SortColumnList = S.Array(S.String);
 export type PartitionColumnList = string[];
 export const PartitionColumnList = S.Array(S.String);
-export type ApplicationPermissionList = string[];
-export const ApplicationPermissionList = S.Array(S.String);
+export type ApplicationPermission =
+  | "CreateDataset"
+  | "ManageClusters"
+  | "ManageUsersAndGroups"
+  | "ManageAttributeSets"
+  | "ViewAuditData"
+  | "AccessNotebooks"
+  | "GetTemporaryCredentials";
+export const ApplicationPermission = S.Literal(
+  "CreateDataset",
+  "ManageClusters",
+  "ManageUsersAndGroups",
+  "ManageAttributeSets",
+  "ViewAuditData",
+  "AccessNotebooks",
+  "GetTemporaryCredentials",
+);
+export type ApplicationPermissionList = ApplicationPermission[];
+export const ApplicationPermissionList = S.Array(ApplicationPermission);
+export type UserType = "SUPER_USER" | "APP_USER";
+export const UserType = S.Literal("SUPER_USER", "APP_USER");
+export type ApiAccess = "ENABLED" | "DISABLED";
+export const ApiAccess = S.Literal("ENABLED", "DISABLED");
+export type locationType = "INGESTION" | "SAGEMAKER";
+export const locationType = S.Literal("INGESTION", "SAGEMAKER");
 export interface AssociateUserToPermissionGroupRequest {
   permissionGroupId: string;
   userId: string;
@@ -167,9 +194,9 @@ export const AssociateUserToPermissionGroupRequest = S.suspend(() =>
   identifier: "AssociateUserToPermissionGroupRequest",
 }) as any as S.Schema<AssociateUserToPermissionGroupRequest>;
 export interface CreatePermissionGroupRequest {
-  name: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
-  applicationPermissions: ApplicationPermissionList;
+  name: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  applicationPermissions: ApplicationPermission[];
   clientToken?: string;
 }
 export const CreatePermissionGroupRequest = S.suspend(() =>
@@ -192,21 +219,21 @@ export const CreatePermissionGroupRequest = S.suspend(() =>
   identifier: "CreatePermissionGroupRequest",
 }) as any as S.Schema<CreatePermissionGroupRequest>;
 export interface CreateUserRequest {
-  emailAddress: string | Redacted.Redacted<string>;
-  type: string;
-  firstName?: string | Redacted.Redacted<string>;
-  lastName?: string | Redacted.Redacted<string>;
-  apiAccess?: string;
+  emailAddress: string | redacted.Redacted<string>;
+  type: UserType;
+  firstName?: string | redacted.Redacted<string>;
+  lastName?: string | redacted.Redacted<string>;
+  apiAccess?: ApiAccess;
   apiAccessPrincipalArn?: string;
   clientToken?: string;
 }
 export const CreateUserRequest = S.suspend(() =>
   S.Struct({
     emailAddress: SensitiveString,
-    type: S.String,
+    type: UserType,
     firstName: S.optional(SensitiveString),
     lastName: S.optional(SensitiveString),
-    apiAccess: S.optional(S.String),
+    apiAccess: S.optional(ApiAccess),
     apiAccessPrincipalArn: S.optional(S.String),
     clientToken: S.optional(S.String),
   }).pipe(
@@ -484,10 +511,10 @@ export const GetUserRequest = S.suspend(() =>
   identifier: "GetUserRequest",
 }) as any as S.Schema<GetUserRequest>;
 export interface GetWorkingLocationRequest {
-  locationType?: string;
+  locationType?: locationType;
 }
 export const GetWorkingLocationRequest = S.suspend(() =>
-  S.Struct({ locationType: S.optional(S.String) }).pipe(
+  S.Struct({ locationType: S.optional(locationType) }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/workingLocationV1" }),
       svc,
@@ -687,8 +714,8 @@ export interface UpdateChangesetRequest {
   clientToken?: string;
   datasetId: string;
   changesetId: string;
-  sourceParams: SourceParams;
-  formatParams: FormatParams;
+  sourceParams: { [key: string]: string };
+  formatParams: { [key: string]: string };
 }
 export const UpdateChangesetRequest = S.suspend(() =>
   S.Struct({
@@ -713,14 +740,41 @@ export const UpdateChangesetRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateChangesetRequest",
 }) as any as S.Schema<UpdateChangesetRequest>;
+export type ColumnDataType =
+  | "STRING"
+  | "CHAR"
+  | "INTEGER"
+  | "TINYINT"
+  | "SMALLINT"
+  | "BIGINT"
+  | "FLOAT"
+  | "DOUBLE"
+  | "DATE"
+  | "DATETIME"
+  | "BOOLEAN"
+  | "BINARY";
+export const ColumnDataType = S.Literal(
+  "STRING",
+  "CHAR",
+  "INTEGER",
+  "TINYINT",
+  "SMALLINT",
+  "BIGINT",
+  "FLOAT",
+  "DOUBLE",
+  "DATE",
+  "DATETIME",
+  "BOOLEAN",
+  "BINARY",
+);
 export interface ColumnDefinition {
-  dataType?: string;
+  dataType?: ColumnDataType;
   columnName?: string;
   columnDescription?: string;
 }
 export const ColumnDefinition = S.suspend(() =>
   S.Struct({
-    dataType: S.optional(S.String),
+    dataType: S.optional(ColumnDataType),
     columnName: S.optional(S.String),
     columnDescription: S.optional(S.String),
   }),
@@ -732,8 +786,8 @@ export const ColumnList = S.Array(ColumnDefinition);
 export type ColumnNameList = string[];
 export const ColumnNameList = S.Array(S.String);
 export interface SchemaDefinition {
-  columns?: ColumnList;
-  primaryKeyColumns?: ColumnNameList;
+  columns?: ColumnDefinition[];
+  primaryKeyColumns?: string[];
 }
 export const SchemaDefinition = S.suspend(() =>
   S.Struct({
@@ -753,7 +807,7 @@ export interface UpdateDatasetRequest {
   clientToken?: string;
   datasetId: string;
   datasetTitle: string;
-  kind: string;
+  kind: DatasetKind;
   datasetDescription?: string;
   alias?: string;
   schemaDefinition?: SchemaUnion;
@@ -763,7 +817,7 @@ export const UpdateDatasetRequest = S.suspend(() =>
     clientToken: S.optional(S.String),
     datasetId: S.String.pipe(T.HttpLabel("datasetId")),
     datasetTitle: S.String,
-    kind: S.String,
+    kind: DatasetKind,
     datasetDescription: S.optional(S.String),
     alias: S.optional(S.String),
     schemaDefinition: S.optional(SchemaUnion),
@@ -782,9 +836,9 @@ export const UpdateDatasetRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateDatasetRequest>;
 export interface UpdatePermissionGroupRequest {
   permissionGroupId: string;
-  name?: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
-  applicationPermissions?: ApplicationPermissionList;
+  name?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  applicationPermissions?: ApplicationPermission[];
   clientToken?: string;
 }
 export const UpdatePermissionGroupRequest = S.suspend(() =>
@@ -809,20 +863,20 @@ export const UpdatePermissionGroupRequest = S.suspend(() =>
 }) as any as S.Schema<UpdatePermissionGroupRequest>;
 export interface UpdateUserRequest {
   userId: string;
-  type?: string;
-  firstName?: string | Redacted.Redacted<string>;
-  lastName?: string | Redacted.Redacted<string>;
-  apiAccess?: string;
+  type?: UserType;
+  firstName?: string | redacted.Redacted<string>;
+  lastName?: string | redacted.Redacted<string>;
+  apiAccess?: ApiAccess;
   apiAccessPrincipalArn?: string;
   clientToken?: string;
 }
 export const UpdateUserRequest = S.suspend(() =>
   S.Struct({
     userId: S.String.pipe(T.HttpLabel("userId")),
-    type: S.optional(S.String),
+    type: S.optional(UserType),
     firstName: S.optional(SensitiveString),
     lastName: S.optional(SensitiveString),
-    apiAccess: S.optional(S.String),
+    apiAccess: S.optional(ApiAccess),
     apiAccessPrincipalArn: S.optional(S.String),
     clientToken: S.optional(S.String),
   }).pipe(
@@ -838,10 +892,12 @@ export const UpdateUserRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateUserRequest",
 }) as any as S.Schema<UpdateUserRequest>;
+export type ExportFileFormat = "PARQUET" | "DELIMITED_TEXT";
+export const ExportFileFormat = S.Literal("PARQUET", "DELIMITED_TEXT");
 export interface DatasetOwnerInfo {
   name?: string;
   phoneNumber?: string;
-  email?: string | Redacted.Redacted<string>;
+  email?: string | redacted.Redacted<string>;
 }
 export const DatasetOwnerInfo = S.suspend(() =>
   S.Struct({
@@ -852,14 +908,64 @@ export const DatasetOwnerInfo = S.suspend(() =>
 ).annotations({
   identifier: "DatasetOwnerInfo",
 }) as any as S.Schema<DatasetOwnerInfo>;
+export type IngestionStatus =
+  | "PENDING"
+  | "FAILED"
+  | "SUCCESS"
+  | "RUNNING"
+  | "STOP_REQUESTED";
+export const IngestionStatus = S.Literal(
+  "PENDING",
+  "FAILED",
+  "SUCCESS",
+  "RUNNING",
+  "STOP_REQUESTED",
+);
+export type DatasetStatus = "PENDING" | "FAILED" | "SUCCESS" | "RUNNING";
+export const DatasetStatus = S.Literal(
+  "PENDING",
+  "FAILED",
+  "SUCCESS",
+  "RUNNING",
+);
+export type DataViewStatus =
+  | "RUNNING"
+  | "STARTING"
+  | "FAILED"
+  | "CANCELLED"
+  | "TIMEOUT"
+  | "SUCCESS"
+  | "PENDING"
+  | "FAILED_CLEANUP_FAILED";
+export const DataViewStatus = S.Literal(
+  "RUNNING",
+  "STARTING",
+  "FAILED",
+  "CANCELLED",
+  "TIMEOUT",
+  "SUCCESS",
+  "PENDING",
+  "FAILED_CLEANUP_FAILED",
+);
+export type UserStatus = "CREATING" | "ENABLED" | "DISABLED";
+export const UserStatus = S.Literal("CREATING", "ENABLED", "DISABLED");
+export type PermissionGroupMembershipStatus =
+  | "ADDITION_IN_PROGRESS"
+  | "ADDITION_SUCCESS"
+  | "REMOVAL_IN_PROGRESS";
+export const PermissionGroupMembershipStatus = S.Literal(
+  "ADDITION_IN_PROGRESS",
+  "ADDITION_SUCCESS",
+  "REMOVAL_IN_PROGRESS",
+);
 export interface PermissionGroup {
   permissionGroupId?: string;
-  name?: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
-  applicationPermissions?: ApplicationPermissionList;
+  name?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  applicationPermissions?: ApplicationPermission[];
   createTime?: number;
   lastModifiedTime?: number;
-  membershipStatus?: string;
+  membershipStatus?: PermissionGroupMembershipStatus;
 }
 export const PermissionGroup = S.suspend(() =>
   S.Struct({
@@ -869,7 +975,7 @@ export const PermissionGroup = S.suspend(() =>
     applicationPermissions: S.optional(ApplicationPermissionList),
     createTime: S.optional(S.Number),
     lastModifiedTime: S.optional(S.Number),
-    membershipStatus: S.optional(S.String),
+    membershipStatus: S.optional(PermissionGroupMembershipStatus),
   }),
 ).annotations({
   identifier: "PermissionGroup",
@@ -887,15 +993,15 @@ export const AssociateUserToPermissionGroupResponse = S.suspend(() =>
 export interface CreateChangesetRequest {
   clientToken?: string;
   datasetId: string;
-  changeType: string;
-  sourceParams: SourceParams;
-  formatParams: FormatParams;
+  changeType: ChangeType;
+  sourceParams: { [key: string]: string };
+  formatParams: { [key: string]: string };
 }
 export const CreateChangesetRequest = S.suspend(() =>
   S.Struct({
     clientToken: S.optional(S.String),
     datasetId: S.String.pipe(T.HttpLabel("datasetId")),
-    changeType: S.String,
+    changeType: ChangeType,
     sourceParams: SourceParams,
     formatParams: FormatParams,
   }).pipe(
@@ -971,38 +1077,38 @@ export interface GetDatasetResponse {
   datasetId?: string;
   datasetArn?: string;
   datasetTitle?: string;
-  kind?: string;
+  kind?: DatasetKind;
   datasetDescription?: string;
   createTime?: number;
   lastModifiedTime?: number;
   schemaDefinition?: SchemaUnion;
   alias?: string;
-  status?: string;
+  status?: DatasetStatus;
 }
 export const GetDatasetResponse = S.suspend(() =>
   S.Struct({
     datasetId: S.optional(S.String),
     datasetArn: S.optional(S.String),
     datasetTitle: S.optional(S.String),
-    kind: S.optional(S.String),
+    kind: S.optional(DatasetKind),
     datasetDescription: S.optional(S.String),
     createTime: S.optional(S.Number),
     lastModifiedTime: S.optional(S.Number),
     schemaDefinition: S.optional(SchemaUnion),
     alias: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(DatasetStatus),
   }),
 ).annotations({
   identifier: "GetDatasetResponse",
 }) as any as S.Schema<GetDatasetResponse>;
 export interface GetUserResponse {
   userId?: string;
-  status?: string;
-  firstName?: string | Redacted.Redacted<string>;
-  lastName?: string | Redacted.Redacted<string>;
-  emailAddress?: string | Redacted.Redacted<string>;
-  type?: string;
-  apiAccess?: string;
+  status?: UserStatus;
+  firstName?: string | redacted.Redacted<string>;
+  lastName?: string | redacted.Redacted<string>;
+  emailAddress?: string | redacted.Redacted<string>;
+  type?: UserType;
+  apiAccess?: ApiAccess;
   apiAccessPrincipalArn?: string;
   createTime?: number;
   lastEnabledTime?: number;
@@ -1013,12 +1119,12 @@ export interface GetUserResponse {
 export const GetUserResponse = S.suspend(() =>
   S.Struct({
     userId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(UserStatus),
     firstName: S.optional(SensitiveString),
     lastName: S.optional(SensitiveString),
     emailAddress: S.optional(SensitiveString),
-    type: S.optional(S.String),
-    apiAccess: S.optional(S.String),
+    type: S.optional(UserType),
+    apiAccess: S.optional(ApiAccess),
     apiAccessPrincipalArn: S.optional(S.String),
     createTime: S.optional(S.Number),
     lastEnabledTime: S.optional(S.Number),
@@ -1044,7 +1150,7 @@ export const GetWorkingLocationResponse = S.suspend(() =>
   identifier: "GetWorkingLocationResponse",
 }) as any as S.Schema<GetWorkingLocationResponse>;
 export interface ListPermissionGroupsResponse {
-  permissionGroups?: PermissionGroupList;
+  permissionGroups?: PermissionGroup[];
   nextToken?: string;
 }
 export const ListPermissionGroupsResponse = S.suspend(() =>
@@ -1057,7 +1163,7 @@ export const ListPermissionGroupsResponse = S.suspend(() =>
 }) as any as S.Schema<ListPermissionGroupsResponse>;
 export interface ResetUserPasswordResponse {
   userId?: string;
-  temporaryPassword?: string | Redacted.Redacted<string>;
+  temporaryPassword?: string | redacted.Redacted<string>;
 }
 export const ResetUserPasswordResponse = S.suspend(() =>
   S.Struct({
@@ -1118,9 +1224,28 @@ export const S3DestinationFormatOptions = S.Record({
   key: S.String,
   value: S.String,
 });
+export type ErrorCategory =
+  | "VALIDATION"
+  | "SERVICE_QUOTA_EXCEEDED"
+  | "ACCESS_DENIED"
+  | "RESOURCE_NOT_FOUND"
+  | "THROTTLING"
+  | "INTERNAL_SERVICE_EXCEPTION"
+  | "CANCELLED"
+  | "USER_RECOVERABLE";
+export const ErrorCategory = S.Literal(
+  "VALIDATION",
+  "SERVICE_QUOTA_EXCEEDED",
+  "ACCESS_DENIED",
+  "RESOURCE_NOT_FOUND",
+  "THROTTLING",
+  "INTERNAL_SERVICE_EXCEPTION",
+  "CANCELLED",
+  "USER_RECOVERABLE",
+);
 export interface PermissionGroupParams {
   permissionGroupId?: string;
-  datasetPermissions?: ResourcePermissionsList;
+  datasetPermissions?: ResourcePermission[];
 }
 export const PermissionGroupParams = S.suspend(() =>
   S.Struct({
@@ -1132,13 +1257,13 @@ export const PermissionGroupParams = S.suspend(() =>
 }) as any as S.Schema<PermissionGroupParams>;
 export interface DataViewDestinationTypeParams {
   destinationType: string;
-  s3DestinationExportFileFormat?: string;
-  s3DestinationExportFileFormatOptions?: S3DestinationFormatOptions;
+  s3DestinationExportFileFormat?: ExportFileFormat;
+  s3DestinationExportFileFormatOptions?: { [key: string]: string };
 }
 export const DataViewDestinationTypeParams = S.suspend(() =>
   S.Struct({
     destinationType: S.String,
-    s3DestinationExportFileFormat: S.optional(S.String),
+    s3DestinationExportFileFormat: S.optional(ExportFileFormat),
     s3DestinationExportFileFormatOptions: S.optional(
       S3DestinationFormatOptions,
     ),
@@ -1148,32 +1273,32 @@ export const DataViewDestinationTypeParams = S.suspend(() =>
 }) as any as S.Schema<DataViewDestinationTypeParams>;
 export interface ChangesetErrorInfo {
   errorMessage?: string;
-  errorCategory?: string;
+  errorCategory?: ErrorCategory;
 }
 export const ChangesetErrorInfo = S.suspend(() =>
   S.Struct({
     errorMessage: S.optional(S.String),
-    errorCategory: S.optional(S.String),
+    errorCategory: S.optional(ErrorCategory),
   }),
 ).annotations({
   identifier: "ChangesetErrorInfo",
 }) as any as S.Schema<ChangesetErrorInfo>;
 export interface DataViewErrorInfo {
   errorMessage?: string;
-  errorCategory?: string;
+  errorCategory?: ErrorCategory;
 }
 export const DataViewErrorInfo = S.suspend(() =>
   S.Struct({
     errorMessage: S.optional(S.String),
-    errorCategory: S.optional(S.String),
+    errorCategory: S.optional(ErrorCategory),
   }),
 ).annotations({
   identifier: "DataViewErrorInfo",
 }) as any as S.Schema<DataViewErrorInfo>;
 export interface AwsCredentials {
   accessKeyId?: string;
-  secretAccessKey?: string | Redacted.Redacted<string>;
-  sessionToken?: string | Redacted.Redacted<string>;
+  secretAccessKey?: string | redacted.Redacted<string>;
+  sessionToken?: string | redacted.Redacted<string>;
   expiration?: number;
 }
 export const AwsCredentials = S.suspend(() =>
@@ -1209,11 +1334,11 @@ export interface ChangesetSummary {
   changesetId?: string;
   changesetArn?: string;
   datasetId?: string;
-  changeType?: string;
-  sourceParams?: SourceParams;
-  formatParams?: FormatParams;
+  changeType?: ChangeType;
+  sourceParams?: { [key: string]: string };
+  formatParams?: { [key: string]: string };
   createTime?: number;
-  status?: string;
+  status?: IngestionStatus;
   errorInfo?: ChangesetErrorInfo;
   activeUntilTimestamp?: number;
   activeFromTimestamp?: number;
@@ -1225,11 +1350,11 @@ export const ChangesetSummary = S.suspend(() =>
     changesetId: S.optional(S.String),
     changesetArn: S.optional(S.String),
     datasetId: S.optional(S.String),
-    changeType: S.optional(S.String),
+    changeType: S.optional(ChangeType),
     sourceParams: S.optional(SourceParams),
     formatParams: S.optional(FormatParams),
     createTime: S.optional(S.Number),
-    status: S.optional(S.String),
+    status: S.optional(IngestionStatus),
     errorInfo: S.optional(ChangesetErrorInfo),
     activeUntilTimestamp: S.optional(S.Number),
     activeFromTimestamp: S.optional(S.Number),
@@ -1245,7 +1370,7 @@ export interface Dataset {
   datasetId?: string;
   datasetArn?: string;
   datasetTitle?: string;
-  kind?: string;
+  kind?: DatasetKind;
   datasetDescription?: string;
   ownerInfo?: DatasetOwnerInfo;
   createTime?: number;
@@ -1258,7 +1383,7 @@ export const Dataset = S.suspend(() =>
     datasetId: S.optional(S.String),
     datasetArn: S.optional(S.String),
     datasetTitle: S.optional(S.String),
-    kind: S.optional(S.String),
+    kind: S.optional(DatasetKind),
     datasetDescription: S.optional(S.String),
     ownerInfo: S.optional(DatasetOwnerInfo),
     createTime: S.optional(S.Number),
@@ -1274,9 +1399,9 @@ export interface DataViewSummary {
   dataViewArn?: string;
   datasetId?: string;
   asOfTimestamp?: number;
-  partitionColumns?: PartitionColumnList;
-  sortColumns?: SortColumnList;
-  status?: string;
+  partitionColumns?: string[];
+  sortColumns?: string[];
+  status?: DataViewStatus;
   errorInfo?: DataViewErrorInfo;
   destinationTypeProperties?: DataViewDestinationTypeParams;
   autoUpdate?: boolean;
@@ -1291,7 +1416,7 @@ export const DataViewSummary = S.suspend(() =>
     asOfTimestamp: S.optional(S.Number),
     partitionColumns: S.optional(PartitionColumnList),
     sortColumns: S.optional(SortColumnList),
-    status: S.optional(S.String),
+    status: S.optional(DataViewStatus),
     errorInfo: S.optional(DataViewErrorInfo),
     destinationTypeProperties: S.optional(DataViewDestinationTypeParams),
     autoUpdate: S.optional(S.Boolean),
@@ -1305,14 +1430,14 @@ export type DataViewList = DataViewSummary[];
 export const DataViewList = S.Array(DataViewSummary);
 export interface PermissionGroupByUser {
   permissionGroupId?: string;
-  name?: string | Redacted.Redacted<string>;
-  membershipStatus?: string;
+  name?: string | redacted.Redacted<string>;
+  membershipStatus?: PermissionGroupMembershipStatus;
 }
 export const PermissionGroupByUser = S.suspend(() =>
   S.Struct({
     permissionGroupId: S.optional(S.String),
     name: S.optional(SensitiveString),
-    membershipStatus: S.optional(S.String),
+    membershipStatus: S.optional(PermissionGroupMembershipStatus),
   }),
 ).annotations({
   identifier: "PermissionGroupByUser",
@@ -1321,12 +1446,12 @@ export type PermissionGroupByUserList = PermissionGroupByUser[];
 export const PermissionGroupByUserList = S.Array(PermissionGroupByUser);
 export interface User {
   userId?: string;
-  status?: string;
-  firstName?: string | Redacted.Redacted<string>;
-  lastName?: string | Redacted.Redacted<string>;
-  emailAddress?: string | Redacted.Redacted<string>;
-  type?: string;
-  apiAccess?: string;
+  status?: UserStatus;
+  firstName?: string | redacted.Redacted<string>;
+  lastName?: string | redacted.Redacted<string>;
+  emailAddress?: string | redacted.Redacted<string>;
+  type?: UserType;
+  apiAccess?: ApiAccess;
   apiAccessPrincipalArn?: string;
   createTime?: number;
   lastEnabledTime?: number;
@@ -1337,12 +1462,12 @@ export interface User {
 export const User = S.suspend(() =>
   S.Struct({
     userId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(UserStatus),
     firstName: S.optional(SensitiveString),
     lastName: S.optional(SensitiveString),
     emailAddress: S.optional(SensitiveString),
-    type: S.optional(S.String),
-    apiAccess: S.optional(S.String),
+    type: S.optional(UserType),
+    apiAccess: S.optional(ApiAccess),
     apiAccessPrincipalArn: S.optional(S.String),
     createTime: S.optional(S.Number),
     lastEnabledTime: S.optional(S.Number),
@@ -1355,26 +1480,26 @@ export type UserList = User[];
 export const UserList = S.Array(User);
 export interface UserByPermissionGroup {
   userId?: string;
-  status?: string;
-  firstName?: string | Redacted.Redacted<string>;
-  lastName?: string | Redacted.Redacted<string>;
-  emailAddress?: string | Redacted.Redacted<string>;
-  type?: string;
-  apiAccess?: string;
+  status?: UserStatus;
+  firstName?: string | redacted.Redacted<string>;
+  lastName?: string | redacted.Redacted<string>;
+  emailAddress?: string | redacted.Redacted<string>;
+  type?: UserType;
+  apiAccess?: ApiAccess;
   apiAccessPrincipalArn?: string;
-  membershipStatus?: string;
+  membershipStatus?: PermissionGroupMembershipStatus;
 }
 export const UserByPermissionGroup = S.suspend(() =>
   S.Struct({
     userId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(UserStatus),
     firstName: S.optional(SensitiveString),
     lastName: S.optional(SensitiveString),
     emailAddress: S.optional(SensitiveString),
-    type: S.optional(S.String),
-    apiAccess: S.optional(S.String),
+    type: S.optional(UserType),
+    apiAccess: S.optional(ApiAccess),
     apiAccessPrincipalArn: S.optional(S.String),
-    membershipStatus: S.optional(S.String),
+    membershipStatus: S.optional(PermissionGroupMembershipStatus),
   }),
 ).annotations({
   identifier: "UserByPermissionGroup",
@@ -1397,8 +1522,8 @@ export interface CreateDataViewRequest {
   clientToken?: string;
   datasetId: string;
   autoUpdate?: boolean;
-  sortColumns?: SortColumnList;
-  partitionColumns?: PartitionColumnList;
+  sortColumns?: string[];
+  partitionColumns?: string[];
   asOfTimestamp?: number;
   destinationTypeParams: DataViewDestinationTypeParams;
 }
@@ -1428,11 +1553,11 @@ export interface GetChangesetResponse {
   changesetId?: string;
   changesetArn?: string;
   datasetId?: string;
-  changeType?: string;
-  sourceParams?: SourceParams;
-  formatParams?: FormatParams;
+  changeType?: ChangeType;
+  sourceParams?: { [key: string]: string };
+  formatParams?: { [key: string]: string };
   createTime?: number;
-  status?: string;
+  status?: IngestionStatus;
   errorInfo?: ChangesetErrorInfo;
   activeUntilTimestamp?: number;
   activeFromTimestamp?: number;
@@ -1444,11 +1569,11 @@ export const GetChangesetResponse = S.suspend(() =>
     changesetId: S.optional(S.String),
     changesetArn: S.optional(S.String),
     datasetId: S.optional(S.String),
-    changeType: S.optional(S.String),
+    changeType: S.optional(ChangeType),
     sourceParams: S.optional(SourceParams),
     formatParams: S.optional(FormatParams),
     createTime: S.optional(S.Number),
-    status: S.optional(S.String),
+    status: S.optional(IngestionStatus),
     errorInfo: S.optional(ChangesetErrorInfo),
     activeUntilTimestamp: S.optional(S.Number),
     activeFromTimestamp: S.optional(S.Number),
@@ -1460,17 +1585,17 @@ export const GetChangesetResponse = S.suspend(() =>
 }) as any as S.Schema<GetChangesetResponse>;
 export interface GetDataViewResponse {
   autoUpdate?: boolean;
-  partitionColumns?: PartitionColumnList;
+  partitionColumns?: string[];
   datasetId?: string;
   asOfTimestamp?: number;
   errorInfo?: DataViewErrorInfo;
   lastModifiedTime?: number;
   createTime?: number;
-  sortColumns?: SortColumnList;
+  sortColumns?: string[];
   dataViewId?: string;
   dataViewArn?: string;
   destinationTypeParams?: DataViewDestinationTypeParams;
-  status?: string;
+  status?: DataViewStatus;
 }
 export const GetDataViewResponse = S.suspend(() =>
   S.Struct({
@@ -1485,7 +1610,7 @@ export const GetDataViewResponse = S.suspend(() =>
     dataViewId: S.optional(S.String),
     dataViewArn: S.optional(S.String),
     destinationTypeParams: S.optional(DataViewDestinationTypeParams),
-    status: S.optional(S.String),
+    status: S.optional(DataViewStatus),
   }),
 ).annotations({
   identifier: "GetDataViewResponse",
@@ -1523,7 +1648,7 @@ export const GetProgrammaticAccessCredentialsResponse = S.suspend(() =>
   identifier: "GetProgrammaticAccessCredentialsResponse",
 }) as any as S.Schema<GetProgrammaticAccessCredentialsResponse>;
 export interface ListChangesetsResponse {
-  changesets?: ChangesetList;
+  changesets?: ChangesetSummary[];
   nextToken?: string;
 }
 export const ListChangesetsResponse = S.suspend(() =>
@@ -1535,7 +1660,7 @@ export const ListChangesetsResponse = S.suspend(() =>
   identifier: "ListChangesetsResponse",
 }) as any as S.Schema<ListChangesetsResponse>;
 export interface ListDatasetsResponse {
-  datasets?: DatasetList;
+  datasets?: Dataset[];
   nextToken?: string;
 }
 export const ListDatasetsResponse = S.suspend(() =>
@@ -1548,7 +1673,7 @@ export const ListDatasetsResponse = S.suspend(() =>
 }) as any as S.Schema<ListDatasetsResponse>;
 export interface ListDataViewsResponse {
   nextToken?: string;
-  dataViews?: DataViewList;
+  dataViews?: DataViewSummary[];
 }
 export const ListDataViewsResponse = S.suspend(() =>
   S.Struct({
@@ -1559,7 +1684,7 @@ export const ListDataViewsResponse = S.suspend(() =>
   identifier: "ListDataViewsResponse",
 }) as any as S.Schema<ListDataViewsResponse>;
 export interface ListPermissionGroupsByUserResponse {
-  permissionGroups?: PermissionGroupByUserList;
+  permissionGroups?: PermissionGroupByUser[];
   nextToken?: string;
 }
 export const ListPermissionGroupsByUserResponse = S.suspend(() =>
@@ -1571,7 +1696,7 @@ export const ListPermissionGroupsByUserResponse = S.suspend(() =>
   identifier: "ListPermissionGroupsByUserResponse",
 }) as any as S.Schema<ListPermissionGroupsByUserResponse>;
 export interface ListUsersResponse {
-  users?: UserList;
+  users?: User[];
   nextToken?: string;
 }
 export const ListUsersResponse = S.suspend(() =>
@@ -1580,7 +1705,7 @@ export const ListUsersResponse = S.suspend(() =>
   identifier: "ListUsersResponse",
 }) as any as S.Schema<ListUsersResponse>;
 export interface ListUsersByPermissionGroupResponse {
-  users?: UserByPermissionGroupList;
+  users?: UserByPermissionGroup[];
   nextToken?: string;
 }
 export const ListUsersByPermissionGroupResponse = S.suspend(() =>
@@ -1594,7 +1719,7 @@ export const ListUsersByPermissionGroupResponse = S.suspend(() =>
 export interface CreateDatasetRequest {
   clientToken?: string;
   datasetTitle: string;
-  kind: string;
+  kind: DatasetKind;
   datasetDescription?: string;
   ownerInfo?: DatasetOwnerInfo;
   permissionGroupParams: PermissionGroupParams;
@@ -1605,7 +1730,7 @@ export const CreateDatasetRequest = S.suspend(() =>
   S.Struct({
     clientToken: S.optional(S.String),
     datasetTitle: S.String,
-    kind: S.String,
+    kind: DatasetKind,
     datasetDescription: S.optional(S.String),
     ownerInfo: S.optional(DatasetOwnerInfo),
     permissionGroupParams: PermissionGroupParams,
@@ -1681,7 +1806,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const getProgrammaticAccessCredentials: (
   input: GetProgrammaticAccessCredentialsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetProgrammaticAccessCredentialsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1704,7 +1829,7 @@ export const getProgrammaticAccessCredentials: (
  */
 export const getChangeset: (
   input: GetChangesetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetChangesetResponse,
   | AccessDeniedException
   | ConflictException
@@ -1731,7 +1856,7 @@ export const getChangeset: (
  */
 export const getDataView: (
   input: GetDataViewRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataViewResponse,
   | ConflictException
   | InternalServerException
@@ -1757,7 +1882,7 @@ export const getDataView: (
 export const listChangesets: {
   (
     input: ListChangesetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListChangesetsResponse,
     | AccessDeniedException
     | ConflictException
@@ -1770,7 +1895,7 @@ export const listChangesets: {
   >;
   pages: (
     input: ListChangesetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListChangesetsResponse,
     | AccessDeniedException
     | ConflictException
@@ -1783,7 +1908,7 @@ export const listChangesets: {
   >;
   items: (
     input: ListChangesetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ChangesetSummary,
     | AccessDeniedException
     | ConflictException
@@ -1818,7 +1943,7 @@ export const listChangesets: {
 export const listDatasets: {
   (
     input: ListDatasetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDatasetsResponse,
     | ConflictException
     | InternalServerException
@@ -1830,7 +1955,7 @@ export const listDatasets: {
   >;
   pages: (
     input: ListDatasetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDatasetsResponse,
     | ConflictException
     | InternalServerException
@@ -1842,7 +1967,7 @@ export const listDatasets: {
   >;
   items: (
     input: ListDatasetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Dataset,
     | ConflictException
     | InternalServerException
@@ -1875,7 +2000,7 @@ export const listDatasets: {
 export const listDataViews: {
   (
     input: ListDataViewsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataViewsResponse,
     | ConflictException
     | InternalServerException
@@ -1887,7 +2012,7 @@ export const listDataViews: {
   >;
   pages: (
     input: ListDataViewsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataViewsResponse,
     | ConflictException
     | InternalServerException
@@ -1899,7 +2024,7 @@ export const listDataViews: {
   >;
   items: (
     input: ListDataViewsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataViewSummary,
     | ConflictException
     | InternalServerException
@@ -1931,7 +2056,7 @@ export const listDataViews: {
  */
 export const disableUser: (
   input: DisableUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisableUserResponse,
   | AccessDeniedException
   | ConflictException
@@ -1958,7 +2083,7 @@ export const disableUser: (
  */
 export const disassociateUserFromPermissionGroup: (
   input: DisassociateUserFromPermissionGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateUserFromPermissionGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -1985,7 +2110,7 @@ export const disassociateUserFromPermissionGroup: (
  */
 export const getDataset: (
   input: GetDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDatasetResponse,
   | AccessDeniedException
   | ConflictException
@@ -2012,7 +2137,7 @@ export const getDataset: (
  */
 export const resetUserPassword: (
   input: ResetUserPasswordRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResetUserPasswordResponse,
   | AccessDeniedException
   | ConflictException
@@ -2039,7 +2164,7 @@ export const resetUserPassword: (
  */
 export const updateChangeset: (
   input: UpdateChangesetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateChangesetResponse,
   | AccessDeniedException
   | ConflictException
@@ -2066,7 +2191,7 @@ export const updateChangeset: (
  */
 export const updateDataset: (
   input: UpdateDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDatasetResponse,
   | AccessDeniedException
   | ConflictException
@@ -2093,7 +2218,7 @@ export const updateDataset: (
  */
 export const updatePermissionGroup: (
   input: UpdatePermissionGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePermissionGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -2120,7 +2245,7 @@ export const updatePermissionGroup: (
  */
 export const updateUser: (
   input: UpdateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserResponse,
   | AccessDeniedException
   | ConflictException
@@ -2147,7 +2272,7 @@ export const updateUser: (
  */
 export const getPermissionGroup: (
   input: GetPermissionGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPermissionGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2172,7 +2297,7 @@ export const getPermissionGroup: (
  */
 export const listPermissionGroupsByUser: (
   input: ListPermissionGroupsByUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListPermissionGroupsByUserResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2197,7 +2322,7 @@ export const listPermissionGroupsByUser: (
  */
 export const listUsersByPermissionGroup: (
   input: ListUsersByPermissionGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListUsersByPermissionGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2222,7 +2347,7 @@ export const listUsersByPermissionGroup: (
  */
 export const getUser: (
   input: GetUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUserResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2247,7 +2372,7 @@ export const getUser: (
  */
 export const associateUserToPermissionGroup: (
   input: AssociateUserToPermissionGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateUserToPermissionGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -2274,7 +2399,7 @@ export const associateUserToPermissionGroup: (
  */
 export const createPermissionGroup: (
   input: CreatePermissionGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePermissionGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -2301,7 +2426,7 @@ export const createPermissionGroup: (
  */
 export const createUser: (
   input: CreateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUserResponse,
   | AccessDeniedException
   | ConflictException
@@ -2328,7 +2453,7 @@ export const createUser: (
  */
 export const deleteDataset: (
   input: DeleteDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDatasetResponse,
   | AccessDeniedException
   | ConflictException
@@ -2357,7 +2482,7 @@ export const deleteDataset: (
  */
 export const deletePermissionGroup: (
   input: DeletePermissionGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePermissionGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -2386,7 +2511,7 @@ export const deletePermissionGroup: (
  */
 export const enableUser: (
   input: EnableUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableUserResponse,
   | AccessDeniedException
   | ConflictException
@@ -2415,7 +2540,7 @@ export const enableUser: (
  */
 export const createDataView: (
   input: CreateDataViewRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataViewResponse,
   | ConflictException
   | InternalServerException
@@ -2442,7 +2567,7 @@ export const createDataView: (
  */
 export const createDataset: (
   input: CreateDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDatasetResponse,
   | AccessDeniedException
   | ConflictException
@@ -2472,7 +2597,7 @@ export const createDataset: (
 export const listUsers: {
   (
     input: ListUsersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUsersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2483,7 +2608,7 @@ export const listUsers: {
   >;
   pages: (
     input: ListUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUsersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2494,7 +2619,7 @@ export const listUsers: {
   >;
   items: (
     input: ListUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     User,
     | AccessDeniedException
     | InternalServerException
@@ -2525,7 +2650,7 @@ export const listUsers: {
  */
 export const getWorkingLocation: (
   input: GetWorkingLocationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkingLocationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2549,7 +2674,7 @@ export const getWorkingLocation: (
 export const listPermissionGroups: {
   (
     input: ListPermissionGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPermissionGroupsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2560,7 +2685,7 @@ export const listPermissionGroups: {
   >;
   pages: (
     input: ListPermissionGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPermissionGroupsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2571,7 +2696,7 @@ export const listPermissionGroups: {
   >;
   items: (
     input: ListPermissionGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PermissionGroup,
     | AccessDeniedException
     | InternalServerException
@@ -2605,7 +2730,7 @@ export const listPermissionGroups: {
  */
 export const getExternalDataViewAccessDetails: (
   input: GetExternalDataViewAccessDetailsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetExternalDataViewAccessDetailsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2630,7 +2755,7 @@ export const getExternalDataViewAccessDetails: (
  */
 export const createChangeset: (
   input: CreateChangesetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateChangesetResponse,
   | AccessDeniedException
   | ConflictException

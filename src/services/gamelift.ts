@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -89,7 +89,7 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type MatchmakingIdStringModel = string;
-export type PlayerId = string | Redacted.Redacted<string>;
+export type PlayerId = string | redacted.Redacted<string>;
 export type GameServerGroupNameOrArn = string;
 export type GameServerId = string;
 export type GameServerData = string;
@@ -144,17 +144,15 @@ export type ListContainerGroupDefinitionsLimit = number;
 export type ListContainerGroupDefinitionVersionsLimit = number;
 export type ListLocationsLimit = number;
 export type AmazonResourceName = string;
-export type Integer = number;
-export type Double = number;
 export type ComputeName = string;
 export type DnsNameInput = string;
-export type IpAddress = string | Redacted.Redacted<string>;
+export type IpAddress = string | redacted.Redacted<string>;
 export type GameServerConnectionInfo = string;
 export type TagKey = string;
 export type FreeText = string;
 export type TagValue = string;
 export type PortNumber = number;
-export type IpRange = string | Redacted.Redacted<string>;
+export type IpRange = string | redacted.Redacted<string>;
 export type LogGroupArnStringModel = string;
 export type NonZeroAnd128MaxAsciiString = string;
 export type ImageUriString = string;
@@ -169,7 +167,6 @@ export type LaunchTemplateVersion = string;
 export type WeightedCapacity = string;
 export type GamePropertyKey = string;
 export type GamePropertyValue = string;
-export type Float = number;
 export type MinimumHealthyPercentage = number;
 export type FleetArn = string;
 export type ComputeArn = string;
@@ -226,20 +223,1093 @@ export const DescribeVpcPeeringAuthorizationsInput = S.suspend(() =>
 ).annotations({
   identifier: "DescribeVpcPeeringAuthorizationsInput",
 }) as any as S.Schema<DescribeVpcPeeringAuthorizationsInput>;
-export type PlayerIdsForAcceptMatch = string | Redacted.Redacted<string>[];
+export type PlayerIdsForAcceptMatch = string | redacted.Redacted<string>[];
 export const PlayerIdsForAcceptMatch = S.Array(SensitiveString);
+export type AcceptanceType = "ACCEPT" | "REJECT";
+export const AcceptanceType = S.Literal("ACCEPT", "REJECT");
+export type OperatingSystem =
+  | "WINDOWS_2012"
+  | "AMAZON_LINUX"
+  | "AMAZON_LINUX_2"
+  | "WINDOWS_2016"
+  | "AMAZON_LINUX_2023"
+  | "WINDOWS_2022";
+export const OperatingSystem = S.Literal(
+  "WINDOWS_2012",
+  "AMAZON_LINUX",
+  "AMAZON_LINUX_2",
+  "WINDOWS_2016",
+  "AMAZON_LINUX_2023",
+  "WINDOWS_2022",
+);
+export type ContainerFleetBillingType = "ON_DEMAND" | "SPOT";
+export const ContainerFleetBillingType = S.Literal("ON_DEMAND", "SPOT");
 export type MetricGroupList = string[];
 export const MetricGroupList = S.Array(S.String);
+export type ProtectionPolicy = "NoProtection" | "FullProtection";
+export const ProtectionPolicy = S.Literal("NoProtection", "FullProtection");
+export type ContainerGroupType = "GAME_SERVER" | "PER_INSTANCE";
+export const ContainerGroupType = S.Literal("GAME_SERVER", "PER_INSTANCE");
+export type ContainerOperatingSystem = "AMAZON_LINUX_2023";
+export const ContainerOperatingSystem = S.Literal("AMAZON_LINUX_2023");
 export type StringList = string[];
 export const StringList = S.Array(S.String);
+export type EC2InstanceType =
+  | "t2.micro"
+  | "t2.small"
+  | "t2.medium"
+  | "t2.large"
+  | "c3.large"
+  | "c3.xlarge"
+  | "c3.2xlarge"
+  | "c3.4xlarge"
+  | "c3.8xlarge"
+  | "c4.large"
+  | "c4.xlarge"
+  | "c4.2xlarge"
+  | "c4.4xlarge"
+  | "c4.8xlarge"
+  | "c5.large"
+  | "c5.xlarge"
+  | "c5.2xlarge"
+  | "c5.4xlarge"
+  | "c5.9xlarge"
+  | "c5.12xlarge"
+  | "c5.18xlarge"
+  | "c5.24xlarge"
+  | "c5a.large"
+  | "c5a.xlarge"
+  | "c5a.2xlarge"
+  | "c5a.4xlarge"
+  | "c5a.8xlarge"
+  | "c5a.12xlarge"
+  | "c5a.16xlarge"
+  | "c5a.24xlarge"
+  | "r3.large"
+  | "r3.xlarge"
+  | "r3.2xlarge"
+  | "r3.4xlarge"
+  | "r3.8xlarge"
+  | "r4.large"
+  | "r4.xlarge"
+  | "r4.2xlarge"
+  | "r4.4xlarge"
+  | "r4.8xlarge"
+  | "r4.16xlarge"
+  | "r5.large"
+  | "r5.xlarge"
+  | "r5.2xlarge"
+  | "r5.4xlarge"
+  | "r5.8xlarge"
+  | "r5.12xlarge"
+  | "r5.16xlarge"
+  | "r5.24xlarge"
+  | "r5a.large"
+  | "r5a.xlarge"
+  | "r5a.2xlarge"
+  | "r5a.4xlarge"
+  | "r5a.8xlarge"
+  | "r5a.12xlarge"
+  | "r5a.16xlarge"
+  | "r5a.24xlarge"
+  | "m3.medium"
+  | "m3.large"
+  | "m3.xlarge"
+  | "m3.2xlarge"
+  | "m4.large"
+  | "m4.xlarge"
+  | "m4.2xlarge"
+  | "m4.4xlarge"
+  | "m4.10xlarge"
+  | "m5.large"
+  | "m5.xlarge"
+  | "m5.2xlarge"
+  | "m5.4xlarge"
+  | "m5.8xlarge"
+  | "m5.12xlarge"
+  | "m5.16xlarge"
+  | "m5.24xlarge"
+  | "m5a.large"
+  | "m5a.xlarge"
+  | "m5a.2xlarge"
+  | "m5a.4xlarge"
+  | "m5a.8xlarge"
+  | "m5a.12xlarge"
+  | "m5a.16xlarge"
+  | "m5a.24xlarge"
+  | "c5d.large"
+  | "c5d.xlarge"
+  | "c5d.2xlarge"
+  | "c5d.4xlarge"
+  | "c5d.9xlarge"
+  | "c5d.12xlarge"
+  | "c5d.18xlarge"
+  | "c5d.24xlarge"
+  | "c6a.large"
+  | "c6a.xlarge"
+  | "c6a.2xlarge"
+  | "c6a.4xlarge"
+  | "c6a.8xlarge"
+  | "c6a.12xlarge"
+  | "c6a.16xlarge"
+  | "c6a.24xlarge"
+  | "c6i.large"
+  | "c6i.xlarge"
+  | "c6i.2xlarge"
+  | "c6i.4xlarge"
+  | "c6i.8xlarge"
+  | "c6i.12xlarge"
+  | "c6i.16xlarge"
+  | "c6i.24xlarge"
+  | "r5d.large"
+  | "r5d.xlarge"
+  | "r5d.2xlarge"
+  | "r5d.4xlarge"
+  | "r5d.8xlarge"
+  | "r5d.12xlarge"
+  | "r5d.16xlarge"
+  | "r5d.24xlarge"
+  | "m6g.medium"
+  | "m6g.large"
+  | "m6g.xlarge"
+  | "m6g.2xlarge"
+  | "m6g.4xlarge"
+  | "m6g.8xlarge"
+  | "m6g.12xlarge"
+  | "m6g.16xlarge"
+  | "c6g.medium"
+  | "c6g.large"
+  | "c6g.xlarge"
+  | "c6g.2xlarge"
+  | "c6g.4xlarge"
+  | "c6g.8xlarge"
+  | "c6g.12xlarge"
+  | "c6g.16xlarge"
+  | "r6g.medium"
+  | "r6g.large"
+  | "r6g.xlarge"
+  | "r6g.2xlarge"
+  | "r6g.4xlarge"
+  | "r6g.8xlarge"
+  | "r6g.12xlarge"
+  | "r6g.16xlarge"
+  | "c6gn.medium"
+  | "c6gn.large"
+  | "c6gn.xlarge"
+  | "c6gn.2xlarge"
+  | "c6gn.4xlarge"
+  | "c6gn.8xlarge"
+  | "c6gn.12xlarge"
+  | "c6gn.16xlarge"
+  | "c7g.medium"
+  | "c7g.large"
+  | "c7g.xlarge"
+  | "c7g.2xlarge"
+  | "c7g.4xlarge"
+  | "c7g.8xlarge"
+  | "c7g.12xlarge"
+  | "c7g.16xlarge"
+  | "r7g.medium"
+  | "r7g.large"
+  | "r7g.xlarge"
+  | "r7g.2xlarge"
+  | "r7g.4xlarge"
+  | "r7g.8xlarge"
+  | "r7g.12xlarge"
+  | "r7g.16xlarge"
+  | "m7g.medium"
+  | "m7g.large"
+  | "m7g.xlarge"
+  | "m7g.2xlarge"
+  | "m7g.4xlarge"
+  | "m7g.8xlarge"
+  | "m7g.12xlarge"
+  | "m7g.16xlarge"
+  | "g5g.xlarge"
+  | "g5g.2xlarge"
+  | "g5g.4xlarge"
+  | "g5g.8xlarge"
+  | "g5g.16xlarge"
+  | "r6i.large"
+  | "r6i.xlarge"
+  | "r6i.2xlarge"
+  | "r6i.4xlarge"
+  | "r6i.8xlarge"
+  | "r6i.12xlarge"
+  | "r6i.16xlarge"
+  | "c6gd.medium"
+  | "c6gd.large"
+  | "c6gd.xlarge"
+  | "c6gd.2xlarge"
+  | "c6gd.4xlarge"
+  | "c6gd.8xlarge"
+  | "c6gd.12xlarge"
+  | "c6gd.16xlarge"
+  | "c6in.large"
+  | "c6in.xlarge"
+  | "c6in.2xlarge"
+  | "c6in.4xlarge"
+  | "c6in.8xlarge"
+  | "c6in.12xlarge"
+  | "c6in.16xlarge"
+  | "c7a.medium"
+  | "c7a.large"
+  | "c7a.xlarge"
+  | "c7a.2xlarge"
+  | "c7a.4xlarge"
+  | "c7a.8xlarge"
+  | "c7a.12xlarge"
+  | "c7a.16xlarge"
+  | "c7gd.medium"
+  | "c7gd.large"
+  | "c7gd.xlarge"
+  | "c7gd.2xlarge"
+  | "c7gd.4xlarge"
+  | "c7gd.8xlarge"
+  | "c7gd.12xlarge"
+  | "c7gd.16xlarge"
+  | "c7gn.medium"
+  | "c7gn.large"
+  | "c7gn.xlarge"
+  | "c7gn.2xlarge"
+  | "c7gn.4xlarge"
+  | "c7gn.8xlarge"
+  | "c7gn.12xlarge"
+  | "c7gn.16xlarge"
+  | "c7i.large"
+  | "c7i.xlarge"
+  | "c7i.2xlarge"
+  | "c7i.4xlarge"
+  | "c7i.8xlarge"
+  | "c7i.12xlarge"
+  | "c7i.16xlarge"
+  | "m6a.large"
+  | "m6a.xlarge"
+  | "m6a.2xlarge"
+  | "m6a.4xlarge"
+  | "m6a.8xlarge"
+  | "m6a.12xlarge"
+  | "m6a.16xlarge"
+  | "m6gd.medium"
+  | "m6gd.large"
+  | "m6gd.xlarge"
+  | "m6gd.2xlarge"
+  | "m6gd.4xlarge"
+  | "m6gd.8xlarge"
+  | "m6gd.12xlarge"
+  | "m6gd.16xlarge"
+  | "m6i.large"
+  | "m6i.xlarge"
+  | "m6i.2xlarge"
+  | "m6i.4xlarge"
+  | "m6i.8xlarge"
+  | "m6i.12xlarge"
+  | "m6i.16xlarge"
+  | "m7a.medium"
+  | "m7a.large"
+  | "m7a.xlarge"
+  | "m7a.2xlarge"
+  | "m7a.4xlarge"
+  | "m7a.8xlarge"
+  | "m7a.12xlarge"
+  | "m7a.16xlarge"
+  | "m7gd.medium"
+  | "m7gd.large"
+  | "m7gd.xlarge"
+  | "m7gd.2xlarge"
+  | "m7gd.4xlarge"
+  | "m7gd.8xlarge"
+  | "m7gd.12xlarge"
+  | "m7gd.16xlarge"
+  | "m7i.large"
+  | "m7i.xlarge"
+  | "m7i.2xlarge"
+  | "m7i.4xlarge"
+  | "m7i.8xlarge"
+  | "m7i.12xlarge"
+  | "m7i.16xlarge"
+  | "r6gd.medium"
+  | "r6gd.large"
+  | "r6gd.xlarge"
+  | "r6gd.2xlarge"
+  | "r6gd.4xlarge"
+  | "r6gd.8xlarge"
+  | "r6gd.12xlarge"
+  | "r6gd.16xlarge"
+  | "r7a.medium"
+  | "r7a.large"
+  | "r7a.xlarge"
+  | "r7a.2xlarge"
+  | "r7a.4xlarge"
+  | "r7a.8xlarge"
+  | "r7a.12xlarge"
+  | "r7a.16xlarge"
+  | "r7gd.medium"
+  | "r7gd.large"
+  | "r7gd.xlarge"
+  | "r7gd.2xlarge"
+  | "r7gd.4xlarge"
+  | "r7gd.8xlarge"
+  | "r7gd.12xlarge"
+  | "r7gd.16xlarge"
+  | "r7i.large"
+  | "r7i.xlarge"
+  | "r7i.2xlarge"
+  | "r7i.4xlarge"
+  | "r7i.8xlarge"
+  | "r7i.12xlarge"
+  | "r7i.16xlarge"
+  | "r7i.24xlarge"
+  | "r7i.48xlarge"
+  | "c5ad.large"
+  | "c5ad.xlarge"
+  | "c5ad.2xlarge"
+  | "c5ad.4xlarge"
+  | "c5ad.8xlarge"
+  | "c5ad.12xlarge"
+  | "c5ad.16xlarge"
+  | "c5ad.24xlarge"
+  | "c5n.large"
+  | "c5n.xlarge"
+  | "c5n.2xlarge"
+  | "c5n.4xlarge"
+  | "c5n.9xlarge"
+  | "c5n.18xlarge"
+  | "r5ad.large"
+  | "r5ad.xlarge"
+  | "r5ad.2xlarge"
+  | "r5ad.4xlarge"
+  | "r5ad.8xlarge"
+  | "r5ad.12xlarge"
+  | "r5ad.16xlarge"
+  | "r5ad.24xlarge"
+  | "c6id.large"
+  | "c6id.xlarge"
+  | "c6id.2xlarge"
+  | "c6id.4xlarge"
+  | "c6id.8xlarge"
+  | "c6id.12xlarge"
+  | "c6id.16xlarge"
+  | "c6id.24xlarge"
+  | "c6id.32xlarge"
+  | "c8g.medium"
+  | "c8g.large"
+  | "c8g.xlarge"
+  | "c8g.2xlarge"
+  | "c8g.4xlarge"
+  | "c8g.8xlarge"
+  | "c8g.12xlarge"
+  | "c8g.16xlarge"
+  | "c8g.24xlarge"
+  | "c8g.48xlarge"
+  | "m5ad.large"
+  | "m5ad.xlarge"
+  | "m5ad.2xlarge"
+  | "m5ad.4xlarge"
+  | "m5ad.8xlarge"
+  | "m5ad.12xlarge"
+  | "m5ad.16xlarge"
+  | "m5ad.24xlarge"
+  | "m5d.large"
+  | "m5d.xlarge"
+  | "m5d.2xlarge"
+  | "m5d.4xlarge"
+  | "m5d.8xlarge"
+  | "m5d.12xlarge"
+  | "m5d.16xlarge"
+  | "m5d.24xlarge"
+  | "m5dn.large"
+  | "m5dn.xlarge"
+  | "m5dn.2xlarge"
+  | "m5dn.4xlarge"
+  | "m5dn.8xlarge"
+  | "m5dn.12xlarge"
+  | "m5dn.16xlarge"
+  | "m5dn.24xlarge"
+  | "m5n.large"
+  | "m5n.xlarge"
+  | "m5n.2xlarge"
+  | "m5n.4xlarge"
+  | "m5n.8xlarge"
+  | "m5n.12xlarge"
+  | "m5n.16xlarge"
+  | "m5n.24xlarge"
+  | "m6id.large"
+  | "m6id.xlarge"
+  | "m6id.2xlarge"
+  | "m6id.4xlarge"
+  | "m6id.8xlarge"
+  | "m6id.12xlarge"
+  | "m6id.16xlarge"
+  | "m6id.24xlarge"
+  | "m6id.32xlarge"
+  | "m6idn.large"
+  | "m6idn.xlarge"
+  | "m6idn.2xlarge"
+  | "m6idn.4xlarge"
+  | "m6idn.8xlarge"
+  | "m6idn.12xlarge"
+  | "m6idn.16xlarge"
+  | "m6idn.24xlarge"
+  | "m6idn.32xlarge"
+  | "m6in.large"
+  | "m6in.xlarge"
+  | "m6in.2xlarge"
+  | "m6in.4xlarge"
+  | "m6in.8xlarge"
+  | "m6in.12xlarge"
+  | "m6in.16xlarge"
+  | "m6in.24xlarge"
+  | "m6in.32xlarge"
+  | "m8g.medium"
+  | "m8g.large"
+  | "m8g.xlarge"
+  | "m8g.2xlarge"
+  | "m8g.4xlarge"
+  | "m8g.8xlarge"
+  | "m8g.12xlarge"
+  | "m8g.16xlarge"
+  | "m8g.24xlarge"
+  | "m8g.48xlarge"
+  | "r5dn.large"
+  | "r5dn.xlarge"
+  | "r5dn.2xlarge"
+  | "r5dn.4xlarge"
+  | "r5dn.8xlarge"
+  | "r5dn.12xlarge"
+  | "r5dn.16xlarge"
+  | "r5dn.24xlarge"
+  | "r5n.large"
+  | "r5n.xlarge"
+  | "r5n.2xlarge"
+  | "r5n.4xlarge"
+  | "r5n.8xlarge"
+  | "r5n.12xlarge"
+  | "r5n.16xlarge"
+  | "r5n.24xlarge"
+  | "r6a.large"
+  | "r6a.xlarge"
+  | "r6a.2xlarge"
+  | "r6a.4xlarge"
+  | "r6a.8xlarge"
+  | "r6a.12xlarge"
+  | "r6a.16xlarge"
+  | "r6a.24xlarge"
+  | "r6a.32xlarge"
+  | "r6a.48xlarge"
+  | "r6id.large"
+  | "r6id.xlarge"
+  | "r6id.2xlarge"
+  | "r6id.4xlarge"
+  | "r6id.8xlarge"
+  | "r6id.12xlarge"
+  | "r6id.16xlarge"
+  | "r6id.24xlarge"
+  | "r6id.32xlarge"
+  | "r6idn.large"
+  | "r6idn.xlarge"
+  | "r6idn.2xlarge"
+  | "r6idn.4xlarge"
+  | "r6idn.8xlarge"
+  | "r6idn.12xlarge"
+  | "r6idn.16xlarge"
+  | "r6idn.24xlarge"
+  | "r6idn.32xlarge"
+  | "r6in.large"
+  | "r6in.xlarge"
+  | "r6in.2xlarge"
+  | "r6in.4xlarge"
+  | "r6in.8xlarge"
+  | "r6in.12xlarge"
+  | "r6in.16xlarge"
+  | "r6in.24xlarge"
+  | "r6in.32xlarge"
+  | "r8g.medium"
+  | "r8g.large"
+  | "r8g.xlarge"
+  | "r8g.2xlarge"
+  | "r8g.4xlarge"
+  | "r8g.8xlarge"
+  | "r8g.12xlarge"
+  | "r8g.16xlarge"
+  | "r8g.24xlarge"
+  | "r8g.48xlarge"
+  | "m4.16xlarge"
+  | "c6a.32xlarge"
+  | "c6a.48xlarge"
+  | "c6i.32xlarge"
+  | "r6i.24xlarge"
+  | "r6i.32xlarge"
+  | "c6in.24xlarge"
+  | "c6in.32xlarge"
+  | "c7a.24xlarge"
+  | "c7a.32xlarge"
+  | "c7a.48xlarge"
+  | "c7i.24xlarge"
+  | "c7i.48xlarge"
+  | "m6a.24xlarge"
+  | "m6a.32xlarge"
+  | "m6a.48xlarge"
+  | "m6i.24xlarge"
+  | "m6i.32xlarge"
+  | "m7a.24xlarge"
+  | "m7a.32xlarge"
+  | "m7a.48xlarge"
+  | "m7i.24xlarge"
+  | "m7i.48xlarge"
+  | "r7a.24xlarge"
+  | "r7a.32xlarge"
+  | "r7a.48xlarge";
+export const EC2InstanceType = S.Literal(
+  "t2.micro",
+  "t2.small",
+  "t2.medium",
+  "t2.large",
+  "c3.large",
+  "c3.xlarge",
+  "c3.2xlarge",
+  "c3.4xlarge",
+  "c3.8xlarge",
+  "c4.large",
+  "c4.xlarge",
+  "c4.2xlarge",
+  "c4.4xlarge",
+  "c4.8xlarge",
+  "c5.large",
+  "c5.xlarge",
+  "c5.2xlarge",
+  "c5.4xlarge",
+  "c5.9xlarge",
+  "c5.12xlarge",
+  "c5.18xlarge",
+  "c5.24xlarge",
+  "c5a.large",
+  "c5a.xlarge",
+  "c5a.2xlarge",
+  "c5a.4xlarge",
+  "c5a.8xlarge",
+  "c5a.12xlarge",
+  "c5a.16xlarge",
+  "c5a.24xlarge",
+  "r3.large",
+  "r3.xlarge",
+  "r3.2xlarge",
+  "r3.4xlarge",
+  "r3.8xlarge",
+  "r4.large",
+  "r4.xlarge",
+  "r4.2xlarge",
+  "r4.4xlarge",
+  "r4.8xlarge",
+  "r4.16xlarge",
+  "r5.large",
+  "r5.xlarge",
+  "r5.2xlarge",
+  "r5.4xlarge",
+  "r5.8xlarge",
+  "r5.12xlarge",
+  "r5.16xlarge",
+  "r5.24xlarge",
+  "r5a.large",
+  "r5a.xlarge",
+  "r5a.2xlarge",
+  "r5a.4xlarge",
+  "r5a.8xlarge",
+  "r5a.12xlarge",
+  "r5a.16xlarge",
+  "r5a.24xlarge",
+  "m3.medium",
+  "m3.large",
+  "m3.xlarge",
+  "m3.2xlarge",
+  "m4.large",
+  "m4.xlarge",
+  "m4.2xlarge",
+  "m4.4xlarge",
+  "m4.10xlarge",
+  "m5.large",
+  "m5.xlarge",
+  "m5.2xlarge",
+  "m5.4xlarge",
+  "m5.8xlarge",
+  "m5.12xlarge",
+  "m5.16xlarge",
+  "m5.24xlarge",
+  "m5a.large",
+  "m5a.xlarge",
+  "m5a.2xlarge",
+  "m5a.4xlarge",
+  "m5a.8xlarge",
+  "m5a.12xlarge",
+  "m5a.16xlarge",
+  "m5a.24xlarge",
+  "c5d.large",
+  "c5d.xlarge",
+  "c5d.2xlarge",
+  "c5d.4xlarge",
+  "c5d.9xlarge",
+  "c5d.12xlarge",
+  "c5d.18xlarge",
+  "c5d.24xlarge",
+  "c6a.large",
+  "c6a.xlarge",
+  "c6a.2xlarge",
+  "c6a.4xlarge",
+  "c6a.8xlarge",
+  "c6a.12xlarge",
+  "c6a.16xlarge",
+  "c6a.24xlarge",
+  "c6i.large",
+  "c6i.xlarge",
+  "c6i.2xlarge",
+  "c6i.4xlarge",
+  "c6i.8xlarge",
+  "c6i.12xlarge",
+  "c6i.16xlarge",
+  "c6i.24xlarge",
+  "r5d.large",
+  "r5d.xlarge",
+  "r5d.2xlarge",
+  "r5d.4xlarge",
+  "r5d.8xlarge",
+  "r5d.12xlarge",
+  "r5d.16xlarge",
+  "r5d.24xlarge",
+  "m6g.medium",
+  "m6g.large",
+  "m6g.xlarge",
+  "m6g.2xlarge",
+  "m6g.4xlarge",
+  "m6g.8xlarge",
+  "m6g.12xlarge",
+  "m6g.16xlarge",
+  "c6g.medium",
+  "c6g.large",
+  "c6g.xlarge",
+  "c6g.2xlarge",
+  "c6g.4xlarge",
+  "c6g.8xlarge",
+  "c6g.12xlarge",
+  "c6g.16xlarge",
+  "r6g.medium",
+  "r6g.large",
+  "r6g.xlarge",
+  "r6g.2xlarge",
+  "r6g.4xlarge",
+  "r6g.8xlarge",
+  "r6g.12xlarge",
+  "r6g.16xlarge",
+  "c6gn.medium",
+  "c6gn.large",
+  "c6gn.xlarge",
+  "c6gn.2xlarge",
+  "c6gn.4xlarge",
+  "c6gn.8xlarge",
+  "c6gn.12xlarge",
+  "c6gn.16xlarge",
+  "c7g.medium",
+  "c7g.large",
+  "c7g.xlarge",
+  "c7g.2xlarge",
+  "c7g.4xlarge",
+  "c7g.8xlarge",
+  "c7g.12xlarge",
+  "c7g.16xlarge",
+  "r7g.medium",
+  "r7g.large",
+  "r7g.xlarge",
+  "r7g.2xlarge",
+  "r7g.4xlarge",
+  "r7g.8xlarge",
+  "r7g.12xlarge",
+  "r7g.16xlarge",
+  "m7g.medium",
+  "m7g.large",
+  "m7g.xlarge",
+  "m7g.2xlarge",
+  "m7g.4xlarge",
+  "m7g.8xlarge",
+  "m7g.12xlarge",
+  "m7g.16xlarge",
+  "g5g.xlarge",
+  "g5g.2xlarge",
+  "g5g.4xlarge",
+  "g5g.8xlarge",
+  "g5g.16xlarge",
+  "r6i.large",
+  "r6i.xlarge",
+  "r6i.2xlarge",
+  "r6i.4xlarge",
+  "r6i.8xlarge",
+  "r6i.12xlarge",
+  "r6i.16xlarge",
+  "c6gd.medium",
+  "c6gd.large",
+  "c6gd.xlarge",
+  "c6gd.2xlarge",
+  "c6gd.4xlarge",
+  "c6gd.8xlarge",
+  "c6gd.12xlarge",
+  "c6gd.16xlarge",
+  "c6in.large",
+  "c6in.xlarge",
+  "c6in.2xlarge",
+  "c6in.4xlarge",
+  "c6in.8xlarge",
+  "c6in.12xlarge",
+  "c6in.16xlarge",
+  "c7a.medium",
+  "c7a.large",
+  "c7a.xlarge",
+  "c7a.2xlarge",
+  "c7a.4xlarge",
+  "c7a.8xlarge",
+  "c7a.12xlarge",
+  "c7a.16xlarge",
+  "c7gd.medium",
+  "c7gd.large",
+  "c7gd.xlarge",
+  "c7gd.2xlarge",
+  "c7gd.4xlarge",
+  "c7gd.8xlarge",
+  "c7gd.12xlarge",
+  "c7gd.16xlarge",
+  "c7gn.medium",
+  "c7gn.large",
+  "c7gn.xlarge",
+  "c7gn.2xlarge",
+  "c7gn.4xlarge",
+  "c7gn.8xlarge",
+  "c7gn.12xlarge",
+  "c7gn.16xlarge",
+  "c7i.large",
+  "c7i.xlarge",
+  "c7i.2xlarge",
+  "c7i.4xlarge",
+  "c7i.8xlarge",
+  "c7i.12xlarge",
+  "c7i.16xlarge",
+  "m6a.large",
+  "m6a.xlarge",
+  "m6a.2xlarge",
+  "m6a.4xlarge",
+  "m6a.8xlarge",
+  "m6a.12xlarge",
+  "m6a.16xlarge",
+  "m6gd.medium",
+  "m6gd.large",
+  "m6gd.xlarge",
+  "m6gd.2xlarge",
+  "m6gd.4xlarge",
+  "m6gd.8xlarge",
+  "m6gd.12xlarge",
+  "m6gd.16xlarge",
+  "m6i.large",
+  "m6i.xlarge",
+  "m6i.2xlarge",
+  "m6i.4xlarge",
+  "m6i.8xlarge",
+  "m6i.12xlarge",
+  "m6i.16xlarge",
+  "m7a.medium",
+  "m7a.large",
+  "m7a.xlarge",
+  "m7a.2xlarge",
+  "m7a.4xlarge",
+  "m7a.8xlarge",
+  "m7a.12xlarge",
+  "m7a.16xlarge",
+  "m7gd.medium",
+  "m7gd.large",
+  "m7gd.xlarge",
+  "m7gd.2xlarge",
+  "m7gd.4xlarge",
+  "m7gd.8xlarge",
+  "m7gd.12xlarge",
+  "m7gd.16xlarge",
+  "m7i.large",
+  "m7i.xlarge",
+  "m7i.2xlarge",
+  "m7i.4xlarge",
+  "m7i.8xlarge",
+  "m7i.12xlarge",
+  "m7i.16xlarge",
+  "r6gd.medium",
+  "r6gd.large",
+  "r6gd.xlarge",
+  "r6gd.2xlarge",
+  "r6gd.4xlarge",
+  "r6gd.8xlarge",
+  "r6gd.12xlarge",
+  "r6gd.16xlarge",
+  "r7a.medium",
+  "r7a.large",
+  "r7a.xlarge",
+  "r7a.2xlarge",
+  "r7a.4xlarge",
+  "r7a.8xlarge",
+  "r7a.12xlarge",
+  "r7a.16xlarge",
+  "r7gd.medium",
+  "r7gd.large",
+  "r7gd.xlarge",
+  "r7gd.2xlarge",
+  "r7gd.4xlarge",
+  "r7gd.8xlarge",
+  "r7gd.12xlarge",
+  "r7gd.16xlarge",
+  "r7i.large",
+  "r7i.xlarge",
+  "r7i.2xlarge",
+  "r7i.4xlarge",
+  "r7i.8xlarge",
+  "r7i.12xlarge",
+  "r7i.16xlarge",
+  "r7i.24xlarge",
+  "r7i.48xlarge",
+  "c5ad.large",
+  "c5ad.xlarge",
+  "c5ad.2xlarge",
+  "c5ad.4xlarge",
+  "c5ad.8xlarge",
+  "c5ad.12xlarge",
+  "c5ad.16xlarge",
+  "c5ad.24xlarge",
+  "c5n.large",
+  "c5n.xlarge",
+  "c5n.2xlarge",
+  "c5n.4xlarge",
+  "c5n.9xlarge",
+  "c5n.18xlarge",
+  "r5ad.large",
+  "r5ad.xlarge",
+  "r5ad.2xlarge",
+  "r5ad.4xlarge",
+  "r5ad.8xlarge",
+  "r5ad.12xlarge",
+  "r5ad.16xlarge",
+  "r5ad.24xlarge",
+  "c6id.large",
+  "c6id.xlarge",
+  "c6id.2xlarge",
+  "c6id.4xlarge",
+  "c6id.8xlarge",
+  "c6id.12xlarge",
+  "c6id.16xlarge",
+  "c6id.24xlarge",
+  "c6id.32xlarge",
+  "c8g.medium",
+  "c8g.large",
+  "c8g.xlarge",
+  "c8g.2xlarge",
+  "c8g.4xlarge",
+  "c8g.8xlarge",
+  "c8g.12xlarge",
+  "c8g.16xlarge",
+  "c8g.24xlarge",
+  "c8g.48xlarge",
+  "m5ad.large",
+  "m5ad.xlarge",
+  "m5ad.2xlarge",
+  "m5ad.4xlarge",
+  "m5ad.8xlarge",
+  "m5ad.12xlarge",
+  "m5ad.16xlarge",
+  "m5ad.24xlarge",
+  "m5d.large",
+  "m5d.xlarge",
+  "m5d.2xlarge",
+  "m5d.4xlarge",
+  "m5d.8xlarge",
+  "m5d.12xlarge",
+  "m5d.16xlarge",
+  "m5d.24xlarge",
+  "m5dn.large",
+  "m5dn.xlarge",
+  "m5dn.2xlarge",
+  "m5dn.4xlarge",
+  "m5dn.8xlarge",
+  "m5dn.12xlarge",
+  "m5dn.16xlarge",
+  "m5dn.24xlarge",
+  "m5n.large",
+  "m5n.xlarge",
+  "m5n.2xlarge",
+  "m5n.4xlarge",
+  "m5n.8xlarge",
+  "m5n.12xlarge",
+  "m5n.16xlarge",
+  "m5n.24xlarge",
+  "m6id.large",
+  "m6id.xlarge",
+  "m6id.2xlarge",
+  "m6id.4xlarge",
+  "m6id.8xlarge",
+  "m6id.12xlarge",
+  "m6id.16xlarge",
+  "m6id.24xlarge",
+  "m6id.32xlarge",
+  "m6idn.large",
+  "m6idn.xlarge",
+  "m6idn.2xlarge",
+  "m6idn.4xlarge",
+  "m6idn.8xlarge",
+  "m6idn.12xlarge",
+  "m6idn.16xlarge",
+  "m6idn.24xlarge",
+  "m6idn.32xlarge",
+  "m6in.large",
+  "m6in.xlarge",
+  "m6in.2xlarge",
+  "m6in.4xlarge",
+  "m6in.8xlarge",
+  "m6in.12xlarge",
+  "m6in.16xlarge",
+  "m6in.24xlarge",
+  "m6in.32xlarge",
+  "m8g.medium",
+  "m8g.large",
+  "m8g.xlarge",
+  "m8g.2xlarge",
+  "m8g.4xlarge",
+  "m8g.8xlarge",
+  "m8g.12xlarge",
+  "m8g.16xlarge",
+  "m8g.24xlarge",
+  "m8g.48xlarge",
+  "r5dn.large",
+  "r5dn.xlarge",
+  "r5dn.2xlarge",
+  "r5dn.4xlarge",
+  "r5dn.8xlarge",
+  "r5dn.12xlarge",
+  "r5dn.16xlarge",
+  "r5dn.24xlarge",
+  "r5n.large",
+  "r5n.xlarge",
+  "r5n.2xlarge",
+  "r5n.4xlarge",
+  "r5n.8xlarge",
+  "r5n.12xlarge",
+  "r5n.16xlarge",
+  "r5n.24xlarge",
+  "r6a.large",
+  "r6a.xlarge",
+  "r6a.2xlarge",
+  "r6a.4xlarge",
+  "r6a.8xlarge",
+  "r6a.12xlarge",
+  "r6a.16xlarge",
+  "r6a.24xlarge",
+  "r6a.32xlarge",
+  "r6a.48xlarge",
+  "r6id.large",
+  "r6id.xlarge",
+  "r6id.2xlarge",
+  "r6id.4xlarge",
+  "r6id.8xlarge",
+  "r6id.12xlarge",
+  "r6id.16xlarge",
+  "r6id.24xlarge",
+  "r6id.32xlarge",
+  "r6idn.large",
+  "r6idn.xlarge",
+  "r6idn.2xlarge",
+  "r6idn.4xlarge",
+  "r6idn.8xlarge",
+  "r6idn.12xlarge",
+  "r6idn.16xlarge",
+  "r6idn.24xlarge",
+  "r6idn.32xlarge",
+  "r6in.large",
+  "r6in.xlarge",
+  "r6in.2xlarge",
+  "r6in.4xlarge",
+  "r6in.8xlarge",
+  "r6in.12xlarge",
+  "r6in.16xlarge",
+  "r6in.24xlarge",
+  "r6in.32xlarge",
+  "r8g.medium",
+  "r8g.large",
+  "r8g.xlarge",
+  "r8g.2xlarge",
+  "r8g.4xlarge",
+  "r8g.8xlarge",
+  "r8g.12xlarge",
+  "r8g.16xlarge",
+  "r8g.24xlarge",
+  "r8g.48xlarge",
+  "m4.16xlarge",
+  "c6a.32xlarge",
+  "c6a.48xlarge",
+  "c6i.32xlarge",
+  "r6i.24xlarge",
+  "r6i.32xlarge",
+  "c6in.24xlarge",
+  "c6in.32xlarge",
+  "c7a.24xlarge",
+  "c7a.32xlarge",
+  "c7a.48xlarge",
+  "c7i.24xlarge",
+  "c7i.48xlarge",
+  "m6a.24xlarge",
+  "m6a.32xlarge",
+  "m6a.48xlarge",
+  "m6i.24xlarge",
+  "m6i.32xlarge",
+  "m7a.24xlarge",
+  "m7a.32xlarge",
+  "m7a.48xlarge",
+  "m7i.24xlarge",
+  "m7i.48xlarge",
+  "r7a.24xlarge",
+  "r7a.32xlarge",
+  "r7a.48xlarge",
+);
+export type FleetType = "ON_DEMAND" | "SPOT";
+export const FleetType = S.Literal("ON_DEMAND", "SPOT");
+export type ComputeType = "EC2" | "ANYWHERE";
+export const ComputeType = S.Literal("EC2", "ANYWHERE");
+export type InstanceRoleCredentialsProvider = "SHARED_CREDENTIAL_FILE";
+export const InstanceRoleCredentialsProvider = S.Literal(
+  "SHARED_CREDENTIAL_FILE",
+);
+export type BalancingStrategy =
+  | "SPOT_ONLY"
+  | "SPOT_PREFERRED"
+  | "ON_DEMAND_ONLY";
+export const BalancingStrategy = S.Literal(
+  "SPOT_ONLY",
+  "SPOT_PREFERRED",
+  "ON_DEMAND_ONLY",
+);
+export type GameServerProtectionPolicy = "NO_PROTECTION" | "FULL_PROTECTION";
+export const GameServerProtectionPolicy = S.Literal(
+  "NO_PROTECTION",
+  "FULL_PROTECTION",
+);
 export type VpcSubnets = string[];
 export const VpcSubnets = S.Array(S.String);
 export type QueueArnsList = string[];
 export const QueueArnsList = S.Array(S.String);
-export type PlayerIdList = string | Redacted.Redacted<string>[];
+export type BackfillMode = "AUTOMATIC" | "MANUAL";
+export const BackfillMode = S.Literal("AUTOMATIC", "MANUAL");
+export type FlexMatchMode = "STANDALONE" | "WITH_QUEUE";
+export const FlexMatchMode = S.Literal("STANDALONE", "WITH_QUEUE");
+export type PlayerIdList = string | redacted.Redacted<string>[];
 export const PlayerIdList = S.Array(SensitiveString);
 export type LocationList = string[];
 export const LocationList = S.Array(S.String);
+export type GameServerGroupDeleteOption =
+  | "SAFE_DELETE"
+  | "FORCE_DELETE"
+  | "RETAIN";
+export const GameServerGroupDeleteOption = S.Literal(
+  "SAFE_DELETE",
+  "FORCE_DELETE",
+  "RETAIN",
+);
 export type FleetIdOrArnList = string[];
 export const FleetIdOrArnList = S.Array(S.String);
 export type GameServerInstanceIds = string[];
@@ -252,26 +1322,126 @@ export type MatchmakingConfigurationNameList = string[];
 export const MatchmakingConfigurationNameList = S.Array(S.String);
 export type MatchmakingRuleSetNameList = string[];
 export const MatchmakingRuleSetNameList = S.Array(S.String);
-export type LocationFilterList = string[];
-export const LocationFilterList = S.Array(S.String);
-export type GameServerGroupActions = string[];
-export const GameServerGroupActions = S.Array(S.String);
-export type FleetActionList = string[];
-export const FleetActionList = S.Array(S.String);
+export type ScalingStatusType =
+  | "ACTIVE"
+  | "UPDATE_REQUESTED"
+  | "UPDATING"
+  | "DELETE_REQUESTED"
+  | "DELETING"
+  | "DELETED"
+  | "ERROR";
+export const ScalingStatusType = S.Literal(
+  "ACTIVE",
+  "UPDATE_REQUESTED",
+  "UPDATING",
+  "DELETE_REQUESTED",
+  "DELETING",
+  "DELETED",
+  "ERROR",
+);
+export type RoutingStrategyType = "SIMPLE" | "TERMINAL";
+export const RoutingStrategyType = S.Literal("SIMPLE", "TERMINAL");
+export type BuildStatus = "INITIALIZED" | "READY" | "FAILED";
+export const BuildStatus = S.Literal("INITIALIZED", "READY", "FAILED");
+export type ListComputeInputStatus = "ACTIVE" | "IMPAIRED";
+export const ListComputeInputStatus = S.Literal("ACTIVE", "IMPAIRED");
+export type SortOrder = "ASCENDING" | "DESCENDING";
+export const SortOrder = S.Literal("ASCENDING", "DESCENDING");
+export type LocationFilter = "AWS" | "CUSTOM";
+export const LocationFilter = S.Literal("AWS", "CUSTOM");
+export type LocationFilterList = LocationFilter[];
+export const LocationFilterList = S.Array(LocationFilter);
+export type ScalingAdjustmentType =
+  | "ChangeInCapacity"
+  | "ExactCapacity"
+  | "PercentChangeInCapacity";
+export const ScalingAdjustmentType = S.Literal(
+  "ChangeInCapacity",
+  "ExactCapacity",
+  "PercentChangeInCapacity",
+);
+export type ComparisonOperatorType =
+  | "GreaterThanOrEqualToThreshold"
+  | "GreaterThanThreshold"
+  | "LessThanThreshold"
+  | "LessThanOrEqualToThreshold";
+export const ComparisonOperatorType = S.Literal(
+  "GreaterThanOrEqualToThreshold",
+  "GreaterThanThreshold",
+  "LessThanThreshold",
+  "LessThanOrEqualToThreshold",
+);
+export type MetricName =
+  | "ActivatingGameSessions"
+  | "ActiveGameSessions"
+  | "ActiveInstances"
+  | "AvailableGameSessions"
+  | "AvailablePlayerSessions"
+  | "CurrentPlayerSessions"
+  | "IdleInstances"
+  | "PercentAvailableGameSessions"
+  | "PercentIdleInstances"
+  | "QueueDepth"
+  | "WaitTime"
+  | "ConcurrentActivatableGameSessions";
+export const MetricName = S.Literal(
+  "ActivatingGameSessions",
+  "ActiveGameSessions",
+  "ActiveInstances",
+  "AvailableGameSessions",
+  "AvailablePlayerSessions",
+  "CurrentPlayerSessions",
+  "IdleInstances",
+  "PercentAvailableGameSessions",
+  "PercentIdleInstances",
+  "QueueDepth",
+  "WaitTime",
+  "ConcurrentActivatableGameSessions",
+);
+export type PolicyType = "RuleBased" | "TargetBased";
+export const PolicyType = S.Literal("RuleBased", "TargetBased");
+export type GameServerGroupAction = "REPLACE_INSTANCE_TYPES";
+export const GameServerGroupAction = S.Literal("REPLACE_INSTANCE_TYPES");
+export type GameServerGroupActions = GameServerGroupAction[];
+export const GameServerGroupActions = S.Array(GameServerGroupAction);
+export type FleetAction = "AUTO_SCALING";
+export const FleetAction = S.Literal("AUTO_SCALING");
+export type FleetActionList = FleetAction[];
+export const FleetActionList = S.Array(FleetAction);
+export type TerminationMode =
+  | "TRIGGER_ON_PROCESS_TERMINATE"
+  | "FORCE_TERMINATE";
+export const TerminationMode = S.Literal(
+  "TRIGGER_ON_PROCESS_TERMINATE",
+  "FORCE_TERMINATE",
+);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export type ContainerFleetRemoveAttributeList = string[];
-export const ContainerFleetRemoveAttributeList = S.Array(S.String);
+export type ContainerFleetRemoveAttribute =
+  "PER_INSTANCE_CONTAINER_GROUP_DEFINITION";
+export const ContainerFleetRemoveAttribute = S.Literal(
+  "PER_INSTANCE_CONTAINER_GROUP_DEFINITION",
+);
+export type ContainerFleetRemoveAttributeList = ContainerFleetRemoveAttribute[];
+export const ContainerFleetRemoveAttributeList = S.Array(
+  ContainerFleetRemoveAttribute,
+);
+export type GameServerUtilizationStatus = "AVAILABLE" | "UTILIZED";
+export const GameServerUtilizationStatus = S.Literal("AVAILABLE", "UTILIZED");
+export type GameServerHealthCheck = "HEALTHY";
+export const GameServerHealthCheck = S.Literal("HEALTHY");
+export type PlayerSessionCreationPolicy = "ACCEPT_ALL" | "DENY_ALL";
+export const PlayerSessionCreationPolicy = S.Literal("ACCEPT_ALL", "DENY_ALL");
 export interface AcceptMatchInput {
-  TicketId: string;
-  PlayerIds: PlayerIdsForAcceptMatch;
-  AcceptanceType: string;
+  TicketId?: string;
+  PlayerIds?: string | redacted.Redacted<string>[];
+  AcceptanceType?: AcceptanceType;
 }
 export const AcceptMatchInput = S.suspend(() =>
   S.Struct({
-    TicketId: S.String,
-    PlayerIds: PlayerIdsForAcceptMatch,
-    AcceptanceType: S.String,
+    TicketId: S.optional(S.String),
+    PlayerIds: S.optional(PlayerIdsForAcceptMatch),
+    AcceptanceType: S.optional(AcceptanceType),
   }).pipe(
     T.all(
       ns,
@@ -293,21 +1463,24 @@ export const AcceptMatchOutput = S.suspend(() =>
   identifier: "AcceptMatchOutput",
 }) as any as S.Schema<AcceptMatchOutput>;
 export interface LocationConfiguration {
-  Location: string;
+  Location?: string;
 }
 export const LocationConfiguration = S.suspend(() =>
-  S.Struct({ Location: S.String }),
+  S.Struct({ Location: S.optional(S.String) }),
 ).annotations({
   identifier: "LocationConfiguration",
 }) as any as S.Schema<LocationConfiguration>;
 export type LocationConfigurationList = LocationConfiguration[];
 export const LocationConfigurationList = S.Array(LocationConfiguration);
 export interface CreateFleetLocationsInput {
-  FleetId: string;
-  Locations: LocationConfigurationList;
+  FleetId?: string;
+  Locations?: LocationConfiguration[];
 }
 export const CreateFleetLocationsInput = S.suspend(() =>
-  S.Struct({ FleetId: S.String, Locations: LocationConfigurationList }).pipe(
+  S.Struct({
+    FleetId: S.optional(S.String),
+    Locations: S.optional(LocationConfigurationList),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -322,20 +1495,23 @@ export const CreateFleetLocationsInput = S.suspend(() =>
   identifier: "CreateFleetLocationsInput",
 }) as any as S.Schema<CreateFleetLocationsInput>;
 export interface Tag {
-  Key: string;
-  Value: string;
+  Key?: string;
+  Value?: string;
 }
 export const Tag = S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
+  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
 ).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface CreateLocationInput {
-  LocationName: string;
-  Tags?: TagList;
+  LocationName?: string;
+  Tags?: Tag[];
 }
 export const CreateLocationInput = S.suspend(() =>
-  S.Struct({ LocationName: S.String, Tags: S.optional(TagList) }).pipe(
+  S.Struct({
+    LocationName: S.optional(S.String),
+    Tags: S.optional(TagList),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -350,47 +1526,47 @@ export const CreateLocationInput = S.suspend(() =>
   identifier: "CreateLocationInput",
 }) as any as S.Schema<CreateLocationInput>;
 export interface GameProperty {
-  Key: string;
-  Value: string;
+  Key?: string;
+  Value?: string;
 }
 export const GameProperty = S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
+  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
 ).annotations({ identifier: "GameProperty" }) as any as S.Schema<GameProperty>;
 export type GamePropertyList = GameProperty[];
 export const GamePropertyList = S.Array(GameProperty);
 export interface CreateMatchmakingConfigurationInput {
-  Name: string;
+  Name?: string;
   Description?: string;
-  GameSessionQueueArns?: QueueArnsList;
-  RequestTimeoutSeconds: number;
+  GameSessionQueueArns?: string[];
+  RequestTimeoutSeconds?: number;
   AcceptanceTimeoutSeconds?: number;
-  AcceptanceRequired: boolean;
-  RuleSetName: string;
+  AcceptanceRequired?: boolean;
+  RuleSetName?: string;
   NotificationTarget?: string;
   AdditionalPlayerCount?: number;
   CustomEventData?: string;
-  GameProperties?: GamePropertyList;
+  GameProperties?: GameProperty[];
   GameSessionData?: string;
-  BackfillMode?: string;
-  FlexMatchMode?: string;
-  Tags?: TagList;
+  BackfillMode?: BackfillMode;
+  FlexMatchMode?: FlexMatchMode;
+  Tags?: Tag[];
 }
 export const CreateMatchmakingConfigurationInput = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: S.optional(S.String),
     Description: S.optional(S.String),
     GameSessionQueueArns: S.optional(QueueArnsList),
-    RequestTimeoutSeconds: S.Number,
+    RequestTimeoutSeconds: S.optional(S.Number),
     AcceptanceTimeoutSeconds: S.optional(S.Number),
-    AcceptanceRequired: S.Boolean,
-    RuleSetName: S.String,
+    AcceptanceRequired: S.optional(S.Boolean),
+    RuleSetName: S.optional(S.String),
     NotificationTarget: S.optional(S.String),
     AdditionalPlayerCount: S.optional(S.Number),
     CustomEventData: S.optional(S.String),
     GameProperties: S.optional(GamePropertyList),
     GameSessionData: S.optional(S.String),
-    BackfillMode: S.optional(S.String),
-    FlexMatchMode: S.optional(S.String),
+    BackfillMode: S.optional(BackfillMode),
+    FlexMatchMode: S.optional(FlexMatchMode),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -407,14 +1583,14 @@ export const CreateMatchmakingConfigurationInput = S.suspend(() =>
   identifier: "CreateMatchmakingConfigurationInput",
 }) as any as S.Schema<CreateMatchmakingConfigurationInput>;
 export interface CreateMatchmakingRuleSetInput {
-  Name: string;
-  RuleSetBody: string;
-  Tags?: TagList;
+  Name?: string;
+  RuleSetBody?: string;
+  Tags?: Tag[];
 }
 export const CreateMatchmakingRuleSetInput = S.suspend(() =>
   S.Struct({
-    Name: S.String,
-    RuleSetBody: S.String,
+    Name: S.optional(S.String),
+    RuleSetBody: S.optional(S.String),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -431,14 +1607,14 @@ export const CreateMatchmakingRuleSetInput = S.suspend(() =>
   identifier: "CreateMatchmakingRuleSetInput",
 }) as any as S.Schema<CreateMatchmakingRuleSetInput>;
 export interface CreatePlayerSessionInput {
-  GameSessionId: string;
-  PlayerId: string | Redacted.Redacted<string>;
+  GameSessionId?: string;
+  PlayerId?: string | redacted.Redacted<string>;
   PlayerData?: string;
 }
 export const CreatePlayerSessionInput = S.suspend(() =>
   S.Struct({
-    GameSessionId: S.String,
-    PlayerId: SensitiveString,
+    GameSessionId: S.optional(S.String),
+    PlayerId: S.optional(SensitiveString),
     PlayerData: S.optional(S.String),
   }).pipe(
     T.all(
@@ -473,7 +1649,7 @@ export interface CreateScriptInput {
   Version?: string;
   StorageLocation?: S3Location;
   ZipFile?: Uint8Array;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateScriptInput = S.suspend(() =>
   S.Struct({
@@ -497,11 +1673,14 @@ export const CreateScriptInput = S.suspend(() =>
   identifier: "CreateScriptInput",
 }) as any as S.Schema<CreateScriptInput>;
 export interface CreateVpcPeeringAuthorizationInput {
-  GameLiftAwsAccountId: string;
-  PeerVpcId: string;
+  GameLiftAwsAccountId?: string;
+  PeerVpcId?: string;
 }
 export const CreateVpcPeeringAuthorizationInput = S.suspend(() =>
-  S.Struct({ GameLiftAwsAccountId: S.String, PeerVpcId: S.String }).pipe(
+  S.Struct({
+    GameLiftAwsAccountId: S.optional(S.String),
+    PeerVpcId: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -516,15 +1695,15 @@ export const CreateVpcPeeringAuthorizationInput = S.suspend(() =>
   identifier: "CreateVpcPeeringAuthorizationInput",
 }) as any as S.Schema<CreateVpcPeeringAuthorizationInput>;
 export interface CreateVpcPeeringConnectionInput {
-  FleetId: string;
-  PeerVpcAwsAccountId: string;
-  PeerVpcId: string;
+  FleetId?: string;
+  PeerVpcAwsAccountId?: string;
+  PeerVpcId?: string;
 }
 export const CreateVpcPeeringConnectionInput = S.suspend(() =>
   S.Struct({
-    FleetId: S.String,
-    PeerVpcAwsAccountId: S.String,
-    PeerVpcId: S.String,
+    FleetId: S.optional(S.String),
+    PeerVpcAwsAccountId: S.optional(S.String),
+    PeerVpcId: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -546,10 +1725,10 @@ export const CreateVpcPeeringConnectionOutput = S.suspend(() =>
   identifier: "CreateVpcPeeringConnectionOutput",
 }) as any as S.Schema<CreateVpcPeeringConnectionOutput>;
 export interface DeleteAliasInput {
-  AliasId: string;
+  AliasId?: string;
 }
 export const DeleteAliasInput = S.suspend(() =>
-  S.Struct({ AliasId: S.String }).pipe(
+  S.Struct({ AliasId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -570,10 +1749,10 @@ export const DeleteAliasResponse = S.suspend(() =>
   identifier: "DeleteAliasResponse",
 }) as any as S.Schema<DeleteAliasResponse>;
 export interface DeleteBuildInput {
-  BuildId: string;
+  BuildId?: string;
 }
 export const DeleteBuildInput = S.suspend(() =>
-  S.Struct({ BuildId: S.String }).pipe(
+  S.Struct({ BuildId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -594,10 +1773,10 @@ export const DeleteBuildResponse = S.suspend(() =>
   identifier: "DeleteBuildResponse",
 }) as any as S.Schema<DeleteBuildResponse>;
 export interface DeleteContainerFleetInput {
-  FleetId: string;
+  FleetId?: string;
 }
 export const DeleteContainerFleetInput = S.suspend(() =>
-  S.Struct({ FleetId: S.String }).pipe(
+  S.Struct({ FleetId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -618,13 +1797,13 @@ export const DeleteContainerFleetOutput = S.suspend(() =>
   identifier: "DeleteContainerFleetOutput",
 }) as any as S.Schema<DeleteContainerFleetOutput>;
 export interface DeleteContainerGroupDefinitionInput {
-  Name: string;
+  Name?: string;
   VersionNumber?: number;
   VersionCountToRetain?: number;
 }
 export const DeleteContainerGroupDefinitionInput = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: S.optional(S.String),
     VersionNumber: S.optional(S.Number),
     VersionCountToRetain: S.optional(S.Number),
   }).pipe(
@@ -648,10 +1827,10 @@ export const DeleteContainerGroupDefinitionOutput = S.suspend(() =>
   identifier: "DeleteContainerGroupDefinitionOutput",
 }) as any as S.Schema<DeleteContainerGroupDefinitionOutput>;
 export interface DeleteFleetInput {
-  FleetId: string;
+  FleetId?: string;
 }
 export const DeleteFleetInput = S.suspend(() =>
-  S.Struct({ FleetId: S.String }).pipe(
+  S.Struct({ FleetId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -672,11 +1851,14 @@ export const DeleteFleetResponse = S.suspend(() =>
   identifier: "DeleteFleetResponse",
 }) as any as S.Schema<DeleteFleetResponse>;
 export interface DeleteFleetLocationsInput {
-  FleetId: string;
-  Locations: LocationList;
+  FleetId?: string;
+  Locations?: string[];
 }
 export const DeleteFleetLocationsInput = S.suspend(() =>
-  S.Struct({ FleetId: S.String, Locations: LocationList }).pipe(
+  S.Struct({
+    FleetId: S.optional(S.String),
+    Locations: S.optional(LocationList),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -691,13 +1873,13 @@ export const DeleteFleetLocationsInput = S.suspend(() =>
   identifier: "DeleteFleetLocationsInput",
 }) as any as S.Schema<DeleteFleetLocationsInput>;
 export interface DeleteGameServerGroupInput {
-  GameServerGroupName: string;
-  DeleteOption?: string;
+  GameServerGroupName?: string;
+  DeleteOption?: GameServerGroupDeleteOption;
 }
 export const DeleteGameServerGroupInput = S.suspend(() =>
   S.Struct({
-    GameServerGroupName: S.String,
-    DeleteOption: S.optional(S.String),
+    GameServerGroupName: S.optional(S.String),
+    DeleteOption: S.optional(GameServerGroupDeleteOption),
   }).pipe(
     T.all(
       ns,
@@ -713,10 +1895,10 @@ export const DeleteGameServerGroupInput = S.suspend(() =>
   identifier: "DeleteGameServerGroupInput",
 }) as any as S.Schema<DeleteGameServerGroupInput>;
 export interface DeleteGameSessionQueueInput {
-  Name: string;
+  Name?: string;
 }
 export const DeleteGameSessionQueueInput = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
+  S.Struct({ Name: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -737,10 +1919,10 @@ export const DeleteGameSessionQueueOutput = S.suspend(() =>
   identifier: "DeleteGameSessionQueueOutput",
 }) as any as S.Schema<DeleteGameSessionQueueOutput>;
 export interface DeleteLocationInput {
-  LocationName: string;
+  LocationName?: string;
 }
 export const DeleteLocationInput = S.suspend(() =>
-  S.Struct({ LocationName: S.String }).pipe(
+  S.Struct({ LocationName: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -761,10 +1943,10 @@ export const DeleteLocationOutput = S.suspend(() =>
   identifier: "DeleteLocationOutput",
 }) as any as S.Schema<DeleteLocationOutput>;
 export interface DeleteMatchmakingConfigurationInput {
-  Name: string;
+  Name?: string;
 }
 export const DeleteMatchmakingConfigurationInput = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
+  S.Struct({ Name: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -785,10 +1967,10 @@ export const DeleteMatchmakingConfigurationOutput = S.suspend(() =>
   identifier: "DeleteMatchmakingConfigurationOutput",
 }) as any as S.Schema<DeleteMatchmakingConfigurationOutput>;
 export interface DeleteMatchmakingRuleSetInput {
-  Name: string;
+  Name?: string;
 }
 export const DeleteMatchmakingRuleSetInput = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
+  S.Struct({ Name: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -809,11 +1991,11 @@ export const DeleteMatchmakingRuleSetOutput = S.suspend(() =>
   identifier: "DeleteMatchmakingRuleSetOutput",
 }) as any as S.Schema<DeleteMatchmakingRuleSetOutput>;
 export interface DeleteScalingPolicyInput {
-  Name: string;
-  FleetId: string;
+  Name?: string;
+  FleetId?: string;
 }
 export const DeleteScalingPolicyInput = S.suspend(() =>
-  S.Struct({ Name: S.String, FleetId: S.String }).pipe(
+  S.Struct({ Name: S.optional(S.String), FleetId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -834,10 +2016,10 @@ export const DeleteScalingPolicyResponse = S.suspend(() =>
   identifier: "DeleteScalingPolicyResponse",
 }) as any as S.Schema<DeleteScalingPolicyResponse>;
 export interface DeleteScriptInput {
-  ScriptId: string;
+  ScriptId?: string;
 }
 export const DeleteScriptInput = S.suspend(() =>
-  S.Struct({ ScriptId: S.String }).pipe(
+  S.Struct({ ScriptId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -858,11 +2040,14 @@ export const DeleteScriptResponse = S.suspend(() =>
   identifier: "DeleteScriptResponse",
 }) as any as S.Schema<DeleteScriptResponse>;
 export interface DeleteVpcPeeringAuthorizationInput {
-  GameLiftAwsAccountId: string;
-  PeerVpcId: string;
+  GameLiftAwsAccountId?: string;
+  PeerVpcId?: string;
 }
 export const DeleteVpcPeeringAuthorizationInput = S.suspend(() =>
-  S.Struct({ GameLiftAwsAccountId: S.String, PeerVpcId: S.String }).pipe(
+  S.Struct({
+    GameLiftAwsAccountId: S.optional(S.String),
+    PeerVpcId: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -883,11 +2068,14 @@ export const DeleteVpcPeeringAuthorizationOutput = S.suspend(() =>
   identifier: "DeleteVpcPeeringAuthorizationOutput",
 }) as any as S.Schema<DeleteVpcPeeringAuthorizationOutput>;
 export interface DeleteVpcPeeringConnectionInput {
-  FleetId: string;
-  VpcPeeringConnectionId: string;
+  FleetId?: string;
+  VpcPeeringConnectionId?: string;
 }
 export const DeleteVpcPeeringConnectionInput = S.suspend(() =>
-  S.Struct({ FleetId: S.String, VpcPeeringConnectionId: S.String }).pipe(
+  S.Struct({
+    FleetId: S.optional(S.String),
+    VpcPeeringConnectionId: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -908,11 +2096,14 @@ export const DeleteVpcPeeringConnectionOutput = S.suspend(() =>
   identifier: "DeleteVpcPeeringConnectionOutput",
 }) as any as S.Schema<DeleteVpcPeeringConnectionOutput>;
 export interface DeregisterComputeInput {
-  FleetId: string;
-  ComputeName: string;
+  FleetId?: string;
+  ComputeName?: string;
 }
 export const DeregisterComputeInput = S.suspend(() =>
-  S.Struct({ FleetId: S.String, ComputeName: S.String }).pipe(
+  S.Struct({
+    FleetId: S.optional(S.String),
+    ComputeName: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -933,11 +2124,14 @@ export const DeregisterComputeOutput = S.suspend(() =>
   identifier: "DeregisterComputeOutput",
 }) as any as S.Schema<DeregisterComputeOutput>;
 export interface DeregisterGameServerInput {
-  GameServerGroupName: string;
-  GameServerId: string;
+  GameServerGroupName?: string;
+  GameServerId?: string;
 }
 export const DeregisterGameServerInput = S.suspend(() =>
-  S.Struct({ GameServerGroupName: S.String, GameServerId: S.String }).pipe(
+  S.Struct({
+    GameServerGroupName: S.optional(S.String),
+    GameServerId: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -958,10 +2152,10 @@ export const DeregisterGameServerResponse = S.suspend(() =>
   identifier: "DeregisterGameServerResponse",
 }) as any as S.Schema<DeregisterGameServerResponse>;
 export interface DescribeAliasInput {
-  AliasId: string;
+  AliasId?: string;
 }
 export const DescribeAliasInput = S.suspend(() =>
-  S.Struct({ AliasId: S.String }).pipe(
+  S.Struct({ AliasId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -976,10 +2170,10 @@ export const DescribeAliasInput = S.suspend(() =>
   identifier: "DescribeAliasInput",
 }) as any as S.Schema<DescribeAliasInput>;
 export interface DescribeBuildInput {
-  BuildId: string;
+  BuildId?: string;
 }
 export const DescribeBuildInput = S.suspend(() =>
-  S.Struct({ BuildId: S.String }).pipe(
+  S.Struct({ BuildId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -994,11 +2188,14 @@ export const DescribeBuildInput = S.suspend(() =>
   identifier: "DescribeBuildInput",
 }) as any as S.Schema<DescribeBuildInput>;
 export interface DescribeComputeInput {
-  FleetId: string;
-  ComputeName: string;
+  FleetId?: string;
+  ComputeName?: string;
 }
 export const DescribeComputeInput = S.suspend(() =>
-  S.Struct({ FleetId: S.String, ComputeName: S.String }).pipe(
+  S.Struct({
+    FleetId: S.optional(S.String),
+    ComputeName: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1013,10 +2210,10 @@ export const DescribeComputeInput = S.suspend(() =>
   identifier: "DescribeComputeInput",
 }) as any as S.Schema<DescribeComputeInput>;
 export interface DescribeContainerFleetInput {
-  FleetId: string;
+  FleetId?: string;
 }
 export const DescribeContainerFleetInput = S.suspend(() =>
-  S.Struct({ FleetId: S.String }).pipe(
+  S.Struct({ FleetId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1031,11 +2228,14 @@ export const DescribeContainerFleetInput = S.suspend(() =>
   identifier: "DescribeContainerFleetInput",
 }) as any as S.Schema<DescribeContainerFleetInput>;
 export interface DescribeContainerGroupDefinitionInput {
-  Name: string;
+  Name?: string;
   VersionNumber?: number;
 }
 export const DescribeContainerGroupDefinitionInput = S.suspend(() =>
-  S.Struct({ Name: S.String, VersionNumber: S.optional(S.Number) }).pipe(
+  S.Struct({
+    Name: S.optional(S.String),
+    VersionNumber: S.optional(S.Number),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1050,12 +2250,12 @@ export const DescribeContainerGroupDefinitionInput = S.suspend(() =>
   identifier: "DescribeContainerGroupDefinitionInput",
 }) as any as S.Schema<DescribeContainerGroupDefinitionInput>;
 export interface DescribeEC2InstanceLimitsInput {
-  EC2InstanceType?: string;
+  EC2InstanceType?: EC2InstanceType;
   Location?: string;
 }
 export const DescribeEC2InstanceLimitsInput = S.suspend(() =>
   S.Struct({
-    EC2InstanceType: S.optional(S.String),
+    EC2InstanceType: S.optional(EC2InstanceType),
     Location: S.optional(S.String),
   }).pipe(
     T.all(
@@ -1072,7 +2272,7 @@ export const DescribeEC2InstanceLimitsInput = S.suspend(() =>
   identifier: "DescribeEC2InstanceLimitsInput",
 }) as any as S.Schema<DescribeEC2InstanceLimitsInput>;
 export interface DescribeFleetAttributesInput {
-  FleetIds?: FleetIdOrArnList;
+  FleetIds?: string[];
   Limit?: number;
   NextToken?: string;
 }
@@ -1096,7 +2296,7 @@ export const DescribeFleetAttributesInput = S.suspend(() =>
   identifier: "DescribeFleetAttributesInput",
 }) as any as S.Schema<DescribeFleetAttributesInput>;
 export interface DescribeFleetCapacityInput {
-  FleetIds?: FleetIdOrArnList;
+  FleetIds?: string[];
   Limit?: number;
   NextToken?: string;
 }
@@ -1120,11 +2320,14 @@ export const DescribeFleetCapacityInput = S.suspend(() =>
   identifier: "DescribeFleetCapacityInput",
 }) as any as S.Schema<DescribeFleetCapacityInput>;
 export interface DescribeFleetDeploymentInput {
-  FleetId: string;
+  FleetId?: string;
   DeploymentId?: string;
 }
 export const DescribeFleetDeploymentInput = S.suspend(() =>
-  S.Struct({ FleetId: S.String, DeploymentId: S.optional(S.String) }).pipe(
+  S.Struct({
+    FleetId: S.optional(S.String),
+    DeploymentId: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1139,7 +2342,7 @@ export const DescribeFleetDeploymentInput = S.suspend(() =>
   identifier: "DescribeFleetDeploymentInput",
 }) as any as S.Schema<DescribeFleetDeploymentInput>;
 export interface DescribeFleetEventsInput {
-  FleetId: string;
+  FleetId?: string;
   StartTime?: Date;
   EndTime?: Date;
   Limit?: number;
@@ -1147,7 +2350,7 @@ export interface DescribeFleetEventsInput {
 }
 export const DescribeFleetEventsInput = S.suspend(() =>
   S.Struct({
-    FleetId: S.String,
+    FleetId: S.optional(S.String),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Limit: S.optional(S.Number),
@@ -1167,14 +2370,14 @@ export const DescribeFleetEventsInput = S.suspend(() =>
   identifier: "DescribeFleetEventsInput",
 }) as any as S.Schema<DescribeFleetEventsInput>;
 export interface DescribeFleetLocationAttributesInput {
-  FleetId: string;
-  Locations?: LocationList;
+  FleetId?: string;
+  Locations?: string[];
   Limit?: number;
   NextToken?: string;
 }
 export const DescribeFleetLocationAttributesInput = S.suspend(() =>
   S.Struct({
-    FleetId: S.String,
+    FleetId: S.optional(S.String),
     Locations: S.optional(LocationList),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
@@ -1193,11 +2396,14 @@ export const DescribeFleetLocationAttributesInput = S.suspend(() =>
   identifier: "DescribeFleetLocationAttributesInput",
 }) as any as S.Schema<DescribeFleetLocationAttributesInput>;
 export interface DescribeFleetLocationCapacityInput {
-  FleetId: string;
-  Location: string;
+  FleetId?: string;
+  Location?: string;
 }
 export const DescribeFleetLocationCapacityInput = S.suspend(() =>
-  S.Struct({ FleetId: S.String, Location: S.String }).pipe(
+  S.Struct({
+    FleetId: S.optional(S.String),
+    Location: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1212,11 +2418,14 @@ export const DescribeFleetLocationCapacityInput = S.suspend(() =>
   identifier: "DescribeFleetLocationCapacityInput",
 }) as any as S.Schema<DescribeFleetLocationCapacityInput>;
 export interface DescribeFleetLocationUtilizationInput {
-  FleetId: string;
-  Location: string;
+  FleetId?: string;
+  Location?: string;
 }
 export const DescribeFleetLocationUtilizationInput = S.suspend(() =>
-  S.Struct({ FleetId: S.String, Location: S.String }).pipe(
+  S.Struct({
+    FleetId: S.optional(S.String),
+    Location: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1231,11 +2440,14 @@ export const DescribeFleetLocationUtilizationInput = S.suspend(() =>
   identifier: "DescribeFleetLocationUtilizationInput",
 }) as any as S.Schema<DescribeFleetLocationUtilizationInput>;
 export interface DescribeFleetPortSettingsInput {
-  FleetId: string;
+  FleetId?: string;
   Location?: string;
 }
 export const DescribeFleetPortSettingsInput = S.suspend(() =>
-  S.Struct({ FleetId: S.String, Location: S.optional(S.String) }).pipe(
+  S.Struct({
+    FleetId: S.optional(S.String),
+    Location: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1250,7 +2462,7 @@ export const DescribeFleetPortSettingsInput = S.suspend(() =>
   identifier: "DescribeFleetPortSettingsInput",
 }) as any as S.Schema<DescribeFleetPortSettingsInput>;
 export interface DescribeFleetUtilizationInput {
-  FleetIds?: FleetIdOrArnList;
+  FleetIds?: string[];
   Limit?: number;
   NextToken?: string;
 }
@@ -1274,11 +2486,14 @@ export const DescribeFleetUtilizationInput = S.suspend(() =>
   identifier: "DescribeFleetUtilizationInput",
 }) as any as S.Schema<DescribeFleetUtilizationInput>;
 export interface DescribeGameServerInput {
-  GameServerGroupName: string;
-  GameServerId: string;
+  GameServerGroupName?: string;
+  GameServerId?: string;
 }
 export const DescribeGameServerInput = S.suspend(() =>
-  S.Struct({ GameServerGroupName: S.String, GameServerId: S.String }).pipe(
+  S.Struct({
+    GameServerGroupName: S.optional(S.String),
+    GameServerId: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1293,10 +2508,10 @@ export const DescribeGameServerInput = S.suspend(() =>
   identifier: "DescribeGameServerInput",
 }) as any as S.Schema<DescribeGameServerInput>;
 export interface DescribeGameServerGroupInput {
-  GameServerGroupName: string;
+  GameServerGroupName?: string;
 }
 export const DescribeGameServerGroupInput = S.suspend(() =>
-  S.Struct({ GameServerGroupName: S.String }).pipe(
+  S.Struct({ GameServerGroupName: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1311,14 +2526,14 @@ export const DescribeGameServerGroupInput = S.suspend(() =>
   identifier: "DescribeGameServerGroupInput",
 }) as any as S.Schema<DescribeGameServerGroupInput>;
 export interface DescribeGameServerInstancesInput {
-  GameServerGroupName: string;
-  InstanceIds?: GameServerInstanceIds;
+  GameServerGroupName?: string;
+  InstanceIds?: string[];
   Limit?: number;
   NextToken?: string;
 }
 export const DescribeGameServerInstancesInput = S.suspend(() =>
   S.Struct({
-    GameServerGroupName: S.String,
+    GameServerGroupName: S.optional(S.String),
     InstanceIds: S.optional(GameServerInstanceIds),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
@@ -1369,10 +2584,10 @@ export const DescribeGameSessionDetailsInput = S.suspend(() =>
   identifier: "DescribeGameSessionDetailsInput",
 }) as any as S.Schema<DescribeGameSessionDetailsInput>;
 export interface DescribeGameSessionPlacementInput {
-  PlacementId: string;
+  PlacementId?: string;
 }
 export const DescribeGameSessionPlacementInput = S.suspend(() =>
-  S.Struct({ PlacementId: S.String }).pipe(
+  S.Struct({ PlacementId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1387,7 +2602,7 @@ export const DescribeGameSessionPlacementInput = S.suspend(() =>
   identifier: "DescribeGameSessionPlacementInput",
 }) as any as S.Schema<DescribeGameSessionPlacementInput>;
 export interface DescribeGameSessionQueuesInput {
-  Names?: GameSessionQueueNameOrArnList;
+  Names?: string[];
   Limit?: number;
   NextToken?: string;
 }
@@ -1443,7 +2658,7 @@ export const DescribeGameSessionsInput = S.suspend(() =>
   identifier: "DescribeGameSessionsInput",
 }) as any as S.Schema<DescribeGameSessionsInput>;
 export interface DescribeInstancesInput {
-  FleetId: string;
+  FleetId?: string;
   InstanceId?: string;
   Limit?: number;
   NextToken?: string;
@@ -1451,7 +2666,7 @@ export interface DescribeInstancesInput {
 }
 export const DescribeInstancesInput = S.suspend(() =>
   S.Struct({
-    FleetId: S.String,
+    FleetId: S.optional(S.String),
     InstanceId: S.optional(S.String),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
@@ -1471,10 +2686,10 @@ export const DescribeInstancesInput = S.suspend(() =>
   identifier: "DescribeInstancesInput",
 }) as any as S.Schema<DescribeInstancesInput>;
 export interface DescribeMatchmakingInput {
-  TicketIds: MatchmakingIdList;
+  TicketIds?: string[];
 }
 export const DescribeMatchmakingInput = S.suspend(() =>
-  S.Struct({ TicketIds: MatchmakingIdList }).pipe(
+  S.Struct({ TicketIds: S.optional(MatchmakingIdList) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1489,7 +2704,7 @@ export const DescribeMatchmakingInput = S.suspend(() =>
   identifier: "DescribeMatchmakingInput",
 }) as any as S.Schema<DescribeMatchmakingInput>;
 export interface DescribeMatchmakingConfigurationsInput {
-  Names?: MatchmakingConfigurationNameList;
+  Names?: string[];
   RuleSetName?: string;
   Limit?: number;
   NextToken?: string;
@@ -1515,7 +2730,7 @@ export const DescribeMatchmakingConfigurationsInput = S.suspend(() =>
   identifier: "DescribeMatchmakingConfigurationsInput",
 }) as any as S.Schema<DescribeMatchmakingConfigurationsInput>;
 export interface DescribeMatchmakingRuleSetsInput {
-  Names?: MatchmakingRuleSetNameList;
+  Names?: string[];
   Limit?: number;
   NextToken?: string;
 }
@@ -1540,7 +2755,7 @@ export const DescribeMatchmakingRuleSetsInput = S.suspend(() =>
 }) as any as S.Schema<DescribeMatchmakingRuleSetsInput>;
 export interface DescribePlayerSessionsInput {
   GameSessionId?: string;
-  PlayerId?: string | Redacted.Redacted<string>;
+  PlayerId?: string | redacted.Redacted<string>;
   PlayerSessionId?: string;
   PlayerSessionStatusFilter?: string;
   Limit?: number;
@@ -1569,10 +2784,10 @@ export const DescribePlayerSessionsInput = S.suspend(() =>
   identifier: "DescribePlayerSessionsInput",
 }) as any as S.Schema<DescribePlayerSessionsInput>;
 export interface DescribeRuntimeConfigurationInput {
-  FleetId: string;
+  FleetId?: string;
 }
 export const DescribeRuntimeConfigurationInput = S.suspend(() =>
-  S.Struct({ FleetId: S.String }).pipe(
+  S.Struct({ FleetId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1587,16 +2802,16 @@ export const DescribeRuntimeConfigurationInput = S.suspend(() =>
   identifier: "DescribeRuntimeConfigurationInput",
 }) as any as S.Schema<DescribeRuntimeConfigurationInput>;
 export interface DescribeScalingPoliciesInput {
-  FleetId: string;
-  StatusFilter?: string;
+  FleetId?: string;
+  StatusFilter?: ScalingStatusType;
   Limit?: number;
   NextToken?: string;
   Location?: string;
 }
 export const DescribeScalingPoliciesInput = S.suspend(() =>
   S.Struct({
-    FleetId: S.String,
-    StatusFilter: S.optional(S.String),
+    FleetId: S.optional(S.String),
+    StatusFilter: S.optional(ScalingStatusType),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
     Location: S.optional(S.String),
@@ -1615,10 +2830,10 @@ export const DescribeScalingPoliciesInput = S.suspend(() =>
   identifier: "DescribeScalingPoliciesInput",
 }) as any as S.Schema<DescribeScalingPoliciesInput>;
 export interface DescribeScriptInput {
-  ScriptId: string;
+  ScriptId?: string;
 }
 export const DescribeScriptInput = S.suspend(() =>
-  S.Struct({ ScriptId: S.String }).pipe(
+  S.Struct({ ScriptId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1651,11 +2866,14 @@ export const DescribeVpcPeeringConnectionsInput = S.suspend(() =>
   identifier: "DescribeVpcPeeringConnectionsInput",
 }) as any as S.Schema<DescribeVpcPeeringConnectionsInput>;
 export interface GetComputeAccessInput {
-  FleetId: string;
-  ComputeName: string;
+  FleetId?: string;
+  ComputeName?: string;
 }
 export const GetComputeAccessInput = S.suspend(() =>
-  S.Struct({ FleetId: S.String, ComputeName: S.String }).pipe(
+  S.Struct({
+    FleetId: S.optional(S.String),
+    ComputeName: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1670,11 +2888,14 @@ export const GetComputeAccessInput = S.suspend(() =>
   identifier: "GetComputeAccessInput",
 }) as any as S.Schema<GetComputeAccessInput>;
 export interface GetComputeAuthTokenInput {
-  FleetId: string;
-  ComputeName: string;
+  FleetId?: string;
+  ComputeName?: string;
 }
 export const GetComputeAuthTokenInput = S.suspend(() =>
-  S.Struct({ FleetId: S.String, ComputeName: S.String }).pipe(
+  S.Struct({
+    FleetId: S.optional(S.String),
+    ComputeName: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1689,10 +2910,10 @@ export const GetComputeAuthTokenInput = S.suspend(() =>
   identifier: "GetComputeAuthTokenInput",
 }) as any as S.Schema<GetComputeAuthTokenInput>;
 export interface GetGameSessionLogUrlInput {
-  GameSessionId: string;
+  GameSessionId?: string;
 }
 export const GetGameSessionLogUrlInput = S.suspend(() =>
-  S.Struct({ GameSessionId: S.String }).pipe(
+  S.Struct({ GameSessionId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1707,11 +2928,14 @@ export const GetGameSessionLogUrlInput = S.suspend(() =>
   identifier: "GetGameSessionLogUrlInput",
 }) as any as S.Schema<GetGameSessionLogUrlInput>;
 export interface GetInstanceAccessInput {
-  FleetId: string;
-  InstanceId: string;
+  FleetId?: string;
+  InstanceId?: string;
 }
 export const GetInstanceAccessInput = S.suspend(() =>
-  S.Struct({ FleetId: S.String, InstanceId: S.String }).pipe(
+  S.Struct({
+    FleetId: S.optional(S.String),
+    InstanceId: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1726,14 +2950,14 @@ export const GetInstanceAccessInput = S.suspend(() =>
   identifier: "GetInstanceAccessInput",
 }) as any as S.Schema<GetInstanceAccessInput>;
 export interface ListAliasesInput {
-  RoutingStrategyType?: string;
+  RoutingStrategyType?: RoutingStrategyType;
   Name?: string;
   Limit?: number;
   NextToken?: string;
 }
 export const ListAliasesInput = S.suspend(() =>
   S.Struct({
-    RoutingStrategyType: S.optional(S.String),
+    RoutingStrategyType: S.optional(RoutingStrategyType),
     Name: S.optional(S.String),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
@@ -1752,13 +2976,13 @@ export const ListAliasesInput = S.suspend(() =>
   identifier: "ListAliasesInput",
 }) as any as S.Schema<ListAliasesInput>;
 export interface ListBuildsInput {
-  Status?: string;
+  Status?: BuildStatus;
   Limit?: number;
   NextToken?: string;
 }
 export const ListBuildsInput = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(BuildStatus),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -1776,19 +3000,19 @@ export const ListBuildsInput = S.suspend(() =>
   identifier: "ListBuildsInput",
 }) as any as S.Schema<ListBuildsInput>;
 export interface ListComputeInput {
-  FleetId: string;
+  FleetId?: string;
   Location?: string;
   ContainerGroupDefinitionName?: string;
-  ComputeStatus?: string;
+  ComputeStatus?: ListComputeInputStatus;
   Limit?: number;
   NextToken?: string;
 }
 export const ListComputeInput = S.suspend(() =>
   S.Struct({
-    FleetId: S.String,
+    FleetId: S.optional(S.String),
     Location: S.optional(S.String),
     ContainerGroupDefinitionName: S.optional(S.String),
-    ComputeStatus: S.optional(S.String),
+    ComputeStatus: S.optional(ListComputeInputStatus),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -1830,13 +3054,13 @@ export const ListContainerFleetsInput = S.suspend(() =>
   identifier: "ListContainerFleetsInput",
 }) as any as S.Schema<ListContainerFleetsInput>;
 export interface ListContainerGroupDefinitionsInput {
-  ContainerGroupType?: string;
+  ContainerGroupType?: ContainerGroupType;
   Limit?: number;
   NextToken?: string;
 }
 export const ListContainerGroupDefinitionsInput = S.suspend(() =>
   S.Struct({
-    ContainerGroupType: S.optional(S.String),
+    ContainerGroupType: S.optional(ContainerGroupType),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -1854,13 +3078,13 @@ export const ListContainerGroupDefinitionsInput = S.suspend(() =>
   identifier: "ListContainerGroupDefinitionsInput",
 }) as any as S.Schema<ListContainerGroupDefinitionsInput>;
 export interface ListContainerGroupDefinitionVersionsInput {
-  Name: string;
+  Name?: string;
   Limit?: number;
   NextToken?: string;
 }
 export const ListContainerGroupDefinitionVersionsInput = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: S.optional(S.String),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -1950,15 +3174,15 @@ export const ListGameServerGroupsInput = S.suspend(() =>
   identifier: "ListGameServerGroupsInput",
 }) as any as S.Schema<ListGameServerGroupsInput>;
 export interface ListGameServersInput {
-  GameServerGroupName: string;
-  SortOrder?: string;
+  GameServerGroupName?: string;
+  SortOrder?: SortOrder;
   Limit?: number;
   NextToken?: string;
 }
 export const ListGameServersInput = S.suspend(() =>
   S.Struct({
-    GameServerGroupName: S.String,
-    SortOrder: S.optional(S.String),
+    GameServerGroupName: S.optional(S.String),
+    SortOrder: S.optional(SortOrder),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -1976,7 +3200,7 @@ export const ListGameServersInput = S.suspend(() =>
   identifier: "ListGameServersInput",
 }) as any as S.Schema<ListGameServersInput>;
 export interface ListLocationsInput {
-  Filters?: LocationFilterList;
+  Filters?: LocationFilter[];
   Limit?: number;
   NextToken?: string;
 }
@@ -2022,10 +3246,10 @@ export const ListScriptsInput = S.suspend(() =>
   identifier: "ListScriptsInput",
 }) as any as S.Schema<ListScriptsInput>;
 export interface ListTagsForResourceRequest {
-  ResourceARN: string;
+  ResourceARN?: string;
 }
 export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceARN: S.String }).pipe(
+  S.Struct({ ResourceARN: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2040,17 +3264,17 @@ export const ListTagsForResourceRequest = S.suspend(() =>
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface RegisterComputeInput {
-  FleetId: string;
-  ComputeName: string;
+  FleetId?: string;
+  ComputeName?: string;
   CertificatePath?: string;
   DnsName?: string;
-  IpAddress?: string | Redacted.Redacted<string>;
+  IpAddress?: string | redacted.Redacted<string>;
   Location?: string;
 }
 export const RegisterComputeInput = S.suspend(() =>
   S.Struct({
-    FleetId: S.String,
-    ComputeName: S.String,
+    FleetId: S.optional(S.String),
+    ComputeName: S.optional(S.String),
     CertificatePath: S.optional(S.String),
     DnsName: S.optional(S.String),
     IpAddress: S.optional(SensitiveString),
@@ -2070,17 +3294,17 @@ export const RegisterComputeInput = S.suspend(() =>
   identifier: "RegisterComputeInput",
 }) as any as S.Schema<RegisterComputeInput>;
 export interface RegisterGameServerInput {
-  GameServerGroupName: string;
-  GameServerId: string;
-  InstanceId: string;
+  GameServerGroupName?: string;
+  GameServerId?: string;
+  InstanceId?: string;
   ConnectionInfo?: string;
   GameServerData?: string;
 }
 export const RegisterGameServerInput = S.suspend(() =>
   S.Struct({
-    GameServerGroupName: S.String,
-    GameServerId: S.String,
-    InstanceId: S.String,
+    GameServerGroupName: S.optional(S.String),
+    GameServerId: S.optional(S.String),
+    InstanceId: S.optional(S.String),
     ConnectionInfo: S.optional(S.String),
     GameServerData: S.optional(S.String),
   }).pipe(
@@ -2098,10 +3322,10 @@ export const RegisterGameServerInput = S.suspend(() =>
   identifier: "RegisterGameServerInput",
 }) as any as S.Schema<RegisterGameServerInput>;
 export interface RequestUploadCredentialsInput {
-  BuildId: string;
+  BuildId?: string;
 }
 export const RequestUploadCredentialsInput = S.suspend(() =>
-  S.Struct({ BuildId: S.String }).pipe(
+  S.Struct({ BuildId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2116,10 +3340,10 @@ export const RequestUploadCredentialsInput = S.suspend(() =>
   identifier: "RequestUploadCredentialsInput",
 }) as any as S.Schema<RequestUploadCredentialsInput>;
 export interface ResolveAliasInput {
-  AliasId: string;
+  AliasId?: string;
 }
 export const ResolveAliasInput = S.suspend(() =>
-  S.Struct({ AliasId: S.String }).pipe(
+  S.Struct({ AliasId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2134,13 +3358,13 @@ export const ResolveAliasInput = S.suspend(() =>
   identifier: "ResolveAliasInput",
 }) as any as S.Schema<ResolveAliasInput>;
 export interface ResumeGameServerGroupInput {
-  GameServerGroupName: string;
-  ResumeActions: GameServerGroupActions;
+  GameServerGroupName?: string;
+  ResumeActions?: GameServerGroupAction[];
 }
 export const ResumeGameServerGroupInput = S.suspend(() =>
   S.Struct({
-    GameServerGroupName: S.String,
-    ResumeActions: GameServerGroupActions,
+    GameServerGroupName: S.optional(S.String),
+    ResumeActions: S.optional(GameServerGroupActions),
   }).pipe(
     T.all(
       ns,
@@ -2188,14 +3412,14 @@ export const SearchGameSessionsInput = S.suspend(() =>
   identifier: "SearchGameSessionsInput",
 }) as any as S.Schema<SearchGameSessionsInput>;
 export interface StartFleetActionsInput {
-  FleetId: string;
-  Actions: FleetActionList;
+  FleetId?: string;
+  Actions?: FleetAction[];
   Location?: string;
 }
 export const StartFleetActionsInput = S.suspend(() =>
   S.Struct({
-    FleetId: S.String,
-    Actions: FleetActionList,
+    FleetId: S.optional(S.String),
+    Actions: S.optional(FleetActionList),
     Location: S.optional(S.String),
   }).pipe(
     T.all(
@@ -2221,8 +3445,8 @@ export const PlayerAttributeStringDoubleMap = S.Record({
 export interface AttributeValue {
   S?: string;
   N?: number;
-  SL?: PlayerAttributeStringList;
-  SDM?: PlayerAttributeStringDoubleMap;
+  SL?: string[];
+  SDM?: { [key: string]: number };
 }
 export const AttributeValue = S.suspend(() =>
   S.Struct({
@@ -2242,10 +3466,10 @@ export const PlayerAttributeMap = S.Record({
 export type LatencyMap = { [key: string]: number };
 export const LatencyMap = S.Record({ key: S.String, value: S.Number });
 export interface Player {
-  PlayerId?: string | Redacted.Redacted<string>;
-  PlayerAttributes?: PlayerAttributeMap;
+  PlayerId?: string | redacted.Redacted<string>;
+  PlayerAttributes?: { [key: string]: AttributeValue };
   Team?: string;
-  LatencyInMs?: LatencyMap;
+  LatencyInMs?: { [key: string]: number };
 }
 export const Player = S.suspend(() =>
   S.Struct({
@@ -2259,14 +3483,14 @@ export type PlayerList = Player[];
 export const PlayerList = S.Array(Player);
 export interface StartMatchmakingInput {
   TicketId?: string;
-  ConfigurationName: string;
-  Players: PlayerList;
+  ConfigurationName?: string;
+  Players?: Player[];
 }
 export const StartMatchmakingInput = S.suspend(() =>
   S.Struct({
     TicketId: S.optional(S.String),
-    ConfigurationName: S.String,
-    Players: PlayerList,
+    ConfigurationName: S.optional(S.String),
+    Players: S.optional(PlayerList),
   }).pipe(
     T.all(
       ns,
@@ -2282,14 +3506,14 @@ export const StartMatchmakingInput = S.suspend(() =>
   identifier: "StartMatchmakingInput",
 }) as any as S.Schema<StartMatchmakingInput>;
 export interface StopFleetActionsInput {
-  FleetId: string;
-  Actions: FleetActionList;
+  FleetId?: string;
+  Actions?: FleetAction[];
   Location?: string;
 }
 export const StopFleetActionsInput = S.suspend(() =>
   S.Struct({
-    FleetId: S.String,
-    Actions: FleetActionList,
+    FleetId: S.optional(S.String),
+    Actions: S.optional(FleetActionList),
     Location: S.optional(S.String),
   }).pipe(
     T.all(
@@ -2306,10 +3530,10 @@ export const StopFleetActionsInput = S.suspend(() =>
   identifier: "StopFleetActionsInput",
 }) as any as S.Schema<StopFleetActionsInput>;
 export interface StopGameSessionPlacementInput {
-  PlacementId: string;
+  PlacementId?: string;
 }
 export const StopGameSessionPlacementInput = S.suspend(() =>
-  S.Struct({ PlacementId: S.String }).pipe(
+  S.Struct({ PlacementId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2324,10 +3548,10 @@ export const StopGameSessionPlacementInput = S.suspend(() =>
   identifier: "StopGameSessionPlacementInput",
 }) as any as S.Schema<StopGameSessionPlacementInput>;
 export interface StopMatchmakingInput {
-  TicketId: string;
+  TicketId?: string;
 }
 export const StopMatchmakingInput = S.suspend(() =>
-  S.Struct({ TicketId: S.String }).pipe(
+  S.Struct({ TicketId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2348,13 +3572,13 @@ export const StopMatchmakingOutput = S.suspend(() =>
   identifier: "StopMatchmakingOutput",
 }) as any as S.Schema<StopMatchmakingOutput>;
 export interface SuspendGameServerGroupInput {
-  GameServerGroupName: string;
-  SuspendActions: GameServerGroupActions;
+  GameServerGroupName?: string;
+  SuspendActions?: GameServerGroupAction[];
 }
 export const SuspendGameServerGroupInput = S.suspend(() =>
   S.Struct({
-    GameServerGroupName: S.String,
-    SuspendActions: GameServerGroupActions,
+    GameServerGroupName: S.optional(S.String),
+    SuspendActions: S.optional(GameServerGroupActions),
   }).pipe(
     T.all(
       ns,
@@ -2370,11 +3594,14 @@ export const SuspendGameServerGroupInput = S.suspend(() =>
   identifier: "SuspendGameServerGroupInput",
 }) as any as S.Schema<SuspendGameServerGroupInput>;
 export interface TagResourceRequest {
-  ResourceARN: string;
-  Tags: TagList;
+  ResourceARN?: string;
+  Tags?: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
+  S.Struct({
+    ResourceARN: S.optional(S.String),
+    Tags: S.optional(TagList),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2395,11 +3622,14 @@ export const TagResourceResponse = S.suspend(() =>
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface TerminateGameSessionInput {
-  GameSessionId: string;
-  TerminationMode: string;
+  GameSessionId?: string;
+  TerminationMode?: TerminationMode;
 }
 export const TerminateGameSessionInput = S.suspend(() =>
-  S.Struct({ GameSessionId: S.String, TerminationMode: S.String }).pipe(
+  S.Struct({
+    GameSessionId: S.optional(S.String),
+    TerminationMode: S.optional(TerminationMode),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2414,11 +3644,14 @@ export const TerminateGameSessionInput = S.suspend(() =>
   identifier: "TerminateGameSessionInput",
 }) as any as S.Schema<TerminateGameSessionInput>;
 export interface UntagResourceRequest {
-  ResourceARN: string;
-  TagKeys: TagKeyList;
+  ResourceARN?: string;
+  TagKeys?: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
+  S.Struct({
+    ResourceARN: S.optional(S.String),
+    TagKeys: S.optional(TagKeyList),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2439,13 +3672,13 @@ export const UntagResourceResponse = S.suspend(() =>
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface RoutingStrategy {
-  Type?: string;
+  Type?: RoutingStrategyType;
   FleetId?: string;
   Message?: string;
 }
 export const RoutingStrategy = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String),
+    Type: S.optional(RoutingStrategyType),
     FleetId: S.optional(S.String),
     Message: S.optional(S.String),
   }),
@@ -2453,14 +3686,14 @@ export const RoutingStrategy = S.suspend(() =>
   identifier: "RoutingStrategy",
 }) as any as S.Schema<RoutingStrategy>;
 export interface UpdateAliasInput {
-  AliasId: string;
+  AliasId?: string;
   Name?: string;
   Description?: string;
   RoutingStrategy?: RoutingStrategy;
 }
 export const UpdateAliasInput = S.suspend(() =>
   S.Struct({
-    AliasId: S.String,
+    AliasId: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     RoutingStrategy: S.optional(RoutingStrategy),
@@ -2479,13 +3712,13 @@ export const UpdateAliasInput = S.suspend(() =>
   identifier: "UpdateAliasInput",
 }) as any as S.Schema<UpdateAliasInput>;
 export interface UpdateBuildInput {
-  BuildId: string;
+  BuildId?: string;
   Name?: string;
   Version?: string;
 }
 export const UpdateBuildInput = S.suspend(() =>
   S.Struct({
-    BuildId: S.String,
+    BuildId: S.optional(S.String),
     Name: S.optional(S.String),
     Version: S.optional(S.String),
   }).pipe(
@@ -2502,27 +3735,46 @@ export const UpdateBuildInput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateBuildInput",
 }) as any as S.Schema<UpdateBuildInput>;
+export type ContainerDependencyCondition =
+  | "START"
+  | "COMPLETE"
+  | "SUCCESS"
+  | "HEALTHY";
+export const ContainerDependencyCondition = S.Literal(
+  "START",
+  "COMPLETE",
+  "SUCCESS",
+  "HEALTHY",
+);
 export interface ContainerDependency {
-  ContainerName: string;
-  Condition: string;
+  ContainerName?: string;
+  Condition?: ContainerDependencyCondition;
 }
 export const ContainerDependency = S.suspend(() =>
-  S.Struct({ ContainerName: S.String, Condition: S.String }),
+  S.Struct({
+    ContainerName: S.optional(S.String),
+    Condition: S.optional(ContainerDependencyCondition),
+  }),
 ).annotations({
   identifier: "ContainerDependency",
 }) as any as S.Schema<ContainerDependency>;
 export type ContainerDependencyList = ContainerDependency[];
 export const ContainerDependencyList = S.Array(ContainerDependency);
+export type ContainerMountPointAccessLevel = "READ_ONLY" | "READ_AND_WRITE";
+export const ContainerMountPointAccessLevel = S.Literal(
+  "READ_ONLY",
+  "READ_AND_WRITE",
+);
 export interface ContainerMountPoint {
-  InstancePath: string;
+  InstancePath?: string;
   ContainerPath?: string;
-  AccessLevel?: string;
+  AccessLevel?: ContainerMountPointAccessLevel;
 }
 export const ContainerMountPoint = S.suspend(() =>
   S.Struct({
-    InstancePath: S.String,
+    InstancePath: S.optional(S.String),
     ContainerPath: S.optional(S.String),
-    AccessLevel: S.optional(S.String),
+    AccessLevel: S.optional(ContainerMountPointAccessLevel),
   }),
 ).annotations({
   identifier: "ContainerMountPoint",
@@ -2530,54 +3782,60 @@ export const ContainerMountPoint = S.suspend(() =>
 export type ContainerMountPointList = ContainerMountPoint[];
 export const ContainerMountPointList = S.Array(ContainerMountPoint);
 export interface ContainerEnvironment {
-  Name: string;
-  Value: string;
+  Name?: string;
+  Value?: string;
 }
 export const ContainerEnvironment = S.suspend(() =>
-  S.Struct({ Name: S.String, Value: S.String }),
+  S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
 ).annotations({
   identifier: "ContainerEnvironment",
 }) as any as S.Schema<ContainerEnvironment>;
 export type ContainerEnvironmentList = ContainerEnvironment[];
 export const ContainerEnvironmentList = S.Array(ContainerEnvironment);
+export type IpProtocol = "TCP" | "UDP";
+export const IpProtocol = S.Literal("TCP", "UDP");
 export interface ContainerPortRange {
-  FromPort: number;
-  ToPort: number;
-  Protocol: string;
+  FromPort?: number;
+  ToPort?: number;
+  Protocol?: IpProtocol;
 }
 export const ContainerPortRange = S.suspend(() =>
-  S.Struct({ FromPort: S.Number, ToPort: S.Number, Protocol: S.String }),
+  S.Struct({
+    FromPort: S.optional(S.Number),
+    ToPort: S.optional(S.Number),
+    Protocol: S.optional(IpProtocol),
+  }),
 ).annotations({
   identifier: "ContainerPortRange",
 }) as any as S.Schema<ContainerPortRange>;
 export type ContainerPortRangeList = ContainerPortRange[];
 export const ContainerPortRangeList = S.Array(ContainerPortRange);
 export interface ContainerPortConfiguration {
-  ContainerPortRanges: ContainerPortRangeList;
+  ContainerPortRanges?: ContainerPortRange[];
 }
 export const ContainerPortConfiguration = S.suspend(() =>
-  S.Struct({ ContainerPortRanges: ContainerPortRangeList }),
+  S.Struct({ ContainerPortRanges: S.optional(ContainerPortRangeList) }),
 ).annotations({
   identifier: "ContainerPortConfiguration",
 }) as any as S.Schema<ContainerPortConfiguration>;
 export interface GameServerContainerDefinitionInput {
-  ContainerName: string;
-  DependsOn?: ContainerDependencyList;
-  MountPoints?: ContainerMountPointList;
-  EnvironmentOverride?: ContainerEnvironmentList;
-  ImageUri: string;
-  PortConfiguration: ContainerPortConfiguration;
-  ServerSdkVersion: string;
+  ContainerName?: string;
+  DependsOn?: ContainerDependency[];
+  MountPoints?: ContainerMountPoint[];
+  EnvironmentOverride?: ContainerEnvironment[];
+  ImageUri?: string;
+  PortConfiguration?: ContainerPortConfiguration;
+  ServerSdkVersion?: string;
 }
 export const GameServerContainerDefinitionInput = S.suspend(() =>
   S.Struct({
-    ContainerName: S.String,
+    ContainerName: S.optional(S.String),
     DependsOn: S.optional(ContainerDependencyList),
     MountPoints: S.optional(ContainerMountPointList),
     EnvironmentOverride: S.optional(ContainerEnvironmentList),
-    ImageUri: S.String,
-    PortConfiguration: ContainerPortConfiguration,
-    ServerSdkVersion: S.String,
+    ImageUri: S.optional(S.String),
+    PortConfiguration: S.optional(ContainerPortConfiguration),
+    ServerSdkVersion: S.optional(S.String),
   }),
 ).annotations({
   identifier: "GameServerContainerDefinitionInput",
@@ -2585,7 +3843,7 @@ export const GameServerContainerDefinitionInput = S.suspend(() =>
 export type ContainerCommandStringList = string[];
 export const ContainerCommandStringList = S.Array(S.String);
 export interface ContainerHealthCheck {
-  Command: ContainerCommandStringList;
+  Command?: string[];
   Interval?: number;
   Retries?: number;
   StartPeriod?: number;
@@ -2593,7 +3851,7 @@ export interface ContainerHealthCheck {
 }
 export const ContainerHealthCheck = S.suspend(() =>
   S.Struct({
-    Command: ContainerCommandStringList,
+    Command: S.optional(ContainerCommandStringList),
     Interval: S.optional(S.Number),
     Retries: S.optional(S.Number),
     StartPeriod: S.optional(S.Number),
@@ -2603,26 +3861,26 @@ export const ContainerHealthCheck = S.suspend(() =>
   identifier: "ContainerHealthCheck",
 }) as any as S.Schema<ContainerHealthCheck>;
 export interface SupportContainerDefinitionInput {
-  ContainerName: string;
-  DependsOn?: ContainerDependencyList;
-  MountPoints?: ContainerMountPointList;
-  EnvironmentOverride?: ContainerEnvironmentList;
+  ContainerName?: string;
+  DependsOn?: ContainerDependency[];
+  MountPoints?: ContainerMountPoint[];
+  EnvironmentOverride?: ContainerEnvironment[];
   Essential?: boolean;
   HealthCheck?: ContainerHealthCheck;
-  ImageUri: string;
+  ImageUri?: string;
   MemoryHardLimitMebibytes?: number;
   PortConfiguration?: ContainerPortConfiguration;
   Vcpu?: number;
 }
 export const SupportContainerDefinitionInput = S.suspend(() =>
   S.Struct({
-    ContainerName: S.String,
+    ContainerName: S.optional(S.String),
     DependsOn: S.optional(ContainerDependencyList),
     MountPoints: S.optional(ContainerMountPointList),
     EnvironmentOverride: S.optional(ContainerEnvironmentList),
     Essential: S.optional(S.Boolean),
     HealthCheck: S.optional(ContainerHealthCheck),
-    ImageUri: S.String,
+    ImageUri: S.optional(S.String),
     MemoryHardLimitMebibytes: S.optional(S.Number),
     PortConfiguration: S.optional(ContainerPortConfiguration),
     Vcpu: S.optional(S.Number),
@@ -2636,18 +3894,18 @@ export const SupportContainerDefinitionInputList = S.Array(
   SupportContainerDefinitionInput,
 );
 export interface UpdateContainerGroupDefinitionInput {
-  Name: string;
+  Name?: string;
   GameServerContainerDefinition?: GameServerContainerDefinitionInput;
-  SupportContainerDefinitions?: SupportContainerDefinitionInputList;
+  SupportContainerDefinitions?: SupportContainerDefinitionInput[];
   TotalMemoryLimitMebibytes?: number;
   TotalVcpuLimit?: number;
   VersionDescription?: string;
   SourceVersionNumber?: number;
-  OperatingSystem?: string;
+  OperatingSystem?: ContainerOperatingSystem;
 }
 export const UpdateContainerGroupDefinitionInput = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: S.optional(S.String),
     GameServerContainerDefinition: S.optional(
       GameServerContainerDefinitionInput,
     ),
@@ -2658,7 +3916,7 @@ export const UpdateContainerGroupDefinitionInput = S.suspend(() =>
     TotalVcpuLimit: S.optional(S.Number),
     VersionDescription: S.optional(S.String),
     SourceVersionNumber: S.optional(S.Number),
-    OperatingSystem: S.optional(S.String),
+    OperatingSystem: S.optional(ContainerOperatingSystem),
   }).pipe(
     T.all(
       ns,
@@ -2686,28 +3944,28 @@ export const ResourceCreationLimitPolicy = S.suspend(() =>
   identifier: "ResourceCreationLimitPolicy",
 }) as any as S.Schema<ResourceCreationLimitPolicy>;
 export interface AnywhereConfiguration {
-  Cost: string;
+  Cost?: string;
 }
 export const AnywhereConfiguration = S.suspend(() =>
-  S.Struct({ Cost: S.String }),
+  S.Struct({ Cost: S.optional(S.String) }),
 ).annotations({
   identifier: "AnywhereConfiguration",
 }) as any as S.Schema<AnywhereConfiguration>;
 export interface UpdateFleetAttributesInput {
-  FleetId: string;
+  FleetId?: string;
   Name?: string;
   Description?: string;
-  NewGameSessionProtectionPolicy?: string;
+  NewGameSessionProtectionPolicy?: ProtectionPolicy;
   ResourceCreationLimitPolicy?: ResourceCreationLimitPolicy;
-  MetricGroups?: MetricGroupList;
+  MetricGroups?: string[];
   AnywhereConfiguration?: AnywhereConfiguration;
 }
 export const UpdateFleetAttributesInput = S.suspend(() =>
   S.Struct({
-    FleetId: S.String,
+    FleetId: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    NewGameSessionProtectionPolicy: S.optional(S.String),
+    NewGameSessionProtectionPolicy: S.optional(ProtectionPolicy),
     ResourceCreationLimitPolicy: S.optional(ResourceCreationLimitPolicy),
     MetricGroups: S.optional(MetricGroupList),
     AnywhereConfiguration: S.optional(AnywhereConfiguration),
@@ -2726,7 +3984,7 @@ export const UpdateFleetAttributesInput = S.suspend(() =>
   identifier: "UpdateFleetAttributesInput",
 }) as any as S.Schema<UpdateFleetAttributesInput>;
 export interface UpdateFleetCapacityInput {
-  FleetId: string;
+  FleetId?: string;
   DesiredInstances?: number;
   MinSize?: number;
   MaxSize?: number;
@@ -2734,7 +3992,7 @@ export interface UpdateFleetCapacityInput {
 }
 export const UpdateFleetCapacityInput = S.suspend(() =>
   S.Struct({
-    FleetId: S.String,
+    FleetId: S.optional(S.String),
     DesiredInstances: S.optional(S.Number),
     MinSize: S.optional(S.Number),
     MaxSize: S.optional(S.Number),
@@ -2754,29 +4012,29 @@ export const UpdateFleetCapacityInput = S.suspend(() =>
   identifier: "UpdateFleetCapacityInput",
 }) as any as S.Schema<UpdateFleetCapacityInput>;
 export interface IpPermission {
-  FromPort: number;
-  ToPort: number;
-  IpRange: string | Redacted.Redacted<string>;
-  Protocol: string;
+  FromPort?: number;
+  ToPort?: number;
+  IpRange?: string | redacted.Redacted<string>;
+  Protocol?: IpProtocol;
 }
 export const IpPermission = S.suspend(() =>
   S.Struct({
-    FromPort: S.Number,
-    ToPort: S.Number,
-    IpRange: SensitiveString,
-    Protocol: S.String,
+    FromPort: S.optional(S.Number),
+    ToPort: S.optional(S.Number),
+    IpRange: S.optional(SensitiveString),
+    Protocol: S.optional(IpProtocol),
   }),
 ).annotations({ identifier: "IpPermission" }) as any as S.Schema<IpPermission>;
 export type IpPermissionsList = IpPermission[];
 export const IpPermissionsList = S.Array(IpPermission);
 export interface UpdateFleetPortSettingsInput {
-  FleetId: string;
-  InboundPermissionAuthorizations?: IpPermissionsList;
-  InboundPermissionRevocations?: IpPermissionsList;
+  FleetId?: string;
+  InboundPermissionAuthorizations?: IpPermission[];
+  InboundPermissionRevocations?: IpPermission[];
 }
 export const UpdateFleetPortSettingsInput = S.suspend(() =>
   S.Struct({
-    FleetId: S.String,
+    FleetId: S.optional(S.String),
     InboundPermissionAuthorizations: S.optional(IpPermissionsList),
     InboundPermissionRevocations: S.optional(IpPermissionsList),
   }).pipe(
@@ -2794,19 +4052,19 @@ export const UpdateFleetPortSettingsInput = S.suspend(() =>
   identifier: "UpdateFleetPortSettingsInput",
 }) as any as S.Schema<UpdateFleetPortSettingsInput>;
 export interface UpdateGameServerInput {
-  GameServerGroupName: string;
-  GameServerId: string;
+  GameServerGroupName?: string;
+  GameServerId?: string;
   GameServerData?: string;
-  UtilizationStatus?: string;
-  HealthCheck?: string;
+  UtilizationStatus?: GameServerUtilizationStatus;
+  HealthCheck?: GameServerHealthCheck;
 }
 export const UpdateGameServerInput = S.suspend(() =>
   S.Struct({
-    GameServerGroupName: S.String,
-    GameServerId: S.String,
+    GameServerGroupName: S.optional(S.String),
+    GameServerId: S.optional(S.String),
     GameServerData: S.optional(S.String),
-    UtilizationStatus: S.optional(S.String),
-    HealthCheck: S.optional(S.String),
+    UtilizationStatus: S.optional(GameServerUtilizationStatus),
+    HealthCheck: S.optional(GameServerHealthCheck),
   }).pipe(
     T.all(
       ns,
@@ -2821,31 +4079,213 @@ export const UpdateGameServerInput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateGameServerInput",
 }) as any as S.Schema<UpdateGameServerInput>;
+export type GameServerGroupInstanceType =
+  | "c4.large"
+  | "c4.xlarge"
+  | "c4.2xlarge"
+  | "c4.4xlarge"
+  | "c4.8xlarge"
+  | "c5.large"
+  | "c5.xlarge"
+  | "c5.2xlarge"
+  | "c5.4xlarge"
+  | "c5.9xlarge"
+  | "c5.12xlarge"
+  | "c5.18xlarge"
+  | "c5.24xlarge"
+  | "c5a.large"
+  | "c5a.xlarge"
+  | "c5a.2xlarge"
+  | "c5a.4xlarge"
+  | "c5a.8xlarge"
+  | "c5a.12xlarge"
+  | "c5a.16xlarge"
+  | "c5a.24xlarge"
+  | "c6g.medium"
+  | "c6g.large"
+  | "c6g.xlarge"
+  | "c6g.2xlarge"
+  | "c6g.4xlarge"
+  | "c6g.8xlarge"
+  | "c6g.12xlarge"
+  | "c6g.16xlarge"
+  | "r4.large"
+  | "r4.xlarge"
+  | "r4.2xlarge"
+  | "r4.4xlarge"
+  | "r4.8xlarge"
+  | "r4.16xlarge"
+  | "r5.large"
+  | "r5.xlarge"
+  | "r5.2xlarge"
+  | "r5.4xlarge"
+  | "r5.8xlarge"
+  | "r5.12xlarge"
+  | "r5.16xlarge"
+  | "r5.24xlarge"
+  | "r5a.large"
+  | "r5a.xlarge"
+  | "r5a.2xlarge"
+  | "r5a.4xlarge"
+  | "r5a.8xlarge"
+  | "r5a.12xlarge"
+  | "r5a.16xlarge"
+  | "r5a.24xlarge"
+  | "r6g.medium"
+  | "r6g.large"
+  | "r6g.xlarge"
+  | "r6g.2xlarge"
+  | "r6g.4xlarge"
+  | "r6g.8xlarge"
+  | "r6g.12xlarge"
+  | "r6g.16xlarge"
+  | "m4.large"
+  | "m4.xlarge"
+  | "m4.2xlarge"
+  | "m4.4xlarge"
+  | "m4.10xlarge"
+  | "m5.large"
+  | "m5.xlarge"
+  | "m5.2xlarge"
+  | "m5.4xlarge"
+  | "m5.8xlarge"
+  | "m5.12xlarge"
+  | "m5.16xlarge"
+  | "m5.24xlarge"
+  | "m5a.large"
+  | "m5a.xlarge"
+  | "m5a.2xlarge"
+  | "m5a.4xlarge"
+  | "m5a.8xlarge"
+  | "m5a.12xlarge"
+  | "m5a.16xlarge"
+  | "m5a.24xlarge"
+  | "m6g.medium"
+  | "m6g.large"
+  | "m6g.xlarge"
+  | "m6g.2xlarge"
+  | "m6g.4xlarge"
+  | "m6g.8xlarge"
+  | "m6g.12xlarge"
+  | "m6g.16xlarge";
+export const GameServerGroupInstanceType = S.Literal(
+  "c4.large",
+  "c4.xlarge",
+  "c4.2xlarge",
+  "c4.4xlarge",
+  "c4.8xlarge",
+  "c5.large",
+  "c5.xlarge",
+  "c5.2xlarge",
+  "c5.4xlarge",
+  "c5.9xlarge",
+  "c5.12xlarge",
+  "c5.18xlarge",
+  "c5.24xlarge",
+  "c5a.large",
+  "c5a.xlarge",
+  "c5a.2xlarge",
+  "c5a.4xlarge",
+  "c5a.8xlarge",
+  "c5a.12xlarge",
+  "c5a.16xlarge",
+  "c5a.24xlarge",
+  "c6g.medium",
+  "c6g.large",
+  "c6g.xlarge",
+  "c6g.2xlarge",
+  "c6g.4xlarge",
+  "c6g.8xlarge",
+  "c6g.12xlarge",
+  "c6g.16xlarge",
+  "r4.large",
+  "r4.xlarge",
+  "r4.2xlarge",
+  "r4.4xlarge",
+  "r4.8xlarge",
+  "r4.16xlarge",
+  "r5.large",
+  "r5.xlarge",
+  "r5.2xlarge",
+  "r5.4xlarge",
+  "r5.8xlarge",
+  "r5.12xlarge",
+  "r5.16xlarge",
+  "r5.24xlarge",
+  "r5a.large",
+  "r5a.xlarge",
+  "r5a.2xlarge",
+  "r5a.4xlarge",
+  "r5a.8xlarge",
+  "r5a.12xlarge",
+  "r5a.16xlarge",
+  "r5a.24xlarge",
+  "r6g.medium",
+  "r6g.large",
+  "r6g.xlarge",
+  "r6g.2xlarge",
+  "r6g.4xlarge",
+  "r6g.8xlarge",
+  "r6g.12xlarge",
+  "r6g.16xlarge",
+  "m4.large",
+  "m4.xlarge",
+  "m4.2xlarge",
+  "m4.4xlarge",
+  "m4.10xlarge",
+  "m5.large",
+  "m5.xlarge",
+  "m5.2xlarge",
+  "m5.4xlarge",
+  "m5.8xlarge",
+  "m5.12xlarge",
+  "m5.16xlarge",
+  "m5.24xlarge",
+  "m5a.large",
+  "m5a.xlarge",
+  "m5a.2xlarge",
+  "m5a.4xlarge",
+  "m5a.8xlarge",
+  "m5a.12xlarge",
+  "m5a.16xlarge",
+  "m5a.24xlarge",
+  "m6g.medium",
+  "m6g.large",
+  "m6g.xlarge",
+  "m6g.2xlarge",
+  "m6g.4xlarge",
+  "m6g.8xlarge",
+  "m6g.12xlarge",
+  "m6g.16xlarge",
+);
 export interface InstanceDefinition {
-  InstanceType: string;
+  InstanceType?: GameServerGroupInstanceType;
   WeightedCapacity?: string;
 }
 export const InstanceDefinition = S.suspend(() =>
-  S.Struct({ InstanceType: S.String, WeightedCapacity: S.optional(S.String) }),
+  S.Struct({
+    InstanceType: S.optional(GameServerGroupInstanceType),
+    WeightedCapacity: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "InstanceDefinition",
 }) as any as S.Schema<InstanceDefinition>;
 export type InstanceDefinitions = InstanceDefinition[];
 export const InstanceDefinitions = S.Array(InstanceDefinition);
 export interface UpdateGameServerGroupInput {
-  GameServerGroupName: string;
+  GameServerGroupName?: string;
   RoleArn?: string;
-  InstanceDefinitions?: InstanceDefinitions;
-  GameServerProtectionPolicy?: string;
-  BalancingStrategy?: string;
+  InstanceDefinitions?: InstanceDefinition[];
+  GameServerProtectionPolicy?: GameServerProtectionPolicy;
+  BalancingStrategy?: BalancingStrategy;
 }
 export const UpdateGameServerGroupInput = S.suspend(() =>
   S.Struct({
-    GameServerGroupName: S.String,
+    GameServerGroupName: S.optional(S.String),
     RoleArn: S.optional(S.String),
     InstanceDefinitions: S.optional(InstanceDefinitions),
-    GameServerProtectionPolicy: S.optional(S.String),
-    BalancingStrategy: S.optional(S.String),
+    GameServerProtectionPolicy: S.optional(GameServerProtectionPolicy),
+    BalancingStrategy: S.optional(BalancingStrategy),
   }).pipe(
     T.all(
       ns,
@@ -2861,20 +4301,20 @@ export const UpdateGameServerGroupInput = S.suspend(() =>
   identifier: "UpdateGameServerGroupInput",
 }) as any as S.Schema<UpdateGameServerGroupInput>;
 export interface UpdateGameSessionInput {
-  GameSessionId: string;
+  GameSessionId?: string;
   MaximumPlayerSessionCount?: number;
   Name?: string;
-  PlayerSessionCreationPolicy?: string;
-  ProtectionPolicy?: string;
-  GameProperties?: GamePropertyList;
+  PlayerSessionCreationPolicy?: PlayerSessionCreationPolicy;
+  ProtectionPolicy?: ProtectionPolicy;
+  GameProperties?: GameProperty[];
 }
 export const UpdateGameSessionInput = S.suspend(() =>
   S.Struct({
-    GameSessionId: S.String,
+    GameSessionId: S.optional(S.String),
     MaximumPlayerSessionCount: S.optional(S.Number),
     Name: S.optional(S.String),
-    PlayerSessionCreationPolicy: S.optional(S.String),
-    ProtectionPolicy: S.optional(S.String),
+    PlayerSessionCreationPolicy: S.optional(PlayerSessionCreationPolicy),
+    ProtectionPolicy: S.optional(ProtectionPolicy),
     GameProperties: S.optional(GamePropertyList),
   }).pipe(
     T.all(
@@ -2917,18 +4357,25 @@ export const GameSessionQueueDestinationList = S.Array(
   GameSessionQueueDestination,
 );
 export interface FilterConfiguration {
-  AllowedLocations?: LocationList;
+  AllowedLocations?: string[];
 }
 export const FilterConfiguration = S.suspend(() =>
   S.Struct({ AllowedLocations: S.optional(LocationList) }),
 ).annotations({
   identifier: "FilterConfiguration",
 }) as any as S.Schema<FilterConfiguration>;
-export type PriorityTypeList = string[];
-export const PriorityTypeList = S.Array(S.String);
+export type PriorityType = "LATENCY" | "COST" | "DESTINATION" | "LOCATION";
+export const PriorityType = S.Literal(
+  "LATENCY",
+  "COST",
+  "DESTINATION",
+  "LOCATION",
+);
+export type PriorityTypeList = PriorityType[];
+export const PriorityTypeList = S.Array(PriorityType);
 export interface PriorityConfiguration {
-  PriorityOrder?: PriorityTypeList;
-  LocationOrder?: LocationList;
+  PriorityOrder?: PriorityType[];
+  LocationOrder?: string[];
 }
 export const PriorityConfiguration = S.suspend(() =>
   S.Struct({
@@ -2939,10 +4386,10 @@ export const PriorityConfiguration = S.suspend(() =>
   identifier: "PriorityConfiguration",
 }) as any as S.Schema<PriorityConfiguration>;
 export interface UpdateGameSessionQueueInput {
-  Name: string;
+  Name?: string;
   TimeoutInSeconds?: number;
-  PlayerLatencyPolicies?: PlayerLatencyPolicyList;
-  Destinations?: GameSessionQueueDestinationList;
+  PlayerLatencyPolicies?: PlayerLatencyPolicy[];
+  Destinations?: GameSessionQueueDestination[];
   FilterConfiguration?: FilterConfiguration;
   PriorityConfiguration?: PriorityConfiguration;
   CustomEventData?: string;
@@ -2950,7 +4397,7 @@ export interface UpdateGameSessionQueueInput {
 }
 export const UpdateGameSessionQueueInput = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: S.optional(S.String),
     TimeoutInSeconds: S.optional(S.Number),
     PlayerLatencyPolicies: S.optional(PlayerLatencyPolicyList),
     Destinations: S.optional(GameSessionQueueDestinationList),
@@ -2973,9 +4420,9 @@ export const UpdateGameSessionQueueInput = S.suspend(() =>
   identifier: "UpdateGameSessionQueueInput",
 }) as any as S.Schema<UpdateGameSessionQueueInput>;
 export interface UpdateMatchmakingConfigurationInput {
-  Name: string;
+  Name?: string;
   Description?: string;
-  GameSessionQueueArns?: QueueArnsList;
+  GameSessionQueueArns?: string[];
   RequestTimeoutSeconds?: number;
   AcceptanceTimeoutSeconds?: number;
   AcceptanceRequired?: boolean;
@@ -2983,14 +4430,14 @@ export interface UpdateMatchmakingConfigurationInput {
   NotificationTarget?: string;
   AdditionalPlayerCount?: number;
   CustomEventData?: string;
-  GameProperties?: GamePropertyList;
+  GameProperties?: GameProperty[];
   GameSessionData?: string;
-  BackfillMode?: string;
-  FlexMatchMode?: string;
+  BackfillMode?: BackfillMode;
+  FlexMatchMode?: FlexMatchMode;
 }
 export const UpdateMatchmakingConfigurationInput = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: S.optional(S.String),
     Description: S.optional(S.String),
     GameSessionQueueArns: S.optional(QueueArnsList),
     RequestTimeoutSeconds: S.optional(S.Number),
@@ -3002,8 +4449,8 @@ export const UpdateMatchmakingConfigurationInput = S.suspend(() =>
     CustomEventData: S.optional(S.String),
     GameProperties: S.optional(GamePropertyList),
     GameSessionData: S.optional(S.String),
-    BackfillMode: S.optional(S.String),
-    FlexMatchMode: S.optional(S.String),
+    BackfillMode: S.optional(BackfillMode),
+    FlexMatchMode: S.optional(FlexMatchMode),
   }).pipe(
     T.all(
       ns,
@@ -3019,15 +4466,15 @@ export const UpdateMatchmakingConfigurationInput = S.suspend(() =>
   identifier: "UpdateMatchmakingConfigurationInput",
 }) as any as S.Schema<UpdateMatchmakingConfigurationInput>;
 export interface ServerProcess {
-  LaunchPath: string;
+  LaunchPath?: string;
   Parameters?: string;
-  ConcurrentExecutions: number;
+  ConcurrentExecutions?: number;
 }
 export const ServerProcess = S.suspend(() =>
   S.Struct({
-    LaunchPath: S.String,
+    LaunchPath: S.optional(S.String),
     Parameters: S.optional(S.String),
-    ConcurrentExecutions: S.Number,
+    ConcurrentExecutions: S.optional(S.Number),
   }),
 ).annotations({
   identifier: "ServerProcess",
@@ -3035,7 +4482,7 @@ export const ServerProcess = S.suspend(() =>
 export type ServerProcessList = ServerProcess[];
 export const ServerProcessList = S.Array(ServerProcess);
 export interface RuntimeConfiguration {
-  ServerProcesses?: ServerProcessList;
+  ServerProcesses?: ServerProcess[];
   MaxConcurrentGameSessionActivations?: number;
   GameSessionActivationTimeoutSeconds?: number;
 }
@@ -3049,13 +4496,13 @@ export const RuntimeConfiguration = S.suspend(() =>
   identifier: "RuntimeConfiguration",
 }) as any as S.Schema<RuntimeConfiguration>;
 export interface UpdateRuntimeConfigurationInput {
-  FleetId: string;
-  RuntimeConfiguration: RuntimeConfiguration;
+  FleetId?: string;
+  RuntimeConfiguration?: RuntimeConfiguration;
 }
 export const UpdateRuntimeConfigurationInput = S.suspend(() =>
   S.Struct({
-    FleetId: S.String,
-    RuntimeConfiguration: RuntimeConfiguration,
+    FleetId: S.optional(S.String),
+    RuntimeConfiguration: S.optional(RuntimeConfiguration),
   }).pipe(
     T.all(
       ns,
@@ -3071,7 +4518,7 @@ export const UpdateRuntimeConfigurationInput = S.suspend(() =>
   identifier: "UpdateRuntimeConfigurationInput",
 }) as any as S.Schema<UpdateRuntimeConfigurationInput>;
 export interface UpdateScriptInput {
-  ScriptId: string;
+  ScriptId?: string;
   Name?: string;
   Version?: string;
   StorageLocation?: S3Location;
@@ -3079,7 +4526,7 @@ export interface UpdateScriptInput {
 }
 export const UpdateScriptInput = S.suspend(() =>
   S.Struct({
-    ScriptId: S.String,
+    ScriptId: S.optional(S.String),
     Name: S.optional(S.String),
     Version: S.optional(S.String),
     StorageLocation: S.optional(S3Location),
@@ -3099,10 +4546,10 @@ export const UpdateScriptInput = S.suspend(() =>
   identifier: "UpdateScriptInput",
 }) as any as S.Schema<UpdateScriptInput>;
 export interface ValidateMatchmakingRuleSetInput {
-  RuleSetBody: string;
+  RuleSetBody?: string;
 }
 export const ValidateMatchmakingRuleSetInput = S.suspend(() =>
-  S.Struct({ RuleSetBody: S.String }).pipe(
+  S.Struct({ RuleSetBody: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -3116,12 +4563,32 @@ export const ValidateMatchmakingRuleSetInput = S.suspend(() =>
 ).annotations({
   identifier: "ValidateMatchmakingRuleSetInput",
 }) as any as S.Schema<ValidateMatchmakingRuleSetInput>;
-export type FilterInstanceStatuses = string[];
-export const FilterInstanceStatuses = S.Array(S.String);
+export type FilterInstanceStatus = "ACTIVE" | "DRAINING";
+export const FilterInstanceStatus = S.Literal("ACTIVE", "DRAINING");
+export type FilterInstanceStatuses = FilterInstanceStatus[];
+export const FilterInstanceStatuses = S.Array(FilterInstanceStatus);
+export type LogDestination = "NONE" | "CLOUDWATCH" | "S3";
+export const LogDestination = S.Literal("NONE", "CLOUDWATCH", "S3");
+export type CertificateType = "DISABLED" | "GENERATED";
+export const CertificateType = S.Literal("DISABLED", "GENERATED");
+export type PlacementFallbackStrategy = "DEFAULT_AFTER_SINGLE_PASS" | "NONE";
+export const PlacementFallbackStrategy = S.Literal(
+  "DEFAULT_AFTER_SINGLE_PASS",
+  "NONE",
+);
 export type LocationOrderOverrideList = string[];
 export const LocationOrderOverrideList = S.Array(S.String);
+export type DeploymentProtectionStrategy =
+  | "WITH_PROTECTION"
+  | "IGNORE_PROTECTION";
+export const DeploymentProtectionStrategy = S.Literal(
+  "WITH_PROTECTION",
+  "IGNORE_PROTECTION",
+);
+export type DeploymentImpairmentStrategy = "MAINTAIN" | "ROLLBACK";
+export const DeploymentImpairmentStrategy = S.Literal("MAINTAIN", "ROLLBACK");
 export interface ClaimFilterOption {
-  InstanceStatuses?: FilterInstanceStatuses;
+  InstanceStatuses?: FilterInstanceStatus[];
 }
 export const ClaimFilterOption = S.suspend(() =>
   S.Struct({ InstanceStatuses: S.optional(FilterInstanceStatuses) }),
@@ -3129,11 +4596,11 @@ export const ClaimFilterOption = S.suspend(() =>
   identifier: "ClaimFilterOption",
 }) as any as S.Schema<ClaimFilterOption>;
 export interface ConnectionPortRange {
-  FromPort: number;
-  ToPort: number;
+  FromPort?: number;
+  ToPort?: number;
 }
 export const ConnectionPortRange = S.suspend(() =>
-  S.Struct({ FromPort: S.Number, ToPort: S.Number }),
+  S.Struct({ FromPort: S.optional(S.Number), ToPort: S.optional(S.Number) }),
 ).annotations({
   identifier: "ConnectionPortRange",
 }) as any as S.Schema<ConnectionPortRange>;
@@ -3150,13 +4617,13 @@ export const GameSessionCreationLimitPolicy = S.suspend(() =>
   identifier: "GameSessionCreationLimitPolicy",
 }) as any as S.Schema<GameSessionCreationLimitPolicy>;
 export interface LogConfiguration {
-  LogDestination?: string;
+  LogDestination?: LogDestination;
   S3BucketName?: string;
   LogGroupArn?: string;
 }
 export const LogConfiguration = S.suspend(() =>
   S.Struct({
-    LogDestination: S.optional(S.String),
+    LogDestination: S.optional(LogDestination),
     S3BucketName: S.optional(S.String),
     LogGroupArn: S.optional(S.String),
   }),
@@ -3164,10 +4631,10 @@ export const LogConfiguration = S.suspend(() =>
   identifier: "LogConfiguration",
 }) as any as S.Schema<LogConfiguration>;
 export interface CertificateConfiguration {
-  CertificateType: string;
+  CertificateType?: CertificateType;
 }
 export const CertificateConfiguration = S.suspend(() =>
-  S.Struct({ CertificateType: S.String }),
+  S.Struct({ CertificateType: S.optional(CertificateType) }),
 ).annotations({
   identifier: "CertificateConfiguration",
 }) as any as S.Schema<CertificateConfiguration>;
@@ -3187,6 +4654,8 @@ export const LaunchTemplateSpecification = S.suspend(() =>
 }) as any as S.Schema<LaunchTemplateSpecification>;
 export type PlayerDataMap = { [key: string]: string };
 export const PlayerDataMap = S.Record({ key: S.String, value: S.String });
+export type LocationUpdateStatus = "PENDING_UPDATE";
+export const LocationUpdateStatus = S.Literal("PENDING_UPDATE");
 export interface FleetUtilization {
   FleetId?: string;
   FleetArn?: string;
@@ -3215,7 +4684,7 @@ export interface MatchmakingConfiguration {
   Name?: string;
   ConfigurationArn?: string;
   Description?: string;
-  GameSessionQueueArns?: QueueArnsList;
+  GameSessionQueueArns?: string[];
   RequestTimeoutSeconds?: number;
   AcceptanceTimeoutSeconds?: number;
   AcceptanceRequired?: boolean;
@@ -3225,10 +4694,10 @@ export interface MatchmakingConfiguration {
   AdditionalPlayerCount?: number;
   CustomEventData?: string;
   CreationTime?: Date;
-  GameProperties?: GamePropertyList;
+  GameProperties?: GameProperty[];
   GameSessionData?: string;
-  BackfillMode?: string;
-  FlexMatchMode?: string;
+  BackfillMode?: BackfillMode;
+  FlexMatchMode?: FlexMatchMode;
 }
 export const MatchmakingConfiguration = S.suspend(() =>
   S.Struct({
@@ -3247,8 +4716,8 @@ export const MatchmakingConfiguration = S.suspend(() =>
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     GameProperties: S.optional(GamePropertyList),
     GameSessionData: S.optional(S.String),
-    BackfillMode: S.optional(S.String),
-    FlexMatchMode: S.optional(S.String),
+    BackfillMode: S.optional(BackfillMode),
+    FlexMatchMode: S.optional(FlexMatchMode),
   }),
 ).annotations({
   identifier: "MatchmakingConfiguration",
@@ -3258,14 +4727,14 @@ export const MatchmakingConfigurationList = S.Array(MatchmakingConfiguration);
 export interface MatchmakingRuleSet {
   RuleSetName?: string;
   RuleSetArn?: string;
-  RuleSetBody: string;
+  RuleSetBody?: string;
   CreationTime?: Date;
 }
 export const MatchmakingRuleSet = S.suspend(() =>
   S.Struct({
     RuleSetName: S.optional(S.String),
     RuleSetArn: S.optional(S.String),
-    RuleSetBody: S.String,
+    RuleSetBody: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({
@@ -3273,16 +4742,27 @@ export const MatchmakingRuleSet = S.suspend(() =>
 }) as any as S.Schema<MatchmakingRuleSet>;
 export type MatchmakingRuleSetList = MatchmakingRuleSet[];
 export const MatchmakingRuleSetList = S.Array(MatchmakingRuleSet);
+export type PlayerSessionStatus =
+  | "RESERVED"
+  | "ACTIVE"
+  | "COMPLETED"
+  | "TIMEDOUT";
+export const PlayerSessionStatus = S.Literal(
+  "RESERVED",
+  "ACTIVE",
+  "COMPLETED",
+  "TIMEDOUT",
+);
 export interface PlayerSession {
   PlayerSessionId?: string;
-  PlayerId?: string | Redacted.Redacted<string>;
+  PlayerId?: string | redacted.Redacted<string>;
   GameSessionId?: string;
   FleetId?: string;
   FleetArn?: string;
   CreationTime?: Date;
   TerminationTime?: Date;
-  Status?: string;
-  IpAddress?: string | Redacted.Redacted<string>;
+  Status?: PlayerSessionStatus;
+  IpAddress?: string | redacted.Redacted<string>;
   DnsName?: string;
   Port?: number;
   PlayerData?: string;
@@ -3298,7 +4778,7 @@ export const PlayerSession = S.suspend(() =>
     TerminationTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    Status: S.optional(S.String),
+    Status: S.optional(PlayerSessionStatus),
     IpAddress: S.optional(SensitiveString),
     DnsName: S.optional(S.String),
     Port: S.optional(S.Number),
@@ -3358,9 +4838,9 @@ export interface Build {
   BuildArn?: string;
   Name?: string;
   Version?: string;
-  Status?: string;
+  Status?: BuildStatus;
   SizeOnDisk?: number;
-  OperatingSystem?: string;
+  OperatingSystem?: OperatingSystem;
   CreationTime?: Date;
   ServerSdkVersion?: string;
 }
@@ -3370,15 +4850,22 @@ export const Build = S.suspend(() =>
     BuildArn: S.optional(S.String),
     Name: S.optional(S.String),
     Version: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(BuildStatus),
     SizeOnDisk: S.optional(S.Number),
-    OperatingSystem: S.optional(S.String),
+    OperatingSystem: S.optional(OperatingSystem),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ServerSdkVersion: S.optional(S.String),
   }),
 ).annotations({ identifier: "Build" }) as any as S.Schema<Build>;
 export type BuildList = Build[];
 export const BuildList = S.Array(Build);
+export type ComputeStatus = "PENDING" | "ACTIVE" | "TERMINATING" | "IMPAIRED";
+export const ComputeStatus = S.Literal(
+  "PENDING",
+  "ACTIVE",
+  "TERMINATING",
+  "IMPAIRED",
+);
 export interface ContainerAttribute {
   ContainerName?: string;
   ContainerRuntimeId?: string;
@@ -3398,17 +4885,17 @@ export interface Compute {
   FleetArn?: string;
   ComputeName?: string;
   ComputeArn?: string;
-  IpAddress?: string | Redacted.Redacted<string>;
+  IpAddress?: string | redacted.Redacted<string>;
   DnsName?: string;
-  ComputeStatus?: string;
+  ComputeStatus?: ComputeStatus;
   Location?: string;
   CreationTime?: Date;
-  OperatingSystem?: string;
-  Type?: string;
+  OperatingSystem?: OperatingSystem;
+  Type?: EC2InstanceType;
   GameLiftServiceSdkEndpoint?: string;
   GameLiftAgentEndpoint?: string;
   InstanceId?: string;
-  ContainerAttributes?: ContainerAttributes;
+  ContainerAttributes?: ContainerAttribute[];
   GameServerContainerGroupDefinitionArn?: string;
 }
 export const Compute = S.suspend(() =>
@@ -3419,11 +4906,11 @@ export const Compute = S.suspend(() =>
     ComputeArn: S.optional(S.String),
     IpAddress: S.optional(SensitiveString),
     DnsName: S.optional(S.String),
-    ComputeStatus: S.optional(S.String),
+    ComputeStatus: S.optional(ComputeStatus),
     Location: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    OperatingSystem: S.optional(S.String),
-    Type: S.optional(S.String),
+    OperatingSystem: S.optional(OperatingSystem),
+    Type: S.optional(EC2InstanceType),
     GameLiftServiceSdkEndpoint: S.optional(S.String),
     GameLiftAgentEndpoint: S.optional(S.String),
     InstanceId: S.optional(S.String),
@@ -3433,6 +4920,23 @@ export const Compute = S.suspend(() =>
 ).annotations({ identifier: "Compute" }) as any as S.Schema<Compute>;
 export type ComputeList = Compute[];
 export const ComputeList = S.Array(Compute);
+export type ContainerFleetStatus =
+  | "PENDING"
+  | "CREATING"
+  | "CREATED"
+  | "ACTIVATING"
+  | "ACTIVE"
+  | "UPDATING"
+  | "DELETING";
+export const ContainerFleetStatus = S.Literal(
+  "PENDING",
+  "CREATING",
+  "CREATED",
+  "ACTIVATING",
+  "ACTIVE",
+  "UPDATING",
+  "DELETING",
+);
 export interface DeploymentDetails {
   LatestDeploymentId?: string;
 }
@@ -3441,12 +4945,32 @@ export const DeploymentDetails = S.suspend(() =>
 ).annotations({
   identifier: "DeploymentDetails",
 }) as any as S.Schema<DeploymentDetails>;
+export type ContainerFleetLocationStatus =
+  | "PENDING"
+  | "CREATING"
+  | "CREATED"
+  | "ACTIVATING"
+  | "ACTIVE"
+  | "UPDATING"
+  | "DELETING";
+export const ContainerFleetLocationStatus = S.Literal(
+  "PENDING",
+  "CREATING",
+  "CREATED",
+  "ACTIVATING",
+  "ACTIVE",
+  "UPDATING",
+  "DELETING",
+);
 export interface ContainerFleetLocationAttributes {
   Location?: string;
-  Status?: string;
+  Status?: ContainerFleetLocationStatus;
 }
 export const ContainerFleetLocationAttributes = S.suspend(() =>
-  S.Struct({ Location: S.optional(S.String), Status: S.optional(S.String) }),
+  S.Struct({
+    Location: S.optional(S.String),
+    Status: S.optional(ContainerFleetLocationStatus),
+  }),
 ).annotations({
   identifier: "ContainerFleetLocationAttributes",
 }) as any as S.Schema<ContainerFleetLocationAttributes>;
@@ -3464,20 +4988,20 @@ export interface ContainerFleet {
   PerInstanceContainerGroupDefinitionName?: string;
   PerInstanceContainerGroupDefinitionArn?: string;
   InstanceConnectionPortRange?: ConnectionPortRange;
-  InstanceInboundPermissions?: IpPermissionsList;
+  InstanceInboundPermissions?: IpPermission[];
   GameServerContainerGroupsPerInstance?: number;
   MaximumGameServerContainerGroupsPerInstance?: number;
   InstanceType?: string;
-  BillingType?: string;
+  BillingType?: ContainerFleetBillingType;
   Description?: string;
   CreationTime?: Date;
-  MetricGroups?: MetricGroupList;
-  NewGameSessionProtectionPolicy?: string;
+  MetricGroups?: string[];
+  NewGameSessionProtectionPolicy?: ProtectionPolicy;
   GameSessionCreationLimitPolicy?: GameSessionCreationLimitPolicy;
-  Status?: string;
+  Status?: ContainerFleetStatus;
   DeploymentDetails?: DeploymentDetails;
   LogConfiguration?: LogConfiguration;
-  LocationAttributes?: ContainerFleetLocationAttributesList;
+  LocationAttributes?: ContainerFleetLocationAttributes[];
 }
 export const ContainerFleet = S.suspend(() =>
   S.Struct({
@@ -3493,13 +5017,13 @@ export const ContainerFleet = S.suspend(() =>
     GameServerContainerGroupsPerInstance: S.optional(S.Number),
     MaximumGameServerContainerGroupsPerInstance: S.optional(S.Number),
     InstanceType: S.optional(S.String),
-    BillingType: S.optional(S.String),
+    BillingType: S.optional(ContainerFleetBillingType),
     Description: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     MetricGroups: S.optional(MetricGroupList),
-    NewGameSessionProtectionPolicy: S.optional(S.String),
+    NewGameSessionProtectionPolicy: S.optional(ProtectionPolicy),
     GameSessionCreationLimitPolicy: S.optional(GameSessionCreationLimitPolicy),
-    Status: S.optional(S.String),
+    Status: S.optional(ContainerFleetStatus),
     DeploymentDetails: S.optional(DeploymentDetails),
     LogConfiguration: S.optional(LogConfiguration),
     LocationAttributes: S.optional(ContainerFleetLocationAttributesList),
@@ -3511,9 +5035,9 @@ export type ContainerFleetList = ContainerFleet[];
 export const ContainerFleetList = S.Array(ContainerFleet);
 export interface GameServerContainerDefinition {
   ContainerName?: string;
-  DependsOn?: ContainerDependencyList;
-  MountPoints?: ContainerMountPointList;
-  EnvironmentOverride?: ContainerEnvironmentList;
+  DependsOn?: ContainerDependency[];
+  MountPoints?: ContainerMountPoint[];
+  EnvironmentOverride?: ContainerEnvironment[];
   ImageUri?: string;
   PortConfiguration?: ContainerPortConfiguration;
   ResolvedImageDigest?: string;
@@ -3535,9 +5059,9 @@ export const GameServerContainerDefinition = S.suspend(() =>
 }) as any as S.Schema<GameServerContainerDefinition>;
 export interface SupportContainerDefinition {
   ContainerName?: string;
-  DependsOn?: ContainerDependencyList;
-  MountPoints?: ContainerMountPointList;
-  EnvironmentOverride?: ContainerEnvironmentList;
+  DependsOn?: ContainerDependency[];
+  MountPoints?: ContainerMountPoint[];
+  EnvironmentOverride?: ContainerEnvironment[];
   Essential?: boolean;
   HealthCheck?: ContainerHealthCheck;
   ImageUri?: string;
@@ -3567,35 +5091,41 @@ export type SupportContainerDefinitionList = SupportContainerDefinition[];
 export const SupportContainerDefinitionList = S.Array(
   SupportContainerDefinition,
 );
+export type ContainerGroupDefinitionStatus = "READY" | "COPYING" | "FAILED";
+export const ContainerGroupDefinitionStatus = S.Literal(
+  "READY",
+  "COPYING",
+  "FAILED",
+);
 export interface ContainerGroupDefinition {
   ContainerGroupDefinitionArn?: string;
   CreationTime?: Date;
-  OperatingSystem?: string;
-  Name: string;
-  ContainerGroupType?: string;
+  OperatingSystem?: ContainerOperatingSystem;
+  Name?: string;
+  ContainerGroupType?: ContainerGroupType;
   TotalMemoryLimitMebibytes?: number;
   TotalVcpuLimit?: number;
   GameServerContainerDefinition?: GameServerContainerDefinition;
-  SupportContainerDefinitions?: SupportContainerDefinitionList;
+  SupportContainerDefinitions?: SupportContainerDefinition[];
   VersionNumber?: number;
   VersionDescription?: string;
-  Status?: string;
+  Status?: ContainerGroupDefinitionStatus;
   StatusReason?: string;
 }
 export const ContainerGroupDefinition = S.suspend(() =>
   S.Struct({
     ContainerGroupDefinitionArn: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    OperatingSystem: S.optional(S.String),
-    Name: S.String,
-    ContainerGroupType: S.optional(S.String),
+    OperatingSystem: S.optional(ContainerOperatingSystem),
+    Name: S.optional(S.String),
+    ContainerGroupType: S.optional(ContainerGroupType),
     TotalMemoryLimitMebibytes: S.optional(S.Number),
     TotalVcpuLimit: S.optional(S.Number),
     GameServerContainerDefinition: S.optional(GameServerContainerDefinition),
     SupportContainerDefinitions: S.optional(SupportContainerDefinitionList),
     VersionNumber: S.optional(S.Number),
     VersionDescription: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ContainerGroupDefinitionStatus),
     StatusReason: S.optional(S.String),
   }),
 ).annotations({
@@ -3603,16 +5133,33 @@ export const ContainerGroupDefinition = S.suspend(() =>
 }) as any as S.Schema<ContainerGroupDefinition>;
 export type ContainerGroupDefinitionList = ContainerGroupDefinition[];
 export const ContainerGroupDefinitionList = S.Array(ContainerGroupDefinition);
+export type DeploymentStatus =
+  | "IN_PROGRESS"
+  | "IMPAIRED"
+  | "COMPLETE"
+  | "ROLLBACK_IN_PROGRESS"
+  | "ROLLBACK_COMPLETE"
+  | "CANCELLED"
+  | "PENDING";
+export const DeploymentStatus = S.Literal(
+  "IN_PROGRESS",
+  "IMPAIRED",
+  "COMPLETE",
+  "ROLLBACK_IN_PROGRESS",
+  "ROLLBACK_COMPLETE",
+  "CANCELLED",
+  "PENDING",
+);
 export interface DeploymentConfiguration {
-  ProtectionStrategy?: string;
+  ProtectionStrategy?: DeploymentProtectionStrategy;
   MinimumHealthyPercentage?: number;
-  ImpairmentStrategy?: string;
+  ImpairmentStrategy?: DeploymentImpairmentStrategy;
 }
 export const DeploymentConfiguration = S.suspend(() =>
   S.Struct({
-    ProtectionStrategy: S.optional(S.String),
+    ProtectionStrategy: S.optional(DeploymentProtectionStrategy),
     MinimumHealthyPercentage: S.optional(S.Number),
-    ImpairmentStrategy: S.optional(S.String),
+    ImpairmentStrategy: S.optional(DeploymentImpairmentStrategy),
   }),
 ).annotations({
   identifier: "DeploymentConfiguration",
@@ -3624,7 +5171,7 @@ export interface FleetDeployment {
   RollbackGameServerBinaryArn?: string;
   PerInstanceBinaryArn?: string;
   RollbackPerInstanceBinaryArn?: string;
-  DeploymentStatus?: string;
+  DeploymentStatus?: DeploymentStatus;
   DeploymentConfiguration?: DeploymentConfiguration;
   CreationTime?: Date;
 }
@@ -3636,7 +5183,7 @@ export const FleetDeployment = S.suspend(() =>
     RollbackGameServerBinaryArn: S.optional(S.String),
     PerInstanceBinaryArn: S.optional(S.String),
     RollbackPerInstanceBinaryArn: S.optional(S.String),
-    DeploymentStatus: S.optional(S.String),
+    DeploymentStatus: S.optional(DeploymentStatus),
     DeploymentConfiguration: S.optional(DeploymentConfiguration),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -3647,17 +5194,34 @@ export type FleetDeployments = FleetDeployment[];
 export const FleetDeployments = S.Array(FleetDeployment);
 export type FleetIdList = string[];
 export const FleetIdList = S.Array(S.String);
+export type GameServerGroupStatus =
+  | "NEW"
+  | "ACTIVATING"
+  | "ACTIVE"
+  | "DELETE_SCHEDULED"
+  | "DELETING"
+  | "DELETED"
+  | "ERROR";
+export const GameServerGroupStatus = S.Literal(
+  "NEW",
+  "ACTIVATING",
+  "ACTIVE",
+  "DELETE_SCHEDULED",
+  "DELETING",
+  "DELETED",
+  "ERROR",
+);
 export interface GameServerGroup {
   GameServerGroupName?: string;
   GameServerGroupArn?: string;
   RoleArn?: string;
-  InstanceDefinitions?: InstanceDefinitions;
-  BalancingStrategy?: string;
-  GameServerProtectionPolicy?: string;
+  InstanceDefinitions?: InstanceDefinition[];
+  BalancingStrategy?: BalancingStrategy;
+  GameServerProtectionPolicy?: GameServerProtectionPolicy;
   AutoScalingGroupArn?: string;
-  Status?: string;
+  Status?: GameServerGroupStatus;
   StatusReason?: string;
-  SuspendedActions?: GameServerGroupActions;
+  SuspendedActions?: GameServerGroupAction[];
   CreationTime?: Date;
   LastUpdatedTime?: Date;
 }
@@ -3667,10 +5231,10 @@ export const GameServerGroup = S.suspend(() =>
     GameServerGroupArn: S.optional(S.String),
     RoleArn: S.optional(S.String),
     InstanceDefinitions: S.optional(InstanceDefinitions),
-    BalancingStrategy: S.optional(S.String),
-    GameServerProtectionPolicy: S.optional(S.String),
+    BalancingStrategy: S.optional(BalancingStrategy),
+    GameServerProtectionPolicy: S.optional(GameServerProtectionPolicy),
     AutoScalingGroupArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(GameServerGroupStatus),
     StatusReason: S.optional(S.String),
     SuspendedActions: S.optional(GameServerGroupActions),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -3683,6 +5247,8 @@ export const GameServerGroup = S.suspend(() =>
 }) as any as S.Schema<GameServerGroup>;
 export type GameServerGroups = GameServerGroup[];
 export const GameServerGroups = S.Array(GameServerGroup);
+export type GameServerClaimStatus = "CLAIMED";
+export const GameServerClaimStatus = S.Literal("CLAIMED");
 export interface GameServer {
   GameServerGroupName?: string;
   GameServerGroupArn?: string;
@@ -3690,8 +5256,8 @@ export interface GameServer {
   InstanceId?: string;
   ConnectionInfo?: string;
   GameServerData?: string;
-  ClaimStatus?: string;
-  UtilizationStatus?: string;
+  ClaimStatus?: GameServerClaimStatus;
+  UtilizationStatus?: GameServerUtilizationStatus;
   RegistrationTime?: Date;
   LastClaimTime?: Date;
   LastHealthCheckTime?: Date;
@@ -3704,8 +5270,8 @@ export const GameServer = S.suspend(() =>
     InstanceId: S.optional(S.String),
     ConnectionInfo: S.optional(S.String),
     GameServerData: S.optional(S.String),
-    ClaimStatus: S.optional(S.String),
-    UtilizationStatus: S.optional(S.String),
+    ClaimStatus: S.optional(GameServerClaimStatus),
+    UtilizationStatus: S.optional(GameServerUtilizationStatus),
     RegistrationTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -3769,15 +5335,15 @@ export const Script = S.suspend(() =>
 export type ScriptList = Script[];
 export const ScriptList = S.Array(Script);
 export interface TargetConfiguration {
-  TargetValue: number;
+  TargetValue?: number;
 }
 export const TargetConfiguration = S.suspend(() =>
-  S.Struct({ TargetValue: S.Number }),
+  S.Struct({ TargetValue: S.optional(S.Number) }),
 ).annotations({
   identifier: "TargetConfiguration",
 }) as any as S.Schema<TargetConfiguration>;
 export interface PlayerLatency {
-  PlayerId?: string | Redacted.Redacted<string>;
+  PlayerId?: string | redacted.Redacted<string>;
   RegionIdentifier?: string;
   LatencyInMilliseconds?: number;
 }
@@ -3793,7 +5359,7 @@ export const PlayerLatency = S.suspend(() =>
 export type PlayerLatencyList = PlayerLatency[];
 export const PlayerLatencyList = S.Array(PlayerLatency);
 export interface DesiredPlayerSession {
-  PlayerId?: string | Redacted.Redacted<string>;
+  PlayerId?: string | redacted.Redacted<string>;
   PlayerData?: string;
 }
 export const DesiredPlayerSession = S.suspend(() =>
@@ -3807,26 +5373,26 @@ export const DesiredPlayerSession = S.suspend(() =>
 export type DesiredPlayerSessionList = DesiredPlayerSession[];
 export const DesiredPlayerSessionList = S.Array(DesiredPlayerSession);
 export interface PriorityConfigurationOverride {
-  PlacementFallbackStrategy?: string;
-  LocationOrder: LocationOrderOverrideList;
+  PlacementFallbackStrategy?: PlacementFallbackStrategy;
+  LocationOrder?: string[];
 }
 export const PriorityConfigurationOverride = S.suspend(() =>
   S.Struct({
-    PlacementFallbackStrategy: S.optional(S.String),
-    LocationOrder: LocationOrderOverrideList,
+    PlacementFallbackStrategy: S.optional(PlacementFallbackStrategy),
+    LocationOrder: S.optional(LocationOrderOverrideList),
   }),
 ).annotations({
   identifier: "PriorityConfigurationOverride",
 }) as any as S.Schema<PriorityConfigurationOverride>;
 export interface ClaimGameServerInput {
-  GameServerGroupName: string;
+  GameServerGroupName?: string;
   GameServerId?: string;
   GameServerData?: string;
   FilterOption?: ClaimFilterOption;
 }
 export const ClaimGameServerInput = S.suspend(() =>
   S.Struct({
-    GameServerGroupName: S.String,
+    GameServerGroupName: S.optional(S.String),
     GameServerId: S.optional(S.String),
     GameServerData: S.optional(S.String),
     FilterOption: S.optional(ClaimFilterOption),
@@ -3845,16 +5411,16 @@ export const ClaimGameServerInput = S.suspend(() =>
   identifier: "ClaimGameServerInput",
 }) as any as S.Schema<ClaimGameServerInput>;
 export interface CreateAliasInput {
-  Name: string;
+  Name?: string;
   Description?: string;
-  RoutingStrategy: RoutingStrategy;
-  Tags?: TagList;
+  RoutingStrategy?: RoutingStrategy;
+  Tags?: Tag[];
 }
 export const CreateAliasInput = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: S.optional(S.String),
     Description: S.optional(S.String),
-    RoutingStrategy: RoutingStrategy,
+    RoutingStrategy: S.optional(RoutingStrategy),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -3874,8 +5440,8 @@ export interface CreateBuildInput {
   Name?: string;
   Version?: string;
   StorageLocation?: S3Location;
-  OperatingSystem?: string;
-  Tags?: TagList;
+  OperatingSystem?: OperatingSystem;
+  Tags?: Tag[];
   ServerSdkVersion?: string;
 }
 export const CreateBuildInput = S.suspend(() =>
@@ -3883,7 +5449,7 @@ export const CreateBuildInput = S.suspend(() =>
     Name: S.optional(S.String),
     Version: S.optional(S.String),
     StorageLocation: S.optional(S3Location),
-    OperatingSystem: S.optional(S.String),
+    OperatingSystem: S.optional(OperatingSystem),
     Tags: S.optional(TagList),
     ServerSdkVersion: S.optional(S.String),
   }).pipe(
@@ -3901,25 +5467,25 @@ export const CreateBuildInput = S.suspend(() =>
   identifier: "CreateBuildInput",
 }) as any as S.Schema<CreateBuildInput>;
 export interface CreateContainerFleetInput {
-  FleetRoleArn: string;
+  FleetRoleArn?: string;
   Description?: string;
   GameServerContainerGroupDefinitionName?: string;
   PerInstanceContainerGroupDefinitionName?: string;
   InstanceConnectionPortRange?: ConnectionPortRange;
-  InstanceInboundPermissions?: IpPermissionsList;
+  InstanceInboundPermissions?: IpPermission[];
   GameServerContainerGroupsPerInstance?: number;
   InstanceType?: string;
-  BillingType?: string;
-  Locations?: LocationConfigurationList;
-  MetricGroups?: MetricGroupList;
-  NewGameSessionProtectionPolicy?: string;
+  BillingType?: ContainerFleetBillingType;
+  Locations?: LocationConfiguration[];
+  MetricGroups?: string[];
+  NewGameSessionProtectionPolicy?: ProtectionPolicy;
   GameSessionCreationLimitPolicy?: GameSessionCreationLimitPolicy;
   LogConfiguration?: LogConfiguration;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateContainerFleetInput = S.suspend(() =>
   S.Struct({
-    FleetRoleArn: S.String,
+    FleetRoleArn: S.optional(S.String),
     Description: S.optional(S.String),
     GameServerContainerGroupDefinitionName: S.optional(S.String),
     PerInstanceContainerGroupDefinitionName: S.optional(S.String),
@@ -3927,10 +5493,10 @@ export const CreateContainerFleetInput = S.suspend(() =>
     InstanceInboundPermissions: S.optional(IpPermissionsList),
     GameServerContainerGroupsPerInstance: S.optional(S.Number),
     InstanceType: S.optional(S.String),
-    BillingType: S.optional(S.String),
+    BillingType: S.optional(ContainerFleetBillingType),
     Locations: S.optional(LocationConfigurationList),
     MetricGroups: S.optional(MetricGroupList),
-    NewGameSessionProtectionPolicy: S.optional(S.String),
+    NewGameSessionProtectionPolicy: S.optional(ProtectionPolicy),
     GameSessionCreationLimitPolicy: S.optional(GameSessionCreationLimitPolicy),
     LogConfiguration: S.optional(LogConfiguration),
     Tags: S.optional(TagList),
@@ -3951,9 +5517,9 @@ export const CreateContainerFleetInput = S.suspend(() =>
 export interface CreateGameSessionInput {
   FleetId?: string;
   AliasId?: string;
-  MaximumPlayerSessionCount: number;
+  MaximumPlayerSessionCount?: number;
   Name?: string;
-  GameProperties?: GamePropertyList;
+  GameProperties?: GameProperty[];
   CreatorId?: string;
   GameSessionId?: string;
   IdempotencyToken?: string;
@@ -3964,7 +5530,7 @@ export const CreateGameSessionInput = S.suspend(() =>
   S.Struct({
     FleetId: S.optional(S.String),
     AliasId: S.optional(S.String),
-    MaximumPlayerSessionCount: S.Number,
+    MaximumPlayerSessionCount: S.optional(S.Number),
     Name: S.optional(S.String),
     GameProperties: S.optional(GamePropertyList),
     CreatorId: S.optional(S.String),
@@ -3987,19 +5553,19 @@ export const CreateGameSessionInput = S.suspend(() =>
   identifier: "CreateGameSessionInput",
 }) as any as S.Schema<CreateGameSessionInput>;
 export interface CreateGameSessionQueueInput {
-  Name: string;
+  Name?: string;
   TimeoutInSeconds?: number;
-  PlayerLatencyPolicies?: PlayerLatencyPolicyList;
-  Destinations?: GameSessionQueueDestinationList;
+  PlayerLatencyPolicies?: PlayerLatencyPolicy[];
+  Destinations?: GameSessionQueueDestination[];
   FilterConfiguration?: FilterConfiguration;
   PriorityConfiguration?: PriorityConfiguration;
   CustomEventData?: string;
   NotificationTarget?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateGameSessionQueueInput = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: S.optional(S.String),
     TimeoutInSeconds: S.optional(S.Number),
     PlayerLatencyPolicies: S.optional(PlayerLatencyPolicyList),
     Destinations: S.optional(GameSessionQueueDestinationList),
@@ -4023,14 +5589,14 @@ export const CreateGameSessionQueueInput = S.suspend(() =>
   identifier: "CreateGameSessionQueueInput",
 }) as any as S.Schema<CreateGameSessionQueueInput>;
 export interface CreatePlayerSessionsInput {
-  GameSessionId: string;
-  PlayerIds: PlayerIdList;
-  PlayerDataMap?: PlayerDataMap;
+  GameSessionId?: string;
+  PlayerIds?: string | redacted.Redacted<string>[];
+  PlayerDataMap?: { [key: string]: string };
 }
 export const CreatePlayerSessionsInput = S.suspend(() =>
   S.Struct({
-    GameSessionId: S.String,
-    PlayerIds: PlayerIdList,
+    GameSessionId: S.optional(S.String),
+    PlayerIds: S.optional(PlayerIdList),
     PlayerDataMap: S.optional(PlayerDataMap),
   }).pipe(
     T.all(
@@ -4056,12 +5622,35 @@ export const CreateVpcPeeringAuthorizationOutput = S.suspend(() =>
 ).annotations({
   identifier: "CreateVpcPeeringAuthorizationOutput",
 }) as any as S.Schema<CreateVpcPeeringAuthorizationOutput>;
+export type FleetStatus =
+  | "NEW"
+  | "DOWNLOADING"
+  | "VALIDATING"
+  | "BUILDING"
+  | "ACTIVATING"
+  | "ACTIVE"
+  | "DELETING"
+  | "ERROR"
+  | "TERMINATED"
+  | "NOT_FOUND";
+export const FleetStatus = S.Literal(
+  "NEW",
+  "DOWNLOADING",
+  "VALIDATING",
+  "BUILDING",
+  "ACTIVATING",
+  "ACTIVE",
+  "DELETING",
+  "ERROR",
+  "TERMINATED",
+  "NOT_FOUND",
+);
 export interface LocationState {
   Location?: string;
-  Status?: string;
+  Status?: FleetStatus;
 }
 export const LocationState = S.suspend(() =>
-  S.Struct({ Location: S.optional(S.String), Status: S.optional(S.String) }),
+  S.Struct({ Location: S.optional(S.String), Status: S.optional(FleetStatus) }),
 ).annotations({
   identifier: "LocationState",
 }) as any as S.Schema<LocationState>;
@@ -4070,7 +5659,7 @@ export const LocationStateList = S.Array(LocationState);
 export interface DeleteFleetLocationsOutput {
   FleetId?: string;
   FleetArn?: string;
-  LocationStates?: LocationStateList;
+  LocationStates?: LocationState[];
 }
 export const DeleteFleetLocationsOutput = S.suspend(() =>
   S.Struct({
@@ -4122,7 +5711,7 @@ export const GameServerContainerGroupCounts = S.suspend(() =>
 export interface FleetCapacity {
   FleetId?: string;
   FleetArn?: string;
-  InstanceType?: string;
+  InstanceType?: EC2InstanceType;
   InstanceCounts?: EC2InstanceCounts;
   Location?: string;
   GameServerContainerGroupCounts?: GameServerContainerGroupCounts;
@@ -4131,7 +5720,7 @@ export const FleetCapacity = S.suspend(() =>
   S.Struct({
     FleetId: S.optional(S.String),
     FleetArn: S.optional(S.String),
-    InstanceType: S.optional(S.String),
+    InstanceType: S.optional(EC2InstanceType),
     InstanceCounts: S.optional(EC2InstanceCounts),
     Location: S.optional(S.String),
     GameServerContainerGroupCounts: S.optional(GameServerContainerGroupCounts),
@@ -4150,8 +5739,8 @@ export const DescribeFleetLocationCapacityOutput = S.suspend(() =>
 export interface DescribeFleetPortSettingsOutput {
   FleetId?: string;
   FleetArn?: string;
-  InboundPermissions?: IpPermissionsList;
-  UpdateStatus?: string;
+  InboundPermissions?: IpPermission[];
+  UpdateStatus?: LocationUpdateStatus;
   Location?: string;
 }
 export const DescribeFleetPortSettingsOutput = S.suspend(() =>
@@ -4159,14 +5748,14 @@ export const DescribeFleetPortSettingsOutput = S.suspend(() =>
     FleetId: S.optional(S.String),
     FleetArn: S.optional(S.String),
     InboundPermissions: S.optional(IpPermissionsList),
-    UpdateStatus: S.optional(S.String),
+    UpdateStatus: S.optional(LocationUpdateStatus),
     Location: S.optional(S.String),
   }).pipe(ns),
 ).annotations({
   identifier: "DescribeFleetPortSettingsOutput",
 }) as any as S.Schema<DescribeFleetPortSettingsOutput>;
 export interface DescribeFleetUtilizationOutput {
-  FleetUtilization?: FleetUtilizationList;
+  FleetUtilization?: FleetUtilization[];
   NextToken?: string;
 }
 export const DescribeFleetUtilizationOutput = S.suspend(() =>
@@ -4186,7 +5775,7 @@ export const DescribeGameServerGroupOutput = S.suspend(() =>
   identifier: "DescribeGameServerGroupOutput",
 }) as any as S.Schema<DescribeGameServerGroupOutput>;
 export interface DescribeMatchmakingConfigurationsOutput {
-  Configurations?: MatchmakingConfigurationList;
+  Configurations?: MatchmakingConfiguration[];
   NextToken?: string;
 }
 export const DescribeMatchmakingConfigurationsOutput = S.suspend(() =>
@@ -4198,19 +5787,19 @@ export const DescribeMatchmakingConfigurationsOutput = S.suspend(() =>
   identifier: "DescribeMatchmakingConfigurationsOutput",
 }) as any as S.Schema<DescribeMatchmakingConfigurationsOutput>;
 export interface DescribeMatchmakingRuleSetsOutput {
-  RuleSets: MatchmakingRuleSetList;
+  RuleSets?: MatchmakingRuleSet[];
   NextToken?: string;
 }
 export const DescribeMatchmakingRuleSetsOutput = S.suspend(() =>
   S.Struct({
-    RuleSets: MatchmakingRuleSetList,
+    RuleSets: S.optional(MatchmakingRuleSetList),
     NextToken: S.optional(S.String),
   }).pipe(ns),
 ).annotations({
   identifier: "DescribeMatchmakingRuleSetsOutput",
 }) as any as S.Schema<DescribeMatchmakingRuleSetsOutput>;
 export interface DescribePlayerSessionsOutput {
-  PlayerSessions?: PlayerSessionList;
+  PlayerSessions?: PlayerSession[];
   NextToken?: string;
 }
 export const DescribePlayerSessionsOutput = S.suspend(() =>
@@ -4238,7 +5827,7 @@ export const DescribeScriptOutput = S.suspend(() =>
   identifier: "DescribeScriptOutput",
 }) as any as S.Schema<DescribeScriptOutput>;
 export interface DescribeVpcPeeringAuthorizationsOutput {
-  VpcPeeringAuthorizations?: VpcPeeringAuthorizationList;
+  VpcPeeringAuthorizations?: VpcPeeringAuthorization[];
 }
 export const DescribeVpcPeeringAuthorizationsOutput = S.suspend(() =>
   S.Struct({
@@ -4278,7 +5867,7 @@ export const GetGameSessionLogUrlOutput = S.suspend(() =>
   identifier: "GetGameSessionLogUrlOutput",
 }) as any as S.Schema<GetGameSessionLogUrlOutput>;
 export interface ListAliasesOutput {
-  Aliases?: AliasList;
+  Aliases?: Alias[];
   NextToken?: string;
 }
 export const ListAliasesOutput = S.suspend(() =>
@@ -4290,7 +5879,7 @@ export const ListAliasesOutput = S.suspend(() =>
   identifier: "ListAliasesOutput",
 }) as any as S.Schema<ListAliasesOutput>;
 export interface ListBuildsOutput {
-  Builds?: BuildList;
+  Builds?: Build[];
   NextToken?: string;
 }
 export const ListBuildsOutput = S.suspend(() =>
@@ -4302,7 +5891,7 @@ export const ListBuildsOutput = S.suspend(() =>
   identifier: "ListBuildsOutput",
 }) as any as S.Schema<ListBuildsOutput>;
 export interface ListComputeOutput {
-  ComputeList?: ComputeList;
+  ComputeList?: Compute[];
   NextToken?: string;
 }
 export const ListComputeOutput = S.suspend(() =>
@@ -4314,7 +5903,7 @@ export const ListComputeOutput = S.suspend(() =>
   identifier: "ListComputeOutput",
 }) as any as S.Schema<ListComputeOutput>;
 export interface ListContainerFleetsOutput {
-  ContainerFleets?: ContainerFleetList;
+  ContainerFleets?: ContainerFleet[];
   NextToken?: string;
 }
 export const ListContainerFleetsOutput = S.suspend(() =>
@@ -4326,7 +5915,7 @@ export const ListContainerFleetsOutput = S.suspend(() =>
   identifier: "ListContainerFleetsOutput",
 }) as any as S.Schema<ListContainerFleetsOutput>;
 export interface ListContainerGroupDefinitionsOutput {
-  ContainerGroupDefinitions?: ContainerGroupDefinitionList;
+  ContainerGroupDefinitions?: ContainerGroupDefinition[];
   NextToken?: string;
 }
 export const ListContainerGroupDefinitionsOutput = S.suspend(() =>
@@ -4338,7 +5927,7 @@ export const ListContainerGroupDefinitionsOutput = S.suspend(() =>
   identifier: "ListContainerGroupDefinitionsOutput",
 }) as any as S.Schema<ListContainerGroupDefinitionsOutput>;
 export interface ListContainerGroupDefinitionVersionsOutput {
-  ContainerGroupDefinitions?: ContainerGroupDefinitionList;
+  ContainerGroupDefinitions?: ContainerGroupDefinition[];
   NextToken?: string;
 }
 export const ListContainerGroupDefinitionVersionsOutput = S.suspend(() =>
@@ -4350,7 +5939,7 @@ export const ListContainerGroupDefinitionVersionsOutput = S.suspend(() =>
   identifier: "ListContainerGroupDefinitionVersionsOutput",
 }) as any as S.Schema<ListContainerGroupDefinitionVersionsOutput>;
 export interface ListFleetDeploymentsOutput {
-  FleetDeployments?: FleetDeployments;
+  FleetDeployments?: FleetDeployment[];
   NextToken?: string;
 }
 export const ListFleetDeploymentsOutput = S.suspend(() =>
@@ -4362,7 +5951,7 @@ export const ListFleetDeploymentsOutput = S.suspend(() =>
   identifier: "ListFleetDeploymentsOutput",
 }) as any as S.Schema<ListFleetDeploymentsOutput>;
 export interface ListFleetsOutput {
-  FleetIds?: FleetIdList;
+  FleetIds?: string[];
   NextToken?: string;
 }
 export const ListFleetsOutput = S.suspend(() =>
@@ -4374,7 +5963,7 @@ export const ListFleetsOutput = S.suspend(() =>
   identifier: "ListFleetsOutput",
 }) as any as S.Schema<ListFleetsOutput>;
 export interface ListGameServerGroupsOutput {
-  GameServerGroups?: GameServerGroups;
+  GameServerGroups?: GameServerGroup[];
   NextToken?: string;
 }
 export const ListGameServerGroupsOutput = S.suspend(() =>
@@ -4386,7 +5975,7 @@ export const ListGameServerGroupsOutput = S.suspend(() =>
   identifier: "ListGameServerGroupsOutput",
 }) as any as S.Schema<ListGameServerGroupsOutput>;
 export interface ListGameServersOutput {
-  GameServers?: GameServers;
+  GameServers?: GameServer[];
   NextToken?: string;
 }
 export const ListGameServersOutput = S.suspend(() =>
@@ -4398,7 +5987,7 @@ export const ListGameServersOutput = S.suspend(() =>
   identifier: "ListGameServersOutput",
 }) as any as S.Schema<ListGameServersOutput>;
 export interface ListLocationsOutput {
-  Locations?: LocationModelList;
+  Locations?: LocationModel[];
   NextToken?: string;
 }
 export const ListLocationsOutput = S.suspend(() =>
@@ -4410,7 +5999,7 @@ export const ListLocationsOutput = S.suspend(() =>
   identifier: "ListLocationsOutput",
 }) as any as S.Schema<ListLocationsOutput>;
 export interface ListScriptsOutput {
-  Scripts?: ScriptList;
+  Scripts?: Script[];
   NextToken?: string;
 }
 export const ListScriptsOutput = S.suspend(() =>
@@ -4422,7 +6011,7 @@ export const ListScriptsOutput = S.suspend(() =>
   identifier: "ListScriptsOutput",
 }) as any as S.Schema<ListScriptsOutput>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
@@ -4430,28 +6019,28 @@ export const ListTagsForResourceResponse = S.suspend(() =>
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface PutScalingPolicyInput {
-  Name: string;
-  FleetId: string;
+  Name?: string;
+  FleetId?: string;
   ScalingAdjustment?: number;
-  ScalingAdjustmentType?: string;
+  ScalingAdjustmentType?: ScalingAdjustmentType;
   Threshold?: number;
-  ComparisonOperator?: string;
+  ComparisonOperator?: ComparisonOperatorType;
   EvaluationPeriods?: number;
-  MetricName: string;
-  PolicyType?: string;
+  MetricName?: MetricName;
+  PolicyType?: PolicyType;
   TargetConfiguration?: TargetConfiguration;
 }
 export const PutScalingPolicyInput = S.suspend(() =>
   S.Struct({
-    Name: S.String,
-    FleetId: S.String,
+    Name: S.optional(S.String),
+    FleetId: S.optional(S.String),
     ScalingAdjustment: S.optional(S.Number),
-    ScalingAdjustmentType: S.optional(S.String),
+    ScalingAdjustmentType: S.optional(ScalingAdjustmentType),
     Threshold: S.optional(S.Number),
-    ComparisonOperator: S.optional(S.String),
+    ComparisonOperator: S.optional(ComparisonOperatorType),
     EvaluationPeriods: S.optional(S.Number),
-    MetricName: S.String,
-    PolicyType: S.optional(S.String),
+    MetricName: S.optional(MetricName),
+    PolicyType: S.optional(PolicyType),
     TargetConfiguration: S.optional(TargetConfiguration),
   }).pipe(
     T.all(
@@ -4529,6 +6118,28 @@ export const ResumeGameServerGroupOutput = S.suspend(() =>
 ).annotations({
   identifier: "ResumeGameServerGroupOutput",
 }) as any as S.Schema<ResumeGameServerGroupOutput>;
+export type GameSessionStatus =
+  | "ACTIVE"
+  | "ACTIVATING"
+  | "TERMINATED"
+  | "TERMINATING"
+  | "ERROR";
+export const GameSessionStatus = S.Literal(
+  "ACTIVE",
+  "ACTIVATING",
+  "TERMINATED",
+  "TERMINATING",
+  "ERROR",
+);
+export type GameSessionStatusReason =
+  | "INTERRUPTED"
+  | "TRIGGERED_ON_PROCESS_TERMINATE"
+  | "FORCE_TERMINATED";
+export const GameSessionStatusReason = S.Literal(
+  "INTERRUPTED",
+  "TRIGGERED_ON_PROCESS_TERMINATE",
+  "FORCE_TERMINATED",
+);
 export interface GameSession {
   GameSessionId?: string;
   Name?: string;
@@ -4538,13 +6149,13 @@ export interface GameSession {
   TerminationTime?: Date;
   CurrentPlayerSessionCount?: number;
   MaximumPlayerSessionCount?: number;
-  Status?: string;
-  StatusReason?: string;
-  GameProperties?: GamePropertyList;
-  IpAddress?: string | Redacted.Redacted<string>;
+  Status?: GameSessionStatus;
+  StatusReason?: GameSessionStatusReason;
+  GameProperties?: GameProperty[];
+  IpAddress?: string | redacted.Redacted<string>;
   DnsName?: string;
   Port?: number;
-  PlayerSessionCreationPolicy?: string;
+  PlayerSessionCreationPolicy?: PlayerSessionCreationPolicy;
   CreatorId?: string;
   GameSessionData?: string;
   MatchmakerData?: string;
@@ -4562,13 +6173,13 @@ export const GameSession = S.suspend(() =>
     ),
     CurrentPlayerSessionCount: S.optional(S.Number),
     MaximumPlayerSessionCount: S.optional(S.Number),
-    Status: S.optional(S.String),
-    StatusReason: S.optional(S.String),
+    Status: S.optional(GameSessionStatus),
+    StatusReason: S.optional(GameSessionStatusReason),
     GameProperties: S.optional(GamePropertyList),
     IpAddress: S.optional(SensitiveString),
     DnsName: S.optional(S.String),
     Port: S.optional(S.Number),
-    PlayerSessionCreationPolicy: S.optional(S.String),
+    PlayerSessionCreationPolicy: S.optional(PlayerSessionCreationPolicy),
     CreatorId: S.optional(S.String),
     GameSessionData: S.optional(S.String),
     MatchmakerData: S.optional(S.String),
@@ -4578,7 +6189,7 @@ export const GameSession = S.suspend(() =>
 export type GameSessionList = GameSession[];
 export const GameSessionList = S.Array(GameSession);
 export interface SearchGameSessionsOutput {
-  GameSessions?: GameSessionList;
+  GameSessions?: GameSession[];
   NextToken?: string;
 }
 export const SearchGameSessionsOutput = S.suspend(() =>
@@ -4602,22 +6213,22 @@ export const StartFleetActionsOutput = S.suspend(() =>
   identifier: "StartFleetActionsOutput",
 }) as any as S.Schema<StartFleetActionsOutput>;
 export interface StartGameSessionPlacementInput {
-  PlacementId: string;
-  GameSessionQueueName: string;
-  GameProperties?: GamePropertyList;
-  MaximumPlayerSessionCount: number;
+  PlacementId?: string;
+  GameSessionQueueName?: string;
+  GameProperties?: GameProperty[];
+  MaximumPlayerSessionCount?: number;
   GameSessionName?: string;
-  PlayerLatencies?: PlayerLatencyList;
-  DesiredPlayerSessions?: DesiredPlayerSessionList;
+  PlayerLatencies?: PlayerLatency[];
+  DesiredPlayerSessions?: DesiredPlayerSession[];
   GameSessionData?: string;
   PriorityConfigurationOverride?: PriorityConfigurationOverride;
 }
 export const StartGameSessionPlacementInput = S.suspend(() =>
   S.Struct({
-    PlacementId: S.String,
-    GameSessionQueueName: S.String,
+    PlacementId: S.optional(S.String),
+    GameSessionQueueName: S.optional(S.String),
     GameProperties: S.optional(GamePropertyList),
-    MaximumPlayerSessionCount: S.Number,
+    MaximumPlayerSessionCount: S.optional(S.Number),
     GameSessionName: S.optional(S.String),
     PlayerLatencies: S.optional(PlayerLatencyList),
     DesiredPlayerSessions: S.optional(DesiredPlayerSessionList),
@@ -4637,8 +6248,27 @@ export const StartGameSessionPlacementInput = S.suspend(() =>
 ).annotations({
   identifier: "StartGameSessionPlacementInput",
 }) as any as S.Schema<StartGameSessionPlacementInput>;
+export type MatchmakingConfigurationStatus =
+  | "CANCELLED"
+  | "COMPLETED"
+  | "FAILED"
+  | "PLACING"
+  | "QUEUED"
+  | "REQUIRES_ACCEPTANCE"
+  | "SEARCHING"
+  | "TIMED_OUT";
+export const MatchmakingConfigurationStatus = S.Literal(
+  "CANCELLED",
+  "COMPLETED",
+  "FAILED",
+  "PLACING",
+  "QUEUED",
+  "REQUIRES_ACCEPTANCE",
+  "SEARCHING",
+  "TIMED_OUT",
+);
 export interface MatchedPlayerSession {
-  PlayerId?: string | Redacted.Redacted<string>;
+  PlayerId?: string | redacted.Redacted<string>;
   PlayerSessionId?: string;
 }
 export const MatchedPlayerSession = S.suspend(() =>
@@ -4653,10 +6283,10 @@ export type MatchedPlayerSessionList = MatchedPlayerSession[];
 export const MatchedPlayerSessionList = S.Array(MatchedPlayerSession);
 export interface GameSessionConnectionInfo {
   GameSessionArn?: string;
-  IpAddress?: string | Redacted.Redacted<string>;
+  IpAddress?: string | redacted.Redacted<string>;
   DnsName?: string;
   Port?: number;
-  MatchedPlayerSessions?: MatchedPlayerSessionList;
+  MatchedPlayerSessions?: MatchedPlayerSession[];
 }
 export const GameSessionConnectionInfo = S.suspend(() =>
   S.Struct({
@@ -4673,12 +6303,12 @@ export interface MatchmakingTicket {
   TicketId?: string;
   ConfigurationName?: string;
   ConfigurationArn?: string;
-  Status?: string;
+  Status?: MatchmakingConfigurationStatus;
   StatusReason?: string;
   StatusMessage?: string;
   StartTime?: Date;
   EndTime?: Date;
-  Players?: PlayerList;
+  Players?: Player[];
   GameSessionConnectionInfo?: GameSessionConnectionInfo;
   EstimatedWaitTime?: number;
 }
@@ -4687,7 +6317,7 @@ export const MatchmakingTicket = S.suspend(() =>
     TicketId: S.optional(S.String),
     ConfigurationName: S.optional(S.String),
     ConfigurationArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(MatchmakingConfigurationStatus),
     StatusReason: S.optional(S.String),
     StatusMessage: S.optional(S.String),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -4719,8 +6349,21 @@ export const StopFleetActionsOutput = S.suspend(() =>
 ).annotations({
   identifier: "StopFleetActionsOutput",
 }) as any as S.Schema<StopFleetActionsOutput>;
+export type GameSessionPlacementState =
+  | "PENDING"
+  | "FULFILLED"
+  | "CANCELLED"
+  | "TIMED_OUT"
+  | "FAILED";
+export const GameSessionPlacementState = S.Literal(
+  "PENDING",
+  "FULFILLED",
+  "CANCELLED",
+  "TIMED_OUT",
+  "FAILED",
+);
 export interface PlacedPlayerSession {
-  PlayerId?: string | Redacted.Redacted<string>;
+  PlayerId?: string | redacted.Redacted<string>;
   PlayerSessionId?: string;
 }
 export const PlacedPlayerSession = S.suspend(() =>
@@ -4736,20 +6379,20 @@ export const PlacedPlayerSessionList = S.Array(PlacedPlayerSession);
 export interface GameSessionPlacement {
   PlacementId?: string;
   GameSessionQueueName?: string;
-  Status?: string;
-  GameProperties?: GamePropertyList;
+  Status?: GameSessionPlacementState;
+  GameProperties?: GameProperty[];
   MaximumPlayerSessionCount?: number;
   GameSessionName?: string;
   GameSessionId?: string;
   GameSessionArn?: string;
   GameSessionRegion?: string;
-  PlayerLatencies?: PlayerLatencyList;
+  PlayerLatencies?: PlayerLatency[];
   StartTime?: Date;
   EndTime?: Date;
-  IpAddress?: string | Redacted.Redacted<string>;
+  IpAddress?: string | redacted.Redacted<string>;
   DnsName?: string;
   Port?: number;
-  PlacedPlayerSessions?: PlacedPlayerSessionList;
+  PlacedPlayerSessions?: PlacedPlayerSession[];
   GameSessionData?: string;
   MatchmakerData?: string;
   PriorityConfigurationOverride?: PriorityConfigurationOverride;
@@ -4758,7 +6401,7 @@ export const GameSessionPlacement = S.suspend(() =>
   S.Struct({
     PlacementId: S.optional(S.String),
     GameSessionQueueName: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(GameSessionPlacementState),
     GameProperties: S.optional(GamePropertyList),
     MaximumPlayerSessionCount: S.optional(S.Number),
     GameSessionName: S.optional(S.String),
@@ -4820,24 +6463,24 @@ export const UpdateBuildOutput = S.suspend(() =>
   identifier: "UpdateBuildOutput",
 }) as any as S.Schema<UpdateBuildOutput>;
 export interface UpdateContainerFleetInput {
-  FleetId: string;
+  FleetId?: string;
   GameServerContainerGroupDefinitionName?: string;
   PerInstanceContainerGroupDefinitionName?: string;
   GameServerContainerGroupsPerInstance?: number;
   InstanceConnectionPortRange?: ConnectionPortRange;
-  InstanceInboundPermissionAuthorizations?: IpPermissionsList;
-  InstanceInboundPermissionRevocations?: IpPermissionsList;
+  InstanceInboundPermissionAuthorizations?: IpPermission[];
+  InstanceInboundPermissionRevocations?: IpPermission[];
   DeploymentConfiguration?: DeploymentConfiguration;
   Description?: string;
-  MetricGroups?: MetricGroupList;
-  NewGameSessionProtectionPolicy?: string;
+  MetricGroups?: string[];
+  NewGameSessionProtectionPolicy?: ProtectionPolicy;
   GameSessionCreationLimitPolicy?: GameSessionCreationLimitPolicy;
   LogConfiguration?: LogConfiguration;
-  RemoveAttributes?: ContainerFleetRemoveAttributeList;
+  RemoveAttributes?: ContainerFleetRemoveAttribute[];
 }
 export const UpdateContainerFleetInput = S.suspend(() =>
   S.Struct({
-    FleetId: S.String,
+    FleetId: S.optional(S.String),
     GameServerContainerGroupDefinitionName: S.optional(S.String),
     PerInstanceContainerGroupDefinitionName: S.optional(S.String),
     GameServerContainerGroupsPerInstance: S.optional(S.Number),
@@ -4847,7 +6490,7 @@ export const UpdateContainerFleetInput = S.suspend(() =>
     DeploymentConfiguration: S.optional(DeploymentConfiguration),
     Description: S.optional(S.String),
     MetricGroups: S.optional(MetricGroupList),
-    NewGameSessionProtectionPolicy: S.optional(S.String),
+    NewGameSessionProtectionPolicy: S.optional(ProtectionPolicy),
     GameSessionCreationLimitPolicy: S.optional(GameSessionCreationLimitPolicy),
     LogConfiguration: S.optional(LogConfiguration),
     RemoveAttributes: S.optional(ContainerFleetRemoveAttributeList),
@@ -4941,8 +6584,8 @@ export interface GameSessionQueue {
   Name?: string;
   GameSessionQueueArn?: string;
   TimeoutInSeconds?: number;
-  PlayerLatencyPolicies?: PlayerLatencyPolicyList;
-  Destinations?: GameSessionQueueDestinationList;
+  PlayerLatencyPolicies?: PlayerLatencyPolicy[];
+  Destinations?: GameSessionQueueDestination[];
   FilterConfiguration?: FilterConfiguration;
   PriorityConfiguration?: PriorityConfiguration;
   CustomEventData?: string;
@@ -5004,34 +6647,160 @@ export const ValidateMatchmakingRuleSetOutput = S.suspend(() =>
   identifier: "ValidateMatchmakingRuleSetOutput",
 }) as any as S.Schema<ValidateMatchmakingRuleSetOutput>;
 export interface TargetTrackingConfiguration {
-  TargetValue: number;
+  TargetValue?: number;
 }
 export const TargetTrackingConfiguration = S.suspend(() =>
-  S.Struct({ TargetValue: S.Number }),
+  S.Struct({ TargetValue: S.optional(S.Number) }),
 ).annotations({
   identifier: "TargetTrackingConfiguration",
 }) as any as S.Schema<TargetTrackingConfiguration>;
+export type EventCode =
+  | "GENERIC_EVENT"
+  | "FLEET_CREATED"
+  | "FLEET_DELETED"
+  | "FLEET_SCALING_EVENT"
+  | "FLEET_STATE_DOWNLOADING"
+  | "FLEET_STATE_VALIDATING"
+  | "FLEET_STATE_BUILDING"
+  | "FLEET_STATE_ACTIVATING"
+  | "FLEET_STATE_ACTIVE"
+  | "FLEET_STATE_ERROR"
+  | "FLEET_STATE_PENDING"
+  | "FLEET_STATE_CREATING"
+  | "FLEET_STATE_CREATED"
+  | "FLEET_STATE_UPDATING"
+  | "FLEET_INITIALIZATION_FAILED"
+  | "FLEET_BINARY_DOWNLOAD_FAILED"
+  | "FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND"
+  | "FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE"
+  | "FLEET_VALIDATION_TIMED_OUT"
+  | "FLEET_ACTIVATION_FAILED"
+  | "FLEET_ACTIVATION_FAILED_NO_INSTANCES"
+  | "FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED"
+  | "SERVER_PROCESS_INVALID_PATH"
+  | "SERVER_PROCESS_SDK_INITIALIZATION_TIMEOUT"
+  | "SERVER_PROCESS_PROCESS_READY_TIMEOUT"
+  | "SERVER_PROCESS_CRASHED"
+  | "SERVER_PROCESS_TERMINATED_UNHEALTHY"
+  | "SERVER_PROCESS_FORCE_TERMINATED"
+  | "SERVER_PROCESS_PROCESS_EXIT_TIMEOUT"
+  | "SERVER_PROCESS_SDK_INITIALIZATION_FAILED"
+  | "SERVER_PROCESS_MISCONFIGURED_CONTAINER_PORT"
+  | "GAME_SESSION_ACTIVATION_TIMEOUT"
+  | "FLEET_CREATION_EXTRACTING_BUILD"
+  | "FLEET_CREATION_RUNNING_INSTALLER"
+  | "FLEET_CREATION_VALIDATING_RUNTIME_CONFIG"
+  | "FLEET_VPC_PEERING_SUCCEEDED"
+  | "FLEET_VPC_PEERING_FAILED"
+  | "FLEET_VPC_PEERING_DELETED"
+  | "INSTANCE_INTERRUPTED"
+  | "INSTANCE_RECYCLED"
+  | "INSTANCE_REPLACED_UNHEALTHY"
+  | "FLEET_CREATION_COMPLETED_INSTALLER"
+  | "FLEET_CREATION_FAILED_INSTALLER"
+  | "COMPUTE_LOG_UPLOAD_FAILED"
+  | "GAME_SERVER_CONTAINER_GROUP_CRASHED"
+  | "PER_INSTANCE_CONTAINER_GROUP_CRASHED"
+  | "GAME_SERVER_CONTAINER_GROUP_REPLACED_UNHEALTHY"
+  | "LOCATION_STATE_PENDING"
+  | "LOCATION_STATE_CREATING"
+  | "LOCATION_STATE_CREATED"
+  | "LOCATION_STATE_ACTIVATING"
+  | "LOCATION_STATE_ACTIVE"
+  | "LOCATION_STATE_UPDATING"
+  | "LOCATION_STATE_ERROR"
+  | "LOCATION_STATE_DELETING"
+  | "LOCATION_STATE_DELETED";
+export const EventCode = S.Literal(
+  "GENERIC_EVENT",
+  "FLEET_CREATED",
+  "FLEET_DELETED",
+  "FLEET_SCALING_EVENT",
+  "FLEET_STATE_DOWNLOADING",
+  "FLEET_STATE_VALIDATING",
+  "FLEET_STATE_BUILDING",
+  "FLEET_STATE_ACTIVATING",
+  "FLEET_STATE_ACTIVE",
+  "FLEET_STATE_ERROR",
+  "FLEET_STATE_PENDING",
+  "FLEET_STATE_CREATING",
+  "FLEET_STATE_CREATED",
+  "FLEET_STATE_UPDATING",
+  "FLEET_INITIALIZATION_FAILED",
+  "FLEET_BINARY_DOWNLOAD_FAILED",
+  "FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND",
+  "FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE",
+  "FLEET_VALIDATION_TIMED_OUT",
+  "FLEET_ACTIVATION_FAILED",
+  "FLEET_ACTIVATION_FAILED_NO_INSTANCES",
+  "FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED",
+  "SERVER_PROCESS_INVALID_PATH",
+  "SERVER_PROCESS_SDK_INITIALIZATION_TIMEOUT",
+  "SERVER_PROCESS_PROCESS_READY_TIMEOUT",
+  "SERVER_PROCESS_CRASHED",
+  "SERVER_PROCESS_TERMINATED_UNHEALTHY",
+  "SERVER_PROCESS_FORCE_TERMINATED",
+  "SERVER_PROCESS_PROCESS_EXIT_TIMEOUT",
+  "SERVER_PROCESS_SDK_INITIALIZATION_FAILED",
+  "SERVER_PROCESS_MISCONFIGURED_CONTAINER_PORT",
+  "GAME_SESSION_ACTIVATION_TIMEOUT",
+  "FLEET_CREATION_EXTRACTING_BUILD",
+  "FLEET_CREATION_RUNNING_INSTALLER",
+  "FLEET_CREATION_VALIDATING_RUNTIME_CONFIG",
+  "FLEET_VPC_PEERING_SUCCEEDED",
+  "FLEET_VPC_PEERING_FAILED",
+  "FLEET_VPC_PEERING_DELETED",
+  "INSTANCE_INTERRUPTED",
+  "INSTANCE_RECYCLED",
+  "INSTANCE_REPLACED_UNHEALTHY",
+  "FLEET_CREATION_COMPLETED_INSTALLER",
+  "FLEET_CREATION_FAILED_INSTALLER",
+  "COMPUTE_LOG_UPLOAD_FAILED",
+  "GAME_SERVER_CONTAINER_GROUP_CRASHED",
+  "PER_INSTANCE_CONTAINER_GROUP_CRASHED",
+  "GAME_SERVER_CONTAINER_GROUP_REPLACED_UNHEALTHY",
+  "LOCATION_STATE_PENDING",
+  "LOCATION_STATE_CREATING",
+  "LOCATION_STATE_CREATED",
+  "LOCATION_STATE_ACTIVATING",
+  "LOCATION_STATE_ACTIVE",
+  "LOCATION_STATE_UPDATING",
+  "LOCATION_STATE_ERROR",
+  "LOCATION_STATE_DELETING",
+  "LOCATION_STATE_DELETED",
+);
+export type GameServerInstanceStatus =
+  | "ACTIVE"
+  | "DRAINING"
+  | "SPOT_TERMINATING";
+export const GameServerInstanceStatus = S.Literal(
+  "ACTIVE",
+  "DRAINING",
+  "SPOT_TERMINATING",
+);
+export type InstanceStatus = "PENDING" | "ACTIVE" | "TERMINATING";
+export const InstanceStatus = S.Literal("PENDING", "ACTIVE", "TERMINATING");
 export interface GameServerGroupAutoScalingPolicy {
   EstimatedInstanceWarmup?: number;
-  TargetTrackingConfiguration: TargetTrackingConfiguration;
+  TargetTrackingConfiguration?: TargetTrackingConfiguration;
 }
 export const GameServerGroupAutoScalingPolicy = S.suspend(() =>
   S.Struct({
     EstimatedInstanceWarmup: S.optional(S.Number),
-    TargetTrackingConfiguration: TargetTrackingConfiguration,
+    TargetTrackingConfiguration: S.optional(TargetTrackingConfiguration),
   }),
 ).annotations({
   identifier: "GameServerGroupAutoScalingPolicy",
 }) as any as S.Schema<GameServerGroupAutoScalingPolicy>;
 export interface EC2InstanceLimit {
-  EC2InstanceType?: string;
+  EC2InstanceType?: EC2InstanceType;
   CurrentInstances?: number;
   InstanceLimit?: number;
   Location?: string;
 }
 export const EC2InstanceLimit = S.suspend(() =>
   S.Struct({
-    EC2InstanceType: S.optional(S.String),
+    EC2InstanceType: S.optional(EC2InstanceType),
     CurrentInstances: S.optional(S.Number),
     InstanceLimit: S.optional(S.Number),
     Location: S.optional(S.String),
@@ -5044,44 +6813,44 @@ export const EC2InstanceLimitList = S.Array(EC2InstanceLimit);
 export interface FleetAttributes {
   FleetId?: string;
   FleetArn?: string;
-  FleetType?: string;
-  InstanceType?: string;
+  FleetType?: FleetType;
+  InstanceType?: EC2InstanceType;
   Description?: string;
   Name?: string;
   CreationTime?: Date;
   TerminationTime?: Date;
-  Status?: string;
+  Status?: FleetStatus;
   BuildId?: string;
   BuildArn?: string;
   ScriptId?: string;
   ScriptArn?: string;
   ServerLaunchPath?: string;
   ServerLaunchParameters?: string;
-  LogPaths?: StringList;
-  NewGameSessionProtectionPolicy?: string;
-  OperatingSystem?: string;
+  LogPaths?: string[];
+  NewGameSessionProtectionPolicy?: ProtectionPolicy;
+  OperatingSystem?: OperatingSystem;
   ResourceCreationLimitPolicy?: ResourceCreationLimitPolicy;
-  MetricGroups?: MetricGroupList;
-  StoppedActions?: FleetActionList;
+  MetricGroups?: string[];
+  StoppedActions?: FleetAction[];
   InstanceRoleArn?: string;
   CertificateConfiguration?: CertificateConfiguration;
-  ComputeType?: string;
+  ComputeType?: ComputeType;
   AnywhereConfiguration?: AnywhereConfiguration;
-  InstanceRoleCredentialsProvider?: string;
+  InstanceRoleCredentialsProvider?: InstanceRoleCredentialsProvider;
 }
 export const FleetAttributes = S.suspend(() =>
   S.Struct({
     FleetId: S.optional(S.String),
     FleetArn: S.optional(S.String),
-    FleetType: S.optional(S.String),
-    InstanceType: S.optional(S.String),
+    FleetType: S.optional(FleetType),
+    InstanceType: S.optional(EC2InstanceType),
     Description: S.optional(S.String),
     Name: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     TerminationTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    Status: S.optional(S.String),
+    Status: S.optional(FleetStatus),
     BuildId: S.optional(S.String),
     BuildArn: S.optional(S.String),
     ScriptId: S.optional(S.String),
@@ -5089,16 +6858,18 @@ export const FleetAttributes = S.suspend(() =>
     ServerLaunchPath: S.optional(S.String),
     ServerLaunchParameters: S.optional(S.String),
     LogPaths: S.optional(StringList),
-    NewGameSessionProtectionPolicy: S.optional(S.String),
-    OperatingSystem: S.optional(S.String),
+    NewGameSessionProtectionPolicy: S.optional(ProtectionPolicy),
+    OperatingSystem: S.optional(OperatingSystem),
     ResourceCreationLimitPolicy: S.optional(ResourceCreationLimitPolicy),
     MetricGroups: S.optional(MetricGroupList),
     StoppedActions: S.optional(FleetActionList),
     InstanceRoleArn: S.optional(S.String),
     CertificateConfiguration: S.optional(CertificateConfiguration),
-    ComputeType: S.optional(S.String),
+    ComputeType: S.optional(ComputeType),
     AnywhereConfiguration: S.optional(AnywhereConfiguration),
-    InstanceRoleCredentialsProvider: S.optional(S.String),
+    InstanceRoleCredentialsProvider: S.optional(
+      InstanceRoleCredentialsProvider,
+    ),
   }),
 ).annotations({
   identifier: "FleetAttributes",
@@ -5108,7 +6879,7 @@ export const FleetAttributesList = S.Array(FleetAttributes);
 export interface Event {
   EventId?: string;
   ResourceId?: string;
-  EventCode?: string;
+  EventCode?: EventCode;
   Message?: string;
   EventTime?: Date;
   PreSignedLogUrl?: string;
@@ -5118,7 +6889,7 @@ export const Event = S.suspend(() =>
   S.Struct({
     EventId: S.optional(S.String),
     ResourceId: S.optional(S.String),
-    EventCode: S.optional(S.String),
+    EventCode: S.optional(EventCode),
     Message: S.optional(S.String),
     EventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     PreSignedLogUrl: S.optional(S.String),
@@ -5129,14 +6900,14 @@ export type EventList = Event[];
 export const EventList = S.Array(Event);
 export interface LocationAttributes {
   LocationState?: LocationState;
-  StoppedActions?: FleetActionList;
-  UpdateStatus?: string;
+  StoppedActions?: FleetAction[];
+  UpdateStatus?: LocationUpdateStatus;
 }
 export const LocationAttributes = S.suspend(() =>
   S.Struct({
     LocationState: S.optional(LocationState),
     StoppedActions: S.optional(FleetActionList),
-    UpdateStatus: S.optional(S.String),
+    UpdateStatus: S.optional(LocationUpdateStatus),
   }),
 ).annotations({
   identifier: "LocationAttributes",
@@ -5147,14 +6918,14 @@ export interface GameServerInstance {
   GameServerGroupName?: string;
   GameServerGroupArn?: string;
   InstanceId?: string;
-  InstanceStatus?: string;
+  InstanceStatus?: GameServerInstanceStatus;
 }
 export const GameServerInstance = S.suspend(() =>
   S.Struct({
     GameServerGroupName: S.optional(S.String),
     GameServerGroupArn: S.optional(S.String),
     InstanceId: S.optional(S.String),
-    InstanceStatus: S.optional(S.String),
+    InstanceStatus: S.optional(GameServerInstanceStatus),
   }),
 ).annotations({
   identifier: "GameServerInstance",
@@ -5163,12 +6934,12 @@ export type GameServerInstances = GameServerInstance[];
 export const GameServerInstances = S.Array(GameServerInstance);
 export interface GameSessionDetail {
   GameSession?: GameSession;
-  ProtectionPolicy?: string;
+  ProtectionPolicy?: ProtectionPolicy;
 }
 export const GameSessionDetail = S.suspend(() =>
   S.Struct({
     GameSession: S.optional(GameSession),
-    ProtectionPolicy: S.optional(S.String),
+    ProtectionPolicy: S.optional(ProtectionPolicy),
   }),
 ).annotations({
   identifier: "GameSessionDetail",
@@ -5181,11 +6952,11 @@ export interface Instance {
   FleetId?: string;
   FleetArn?: string;
   InstanceId?: string;
-  IpAddress?: string | Redacted.Redacted<string>;
+  IpAddress?: string | redacted.Redacted<string>;
   DnsName?: string;
-  OperatingSystem?: string;
-  Type?: string;
-  Status?: string;
+  OperatingSystem?: OperatingSystem;
+  Type?: EC2InstanceType;
+  Status?: InstanceStatus;
   CreationTime?: Date;
   Location?: string;
 }
@@ -5196,9 +6967,9 @@ export const Instance = S.suspend(() =>
     InstanceId: S.optional(S.String),
     IpAddress: S.optional(SensitiveString),
     DnsName: S.optional(S.String),
-    OperatingSystem: S.optional(S.String),
-    Type: S.optional(S.String),
-    Status: S.optional(S.String),
+    OperatingSystem: S.optional(OperatingSystem),
+    Type: S.optional(EC2InstanceType),
+    Status: S.optional(InstanceStatus),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Location: S.optional(S.String),
   }),
@@ -5209,16 +6980,16 @@ export interface ScalingPolicy {
   FleetId?: string;
   FleetArn?: string;
   Name?: string;
-  Status?: string;
+  Status?: ScalingStatusType;
   ScalingAdjustment?: number;
-  ScalingAdjustmentType?: string;
-  ComparisonOperator?: string;
+  ScalingAdjustmentType?: ScalingAdjustmentType;
+  ComparisonOperator?: ComparisonOperatorType;
   Threshold?: number;
   EvaluationPeriods?: number;
-  MetricName?: string;
-  PolicyType?: string;
+  MetricName?: MetricName;
+  PolicyType?: PolicyType;
   TargetConfiguration?: TargetConfiguration;
-  UpdateStatus?: string;
+  UpdateStatus?: LocationUpdateStatus;
   Location?: string;
 }
 export const ScalingPolicy = S.suspend(() =>
@@ -5226,16 +6997,16 @@ export const ScalingPolicy = S.suspend(() =>
     FleetId: S.optional(S.String),
     FleetArn: S.optional(S.String),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ScalingStatusType),
     ScalingAdjustment: S.optional(S.Number),
-    ScalingAdjustmentType: S.optional(S.String),
-    ComparisonOperator: S.optional(S.String),
+    ScalingAdjustmentType: S.optional(ScalingAdjustmentType),
+    ComparisonOperator: S.optional(ComparisonOperatorType),
     Threshold: S.optional(S.Number),
     EvaluationPeriods: S.optional(S.Number),
-    MetricName: S.optional(S.String),
-    PolicyType: S.optional(S.String),
+    MetricName: S.optional(MetricName),
+    PolicyType: S.optional(PolicyType),
     TargetConfiguration: S.optional(TargetConfiguration),
-    UpdateStatus: S.optional(S.String),
+    UpdateStatus: S.optional(LocationUpdateStatus),
     Location: S.optional(S.String),
   }),
 ).annotations({
@@ -5296,55 +7067,57 @@ export const CreateContainerFleetOutput = S.suspend(() =>
   identifier: "CreateContainerFleetOutput",
 }) as any as S.Schema<CreateContainerFleetOutput>;
 export interface CreateFleetInput {
-  Name: string;
+  Name?: string;
   Description?: string;
   BuildId?: string;
   ScriptId?: string;
   ServerLaunchPath?: string;
   ServerLaunchParameters?: string;
-  LogPaths?: StringList;
-  EC2InstanceType?: string;
-  EC2InboundPermissions?: IpPermissionsList;
-  NewGameSessionProtectionPolicy?: string;
+  LogPaths?: string[];
+  EC2InstanceType?: EC2InstanceType;
+  EC2InboundPermissions?: IpPermission[];
+  NewGameSessionProtectionPolicy?: ProtectionPolicy;
   RuntimeConfiguration?: RuntimeConfiguration;
   ResourceCreationLimitPolicy?: ResourceCreationLimitPolicy;
-  MetricGroups?: MetricGroupList;
+  MetricGroups?: string[];
   PeerVpcAwsAccountId?: string;
   PeerVpcId?: string;
-  FleetType?: string;
+  FleetType?: FleetType;
   InstanceRoleArn?: string;
   CertificateConfiguration?: CertificateConfiguration;
-  Locations?: LocationConfigurationList;
-  Tags?: TagList;
-  ComputeType?: string;
+  Locations?: LocationConfiguration[];
+  Tags?: Tag[];
+  ComputeType?: ComputeType;
   AnywhereConfiguration?: AnywhereConfiguration;
-  InstanceRoleCredentialsProvider?: string;
+  InstanceRoleCredentialsProvider?: InstanceRoleCredentialsProvider;
 }
 export const CreateFleetInput = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: S.optional(S.String),
     Description: S.optional(S.String),
     BuildId: S.optional(S.String),
     ScriptId: S.optional(S.String),
     ServerLaunchPath: S.optional(S.String),
     ServerLaunchParameters: S.optional(S.String),
     LogPaths: S.optional(StringList),
-    EC2InstanceType: S.optional(S.String),
+    EC2InstanceType: S.optional(EC2InstanceType),
     EC2InboundPermissions: S.optional(IpPermissionsList),
-    NewGameSessionProtectionPolicy: S.optional(S.String),
+    NewGameSessionProtectionPolicy: S.optional(ProtectionPolicy),
     RuntimeConfiguration: S.optional(RuntimeConfiguration),
     ResourceCreationLimitPolicy: S.optional(ResourceCreationLimitPolicy),
     MetricGroups: S.optional(MetricGroupList),
     PeerVpcAwsAccountId: S.optional(S.String),
     PeerVpcId: S.optional(S.String),
-    FleetType: S.optional(S.String),
+    FleetType: S.optional(FleetType),
     InstanceRoleArn: S.optional(S.String),
     CertificateConfiguration: S.optional(CertificateConfiguration),
     Locations: S.optional(LocationConfigurationList),
     Tags: S.optional(TagList),
-    ComputeType: S.optional(S.String),
+    ComputeType: S.optional(ComputeType),
     AnywhereConfiguration: S.optional(AnywhereConfiguration),
-    InstanceRoleCredentialsProvider: S.optional(S.String),
+    InstanceRoleCredentialsProvider: S.optional(
+      InstanceRoleCredentialsProvider,
+    ),
   }).pipe(
     T.all(
       ns,
@@ -5362,7 +7135,7 @@ export const CreateFleetInput = S.suspend(() =>
 export interface CreateFleetLocationsOutput {
   FleetId?: string;
   FleetArn?: string;
-  LocationStates?: LocationStateList;
+  LocationStates?: LocationState[];
 }
 export const CreateFleetLocationsOutput = S.suspend(() =>
   S.Struct({
@@ -5374,29 +7147,29 @@ export const CreateFleetLocationsOutput = S.suspend(() =>
   identifier: "CreateFleetLocationsOutput",
 }) as any as S.Schema<CreateFleetLocationsOutput>;
 export interface CreateGameServerGroupInput {
-  GameServerGroupName: string;
-  RoleArn: string;
-  MinSize: number;
-  MaxSize: number;
-  LaunchTemplate: LaunchTemplateSpecification;
-  InstanceDefinitions: InstanceDefinitions;
+  GameServerGroupName?: string;
+  RoleArn?: string;
+  MinSize?: number;
+  MaxSize?: number;
+  LaunchTemplate?: LaunchTemplateSpecification;
+  InstanceDefinitions?: InstanceDefinition[];
   AutoScalingPolicy?: GameServerGroupAutoScalingPolicy;
-  BalancingStrategy?: string;
-  GameServerProtectionPolicy?: string;
-  VpcSubnets?: VpcSubnets;
-  Tags?: TagList;
+  BalancingStrategy?: BalancingStrategy;
+  GameServerProtectionPolicy?: GameServerProtectionPolicy;
+  VpcSubnets?: string[];
+  Tags?: Tag[];
 }
 export const CreateGameServerGroupInput = S.suspend(() =>
   S.Struct({
-    GameServerGroupName: S.String,
-    RoleArn: S.String,
-    MinSize: S.Number,
-    MaxSize: S.Number,
-    LaunchTemplate: LaunchTemplateSpecification,
-    InstanceDefinitions: InstanceDefinitions,
+    GameServerGroupName: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    MinSize: S.optional(S.Number),
+    MaxSize: S.optional(S.Number),
+    LaunchTemplate: S.optional(LaunchTemplateSpecification),
+    InstanceDefinitions: S.optional(InstanceDefinitions),
     AutoScalingPolicy: S.optional(GameServerGroupAutoScalingPolicy),
-    BalancingStrategy: S.optional(S.String),
-    GameServerProtectionPolicy: S.optional(S.String),
+    BalancingStrategy: S.optional(BalancingStrategy),
+    GameServerProtectionPolicy: S.optional(GameServerProtectionPolicy),
     VpcSubnets: S.optional(VpcSubnets),
     Tags: S.optional(TagList),
   }).pipe(
@@ -5438,10 +7211,10 @@ export const CreateMatchmakingConfigurationOutput = S.suspend(() =>
   identifier: "CreateMatchmakingConfigurationOutput",
 }) as any as S.Schema<CreateMatchmakingConfigurationOutput>;
 export interface CreateMatchmakingRuleSetOutput {
-  RuleSet: MatchmakingRuleSet;
+  RuleSet?: MatchmakingRuleSet;
 }
 export const CreateMatchmakingRuleSetOutput = S.suspend(() =>
-  S.Struct({ RuleSet: MatchmakingRuleSet }).pipe(ns),
+  S.Struct({ RuleSet: S.optional(MatchmakingRuleSet) }).pipe(ns),
 ).annotations({
   identifier: "CreateMatchmakingRuleSetOutput",
 }) as any as S.Schema<CreateMatchmakingRuleSetOutput>;
@@ -5454,7 +7227,7 @@ export const CreatePlayerSessionOutput = S.suspend(() =>
   identifier: "CreatePlayerSessionOutput",
 }) as any as S.Schema<CreatePlayerSessionOutput>;
 export interface CreatePlayerSessionsOutput {
-  PlayerSessions?: PlayerSessionList;
+  PlayerSessions?: PlayerSession[];
 }
 export const CreatePlayerSessionsOutput = S.suspend(() =>
   S.Struct({ PlayerSessions: S.optional(PlayerSessionList) }).pipe(ns),
@@ -5494,7 +7267,7 @@ export const DescribeBuildOutput = S.suspend(() =>
   identifier: "DescribeBuildOutput",
 }) as any as S.Schema<DescribeBuildOutput>;
 export interface DescribeEC2InstanceLimitsOutput {
-  EC2InstanceLimits?: EC2InstanceLimitList;
+  EC2InstanceLimits?: EC2InstanceLimit[];
 }
 export const DescribeEC2InstanceLimitsOutput = S.suspend(() =>
   S.Struct({ EC2InstanceLimits: S.optional(EC2InstanceLimitList) }).pipe(ns),
@@ -5502,7 +7275,7 @@ export const DescribeEC2InstanceLimitsOutput = S.suspend(() =>
   identifier: "DescribeEC2InstanceLimitsOutput",
 }) as any as S.Schema<DescribeEC2InstanceLimitsOutput>;
 export interface DescribeFleetAttributesOutput {
-  FleetAttributes?: FleetAttributesList;
+  FleetAttributes?: FleetAttributes[];
   NextToken?: string;
 }
 export const DescribeFleetAttributesOutput = S.suspend(() =>
@@ -5514,7 +7287,7 @@ export const DescribeFleetAttributesOutput = S.suspend(() =>
   identifier: "DescribeFleetAttributesOutput",
 }) as any as S.Schema<DescribeFleetAttributesOutput>;
 export interface DescribeFleetEventsOutput {
-  Events?: EventList;
+  Events?: Event[];
   NextToken?: string;
 }
 export const DescribeFleetEventsOutput = S.suspend(() =>
@@ -5528,7 +7301,7 @@ export const DescribeFleetEventsOutput = S.suspend(() =>
 export interface DescribeFleetLocationAttributesOutput {
   FleetId?: string;
   FleetArn?: string;
-  LocationAttributes?: LocationAttributesList;
+  LocationAttributes?: LocationAttributes[];
   NextToken?: string;
 }
 export const DescribeFleetLocationAttributesOutput = S.suspend(() =>
@@ -5558,7 +7331,7 @@ export const DescribeGameServerOutput = S.suspend(() =>
   identifier: "DescribeGameServerOutput",
 }) as any as S.Schema<DescribeGameServerOutput>;
 export interface DescribeGameServerInstancesOutput {
-  GameServerInstances?: GameServerInstances;
+  GameServerInstances?: GameServerInstance[];
   NextToken?: string;
 }
 export const DescribeGameServerInstancesOutput = S.suspend(() =>
@@ -5570,7 +7343,7 @@ export const DescribeGameServerInstancesOutput = S.suspend(() =>
   identifier: "DescribeGameServerInstancesOutput",
 }) as any as S.Schema<DescribeGameServerInstancesOutput>;
 export interface DescribeGameSessionDetailsOutput {
-  GameSessionDetails?: GameSessionDetailList;
+  GameSessionDetails?: GameSessionDetail[];
   NextToken?: string;
 }
 export const DescribeGameSessionDetailsOutput = S.suspend(() =>
@@ -5582,7 +7355,7 @@ export const DescribeGameSessionDetailsOutput = S.suspend(() =>
   identifier: "DescribeGameSessionDetailsOutput",
 }) as any as S.Schema<DescribeGameSessionDetailsOutput>;
 export interface DescribeGameSessionQueuesOutput {
-  GameSessionQueues?: GameSessionQueueList;
+  GameSessionQueues?: GameSessionQueue[];
   NextToken?: string;
 }
 export const DescribeGameSessionQueuesOutput = S.suspend(() =>
@@ -5594,7 +7367,7 @@ export const DescribeGameSessionQueuesOutput = S.suspend(() =>
   identifier: "DescribeGameSessionQueuesOutput",
 }) as any as S.Schema<DescribeGameSessionQueuesOutput>;
 export interface DescribeGameSessionsOutput {
-  GameSessions?: GameSessionList;
+  GameSessions?: GameSession[];
   NextToken?: string;
 }
 export const DescribeGameSessionsOutput = S.suspend(() =>
@@ -5606,7 +7379,7 @@ export const DescribeGameSessionsOutput = S.suspend(() =>
   identifier: "DescribeGameSessionsOutput",
 }) as any as S.Schema<DescribeGameSessionsOutput>;
 export interface DescribeInstancesOutput {
-  Instances?: InstanceList;
+  Instances?: Instance[];
   NextToken?: string;
 }
 export const DescribeInstancesOutput = S.suspend(() =>
@@ -5618,7 +7391,7 @@ export const DescribeInstancesOutput = S.suspend(() =>
   identifier: "DescribeInstancesOutput",
 }) as any as S.Schema<DescribeInstancesOutput>;
 export interface DescribeScalingPoliciesOutput {
-  ScalingPolicies?: ScalingPolicyList;
+  ScalingPolicies?: ScalingPolicy[];
   NextToken?: string;
 }
 export const DescribeScalingPoliciesOutput = S.suspend(() =>
@@ -5636,7 +7409,7 @@ export interface GetComputeAccessOutput {
   ComputeArn?: string;
   Credentials?: AwsCredentials;
   Target?: string;
-  ContainerIdentifiers?: ContainerIdentifierList;
+  ContainerIdentifiers?: ContainerIdentifier[];
 }
 export const GetComputeAccessOutput = S.suspend(() =>
   S.Struct({
@@ -5676,10 +7449,10 @@ export const UpdateContainerFleetOutput = S.suspend(() =>
   identifier: "UpdateContainerFleetOutput",
 }) as any as S.Schema<UpdateContainerFleetOutput>;
 export interface LocationalDeployment {
-  DeploymentStatus?: string;
+  DeploymentStatus?: DeploymentStatus;
 }
 export const LocationalDeployment = S.suspend(() =>
-  S.Struct({ DeploymentStatus: S.optional(S.String) }),
+  S.Struct({ DeploymentStatus: S.optional(DeploymentStatus) }),
 ).annotations({
   identifier: "LocationalDeployment",
 }) as any as S.Schema<LocationalDeployment>;
@@ -5735,8 +7508,8 @@ export const VpcPeeringConnectionList = S.Array(VpcPeeringConnection);
 export interface InstanceAccess {
   FleetId?: string;
   InstanceId?: string;
-  IpAddress?: string | Redacted.Redacted<string>;
-  OperatingSystem?: string;
+  IpAddress?: string | redacted.Redacted<string>;
+  OperatingSystem?: OperatingSystem;
   Credentials?: InstanceCredentials;
 }
 export const InstanceAccess = S.suspend(() =>
@@ -5744,36 +7517,36 @@ export const InstanceAccess = S.suspend(() =>
     FleetId: S.optional(S.String),
     InstanceId: S.optional(S.String),
     IpAddress: S.optional(SensitiveString),
-    OperatingSystem: S.optional(S.String),
+    OperatingSystem: S.optional(OperatingSystem),
     Credentials: S.optional(InstanceCredentials),
   }),
 ).annotations({
   identifier: "InstanceAccess",
 }) as any as S.Schema<InstanceAccess>;
 export interface CreateContainerGroupDefinitionInput {
-  Name: string;
-  ContainerGroupType?: string;
-  TotalMemoryLimitMebibytes: number;
-  TotalVcpuLimit: number;
+  Name?: string;
+  ContainerGroupType?: ContainerGroupType;
+  TotalMemoryLimitMebibytes?: number;
+  TotalVcpuLimit?: number;
   GameServerContainerDefinition?: GameServerContainerDefinitionInput;
-  SupportContainerDefinitions?: SupportContainerDefinitionInputList;
-  OperatingSystem: string;
+  SupportContainerDefinitions?: SupportContainerDefinitionInput[];
+  OperatingSystem?: ContainerOperatingSystem;
   VersionDescription?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateContainerGroupDefinitionInput = S.suspend(() =>
   S.Struct({
-    Name: S.String,
-    ContainerGroupType: S.optional(S.String),
-    TotalMemoryLimitMebibytes: S.Number,
-    TotalVcpuLimit: S.Number,
+    Name: S.optional(S.String),
+    ContainerGroupType: S.optional(ContainerGroupType),
+    TotalMemoryLimitMebibytes: S.optional(S.Number),
+    TotalVcpuLimit: S.optional(S.Number),
     GameServerContainerDefinition: S.optional(
       GameServerContainerDefinitionInput,
     ),
     SupportContainerDefinitions: S.optional(
       SupportContainerDefinitionInputList,
     ),
-    OperatingSystem: S.String,
+    OperatingSystem: S.optional(ContainerOperatingSystem),
     VersionDescription: S.optional(S.String),
     Tags: S.optional(TagList),
   }).pipe(
@@ -5792,7 +7565,7 @@ export const CreateContainerGroupDefinitionInput = S.suspend(() =>
 }) as any as S.Schema<CreateContainerGroupDefinitionInput>;
 export interface CreateFleetOutput {
   FleetAttributes?: FleetAttributes;
-  LocationStates?: LocationStateList;
+  LocationStates?: LocationState[];
 }
 export const CreateFleetOutput = S.suspend(() =>
   S.Struct({
@@ -5837,7 +7610,7 @@ export const DescribeContainerGroupDefinitionOutput = S.suspend(() =>
   identifier: "DescribeContainerGroupDefinitionOutput",
 }) as any as S.Schema<DescribeContainerGroupDefinitionOutput>;
 export interface DescribeFleetCapacityOutput {
-  FleetCapacity?: FleetCapacityList;
+  FleetCapacity?: FleetCapacity[];
   NextToken?: string;
 }
 export const DescribeFleetCapacityOutput = S.suspend(() =>
@@ -5850,7 +7623,7 @@ export const DescribeFleetCapacityOutput = S.suspend(() =>
 }) as any as S.Schema<DescribeFleetCapacityOutput>;
 export interface DescribeFleetDeploymentOutput {
   FleetDeployment?: FleetDeployment;
-  LocationalDeployments?: LocationalDeployments;
+  LocationalDeployments?: { [key: string]: LocationalDeployment };
 }
 export const DescribeFleetDeploymentOutput = S.suspend(() =>
   S.Struct({
@@ -5869,7 +7642,7 @@ export const DescribeGameSessionPlacementOutput = S.suspend(() =>
   identifier: "DescribeGameSessionPlacementOutput",
 }) as any as S.Schema<DescribeGameSessionPlacementOutput>;
 export interface DescribeVpcPeeringConnectionsOutput {
-  VpcPeeringConnections?: VpcPeeringConnectionList;
+  VpcPeeringConnections?: VpcPeeringConnection[];
 }
 export const DescribeVpcPeeringConnectionsOutput = S.suspend(() =>
   S.Struct({
@@ -5907,7 +7680,7 @@ export const CreateLocationOutput = S.suspend(() =>
   identifier: "CreateLocationOutput",
 }) as any as S.Schema<CreateLocationOutput>;
 export interface DescribeMatchmakingOutput {
-  TicketList?: MatchmakingTicketList;
+  TicketList?: MatchmakingTicket[];
 }
 export const DescribeMatchmakingOutput = S.suspend(() =>
   S.Struct({ TicketList: S.optional(MatchmakingTicketList) }).pipe(ns),
@@ -5916,16 +7689,16 @@ export const DescribeMatchmakingOutput = S.suspend(() =>
 }) as any as S.Schema<DescribeMatchmakingOutput>;
 export interface StartMatchBackfillInput {
   TicketId?: string;
-  ConfigurationName: string;
+  ConfigurationName?: string;
   GameSessionArn?: string;
-  Players: PlayerList;
+  Players?: Player[];
 }
 export const StartMatchBackfillInput = S.suspend(() =>
   S.Struct({
     TicketId: S.optional(S.String),
-    ConfigurationName: S.String,
+    ConfigurationName: S.optional(S.String),
     GameSessionArn: S.optional(S.String),
-    Players: PlayerList,
+    Players: S.optional(PlayerList),
   }).pipe(
     T.all(
       ns,
@@ -6032,7 +7805,7 @@ export class IdempotentParameterMismatchException extends S.TaggedError<Idempote
  */
 export const describeGameSessionPlacement: (
   input: DescribeGameSessionPlacementInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeGameSessionPlacementOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -6068,7 +7841,7 @@ export const describeGameSessionPlacement: (
  */
 export const describeVpcPeeringConnections: (
   input: DescribeVpcPeeringConnectionsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeVpcPeeringConnectionsOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -6122,7 +7895,7 @@ export const describeVpcPeeringConnections: (
  */
 export const getInstanceAccess: (
   input: GetInstanceAccessInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetInstanceAccessOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -6160,7 +7933,7 @@ export const getInstanceAccess: (
 export const describeMatchmakingConfigurations: {
   (
     input: DescribeMatchmakingConfigurationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeMatchmakingConfigurationsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -6170,7 +7943,7 @@ export const describeMatchmakingConfigurations: {
   >;
   pages: (
     input: DescribeMatchmakingConfigurationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeMatchmakingConfigurationsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -6180,7 +7953,7 @@ export const describeMatchmakingConfigurations: {
   >;
   items: (
     input: DescribeMatchmakingConfigurationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MatchmakingConfiguration,
     | InternalServiceException
     | InvalidRequestException
@@ -6237,7 +8010,7 @@ export const describeMatchmakingConfigurations: {
  */
 export const deleteGameServerGroup: (
   input: DeleteGameServerGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGameServerGroupOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -6270,7 +8043,7 @@ export const deleteGameServerGroup: (
  */
 export const describeAlias: (
   input: DescribeAliasInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAliasOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -6303,7 +8076,7 @@ export const describeAlias: (
  */
 export const describeBuild: (
   input: DescribeBuildInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeBuildOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -6351,7 +8124,7 @@ export const describeBuild: (
 export const describeFleetAttributes: {
   (
     input: DescribeFleetAttributesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeFleetAttributesOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -6362,7 +8135,7 @@ export const describeFleetAttributes: {
   >;
   pages: (
     input: DescribeFleetAttributesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeFleetAttributesOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -6373,7 +8146,7 @@ export const describeFleetAttributes: {
   >;
   items: (
     input: DescribeFleetAttributesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FleetAttributes,
     | InternalServiceException
     | InvalidRequestException
@@ -6419,7 +8192,7 @@ export const describeFleetAttributes: {
 export const describeFleetEvents: {
   (
     input: DescribeFleetEventsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeFleetEventsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -6431,7 +8204,7 @@ export const describeFleetEvents: {
   >;
   pages: (
     input: DescribeFleetEventsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeFleetEventsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -6443,7 +8216,7 @@ export const describeFleetEvents: {
   >;
   items: (
     input: DescribeFleetEventsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Event,
     | InternalServiceException
     | InvalidRequestException
@@ -6502,7 +8275,7 @@ export const describeFleetEvents: {
 export const describeFleetLocationAttributes: {
   (
     input: DescribeFleetLocationAttributesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeFleetLocationAttributesOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -6514,7 +8287,7 @@ export const describeFleetLocationAttributes: {
   >;
   pages: (
     input: DescribeFleetLocationAttributesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeFleetLocationAttributesOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -6526,7 +8299,7 @@ export const describeFleetLocationAttributes: {
   >;
   items: (
     input: DescribeFleetLocationAttributesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServiceException
     | InvalidRequestException
@@ -6577,7 +8350,7 @@ export const describeFleetLocationAttributes: {
  */
 export const describeFleetLocationUtilization: (
   input: DescribeFleetLocationUtilizationInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeFleetLocationUtilizationOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -6614,7 +8387,7 @@ export const describeFleetLocationUtilization: (
  */
 export const describeGameServer: (
   input: DescribeGameServerInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeGameServerOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -6659,7 +8432,7 @@ export const describeGameServer: (
 export const describeGameServerInstances: {
   (
     input: DescribeGameServerInstancesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeGameServerInstancesOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -6670,7 +8443,7 @@ export const describeGameServerInstances: {
   >;
   pages: (
     input: DescribeGameServerInstancesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeGameServerInstancesOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -6681,7 +8454,7 @@ export const describeGameServerInstances: {
   >;
   items: (
     input: DescribeGameServerInstancesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GameServerInstance,
     | InternalServiceException
     | InvalidRequestException
@@ -6721,7 +8494,7 @@ export const describeGameServerInstances: {
 export const describeGameSessionQueues: {
   (
     input: DescribeGameSessionQueuesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeGameSessionQueuesOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -6732,7 +8505,7 @@ export const describeGameSessionQueues: {
   >;
   pages: (
     input: DescribeGameSessionQueuesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeGameSessionQueuesOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -6743,7 +8516,7 @@ export const describeGameSessionQueues: {
   >;
   items: (
     input: DescribeGameSessionQueuesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GameSessionQueue,
     | InternalServiceException
     | InvalidRequestException
@@ -6809,7 +8582,7 @@ export const describeGameSessionQueues: {
 export const describeInstances: {
   (
     input: DescribeInstancesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeInstancesOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -6821,7 +8594,7 @@ export const describeInstances: {
   >;
   pages: (
     input: DescribeInstancesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeInstancesOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -6833,7 +8606,7 @@ export const describeInstances: {
   >;
   items: (
     input: DescribeInstancesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Instance,
     | InternalServiceException
     | InvalidRequestException
@@ -6876,7 +8649,7 @@ export const describeInstances: {
 export const describeScalingPolicies: {
   (
     input: DescribeScalingPoliciesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeScalingPoliciesOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -6888,7 +8661,7 @@ export const describeScalingPolicies: {
   >;
   pages: (
     input: DescribeScalingPoliciesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeScalingPoliciesOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -6900,7 +8673,7 @@ export const describeScalingPolicies: {
   >;
   items: (
     input: DescribeScalingPoliciesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ScalingPolicy,
     | InternalServiceException
     | InvalidRequestException
@@ -6957,7 +8730,7 @@ export const describeScalingPolicies: {
  */
 export const getComputeAccess: (
   input: GetComputeAccessInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetComputeAccessOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -7051,7 +8824,7 @@ export const getComputeAccess: (
  */
 export const putScalingPolicy: (
   input: PutScalingPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutScalingPolicyOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -7153,7 +8926,7 @@ export const putScalingPolicy: (
  */
 export const startGameSessionPlacement: (
   input: StartGameSessionPlacementInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartGameSessionPlacementOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -7208,7 +8981,7 @@ export const startGameSessionPlacement: (
  */
 export const createVpcPeeringAuthorization: (
   input: CreateVpcPeeringAuthorizationInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVpcPeeringAuthorizationOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -7246,7 +9019,7 @@ export const createVpcPeeringAuthorization: (
  */
 export const deleteFleetLocations: (
   input: DeleteFleetLocationsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFleetLocationsOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -7294,7 +9067,7 @@ export const deleteFleetLocations: (
  */
 export const describeFleetLocationCapacity: (
   input: DescribeFleetLocationCapacityInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeFleetLocationCapacityOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -7342,7 +9115,7 @@ export const describeFleetLocationCapacity: (
  */
 export const describeFleetPortSettings: (
   input: DescribeFleetPortSettingsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeFleetPortSettingsOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -7399,7 +9172,7 @@ export const describeFleetPortSettings: (
 export const describeFleetUtilization: {
   (
     input: DescribeFleetUtilizationInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeFleetUtilizationOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -7410,7 +9183,7 @@ export const describeFleetUtilization: {
   >;
   pages: (
     input: DescribeFleetUtilizationInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeFleetUtilizationOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -7421,7 +9194,7 @@ export const describeFleetUtilization: {
   >;
   items: (
     input: DescribeFleetUtilizationInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FleetUtilization,
     | InternalServiceException
     | InvalidRequestException
@@ -7465,7 +9238,7 @@ export const describeFleetUtilization: {
  */
 export const describeGameServerGroup: (
   input: DescribeGameServerGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeGameServerGroupOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -7499,7 +9272,7 @@ export const describeGameServerGroup: (
 export const describeMatchmakingRuleSets: {
   (
     input: DescribeMatchmakingRuleSetsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeMatchmakingRuleSetsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -7510,7 +9283,7 @@ export const describeMatchmakingRuleSets: {
   >;
   pages: (
     input: DescribeMatchmakingRuleSetsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeMatchmakingRuleSetsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -7521,7 +9294,7 @@ export const describeMatchmakingRuleSets: {
   >;
   items: (
     input: DescribeMatchmakingRuleSetsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MatchmakingRuleSet,
     | InternalServiceException
     | InvalidRequestException
@@ -7577,7 +9350,7 @@ export const describeMatchmakingRuleSets: {
 export const describePlayerSessions: {
   (
     input: DescribePlayerSessionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribePlayerSessionsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -7588,7 +9361,7 @@ export const describePlayerSessions: {
   >;
   pages: (
     input: DescribePlayerSessionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribePlayerSessionsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -7599,7 +9372,7 @@ export const describePlayerSessions: {
   >;
   items: (
     input: DescribePlayerSessionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PlayerSession,
     | InternalServiceException
     | InvalidRequestException
@@ -7649,7 +9422,7 @@ export const describePlayerSessions: {
  */
 export const describeRuntimeConfiguration: (
   input: DescribeRuntimeConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRuntimeConfigurationOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -7685,7 +9458,7 @@ export const describeRuntimeConfiguration: (
  */
 export const describeScript: (
   input: DescribeScriptInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeScriptOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -7737,7 +9510,7 @@ export const describeScript: (
  */
 export const getComputeAuthToken: (
   input: GetComputeAuthTokenInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetComputeAuthTokenOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -7772,7 +9545,7 @@ export const getComputeAuthToken: (
  */
 export const getGameSessionLogUrl: (
   input: GetGameSessionLogUrlInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetGameSessionLogUrlOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -7817,7 +9590,7 @@ export const getGameSessionLogUrl: (
 export const listContainerGroupDefinitionVersions: {
   (
     input: ListContainerGroupDefinitionVersionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListContainerGroupDefinitionVersionsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -7829,7 +9602,7 @@ export const listContainerGroupDefinitionVersions: {
   >;
   pages: (
     input: ListContainerGroupDefinitionVersionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListContainerGroupDefinitionVersionsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -7841,7 +9614,7 @@ export const listContainerGroupDefinitionVersions: {
   >;
   items: (
     input: ListContainerGroupDefinitionVersionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ContainerGroupDefinition,
     | InternalServiceException
     | InvalidRequestException
@@ -7891,7 +9664,7 @@ export const listContainerGroupDefinitionVersions: {
 export const listFleetDeployments: {
   (
     input: ListFleetDeploymentsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFleetDeploymentsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -7903,7 +9676,7 @@ export const listFleetDeployments: {
   >;
   pages: (
     input: ListFleetDeploymentsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFleetDeploymentsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -7915,7 +9688,7 @@ export const listFleetDeployments: {
   >;
   items: (
     input: ListFleetDeploymentsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FleetDeployment,
     | InternalServiceException
     | InvalidRequestException
@@ -7972,7 +9745,7 @@ export const listFleetDeployments: {
 export const listFleets: {
   (
     input: ListFleetsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFleetsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -7983,7 +9756,7 @@ export const listFleets: {
   >;
   pages: (
     input: ListFleetsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFleetsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -7994,7 +9767,7 @@ export const listFleets: {
   >;
   items: (
     input: ListFleetsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FleetId,
     | InternalServiceException
     | InvalidRequestException
@@ -8038,7 +9811,7 @@ export const listFleets: {
  */
 export const requestUploadCredentials: (
   input: RequestUploadCredentialsInput,
-) => Effect.Effect<
+) => effect.Effect<
   RequestUploadCredentialsOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8078,7 +9851,7 @@ export const requestUploadCredentials: (
  */
 export const resumeGameServerGroup: (
   input: ResumeGameServerGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   ResumeGameServerGroupOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8122,7 +9895,7 @@ export const resumeGameServerGroup: (
  */
 export const startFleetActions: (
   input: StartFleetActionsInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartFleetActionsOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8174,7 +9947,7 @@ export const startFleetActions: (
  */
 export const startMatchmaking: (
   input: StartMatchmakingInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartMatchmakingOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8223,7 +9996,7 @@ export const startMatchmaking: (
  */
 export const stopFleetActions: (
   input: StopFleetActionsInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopFleetActionsOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8260,7 +10033,7 @@ export const stopFleetActions: (
  */
 export const stopGameSessionPlacement: (
   input: StopGameSessionPlacementInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopGameSessionPlacementOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8306,7 +10079,7 @@ export const stopGameSessionPlacement: (
  */
 export const suspendGameServerGroup: (
   input: SuspendGameServerGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   SuspendGameServerGroupOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8339,7 +10112,7 @@ export const suspendGameServerGroup: (
  */
 export const updateAlias: (
   input: UpdateAliasInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAliasOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8373,7 +10146,7 @@ export const updateAlias: (
  */
 export const updateBuild: (
   input: UpdateBuildInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateBuildOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8426,7 +10199,7 @@ export const updateBuild: (
  */
 export const updateGameServer: (
   input: UpdateGameServerInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGameServerOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8464,7 +10237,7 @@ export const updateGameServer: (
  */
 export const updateGameServerGroup: (
   input: UpdateGameServerGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGameServerGroupOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8496,7 +10269,7 @@ export const updateGameServerGroup: (
  */
 export const updateGameSessionQueue: (
   input: UpdateGameSessionQueueInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGameSessionQueueOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8528,7 +10301,7 @@ export const updateGameSessionQueue: (
  */
 export const updateMatchmakingConfiguration: (
   input: UpdateMatchmakingConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMatchmakingConfigurationOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8573,7 +10346,7 @@ export const updateMatchmakingConfiguration: (
  */
 export const updateScript: (
   input: UpdateScriptInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateScriptOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8621,7 +10394,7 @@ export const updateScript: (
  */
 export const createVpcPeeringConnection: (
   input: CreateVpcPeeringConnectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVpcPeeringConnectionOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8649,7 +10422,7 @@ export const createVpcPeeringConnection: (
  */
 export const deleteLocation: (
   input: DeleteLocationInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLocationOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8679,7 +10452,7 @@ export const deleteLocation: (
  */
 export const deleteScalingPolicy: (
   input: DeleteScalingPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteScalingPolicyResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -8711,7 +10484,7 @@ export const deleteScalingPolicy: (
  */
 export const deleteVpcPeeringAuthorization: (
   input: DeleteVpcPeeringAuthorizationInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVpcPeeringAuthorizationOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8745,7 +10518,7 @@ export const deleteVpcPeeringAuthorization: (
  */
 export const deleteVpcPeeringConnection: (
   input: DeleteVpcPeeringConnectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVpcPeeringConnectionOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8776,7 +10549,7 @@ export const deleteVpcPeeringConnection: (
  */
 export const deregisterCompute: (
   input: DeregisterComputeInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterComputeOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8812,7 +10585,7 @@ export const deregisterCompute: (
  */
 export const deregisterGameServer: (
   input: DeregisterGameServerInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterGameServerResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -8852,7 +10625,7 @@ export const deregisterGameServer: (
  */
 export const stopMatchmaking: (
   input: StopMatchmakingInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopMatchmakingOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8896,7 +10669,7 @@ export const stopMatchmaking: (
  */
 export const updateRuntimeConfiguration: (
   input: UpdateRuntimeConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRuntimeConfigurationOutput,
   | InternalServiceException
   | InvalidFleetStatusException
@@ -8960,7 +10733,7 @@ export const updateRuntimeConfiguration: (
  */
 export const updateContainerGroupDefinition: (
   input: UpdateContainerGroupDefinitionInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateContainerGroupDefinitionOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -9008,7 +10781,7 @@ export const updateContainerGroupDefinition: (
  */
 export const registerGameServer: (
   input: RegisterGameServerInput,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterGameServerOutput,
   | ConflictException
   | InternalServiceException
@@ -9051,7 +10824,7 @@ export const registerGameServer: (
  */
 export const updateFleetAttributes: (
   input: UpdateFleetAttributesInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFleetAttributesOutput,
   | ConflictException
   | InternalServiceException
@@ -9119,7 +10892,7 @@ export const updateFleetAttributes: (
  */
 export const updateFleetCapacity: (
   input: UpdateFleetCapacityInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFleetCapacityOutput,
   | ConflictException
   | InternalServiceException
@@ -9169,7 +10942,7 @@ export const updateFleetCapacity: (
  */
 export const updateFleetPortSettings: (
   input: UpdateFleetPortSettingsInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFleetPortSettingsOutput,
   | ConflictException
   | InternalServiceException
@@ -9235,7 +11008,7 @@ export const updateFleetPortSettings: (
  */
 export const createGameServerGroup: (
   input: CreateGameServerGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGameServerGroupOutput,
   | ConflictException
   | InternalServiceException
@@ -9268,7 +11041,7 @@ export const createGameServerGroup: (
  */
 export const describeVpcPeeringAuthorizations: (
   input: DescribeVpcPeeringAuthorizationsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeVpcPeeringAuthorizationsOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -9300,7 +11073,7 @@ export const describeVpcPeeringAuthorizations: (
 export const listAliases: {
   (
     input: ListAliasesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAliasesOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -9310,7 +11083,7 @@ export const listAliases: {
   >;
   pages: (
     input: ListAliasesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAliasesOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -9320,7 +11093,7 @@ export const listAliases: {
   >;
   items: (
     input: ListAliasesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Alias,
     | InternalServiceException
     | InvalidRequestException
@@ -9362,7 +11135,7 @@ export const listAliases: {
 export const listBuilds: {
   (
     input: ListBuildsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBuildsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -9372,7 +11145,7 @@ export const listBuilds: {
   >;
   pages: (
     input: ListBuildsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBuildsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -9382,7 +11155,7 @@ export const listBuilds: {
   >;
   items: (
     input: ListBuildsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Build,
     | InternalServiceException
     | InvalidRequestException
@@ -9436,7 +11209,7 @@ export const listBuilds: {
 export const listCompute: {
   (
     input: ListComputeInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListComputeOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -9447,7 +11220,7 @@ export const listCompute: {
   >;
   pages: (
     input: ListComputeInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListComputeOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -9458,7 +11231,7 @@ export const listCompute: {
   >;
   items: (
     input: ListComputeInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Compute,
     | InternalServiceException
     | InvalidRequestException
@@ -9512,7 +11285,7 @@ export const listCompute: {
 export const listContainerFleets: {
   (
     input: ListContainerFleetsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListContainerFleetsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -9523,7 +11296,7 @@ export const listContainerFleets: {
   >;
   pages: (
     input: ListContainerFleetsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListContainerFleetsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -9534,7 +11307,7 @@ export const listContainerFleets: {
   >;
   items: (
     input: ListContainerFleetsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ContainerFleet,
     | InternalServiceException
     | InvalidRequestException
@@ -9585,7 +11358,7 @@ export const listContainerFleets: {
 export const listContainerGroupDefinitions: {
   (
     input: ListContainerGroupDefinitionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListContainerGroupDefinitionsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -9596,7 +11369,7 @@ export const listContainerGroupDefinitions: {
   >;
   pages: (
     input: ListContainerGroupDefinitionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListContainerGroupDefinitionsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -9607,7 +11380,7 @@ export const listContainerGroupDefinitions: {
   >;
   items: (
     input: ListContainerGroupDefinitionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ContainerGroupDefinition,
     | InternalServiceException
     | InvalidRequestException
@@ -9640,7 +11413,7 @@ export const listContainerGroupDefinitions: {
 export const listGameServerGroups: {
   (
     input: ListGameServerGroupsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGameServerGroupsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -9650,7 +11423,7 @@ export const listGameServerGroups: {
   >;
   pages: (
     input: ListGameServerGroupsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGameServerGroupsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -9660,7 +11433,7 @@ export const listGameServerGroups: {
   >;
   items: (
     input: ListGameServerGroupsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GameServerGroup,
     | InternalServiceException
     | InvalidRequestException
@@ -9699,7 +11472,7 @@ export const listGameServerGroups: {
 export const listGameServers: {
   (
     input: ListGameServersInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGameServersOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -9709,7 +11482,7 @@ export const listGameServers: {
   >;
   pages: (
     input: ListGameServersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGameServersOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -9719,7 +11492,7 @@ export const listGameServers: {
   >;
   items: (
     input: ListGameServersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GameServer,
     | InternalServiceException
     | InvalidRequestException
@@ -9762,7 +11535,7 @@ export const listGameServers: {
 export const listLocations: {
   (
     input: ListLocationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLocationsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -9772,7 +11545,7 @@ export const listLocations: {
   >;
   pages: (
     input: ListLocationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLocationsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -9782,7 +11555,7 @@ export const listLocations: {
   >;
   items: (
     input: ListLocationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LocationModel,
     | InternalServiceException
     | InvalidRequestException
@@ -9822,7 +11595,7 @@ export const listLocations: {
 export const listScripts: {
   (
     input: ListScriptsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListScriptsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -9832,7 +11605,7 @@ export const listScripts: {
   >;
   pages: (
     input: ListScriptsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListScriptsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -9842,7 +11615,7 @@ export const listScripts: {
   >;
   items: (
     input: ListScriptsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Script,
     | InternalServiceException
     | InvalidRequestException
@@ -9900,7 +11673,7 @@ export const listScripts: {
  */
 export const describeCompute: (
   input: DescribeComputeInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeComputeOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -9942,7 +11715,7 @@ export const describeCompute: (
  */
 export const describeContainerFleet: (
   input: DescribeContainerFleetInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeContainerFleetOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -9987,7 +11760,7 @@ export const describeContainerFleet: (
  */
 export const describeContainerGroupDefinition: (
   input: DescribeContainerGroupDefinitionInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeContainerGroupDefinitionOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -10049,7 +11822,7 @@ export const describeContainerGroupDefinition: (
  */
 export const createBuild: (
   input: CreateBuildInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBuildOutput,
   | ConflictException
   | InternalServiceException
@@ -10083,7 +11856,7 @@ export const createBuild: (
  */
 export const validateMatchmakingRuleSet: (
   input: ValidateMatchmakingRuleSetInput,
-) => Effect.Effect<
+) => effect.Effect<
   ValidateMatchmakingRuleSetOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -10135,7 +11908,7 @@ export const validateMatchmakingRuleSet: (
  */
 export const acceptMatch: (
   input: AcceptMatchInput,
-) => Effect.Effect<
+) => effect.Effect<
   AcceptMatchOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -10206,7 +11979,7 @@ export const acceptMatch: (
  */
 export const describeEC2InstanceLimits: (
   input: DescribeEC2InstanceLimitsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEC2InstanceLimitsOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -10263,7 +12036,7 @@ export const describeEC2InstanceLimits: (
 export const describeFleetCapacity: {
   (
     input: DescribeFleetCapacityInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeFleetCapacityOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -10275,7 +12048,7 @@ export const describeFleetCapacity: {
   >;
   pages: (
     input: DescribeFleetCapacityInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeFleetCapacityOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -10287,7 +12060,7 @@ export const describeFleetCapacity: {
   >;
   items: (
     input: DescribeFleetCapacityInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FleetCapacity,
     | InternalServiceException
     | InvalidRequestException
@@ -10333,7 +12106,7 @@ export const describeFleetCapacity: {
  */
 export const describeFleetDeployment: (
   input: DescribeFleetDeploymentInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeFleetDeploymentOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -10391,7 +12164,7 @@ export const describeFleetDeployment: (
  */
 export const createScript: (
   input: CreateScriptInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateScriptOutput,
   | ConflictException
   | InternalServiceException
@@ -10490,7 +12263,7 @@ export const createScript: (
  */
 export const createGameSessionQueue: (
   input: CreateGameSessionQueueInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGameSessionQueueOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -10534,7 +12307,7 @@ export const createGameSessionQueue: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -10567,7 +12340,7 @@ export const listTagsForResource: (
  */
 export const deleteAlias: (
   input: DeleteAliasInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAliasResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -10605,7 +12378,7 @@ export const deleteAlias: (
  */
 export const deleteBuild: (
   input: DeleteBuildInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBuildResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -10642,7 +12415,7 @@ export const deleteBuild: (
  */
 export const deleteContainerFleet: (
   input: DeleteContainerFleetInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteContainerFleetOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -10699,7 +12472,7 @@ export const deleteContainerFleet: (
  */
 export const deleteContainerGroupDefinition: (
   input: DeleteContainerGroupDefinitionInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteContainerGroupDefinitionOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -10729,7 +12502,7 @@ export const deleteContainerGroupDefinition: (
  */
 export const deleteGameSessionQueue: (
   input: DeleteGameSessionQueueInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGameSessionQueueOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -10758,7 +12531,7 @@ export const deleteGameSessionQueue: (
  */
 export const deleteMatchmakingConfiguration: (
   input: DeleteMatchmakingConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMatchmakingConfigurationOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -10792,7 +12565,7 @@ export const deleteMatchmakingConfiguration: (
  */
 export const deleteMatchmakingRuleSet: (
   input: DeleteMatchmakingRuleSetInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMatchmakingRuleSetOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -10834,7 +12607,7 @@ export const deleteMatchmakingRuleSet: (
  */
 export const deleteScript: (
   input: DeleteScriptInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteScriptResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -10879,7 +12652,7 @@ export const deleteScript: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -10923,7 +12696,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -10965,7 +12738,7 @@ export const untagResource: (
  */
 export const deleteFleet: (
   input: DeleteFleetInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFleetResponse,
   | InternalServiceException
   | InvalidFleetStatusException
@@ -11018,7 +12791,7 @@ export const deleteFleet: (
  */
 export const createMatchmakingConfiguration: (
   input: CreateMatchmakingConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMatchmakingConfigurationOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -11067,7 +12840,7 @@ export const createMatchmakingConfiguration: (
  */
 export const createMatchmakingRuleSet: (
   input: CreateMatchmakingRuleSetInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMatchmakingRuleSetOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -11113,7 +12886,7 @@ export const createMatchmakingRuleSet: (
  */
 export const createAlias: (
   input: CreateAliasInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAliasOutput,
   | ConflictException
   | InternalServiceException
@@ -11214,7 +12987,7 @@ export const createAlias: (
  */
 export const createContainerFleet: (
   input: CreateContainerFleetInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateContainerFleetOutput,
   | ConflictException
   | InternalServiceException
@@ -11335,7 +13108,7 @@ export const createContainerFleet: (
  */
 export const createContainerGroupDefinition: (
   input: CreateContainerGroupDefinitionInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateContainerGroupDefinitionOutput,
   | ConflictException
   | InternalServiceException
@@ -11366,7 +13139,7 @@ export const createContainerGroupDefinition: (
  */
 export const createLocation: (
   input: CreateLocationInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLocationOutput,
   | ConflictException
   | InternalServiceException
@@ -11413,7 +13186,7 @@ export const createLocation: (
  */
 export const createPlayerSession: (
   input: CreatePlayerSessionInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePlayerSessionOutput,
   | GameSessionFullException
   | InternalServiceException
@@ -11462,7 +13235,7 @@ export const createPlayerSession: (
  */
 export const describeMatchmaking: (
   input: DescribeMatchmakingInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeMatchmakingOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -11527,7 +13300,7 @@ export const describeMatchmaking: (
  */
 export const terminateGameSession: (
   input: TerminateGameSessionInput,
-) => Effect.Effect<
+) => effect.Effect<
   TerminateGameSessionOutput,
   | InternalServiceException
   | InvalidGameSessionStatusException
@@ -11591,7 +13364,7 @@ export const terminateGameSession: (
  */
 export const claimGameServer: (
   input: ClaimGameServerInput,
-) => Effect.Effect<
+) => effect.Effect<
   ClaimGameServerOutput,
   | ConflictException
   | InternalServiceException
@@ -11650,7 +13423,7 @@ export const claimGameServer: (
 export const describeGameSessionDetails: {
   (
     input: DescribeGameSessionDetailsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeGameSessionDetailsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -11663,7 +13436,7 @@ export const describeGameSessionDetails: {
   >;
   pages: (
     input: DescribeGameSessionDetailsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeGameSessionDetailsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -11676,7 +13449,7 @@ export const describeGameSessionDetails: {
   >;
   items: (
     input: DescribeGameSessionDetailsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GameSessionDetail,
     | InternalServiceException
     | InvalidRequestException
@@ -11749,7 +13522,7 @@ export const describeGameSessionDetails: {
 export const describeGameSessions: {
   (
     input: DescribeGameSessionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeGameSessionsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -11762,7 +13535,7 @@ export const describeGameSessions: {
   >;
   pages: (
     input: DescribeGameSessionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeGameSessionsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -11775,7 +13548,7 @@ export const describeGameSessions: {
   >;
   items: (
     input: DescribeGameSessionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GameSession,
     | InternalServiceException
     | InvalidRequestException
@@ -11820,7 +13593,7 @@ export const describeGameSessions: {
  */
 export const resolveAlias: (
   input: ResolveAliasInput,
-) => Effect.Effect<
+) => effect.Effect<
   ResolveAliasOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -11912,7 +13685,7 @@ export const resolveAlias: (
 export const searchGameSessions: {
   (
     input: SearchGameSessionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchGameSessionsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -11925,7 +13698,7 @@ export const searchGameSessions: {
   >;
   pages: (
     input: SearchGameSessionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchGameSessionsOutput,
     | InternalServiceException
     | InvalidRequestException
@@ -11938,7 +13711,7 @@ export const searchGameSessions: {
   >;
   items: (
     input: SearchGameSessionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GameSession,
     | InternalServiceException
     | InvalidRequestException
@@ -11992,7 +13765,7 @@ export const searchGameSessions: {
  */
 export const createPlayerSessions: (
   input: CreatePlayerSessionsInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePlayerSessionsOutput,
   | GameSessionFullException
   | InternalServiceException
@@ -12061,7 +13834,7 @@ export const createPlayerSessions: (
  */
 export const createGameSession: (
   input: CreateGameSessionInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGameSessionOutput,
   | ConflictException
   | FleetCapacityExceededException
@@ -12107,7 +13880,7 @@ export const createGameSession: (
  */
 export const updateGameSession: (
   input: UpdateGameSessionInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGameSessionOutput,
   | ConflictException
   | InternalServiceException
@@ -12165,7 +13938,7 @@ export const updateGameSession: (
  */
 export const registerCompute: (
   input: RegisterComputeInput,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterComputeOutput,
   | ConflictException
   | InternalServiceException
@@ -12241,7 +14014,7 @@ export const registerCompute: (
  */
 export const updateContainerFleet: (
   input: UpdateContainerFleetInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateContainerFleetOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -12295,7 +14068,7 @@ export const updateContainerFleet: (
  */
 export const createFleetLocations: (
   input: CreateFleetLocationsInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFleetLocationsOutput,
   | ConflictException
   | InternalServiceException
@@ -12401,7 +14174,7 @@ export const createFleetLocations: (
  */
 export const createFleet: (
   input: CreateFleetInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFleetOutput,
   | ConflictException
   | InternalServiceException
@@ -12471,7 +14244,7 @@ export const createFleet: (
  */
 export const startMatchBackfill: (
   input: StartMatchBackfillInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartMatchBackfillOutput,
   | InternalServiceException
   | InvalidRequestException

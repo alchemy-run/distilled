@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -216,14 +216,12 @@ export type SeverityLevelCode = string;
 export type SeverityLevelName = string;
 export type Code = string;
 export type Display = string;
-export type Long = number;
 export type ExpiryTime = string;
 export type ErrorMessage = string;
 export type StartTime = string;
 export type EndTime = string;
 export type ValidatedDateTime = string;
 export type CategoryName = string;
-export type Double = number;
 export type AvailabilityErrorMessage = string;
 
 //# Schemas
@@ -238,7 +236,7 @@ export const StringList = S.Array(S.String).pipe(T.Sparse());
 export interface AddCommunicationToCaseRequest {
   caseId?: string;
   communicationBody: string;
-  ccEmailAddresses?: CcEmailAddressList;
+  ccEmailAddresses?: string[];
   attachmentSetId?: string;
 }
 export const AddCommunicationToCaseRequest = S.suspend(() =>
@@ -267,7 +265,7 @@ export interface CreateCaseRequest {
   severityCode?: string;
   categoryCode?: string;
   communicationBody: string;
-  ccEmailAddresses?: CcEmailAddressList;
+  ccEmailAddresses?: string[];
   language?: string;
   issueType?: string;
   attachmentSetId?: string;
@@ -316,7 +314,7 @@ export const DescribeAttachmentRequest = S.suspend(() =>
   identifier: "DescribeAttachmentRequest",
 }) as any as S.Schema<DescribeAttachmentRequest>;
 export interface DescribeCasesRequest {
-  caseIdList?: CaseIdList;
+  caseIdList?: string[];
   displayId?: string;
   afterTime?: string;
   beforeTime?: string;
@@ -406,7 +404,7 @@ export const DescribeCreateCaseOptionsRequest = S.suspend(() =>
   identifier: "DescribeCreateCaseOptionsRequest",
 }) as any as S.Schema<DescribeCreateCaseOptionsRequest>;
 export interface DescribeServicesRequest {
-  serviceCodeList?: ServiceCodeList;
+  serviceCodeList?: string[];
   language?: string;
 }
 export const DescribeServicesRequest = S.suspend(() =>
@@ -470,7 +468,7 @@ export const DescribeSupportedLanguagesRequest = S.suspend(() =>
   identifier: "DescribeSupportedLanguagesRequest",
 }) as any as S.Schema<DescribeSupportedLanguagesRequest>;
 export interface DescribeTrustedAdvisorCheckRefreshStatusesRequest {
-  checkIds: StringList;
+  checkIds: string[];
 }
 export const DescribeTrustedAdvisorCheckRefreshStatusesRequest = S.suspend(() =>
   S.Struct({ checkIds: StringList }).pipe(
@@ -525,7 +523,7 @@ export const DescribeTrustedAdvisorChecksRequest = S.suspend(() =>
   identifier: "DescribeTrustedAdvisorChecksRequest",
 }) as any as S.Schema<DescribeTrustedAdvisorChecksRequest>;
 export interface DescribeTrustedAdvisorCheckSummariesRequest {
-  checkIds: StringList;
+  checkIds: string[];
 }
 export const DescribeTrustedAdvisorCheckSummariesRequest = S.suspend(() =>
   S.Struct({ checkIds: StringList }).pipe(
@@ -589,7 +587,7 @@ export type Attachments = Attachment[];
 export const Attachments = S.Array(Attachment);
 export interface AddAttachmentsToSetRequest {
   attachmentSetId?: string;
-  attachments: Attachments;
+  attachments: Attachment[];
 }
 export const AddAttachmentsToSetRequest = S.suspend(() =>
   S.Struct({
@@ -704,7 +702,7 @@ export interface TrustedAdvisorCheckDescription {
   name: string;
   description: string;
   category: string;
-  metadata: StringList;
+  metadata: string[];
 }
 export const TrustedAdvisorCheckDescription = S.suspend(() =>
   S.Struct({
@@ -792,7 +790,7 @@ export const AddAttachmentsToSetResponse = S.suspend(() =>
   identifier: "AddAttachmentsToSetResponse",
 }) as any as S.Schema<AddAttachmentsToSetResponse>;
 export interface DescribeSeverityLevelsResponse {
-  severityLevels?: SeverityLevelsList;
+  severityLevels?: SeverityLevel[];
 }
 export const DescribeSeverityLevelsResponse = S.suspend(() =>
   S.Struct({ severityLevels: S.optional(SeverityLevelsList) }).pipe(ns),
@@ -800,7 +798,7 @@ export const DescribeSeverityLevelsResponse = S.suspend(() =>
   identifier: "DescribeSeverityLevelsResponse",
 }) as any as S.Schema<DescribeSeverityLevelsResponse>;
 export interface DescribeSupportedLanguagesResponse {
-  supportedLanguages?: SupportedLanguagesList;
+  supportedLanguages?: SupportedLanguage[];
 }
 export const DescribeSupportedLanguagesResponse = S.suspend(() =>
   S.Struct({ supportedLanguages: S.optional(SupportedLanguagesList) }).pipe(ns),
@@ -808,7 +806,7 @@ export const DescribeSupportedLanguagesResponse = S.suspend(() =>
   identifier: "DescribeSupportedLanguagesResponse",
 }) as any as S.Schema<DescribeSupportedLanguagesResponse>;
 export interface DescribeTrustedAdvisorCheckRefreshStatusesResponse {
-  statuses: TrustedAdvisorCheckRefreshStatusList;
+  statuses: TrustedAdvisorCheckRefreshStatus[];
 }
 export const DescribeTrustedAdvisorCheckRefreshStatusesResponse = S.suspend(
   () => S.Struct({ statuses: TrustedAdvisorCheckRefreshStatusList }).pipe(ns),
@@ -816,7 +814,7 @@ export const DescribeTrustedAdvisorCheckRefreshStatusesResponse = S.suspend(
   identifier: "DescribeTrustedAdvisorCheckRefreshStatusesResponse",
 }) as any as S.Schema<DescribeTrustedAdvisorCheckRefreshStatusesResponse>;
 export interface DescribeTrustedAdvisorChecksResponse {
-  checks: TrustedAdvisorCheckList;
+  checks: TrustedAdvisorCheckDescription[];
 }
 export const DescribeTrustedAdvisorChecksResponse = S.suspend(() =>
   S.Struct({ checks: TrustedAdvisorCheckList }).pipe(ns),
@@ -824,7 +822,7 @@ export const DescribeTrustedAdvisorChecksResponse = S.suspend(() =>
   identifier: "DescribeTrustedAdvisorChecksResponse",
 }) as any as S.Schema<DescribeTrustedAdvisorChecksResponse>;
 export interface DescribeTrustedAdvisorCheckSummariesResponse {
-  summaries: TrustedAdvisorCheckSummaryList;
+  summaries: TrustedAdvisorCheckSummary[];
 }
 export const DescribeTrustedAdvisorCheckSummariesResponse = S.suspend(() =>
   S.Struct({ summaries: TrustedAdvisorCheckSummaryList }).pipe(ns),
@@ -850,7 +848,7 @@ export interface Communication {
   body?: string;
   submittedBy?: string;
   timeCreated?: string;
-  attachmentSet?: AttachmentSet;
+  attachmentSet?: AttachmentDetails[];
 }
 export const Communication = S.suspend(() =>
   S.Struct({
@@ -866,7 +864,7 @@ export const Communication = S.suspend(() =>
 export type CommunicationList = Communication[];
 export const CommunicationList = S.Array(Communication);
 export interface RecentCaseCommunications {
-  communications?: CommunicationList;
+  communications?: Communication[];
   nextToken?: string;
 }
 export const RecentCaseCommunications = S.suspend(() =>
@@ -914,7 +912,7 @@ export interface TrustedAdvisorResourceDetail {
   region?: string;
   resourceId: string;
   isSuppressed?: boolean;
-  metadata: StringList;
+  metadata: string[];
 }
 export const TrustedAdvisorResourceDetail = S.suspend(() =>
   S.Struct({
@@ -942,7 +940,7 @@ export interface CaseDetails {
   submittedBy?: string;
   timeCreated?: string;
   recentCommunications?: RecentCaseCommunications;
-  ccEmailAddresses?: CcEmailAddressList;
+  ccEmailAddresses?: string[];
   language?: string;
 }
 export const CaseDetails = S.suspend(() =>
@@ -965,8 +963,8 @@ export type CaseList = CaseDetails[];
 export const CaseList = S.Array(CaseDetails);
 export interface CommunicationTypeOptions {
   type?: string;
-  supportedHours?: SupportedHoursList;
-  datesWithoutSupport?: DatesWithoutSupportList;
+  supportedHours?: SupportedHour[];
+  datesWithoutSupport?: DateInterval[];
 }
 export const CommunicationTypeOptions = S.suspend(() =>
   S.Struct({
@@ -982,7 +980,7 @@ export const CommunicationTypeOptionsList = S.Array(CommunicationTypeOptions);
 export interface Service {
   code?: string;
   name?: string;
-  categories?: CategoryList;
+  categories?: Category[];
 }
 export const Service = S.suspend(() =>
   S.Struct({
@@ -994,7 +992,7 @@ export const Service = S.suspend(() =>
 export type ServiceList = Service[];
 export const ServiceList = S.Array(Service);
 export interface DescribeCasesResponse {
-  cases?: CaseList;
+  cases?: CaseDetails[];
   nextToken?: string;
 }
 export const DescribeCasesResponse = S.suspend(() =>
@@ -1006,7 +1004,7 @@ export const DescribeCasesResponse = S.suspend(() =>
   identifier: "DescribeCasesResponse",
 }) as any as S.Schema<DescribeCasesResponse>;
 export interface DescribeCommunicationsResponse {
-  communications?: CommunicationList;
+  communications?: Communication[];
   nextToken?: string;
 }
 export const DescribeCommunicationsResponse = S.suspend(() =>
@@ -1019,7 +1017,7 @@ export const DescribeCommunicationsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeCommunicationsResponse>;
 export interface DescribeCreateCaseOptionsResponse {
   languageAvailability?: string;
-  communicationTypes?: CommunicationTypeOptionsList;
+  communicationTypes?: CommunicationTypeOptions[];
 }
 export const DescribeCreateCaseOptionsResponse = S.suspend(() =>
   S.Struct({
@@ -1030,7 +1028,7 @@ export const DescribeCreateCaseOptionsResponse = S.suspend(() =>
   identifier: "DescribeCreateCaseOptionsResponse",
 }) as any as S.Schema<DescribeCreateCaseOptionsResponse>;
 export interface DescribeServicesResponse {
-  services?: ServiceList;
+  services?: Service[];
 }
 export const DescribeServicesResponse = S.suspend(() =>
   S.Struct({ services: S.optional(ServiceList) }).pipe(ns),
@@ -1043,7 +1041,7 @@ export interface TrustedAdvisorCheckResult {
   status: string;
   resourcesSummary: TrustedAdvisorResourcesSummary;
   categorySpecificSummary: TrustedAdvisorCategorySpecificSummary;
-  flaggedResources: TrustedAdvisorResourceDetailList;
+  flaggedResources: TrustedAdvisorResourceDetail[];
 }
 export const TrustedAdvisorCheckResult = S.suspend(() =>
   S.Struct({
@@ -1137,7 +1135,7 @@ export class AttachmentSetSizeLimitExceeded extends S.TaggedError<AttachmentSetS
  */
 export const refreshTrustedAdvisorCheck: (
   input: RefreshTrustedAdvisorCheckRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RefreshTrustedAdvisorCheckResponse,
   InternalServerError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1160,7 +1158,7 @@ export const refreshTrustedAdvisorCheck: (
  */
 export const resolveCase: (
   input: ResolveCaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResolveCaseResponse,
   CaseIdNotFound | InternalServerError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1184,7 +1182,7 @@ export const resolveCase: (
  */
 export const describeSeverityLevels: (
   input: DescribeSeverityLevelsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSeverityLevelsResponse,
   InternalServerError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1210,7 +1208,7 @@ export const describeSeverityLevels: (
  */
 export const addCommunicationToCase: (
   input: AddCommunicationToCaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddCommunicationToCaseResponse,
   | AttachmentSetExpired
   | AttachmentSetIdNotFound
@@ -1245,7 +1243,7 @@ export const addCommunicationToCase: (
  */
 export const describeAttachment: (
   input: DescribeAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAttachmentResponse,
   | AttachmentIdNotFound
   | DescribeAttachmentLimitExceeded
@@ -1289,21 +1287,21 @@ export const describeAttachment: (
 export const describeCases: {
   (
     input: DescribeCasesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeCasesResponse,
     CaseIdNotFound | InternalServerError | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeCasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeCasesResponse,
     CaseIdNotFound | InternalServerError | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeCasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CaseDetails,
     CaseIdNotFound | InternalServerError | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1344,21 +1342,21 @@ export const describeCases: {
 export const describeCommunications: {
   (
     input: DescribeCommunicationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeCommunicationsResponse,
     CaseIdNotFound | InternalServerError | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeCommunicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeCommunicationsResponse,
     CaseIdNotFound | InternalServerError | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeCommunicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Communication,
     CaseIdNotFound | InternalServerError | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1396,7 +1394,7 @@ export const describeCommunications: {
  */
 export const describeServices: (
   input: DescribeServicesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeServicesResponse,
   InternalServerError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1420,7 +1418,7 @@ export const describeServices: (
  */
 export const describeSupportedLanguages: (
   input: DescribeSupportedLanguagesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSupportedLanguagesResponse,
   InternalServerError | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1453,7 +1451,7 @@ export const describeSupportedLanguages: (
  */
 export const describeTrustedAdvisorCheckRefreshStatuses: (
   input: DescribeTrustedAdvisorCheckRefreshStatusesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeTrustedAdvisorCheckRefreshStatusesResponse,
   InternalServerError | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1487,7 +1485,7 @@ export const describeTrustedAdvisorCheckRefreshStatuses: (
  */
 export const describeTrustedAdvisorChecks: (
   input: DescribeTrustedAdvisorChecksRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeTrustedAdvisorChecksResponse,
   InternalServerError | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1518,7 +1516,7 @@ export const describeTrustedAdvisorChecks: (
  */
 export const describeTrustedAdvisorCheckSummaries: (
   input: DescribeTrustedAdvisorCheckSummariesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeTrustedAdvisorCheckSummariesResponse,
   InternalServerError | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1543,7 +1541,7 @@ export const describeTrustedAdvisorCheckSummaries: (
  */
 export const describeCreateCaseOptions: (
   input: DescribeCreateCaseOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCreateCaseOptionsResponse,
   InternalServerError | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1593,7 +1591,7 @@ export const describeCreateCaseOptions: (
  */
 export const describeTrustedAdvisorCheckResult: (
   input: DescribeTrustedAdvisorCheckResultRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeTrustedAdvisorCheckResultResponse,
   InternalServerError | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1632,7 +1630,7 @@ export const describeTrustedAdvisorCheckResult: (
  */
 export const createCase: (
   input: CreateCaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCaseResponse,
   | AttachmentSetExpired
   | AttachmentSetIdNotFound
@@ -1667,7 +1665,7 @@ export const createCase: (
  */
 export const addAttachmentsToSet: (
   input: AddAttachmentsToSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddAttachmentsToSetResponse,
   | AttachmentLimitExceeded
   | AttachmentSetExpired

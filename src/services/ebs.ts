@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -96,7 +96,7 @@ export type Progress = number;
 export type VolumeSize = number;
 export type Description = string;
 export type IdempotencyToken = string;
-export type KmsKeyArn = string | Redacted.Redacted<string>;
+export type KmsKeyArn = string | redacted.Redacted<string>;
 export type Timeout = number;
 export type TagKey = string;
 export type TagValue = string;
@@ -105,22 +105,26 @@ export type ErrorMessage = string;
 export type OwnerId = string;
 
 //# Schemas
+export type ChecksumAlgorithm = "SHA256";
+export const ChecksumAlgorithm = S.Literal("SHA256");
+export type ChecksumAggregationMethod = "LINEAR";
+export const ChecksumAggregationMethod = S.Literal("LINEAR");
 export interface CompleteSnapshotRequest {
   SnapshotId: string;
   ChangedBlocksCount: number;
   Checksum?: string;
-  ChecksumAlgorithm?: string;
-  ChecksumAggregationMethod?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
+  ChecksumAggregationMethod?: ChecksumAggregationMethod;
 }
 export const CompleteSnapshotRequest = S.suspend(() =>
   S.Struct({
     SnapshotId: S.String.pipe(T.HttpLabel("SnapshotId")),
     ChangedBlocksCount: S.Number.pipe(T.HttpHeader("x-amz-ChangedBlocksCount")),
     Checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-Checksum")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-Checksum-Algorithm"),
     ),
-    ChecksumAggregationMethod: S.optional(S.String).pipe(
+    ChecksumAggregationMethod: S.optional(ChecksumAggregationMethod).pipe(
       T.HttpHeader("x-amz-Checksum-Aggregation-Method"),
     ),
   }).pipe(
@@ -228,7 +232,7 @@ export interface PutSnapshotBlockRequest {
   DataLength: number;
   Progress?: number;
   Checksum: string;
-  ChecksumAlgorithm: string;
+  ChecksumAlgorithm: ChecksumAlgorithm;
 }
 export const PutSnapshotBlockRequest = S.suspend(() =>
   S.Struct({
@@ -238,7 +242,9 @@ export const PutSnapshotBlockRequest = S.suspend(() =>
     DataLength: S.Number.pipe(T.HttpHeader("x-amz-Data-Length")),
     Progress: S.optional(S.Number).pipe(T.HttpHeader("x-amz-Progress")),
     Checksum: S.String.pipe(T.HttpHeader("x-amz-Checksum")),
-    ChecksumAlgorithm: S.String.pipe(T.HttpHeader("x-amz-Checksum-Algorithm")),
+    ChecksumAlgorithm: ChecksumAlgorithm.pipe(
+      T.HttpHeader("x-amz-Checksum-Algorithm"),
+    ),
   }).pipe(
     T.all(
       T.Http({
@@ -255,6 +261,8 @@ export const PutSnapshotBlockRequest = S.suspend(() =>
 ).annotations({
   identifier: "PutSnapshotBlockRequest",
 }) as any as S.Schema<PutSnapshotBlockRequest>;
+export type Status = "completed" | "pending" | "error";
+export const Status = S.Literal("completed", "pending", "error");
 export interface Tag {
   Key?: string;
   Value?: string;
@@ -265,10 +273,10 @@ export const Tag = S.suspend(() =>
 export type Tags = Tag[];
 export const Tags = S.Array(Tag);
 export interface CompleteSnapshotResponse {
-  Status?: string;
+  Status?: Status;
 }
 export const CompleteSnapshotResponse = S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String) }),
+  S.Struct({ Status: S.optional(Status) }),
 ).annotations({
   identifier: "CompleteSnapshotResponse",
 }) as any as S.Schema<CompleteSnapshotResponse>;
@@ -276,14 +284,14 @@ export interface GetSnapshotBlockResponse {
   DataLength?: number;
   BlockData?: T.StreamingOutputBody;
   Checksum?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
 }
 export const GetSnapshotBlockResponse = S.suspend(() =>
   S.Struct({
     DataLength: S.optional(S.Number).pipe(T.HttpHeader("x-amz-Data-Length")),
     BlockData: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
     Checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-Checksum")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-Checksum-Algorithm"),
     ),
   }),
@@ -292,12 +300,12 @@ export const GetSnapshotBlockResponse = S.suspend(() =>
 }) as any as S.Schema<GetSnapshotBlockResponse>;
 export interface PutSnapshotBlockResponse {
   Checksum?: string;
-  ChecksumAlgorithm?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithm;
 }
 export const PutSnapshotBlockResponse = S.suspend(() =>
   S.Struct({
     Checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-Checksum")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
       T.HttpHeader("x-amz-Checksum-Algorithm"),
     ),
   }),
@@ -307,11 +315,11 @@ export const PutSnapshotBlockResponse = S.suspend(() =>
 export interface StartSnapshotRequest {
   VolumeSize: number;
   ParentSnapshotId?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
   Description?: string;
   ClientToken?: string;
   Encrypted?: boolean;
-  KmsKeyArn?: string | Redacted.Redacted<string>;
+  KmsKeyArn?: string | redacted.Redacted<string>;
   Timeout?: number;
 }
 export const StartSnapshotRequest = S.suspend(() =>
@@ -337,6 +345,13 @@ export const StartSnapshotRequest = S.suspend(() =>
 ).annotations({
   identifier: "StartSnapshotRequest",
 }) as any as S.Schema<StartSnapshotRequest>;
+export type AccessDeniedExceptionReason =
+  | "UNAUTHORIZED_ACCOUNT"
+  | "DEPENDENCY_ACCESS_DENIED";
+export const AccessDeniedExceptionReason = S.Literal(
+  "UNAUTHORIZED_ACCOUNT",
+  "DEPENDENCY_ACCESS_DENIED",
+);
 export interface ChangedBlock {
   BlockIndex?: number;
   FirstBlockToken?: string;
@@ -363,8 +378,10 @@ export const Block = S.suspend(() =>
 ).annotations({ identifier: "Block" }) as any as S.Schema<Block>;
 export type Blocks = Block[];
 export const Blocks = S.Array(Block);
+export type SSEType = "sse-ebs" | "sse-kms" | "none";
+export const SSEType = S.Literal("sse-ebs", "sse-kms", "none");
 export interface ListChangedBlocksResponse {
-  ChangedBlocks?: ChangedBlocks;
+  ChangedBlocks?: ChangedBlock[];
   ExpiryTime?: Date;
   VolumeSize?: number;
   BlockSize?: number;
@@ -382,7 +399,7 @@ export const ListChangedBlocksResponse = S.suspend(() =>
   identifier: "ListChangedBlocksResponse",
 }) as any as S.Schema<ListChangedBlocksResponse>;
 export interface ListSnapshotBlocksResponse {
-  Blocks?: Blocks;
+  Blocks?: Block[];
   ExpiryTime?: Date;
   VolumeSize?: number;
   BlockSize?: number;
@@ -403,37 +420,95 @@ export interface StartSnapshotResponse {
   Description?: string;
   SnapshotId?: string;
   OwnerId?: string;
-  Status?: string;
+  Status?: Status;
   StartTime?: Date;
   VolumeSize?: number;
   BlockSize?: number;
-  Tags?: Tags;
+  Tags?: Tag[];
   ParentSnapshotId?: string;
-  KmsKeyArn?: string | Redacted.Redacted<string>;
-  SseType?: string;
+  KmsKeyArn?: string | redacted.Redacted<string>;
+  SseType?: SSEType;
 }
 export const StartSnapshotResponse = S.suspend(() =>
   S.Struct({
     Description: S.optional(S.String),
     SnapshotId: S.optional(S.String),
     OwnerId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(Status),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     VolumeSize: S.optional(S.Number),
     BlockSize: S.optional(S.Number),
     Tags: S.optional(Tags),
     ParentSnapshotId: S.optional(S.String),
     KmsKeyArn: S.optional(SensitiveString),
-    SseType: S.optional(S.String),
+    SseType: S.optional(SSEType),
   }),
 ).annotations({
   identifier: "StartSnapshotResponse",
 }) as any as S.Schema<StartSnapshotResponse>;
+export type RequestThrottledExceptionReason =
+  | "ACCOUNT_THROTTLED"
+  | "DEPENDENCY_REQUEST_THROTTLED"
+  | "RESOURCE_LEVEL_THROTTLE";
+export const RequestThrottledExceptionReason = S.Literal(
+  "ACCOUNT_THROTTLED",
+  "DEPENDENCY_REQUEST_THROTTLED",
+  "RESOURCE_LEVEL_THROTTLE",
+);
+export type ResourceNotFoundExceptionReason =
+  | "SNAPSHOT_NOT_FOUND"
+  | "GRANT_NOT_FOUND"
+  | "DEPENDENCY_RESOURCE_NOT_FOUND"
+  | "IMAGE_NOT_FOUND";
+export const ResourceNotFoundExceptionReason = S.Literal(
+  "SNAPSHOT_NOT_FOUND",
+  "GRANT_NOT_FOUND",
+  "DEPENDENCY_RESOURCE_NOT_FOUND",
+  "IMAGE_NOT_FOUND",
+);
+export type ServiceQuotaExceededExceptionReason =
+  "DEPENDENCY_SERVICE_QUOTA_EXCEEDED";
+export const ServiceQuotaExceededExceptionReason = S.Literal(
+  "DEPENDENCY_SERVICE_QUOTA_EXCEEDED",
+);
+export type ValidationExceptionReason =
+  | "INVALID_CUSTOMER_KEY"
+  | "INVALID_PAGE_TOKEN"
+  | "INVALID_BLOCK_TOKEN"
+  | "INVALID_GRANT_TOKEN"
+  | "INVALID_SNAPSHOT_ID"
+  | "UNRELATED_SNAPSHOTS"
+  | "INVALID_BLOCK"
+  | "INVALID_CONTENT_ENCODING"
+  | "INVALID_TAG"
+  | "INVALID_DEPENDENCY_REQUEST"
+  | "INVALID_PARAMETER_VALUE"
+  | "INVALID_VOLUME_SIZE"
+  | "CONFLICTING_BLOCK_UPDATE"
+  | "INVALID_IMAGE_ID"
+  | "WRITE_REQUEST_TIMEOUT";
+export const ValidationExceptionReason = S.Literal(
+  "INVALID_CUSTOMER_KEY",
+  "INVALID_PAGE_TOKEN",
+  "INVALID_BLOCK_TOKEN",
+  "INVALID_GRANT_TOKEN",
+  "INVALID_SNAPSHOT_ID",
+  "UNRELATED_SNAPSHOTS",
+  "INVALID_BLOCK",
+  "INVALID_CONTENT_ENCODING",
+  "INVALID_TAG",
+  "INVALID_DEPENDENCY_REQUEST",
+  "INVALID_PARAMETER_VALUE",
+  "INVALID_VOLUME_SIZE",
+  "CONFLICTING_BLOCK_UPDATE",
+  "INVALID_IMAGE_ID",
+  "WRITE_REQUEST_TIMEOUT",
+);
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  { Message: S.optional(S.String), Reason: S.String },
+  { Message: S.optional(S.String), Reason: AccessDeniedExceptionReason },
 ).pipe(C.withAuthError) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
@@ -445,7 +520,10 @@ export class ConcurrentLimitExceededException extends S.TaggedError<ConcurrentLi
 ).pipe(C.withBadRequestError) {}
 export class RequestThrottledException extends S.TaggedError<RequestThrottledException>()(
   "RequestThrottledException",
-  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+  {
+    Message: S.optional(S.String),
+    Reason: S.optional(RequestThrottledExceptionReason),
+  },
 ).pipe(C.withBadRequestError) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
@@ -453,15 +531,24 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 ).pipe(C.withConflictError) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+  {
+    Message: S.optional(S.String),
+    Reason: S.optional(ResourceNotFoundExceptionReason),
+  },
 ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+  {
+    Message: S.optional(S.String),
+    Reason: S.optional(ServiceQuotaExceededExceptionReason),
+  },
 ).pipe(C.withQuotaError) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+  {
+    Message: S.optional(S.String),
+    Reason: S.optional(ValidationExceptionReason),
+  },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
@@ -477,7 +564,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const completeSnapshot: (
   input: CompleteSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CompleteSnapshotResponse,
   | AccessDeniedException
   | InternalServerException
@@ -513,7 +600,7 @@ export const completeSnapshot: (
  */
 export const startSnapshot: (
   input: StartSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartSnapshotResponse,
   | AccessDeniedException
   | ConcurrentLimitExceededException
@@ -551,7 +638,7 @@ export const startSnapshot: (
 export const listChangedBlocks: {
   (
     input: ListChangedBlocksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListChangedBlocksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -564,7 +651,7 @@ export const listChangedBlocks: {
   >;
   pages: (
     input: ListChangedBlocksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListChangedBlocksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -577,7 +664,7 @@ export const listChangedBlocks: {
   >;
   items: (
     input: ListChangedBlocksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -616,7 +703,7 @@ export const listChangedBlocks: {
 export const listSnapshotBlocks: {
   (
     input: ListSnapshotBlocksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSnapshotBlocksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -629,7 +716,7 @@ export const listSnapshotBlocks: {
   >;
   pages: (
     input: ListSnapshotBlocksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSnapshotBlocksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -642,7 +729,7 @@ export const listSnapshotBlocks: {
   >;
   items: (
     input: ListSnapshotBlocksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -680,7 +767,7 @@ export const listSnapshotBlocks: {
  */
 export const getSnapshotBlock: (
   input: GetSnapshotBlockRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSnapshotBlockResponse,
   | AccessDeniedException
   | InternalServerException
@@ -716,7 +803,7 @@ export const getSnapshotBlock: (
  */
 export const putSnapshotBlock: (
   input: PutSnapshotBlockRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutSnapshotBlockResponse,
   | AccessDeniedException
   | InternalServerException

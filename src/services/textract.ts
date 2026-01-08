@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -117,15 +117,27 @@ export type Percent = number;
 export type NonEmptyString = string;
 export type ErrorCode = string;
 export type Angle = number;
-export type Float = number;
 export type HumanLoopArn = string;
 export type HumanLoopActivationReason = string;
 export type SynthesizedJsonHumanLoopActivationConditionsEvaluationResults =
   string;
 
 //# Schemas
-export type FeatureTypes = string[];
-export const FeatureTypes = S.Array(S.String);
+export type FeatureType =
+  | "TABLES"
+  | "FORMS"
+  | "QUERIES"
+  | "SIGNATURES"
+  | "LAYOUT";
+export const FeatureType = S.Literal(
+  "TABLES",
+  "FORMS",
+  "QUERIES",
+  "SIGNATURES",
+  "LAYOUT",
+);
+export type FeatureTypes = FeatureType[];
+export const FeatureTypes = S.Array(FeatureType);
 export interface S3Object {
   Bucket?: string;
   Name?: string;
@@ -147,6 +159,8 @@ export const Document = S.suspend(() =>
 ).annotations({ identifier: "Document" }) as any as S.Schema<Document>;
 export type DocumentPages = Document[];
 export const DocumentPages = S.Array(Document);
+export type AutoUpdate = "ENABLED" | "DISABLED";
+export const AutoUpdate = S.Literal("ENABLED", "DISABLED");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface AnalyzeExpenseRequest {
@@ -160,7 +174,7 @@ export const AnalyzeExpenseRequest = S.suspend(() =>
   identifier: "AnalyzeExpenseRequest",
 }) as any as S.Schema<AnalyzeExpenseRequest>;
 export interface AnalyzeIDRequest {
-  DocumentPages: DocumentPages;
+  DocumentPages: Document[];
 }
 export const AnalyzeIDRequest = S.suspend(() =>
   S.Struct({ DocumentPages: DocumentPages }).pipe(
@@ -455,7 +469,7 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface TagResourceRequest {
   ResourceARN: string;
-  Tags: TagMap;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagMap }).pipe(
@@ -470,7 +484,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceARN: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
@@ -487,14 +501,14 @@ export interface UpdateAdapterRequest {
   AdapterId: string;
   Description?: string;
   AdapterName?: string;
-  AutoUpdate?: string;
+  AutoUpdate?: AutoUpdate;
 }
 export const UpdateAdapterRequest = S.suspend(() =>
   S.Struct({
     AdapterId: S.String,
     Description: S.optional(S.String),
     AdapterName: S.optional(S.String),
-    AutoUpdate: S.optional(S.String),
+    AutoUpdate: S.optional(AutoUpdate),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -509,8 +523,39 @@ export const AdapterVersionDatasetConfig = S.suspend(() =>
 ).annotations({
   identifier: "AdapterVersionDatasetConfig",
 }) as any as S.Schema<AdapterVersionDatasetConfig>;
-export type ContentClassifiers = string[];
-export const ContentClassifiers = S.Array(S.String);
+export type AdapterVersionStatus =
+  | "ACTIVE"
+  | "AT_RISK"
+  | "DEPRECATED"
+  | "CREATION_ERROR"
+  | "CREATION_IN_PROGRESS";
+export const AdapterVersionStatus = S.Literal(
+  "ACTIVE",
+  "AT_RISK",
+  "DEPRECATED",
+  "CREATION_ERROR",
+  "CREATION_IN_PROGRESS",
+);
+export type JobStatus =
+  | "IN_PROGRESS"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "PARTIAL_SUCCESS";
+export const JobStatus = S.Literal(
+  "IN_PROGRESS",
+  "SUCCEEDED",
+  "FAILED",
+  "PARTIAL_SUCCESS",
+);
+export type ContentClassifier =
+  | "FreeOfPersonallyIdentifiableInformation"
+  | "FreeOfAdultContent";
+export const ContentClassifier = S.Literal(
+  "FreeOfPersonallyIdentifiableInformation",
+  "FreeOfAdultContent",
+);
+export type ContentClassifiers = ContentClassifier[];
+export const ContentClassifiers = S.Array(ContentClassifier);
 export type QueryPages = string[];
 export const QueryPages = S.Array(S.String);
 export type AdapterPages = string[];
@@ -519,9 +564,9 @@ export interface CreateAdapterRequest {
   AdapterName: string;
   ClientRequestToken?: string;
   Description?: string;
-  FeatureTypes: FeatureTypes;
-  AutoUpdate?: string;
-  Tags?: TagMap;
+  FeatureTypes: FeatureType[];
+  AutoUpdate?: AutoUpdate;
+  Tags?: { [key: string]: string };
 }
 export const CreateAdapterRequest = S.suspend(() =>
   S.Struct({
@@ -529,7 +574,7 @@ export const CreateAdapterRequest = S.suspend(() =>
     ClientRequestToken: S.optional(S.String),
     Description: S.optional(S.String),
     FeatureTypes: FeatureTypes,
-    AutoUpdate: S.optional(S.String),
+    AutoUpdate: S.optional(AutoUpdate),
     Tags: S.optional(TagMap),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -543,7 +588,7 @@ export interface CreateAdapterVersionRequest {
   DatasetConfig: AdapterVersionDatasetConfig;
   KMSKeyId?: string;
   OutputConfig: OutputConfig;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateAdapterVersionRequest = S.suspend(() =>
   S.Struct({
@@ -564,9 +609,9 @@ export interface GetAdapterResponse {
   AdapterName?: string;
   CreationTime?: Date;
   Description?: string;
-  FeatureTypes?: FeatureTypes;
-  AutoUpdate?: string;
-  Tags?: TagMap;
+  FeatureTypes?: FeatureType[];
+  AutoUpdate?: AutoUpdate;
+  Tags?: { [key: string]: string };
 }
 export const GetAdapterResponse = S.suspend(() =>
   S.Struct({
@@ -575,7 +620,7 @@ export const GetAdapterResponse = S.suspend(() =>
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Description: S.optional(S.String),
     FeatureTypes: S.optional(FeatureTypes),
-    AutoUpdate: S.optional(S.String),
+    AutoUpdate: S.optional(AutoUpdate),
     Tags: S.optional(TagMap),
   }),
 ).annotations({
@@ -589,6 +634,59 @@ export const DocumentMetadata = S.suspend(() =>
 ).annotations({
   identifier: "DocumentMetadata",
 }) as any as S.Schema<DocumentMetadata>;
+export type BlockType =
+  | "KEY_VALUE_SET"
+  | "PAGE"
+  | "LINE"
+  | "WORD"
+  | "TABLE"
+  | "CELL"
+  | "SELECTION_ELEMENT"
+  | "MERGED_CELL"
+  | "TITLE"
+  | "QUERY"
+  | "QUERY_RESULT"
+  | "SIGNATURE"
+  | "TABLE_TITLE"
+  | "TABLE_FOOTER"
+  | "LAYOUT_TEXT"
+  | "LAYOUT_TITLE"
+  | "LAYOUT_HEADER"
+  | "LAYOUT_FOOTER"
+  | "LAYOUT_SECTION_HEADER"
+  | "LAYOUT_PAGE_NUMBER"
+  | "LAYOUT_LIST"
+  | "LAYOUT_FIGURE"
+  | "LAYOUT_TABLE"
+  | "LAYOUT_KEY_VALUE";
+export const BlockType = S.Literal(
+  "KEY_VALUE_SET",
+  "PAGE",
+  "LINE",
+  "WORD",
+  "TABLE",
+  "CELL",
+  "SELECTION_ELEMENT",
+  "MERGED_CELL",
+  "TITLE",
+  "QUERY",
+  "QUERY_RESULT",
+  "SIGNATURE",
+  "TABLE_TITLE",
+  "TABLE_FOOTER",
+  "LAYOUT_TEXT",
+  "LAYOUT_TITLE",
+  "LAYOUT_HEADER",
+  "LAYOUT_FOOTER",
+  "LAYOUT_SECTION_HEADER",
+  "LAYOUT_PAGE_NUMBER",
+  "LAYOUT_LIST",
+  "LAYOUT_FIGURE",
+  "LAYOUT_TABLE",
+  "LAYOUT_KEY_VALUE",
+);
+export type TextType = "HANDWRITING" | "PRINTED";
+export const TextType = S.Literal("HANDWRITING", "PRINTED");
 export interface BoundingBox {
   Width?: number;
   Height?: number;
@@ -614,7 +712,7 @@ export type Polygon = Point[];
 export const Polygon = S.Array(Point);
 export interface Geometry {
   BoundingBox?: BoundingBox;
-  Polygon?: Polygon;
+  Polygon?: Point[];
   RotationAngle?: number;
 }
 export const Geometry = S.suspend(() =>
@@ -624,23 +722,67 @@ export const Geometry = S.suspend(() =>
     RotationAngle: S.optional(S.Number),
   }),
 ).annotations({ identifier: "Geometry" }) as any as S.Schema<Geometry>;
+export type RelationshipType =
+  | "VALUE"
+  | "CHILD"
+  | "COMPLEX_FEATURES"
+  | "MERGED_CELL"
+  | "TITLE"
+  | "ANSWER"
+  | "TABLE"
+  | "TABLE_TITLE"
+  | "TABLE_FOOTER";
+export const RelationshipType = S.Literal(
+  "VALUE",
+  "CHILD",
+  "COMPLEX_FEATURES",
+  "MERGED_CELL",
+  "TITLE",
+  "ANSWER",
+  "TABLE",
+  "TABLE_TITLE",
+  "TABLE_FOOTER",
+);
 export type IdList = string[];
 export const IdList = S.Array(S.String);
 export interface Relationship {
-  Type?: string;
-  Ids?: IdList;
+  Type?: RelationshipType;
+  Ids?: string[];
 }
 export const Relationship = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String), Ids: S.optional(IdList) }),
+  S.Struct({ Type: S.optional(RelationshipType), Ids: S.optional(IdList) }),
 ).annotations({ identifier: "Relationship" }) as any as S.Schema<Relationship>;
 export type RelationshipList = Relationship[];
 export const RelationshipList = S.Array(Relationship);
-export type EntityTypes = string[];
-export const EntityTypes = S.Array(S.String);
+export type EntityType =
+  | "KEY"
+  | "VALUE"
+  | "COLUMN_HEADER"
+  | "TABLE_TITLE"
+  | "TABLE_FOOTER"
+  | "TABLE_SECTION_TITLE"
+  | "TABLE_SUMMARY"
+  | "STRUCTURED_TABLE"
+  | "SEMI_STRUCTURED_TABLE";
+export const EntityType = S.Literal(
+  "KEY",
+  "VALUE",
+  "COLUMN_HEADER",
+  "TABLE_TITLE",
+  "TABLE_FOOTER",
+  "TABLE_SECTION_TITLE",
+  "TABLE_SUMMARY",
+  "STRUCTURED_TABLE",
+  "SEMI_STRUCTURED_TABLE",
+);
+export type EntityTypes = EntityType[];
+export const EntityTypes = S.Array(EntityType);
+export type SelectionStatus = "SELECTED" | "NOT_SELECTED";
+export const SelectionStatus = S.Literal("SELECTED", "NOT_SELECTED");
 export interface Query {
   Text: string;
   Alias?: string;
-  Pages?: QueryPages;
+  Pages?: string[];
 }
 export const Query = S.suspend(() =>
   S.Struct({
@@ -650,28 +792,28 @@ export const Query = S.suspend(() =>
   }),
 ).annotations({ identifier: "Query" }) as any as S.Schema<Query>;
 export interface Block {
-  BlockType?: string;
+  BlockType?: BlockType;
   Confidence?: number;
   Text?: string;
-  TextType?: string;
+  TextType?: TextType;
   RowIndex?: number;
   ColumnIndex?: number;
   RowSpan?: number;
   ColumnSpan?: number;
   Geometry?: Geometry;
   Id?: string;
-  Relationships?: RelationshipList;
-  EntityTypes?: EntityTypes;
-  SelectionStatus?: string;
+  Relationships?: Relationship[];
+  EntityTypes?: EntityType[];
+  SelectionStatus?: SelectionStatus;
   Page?: number;
   Query?: Query;
 }
 export const Block = S.suspend(() =>
   S.Struct({
-    BlockType: S.optional(S.String),
+    BlockType: S.optional(BlockType),
     Confidence: S.optional(S.Number),
     Text: S.optional(S.String),
-    TextType: S.optional(S.String),
+    TextType: S.optional(TextType),
     RowIndex: S.optional(S.Number),
     ColumnIndex: S.optional(S.Number),
     RowSpan: S.optional(S.Number),
@@ -680,7 +822,7 @@ export const Block = S.suspend(() =>
     Id: S.optional(S.String),
     Relationships: S.optional(RelationshipList),
     EntityTypes: S.optional(EntityTypes),
-    SelectionStatus: S.optional(S.String),
+    SelectionStatus: S.optional(SelectionStatus),
     Page: S.optional(S.Number),
     Query: S.optional(Query),
   }),
@@ -691,7 +833,7 @@ export type Pages = number[];
 export const Pages = S.Array(S.Number);
 export interface Warning {
   ErrorCode?: string;
-  Pages?: Pages;
+  Pages?: number[];
 }
 export const Warning = S.suspend(() =>
   S.Struct({ ErrorCode: S.optional(S.String), Pages: S.optional(Pages) }),
@@ -700,17 +842,17 @@ export type Warnings = Warning[];
 export const Warnings = S.Array(Warning);
 export interface GetDocumentTextDetectionResponse {
   DocumentMetadata?: DocumentMetadata;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   NextToken?: string;
-  Blocks?: BlockList;
-  Warnings?: Warnings;
+  Blocks?: Block[];
+  Warnings?: Warning[];
   StatusMessage?: string;
   DetectDocumentTextModelVersion?: string;
 }
 export const GetDocumentTextDetectionResponse = S.suspend(() =>
   S.Struct({
     DocumentMetadata: S.optional(DocumentMetadata),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     NextToken: S.optional(S.String),
     Blocks: S.optional(BlockList),
     Warnings: S.optional(Warnings),
@@ -753,7 +895,7 @@ export const ExpenseCurrency = S.suspend(() =>
 export type StringList = string[];
 export const StringList = S.Array(S.String);
 export interface ExpenseGroupProperty {
-  Types?: StringList;
+  Types?: string[];
   Id?: string;
 }
 export const ExpenseGroupProperty = S.suspend(() =>
@@ -769,7 +911,7 @@ export interface ExpenseField {
   ValueDetection?: ExpenseDetection;
   PageNumber?: number;
   Currency?: ExpenseCurrency;
-  GroupProperties?: ExpenseGroupPropertyList;
+  GroupProperties?: ExpenseGroupProperty[];
 }
 export const ExpenseField = S.suspend(() =>
   S.Struct({
@@ -784,7 +926,7 @@ export const ExpenseField = S.suspend(() =>
 export type ExpenseFieldList = ExpenseField[];
 export const ExpenseFieldList = S.Array(ExpenseField);
 export interface LineItemFields {
-  LineItemExpenseFields?: ExpenseFieldList;
+  LineItemExpenseFields?: ExpenseField[];
 }
 export const LineItemFields = S.suspend(() =>
   S.Struct({ LineItemExpenseFields: S.optional(ExpenseFieldList) }),
@@ -795,7 +937,7 @@ export type LineItemList = LineItemFields[];
 export const LineItemList = S.Array(LineItemFields);
 export interface LineItemGroup {
   LineItemGroupIndex?: number;
-  LineItems?: LineItemList;
+  LineItems?: LineItemFields[];
 }
 export const LineItemGroup = S.suspend(() =>
   S.Struct({
@@ -809,9 +951,9 @@ export type LineItemGroupList = LineItemGroup[];
 export const LineItemGroupList = S.Array(LineItemGroup);
 export interface ExpenseDocument {
   ExpenseIndex?: number;
-  SummaryFields?: ExpenseFieldList;
-  LineItemGroups?: LineItemGroupList;
-  Blocks?: BlockList;
+  SummaryFields?: ExpenseField[];
+  LineItemGroups?: LineItemGroup[];
+  Blocks?: Block[];
 }
 export const ExpenseDocument = S.suspend(() =>
   S.Struct({
@@ -827,17 +969,17 @@ export type ExpenseDocumentList = ExpenseDocument[];
 export const ExpenseDocumentList = S.Array(ExpenseDocument);
 export interface GetExpenseAnalysisResponse {
   DocumentMetadata?: DocumentMetadata;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   NextToken?: string;
-  ExpenseDocuments?: ExpenseDocumentList;
-  Warnings?: Warnings;
+  ExpenseDocuments?: ExpenseDocument[];
+  Warnings?: Warning[];
   StatusMessage?: string;
   AnalyzeExpenseModelVersion?: string;
 }
 export const GetExpenseAnalysisResponse = S.suspend(() =>
   S.Struct({
     DocumentMetadata: S.optional(DocumentMetadata),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     NextToken: S.optional(S.String),
     ExpenseDocuments: S.optional(ExpenseDocumentList),
     Warnings: S.optional(Warnings),
@@ -848,7 +990,7 @@ export const GetExpenseAnalysisResponse = S.suspend(() =>
   identifier: "GetExpenseAnalysisResponse",
 }) as any as S.Schema<GetExpenseAnalysisResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -858,7 +1000,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 export type Queries = Query[];
 export const Queries = S.Array(Query);
 export interface QueriesConfig {
-  Queries: Queries;
+  Queries: Query[];
 }
 export const QueriesConfig = S.suspend(() =>
   S.Struct({ Queries: Queries }),
@@ -867,7 +1009,7 @@ export const QueriesConfig = S.suspend(() =>
 }) as any as S.Schema<QueriesConfig>;
 export interface Adapter {
   AdapterId: string;
-  Pages?: AdapterPages;
+  Pages?: string[];
   Version: string;
 }
 export const Adapter = S.suspend(() =>
@@ -880,7 +1022,7 @@ export const Adapter = S.suspend(() =>
 export type Adapters = Adapter[];
 export const Adapters = S.Array(Adapter);
 export interface AdaptersConfig {
-  Adapters: Adapters;
+  Adapters: Adapter[];
 }
 export const AdaptersConfig = S.suspend(() =>
   S.Struct({ Adapters: Adapters }),
@@ -889,7 +1031,7 @@ export const AdaptersConfig = S.suspend(() =>
 }) as any as S.Schema<AdaptersConfig>;
 export interface StartDocumentAnalysisRequest {
   DocumentLocation: DocumentLocation;
-  FeatureTypes: FeatureTypes;
+  FeatureTypes: FeatureType[];
   ClientRequestToken?: string;
   JobTag?: string;
   NotificationChannel?: NotificationChannel;
@@ -944,8 +1086,8 @@ export interface UpdateAdapterResponse {
   AdapterName?: string;
   CreationTime?: Date;
   Description?: string;
-  FeatureTypes?: FeatureTypes;
-  AutoUpdate?: string;
+  FeatureTypes?: FeatureType[];
+  AutoUpdate?: AutoUpdate;
 }
 export const UpdateAdapterResponse = S.suspend(() =>
   S.Struct({
@@ -954,13 +1096,13 @@ export const UpdateAdapterResponse = S.suspend(() =>
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Description: S.optional(S.String),
     FeatureTypes: S.optional(FeatureTypes),
-    AutoUpdate: S.optional(S.String),
+    AutoUpdate: S.optional(AutoUpdate),
   }),
 ).annotations({
   identifier: "UpdateAdapterResponse",
 }) as any as S.Schema<UpdateAdapterResponse>;
 export interface HumanLoopDataAttributes {
-  ContentClassifiers?: ContentClassifiers;
+  ContentClassifiers?: ContentClassifier[];
 }
 export const HumanLoopDataAttributes = S.suspend(() =>
   S.Struct({ ContentClassifiers: S.optional(ContentClassifiers) }),
@@ -987,7 +1129,7 @@ export interface AdapterOverview {
   AdapterId?: string;
   AdapterName?: string;
   CreationTime?: Date;
-  FeatureTypes?: FeatureTypes;
+  FeatureTypes?: FeatureType[];
 }
 export const AdapterOverview = S.suspend(() =>
   S.Struct({
@@ -1005,8 +1147,8 @@ export interface AdapterVersionOverview {
   AdapterId?: string;
   AdapterVersion?: string;
   CreationTime?: Date;
-  FeatureTypes?: FeatureTypes;
-  Status?: string;
+  FeatureTypes?: FeatureType[];
+  Status?: AdapterVersionStatus;
   StatusMessage?: string;
 }
 export const AdapterVersionOverview = S.suspend(() =>
@@ -1015,7 +1157,7 @@ export const AdapterVersionOverview = S.suspend(() =>
     AdapterVersion: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     FeatureTypes: S.optional(FeatureTypes),
-    Status: S.optional(S.String),
+    Status: S.optional(AdapterVersionStatus),
     StatusMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -1025,7 +1167,7 @@ export type AdapterVersionList = AdapterVersionOverview[];
 export const AdapterVersionList = S.Array(AdapterVersionOverview);
 export interface AnalyzeDocumentRequest {
   Document: Document;
-  FeatureTypes: FeatureTypes;
+  FeatureTypes: FeatureType[];
   HumanLoopConfig?: HumanLoopConfig;
   QueriesConfig?: QueriesConfig;
   AdaptersConfig?: AdaptersConfig;
@@ -1065,17 +1207,17 @@ export const CreateAdapterVersionResponse = S.suspend(() =>
 }) as any as S.Schema<CreateAdapterVersionResponse>;
 export interface GetDocumentAnalysisResponse {
   DocumentMetadata?: DocumentMetadata;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   NextToken?: string;
-  Blocks?: BlockList;
-  Warnings?: Warnings;
+  Blocks?: Block[];
+  Warnings?: Warning[];
   StatusMessage?: string;
   AnalyzeDocumentModelVersion?: string;
 }
 export const GetDocumentAnalysisResponse = S.suspend(() =>
   S.Struct({
     DocumentMetadata: S.optional(DocumentMetadata),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     NextToken: S.optional(S.String),
     Blocks: S.optional(BlockList),
     Warnings: S.optional(Warnings),
@@ -1086,7 +1228,7 @@ export const GetDocumentAnalysisResponse = S.suspend(() =>
   identifier: "GetDocumentAnalysisResponse",
 }) as any as S.Schema<GetDocumentAnalysisResponse>;
 export interface ListAdaptersResponse {
-  Adapters?: AdapterList;
+  Adapters?: AdapterOverview[];
   NextToken?: string;
 }
 export const ListAdaptersResponse = S.suspend(() =>
@@ -1098,7 +1240,7 @@ export const ListAdaptersResponse = S.suspend(() =>
   identifier: "ListAdaptersResponse",
 }) as any as S.Schema<ListAdaptersResponse>;
 export interface ListAdapterVersionsResponse {
-  AdapterVersions?: AdapterVersionList;
+  AdapterVersions?: AdapterVersionOverview[];
   NextToken?: string;
 }
 export const ListAdapterVersionsResponse = S.suspend(() =>
@@ -1136,13 +1278,13 @@ export const PageList = S.Array(S.Number);
 export interface AdapterVersionEvaluationMetric {
   Baseline?: EvaluationMetric;
   AdapterVersion?: EvaluationMetric;
-  FeatureType?: string;
+  FeatureType?: FeatureType;
 }
 export const AdapterVersionEvaluationMetric = S.suspend(() =>
   S.Struct({
     Baseline: S.optional(EvaluationMetric),
     AdapterVersion: S.optional(EvaluationMetric),
-    FeatureType: S.optional(S.String),
+    FeatureType: S.optional(FeatureType),
   }),
 ).annotations({
   identifier: "AdapterVersionEvaluationMetric",
@@ -1162,7 +1304,7 @@ export type PredictionList = Prediction[];
 export const PredictionList = S.Array(Prediction);
 export interface SplitDocument {
   Index?: number;
-  Pages?: PageList;
+  Pages?: number[];
 }
 export const SplitDocument = S.suspend(() =>
   S.Struct({ Index: S.optional(S.Number), Pages: S.optional(PageList) }),
@@ -1191,18 +1333,20 @@ export const UndetectedSignature = S.suspend(() =>
 }) as any as S.Schema<UndetectedSignature>;
 export type UndetectedSignatureList = UndetectedSignature[];
 export const UndetectedSignatureList = S.Array(UndetectedSignature);
+export type ValueType = "DATE";
+export const ValueType = S.Literal("DATE");
 export interface GetAdapterVersionResponse {
   AdapterId?: string;
   AdapterVersion?: string;
   CreationTime?: Date;
-  FeatureTypes?: FeatureTypes;
-  Status?: string;
+  FeatureTypes?: FeatureType[];
+  Status?: AdapterVersionStatus;
   StatusMessage?: string;
   DatasetConfig?: AdapterVersionDatasetConfig;
   KMSKeyId?: string;
   OutputConfig?: OutputConfig;
-  EvaluationMetrics?: AdapterVersionEvaluationMetrics;
-  Tags?: TagMap;
+  EvaluationMetrics?: AdapterVersionEvaluationMetric[];
+  Tags?: { [key: string]: string };
 }
 export const GetAdapterVersionResponse = S.suspend(() =>
   S.Struct({
@@ -1210,7 +1354,7 @@ export const GetAdapterVersionResponse = S.suspend(() =>
     AdapterVersion: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     FeatureTypes: S.optional(FeatureTypes),
-    Status: S.optional(S.String),
+    Status: S.optional(AdapterVersionStatus),
     StatusMessage: S.optional(S.String),
     DatasetConfig: S.optional(AdapterVersionDatasetConfig),
     KMSKeyId: S.optional(S.String),
@@ -1223,14 +1367,14 @@ export const GetAdapterVersionResponse = S.suspend(() =>
 }) as any as S.Schema<GetAdapterVersionResponse>;
 export interface LendingDetection {
   Text?: string;
-  SelectionStatus?: string;
+  SelectionStatus?: SelectionStatus;
   Geometry?: Geometry;
   Confidence?: number;
 }
 export const LendingDetection = S.suspend(() =>
   S.Struct({
     Text: S.optional(S.String),
-    SelectionStatus: S.optional(S.String),
+    SelectionStatus: S.optional(SelectionStatus),
     Geometry: S.optional(Geometry),
     Confidence: S.optional(S.Number),
   }),
@@ -1242,8 +1386,8 @@ export const LendingDetectionList = S.Array(LendingDetection);
 export type HumanLoopActivationReasons = string[];
 export const HumanLoopActivationReasons = S.Array(S.String);
 export interface PageClassification {
-  PageType: PredictionList;
-  PageNumber: PredictionList;
+  PageType: Prediction[];
+  PageNumber: Prediction[];
 }
 export const PageClassification = S.suspend(() =>
   S.Struct({ PageType: PredictionList, PageNumber: PredictionList }),
@@ -1252,9 +1396,9 @@ export const PageClassification = S.suspend(() =>
 }) as any as S.Schema<PageClassification>;
 export interface DocumentGroup {
   Type?: string;
-  SplitDocuments?: SplitDocumentList;
-  DetectedSignatures?: DetectedSignatureList;
-  UndetectedSignatures?: UndetectedSignatureList;
+  SplitDocuments?: SplitDocument[];
+  DetectedSignatures?: DetectedSignature[];
+  UndetectedSignatures?: UndetectedSignature[];
 }
 export const DocumentGroup = S.suspend(() =>
   S.Struct({
@@ -1270,10 +1414,10 @@ export type DocumentGroupList = DocumentGroup[];
 export const DocumentGroupList = S.Array(DocumentGroup);
 export interface NormalizedValue {
   Value?: string;
-  ValueType?: string;
+  ValueType?: ValueType;
 }
 export const NormalizedValue = S.suspend(() =>
-  S.Struct({ Value: S.optional(S.String), ValueType: S.optional(S.String) }),
+  S.Struct({ Value: S.optional(S.String), ValueType: S.optional(ValueType) }),
 ).annotations({
   identifier: "NormalizedValue",
 }) as any as S.Schema<NormalizedValue>;
@@ -1293,7 +1437,7 @@ export type SignatureDetectionList = SignatureDetection[];
 export const SignatureDetectionList = S.Array(SignatureDetection);
 export interface HumanLoopActivationOutput {
   HumanLoopArn?: string;
-  HumanLoopActivationReasons?: HumanLoopActivationReasons;
+  HumanLoopActivationReasons?: string[];
   HumanLoopActivationConditionsEvaluationResults?: string;
 }
 export const HumanLoopActivationOutput = S.suspend(() =>
@@ -1306,8 +1450,8 @@ export const HumanLoopActivationOutput = S.suspend(() =>
   identifier: "HumanLoopActivationOutput",
 }) as any as S.Schema<HumanLoopActivationOutput>;
 export interface LendingSummary {
-  DocumentGroups?: DocumentGroupList;
-  UndetectedDocumentTypes?: UndetectedDocumentTypeList;
+  DocumentGroups?: DocumentGroup[];
+  UndetectedDocumentTypes?: string[];
 }
 export const LendingSummary = S.suspend(() =>
   S.Struct({
@@ -1333,7 +1477,7 @@ export const AnalyzeIDDetections = S.suspend(() =>
 }) as any as S.Schema<AnalyzeIDDetections>;
 export interface AnalyzeDocumentResponse {
   DocumentMetadata?: DocumentMetadata;
-  Blocks?: BlockList;
+  Blocks?: Block[];
   HumanLoopActivationOutput?: HumanLoopActivationOutput;
   AnalyzeDocumentModelVersion?: string;
 }
@@ -1349,7 +1493,7 @@ export const AnalyzeDocumentResponse = S.suspend(() =>
 }) as any as S.Schema<AnalyzeDocumentResponse>;
 export interface AnalyzeExpenseResponse {
   DocumentMetadata?: DocumentMetadata;
-  ExpenseDocuments?: ExpenseDocumentList;
+  ExpenseDocuments?: ExpenseDocument[];
 }
 export const AnalyzeExpenseResponse = S.suspend(() =>
   S.Struct({
@@ -1361,7 +1505,7 @@ export const AnalyzeExpenseResponse = S.suspend(() =>
 }) as any as S.Schema<AnalyzeExpenseResponse>;
 export interface DetectDocumentTextResponse {
   DocumentMetadata?: DocumentMetadata;
-  Blocks?: BlockList;
+  Blocks?: Block[];
   DetectDocumentTextModelVersion?: string;
 }
 export const DetectDocumentTextResponse = S.suspend(() =>
@@ -1375,16 +1519,16 @@ export const DetectDocumentTextResponse = S.suspend(() =>
 }) as any as S.Schema<DetectDocumentTextResponse>;
 export interface GetLendingAnalysisSummaryResponse {
   DocumentMetadata?: DocumentMetadata;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   Summary?: LendingSummary;
-  Warnings?: Warnings;
+  Warnings?: Warning[];
   StatusMessage?: string;
   AnalyzeLendingModelVersion?: string;
 }
 export const GetLendingAnalysisSummaryResponse = S.suspend(() =>
   S.Struct({
     DocumentMetadata: S.optional(DocumentMetadata),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     Summary: S.optional(LendingSummary),
     Warnings: S.optional(Warnings),
     StatusMessage: S.optional(S.String),
@@ -1410,7 +1554,7 @@ export const IdentityDocumentFieldList = S.Array(IdentityDocumentField);
 export interface LendingField {
   Type?: string;
   KeyDetection?: LendingDetection;
-  ValueDetections?: LendingDetectionList;
+  ValueDetections?: LendingDetection[];
 }
 export const LendingField = S.suspend(() =>
   S.Struct({
@@ -1423,8 +1567,8 @@ export type LendingFieldList = LendingField[];
 export const LendingFieldList = S.Array(LendingField);
 export interface IdentityDocument {
   DocumentIndex?: number;
-  IdentityDocumentFields?: IdentityDocumentFieldList;
-  Blocks?: BlockList;
+  IdentityDocumentFields?: IdentityDocumentField[];
+  Blocks?: Block[];
 }
 export const IdentityDocument = S.suspend(() =>
   S.Struct({
@@ -1438,8 +1582,8 @@ export const IdentityDocument = S.suspend(() =>
 export type IdentityDocumentList = IdentityDocument[];
 export const IdentityDocumentList = S.Array(IdentityDocument);
 export interface LendingDocument {
-  LendingFields?: LendingFieldList;
-  SignatureDetections?: SignatureDetectionList;
+  LendingFields?: LendingField[];
+  SignatureDetections?: SignatureDetection[];
 }
 export const LendingDocument = S.suspend(() =>
   S.Struct({
@@ -1450,7 +1594,7 @@ export const LendingDocument = S.suspend(() =>
   identifier: "LendingDocument",
 }) as any as S.Schema<LendingDocument>;
 export interface AnalyzeIDResponse {
-  IdentityDocuments?: IdentityDocumentList;
+  IdentityDocuments?: IdentityDocument[];
   DocumentMetadata?: DocumentMetadata;
   AnalyzeIDModelVersion?: string;
 }
@@ -1480,7 +1624,7 @@ export const ExtractionList = S.Array(Extraction);
 export interface LendingResult {
   Page?: number;
   PageClassification?: PageClassification;
-  Extractions?: ExtractionList;
+  Extractions?: Extraction[];
 }
 export const LendingResult = S.suspend(() =>
   S.Struct({
@@ -1495,17 +1639,17 @@ export type LendingResultList = LendingResult[];
 export const LendingResultList = S.Array(LendingResult);
 export interface GetLendingAnalysisResponse {
   DocumentMetadata?: DocumentMetadata;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   NextToken?: string;
-  Results?: LendingResultList;
-  Warnings?: Warnings;
+  Results?: LendingResult[];
+  Warnings?: Warning[];
   StatusMessage?: string;
   AnalyzeLendingModelVersion?: string;
 }
 export const GetLendingAnalysisResponse = S.suspend(() =>
   S.Struct({
     DocumentMetadata: S.optional(DocumentMetadata),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     NextToken: S.optional(S.String),
     Results: S.optional(LendingResultList),
     Warnings: S.optional(Warnings),
@@ -1658,7 +1802,7 @@ export class UnsupportedDocumentException extends S.TaggedError<UnsupportedDocum
  */
 export const getDocumentAnalysis: (
   input: GetDocumentAnalysisRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDocumentAnalysisResponse,
   | AccessDeniedException
   | InternalServerError
@@ -1702,7 +1846,7 @@ export const getDocumentAnalysis: (
  */
 export const getLendingAnalysisSummary: (
   input: GetLendingAnalysisSummaryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLendingAnalysisSummaryResponse,
   | AccessDeniedException
   | InternalServerError
@@ -1760,7 +1904,7 @@ export const getLendingAnalysisSummary: (
  */
 export const getDocumentTextDetection: (
   input: GetDocumentTextDetectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDocumentTextDetectionResponse,
   | AccessDeniedException
   | InternalServerError
@@ -1810,7 +1954,7 @@ export const getDocumentTextDetection: (
  */
 export const getExpenseAnalysis: (
   input: GetExpenseAnalysisRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetExpenseAnalysisResponse,
   | AccessDeniedException
   | InternalServerError
@@ -1853,7 +1997,7 @@ export const getExpenseAnalysis: (
  */
 export const getLendingAnalysis: (
   input: GetLendingAnalysisRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLendingAnalysisResponse,
   | AccessDeniedException
   | InternalServerError
@@ -1885,7 +2029,7 @@ export const getLendingAnalysis: (
 export const listAdapters: {
   (
     input: ListAdaptersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAdaptersResponse,
     | AccessDeniedException
     | InternalServerError
@@ -1898,7 +2042,7 @@ export const listAdapters: {
   >;
   pages: (
     input: ListAdaptersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAdaptersResponse,
     | AccessDeniedException
     | InternalServerError
@@ -1911,7 +2055,7 @@ export const listAdapters: {
   >;
   items: (
     input: ListAdaptersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AdapterOverview,
     | AccessDeniedException
     | InternalServerError
@@ -1956,7 +2100,7 @@ export const listAdapters: {
  */
 export const analyzeExpense: (
   input: AnalyzeExpenseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AnalyzeExpenseResponse,
   | AccessDeniedException
   | BadDocumentException
@@ -1991,7 +2135,7 @@ export const analyzeExpense: (
  */
 export const getAdapterVersion: (
   input: GetAdapterVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAdapterVersionResponse,
   | AccessDeniedException
   | InternalServerError
@@ -2021,7 +2165,7 @@ export const getAdapterVersion: (
 export const listAdapterVersions: {
   (
     input: ListAdapterVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAdapterVersionsResponse,
     | AccessDeniedException
     | InternalServerError
@@ -2035,7 +2179,7 @@ export const listAdapterVersions: {
   >;
   pages: (
     input: ListAdapterVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAdapterVersionsResponse,
     | AccessDeniedException
     | InternalServerError
@@ -2049,7 +2193,7 @@ export const listAdapterVersions: {
   >;
   items: (
     input: ListAdapterVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AdapterVersionOverview,
     | AccessDeniedException
     | InternalServerError
@@ -2086,7 +2230,7 @@ export const listAdapterVersions: {
  */
 export const updateAdapter: (
   input: UpdateAdapterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAdapterResponse,
   | AccessDeniedException
   | ConflictException
@@ -2118,7 +2262,7 @@ export const updateAdapter: (
  */
 export const deleteAdapterVersion: (
   input: DeleteAdapterVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAdapterVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2149,7 +2293,7 @@ export const deleteAdapterVersion: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerError
@@ -2178,7 +2322,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerError
@@ -2209,7 +2353,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerError
@@ -2238,7 +2382,7 @@ export const untagResource: (
  */
 export const deleteAdapter: (
   input: DeleteAdapterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAdapterResponse,
   | AccessDeniedException
   | ConflictException
@@ -2272,7 +2416,7 @@ export const deleteAdapter: (
  */
 export const createAdapterVersion: (
   input: CreateAdapterVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAdapterVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2314,7 +2458,7 @@ export const createAdapterVersion: (
  */
 export const getAdapter: (
   input: GetAdapterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAdapterResponse,
   | AccessDeniedException
   | InternalServerError
@@ -2347,7 +2491,7 @@ export const getAdapter: (
  */
 export const createAdapter: (
   input: CreateAdapterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAdapterResponse,
   | AccessDeniedException
   | ConflictException
@@ -2385,7 +2529,7 @@ export const createAdapter: (
  */
 export const analyzeID: (
   input: AnalyzeIDRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AnalyzeIDResponse,
   | AccessDeniedException
   | BadDocumentException
@@ -2430,7 +2574,7 @@ export const analyzeID: (
  */
 export const detectDocumentText: (
   input: DetectDocumentTextRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetectDocumentTextResponse,
   | AccessDeniedException
   | BadDocumentException
@@ -2478,7 +2622,7 @@ export const detectDocumentText: (
  */
 export const startExpenseAnalysis: (
   input: StartExpenseAnalysisRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartExpenseAnalysisResponse,
   | AccessDeniedException
   | BadDocumentException
@@ -2543,7 +2687,7 @@ export const startExpenseAnalysis: (
  */
 export const startLendingAnalysis: (
   input: StartLendingAnalysisRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartLendingAnalysisResponse,
   | AccessDeniedException
   | BadDocumentException
@@ -2598,7 +2742,7 @@ export const startLendingAnalysis: (
  */
 export const startDocumentAnalysis: (
   input: StartDocumentAnalysisRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartDocumentAnalysisResponse,
   | AccessDeniedException
   | BadDocumentException
@@ -2653,7 +2797,7 @@ export const startDocumentAnalysis: (
  */
 export const startDocumentTextDetection: (
   input: StartDocumentTextDetectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartDocumentTextDetectionResponse,
   | AccessDeniedException
   | BadDocumentException
@@ -2735,7 +2879,7 @@ export const startDocumentTextDetection: (
  */
 export const analyzeDocument: (
   input: AnalyzeDocumentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AnalyzeDocumentResponse,
   | AccessDeniedException
   | BadDocumentException

@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -75,12 +75,12 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type ClusterName = string;
-export type JwtToken = string | Redacted.Redacted<string>;
+export type JwtToken = string | redacted.Redacted<string>;
 
 //# Schemas
 export interface AssumeRoleForPodIdentityRequest {
   clusterName: string;
-  token: string | Redacted.Redacted<string>;
+  token: string | redacted.Redacted<string>;
 }
 export const AssumeRoleForPodIdentityRequest = S.suspend(() =>
   S.Struct({
@@ -209,7 +209,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
  */
 export const assumeRoleForPodIdentity: (
   input: AssumeRoleForPodIdentityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssumeRoleForPodIdentityResponse,
   | AccessDeniedException
   | ExpiredTokenException

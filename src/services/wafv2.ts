@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -167,12 +167,46 @@ export type SuccessValue = string;
 export type FailureValue = string;
 
 //# Schemas
+export type Scope = "CLOUDFRONT" | "REGIONAL";
+export const Scope = S.Literal("CLOUDFRONT", "REGIONAL");
 export type APIKeyTokenDomains = string[];
 export const APIKeyTokenDomains = S.Array(S.String);
+export type IPAddressVersion = "IPV4" | "IPV6";
+export const IPAddressVersion = S.Literal("IPV4", "IPV6");
 export type IPAddresses = string[];
 export const IPAddresses = S.Array(S.String);
 export type TokenDomains = string[];
 export const TokenDomains = S.Array(S.String);
+export type LogType = "WAF_LOGS";
+export const LogType = S.Literal("WAF_LOGS");
+export type LogScope =
+  | "CUSTOMER"
+  | "SECURITY_LAKE"
+  | "CLOUDWATCH_TELEMETRY_RULE_MANAGED";
+export const LogScope = S.Literal(
+  "CUSTOMER",
+  "SECURITY_LAKE",
+  "CLOUDWATCH_TELEMETRY_RULE_MANAGED",
+);
+export type Platform = "IOS" | "ANDROID";
+export const Platform = S.Literal("IOS", "ANDROID");
+export type ResourceType =
+  | "APPLICATION_LOAD_BALANCER"
+  | "API_GATEWAY"
+  | "APPSYNC"
+  | "COGNITO_USER_POOL"
+  | "APP_RUNNER_SERVICE"
+  | "VERIFIED_ACCESS_INSTANCE"
+  | "AMPLIFY";
+export const ResourceType = S.Literal(
+  "APPLICATION_LOAD_BALANCER",
+  "API_GATEWAY",
+  "APPSYNC",
+  "COGNITO_USER_POOL",
+  "APP_RUNNER_SERVICE",
+  "VERIFIED_ACCESS_INSTANCE",
+  "AMPLIFY",
+);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface AssociateWebACLRequest {
@@ -201,11 +235,11 @@ export const AssociateWebACLResponse = S.suspend(() =>
   identifier: "AssociateWebACLResponse",
 }) as any as S.Schema<AssociateWebACLResponse>;
 export interface CreateAPIKeyRequest {
-  Scope: string;
-  TokenDomains: APIKeyTokenDomains;
+  Scope: Scope;
+  TokenDomains: string[];
 }
 export const CreateAPIKeyRequest = S.suspend(() =>
-  S.Struct({ Scope: S.String, TokenDomains: APIKeyTokenDomains }).pipe(
+  S.Struct({ Scope: Scope, TokenDomains: APIKeyTokenDomains }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -220,11 +254,11 @@ export const CreateAPIKeyRequest = S.suspend(() =>
   identifier: "CreateAPIKeyRequest",
 }) as any as S.Schema<CreateAPIKeyRequest>;
 export interface DeleteAPIKeyRequest {
-  Scope: string;
+  Scope: Scope;
   APIKey: string;
 }
 export const DeleteAPIKeyRequest = S.suspend(() =>
-  S.Struct({ Scope: S.String, APIKey: S.String }).pipe(
+  S.Struct({ Scope: Scope, APIKey: S.String }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -265,14 +299,14 @@ export const DeleteFirewallManagerRuleGroupsRequest = S.suspend(() =>
 }) as any as S.Schema<DeleteFirewallManagerRuleGroupsRequest>;
 export interface DeleteIPSetRequest {
   Name: string;
-  Scope: string;
+  Scope: Scope;
   Id: string;
   LockToken: string;
 }
 export const DeleteIPSetRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Scope: S.String,
+    Scope: Scope,
     Id: S.String,
     LockToken: S.String,
   }).pipe(
@@ -297,14 +331,14 @@ export const DeleteIPSetResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteIPSetResponse>;
 export interface DeleteLoggingConfigurationRequest {
   ResourceArn: string;
-  LogType?: string;
-  LogScope?: string;
+  LogType?: LogType;
+  LogScope?: LogScope;
 }
 export const DeleteLoggingConfigurationRequest = S.suspend(() =>
   S.Struct({
     ResourceArn: S.String,
-    LogType: S.optional(S.String),
-    LogScope: S.optional(S.String),
+    LogType: S.optional(LogType),
+    LogScope: S.optional(LogScope),
   }).pipe(
     T.all(
       ns,
@@ -351,14 +385,14 @@ export const DeletePermissionPolicyResponse = S.suspend(() =>
 }) as any as S.Schema<DeletePermissionPolicyResponse>;
 export interface DeleteRegexPatternSetRequest {
   Name: string;
-  Scope: string;
+  Scope: Scope;
   Id: string;
   LockToken: string;
 }
 export const DeleteRegexPatternSetRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Scope: S.String,
+    Scope: Scope,
     Id: S.String,
     LockToken: S.String,
   }).pipe(
@@ -383,14 +417,14 @@ export const DeleteRegexPatternSetResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteRegexPatternSetResponse>;
 export interface DeleteRuleGroupRequest {
   Name: string;
-  Scope: string;
+  Scope: Scope;
   Id: string;
   LockToken: string;
 }
 export const DeleteRuleGroupRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Scope: S.String,
+    Scope: Scope,
     Id: S.String,
     LockToken: S.String,
   }).pipe(
@@ -415,14 +449,14 @@ export const DeleteRuleGroupResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteRuleGroupResponse>;
 export interface DeleteWebACLRequest {
   Name: string;
-  Scope: string;
+  Scope: Scope;
   Id: string;
   LockToken: string;
 }
 export const DeleteWebACLRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Scope: S.String,
+    Scope: Scope,
     Id: S.String,
     LockToken: S.String,
   }).pipe(
@@ -446,10 +480,10 @@ export const DeleteWebACLResponse = S.suspend(() =>
   identifier: "DeleteWebACLResponse",
 }) as any as S.Schema<DeleteWebACLResponse>;
 export interface DescribeAllManagedProductsRequest {
-  Scope: string;
+  Scope: Scope;
 }
 export const DescribeAllManagedProductsRequest = S.suspend(() =>
-  S.Struct({ Scope: S.String }).pipe(
+  S.Struct({ Scope: Scope }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -465,10 +499,10 @@ export const DescribeAllManagedProductsRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeAllManagedProductsRequest>;
 export interface DescribeManagedProductsByVendorRequest {
   VendorName: string;
-  Scope: string;
+  Scope: Scope;
 }
 export const DescribeManagedProductsByVendorRequest = S.suspend(() =>
-  S.Struct({ VendorName: S.String, Scope: S.String }).pipe(
+  S.Struct({ VendorName: S.String, Scope: Scope }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -485,14 +519,14 @@ export const DescribeManagedProductsByVendorRequest = S.suspend(() =>
 export interface DescribeManagedRuleGroupRequest {
   VendorName: string;
   Name: string;
-  Scope: string;
+  Scope: Scope;
   VersionName?: string;
 }
 export const DescribeManagedRuleGroupRequest = S.suspend(() =>
   S.Struct({
     VendorName: S.String,
     Name: S.String,
-    Scope: S.String,
+    Scope: Scope,
     VersionName: S.optional(S.String),
   }).pipe(
     T.all(
@@ -533,11 +567,11 @@ export const DisassociateWebACLResponse = S.suspend(() =>
   identifier: "DisassociateWebACLResponse",
 }) as any as S.Schema<DisassociateWebACLResponse>;
 export interface GenerateMobileSdkReleaseUrlRequest {
-  Platform: string;
+  Platform: Platform;
   ReleaseVersion: string;
 }
 export const GenerateMobileSdkReleaseUrlRequest = S.suspend(() =>
-  S.Struct({ Platform: S.String, ReleaseVersion: S.String }).pipe(
+  S.Struct({ Platform: Platform, ReleaseVersion: S.String }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -552,11 +586,11 @@ export const GenerateMobileSdkReleaseUrlRequest = S.suspend(() =>
   identifier: "GenerateMobileSdkReleaseUrlRequest",
 }) as any as S.Schema<GenerateMobileSdkReleaseUrlRequest>;
 export interface GetDecryptedAPIKeyRequest {
-  Scope: string;
+  Scope: Scope;
   APIKey: string;
 }
 export const GetDecryptedAPIKeyRequest = S.suspend(() =>
-  S.Struct({ Scope: S.String, APIKey: S.String }).pipe(
+  S.Struct({ Scope: Scope, APIKey: S.String }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -572,11 +606,11 @@ export const GetDecryptedAPIKeyRequest = S.suspend(() =>
 }) as any as S.Schema<GetDecryptedAPIKeyRequest>;
 export interface GetIPSetRequest {
   Name: string;
-  Scope: string;
+  Scope: Scope;
   Id: string;
 }
 export const GetIPSetRequest = S.suspend(() =>
-  S.Struct({ Name: S.String, Scope: S.String, Id: S.String }).pipe(
+  S.Struct({ Name: S.String, Scope: Scope, Id: S.String }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -592,14 +626,14 @@ export const GetIPSetRequest = S.suspend(() =>
 }) as any as S.Schema<GetIPSetRequest>;
 export interface GetLoggingConfigurationRequest {
   ResourceArn: string;
-  LogType?: string;
-  LogScope?: string;
+  LogType?: LogType;
+  LogScope?: LogScope;
 }
 export const GetLoggingConfigurationRequest = S.suspend(() =>
   S.Struct({
     ResourceArn: S.String,
-    LogType: S.optional(S.String),
-    LogScope: S.optional(S.String),
+    LogType: S.optional(LogType),
+    LogScope: S.optional(LogScope),
   }).pipe(
     T.all(
       ns,
@@ -616,11 +650,11 @@ export const GetLoggingConfigurationRequest = S.suspend(() =>
 }) as any as S.Schema<GetLoggingConfigurationRequest>;
 export interface GetManagedRuleSetRequest {
   Name: string;
-  Scope: string;
+  Scope: Scope;
   Id: string;
 }
 export const GetManagedRuleSetRequest = S.suspend(() =>
-  S.Struct({ Name: S.String, Scope: S.String, Id: S.String }).pipe(
+  S.Struct({ Name: S.String, Scope: Scope, Id: S.String }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -635,11 +669,11 @@ export const GetManagedRuleSetRequest = S.suspend(() =>
   identifier: "GetManagedRuleSetRequest",
 }) as any as S.Schema<GetManagedRuleSetRequest>;
 export interface GetMobileSdkReleaseRequest {
-  Platform: string;
+  Platform: Platform;
   ReleaseVersion: string;
 }
 export const GetMobileSdkReleaseRequest = S.suspend(() =>
-  S.Struct({ Platform: S.String, ReleaseVersion: S.String }).pipe(
+  S.Struct({ Platform: Platform, ReleaseVersion: S.String }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -672,7 +706,7 @@ export const GetPermissionPolicyRequest = S.suspend(() =>
   identifier: "GetPermissionPolicyRequest",
 }) as any as S.Schema<GetPermissionPolicyRequest>;
 export interface GetRateBasedStatementManagedKeysRequest {
-  Scope: string;
+  Scope: Scope;
   WebACLName: string;
   WebACLId: string;
   RuleGroupRuleName?: string;
@@ -680,7 +714,7 @@ export interface GetRateBasedStatementManagedKeysRequest {
 }
 export const GetRateBasedStatementManagedKeysRequest = S.suspend(() =>
   S.Struct({
-    Scope: S.String,
+    Scope: Scope,
     WebACLName: S.String,
     WebACLId: S.String,
     RuleGroupRuleName: S.optional(S.String),
@@ -701,11 +735,11 @@ export const GetRateBasedStatementManagedKeysRequest = S.suspend(() =>
 }) as any as S.Schema<GetRateBasedStatementManagedKeysRequest>;
 export interface GetRegexPatternSetRequest {
   Name: string;
-  Scope: string;
+  Scope: Scope;
   Id: string;
 }
 export const GetRegexPatternSetRequest = S.suspend(() =>
-  S.Struct({ Name: S.String, Scope: S.String, Id: S.String }).pipe(
+  S.Struct({ Name: S.String, Scope: Scope, Id: S.String }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -721,14 +755,14 @@ export const GetRegexPatternSetRequest = S.suspend(() =>
 }) as any as S.Schema<GetRegexPatternSetRequest>;
 export interface GetRuleGroupRequest {
   Name?: string;
-  Scope?: string;
+  Scope?: Scope;
   Id?: string;
   ARN?: string;
 }
 export const GetRuleGroupRequest = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    Scope: S.optional(S.String),
+    Scope: S.optional(Scope),
     Id: S.optional(S.String),
     ARN: S.optional(S.String),
   }).pipe(
@@ -747,14 +781,14 @@ export const GetRuleGroupRequest = S.suspend(() =>
 }) as any as S.Schema<GetRuleGroupRequest>;
 export interface GetWebACLRequest {
   Name?: string;
-  Scope?: string;
+  Scope?: Scope;
   Id?: string;
   ARN?: string;
 }
 export const GetWebACLRequest = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    Scope: S.optional(S.String),
+    Scope: S.optional(Scope),
     Id: S.optional(S.String),
     ARN: S.optional(S.String),
   }).pipe(
@@ -790,13 +824,13 @@ export const GetWebACLForResourceRequest = S.suspend(() =>
   identifier: "GetWebACLForResourceRequest",
 }) as any as S.Schema<GetWebACLForResourceRequest>;
 export interface ListAPIKeysRequest {
-  Scope: string;
+  Scope: Scope;
   NextMarker?: string;
   Limit?: number;
 }
 export const ListAPIKeysRequest = S.suspend(() =>
   S.Struct({
-    Scope: S.String,
+    Scope: Scope,
     NextMarker: S.optional(S.String),
     Limit: S.optional(S.Number),
   }).pipe(
@@ -814,13 +848,13 @@ export const ListAPIKeysRequest = S.suspend(() =>
   identifier: "ListAPIKeysRequest",
 }) as any as S.Schema<ListAPIKeysRequest>;
 export interface ListAvailableManagedRuleGroupsRequest {
-  Scope: string;
+  Scope: Scope;
   NextMarker?: string;
   Limit?: number;
 }
 export const ListAvailableManagedRuleGroupsRequest = S.suspend(() =>
   S.Struct({
-    Scope: S.String,
+    Scope: Scope,
     NextMarker: S.optional(S.String),
     Limit: S.optional(S.Number),
   }).pipe(
@@ -840,7 +874,7 @@ export const ListAvailableManagedRuleGroupsRequest = S.suspend(() =>
 export interface ListAvailableManagedRuleGroupVersionsRequest {
   VendorName: string;
   Name: string;
-  Scope: string;
+  Scope: Scope;
   NextMarker?: string;
   Limit?: number;
 }
@@ -848,7 +882,7 @@ export const ListAvailableManagedRuleGroupVersionsRequest = S.suspend(() =>
   S.Struct({
     VendorName: S.String,
     Name: S.String,
-    Scope: S.String,
+    Scope: Scope,
     NextMarker: S.optional(S.String),
     Limit: S.optional(S.Number),
   }).pipe(
@@ -866,13 +900,13 @@ export const ListAvailableManagedRuleGroupVersionsRequest = S.suspend(() =>
   identifier: "ListAvailableManagedRuleGroupVersionsRequest",
 }) as any as S.Schema<ListAvailableManagedRuleGroupVersionsRequest>;
 export interface ListIPSetsRequest {
-  Scope: string;
+  Scope: Scope;
   NextMarker?: string;
   Limit?: number;
 }
 export const ListIPSetsRequest = S.suspend(() =>
   S.Struct({
-    Scope: S.String,
+    Scope: Scope,
     NextMarker: S.optional(S.String),
     Limit: S.optional(S.Number),
   }).pipe(
@@ -890,17 +924,17 @@ export const ListIPSetsRequest = S.suspend(() =>
   identifier: "ListIPSetsRequest",
 }) as any as S.Schema<ListIPSetsRequest>;
 export interface ListLoggingConfigurationsRequest {
-  Scope: string;
+  Scope: Scope;
   NextMarker?: string;
   Limit?: number;
-  LogScope?: string;
+  LogScope?: LogScope;
 }
 export const ListLoggingConfigurationsRequest = S.suspend(() =>
   S.Struct({
-    Scope: S.String,
+    Scope: Scope,
     NextMarker: S.optional(S.String),
     Limit: S.optional(S.Number),
-    LogScope: S.optional(S.String),
+    LogScope: S.optional(LogScope),
   }).pipe(
     T.all(
       ns,
@@ -916,13 +950,13 @@ export const ListLoggingConfigurationsRequest = S.suspend(() =>
   identifier: "ListLoggingConfigurationsRequest",
 }) as any as S.Schema<ListLoggingConfigurationsRequest>;
 export interface ListManagedRuleSetsRequest {
-  Scope: string;
+  Scope: Scope;
   NextMarker?: string;
   Limit?: number;
 }
 export const ListManagedRuleSetsRequest = S.suspend(() =>
   S.Struct({
-    Scope: S.String,
+    Scope: Scope,
     NextMarker: S.optional(S.String),
     Limit: S.optional(S.Number),
   }).pipe(
@@ -940,13 +974,13 @@ export const ListManagedRuleSetsRequest = S.suspend(() =>
   identifier: "ListManagedRuleSetsRequest",
 }) as any as S.Schema<ListManagedRuleSetsRequest>;
 export interface ListMobileSdkReleasesRequest {
-  Platform: string;
+  Platform: Platform;
   NextMarker?: string;
   Limit?: number;
 }
 export const ListMobileSdkReleasesRequest = S.suspend(() =>
   S.Struct({
-    Platform: S.String,
+    Platform: Platform,
     NextMarker: S.optional(S.String),
     Limit: S.optional(S.Number),
   }).pipe(
@@ -964,13 +998,13 @@ export const ListMobileSdkReleasesRequest = S.suspend(() =>
   identifier: "ListMobileSdkReleasesRequest",
 }) as any as S.Schema<ListMobileSdkReleasesRequest>;
 export interface ListRegexPatternSetsRequest {
-  Scope: string;
+  Scope: Scope;
   NextMarker?: string;
   Limit?: number;
 }
 export const ListRegexPatternSetsRequest = S.suspend(() =>
   S.Struct({
-    Scope: S.String,
+    Scope: Scope,
     NextMarker: S.optional(S.String),
     Limit: S.optional(S.Number),
   }).pipe(
@@ -989,10 +1023,13 @@ export const ListRegexPatternSetsRequest = S.suspend(() =>
 }) as any as S.Schema<ListRegexPatternSetsRequest>;
 export interface ListResourcesForWebACLRequest {
   WebACLArn: string;
-  ResourceType?: string;
+  ResourceType?: ResourceType;
 }
 export const ListResourcesForWebACLRequest = S.suspend(() =>
-  S.Struct({ WebACLArn: S.String, ResourceType: S.optional(S.String) }).pipe(
+  S.Struct({
+    WebACLArn: S.String,
+    ResourceType: S.optional(ResourceType),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1007,13 +1044,13 @@ export const ListResourcesForWebACLRequest = S.suspend(() =>
   identifier: "ListResourcesForWebACLRequest",
 }) as any as S.Schema<ListResourcesForWebACLRequest>;
 export interface ListRuleGroupsRequest {
-  Scope: string;
+  Scope: Scope;
   NextMarker?: string;
   Limit?: number;
 }
 export const ListRuleGroupsRequest = S.suspend(() =>
   S.Struct({
-    Scope: S.String,
+    Scope: Scope,
     NextMarker: S.optional(S.String),
     Limit: S.optional(S.Number),
   }).pipe(
@@ -1055,13 +1092,13 @@ export const ListTagsForResourceRequest = S.suspend(() =>
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListWebACLsRequest {
-  Scope: string;
+  Scope: Scope;
   NextMarker?: string;
   Limit?: number;
 }
 export const ListWebACLsRequest = S.suspend(() =>
   S.Struct({
-    Scope: S.String,
+    Scope: Scope,
     NextMarker: S.optional(S.String),
     Limit: S.optional(S.Number),
   }).pipe(
@@ -1114,7 +1151,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagResourceRequest {
   ResourceARN: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
@@ -1139,7 +1176,7 @@ export const TagResourceResponse = S.suspend(() =>
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceARN: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
@@ -1164,16 +1201,16 @@ export const UntagResourceResponse = S.suspend(() =>
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateIPSetRequest {
   Name: string;
-  Scope: string;
+  Scope: Scope;
   Id: string;
   Description?: string;
-  Addresses: IPAddresses;
+  Addresses: string[];
   LockToken: string;
 }
 export const UpdateIPSetRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Scope: S.String,
+    Scope: Scope,
     Id: S.String,
     Description: S.optional(S.String),
     Addresses: IPAddresses,
@@ -1194,7 +1231,7 @@ export const UpdateIPSetRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateIPSetRequest>;
 export interface UpdateManagedRuleSetVersionExpiryDateRequest {
   Name: string;
-  Scope: string;
+  Scope: Scope;
   Id: string;
   LockToken: string;
   VersionToExpire: string;
@@ -1203,7 +1240,7 @@ export interface UpdateManagedRuleSetVersionExpiryDateRequest {
 export const UpdateManagedRuleSetVersionExpiryDateRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Scope: S.String,
+    Scope: Scope,
     Id: S.String,
     LockToken: S.String,
     VersionToExpire: S.String,
@@ -1232,16 +1269,16 @@ export type RegularExpressionList = Regex[];
 export const RegularExpressionList = S.Array(Regex);
 export interface UpdateRegexPatternSetRequest {
   Name: string;
-  Scope: string;
+  Scope: Scope;
   Id: string;
   Description?: string;
-  RegularExpressionList: RegularExpressionList;
+  RegularExpressionList: Regex[];
   LockToken: string;
 }
 export const UpdateRegexPatternSetRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Scope: S.String,
+    Scope: Scope,
     Id: S.String,
     Description: S.optional(S.String),
     RegularExpressionList: RegularExpressionList,
@@ -1286,11 +1323,13 @@ export interface QueryString {}
 export const QueryString = S.suspend(() => S.Struct({})).annotations({
   identifier: "QueryString",
 }) as any as S.Schema<QueryString>;
+export type OversizeHandling = "CONTINUE" | "MATCH" | "NO_MATCH";
+export const OversizeHandling = S.Literal("CONTINUE", "MATCH", "NO_MATCH");
 export interface Body {
-  OversizeHandling?: string;
+  OversizeHandling?: OversizeHandling;
 }
 export const Body = S.suspend(() =>
-  S.Struct({ OversizeHandling: S.optional(S.String) }),
+  S.Struct({ OversizeHandling: S.optional(OversizeHandling) }),
 ).annotations({ identifier: "Body" }) as any as S.Schema<Body>;
 export interface Method {}
 export const Method = S.suspend(() => S.Struct({})).annotations({
@@ -1304,7 +1343,7 @@ export type JsonPointerPaths = string[];
 export const JsonPointerPaths = S.Array(S.String);
 export interface JsonMatchPattern {
   All?: All;
-  IncludedPaths?: JsonPointerPaths;
+  IncludedPaths?: string[];
 }
 export const JsonMatchPattern = S.suspend(() =>
   S.Struct({
@@ -1314,26 +1353,37 @@ export const JsonMatchPattern = S.suspend(() =>
 ).annotations({
   identifier: "JsonMatchPattern",
 }) as any as S.Schema<JsonMatchPattern>;
+export type JsonMatchScope = "ALL" | "KEY" | "VALUE";
+export const JsonMatchScope = S.Literal("ALL", "KEY", "VALUE");
+export type BodyParsingFallbackBehavior =
+  | "MATCH"
+  | "NO_MATCH"
+  | "EVALUATE_AS_STRING";
+export const BodyParsingFallbackBehavior = S.Literal(
+  "MATCH",
+  "NO_MATCH",
+  "EVALUATE_AS_STRING",
+);
 export interface JsonBody {
   MatchPattern: JsonMatchPattern;
-  MatchScope: string;
-  InvalidFallbackBehavior?: string;
-  OversizeHandling?: string;
+  MatchScope: JsonMatchScope;
+  InvalidFallbackBehavior?: BodyParsingFallbackBehavior;
+  OversizeHandling?: OversizeHandling;
 }
 export const JsonBody = S.suspend(() =>
   S.Struct({
     MatchPattern: JsonMatchPattern,
-    MatchScope: S.String,
-    InvalidFallbackBehavior: S.optional(S.String),
-    OversizeHandling: S.optional(S.String),
+    MatchScope: JsonMatchScope,
+    InvalidFallbackBehavior: S.optional(BodyParsingFallbackBehavior),
+    OversizeHandling: S.optional(OversizeHandling),
   }),
 ).annotations({ identifier: "JsonBody" }) as any as S.Schema<JsonBody>;
 export type HeaderNames = string[];
 export const HeaderNames = S.Array(S.String);
 export interface HeaderMatchPattern {
   All?: All;
-  IncludedHeaders?: HeaderNames;
-  ExcludedHeaders?: HeaderNames;
+  IncludedHeaders?: string[];
+  ExcludedHeaders?: string[];
 }
 export const HeaderMatchPattern = S.suspend(() =>
   S.Struct({
@@ -1344,24 +1394,26 @@ export const HeaderMatchPattern = S.suspend(() =>
 ).annotations({
   identifier: "HeaderMatchPattern",
 }) as any as S.Schema<HeaderMatchPattern>;
+export type MapMatchScope = "ALL" | "KEY" | "VALUE";
+export const MapMatchScope = S.Literal("ALL", "KEY", "VALUE");
 export interface Headers {
   MatchPattern: HeaderMatchPattern;
-  MatchScope: string;
-  OversizeHandling: string;
+  MatchScope: MapMatchScope;
+  OversizeHandling: OversizeHandling;
 }
 export const Headers = S.suspend(() =>
   S.Struct({
     MatchPattern: HeaderMatchPattern,
-    MatchScope: S.String,
-    OversizeHandling: S.String,
+    MatchScope: MapMatchScope,
+    OversizeHandling: OversizeHandling,
   }),
 ).annotations({ identifier: "Headers" }) as any as S.Schema<Headers>;
 export type CookieNames = string[];
 export const CookieNames = S.Array(S.String);
 export interface CookieMatchPattern {
   All?: All;
-  IncludedCookies?: CookieNames;
-  ExcludedCookies?: CookieNames;
+  IncludedCookies?: string[];
+  ExcludedCookies?: string[];
 }
 export const CookieMatchPattern = S.suspend(() =>
   S.Struct({
@@ -1374,43 +1426,45 @@ export const CookieMatchPattern = S.suspend(() =>
 }) as any as S.Schema<CookieMatchPattern>;
 export interface Cookies {
   MatchPattern: CookieMatchPattern;
-  MatchScope: string;
-  OversizeHandling: string;
+  MatchScope: MapMatchScope;
+  OversizeHandling: OversizeHandling;
 }
 export const Cookies = S.suspend(() =>
   S.Struct({
     MatchPattern: CookieMatchPattern,
-    MatchScope: S.String,
-    OversizeHandling: S.String,
+    MatchScope: MapMatchScope,
+    OversizeHandling: OversizeHandling,
   }),
 ).annotations({ identifier: "Cookies" }) as any as S.Schema<Cookies>;
 export interface HeaderOrder {
-  OversizeHandling: string;
+  OversizeHandling: OversizeHandling;
 }
 export const HeaderOrder = S.suspend(() =>
-  S.Struct({ OversizeHandling: S.String }),
+  S.Struct({ OversizeHandling: OversizeHandling }),
 ).annotations({ identifier: "HeaderOrder" }) as any as S.Schema<HeaderOrder>;
+export type FallbackBehavior = "MATCH" | "NO_MATCH";
+export const FallbackBehavior = S.Literal("MATCH", "NO_MATCH");
 export interface JA3Fingerprint {
-  FallbackBehavior: string;
+  FallbackBehavior: FallbackBehavior;
 }
 export const JA3Fingerprint = S.suspend(() =>
-  S.Struct({ FallbackBehavior: S.String }),
+  S.Struct({ FallbackBehavior: FallbackBehavior }),
 ).annotations({
   identifier: "JA3Fingerprint",
 }) as any as S.Schema<JA3Fingerprint>;
 export interface JA4Fingerprint {
-  FallbackBehavior: string;
+  FallbackBehavior: FallbackBehavior;
 }
 export const JA4Fingerprint = S.suspend(() =>
-  S.Struct({ FallbackBehavior: S.String }),
+  S.Struct({ FallbackBehavior: FallbackBehavior }),
 ).annotations({
   identifier: "JA4Fingerprint",
 }) as any as S.Schema<JA4Fingerprint>;
 export interface UriFragment {
-  FallbackBehavior?: string;
+  FallbackBehavior?: FallbackBehavior;
 }
 export const UriFragment = S.suspend(() =>
-  S.Struct({ FallbackBehavior: S.optional(S.String) }),
+  S.Struct({ FallbackBehavior: S.optional(FallbackBehavior) }),
 ).annotations({ identifier: "UriFragment" }) as any as S.Schema<UriFragment>;
 export interface FieldToMatch {
   SingleHeader?: SingleHeader;
@@ -1446,50 +1500,110 @@ export const FieldToMatch = S.suspend(() =>
     UriFragment: S.optional(UriFragment),
   }),
 ).annotations({ identifier: "FieldToMatch" }) as any as S.Schema<FieldToMatch>;
+export type TextTransformationType =
+  | "NONE"
+  | "COMPRESS_WHITE_SPACE"
+  | "HTML_ENTITY_DECODE"
+  | "LOWERCASE"
+  | "CMD_LINE"
+  | "URL_DECODE"
+  | "BASE64_DECODE"
+  | "HEX_DECODE"
+  | "MD5"
+  | "REPLACE_COMMENTS"
+  | "ESCAPE_SEQ_DECODE"
+  | "SQL_HEX_DECODE"
+  | "CSS_DECODE"
+  | "JS_DECODE"
+  | "NORMALIZE_PATH"
+  | "NORMALIZE_PATH_WIN"
+  | "REMOVE_NULLS"
+  | "REPLACE_NULLS"
+  | "BASE64_DECODE_EXT"
+  | "URL_DECODE_UNI"
+  | "UTF8_TO_UNICODE";
+export const TextTransformationType = S.Literal(
+  "NONE",
+  "COMPRESS_WHITE_SPACE",
+  "HTML_ENTITY_DECODE",
+  "LOWERCASE",
+  "CMD_LINE",
+  "URL_DECODE",
+  "BASE64_DECODE",
+  "HEX_DECODE",
+  "MD5",
+  "REPLACE_COMMENTS",
+  "ESCAPE_SEQ_DECODE",
+  "SQL_HEX_DECODE",
+  "CSS_DECODE",
+  "JS_DECODE",
+  "NORMALIZE_PATH",
+  "NORMALIZE_PATH_WIN",
+  "REMOVE_NULLS",
+  "REPLACE_NULLS",
+  "BASE64_DECODE_EXT",
+  "URL_DECODE_UNI",
+  "UTF8_TO_UNICODE",
+);
 export interface TextTransformation {
   Priority: number;
-  Type: string;
+  Type: TextTransformationType;
 }
 export const TextTransformation = S.suspend(() =>
-  S.Struct({ Priority: S.Number, Type: S.String }),
+  S.Struct({ Priority: S.Number, Type: TextTransformationType }),
 ).annotations({
   identifier: "TextTransformation",
 }) as any as S.Schema<TextTransformation>;
 export type TextTransformations = TextTransformation[];
 export const TextTransformations = S.Array(TextTransformation);
+export type PositionalConstraint =
+  | "EXACTLY"
+  | "STARTS_WITH"
+  | "ENDS_WITH"
+  | "CONTAINS"
+  | "CONTAINS_WORD";
+export const PositionalConstraint = S.Literal(
+  "EXACTLY",
+  "STARTS_WITH",
+  "ENDS_WITH",
+  "CONTAINS",
+  "CONTAINS_WORD",
+);
 export interface ByteMatchStatement {
   SearchString: Uint8Array;
   FieldToMatch: FieldToMatch;
-  TextTransformations: TextTransformations;
-  PositionalConstraint: string;
+  TextTransformations: TextTransformation[];
+  PositionalConstraint: PositionalConstraint;
 }
 export const ByteMatchStatement = S.suspend(() =>
   S.Struct({
     SearchString: T.Blob,
     FieldToMatch: FieldToMatch,
     TextTransformations: TextTransformations,
-    PositionalConstraint: S.String,
+    PositionalConstraint: PositionalConstraint,
   }),
 ).annotations({
   identifier: "ByteMatchStatement",
 }) as any as S.Schema<ByteMatchStatement>;
+export type SensitivityLevel = "LOW" | "HIGH";
+export const SensitivityLevel = S.Literal("LOW", "HIGH");
 export interface SqliMatchStatement {
   FieldToMatch: FieldToMatch;
-  TextTransformations: TextTransformations;
-  SensitivityLevel?: string;
+  TextTransformations: TextTransformation[];
+  SensitivityLevel?: SensitivityLevel;
 }
 export const SqliMatchStatement = S.suspend(() =>
   S.Struct({
     FieldToMatch: FieldToMatch,
     TextTransformations: TextTransformations,
-    SensitivityLevel: S.optional(S.String),
+    SensitivityLevel: S.optional(SensitivityLevel),
   }),
 ).annotations({
   identifier: "SqliMatchStatement",
 }) as any as S.Schema<SqliMatchStatement>;
 export interface XssMatchStatement {
   FieldToMatch: FieldToMatch;
-  TextTransformations: TextTransformations;
+  TextTransformations: TextTransformation[];
 }
 export const XssMatchStatement = S.suspend(() =>
   S.Struct({
@@ -1499,35 +1613,540 @@ export const XssMatchStatement = S.suspend(() =>
 ).annotations({
   identifier: "XssMatchStatement",
 }) as any as S.Schema<XssMatchStatement>;
+export type ComparisonOperator = "EQ" | "NE" | "LE" | "LT" | "GE" | "GT";
+export const ComparisonOperator = S.Literal("EQ", "NE", "LE", "LT", "GE", "GT");
 export interface SizeConstraintStatement {
   FieldToMatch: FieldToMatch;
-  ComparisonOperator: string;
+  ComparisonOperator: ComparisonOperator;
   Size: number;
-  TextTransformations: TextTransformations;
+  TextTransformations: TextTransformation[];
 }
 export const SizeConstraintStatement = S.suspend(() =>
   S.Struct({
     FieldToMatch: FieldToMatch,
-    ComparisonOperator: S.String,
+    ComparisonOperator: ComparisonOperator,
     Size: S.Number,
     TextTransformations: TextTransformations,
   }),
 ).annotations({
   identifier: "SizeConstraintStatement",
 }) as any as S.Schema<SizeConstraintStatement>;
-export type CountryCodes = string[];
-export const CountryCodes = S.Array(S.String);
+export type CountryCode =
+  | "AF"
+  | "AX"
+  | "AL"
+  | "DZ"
+  | "AS"
+  | "AD"
+  | "AO"
+  | "AI"
+  | "AQ"
+  | "AG"
+  | "AR"
+  | "AM"
+  | "AW"
+  | "AU"
+  | "AT"
+  | "AZ"
+  | "BS"
+  | "BH"
+  | "BD"
+  | "BB"
+  | "BY"
+  | "BE"
+  | "BZ"
+  | "BJ"
+  | "BM"
+  | "BT"
+  | "BO"
+  | "BQ"
+  | "BA"
+  | "BW"
+  | "BV"
+  | "BR"
+  | "IO"
+  | "BN"
+  | "BG"
+  | "BF"
+  | "BI"
+  | "KH"
+  | "CM"
+  | "CA"
+  | "CV"
+  | "KY"
+  | "CF"
+  | "TD"
+  | "CL"
+  | "CN"
+  | "CX"
+  | "CC"
+  | "CO"
+  | "KM"
+  | "CG"
+  | "CD"
+  | "CK"
+  | "CR"
+  | "CI"
+  | "HR"
+  | "CU"
+  | "CW"
+  | "CY"
+  | "CZ"
+  | "DK"
+  | "DJ"
+  | "DM"
+  | "DO"
+  | "EC"
+  | "EG"
+  | "SV"
+  | "GQ"
+  | "ER"
+  | "EE"
+  | "ET"
+  | "FK"
+  | "FO"
+  | "FJ"
+  | "FI"
+  | "FR"
+  | "GF"
+  | "PF"
+  | "TF"
+  | "GA"
+  | "GM"
+  | "GE"
+  | "DE"
+  | "GH"
+  | "GI"
+  | "GR"
+  | "GL"
+  | "GD"
+  | "GP"
+  | "GU"
+  | "GT"
+  | "GG"
+  | "GN"
+  | "GW"
+  | "GY"
+  | "HT"
+  | "HM"
+  | "VA"
+  | "HN"
+  | "HK"
+  | "HU"
+  | "IS"
+  | "IN"
+  | "ID"
+  | "IR"
+  | "IQ"
+  | "IE"
+  | "IM"
+  | "IL"
+  | "IT"
+  | "JM"
+  | "JP"
+  | "JE"
+  | "JO"
+  | "KZ"
+  | "KE"
+  | "KI"
+  | "KP"
+  | "KR"
+  | "KW"
+  | "KG"
+  | "LA"
+  | "LV"
+  | "LB"
+  | "LS"
+  | "LR"
+  | "LY"
+  | "LI"
+  | "LT"
+  | "LU"
+  | "MO"
+  | "MK"
+  | "MG"
+  | "MW"
+  | "MY"
+  | "MV"
+  | "ML"
+  | "MT"
+  | "MH"
+  | "MQ"
+  | "MR"
+  | "MU"
+  | "YT"
+  | "MX"
+  | "FM"
+  | "MD"
+  | "MC"
+  | "MN"
+  | "ME"
+  | "MS"
+  | "MA"
+  | "MZ"
+  | "MM"
+  | "NA"
+  | "NR"
+  | "NP"
+  | "NL"
+  | "NC"
+  | "NZ"
+  | "NI"
+  | "NE"
+  | "NG"
+  | "NU"
+  | "NF"
+  | "MP"
+  | "NO"
+  | "OM"
+  | "PK"
+  | "PW"
+  | "PS"
+  | "PA"
+  | "PG"
+  | "PY"
+  | "PE"
+  | "PH"
+  | "PN"
+  | "PL"
+  | "PT"
+  | "PR"
+  | "QA"
+  | "RE"
+  | "RO"
+  | "RU"
+  | "RW"
+  | "BL"
+  | "SH"
+  | "KN"
+  | "LC"
+  | "MF"
+  | "PM"
+  | "VC"
+  | "WS"
+  | "SM"
+  | "ST"
+  | "SA"
+  | "SN"
+  | "RS"
+  | "SC"
+  | "SL"
+  | "SG"
+  | "SX"
+  | "SK"
+  | "SI"
+  | "SB"
+  | "SO"
+  | "ZA"
+  | "GS"
+  | "SS"
+  | "ES"
+  | "LK"
+  | "SD"
+  | "SR"
+  | "SJ"
+  | "SZ"
+  | "SE"
+  | "CH"
+  | "SY"
+  | "TW"
+  | "TJ"
+  | "TZ"
+  | "TH"
+  | "TL"
+  | "TG"
+  | "TK"
+  | "TO"
+  | "TT"
+  | "TN"
+  | "TR"
+  | "TM"
+  | "TC"
+  | "TV"
+  | "UG"
+  | "UA"
+  | "AE"
+  | "GB"
+  | "US"
+  | "UM"
+  | "UY"
+  | "UZ"
+  | "VU"
+  | "VE"
+  | "VN"
+  | "VG"
+  | "VI"
+  | "WF"
+  | "EH"
+  | "YE"
+  | "ZM"
+  | "ZW"
+  | "XK";
+export const CountryCode = S.Literal(
+  "AF",
+  "AX",
+  "AL",
+  "DZ",
+  "AS",
+  "AD",
+  "AO",
+  "AI",
+  "AQ",
+  "AG",
+  "AR",
+  "AM",
+  "AW",
+  "AU",
+  "AT",
+  "AZ",
+  "BS",
+  "BH",
+  "BD",
+  "BB",
+  "BY",
+  "BE",
+  "BZ",
+  "BJ",
+  "BM",
+  "BT",
+  "BO",
+  "BQ",
+  "BA",
+  "BW",
+  "BV",
+  "BR",
+  "IO",
+  "BN",
+  "BG",
+  "BF",
+  "BI",
+  "KH",
+  "CM",
+  "CA",
+  "CV",
+  "KY",
+  "CF",
+  "TD",
+  "CL",
+  "CN",
+  "CX",
+  "CC",
+  "CO",
+  "KM",
+  "CG",
+  "CD",
+  "CK",
+  "CR",
+  "CI",
+  "HR",
+  "CU",
+  "CW",
+  "CY",
+  "CZ",
+  "DK",
+  "DJ",
+  "DM",
+  "DO",
+  "EC",
+  "EG",
+  "SV",
+  "GQ",
+  "ER",
+  "EE",
+  "ET",
+  "FK",
+  "FO",
+  "FJ",
+  "FI",
+  "FR",
+  "GF",
+  "PF",
+  "TF",
+  "GA",
+  "GM",
+  "GE",
+  "DE",
+  "GH",
+  "GI",
+  "GR",
+  "GL",
+  "GD",
+  "GP",
+  "GU",
+  "GT",
+  "GG",
+  "GN",
+  "GW",
+  "GY",
+  "HT",
+  "HM",
+  "VA",
+  "HN",
+  "HK",
+  "HU",
+  "IS",
+  "IN",
+  "ID",
+  "IR",
+  "IQ",
+  "IE",
+  "IM",
+  "IL",
+  "IT",
+  "JM",
+  "JP",
+  "JE",
+  "JO",
+  "KZ",
+  "KE",
+  "KI",
+  "KP",
+  "KR",
+  "KW",
+  "KG",
+  "LA",
+  "LV",
+  "LB",
+  "LS",
+  "LR",
+  "LY",
+  "LI",
+  "LT",
+  "LU",
+  "MO",
+  "MK",
+  "MG",
+  "MW",
+  "MY",
+  "MV",
+  "ML",
+  "MT",
+  "MH",
+  "MQ",
+  "MR",
+  "MU",
+  "YT",
+  "MX",
+  "FM",
+  "MD",
+  "MC",
+  "MN",
+  "ME",
+  "MS",
+  "MA",
+  "MZ",
+  "MM",
+  "NA",
+  "NR",
+  "NP",
+  "NL",
+  "NC",
+  "NZ",
+  "NI",
+  "NE",
+  "NG",
+  "NU",
+  "NF",
+  "MP",
+  "NO",
+  "OM",
+  "PK",
+  "PW",
+  "PS",
+  "PA",
+  "PG",
+  "PY",
+  "PE",
+  "PH",
+  "PN",
+  "PL",
+  "PT",
+  "PR",
+  "QA",
+  "RE",
+  "RO",
+  "RU",
+  "RW",
+  "BL",
+  "SH",
+  "KN",
+  "LC",
+  "MF",
+  "PM",
+  "VC",
+  "WS",
+  "SM",
+  "ST",
+  "SA",
+  "SN",
+  "RS",
+  "SC",
+  "SL",
+  "SG",
+  "SX",
+  "SK",
+  "SI",
+  "SB",
+  "SO",
+  "ZA",
+  "GS",
+  "SS",
+  "ES",
+  "LK",
+  "SD",
+  "SR",
+  "SJ",
+  "SZ",
+  "SE",
+  "CH",
+  "SY",
+  "TW",
+  "TJ",
+  "TZ",
+  "TH",
+  "TL",
+  "TG",
+  "TK",
+  "TO",
+  "TT",
+  "TN",
+  "TR",
+  "TM",
+  "TC",
+  "TV",
+  "UG",
+  "UA",
+  "AE",
+  "GB",
+  "US",
+  "UM",
+  "UY",
+  "UZ",
+  "VU",
+  "VE",
+  "VN",
+  "VG",
+  "VI",
+  "WF",
+  "EH",
+  "YE",
+  "ZM",
+  "ZW",
+  "XK",
+);
+export type CountryCodes = CountryCode[];
+export const CountryCodes = S.Array(CountryCode);
 export interface ForwardedIPConfig {
   HeaderName: string;
-  FallbackBehavior: string;
+  FallbackBehavior: FallbackBehavior;
 }
 export const ForwardedIPConfig = S.suspend(() =>
-  S.Struct({ HeaderName: S.String, FallbackBehavior: S.String }),
+  S.Struct({ HeaderName: S.String, FallbackBehavior: FallbackBehavior }),
 ).annotations({
   identifier: "ForwardedIPConfig",
 }) as any as S.Schema<ForwardedIPConfig>;
 export interface GeoMatchStatement {
-  CountryCodes?: CountryCodes;
+  CountryCodes?: CountryCode[];
   ForwardedIPConfig?: ForwardedIPConfig;
 }
 export const GeoMatchStatement = S.suspend(() =>
@@ -1560,7 +2179,7 @@ export const CustomHTTPHeaders = S.Array(CustomHTTPHeader);
 export interface CustomResponse {
   ResponseCode: number;
   CustomResponseBodyKey?: string;
-  ResponseHeaders?: CustomHTTPHeaders;
+  ResponseHeaders?: CustomHTTPHeader[];
 }
 export const CustomResponse = S.suspend(() =>
   S.Struct({
@@ -1578,7 +2197,7 @@ export const BlockAction = S.suspend(() =>
   S.Struct({ CustomResponse: S.optional(CustomResponse) }),
 ).annotations({ identifier: "BlockAction" }) as any as S.Schema<BlockAction>;
 export interface CustomRequestHandling {
-  InsertHeaders: CustomHTTPHeaders;
+  InsertHeaders: CustomHTTPHeader[];
 }
 export const CustomRequestHandling = S.suspend(() =>
   S.Struct({ InsertHeaders: CustomHTTPHeaders }),
@@ -1642,8 +2261,8 @@ export type RuleActionOverrides = RuleActionOverride[];
 export const RuleActionOverrides = S.Array(RuleActionOverride);
 export interface RuleGroupReferenceStatement {
   ARN: string;
-  ExcludedRules?: ExcludedRules;
-  RuleActionOverrides?: RuleActionOverrides;
+  ExcludedRules?: ExcludedRule[];
+  RuleActionOverrides?: RuleActionOverride[];
 }
 export const RuleGroupReferenceStatement = S.suspend(() =>
   S.Struct({
@@ -1654,16 +2273,18 @@ export const RuleGroupReferenceStatement = S.suspend(() =>
 ).annotations({
   identifier: "RuleGroupReferenceStatement",
 }) as any as S.Schema<RuleGroupReferenceStatement>;
+export type ForwardedIPPosition = "FIRST" | "LAST" | "ANY";
+export const ForwardedIPPosition = S.Literal("FIRST", "LAST", "ANY");
 export interface IPSetForwardedIPConfig {
   HeaderName: string;
-  FallbackBehavior: string;
-  Position: string;
+  FallbackBehavior: FallbackBehavior;
+  Position: ForwardedIPPosition;
 }
 export const IPSetForwardedIPConfig = S.suspend(() =>
   S.Struct({
     HeaderName: S.String,
-    FallbackBehavior: S.String,
-    Position: S.String,
+    FallbackBehavior: FallbackBehavior,
+    Position: ForwardedIPPosition,
   }),
 ).annotations({
   identifier: "IPSetForwardedIPConfig",
@@ -1683,7 +2304,7 @@ export const IPSetReferenceStatement = S.suspend(() =>
 export interface RegexPatternSetReferenceStatement {
   ARN: string;
   FieldToMatch: FieldToMatch;
-  TextTransformations: TextTransformations;
+  TextTransformations: TextTransformation[];
 }
 export const RegexPatternSetReferenceStatement = S.suspend(() =>
   S.Struct({
@@ -1694,19 +2315,21 @@ export const RegexPatternSetReferenceStatement = S.suspend(() =>
 ).annotations({
   identifier: "RegexPatternSetReferenceStatement",
 }) as any as S.Schema<RegexPatternSetReferenceStatement>;
+export type LabelMatchScope = "LABEL" | "NAMESPACE";
+export const LabelMatchScope = S.Literal("LABEL", "NAMESPACE");
 export interface LabelMatchStatement {
-  Scope: string;
+  Scope: LabelMatchScope;
   Key: string;
 }
 export const LabelMatchStatement = S.suspend(() =>
-  S.Struct({ Scope: S.String, Key: S.String }),
+  S.Struct({ Scope: LabelMatchScope, Key: S.String }),
 ).annotations({
   identifier: "LabelMatchStatement",
 }) as any as S.Schema<LabelMatchStatement>;
 export interface RegexMatchStatement {
   RegexString: string;
   FieldToMatch: FieldToMatch;
-  TextTransformations: TextTransformations;
+  TextTransformations: TextTransformation[];
 }
 export const RegexMatchStatement = S.suspend(() =>
   S.Struct({
@@ -1720,7 +2343,7 @@ export const RegexMatchStatement = S.suspend(() =>
 export type AsnList = number[];
 export const AsnList = S.Array(S.Number);
 export interface AsnMatchStatement {
-  AsnList: AsnList;
+  AsnList: number[];
   ForwardedIPConfig?: ForwardedIPConfig;
 }
 export const AsnMatchStatement = S.suspend(() =>
@@ -1857,7 +2480,7 @@ export interface Rule {
   Statement: Statement;
   Action?: RuleAction;
   OverrideAction?: OverrideAction;
-  RuleLabels?: Labels;
+  RuleLabels?: Label[];
   VisibilityConfig: VisibilityConfig;
   CaptchaConfig?: CaptchaConfig;
   ChallengeConfig?: ChallengeConfig;
@@ -1877,12 +2500,21 @@ export const Rule = S.suspend(() =>
 ).annotations({ identifier: "Rule" }) as any as S.Schema<Rule>;
 export type Rules = Rule[];
 export const Rules = S.Array(Rule);
+export type ResponseContentType =
+  | "TEXT_PLAIN"
+  | "TEXT_HTML"
+  | "APPLICATION_JSON";
+export const ResponseContentType = S.Literal(
+  "TEXT_PLAIN",
+  "TEXT_HTML",
+  "APPLICATION_JSON",
+);
 export interface CustomResponseBody {
-  ContentType: string;
+  ContentType: ResponseContentType;
   Content: string;
 }
 export const CustomResponseBody = S.suspend(() =>
-  S.Struct({ ContentType: S.String, Content: S.String }),
+  S.Struct({ ContentType: ResponseContentType, Content: S.String }),
 ).annotations({
   identifier: "CustomResponseBody",
 }) as any as S.Schema<CustomResponseBody>;
@@ -1893,18 +2525,18 @@ export const CustomResponseBodies = S.Record({
 });
 export interface UpdateRuleGroupRequest {
   Name: string;
-  Scope: string;
+  Scope: Scope;
   Id: string;
   Description?: string;
-  Rules?: Rules;
+  Rules?: Rule[];
   VisibilityConfig: VisibilityConfig;
   LockToken: string;
-  CustomResponseBodies?: CustomResponseBodies;
+  CustomResponseBodies?: { [key: string]: CustomResponseBody };
 }
 export const UpdateRuleGroupRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Scope: S.String,
+    Scope: Scope,
     Id: S.String,
     Description: S.optional(S.String),
     Rules: S.optional(Rules),
@@ -1934,27 +2566,45 @@ export const DefaultAction = S.suspend(() =>
 ).annotations({
   identifier: "DefaultAction",
 }) as any as S.Schema<DefaultAction>;
+export type FieldToProtectType =
+  | "SINGLE_HEADER"
+  | "SINGLE_COOKIE"
+  | "SINGLE_QUERY_ARGUMENT"
+  | "QUERY_STRING"
+  | "BODY";
+export const FieldToProtectType = S.Literal(
+  "SINGLE_HEADER",
+  "SINGLE_COOKIE",
+  "SINGLE_QUERY_ARGUMENT",
+  "QUERY_STRING",
+  "BODY",
+);
 export type FieldToProtectKeys = string[];
 export const FieldToProtectKeys = S.Array(S.String);
 export interface FieldToProtect {
-  FieldType: string;
-  FieldKeys?: FieldToProtectKeys;
+  FieldType: FieldToProtectType;
+  FieldKeys?: string[];
 }
 export const FieldToProtect = S.suspend(() =>
-  S.Struct({ FieldType: S.String, FieldKeys: S.optional(FieldToProtectKeys) }),
+  S.Struct({
+    FieldType: FieldToProtectType,
+    FieldKeys: S.optional(FieldToProtectKeys),
+  }),
 ).annotations({
   identifier: "FieldToProtect",
 }) as any as S.Schema<FieldToProtect>;
+export type DataProtectionAction = "SUBSTITUTION" | "HASH";
+export const DataProtectionAction = S.Literal("SUBSTITUTION", "HASH");
 export interface DataProtection {
   Field: FieldToProtect;
-  Action: string;
+  Action: DataProtectionAction;
   ExcludeRuleMatchDetails?: boolean;
   ExcludeRateBasedDetails?: boolean;
 }
 export const DataProtection = S.suspend(() =>
   S.Struct({
     Field: FieldToProtect,
-    Action: S.String,
+    Action: DataProtectionAction,
     ExcludeRuleMatchDetails: S.optional(S.Boolean),
     ExcludeRateBasedDetails: S.optional(S.Boolean),
   }),
@@ -1964,41 +2614,65 @@ export const DataProtection = S.suspend(() =>
 export type DataProtections = DataProtection[];
 export const DataProtections = S.Array(DataProtection);
 export interface DataProtectionConfig {
-  DataProtections: DataProtections;
+  DataProtections: DataProtection[];
 }
 export const DataProtectionConfig = S.suspend(() =>
   S.Struct({ DataProtections: DataProtections }),
 ).annotations({
   identifier: "DataProtectionConfig",
 }) as any as S.Schema<DataProtectionConfig>;
+export type AssociatedResourceType =
+  | "CLOUDFRONT"
+  | "API_GATEWAY"
+  | "COGNITO_USER_POOL"
+  | "APP_RUNNER_SERVICE"
+  | "VERIFIED_ACCESS_INSTANCE";
+export const AssociatedResourceType = S.Literal(
+  "CLOUDFRONT",
+  "API_GATEWAY",
+  "COGNITO_USER_POOL",
+  "APP_RUNNER_SERVICE",
+  "VERIFIED_ACCESS_INSTANCE",
+);
+export type SizeInspectionLimit = "KB_16" | "KB_32" | "KB_48" | "KB_64";
+export const SizeInspectionLimit = S.Literal(
+  "KB_16",
+  "KB_32",
+  "KB_48",
+  "KB_64",
+);
 export interface RequestBodyAssociatedResourceTypeConfig {
-  DefaultSizeInspectionLimit: string;
+  DefaultSizeInspectionLimit: SizeInspectionLimit;
 }
 export const RequestBodyAssociatedResourceTypeConfig = S.suspend(() =>
-  S.Struct({ DefaultSizeInspectionLimit: S.String }),
+  S.Struct({ DefaultSizeInspectionLimit: SizeInspectionLimit }),
 ).annotations({
   identifier: "RequestBodyAssociatedResourceTypeConfig",
 }) as any as S.Schema<RequestBodyAssociatedResourceTypeConfig>;
 export type RequestBody = {
-  [key: string]: RequestBodyAssociatedResourceTypeConfig;
+  [key in AssociatedResourceType]?: RequestBodyAssociatedResourceTypeConfig;
 };
-export const RequestBody = S.Record({
-  key: S.String,
-  value: RequestBodyAssociatedResourceTypeConfig,
-});
+export const RequestBody = S.partial(
+  S.Record({
+    key: AssociatedResourceType,
+    value: RequestBodyAssociatedResourceTypeConfig,
+  }),
+);
 export interface AssociationConfig {
-  RequestBody?: RequestBody;
+  RequestBody?: { [key: string]: RequestBodyAssociatedResourceTypeConfig };
 }
 export const AssociationConfig = S.suspend(() =>
   S.Struct({ RequestBody: S.optional(RequestBody) }),
 ).annotations({
   identifier: "AssociationConfig",
 }) as any as S.Schema<AssociationConfig>;
+export type LowReputationMode = "ACTIVE_UNDER_DDOS" | "ALWAYS_ON";
+export const LowReputationMode = S.Literal("ACTIVE_UNDER_DDOS", "ALWAYS_ON");
 export interface OnSourceDDoSProtectionConfig {
-  ALBLowReputationMode: string;
+  ALBLowReputationMode: LowReputationMode;
 }
 export const OnSourceDDoSProtectionConfig = S.suspend(() =>
-  S.Struct({ ALBLowReputationMode: S.String }),
+  S.Struct({ ALBLowReputationMode: LowReputationMode }),
 ).annotations({
   identifier: "OnSourceDDoSProtectionConfig",
 }) as any as S.Schema<OnSourceDDoSProtectionConfig>;
@@ -2006,7 +2680,7 @@ export type AttributeValues = string[];
 export const AttributeValues = S.Array(S.String);
 export interface ApplicationAttribute {
   Name?: string;
-  Values?: AttributeValues;
+  Values?: string[];
 }
 export const ApplicationAttribute = S.suspend(() =>
   S.Struct({ Name: S.optional(S.String), Values: S.optional(AttributeValues) }),
@@ -2016,7 +2690,7 @@ export const ApplicationAttribute = S.suspend(() =>
 export type ApplicationAttributes = ApplicationAttribute[];
 export const ApplicationAttributes = S.Array(ApplicationAttribute);
 export interface ApplicationConfig {
-  Attributes?: ApplicationAttributes;
+  Attributes?: ApplicationAttribute[];
 }
 export const ApplicationConfig = S.suspend(() =>
   S.Struct({ Attributes: S.optional(ApplicationAttributes) }),
@@ -2025,18 +2699,18 @@ export const ApplicationConfig = S.suspend(() =>
 }) as any as S.Schema<ApplicationConfig>;
 export interface UpdateWebACLRequest {
   Name: string;
-  Scope: string;
+  Scope: Scope;
   Id: string;
   DefaultAction: DefaultAction;
   Description?: string;
-  Rules?: Rules;
+  Rules?: Rule[];
   VisibilityConfig: VisibilityConfig;
   DataProtectionConfig?: DataProtectionConfig;
   LockToken: string;
-  CustomResponseBodies?: CustomResponseBodies;
+  CustomResponseBodies?: { [key: string]: CustomResponseBody };
   CaptchaConfig?: CaptchaConfig;
   ChallengeConfig?: ChallengeConfig;
-  TokenDomains?: TokenDomains;
+  TokenDomains?: string[];
   AssociationConfig?: AssociationConfig;
   OnSourceDDoSProtectionConfig?: OnSourceDDoSProtectionConfig;
   ApplicationConfig?: ApplicationConfig;
@@ -2044,7 +2718,7 @@ export interface UpdateWebACLRequest {
 export const UpdateWebACLRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Scope: S.String,
+    Scope: Scope,
     Id: S.String,
     DefaultAction: DefaultAction,
     Description: S.optional(S.String),
@@ -2087,11 +2761,30 @@ export const TimeWindow = S.suspend(() =>
 ).annotations({ identifier: "TimeWindow" }) as any as S.Schema<TimeWindow>;
 export type RedactedFields = FieldToMatch[];
 export const RedactedFields = S.Array(FieldToMatch);
+export type FilterBehavior = "KEEP" | "DROP";
+export const FilterBehavior = S.Literal("KEEP", "DROP");
+export type FilterRequirement = "MEETS_ALL" | "MEETS_ANY";
+export const FilterRequirement = S.Literal("MEETS_ALL", "MEETS_ANY");
+export type ActionValue =
+  | "ALLOW"
+  | "BLOCK"
+  | "COUNT"
+  | "CAPTCHA"
+  | "CHALLENGE"
+  | "EXCLUDED_AS_COUNT";
+export const ActionValue = S.Literal(
+  "ALLOW",
+  "BLOCK",
+  "COUNT",
+  "CAPTCHA",
+  "CHALLENGE",
+  "EXCLUDED_AS_COUNT",
+);
 export interface ActionCondition {
-  Action: string;
+  Action: ActionValue;
 }
 export const ActionCondition = S.suspend(() =>
-  S.Struct({ Action: S.String }),
+  S.Struct({ Action: ActionValue }),
 ).annotations({
   identifier: "ActionCondition",
 }) as any as S.Schema<ActionCondition>;
@@ -2116,36 +2809,36 @@ export const Condition = S.suspend(() =>
 export type Conditions = Condition[];
 export const Conditions = S.Array(Condition);
 export interface Filter {
-  Behavior: string;
-  Requirement: string;
-  Conditions: Conditions;
+  Behavior: FilterBehavior;
+  Requirement: FilterRequirement;
+  Conditions: Condition[];
 }
 export const Filter = S.suspend(() =>
   S.Struct({
-    Behavior: S.String,
-    Requirement: S.String,
+    Behavior: FilterBehavior,
+    Requirement: FilterRequirement,
     Conditions: Conditions,
   }),
 ).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type Filters = Filter[];
 export const Filters = S.Array(Filter);
 export interface LoggingFilter {
-  Filters: Filters;
-  DefaultBehavior: string;
+  Filters: Filter[];
+  DefaultBehavior: FilterBehavior;
 }
 export const LoggingFilter = S.suspend(() =>
-  S.Struct({ Filters: Filters, DefaultBehavior: S.String }),
+  S.Struct({ Filters: Filters, DefaultBehavior: FilterBehavior }),
 ).annotations({
   identifier: "LoggingFilter",
 }) as any as S.Schema<LoggingFilter>;
 export interface LoggingConfiguration {
   ResourceArn: string;
-  LogDestinationConfigs: LogDestinationConfigs;
-  RedactedFields?: RedactedFields;
+  LogDestinationConfigs: string[];
+  RedactedFields?: FieldToMatch[];
   ManagedByFirewallManager?: boolean;
   LoggingFilter?: LoggingFilter;
-  LogType?: string;
-  LogScope?: string;
+  LogType?: LogType;
+  LogScope?: LogScope;
 }
 export const LoggingConfiguration = S.suspend(() =>
   S.Struct({
@@ -2154,8 +2847,8 @@ export const LoggingConfiguration = S.suspend(() =>
     RedactedFields: S.optional(RedactedFields),
     ManagedByFirewallManager: S.optional(S.Boolean),
     LoggingFilter: S.optional(LoggingFilter),
-    LogType: S.optional(S.String),
-    LogScope: S.optional(S.String),
+    LogType: S.optional(LogType),
+    LogScope: S.optional(LogScope),
   }),
 ).annotations({
   identifier: "LoggingConfiguration",
@@ -2174,18 +2867,18 @@ export const CreateAPIKeyResponse = S.suspend(() =>
 }) as any as S.Schema<CreateAPIKeyResponse>;
 export interface CreateIPSetRequest {
   Name: string;
-  Scope: string;
+  Scope: Scope;
   Description?: string;
-  IPAddressVersion: string;
-  Addresses: IPAddresses;
-  Tags?: TagList;
+  IPAddressVersion: IPAddressVersion;
+  Addresses: string[];
+  Tags?: Tag[];
 }
 export const CreateIPSetRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Scope: S.String,
+    Scope: Scope,
     Description: S.optional(S.String),
-    IPAddressVersion: S.String,
+    IPAddressVersion: IPAddressVersion,
     Addresses: IPAddresses,
     Tags: S.optional(TagList),
   }).pipe(
@@ -2204,15 +2897,15 @@ export const CreateIPSetRequest = S.suspend(() =>
 }) as any as S.Schema<CreateIPSetRequest>;
 export interface CreateRegexPatternSetRequest {
   Name: string;
-  Scope: string;
+  Scope: Scope;
   Description?: string;
-  RegularExpressionList: RegularExpressionList;
-  Tags?: TagList;
+  RegularExpressionList: Regex[];
+  Tags?: Tag[];
 }
 export const CreateRegexPatternSetRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Scope: S.String,
+    Scope: Scope,
     Description: S.optional(S.String),
     RegularExpressionList: RegularExpressionList,
     Tags: S.optional(TagList),
@@ -2267,7 +2960,7 @@ export const ManagedProductDescriptor = S.suspend(() =>
 export type ManagedProductDescriptors = ManagedProductDescriptor[];
 export const ManagedProductDescriptors = S.Array(ManagedProductDescriptor);
 export interface DescribeManagedProductsByVendorResponse {
-  ManagedProducts?: ManagedProductDescriptors;
+  ManagedProducts?: ManagedProductDescriptor[];
 }
 export const DescribeManagedProductsByVendorResponse = S.suspend(() =>
   S.Struct({ ManagedProducts: S.optional(ManagedProductDescriptors) }).pipe(ns),
@@ -2283,7 +2976,7 @@ export const GenerateMobileSdkReleaseUrlResponse = S.suspend(() =>
   identifier: "GenerateMobileSdkReleaseUrlResponse",
 }) as any as S.Schema<GenerateMobileSdkReleaseUrlResponse>;
 export interface GetDecryptedAPIKeyResponse {
-  TokenDomains?: TokenDomains;
+  TokenDomains?: string[];
   CreationTimestamp?: Date;
 }
 export const GetDecryptedAPIKeyResponse = S.suspend(() =>
@@ -2315,7 +3008,7 @@ export const GetPermissionPolicyResponse = S.suspend(() =>
 export interface GetSampledRequestsRequest {
   WebAclArn: string;
   RuleMetricName: string;
-  Scope: string;
+  Scope: Scope;
   TimeWindow: TimeWindow;
   MaxItems: number;
 }
@@ -2323,7 +3016,7 @@ export const GetSampledRequestsRequest = S.suspend(() =>
   S.Struct({
     WebAclArn: S.String,
     RuleMetricName: S.String,
-    Scope: S.String,
+    Scope: Scope,
     TimeWindow: TimeWindow,
     MaxItems: S.Number,
   }).pipe(
@@ -2340,6 +3033,8 @@ export const GetSampledRequestsRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetSampledRequestsRequest",
 }) as any as S.Schema<GetSampledRequestsRequest>;
+export type PayloadType = "JSON" | "FORM_ENCODED";
+export const PayloadType = S.Literal("JSON", "FORM_ENCODED");
 export interface UsernameField {
   Identifier: string;
 }
@@ -2356,26 +3051,28 @@ export const PasswordField = S.suspend(() =>
 ).annotations({
   identifier: "PasswordField",
 }) as any as S.Schema<PasswordField>;
+export type InspectionLevel = "COMMON" | "TARGETED";
+export const InspectionLevel = S.Literal("COMMON", "TARGETED");
 export interface AWSManagedRulesBotControlRuleSet {
-  InspectionLevel: string;
+  InspectionLevel: InspectionLevel;
   EnableMachineLearning?: boolean;
 }
 export const AWSManagedRulesBotControlRuleSet = S.suspend(() =>
   S.Struct({
-    InspectionLevel: S.String,
+    InspectionLevel: InspectionLevel,
     EnableMachineLearning: S.optional(S.Boolean),
   }),
 ).annotations({
   identifier: "AWSManagedRulesBotControlRuleSet",
 }) as any as S.Schema<AWSManagedRulesBotControlRuleSet>;
 export interface RequestInspection {
-  PayloadType: string;
+  PayloadType: PayloadType;
   UsernameField: UsernameField;
   PasswordField: PasswordField;
 }
 export const RequestInspection = S.suspend(() =>
   S.Struct({
-    PayloadType: S.String,
+    PayloadType: PayloadType,
     UsernameField: UsernameField,
     PasswordField: PasswordField,
   }),
@@ -2387,8 +3084,8 @@ export const ResponseInspectionStatusCodeSuccessCodes = S.Array(S.Number);
 export type ResponseInspectionStatusCodeFailureCodes = number[];
 export const ResponseInspectionStatusCodeFailureCodes = S.Array(S.Number);
 export interface ResponseInspectionStatusCode {
-  SuccessCodes: ResponseInspectionStatusCodeSuccessCodes;
-  FailureCodes: ResponseInspectionStatusCodeFailureCodes;
+  SuccessCodes: number[];
+  FailureCodes: number[];
 }
 export const ResponseInspectionStatusCode = S.suspend(() =>
   S.Struct({
@@ -2404,8 +3101,8 @@ export type ResponseInspectionHeaderFailureValues = string[];
 export const ResponseInspectionHeaderFailureValues = S.Array(S.String);
 export interface ResponseInspectionHeader {
   Name: string;
-  SuccessValues: ResponseInspectionHeaderSuccessValues;
-  FailureValues: ResponseInspectionHeaderFailureValues;
+  SuccessValues: string[];
+  FailureValues: string[];
 }
 export const ResponseInspectionHeader = S.suspend(() =>
   S.Struct({
@@ -2421,8 +3118,8 @@ export const ResponseInspectionBodyContainsSuccessStrings = S.Array(S.String);
 export type ResponseInspectionBodyContainsFailureStrings = string[];
 export const ResponseInspectionBodyContainsFailureStrings = S.Array(S.String);
 export interface ResponseInspectionBodyContains {
-  SuccessStrings: ResponseInspectionBodyContainsSuccessStrings;
-  FailureStrings: ResponseInspectionBodyContainsFailureStrings;
+  SuccessStrings: string[];
+  FailureStrings: string[];
 }
 export const ResponseInspectionBodyContains = S.suspend(() =>
   S.Struct({
@@ -2438,8 +3135,8 @@ export type ResponseInspectionJsonFailureValues = string[];
 export const ResponseInspectionJsonFailureValues = S.Array(S.String);
 export interface ResponseInspectionJson {
   Identifier: string;
-  SuccessValues: ResponseInspectionJsonSuccessValues;
-  FailureValues: ResponseInspectionJsonFailureValues;
+  SuccessValues: string[];
+  FailureValues: string[];
 }
 export const ResponseInspectionJson = S.suspend(() =>
   S.Struct({
@@ -2507,16 +3204,16 @@ export const AddressField = S.suspend(() =>
 export type AddressFields = AddressField[];
 export const AddressFields = S.Array(AddressField);
 export interface RequestInspectionACFP {
-  PayloadType: string;
+  PayloadType: PayloadType;
   UsernameField?: UsernameField;
   PasswordField?: PasswordField;
   EmailField?: EmailField;
-  PhoneNumberFields?: PhoneNumberFields;
-  AddressFields?: AddressFields;
+  PhoneNumberFields?: PhoneNumberField[];
+  AddressFields?: AddressField[];
 }
 export const RequestInspectionACFP = S.suspend(() =>
   S.Struct({
-    PayloadType: S.String,
+    PayloadType: PayloadType,
     UsernameField: S.optional(UsernameField),
     PasswordField: S.optional(PasswordField),
     EmailField: S.optional(EmailField),
@@ -2544,15 +3241,19 @@ export const AWSManagedRulesACFPRuleSet = S.suspend(() =>
 ).annotations({
   identifier: "AWSManagedRulesACFPRuleSet",
 }) as any as S.Schema<AWSManagedRulesACFPRuleSet>;
+export type UsageOfAction = "ENABLED" | "DISABLED";
+export const UsageOfAction = S.Literal("ENABLED", "DISABLED");
+export type SensitivityToAct = "LOW" | "MEDIUM" | "HIGH";
+export const SensitivityToAct = S.Literal("LOW", "MEDIUM", "HIGH");
 export interface ClientSideAction {
-  UsageOfAction: string;
-  Sensitivity?: string;
-  ExemptUriRegularExpressions?: RegularExpressionList;
+  UsageOfAction: UsageOfAction;
+  Sensitivity?: SensitivityToAct;
+  ExemptUriRegularExpressions?: Regex[];
 }
 export const ClientSideAction = S.suspend(() =>
   S.Struct({
-    UsageOfAction: S.String,
-    Sensitivity: S.optional(S.String),
+    UsageOfAction: UsageOfAction,
+    Sensitivity: S.optional(SensitivityToAct),
     ExemptUriRegularExpressions: S.optional(RegularExpressionList),
   }),
 ).annotations({
@@ -2568,19 +3269,19 @@ export const ClientSideActionConfig = S.suspend(() =>
 }) as any as S.Schema<ClientSideActionConfig>;
 export interface AWSManagedRulesAntiDDoSRuleSet {
   ClientSideActionConfig: ClientSideActionConfig;
-  SensitivityToBlock?: string;
+  SensitivityToBlock?: SensitivityToAct;
 }
 export const AWSManagedRulesAntiDDoSRuleSet = S.suspend(() =>
   S.Struct({
     ClientSideActionConfig: ClientSideActionConfig,
-    SensitivityToBlock: S.optional(S.String),
+    SensitivityToBlock: S.optional(SensitivityToAct),
   }),
 ).annotations({
   identifier: "AWSManagedRulesAntiDDoSRuleSet",
 }) as any as S.Schema<AWSManagedRulesAntiDDoSRuleSet>;
 export interface ManagedRuleGroupConfig {
   LoginPath?: string;
-  PayloadType?: string;
+  PayloadType?: PayloadType;
   UsernameField?: UsernameField;
   PasswordField?: PasswordField;
   AWSManagedRulesBotControlRuleSet?: AWSManagedRulesBotControlRuleSet;
@@ -2591,7 +3292,7 @@ export interface ManagedRuleGroupConfig {
 export const ManagedRuleGroupConfig = S.suspend(() =>
   S.Struct({
     LoginPath: S.optional(S.String),
-    PayloadType: S.optional(S.String),
+    PayloadType: S.optional(PayloadType),
     UsernameField: S.optional(UsernameField),
     PasswordField: S.optional(PasswordField),
     AWSManagedRulesBotControlRuleSet: S.optional(
@@ -2610,10 +3311,10 @@ export interface ManagedRuleGroupStatement {
   VendorName: string;
   Name: string;
   Version?: string;
-  ExcludedRules?: ExcludedRules;
+  ExcludedRules?: ExcludedRule[];
   ScopeDownStatement?: Statement;
-  ManagedRuleGroupConfigs?: ManagedRuleGroupConfigs;
-  RuleActionOverrides?: RuleActionOverrides;
+  ManagedRuleGroupConfigs?: ManagedRuleGroupConfig[];
+  RuleActionOverrides?: RuleActionOverride[];
 }
 export const ManagedRuleGroupStatement = S.suspend(() =>
   S.Struct({
@@ -2670,18 +3371,18 @@ export interface WebACL {
   ARN: string;
   DefaultAction: DefaultAction;
   Description?: string;
-  Rules?: Rules;
+  Rules?: Rule[];
   VisibilityConfig: VisibilityConfig;
   DataProtectionConfig?: DataProtectionConfig;
   Capacity?: number;
-  PreProcessFirewallManagerRuleGroups?: FirewallManagerRuleGroups;
-  PostProcessFirewallManagerRuleGroups?: FirewallManagerRuleGroups;
+  PreProcessFirewallManagerRuleGroups?: FirewallManagerRuleGroup[];
+  PostProcessFirewallManagerRuleGroups?: FirewallManagerRuleGroup[];
   ManagedByFirewallManager?: boolean;
   LabelNamespace?: string;
-  CustomResponseBodies?: CustomResponseBodies;
+  CustomResponseBodies?: { [key: string]: CustomResponseBody };
   CaptchaConfig?: CaptchaConfig;
   ChallengeConfig?: ChallengeConfig;
-  TokenDomains?: TokenDomains;
+  TokenDomains?: string[];
   AssociationConfig?: AssociationConfig;
   RetrofittedByFirewallManager?: boolean;
   OnSourceDDoSProtectionConfig?: OnSourceDDoSProtectionConfig;
@@ -2721,7 +3422,7 @@ export const GetWebACLForResourceResponse = S.suspend(() =>
   identifier: "GetWebACLForResourceResponse",
 }) as any as S.Schema<GetWebACLForResourceResponse>;
 export interface ListLoggingConfigurationsResponse {
-  LoggingConfigurations?: LoggingConfigurations;
+  LoggingConfigurations?: LoggingConfiguration[];
   NextMarker?: string;
 }
 export const ListLoggingConfigurationsResponse = S.suspend(() =>
@@ -2733,7 +3434,7 @@ export const ListLoggingConfigurationsResponse = S.suspend(() =>
   identifier: "ListLoggingConfigurationsResponse",
 }) as any as S.Schema<ListLoggingConfigurationsResponse>;
 export interface ListResourcesForWebACLResponse {
-  ResourceArns?: ResourceArns;
+  ResourceArns?: string[];
 }
 export const ListResourcesForWebACLResponse = S.suspend(() =>
   S.Struct({ ResourceArns: S.optional(ResourceArns) }).pipe(ns),
@@ -2800,6 +3501,17 @@ export const VersionToPublish = S.suspend(() =>
 ).annotations({
   identifier: "VersionToPublish",
 }) as any as S.Schema<VersionToPublish>;
+export type RateBasedStatementAggregateKeyType =
+  | "IP"
+  | "FORWARDED_IP"
+  | "CUSTOM_KEYS"
+  | "CONSTANT";
+export const RateBasedStatementAggregateKeyType = S.Literal(
+  "IP",
+  "FORWARDED_IP",
+  "CUSTOM_KEYS",
+  "CONSTANT",
+);
 export type Statements = Statement[];
 export const Statements = S.Array(
   S.suspend((): S.Schema<Statement, any> => Statement).annotations({
@@ -2842,8 +3554,8 @@ export interface IPSet {
   Id: string;
   ARN: string;
   Description?: string;
-  IPAddressVersion: string;
-  Addresses: IPAddresses;
+  IPAddressVersion: IPAddressVersion;
+  Addresses: string[];
 }
 export const IPSet = S.suspend(() =>
   S.Struct({
@@ -2851,7 +3563,7 @@ export const IPSet = S.suspend(() =>
     Id: S.String,
     ARN: S.String,
     Description: S.optional(S.String),
-    IPAddressVersion: S.String,
+    IPAddressVersion: IPAddressVersion,
     Addresses: IPAddresses,
   }),
 ).annotations({ identifier: "IPSet" }) as any as S.Schema<IPSet>;
@@ -2859,7 +3571,7 @@ export interface MobileSdkRelease {
   ReleaseVersion?: string;
   Timestamp?: Date;
   ReleaseNotes?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const MobileSdkRelease = S.suspend(() =>
   S.Struct({
@@ -2871,13 +3583,160 @@ export const MobileSdkRelease = S.suspend(() =>
 ).annotations({
   identifier: "MobileSdkRelease",
 }) as any as S.Schema<MobileSdkRelease>;
+export type ParameterExceptionField =
+  | "WEB_ACL"
+  | "RULE_GROUP"
+  | "REGEX_PATTERN_SET"
+  | "IP_SET"
+  | "MANAGED_RULE_SET"
+  | "RULE"
+  | "EXCLUDED_RULE"
+  | "STATEMENT"
+  | "BYTE_MATCH_STATEMENT"
+  | "SQLI_MATCH_STATEMENT"
+  | "XSS_MATCH_STATEMENT"
+  | "SIZE_CONSTRAINT_STATEMENT"
+  | "GEO_MATCH_STATEMENT"
+  | "RATE_BASED_STATEMENT"
+  | "RULE_GROUP_REFERENCE_STATEMENT"
+  | "REGEX_PATTERN_REFERENCE_STATEMENT"
+  | "IP_SET_REFERENCE_STATEMENT"
+  | "MANAGED_RULE_SET_STATEMENT"
+  | "LABEL_MATCH_STATEMENT"
+  | "AND_STATEMENT"
+  | "OR_STATEMENT"
+  | "NOT_STATEMENT"
+  | "IP_ADDRESS"
+  | "IP_ADDRESS_VERSION"
+  | "FIELD_TO_MATCH"
+  | "TEXT_TRANSFORMATION"
+  | "SINGLE_QUERY_ARGUMENT"
+  | "SINGLE_HEADER"
+  | "DEFAULT_ACTION"
+  | "RULE_ACTION"
+  | "ENTITY_LIMIT"
+  | "OVERRIDE_ACTION"
+  | "SCOPE_VALUE"
+  | "RESOURCE_ARN"
+  | "RESOURCE_TYPE"
+  | "TAGS"
+  | "TAG_KEYS"
+  | "METRIC_NAME"
+  | "FIREWALL_MANAGER_STATEMENT"
+  | "FALLBACK_BEHAVIOR"
+  | "POSITION"
+  | "FORWARDED_IP_CONFIG"
+  | "IP_SET_FORWARDED_IP_CONFIG"
+  | "HEADER_NAME"
+  | "CUSTOM_REQUEST_HANDLING"
+  | "RESPONSE_CONTENT_TYPE"
+  | "CUSTOM_RESPONSE"
+  | "CUSTOM_RESPONSE_BODY"
+  | "JSON_MATCH_PATTERN"
+  | "JSON_MATCH_SCOPE"
+  | "BODY_PARSING_FALLBACK_BEHAVIOR"
+  | "LOGGING_FILTER"
+  | "FILTER_CONDITION"
+  | "EXPIRE_TIMESTAMP"
+  | "CHANGE_PROPAGATION_STATUS"
+  | "ASSOCIABLE_RESOURCE"
+  | "LOG_DESTINATION"
+  | "MANAGED_RULE_GROUP_CONFIG"
+  | "PAYLOAD_TYPE"
+  | "HEADER_MATCH_PATTERN"
+  | "COOKIE_MATCH_PATTERN"
+  | "MAP_MATCH_SCOPE"
+  | "OVERSIZE_HANDLING"
+  | "CHALLENGE_CONFIG"
+  | "TOKEN_DOMAIN"
+  | "ATP_RULE_SET_RESPONSE_INSPECTION"
+  | "ASSOCIATED_RESOURCE_TYPE"
+  | "SCOPE_DOWN"
+  | "CUSTOM_KEYS"
+  | "ACP_RULE_SET_RESPONSE_INSPECTION"
+  | "DATA_PROTECTION_CONFIG"
+  | "LOW_REPUTATION_MODE";
+export const ParameterExceptionField = S.Literal(
+  "WEB_ACL",
+  "RULE_GROUP",
+  "REGEX_PATTERN_SET",
+  "IP_SET",
+  "MANAGED_RULE_SET",
+  "RULE",
+  "EXCLUDED_RULE",
+  "STATEMENT",
+  "BYTE_MATCH_STATEMENT",
+  "SQLI_MATCH_STATEMENT",
+  "XSS_MATCH_STATEMENT",
+  "SIZE_CONSTRAINT_STATEMENT",
+  "GEO_MATCH_STATEMENT",
+  "RATE_BASED_STATEMENT",
+  "RULE_GROUP_REFERENCE_STATEMENT",
+  "REGEX_PATTERN_REFERENCE_STATEMENT",
+  "IP_SET_REFERENCE_STATEMENT",
+  "MANAGED_RULE_SET_STATEMENT",
+  "LABEL_MATCH_STATEMENT",
+  "AND_STATEMENT",
+  "OR_STATEMENT",
+  "NOT_STATEMENT",
+  "IP_ADDRESS",
+  "IP_ADDRESS_VERSION",
+  "FIELD_TO_MATCH",
+  "TEXT_TRANSFORMATION",
+  "SINGLE_QUERY_ARGUMENT",
+  "SINGLE_HEADER",
+  "DEFAULT_ACTION",
+  "RULE_ACTION",
+  "ENTITY_LIMIT",
+  "OVERRIDE_ACTION",
+  "SCOPE_VALUE",
+  "RESOURCE_ARN",
+  "RESOURCE_TYPE",
+  "TAGS",
+  "TAG_KEYS",
+  "METRIC_NAME",
+  "FIREWALL_MANAGER_STATEMENT",
+  "FALLBACK_BEHAVIOR",
+  "POSITION",
+  "FORWARDED_IP_CONFIG",
+  "IP_SET_FORWARDED_IP_CONFIG",
+  "HEADER_NAME",
+  "CUSTOM_REQUEST_HANDLING",
+  "RESPONSE_CONTENT_TYPE",
+  "CUSTOM_RESPONSE",
+  "CUSTOM_RESPONSE_BODY",
+  "JSON_MATCH_PATTERN",
+  "JSON_MATCH_SCOPE",
+  "BODY_PARSING_FALLBACK_BEHAVIOR",
+  "LOGGING_FILTER",
+  "FILTER_CONDITION",
+  "EXPIRE_TIMESTAMP",
+  "CHANGE_PROPAGATION_STATUS",
+  "ASSOCIABLE_RESOURCE",
+  "LOG_DESTINATION",
+  "MANAGED_RULE_GROUP_CONFIG",
+  "PAYLOAD_TYPE",
+  "HEADER_MATCH_PATTERN",
+  "COOKIE_MATCH_PATTERN",
+  "MAP_MATCH_SCOPE",
+  "OVERSIZE_HANDLING",
+  "CHALLENGE_CONFIG",
+  "TOKEN_DOMAIN",
+  "ATP_RULE_SET_RESPONSE_INSPECTION",
+  "ASSOCIATED_RESOURCE_TYPE",
+  "SCOPE_DOWN",
+  "CUSTOM_KEYS",
+  "ACP_RULE_SET_RESPONSE_INSPECTION",
+  "DATA_PROTECTION_CONFIG",
+  "LOW_REPUTATION_MODE",
+);
 export interface RateBasedStatementManagedKeysIPSet {
-  IPAddressVersion?: string;
-  Addresses?: IPAddresses;
+  IPAddressVersion?: IPAddressVersion;
+  Addresses?: string[];
 }
 export const RateBasedStatementManagedKeysIPSet = S.suspend(() =>
   S.Struct({
-    IPAddressVersion: S.optional(S.String),
+    IPAddressVersion: S.optional(IPAddressVersion),
     Addresses: S.optional(IPAddresses),
   }),
 ).annotations({
@@ -2888,7 +3747,7 @@ export interface RegexPatternSet {
   Id?: string;
   ARN?: string;
   Description?: string;
-  RegularExpressionList?: RegularExpressionList;
+  RegularExpressionList?: Regex[];
 }
 export const RegexPatternSet = S.suspend(() =>
   S.Struct({
@@ -2907,12 +3766,12 @@ export interface RuleGroup {
   Capacity: number;
   ARN: string;
   Description?: string;
-  Rules?: Rules;
+  Rules?: Rule[];
   VisibilityConfig: VisibilityConfig;
   LabelNamespace?: string;
-  CustomResponseBodies?: CustomResponseBodies;
-  AvailableLabels?: LabelSummaries;
-  ConsumedLabels?: LabelSummaries;
+  CustomResponseBodies?: { [key: string]: CustomResponseBody };
+  AvailableLabels?: LabelSummary[];
+  ConsumedLabels?: LabelSummary[];
 }
 export const RuleGroup = S.suspend(() =>
   S.Struct({
@@ -2930,7 +3789,7 @@ export const RuleGroup = S.suspend(() =>
   }),
 ).annotations({ identifier: "RuleGroup" }) as any as S.Schema<RuleGroup>;
 export interface APIKeySummary {
-  TokenDomains?: TokenDomains;
+  TokenDomains?: string[];
   APIKey?: string;
   CreationTimestamp?: Date;
   Version?: number;
@@ -3079,7 +3938,7 @@ export type RuleGroupSummaries = RuleGroupSummary[];
 export const RuleGroupSummaries = S.Array(RuleGroupSummary);
 export interface TagInfoForResource {
   ResourceARN?: string;
-  TagList?: TagList;
+  TagList?: Tag[];
 }
 export const TagInfoForResource = S.suspend(() =>
   S.Struct({ ResourceARN: S.optional(S.String), TagList: S.optional(TagList) }),
@@ -3112,7 +3971,7 @@ export const VersionsToPublish = S.Record({
   value: VersionToPublish,
 });
 export interface AndStatement {
-  Statements: Statements;
+  Statements: Statement[];
 }
 export const AndStatement = S.suspend(() =>
   S.Struct({
@@ -3122,7 +3981,7 @@ export const AndStatement = S.suspend(() =>
   }),
 ).annotations({ identifier: "AndStatement" }) as any as S.Schema<AndStatement>;
 export interface OrStatement {
-  Statements: Statements;
+  Statements: Statement[];
 }
 export const OrStatement = S.suspend(() =>
   S.Struct({
@@ -3175,18 +4034,18 @@ export const CreateRegexPatternSetResponse = S.suspend(() =>
 }) as any as S.Schema<CreateRegexPatternSetResponse>;
 export interface CreateRuleGroupRequest {
   Name: string;
-  Scope: string;
+  Scope: Scope;
   Capacity: number;
   Description?: string;
-  Rules?: Rules;
+  Rules?: Rule[];
   VisibilityConfig: VisibilityConfig;
-  Tags?: TagList;
-  CustomResponseBodies?: CustomResponseBodies;
+  Tags?: Tag[];
+  CustomResponseBodies?: { [key: string]: CustomResponseBody };
 }
 export const CreateRuleGroupRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Scope: S.String,
+    Scope: Scope,
     Capacity: S.Number,
     Description: S.optional(S.String),
     Rules: S.optional(Rules),
@@ -3208,7 +4067,7 @@ export const CreateRuleGroupRequest = S.suspend(() =>
   identifier: "CreateRuleGroupRequest",
 }) as any as S.Schema<CreateRuleGroupRequest>;
 export interface DescribeAllManagedProductsResponse {
-  ManagedProducts?: ManagedProductDescriptors;
+  ManagedProducts?: ManagedProductDescriptor[];
 }
 export const DescribeAllManagedProductsResponse = S.suspend(() =>
   S.Struct({ ManagedProducts: S.optional(ManagedProductDescriptors) }).pipe(ns),
@@ -3219,10 +4078,10 @@ export interface DescribeManagedRuleGroupResponse {
   VersionName?: string;
   SnsTopicArn?: string;
   Capacity?: number;
-  Rules?: RuleSummaries;
+  Rules?: RuleSummary[];
   LabelNamespace?: string;
-  AvailableLabels?: LabelSummaries;
-  ConsumedLabels?: LabelSummaries;
+  AvailableLabels?: LabelSummary[];
+  ConsumedLabels?: LabelSummary[];
 }
 export const DescribeManagedRuleGroupResponse = S.suspend(() =>
   S.Struct({
@@ -3294,7 +4153,7 @@ export const GetRuleGroupResponse = S.suspend(() =>
 }) as any as S.Schema<GetRuleGroupResponse>;
 export interface ListAPIKeysResponse {
   NextMarker?: string;
-  APIKeySummaries?: APIKeySummaries;
+  APIKeySummaries?: APIKeySummary[];
   ApplicationIntegrationURL?: string;
 }
 export const ListAPIKeysResponse = S.suspend(() =>
@@ -3308,7 +4167,7 @@ export const ListAPIKeysResponse = S.suspend(() =>
 }) as any as S.Schema<ListAPIKeysResponse>;
 export interface ListAvailableManagedRuleGroupsResponse {
   NextMarker?: string;
-  ManagedRuleGroups?: ManagedRuleGroupSummaries;
+  ManagedRuleGroups?: ManagedRuleGroupSummary[];
 }
 export const ListAvailableManagedRuleGroupsResponse = S.suspend(() =>
   S.Struct({
@@ -3320,7 +4179,7 @@ export const ListAvailableManagedRuleGroupsResponse = S.suspend(() =>
 }) as any as S.Schema<ListAvailableManagedRuleGroupsResponse>;
 export interface ListAvailableManagedRuleGroupVersionsResponse {
   NextMarker?: string;
-  Versions?: ManagedRuleGroupVersions;
+  Versions?: ManagedRuleGroupVersion[];
   CurrentDefaultVersion?: string;
 }
 export const ListAvailableManagedRuleGroupVersionsResponse = S.suspend(() =>
@@ -3334,7 +4193,7 @@ export const ListAvailableManagedRuleGroupVersionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListAvailableManagedRuleGroupVersionsResponse>;
 export interface ListIPSetsResponse {
   NextMarker?: string;
-  IPSets?: IPSetSummaries;
+  IPSets?: IPSetSummary[];
 }
 export const ListIPSetsResponse = S.suspend(() =>
   S.Struct({
@@ -3346,7 +4205,7 @@ export const ListIPSetsResponse = S.suspend(() =>
 }) as any as S.Schema<ListIPSetsResponse>;
 export interface ListManagedRuleSetsResponse {
   NextMarker?: string;
-  ManagedRuleSets?: ManagedRuleSetSummaries;
+  ManagedRuleSets?: ManagedRuleSetSummary[];
 }
 export const ListManagedRuleSetsResponse = S.suspend(() =>
   S.Struct({
@@ -3357,7 +4216,7 @@ export const ListManagedRuleSetsResponse = S.suspend(() =>
   identifier: "ListManagedRuleSetsResponse",
 }) as any as S.Schema<ListManagedRuleSetsResponse>;
 export interface ListMobileSdkReleasesResponse {
-  ReleaseSummaries?: ReleaseSummaries;
+  ReleaseSummaries?: ReleaseSummary[];
   NextMarker?: string;
 }
 export const ListMobileSdkReleasesResponse = S.suspend(() =>
@@ -3370,7 +4229,7 @@ export const ListMobileSdkReleasesResponse = S.suspend(() =>
 }) as any as S.Schema<ListMobileSdkReleasesResponse>;
 export interface ListRegexPatternSetsResponse {
   NextMarker?: string;
-  RegexPatternSets?: RegexPatternSetSummaries;
+  RegexPatternSets?: RegexPatternSetSummary[];
 }
 export const ListRegexPatternSetsResponse = S.suspend(() =>
   S.Struct({
@@ -3382,7 +4241,7 @@ export const ListRegexPatternSetsResponse = S.suspend(() =>
 }) as any as S.Schema<ListRegexPatternSetsResponse>;
 export interface ListRuleGroupsResponse {
   NextMarker?: string;
-  RuleGroups?: RuleGroupSummaries;
+  RuleGroups?: RuleGroupSummary[];
 }
 export const ListRuleGroupsResponse = S.suspend(() =>
   S.Struct({
@@ -3406,7 +4265,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListWebACLsResponse {
   NextMarker?: string;
-  WebACLs?: WebACLSummaries;
+  WebACLs?: WebACLSummary[];
 }
 export const ListWebACLsResponse = S.suspend(() =>
   S.Struct({
@@ -3418,16 +4277,16 @@ export const ListWebACLsResponse = S.suspend(() =>
 }) as any as S.Schema<ListWebACLsResponse>;
 export interface PutManagedRuleSetVersionsRequest {
   Name: string;
-  Scope: string;
+  Scope: Scope;
   Id: string;
   LockToken: string;
   RecommendedVersion?: string;
-  VersionsToPublish?: VersionsToPublish;
+  VersionsToPublish?: { [key: string]: VersionToPublish };
 }
 export const PutManagedRuleSetVersionsRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Scope: S.String,
+    Scope: Scope,
     Id: S.String,
     LockToken: S.String,
     RecommendedVersion: S.optional(S.String),
@@ -3472,9 +4331,20 @@ export const ManagedRuleSetVersion = S.suspend(() =>
 ).annotations({
   identifier: "ManagedRuleSetVersion",
 }) as any as S.Schema<ManagedRuleSetVersion>;
+export type FailureReason =
+  | "TOKEN_MISSING"
+  | "TOKEN_EXPIRED"
+  | "TOKEN_INVALID"
+  | "TOKEN_DOMAIN_MISMATCH";
+export const FailureReason = S.Literal(
+  "TOKEN_MISSING",
+  "TOKEN_EXPIRED",
+  "TOKEN_INVALID",
+  "TOKEN_DOMAIN_MISMATCH",
+);
 export interface RateLimitHeader {
   Name: string;
-  TextTransformations: TextTransformations;
+  TextTransformations: TextTransformation[];
 }
 export const RateLimitHeader = S.suspend(() =>
   S.Struct({ Name: S.String, TextTransformations: TextTransformations }),
@@ -3483,7 +4353,7 @@ export const RateLimitHeader = S.suspend(() =>
 }) as any as S.Schema<RateLimitHeader>;
 export interface RateLimitCookie {
   Name: string;
-  TextTransformations: TextTransformations;
+  TextTransformations: TextTransformation[];
 }
 export const RateLimitCookie = S.suspend(() =>
   S.Struct({ Name: S.String, TextTransformations: TextTransformations }),
@@ -3492,7 +4362,7 @@ export const RateLimitCookie = S.suspend(() =>
 }) as any as S.Schema<RateLimitCookie>;
 export interface RateLimitQueryArgument {
   Name: string;
-  TextTransformations: TextTransformations;
+  TextTransformations: TextTransformation[];
 }
 export const RateLimitQueryArgument = S.suspend(() =>
   S.Struct({ Name: S.String, TextTransformations: TextTransformations }),
@@ -3500,7 +4370,7 @@ export const RateLimitQueryArgument = S.suspend(() =>
   identifier: "RateLimitQueryArgument",
 }) as any as S.Schema<RateLimitQueryArgument>;
 export interface RateLimitQueryString {
-  TextTransformations: TextTransformations;
+  TextTransformations: TextTransformation[];
 }
 export const RateLimitQueryString = S.suspend(() =>
   S.Struct({ TextTransformations: TextTransformations }),
@@ -3516,7 +4386,7 @@ export const RateLimitLabelNamespace = S.suspend(() =>
   identifier: "RateLimitLabelNamespace",
 }) as any as S.Schema<RateLimitLabelNamespace>;
 export interface RateLimitUriPath {
-  TextTransformations: TextTransformations;
+  TextTransformations: TextTransformation[];
 }
 export const RateLimitUriPath = S.suspend(() =>
   S.Struct({ TextTransformations: TextTransformations }),
@@ -3524,18 +4394,18 @@ export const RateLimitUriPath = S.suspend(() =>
   identifier: "RateLimitUriPath",
 }) as any as S.Schema<RateLimitUriPath>;
 export interface RateLimitJA3Fingerprint {
-  FallbackBehavior: string;
+  FallbackBehavior: FallbackBehavior;
 }
 export const RateLimitJA3Fingerprint = S.suspend(() =>
-  S.Struct({ FallbackBehavior: S.String }),
+  S.Struct({ FallbackBehavior: FallbackBehavior }),
 ).annotations({
   identifier: "RateLimitJA3Fingerprint",
 }) as any as S.Schema<RateLimitJA3Fingerprint>;
 export interface RateLimitJA4Fingerprint {
-  FallbackBehavior: string;
+  FallbackBehavior: FallbackBehavior;
 }
 export const RateLimitJA4Fingerprint = S.suspend(() =>
-  S.Struct({ FallbackBehavior: S.String }),
+  S.Struct({ FallbackBehavior: FallbackBehavior }),
 ).annotations({
   identifier: "RateLimitJA4Fingerprint",
 }) as any as S.Schema<RateLimitJA4Fingerprint>;
@@ -3575,7 +4445,7 @@ export interface HTTPRequest {
   URI?: string;
   Method?: string;
   HTTPVersion?: string;
-  Headers?: HTTPHeaders;
+  Headers?: HTTPHeader[];
 }
 export const HTTPRequest = S.suspend(() =>
   S.Struct({
@@ -3590,13 +4460,13 @@ export const HTTPRequest = S.suspend(() =>
 export interface CaptchaResponse {
   ResponseCode?: number;
   SolveTimestamp?: number;
-  FailureReason?: string;
+  FailureReason?: FailureReason;
 }
 export const CaptchaResponse = S.suspend(() =>
   S.Struct({
     ResponseCode: S.optional(S.Number),
     SolveTimestamp: S.optional(S.Number),
-    FailureReason: S.optional(S.String),
+    FailureReason: S.optional(FailureReason),
   }),
 ).annotations({
   identifier: "CaptchaResponse",
@@ -3604,13 +4474,13 @@ export const CaptchaResponse = S.suspend(() =>
 export interface ChallengeResponse {
   ResponseCode?: number;
   SolveTimestamp?: number;
-  FailureReason?: string;
+  FailureReason?: FailureReason;
 }
 export const ChallengeResponse = S.suspend(() =>
   S.Struct({
     ResponseCode: S.optional(S.Number),
     SolveTimestamp: S.optional(S.Number),
-    FailureReason: S.optional(S.String),
+    FailureReason: S.optional(FailureReason),
   }),
 ).annotations({
   identifier: "ChallengeResponse",
@@ -3656,7 +4526,7 @@ export interface ManagedRuleSet {
   Id: string;
   ARN: string;
   Description?: string;
-  PublishedVersions?: PublishedVersions;
+  PublishedVersions?: { [key: string]: ManagedRuleSetVersion };
   RecommendedVersion?: string;
   LabelNamespace?: string;
 }
@@ -3679,9 +4549,9 @@ export interface SampledHTTPRequest {
   Timestamp?: Date;
   Action?: string;
   RuleNameWithinRuleGroup?: string;
-  RequestHeadersInserted?: HTTPHeaders;
+  RequestHeadersInserted?: HTTPHeader[];
   ResponseCodeSent?: number;
-  Labels?: Labels;
+  Labels?: Label[];
   CaptchaResponse?: CaptchaResponse;
   ChallengeResponse?: ChallengeResponse;
   OverriddenAction?: string;
@@ -3708,16 +4578,16 @@ export const SampledHTTPRequests = S.Array(SampledHTTPRequest);
 export interface RateBasedStatement {
   Limit: number;
   EvaluationWindowSec?: number;
-  AggregateKeyType: string;
+  AggregateKeyType: RateBasedStatementAggregateKeyType;
   ScopeDownStatement?: Statement;
   ForwardedIPConfig?: ForwardedIPConfig;
-  CustomKeys?: RateBasedStatementCustomKeys;
+  CustomKeys?: RateBasedStatementCustomKey[];
 }
 export const RateBasedStatement = S.suspend(() =>
   S.Struct({
     Limit: S.Number,
     EvaluationWindowSec: S.optional(S.Number),
-    AggregateKeyType: S.String,
+    AggregateKeyType: RateBasedStatementAggregateKeyType,
     ScopeDownStatement: S.optional(
       S.suspend((): S.Schema<Statement, any> => Statement).annotations({
         identifier: "Statement",
@@ -3731,17 +4601,17 @@ export const RateBasedStatement = S.suspend(() =>
 }) as any as S.Schema<RateBasedStatement>;
 export interface CreateWebACLRequest {
   Name: string;
-  Scope: string;
+  Scope: Scope;
   DefaultAction: DefaultAction;
   Description?: string;
-  Rules?: Rules;
+  Rules?: Rule[];
   VisibilityConfig: VisibilityConfig;
   DataProtectionConfig?: DataProtectionConfig;
-  Tags?: TagList;
-  CustomResponseBodies?: CustomResponseBodies;
+  Tags?: Tag[];
+  CustomResponseBodies?: { [key: string]: CustomResponseBody };
   CaptchaConfig?: CaptchaConfig;
   ChallengeConfig?: ChallengeConfig;
-  TokenDomains?: TokenDomains;
+  TokenDomains?: string[];
   AssociationConfig?: AssociationConfig;
   OnSourceDDoSProtectionConfig?: OnSourceDDoSProtectionConfig;
   ApplicationConfig?: ApplicationConfig;
@@ -3749,7 +4619,7 @@ export interface CreateWebACLRequest {
 export const CreateWebACLRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Scope: S.String,
+    Scope: Scope,
     DefaultAction: DefaultAction,
     Description: S.optional(S.String),
     Rules: S.optional(Rules),
@@ -3790,7 +4660,7 @@ export const GetManagedRuleSetResponse = S.suspend(() =>
   identifier: "GetManagedRuleSetResponse",
 }) as any as S.Schema<GetManagedRuleSetResponse>;
 export interface GetSampledRequestsResponse {
-  SampledRequests?: SampledHTTPRequests;
+  SampledRequests?: SampledHTTPRequest[];
   PopulationSize?: number;
   TimeWindow?: TimeWindow;
 }
@@ -3852,11 +4722,11 @@ export const PutLoggingConfigurationResponse = S.suspend(() =>
   identifier: "PutLoggingConfigurationResponse",
 }) as any as S.Schema<PutLoggingConfigurationResponse>;
 export interface CheckCapacityRequest {
-  Scope: string;
-  Rules: Rules;
+  Scope: Scope;
+  Rules: Rule[];
 }
 export const CheckCapacityRequest = S.suspend(() =>
-  S.Struct({ Scope: S.String, Rules: Rules }).pipe(
+  S.Struct({ Scope: Scope, Rules: Rules }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -3903,7 +4773,7 @@ export class WAFInvalidParameterException extends S.TaggedError<WAFInvalidParame
   "WAFInvalidParameterException",
   {
     message: S.optional(S.String),
-    Field: S.optional(S.String),
+    Field: S.optional(ParameterExceptionField),
     Parameter: S.optional(S.String),
     Reason: S.optional(S.String),
   },
@@ -3977,7 +4847,7 @@ export class WAFServiceLinkedRoleErrorException extends S.TaggedError<WAFService
  */
 export const listAvailableManagedRuleGroups: (
   input: ListAvailableManagedRuleGroupsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListAvailableManagedRuleGroupsResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -3999,7 +4869,7 @@ export const listAvailableManagedRuleGroups: (
  */
 export const listIPSets: (
   input: ListIPSetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListIPSetsResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4024,7 +4894,7 @@ export const listIPSets: (
  */
 export const listManagedRuleSets: (
   input: ListManagedRuleSetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListManagedRuleSetsResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4049,7 +4919,7 @@ export const listManagedRuleSets: (
  */
 export const listMobileSdkReleases: (
   input: ListMobileSdkReleasesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListMobileSdkReleasesResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4071,7 +4941,7 @@ export const listMobileSdkReleases: (
  */
 export const listRegexPatternSets: (
   input: ListRegexPatternSetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListRegexPatternSetsResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4093,7 +4963,7 @@ export const listRegexPatternSets: (
  */
 export const listRuleGroups: (
   input: ListRuleGroupsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListRuleGroupsResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4115,7 +4985,7 @@ export const listRuleGroups: (
  */
 export const listWebACLs: (
   input: ListWebACLsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListWebACLsResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4136,7 +5006,7 @@ export const listWebACLs: (
  */
 export const describeManagedProductsByVendor: (
   input: DescribeManagedProductsByVendorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeManagedProductsByVendorResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4157,7 +5027,7 @@ export const describeManagedProductsByVendor: (
  */
 export const listLoggingConfigurations: (
   input: ListLoggingConfigurationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListLoggingConfigurationsResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4178,7 +5048,7 @@ export const listLoggingConfigurations: (
  */
 export const describeAllManagedProducts: (
   input: DescribeAllManagedProductsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAllManagedProductsResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4201,7 +5071,7 @@ export const describeAllManagedProducts: (
  */
 export const getPermissionPolicy: (
   input: GetPermissionPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPermissionPolicyResponse,
   | WAFInternalErrorException
   | WAFInvalidParameterException
@@ -4226,7 +5096,7 @@ export const getPermissionPolicy: (
  */
 export const listAPIKeys: (
   input: ListAPIKeysRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListAPIKeysResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4265,7 +5135,7 @@ export const listAPIKeys: (
  */
 export const putPermissionPolicy: (
   input: PutPermissionPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutPermissionPolicyResponse,
   | WAFInternalErrorException
   | WAFInvalidParameterException
@@ -4288,7 +5158,7 @@ export const putPermissionPolicy: (
  */
 export const getRegexPatternSet: (
   input: GetRegexPatternSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRegexPatternSetResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4311,7 +5181,7 @@ export const getRegexPatternSet: (
  */
 export const getRuleGroup: (
   input: GetRuleGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRuleGroupResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4334,7 +5204,7 @@ export const getRuleGroup: (
  */
 export const listAvailableManagedRuleGroupVersions: (
   input: ListAvailableManagedRuleGroupVersionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListAvailableManagedRuleGroupVersionsResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4360,7 +5230,7 @@ export const listAvailableManagedRuleGroupVersions: (
  */
 export const generateMobileSdkReleaseUrl: (
   input: GenerateMobileSdkReleaseUrlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GenerateMobileSdkReleaseUrlResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4383,7 +5253,7 @@ export const generateMobileSdkReleaseUrl: (
  */
 export const getLoggingConfiguration: (
   input: GetLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLoggingConfigurationResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4416,7 +5286,7 @@ export const getLoggingConfiguration: (
  */
 export const listResourcesForWebACL: (
   input: ListResourcesForWebACLRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListResourcesForWebACLResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4447,7 +5317,7 @@ export const listResourcesForWebACL: (
  */
 export const disassociateWebACL: (
   input: DisassociateWebACLRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateWebACLResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4472,7 +5342,7 @@ export const disassociateWebACL: (
  */
 export const deletePermissionPolicy: (
   input: DeletePermissionPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePermissionPolicyResponse,
   | WAFInternalErrorException
   | WAFInvalidParameterException
@@ -4493,7 +5363,7 @@ export const deletePermissionPolicy: (
  */
 export const getIPSet: (
   input: GetIPSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIPSetResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4520,7 +5390,7 @@ export const getIPSet: (
  */
 export const getMobileSdkRelease: (
   input: GetMobileSdkReleaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMobileSdkReleaseResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4547,7 +5417,7 @@ export const getMobileSdkRelease: (
  */
 export const getDecryptedAPIKey: (
   input: GetDecryptedAPIKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDecryptedAPIKeyResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4572,7 +5442,7 @@ export const getDecryptedAPIKey: (
  */
 export const describeManagedRuleGroup: (
   input: DescribeManagedRuleGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeManagedRuleGroupResponse,
   | WAFExpiredManagedRuleGroupVersionException
   | WAFInternalErrorException
@@ -4606,7 +5476,7 @@ export const describeManagedRuleGroup: (
  */
 export const createAPIKey: (
   input: CreateAPIKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAPIKeyResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4633,7 +5503,7 @@ export const createAPIKey: (
  */
 export const getManagedRuleSet: (
   input: GetManagedRuleSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetManagedRuleSetResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4665,7 +5535,7 @@ export const getManagedRuleSet: (
  */
 export const getSampledRequests: (
   input: GetSampledRequestsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSampledRequestsResponse,
   | WAFInternalErrorException
   | WAFInvalidParameterException
@@ -4686,7 +5556,7 @@ export const getSampledRequests: (
  */
 export const getWebACL: (
   input: GetWebACLRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWebACLResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4722,7 +5592,7 @@ export const getWebACL: (
  */
 export const putManagedRuleSetVersions: (
   input: PutManagedRuleSetVersionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutManagedRuleSetVersionsResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4766,7 +5636,7 @@ export const putManagedRuleSetVersions: (
  */
 export const getRateBasedStatementManagedKeys: (
   input: GetRateBasedStatementManagedKeysRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRateBasedStatementManagedKeysResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4803,7 +5673,7 @@ export const getRateBasedStatementManagedKeys: (
  */
 export const getWebACLForResource: (
   input: GetWebACLForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWebACLForResourceResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4852,7 +5722,7 @@ export const getWebACLForResource: (
  */
 export const updateIPSet: (
   input: UpdateIPSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateIPSetResponse,
   | WAFDuplicateItemException
   | WAFInternalErrorException
@@ -4883,7 +5753,7 @@ export const updateIPSet: (
  */
 export const deleteFirewallManagerRuleGroups: (
   input: DeleteFirewallManagerRuleGroupsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFirewallManagerRuleGroupsResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4914,7 +5784,7 @@ export const deleteFirewallManagerRuleGroups: (
  */
 export const updateManagedRuleSetVersionExpiryDate: (
   input: UpdateManagedRuleSetVersionExpiryDateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateManagedRuleSetVersionExpiryDateResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4939,7 +5809,7 @@ export const updateManagedRuleSetVersionExpiryDate: (
  */
 export const deleteLoggingConfiguration: (
   input: DeleteLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLoggingConfigurationResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4966,7 +5836,7 @@ export const deleteLoggingConfiguration: (
  */
 export const deleteAPIKey: (
   input: DeleteAPIKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAPIKeyResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5015,7 +5885,7 @@ export const deleteAPIKey: (
  */
 export const updateRegexPatternSet: (
   input: UpdateRegexPatternSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRegexPatternSetResponse,
   | WAFDuplicateItemException
   | WAFInternalErrorException
@@ -5065,7 +5935,7 @@ export const updateRegexPatternSet: (
  */
 export const associateWebACL: (
   input: AssociateWebACLRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateWebACLResponse,
   | WAFFeatureNotIncludedInPricingPlanException
   | WAFInternalErrorException
@@ -5102,7 +5972,7 @@ export const associateWebACL: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5156,7 +6026,7 @@ export const listTagsForResource: (
  */
 export const updateWebACL: (
   input: UpdateWebACLRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWebACLResponse,
   | WAFConfigurationWarningException
   | WAFDuplicateItemException
@@ -5197,7 +6067,7 @@ export const updateWebACL: (
  */
 export const deleteIPSet: (
   input: DeleteIPSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIPSetResponse,
   | WAFAssociatedItemException
   | WAFInternalErrorException
@@ -5228,7 +6098,7 @@ export const deleteIPSet: (
  */
 export const deleteRegexPatternSet: (
   input: DeleteRegexPatternSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRegexPatternSetResponse,
   | WAFAssociatedItemException
   | WAFInternalErrorException
@@ -5259,7 +6129,7 @@ export const deleteRegexPatternSet: (
  */
 export const deleteRuleGroup: (
   input: DeleteRuleGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRuleGroupResponse,
   | WAFAssociatedItemException
   | WAFInternalErrorException
@@ -5311,7 +6181,7 @@ export const deleteRuleGroup: (
  */
 export const deleteWebACL: (
   input: DeleteWebACLRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWebACLResponse,
   | WAFAssociatedItemException
   | WAFInternalErrorException
@@ -5345,7 +6215,7 @@ export const deleteWebACL: (
  */
 export const createIPSet: (
   input: CreateIPSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateIPSetResponse,
   | WAFDuplicateItemException
   | WAFInternalErrorException
@@ -5377,7 +6247,7 @@ export const createIPSet: (
  */
 export const createRegexPatternSet: (
   input: CreateRegexPatternSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRegexPatternSetResponse,
   | WAFDuplicateItemException
   | WAFInternalErrorException
@@ -5411,7 +6281,7 @@ export const createRegexPatternSet: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5446,7 +6316,7 @@ export const untagResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5501,7 +6371,7 @@ export const tagResource: (
  */
 export const updateRuleGroup: (
   input: UpdateRuleGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRuleGroupResponse,
   | WAFConfigurationWarningException
   | WAFDuplicateItemException
@@ -5538,7 +6408,7 @@ export const updateRuleGroup: (
  */
 export const createRuleGroup: (
   input: CreateRuleGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRuleGroupResponse,
   | WAFDuplicateItemException
   | WAFInternalErrorException
@@ -5577,7 +6447,7 @@ export const createRuleGroup: (
  */
 export const createWebACL: (
   input: CreateWebACLRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWebACLResponse,
   | WAFConfigurationWarningException
   | WAFDuplicateItemException
@@ -5631,7 +6501,7 @@ export const createWebACL: (
  */
 export const checkCapacity: (
   input: CheckCapacityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CheckCapacityResponse,
   | WAFExpiredManagedRuleGroupVersionException
   | WAFInternalErrorException
@@ -5702,7 +6572,7 @@ export const checkCapacity: (
  */
 export const putLoggingConfiguration: (
   input: PutLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutLoggingConfigurationResponse,
   | WAFFeatureNotIncludedInPricingPlanException
   | WAFInternalErrorException

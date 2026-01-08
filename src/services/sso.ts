@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -92,13 +92,13 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type RoleNameType = string;
 export type AccountIdType = string;
-export type AccessTokenType = string | Redacted.Redacted<string>;
+export type AccessTokenType = string | redacted.Redacted<string>;
 export type NextTokenType = string;
 export type MaxResultType = number;
 export type ErrorDescription = string;
 export type AccessKeyType = string;
-export type SecretAccessKeyType = string | Redacted.Redacted<string>;
-export type SessionTokenType = string | Redacted.Redacted<string>;
+export type SecretAccessKeyType = string | redacted.Redacted<string>;
+export type SessionTokenType = string | redacted.Redacted<string>;
 export type ExpirationTimestampType = number;
 export type AccountNameType = string;
 export type EmailAddressType = string;
@@ -107,7 +107,7 @@ export type EmailAddressType = string;
 export interface GetRoleCredentialsRequest {
   roleName: string;
   accountId: string;
-  accessToken: string | Redacted.Redacted<string>;
+  accessToken: string | redacted.Redacted<string>;
 }
 export const GetRoleCredentialsRequest = S.suspend(() =>
   S.Struct({
@@ -130,7 +130,7 @@ export const GetRoleCredentialsRequest = S.suspend(() =>
 export interface ListAccountRolesRequest {
   nextToken?: string;
   maxResults?: number;
-  accessToken: string | Redacted.Redacted<string>;
+  accessToken: string | redacted.Redacted<string>;
   accountId: string;
 }
 export const ListAccountRolesRequest = S.suspend(() =>
@@ -155,7 +155,7 @@ export const ListAccountRolesRequest = S.suspend(() =>
 export interface ListAccountsRequest {
   nextToken?: string;
   maxResults?: number;
-  accessToken: string | Redacted.Redacted<string>;
+  accessToken: string | redacted.Redacted<string>;
 }
 export const ListAccountsRequest = S.suspend(() =>
   S.Struct({
@@ -176,7 +176,7 @@ export const ListAccountsRequest = S.suspend(() =>
   identifier: "ListAccountsRequest",
 }) as any as S.Schema<ListAccountsRequest>;
 export interface LogoutRequest {
-  accessToken: string | Redacted.Redacted<string>;
+  accessToken: string | redacted.Redacted<string>;
 }
 export const LogoutRequest = S.suspend(() =>
   S.Struct({
@@ -200,8 +200,8 @@ export const LogoutResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<LogoutResponse>;
 export interface RoleCredentials {
   accessKeyId?: string;
-  secretAccessKey?: string | Redacted.Redacted<string>;
-  sessionToken?: string | Redacted.Redacted<string>;
+  secretAccessKey?: string | redacted.Redacted<string>;
+  sessionToken?: string | redacted.Redacted<string>;
   expiration?: number;
 }
 export const RoleCredentials = S.suspend(() =>
@@ -247,7 +247,7 @@ export const GetRoleCredentialsResponse = S.suspend(() =>
 }) as any as S.Schema<GetRoleCredentialsResponse>;
 export interface ListAccountRolesResponse {
   nextToken?: string;
-  roleList?: RoleListType;
+  roleList?: RoleInfo[];
 }
 export const ListAccountRolesResponse = S.suspend(() =>
   S.Struct({
@@ -259,7 +259,7 @@ export const ListAccountRolesResponse = S.suspend(() =>
 }) as any as S.Schema<ListAccountRolesResponse>;
 export interface ListAccountsResponse {
   nextToken?: string;
-  accountList?: AccountListType;
+  accountList?: AccountInfo[];
 }
 export const ListAccountsResponse = S.suspend(() =>
   S.Struct({
@@ -307,7 +307,7 @@ export class UnauthorizedException extends S.TaggedError<UnauthorizedException>(
  */
 export const logout: (
   input: LogoutRequest,
-) => Effect.Effect<
+) => effect.Effect<
   LogoutResponse,
   | InvalidRequestException
   | TooManyRequestsException
@@ -329,7 +329,7 @@ export const logout: (
 export const listAccountRoles: {
   (
     input: ListAccountRolesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccountRolesResponse,
     | InvalidRequestException
     | ResourceNotFoundException
@@ -340,7 +340,7 @@ export const listAccountRoles: {
   >;
   pages: (
     input: ListAccountRolesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccountRolesResponse,
     | InvalidRequestException
     | ResourceNotFoundException
@@ -351,7 +351,7 @@ export const listAccountRoles: {
   >;
   items: (
     input: ListAccountRolesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RoleInfo,
     | InvalidRequestException
     | ResourceNotFoundException
@@ -384,7 +384,7 @@ export const listAccountRoles: {
 export const listAccounts: {
   (
     input: ListAccountsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccountsResponse,
     | InvalidRequestException
     | ResourceNotFoundException
@@ -395,7 +395,7 @@ export const listAccounts: {
   >;
   pages: (
     input: ListAccountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccountsResponse,
     | InvalidRequestException
     | ResourceNotFoundException
@@ -406,7 +406,7 @@ export const listAccounts: {
   >;
   items: (
     input: ListAccountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AccountInfo,
     | InvalidRequestException
     | ResourceNotFoundException
@@ -437,7 +437,7 @@ export const listAccounts: {
  */
 export const getRoleCredentials: (
   input: GetRoleCredentialsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRoleCredentialsResponse,
   | InvalidRequestException
   | ResourceNotFoundException

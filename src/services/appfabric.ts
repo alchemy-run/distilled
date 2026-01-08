@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -94,12 +94,11 @@ export type TenantIdentifier = string;
 export type MaxResults = number;
 export type String2048 = string;
 export type Arn = string;
-export type Email = string | Redacted.Redacted<string>;
+export type Email = string | redacted.Redacted<string>;
 export type TagKey = string;
 export type RedirectUri = string;
-export type SensitiveString2048 = string | Redacted.Redacted<string>;
+export type SensitiveString2048 = string | redacted.Redacted<string>;
 export type TagValue = string;
-export type Integer = number;
 export type String63 = string;
 export type String120 = string;
 export type String64 = string;
@@ -107,11 +106,15 @@ export type String64 = string;
 //# Schemas
 export type TaskIdList = string[];
 export const TaskIdList = S.Array(S.String);
+export type AuthType = "oauth2" | "apiKey";
+export const AuthType = S.Literal("oauth2", "apiKey");
+export type IngestionType = "auditLog";
+export const IngestionType = S.Literal("auditLog");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface BatchGetUserAccessTasksRequest {
   appBundleIdentifier: string;
-  taskIdList: TaskIdList;
+  taskIdList: string[];
 }
 export const BatchGetUserAccessTasksRequest = S.suspend(() =>
   S.Struct({ appBundleIdentifier: S.String, taskIdList: TaskIdList }).pipe(
@@ -139,7 +142,7 @@ export const TagList = S.Array(Tag);
 export interface CreateAppBundleRequest {
   clientToken?: string;
   customerManagedKeyIdentifier?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateAppBundleRequest = S.suspend(() =>
   S.Struct({
@@ -163,16 +166,16 @@ export interface CreateIngestionRequest {
   appBundleIdentifier: string;
   app: string;
   tenantId: string;
-  ingestionType: string;
+  ingestionType: IngestionType;
   clientToken?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateIngestionRequest = S.suspend(() =>
   S.Struct({
     appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
     app: S.String,
     tenantId: S.String,
-    ingestionType: S.String,
+    ingestionType: IngestionType,
     clientToken: S.optional(S.String),
     tags: S.optional(TagList),
   }).pipe(
@@ -557,7 +560,7 @@ export const StartIngestionResponse = S.suspend(() => S.Struct({})).annotations(
 ) as any as S.Schema<StartIngestionResponse>;
 export interface StartUserAccessTasksRequest {
   appBundleIdentifier: string;
-  email: string | Redacted.Redacted<string>;
+  email: string | redacted.Redacted<string>;
 }
 export const StartUserAccessTasksRequest = S.suspend(() =>
   S.Struct({ appBundleIdentifier: S.String, email: SensitiveString }).pipe(
@@ -603,7 +606,7 @@ export const StopIngestionResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<StopIngestionResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagList;
+  tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -628,7 +631,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -653,7 +656,7 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceResponse>;
 export interface Oauth2Credential {
   clientId: string;
-  clientSecret: string | Redacted.Redacted<string>;
+  clientSecret: string | redacted.Redacted<string>;
 }
 export const Oauth2Credential = S.suspend(() =>
   S.Struct({ clientId: S.String, clientSecret: SensitiveString }),
@@ -661,7 +664,7 @@ export const Oauth2Credential = S.suspend(() =>
   identifier: "Oauth2Credential",
 }) as any as S.Schema<Oauth2Credential>;
 export interface ApiKeyCredential {
-  apiKey: string | Redacted.Redacted<string>;
+  apiKey: string | redacted.Redacted<string>;
 }
 export const ApiKeyCredential = S.suspend(() =>
   S.Struct({ apiKey: SensitiveString }),
@@ -685,7 +688,7 @@ export const Tenant = S.suspend(() =>
 export interface UpdateAppAuthorizationRequest {
   appBundleIdentifier: string;
   appAuthorizationIdentifier: string;
-  credential?: (typeof Credential)["Type"];
+  credential?: Credential;
   tenant?: Tenant;
 }
 export const UpdateAppAuthorizationRequest = S.suspend(() =>
@@ -735,7 +738,7 @@ export const Destination = S.Union(
   S.Struct({ firehoseStream: FirehoseStream }),
 );
 export interface AuditLogDestinationConfiguration {
-  destination: (typeof Destination)["Type"];
+  destination: Destination;
 }
 export const AuditLogDestinationConfiguration = S.suspend(() =>
   S.Struct({ destination: Destination }),
@@ -752,7 +755,7 @@ export interface UpdateIngestionDestinationRequest {
   appBundleIdentifier: string;
   ingestionIdentifier: string;
   ingestionDestinationIdentifier: string;
-  destinationConfiguration: (typeof DestinationConfiguration)["Type"];
+  destinationConfiguration: DestinationConfiguration;
 }
 export const UpdateIngestionDestinationRequest = S.suspend(() =>
   S.Struct({
@@ -780,11 +783,15 @@ export const UpdateIngestionDestinationRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateIngestionDestinationRequest>;
 export interface AuthRequest {
   redirectUri: string;
-  code: string | Redacted.Redacted<string>;
+  code: string | redacted.Redacted<string>;
 }
 export const AuthRequest = S.suspend(() =>
   S.Struct({ redirectUri: S.String, code: SensitiveString }),
 ).annotations({ identifier: "AuthRequest" }) as any as S.Schema<AuthRequest>;
+export type Schema = "ocsf" | "raw";
+export const Schema = S.Literal("ocsf", "raw");
+export type Format = "json" | "parquet";
+export const Format = S.Literal("json", "parquet");
 export interface ConnectAppAuthorizationRequest {
   appBundleIdentifier: string;
   appAuthorizationIdentifier: string;
@@ -828,6 +835,8 @@ export const GetAppBundleResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetAppBundleResponse",
 }) as any as S.Schema<GetAppBundleResponse>;
+export type IngestionState = "enabled" | "disabled";
+export const IngestionState = S.Literal("enabled", "disabled");
 export interface Ingestion {
   arn: string;
   appBundleArn: string;
@@ -835,8 +844,8 @@ export interface Ingestion {
   tenantId: string;
   createdAt: Date;
   updatedAt: Date;
-  state: string;
-  ingestionType: string;
+  state: IngestionState;
+  ingestionType: IngestionType;
 }
 export const Ingestion = S.suspend(() =>
   S.Struct({
@@ -846,8 +855,8 @@ export const Ingestion = S.suspend(() =>
     tenantId: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    state: S.String,
-    ingestionType: S.String,
+    state: IngestionState,
+    ingestionType: IngestionType,
   }),
 ).annotations({ identifier: "Ingestion" }) as any as S.Schema<Ingestion>;
 export interface GetIngestionResponse {
@@ -859,23 +868,36 @@ export const GetIngestionResponse = S.suspend(() =>
   identifier: "GetIngestionResponse",
 }) as any as S.Schema<GetIngestionResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagList) }),
 ).annotations({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
+export type AppAuthorizationStatus =
+  | "PendingConnect"
+  | "Connected"
+  | "ConnectionValidationFailed"
+  | "TokenAutoRotationFailed";
+export const AppAuthorizationStatus = S.Literal(
+  "PendingConnect",
+  "Connected",
+  "ConnectionValidationFailed",
+  "TokenAutoRotationFailed",
+);
+export type Persona = "admin" | "endUser";
+export const Persona = S.Literal("admin", "endUser");
 export interface AppAuthorization {
   appAuthorizationArn: string;
   appBundleArn: string;
   app: string;
   tenant: Tenant;
-  authType: string;
-  status: string;
+  authType: AuthType;
+  status: AppAuthorizationStatus;
   createdAt: Date;
   updatedAt: Date;
-  persona?: string;
+  persona?: Persona;
   authUrl?: string;
 }
 export const AppAuthorization = S.suspend(() =>
@@ -884,11 +906,11 @@ export const AppAuthorization = S.suspend(() =>
     appBundleArn: S.String,
     app: S.String,
     tenant: Tenant,
-    authType: S.String,
-    status: S.String,
+    authType: AuthType,
+    status: AppAuthorizationStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    persona: S.optional(S.String),
+    persona: S.optional(Persona),
     authUrl: S.optional(S.String),
   }),
 ).annotations({
@@ -903,11 +925,11 @@ export const UpdateAppAuthorizationResponse = S.suspend(() =>
   identifier: "UpdateAppAuthorizationResponse",
 }) as any as S.Schema<UpdateAppAuthorizationResponse>;
 export interface AuditLogProcessingConfiguration {
-  schema: string;
-  format: string;
+  schema: Schema;
+  format: Format;
 }
 export const AuditLogProcessingConfiguration = S.suspend(() =>
-  S.Struct({ schema: S.String, format: S.String }),
+  S.Struct({ schema: Schema, format: Format }),
 ).annotations({
   identifier: "AuditLogProcessingConfiguration",
 }) as any as S.Schema<AuditLogProcessingConfiguration>;
@@ -917,12 +939,14 @@ export type ProcessingConfiguration = {
 export const ProcessingConfiguration = S.Union(
   S.Struct({ auditLog: AuditLogProcessingConfiguration }),
 );
+export type IngestionDestinationStatus = "Active" | "Failed";
+export const IngestionDestinationStatus = S.Literal("Active", "Failed");
 export interface IngestionDestination {
   arn: string;
   ingestionArn: string;
-  processingConfiguration: (typeof ProcessingConfiguration)["Type"];
-  destinationConfiguration: (typeof DestinationConfiguration)["Type"];
-  status?: string;
+  processingConfiguration: ProcessingConfiguration;
+  destinationConfiguration: DestinationConfiguration;
+  status?: IngestionDestinationStatus;
   statusReason?: string;
   createdAt?: Date;
   updatedAt?: Date;
@@ -933,7 +957,7 @@ export const IngestionDestination = S.suspend(() =>
     ingestionArn: S.String,
     processingConfiguration: ProcessingConfiguration,
     destinationConfiguration: DestinationConfiguration,
-    status: S.optional(S.String),
+    status: S.optional(IngestionDestinationStatus),
     statusReason: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -949,12 +973,19 @@ export const UpdateIngestionDestinationResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateIngestionDestinationResponse",
 }) as any as S.Schema<UpdateIngestionDestinationResponse>;
+export type ResultStatus = "IN_PROGRESS" | "COMPLETED" | "FAILED" | "EXPIRED";
+export const ResultStatus = S.Literal(
+  "IN_PROGRESS",
+  "COMPLETED",
+  "FAILED",
+  "EXPIRED",
+);
 export interface AppAuthorizationSummary {
   appAuthorizationArn: string;
   appBundleArn: string;
   app: string;
   tenant: Tenant;
-  status: string;
+  status: AppAuthorizationStatus;
   updatedAt: Date;
 }
 export const AppAuthorizationSummary = S.suspend(() =>
@@ -963,7 +994,7 @@ export const AppAuthorizationSummary = S.suspend(() =>
     appBundleArn: S.String,
     app: S.String,
     tenant: Tenant,
-    status: S.String,
+    status: AppAuthorizationStatus,
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotations({
@@ -995,14 +1026,14 @@ export interface IngestionSummary {
   arn: string;
   app: string;
   tenantId: string;
-  state: string;
+  state: IngestionState;
 }
 export const IngestionSummary = S.suspend(() =>
   S.Struct({
     arn: S.String,
     app: S.String,
     tenantId: S.String,
-    state: S.String,
+    state: IngestionState,
   }),
 ).annotations({
   identifier: "IngestionSummary",
@@ -1048,11 +1079,11 @@ export const ConnectAppAuthorizationResponse = S.suspend(() =>
 export interface CreateAppAuthorizationRequest {
   appBundleIdentifier: string;
   app: string;
-  credential: (typeof Credential)["Type"];
+  credential: Credential;
   tenant: Tenant;
-  authType: string;
+  authType: AuthType;
   clientToken?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateAppAuthorizationRequest = S.suspend(() =>
   S.Struct({
@@ -1060,7 +1091,7 @@ export const CreateAppAuthorizationRequest = S.suspend(() =>
     app: S.String,
     credential: Credential,
     tenant: Tenant,
-    authType: S.String,
+    authType: AuthType,
     clientToken: S.optional(S.String),
     tags: S.optional(TagList),
   }).pipe(
@@ -1112,7 +1143,7 @@ export const GetIngestionDestinationResponse = S.suspend(() =>
   identifier: "GetIngestionDestinationResponse",
 }) as any as S.Schema<GetIngestionDestinationResponse>;
 export interface ListAppAuthorizationsResponse {
-  appAuthorizationSummaryList: AppAuthorizationSummaryList;
+  appAuthorizationSummaryList: AppAuthorizationSummary[];
   nextToken?: string;
 }
 export const ListAppAuthorizationsResponse = S.suspend(() =>
@@ -1124,7 +1155,7 @@ export const ListAppAuthorizationsResponse = S.suspend(() =>
   identifier: "ListAppAuthorizationsResponse",
 }) as any as S.Schema<ListAppAuthorizationsResponse>;
 export interface ListAppBundlesResponse {
-  appBundleSummaryList: AppBundleSummaryList;
+  appBundleSummaryList: AppBundleSummary[];
   nextToken?: string;
 }
 export const ListAppBundlesResponse = S.suspend(() =>
@@ -1136,7 +1167,7 @@ export const ListAppBundlesResponse = S.suspend(() =>
   identifier: "ListAppBundlesResponse",
 }) as any as S.Schema<ListAppBundlesResponse>;
 export interface ListIngestionDestinationsResponse {
-  ingestionDestinations: IngestionDestinationList;
+  ingestionDestinations: IngestionDestinationSummary[];
   nextToken?: string;
 }
 export const ListIngestionDestinationsResponse = S.suspend(() =>
@@ -1148,7 +1179,7 @@ export const ListIngestionDestinationsResponse = S.suspend(() =>
   identifier: "ListIngestionDestinationsResponse",
 }) as any as S.Schema<ListIngestionDestinationsResponse>;
 export interface ListIngestionsResponse {
-  ingestions: IngestionList;
+  ingestions: IngestionSummary[];
   nextToken?: string;
 }
 export const ListIngestionsResponse = S.suspend(() =>
@@ -1157,7 +1188,7 @@ export const ListIngestionsResponse = S.suspend(() =>
   identifier: "ListIngestionsResponse",
 }) as any as S.Schema<ListIngestionsResponse>;
 export interface StartUserAccessTasksResponse {
-  userAccessTasksList?: UserAccessTasksList;
+  userAccessTasksList?: UserAccessTaskItem[];
 }
 export const StartUserAccessTasksResponse = S.suspend(() =>
   S.Struct({ userAccessTasksList: S.optional(UserAccessTasksList) }),
@@ -1169,12 +1200,12 @@ export interface UserAccessResultItem {
   tenantId?: string;
   tenantDisplayName?: string;
   taskId?: string;
-  resultStatus?: string;
-  email?: string | Redacted.Redacted<string>;
-  userId?: string | Redacted.Redacted<string>;
-  userFullName?: string | Redacted.Redacted<string>;
-  userFirstName?: string | Redacted.Redacted<string>;
-  userLastName?: string | Redacted.Redacted<string>;
+  resultStatus?: ResultStatus;
+  email?: string | redacted.Redacted<string>;
+  userId?: string | redacted.Redacted<string>;
+  userFullName?: string | redacted.Redacted<string>;
+  userFirstName?: string | redacted.Redacted<string>;
+  userLastName?: string | redacted.Redacted<string>;
   userStatus?: string;
   taskError?: TaskError;
 }
@@ -1184,7 +1215,7 @@ export const UserAccessResultItem = S.suspend(() =>
     tenantId: S.optional(S.String),
     tenantDisplayName: S.optional(S.String),
     taskId: S.optional(S.String),
-    resultStatus: S.optional(S.String),
+    resultStatus: S.optional(ResultStatus),
     email: S.optional(SensitiveString),
     userId: S.optional(SensitiveString),
     userFullName: S.optional(SensitiveString),
@@ -1199,7 +1230,7 @@ export const UserAccessResultItem = S.suspend(() =>
 export type UserAccessResultsList = UserAccessResultItem[];
 export const UserAccessResultsList = S.Array(UserAccessResultItem);
 export interface BatchGetUserAccessTasksResponse {
-  userAccessResultsList?: UserAccessResultsList;
+  userAccessResultsList?: UserAccessResultItem[];
 }
 export const BatchGetUserAccessTasksResponse = S.suspend(() =>
   S.Struct({ userAccessResultsList: S.optional(UserAccessResultsList) }),
@@ -1214,13 +1245,24 @@ export const CreateAppAuthorizationResponse = S.suspend(() =>
 ).annotations({
   identifier: "CreateAppAuthorizationResponse",
 }) as any as S.Schema<CreateAppAuthorizationResponse>;
+export type ValidationExceptionReason =
+  | "unknownOperation"
+  | "cannotParse"
+  | "fieldValidationFailed"
+  | "other";
+export const ValidationExceptionReason = S.Literal(
+  "unknownOperation",
+  "cannotParse",
+  "fieldValidationFailed",
+  "other",
+);
 export interface CreateIngestionDestinationRequest {
   appBundleIdentifier: string;
   ingestionIdentifier: string;
-  processingConfiguration: (typeof ProcessingConfiguration)["Type"];
-  destinationConfiguration: (typeof DestinationConfiguration)["Type"];
+  processingConfiguration: ProcessingConfiguration;
+  destinationConfiguration: DestinationConfiguration;
   clientToken?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateIngestionDestinationRequest = S.suspend(() =>
   S.Struct({
@@ -1311,7 +1353,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     message: S.String,
-    reason: S.String,
+    reason: ValidationExceptionReason,
     fieldList: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
@@ -1323,7 +1365,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listAppBundles: {
   (
     input: ListAppBundlesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAppBundlesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1334,7 +1376,7 @@ export const listAppBundles: {
   >;
   pages: (
     input: ListAppBundlesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAppBundlesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1345,7 +1387,7 @@ export const listAppBundles: {
   >;
   items: (
     input: ListAppBundlesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AppBundleSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1375,7 +1417,7 @@ export const listAppBundles: {
  */
 export const getAppAuthorization: (
   input: GetAppAuthorizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAppAuthorizationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1400,7 +1442,7 @@ export const getAppAuthorization: (
  */
 export const getIngestionDestination: (
   input: GetIngestionDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIngestionDestinationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1426,7 +1468,7 @@ export const getIngestionDestination: (
 export const listAppAuthorizations: {
   (
     input: ListAppAuthorizationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAppAuthorizationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1438,7 +1480,7 @@ export const listAppAuthorizations: {
   >;
   pages: (
     input: ListAppAuthorizationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAppAuthorizationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1450,7 +1492,7 @@ export const listAppAuthorizations: {
   >;
   items: (
     input: ListAppAuthorizationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AppAuthorizationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1483,7 +1525,7 @@ export const listAppAuthorizations: {
 export const listIngestionDestinations: {
   (
     input: ListIngestionDestinationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListIngestionDestinationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1495,7 +1537,7 @@ export const listIngestionDestinations: {
   >;
   pages: (
     input: ListIngestionDestinationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListIngestionDestinationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1507,7 +1549,7 @@ export const listIngestionDestinations: {
   >;
   items: (
     input: ListIngestionDestinationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     IngestionDestinationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1540,7 +1582,7 @@ export const listIngestionDestinations: {
 export const listIngestions: {
   (
     input: ListIngestionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListIngestionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1552,7 +1594,7 @@ export const listIngestions: {
   >;
   pages: (
     input: ListIngestionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListIngestionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1564,7 +1606,7 @@ export const listIngestions: {
   >;
   items: (
     input: ListIngestionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     IngestionSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1599,7 +1641,7 @@ export const listIngestions: {
  */
 export const startUserAccessTasks: (
   input: StartUserAccessTasksRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartUserAccessTasksResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1624,7 +1666,7 @@ export const startUserAccessTasks: (
  */
 export const getAppBundle: (
   input: GetAppBundleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAppBundleResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1649,7 +1691,7 @@ export const getAppBundle: (
  */
 export const getIngestion: (
   input: GetIngestionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIngestionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1674,7 +1716,7 @@ export const getIngestion: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1703,7 +1745,7 @@ export const listTagsForResource: (
  */
 export const updateAppAuthorization: (
   input: UpdateAppAuthorizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAppAuthorizationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1729,7 +1771,7 @@ export const updateAppAuthorization: (
  */
 export const deleteIngestion: (
   input: DeleteIngestionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIngestionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1759,7 +1801,7 @@ export const deleteIngestion: (
  */
 export const deleteIngestionDestination: (
   input: DeleteIngestionDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIngestionDestinationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1784,7 +1826,7 @@ export const deleteIngestionDestination: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1809,7 +1851,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1835,7 +1877,7 @@ export const untagResource: (
  */
 export const connectAppAuthorization: (
   input: ConnectAppAuthorizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ConnectAppAuthorizationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1860,7 +1902,7 @@ export const connectAppAuthorization: (
  */
 export const startIngestion: (
   input: StartIngestionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartIngestionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1887,7 +1929,7 @@ export const startIngestion: (
  */
 export const stopIngestion: (
   input: StopIngestionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopIngestionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1917,7 +1959,7 @@ export const stopIngestion: (
  */
 export const batchGetUserAccessTasks: (
   input: BatchGetUserAccessTasksRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetUserAccessTasksResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1943,7 +1985,7 @@ export const batchGetUserAccessTasks: (
  */
 export const deleteAppBundle: (
   input: DeleteAppBundleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAppBundleResponse,
   | AccessDeniedException
   | ConflictException
@@ -1969,7 +2011,7 @@ export const deleteAppBundle: (
  */
 export const deleteAppAuthorization: (
   input: DeleteAppAuthorizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAppAuthorizationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1994,7 +2036,7 @@ export const deleteAppAuthorization: (
  */
 export const createAppBundle: (
   input: CreateAppBundleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAppBundleResponse,
   | AccessDeniedException
   | ConflictException
@@ -2021,7 +2063,7 @@ export const createAppBundle: (
  */
 export const createIngestion: (
   input: CreateIngestionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateIngestionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2049,7 +2091,7 @@ export const createIngestion: (
  */
 export const updateIngestionDestination: (
   input: UpdateIngestionDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateIngestionDestinationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2079,7 +2121,7 @@ export const updateIngestionDestination: (
  */
 export const createAppAuthorization: (
   input: CreateAppAuthorizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAppAuthorizationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2109,7 +2151,7 @@ export const createAppAuthorization: (
  */
 export const createIngestionDestination: (
   input: CreateIngestionDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateIngestionDestinationResponse,
   | AccessDeniedException
   | ConflictException

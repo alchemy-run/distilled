@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -148,7 +148,7 @@ export const CredentialsProvider = S.Union(
 export type Subnets = string[];
 export const Subnets = S.Array(S.String);
 export interface DomainNetworkSettings {
-  Subnets: Subnets;
+  Subnets: string[];
 }
 export const DomainNetworkSettings = S.suspend(() =>
   S.Struct({ Subnets: Subnets }),
@@ -157,9 +157,9 @@ export const DomainNetworkSettings = S.suspend(() =>
 }) as any as S.Schema<DomainNetworkSettings>;
 export interface ActiveDirectorySettings {
   DomainName?: string;
-  DomainIpv4List?: IpV4List;
-  DomainIpv6List?: IpV6List;
-  DomainCredentialsProvider?: (typeof CredentialsProvider)["Type"];
+  DomainIpv4List?: string[];
+  DomainIpv6List?: string[];
+  DomainCredentialsProvider?: CredentialsProvider;
   DomainNetworkSettings?: DomainNetworkSettings;
 }
 export const ActiveDirectorySettings = S.suspend(() =>
@@ -198,7 +198,7 @@ export const IdentityProvider = S.Union(
   }),
 );
 export interface DeregisterIdentityProviderRequest {
-  IdentityProvider?: (typeof IdentityProvider)["Type"];
+  IdentityProvider?: IdentityProvider;
   Product?: string;
   IdentityProviderArn?: string;
 }
@@ -226,7 +226,7 @@ export const DeregisterIdentityProviderRequest = S.suspend(() =>
 export interface DisassociateUserRequest {
   Username?: string;
   InstanceId?: string;
-  IdentityProvider?: (typeof IdentityProvider)["Type"];
+  IdentityProvider?: IdentityProvider;
   InstanceUserArn?: string;
   Domain?: string;
 }
@@ -267,7 +267,7 @@ export const FilterList = S.Array(Filter);
 export interface ListInstancesRequest {
   MaxResults?: number;
   NextToken?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
 }
 export const ListInstancesRequest = S.suspend(() =>
   S.Struct({
@@ -289,7 +289,7 @@ export const ListInstancesRequest = S.suspend(() =>
 }) as any as S.Schema<ListInstancesRequest>;
 export interface ListLicenseServerEndpointsRequest {
   MaxResults?: number;
-  Filters?: FilterList;
+  Filters?: Filter[];
   NextToken?: string;
 }
 export const ListLicenseServerEndpointsRequest = S.suspend(() =>
@@ -315,9 +315,9 @@ export const ListLicenseServerEndpointsRequest = S.suspend(() =>
 }) as any as S.Schema<ListLicenseServerEndpointsRequest>;
 export interface ListProductSubscriptionsRequest {
   Product?: string;
-  IdentityProvider: (typeof IdentityProvider)["Type"];
+  IdentityProvider: IdentityProvider;
   MaxResults?: number;
-  Filters?: FilterList;
+  Filters?: Filter[];
   NextToken?: string;
 }
 export const ListProductSubscriptionsRequest = S.suspend(() =>
@@ -359,9 +359,9 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListUserAssociationsRequest {
   InstanceId: string;
-  IdentityProvider: (typeof IdentityProvider)["Type"];
+  IdentityProvider: IdentityProvider;
   MaxResults?: number;
-  Filters?: FilterList;
+  Filters?: Filter[];
   NextToken?: string;
 }
 export const ListUserAssociationsRequest = S.suspend(() =>
@@ -388,10 +388,10 @@ export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
 export interface StartProductSubscriptionRequest {
   Username: string;
-  IdentityProvider: (typeof IdentityProvider)["Type"];
+  IdentityProvider: IdentityProvider;
   Product: string;
   Domain?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const StartProductSubscriptionRequest = S.suspend(() =>
   S.Struct({
@@ -415,7 +415,7 @@ export const StartProductSubscriptionRequest = S.suspend(() =>
 }) as any as S.Schema<StartProductSubscriptionRequest>;
 export interface StopProductSubscriptionRequest {
   Username?: string;
-  IdentityProvider?: (typeof IdentityProvider)["Type"];
+  IdentityProvider?: IdentityProvider;
   Product?: string;
   ProductUserArn?: string;
   Domain?: string;
@@ -442,7 +442,7 @@ export const StopProductSubscriptionRequest = S.suspend(() =>
 }) as any as S.Schema<StopProductSubscriptionRequest>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: Tags;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -467,7 +467,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -524,7 +524,7 @@ export interface LicenseServerEndpoint {
   LicenseServerEndpointId?: string;
   LicenseServerEndpointArn?: string;
   LicenseServerEndpointProvisioningStatus?: string;
-  LicenseServers?: LicenseServerList;
+  LicenseServers?: LicenseServer[];
   CreationTime?: Date;
 }
 export const LicenseServerEndpoint = S.suspend(() =>
@@ -547,7 +547,7 @@ export const LicenseServerEndpointList = S.Array(LicenseServerEndpoint);
 export interface InstanceUserSummary {
   Username: string;
   InstanceId: string;
-  IdentityProvider: (typeof IdentityProvider)["Type"];
+  IdentityProvider: IdentityProvider;
   Status: string;
   InstanceUserArn?: string;
   StatusMessage?: string;
@@ -573,15 +573,15 @@ export const InstanceUserSummary = S.suspend(() =>
 export type InstanceUserSummaryList = InstanceUserSummary[];
 export const InstanceUserSummaryList = S.Array(InstanceUserSummary);
 export interface Settings {
-  Subnets: Subnets;
+  Subnets: string[];
   SecurityGroupId: string;
 }
 export const Settings = S.suspend(() =>
   S.Struct({ Subnets: Subnets, SecurityGroupId: S.String }),
 ).annotations({ identifier: "Settings" }) as any as S.Schema<Settings>;
 export interface UpdateSettings {
-  AddSubnets: Subnets;
-  RemoveSubnets: Subnets;
+  AddSubnets: string[];
+  RemoveSubnets: string[];
   SecurityGroupId?: string;
 }
 export const UpdateSettings = S.suspend(() =>
@@ -595,7 +595,7 @@ export const UpdateSettings = S.suspend(() =>
 }) as any as S.Schema<UpdateSettings>;
 export interface ListIdentityProvidersRequest {
   MaxResults?: number;
-  Filters?: FilterList;
+  Filters?: Filter[];
   NextToken?: string;
 }
 export const ListIdentityProvidersRequest = S.suspend(() =>
@@ -620,7 +620,7 @@ export const ListIdentityProvidersRequest = S.suspend(() =>
   identifier: "ListIdentityProvidersRequest",
 }) as any as S.Schema<ListIdentityProvidersRequest>;
 export interface ListLicenseServerEndpointsResponse {
-  LicenseServerEndpoints?: LicenseServerEndpointList;
+  LicenseServerEndpoints?: LicenseServerEndpoint[];
   NextToken?: string;
 }
 export const ListLicenseServerEndpointsResponse = S.suspend(() =>
@@ -632,7 +632,7 @@ export const ListLicenseServerEndpointsResponse = S.suspend(() =>
   identifier: "ListLicenseServerEndpointsResponse",
 }) as any as S.Schema<ListLicenseServerEndpointsResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }),
@@ -640,7 +640,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListUserAssociationsResponse {
-  InstanceUserSummaries?: InstanceUserSummaryList;
+  InstanceUserSummaries?: InstanceUserSummary[];
   NextToken?: string;
 }
 export const ListUserAssociationsResponse = S.suspend(() =>
@@ -652,10 +652,10 @@ export const ListUserAssociationsResponse = S.suspend(() =>
   identifier: "ListUserAssociationsResponse",
 }) as any as S.Schema<ListUserAssociationsResponse>;
 export interface RegisterIdentityProviderRequest {
-  IdentityProvider: (typeof IdentityProvider)["Type"];
+  IdentityProvider: IdentityProvider;
   Product: string;
   Settings?: Settings;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const RegisterIdentityProviderRequest = S.suspend(() =>
   S.Struct({
@@ -682,7 +682,7 @@ export const RegisterIdentityProviderRequest = S.suspend(() =>
 export interface ProductUserSummary {
   Username: string;
   Product: string;
-  IdentityProvider: (typeof IdentityProvider)["Type"];
+  IdentityProvider: IdentityProvider;
   Status: string;
   ProductUserArn?: string;
   StatusMessage?: string;
@@ -722,7 +722,7 @@ export const StopProductSubscriptionResponse = S.suspend(() =>
   identifier: "StopProductSubscriptionResponse",
 }) as any as S.Schema<StopProductSubscriptionResponse>;
 export interface UpdateIdentityProviderSettingsRequest {
-  IdentityProvider?: (typeof IdentityProvider)["Type"];
+  IdentityProvider?: IdentityProvider;
   Product?: string;
   IdentityProviderArn?: string;
   UpdateSettings: UpdateSettings;
@@ -752,7 +752,7 @@ export const UpdateIdentityProviderSettingsRequest = S.suspend(() =>
 export type StringList = string[];
 export const StringList = S.Array(S.String);
 export interface IdentityProviderSummary {
-  IdentityProvider: (typeof IdentityProvider)["Type"];
+  IdentityProvider: IdentityProvider;
   Settings: Settings;
   Product: string;
   Status: string;
@@ -778,11 +778,11 @@ export const IdentityProviderSummaryList = S.Array(IdentityProviderSummary);
 export interface InstanceSummary {
   InstanceId: string;
   Status: string;
-  Products: StringList;
+  Products: string[];
   LastStatusCheckDate?: string;
   StatusMessage?: string;
   OwnerAccountId?: string;
-  IdentityProvider?: (typeof IdentityProvider)["Type"];
+  IdentityProvider?: IdentityProvider;
 }
 export const InstanceSummary = S.suspend(() =>
   S.Struct({
@@ -802,7 +802,7 @@ export const InstanceSummaryList = S.Array(InstanceSummary);
 export type ProductUserSummaryList = ProductUserSummary[];
 export const ProductUserSummaryList = S.Array(ProductUserSummary);
 export interface RdsSalSettings {
-  RdsSalCredentialsProvider: (typeof CredentialsProvider)["Type"];
+  RdsSalCredentialsProvider: CredentialsProvider;
 }
 export const RdsSalSettings = S.suspend(() =>
   S.Struct({ RdsSalCredentialsProvider: CredentialsProvider }),
@@ -826,7 +826,7 @@ export const DisassociateUserResponse = S.suspend(() =>
   identifier: "DisassociateUserResponse",
 }) as any as S.Schema<DisassociateUserResponse>;
 export interface ListIdentityProvidersResponse {
-  IdentityProviderSummaries: IdentityProviderSummaryList;
+  IdentityProviderSummaries: IdentityProviderSummary[];
   NextToken?: string;
 }
 export const ListIdentityProvidersResponse = S.suspend(() =>
@@ -838,7 +838,7 @@ export const ListIdentityProvidersResponse = S.suspend(() =>
   identifier: "ListIdentityProvidersResponse",
 }) as any as S.Schema<ListIdentityProvidersResponse>;
 export interface ListInstancesResponse {
-  InstanceSummaries?: InstanceSummaryList;
+  InstanceSummaries?: InstanceSummary[];
   NextToken?: string;
 }
 export const ListInstancesResponse = S.suspend(() =>
@@ -850,7 +850,7 @@ export const ListInstancesResponse = S.suspend(() =>
   identifier: "ListInstancesResponse",
 }) as any as S.Schema<ListInstancesResponse>;
 export interface ListProductSubscriptionsResponse {
-  ProductUserSummaries?: ProductUserSummaryList;
+  ProductUserSummaries?: ProductUserSummary[];
   NextToken?: string;
 }
 export const ListProductSubscriptionsResponse = S.suspend(() =>
@@ -883,7 +883,7 @@ export const ServerSettings = S.Union(
 );
 export interface LicenseServerSettings {
   ServerType: string;
-  ServerSettings: (typeof ServerSettings)["Type"];
+  ServerSettings: ServerSettings;
 }
 export const LicenseServerSettings = S.suspend(() =>
   S.Struct({ ServerType: S.String, ServerSettings: ServerSettings }),
@@ -893,7 +893,7 @@ export const LicenseServerSettings = S.suspend(() =>
 export interface CreateLicenseServerEndpointRequest {
   IdentityProviderArn: string;
   LicenseServerSettings: LicenseServerSettings;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const CreateLicenseServerEndpointRequest = S.suspend(() =>
   S.Struct({
@@ -939,9 +939,9 @@ export const CreateLicenseServerEndpointResponse = S.suspend(() =>
 export interface AssociateUserRequest {
   Username: string;
   InstanceId: string;
-  IdentityProvider: (typeof IdentityProvider)["Type"];
+  IdentityProvider: IdentityProvider;
   Domain?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const AssociateUserRequest = S.suspend(() =>
   S.Struct({
@@ -1008,7 +1008,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   InternalServerException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1022,7 +1022,7 @@ export const untagResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1043,7 +1043,7 @@ export const tagResource: (
  */
 export const updateIdentityProviderSettings: (
   input: UpdateIdentityProviderSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateIdentityProviderSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1066,7 +1066,7 @@ export const updateIdentityProviderSettings: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1088,7 +1088,7 @@ export const listTagsForResource: (
 export const listLicenseServerEndpoints: {
   (
     input: ListLicenseServerEndpointsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLicenseServerEndpointsResponse,
     | AccessDeniedException
     | ConflictException
@@ -1101,7 +1101,7 @@ export const listLicenseServerEndpoints: {
   >;
   pages: (
     input: ListLicenseServerEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLicenseServerEndpointsResponse,
     | AccessDeniedException
     | ConflictException
@@ -1114,7 +1114,7 @@ export const listLicenseServerEndpoints: {
   >;
   items: (
     input: ListLicenseServerEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LicenseServerEndpoint,
     | AccessDeniedException
     | ConflictException
@@ -1149,7 +1149,7 @@ export const listLicenseServerEndpoints: {
 export const listProductSubscriptions: {
   (
     input: ListProductSubscriptionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProductSubscriptionsResponse,
     | AccessDeniedException
     | ConflictException
@@ -1163,7 +1163,7 @@ export const listProductSubscriptions: {
   >;
   pages: (
     input: ListProductSubscriptionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProductSubscriptionsResponse,
     | AccessDeniedException
     | ConflictException
@@ -1177,7 +1177,7 @@ export const listProductSubscriptions: {
   >;
   items: (
     input: ListProductSubscriptionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProductUserSummary,
     | AccessDeniedException
     | ConflictException
@@ -1213,7 +1213,7 @@ export const listProductSubscriptions: {
  */
 export const registerIdentityProvider: (
   input: RegisterIdentityProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterIdentityProviderResponse,
   | AccessDeniedException
   | ConflictException
@@ -1243,7 +1243,7 @@ export const registerIdentityProvider: (
 export const listUserAssociations: {
   (
     input: ListUserAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUserAssociationsResponse,
     | AccessDeniedException
     | ConflictException
@@ -1257,7 +1257,7 @@ export const listUserAssociations: {
   >;
   pages: (
     input: ListUserAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUserAssociationsResponse,
     | AccessDeniedException
     | ConflictException
@@ -1271,7 +1271,7 @@ export const listUserAssociations: {
   >;
   items: (
     input: ListUserAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     InstanceUserSummary,
     | AccessDeniedException
     | ConflictException
@@ -1309,7 +1309,7 @@ export const listUserAssociations: {
  */
 export const startProductSubscription: (
   input: StartProductSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartProductSubscriptionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1338,7 +1338,7 @@ export const startProductSubscription: (
  */
 export const stopProductSubscription: (
   input: StopProductSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopProductSubscriptionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1367,7 +1367,7 @@ export const stopProductSubscription: (
  */
 export const deregisterIdentityProvider: (
   input: DeregisterIdentityProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterIdentityProviderResponse,
   | AccessDeniedException
   | ConflictException
@@ -1396,7 +1396,7 @@ export const deregisterIdentityProvider: (
  */
 export const disassociateUser: (
   input: DisassociateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateUserResponse,
   | AccessDeniedException
   | ConflictException
@@ -1426,7 +1426,7 @@ export const disassociateUser: (
 export const listIdentityProviders: {
   (
     input: ListIdentityProvidersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListIdentityProvidersResponse,
     | AccessDeniedException
     | ConflictException
@@ -1440,7 +1440,7 @@ export const listIdentityProviders: {
   >;
   pages: (
     input: ListIdentityProvidersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListIdentityProvidersResponse,
     | AccessDeniedException
     | ConflictException
@@ -1454,7 +1454,7 @@ export const listIdentityProviders: {
   >;
   items: (
     input: ListIdentityProvidersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     IdentityProviderSummary,
     | AccessDeniedException
     | ConflictException
@@ -1491,7 +1491,7 @@ export const listIdentityProviders: {
 export const listInstances: {
   (
     input: ListInstancesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInstancesResponse,
     | AccessDeniedException
     | ConflictException
@@ -1505,7 +1505,7 @@ export const listInstances: {
   >;
   pages: (
     input: ListInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInstancesResponse,
     | AccessDeniedException
     | ConflictException
@@ -1519,7 +1519,7 @@ export const listInstances: {
   >;
   items: (
     input: ListInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     InstanceSummary,
     | AccessDeniedException
     | ConflictException
@@ -1555,7 +1555,7 @@ export const listInstances: {
  */
 export const deleteLicenseServerEndpoint: (
   input: DeleteLicenseServerEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLicenseServerEndpointResponse,
   | AccessDeniedException
   | ConflictException
@@ -1584,7 +1584,7 @@ export const deleteLicenseServerEndpoint: (
  */
 export const createLicenseServerEndpoint: (
   input: CreateLicenseServerEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLicenseServerEndpointResponse,
   | AccessDeniedException
   | ConflictException
@@ -1615,7 +1615,7 @@ export const createLicenseServerEndpoint: (
  */
 export const associateUser: (
   input: AssociateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateUserResponse,
   | AccessDeniedException
   | ConflictException

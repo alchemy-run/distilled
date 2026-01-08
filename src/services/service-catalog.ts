@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -240,8 +240,36 @@ export const GetAWSOrganizationsAccessStatusInput = S.suspend(() =>
 ).annotations({
   identifier: "GetAWSOrganizationsAccessStatusInput",
 }) as any as S.Schema<GetAWSOrganizationsAccessStatusInput>;
-export type CopyOptions = string[];
-export const CopyOptions = S.Array(S.String);
+export type PortfolioShareType =
+  | "IMPORTED"
+  | "AWS_SERVICECATALOG"
+  | "AWS_ORGANIZATIONS";
+export const PortfolioShareType = S.Literal(
+  "IMPORTED",
+  "AWS_SERVICECATALOG",
+  "AWS_ORGANIZATIONS",
+);
+export type PrincipalType = "IAM" | "IAM_PATTERN";
+export const PrincipalType = S.Literal("IAM", "IAM_PATTERN");
+export type CopyOption = "CopyTags";
+export const CopyOption = S.Literal("CopyTags");
+export type CopyOptions = CopyOption[];
+export const CopyOptions = S.Array(CopyOption);
+export type ProductType =
+  | "CLOUD_FORMATION_TEMPLATE"
+  | "MARKETPLACE"
+  | "TERRAFORM_OPEN_SOURCE"
+  | "TERRAFORM_CLOUD"
+  | "EXTERNAL";
+export const ProductType = S.Literal(
+  "CLOUD_FORMATION_TEMPLATE",
+  "MARKETPLACE",
+  "TERRAFORM_OPEN_SOURCE",
+  "TERRAFORM_CLOUD",
+  "EXTERNAL",
+);
+export type ProvisionedProductPlanType = "CLOUDFORMATION";
+export const ProvisionedProductPlanType = S.Literal("CLOUDFORMATION");
 export type NotificationArns = string[];
 export const NotificationArns = S.Array(S.String);
 export interface Tag {
@@ -253,20 +281,58 @@ export const Tag = S.suspend(() =>
 ).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type Tags = Tag[];
 export const Tags = S.Array(Tag);
+export type ServiceActionDefinitionType = "SSM_AUTOMATION";
+export const ServiceActionDefinitionType = S.Literal("SSM_AUTOMATION");
+export type DescribePortfolioShareType =
+  | "ACCOUNT"
+  | "ORGANIZATION"
+  | "ORGANIZATIONAL_UNIT"
+  | "ORGANIZATION_MEMBER_ACCOUNT";
+export const DescribePortfolioShareType = S.Literal(
+  "ACCOUNT",
+  "ORGANIZATION",
+  "ORGANIZATIONAL_UNIT",
+  "ORGANIZATION_MEMBER_ACCOUNT",
+);
+export type AccessStatus = "ENABLED" | "UNDER_CHANGE" | "DISABLED";
+export const AccessStatus = S.Literal("ENABLED", "UNDER_CHANGE", "DISABLED");
 export type OutputKeys = string[];
 export const OutputKeys = S.Array(S.String);
+export type OrganizationNodeType =
+  | "ORGANIZATION"
+  | "ORGANIZATIONAL_UNIT"
+  | "ACCOUNT";
+export const OrganizationNodeType = S.Literal(
+  "ORGANIZATION",
+  "ORGANIZATIONAL_UNIT",
+  "ACCOUNT",
+);
+export type EngineWorkflowStatus = "SUCCEEDED" | "FAILED";
+export const EngineWorkflowStatus = S.Literal("SUCCEEDED", "FAILED");
+export type ProductViewSortBy = "Title" | "VersionCount" | "CreationDate";
+export const ProductViewSortBy = S.Literal(
+  "Title",
+  "VersionCount",
+  "CreationDate",
+);
+export type SortOrder = "ASCENDING" | "DESCENDING";
+export const SortOrder = S.Literal("ASCENDING", "DESCENDING");
+export type ProductSource = "ACCOUNT";
+export const ProductSource = S.Literal("ACCOUNT");
 export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
+export type ProvisioningArtifactGuidance = "DEFAULT" | "DEPRECATED";
+export const ProvisioningArtifactGuidance = S.Literal("DEFAULT", "DEPRECATED");
 export interface AcceptPortfolioShareInput {
   AcceptLanguage?: string;
   PortfolioId: string;
-  PortfolioShareType?: string;
+  PortfolioShareType?: PortfolioShareType;
 }
 export const AcceptPortfolioShareInput = S.suspend(() =>
   S.Struct({
     AcceptLanguage: S.optional(S.String),
     PortfolioId: S.String,
-    PortfolioShareType: S.optional(S.String),
+    PortfolioShareType: S.optional(PortfolioShareType),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -300,14 +366,14 @@ export interface AssociatePrincipalWithPortfolioInput {
   AcceptLanguage?: string;
   PortfolioId: string;
   PrincipalARN: string;
-  PrincipalType: string;
+  PrincipalType: PrincipalType;
 }
 export const AssociatePrincipalWithPortfolioInput = S.suspend(() =>
   S.Struct({
     AcceptLanguage: S.optional(S.String),
     PortfolioId: S.String,
     PrincipalARN: S.String,
-    PrincipalType: S.String,
+    PrincipalType: PrincipalType,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -405,7 +471,7 @@ export const ServiceActionAssociation = S.suspend(() =>
 export type ServiceActionAssociations = ServiceActionAssociation[];
 export const ServiceActionAssociations = S.Array(ServiceActionAssociation);
 export interface BatchDisassociateServiceActionFromProvisioningArtifactInput {
-  ServiceActionAssociations: ServiceActionAssociations;
+  ServiceActionAssociations: ServiceActionAssociation[];
   AcceptLanguage?: string;
 }
 export const BatchDisassociateServiceActionFromProvisioningArtifactInput =
@@ -448,11 +514,26 @@ export const ProvisioningArtifactInfo = S.Record({
   key: S.String,
   value: S.String,
 });
+export type ProvisioningArtifactType =
+  | "CLOUD_FORMATION_TEMPLATE"
+  | "MARKETPLACE_AMI"
+  | "MARKETPLACE_CAR"
+  | "TERRAFORM_OPEN_SOURCE"
+  | "TERRAFORM_CLOUD"
+  | "EXTERNAL";
+export const ProvisioningArtifactType = S.Literal(
+  "CLOUD_FORMATION_TEMPLATE",
+  "MARKETPLACE_AMI",
+  "MARKETPLACE_CAR",
+  "TERRAFORM_OPEN_SOURCE",
+  "TERRAFORM_CLOUD",
+  "EXTERNAL",
+);
 export interface ProvisioningArtifactProperties {
   Name?: string;
   Description?: string;
-  Info?: ProvisioningArtifactInfo;
-  Type?: string;
+  Info?: { [key: string]: string };
+  Type?: ProvisioningArtifactType;
   DisableTemplateValidation?: boolean;
 }
 export const ProvisioningArtifactProperties = S.suspend(() =>
@@ -460,7 +541,7 @@ export const ProvisioningArtifactProperties = S.suspend(() =>
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     Info: S.optional(ProvisioningArtifactInfo),
-    Type: S.optional(S.String),
+    Type: S.optional(ProvisioningArtifactType),
     DisableTemplateValidation: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -526,11 +607,14 @@ export const DeletePortfolioOutput = S.suspend(() => S.Struct({})).annotations({
   identifier: "DeletePortfolioOutput",
 }) as any as S.Schema<DeletePortfolioOutput>;
 export interface OrganizationNode {
-  Type?: string;
+  Type?: OrganizationNodeType;
   Value?: string;
 }
 export const OrganizationNode = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String), Value: S.optional(S.String) }),
+  S.Struct({
+    Type: S.optional(OrganizationNodeType),
+    Value: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "OrganizationNode",
 }) as any as S.Schema<OrganizationNode>;
@@ -685,14 +769,14 @@ export const DescribePortfolioInput = S.suspend(() =>
 }) as any as S.Schema<DescribePortfolioInput>;
 export interface DescribePortfolioSharesInput {
   PortfolioId: string;
-  Type: string;
+  Type: DescribePortfolioShareType;
   PageToken?: string;
   PageSize?: number;
 }
 export const DescribePortfolioSharesInput = S.suspend(() =>
   S.Struct({
     PortfolioId: S.String,
-    Type: S.String,
+    Type: DescribePortfolioShareType,
     PageToken: S.optional(S.String),
     PageSize: S.optional(S.Number),
   }).pipe(
@@ -914,14 +998,14 @@ export interface DisassociatePrincipalFromPortfolioInput {
   AcceptLanguage?: string;
   PortfolioId: string;
   PrincipalARN: string;
-  PrincipalType?: string;
+  PrincipalType?: PrincipalType;
 }
 export const DisassociatePrincipalFromPortfolioInput = S.suspend(() =>
   S.Struct({
     AcceptLanguage: S.optional(S.String),
     PortfolioId: S.String,
     PrincipalARN: S.String,
-    PrincipalType: S.optional(S.String),
+    PrincipalType: S.optional(PrincipalType),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -1019,10 +1103,10 @@ export const ExecuteProvisionedProductPlanInput = S.suspend(() =>
   identifier: "ExecuteProvisionedProductPlanInput",
 }) as any as S.Schema<ExecuteProvisionedProductPlanInput>;
 export interface GetAWSOrganizationsAccessStatusOutput {
-  AccessStatus?: string;
+  AccessStatus?: AccessStatus;
 }
 export const GetAWSOrganizationsAccessStatusOutput = S.suspend(() =>
-  S.Struct({ AccessStatus: S.optional(S.String) }),
+  S.Struct({ AccessStatus: S.optional(AccessStatus) }),
 ).annotations({
   identifier: "GetAWSOrganizationsAccessStatusOutput",
 }) as any as S.Schema<GetAWSOrganizationsAccessStatusOutput>;
@@ -1030,7 +1114,7 @@ export interface GetProvisionedProductOutputsInput {
   AcceptLanguage?: string;
   ProvisionedProductId?: string;
   ProvisionedProductName?: string;
-  OutputKeys?: OutputKeys;
+  OutputKeys?: string[];
   PageSize?: number;
   PageToken?: string;
 }
@@ -1074,14 +1158,14 @@ export interface ListAcceptedPortfolioSharesInput {
   AcceptLanguage?: string;
   PageToken?: string;
   PageSize?: number;
-  PortfolioShareType?: string;
+  PortfolioShareType?: PortfolioShareType;
 }
 export const ListAcceptedPortfolioSharesInput = S.suspend(() =>
   S.Struct({
     AcceptLanguage: S.optional(S.String),
     PageToken: S.optional(S.String),
     PageSize: S.optional(S.Number),
-    PortfolioShareType: S.optional(S.String),
+    PortfolioShareType: S.optional(PortfolioShareType),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -1147,7 +1231,7 @@ export const ListLaunchPathsInput = S.suspend(() =>
 export interface ListOrganizationPortfolioAccessInput {
   AcceptLanguage?: string;
   PortfolioId: string;
-  OrganizationNodeType: string;
+  OrganizationNodeType: OrganizationNodeType;
   PageToken?: string;
   PageSize?: number;
 }
@@ -1155,7 +1239,7 @@ export const ListOrganizationPortfolioAccessInput = S.suspend(() =>
   S.Struct({
     AcceptLanguage: S.optional(S.String),
     PortfolioId: S.String,
-    OrganizationNodeType: S.String,
+    OrganizationNodeType: OrganizationNodeType,
     PageToken: S.optional(S.String),
     PageSize: S.optional(S.Number),
   }).pipe(
@@ -1340,7 +1424,7 @@ export const ListStackInstancesForProvisionedProductInput = S.suspend(() =>
 export interface NotifyTerminateProvisionedProductEngineWorkflowResultInput {
   WorkflowToken: string;
   RecordId: string;
-  Status: string;
+  Status: EngineWorkflowStatus;
   FailureReason?: string;
   IdempotencyToken: string;
 }
@@ -1349,7 +1433,7 @@ export const NotifyTerminateProvisionedProductEngineWorkflowResultInput =
     S.Struct({
       WorkflowToken: S.String,
       RecordId: S.String,
-      Status: S.String,
+      Status: EngineWorkflowStatus,
       FailureReason: S.optional(S.String),
       IdempotencyToken: S.String,
     }).pipe(
@@ -1380,9 +1464,9 @@ export const RecordOutputs = S.Array(RecordOutput);
 export interface NotifyUpdateProvisionedProductEngineWorkflowResultInput {
   WorkflowToken: string;
   RecordId: string;
-  Status: string;
+  Status: EngineWorkflowStatus;
   FailureReason?: string;
-  Outputs?: RecordOutputs;
+  Outputs?: RecordOutput[];
   IdempotencyToken: string;
 }
 export const NotifyUpdateProvisionedProductEngineWorkflowResultInput =
@@ -1390,7 +1474,7 @@ export const NotifyUpdateProvisionedProductEngineWorkflowResultInput =
     S.Struct({
       WorkflowToken: S.String,
       RecordId: S.String,
-      Status: S.String,
+      Status: EngineWorkflowStatus,
       FailureReason: S.optional(S.String),
       Outputs: S.optional(RecordOutputs),
       IdempotencyToken: S.String,
@@ -1408,13 +1492,13 @@ export const NotifyUpdateProvisionedProductEngineWorkflowResultOutput =
 export interface RejectPortfolioShareInput {
   AcceptLanguage?: string;
   PortfolioId: string;
-  PortfolioShareType?: string;
+  PortfolioShareType?: PortfolioShareType;
 }
 export const RejectPortfolioShareInput = S.suspend(() =>
   S.Struct({
     AcceptLanguage: S.optional(S.String),
     PortfolioId: S.String,
-    PortfolioShareType: S.optional(S.String),
+    PortfolioShareType: S.optional(PortfolioShareType),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -1427,12 +1511,17 @@ export const RejectPortfolioShareOutput = S.suspend(() =>
 ).annotations({
   identifier: "RejectPortfolioShareOutput",
 }) as any as S.Schema<RejectPortfolioShareOutput>;
+export type AccessLevelFilterKey = "Account" | "Role" | "User";
+export const AccessLevelFilterKey = S.Literal("Account", "Role", "User");
 export interface AccessLevelFilter {
-  Key?: string;
+  Key?: AccessLevelFilterKey;
   Value?: string;
 }
 export const AccessLevelFilter = S.suspend(() =>
-  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+  S.Struct({
+    Key: S.optional(AccessLevelFilterKey),
+    Value: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "AccessLevelFilter",
 }) as any as S.Schema<AccessLevelFilter>;
@@ -1454,33 +1543,43 @@ export const ScanProvisionedProductsInput = S.suspend(() =>
 ).annotations({
   identifier: "ScanProvisionedProductsInput",
 }) as any as S.Schema<ScanProvisionedProductsInput>;
+export type ProductViewFilterBy =
+  | "FullTextSearch"
+  | "Owner"
+  | "ProductType"
+  | "SourceProductId";
+export const ProductViewFilterBy = S.Literal(
+  "FullTextSearch",
+  "Owner",
+  "ProductType",
+  "SourceProductId",
+);
 export type ProductViewFilterValues = string[];
 export const ProductViewFilterValues = S.Array(S.String);
-export type ProductViewFilters = { [key: string]: ProductViewFilterValues };
-export const ProductViewFilters = S.Record({
-  key: S.String,
-  value: ProductViewFilterValues,
-});
+export type ProductViewFilters = { [key in ProductViewFilterBy]?: string[] };
+export const ProductViewFilters = S.partial(
+  S.Record({ key: ProductViewFilterBy, value: ProductViewFilterValues }),
+);
 export interface SearchProductsAsAdminInput {
   AcceptLanguage?: string;
   PortfolioId?: string;
-  Filters?: ProductViewFilters;
-  SortBy?: string;
-  SortOrder?: string;
+  Filters?: { [key: string]: string[] };
+  SortBy?: ProductViewSortBy;
+  SortOrder?: SortOrder;
   PageToken?: string;
   PageSize?: number;
-  ProductSource?: string;
+  ProductSource?: ProductSource;
 }
 export const SearchProductsAsAdminInput = S.suspend(() =>
   S.Struct({
     AcceptLanguage: S.optional(S.String),
     PortfolioId: S.optional(S.String),
     Filters: S.optional(ProductViewFilters),
-    SortBy: S.optional(S.String),
-    SortOrder: S.optional(S.String),
+    SortBy: S.optional(ProductViewSortBy),
+    SortOrder: S.optional(SortOrder),
     PageToken: S.optional(S.String),
     PageSize: S.optional(S.Number),
-    ProductSource: S.optional(S.String),
+    ProductSource: S.optional(ProductSource),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -1535,8 +1634,8 @@ export interface UpdatePortfolioInput {
   DisplayName?: string;
   Description?: string;
   ProviderName?: string;
-  AddTags?: AddTags;
-  RemoveTags?: TagKeys;
+  AddTags?: Tag[];
+  RemoveTags?: string[];
 }
 export const UpdatePortfolioInput = S.suspend(() =>
   S.Struct({
@@ -1575,6 +1674,8 @@ export const UpdatePortfolioShareInput = S.suspend(() =>
 ).annotations({
   identifier: "UpdatePortfolioShareInput",
 }) as any as S.Schema<UpdatePortfolioShareInput>;
+export type SourceType = "CODESTAR";
+export const SourceType = S.Literal("CODESTAR");
 export interface CodeStarParameters {
   ConnectionArn: string;
   Repository: string;
@@ -1600,12 +1701,12 @@ export const SourceConnectionParameters = S.suspend(() =>
   identifier: "SourceConnectionParameters",
 }) as any as S.Schema<SourceConnectionParameters>;
 export interface SourceConnection {
-  Type?: string;
+  Type?: SourceType;
   ConnectionParameters: SourceConnectionParameters;
 }
 export const SourceConnection = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String),
+    Type: S.optional(SourceType),
     ConnectionParameters: SourceConnectionParameters,
   }),
 ).annotations({
@@ -1621,8 +1722,8 @@ export interface UpdateProductInput {
   SupportDescription?: string;
   SupportEmail?: string;
   SupportUrl?: string;
-  AddTags?: AddTags;
-  RemoveTags?: TagKeys;
+  AddTags?: Tag[];
+  RemoveTags?: string[];
   SourceConnection?: SourceConnection;
 }
 export const UpdateProductInput = S.suspend(() =>
@@ -1652,7 +1753,7 @@ export interface UpdateProvisioningArtifactInput {
   Name?: string;
   Description?: string;
   Active?: boolean;
-  Guidance?: string;
+  Guidance?: ProvisioningArtifactGuidance;
 }
 export const UpdateProvisioningArtifactInput = S.suspend(() =>
   S.Struct({
@@ -1662,22 +1763,34 @@ export const UpdateProvisioningArtifactInput = S.suspend(() =>
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     Active: S.optional(S.Boolean),
-    Guidance: S.optional(S.String),
+    Guidance: S.optional(ProvisioningArtifactGuidance),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "UpdateProvisioningArtifactInput",
 }) as any as S.Schema<UpdateProvisioningArtifactInput>;
-export type ServiceActionDefinitionMap = { [key: string]: string };
-export const ServiceActionDefinitionMap = S.Record({
-  key: S.String,
-  value: S.String,
-});
+export type ServiceActionDefinitionKey =
+  | "Name"
+  | "Version"
+  | "AssumeRole"
+  | "Parameters";
+export const ServiceActionDefinitionKey = S.Literal(
+  "Name",
+  "Version",
+  "AssumeRole",
+  "Parameters",
+);
+export type ServiceActionDefinitionMap = {
+  [key in ServiceActionDefinitionKey]?: string;
+};
+export const ServiceActionDefinitionMap = S.partial(
+  S.Record({ key: ServiceActionDefinitionKey, value: S.String }),
+);
 export interface UpdateServiceActionInput {
   Id: string;
   Name?: string;
-  Definition?: ServiceActionDefinitionMap;
+  Definition?: { [key: string]: string };
   Description?: string;
   AcceptLanguage?: string;
 }
@@ -1710,24 +1823,34 @@ export const UpdateTagOptionInput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateTagOptionInput",
 }) as any as S.Schema<UpdateTagOptionInput>;
+export type ProvisioningArtifactPropertyName = "Id";
+export const ProvisioningArtifactPropertyName = S.Literal("Id");
 export type ExecutionParameterValueList = string[];
 export const ExecutionParameterValueList = S.Array(S.String);
 export type StackSetAccounts = string[];
 export const StackSetAccounts = S.Array(S.String);
 export type StackSetRegions = string[];
 export const StackSetRegions = S.Array(S.String);
+export type ProvisionedProductViewFilterBy = "SearchQuery";
+export const ProvisionedProductViewFilterBy = S.Literal("SearchQuery");
 export type ProvisionedProductViewFilterValues = string[];
 export const ProvisionedProductViewFilterValues = S.Array(S.String);
-export type SourceProvisioningArtifactPropertiesMap = { [key: string]: string };
-export const SourceProvisioningArtifactPropertiesMap = S.Record({
-  key: S.String,
-  value: S.String,
-});
-export type SourceProvisioningArtifactProperties =
-  SourceProvisioningArtifactPropertiesMap[];
+export type StackSetOperationType = "CREATE" | "UPDATE" | "DELETE";
+export const StackSetOperationType = S.Literal("CREATE", "UPDATE", "DELETE");
+export type PropertyKey = "OWNER" | "LAUNCH_ROLE";
+export const PropertyKey = S.Literal("OWNER", "LAUNCH_ROLE");
+export type SourceProvisioningArtifactPropertiesMap = {
+  [key in ProvisioningArtifactPropertyName]?: string;
+};
+export const SourceProvisioningArtifactPropertiesMap = S.partial(
+  S.Record({ key: ProvisioningArtifactPropertyName, value: S.String }),
+);
+export type SourceProvisioningArtifactProperties = { [key: string]: string }[];
 export const SourceProvisioningArtifactProperties = S.Array(
   SourceProvisioningArtifactPropertiesMap,
 );
+export type Status = "AVAILABLE" | "CREATING" | "FAILED";
+export const Status = S.Literal("AVAILABLE", "CREATING", "FAILED");
 export interface UpdateProvisioningParameter {
   Key?: string;
   Value?: string;
@@ -1745,6 +1868,12 @@ export const UpdateProvisioningParameter = S.suspend(() =>
 export type UpdateProvisioningParameters = UpdateProvisioningParameter[];
 export const UpdateProvisioningParameters = S.Array(
   UpdateProvisioningParameter,
+);
+export type CopyProductStatus = "SUCCEEDED" | "IN_PROGRESS" | "FAILED";
+export const CopyProductStatus = S.Literal(
+  "SUCCEEDED",
+  "IN_PROGRESS",
+  "FAILED",
 );
 export interface TagOptionDetail {
   Key?: string;
@@ -1766,9 +1895,20 @@ export const TagOptionDetail = S.suspend(() =>
 }) as any as S.Schema<TagOptionDetail>;
 export type TagOptionDetails = TagOptionDetail[];
 export const TagOptionDetails = S.Array(TagOptionDetail);
-export type ExecutionParameterMap = {
-  [key: string]: ExecutionParameterValueList;
-};
+export type ShareStatus =
+  | "NOT_STARTED"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "COMPLETED_WITH_ERRORS"
+  | "ERROR";
+export const ShareStatus = S.Literal(
+  "NOT_STARTED",
+  "IN_PROGRESS",
+  "COMPLETED",
+  "COMPLETED_WITH_ERRORS",
+  "ERROR",
+);
+export type ExecutionParameterMap = { [key: string]: string[] };
 export const ExecutionParameterMap = S.Record({
   key: S.String,
   value: ExecutionParameterValueList,
@@ -1825,10 +1965,10 @@ export interface ProvisioningArtifactDetail {
   Id?: string;
   Name?: string;
   Description?: string;
-  Type?: string;
+  Type?: ProvisioningArtifactType;
   CreatedTime?: Date;
   Active?: boolean;
-  Guidance?: string;
+  Guidance?: ProvisioningArtifactGuidance;
   SourceRevision?: string;
 }
 export const ProvisioningArtifactDetail = S.suspend(() =>
@@ -1836,10 +1976,10 @@ export const ProvisioningArtifactDetail = S.suspend(() =>
     Id: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(ProvisioningArtifactType),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Active: S.optional(S.Boolean),
-    Guidance: S.optional(S.String),
+    Guidance: S.optional(ProvisioningArtifactGuidance),
     SourceRevision: S.optional(S.String),
   }),
 ).annotations({
@@ -1882,8 +2022,8 @@ export const ProvisioningParameter = S.suspend(() =>
 export type ProvisioningParameters = ProvisioningParameter[];
 export const ProvisioningParameters = S.Array(ProvisioningParameter);
 export interface ProvisioningPreferences {
-  StackSetAccounts?: StackSetAccounts;
-  StackSetRegions?: StackSetRegions;
+  StackSetAccounts?: string[];
+  StackSetRegions?: string[];
   StackSetFailureToleranceCount?: number;
   StackSetFailureTolerancePercentage?: number;
   StackSetMaxConcurrencyCount?: number;
@@ -1901,12 +2041,25 @@ export const ProvisioningPreferences = S.suspend(() =>
 ).annotations({
   identifier: "ProvisioningPreferences",
 }) as any as S.Schema<ProvisioningPreferences>;
+export type ProvisionedProductStatus =
+  | "AVAILABLE"
+  | "UNDER_CHANGE"
+  | "TAINTED"
+  | "ERROR"
+  | "PLAN_IN_PROGRESS";
+export const ProvisionedProductStatus = S.Literal(
+  "AVAILABLE",
+  "UNDER_CHANGE",
+  "TAINTED",
+  "ERROR",
+  "PLAN_IN_PROGRESS",
+);
 export interface ProvisionedProductDetail {
   Name?: string;
   Arn?: string;
   Type?: string;
   Id?: string;
-  Status?: string;
+  Status?: ProvisionedProductStatus;
   StatusMessage?: string;
   CreatedTime?: Date;
   IdempotencyToken?: string;
@@ -1923,7 +2076,7 @@ export const ProvisionedProductDetail = S.suspend(() =>
     Arn: S.optional(S.String),
     Type: S.optional(S.String),
     Id: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ProvisionedProductStatus),
     StatusMessage: S.optional(S.String),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     IdempotencyToken: S.optional(S.String),
@@ -1945,7 +2098,7 @@ export interface ProductViewSummary {
   Name?: string;
   Owner?: string;
   ShortDescription?: string;
-  Type?: string;
+  Type?: ProductType;
   Distributor?: string;
   HasDefaultPath?: boolean;
   SupportEmail?: string;
@@ -1959,7 +2112,7 @@ export const ProductViewSummary = S.suspend(() =>
     Name: S.optional(S.String),
     Owner: S.optional(S.String),
     ShortDescription: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(ProductType),
     Distributor: S.optional(S.String),
     HasDefaultPath: S.optional(S.Boolean),
     SupportEmail: S.optional(S.String),
@@ -1969,9 +2122,11 @@ export const ProductViewSummary = S.suspend(() =>
 ).annotations({
   identifier: "ProductViewSummary",
 }) as any as S.Schema<ProductViewSummary>;
+export type LastSyncStatus = "SUCCEEDED" | "FAILED";
+export const LastSyncStatus = S.Literal("SUCCEEDED", "FAILED");
 export interface LastSync {
   LastSyncTime?: Date;
-  LastSyncStatus?: string;
+  LastSyncStatus?: LastSyncStatus;
   LastSyncStatusMessage?: string;
   LastSuccessfulSyncTime?: Date;
   LastSuccessfulSyncProvisioningArtifactId?: string;
@@ -1979,7 +2134,7 @@ export interface LastSync {
 export const LastSync = S.suspend(() =>
   S.Struct({
     LastSyncTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastSyncStatus: S.optional(S.String),
+    LastSyncStatus: S.optional(LastSyncStatus),
     LastSyncStatusMessage: S.optional(S.String),
     LastSuccessfulSyncTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1988,13 +2143,13 @@ export const LastSync = S.suspend(() =>
   }),
 ).annotations({ identifier: "LastSync" }) as any as S.Schema<LastSync>;
 export interface SourceConnectionDetail {
-  Type?: string;
+  Type?: SourceType;
   ConnectionParameters?: SourceConnectionParameters;
   LastSync?: LastSync;
 }
 export const SourceConnectionDetail = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String),
+    Type: S.optional(SourceType),
     ConnectionParameters: S.optional(SourceConnectionParameters),
     LastSync: S.optional(LastSync),
   }),
@@ -2003,7 +2158,7 @@ export const SourceConnectionDetail = S.suspend(() =>
 }) as any as S.Schema<SourceConnectionDetail>;
 export interface ProductViewDetail {
   ProductViewSummary?: ProductViewSummary;
-  Status?: string;
+  Status?: Status;
   ProductARN?: string;
   CreatedTime?: Date;
   SourceConnection?: SourceConnectionDetail;
@@ -2011,7 +2166,7 @@ export interface ProductViewDetail {
 export const ProductViewDetail = S.suspend(() =>
   S.Struct({
     ProductViewSummary: S.optional(ProductViewSummary),
-    Status: S.optional(S.String),
+    Status: S.optional(Status),
     ProductARN: S.optional(S.String),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     SourceConnection: S.optional(SourceConnectionDetail),
@@ -2022,20 +2177,22 @@ export const ProductViewDetail = S.suspend(() =>
 export type ProductViewDetails = ProductViewDetail[];
 export const ProductViewDetails = S.Array(ProductViewDetail);
 export type ProvisionedProductFilters = {
-  [key: string]: ProvisionedProductViewFilterValues;
+  [key in ProvisionedProductViewFilterBy]?: string[];
 };
-export const ProvisionedProductFilters = S.Record({
-  key: S.String,
-  value: ProvisionedProductViewFilterValues,
-});
+export const ProvisionedProductFilters = S.partial(
+  S.Record({
+    key: ProvisionedProductViewFilterBy,
+    value: ProvisionedProductViewFilterValues,
+  }),
+);
 export interface UpdateProvisioningPreferences {
-  StackSetAccounts?: StackSetAccounts;
-  StackSetRegions?: StackSetRegions;
+  StackSetAccounts?: string[];
+  StackSetRegions?: string[];
   StackSetFailureToleranceCount?: number;
   StackSetFailureTolerancePercentage?: number;
   StackSetMaxConcurrencyCount?: number;
   StackSetMaxConcurrencyPercentage?: number;
-  StackSetOperationType?: string;
+  StackSetOperationType?: StackSetOperationType;
 }
 export const UpdateProvisioningPreferences = S.suspend(() =>
   S.Struct({
@@ -2045,18 +2202,17 @@ export const UpdateProvisioningPreferences = S.suspend(() =>
     StackSetFailureTolerancePercentage: S.optional(S.Number),
     StackSetMaxConcurrencyCount: S.optional(S.Number),
     StackSetMaxConcurrencyPercentage: S.optional(S.Number),
-    StackSetOperationType: S.optional(S.String),
+    StackSetOperationType: S.optional(StackSetOperationType),
   }),
 ).annotations({
   identifier: "UpdateProvisioningPreferences",
 }) as any as S.Schema<UpdateProvisioningPreferences>;
-export type ProvisionedProductProperties = { [key: string]: string };
-export const ProvisionedProductProperties = S.Record({
-  key: S.String,
-  value: S.String,
-});
+export type ProvisionedProductProperties = { [key in PropertyKey]?: string };
+export const ProvisionedProductProperties = S.partial(
+  S.Record({ key: PropertyKey, value: S.String }),
+);
 export interface BatchAssociateServiceActionWithProvisioningArtifactInput {
-  ServiceActionAssociations: ServiceActionAssociations;
+  ServiceActionAssociations: ServiceActionAssociation[];
   AcceptLanguage?: string;
 }
 export const BatchAssociateServiceActionWithProvisioningArtifactInput =
@@ -2075,8 +2231,8 @@ export interface CopyProductInput {
   SourceProductArn: string;
   TargetProductId?: string;
   TargetProductName?: string;
-  SourceProvisioningArtifactIdentifiers?: SourceProvisioningArtifactProperties;
-  CopyOptions?: CopyOptions;
+  SourceProvisioningArtifactIdentifiers?: { [key: string]: string }[];
+  CopyOptions?: CopyOption[];
   IdempotencyToken: string;
 }
 export const CopyProductInput = S.suspend(() =>
@@ -2101,7 +2257,7 @@ export interface CreatePortfolioInput {
   DisplayName: string;
   Description?: string;
   ProviderName: string;
-  Tags?: AddTags;
+  Tags?: Tag[];
   IdempotencyToken: string;
 }
 export const CreatePortfolioInput = S.suspend(() =>
@@ -2143,21 +2299,21 @@ export const CreatePortfolioShareInput = S.suspend(() =>
 export interface CreateProvisionedProductPlanInput {
   AcceptLanguage?: string;
   PlanName: string;
-  PlanType: string;
-  NotificationArns?: NotificationArns;
+  PlanType: ProvisionedProductPlanType;
+  NotificationArns?: string[];
   PathId?: string;
   ProductId: string;
   ProvisionedProductName: string;
   ProvisioningArtifactId: string;
-  ProvisioningParameters?: UpdateProvisioningParameters;
+  ProvisioningParameters?: UpdateProvisioningParameter[];
   IdempotencyToken: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreateProvisionedProductPlanInput = S.suspend(() =>
   S.Struct({
     AcceptLanguage: S.optional(S.String),
     PlanName: S.String,
-    PlanType: S.String,
+    PlanType: ProvisionedProductPlanType,
     NotificationArns: S.optional(NotificationArns),
     PathId: S.optional(S.String),
     ProductId: S.String,
@@ -2174,8 +2330,8 @@ export const CreateProvisionedProductPlanInput = S.suspend(() =>
 }) as any as S.Schema<CreateProvisionedProductPlanInput>;
 export interface CreateServiceActionInput {
   Name: string;
-  DefinitionType: string;
-  Definition: ServiceActionDefinitionMap;
+  DefinitionType: ServiceActionDefinitionType;
+  Definition: { [key: string]: string };
   Description?: string;
   AcceptLanguage?: string;
   IdempotencyToken: string;
@@ -2183,7 +2339,7 @@ export interface CreateServiceActionInput {
 export const CreateServiceActionInput = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    DefinitionType: S.String,
+    DefinitionType: ServiceActionDefinitionType,
     Definition: ServiceActionDefinitionMap,
     Description: S.optional(S.String),
     AcceptLanguage: S.optional(S.String),
@@ -2205,25 +2361,25 @@ export const DeletePortfolioShareOutput = S.suspend(() =>
 export interface DescribeConstraintOutput {
   ConstraintDetail?: ConstraintDetail;
   ConstraintParameters?: string;
-  Status?: string;
+  Status?: Status;
 }
 export const DescribeConstraintOutput = S.suspend(() =>
   S.Struct({
     ConstraintDetail: S.optional(ConstraintDetail),
     ConstraintParameters: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(Status),
   }),
 ).annotations({
   identifier: "DescribeConstraintOutput",
 }) as any as S.Schema<DescribeConstraintOutput>;
 export interface DescribeCopyProductStatusOutput {
-  CopyProductStatus?: string;
+  CopyProductStatus?: CopyProductStatus;
   TargetProductId?: string;
   StatusDetail?: string;
 }
 export const DescribeCopyProductStatusOutput = S.suspend(() =>
   S.Struct({
-    CopyProductStatus: S.optional(S.String),
+    CopyProductStatus: S.optional(CopyProductStatus),
     TargetProductId: S.optional(S.String),
     StatusDetail: S.optional(S.String),
   }),
@@ -2235,7 +2391,7 @@ export interface ProvisioningArtifact {
   Name?: string;
   Description?: string;
   CreatedTime?: Date;
-  Guidance?: string;
+  Guidance?: ProvisioningArtifactGuidance;
 }
 export const ProvisioningArtifact = S.suspend(() =>
   S.Struct({
@@ -2243,7 +2399,7 @@ export const ProvisioningArtifact = S.suspend(() =>
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Guidance: S.optional(S.String),
+    Guidance: S.optional(ProvisioningArtifactGuidance),
   }),
 ).annotations({
   identifier: "ProvisioningArtifact",
@@ -2252,7 +2408,7 @@ export type ProvisioningArtifacts = ProvisioningArtifact[];
 export const ProvisioningArtifacts = S.Array(ProvisioningArtifact);
 export interface DescribeProductViewOutput {
   ProductViewSummary?: ProductViewSummary;
-  ProvisioningArtifacts?: ProvisioningArtifacts;
+  ProvisioningArtifacts?: ProvisioningArtifact[];
 }
 export const DescribeProductViewOutput = S.suspend(() =>
   S.Struct({
@@ -2270,6 +2426,19 @@ export const DescribeTagOptionOutput = S.suspend(() =>
 ).annotations({
   identifier: "DescribeTagOptionOutput",
 }) as any as S.Schema<DescribeTagOptionOutput>;
+export type RecordStatus =
+  | "CREATED"
+  | "IN_PROGRESS"
+  | "IN_PROGRESS_IN_ERROR"
+  | "SUCCEEDED"
+  | "FAILED";
+export const RecordStatus = S.Literal(
+  "CREATED",
+  "IN_PROGRESS",
+  "IN_PROGRESS_IN_ERROR",
+  "SUCCEEDED",
+  "FAILED",
+);
 export interface RecordError {
   Code?: string;
   Description?: string;
@@ -2291,7 +2460,7 @@ export const RecordTags = S.Array(RecordTag);
 export interface RecordDetail {
   RecordId?: string;
   ProvisionedProductName?: string;
-  Status?: string;
+  Status?: RecordStatus;
   CreatedTime?: Date;
   UpdatedTime?: Date;
   ProvisionedProductType?: string;
@@ -2300,15 +2469,15 @@ export interface RecordDetail {
   ProductId?: string;
   ProvisioningArtifactId?: string;
   PathId?: string;
-  RecordErrors?: RecordErrors;
-  RecordTags?: RecordTags;
+  RecordErrors?: RecordError[];
+  RecordTags?: RecordTag[];
   LaunchRoleArn?: string;
 }
 export const RecordDetail = S.suspend(() =>
   S.Struct({
     RecordId: S.optional(S.String),
     ProvisionedProductName: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(RecordStatus),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ProvisionedProductType: S.optional(S.String),
@@ -2335,7 +2504,7 @@ export interface ExecuteProvisionedProductServiceActionInput {
   ServiceActionId: string;
   ExecuteToken: string;
   AcceptLanguage?: string;
-  Parameters?: ExecutionParameterMap;
+  Parameters?: { [key: string]: string[] };
 }
 export const ExecuteProvisionedProductServiceActionInput = S.suspend(() =>
   S.Struct({
@@ -2351,7 +2520,7 @@ export const ExecuteProvisionedProductServiceActionInput = S.suspend(() =>
   identifier: "ExecuteProvisionedProductServiceActionInput",
 }) as any as S.Schema<ExecuteProvisionedProductServiceActionInput>;
 export interface GetProvisionedProductOutputsOutput {
-  Outputs?: RecordOutputs;
+  Outputs?: RecordOutput[];
   NextPageToken?: string;
 }
 export const GetProvisionedProductOutputsOutput = S.suspend(() =>
@@ -2371,7 +2540,7 @@ export const ImportAsProvisionedProductOutput = S.suspend(() =>
   identifier: "ImportAsProvisionedProductOutput",
 }) as any as S.Schema<ImportAsProvisionedProductOutput>;
 export interface ListAcceptedPortfolioSharesOutput {
-  PortfolioDetails?: PortfolioDetails;
+  PortfolioDetails?: PortfolioDetail[];
   NextPageToken?: string;
 }
 export const ListAcceptedPortfolioSharesOutput = S.suspend(() =>
@@ -2391,7 +2560,7 @@ export const BudgetDetail = S.suspend(() =>
 export type Budgets = BudgetDetail[];
 export const Budgets = S.Array(BudgetDetail);
 export interface ListBudgetsForResourceOutput {
-  Budgets?: Budgets;
+  Budgets?: BudgetDetail[];
   NextPageToken?: string;
 }
 export const ListBudgetsForResourceOutput = S.suspend(() =>
@@ -2403,7 +2572,7 @@ export const ListBudgetsForResourceOutput = S.suspend(() =>
   identifier: "ListBudgetsForResourceOutput",
 }) as any as S.Schema<ListBudgetsForResourceOutput>;
 export interface ListConstraintsForPortfolioOutput {
-  ConstraintDetails?: ConstraintDetails;
+  ConstraintDetails?: ConstraintDetail[];
   NextPageToken?: string;
 }
 export const ListConstraintsForPortfolioOutput = S.suspend(() =>
@@ -2415,7 +2584,7 @@ export const ListConstraintsForPortfolioOutput = S.suspend(() =>
   identifier: "ListConstraintsForPortfolioOutput",
 }) as any as S.Schema<ListConstraintsForPortfolioOutput>;
 export interface ListOrganizationPortfolioAccessOutput {
-  OrganizationNodes?: OrganizationNodes;
+  OrganizationNodes?: OrganizationNode[];
   NextPageToken?: string;
 }
 export const ListOrganizationPortfolioAccessOutput = S.suspend(() =>
@@ -2427,7 +2596,7 @@ export const ListOrganizationPortfolioAccessOutput = S.suspend(() =>
   identifier: "ListOrganizationPortfolioAccessOutput",
 }) as any as S.Schema<ListOrganizationPortfolioAccessOutput>;
 export interface ListPortfolioAccessOutput {
-  AccountIds?: AccountIds;
+  AccountIds?: string[];
   NextPageToken?: string;
 }
 export const ListPortfolioAccessOutput = S.suspend(() =>
@@ -2439,7 +2608,7 @@ export const ListPortfolioAccessOutput = S.suspend(() =>
   identifier: "ListPortfolioAccessOutput",
 }) as any as S.Schema<ListPortfolioAccessOutput>;
 export interface ListPortfoliosOutput {
-  PortfolioDetails?: PortfolioDetails;
+  PortfolioDetails?: PortfolioDetail[];
   NextPageToken?: string;
 }
 export const ListPortfoliosOutput = S.suspend(() =>
@@ -2451,7 +2620,7 @@ export const ListPortfoliosOutput = S.suspend(() =>
   identifier: "ListPortfoliosOutput",
 }) as any as S.Schema<ListPortfoliosOutput>;
 export interface ListPortfoliosForProductOutput {
-  PortfolioDetails?: PortfolioDetails;
+  PortfolioDetails?: PortfolioDetail[];
   NextPageToken?: string;
 }
 export const ListPortfoliosForProductOutput = S.suspend(() =>
@@ -2483,7 +2652,7 @@ export const ListProvisionedProductPlansInput = S.suspend(() =>
   identifier: "ListProvisionedProductPlansInput",
 }) as any as S.Schema<ListProvisionedProductPlansInput>;
 export interface ListProvisioningArtifactsOutput {
-  ProvisioningArtifactDetails?: ProvisioningArtifactDetails;
+  ProvisioningArtifactDetails?: ProvisioningArtifactDetail[];
   NextPageToken?: string;
 }
 export const ListProvisioningArtifactsOutput = S.suspend(() =>
@@ -2518,14 +2687,14 @@ export interface ServiceActionSummary {
   Id?: string;
   Name?: string;
   Description?: string;
-  DefinitionType?: string;
+  DefinitionType?: ServiceActionDefinitionType;
 }
 export const ServiceActionSummary = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    DefinitionType: S.optional(S.String),
+    DefinitionType: S.optional(ServiceActionDefinitionType),
   }),
 ).annotations({
   identifier: "ServiceActionSummary",
@@ -2533,7 +2702,7 @@ export const ServiceActionSummary = S.suspend(() =>
 export type ServiceActionSummaries = ServiceActionSummary[];
 export const ServiceActionSummaries = S.Array(ServiceActionSummary);
 export interface ListServiceActionsForProvisioningArtifactOutput {
-  ServiceActionSummaries?: ServiceActionSummaries;
+  ServiceActionSummaries?: ServiceActionSummary[];
   NextPageToken?: string;
 }
 export const ListServiceActionsForProvisioningArtifactOutput = S.suspend(() =>
@@ -2569,10 +2738,10 @@ export interface ProvisionProductInput {
   PathId?: string;
   PathName?: string;
   ProvisionedProductName: string;
-  ProvisioningParameters?: ProvisioningParameters;
+  ProvisioningParameters?: ProvisioningParameter[];
   ProvisioningPreferences?: ProvisioningPreferences;
-  Tags?: Tags;
-  NotificationArns?: NotificationArns;
+  Tags?: Tag[];
+  NotificationArns?: string[];
   ProvisionToken: string;
 }
 export const ProvisionProductInput = S.suspend(() =>
@@ -2597,7 +2766,7 @@ export const ProvisionProductInput = S.suspend(() =>
   identifier: "ProvisionProductInput",
 }) as any as S.Schema<ProvisionProductInput>;
 export interface ScanProvisionedProductsOutput {
-  ProvisionedProducts?: ProvisionedProductDetails;
+  ProvisionedProducts?: ProvisionedProductDetail[];
   NextPageToken?: string;
 }
 export const ScanProvisionedProductsOutput = S.suspend(() =>
@@ -2610,10 +2779,10 @@ export const ScanProvisionedProductsOutput = S.suspend(() =>
 }) as any as S.Schema<ScanProvisionedProductsOutput>;
 export interface SearchProductsInput {
   AcceptLanguage?: string;
-  Filters?: ProductViewFilters;
+  Filters?: { [key: string]: string[] };
   PageSize?: number;
-  SortBy?: string;
-  SortOrder?: string;
+  SortBy?: ProductViewSortBy;
+  SortOrder?: SortOrder;
   PageToken?: string;
 }
 export const SearchProductsInput = S.suspend(() =>
@@ -2621,8 +2790,8 @@ export const SearchProductsInput = S.suspend(() =>
     AcceptLanguage: S.optional(S.String),
     Filters: S.optional(ProductViewFilters),
     PageSize: S.optional(S.Number),
-    SortBy: S.optional(S.String),
-    SortOrder: S.optional(S.String),
+    SortBy: S.optional(ProductViewSortBy),
+    SortOrder: S.optional(SortOrder),
     PageToken: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -2631,7 +2800,7 @@ export const SearchProductsInput = S.suspend(() =>
   identifier: "SearchProductsInput",
 }) as any as S.Schema<SearchProductsInput>;
 export interface SearchProductsAsAdminOutput {
-  ProductViewDetails?: ProductViewDetails;
+  ProductViewDetails?: ProductViewDetail[];
   NextPageToken?: string;
 }
 export const SearchProductsAsAdminOutput = S.suspend(() =>
@@ -2645,9 +2814,9 @@ export const SearchProductsAsAdminOutput = S.suspend(() =>
 export interface SearchProvisionedProductsInput {
   AcceptLanguage?: string;
   AccessLevelFilter?: AccessLevelFilter;
-  Filters?: ProvisionedProductFilters;
+  Filters?: { [key: string]: string[] };
   SortBy?: string;
-  SortOrder?: string;
+  SortOrder?: SortOrder;
   PageSize?: number;
   PageToken?: string;
 }
@@ -2657,7 +2826,7 @@ export const SearchProvisionedProductsInput = S.suspend(() =>
     AccessLevelFilter: S.optional(AccessLevelFilter),
     Filters: S.optional(ProvisionedProductFilters),
     SortBy: S.optional(S.String),
-    SortOrder: S.optional(S.String),
+    SortOrder: S.optional(SortOrder),
     PageSize: S.optional(S.Number),
     PageToken: S.optional(S.String),
   }).pipe(
@@ -2677,20 +2846,20 @@ export const TerminateProvisionedProductOutput = S.suspend(() =>
 export interface UpdateConstraintOutput {
   ConstraintDetail?: ConstraintDetail;
   ConstraintParameters?: string;
-  Status?: string;
+  Status?: Status;
 }
 export const UpdateConstraintOutput = S.suspend(() =>
   S.Struct({
     ConstraintDetail: S.optional(ConstraintDetail),
     ConstraintParameters: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(Status),
   }),
 ).annotations({
   identifier: "UpdateConstraintOutput",
 }) as any as S.Schema<UpdateConstraintOutput>;
 export interface UpdatePortfolioOutput {
   PortfolioDetail?: PortfolioDetail;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const UpdatePortfolioOutput = S.suspend(() =>
   S.Struct({
@@ -2702,19 +2871,19 @@ export const UpdatePortfolioOutput = S.suspend(() =>
 }) as any as S.Schema<UpdatePortfolioOutput>;
 export interface UpdatePortfolioShareOutput {
   PortfolioShareToken?: string;
-  Status?: string;
+  Status?: ShareStatus;
 }
 export const UpdatePortfolioShareOutput = S.suspend(() =>
   S.Struct({
     PortfolioShareToken: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ShareStatus),
   }),
 ).annotations({
   identifier: "UpdatePortfolioShareOutput",
 }) as any as S.Schema<UpdatePortfolioShareOutput>;
 export interface UpdateProductOutput {
   ProductViewDetail?: ProductViewDetail;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const UpdateProductOutput = S.suspend(() =>
   S.Struct({
@@ -2734,9 +2903,9 @@ export interface UpdateProvisionedProductInput {
   ProvisioningArtifactName?: string;
   PathId?: string;
   PathName?: string;
-  ProvisioningParameters?: UpdateProvisioningParameters;
+  ProvisioningParameters?: UpdateProvisioningParameter[];
   ProvisioningPreferences?: UpdateProvisioningPreferences;
-  Tags?: Tags;
+  Tags?: Tag[];
   UpdateToken: string;
 }
 export const UpdateProvisionedProductInput = S.suspend(() =>
@@ -2763,7 +2932,7 @@ export const UpdateProvisionedProductInput = S.suspend(() =>
 export interface UpdateProvisionedProductPropertiesInput {
   AcceptLanguage?: string;
   ProvisionedProductId: string;
-  ProvisionedProductProperties: ProvisionedProductProperties;
+  ProvisionedProductProperties: { [key: string]: string };
   IdempotencyToken: string;
 }
 export const UpdateProvisionedProductPropertiesInput = S.suspend(() =>
@@ -2780,21 +2949,21 @@ export const UpdateProvisionedProductPropertiesInput = S.suspend(() =>
 }) as any as S.Schema<UpdateProvisionedProductPropertiesInput>;
 export interface UpdateProvisioningArtifactOutput {
   ProvisioningArtifactDetail?: ProvisioningArtifactDetail;
-  Info?: ProvisioningArtifactInfo;
-  Status?: string;
+  Info?: { [key: string]: string };
+  Status?: Status;
 }
 export const UpdateProvisioningArtifactOutput = S.suspend(() =>
   S.Struct({
     ProvisioningArtifactDetail: S.optional(ProvisioningArtifactDetail),
     Info: S.optional(ProvisioningArtifactInfo),
-    Status: S.optional(S.String),
+    Status: S.optional(Status),
   }),
 ).annotations({
   identifier: "UpdateProvisioningArtifactOutput",
 }) as any as S.Schema<UpdateProvisioningArtifactOutput>;
 export interface ServiceActionDetail {
   ServiceActionSummary?: ServiceActionSummary;
-  Definition?: ServiceActionDefinitionMap;
+  Definition?: { [key: string]: string };
 }
 export const ServiceActionDetail = S.suspend(() =>
   S.Struct({
@@ -2820,12 +2989,67 @@ export const UpdateTagOptionOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateTagOptionOutput",
 }) as any as S.Schema<UpdateTagOptionOutput>;
+export type ServiceActionAssociationErrorCode =
+  | "DUPLICATE_RESOURCE"
+  | "INTERNAL_FAILURE"
+  | "LIMIT_EXCEEDED"
+  | "RESOURCE_NOT_FOUND"
+  | "THROTTLING"
+  | "INVALID_PARAMETER";
+export const ServiceActionAssociationErrorCode = S.Literal(
+  "DUPLICATE_RESOURCE",
+  "INTERNAL_FAILURE",
+  "LIMIT_EXCEEDED",
+  "RESOURCE_NOT_FOUND",
+  "THROTTLING",
+  "INVALID_PARAMETER",
+);
 export type SuccessfulShares = string[];
 export const SuccessfulShares = S.Array(S.String);
-export type Scope = string[];
-export const Scope = S.Array(S.String);
+export type ProvisionedProductPlanStatus =
+  | "CREATE_IN_PROGRESS"
+  | "CREATE_SUCCESS"
+  | "CREATE_FAILED"
+  | "EXECUTE_IN_PROGRESS"
+  | "EXECUTE_SUCCESS"
+  | "EXECUTE_FAILED";
+export const ProvisionedProductPlanStatus = S.Literal(
+  "CREATE_IN_PROGRESS",
+  "CREATE_SUCCESS",
+  "CREATE_FAILED",
+  "EXECUTE_IN_PROGRESS",
+  "EXECUTE_SUCCESS",
+  "EXECUTE_FAILED",
+);
+export type ChangeAction = "ADD" | "MODIFY" | "REMOVE";
+export const ChangeAction = S.Literal("ADD", "MODIFY", "REMOVE");
+export type Replacement = "TRUE" | "FALSE" | "CONDITIONAL";
+export const Replacement = S.Literal("TRUE", "FALSE", "CONDITIONAL");
+export type ResourceAttribute =
+  | "PROPERTIES"
+  | "METADATA"
+  | "CREATIONPOLICY"
+  | "UPDATEPOLICY"
+  | "DELETIONPOLICY"
+  | "TAGS";
+export const ResourceAttribute = S.Literal(
+  "PROPERTIES",
+  "METADATA",
+  "CREATIONPOLICY",
+  "UPDATEPOLICY",
+  "DELETIONPOLICY",
+  "TAGS",
+);
+export type Scope = ResourceAttribute[];
+export const Scope = S.Array(ResourceAttribute);
 export type TagOptionValues = string[];
 export const TagOptionValues = S.Array(S.String);
+export type StackInstanceStatus = "CURRENT" | "OUTDATED" | "INOPERABLE";
+export const StackInstanceStatus = S.Literal(
+  "CURRENT",
+  "OUTDATED",
+  "INOPERABLE",
+);
 export interface UniqueTagResourceIdentifier {
   Key?: string;
   Value?: string;
@@ -2839,7 +3063,7 @@ export interface FailedServiceActionAssociation {
   ServiceActionId?: string;
   ProductId?: string;
   ProvisioningArtifactId?: string;
-  ErrorCode?: string;
+  ErrorCode?: ServiceActionAssociationErrorCode;
   ErrorMessage?: string;
 }
 export const FailedServiceActionAssociation = S.suspend(() =>
@@ -2847,7 +3071,7 @@ export const FailedServiceActionAssociation = S.suspend(() =>
     ServiceActionId: S.optional(S.String),
     ProductId: S.optional(S.String),
     ProvisioningArtifactId: S.optional(S.String),
-    ErrorCode: S.optional(S.String),
+    ErrorCode: S.optional(ServiceActionAssociationErrorCode),
     ErrorMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -2859,7 +3083,7 @@ export const FailedServiceActionAssociations = S.Array(
 );
 export interface PortfolioShareDetail {
   PrincipalId?: string;
-  Type?: string;
+  Type?: DescribePortfolioShareType;
   Accepted?: boolean;
   ShareTagOptions?: boolean;
   SharePrincipals?: boolean;
@@ -2867,7 +3091,7 @@ export interface PortfolioShareDetail {
 export const PortfolioShareDetail = S.suspend(() =>
   S.Struct({
     PrincipalId: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(DescribePortfolioShareType),
     Accepted: S.optional(S.Boolean),
     ShareTagOptions: S.optional(S.Boolean),
     SharePrincipals: S.optional(S.Boolean),
@@ -2891,7 +3115,7 @@ export interface ProvisioningArtifactSummary {
   Name?: string;
   Description?: string;
   CreatedTime?: Date;
-  ProvisioningArtifactMetadata?: ProvisioningArtifactInfo;
+  ProvisioningArtifactMetadata?: { [key: string]: string };
 }
 export const ProvisioningArtifactSummary = S.suspend(() =>
   S.Struct({
@@ -2926,13 +3150,13 @@ export interface ProvisionedProductPlanDetails {
   PlanId?: string;
   ProvisionProductId?: string;
   ProvisionProductName?: string;
-  PlanType?: string;
+  PlanType?: ProvisionedProductPlanType;
   ProvisioningArtifactId?: string;
-  Status?: string;
+  Status?: ProvisionedProductPlanStatus;
   UpdatedTime?: Date;
-  NotificationArns?: NotificationArns;
-  ProvisioningParameters?: UpdateProvisioningParameters;
-  Tags?: Tags;
+  NotificationArns?: string[];
+  ProvisioningParameters?: UpdateProvisioningParameter[];
+  Tags?: Tag[];
   StatusMessage?: string;
 }
 export const ProvisionedProductPlanDetails = S.suspend(() =>
@@ -2944,9 +3168,9 @@ export const ProvisionedProductPlanDetails = S.suspend(() =>
     PlanId: S.optional(S.String),
     ProvisionProductId: S.optional(S.String),
     ProvisionProductName: S.optional(S.String),
-    PlanType: S.optional(S.String),
+    PlanType: S.optional(ProvisionedProductPlanType),
     ProvisioningArtifactId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ProvisionedProductPlanStatus),
     UpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     NotificationArns: S.optional(NotificationArns),
     ProvisioningParameters: S.optional(UpdateProvisioningParameters),
@@ -2980,7 +3204,7 @@ export type UsageInstructions = UsageInstruction[];
 export const UsageInstructions = S.Array(UsageInstruction);
 export interface TagOptionSummary {
   Key?: string;
-  Values?: TagOptionValues;
+  Values?: string[];
 }
 export const TagOptionSummary = S.suspend(() =>
   S.Struct({ Key: S.optional(S.String), Values: S.optional(TagOptionValues) }),
@@ -2990,8 +3214,8 @@ export const TagOptionSummary = S.suspend(() =>
 export type TagOptionSummaries = TagOptionSummary[];
 export const TagOptionSummaries = S.Array(TagOptionSummary);
 export interface ProvisioningArtifactPreferences {
-  StackSetAccounts?: StackSetAccounts;
-  StackSetRegions?: StackSetRegions;
+  StackSetAccounts?: string[];
+  StackSetRegions?: string[];
 }
 export const ProvisioningArtifactPreferences = S.suspend(() =>
   S.Struct({
@@ -3015,7 +3239,7 @@ export const ProvisioningArtifactOutputs = S.Array(ProvisioningArtifactOutput);
 export interface ExecutionParameter {
   Name?: string;
   Type?: string;
-  DefaultValues?: ExecutionParameterValueList;
+  DefaultValues?: string[];
 }
 export const ExecutionParameter = S.suspend(() =>
   S.Struct({
@@ -3030,8 +3254,8 @@ export type ExecutionParameters = ExecutionParameter[];
 export const ExecutionParameters = S.Array(ExecutionParameter);
 export interface LaunchPathSummary {
   Id?: string;
-  ConstraintSummaries?: ConstraintSummaries;
-  Tags?: Tags;
+  ConstraintSummaries?: ConstraintSummary[];
+  Tags?: Tag[];
   Name?: string;
 }
 export const LaunchPathSummary = S.suspend(() =>
@@ -3048,12 +3272,12 @@ export type LaunchPathSummaries = LaunchPathSummary[];
 export const LaunchPathSummaries = S.Array(LaunchPathSummary);
 export interface Principal {
   PrincipalARN?: string;
-  PrincipalType?: string;
+  PrincipalType?: PrincipalType;
 }
 export const Principal = S.suspend(() =>
   S.Struct({
     PrincipalARN: S.optional(S.String),
-    PrincipalType: S.optional(S.String),
+    PrincipalType: S.optional(PrincipalType),
   }),
 ).annotations({ identifier: "Principal" }) as any as S.Schema<Principal>;
 export type Principals = Principal[];
@@ -3097,13 +3321,13 @@ export const ResourceDetails = S.Array(ResourceDetail);
 export interface StackInstance {
   Account?: string;
   Region?: string;
-  StackInstanceStatus?: string;
+  StackInstanceStatus?: StackInstanceStatus;
 }
 export const StackInstance = S.suspend(() =>
   S.Struct({
     Account: S.optional(S.String),
     Region: S.optional(S.String),
-    StackInstanceStatus: S.optional(S.String),
+    StackInstanceStatus: S.optional(StackInstanceStatus),
   }),
 ).annotations({
   identifier: "StackInstance",
@@ -3122,10 +3346,12 @@ export type ProductViewSummaries = ProductViewSummary[];
 export const ProductViewSummaries = S.Array(ProductViewSummary);
 export type Namespaces = string[];
 export const Namespaces = S.Array(S.String);
+export type EvaluationType = "STATIC" | "DYNAMIC";
+export const EvaluationType = S.Literal("STATIC", "DYNAMIC");
 export type AllowedValues = string[];
 export const AllowedValues = S.Array(S.String);
 export interface BatchAssociateServiceActionWithProvisioningArtifactOutput {
-  FailedServiceActionAssociations?: FailedServiceActionAssociations;
+  FailedServiceActionAssociations?: FailedServiceActionAssociation[];
 }
 export const BatchAssociateServiceActionWithProvisioningArtifactOutput =
   S.suspend(() =>
@@ -3138,7 +3364,7 @@ export const BatchAssociateServiceActionWithProvisioningArtifactOutput =
     identifier: "BatchAssociateServiceActionWithProvisioningArtifactOutput",
   }) as any as S.Schema<BatchAssociateServiceActionWithProvisioningArtifactOutput>;
 export interface BatchDisassociateServiceActionFromProvisioningArtifactOutput {
-  FailedServiceActionAssociations?: FailedServiceActionAssociations;
+  FailedServiceActionAssociations?: FailedServiceActionAssociation[];
 }
 export const BatchDisassociateServiceActionFromProvisioningArtifactOutput =
   S.suspend(() =>
@@ -3161,20 +3387,20 @@ export const CopyProductOutput = S.suspend(() =>
 export interface CreateConstraintOutput {
   ConstraintDetail?: ConstraintDetail;
   ConstraintParameters?: string;
-  Status?: string;
+  Status?: Status;
 }
 export const CreateConstraintOutput = S.suspend(() =>
   S.Struct({
     ConstraintDetail: S.optional(ConstraintDetail),
     ConstraintParameters: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(Status),
   }),
 ).annotations({
   identifier: "CreateConstraintOutput",
 }) as any as S.Schema<CreateConstraintOutput>;
 export interface CreatePortfolioOutput {
   PortfolioDetail?: PortfolioDetail;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreatePortfolioOutput = S.suspend(() =>
   S.Struct({
@@ -3212,14 +3438,14 @@ export const CreateProvisionedProductPlanOutput = S.suspend(() =>
 }) as any as S.Schema<CreateProvisionedProductPlanOutput>;
 export interface CreateProvisioningArtifactOutput {
   ProvisioningArtifactDetail?: ProvisioningArtifactDetail;
-  Info?: ProvisioningArtifactInfo;
-  Status?: string;
+  Info?: { [key: string]: string };
+  Status?: Status;
 }
 export const CreateProvisioningArtifactOutput = S.suspend(() =>
   S.Struct({
     ProvisioningArtifactDetail: S.optional(ProvisioningArtifactDetail),
     Info: S.optional(ProvisioningArtifactInfo),
-    Status: S.optional(S.String),
+    Status: S.optional(Status),
   }),
 ).annotations({
   identifier: "CreateProvisioningArtifactOutput",
@@ -3242,9 +3468,9 @@ export const CreateTagOptionOutput = S.suspend(() =>
 }) as any as S.Schema<CreateTagOptionOutput>;
 export interface DescribePortfolioOutput {
   PortfolioDetail?: PortfolioDetail;
-  Tags?: Tags;
-  TagOptions?: TagOptionDetails;
-  Budgets?: Budgets;
+  Tags?: Tag[];
+  TagOptions?: TagOptionDetail[];
+  Budgets?: BudgetDetail[];
 }
 export const DescribePortfolioOutput = S.suspend(() =>
   S.Struct({
@@ -3258,7 +3484,7 @@ export const DescribePortfolioOutput = S.suspend(() =>
 }) as any as S.Schema<DescribePortfolioOutput>;
 export interface DescribePortfolioSharesOutput {
   NextPageToken?: string;
-  PortfolioShareDetails?: PortfolioShareDetails;
+  PortfolioShareDetails?: PortfolioShareDetail[];
 }
 export const DescribePortfolioSharesOutput = S.suspend(() =>
   S.Struct({
@@ -3270,9 +3496,9 @@ export const DescribePortfolioSharesOutput = S.suspend(() =>
 }) as any as S.Schema<DescribePortfolioSharesOutput>;
 export interface DescribeProductOutput {
   ProductViewSummary?: ProductViewSummary;
-  ProvisioningArtifacts?: ProvisioningArtifacts;
-  Budgets?: Budgets;
-  LaunchPaths?: LaunchPaths;
+  ProvisioningArtifacts?: ProvisioningArtifact[];
+  Budgets?: BudgetDetail[];
+  LaunchPaths?: LaunchPath[];
 }
 export const DescribeProductOutput = S.suspend(() =>
   S.Struct({
@@ -3286,7 +3512,7 @@ export const DescribeProductOutput = S.suspend(() =>
 }) as any as S.Schema<DescribeProductOutput>;
 export interface DescribeProvisionedProductOutput {
   ProvisionedProductDetail?: ProvisionedProductDetail;
-  CloudWatchDashboards?: CloudWatchDashboards;
+  CloudWatchDashboards?: CloudWatchDashboard[];
 }
 export const DescribeProvisionedProductOutput = S.suspend(() =>
   S.Struct({
@@ -3297,7 +3523,7 @@ export const DescribeProvisionedProductOutput = S.suspend(() =>
   identifier: "DescribeProvisionedProductOutput",
 }) as any as S.Schema<DescribeProvisionedProductOutput>;
 export interface ParameterConstraints {
-  AllowedValues?: AllowedValues;
+  AllowedValues?: string[];
   AllowedPattern?: string;
   ConstraintDescription?: string;
   MaxLength?: string;
@@ -3343,13 +3569,13 @@ export const ProvisioningArtifactParameters = S.Array(
   ProvisioningArtifactParameter,
 );
 export interface DescribeProvisioningParametersOutput {
-  ProvisioningArtifactParameters?: ProvisioningArtifactParameters;
-  ConstraintSummaries?: ConstraintSummaries;
-  UsageInstructions?: UsageInstructions;
-  TagOptions?: TagOptionSummaries;
+  ProvisioningArtifactParameters?: ProvisioningArtifactParameter[];
+  ConstraintSummaries?: ConstraintSummary[];
+  UsageInstructions?: UsageInstruction[];
+  TagOptions?: TagOptionSummary[];
   ProvisioningArtifactPreferences?: ProvisioningArtifactPreferences;
-  ProvisioningArtifactOutputs?: ProvisioningArtifactOutputs;
-  ProvisioningArtifactOutputKeys?: ProvisioningArtifactOutputs;
+  ProvisioningArtifactOutputs?: ProvisioningArtifactOutput[];
+  ProvisioningArtifactOutputKeys?: ProvisioningArtifactOutput[];
 }
 export const DescribeProvisioningParametersOutput = S.suspend(() =>
   S.Struct({
@@ -3375,7 +3601,7 @@ export const DescribeServiceActionOutput = S.suspend(() =>
   identifier: "DescribeServiceActionOutput",
 }) as any as S.Schema<DescribeServiceActionOutput>;
 export interface DescribeServiceActionExecutionParametersOutput {
-  ServiceActionParameters?: ExecutionParameters;
+  ServiceActionParameters?: ExecutionParameter[];
 }
 export const DescribeServiceActionExecutionParametersOutput = S.suspend(() =>
   S.Struct({ ServiceActionParameters: S.optional(ExecutionParameters) }),
@@ -3391,7 +3617,7 @@ export const ExecuteProvisionedProductServiceActionOutput = S.suspend(() =>
   identifier: "ExecuteProvisionedProductServiceActionOutput",
 }) as any as S.Schema<ExecuteProvisionedProductServiceActionOutput>;
 export interface ListLaunchPathsOutput {
-  LaunchPathSummaries?: LaunchPathSummaries;
+  LaunchPathSummaries?: LaunchPathSummary[];
   NextPageToken?: string;
 }
 export const ListLaunchPathsOutput = S.suspend(() =>
@@ -3403,7 +3629,7 @@ export const ListLaunchPathsOutput = S.suspend(() =>
   identifier: "ListLaunchPathsOutput",
 }) as any as S.Schema<ListLaunchPathsOutput>;
 export interface ListPrincipalsForPortfolioOutput {
-  Principals?: Principals;
+  Principals?: Principal[];
   NextPageToken?: string;
 }
 export const ListPrincipalsForPortfolioOutput = S.suspend(() =>
@@ -3415,7 +3641,7 @@ export const ListPrincipalsForPortfolioOutput = S.suspend(() =>
   identifier: "ListPrincipalsForPortfolioOutput",
 }) as any as S.Schema<ListPrincipalsForPortfolioOutput>;
 export interface ListProvisioningArtifactsForServiceActionOutput {
-  ProvisioningArtifactViews?: ProvisioningArtifactViews;
+  ProvisioningArtifactViews?: ProvisioningArtifactView[];
   NextPageToken?: string;
 }
 export const ListProvisioningArtifactsForServiceActionOutput = S.suspend(() =>
@@ -3427,7 +3653,7 @@ export const ListProvisioningArtifactsForServiceActionOutput = S.suspend(() =>
   identifier: "ListProvisioningArtifactsForServiceActionOutput",
 }) as any as S.Schema<ListProvisioningArtifactsForServiceActionOutput>;
 export interface ListRecordHistoryOutput {
-  RecordDetails?: RecordDetails;
+  RecordDetails?: RecordDetail[];
   NextPageToken?: string;
 }
 export const ListRecordHistoryOutput = S.suspend(() =>
@@ -3439,7 +3665,7 @@ export const ListRecordHistoryOutput = S.suspend(() =>
   identifier: "ListRecordHistoryOutput",
 }) as any as S.Schema<ListRecordHistoryOutput>;
 export interface ListResourcesForTagOptionOutput {
-  ResourceDetails?: ResourceDetails;
+  ResourceDetails?: ResourceDetail[];
   PageToken?: string;
 }
 export const ListResourcesForTagOptionOutput = S.suspend(() =>
@@ -3451,7 +3677,7 @@ export const ListResourcesForTagOptionOutput = S.suspend(() =>
   identifier: "ListResourcesForTagOptionOutput",
 }) as any as S.Schema<ListResourcesForTagOptionOutput>;
 export interface ListServiceActionsOutput {
-  ServiceActionSummaries?: ServiceActionSummaries;
+  ServiceActionSummaries?: ServiceActionSummary[];
   NextPageToken?: string;
 }
 export const ListServiceActionsOutput = S.suspend(() =>
@@ -3463,7 +3689,7 @@ export const ListServiceActionsOutput = S.suspend(() =>
   identifier: "ListServiceActionsOutput",
 }) as any as S.Schema<ListServiceActionsOutput>;
 export interface ListStackInstancesForProvisionedProductOutput {
-  StackInstances?: StackInstances;
+  StackInstances?: StackInstance[];
   NextPageToken?: string;
 }
 export const ListStackInstancesForProvisionedProductOutput = S.suspend(() =>
@@ -3475,7 +3701,7 @@ export const ListStackInstancesForProvisionedProductOutput = S.suspend(() =>
   identifier: "ListStackInstancesForProvisionedProductOutput",
 }) as any as S.Schema<ListStackInstancesForProvisionedProductOutput>;
 export interface ListTagOptionsOutput {
-  TagOptionDetails?: TagOptionDetails;
+  TagOptionDetails?: TagOptionDetail[];
   PageToken?: string;
 }
 export const ListTagOptionsOutput = S.suspend(() =>
@@ -3489,17 +3715,17 @@ export const ListTagOptionsOutput = S.suspend(() =>
 export interface NotifyProvisionProductEngineWorkflowResultInput {
   WorkflowToken: string;
   RecordId: string;
-  Status: string;
+  Status: EngineWorkflowStatus;
   FailureReason?: string;
   ResourceIdentifier?: EngineWorkflowResourceIdentifier;
-  Outputs?: RecordOutputs;
+  Outputs?: RecordOutput[];
   IdempotencyToken: string;
 }
 export const NotifyProvisionProductEngineWorkflowResultInput = S.suspend(() =>
   S.Struct({
     WorkflowToken: S.String,
     RecordId: S.String,
-    Status: S.String,
+    Status: EngineWorkflowStatus,
     FailureReason: S.optional(S.String),
     ResourceIdentifier: S.optional(EngineWorkflowResourceIdentifier),
     Outputs: S.optional(RecordOutputs),
@@ -3534,22 +3760,22 @@ export const UpdateProvisionedProductOutput = S.suspend(() =>
 }) as any as S.Schema<UpdateProvisionedProductOutput>;
 export interface UpdateProvisionedProductPropertiesOutput {
   ProvisionedProductId?: string;
-  ProvisionedProductProperties?: ProvisionedProductProperties;
+  ProvisionedProductProperties?: { [key: string]: string };
   RecordId?: string;
-  Status?: string;
+  Status?: RecordStatus;
 }
 export const UpdateProvisionedProductPropertiesOutput = S.suspend(() =>
   S.Struct({
     ProvisionedProductId: S.optional(S.String),
     ProvisionedProductProperties: S.optional(ProvisionedProductProperties),
     RecordId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(RecordStatus),
   }),
 ).annotations({
   identifier: "UpdateProvisionedProductPropertiesOutput",
 }) as any as S.Schema<UpdateProvisionedProductPropertiesOutput>;
 export interface ShareError {
-  Accounts?: Namespaces;
+  Accounts?: string[];
   Message?: string;
   Error?: string;
 }
@@ -3562,9 +3788,11 @@ export const ShareError = S.suspend(() =>
 ).annotations({ identifier: "ShareError" }) as any as S.Schema<ShareError>;
 export type ShareErrors = ShareError[];
 export const ShareErrors = S.Array(ShareError);
+export type RequiresRecreation = "NEVER" | "CONDITIONALLY" | "ALWAYS";
+export const RequiresRecreation = S.Literal("NEVER", "CONDITIONALLY", "ALWAYS");
 export interface ShareDetails {
-  SuccessfulShares?: SuccessfulShares;
-  ShareErrors?: ShareErrors;
+  SuccessfulShares?: string[];
+  ShareErrors?: ShareError[];
 }
 export const ShareDetails = S.suspend(() =>
   S.Struct({
@@ -3577,7 +3805,7 @@ export interface ProvisionedProductPlanSummary {
   PlanId?: string;
   ProvisionProductId?: string;
   ProvisionProductName?: string;
-  PlanType?: string;
+  PlanType?: ProvisionedProductPlanType;
   ProvisioningArtifactId?: string;
 }
 export const ProvisionedProductPlanSummary = S.suspend(() =>
@@ -3586,7 +3814,7 @@ export const ProvisionedProductPlanSummary = S.suspend(() =>
     PlanId: S.optional(S.String),
     ProvisionProductId: S.optional(S.String),
     ProvisionProductName: S.optional(S.String),
-    PlanType: S.optional(S.String),
+    PlanType: S.optional(ProvisionedProductPlanType),
     ProvisioningArtifactId: S.optional(S.String),
   }),
 ).annotations({
@@ -3599,14 +3827,14 @@ export interface ProvisionedProductAttribute {
   Arn?: string;
   Type?: string;
   Id?: string;
-  Status?: string;
+  Status?: ProvisionedProductStatus;
   StatusMessage?: string;
   CreatedTime?: Date;
   IdempotencyToken?: string;
   LastRecordId?: string;
   LastProvisioningRecordId?: string;
   LastSuccessfulProvisioningRecordId?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
   PhysicalId?: string;
   ProductId?: string;
   ProductName?: string;
@@ -3621,7 +3849,7 @@ export const ProvisionedProductAttribute = S.suspend(() =>
     Arn: S.optional(S.String),
     Type: S.optional(S.String),
     Id: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ProvisionedProductStatus),
     StatusMessage: S.optional(S.String),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     IdempotencyToken: S.optional(S.String),
@@ -3645,15 +3873,15 @@ export const ProvisionedProductAttributes = S.Array(
   ProvisionedProductAttribute,
 );
 export interface ResourceTargetDefinition {
-  Attribute?: string;
+  Attribute?: ResourceAttribute;
   Name?: string;
-  RequiresRecreation?: string;
+  RequiresRecreation?: RequiresRecreation;
 }
 export const ResourceTargetDefinition = S.suspend(() =>
   S.Struct({
-    Attribute: S.optional(S.String),
+    Attribute: S.optional(ResourceAttribute),
     Name: S.optional(S.String),
-    RequiresRecreation: S.optional(S.String),
+    RequiresRecreation: S.optional(RequiresRecreation),
   }),
 ).annotations({
   identifier: "ResourceTargetDefinition",
@@ -3667,8 +3895,8 @@ export interface CreateProductInput {
   SupportDescription?: string;
   SupportEmail?: string;
   SupportUrl?: string;
-  ProductType: string;
-  Tags?: AddTags;
+  ProductType: ProductType;
+  Tags?: Tag[];
   ProvisioningArtifactParameters?: ProvisioningArtifactProperties;
   IdempotencyToken: string;
   SourceConnection?: SourceConnection;
@@ -3683,7 +3911,7 @@ export const CreateProductInput = S.suspend(() =>
     SupportDescription: S.optional(S.String),
     SupportEmail: S.optional(S.String),
     SupportUrl: S.optional(S.String),
-    ProductType: S.String,
+    ProductType: ProductType,
     Tags: S.optional(AddTags),
     ProvisioningArtifactParameters: S.optional(ProvisioningArtifactProperties),
     IdempotencyToken: S.String,
@@ -3698,7 +3926,7 @@ export interface DescribePortfolioShareStatusOutput {
   PortfolioShareToken?: string;
   PortfolioId?: string;
   OrganizationNodeValue?: string;
-  Status?: string;
+  Status?: ShareStatus;
   ShareDetails?: ShareDetails;
 }
 export const DescribePortfolioShareStatusOutput = S.suspend(() =>
@@ -3706,7 +3934,7 @@ export const DescribePortfolioShareStatusOutput = S.suspend(() =>
     PortfolioShareToken: S.optional(S.String),
     PortfolioId: S.optional(S.String),
     OrganizationNodeValue: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ShareStatus),
     ShareDetails: S.optional(ShareDetails),
   }),
 ).annotations({
@@ -3714,15 +3942,15 @@ export const DescribePortfolioShareStatusOutput = S.suspend(() =>
 }) as any as S.Schema<DescribePortfolioShareStatusOutput>;
 export interface DescribeProvisioningArtifactOutput {
   ProvisioningArtifactDetail?: ProvisioningArtifactDetail;
-  Info?: ProvisioningArtifactInfo;
-  Status?: string;
-  ProvisioningArtifactParameters?: ProvisioningArtifactParameters;
+  Info?: { [key: string]: string };
+  Status?: Status;
+  ProvisioningArtifactParameters?: ProvisioningArtifactParameter[];
 }
 export const DescribeProvisioningArtifactOutput = S.suspend(() =>
   S.Struct({
     ProvisioningArtifactDetail: S.optional(ProvisioningArtifactDetail),
     Info: S.optional(ProvisioningArtifactInfo),
-    Status: S.optional(S.String),
+    Status: S.optional(Status),
     ProvisioningArtifactParameters: S.optional(ProvisioningArtifactParameters),
   }),
 ).annotations({
@@ -3730,7 +3958,7 @@ export const DescribeProvisioningArtifactOutput = S.suspend(() =>
 }) as any as S.Schema<DescribeProvisioningArtifactOutput>;
 export interface DescribeRecordOutput {
   RecordDetail?: RecordDetail;
-  RecordOutputs?: RecordOutputs;
+  RecordOutputs?: RecordOutput[];
   NextPageToken?: string;
 }
 export const DescribeRecordOutput = S.suspend(() =>
@@ -3743,7 +3971,7 @@ export const DescribeRecordOutput = S.suspend(() =>
   identifier: "DescribeRecordOutput",
 }) as any as S.Schema<DescribeRecordOutput>;
 export interface ListProvisionedProductPlansOutput {
-  ProvisionedProductPlans?: ProvisionedProductPlans;
+  ProvisionedProductPlans?: ProvisionedProductPlanSummary[];
   NextPageToken?: string;
 }
 export const ListProvisionedProductPlansOutput = S.suspend(() =>
@@ -3755,7 +3983,7 @@ export const ListProvisionedProductPlansOutput = S.suspend(() =>
   identifier: "ListProvisionedProductPlansOutput",
 }) as any as S.Schema<ListProvisionedProductPlansOutput>;
 export interface SearchProvisionedProductsOutput {
-  ProvisionedProducts?: ProvisionedProductAttributes;
+  ProvisionedProducts?: ProvisionedProductAttribute[];
   TotalResultsCount?: number;
   NextPageToken?: string;
 }
@@ -3770,13 +3998,13 @@ export const SearchProvisionedProductsOutput = S.suspend(() =>
 }) as any as S.Schema<SearchProvisionedProductsOutput>;
 export interface ResourceChangeDetail {
   Target?: ResourceTargetDefinition;
-  Evaluation?: string;
+  Evaluation?: EvaluationType;
   CausingEntity?: string;
 }
 export const ResourceChangeDetail = S.suspend(() =>
   S.Struct({
     Target: S.optional(ResourceTargetDefinition),
-    Evaluation: S.optional(S.String),
+    Evaluation: S.optional(EvaluationType),
     CausingEntity: S.optional(S.String),
   }),
 ).annotations({
@@ -3801,21 +4029,21 @@ export const ProductViewAggregationValues = S.Array(
   ProductViewAggregationValue,
 );
 export interface ResourceChange {
-  Action?: string;
+  Action?: ChangeAction;
   LogicalResourceId?: string;
   PhysicalResourceId?: string;
   ResourceType?: string;
-  Replacement?: string;
-  Scope?: Scope;
-  Details?: ResourceChangeDetails;
+  Replacement?: Replacement;
+  Scope?: ResourceAttribute[];
+  Details?: ResourceChangeDetail[];
 }
 export const ResourceChange = S.suspend(() =>
   S.Struct({
-    Action: S.optional(S.String),
+    Action: S.optional(ChangeAction),
     LogicalResourceId: S.optional(S.String),
     PhysicalResourceId: S.optional(S.String),
     ResourceType: S.optional(S.String),
-    Replacement: S.optional(S.String),
+    Replacement: S.optional(Replacement),
     Scope: S.optional(Scope),
     Details: S.optional(ResourceChangeDetails),
   }),
@@ -3825,7 +4053,7 @@ export const ResourceChange = S.suspend(() =>
 export type ResourceChanges = ResourceChange[];
 export const ResourceChanges = S.Array(ResourceChange);
 export type ProductViewAggregations = {
-  [key: string]: ProductViewAggregationValues;
+  [key: string]: ProductViewAggregationValue[];
 };
 export const ProductViewAggregations = S.Record({
   key: S.String,
@@ -3834,7 +4062,7 @@ export const ProductViewAggregations = S.Record({
 export interface CreateProductOutput {
   ProductViewDetail?: ProductViewDetail;
   ProvisioningArtifactDetail?: ProvisioningArtifactDetail;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreateProductOutput = S.suspend(() =>
   S.Struct({
@@ -3847,10 +4075,10 @@ export const CreateProductOutput = S.suspend(() =>
 }) as any as S.Schema<CreateProductOutput>;
 export interface DescribeProductAsAdminOutput {
   ProductViewDetail?: ProductViewDetail;
-  ProvisioningArtifactSummaries?: ProvisioningArtifactSummaries;
-  Tags?: Tags;
-  TagOptions?: TagOptionDetails;
-  Budgets?: Budgets;
+  ProvisioningArtifactSummaries?: ProvisioningArtifactSummary[];
+  Tags?: Tag[];
+  TagOptions?: TagOptionDetail[];
+  Budgets?: BudgetDetail[];
 }
 export const DescribeProductAsAdminOutput = S.suspend(() =>
   S.Struct({
@@ -3865,7 +4093,7 @@ export const DescribeProductAsAdminOutput = S.suspend(() =>
 }) as any as S.Schema<DescribeProductAsAdminOutput>;
 export interface DescribeProvisionedProductPlanOutput {
   ProvisionedProductPlanDetails?: ProvisionedProductPlanDetails;
-  ResourceChanges?: ResourceChanges;
+  ResourceChanges?: ResourceChange[];
   NextPageToken?: string;
 }
 export const DescribeProvisionedProductPlanOutput = S.suspend(() =>
@@ -3878,8 +4106,8 @@ export const DescribeProvisionedProductPlanOutput = S.suspend(() =>
   identifier: "DescribeProvisionedProductPlanOutput",
 }) as any as S.Schema<DescribeProvisionedProductPlanOutput>;
 export interface SearchProductsOutput {
-  ProductViewSummaries?: ProductViewSummaries;
-  ProductViewAggregations?: ProductViewAggregations;
+  ProductViewSummaries?: ProductViewSummary[];
+  ProductViewAggregations?: { [key: string]: ProductViewAggregationValue[] };
   NextPageToken?: string;
 }
 export const SearchProductsOutput = S.suspend(() =>
@@ -3932,7 +4160,7 @@ export class TagOptionNotMigratedException extends S.TaggedError<TagOptionNotMig
  */
 export const disassociateBudgetFromResource: (
   input: DisassociateBudgetFromResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateBudgetFromResourceOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3946,7 +4174,7 @@ export const disassociateBudgetFromResource: (
  */
 export const executeProvisionedProductPlan: (
   input: ExecuteProvisionedProductPlanInput,
-) => Effect.Effect<
+) => effect.Effect<
   ExecuteProvisionedProductPlanOutput,
   | InvalidParametersException
   | InvalidStateException
@@ -3968,21 +4196,21 @@ export const executeProvisionedProductPlan: (
 export const getProvisionedProductOutputs: {
   (
     input: GetProvisionedProductOutputsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetProvisionedProductOutputsOutput,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: GetProvisionedProductOutputsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetProvisionedProductOutputsOutput,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetProvisionedProductOutputsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -4027,7 +4255,7 @@ export const getProvisionedProductOutputs: {
  */
 export const importAsProvisionedProduct: (
   input: ImportAsProvisionedProductInput,
-) => Effect.Effect<
+) => effect.Effect<
   ImportAsProvisionedProductOutput,
   | DuplicateResourceException
   | InvalidParametersException
@@ -4053,21 +4281,21 @@ export const importAsProvisionedProduct: (
 export const listAcceptedPortfolioShares: {
   (
     input: ListAcceptedPortfolioSharesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAcceptedPortfolioSharesOutput,
     InvalidParametersException | OperationNotSupportedException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListAcceptedPortfolioSharesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAcceptedPortfolioSharesOutput,
     InvalidParametersException | OperationNotSupportedException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListAcceptedPortfolioSharesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidParametersException | OperationNotSupportedException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -4088,21 +4316,21 @@ export const listAcceptedPortfolioShares: {
 export const listBudgetsForResource: {
   (
     input: ListBudgetsForResourceInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBudgetsForResourceOutput,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListBudgetsForResourceInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBudgetsForResourceOutput,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListBudgetsForResourceInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -4123,21 +4351,21 @@ export const listBudgetsForResource: {
 export const listConstraintsForPortfolio: {
   (
     input: ListConstraintsForPortfolioInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConstraintsForPortfolioOutput,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListConstraintsForPortfolioInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConstraintsForPortfolioOutput,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListConstraintsForPortfolioInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -4162,7 +4390,7 @@ export const listConstraintsForPortfolio: {
 export const listOrganizationPortfolioAccess: {
   (
     input: ListOrganizationPortfolioAccessInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOrganizationPortfolioAccessOutput,
     | InvalidParametersException
     | OperationNotSupportedException
@@ -4172,7 +4400,7 @@ export const listOrganizationPortfolioAccess: {
   >;
   pages: (
     input: ListOrganizationPortfolioAccessInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOrganizationPortfolioAccessOutput,
     | InvalidParametersException
     | OperationNotSupportedException
@@ -4182,7 +4410,7 @@ export const listOrganizationPortfolioAccess: {
   >;
   items: (
     input: ListOrganizationPortfolioAccessInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidParametersException
     | OperationNotSupportedException
@@ -4212,21 +4440,21 @@ export const listOrganizationPortfolioAccess: {
 export const listPortfolioAccess: {
   (
     input: ListPortfolioAccessInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPortfolioAccessOutput,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListPortfolioAccessInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPortfolioAccessOutput,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListPortfolioAccessInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -4247,21 +4475,21 @@ export const listPortfolioAccess: {
 export const listPortfolios: {
   (
     input: ListPortfoliosInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPortfoliosOutput,
     InvalidParametersException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListPortfoliosInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPortfoliosOutput,
     InvalidParametersException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListPortfoliosInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidParametersException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -4282,21 +4510,21 @@ export const listPortfolios: {
 export const listPortfoliosForProduct: {
   (
     input: ListPortfoliosForProductInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPortfoliosForProductOutput,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListPortfoliosForProductInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPortfoliosForProductOutput,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListPortfoliosForProductInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -4316,7 +4544,7 @@ export const listPortfoliosForProduct: {
  */
 export const listProvisioningArtifacts: (
   input: ListProvisioningArtifactsInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListProvisioningArtifactsOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4331,21 +4559,21 @@ export const listProvisioningArtifacts: (
 export const listServiceActionsForProvisioningArtifact: {
   (
     input: ListServiceActionsForProvisioningArtifactInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServiceActionsForProvisioningArtifactOutput,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListServiceActionsForProvisioningArtifactInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServiceActionsForProvisioningArtifactOutput,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListServiceActionsForProvisioningArtifactInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -4367,7 +4595,7 @@ export const listServiceActionsForProvisioningArtifact: {
  */
 export const scanProvisionedProducts: (
   input: ScanProvisionedProductsInput,
-) => Effect.Effect<
+) => effect.Effect<
   ScanProvisionedProductsOutput,
   InvalidParametersException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4382,21 +4610,21 @@ export const scanProvisionedProducts: (
 export const searchProductsAsAdmin: {
   (
     input: SearchProductsAsAdminInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchProductsAsAdminOutput,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: SearchProductsAsAdminInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchProductsAsAdminOutput,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: SearchProductsAsAdminInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -4420,7 +4648,7 @@ export const searchProductsAsAdmin: {
  */
 export const terminateProvisionedProduct: (
   input: TerminateProvisionedProductInput,
-) => Effect.Effect<
+) => effect.Effect<
   TerminateProvisionedProductOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4434,7 +4662,7 @@ export const terminateProvisionedProduct: (
  */
 export const updateConstraint: (
   input: UpdateConstraintInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConstraintOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4466,7 +4694,7 @@ export const updateConstraint: (
  */
 export const updatePortfolioShare: (
   input: UpdatePortfolioShareInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePortfolioShareOutput,
   | InvalidParametersException
   | InvalidStateException
@@ -4491,7 +4719,7 @@ export const updatePortfolioShare: (
  */
 export const updateProvisioningArtifact: (
   input: UpdateProvisioningArtifactInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProvisioningArtifactOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4505,7 +4733,7 @@ export const updateProvisioningArtifact: (
  */
 export const updateServiceAction: (
   input: UpdateServiceActionInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateServiceActionOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4521,7 +4749,7 @@ export const updateServiceAction: (
  */
 export const deleteConstraint: (
   input: DeleteConstraintInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConstraintOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4535,7 +4763,7 @@ export const deleteConstraint: (
  */
 export const deleteProvisionedProductPlan: (
   input: DeleteProvisionedProductPlanInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProvisionedProductPlanOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4553,7 +4781,7 @@ export const deleteProvisionedProductPlan: (
  */
 export const deleteProvisioningArtifact: (
   input: DeleteProvisioningArtifactInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProvisioningArtifactOutput,
   | InvalidParametersException
   | ResourceInUseException
@@ -4574,7 +4802,7 @@ export const deleteProvisioningArtifact: (
  */
 export const deleteServiceAction: (
   input: DeleteServiceActionInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteServiceActionOutput,
   | InvalidParametersException
   | ResourceInUseException
@@ -4614,7 +4842,7 @@ export const deleteServiceAction: (
  */
 export const disassociatePrincipalFromPortfolio: (
   input: DisassociatePrincipalFromPortfolioInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociatePrincipalFromPortfolioOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4630,7 +4858,7 @@ export const disassociatePrincipalFromPortfolio: (
  */
 export const disassociateProductFromPortfolio: (
   input: DisassociateProductFromPortfolioInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateProductFromPortfolioOutput,
   | InvalidParametersException
   | ResourceInUseException
@@ -4651,7 +4879,7 @@ export const disassociateProductFromPortfolio: (
  */
 export const disassociateServiceActionFromProvisioningArtifact: (
   input: DisassociateServiceActionFromProvisioningArtifactInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateServiceActionFromProvisioningArtifactOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4666,7 +4894,7 @@ export const disassociateServiceActionFromProvisioningArtifact: (
  */
 export const notifyTerminateProvisionedProductEngineWorkflowResult: (
   input: NotifyTerminateProvisionedProductEngineWorkflowResultInput,
-) => Effect.Effect<
+) => effect.Effect<
   NotifyTerminateProvisionedProductEngineWorkflowResultOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4681,7 +4909,7 @@ export const notifyTerminateProvisionedProductEngineWorkflowResult: (
  */
 export const notifyUpdateProvisionedProductEngineWorkflowResult: (
   input: NotifyUpdateProvisionedProductEngineWorkflowResultInput,
-) => Effect.Effect<
+) => effect.Effect<
   NotifyUpdateProvisionedProductEngineWorkflowResultOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4696,7 +4924,7 @@ export const notifyUpdateProvisionedProductEngineWorkflowResult: (
  */
 export const getAWSOrganizationsAccessStatus: (
   input: GetAWSOrganizationsAccessStatusInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetAWSOrganizationsAccessStatusOutput,
   OperationNotSupportedException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4723,7 +4951,7 @@ export const getAWSOrganizationsAccessStatus: (
  */
 export const enableAWSOrganizationsAccess: (
   input: EnableAWSOrganizationsAccessInput,
-) => Effect.Effect<
+) => effect.Effect<
   EnableAWSOrganizationsAccessOutput,
   | InvalidStateException
   | OperationNotSupportedException
@@ -4748,7 +4976,7 @@ export const enableAWSOrganizationsAccess: (
  */
 export const deletePortfolioShare: (
   input: DeletePortfolioShareInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePortfolioShareOutput,
   | InvalidParametersException
   | InvalidStateException
@@ -4771,7 +4999,7 @@ export const deletePortfolioShare: (
  */
 export const rejectPortfolioShare: (
   input: RejectPortfolioShareInput,
-) => Effect.Effect<
+) => effect.Effect<
   RejectPortfolioShareOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4785,7 +5013,7 @@ export const rejectPortfolioShare: (
  */
 export const describeConstraint: (
   input: DescribeConstraintInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeConstraintOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4799,7 +5027,7 @@ export const describeConstraint: (
  */
 export const describeCopyProductStatus: (
   input: DescribeCopyProductStatusInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCopyProductStatusOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4813,7 +5041,7 @@ export const describeCopyProductStatus: (
  */
 export const describeProductView: (
   input: DescribeProductViewInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeProductViewOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4840,7 +5068,7 @@ export const describeProductView: (
  */
 export const disableAWSOrganizationsAccess: (
   input: DisableAWSOrganizationsAccessInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisableAWSOrganizationsAccessOutput,
   | InvalidStateException
   | OperationNotSupportedException
@@ -4861,7 +5089,7 @@ export const disableAWSOrganizationsAccess: (
  */
 export const acceptPortfolioShare: (
   input: AcceptPortfolioShareInput,
-) => Effect.Effect<
+) => effect.Effect<
   AcceptPortfolioShareOutput,
   | InvalidParametersException
   | LimitExceededException
@@ -4882,7 +5110,7 @@ export const acceptPortfolioShare: (
  */
 export const batchAssociateServiceActionWithProvisioningArtifact: (
   input: BatchAssociateServiceActionWithProvisioningArtifactInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchAssociateServiceActionWithProvisioningArtifactOutput,
   InvalidParametersException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4896,7 +5124,7 @@ export const batchAssociateServiceActionWithProvisioningArtifact: (
  */
 export const batchDisassociateServiceActionFromProvisioningArtifact: (
   input: BatchDisassociateServiceActionFromProvisioningArtifactInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDisassociateServiceActionFromProvisioningArtifactOutput,
   InvalidParametersException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4918,7 +5146,7 @@ export const batchDisassociateServiceActionFromProvisioningArtifact: (
  */
 export const copyProduct: (
   input: CopyProductInput,
-) => Effect.Effect<
+) => effect.Effect<
   CopyProductOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4934,7 +5162,7 @@ export const copyProduct: (
  */
 export const createConstraint: (
   input: CreateConstraintInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConstraintOutput,
   | DuplicateResourceException
   | InvalidParametersException
@@ -4977,7 +5205,7 @@ export const createConstraint: (
  */
 export const createPortfolioShare: (
   input: CreatePortfolioShareInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePortfolioShareOutput,
   | InvalidParametersException
   | InvalidStateException
@@ -5012,7 +5240,7 @@ export const createPortfolioShare: (
  */
 export const createProvisionedProductPlan: (
   input: CreateProvisionedProductPlanInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProvisionedProductPlanOutput,
   | InvalidParametersException
   | InvalidStateException
@@ -5039,7 +5267,7 @@ export const createProvisionedProductPlan: (
  */
 export const createProvisioningArtifact: (
   input: CreateProvisioningArtifactInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProvisioningArtifactOutput,
   | InvalidParametersException
   | LimitExceededException
@@ -5060,7 +5288,7 @@ export const createProvisioningArtifact: (
  */
 export const createServiceAction: (
   input: CreateServiceActionInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateServiceActionOutput,
   InvalidParametersException | LimitExceededException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5076,7 +5304,7 @@ export const createServiceAction: (
  */
 export const describePortfolio: (
   input: DescribePortfolioInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePortfolioOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5097,21 +5325,21 @@ export const describePortfolio: (
 export const describePortfolioShares: {
   (
     input: DescribePortfolioSharesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribePortfolioSharesOutput,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: DescribePortfolioSharesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribePortfolioSharesOutput,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribePortfolioSharesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -5137,7 +5365,7 @@ export const describePortfolioShares: {
  */
 export const describeProduct: (
   input: DescribeProductInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeProductOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5151,7 +5379,7 @@ export const describeProduct: (
  */
 export const describeProvisionedProduct: (
   input: DescribeProvisionedProductInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeProvisionedProductOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5173,7 +5401,7 @@ export const describeProvisionedProduct: (
  */
 export const describeProvisioningParameters: (
   input: DescribeProvisioningParametersInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeProvisioningParametersOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5187,7 +5415,7 @@ export const describeProvisioningParameters: (
  */
 export const describeServiceAction: (
   input: DescribeServiceActionInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeServiceActionOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5201,7 +5429,7 @@ export const describeServiceAction: (
  */
 export const describeServiceActionExecutionParameters: (
   input: DescribeServiceActionExecutionParametersInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeServiceActionExecutionParametersOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5215,7 +5443,7 @@ export const describeServiceActionExecutionParameters: (
  */
 export const executeProvisionedProductServiceAction: (
   input: ExecuteProvisionedProductServiceActionInput,
-) => Effect.Effect<
+) => effect.Effect<
   ExecuteProvisionedProductServiceActionOutput,
   | InvalidParametersException
   | InvalidStateException
@@ -5257,21 +5485,21 @@ export const executeProvisionedProductServiceAction: (
 export const listLaunchPaths: {
   (
     input: ListLaunchPathsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLaunchPathsOutput,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListLaunchPathsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLaunchPathsOutput,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListLaunchPathsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -5292,21 +5520,21 @@ export const listLaunchPaths: {
 export const listPrincipalsForPortfolio: {
   (
     input: ListPrincipalsForPortfolioInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPrincipalsForPortfolioOutput,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListPrincipalsForPortfolioInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPrincipalsForPortfolioOutput,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListPrincipalsForPortfolioInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -5327,21 +5555,21 @@ export const listPrincipalsForPortfolio: {
 export const listProvisioningArtifactsForServiceAction: {
   (
     input: ListProvisioningArtifactsForServiceActionInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProvisioningArtifactsForServiceActionOutput,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListProvisioningArtifactsForServiceActionInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProvisioningArtifactsForServiceActionOutput,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListProvisioningArtifactsForServiceActionInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidParametersException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -5361,7 +5589,7 @@ export const listProvisioningArtifactsForServiceAction: {
  */
 export const listRecordHistory: (
   input: ListRecordHistoryInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListRecordHistoryOutput,
   InvalidParametersException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5376,21 +5604,21 @@ export const listRecordHistory: (
 export const listServiceActions: {
   (
     input: ListServiceActionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServiceActionsOutput,
     InvalidParametersException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListServiceActionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServiceActionsOutput,
     InvalidParametersException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListServiceActionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidParametersException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -5410,7 +5638,7 @@ export const listServiceActions: {
  */
 export const listStackInstancesForProvisionedProduct: (
   input: ListStackInstancesForProvisionedProductInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListStackInstancesForProvisionedProductOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5425,7 +5653,7 @@ export const listStackInstancesForProvisionedProduct: (
  */
 export const notifyProvisionProductEngineWorkflowResult: (
   input: NotifyProvisionProductEngineWorkflowResultInput,
-) => Effect.Effect<
+) => effect.Effect<
   NotifyProvisionProductEngineWorkflowResultOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5468,7 +5696,7 @@ export const notifyProvisionProductEngineWorkflowResult: (
  */
 export const provisionProduct: (
   input: ProvisionProductInput,
-) => Effect.Effect<
+) => effect.Effect<
   ProvisionProductOutput,
   | DuplicateResourceException
   | InvalidParametersException
@@ -5489,7 +5717,7 @@ export const provisionProduct: (
  */
 export const updateProduct: (
   input: UpdateProductInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProductOutput,
   | InvalidParametersException
   | ResourceNotFoundException
@@ -5516,7 +5744,7 @@ export const updateProduct: (
  */
 export const updateProvisionedProduct: (
   input: UpdateProvisionedProductInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProvisionedProductOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5530,7 +5758,7 @@ export const updateProvisionedProduct: (
  */
 export const updateProvisionedProductProperties: (
   input: UpdateProvisionedProductPropertiesInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProvisionedProductPropertiesOutput,
   | InvalidParametersException
   | InvalidStateException
@@ -5551,7 +5779,7 @@ export const updateProvisionedProductProperties: (
  */
 export const associateBudgetWithResource: (
   input: AssociateBudgetWithResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateBudgetWithResourceOutput,
   | DuplicateResourceException
   | InvalidParametersException
@@ -5576,7 +5804,7 @@ export const associateBudgetWithResource: (
  */
 export const updatePortfolio: (
   input: UpdatePortfolioInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePortfolioOutput,
   | InvalidParametersException
   | LimitExceededException
@@ -5615,7 +5843,7 @@ export const updatePortfolio: (
  */
 export const associatePrincipalWithPortfolio: (
   input: AssociatePrincipalWithPortfolioInput,
-) => Effect.Effect<
+) => effect.Effect<
   AssociatePrincipalWithPortfolioOutput,
   | InvalidParametersException
   | LimitExceededException
@@ -5638,7 +5866,7 @@ export const associatePrincipalWithPortfolio: (
  */
 export const associateProductWithPortfolio: (
   input: AssociateProductWithPortfolioInput,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateProductWithPortfolioOutput,
   | InvalidParametersException
   | LimitExceededException
@@ -5659,7 +5887,7 @@ export const associateProductWithPortfolio: (
  */
 export const associateServiceActionWithProvisioningArtifact: (
   input: AssociateServiceActionWithProvisioningArtifactInput,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateServiceActionWithProvisioningArtifactOutput,
   | DuplicateResourceException
   | InvalidParametersException
@@ -5682,7 +5910,7 @@ export const associateServiceActionWithProvisioningArtifact: (
  */
 export const associateTagOptionWithResource: (
   input: AssociateTagOptionWithResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateTagOptionWithResourceOutput,
   | DuplicateResourceException
   | InvalidParametersException
@@ -5709,7 +5937,7 @@ export const associateTagOptionWithResource: (
  */
 export const updateTagOption: (
   input: UpdateTagOptionInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTagOptionOutput,
   | DuplicateResourceException
   | InvalidParametersException
@@ -5737,7 +5965,7 @@ export const updateTagOption: (
  */
 export const deletePortfolio: (
   input: DeletePortfolioInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePortfolioOutput,
   | InvalidParametersException
   | ResourceInUseException
@@ -5764,7 +5992,7 @@ export const deletePortfolio: (
  */
 export const deleteProduct: (
   input: DeleteProductInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProductOutput,
   | InvalidParametersException
   | ResourceInUseException
@@ -5787,7 +6015,7 @@ export const deleteProduct: (
  */
 export const disassociateTagOptionFromResource: (
   input: DisassociateTagOptionFromResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateTagOptionFromResourceOutput,
   ResourceNotFoundException | TagOptionNotMigratedException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5803,7 +6031,7 @@ export const disassociateTagOptionFromResource: (
  */
 export const deleteTagOption: (
   input: DeleteTagOptionInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTagOptionOutput,
   | ResourceInUseException
   | ResourceNotFoundException
@@ -5824,7 +6052,7 @@ export const deleteTagOption: (
  */
 export const describeTagOption: (
   input: DescribeTagOptionInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeTagOptionOutput,
   ResourceNotFoundException | TagOptionNotMigratedException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5840,7 +6068,7 @@ export const describeTagOption: (
  */
 export const createPortfolio: (
   input: CreatePortfolioInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePortfolioOutput,
   | InvalidParametersException
   | LimitExceededException
@@ -5861,7 +6089,7 @@ export const createPortfolio: (
  */
 export const createTagOption: (
   input: CreateTagOptionInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTagOptionOutput,
   | DuplicateResourceException
   | LimitExceededException
@@ -5883,7 +6111,7 @@ export const createTagOption: (
 export const listResourcesForTagOption: {
   (
     input: ListResourcesForTagOptionInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResourcesForTagOptionOutput,
     | InvalidParametersException
     | ResourceNotFoundException
@@ -5893,7 +6121,7 @@ export const listResourcesForTagOption: {
   >;
   pages: (
     input: ListResourcesForTagOptionInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResourcesForTagOptionOutput,
     | InvalidParametersException
     | ResourceNotFoundException
@@ -5903,7 +6131,7 @@ export const listResourcesForTagOption: {
   >;
   items: (
     input: ListResourcesForTagOptionInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidParametersException
     | ResourceNotFoundException
@@ -5931,21 +6159,21 @@ export const listResourcesForTagOption: {
 export const listTagOptions: {
   (
     input: ListTagOptionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTagOptionsOutput,
     InvalidParametersException | TagOptionNotMigratedException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListTagOptionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTagOptionsOutput,
     InvalidParametersException | TagOptionNotMigratedException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListTagOptionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidParametersException | TagOptionNotMigratedException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -5966,7 +6194,7 @@ export const listTagOptions: {
  */
 export const describePortfolioShareStatus: (
   input: DescribePortfolioShareStatusInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePortfolioShareStatusOutput,
   | InvalidParametersException
   | OperationNotSupportedException
@@ -5987,7 +6215,7 @@ export const describePortfolioShareStatus: (
  */
 export const describeProvisioningArtifact: (
   input: DescribeProvisioningArtifactInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeProvisioningArtifactOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6008,7 +6236,7 @@ export const describeProvisioningArtifact: (
  */
 export const describeRecord: (
   input: DescribeRecordInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRecordOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6022,7 +6250,7 @@ export const describeRecord: (
  */
 export const listProvisionedProductPlans: (
   input: ListProvisionedProductPlansInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListProvisionedProductPlansOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6037,21 +6265,21 @@ export const listProvisionedProductPlans: (
 export const searchProvisionedProducts: {
   (
     input: SearchProvisionedProductsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchProvisionedProductsOutput,
     InvalidParametersException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: SearchProvisionedProductsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchProvisionedProductsOutput,
     InvalidParametersException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: SearchProvisionedProductsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidParametersException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -6078,7 +6306,7 @@ export const searchProvisionedProducts: {
  */
 export const createProduct: (
   input: CreateProductInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProductOutput,
   | InvalidParametersException
   | LimitExceededException
@@ -6099,7 +6327,7 @@ export const createProduct: (
  */
 export const describeProductAsAdmin: (
   input: DescribeProductAsAdminInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeProductAsAdminOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6113,7 +6341,7 @@ export const describeProductAsAdmin: (
  */
 export const describeProvisionedProductPlan: (
   input: DescribeProvisionedProductPlanInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeProvisionedProductPlanOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6128,21 +6356,21 @@ export const describeProvisionedProductPlan: (
 export const searchProducts: {
   (
     input: SearchProductsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchProductsOutput,
     InvalidParametersException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: SearchProductsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchProductsOutput,
     InvalidParametersException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: SearchProductsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidParametersException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient

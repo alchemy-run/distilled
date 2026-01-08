@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -135,10 +135,43 @@ export const GetNamespaceDeletionStatusRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetNamespaceDeletionStatusRequest",
 }) as any as S.Schema<GetNamespaceDeletionStatusRequest>;
+export type DeploymentTarget = "GREENGRASS" | "CLOUD";
+export const DeploymentTarget = S.Literal("GREENGRASS", "CLOUD");
+export type EntityType =
+  | "DEVICE"
+  | "SERVICE"
+  | "DEVICE_MODEL"
+  | "CAPABILITY"
+  | "STATE"
+  | "ACTION"
+  | "EVENT"
+  | "PROPERTY"
+  | "MAPPING"
+  | "ENUM";
+export const EntityType = S.Literal(
+  "DEVICE",
+  "SERVICE",
+  "DEVICE_MODEL",
+  "CAPABILITY",
+  "STATE",
+  "ACTION",
+  "EVENT",
+  "PROPERTY",
+  "MAPPING",
+  "ENUM",
+);
 export type Urns = string[];
 export const Urns = S.Array(S.String);
-export type EntityTypes = string[];
-export const EntityTypes = S.Array(S.String);
+export type NamespaceDeletionStatus = "IN_PROGRESS" | "SUCCEEDED" | "FAILED";
+export const NamespaceDeletionStatus = S.Literal(
+  "IN_PROGRESS",
+  "SUCCEEDED",
+  "FAILED",
+);
+export type NamespaceDeletionStatusErrorCodes = "VALIDATION_FAILED";
+export const NamespaceDeletionStatusErrorCodes = S.Literal("VALIDATION_FAILED");
+export type EntityTypes = EntityType[];
+export const EntityTypes = S.Array(EntityType);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface AssociateEntityToThingRequest {
@@ -163,12 +196,14 @@ export const AssociateEntityToThingResponse = S.suspend(() =>
 ).annotations({
   identifier: "AssociateEntityToThingResponse",
 }) as any as S.Schema<AssociateEntityToThingResponse>;
+export type DefinitionLanguage = "GRAPHQL";
+export const DefinitionLanguage = S.Literal("GRAPHQL");
 export interface DefinitionDocument {
-  language: string;
+  language: DefinitionLanguage;
   text: string;
 }
 export const DefinitionDocument = S.suspend(() =>
-  S.Struct({ language: S.String, text: S.String }),
+  S.Struct({ language: DefinitionLanguage, text: S.String }),
 ).annotations({
   identifier: "DefinitionDocument",
 }) as any as S.Schema<DefinitionDocument>;
@@ -300,10 +335,10 @@ export const DescribeNamespaceRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeNamespaceRequest>;
 export interface DissociateEntityFromThingRequest {
   thingName: string;
-  entityType: string;
+  entityType: EntityType;
 }
 export const DissociateEntityFromThingRequest = S.suspend(() =>
-  S.Struct({ thingName: S.String, entityType: S.String }).pipe(
+  S.Struct({ thingName: S.String, entityType: EntityType }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -316,7 +351,7 @@ export const DissociateEntityFromThingResponse = S.suspend(() =>
   identifier: "DissociateEntityFromThingResponse",
 }) as any as S.Schema<DissociateEntityFromThingResponse>;
 export interface GetEntitiesRequest {
-  ids: Urns;
+  ids: string[];
   namespaceVersion?: number;
 }
 export const GetEntitiesRequest = S.suspend(() =>
@@ -356,16 +391,16 @@ export const GetFlowTemplateRevisionsRequest = S.suspend(() =>
 export interface GetNamespaceDeletionStatusResponse {
   namespaceArn?: string;
   namespaceName?: string;
-  status?: string;
-  errorCode?: string;
+  status?: NamespaceDeletionStatus;
+  errorCode?: NamespaceDeletionStatusErrorCodes;
   errorMessage?: string;
 }
 export const GetNamespaceDeletionStatusResponse = S.suspend(() =>
   S.Struct({
     namespaceArn: S.optional(S.String),
     namespaceName: S.optional(S.String),
-    status: S.optional(S.String),
-    errorCode: S.optional(S.String),
+    status: S.optional(NamespaceDeletionStatus),
+    errorCode: S.optional(NamespaceDeletionStatusErrorCodes),
     errorMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -501,7 +536,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagList;
+  tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
@@ -526,7 +561,7 @@ export const UndeploySystemInstanceRequest = S.suspend(() =>
 }) as any as S.Schema<UndeploySystemInstanceRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
@@ -587,12 +622,36 @@ export const UploadEntityDefinitionsRequest = S.suspend(() =>
 ).annotations({
   identifier: "UploadEntityDefinitionsRequest",
 }) as any as S.Schema<UploadEntityDefinitionsRequest>;
+export type EntityFilterName =
+  | "NAME"
+  | "NAMESPACE"
+  | "SEMANTIC_TYPE_PATH"
+  | "REFERENCED_ENTITY_ID";
+export const EntityFilterName = S.Literal(
+  "NAME",
+  "NAMESPACE",
+  "SEMANTIC_TYPE_PATH",
+  "REFERENCED_ENTITY_ID",
+);
 export type EntityFilterValues = string[];
 export const EntityFilterValues = S.Array(S.String);
+export type FlowTemplateFilterName = "DEVICE_MODEL_ID";
+export const FlowTemplateFilterName = S.Literal("DEVICE_MODEL_ID");
 export type FlowTemplateFilterValues = string[];
 export const FlowTemplateFilterValues = S.Array(S.String);
+export type SystemInstanceFilterName =
+  | "SYSTEM_TEMPLATE_ID"
+  | "STATUS"
+  | "GREENGRASS_GROUP_NAME";
+export const SystemInstanceFilterName = S.Literal(
+  "SYSTEM_TEMPLATE_ID",
+  "STATUS",
+  "GREENGRASS_GROUP_NAME",
+);
 export type SystemInstanceFilterValues = string[];
 export const SystemInstanceFilterValues = S.Array(S.String);
+export type SystemTemplateFilterName = "FLOW_TEMPLATE_ID";
+export const SystemTemplateFilterName = S.Literal("FLOW_TEMPLATE_ID");
 export type SystemTemplateFilterValues = string[];
 export const SystemTemplateFilterValues = S.Array(S.String);
 export interface MetricsConfiguration {
@@ -625,38 +684,40 @@ export const SystemTemplateSummary = S.suspend(() =>
 }) as any as S.Schema<SystemTemplateSummary>;
 export type SystemTemplateSummaries = SystemTemplateSummary[];
 export const SystemTemplateSummaries = S.Array(SystemTemplateSummary);
+export type UploadStatus = "IN_PROGRESS" | "SUCCEEDED" | "FAILED";
+export const UploadStatus = S.Literal("IN_PROGRESS", "SUCCEEDED", "FAILED");
 export type StringList = string[];
 export const StringList = S.Array(S.String);
 export interface EntityFilter {
-  name?: string;
-  value?: EntityFilterValues;
+  name?: EntityFilterName;
+  value?: string[];
 }
 export const EntityFilter = S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
+    name: S.optional(EntityFilterName),
     value: S.optional(EntityFilterValues),
   }),
 ).annotations({ identifier: "EntityFilter" }) as any as S.Schema<EntityFilter>;
 export type EntityFilters = EntityFilter[];
 export const EntityFilters = S.Array(EntityFilter);
 export interface FlowTemplateFilter {
-  name: string;
-  value: FlowTemplateFilterValues;
+  name: FlowTemplateFilterName;
+  value: string[];
 }
 export const FlowTemplateFilter = S.suspend(() =>
-  S.Struct({ name: S.String, value: FlowTemplateFilterValues }),
+  S.Struct({ name: FlowTemplateFilterName, value: FlowTemplateFilterValues }),
 ).annotations({
   identifier: "FlowTemplateFilter",
 }) as any as S.Schema<FlowTemplateFilter>;
 export type FlowTemplateFilters = FlowTemplateFilter[];
 export const FlowTemplateFilters = S.Array(FlowTemplateFilter);
 export interface SystemInstanceFilter {
-  name?: string;
-  value?: SystemInstanceFilterValues;
+  name?: SystemInstanceFilterName;
+  value?: string[];
 }
 export const SystemInstanceFilter = S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
+    name: S.optional(SystemInstanceFilterName),
     value: S.optional(SystemInstanceFilterValues),
   }),
 ).annotations({
@@ -665,11 +726,14 @@ export const SystemInstanceFilter = S.suspend(() =>
 export type SystemInstanceFilters = SystemInstanceFilter[];
 export const SystemInstanceFilters = S.Array(SystemInstanceFilter);
 export interface SystemTemplateFilter {
-  name: string;
-  value: SystemTemplateFilterValues;
+  name: SystemTemplateFilterName;
+  value: string[];
 }
 export const SystemTemplateFilter = S.suspend(() =>
-  S.Struct({ name: S.String, value: SystemTemplateFilterValues }),
+  S.Struct({
+    name: SystemTemplateFilterName,
+    value: SystemTemplateFilterValues,
+  }),
 ).annotations({
   identifier: "SystemTemplateFilter",
 }) as any as S.Schema<SystemTemplateFilter>;
@@ -690,9 +754,9 @@ export const CreateFlowTemplateRequest = S.suspend(() =>
   identifier: "CreateFlowTemplateRequest",
 }) as any as S.Schema<CreateFlowTemplateRequest>;
 export interface CreateSystemInstanceRequest {
-  tags?: TagList;
+  tags?: Tag[];
   definition: DefinitionDocument;
-  target: string;
+  target: DeploymentTarget;
   greengrassGroupName?: string;
   s3BucketName?: string;
   metricsConfiguration?: MetricsConfiguration;
@@ -702,7 +766,7 @@ export const CreateSystemInstanceRequest = S.suspend(() =>
   S.Struct({
     tags: S.optional(TagList),
     definition: DefinitionDocument,
-    target: S.String,
+    target: DeploymentTarget,
     greengrassGroupName: S.optional(S.String),
     s3BucketName: S.optional(S.String),
     metricsConfiguration: S.optional(MetricsConfiguration),
@@ -732,7 +796,7 @@ export const DescribeNamespaceResponse = S.suspend(() =>
   identifier: "DescribeNamespaceResponse",
 }) as any as S.Schema<DescribeNamespaceResponse>;
 export interface GetSystemTemplateRevisionsResponse {
-  summaries?: SystemTemplateSummaries;
+  summaries?: SystemTemplateSummary[];
   nextToken?: string;
 }
 export const GetSystemTemplateRevisionsResponse = S.suspend(() =>
@@ -745,17 +809,17 @@ export const GetSystemTemplateRevisionsResponse = S.suspend(() =>
 }) as any as S.Schema<GetSystemTemplateRevisionsResponse>;
 export interface GetUploadStatusResponse {
   uploadId: string;
-  uploadStatus: string;
+  uploadStatus: UploadStatus;
   namespaceArn?: string;
   namespaceName?: string;
   namespaceVersion?: number;
-  failureReason?: StringList;
+  failureReason?: string[];
   createdDate: Date;
 }
 export const GetUploadStatusResponse = S.suspend(() =>
   S.Struct({
     uploadId: S.String,
-    uploadStatus: S.String,
+    uploadStatus: UploadStatus,
     namespaceArn: S.optional(S.String),
     namespaceName: S.optional(S.String),
     namespaceVersion: S.optional(S.Number),
@@ -766,7 +830,7 @@ export const GetUploadStatusResponse = S.suspend(() =>
   identifier: "GetUploadStatusResponse",
 }) as any as S.Schema<GetUploadStatusResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagList;
+  tags?: Tag[];
   nextToken?: string;
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
@@ -775,8 +839,8 @@ export const ListTagsForResourceResponse = S.suspend(() =>
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface SearchEntitiesRequest {
-  entityTypes: EntityTypes;
-  filters?: EntityFilters;
+  entityTypes: EntityType[];
+  filters?: EntityFilter[];
   nextToken?: string;
   maxResults?: number;
   namespaceVersion?: number;
@@ -795,7 +859,7 @@ export const SearchEntitiesRequest = S.suspend(() =>
   identifier: "SearchEntitiesRequest",
 }) as any as S.Schema<SearchEntitiesRequest>;
 export interface SearchFlowTemplatesRequest {
-  filters?: FlowTemplateFilters;
+  filters?: FlowTemplateFilter[];
   nextToken?: string;
   maxResults?: number;
 }
@@ -811,7 +875,7 @@ export const SearchFlowTemplatesRequest = S.suspend(() =>
   identifier: "SearchFlowTemplatesRequest",
 }) as any as S.Schema<SearchFlowTemplatesRequest>;
 export interface SearchSystemInstancesRequest {
-  filters?: SystemInstanceFilters;
+  filters?: SystemInstanceFilter[];
   nextToken?: string;
   maxResults?: number;
 }
@@ -827,7 +891,7 @@ export const SearchSystemInstancesRequest = S.suspend(() =>
   identifier: "SearchSystemInstancesRequest",
 }) as any as S.Schema<SearchSystemInstancesRequest>;
 export interface SearchSystemTemplatesRequest {
-  filters?: SystemTemplateFilters;
+  filters?: SystemTemplateFilter[];
   nextToken?: string;
   maxResults?: number;
 }
@@ -842,11 +906,30 @@ export const SearchSystemTemplatesRequest = S.suspend(() =>
 ).annotations({
   identifier: "SearchSystemTemplatesRequest",
 }) as any as S.Schema<SearchSystemTemplatesRequest>;
+export type SystemInstanceDeploymentStatus =
+  | "NOT_DEPLOYED"
+  | "BOOTSTRAP"
+  | "DEPLOY_IN_PROGRESS"
+  | "DEPLOYED_IN_TARGET"
+  | "UNDEPLOY_IN_PROGRESS"
+  | "FAILED"
+  | "PENDING_DELETE"
+  | "DELETED_IN_TARGET";
+export const SystemInstanceDeploymentStatus = S.Literal(
+  "NOT_DEPLOYED",
+  "BOOTSTRAP",
+  "DEPLOY_IN_PROGRESS",
+  "DEPLOYED_IN_TARGET",
+  "UNDEPLOY_IN_PROGRESS",
+  "FAILED",
+  "PENDING_DELETE",
+  "DELETED_IN_TARGET",
+);
 export interface SystemInstanceSummary {
   id?: string;
   arn?: string;
-  status?: string;
-  target?: string;
+  status?: SystemInstanceDeploymentStatus;
+  target?: DeploymentTarget;
   greengrassGroupName?: string;
   createdAt?: Date;
   updatedAt?: Date;
@@ -857,8 +940,8 @@ export const SystemInstanceSummary = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     arn: S.optional(S.String),
-    status: S.optional(S.String),
-    target: S.optional(S.String),
+    status: S.optional(SystemInstanceDeploymentStatus),
+    target: S.optional(DeploymentTarget),
     greengrassGroupName: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -916,10 +999,58 @@ export const UploadEntityDefinitionsResponse = S.suspend(() =>
 ).annotations({
   identifier: "UploadEntityDefinitionsResponse",
 }) as any as S.Schema<UploadEntityDefinitionsResponse>;
+export type FlowExecutionEventType =
+  | "EXECUTION_STARTED"
+  | "EXECUTION_FAILED"
+  | "EXECUTION_ABORTED"
+  | "EXECUTION_SUCCEEDED"
+  | "STEP_STARTED"
+  | "STEP_FAILED"
+  | "STEP_SUCCEEDED"
+  | "ACTIVITY_SCHEDULED"
+  | "ACTIVITY_STARTED"
+  | "ACTIVITY_FAILED"
+  | "ACTIVITY_SUCCEEDED"
+  | "START_FLOW_EXECUTION_TASK"
+  | "SCHEDULE_NEXT_READY_STEPS_TASK"
+  | "THING_ACTION_TASK"
+  | "THING_ACTION_TASK_FAILED"
+  | "THING_ACTION_TASK_SUCCEEDED"
+  | "ACKNOWLEDGE_TASK_MESSAGE";
+export const FlowExecutionEventType = S.Literal(
+  "EXECUTION_STARTED",
+  "EXECUTION_FAILED",
+  "EXECUTION_ABORTED",
+  "EXECUTION_SUCCEEDED",
+  "STEP_STARTED",
+  "STEP_FAILED",
+  "STEP_SUCCEEDED",
+  "ACTIVITY_SCHEDULED",
+  "ACTIVITY_STARTED",
+  "ACTIVITY_FAILED",
+  "ACTIVITY_SUCCEEDED",
+  "START_FLOW_EXECUTION_TASK",
+  "SCHEDULE_NEXT_READY_STEPS_TASK",
+  "THING_ACTION_TASK",
+  "THING_ACTION_TASK_FAILED",
+  "THING_ACTION_TASK_SUCCEEDED",
+  "ACKNOWLEDGE_TASK_MESSAGE",
+);
+export type FlowExecutionStatus =
+  | "RUNNING"
+  | "ABORTED"
+  | "SUCCEEDED"
+  | "FAILED";
+export const FlowExecutionStatus = S.Literal(
+  "RUNNING",
+  "ABORTED",
+  "SUCCEEDED",
+  "FAILED",
+);
 export interface EntityDescription {
   id?: string;
   arn?: string;
-  type?: string;
+  type?: EntityType;
   createdAt?: Date;
   definition?: DefinitionDocument;
 }
@@ -927,7 +1058,7 @@ export const EntityDescription = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     arn: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(EntityType),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     definition: S.optional(DefinitionDocument),
   }),
@@ -968,14 +1099,14 @@ export const SystemTemplateDescription = S.suspend(() =>
 }) as any as S.Schema<SystemTemplateDescription>;
 export interface FlowExecutionMessage {
   messageId?: string;
-  eventType?: string;
+  eventType?: FlowExecutionEventType;
   timestamp?: Date;
   payload?: string;
 }
 export const FlowExecutionMessage = S.suspend(() =>
   S.Struct({
     messageId: S.optional(S.String),
-    eventType: S.optional(S.String),
+    eventType: S.optional(FlowExecutionEventType),
     timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     payload: S.optional(S.String),
   }),
@@ -986,7 +1117,7 @@ export type FlowExecutionMessages = FlowExecutionMessage[];
 export const FlowExecutionMessages = S.Array(FlowExecutionMessage);
 export interface FlowExecutionSummary {
   flowExecutionId?: string;
-  status?: string;
+  status?: FlowExecutionStatus;
   systemInstanceId?: string;
   flowTemplateId?: string;
   createdAt?: Date;
@@ -995,7 +1126,7 @@ export interface FlowExecutionSummary {
 export const FlowExecutionSummary = S.suspend(() =>
   S.Struct({
     flowExecutionId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(FlowExecutionStatus),
     systemInstanceId: S.optional(S.String),
     flowTemplateId: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1054,7 +1185,7 @@ export const DeploySystemInstanceResponse = S.suspend(() =>
   identifier: "DeploySystemInstanceResponse",
 }) as any as S.Schema<DeploySystemInstanceResponse>;
 export interface GetEntitiesResponse {
-  descriptions?: EntityDescriptions;
+  descriptions?: EntityDescription[];
 }
 export const GetEntitiesResponse = S.suspend(() =>
   S.Struct({ descriptions: S.optional(EntityDescriptions) }),
@@ -1070,7 +1201,7 @@ export const GetFlowTemplateResponse = S.suspend(() =>
   identifier: "GetFlowTemplateResponse",
 }) as any as S.Schema<GetFlowTemplateResponse>;
 export interface GetFlowTemplateRevisionsResponse {
-  summaries?: FlowTemplateSummaries;
+  summaries?: FlowTemplateSummary[];
   nextToken?: string;
 }
 export const GetFlowTemplateRevisionsResponse = S.suspend(() =>
@@ -1090,7 +1221,7 @@ export const GetSystemTemplateResponse = S.suspend(() =>
   identifier: "GetSystemTemplateResponse",
 }) as any as S.Schema<GetSystemTemplateResponse>;
 export interface ListFlowExecutionMessagesResponse {
-  messages?: FlowExecutionMessages;
+  messages?: FlowExecutionMessage[];
   nextToken?: string;
 }
 export const ListFlowExecutionMessagesResponse = S.suspend(() =>
@@ -1102,7 +1233,7 @@ export const ListFlowExecutionMessagesResponse = S.suspend(() =>
   identifier: "ListFlowExecutionMessagesResponse",
 }) as any as S.Schema<ListFlowExecutionMessagesResponse>;
 export interface SearchEntitiesResponse {
-  descriptions?: EntityDescriptions;
+  descriptions?: EntityDescription[];
   nextToken?: string;
 }
 export const SearchEntitiesResponse = S.suspend(() =>
@@ -1114,7 +1245,7 @@ export const SearchEntitiesResponse = S.suspend(() =>
   identifier: "SearchEntitiesResponse",
 }) as any as S.Schema<SearchEntitiesResponse>;
 export interface SearchFlowExecutionsResponse {
-  summaries?: FlowExecutionSummaries;
+  summaries?: FlowExecutionSummary[];
   nextToken?: string;
 }
 export const SearchFlowExecutionsResponse = S.suspend(() =>
@@ -1126,7 +1257,7 @@ export const SearchFlowExecutionsResponse = S.suspend(() =>
   identifier: "SearchFlowExecutionsResponse",
 }) as any as S.Schema<SearchFlowExecutionsResponse>;
 export interface SearchFlowTemplatesResponse {
-  summaries?: FlowTemplateSummaries;
+  summaries?: FlowTemplateSummary[];
   nextToken?: string;
 }
 export const SearchFlowTemplatesResponse = S.suspend(() =>
@@ -1138,7 +1269,7 @@ export const SearchFlowTemplatesResponse = S.suspend(() =>
   identifier: "SearchFlowTemplatesResponse",
 }) as any as S.Schema<SearchFlowTemplatesResponse>;
 export interface SearchSystemInstancesResponse {
-  summaries?: SystemInstanceSummaries;
+  summaries?: SystemInstanceSummary[];
   nextToken?: string;
 }
 export const SearchSystemInstancesResponse = S.suspend(() =>
@@ -1150,7 +1281,7 @@ export const SearchSystemInstancesResponse = S.suspend(() =>
   identifier: "SearchSystemInstancesResponse",
 }) as any as S.Schema<SearchSystemInstancesResponse>;
 export interface SearchSystemTemplatesResponse {
-  summaries?: SystemTemplateSummaries;
+  summaries?: SystemTemplateSummary[];
   nextToken?: string;
 }
 export const SearchSystemTemplatesResponse = S.suspend(() =>
@@ -1162,7 +1293,7 @@ export const SearchSystemTemplatesResponse = S.suspend(() =>
   identifier: "SearchSystemTemplatesResponse",
 }) as any as S.Schema<SearchSystemTemplatesResponse>;
 export interface SearchThingsResponse {
-  things?: Things;
+  things?: Thing[];
   nextToken?: string;
 }
 export const SearchThingsResponse = S.suspend(() =>
@@ -1187,7 +1318,7 @@ export interface SystemInstanceDescription {
   s3BucketName?: string;
   metricsConfiguration?: MetricsConfiguration;
   validatedNamespaceVersion?: number;
-  validatedDependencyRevisions?: DependencyRevisions;
+  validatedDependencyRevisions?: DependencyRevision[];
   flowActionsRoleArn?: string;
 }
 export const SystemInstanceDescription = S.suspend(() =>
@@ -1249,7 +1380,7 @@ export class ResourceInUseException extends S.TaggedError<ResourceInUseException
  */
 export const deleteNamespace: (
   input: DeleteNamespaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteNamespaceResponse,
   InternalFailureException | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1275,7 +1406,7 @@ export const deleteNamespace: (
  */
 export const uploadEntityDefinitions: (
   input: UploadEntityDefinitionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UploadEntityDefinitionsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1296,7 +1427,7 @@ export const uploadEntityDefinitions: (
  */
 export const getNamespaceDeletionStatus: (
   input: GetNamespaceDeletionStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetNamespaceDeletionStatusResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1318,7 +1449,7 @@ export const getNamespaceDeletionStatus: (
 export const searchEntities: {
   (
     input: SearchEntitiesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchEntitiesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -1328,7 +1459,7 @@ export const searchEntities: {
   >;
   pages: (
     input: SearchEntitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchEntitiesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -1338,7 +1469,7 @@ export const searchEntities: {
   >;
   items: (
     input: SearchEntitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EntityDescription,
     | InternalFailureException
     | InvalidRequestException
@@ -1367,7 +1498,7 @@ export const searchEntities: {
 export const searchFlowTemplates: {
   (
     input: SearchFlowTemplatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchFlowTemplatesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -1377,7 +1508,7 @@ export const searchFlowTemplates: {
   >;
   pages: (
     input: SearchFlowTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchFlowTemplatesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -1387,7 +1518,7 @@ export const searchFlowTemplates: {
   >;
   items: (
     input: SearchFlowTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FlowTemplateSummary,
     | InternalFailureException
     | InvalidRequestException
@@ -1416,7 +1547,7 @@ export const searchFlowTemplates: {
 export const searchSystemInstances: {
   (
     input: SearchSystemInstancesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchSystemInstancesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -1426,7 +1557,7 @@ export const searchSystemInstances: {
   >;
   pages: (
     input: SearchSystemInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchSystemInstancesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -1436,7 +1567,7 @@ export const searchSystemInstances: {
   >;
   items: (
     input: SearchSystemInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SystemInstanceSummary,
     | InternalFailureException
     | InvalidRequestException
@@ -1465,7 +1596,7 @@ export const searchSystemInstances: {
 export const searchSystemTemplates: {
   (
     input: SearchSystemTemplatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchSystemTemplatesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -1475,7 +1606,7 @@ export const searchSystemTemplates: {
   >;
   pages: (
     input: SearchSystemTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchSystemTemplatesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -1485,7 +1616,7 @@ export const searchSystemTemplates: {
   >;
   items: (
     input: SearchSystemTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SystemTemplateSummary,
     | InternalFailureException
     | InvalidRequestException
@@ -1515,7 +1646,7 @@ export const searchSystemTemplates: {
  */
 export const associateEntityToThing: (
   input: AssociateEntityToThingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateEntityToThingResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1539,7 +1670,7 @@ export const associateEntityToThing: (
  */
 export const createSystemTemplate: (
   input: CreateSystemTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSystemTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1574,7 +1705,7 @@ export const createSystemTemplate: (
  */
 export const deploySystemInstance: (
   input: DeploySystemInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeploySystemInstanceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1599,7 +1730,7 @@ export const deploySystemInstance: (
  */
 export const getSystemInstance: (
   input: GetSystemInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSystemInstanceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1643,7 +1774,7 @@ export const getSystemInstance: (
  */
 export const getEntities: (
   input: GetEntitiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEntitiesResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1666,7 +1797,7 @@ export const getEntities: (
  */
 export const getFlowTemplate: (
   input: GetFlowTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFlowTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1691,7 +1822,7 @@ export const getFlowTemplate: (
 export const getFlowTemplateRevisions: {
   (
     input: GetFlowTemplateRevisionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetFlowTemplateRevisionsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -1702,7 +1833,7 @@ export const getFlowTemplateRevisions: {
   >;
   pages: (
     input: GetFlowTemplateRevisionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetFlowTemplateRevisionsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -1713,7 +1844,7 @@ export const getFlowTemplateRevisions: {
   >;
   items: (
     input: GetFlowTemplateRevisionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FlowTemplateSummary,
     | InternalFailureException
     | InvalidRequestException
@@ -1743,7 +1874,7 @@ export const getFlowTemplateRevisions: {
  */
 export const getSystemTemplate: (
   input: GetSystemTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSystemTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1767,7 +1898,7 @@ export const getSystemTemplate: (
 export const listFlowExecutionMessages: {
   (
     input: ListFlowExecutionMessagesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFlowExecutionMessagesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -1778,7 +1909,7 @@ export const listFlowExecutionMessages: {
   >;
   pages: (
     input: ListFlowExecutionMessagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFlowExecutionMessagesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -1789,7 +1920,7 @@ export const listFlowExecutionMessages: {
   >;
   items: (
     input: ListFlowExecutionMessagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FlowExecutionMessage,
     | InternalFailureException
     | InvalidRequestException
@@ -1820,7 +1951,7 @@ export const listFlowExecutionMessages: {
 export const searchFlowExecutions: {
   (
     input: SearchFlowExecutionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchFlowExecutionsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -1831,7 +1962,7 @@ export const searchFlowExecutions: {
   >;
   pages: (
     input: SearchFlowExecutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchFlowExecutionsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -1842,7 +1973,7 @@ export const searchFlowExecutions: {
   >;
   items: (
     input: SearchFlowExecutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FlowExecutionSummary,
     | InternalFailureException
     | InvalidRequestException
@@ -1878,7 +2009,7 @@ export const searchFlowExecutions: {
 export const searchThings: {
   (
     input: SearchThingsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchThingsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -1889,7 +2020,7 @@ export const searchThings: {
   >;
   pages: (
     input: SearchThingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchThingsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -1900,7 +2031,7 @@ export const searchThings: {
   >;
   items: (
     input: SearchThingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Thing,
     | InternalFailureException
     | InvalidRequestException
@@ -1930,7 +2061,7 @@ export const searchThings: {
  */
 export const describeNamespace: (
   input: DescribeNamespaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeNamespaceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1955,7 +2086,7 @@ export const describeNamespace: (
 export const getSystemTemplateRevisions: {
   (
     input: GetSystemTemplateRevisionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetSystemTemplateRevisionsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -1966,7 +2097,7 @@ export const getSystemTemplateRevisions: {
   >;
   pages: (
     input: GetSystemTemplateRevisionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetSystemTemplateRevisionsResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -1977,7 +2108,7 @@ export const getSystemTemplateRevisions: {
   >;
   items: (
     input: GetSystemTemplateRevisionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SystemTemplateSummary,
     | InternalFailureException
     | InvalidRequestException
@@ -2007,7 +2138,7 @@ export const getSystemTemplateRevisions: {
  */
 export const getUploadStatus: (
   input: GetUploadStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUploadStatusResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2031,7 +2162,7 @@ export const getUploadStatus: (
  */
 export const updateFlowTemplate: (
   input: UpdateFlowTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFlowTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2054,7 +2185,7 @@ export const updateFlowTemplate: (
  */
 export const updateSystemTemplate: (
   input: UpdateSystemTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSystemTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2077,7 +2208,7 @@ export const updateSystemTemplate: (
  */
 export const deprecateFlowTemplate: (
   input: DeprecateFlowTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeprecateFlowTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2100,7 +2231,7 @@ export const deprecateFlowTemplate: (
  */
 export const deprecateSystemTemplate: (
   input: DeprecateSystemTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeprecateSystemTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2124,7 +2255,7 @@ export const deprecateSystemTemplate: (
  */
 export const dissociateEntityFromThing: (
   input: DissociateEntityFromThingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DissociateEntityFromThingResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2159,7 +2290,7 @@ export const dissociateEntityFromThing: (
  */
 export const createSystemInstance: (
   input: CreateSystemInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSystemInstanceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2185,7 +2316,7 @@ export const createSystemInstance: (
 export const listTagsForResource: {
   (
     input: ListTagsForResourceRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTagsForResourceResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -2196,7 +2327,7 @@ export const listTagsForResource: {
   >;
   pages: (
     input: ListTagsForResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTagsForResourceResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -2207,7 +2338,7 @@ export const listTagsForResource: {
   >;
   items: (
     input: ListTagsForResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Tag,
     | InternalFailureException
     | InvalidRequestException
@@ -2237,7 +2368,7 @@ export const listTagsForResource: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2260,7 +2391,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2285,7 +2416,7 @@ export const untagResource: (
  */
 export const createFlowTemplate: (
   input: CreateFlowTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFlowTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2310,7 +2441,7 @@ export const createFlowTemplate: (
  */
 export const undeploySystemInstance: (
   input: UndeploySystemInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UndeploySystemInstanceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2336,7 +2467,7 @@ export const undeploySystemInstance: (
  */
 export const deleteFlowTemplate: (
   input: DeleteFlowTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFlowTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2362,7 +2493,7 @@ export const deleteFlowTemplate: (
  */
 export const deleteSystemInstance: (
   input: DeleteSystemInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSystemInstanceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2386,7 +2517,7 @@ export const deleteSystemInstance: (
  */
 export const deleteSystemTemplate: (
   input: DeleteSystemTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSystemTemplateResponse,
   | InternalFailureException
   | InvalidRequestException

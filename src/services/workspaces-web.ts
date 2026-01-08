@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -89,21 +89,21 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type PortalId = string;
 export type SessionId = string;
-export type Username = string | Redacted.Redacted<string>;
+export type Username = string | redacted.Redacted<string>;
 export type MaxResults = number;
 export type PaginationToken = string;
 export type ARN = string;
 export type ClientToken = string;
-export type TagKey = string | Redacted.Redacted<string>;
+export type TagKey = string | redacted.Redacted<string>;
 export type keyArn = string;
-export type BrowserPolicy = string | Redacted.Redacted<string>;
-export type DisplayNameSafe = string | Redacted.Redacted<string>;
-export type DescriptionSafe = string | Redacted.Redacted<string>;
-export type IdentityProviderName = string | Redacted.Redacted<string>;
+export type BrowserPolicy = string | redacted.Redacted<string>;
+export type DisplayNameSafe = string | redacted.Redacted<string>;
+export type DescriptionSafe = string | redacted.Redacted<string>;
+export type IdentityProviderName = string | redacted.Redacted<string>;
 export type IdentityProviderType = string;
 export type SubresourceARN = string;
-export type DisplayName = string | Redacted.Redacted<string>;
-export type Description = string | Redacted.Redacted<string>;
+export type DisplayName = string | redacted.Redacted<string>;
+export type Description = string | redacted.Redacted<string>;
 export type VpcId = string;
 export type SubnetId = string;
 export type SecurityGroupId = string;
@@ -115,38 +115,38 @@ export type KinesisStreamArn = string;
 export type EnabledType = string;
 export type DisconnectTimeoutInMinutes = number;
 export type IdleDisconnectTimeoutInMinutes = number;
-export type TagValue = string | Redacted.Redacted<string>;
+export type TagValue = string | redacted.Redacted<string>;
 export type StringType = string;
-export type UrlPattern = string | Redacted.Redacted<string>;
-export type InlineRedactionUrl = string | Redacted.Redacted<string>;
+export type UrlPattern = string | redacted.Redacted<string>;
+export type InlineRedactionUrl = string | redacted.Redacted<string>;
 export type ConfidenceLevel = number;
-export type IpRange = string | Redacted.Redacted<string>;
+export type IpRange = string | redacted.Redacted<string>;
 export type ToolbarType = string;
 export type VisualMode = string;
 export type ToolbarItem = string;
 export type MaxDisplayResolution = string;
-export type Markdown = string | Redacted.Redacted<string>;
+export type Markdown = string | redacted.Redacted<string>;
 export type ExceptionMessage = string;
 export type PortalEndpoint = string;
 export type SamlMetadata = string;
-export type BuiltInPatternId = string | Redacted.Redacted<string>;
-export type S3Bucket = string | Redacted.Redacted<string>;
-export type S3KeyPrefix = string | Redacted.Redacted<string>;
+export type BuiltInPatternId = string | redacted.Redacted<string>;
+export type S3Bucket = string | redacted.Redacted<string>;
+export type S3KeyPrefix = string | redacted.Redacted<string>;
 export type S3BucketOwner = string;
-export type CookieDomain = string | Redacted.Redacted<string>;
-export type CookieName = string | Redacted.Redacted<string>;
-export type CookiePath = string | Redacted.Redacted<string>;
+export type CookieDomain = string | redacted.Redacted<string>;
+export type CookieName = string | redacted.Redacted<string>;
+export type CookiePath = string | redacted.Redacted<string>;
 export type S3Uri = string;
-export type IpAddress = string | Redacted.Redacted<string>;
+export type IpAddress = string | redacted.Redacted<string>;
 export type RendererType = string;
 export type BrowserType = string;
 export type PortalStatus = string;
 export type StatusReason = string;
 export type CertificatePrincipal = string;
-export type PatternName = string | Redacted.Redacted<string>;
-export type Regex = string | Redacted.Redacted<string>;
+export type PatternName = string | redacted.Redacted<string>;
+export type Regex = string | redacted.Redacted<string>;
 export type RedactionPlaceHolderType = string;
-export type RedactionPlaceHolderText = string | Redacted.Redacted<string>;
+export type RedactionPlaceHolderText = string | redacted.Redacted<string>;
 export type BrandingSafeStringType = string;
 export type ContactLinkUrl = string;
 export type RetryAfterSeconds = number;
@@ -159,7 +159,14 @@ export type TagExceptionMessage = string;
 export type FieldName = string;
 
 //# Schemas
-export type TagKeyList = string | Redacted.Redacted<string>[];
+export type SessionSortBy = "StartTimeAscending" | "StartTimeDescending";
+export const SessionSortBy = S.Literal(
+  "StartTimeAscending",
+  "StartTimeDescending",
+);
+export type SessionStatus = "Active" | "Terminated";
+export const SessionStatus = S.Literal("Active", "Terminated");
+export type TagKeyList = string | redacted.Redacted<string>[];
 export const TagKeyList = S.Array(SensitiveString);
 export type SubnetIdList = string[];
 export const SubnetIdList = S.Array(S.String);
@@ -223,10 +230,10 @@ export const GetSessionRequest = S.suspend(() =>
 }) as any as S.Schema<GetSessionRequest>;
 export interface ListSessionsRequest {
   portalId: string;
-  username?: string | Redacted.Redacted<string>;
+  username?: string | redacted.Redacted<string>;
   sessionId?: string;
-  sortBy?: string;
-  status?: string;
+  sortBy?: SessionSortBy;
+  status?: SessionStatus;
   maxResults?: number;
   nextToken?: string;
 }
@@ -235,8 +242,8 @@ export const ListSessionsRequest = S.suspend(() =>
     portalId: S.String.pipe(T.HttpLabel("portalId")),
     username: S.optional(SensitiveString).pipe(T.HttpQuery("username")),
     sessionId: S.optional(S.String).pipe(T.HttpQuery("sessionId")),
-    sortBy: S.optional(S.String).pipe(T.HttpQuery("sortBy")),
-    status: S.optional(S.String).pipe(T.HttpQuery("status")),
+    sortBy: S.optional(SessionSortBy).pipe(T.HttpQuery("sortBy")),
+    status: S.optional(SessionStatus).pipe(T.HttpQuery("status")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
@@ -271,7 +278,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string | redacted.Redacted<string>[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -313,14 +320,71 @@ export const GetBrowserSettingsRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetBrowserSettingsRequest",
 }) as any as S.Schema<GetBrowserSettingsRequest>;
-export type BlockedCategories = string[];
-export const BlockedCategories = S.Array(S.String);
-export type UrlPatternList = string | Redacted.Redacted<string>[];
+export type Category =
+  | "Cults"
+  | "Gambling"
+  | "Nudity"
+  | "Pornography"
+  | "SexEducation"
+  | "Tasteless"
+  | "Violence"
+  | "DownloadSites"
+  | "ImageSharing"
+  | "PeerToPeer"
+  | "StreamingMediaAndDownloads"
+  | "GenerativeAI"
+  | "CriminalActivity"
+  | "Hacking"
+  | "HateAndIntolerance"
+  | "IllegalDrug"
+  | "IllegalSoftware"
+  | "SchoolCheating"
+  | "SelfHarm"
+  | "Weapons"
+  | "Chat"
+  | "Games"
+  | "InstantMessaging"
+  | "ProfessionalNetwork"
+  | "SocialNetworking"
+  | "WebBasedEmail"
+  | "ParkedDomains";
+export const Category = S.Literal(
+  "Cults",
+  "Gambling",
+  "Nudity",
+  "Pornography",
+  "SexEducation",
+  "Tasteless",
+  "Violence",
+  "DownloadSites",
+  "ImageSharing",
+  "PeerToPeer",
+  "StreamingMediaAndDownloads",
+  "GenerativeAI",
+  "CriminalActivity",
+  "Hacking",
+  "HateAndIntolerance",
+  "IllegalDrug",
+  "IllegalSoftware",
+  "SchoolCheating",
+  "SelfHarm",
+  "Weapons",
+  "Chat",
+  "Games",
+  "InstantMessaging",
+  "ProfessionalNetwork",
+  "SocialNetworking",
+  "WebBasedEmail",
+  "ParkedDomains",
+);
+export type BlockedCategories = Category[];
+export const BlockedCategories = S.Array(Category);
+export type UrlPatternList = string | redacted.Redacted<string>[];
 export const UrlPatternList = S.Array(SensitiveString);
 export interface WebContentFilteringPolicy {
-  blockedCategories?: BlockedCategories;
-  allowedUrls?: UrlPatternList;
-  blockedUrls?: UrlPatternList;
+  blockedCategories?: Category[];
+  allowedUrls?: string | redacted.Redacted<string>[];
+  blockedUrls?: string | redacted.Redacted<string>[];
 }
 export const WebContentFilteringPolicy = S.suspend(() =>
   S.Struct({
@@ -333,7 +397,7 @@ export const WebContentFilteringPolicy = S.suspend(() =>
 }) as any as S.Schema<WebContentFilteringPolicy>;
 export interface UpdateBrowserSettingsRequest {
   browserSettingsArn: string;
-  browserPolicy?: string | Redacted.Redacted<string>;
+  browserPolicy?: string | redacted.Redacted<string>;
   clientToken?: string;
   webContentFilteringPolicy?: WebContentFilteringPolicy;
 }
@@ -433,10 +497,10 @@ export const GetDataProtectionSettingsRequest = S.suspend(() =>
   identifier: "GetDataProtectionSettingsRequest",
 }) as any as S.Schema<GetDataProtectionSettingsRequest>;
 export interface CustomPattern {
-  patternName: string | Redacted.Redacted<string>;
-  patternRegex: string | Redacted.Redacted<string>;
-  patternDescription?: string | Redacted.Redacted<string>;
-  keywordRegex?: string | Redacted.Redacted<string>;
+  patternName: string | redacted.Redacted<string>;
+  patternRegex: string | redacted.Redacted<string>;
+  patternDescription?: string | redacted.Redacted<string>;
+  keywordRegex?: string | redacted.Redacted<string>;
 }
 export const CustomPattern = S.suspend(() =>
   S.Struct({
@@ -450,7 +514,7 @@ export const CustomPattern = S.suspend(() =>
 }) as any as S.Schema<CustomPattern>;
 export interface RedactionPlaceHolder {
   redactionPlaceHolderType: string;
-  redactionPlaceHolderText?: string | Redacted.Redacted<string>;
+  redactionPlaceHolderText?: string | redacted.Redacted<string>;
 }
 export const RedactionPlaceHolder = S.suspend(() =>
   S.Struct({
@@ -460,14 +524,14 @@ export const RedactionPlaceHolder = S.suspend(() =>
 ).annotations({
   identifier: "RedactionPlaceHolder",
 }) as any as S.Schema<RedactionPlaceHolder>;
-export type InlineRedactionUrls = string | Redacted.Redacted<string>[];
+export type InlineRedactionUrls = string | redacted.Redacted<string>[];
 export const InlineRedactionUrls = S.Array(SensitiveString);
 export interface InlineRedactionPattern {
-  builtInPatternId?: string | Redacted.Redacted<string>;
+  builtInPatternId?: string | redacted.Redacted<string>;
   customPattern?: CustomPattern;
   redactionPlaceHolder: RedactionPlaceHolder;
-  enforcedUrls?: InlineRedactionUrls;
-  exemptUrls?: InlineRedactionUrls;
+  enforcedUrls?: string | redacted.Redacted<string>[];
+  exemptUrls?: string | redacted.Redacted<string>[];
   confidenceLevel?: number;
 }
 export const InlineRedactionPattern = S.suspend(() =>
@@ -484,12 +548,12 @@ export const InlineRedactionPattern = S.suspend(() =>
 }) as any as S.Schema<InlineRedactionPattern>;
 export type InlineRedactionPatterns = InlineRedactionPattern[];
 export const InlineRedactionPatterns = S.Array(InlineRedactionPattern);
-export type GlobalInlineRedactionUrls = string | Redacted.Redacted<string>[];
+export type GlobalInlineRedactionUrls = string | redacted.Redacted<string>[];
 export const GlobalInlineRedactionUrls = S.Array(SensitiveString);
 export interface InlineRedactionConfiguration {
-  inlineRedactionPatterns: InlineRedactionPatterns;
-  globalEnforcedUrls?: GlobalInlineRedactionUrls;
-  globalExemptUrls?: GlobalInlineRedactionUrls;
+  inlineRedactionPatterns: InlineRedactionPattern[];
+  globalEnforcedUrls?: string | redacted.Redacted<string>[];
+  globalExemptUrls?: string | redacted.Redacted<string>[];
   globalConfidenceLevel?: number;
 }
 export const InlineRedactionConfiguration = S.suspend(() =>
@@ -505,8 +569,8 @@ export const InlineRedactionConfiguration = S.suspend(() =>
 export interface UpdateDataProtectionSettingsRequest {
   dataProtectionSettingsArn: string;
   inlineRedactionConfiguration?: InlineRedactionConfiguration;
-  displayName?: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   clientToken?: string;
 }
 export const UpdateDataProtectionSettingsRequest = S.suspend(() =>
@@ -614,9 +678,9 @@ export const IdentityProviderDetails = S.Record({
 });
 export interface UpdateIdentityProviderRequest {
   identityProviderArn: string;
-  identityProviderName?: string | Redacted.Redacted<string>;
+  identityProviderName?: string | redacted.Redacted<string>;
   identityProviderType?: string;
-  identityProviderDetails?: IdentityProviderDetails;
+  identityProviderDetails?: { [key: string]: string };
   clientToken?: string;
 }
 export const UpdateIdentityProviderRequest = S.suspend(() =>
@@ -716,8 +780,8 @@ export const GetIpAccessSettingsRequest = S.suspend(() =>
   identifier: "GetIpAccessSettingsRequest",
 }) as any as S.Schema<GetIpAccessSettingsRequest>;
 export interface IpRule {
-  ipRange: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  ipRange: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
 }
 export const IpRule = S.suspend(() =>
   S.Struct({
@@ -729,9 +793,9 @@ export type IpRuleList = IpRule[];
 export const IpRuleList = S.Array(IpRule);
 export interface UpdateIpAccessSettingsRequest {
   ipAccessSettingsArn: string;
-  displayName?: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
-  ipRules?: IpRuleList;
+  displayName?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  ipRules?: IpRule[];
   clientToken?: string;
 }
 export const UpdateIpAccessSettingsRequest = S.suspend(() =>
@@ -807,8 +871,8 @@ export const ListIpAccessSettingsRequest = S.suspend(() =>
   identifier: "ListIpAccessSettingsRequest",
 }) as any as S.Schema<ListIpAccessSettingsRequest>;
 export interface Tag {
-  Key: string | Redacted.Redacted<string>;
-  Value: string | Redacted.Redacted<string>;
+  Key: string | redacted.Redacted<string>;
+  Value: string | redacted.Redacted<string>;
 }
 export const Tag = S.suspend(() =>
   S.Struct({ Key: SensitiveString, Value: SensitiveString }),
@@ -817,9 +881,9 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface CreateNetworkSettingsRequest {
   vpcId: string;
-  subnetIds: SubnetIdList;
-  securityGroupIds: SecurityGroupIdList;
-  tags?: TagList;
+  subnetIds: string[];
+  securityGroupIds: string[];
+  tags?: Tag[];
   clientToken?: string;
 }
 export const CreateNetworkSettingsRequest = S.suspend(() =>
@@ -864,8 +928,8 @@ export const GetNetworkSettingsRequest = S.suspend(() =>
 export interface UpdateNetworkSettingsRequest {
   networkSettingsArn: string;
   vpcId?: string;
-  subnetIds?: SubnetIdList;
-  securityGroupIds?: SecurityGroupIdList;
+  subnetIds?: string[];
+  securityGroupIds?: string[];
   clientToken?: string;
 }
 export const UpdateNetworkSettingsRequest = S.suspend(() =>
@@ -946,10 +1010,10 @@ export const EncryptionContextMap = S.Record({
   value: S.String,
 });
 export interface CreatePortalRequest {
-  displayName?: string | Redacted.Redacted<string>;
-  tags?: TagList;
+  displayName?: string | redacted.Redacted<string>;
+  tags?: Tag[];
   customerManagedKey?: string;
-  additionalEncryptionContext?: EncryptionContextMap;
+  additionalEncryptionContext?: { [key: string]: string };
   clientToken?: string;
   authenticationType?: string;
   instanceType?: string;
@@ -997,7 +1061,7 @@ export const GetPortalRequest = S.suspend(() =>
 }) as any as S.Schema<GetPortalRequest>;
 export interface UpdatePortalRequest {
   portalArn: string;
-  displayName?: string | Redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string>;
   authenticationType?: string;
   instanceType?: string;
   maxConcurrentSessions?: number;
@@ -1477,27 +1541,68 @@ export const GetSessionLoggerRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetSessionLoggerRequest",
 }) as any as S.Schema<GetSessionLoggerRequest>;
-export type Events = string[];
-export const Events = S.Array(S.String);
-export type EventFilter = { all: Record<string, never> } | { include: Events };
+export type Event =
+  | "WebsiteInteract"
+  | "FileDownloadFromSecureBrowserToRemoteDisk"
+  | "FileTransferFromRemoteToLocalDisk"
+  | "FileTransferFromLocalToRemoteDisk"
+  | "FileUploadFromRemoteDiskToSecureBrowser"
+  | "ContentPasteToWebsite"
+  | "ContentTransferFromLocalToRemoteClipboard"
+  | "ContentCopyFromWebsite"
+  | "UrlLoad"
+  | "TabOpen"
+  | "TabClose"
+  | "PrintJobSubmit"
+  | "SessionConnect"
+  | "SessionStart"
+  | "SessionDisconnect"
+  | "SessionEnd"
+  | "UrlBlockByContentFilter";
+export const Event = S.Literal(
+  "WebsiteInteract",
+  "FileDownloadFromSecureBrowserToRemoteDisk",
+  "FileTransferFromRemoteToLocalDisk",
+  "FileTransferFromLocalToRemoteDisk",
+  "FileUploadFromRemoteDiskToSecureBrowser",
+  "ContentPasteToWebsite",
+  "ContentTransferFromLocalToRemoteClipboard",
+  "ContentCopyFromWebsite",
+  "UrlLoad",
+  "TabOpen",
+  "TabClose",
+  "PrintJobSubmit",
+  "SessionConnect",
+  "SessionStart",
+  "SessionDisconnect",
+  "SessionEnd",
+  "UrlBlockByContentFilter",
+);
+export type Events = Event[];
+export const Events = S.Array(Event);
+export type EventFilter = { all: Record<string, never> } | { include: Event[] };
 export const EventFilter = S.Union(
   S.Struct({ all: S.Struct({}) }),
   S.Struct({ include: Events }),
 );
+export type LogFileFormat = "JSONLines" | "Json";
+export const LogFileFormat = S.Literal("JSONLines", "Json");
+export type FolderStructure = "Flat" | "NestedByDate";
+export const FolderStructure = S.Literal("Flat", "NestedByDate");
 export interface S3LogConfiguration {
-  bucket: string | Redacted.Redacted<string>;
-  keyPrefix?: string | Redacted.Redacted<string>;
+  bucket: string | redacted.Redacted<string>;
+  keyPrefix?: string | redacted.Redacted<string>;
   bucketOwner?: string;
-  logFileFormat: string;
-  folderStructure: string;
+  logFileFormat: LogFileFormat;
+  folderStructure: FolderStructure;
 }
 export const S3LogConfiguration = S.suspend(() =>
   S.Struct({
     bucket: SensitiveString,
     keyPrefix: S.optional(SensitiveString),
     bucketOwner: S.optional(S.String),
-    logFileFormat: S.String,
-    folderStructure: S.String,
+    logFileFormat: LogFileFormat,
+    folderStructure: FolderStructure,
   }),
 ).annotations({
   identifier: "S3LogConfiguration",
@@ -1512,9 +1617,9 @@ export const LogConfiguration = S.suspend(() =>
 }) as any as S.Schema<LogConfiguration>;
 export interface UpdateSessionLoggerRequest {
   sessionLoggerArn: string;
-  eventFilter?: (typeof EventFilter)["Type"];
+  eventFilter?: EventFilter;
   logConfiguration?: LogConfiguration;
-  displayName?: string | Redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string>;
 }
 export const UpdateSessionLoggerRequest = S.suspend(() =>
   S.Struct({
@@ -1582,8 +1687,8 @@ export const ListSessionLoggersRequest = S.suspend(() =>
   identifier: "ListSessionLoggersRequest",
 }) as any as S.Schema<ListSessionLoggersRequest>;
 export interface CreateTrustStoreRequest {
-  certificateList: CertificateList;
-  tags?: TagList;
+  certificateList: Uint8Array[];
+  tags?: Tag[];
   clientToken?: string;
 }
 export const CreateTrustStoreRequest = S.suspend(() =>
@@ -1623,8 +1728,8 @@ export const GetTrustStoreRequest = S.suspend(() =>
 }) as any as S.Schema<GetTrustStoreRequest>;
 export interface UpdateTrustStoreRequest {
   trustStoreArn: string;
-  certificatesToAdd?: CertificateList;
-  certificatesToDelete?: CertificateThumbprintList;
+  certificatesToAdd?: Uint8Array[];
+  certificatesToDelete?: string[];
   clientToken?: string;
 }
 export const UpdateTrustStoreRequest = S.suspend(() =>
@@ -1742,7 +1847,7 @@ export const ListTrustStoreCertificatesRequest = S.suspend(() =>
 }) as any as S.Schema<ListTrustStoreCertificatesRequest>;
 export interface CreateUserAccessLoggingSettingsRequest {
   kinesisStreamArn: string;
-  tags?: TagList;
+  tags?: Tag[];
   clientToken?: string;
 }
 export const CreateUserAccessLoggingSettingsRequest = S.suspend(() =>
@@ -1933,10 +2038,12 @@ export const ListUserSettingsRequest = S.suspend(() =>
 }) as any as S.Schema<ListUserSettingsRequest>;
 export type HiddenToolbarItemList = string[];
 export const HiddenToolbarItemList = S.Array(S.String);
+export type ColorTheme = "Light" | "Dark";
+export const ColorTheme = S.Literal("Light", "Dark");
 export interface ToolbarConfiguration {
   toolbarType?: string;
   visualMode?: string;
-  hiddenToolbarItems?: HiddenToolbarItemList;
+  hiddenToolbarItems?: string[];
   maxDisplayResolution?: string;
 }
 export const ToolbarConfiguration = S.suspend(() =>
@@ -1958,6 +2065,31 @@ export type WallpaperImageInput = { blob: Uint8Array } | { s3Uri: string };
 export const WallpaperImageInput = S.Union(
   S.Struct({ blob: T.Blob }),
   S.Struct({ s3Uri: S.String }),
+);
+export type Locale =
+  | "de-DE"
+  | "en-US"
+  | "es-ES"
+  | "fr-FR"
+  | "id-ID"
+  | "it-IT"
+  | "ja-JP"
+  | "ko-KR"
+  | "pt-BR"
+  | "zh-CN"
+  | "zh-TW";
+export const Locale = S.Literal(
+  "de-DE",
+  "en-US",
+  "es-ES",
+  "fr-FR",
+  "id-ID",
+  "it-IT",
+  "ja-JP",
+  "ko-KR",
+  "pt-BR",
+  "zh-CN",
+  "zh-TW",
 );
 export interface LocalizedBrandingStrings {
   browserTabTitle: string;
@@ -1984,19 +2116,18 @@ export const LocalizedBrandingStrings = S.suspend(() =>
   identifier: "LocalizedBrandingStrings",
 }) as any as S.Schema<LocalizedBrandingStrings>;
 export type LocalizedBrandingStringMap = {
-  [key: string]: LocalizedBrandingStrings;
+  [key in Locale]?: LocalizedBrandingStrings;
 };
-export const LocalizedBrandingStringMap = S.Record({
-  key: S.String,
-  value: LocalizedBrandingStrings,
-});
+export const LocalizedBrandingStringMap = S.partial(
+  S.Record({ key: Locale, value: LocalizedBrandingStrings }),
+);
 export interface BrandingConfigurationUpdateInput {
-  logo?: (typeof IconImageInput)["Type"];
-  wallpaper?: (typeof WallpaperImageInput)["Type"];
-  favicon?: (typeof IconImageInput)["Type"];
-  localizedStrings?: LocalizedBrandingStringMap;
-  colorTheme?: string;
-  termsOfService?: string | Redacted.Redacted<string>;
+  logo?: IconImageInput;
+  wallpaper?: WallpaperImageInput;
+  favicon?: IconImageInput;
+  localizedStrings?: { [key: string]: LocalizedBrandingStrings };
+  colorTheme?: ColorTheme;
+  termsOfService?: string | redacted.Redacted<string>;
 }
 export const BrandingConfigurationUpdateInput = S.suspend(() =>
   S.Struct({
@@ -2004,14 +2135,14 @@ export const BrandingConfigurationUpdateInput = S.suspend(() =>
     wallpaper: S.optional(WallpaperImageInput),
     favicon: S.optional(IconImageInput),
     localizedStrings: S.optional(LocalizedBrandingStringMap),
-    colorTheme: S.optional(S.String),
+    colorTheme: S.optional(ColorTheme),
     termsOfService: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "BrandingConfigurationUpdateInput",
 }) as any as S.Schema<BrandingConfigurationUpdateInput>;
 export interface ListTagsForResourceResponse {
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagList) }),
@@ -2020,7 +2151,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagList;
+  tags: Tag[];
   clientToken?: string;
 }
 export const TagResourceRequest = S.suspend(() =>
@@ -2046,10 +2177,10 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface CreateBrowserSettingsRequest {
-  tags?: TagList;
+  tags?: Tag[];
   customerManagedKey?: string;
-  additionalEncryptionContext?: EncryptionContextMap;
-  browserPolicy?: string | Redacted.Redacted<string>;
+  additionalEncryptionContext?: { [key: string]: string };
+  browserPolicy?: string | redacted.Redacted<string>;
   clientToken?: string;
   webContentFilteringPolicy?: WebContentFilteringPolicy;
 }
@@ -2078,10 +2209,10 @@ export type ArnList = string[];
 export const ArnList = S.Array(S.String);
 export interface BrowserSettings {
   browserSettingsArn: string;
-  associatedPortalArns?: ArnList;
-  browserPolicy?: string | Redacted.Redacted<string>;
+  associatedPortalArns?: string[];
+  browserPolicy?: string | redacted.Redacted<string>;
   customerManagedKey?: string;
-  additionalEncryptionContext?: EncryptionContextMap;
+  additionalEncryptionContext?: { [key: string]: string };
   webContentFilteringPolicy?: WebContentFilteringPolicy;
 }
 export const BrowserSettings = S.suspend(() =>
@@ -2107,12 +2238,12 @@ export const UpdateBrowserSettingsResponse = S.suspend(() =>
 export interface DataProtectionSettings {
   dataProtectionSettingsArn: string;
   inlineRedactionConfiguration?: InlineRedactionConfiguration;
-  associatedPortalArns?: ArnList;
-  displayName?: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  associatedPortalArns?: string[];
+  displayName?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   creationDate?: Date;
   customerManagedKey?: string;
-  additionalEncryptionContext?: EncryptionContextMap;
+  additionalEncryptionContext?: { [key: string]: string };
 }
 export const DataProtectionSettings = S.suspend(() =>
   S.Struct({
@@ -2138,11 +2269,11 @@ export const UpdateDataProtectionSettingsResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateDataProtectionSettingsResponse>;
 export interface CreateIdentityProviderRequest {
   portalArn: string;
-  identityProviderName: string | Redacted.Redacted<string>;
+  identityProviderName: string | redacted.Redacted<string>;
   identityProviderType: string;
-  identityProviderDetails: IdentityProviderDetails;
+  identityProviderDetails: { [key: string]: string };
   clientToken?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateIdentityProviderRequest = S.suspend(() =>
   S.Struct({
@@ -2167,9 +2298,9 @@ export const CreateIdentityProviderRequest = S.suspend(() =>
 }) as any as S.Schema<CreateIdentityProviderRequest>;
 export interface IdentityProvider {
   identityProviderArn: string;
-  identityProviderName?: string | Redacted.Redacted<string>;
+  identityProviderName?: string | redacted.Redacted<string>;
   identityProviderType?: string;
-  identityProviderDetails?: IdentityProviderDetails;
+  identityProviderDetails?: { [key: string]: string };
 }
 export const IdentityProvider = S.suspend(() =>
   S.Struct({
@@ -2190,12 +2321,12 @@ export const UpdateIdentityProviderResponse = S.suspend(() =>
   identifier: "UpdateIdentityProviderResponse",
 }) as any as S.Schema<UpdateIdentityProviderResponse>;
 export interface CreateIpAccessSettingsRequest {
-  displayName?: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
-  tags?: TagList;
+  displayName?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  tags?: Tag[];
   customerManagedKey?: string;
-  additionalEncryptionContext?: EncryptionContextMap;
-  ipRules: IpRuleList;
+  additionalEncryptionContext?: { [key: string]: string };
+  ipRules: IpRule[];
   clientToken?: string;
 }
 export const CreateIpAccessSettingsRequest = S.suspend(() =>
@@ -2222,13 +2353,13 @@ export const CreateIpAccessSettingsRequest = S.suspend(() =>
 }) as any as S.Schema<CreateIpAccessSettingsRequest>;
 export interface IpAccessSettings {
   ipAccessSettingsArn: string;
-  associatedPortalArns?: ArnList;
-  ipRules?: IpRuleList;
-  displayName?: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  associatedPortalArns?: string[];
+  ipRules?: IpRule[];
+  displayName?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   creationDate?: Date;
   customerManagedKey?: string;
-  additionalEncryptionContext?: EncryptionContextMap;
+  additionalEncryptionContext?: { [key: string]: string };
 }
 export const IpAccessSettings = S.suspend(() =>
   S.Struct({
@@ -2262,10 +2393,10 @@ export const CreateNetworkSettingsResponse = S.suspend(() =>
 }) as any as S.Schema<CreateNetworkSettingsResponse>;
 export interface NetworkSettings {
   networkSettingsArn: string;
-  associatedPortalArns?: ArnList;
+  associatedPortalArns?: string[];
   vpcId?: string;
-  subnetIds?: SubnetIdList;
-  securityGroupIds?: SecurityGroupIdList;
+  subnetIds?: string[];
+  securityGroupIds?: string[];
 }
 export const NetworkSettings = S.suspend(() =>
   S.Struct({
@@ -2301,7 +2432,7 @@ export interface Portal {
   browserType?: string;
   portalStatus?: string;
   portalEndpoint?: string;
-  displayName?: string | Redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string>;
   creationDate?: Date;
   browserSettingsArn?: string;
   dataProtectionSettingsArn?: string;
@@ -2314,7 +2445,7 @@ export interface Portal {
   authenticationType?: string;
   ipAccessSettingsArn?: string;
   customerManagedKey?: string;
-  additionalEncryptionContext?: EncryptionContextMap;
+  additionalEncryptionContext?: { [key: string]: string };
   instanceType?: string;
   maxConcurrentSessions?: number;
 }
@@ -2437,12 +2568,12 @@ export const GetPortalServiceProviderMetadataResponse = S.suspend(() =>
 }) as any as S.Schema<GetPortalServiceProviderMetadataResponse>;
 export interface SessionLogger {
   sessionLoggerArn: string;
-  eventFilter?: (typeof EventFilter)["Type"];
+  eventFilter?: EventFilter;
   logConfiguration?: LogConfiguration;
   customerManagedKey?: string;
-  additionalEncryptionContext?: EncryptionContextMap;
-  associatedPortalArns?: ArnList;
-  displayName?: string | Redacted.Redacted<string>;
+  additionalEncryptionContext?: { [key: string]: string };
+  associatedPortalArns?: string[];
+  displayName?: string | redacted.Redacted<string>;
   creationDate?: Date;
 }
 export const SessionLogger = S.suspend(() =>
@@ -2493,7 +2624,7 @@ export const CreateUserAccessLoggingSettingsResponse = S.suspend(() =>
 }) as any as S.Schema<CreateUserAccessLoggingSettingsResponse>;
 export interface UserAccessLoggingSettings {
   userAccessLoggingSettingsArn: string;
-  associatedPortalArns?: ArnList;
+  associatedPortalArns?: string[];
   kinesisStreamArn?: string;
 }
 export const UserAccessLoggingSettings = S.suspend(() =>
@@ -2514,9 +2645,9 @@ export const UpdateUserAccessLoggingSettingsResponse = S.suspend(() =>
   identifier: "UpdateUserAccessLoggingSettingsResponse",
 }) as any as S.Schema<UpdateUserAccessLoggingSettingsResponse>;
 export interface CookieSpecification {
-  domain: string | Redacted.Redacted<string>;
-  name?: string | Redacted.Redacted<string>;
-  path?: string | Redacted.Redacted<string>;
+  domain: string | redacted.Redacted<string>;
+  name?: string | redacted.Redacted<string>;
+  path?: string | redacted.Redacted<string>;
 }
 export const CookieSpecification = S.suspend(() =>
   S.Struct({
@@ -2530,8 +2661,8 @@ export const CookieSpecification = S.suspend(() =>
 export type CookieSpecifications = CookieSpecification[];
 export const CookieSpecifications = S.Array(CookieSpecification);
 export interface CookieSynchronizationConfiguration {
-  allowlist: CookieSpecifications;
-  blocklist?: CookieSpecifications;
+  allowlist: CookieSpecification[];
+  blocklist?: CookieSpecification[];
 }
 export const CookieSynchronizationConfiguration = S.suspend(() =>
   S.Struct({
@@ -2588,14 +2719,14 @@ export const UpdateUserSettingsRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateUserSettingsRequest",
 }) as any as S.Schema<UpdateUserSettingsRequest>;
-export type IpAddressList = string | Redacted.Redacted<string>[];
+export type IpAddressList = string | redacted.Redacted<string>[];
 export const IpAddressList = S.Array(SensitiveString);
 export interface Session {
   portalArn?: string;
   sessionId?: string;
-  username?: string | Redacted.Redacted<string>;
-  clientIpAddresses?: IpAddressList;
-  status?: string;
+  username?: string | redacted.Redacted<string>;
+  clientIpAddresses?: string | redacted.Redacted<string>[];
+  status?: SessionStatus;
   startTime?: Date;
   endTime?: Date;
 }
@@ -2605,7 +2736,7 @@ export const Session = S.suspend(() =>
     sessionId: S.optional(S.String),
     username: S.optional(SensitiveString),
     clientIpAddresses: S.optional(IpAddressList),
-    status: S.optional(S.String),
+    status: S.optional(SessionStatus),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -2613,8 +2744,8 @@ export const Session = S.suspend(() =>
 export interface SessionSummary {
   portalArn?: string;
   sessionId?: string;
-  username?: string | Redacted.Redacted<string>;
-  status?: string;
+  username?: string | redacted.Redacted<string>;
+  status?: SessionStatus;
   startTime?: Date;
   endTime?: Date;
 }
@@ -2623,7 +2754,7 @@ export const SessionSummary = S.suspend(() =>
     portalArn: S.optional(S.String),
     sessionId: S.optional(S.String),
     username: S.optional(SensitiveString),
-    status: S.optional(S.String),
+    status: S.optional(SessionStatus),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -2644,8 +2775,8 @@ export type BrowserSettingsList = BrowserSettingsSummary[];
 export const BrowserSettingsList = S.Array(BrowserSettingsSummary);
 export interface DataProtectionSettingsSummary {
   dataProtectionSettingsArn: string;
-  displayName?: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   creationDate?: Date;
 }
 export const DataProtectionSettingsSummary = S.suspend(() =>
@@ -2664,7 +2795,7 @@ export const DataProtectionSettingsList = S.Array(
 );
 export interface IdentityProviderSummary {
   identityProviderArn: string;
-  identityProviderName?: string | Redacted.Redacted<string>;
+  identityProviderName?: string | redacted.Redacted<string>;
   identityProviderType?: string;
 }
 export const IdentityProviderSummary = S.suspend(() =>
@@ -2680,8 +2811,8 @@ export type IdentityProviderList = IdentityProviderSummary[];
 export const IdentityProviderList = S.Array(IdentityProviderSummary);
 export interface IpAccessSettingsSummary {
   ipAccessSettingsArn: string;
-  displayName?: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   creationDate?: Date;
 }
 export const IpAccessSettingsSummary = S.suspend(() =>
@@ -2713,7 +2844,7 @@ export interface PortalSummary {
   browserType?: string;
   portalStatus?: string;
   portalEndpoint?: string;
-  displayName?: string | Redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string>;
   creationDate?: Date;
   browserSettingsArn?: string;
   dataProtectionSettingsArn?: string;
@@ -2756,7 +2887,7 @@ export const PortalList = S.Array(PortalSummary);
 export interface SessionLoggerSummary {
   sessionLoggerArn: string;
   logConfiguration?: LogConfiguration;
-  displayName?: string | Redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string>;
   creationDate?: Date;
 }
 export const SessionLoggerSummary = S.suspend(() =>
@@ -2772,7 +2903,7 @@ export const SessionLoggerSummary = S.suspend(() =>
 export type SessionLoggerList = SessionLoggerSummary[];
 export const SessionLoggerList = S.Array(SessionLoggerSummary);
 export interface TrustStore {
-  associatedPortalArns?: ArnList;
+  associatedPortalArns?: string[];
   trustStoreArn: string;
 }
 export const TrustStore = S.suspend(() =>
@@ -2845,14 +2976,16 @@ export type UserAccessLoggingSettingsList = UserAccessLoggingSettingsSummary[];
 export const UserAccessLoggingSettingsList = S.Array(
   UserAccessLoggingSettingsSummary,
 );
+export type MimeType = "image/png" | "image/jpeg" | "image/x-icon";
+export const MimeType = S.Literal("image/png", "image/jpeg", "image/x-icon");
 export interface ImageMetadata {
-  mimeType: string;
+  mimeType: MimeType;
   fileExtension: string;
   lastUploadTimestamp: Date;
 }
 export const ImageMetadata = S.suspend(() =>
   S.Struct({
-    mimeType: S.String,
+    mimeType: MimeType,
     fileExtension: S.String,
     lastUploadTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
@@ -2863,9 +2996,9 @@ export interface BrandingConfiguration {
   logo: ImageMetadata;
   wallpaper: ImageMetadata;
   favicon: ImageMetadata;
-  localizedStrings: LocalizedBrandingStringMap;
-  colorTheme: string;
-  termsOfService?: string | Redacted.Redacted<string>;
+  localizedStrings: { [key: string]: LocalizedBrandingStrings };
+  colorTheme: ColorTheme;
+  termsOfService?: string | redacted.Redacted<string>;
 }
 export const BrandingConfiguration = S.suspend(() =>
   S.Struct({
@@ -2873,7 +3006,7 @@ export const BrandingConfiguration = S.suspend(() =>
     wallpaper: ImageMetadata,
     favicon: ImageMetadata,
     localizedStrings: LocalizedBrandingStringMap,
-    colorTheme: S.String,
+    colorTheme: ColorTheme,
     termsOfService: S.optional(SensitiveString),
   }),
 ).annotations({
@@ -2926,7 +3059,7 @@ export const GetSessionResponse = S.suspend(() =>
   identifier: "GetSessionResponse",
 }) as any as S.Schema<GetSessionResponse>;
 export interface ListSessionsResponse {
-  sessions: SessionSummaryList;
+  sessions: SessionSummary[];
   nextToken?: string;
 }
 export const ListSessionsResponse = S.suspend(() =>
@@ -2951,7 +3084,7 @@ export const GetBrowserSettingsResponse = S.suspend(() =>
   identifier: "GetBrowserSettingsResponse",
 }) as any as S.Schema<GetBrowserSettingsResponse>;
 export interface ListBrowserSettingsResponse {
-  browserSettings?: BrowserSettingsList;
+  browserSettings?: BrowserSettingsSummary[];
   nextToken?: string;
 }
 export const ListBrowserSettingsResponse = S.suspend(() =>
@@ -2971,7 +3104,7 @@ export const GetDataProtectionSettingsResponse = S.suspend(() =>
   identifier: "GetDataProtectionSettingsResponse",
 }) as any as S.Schema<GetDataProtectionSettingsResponse>;
 export interface ListDataProtectionSettingsResponse {
-  dataProtectionSettings?: DataProtectionSettingsList;
+  dataProtectionSettings?: DataProtectionSettingsSummary[];
   nextToken?: string;
 }
 export const ListDataProtectionSettingsResponse = S.suspend(() =>
@@ -3000,7 +3133,7 @@ export const GetIdentityProviderResponse = S.suspend(() =>
 }) as any as S.Schema<GetIdentityProviderResponse>;
 export interface ListIdentityProvidersResponse {
   nextToken?: string;
-  identityProviders?: IdentityProviderList;
+  identityProviders?: IdentityProviderSummary[];
 }
 export const ListIdentityProvidersResponse = S.suspend(() =>
   S.Struct({
@@ -3027,7 +3160,7 @@ export const GetIpAccessSettingsResponse = S.suspend(() =>
   identifier: "GetIpAccessSettingsResponse",
 }) as any as S.Schema<GetIpAccessSettingsResponse>;
 export interface ListIpAccessSettingsResponse {
-  ipAccessSettings?: IpAccessSettingsList;
+  ipAccessSettings?: IpAccessSettingsSummary[];
   nextToken?: string;
 }
 export const ListIpAccessSettingsResponse = S.suspend(() =>
@@ -3047,7 +3180,7 @@ export const GetNetworkSettingsResponse = S.suspend(() =>
   identifier: "GetNetworkSettingsResponse",
 }) as any as S.Schema<GetNetworkSettingsResponse>;
 export interface ListNetworkSettingsResponse {
-  networkSettings?: NetworkSettingsList;
+  networkSettings?: NetworkSettingsSummary[];
   nextToken?: string;
 }
 export const ListNetworkSettingsResponse = S.suspend(() =>
@@ -3067,7 +3200,7 @@ export const GetPortalResponse = S.suspend(() =>
   identifier: "GetPortalResponse",
 }) as any as S.Schema<GetPortalResponse>;
 export interface ListPortalsResponse {
-  portals?: PortalList;
+  portals?: PortalSummary[];
   nextToken?: string;
 }
 export const ListPortalsResponse = S.suspend(() =>
@@ -3079,12 +3212,12 @@ export const ListPortalsResponse = S.suspend(() =>
   identifier: "ListPortalsResponse",
 }) as any as S.Schema<ListPortalsResponse>;
 export interface CreateSessionLoggerRequest {
-  eventFilter: (typeof EventFilter)["Type"];
+  eventFilter: EventFilter;
   logConfiguration: LogConfiguration;
-  displayName?: string | Redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string>;
   customerManagedKey?: string;
-  additionalEncryptionContext?: EncryptionContextMap;
-  tags?: TagList;
+  additionalEncryptionContext?: { [key: string]: string };
+  tags?: Tag[];
   clientToken?: string;
 }
 export const CreateSessionLoggerRequest = S.suspend(() =>
@@ -3118,7 +3251,7 @@ export const GetSessionLoggerResponse = S.suspend(() =>
   identifier: "GetSessionLoggerResponse",
 }) as any as S.Schema<GetSessionLoggerResponse>;
 export interface ListSessionLoggersResponse {
-  sessionLoggers?: SessionLoggerList;
+  sessionLoggers?: SessionLoggerSummary[];
   nextToken?: string;
 }
 export const ListSessionLoggersResponse = S.suspend(() =>
@@ -3138,7 +3271,7 @@ export const GetTrustStoreResponse = S.suspend(() =>
   identifier: "GetTrustStoreResponse",
 }) as any as S.Schema<GetTrustStoreResponse>;
 export interface ListTrustStoresResponse {
-  trustStores?: TrustStoreSummaryList;
+  trustStores?: TrustStoreSummary[];
   nextToken?: string;
 }
 export const ListTrustStoresResponse = S.suspend(() =>
@@ -3159,7 +3292,7 @@ export const GetTrustStoreCertificateResponse = S.suspend(() =>
   identifier: "GetTrustStoreCertificateResponse",
 }) as any as S.Schema<GetTrustStoreCertificateResponse>;
 export interface ListTrustStoreCertificatesResponse {
-  certificateList?: CertificateSummaryList;
+  certificateList?: CertificateSummary[];
   trustStoreArn: string;
   nextToken?: string;
 }
@@ -3183,7 +3316,7 @@ export const GetUserAccessLoggingSettingsResponse = S.suspend(() =>
   identifier: "GetUserAccessLoggingSettingsResponse",
 }) as any as S.Schema<GetUserAccessLoggingSettingsResponse>;
 export interface ListUserAccessLoggingSettingsResponse {
-  userAccessLoggingSettings?: UserAccessLoggingSettingsList;
+  userAccessLoggingSettings?: UserAccessLoggingSettingsSummary[];
   nextToken?: string;
 }
 export const ListUserAccessLoggingSettingsResponse = S.suspend(() =>
@@ -3196,7 +3329,7 @@ export const ListUserAccessLoggingSettingsResponse = S.suspend(() =>
 }) as any as S.Schema<ListUserAccessLoggingSettingsResponse>;
 export interface UserSettings {
   userSettingsArn: string;
-  associatedPortalArns?: ArnList;
+  associatedPortalArns?: string[];
   copyAllowed?: string;
   pasteAllowed?: string;
   downloadAllowed?: string;
@@ -3206,7 +3339,7 @@ export interface UserSettings {
   idleDisconnectTimeoutInMinutes?: number;
   cookieSynchronizationConfiguration?: CookieSynchronizationConfiguration;
   customerManagedKey?: string;
-  additionalEncryptionContext?: EncryptionContextMap;
+  additionalEncryptionContext?: { [key: string]: string };
   deepLinkAllowed?: string;
   toolbarConfiguration?: ToolbarConfiguration;
   brandingConfiguration?: BrandingConfiguration;
@@ -3243,7 +3376,7 @@ export const UpdateUserSettingsResponse = S.suspend(() =>
   identifier: "UpdateUserSettingsResponse",
 }) as any as S.Schema<UpdateUserSettingsResponse>;
 export interface ListUserSettingsResponse {
-  userSettings?: UserSettingsList;
+  userSettings?: UserSettingsSummary[];
   nextToken?: string;
 }
 export const ListUserSettingsResponse = S.suspend(() =>
@@ -3255,31 +3388,31 @@ export const ListUserSettingsResponse = S.suspend(() =>
   identifier: "ListUserSettingsResponse",
 }) as any as S.Schema<ListUserSettingsResponse>;
 export interface BrandingConfigurationCreateInput {
-  logo: (typeof IconImageInput)["Type"];
-  wallpaper: (typeof WallpaperImageInput)["Type"];
-  favicon: (typeof IconImageInput)["Type"];
-  localizedStrings: LocalizedBrandingStringMap;
-  colorTheme: string;
-  termsOfService?: string | Redacted.Redacted<string>;
+  logo: IconImageInput;
+  wallpaper?: WallpaperImageInput;
+  favicon: IconImageInput;
+  localizedStrings: { [key: string]: LocalizedBrandingStrings };
+  colorTheme: ColorTheme;
+  termsOfService?: string | redacted.Redacted<string>;
 }
 export const BrandingConfigurationCreateInput = S.suspend(() =>
   S.Struct({
     logo: IconImageInput,
-    wallpaper: WallpaperImageInput,
+    wallpaper: S.optional(WallpaperImageInput),
     favicon: IconImageInput,
     localizedStrings: LocalizedBrandingStringMap,
-    colorTheme: S.String,
+    colorTheme: ColorTheme,
     termsOfService: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "BrandingConfigurationCreateInput",
 }) as any as S.Schema<BrandingConfigurationCreateInput>;
 export interface CreateDataProtectionSettingsRequest {
-  displayName?: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
-  tags?: TagList;
+  displayName?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  tags?: Tag[];
   customerManagedKey?: string;
-  additionalEncryptionContext?: EncryptionContextMap;
+  additionalEncryptionContext?: { [key: string]: string };
   inlineRedactionConfiguration?: InlineRedactionConfiguration;
   clientToken?: string;
 }
@@ -3319,13 +3452,13 @@ export interface CreateUserSettingsRequest {
   downloadAllowed: string;
   uploadAllowed: string;
   printAllowed: string;
-  tags?: TagList;
+  tags?: Tag[];
   disconnectTimeoutInMinutes?: number;
   idleDisconnectTimeoutInMinutes?: number;
   clientToken?: string;
   cookieSynchronizationConfiguration?: CookieSynchronizationConfiguration;
   customerManagedKey?: string;
-  additionalEncryptionContext?: EncryptionContextMap;
+  additionalEncryptionContext?: { [key: string]: string };
   deepLinkAllowed?: string;
   toolbarConfiguration?: ToolbarConfiguration;
   brandingConfigurationInput?: BrandingConfigurationCreateInput;
@@ -3467,7 +3600,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listBrowserSettings: {
   (
     input: ListBrowserSettingsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBrowserSettingsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3478,7 +3611,7 @@ export const listBrowserSettings: {
   >;
   pages: (
     input: ListBrowserSettingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBrowserSettingsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3489,7 +3622,7 @@ export const listBrowserSettings: {
   >;
   items: (
     input: ListBrowserSettingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3518,7 +3651,7 @@ export const listBrowserSettings: {
  */
 export const createNetworkSettings: (
   input: CreateNetworkSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateNetworkSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -3545,7 +3678,7 @@ export const createNetworkSettings: (
  */
 export const createSessionLogger: (
   input: CreateSessionLoggerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSessionLoggerResponse,
   | AccessDeniedException
   | ConflictException
@@ -3572,7 +3705,7 @@ export const createSessionLogger: (
  */
 export const getSession: (
   input: GetSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSessionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3598,7 +3731,7 @@ export const getSession: (
 export const listSessions: {
   (
     input: ListSessionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSessionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3610,7 +3743,7 @@ export const listSessions: {
   >;
   pages: (
     input: ListSessionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSessionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3622,7 +3755,7 @@ export const listSessions: {
   >;
   items: (
     input: ListSessionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SessionSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3654,7 +3787,7 @@ export const listSessions: {
  */
 export const getBrowserSettings: (
   input: GetBrowserSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBrowserSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3679,7 +3812,7 @@ export const getBrowserSettings: (
  */
 export const getDataProtectionSettings: (
   input: GetDataProtectionSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataProtectionSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3704,7 +3837,7 @@ export const getDataProtectionSettings: (
  */
 export const getIdentityProvider: (
   input: GetIdentityProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIdentityProviderResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3729,7 +3862,7 @@ export const getIdentityProvider: (
  */
 export const getIpAccessSettings: (
   input: GetIpAccessSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIpAccessSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3754,7 +3887,7 @@ export const getIpAccessSettings: (
  */
 export const getNetworkSettings: (
   input: GetNetworkSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetNetworkSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3779,7 +3912,7 @@ export const getNetworkSettings: (
  */
 export const getPortal: (
   input: GetPortalRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPortalResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3804,7 +3937,7 @@ export const getPortal: (
  */
 export const getSessionLogger: (
   input: GetSessionLoggerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSessionLoggerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3829,7 +3962,7 @@ export const getSessionLogger: (
  */
 export const getTrustStore: (
   input: GetTrustStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTrustStoreResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3854,7 +3987,7 @@ export const getTrustStore: (
  */
 export const getTrustStoreCertificate: (
   input: GetTrustStoreCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTrustStoreCertificateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3880,7 +4013,7 @@ export const getTrustStoreCertificate: (
 export const listTrustStoreCertificates: {
   (
     input: ListTrustStoreCertificatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTrustStoreCertificatesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3892,7 +4025,7 @@ export const listTrustStoreCertificates: {
   >;
   pages: (
     input: ListTrustStoreCertificatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTrustStoreCertificatesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3904,7 +4037,7 @@ export const listTrustStoreCertificates: {
   >;
   items: (
     input: ListTrustStoreCertificatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3935,7 +4068,7 @@ export const listTrustStoreCertificates: {
  */
 export const getUserAccessLoggingSettings: (
   input: GetUserAccessLoggingSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUserAccessLoggingSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3960,7 +4093,7 @@ export const getUserAccessLoggingSettings: (
  */
 export const updateUserSettings: (
   input: UpdateUserSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3985,7 +4118,7 @@ export const updateUserSettings: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4010,7 +4143,7 @@ export const listTagsForResource: (
  */
 export const updateBrowserSettings: (
   input: UpdateBrowserSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateBrowserSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4035,7 +4168,7 @@ export const updateBrowserSettings: (
  */
 export const updateDataProtectionSettings: (
   input: UpdateDataProtectionSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDataProtectionSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4060,7 +4193,7 @@ export const updateDataProtectionSettings: (
  */
 export const updateIdentityProvider: (
   input: UpdateIdentityProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateIdentityProviderResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4085,7 +4218,7 @@ export const updateIdentityProvider: (
  */
 export const updateIpAccessSettings: (
   input: UpdateIpAccessSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateIpAccessSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4110,7 +4243,7 @@ export const updateIpAccessSettings: (
  */
 export const updateNetworkSettings: (
   input: UpdateNetworkSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateNetworkSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4135,7 +4268,7 @@ export const updateNetworkSettings: (
  */
 export const getPortalServiceProviderMetadata: (
   input: GetPortalServiceProviderMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPortalServiceProviderMetadataResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4160,7 +4293,7 @@ export const getPortalServiceProviderMetadata: (
  */
 export const updateSessionLogger: (
   input: UpdateSessionLoggerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSessionLoggerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4185,7 +4318,7 @@ export const updateSessionLogger: (
  */
 export const updateTrustStore: (
   input: UpdateTrustStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTrustStoreResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4212,7 +4345,7 @@ export const updateTrustStore: (
  */
 export const updateUserAccessLoggingSettings: (
   input: UpdateUserAccessLoggingSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserAccessLoggingSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4237,7 +4370,7 @@ export const updateUserAccessLoggingSettings: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4262,7 +4395,7 @@ export const untagResource: (
  */
 export const disassociateSessionLogger: (
   input: DisassociateSessionLoggerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateSessionLoggerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4287,7 +4420,7 @@ export const disassociateSessionLogger: (
  */
 export const createPortal: (
   input: CreatePortalRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePortalResponse,
   | AccessDeniedException
   | ConflictException
@@ -4316,7 +4449,7 @@ export const createPortal: (
  */
 export const updatePortal: (
   input: UpdatePortalRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePortalResponse,
   | AccessDeniedException
   | ConflictException
@@ -4345,7 +4478,7 @@ export const updatePortal: (
  */
 export const associateBrowserSettings: (
   input: AssociateBrowserSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateBrowserSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4372,7 +4505,7 @@ export const associateBrowserSettings: (
  */
 export const associateDataProtectionSettings: (
   input: AssociateDataProtectionSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateDataProtectionSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4399,7 +4532,7 @@ export const associateDataProtectionSettings: (
  */
 export const associateIpAccessSettings: (
   input: AssociateIpAccessSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateIpAccessSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4426,7 +4559,7 @@ export const associateIpAccessSettings: (
  */
 export const associateNetworkSettings: (
   input: AssociateNetworkSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateNetworkSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4453,7 +4586,7 @@ export const associateNetworkSettings: (
  */
 export const associateSessionLogger: (
   input: AssociateSessionLoggerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateSessionLoggerResponse,
   | AccessDeniedException
   | ConflictException
@@ -4480,7 +4613,7 @@ export const associateSessionLogger: (
  */
 export const associateTrustStore: (
   input: AssociateTrustStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateTrustStoreResponse,
   | AccessDeniedException
   | ConflictException
@@ -4507,7 +4640,7 @@ export const associateTrustStore: (
  */
 export const associateUserAccessLoggingSettings: (
   input: AssociateUserAccessLoggingSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateUserAccessLoggingSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4534,7 +4667,7 @@ export const associateUserAccessLoggingSettings: (
  */
 export const associateUserSettings: (
   input: AssociateUserSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateUserSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4561,7 +4694,7 @@ export const associateUserSettings: (
  */
 export const disassociateBrowserSettings: (
   input: DisassociateBrowserSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateBrowserSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4588,7 +4721,7 @@ export const disassociateBrowserSettings: (
  */
 export const disassociateDataProtectionSettings: (
   input: DisassociateDataProtectionSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateDataProtectionSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4615,7 +4748,7 @@ export const disassociateDataProtectionSettings: (
  */
 export const disassociateIpAccessSettings: (
   input: DisassociateIpAccessSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateIpAccessSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4642,7 +4775,7 @@ export const disassociateIpAccessSettings: (
  */
 export const disassociateNetworkSettings: (
   input: DisassociateNetworkSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateNetworkSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4669,7 +4802,7 @@ export const disassociateNetworkSettings: (
  */
 export const disassociateTrustStore: (
   input: DisassociateTrustStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateTrustStoreResponse,
   | AccessDeniedException
   | ConflictException
@@ -4696,7 +4829,7 @@ export const disassociateTrustStore: (
  */
 export const disassociateUserAccessLoggingSettings: (
   input: DisassociateUserAccessLoggingSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateUserAccessLoggingSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4723,7 +4856,7 @@ export const disassociateUserAccessLoggingSettings: (
  */
 export const disassociateUserSettings: (
   input: DisassociateUserSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateUserSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4750,7 +4883,7 @@ export const disassociateUserSettings: (
  */
 export const createBrowserSettings: (
   input: CreateBrowserSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBrowserSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4779,7 +4912,7 @@ export const createBrowserSettings: (
  */
 export const createIdentityProvider: (
   input: CreateIdentityProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateIdentityProviderResponse,
   | AccessDeniedException
   | ConflictException
@@ -4809,7 +4942,7 @@ export const createIdentityProvider: (
 export const listDataProtectionSettings: {
   (
     input: ListDataProtectionSettingsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataProtectionSettingsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4820,7 +4953,7 @@ export const listDataProtectionSettings: {
   >;
   pages: (
     input: ListDataProtectionSettingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataProtectionSettingsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4831,7 +4964,7 @@ export const listDataProtectionSettings: {
   >;
   items: (
     input: ListDataProtectionSettingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataProtectionSettingsSummary,
     | AccessDeniedException
     | InternalServerException
@@ -4862,7 +4995,7 @@ export const listDataProtectionSettings: {
 export const listIdentityProviders: {
   (
     input: ListIdentityProvidersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListIdentityProvidersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4873,7 +5006,7 @@ export const listIdentityProviders: {
   >;
   pages: (
     input: ListIdentityProvidersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListIdentityProvidersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4884,7 +5017,7 @@ export const listIdentityProviders: {
   >;
   items: (
     input: ListIdentityProvidersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -4914,7 +5047,7 @@ export const listIdentityProviders: {
 export const listIpAccessSettings: {
   (
     input: ListIpAccessSettingsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListIpAccessSettingsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4925,7 +5058,7 @@ export const listIpAccessSettings: {
   >;
   pages: (
     input: ListIpAccessSettingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListIpAccessSettingsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4936,7 +5069,7 @@ export const listIpAccessSettings: {
   >;
   items: (
     input: ListIpAccessSettingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -4966,7 +5099,7 @@ export const listIpAccessSettings: {
 export const listNetworkSettings: {
   (
     input: ListNetworkSettingsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListNetworkSettingsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4977,7 +5110,7 @@ export const listNetworkSettings: {
   >;
   pages: (
     input: ListNetworkSettingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListNetworkSettingsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4988,7 +5121,7 @@ export const listNetworkSettings: {
   >;
   items: (
     input: ListNetworkSettingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5018,7 +5151,7 @@ export const listNetworkSettings: {
 export const listPortals: {
   (
     input: ListPortalsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPortalsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5029,7 +5162,7 @@ export const listPortals: {
   >;
   pages: (
     input: ListPortalsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPortalsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5040,7 +5173,7 @@ export const listPortals: {
   >;
   items: (
     input: ListPortalsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5070,7 +5203,7 @@ export const listPortals: {
 export const listSessionLoggers: {
   (
     input: ListSessionLoggersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSessionLoggersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5081,7 +5214,7 @@ export const listSessionLoggers: {
   >;
   pages: (
     input: ListSessionLoggersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSessionLoggersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5092,7 +5225,7 @@ export const listSessionLoggers: {
   >;
   items: (
     input: ListSessionLoggersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SessionLoggerSummary,
     | AccessDeniedException
     | InternalServerException
@@ -5123,7 +5256,7 @@ export const listSessionLoggers: {
 export const listTrustStores: {
   (
     input: ListTrustStoresRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTrustStoresResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5134,7 +5267,7 @@ export const listTrustStores: {
   >;
   pages: (
     input: ListTrustStoresRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTrustStoresResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5145,7 +5278,7 @@ export const listTrustStores: {
   >;
   items: (
     input: ListTrustStoresRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5175,7 +5308,7 @@ export const listTrustStores: {
 export const listUserAccessLoggingSettings: {
   (
     input: ListUserAccessLoggingSettingsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUserAccessLoggingSettingsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5186,7 +5319,7 @@ export const listUserAccessLoggingSettings: {
   >;
   pages: (
     input: ListUserAccessLoggingSettingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUserAccessLoggingSettingsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5197,7 +5330,7 @@ export const listUserAccessLoggingSettings: {
   >;
   items: (
     input: ListUserAccessLoggingSettingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5227,7 +5360,7 @@ export const listUserAccessLoggingSettings: {
 export const listUserSettings: {
   (
     input: ListUserSettingsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUserSettingsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5238,7 +5371,7 @@ export const listUserSettings: {
   >;
   pages: (
     input: ListUserSettingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUserSettingsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5249,7 +5382,7 @@ export const listUserSettings: {
   >;
   items: (
     input: ListUserSettingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5278,7 +5411,7 @@ export const listUserSettings: {
  */
 export const deleteBrowserSettings: (
   input: DeleteBrowserSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBrowserSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -5303,7 +5436,7 @@ export const deleteBrowserSettings: (
  */
 export const deleteDataProtectionSettings: (
   input: DeleteDataProtectionSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDataProtectionSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -5328,7 +5461,7 @@ export const deleteDataProtectionSettings: (
  */
 export const deleteIdentityProvider: (
   input: DeleteIdentityProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIdentityProviderResponse,
   | AccessDeniedException
   | ConflictException
@@ -5353,7 +5486,7 @@ export const deleteIdentityProvider: (
  */
 export const deleteIpAccessSettings: (
   input: DeleteIpAccessSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIpAccessSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -5378,7 +5511,7 @@ export const deleteIpAccessSettings: (
  */
 export const deleteNetworkSettings: (
   input: DeleteNetworkSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteNetworkSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -5403,7 +5536,7 @@ export const deleteNetworkSettings: (
  */
 export const deletePortal: (
   input: DeletePortalRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePortalResponse,
   | AccessDeniedException
   | ConflictException
@@ -5428,7 +5561,7 @@ export const deletePortal: (
  */
 export const deleteSessionLogger: (
   input: DeleteSessionLoggerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSessionLoggerResponse,
   | AccessDeniedException
   | ConflictException
@@ -5453,7 +5586,7 @@ export const deleteSessionLogger: (
  */
 export const deleteTrustStore: (
   input: DeleteTrustStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTrustStoreResponse,
   | AccessDeniedException
   | ConflictException
@@ -5478,7 +5611,7 @@ export const deleteTrustStore: (
  */
 export const deleteUserAccessLoggingSettings: (
   input: DeleteUserAccessLoggingSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUserAccessLoggingSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -5503,7 +5636,7 @@ export const deleteUserAccessLoggingSettings: (
  */
 export const deleteUserSettings: (
   input: DeleteUserSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUserSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -5528,7 +5661,7 @@ export const deleteUserSettings: (
  */
 export const expireSession: (
   input: ExpireSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ExpireSessionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5553,7 +5686,7 @@ export const expireSession: (
  */
 export const createTrustStore: (
   input: CreateTrustStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTrustStoreResponse,
   | AccessDeniedException
   | ConflictException
@@ -5580,7 +5713,7 @@ export const createTrustStore: (
  */
 export const createUserAccessLoggingSettings: (
   input: CreateUserAccessLoggingSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUserAccessLoggingSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -5607,7 +5740,7 @@ export const createUserAccessLoggingSettings: (
  */
 export const createIpAccessSettings: (
   input: CreateIpAccessSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateIpAccessSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -5634,7 +5767,7 @@ export const createIpAccessSettings: (
  */
 export const createDataProtectionSettings: (
   input: CreateDataProtectionSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataProtectionSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -5663,7 +5796,7 @@ export const createDataProtectionSettings: (
  */
 export const createUserSettings: (
   input: CreateUserSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUserSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -5692,7 +5825,7 @@ export const createUserSettings: (
  */
 export const getUserSettings: (
   input: GetUserSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUserSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5717,7 +5850,7 @@ export const getUserSettings: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException

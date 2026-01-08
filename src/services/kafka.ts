@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -105,14 +105,29 @@ export type __double = number;
 //# Schemas
 export type __listOf__string = string[];
 export const __listOf__string = S.Array(S.String);
+export type EnhancedMonitoring =
+  | "DEFAULT"
+  | "PER_BROKER"
+  | "PER_TOPIC_PER_BROKER"
+  | "PER_TOPIC_PER_PARTITION";
+export const EnhancedMonitoring = S.Literal(
+  "DEFAULT",
+  "PER_BROKER",
+  "PER_TOPIC_PER_BROKER",
+  "PER_TOPIC_PER_PARTITION",
+);
+export type StorageMode = "LOCAL" | "TIERED";
+export const StorageMode = S.Literal("LOCAL", "TIERED");
 export interface BatchAssociateScramSecretRequest {
   ClusterArn: string;
-  SecretArnList: __listOf__string;
+  SecretArnList?: string[];
 }
 export const BatchAssociateScramSecretRequest = S.suspend(() =>
   S.Struct({
     ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
-    SecretArnList: __listOf__string.pipe(T.JsonName("secretArnList")),
+    SecretArnList: S.optional(__listOf__string).pipe(
+      T.JsonName("secretArnList"),
+    ),
   }).pipe(
     T.all(
       T.Http({
@@ -131,12 +146,14 @@ export const BatchAssociateScramSecretRequest = S.suspend(() =>
 }) as any as S.Schema<BatchAssociateScramSecretRequest>;
 export interface BatchDisassociateScramSecretRequest {
   ClusterArn: string;
-  SecretArnList: __listOf__string;
+  SecretArnList?: string[];
 }
 export const BatchDisassociateScramSecretRequest = S.suspend(() =>
   S.Struct({
     ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
-    SecretArnList: __listOf__string.pipe(T.JsonName("secretArnList")),
+    SecretArnList: S.optional(__listOf__string).pipe(
+      T.JsonName("secretArnList"),
+    ),
   }).pipe(
     T.all(
       T.Http({
@@ -155,9 +172,9 @@ export const BatchDisassociateScramSecretRequest = S.suspend(() =>
 }) as any as S.Schema<BatchDisassociateScramSecretRequest>;
 export interface CreateConfigurationRequest {
   Description?: string;
-  KafkaVersions?: __listOf__string;
-  Name: string;
-  ServerProperties: Uint8Array;
+  KafkaVersions?: string[];
+  Name?: string;
+  ServerProperties?: Uint8Array;
 }
 export const CreateConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -165,8 +182,8 @@ export const CreateConfigurationRequest = S.suspend(() =>
     KafkaVersions: S.optional(__listOf__string).pipe(
       T.JsonName("kafkaVersions"),
     ),
-    Name: S.String.pipe(T.JsonName("name")),
-    ServerProperties: T.Blob.pipe(T.JsonName("serverProperties")),
+    Name: S.optional(S.String).pipe(T.JsonName("name")),
+    ServerProperties: S.optional(T.Blob).pipe(T.JsonName("serverProperties")),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/configurations" }),
@@ -183,20 +200,24 @@ export const CreateConfigurationRequest = S.suspend(() =>
 export type __mapOf__string = { [key: string]: string };
 export const __mapOf__string = S.Record({ key: S.String, value: S.String });
 export interface CreateVpcConnectionRequest {
-  TargetClusterArn: string;
-  Authentication: string;
-  VpcId: string;
-  ClientSubnets: __listOf__string;
-  SecurityGroups: __listOf__string;
-  Tags?: __mapOf__string;
+  TargetClusterArn?: string;
+  Authentication?: string;
+  VpcId?: string;
+  ClientSubnets?: string[];
+  SecurityGroups?: string[];
+  Tags?: { [key: string]: string };
 }
 export const CreateVpcConnectionRequest = S.suspend(() =>
   S.Struct({
-    TargetClusterArn: S.String.pipe(T.JsonName("targetClusterArn")),
-    Authentication: S.String.pipe(T.JsonName("authentication")),
-    VpcId: S.String.pipe(T.JsonName("vpcId")),
-    ClientSubnets: __listOf__string.pipe(T.JsonName("clientSubnets")),
-    SecurityGroups: __listOf__string.pipe(T.JsonName("securityGroups")),
+    TargetClusterArn: S.optional(S.String).pipe(T.JsonName("targetClusterArn")),
+    Authentication: S.optional(S.String).pipe(T.JsonName("authentication")),
+    VpcId: S.optional(S.String).pipe(T.JsonName("vpcId")),
+    ClientSubnets: S.optional(__listOf__string).pipe(
+      T.JsonName("clientSubnets"),
+    ),
+    SecurityGroups: S.optional(__listOf__string).pipe(
+      T.JsonName("securityGroups"),
+    ),
     Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
   }).pipe(
     T.all(
@@ -905,13 +926,13 @@ export const ListVpcConnectionsRequest = S.suspend(() =>
 export interface PutClusterPolicyRequest {
   ClusterArn: string;
   CurrentVersion?: string;
-  Policy: string;
+  Policy?: string;
 }
 export const PutClusterPolicyRequest = S.suspend(() =>
   S.Struct({
     ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
     CurrentVersion: S.optional(S.String).pipe(T.JsonName("currentVersion")),
-    Policy: S.String.pipe(T.JsonName("policy")),
+    Policy: S.optional(S.String).pipe(T.JsonName("policy")),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/v1/clusters/{ClusterArn}/policy" }),
@@ -926,12 +947,12 @@ export const PutClusterPolicyRequest = S.suspend(() =>
   identifier: "PutClusterPolicyRequest",
 }) as any as S.Schema<PutClusterPolicyRequest>;
 export interface RebootBrokerRequest {
-  BrokerIds: __listOf__string;
+  BrokerIds?: string[];
   ClusterArn: string;
 }
 export const RebootBrokerRequest = S.suspend(() =>
   S.Struct({
-    BrokerIds: __listOf__string.pipe(T.JsonName("brokerIds")),
+    BrokerIds: S.optional(__listOf__string).pipe(T.JsonName("brokerIds")),
     ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
   }).pipe(
     T.all(
@@ -948,12 +969,12 @@ export const RebootBrokerRequest = S.suspend(() =>
 }) as any as S.Schema<RebootBrokerRequest>;
 export interface RejectClientVpcConnectionRequest {
   ClusterArn: string;
-  VpcConnectionArn: string;
+  VpcConnectionArn?: string;
 }
 export const RejectClientVpcConnectionRequest = S.suspend(() =>
   S.Struct({
     ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
-    VpcConnectionArn: S.String.pipe(T.JsonName("vpcConnectionArn")),
+    VpcConnectionArn: S.optional(S.String).pipe(T.JsonName("vpcConnectionArn")),
   }).pipe(
     T.all(
       T.Http({
@@ -978,12 +999,12 @@ export const RejectClientVpcConnectionResponse = S.suspend(() =>
 }) as any as S.Schema<RejectClientVpcConnectionResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: __mapOf__string;
+  Tags?: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: __mapOf__string.pipe(T.JsonName("tags")),
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/tags/{ResourceArn}" }),
@@ -1003,12 +1024,12 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: __listOf__string;
+  TagKeys?: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    TagKeys: __listOf__string.pipe(T.HttpQuery("tagKeys")),
+    TagKeys: S.optional(__listOf__string).pipe(T.HttpQuery("tagKeys")),
   }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/v1/tags/{ResourceArn}" }),
@@ -1028,14 +1049,14 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateBrokerCountRequest {
   ClusterArn: string;
-  CurrentVersion: string;
-  TargetNumberOfBrokerNodes: number;
+  CurrentVersion?: string;
+  TargetNumberOfBrokerNodes?: number;
 }
 export const UpdateBrokerCountRequest = S.suspend(() =>
   S.Struct({
     ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
-    CurrentVersion: S.String.pipe(T.JsonName("currentVersion")),
-    TargetNumberOfBrokerNodes: S.Number.pipe(
+    CurrentVersion: S.optional(S.String).pipe(T.JsonName("currentVersion")),
+    TargetNumberOfBrokerNodes: S.optional(S.Number).pipe(
       T.JsonName("targetNumberOfBrokerNodes"),
     ),
   }).pipe(
@@ -1053,14 +1074,16 @@ export const UpdateBrokerCountRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateBrokerCountRequest>;
 export interface UpdateBrokerTypeRequest {
   ClusterArn: string;
-  CurrentVersion: string;
-  TargetInstanceType: string;
+  CurrentVersion?: string;
+  TargetInstanceType?: string;
 }
 export const UpdateBrokerTypeRequest = S.suspend(() =>
   S.Struct({
     ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
-    CurrentVersion: S.String.pipe(T.JsonName("currentVersion")),
-    TargetInstanceType: S.String.pipe(T.JsonName("targetInstanceType")),
+    CurrentVersion: S.optional(S.String).pipe(T.JsonName("currentVersion")),
+    TargetInstanceType: S.optional(S.String).pipe(
+      T.JsonName("targetInstanceType"),
+    ),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/v1/clusters/{ClusterArn}/nodes/type" }),
@@ -1075,29 +1098,29 @@ export const UpdateBrokerTypeRequest = S.suspend(() =>
   identifier: "UpdateBrokerTypeRequest",
 }) as any as S.Schema<UpdateBrokerTypeRequest>;
 export interface ConfigurationInfo {
-  Arn: string;
-  Revision: number;
+  Arn?: string;
+  Revision?: number;
 }
 export const ConfigurationInfo = S.suspend(() =>
   S.Struct({
-    Arn: S.String.pipe(T.JsonName("arn")),
-    Revision: S.Number.pipe(T.JsonName("revision")),
+    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
+    Revision: S.optional(S.Number).pipe(T.JsonName("revision")),
   }),
 ).annotations({
   identifier: "ConfigurationInfo",
 }) as any as S.Schema<ConfigurationInfo>;
 export interface UpdateClusterConfigurationRequest {
   ClusterArn: string;
-  ConfigurationInfo: ConfigurationInfo;
-  CurrentVersion: string;
+  ConfigurationInfo?: ConfigurationInfo;
+  CurrentVersion?: string;
 }
 export const UpdateClusterConfigurationRequest = S.suspend(() =>
   S.Struct({
     ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
-    ConfigurationInfo: ConfigurationInfo.pipe(
-      T.JsonName("configurationInfo"),
-    ).annotations({ identifier: "ConfigurationInfo" }),
-    CurrentVersion: S.String.pipe(T.JsonName("currentVersion")),
+    ConfigurationInfo: S.optional(ConfigurationInfo)
+      .pipe(T.JsonName("configurationInfo"))
+      .annotations({ identifier: "ConfigurationInfo" }),
+    CurrentVersion: S.optional(S.String).pipe(T.JsonName("currentVersion")),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/v1/clusters/{ClusterArn}/configuration" }),
@@ -1114,8 +1137,8 @@ export const UpdateClusterConfigurationRequest = S.suspend(() =>
 export interface UpdateClusterKafkaVersionRequest {
   ClusterArn: string;
   ConfigurationInfo?: ConfigurationInfo;
-  CurrentVersion: string;
-  TargetKafkaVersion: string;
+  CurrentVersion?: string;
+  TargetKafkaVersion?: string;
 }
 export const UpdateClusterKafkaVersionRequest = S.suspend(() =>
   S.Struct({
@@ -1123,8 +1146,10 @@ export const UpdateClusterKafkaVersionRequest = S.suspend(() =>
     ConfigurationInfo: S.optional(ConfigurationInfo)
       .pipe(T.JsonName("configurationInfo"))
       .annotations({ identifier: "ConfigurationInfo" }),
-    CurrentVersion: S.String.pipe(T.JsonName("currentVersion")),
-    TargetKafkaVersion: S.String.pipe(T.JsonName("targetKafkaVersion")),
+    CurrentVersion: S.optional(S.String).pipe(T.JsonName("currentVersion")),
+    TargetKafkaVersion: S.optional(S.String).pipe(
+      T.JsonName("targetKafkaVersion"),
+    ),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/v1/clusters/{ClusterArn}/version" }),
@@ -1141,13 +1166,13 @@ export const UpdateClusterKafkaVersionRequest = S.suspend(() =>
 export interface UpdateConfigurationRequest {
   Arn: string;
   Description?: string;
-  ServerProperties: Uint8Array;
+  ServerProperties?: Uint8Array;
 }
 export const UpdateConfigurationRequest = S.suspend(() =>
   S.Struct({
     Arn: S.String.pipe(T.HttpLabel("Arn")),
     Description: S.optional(S.String).pipe(T.JsonName("description")),
-    ServerProperties: T.Blob.pipe(T.JsonName("serverProperties")),
+    ServerProperties: S.optional(T.Blob).pipe(T.JsonName("serverProperties")),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/v1/configurations/{Arn}" }),
@@ -1162,18 +1187,22 @@ export const UpdateConfigurationRequest = S.suspend(() =>
   identifier: "UpdateConfigurationRequest",
 }) as any as S.Schema<UpdateConfigurationRequest>;
 export interface JmxExporterInfo {
-  EnabledInBroker: boolean;
+  EnabledInBroker?: boolean;
 }
 export const JmxExporterInfo = S.suspend(() =>
-  S.Struct({ EnabledInBroker: S.Boolean.pipe(T.JsonName("enabledInBroker")) }),
+  S.Struct({
+    EnabledInBroker: S.optional(S.Boolean).pipe(T.JsonName("enabledInBroker")),
+  }),
 ).annotations({
   identifier: "JmxExporterInfo",
 }) as any as S.Schema<JmxExporterInfo>;
 export interface NodeExporterInfo {
-  EnabledInBroker: boolean;
+  EnabledInBroker?: boolean;
 }
 export const NodeExporterInfo = S.suspend(() =>
-  S.Struct({ EnabledInBroker: S.Boolean.pipe(T.JsonName("enabledInBroker")) }),
+  S.Struct({
+    EnabledInBroker: S.optional(S.Boolean).pipe(T.JsonName("enabledInBroker")),
+  }),
 ).annotations({
   identifier: "NodeExporterInfo",
 }) as any as S.Schema<NodeExporterInfo>;
@@ -1194,24 +1223,24 @@ export const PrometheusInfo = S.suspend(() =>
   identifier: "PrometheusInfo",
 }) as any as S.Schema<PrometheusInfo>;
 export interface OpenMonitoringInfo {
-  Prometheus: PrometheusInfo;
+  Prometheus?: PrometheusInfo;
 }
 export const OpenMonitoringInfo = S.suspend(() =>
   S.Struct({
-    Prometheus: PrometheusInfo.pipe(T.JsonName("prometheus")).annotations({
-      identifier: "PrometheusInfo",
-    }),
+    Prometheus: S.optional(PrometheusInfo)
+      .pipe(T.JsonName("prometheus"))
+      .annotations({ identifier: "PrometheusInfo" }),
   }),
 ).annotations({
   identifier: "OpenMonitoringInfo",
 }) as any as S.Schema<OpenMonitoringInfo>;
 export interface CloudWatchLogs {
-  Enabled: boolean;
+  Enabled?: boolean;
   LogGroup?: string;
 }
 export const CloudWatchLogs = S.suspend(() =>
   S.Struct({
-    Enabled: S.Boolean.pipe(T.JsonName("enabled")),
+    Enabled: S.optional(S.Boolean).pipe(T.JsonName("enabled")),
     LogGroup: S.optional(S.String).pipe(T.JsonName("logGroup")),
   }),
 ).annotations({
@@ -1219,23 +1248,23 @@ export const CloudWatchLogs = S.suspend(() =>
 }) as any as S.Schema<CloudWatchLogs>;
 export interface Firehose {
   DeliveryStream?: string;
-  Enabled: boolean;
+  Enabled?: boolean;
 }
 export const Firehose = S.suspend(() =>
   S.Struct({
     DeliveryStream: S.optional(S.String).pipe(T.JsonName("deliveryStream")),
-    Enabled: S.Boolean.pipe(T.JsonName("enabled")),
+    Enabled: S.optional(S.Boolean).pipe(T.JsonName("enabled")),
   }),
 ).annotations({ identifier: "Firehose" }) as any as S.Schema<Firehose>;
 export interface S3 {
   Bucket?: string;
-  Enabled: boolean;
+  Enabled?: boolean;
   Prefix?: string;
 }
 export const S3 = S.suspend(() =>
   S.Struct({
     Bucket: S.optional(S.String).pipe(T.JsonName("bucket")),
-    Enabled: S.Boolean.pipe(T.JsonName("enabled")),
+    Enabled: S.optional(S.Boolean).pipe(T.JsonName("enabled")),
     Prefix: S.optional(S.String).pipe(T.JsonName("prefix")),
   }),
 ).annotations({ identifier: "S3" }) as any as S.Schema<S3>;
@@ -1256,27 +1285,27 @@ export const BrokerLogs = S.suspend(() =>
   }),
 ).annotations({ identifier: "BrokerLogs" }) as any as S.Schema<BrokerLogs>;
 export interface LoggingInfo {
-  BrokerLogs: BrokerLogs;
+  BrokerLogs?: BrokerLogs;
 }
 export const LoggingInfo = S.suspend(() =>
   S.Struct({
-    BrokerLogs: BrokerLogs.pipe(T.JsonName("brokerLogs")).annotations({
-      identifier: "BrokerLogs",
-    }),
+    BrokerLogs: S.optional(BrokerLogs)
+      .pipe(T.JsonName("brokerLogs"))
+      .annotations({ identifier: "BrokerLogs" }),
   }),
 ).annotations({ identifier: "LoggingInfo" }) as any as S.Schema<LoggingInfo>;
 export interface UpdateMonitoringRequest {
   ClusterArn: string;
-  CurrentVersion: string;
-  EnhancedMonitoring?: string;
+  CurrentVersion?: string;
+  EnhancedMonitoring?: EnhancedMonitoring;
   OpenMonitoring?: OpenMonitoringInfo;
   LoggingInfo?: LoggingInfo;
 }
 export const UpdateMonitoringRequest = S.suspend(() =>
   S.Struct({
     ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
-    CurrentVersion: S.String.pipe(T.JsonName("currentVersion")),
-    EnhancedMonitoring: S.optional(S.String).pipe(
+    CurrentVersion: S.optional(S.String).pipe(T.JsonName("currentVersion")),
+    EnhancedMonitoring: S.optional(EnhancedMonitoring).pipe(
       T.JsonName("enhancedMonitoring"),
     ),
     OpenMonitoring: S.optional(OpenMonitoringInfo)
@@ -1298,24 +1327,28 @@ export const UpdateMonitoringRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateMonitoringRequest",
 }) as any as S.Schema<UpdateMonitoringRequest>;
+export type RebalancingStatus = "PAUSED" | "ACTIVE";
+export const RebalancingStatus = S.Literal("PAUSED", "ACTIVE");
 export interface Rebalancing {
-  Status?: string;
+  Status?: RebalancingStatus;
 }
 export const Rebalancing = S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String).pipe(T.JsonName("status")) }),
+  S.Struct({
+    Status: S.optional(RebalancingStatus).pipe(T.JsonName("status")),
+  }),
 ).annotations({ identifier: "Rebalancing" }) as any as S.Schema<Rebalancing>;
 export interface UpdateRebalancingRequest {
   ClusterArn: string;
-  CurrentVersion: string;
-  Rebalancing: Rebalancing;
+  CurrentVersion?: string;
+  Rebalancing?: Rebalancing;
 }
 export const UpdateRebalancingRequest = S.suspend(() =>
   S.Struct({
     ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
-    CurrentVersion: S.String.pipe(T.JsonName("currentVersion")),
-    Rebalancing: Rebalancing.pipe(T.JsonName("rebalancing")).annotations({
-      identifier: "Rebalancing",
-    }),
+    CurrentVersion: S.optional(S.String).pipe(T.JsonName("currentVersion")),
+    Rebalancing: S.optional(Rebalancing)
+      .pipe(T.JsonName("rebalancing"))
+      .annotations({ identifier: "Rebalancing" }),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/v1/clusters/{ClusterArn}/rebalancing" }),
@@ -1356,7 +1389,7 @@ export const Sasl = S.suspend(() =>
   }),
 ).annotations({ identifier: "Sasl" }) as any as S.Schema<Sasl>;
 export interface Tls {
-  CertificateAuthorityArnList?: __listOf__string;
+  CertificateAuthorityArnList?: string[];
   Enabled?: boolean;
 }
 export const Tls = S.suspend(() =>
@@ -1396,22 +1429,26 @@ export const ClientAuthentication = S.suspend(() =>
   identifier: "ClientAuthentication",
 }) as any as S.Schema<ClientAuthentication>;
 export interface EncryptionAtRest {
-  DataVolumeKMSKeyId: string;
+  DataVolumeKMSKeyId?: string;
 }
 export const EncryptionAtRest = S.suspend(() =>
   S.Struct({
-    DataVolumeKMSKeyId: S.String.pipe(T.JsonName("dataVolumeKMSKeyId")),
+    DataVolumeKMSKeyId: S.optional(S.String).pipe(
+      T.JsonName("dataVolumeKMSKeyId"),
+    ),
   }),
 ).annotations({
   identifier: "EncryptionAtRest",
 }) as any as S.Schema<EncryptionAtRest>;
+export type ClientBroker = "TLS" | "TLS_PLAINTEXT" | "PLAINTEXT";
+export const ClientBroker = S.Literal("TLS", "TLS_PLAINTEXT", "PLAINTEXT");
 export interface EncryptionInTransit {
-  ClientBroker?: string;
+  ClientBroker?: ClientBroker;
   InCluster?: boolean;
 }
 export const EncryptionInTransit = S.suspend(() =>
   S.Struct({
-    ClientBroker: S.optional(S.String).pipe(T.JsonName("clientBroker")),
+    ClientBroker: S.optional(ClientBroker).pipe(T.JsonName("clientBroker")),
     InCluster: S.optional(S.Boolean).pipe(T.JsonName("inCluster")),
   }),
 ).annotations({
@@ -1436,7 +1473,7 @@ export const EncryptionInfo = S.suspend(() =>
 export interface UpdateSecurityRequest {
   ClientAuthentication?: ClientAuthentication;
   ClusterArn: string;
-  CurrentVersion: string;
+  CurrentVersion?: string;
   EncryptionInfo?: EncryptionInfo;
 }
 export const UpdateSecurityRequest = S.suspend(() =>
@@ -1445,7 +1482,7 @@ export const UpdateSecurityRequest = S.suspend(() =>
       .pipe(T.JsonName("clientAuthentication"))
       .annotations({ identifier: "ClientAuthentication" }),
     ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
-    CurrentVersion: S.String.pipe(T.JsonName("currentVersion")),
+    CurrentVersion: S.optional(S.String).pipe(T.JsonName("currentVersion")),
     EncryptionInfo: S.optional(EncryptionInfo)
       .pipe(T.JsonName("encryptionInfo"))
       .annotations({ identifier: "EncryptionInfo" }),
@@ -1462,6 +1499,16 @@ export const UpdateSecurityRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateSecurityRequest",
 }) as any as S.Schema<UpdateSecurityRequest>;
+export type BrokerAZDistribution = "DEFAULT";
+export const BrokerAZDistribution = S.Literal("DEFAULT");
+export type TargetCompressionType = "NONE" | "GZIP" | "SNAPPY" | "LZ4" | "ZSTD";
+export const TargetCompressionType = S.Literal(
+  "NONE",
+  "GZIP",
+  "SNAPPY",
+  "LZ4",
+  "ZSTD",
+);
 export type __listOf__stringMax256 = string[];
 export const __listOf__stringMax256 = S.Array(S.String);
 export type __listOf__stringMax249 = string[];
@@ -1593,21 +1640,23 @@ export const ConnectivityInfo = S.suspend(() =>
   identifier: "ConnectivityInfo",
 }) as any as S.Schema<ConnectivityInfo>;
 export interface BrokerNodeGroupInfo {
-  BrokerAZDistribution?: string;
-  ClientSubnets: __listOf__string;
-  InstanceType: string;
-  SecurityGroups?: __listOf__string;
+  BrokerAZDistribution?: BrokerAZDistribution;
+  ClientSubnets?: string[];
+  InstanceType?: string;
+  SecurityGroups?: string[];
   StorageInfo?: StorageInfo;
   ConnectivityInfo?: ConnectivityInfo;
-  ZoneIds?: __listOf__string;
+  ZoneIds?: string[];
 }
 export const BrokerNodeGroupInfo = S.suspend(() =>
   S.Struct({
-    BrokerAZDistribution: S.optional(S.String).pipe(
+    BrokerAZDistribution: S.optional(BrokerAZDistribution).pipe(
       T.JsonName("brokerAZDistribution"),
     ),
-    ClientSubnets: __listOf__string.pipe(T.JsonName("clientSubnets")),
-    InstanceType: S.String.pipe(T.JsonName("instanceType")),
+    ClientSubnets: S.optional(__listOf__string).pipe(
+      T.JsonName("clientSubnets"),
+    ),
+    InstanceType: S.optional(S.String).pipe(T.JsonName("instanceType")),
     SecurityGroups: S.optional(__listOf__string).pipe(
       T.JsonName("securityGroups"),
     ),
@@ -1623,23 +1672,23 @@ export const BrokerNodeGroupInfo = S.suspend(() =>
   identifier: "BrokerNodeGroupInfo",
 }) as any as S.Schema<BrokerNodeGroupInfo>;
 export interface ProvisionedRequest {
-  BrokerNodeGroupInfo: BrokerNodeGroupInfo;
+  BrokerNodeGroupInfo?: BrokerNodeGroupInfo;
   Rebalancing?: Rebalancing;
   ClientAuthentication?: ClientAuthentication;
   ConfigurationInfo?: ConfigurationInfo;
   EncryptionInfo?: EncryptionInfo;
-  EnhancedMonitoring?: string;
+  EnhancedMonitoring?: EnhancedMonitoring;
   OpenMonitoring?: OpenMonitoringInfo;
-  KafkaVersion: string;
+  KafkaVersion?: string;
   LoggingInfo?: LoggingInfo;
-  NumberOfBrokerNodes: number;
-  StorageMode?: string;
+  NumberOfBrokerNodes?: number;
+  StorageMode?: StorageMode;
 }
 export const ProvisionedRequest = S.suspend(() =>
   S.Struct({
-    BrokerNodeGroupInfo: BrokerNodeGroupInfo.pipe(
-      T.JsonName("brokerNodeGroupInfo"),
-    ).annotations({ identifier: "BrokerNodeGroupInfo" }),
+    BrokerNodeGroupInfo: S.optional(BrokerNodeGroupInfo)
+      .pipe(T.JsonName("brokerNodeGroupInfo"))
+      .annotations({ identifier: "BrokerNodeGroupInfo" }),
     Rebalancing: S.optional(Rebalancing)
       .pipe(T.JsonName("rebalancing"))
       .annotations({ identifier: "Rebalancing" }),
@@ -1652,22 +1701,88 @@ export const ProvisionedRequest = S.suspend(() =>
     EncryptionInfo: S.optional(EncryptionInfo)
       .pipe(T.JsonName("encryptionInfo"))
       .annotations({ identifier: "EncryptionInfo" }),
-    EnhancedMonitoring: S.optional(S.String).pipe(
+    EnhancedMonitoring: S.optional(EnhancedMonitoring).pipe(
       T.JsonName("enhancedMonitoring"),
     ),
     OpenMonitoring: S.optional(OpenMonitoringInfo)
       .pipe(T.JsonName("openMonitoring"))
       .annotations({ identifier: "OpenMonitoringInfo" }),
-    KafkaVersion: S.String.pipe(T.JsonName("kafkaVersion")),
+    KafkaVersion: S.optional(S.String).pipe(T.JsonName("kafkaVersion")),
     LoggingInfo: S.optional(LoggingInfo)
       .pipe(T.JsonName("loggingInfo"))
       .annotations({ identifier: "LoggingInfo" }),
-    NumberOfBrokerNodes: S.Number.pipe(T.JsonName("numberOfBrokerNodes")),
-    StorageMode: S.optional(S.String).pipe(T.JsonName("storageMode")),
+    NumberOfBrokerNodes: S.optional(S.Number).pipe(
+      T.JsonName("numberOfBrokerNodes"),
+    ),
+    StorageMode: S.optional(StorageMode).pipe(T.JsonName("storageMode")),
   }),
 ).annotations({
   identifier: "ProvisionedRequest",
 }) as any as S.Schema<ProvisionedRequest>;
+export type ConfigurationState = "ACTIVE" | "DELETING" | "DELETE_FAILED";
+export const ConfigurationState = S.Literal(
+  "ACTIVE",
+  "DELETING",
+  "DELETE_FAILED",
+);
+export type VpcConnectionState =
+  | "CREATING"
+  | "AVAILABLE"
+  | "INACTIVE"
+  | "DEACTIVATING"
+  | "DELETING"
+  | "FAILED"
+  | "REJECTED"
+  | "REJECTING";
+export const VpcConnectionState = S.Literal(
+  "CREATING",
+  "AVAILABLE",
+  "INACTIVE",
+  "DEACTIVATING",
+  "DELETING",
+  "FAILED",
+  "REJECTED",
+  "REJECTING",
+);
+export type ClusterState =
+  | "ACTIVE"
+  | "CREATING"
+  | "DELETING"
+  | "FAILED"
+  | "HEALING"
+  | "MAINTENANCE"
+  | "REBOOTING_BROKER"
+  | "UPDATING";
+export const ClusterState = S.Literal(
+  "ACTIVE",
+  "CREATING",
+  "DELETING",
+  "FAILED",
+  "HEALING",
+  "MAINTENANCE",
+  "REBOOTING_BROKER",
+  "UPDATING",
+);
+export type ReplicatorState =
+  | "RUNNING"
+  | "CREATING"
+  | "UPDATING"
+  | "DELETING"
+  | "FAILED";
+export const ReplicatorState = S.Literal(
+  "RUNNING",
+  "CREATING",
+  "UPDATING",
+  "DELETING",
+  "FAILED",
+);
+export type TopicState = "CREATING" | "UPDATING" | "DELETING" | "ACTIVE";
+export const TopicState = S.Literal(
+  "CREATING",
+  "UPDATING",
+  "DELETING",
+  "ACTIVE",
+);
 export interface ErrorInfo {
   ErrorCode?: string;
   ErrorString?: string;
@@ -1703,13 +1818,15 @@ export const ClusterOperationStep = S.suspend(() =>
 export type __listOfClusterOperationStep = ClusterOperationStep[];
 export const __listOfClusterOperationStep = S.Array(ClusterOperationStep);
 export interface BrokerEBSVolumeInfo {
-  KafkaBrokerNodeId: string;
+  KafkaBrokerNodeId?: string;
   ProvisionedThroughput?: ProvisionedThroughput;
   VolumeSizeGB?: number;
 }
 export const BrokerEBSVolumeInfo = S.suspend(() =>
   S.Struct({
-    KafkaBrokerNodeId: S.String.pipe(T.JsonName("kafkaBrokerNodeId")),
+    KafkaBrokerNodeId: S.optional(S.String).pipe(
+      T.JsonName("kafkaBrokerNodeId"),
+    ),
     ProvisionedThroughput: S.optional(ProvisionedThroughput)
       .pipe(T.JsonName("provisionedThroughput"))
       .annotations({ identifier: "ProvisionedThroughput" }),
@@ -1721,16 +1838,20 @@ export const BrokerEBSVolumeInfo = S.suspend(() =>
 export type __listOfBrokerEBSVolumeInfo = BrokerEBSVolumeInfo[];
 export const __listOfBrokerEBSVolumeInfo = S.Array(BrokerEBSVolumeInfo);
 export interface JmxExporter {
-  EnabledInBroker: boolean;
+  EnabledInBroker?: boolean;
 }
 export const JmxExporter = S.suspend(() =>
-  S.Struct({ EnabledInBroker: S.Boolean.pipe(T.JsonName("enabledInBroker")) }),
+  S.Struct({
+    EnabledInBroker: S.optional(S.Boolean).pipe(T.JsonName("enabledInBroker")),
+  }),
 ).annotations({ identifier: "JmxExporter" }) as any as S.Schema<JmxExporter>;
 export interface NodeExporter {
-  EnabledInBroker: boolean;
+  EnabledInBroker?: boolean;
 }
 export const NodeExporter = S.suspend(() =>
-  S.Struct({ EnabledInBroker: S.Boolean.pipe(T.JsonName("enabledInBroker")) }),
+  S.Struct({
+    EnabledInBroker: S.optional(S.Boolean).pipe(T.JsonName("enabledInBroker")),
+  }),
 ).annotations({ identifier: "NodeExporter" }) as any as S.Schema<NodeExporter>;
 export interface Prometheus {
   JmxExporter?: JmxExporter;
@@ -1747,13 +1868,13 @@ export const Prometheus = S.suspend(() =>
   }),
 ).annotations({ identifier: "Prometheus" }) as any as S.Schema<Prometheus>;
 export interface OpenMonitoring {
-  Prometheus: Prometheus;
+  Prometheus?: Prometheus;
 }
 export const OpenMonitoring = S.suspend(() =>
   S.Struct({
-    Prometheus: Prometheus.pipe(T.JsonName("prometheus")).annotations({
-      identifier: "Prometheus",
-    }),
+    Prometheus: S.optional(Prometheus)
+      .pipe(T.JsonName("prometheus"))
+      .annotations({ identifier: "Prometheus" }),
   }),
 ).annotations({
   identifier: "OpenMonitoring",
@@ -1761,8 +1882,8 @@ export const OpenMonitoring = S.suspend(() =>
 export type __listOf__double = number[];
 export const __listOf__double = S.Array(S.Number);
 export interface BrokerCountUpdateInfo {
-  CreatedBrokerIds?: __listOf__double;
-  DeletedBrokerIds?: __listOf__double;
+  CreatedBrokerIds?: number[];
+  DeletedBrokerIds?: number[];
 }
 export const BrokerCountUpdateInfo = S.suspend(() =>
   S.Struct({
@@ -1777,10 +1898,10 @@ export const BrokerCountUpdateInfo = S.suspend(() =>
   identifier: "BrokerCountUpdateInfo",
 }) as any as S.Schema<BrokerCountUpdateInfo>;
 export interface MutableClusterInfo {
-  BrokerEBSVolumeInfo?: __listOfBrokerEBSVolumeInfo;
+  BrokerEBSVolumeInfo?: BrokerEBSVolumeInfo[];
   ConfigurationInfo?: ConfigurationInfo;
   NumberOfBrokerNodes?: number;
-  EnhancedMonitoring?: string;
+  EnhancedMonitoring?: EnhancedMonitoring;
   OpenMonitoring?: OpenMonitoring;
   KafkaVersion?: string;
   LoggingInfo?: LoggingInfo;
@@ -1788,7 +1909,7 @@ export interface MutableClusterInfo {
   ClientAuthentication?: ClientAuthentication;
   EncryptionInfo?: EncryptionInfo;
   ConnectivityInfo?: ConnectivityInfo;
-  StorageMode?: string;
+  StorageMode?: StorageMode;
   BrokerCountUpdateInfo?: BrokerCountUpdateInfo;
   Rebalancing?: Rebalancing;
 }
@@ -1803,7 +1924,7 @@ export const MutableClusterInfo = S.suspend(() =>
     NumberOfBrokerNodes: S.optional(S.Number).pipe(
       T.JsonName("numberOfBrokerNodes"),
     ),
-    EnhancedMonitoring: S.optional(S.String).pipe(
+    EnhancedMonitoring: S.optional(EnhancedMonitoring).pipe(
       T.JsonName("enhancedMonitoring"),
     ),
     OpenMonitoring: S.optional(OpenMonitoring)
@@ -1823,7 +1944,7 @@ export const MutableClusterInfo = S.suspend(() =>
     ConnectivityInfo: S.optional(ConnectivityInfo)
       .pipe(T.JsonName("connectivityInfo"))
       .annotations({ identifier: "ConnectivityInfo" }),
-    StorageMode: S.optional(S.String).pipe(T.JsonName("storageMode")),
+    StorageMode: S.optional(StorageMode).pipe(T.JsonName("storageMode")),
     BrokerCountUpdateInfo: S.optional(BrokerCountUpdateInfo)
       .pipe(T.JsonName("brokerCountUpdateInfo"))
       .annotations({ identifier: "BrokerCountUpdateInfo" }),
@@ -1834,13 +1955,15 @@ export const MutableClusterInfo = S.suspend(() =>
 ).annotations({
   identifier: "MutableClusterInfo",
 }) as any as S.Schema<MutableClusterInfo>;
+export type UserIdentityType = "AWSACCOUNT" | "AWSSERVICE";
+export const UserIdentityType = S.Literal("AWSACCOUNT", "AWSSERVICE");
 export interface UserIdentity {
-  Type?: string;
+  Type?: UserIdentityType;
   PrincipalId?: string;
 }
 export const UserIdentity = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String).pipe(T.JsonName("type")),
+    Type: S.optional(UserIdentityType).pipe(T.JsonName("type")),
     PrincipalId: S.optional(S.String).pipe(T.JsonName("principalId")),
   }),
 ).annotations({ identifier: "UserIdentity" }) as any as S.Schema<UserIdentity>;
@@ -1872,7 +1995,7 @@ export interface ClusterOperationInfo {
   ErrorInfo?: ErrorInfo;
   OperationArn?: string;
   OperationState?: string;
-  OperationSteps?: __listOfClusterOperationStep;
+  OperationSteps?: ClusterOperationStep[];
   OperationType?: string;
   SourceClusterInfo?: MutableClusterInfo;
   TargetClusterInfo?: MutableClusterInfo;
@@ -1938,6 +2061,15 @@ export const StateInfo = S.suspend(() =>
     Message: S.optional(S.String).pipe(T.JsonName("message")),
   }),
 ).annotations({ identifier: "StateInfo" }) as any as S.Schema<StateInfo>;
+export type CustomerActionStatus =
+  | "CRITICAL_ACTION_REQUIRED"
+  | "ACTION_RECOMMENDED"
+  | "NONE";
+export const CustomerActionStatus = S.Literal(
+  "CRITICAL_ACTION_REQUIRED",
+  "ACTION_RECOMMENDED",
+  "NONE",
+);
 export interface ClusterInfo {
   ActiveOperationArn?: string;
   BrokerNodeGroupInfo?: BrokerNodeGroupInfo;
@@ -1949,17 +2081,17 @@ export interface ClusterInfo {
   CurrentBrokerSoftwareInfo?: BrokerSoftwareInfo;
   CurrentVersion?: string;
   EncryptionInfo?: EncryptionInfo;
-  EnhancedMonitoring?: string;
+  EnhancedMonitoring?: EnhancedMonitoring;
   OpenMonitoring?: OpenMonitoring;
   LoggingInfo?: LoggingInfo;
   NumberOfBrokerNodes?: number;
-  State?: string;
+  State?: ClusterState;
   StateInfo?: StateInfo;
-  Tags?: __mapOf__string;
+  Tags?: { [key: string]: string };
   ZookeeperConnectString?: string;
   ZookeeperConnectStringTls?: string;
-  StorageMode?: string;
-  CustomerActionStatus?: string;
+  StorageMode?: StorageMode;
+  CustomerActionStatus?: CustomerActionStatus;
 }
 export const ClusterInfo = S.suspend(() =>
   S.Struct({
@@ -1987,7 +2119,7 @@ export const ClusterInfo = S.suspend(() =>
     EncryptionInfo: S.optional(EncryptionInfo)
       .pipe(T.JsonName("encryptionInfo"))
       .annotations({ identifier: "EncryptionInfo" }),
-    EnhancedMonitoring: S.optional(S.String).pipe(
+    EnhancedMonitoring: S.optional(EnhancedMonitoring).pipe(
       T.JsonName("enhancedMonitoring"),
     ),
     OpenMonitoring: S.optional(OpenMonitoring)
@@ -1999,7 +2131,7 @@ export const ClusterInfo = S.suspend(() =>
     NumberOfBrokerNodes: S.optional(S.Number).pipe(
       T.JsonName("numberOfBrokerNodes"),
     ),
-    State: S.optional(S.String).pipe(T.JsonName("state")),
+    State: S.optional(ClusterState).pipe(T.JsonName("state")),
     StateInfo: S.optional(StateInfo)
       .pipe(T.JsonName("stateInfo"))
       .annotations({ identifier: "StateInfo" }),
@@ -2010,34 +2142,36 @@ export const ClusterInfo = S.suspend(() =>
     ZookeeperConnectStringTls: S.optional(S.String).pipe(
       T.JsonName("zookeeperConnectStringTls"),
     ),
-    StorageMode: S.optional(S.String).pipe(T.JsonName("storageMode")),
-    CustomerActionStatus: S.optional(S.String).pipe(
+    StorageMode: S.optional(StorageMode).pipe(T.JsonName("storageMode")),
+    CustomerActionStatus: S.optional(CustomerActionStatus).pipe(
       T.JsonName("customerActionStatus"),
     ),
   }),
 ).annotations({ identifier: "ClusterInfo" }) as any as S.Schema<ClusterInfo>;
 export type __listOfClusterInfo = ClusterInfo[];
 export const __listOfClusterInfo = S.Array(ClusterInfo);
+export type ClusterType = "PROVISIONED" | "SERVERLESS";
+export const ClusterType = S.Literal("PROVISIONED", "SERVERLESS");
 export interface Provisioned {
-  BrokerNodeGroupInfo: BrokerNodeGroupInfo;
+  BrokerNodeGroupInfo?: BrokerNodeGroupInfo;
   Rebalancing?: Rebalancing;
   CurrentBrokerSoftwareInfo?: BrokerSoftwareInfo;
   ClientAuthentication?: ClientAuthentication;
   EncryptionInfo?: EncryptionInfo;
-  EnhancedMonitoring?: string;
+  EnhancedMonitoring?: EnhancedMonitoring;
   OpenMonitoring?: OpenMonitoringInfo;
   LoggingInfo?: LoggingInfo;
-  NumberOfBrokerNodes: number;
+  NumberOfBrokerNodes?: number;
   ZookeeperConnectString?: string;
   ZookeeperConnectStringTls?: string;
-  StorageMode?: string;
-  CustomerActionStatus?: string;
+  StorageMode?: StorageMode;
+  CustomerActionStatus?: CustomerActionStatus;
 }
 export const Provisioned = S.suspend(() =>
   S.Struct({
-    BrokerNodeGroupInfo: BrokerNodeGroupInfo.pipe(
-      T.JsonName("brokerNodeGroupInfo"),
-    ).annotations({ identifier: "BrokerNodeGroupInfo" }),
+    BrokerNodeGroupInfo: S.optional(BrokerNodeGroupInfo)
+      .pipe(T.JsonName("brokerNodeGroupInfo"))
+      .annotations({ identifier: "BrokerNodeGroupInfo" }),
     Rebalancing: S.optional(Rebalancing)
       .pipe(T.JsonName("rebalancing"))
       .annotations({ identifier: "Rebalancing" }),
@@ -2050,7 +2184,7 @@ export const Provisioned = S.suspend(() =>
     EncryptionInfo: S.optional(EncryptionInfo)
       .pipe(T.JsonName("encryptionInfo"))
       .annotations({ identifier: "EncryptionInfo" }),
-    EnhancedMonitoring: S.optional(S.String).pipe(
+    EnhancedMonitoring: S.optional(EnhancedMonitoring).pipe(
       T.JsonName("enhancedMonitoring"),
     ),
     OpenMonitoring: S.optional(OpenMonitoringInfo)
@@ -2059,26 +2193,28 @@ export const Provisioned = S.suspend(() =>
     LoggingInfo: S.optional(LoggingInfo)
       .pipe(T.JsonName("loggingInfo"))
       .annotations({ identifier: "LoggingInfo" }),
-    NumberOfBrokerNodes: S.Number.pipe(T.JsonName("numberOfBrokerNodes")),
+    NumberOfBrokerNodes: S.optional(S.Number).pipe(
+      T.JsonName("numberOfBrokerNodes"),
+    ),
     ZookeeperConnectString: S.optional(S.String).pipe(
       T.JsonName("zookeeperConnectString"),
     ),
     ZookeeperConnectStringTls: S.optional(S.String).pipe(
       T.JsonName("zookeeperConnectStringTls"),
     ),
-    StorageMode: S.optional(S.String).pipe(T.JsonName("storageMode")),
-    CustomerActionStatus: S.optional(S.String).pipe(
+    StorageMode: S.optional(StorageMode).pipe(T.JsonName("storageMode")),
+    CustomerActionStatus: S.optional(CustomerActionStatus).pipe(
       T.JsonName("customerActionStatus"),
     ),
   }),
 ).annotations({ identifier: "Provisioned" }) as any as S.Schema<Provisioned>;
 export interface VpcConfig {
-  SubnetIds: __listOf__string;
-  SecurityGroupIds?: __listOf__string;
+  SubnetIds?: string[];
+  SecurityGroupIds?: string[];
 }
 export const VpcConfig = S.suspend(() =>
   S.Struct({
-    SubnetIds: __listOf__string.pipe(T.JsonName("subnetIds")),
+    SubnetIds: S.optional(__listOf__string).pipe(T.JsonName("subnetIds")),
     SecurityGroupIds: S.optional(__listOf__string).pipe(
       T.JsonName("securityGroupIds"),
     ),
@@ -2111,12 +2247,12 @@ export const ServerlessClientAuthentication = S.suspend(() =>
   identifier: "ServerlessClientAuthentication",
 }) as any as S.Schema<ServerlessClientAuthentication>;
 export interface Serverless {
-  VpcConfigs: __listOfVpcConfig;
+  VpcConfigs?: VpcConfig[];
   ClientAuthentication?: ServerlessClientAuthentication;
 }
 export const Serverless = S.suspend(() =>
   S.Struct({
-    VpcConfigs: __listOfVpcConfig.pipe(T.JsonName("vpcConfigs")),
+    VpcConfigs: S.optional(__listOfVpcConfig).pipe(T.JsonName("vpcConfigs")),
     ClientAuthentication: S.optional(ServerlessClientAuthentication)
       .pipe(T.JsonName("clientAuthentication"))
       .annotations({ identifier: "ServerlessClientAuthentication" }),
@@ -2124,14 +2260,14 @@ export const Serverless = S.suspend(() =>
 ).annotations({ identifier: "Serverless" }) as any as S.Schema<Serverless>;
 export interface Cluster {
   ActiveOperationArn?: string;
-  ClusterType?: string;
+  ClusterType?: ClusterType;
   ClusterArn?: string;
   ClusterName?: string;
   CreationTime?: Date;
   CurrentVersion?: string;
-  State?: string;
+  State?: ClusterState;
   StateInfo?: StateInfo;
-  Tags?: __mapOf__string;
+  Tags?: { [key: string]: string };
   Provisioned?: Provisioned;
   Serverless?: Serverless;
 }
@@ -2140,14 +2276,14 @@ export const Cluster = S.suspend(() =>
     ActiveOperationArn: S.optional(S.String).pipe(
       T.JsonName("activeOperationArn"),
     ),
-    ClusterType: S.optional(S.String).pipe(T.JsonName("clusterType")),
+    ClusterType: S.optional(ClusterType).pipe(T.JsonName("clusterType")),
     ClusterArn: S.optional(S.String).pipe(T.JsonName("clusterArn")),
     ClusterName: S.optional(S.String).pipe(T.JsonName("clusterName")),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
       T.JsonName("creationTime"),
     ),
     CurrentVersion: S.optional(S.String).pipe(T.JsonName("currentVersion")),
-    State: S.optional(S.String).pipe(T.JsonName("state")),
+    State: S.optional(ClusterState).pipe(T.JsonName("state")),
     StateInfo: S.optional(StateInfo)
       .pipe(T.JsonName("stateInfo"))
       .annotations({ identifier: "StateInfo" }),
@@ -2163,17 +2299,17 @@ export const Cluster = S.suspend(() =>
 export type __listOfCluster = Cluster[];
 export const __listOfCluster = S.Array(Cluster);
 export interface ConfigurationRevision {
-  CreationTime: Date;
+  CreationTime?: Date;
   Description?: string;
-  Revision: number;
+  Revision?: number;
 }
 export const ConfigurationRevision = S.suspend(() =>
   S.Struct({
-    CreationTime: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
       T.JsonName("creationTime"),
     ),
     Description: S.optional(S.String).pipe(T.JsonName("description")),
-    Revision: S.Number.pipe(T.JsonName("revision")),
+    Revision: S.optional(S.Number).pipe(T.JsonName("revision")),
   }),
 ).annotations({
   identifier: "ConfigurationRevision",
@@ -2181,23 +2317,23 @@ export const ConfigurationRevision = S.suspend(() =>
 export type __listOfConfigurationRevision = ConfigurationRevision[];
 export const __listOfConfigurationRevision = S.Array(ConfigurationRevision);
 export interface ConsumerGroupReplicationUpdate {
-  ConsumerGroupsToExclude: __listOf__stringMax256;
-  ConsumerGroupsToReplicate: __listOf__stringMax256;
-  DetectAndCopyNewConsumerGroups: boolean;
-  SynchroniseConsumerGroupOffsets: boolean;
+  ConsumerGroupsToExclude?: string[];
+  ConsumerGroupsToReplicate?: string[];
+  DetectAndCopyNewConsumerGroups?: boolean;
+  SynchroniseConsumerGroupOffsets?: boolean;
 }
 export const ConsumerGroupReplicationUpdate = S.suspend(() =>
   S.Struct({
-    ConsumerGroupsToExclude: __listOf__stringMax256.pipe(
+    ConsumerGroupsToExclude: S.optional(__listOf__stringMax256).pipe(
       T.JsonName("consumerGroupsToExclude"),
     ),
-    ConsumerGroupsToReplicate: __listOf__stringMax256.pipe(
+    ConsumerGroupsToReplicate: S.optional(__listOf__stringMax256).pipe(
       T.JsonName("consumerGroupsToReplicate"),
     ),
-    DetectAndCopyNewConsumerGroups: S.Boolean.pipe(
+    DetectAndCopyNewConsumerGroups: S.optional(S.Boolean).pipe(
       T.JsonName("detectAndCopyNewConsumerGroups"),
     ),
-    SynchroniseConsumerGroupOffsets: S.Boolean.pipe(
+    SynchroniseConsumerGroupOffsets: S.optional(S.Boolean).pipe(
       T.JsonName("synchroniseConsumerGroupOffsets"),
     ),
   }),
@@ -2205,25 +2341,27 @@ export const ConsumerGroupReplicationUpdate = S.suspend(() =>
   identifier: "ConsumerGroupReplicationUpdate",
 }) as any as S.Schema<ConsumerGroupReplicationUpdate>;
 export interface TopicReplicationUpdate {
-  CopyAccessControlListsForTopics: boolean;
-  CopyTopicConfigurations: boolean;
-  DetectAndCopyNewTopics: boolean;
-  TopicsToExclude: __listOf__stringMax249;
-  TopicsToReplicate: __listOf__stringMax249;
+  CopyAccessControlListsForTopics?: boolean;
+  CopyTopicConfigurations?: boolean;
+  DetectAndCopyNewTopics?: boolean;
+  TopicsToExclude?: string[];
+  TopicsToReplicate?: string[];
 }
 export const TopicReplicationUpdate = S.suspend(() =>
   S.Struct({
-    CopyAccessControlListsForTopics: S.Boolean.pipe(
+    CopyAccessControlListsForTopics: S.optional(S.Boolean).pipe(
       T.JsonName("copyAccessControlListsForTopics"),
     ),
-    CopyTopicConfigurations: S.Boolean.pipe(
+    CopyTopicConfigurations: S.optional(S.Boolean).pipe(
       T.JsonName("copyTopicConfigurations"),
     ),
-    DetectAndCopyNewTopics: S.Boolean.pipe(
+    DetectAndCopyNewTopics: S.optional(S.Boolean).pipe(
       T.JsonName("detectAndCopyNewTopics"),
     ),
-    TopicsToExclude: __listOf__stringMax249.pipe(T.JsonName("topicsToExclude")),
-    TopicsToReplicate: __listOf__stringMax249.pipe(
+    TopicsToExclude: S.optional(__listOf__stringMax249).pipe(
+      T.JsonName("topicsToExclude"),
+    ),
+    TopicsToReplicate: S.optional(__listOf__stringMax249).pipe(
       T.JsonName("topicsToReplicate"),
     ),
   }),
@@ -2248,7 +2386,7 @@ export type __listOfUnprocessedScramSecret = UnprocessedScramSecret[];
 export const __listOfUnprocessedScramSecret = S.Array(UnprocessedScramSecret);
 export interface BatchDisassociateScramSecretResponse {
   ClusterArn?: string;
-  UnprocessedScramSecrets?: __listOfUnprocessedScramSecret;
+  UnprocessedScramSecrets?: UnprocessedScramSecret[];
 }
 export const BatchDisassociateScramSecretResponse = S.suspend(() =>
   S.Struct({
@@ -2262,18 +2400,18 @@ export const BatchDisassociateScramSecretResponse = S.suspend(() =>
 }) as any as S.Schema<BatchDisassociateScramSecretResponse>;
 export interface CreateVpcConnectionResponse {
   VpcConnectionArn?: string;
-  State?: string;
+  State?: VpcConnectionState;
   Authentication?: string;
   VpcId?: string;
-  ClientSubnets?: __listOf__string;
-  SecurityGroups?: __listOf__string;
+  ClientSubnets?: string[];
+  SecurityGroups?: string[];
   CreationTime?: Date;
-  Tags?: __mapOf__string;
+  Tags?: { [key: string]: string };
 }
 export const CreateVpcConnectionResponse = S.suspend(() =>
   S.Struct({
     VpcConnectionArn: S.optional(S.String).pipe(T.JsonName("vpcConnectionArn")),
-    State: S.optional(S.String).pipe(T.JsonName("state")),
+    State: S.optional(VpcConnectionState).pipe(T.JsonName("state")),
     Authentication: S.optional(S.String).pipe(T.JsonName("authentication")),
     VpcId: S.optional(S.String).pipe(T.JsonName("vpcId")),
     ClientSubnets: S.optional(__listOf__string).pipe(
@@ -2292,48 +2430,50 @@ export const CreateVpcConnectionResponse = S.suspend(() =>
 }) as any as S.Schema<CreateVpcConnectionResponse>;
 export interface DeleteClusterResponse {
   ClusterArn?: string;
-  State?: string;
+  State?: ClusterState;
 }
 export const DeleteClusterResponse = S.suspend(() =>
   S.Struct({
     ClusterArn: S.optional(S.String).pipe(T.JsonName("clusterArn")),
-    State: S.optional(S.String).pipe(T.JsonName("state")),
+    State: S.optional(ClusterState).pipe(T.JsonName("state")),
   }),
 ).annotations({
   identifier: "DeleteClusterResponse",
 }) as any as S.Schema<DeleteClusterResponse>;
 export interface DeleteConfigurationResponse {
   Arn?: string;
-  State?: string;
+  State?: ConfigurationState;
 }
 export const DeleteConfigurationResponse = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    State: S.optional(S.String).pipe(T.JsonName("state")),
+    State: S.optional(ConfigurationState).pipe(T.JsonName("state")),
   }),
 ).annotations({
   identifier: "DeleteConfigurationResponse",
 }) as any as S.Schema<DeleteConfigurationResponse>;
 export interface DeleteReplicatorResponse {
   ReplicatorArn?: string;
-  ReplicatorState?: string;
+  ReplicatorState?: ReplicatorState;
 }
 export const DeleteReplicatorResponse = S.suspend(() =>
   S.Struct({
     ReplicatorArn: S.optional(S.String).pipe(T.JsonName("replicatorArn")),
-    ReplicatorState: S.optional(S.String).pipe(T.JsonName("replicatorState")),
+    ReplicatorState: S.optional(ReplicatorState).pipe(
+      T.JsonName("replicatorState"),
+    ),
   }),
 ).annotations({
   identifier: "DeleteReplicatorResponse",
 }) as any as S.Schema<DeleteReplicatorResponse>;
 export interface DeleteVpcConnectionResponse {
   VpcConnectionArn?: string;
-  State?: string;
+  State?: VpcConnectionState;
 }
 export const DeleteVpcConnectionResponse = S.suspend(() =>
   S.Struct({
     VpcConnectionArn: S.optional(S.String).pipe(T.JsonName("vpcConnectionArn")),
-    State: S.optional(S.String).pipe(T.JsonName("state")),
+    State: S.optional(VpcConnectionState).pipe(T.JsonName("state")),
   }),
 ).annotations({
   identifier: "DeleteVpcConnectionResponse",
@@ -2342,10 +2482,10 @@ export interface DescribeConfigurationResponse {
   Arn?: string;
   CreationTime?: Date;
   Description?: string;
-  KafkaVersions?: __listOf__string;
+  KafkaVersions?: string[];
   LatestRevision?: ConfigurationRevision;
   Name?: string;
-  State?: string;
+  State?: ConfigurationState;
 }
 export const DescribeConfigurationResponse = S.suspend(() =>
   S.Struct({
@@ -2361,7 +2501,7 @@ export const DescribeConfigurationResponse = S.suspend(() =>
       .pipe(T.JsonName("latestRevision"))
       .annotations({ identifier: "ConfigurationRevision" }),
     Name: S.optional(S.String).pipe(T.JsonName("name")),
-    State: S.optional(S.String).pipe(T.JsonName("state")),
+    State: S.optional(ConfigurationState).pipe(T.JsonName("state")),
   }),
 ).annotations({
   identifier: "DescribeConfigurationResponse",
@@ -2392,7 +2532,7 @@ export interface DescribeTopicResponse {
   ReplicationFactor?: number;
   PartitionCount?: number;
   Configs?: string;
-  Status?: string;
+  Status?: TopicState;
 }
 export const DescribeTopicResponse = S.suspend(() =>
   S.Struct({
@@ -2403,7 +2543,7 @@ export const DescribeTopicResponse = S.suspend(() =>
     ),
     PartitionCount: S.optional(S.Number).pipe(T.JsonName("partitionCount")),
     Configs: S.optional(S.String).pipe(T.JsonName("configs")),
-    Status: S.optional(S.String).pipe(T.JsonName("status")),
+    Status: S.optional(TopicState).pipe(T.JsonName("status")),
   }),
 ).annotations({
   identifier: "DescribeTopicResponse",
@@ -2411,19 +2551,19 @@ export const DescribeTopicResponse = S.suspend(() =>
 export interface DescribeVpcConnectionResponse {
   VpcConnectionArn?: string;
   TargetClusterArn?: string;
-  State?: string;
+  State?: VpcConnectionState;
   Authentication?: string;
   VpcId?: string;
-  Subnets?: __listOf__string;
-  SecurityGroups?: __listOf__string;
+  Subnets?: string[];
+  SecurityGroups?: string[];
   CreationTime?: Date;
-  Tags?: __mapOf__string;
+  Tags?: { [key: string]: string };
 }
 export const DescribeVpcConnectionResponse = S.suspend(() =>
   S.Struct({
     VpcConnectionArn: S.optional(S.String).pipe(T.JsonName("vpcConnectionArn")),
     TargetClusterArn: S.optional(S.String).pipe(T.JsonName("targetClusterArn")),
-    State: S.optional(S.String).pipe(T.JsonName("state")),
+    State: S.optional(VpcConnectionState).pipe(T.JsonName("state")),
     Authentication: S.optional(S.String).pipe(T.JsonName("authentication")),
     VpcId: S.optional(S.String).pipe(T.JsonName("vpcId")),
     Subnets: S.optional(__listOf__string).pipe(T.JsonName("subnets")),
@@ -2499,7 +2639,7 @@ export const GetClusterPolicyResponse = S.suspend(() =>
   identifier: "GetClusterPolicyResponse",
 }) as any as S.Schema<GetClusterPolicyResponse>;
 export interface ListClusterOperationsResponse {
-  ClusterOperationInfoList?: __listOfClusterOperationInfo;
+  ClusterOperationInfoList?: ClusterOperationInfo[];
   NextToken?: string;
 }
 export const ListClusterOperationsResponse = S.suspend(() =>
@@ -2513,7 +2653,7 @@ export const ListClusterOperationsResponse = S.suspend(() =>
   identifier: "ListClusterOperationsResponse",
 }) as any as S.Schema<ListClusterOperationsResponse>;
 export interface ListClustersResponse {
-  ClusterInfoList?: __listOfClusterInfo;
+  ClusterInfoList?: ClusterInfo[];
   NextToken?: string;
 }
 export const ListClustersResponse = S.suspend(() =>
@@ -2527,7 +2667,7 @@ export const ListClustersResponse = S.suspend(() =>
   identifier: "ListClustersResponse",
 }) as any as S.Schema<ListClustersResponse>;
 export interface ListClustersV2Response {
-  ClusterInfoList?: __listOfCluster;
+  ClusterInfoList?: Cluster[];
   NextToken?: string;
 }
 export const ListClustersV2Response = S.suspend(() =>
@@ -2542,7 +2682,7 @@ export const ListClustersV2Response = S.suspend(() =>
 }) as any as S.Schema<ListClustersV2Response>;
 export interface ListConfigurationRevisionsResponse {
   NextToken?: string;
-  Revisions?: __listOfConfigurationRevision;
+  Revisions?: ConfigurationRevision[];
 }
 export const ListConfigurationRevisionsResponse = S.suspend(() =>
   S.Struct({
@@ -2556,7 +2696,7 @@ export const ListConfigurationRevisionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListConfigurationRevisionsResponse>;
 export interface ListScramSecretsResponse {
   NextToken?: string;
-  SecretArnList?: __listOf__string;
+  SecretArnList?: string[];
 }
 export const ListScramSecretsResponse = S.suspend(() =>
   S.Struct({
@@ -2569,7 +2709,7 @@ export const ListScramSecretsResponse = S.suspend(() =>
   identifier: "ListScramSecretsResponse",
 }) as any as S.Schema<ListScramSecretsResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: __mapOf__string;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")) }),
@@ -2616,14 +2756,14 @@ export const UpdateBrokerCountResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateBrokerCountResponse>;
 export interface UpdateBrokerStorageRequest {
   ClusterArn: string;
-  CurrentVersion: string;
-  TargetBrokerEBSVolumeInfo: __listOfBrokerEBSVolumeInfo;
+  CurrentVersion?: string;
+  TargetBrokerEBSVolumeInfo?: BrokerEBSVolumeInfo[];
 }
 export const UpdateBrokerStorageRequest = S.suspend(() =>
   S.Struct({
     ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
-    CurrentVersion: S.String.pipe(T.JsonName("currentVersion")),
-    TargetBrokerEBSVolumeInfo: __listOfBrokerEBSVolumeInfo.pipe(
+    CurrentVersion: S.optional(S.String).pipe(T.JsonName("currentVersion")),
+    TargetBrokerEBSVolumeInfo: S.optional(__listOfBrokerEBSVolumeInfo).pipe(
       T.JsonName("targetBrokerEBSVolumeInfo"),
     ),
   }).pipe(
@@ -2725,10 +2865,10 @@ export const UpdateRebalancingResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateRebalancingResponse>;
 export interface UpdateReplicationInfoRequest {
   ConsumerGroupReplication?: ConsumerGroupReplicationUpdate;
-  CurrentVersion: string;
+  CurrentVersion?: string;
   ReplicatorArn: string;
-  SourceKafkaClusterArn: string;
-  TargetKafkaClusterArn: string;
+  SourceKafkaClusterArn?: string;
+  TargetKafkaClusterArn?: string;
   TopicReplication?: TopicReplicationUpdate;
 }
 export const UpdateReplicationInfoRequest = S.suspend(() =>
@@ -2736,10 +2876,14 @@ export const UpdateReplicationInfoRequest = S.suspend(() =>
     ConsumerGroupReplication: S.optional(ConsumerGroupReplicationUpdate)
       .pipe(T.JsonName("consumerGroupReplication"))
       .annotations({ identifier: "ConsumerGroupReplicationUpdate" }),
-    CurrentVersion: S.String.pipe(T.JsonName("currentVersion")),
+    CurrentVersion: S.optional(S.String).pipe(T.JsonName("currentVersion")),
     ReplicatorArn: S.String.pipe(T.HttpLabel("ReplicatorArn")),
-    SourceKafkaClusterArn: S.String.pipe(T.JsonName("sourceKafkaClusterArn")),
-    TargetKafkaClusterArn: S.String.pipe(T.JsonName("targetKafkaClusterArn")),
+    SourceKafkaClusterArn: S.optional(S.String).pipe(
+      T.JsonName("sourceKafkaClusterArn"),
+    ),
+    TargetKafkaClusterArn: S.optional(S.String).pipe(
+      T.JsonName("targetKafkaClusterArn"),
+    ),
     TopicReplication: S.optional(TopicReplicationUpdate)
       .pipe(T.JsonName("topicReplication"))
       .annotations({ identifier: "TopicReplicationUpdate" }),
@@ -2775,19 +2919,19 @@ export const UpdateSecurityResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateSecurityResponse>;
 export interface UpdateStorageRequest {
   ClusterArn: string;
-  CurrentVersion: string;
+  CurrentVersion?: string;
   ProvisionedThroughput?: ProvisionedThroughput;
-  StorageMode?: string;
+  StorageMode?: StorageMode;
   VolumeSizeGB?: number;
 }
 export const UpdateStorageRequest = S.suspend(() =>
   S.Struct({
     ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
-    CurrentVersion: S.String.pipe(T.JsonName("currentVersion")),
+    CurrentVersion: S.optional(S.String).pipe(T.JsonName("currentVersion")),
     ProvisionedThroughput: S.optional(ProvisionedThroughput)
       .pipe(T.JsonName("provisionedThroughput"))
       .annotations({ identifier: "ProvisionedThroughput" }),
-    StorageMode: S.optional(S.String).pipe(T.JsonName("storageMode")),
+    StorageMode: S.optional(StorageMode).pipe(T.JsonName("storageMode")),
     VolumeSizeGB: S.optional(S.Number).pipe(T.JsonName("volumeSizeGB")),
   }).pipe(
     T.all(
@@ -2803,30 +2947,32 @@ export const UpdateStorageRequest = S.suspend(() =>
   identifier: "UpdateStorageRequest",
 }) as any as S.Schema<UpdateStorageRequest>;
 export interface AmazonMskCluster {
-  MskClusterArn: string;
+  MskClusterArn?: string;
 }
 export const AmazonMskCluster = S.suspend(() =>
-  S.Struct({ MskClusterArn: S.String.pipe(T.JsonName("mskClusterArn")) }),
+  S.Struct({
+    MskClusterArn: S.optional(S.String).pipe(T.JsonName("mskClusterArn")),
+  }),
 ).annotations({
   identifier: "AmazonMskCluster",
 }) as any as S.Schema<AmazonMskCluster>;
 export interface KafkaClusterClientVpcConfig {
-  SecurityGroupIds?: __listOf__string;
-  SubnetIds: __listOf__string;
+  SecurityGroupIds?: string[];
+  SubnetIds?: string[];
 }
 export const KafkaClusterClientVpcConfig = S.suspend(() =>
   S.Struct({
     SecurityGroupIds: S.optional(__listOf__string).pipe(
       T.JsonName("securityGroupIds"),
     ),
-    SubnetIds: __listOf__string.pipe(T.JsonName("subnetIds")),
+    SubnetIds: S.optional(__listOf__string).pipe(T.JsonName("subnetIds")),
   }),
 ).annotations({
   identifier: "KafkaClusterClientVpcConfig",
 }) as any as S.Schema<KafkaClusterClientVpcConfig>;
 export interface ConsumerGroupReplication {
-  ConsumerGroupsToExclude?: __listOf__stringMax256;
-  ConsumerGroupsToReplicate: __listOf__stringMax256;
+  ConsumerGroupsToExclude?: string[];
+  ConsumerGroupsToReplicate?: string[];
   DetectAndCopyNewConsumerGroups?: boolean;
   SynchroniseConsumerGroupOffsets?: boolean;
 }
@@ -2835,7 +2981,7 @@ export const ConsumerGroupReplication = S.suspend(() =>
     ConsumerGroupsToExclude: S.optional(__listOf__stringMax256).pipe(
       T.JsonName("consumerGroupsToExclude"),
     ),
-    ConsumerGroupsToReplicate: __listOf__stringMax256.pipe(
+    ConsumerGroupsToReplicate: S.optional(__listOf__stringMax256).pipe(
       T.JsonName("consumerGroupsToReplicate"),
     ),
     DetectAndCopyNewConsumerGroups: S.optional(S.Boolean).pipe(
@@ -2850,18 +2996,31 @@ export const ConsumerGroupReplication = S.suspend(() =>
 }) as any as S.Schema<ConsumerGroupReplication>;
 export type __listOf__integer = number[];
 export const __listOf__integer = S.Array(S.Number);
+export type KafkaVersionStatus = "ACTIVE" | "DEPRECATED";
+export const KafkaVersionStatus = S.Literal("ACTIVE", "DEPRECATED");
+export type NodeType = "BROKER";
+export const NodeType = S.Literal("BROKER");
+export type ReplicationStartingPositionType = "LATEST" | "EARLIEST";
+export const ReplicationStartingPositionType = S.Literal("LATEST", "EARLIEST");
+export type ReplicationTopicNameConfigurationType =
+  | "PREFIXED_WITH_SOURCE_CLUSTER_ALIAS"
+  | "IDENTICAL";
+export const ReplicationTopicNameConfigurationType = S.Literal(
+  "PREFIXED_WITH_SOURCE_CLUSTER_ALIAS",
+  "IDENTICAL",
+);
 export interface KafkaCluster {
-  AmazonMskCluster: AmazonMskCluster;
-  VpcConfig: KafkaClusterClientVpcConfig;
+  AmazonMskCluster?: AmazonMskCluster;
+  VpcConfig?: KafkaClusterClientVpcConfig;
 }
 export const KafkaCluster = S.suspend(() =>
   S.Struct({
-    AmazonMskCluster: AmazonMskCluster.pipe(
-      T.JsonName("amazonMskCluster"),
-    ).annotations({ identifier: "AmazonMskCluster" }),
-    VpcConfig: KafkaClusterClientVpcConfig.pipe(
-      T.JsonName("vpcConfig"),
-    ).annotations({ identifier: "KafkaClusterClientVpcConfig" }),
+    AmazonMskCluster: S.optional(AmazonMskCluster)
+      .pipe(T.JsonName("amazonMskCluster"))
+      .annotations({ identifier: "AmazonMskCluster" }),
+    VpcConfig: S.optional(KafkaClusterClientVpcConfig)
+      .pipe(T.JsonName("vpcConfig"))
+      .annotations({ identifier: "KafkaClusterClientVpcConfig" }),
   }),
 ).annotations({ identifier: "KafkaCluster" }) as any as S.Schema<KafkaCluster>;
 export type __listOfKafkaCluster = KafkaCluster[];
@@ -2889,18 +3048,24 @@ export const KafkaClusterDescription = S.suspend(() =>
 export type __listOfKafkaClusterDescription = KafkaClusterDescription[];
 export const __listOfKafkaClusterDescription = S.Array(KafkaClusterDescription);
 export interface ReplicationStartingPosition {
-  Type?: string;
+  Type?: ReplicationStartingPositionType;
 }
 export const ReplicationStartingPosition = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String).pipe(T.JsonName("type")) }),
+  S.Struct({
+    Type: S.optional(ReplicationStartingPositionType).pipe(T.JsonName("type")),
+  }),
 ).annotations({
   identifier: "ReplicationStartingPosition",
 }) as any as S.Schema<ReplicationStartingPosition>;
 export interface ReplicationTopicNameConfiguration {
-  Type?: string;
+  Type?: ReplicationTopicNameConfigurationType;
 }
 export const ReplicationTopicNameConfiguration = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String).pipe(T.JsonName("type")) }),
+  S.Struct({
+    Type: S.optional(ReplicationTopicNameConfigurationType).pipe(
+      T.JsonName("type"),
+    ),
+  }),
 ).annotations({
   identifier: "ReplicationTopicNameConfiguration",
 }) as any as S.Schema<ReplicationTopicNameConfiguration>;
@@ -2910,8 +3075,8 @@ export interface TopicReplication {
   DetectAndCopyNewTopics?: boolean;
   StartingPosition?: ReplicationStartingPosition;
   TopicNameConfiguration?: ReplicationTopicNameConfiguration;
-  TopicsToExclude?: __listOf__stringMax249;
-  TopicsToReplicate: __listOf__stringMax249;
+  TopicsToExclude?: string[];
+  TopicsToReplicate?: string[];
 }
 export const TopicReplication = S.suspend(() =>
   S.Struct({
@@ -2933,7 +3098,7 @@ export const TopicReplication = S.suspend(() =>
     TopicsToExclude: S.optional(__listOf__stringMax249).pipe(
       T.JsonName("topicsToExclude"),
     ),
-    TopicsToReplicate: __listOf__stringMax249.pipe(
+    TopicsToReplicate: S.optional(__listOf__stringMax249).pipe(
       T.JsonName("topicsToReplicate"),
     ),
   }),
@@ -2943,7 +3108,7 @@ export const TopicReplication = S.suspend(() =>
 export interface ReplicationInfoDescription {
   ConsumerGroupReplication?: ConsumerGroupReplication;
   SourceKafkaClusterAlias?: string;
-  TargetCompressionType?: string;
+  TargetCompressionType?: TargetCompressionType;
   TargetKafkaClusterAlias?: string;
   TopicReplication?: TopicReplication;
 }
@@ -2955,7 +3120,7 @@ export const ReplicationInfoDescription = S.suspend(() =>
     SourceKafkaClusterAlias: S.optional(S.String).pipe(
       T.JsonName("sourceKafkaClusterAlias"),
     ),
-    TargetCompressionType: S.optional(S.String).pipe(
+    TargetCompressionType: S.optional(TargetCompressionType).pipe(
       T.JsonName("targetCompressionType"),
     ),
     TargetKafkaClusterAlias: S.optional(S.String).pipe(
@@ -2987,8 +3152,8 @@ export const ReplicationStateInfo = S.suspend(() =>
 export interface TopicPartitionInfo {
   Partition?: number;
   Leader?: number;
-  Replicas?: __listOf__integer;
-  Isr?: __listOf__integer;
+  Replicas?: number[];
+  Isr?: number[];
 }
 export const TopicPartitionInfo = S.suspend(() =>
   S.Struct({
@@ -3004,7 +3169,7 @@ export type __listOfTopicPartitionInfo = TopicPartitionInfo[];
 export const __listOfTopicPartitionInfo = S.Array(TopicPartitionInfo);
 export interface CompatibleKafkaVersion {
   SourceVersion?: string;
-  TargetVersions?: __listOf__string;
+  TargetVersions?: string[];
 }
 export const CompatibleKafkaVersion = S.suspend(() =>
   S.Struct({
@@ -3021,8 +3186,8 @@ export const __listOfCompatibleKafkaVersion = S.Array(CompatibleKafkaVersion);
 export interface ClientVpcConnection {
   Authentication?: string;
   CreationTime?: Date;
-  State?: string;
-  VpcConnectionArn: string;
+  State?: VpcConnectionState;
+  VpcConnectionArn?: string;
   Owner?: string;
 }
 export const ClientVpcConnection = S.suspend(() =>
@@ -3031,8 +3196,8 @@ export const ClientVpcConnection = S.suspend(() =>
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
       T.JsonName("creationTime"),
     ),
-    State: S.optional(S.String).pipe(T.JsonName("state")),
-    VpcConnectionArn: S.String.pipe(T.JsonName("vpcConnectionArn")),
+    State: S.optional(VpcConnectionState).pipe(T.JsonName("state")),
+    VpcConnectionArn: S.optional(S.String).pipe(T.JsonName("vpcConnectionArn")),
     Owner: S.optional(S.String).pipe(T.JsonName("owner")),
   }),
 ).annotations({
@@ -3042,7 +3207,7 @@ export type __listOfClientVpcConnection = ClientVpcConnection[];
 export const __listOfClientVpcConnection = S.Array(ClientVpcConnection);
 export interface ClusterOperationV2Summary {
   ClusterArn?: string;
-  ClusterType?: string;
+  ClusterType?: ClusterType;
   StartTime?: Date;
   EndTime?: Date;
   OperationArn?: string;
@@ -3052,7 +3217,7 @@ export interface ClusterOperationV2Summary {
 export const ClusterOperationV2Summary = S.suspend(() =>
   S.Struct({
     ClusterArn: S.optional(S.String).pipe(T.JsonName("clusterArn")),
-    ClusterType: S.optional(S.String).pipe(T.JsonName("clusterType")),
+    ClusterType: S.optional(ClusterType).pipe(T.JsonName("clusterType")),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
       T.JsonName("startTime"),
     ),
@@ -3071,27 +3236,29 @@ export const __listOfClusterOperationV2Summary = S.Array(
   ClusterOperationV2Summary,
 );
 export interface Configuration {
-  Arn: string;
-  CreationTime: Date;
-  Description: string;
-  KafkaVersions: __listOf__string;
-  LatestRevision: ConfigurationRevision;
-  Name: string;
-  State: string;
+  Arn?: string;
+  CreationTime?: Date;
+  Description?: string;
+  KafkaVersions?: string[];
+  LatestRevision?: ConfigurationRevision;
+  Name?: string;
+  State?: ConfigurationState;
 }
 export const Configuration = S.suspend(() =>
   S.Struct({
-    Arn: S.String.pipe(T.JsonName("arn")),
-    CreationTime: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
+    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
       T.JsonName("creationTime"),
     ),
-    Description: S.String.pipe(T.JsonName("description")),
-    KafkaVersions: __listOf__string.pipe(T.JsonName("kafkaVersions")),
-    LatestRevision: ConfigurationRevision.pipe(
-      T.JsonName("latestRevision"),
-    ).annotations({ identifier: "ConfigurationRevision" }),
-    Name: S.String.pipe(T.JsonName("name")),
-    State: S.String.pipe(T.JsonName("state")),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    KafkaVersions: S.optional(__listOf__string).pipe(
+      T.JsonName("kafkaVersions"),
+    ),
+    LatestRevision: S.optional(ConfigurationRevision)
+      .pipe(T.JsonName("latestRevision"))
+      .annotations({ identifier: "ConfigurationRevision" }),
+    Name: S.optional(S.String).pipe(T.JsonName("name")),
+    State: S.optional(ConfigurationState).pipe(T.JsonName("state")),
   }),
 ).annotations({
   identifier: "Configuration",
@@ -3100,12 +3267,12 @@ export type __listOfConfiguration = Configuration[];
 export const __listOfConfiguration = S.Array(Configuration);
 export interface KafkaVersion {
   Version?: string;
-  Status?: string;
+  Status?: KafkaVersionStatus;
 }
 export const KafkaVersion = S.suspend(() =>
   S.Struct({
     Version: S.optional(S.String).pipe(T.JsonName("version")),
-    Status: S.optional(S.String).pipe(T.JsonName("status")),
+    Status: S.optional(KafkaVersionStatus).pipe(T.JsonName("status")),
   }),
 ).annotations({ identifier: "KafkaVersion" }) as any as S.Schema<KafkaVersion>;
 export type __listOfKafkaVersion = KafkaVersion[];
@@ -3133,23 +3300,23 @@ export const TopicInfo = S.suspend(() =>
 export type __listOfTopicInfo = TopicInfo[];
 export const __listOfTopicInfo = S.Array(TopicInfo);
 export interface VpcConnection {
-  VpcConnectionArn: string;
-  TargetClusterArn: string;
+  VpcConnectionArn?: string;
+  TargetClusterArn?: string;
   CreationTime?: Date;
   Authentication?: string;
   VpcId?: string;
-  State?: string;
+  State?: VpcConnectionState;
 }
 export const VpcConnection = S.suspend(() =>
   S.Struct({
-    VpcConnectionArn: S.String.pipe(T.JsonName("vpcConnectionArn")),
-    TargetClusterArn: S.String.pipe(T.JsonName("targetClusterArn")),
+    VpcConnectionArn: S.optional(S.String).pipe(T.JsonName("vpcConnectionArn")),
+    TargetClusterArn: S.optional(S.String).pipe(T.JsonName("targetClusterArn")),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
       T.JsonName("creationTime"),
     ),
     Authentication: S.optional(S.String).pipe(T.JsonName("authentication")),
     VpcId: S.optional(S.String).pipe(T.JsonName("vpcId")),
-    State: S.optional(S.String).pipe(T.JsonName("state")),
+    State: S.optional(VpcConnectionState).pipe(T.JsonName("state")),
   }),
 ).annotations({
   identifier: "VpcConnection",
@@ -3158,7 +3325,7 @@ export type __listOfVpcConnection = VpcConnection[];
 export const __listOfVpcConnection = S.Array(VpcConnection);
 export interface BatchAssociateScramSecretResponse {
   ClusterArn?: string;
-  UnprocessedScramSecrets?: __listOfUnprocessedScramSecret;
+  UnprocessedScramSecrets?: UnprocessedScramSecret[];
 }
 export const BatchAssociateScramSecretResponse = S.suspend(() =>
   S.Struct({
@@ -3175,7 +3342,7 @@ export interface CreateConfigurationResponse {
   CreationTime?: Date;
   LatestRevision?: ConfigurationRevision;
   Name?: string;
-  State?: string;
+  State?: ConfigurationState;
 }
 export const CreateConfigurationResponse = S.suspend(() =>
   S.Struct({
@@ -3187,7 +3354,7 @@ export const CreateConfigurationResponse = S.suspend(() =>
       .pipe(T.JsonName("latestRevision"))
       .annotations({ identifier: "ConfigurationRevision" }),
     Name: S.optional(S.String).pipe(T.JsonName("name")),
-    State: S.optional(S.String).pipe(T.JsonName("state")),
+    State: S.optional(ConfigurationState).pipe(T.JsonName("state")),
   }),
 ).annotations({
   identifier: "CreateConfigurationResponse",
@@ -3196,16 +3363,16 @@ export interface DescribeReplicatorResponse {
   CreationTime?: Date;
   CurrentVersion?: string;
   IsReplicatorReference?: boolean;
-  KafkaClusters?: __listOfKafkaClusterDescription;
-  ReplicationInfoList?: __listOfReplicationInfoDescription;
+  KafkaClusters?: KafkaClusterDescription[];
+  ReplicationInfoList?: ReplicationInfoDescription[];
   ReplicatorArn?: string;
   ReplicatorDescription?: string;
   ReplicatorName?: string;
   ReplicatorResourceArn?: string;
-  ReplicatorState?: string;
+  ReplicatorState?: ReplicatorState;
   ServiceExecutionRoleArn?: string;
   StateInfo?: ReplicationStateInfo;
-  Tags?: __mapOf__string;
+  Tags?: { [key: string]: string };
 }
 export const DescribeReplicatorResponse = S.suspend(() =>
   S.Struct({
@@ -3230,7 +3397,9 @@ export const DescribeReplicatorResponse = S.suspend(() =>
     ReplicatorResourceArn: S.optional(S.String).pipe(
       T.JsonName("replicatorResourceArn"),
     ),
-    ReplicatorState: S.optional(S.String).pipe(T.JsonName("replicatorState")),
+    ReplicatorState: S.optional(ReplicatorState).pipe(
+      T.JsonName("replicatorState"),
+    ),
     ServiceExecutionRoleArn: S.optional(S.String).pipe(
       T.JsonName("serviceExecutionRoleArn"),
     ),
@@ -3243,7 +3412,7 @@ export const DescribeReplicatorResponse = S.suspend(() =>
   identifier: "DescribeReplicatorResponse",
 }) as any as S.Schema<DescribeReplicatorResponse>;
 export interface DescribeTopicPartitionsResponse {
-  Partitions?: __listOfTopicPartitionInfo;
+  Partitions?: TopicPartitionInfo[];
   NextToken?: string;
 }
 export const DescribeTopicPartitionsResponse = S.suspend(() =>
@@ -3257,7 +3426,7 @@ export const DescribeTopicPartitionsResponse = S.suspend(() =>
   identifier: "DescribeTopicPartitionsResponse",
 }) as any as S.Schema<DescribeTopicPartitionsResponse>;
 export interface GetCompatibleKafkaVersionsResponse {
-  CompatibleKafkaVersions?: __listOfCompatibleKafkaVersion;
+  CompatibleKafkaVersions?: CompatibleKafkaVersion[];
 }
 export const GetCompatibleKafkaVersionsResponse = S.suspend(() =>
   S.Struct({
@@ -3269,7 +3438,7 @@ export const GetCompatibleKafkaVersionsResponse = S.suspend(() =>
   identifier: "GetCompatibleKafkaVersionsResponse",
 }) as any as S.Schema<GetCompatibleKafkaVersionsResponse>;
 export interface ListClientVpcConnectionsResponse {
-  ClientVpcConnections?: __listOfClientVpcConnection;
+  ClientVpcConnections?: ClientVpcConnection[];
   NextToken?: string;
 }
 export const ListClientVpcConnectionsResponse = S.suspend(() =>
@@ -3283,7 +3452,7 @@ export const ListClientVpcConnectionsResponse = S.suspend(() =>
   identifier: "ListClientVpcConnectionsResponse",
 }) as any as S.Schema<ListClientVpcConnectionsResponse>;
 export interface ListClusterOperationsV2Response {
-  ClusterOperationInfoList?: __listOfClusterOperationV2Summary;
+  ClusterOperationInfoList?: ClusterOperationV2Summary[];
   NextToken?: string;
 }
 export const ListClusterOperationsV2Response = S.suspend(() =>
@@ -3297,7 +3466,7 @@ export const ListClusterOperationsV2Response = S.suspend(() =>
   identifier: "ListClusterOperationsV2Response",
 }) as any as S.Schema<ListClusterOperationsV2Response>;
 export interface ListConfigurationsResponse {
-  Configurations?: __listOfConfiguration;
+  Configurations?: Configuration[];
   NextToken?: string;
 }
 export const ListConfigurationsResponse = S.suspend(() =>
@@ -3311,7 +3480,7 @@ export const ListConfigurationsResponse = S.suspend(() =>
   identifier: "ListConfigurationsResponse",
 }) as any as S.Schema<ListConfigurationsResponse>;
 export interface ListKafkaVersionsResponse {
-  KafkaVersions?: __listOfKafkaVersion;
+  KafkaVersions?: KafkaVersion[];
   NextToken?: string;
 }
 export const ListKafkaVersionsResponse = S.suspend(() =>
@@ -3325,7 +3494,7 @@ export const ListKafkaVersionsResponse = S.suspend(() =>
   identifier: "ListKafkaVersionsResponse",
 }) as any as S.Schema<ListKafkaVersionsResponse>;
 export interface ListTopicsResponse {
-  Topics?: __listOfTopicInfo;
+  Topics?: TopicInfo[];
   NextToken?: string;
 }
 export const ListTopicsResponse = S.suspend(() =>
@@ -3337,7 +3506,7 @@ export const ListTopicsResponse = S.suspend(() =>
   identifier: "ListTopicsResponse",
 }) as any as S.Schema<ListTopicsResponse>;
 export interface ListVpcConnectionsResponse {
-  VpcConnections?: __listOfVpcConnection;
+  VpcConnections?: VpcConnection[];
   NextToken?: string;
 }
 export const ListVpcConnectionsResponse = S.suspend(() =>
@@ -3366,12 +3535,14 @@ export const UpdateBrokerStorageResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateBrokerStorageResponse>;
 export interface UpdateReplicationInfoResponse {
   ReplicatorArn?: string;
-  ReplicatorState?: string;
+  ReplicatorState?: ReplicatorState;
 }
 export const UpdateReplicationInfoResponse = S.suspend(() =>
   S.Struct({
     ReplicatorArn: S.optional(S.String).pipe(T.JsonName("replicatorArn")),
-    ReplicatorState: S.optional(S.String).pipe(T.JsonName("replicatorState")),
+    ReplicatorState: S.optional(ReplicatorState).pipe(
+      T.JsonName("replicatorState"),
+    ),
   }),
 ).annotations({
   identifier: "UpdateReplicationInfoResponse",
@@ -3391,7 +3562,7 @@ export const UpdateStorageResponse = S.suspend(() =>
   identifier: "UpdateStorageResponse",
 }) as any as S.Schema<UpdateStorageResponse>;
 export interface ClusterOperationV2Provisioned {
-  OperationSteps?: __listOfClusterOperationStep;
+  OperationSteps?: ClusterOperationStep[];
   SourceClusterInfo?: MutableClusterInfo;
   TargetClusterInfo?: MutableClusterInfo;
   VpcConnectionInfo?: VpcConnectionInfo;
@@ -3420,7 +3591,7 @@ export interface BrokerNodeInfo {
   ClientSubnet?: string;
   ClientVpcIpAddress?: string;
   CurrentBrokerSoftwareInfo?: BrokerSoftwareInfo;
-  Endpoints?: __listOf__string;
+  Endpoints?: string[];
 }
 export const BrokerNodeInfo = S.suspend(() =>
   S.Struct({
@@ -3439,7 +3610,7 @@ export const BrokerNodeInfo = S.suspend(() =>
   identifier: "BrokerNodeInfo",
 }) as any as S.Schema<BrokerNodeInfo>;
 export interface ControllerNodeInfo {
-  Endpoints?: __listOf__string;
+  Endpoints?: string[];
 }
 export const ControllerNodeInfo = S.suspend(() =>
   S.Struct({
@@ -3451,7 +3622,7 @@ export const ControllerNodeInfo = S.suspend(() =>
 export interface ZookeeperNodeInfo {
   AttachedENIId?: string;
   ClientVpcIpAddress?: string;
-  Endpoints?: __listOf__string;
+  Endpoints?: string[];
   ZookeeperId?: number;
   ZookeeperVersion?: string;
 }
@@ -3505,12 +3676,12 @@ export const ReplicationInfoSummary = S.suspend(() =>
 export type __listOfReplicationInfoSummary = ReplicationInfoSummary[];
 export const __listOfReplicationInfoSummary = S.Array(ReplicationInfoSummary);
 export interface ServerlessRequest {
-  VpcConfigs: __listOfVpcConfig;
+  VpcConfigs?: VpcConfig[];
   ClientAuthentication?: ServerlessClientAuthentication;
 }
 export const ServerlessRequest = S.suspend(() =>
   S.Struct({
-    VpcConfigs: __listOfVpcConfig.pipe(T.JsonName("vpcConfigs")),
+    VpcConfigs: S.optional(__listOfVpcConfig).pipe(T.JsonName("vpcConfigs")),
     ClientAuthentication: S.optional(ServerlessClientAuthentication)
       .pipe(T.JsonName("clientAuthentication"))
       .annotations({ identifier: "ServerlessClientAuthentication" }),
@@ -3519,23 +3690,29 @@ export const ServerlessRequest = S.suspend(() =>
   identifier: "ServerlessRequest",
 }) as any as S.Schema<ServerlessRequest>;
 export interface ReplicationInfo {
-  ConsumerGroupReplication: ConsumerGroupReplication;
-  SourceKafkaClusterArn: string;
-  TargetCompressionType: string;
-  TargetKafkaClusterArn: string;
-  TopicReplication: TopicReplication;
+  ConsumerGroupReplication?: ConsumerGroupReplication;
+  SourceKafkaClusterArn?: string;
+  TargetCompressionType?: TargetCompressionType;
+  TargetKafkaClusterArn?: string;
+  TopicReplication?: TopicReplication;
 }
 export const ReplicationInfo = S.suspend(() =>
   S.Struct({
-    ConsumerGroupReplication: ConsumerGroupReplication.pipe(
-      T.JsonName("consumerGroupReplication"),
-    ).annotations({ identifier: "ConsumerGroupReplication" }),
-    SourceKafkaClusterArn: S.String.pipe(T.JsonName("sourceKafkaClusterArn")),
-    TargetCompressionType: S.String.pipe(T.JsonName("targetCompressionType")),
-    TargetKafkaClusterArn: S.String.pipe(T.JsonName("targetKafkaClusterArn")),
-    TopicReplication: TopicReplication.pipe(
-      T.JsonName("topicReplication"),
-    ).annotations({ identifier: "TopicReplication" }),
+    ConsumerGroupReplication: S.optional(ConsumerGroupReplication)
+      .pipe(T.JsonName("consumerGroupReplication"))
+      .annotations({ identifier: "ConsumerGroupReplication" }),
+    SourceKafkaClusterArn: S.optional(S.String).pipe(
+      T.JsonName("sourceKafkaClusterArn"),
+    ),
+    TargetCompressionType: S.optional(TargetCompressionType).pipe(
+      T.JsonName("targetCompressionType"),
+    ),
+    TargetKafkaClusterArn: S.optional(S.String).pipe(
+      T.JsonName("targetKafkaClusterArn"),
+    ),
+    TopicReplication: S.optional(TopicReplication)
+      .pipe(T.JsonName("topicReplication"))
+      .annotations({ identifier: "TopicReplication" }),
   }),
 ).annotations({
   identifier: "ReplicationInfo",
@@ -3548,7 +3725,7 @@ export interface NodeInfo {
   ControllerNodeInfo?: ControllerNodeInfo;
   InstanceType?: string;
   NodeARN?: string;
-  NodeType?: string;
+  NodeType?: NodeType;
   ZookeeperNodeInfo?: ZookeeperNodeInfo;
 }
 export const NodeInfo = S.suspend(() =>
@@ -3564,7 +3741,7 @@ export const NodeInfo = S.suspend(() =>
       .annotations({ identifier: "ControllerNodeInfo" }),
     InstanceType: S.optional(S.String).pipe(T.JsonName("instanceType")),
     NodeARN: S.optional(S.String).pipe(T.JsonName("nodeARN")),
-    NodeType: S.optional(S.String).pipe(T.JsonName("nodeType")),
+    NodeType: S.optional(NodeType).pipe(T.JsonName("nodeType")),
     ZookeeperNodeInfo: S.optional(ZookeeperNodeInfo)
       .pipe(T.JsonName("zookeeperNodeInfo"))
       .annotations({ identifier: "ZookeeperNodeInfo" }),
@@ -3576,12 +3753,12 @@ export interface ReplicatorSummary {
   CreationTime?: Date;
   CurrentVersion?: string;
   IsReplicatorReference?: boolean;
-  KafkaClustersSummary?: __listOfKafkaClusterSummary;
-  ReplicationInfoSummaryList?: __listOfReplicationInfoSummary;
+  KafkaClustersSummary?: KafkaClusterSummary[];
+  ReplicationInfoSummaryList?: ReplicationInfoSummary[];
   ReplicatorArn?: string;
   ReplicatorName?: string;
   ReplicatorResourceArn?: string;
-  ReplicatorState?: string;
+  ReplicatorState?: ReplicatorState;
 }
 export const ReplicatorSummary = S.suspend(() =>
   S.Struct({
@@ -3603,7 +3780,9 @@ export const ReplicatorSummary = S.suspend(() =>
     ReplicatorResourceArn: S.optional(S.String).pipe(
       T.JsonName("replicatorResourceArn"),
     ),
-    ReplicatorState: S.optional(S.String).pipe(T.JsonName("replicatorState")),
+    ReplicatorState: S.optional(ReplicatorState).pipe(
+      T.JsonName("replicatorState"),
+    ),
   }),
 ).annotations({
   identifier: "ReplicatorSummary",
@@ -3631,51 +3810,53 @@ export const VpcConnectionInfoServerless = S.suspend(() =>
   identifier: "VpcConnectionInfoServerless",
 }) as any as S.Schema<VpcConnectionInfoServerless>;
 export interface CreateClusterRequest {
-  BrokerNodeGroupInfo: BrokerNodeGroupInfo;
+  BrokerNodeGroupInfo?: BrokerNodeGroupInfo;
   Rebalancing?: Rebalancing;
   ClientAuthentication?: ClientAuthentication;
-  ClusterName: string;
+  ClusterName?: string;
   ConfigurationInfo?: ConfigurationInfo;
   EncryptionInfo?: EncryptionInfo;
-  EnhancedMonitoring?: string;
+  EnhancedMonitoring?: EnhancedMonitoring;
   OpenMonitoring?: OpenMonitoringInfo;
-  KafkaVersion: string;
+  KafkaVersion?: string;
   LoggingInfo?: LoggingInfo;
-  NumberOfBrokerNodes: number;
-  Tags?: __mapOf__string;
-  StorageMode?: string;
+  NumberOfBrokerNodes?: number;
+  Tags?: { [key: string]: string };
+  StorageMode?: StorageMode;
 }
 export const CreateClusterRequest = S.suspend(() =>
   S.Struct({
-    BrokerNodeGroupInfo: BrokerNodeGroupInfo.pipe(
-      T.JsonName("brokerNodeGroupInfo"),
-    ).annotations({ identifier: "BrokerNodeGroupInfo" }),
+    BrokerNodeGroupInfo: S.optional(BrokerNodeGroupInfo)
+      .pipe(T.JsonName("brokerNodeGroupInfo"))
+      .annotations({ identifier: "BrokerNodeGroupInfo" }),
     Rebalancing: S.optional(Rebalancing)
       .pipe(T.JsonName("rebalancing"))
       .annotations({ identifier: "Rebalancing" }),
     ClientAuthentication: S.optional(ClientAuthentication)
       .pipe(T.JsonName("clientAuthentication"))
       .annotations({ identifier: "ClientAuthentication" }),
-    ClusterName: S.String.pipe(T.JsonName("clusterName")),
+    ClusterName: S.optional(S.String).pipe(T.JsonName("clusterName")),
     ConfigurationInfo: S.optional(ConfigurationInfo)
       .pipe(T.JsonName("configurationInfo"))
       .annotations({ identifier: "ConfigurationInfo" }),
     EncryptionInfo: S.optional(EncryptionInfo)
       .pipe(T.JsonName("encryptionInfo"))
       .annotations({ identifier: "EncryptionInfo" }),
-    EnhancedMonitoring: S.optional(S.String).pipe(
+    EnhancedMonitoring: S.optional(EnhancedMonitoring).pipe(
       T.JsonName("enhancedMonitoring"),
     ),
     OpenMonitoring: S.optional(OpenMonitoringInfo)
       .pipe(T.JsonName("openMonitoring"))
       .annotations({ identifier: "OpenMonitoringInfo" }),
-    KafkaVersion: S.String.pipe(T.JsonName("kafkaVersion")),
+    KafkaVersion: S.optional(S.String).pipe(T.JsonName("kafkaVersion")),
     LoggingInfo: S.optional(LoggingInfo)
       .pipe(T.JsonName("loggingInfo"))
       .annotations({ identifier: "LoggingInfo" }),
-    NumberOfBrokerNodes: S.Number.pipe(T.JsonName("numberOfBrokerNodes")),
+    NumberOfBrokerNodes: S.optional(S.Number).pipe(
+      T.JsonName("numberOfBrokerNodes"),
+    ),
     Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-    StorageMode: S.optional(S.String).pipe(T.JsonName("storageMode")),
+    StorageMode: S.optional(StorageMode).pipe(T.JsonName("storageMode")),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/clusters" }),
@@ -3690,14 +3871,14 @@ export const CreateClusterRequest = S.suspend(() =>
   identifier: "CreateClusterRequest",
 }) as any as S.Schema<CreateClusterRequest>;
 export interface CreateClusterV2Request {
-  ClusterName: string;
-  Tags?: __mapOf__string;
+  ClusterName?: string;
+  Tags?: { [key: string]: string };
   Provisioned?: ProvisionedRequest;
   Serverless?: ServerlessRequest;
 }
 export const CreateClusterV2Request = S.suspend(() =>
   S.Struct({
-    ClusterName: S.String.pipe(T.JsonName("clusterName")),
+    ClusterName: S.optional(S.String).pipe(T.JsonName("clusterName")),
     Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
     Provisioned: S.optional(ProvisionedRequest)
       .pipe(T.JsonName("provisioned"))
@@ -3720,21 +3901,23 @@ export const CreateClusterV2Request = S.suspend(() =>
 }) as any as S.Schema<CreateClusterV2Request>;
 export interface CreateReplicatorRequest {
   Description?: string;
-  KafkaClusters: __listOfKafkaCluster;
-  ReplicationInfoList: __listOfReplicationInfo;
-  ReplicatorName: string;
-  ServiceExecutionRoleArn: string;
-  Tags?: __mapOf__string;
+  KafkaClusters?: KafkaCluster[];
+  ReplicationInfoList?: ReplicationInfo[];
+  ReplicatorName?: string;
+  ServiceExecutionRoleArn?: string;
+  Tags?: { [key: string]: string };
 }
 export const CreateReplicatorRequest = S.suspend(() =>
   S.Struct({
     Description: S.optional(S.String).pipe(T.JsonName("description")),
-    KafkaClusters: __listOfKafkaCluster.pipe(T.JsonName("kafkaClusters")),
-    ReplicationInfoList: __listOfReplicationInfo.pipe(
+    KafkaClusters: S.optional(__listOfKafkaCluster).pipe(
+      T.JsonName("kafkaClusters"),
+    ),
+    ReplicationInfoList: S.optional(__listOfReplicationInfo).pipe(
       T.JsonName("replicationInfoList"),
     ),
-    ReplicatorName: S.String.pipe(T.JsonName("replicatorName")),
-    ServiceExecutionRoleArn: S.String.pipe(
+    ReplicatorName: S.optional(S.String).pipe(T.JsonName("replicatorName")),
+    ServiceExecutionRoleArn: S.optional(S.String).pipe(
       T.JsonName("serviceExecutionRoleArn"),
     ),
     Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
@@ -3765,7 +3948,7 @@ export const DescribeClusterV2Response = S.suspend(() =>
 }) as any as S.Schema<DescribeClusterV2Response>;
 export interface ListNodesResponse {
   NextToken?: string;
-  NodeInfoList?: __listOfNodeInfo;
+  NodeInfoList?: NodeInfo[];
 }
 export const ListNodesResponse = S.suspend(() =>
   S.Struct({
@@ -3777,7 +3960,7 @@ export const ListNodesResponse = S.suspend(() =>
 }) as any as S.Schema<ListNodesResponse>;
 export interface ListReplicatorsResponse {
   NextToken?: string;
-  Replicators?: __listOfReplicatorSummary;
+  Replicators?: ReplicatorSummary[];
 }
 export const ListReplicatorsResponse = S.suspend(() =>
   S.Struct({
@@ -3803,7 +3986,7 @@ export const ClusterOperationV2Serverless = S.suspend(() =>
 }) as any as S.Schema<ClusterOperationV2Serverless>;
 export interface ClusterOperationV2 {
   ClusterArn?: string;
-  ClusterType?: string;
+  ClusterType?: ClusterType;
   StartTime?: Date;
   EndTime?: Date;
   ErrorInfo?: ErrorInfo;
@@ -3816,7 +3999,7 @@ export interface ClusterOperationV2 {
 export const ClusterOperationV2 = S.suspend(() =>
   S.Struct({
     ClusterArn: S.optional(S.String).pipe(T.JsonName("clusterArn")),
-    ClusterType: S.optional(S.String).pipe(T.JsonName("clusterType")),
+    ClusterType: S.optional(ClusterType).pipe(T.JsonName("clusterType")),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
       T.JsonName("startTime"),
     ),
@@ -3842,13 +4025,13 @@ export const ClusterOperationV2 = S.suspend(() =>
 export interface CreateClusterResponse {
   ClusterArn?: string;
   ClusterName?: string;
-  State?: string;
+  State?: ClusterState;
 }
 export const CreateClusterResponse = S.suspend(() =>
   S.Struct({
     ClusterArn: S.optional(S.String).pipe(T.JsonName("clusterArn")),
     ClusterName: S.optional(S.String).pipe(T.JsonName("clusterName")),
-    State: S.optional(S.String).pipe(T.JsonName("state")),
+    State: S.optional(ClusterState).pipe(T.JsonName("state")),
   }),
 ).annotations({
   identifier: "CreateClusterResponse",
@@ -3856,15 +4039,15 @@ export const CreateClusterResponse = S.suspend(() =>
 export interface CreateClusterV2Response {
   ClusterArn?: string;
   ClusterName?: string;
-  State?: string;
-  ClusterType?: string;
+  State?: ClusterState;
+  ClusterType?: ClusterType;
 }
 export const CreateClusterV2Response = S.suspend(() =>
   S.Struct({
     ClusterArn: S.optional(S.String).pipe(T.JsonName("clusterArn")),
     ClusterName: S.optional(S.String).pipe(T.JsonName("clusterName")),
-    State: S.optional(S.String).pipe(T.JsonName("state")),
-    ClusterType: S.optional(S.String).pipe(T.JsonName("clusterType")),
+    State: S.optional(ClusterState).pipe(T.JsonName("state")),
+    ClusterType: S.optional(ClusterType).pipe(T.JsonName("clusterType")),
   }),
 ).annotations({
   identifier: "CreateClusterV2Response",
@@ -3872,13 +4055,15 @@ export const CreateClusterV2Response = S.suspend(() =>
 export interface CreateReplicatorResponse {
   ReplicatorArn?: string;
   ReplicatorName?: string;
-  ReplicatorState?: string;
+  ReplicatorState?: ReplicatorState;
 }
 export const CreateReplicatorResponse = S.suspend(() =>
   S.Struct({
     ReplicatorArn: S.optional(S.String).pipe(T.JsonName("replicatorArn")),
     ReplicatorName: S.optional(S.String).pipe(T.JsonName("replicatorName")),
-    ReplicatorState: S.optional(S.String).pipe(T.JsonName("replicatorState")),
+    ReplicatorState: S.optional(ReplicatorState).pipe(
+      T.JsonName("replicatorState"),
+    ),
   }),
 ).annotations({
   identifier: "CreateReplicatorResponse",
@@ -3921,16 +4106,16 @@ export const DescribeClusterResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeClusterResponse>;
 export interface UpdateConnectivityRequest {
   ClusterArn: string;
-  ConnectivityInfo: ConnectivityInfo;
-  CurrentVersion: string;
+  ConnectivityInfo?: ConnectivityInfo;
+  CurrentVersion?: string;
 }
 export const UpdateConnectivityRequest = S.suspend(() =>
   S.Struct({
     ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
-    ConnectivityInfo: ConnectivityInfo.pipe(
-      T.JsonName("connectivityInfo"),
-    ).annotations({ identifier: "ConnectivityInfo" }),
-    CurrentVersion: S.String.pipe(T.JsonName("currentVersion")),
+    ConnectivityInfo: S.optional(ConnectivityInfo)
+      .pipe(T.JsonName("connectivityInfo"))
+      .annotations({ identifier: "ConnectivityInfo" }),
+    CurrentVersion: S.optional(S.String).pipe(T.JsonName("currentVersion")),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/v1/clusters/{ClusterArn}/connectivity" }),
@@ -4023,7 +4208,7 @@ export class TooManyRequestsException extends S.TaggedError<TooManyRequestsExcep
  */
 export const putClusterPolicy: (
   input: PutClusterPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutClusterPolicyResponse,
   | BadRequestException
   | ForbiddenException
@@ -4044,7 +4229,7 @@ export const putClusterPolicy: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | BadRequestException
   | InternalServerErrorException
@@ -4066,7 +4251,7 @@ export const listTagsForResource: (
 export const listClusterOperations: {
   (
     input: ListClusterOperationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListClusterOperationsResponse,
     | BadRequestException
     | ForbiddenException
@@ -4077,7 +4262,7 @@ export const listClusterOperations: {
   >;
   pages: (
     input: ListClusterOperationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListClusterOperationsResponse,
     | BadRequestException
     | ForbiddenException
@@ -4088,7 +4273,7 @@ export const listClusterOperations: {
   >;
   items: (
     input: ListClusterOperationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ClusterOperationInfo,
     | BadRequestException
     | ForbiddenException
@@ -4118,7 +4303,7 @@ export const listClusterOperations: {
  */
 export const deleteConfiguration: (
   input: DeleteConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -4141,7 +4326,7 @@ export const deleteConfiguration: (
  */
 export const deleteVpcConnection: (
   input: DeleteVpcConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVpcConnectionResponse,
   | BadRequestException
   | ForbiddenException
@@ -4164,7 +4349,7 @@ export const deleteVpcConnection: (
  */
 export const describeConfiguration: (
   input: DescribeConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -4191,7 +4376,7 @@ export const describeConfiguration: (
  */
 export const describeConfigurationRevision: (
   input: DescribeConfigurationRevisionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeConfigurationRevisionResponse,
   | BadRequestException
   | ForbiddenException
@@ -4218,7 +4403,7 @@ export const describeConfigurationRevision: (
  */
 export const describeTopic: (
   input: DescribeTopicRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeTopicResponse,
   | BadRequestException
   | ForbiddenException
@@ -4243,7 +4428,7 @@ export const describeTopic: (
  */
 export const describeVpcConnection: (
   input: DescribeVpcConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeVpcConnectionResponse,
   | BadRequestException
   | ForbiddenException
@@ -4270,7 +4455,7 @@ export const describeVpcConnection: (
  */
 export const getClusterPolicy: (
   input: GetClusterPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetClusterPolicyResponse,
   | BadRequestException
   | ForbiddenException
@@ -4294,7 +4479,7 @@ export const getClusterPolicy: (
 export const listConfigurationRevisions: {
   (
     input: ListConfigurationRevisionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConfigurationRevisionsResponse,
     | BadRequestException
     | ForbiddenException
@@ -4307,7 +4492,7 @@ export const listConfigurationRevisions: {
   >;
   pages: (
     input: ListConfigurationRevisionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConfigurationRevisionsResponse,
     | BadRequestException
     | ForbiddenException
@@ -4320,7 +4505,7 @@ export const listConfigurationRevisions: {
   >;
   items: (
     input: ListConfigurationRevisionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConfigurationRevision,
     | BadRequestException
     | ForbiddenException
@@ -4354,7 +4539,7 @@ export const listConfigurationRevisions: {
  */
 export const updateClusterConfiguration: (
   input: UpdateClusterConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateClusterConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -4381,7 +4566,7 @@ export const updateClusterConfiguration: (
  */
 export const updateConfiguration: (
   input: UpdateConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -4408,7 +4593,7 @@ export const updateConfiguration: (
  */
 export const deleteCluster: (
   input: DeleteClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteClusterResponse,
   | BadRequestException
   | ForbiddenException
@@ -4431,7 +4616,7 @@ export const deleteCluster: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | BadRequestException
   | InternalServerErrorException
@@ -4452,7 +4637,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | BadRequestException
   | InternalServerErrorException
@@ -4473,7 +4658,7 @@ export const untagResource: (
  */
 export const deleteClusterPolicy: (
   input: DeleteClusterPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteClusterPolicyResponse,
   | BadRequestException
   | ForbiddenException
@@ -4497,7 +4682,7 @@ export const deleteClusterPolicy: (
 export const describeTopicPartitions: {
   (
     input: DescribeTopicPartitionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeTopicPartitionsResponse,
     | BadRequestException
     | ForbiddenException
@@ -4509,7 +4694,7 @@ export const describeTopicPartitions: {
   >;
   pages: (
     input: DescribeTopicPartitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeTopicPartitionsResponse,
     | BadRequestException
     | ForbiddenException
@@ -4521,7 +4706,7 @@ export const describeTopicPartitions: {
   >;
   items: (
     input: DescribeTopicPartitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TopicPartitionInfo,
     | BadRequestException
     | ForbiddenException
@@ -4553,7 +4738,7 @@ export const describeTopicPartitions: {
  */
 export const describeClusterV2: (
   input: DescribeClusterV2Request,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeClusterV2Response,
   | BadRequestException
   | ForbiddenException
@@ -4579,7 +4764,7 @@ export const describeClusterV2: (
 export const listNodes: {
   (
     input: ListNodesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListNodesResponse,
     | BadRequestException
     | ForbiddenException
@@ -4590,7 +4775,7 @@ export const listNodes: {
   >;
   pages: (
     input: ListNodesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListNodesResponse,
     | BadRequestException
     | ForbiddenException
@@ -4601,7 +4786,7 @@ export const listNodes: {
   >;
   items: (
     input: ListNodesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NodeInfo,
     | BadRequestException
     | ForbiddenException
@@ -4632,7 +4817,7 @@ export const listNodes: {
 export const listVpcConnections: {
   (
     input: ListVpcConnectionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVpcConnectionsResponse,
     | BadRequestException
     | ForbiddenException
@@ -4644,7 +4829,7 @@ export const listVpcConnections: {
   >;
   pages: (
     input: ListVpcConnectionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVpcConnectionsResponse,
     | BadRequestException
     | ForbiddenException
@@ -4656,7 +4841,7 @@ export const listVpcConnections: {
   >;
   items: (
     input: ListVpcConnectionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     VpcConnection,
     | BadRequestException
     | ForbiddenException
@@ -4688,7 +4873,7 @@ export const listVpcConnections: {
  */
 export const updateBrokerStorage: (
   input: UpdateBrokerStorageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateBrokerStorageResponse,
   | BadRequestException
   | ForbiddenException
@@ -4713,7 +4898,7 @@ export const updateBrokerStorage: (
  */
 export const updateBrokerCount: (
   input: UpdateBrokerCountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateBrokerCountResponse,
   | BadRequestException
   | ForbiddenException
@@ -4738,7 +4923,7 @@ export const updateBrokerCount: (
  */
 export const updateMonitoring: (
   input: UpdateMonitoringRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMonitoringResponse,
   | BadRequestException
   | ForbiddenException
@@ -4763,7 +4948,7 @@ export const updateMonitoring: (
  */
 export const rejectClientVpcConnection: (
   input: RejectClientVpcConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RejectClientVpcConnectionResponse,
   | BadRequestException
   | ForbiddenException
@@ -4789,7 +4974,7 @@ export const rejectClientVpcConnection: (
 export const listClientVpcConnections: {
   (
     input: ListClientVpcConnectionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListClientVpcConnectionsResponse,
     | BadRequestException
     | ForbiddenException
@@ -4801,7 +4986,7 @@ export const listClientVpcConnections: {
   >;
   pages: (
     input: ListClientVpcConnectionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListClientVpcConnectionsResponse,
     | BadRequestException
     | ForbiddenException
@@ -4813,7 +4998,7 @@ export const listClientVpcConnections: {
   >;
   items: (
     input: ListClientVpcConnectionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ClientVpcConnection,
     | BadRequestException
     | ForbiddenException
@@ -4846,7 +5031,7 @@ export const listClientVpcConnections: {
 export const listConfigurations: {
   (
     input: ListConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConfigurationsResponse,
     | BadRequestException
     | ForbiddenException
@@ -4858,7 +5043,7 @@ export const listConfigurations: {
   >;
   pages: (
     input: ListConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConfigurationsResponse,
     | BadRequestException
     | ForbiddenException
@@ -4870,7 +5055,7 @@ export const listConfigurations: {
   >;
   items: (
     input: ListConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Configuration,
     | BadRequestException
     | ForbiddenException
@@ -4903,7 +5088,7 @@ export const listConfigurations: {
 export const listClusters: {
   (
     input: ListClustersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListClustersResponse,
     | BadRequestException
     | ForbiddenException
@@ -4914,7 +5099,7 @@ export const listClusters: {
   >;
   pages: (
     input: ListClustersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListClustersResponse,
     | BadRequestException
     | ForbiddenException
@@ -4925,7 +5110,7 @@ export const listClusters: {
   >;
   items: (
     input: ListClustersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ClusterInfo,
     | BadRequestException
     | ForbiddenException
@@ -4956,7 +5141,7 @@ export const listClusters: {
 export const listClustersV2: {
   (
     input: ListClustersV2Request,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListClustersV2Response,
     | BadRequestException
     | ForbiddenException
@@ -4967,7 +5152,7 @@ export const listClustersV2: {
   >;
   pages: (
     input: ListClustersV2Request,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListClustersV2Response,
     | BadRequestException
     | ForbiddenException
@@ -4978,7 +5163,7 @@ export const listClustersV2: {
   >;
   items: (
     input: ListClustersV2Request,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Cluster,
     | BadRequestException
     | ForbiddenException
@@ -5008,7 +5193,7 @@ export const listClustersV2: {
  */
 export const getBootstrapBrokers: (
   input: GetBootstrapBrokersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBootstrapBrokersResponse,
   | BadRequestException
   | ConflictException
@@ -5034,7 +5219,7 @@ export const getBootstrapBrokers: (
 export const listKafkaVersions: {
   (
     input: ListKafkaVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListKafkaVersionsResponse,
     | BadRequestException
     | ForbiddenException
@@ -5045,7 +5230,7 @@ export const listKafkaVersions: {
   >;
   pages: (
     input: ListKafkaVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListKafkaVersionsResponse,
     | BadRequestException
     | ForbiddenException
@@ -5056,7 +5241,7 @@ export const listKafkaVersions: {
   >;
   items: (
     input: ListKafkaVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     KafkaVersion,
     | BadRequestException
     | ForbiddenException
@@ -5087,7 +5272,7 @@ export const listKafkaVersions: {
 export const listTopics: {
   (
     input: ListTopicsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTopicsResponse,
     | BadRequestException
     | ForbiddenException
@@ -5099,7 +5284,7 @@ export const listTopics: {
   >;
   pages: (
     input: ListTopicsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTopicsResponse,
     | BadRequestException
     | ForbiddenException
@@ -5111,7 +5296,7 @@ export const listTopics: {
   >;
   items: (
     input: ListTopicsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TopicInfo,
     | BadRequestException
     | ForbiddenException
@@ -5143,7 +5328,7 @@ export const listTopics: {
  */
 export const describeClusterOperation: (
   input: DescribeClusterOperationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeClusterOperationResponse,
   | BadRequestException
   | ForbiddenException
@@ -5168,7 +5353,7 @@ export const describeClusterOperation: (
  */
 export const updateReplicationInfo: (
   input: UpdateReplicationInfoRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateReplicationInfoResponse,
   | BadRequestException
   | ForbiddenException
@@ -5197,7 +5382,7 @@ export const updateReplicationInfo: (
  */
 export const updateStorage: (
   input: UpdateStorageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateStorageResponse,
   | BadRequestException
   | ForbiddenException
@@ -5226,7 +5411,7 @@ export const updateStorage: (
  */
 export const deleteReplicator: (
   input: DeleteReplicatorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteReplicatorResponse,
   | BadRequestException
   | ForbiddenException
@@ -5256,7 +5441,7 @@ export const deleteReplicator: (
 export const listScramSecrets: {
   (
     input: ListScramSecretsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListScramSecretsResponse,
     | BadRequestException
     | ForbiddenException
@@ -5270,7 +5455,7 @@ export const listScramSecrets: {
   >;
   pages: (
     input: ListScramSecretsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListScramSecretsResponse,
     | BadRequestException
     | ForbiddenException
@@ -5284,7 +5469,7 @@ export const listScramSecrets: {
   >;
   items: (
     input: ListScramSecretsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     __string,
     | BadRequestException
     | ForbiddenException
@@ -5320,7 +5505,7 @@ export const listScramSecrets: {
  */
 export const rebootBroker: (
   input: RebootBrokerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RebootBrokerResponse,
   | BadRequestException
   | ForbiddenException
@@ -5349,7 +5534,7 @@ export const rebootBroker: (
  */
 export const updateBrokerType: (
   input: UpdateBrokerTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateBrokerTypeResponse,
   | BadRequestException
   | ForbiddenException
@@ -5378,7 +5563,7 @@ export const updateBrokerType: (
  */
 export const updateClusterKafkaVersion: (
   input: UpdateClusterKafkaVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateClusterKafkaVersionResponse,
   | BadRequestException
   | ForbiddenException
@@ -5407,7 +5592,7 @@ export const updateClusterKafkaVersion: (
  */
 export const updateRebalancing: (
   input: UpdateRebalancingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRebalancingResponse,
   | BadRequestException
   | ForbiddenException
@@ -5436,7 +5621,7 @@ export const updateRebalancing: (
  */
 export const updateSecurity: (
   input: UpdateSecurityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSecurityResponse,
   | BadRequestException
   | ForbiddenException
@@ -5465,7 +5650,7 @@ export const updateSecurity: (
  */
 export const batchDisassociateScramSecret: (
   input: BatchDisassociateScramSecretRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDisassociateScramSecretResponse,
   | BadRequestException
   | ForbiddenException
@@ -5494,7 +5679,7 @@ export const batchDisassociateScramSecret: (
  */
 export const batchAssociateScramSecret: (
   input: BatchAssociateScramSecretRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchAssociateScramSecretResponse,
   | BadRequestException
   | ForbiddenException
@@ -5523,7 +5708,7 @@ export const batchAssociateScramSecret: (
  */
 export const describeReplicator: (
   input: DescribeReplicatorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeReplicatorResponse,
   | BadRequestException
   | ForbiddenException
@@ -5552,7 +5737,7 @@ export const describeReplicator: (
  */
 export const getCompatibleKafkaVersions: (
   input: GetCompatibleKafkaVersionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCompatibleKafkaVersionsResponse,
   | BadRequestException
   | ForbiddenException
@@ -5582,7 +5767,7 @@ export const getCompatibleKafkaVersions: (
 export const listClusterOperationsV2: {
   (
     input: ListClusterOperationsV2Request,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListClusterOperationsV2Response,
     | BadRequestException
     | ForbiddenException
@@ -5596,7 +5781,7 @@ export const listClusterOperationsV2: {
   >;
   pages: (
     input: ListClusterOperationsV2Request,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListClusterOperationsV2Response,
     | BadRequestException
     | ForbiddenException
@@ -5610,7 +5795,7 @@ export const listClusterOperationsV2: {
   >;
   items: (
     input: ListClusterOperationsV2Request,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ClusterOperationV2Summary,
     | BadRequestException
     | ForbiddenException
@@ -5647,7 +5832,7 @@ export const listClusterOperationsV2: {
 export const listReplicators: {
   (
     input: ListReplicatorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReplicatorsResponse,
     | BadRequestException
     | ForbiddenException
@@ -5661,7 +5846,7 @@ export const listReplicators: {
   >;
   pages: (
     input: ListReplicatorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReplicatorsResponse,
     | BadRequestException
     | ForbiddenException
@@ -5675,7 +5860,7 @@ export const listReplicators: {
   >;
   items: (
     input: ListReplicatorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReplicatorSummary,
     | BadRequestException
     | ForbiddenException
@@ -5711,7 +5896,7 @@ export const listReplicators: {
  */
 export const createVpcConnection: (
   input: CreateVpcConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVpcConnectionResponse,
   | BadRequestException
   | ForbiddenException
@@ -5738,7 +5923,7 @@ export const createVpcConnection: (
  */
 export const createConfiguration: (
   input: CreateConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -5767,7 +5952,7 @@ export const createConfiguration: (
  */
 export const createCluster: (
   input: CreateClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateClusterResponse,
   | BadRequestException
   | ConflictException
@@ -5796,7 +5981,7 @@ export const createCluster: (
  */
 export const createClusterV2: (
   input: CreateClusterV2Request,
-) => Effect.Effect<
+) => effect.Effect<
   CreateClusterV2Response,
   | BadRequestException
   | ConflictException
@@ -5825,7 +6010,7 @@ export const createClusterV2: (
  */
 export const createReplicator: (
   input: CreateReplicatorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateReplicatorResponse,
   | BadRequestException
   | ConflictException
@@ -5856,7 +6041,7 @@ export const createReplicator: (
  */
 export const describeClusterOperationV2: (
   input: DescribeClusterOperationV2Request,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeClusterOperationV2Response,
   | BadRequestException
   | ForbiddenException
@@ -5885,7 +6070,7 @@ export const describeClusterOperationV2: (
  */
 export const describeCluster: (
   input: DescribeClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeClusterResponse,
   | BadRequestException
   | ForbiddenException
@@ -5910,7 +6095,7 @@ export const describeCluster: (
  */
 export const updateConnectivity: (
   input: UpdateConnectivityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConnectivityResponse,
   | BadRequestException
   | ForbiddenException

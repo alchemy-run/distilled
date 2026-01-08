@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -153,10 +153,65 @@ export type UtteranceString = string;
 export type Count = number;
 
 //# Schemas
+export type Locale =
+  | "de-DE"
+  | "en-AU"
+  | "en-GB"
+  | "en-IN"
+  | "en-US"
+  | "es-419"
+  | "es-ES"
+  | "es-US"
+  | "fr-FR"
+  | "fr-CA"
+  | "it-IT"
+  | "ja-JP"
+  | "ko-KR";
+export const Locale = S.Literal(
+  "de-DE",
+  "en-AU",
+  "en-GB",
+  "en-IN",
+  "en-US",
+  "es-419",
+  "es-ES",
+  "es-US",
+  "fr-FR",
+  "fr-CA",
+  "it-IT",
+  "ja-JP",
+  "ko-KR",
+);
+export type ResourceType = "BOT" | "INTENT" | "SLOT_TYPE";
+export const ResourceType = S.Literal("BOT", "INTENT", "SLOT_TYPE");
+export type ExportType = "ALEXA_SKILLS_KIT" | "LEX";
+export const ExportType = S.Literal("ALEXA_SKILLS_KIT", "LEX");
+export type MigrationSortAttribute = "V1_BOT_NAME" | "MIGRATION_DATE_TIME";
+export const MigrationSortAttribute = S.Literal(
+  "V1_BOT_NAME",
+  "MIGRATION_DATE_TIME",
+);
+export type SortOrder = "ASCENDING" | "DESCENDING";
+export const SortOrder = S.Literal("ASCENDING", "DESCENDING");
+export type MigrationStatus = "IN_PROGRESS" | "COMPLETED" | "FAILED";
+export const MigrationStatus = S.Literal("IN_PROGRESS", "COMPLETED", "FAILED");
 export type BotVersions = string[];
 export const BotVersions = S.Array(S.String);
+export type StatusType = "Detected" | "Missed";
+export const StatusType = S.Literal("Detected", "Missed");
+export type ProcessBehavior = "SAVE" | "BUILD";
+export const ProcessBehavior = S.Literal("SAVE", "BUILD");
 export type IntentUtteranceList = string[];
 export const IntentUtteranceList = S.Array(S.String);
+export type SlotValueSelectionStrategy = "ORIGINAL_VALUE" | "TOP_RESOLUTION";
+export const SlotValueSelectionStrategy = S.Literal(
+  "ORIGINAL_VALUE",
+  "TOP_RESOLUTION",
+);
+export type MergeStrategy = "OVERWRITE_LATEST" | "FAIL_ON_CONFLICT";
+export const MergeStrategy = S.Literal("OVERWRITE_LATEST", "FAIL_ON_CONFLICT");
+export type MigrationStrategy = "CREATE_NEW" | "UPDATE_EXISTING";
+export const MigrationStrategy = S.Literal("CREATE_NEW", "UPDATE_EXISTING");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface CreateBotVersionRequest {
@@ -637,14 +692,14 @@ export const GetBuiltinIntentRequest = S.suspend(() =>
   identifier: "GetBuiltinIntentRequest",
 }) as any as S.Schema<GetBuiltinIntentRequest>;
 export interface GetBuiltinIntentsRequest {
-  locale?: string;
+  locale?: Locale;
   signatureContains?: string;
   nextToken?: string;
   maxResults?: number;
 }
 export const GetBuiltinIntentsRequest = S.suspend(() =>
   S.Struct({
-    locale: S.optional(S.String).pipe(T.HttpQuery("locale")),
+    locale: S.optional(Locale).pipe(T.HttpQuery("locale")),
     signatureContains: S.optional(S.String).pipe(
       T.HttpQuery("signatureContains"),
     ),
@@ -664,14 +719,14 @@ export const GetBuiltinIntentsRequest = S.suspend(() =>
   identifier: "GetBuiltinIntentsRequest",
 }) as any as S.Schema<GetBuiltinIntentsRequest>;
 export interface GetBuiltinSlotTypesRequest {
-  locale?: string;
+  locale?: Locale;
   signatureContains?: string;
   nextToken?: string;
   maxResults?: number;
 }
 export const GetBuiltinSlotTypesRequest = S.suspend(() =>
   S.Struct({
-    locale: S.optional(S.String).pipe(T.HttpQuery("locale")),
+    locale: S.optional(Locale).pipe(T.HttpQuery("locale")),
     signatureContains: S.optional(S.String).pipe(
       T.HttpQuery("signatureContains"),
     ),
@@ -693,15 +748,15 @@ export const GetBuiltinSlotTypesRequest = S.suspend(() =>
 export interface GetExportRequest {
   name: string;
   version: string;
-  resourceType: string;
-  exportType: string;
+  resourceType: ResourceType;
+  exportType: ExportType;
 }
 export const GetExportRequest = S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.HttpQuery("name")),
     version: S.String.pipe(T.HttpQuery("version")),
-    resourceType: S.String.pipe(T.HttpQuery("resourceType")),
-    exportType: S.String.pipe(T.HttpQuery("exportType")),
+    resourceType: ResourceType.pipe(T.HttpQuery("resourceType")),
+    exportType: ExportType.pipe(T.HttpQuery("exportType")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/exports" }),
@@ -817,21 +872,23 @@ export const GetMigrationRequest = S.suspend(() =>
   identifier: "GetMigrationRequest",
 }) as any as S.Schema<GetMigrationRequest>;
 export interface GetMigrationsRequest {
-  sortByAttribute?: string;
-  sortByOrder?: string;
+  sortByAttribute?: MigrationSortAttribute;
+  sortByOrder?: SortOrder;
   v1BotNameContains?: string;
-  migrationStatusEquals?: string;
+  migrationStatusEquals?: MigrationStatus;
   maxResults?: number;
   nextToken?: string;
 }
 export const GetMigrationsRequest = S.suspend(() =>
   S.Struct({
-    sortByAttribute: S.optional(S.String).pipe(T.HttpQuery("sortByAttribute")),
-    sortByOrder: S.optional(S.String).pipe(T.HttpQuery("sortByOrder")),
+    sortByAttribute: S.optional(MigrationSortAttribute).pipe(
+      T.HttpQuery("sortByAttribute"),
+    ),
+    sortByOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortByOrder")),
     v1BotNameContains: S.optional(S.String).pipe(
       T.HttpQuery("v1BotNameContains"),
     ),
-    migrationStatusEquals: S.optional(S.String).pipe(
+    migrationStatusEquals: S.optional(MigrationStatus).pipe(
       T.HttpQuery("migrationStatusEquals"),
     ),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -918,14 +975,14 @@ export const GetSlotTypeVersionsRequest = S.suspend(() =>
 }) as any as S.Schema<GetSlotTypeVersionsRequest>;
 export interface GetUtterancesViewRequest {
   botName: string;
-  botVersions: BotVersions;
-  statusType: string;
+  botVersions: string[];
+  statusType: StatusType;
 }
 export const GetUtterancesViewRequest = S.suspend(() =>
   S.Struct({
     botName: S.String.pipe(T.HttpLabel("botName")),
     botVersions: BotVersions.pipe(T.HttpQuery("bot_versions")),
-    statusType: S.String.pipe(T.HttpQuery("status_type")),
+    statusType: StatusType.pipe(T.HttpQuery("status_type")),
   }).pipe(
     T.all(
       T.Http({
@@ -970,15 +1027,15 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface StartImportRequest {
   payload: Uint8Array;
-  resourceType: string;
-  mergeStrategy: string;
-  tags?: TagList;
+  resourceType: ResourceType;
+  mergeStrategy: MergeStrategy;
+  tags?: Tag[];
 }
 export const StartImportRequest = S.suspend(() =>
   S.Struct({
     payload: T.Blob,
-    resourceType: S.String,
-    mergeStrategy: S.String,
+    resourceType: ResourceType,
+    mergeStrategy: MergeStrategy,
     tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -998,7 +1055,7 @@ export interface StartMigrationRequest {
   v1BotVersion: string;
   v2BotName: string;
   v2BotRole: string;
-  migrationStrategy: string;
+  migrationStrategy: MigrationStrategy;
 }
 export const StartMigrationRequest = S.suspend(() =>
   S.Struct({
@@ -1006,7 +1063,7 @@ export const StartMigrationRequest = S.suspend(() =>
     v1BotVersion: S.String,
     v2BotName: S.String,
     v2BotRole: S.String,
-    migrationStrategy: S.String,
+    migrationStrategy: MigrationStrategy,
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/migrations" }),
@@ -1022,7 +1079,7 @@ export const StartMigrationRequest = S.suspend(() =>
 }) as any as S.Schema<StartMigrationRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagList;
+  tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1047,7 +1104,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1070,12 +1127,39 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
+export type SlotConstraint = "Required" | "Optional";
+export const SlotConstraint = S.Literal("Required", "Optional");
 export type SlotUtteranceList = string[];
 export const SlotUtteranceList = S.Array(S.String);
+export type ObfuscationSetting = "NONE" | "DEFAULT_OBFUSCATION";
+export const ObfuscationSetting = S.Literal("NONE", "DEFAULT_OBFUSCATION");
+export type FulfillmentActivityType = "ReturnIntent" | "CodeHook";
+export const FulfillmentActivityType = S.Literal("ReturnIntent", "CodeHook");
 export type SynonymList = string[];
 export const SynonymList = S.Array(S.String);
-export type LocaleList = string[];
-export const LocaleList = S.Array(S.String);
+export type Status =
+  | "BUILDING"
+  | "READY"
+  | "READY_BASIC_TESTING"
+  | "FAILED"
+  | "NOT_BUILT";
+export const Status = S.Literal(
+  "BUILDING",
+  "READY",
+  "READY_BASIC_TESTING",
+  "FAILED",
+  "NOT_BUILT",
+);
+export type ChannelType = "Facebook" | "Slack" | "Twilio-Sms" | "Kik";
+export const ChannelType = S.Literal("Facebook", "Slack", "Twilio-Sms", "Kik");
+export type ChannelStatus = "IN_PROGRESS" | "CREATED" | "FAILED";
+export const ChannelStatus = S.Literal("IN_PROGRESS", "CREATED", "FAILED");
+export type LocaleList = Locale[];
+export const LocaleList = S.Array(Locale);
+export type ExportStatus = "IN_PROGRESS" | "READY" | "FAILED";
+export const ExportStatus = S.Literal("IN_PROGRESS", "READY", "FAILED");
+export type ImportStatus = "IN_PROGRESS" | "COMPLETE" | "FAILED";
+export const ImportStatus = S.Literal("IN_PROGRESS", "COMPLETE", "FAILED");
 export type StringList = string[];
 export const StringList = S.Array(S.String);
 export interface Intent {
@@ -1087,14 +1171,16 @@ export const Intent = S.suspend(() =>
 ).annotations({ identifier: "Intent" }) as any as S.Schema<Intent>;
 export type IntentList = Intent[];
 export const IntentList = S.Array(Intent);
+export type ContentType = "PlainText" | "SSML" | "CustomPayload";
+export const ContentType = S.Literal("PlainText", "SSML", "CustomPayload");
 export interface Message {
-  contentType: string;
+  contentType: ContentType;
   content: string;
   groupNumber?: number;
 }
 export const Message = S.suspend(() =>
   S.Struct({
-    contentType: S.String,
+    contentType: ContentType,
     content: S.String,
     groupNumber: S.optional(S.Number),
   }),
@@ -1102,14 +1188,14 @@ export const Message = S.suspend(() =>
 export type MessageList = Message[];
 export const MessageList = S.Array(Message);
 export interface Statement {
-  messages: MessageList;
+  messages: Message[];
   responseCard?: string;
 }
 export const Statement = S.suspend(() =>
   S.Struct({ messages: MessageList, responseCard: S.optional(S.String) }),
 ).annotations({ identifier: "Statement" }) as any as S.Schema<Statement>;
 export interface Prompt {
-  messages: MessageList;
+  messages: Message[];
   maxAttempts: number;
   responseCard?: string;
 }
@@ -1137,11 +1223,11 @@ export const CodeHook = S.suspend(() =>
   S.Struct({ uri: S.String, messageVersion: S.String }),
 ).annotations({ identifier: "CodeHook" }) as any as S.Schema<CodeHook>;
 export interface FulfillmentActivity {
-  type: string;
+  type: FulfillmentActivityType;
   codeHook?: CodeHook;
 }
 export const FulfillmentActivity = S.suspend(() =>
-  S.Struct({ type: S.String, codeHook: S.optional(CodeHook) }),
+  S.Struct({ type: FulfillmentActivityType, codeHook: S.optional(CodeHook) }),
 ).annotations({
   identifier: "FulfillmentActivity",
 }) as any as S.Schema<FulfillmentActivity>;
@@ -1185,7 +1271,7 @@ export type OutputContextList = OutputContext[];
 export const OutputContextList = S.Array(OutputContext);
 export interface EnumerationValue {
   value: string;
-  synonyms?: SynonymList;
+  synonyms?: string[];
 }
 export const EnumerationValue = S.suspend(() =>
   S.Struct({ value: S.String, synonyms: S.optional(SynonymList) }),
@@ -1194,13 +1280,17 @@ export const EnumerationValue = S.suspend(() =>
 }) as any as S.Schema<EnumerationValue>;
 export type EnumerationValues = EnumerationValue[];
 export const EnumerationValues = S.Array(EnumerationValue);
+export type LogType = "AUDIO" | "TEXT";
+export const LogType = S.Literal("AUDIO", "TEXT");
+export type Destination = "CLOUDWATCH_LOGS" | "S3";
+export const Destination = S.Literal("CLOUDWATCH_LOGS", "S3");
 export interface CreateBotVersionResponse {
   name?: string;
   description?: string;
-  intents?: IntentList;
+  intents?: Intent[];
   clarificationPrompt?: Prompt;
   abortStatement?: Statement;
-  status?: string;
+  status?: Status;
   failureReason?: string;
   lastUpdatedDate?: Date;
   createdDate?: Date;
@@ -1208,7 +1298,7 @@ export interface CreateBotVersionResponse {
   voiceId?: string;
   checksum?: string;
   version?: string;
-  locale?: string;
+  locale?: Locale;
   childDirected?: boolean;
   enableModelImprovements?: boolean;
   detectSentiment?: boolean;
@@ -1220,7 +1310,7 @@ export const CreateBotVersionResponse = S.suspend(() =>
     intents: S.optional(IntentList),
     clarificationPrompt: S.optional(Prompt),
     abortStatement: S.optional(Statement),
-    status: S.optional(S.String),
+    status: S.optional(Status),
     failureReason: S.optional(S.String),
     lastUpdatedDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1230,7 +1320,7 @@ export const CreateBotVersionResponse = S.suspend(() =>
     voiceId: S.optional(S.String),
     checksum: S.optional(S.String),
     version: S.optional(S.String),
-    locale: S.optional(S.String),
+    locale: S.optional(Locale),
     childDirected: S.optional(S.Boolean),
     enableModelImprovements: S.optional(S.Boolean),
     detectSentiment: S.optional(S.Boolean),
@@ -1249,7 +1339,7 @@ export const SlotDefaultValue = S.suspend(() =>
 export type SlotDefaultValueList = SlotDefaultValue[];
 export const SlotDefaultValueList = S.Array(SlotDefaultValue);
 export interface SlotDefaultValueSpec {
-  defaultValueList: SlotDefaultValueList;
+  defaultValueList: SlotDefaultValue[];
 }
 export const SlotDefaultValueSpec = S.suspend(() =>
   S.Struct({ defaultValueList: SlotDefaultValueList }),
@@ -1259,28 +1349,28 @@ export const SlotDefaultValueSpec = S.suspend(() =>
 export interface Slot {
   name: string;
   description?: string;
-  slotConstraint: string;
+  slotConstraint: SlotConstraint;
   slotType?: string;
   slotTypeVersion?: string;
   valueElicitationPrompt?: Prompt;
   priority?: number;
-  sampleUtterances?: SlotUtteranceList;
+  sampleUtterances?: string[];
   responseCard?: string;
-  obfuscationSetting?: string;
+  obfuscationSetting?: ObfuscationSetting;
   defaultValueSpec?: SlotDefaultValueSpec;
 }
 export const Slot = S.suspend(() =>
   S.Struct({
     name: S.String,
     description: S.optional(S.String),
-    slotConstraint: S.String,
+    slotConstraint: SlotConstraint,
     slotType: S.optional(S.String),
     slotTypeVersion: S.optional(S.String),
     valueElicitationPrompt: S.optional(Prompt),
     priority: S.optional(S.Number),
     sampleUtterances: S.optional(SlotUtteranceList),
     responseCard: S.optional(S.String),
-    obfuscationSetting: S.optional(S.String),
+    obfuscationSetting: S.optional(ObfuscationSetting),
     defaultValueSpec: S.optional(SlotDefaultValueSpec),
   }),
 ).annotations({ identifier: "Slot" }) as any as S.Schema<Slot>;
@@ -1289,8 +1379,8 @@ export const SlotList = S.Array(Slot);
 export interface CreateIntentVersionResponse {
   name?: string;
   description?: string;
-  slots?: SlotList;
-  sampleUtterances?: IntentUtteranceList;
+  slots?: Slot[];
+  sampleUtterances?: string[];
   confirmationPrompt?: Prompt;
   rejectionStatement?: Statement;
   followUpPrompt?: FollowUpPrompt;
@@ -1303,8 +1393,8 @@ export interface CreateIntentVersionResponse {
   version?: string;
   checksum?: string;
   kendraConfiguration?: KendraConfiguration;
-  inputContexts?: InputContextList;
-  outputContexts?: OutputContextList;
+  inputContexts?: InputContext[];
+  outputContexts?: OutputContext[];
 }
 export const CreateIntentVersionResponse = S.suspend(() =>
   S.Struct({
@@ -1353,14 +1443,14 @@ export const SlotTypeConfigurations = S.Array(SlotTypeConfiguration);
 export interface CreateSlotTypeVersionResponse {
   name?: string;
   description?: string;
-  enumerationValues?: EnumerationValues;
+  enumerationValues?: EnumerationValue[];
   lastUpdatedDate?: Date;
   createdDate?: Date;
   version?: string;
   checksum?: string;
-  valueSelectionStrategy?: string;
+  valueSelectionStrategy?: SlotValueSelectionStrategy;
   parentSlotTypeSignature?: string;
-  slotTypeConfigurations?: SlotTypeConfigurations;
+  slotTypeConfigurations?: SlotTypeConfiguration[];
 }
 export const CreateSlotTypeVersionResponse = S.suspend(() =>
   S.Struct({
@@ -1373,7 +1463,7 @@ export const CreateSlotTypeVersionResponse = S.suspend(() =>
     createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     version: S.optional(S.String),
     checksum: S.optional(S.String),
-    valueSelectionStrategy: S.optional(S.String),
+    valueSelectionStrategy: S.optional(SlotValueSelectionStrategy),
     parentSlotTypeSignature: S.optional(S.String),
     slotTypeConfigurations: S.optional(SlotTypeConfigurations),
   }),
@@ -1383,12 +1473,12 @@ export const CreateSlotTypeVersionResponse = S.suspend(() =>
 export interface GetBotResponse {
   name?: string;
   description?: string;
-  intents?: IntentList;
+  intents?: Intent[];
   enableModelImprovements?: boolean;
   nluIntentConfidenceThreshold?: number;
   clarificationPrompt?: Prompt;
   abortStatement?: Statement;
-  status?: string;
+  status?: Status;
   failureReason?: string;
   lastUpdatedDate?: Date;
   createdDate?: Date;
@@ -1396,7 +1486,7 @@ export interface GetBotResponse {
   voiceId?: string;
   checksum?: string;
   version?: string;
-  locale?: string;
+  locale?: Locale;
   childDirected?: boolean;
   detectSentiment?: boolean;
 }
@@ -1409,7 +1499,7 @@ export const GetBotResponse = S.suspend(() =>
     nluIntentConfidenceThreshold: S.optional(S.Number),
     clarificationPrompt: S.optional(Prompt),
     abortStatement: S.optional(Statement),
-    status: S.optional(S.String),
+    status: S.optional(Status),
     failureReason: S.optional(S.String),
     lastUpdatedDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1419,7 +1509,7 @@ export const GetBotResponse = S.suspend(() =>
     voiceId: S.optional(S.String),
     checksum: S.optional(S.String),
     version: S.optional(S.String),
-    locale: S.optional(S.String),
+    locale: S.optional(Locale),
     childDirected: S.optional(S.Boolean),
     detectSentiment: S.optional(S.Boolean),
   }),
@@ -1429,7 +1519,7 @@ export const GetBotResponse = S.suspend(() =>
 export interface BotMetadata {
   name?: string;
   description?: string;
-  status?: string;
+  status?: Status;
   lastUpdatedDate?: Date;
   createdDate?: Date;
   version?: string;
@@ -1438,7 +1528,7 @@ export const BotMetadata = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     description: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(Status),
     lastUpdatedDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1449,7 +1539,7 @@ export const BotMetadata = S.suspend(() =>
 export type BotMetadataList = BotMetadata[];
 export const BotMetadataList = S.Array(BotMetadata);
 export interface GetBotVersionsResponse {
-  bots?: BotMetadataList;
+  bots?: BotMetadata[];
   nextToken?: string;
 }
 export const GetBotVersionsResponse = S.suspend(() =>
@@ -1463,9 +1553,9 @@ export const GetBotVersionsResponse = S.suspend(() =>
 export interface GetExportResponse {
   name?: string;
   version?: string;
-  resourceType?: string;
-  exportType?: string;
-  exportStatus?: string;
+  resourceType?: ResourceType;
+  exportType?: ExportType;
+  exportStatus?: ExportStatus;
   failureReason?: string;
   url?: string;
 }
@@ -1473,9 +1563,9 @@ export const GetExportResponse = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     version: S.optional(S.String),
-    resourceType: S.optional(S.String),
-    exportType: S.optional(S.String),
-    exportStatus: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
+    exportType: S.optional(ExportType),
+    exportStatus: S.optional(ExportStatus),
     failureReason: S.optional(S.String),
     url: S.optional(S.String),
   }),
@@ -1484,20 +1574,20 @@ export const GetExportResponse = S.suspend(() =>
 }) as any as S.Schema<GetExportResponse>;
 export interface GetImportResponse {
   name?: string;
-  resourceType?: string;
-  mergeStrategy?: string;
+  resourceType?: ResourceType;
+  mergeStrategy?: MergeStrategy;
   importId?: string;
-  importStatus?: string;
-  failureReason?: StringList;
+  importStatus?: ImportStatus;
+  failureReason?: string[];
   createdDate?: Date;
 }
 export const GetImportResponse = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    resourceType: S.optional(S.String),
-    mergeStrategy: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
+    mergeStrategy: S.optional(MergeStrategy),
     importId: S.optional(S.String),
-    importStatus: S.optional(S.String),
+    importStatus: S.optional(ImportStatus),
     failureReason: S.optional(StringList),
     createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -1507,8 +1597,8 @@ export const GetImportResponse = S.suspend(() =>
 export interface GetIntentResponse {
   name?: string;
   description?: string;
-  slots?: SlotList;
-  sampleUtterances?: IntentUtteranceList;
+  slots?: Slot[];
+  sampleUtterances?: string[];
   confirmationPrompt?: Prompt;
   rejectionStatement?: Statement;
   followUpPrompt?: FollowUpPrompt;
@@ -1521,8 +1611,8 @@ export interface GetIntentResponse {
   version?: string;
   checksum?: string;
   kendraConfiguration?: KendraConfiguration;
-  inputContexts?: InputContextList;
-  outputContexts?: OutputContextList;
+  inputContexts?: InputContext[];
+  outputContexts?: OutputContext[];
 }
 export const GetIntentResponse = S.suspend(() =>
   S.Struct({
@@ -1573,7 +1663,7 @@ export const IntentMetadata = S.suspend(() =>
 export type IntentMetadataList = IntentMetadata[];
 export const IntentMetadataList = S.Array(IntentMetadata);
 export interface GetIntentVersionsResponse {
-  intents?: IntentMetadataList;
+  intents?: IntentMetadata[];
   nextToken?: string;
 }
 export const GetIntentVersionsResponse = S.suspend(() =>
@@ -1587,14 +1677,14 @@ export const GetIntentVersionsResponse = S.suspend(() =>
 export interface GetSlotTypeResponse {
   name?: string;
   description?: string;
-  enumerationValues?: EnumerationValues;
+  enumerationValues?: EnumerationValue[];
   lastUpdatedDate?: Date;
   createdDate?: Date;
   version?: string;
   checksum?: string;
-  valueSelectionStrategy?: string;
+  valueSelectionStrategy?: SlotValueSelectionStrategy;
   parentSlotTypeSignature?: string;
-  slotTypeConfigurations?: SlotTypeConfigurations;
+  slotTypeConfigurations?: SlotTypeConfiguration[];
 }
 export const GetSlotTypeResponse = S.suspend(() =>
   S.Struct({
@@ -1607,7 +1697,7 @@ export const GetSlotTypeResponse = S.suspend(() =>
     createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     version: S.optional(S.String),
     checksum: S.optional(S.String),
-    valueSelectionStrategy: S.optional(S.String),
+    valueSelectionStrategy: S.optional(SlotValueSelectionStrategy),
     parentSlotTypeSignature: S.optional(S.String),
     slotTypeConfigurations: S.optional(SlotTypeConfigurations),
   }),
@@ -1637,7 +1727,7 @@ export const SlotTypeMetadata = S.suspend(() =>
 export type SlotTypeMetadataList = SlotTypeMetadata[];
 export const SlotTypeMetadataList = S.Array(SlotTypeMetadata);
 export interface GetSlotTypeVersionsResponse {
-  slotTypes?: SlotTypeMetadataList;
+  slotTypes?: SlotTypeMetadata[];
   nextToken?: string;
 }
 export const GetSlotTypeVersionsResponse = S.suspend(() =>
@@ -1649,7 +1739,7 @@ export const GetSlotTypeVersionsResponse = S.suspend(() =>
   identifier: "GetSlotTypeVersionsResponse",
 }) as any as S.Schema<GetSlotTypeVersionsResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagList) }),
@@ -1658,20 +1748,20 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface StartImportResponse {
   name?: string;
-  resourceType?: string;
-  mergeStrategy?: string;
+  resourceType?: ResourceType;
+  mergeStrategy?: MergeStrategy;
   importId?: string;
-  importStatus?: string;
-  tags?: TagList;
+  importStatus?: ImportStatus;
+  tags?: Tag[];
   createdDate?: Date;
 }
 export const StartImportResponse = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    resourceType: S.optional(S.String),
-    mergeStrategy: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
+    mergeStrategy: S.optional(MergeStrategy),
     importId: S.optional(S.String),
-    importStatus: S.optional(S.String),
+    importStatus: S.optional(ImportStatus),
     tags: S.optional(TagList),
     createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -1681,22 +1771,22 @@ export const StartImportResponse = S.suspend(() =>
 export interface StartMigrationResponse {
   v1BotName?: string;
   v1BotVersion?: string;
-  v1BotLocale?: string;
+  v1BotLocale?: Locale;
   v2BotId?: string;
   v2BotRole?: string;
   migrationId?: string;
-  migrationStrategy?: string;
+  migrationStrategy?: MigrationStrategy;
   migrationTimestamp?: Date;
 }
 export const StartMigrationResponse = S.suspend(() =>
   S.Struct({
     v1BotName: S.optional(S.String),
     v1BotVersion: S.optional(S.String),
-    v1BotLocale: S.optional(S.String),
+    v1BotLocale: S.optional(Locale),
     v2BotId: S.optional(S.String),
     v2BotRole: S.optional(S.String),
     migrationId: S.optional(S.String),
-    migrationStrategy: S.optional(S.String),
+    migrationStrategy: S.optional(MigrationStrategy),
     migrationTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1704,20 +1794,22 @@ export const StartMigrationResponse = S.suspend(() =>
 ).annotations({
   identifier: "StartMigrationResponse",
 }) as any as S.Schema<StartMigrationResponse>;
+export type MigrationAlertType = "ERROR" | "WARN";
+export const MigrationAlertType = S.Literal("ERROR", "WARN");
 export type MigrationAlertDetails = string[];
 export const MigrationAlertDetails = S.Array(S.String);
 export type MigrationAlertReferenceURLs = string[];
 export const MigrationAlertReferenceURLs = S.Array(S.String);
 export interface LogSettingsRequest {
-  logType: string;
-  destination: string;
+  logType: LogType;
+  destination: Destination;
   kmsKeyArn?: string;
   resourceArn: string;
 }
 export const LogSettingsRequest = S.suspend(() =>
   S.Struct({
-    logType: S.String,
-    destination: S.String,
+    logType: LogType,
+    destination: Destination,
     kmsKeyArn: S.optional(S.String),
     resourceArn: S.String,
   }),
@@ -1727,16 +1819,16 @@ export const LogSettingsRequest = S.suspend(() =>
 export type LogSettingsRequestList = LogSettingsRequest[];
 export const LogSettingsRequestList = S.Array(LogSettingsRequest);
 export interface LogSettingsResponse {
-  logType?: string;
-  destination?: string;
+  logType?: LogType;
+  destination?: Destination;
   kmsKeyArn?: string;
   resourceArn?: string;
   resourcePrefix?: string;
 }
 export const LogSettingsResponse = S.suspend(() =>
   S.Struct({
-    logType: S.optional(S.String),
-    destination: S.optional(S.String),
+    logType: S.optional(LogType),
+    destination: S.optional(Destination),
     kmsKeyArn: S.optional(S.String),
     resourceArn: S.optional(S.String),
     resourcePrefix: S.optional(S.String),
@@ -1747,7 +1839,7 @@ export const LogSettingsResponse = S.suspend(() =>
 export type LogSettingsResponseList = LogSettingsResponse[];
 export const LogSettingsResponseList = S.Array(LogSettingsResponse);
 export interface ConversationLogsResponse {
-  logSettings?: LogSettingsResponseList;
+  logSettings?: LogSettingsResponse[];
   iamRoleArn?: string;
 }
 export const ConversationLogsResponse = S.suspend(() =>
@@ -1797,9 +1889,9 @@ export interface BotChannelAssociation {
   botAlias?: string;
   botName?: string;
   createdDate?: Date;
-  type?: string;
-  botConfiguration?: ChannelConfigurationMap;
-  status?: string;
+  type?: ChannelType;
+  botConfiguration?: { [key: string]: string };
+  status?: ChannelStatus;
   failureReason?: string;
 }
 export const BotChannelAssociation = S.suspend(() =>
@@ -1809,9 +1901,9 @@ export const BotChannelAssociation = S.suspend(() =>
     botAlias: S.optional(S.String),
     botName: S.optional(S.String),
     createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    type: S.optional(S.String),
+    type: S.optional(ChannelType),
     botConfiguration: S.optional(ChannelConfigurationMap),
-    status: S.optional(S.String),
+    status: S.optional(ChannelStatus),
     failureReason: S.optional(S.String),
   }),
 ).annotations({
@@ -1831,7 +1923,7 @@ export type BuiltinIntentSlotList = BuiltinIntentSlot[];
 export const BuiltinIntentSlotList = S.Array(BuiltinIntentSlot);
 export interface BuiltinIntentMetadata {
   signature?: string;
-  supportedLocales?: LocaleList;
+  supportedLocales?: Locale[];
 }
 export const BuiltinIntentMetadata = S.suspend(() =>
   S.Struct({
@@ -1845,7 +1937,7 @@ export type BuiltinIntentMetadataList = BuiltinIntentMetadata[];
 export const BuiltinIntentMetadataList = S.Array(BuiltinIntentMetadata);
 export interface BuiltinSlotTypeMetadata {
   signature?: string;
-  supportedLocales?: LocaleList;
+  supportedLocales?: Locale[];
 }
 export const BuiltinSlotTypeMetadata = S.suspend(() =>
   S.Struct({
@@ -1858,14 +1950,14 @@ export const BuiltinSlotTypeMetadata = S.suspend(() =>
 export type BuiltinSlotTypeMetadataList = BuiltinSlotTypeMetadata[];
 export const BuiltinSlotTypeMetadataList = S.Array(BuiltinSlotTypeMetadata);
 export interface MigrationAlert {
-  type?: string;
+  type?: MigrationAlertType;
   message?: string;
-  details?: MigrationAlertDetails;
-  referenceURLs?: MigrationAlertReferenceURLs;
+  details?: string[];
+  referenceURLs?: string[];
 }
 export const MigrationAlert = S.suspend(() =>
   S.Struct({
-    type: S.optional(S.String),
+    type: S.optional(MigrationAlertType),
     message: S.optional(S.String),
     details: S.optional(MigrationAlertDetails),
     referenceURLs: S.optional(MigrationAlertReferenceURLs),
@@ -1879,11 +1971,11 @@ export interface MigrationSummary {
   migrationId?: string;
   v1BotName?: string;
   v1BotVersion?: string;
-  v1BotLocale?: string;
+  v1BotLocale?: Locale;
   v2BotId?: string;
   v2BotRole?: string;
-  migrationStatus?: string;
-  migrationStrategy?: string;
+  migrationStatus?: MigrationStatus;
+  migrationStrategy?: MigrationStrategy;
   migrationTimestamp?: Date;
 }
 export const MigrationSummary = S.suspend(() =>
@@ -1891,11 +1983,11 @@ export const MigrationSummary = S.suspend(() =>
     migrationId: S.optional(S.String),
     v1BotName: S.optional(S.String),
     v1BotVersion: S.optional(S.String),
-    v1BotLocale: S.optional(S.String),
+    v1BotLocale: S.optional(Locale),
     v2BotId: S.optional(S.String),
     v2BotRole: S.optional(S.String),
-    migrationStatus: S.optional(S.String),
-    migrationStrategy: S.optional(S.String),
+    migrationStatus: S.optional(MigrationStatus),
+    migrationStrategy: S.optional(MigrationStrategy),
     migrationTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1906,7 +1998,7 @@ export const MigrationSummary = S.suspend(() =>
 export type MigrationSummaryList = MigrationSummary[];
 export const MigrationSummaryList = S.Array(MigrationSummary);
 export interface ConversationLogsRequest {
-  logSettings: LogSettingsRequestList;
+  logSettings: LogSettingsRequest[];
   iamRoleArn: string;
 }
 export const ConversationLogsRequest = S.suspend(() =>
@@ -1915,7 +2007,7 @@ export const ConversationLogsRequest = S.suspend(() =>
   identifier: "ConversationLogsRequest",
 }) as any as S.Schema<ConversationLogsRequest>;
 export interface GetBotAliasesResponse {
-  BotAliases?: BotAliasMetadataList;
+  BotAliases?: BotAliasMetadata[];
   nextToken?: string;
 }
 export const GetBotAliasesResponse = S.suspend(() =>
@@ -1932,9 +2024,9 @@ export interface GetBotChannelAssociationResponse {
   botAlias?: string;
   botName?: string;
   createdDate?: Date;
-  type?: string;
-  botConfiguration?: ChannelConfigurationMap;
-  status?: string;
+  type?: ChannelType;
+  botConfiguration?: { [key: string]: string };
+  status?: ChannelStatus;
   failureReason?: string;
 }
 export const GetBotChannelAssociationResponse = S.suspend(() =>
@@ -1944,16 +2036,16 @@ export const GetBotChannelAssociationResponse = S.suspend(() =>
     botAlias: S.optional(S.String),
     botName: S.optional(S.String),
     createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    type: S.optional(S.String),
+    type: S.optional(ChannelType),
     botConfiguration: S.optional(ChannelConfigurationMap),
-    status: S.optional(S.String),
+    status: S.optional(ChannelStatus),
     failureReason: S.optional(S.String),
   }),
 ).annotations({
   identifier: "GetBotChannelAssociationResponse",
 }) as any as S.Schema<GetBotChannelAssociationResponse>;
 export interface GetBotChannelAssociationsResponse {
-  botChannelAssociations?: BotChannelAssociationList;
+  botChannelAssociations?: BotChannelAssociation[];
   nextToken?: string;
 }
 export const GetBotChannelAssociationsResponse = S.suspend(() =>
@@ -1965,7 +2057,7 @@ export const GetBotChannelAssociationsResponse = S.suspend(() =>
   identifier: "GetBotChannelAssociationsResponse",
 }) as any as S.Schema<GetBotChannelAssociationsResponse>;
 export interface GetBotsResponse {
-  bots?: BotMetadataList;
+  bots?: BotMetadata[];
   nextToken?: string;
 }
 export const GetBotsResponse = S.suspend(() =>
@@ -1978,8 +2070,8 @@ export const GetBotsResponse = S.suspend(() =>
 }) as any as S.Schema<GetBotsResponse>;
 export interface GetBuiltinIntentResponse {
   signature?: string;
-  supportedLocales?: LocaleList;
-  slots?: BuiltinIntentSlotList;
+  supportedLocales?: Locale[];
+  slots?: BuiltinIntentSlot[];
 }
 export const GetBuiltinIntentResponse = S.suspend(() =>
   S.Struct({
@@ -1991,7 +2083,7 @@ export const GetBuiltinIntentResponse = S.suspend(() =>
   identifier: "GetBuiltinIntentResponse",
 }) as any as S.Schema<GetBuiltinIntentResponse>;
 export interface GetBuiltinIntentsResponse {
-  intents?: BuiltinIntentMetadataList;
+  intents?: BuiltinIntentMetadata[];
   nextToken?: string;
 }
 export const GetBuiltinIntentsResponse = S.suspend(() =>
@@ -2003,7 +2095,7 @@ export const GetBuiltinIntentsResponse = S.suspend(() =>
   identifier: "GetBuiltinIntentsResponse",
 }) as any as S.Schema<GetBuiltinIntentsResponse>;
 export interface GetBuiltinSlotTypesResponse {
-  slotTypes?: BuiltinSlotTypeMetadataList;
+  slotTypes?: BuiltinSlotTypeMetadata[];
   nextToken?: string;
 }
 export const GetBuiltinSlotTypesResponse = S.suspend(() =>
@@ -2015,7 +2107,7 @@ export const GetBuiltinSlotTypesResponse = S.suspend(() =>
   identifier: "GetBuiltinSlotTypesResponse",
 }) as any as S.Schema<GetBuiltinSlotTypesResponse>;
 export interface GetIntentsResponse {
-  intents?: IntentMetadataList;
+  intents?: IntentMetadata[];
   nextToken?: string;
 }
 export const GetIntentsResponse = S.suspend(() =>
@@ -2030,24 +2122,24 @@ export interface GetMigrationResponse {
   migrationId?: string;
   v1BotName?: string;
   v1BotVersion?: string;
-  v1BotLocale?: string;
+  v1BotLocale?: Locale;
   v2BotId?: string;
   v2BotRole?: string;
-  migrationStatus?: string;
-  migrationStrategy?: string;
+  migrationStatus?: MigrationStatus;
+  migrationStrategy?: MigrationStrategy;
   migrationTimestamp?: Date;
-  alerts?: MigrationAlerts;
+  alerts?: MigrationAlert[];
 }
 export const GetMigrationResponse = S.suspend(() =>
   S.Struct({
     migrationId: S.optional(S.String),
     v1BotName: S.optional(S.String),
     v1BotVersion: S.optional(S.String),
-    v1BotLocale: S.optional(S.String),
+    v1BotLocale: S.optional(Locale),
     v2BotId: S.optional(S.String),
     v2BotRole: S.optional(S.String),
-    migrationStatus: S.optional(S.String),
-    migrationStrategy: S.optional(S.String),
+    migrationStatus: S.optional(MigrationStatus),
+    migrationStrategy: S.optional(MigrationStrategy),
     migrationTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -2057,7 +2149,7 @@ export const GetMigrationResponse = S.suspend(() =>
   identifier: "GetMigrationResponse",
 }) as any as S.Schema<GetMigrationResponse>;
 export interface GetMigrationsResponse {
-  migrationSummaries?: MigrationSummaryList;
+  migrationSummaries?: MigrationSummary[];
   nextToken?: string;
 }
 export const GetMigrationsResponse = S.suspend(() =>
@@ -2069,7 +2161,7 @@ export const GetMigrationsResponse = S.suspend(() =>
   identifier: "GetMigrationsResponse",
 }) as any as S.Schema<GetMigrationsResponse>;
 export interface GetSlotTypesResponse {
-  slotTypes?: SlotTypeMetadataList;
+  slotTypes?: SlotTypeMetadata[];
   nextToken?: string;
 }
 export const GetSlotTypesResponse = S.suspend(() =>
@@ -2083,7 +2175,7 @@ export const GetSlotTypesResponse = S.suspend(() =>
 export interface PutBotRequest {
   name: string;
   description?: string;
-  intents?: IntentList;
+  intents?: Intent[];
   enableModelImprovements?: boolean;
   nluIntentConfidenceThreshold?: number;
   clarificationPrompt?: Prompt;
@@ -2091,12 +2183,12 @@ export interface PutBotRequest {
   idleSessionTTLInSeconds?: number;
   voiceId?: string;
   checksum?: string;
-  processBehavior?: string;
-  locale: string;
+  processBehavior?: ProcessBehavior;
+  locale: Locale;
   childDirected: boolean;
   detectSentiment?: boolean;
   createVersion?: boolean;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const PutBotRequest = S.suspend(() =>
   S.Struct({
@@ -2110,8 +2202,8 @@ export const PutBotRequest = S.suspend(() =>
     idleSessionTTLInSeconds: S.optional(S.Number),
     voiceId: S.optional(S.String),
     checksum: S.optional(S.String),
-    processBehavior: S.optional(S.String),
-    locale: S.String,
+    processBehavior: S.optional(ProcessBehavior),
+    locale: Locale,
     childDirected: S.Boolean,
     detectSentiment: S.optional(S.Boolean),
     createVersion: S.optional(S.Boolean),
@@ -2136,7 +2228,7 @@ export interface PutBotAliasRequest {
   botName: string;
   checksum?: string;
   conversationLogs?: ConversationLogsRequest;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const PutBotAliasRequest = S.suspend(() =>
   S.Struct({
@@ -2163,12 +2255,12 @@ export const PutBotAliasRequest = S.suspend(() =>
 export interface PutSlotTypeRequest {
   name: string;
   description?: string;
-  enumerationValues?: EnumerationValues;
+  enumerationValues?: EnumerationValue[];
   checksum?: string;
-  valueSelectionStrategy?: string;
+  valueSelectionStrategy?: SlotValueSelectionStrategy;
   createVersion?: boolean;
   parentSlotTypeSignature?: string;
-  slotTypeConfigurations?: SlotTypeConfigurations;
+  slotTypeConfigurations?: SlotTypeConfiguration[];
 }
 export const PutSlotTypeRequest = S.suspend(() =>
   S.Struct({
@@ -2176,7 +2268,7 @@ export const PutSlotTypeRequest = S.suspend(() =>
     description: S.optional(S.String),
     enumerationValues: S.optional(EnumerationValues),
     checksum: S.optional(S.String),
-    valueSelectionStrategy: S.optional(S.String),
+    valueSelectionStrategy: S.optional(SlotValueSelectionStrategy),
     createVersion: S.optional(S.Boolean),
     parentSlotTypeSignature: S.optional(S.String),
     slotTypeConfigurations: S.optional(SlotTypeConfigurations),
@@ -2219,7 +2311,7 @@ export type ListOfUtterance = UtteranceData[];
 export const ListOfUtterance = S.Array(UtteranceData);
 export interface UtteranceList {
   botVersion?: string;
-  utterances?: ListOfUtterance;
+  utterances?: UtteranceData[];
 }
 export const UtteranceList = S.suspend(() =>
   S.Struct({
@@ -2259,7 +2351,7 @@ export const GetBotAliasResponse = S.suspend(() =>
 }) as any as S.Schema<GetBotAliasResponse>;
 export interface GetUtterancesViewResponse {
   botName?: string;
-  utterances?: ListsOfUtterances;
+  utterances?: UtteranceList[];
 }
 export const GetUtterancesViewResponse = S.suspend(() =>
   S.Struct({
@@ -2272,12 +2364,12 @@ export const GetUtterancesViewResponse = S.suspend(() =>
 export interface PutBotResponse {
   name?: string;
   description?: string;
-  intents?: IntentList;
+  intents?: Intent[];
   enableModelImprovements?: boolean;
   nluIntentConfidenceThreshold?: number;
   clarificationPrompt?: Prompt;
   abortStatement?: Statement;
-  status?: string;
+  status?: Status;
   failureReason?: string;
   lastUpdatedDate?: Date;
   createdDate?: Date;
@@ -2285,11 +2377,11 @@ export interface PutBotResponse {
   voiceId?: string;
   checksum?: string;
   version?: string;
-  locale?: string;
+  locale?: Locale;
   childDirected?: boolean;
   createVersion?: boolean;
   detectSentiment?: boolean;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const PutBotResponse = S.suspend(() =>
   S.Struct({
@@ -2300,7 +2392,7 @@ export const PutBotResponse = S.suspend(() =>
     nluIntentConfidenceThreshold: S.optional(S.Number),
     clarificationPrompt: S.optional(Prompt),
     abortStatement: S.optional(Statement),
-    status: S.optional(S.String),
+    status: S.optional(Status),
     failureReason: S.optional(S.String),
     lastUpdatedDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -2310,7 +2402,7 @@ export const PutBotResponse = S.suspend(() =>
     voiceId: S.optional(S.String),
     checksum: S.optional(S.String),
     version: S.optional(S.String),
-    locale: S.optional(S.String),
+    locale: S.optional(Locale),
     childDirected: S.optional(S.Boolean),
     createVersion: S.optional(S.Boolean),
     detectSentiment: S.optional(S.Boolean),
@@ -2328,7 +2420,7 @@ export interface PutBotAliasResponse {
   createdDate?: Date;
   checksum?: string;
   conversationLogs?: ConversationLogsResponse;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const PutBotAliasResponse = S.suspend(() =>
   S.Struct({
@@ -2350,8 +2442,8 @@ export const PutBotAliasResponse = S.suspend(() =>
 export interface PutIntentRequest {
   name: string;
   description?: string;
-  slots?: SlotList;
-  sampleUtterances?: IntentUtteranceList;
+  slots?: Slot[];
+  sampleUtterances?: string[];
   confirmationPrompt?: Prompt;
   rejectionStatement?: Statement;
   followUpPrompt?: FollowUpPrompt;
@@ -2362,8 +2454,8 @@ export interface PutIntentRequest {
   checksum?: string;
   createVersion?: boolean;
   kendraConfiguration?: KendraConfiguration;
-  inputContexts?: InputContextList;
-  outputContexts?: OutputContextList;
+  inputContexts?: InputContext[];
+  outputContexts?: OutputContext[];
 }
 export const PutIntentRequest = S.suspend(() =>
   S.Struct({
@@ -2399,15 +2491,15 @@ export const PutIntentRequest = S.suspend(() =>
 export interface PutSlotTypeResponse {
   name?: string;
   description?: string;
-  enumerationValues?: EnumerationValues;
+  enumerationValues?: EnumerationValue[];
   lastUpdatedDate?: Date;
   createdDate?: Date;
   version?: string;
   checksum?: string;
-  valueSelectionStrategy?: string;
+  valueSelectionStrategy?: SlotValueSelectionStrategy;
   createVersion?: boolean;
   parentSlotTypeSignature?: string;
-  slotTypeConfigurations?: SlotTypeConfigurations;
+  slotTypeConfigurations?: SlotTypeConfiguration[];
 }
 export const PutSlotTypeResponse = S.suspend(() =>
   S.Struct({
@@ -2420,7 +2512,7 @@ export const PutSlotTypeResponse = S.suspend(() =>
     createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     version: S.optional(S.String),
     checksum: S.optional(S.String),
-    valueSelectionStrategy: S.optional(S.String),
+    valueSelectionStrategy: S.optional(SlotValueSelectionStrategy),
     createVersion: S.optional(S.Boolean),
     parentSlotTypeSignature: S.optional(S.String),
     slotTypeConfigurations: S.optional(SlotTypeConfigurations),
@@ -2431,8 +2523,8 @@ export const PutSlotTypeResponse = S.suspend(() =>
 export interface PutIntentResponse {
   name?: string;
   description?: string;
-  slots?: SlotList;
-  sampleUtterances?: IntentUtteranceList;
+  slots?: Slot[];
+  sampleUtterances?: string[];
   confirmationPrompt?: Prompt;
   rejectionStatement?: Statement;
   followUpPrompt?: FollowUpPrompt;
@@ -2446,8 +2538,8 @@ export interface PutIntentResponse {
   checksum?: string;
   createVersion?: boolean;
   kendraConfiguration?: KendraConfiguration;
-  inputContexts?: InputContextList;
-  outputContexts?: OutputContextList;
+  inputContexts?: InputContext[];
+  outputContexts?: OutputContext[];
 }
 export const PutIntentResponse = S.suspend(() =>
   S.Struct({
@@ -2476,6 +2568,13 @@ export const PutIntentResponse = S.suspend(() =>
 ).annotations({
   identifier: "PutIntentResponse",
 }) as any as S.Schema<PutIntentResponse>;
+export type ReferenceType = "Intent" | "Bot" | "BotAlias" | "BotChannel";
+export const ReferenceType = S.Literal(
+  "Intent",
+  "Bot",
+  "BotAlias",
+  "BotChannel",
+);
 export interface ResourceReference {
   name?: string;
   version?: string;
@@ -2521,7 +2620,7 @@ export class PreconditionFailedException extends S.TaggedError<PreconditionFaile
 export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
   "ResourceInUseException",
   {
-    referenceType: S.optional(S.String),
+    referenceType: S.optional(ReferenceType),
     exampleReference: S.optional(ResourceReference),
   },
 ).pipe(C.withBadRequestError) {}
@@ -2560,7 +2659,7 @@ export class ResourceInUseException extends S.TaggedError<ResourceInUseException
  */
 export const getUtterancesView: (
   input: GetUtterancesViewRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUtterancesViewResponse,
   | BadRequestException
   | InternalFailureException
@@ -2585,7 +2684,7 @@ export const getUtterancesView: (
 export const getBotAliases: {
   (
     input: GetBotAliasesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetBotAliasesResponse,
     | BadRequestException
     | InternalFailureException
@@ -2595,7 +2694,7 @@ export const getBotAliases: {
   >;
   pages: (
     input: GetBotAliasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetBotAliasesResponse,
     | BadRequestException
     | InternalFailureException
@@ -2605,7 +2704,7 @@ export const getBotAliases: {
   >;
   items: (
     input: GetBotAliasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | InternalFailureException
@@ -2638,7 +2737,7 @@ export const getBotAliases: {
 export const getBotChannelAssociations: {
   (
     input: GetBotChannelAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetBotChannelAssociationsResponse,
     | BadRequestException
     | InternalFailureException
@@ -2648,7 +2747,7 @@ export const getBotChannelAssociations: {
   >;
   pages: (
     input: GetBotChannelAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetBotChannelAssociationsResponse,
     | BadRequestException
     | InternalFailureException
@@ -2658,7 +2757,7 @@ export const getBotChannelAssociations: {
   >;
   items: (
     input: GetBotChannelAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | InternalFailureException
@@ -2690,7 +2789,7 @@ export const getBotChannelAssociations: {
 export const getBuiltinIntents: {
   (
     input: GetBuiltinIntentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetBuiltinIntentsResponse,
     | BadRequestException
     | InternalFailureException
@@ -2700,7 +2799,7 @@ export const getBuiltinIntents: {
   >;
   pages: (
     input: GetBuiltinIntentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetBuiltinIntentsResponse,
     | BadRequestException
     | InternalFailureException
@@ -2710,7 +2809,7 @@ export const getBuiltinIntents: {
   >;
   items: (
     input: GetBuiltinIntentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | InternalFailureException
@@ -2745,7 +2844,7 @@ export const getBuiltinIntents: {
 export const getBuiltinSlotTypes: {
   (
     input: GetBuiltinSlotTypesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetBuiltinSlotTypesResponse,
     | BadRequestException
     | InternalFailureException
@@ -2755,7 +2854,7 @@ export const getBuiltinSlotTypes: {
   >;
   pages: (
     input: GetBuiltinSlotTypesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetBuiltinSlotTypesResponse,
     | BadRequestException
     | InternalFailureException
@@ -2765,7 +2864,7 @@ export const getBuiltinSlotTypes: {
   >;
   items: (
     input: GetBuiltinSlotTypesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | InternalFailureException
@@ -2793,7 +2892,7 @@ export const getBuiltinSlotTypes: {
 export const getMigrations: {
   (
     input: GetMigrationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetMigrationsResponse,
     | BadRequestException
     | InternalFailureException
@@ -2803,7 +2902,7 @@ export const getMigrations: {
   >;
   pages: (
     input: GetMigrationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetMigrationsResponse,
     | BadRequestException
     | InternalFailureException
@@ -2813,7 +2912,7 @@ export const getMigrations: {
   >;
   items: (
     input: GetMigrationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | InternalFailureException
@@ -2840,7 +2939,7 @@ export const getMigrations: {
  */
 export const startImport: (
   input: StartImportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartImportResponse,
   | BadRequestException
   | InternalFailureException
@@ -2865,7 +2964,7 @@ export const startImport: (
  */
 export const getBot: (
   input: GetBotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBotResponse,
   | BadRequestException
   | InternalFailureException
@@ -2906,7 +3005,7 @@ export const getBot: (
  */
 export const putBot: (
   input: PutBotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutBotResponse,
   | BadRequestException
   | ConflictException
@@ -2982,7 +3081,7 @@ export const putBot: (
  */
 export const putIntent: (
   input: PutIntentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutIntentResponse,
   | BadRequestException
   | ConflictException
@@ -3011,7 +3110,7 @@ export const putIntent: (
  */
 export const getBotAlias: (
   input: GetBotAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBotAliasResponse,
   | BadRequestException
   | InternalFailureException
@@ -3038,7 +3137,7 @@ export const getBotAlias: (
  */
 export const getBotChannelAssociation: (
   input: GetBotChannelAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBotChannelAssociationResponse,
   | BadRequestException
   | InternalFailureException
@@ -3073,7 +3172,7 @@ export const getBotChannelAssociation: (
 export const getBots: {
   (
     input: GetBotsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetBotsResponse,
     | BadRequestException
     | InternalFailureException
@@ -3084,7 +3183,7 @@ export const getBots: {
   >;
   pages: (
     input: GetBotsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetBotsResponse,
     | BadRequestException
     | InternalFailureException
@@ -3095,7 +3194,7 @@ export const getBots: {
   >;
   items: (
     input: GetBotsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | InternalFailureException
@@ -3127,7 +3226,7 @@ export const getBots: {
  */
 export const getBuiltinIntent: (
   input: GetBuiltinIntentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBuiltinIntentResponse,
   | BadRequestException
   | InternalFailureException
@@ -3162,7 +3261,7 @@ export const getBuiltinIntent: (
 export const getIntents: {
   (
     input: GetIntentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetIntentsResponse,
     | BadRequestException
     | InternalFailureException
@@ -3173,7 +3272,7 @@ export const getIntents: {
   >;
   pages: (
     input: GetIntentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetIntentsResponse,
     | BadRequestException
     | InternalFailureException
@@ -3184,7 +3283,7 @@ export const getIntents: {
   >;
   items: (
     input: GetIntentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | InternalFailureException
@@ -3215,7 +3314,7 @@ export const getIntents: {
  */
 export const getMigration: (
   input: GetMigrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMigrationResponse,
   | BadRequestException
   | InternalFailureException
@@ -3250,7 +3349,7 @@ export const getMigration: (
 export const getSlotTypes: {
   (
     input: GetSlotTypesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetSlotTypesResponse,
     | BadRequestException
     | InternalFailureException
@@ -3261,7 +3360,7 @@ export const getSlotTypes: {
   >;
   pages: (
     input: GetSlotTypesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetSlotTypesResponse,
     | BadRequestException
     | InternalFailureException
@@ -3272,7 +3371,7 @@ export const getSlotTypes: {
   >;
   items: (
     input: GetSlotTypesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | InternalFailureException
@@ -3305,7 +3404,7 @@ export const getSlotTypes: {
  */
 export const startMigration: (
   input: StartMigrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartMigrationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -3334,7 +3433,7 @@ export const startMigration: (
  */
 export const deleteBotChannelAssociation: (
   input: DeleteBotChannelAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBotChannelAssociationResponse,
   | BadRequestException
   | ConflictException
@@ -3360,7 +3459,7 @@ export const deleteBotChannelAssociation: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | BadRequestException
   | ConflictException
@@ -3385,7 +3484,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | BadRequestException
   | ConflictException
@@ -3423,7 +3522,7 @@ export const untagResource: (
  */
 export const createBotVersion: (
   input: CreateBotVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBotVersionResponse,
   | BadRequestException
   | ConflictException
@@ -3464,7 +3563,7 @@ export const createBotVersion: (
  */
 export const createIntentVersion: (
   input: CreateIntentVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateIntentVersionResponse,
   | BadRequestException
   | ConflictException
@@ -3505,7 +3604,7 @@ export const createIntentVersion: (
  */
 export const createSlotTypeVersion: (
   input: CreateSlotTypeVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSlotTypeVersionResponse,
   | BadRequestException
   | ConflictException
@@ -3546,7 +3645,7 @@ export const createSlotTypeVersion: (
 export const getBotVersions: {
   (
     input: GetBotVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetBotVersionsResponse,
     | BadRequestException
     | InternalFailureException
@@ -3557,7 +3656,7 @@ export const getBotVersions: {
   >;
   pages: (
     input: GetBotVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetBotVersionsResponse,
     | BadRequestException
     | InternalFailureException
@@ -3568,7 +3667,7 @@ export const getBotVersions: {
   >;
   items: (
     input: GetBotVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | InternalFailureException
@@ -3597,7 +3696,7 @@ export const getBotVersions: {
  */
 export const getExport: (
   input: GetExportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetExportResponse,
   | BadRequestException
   | InternalFailureException
@@ -3621,7 +3720,7 @@ export const getExport: (
  */
 export const getImport: (
   input: GetImportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetImportResponse,
   | BadRequestException
   | InternalFailureException
@@ -3648,7 +3747,7 @@ export const getImport: (
  */
 export const getIntent: (
   input: GetIntentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIntentResponse,
   | BadRequestException
   | InternalFailureException
@@ -3685,7 +3784,7 @@ export const getIntent: (
 export const getIntentVersions: {
   (
     input: GetIntentVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetIntentVersionsResponse,
     | BadRequestException
     | InternalFailureException
@@ -3696,7 +3795,7 @@ export const getIntentVersions: {
   >;
   pages: (
     input: GetIntentVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetIntentVersionsResponse,
     | BadRequestException
     | InternalFailureException
@@ -3707,7 +3806,7 @@ export const getIntentVersions: {
   >;
   items: (
     input: GetIntentVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | InternalFailureException
@@ -3741,7 +3840,7 @@ export const getIntentVersions: {
  */
 export const getSlotType: (
   input: GetSlotTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSlotTypeResponse,
   | BadRequestException
   | InternalFailureException
@@ -3778,7 +3877,7 @@ export const getSlotType: (
 export const getSlotTypeVersions: {
   (
     input: GetSlotTypeVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetSlotTypeVersionsResponse,
     | BadRequestException
     | InternalFailureException
@@ -3789,7 +3888,7 @@ export const getSlotTypeVersions: {
   >;
   pages: (
     input: GetSlotTypeVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetSlotTypeVersionsResponse,
     | BadRequestException
     | InternalFailureException
@@ -3800,7 +3899,7 @@ export const getSlotTypeVersions: {
   >;
   items: (
     input: GetSlotTypeVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | InternalFailureException
@@ -3830,7 +3929,7 @@ export const getSlotTypeVersions: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | BadRequestException
   | InternalFailureException
@@ -3867,7 +3966,7 @@ export const listTagsForResource: (
  */
 export const deleteUtterances: (
   input: DeleteUtterancesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUtterancesResponse,
   | BadRequestException
   | InternalFailureException
@@ -3896,7 +3995,7 @@ export const deleteUtterances: (
  */
 export const putBotAlias: (
   input: PutBotAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutBotAliasResponse,
   | BadRequestException
   | ConflictException
@@ -3938,7 +4037,7 @@ export const putBotAlias: (
  */
 export const putSlotType: (
   input: PutSlotTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutSlotTypeResponse,
   | BadRequestException
   | ConflictException
@@ -3972,7 +4071,7 @@ export const putSlotType: (
  */
 export const deleteBotAlias: (
   input: DeleteBotAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBotAliasResponse,
   | BadRequestException
   | ConflictException
@@ -4003,7 +4102,7 @@ export const deleteBotAlias: (
  */
 export const deleteBotVersion: (
   input: DeleteBotVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBotVersionResponse,
   | BadRequestException
   | ConflictException
@@ -4047,7 +4146,7 @@ export const deleteBotVersion: (
  */
 export const deleteIntent: (
   input: DeleteIntentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIntentResponse,
   | BadRequestException
   | ConflictException
@@ -4078,7 +4177,7 @@ export const deleteIntent: (
  */
 export const deleteIntentVersion: (
   input: DeleteIntentVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIntentVersionResponse,
   | BadRequestException
   | ConflictException
@@ -4122,7 +4221,7 @@ export const deleteIntentVersion: (
  */
 export const deleteSlotType: (
   input: DeleteSlotTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSlotTypeResponse,
   | BadRequestException
   | ConflictException
@@ -4153,7 +4252,7 @@ export const deleteSlotType: (
  */
 export const deleteSlotTypeVersion: (
   input: DeleteSlotTypeVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSlotTypeVersionResponse,
   | BadRequestException
   | ConflictException
@@ -4198,7 +4297,7 @@ export const deleteSlotTypeVersion: (
  */
 export const deleteBot: (
   input: DeleteBotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBotResponse,
   | BadRequestException
   | ConflictException

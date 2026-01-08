@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -116,7 +116,7 @@ export type DestinationUri = string;
 export type DestinationRegion = string;
 export type FormatConfigValue = string;
 export type Type = string;
-export type MediaUriSecretArn = string | Redacted.Redacted<string>;
+export type MediaUriSecretArn = string | redacted.Redacted<string>;
 export type ScheduleExpression = string;
 export type DurationInSeconds = number;
 export type MaxLocalMediaSizeInMB = number;
@@ -124,6 +124,27 @@ export type JobStatusDetails = string;
 export type ResourceEndpoint = string;
 
 //# Schemas
+export type ChannelType = "SINGLE_MASTER" | "FULL_MESH";
+export const ChannelType = S.Literal("SINGLE_MASTER", "FULL_MESH");
+export type APIName =
+  | "PUT_MEDIA"
+  | "GET_MEDIA"
+  | "LIST_FRAGMENTS"
+  | "GET_MEDIA_FOR_FRAGMENT_LIST"
+  | "GET_HLS_STREAMING_SESSION_URL"
+  | "GET_DASH_STREAMING_SESSION_URL"
+  | "GET_CLIP"
+  | "GET_IMAGES";
+export const APIName = S.Literal(
+  "PUT_MEDIA",
+  "GET_MEDIA",
+  "LIST_FRAGMENTS",
+  "GET_MEDIA_FOR_FRAGMENT_LIST",
+  "GET_HLS_STREAMING_SESSION_URL",
+  "GET_DASH_STREAMING_SESSION_URL",
+  "GET_CLIP",
+  "GET_IMAGES",
+);
 export interface Tag {
   Key: string;
   Value: string;
@@ -135,6 +156,13 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type UpdateDataRetentionOperation =
+  | "INCREASE_DATA_RETENTION"
+  | "DECREASE_DATA_RETENTION";
+export const UpdateDataRetentionOperation = S.Literal(
+  "INCREASE_DATA_RETENTION",
+  "DECREASE_DATA_RETENTION",
+);
 export interface DeleteEdgeConfigurationInput {
   StreamName?: string;
   StreamARN?: string;
@@ -396,13 +424,13 @@ export const DescribeStreamStorageConfigurationInput = S.suspend(() =>
 export interface GetDataEndpointInput {
   StreamName?: string;
   StreamARN?: string;
-  APIName: string;
+  APIName: APIName;
 }
 export const GetDataEndpointInput = S.suspend(() =>
   S.Struct({
     StreamName: S.optional(S.String),
     StreamARN: S.optional(S.String),
-    APIName: S.String,
+    APIName: APIName,
   }).pipe(
     T.all(
       ns,
@@ -486,7 +514,7 @@ export const ListTagsForStreamInput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForStreamInput>;
 export interface TagResourceInput {
   ResourceARN: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
@@ -514,7 +542,7 @@ export const ResourceTags = S.Record({ key: S.String, value: S.String });
 export interface TagStreamInput {
   StreamARN?: string;
   StreamName?: string;
-  Tags: ResourceTags;
+  Tags: { [key: string]: string };
 }
 export const TagStreamInput = S.suspend(() =>
   S.Struct({
@@ -543,7 +571,7 @@ export const TagStreamOutput = S.suspend(() =>
 }) as any as S.Schema<TagStreamOutput>;
 export interface UntagResourceInput {
   ResourceARN: string;
-  TagKeyList: TagKeyList;
+  TagKeyList: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeyList: TagKeyList }).pipe(
@@ -569,7 +597,7 @@ export const UntagResourceOutput = S.suspend(() =>
 export interface UntagStreamInput {
   StreamARN?: string;
   StreamName?: string;
-  TagKeyList: TagKeyList;
+  TagKeyList: string[];
 }
 export const UntagStreamInput = S.suspend(() =>
   S.Struct({
@@ -600,7 +628,7 @@ export interface UpdateDataRetentionInput {
   StreamName?: string;
   StreamARN?: string;
   CurrentVersion: string;
-  Operation: string;
+  Operation: UpdateDataRetentionOperation;
   DataRetentionChangeInHours: number;
 }
 export const UpdateDataRetentionInput = S.suspend(() =>
@@ -608,7 +636,7 @@ export const UpdateDataRetentionInput = S.suspend(() =>
     StreamName: S.optional(S.String),
     StreamARN: S.optional(S.String),
     CurrentVersion: S.String,
-    Operation: S.String,
+    Operation: UpdateDataRetentionOperation,
     DataRetentionChangeInHours: S.Number,
   }).pipe(
     T.all(
@@ -702,11 +730,13 @@ export const UpdateStreamOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateStreamOutput",
 }) as any as S.Schema<UpdateStreamOutput>;
+export type DefaultStorageTier = "HOT" | "WARM";
+export const DefaultStorageTier = S.Literal("HOT", "WARM");
 export interface StreamStorageConfiguration {
-  DefaultStorageTier: string;
+  DefaultStorageTier: DefaultStorageTier;
 }
 export const StreamStorageConfiguration = S.suspend(() =>
-  S.Struct({ DefaultStorageTier: S.String }),
+  S.Struct({ DefaultStorageTier: DefaultStorageTier }),
 ).annotations({
   identifier: "StreamStorageConfiguration",
 }) as any as S.Schema<StreamStorageConfiguration>;
@@ -742,41 +772,75 @@ export const UpdateStreamStorageConfigurationOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateStreamStorageConfigurationOutput",
 }) as any as S.Schema<UpdateStreamStorageConfigurationOutput>;
-export type ListOfProtocols = string[];
-export const ListOfProtocols = S.Array(S.String);
+export type ChannelProtocol = "WSS" | "HTTPS" | "WEBRTC";
+export const ChannelProtocol = S.Literal("WSS", "HTTPS", "WEBRTC");
+export type ListOfProtocols = ChannelProtocol[];
+export const ListOfProtocols = S.Array(ChannelProtocol);
+export type ChannelRole = "MASTER" | "VIEWER";
+export const ChannelRole = S.Literal("MASTER", "VIEWER");
+export type ComparisonOperator = "BEGINS_WITH";
+export const ComparisonOperator = S.Literal("BEGINS_WITH");
+export type ConfigurationStatus = "ENABLED" | "DISABLED";
+export const ConfigurationStatus = S.Literal("ENABLED", "DISABLED");
+export type ImageSelectorType = "SERVER_TIMESTAMP" | "PRODUCER_TIMESTAMP";
+export const ImageSelectorType = S.Literal(
+  "SERVER_TIMESTAMP",
+  "PRODUCER_TIMESTAMP",
+);
+export type Format = "JPEG" | "PNG";
+export const Format = S.Literal("JPEG", "PNG");
+export type MediaStorageConfigurationStatus = "ENABLED" | "DISABLED";
+export const MediaStorageConfigurationStatus = S.Literal("ENABLED", "DISABLED");
 export type TagOnCreateList = Tag[];
 export const TagOnCreateList = S.Array(Tag);
+export type SyncStatus =
+  | "SYNCING"
+  | "ACKNOWLEDGED"
+  | "IN_SYNC"
+  | "SYNC_FAILED"
+  | "DELETING"
+  | "DELETE_FAILED"
+  | "DELETING_ACKNOWLEDGED";
+export const SyncStatus = S.Literal(
+  "SYNCING",
+  "ACKNOWLEDGED",
+  "IN_SYNC",
+  "SYNC_FAILED",
+  "DELETING",
+  "DELETE_FAILED",
+  "DELETING_ACKNOWLEDGED",
+);
 export interface SingleMasterChannelEndpointConfiguration {
-  Protocols?: ListOfProtocols;
-  Role?: string;
+  Protocols?: ChannelProtocol[];
+  Role?: ChannelRole;
 }
 export const SingleMasterChannelEndpointConfiguration = S.suspend(() =>
   S.Struct({
     Protocols: S.optional(ListOfProtocols),
-    Role: S.optional(S.String),
+    Role: S.optional(ChannelRole),
   }),
 ).annotations({
   identifier: "SingleMasterChannelEndpointConfiguration",
 }) as any as S.Schema<SingleMasterChannelEndpointConfiguration>;
 export interface ChannelNameCondition {
-  ComparisonOperator?: string;
+  ComparisonOperator?: ComparisonOperator;
   ComparisonValue?: string;
 }
 export const ChannelNameCondition = S.suspend(() =>
   S.Struct({
-    ComparisonOperator: S.optional(S.String),
+    ComparisonOperator: S.optional(ComparisonOperator),
     ComparisonValue: S.optional(S.String),
   }),
 ).annotations({
   identifier: "ChannelNameCondition",
 }) as any as S.Schema<ChannelNameCondition>;
 export interface StreamNameCondition {
-  ComparisonOperator?: string;
+  ComparisonOperator?: ComparisonOperator;
   ComparisonValue?: string;
 }
 export const StreamNameCondition = S.suspend(() =>
   S.Struct({
-    ComparisonOperator: S.optional(S.String),
+    ComparisonOperator: S.optional(ComparisonOperator),
     ComparisonValue: S.optional(S.String),
   }),
 ).annotations({
@@ -784,23 +848,28 @@ export const StreamNameCondition = S.suspend(() =>
 }) as any as S.Schema<StreamNameCondition>;
 export interface MediaStorageConfiguration {
   StreamARN?: string;
-  Status: string;
+  Status: MediaStorageConfigurationStatus;
 }
 export const MediaStorageConfiguration = S.suspend(() =>
-  S.Struct({ StreamARN: S.optional(S.String), Status: S.String }),
+  S.Struct({
+    StreamARN: S.optional(S.String),
+    Status: MediaStorageConfigurationStatus,
+  }),
 ).annotations({
   identifier: "MediaStorageConfiguration",
 }) as any as S.Schema<MediaStorageConfiguration>;
+export type FormatConfigKey = "JPEGQuality";
+export const FormatConfigKey = S.Literal("JPEGQuality");
 export interface CreateSignalingChannelInput {
   ChannelName: string;
-  ChannelType?: string;
+  ChannelType?: ChannelType;
   SingleMasterConfiguration?: SingleMasterConfiguration;
-  Tags?: TagOnCreateList;
+  Tags?: Tag[];
 }
 export const CreateSignalingChannelInput = S.suspend(() =>
   S.Struct({
     ChannelName: S.String,
-    ChannelType: S.optional(S.String),
+    ChannelType: S.optional(ChannelType),
     SingleMasterConfiguration: S.optional(SingleMasterConfiguration),
     Tags: S.optional(TagOnCreateList),
   }).pipe(
@@ -823,7 +892,7 @@ export interface CreateStreamInput {
   MediaType?: string;
   KmsKeyId?: string;
   DataRetentionInHours?: number;
-  Tags?: ResourceTags;
+  Tags?: { [key: string]: string };
   StreamStorageConfiguration?: StreamStorageConfiguration;
 }
 export const CreateStreamInput = S.suspend(() =>
@@ -858,25 +927,27 @@ export const ImageGenerationDestinationConfig = S.suspend(() =>
 ).annotations({
   identifier: "ImageGenerationDestinationConfig",
 }) as any as S.Schema<ImageGenerationDestinationConfig>;
-export type FormatConfig = { [key: string]: string };
-export const FormatConfig = S.Record({ key: S.String, value: S.String });
+export type FormatConfig = { [key in FormatConfigKey]?: string };
+export const FormatConfig = S.partial(
+  S.Record({ key: FormatConfigKey, value: S.String }),
+);
 export interface ImageGenerationConfiguration {
-  Status: string;
-  ImageSelectorType: string;
+  Status: ConfigurationStatus;
+  ImageSelectorType: ImageSelectorType;
   DestinationConfig: ImageGenerationDestinationConfig;
   SamplingInterval: number;
-  Format: string;
-  FormatConfig?: FormatConfig;
+  Format: Format;
+  FormatConfig?: { [key: string]: string };
   WidthPixels?: number;
   HeightPixels?: number;
 }
 export const ImageGenerationConfiguration = S.suspend(() =>
   S.Struct({
-    Status: S.String,
-    ImageSelectorType: S.String,
+    Status: ConfigurationStatus,
+    ImageSelectorType: ImageSelectorType,
     DestinationConfig: ImageGenerationDestinationConfig,
     SamplingInterval: S.Number,
-    Format: S.String,
+    Format: Format,
     FormatConfig: S.optional(FormatConfig),
     WidthPixels: S.optional(S.Number),
     HeightPixels: S.optional(S.Number),
@@ -913,12 +984,12 @@ export const NotificationDestinationConfig = S.suspend(() =>
   identifier: "NotificationDestinationConfig",
 }) as any as S.Schema<NotificationDestinationConfig>;
 export interface NotificationConfiguration {
-  Status: string;
+  Status: ConfigurationStatus;
   DestinationConfig: NotificationDestinationConfig;
 }
 export const NotificationConfiguration = S.suspend(() =>
   S.Struct({
-    Status: S.String,
+    Status: ConfigurationStatus,
     DestinationConfig: NotificationDestinationConfig,
   }),
 ).annotations({
@@ -1030,7 +1101,7 @@ export const ListStreamsInput = S.suspend(() =>
 }) as any as S.Schema<ListStreamsInput>;
 export interface ListTagsForResourceOutput {
   NextToken?: string;
-  Tags?: ResourceTags;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({
@@ -1042,7 +1113,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface ListTagsForStreamOutput {
   NextToken?: string;
-  Tags?: ResourceTags;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForStreamOutput = S.suspend(() =>
   S.Struct({
@@ -1080,6 +1151,8 @@ export const UpdateMediaStorageConfigurationOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateMediaStorageConfigurationOutput",
 }) as any as S.Schema<UpdateMediaStorageConfigurationOutput>;
+export type Status = "CREATING" | "ACTIVE" | "UPDATING" | "DELETING";
+export const Status = S.Literal("CREATING", "ACTIVE", "UPDATING", "DELETING");
 export interface ScheduleConfig {
   ScheduleExpression: string;
   DurationInSeconds: number;
@@ -1097,6 +1170,13 @@ export const UploaderConfig = S.suspend(() =>
 ).annotations({
   identifier: "UploaderConfig",
 }) as any as S.Schema<UploaderConfig>;
+export type MediaUriType = "RTSP_URI" | "FILE_URI";
+export const MediaUriType = S.Literal("RTSP_URI", "FILE_URI");
+export type StrategyOnFullSize = "DELETE_OLDEST_MEDIA" | "DENY_NEW_MEDIA";
+export const StrategyOnFullSize = S.Literal(
+  "DELETE_OLDEST_MEDIA",
+  "DENY_NEW_MEDIA",
+);
 export interface MappedResourceConfigurationListItem {
   Type?: string;
   ARN?: string;
@@ -1114,8 +1194,8 @@ export const MappedResourceConfigurationList = S.Array(
 export interface ChannelInfo {
   ChannelName?: string;
   ChannelARN?: string;
-  ChannelType?: string;
-  ChannelStatus?: string;
+  ChannelType?: ChannelType;
+  ChannelStatus?: Status;
   CreationTime?: Date;
   SingleMasterConfiguration?: SingleMasterConfiguration;
   Version?: string;
@@ -1124,8 +1204,8 @@ export const ChannelInfo = S.suspend(() =>
   S.Struct({
     ChannelName: S.optional(S.String),
     ChannelARN: S.optional(S.String),
-    ChannelType: S.optional(S.String),
-    ChannelStatus: S.optional(S.String),
+    ChannelType: S.optional(ChannelType),
+    ChannelStatus: S.optional(Status),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     SingleMasterConfiguration: S.optional(SingleMasterConfiguration),
     Version: S.optional(S.String),
@@ -1138,7 +1218,7 @@ export interface StreamInfo {
   MediaType?: string;
   KmsKeyId?: string;
   Version?: string;
-  Status?: string;
+  Status?: Status;
   CreationTime?: Date;
   DataRetentionInHours?: number;
 }
@@ -1150,17 +1230,17 @@ export const StreamInfo = S.suspend(() =>
     MediaType: S.optional(S.String),
     KmsKeyId: S.optional(S.String),
     Version: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(Status),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DataRetentionInHours: S.optional(S.Number),
   }),
 ).annotations({ identifier: "StreamInfo" }) as any as S.Schema<StreamInfo>;
 export interface MediaSourceConfig {
-  MediaUriSecretArn: string | Redacted.Redacted<string>;
-  MediaUriType: string;
+  MediaUriSecretArn: string | redacted.Redacted<string>;
+  MediaUriType: MediaUriType;
 }
 export const MediaSourceConfig = S.suspend(() =>
-  S.Struct({ MediaUriSecretArn: SensitiveString, MediaUriType: S.String }),
+  S.Struct({ MediaUriSecretArn: SensitiveString, MediaUriType: MediaUriType }),
 ).annotations({
   identifier: "MediaSourceConfig",
 }) as any as S.Schema<MediaSourceConfig>;
@@ -1178,12 +1258,12 @@ export const RecorderConfig = S.suspend(() =>
 }) as any as S.Schema<RecorderConfig>;
 export interface LocalSizeConfig {
   MaxLocalMediaSizeInMB?: number;
-  StrategyOnFullSize?: string;
+  StrategyOnFullSize?: StrategyOnFullSize;
 }
 export const LocalSizeConfig = S.suspend(() =>
   S.Struct({
     MaxLocalMediaSizeInMB: S.optional(S.Number),
-    StrategyOnFullSize: S.optional(S.String),
+    StrategyOnFullSize: S.optional(StrategyOnFullSize),
   }),
 ).annotations({
   identifier: "LocalSizeConfig",
@@ -1221,7 +1301,7 @@ export interface ListEdgeAgentConfigurationsEdgeConfig {
   StreamARN?: string;
   CreationTime?: Date;
   LastUpdatedTime?: Date;
-  SyncStatus?: string;
+  SyncStatus?: SyncStatus;
   FailedStatusDetails?: string;
   EdgeConfig?: EdgeConfig;
 }
@@ -1233,7 +1313,7 @@ export const ListEdgeAgentConfigurationsEdgeConfig = S.suspend(() =>
     LastUpdatedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    SyncStatus: S.optional(S.String),
+    SyncStatus: S.optional(SyncStatus),
     FailedStatusDetails: S.optional(S.String),
     EdgeConfig: S.optional(EdgeConfig),
   }),
@@ -1249,6 +1329,18 @@ export type ChannelInfoList = ChannelInfo[];
 export const ChannelInfoList = S.Array(ChannelInfo);
 export type StreamInfoList = StreamInfo[];
 export const StreamInfoList = S.Array(StreamInfo);
+export type RecorderStatus = "SUCCESS" | "USER_ERROR" | "SYSTEM_ERROR";
+export const RecorderStatus = S.Literal(
+  "SUCCESS",
+  "USER_ERROR",
+  "SYSTEM_ERROR",
+);
+export type UploaderStatus = "SUCCESS" | "USER_ERROR" | "SYSTEM_ERROR";
+export const UploaderStatus = S.Literal(
+  "SUCCESS",
+  "USER_ERROR",
+  "SYSTEM_ERROR",
+);
 export interface CreateSignalingChannelOutput {
   ChannelARN?: string;
 }
@@ -1266,7 +1358,7 @@ export const CreateStreamOutput = S.suspend(() =>
   identifier: "CreateStreamOutput",
 }) as any as S.Schema<CreateStreamOutput>;
 export interface DescribeMappedResourceConfigurationOutput {
-  MappedResourceConfigurationList?: MappedResourceConfigurationList;
+  MappedResourceConfigurationList?: MappedResourceConfigurationListItem[];
   NextToken?: string;
 }
 export const DescribeMappedResourceConfigurationOutput = S.suspend(() =>
@@ -1296,7 +1388,7 @@ export const DescribeStreamOutput = S.suspend(() =>
   identifier: "DescribeStreamOutput",
 }) as any as S.Schema<DescribeStreamOutput>;
 export interface ListEdgeAgentConfigurationsOutput {
-  EdgeConfigs?: ListEdgeAgentConfigurationsEdgeConfigList;
+  EdgeConfigs?: ListEdgeAgentConfigurationsEdgeConfig[];
   NextToken?: string;
 }
 export const ListEdgeAgentConfigurationsOutput = S.suspend(() =>
@@ -1308,7 +1400,7 @@ export const ListEdgeAgentConfigurationsOutput = S.suspend(() =>
   identifier: "ListEdgeAgentConfigurationsOutput",
 }) as any as S.Schema<ListEdgeAgentConfigurationsOutput>;
 export interface ListSignalingChannelsOutput {
-  ChannelInfoList?: ChannelInfoList;
+  ChannelInfoList?: ChannelInfo[];
   NextToken?: string;
 }
 export const ListSignalingChannelsOutput = S.suspend(() =>
@@ -1320,7 +1412,7 @@ export const ListSignalingChannelsOutput = S.suspend(() =>
   identifier: "ListSignalingChannelsOutput",
 }) as any as S.Schema<ListSignalingChannelsOutput>;
 export interface ListStreamsOutput {
-  StreamInfoList?: StreamInfoList;
+  StreamInfoList?: StreamInfo[];
   NextToken?: string;
 }
 export const ListStreamsOutput = S.suspend(() =>
@@ -1395,7 +1487,7 @@ export interface LastRecorderStatus {
   JobStatusDetails?: string;
   LastCollectedTime?: Date;
   LastUpdatedTime?: Date;
-  RecorderStatus?: string;
+  RecorderStatus?: RecorderStatus;
 }
 export const LastRecorderStatus = S.suspend(() =>
   S.Struct({
@@ -1406,7 +1498,7 @@ export const LastRecorderStatus = S.suspend(() =>
     LastUpdatedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    RecorderStatus: S.optional(S.String),
+    RecorderStatus: S.optional(RecorderStatus),
   }),
 ).annotations({
   identifier: "LastRecorderStatus",
@@ -1415,7 +1507,7 @@ export interface LastUploaderStatus {
   JobStatusDetails?: string;
   LastCollectedTime?: Date;
   LastUpdatedTime?: Date;
-  UploaderStatus?: string;
+  UploaderStatus?: UploaderStatus;
 }
 export const LastUploaderStatus = S.suspend(() =>
   S.Struct({
@@ -1426,7 +1518,7 @@ export const LastUploaderStatus = S.suspend(() =>
     LastUpdatedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    UploaderStatus: S.optional(S.String),
+    UploaderStatus: S.optional(UploaderStatus),
   }),
 ).annotations({
   identifier: "LastUploaderStatus",
@@ -1444,12 +1536,12 @@ export const EdgeAgentStatus = S.suspend(() =>
   identifier: "EdgeAgentStatus",
 }) as any as S.Schema<EdgeAgentStatus>;
 export interface ResourceEndpointListItem {
-  Protocol?: string;
+  Protocol?: ChannelProtocol;
   ResourceEndpoint?: string;
 }
 export const ResourceEndpointListItem = S.suspend(() =>
   S.Struct({
-    Protocol: S.optional(S.String),
+    Protocol: S.optional(ChannelProtocol),
     ResourceEndpoint: S.optional(S.String),
   }),
 ).annotations({
@@ -1462,7 +1554,7 @@ export interface DescribeEdgeConfigurationOutput {
   StreamARN?: string;
   CreationTime?: Date;
   LastUpdatedTime?: Date;
-  SyncStatus?: string;
+  SyncStatus?: SyncStatus;
   FailedStatusDetails?: string;
   EdgeConfig?: EdgeConfig;
   EdgeAgentStatus?: EdgeAgentStatus;
@@ -1475,7 +1567,7 @@ export const DescribeEdgeConfigurationOutput = S.suspend(() =>
     LastUpdatedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    SyncStatus: S.optional(S.String),
+    SyncStatus: S.optional(SyncStatus),
     FailedStatusDetails: S.optional(S.String),
     EdgeConfig: S.optional(EdgeConfig),
     EdgeAgentStatus: S.optional(EdgeAgentStatus),
@@ -1484,7 +1576,7 @@ export const DescribeEdgeConfigurationOutput = S.suspend(() =>
   identifier: "DescribeEdgeConfigurationOutput",
 }) as any as S.Schema<DescribeEdgeConfigurationOutput>;
 export interface GetSignalingChannelEndpointOutput {
-  ResourceEndpointList?: ResourceEndpointList;
+  ResourceEndpointList?: ResourceEndpointListItem[];
 }
 export const GetSignalingChannelEndpointOutput = S.suspend(() =>
   S.Struct({ ResourceEndpointList: S.optional(ResourceEndpointList) }).pipe(ns),
@@ -1520,7 +1612,7 @@ export interface StartEdgeConfigurationUpdateOutput {
   StreamARN?: string;
   CreationTime?: Date;
   LastUpdatedTime?: Date;
-  SyncStatus?: string;
+  SyncStatus?: SyncStatus;
   FailedStatusDetails?: string;
   EdgeConfig?: EdgeConfig;
 }
@@ -1532,7 +1624,7 @@ export const StartEdgeConfigurationUpdateOutput = S.suspend(() =>
     LastUpdatedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    SyncStatus: S.optional(S.String),
+    SyncStatus: S.optional(SyncStatus),
     FailedStatusDetails: S.optional(S.String),
     EdgeConfig: S.optional(EdgeConfig),
   }).pipe(ns),
@@ -1611,7 +1703,7 @@ export class InvalidDeviceException extends S.TaggedError<InvalidDeviceException
 export const listSignalingChannels: {
   (
     input: ListSignalingChannelsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSignalingChannelsOutput,
     | AccessDeniedException
     | ClientLimitExceededException
@@ -1621,7 +1713,7 @@ export const listSignalingChannels: {
   >;
   pages: (
     input: ListSignalingChannelsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSignalingChannelsOutput,
     | AccessDeniedException
     | ClientLimitExceededException
@@ -1631,7 +1723,7 @@ export const listSignalingChannels: {
   >;
   items: (
     input: ListSignalingChannelsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ChannelInfo,
     | AccessDeniedException
     | ClientLimitExceededException
@@ -1662,21 +1754,21 @@ export const listSignalingChannels: {
 export const listStreams: {
   (
     input: ListStreamsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStreamsOutput,
     ClientLimitExceededException | InvalidArgumentException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListStreamsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStreamsOutput,
     ClientLimitExceededException | InvalidArgumentException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStreamsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     StreamInfo,
     ClientLimitExceededException | InvalidArgumentException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1699,7 +1791,7 @@ export const listStreams: {
 export const describeMappedResourceConfiguration: {
   (
     input: DescribeMappedResourceConfigurationInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeMappedResourceConfigurationOutput,
     | AccessDeniedException
     | ClientLimitExceededException
@@ -1710,7 +1802,7 @@ export const describeMappedResourceConfiguration: {
   >;
   pages: (
     input: DescribeMappedResourceConfigurationInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeMappedResourceConfigurationOutput,
     | AccessDeniedException
     | ClientLimitExceededException
@@ -1721,7 +1813,7 @@ export const describeMappedResourceConfiguration: {
   >;
   items: (
     input: DescribeMappedResourceConfigurationInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MappedResourceConfigurationListItem,
     | AccessDeniedException
     | ClientLimitExceededException
@@ -1754,7 +1846,7 @@ export const describeMappedResourceConfiguration: {
  */
 export const listTagsForStream: (
   input: ListTagsForStreamInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForStreamOutput,
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -1780,7 +1872,7 @@ export const listTagsForStream: (
  */
 export const describeStream: (
   input: DescribeStreamInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeStreamOutput,
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -1806,7 +1898,7 @@ export const describeStream: (
 export const listEdgeAgentConfigurations: {
   (
     input: ListEdgeAgentConfigurationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEdgeAgentConfigurationsOutput,
     | ClientLimitExceededException
     | InvalidArgumentException
@@ -1816,7 +1908,7 @@ export const listEdgeAgentConfigurations: {
   >;
   pages: (
     input: ListEdgeAgentConfigurationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEdgeAgentConfigurationsOutput,
     | ClientLimitExceededException
     | InvalidArgumentException
@@ -1826,7 +1918,7 @@ export const listEdgeAgentConfigurations: {
   >;
   items: (
     input: ListEdgeAgentConfigurationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEdgeAgentConfigurationsEdgeConfig,
     | ClientLimitExceededException
     | InvalidArgumentException
@@ -1863,7 +1955,7 @@ export const listEdgeAgentConfigurations: {
  */
 export const getDataEndpoint: (
   input: GetDataEndpointInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataEndpointOutput,
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -1888,7 +1980,7 @@ export const getDataEndpoint: (
  */
 export const describeSignalingChannel: (
   input: DescribeSignalingChannelInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSignalingChannelOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -1911,7 +2003,7 @@ export const describeSignalingChannel: (
  */
 export const describeImageGenerationConfiguration: (
   input: DescribeImageGenerationConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeImageGenerationConfigurationOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -1935,7 +2027,7 @@ export const describeImageGenerationConfiguration: (
  */
 export const describeMediaStorageConfiguration: (
   input: DescribeMediaStorageConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeMediaStorageConfigurationOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -1958,7 +2050,7 @@ export const describeMediaStorageConfiguration: (
  */
 export const describeNotificationConfiguration: (
   input: DescribeNotificationConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeNotificationConfigurationOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -1985,7 +2077,7 @@ export const describeNotificationConfiguration: (
  */
 export const describeStreamStorageConfiguration: (
   input: DescribeStreamStorageConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeStreamStorageConfigurationOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -2008,7 +2100,7 @@ export const describeStreamStorageConfiguration: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -2033,7 +2125,7 @@ export const listTagsForResource: (
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -2056,7 +2148,7 @@ export const untagResource: (
  */
 export const updateNotificationConfiguration: (
   input: UpdateNotificationConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateNotificationConfigurationOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -2096,7 +2188,7 @@ export const updateNotificationConfiguration: (
  */
 export const updateMediaStorageConfiguration: (
   input: UpdateMediaStorageConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMediaStorageConfigurationOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -2128,7 +2220,7 @@ export const updateMediaStorageConfiguration: (
  */
 export const untagStream: (
   input: UntagStreamInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagStreamOutput,
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -2167,7 +2259,7 @@ export const untagStream: (
  */
 export const getSignalingChannelEndpoint: (
   input: GetSignalingChannelEndpointInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSignalingChannelEndpointOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -2192,7 +2284,7 @@ export const getSignalingChannelEndpoint: (
  */
 export const updateImageGenerationConfiguration: (
   input: UpdateImageGenerationConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateImageGenerationConfigurationOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -2234,7 +2326,7 @@ export const updateImageGenerationConfiguration: (
  */
 export const startEdgeConfigurationUpdate: (
   input: StartEdgeConfigurationUpdateInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartEdgeConfigurationUpdateOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -2263,7 +2355,7 @@ export const startEdgeConfigurationUpdate: (
  */
 export const deleteSignalingChannel: (
   input: DeleteSignalingChannelInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSignalingChannelOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -2295,7 +2387,7 @@ export const deleteSignalingChannel: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -2324,7 +2416,7 @@ export const tagResource: (
  */
 export const deleteEdgeConfiguration: (
   input: DeleteEdgeConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEdgeConfigurationOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -2368,7 +2460,7 @@ export const deleteEdgeConfiguration: (
  */
 export const updateDataRetention: (
   input: UpdateDataRetentionInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDataRetentionOutput,
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -2406,7 +2498,7 @@ export const updateDataRetention: (
  */
 export const updateStream: (
   input: UpdateStreamInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateStreamOutput,
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -2439,7 +2531,7 @@ export const updateStream: (
  */
 export const updateSignalingChannel: (
   input: UpdateSignalingChannelInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSignalingChannelOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -2472,7 +2564,7 @@ export const updateSignalingChannel: (
  */
 export const updateStreamStorageConfiguration: (
   input: UpdateStreamStorageConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateStreamStorageConfigurationOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -2510,7 +2602,7 @@ export const updateStreamStorageConfiguration: (
  */
 export const deleteStream: (
   input: DeleteStreamInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteStreamOutput,
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -2549,7 +2641,7 @@ export const deleteStream: (
  */
 export const tagStream: (
   input: TagStreamInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagStreamOutput,
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -2578,7 +2670,7 @@ export const tagStream: (
  */
 export const createSignalingChannel: (
   input: CreateSignalingChannelInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSignalingChannelOutput,
   | AccessDeniedException
   | AccountChannelLimitExceededException
@@ -2609,7 +2701,7 @@ export const createSignalingChannel: (
  */
 export const describeEdgeConfiguration: (
   input: DescribeEdgeConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEdgeConfigurationOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -2644,7 +2736,7 @@ export const describeEdgeConfiguration: (
  */
 export const createStream: (
   input: CreateStreamInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateStreamOutput,
   | AccountStreamLimitExceededException
   | ClientLimitExceededException

@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -122,12 +122,12 @@ export type InstanceOnboardingJobFailureCode = string;
 export type ContactFlowId = string;
 export type SourcePhoneNumber = string;
 export type RingTimeout = number;
-export type EmailAddress = string | Redacted.Redacted<string>;
-export type EmailDisplayName = string | Redacted.Redacted<string>;
+export type EmailAddress = string | redacted.Redacted<string>;
+export type EmailDisplayName = string | redacted.Redacted<string>;
 export type CommunicationLimitTimeUnit = string;
 export type EventType = string;
 export type ObjectTypeName = string;
-export type DestinationPhoneNumber = string | Redacted.Redacted<string>;
+export type DestinationPhoneNumber = string | redacted.Redacted<string>;
 export type BandwidthAllocation = number;
 export type AgentAction = string;
 export type DayOfWeek = string;
@@ -353,7 +353,7 @@ export const GetCampaignStateRequest = S.suspend(() =>
   identifier: "GetCampaignStateRequest",
 }) as any as S.Schema<GetCampaignStateRequest>;
 export interface GetCampaignStateBatchRequest {
-  campaignIds: CampaignIdList;
+  campaignIds: string[];
 }
 export const GetCampaignStateBatchRequest = S.suspend(() =>
   S.Struct({ campaignIds: CampaignIdList }).pipe(
@@ -566,7 +566,7 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface TagResourceRequest {
   arn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")), tags: TagMap }).pipe(
@@ -588,7 +588,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   arn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -644,7 +644,7 @@ export const AgentActions = S.Array(S.String);
 export interface PreviewConfig {
   bandwidthAllocation: number;
   timeoutConfig: TimeoutConfig;
-  agentActions?: AgentActions;
+  agentActions?: string[];
 }
 export const PreviewConfig = S.suspend(() =>
   S.Struct({
@@ -697,7 +697,7 @@ export const TelephonyOutboundConfig = S.suspend(() =>
 export interface TelephonyChannelSubtypeConfig {
   capacity?: number;
   connectQueueId?: string;
-  outboundMode: (typeof TelephonyOutboundMode)["Type"];
+  outboundMode: TelephonyOutboundMode;
   defaultOutboundConfig: TelephonyOutboundConfig;
 }
 export const TelephonyChannelSubtypeConfig = S.suspend(() =>
@@ -728,7 +728,7 @@ export const SmsOutboundConfig = S.suspend(() =>
 }) as any as S.Schema<SmsOutboundConfig>;
 export interface SmsChannelSubtypeConfig {
   capacity?: number;
-  outboundMode: (typeof SmsOutboundMode)["Type"];
+  outboundMode: SmsOutboundMode;
   defaultOutboundConfig: SmsOutboundConfig;
 }
 export const SmsChannelSubtypeConfig = S.suspend(() =>
@@ -745,8 +745,8 @@ export const EmailOutboundMode = S.Union(
   S.Struct({ agentless: AgentlessConfig }),
 );
 export interface EmailOutboundConfig {
-  connectSourceEmailAddress: string | Redacted.Redacted<string>;
-  sourceEmailAddressDisplayName?: string | Redacted.Redacted<string>;
+  connectSourceEmailAddress: string | redacted.Redacted<string>;
+  sourceEmailAddressDisplayName?: string | redacted.Redacted<string>;
   wisdomTemplateArn: string;
 }
 export const EmailOutboundConfig = S.suspend(() =>
@@ -760,7 +760,7 @@ export const EmailOutboundConfig = S.suspend(() =>
 }) as any as S.Schema<EmailOutboundConfig>;
 export interface EmailChannelSubtypeConfig {
   capacity?: number;
-  outboundMode: (typeof EmailOutboundMode)["Type"];
+  outboundMode: EmailOutboundMode;
   defaultOutboundConfig: EmailOutboundConfig;
 }
 export const EmailChannelSubtypeConfig = S.suspend(() =>
@@ -790,7 +790,7 @@ export const WhatsAppOutboundConfig = S.suspend(() =>
 }) as any as S.Schema<WhatsAppOutboundConfig>;
 export interface WhatsAppChannelSubtypeConfig {
   capacity?: number;
-  outboundMode: (typeof WhatsAppOutboundMode)["Type"];
+  outboundMode: WhatsAppOutboundMode;
   defaultOutboundConfig: WhatsAppOutboundConfig;
 }
 export const WhatsAppChannelSubtypeConfig = S.suspend(() =>
@@ -865,13 +865,13 @@ export const CommunicationLimit = S.suspend(() =>
 export type CommunicationLimitList = CommunicationLimit[];
 export const CommunicationLimitList = S.Array(CommunicationLimit);
 export type CommunicationLimits = {
-  communicationLimitsList: CommunicationLimitList;
+  communicationLimitsList: CommunicationLimit[];
 };
 export const CommunicationLimits = S.Union(
   S.Struct({ communicationLimitsList: CommunicationLimitList }),
 );
 export interface CommunicationLimitsConfig {
-  allChannelSubtypes?: (typeof CommunicationLimits)["Type"];
+  allChannelSubtypes?: CommunicationLimits;
   instanceLimitsHandling?: string;
 }
 export const CommunicationLimitsConfig = S.suspend(() =>
@@ -916,7 +916,7 @@ export type LocalTimeZoneDetection = string[];
 export const LocalTimeZoneDetection = S.Array(S.String);
 export interface LocalTimeZoneConfig {
   defaultTimeZone?: string;
-  localTimeZoneDetection?: LocalTimeZoneDetection;
+  localTimeZoneDetection?: string[];
 }
 export const LocalTimeZoneConfig = S.suspend(() =>
   S.Struct({
@@ -935,9 +935,9 @@ export const TimeRange = S.suspend(() =>
 ).annotations({ identifier: "TimeRange" }) as any as S.Schema<TimeRange>;
 export type TimeRangeList = TimeRange[];
 export const TimeRangeList = S.Array(TimeRange);
-export type DailyHours = { [key: string]: TimeRangeList };
+export type DailyHours = { [key: string]: TimeRange[] };
 export const DailyHours = S.Record({ key: S.String, value: TimeRangeList });
-export type OpenHours = { dailyHours: DailyHours };
+export type OpenHours = { dailyHours: { [key: string]: TimeRange[] } };
 export const OpenHours = S.Union(S.Struct({ dailyHours: DailyHours }));
 export interface RestrictedPeriod {
   name?: string;
@@ -955,13 +955,13 @@ export const RestrictedPeriod = S.suspend(() =>
 }) as any as S.Schema<RestrictedPeriod>;
 export type RestrictedPeriodList = RestrictedPeriod[];
 export const RestrictedPeriodList = S.Array(RestrictedPeriod);
-export type RestrictedPeriods = { restrictedPeriodList: RestrictedPeriodList };
+export type RestrictedPeriods = { restrictedPeriodList: RestrictedPeriod[] };
 export const RestrictedPeriods = S.Union(
   S.Struct({ restrictedPeriodList: RestrictedPeriodList }),
 );
 export interface TimeWindow {
-  openHours: (typeof OpenHours)["Type"];
-  restrictedPeriods?: (typeof RestrictedPeriods)["Type"];
+  openHours: OpenHours;
+  restrictedPeriods?: RestrictedPeriods;
 }
 export const TimeWindow = S.suspend(() =>
   S.Struct({
@@ -1116,7 +1116,7 @@ export const Source = S.Union(
 );
 export interface UpdateCampaignSourceRequest {
   id: string;
-  source: (typeof Source)["Type"];
+  source: Source;
 }
 export const UpdateCampaignSourceRequest = S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")), source: Source }).pipe(
@@ -1139,7 +1139,7 @@ export const UpdateCampaignSourceResponse = S.suspend(() =>
   identifier: "UpdateCampaignSourceResponse",
 }) as any as S.Schema<UpdateCampaignSourceResponse>;
 export interface InstanceCommunicationLimitsConfig {
-  allChannelSubtypes?: (typeof CommunicationLimits)["Type"];
+  allChannelSubtypes?: CommunicationLimits;
 }
 export const InstanceCommunicationLimitsConfig = S.suspend(() =>
   S.Struct({ allChannelSubtypes: S.optional(CommunicationLimits) }),
@@ -1195,7 +1195,7 @@ export const GetInstanceCommunicationLimitsResponse = S.suspend(() =>
   identifier: "GetInstanceCommunicationLimitsResponse",
 }) as any as S.Schema<GetInstanceCommunicationLimitsResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -1234,7 +1234,7 @@ export const PutInstanceCommunicationLimitsResponse = S.suspend(() =>
 }) as any as S.Schema<PutInstanceCommunicationLimitsResponse>;
 export interface PutProfileOutboundRequestBatchRequest {
   id: string;
-  profileOutboundRequests: ProfileOutboundRequestList;
+  profileOutboundRequests: ProfileOutboundRequest[];
 }
 export const PutProfileOutboundRequestBatchRequest = S.suspend(() =>
   S.Struct({
@@ -1345,12 +1345,12 @@ export interface Campaign {
   connectInstanceId: string;
   channelSubtypeConfig?: ChannelSubtypeConfig;
   type?: string;
-  source?: (typeof Source)["Type"];
+  source?: Source;
   connectCampaignFlowArn?: string;
   schedule?: Schedule;
   communicationTimeConfig?: CommunicationTimeConfig;
   communicationLimitsOverride?: CommunicationLimitsConfig;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const Campaign = S.suspend(() =>
   S.Struct({
@@ -1439,10 +1439,10 @@ export const ObjectTypeNamesMap = S.Record({ key: S.String, value: S.String });
 export type Attributes = { [key: string]: string };
 export const Attributes = S.Record({ key: S.String, value: S.String });
 export interface SmsChannelSubtypeParameters {
-  destinationPhoneNumber: string | Redacted.Redacted<string>;
+  destinationPhoneNumber: string | redacted.Redacted<string>;
   connectSourcePhoneNumberArn?: string;
   templateArn?: string;
-  templateParameters: Attributes;
+  templateParameters: { [key: string]: string };
 }
 export const SmsChannelSubtypeParameters = S.suspend(() =>
   S.Struct({
@@ -1455,10 +1455,10 @@ export const SmsChannelSubtypeParameters = S.suspend(() =>
   identifier: "SmsChannelSubtypeParameters",
 }) as any as S.Schema<SmsChannelSubtypeParameters>;
 export interface EmailChannelSubtypeParameters {
-  destinationEmailAddress: string | Redacted.Redacted<string>;
-  connectSourceEmailAddress?: string | Redacted.Redacted<string>;
+  destinationEmailAddress: string | redacted.Redacted<string>;
+  connectSourceEmailAddress?: string | redacted.Redacted<string>;
   templateArn?: string;
-  templateParameters: Attributes;
+  templateParameters: { [key: string]: string };
 }
 export const EmailChannelSubtypeParameters = S.suspend(() =>
   S.Struct({
@@ -1471,10 +1471,10 @@ export const EmailChannelSubtypeParameters = S.suspend(() =>
   identifier: "EmailChannelSubtypeParameters",
 }) as any as S.Schema<EmailChannelSubtypeParameters>;
 export interface WhatsAppChannelSubtypeParameters {
-  destinationPhoneNumber: string | Redacted.Redacted<string>;
+  destinationPhoneNumber: string | redacted.Redacted<string>;
   connectSourcePhoneNumberArn?: string;
   templateArn?: string;
-  templateParameters: Attributes;
+  templateParameters: { [key: string]: string };
 }
 export const WhatsAppChannelSubtypeParameters = S.suspend(() =>
   S.Struct({
@@ -1488,7 +1488,7 @@ export const WhatsAppChannelSubtypeParameters = S.suspend(() =>
 }) as any as S.Schema<WhatsAppChannelSubtypeParameters>;
 export interface DeleteConnectInstanceIntegrationRequest {
   connectInstanceId: string;
-  integrationIdentifier: (typeof IntegrationIdentifier)["Type"];
+  integrationIdentifier: IntegrationIdentifier;
 }
 export const DeleteConnectInstanceIntegrationRequest = S.suspend(() =>
   S.Struct({
@@ -1525,8 +1525,8 @@ export const DescribeCampaignResponse = S.suspend(() =>
   identifier: "DescribeCampaignResponse",
 }) as any as S.Schema<DescribeCampaignResponse>;
 export interface GetCampaignStateBatchResponse {
-  successfulRequests?: SuccessfulCampaignStateResponseList;
-  failedRequests?: FailedCampaignStateResponseList;
+  successfulRequests?: SuccessfulCampaignStateResponse[];
+  failedRequests?: FailedCampaignStateResponse[];
 }
 export const GetCampaignStateBatchResponse = S.suspend(() =>
   S.Struct({
@@ -1589,7 +1589,7 @@ export const StartInstanceOnboardingJobResponse = S.suspend(() =>
 }) as any as S.Schema<StartInstanceOnboardingJobResponse>;
 export interface CustomerProfilesIntegrationSummary {
   domainArn: string;
-  objectTypeNames: ObjectTypeNamesMap;
+  objectTypeNames: { [key: string]: string };
 }
 export const CustomerProfilesIntegrationSummary = S.suspend(() =>
   S.Struct({ domainArn: S.String, objectTypeNames: ObjectTypeNamesMap }),
@@ -1614,7 +1614,7 @@ export const LambdaIntegrationSummary = S.suspend(() =>
 }) as any as S.Schema<LambdaIntegrationSummary>;
 export interface CustomerProfilesIntegrationConfig {
   domainArn: string;
-  objectTypeNames: ObjectTypeNamesMap;
+  objectTypeNames: { [key: string]: string };
 }
 export const CustomerProfilesIntegrationConfig = S.suspend(() =>
   S.Struct({ domainArn: S.String, objectTypeNames: ObjectTypeNamesMap }),
@@ -1630,7 +1630,7 @@ export const IntegrationSummary = S.Union(
   S.Struct({ qConnect: QConnectIntegrationSummary }),
   S.Struct({ lambda: LambdaIntegrationSummary }),
 );
-export type IntegrationSummaryList = (typeof IntegrationSummary)["Type"][];
+export type IntegrationSummaryList = IntegrationSummary[];
 export const IntegrationSummaryList = S.Array(IntegrationSummary);
 export type IntegrationConfig =
   | { customerProfiles: CustomerProfilesIntegrationConfig }
@@ -1674,8 +1674,8 @@ export const FailedProfileOutboundRequestList = S.Array(
   FailedProfileOutboundRequest,
 );
 export interface TelephonyChannelSubtypeParameters {
-  destinationPhoneNumber: string | Redacted.Redacted<string>;
-  attributes: Attributes;
+  destinationPhoneNumber: string | redacted.Redacted<string>;
+  attributes: { [key: string]: string };
   connectSourcePhoneNumber?: string;
   answerMachineDetectionConfig?: AnswerMachineDetectionConfig;
   ringTimeout?: number;
@@ -1693,7 +1693,7 @@ export const TelephonyChannelSubtypeParameters = S.suspend(() =>
 }) as any as S.Schema<TelephonyChannelSubtypeParameters>;
 export interface ListConnectInstanceIntegrationsResponse {
   nextToken?: string;
-  integrationSummaryList?: IntegrationSummaryList;
+  integrationSummaryList?: IntegrationSummary[];
 }
 export const ListConnectInstanceIntegrationsResponse = S.suspend(() =>
   S.Struct({
@@ -1705,7 +1705,7 @@ export const ListConnectInstanceIntegrationsResponse = S.suspend(() =>
 }) as any as S.Schema<ListConnectInstanceIntegrationsResponse>;
 export interface PutConnectInstanceIntegrationRequest {
   connectInstanceId: string;
-  integrationConfig: (typeof IntegrationConfig)["Type"];
+  integrationConfig: IntegrationConfig;
 }
 export const PutConnectInstanceIntegrationRequest = S.suspend(() =>
   S.Struct({
@@ -1734,8 +1734,8 @@ export const PutConnectInstanceIntegrationResponse = S.suspend(() =>
   identifier: "PutConnectInstanceIntegrationResponse",
 }) as any as S.Schema<PutConnectInstanceIntegrationResponse>;
 export interface PutProfileOutboundRequestBatchResponse {
-  successfulRequests?: SuccessfulProfileOutboundRequestList;
-  failedRequests?: FailedProfileOutboundRequestList;
+  successfulRequests?: SuccessfulProfileOutboundRequest[];
+  failedRequests?: FailedProfileOutboundRequest[];
 }
 export const PutProfileOutboundRequestBatchResponse = S.suspend(() =>
   S.Struct({
@@ -1763,7 +1763,7 @@ export interface CampaignSummary {
   arn: string;
   name: string;
   connectInstanceId: string;
-  channelSubtypes: ChannelSubtypeList;
+  channelSubtypes: string[];
   type?: string;
   schedule?: Schedule;
   connectCampaignFlowArn?: string;
@@ -1787,7 +1787,7 @@ export const CampaignSummaryList = S.Array(CampaignSummary);
 export interface OutboundRequest {
   clientToken: string;
   expirationTime: Date;
-  channelSubtypeParameters: (typeof ChannelSubtypeParameters)["Type"];
+  channelSubtypeParameters: ChannelSubtypeParameters;
 }
 export const OutboundRequest = S.suspend(() =>
   S.Struct({
@@ -1802,7 +1802,7 @@ export type OutboundRequestList = OutboundRequest[];
 export const OutboundRequestList = S.Array(OutboundRequest);
 export interface ListCampaignsResponse {
   nextToken?: string;
-  campaignSummaryList?: CampaignSummaryList;
+  campaignSummaryList?: CampaignSummary[];
 }
 export const ListCampaignsResponse = S.suspend(() =>
   S.Struct({
@@ -1814,7 +1814,7 @@ export const ListCampaignsResponse = S.suspend(() =>
 }) as any as S.Schema<ListCampaignsResponse>;
 export interface PutOutboundRequestBatchRequest {
   id: string;
-  outboundRequests: OutboundRequestList;
+  outboundRequests: OutboundRequest[];
 }
 export const PutOutboundRequestBatchRequest = S.suspend(() =>
   S.Struct({
@@ -1838,12 +1838,12 @@ export interface CreateCampaignRequest {
   connectInstanceId: string;
   channelSubtypeConfig?: ChannelSubtypeConfig;
   type?: string;
-  source?: (typeof Source)["Type"];
+  source?: Source;
   connectCampaignFlowArn?: string;
   schedule?: Schedule;
   communicationTimeConfig?: CommunicationTimeConfig;
   communicationLimitsOverride?: CommunicationLimitsConfig;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateCampaignRequest = S.suspend(() =>
   S.Struct({
@@ -1900,7 +1900,7 @@ export const FailedRequestList = S.Array(FailedRequest);
 export interface CreateCampaignResponse {
   id?: string;
   arn?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateCampaignResponse = S.suspend(() =>
   S.Struct({
@@ -1912,8 +1912,8 @@ export const CreateCampaignResponse = S.suspend(() =>
   identifier: "CreateCampaignResponse",
 }) as any as S.Schema<CreateCampaignResponse>;
 export interface PutOutboundRequestBatchResponse {
-  successfulRequests?: SuccessfulRequestList;
-  failedRequests?: FailedRequestList;
+  successfulRequests?: SuccessfulRequest[];
+  failedRequests?: FailedRequest[];
 }
 export const PutOutboundRequestBatchResponse = S.suspend(() =>
   S.Struct({
@@ -1998,7 +1998,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  */
 export const deleteCampaign: (
   input: DeleteCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCampaignResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2022,7 +2022,7 @@ export const deleteCampaign: (
 export const listCampaigns: {
   (
     input: ListCampaignsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCampaignsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2032,7 +2032,7 @@ export const listCampaigns: {
   >;
   pages: (
     input: ListCampaignsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCampaignsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2042,7 +2042,7 @@ export const listCampaigns: {
   >;
   items: (
     input: ListCampaignsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CampaignSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2066,7 +2066,7 @@ export const listCampaigns: {
  */
 export const getCampaignStateBatch: (
   input: GetCampaignStateBatchRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCampaignStateBatchResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2090,7 +2090,7 @@ export const getCampaignStateBatch: (
 export const listConnectInstanceIntegrations: {
   (
     input: ListConnectInstanceIntegrationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConnectInstanceIntegrationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2102,7 +2102,7 @@ export const listConnectInstanceIntegrations: {
   >;
   pages: (
     input: ListConnectInstanceIntegrationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConnectInstanceIntegrationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2114,7 +2114,7 @@ export const listConnectInstanceIntegrations: {
   >;
   items: (
     input: ListConnectInstanceIntegrationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     IntegrationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2146,7 +2146,7 @@ export const listConnectInstanceIntegrations: {
  */
 export const putConnectInstanceIntegration: (
   input: PutConnectInstanceIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutConnectInstanceIntegrationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2173,7 +2173,7 @@ export const putConnectInstanceIntegration: (
  */
 export const deleteConnectInstanceConfig: (
   input: DeleteConnectInstanceConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConnectInstanceConfigResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2200,7 +2200,7 @@ export const deleteConnectInstanceConfig: (
  */
 export const deleteConnectInstanceIntegration: (
   input: DeleteConnectInstanceIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConnectInstanceIntegrationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2225,7 +2225,7 @@ export const deleteConnectInstanceIntegration: (
  */
 export const describeCampaign: (
   input: DescribeCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCampaignResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2248,7 +2248,7 @@ export const describeCampaign: (
  */
 export const getConnectInstanceConfig: (
   input: GetConnectInstanceConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConnectInstanceConfigResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2271,7 +2271,7 @@ export const getConnectInstanceConfig: (
  */
 export const getInstanceOnboardingJobStatus: (
   input: GetInstanceOnboardingJobStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInstanceOnboardingJobStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2294,7 +2294,7 @@ export const getInstanceOnboardingJobStatus: (
  */
 export const putInstanceCommunicationLimits: (
   input: PutInstanceCommunicationLimitsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutInstanceCommunicationLimitsResponse,
   | AccessDeniedException
   | ConflictException
@@ -2319,7 +2319,7 @@ export const putInstanceCommunicationLimits: (
  */
 export const startInstanceOnboardingJob: (
   input: StartInstanceOnboardingJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartInstanceOnboardingJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -2346,7 +2346,7 @@ export const startInstanceOnboardingJob: (
  */
 export const getCampaignState: (
   input: GetCampaignStateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCampaignStateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2371,7 +2371,7 @@ export const getCampaignState: (
  */
 export const getInstanceCommunicationLimits: (
   input: GetInstanceCommunicationLimitsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInstanceCommunicationLimitsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2394,7 +2394,7 @@ export const getInstanceCommunicationLimits: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2419,7 +2419,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2444,7 +2444,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2469,7 +2469,7 @@ export const untagResource: (
  */
 export const deleteCampaignChannelSubtypeConfig: (
   input: DeleteCampaignChannelSubtypeConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCampaignChannelSubtypeConfigResponse,
   | AccessDeniedException
   | ConflictException
@@ -2494,7 +2494,7 @@ export const deleteCampaignChannelSubtypeConfig: (
  */
 export const updateCampaignChannelSubtypeConfig: (
   input: UpdateCampaignChannelSubtypeConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCampaignChannelSubtypeConfigResponse,
   | AccessDeniedException
   | ConflictException
@@ -2519,7 +2519,7 @@ export const updateCampaignChannelSubtypeConfig: (
  */
 export const updateCampaignName: (
   input: UpdateCampaignNameRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCampaignNameResponse,
   | AccessDeniedException
   | ConflictException
@@ -2544,7 +2544,7 @@ export const updateCampaignName: (
  */
 export const deleteCampaignCommunicationLimits: (
   input: DeleteCampaignCommunicationLimitsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCampaignCommunicationLimitsResponse,
   | AccessDeniedException
   | ConflictException
@@ -2571,7 +2571,7 @@ export const deleteCampaignCommunicationLimits: (
  */
 export const deleteInstanceOnboardingJob: (
   input: DeleteInstanceOnboardingJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteInstanceOnboardingJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2596,7 +2596,7 @@ export const deleteInstanceOnboardingJob: (
  */
 export const deleteCampaignCommunicationTime: (
   input: DeleteCampaignCommunicationTimeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCampaignCommunicationTimeResponse,
   | AccessDeniedException
   | ConflictException
@@ -2623,7 +2623,7 @@ export const deleteCampaignCommunicationTime: (
  */
 export const pauseCampaign: (
   input: PauseCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PauseCampaignResponse,
   | AccessDeniedException
   | ConflictException
@@ -2652,7 +2652,7 @@ export const pauseCampaign: (
  */
 export const resumeCampaign: (
   input: ResumeCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResumeCampaignResponse,
   | AccessDeniedException
   | ConflictException
@@ -2681,7 +2681,7 @@ export const resumeCampaign: (
  */
 export const startCampaign: (
   input: StartCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartCampaignResponse,
   | AccessDeniedException
   | ConflictException
@@ -2710,7 +2710,7 @@ export const startCampaign: (
  */
 export const stopCampaign: (
   input: StopCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopCampaignResponse,
   | AccessDeniedException
   | ConflictException
@@ -2739,7 +2739,7 @@ export const stopCampaign: (
  */
 export const updateCampaignCommunicationLimits: (
   input: UpdateCampaignCommunicationLimitsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCampaignCommunicationLimitsResponse,
   | AccessDeniedException
   | ConflictException
@@ -2766,7 +2766,7 @@ export const updateCampaignCommunicationLimits: (
  */
 export const updateCampaignCommunicationTime: (
   input: UpdateCampaignCommunicationTimeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCampaignCommunicationTimeResponse,
   | AccessDeniedException
   | ConflictException
@@ -2793,7 +2793,7 @@ export const updateCampaignCommunicationTime: (
  */
 export const updateCampaignFlowAssociation: (
   input: UpdateCampaignFlowAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCampaignFlowAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2820,7 +2820,7 @@ export const updateCampaignFlowAssociation: (
  */
 export const updateCampaignSchedule: (
   input: UpdateCampaignScheduleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCampaignScheduleResponse,
   | AccessDeniedException
   | ConflictException
@@ -2847,7 +2847,7 @@ export const updateCampaignSchedule: (
  */
 export const updateCampaignSource: (
   input: UpdateCampaignSourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCampaignSourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2874,7 +2874,7 @@ export const updateCampaignSource: (
  */
 export const putProfileOutboundRequestBatch: (
   input: PutProfileOutboundRequestBatchRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutProfileOutboundRequestBatchResponse,
   | AccessDeniedException
   | ConflictException
@@ -2903,7 +2903,7 @@ export const putProfileOutboundRequestBatch: (
  */
 export const putOutboundRequestBatch: (
   input: PutOutboundRequestBatchRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutOutboundRequestBatchResponse,
   | AccessDeniedException
   | ConflictException
@@ -2932,7 +2932,7 @@ export const putOutboundRequestBatch: (
  */
 export const createCampaign: (
   input: CreateCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCampaignResponse,
   | AccessDeniedException
   | ConflictException

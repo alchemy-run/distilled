@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -110,7 +110,7 @@ export type __stringMin1Max128 = string;
 export type __string = string;
 export type NetworkType = string;
 export type CustomPluginContentType = string;
-export type __sensitiveString = string | Redacted.Redacted<string>;
+export type __sensitiveString = string | redacted.Redacted<string>;
 export type MaxResults = number;
 export type TagKey = string;
 export type KafkaClusterClientAuthenticationType = string;
@@ -137,8 +137,8 @@ export const Tags = S.Record({ key: S.String, value: S.String });
 export interface CreateWorkerConfigurationRequest {
   description?: string;
   name: string;
-  propertiesFileContent: string | Redacted.Redacted<string>;
-  tags?: Tags;
+  propertiesFileContent: string | redacted.Redacted<string>;
+  tags?: { [key: string]: string };
 }
 export const CreateWorkerConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -421,7 +421,7 @@ export const ListWorkerConfigurationsRequest = S.suspend(() =>
 }) as any as S.Schema<ListWorkerConfigurationsRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: Tags;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -446,7 +446,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -541,7 +541,7 @@ export const DeleteWorkerConfigurationResponse = S.suspend(() =>
   identifier: "DeleteWorkerConfigurationResponse",
 }) as any as S.Schema<DeleteWorkerConfigurationResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -734,7 +734,7 @@ export const WorkerSetting = S.suspend(() =>
 export interface WorkerConfigurationRevisionDescription {
   creationTime?: Date;
   description?: string;
-  propertiesFileContent?: string | Redacted.Redacted<string>;
+  propertiesFileContent?: string | redacted.Redacted<string>;
   revision?: number;
 }
 export const WorkerConfigurationRevisionDescription = S.suspend(() =>
@@ -770,8 +770,8 @@ export const __listOfConnectorOperationSummary = S.Array(
   ConnectorOperationSummary,
 );
 export interface VpcDescription {
-  securityGroups?: __listOf__string;
-  subnets?: __listOf__string;
+  securityGroups?: string[];
+  subnets?: string[];
 }
 export const VpcDescription = S.suspend(() =>
   S.Struct({
@@ -894,7 +894,7 @@ export interface ConnectorSummary {
   kafkaConnectVersion?: string;
   logDelivery?: LogDeliveryDescription;
   networkType?: string;
-  plugins?: __listOfPluginDescription;
+  plugins?: PluginDescription[];
   serviceExecutionRoleArn?: string;
   workerConfiguration?: WorkerConfigurationDescription;
 }
@@ -1040,8 +1040,8 @@ export const ScaleOutPolicy = S.suspend(() =>
   identifier: "ScaleOutPolicy",
 }) as any as S.Schema<ScaleOutPolicy>;
 export interface Vpc {
-  securityGroups?: __listOf__string;
-  subnets: __listOf__string;
+  securityGroups?: string[];
+  subnets: string[];
 }
 export const Vpc = S.suspend(() =>
   S.Struct({
@@ -1102,7 +1102,7 @@ export interface CreateCustomPluginRequest {
   description?: string;
   location: CustomPluginLocation;
   name: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateCustomPluginRequest = S.suspend(() =>
   S.Struct({
@@ -1147,11 +1147,11 @@ export interface DescribeConnectorOperationResponse {
   connectorOperationArn?: string;
   connectorOperationState?: string;
   connectorOperationType?: string;
-  operationSteps?: __listOfConnectorOperationStep;
+  operationSteps?: ConnectorOperationStep[];
   originWorkerSetting?: WorkerSetting;
-  originConnectorConfiguration?: ConnectorConfiguration;
+  originConnectorConfiguration?: { [key: string]: string };
   targetWorkerSetting?: WorkerSetting;
-  targetConnectorConfiguration?: ConnectorConfiguration;
+  targetConnectorConfiguration?: { [key: string]: string };
   errorInfo?: StateDescription;
   creationTime?: Date;
   endTime?: Date;
@@ -1195,7 +1195,7 @@ export const DescribeWorkerConfigurationResponse = S.suspend(() =>
   identifier: "DescribeWorkerConfigurationResponse",
 }) as any as S.Schema<DescribeWorkerConfigurationResponse>;
 export interface ListConnectorOperationsResponse {
-  connectorOperations?: __listOfConnectorOperationSummary;
+  connectorOperations?: ConnectorOperationSummary[];
   nextToken?: string;
 }
 export const ListConnectorOperationsResponse = S.suspend(() =>
@@ -1207,7 +1207,7 @@ export const ListConnectorOperationsResponse = S.suspend(() =>
   identifier: "ListConnectorOperationsResponse",
 }) as any as S.Schema<ListConnectorOperationsResponse>;
 export interface ListConnectorsResponse {
-  connectors?: __listOfConnectorSummary;
+  connectors?: ConnectorSummary[];
   nextToken?: string;
 }
 export const ListConnectorsResponse = S.suspend(() =>
@@ -1219,7 +1219,7 @@ export const ListConnectorsResponse = S.suspend(() =>
   identifier: "ListConnectorsResponse",
 }) as any as S.Schema<ListConnectorsResponse>;
 export interface ListCustomPluginsResponse {
-  customPlugins?: __listOfCustomPluginSummary;
+  customPlugins?: CustomPluginSummary[];
   nextToken?: string;
 }
 export const ListCustomPluginsResponse = S.suspend(() =>
@@ -1232,7 +1232,7 @@ export const ListCustomPluginsResponse = S.suspend(() =>
 }) as any as S.Schema<ListCustomPluginsResponse>;
 export interface ListWorkerConfigurationsResponse {
   nextToken?: string;
-  workerConfigurations?: __listOfWorkerConfigurationSummary;
+  workerConfigurations?: WorkerConfigurationSummary[];
 }
 export const ListWorkerConfigurationsResponse = S.suspend(() =>
   S.Struct({
@@ -1335,7 +1335,7 @@ export const CapacityUpdate = S.suspend(() =>
 }) as any as S.Schema<CapacityUpdate>;
 export interface CreateConnectorRequest {
   capacity: Capacity;
-  connectorConfiguration: ConnectorConfiguration;
+  connectorConfiguration: { [key: string]: string };
   connectorDescription?: string;
   connectorName: string;
   kafkaCluster: KafkaCluster;
@@ -1344,10 +1344,10 @@ export interface CreateConnectorRequest {
   kafkaConnectVersion: string;
   logDelivery?: LogDelivery;
   networkType?: string;
-  plugins: __listOfPlugin;
+  plugins: Plugin[];
   serviceExecutionRoleArn: string;
   workerConfiguration?: WorkerConfiguration;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateConnectorRequest = S.suspend(() =>
   S.Struct({
@@ -1396,7 +1396,7 @@ export const CreateCustomPluginResponse = S.suspend(() =>
 }) as any as S.Schema<CreateCustomPluginResponse>;
 export interface UpdateConnectorRequest {
   capacity?: CapacityUpdate;
-  connectorConfiguration?: ConnectorConfigurationUpdate;
+  connectorConfiguration?: { [key: string]: string };
   connectorArn: string;
   currentVersion: string;
 }
@@ -1436,7 +1436,7 @@ export const CreateConnectorResponse = S.suspend(() =>
 export interface DescribeConnectorResponse {
   capacity?: CapacityDescription;
   connectorArn?: string;
-  connectorConfiguration?: ConnectorConfiguration;
+  connectorConfiguration?: { [key: string]: string };
   connectorDescription?: string;
   connectorName?: string;
   connectorState?: string;
@@ -1448,7 +1448,7 @@ export interface DescribeConnectorResponse {
   kafkaConnectVersion?: string;
   logDelivery?: LogDeliveryDescription;
   networkType?: string;
-  plugins?: __listOfPluginDescription;
+  plugins?: PluginDescription[];
   serviceExecutionRoleArn?: string;
   workerConfiguration?: WorkerConfigurationDescription;
   stateDescription?: StateDescription;
@@ -1558,7 +1558,7 @@ export class UnauthorizedException extends S.TaggedError<UnauthorizedException>(
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -1587,7 +1587,7 @@ export const untagResource: (
  */
 export const createWorkerConfiguration: (
   input: CreateWorkerConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkerConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -1618,7 +1618,7 @@ export const createWorkerConfiguration: (
  */
 export const deleteConnector: (
   input: DeleteConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConnectorResponse,
   | BadRequestException
   | ForbiddenException
@@ -1647,7 +1647,7 @@ export const deleteConnector: (
  */
 export const deleteCustomPlugin: (
   input: DeleteCustomPluginRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCustomPluginResponse,
   | BadRequestException
   | ForbiddenException
@@ -1676,7 +1676,7 @@ export const deleteCustomPlugin: (
  */
 export const deleteWorkerConfiguration: (
   input: DeleteWorkerConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkerConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -1705,7 +1705,7 @@ export const deleteWorkerConfiguration: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -1734,7 +1734,7 @@ export const listTagsForResource: (
  */
 export const describeConnectorOperation: (
   input: DescribeConnectorOperationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeConnectorOperationResponse,
   | BadRequestException
   | ForbiddenException
@@ -1763,7 +1763,7 @@ export const describeConnectorOperation: (
  */
 export const describeWorkerConfiguration: (
   input: DescribeWorkerConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeWorkerConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -1793,7 +1793,7 @@ export const describeWorkerConfiguration: (
 export const listConnectorOperations: {
   (
     input: ListConnectorOperationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConnectorOperationsResponse,
     | BadRequestException
     | ForbiddenException
@@ -1807,7 +1807,7 @@ export const listConnectorOperations: {
   >;
   pages: (
     input: ListConnectorOperationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConnectorOperationsResponse,
     | BadRequestException
     | ForbiddenException
@@ -1821,7 +1821,7 @@ export const listConnectorOperations: {
   >;
   items: (
     input: ListConnectorOperationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConnectorOperationSummary,
     | BadRequestException
     | ForbiddenException
@@ -1858,7 +1858,7 @@ export const listConnectorOperations: {
 export const listConnectors: {
   (
     input: ListConnectorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConnectorsResponse,
     | BadRequestException
     | ForbiddenException
@@ -1872,7 +1872,7 @@ export const listConnectors: {
   >;
   pages: (
     input: ListConnectorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConnectorsResponse,
     | BadRequestException
     | ForbiddenException
@@ -1886,7 +1886,7 @@ export const listConnectors: {
   >;
   items: (
     input: ListConnectorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConnectorSummary,
     | BadRequestException
     | ForbiddenException
@@ -1923,7 +1923,7 @@ export const listConnectors: {
 export const listCustomPlugins: {
   (
     input: ListCustomPluginsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCustomPluginsResponse,
     | BadRequestException
     | ForbiddenException
@@ -1937,7 +1937,7 @@ export const listCustomPlugins: {
   >;
   pages: (
     input: ListCustomPluginsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCustomPluginsResponse,
     | BadRequestException
     | ForbiddenException
@@ -1951,7 +1951,7 @@ export const listCustomPlugins: {
   >;
   items: (
     input: ListCustomPluginsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CustomPluginSummary,
     | BadRequestException
     | ForbiddenException
@@ -1988,7 +1988,7 @@ export const listCustomPlugins: {
 export const listWorkerConfigurations: {
   (
     input: ListWorkerConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkerConfigurationsResponse,
     | BadRequestException
     | ForbiddenException
@@ -2002,7 +2002,7 @@ export const listWorkerConfigurations: {
   >;
   pages: (
     input: ListWorkerConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkerConfigurationsResponse,
     | BadRequestException
     | ForbiddenException
@@ -2016,7 +2016,7 @@ export const listWorkerConfigurations: {
   >;
   items: (
     input: ListWorkerConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkerConfigurationSummary,
     | BadRequestException
     | ForbiddenException
@@ -2052,7 +2052,7 @@ export const listWorkerConfigurations: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | BadRequestException
   | ConflictException
@@ -2083,7 +2083,7 @@ export const tagResource: (
  */
 export const createCustomPlugin: (
   input: CreateCustomPluginRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCustomPluginResponse,
   | BadRequestException
   | ConflictException
@@ -2114,7 +2114,7 @@ export const createCustomPlugin: (
  */
 export const createConnector: (
   input: CreateConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConnectorResponse,
   | BadRequestException
   | ConflictException
@@ -2145,7 +2145,7 @@ export const createConnector: (
  */
 export const describeConnector: (
   input: DescribeConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeConnectorResponse,
   | BadRequestException
   | ForbiddenException
@@ -2174,7 +2174,7 @@ export const describeConnector: (
  */
 export const describeCustomPlugin: (
   input: DescribeCustomPluginRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCustomPluginResponse,
   | BadRequestException
   | ForbiddenException
@@ -2203,7 +2203,7 @@ export const describeCustomPlugin: (
  */
 export const updateConnector: (
   input: UpdateConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConnectorResponse,
   | BadRequestException
   | ForbiddenException

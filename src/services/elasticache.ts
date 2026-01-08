@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -97,19 +97,19 @@ export type UserId = string;
 export type UserName = string;
 export type EngineType = string;
 export type AccessString = string;
-export type Integer = number;
 export type AllowedNodeGroupId = string;
 export type FilterName = string;
 export type FilterValue = string;
 export type AwsQueryErrorMessage = string;
 export type ExceptionMessage = string;
-export type Double = number;
 
 //# Schemas
 export type ReplicationGroupIdList = string[];
 export const ReplicationGroupIdList = S.Array(S.String);
 export type CacheClusterIdList = string[];
 export const CacheClusterIdList = S.Array(S.String);
+export type AZMode = "single-az" | "cross-az";
+export const AZMode = S.Literal("single-az", "cross-az");
 export type PreferredAvailabilityZoneList = string[];
 export const PreferredAvailabilityZoneList = S.Array(
   S.String.pipe(T.XmlName("PreferredAvailabilityZone")),
@@ -126,10 +126,16 @@ export type SnapshotArnsList = string[];
 export const SnapshotArnsList = S.Array(
   S.String.pipe(T.XmlName("SnapshotArn")),
 );
+export type OutpostMode = "single-outpost" | "cross-outpost";
+export const OutpostMode = S.Literal("single-outpost", "cross-outpost");
 export type PreferredOutpostArnList = string[];
 export const PreferredOutpostArnList = S.Array(
   S.String.pipe(T.XmlName("PreferredOutpostArn")),
 );
+export type NetworkType = "ipv4" | "ipv6" | "dual_stack";
+export const NetworkType = S.Literal("ipv4", "ipv6", "dual_stack");
+export type IpDiscovery = "ipv4" | "ipv6";
+export const IpDiscovery = S.Literal("ipv4", "ipv6");
 export type SubnetIdentifierList = string[];
 export const SubnetIdentifierList = S.Array(
   S.String.pipe(T.XmlName("SubnetIdentifier")),
@@ -140,6 +146,10 @@ export const AvailabilityZonesList = S.Array(
 );
 export type UserGroupIdListInput = string[];
 export const UserGroupIdListInput = S.Array(S.String);
+export type TransitEncryptionMode = "preferred" | "required";
+export const TransitEncryptionMode = S.Literal("preferred", "required");
+export type ClusterMode = "enabled" | "disabled" | "compatible";
+export const ClusterMode = S.Literal("enabled", "disabled", "compatible");
 export type SubnetIdsList = string[];
 export const SubnetIdsList = S.Array(S.String.pipe(T.XmlName("SubnetId")));
 export type PasswordListInput = string[];
@@ -152,14 +162,64 @@ export const GlobalNodeGroupIdList = S.Array(
 );
 export type RemoveReplicasList = string[];
 export const RemoveReplicasList = S.Array(S.String);
-export type ServiceUpdateStatusList = string[];
-export const ServiceUpdateStatusList = S.Array(S.String);
-export type UpdateActionStatusList = string[];
-export const UpdateActionStatusList = S.Array(S.String);
+export type SourceType =
+  | "cache-cluster"
+  | "cache-parameter-group"
+  | "cache-security-group"
+  | "cache-subnet-group"
+  | "replication-group"
+  | "serverless-cache"
+  | "serverless-cache-snapshot"
+  | "user"
+  | "user-group";
+export const SourceType = S.Literal(
+  "cache-cluster",
+  "cache-parameter-group",
+  "cache-security-group",
+  "cache-subnet-group",
+  "replication-group",
+  "serverless-cache",
+  "serverless-cache-snapshot",
+  "user",
+  "user-group",
+);
+export type ServiceUpdateStatus = "available" | "cancelled" | "expired";
+export const ServiceUpdateStatus = S.Literal(
+  "available",
+  "cancelled",
+  "expired",
+);
+export type ServiceUpdateStatusList = ServiceUpdateStatus[];
+export const ServiceUpdateStatusList = S.Array(ServiceUpdateStatus);
+export type UpdateActionStatus =
+  | "not-applied"
+  | "waiting-to-start"
+  | "in-progress"
+  | "stopping"
+  | "stopped"
+  | "complete"
+  | "scheduling"
+  | "scheduled"
+  | "not-applicable";
+export const UpdateActionStatus = S.Literal(
+  "not-applied",
+  "waiting-to-start",
+  "in-progress",
+  "stopping",
+  "stopped",
+  "complete",
+  "scheduling",
+  "scheduled",
+  "not-applicable",
+);
+export type UpdateActionStatusList = UpdateActionStatus[];
+export const UpdateActionStatusList = S.Array(UpdateActionStatus);
 export type CacheNodeIdsList = string[];
 export const CacheNodeIdsList = S.Array(
   S.String.pipe(T.XmlName("CacheNodeId")),
 );
+export type AuthTokenUpdateStrategyType = "SET" | "ROTATE" | "DELETE";
+export const AuthTokenUpdateStrategyType = S.Literal("SET", "ROTATE", "DELETE");
 export type UserGroupIdList = string[];
 export const UserGroupIdList = S.Array(S.String);
 export type NodeGroupsToRemoveList = string[];
@@ -173,15 +233,15 @@ export const NodeGroupsToRetainList = S.Array(
 export type KeyList = string[];
 export const KeyList = S.Array(S.String);
 export interface AuthorizeCacheSecurityGroupIngressMessage {
-  CacheSecurityGroupName: string;
-  EC2SecurityGroupName: string;
-  EC2SecurityGroupOwnerId: string;
+  CacheSecurityGroupName?: string;
+  EC2SecurityGroupName?: string;
+  EC2SecurityGroupOwnerId?: string;
 }
 export const AuthorizeCacheSecurityGroupIngressMessage = S.suspend(() =>
   S.Struct({
-    CacheSecurityGroupName: S.String,
-    EC2SecurityGroupName: S.String,
-    EC2SecurityGroupOwnerId: S.String,
+    CacheSecurityGroupName: S.optional(S.String),
+    EC2SecurityGroupName: S.optional(S.String),
+    EC2SecurityGroupOwnerId: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -197,15 +257,15 @@ export const AuthorizeCacheSecurityGroupIngressMessage = S.suspend(() =>
   identifier: "AuthorizeCacheSecurityGroupIngressMessage",
 }) as any as S.Schema<AuthorizeCacheSecurityGroupIngressMessage>;
 export interface BatchApplyUpdateActionMessage {
-  ReplicationGroupIds?: ReplicationGroupIdList;
-  CacheClusterIds?: CacheClusterIdList;
-  ServiceUpdateName: string;
+  ReplicationGroupIds?: string[];
+  CacheClusterIds?: string[];
+  ServiceUpdateName?: string;
 }
 export const BatchApplyUpdateActionMessage = S.suspend(() =>
   S.Struct({
     ReplicationGroupIds: S.optional(ReplicationGroupIdList),
     CacheClusterIds: S.optional(CacheClusterIdList),
-    ServiceUpdateName: S.String,
+    ServiceUpdateName: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -221,15 +281,15 @@ export const BatchApplyUpdateActionMessage = S.suspend(() =>
   identifier: "BatchApplyUpdateActionMessage",
 }) as any as S.Schema<BatchApplyUpdateActionMessage>;
 export interface BatchStopUpdateActionMessage {
-  ReplicationGroupIds?: ReplicationGroupIdList;
-  CacheClusterIds?: CacheClusterIdList;
-  ServiceUpdateName: string;
+  ReplicationGroupIds?: string[];
+  CacheClusterIds?: string[];
+  ServiceUpdateName?: string;
 }
 export const BatchStopUpdateActionMessage = S.suspend(() =>
   S.Struct({
     ReplicationGroupIds: S.optional(ReplicationGroupIdList),
     CacheClusterIds: S.optional(CacheClusterIdList),
-    ServiceUpdateName: S.String,
+    ServiceUpdateName: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -245,11 +305,14 @@ export const BatchStopUpdateActionMessage = S.suspend(() =>
   identifier: "BatchStopUpdateActionMessage",
 }) as any as S.Schema<BatchStopUpdateActionMessage>;
 export interface CompleteMigrationMessage {
-  ReplicationGroupId: string;
+  ReplicationGroupId?: string;
   Force?: boolean;
 }
 export const CompleteMigrationMessage = S.suspend(() =>
-  S.Struct({ ReplicationGroupId: S.String, Force: S.optional(S.Boolean) }).pipe(
+  S.Struct({
+    ReplicationGroupId: S.optional(S.String),
+    Force: S.optional(S.Boolean),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -275,15 +338,15 @@ export const TagList = S.Array(
   Tag.pipe(T.XmlName("Tag")).annotations({ identifier: "Tag" }),
 );
 export interface CopyServerlessCacheSnapshotRequest {
-  SourceServerlessCacheSnapshotName: string;
-  TargetServerlessCacheSnapshotName: string;
+  SourceServerlessCacheSnapshotName?: string;
+  TargetServerlessCacheSnapshotName?: string;
   KmsKeyId?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CopyServerlessCacheSnapshotRequest = S.suspend(() =>
   S.Struct({
-    SourceServerlessCacheSnapshotName: S.String,
-    TargetServerlessCacheSnapshotName: S.String,
+    SourceServerlessCacheSnapshotName: S.optional(S.String),
+    TargetServerlessCacheSnapshotName: S.optional(S.String),
     KmsKeyId: S.optional(S.String),
     Tags: S.optional(TagList),
   }).pipe(
@@ -301,16 +364,16 @@ export const CopyServerlessCacheSnapshotRequest = S.suspend(() =>
   identifier: "CopyServerlessCacheSnapshotRequest",
 }) as any as S.Schema<CopyServerlessCacheSnapshotRequest>;
 export interface CopySnapshotMessage {
-  SourceSnapshotName: string;
-  TargetSnapshotName: string;
+  SourceSnapshotName?: string;
+  TargetSnapshotName?: string;
   TargetBucket?: string;
   KmsKeyId?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CopySnapshotMessage = S.suspend(() =>
   S.Struct({
-    SourceSnapshotName: S.String,
-    TargetSnapshotName: S.String,
+    SourceSnapshotName: S.optional(S.String),
+    TargetSnapshotName: S.optional(S.String),
     TargetBucket: S.optional(S.String),
     KmsKeyId: S.optional(S.String),
     Tags: S.optional(TagList),
@@ -329,16 +392,16 @@ export const CopySnapshotMessage = S.suspend(() =>
   identifier: "CopySnapshotMessage",
 }) as any as S.Schema<CopySnapshotMessage>;
 export interface CreateCacheParameterGroupMessage {
-  CacheParameterGroupName: string;
-  CacheParameterGroupFamily: string;
-  Description: string;
-  Tags?: TagList;
+  CacheParameterGroupName?: string;
+  CacheParameterGroupFamily?: string;
+  Description?: string;
+  Tags?: Tag[];
 }
 export const CreateCacheParameterGroupMessage = S.suspend(() =>
   S.Struct({
-    CacheParameterGroupName: S.String,
-    CacheParameterGroupFamily: S.String,
-    Description: S.String,
+    CacheParameterGroupName: S.optional(S.String),
+    CacheParameterGroupFamily: S.optional(S.String),
+    Description: S.optional(S.String),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -355,14 +418,14 @@ export const CreateCacheParameterGroupMessage = S.suspend(() =>
   identifier: "CreateCacheParameterGroupMessage",
 }) as any as S.Schema<CreateCacheParameterGroupMessage>;
 export interface CreateCacheSecurityGroupMessage {
-  CacheSecurityGroupName: string;
-  Description: string;
-  Tags?: TagList;
+  CacheSecurityGroupName?: string;
+  Description?: string;
+  Tags?: Tag[];
 }
 export const CreateCacheSecurityGroupMessage = S.suspend(() =>
   S.Struct({
-    CacheSecurityGroupName: S.String,
-    Description: S.String,
+    CacheSecurityGroupName: S.optional(S.String),
+    Description: S.optional(S.String),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -379,16 +442,16 @@ export const CreateCacheSecurityGroupMessage = S.suspend(() =>
   identifier: "CreateCacheSecurityGroupMessage",
 }) as any as S.Schema<CreateCacheSecurityGroupMessage>;
 export interface CreateCacheSubnetGroupMessage {
-  CacheSubnetGroupName: string;
-  CacheSubnetGroupDescription: string;
-  SubnetIds: SubnetIdentifierList;
-  Tags?: TagList;
+  CacheSubnetGroupName?: string;
+  CacheSubnetGroupDescription?: string;
+  SubnetIds?: string[];
+  Tags?: Tag[];
 }
 export const CreateCacheSubnetGroupMessage = S.suspend(() =>
   S.Struct({
-    CacheSubnetGroupName: S.String,
-    CacheSubnetGroupDescription: S.String,
-    SubnetIds: SubnetIdentifierList,
+    CacheSubnetGroupName: S.optional(S.String),
+    CacheSubnetGroupDescription: S.optional(S.String),
+    SubnetIds: S.optional(SubnetIdentifierList),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -405,15 +468,15 @@ export const CreateCacheSubnetGroupMessage = S.suspend(() =>
   identifier: "CreateCacheSubnetGroupMessage",
 }) as any as S.Schema<CreateCacheSubnetGroupMessage>;
 export interface CreateGlobalReplicationGroupMessage {
-  GlobalReplicationGroupIdSuffix: string;
+  GlobalReplicationGroupIdSuffix?: string;
   GlobalReplicationGroupDescription?: string;
-  PrimaryReplicationGroupId: string;
+  PrimaryReplicationGroupId?: string;
 }
 export const CreateGlobalReplicationGroupMessage = S.suspend(() =>
   S.Struct({
-    GlobalReplicationGroupIdSuffix: S.String,
+    GlobalReplicationGroupIdSuffix: S.optional(S.String),
     GlobalReplicationGroupDescription: S.optional(S.String),
-    PrimaryReplicationGroupId: S.String,
+    PrimaryReplicationGroupId: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -429,15 +492,15 @@ export const CreateGlobalReplicationGroupMessage = S.suspend(() =>
   identifier: "CreateGlobalReplicationGroupMessage",
 }) as any as S.Schema<CreateGlobalReplicationGroupMessage>;
 export interface CreateServerlessCacheSnapshotRequest {
-  ServerlessCacheSnapshotName: string;
-  ServerlessCacheName: string;
+  ServerlessCacheSnapshotName?: string;
+  ServerlessCacheName?: string;
   KmsKeyId?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateServerlessCacheSnapshotRequest = S.suspend(() =>
   S.Struct({
-    ServerlessCacheSnapshotName: S.String,
-    ServerlessCacheName: S.String,
+    ServerlessCacheSnapshotName: S.optional(S.String),
+    ServerlessCacheName: S.optional(S.String),
     KmsKeyId: S.optional(S.String),
     Tags: S.optional(TagList),
   }).pipe(
@@ -457,15 +520,15 @@ export const CreateServerlessCacheSnapshotRequest = S.suspend(() =>
 export interface CreateSnapshotMessage {
   ReplicationGroupId?: string;
   CacheClusterId?: string;
-  SnapshotName: string;
+  SnapshotName?: string;
   KmsKeyId?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateSnapshotMessage = S.suspend(() =>
   S.Struct({
     ReplicationGroupId: S.optional(S.String),
     CacheClusterId: S.optional(S.String),
-    SnapshotName: S.String,
+    SnapshotName: S.optional(S.String),
     KmsKeyId: S.optional(S.String),
     Tags: S.optional(TagList),
   }).pipe(
@@ -483,15 +546,15 @@ export const CreateSnapshotMessage = S.suspend(() =>
   identifier: "CreateSnapshotMessage",
 }) as any as S.Schema<CreateSnapshotMessage>;
 export interface CreateUserGroupMessage {
-  UserGroupId: string;
-  Engine: string;
-  UserIds?: UserIdListInput;
-  Tags?: TagList;
+  UserGroupId?: string;
+  Engine?: string;
+  UserIds?: string[];
+  Tags?: Tag[];
 }
 export const CreateUserGroupMessage = S.suspend(() =>
   S.Struct({
-    UserGroupId: S.String,
-    Engine: S.String,
+    UserGroupId: S.optional(S.String),
+    Engine: S.optional(S.String),
     UserIds: S.optional(UserIdListInput),
     Tags: S.optional(TagList),
   }).pipe(
@@ -509,19 +572,19 @@ export const CreateUserGroupMessage = S.suspend(() =>
   identifier: "CreateUserGroupMessage",
 }) as any as S.Schema<CreateUserGroupMessage>;
 export interface DecreaseNodeGroupsInGlobalReplicationGroupMessage {
-  GlobalReplicationGroupId: string;
-  NodeGroupCount: number;
-  GlobalNodeGroupsToRemove?: GlobalNodeGroupIdList;
-  GlobalNodeGroupsToRetain?: GlobalNodeGroupIdList;
-  ApplyImmediately: boolean;
+  GlobalReplicationGroupId?: string;
+  NodeGroupCount?: number;
+  GlobalNodeGroupsToRemove?: string[];
+  GlobalNodeGroupsToRetain?: string[];
+  ApplyImmediately?: boolean;
 }
 export const DecreaseNodeGroupsInGlobalReplicationGroupMessage = S.suspend(() =>
   S.Struct({
-    GlobalReplicationGroupId: S.String,
-    NodeGroupCount: S.Number,
+    GlobalReplicationGroupId: S.optional(S.String),
+    NodeGroupCount: S.optional(S.Number),
     GlobalNodeGroupsToRemove: S.optional(GlobalNodeGroupIdList),
     GlobalNodeGroupsToRetain: S.optional(GlobalNodeGroupIdList),
-    ApplyImmediately: S.Boolean,
+    ApplyImmediately: S.optional(S.Boolean),
   }).pipe(
     T.all(
       ns,
@@ -537,12 +600,12 @@ export const DecreaseNodeGroupsInGlobalReplicationGroupMessage = S.suspend(() =>
   identifier: "DecreaseNodeGroupsInGlobalReplicationGroupMessage",
 }) as any as S.Schema<DecreaseNodeGroupsInGlobalReplicationGroupMessage>;
 export interface DeleteCacheClusterMessage {
-  CacheClusterId: string;
+  CacheClusterId?: string;
   FinalSnapshotIdentifier?: string;
 }
 export const DeleteCacheClusterMessage = S.suspend(() =>
   S.Struct({
-    CacheClusterId: S.String,
+    CacheClusterId: S.optional(S.String),
     FinalSnapshotIdentifier: S.optional(S.String),
   }).pipe(
     T.all(
@@ -559,10 +622,10 @@ export const DeleteCacheClusterMessage = S.suspend(() =>
   identifier: "DeleteCacheClusterMessage",
 }) as any as S.Schema<DeleteCacheClusterMessage>;
 export interface DeleteCacheParameterGroupMessage {
-  CacheParameterGroupName: string;
+  CacheParameterGroupName?: string;
 }
 export const DeleteCacheParameterGroupMessage = S.suspend(() =>
-  S.Struct({ CacheParameterGroupName: S.String }).pipe(
+  S.Struct({ CacheParameterGroupName: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -583,10 +646,10 @@ export const DeleteCacheParameterGroupResponse = S.suspend(() =>
   identifier: "DeleteCacheParameterGroupResponse",
 }) as any as S.Schema<DeleteCacheParameterGroupResponse>;
 export interface DeleteCacheSecurityGroupMessage {
-  CacheSecurityGroupName: string;
+  CacheSecurityGroupName?: string;
 }
 export const DeleteCacheSecurityGroupMessage = S.suspend(() =>
-  S.Struct({ CacheSecurityGroupName: S.String }).pipe(
+  S.Struct({ CacheSecurityGroupName: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -607,10 +670,10 @@ export const DeleteCacheSecurityGroupResponse = S.suspend(() =>
   identifier: "DeleteCacheSecurityGroupResponse",
 }) as any as S.Schema<DeleteCacheSecurityGroupResponse>;
 export interface DeleteCacheSubnetGroupMessage {
-  CacheSubnetGroupName: string;
+  CacheSubnetGroupName?: string;
 }
 export const DeleteCacheSubnetGroupMessage = S.suspend(() =>
-  S.Struct({ CacheSubnetGroupName: S.String }).pipe(
+  S.Struct({ CacheSubnetGroupName: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -631,13 +694,13 @@ export const DeleteCacheSubnetGroupResponse = S.suspend(() =>
   identifier: "DeleteCacheSubnetGroupResponse",
 }) as any as S.Schema<DeleteCacheSubnetGroupResponse>;
 export interface DeleteGlobalReplicationGroupMessage {
-  GlobalReplicationGroupId: string;
-  RetainPrimaryReplicationGroup: boolean;
+  GlobalReplicationGroupId?: string;
+  RetainPrimaryReplicationGroup?: boolean;
 }
 export const DeleteGlobalReplicationGroupMessage = S.suspend(() =>
   S.Struct({
-    GlobalReplicationGroupId: S.String,
-    RetainPrimaryReplicationGroup: S.Boolean,
+    GlobalReplicationGroupId: S.optional(S.String),
+    RetainPrimaryReplicationGroup: S.optional(S.Boolean),
   }).pipe(
     T.all(
       ns,
@@ -653,13 +716,13 @@ export const DeleteGlobalReplicationGroupMessage = S.suspend(() =>
   identifier: "DeleteGlobalReplicationGroupMessage",
 }) as any as S.Schema<DeleteGlobalReplicationGroupMessage>;
 export interface DeleteReplicationGroupMessage {
-  ReplicationGroupId: string;
+  ReplicationGroupId?: string;
   RetainPrimaryCluster?: boolean;
   FinalSnapshotIdentifier?: string;
 }
 export const DeleteReplicationGroupMessage = S.suspend(() =>
   S.Struct({
-    ReplicationGroupId: S.String,
+    ReplicationGroupId: S.optional(S.String),
     RetainPrimaryCluster: S.optional(S.Boolean),
     FinalSnapshotIdentifier: S.optional(S.String),
   }).pipe(
@@ -677,12 +740,12 @@ export const DeleteReplicationGroupMessage = S.suspend(() =>
   identifier: "DeleteReplicationGroupMessage",
 }) as any as S.Schema<DeleteReplicationGroupMessage>;
 export interface DeleteServerlessCacheRequest {
-  ServerlessCacheName: string;
+  ServerlessCacheName?: string;
   FinalSnapshotName?: string;
 }
 export const DeleteServerlessCacheRequest = S.suspend(() =>
   S.Struct({
-    ServerlessCacheName: S.String,
+    ServerlessCacheName: S.optional(S.String),
     FinalSnapshotName: S.optional(S.String),
   }).pipe(
     T.all(
@@ -699,10 +762,10 @@ export const DeleteServerlessCacheRequest = S.suspend(() =>
   identifier: "DeleteServerlessCacheRequest",
 }) as any as S.Schema<DeleteServerlessCacheRequest>;
 export interface DeleteServerlessCacheSnapshotRequest {
-  ServerlessCacheSnapshotName: string;
+  ServerlessCacheSnapshotName?: string;
 }
 export const DeleteServerlessCacheSnapshotRequest = S.suspend(() =>
-  S.Struct({ ServerlessCacheSnapshotName: S.String }).pipe(
+  S.Struct({ ServerlessCacheSnapshotName: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -717,10 +780,10 @@ export const DeleteServerlessCacheSnapshotRequest = S.suspend(() =>
   identifier: "DeleteServerlessCacheSnapshotRequest",
 }) as any as S.Schema<DeleteServerlessCacheSnapshotRequest>;
 export interface DeleteSnapshotMessage {
-  SnapshotName: string;
+  SnapshotName?: string;
 }
 export const DeleteSnapshotMessage = S.suspend(() =>
-  S.Struct({ SnapshotName: S.String }).pipe(
+  S.Struct({ SnapshotName: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -735,10 +798,10 @@ export const DeleteSnapshotMessage = S.suspend(() =>
   identifier: "DeleteSnapshotMessage",
 }) as any as S.Schema<DeleteSnapshotMessage>;
 export interface DeleteUserMessage {
-  UserId: string;
+  UserId?: string;
 }
 export const DeleteUserMessage = S.suspend(() =>
-  S.Struct({ UserId: S.String }).pipe(
+  S.Struct({ UserId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -753,10 +816,10 @@ export const DeleteUserMessage = S.suspend(() =>
   identifier: "DeleteUserMessage",
 }) as any as S.Schema<DeleteUserMessage>;
 export interface DeleteUserGroupMessage {
-  UserGroupId: string;
+  UserGroupId?: string;
 }
 export const DeleteUserGroupMessage = S.suspend(() =>
-  S.Struct({ UserGroupId: S.String }).pipe(
+  S.Struct({ UserGroupId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -853,14 +916,14 @@ export const DescribeCacheParameterGroupsMessage = S.suspend(() =>
   identifier: "DescribeCacheParameterGroupsMessage",
 }) as any as S.Schema<DescribeCacheParameterGroupsMessage>;
 export interface DescribeCacheParametersMessage {
-  CacheParameterGroupName: string;
+  CacheParameterGroupName?: string;
   Source?: string;
   MaxRecords?: number;
   Marker?: string;
 }
 export const DescribeCacheParametersMessage = S.suspend(() =>
   S.Struct({
-    CacheParameterGroupName: S.String,
+    CacheParameterGroupName: S.optional(S.String),
     Source: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
@@ -927,13 +990,13 @@ export const DescribeCacheSubnetGroupsMessage = S.suspend(() =>
   identifier: "DescribeCacheSubnetGroupsMessage",
 }) as any as S.Schema<DescribeCacheSubnetGroupsMessage>;
 export interface DescribeEngineDefaultParametersMessage {
-  CacheParameterGroupFamily: string;
+  CacheParameterGroupFamily?: string;
   MaxRecords?: number;
   Marker?: string;
 }
 export const DescribeEngineDefaultParametersMessage = S.suspend(() =>
   S.Struct({
-    CacheParameterGroupFamily: S.String,
+    CacheParameterGroupFamily: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
   }).pipe(
@@ -952,7 +1015,7 @@ export const DescribeEngineDefaultParametersMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeEngineDefaultParametersMessage>;
 export interface DescribeEventsMessage {
   SourceIdentifier?: string;
-  SourceType?: string;
+  SourceType?: SourceType;
   StartTime?: Date;
   EndTime?: Date;
   Duration?: number;
@@ -962,7 +1025,7 @@ export interface DescribeEventsMessage {
 export const DescribeEventsMessage = S.suspend(() =>
   S.Struct({
     SourceIdentifier: S.optional(S.String),
-    SourceType: S.optional(S.String),
+    SourceType: S.optional(SourceType),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     Duration: S.optional(S.Number),
@@ -1152,7 +1215,7 @@ export const DescribeServerlessCacheSnapshotsRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeServerlessCacheSnapshotsRequest>;
 export interface DescribeServiceUpdatesMessage {
   ServiceUpdateName?: string;
-  ServiceUpdateStatus?: ServiceUpdateStatusList;
+  ServiceUpdateStatus?: ServiceUpdateStatus[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -1233,15 +1296,15 @@ export const DescribeUserGroupsMessage = S.suspend(() =>
   identifier: "DescribeUserGroupsMessage",
 }) as any as S.Schema<DescribeUserGroupsMessage>;
 export interface DisassociateGlobalReplicationGroupMessage {
-  GlobalReplicationGroupId: string;
-  ReplicationGroupId: string;
-  ReplicationGroupRegion: string;
+  GlobalReplicationGroupId?: string;
+  ReplicationGroupId?: string;
+  ReplicationGroupRegion?: string;
 }
 export const DisassociateGlobalReplicationGroupMessage = S.suspend(() =>
   S.Struct({
-    GlobalReplicationGroupId: S.String,
-    ReplicationGroupId: S.String,
-    ReplicationGroupRegion: S.String,
+    GlobalReplicationGroupId: S.optional(S.String),
+    ReplicationGroupId: S.optional(S.String),
+    ReplicationGroupRegion: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -1257,13 +1320,13 @@ export const DisassociateGlobalReplicationGroupMessage = S.suspend(() =>
   identifier: "DisassociateGlobalReplicationGroupMessage",
 }) as any as S.Schema<DisassociateGlobalReplicationGroupMessage>;
 export interface ExportServerlessCacheSnapshotRequest {
-  ServerlessCacheSnapshotName: string;
-  S3BucketName: string;
+  ServerlessCacheSnapshotName?: string;
+  S3BucketName?: string;
 }
 export const ExportServerlessCacheSnapshotRequest = S.suspend(() =>
   S.Struct({
-    ServerlessCacheSnapshotName: S.String,
-    S3BucketName: S.String,
+    ServerlessCacheSnapshotName: S.optional(S.String),
+    S3BucketName: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -1279,15 +1342,15 @@ export const ExportServerlessCacheSnapshotRequest = S.suspend(() =>
   identifier: "ExportServerlessCacheSnapshotRequest",
 }) as any as S.Schema<ExportServerlessCacheSnapshotRequest>;
 export interface FailoverGlobalReplicationGroupMessage {
-  GlobalReplicationGroupId: string;
-  PrimaryRegion: string;
-  PrimaryReplicationGroupId: string;
+  GlobalReplicationGroupId?: string;
+  PrimaryRegion?: string;
+  PrimaryReplicationGroupId?: string;
 }
 export const FailoverGlobalReplicationGroupMessage = S.suspend(() =>
   S.Struct({
-    GlobalReplicationGroupId: S.String,
-    PrimaryRegion: S.String,
-    PrimaryReplicationGroupId: S.String,
+    GlobalReplicationGroupId: S.optional(S.String),
+    PrimaryRegion: S.optional(S.String),
+    PrimaryReplicationGroupId: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -1303,15 +1366,15 @@ export const FailoverGlobalReplicationGroupMessage = S.suspend(() =>
   identifier: "FailoverGlobalReplicationGroupMessage",
 }) as any as S.Schema<FailoverGlobalReplicationGroupMessage>;
 export interface ConfigureShard {
-  NodeGroupId: string;
-  NewReplicaCount: number;
-  PreferredAvailabilityZones?: PreferredAvailabilityZoneList;
-  PreferredOutpostArns?: PreferredOutpostArnList;
+  NodeGroupId?: string;
+  NewReplicaCount?: number;
+  PreferredAvailabilityZones?: string[];
+  PreferredOutpostArns?: string[];
 }
 export const ConfigureShard = S.suspend(() =>
   S.Struct({
-    NodeGroupId: S.String,
-    NewReplicaCount: S.Number,
+    NodeGroupId: S.optional(S.String),
+    NewReplicaCount: S.optional(S.Number),
     PreferredAvailabilityZones: S.optional(PreferredAvailabilityZoneList),
     PreferredOutpostArns: S.optional(PreferredOutpostArnList),
   }),
@@ -1325,17 +1388,17 @@ export const ReplicaConfigurationList = S.Array(
   }),
 );
 export interface IncreaseReplicaCountMessage {
-  ReplicationGroupId: string;
+  ReplicationGroupId?: string;
   NewReplicaCount?: number;
-  ReplicaConfiguration?: ReplicaConfigurationList;
-  ApplyImmediately: boolean;
+  ReplicaConfiguration?: ConfigureShard[];
+  ApplyImmediately?: boolean;
 }
 export const IncreaseReplicaCountMessage = S.suspend(() =>
   S.Struct({
-    ReplicationGroupId: S.String,
+    ReplicationGroupId: S.optional(S.String),
     NewReplicaCount: S.optional(S.Number),
     ReplicaConfiguration: S.optional(ReplicaConfigurationList),
-    ApplyImmediately: S.Boolean,
+    ApplyImmediately: S.optional(S.Boolean),
   }).pipe(
     T.all(
       ns,
@@ -1373,10 +1436,10 @@ export const ListAllowedNodeTypeModificationsMessage = S.suspend(() =>
   identifier: "ListAllowedNodeTypeModificationsMessage",
 }) as any as S.Schema<ListAllowedNodeTypeModificationsMessage>;
 export interface ListTagsForResourceMessage {
-  ResourceName: string;
+  ResourceName?: string;
 }
 export const ListTagsForResourceMessage = S.suspend(() =>
-  S.Struct({ ResourceName: S.String }).pipe(
+  S.Struct({ ResourceName: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1391,13 +1454,13 @@ export const ListTagsForResourceMessage = S.suspend(() =>
   identifier: "ListTagsForResourceMessage",
 }) as any as S.Schema<ListTagsForResourceMessage>;
 export interface ModifyCacheSubnetGroupMessage {
-  CacheSubnetGroupName: string;
+  CacheSubnetGroupName?: string;
   CacheSubnetGroupDescription?: string;
-  SubnetIds?: SubnetIdentifierList;
+  SubnetIds?: string[];
 }
 export const ModifyCacheSubnetGroupMessage = S.suspend(() =>
   S.Struct({
-    CacheSubnetGroupName: S.String,
+    CacheSubnetGroupName: S.optional(S.String),
     CacheSubnetGroupDescription: S.optional(S.String),
     SubnetIds: S.optional(SubnetIdentifierList),
   }).pipe(
@@ -1415,8 +1478,8 @@ export const ModifyCacheSubnetGroupMessage = S.suspend(() =>
   identifier: "ModifyCacheSubnetGroupMessage",
 }) as any as S.Schema<ModifyCacheSubnetGroupMessage>;
 export interface ModifyGlobalReplicationGroupMessage {
-  GlobalReplicationGroupId: string;
-  ApplyImmediately: boolean;
+  GlobalReplicationGroupId?: string;
+  ApplyImmediately?: boolean;
   CacheNodeType?: string;
   Engine?: string;
   EngineVersion?: string;
@@ -1426,8 +1489,8 @@ export interface ModifyGlobalReplicationGroupMessage {
 }
 export const ModifyGlobalReplicationGroupMessage = S.suspend(() =>
   S.Struct({
-    GlobalReplicationGroupId: S.String,
-    ApplyImmediately: S.Boolean,
+    GlobalReplicationGroupId: S.optional(S.String),
+    ApplyImmediately: S.optional(S.Boolean),
     CacheNodeType: S.optional(S.String),
     Engine: S.optional(S.String),
     EngineVersion: S.optional(S.String),
@@ -1448,6 +1511,10 @@ export const ModifyGlobalReplicationGroupMessage = S.suspend(() =>
 ).annotations({
   identifier: "ModifyGlobalReplicationGroupMessage",
 }) as any as S.Schema<ModifyGlobalReplicationGroupMessage>;
+export type LogType = "slow-log" | "engine-log";
+export const LogType = S.Literal("slow-log", "engine-log");
+export type DestinationType = "cloudwatch-logs" | "kinesis-firehose";
+export const DestinationType = S.Literal("cloudwatch-logs", "kinesis-firehose");
 export interface CloudWatchLogsDestinationDetails {
   LogGroup?: string;
 }
@@ -1476,19 +1543,21 @@ export const DestinationDetails = S.suspend(() =>
 ).annotations({
   identifier: "DestinationDetails",
 }) as any as S.Schema<DestinationDetails>;
+export type LogFormat = "text" | "json";
+export const LogFormat = S.Literal("text", "json");
 export interface LogDeliveryConfigurationRequest {
-  LogType?: string;
-  DestinationType?: string;
+  LogType?: LogType;
+  DestinationType?: DestinationType;
   DestinationDetails?: DestinationDetails;
-  LogFormat?: string;
+  LogFormat?: LogFormat;
   Enabled?: boolean;
 }
 export const LogDeliveryConfigurationRequest = S.suspend(() =>
   S.Struct({
-    LogType: S.optional(S.String),
-    DestinationType: S.optional(S.String),
+    LogType: S.optional(LogType),
+    DestinationType: S.optional(DestinationType),
     DestinationDetails: S.optional(DestinationDetails),
-    LogFormat: S.optional(S.String),
+    LogFormat: S.optional(LogFormat),
     Enabled: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -1502,15 +1571,15 @@ export const LogDeliveryConfigurationRequestList = S.Array(
   ).annotations({ identifier: "LogDeliveryConfigurationRequest" }),
 );
 export interface ModifyReplicationGroupMessage {
-  ReplicationGroupId: string;
+  ReplicationGroupId?: string;
   ReplicationGroupDescription?: string;
   PrimaryClusterId?: string;
   SnapshottingClusterId?: string;
   AutomaticFailoverEnabled?: boolean;
   MultiAZEnabled?: boolean;
   NodeGroupId?: string;
-  CacheSecurityGroupNames?: CacheSecurityGroupNameList;
-  SecurityGroupIds?: SecurityGroupIdsList;
+  CacheSecurityGroupNames?: string[];
+  SecurityGroupIds?: string[];
   PreferredMaintenanceWindow?: string;
   NotificationTopicArn?: string;
   CacheParameterGroupName?: string;
@@ -1523,19 +1592,19 @@ export interface ModifyReplicationGroupMessage {
   SnapshotWindow?: string;
   CacheNodeType?: string;
   AuthToken?: string;
-  AuthTokenUpdateStrategy?: string;
-  UserGroupIdsToAdd?: UserGroupIdList;
-  UserGroupIdsToRemove?: UserGroupIdList;
+  AuthTokenUpdateStrategy?: AuthTokenUpdateStrategyType;
+  UserGroupIdsToAdd?: string[];
+  UserGroupIdsToRemove?: string[];
   RemoveUserGroups?: boolean;
-  LogDeliveryConfigurations?: LogDeliveryConfigurationRequestList;
-  IpDiscovery?: string;
+  LogDeliveryConfigurations?: LogDeliveryConfigurationRequest[];
+  IpDiscovery?: IpDiscovery;
   TransitEncryptionEnabled?: boolean;
-  TransitEncryptionMode?: string;
-  ClusterMode?: string;
+  TransitEncryptionMode?: TransitEncryptionMode;
+  ClusterMode?: ClusterMode;
 }
 export const ModifyReplicationGroupMessage = S.suspend(() =>
   S.Struct({
-    ReplicationGroupId: S.String,
+    ReplicationGroupId: S.optional(S.String),
     ReplicationGroupDescription: S.optional(S.String),
     PrimaryClusterId: S.optional(S.String),
     SnapshottingClusterId: S.optional(S.String),
@@ -1556,15 +1625,15 @@ export const ModifyReplicationGroupMessage = S.suspend(() =>
     SnapshotWindow: S.optional(S.String),
     CacheNodeType: S.optional(S.String),
     AuthToken: S.optional(S.String),
-    AuthTokenUpdateStrategy: S.optional(S.String),
+    AuthTokenUpdateStrategy: S.optional(AuthTokenUpdateStrategyType),
     UserGroupIdsToAdd: S.optional(UserGroupIdList),
     UserGroupIdsToRemove: S.optional(UserGroupIdList),
     RemoveUserGroups: S.optional(S.Boolean),
     LogDeliveryConfigurations: S.optional(LogDeliveryConfigurationRequestList),
-    IpDiscovery: S.optional(S.String),
+    IpDiscovery: S.optional(IpDiscovery),
     TransitEncryptionEnabled: S.optional(S.Boolean),
-    TransitEncryptionMode: S.optional(S.String),
-    ClusterMode: S.optional(S.String),
+    TransitEncryptionMode: S.optional(TransitEncryptionMode),
+    ClusterMode: S.optional(ClusterMode),
   }).pipe(
     T.all(
       ns,
@@ -1579,16 +1648,18 @@ export const ModifyReplicationGroupMessage = S.suspend(() =>
 ).annotations({
   identifier: "ModifyReplicationGroupMessage",
 }) as any as S.Schema<ModifyReplicationGroupMessage>;
+export type DataStorageUnit = "GB";
+export const DataStorageUnit = S.Literal("GB");
 export interface DataStorage {
   Maximum?: number;
   Minimum?: number;
-  Unit: string;
+  Unit?: DataStorageUnit;
 }
 export const DataStorage = S.suspend(() =>
   S.Struct({
     Maximum: S.optional(S.Number),
     Minimum: S.optional(S.Number),
-    Unit: S.String,
+    Unit: S.optional(DataStorageUnit),
   }),
 ).annotations({ identifier: "DataStorage" }) as any as S.Schema<DataStorage>;
 export interface ECPUPerSecond {
@@ -1613,12 +1684,12 @@ export const CacheUsageLimits = S.suspend(() =>
   identifier: "CacheUsageLimits",
 }) as any as S.Schema<CacheUsageLimits>;
 export interface ModifyServerlessCacheRequest {
-  ServerlessCacheName: string;
+  ServerlessCacheName?: string;
   Description?: string;
   CacheUsageLimits?: CacheUsageLimits;
   RemoveUserGroup?: boolean;
   UserGroupId?: string;
-  SecurityGroupIds?: SecurityGroupIdsList;
+  SecurityGroupIds?: string[];
   SnapshotRetentionLimit?: number;
   DailySnapshotTime?: string;
   Engine?: string;
@@ -1626,7 +1697,7 @@ export interface ModifyServerlessCacheRequest {
 }
 export const ModifyServerlessCacheRequest = S.suspend(() =>
   S.Struct({
-    ServerlessCacheName: S.String,
+    ServerlessCacheName: S.optional(S.String),
     Description: S.optional(S.String),
     CacheUsageLimits: S.optional(CacheUsageLimits),
     RemoveUserGroup: S.optional(S.Boolean),
@@ -1650,30 +1721,39 @@ export const ModifyServerlessCacheRequest = S.suspend(() =>
 ).annotations({
   identifier: "ModifyServerlessCacheRequest",
 }) as any as S.Schema<ModifyServerlessCacheRequest>;
+export type InputAuthenticationType =
+  | "password"
+  | "no-password-required"
+  | "iam";
+export const InputAuthenticationType = S.Literal(
+  "password",
+  "no-password-required",
+  "iam",
+);
 export interface AuthenticationMode {
-  Type?: string;
-  Passwords?: PasswordListInput;
+  Type?: InputAuthenticationType;
+  Passwords?: string[];
 }
 export const AuthenticationMode = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String),
+    Type: S.optional(InputAuthenticationType),
     Passwords: S.optional(PasswordListInput),
   }),
 ).annotations({
   identifier: "AuthenticationMode",
 }) as any as S.Schema<AuthenticationMode>;
 export interface ModifyUserMessage {
-  UserId: string;
+  UserId?: string;
   AccessString?: string;
   AppendAccessString?: string;
-  Passwords?: PasswordListInput;
+  Passwords?: string[];
   NoPasswordRequired?: boolean;
   AuthenticationMode?: AuthenticationMode;
   Engine?: string;
 }
 export const ModifyUserMessage = S.suspend(() =>
   S.Struct({
-    UserId: S.String,
+    UserId: S.optional(S.String),
     AccessString: S.optional(S.String),
     AppendAccessString: S.optional(S.String),
     Passwords: S.optional(PasswordListInput),
@@ -1695,14 +1775,14 @@ export const ModifyUserMessage = S.suspend(() =>
   identifier: "ModifyUserMessage",
 }) as any as S.Schema<ModifyUserMessage>;
 export interface ModifyUserGroupMessage {
-  UserGroupId: string;
-  UserIdsToAdd?: UserIdListInput;
-  UserIdsToRemove?: UserIdListInput;
+  UserGroupId?: string;
+  UserIdsToAdd?: string[];
+  UserIdsToRemove?: string[];
   Engine?: string;
 }
 export const ModifyUserGroupMessage = S.suspend(() =>
   S.Struct({
-    UserGroupId: S.String,
+    UserGroupId: S.optional(S.String),
     UserIdsToAdd: S.optional(UserIdListInput),
     UserIdsToRemove: S.optional(UserIdListInput),
     Engine: S.optional(S.String),
@@ -1721,14 +1801,14 @@ export const ModifyUserGroupMessage = S.suspend(() =>
   identifier: "ModifyUserGroupMessage",
 }) as any as S.Schema<ModifyUserGroupMessage>;
 export interface PurchaseReservedCacheNodesOfferingMessage {
-  ReservedCacheNodesOfferingId: string;
+  ReservedCacheNodesOfferingId?: string;
   ReservedCacheNodeId?: string;
   CacheNodeCount?: number;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const PurchaseReservedCacheNodesOfferingMessage = S.suspend(() =>
   S.Struct({
-    ReservedCacheNodesOfferingId: S.String,
+    ReservedCacheNodesOfferingId: S.optional(S.String),
     ReservedCacheNodeId: S.optional(S.String),
     CacheNodeCount: S.optional(S.Number),
     Tags: S.optional(TagList),
@@ -1747,13 +1827,13 @@ export const PurchaseReservedCacheNodesOfferingMessage = S.suspend(() =>
   identifier: "PurchaseReservedCacheNodesOfferingMessage",
 }) as any as S.Schema<PurchaseReservedCacheNodesOfferingMessage>;
 export interface RebalanceSlotsInGlobalReplicationGroupMessage {
-  GlobalReplicationGroupId: string;
-  ApplyImmediately: boolean;
+  GlobalReplicationGroupId?: string;
+  ApplyImmediately?: boolean;
 }
 export const RebalanceSlotsInGlobalReplicationGroupMessage = S.suspend(() =>
   S.Struct({
-    GlobalReplicationGroupId: S.String,
-    ApplyImmediately: S.Boolean,
+    GlobalReplicationGroupId: S.optional(S.String),
+    ApplyImmediately: S.optional(S.Boolean),
   }).pipe(
     T.all(
       ns,
@@ -1769,13 +1849,13 @@ export const RebalanceSlotsInGlobalReplicationGroupMessage = S.suspend(() =>
   identifier: "RebalanceSlotsInGlobalReplicationGroupMessage",
 }) as any as S.Schema<RebalanceSlotsInGlobalReplicationGroupMessage>;
 export interface RebootCacheClusterMessage {
-  CacheClusterId: string;
-  CacheNodeIdsToReboot: CacheNodeIdsList;
+  CacheClusterId?: string;
+  CacheNodeIdsToReboot?: string[];
 }
 export const RebootCacheClusterMessage = S.suspend(() =>
   S.Struct({
-    CacheClusterId: S.String,
-    CacheNodeIdsToReboot: CacheNodeIdsList,
+    CacheClusterId: S.optional(S.String),
+    CacheNodeIdsToReboot: S.optional(CacheNodeIdsList),
   }).pipe(
     T.all(
       ns,
@@ -1791,11 +1871,14 @@ export const RebootCacheClusterMessage = S.suspend(() =>
   identifier: "RebootCacheClusterMessage",
 }) as any as S.Schema<RebootCacheClusterMessage>;
 export interface RemoveTagsFromResourceMessage {
-  ResourceName: string;
-  TagKeys: KeyList;
+  ResourceName?: string;
+  TagKeys?: string[];
 }
 export const RemoveTagsFromResourceMessage = S.suspend(() =>
-  S.Struct({ ResourceName: S.String, TagKeys: KeyList }).pipe(
+  S.Struct({
+    ResourceName: S.optional(S.String),
+    TagKeys: S.optional(KeyList),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1828,13 +1911,13 @@ export const ParameterNameValueList = S.Array(
   }),
 );
 export interface ResetCacheParameterGroupMessage {
-  CacheParameterGroupName: string;
+  CacheParameterGroupName?: string;
   ResetAllParameters?: boolean;
-  ParameterNameValues?: ParameterNameValueList;
+  ParameterNameValues?: ParameterNameValue[];
 }
 export const ResetCacheParameterGroupMessage = S.suspend(() =>
   S.Struct({
-    CacheParameterGroupName: S.String,
+    CacheParameterGroupName: S.optional(S.String),
     ResetAllParameters: S.optional(S.Boolean),
     ParameterNameValues: S.optional(ParameterNameValueList),
   }).pipe(
@@ -1852,15 +1935,15 @@ export const ResetCacheParameterGroupMessage = S.suspend(() =>
   identifier: "ResetCacheParameterGroupMessage",
 }) as any as S.Schema<ResetCacheParameterGroupMessage>;
 export interface RevokeCacheSecurityGroupIngressMessage {
-  CacheSecurityGroupName: string;
-  EC2SecurityGroupName: string;
-  EC2SecurityGroupOwnerId: string;
+  CacheSecurityGroupName?: string;
+  EC2SecurityGroupName?: string;
+  EC2SecurityGroupOwnerId?: string;
 }
 export const RevokeCacheSecurityGroupIngressMessage = S.suspend(() =>
   S.Struct({
-    CacheSecurityGroupName: S.String,
-    EC2SecurityGroupName: S.String,
-    EC2SecurityGroupOwnerId: S.String,
+    CacheSecurityGroupName: S.optional(S.String),
+    EC2SecurityGroupName: S.optional(S.String),
+    EC2SecurityGroupOwnerId: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -1876,11 +1959,14 @@ export const RevokeCacheSecurityGroupIngressMessage = S.suspend(() =>
   identifier: "RevokeCacheSecurityGroupIngressMessage",
 }) as any as S.Schema<RevokeCacheSecurityGroupIngressMessage>;
 export interface TestFailoverMessage {
-  ReplicationGroupId: string;
-  NodeGroupId: string;
+  ReplicationGroupId?: string;
+  NodeGroupId?: string;
 }
 export const TestFailoverMessage = S.suspend(() =>
-  S.Struct({ ReplicationGroupId: S.String, NodeGroupId: S.String }).pipe(
+  S.Struct({
+    ReplicationGroupId: S.optional(S.String),
+    NodeGroupId: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1906,13 +1992,13 @@ export const CustomerNodeEndpoint = S.suspend(() =>
 export type CustomerNodeEndpointList = CustomerNodeEndpoint[];
 export const CustomerNodeEndpointList = S.Array(CustomerNodeEndpoint);
 export interface TestMigrationMessage {
-  ReplicationGroupId: string;
-  CustomerNodeEndpointList: CustomerNodeEndpointList;
+  ReplicationGroupId?: string;
+  CustomerNodeEndpointList?: CustomerNodeEndpoint[];
 }
 export const TestMigrationMessage = S.suspend(() =>
   S.Struct({
-    ReplicationGroupId: S.String,
-    CustomerNodeEndpointList: CustomerNodeEndpointList,
+    ReplicationGroupId: S.optional(S.String),
+    CustomerNodeEndpointList: S.optional(CustomerNodeEndpointList),
   }).pipe(
     T.all(
       ns,
@@ -1936,9 +2022,9 @@ export interface NodeGroupConfiguration {
   Slots?: string;
   ReplicaCount?: number;
   PrimaryAvailabilityZone?: string;
-  ReplicaAvailabilityZones?: AvailabilityZonesList;
+  ReplicaAvailabilityZones?: string[];
   PrimaryOutpostArn?: string;
-  ReplicaOutpostArns?: OutpostArnsList;
+  ReplicaOutpostArns?: string[];
 }
 export const NodeGroupConfiguration = S.suspend(() =>
   S.Struct({
@@ -1972,18 +2058,20 @@ export interface Endpoint {
 export const Endpoint = S.suspend(() =>
   S.Struct({ Address: S.optional(S.String), Port: S.optional(S.Number) }),
 ).annotations({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
+export type AuthTokenUpdateStatus = "SETTING" | "ROTATING";
+export const AuthTokenUpdateStatus = S.Literal("SETTING", "ROTATING");
 export interface PendingLogDeliveryConfiguration {
-  LogType?: string;
-  DestinationType?: string;
+  LogType?: LogType;
+  DestinationType?: DestinationType;
   DestinationDetails?: DestinationDetails;
-  LogFormat?: string;
+  LogFormat?: LogFormat;
 }
 export const PendingLogDeliveryConfiguration = S.suspend(() =>
   S.Struct({
-    LogType: S.optional(S.String),
-    DestinationType: S.optional(S.String),
+    LogType: S.optional(LogType),
+    DestinationType: S.optional(DestinationType),
     DestinationDetails: S.optional(DestinationDetails),
-    LogFormat: S.optional(S.String),
+    LogFormat: S.optional(LogFormat),
   }),
 ).annotations({
   identifier: "PendingLogDeliveryConfiguration",
@@ -2005,13 +2093,13 @@ export const ScaleConfig = S.suspend(() =>
 ).annotations({ identifier: "ScaleConfig" }) as any as S.Schema<ScaleConfig>;
 export interface PendingModifiedValues {
   NumCacheNodes?: number;
-  CacheNodeIdsToRemove?: CacheNodeIdsList;
+  CacheNodeIdsToRemove?: string[];
   EngineVersion?: string;
   CacheNodeType?: string;
-  AuthTokenStatus?: string;
-  LogDeliveryConfigurations?: PendingLogDeliveryConfigurationList;
+  AuthTokenStatus?: AuthTokenUpdateStatus;
+  LogDeliveryConfigurations?: PendingLogDeliveryConfiguration[];
   TransitEncryptionEnabled?: boolean;
-  TransitEncryptionMode?: string;
+  TransitEncryptionMode?: TransitEncryptionMode;
   ScaleConfig?: ScaleConfig;
 }
 export const PendingModifiedValues = S.suspend(() =>
@@ -2020,10 +2108,10 @@ export const PendingModifiedValues = S.suspend(() =>
     CacheNodeIdsToRemove: S.optional(CacheNodeIdsList),
     EngineVersion: S.optional(S.String),
     CacheNodeType: S.optional(S.String),
-    AuthTokenStatus: S.optional(S.String),
+    AuthTokenStatus: S.optional(AuthTokenUpdateStatus),
     LogDeliveryConfigurations: S.optional(PendingLogDeliveryConfigurationList),
     TransitEncryptionEnabled: S.optional(S.Boolean),
-    TransitEncryptionMode: S.optional(S.String),
+    TransitEncryptionMode: S.optional(TransitEncryptionMode),
     ScaleConfig: S.optional(ScaleConfig),
   }),
 ).annotations({
@@ -2062,7 +2150,7 @@ export const CacheSecurityGroupMembershipList = S.Array(
 export interface CacheParameterGroupStatus {
   CacheParameterGroupName?: string;
   ParameterApplyStatus?: string;
-  CacheNodeIdsToReboot?: CacheNodeIdsList;
+  CacheNodeIdsToReboot?: string[];
 }
 export const CacheParameterGroupStatus = S.suspend(() =>
   S.Struct({
@@ -2117,21 +2205,34 @@ export const SecurityGroupMembership = S.suspend(() =>
 }) as any as S.Schema<SecurityGroupMembership>;
 export type SecurityGroupMembershipList = SecurityGroupMembership[];
 export const SecurityGroupMembershipList = S.Array(SecurityGroupMembership);
+export type LogDeliveryConfigurationStatus =
+  | "active"
+  | "enabling"
+  | "modifying"
+  | "disabling"
+  | "error";
+export const LogDeliveryConfigurationStatus = S.Literal(
+  "active",
+  "enabling",
+  "modifying",
+  "disabling",
+  "error",
+);
 export interface LogDeliveryConfiguration {
-  LogType?: string;
-  DestinationType?: string;
+  LogType?: LogType;
+  DestinationType?: DestinationType;
   DestinationDetails?: DestinationDetails;
-  LogFormat?: string;
-  Status?: string;
+  LogFormat?: LogFormat;
+  Status?: LogDeliveryConfigurationStatus;
   Message?: string;
 }
 export const LogDeliveryConfiguration = S.suspend(() =>
   S.Struct({
-    LogType: S.optional(S.String),
-    DestinationType: S.optional(S.String),
+    LogType: S.optional(LogType),
+    DestinationType: S.optional(DestinationType),
     DestinationDetails: S.optional(DestinationDetails),
-    LogFormat: S.optional(S.String),
-    Status: S.optional(S.String),
+    LogFormat: S.optional(LogFormat),
+    Status: S.optional(LogDeliveryConfigurationStatus),
     Message: S.optional(S.String),
   }),
 ).annotations({
@@ -2158,12 +2259,12 @@ export interface CacheCluster {
   PreferredMaintenanceWindow?: string;
   PendingModifiedValues?: PendingModifiedValues;
   NotificationConfiguration?: NotificationConfiguration;
-  CacheSecurityGroups?: CacheSecurityGroupMembershipList;
+  CacheSecurityGroups?: CacheSecurityGroupMembership[];
   CacheParameterGroup?: CacheParameterGroupStatus;
   CacheSubnetGroupName?: string;
-  CacheNodes?: CacheNodeList;
+  CacheNodes?: CacheNode[];
   AutoMinorVersionUpgrade?: boolean;
-  SecurityGroups?: SecurityGroupMembershipList;
+  SecurityGroups?: SecurityGroupMembership[];
   ReplicationGroupId?: string;
   SnapshotRetentionLimit?: number;
   SnapshotWindow?: string;
@@ -2173,10 +2274,10 @@ export interface CacheCluster {
   AtRestEncryptionEnabled?: boolean;
   ARN?: string;
   ReplicationGroupLogDeliveryEnabled?: boolean;
-  LogDeliveryConfigurations?: LogDeliveryConfigurationList;
-  NetworkType?: string;
-  IpDiscovery?: string;
-  TransitEncryptionMode?: string;
+  LogDeliveryConfigurations?: LogDeliveryConfiguration[];
+  NetworkType?: NetworkType;
+  IpDiscovery?: IpDiscovery;
+  TransitEncryptionMode?: TransitEncryptionMode;
 }
 export const CacheCluster = S.suspend(() =>
   S.Struct({
@@ -2214,9 +2315,9 @@ export const CacheCluster = S.suspend(() =>
     ARN: S.optional(S.String),
     ReplicationGroupLogDeliveryEnabled: S.optional(S.Boolean),
     LogDeliveryConfigurations: S.optional(LogDeliveryConfigurationList),
-    NetworkType: S.optional(S.String),
-    IpDiscovery: S.optional(S.String),
-    TransitEncryptionMode: S.optional(S.String),
+    NetworkType: S.optional(NetworkType),
+    IpDiscovery: S.optional(IpDiscovery),
+    TransitEncryptionMode: S.optional(TransitEncryptionMode),
   }),
 ).annotations({ identifier: "CacheCluster" }) as any as S.Schema<CacheCluster>;
 export type CacheClusterList = CacheCluster[];
@@ -2273,7 +2374,7 @@ export interface CacheSecurityGroup {
   OwnerId?: string;
   CacheSecurityGroupName?: string;
   Description?: string;
-  EC2SecurityGroups?: EC2SecurityGroupList;
+  EC2SecurityGroups?: EC2SecurityGroup[];
   ARN?: string;
 }
 export const CacheSecurityGroup = S.suspend(() =>
@@ -2309,13 +2410,13 @@ export const SubnetOutpost = S.suspend(() =>
 ).annotations({
   identifier: "SubnetOutpost",
 }) as any as S.Schema<SubnetOutpost>;
-export type NetworkTypeList = string[];
-export const NetworkTypeList = S.Array(S.String);
+export type NetworkTypeList = NetworkType[];
+export const NetworkTypeList = S.Array(NetworkType);
 export interface Subnet {
   SubnetIdentifier?: string;
   SubnetAvailabilityZone?: AvailabilityZone;
   SubnetOutpost?: SubnetOutpost;
-  SupportedNetworkTypes?: NetworkTypeList;
+  SupportedNetworkTypes?: NetworkType[];
 }
 export const Subnet = S.suspend(() =>
   S.Struct({
@@ -2333,9 +2434,9 @@ export interface CacheSubnetGroup {
   CacheSubnetGroupName?: string;
   CacheSubnetGroupDescription?: string;
   VpcId?: string;
-  Subnets?: SubnetList;
+  Subnets?: Subnet[];
   ARN?: string;
-  SupportedNetworkTypes?: NetworkTypeList;
+  SupportedNetworkTypes?: NetworkType[];
 }
 export const CacheSubnetGroup = S.suspend(() =>
   S.Struct({
@@ -2355,11 +2456,22 @@ export const CacheSubnetGroups = S.Array(
     identifier: "CacheSubnetGroup",
   }),
 );
+export type AutomaticFailoverStatus =
+  | "enabled"
+  | "disabled"
+  | "enabling"
+  | "disabling";
+export const AutomaticFailoverStatus = S.Literal(
+  "enabled",
+  "disabled",
+  "enabling",
+  "disabling",
+);
 export interface GlobalReplicationGroupMember {
   ReplicationGroupId?: string;
   ReplicationGroupRegion?: string;
   Role?: string;
-  AutomaticFailover?: string;
+  AutomaticFailover?: AutomaticFailoverStatus;
   Status?: string;
 }
 export const GlobalReplicationGroupMember = S.suspend(() =>
@@ -2367,7 +2479,7 @@ export const GlobalReplicationGroupMember = S.suspend(() =>
     ReplicationGroupId: S.optional(S.String),
     ReplicationGroupRegion: S.optional(S.String),
     Role: S.optional(S.String),
-    AutomaticFailover: S.optional(S.String),
+    AutomaticFailover: S.optional(AutomaticFailoverStatus),
     Status: S.optional(S.String),
   }),
 ).annotations({
@@ -2404,9 +2516,9 @@ export interface GlobalReplicationGroup {
   CacheNodeType?: string;
   Engine?: string;
   EngineVersion?: string;
-  Members?: GlobalReplicationGroupMemberList;
+  Members?: GlobalReplicationGroupMember[];
   ClusterEnabled?: boolean;
-  GlobalNodeGroups?: GlobalNodeGroupList;
+  GlobalNodeGroups?: GlobalNodeGroup[];
   AuthTokenEnabled?: boolean;
   TransitEncryptionEnabled?: boolean;
   AtRestEncryptionEnabled?: boolean;
@@ -2449,6 +2561,8 @@ export const GlobalReplicationGroupInfo = S.suspend(() =>
 ).annotations({
   identifier: "GlobalReplicationGroupInfo",
 }) as any as S.Schema<GlobalReplicationGroupInfo>;
+export type PendingAutomaticFailoverStatus = "enabled" | "disabled";
+export const PendingAutomaticFailoverStatus = S.Literal("enabled", "disabled");
 export interface SlotMigration {
   ProgressPercentage?: number;
 }
@@ -2466,8 +2580,8 @@ export const ReshardingStatus = S.suspend(() =>
   identifier: "ReshardingStatus",
 }) as any as S.Schema<ReshardingStatus>;
 export interface UserGroupsUpdateStatus {
-  UserGroupIdsToAdd?: UserGroupIdList;
-  UserGroupIdsToRemove?: UserGroupIdList;
+  UserGroupIdsToAdd?: string[];
+  UserGroupIdsToRemove?: string[];
 }
 export const UserGroupsUpdateStatus = S.suspend(() =>
   S.Struct({
@@ -2479,26 +2593,26 @@ export const UserGroupsUpdateStatus = S.suspend(() =>
 }) as any as S.Schema<UserGroupsUpdateStatus>;
 export interface ReplicationGroupPendingModifiedValues {
   PrimaryClusterId?: string;
-  AutomaticFailoverStatus?: string;
+  AutomaticFailoverStatus?: PendingAutomaticFailoverStatus;
   Resharding?: ReshardingStatus;
-  AuthTokenStatus?: string;
+  AuthTokenStatus?: AuthTokenUpdateStatus;
   UserGroups?: UserGroupsUpdateStatus;
-  LogDeliveryConfigurations?: PendingLogDeliveryConfigurationList;
+  LogDeliveryConfigurations?: PendingLogDeliveryConfiguration[];
   TransitEncryptionEnabled?: boolean;
-  TransitEncryptionMode?: string;
-  ClusterMode?: string;
+  TransitEncryptionMode?: TransitEncryptionMode;
+  ClusterMode?: ClusterMode;
 }
 export const ReplicationGroupPendingModifiedValues = S.suspend(() =>
   S.Struct({
     PrimaryClusterId: S.optional(S.String),
-    AutomaticFailoverStatus: S.optional(S.String),
+    AutomaticFailoverStatus: S.optional(PendingAutomaticFailoverStatus),
     Resharding: S.optional(ReshardingStatus),
-    AuthTokenStatus: S.optional(S.String),
+    AuthTokenStatus: S.optional(AuthTokenUpdateStatus),
     UserGroups: S.optional(UserGroupsUpdateStatus),
     LogDeliveryConfigurations: S.optional(PendingLogDeliveryConfigurationList),
     TransitEncryptionEnabled: S.optional(S.Boolean),
-    TransitEncryptionMode: S.optional(S.String),
-    ClusterMode: S.optional(S.String),
+    TransitEncryptionMode: S.optional(TransitEncryptionMode),
+    ClusterMode: S.optional(ClusterMode),
   }),
 ).annotations({
   identifier: "ReplicationGroupPendingModifiedValues",
@@ -2537,7 +2651,7 @@ export interface NodeGroup {
   PrimaryEndpoint?: Endpoint;
   ReaderEndpoint?: Endpoint;
   Slots?: string;
-  NodeGroupMembers?: NodeGroupMemberList;
+  NodeGroupMembers?: NodeGroupMember[];
 }
 export const NodeGroup = S.suspend(() =>
   S.Struct({
@@ -2555,21 +2669,25 @@ export const NodeGroupList = S.Array(
     identifier: "NodeGroup",
   }),
 );
+export type MultiAZStatus = "enabled" | "disabled";
+export const MultiAZStatus = S.Literal("enabled", "disabled");
 export type ReplicationGroupOutpostArnList = string[];
 export const ReplicationGroupOutpostArnList = S.Array(
   S.String.pipe(T.XmlName("ReplicationGroupOutpostArn")),
 );
+export type DataTieringStatus = "enabled" | "disabled";
+export const DataTieringStatus = S.Literal("enabled", "disabled");
 export interface ReplicationGroup {
   ReplicationGroupId?: string;
   Description?: string;
   GlobalReplicationGroupInfo?: GlobalReplicationGroupInfo;
   Status?: string;
   PendingModifiedValues?: ReplicationGroupPendingModifiedValues;
-  MemberClusters?: ClusterIdList;
-  NodeGroups?: NodeGroupList;
+  MemberClusters?: string[];
+  NodeGroups?: NodeGroup[];
   SnapshottingClusterId?: string;
-  AutomaticFailover?: string;
-  MultiAZ?: string;
+  AutomaticFailover?: AutomaticFailoverStatus;
+  MultiAZ?: MultiAZStatus;
   ConfigurationEndpoint?: Endpoint;
   SnapshotRetentionLimit?: number;
   SnapshotWindow?: string;
@@ -2579,18 +2697,18 @@ export interface ReplicationGroup {
   AuthTokenLastModifiedDate?: Date;
   TransitEncryptionEnabled?: boolean;
   AtRestEncryptionEnabled?: boolean;
-  MemberClustersOutpostArns?: ReplicationGroupOutpostArnList;
+  MemberClustersOutpostArns?: string[];
   KmsKeyId?: string;
   ARN?: string;
-  UserGroupIds?: UserGroupIdList;
-  LogDeliveryConfigurations?: LogDeliveryConfigurationList;
+  UserGroupIds?: string[];
+  LogDeliveryConfigurations?: LogDeliveryConfiguration[];
   ReplicationGroupCreateTime?: Date;
-  DataTiering?: string;
+  DataTiering?: DataTieringStatus;
   AutoMinorVersionUpgrade?: boolean;
-  NetworkType?: string;
-  IpDiscovery?: string;
-  TransitEncryptionMode?: string;
-  ClusterMode?: string;
+  NetworkType?: NetworkType;
+  IpDiscovery?: IpDiscovery;
+  TransitEncryptionMode?: TransitEncryptionMode;
+  ClusterMode?: ClusterMode;
   Engine?: string;
 }
 export const ReplicationGroup = S.suspend(() =>
@@ -2603,8 +2721,8 @@ export const ReplicationGroup = S.suspend(() =>
     MemberClusters: S.optional(ClusterIdList),
     NodeGroups: S.optional(NodeGroupList),
     SnapshottingClusterId: S.optional(S.String),
-    AutomaticFailover: S.optional(S.String),
-    MultiAZ: S.optional(S.String),
+    AutomaticFailover: S.optional(AutomaticFailoverStatus),
+    MultiAZ: S.optional(MultiAZStatus),
     ConfigurationEndpoint: S.optional(Endpoint),
     SnapshotRetentionLimit: S.optional(S.Number),
     SnapshotWindow: S.optional(S.String),
@@ -2624,12 +2742,12 @@ export const ReplicationGroup = S.suspend(() =>
     ReplicationGroupCreateTime: S.optional(
       S.Date.pipe(T.TimestampFormat("date-time")),
     ),
-    DataTiering: S.optional(S.String),
+    DataTiering: S.optional(DataTieringStatus),
     AutoMinorVersionUpgrade: S.optional(S.Boolean),
-    NetworkType: S.optional(S.String),
-    IpDiscovery: S.optional(S.String),
-    TransitEncryptionMode: S.optional(S.String),
-    ClusterMode: S.optional(S.String),
+    NetworkType: S.optional(NetworkType),
+    IpDiscovery: S.optional(IpDiscovery),
+    TransitEncryptionMode: S.optional(TransitEncryptionMode),
+    ClusterMode: S.optional(ClusterMode),
     Engine: S.optional(S.String),
   }),
 ).annotations({
@@ -2651,12 +2769,12 @@ export interface ServerlessCache {
   FullEngineVersion?: string;
   CacheUsageLimits?: CacheUsageLimits;
   KmsKeyId?: string;
-  SecurityGroupIds?: SecurityGroupIdsList;
+  SecurityGroupIds?: string[];
   Endpoint?: Endpoint;
   ReaderEndpoint?: Endpoint;
   ARN?: string;
   UserGroupId?: string;
-  SubnetIds?: SubnetIdsList;
+  SubnetIds?: string[];
   SnapshotRetentionLimit?: number;
   DailySnapshotTime?: string;
 }
@@ -2783,11 +2901,11 @@ export interface Snapshot {
   SnapshotRetentionLimit?: number;
   SnapshotWindow?: string;
   NumNodeGroups?: number;
-  AutomaticFailover?: string;
-  NodeSnapshots?: NodeSnapshotList;
+  AutomaticFailover?: AutomaticFailoverStatus;
+  NodeSnapshots?: NodeSnapshot[];
   KmsKeyId?: string;
   ARN?: string;
-  DataTiering?: string;
+  DataTiering?: DataTieringStatus;
 }
 export const Snapshot = S.suspend(() =>
   S.Struct({
@@ -2816,11 +2934,11 @@ export const Snapshot = S.suspend(() =>
     SnapshotRetentionLimit: S.optional(S.Number),
     SnapshotWindow: S.optional(S.String),
     NumNodeGroups: S.optional(S.Number),
-    AutomaticFailover: S.optional(S.String),
+    AutomaticFailover: S.optional(AutomaticFailoverStatus),
     NodeSnapshots: S.optional(NodeSnapshotList),
     KmsKeyId: S.optional(S.String),
     ARN: S.optional(S.String),
-    DataTiering: S.optional(S.String),
+    DataTiering: S.optional(DataTieringStatus),
   }),
 ).annotations({ identifier: "Snapshot" }) as any as S.Schema<Snapshot>;
 export type SnapshotList = Snapshot[];
@@ -2840,8 +2958,8 @@ export const TimeRangeFilter = S.suspend(() =>
   identifier: "TimeRangeFilter",
 }) as any as S.Schema<TimeRangeFilter>;
 export interface UserGroupPendingChanges {
-  UserIdsToRemove?: UserIdList;
-  UserIdsToAdd?: UserIdList;
+  UserIdsToRemove?: string[];
+  UserIdsToAdd?: string[];
 }
 export const UserGroupPendingChanges = S.suspend(() =>
   S.Struct({
@@ -2855,11 +2973,11 @@ export interface UserGroup {
   UserGroupId?: string;
   Status?: string;
   Engine?: string;
-  UserIds?: UserIdList;
+  UserIds?: string[];
   MinimumEngineVersion?: string;
   PendingChanges?: UserGroupPendingChanges;
-  ReplicationGroups?: UGReplicationGroupIdList;
-  ServerlessCaches?: UGServerlessCacheIdList;
+  ReplicationGroups?: string[];
+  ServerlessCaches?: string[];
   ARN?: string;
 }
 export const UserGroup = S.suspend(() =>
@@ -2878,17 +2996,17 @@ export const UserGroup = S.suspend(() =>
 export type UserGroupList = UserGroup[];
 export const UserGroupList = S.Array(UserGroup);
 export interface Filter {
-  Name: string;
-  Values: FilterValueList;
+  Name?: string;
+  Values?: string[];
 }
 export const Filter = S.suspend(() =>
-  S.Struct({ Name: S.String, Values: FilterValueList }),
+  S.Struct({ Name: S.optional(S.String), Values: S.optional(FilterValueList) }),
 ).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type FilterList = Filter[];
 export const FilterList = S.Array(Filter);
 export interface ReshardingConfiguration {
   NodeGroupId?: string;
-  PreferredAvailabilityZones?: AvailabilityZonesList;
+  PreferredAvailabilityZones?: string[];
 }
 export const ReshardingConfiguration = S.suspend(() =>
   S.Struct({
@@ -2905,15 +3023,15 @@ export const ReshardingConfigurationList = S.Array(
   ).annotations({ identifier: "ReshardingConfiguration" }),
 );
 export interface RegionalConfiguration {
-  ReplicationGroupId: string;
-  ReplicationGroupRegion: string;
-  ReshardingConfiguration: ReshardingConfigurationList;
+  ReplicationGroupId?: string;
+  ReplicationGroupRegion?: string;
+  ReshardingConfiguration?: ReshardingConfiguration[];
 }
 export const RegionalConfiguration = S.suspend(() =>
   S.Struct({
-    ReplicationGroupId: S.String,
-    ReplicationGroupRegion: S.String,
-    ReshardingConfiguration: ReshardingConfigurationList,
+    ReplicationGroupId: S.optional(S.String),
+    ReplicationGroupRegion: S.optional(S.String),
+    ReshardingConfiguration: S.optional(ReshardingConfigurationList),
   }),
 ).annotations({
   identifier: "RegionalConfiguration",
@@ -2927,11 +3045,14 @@ export const RegionalConfigurationList = S.Array(
 export type NodeTypeList = string[];
 export const NodeTypeList = S.Array(S.String);
 export interface AddTagsToResourceMessage {
-  ResourceName: string;
-  Tags: TagList;
+  ResourceName?: string;
+  Tags?: Tag[];
 }
 export const AddTagsToResourceMessage = S.suspend(() =>
-  S.Struct({ ResourceName: S.String, Tags: TagList }).pipe(
+  S.Struct({
+    ResourceName: S.optional(S.String),
+    Tags: S.optional(TagList),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2954,26 +3075,26 @@ export const CreateCacheSecurityGroupResult = S.suspend(() =>
   identifier: "CreateCacheSecurityGroupResult",
 }) as any as S.Schema<CreateCacheSecurityGroupResult>;
 export interface CreateReplicationGroupMessage {
-  ReplicationGroupId: string;
-  ReplicationGroupDescription: string;
+  ReplicationGroupId?: string;
+  ReplicationGroupDescription?: string;
   GlobalReplicationGroupId?: string;
   PrimaryClusterId?: string;
   AutomaticFailoverEnabled?: boolean;
   MultiAZEnabled?: boolean;
   NumCacheClusters?: number;
-  PreferredCacheClusterAZs?: AvailabilityZonesList;
+  PreferredCacheClusterAZs?: string[];
   NumNodeGroups?: number;
   ReplicasPerNodeGroup?: number;
-  NodeGroupConfiguration?: NodeGroupConfigurationList;
+  NodeGroupConfiguration?: NodeGroupConfiguration[];
   CacheNodeType?: string;
   Engine?: string;
   EngineVersion?: string;
   CacheParameterGroupName?: string;
   CacheSubnetGroupName?: string;
-  CacheSecurityGroupNames?: CacheSecurityGroupNameList;
-  SecurityGroupIds?: SecurityGroupIdsList;
-  Tags?: TagList;
-  SnapshotArns?: SnapshotArnsList;
+  CacheSecurityGroupNames?: string[];
+  SecurityGroupIds?: string[];
+  Tags?: Tag[];
+  SnapshotArns?: string[];
   SnapshotName?: string;
   PreferredMaintenanceWindow?: string;
   Port?: number;
@@ -2985,19 +3106,19 @@ export interface CreateReplicationGroupMessage {
   TransitEncryptionEnabled?: boolean;
   AtRestEncryptionEnabled?: boolean;
   KmsKeyId?: string;
-  UserGroupIds?: UserGroupIdListInput;
-  LogDeliveryConfigurations?: LogDeliveryConfigurationRequestList;
+  UserGroupIds?: string[];
+  LogDeliveryConfigurations?: LogDeliveryConfigurationRequest[];
   DataTieringEnabled?: boolean;
-  NetworkType?: string;
-  IpDiscovery?: string;
-  TransitEncryptionMode?: string;
-  ClusterMode?: string;
+  NetworkType?: NetworkType;
+  IpDiscovery?: IpDiscovery;
+  TransitEncryptionMode?: TransitEncryptionMode;
+  ClusterMode?: ClusterMode;
   ServerlessCacheSnapshotName?: string;
 }
 export const CreateReplicationGroupMessage = S.suspend(() =>
   S.Struct({
-    ReplicationGroupId: S.String,
-    ReplicationGroupDescription: S.String,
+    ReplicationGroupId: S.optional(S.String),
+    ReplicationGroupDescription: S.optional(S.String),
     GlobalReplicationGroupId: S.optional(S.String),
     PrimaryClusterId: S.optional(S.String),
     AutomaticFailoverEnabled: S.optional(S.Boolean),
@@ -3030,10 +3151,10 @@ export const CreateReplicationGroupMessage = S.suspend(() =>
     UserGroupIds: S.optional(UserGroupIdListInput),
     LogDeliveryConfigurations: S.optional(LogDeliveryConfigurationRequestList),
     DataTieringEnabled: S.optional(S.Boolean),
-    NetworkType: S.optional(S.String),
-    IpDiscovery: S.optional(S.String),
-    TransitEncryptionMode: S.optional(S.String),
-    ClusterMode: S.optional(S.String),
+    NetworkType: S.optional(NetworkType),
+    IpDiscovery: S.optional(IpDiscovery),
+    TransitEncryptionMode: S.optional(TransitEncryptionMode),
+    ClusterMode: S.optional(ClusterMode),
     ServerlessCacheSnapshotName: S.optional(S.String),
   }).pipe(
     T.all(
@@ -3068,22 +3189,22 @@ export const CreateSnapshotResult = S.suspend(() =>
   identifier: "CreateSnapshotResult",
 }) as any as S.Schema<CreateSnapshotResult>;
 export interface CreateUserMessage {
-  UserId: string;
-  UserName: string;
-  Engine: string;
-  Passwords?: PasswordListInput;
-  AccessString: string;
+  UserId?: string;
+  UserName?: string;
+  Engine?: string;
+  Passwords?: string[];
+  AccessString?: string;
   NoPasswordRequired?: boolean;
-  Tags?: TagList;
+  Tags?: Tag[];
   AuthenticationMode?: AuthenticationMode;
 }
 export const CreateUserMessage = S.suspend(() =>
   S.Struct({
-    UserId: S.String,
-    UserName: S.String,
-    Engine: S.String,
+    UserId: S.optional(S.String),
+    UserName: S.optional(S.String),
+    Engine: S.optional(S.String),
     Passwords: S.optional(PasswordListInput),
-    AccessString: S.String,
+    AccessString: S.optional(S.String),
     NoPasswordRequired: S.optional(S.Boolean),
     Tags: S.optional(TagList),
     AuthenticationMode: S.optional(AuthenticationMode),
@@ -3112,19 +3233,19 @@ export const DecreaseNodeGroupsInGlobalReplicationGroupResult = S.suspend(() =>
   identifier: "DecreaseNodeGroupsInGlobalReplicationGroupResult",
 }) as any as S.Schema<DecreaseNodeGroupsInGlobalReplicationGroupResult>;
 export interface DecreaseReplicaCountMessage {
-  ReplicationGroupId: string;
+  ReplicationGroupId?: string;
   NewReplicaCount?: number;
-  ReplicaConfiguration?: ReplicaConfigurationList;
-  ReplicasToRemove?: RemoveReplicasList;
-  ApplyImmediately: boolean;
+  ReplicaConfiguration?: ConfigureShard[];
+  ReplicasToRemove?: string[];
+  ApplyImmediately?: boolean;
 }
 export const DecreaseReplicaCountMessage = S.suspend(() =>
   S.Struct({
-    ReplicationGroupId: S.String,
+    ReplicationGroupId: S.optional(S.String),
     NewReplicaCount: S.optional(S.Number),
     ReplicaConfiguration: S.optional(ReplicaConfigurationList),
     ReplicasToRemove: S.optional(RemoveReplicasList),
-    ApplyImmediately: S.Boolean,
+    ApplyImmediately: S.optional(S.Boolean),
   }).pipe(
     T.all(
       ns,
@@ -3177,7 +3298,7 @@ export const DeleteSnapshotResult = S.suspend(() =>
 }) as any as S.Schema<DeleteSnapshotResult>;
 export interface CacheClusterMessage {
   Marker?: string;
-  CacheClusters?: CacheClusterList;
+  CacheClusters?: CacheCluster[];
 }
 export const CacheClusterMessage = S.suspend(() =>
   S.Struct({
@@ -3189,7 +3310,7 @@ export const CacheClusterMessage = S.suspend(() =>
 }) as any as S.Schema<CacheClusterMessage>;
 export interface CacheParameterGroupsMessage {
   Marker?: string;
-  CacheParameterGroups?: CacheParameterGroupList;
+  CacheParameterGroups?: CacheParameterGroup[];
 }
 export const CacheParameterGroupsMessage = S.suspend(() =>
   S.Struct({
@@ -3201,7 +3322,7 @@ export const CacheParameterGroupsMessage = S.suspend(() =>
 }) as any as S.Schema<CacheParameterGroupsMessage>;
 export interface CacheSecurityGroupMessage {
   Marker?: string;
-  CacheSecurityGroups?: CacheSecurityGroups;
+  CacheSecurityGroups?: CacheSecurityGroup[];
 }
 export const CacheSecurityGroupMessage = S.suspend(() =>
   S.Struct({
@@ -3213,7 +3334,7 @@ export const CacheSecurityGroupMessage = S.suspend(() =>
 }) as any as S.Schema<CacheSecurityGroupMessage>;
 export interface CacheSubnetGroupMessage {
   Marker?: string;
-  CacheSubnetGroups?: CacheSubnetGroups;
+  CacheSubnetGroups?: CacheSubnetGroup[];
 }
 export const CacheSubnetGroupMessage = S.suspend(() =>
   S.Struct({
@@ -3225,7 +3346,7 @@ export const CacheSubnetGroupMessage = S.suspend(() =>
 }) as any as S.Schema<CacheSubnetGroupMessage>;
 export interface DescribeGlobalReplicationGroupsResult {
   Marker?: string;
-  GlobalReplicationGroups?: GlobalReplicationGroupList;
+  GlobalReplicationGroups?: GlobalReplicationGroup[];
 }
 export const DescribeGlobalReplicationGroupsResult = S.suspend(() =>
   S.Struct({
@@ -3237,7 +3358,7 @@ export const DescribeGlobalReplicationGroupsResult = S.suspend(() =>
 }) as any as S.Schema<DescribeGlobalReplicationGroupsResult>;
 export interface ReplicationGroupMessage {
   Marker?: string;
-  ReplicationGroups?: ReplicationGroupList;
+  ReplicationGroups?: ReplicationGroup[];
 }
 export const ReplicationGroupMessage = S.suspend(() =>
   S.Struct({
@@ -3249,7 +3370,7 @@ export const ReplicationGroupMessage = S.suspend(() =>
 }) as any as S.Schema<ReplicationGroupMessage>;
 export interface DescribeServerlessCachesResponse {
   NextToken?: string;
-  ServerlessCaches?: ServerlessCacheList;
+  ServerlessCaches?: ServerlessCache[];
 }
 export const DescribeServerlessCachesResponse = S.suspend(() =>
   S.Struct({
@@ -3261,7 +3382,7 @@ export const DescribeServerlessCachesResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeServerlessCachesResponse>;
 export interface DescribeServerlessCacheSnapshotsResponse {
   NextToken?: string;
-  ServerlessCacheSnapshots?: ServerlessCacheSnapshotList;
+  ServerlessCacheSnapshots?: ServerlessCacheSnapshot[];
 }
 export const DescribeServerlessCacheSnapshotsResponse = S.suspend(() =>
   S.Struct({
@@ -3273,7 +3394,7 @@ export const DescribeServerlessCacheSnapshotsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeServerlessCacheSnapshotsResponse>;
 export interface DescribeSnapshotsListMessage {
   Marker?: string;
-  Snapshots?: SnapshotList;
+  Snapshots?: Snapshot[];
 }
 export const DescribeSnapshotsListMessage = S.suspend(() =>
   S.Struct({
@@ -3285,12 +3406,12 @@ export const DescribeSnapshotsListMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeSnapshotsListMessage>;
 export interface DescribeUpdateActionsMessage {
   ServiceUpdateName?: string;
-  ReplicationGroupIds?: ReplicationGroupIdList;
-  CacheClusterIds?: CacheClusterIdList;
+  ReplicationGroupIds?: string[];
+  CacheClusterIds?: string[];
   Engine?: string;
-  ServiceUpdateStatus?: ServiceUpdateStatusList;
+  ServiceUpdateStatus?: ServiceUpdateStatus[];
   ServiceUpdateTimeRange?: TimeRangeFilter;
-  UpdateActionStatus?: UpdateActionStatusList;
+  UpdateActionStatus?: UpdateActionStatus[];
   ShowNodeLevelUpdateStatus?: boolean;
   MaxRecords?: number;
   Marker?: string;
@@ -3322,7 +3443,7 @@ export const DescribeUpdateActionsMessage = S.suspend(() =>
   identifier: "DescribeUpdateActionsMessage",
 }) as any as S.Schema<DescribeUpdateActionsMessage>;
 export interface DescribeUserGroupsResult {
-  UserGroups?: UserGroupList;
+  UserGroups?: UserGroup[];
   Marker?: string;
 }
 export const DescribeUserGroupsResult = S.suspend(() =>
@@ -3336,7 +3457,7 @@ export const DescribeUserGroupsResult = S.suspend(() =>
 export interface DescribeUsersMessage {
   Engine?: string;
   UserId?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -3392,17 +3513,17 @@ export const FailoverGlobalReplicationGroupResult = S.suspend(() =>
   identifier: "FailoverGlobalReplicationGroupResult",
 }) as any as S.Schema<FailoverGlobalReplicationGroupResult>;
 export interface IncreaseNodeGroupsInGlobalReplicationGroupMessage {
-  GlobalReplicationGroupId: string;
-  NodeGroupCount: number;
-  RegionalConfigurations?: RegionalConfigurationList;
-  ApplyImmediately: boolean;
+  GlobalReplicationGroupId?: string;
+  NodeGroupCount?: number;
+  RegionalConfigurations?: RegionalConfiguration[];
+  ApplyImmediately?: boolean;
 }
 export const IncreaseNodeGroupsInGlobalReplicationGroupMessage = S.suspend(() =>
   S.Struct({
-    GlobalReplicationGroupId: S.String,
-    NodeGroupCount: S.Number,
+    GlobalReplicationGroupId: S.optional(S.String),
+    NodeGroupCount: S.optional(S.Number),
     RegionalConfigurations: S.optional(RegionalConfigurationList),
-    ApplyImmediately: S.Boolean,
+    ApplyImmediately: S.optional(S.Boolean),
   }).pipe(
     T.all(
       ns,
@@ -3426,8 +3547,8 @@ export const IncreaseReplicaCountResult = S.suspend(() =>
   identifier: "IncreaseReplicaCountResult",
 }) as any as S.Schema<IncreaseReplicaCountResult>;
 export interface AllowedNodeTypeModificationsMessage {
-  ScaleUpModifications?: NodeTypeList;
-  ScaleDownModifications?: NodeTypeList;
+  ScaleUpModifications?: string[];
+  ScaleDownModifications?: string[];
 }
 export const AllowedNodeTypeModificationsMessage = S.suspend(() =>
   S.Struct({
@@ -3438,7 +3559,7 @@ export const AllowedNodeTypeModificationsMessage = S.suspend(() =>
   identifier: "AllowedNodeTypeModificationsMessage",
 }) as any as S.Schema<AllowedNodeTypeModificationsMessage>;
 export interface TagListMessage {
-  TagList?: TagList;
+  TagList?: Tag[];
 }
 export const TagListMessage = S.suspend(() =>
   S.Struct({ TagList: S.optional(TagList) }).pipe(ns),
@@ -3446,13 +3567,13 @@ export const TagListMessage = S.suspend(() =>
   identifier: "TagListMessage",
 }) as any as S.Schema<TagListMessage>;
 export interface ModifyCacheClusterMessage {
-  CacheClusterId: string;
+  CacheClusterId?: string;
   NumCacheNodes?: number;
-  CacheNodeIdsToRemove?: CacheNodeIdsList;
-  AZMode?: string;
-  NewAvailabilityZones?: PreferredAvailabilityZoneList;
-  CacheSecurityGroupNames?: CacheSecurityGroupNameList;
-  SecurityGroupIds?: SecurityGroupIdsList;
+  CacheNodeIdsToRemove?: string[];
+  AZMode?: AZMode;
+  NewAvailabilityZones?: string[];
+  CacheSecurityGroupNames?: string[];
+  SecurityGroupIds?: string[];
   PreferredMaintenanceWindow?: string;
   NotificationTopicArn?: string;
   CacheParameterGroupName?: string;
@@ -3465,17 +3586,17 @@ export interface ModifyCacheClusterMessage {
   SnapshotWindow?: string;
   CacheNodeType?: string;
   AuthToken?: string;
-  AuthTokenUpdateStrategy?: string;
-  LogDeliveryConfigurations?: LogDeliveryConfigurationRequestList;
-  IpDiscovery?: string;
+  AuthTokenUpdateStrategy?: AuthTokenUpdateStrategyType;
+  LogDeliveryConfigurations?: LogDeliveryConfigurationRequest[];
+  IpDiscovery?: IpDiscovery;
   ScaleConfig?: ScaleConfig;
 }
 export const ModifyCacheClusterMessage = S.suspend(() =>
   S.Struct({
-    CacheClusterId: S.String,
+    CacheClusterId: S.optional(S.String),
     NumCacheNodes: S.optional(S.Number),
     CacheNodeIdsToRemove: S.optional(CacheNodeIdsList),
-    AZMode: S.optional(S.String),
+    AZMode: S.optional(AZMode),
     NewAvailabilityZones: S.optional(PreferredAvailabilityZoneList),
     CacheSecurityGroupNames: S.optional(CacheSecurityGroupNameList),
     SecurityGroupIds: S.optional(SecurityGroupIdsList),
@@ -3491,9 +3612,9 @@ export const ModifyCacheClusterMessage = S.suspend(() =>
     SnapshotWindow: S.optional(S.String),
     CacheNodeType: S.optional(S.String),
     AuthToken: S.optional(S.String),
-    AuthTokenUpdateStrategy: S.optional(S.String),
+    AuthTokenUpdateStrategy: S.optional(AuthTokenUpdateStrategyType),
     LogDeliveryConfigurations: S.optional(LogDeliveryConfigurationRequestList),
-    IpDiscovery: S.optional(S.String),
+    IpDiscovery: S.optional(IpDiscovery),
     ScaleConfig: S.optional(ScaleConfig),
   }).pipe(
     T.all(
@@ -3510,13 +3631,13 @@ export const ModifyCacheClusterMessage = S.suspend(() =>
   identifier: "ModifyCacheClusterMessage",
 }) as any as S.Schema<ModifyCacheClusterMessage>;
 export interface ModifyCacheParameterGroupMessage {
-  CacheParameterGroupName: string;
-  ParameterNameValues: ParameterNameValueList;
+  CacheParameterGroupName?: string;
+  ParameterNameValues?: ParameterNameValue[];
 }
 export const ModifyCacheParameterGroupMessage = S.suspend(() =>
   S.Struct({
-    CacheParameterGroupName: S.String,
-    ParameterNameValues: ParameterNameValueList,
+    CacheParameterGroupName: S.optional(S.String),
+    ParameterNameValues: S.optional(ParameterNameValueList),
   }).pipe(
     T.all(
       ns,
@@ -3558,18 +3679,18 @@ export const ModifyReplicationGroupResult = S.suspend(() =>
   identifier: "ModifyReplicationGroupResult",
 }) as any as S.Schema<ModifyReplicationGroupResult>;
 export interface ModifyReplicationGroupShardConfigurationMessage {
-  ReplicationGroupId: string;
-  NodeGroupCount: number;
-  ApplyImmediately: boolean;
-  ReshardingConfiguration?: ReshardingConfigurationList;
-  NodeGroupsToRemove?: NodeGroupsToRemoveList;
-  NodeGroupsToRetain?: NodeGroupsToRetainList;
+  ReplicationGroupId?: string;
+  NodeGroupCount?: number;
+  ApplyImmediately?: boolean;
+  ReshardingConfiguration?: ReshardingConfiguration[];
+  NodeGroupsToRemove?: string[];
+  NodeGroupsToRetain?: string[];
 }
 export const ModifyReplicationGroupShardConfigurationMessage = S.suspend(() =>
   S.Struct({
-    ReplicationGroupId: S.String,
-    NodeGroupCount: S.Number,
-    ApplyImmediately: S.Boolean,
+    ReplicationGroupId: S.optional(S.String),
+    NodeGroupCount: S.optional(S.Number),
+    ApplyImmediately: S.optional(S.Boolean),
     ReshardingConfiguration: S.optional(ReshardingConfigurationList),
     NodeGroupsToRemove: S.optional(NodeGroupsToRemoveList),
     NodeGroupsToRetain: S.optional(NodeGroupsToRetainList),
@@ -3625,7 +3746,7 @@ export interface ReservedCacheNode {
   ProductDescription?: string;
   OfferingType?: string;
   State?: string;
-  RecurringCharges?: RecurringChargeList;
+  RecurringCharges?: RecurringCharge[];
   ReservationARN?: string;
 }
 export const ReservedCacheNode = S.suspend(() =>
@@ -3690,13 +3811,13 @@ export const RevokeCacheSecurityGroupIngressResult = S.suspend(() =>
   identifier: "RevokeCacheSecurityGroupIngressResult",
 }) as any as S.Schema<RevokeCacheSecurityGroupIngressResult>;
 export interface StartMigrationMessage {
-  ReplicationGroupId: string;
-  CustomerNodeEndpointList: CustomerNodeEndpointList;
+  ReplicationGroupId?: string;
+  CustomerNodeEndpointList?: CustomerNodeEndpoint[];
 }
 export const StartMigrationMessage = S.suspend(() =>
   S.Struct({
-    ReplicationGroupId: S.String,
-    CustomerNodeEndpointList: CustomerNodeEndpointList,
+    ReplicationGroupId: S.optional(S.String),
+    CustomerNodeEndpointList: S.optional(CustomerNodeEndpointList),
   }).pipe(
     T.all(
       ns,
@@ -3727,18 +3848,31 @@ export const TestMigrationResponse = S.suspend(() =>
 ).annotations({
   identifier: "TestMigrationResponse",
 }) as any as S.Schema<TestMigrationResponse>;
+export type AuthenticationType = "password" | "no-password" | "iam";
+export const AuthenticationType = S.Literal("password", "no-password", "iam");
+export type ChangeType = "immediate" | "requires-reboot";
+export const ChangeType = S.Literal("immediate", "requires-reboot");
+export type ServiceUpdateSeverity = "critical" | "important" | "medium" | "low";
+export const ServiceUpdateSeverity = S.Literal(
+  "critical",
+  "important",
+  "medium",
+  "low",
+);
+export type ServiceUpdateType = "security-update";
+export const ServiceUpdateType = S.Literal("security-update");
 export interface ProcessedUpdateAction {
   ReplicationGroupId?: string;
   CacheClusterId?: string;
   ServiceUpdateName?: string;
-  UpdateActionStatus?: string;
+  UpdateActionStatus?: UpdateActionStatus;
 }
 export const ProcessedUpdateAction = S.suspend(() =>
   S.Struct({
     ReplicationGroupId: S.optional(S.String),
     CacheClusterId: S.optional(S.String),
     ServiceUpdateName: S.optional(S.String),
-    UpdateActionStatus: S.optional(S.String),
+    UpdateActionStatus: S.optional(UpdateActionStatus),
   }),
 ).annotations({
   identifier: "ProcessedUpdateAction",
@@ -3774,11 +3908,14 @@ export const UnprocessedUpdateActionList = S.Array(
   ).annotations({ identifier: "UnprocessedUpdateAction" }),
 );
 export interface Authentication {
-  Type?: string;
+  Type?: AuthenticationType;
   PasswordCount?: number;
 }
 export const Authentication = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String), PasswordCount: S.optional(S.Number) }),
+  S.Struct({
+    Type: S.optional(AuthenticationType),
+    PasswordCount: S.optional(S.Number),
+  }),
 ).annotations({
   identifier: "Authentication",
 }) as any as S.Schema<Authentication>;
@@ -3815,7 +3952,7 @@ export interface Parameter {
   AllowedValues?: string;
   IsModifiable?: boolean;
   MinimumEngineVersion?: string;
-  ChangeType?: string;
+  ChangeType?: ChangeType;
 }
 export const Parameter = S.suspend(() =>
   S.Struct({
@@ -3827,7 +3964,7 @@ export const Parameter = S.suspend(() =>
     AllowedValues: S.optional(S.String),
     IsModifiable: S.optional(S.Boolean),
     MinimumEngineVersion: S.optional(S.String),
-    ChangeType: S.optional(S.String),
+    ChangeType: S.optional(ChangeType),
   }),
 ).annotations({ identifier: "Parameter" }) as any as S.Schema<Parameter>;
 export type ParametersList = Parameter[];
@@ -3862,8 +3999,8 @@ export interface CacheNodeTypeSpecificParameter {
   AllowedValues?: string;
   IsModifiable?: boolean;
   MinimumEngineVersion?: string;
-  CacheNodeTypeSpecificValues?: CacheNodeTypeSpecificValueList;
-  ChangeType?: string;
+  CacheNodeTypeSpecificValues?: CacheNodeTypeSpecificValue[];
+  ChangeType?: ChangeType;
 }
 export const CacheNodeTypeSpecificParameter = S.suspend(() =>
   S.Struct({
@@ -3875,7 +4012,7 @@ export const CacheNodeTypeSpecificParameter = S.suspend(() =>
     IsModifiable: S.optional(S.Boolean),
     MinimumEngineVersion: S.optional(S.String),
     CacheNodeTypeSpecificValues: S.optional(CacheNodeTypeSpecificValueList),
-    ChangeType: S.optional(S.String),
+    ChangeType: S.optional(ChangeType),
   }),
 ).annotations({
   identifier: "CacheNodeTypeSpecificParameter",
@@ -3890,8 +4027,8 @@ export const CacheNodeTypeSpecificParametersList = S.Array(
 export interface EngineDefaults {
   CacheParameterGroupFamily?: string;
   Marker?: string;
-  Parameters?: ParametersList;
-  CacheNodeTypeSpecificParameters?: CacheNodeTypeSpecificParametersList;
+  Parameters?: Parameter[];
+  CacheNodeTypeSpecificParameters?: CacheNodeTypeSpecificParameter[];
 }
 export const EngineDefaults = S.suspend(() =>
   S.Struct({
@@ -3907,14 +4044,14 @@ export const EngineDefaults = S.suspend(() =>
 }) as any as S.Schema<EngineDefaults>;
 export interface Event {
   SourceIdentifier?: string;
-  SourceType?: string;
+  SourceType?: SourceType;
   Message?: string;
   Date?: Date;
 }
 export const Event = S.suspend(() =>
   S.Struct({
     SourceIdentifier: S.optional(S.String),
-    SourceType: S.optional(S.String),
+    SourceType: S.optional(SourceType),
     Message: S.optional(S.String),
     Date: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
@@ -3931,7 +4068,7 @@ export interface ReservedCacheNodesOffering {
   UsagePrice?: number;
   ProductDescription?: string;
   OfferingType?: string;
-  RecurringCharges?: RecurringChargeList;
+  RecurringCharges?: RecurringCharge[];
 }
 export const ReservedCacheNodesOffering = S.suspend(() =>
   S.Struct({
@@ -3957,11 +4094,11 @@ export interface ServiceUpdate {
   ServiceUpdateName?: string;
   ServiceUpdateReleaseDate?: Date;
   ServiceUpdateEndDate?: Date;
-  ServiceUpdateSeverity?: string;
+  ServiceUpdateSeverity?: ServiceUpdateSeverity;
   ServiceUpdateRecommendedApplyByDate?: Date;
-  ServiceUpdateStatus?: string;
+  ServiceUpdateStatus?: ServiceUpdateStatus;
   ServiceUpdateDescription?: string;
-  ServiceUpdateType?: string;
+  ServiceUpdateType?: ServiceUpdateType;
   Engine?: string;
   EngineVersion?: string;
   AutoUpdateAfterRecommendedApplyByDate?: boolean;
@@ -3976,13 +4113,13 @@ export const ServiceUpdate = S.suspend(() =>
     ServiceUpdateEndDate: S.optional(
       S.Date.pipe(T.TimestampFormat("date-time")),
     ),
-    ServiceUpdateSeverity: S.optional(S.String),
+    ServiceUpdateSeverity: S.optional(ServiceUpdateSeverity),
     ServiceUpdateRecommendedApplyByDate: S.optional(
       S.Date.pipe(T.TimestampFormat("date-time")),
     ),
-    ServiceUpdateStatus: S.optional(S.String),
+    ServiceUpdateStatus: S.optional(ServiceUpdateStatus),
     ServiceUpdateDescription: S.optional(S.String),
-    ServiceUpdateType: S.optional(S.String),
+    ServiceUpdateType: S.optional(ServiceUpdateType),
     Engine: S.optional(S.String),
     EngineVersion: S.optional(S.String),
     AutoUpdateAfterRecommendedApplyByDate: S.optional(S.Boolean),
@@ -4004,7 +4141,7 @@ export interface User {
   Engine?: string;
   MinimumEngineVersion?: string;
   AccessString?: string;
-  UserGroupIds?: UserGroupIdList;
+  UserGroupIds?: string[];
   Authentication?: Authentication;
   ARN?: string;
 }
@@ -4024,8 +4161,8 @@ export const User = S.suspend(() =>
 export type UserList = User[];
 export const UserList = S.Array(User);
 export interface UpdateActionResultsMessage {
-  ProcessedUpdateActions?: ProcessedUpdateActionList;
-  UnprocessedUpdateActions?: UnprocessedUpdateActionList;
+  ProcessedUpdateActions?: ProcessedUpdateAction[];
+  UnprocessedUpdateActions?: UnprocessedUpdateAction[];
 }
 export const UpdateActionResultsMessage = S.suspend(() =>
   S.Struct({
@@ -4052,25 +4189,25 @@ export const CreateReplicationGroupResult = S.suspend(() =>
   identifier: "CreateReplicationGroupResult",
 }) as any as S.Schema<CreateReplicationGroupResult>;
 export interface CreateServerlessCacheRequest {
-  ServerlessCacheName: string;
+  ServerlessCacheName?: string;
   Description?: string;
-  Engine: string;
+  Engine?: string;
   MajorEngineVersion?: string;
   CacheUsageLimits?: CacheUsageLimits;
   KmsKeyId?: string;
-  SecurityGroupIds?: SecurityGroupIdsList;
-  SnapshotArnsToRestore?: SnapshotArnsList;
-  Tags?: TagList;
+  SecurityGroupIds?: string[];
+  SnapshotArnsToRestore?: string[];
+  Tags?: Tag[];
   UserGroupId?: string;
-  SubnetIds?: SubnetIdsList;
+  SubnetIds?: string[];
   SnapshotRetentionLimit?: number;
   DailySnapshotTime?: string;
 }
 export const CreateServerlessCacheRequest = S.suspend(() =>
   S.Struct({
-    ServerlessCacheName: S.String,
+    ServerlessCacheName: S.optional(S.String),
     Description: S.optional(S.String),
-    Engine: S.String,
+    Engine: S.optional(S.String),
     MajorEngineVersion: S.optional(S.String),
     CacheUsageLimits: S.optional(CacheUsageLimits),
     KmsKeyId: S.optional(S.String),
@@ -4113,7 +4250,7 @@ export const DeleteServerlessCacheResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteServerlessCacheResponse>;
 export interface CacheEngineVersionMessage {
   Marker?: string;
-  CacheEngineVersions?: CacheEngineVersionList;
+  CacheEngineVersions?: CacheEngineVersion[];
 }
 export const CacheEngineVersionMessage = S.suspend(() =>
   S.Struct({
@@ -4133,7 +4270,7 @@ export const DescribeEngineDefaultParametersResult = S.suspend(() =>
 }) as any as S.Schema<DescribeEngineDefaultParametersResult>;
 export interface EventsMessage {
   Marker?: string;
-  Events?: EventList;
+  Events?: Event[];
 }
 export const EventsMessage = S.suspend(() =>
   S.Struct({
@@ -4145,7 +4282,7 @@ export const EventsMessage = S.suspend(() =>
 }) as any as S.Schema<EventsMessage>;
 export interface ReservedCacheNodesOfferingMessage {
   Marker?: string;
-  ReservedCacheNodesOfferings?: ReservedCacheNodesOfferingList;
+  ReservedCacheNodesOfferings?: ReservedCacheNodesOffering[];
 }
 export const ReservedCacheNodesOfferingMessage = S.suspend(() =>
   S.Struct({
@@ -4157,7 +4294,7 @@ export const ReservedCacheNodesOfferingMessage = S.suspend(() =>
 }) as any as S.Schema<ReservedCacheNodesOfferingMessage>;
 export interface ServiceUpdatesMessage {
   Marker?: string;
-  ServiceUpdates?: ServiceUpdateList;
+  ServiceUpdates?: ServiceUpdate[];
 }
 export const ServiceUpdatesMessage = S.suspend(() =>
   S.Struct({
@@ -4168,7 +4305,7 @@ export const ServiceUpdatesMessage = S.suspend(() =>
   identifier: "ServiceUpdatesMessage",
 }) as any as S.Schema<ServiceUpdatesMessage>;
 export interface DescribeUsersResult {
-  Users?: UserList;
+  Users?: User[];
   Marker?: string;
 }
 export const DescribeUsersResult = S.suspend(() =>
@@ -4212,12 +4349,31 @@ export const StartMigrationResponse = S.suspend(() =>
 ).annotations({
   identifier: "StartMigrationResponse",
 }) as any as S.Schema<StartMigrationResponse>;
+export type SlaMet = "yes" | "no" | "n/a";
+export const SlaMet = S.Literal("yes", "no", "n/a");
 export type ReservedCacheNodeList = ReservedCacheNode[];
 export const ReservedCacheNodeList = S.Array(
   ReservedCacheNode.pipe(T.XmlName("ReservedCacheNode")).annotations({
     identifier: "ReservedCacheNode",
   }),
 );
+export type NodeUpdateStatus =
+  | "not-applied"
+  | "waiting-to-start"
+  | "in-progress"
+  | "stopping"
+  | "stopped"
+  | "complete";
+export const NodeUpdateStatus = S.Literal(
+  "not-applied",
+  "waiting-to-start",
+  "in-progress",
+  "stopping",
+  "stopped",
+  "complete",
+);
+export type NodeUpdateInitiatedBy = "system" | "customer";
+export const NodeUpdateInitiatedBy = S.Literal("system", "customer");
 export interface AuthorizeCacheSecurityGroupIngressResult {
   CacheSecurityGroup?: CacheSecurityGroup;
 }
@@ -4245,21 +4401,21 @@ export const CopySnapshotResult = S.suspend(() =>
   identifier: "CopySnapshotResult",
 }) as any as S.Schema<CopySnapshotResult>;
 export interface CreateCacheClusterMessage {
-  CacheClusterId: string;
+  CacheClusterId?: string;
   ReplicationGroupId?: string;
-  AZMode?: string;
+  AZMode?: AZMode;
   PreferredAvailabilityZone?: string;
-  PreferredAvailabilityZones?: PreferredAvailabilityZoneList;
+  PreferredAvailabilityZones?: string[];
   NumCacheNodes?: number;
   CacheNodeType?: string;
   Engine?: string;
   EngineVersion?: string;
   CacheParameterGroupName?: string;
   CacheSubnetGroupName?: string;
-  CacheSecurityGroupNames?: CacheSecurityGroupNameList;
-  SecurityGroupIds?: SecurityGroupIdsList;
-  Tags?: TagList;
-  SnapshotArns?: SnapshotArnsList;
+  CacheSecurityGroupNames?: string[];
+  SecurityGroupIds?: string[];
+  Tags?: Tag[];
+  SnapshotArns?: string[];
   SnapshotName?: string;
   PreferredMaintenanceWindow?: string;
   Port?: number;
@@ -4268,19 +4424,19 @@ export interface CreateCacheClusterMessage {
   SnapshotRetentionLimit?: number;
   SnapshotWindow?: string;
   AuthToken?: string;
-  OutpostMode?: string;
+  OutpostMode?: OutpostMode;
   PreferredOutpostArn?: string;
-  PreferredOutpostArns?: PreferredOutpostArnList;
-  LogDeliveryConfigurations?: LogDeliveryConfigurationRequestList;
+  PreferredOutpostArns?: string[];
+  LogDeliveryConfigurations?: LogDeliveryConfigurationRequest[];
   TransitEncryptionEnabled?: boolean;
-  NetworkType?: string;
-  IpDiscovery?: string;
+  NetworkType?: NetworkType;
+  IpDiscovery?: IpDiscovery;
 }
 export const CreateCacheClusterMessage = S.suspend(() =>
   S.Struct({
-    CacheClusterId: S.String,
+    CacheClusterId: S.optional(S.String),
     ReplicationGroupId: S.optional(S.String),
-    AZMode: S.optional(S.String),
+    AZMode: S.optional(AZMode),
     PreferredAvailabilityZone: S.optional(S.String),
     PreferredAvailabilityZones: S.optional(PreferredAvailabilityZoneList),
     NumCacheNodes: S.optional(S.Number),
@@ -4301,13 +4457,13 @@ export const CreateCacheClusterMessage = S.suspend(() =>
     SnapshotRetentionLimit: S.optional(S.Number),
     SnapshotWindow: S.optional(S.String),
     AuthToken: S.optional(S.String),
-    OutpostMode: S.optional(S.String),
+    OutpostMode: S.optional(OutpostMode),
     PreferredOutpostArn: S.optional(S.String),
     PreferredOutpostArns: S.optional(PreferredOutpostArnList),
     LogDeliveryConfigurations: S.optional(LogDeliveryConfigurationRequestList),
     TransitEncryptionEnabled: S.optional(S.Boolean),
-    NetworkType: S.optional(S.String),
-    IpDiscovery: S.optional(S.String),
+    NetworkType: S.optional(NetworkType),
+    IpDiscovery: S.optional(IpDiscovery),
   }).pipe(
     T.all(
       ns,
@@ -4350,8 +4506,8 @@ export const DeleteCacheClusterResult = S.suspend(() =>
 }) as any as S.Schema<DeleteCacheClusterResult>;
 export interface CacheParameterGroupDetails {
   Marker?: string;
-  Parameters?: ParametersList;
-  CacheNodeTypeSpecificParameters?: CacheNodeTypeSpecificParametersList;
+  Parameters?: Parameter[];
+  CacheNodeTypeSpecificParameters?: CacheNodeTypeSpecificParameter[];
 }
 export const CacheParameterGroupDetails = S.suspend(() =>
   S.Struct({
@@ -4366,7 +4522,7 @@ export const CacheParameterGroupDetails = S.suspend(() =>
 }) as any as S.Schema<CacheParameterGroupDetails>;
 export interface ReservedCacheNodeMessage {
   Marker?: string;
-  ReservedCacheNodes?: ReservedCacheNodeList;
+  ReservedCacheNodes?: ReservedCacheNode[];
 }
 export const ReservedCacheNodeMessage = S.suspend(() =>
   S.Struct({
@@ -4378,24 +4534,24 @@ export const ReservedCacheNodeMessage = S.suspend(() =>
 }) as any as S.Schema<ReservedCacheNodeMessage>;
 export interface CacheNodeUpdateStatus {
   CacheNodeId?: string;
-  NodeUpdateStatus?: string;
+  NodeUpdateStatus?: NodeUpdateStatus;
   NodeDeletionDate?: Date;
   NodeUpdateStartDate?: Date;
   NodeUpdateEndDate?: Date;
-  NodeUpdateInitiatedBy?: string;
+  NodeUpdateInitiatedBy?: NodeUpdateInitiatedBy;
   NodeUpdateInitiatedDate?: Date;
   NodeUpdateStatusModifiedDate?: Date;
 }
 export const CacheNodeUpdateStatus = S.suspend(() =>
   S.Struct({
     CacheNodeId: S.optional(S.String),
-    NodeUpdateStatus: S.optional(S.String),
+    NodeUpdateStatus: S.optional(NodeUpdateStatus),
     NodeDeletionDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     NodeUpdateStartDate: S.optional(
       S.Date.pipe(T.TimestampFormat("date-time")),
     ),
     NodeUpdateEndDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    NodeUpdateInitiatedBy: S.optional(S.String),
+    NodeUpdateInitiatedBy: S.optional(NodeUpdateInitiatedBy),
     NodeUpdateInitiatedDate: S.optional(
       S.Date.pipe(T.TimestampFormat("date-time")),
     ),
@@ -4415,11 +4571,11 @@ export const CacheNodeUpdateStatusList = S.Array(
 export interface NodeGroupMemberUpdateStatus {
   CacheClusterId?: string;
   CacheNodeId?: string;
-  NodeUpdateStatus?: string;
+  NodeUpdateStatus?: NodeUpdateStatus;
   NodeDeletionDate?: Date;
   NodeUpdateStartDate?: Date;
   NodeUpdateEndDate?: Date;
-  NodeUpdateInitiatedBy?: string;
+  NodeUpdateInitiatedBy?: NodeUpdateInitiatedBy;
   NodeUpdateInitiatedDate?: Date;
   NodeUpdateStatusModifiedDate?: Date;
 }
@@ -4427,13 +4583,13 @@ export const NodeGroupMemberUpdateStatus = S.suspend(() =>
   S.Struct({
     CacheClusterId: S.optional(S.String),
     CacheNodeId: S.optional(S.String),
-    NodeUpdateStatus: S.optional(S.String),
+    NodeUpdateStatus: S.optional(NodeUpdateStatus),
     NodeDeletionDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     NodeUpdateStartDate: S.optional(
       S.Date.pipe(T.TimestampFormat("date-time")),
     ),
     NodeUpdateEndDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    NodeUpdateInitiatedBy: S.optional(S.String),
+    NodeUpdateInitiatedBy: S.optional(NodeUpdateInitiatedBy),
     NodeUpdateInitiatedDate: S.optional(
       S.Date.pipe(T.TimestampFormat("date-time")),
     ),
@@ -4468,7 +4624,7 @@ export const CreateCacheSubnetGroupResult = S.suspend(() =>
 }) as any as S.Schema<CreateCacheSubnetGroupResult>;
 export interface NodeGroupUpdateStatus {
   NodeGroupId?: string;
-  NodeGroupMemberUpdateStatus?: NodeGroupMemberUpdateStatusList;
+  NodeGroupMemberUpdateStatus?: NodeGroupMemberUpdateStatus[];
 }
 export const NodeGroupUpdateStatus = S.suspend(() =>
   S.Struct({
@@ -4489,17 +4645,17 @@ export interface UpdateAction {
   CacheClusterId?: string;
   ServiceUpdateName?: string;
   ServiceUpdateReleaseDate?: Date;
-  ServiceUpdateSeverity?: string;
-  ServiceUpdateStatus?: string;
+  ServiceUpdateSeverity?: ServiceUpdateSeverity;
+  ServiceUpdateStatus?: ServiceUpdateStatus;
   ServiceUpdateRecommendedApplyByDate?: Date;
-  ServiceUpdateType?: string;
+  ServiceUpdateType?: ServiceUpdateType;
   UpdateActionAvailableDate?: Date;
-  UpdateActionStatus?: string;
+  UpdateActionStatus?: UpdateActionStatus;
   NodesUpdated?: string;
   UpdateActionStatusModifiedDate?: Date;
-  SlaMet?: string;
-  NodeGroupUpdateStatus?: NodeGroupUpdateStatusList;
-  CacheNodeUpdateStatus?: CacheNodeUpdateStatusList;
+  SlaMet?: SlaMet;
+  NodeGroupUpdateStatus?: NodeGroupUpdateStatus[];
+  CacheNodeUpdateStatus?: CacheNodeUpdateStatus[];
   EstimatedUpdateTime?: string;
   Engine?: string;
 }
@@ -4511,21 +4667,21 @@ export const UpdateAction = S.suspend(() =>
     ServiceUpdateReleaseDate: S.optional(
       S.Date.pipe(T.TimestampFormat("date-time")),
     ),
-    ServiceUpdateSeverity: S.optional(S.String),
-    ServiceUpdateStatus: S.optional(S.String),
+    ServiceUpdateSeverity: S.optional(ServiceUpdateSeverity),
+    ServiceUpdateStatus: S.optional(ServiceUpdateStatus),
     ServiceUpdateRecommendedApplyByDate: S.optional(
       S.Date.pipe(T.TimestampFormat("date-time")),
     ),
-    ServiceUpdateType: S.optional(S.String),
+    ServiceUpdateType: S.optional(ServiceUpdateType),
     UpdateActionAvailableDate: S.optional(
       S.Date.pipe(T.TimestampFormat("date-time")),
     ),
-    UpdateActionStatus: S.optional(S.String),
+    UpdateActionStatus: S.optional(UpdateActionStatus),
     NodesUpdated: S.optional(S.String),
     UpdateActionStatusModifiedDate: S.optional(
       S.Date.pipe(T.TimestampFormat("date-time")),
     ),
-    SlaMet: S.optional(S.String),
+    SlaMet: S.optional(SlaMet),
     NodeGroupUpdateStatus: S.optional(NodeGroupUpdateStatusList),
     CacheNodeUpdateStatus: S.optional(CacheNodeUpdateStatusList),
     EstimatedUpdateTime: S.optional(S.String),
@@ -4548,7 +4704,7 @@ export const CompleteMigrationResponse = S.suspend(() =>
 }) as any as S.Schema<CompleteMigrationResponse>;
 export interface UpdateActionsMessage {
   Marker?: string;
-  UpdateActions?: UpdateActionList;
+  UpdateActions?: UpdateAction[];
 }
 export const UpdateActionsMessage = S.suspend(() =>
   S.Struct({
@@ -5096,7 +5252,7 @@ export class ReplicationGroupAlreadyExistsFault extends S.TaggedError<Replicatio
 export const describeCacheParameterGroups: {
   (
     input: DescribeCacheParameterGroupsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     CacheParameterGroupsMessage,
     | CacheParameterGroupNotFoundFault
     | InvalidParameterCombinationException
@@ -5106,7 +5262,7 @@ export const describeCacheParameterGroups: {
   >;
   pages: (
     input: DescribeCacheParameterGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CacheParameterGroupsMessage,
     | CacheParameterGroupNotFoundFault
     | InvalidParameterCombinationException
@@ -5116,7 +5272,7 @@ export const describeCacheParameterGroups: {
   >;
   items: (
     input: DescribeCacheParameterGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CacheParameterGroup,
     | CacheParameterGroupNotFoundFault
     | InvalidParameterCombinationException
@@ -5147,7 +5303,7 @@ export const describeCacheParameterGroups: {
 export const describeCacheSecurityGroups: {
   (
     input: DescribeCacheSecurityGroupsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     CacheSecurityGroupMessage,
     | CacheSecurityGroupNotFoundFault
     | InvalidParameterCombinationException
@@ -5157,7 +5313,7 @@ export const describeCacheSecurityGroups: {
   >;
   pages: (
     input: DescribeCacheSecurityGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CacheSecurityGroupMessage,
     | CacheSecurityGroupNotFoundFault
     | InvalidParameterCombinationException
@@ -5167,7 +5323,7 @@ export const describeCacheSecurityGroups: {
   >;
   items: (
     input: DescribeCacheSecurityGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CacheSecurityGroup,
     | CacheSecurityGroupNotFoundFault
     | InvalidParameterCombinationException
@@ -5216,7 +5372,7 @@ export const describeCacheSecurityGroups: {
 export const describeCacheClusters: {
   (
     input: DescribeCacheClustersMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     CacheClusterMessage,
     | CacheClusterNotFoundFault
     | InvalidParameterCombinationException
@@ -5226,7 +5382,7 @@ export const describeCacheClusters: {
   >;
   pages: (
     input: DescribeCacheClustersMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CacheClusterMessage,
     | CacheClusterNotFoundFault
     | InvalidParameterCombinationException
@@ -5236,7 +5392,7 @@ export const describeCacheClusters: {
   >;
   items: (
     input: DescribeCacheClustersMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CacheCluster,
     | CacheClusterNotFoundFault
     | InvalidParameterCombinationException
@@ -5266,7 +5422,7 @@ export const describeCacheClusters: {
  */
 export const batchStopUpdateAction: (
   input: BatchStopUpdateActionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateActionResultsMessage,
   InvalidParameterValueException | ServiceUpdateNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5282,7 +5438,7 @@ export const batchStopUpdateAction: (
  */
 export const deleteCacheParameterGroup: (
   input: DeleteCacheParameterGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCacheParameterGroupResponse,
   | CacheParameterGroupNotFoundFault
   | InvalidCacheParameterGroupStateFault
@@ -5308,7 +5464,7 @@ export const deleteCacheParameterGroup: (
  */
 export const deleteCacheSecurityGroup: (
   input: DeleteCacheSecurityGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCacheSecurityGroupResponse,
   | CacheSecurityGroupNotFoundFault
   | InvalidCacheSecurityGroupStateFault
@@ -5334,7 +5490,7 @@ export const deleteCacheSecurityGroup: (
  */
 export const deleteCacheSubnetGroup: (
   input: DeleteCacheSubnetGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCacheSubnetGroupResponse,
   CacheSubnetGroupInUse | CacheSubnetGroupNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5349,21 +5505,21 @@ export const deleteCacheSubnetGroup: (
 export const describeCacheEngineVersions: {
   (
     input: DescribeCacheEngineVersionsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     CacheEngineVersionMessage,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeCacheEngineVersionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CacheEngineVersionMessage,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeCacheEngineVersionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CacheEngineVersion,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -5386,7 +5542,7 @@ export const describeCacheEngineVersions: {
 export const describeEngineDefaultParameters: {
   (
     input: DescribeEngineDefaultParametersMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeEngineDefaultParametersResult,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -5395,7 +5551,7 @@ export const describeEngineDefaultParameters: {
   >;
   pages: (
     input: DescribeEngineDefaultParametersMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeEngineDefaultParametersResult,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -5404,7 +5560,7 @@ export const describeEngineDefaultParameters: {
   >;
   items: (
     input: DescribeEngineDefaultParametersMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -5436,7 +5592,7 @@ export const describeEngineDefaultParameters: {
 export const describeEvents: {
   (
     input: DescribeEventsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     EventsMessage,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -5445,7 +5601,7 @@ export const describeEvents: {
   >;
   pages: (
     input: DescribeEventsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EventsMessage,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -5454,7 +5610,7 @@ export const describeEvents: {
   >;
   items: (
     input: DescribeEventsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Event,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -5481,7 +5637,7 @@ export const describeEvents: {
 export const describeServiceUpdates: {
   (
     input: DescribeServiceUpdatesMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     ServiceUpdatesMessage,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -5491,7 +5647,7 @@ export const describeServiceUpdates: {
   >;
   pages: (
     input: DescribeServiceUpdatesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServiceUpdatesMessage,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -5501,7 +5657,7 @@ export const describeServiceUpdates: {
   >;
   items: (
     input: DescribeServiceUpdatesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServiceUpdate,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -5530,7 +5686,7 @@ export const describeServiceUpdates: {
  */
 export const revokeCacheSecurityGroupIngress: (
   input: RevokeCacheSecurityGroupIngressMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RevokeCacheSecurityGroupIngressResult,
   | AuthorizationNotFoundFault
   | CacheSecurityGroupNotFoundFault
@@ -5557,7 +5713,7 @@ export const revokeCacheSecurityGroupIngress: (
  */
 export const batchApplyUpdateAction: (
   input: BatchApplyUpdateActionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateActionResultsMessage,
   InvalidParameterValueException | ServiceUpdateNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5573,7 +5729,7 @@ export const batchApplyUpdateAction: (
 export const describeGlobalReplicationGroups: {
   (
     input: DescribeGlobalReplicationGroupsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeGlobalReplicationGroupsResult,
     | GlobalReplicationGroupNotFoundFault
     | InvalidParameterCombinationException
@@ -5583,7 +5739,7 @@ export const describeGlobalReplicationGroups: {
   >;
   pages: (
     input: DescribeGlobalReplicationGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeGlobalReplicationGroupsResult,
     | GlobalReplicationGroupNotFoundFault
     | InvalidParameterCombinationException
@@ -5593,7 +5749,7 @@ export const describeGlobalReplicationGroups: {
   >;
   items: (
     input: DescribeGlobalReplicationGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GlobalReplicationGroup,
     | GlobalReplicationGroupNotFoundFault
     | InvalidParameterCombinationException
@@ -5625,21 +5781,21 @@ export const describeGlobalReplicationGroups: {
 export const describeCacheSubnetGroups: {
   (
     input: DescribeCacheSubnetGroupsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     CacheSubnetGroupMessage,
     CacheSubnetGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeCacheSubnetGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CacheSubnetGroupMessage,
     CacheSubnetGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeCacheSubnetGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CacheSubnetGroup,
     CacheSubnetGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -5665,7 +5821,7 @@ export const describeCacheSubnetGroups: {
 export const describeReplicationGroups: {
   (
     input: DescribeReplicationGroupsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     ReplicationGroupMessage,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -5675,7 +5831,7 @@ export const describeReplicationGroups: {
   >;
   pages: (
     input: DescribeReplicationGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReplicationGroupMessage,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -5685,7 +5841,7 @@ export const describeReplicationGroups: {
   >;
   items: (
     input: DescribeReplicationGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReplicationGroup,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -5716,7 +5872,7 @@ export const describeReplicationGroups: {
 export const describeServerlessCaches: {
   (
     input: DescribeServerlessCachesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeServerlessCachesResponse,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -5726,7 +5882,7 @@ export const describeServerlessCaches: {
   >;
   pages: (
     input: DescribeServerlessCachesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeServerlessCachesResponse,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -5736,7 +5892,7 @@ export const describeServerlessCaches: {
   >;
   items: (
     input: DescribeServerlessCachesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServerlessCache,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -5770,7 +5926,7 @@ export const describeServerlessCaches: {
 export const describeSnapshots: {
   (
     input: DescribeSnapshotsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeSnapshotsListMessage,
     | CacheClusterNotFoundFault
     | InvalidParameterCombinationException
@@ -5781,7 +5937,7 @@ export const describeSnapshots: {
   >;
   pages: (
     input: DescribeSnapshotsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeSnapshotsListMessage,
     | CacheClusterNotFoundFault
     | InvalidParameterCombinationException
@@ -5792,7 +5948,7 @@ export const describeSnapshots: {
   >;
   items: (
     input: DescribeSnapshotsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Snapshot,
     | CacheClusterNotFoundFault
     | InvalidParameterCombinationException
@@ -5828,7 +5984,7 @@ export const describeSnapshots: {
  */
 export const listAllowedNodeTypeModifications: (
   input: ListAllowedNodeTypeModificationsMessage,
-) => Effect.Effect<
+) => effect.Effect<
   AllowedNodeTypeModificationsMessage,
   | CacheClusterNotFoundFault
   | InvalidParameterCombinationException
@@ -5866,7 +6022,7 @@ export const listAllowedNodeTypeModifications: (
  */
 export const rebootCacheCluster: (
   input: RebootCacheClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RebootCacheClusterResult,
   CacheClusterNotFoundFault | InvalidCacheClusterStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5884,7 +6040,7 @@ export const rebootCacheCluster: (
  */
 export const deleteSnapshot: (
   input: DeleteSnapshotMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSnapshotResult,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -5907,7 +6063,7 @@ export const deleteSnapshot: (
  */
 export const decreaseNodeGroupsInGlobalReplicationGroup: (
   input: DecreaseNodeGroupsInGlobalReplicationGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DecreaseNodeGroupsInGlobalReplicationGroupResult,
   | GlobalReplicationGroupNotFoundFault
   | InvalidGlobalReplicationGroupStateFault
@@ -5930,7 +6086,7 @@ export const decreaseNodeGroupsInGlobalReplicationGroup: (
  */
 export const deleteServerlessCacheSnapshot: (
   input: DeleteServerlessCacheSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteServerlessCacheSnapshotResponse,
   | InvalidParameterValueException
   | InvalidServerlessCacheSnapshotStateFault
@@ -5954,7 +6110,7 @@ export const deleteServerlessCacheSnapshot: (
 export const describeCacheParameters: {
   (
     input: DescribeCacheParametersMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     CacheParameterGroupDetails,
     | CacheParameterGroupNotFoundFault
     | InvalidParameterCombinationException
@@ -5964,7 +6120,7 @@ export const describeCacheParameters: {
   >;
   pages: (
     input: DescribeCacheParametersMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CacheParameterGroupDetails,
     | CacheParameterGroupNotFoundFault
     | InvalidParameterCombinationException
@@ -5974,7 +6130,7 @@ export const describeCacheParameters: {
   >;
   items: (
     input: DescribeCacheParametersMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Parameter,
     | CacheParameterGroupNotFoundFault
     | InvalidParameterCombinationException
@@ -6003,7 +6159,7 @@ export const describeCacheParameters: {
 export const describeReservedCacheNodesOfferings: {
   (
     input: DescribeReservedCacheNodesOfferingsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     ReservedCacheNodesOfferingMessage,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -6013,7 +6169,7 @@ export const describeReservedCacheNodesOfferings: {
   >;
   pages: (
     input: DescribeReservedCacheNodesOfferingsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReservedCacheNodesOfferingMessage,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -6023,7 +6179,7 @@ export const describeReservedCacheNodesOfferings: {
   >;
   items: (
     input: DescribeReservedCacheNodesOfferingsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReservedCacheNodesOffering,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -6051,7 +6207,7 @@ export const describeReservedCacheNodesOfferings: {
  */
 export const testMigration: (
   input: TestMigrationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   TestMigrationResponse,
   | InvalidParameterValueException
   | InvalidReplicationGroupStateFault
@@ -6074,7 +6230,7 @@ export const testMigration: (
  */
 export const increaseNodeGroupsInGlobalReplicationGroup: (
   input: IncreaseNodeGroupsInGlobalReplicationGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   IncreaseNodeGroupsInGlobalReplicationGroupResult,
   | GlobalReplicationGroupNotFoundFault
   | InvalidGlobalReplicationGroupStateFault
@@ -6113,7 +6269,7 @@ export const increaseNodeGroupsInGlobalReplicationGroup: (
  */
 export const deleteGlobalReplicationGroup: (
   input: DeleteGlobalReplicationGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGlobalReplicationGroupResult,
   | GlobalReplicationGroupNotFoundFault
   | InvalidGlobalReplicationGroupStateFault
@@ -6136,7 +6292,7 @@ export const deleteGlobalReplicationGroup: (
  */
 export const disassociateGlobalReplicationGroup: (
   input: DisassociateGlobalReplicationGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateGlobalReplicationGroupResult,
   | GlobalReplicationGroupNotFoundFault
   | InvalidGlobalReplicationGroupStateFault
@@ -6160,7 +6316,7 @@ export const disassociateGlobalReplicationGroup: (
  */
 export const failoverGlobalReplicationGroup: (
   input: FailoverGlobalReplicationGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   FailoverGlobalReplicationGroupResult,
   | GlobalReplicationGroupNotFoundFault
   | InvalidGlobalReplicationGroupStateFault
@@ -6183,7 +6339,7 @@ export const failoverGlobalReplicationGroup: (
  */
 export const modifyGlobalReplicationGroup: (
   input: ModifyGlobalReplicationGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyGlobalReplicationGroupResult,
   | GlobalReplicationGroupNotFoundFault
   | InvalidGlobalReplicationGroupStateFault
@@ -6205,7 +6361,7 @@ export const modifyGlobalReplicationGroup: (
  */
 export const rebalanceSlotsInGlobalReplicationGroup: (
   input: RebalanceSlotsInGlobalReplicationGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RebalanceSlotsInGlobalReplicationGroupResult,
   | GlobalReplicationGroupNotFoundFault
   | InvalidGlobalReplicationGroupStateFault
@@ -6227,7 +6383,7 @@ export const rebalanceSlotsInGlobalReplicationGroup: (
  */
 export const modifyCacheParameterGroup: (
   input: ModifyCacheParameterGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CacheParameterGroupNameMessage,
   | CacheParameterGroupNotFoundFault
   | InvalidCacheParameterGroupStateFault
@@ -6255,7 +6411,7 @@ export const modifyCacheParameterGroup: (
  */
 export const resetCacheParameterGroup: (
   input: ResetCacheParameterGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CacheParameterGroupNameMessage,
   | CacheParameterGroupNotFoundFault
   | InvalidCacheParameterGroupStateFault
@@ -6280,7 +6436,7 @@ export const resetCacheParameterGroup: (
  */
 export const exportServerlessCacheSnapshot: (
   input: ExportServerlessCacheSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ExportServerlessCacheSnapshotResponse,
   | InvalidParameterValueException
   | InvalidServerlessCacheSnapshotStateFault
@@ -6307,7 +6463,7 @@ export const exportServerlessCacheSnapshot: (
 export const describeServerlessCacheSnapshots: {
   (
     input: DescribeServerlessCacheSnapshotsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeServerlessCacheSnapshotsResponse,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -6318,7 +6474,7 @@ export const describeServerlessCacheSnapshots: {
   >;
   pages: (
     input: DescribeServerlessCacheSnapshotsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeServerlessCacheSnapshotsResponse,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -6329,7 +6485,7 @@ export const describeServerlessCacheSnapshots: {
   >;
   items: (
     input: DescribeServerlessCacheSnapshotsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServerlessCacheSnapshot,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -6360,7 +6516,7 @@ export const describeServerlessCacheSnapshots: {
 export const describeUserGroups: {
   (
     input: DescribeUserGroupsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeUserGroupsResult,
     | InvalidParameterCombinationException
     | ServiceLinkedRoleNotFoundFault
@@ -6370,7 +6526,7 @@ export const describeUserGroups: {
   >;
   pages: (
     input: DescribeUserGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeUserGroupsResult,
     | InvalidParameterCombinationException
     | ServiceLinkedRoleNotFoundFault
@@ -6380,7 +6536,7 @@ export const describeUserGroups: {
   >;
   items: (
     input: DescribeUserGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     UserGroup,
     | InvalidParameterCombinationException
     | ServiceLinkedRoleNotFoundFault
@@ -6408,7 +6564,7 @@ export const describeUserGroups: {
  */
 export const startMigration: (
   input: StartMigrationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   StartMigrationResponse,
   | InvalidParameterValueException
   | InvalidReplicationGroupStateFault
@@ -6434,7 +6590,7 @@ export const startMigration: (
  */
 export const deleteServerlessCache: (
   input: DeleteServerlessCacheRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteServerlessCacheResponse,
   | InvalidCredentialsException
   | InvalidParameterCombinationException
@@ -6464,7 +6620,7 @@ export const deleteServerlessCache: (
 export const describeUsers: {
   (
     input: DescribeUsersMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeUsersResult,
     | InvalidParameterCombinationException
     | ServiceLinkedRoleNotFoundFault
@@ -6474,7 +6630,7 @@ export const describeUsers: {
   >;
   pages: (
     input: DescribeUsersMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeUsersResult,
     | InvalidParameterCombinationException
     | ServiceLinkedRoleNotFoundFault
@@ -6484,7 +6640,7 @@ export const describeUsers: {
   >;
   items: (
     input: DescribeUsersMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     User,
     | InvalidParameterCombinationException
     | ServiceLinkedRoleNotFoundFault
@@ -6512,7 +6668,7 @@ export const describeUsers: {
  */
 export const modifyServerlessCache: (
   input: ModifyServerlessCacheRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyServerlessCacheResponse,
   | InvalidCredentialsException
   | InvalidParameterCombinationException
@@ -6545,7 +6701,7 @@ export const modifyServerlessCache: (
  */
 export const deleteUserGroup: (
   input: DeleteUserGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   UserGroup,
   | InvalidParameterValueException
   | InvalidUserGroupStateFault
@@ -6568,7 +6724,7 @@ export const deleteUserGroup: (
  */
 export const modifyUserGroup: (
   input: ModifyUserGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   UserGroup,
   | DefaultUserRequired
   | DuplicateUserNameFault
@@ -6604,7 +6760,7 @@ export const modifyUserGroup: (
  */
 export const createCacheSecurityGroup: (
   input: CreateCacheSecurityGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCacheSecurityGroupResult,
   | CacheSecurityGroupAlreadyExistsFault
   | CacheSecurityGroupQuotaExceededFault
@@ -6630,7 +6786,7 @@ export const createCacheSecurityGroup: (
  */
 export const purchaseReservedCacheNodesOffering: (
   input: PurchaseReservedCacheNodesOfferingMessage,
-) => Effect.Effect<
+) => effect.Effect<
   PurchaseReservedCacheNodesOfferingResult,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -6657,7 +6813,7 @@ export const purchaseReservedCacheNodesOffering: (
  */
 export const modifyUser: (
   input: ModifyUserMessage,
-) => Effect.Effect<
+) => effect.Effect<
   User,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -6684,7 +6840,7 @@ export const modifyUser: (
  */
 export const deleteUser: (
   input: DeleteUserMessage,
-) => Effect.Effect<
+) => effect.Effect<
   User,
   | DefaultUserAssociatedToUserGroupFault
   | InvalidParameterValueException
@@ -6714,7 +6870,7 @@ export const deleteUser: (
  */
 export const authorizeCacheSecurityGroupIngress: (
   input: AuthorizeCacheSecurityGroupIngressMessage,
-) => Effect.Effect<
+) => effect.Effect<
   AuthorizeCacheSecurityGroupIngressResult,
   | AuthorizationAlreadyExistsFault
   | CacheSecurityGroupNotFoundFault
@@ -6751,7 +6907,7 @@ export const authorizeCacheSecurityGroupIngress: (
  */
 export const createCacheParameterGroup: (
   input: CreateCacheParameterGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCacheParameterGroupResult,
   | CacheParameterGroupAlreadyExistsFault
   | CacheParameterGroupQuotaExceededFault
@@ -6789,7 +6945,7 @@ export const createCacheParameterGroup: (
  */
 export const createGlobalReplicationGroup: (
   input: CreateGlobalReplicationGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGlobalReplicationGroupResult,
   | GlobalReplicationGroupAlreadyExistsFault
   | InvalidParameterValueException
@@ -6816,7 +6972,7 @@ export const createGlobalReplicationGroup: (
 export const describeReservedCacheNodes: {
   (
     input: DescribeReservedCacheNodesMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     ReservedCacheNodeMessage,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -6826,7 +6982,7 @@ export const describeReservedCacheNodes: {
   >;
   pages: (
     input: DescribeReservedCacheNodesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReservedCacheNodeMessage,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -6836,7 +6992,7 @@ export const describeReservedCacheNodes: {
   >;
   items: (
     input: DescribeReservedCacheNodesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReservedCacheNode,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -6877,7 +7033,7 @@ export const describeReservedCacheNodes: {
  */
 export const addTagsToResource: (
   input: AddTagsToResourceMessage,
-) => Effect.Effect<
+) => effect.Effect<
   TagListMessage,
   | CacheClusterNotFoundFault
   | CacheParameterGroupNotFoundFault
@@ -6933,7 +7089,7 @@ export const addTagsToResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceMessage,
-) => Effect.Effect<
+) => effect.Effect<
   TagListMessage,
   | CacheClusterNotFoundFault
   | CacheParameterGroupNotFoundFault
@@ -7048,7 +7204,7 @@ export const listTagsForResource: (
  */
 export const copySnapshot: (
   input: CopySnapshotMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CopySnapshotResult,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -7090,7 +7246,7 @@ export const copySnapshot: (
  */
 export const deleteReplicationGroup: (
   input: DeleteReplicationGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteReplicationGroupResult,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -7138,7 +7294,7 @@ export const deleteReplicationGroup: (
  */
 export const deleteCacheCluster: (
   input: DeleteCacheClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCacheClusterResult,
   | CacheClusterNotFoundFault
   | InvalidCacheClusterStateFault
@@ -7167,7 +7323,7 @@ export const deleteCacheCluster: (
  */
 export const createServerlessCacheSnapshot: (
   input: CreateServerlessCacheSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateServerlessCacheSnapshotResponse,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -7201,7 +7357,7 @@ export const createServerlessCacheSnapshot: (
  */
 export const createSnapshot: (
   input: CreateSnapshotMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSnapshotResult,
   | CacheClusterNotFoundFault
   | InvalidCacheClusterStateFault
@@ -7236,7 +7392,7 @@ export const createSnapshot: (
  */
 export const copyServerlessCacheSnapshot: (
   input: CopyServerlessCacheSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CopyServerlessCacheSnapshotResponse,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -7267,7 +7423,7 @@ export const copyServerlessCacheSnapshot: (
  */
 export const createServerlessCache: (
   input: CreateServerlessCacheRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateServerlessCacheResponse,
   | InvalidCredentialsException
   | InvalidParameterCombinationException
@@ -7305,7 +7461,7 @@ export const createServerlessCache: (
 export const describeUpdateActions: {
   (
     input: DescribeUpdateActionsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     UpdateActionsMessage,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -7314,7 +7470,7 @@ export const describeUpdateActions: {
   >;
   pages: (
     input: DescribeUpdateActionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     UpdateActionsMessage,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -7323,7 +7479,7 @@ export const describeUpdateActions: {
   >;
   items: (
     input: DescribeUpdateActionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     UpdateAction,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -7353,7 +7509,7 @@ export const describeUpdateActions: {
  */
 export const removeTagsFromResource: (
   input: RemoveTagsFromResourceMessage,
-) => Effect.Effect<
+) => effect.Effect<
   TagListMessage,
   | CacheClusterNotFoundFault
   | CacheParameterGroupNotFoundFault
@@ -7401,7 +7557,7 @@ export const removeTagsFromResource: (
  */
 export const createUser: (
   input: CreateUserMessage,
-) => Effect.Effect<
+) => effect.Effect<
   User,
   | DuplicateUserNameFault
   | InvalidParameterCombinationException
@@ -7431,7 +7587,7 @@ export const createUser: (
  */
 export const modifyCacheCluster: (
   input: ModifyCacheClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyCacheClusterResult,
   | CacheClusterNotFoundFault
   | CacheParameterGroupNotFoundFault
@@ -7518,7 +7674,7 @@ export const modifyCacheCluster: (
  */
 export const testFailover: (
   input: TestFailoverMessage,
-) => Effect.Effect<
+) => effect.Effect<
   TestFailoverResult,
   | APICallRateForCustomerExceededFault
   | InvalidCacheClusterStateFault
@@ -7552,7 +7708,7 @@ export const testFailover: (
  */
 export const createUserGroup: (
   input: CreateUserGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   UserGroup,
   | DefaultUserRequired
   | DuplicateUserNameFault
@@ -7591,7 +7747,7 @@ export const createUserGroup: (
  */
 export const modifyReplicationGroup: (
   input: ModifyReplicationGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyReplicationGroupResult,
   | CacheClusterNotFoundFault
   | CacheParameterGroupNotFoundFault
@@ -7639,7 +7795,7 @@ export const modifyReplicationGroup: (
  */
 export const modifyReplicationGroupShardConfiguration: (
   input: ModifyReplicationGroupShardConfigurationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyReplicationGroupShardConfigurationResult,
   | InsufficientCacheClusterCapacityFault
   | InvalidCacheClusterStateFault
@@ -7677,7 +7833,7 @@ export const modifyReplicationGroupShardConfiguration: (
  */
 export const createCacheCluster: (
   input: CreateCacheClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCacheClusterResult,
   | CacheClusterAlreadyExistsFault
   | CacheParameterGroupNotFoundFault
@@ -7720,7 +7876,7 @@ export const createCacheCluster: (
  */
 export const completeMigration: (
   input: CompleteMigrationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CompleteMigrationResponse,
   | InvalidReplicationGroupStateFault
   | ReplicationGroupNotFoundFault
@@ -7741,7 +7897,7 @@ export const completeMigration: (
  */
 export const modifyCacheSubnetGroup: (
   input: ModifyCacheSubnetGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyCacheSubnetGroupResult,
   | CacheSubnetGroupNotFoundFault
   | CacheSubnetQuotaExceededFault
@@ -7769,7 +7925,7 @@ export const modifyCacheSubnetGroup: (
  */
 export const createCacheSubnetGroup: (
   input: CreateCacheSubnetGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCacheSubnetGroupResult,
   | CacheSubnetGroupAlreadyExistsFault
   | CacheSubnetGroupQuotaExceededFault
@@ -7799,7 +7955,7 @@ export const createCacheSubnetGroup: (
  */
 export const increaseReplicaCount: (
   input: IncreaseReplicaCountMessage,
-) => Effect.Effect<
+) => effect.Effect<
   IncreaseReplicaCountResult,
   | ClusterQuotaForCustomerExceededFault
   | InsufficientCacheClusterCapacityFault
@@ -7872,7 +8028,7 @@ export const increaseReplicaCount: (
  */
 export const createReplicationGroup: (
   input: CreateReplicationGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateReplicationGroupResult,
   | CacheClusterNotFoundFault
   | CacheParameterGroupNotFoundFault
@@ -7928,7 +8084,7 @@ export const createReplicationGroup: (
  */
 export const decreaseReplicaCount: (
   input: DecreaseReplicaCountMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DecreaseReplicaCountResult,
   | ClusterQuotaForCustomerExceededFault
   | InsufficientCacheClusterCapacityFault

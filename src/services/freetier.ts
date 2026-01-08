@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -137,31 +137,78 @@ export const GetAccountPlanStateRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetAccountPlanStateRequest",
 }) as any as S.Schema<GetAccountPlanStateRequest>;
-export type FilterActivityStatuses = string[];
-export const FilterActivityStatuses = S.Array(S.String);
+export type LanguageCode =
+  | "en-US"
+  | "en-GB"
+  | "id-ID"
+  | "de-DE"
+  | "es-ES"
+  | "fr-FR"
+  | "ja-JP"
+  | "it-IT"
+  | "pt-PT"
+  | "ko-KR"
+  | "zh-CN"
+  | "zh-TW"
+  | "tr-TR";
+export const LanguageCode = S.Literal(
+  "en-US",
+  "en-GB",
+  "id-ID",
+  "de-DE",
+  "es-ES",
+  "fr-FR",
+  "ja-JP",
+  "it-IT",
+  "pt-PT",
+  "ko-KR",
+  "zh-CN",
+  "zh-TW",
+  "tr-TR",
+);
+export type AccountPlanType = "FREE" | "PAID";
+export const AccountPlanType = S.Literal("FREE", "PAID");
+export type AccountPlanStatus = "NOT_STARTED" | "ACTIVE" | "EXPIRED";
+export const AccountPlanStatus = S.Literal("NOT_STARTED", "ACTIVE", "EXPIRED");
+export type ActivityStatus =
+  | "NOT_STARTED"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "EXPIRING";
+export const ActivityStatus = S.Literal(
+  "NOT_STARTED",
+  "IN_PROGRESS",
+  "COMPLETED",
+  "EXPIRING",
+);
+export type FilterActivityStatuses = ActivityStatus[];
+export const FilterActivityStatuses = S.Array(ActivityStatus);
 export interface GetAccountActivityRequest {
   activityId: string;
-  languageCode?: string;
+  languageCode?: LanguageCode;
 }
 export const GetAccountActivityRequest = S.suspend(() =>
-  S.Struct({ activityId: S.String, languageCode: S.optional(S.String) }).pipe(
+  S.Struct({
+    activityId: S.String,
+    languageCode: S.optional(LanguageCode),
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "GetAccountActivityRequest",
 }) as any as S.Schema<GetAccountActivityRequest>;
 export interface ListAccountActivitiesRequest {
-  filterActivityStatuses?: FilterActivityStatuses;
+  filterActivityStatuses?: ActivityStatus[];
   nextToken?: string;
   maxResults?: number;
-  languageCode?: string;
+  languageCode?: LanguageCode;
 }
 export const ListAccountActivitiesRequest = S.suspend(() =>
   S.Struct({
     filterActivityStatuses: S.optional(FilterActivityStatuses),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-    languageCode: S.optional(S.String),
+    languageCode: S.optional(LanguageCode),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -169,15 +216,17 @@ export const ListAccountActivitiesRequest = S.suspend(() =>
   identifier: "ListAccountActivitiesRequest",
 }) as any as S.Schema<ListAccountActivitiesRequest>;
 export interface UpgradeAccountPlanRequest {
-  accountPlanType: string;
+  accountPlanType: AccountPlanType;
 }
 export const UpgradeAccountPlanRequest = S.suspend(() =>
-  S.Struct({ accountPlanType: S.String }).pipe(
+  S.Struct({ accountPlanType: AccountPlanType }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "UpgradeAccountPlanRequest",
 }) as any as S.Schema<UpgradeAccountPlanRequest>;
+export type CurrencyCode = "USD";
+export const CurrencyCode = S.Literal("USD");
 export type Expressions = Expression[];
 export const Expressions = S.Array(
   S.suspend((): S.Schema<Expression, any> => Expression).annotations({
@@ -186,29 +235,59 @@ export const Expressions = S.Array(
 ) as any as S.Schema<Expressions>;
 export interface MonetaryAmount {
   amount: number;
-  unit: string;
+  unit: CurrencyCode;
 }
 export const MonetaryAmount = S.suspend(() =>
-  S.Struct({ amount: S.Number, unit: S.String }),
+  S.Struct({ amount: S.Number, unit: CurrencyCode }),
 ).annotations({
   identifier: "MonetaryAmount",
 }) as any as S.Schema<MonetaryAmount>;
+export type Dimension =
+  | "SERVICE"
+  | "OPERATION"
+  | "USAGE_TYPE"
+  | "REGION"
+  | "FREE_TIER_TYPE"
+  | "DESCRIPTION"
+  | "USAGE_PERCENTAGE";
+export const Dimension = S.Literal(
+  "SERVICE",
+  "OPERATION",
+  "USAGE_TYPE",
+  "REGION",
+  "FREE_TIER_TYPE",
+  "DESCRIPTION",
+  "USAGE_PERCENTAGE",
+);
 export type Values = string[];
 export const Values = S.Array(S.String);
-export type MatchOptions = string[];
-export const MatchOptions = S.Array(S.String);
+export type MatchOption =
+  | "EQUALS"
+  | "STARTS_WITH"
+  | "ENDS_WITH"
+  | "CONTAINS"
+  | "GREATER_THAN_OR_EQUAL";
+export const MatchOption = S.Literal(
+  "EQUALS",
+  "STARTS_WITH",
+  "ENDS_WITH",
+  "CONTAINS",
+  "GREATER_THAN_OR_EQUAL",
+);
+export type MatchOptions = MatchOption[];
+export const MatchOptions = S.Array(MatchOption);
 export interface GetAccountPlanStateResponse {
   accountId: string;
-  accountPlanType: string;
-  accountPlanStatus: string;
+  accountPlanType: AccountPlanType;
+  accountPlanStatus: AccountPlanStatus;
   accountPlanRemainingCredits?: MonetaryAmount;
   accountPlanExpirationDate?: Date;
 }
 export const GetAccountPlanStateResponse = S.suspend(() =>
   S.Struct({
     accountId: S.String,
-    accountPlanType: S.String,
-    accountPlanStatus: S.String,
+    accountPlanType: AccountPlanType,
+    accountPlanStatus: AccountPlanStatus,
     accountPlanRemainingCredits: S.optional(MonetaryAmount),
     accountPlanExpirationDate: S.optional(
       S.Date.pipe(T.TimestampFormat("date-time")),
@@ -219,33 +298,33 @@ export const GetAccountPlanStateResponse = S.suspend(() =>
 }) as any as S.Schema<GetAccountPlanStateResponse>;
 export interface UpgradeAccountPlanResponse {
   accountId: string;
-  accountPlanType: string;
-  accountPlanStatus: string;
+  accountPlanType: AccountPlanType;
+  accountPlanStatus: AccountPlanStatus;
 }
 export const UpgradeAccountPlanResponse = S.suspend(() =>
   S.Struct({
     accountId: S.String,
-    accountPlanType: S.String,
-    accountPlanStatus: S.String,
+    accountPlanType: AccountPlanType,
+    accountPlanStatus: AccountPlanStatus,
   }),
 ).annotations({
   identifier: "UpgradeAccountPlanResponse",
 }) as any as S.Schema<UpgradeAccountPlanResponse>;
 export interface DimensionValues {
-  Key: string;
-  Values: Values;
-  MatchOptions: MatchOptions;
+  Key: Dimension;
+  Values: string[];
+  MatchOptions: MatchOption[];
 }
 export const DimensionValues = S.suspend(() =>
-  S.Struct({ Key: S.String, Values: Values, MatchOptions: MatchOptions }),
+  S.Struct({ Key: Dimension, Values: Values, MatchOptions: MatchOptions }),
 ).annotations({
   identifier: "DimensionValues",
 }) as any as S.Schema<DimensionValues>;
 export type ActivityReward = { credit: MonetaryAmount };
 export const ActivityReward = S.Union(S.Struct({ credit: MonetaryAmount }));
 export interface Expression {
-  Or?: Expressions;
-  And?: Expressions;
+  Or?: Expression[];
+  And?: Expression[];
   Not?: Expression;
   Dimensions?: DimensionValues;
 }
@@ -268,15 +347,15 @@ export const Expression = S.suspend(() =>
 export interface ActivitySummary {
   activityId: string;
   title: string;
-  reward: (typeof ActivityReward)["Type"];
-  status: string;
+  reward: ActivityReward;
+  status: ActivityStatus;
 }
 export const ActivitySummary = S.suspend(() =>
   S.Struct({
     activityId: S.String,
     title: S.String,
     reward: ActivityReward,
-    status: S.String,
+    status: ActivityStatus,
   }),
 ).annotations({
   identifier: "ActivitySummary",
@@ -287,9 +366,9 @@ export interface GetAccountActivityResponse {
   activityId: string;
   title: string;
   description: string;
-  status: string;
+  status: ActivityStatus;
   instructionsUrl: string;
-  reward: (typeof ActivityReward)["Type"];
+  reward: ActivityReward;
   estimatedTimeToCompleteInMinutes?: number;
   expiresAt?: Date;
   startedAt?: Date;
@@ -300,7 +379,7 @@ export const GetAccountActivityResponse = S.suspend(() =>
     activityId: S.String,
     title: S.String,
     description: S.String,
-    status: S.String,
+    status: ActivityStatus,
     instructionsUrl: S.String,
     reward: ActivityReward,
     estimatedTimeToCompleteInMinutes: S.optional(S.Number),
@@ -328,7 +407,7 @@ export const GetFreeTierUsageRequest = S.suspend(() =>
   identifier: "GetFreeTierUsageRequest",
 }) as any as S.Schema<GetFreeTierUsageRequest>;
 export interface ListAccountActivitiesResponse {
-  activities: Activities;
+  activities: ActivitySummary[];
   nextToken?: string;
 }
 export const ListAccountActivitiesResponse = S.suspend(() =>
@@ -367,7 +446,7 @@ export const FreeTierUsage = S.suspend(() =>
 export type FreeTierUsages = FreeTierUsage[];
 export const FreeTierUsages = S.Array(FreeTierUsage);
 export interface GetFreeTierUsageResponse {
-  freeTierUsages: FreeTierUsages;
+  freeTierUsages: FreeTierUsage[];
   nextToken?: string;
 }
 export const GetFreeTierUsageResponse = S.suspend(() =>
@@ -405,7 +484,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listAccountActivities: {
   (
     input: ListAccountActivitiesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccountActivitiesResponse,
     | InternalServerException
     | ThrottlingException
@@ -415,7 +494,7 @@ export const listAccountActivities: {
   >;
   pages: (
     input: ListAccountActivitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccountActivitiesResponse,
     | InternalServerException
     | ThrottlingException
@@ -425,7 +504,7 @@ export const listAccountActivities: {
   >;
   items: (
     input: ListAccountActivitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ActivitySummary,
     | InternalServerException
     | ThrottlingException
@@ -449,7 +528,7 @@ export const listAccountActivities: {
  */
 export const getAccountPlanState: (
   input: GetAccountPlanStateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccountPlanStateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -474,7 +553,7 @@ export const getAccountPlanState: (
  */
 export const upgradeAccountPlan: (
   input: UpgradeAccountPlanRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpgradeAccountPlanResponse,
   | AccessDeniedException
   | InternalServerException
@@ -499,7 +578,7 @@ export const upgradeAccountPlan: (
  */
 export const getAccountActivity: (
   input: GetAccountActivityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccountActivityResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -523,7 +602,7 @@ export const getAccountActivity: (
 export const getFreeTierUsage: {
   (
     input: GetFreeTierUsageRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetFreeTierUsageResponse,
     | InternalServerException
     | ThrottlingException
@@ -533,7 +612,7 @@ export const getFreeTierUsage: {
   >;
   pages: (
     input: GetFreeTierUsageRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetFreeTierUsageResponse,
     | InternalServerException
     | ThrottlingException
@@ -543,7 +622,7 @@ export const getFreeTierUsage: {
   >;
   items: (
     input: GetFreeTierUsageRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FreeTierUsage,
     | InternalServerException
     | ThrottlingException

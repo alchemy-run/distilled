@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -137,7 +137,7 @@ export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface BatchGetIncidentFindingsInput {
   incidentRecordArn: string;
-  findingIds: FindingIdList;
+  findingIds: string[];
 }
 export const BatchGetIncidentFindingsInput = S.suspend(() =>
   S.Struct({ incidentRecordArn: S.String, findingIds: FindingIdList }).pipe(
@@ -475,8 +475,8 @@ export const StringList = S.Array(S.String);
 export type IntegerList = number[];
 export const IntegerList = S.Array(S.Number);
 export type AttributeValueList =
-  | { stringValues: StringList }
-  | { integerValues: IntegerList };
+  | { stringValues: string[] }
+  | { integerValues: number[] };
 export const AttributeValueList = S.Union(
   S.Struct({ stringValues: StringList }),
   S.Struct({ integerValues: IntegerList }),
@@ -484,7 +484,7 @@ export const AttributeValueList = S.Union(
 export type Condition =
   | { before: Date }
   | { after: Date }
-  | { equals: (typeof AttributeValueList)["Type"] };
+  | { equals: AttributeValueList };
 export const Condition = S.Union(
   S.Struct({ before: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }),
   S.Struct({ after: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }),
@@ -492,7 +492,7 @@ export const Condition = S.Union(
 );
 export interface Filter {
   key: string;
-  condition: (typeof Condition)["Type"];
+  condition: Condition;
 }
 export const Filter = S.suspend(() =>
   S.Struct({ key: S.String, condition: Condition }),
@@ -501,7 +501,7 @@ export type FilterList = Filter[];
 export const FilterList = S.Array(Filter);
 export interface ListTimelineEventsInput {
   incidentRecordArn: string;
-  filters?: FilterList;
+  filters?: Filter[];
   sortBy?: string;
   sortOrder?: string;
   maxResults?: number;
@@ -550,7 +550,7 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -575,7 +575,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -632,7 +632,7 @@ export const EventReference = S.Union(
   S.Struct({ resource: S.String }),
   S.Struct({ relatedItemId: S.String }),
 );
-export type EventReferenceList = (typeof EventReference)["Type"][];
+export type EventReferenceList = EventReference[];
 export const EventReferenceList = S.Array(EventReference);
 export interface UpdateTimelineEventInput {
   clientToken?: string;
@@ -641,7 +641,7 @@ export interface UpdateTimelineEventInput {
   eventTime?: Date;
   eventType?: string;
   eventData?: string;
-  eventReferences?: EventReferenceList;
+  eventReferences?: EventReference[];
 }
 export const UpdateTimelineEventInput = S.suspend(() =>
   S.Struct({
@@ -681,15 +681,15 @@ export type NotificationTargetItem = { snsTopicArn: string };
 export const NotificationTargetItem = S.Union(
   S.Struct({ snsTopicArn: S.String }),
 );
-export type NotificationTargetSet = (typeof NotificationTargetItem)["Type"][];
+export type NotificationTargetSet = NotificationTargetItem[];
 export const NotificationTargetSet = S.Array(NotificationTargetItem);
 export interface IncidentTemplate {
   title: string;
   impact: number;
   summary?: string;
   dedupeString?: string;
-  notificationTargets?: NotificationTargetSet;
-  incidentTags?: TagMap;
+  notificationTargets?: NotificationTargetItem[];
+  incidentTags?: { [key: string]: string };
 }
 export const IncidentTemplate = S.suspend(() =>
   S.Struct({
@@ -705,7 +705,7 @@ export const IncidentTemplate = S.suspend(() =>
 }) as any as S.Schema<IncidentTemplate>;
 export type ChatChannel =
   | { empty: EmptyChatChannel }
-  | { chatbotSns: ChatbotSnsConfigurationSet };
+  | { chatbotSns: string[] };
 export const ChatChannel = S.Union(
   S.Struct({ empty: EmptyChatChannel }),
   S.Struct({ chatbotSns: ChatbotSnsConfigurationSet }),
@@ -754,7 +754,7 @@ export const ItemValue = S.Union(
   S.Struct({ pagerDutyIncidentDetail: PagerDutyIncidentDetail }),
 );
 export interface ItemIdentifier {
-  value: (typeof ItemValue)["Type"];
+  value: ItemValue;
   type: string;
 }
 export const ItemIdentifier = S.suspend(() =>
@@ -789,7 +789,7 @@ export interface CreateTimelineEventInput {
   eventTime: Date;
   eventType: string;
   eventData: string;
-  eventReferences?: EventReferenceList;
+  eventReferences?: EventReference[];
 }
 export const CreateTimelineEventInput = S.suspend(() =>
   S.Struct({
@@ -814,7 +814,7 @@ export const CreateTimelineEventInput = S.suspend(() =>
 }) as any as S.Schema<CreateTimelineEventInput>;
 export type SsmParameterValues = string[];
 export const SsmParameterValues = S.Array(S.String);
-export type SsmParameters = { [key: string]: SsmParameterValues };
+export type SsmParameters = { [key: string]: string[] };
 export const SsmParameters = S.Record({
   key: S.String,
   value: SsmParameterValues,
@@ -823,9 +823,7 @@ export type DynamicSsmParameterValue = { variable: string };
 export const DynamicSsmParameterValue = S.Union(
   S.Struct({ variable: S.String }),
 );
-export type DynamicSsmParameters = {
-  [key: string]: (typeof DynamicSsmParameterValue)["Type"];
-};
+export type DynamicSsmParameters = { [key: string]: DynamicSsmParameterValue };
 export const DynamicSsmParameters = S.Record({
   key: S.String,
   value: DynamicSsmParameterValue,
@@ -835,8 +833,8 @@ export interface SsmAutomation {
   documentName: string;
   documentVersion?: string;
   targetAccount?: string;
-  parameters?: SsmParameters;
-  dynamicParameters?: DynamicSsmParameters;
+  parameters?: { [key: string]: string[] };
+  dynamicParameters?: { [key: string]: DynamicSsmParameterValue };
 }
 export const SsmAutomation = S.suspend(() =>
   S.Struct({
@@ -852,7 +850,7 @@ export const SsmAutomation = S.suspend(() =>
 }) as any as S.Schema<SsmAutomation>;
 export type Action = { ssmAutomation: SsmAutomation };
 export const Action = S.Union(S.Struct({ ssmAutomation: SsmAutomation }));
-export type ActionsList = (typeof Action)["Type"][];
+export type ActionsList = Action[];
 export const ActionsList = S.Array(Action);
 export interface PagerDutyIncidentConfiguration {
   serviceId: string;
@@ -880,17 +878,17 @@ export type Integration = { pagerDutyConfiguration: PagerDutyConfiguration };
 export const Integration = S.Union(
   S.Struct({ pagerDutyConfiguration: PagerDutyConfiguration }),
 );
-export type Integrations = (typeof Integration)["Type"][];
+export type Integrations = Integration[];
 export const Integrations = S.Array(Integration);
 export interface GetResponsePlanOutput {
   arn: string;
   name: string;
   displayName?: string;
   incidentTemplate: IncidentTemplate;
-  chatChannel?: (typeof ChatChannel)["Type"];
-  engagements?: EngagementSet;
-  actions?: ActionsList;
-  integrations?: Integrations;
+  chatChannel?: ChatChannel;
+  engagements?: string[];
+  actions?: Action[];
+  integrations?: Integration[];
 }
 export const GetResponsePlanOutput = S.suspend(() =>
   S.Struct({
@@ -909,7 +907,7 @@ export const GetResponsePlanOutput = S.suspend(() =>
 export type RelatedItemList = RelatedItem[];
 export const RelatedItemList = S.Array(RelatedItem);
 export interface ListRelatedItemsOutput {
-  relatedItems: RelatedItemList;
+  relatedItems: RelatedItem[];
   nextToken?: string;
 }
 export const ListRelatedItemsOutput = S.suspend(() =>
@@ -918,7 +916,7 @@ export const ListRelatedItemsOutput = S.suspend(() =>
   identifier: "ListRelatedItemsOutput",
 }) as any as S.Schema<ListRelatedItemsOutput>;
 export interface ListReplicationSetsOutput {
-  replicationSetArns: ReplicationSetArnList;
+  replicationSetArns: string[];
   nextToken?: string;
 }
 export const ListReplicationSetsOutput = S.suspend(() =>
@@ -930,7 +928,7 @@ export const ListReplicationSetsOutput = S.suspend(() =>
   identifier: "ListReplicationSetsOutput",
 }) as any as S.Schema<ListReplicationSetsOutput>;
 export interface ListTagsForResourceResponse {
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: TagMap }),
@@ -952,8 +950,8 @@ export interface UpdateIncidentRecordInput {
   summary?: string;
   impact?: number;
   status?: string;
-  chatChannel?: (typeof ChatChannel)["Type"];
-  notificationTargets?: NotificationTargetSet;
+  chatChannel?: ChatChannel;
+  notificationTargets?: NotificationTargetItem[];
 }
 export const UpdateIncidentRecordInput = S.suspend(() =>
   S.Struct({
@@ -987,7 +985,7 @@ export const UpdateIncidentRecordOutput = S.suspend(() =>
 export interface UpdateRelatedItemsInput {
   clientToken?: string;
   incidentRecordArn: string;
-  relatedItemsUpdate: (typeof RelatedItemsUpdate)["Type"];
+  relatedItemsUpdate: RelatedItemsUpdate;
 }
 export const UpdateRelatedItemsInput = S.suspend(() =>
   S.Struct({
@@ -1021,12 +1019,12 @@ export interface UpdateResponsePlanInput {
   incidentTemplateImpact?: number;
   incidentTemplateSummary?: string;
   incidentTemplateDedupeString?: string;
-  incidentTemplateNotificationTargets?: NotificationTargetSet;
-  chatChannel?: (typeof ChatChannel)["Type"];
-  engagements?: EngagementSet;
-  actions?: ActionsList;
-  incidentTemplateTags?: TagMapUpdate;
-  integrations?: Integrations;
+  incidentTemplateNotificationTargets?: NotificationTargetItem[];
+  chatChannel?: ChatChannel;
+  engagements?: string[];
+  actions?: Action[];
+  incidentTemplateTags?: { [key: string]: string };
+  integrations?: Integration[];
 }
 export const UpdateResponsePlanInput = S.suspend(() =>
   S.Struct({
@@ -1129,7 +1127,7 @@ export interface TimelineEvent {
   eventUpdatedTime: Date;
   eventType: string;
   eventData: string;
-  eventReferences?: EventReferenceList;
+  eventReferences?: EventReference[];
 }
 export const TimelineEvent = S.suspend(() =>
   S.Struct({
@@ -1180,7 +1178,7 @@ export interface EventSummary {
   eventTime: Date;
   eventUpdatedTime: Date;
   eventType: string;
-  eventReferences?: EventReferenceList;
+  eventReferences?: EventReference[];
 }
 export const EventSummary = S.suspend(() =>
   S.Struct({
@@ -1201,12 +1199,12 @@ export const UpdateReplicationSetAction = S.Union(
   S.Struct({ addRegionAction: AddRegionAction }),
   S.Struct({ deleteRegionAction: DeleteRegionAction }),
 );
-export type UpdateActionList = (typeof UpdateReplicationSetAction)["Type"][];
+export type UpdateActionList = UpdateReplicationSetAction[];
 export const UpdateActionList = S.Array(UpdateReplicationSetAction);
 export interface CreateReplicationSetInput {
-  regions: RegionMapInput;
+  regions: { [key: string]: RegionMapInputValue };
   clientToken?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateReplicationSetInput = S.suspend(() =>
   S.Struct({
@@ -1236,7 +1234,7 @@ export const CreateTimelineEventOutput = S.suspend(() =>
   identifier: "CreateTimelineEventOutput",
 }) as any as S.Schema<CreateTimelineEventOutput>;
 export interface GetResourcePoliciesOutput {
-  resourcePolicies: ResourcePolicyList;
+  resourcePolicies: ResourcePolicy[];
   nextToken?: string;
 }
 export const GetResourcePoliciesOutput = S.suspend(() =>
@@ -1256,7 +1254,7 @@ export const GetTimelineEventOutput = S.suspend(() =>
   identifier: "GetTimelineEventOutput",
 }) as any as S.Schema<GetTimelineEventOutput>;
 export interface ListIncidentFindingsOutput {
-  findings: FindingSummaryList;
+  findings: FindingSummary[];
   nextToken?: string;
 }
 export const ListIncidentFindingsOutput = S.suspend(() =>
@@ -1265,7 +1263,7 @@ export const ListIncidentFindingsOutput = S.suspend(() =>
   identifier: "ListIncidentFindingsOutput",
 }) as any as S.Schema<ListIncidentFindingsOutput>;
 export interface ListResponsePlansOutput {
-  responsePlanSummaries: ResponsePlanSummaryList;
+  responsePlanSummaries: ResponsePlanSummary[];
   nextToken?: string;
 }
 export const ListResponsePlansOutput = S.suspend(() =>
@@ -1277,7 +1275,7 @@ export const ListResponsePlansOutput = S.suspend(() =>
   identifier: "ListResponsePlansOutput",
 }) as any as S.Schema<ListResponsePlansOutput>;
 export interface ListTimelineEventsOutput {
-  eventSummaries: EventSummaryList;
+  eventSummaries: EventSummary[];
   nextToken?: string;
 }
 export const ListTimelineEventsOutput = S.suspend(() =>
@@ -1290,7 +1288,7 @@ export const ListTimelineEventsOutput = S.suspend(() =>
 }) as any as S.Schema<ListTimelineEventsOutput>;
 export interface UpdateReplicationSetInput {
   arn: string;
-  actions: UpdateActionList;
+  actions: UpdateReplicationSetAction[];
   clientToken?: string;
 }
 export const UpdateReplicationSetInput = S.suspend(() =>
@@ -1321,7 +1319,7 @@ export type AutomationExecution = { ssmExecutionArn: string };
 export const AutomationExecution = S.Union(
   S.Struct({ ssmExecutionArn: S.String }),
 );
-export type AutomationExecutionSet = (typeof AutomationExecution)["Type"][];
+export type AutomationExecutionSet = AutomationExecution[];
 export const AutomationExecutionSet = S.Array(AutomationExecution);
 export interface IncidentRecordSource {
   createdBy: string;
@@ -1349,11 +1347,11 @@ export interface IncidentRecord {
   resolvedTime?: Date;
   lastModifiedTime: Date;
   lastModifiedBy: string;
-  automationExecutions?: AutomationExecutionSet;
+  automationExecutions?: AutomationExecution[];
   incidentRecordSource: IncidentRecordSource;
   dedupeString: string;
-  chatChannel?: (typeof ChatChannel)["Type"];
-  notificationTargets?: NotificationTargetSet;
+  chatChannel?: ChatChannel;
+  notificationTargets?: NotificationTargetItem[];
 }
 export const IncidentRecord = S.suspend(() =>
   S.Struct({
@@ -1436,7 +1434,7 @@ export const GetIncidentRecordOutput = S.suspend(() =>
   identifier: "GetIncidentRecordOutput",
 }) as any as S.Schema<GetIncidentRecordOutput>;
 export interface ListIncidentRecordsInput {
-  filters?: FilterList;
+  filters?: Filter[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -1471,7 +1469,7 @@ export interface Finding {
   id: string;
   creationTime: Date;
   lastModifiedTime: Date;
-  details?: (typeof FindingDetails)["Type"];
+  details?: FindingDetails;
 }
 export const Finding = S.suspend(() =>
   S.Struct({
@@ -1485,7 +1483,7 @@ export type FindingList = Finding[];
 export const FindingList = S.Array(Finding);
 export interface ReplicationSet {
   arn?: string;
-  regionMap: RegionInfoMap;
+  regionMap: { [key: string]: RegionInfo };
   status: string;
   deletionProtected: boolean;
   createdTime: Date;
@@ -1508,8 +1506,8 @@ export const ReplicationSet = S.suspend(() =>
   identifier: "ReplicationSet",
 }) as any as S.Schema<ReplicationSet>;
 export interface BatchGetIncidentFindingsOutput {
-  findings: FindingList;
-  errors: BatchGetIncidentFindingsErrorList;
+  findings: Finding[];
+  errors: BatchGetIncidentFindingsError[];
 }
 export const BatchGetIncidentFindingsOutput = S.suspend(() =>
   S.Struct({
@@ -1524,11 +1522,11 @@ export interface CreateResponsePlanInput {
   name: string;
   displayName?: string;
   incidentTemplate: IncidentTemplate;
-  chatChannel?: (typeof ChatChannel)["Type"];
-  engagements?: EngagementSet;
-  actions?: ActionsList;
-  tags?: TagMap;
-  integrations?: Integrations;
+  chatChannel?: ChatChannel;
+  engagements?: string[];
+  actions?: Action[];
+  tags?: { [key: string]: string };
+  integrations?: Integration[];
 }
 export const CreateResponsePlanInput = S.suspend(() =>
   S.Struct({
@@ -1568,7 +1566,7 @@ export interface StartIncidentInput {
   title?: string;
   impact?: number;
   triggerDetails?: TriggerDetails;
-  relatedItems?: RelatedItemList;
+  relatedItems?: RelatedItem[];
 }
 export const StartIncidentInput = S.suspend(() =>
   S.Struct({
@@ -1624,7 +1622,7 @@ export const CreateResponsePlanOutput = S.suspend(() =>
   identifier: "CreateResponsePlanOutput",
 }) as any as S.Schema<CreateResponsePlanOutput>;
 export interface ListIncidentRecordsOutput {
-  incidentRecordSummaries: IncidentRecordSummaryList;
+  incidentRecordSummaries: IncidentRecordSummary[];
   nextToken?: string;
 }
 export const ListIncidentRecordsOutput = S.suspend(() =>
@@ -1695,7 +1693,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const deleteIncidentRecord: (
   input: DeleteIncidentRecordInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIncidentRecordOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1718,7 +1716,7 @@ export const deleteIncidentRecord: (
  */
 export const getReplicationSet: (
   input: GetReplicationSetInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetReplicationSetOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1743,7 +1741,7 @@ export const getReplicationSet: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1773,7 +1771,7 @@ export const tagResource: (
 export const getResourcePolicies: {
   (
     input: GetResourcePoliciesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetResourcePoliciesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1785,7 +1783,7 @@ export const getResourcePolicies: {
   >;
   pages: (
     input: GetResourcePoliciesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetResourcePoliciesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1797,7 +1795,7 @@ export const getResourcePolicies: {
   >;
   items: (
     input: GetResourcePoliciesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResourcePolicy,
     | AccessDeniedException
     | InternalServerException
@@ -1830,7 +1828,7 @@ export const getResourcePolicies: {
 export const listResponsePlans: {
   (
     input: ListResponsePlansInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResponsePlansOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1841,7 +1839,7 @@ export const listResponsePlans: {
   >;
   pages: (
     input: ListResponsePlansInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResponsePlansOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1852,7 +1850,7 @@ export const listResponsePlans: {
   >;
   items: (
     input: ListResponsePlansInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResponsePlanSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1883,7 +1881,7 @@ export const listResponsePlans: {
 export const listTimelineEvents: {
   (
     input: ListTimelineEventsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTimelineEventsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1894,7 +1892,7 @@ export const listTimelineEvents: {
   >;
   pages: (
     input: ListTimelineEventsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTimelineEventsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1905,7 +1903,7 @@ export const listTimelineEvents: {
   >;
   items: (
     input: ListTimelineEventsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EventSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1936,7 +1934,7 @@ export const listTimelineEvents: {
 export const listRelatedItems: {
   (
     input: ListRelatedItemsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRelatedItemsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1947,7 +1945,7 @@ export const listRelatedItems: {
   >;
   pages: (
     input: ListRelatedItemsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRelatedItemsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1958,7 +1956,7 @@ export const listRelatedItems: {
   >;
   items: (
     input: ListRelatedItemsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RelatedItem,
     | AccessDeniedException
     | InternalServerException
@@ -1989,7 +1987,7 @@ export const listRelatedItems: {
 export const listReplicationSets: {
   (
     input: ListReplicationSetsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReplicationSetsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2000,7 +1998,7 @@ export const listReplicationSets: {
   >;
   pages: (
     input: ListReplicationSetsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReplicationSetsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2011,7 +2009,7 @@ export const listReplicationSets: {
   >;
   items: (
     input: ListReplicationSetsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Arn,
     | AccessDeniedException
     | InternalServerException
@@ -2042,7 +2040,7 @@ export const listReplicationSets: {
  */
 export const deleteResponsePlan: (
   input: DeleteResponsePlanInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResponsePlanOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2065,7 +2063,7 @@ export const deleteResponsePlan: (
  */
 export const deleteTimelineEvent: (
   input: DeleteTimelineEventInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTimelineEventOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2088,7 +2086,7 @@ export const deleteTimelineEvent: (
  */
 export const getTimelineEvent: (
   input: GetTimelineEventInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetTimelineEventOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2117,7 +2115,7 @@ export const getTimelineEvent: (
 export const listIncidentFindings: {
   (
     input: ListIncidentFindingsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListIncidentFindingsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2129,7 +2127,7 @@ export const listIncidentFindings: {
   >;
   pages: (
     input: ListIncidentFindingsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListIncidentFindingsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2141,7 +2139,7 @@ export const listIncidentFindings: {
   >;
   items: (
     input: ListIncidentFindingsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FindingSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2175,7 +2173,7 @@ export const listIncidentFindings: {
  */
 export const updateIncidentRecord: (
   input: UpdateIncidentRecordInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateIncidentRecordOutput,
   | AccessDeniedException
   | ConflictException
@@ -2202,7 +2200,7 @@ export const updateIncidentRecord: (
  */
 export const updateReplicationSet: (
   input: UpdateReplicationSetInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateReplicationSetOutput,
   | AccessDeniedException
   | ConflictException
@@ -2229,7 +2227,7 @@ export const updateReplicationSet: (
  */
 export const getResponsePlan: (
   input: GetResponsePlanInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetResponsePlanOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2254,7 +2252,7 @@ export const getResponsePlan: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2281,7 +2279,7 @@ export const listTagsForResource: (
  */
 export const putResourcePolicy: (
   input: PutResourcePolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourcePolicyOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2307,7 +2305,7 @@ export const putResourcePolicy: (
  */
 export const deleteReplicationSet: (
   input: DeleteReplicationSetInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteReplicationSetOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2333,7 +2331,7 @@ export const deleteReplicationSet: (
  */
 export const deleteResourcePolicy: (
   input: DeleteResourcePolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourcePolicyOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2359,7 +2357,7 @@ export const deleteResourcePolicy: (
  */
 export const updateDeletionProtection: (
   input: UpdateDeletionProtectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDeletionProtectionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2384,7 +2382,7 @@ export const updateDeletionProtection: (
  */
 export const updateRelatedItems: (
   input: UpdateRelatedItemsInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRelatedItemsOutput,
   | AccessDeniedException
   | ConflictException
@@ -2411,7 +2409,7 @@ export const updateRelatedItems: (
  */
 export const updateResponsePlan: (
   input: UpdateResponsePlanInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateResponsePlanOutput,
   | AccessDeniedException
   | ConflictException
@@ -2438,7 +2436,7 @@ export const updateResponsePlan: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2465,7 +2463,7 @@ export const untagResource: (
  */
 export const updateTimelineEvent: (
   input: UpdateTimelineEventInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTimelineEventOutput,
   | AccessDeniedException
   | ConflictException
@@ -2495,7 +2493,7 @@ export const updateTimelineEvent: (
  */
 export const createTimelineEvent: (
   input: CreateTimelineEventInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTimelineEventOutput,
   | AccessDeniedException
   | ConflictException
@@ -2522,7 +2520,7 @@ export const createTimelineEvent: (
  */
 export const getIncidentRecord: (
   input: GetIncidentRecordInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetIncidentRecordOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2550,7 +2548,7 @@ export const getIncidentRecord: (
  */
 export const batchGetIncidentFindings: (
   input: BatchGetIncidentFindingsInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetIncidentFindingsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2576,7 +2574,7 @@ export const batchGetIncidentFindings: (
  */
 export const createReplicationSet: (
   input: CreateReplicationSetInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateReplicationSetOutput,
   | AccessDeniedException
   | ConflictException
@@ -2605,7 +2603,7 @@ export const createReplicationSet: (
  */
 export const createResponsePlan: (
   input: CreateResponsePlanInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateResponsePlanOutput,
   | AccessDeniedException
   | ConflictException
@@ -2634,7 +2632,7 @@ export const createResponsePlan: (
 export const listIncidentRecords: {
   (
     input: ListIncidentRecordsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListIncidentRecordsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2645,7 +2643,7 @@ export const listIncidentRecords: {
   >;
   pages: (
     input: ListIncidentRecordsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListIncidentRecordsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2656,7 +2654,7 @@ export const listIncidentRecords: {
   >;
   items: (
     input: ListIncidentRecordsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     IncidentRecordSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2687,7 +2685,7 @@ export const listIncidentRecords: {
  */
 export const startIncident: (
   input: StartIncidentInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartIncidentOutput,
   | AccessDeniedException
   | ConflictException

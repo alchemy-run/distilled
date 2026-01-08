@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -95,7 +95,7 @@ export type ResourceId = string;
 export type PolicyDocument = string;
 export type PeeredCidr = string;
 export type TagValue = string;
-export type SensitiveString = string | Redacted.Redacted<string>;
+export type SensitiveString = string | redacted.Redacted<string>;
 
 //# Schemas
 export interface GetOciOnboardingStatusInput {}
@@ -106,10 +106,46 @@ export const GetOciOnboardingStatusInput = S.suspend(() =>
 ).annotations({
   identifier: "GetOciOnboardingStatusInput",
 }) as any as S.Schema<GetOciOnboardingStatusInput>;
+export type SupportedAwsIntegration = "KmsTde";
+export const SupportedAwsIntegration = S.Literal("KmsTde");
+export type OciOnboardingStatus =
+  | "NOT_STARTED"
+  | "PENDING_LINK_GENERATION"
+  | "PENDING_CUSTOMER_ACTION"
+  | "PENDING_INITIALIZATION"
+  | "ACTIVATING"
+  | "ACTIVE_IN_HOME_REGION"
+  | "ACTIVE"
+  | "ACTIVE_LIMITED"
+  | "FAILED"
+  | "PUBLIC_OFFER_UNSUPPORTED"
+  | "SUSPENDED"
+  | "CANCELED";
+export const OciOnboardingStatus = S.Literal(
+  "NOT_STARTED",
+  "PENDING_LINK_GENERATION",
+  "PENDING_CUSTOMER_ACTION",
+  "PENDING_INITIALIZATION",
+  "ACTIVATING",
+  "ACTIVE_IN_HOME_REGION",
+  "ACTIVE",
+  "ACTIVE_LIMITED",
+  "FAILED",
+  "PUBLIC_OFFER_UNSUPPORTED",
+  "SUSPENDED",
+  "CANCELED",
+);
 export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
 export type StringList = string[];
 export const StringList = S.Array(S.String);
+export type LicenseModel = "BRING_YOUR_OWN_LICENSE" | "LICENSE_INCLUDED";
+export const LicenseModel = S.Literal(
+  "BRING_YOUR_OWN_LICENSE",
+  "LICENSE_INCLUDED",
+);
+export type Access = "ENABLED" | "DISABLED";
+export const Access = S.Literal("ENABLED", "DISABLED");
 export type PeeredCidrList = string[];
 export const PeeredCidrList = S.Array(S.String);
 export interface AcceptMarketplaceRegistrationInput {
@@ -130,13 +166,13 @@ export const AcceptMarketplaceRegistrationOutput = S.suspend(() =>
 }) as any as S.Schema<AcceptMarketplaceRegistrationOutput>;
 export interface AssociateIamRoleToResourceInput {
   iamRoleArn: string;
-  awsIntegration: string;
+  awsIntegration: SupportedAwsIntegration;
   resourceArn: string;
 }
 export const AssociateIamRoleToResourceInput = S.suspend(() =>
   S.Struct({
     iamRoleArn: S.String,
-    awsIntegration: S.String,
+    awsIntegration: SupportedAwsIntegration,
     resourceArn: S.String,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -152,13 +188,13 @@ export const AssociateIamRoleToResourceOutput = S.suspend(() =>
 }) as any as S.Schema<AssociateIamRoleToResourceOutput>;
 export interface DisassociateIamRoleFromResourceInput {
   iamRoleArn: string;
-  awsIntegration: string;
+  awsIntegration: SupportedAwsIntegration;
   resourceArn: string;
 }
 export const DisassociateIamRoleFromResourceInput = S.suspend(() =>
   S.Struct({
     iamRoleArn: S.String,
-    awsIntegration: S.String,
+    awsIntegration: SupportedAwsIntegration,
     resourceArn: S.String,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -252,7 +288,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeys;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -350,37 +386,85 @@ export const GetCloudExadataInfrastructureInput = S.suspend(() =>
 ).annotations({
   identifier: "GetCloudExadataInfrastructureInput",
 }) as any as S.Schema<GetCloudExadataInfrastructureInput>;
+export type DayOfWeekName =
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
+export const DayOfWeekName = S.Literal(
+  "MONDAY",
+  "TUESDAY",
+  "WEDNESDAY",
+  "THURSDAY",
+  "FRIDAY",
+  "SATURDAY",
+  "SUNDAY",
+);
 export interface DayOfWeek {
-  name?: string;
+  name?: DayOfWeekName;
 }
 export const DayOfWeek = S.suspend(() =>
-  S.Struct({ name: S.optional(S.String) }),
+  S.Struct({ name: S.optional(DayOfWeekName) }),
 ).annotations({ identifier: "DayOfWeek" }) as any as S.Schema<DayOfWeek>;
 export type DaysOfWeek = DayOfWeek[];
 export const DaysOfWeek = S.Array(DayOfWeek);
 export type HoursOfDay = number[];
 export const HoursOfDay = S.Array(S.Number);
+export type MonthName =
+  | "JANUARY"
+  | "FEBRUARY"
+  | "MARCH"
+  | "APRIL"
+  | "MAY"
+  | "JUNE"
+  | "JULY"
+  | "AUGUST"
+  | "SEPTEMBER"
+  | "OCTOBER"
+  | "NOVEMBER"
+  | "DECEMBER";
+export const MonthName = S.Literal(
+  "JANUARY",
+  "FEBRUARY",
+  "MARCH",
+  "APRIL",
+  "MAY",
+  "JUNE",
+  "JULY",
+  "AUGUST",
+  "SEPTEMBER",
+  "OCTOBER",
+  "NOVEMBER",
+  "DECEMBER",
+);
 export interface Month {
-  name?: string;
+  name?: MonthName;
 }
 export const Month = S.suspend(() =>
-  S.Struct({ name: S.optional(S.String) }),
+  S.Struct({ name: S.optional(MonthName) }),
 ).annotations({ identifier: "Month" }) as any as S.Schema<Month>;
 export type Months = Month[];
 export const Months = S.Array(Month);
+export type PatchingModeType = "ROLLING" | "NONROLLING";
+export const PatchingModeType = S.Literal("ROLLING", "NONROLLING");
+export type PreferenceType = "NO_PREFERENCE" | "CUSTOM_PREFERENCE";
+export const PreferenceType = S.Literal("NO_PREFERENCE", "CUSTOM_PREFERENCE");
 export type WeeksOfMonth = number[];
 export const WeeksOfMonth = S.Array(S.Number);
 export interface MaintenanceWindow {
   customActionTimeoutInMins?: number;
-  daysOfWeek?: DaysOfWeek;
-  hoursOfDay?: HoursOfDay;
+  daysOfWeek?: DayOfWeek[];
+  hoursOfDay?: number[];
   isCustomActionTimeoutEnabled?: boolean;
   leadTimeInWeeks?: number;
-  months?: Months;
-  patchingMode?: string;
-  preference?: string;
+  months?: Month[];
+  patchingMode?: PatchingModeType;
+  preference?: PreferenceType;
   skipRu?: boolean;
-  weeksOfMonth?: WeeksOfMonth;
+  weeksOfMonth?: number[];
 }
 export const MaintenanceWindow = S.suspend(() =>
   S.Struct({
@@ -390,8 +474,8 @@ export const MaintenanceWindow = S.suspend(() =>
     isCustomActionTimeoutEnabled: S.optional(S.Boolean),
     leadTimeInWeeks: S.optional(S.Number),
     months: S.optional(Months),
-    patchingMode: S.optional(S.String),
-    preference: S.optional(S.String),
+    patchingMode: S.optional(PatchingModeType),
+    preference: S.optional(PreferenceType),
     skipRu: S.optional(S.Boolean),
     weeksOfMonth: S.optional(WeeksOfMonth),
   }),
@@ -450,7 +534,7 @@ export const ListCloudExadataInfrastructuresInput = S.suspend(() =>
 }) as any as S.Schema<ListCloudExadataInfrastructuresInput>;
 export interface GetCloudExadataInfrastructureUnallocatedResourcesInput {
   cloudExadataInfrastructureId: string;
-  dbServers?: StringList;
+  dbServers?: string[];
 }
 export const GetCloudExadataInfrastructureUnallocatedResourcesInput = S.suspend(
   () =>
@@ -628,15 +712,15 @@ export interface CreateOdbNetworkInput {
   customDomainName?: string;
   defaultDnsPrefix?: string;
   clientToken?: string;
-  s3Access?: string;
-  zeroEtlAccess?: string;
-  stsAccess?: string;
-  kmsAccess?: string;
+  s3Access?: Access;
+  zeroEtlAccess?: Access;
+  stsAccess?: Access;
+  kmsAccess?: Access;
   s3PolicyDocument?: string;
   stsPolicyDocument?: string;
   kmsPolicyDocument?: string;
-  crossRegionS3RestoreSourcesToEnable?: StringList;
-  tags?: RequestTagMap;
+  crossRegionS3RestoreSourcesToEnable?: string[];
+  tags?: { [key: string]: string };
 }
 export const CreateOdbNetworkInput = S.suspend(() =>
   S.Struct({
@@ -648,10 +732,10 @@ export const CreateOdbNetworkInput = S.suspend(() =>
     customDomainName: S.optional(S.String),
     defaultDnsPrefix: S.optional(S.String),
     clientToken: S.optional(S.String),
-    s3Access: S.optional(S.String),
-    zeroEtlAccess: S.optional(S.String),
-    stsAccess: S.optional(S.String),
-    kmsAccess: S.optional(S.String),
+    s3Access: S.optional(Access),
+    zeroEtlAccess: S.optional(Access),
+    stsAccess: S.optional(Access),
+    kmsAccess: S.optional(Access),
     s3PolicyDocument: S.optional(S.String),
     stsPolicyDocument: S.optional(S.String),
     kmsPolicyDocument: S.optional(S.String),
@@ -676,17 +760,17 @@ export const GetOdbNetworkInput = S.suspend(() =>
 export interface UpdateOdbNetworkInput {
   odbNetworkId: string;
   displayName?: string;
-  peeredCidrsToBeAdded?: StringList;
-  peeredCidrsToBeRemoved?: StringList;
-  s3Access?: string;
-  zeroEtlAccess?: string;
-  stsAccess?: string;
-  kmsAccess?: string;
+  peeredCidrsToBeAdded?: string[];
+  peeredCidrsToBeRemoved?: string[];
+  s3Access?: Access;
+  zeroEtlAccess?: Access;
+  stsAccess?: Access;
+  kmsAccess?: Access;
   s3PolicyDocument?: string;
   stsPolicyDocument?: string;
   kmsPolicyDocument?: string;
-  crossRegionS3RestoreSourcesToEnable?: StringList;
-  crossRegionS3RestoreSourcesToDisable?: StringList;
+  crossRegionS3RestoreSourcesToEnable?: string[];
+  crossRegionS3RestoreSourcesToDisable?: string[];
 }
 export const UpdateOdbNetworkInput = S.suspend(() =>
   S.Struct({
@@ -694,10 +778,10 @@ export const UpdateOdbNetworkInput = S.suspend(() =>
     displayName: S.optional(S.String),
     peeredCidrsToBeAdded: S.optional(StringList),
     peeredCidrsToBeRemoved: S.optional(StringList),
-    s3Access: S.optional(S.String),
-    zeroEtlAccess: S.optional(S.String),
-    stsAccess: S.optional(S.String),
-    kmsAccess: S.optional(S.String),
+    s3Access: S.optional(Access),
+    zeroEtlAccess: S.optional(Access),
+    stsAccess: S.optional(Access),
+    kmsAccess: S.optional(Access),
     s3PolicyDocument: S.optional(S.String),
     stsPolicyDocument: S.optional(S.String),
     kmsPolicyDocument: S.optional(S.String),
@@ -745,9 +829,9 @@ export interface CreateOdbPeeringConnectionInput {
   odbNetworkId: string;
   peerNetworkId: string;
   displayName?: string;
-  peerNetworkCidrsToBeAdded?: PeeredCidrList;
+  peerNetworkCidrsToBeAdded?: string[];
   clientToken?: string;
-  tags?: RequestTagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateOdbPeeringConnectionInput = S.suspend(() =>
   S.Struct({
@@ -780,8 +864,8 @@ export const GetOdbPeeringConnectionInput = S.suspend(() =>
 export interface UpdateOdbPeeringConnectionInput {
   odbPeeringConnectionId: string;
   displayName?: string;
-  peerNetworkCidrsToBeAdded?: PeeredCidrList;
-  peerNetworkCidrsToBeRemoved?: PeeredCidrList;
+  peerNetworkCidrsToBeAdded?: string[];
+  peerNetworkCidrsToBeRemoved?: string[];
 }
 export const UpdateOdbPeeringConnectionInput = S.suspend(() =>
   S.Struct({
@@ -833,11 +917,28 @@ export const ListOdbPeeringConnectionsInput = S.suspend(() =>
 ).annotations({
   identifier: "ListOdbPeeringConnectionsInput",
 }) as any as S.Schema<ListOdbPeeringConnectionsInput>;
+export type ResourceStatus =
+  | "AVAILABLE"
+  | "FAILED"
+  | "PROVISIONING"
+  | "TERMINATED"
+  | "TERMINATING"
+  | "UPDATING"
+  | "MAINTENANCE_IN_PROGRESS";
+export const ResourceStatus = S.Literal(
+  "AVAILABLE",
+  "FAILED",
+  "PROVISIONING",
+  "TERMINATED",
+  "TERMINATING",
+  "UPDATING",
+  "MAINTENANCE_IN_PROGRESS",
+);
 export interface OciIdentityDomain {
   ociIdentityDomainId?: string;
   ociIdentityDomainResourceUrl?: string;
   ociIdentityDomainUrl?: string;
-  status?: string;
+  status?: ResourceStatus;
   statusReason?: string;
   accountSetupCloudFormationUrl?: string;
 }
@@ -846,7 +947,7 @@ export const OciIdentityDomain = S.suspend(() =>
     ociIdentityDomainId: S.optional(S.String),
     ociIdentityDomainResourceUrl: S.optional(S.String),
     ociIdentityDomainUrl: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ResourceStatus),
     statusReason: S.optional(S.String),
     accountSetupCloudFormationUrl: S.optional(S.String),
   }),
@@ -854,7 +955,7 @@ export const OciIdentityDomain = S.suspend(() =>
   identifier: "OciIdentityDomain",
 }) as any as S.Schema<OciIdentityDomain>;
 export interface CustomerContact {
-  email?: string | Redacted.Redacted<string>;
+  email?: string | redacted.Redacted<string>;
 }
 export const CustomerContact = S.suspend(() =>
   S.Struct({ email: S.optional(SensitiveString) }),
@@ -877,15 +978,36 @@ export const DataCollectionOptions = S.suspend(() =>
 ).annotations({
   identifier: "DataCollectionOptions",
 }) as any as S.Schema<DataCollectionOptions>;
+export type DbNodeResourceStatus =
+  | "AVAILABLE"
+  | "FAILED"
+  | "PROVISIONING"
+  | "TERMINATED"
+  | "TERMINATING"
+  | "UPDATING"
+  | "STOPPING"
+  | "STOPPED"
+  | "STARTING";
+export const DbNodeResourceStatus = S.Literal(
+  "AVAILABLE",
+  "FAILED",
+  "PROVISIONING",
+  "TERMINATED",
+  "TERMINATING",
+  "UPDATING",
+  "STOPPING",
+  "STOPPED",
+  "STARTING",
+);
 export interface GetOciOnboardingStatusOutput {
-  status?: string;
+  status?: OciOnboardingStatus;
   existingTenancyActivationLink?: string;
   newTenancyActivationLink?: string;
   ociIdentityDomain?: OciIdentityDomain;
 }
 export const GetOciOnboardingStatusOutput = S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String),
+    status: S.optional(OciOnboardingStatus),
     existingTenancyActivationLink: S.optional(S.String),
     newTenancyActivationLink: S.optional(S.String),
     ociIdentityDomain: S.optional(OciIdentityDomain),
@@ -895,7 +1017,7 @@ export const GetOciOnboardingStatusOutput = S.suspend(() =>
 }) as any as S.Schema<GetOciOnboardingStatusOutput>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: RequestTagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: RequestTagMap }).pipe(
@@ -913,9 +1035,9 @@ export interface CreateCloudExadataInfrastructureInput {
   shape: string;
   availabilityZone?: string;
   availabilityZoneId?: string;
-  tags?: RequestTagMap;
+  tags?: { [key: string]: string };
   computeCount: number;
-  customerContactsToSendToOCI?: CustomerContacts;
+  customerContactsToSendToOCI?: CustomerContact[];
   maintenanceWindow?: MaintenanceWindow;
   storageCount: number;
   clientToken?: string;
@@ -944,14 +1066,14 @@ export const CreateCloudExadataInfrastructureInput = S.suspend(() =>
 }) as any as S.Schema<CreateCloudExadataInfrastructureInput>;
 export interface UpdateCloudExadataInfrastructureOutput {
   displayName?: string;
-  status?: string;
+  status?: ResourceStatus;
   statusReason?: string;
   cloudExadataInfrastructureId: string;
 }
 export const UpdateCloudExadataInfrastructureOutput = S.suspend(() =>
   S.Struct({
     displayName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ResourceStatus),
     statusReason: S.optional(S.String),
     cloudExadataInfrastructureId: S.String,
   }),
@@ -964,17 +1086,17 @@ export interface CreateCloudVmClusterInput {
   displayName: string;
   giVersion: string;
   hostname: string;
-  sshPublicKeys: StringList;
+  sshPublicKeys: string[];
   odbNetworkId: string;
   clusterName?: string;
   dataCollectionOptions?: DataCollectionOptions;
   dataStorageSizeInTBs?: number;
   dbNodeStorageSizeInGBs?: number;
-  dbServers?: StringList;
-  tags?: RequestTagMap;
+  dbServers?: string[];
+  tags?: { [key: string]: string };
   isLocalBackupEnabled?: boolean;
   isSparseDiskgroupEnabled?: boolean;
-  licenseModel?: string;
+  licenseModel?: LicenseModel;
   memorySizeInGBs?: number;
   systemVersion?: string;
   timeZone?: string;
@@ -998,7 +1120,7 @@ export const CreateCloudVmClusterInput = S.suspend(() =>
     tags: S.optional(RequestTagMap),
     isLocalBackupEnabled: S.optional(S.Boolean),
     isSparseDiskgroupEnabled: S.optional(S.Boolean),
-    licenseModel: S.optional(S.String),
+    licenseModel: S.optional(LicenseModel),
     memorySizeInGBs: S.optional(S.Number),
     systemVersion: S.optional(S.String),
     timeZone: S.optional(S.String),
@@ -1012,13 +1134,13 @@ export const CreateCloudVmClusterInput = S.suspend(() =>
 }) as any as S.Schema<CreateCloudVmClusterInput>;
 export interface RebootDbNodeOutput {
   dbNodeId: string;
-  status?: string;
+  status?: DbNodeResourceStatus;
   statusReason?: string;
 }
 export const RebootDbNodeOutput = S.suspend(() =>
   S.Struct({
     dbNodeId: S.String,
-    status: S.optional(S.String),
+    status: S.optional(DbNodeResourceStatus),
     statusReason: S.optional(S.String),
   }),
 ).annotations({
@@ -1026,13 +1148,13 @@ export const RebootDbNodeOutput = S.suspend(() =>
 }) as any as S.Schema<RebootDbNodeOutput>;
 export interface StartDbNodeOutput {
   dbNodeId: string;
-  status?: string;
+  status?: DbNodeResourceStatus;
   statusReason?: string;
 }
 export const StartDbNodeOutput = S.suspend(() =>
   S.Struct({
     dbNodeId: S.String,
-    status: S.optional(S.String),
+    status: S.optional(DbNodeResourceStatus),
     statusReason: S.optional(S.String),
   }),
 ).annotations({
@@ -1040,13 +1162,13 @@ export const StartDbNodeOutput = S.suspend(() =>
 }) as any as S.Schema<StartDbNodeOutput>;
 export interface StopDbNodeOutput {
   dbNodeId: string;
-  status?: string;
+  status?: DbNodeResourceStatus;
   statusReason?: string;
 }
 export const StopDbNodeOutput = S.suspend(() =>
   S.Struct({
     dbNodeId: S.String,
-    status: S.optional(S.String),
+    status: S.optional(DbNodeResourceStatus),
     statusReason: S.optional(S.String),
   }),
 ).annotations({
@@ -1054,14 +1176,14 @@ export const StopDbNodeOutput = S.suspend(() =>
 }) as any as S.Schema<StopDbNodeOutput>;
 export interface CreateOdbNetworkOutput {
   displayName?: string;
-  status?: string;
+  status?: ResourceStatus;
   statusReason?: string;
   odbNetworkId: string;
 }
 export const CreateOdbNetworkOutput = S.suspend(() =>
   S.Struct({
     displayName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ResourceStatus),
     statusReason: S.optional(S.String),
     odbNetworkId: S.String,
   }),
@@ -1070,14 +1192,14 @@ export const CreateOdbNetworkOutput = S.suspend(() =>
 }) as any as S.Schema<CreateOdbNetworkOutput>;
 export interface UpdateOdbNetworkOutput {
   displayName?: string;
-  status?: string;
+  status?: ResourceStatus;
   statusReason?: string;
   odbNetworkId: string;
 }
 export const UpdateOdbNetworkOutput = S.suspend(() =>
   S.Struct({
     displayName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ResourceStatus),
     statusReason: S.optional(S.String),
     odbNetworkId: S.String,
   }),
@@ -1086,14 +1208,14 @@ export const UpdateOdbNetworkOutput = S.suspend(() =>
 }) as any as S.Schema<UpdateOdbNetworkOutput>;
 export interface CreateOdbPeeringConnectionOutput {
   displayName?: string;
-  status?: string;
+  status?: ResourceStatus;
   statusReason?: string;
   odbPeeringConnectionId: string;
 }
 export const CreateOdbPeeringConnectionOutput = S.suspend(() =>
   S.Struct({
     displayName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ResourceStatus),
     statusReason: S.optional(S.String),
     odbPeeringConnectionId: S.String,
   }),
@@ -1102,22 +1224,35 @@ export const CreateOdbPeeringConnectionOutput = S.suspend(() =>
 }) as any as S.Schema<CreateOdbPeeringConnectionOutput>;
 export interface UpdateOdbPeeringConnectionOutput {
   displayName?: string;
-  status?: string;
+  status?: ResourceStatus;
   statusReason?: string;
   odbPeeringConnectionId: string;
 }
 export const UpdateOdbPeeringConnectionOutput = S.suspend(() =>
   S.Struct({
     displayName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ResourceStatus),
     statusReason: S.optional(S.String),
     odbPeeringConnectionId: S.String,
   }),
 ).annotations({
   identifier: "UpdateOdbPeeringConnectionOutput",
 }) as any as S.Schema<UpdateOdbPeeringConnectionOutput>;
-export type SensitiveStringList = string | Redacted.Redacted<string>[];
+export type ShapeType = "AMD" | "INTEL" | "INTEL_FLEX_X9" | "AMPERE_FLEX_A1";
+export const ShapeType = S.Literal(
+  "AMD",
+  "INTEL",
+  "INTEL_FLEX_X9",
+  "AMPERE_FLEX_A1",
+);
+export type ComputeModel = "ECPU" | "OCPU";
+export const ComputeModel = S.Literal("ECPU", "OCPU");
+export type DiskRedundancy = "HIGH" | "NORMAL";
+export const DiskRedundancy = S.Literal("HIGH", "NORMAL");
+export type SensitiveStringList = string | redacted.Redacted<string>[];
 export const SensitiveStringList = S.Array(SensitiveString);
+export type DbNodeMaintenanceType = "VMDB_REBOOT_MIGRATION";
+export const DbNodeMaintenanceType = S.Literal("VMDB_REBOOT_MIGRATION");
 export interface DbSystemShapeSummary {
   availableCoreCount?: number;
   availableCoreCountPerNode?: number;
@@ -1139,9 +1274,9 @@ export interface DbSystemShapeSummary {
   minimumNodeCount?: number;
   runtimeMinimumCoreCount?: number;
   shapeFamily?: string;
-  shapeType?: string;
+  shapeType?: ShapeType;
   name?: string;
-  computeModel?: string;
+  computeModel?: ComputeModel;
   areServerTypesSupported?: boolean;
 }
 export const DbSystemShapeSummary = S.suspend(() =>
@@ -1166,9 +1301,9 @@ export const DbSystemShapeSummary = S.suspend(() =>
     minimumNodeCount: S.optional(S.Number),
     runtimeMinimumCoreCount: S.optional(S.Number),
     shapeFamily: S.optional(S.String),
-    shapeType: S.optional(S.String),
+    shapeType: S.optional(ShapeType),
     name: S.optional(S.String),
-    computeModel: S.optional(S.String),
+    computeModel: S.optional(ComputeModel),
     areServerTypesSupported: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -1189,7 +1324,7 @@ export const GiVersionList = S.Array(GiVersionSummary);
 export interface SystemVersionSummary {
   giVersion?: string;
   shape?: string;
-  systemVersions?: StringList;
+  systemVersions?: string[];
 }
 export const SystemVersionSummary = S.suspend(() =>
   S.Struct({
@@ -1212,7 +1347,7 @@ export interface CloudAutonomousVmCluster {
   ociResourceAnchorName?: string;
   percentProgress?: number;
   displayName?: string;
-  status?: string;
+  status?: ResourceStatus;
   statusReason?: string;
   cloudExadataInfrastructureId?: string;
   cloudExadataInfrastructureArn?: string;
@@ -1221,14 +1356,14 @@ export interface CloudAutonomousVmCluster {
   availableAutonomousDataStorageSizeInTBs?: number;
   availableContainerDatabases?: number;
   availableCpus?: number;
-  computeModel?: string;
+  computeModel?: ComputeModel;
   cpuCoreCount?: number;
   cpuCoreCountPerNode?: number;
   cpuPercentage?: number;
   dataStorageSizeInGBs?: number;
   dataStorageSizeInTBs?: number;
   dbNodeStorageSizeInGBs?: number;
-  dbServers?: StringList;
+  dbServers?: string[];
   description?: string;
   domain?: string;
   exadataStorageInTBsLowestScaledValue?: number;
@@ -1236,7 +1371,7 @@ export interface CloudAutonomousVmCluster {
   ocid?: string;
   ociUrl?: string;
   isMtlsEnabledVmCluster?: boolean;
-  licenseModel?: string;
+  licenseModel?: LicenseModel;
   maintenanceWindow?: MaintenanceWindow;
   maxAcdsLowestScaledValue?: number;
   memoryPerOracleComputeUnitInGBs?: number;
@@ -1266,7 +1401,7 @@ export const CloudAutonomousVmCluster = S.suspend(() =>
     ociResourceAnchorName: S.optional(S.String),
     percentProgress: S.optional(S.Number),
     displayName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ResourceStatus),
     statusReason: S.optional(S.String),
     cloudExadataInfrastructureId: S.optional(S.String),
     cloudExadataInfrastructureArn: S.optional(S.String),
@@ -1275,7 +1410,7 @@ export const CloudAutonomousVmCluster = S.suspend(() =>
     availableAutonomousDataStorageSizeInTBs: S.optional(S.Number),
     availableContainerDatabases: S.optional(S.Number),
     availableCpus: S.optional(S.Number),
-    computeModel: S.optional(S.String),
+    computeModel: S.optional(ComputeModel),
     cpuCoreCount: S.optional(S.Number),
     cpuCoreCountPerNode: S.optional(S.Number),
     cpuPercentage: S.optional(S.Number),
@@ -1290,7 +1425,7 @@ export const CloudAutonomousVmCluster = S.suspend(() =>
     ocid: S.optional(S.String),
     ociUrl: S.optional(S.String),
     isMtlsEnabledVmCluster: S.optional(S.Boolean),
-    licenseModel: S.optional(S.String),
+    licenseModel: S.optional(LicenseModel),
     maintenanceWindow: S.optional(MaintenanceWindow),
     maxAcdsLowestScaledValue: S.optional(S.Number),
     memoryPerOracleComputeUnitInGBs: S.optional(S.Number),
@@ -1326,7 +1461,7 @@ export interface CloudAutonomousVmClusterSummary {
   ociResourceAnchorName?: string;
   percentProgress?: number;
   displayName?: string;
-  status?: string;
+  status?: ResourceStatus;
   statusReason?: string;
   cloudExadataInfrastructureId?: string;
   cloudExadataInfrastructureArn?: string;
@@ -1335,14 +1470,14 @@ export interface CloudAutonomousVmClusterSummary {
   availableAutonomousDataStorageSizeInTBs?: number;
   availableContainerDatabases?: number;
   availableCpus?: number;
-  computeModel?: string;
+  computeModel?: ComputeModel;
   cpuCoreCount?: number;
   cpuCoreCountPerNode?: number;
   cpuPercentage?: number;
   dataStorageSizeInGBs?: number;
   dataStorageSizeInTBs?: number;
   dbNodeStorageSizeInGBs?: number;
-  dbServers?: StringList;
+  dbServers?: string[];
   description?: string;
   domain?: string;
   exadataStorageInTBsLowestScaledValue?: number;
@@ -1350,7 +1485,7 @@ export interface CloudAutonomousVmClusterSummary {
   ocid?: string;
   ociUrl?: string;
   isMtlsEnabledVmCluster?: boolean;
-  licenseModel?: string;
+  licenseModel?: LicenseModel;
   maintenanceWindow?: MaintenanceWindow;
   maxAcdsLowestScaledValue?: number;
   memoryPerOracleComputeUnitInGBs?: number;
@@ -1380,7 +1515,7 @@ export const CloudAutonomousVmClusterSummary = S.suspend(() =>
     ociResourceAnchorName: S.optional(S.String),
     percentProgress: S.optional(S.Number),
     displayName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ResourceStatus),
     statusReason: S.optional(S.String),
     cloudExadataInfrastructureId: S.optional(S.String),
     cloudExadataInfrastructureArn: S.optional(S.String),
@@ -1389,7 +1524,7 @@ export const CloudAutonomousVmClusterSummary = S.suspend(() =>
     availableAutonomousDataStorageSizeInTBs: S.optional(S.Number),
     availableContainerDatabases: S.optional(S.Number),
     availableCpus: S.optional(S.Number),
-    computeModel: S.optional(S.String),
+    computeModel: S.optional(ComputeModel),
     cpuCoreCount: S.optional(S.Number),
     cpuCoreCountPerNode: S.optional(S.Number),
     cpuPercentage: S.optional(S.Number),
@@ -1404,7 +1539,7 @@ export const CloudAutonomousVmClusterSummary = S.suspend(() =>
     ocid: S.optional(S.String),
     ociUrl: S.optional(S.String),
     isMtlsEnabledVmCluster: S.optional(S.Boolean),
-    licenseModel: S.optional(S.String),
+    licenseModel: S.optional(LicenseModel),
     maintenanceWindow: S.optional(MaintenanceWindow),
     maxAcdsLowestScaledValue: S.optional(S.Number),
     memoryPerOracleComputeUnitInGBs: S.optional(S.Number),
@@ -1438,7 +1573,7 @@ export const CloudAutonomousVmClusterList = S.Array(
 );
 export interface AutonomousVirtualMachineSummary {
   autonomousVirtualMachineId?: string;
-  status?: string;
+  status?: ResourceStatus;
   statusReason?: string;
   vmName?: string;
   dbServerId?: string;
@@ -1454,7 +1589,7 @@ export interface AutonomousVirtualMachineSummary {
 export const AutonomousVirtualMachineSummary = S.suspend(() =>
   S.Struct({
     autonomousVirtualMachineId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ResourceStatus),
     statusReason: S.optional(S.String),
     vmName: S.optional(S.String),
     dbServerId: S.optional(S.String),
@@ -1477,7 +1612,7 @@ export const AutonomousVirtualMachineList = S.Array(
 export interface CloudExadataInfrastructure {
   cloudExadataInfrastructureId: string;
   displayName?: string;
-  status?: string;
+  status?: ResourceStatus;
   statusReason?: string;
   cloudExadataInfrastructureArn?: string;
   activatedStorageCount?: number;
@@ -1487,7 +1622,7 @@ export interface CloudExadataInfrastructure {
   availabilityZoneId?: string;
   computeCount?: number;
   cpuCount?: number;
-  customerContactsToSendToOCI?: CustomerContacts;
+  customerContactsToSendToOCI?: CustomerContact[];
   dataStorageSizeInTBs?: number;
   dbNodeStorageSizeInGBs?: number;
   dbServerVersion?: string;
@@ -1512,13 +1647,13 @@ export interface CloudExadataInfrastructure {
   percentProgress?: number;
   databaseServerType?: string;
   storageServerType?: string;
-  computeModel?: string;
+  computeModel?: ComputeModel;
 }
 export const CloudExadataInfrastructure = S.suspend(() =>
   S.Struct({
     cloudExadataInfrastructureId: S.String,
     displayName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ResourceStatus),
     statusReason: S.optional(S.String),
     cloudExadataInfrastructureArn: S.optional(S.String),
     activatedStorageCount: S.optional(S.Number),
@@ -1553,7 +1688,7 @@ export const CloudExadataInfrastructure = S.suspend(() =>
     percentProgress: S.optional(S.Number),
     databaseServerType: S.optional(S.String),
     storageServerType: S.optional(S.String),
-    computeModel: S.optional(S.String),
+    computeModel: S.optional(ComputeModel),
   }),
 ).annotations({
   identifier: "CloudExadataInfrastructure",
@@ -1561,7 +1696,7 @@ export const CloudExadataInfrastructure = S.suspend(() =>
 export interface CloudExadataInfrastructureSummary {
   cloudExadataInfrastructureId: string;
   displayName?: string;
-  status?: string;
+  status?: ResourceStatus;
   statusReason?: string;
   cloudExadataInfrastructureArn?: string;
   activatedStorageCount?: number;
@@ -1571,7 +1706,7 @@ export interface CloudExadataInfrastructureSummary {
   availabilityZoneId?: string;
   computeCount?: number;
   cpuCount?: number;
-  customerContactsToSendToOCI?: CustomerContacts;
+  customerContactsToSendToOCI?: CustomerContact[];
   dataStorageSizeInTBs?: number;
   dbNodeStorageSizeInGBs?: number;
   dbServerVersion?: string;
@@ -1596,13 +1731,13 @@ export interface CloudExadataInfrastructureSummary {
   percentProgress?: number;
   databaseServerType?: string;
   storageServerType?: string;
-  computeModel?: string;
+  computeModel?: ComputeModel;
 }
 export const CloudExadataInfrastructureSummary = S.suspend(() =>
   S.Struct({
     cloudExadataInfrastructureId: S.String,
     displayName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ResourceStatus),
     statusReason: S.optional(S.String),
     cloudExadataInfrastructureArn: S.optional(S.String),
     activatedStorageCount: S.optional(S.Number),
@@ -1637,7 +1772,7 @@ export const CloudExadataInfrastructureSummary = S.suspend(() =>
     percentProgress: S.optional(S.Number),
     databaseServerType: S.optional(S.String),
     storageServerType: S.optional(S.String),
-    computeModel: S.optional(S.String),
+    computeModel: S.optional(ComputeModel),
   }),
 ).annotations({
   identifier: "CloudExadataInfrastructureSummary",
@@ -1647,16 +1782,27 @@ export type CloudExadataInfrastructureList =
 export const CloudExadataInfrastructureList = S.Array(
   CloudExadataInfrastructureSummary,
 );
+export type DbServerPatchingStatus =
+  | "COMPLETE"
+  | "FAILED"
+  | "MAINTENANCE_IN_PROGRESS"
+  | "SCHEDULED";
+export const DbServerPatchingStatus = S.Literal(
+  "COMPLETE",
+  "FAILED",
+  "MAINTENANCE_IN_PROGRESS",
+  "SCHEDULED",
+);
 export interface DbServerPatchingDetails {
   estimatedPatchDuration?: number;
-  patchingStatus?: string;
+  patchingStatus?: DbServerPatchingStatus;
   timePatchingEnded?: string;
   timePatchingStarted?: string;
 }
 export const DbServerPatchingDetails = S.suspend(() =>
   S.Struct({
     estimatedPatchDuration: S.optional(S.Number),
-    patchingStatus: S.optional(S.String),
+    patchingStatus: S.optional(DbServerPatchingStatus),
     timePatchingEnded: S.optional(S.String),
     timePatchingStarted: S.optional(S.String),
   }),
@@ -1665,7 +1811,7 @@ export const DbServerPatchingDetails = S.suspend(() =>
 }) as any as S.Schema<DbServerPatchingDetails>;
 export interface DbServerSummary {
   dbServerId?: string;
-  status?: string;
+  status?: ResourceStatus;
   statusReason?: string;
   cpuCoreCount?: number;
   dbNodeStorageSizeInGBs?: number;
@@ -1680,15 +1826,15 @@ export interface DbServerSummary {
   memorySizeInGBs?: number;
   shape?: string;
   createdAt?: Date;
-  vmClusterIds?: StringList;
-  computeModel?: string;
-  autonomousVmClusterIds?: StringList;
-  autonomousVirtualMachineIds?: StringList;
+  vmClusterIds?: string[];
+  computeModel?: ComputeModel;
+  autonomousVmClusterIds?: string[];
+  autonomousVirtualMachineIds?: string[];
 }
 export const DbServerSummary = S.suspend(() =>
   S.Struct({
     dbServerId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ResourceStatus),
     statusReason: S.optional(S.String),
     cpuCoreCount: S.optional(S.Number),
     dbNodeStorageSizeInGBs: S.optional(S.Number),
@@ -1704,7 +1850,7 @@ export const DbServerSummary = S.suspend(() =>
     shape: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     vmClusterIds: S.optional(StringList),
-    computeModel: S.optional(S.String),
+    computeModel: S.optional(ComputeModel),
     autonomousVmClusterIds: S.optional(StringList),
     autonomousVirtualMachineIds: S.optional(StringList),
   }),
@@ -1727,34 +1873,77 @@ export const DbIormConfig = S.suspend(() =>
 ).annotations({ identifier: "DbIormConfig" }) as any as S.Schema<DbIormConfig>;
 export type DbIormConfigList = DbIormConfig[];
 export const DbIormConfigList = S.Array(DbIormConfig);
+export type IormLifecycleState =
+  | "BOOTSTRAPPING"
+  | "DISABLED"
+  | "ENABLED"
+  | "FAILED"
+  | "UPDATING";
+export const IormLifecycleState = S.Literal(
+  "BOOTSTRAPPING",
+  "DISABLED",
+  "ENABLED",
+  "FAILED",
+  "UPDATING",
+);
+export type Objective =
+  | "AUTO"
+  | "BALANCED"
+  | "BASIC"
+  | "HIGH_THROUGHPUT"
+  | "LOW_LATENCY";
+export const Objective = S.Literal(
+  "AUTO",
+  "BALANCED",
+  "BASIC",
+  "HIGH_THROUGHPUT",
+  "LOW_LATENCY",
+);
 export interface ExadataIormConfig {
-  dbPlans?: DbIormConfigList;
+  dbPlans?: DbIormConfig[];
   lifecycleDetails?: string;
-  lifecycleState?: string;
-  objective?: string;
+  lifecycleState?: IormLifecycleState;
+  objective?: Objective;
 }
 export const ExadataIormConfig = S.suspend(() =>
   S.Struct({
     dbPlans: S.optional(DbIormConfigList),
     lifecycleDetails: S.optional(S.String),
-    lifecycleState: S.optional(S.String),
-    objective: S.optional(S.String),
+    lifecycleState: S.optional(IormLifecycleState),
+    objective: S.optional(Objective),
   }),
 ).annotations({
   identifier: "ExadataIormConfig",
 }) as any as S.Schema<ExadataIormConfig>;
+export type IamRoleStatus =
+  | "ASSOCIATING"
+  | "DISASSOCIATING"
+  | "FAILED"
+  | "CONNECTED"
+  | "DISCONNECTED"
+  | "PARTIALLY_CONNECTED"
+  | "UNKNOWN";
+export const IamRoleStatus = S.Literal(
+  "ASSOCIATING",
+  "DISASSOCIATING",
+  "FAILED",
+  "CONNECTED",
+  "DISCONNECTED",
+  "PARTIALLY_CONNECTED",
+  "UNKNOWN",
+);
 export interface IamRole {
   iamRoleArn?: string;
-  status?: string;
+  status?: IamRoleStatus;
   statusReason?: string;
-  awsIntegration?: string;
+  awsIntegration?: SupportedAwsIntegration;
 }
 export const IamRole = S.suspend(() =>
   S.Struct({
     iamRoleArn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(IamRoleStatus),
     statusReason: S.optional(S.String),
-    awsIntegration: S.optional(S.String),
+    awsIntegration: S.optional(SupportedAwsIntegration),
   }),
 ).annotations({ identifier: "IamRole" }) as any as S.Schema<IamRole>;
 export type IamRoleList = IamRole[];
@@ -1762,7 +1951,7 @@ export const IamRoleList = S.Array(IamRole);
 export interface CloudVmClusterSummary {
   cloudVmClusterId: string;
   displayName?: string;
-  status?: string;
+  status?: ResourceStatus;
   statusReason?: string;
   cloudVmClusterArn?: string;
   cloudExadataInfrastructureId?: string;
@@ -1772,15 +1961,15 @@ export interface CloudVmClusterSummary {
   dataCollectionOptions?: DataCollectionOptions;
   dataStorageSizeInTBs?: number;
   dbNodeStorageSizeInGBs?: number;
-  dbServers?: StringList;
-  diskRedundancy?: string;
+  dbServers?: string[];
+  diskRedundancy?: DiskRedundancy;
   giVersion?: string;
   hostname?: string;
   iormConfigCache?: ExadataIormConfig;
   isLocalBackupEnabled?: boolean;
   isSparseDiskgroupEnabled?: boolean;
   lastUpdateHistoryEntryId?: string;
-  licenseModel?: string;
+  licenseModel?: LicenseModel;
   listenerPort?: number;
   memorySizeInGBs?: number;
   nodeCount?: number;
@@ -1790,25 +1979,25 @@ export interface CloudVmClusterSummary {
   domain?: string;
   scanDnsName?: string;
   scanDnsRecordId?: string;
-  scanIpIds?: StringList;
+  scanIpIds?: string[];
   shape?: string;
-  sshPublicKeys?: SensitiveStringList;
+  sshPublicKeys?: string | redacted.Redacted<string>[];
   storageSizeInGBs?: number;
   systemVersion?: string;
   createdAt?: Date;
   timeZone?: string;
-  vipIds?: StringList;
+  vipIds?: string[];
   odbNetworkId?: string;
   odbNetworkArn?: string;
   percentProgress?: number;
-  computeModel?: string;
-  iamRoles?: IamRoleList;
+  computeModel?: ComputeModel;
+  iamRoles?: IamRole[];
 }
 export const CloudVmClusterSummary = S.suspend(() =>
   S.Struct({
     cloudVmClusterId: S.String,
     displayName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ResourceStatus),
     statusReason: S.optional(S.String),
     cloudVmClusterArn: S.optional(S.String),
     cloudExadataInfrastructureId: S.optional(S.String),
@@ -1819,14 +2008,14 @@ export const CloudVmClusterSummary = S.suspend(() =>
     dataStorageSizeInTBs: S.optional(S.Number),
     dbNodeStorageSizeInGBs: S.optional(S.Number),
     dbServers: S.optional(StringList),
-    diskRedundancy: S.optional(S.String),
+    diskRedundancy: S.optional(DiskRedundancy),
     giVersion: S.optional(S.String),
     hostname: S.optional(S.String),
     iormConfigCache: S.optional(ExadataIormConfig),
     isLocalBackupEnabled: S.optional(S.Boolean),
     isSparseDiskgroupEnabled: S.optional(S.Boolean),
     lastUpdateHistoryEntryId: S.optional(S.String),
-    licenseModel: S.optional(S.String),
+    licenseModel: S.optional(LicenseModel),
     listenerPort: S.optional(S.Number),
     memorySizeInGBs: S.optional(S.Number),
     nodeCount: S.optional(S.Number),
@@ -1847,7 +2036,7 @@ export const CloudVmClusterSummary = S.suspend(() =>
     odbNetworkId: S.optional(S.String),
     odbNetworkArn: S.optional(S.String),
     percentProgress: S.optional(S.Number),
-    computeModel: S.optional(S.String),
+    computeModel: S.optional(ComputeModel),
     iamRoles: S.optional(IamRoleList),
   }),
 ).annotations({
@@ -1858,7 +2047,7 @@ export const CloudVmClusterList = S.Array(CloudVmClusterSummary);
 export interface DbNode {
   dbNodeId?: string;
   dbNodeArn?: string;
-  status?: string;
+  status?: DbNodeResourceStatus;
   statusReason?: string;
   additionalDetails?: string;
   backupIpId?: string;
@@ -1873,7 +2062,7 @@ export interface DbNode {
   hostname?: string;
   ocid?: string;
   ociResourceAnchorName?: string;
-  maintenanceType?: string;
+  maintenanceType?: DbNodeMaintenanceType;
   memorySizeInGBs?: number;
   softwareStorageSizeInGB?: number;
   createdAt?: Date;
@@ -1889,7 +2078,7 @@ export const DbNode = S.suspend(() =>
   S.Struct({
     dbNodeId: S.optional(S.String),
     dbNodeArn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(DbNodeResourceStatus),
     statusReason: S.optional(S.String),
     additionalDetails: S.optional(S.String),
     backupIpId: S.optional(S.String),
@@ -1904,7 +2093,7 @@ export const DbNode = S.suspend(() =>
     hostname: S.optional(S.String),
     ocid: S.optional(S.String),
     ociResourceAnchorName: S.optional(S.String),
-    maintenanceType: S.optional(S.String),
+    maintenanceType: S.optional(DbNodeMaintenanceType),
     memorySizeInGBs: S.optional(S.Number),
     softwareStorageSizeInGB: S.optional(S.Number),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -1920,7 +2109,7 @@ export const DbNode = S.suspend(() =>
 export interface DbNodeSummary {
   dbNodeId?: string;
   dbNodeArn?: string;
-  status?: string;
+  status?: DbNodeResourceStatus;
   statusReason?: string;
   additionalDetails?: string;
   backupIpId?: string;
@@ -1935,7 +2124,7 @@ export interface DbNodeSummary {
   hostname?: string;
   ocid?: string;
   ociResourceAnchorName?: string;
-  maintenanceType?: string;
+  maintenanceType?: DbNodeMaintenanceType;
   memorySizeInGBs?: number;
   softwareStorageSizeInGB?: number;
   createdAt?: Date;
@@ -1949,7 +2138,7 @@ export const DbNodeSummary = S.suspend(() =>
   S.Struct({
     dbNodeId: S.optional(S.String),
     dbNodeArn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(DbNodeResourceStatus),
     statusReason: S.optional(S.String),
     additionalDetails: S.optional(S.String),
     backupIpId: S.optional(S.String),
@@ -1964,7 +2153,7 @@ export const DbNodeSummary = S.suspend(() =>
     hostname: S.optional(S.String),
     ocid: S.optional(S.String),
     ociResourceAnchorName: S.optional(S.String),
-    maintenanceType: S.optional(S.String),
+    maintenanceType: S.optional(DbNodeMaintenanceType),
     memorySizeInGBs: S.optional(S.Number),
     softwareStorageSizeInGB: S.optional(S.Number),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -1993,76 +2182,92 @@ export const OciDnsForwardingConfig = S.suspend(() =>
 }) as any as S.Schema<OciDnsForwardingConfig>;
 export type OciDnsForwardingConfigList = OciDnsForwardingConfig[];
 export const OciDnsForwardingConfigList = S.Array(OciDnsForwardingConfig);
+export type VpcEndpointType = "SERVICENETWORK";
+export const VpcEndpointType = S.Literal("SERVICENETWORK");
 export interface ServiceNetworkEndpoint {
   vpcEndpointId?: string;
-  vpcEndpointType?: string;
+  vpcEndpointType?: VpcEndpointType;
 }
 export const ServiceNetworkEndpoint = S.suspend(() =>
   S.Struct({
     vpcEndpointId: S.optional(S.String),
-    vpcEndpointType: S.optional(S.String),
+    vpcEndpointType: S.optional(VpcEndpointType),
   }),
 ).annotations({
   identifier: "ServiceNetworkEndpoint",
 }) as any as S.Schema<ServiceNetworkEndpoint>;
+export type ManagedResourceStatus =
+  | "ENABLED"
+  | "ENABLING"
+  | "DISABLED"
+  | "DISABLING";
+export const ManagedResourceStatus = S.Literal(
+  "ENABLED",
+  "ENABLING",
+  "DISABLED",
+  "DISABLING",
+);
 export interface ManagedS3BackupAccess {
-  status?: string;
-  ipv4Addresses?: StringList;
+  status?: ManagedResourceStatus;
+  ipv4Addresses?: string[];
 }
 export const ManagedS3BackupAccess = S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String),
+    status: S.optional(ManagedResourceStatus),
     ipv4Addresses: S.optional(StringList),
   }),
 ).annotations({
   identifier: "ManagedS3BackupAccess",
 }) as any as S.Schema<ManagedS3BackupAccess>;
 export interface ZeroEtlAccess {
-  status?: string;
+  status?: ManagedResourceStatus;
   cidr?: string;
 }
 export const ZeroEtlAccess = S.suspend(() =>
-  S.Struct({ status: S.optional(S.String), cidr: S.optional(S.String) }),
+  S.Struct({
+    status: S.optional(ManagedResourceStatus),
+    cidr: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "ZeroEtlAccess",
 }) as any as S.Schema<ZeroEtlAccess>;
 export interface S3Access {
-  status?: string;
-  ipv4Addresses?: StringList;
+  status?: ManagedResourceStatus;
+  ipv4Addresses?: string[];
   domainName?: string;
   s3PolicyDocument?: string;
 }
 export const S3Access = S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String),
+    status: S.optional(ManagedResourceStatus),
     ipv4Addresses: S.optional(StringList),
     domainName: S.optional(S.String),
     s3PolicyDocument: S.optional(S.String),
   }),
 ).annotations({ identifier: "S3Access" }) as any as S.Schema<S3Access>;
 export interface StsAccess {
-  status?: string;
-  ipv4Addresses?: StringList;
+  status?: ManagedResourceStatus;
+  ipv4Addresses?: string[];
   domainName?: string;
   stsPolicyDocument?: string;
 }
 export const StsAccess = S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String),
+    status: S.optional(ManagedResourceStatus),
     ipv4Addresses: S.optional(StringList),
     domainName: S.optional(S.String),
     stsPolicyDocument: S.optional(S.String),
   }),
 ).annotations({ identifier: "StsAccess" }) as any as S.Schema<StsAccess>;
 export interface KmsAccess {
-  status?: string;
-  ipv4Addresses?: StringList;
+  status?: ManagedResourceStatus;
+  ipv4Addresses?: string[];
   domainName?: string;
   kmsPolicyDocument?: string;
 }
 export const KmsAccess = S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String),
+    status: S.optional(ManagedResourceStatus),
     ipv4Addresses: S.optional(StringList),
     domainName: S.optional(S.String),
     kmsPolicyDocument: S.optional(S.String),
@@ -2070,14 +2275,14 @@ export const KmsAccess = S.suspend(() =>
 ).annotations({ identifier: "KmsAccess" }) as any as S.Schema<KmsAccess>;
 export interface CrossRegionS3RestoreSourcesAccess {
   region?: string;
-  ipv4Addresses?: StringList;
-  status?: string;
+  ipv4Addresses?: string[];
+  status?: ManagedResourceStatus;
 }
 export const CrossRegionS3RestoreSourcesAccess = S.suspend(() =>
   S.Struct({
     region: S.optional(S.String),
     ipv4Addresses: S.optional(StringList),
-    status: S.optional(S.String),
+    status: S.optional(ManagedResourceStatus),
   }),
 ).annotations({
   identifier: "CrossRegionS3RestoreSourcesAccess",
@@ -2090,14 +2295,14 @@ export const CrossRegionS3RestoreSourcesAccessList = S.Array(
 export interface ManagedServices {
   serviceNetworkArn?: string;
   resourceGatewayArn?: string;
-  managedServicesIpv4Cidrs?: StringList;
+  managedServicesIpv4Cidrs?: string[];
   serviceNetworkEndpoint?: ServiceNetworkEndpoint;
   managedS3BackupAccess?: ManagedS3BackupAccess;
   zeroEtlAccess?: ZeroEtlAccess;
   s3Access?: S3Access;
   stsAccess?: StsAccess;
   kmsAccess?: KmsAccess;
-  crossRegionS3RestoreSourcesAccess?: CrossRegionS3RestoreSourcesAccessList;
+  crossRegionS3RestoreSourcesAccess?: CrossRegionS3RestoreSourcesAccess[];
 }
 export const ManagedServices = S.suspend(() =>
   S.Struct({
@@ -2120,7 +2325,7 @@ export const ManagedServices = S.suspend(() =>
 export interface OdbNetworkSummary {
   odbNetworkId: string;
   displayName?: string;
-  status?: string;
+  status?: ResourceStatus;
   statusReason?: string;
   odbNetworkArn?: string;
   availabilityZone?: string;
@@ -2129,13 +2334,13 @@ export interface OdbNetworkSummary {
   backupSubnetCidr?: string;
   customDomainName?: string;
   defaultDnsPrefix?: string;
-  peeredCidrs?: StringList;
+  peeredCidrs?: string[];
   ociNetworkAnchorId?: string;
   ociNetworkAnchorUrl?: string;
   ociResourceAnchorName?: string;
   ociVcnId?: string;
   ociVcnUrl?: string;
-  ociDnsForwardingConfigs?: OciDnsForwardingConfigList;
+  ociDnsForwardingConfigs?: OciDnsForwardingConfig[];
   createdAt?: Date;
   percentProgress?: number;
   managedServices?: ManagedServices;
@@ -2144,7 +2349,7 @@ export const OdbNetworkSummary = S.suspend(() =>
   S.Struct({
     odbNetworkId: S.String,
     displayName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ResourceStatus),
     statusReason: S.optional(S.String),
     odbNetworkArn: S.optional(S.String),
     availabilityZone: S.optional(S.String),
@@ -2172,13 +2377,13 @@ export const OdbNetworkList = S.Array(OdbNetworkSummary);
 export interface OdbPeeringConnection {
   odbPeeringConnectionId: string;
   displayName?: string;
-  status?: string;
+  status?: ResourceStatus;
   statusReason?: string;
   odbPeeringConnectionArn?: string;
   odbNetworkArn?: string;
   peerNetworkArn?: string;
   odbPeeringConnectionType?: string;
-  peerNetworkCidrs?: PeeredCidrList;
+  peerNetworkCidrs?: string[];
   createdAt?: Date;
   percentProgress?: number;
 }
@@ -2186,7 +2391,7 @@ export const OdbPeeringConnection = S.suspend(() =>
   S.Struct({
     odbPeeringConnectionId: S.String,
     displayName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ResourceStatus),
     statusReason: S.optional(S.String),
     odbPeeringConnectionArn: S.optional(S.String),
     odbNetworkArn: S.optional(S.String),
@@ -2202,13 +2407,13 @@ export const OdbPeeringConnection = S.suspend(() =>
 export interface OdbPeeringConnectionSummary {
   odbPeeringConnectionId: string;
   displayName?: string;
-  status?: string;
+  status?: ResourceStatus;
   statusReason?: string;
   odbPeeringConnectionArn?: string;
   odbNetworkArn?: string;
   peerNetworkArn?: string;
   odbPeeringConnectionType?: string;
-  peerNetworkCidrs?: PeeredCidrList;
+  peerNetworkCidrs?: string[];
   createdAt?: Date;
   percentProgress?: number;
 }
@@ -2216,7 +2421,7 @@ export const OdbPeeringConnectionSummary = S.suspend(() =>
   S.Struct({
     odbPeeringConnectionId: S.String,
     displayName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ResourceStatus),
     statusReason: S.optional(S.String),
     odbPeeringConnectionArn: S.optional(S.String),
     odbNetworkArn: S.optional(S.String),
@@ -2233,7 +2438,7 @@ export type OdbPeeringConnectionList = OdbPeeringConnectionSummary[];
 export const OdbPeeringConnectionList = S.Array(OdbPeeringConnectionSummary);
 export interface ListDbSystemShapesOutput {
   nextToken?: string;
-  dbSystemShapes: DbSystemShapeList;
+  dbSystemShapes: DbSystemShapeSummary[];
 }
 export const ListDbSystemShapesOutput = S.suspend(() =>
   S.Struct({
@@ -2245,7 +2450,7 @@ export const ListDbSystemShapesOutput = S.suspend(() =>
 }) as any as S.Schema<ListDbSystemShapesOutput>;
 export interface ListGiVersionsOutput {
   nextToken?: string;
-  giVersions: GiVersionList;
+  giVersions: GiVersionSummary[];
 }
 export const ListGiVersionsOutput = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), giVersions: GiVersionList }),
@@ -2254,7 +2459,7 @@ export const ListGiVersionsOutput = S.suspend(() =>
 }) as any as S.Schema<ListGiVersionsOutput>;
 export interface ListSystemVersionsOutput {
   nextToken?: string;
-  systemVersions: SystemVersionList;
+  systemVersions: SystemVersionSummary[];
 }
 export const ListSystemVersionsOutput = S.suspend(() =>
   S.Struct({
@@ -2265,7 +2470,7 @@ export const ListSystemVersionsOutput = S.suspend(() =>
   identifier: "ListSystemVersionsOutput",
 }) as any as S.Schema<ListSystemVersionsOutput>;
 export interface ListTagsForResourceResponse {
-  tags?: ResponseTagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(ResponseTagMap) }),
@@ -2279,15 +2484,15 @@ export interface CreateCloudAutonomousVmClusterInput {
   clientToken?: string;
   autonomousDataStorageSizeInTBs: number;
   cpuCoreCountPerNode: number;
-  dbServers?: StringList;
+  dbServers?: string[];
   description?: string;
   isMtlsEnabledVmCluster?: boolean;
-  licenseModel?: string;
+  licenseModel?: LicenseModel;
   maintenanceWindow?: MaintenanceWindow;
   memoryPerOracleComputeUnitInGBs: number;
   scanListenerPortNonTls?: number;
   scanListenerPortTls?: number;
-  tags?: RequestTagMap;
+  tags?: { [key: string]: string };
   timeZone?: string;
   totalContainerDatabases: number;
 }
@@ -2302,7 +2507,7 @@ export const CreateCloudAutonomousVmClusterInput = S.suspend(() =>
     dbServers: S.optional(StringList),
     description: S.optional(S.String),
     isMtlsEnabledVmCluster: S.optional(S.Boolean),
-    licenseModel: S.optional(S.String),
+    licenseModel: S.optional(LicenseModel),
     maintenanceWindow: S.optional(MaintenanceWindow),
     memoryPerOracleComputeUnitInGBs: S.Number,
     scanListenerPortNonTls: S.optional(S.Number),
@@ -2326,7 +2531,7 @@ export const GetCloudAutonomousVmClusterOutput = S.suspend(() =>
 }) as any as S.Schema<GetCloudAutonomousVmClusterOutput>;
 export interface ListCloudAutonomousVmClustersOutput {
   nextToken?: string;
-  cloudAutonomousVmClusters: CloudAutonomousVmClusterList;
+  cloudAutonomousVmClusters: CloudAutonomousVmClusterSummary[];
 }
 export const ListCloudAutonomousVmClustersOutput = S.suspend(() =>
   S.Struct({
@@ -2338,7 +2543,7 @@ export const ListCloudAutonomousVmClustersOutput = S.suspend(() =>
 }) as any as S.Schema<ListCloudAutonomousVmClustersOutput>;
 export interface ListAutonomousVirtualMachinesOutput {
   nextToken?: string;
-  autonomousVirtualMachines: AutonomousVirtualMachineList;
+  autonomousVirtualMachines: AutonomousVirtualMachineSummary[];
 }
 export const ListAutonomousVirtualMachinesOutput = S.suspend(() =>
   S.Struct({
@@ -2350,14 +2555,14 @@ export const ListAutonomousVirtualMachinesOutput = S.suspend(() =>
 }) as any as S.Schema<ListAutonomousVirtualMachinesOutput>;
 export interface CreateCloudExadataInfrastructureOutput {
   displayName?: string;
-  status?: string;
+  status?: ResourceStatus;
   statusReason?: string;
   cloudExadataInfrastructureId: string;
 }
 export const CreateCloudExadataInfrastructureOutput = S.suspend(() =>
   S.Struct({
     displayName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ResourceStatus),
     statusReason: S.optional(S.String),
     cloudExadataInfrastructureId: S.String,
   }),
@@ -2376,7 +2581,7 @@ export const GetCloudExadataInfrastructureOutput = S.suspend(() =>
 }) as any as S.Schema<GetCloudExadataInfrastructureOutput>;
 export interface ListCloudExadataInfrastructuresOutput {
   nextToken?: string;
-  cloudExadataInfrastructures: CloudExadataInfrastructureList;
+  cloudExadataInfrastructures: CloudExadataInfrastructureSummary[];
 }
 export const ListCloudExadataInfrastructuresOutput = S.suspend(() =>
   S.Struct({
@@ -2388,7 +2593,7 @@ export const ListCloudExadataInfrastructuresOutput = S.suspend(() =>
 }) as any as S.Schema<ListCloudExadataInfrastructuresOutput>;
 export interface ListDbServersOutput {
   nextToken?: string;
-  dbServers: DbServerList;
+  dbServers: DbServerSummary[];
 }
 export const ListDbServersOutput = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), dbServers: DbServerList }),
@@ -2397,14 +2602,14 @@ export const ListDbServersOutput = S.suspend(() =>
 }) as any as S.Schema<ListDbServersOutput>;
 export interface CreateCloudVmClusterOutput {
   displayName?: string;
-  status?: string;
+  status?: ResourceStatus;
   statusReason?: string;
   cloudVmClusterId: string;
 }
 export const CreateCloudVmClusterOutput = S.suspend(() =>
   S.Struct({
     displayName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ResourceStatus),
     statusReason: S.optional(S.String),
     cloudVmClusterId: S.String,
   }),
@@ -2413,7 +2618,7 @@ export const CreateCloudVmClusterOutput = S.suspend(() =>
 }) as any as S.Schema<CreateCloudVmClusterOutput>;
 export interface ListCloudVmClustersOutput {
   nextToken?: string;
-  cloudVmClusters: CloudVmClusterList;
+  cloudVmClusters: CloudVmClusterSummary[];
 }
 export const ListCloudVmClustersOutput = S.suspend(() =>
   S.Struct({
@@ -2433,7 +2638,7 @@ export const GetDbNodeOutput = S.suspend(() =>
 }) as any as S.Schema<GetDbNodeOutput>;
 export interface ListDbNodesOutput {
   nextToken?: string;
-  dbNodes: DbNodeList;
+  dbNodes: DbNodeSummary[];
 }
 export const ListDbNodesOutput = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), dbNodes: DbNodeList }),
@@ -2442,7 +2647,7 @@ export const ListDbNodesOutput = S.suspend(() =>
 }) as any as S.Schema<ListDbNodesOutput>;
 export interface ListOdbNetworksOutput {
   nextToken?: string;
-  odbNetworks: OdbNetworkList;
+  odbNetworks: OdbNetworkSummary[];
 }
 export const ListOdbNetworksOutput = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), odbNetworks: OdbNetworkList }),
@@ -2459,7 +2664,7 @@ export const GetOdbPeeringConnectionOutput = S.suspend(() =>
 }) as any as S.Schema<GetOdbPeeringConnectionOutput>;
 export interface ListOdbPeeringConnectionsOutput {
   nextToken?: string;
-  odbPeeringConnections: OdbPeeringConnectionList;
+  odbPeeringConnections: OdbPeeringConnectionSummary[];
 }
 export const ListOdbPeeringConnectionsOutput = S.suspend(() =>
   S.Struct({
@@ -2487,7 +2692,7 @@ export const CloudAutonomousVmClusterResourceDetailsList = S.Array(
   CloudAutonomousVmClusterResourceDetails,
 );
 export interface CloudExadataInfrastructureUnallocatedResources {
-  cloudAutonomousVmClusters?: CloudAutonomousVmClusterResourceDetailsList;
+  cloudAutonomousVmClusters?: CloudAutonomousVmClusterResourceDetails[];
   cloudExadataInfrastructureDisplayName?: string;
   exadataStorageInTBs?: number;
   cloudExadataInfrastructureId?: string;
@@ -2512,7 +2717,7 @@ export const CloudExadataInfrastructureUnallocatedResources = S.suspend(() =>
 }) as any as S.Schema<CloudExadataInfrastructureUnallocatedResources>;
 export interface DbServer {
   dbServerId?: string;
-  status?: string;
+  status?: ResourceStatus;
   statusReason?: string;
   cpuCoreCount?: number;
   dbNodeStorageSizeInGBs?: number;
@@ -2527,15 +2732,15 @@ export interface DbServer {
   memorySizeInGBs?: number;
   shape?: string;
   createdAt?: Date;
-  vmClusterIds?: StringList;
-  computeModel?: string;
-  autonomousVmClusterIds?: StringList;
-  autonomousVirtualMachineIds?: StringList;
+  vmClusterIds?: string[];
+  computeModel?: ComputeModel;
+  autonomousVmClusterIds?: string[];
+  autonomousVirtualMachineIds?: string[];
 }
 export const DbServer = S.suspend(() =>
   S.Struct({
     dbServerId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ResourceStatus),
     statusReason: S.optional(S.String),
     cpuCoreCount: S.optional(S.Number),
     dbNodeStorageSizeInGBs: S.optional(S.Number),
@@ -2551,21 +2756,32 @@ export const DbServer = S.suspend(() =>
     shape: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     vmClusterIds: S.optional(StringList),
-    computeModel: S.optional(S.String),
+    computeModel: S.optional(ComputeModel),
     autonomousVmClusterIds: S.optional(StringList),
     autonomousVirtualMachineIds: S.optional(StringList),
   }),
 ).annotations({ identifier: "DbServer" }) as any as S.Schema<DbServer>;
+export type ValidationExceptionReason =
+  | "unknownOperation"
+  | "cannotParse"
+  | "fieldValidationFailed"
+  | "other";
+export const ValidationExceptionReason = S.Literal(
+  "unknownOperation",
+  "cannotParse",
+  "fieldValidationFailed",
+  "other",
+);
 export interface CreateCloudAutonomousVmClusterOutput {
   displayName?: string;
-  status?: string;
+  status?: ResourceStatus;
   statusReason?: string;
   cloudAutonomousVmClusterId: string;
 }
 export const CreateCloudAutonomousVmClusterOutput = S.suspend(() =>
   S.Struct({
     displayName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ResourceStatus),
     statusReason: S.optional(S.String),
     cloudAutonomousVmClusterId: S.String,
   }),
@@ -2596,7 +2812,7 @@ export const GetDbServerOutput = S.suspend(() =>
 export interface CloudVmCluster {
   cloudVmClusterId: string;
   displayName?: string;
-  status?: string;
+  status?: ResourceStatus;
   statusReason?: string;
   cloudVmClusterArn?: string;
   cloudExadataInfrastructureId?: string;
@@ -2606,15 +2822,15 @@ export interface CloudVmCluster {
   dataCollectionOptions?: DataCollectionOptions;
   dataStorageSizeInTBs?: number;
   dbNodeStorageSizeInGBs?: number;
-  dbServers?: StringList;
-  diskRedundancy?: string;
+  dbServers?: string[];
+  diskRedundancy?: DiskRedundancy;
   giVersion?: string;
   hostname?: string;
   iormConfigCache?: ExadataIormConfig;
   isLocalBackupEnabled?: boolean;
   isSparseDiskgroupEnabled?: boolean;
   lastUpdateHistoryEntryId?: string;
-  licenseModel?: string;
+  licenseModel?: LicenseModel;
   listenerPort?: number;
   memorySizeInGBs?: number;
   nodeCount?: number;
@@ -2624,25 +2840,25 @@ export interface CloudVmCluster {
   domain?: string;
   scanDnsName?: string;
   scanDnsRecordId?: string;
-  scanIpIds?: StringList;
+  scanIpIds?: string[];
   shape?: string;
-  sshPublicKeys?: SensitiveStringList;
+  sshPublicKeys?: string | redacted.Redacted<string>[];
   storageSizeInGBs?: number;
   systemVersion?: string;
   createdAt?: Date;
   timeZone?: string;
-  vipIds?: StringList;
+  vipIds?: string[];
   odbNetworkId?: string;
   odbNetworkArn?: string;
   percentProgress?: number;
-  computeModel?: string;
-  iamRoles?: IamRoleList;
+  computeModel?: ComputeModel;
+  iamRoles?: IamRole[];
 }
 export const CloudVmCluster = S.suspend(() =>
   S.Struct({
     cloudVmClusterId: S.String,
     displayName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ResourceStatus),
     statusReason: S.optional(S.String),
     cloudVmClusterArn: S.optional(S.String),
     cloudExadataInfrastructureId: S.optional(S.String),
@@ -2653,14 +2869,14 @@ export const CloudVmCluster = S.suspend(() =>
     dataStorageSizeInTBs: S.optional(S.Number),
     dbNodeStorageSizeInGBs: S.optional(S.Number),
     dbServers: S.optional(StringList),
-    diskRedundancy: S.optional(S.String),
+    diskRedundancy: S.optional(DiskRedundancy),
     giVersion: S.optional(S.String),
     hostname: S.optional(S.String),
     iormConfigCache: S.optional(ExadataIormConfig),
     isLocalBackupEnabled: S.optional(S.Boolean),
     isSparseDiskgroupEnabled: S.optional(S.Boolean),
     lastUpdateHistoryEntryId: S.optional(S.String),
-    licenseModel: S.optional(S.String),
+    licenseModel: S.optional(LicenseModel),
     listenerPort: S.optional(S.Number),
     memorySizeInGBs: S.optional(S.Number),
     nodeCount: S.optional(S.Number),
@@ -2681,7 +2897,7 @@ export const CloudVmCluster = S.suspend(() =>
     odbNetworkId: S.optional(S.String),
     odbNetworkArn: S.optional(S.String),
     percentProgress: S.optional(S.Number),
-    computeModel: S.optional(S.String),
+    computeModel: S.optional(ComputeModel),
     iamRoles: S.optional(IamRoleList),
   }),
 ).annotations({
@@ -2690,7 +2906,7 @@ export const CloudVmCluster = S.suspend(() =>
 export interface OdbNetwork {
   odbNetworkId: string;
   displayName?: string;
-  status?: string;
+  status?: ResourceStatus;
   statusReason?: string;
   odbNetworkArn?: string;
   availabilityZone?: string;
@@ -2699,13 +2915,13 @@ export interface OdbNetwork {
   backupSubnetCidr?: string;
   customDomainName?: string;
   defaultDnsPrefix?: string;
-  peeredCidrs?: StringList;
+  peeredCidrs?: string[];
   ociNetworkAnchorId?: string;
   ociNetworkAnchorUrl?: string;
   ociResourceAnchorName?: string;
   ociVcnId?: string;
   ociVcnUrl?: string;
-  ociDnsForwardingConfigs?: OciDnsForwardingConfigList;
+  ociDnsForwardingConfigs?: OciDnsForwardingConfig[];
   createdAt?: Date;
   percentProgress?: number;
   managedServices?: ManagedServices;
@@ -2714,7 +2930,7 @@ export const OdbNetwork = S.suspend(() =>
   S.Struct({
     odbNetworkId: S.String,
     displayName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ResourceStatus),
     statusReason: S.optional(S.String),
     odbNetworkArn: S.optional(S.String),
     availabilityZone: S.optional(S.String),
@@ -2804,7 +3020,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     message: S.String,
-    reason: S.String,
+    reason: ValidationExceptionReason,
     fieldList: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
@@ -2815,7 +3031,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2829,7 +3045,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2843,7 +3059,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   ResourceNotFoundException | ServiceQuotaExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2857,7 +3073,7 @@ export const tagResource: (
  */
 export const deleteCloudAutonomousVmCluster: (
   input: DeleteCloudAutonomousVmClusterInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCloudAutonomousVmClusterOutput,
   | AccessDeniedException
   | ConflictException
@@ -2882,7 +3098,7 @@ export const deleteCloudAutonomousVmCluster: (
  */
 export const deleteCloudVmCluster: (
   input: DeleteCloudVmClusterInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCloudVmClusterOutput,
   | AccessDeniedException
   | ConflictException
@@ -2907,7 +3123,7 @@ export const deleteCloudVmCluster: (
  */
 export const getOciOnboardingStatus: (
   input: GetOciOnboardingStatusInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetOciOnboardingStatusOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2930,7 +3146,7 @@ export const getOciOnboardingStatus: (
  */
 export const createCloudAutonomousVmCluster: (
   input: CreateCloudAutonomousVmClusterInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCloudAutonomousVmClusterOutput,
   | AccessDeniedException
   | ConflictException
@@ -2959,7 +3175,7 @@ export const createCloudAutonomousVmCluster: (
  */
 export const getCloudExadataInfrastructureUnallocatedResources: (
   input: GetCloudExadataInfrastructureUnallocatedResourcesInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetCloudExadataInfrastructureUnallocatedResourcesOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2984,7 +3200,7 @@ export const getCloudExadataInfrastructureUnallocatedResources: (
  */
 export const getDbServer: (
   input: GetDbServerInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetDbServerOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3010,7 +3226,7 @@ export const getDbServer: (
 export const listDbSystemShapes: {
   (
     input: ListDbSystemShapesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDbSystemShapesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3021,7 +3237,7 @@ export const listDbSystemShapes: {
   >;
   pages: (
     input: ListDbSystemShapesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDbSystemShapesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3032,7 +3248,7 @@ export const listDbSystemShapes: {
   >;
   items: (
     input: ListDbSystemShapesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DbSystemShapeSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3063,7 +3279,7 @@ export const listDbSystemShapes: {
 export const listGiVersions: {
   (
     input: ListGiVersionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGiVersionsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3074,7 +3290,7 @@ export const listGiVersions: {
   >;
   pages: (
     input: ListGiVersionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGiVersionsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3085,7 +3301,7 @@ export const listGiVersions: {
   >;
   items: (
     input: ListGiVersionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GiVersionSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3116,7 +3332,7 @@ export const listGiVersions: {
 export const listSystemVersions: {
   (
     input: ListSystemVersionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSystemVersionsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3128,7 +3344,7 @@ export const listSystemVersions: {
   >;
   pages: (
     input: ListSystemVersionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSystemVersionsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3140,7 +3356,7 @@ export const listSystemVersions: {
   >;
   items: (
     input: ListSystemVersionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SystemVersionSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3172,7 +3388,7 @@ export const listSystemVersions: {
  */
 export const getCloudAutonomousVmCluster: (
   input: GetCloudAutonomousVmClusterInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetCloudAutonomousVmClusterOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3198,7 +3414,7 @@ export const getCloudAutonomousVmCluster: (
 export const listCloudAutonomousVmClusters: {
   (
     input: ListCloudAutonomousVmClustersInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCloudAutonomousVmClustersOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3210,7 +3426,7 @@ export const listCloudAutonomousVmClusters: {
   >;
   pages: (
     input: ListCloudAutonomousVmClustersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCloudAutonomousVmClustersOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3222,7 +3438,7 @@ export const listCloudAutonomousVmClusters: {
   >;
   items: (
     input: ListCloudAutonomousVmClustersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CloudAutonomousVmClusterSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3255,7 +3471,7 @@ export const listCloudAutonomousVmClusters: {
 export const listAutonomousVirtualMachines: {
   (
     input: ListAutonomousVirtualMachinesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAutonomousVirtualMachinesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3267,7 +3483,7 @@ export const listAutonomousVirtualMachines: {
   >;
   pages: (
     input: ListAutonomousVirtualMachinesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAutonomousVirtualMachinesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3279,7 +3495,7 @@ export const listAutonomousVirtualMachines: {
   >;
   items: (
     input: ListAutonomousVirtualMachinesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AutonomousVirtualMachineSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3311,7 +3527,7 @@ export const listAutonomousVirtualMachines: {
  */
 export const getCloudExadataInfrastructure: (
   input: GetCloudExadataInfrastructureInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetCloudExadataInfrastructureOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3337,7 +3553,7 @@ export const getCloudExadataInfrastructure: (
 export const listCloudExadataInfrastructures: {
   (
     input: ListCloudExadataInfrastructuresInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCloudExadataInfrastructuresOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3348,7 +3564,7 @@ export const listCloudExadataInfrastructures: {
   >;
   pages: (
     input: ListCloudExadataInfrastructuresInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCloudExadataInfrastructuresOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3359,7 +3575,7 @@ export const listCloudExadataInfrastructures: {
   >;
   items: (
     input: ListCloudExadataInfrastructuresInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CloudExadataInfrastructureSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3390,7 +3606,7 @@ export const listCloudExadataInfrastructures: {
 export const listDbServers: {
   (
     input: ListDbServersInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDbServersOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3402,7 +3618,7 @@ export const listDbServers: {
   >;
   pages: (
     input: ListDbServersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDbServersOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3414,7 +3630,7 @@ export const listDbServers: {
   >;
   items: (
     input: ListDbServersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DbServerSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3447,7 +3663,7 @@ export const listDbServers: {
 export const listCloudVmClusters: {
   (
     input: ListCloudVmClustersInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCloudVmClustersOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3459,7 +3675,7 @@ export const listCloudVmClusters: {
   >;
   pages: (
     input: ListCloudVmClustersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCloudVmClustersOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3471,7 +3687,7 @@ export const listCloudVmClusters: {
   >;
   items: (
     input: ListCloudVmClustersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CloudVmClusterSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3503,7 +3719,7 @@ export const listCloudVmClusters: {
  */
 export const getDbNode: (
   input: GetDbNodeInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetDbNodeOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3529,7 +3745,7 @@ export const getDbNode: (
 export const listDbNodes: {
   (
     input: ListDbNodesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDbNodesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3541,7 +3757,7 @@ export const listDbNodes: {
   >;
   pages: (
     input: ListDbNodesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDbNodesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3553,7 +3769,7 @@ export const listDbNodes: {
   >;
   items: (
     input: ListDbNodesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DbNodeSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3586,7 +3802,7 @@ export const listDbNodes: {
 export const listOdbNetworks: {
   (
     input: ListOdbNetworksInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOdbNetworksOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3597,7 +3813,7 @@ export const listOdbNetworks: {
   >;
   pages: (
     input: ListOdbNetworksInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOdbNetworksOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3608,7 +3824,7 @@ export const listOdbNetworks: {
   >;
   items: (
     input: ListOdbNetworksInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OdbNetworkSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3638,7 +3854,7 @@ export const listOdbNetworks: {
  */
 export const getOdbPeeringConnection: (
   input: GetOdbPeeringConnectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetOdbPeeringConnectionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3664,7 +3880,7 @@ export const getOdbPeeringConnection: (
 export const listOdbPeeringConnections: {
   (
     input: ListOdbPeeringConnectionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOdbPeeringConnectionsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3676,7 +3892,7 @@ export const listOdbPeeringConnections: {
   >;
   pages: (
     input: ListOdbPeeringConnectionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOdbPeeringConnectionsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3688,7 +3904,7 @@ export const listOdbPeeringConnections: {
   >;
   items: (
     input: ListOdbPeeringConnectionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OdbPeeringConnectionSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3720,7 +3936,7 @@ export const listOdbPeeringConnections: {
  */
 export const updateCloudExadataInfrastructure: (
   input: UpdateCloudExadataInfrastructureInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCloudExadataInfrastructureOutput,
   | AccessDeniedException
   | ConflictException
@@ -3747,7 +3963,7 @@ export const updateCloudExadataInfrastructure: (
  */
 export const updateOdbNetwork: (
   input: UpdateOdbNetworkInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateOdbNetworkOutput,
   | AccessDeniedException
   | ConflictException
@@ -3776,7 +3992,7 @@ export const updateOdbNetwork: (
  */
 export const createOdbPeeringConnection: (
   input: CreateOdbPeeringConnectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateOdbPeeringConnectionOutput,
   | AccessDeniedException
   | ConflictException
@@ -3803,7 +4019,7 @@ export const createOdbPeeringConnection: (
  */
 export const updateOdbPeeringConnection: (
   input: UpdateOdbPeeringConnectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateOdbPeeringConnectionOutput,
   | AccessDeniedException
   | ConflictException
@@ -3830,7 +4046,7 @@ export const updateOdbPeeringConnection: (
  */
 export const associateIamRoleToResource: (
   input: AssociateIamRoleToResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateIamRoleToResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -3857,7 +4073,7 @@ export const associateIamRoleToResource: (
  */
 export const disassociateIamRoleFromResource: (
   input: DisassociateIamRoleFromResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateIamRoleFromResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -3884,7 +4100,7 @@ export const disassociateIamRoleFromResource: (
  */
 export const deleteCloudExadataInfrastructure: (
   input: DeleteCloudExadataInfrastructureInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCloudExadataInfrastructureOutput,
   | AccessDeniedException
   | ConflictException
@@ -3911,7 +4127,7 @@ export const deleteCloudExadataInfrastructure: (
  */
 export const rebootDbNode: (
   input: RebootDbNodeInput,
-) => Effect.Effect<
+) => effect.Effect<
   RebootDbNodeOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3936,7 +4152,7 @@ export const rebootDbNode: (
  */
 export const startDbNode: (
   input: StartDbNodeInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartDbNodeOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3961,7 +4177,7 @@ export const startDbNode: (
  */
 export const stopDbNode: (
   input: StopDbNodeInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopDbNodeOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3986,7 +4202,7 @@ export const stopDbNode: (
  */
 export const initializeService: (
   input: InitializeServiceInput,
-) => Effect.Effect<
+) => effect.Effect<
   InitializeServiceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4009,7 +4225,7 @@ export const initializeService: (
  */
 export const deleteOdbNetwork: (
   input: DeleteOdbNetworkInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteOdbNetworkOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4036,7 +4252,7 @@ export const deleteOdbNetwork: (
  */
 export const deleteOdbPeeringConnection: (
   input: DeleteOdbPeeringConnectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteOdbPeeringConnectionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4061,7 +4277,7 @@ export const deleteOdbPeeringConnection: (
  */
 export const acceptMarketplaceRegistration: (
   input: AcceptMarketplaceRegistrationInput,
-) => Effect.Effect<
+) => effect.Effect<
   AcceptMarketplaceRegistrationOutput,
   | AccessDeniedException
   | ConflictException
@@ -4086,7 +4302,7 @@ export const acceptMarketplaceRegistration: (
  */
 export const createCloudExadataInfrastructure: (
   input: CreateCloudExadataInfrastructureInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCloudExadataInfrastructureOutput,
   | AccessDeniedException
   | ConflictException
@@ -4113,7 +4329,7 @@ export const createCloudExadataInfrastructure: (
  */
 export const createCloudVmCluster: (
   input: CreateCloudVmClusterInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCloudVmClusterOutput,
   | AccessDeniedException
   | ConflictException
@@ -4142,7 +4358,7 @@ export const createCloudVmCluster: (
  */
 export const createOdbNetwork: (
   input: CreateOdbNetworkInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateOdbNetworkOutput,
   | AccessDeniedException
   | ConflictException
@@ -4169,7 +4385,7 @@ export const createOdbNetwork: (
  */
 export const getCloudVmCluster: (
   input: GetCloudVmClusterInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetCloudVmClusterOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4194,7 +4410,7 @@ export const getCloudVmCluster: (
  */
 export const getOdbNetwork: (
   input: GetOdbNetworkInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetOdbNetworkOutput,
   | AccessDeniedException
   | InternalServerException

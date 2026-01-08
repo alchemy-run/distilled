@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -182,7 +182,6 @@ export type PeeringId = string;
 export type TransitGatewayRouteTableArn = string;
 export type VpcArn = string;
 export type ConnectionId = string;
-export type Integer = number;
 export type ResourceArn = string;
 export type MaxResults = number;
 export type NextToken = string;
@@ -192,7 +191,6 @@ export type SynthesizedJsonResourcePolicyDocument = string;
 export type Action = string;
 export type TagKey = string;
 export type TagValue = string;
-export type Long = number;
 export type FilterName = string;
 export type FilterValue = string;
 export type TransitGatewayAttachmentArn = string;
@@ -229,22 +227,71 @@ export type ConnectionIdList = string[];
 export const ConnectionIdList = S.Array(S.String);
 export type ConnectPeerIdList = string[];
 export const ConnectPeerIdList = S.Array(S.String);
+export type CoreNetworkPolicyAlias = "LIVE" | "LATEST";
+export const CoreNetworkPolicyAlias = S.Literal("LIVE", "LATEST");
 export type CustomerGatewayArnList = string[];
 export const CustomerGatewayArnList = S.Array(S.String);
 export type DeviceIdList = string[];
 export const DeviceIdList = S.Array(S.String);
 export type LinkIdList = string[];
 export const LinkIdList = S.Array(S.String);
-export type RouteStateList = string[];
-export const RouteStateList = S.Array(S.String);
-export type RouteTypeList = string[];
-export const RouteTypeList = S.Array(S.String);
+export type RouteState = "ACTIVE" | "BLACKHOLE";
+export const RouteState = S.Literal("ACTIVE", "BLACKHOLE");
+export type RouteStateList = RouteState[];
+export const RouteStateList = S.Array(RouteState);
+export type RouteType = "PROPAGATED" | "STATIC";
+export const RouteType = S.Literal("PROPAGATED", "STATIC");
+export type RouteTypeList = RouteType[];
+export const RouteTypeList = S.Array(RouteType);
 export type SiteIdList = string[];
 export const SiteIdList = S.Array(S.String);
 export type TransitGatewayConnectPeerArnList = string[];
 export const TransitGatewayConnectPeerArnList = S.Array(S.String);
 export type TransitGatewayArnList = string[];
 export const TransitGatewayArnList = S.Array(S.String);
+export type AttachmentType =
+  | "CONNECT"
+  | "SITE_TO_SITE_VPN"
+  | "VPC"
+  | "DIRECT_CONNECT_GATEWAY"
+  | "TRANSIT_GATEWAY_ROUTE_TABLE";
+export const AttachmentType = S.Literal(
+  "CONNECT",
+  "SITE_TO_SITE_VPN",
+  "VPC",
+  "DIRECT_CONNECT_GATEWAY",
+  "TRANSIT_GATEWAY_ROUTE_TABLE",
+);
+export type AttachmentState =
+  | "REJECTED"
+  | "PENDING_ATTACHMENT_ACCEPTANCE"
+  | "CREATING"
+  | "FAILED"
+  | "AVAILABLE"
+  | "UPDATING"
+  | "PENDING_NETWORK_UPDATE"
+  | "PENDING_TAG_ACCEPTANCE"
+  | "DELETING";
+export const AttachmentState = S.Literal(
+  "REJECTED",
+  "PENDING_ATTACHMENT_ACCEPTANCE",
+  "CREATING",
+  "FAILED",
+  "AVAILABLE",
+  "UPDATING",
+  "PENDING_NETWORK_UPDATE",
+  "PENDING_TAG_ACCEPTANCE",
+  "DELETING",
+);
+export type PeeringType = "TRANSIT_GATEWAY";
+export const PeeringType = S.Literal("TRANSIT_GATEWAY");
+export type PeeringState = "CREATING" | "FAILED" | "AVAILABLE" | "DELETING";
+export const PeeringState = S.Literal(
+  "CREATING",
+  "FAILED",
+  "AVAILABLE",
+  "DELETING",
+);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface AcceptAttachmentRequest {
@@ -390,7 +437,7 @@ export interface CreateConnectionRequest {
   LinkId?: string;
   ConnectedLinkId?: string;
   Description?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateConnectionRequest = S.suspend(() =>
   S.Struct({
@@ -420,7 +467,7 @@ export const CreateConnectionRequest = S.suspend(() =>
 export interface CreateCoreNetworkRequest {
   GlobalNetworkId: string;
   Description?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   PolicyDocument?: string;
   ClientToken?: string;
 }
@@ -473,8 +520,8 @@ export interface CreateDirectConnectGatewayAttachmentRequest {
   CoreNetworkId: string;
   DirectConnectGatewayArn: string;
   RoutingPolicyLabel?: string;
-  EdgeLocations: ExternalRegionCodeList;
-  Tags?: TagList;
+  EdgeLocations: string[];
+  Tags?: Tag[];
   ClientToken?: string;
 }
 export const CreateDirectConnectGatewayAttachmentRequest = S.suspend(() =>
@@ -500,7 +547,7 @@ export const CreateDirectConnectGatewayAttachmentRequest = S.suspend(() =>
 }) as any as S.Schema<CreateDirectConnectGatewayAttachmentRequest>;
 export interface CreateGlobalNetworkRequest {
   Description?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateGlobalNetworkRequest = S.suspend(() =>
   S.Struct({
@@ -535,7 +582,7 @@ export interface CreateSiteRequest {
   GlobalNetworkId: string;
   Description?: string;
   Location?: Location;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateSiteRequest = S.suspend(() =>
   S.Struct({
@@ -563,7 +610,7 @@ export interface CreateSiteToSiteVpnAttachmentRequest {
   CoreNetworkId: string;
   VpnConnectionArn: string;
   RoutingPolicyLabel?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   ClientToken?: string;
 }
 export const CreateSiteToSiteVpnAttachmentRequest = S.suspend(() =>
@@ -589,7 +636,7 @@ export const CreateSiteToSiteVpnAttachmentRequest = S.suspend(() =>
 export interface CreateTransitGatewayPeeringRequest {
   CoreNetworkId: string;
   TransitGatewayArn: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   ClientToken?: string;
 }
 export const CreateTransitGatewayPeeringRequest = S.suspend(() =>
@@ -615,7 +662,7 @@ export interface CreateTransitGatewayRouteTableAttachmentRequest {
   PeeringId: string;
   TransitGatewayRouteTableArn: string;
   RoutingPolicyLabel?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   ClientToken?: string;
 }
 export const CreateTransitGatewayRouteTableAttachmentRequest = S.suspend(() =>
@@ -920,7 +967,7 @@ export const DeregisterTransitGatewayRequest = S.suspend(() =>
   identifier: "DeregisterTransitGatewayRequest",
 }) as any as S.Schema<DeregisterTransitGatewayRequest>;
 export interface DescribeGlobalNetworksRequest {
-  GlobalNetworkIds?: GlobalNetworkIdList;
+  GlobalNetworkIds?: string[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -1093,7 +1140,7 @@ export const GetConnectAttachmentRequest = S.suspend(() =>
 }) as any as S.Schema<GetConnectAttachmentRequest>;
 export interface GetConnectionsRequest {
   GlobalNetworkId: string;
-  ConnectionIds?: ConnectionIdList;
+  ConnectionIds?: string[];
   DeviceId?: string;
   MaxResults?: number;
   NextToken?: string;
@@ -1142,7 +1189,7 @@ export const GetConnectPeerRequest = S.suspend(() =>
 }) as any as S.Schema<GetConnectPeerRequest>;
 export interface GetConnectPeerAssociationsRequest {
   GlobalNetworkId: string;
-  ConnectPeerIds?: ConnectPeerIdList;
+  ConnectPeerIds?: string[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -1246,13 +1293,13 @@ export const GetCoreNetworkChangeSetRequest = S.suspend(() =>
 export interface GetCoreNetworkPolicyRequest {
   CoreNetworkId: string;
   PolicyVersionId?: number;
-  Alias?: string;
+  Alias?: CoreNetworkPolicyAlias;
 }
 export const GetCoreNetworkPolicyRequest = S.suspend(() =>
   S.Struct({
     CoreNetworkId: S.String.pipe(T.HttpLabel("CoreNetworkId")),
     PolicyVersionId: S.optional(S.Number).pipe(T.HttpQuery("policyVersionId")),
-    Alias: S.optional(S.String).pipe(T.HttpQuery("alias")),
+    Alias: S.optional(CoreNetworkPolicyAlias).pipe(T.HttpQuery("alias")),
   }).pipe(
     T.all(
       T.Http({
@@ -1271,7 +1318,7 @@ export const GetCoreNetworkPolicyRequest = S.suspend(() =>
 }) as any as S.Schema<GetCoreNetworkPolicyRequest>;
 export interface GetCustomerGatewayAssociationsRequest {
   GlobalNetworkId: string;
-  CustomerGatewayArns?: CustomerGatewayArnList;
+  CustomerGatewayArns?: string[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -1301,7 +1348,7 @@ export const GetCustomerGatewayAssociationsRequest = S.suspend(() =>
 }) as any as S.Schema<GetCustomerGatewayAssociationsRequest>;
 export interface GetDevicesRequest {
   GlobalNetworkId: string;
-  DeviceIds?: DeviceIdList;
+  DeviceIds?: string[];
   SiteId?: string;
   MaxResults?: number;
   NextToken?: string;
@@ -1381,7 +1428,7 @@ export const GetLinkAssociationsRequest = S.suspend(() =>
 }) as any as S.Schema<GetLinkAssociationsRequest>;
 export interface GetLinksRequest {
   GlobalNetworkId: string;
-  LinkIds?: LinkIdList;
+  LinkIds?: string[];
   SiteId?: string;
   Type?: string;
   Provider?: string;
@@ -1604,7 +1651,7 @@ export const GetRouteAnalysisRequest = S.suspend(() =>
 }) as any as S.Schema<GetRouteAnalysisRequest>;
 export interface GetSitesRequest {
   GlobalNetworkId: string;
-  SiteIds?: SiteIdList;
+  SiteIds?: string[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -1652,7 +1699,7 @@ export const GetSiteToSiteVpnAttachmentRequest = S.suspend(() =>
 }) as any as S.Schema<GetSiteToSiteVpnAttachmentRequest>;
 export interface GetTransitGatewayConnectPeerAssociationsRequest {
   GlobalNetworkId: string;
-  TransitGatewayConnectPeerArns?: TransitGatewayConnectPeerArnList;
+  TransitGatewayConnectPeerArns?: string[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -1699,7 +1746,7 @@ export const GetTransitGatewayPeeringRequest = S.suspend(() =>
 }) as any as S.Schema<GetTransitGatewayPeeringRequest>;
 export interface GetTransitGatewayRegistrationsRequest {
   GlobalNetworkId: string;
-  TransitGatewayArns?: TransitGatewayArnList;
+  TransitGatewayArns?: string[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -1794,18 +1841,20 @@ export const ListAttachmentRoutingPolicyAssociationsRequest = S.suspend(() =>
 }) as any as S.Schema<ListAttachmentRoutingPolicyAssociationsRequest>;
 export interface ListAttachmentsRequest {
   CoreNetworkId?: string;
-  AttachmentType?: string;
+  AttachmentType?: AttachmentType;
   EdgeLocation?: string;
-  State?: string;
+  State?: AttachmentState;
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListAttachmentsRequest = S.suspend(() =>
   S.Struct({
     CoreNetworkId: S.optional(S.String).pipe(T.HttpQuery("coreNetworkId")),
-    AttachmentType: S.optional(S.String).pipe(T.HttpQuery("attachmentType")),
+    AttachmentType: S.optional(AttachmentType).pipe(
+      T.HttpQuery("attachmentType"),
+    ),
     EdgeLocation: S.optional(S.String).pipe(T.HttpQuery("edgeLocation")),
-    State: S.optional(S.String).pipe(T.HttpQuery("state")),
+    State: S.optional(AttachmentState).pipe(T.HttpQuery("state")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
@@ -1904,17 +1953,17 @@ export const ListCoreNetworkPrefixListAssociationsRequest = S.suspend(() =>
 }) as any as S.Schema<ListCoreNetworkPrefixListAssociationsRequest>;
 export type FilterValues = string[];
 export const FilterValues = S.Array(S.String);
-export type FilterMap = { [key: string]: FilterValues };
+export type FilterMap = { [key: string]: string[] };
 export const FilterMap = S.Record({ key: S.String, value: FilterValues });
 export interface ListCoreNetworkRoutingInformationRequest {
   CoreNetworkId: string;
   SegmentName: string;
   EdgeLocation: string;
-  NextHopFilters?: FilterMap;
-  LocalPreferenceMatches?: ConstrainedStringList;
-  ExactAsPathMatches?: ConstrainedStringList;
-  MedMatches?: ConstrainedStringList;
-  CommunityMatches?: ConstrainedStringList;
+  NextHopFilters?: { [key: string]: string[] };
+  LocalPreferenceMatches?: string[];
+  ExactAsPathMatches?: string[];
+  MedMatches?: string[];
+  CommunityMatches?: string[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -1990,18 +2039,18 @@ export const ListOrganizationServiceAccessStatusRequest = S.suspend(() =>
 }) as any as S.Schema<ListOrganizationServiceAccessStatusRequest>;
 export interface ListPeeringsRequest {
   CoreNetworkId?: string;
-  PeeringType?: string;
+  PeeringType?: PeeringType;
   EdgeLocation?: string;
-  State?: string;
+  State?: PeeringState;
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListPeeringsRequest = S.suspend(() =>
   S.Struct({
     CoreNetworkId: S.optional(S.String).pipe(T.HttpQuery("coreNetworkId")),
-    PeeringType: S.optional(S.String).pipe(T.HttpQuery("peeringType")),
+    PeeringType: S.optional(PeeringType).pipe(T.HttpQuery("peeringType")),
     EdgeLocation: S.optional(S.String).pipe(T.HttpQuery("edgeLocation")),
-    State: S.optional(S.String).pipe(T.HttpQuery("state")),
+    State: S.optional(PeeringState).pipe(T.HttpQuery("state")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
@@ -2224,7 +2273,7 @@ export const StartOrganizationServiceAccessUpdateRequest = S.suspend(() =>
 }) as any as S.Schema<StartOrganizationServiceAccessUpdateRequest>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -2249,7 +2298,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -2372,7 +2421,7 @@ export const UpdateDeviceRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateDeviceRequest>;
 export interface UpdateDirectConnectGatewayAttachmentRequest {
   AttachmentId: string;
-  EdgeLocations?: ExternalRegionCodeList;
+  EdgeLocations?: string[];
 }
 export const UpdateDirectConnectGatewayAttachmentRequest = S.suspend(() =>
   S.Struct({
@@ -2501,8 +2550,8 @@ export const VpcOptions = S.suspend(() =>
 ).annotations({ identifier: "VpcOptions" }) as any as S.Schema<VpcOptions>;
 export interface UpdateVpcAttachmentRequest {
   AttachmentId: string;
-  AddSubnetArns?: SubnetArnList;
-  RemoveSubnetArns?: SubnetArnList;
+  AddSubnetArns?: string[];
+  RemoveSubnetArns?: string[];
   Options?: VpcOptions;
 }
 export const UpdateVpcAttachmentRequest = S.suspend(() =>
@@ -2524,11 +2573,13 @@ export const UpdateVpcAttachmentRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateVpcAttachmentRequest",
 }) as any as S.Schema<UpdateVpcAttachmentRequest>;
+export type TunnelProtocol = "GRE" | "NO_ENCAP";
+export const TunnelProtocol = S.Literal("GRE", "NO_ENCAP");
 export interface ConnectAttachmentOptions {
-  Protocol?: string;
+  Protocol?: TunnelProtocol;
 }
 export const ConnectAttachmentOptions = S.suspend(() =>
-  S.Struct({ Protocol: S.optional(S.String) }),
+  S.Struct({ Protocol: S.optional(TunnelProtocol) }),
 ).annotations({
   identifier: "ConnectAttachmentOptions",
 }) as any as S.Schema<ConnectAttachmentOptions>;
@@ -2538,13 +2589,24 @@ export interface BgpOptions {
 export const BgpOptions = S.suspend(() =>
   S.Struct({ PeerAsn: S.optional(S.Number) }),
 ).annotations({ identifier: "BgpOptions" }) as any as S.Schema<BgpOptions>;
+export type GlobalNetworkState =
+  | "PENDING"
+  | "AVAILABLE"
+  | "DELETING"
+  | "UPDATING";
+export const GlobalNetworkState = S.Literal(
+  "PENDING",
+  "AVAILABLE",
+  "DELETING",
+  "UPDATING",
+);
 export interface GlobalNetwork {
   GlobalNetworkId?: string;
   GlobalNetworkArn?: string;
   Description?: string;
   CreatedAt?: Date;
-  State?: string;
-  Tags?: TagList;
+  State?: GlobalNetworkState;
+  Tags?: Tag[];
 }
 export const GlobalNetwork = S.suspend(() =>
   S.Struct({
@@ -2552,7 +2614,7 @@ export const GlobalNetwork = S.suspend(() =>
     GlobalNetworkArn: S.optional(S.String),
     Description: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    State: S.optional(S.String),
+    State: S.optional(GlobalNetworkState),
     Tags: S.optional(TagList),
   }),
 ).annotations({
@@ -2560,6 +2622,13 @@ export const GlobalNetwork = S.suspend(() =>
 }) as any as S.Schema<GlobalNetwork>;
 export type GlobalNetworkList = GlobalNetwork[];
 export const GlobalNetworkList = S.Array(GlobalNetwork);
+export type ConnectionState = "PENDING" | "AVAILABLE" | "DELETING" | "UPDATING";
+export const ConnectionState = S.Literal(
+  "PENDING",
+  "AVAILABLE",
+  "DELETING",
+  "UPDATING",
+);
 export interface Connection {
   ConnectionId?: string;
   ConnectionArn?: string;
@@ -2570,8 +2639,8 @@ export interface Connection {
   ConnectedLinkId?: string;
   Description?: string;
   CreatedAt?: Date;
-  State?: string;
-  Tags?: TagList;
+  State?: ConnectionState;
+  Tags?: Tag[];
 }
 export const Connection = S.suspend(() =>
   S.Struct({
@@ -2584,18 +2653,29 @@ export const Connection = S.suspend(() =>
     ConnectedLinkId: S.optional(S.String),
     Description: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    State: S.optional(S.String),
+    State: S.optional(ConnectionState),
     Tags: S.optional(TagList),
   }),
 ).annotations({ identifier: "Connection" }) as any as S.Schema<Connection>;
 export type ConnectionList = Connection[];
 export const ConnectionList = S.Array(Connection);
+export type ConnectPeerAssociationState =
+  | "PENDING"
+  | "AVAILABLE"
+  | "DELETING"
+  | "DELETED";
+export const ConnectPeerAssociationState = S.Literal(
+  "PENDING",
+  "AVAILABLE",
+  "DELETING",
+  "DELETED",
+);
 export interface ConnectPeerAssociation {
   ConnectPeerId?: string;
   GlobalNetworkId?: string;
   DeviceId?: string;
   LinkId?: string;
-  State?: string;
+  State?: ConnectPeerAssociationState;
 }
 export const ConnectPeerAssociation = S.suspend(() =>
   S.Struct({
@@ -2603,19 +2683,30 @@ export const ConnectPeerAssociation = S.suspend(() =>
     GlobalNetworkId: S.optional(S.String),
     DeviceId: S.optional(S.String),
     LinkId: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(ConnectPeerAssociationState),
   }),
 ).annotations({
   identifier: "ConnectPeerAssociation",
 }) as any as S.Schema<ConnectPeerAssociation>;
 export type ConnectPeerAssociationList = ConnectPeerAssociation[];
 export const ConnectPeerAssociationList = S.Array(ConnectPeerAssociation);
+export type CustomerGatewayAssociationState =
+  | "PENDING"
+  | "AVAILABLE"
+  | "DELETING"
+  | "DELETED";
+export const CustomerGatewayAssociationState = S.Literal(
+  "PENDING",
+  "AVAILABLE",
+  "DELETING",
+  "DELETED",
+);
 export interface CustomerGatewayAssociation {
   CustomerGatewayArn?: string;
   GlobalNetworkId?: string;
   DeviceId?: string;
   LinkId?: string;
-  State?: string;
+  State?: CustomerGatewayAssociationState;
 }
 export const CustomerGatewayAssociation = S.suspend(() =>
   S.Struct({
@@ -2623,7 +2714,7 @@ export const CustomerGatewayAssociation = S.suspend(() =>
     GlobalNetworkId: S.optional(S.String),
     DeviceId: S.optional(S.String),
     LinkId: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(CustomerGatewayAssociationState),
   }),
 ).annotations({
   identifier: "CustomerGatewayAssociation",
@@ -2631,6 +2722,13 @@ export const CustomerGatewayAssociation = S.suspend(() =>
 export type CustomerGatewayAssociationList = CustomerGatewayAssociation[];
 export const CustomerGatewayAssociationList = S.Array(
   CustomerGatewayAssociation,
+);
+export type DeviceState = "PENDING" | "AVAILABLE" | "DELETING" | "UPDATING";
+export const DeviceState = S.Literal(
+  "PENDING",
+  "AVAILABLE",
+  "DELETING",
+  "UPDATING",
 );
 export interface Device {
   DeviceId?: string;
@@ -2645,8 +2743,8 @@ export interface Device {
   Location?: Location;
   SiteId?: string;
   CreatedAt?: Date;
-  State?: string;
-  Tags?: TagList;
+  State?: DeviceState;
+  Tags?: Tag[];
 }
 export const Device = S.suspend(() =>
   S.Struct({
@@ -2662,30 +2760,48 @@ export const Device = S.suspend(() =>
     Location: S.optional(Location),
     SiteId: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    State: S.optional(S.String),
+    State: S.optional(DeviceState),
     Tags: S.optional(TagList),
   }),
 ).annotations({ identifier: "Device" }) as any as S.Schema<Device>;
 export type DeviceList = Device[];
 export const DeviceList = S.Array(Device);
+export type LinkAssociationState =
+  | "PENDING"
+  | "AVAILABLE"
+  | "DELETING"
+  | "DELETED";
+export const LinkAssociationState = S.Literal(
+  "PENDING",
+  "AVAILABLE",
+  "DELETING",
+  "DELETED",
+);
 export interface LinkAssociation {
   GlobalNetworkId?: string;
   DeviceId?: string;
   LinkId?: string;
-  LinkAssociationState?: string;
+  LinkAssociationState?: LinkAssociationState;
 }
 export const LinkAssociation = S.suspend(() =>
   S.Struct({
     GlobalNetworkId: S.optional(S.String),
     DeviceId: S.optional(S.String),
     LinkId: S.optional(S.String),
-    LinkAssociationState: S.optional(S.String),
+    LinkAssociationState: S.optional(LinkAssociationState),
   }),
 ).annotations({
   identifier: "LinkAssociation",
 }) as any as S.Schema<LinkAssociation>;
 export type LinkAssociationList = LinkAssociation[];
 export const LinkAssociationList = S.Array(LinkAssociation);
+export type LinkState = "PENDING" | "AVAILABLE" | "DELETING" | "UPDATING";
+export const LinkState = S.Literal(
+  "PENDING",
+  "AVAILABLE",
+  "DELETING",
+  "UPDATING",
+);
 export interface Link {
   LinkId?: string;
   LinkArn?: string;
@@ -2696,8 +2812,8 @@ export interface Link {
   Bandwidth?: Bandwidth;
   Provider?: string;
   CreatedAt?: Date;
-  State?: string;
-  Tags?: TagList;
+  State?: LinkState;
+  Tags?: Tag[];
 }
 export const Link = S.suspend(() =>
   S.Struct({
@@ -2710,12 +2826,19 @@ export const Link = S.suspend(() =>
     Bandwidth: S.optional(Bandwidth),
     Provider: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    State: S.optional(S.String),
+    State: S.optional(LinkState),
     Tags: S.optional(TagList),
   }),
 ).annotations({ identifier: "Link" }) as any as S.Schema<Link>;
 export type LinkList = Link[];
 export const LinkList = S.Array(Link);
+export type SiteState = "PENDING" | "AVAILABLE" | "DELETING" | "UPDATING";
+export const SiteState = S.Literal(
+  "PENDING",
+  "AVAILABLE",
+  "DELETING",
+  "UPDATING",
+);
 export interface Site {
   SiteId?: string;
   SiteArn?: string;
@@ -2723,8 +2846,8 @@ export interface Site {
   Description?: string;
   Location?: Location;
   CreatedAt?: Date;
-  State?: string;
-  Tags?: TagList;
+  State?: SiteState;
+  Tags?: Tag[];
 }
 export const Site = S.suspend(() =>
   S.Struct({
@@ -2734,18 +2857,29 @@ export const Site = S.suspend(() =>
     Description: S.optional(S.String),
     Location: S.optional(Location),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    State: S.optional(S.String),
+    State: S.optional(SiteState),
     Tags: S.optional(TagList),
   }),
 ).annotations({ identifier: "Site" }) as any as S.Schema<Site>;
 export type SiteList = Site[];
 export const SiteList = S.Array(Site);
+export type TransitGatewayConnectPeerAssociationState =
+  | "PENDING"
+  | "AVAILABLE"
+  | "DELETING"
+  | "DELETED";
+export const TransitGatewayConnectPeerAssociationState = S.Literal(
+  "PENDING",
+  "AVAILABLE",
+  "DELETING",
+  "DELETED",
+);
 export interface TransitGatewayConnectPeerAssociation {
   TransitGatewayConnectPeerArn?: string;
   GlobalNetworkId?: string;
   DeviceId?: string;
   LinkId?: string;
-  State?: string;
+  State?: TransitGatewayConnectPeerAssociationState;
 }
 export const TransitGatewayConnectPeerAssociation = S.suspend(() =>
   S.Struct({
@@ -2753,7 +2887,7 @@ export const TransitGatewayConnectPeerAssociation = S.suspend(() =>
     GlobalNetworkId: S.optional(S.String),
     DeviceId: S.optional(S.String),
     LinkId: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(TransitGatewayConnectPeerAssociationState),
   }),
 ).annotations({
   identifier: "TransitGatewayConnectPeerAssociation",
@@ -2763,12 +2897,28 @@ export type TransitGatewayConnectPeerAssociationList =
 export const TransitGatewayConnectPeerAssociationList = S.Array(
   TransitGatewayConnectPeerAssociation,
 );
+export type TransitGatewayRegistrationState =
+  | "PENDING"
+  | "AVAILABLE"
+  | "DELETING"
+  | "DELETED"
+  | "FAILED";
+export const TransitGatewayRegistrationState = S.Literal(
+  "PENDING",
+  "AVAILABLE",
+  "DELETING",
+  "DELETED",
+  "FAILED",
+);
 export interface TransitGatewayRegistrationStateReason {
-  Code?: string;
+  Code?: TransitGatewayRegistrationState;
   Message?: string;
 }
 export const TransitGatewayRegistrationStateReason = S.suspend(() =>
-  S.Struct({ Code: S.optional(S.String), Message: S.optional(S.String) }),
+  S.Struct({
+    Code: S.optional(TransitGatewayRegistrationState),
+    Message: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "TransitGatewayRegistrationStateReason",
 }) as any as S.Schema<TransitGatewayRegistrationStateReason>;
@@ -2791,7 +2941,7 @@ export const TransitGatewayRegistrationList = S.Array(
   TransitGatewayRegistration,
 );
 export interface ProposedSegmentChange {
-  Tags?: TagList;
+  Tags?: Tag[];
   AttachmentPolicyRuleNumber?: number;
   SegmentName?: string;
 }
@@ -2805,7 +2955,7 @@ export const ProposedSegmentChange = S.suspend(() =>
   identifier: "ProposedSegmentChange",
 }) as any as S.Schema<ProposedSegmentChange>;
 export interface ProposedNetworkFunctionGroupChange {
-  Tags?: TagList;
+  Tags?: Tag[];
   AttachmentPolicyRuleNumber?: number;
   NetworkFunctionGroupName?: string;
 }
@@ -2818,15 +2968,44 @@ export const ProposedNetworkFunctionGroupChange = S.suspend(() =>
 ).annotations({
   identifier: "ProposedNetworkFunctionGroupChange",
 }) as any as S.Schema<ProposedNetworkFunctionGroupChange>;
+export type AttachmentErrorCode =
+  | "VPC_NOT_FOUND"
+  | "SUBNET_NOT_FOUND"
+  | "SUBNET_DUPLICATED_IN_AVAILABILITY_ZONE"
+  | "SUBNET_NO_FREE_ADDRESSES"
+  | "SUBNET_UNSUPPORTED_AVAILABILITY_ZONE"
+  | "SUBNET_NO_IPV6_CIDRS"
+  | "VPN_CONNECTION_NOT_FOUND"
+  | "MAXIMUM_NO_ENCAP_LIMIT_EXCEEDED"
+  | "DIRECT_CONNECT_GATEWAY_NOT_FOUND"
+  | "DIRECT_CONNECT_GATEWAY_EXISTING_ATTACHMENTS"
+  | "DIRECT_CONNECT_GATEWAY_NO_PRIVATE_VIF"
+  | "VPN_EXISTING_ASSOCIATIONS"
+  | "VPC_UNSUPPORTED_FEATURES";
+export const AttachmentErrorCode = S.Literal(
+  "VPC_NOT_FOUND",
+  "SUBNET_NOT_FOUND",
+  "SUBNET_DUPLICATED_IN_AVAILABILITY_ZONE",
+  "SUBNET_NO_FREE_ADDRESSES",
+  "SUBNET_UNSUPPORTED_AVAILABILITY_ZONE",
+  "SUBNET_NO_IPV6_CIDRS",
+  "VPN_CONNECTION_NOT_FOUND",
+  "MAXIMUM_NO_ENCAP_LIMIT_EXCEEDED",
+  "DIRECT_CONNECT_GATEWAY_NOT_FOUND",
+  "DIRECT_CONNECT_GATEWAY_EXISTING_ATTACHMENTS",
+  "DIRECT_CONNECT_GATEWAY_NO_PRIVATE_VIF",
+  "VPN_EXISTING_ASSOCIATIONS",
+  "VPC_UNSUPPORTED_FEATURES",
+);
 export interface AttachmentError {
-  Code?: string;
+  Code?: AttachmentErrorCode;
   Message?: string;
   ResourceArn?: string;
   RequestId?: string;
 }
 export const AttachmentError = S.suspend(() =>
   S.Struct({
-    Code: S.optional(S.String),
+    Code: S.optional(AttachmentErrorCode),
     Message: S.optional(S.String),
     ResourceArn: S.optional(S.String),
     RequestId: S.optional(S.String),
@@ -2841,20 +3020,20 @@ export interface Attachment {
   CoreNetworkArn?: string;
   AttachmentId?: string;
   OwnerAccountId?: string;
-  AttachmentType?: string;
-  State?: string;
+  AttachmentType?: AttachmentType;
+  State?: AttachmentState;
   EdgeLocation?: string;
-  EdgeLocations?: ExternalRegionCodeList;
+  EdgeLocations?: string[];
   ResourceArn?: string;
   AttachmentPolicyRuleNumber?: number;
   SegmentName?: string;
   NetworkFunctionGroupName?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   ProposedSegmentChange?: ProposedSegmentChange;
   ProposedNetworkFunctionGroupChange?: ProposedNetworkFunctionGroupChange;
   CreatedAt?: Date;
   UpdatedAt?: Date;
-  LastModificationErrors?: AttachmentErrorList;
+  LastModificationErrors?: AttachmentError[];
 }
 export const Attachment = S.suspend(() =>
   S.Struct({
@@ -2862,8 +3041,8 @@ export const Attachment = S.suspend(() =>
     CoreNetworkArn: S.optional(S.String),
     AttachmentId: S.optional(S.String),
     OwnerAccountId: S.optional(S.String),
-    AttachmentType: S.optional(S.String),
-    State: S.optional(S.String),
+    AttachmentType: S.optional(AttachmentType),
+    State: S.optional(AttachmentState),
     EdgeLocation: S.optional(S.String),
     EdgeLocations: S.optional(ExternalRegionCodeList),
     ResourceArn: S.optional(S.String),
@@ -2882,6 +3061,21 @@ export const Attachment = S.suspend(() =>
 ).annotations({ identifier: "Attachment" }) as any as S.Schema<Attachment>;
 export type AttachmentList = Attachment[];
 export const AttachmentList = S.Array(Attachment);
+export type PeeringErrorCode =
+  | "TRANSIT_GATEWAY_NOT_FOUND"
+  | "TRANSIT_GATEWAY_PEERS_LIMIT_EXCEEDED"
+  | "MISSING_PERMISSIONS"
+  | "INTERNAL_ERROR"
+  | "EDGE_LOCATION_PEER_DUPLICATE"
+  | "INVALID_TRANSIT_GATEWAY_STATE";
+export const PeeringErrorCode = S.Literal(
+  "TRANSIT_GATEWAY_NOT_FOUND",
+  "TRANSIT_GATEWAY_PEERS_LIMIT_EXCEEDED",
+  "MISSING_PERMISSIONS",
+  "INTERNAL_ERROR",
+  "EDGE_LOCATION_PEER_DUPLICATE",
+  "INVALID_TRANSIT_GATEWAY_STATE",
+);
 export interface PermissionsErrorContext {
   MissingPermission?: string;
 }
@@ -2891,7 +3085,7 @@ export const PermissionsErrorContext = S.suspend(() =>
   identifier: "PermissionsErrorContext",
 }) as any as S.Schema<PermissionsErrorContext>;
 export interface PeeringError {
-  Code?: string;
+  Code?: PeeringErrorCode;
   Message?: string;
   ResourceArn?: string;
   RequestId?: string;
@@ -2899,7 +3093,7 @@ export interface PeeringError {
 }
 export const PeeringError = S.suspend(() =>
   S.Struct({
-    Code: S.optional(S.String),
+    Code: S.optional(PeeringErrorCode),
     Message: S.optional(S.String),
     ResourceArn: S.optional(S.String),
     RequestId: S.optional(S.String),
@@ -2913,13 +3107,13 @@ export interface Peering {
   CoreNetworkArn?: string;
   PeeringId?: string;
   OwnerAccountId?: string;
-  PeeringType?: string;
-  State?: string;
+  PeeringType?: PeeringType;
+  State?: PeeringState;
   EdgeLocation?: string;
   ResourceArn?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   CreatedAt?: Date;
-  LastModificationErrors?: PeeringErrorList;
+  LastModificationErrors?: PeeringError[];
 }
 export const Peering = S.suspend(() =>
   S.Struct({
@@ -2927,8 +3121,8 @@ export const Peering = S.suspend(() =>
     CoreNetworkArn: S.optional(S.String),
     PeeringId: S.optional(S.String),
     OwnerAccountId: S.optional(S.String),
-    PeeringType: S.optional(S.String),
-    State: S.optional(S.String),
+    PeeringType: S.optional(PeeringType),
+    State: S.optional(PeeringState),
     EdgeLocation: S.optional(S.String),
     ResourceArn: S.optional(S.String),
     Tags: S.optional(TagList),
@@ -2961,7 +3155,7 @@ export interface CreateConnectAttachmentRequest {
   TransportAttachmentId: string;
   RoutingPolicyLabel?: string;
   Options: ConnectAttachmentOptions;
-  Tags?: TagList;
+  Tags?: Tag[];
   ClientToken?: string;
 }
 export const CreateConnectAttachmentRequest = S.suspend(() =>
@@ -2991,8 +3185,8 @@ export interface CreateConnectPeerRequest {
   CoreNetworkAddress?: string;
   PeerAddress: string;
   BgpOptions?: BgpOptions;
-  InsideCidrBlocks?: ConstrainedStringList;
-  Tags?: TagList;
+  InsideCidrBlocks?: string[];
+  Tags?: Tag[];
   ClientToken?: string;
   SubnetArn?: string;
 }
@@ -3043,7 +3237,7 @@ export interface CreateDeviceRequest {
   SerialNumber?: string;
   Location?: Location;
   SiteId?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateDeviceRequest = S.suspend(() =>
   S.Struct({
@@ -3080,7 +3274,7 @@ export interface CreateLinkRequest {
   Bandwidth: Bandwidth;
   Provider?: string;
   SiteId: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateLinkRequest = S.suspend(() =>
   S.Struct({
@@ -3110,10 +3304,10 @@ export const CreateLinkRequest = S.suspend(() =>
 export interface CreateVpcAttachmentRequest {
   CoreNetworkId: string;
   VpcArn: string;
-  SubnetArns: SubnetArnList;
+  SubnetArns: string[];
   Options?: VpcOptions;
   RoutingPolicyLabel?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   ClientToken?: string;
 }
 export const CreateVpcAttachmentRequest = S.suspend(() =>
@@ -3154,10 +3348,21 @@ export const DeleteConnectionResponse = S.suspend(() =>
 ).annotations({
   identifier: "DeleteConnectionResponse",
 }) as any as S.Schema<DeleteConnectionResponse>;
+export type CoreNetworkState =
+  | "CREATING"
+  | "UPDATING"
+  | "AVAILABLE"
+  | "DELETING";
+export const CoreNetworkState = S.Literal(
+  "CREATING",
+  "UPDATING",
+  "AVAILABLE",
+  "DELETING",
+);
 export interface CoreNetworkSegment {
   Name?: string;
-  EdgeLocations?: ExternalRegionCodeList;
-  SharedSegments?: ConstrainedStringList;
+  EdgeLocations?: string[];
+  SharedSegments?: string[];
 }
 export const CoreNetworkSegment = S.suspend(() =>
   S.Struct({
@@ -3171,8 +3376,8 @@ export const CoreNetworkSegment = S.suspend(() =>
 export type CoreNetworkSegmentList = CoreNetworkSegment[];
 export const CoreNetworkSegmentList = S.Array(CoreNetworkSegment);
 export interface ServiceInsertionSegments {
-  SendVia?: ConstrainedStringList;
-  SendTo?: ConstrainedStringList;
+  SendVia?: string[];
+  SendTo?: string[];
 }
 export const ServiceInsertionSegments = S.suspend(() =>
   S.Struct({
@@ -3184,7 +3389,7 @@ export const ServiceInsertionSegments = S.suspend(() =>
 }) as any as S.Schema<ServiceInsertionSegments>;
 export interface CoreNetworkNetworkFunctionGroup {
   Name?: string;
-  EdgeLocations?: ExternalRegionCodeList;
+  EdgeLocations?: string[];
   Segments?: ServiceInsertionSegments;
 }
 export const CoreNetworkNetworkFunctionGroup = S.suspend(() =>
@@ -3204,7 +3409,7 @@ export const CoreNetworkNetworkFunctionGroupList = S.Array(
 export interface CoreNetworkEdge {
   EdgeLocation?: string;
   Asn?: number;
-  InsideCidrBlocks?: ConstrainedStringList;
+  InsideCidrBlocks?: string[];
 }
 export const CoreNetworkEdge = S.suspend(() =>
   S.Struct({
@@ -3223,11 +3428,11 @@ export interface CoreNetwork {
   CoreNetworkArn?: string;
   Description?: string;
   CreatedAt?: Date;
-  State?: string;
-  Segments?: CoreNetworkSegmentList;
-  NetworkFunctionGroups?: CoreNetworkNetworkFunctionGroupList;
-  Edges?: CoreNetworkEdgeList;
-  Tags?: TagList;
+  State?: CoreNetworkState;
+  Segments?: CoreNetworkSegment[];
+  NetworkFunctionGroups?: CoreNetworkNetworkFunctionGroup[];
+  Edges?: CoreNetworkEdge[];
+  Tags?: Tag[];
 }
 export const CoreNetwork = S.suspend(() =>
   S.Struct({
@@ -3236,7 +3441,7 @@ export const CoreNetwork = S.suspend(() =>
     CoreNetworkArn: S.optional(S.String),
     Description: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    State: S.optional(S.String),
+    State: S.optional(CoreNetworkState),
     Segments: S.optional(CoreNetworkSegmentList),
     NetworkFunctionGroups: S.optional(CoreNetworkNetworkFunctionGroupList),
     Edges: S.optional(CoreNetworkEdgeList),
@@ -3280,7 +3485,7 @@ export const DeleteSiteResponse = S.suspend(() =>
   identifier: "DeleteSiteResponse",
 }) as any as S.Schema<DeleteSiteResponse>;
 export interface DescribeGlobalNetworksResponse {
-  GlobalNetworks?: GlobalNetworkList;
+  GlobalNetworks?: GlobalNetwork[];
   NextToken?: string;
 }
 export const DescribeGlobalNetworksResponse = S.suspend(() =>
@@ -3330,7 +3535,7 @@ export const DisassociateTransitGatewayConnectPeerResponse = S.suspend(() =>
   identifier: "DisassociateTransitGatewayConnectPeerResponse",
 }) as any as S.Schema<DisassociateTransitGatewayConnectPeerResponse>;
 export interface GetConnectionsResponse {
-  Connections?: ConnectionList;
+  Connections?: Connection[];
   NextToken?: string;
 }
 export const GetConnectionsResponse = S.suspend(() =>
@@ -3341,6 +3546,13 @@ export const GetConnectionsResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetConnectionsResponse",
 }) as any as S.Schema<GetConnectionsResponse>;
+export type ConnectPeerState = "CREATING" | "FAILED" | "AVAILABLE" | "DELETING";
+export const ConnectPeerState = S.Literal(
+  "CREATING",
+  "FAILED",
+  "AVAILABLE",
+  "DELETING",
+);
 export interface ConnectPeerBgpConfiguration {
   CoreNetworkAsn?: number;
   PeerAsn?: number;
@@ -3364,30 +3576,45 @@ export const ConnectPeerBgpConfigurationList = S.Array(
 export interface ConnectPeerConfiguration {
   CoreNetworkAddress?: string;
   PeerAddress?: string;
-  InsideCidrBlocks?: ConstrainedStringList;
-  Protocol?: string;
-  BgpConfigurations?: ConnectPeerBgpConfigurationList;
+  InsideCidrBlocks?: string[];
+  Protocol?: TunnelProtocol;
+  BgpConfigurations?: ConnectPeerBgpConfiguration[];
 }
 export const ConnectPeerConfiguration = S.suspend(() =>
   S.Struct({
     CoreNetworkAddress: S.optional(S.String),
     PeerAddress: S.optional(S.String),
     InsideCidrBlocks: S.optional(ConstrainedStringList),
-    Protocol: S.optional(S.String),
+    Protocol: S.optional(TunnelProtocol),
     BgpConfigurations: S.optional(ConnectPeerBgpConfigurationList),
   }),
 ).annotations({
   identifier: "ConnectPeerConfiguration",
 }) as any as S.Schema<ConnectPeerConfiguration>;
+export type ConnectPeerErrorCode =
+  | "EDGE_LOCATION_NO_FREE_IPS"
+  | "EDGE_LOCATION_PEER_DUPLICATE"
+  | "SUBNET_NOT_FOUND"
+  | "IP_OUTSIDE_SUBNET_CIDR_RANGE"
+  | "INVALID_INSIDE_CIDR_BLOCK"
+  | "NO_ASSOCIATED_CIDR_BLOCK";
+export const ConnectPeerErrorCode = S.Literal(
+  "EDGE_LOCATION_NO_FREE_IPS",
+  "EDGE_LOCATION_PEER_DUPLICATE",
+  "SUBNET_NOT_FOUND",
+  "IP_OUTSIDE_SUBNET_CIDR_RANGE",
+  "INVALID_INSIDE_CIDR_BLOCK",
+  "NO_ASSOCIATED_CIDR_BLOCK",
+);
 export interface ConnectPeerError {
-  Code?: string;
+  Code?: ConnectPeerErrorCode;
   Message?: string;
   ResourceArn?: string;
   RequestId?: string;
 }
 export const ConnectPeerError = S.suspend(() =>
   S.Struct({
-    Code: S.optional(S.String),
+    Code: S.optional(ConnectPeerErrorCode),
     Message: S.optional(S.String),
     ResourceArn: S.optional(S.String),
     RequestId: S.optional(S.String),
@@ -3402,12 +3629,12 @@ export interface ConnectPeer {
   ConnectAttachmentId?: string;
   ConnectPeerId?: string;
   EdgeLocation?: string;
-  State?: string;
+  State?: ConnectPeerState;
   CreatedAt?: Date;
   Configuration?: ConnectPeerConfiguration;
-  Tags?: TagList;
+  Tags?: Tag[];
   SubnetArn?: string;
-  LastModificationErrors?: ConnectPeerErrorList;
+  LastModificationErrors?: ConnectPeerError[];
 }
 export const ConnectPeer = S.suspend(() =>
   S.Struct({
@@ -3415,7 +3642,7 @@ export const ConnectPeer = S.suspend(() =>
     ConnectAttachmentId: S.optional(S.String),
     ConnectPeerId: S.optional(S.String),
     EdgeLocation: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(ConnectPeerState),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Configuration: S.optional(ConnectPeerConfiguration),
     Tags: S.optional(TagList),
@@ -3432,7 +3659,7 @@ export const GetConnectPeerResponse = S.suspend(() =>
   identifier: "GetConnectPeerResponse",
 }) as any as S.Schema<GetConnectPeerResponse>;
 export interface GetConnectPeerAssociationsResponse {
-  ConnectPeerAssociations?: ConnectPeerAssociationList;
+  ConnectPeerAssociations?: ConnectPeerAssociation[];
   NextToken?: string;
 }
 export const GetConnectPeerAssociationsResponse = S.suspend(() =>
@@ -3451,6 +3678,21 @@ export const GetCoreNetworkResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetCoreNetworkResponse",
 }) as any as S.Schema<GetCoreNetworkResponse>;
+export type ChangeSetState =
+  | "PENDING_GENERATION"
+  | "FAILED_GENERATION"
+  | "READY_TO_EXECUTE"
+  | "EXECUTING"
+  | "EXECUTION_SUCCEEDED"
+  | "OUT_OF_DATE";
+export const ChangeSetState = S.Literal(
+  "PENDING_GENERATION",
+  "FAILED_GENERATION",
+  "READY_TO_EXECUTE",
+  "EXECUTING",
+  "EXECUTION_SUCCEEDED",
+  "OUT_OF_DATE",
+);
 export interface CoreNetworkPolicyError {
   ErrorCode: string;
   Message: string;
@@ -3470,21 +3712,21 @@ export const CoreNetworkPolicyErrorList = S.Array(CoreNetworkPolicyError);
 export interface CoreNetworkPolicy {
   CoreNetworkId?: string;
   PolicyVersionId?: number;
-  Alias?: string;
+  Alias?: CoreNetworkPolicyAlias;
   Description?: string;
   CreatedAt?: Date;
-  ChangeSetState?: string;
-  PolicyErrors?: CoreNetworkPolicyErrorList;
+  ChangeSetState?: ChangeSetState;
+  PolicyErrors?: CoreNetworkPolicyError[];
   PolicyDocument?: string;
 }
 export const CoreNetworkPolicy = S.suspend(() =>
   S.Struct({
     CoreNetworkId: S.optional(S.String),
     PolicyVersionId: S.optional(S.Number),
-    Alias: S.optional(S.String),
+    Alias: S.optional(CoreNetworkPolicyAlias),
     Description: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ChangeSetState: S.optional(S.String),
+    ChangeSetState: S.optional(ChangeSetState),
     PolicyErrors: S.optional(CoreNetworkPolicyErrorList),
     PolicyDocument: S.optional(S.String),
   }),
@@ -3500,7 +3742,7 @@ export const GetCoreNetworkPolicyResponse = S.suspend(() =>
   identifier: "GetCoreNetworkPolicyResponse",
 }) as any as S.Schema<GetCoreNetworkPolicyResponse>;
 export interface GetCustomerGatewayAssociationsResponse {
-  CustomerGatewayAssociations?: CustomerGatewayAssociationList;
+  CustomerGatewayAssociations?: CustomerGatewayAssociation[];
   NextToken?: string;
 }
 export const GetCustomerGatewayAssociationsResponse = S.suspend(() =>
@@ -3512,7 +3754,7 @@ export const GetCustomerGatewayAssociationsResponse = S.suspend(() =>
   identifier: "GetCustomerGatewayAssociationsResponse",
 }) as any as S.Schema<GetCustomerGatewayAssociationsResponse>;
 export interface GetDevicesResponse {
-  Devices?: DeviceList;
+  Devices?: Device[];
   NextToken?: string;
 }
 export const GetDevicesResponse = S.suspend(() =>
@@ -3546,7 +3788,7 @@ export const GetDirectConnectGatewayAttachmentResponse = S.suspend(() =>
   identifier: "GetDirectConnectGatewayAttachmentResponse",
 }) as any as S.Schema<GetDirectConnectGatewayAttachmentResponse>;
 export interface GetLinkAssociationsResponse {
-  LinkAssociations?: LinkAssociationList;
+  LinkAssociations?: LinkAssociation[];
   NextToken?: string;
 }
 export const GetLinkAssociationsResponse = S.suspend(() =>
@@ -3558,7 +3800,7 @@ export const GetLinkAssociationsResponse = S.suspend(() =>
   identifier: "GetLinkAssociationsResponse",
 }) as any as S.Schema<GetLinkAssociationsResponse>;
 export interface GetLinksResponse {
-  Links?: LinkList;
+  Links?: Link[];
   NextToken?: string;
 }
 export const GetLinksResponse = S.suspend(() =>
@@ -3575,7 +3817,7 @@ export const GetResourcePolicyResponse = S.suspend(() =>
   identifier: "GetResourcePolicyResponse",
 }) as any as S.Schema<GetResourcePolicyResponse>;
 export interface GetSitesResponse {
-  Sites?: SiteList;
+  Sites?: Site[];
   NextToken?: string;
 }
 export const GetSitesResponse = S.suspend(() =>
@@ -3604,7 +3846,7 @@ export const GetSiteToSiteVpnAttachmentResponse = S.suspend(() =>
   identifier: "GetSiteToSiteVpnAttachmentResponse",
 }) as any as S.Schema<GetSiteToSiteVpnAttachmentResponse>;
 export interface GetTransitGatewayConnectPeerAssociationsResponse {
-  TransitGatewayConnectPeerAssociations?: TransitGatewayConnectPeerAssociationList;
+  TransitGatewayConnectPeerAssociations?: TransitGatewayConnectPeerAssociation[];
   NextToken?: string;
 }
 export const GetTransitGatewayConnectPeerAssociationsResponse = S.suspend(() =>
@@ -3640,7 +3882,7 @@ export const GetTransitGatewayPeeringResponse = S.suspend(() =>
   identifier: "GetTransitGatewayPeeringResponse",
 }) as any as S.Schema<GetTransitGatewayPeeringResponse>;
 export interface GetTransitGatewayRegistrationsResponse {
-  TransitGatewayRegistrations?: TransitGatewayRegistrationList;
+  TransitGatewayRegistrations?: TransitGatewayRegistration[];
   NextToken?: string;
 }
 export const GetTransitGatewayRegistrationsResponse = S.suspend(() =>
@@ -3678,7 +3920,7 @@ export const GetTransitGatewayRouteTableAttachmentResponse = S.suspend(() =>
   identifier: "GetTransitGatewayRouteTableAttachmentResponse",
 }) as any as S.Schema<GetTransitGatewayRouteTableAttachmentResponse>;
 export interface ListAttachmentsResponse {
-  Attachments?: AttachmentList;
+  Attachments?: Attachment[];
   NextToken?: string;
 }
 export const ListAttachmentsResponse = S.suspend(() =>
@@ -3690,7 +3932,7 @@ export const ListAttachmentsResponse = S.suspend(() =>
   identifier: "ListAttachmentsResponse",
 }) as any as S.Schema<ListAttachmentsResponse>;
 export interface ListPeeringsResponse {
-  Peerings?: PeeringList;
+  Peerings?: Peering[];
   NextToken?: string;
 }
 export const ListPeeringsResponse = S.suspend(() =>
@@ -3702,7 +3944,7 @@ export const ListPeeringsResponse = S.suspend(() =>
   identifier: "ListPeeringsResponse",
 }) as any as S.Schema<ListPeeringsResponse>;
 export interface ListTagsForResourceResponse {
-  TagList?: TagList;
+  TagList?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ TagList: S.optional(TagList) }),
@@ -3789,7 +4031,7 @@ export interface OrganizationStatus {
   OrganizationId?: string;
   OrganizationAwsServiceAccessStatus?: string;
   SLRDeploymentStatus?: string;
-  AccountStatusList?: AccountStatusList;
+  AccountStatusList?: AccountStatus[];
 }
 export const OrganizationStatus = S.suspend(() =>
   S.Struct({
@@ -3894,7 +4136,7 @@ export const UpdateLinkResponse = S.suspend(() =>
 export interface UpdateNetworkResourceMetadataRequest {
   GlobalNetworkId: string;
   ResourceArn: string;
-  Metadata: NetworkResourceMetadataMap;
+  Metadata: { [key: string]: string };
 }
 export const UpdateNetworkResourceMetadataRequest = S.suspend(() =>
   S.Struct({
@@ -3927,7 +4169,7 @@ export const UpdateSiteResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateSiteResponse>;
 export interface VpcAttachment {
   Attachment?: Attachment;
-  SubnetArns?: SubnetArnList;
+  SubnetArns?: string[];
   Options?: VpcOptions;
 }
 export const VpcAttachment = S.suspend(() =>
@@ -3947,6 +4189,50 @@ export const UpdateVpcAttachmentResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateVpcAttachmentResponse",
 }) as any as S.Schema<UpdateVpcAttachmentResponse>;
+export type ChangeType =
+  | "CORE_NETWORK_SEGMENT"
+  | "NETWORK_FUNCTION_GROUP"
+  | "CORE_NETWORK_EDGE"
+  | "ATTACHMENT_MAPPING"
+  | "ATTACHMENT_ROUTE_PROPAGATION"
+  | "ATTACHMENT_ROUTE_STATIC"
+  | "ROUTING_POLICY"
+  | "ROUTING_POLICY_SEGMENT_ASSOCIATION"
+  | "ROUTING_POLICY_EDGE_ASSOCIATION"
+  | "ROUTING_POLICY_ATTACHMENT_ASSOCIATION"
+  | "CORE_NETWORK_CONFIGURATION"
+  | "SEGMENTS_CONFIGURATION"
+  | "SEGMENT_ACTIONS_CONFIGURATION"
+  | "ATTACHMENT_POLICIES_CONFIGURATION";
+export const ChangeType = S.Literal(
+  "CORE_NETWORK_SEGMENT",
+  "NETWORK_FUNCTION_GROUP",
+  "CORE_NETWORK_EDGE",
+  "ATTACHMENT_MAPPING",
+  "ATTACHMENT_ROUTE_PROPAGATION",
+  "ATTACHMENT_ROUTE_STATIC",
+  "ROUTING_POLICY",
+  "ROUTING_POLICY_SEGMENT_ASSOCIATION",
+  "ROUTING_POLICY_EDGE_ASSOCIATION",
+  "ROUTING_POLICY_ATTACHMENT_ASSOCIATION",
+  "CORE_NETWORK_CONFIGURATION",
+  "SEGMENTS_CONFIGURATION",
+  "SEGMENT_ACTIONS_CONFIGURATION",
+  "ATTACHMENT_POLICIES_CONFIGURATION",
+);
+export type ChangeAction = "ADD" | "MODIFY" | "REMOVE";
+export const ChangeAction = S.Literal("ADD", "MODIFY", "REMOVE");
+export type ChangeStatus =
+  | "NOT_STARTED"
+  | "IN_PROGRESS"
+  | "COMPLETE"
+  | "FAILED";
+export const ChangeStatus = S.Literal(
+  "NOT_STARTED",
+  "IN_PROGRESS",
+  "COMPLETE",
+  "FAILED",
+);
 export interface CoreNetworkSegmentEdgeIdentifier {
   CoreNetworkId?: string;
   SegmentName?: string;
@@ -3975,6 +4261,8 @@ export const CoreNetworkNetworkFunctionGroupIdentifier = S.suspend(() =>
 ).annotations({
   identifier: "CoreNetworkNetworkFunctionGroupIdentifier",
 }) as any as S.Schema<CoreNetworkNetworkFunctionGroupIdentifier>;
+export type RouteAnalysisStatus = "RUNNING" | "COMPLETED" | "FAILED";
+export const RouteAnalysisStatus = S.Literal("RUNNING", "COMPLETED", "FAILED");
 export interface ConnectAttachment {
   Attachment?: Attachment;
   TransportAttachmentId?: string;
@@ -4019,8 +4307,8 @@ export interface NetworkResource {
   ResourceArn?: string;
   Definition?: string;
   DefinitionTimestamp?: Date;
-  Tags?: TagList;
-  Metadata?: NetworkResourceMetadataMap;
+  Tags?: Tag[];
+  Metadata?: { [key: string]: string };
 }
 export const NetworkResource = S.suspend(() =>
   S.Struct({
@@ -4061,8 +4349,8 @@ export const RouteTableIdentifier = S.suspend(() =>
 }) as any as S.Schema<RouteTableIdentifier>;
 export interface AttachmentRoutingPolicyAssociationSummary {
   AttachmentId?: string;
-  PendingRoutingPolicies?: ConstrainedStringList;
-  AssociatedRoutingPolicies?: ConstrainedStringList;
+  PendingRoutingPolicies?: string[];
+  AssociatedRoutingPolicies?: string[];
   RoutingPolicyLabel?: string;
 }
 export const AttachmentRoutingPolicyAssociationSummary = S.suspend(() =>
@@ -4085,9 +4373,9 @@ export interface ConnectPeerSummary {
   ConnectAttachmentId?: string;
   ConnectPeerId?: string;
   EdgeLocation?: string;
-  ConnectPeerState?: string;
+  ConnectPeerState?: ConnectPeerState;
   CreatedAt?: Date;
-  Tags?: TagList;
+  Tags?: Tag[];
   SubnetArn?: string;
 }
 export const ConnectPeerSummary = S.suspend(() =>
@@ -4096,7 +4384,7 @@ export const ConnectPeerSummary = S.suspend(() =>
     ConnectAttachmentId: S.optional(S.String),
     ConnectPeerId: S.optional(S.String),
     EdgeLocation: S.optional(S.String),
-    ConnectPeerState: S.optional(S.String),
+    ConnectPeerState: S.optional(ConnectPeerState),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Tags: S.optional(TagList),
     SubnetArn: S.optional(S.String),
@@ -4109,19 +4397,19 @@ export const ConnectPeerSummaryList = S.Array(ConnectPeerSummary);
 export interface CoreNetworkPolicyVersion {
   CoreNetworkId?: string;
   PolicyVersionId?: number;
-  Alias?: string;
+  Alias?: CoreNetworkPolicyAlias;
   Description?: string;
   CreatedAt?: Date;
-  ChangeSetState?: string;
+  ChangeSetState?: ChangeSetState;
 }
 export const CoreNetworkPolicyVersion = S.suspend(() =>
   S.Struct({
     CoreNetworkId: S.optional(S.String),
     PolicyVersionId: S.optional(S.Number),
-    Alias: S.optional(S.String),
+    Alias: S.optional(CoreNetworkPolicyAlias),
     Description: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ChangeSetState: S.optional(S.String),
+    ChangeSetState: S.optional(ChangeSetState),
   }),
 ).annotations({
   identifier: "CoreNetworkPolicyVersion",
@@ -4149,9 +4437,9 @@ export interface CoreNetworkSummary {
   CoreNetworkArn?: string;
   GlobalNetworkId?: string;
   OwnerAccountId?: string;
-  State?: string;
+  State?: CoreNetworkState;
   Description?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CoreNetworkSummary = S.suspend(() =>
   S.Struct({
@@ -4159,7 +4447,7 @@ export const CoreNetworkSummary = S.suspend(() =>
     CoreNetworkArn: S.optional(S.String),
     GlobalNetworkId: S.optional(S.String),
     OwnerAccountId: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(CoreNetworkState),
     Description: S.optional(S.String),
     Tags: S.optional(TagList),
   }),
@@ -4168,6 +4456,12 @@ export const CoreNetworkSummary = S.suspend(() =>
 }) as any as S.Schema<CoreNetworkSummary>;
 export type CoreNetworkSummaryList = CoreNetworkSummary[];
 export const CoreNetworkSummaryList = S.Array(CoreNetworkSummary);
+export type RoutingPolicyDirection = "inbound" | "outbound";
+export const RoutingPolicyDirection = S.Literal("inbound", "outbound");
+export type ConnectionType = "BGP" | "IPSEC";
+export const ConnectionType = S.Literal("BGP", "IPSEC");
+export type ConnectionStatus = "UP" | "DOWN";
+export const ConnectionStatus = S.Literal("UP", "DOWN");
 export interface AssociateConnectPeerResponse {
   ConnectPeerAssociation?: ConnectPeerAssociation;
 }
@@ -4333,7 +4627,7 @@ export const GetConnectAttachmentResponse = S.suspend(() =>
   identifier: "GetConnectAttachmentResponse",
 }) as any as S.Schema<GetConnectAttachmentResponse>;
 export interface GetNetworkResourceCountsResponse {
-  NetworkResourceCounts?: NetworkResourceCountList;
+  NetworkResourceCounts?: NetworkResourceCount[];
   NextToken?: string;
 }
 export const GetNetworkResourceCountsResponse = S.suspend(() =>
@@ -4345,7 +4639,7 @@ export const GetNetworkResourceCountsResponse = S.suspend(() =>
   identifier: "GetNetworkResourceCountsResponse",
 }) as any as S.Schema<GetNetworkResourceCountsResponse>;
 export interface GetNetworkResourceRelationshipsResponse {
-  Relationships?: RelationshipList;
+  Relationships?: Relationship[];
   NextToken?: string;
 }
 export const GetNetworkResourceRelationshipsResponse = S.suspend(() =>
@@ -4357,7 +4651,7 @@ export const GetNetworkResourceRelationshipsResponse = S.suspend(() =>
   identifier: "GetNetworkResourceRelationshipsResponse",
 }) as any as S.Schema<GetNetworkResourceRelationshipsResponse>;
 export interface GetNetworkResourcesResponse {
-  NetworkResources?: NetworkResourceList;
+  NetworkResources?: NetworkResource[];
   NextToken?: string;
 }
 export const GetNetworkResourcesResponse = S.suspend(() =>
@@ -4371,14 +4665,14 @@ export const GetNetworkResourcesResponse = S.suspend(() =>
 export interface GetNetworkRoutesRequest {
   GlobalNetworkId: string;
   RouteTableIdentifier: RouteTableIdentifier;
-  ExactCidrMatches?: ConstrainedStringList;
-  LongestPrefixMatches?: ConstrainedStringList;
-  SubnetOfMatches?: ConstrainedStringList;
-  SupernetOfMatches?: ConstrainedStringList;
-  PrefixListIds?: ConstrainedStringList;
-  States?: RouteStateList;
-  Types?: RouteTypeList;
-  DestinationFilters?: FilterMap;
+  ExactCidrMatches?: string[];
+  LongestPrefixMatches?: string[];
+  SubnetOfMatches?: string[];
+  SupernetOfMatches?: string[];
+  PrefixListIds?: string[];
+  States?: RouteState[];
+  Types?: RouteType[];
+  DestinationFilters?: { [key: string]: string[] };
 }
 export const GetNetworkRoutesRequest = S.suspend(() =>
   S.Struct({
@@ -4417,7 +4711,7 @@ export const GetVpcAttachmentResponse = S.suspend(() =>
   identifier: "GetVpcAttachmentResponse",
 }) as any as S.Schema<GetVpcAttachmentResponse>;
 export interface ListAttachmentRoutingPolicyAssociationsResponse {
-  AttachmentRoutingPolicyAssociations?: AttachmentRoutingPolicyAssociationsList;
+  AttachmentRoutingPolicyAssociations?: AttachmentRoutingPolicyAssociationSummary[];
   NextToken?: string;
 }
 export const ListAttachmentRoutingPolicyAssociationsResponse = S.suspend(() =>
@@ -4431,7 +4725,7 @@ export const ListAttachmentRoutingPolicyAssociationsResponse = S.suspend(() =>
   identifier: "ListAttachmentRoutingPolicyAssociationsResponse",
 }) as any as S.Schema<ListAttachmentRoutingPolicyAssociationsResponse>;
 export interface ListConnectPeersResponse {
-  ConnectPeers?: ConnectPeerSummaryList;
+  ConnectPeers?: ConnectPeerSummary[];
   NextToken?: string;
 }
 export const ListConnectPeersResponse = S.suspend(() =>
@@ -4443,7 +4737,7 @@ export const ListConnectPeersResponse = S.suspend(() =>
   identifier: "ListConnectPeersResponse",
 }) as any as S.Schema<ListConnectPeersResponse>;
 export interface ListCoreNetworkPolicyVersionsResponse {
-  CoreNetworkPolicyVersions?: CoreNetworkPolicyVersionList;
+  CoreNetworkPolicyVersions?: CoreNetworkPolicyVersion[];
   NextToken?: string;
 }
 export const ListCoreNetworkPolicyVersionsResponse = S.suspend(() =>
@@ -4455,7 +4749,7 @@ export const ListCoreNetworkPolicyVersionsResponse = S.suspend(() =>
   identifier: "ListCoreNetworkPolicyVersionsResponse",
 }) as any as S.Schema<ListCoreNetworkPolicyVersionsResponse>;
 export interface ListCoreNetworkPrefixListAssociationsResponse {
-  PrefixListAssociations?: PrefixListAssociationList;
+  PrefixListAssociations?: PrefixListAssociation[];
   NextToken?: string;
 }
 export const ListCoreNetworkPrefixListAssociationsResponse = S.suspend(() =>
@@ -4467,7 +4761,7 @@ export const ListCoreNetworkPrefixListAssociationsResponse = S.suspend(() =>
   identifier: "ListCoreNetworkPrefixListAssociationsResponse",
 }) as any as S.Schema<ListCoreNetworkPrefixListAssociationsResponse>;
 export interface ListCoreNetworksResponse {
-  CoreNetworks?: CoreNetworkSummaryList;
+  CoreNetworks?: CoreNetworkSummary[];
   NextToken?: string;
 }
 export const ListCoreNetworksResponse = S.suspend(() =>
@@ -4492,17 +4786,47 @@ export const RouteAnalysisEndpointOptions = S.suspend(() =>
 ).annotations({
   identifier: "RouteAnalysisEndpointOptions",
 }) as any as S.Schema<RouteAnalysisEndpointOptions>;
+export type RouteAnalysisCompletionResultCode = "CONNECTED" | "NOT_CONNECTED";
+export const RouteAnalysisCompletionResultCode = S.Literal(
+  "CONNECTED",
+  "NOT_CONNECTED",
+);
+export type RouteAnalysisCompletionReasonCode =
+  | "TRANSIT_GATEWAY_ATTACHMENT_NOT_FOUND"
+  | "TRANSIT_GATEWAY_ATTACHMENT_NOT_IN_TRANSIT_GATEWAY"
+  | "CYCLIC_PATH_DETECTED"
+  | "TRANSIT_GATEWAY_ATTACHMENT_STABLE_ROUTE_TABLE_NOT_FOUND"
+  | "ROUTE_NOT_FOUND"
+  | "BLACKHOLE_ROUTE_FOR_DESTINATION_FOUND"
+  | "INACTIVE_ROUTE_FOR_DESTINATION_FOUND"
+  | "TRANSIT_GATEWAY_ATTACHMENT_ATTACH_ARN_NO_MATCH"
+  | "MAX_HOPS_EXCEEDED"
+  | "POSSIBLE_MIDDLEBOX"
+  | "NO_DESTINATION_ARN_PROVIDED";
+export const RouteAnalysisCompletionReasonCode = S.Literal(
+  "TRANSIT_GATEWAY_ATTACHMENT_NOT_FOUND",
+  "TRANSIT_GATEWAY_ATTACHMENT_NOT_IN_TRANSIT_GATEWAY",
+  "CYCLIC_PATH_DETECTED",
+  "TRANSIT_GATEWAY_ATTACHMENT_STABLE_ROUTE_TABLE_NOT_FOUND",
+  "ROUTE_NOT_FOUND",
+  "BLACKHOLE_ROUTE_FOR_DESTINATION_FOUND",
+  "INACTIVE_ROUTE_FOR_DESTINATION_FOUND",
+  "TRANSIT_GATEWAY_ATTACHMENT_ATTACH_ARN_NO_MATCH",
+  "MAX_HOPS_EXCEEDED",
+  "POSSIBLE_MIDDLEBOX",
+  "NO_DESTINATION_ARN_PROVIDED",
+);
 export type ReasonContextMap = { [key: string]: string };
 export const ReasonContextMap = S.Record({ key: S.String, value: S.String });
 export interface RouteAnalysisCompletion {
-  ResultCode?: string;
-  ReasonCode?: string;
-  ReasonContext?: ReasonContextMap;
+  ResultCode?: RouteAnalysisCompletionResultCode;
+  ReasonCode?: RouteAnalysisCompletionReasonCode;
+  ReasonContext?: { [key: string]: string };
 }
 export const RouteAnalysisCompletion = S.suspend(() =>
   S.Struct({
-    ResultCode: S.optional(S.String),
-    ReasonCode: S.optional(S.String),
+    ResultCode: S.optional(RouteAnalysisCompletionResultCode),
+    ReasonCode: S.optional(RouteAnalysisCompletionReasonCode),
     ReasonContext: S.optional(ReasonContextMap),
   }),
 ).annotations({
@@ -4546,7 +4870,7 @@ export type PathComponentList = PathComponent[];
 export const PathComponentList = S.Array(PathComponent);
 export interface RouteAnalysisPath {
   CompletionStatus?: RouteAnalysisCompletion;
-  Path?: PathComponentList;
+  Path?: PathComponent[];
 }
 export const RouteAnalysisPath = S.suspend(() =>
   S.Struct({
@@ -4561,7 +4885,7 @@ export interface RouteAnalysis {
   OwnerAccountId?: string;
   RouteAnalysisId?: string;
   StartTimestamp?: Date;
-  Status?: string;
+  Status?: RouteAnalysisStatus;
   Source?: RouteAnalysisEndpointOptions;
   Destination?: RouteAnalysisEndpointOptions;
   IncludeReturnPath?: boolean;
@@ -4575,7 +4899,7 @@ export const RouteAnalysis = S.suspend(() =>
     OwnerAccountId: S.optional(S.String),
     RouteAnalysisId: S.optional(S.String),
     StartTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
+    Status: S.optional(RouteAnalysisStatus),
     Source: S.optional(RouteAnalysisEndpointOptions),
     Destination: S.optional(RouteAnalysisEndpointOptions),
     IncludeReturnPath: S.optional(S.Boolean),
@@ -4596,7 +4920,7 @@ export const StartRouteAnalysisResponse = S.suspend(() =>
 }) as any as S.Schema<StartRouteAnalysisResponse>;
 export interface UpdateNetworkResourceMetadataResponse {
   ResourceArn?: string;
-  Metadata?: NetworkResourceMetadataMap;
+  Metadata?: { [key: string]: string };
 }
 export const UpdateNetworkResourceMetadataResponse = S.suspend(() =>
   S.Struct({
@@ -4607,14 +4931,14 @@ export const UpdateNetworkResourceMetadataResponse = S.suspend(() =>
   identifier: "UpdateNetworkResourceMetadataResponse",
 }) as any as S.Schema<UpdateNetworkResourceMetadataResponse>;
 export interface ConnectionHealth {
-  Type?: string;
-  Status?: string;
+  Type?: ConnectionType;
+  Status?: ConnectionStatus;
   Timestamp?: Date;
 }
 export const ConnectionHealth = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String),
-    Status: S.optional(S.String),
+    Type: S.optional(ConnectionType),
+    Status: S.optional(ConnectionStatus),
     Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({
@@ -4640,6 +4964,19 @@ export const RoutingInformationNextHop = S.suspend(() =>
 ).annotations({
   identifier: "RoutingInformationNextHop",
 }) as any as S.Schema<RoutingInformationNextHop>;
+export type SegmentActionServiceInsertion = "send-via" | "send-to";
+export const SegmentActionServiceInsertion = S.Literal("send-via", "send-to");
+export type SendViaMode = "dual-hop" | "single-hop";
+export const SendViaMode = S.Literal("dual-hop", "single-hop");
+export type RouteTableType =
+  | "TRANSIT_GATEWAY_ROUTE_TABLE"
+  | "CORE_NETWORK_SEGMENT"
+  | "NETWORK_FUNCTION_GROUP";
+export const RouteTableType = S.Literal(
+  "TRANSIT_GATEWAY_ROUTE_TABLE",
+  "CORE_NETWORK_SEGMENT",
+  "NETWORK_FUNCTION_GROUP",
+);
 export interface NetworkTelemetry {
   RegisteredGatewayArn?: string;
   CoreNetworkId?: string;
@@ -4673,8 +5010,8 @@ export interface CoreNetworkRoutingInformation {
   NextHop?: RoutingInformationNextHop;
   LocalPreference?: string;
   Med?: string;
-  AsPath?: ConstrainedStringList;
-  Communities?: ConstrainedStringList;
+  AsPath?: string[];
+  Communities?: string[];
 }
 export const CoreNetworkRoutingInformation = S.suspend(() =>
   S.Struct({
@@ -4693,8 +5030,8 @@ export const CoreNetworkRoutingInformationList = S.Array(
   CoreNetworkRoutingInformation,
 );
 export interface RoutingPolicyAssociationDetail {
-  RoutingPolicyNames?: ConstrainedStringList;
-  SharedSegments?: ConstrainedStringList;
+  RoutingPolicyNames?: string[];
+  SharedSegments?: string[];
 }
 export const RoutingPolicyAssociationDetail = S.suspend(() =>
   S.Struct({
@@ -4738,7 +5075,7 @@ export const DeregisterTransitGatewayResponse = S.suspend(() =>
 export type WhenSentToSegmentsList = string[];
 export const WhenSentToSegmentsList = S.Array(S.String);
 export interface GetNetworkTelemetryResponse {
-  NetworkTelemetry?: NetworkTelemetryList;
+  NetworkTelemetry?: NetworkTelemetry[];
   NextToken?: string;
 }
 export const GetNetworkTelemetryResponse = S.suspend(() =>
@@ -4750,7 +5087,7 @@ export const GetNetworkTelemetryResponse = S.suspend(() =>
   identifier: "GetNetworkTelemetryResponse",
 }) as any as S.Schema<GetNetworkTelemetryResponse>;
 export interface ListCoreNetworkRoutingInformationResponse {
-  CoreNetworkRoutingInformation?: CoreNetworkRoutingInformationList;
+  CoreNetworkRoutingInformation?: CoreNetworkRoutingInformation[];
   NextToken?: string;
 }
 export const ListCoreNetworkRoutingInformationResponse = S.suspend(() =>
@@ -4778,18 +5115,18 @@ export const ListOrganizationServiceAccessStatusResponse = S.suspend(() =>
 export interface CoreNetworkChangeEventValues {
   EdgeLocation?: string;
   PeerEdgeLocation?: string;
-  RoutingPolicyDirection?: string;
+  RoutingPolicyDirection?: RoutingPolicyDirection;
   SegmentName?: string;
   NetworkFunctionGroupName?: string;
   AttachmentId?: string;
   Cidr?: string;
-  RoutingPolicyAssociationDetails?: RoutingPolicyAssociationDetailsList;
+  RoutingPolicyAssociationDetails?: RoutingPolicyAssociationDetail[];
 }
 export const CoreNetworkChangeEventValues = S.suspend(() =>
   S.Struct({
     EdgeLocation: S.optional(S.String),
     PeerEdgeLocation: S.optional(S.String),
-    RoutingPolicyDirection: S.optional(S.String),
+    RoutingPolicyDirection: S.optional(RoutingPolicyDirection),
     SegmentName: S.optional(S.String),
     NetworkFunctionGroupName: S.optional(S.String),
     AttachmentId: S.optional(S.String),
@@ -4802,7 +5139,7 @@ export const CoreNetworkChangeEventValues = S.suspend(() =>
   identifier: "CoreNetworkChangeEventValues",
 }) as any as S.Schema<CoreNetworkChangeEventValues>;
 export interface WhenSentTo {
-  WhenSentToSegmentsList?: WhenSentToSegmentsList;
+  WhenSentToSegmentsList?: string[];
 }
 export const WhenSentTo = S.suspend(() =>
   S.Struct({ WhenSentToSegmentsList: S.optional(WhenSentToSegmentsList) }),
@@ -4810,20 +5147,20 @@ export const WhenSentTo = S.suspend(() =>
 export type ExceptionContextMap = { [key: string]: string };
 export const ExceptionContextMap = S.Record({ key: S.String, value: S.String });
 export interface CoreNetworkChangeEvent {
-  Type?: string;
-  Action?: string;
+  Type?: ChangeType;
+  Action?: ChangeAction;
   IdentifierPath?: string;
   EventTime?: Date;
-  Status?: string;
+  Status?: ChangeStatus;
   Values?: CoreNetworkChangeEventValues;
 }
 export const CoreNetworkChangeEvent = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String),
-    Action: S.optional(S.String),
+    Type: S.optional(ChangeType),
+    Action: S.optional(ChangeAction),
     IdentifierPath: S.optional(S.String),
     EventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
+    Status: S.optional(ChangeStatus),
     Values: S.optional(CoreNetworkChangeEventValues),
   }),
 ).annotations({
@@ -4833,8 +5170,19 @@ export type CoreNetworkChangeEventList = CoreNetworkChangeEvent[];
 export const CoreNetworkChangeEventList = S.Array(CoreNetworkChangeEvent);
 export type EdgeSet = string[];
 export const EdgeSet = S.Array(S.String);
-export type EdgeSetList = EdgeSet[];
+export type EdgeSetList = string[][];
 export const EdgeSetList = S.Array(EdgeSet);
+export type ValidationExceptionReason =
+  | "UnknownOperation"
+  | "CannotParse"
+  | "FieldValidationFailed"
+  | "Other";
+export const ValidationExceptionReason = S.Literal(
+  "UnknownOperation",
+  "CannotParse",
+  "FieldValidationFailed",
+  "Other",
+);
 export interface CreateCoreNetworkResponse {
   CoreNetwork?: CoreNetwork;
 }
@@ -4860,7 +5208,7 @@ export const DeletePeeringResponse = S.suspend(() =>
   identifier: "DeletePeeringResponse",
 }) as any as S.Schema<DeletePeeringResponse>;
 export interface GetCoreNetworkChangeEventsResponse {
-  CoreNetworkChangeEvents?: CoreNetworkChangeEventList;
+  CoreNetworkChangeEvents?: CoreNetworkChangeEvent[];
   NextToken?: string;
 }
 export const GetCoreNetworkChangeEventsResponse = S.suspend(() =>
@@ -4882,7 +5230,7 @@ export const NetworkFunctionGroup = S.suspend(() =>
 export type NetworkFunctionGroupList = NetworkFunctionGroup[];
 export const NetworkFunctionGroupList = S.Array(NetworkFunctionGroup);
 export interface EdgeOverride {
-  EdgeSets?: EdgeSetList;
+  EdgeSets?: string[][];
   UseEdge?: string;
 }
 export const EdgeOverride = S.suspend(() =>
@@ -4918,8 +5266,8 @@ export const NetworkRouteDestination = S.suspend(() =>
 export type NetworkRouteDestinationList = NetworkRouteDestination[];
 export const NetworkRouteDestinationList = S.Array(NetworkRouteDestination);
 export interface Via {
-  NetworkFunctionGroups?: NetworkFunctionGroupList;
-  WithEdgeOverrides?: WithEdgeOverridesList;
+  NetworkFunctionGroups?: NetworkFunctionGroup[];
+  WithEdgeOverrides?: EdgeOverride[];
 }
 export const Via = S.suspend(() =>
   S.Struct({
@@ -4940,32 +5288,32 @@ export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export interface NetworkRoute {
   DestinationCidrBlock?: string;
-  Destinations?: NetworkRouteDestinationList;
+  Destinations?: NetworkRouteDestination[];
   PrefixListId?: string;
-  State?: string;
-  Type?: string;
+  State?: RouteState;
+  Type?: RouteType;
 }
 export const NetworkRoute = S.suspend(() =>
   S.Struct({
     DestinationCidrBlock: S.optional(S.String),
     Destinations: S.optional(NetworkRouteDestinationList),
     PrefixListId: S.optional(S.String),
-    State: S.optional(S.String),
-    Type: S.optional(S.String),
+    State: S.optional(RouteState),
+    Type: S.optional(RouteType),
   }),
 ).annotations({ identifier: "NetworkRoute" }) as any as S.Schema<NetworkRoute>;
 export type NetworkRouteList = NetworkRoute[];
 export const NetworkRouteList = S.Array(NetworkRoute);
 export interface ServiceInsertionAction {
-  Action?: string;
-  Mode?: string;
+  Action?: SegmentActionServiceInsertion;
+  Mode?: SendViaMode;
   WhenSentTo?: WhenSentTo;
   Via?: Via;
 }
 export const ServiceInsertionAction = S.suspend(() =>
   S.Struct({
-    Action: S.optional(S.String),
-    Mode: S.optional(S.String),
+    Action: S.optional(SegmentActionServiceInsertion),
+    Mode: S.optional(SendViaMode),
     WhenSentTo: S.optional(WhenSentTo),
     Via: S.optional(Via),
   }),
@@ -4977,15 +5325,15 @@ export const ServiceInsertionActionList = S.Array(ServiceInsertionAction);
 export interface GetNetworkRoutesResponse {
   RouteTableArn?: string;
   CoreNetworkSegmentEdge?: CoreNetworkSegmentEdgeIdentifier;
-  RouteTableType?: string;
+  RouteTableType?: RouteTableType;
   RouteTableTimestamp?: Date;
-  NetworkRoutes?: NetworkRouteList;
+  NetworkRoutes?: NetworkRoute[];
 }
 export const GetNetworkRoutesResponse = S.suspend(() =>
   S.Struct({
     RouteTableArn: S.optional(S.String),
     CoreNetworkSegmentEdge: S.optional(CoreNetworkSegmentEdgeIdentifier),
-    RouteTableType: S.optional(S.String),
+    RouteTableType: S.optional(RouteTableType),
     RouteTableTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -5005,21 +5353,21 @@ export const GetRouteAnalysisResponse = S.suspend(() =>
 export interface CoreNetworkChangeValues {
   SegmentName?: string;
   NetworkFunctionGroupName?: string;
-  EdgeLocations?: ExternalRegionCodeList;
+  EdgeLocations?: string[];
   Asn?: number;
   Cidr?: string;
   DestinationIdentifier?: string;
-  InsideCidrBlocks?: ConstrainedStringList;
-  SharedSegments?: ConstrainedStringList;
-  ServiceInsertionActions?: ServiceInsertionActionList;
+  InsideCidrBlocks?: string[];
+  SharedSegments?: string[];
+  ServiceInsertionActions?: ServiceInsertionAction[];
   VpnEcmpSupport?: boolean;
   DnsSupport?: boolean;
   SecurityGroupReferencingSupport?: boolean;
-  RoutingPolicyDirection?: string;
+  RoutingPolicyDirection?: RoutingPolicyDirection;
   RoutingPolicy?: string;
-  PeerEdgeLocations?: ExternalRegionCodeList;
+  PeerEdgeLocations?: string[];
   AttachmentId?: string;
-  RoutingPolicyAssociationDetails?: RoutingPolicyAssociationDetailsList;
+  RoutingPolicyAssociationDetails?: RoutingPolicyAssociationDetail[];
 }
 export const CoreNetworkChangeValues = S.suspend(() =>
   S.Struct({
@@ -5035,7 +5383,7 @@ export const CoreNetworkChangeValues = S.suspend(() =>
     VpnEcmpSupport: S.optional(S.Boolean),
     DnsSupport: S.optional(S.Boolean),
     SecurityGroupReferencingSupport: S.optional(S.Boolean),
-    RoutingPolicyDirection: S.optional(S.String),
+    RoutingPolicyDirection: S.optional(RoutingPolicyDirection),
     RoutingPolicy: S.optional(S.String),
     PeerEdgeLocations: S.optional(ExternalRegionCodeList),
     AttachmentId: S.optional(S.String),
@@ -5047,8 +5395,8 @@ export const CoreNetworkChangeValues = S.suspend(() =>
   identifier: "CoreNetworkChangeValues",
 }) as any as S.Schema<CoreNetworkChangeValues>;
 export interface CoreNetworkChange {
-  Type?: string;
-  Action?: string;
+  Type?: ChangeType;
+  Action?: ChangeAction;
   Identifier?: string;
   PreviousValues?: CoreNetworkChangeValues;
   NewValues?: CoreNetworkChangeValues;
@@ -5056,8 +5404,8 @@ export interface CoreNetworkChange {
 }
 export const CoreNetworkChange = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String),
-    Action: S.optional(S.String),
+    Type: S.optional(ChangeType),
+    Action: S.optional(ChangeAction),
     Identifier: S.optional(S.String),
     PreviousValues: S.optional(CoreNetworkChangeValues),
     NewValues: S.optional(CoreNetworkChangeValues),
@@ -5069,7 +5417,7 @@ export const CoreNetworkChange = S.suspend(() =>
 export type CoreNetworkChangeList = CoreNetworkChange[];
 export const CoreNetworkChangeList = S.Array(CoreNetworkChange);
 export interface GetCoreNetworkChangeSetResponse {
-  CoreNetworkChanges?: CoreNetworkChangeList;
+  CoreNetworkChanges?: CoreNetworkChange[];
   NextToken?: string;
 }
 export const GetCoreNetworkChangeSetResponse = S.suspend(() =>
@@ -5131,7 +5479,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     Message: S.String,
-    Reason: S.optional(S.String),
+    Reason: S.optional(ValidationExceptionReason),
     Fields: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
@@ -5142,7 +5490,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const listOrganizationServiceAccessStatus: (
   input: ListOrganizationServiceAccessStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListOrganizationServiceAccessStatusResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5157,7 +5505,7 @@ export const listOrganizationServiceAccessStatus: (
 export const getNetworkResourceCounts: {
   (
     input: GetNetworkResourceCountsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetNetworkResourceCountsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5168,7 +5516,7 @@ export const getNetworkResourceCounts: {
   >;
   pages: (
     input: GetNetworkResourceCountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetNetworkResourceCountsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5179,7 +5527,7 @@ export const getNetworkResourceCounts: {
   >;
   items: (
     input: GetNetworkResourceCountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NetworkResourceCount,
     | AccessDeniedException
     | InternalServerException
@@ -5209,7 +5557,7 @@ export const getNetworkResourceCounts: {
  */
 export const getNetworkRoutes: (
   input: GetNetworkRoutesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetNetworkRoutesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5234,7 +5582,7 @@ export const getNetworkRoutes: (
  */
 export const getRouteAnalysis: (
   input: GetRouteAnalysisRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRouteAnalysisResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5259,7 +5607,7 @@ export const getRouteAnalysis: (
  */
 export const startOrganizationServiceAccessUpdate: (
   input: StartOrganizationServiceAccessUpdateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartOrganizationServiceAccessUpdateResponse,
   | AccessDeniedException
   | ConflictException
@@ -5287,7 +5635,7 @@ export const startOrganizationServiceAccessUpdate: (
 export const listConnectPeers: {
   (
     input: ListConnectPeersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConnectPeersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5298,7 +5646,7 @@ export const listConnectPeers: {
   >;
   pages: (
     input: ListConnectPeersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConnectPeersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5309,7 +5657,7 @@ export const listConnectPeers: {
   >;
   items: (
     input: ListConnectPeersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConnectPeerSummary,
     | AccessDeniedException
     | InternalServerException
@@ -5340,7 +5688,7 @@ export const listConnectPeers: {
 export const listCoreNetworks: {
   (
     input: ListCoreNetworksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCoreNetworksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5351,7 +5699,7 @@ export const listCoreNetworks: {
   >;
   pages: (
     input: ListCoreNetworksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCoreNetworksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5362,7 +5710,7 @@ export const listCoreNetworks: {
   >;
   items: (
     input: ListCoreNetworksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CoreNetworkSummary,
     | AccessDeniedException
     | InternalServerException
@@ -5392,7 +5740,7 @@ export const listCoreNetworks: {
  */
 export const getResourcePolicy: (
   input: GetResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5416,7 +5764,7 @@ export const getResourcePolicy: (
 export const listAttachments: {
   (
     input: ListAttachmentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAttachmentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5427,7 +5775,7 @@ export const listAttachments: {
   >;
   pages: (
     input: ListAttachmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAttachmentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5438,7 +5786,7 @@ export const listAttachments: {
   >;
   items: (
     input: ListAttachmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Attachment,
     | AccessDeniedException
     | InternalServerException
@@ -5469,7 +5817,7 @@ export const listAttachments: {
 export const listPeerings: {
   (
     input: ListPeeringsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPeeringsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5480,7 +5828,7 @@ export const listPeerings: {
   >;
   pages: (
     input: ListPeeringsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPeeringsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5491,7 +5839,7 @@ export const listPeerings: {
   >;
   items: (
     input: ListPeeringsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Peering,
     | AccessDeniedException
     | InternalServerException
@@ -5521,7 +5869,7 @@ export const listPeerings: {
  */
 export const deleteResourcePolicy: (
   input: DeleteResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourcePolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -5546,7 +5894,7 @@ export const deleteResourcePolicy: (
  */
 export const putResourcePolicy: (
   input: PutResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourcePolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -5573,7 +5921,7 @@ export const putResourcePolicy: (
  */
 export const createConnection: (
   input: CreateConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConnectionResponse,
   | AccessDeniedException
   | ConflictException
@@ -5600,7 +5948,7 @@ export const createConnection: (
  */
 export const createGlobalNetwork: (
   input: CreateGlobalNetworkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGlobalNetworkResponse,
   | AccessDeniedException
   | ConflictException
@@ -5627,7 +5975,7 @@ export const createGlobalNetwork: (
  */
 export const createCoreNetwork: (
   input: CreateCoreNetworkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCoreNetworkResponse,
   | AccessDeniedException
   | ConflictException
@@ -5660,7 +6008,7 @@ export const createCoreNetwork: (
 export const describeGlobalNetworks: {
   (
     input: DescribeGlobalNetworksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeGlobalNetworksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5672,7 +6020,7 @@ export const describeGlobalNetworks: {
   >;
   pages: (
     input: DescribeGlobalNetworksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeGlobalNetworksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5684,7 +6032,7 @@ export const describeGlobalNetworks: {
   >;
   items: (
     input: DescribeGlobalNetworksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GlobalNetwork,
     | AccessDeniedException
     | InternalServerException
@@ -5717,7 +6065,7 @@ export const describeGlobalNetworks: {
 export const getCoreNetworkChangeEvents: {
   (
     input: GetCoreNetworkChangeEventsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetCoreNetworkChangeEventsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5729,7 +6077,7 @@ export const getCoreNetworkChangeEvents: {
   >;
   pages: (
     input: GetCoreNetworkChangeEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetCoreNetworkChangeEventsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5741,7 +6089,7 @@ export const getCoreNetworkChangeEvents: {
   >;
   items: (
     input: GetCoreNetworkChangeEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CoreNetworkChangeEvent,
     | AccessDeniedException
     | InternalServerException
@@ -5773,7 +6121,7 @@ export const getCoreNetworkChangeEvents: {
  */
 export const getConnectAttachment: (
   input: GetConnectAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConnectAttachmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5799,7 +6147,7 @@ export const getConnectAttachment: (
 export const getNetworkResourceRelationships: {
   (
     input: GetNetworkResourceRelationshipsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetNetworkResourceRelationshipsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5811,7 +6159,7 @@ export const getNetworkResourceRelationships: {
   >;
   pages: (
     input: GetNetworkResourceRelationshipsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetNetworkResourceRelationshipsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5823,7 +6171,7 @@ export const getNetworkResourceRelationships: {
   >;
   items: (
     input: GetNetworkResourceRelationshipsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Relationship,
     | AccessDeniedException
     | InternalServerException
@@ -5858,7 +6206,7 @@ export const getNetworkResourceRelationships: {
 export const getNetworkResources: {
   (
     input: GetNetworkResourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetNetworkResourcesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5870,7 +6218,7 @@ export const getNetworkResources: {
   >;
   pages: (
     input: GetNetworkResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetNetworkResourcesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5882,7 +6230,7 @@ export const getNetworkResources: {
   >;
   items: (
     input: GetNetworkResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NetworkResource,
     | AccessDeniedException
     | InternalServerException
@@ -5914,7 +6262,7 @@ export const getNetworkResources: {
  */
 export const getVpcAttachment: (
   input: GetVpcAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetVpcAttachmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5940,7 +6288,7 @@ export const getVpcAttachment: (
 export const listAttachmentRoutingPolicyAssociations: {
   (
     input: ListAttachmentRoutingPolicyAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAttachmentRoutingPolicyAssociationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5952,7 +6300,7 @@ export const listAttachmentRoutingPolicyAssociations: {
   >;
   pages: (
     input: ListAttachmentRoutingPolicyAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAttachmentRoutingPolicyAssociationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5964,7 +6312,7 @@ export const listAttachmentRoutingPolicyAssociations: {
   >;
   items: (
     input: ListAttachmentRoutingPolicyAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AttachmentRoutingPolicyAssociationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -5997,7 +6345,7 @@ export const listAttachmentRoutingPolicyAssociations: {
 export const listCoreNetworkPolicyVersions: {
   (
     input: ListCoreNetworkPolicyVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCoreNetworkPolicyVersionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6009,7 +6357,7 @@ export const listCoreNetworkPolicyVersions: {
   >;
   pages: (
     input: ListCoreNetworkPolicyVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCoreNetworkPolicyVersionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6021,7 +6369,7 @@ export const listCoreNetworkPolicyVersions: {
   >;
   items: (
     input: ListCoreNetworkPolicyVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CoreNetworkPolicyVersion,
     | AccessDeniedException
     | InternalServerException
@@ -6054,7 +6402,7 @@ export const listCoreNetworkPolicyVersions: {
 export const listCoreNetworkPrefixListAssociations: {
   (
     input: ListCoreNetworkPrefixListAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCoreNetworkPrefixListAssociationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6066,7 +6414,7 @@ export const listCoreNetworkPrefixListAssociations: {
   >;
   pages: (
     input: ListCoreNetworkPrefixListAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCoreNetworkPrefixListAssociationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6078,7 +6426,7 @@ export const listCoreNetworkPrefixListAssociations: {
   >;
   items: (
     input: ListCoreNetworkPrefixListAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PrefixListAssociation,
     | AccessDeniedException
     | InternalServerException
@@ -6111,7 +6459,7 @@ export const listCoreNetworkPrefixListAssociations: {
  */
 export const startRouteAnalysis: (
   input: StartRouteAnalysisRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartRouteAnalysisResponse,
   | AccessDeniedException
   | ConflictException
@@ -6138,7 +6486,7 @@ export const startRouteAnalysis: (
  */
 export const updateNetworkResourceMetadata: (
   input: UpdateNetworkResourceMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateNetworkResourceMetadataResponse,
   | AccessDeniedException
   | ConflictException
@@ -6165,7 +6513,7 @@ export const updateNetworkResourceMetadata: (
  */
 export const deleteSite: (
   input: DeleteSiteRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSiteResponse,
   | AccessDeniedException
   | ConflictException
@@ -6192,7 +6540,7 @@ export const deleteSite: (
  */
 export const disassociateConnectPeer: (
   input: DisassociateConnectPeerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateConnectPeerResponse,
   | AccessDeniedException
   | ConflictException
@@ -6219,7 +6567,7 @@ export const disassociateConnectPeer: (
  */
 export const disassociateCustomerGateway: (
   input: DisassociateCustomerGatewayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateCustomerGatewayResponse,
   | AccessDeniedException
   | ConflictException
@@ -6247,7 +6595,7 @@ export const disassociateCustomerGateway: (
  */
 export const disassociateLink: (
   input: DisassociateLinkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -6274,7 +6622,7 @@ export const disassociateLink: (
  */
 export const disassociateTransitGatewayConnectPeer: (
   input: DisassociateTransitGatewayConnectPeerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateTransitGatewayConnectPeerResponse,
   | AccessDeniedException
   | ConflictException
@@ -6302,7 +6650,7 @@ export const disassociateTransitGatewayConnectPeer: (
 export const getConnectPeerAssociations: {
   (
     input: GetConnectPeerAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetConnectPeerAssociationsResponse,
     | AccessDeniedException
     | ConflictException
@@ -6315,7 +6663,7 @@ export const getConnectPeerAssociations: {
   >;
   pages: (
     input: GetConnectPeerAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetConnectPeerAssociationsResponse,
     | AccessDeniedException
     | ConflictException
@@ -6328,7 +6676,7 @@ export const getConnectPeerAssociations: {
   >;
   items: (
     input: GetConnectPeerAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConnectPeerAssociation,
     | AccessDeniedException
     | ConflictException
@@ -6364,7 +6712,7 @@ export const getConnectPeerAssociations: {
 export const getCustomerGatewayAssociations: {
   (
     input: GetCustomerGatewayAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetCustomerGatewayAssociationsResponse,
     | AccessDeniedException
     | ConflictException
@@ -6377,7 +6725,7 @@ export const getCustomerGatewayAssociations: {
   >;
   pages: (
     input: GetCustomerGatewayAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetCustomerGatewayAssociationsResponse,
     | AccessDeniedException
     | ConflictException
@@ -6390,7 +6738,7 @@ export const getCustomerGatewayAssociations: {
   >;
   items: (
     input: GetCustomerGatewayAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CustomerGatewayAssociation,
     | AccessDeniedException
     | ConflictException
@@ -6425,7 +6773,7 @@ export const getCustomerGatewayAssociations: {
 export const getTransitGatewayConnectPeerAssociations: {
   (
     input: GetTransitGatewayConnectPeerAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetTransitGatewayConnectPeerAssociationsResponse,
     | AccessDeniedException
     | ConflictException
@@ -6438,7 +6786,7 @@ export const getTransitGatewayConnectPeerAssociations: {
   >;
   pages: (
     input: GetTransitGatewayConnectPeerAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetTransitGatewayConnectPeerAssociationsResponse,
     | AccessDeniedException
     | ConflictException
@@ -6451,7 +6799,7 @@ export const getTransitGatewayConnectPeerAssociations: {
   >;
   items: (
     input: GetTransitGatewayConnectPeerAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TransitGatewayConnectPeerAssociation,
     | AccessDeniedException
     | ConflictException
@@ -6485,7 +6833,7 @@ export const getTransitGatewayConnectPeerAssociations: {
  */
 export const putAttachmentRoutingPolicyLabel: (
   input: PutAttachmentRoutingPolicyLabelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAttachmentRoutingPolicyLabelResponse,
   | AccessDeniedException
   | ConflictException
@@ -6518,7 +6866,7 @@ export const putAttachmentRoutingPolicyLabel: (
  */
 export const registerTransitGateway: (
   input: RegisterTransitGatewayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterTransitGatewayResponse,
   | AccessDeniedException
   | ConflictException
@@ -6545,7 +6893,7 @@ export const registerTransitGateway: (
  */
 export const rejectAttachment: (
   input: RejectAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RejectAttachmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -6572,7 +6920,7 @@ export const rejectAttachment: (
  */
 export const removeAttachmentRoutingPolicyLabel: (
   input: RemoveAttachmentRoutingPolicyLabelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveAttachmentRoutingPolicyLabelResponse,
   | AccessDeniedException
   | ConflictException
@@ -6601,7 +6949,7 @@ export const removeAttachmentRoutingPolicyLabel: (
  */
 export const restoreCoreNetworkPolicyVersion: (
   input: RestoreCoreNetworkPolicyVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RestoreCoreNetworkPolicyVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -6629,7 +6977,7 @@ export const restoreCoreNetworkPolicyVersion: (
  */
 export const updateConnection: (
   input: UpdateConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConnectionResponse,
   | AccessDeniedException
   | ConflictException
@@ -6656,7 +7004,7 @@ export const updateConnection: (
  */
 export const updateCoreNetwork: (
   input: UpdateCoreNetworkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCoreNetworkResponse,
   | AccessDeniedException
   | ConflictException
@@ -6684,7 +7032,7 @@ export const updateCoreNetwork: (
  */
 export const updateDevice: (
   input: UpdateDeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDeviceResponse,
   | AccessDeniedException
   | ConflictException
@@ -6711,7 +7059,7 @@ export const updateDevice: (
  */
 export const updateDirectConnectGatewayAttachment: (
   input: UpdateDirectConnectGatewayAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDirectConnectGatewayAttachmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -6739,7 +7087,7 @@ export const updateDirectConnectGatewayAttachment: (
  */
 export const updateGlobalNetwork: (
   input: UpdateGlobalNetworkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGlobalNetworkResponse,
   | AccessDeniedException
   | ConflictException
@@ -6767,7 +7115,7 @@ export const updateGlobalNetwork: (
  */
 export const updateLink: (
   input: UpdateLinkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -6797,7 +7145,7 @@ export const updateLink: (
  */
 export const updateSite: (
   input: UpdateSiteRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSiteResponse,
   | AccessDeniedException
   | ConflictException
@@ -6824,7 +7172,7 @@ export const updateSite: (
  */
 export const updateVpcAttachment: (
   input: UpdateVpcAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateVpcAttachmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -6851,7 +7199,7 @@ export const updateVpcAttachment: (
  */
 export const executeCoreNetworkChangeSet: (
   input: ExecuteCoreNetworkChangeSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ExecuteCoreNetworkChangeSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -6878,7 +7226,7 @@ export const executeCoreNetworkChangeSet: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -6907,7 +7255,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -6934,7 +7282,7 @@ export const untagResource: (
  */
 export const createCoreNetworkPrefixListAssociation: (
   input: CreateCoreNetworkPrefixListAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCoreNetworkPrefixListAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6963,7 +7311,7 @@ export const createCoreNetworkPrefixListAssociation: (
  */
 export const deleteAttachment: (
   input: DeleteAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAttachmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -6990,7 +7338,7 @@ export const deleteAttachment: (
  */
 export const deleteConnection: (
   input: DeleteConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConnectionResponse,
   | AccessDeniedException
   | ConflictException
@@ -7017,7 +7365,7 @@ export const deleteConnection: (
  */
 export const deleteCoreNetwork: (
   input: DeleteCoreNetworkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCoreNetworkResponse,
   | AccessDeniedException
   | ConflictException
@@ -7044,7 +7392,7 @@ export const deleteCoreNetwork: (
  */
 export const deleteCoreNetworkPrefixListAssociation: (
   input: DeleteCoreNetworkPrefixListAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCoreNetworkPrefixListAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -7074,7 +7422,7 @@ export const deleteCoreNetworkPrefixListAssociation: (
  */
 export const deleteGlobalNetwork: (
   input: DeleteGlobalNetworkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGlobalNetworkResponse,
   | AccessDeniedException
   | ConflictException
@@ -7105,7 +7453,7 @@ export const deleteGlobalNetwork: (
  */
 export const associateConnectPeer: (
   input: AssociateConnectPeerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateConnectPeerResponse,
   | AccessDeniedException
   | ConflictException
@@ -7144,7 +7492,7 @@ export const associateConnectPeer: (
  */
 export const associateCustomerGateway: (
   input: AssociateCustomerGatewayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateCustomerGatewayResponse,
   | AccessDeniedException
   | ConflictException
@@ -7173,7 +7521,7 @@ export const associateCustomerGateway: (
  */
 export const associateLink: (
   input: AssociateLinkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -7208,7 +7556,7 @@ export const associateLink: (
  */
 export const associateTransitGatewayConnectPeer: (
   input: AssociateTransitGatewayConnectPeerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateTransitGatewayConnectPeerResponse,
   | AccessDeniedException
   | ConflictException
@@ -7241,7 +7589,7 @@ export const associateTransitGatewayConnectPeer: (
  */
 export const createConnectAttachment: (
   input: CreateConnectAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConnectAttachmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -7269,7 +7617,7 @@ export const createConnectAttachment: (
  */
 export const createConnectPeer: (
   input: CreateConnectPeerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConnectPeerResponse,
   | AccessDeniedException
   | ConflictException
@@ -7297,7 +7645,7 @@ export const createConnectPeer: (
  */
 export const createDevice: (
   input: CreateDeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDeviceResponse,
   | AccessDeniedException
   | ConflictException
@@ -7326,7 +7674,7 @@ export const createDevice: (
  */
 export const createDirectConnectGatewayAttachment: (
   input: CreateDirectConnectGatewayAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDirectConnectGatewayAttachmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -7353,7 +7701,7 @@ export const createDirectConnectGatewayAttachment: (
  */
 export const createLink: (
   input: CreateLinkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -7382,7 +7730,7 @@ export const createLink: (
  */
 export const createSite: (
   input: CreateSiteRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSiteResponse,
   | AccessDeniedException
   | ConflictException
@@ -7411,7 +7759,7 @@ export const createSite: (
  */
 export const createSiteToSiteVpnAttachment: (
   input: CreateSiteToSiteVpnAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSiteToSiteVpnAttachmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -7438,7 +7786,7 @@ export const createSiteToSiteVpnAttachment: (
  */
 export const createTransitGatewayPeering: (
   input: CreateTransitGatewayPeeringRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTransitGatewayPeeringResponse,
   | AccessDeniedException
   | ConflictException
@@ -7465,7 +7813,7 @@ export const createTransitGatewayPeering: (
  */
 export const createTransitGatewayRouteTableAttachment: (
   input: CreateTransitGatewayRouteTableAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTransitGatewayRouteTableAttachmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -7492,7 +7840,7 @@ export const createTransitGatewayRouteTableAttachment: (
  */
 export const createVpcAttachment: (
   input: CreateVpcAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVpcAttachmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -7520,7 +7868,7 @@ export const createVpcAttachment: (
  */
 export const deleteDevice: (
   input: DeleteDeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDeviceResponse,
   | AccessDeniedException
   | ConflictException
@@ -7548,7 +7896,7 @@ export const deleteDevice: (
  */
 export const deleteLink: (
   input: DeleteLinkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -7576,7 +7924,7 @@ export const deleteLink: (
 export const getConnections: {
   (
     input: GetConnectionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetConnectionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7588,7 +7936,7 @@ export const getConnections: {
   >;
   pages: (
     input: GetConnectionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetConnectionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7600,7 +7948,7 @@ export const getConnections: {
   >;
   items: (
     input: GetConnectionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Connection,
     | AccessDeniedException
     | InternalServerException
@@ -7632,7 +7980,7 @@ export const getConnections: {
  */
 export const getConnectPeer: (
   input: GetConnectPeerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConnectPeerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7657,7 +8005,7 @@ export const getConnectPeer: (
  */
 export const getCoreNetwork: (
   input: GetCoreNetworkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCoreNetworkResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7682,7 +8030,7 @@ export const getCoreNetwork: (
  */
 export const getCoreNetworkPolicy: (
   input: GetCoreNetworkPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCoreNetworkPolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7708,7 +8056,7 @@ export const getCoreNetworkPolicy: (
 export const getDevices: {
   (
     input: GetDevicesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetDevicesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7720,7 +8068,7 @@ export const getDevices: {
   >;
   pages: (
     input: GetDevicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetDevicesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7732,7 +8080,7 @@ export const getDevices: {
   >;
   items: (
     input: GetDevicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Device,
     | AccessDeniedException
     | InternalServerException
@@ -7764,7 +8112,7 @@ export const getDevices: {
  */
 export const getDirectConnectGatewayAttachment: (
   input: GetDirectConnectGatewayAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDirectConnectGatewayAttachmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7791,7 +8139,7 @@ export const getDirectConnectGatewayAttachment: (
 export const getLinkAssociations: {
   (
     input: GetLinkAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetLinkAssociationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7803,7 +8151,7 @@ export const getLinkAssociations: {
   >;
   pages: (
     input: GetLinkAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetLinkAssociationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7815,7 +8163,7 @@ export const getLinkAssociations: {
   >;
   items: (
     input: GetLinkAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LinkAssociation,
     | AccessDeniedException
     | InternalServerException
@@ -7850,7 +8198,7 @@ export const getLinkAssociations: {
 export const getLinks: {
   (
     input: GetLinksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetLinksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7862,7 +8210,7 @@ export const getLinks: {
   >;
   pages: (
     input: GetLinksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetLinksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7874,7 +8222,7 @@ export const getLinks: {
   >;
   items: (
     input: GetLinksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Link,
     | AccessDeniedException
     | InternalServerException
@@ -7907,7 +8255,7 @@ export const getLinks: {
 export const getSites: {
   (
     input: GetSitesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetSitesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7919,7 +8267,7 @@ export const getSites: {
   >;
   pages: (
     input: GetSitesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetSitesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7931,7 +8279,7 @@ export const getSites: {
   >;
   items: (
     input: GetSitesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Site,
     | AccessDeniedException
     | InternalServerException
@@ -7963,7 +8311,7 @@ export const getSites: {
  */
 export const getSiteToSiteVpnAttachment: (
   input: GetSiteToSiteVpnAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSiteToSiteVpnAttachmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7988,7 +8336,7 @@ export const getSiteToSiteVpnAttachment: (
  */
 export const getTransitGatewayPeering: (
   input: GetTransitGatewayPeeringRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTransitGatewayPeeringResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8015,7 +8363,7 @@ export const getTransitGatewayPeering: (
 export const getTransitGatewayRegistrations: {
   (
     input: GetTransitGatewayRegistrationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetTransitGatewayRegistrationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8027,7 +8375,7 @@ export const getTransitGatewayRegistrations: {
   >;
   pages: (
     input: GetTransitGatewayRegistrationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetTransitGatewayRegistrationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8039,7 +8387,7 @@ export const getTransitGatewayRegistrations: {
   >;
   items: (
     input: GetTransitGatewayRegistrationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TransitGatewayRegistration,
     | AccessDeniedException
     | InternalServerException
@@ -8071,7 +8419,7 @@ export const getTransitGatewayRegistrations: {
  */
 export const getTransitGatewayRouteTableAttachment: (
   input: GetTransitGatewayRouteTableAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTransitGatewayRouteTableAttachmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8096,7 +8444,7 @@ export const getTransitGatewayRouteTableAttachment: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8124,7 +8472,7 @@ export const listTagsForResource: (
  */
 export const acceptAttachment: (
   input: AcceptAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AcceptAttachmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -8151,7 +8499,7 @@ export const acceptAttachment: (
  */
 export const deleteCoreNetworkPolicyVersion: (
   input: DeleteCoreNetworkPolicyVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCoreNetworkPolicyVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -8179,7 +8527,7 @@ export const deleteCoreNetworkPolicyVersion: (
  */
 export const deregisterTransitGateway: (
   input: DeregisterTransitGatewayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterTransitGatewayResponse,
   | AccessDeniedException
   | ConflictException
@@ -8207,7 +8555,7 @@ export const deregisterTransitGateway: (
 export const getNetworkTelemetry: {
   (
     input: GetNetworkTelemetryRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetNetworkTelemetryResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8219,7 +8567,7 @@ export const getNetworkTelemetry: {
   >;
   pages: (
     input: GetNetworkTelemetryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetNetworkTelemetryResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8231,7 +8579,7 @@ export const getNetworkTelemetry: {
   >;
   items: (
     input: GetNetworkTelemetryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NetworkTelemetry,
     | AccessDeniedException
     | InternalServerException
@@ -8264,7 +8612,7 @@ export const getNetworkTelemetry: {
 export const listCoreNetworkRoutingInformation: {
   (
     input: ListCoreNetworkRoutingInformationRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCoreNetworkRoutingInformationResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8276,7 +8624,7 @@ export const listCoreNetworkRoutingInformation: {
   >;
   pages: (
     input: ListCoreNetworkRoutingInformationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCoreNetworkRoutingInformationResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8288,7 +8636,7 @@ export const listCoreNetworkRoutingInformation: {
   >;
   items: (
     input: ListCoreNetworkRoutingInformationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CoreNetworkRoutingInformation,
     | AccessDeniedException
     | InternalServerException
@@ -8320,7 +8668,7 @@ export const listCoreNetworkRoutingInformation: {
  */
 export const putCoreNetworkPolicy: (
   input: PutCoreNetworkPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutCoreNetworkPolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -8349,7 +8697,7 @@ export const putCoreNetworkPolicy: (
  */
 export const deleteConnectPeer: (
   input: DeleteConnectPeerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConnectPeerResponse,
   | AccessDeniedException
   | ConflictException
@@ -8376,7 +8724,7 @@ export const deleteConnectPeer: (
  */
 export const deletePeering: (
   input: DeletePeeringRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePeeringResponse,
   | AccessDeniedException
   | ConflictException
@@ -8404,7 +8752,7 @@ export const deletePeering: (
 export const getCoreNetworkChangeSet: {
   (
     input: GetCoreNetworkChangeSetRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetCoreNetworkChangeSetResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8416,7 +8764,7 @@ export const getCoreNetworkChangeSet: {
   >;
   pages: (
     input: GetCoreNetworkChangeSetRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetCoreNetworkChangeSetResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8428,7 +8776,7 @@ export const getCoreNetworkChangeSet: {
   >;
   items: (
     input: GetCoreNetworkChangeSetRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CoreNetworkChange,
     | AccessDeniedException
     | InternalServerException

@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -123,11 +123,8 @@ export type EmailAddress = string;
 export type PhoneNumber = string;
 export type ContactNotes = string;
 export type TagValue = string;
-export type Long = number;
 export type DurationInSeconds = number;
 export type HealthCheckId = string;
-export type Double = number;
-export type Integer = number;
 export type LimitType = string;
 export type LimitNumber = number;
 
@@ -322,14 +319,41 @@ export const GetSubscriptionStateRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetSubscriptionStateRequest",
 }) as any as S.Schema<GetSubscriptionStateRequest>;
+export type ProtectionGroupAggregation = "SUM" | "MEAN" | "MAX";
+export const ProtectionGroupAggregation = S.Literal("SUM", "MEAN", "MAX");
+export type ProtectionGroupPattern = "ALL" | "ARBITRARY" | "BY_RESOURCE_TYPE";
+export const ProtectionGroupPattern = S.Literal(
+  "ALL",
+  "ARBITRARY",
+  "BY_RESOURCE_TYPE",
+);
+export type ProtectedResourceType =
+  | "CLOUDFRONT_DISTRIBUTION"
+  | "ROUTE_53_HOSTED_ZONE"
+  | "ELASTIC_IP_ALLOCATION"
+  | "CLASSIC_LOAD_BALANCER"
+  | "APPLICATION_LOAD_BALANCER"
+  | "GLOBAL_ACCELERATOR";
+export const ProtectedResourceType = S.Literal(
+  "CLOUDFRONT_DISTRIBUTION",
+  "ROUTE_53_HOSTED_ZONE",
+  "ELASTIC_IP_ALLOCATION",
+  "CLASSIC_LOAD_BALANCER",
+  "APPLICATION_LOAD_BALANCER",
+  "GLOBAL_ACCELERATOR",
+);
 export type ProtectionGroupMembers = string[];
 export const ProtectionGroupMembers = S.Array(S.String);
 export type LogBucketList = string[];
 export const LogBucketList = S.Array(S.String);
+export type SubscriptionState = "ACTIVE" | "INACTIVE";
+export const SubscriptionState = S.Literal("ACTIVE", "INACTIVE");
 export type ResourceArnFilterList = string[];
 export const ResourceArnFilterList = S.Array(S.String);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type AutoRenew = "ENABLED" | "DISABLED";
+export const AutoRenew = S.Literal("ENABLED", "DISABLED");
 export interface AssociateDRTLogBucketRequest {
   LogBucket: string;
 }
@@ -414,18 +438,18 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface CreateProtectionGroupRequest {
   ProtectionGroupId: string;
-  Aggregation: string;
-  Pattern: string;
-  ResourceType?: string;
-  Members?: ProtectionGroupMembers;
-  Tags?: TagList;
+  Aggregation: ProtectionGroupAggregation;
+  Pattern: ProtectionGroupPattern;
+  ResourceType?: ProtectedResourceType;
+  Members?: string[];
+  Tags?: Tag[];
 }
 export const CreateProtectionGroupRequest = S.suspend(() =>
   S.Struct({
     ProtectionGroupId: S.String,
-    Aggregation: S.String,
-    Pattern: S.String,
-    ResourceType: S.optional(S.String),
+    Aggregation: ProtectionGroupAggregation,
+    Pattern: ProtectionGroupPattern,
+    ResourceType: S.optional(ProtectedResourceType),
     Members: S.optional(ProtectionGroupMembers),
     Tags: S.optional(TagList),
   }).pipe(
@@ -516,7 +540,7 @@ export const DescribeAttackRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeAttackRequest>;
 export interface DescribeDRTAccessResponse {
   RoleArn?: string;
-  LogBucketList?: LogBucketList;
+  LogBucketList?: string[];
 }
 export const DescribeDRTAccessResponse = S.suspend(() =>
   S.Struct({
@@ -543,7 +567,7 @@ export const EmergencyContact = S.suspend(() =>
 export type EmergencyContactList = EmergencyContact[];
 export const EmergencyContactList = S.Array(EmergencyContact);
 export interface DescribeEmergencyContactSettingsResponse {
-  EmergencyContactList?: EmergencyContactList;
+  EmergencyContactList?: EmergencyContact[];
 }
 export const DescribeEmergencyContactSettingsResponse = S.suspend(() =>
   S.Struct({ EmergencyContactList: S.optional(EmergencyContactList) }).pipe(ns),
@@ -664,10 +688,10 @@ export const DisassociateHealthCheckResponse = S.suspend(() =>
   identifier: "DisassociateHealthCheckResponse",
 }) as any as S.Schema<DisassociateHealthCheckResponse>;
 export interface GetSubscriptionStateResponse {
-  SubscriptionState: string;
+  SubscriptionState: SubscriptionState;
 }
 export const GetSubscriptionStateResponse = S.suspend(() =>
-  S.Struct({ SubscriptionState: S.String }).pipe(ns),
+  S.Struct({ SubscriptionState: SubscriptionState }).pipe(ns),
 ).annotations({
   identifier: "GetSubscriptionStateResponse",
 }) as any as S.Schema<GetSubscriptionStateResponse>;
@@ -682,7 +706,7 @@ export const TimeRange = S.suspend(() =>
   }),
 ).annotations({ identifier: "TimeRange" }) as any as S.Schema<TimeRange>;
 export interface ListAttacksRequest {
-  ResourceArns?: ResourceArnFilterList;
+  ResourceArns?: string[];
   StartTime?: TimeRange;
   EndTime?: TimeRange;
   NextToken?: string;
@@ -753,7 +777,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface TagResourceRequest {
   ResourceARN: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
@@ -778,7 +802,7 @@ export const TagResourceResponse = S.suspend(() =>
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceARN: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
@@ -844,7 +868,7 @@ export const UpdateApplicationLayerAutomaticResponseResponse = S.suspend(() =>
   identifier: "UpdateApplicationLayerAutomaticResponseResponse",
 }) as any as S.Schema<UpdateApplicationLayerAutomaticResponseResponse>;
 export interface UpdateEmergencyContactSettingsRequest {
-  EmergencyContactList?: EmergencyContactList;
+  EmergencyContactList?: EmergencyContact[];
 }
 export const UpdateEmergencyContactSettingsRequest = S.suspend(() =>
   S.Struct({ EmergencyContactList: S.optional(EmergencyContactList) }).pipe(
@@ -869,17 +893,17 @@ export const UpdateEmergencyContactSettingsResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateEmergencyContactSettingsResponse>;
 export interface UpdateProtectionGroupRequest {
   ProtectionGroupId: string;
-  Aggregation: string;
-  Pattern: string;
-  ResourceType?: string;
-  Members?: ProtectionGroupMembers;
+  Aggregation: ProtectionGroupAggregation;
+  Pattern: ProtectionGroupPattern;
+  ResourceType?: ProtectedResourceType;
+  Members?: string[];
 }
 export const UpdateProtectionGroupRequest = S.suspend(() =>
   S.Struct({
     ProtectionGroupId: S.String,
-    Aggregation: S.String,
-    Pattern: S.String,
-    ResourceType: S.optional(S.String),
+    Aggregation: ProtectionGroupAggregation,
+    Pattern: ProtectionGroupPattern,
+    ResourceType: S.optional(ProtectedResourceType),
     Members: S.optional(ProtectionGroupMembers),
   }).pipe(
     T.all(
@@ -902,10 +926,10 @@ export const UpdateProtectionGroupResponse = S.suspend(() =>
   identifier: "UpdateProtectionGroupResponse",
 }) as any as S.Schema<UpdateProtectionGroupResponse>;
 export interface UpdateSubscriptionRequest {
-  AutoRenew?: string;
+  AutoRenew?: AutoRenew;
 }
 export const UpdateSubscriptionRequest = S.suspend(() =>
-  S.Struct({ AutoRenew: S.optional(S.String) }).pipe(
+  S.Struct({ AutoRenew: S.optional(AutoRenew) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -925,23 +949,36 @@ export const UpdateSubscriptionResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateSubscriptionResponse",
 }) as any as S.Schema<UpdateSubscriptionResponse>;
+export type ProactiveEngagementStatus = "ENABLED" | "DISABLED" | "PENDING";
+export const ProactiveEngagementStatus = S.Literal(
+  "ENABLED",
+  "DISABLED",
+  "PENDING",
+);
 export type ProtectionGroupIdFilters = string[];
 export const ProtectionGroupIdFilters = S.Array(S.String);
-export type ProtectionGroupPatternFilters = string[];
-export const ProtectionGroupPatternFilters = S.Array(S.String);
-export type ProtectedResourceTypeFilters = string[];
-export const ProtectedResourceTypeFilters = S.Array(S.String);
-export type ProtectionGroupAggregationFilters = string[];
-export const ProtectionGroupAggregationFilters = S.Array(S.String);
+export type ProtectionGroupPatternFilters = ProtectionGroupPattern[];
+export const ProtectionGroupPatternFilters = S.Array(ProtectionGroupPattern);
+export type ProtectedResourceTypeFilters = ProtectedResourceType[];
+export const ProtectedResourceTypeFilters = S.Array(ProtectedResourceType);
+export type ProtectionGroupAggregationFilters = ProtectionGroupAggregation[];
+export const ProtectionGroupAggregationFilters = S.Array(
+  ProtectionGroupAggregation,
+);
 export type ResourceArnFilters = string[];
 export const ResourceArnFilters = S.Array(S.String);
 export type ProtectionNameFilters = string[];
 export const ProtectionNameFilters = S.Array(S.String);
+export type ValidationExceptionReason = "FIELD_VALIDATION_FAILED" | "OTHER";
+export const ValidationExceptionReason = S.Literal(
+  "FIELD_VALIDATION_FAILED",
+  "OTHER",
+);
 export interface InclusionProtectionGroupFilters {
-  ProtectionGroupIds?: ProtectionGroupIdFilters;
-  Patterns?: ProtectionGroupPatternFilters;
-  ResourceTypes?: ProtectedResourceTypeFilters;
-  Aggregations?: ProtectionGroupAggregationFilters;
+  ProtectionGroupIds?: string[];
+  Patterns?: ProtectionGroupPattern[];
+  ResourceTypes?: ProtectedResourceType[];
+  Aggregations?: ProtectionGroupAggregation[];
 }
 export const InclusionProtectionGroupFilters = S.suspend(() =>
   S.Struct({
@@ -954,9 +991,9 @@ export const InclusionProtectionGroupFilters = S.suspend(() =>
   identifier: "InclusionProtectionGroupFilters",
 }) as any as S.Schema<InclusionProtectionGroupFilters>;
 export interface InclusionProtectionFilters {
-  ResourceArns?: ResourceArnFilters;
-  ProtectionNames?: ProtectionNameFilters;
-  ResourceTypes?: ProtectedResourceTypeFilters;
+  ResourceArns?: string[];
+  ProtectionNames?: string[];
+  ResourceTypes?: ProtectedResourceType[];
 }
 export const InclusionProtectionFilters = S.suspend(() =>
   S.Struct({
@@ -970,7 +1007,7 @@ export const InclusionProtectionFilters = S.suspend(() =>
 export type ResourceArnList = string[];
 export const ResourceArnList = S.Array(S.String);
 export interface AssociateProactiveEngagementDetailsRequest {
-  EmergencyContactList: EmergencyContactList;
+  EmergencyContactList: EmergencyContact[];
 }
 export const AssociateProactiveEngagementDetailsRequest = S.suspend(() =>
   S.Struct({ EmergencyContactList: EmergencyContactList }).pipe(
@@ -996,7 +1033,7 @@ export const AssociateProactiveEngagementDetailsResponse = S.suspend(() =>
 export interface CreateProtectionRequest {
   Name: string;
   ResourceArn: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateProtectionRequest = S.suspend(() =>
   S.Struct({
@@ -1091,7 +1128,7 @@ export const ListProtectionsRequest = S.suspend(() =>
   identifier: "ListProtectionsRequest",
 }) as any as S.Schema<ListProtectionsRequest>;
 export interface ListResourcesInProtectionGroupResponse {
-  ResourceArns: ResourceArnList;
+  ResourceArns: string[];
   NextToken?: string;
 }
 export const ListResourcesInProtectionGroupResponse = S.suspend(() =>
@@ -1103,7 +1140,7 @@ export const ListResourcesInProtectionGroupResponse = S.suspend(() =>
   identifier: "ListResourcesInProtectionGroupResponse",
 }) as any as S.Schema<ListResourcesInProtectionGroupResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
@@ -1123,18 +1160,18 @@ export type Limits = Limit[];
 export const Limits = S.Array(Limit);
 export interface ProtectionGroup {
   ProtectionGroupId: string;
-  Aggregation: string;
-  Pattern: string;
-  ResourceType?: string;
-  Members: ProtectionGroupMembers;
+  Aggregation: ProtectionGroupAggregation;
+  Pattern: ProtectionGroupPattern;
+  ResourceType?: ProtectedResourceType;
+  Members: string[];
   ProtectionGroupArn?: string;
 }
 export const ProtectionGroup = S.suspend(() =>
   S.Struct({
     ProtectionGroupId: S.String,
-    Aggregation: S.String,
-    Pattern: S.String,
-    ResourceType: S.optional(S.String),
+    Aggregation: ProtectionGroupAggregation,
+    Pattern: ProtectionGroupPattern,
+    ResourceType: S.optional(ProtectedResourceType),
     Members: ProtectionGroupMembers,
     ProtectionGroupArn: S.optional(S.String),
   }),
@@ -1154,12 +1191,20 @@ export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export type ProtectionGroups = ProtectionGroup[];
 export const ProtectionGroups = S.Array(ProtectionGroup);
+export type ApplicationLayerAutomaticResponseStatus = "ENABLED" | "DISABLED";
+export const ApplicationLayerAutomaticResponseStatus = S.Literal(
+  "ENABLED",
+  "DISABLED",
+);
 export interface ApplicationLayerAutomaticResponseConfiguration {
-  Status: string;
+  Status: ApplicationLayerAutomaticResponseStatus;
   Action: ResponseAction;
 }
 export const ApplicationLayerAutomaticResponseConfiguration = S.suspend(() =>
-  S.Struct({ Status: S.String, Action: ResponseAction }),
+  S.Struct({
+    Status: ApplicationLayerAutomaticResponseStatus,
+    Action: ResponseAction,
+  }),
 ).annotations({
   identifier: "ApplicationLayerAutomaticResponseConfiguration",
 }) as any as S.Schema<ApplicationLayerAutomaticResponseConfiguration>;
@@ -1167,7 +1212,7 @@ export interface Protection {
   Id?: string;
   Name?: string;
   ResourceArn?: string;
-  HealthCheckIds?: HealthCheckIds;
+  HealthCheckIds?: string[];
   ProtectionArn?: string;
   ApplicationLayerAutomaticResponseConfiguration?: ApplicationLayerAutomaticResponseConfiguration;
 }
@@ -1185,6 +1230,31 @@ export const Protection = S.suspend(() =>
 ).annotations({ identifier: "Protection" }) as any as S.Schema<Protection>;
 export type Protections = Protection[];
 export const Protections = S.Array(Protection);
+export type SubResourceType = "IP" | "URL";
+export const SubResourceType = S.Literal("IP", "URL");
+export type AttackLayer = "NETWORK" | "APPLICATION";
+export const AttackLayer = S.Literal("NETWORK", "APPLICATION");
+export type AttackPropertyIdentifier =
+  | "DESTINATION_URL"
+  | "REFERRER"
+  | "SOURCE_ASN"
+  | "SOURCE_COUNTRY"
+  | "SOURCE_IP_ADDRESS"
+  | "SOURCE_USER_AGENT"
+  | "WORDPRESS_PINGBACK_REFLECTOR"
+  | "WORDPRESS_PINGBACK_SOURCE";
+export const AttackPropertyIdentifier = S.Literal(
+  "DESTINATION_URL",
+  "REFERRER",
+  "SOURCE_ASN",
+  "SOURCE_COUNTRY",
+  "SOURCE_IP_ADDRESS",
+  "SOURCE_USER_AGENT",
+  "WORDPRESS_PINGBACK_REFLECTOR",
+  "WORDPRESS_PINGBACK_SOURCE",
+);
+export type Unit = "BITS" | "BYTES" | "PACKETS" | "REQUESTS";
+export const Unit = S.Literal("BITS", "BYTES", "PACKETS", "REQUESTS");
 export interface AttackVolumeStatistics {
   Max: number;
 }
@@ -1194,7 +1264,7 @@ export const AttackVolumeStatistics = S.suspend(() =>
   identifier: "AttackVolumeStatistics",
 }) as any as S.Schema<AttackVolumeStatistics>;
 export interface ProtectionLimits {
-  ProtectedResourceTypeLimits: Limits;
+  ProtectedResourceTypeLimits: Limit[];
 }
 export const ProtectionLimits = S.suspend(() =>
   S.Struct({ ProtectedResourceTypeLimits: Limits }),
@@ -1218,7 +1288,7 @@ export const DescribeProtectionGroupResponse = S.suspend(() =>
   identifier: "DescribeProtectionGroupResponse",
 }) as any as S.Schema<DescribeProtectionGroupResponse>;
 export interface ListProtectionGroupsResponse {
-  ProtectionGroups: ProtectionGroups;
+  ProtectionGroups: ProtectionGroup[];
   NextToken?: string;
 }
 export const ListProtectionGroupsResponse = S.suspend(() =>
@@ -1230,7 +1300,7 @@ export const ListProtectionGroupsResponse = S.suspend(() =>
   identifier: "ListProtectionGroupsResponse",
 }) as any as S.Schema<ListProtectionGroupsResponse>;
 export interface ListProtectionsResponse {
-  Protections?: Protections;
+  Protections?: Protection[];
   NextToken?: string;
 }
 export const ListProtectionsResponse = S.suspend(() =>
@@ -1309,7 +1379,7 @@ export interface AttackSummary {
   ResourceArn?: string;
   StartTime?: Date;
   EndTime?: Date;
-  AttackVectors?: AttackVectorDescriptionList;
+  AttackVectors?: AttackVectorDescription[];
 }
 export const AttackSummary = S.suspend(() =>
   S.Struct({
@@ -1326,7 +1396,7 @@ export type AttackSummaries = AttackSummary[];
 export const AttackSummaries = S.Array(AttackSummary);
 export interface SummarizedAttackVector {
   VectorType: string;
-  VectorCounters?: SummarizedCounterList;
+  VectorCounters?: SummarizedCounter[];
 }
 export const SummarizedAttackVector = S.suspend(() =>
   S.Struct({
@@ -1349,7 +1419,7 @@ export type TopContributors = Contributor[];
 export const TopContributors = S.Array(Contributor);
 export interface DescribeAttackStatisticsResponse {
   TimeRange: TimeRange;
-  DataItems: AttackStatisticsDataList;
+  DataItems: AttackStatisticsDataItem[];
 }
 export const DescribeAttackStatisticsResponse = S.suspend(() =>
   S.Struct({ TimeRange: TimeRange, DataItems: AttackStatisticsDataList }).pipe(
@@ -1375,7 +1445,7 @@ export const ProtectionGroupArbitraryPatternLimits = S.suspend(() =>
   identifier: "ProtectionGroupArbitraryPatternLimits",
 }) as any as S.Schema<ProtectionGroupArbitraryPatternLimits>;
 export interface ListAttacksResponse {
-  AttackSummaries?: AttackSummaries;
+  AttackSummaries?: AttackSummary[];
   NextToken?: string;
 }
 export const ListAttacksResponse = S.suspend(() =>
@@ -1387,14 +1457,14 @@ export const ListAttacksResponse = S.suspend(() =>
   identifier: "ListAttacksResponse",
 }) as any as S.Schema<ListAttacksResponse>;
 export interface SubResourceSummary {
-  Type?: string;
+  Type?: SubResourceType;
   Id?: string;
-  AttackVectors?: SummarizedAttackVectorList;
-  Counters?: SummarizedCounterList;
+  AttackVectors?: SummarizedAttackVector[];
+  Counters?: SummarizedCounter[];
 }
 export const SubResourceSummary = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String),
+    Type: S.optional(SubResourceType),
     Id: S.optional(S.String),
     AttackVectors: S.optional(SummarizedAttackVectorList),
     Counters: S.optional(SummarizedCounterList),
@@ -1405,18 +1475,18 @@ export const SubResourceSummary = S.suspend(() =>
 export type SubResourceSummaryList = SubResourceSummary[];
 export const SubResourceSummaryList = S.Array(SubResourceSummary);
 export interface AttackProperty {
-  AttackLayer?: string;
-  AttackPropertyIdentifier?: string;
-  TopContributors?: TopContributors;
-  Unit?: string;
+  AttackLayer?: AttackLayer;
+  AttackPropertyIdentifier?: AttackPropertyIdentifier;
+  TopContributors?: Contributor[];
+  Unit?: Unit;
   Total?: number;
 }
 export const AttackProperty = S.suspend(() =>
   S.Struct({
-    AttackLayer: S.optional(S.String),
-    AttackPropertyIdentifier: S.optional(S.String),
+    AttackLayer: S.optional(AttackLayer),
+    AttackPropertyIdentifier: S.optional(AttackPropertyIdentifier),
     TopContributors: S.optional(TopContributors),
-    Unit: S.optional(S.String),
+    Unit: S.optional(Unit),
     Total: S.optional(S.Number),
   }),
 ).annotations({
@@ -1435,12 +1505,12 @@ export const ProtectionGroupPatternTypeLimits = S.suspend(() =>
 export interface AttackDetail {
   AttackId?: string;
   ResourceArn?: string;
-  SubResources?: SubResourceSummaryList;
+  SubResources?: SubResourceSummary[];
   StartTime?: Date;
   EndTime?: Date;
-  AttackCounters?: SummarizedCounterList;
-  AttackProperties?: AttackProperties;
-  Mitigations?: MitigationList;
+  AttackCounters?: SummarizedCounter[];
+  AttackProperties?: AttackProperty[];
+  Mitigations?: Mitigation[];
 }
 export const AttackDetail = S.suspend(() =>
   S.Struct({
@@ -1490,9 +1560,9 @@ export interface Subscription {
   StartTime?: Date;
   EndTime?: Date;
   TimeCommitmentInSeconds?: number;
-  AutoRenew?: string;
-  Limits?: Limits;
-  ProactiveEngagementStatus?: string;
+  AutoRenew?: AutoRenew;
+  Limits?: Limit[];
+  ProactiveEngagementStatus?: ProactiveEngagementStatus;
   SubscriptionLimits: SubscriptionLimits;
   SubscriptionArn?: string;
 }
@@ -1501,9 +1571,9 @@ export const Subscription = S.suspend(() =>
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     TimeCommitmentInSeconds: S.optional(S.Number),
-    AutoRenew: S.optional(S.String),
+    AutoRenew: S.optional(AutoRenew),
     Limits: S.optional(Limits),
-    ProactiveEngagementStatus: S.optional(S.String),
+    ProactiveEngagementStatus: S.optional(ProactiveEngagementStatus),
     SubscriptionLimits: SubscriptionLimits,
     SubscriptionArn: S.optional(S.String),
   }),
@@ -1550,7 +1620,7 @@ export class InvalidParameterException extends S.TaggedError<InvalidParameterExc
   "InvalidParameterException",
   {
     message: S.optional(S.String),
-    reason: S.optional(S.String),
+    reason: S.optional(ValidationExceptionReason),
     fields: S.optional(ValidationExceptionFieldList),
   },
 ) {}
@@ -1585,7 +1655,7 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
  */
 export const getSubscriptionState: (
   input: GetSubscriptionStateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSubscriptionStateResponse,
   InternalErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1604,7 +1674,7 @@ export const getSubscriptionState: (
  */
 export const createSubscription: (
   input: CreateSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSubscriptionResponse,
   InternalErrorException | ResourceAlreadyExistsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1618,7 +1688,7 @@ export const createSubscription: (
  */
 export const describeDRTAccess: (
   input: DescribeDRTAccessRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDRTAccessResponse,
   InternalErrorException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1632,7 +1702,7 @@ export const describeDRTAccess: (
  */
 export const deleteSubscription: (
   input: DeleteSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSubscriptionResponse,
   | InternalErrorException
   | LockedSubscriptionException
@@ -1653,7 +1723,7 @@ export const deleteSubscription: (
  */
 export const deleteProtectionGroup: (
   input: DeleteProtectionGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProtectionGroupResponse,
   | InternalErrorException
   | OptimisticLockException
@@ -1674,7 +1744,7 @@ export const deleteProtectionGroup: (
  */
 export const describeEmergencyContactSettings: (
   input: DescribeEmergencyContactSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEmergencyContactSettingsResponse,
   InternalErrorException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1688,7 +1758,7 @@ export const describeEmergencyContactSettings: (
  */
 export const deleteProtection: (
   input: DeleteProtectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProtectionResponse,
   | InternalErrorException
   | OptimisticLockException
@@ -1709,7 +1779,7 @@ export const deleteProtection: (
  */
 export const disassociateDRTRole: (
   input: DisassociateDRTRoleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateDRTRoleResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -1732,7 +1802,7 @@ export const disassociateDRTRole: (
  */
 export const describeProtectionGroup: (
   input: DescribeProtectionGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeProtectionGroupResponse,
   InternalErrorException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1747,7 +1817,7 @@ export const describeProtectionGroup: (
 export const listResourcesInProtectionGroup: {
   (
     input: ListResourcesInProtectionGroupRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResourcesInProtectionGroupResponse,
     | InternalErrorException
     | InvalidPaginationTokenException
@@ -1757,7 +1827,7 @@ export const listResourcesInProtectionGroup: {
   >;
   pages: (
     input: ListResourcesInProtectionGroupRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResourcesInProtectionGroupResponse,
     | InternalErrorException
     | InvalidPaginationTokenException
@@ -1767,7 +1837,7 @@ export const listResourcesInProtectionGroup: {
   >;
   items: (
     input: ListResourcesInProtectionGroupRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalErrorException
     | InvalidPaginationTokenException
@@ -1794,7 +1864,7 @@ export const listResourcesInProtectionGroup: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalErrorException
   | InvalidResourceException
@@ -1815,7 +1885,7 @@ export const listTagsForResource: (
  */
 export const disassociateDRTLogBucket: (
   input: DisassociateDRTLogBucketRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateDRTLogBucketResponse,
   | AccessDeniedForDependencyException
   | InternalErrorException
@@ -1842,7 +1912,7 @@ export const disassociateDRTLogBucket: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1865,7 +1935,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1888,7 +1958,7 @@ export const untagResource: (
  */
 export const updateEmergencyContactSettings: (
   input: UpdateEmergencyContactSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEmergencyContactSettingsResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1911,7 +1981,7 @@ export const updateEmergencyContactSettings: (
  */
 export const updateProtectionGroup: (
   input: UpdateProtectionGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProtectionGroupResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1937,7 +2007,7 @@ export const updateProtectionGroup: (
  */
 export const updateSubscription: (
   input: UpdateSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSubscriptionResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1963,7 +2033,7 @@ export const updateSubscription: (
  */
 export const disableApplicationLayerAutomaticResponse: (
   input: DisableApplicationLayerAutomaticResponseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisableApplicationLayerAutomaticResponseResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -1999,7 +2069,7 @@ export const disableApplicationLayerAutomaticResponse: (
  */
 export const associateDRTRole: (
   input: AssociateDRTRoleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateDRTRoleResponse,
   | AccessDeniedForDependencyException
   | InternalErrorException
@@ -2026,7 +2096,7 @@ export const associateDRTRole: (
  */
 export const updateApplicationLayerAutomaticResponse: (
   input: UpdateApplicationLayerAutomaticResponseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateApplicationLayerAutomaticResponseResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -2051,7 +2121,7 @@ export const updateApplicationLayerAutomaticResponse: (
  */
 export const disableProactiveEngagement: (
   input: DisableProactiveEngagementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisableProactiveEngagementResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -2076,7 +2146,7 @@ export const disableProactiveEngagement: (
  */
 export const enableProactiveEngagement: (
   input: EnableProactiveEngagementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableProactiveEngagementResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -2107,7 +2177,7 @@ export const enableProactiveEngagement: (
  */
 export const associateProactiveEngagementDetails: (
   input: AssociateProactiveEngagementDetailsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateProactiveEngagementDetailsResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -2134,7 +2204,7 @@ export const associateProactiveEngagementDetails: (
 export const listProtectionGroups: {
   (
     input: ListProtectionGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProtectionGroupsResponse,
     | InternalErrorException
     | InvalidPaginationTokenException
@@ -2144,7 +2214,7 @@ export const listProtectionGroups: {
   >;
   pages: (
     input: ListProtectionGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProtectionGroupsResponse,
     | InternalErrorException
     | InvalidPaginationTokenException
@@ -2154,7 +2224,7 @@ export const listProtectionGroups: {
   >;
   items: (
     input: ListProtectionGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalErrorException
     | InvalidPaginationTokenException
@@ -2183,7 +2253,7 @@ export const listProtectionGroups: {
 export const listProtections: {
   (
     input: ListProtectionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProtectionsResponse,
     | InternalErrorException
     | InvalidPaginationTokenException
@@ -2193,7 +2263,7 @@ export const listProtections: {
   >;
   pages: (
     input: ListProtectionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProtectionsResponse,
     | InternalErrorException
     | InvalidPaginationTokenException
@@ -2203,7 +2273,7 @@ export const listProtections: {
   >;
   items: (
     input: ListProtectionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Protection,
     | InternalErrorException
     | InvalidPaginationTokenException
@@ -2233,7 +2303,7 @@ export const listProtections: {
  */
 export const disassociateHealthCheck: (
   input: DisassociateHealthCheckRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateHealthCheckResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -2262,7 +2332,7 @@ export const disassociateHealthCheck: (
  */
 export const describeAttackStatistics: (
   input: DescribeAttackStatisticsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAttackStatisticsResponse,
   InternalErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2276,7 +2346,7 @@ export const describeAttackStatistics: (
  */
 export const describeProtection: (
   input: DescribeProtectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeProtectionResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -2299,7 +2369,7 @@ export const describeProtection: (
 export const listAttacks: {
   (
     input: ListAttacksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAttacksResponse,
     | InternalErrorException
     | InvalidOperationException
@@ -2309,7 +2379,7 @@ export const listAttacks: {
   >;
   pages: (
     input: ListAttacksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAttacksResponse,
     | InternalErrorException
     | InvalidOperationException
@@ -2319,7 +2389,7 @@ export const listAttacks: {
   >;
   items: (
     input: ListAttacksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AttackSummary,
     | InternalErrorException
     | InvalidOperationException
@@ -2349,7 +2419,7 @@ export const listAttacks: {
  */
 export const associateHealthCheck: (
   input: AssociateHealthCheckRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateHealthCheckResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -2376,7 +2446,7 @@ export const associateHealthCheck: (
  */
 export const createProtectionGroup: (
   input: CreateProtectionGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProtectionGroupResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -2417,7 +2487,7 @@ export const createProtectionGroup: (
  */
 export const enableApplicationLayerAutomaticResponse: (
   input: EnableApplicationLayerAutomaticResponseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableApplicationLayerAutomaticResponseResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -2446,7 +2516,7 @@ export const enableApplicationLayerAutomaticResponse: (
  */
 export const associateDRTLogBucket: (
   input: AssociateDRTLogBucketRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateDRTLogBucketResponse,
   | AccessDeniedForDependencyException
   | InternalErrorException
@@ -2483,7 +2553,7 @@ export const associateDRTLogBucket: (
  */
 export const createProtection: (
   input: CreateProtectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProtectionResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -2514,7 +2584,7 @@ export const createProtection: (
  */
 export const describeAttack: (
   input: DescribeAttackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAttackResponse,
   AccessDeniedException | InternalErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2528,7 +2598,7 @@ export const describeAttack: (
  */
 export const describeSubscription: (
   input: DescribeSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSubscriptionResponse,
   InternalErrorException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

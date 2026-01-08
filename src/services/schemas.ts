@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -95,6 +95,8 @@ export type __stringMin0Max36 = string;
 export type __long = number;
 
 //# Schemas
+export type Type = "OpenApi3" | "JSONSchemaDraft4";
+export const Type = S.Literal("OpenApi3", "JSONSchemaDraft4");
 export type __listOfGetDiscoveredSchemaVersionItemInput = string[];
 export const __listOfGetDiscoveredSchemaVersionItemInput = S.Array(S.String);
 export type __listOf__string = string[];
@@ -104,7 +106,7 @@ export const Tags = S.Record({ key: S.String, value: S.String });
 export interface CreateRegistryRequest {
   Description?: string;
   RegistryName: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const CreateRegistryRequest = S.suspend(() =>
   S.Struct({
@@ -125,21 +127,21 @@ export const CreateRegistryRequest = S.suspend(() =>
   identifier: "CreateRegistryRequest",
 }) as any as S.Schema<CreateRegistryRequest>;
 export interface CreateSchemaRequest {
-  Content: string;
+  Content?: string;
   Description?: string;
   RegistryName: string;
   SchemaName: string;
-  Tags?: Tags;
-  Type: string;
+  Tags?: { [key: string]: string };
+  Type?: Type;
 }
 export const CreateSchemaRequest = S.suspend(() =>
   S.Struct({
-    Content: S.String,
+    Content: S.optional(S.String),
     Description: S.optional(S.String),
     RegistryName: S.String.pipe(T.HttpLabel("RegistryName")),
     SchemaName: S.String.pipe(T.HttpLabel("SchemaName")),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    Type: S.String,
+    Type: S.optional(Type),
   }).pipe(
     T.all(
       T.Http({
@@ -377,14 +379,14 @@ export interface ExportSchemaRequest {
   RegistryName: string;
   SchemaName: string;
   SchemaVersion?: string;
-  Type: string;
+  Type?: string;
 }
 export const ExportSchemaRequest = S.suspend(() =>
   S.Struct({
     RegistryName: S.String.pipe(T.HttpLabel("RegistryName")),
     SchemaName: S.String.pipe(T.HttpLabel("SchemaName")),
     SchemaVersion: S.optional(S.String).pipe(T.HttpQuery("schemaVersion")),
-    Type: S.String.pipe(T.HttpQuery("type")),
+    Type: S.optional(S.String).pipe(T.HttpQuery("type")),
   }).pipe(
     T.all(
       T.Http({
@@ -430,13 +432,13 @@ export const GetCodeBindingSourceRequest = S.suspend(() =>
   identifier: "GetCodeBindingSourceRequest",
 }) as any as S.Schema<GetCodeBindingSourceRequest>;
 export interface GetDiscoveredSchemaRequest {
-  Events: __listOfGetDiscoveredSchemaVersionItemInput;
-  Type: string;
+  Events?: string[];
+  Type?: Type;
 }
 export const GetDiscoveredSchemaRequest = S.suspend(() =>
   S.Struct({
-    Events: __listOfGetDiscoveredSchemaVersionItemInput,
-    Type: S.String,
+    Events: S.optional(__listOfGetDiscoveredSchemaVersionItemInput),
+    Type: S.optional(Type),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/discover" }),
@@ -627,13 +629,13 @@ export const PutCodeBindingRequest = S.suspend(() =>
   identifier: "PutCodeBindingRequest",
 }) as any as S.Schema<PutCodeBindingRequest>;
 export interface PutResourcePolicyRequest {
-  Policy: string;
+  Policy?: string;
   RegistryName?: string;
   RevisionId?: string;
 }
 export const PutResourcePolicyRequest = S.suspend(() =>
   S.Struct({
-    Policy: S.String,
+    Policy: S.optional(S.String),
     RegistryName: S.optional(S.String).pipe(T.HttpQuery("registryName")),
     RevisionId: S.optional(S.String),
   }).pipe(
@@ -650,14 +652,14 @@ export const PutResourcePolicyRequest = S.suspend(() =>
   identifier: "PutResourcePolicyRequest",
 }) as any as S.Schema<PutResourcePolicyRequest>;
 export interface SearchSchemasRequest {
-  Keywords: string;
+  Keywords?: string;
   Limit?: number;
   NextToken?: string;
   RegistryName: string;
 }
 export const SearchSchemasRequest = S.suspend(() =>
   S.Struct({
-    Keywords: S.String.pipe(T.HttpQuery("keywords")),
+    Keywords: S.optional(S.String).pipe(T.HttpQuery("keywords")),
     Limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     RegistryName: S.String.pipe(T.HttpLabel("RegistryName")),
@@ -716,12 +718,12 @@ export const StopDiscovererRequest = S.suspend(() =>
 }) as any as S.Schema<StopDiscovererRequest>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: Tags;
+  Tags?: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: Tags.pipe(T.JsonName("tags")),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
@@ -741,12 +743,12 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: __listOf__string;
+  TagKeys?: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    TagKeys: __listOf__string.pipe(T.HttpQuery("tagKeys")),
+    TagKeys: S.optional(__listOf__string).pipe(T.HttpQuery("tagKeys")),
   }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
@@ -814,7 +816,7 @@ export interface UpdateSchemaRequest {
   Description?: string;
   RegistryName: string;
   SchemaName: string;
-  Type?: string;
+  Type?: Type;
 }
 export const UpdateSchemaRequest = S.suspend(() =>
   S.Struct({
@@ -823,7 +825,7 @@ export const UpdateSchemaRequest = S.suspend(() =>
     Description: S.optional(S.String),
     RegistryName: S.String.pipe(T.HttpLabel("RegistryName")),
     SchemaName: S.String.pipe(T.HttpLabel("SchemaName")),
-    Type: S.optional(S.String),
+    Type: S.optional(Type),
   }).pipe(
     T.all(
       T.Http({
@@ -840,16 +842,27 @@ export const UpdateSchemaRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateSchemaRequest",
 }) as any as S.Schema<UpdateSchemaRequest>;
+export type CodeGenerationStatus =
+  | "CREATE_IN_PROGRESS"
+  | "CREATE_COMPLETE"
+  | "CREATE_FAILED";
+export const CodeGenerationStatus = S.Literal(
+  "CREATE_IN_PROGRESS",
+  "CREATE_COMPLETE",
+  "CREATE_FAILED",
+);
+export type DiscovererState = "STARTED" | "STOPPED";
+export const DiscovererState = S.Literal("STARTED", "STOPPED");
 export interface CreateDiscovererRequest {
   Description?: string;
-  SourceArn: string;
+  SourceArn?: string;
   CrossAccount?: boolean;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const CreateDiscovererRequest = S.suspend(() =>
   S.Struct({
     Description: S.optional(S.String),
-    SourceArn: S.String,
+    SourceArn: S.optional(S.String),
     CrossAccount: S.optional(S.Boolean),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
   }).pipe(
@@ -869,7 +882,7 @@ export interface CreateRegistryResponse {
   Description?: string;
   RegistryArn?: string;
   RegistryName?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const CreateRegistryResponse = S.suspend(() =>
   S.Struct({
@@ -887,7 +900,7 @@ export interface CreateSchemaResponse {
   SchemaArn?: string;
   SchemaName?: string;
   SchemaVersion?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
   Type?: string;
   VersionCreatedDate?: Date;
 }
@@ -909,14 +922,14 @@ export interface DescribeCodeBindingResponse {
   CreationDate?: Date;
   LastModified?: Date;
   SchemaVersion?: string;
-  Status?: string;
+  Status?: CodeGenerationStatus;
 }
 export const DescribeCodeBindingResponse = S.suspend(() =>
   S.Struct({
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     SchemaVersion: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(CodeGenerationStatus),
   }),
 ).annotations({
   identifier: "DescribeCodeBindingResponse",
@@ -926,9 +939,9 @@ export interface DescribeDiscovererResponse {
   DiscovererArn?: string;
   DiscovererId?: string;
   SourceArn?: string;
-  State?: string;
+  State?: DiscovererState;
   CrossAccount?: boolean;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const DescribeDiscovererResponse = S.suspend(() =>
   S.Struct({
@@ -936,7 +949,7 @@ export const DescribeDiscovererResponse = S.suspend(() =>
     DiscovererArn: S.optional(S.String),
     DiscovererId: S.optional(S.String),
     SourceArn: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(DiscovererState),
     CrossAccount: S.optional(S.Boolean),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
   }),
@@ -947,7 +960,7 @@ export interface DescribeRegistryResponse {
   Description?: string;
   RegistryArn?: string;
   RegistryName?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const DescribeRegistryResponse = S.suspend(() =>
   S.Struct({
@@ -966,7 +979,7 @@ export interface DescribeSchemaResponse {
   SchemaArn?: string;
   SchemaName?: string;
   SchemaVersion?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
   Type?: string;
   VersionCreatedDate?: Date;
 }
@@ -1029,7 +1042,7 @@ export const GetResourcePolicyResponse = S.suspend(() =>
   identifier: "GetResourcePolicyResponse",
 }) as any as S.Schema<GetResourcePolicyResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags).pipe(T.JsonName("tags")) }),
@@ -1040,14 +1053,14 @@ export interface PutCodeBindingResponse {
   CreationDate?: Date;
   LastModified?: Date;
   SchemaVersion?: string;
-  Status?: string;
+  Status?: CodeGenerationStatus;
 }
 export const PutCodeBindingResponse = S.suspend(() =>
   S.Struct({
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     SchemaVersion: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(CodeGenerationStatus),
   }),
 ).annotations({
   identifier: "PutCodeBindingResponse",
@@ -1063,19 +1076,25 @@ export const PutResourcePolicyResponse = S.suspend(() =>
 }) as any as S.Schema<PutResourcePolicyResponse>;
 export interface StartDiscovererResponse {
   DiscovererId?: string;
-  State?: string;
+  State?: DiscovererState;
 }
 export const StartDiscovererResponse = S.suspend(() =>
-  S.Struct({ DiscovererId: S.optional(S.String), State: S.optional(S.String) }),
+  S.Struct({
+    DiscovererId: S.optional(S.String),
+    State: S.optional(DiscovererState),
+  }),
 ).annotations({
   identifier: "StartDiscovererResponse",
 }) as any as S.Schema<StartDiscovererResponse>;
 export interface StopDiscovererResponse {
   DiscovererId?: string;
-  State?: string;
+  State?: DiscovererState;
 }
 export const StopDiscovererResponse = S.suspend(() =>
-  S.Struct({ DiscovererId: S.optional(S.String), State: S.optional(S.String) }),
+  S.Struct({
+    DiscovererId: S.optional(S.String),
+    State: S.optional(DiscovererState),
+  }),
 ).annotations({
   identifier: "StopDiscovererResponse",
 }) as any as S.Schema<StopDiscovererResponse>;
@@ -1084,9 +1103,9 @@ export interface UpdateDiscovererResponse {
   DiscovererArn?: string;
   DiscovererId?: string;
   SourceArn?: string;
-  State?: string;
+  State?: DiscovererState;
   CrossAccount?: boolean;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const UpdateDiscovererResponse = S.suspend(() =>
   S.Struct({
@@ -1094,7 +1113,7 @@ export const UpdateDiscovererResponse = S.suspend(() =>
     DiscovererArn: S.optional(S.String),
     DiscovererId: S.optional(S.String),
     SourceArn: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(DiscovererState),
     CrossAccount: S.optional(S.Boolean),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
   }),
@@ -1105,7 +1124,7 @@ export interface UpdateRegistryResponse {
   Description?: string;
   RegistryArn?: string;
   RegistryName?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const UpdateRegistryResponse = S.suspend(() =>
   S.Struct({
@@ -1123,7 +1142,7 @@ export interface UpdateSchemaResponse {
   SchemaArn?: string;
   SchemaName?: string;
   SchemaVersion?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
   Type?: string;
   VersionCreatedDate?: Date;
 }
@@ -1145,16 +1164,16 @@ export interface DiscovererSummary {
   DiscovererArn?: string;
   DiscovererId?: string;
   SourceArn?: string;
-  State?: string;
+  State?: DiscovererState;
   CrossAccount?: boolean;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const DiscovererSummary = S.suspend(() =>
   S.Struct({
     DiscovererArn: S.optional(S.String),
     DiscovererId: S.optional(S.String),
     SourceArn: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(DiscovererState),
     CrossAccount: S.optional(S.Boolean),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
   }),
@@ -1166,7 +1185,7 @@ export const __listOfDiscovererSummary = S.Array(DiscovererSummary);
 export interface RegistrySummary {
   RegistryArn?: string;
   RegistryName?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const RegistrySummary = S.suspend(() =>
   S.Struct({
@@ -1183,7 +1202,7 @@ export interface SchemaSummary {
   LastModified?: Date;
   SchemaArn?: string;
   SchemaName?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
   VersionCount?: number;
 }
 export const SchemaSummary = S.suspend(() =>
@@ -1203,14 +1222,14 @@ export interface SchemaVersionSummary {
   SchemaArn?: string;
   SchemaName?: string;
   SchemaVersion?: string;
-  Type?: string;
+  Type?: Type;
 }
 export const SchemaVersionSummary = S.suspend(() =>
   S.Struct({
     SchemaArn: S.optional(S.String),
     SchemaName: S.optional(S.String),
     SchemaVersion: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(Type),
   }),
 ).annotations({
   identifier: "SchemaVersionSummary",
@@ -1222,9 +1241,9 @@ export interface CreateDiscovererResponse {
   DiscovererArn?: string;
   DiscovererId?: string;
   SourceArn?: string;
-  State?: string;
+  State?: DiscovererState;
   CrossAccount?: boolean;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const CreateDiscovererResponse = S.suspend(() =>
   S.Struct({
@@ -1232,7 +1251,7 @@ export const CreateDiscovererResponse = S.suspend(() =>
     DiscovererArn: S.optional(S.String),
     DiscovererId: S.optional(S.String),
     SourceArn: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(DiscovererState),
     CrossAccount: S.optional(S.Boolean),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
   }),
@@ -1240,7 +1259,7 @@ export const CreateDiscovererResponse = S.suspend(() =>
   identifier: "CreateDiscovererResponse",
 }) as any as S.Schema<CreateDiscovererResponse>;
 export interface ListDiscoverersResponse {
-  Discoverers?: __listOfDiscovererSummary;
+  Discoverers?: DiscovererSummary[];
   NextToken?: string;
 }
 export const ListDiscoverersResponse = S.suspend(() =>
@@ -1253,7 +1272,7 @@ export const ListDiscoverersResponse = S.suspend(() =>
 }) as any as S.Schema<ListDiscoverersResponse>;
 export interface ListRegistriesResponse {
   NextToken?: string;
-  Registries?: __listOfRegistrySummary;
+  Registries?: RegistrySummary[];
 }
 export const ListRegistriesResponse = S.suspend(() =>
   S.Struct({
@@ -1265,7 +1284,7 @@ export const ListRegistriesResponse = S.suspend(() =>
 }) as any as S.Schema<ListRegistriesResponse>;
 export interface ListSchemasResponse {
   NextToken?: string;
-  Schemas?: __listOfSchemaSummary;
+  Schemas?: SchemaSummary[];
 }
 export const ListSchemasResponse = S.suspend(() =>
   S.Struct({
@@ -1277,7 +1296,7 @@ export const ListSchemasResponse = S.suspend(() =>
 }) as any as S.Schema<ListSchemasResponse>;
 export interface ListSchemaVersionsResponse {
   NextToken?: string;
-  SchemaVersions?: __listOfSchemaVersionSummary;
+  SchemaVersions?: SchemaVersionSummary[];
 }
 export const ListSchemaVersionsResponse = S.suspend(() =>
   S.Struct({
@@ -1290,13 +1309,13 @@ export const ListSchemaVersionsResponse = S.suspend(() =>
 export interface SearchSchemaVersionSummary {
   CreatedDate?: Date;
   SchemaVersion?: string;
-  Type?: string;
+  Type?: Type;
 }
 export const SearchSchemaVersionSummary = S.suspend(() =>
   S.Struct({
     CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     SchemaVersion: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(Type),
   }),
 ).annotations({
   identifier: "SearchSchemaVersionSummary",
@@ -1309,7 +1328,7 @@ export interface SearchSchemaSummary {
   RegistryName?: string;
   SchemaArn?: string;
   SchemaName?: string;
-  SchemaVersions?: __listOfSearchSchemaVersionSummary;
+  SchemaVersions?: SearchSchemaVersionSummary[];
 }
 export const SearchSchemaSummary = S.suspend(() =>
   S.Struct({
@@ -1325,7 +1344,7 @@ export type __listOfSearchSchemaSummary = SearchSchemaSummary[];
 export const __listOfSearchSchemaSummary = S.Array(SearchSchemaSummary);
 export interface SearchSchemasResponse {
   NextToken?: string;
-  Schemas?: __listOfSearchSchemaSummary;
+  Schemas?: SearchSchemaSummary[];
 }
 export const SearchSchemasResponse = S.suspend(() =>
   S.Struct({
@@ -1339,43 +1358,43 @@ export const SearchSchemasResponse = S.suspend(() =>
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  { Code: S.String, Message: S.String },
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
   "ForbiddenException",
-  { Code: S.String, Message: S.String },
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  { Code: S.String, Message: S.String },
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
 ).pipe(C.withConflictError) {}
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
-  { Code: S.String, Message: S.String },
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
 export class GoneException extends S.TaggedError<GoneException>()(
   "GoneException",
-  { Code: S.String, Message: S.String },
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
-  { Code: S.String, Message: S.String },
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
-  { Code: S.String, Message: S.String },
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
 export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
   "UnauthorizedException",
-  { Code: S.String, Message: S.String },
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
-  { Code: S.String, Message: S.String },
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
 ).pipe(C.withThrottlingError) {}
 export class PreconditionFailedException extends S.TaggedError<PreconditionFailedException>()(
   "PreconditionFailedException",
-  { Code: S.String, Message: S.String },
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
 ) {}
 
 //# Operations
@@ -1384,7 +1403,7 @@ export class PreconditionFailedException extends S.TaggedError<PreconditionFaile
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -1409,7 +1428,7 @@ export const listTagsForResource: (
  */
 export const updateSchema: (
   input: UpdateSchemaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSchemaResponse,
   | BadRequestException
   | ForbiddenException
@@ -1434,7 +1453,7 @@ export const updateSchema: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -1457,7 +1476,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -1482,7 +1501,7 @@ export const untagResource: (
  */
 export const createSchema: (
   input: CreateSchemaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSchemaResponse,
   | BadRequestException
   | ForbiddenException
@@ -1506,7 +1525,7 @@ export const createSchema: (
 export const searchSchemas: {
   (
     input: SearchSchemasRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchSchemasResponse,
     | BadRequestException
     | ForbiddenException
@@ -1518,7 +1537,7 @@ export const searchSchemas: {
   >;
   pages: (
     input: SearchSchemasRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchSchemasResponse,
     | BadRequestException
     | ForbiddenException
@@ -1530,7 +1549,7 @@ export const searchSchemas: {
   >;
   items: (
     input: SearchSchemasRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchSchemaSummary,
     | BadRequestException
     | ForbiddenException
@@ -1562,7 +1581,7 @@ export const searchSchemas: {
  */
 export const putCodeBinding: (
   input: PutCodeBindingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutCodeBindingResponse,
   | BadRequestException
   | ForbiddenException
@@ -1591,7 +1610,7 @@ export const putCodeBinding: (
  */
 export const putResourcePolicy: (
   input: PutResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourcePolicyResponse,
   | BadRequestException
   | ForbiddenException
@@ -1621,7 +1640,7 @@ export const putResourcePolicy: (
 export const listSchemaVersions: {
   (
     input: ListSchemaVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSchemaVersionsResponse,
     | BadRequestException
     | ForbiddenException
@@ -1634,7 +1653,7 @@ export const listSchemaVersions: {
   >;
   pages: (
     input: ListSchemaVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSchemaVersionsResponse,
     | BadRequestException
     | ForbiddenException
@@ -1647,7 +1666,7 @@ export const listSchemaVersions: {
   >;
   items: (
     input: ListSchemaVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SchemaVersionSummary,
     | BadRequestException
     | ForbiddenException
@@ -1681,7 +1700,7 @@ export const listSchemaVersions: {
  */
 export const describeDiscoverer: (
   input: DescribeDiscovererRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDiscovererResponse,
   | BadRequestException
   | ForbiddenException
@@ -1708,7 +1727,7 @@ export const describeDiscoverer: (
  */
 export const describeRegistry: (
   input: DescribeRegistryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRegistryResponse,
   | BadRequestException
   | ForbiddenException
@@ -1735,7 +1754,7 @@ export const describeRegistry: (
  */
 export const describeSchema: (
   input: DescribeSchemaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSchemaResponse,
   | BadRequestException
   | ForbiddenException
@@ -1762,7 +1781,7 @@ export const describeSchema: (
  */
 export const getResourcePolicy: (
   input: GetResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourcePolicyResponse,
   | BadRequestException
   | ForbiddenException
@@ -1789,7 +1808,7 @@ export const getResourcePolicy: (
  */
 export const startDiscoverer: (
   input: StartDiscovererRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartDiscovererResponse,
   | BadRequestException
   | ForbiddenException
@@ -1816,7 +1835,7 @@ export const startDiscoverer: (
  */
 export const stopDiscoverer: (
   input: StopDiscovererRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopDiscovererResponse,
   | BadRequestException
   | ForbiddenException
@@ -1843,7 +1862,7 @@ export const stopDiscoverer: (
  */
 export const updateDiscoverer: (
   input: UpdateDiscovererRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDiscovererResponse,
   | BadRequestException
   | ForbiddenException
@@ -1870,7 +1889,7 @@ export const updateDiscoverer: (
  */
 export const updateRegistry: (
   input: UpdateRegistryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRegistryResponse,
   | BadRequestException
   | ForbiddenException
@@ -1897,7 +1916,7 @@ export const updateRegistry: (
  */
 export const deleteRegistry: (
   input: DeleteRegistryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRegistryResponse,
   | BadRequestException
   | ForbiddenException
@@ -1924,7 +1943,7 @@ export const deleteRegistry: (
  */
 export const deleteResourcePolicy: (
   input: DeleteResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourcePolicyResponse,
   | BadRequestException
   | ForbiddenException
@@ -1951,7 +1970,7 @@ export const deleteResourcePolicy: (
  */
 export const deleteSchema: (
   input: DeleteSchemaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSchemaResponse,
   | BadRequestException
   | ForbiddenException
@@ -1978,7 +1997,7 @@ export const deleteSchema: (
  */
 export const deleteSchemaVersion: (
   input: DeleteSchemaVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSchemaVersionResponse,
   | BadRequestException
   | ForbiddenException
@@ -2006,7 +2025,7 @@ export const deleteSchemaVersion: (
 export const listDiscoverers: {
   (
     input: ListDiscoverersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDiscoverersResponse,
     | BadRequestException
     | ForbiddenException
@@ -2018,7 +2037,7 @@ export const listDiscoverers: {
   >;
   pages: (
     input: ListDiscoverersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDiscoverersResponse,
     | BadRequestException
     | ForbiddenException
@@ -2030,7 +2049,7 @@ export const listDiscoverers: {
   >;
   items: (
     input: ListDiscoverersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DiscovererSummary,
     | BadRequestException
     | ForbiddenException
@@ -2063,7 +2082,7 @@ export const listDiscoverers: {
 export const listRegistries: {
   (
     input: ListRegistriesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRegistriesResponse,
     | BadRequestException
     | ForbiddenException
@@ -2075,7 +2094,7 @@ export const listRegistries: {
   >;
   pages: (
     input: ListRegistriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRegistriesResponse,
     | BadRequestException
     | ForbiddenException
@@ -2087,7 +2106,7 @@ export const listRegistries: {
   >;
   items: (
     input: ListRegistriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RegistrySummary,
     | BadRequestException
     | ForbiddenException
@@ -2120,7 +2139,7 @@ export const listRegistries: {
 export const listSchemas: {
   (
     input: ListSchemasRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSchemasResponse,
     | BadRequestException
     | ForbiddenException
@@ -2132,7 +2151,7 @@ export const listSchemas: {
   >;
   pages: (
     input: ListSchemasRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSchemasResponse,
     | BadRequestException
     | ForbiddenException
@@ -2144,7 +2163,7 @@ export const listSchemas: {
   >;
   items: (
     input: ListSchemasRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SchemaSummary,
     | BadRequestException
     | ForbiddenException
@@ -2176,7 +2195,7 @@ export const listSchemas: {
  */
 export const createRegistry: (
   input: CreateRegistryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRegistryResponse,
   | BadRequestException
   | ConflictException
@@ -2203,7 +2222,7 @@ export const createRegistry: (
  */
 export const getDiscoveredSchema: (
   input: GetDiscoveredSchemaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDiscoveredSchemaResponse,
   | BadRequestException
   | ForbiddenException
@@ -2228,7 +2247,7 @@ export const getDiscoveredSchema: (
  */
 export const createDiscoverer: (
   input: CreateDiscovererRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDiscovererResponse,
   | BadRequestException
   | ConflictException
@@ -2255,7 +2274,7 @@ export const createDiscoverer: (
  */
 export const deleteDiscoverer: (
   input: DeleteDiscovererRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDiscovererResponse,
   | BadRequestException
   | ForbiddenException
@@ -2282,7 +2301,7 @@ export const deleteDiscoverer: (
  */
 export const describeCodeBinding: (
   input: DescribeCodeBindingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCodeBindingResponse,
   | BadRequestException
   | ForbiddenException
@@ -2309,7 +2328,7 @@ export const describeCodeBinding: (
  */
 export const exportSchema: (
   input: ExportSchemaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ExportSchemaResponse,
   | BadRequestException
   | ForbiddenException
@@ -2338,7 +2357,7 @@ export const exportSchema: (
  */
 export const getCodeBindingSource: (
   input: GetCodeBindingSourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCodeBindingSourceResponse,
   | BadRequestException
   | ForbiddenException

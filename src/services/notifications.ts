@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -249,7 +249,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   arn: string;
-  tagKeys: TagKeys;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -356,7 +356,7 @@ export interface CreateEventRuleRequest {
   source: string;
   eventType: string;
   eventPattern?: string;
-  regions: Regions;
+  regions: string[];
 }
 export const CreateEventRuleRequest = S.suspend(() =>
   S.Struct({
@@ -381,7 +381,7 @@ export const CreateEventRuleRequest = S.suspend(() =>
 export interface UpdateEventRuleRequest {
   arn: string;
   eventPattern?: string;
-  regions?: Regions;
+  regions?: string[];
 }
 export const UpdateEventRuleRequest = S.suspend(() =>
   S.Struct({
@@ -767,7 +767,7 @@ export interface CreateNotificationConfigurationRequest {
   name: string;
   description: string;
   aggregationDuration?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateNotificationConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -1093,22 +1093,29 @@ export const ListOrganizationalUnitsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListOrganizationalUnitsRequest",
 }) as any as S.Schema<ListOrganizationalUnitsRequest>;
+export type AccessStatus = "ENABLED" | "DISABLED" | "PENDING" | "FAILED";
+export const AccessStatus = S.Literal(
+  "ENABLED",
+  "DISABLED",
+  "PENDING",
+  "FAILED",
+);
 export type Channels = string[];
 export const Channels = S.Array(S.String);
 export type ManagedRuleArns = string[];
 export const ManagedRuleArns = S.Array(S.String);
 export interface NotificationsAccessForOrganization {
-  accessStatus: string;
+  accessStatus: AccessStatus;
 }
 export const NotificationsAccessForOrganization = S.suspend(() =>
-  S.Struct({ accessStatus: S.String }),
+  S.Struct({ accessStatus: AccessStatus }),
 ).annotations({
   identifier: "NotificationsAccessForOrganization",
 }) as any as S.Schema<NotificationsAccessForOrganization>;
 export type OrganizationalUnits = string[];
 export const OrganizationalUnits = S.Array(S.String);
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -1117,7 +1124,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   arn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")), tags: TagMap }).pipe(
@@ -1139,7 +1146,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface ListChannelsResponse {
   nextToken?: string;
-  channels: Channels;
+  channels: string[];
 }
 export const ListChannelsResponse = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), channels: Channels }),
@@ -1163,7 +1170,7 @@ export const StatusSummaryByRegion = S.Record({
 export interface UpdateEventRuleResponse {
   arn: string;
   notificationConfigurationArn: string;
-  statusSummaryByRegion: StatusSummaryByRegion;
+  statusSummaryByRegion: { [key: string]: EventRuleStatusSummary };
 }
 export const UpdateEventRuleResponse = S.suspend(() =>
   S.Struct({
@@ -1181,9 +1188,9 @@ export interface GetEventRuleResponse {
   source: string;
   eventType: string;
   eventPattern: string;
-  regions: Regions;
-  managedRules: ManagedRuleArns;
-  statusSummaryByRegion: StatusSummaryByRegion;
+  regions: string[];
+  managedRules: string[];
+  statusSummaryByRegion: { [key: string]: EventRuleStatusSummary };
 }
 export const GetEventRuleResponse = S.suspend(() =>
   S.Struct({
@@ -1289,7 +1296,7 @@ export const GetNotificationsAccessForOrganizationResponse = S.suspend(() =>
   identifier: "GetNotificationsAccessForOrganizationResponse",
 }) as any as S.Schema<GetNotificationsAccessForOrganizationResponse>;
 export interface ListOrganizationalUnitsResponse {
-  organizationalUnits: OrganizationalUnits;
+  organizationalUnits: string[];
   nextToken?: string;
 }
 export const ListOrganizationalUnitsResponse = S.suspend(() =>
@@ -1348,9 +1355,9 @@ export interface EventRuleStructure {
   source: string;
   eventType: string;
   eventPattern: string;
-  regions: Regions;
-  managedRules: ManagedRuleArns;
-  statusSummaryByRegion: StatusSummaryByRegion;
+  regions: string[];
+  managedRules: string[];
+  statusSummaryByRegion: { [key: string]: EventRuleStatusSummary };
 }
 export const EventRuleStructure = S.suspend(() =>
   S.Struct({
@@ -1433,7 +1440,7 @@ export const SampleAggregationDimensionValues = S.Array(S.String);
 export interface SummarizationDimensionOverview {
   name: string;
   count: number;
-  sampleValues?: SampleAggregationDimensionValues;
+  sampleValues?: string[];
 }
 export const SummarizationDimensionOverview = S.suspend(() =>
   S.Struct({
@@ -1450,7 +1457,7 @@ export const SummarizationDimensionOverviews = S.Array(
 );
 export interface ListManagedNotificationChannelAssociationsResponse {
   nextToken?: string;
-  channelAssociations: ManagedNotificationChannelAssociations;
+  channelAssociations: ManagedNotificationChannelAssociationSummary[];
 }
 export const ListManagedNotificationChannelAssociationsResponse = S.suspend(
   () =>
@@ -1462,7 +1469,7 @@ export const ListManagedNotificationChannelAssociationsResponse = S.suspend(
   identifier: "ListManagedNotificationChannelAssociationsResponse",
 }) as any as S.Schema<ListManagedNotificationChannelAssociationsResponse>;
 export interface ListMemberAccountsResponse {
-  memberAccounts: MemberAccounts;
+  memberAccounts: MemberAccount[];
   nextToken?: string;
 }
 export const ListMemberAccountsResponse = S.suspend(() =>
@@ -1472,7 +1479,7 @@ export const ListMemberAccountsResponse = S.suspend(() =>
 }) as any as S.Schema<ListMemberAccountsResponse>;
 export interface ListEventRulesResponse {
   nextToken?: string;
-  eventRules: EventRules;
+  eventRules: EventRuleStructure[];
 }
 export const ListEventRulesResponse = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), eventRules: EventRules }),
@@ -1481,7 +1488,7 @@ export const ListEventRulesResponse = S.suspend(() =>
 }) as any as S.Schema<ListEventRulesResponse>;
 export interface ListManagedNotificationConfigurationsResponse {
   nextToken?: string;
-  managedNotificationConfigurations: ManagedNotificationConfigurations;
+  managedNotificationConfigurations: ManagedNotificationConfigurationStructure[];
 }
 export const ListManagedNotificationConfigurationsResponse = S.suspend(() =>
   S.Struct({
@@ -1493,7 +1500,7 @@ export const ListManagedNotificationConfigurationsResponse = S.suspend(() =>
 }) as any as S.Schema<ListManagedNotificationConfigurationsResponse>;
 export interface ListNotificationConfigurationsResponse {
   nextToken?: string;
-  notificationConfigurations: NotificationConfigurations;
+  notificationConfigurations: NotificationConfigurationStructure[];
 }
 export const ListNotificationConfigurationsResponse = S.suspend(() =>
   S.Struct({
@@ -1520,7 +1527,7 @@ export const RegisterNotificationHubResponse = S.suspend(() =>
   identifier: "RegisterNotificationHubResponse",
 }) as any as S.Schema<RegisterNotificationHubResponse>;
 export interface ListNotificationHubsResponse {
-  notificationHubs: NotificationHubs;
+  notificationHubs: NotificationHubOverview[];
   nextToken?: string;
 }
 export const ListNotificationHubsResponse = S.suspend(() =>
@@ -1602,11 +1609,11 @@ export type AggregationKeys = AggregationKey[];
 export const AggregationKeys = S.Array(AggregationKey);
 export interface AggregationSummary {
   eventCount: number;
-  aggregatedBy: AggregationKeys;
+  aggregatedBy: AggregationKey[];
   aggregatedAccounts: SummarizationDimensionOverview;
   aggregatedRegions: SummarizationDimensionOverview;
   aggregatedOrganizationalUnits?: SummarizationDimensionOverview;
-  additionalSummarizationDimensions?: SummarizationDimensionOverviews;
+  additionalSummarizationDimensions?: SummarizationDimensionOverview[];
 }
 export const AggregationSummary = S.suspend(() =>
   S.Struct({
@@ -1631,7 +1638,7 @@ export interface ManagedNotificationEventOverview {
   aggregationEventType?: string;
   organizationalUnitId?: string;
   aggregationSummary?: AggregationSummary;
-  aggregatedNotificationRegions?: AggregatedNotificationRegions;
+  aggregatedNotificationRegions?: string[];
 }
 export const ManagedNotificationEventOverview = S.suspend(() =>
   S.Struct({
@@ -1678,7 +1685,7 @@ export interface Resource {
   id?: string;
   arn?: string;
   detailUrl?: string;
-  tags?: Tags;
+  tags?: string[];
 }
 export const Resource = S.suspend(() =>
   S.Struct({
@@ -1707,7 +1714,7 @@ export const SourceEventMetadataSummary = S.suspend(() =>
 export interface CreateEventRuleResponse {
   arn: string;
   notificationConfigurationArn: string;
-  statusSummaryByRegion: StatusSummaryByRegion;
+  statusSummaryByRegion: { [key: string]: EventRuleStatusSummary };
 }
 export const CreateEventRuleResponse = S.suspend(() =>
   S.Struct({
@@ -1720,7 +1727,7 @@ export const CreateEventRuleResponse = S.suspend(() =>
 }) as any as S.Schema<CreateEventRuleResponse>;
 export interface ListManagedNotificationEventsResponse {
   nextToken?: string;
-  managedNotificationEvents: ManagedNotificationEvents;
+  managedNotificationEvents: ManagedNotificationEventOverview[];
 }
 export const ListManagedNotificationEventsResponse = S.suspend(() =>
   S.Struct({
@@ -1734,7 +1741,7 @@ export interface MessageComponents {
   headline?: string;
   paragraphSummary?: string;
   completeDescription?: string;
-  dimensions?: Dimensions;
+  dimensions?: Dimension[];
 }
 export const MessageComponents = S.suspend(() =>
   S.Struct({
@@ -1747,7 +1754,7 @@ export const MessageComponents = S.suspend(() =>
   identifier: "MessageComponents",
 }) as any as S.Schema<MessageComponents>;
 export interface AggregationDetail {
-  summarizationDimensions?: SummarizationDimensionDetails;
+  summarizationDimensions?: SummarizationDimensionDetail[];
 }
 export const AggregationDetail = S.suspend(() =>
   S.Struct({
@@ -1784,7 +1791,7 @@ export interface SourceEventMetadata {
   source: string;
   eventOccurrenceTime: Date;
   eventType: string;
-  relatedResources: Resources;
+  relatedResources: Resource[];
 }
 export const SourceEventMetadata = S.suspend(() =>
   S.Struct({
@@ -1850,7 +1857,7 @@ export const ManagedNotificationChildEvents = S.Array(
 export interface TextPartValue {
   type: string;
   displayText?: string;
-  textByLocale?: TextByLocale;
+  textByLocale?: { [key: string]: string };
   url?: string;
 }
 export const TextPartValue = S.suspend(() =>
@@ -1877,7 +1884,7 @@ export interface ManagedNotificationEvent {
   aggregationSummary?: AggregationSummary;
   startTime?: Date;
   endTime?: Date;
-  textParts: TextParts;
+  textParts: { [key: string]: TextPartValue };
   organizationalUnitId?: string;
 }
 export const ManagedNotificationEvent = S.suspend(() =>
@@ -1913,8 +1920,8 @@ export interface NotificationEventSchema {
   aggregationSummary?: AggregationSummary;
   startTime?: Date;
   endTime?: Date;
-  textParts: TextParts;
-  media: Media;
+  textParts: { [key: string]: TextPartValue };
+  media: MediaElement[];
   organizationalUnitId?: string;
 }
 export const NotificationEventSchema = S.suspend(() =>
@@ -1980,7 +1987,7 @@ export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export interface ListManagedNotificationChildEventsResponse {
   nextToken?: string;
-  managedNotificationChildEvents: ManagedNotificationChildEvents;
+  managedNotificationChildEvents: ManagedNotificationChildEventOverview[];
 }
 export const ListManagedNotificationChildEventsResponse = S.suspend(() =>
   S.Struct({
@@ -2024,7 +2031,7 @@ export const GetNotificationEventResponse = S.suspend(() =>
 }) as any as S.Schema<GetNotificationEventResponse>;
 export interface ListNotificationEventsResponse {
   nextToken?: string;
-  notificationEvents: NotificationEvents;
+  notificationEvents: NotificationEventOverview[];
 }
 export const ListNotificationEventsResponse = S.suspend(() =>
   S.Struct({
@@ -2045,7 +2052,7 @@ export interface ManagedNotificationChildEvent {
   aggregateManagedNotificationEventArn: string;
   startTime?: Date;
   endTime?: Date;
-  textParts: TextParts;
+  textParts: { [key: string]: TextPartValue };
   organizationalUnitId?: string;
   aggregationDetail?: AggregationDetail;
 }
@@ -2138,7 +2145,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const getNotificationsAccessForOrganization: (
   input: GetNotificationsAccessForOrganizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetNotificationsAccessForOrganizationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2162,7 +2169,7 @@ export const getNotificationsAccessForOrganization: (
 export const listOrganizationalUnits: {
   (
     input: ListOrganizationalUnitsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOrganizationalUnitsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2174,7 +2181,7 @@ export const listOrganizationalUnits: {
   >;
   pages: (
     input: ListOrganizationalUnitsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOrganizationalUnitsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2186,7 +2193,7 @@ export const listOrganizationalUnits: {
   >;
   items: (
     input: ListOrganizationalUnitsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OrganizationalUnitId,
     | AccessDeniedException
     | InternalServerException
@@ -2218,7 +2225,7 @@ export const listOrganizationalUnits: {
  */
 export const associateOrganizationalUnit: (
   input: AssociateOrganizationalUnitRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateOrganizationalUnitResponse,
   | AccessDeniedException
   | ConflictException
@@ -2247,7 +2254,7 @@ export const associateOrganizationalUnit: (
  */
 export const disableNotificationsAccessForOrganization: (
   input: DisableNotificationsAccessForOrganizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisableNotificationsAccessForOrganizationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2276,7 +2283,7 @@ export const disableNotificationsAccessForOrganization: (
  */
 export const associateChannel: (
   input: AssociateChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateChannelResponse,
   | AccessDeniedException
   | ConflictException
@@ -2305,7 +2312,7 @@ export const associateChannel: (
  */
 export const deleteEventRule: (
   input: DeleteEventRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEventRuleResponse,
   | AccessDeniedException
   | ConflictException
@@ -2332,7 +2339,7 @@ export const deleteEventRule: (
  */
 export const associateManagedNotificationAccountContact: (
   input: AssociateManagedNotificationAccountContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateManagedNotificationAccountContactResponse,
   | AccessDeniedException
   | ConflictException
@@ -2361,7 +2368,7 @@ export const associateManagedNotificationAccountContact: (
  */
 export const disassociateManagedNotificationAccountContact: (
   input: DisassociateManagedNotificationAccountContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateManagedNotificationAccountContactResponse,
   | AccessDeniedException
   | ConflictException
@@ -2390,7 +2397,7 @@ export const disassociateManagedNotificationAccountContact: (
  */
 export const associateManagedNotificationAdditionalChannel: (
   input: AssociateManagedNotificationAdditionalChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateManagedNotificationAdditionalChannelResponse,
   | AccessDeniedException
   | ConflictException
@@ -2419,7 +2426,7 @@ export const associateManagedNotificationAdditionalChannel: (
  */
 export const deleteNotificationConfiguration: (
   input: DeleteNotificationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteNotificationConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2446,7 +2453,7 @@ export const deleteNotificationConfiguration: (
  */
 export const updateEventRule: (
   input: UpdateEventRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEventRuleResponse,
   | AccessDeniedException
   | ConflictException
@@ -2473,7 +2480,7 @@ export const updateEventRule: (
  */
 export const updateNotificationConfiguration: (
   input: UpdateNotificationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateNotificationConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2502,7 +2509,7 @@ export const updateNotificationConfiguration: (
  */
 export const deregisterNotificationHub: (
   input: DeregisterNotificationHubRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterNotificationHubResponse,
   | AccessDeniedException
   | ConflictException
@@ -2531,7 +2538,7 @@ export const deregisterNotificationHub: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2556,7 +2563,7 @@ export const untagResource: (
  */
 export const disassociateChannel: (
   input: DisassociateChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateChannelResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2583,7 +2590,7 @@ export const disassociateChannel: (
  */
 export const disassociateManagedNotificationAdditionalChannel: (
   input: DisassociateManagedNotificationAdditionalChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateManagedNotificationAdditionalChannelResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2612,7 +2619,7 @@ export const disassociateManagedNotificationAdditionalChannel: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2641,7 +2648,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2667,7 +2674,7 @@ export const tagResource: (
 export const listChannels: {
   (
     input: ListChannelsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListChannelsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2679,7 +2686,7 @@ export const listChannels: {
   >;
   pages: (
     input: ListChannelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListChannelsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2691,7 +2698,7 @@ export const listChannels: {
   >;
   items: (
     input: ListChannelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ChannelArn,
     | AccessDeniedException
     | InternalServerException
@@ -2723,7 +2730,7 @@ export const listChannels: {
  */
 export const getEventRule: (
   input: GetEventRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEventRuleResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2748,7 +2755,7 @@ export const getEventRule: (
  */
 export const getManagedNotificationConfiguration: (
   input: GetManagedNotificationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetManagedNotificationConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2773,7 +2780,7 @@ export const getManagedNotificationConfiguration: (
  */
 export const getNotificationConfiguration: (
   input: GetNotificationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetNotificationConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2798,7 +2805,7 @@ export const getNotificationConfiguration: (
  */
 export const enableNotificationsAccessForOrganization: (
   input: EnableNotificationsAccessForOrganizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableNotificationsAccessForOrganizationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2828,7 +2835,7 @@ export const enableNotificationsAccessForOrganization: (
 export const listManagedNotificationChannelAssociations: {
   (
     input: ListManagedNotificationChannelAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListManagedNotificationChannelAssociationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2840,7 +2847,7 @@ export const listManagedNotificationChannelAssociations: {
   >;
   pages: (
     input: ListManagedNotificationChannelAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListManagedNotificationChannelAssociationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2852,7 +2859,7 @@ export const listManagedNotificationChannelAssociations: {
   >;
   items: (
     input: ListManagedNotificationChannelAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ManagedNotificationChannelAssociationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2885,7 +2892,7 @@ export const listManagedNotificationChannelAssociations: {
 export const listMemberAccounts: {
   (
     input: ListMemberAccountsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMemberAccountsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2897,7 +2904,7 @@ export const listMemberAccounts: {
   >;
   pages: (
     input: ListMemberAccountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMemberAccountsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2909,7 +2916,7 @@ export const listMemberAccounts: {
   >;
   items: (
     input: ListMemberAccountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MemberAccount,
     | AccessDeniedException
     | InternalServerException
@@ -2942,7 +2949,7 @@ export const listMemberAccounts: {
 export const listEventRules: {
   (
     input: ListEventRulesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEventRulesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2954,7 +2961,7 @@ export const listEventRules: {
   >;
   pages: (
     input: ListEventRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEventRulesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2966,7 +2973,7 @@ export const listEventRules: {
   >;
   items: (
     input: ListEventRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EventRuleStructure,
     | AccessDeniedException
     | InternalServerException
@@ -3000,7 +3007,7 @@ export const listEventRules: {
  */
 export const registerNotificationHub: (
   input: RegisterNotificationHubRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterNotificationHubResponse,
   | AccessDeniedException
   | ConflictException
@@ -3028,7 +3035,7 @@ export const registerNotificationHub: (
 export const listManagedNotificationConfigurations: {
   (
     input: ListManagedNotificationConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListManagedNotificationConfigurationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3039,7 +3046,7 @@ export const listManagedNotificationConfigurations: {
   >;
   pages: (
     input: ListManagedNotificationConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListManagedNotificationConfigurationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3050,7 +3057,7 @@ export const listManagedNotificationConfigurations: {
   >;
   items: (
     input: ListManagedNotificationConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ManagedNotificationConfigurationStructure,
     | AccessDeniedException
     | InternalServerException
@@ -3081,7 +3088,7 @@ export const listManagedNotificationConfigurations: {
 export const listNotificationConfigurations: {
   (
     input: ListNotificationConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListNotificationConfigurationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3092,7 +3099,7 @@ export const listNotificationConfigurations: {
   >;
   pages: (
     input: ListNotificationConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListNotificationConfigurationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3103,7 +3110,7 @@ export const listNotificationConfigurations: {
   >;
   items: (
     input: ListNotificationConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NotificationConfigurationStructure,
     | AccessDeniedException
     | InternalServerException
@@ -3134,7 +3141,7 @@ export const listNotificationConfigurations: {
 export const listNotificationHubs: {
   (
     input: ListNotificationHubsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListNotificationHubsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3145,7 +3152,7 @@ export const listNotificationHubs: {
   >;
   pages: (
     input: ListNotificationHubsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListNotificationHubsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3156,7 +3163,7 @@ export const listNotificationHubs: {
   >;
   items: (
     input: ListNotificationHubsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NotificationHubOverview,
     | AccessDeniedException
     | InternalServerException
@@ -3186,7 +3193,7 @@ export const listNotificationHubs: {
  */
 export const disassociateOrganizationalUnit: (
   input: DisassociateOrganizationalUnitRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateOrganizationalUnitResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3211,7 +3218,7 @@ export const disassociateOrganizationalUnit: (
  */
 export const createNotificationConfiguration: (
   input: CreateNotificationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateNotificationConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3238,7 +3245,7 @@ export const createNotificationConfiguration: (
  */
 export const createEventRule: (
   input: CreateEventRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEventRuleResponse,
   | AccessDeniedException
   | ConflictException
@@ -3268,7 +3275,7 @@ export const createEventRule: (
 export const listManagedNotificationEvents: {
   (
     input: ListManagedNotificationEventsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListManagedNotificationEventsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3279,7 +3286,7 @@ export const listManagedNotificationEvents: {
   >;
   pages: (
     input: ListManagedNotificationEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListManagedNotificationEventsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3290,7 +3297,7 @@ export const listManagedNotificationEvents: {
   >;
   items: (
     input: ListManagedNotificationEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ManagedNotificationEventOverview,
     | AccessDeniedException
     | InternalServerException
@@ -3321,7 +3328,7 @@ export const listManagedNotificationEvents: {
 export const listManagedNotificationChildEvents: {
   (
     input: ListManagedNotificationChildEventsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListManagedNotificationChildEventsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3332,7 +3339,7 @@ export const listManagedNotificationChildEvents: {
   >;
   pages: (
     input: ListManagedNotificationChildEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListManagedNotificationChildEventsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3343,7 +3350,7 @@ export const listManagedNotificationChildEvents: {
   >;
   items: (
     input: ListManagedNotificationChildEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ManagedNotificationChildEventOverview,
     | AccessDeniedException
     | InternalServerException
@@ -3373,7 +3380,7 @@ export const listManagedNotificationChildEvents: {
  */
 export const getManagedNotificationEvent: (
   input: GetManagedNotificationEventRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetManagedNotificationEventResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3400,7 +3407,7 @@ export const getManagedNotificationEvent: (
  */
 export const getNotificationEvent: (
   input: GetNotificationEventRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetNotificationEventResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3428,7 +3435,7 @@ export const getNotificationEvent: (
 export const listNotificationEvents: {
   (
     input: ListNotificationEventsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListNotificationEventsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3439,7 +3446,7 @@ export const listNotificationEvents: {
   >;
   pages: (
     input: ListNotificationEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListNotificationEventsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3450,7 +3457,7 @@ export const listNotificationEvents: {
   >;
   items: (
     input: ListNotificationEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NotificationEventOverview,
     | AccessDeniedException
     | InternalServerException
@@ -3480,7 +3487,7 @@ export const listNotificationEvents: {
  */
 export const getManagedNotificationChildEvent: (
   input: GetManagedNotificationChildEventRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetManagedNotificationChildEventResponse,
   | AccessDeniedException
   | InternalServerException

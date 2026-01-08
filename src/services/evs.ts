@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -117,8 +117,23 @@ export type NetworkInterfaceId = string;
 //# Schemas
 export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
-export type EnvironmentStateList = string[];
-export const EnvironmentStateList = S.Array(S.String);
+export type VcfVersion = "VCF-5.2.1";
+export const VcfVersion = S.Literal("VCF-5.2.1");
+export type EnvironmentState =
+  | "CREATING"
+  | "CREATED"
+  | "DELETING"
+  | "DELETED"
+  | "CREATE_FAILED";
+export const EnvironmentState = S.Literal(
+  "CREATING",
+  "CREATED",
+  "DELETING",
+  "DELETED",
+  "CREATE_FAILED",
+);
+export type EnvironmentStateList = EnvironmentState[];
+export const EnvironmentStateList = S.Array(EnvironmentState);
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
@@ -131,7 +146,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeys;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeys }).pipe(
@@ -171,7 +186,7 @@ export const DeleteEnvironmentRequest = S.suspend(() =>
 export interface ListEnvironmentsRequest {
   nextToken?: string;
   maxResults?: number;
-  state?: EnvironmentStateList;
+  state?: EnvironmentState[];
 }
 export const ListEnvironmentsRequest = S.suspend(() =>
   S.Struct({
@@ -202,10 +217,12 @@ export const AssociateEipToVlanRequest = S.suspend(() =>
 ).annotations({
   identifier: "AssociateEipToVlanRequest",
 }) as any as S.Schema<AssociateEipToVlanRequest>;
+export type InstanceType = "i4i.metal";
+export const InstanceType = S.Literal("i4i.metal");
 export interface HostInfoForCreate {
   hostName: string;
   keyName: string;
-  instanceType: string;
+  instanceType: InstanceType;
   placementGroupId?: string;
   dedicatedHostId?: string;
 }
@@ -213,7 +230,7 @@ export const HostInfoForCreate = S.suspend(() =>
   S.Struct({
     hostName: S.String,
     keyName: S.String,
-    instanceType: S.String,
+    instanceType: InstanceType,
     placementGroupId: S.optional(S.String),
     dedicatedHostId: S.optional(S.String),
   }),
@@ -309,7 +326,7 @@ export const RouteServerPeeringList = S.Array(S.String);
 export type RequestTagMap = { [key: string]: string };
 export const RequestTagMap = S.Record({ key: S.String, value: S.String });
 export interface ServiceAccessSecurityGroups {
-  securityGroups?: SecurityGroups;
+  securityGroups?: string[];
 }
 export const ServiceAccessSecurityGroups = S.suspend(() =>
   S.Struct({ securityGroups: S.optional(SecurityGroups) }),
@@ -328,7 +345,7 @@ export const LicenseInfoList = S.Array(LicenseInfo);
 export type HostInfoForCreateList = HostInfoForCreate[];
 export const HostInfoForCreateList = S.Array(HostInfoForCreate);
 export interface ConnectivityInfo {
-  privateRouteServerPeerings: RouteServerPeeringList;
+  privateRouteServerPeerings: string[];
 }
 export const ConnectivityInfo = S.suspend(() =>
   S.Struct({ privateRouteServerPeerings: RouteServerPeeringList }),
@@ -359,6 +376,23 @@ export const VcfHostnames = S.suspend(() =>
     cloudBuilder: S.String,
   }),
 ).annotations({ identifier: "VcfHostnames" }) as any as S.Schema<VcfHostnames>;
+export type HostState =
+  | "CREATING"
+  | "CREATED"
+  | "UPDATING"
+  | "DELETING"
+  | "DELETED"
+  | "CREATE_FAILED"
+  | "UPDATE_FAILED";
+export const HostState = S.Literal(
+  "CREATING",
+  "CREATED",
+  "UPDATING",
+  "DELETING",
+  "DELETED",
+  "CREATE_FAILED",
+  "UPDATE_FAILED",
+);
 export interface NetworkInterface {
   networkInterfaceId?: string;
 }
@@ -373,27 +407,27 @@ export interface Host {
   hostName?: string;
   ipAddress?: string;
   keyName?: string;
-  instanceType?: string;
+  instanceType?: InstanceType;
   placementGroupId?: string;
   dedicatedHostId?: string;
   createdAt?: Date;
   modifiedAt?: Date;
-  hostState?: string;
+  hostState?: HostState;
   stateDetails?: string;
   ec2InstanceId?: string;
-  networkInterfaces?: NetworkInterfaceList;
+  networkInterfaces?: NetworkInterface[];
 }
 export const Host = S.suspend(() =>
   S.Struct({
     hostName: S.optional(S.String),
     ipAddress: S.optional(S.String),
     keyName: S.optional(S.String),
-    instanceType: S.optional(S.String),
+    instanceType: S.optional(InstanceType),
     placementGroupId: S.optional(S.String),
     dedicatedHostId: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    hostState: S.optional(S.String),
+    hostState: S.optional(HostState),
     stateDetails: S.optional(S.String),
     ec2InstanceId: S.optional(S.String),
     networkInterfaces: S.optional(NetworkInterfaceList),
@@ -401,6 +435,19 @@ export const Host = S.suspend(() =>
 ).annotations({ identifier: "Host" }) as any as S.Schema<Host>;
 export type HostList = Host[];
 export const HostList = S.Array(Host);
+export type VlanState =
+  | "CREATING"
+  | "CREATED"
+  | "DELETING"
+  | "DELETED"
+  | "CREATE_FAILED";
+export const VlanState = S.Literal(
+  "CREATING",
+  "CREATED",
+  "DELETING",
+  "DELETED",
+  "CREATE_FAILED",
+);
 export interface EipAssociation {
   associationId?: string;
   allocationId?: string;
@@ -425,9 +472,9 @@ export interface Vlan {
   subnetId?: string;
   createdAt?: Date;
   modifiedAt?: Date;
-  vlanState?: string;
+  vlanState?: VlanState;
   stateDetails?: string;
-  eipAssociations?: EipAssociationList;
+  eipAssociations?: EipAssociation[];
   isPublic?: boolean;
   networkAclId?: string;
 }
@@ -440,7 +487,7 @@ export const Vlan = S.suspend(() =>
     subnetId: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    vlanState: S.optional(S.String),
+    vlanState: S.optional(VlanState),
     stateDetails: S.optional(S.String),
     eipAssociations: S.optional(EipAssociationList),
     isPublic: S.optional(S.Boolean),
@@ -451,7 +498,7 @@ export type VlanList = Vlan[];
 export const VlanList = S.Array(Vlan);
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: RequestTagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: RequestTagMap }).pipe(
@@ -464,15 +511,28 @@ export interface TagResourceResponse {}
 export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
+export type CheckResult = "PASSED" | "FAILED" | "UNKNOWN";
+export const CheckResult = S.Literal("PASSED", "FAILED", "UNKNOWN");
+export type CheckType =
+  | "KEY_REUSE"
+  | "KEY_COVERAGE"
+  | "REACHABILITY"
+  | "HOST_COUNT";
+export const CheckType = S.Literal(
+  "KEY_REUSE",
+  "KEY_COVERAGE",
+  "REACHABILITY",
+  "HOST_COUNT",
+);
 export interface Check {
-  type?: string;
-  result?: string;
+  type?: CheckType;
+  result?: CheckResult;
   impairedSince?: Date;
 }
 export const Check = S.suspend(() =>
   S.Struct({
-    type: S.optional(S.String),
-    result: S.optional(S.String),
+    type: S.optional(CheckType),
+    result: S.optional(CheckResult),
     impairedSince: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({ identifier: "Check" }) as any as S.Schema<Check>;
@@ -488,7 +548,7 @@ export type SecretList = Secret[];
 export const SecretList = S.Array(Secret);
 export interface Environment {
   environmentId?: string;
-  environmentState?: string;
+  environmentState?: EnvironmentState;
   stateDetails?: string;
   createdAt?: Date;
   modifiedAt?: Date;
@@ -496,22 +556,22 @@ export interface Environment {
   environmentName?: string;
   vpcId?: string;
   serviceAccessSubnetId?: string;
-  vcfVersion?: string;
+  vcfVersion?: VcfVersion;
   termsAccepted?: boolean;
-  licenseInfo?: LicenseInfoList;
+  licenseInfo?: LicenseInfo[];
   siteId?: string;
-  environmentStatus?: string;
-  checks?: ChecksList;
+  environmentStatus?: CheckResult;
+  checks?: Check[];
   connectivityInfo?: ConnectivityInfo;
   vcfHostnames?: VcfHostnames;
   kmsKeyId?: string;
   serviceAccessSecurityGroups?: ServiceAccessSecurityGroups;
-  credentials?: SecretList;
+  credentials?: Secret[];
 }
 export const Environment = S.suspend(() =>
   S.Struct({
     environmentId: S.optional(S.String),
-    environmentState: S.optional(S.String),
+    environmentState: S.optional(EnvironmentState),
     stateDetails: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -519,11 +579,11 @@ export const Environment = S.suspend(() =>
     environmentName: S.optional(S.String),
     vpcId: S.optional(S.String),
     serviceAccessSubnetId: S.optional(S.String),
-    vcfVersion: S.optional(S.String),
+    vcfVersion: S.optional(VcfVersion),
     termsAccepted: S.optional(S.Boolean),
     licenseInfo: S.optional(LicenseInfoList),
     siteId: S.optional(S.String),
-    environmentStatus: S.optional(S.String),
+    environmentStatus: S.optional(CheckResult),
     checks: S.optional(ChecksList),
     connectivityInfo: S.optional(ConnectivityInfo),
     vcfHostnames: S.optional(VcfHostnames),
@@ -543,9 +603,9 @@ export const DeleteEnvironmentResponse = S.suspend(() =>
 export interface EnvironmentSummary {
   environmentId?: string;
   environmentName?: string;
-  vcfVersion?: string;
-  environmentStatus?: string;
-  environmentState?: string;
+  vcfVersion?: VcfVersion;
+  environmentStatus?: CheckResult;
+  environmentState?: EnvironmentState;
   createdAt?: Date;
   modifiedAt?: Date;
   environmentArn?: string;
@@ -554,9 +614,9 @@ export const EnvironmentSummary = S.suspend(() =>
   S.Struct({
     environmentId: S.optional(S.String),
     environmentName: S.optional(S.String),
-    vcfVersion: S.optional(S.String),
-    environmentStatus: S.optional(S.String),
-    environmentState: S.optional(S.String),
+    vcfVersion: S.optional(VcfVersion),
+    environmentStatus: S.optional(CheckResult),
+    environmentState: S.optional(EnvironmentState),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     environmentArn: S.optional(S.String),
@@ -586,7 +646,7 @@ export const DisassociateEipFromVlanResponse = S.suspend(() =>
 }) as any as S.Schema<DisassociateEipFromVlanResponse>;
 export interface ListEnvironmentHostsResponse {
   nextToken?: string;
-  environmentHosts?: HostList;
+  environmentHosts?: Host[];
 }
 export const ListEnvironmentHostsResponse = S.suspend(() =>
   S.Struct({
@@ -598,7 +658,7 @@ export const ListEnvironmentHostsResponse = S.suspend(() =>
 }) as any as S.Schema<ListEnvironmentHostsResponse>;
 export interface ListEnvironmentVlansResponse {
   nextToken?: string;
-  environmentVlans?: VlanList;
+  environmentVlans?: Vlan[];
 }
 export const ListEnvironmentVlansResponse = S.suspend(() =>
   S.Struct({
@@ -648,10 +708,21 @@ export const InitialVlans = S.suspend(() =>
     hcxNetworkAclId: S.optional(S.String),
   }),
 ).annotations({ identifier: "InitialVlans" }) as any as S.Schema<InitialVlans>;
+export type ValidationExceptionReason =
+  | "unknownOperation"
+  | "cannotParse"
+  | "fieldValidationFailed"
+  | "other";
+export const ValidationExceptionReason = S.Literal(
+  "unknownOperation",
+  "cannotParse",
+  "fieldValidationFailed",
+  "other",
+);
 export type EnvironmentSummaryList = EnvironmentSummary[];
 export const EnvironmentSummaryList = S.Array(EnvironmentSummary);
 export interface ListTagsForResourceResponse {
-  tags?: ResponseTagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(ResponseTagMap) }),
@@ -662,15 +733,15 @@ export interface CreateEnvironmentRequest {
   clientToken?: string;
   environmentName?: string;
   kmsKeyId?: string;
-  tags?: RequestTagMap;
+  tags?: { [key: string]: string };
   serviceAccessSecurityGroups?: ServiceAccessSecurityGroups;
   vpcId: string;
   serviceAccessSubnetId: string;
-  vcfVersion: string;
+  vcfVersion: VcfVersion;
   termsAccepted: boolean;
-  licenseInfo: LicenseInfoList;
+  licenseInfo: LicenseInfo[];
   initialVlans: InitialVlans;
-  hosts: HostInfoForCreateList;
+  hosts: HostInfoForCreate[];
   connectivityInfo: ConnectivityInfo;
   vcfHostnames: VcfHostnames;
   siteId: string;
@@ -684,7 +755,7 @@ export const CreateEnvironmentRequest = S.suspend(() =>
     serviceAccessSecurityGroups: S.optional(ServiceAccessSecurityGroups),
     vpcId: S.String,
     serviceAccessSubnetId: S.String,
-    vcfVersion: S.String,
+    vcfVersion: VcfVersion,
     termsAccepted: S.Boolean,
     licenseInfo: LicenseInfoList,
     initialVlans: InitialVlans,
@@ -700,7 +771,7 @@ export const CreateEnvironmentRequest = S.suspend(() =>
 }) as any as S.Schema<CreateEnvironmentRequest>;
 export interface ListEnvironmentsResponse {
   nextToken?: string;
-  environmentSummaries?: EnvironmentSummaryList;
+  environmentSummaries?: EnvironmentSummary[];
 }
 export const ListEnvironmentsResponse = S.suspend(() =>
   S.Struct({
@@ -783,7 +854,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     message: S.String,
-    reason: S.String,
+    reason: ValidationExceptionReason,
     fieldList: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
@@ -798,7 +869,7 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -812,7 +883,7 @@ export const listTagsForResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   ResourceNotFoundException | TagPolicyException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -830,7 +901,7 @@ export const untagResource: (
  */
 export const deleteEnvironment: (
   input: DeleteEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEnvironmentResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -844,7 +915,7 @@ export const deleteEnvironment: (
  */
 export const associateEipToVlan: (
   input: AssociateEipToVlanRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateEipToVlanResponse,
   | ResourceNotFoundException
   | ThrottlingException
@@ -869,7 +940,7 @@ export const associateEipToVlan: (
  */
 export const createEnvironmentHost: (
   input: CreateEnvironmentHostRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEnvironmentHostResponse,
   ThrottlingException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -883,7 +954,7 @@ export const createEnvironmentHost: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | ResourceNotFoundException
   | ServiceQuotaExceededException
@@ -908,7 +979,7 @@ export const tagResource: (
  */
 export const deleteEnvironmentHost: (
   input: DeleteEnvironmentHostRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEnvironmentHostResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -923,21 +994,21 @@ export const deleteEnvironmentHost: (
 export const listEnvironmentHosts: {
   (
     input: ListEnvironmentHostsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEnvironmentHostsResponse,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListEnvironmentHostsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEnvironmentHostsResponse,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEnvironmentHostsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Host,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -959,21 +1030,21 @@ export const listEnvironmentHosts: {
 export const listEnvironmentVlans: {
   (
     input: ListEnvironmentVlansRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEnvironmentVlansResponse,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListEnvironmentVlansRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEnvironmentVlansResponse,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEnvironmentVlansRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Vlan,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -995,21 +1066,21 @@ export const listEnvironmentVlans: {
 export const listEnvironments: {
   (
     input: ListEnvironmentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEnvironmentsResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListEnvironmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEnvironmentsResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEnvironmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EnvironmentSummary,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1030,7 +1101,7 @@ export const listEnvironments: {
  */
 export const disassociateEipFromVlan: (
   input: DisassociateEipFromVlanRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateEipFromVlanResponse,
   | ResourceNotFoundException
   | ThrottlingException
@@ -1053,7 +1124,7 @@ export const disassociateEipFromVlan: (
  */
 export const createEnvironment: (
   input: CreateEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEnvironmentResponse,
   ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1067,7 +1138,7 @@ export const createEnvironment: (
  */
 export const getEnvironment: (
   input: GetEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEnvironmentResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

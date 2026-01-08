@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -95,29 +95,50 @@ const rules = T.EndpointResolver((p, _) => {
 export type ExperimentEntityName = string;
 export type MetricName = string;
 export type SageMakerResourceArn = string;
-export type Long = number;
 export type Step = number;
-export type Double = number;
 export type Message = string;
-export type Integer = number;
 
 //# Schemas
+export type MetricStatistic =
+  | "Min"
+  | "Max"
+  | "Avg"
+  | "Count"
+  | "StdDev"
+  | "Last";
+export const MetricStatistic = S.Literal(
+  "Min",
+  "Max",
+  "Avg",
+  "Count",
+  "StdDev",
+  "Last",
+);
+export type Period = "OneMinute" | "FiveMinute" | "OneHour" | "IterationNumber";
+export const Period = S.Literal(
+  "OneMinute",
+  "FiveMinute",
+  "OneHour",
+  "IterationNumber",
+);
+export type XAxisType = "IterationNumber" | "Timestamp";
+export const XAxisType = S.Literal("IterationNumber", "Timestamp");
 export interface MetricQuery {
-  MetricName: string;
-  ResourceArn: string;
-  MetricStat: string;
-  Period: string;
-  XAxisType: string;
+  MetricName?: string;
+  ResourceArn?: string;
+  MetricStat?: MetricStatistic;
+  Period?: Period;
+  XAxisType?: XAxisType;
   Start?: number;
   End?: number;
 }
 export const MetricQuery = S.suspend(() =>
   S.Struct({
-    MetricName: S.String,
-    ResourceArn: S.String,
-    MetricStat: S.String,
-    Period: S.String,
-    XAxisType: S.String,
+    MetricName: S.optional(S.String),
+    ResourceArn: S.optional(S.String),
+    MetricStat: S.optional(MetricStatistic),
+    Period: S.optional(Period),
+    XAxisType: S.optional(XAxisType),
     Start: S.optional(S.Number),
     End: S.optional(S.Number),
   }),
@@ -125,17 +146,17 @@ export const MetricQuery = S.suspend(() =>
 export type MetricQueryList = MetricQuery[];
 export const MetricQueryList = S.Array(MetricQuery);
 export interface RawMetricData {
-  MetricName: string;
-  Timestamp: Date;
+  MetricName?: string;
+  Timestamp?: Date;
   Step?: number;
-  Value: number;
+  Value?: number;
 }
 export const RawMetricData = S.suspend(() =>
   S.Struct({
-    MetricName: S.String,
-    Timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    MetricName: S.optional(S.String),
+    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Step: S.optional(S.Number),
-    Value: S.Number,
+    Value: S.optional(S.Number),
   }),
 ).annotations({
   identifier: "RawMetricData",
@@ -143,10 +164,10 @@ export const RawMetricData = S.suspend(() =>
 export type RawMetricDataList = RawMetricData[];
 export const RawMetricDataList = S.Array(RawMetricData);
 export interface BatchGetMetricsRequest {
-  MetricQueries: MetricQueryList;
+  MetricQueries?: MetricQuery[];
 }
 export const BatchGetMetricsRequest = S.suspend(() =>
-  S.Struct({ MetricQueries: MetricQueryList }).pipe(
+  S.Struct({ MetricQueries: S.optional(MetricQueryList) }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/BatchGetMetrics" }),
       svc,
@@ -160,13 +181,13 @@ export const BatchGetMetricsRequest = S.suspend(() =>
   identifier: "BatchGetMetricsRequest",
 }) as any as S.Schema<BatchGetMetricsRequest>;
 export interface BatchPutMetricsRequest {
-  TrialComponentName: string;
-  MetricData: RawMetricDataList;
+  TrialComponentName?: string;
+  MetricData?: RawMetricData[];
 }
 export const BatchPutMetricsRequest = S.suspend(() =>
   S.Struct({
-    TrialComponentName: S.String,
-    MetricData: RawMetricDataList,
+    TrialComponentName: S.optional(S.String),
+    MetricData: S.optional(RawMetricDataList),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/BatchPutMetrics" }),
@@ -180,22 +201,44 @@ export const BatchPutMetricsRequest = S.suspend(() =>
 ).annotations({
   identifier: "BatchPutMetricsRequest",
 }) as any as S.Schema<BatchPutMetricsRequest>;
+export type MetricQueryResultStatus =
+  | "Complete"
+  | "Truncated"
+  | "InternalError"
+  | "ValidationError";
+export const MetricQueryResultStatus = S.Literal(
+  "Complete",
+  "Truncated",
+  "InternalError",
+  "ValidationError",
+);
 export type XAxisValues = number[];
 export const XAxisValues = S.Array(S.Number);
 export type MetricValues = number[];
 export const MetricValues = S.Array(S.Number);
+export type PutMetricsErrorCode =
+  | "METRIC_LIMIT_EXCEEDED"
+  | "INTERNAL_ERROR"
+  | "VALIDATION_ERROR"
+  | "CONFLICT_ERROR";
+export const PutMetricsErrorCode = S.Literal(
+  "METRIC_LIMIT_EXCEEDED",
+  "INTERNAL_ERROR",
+  "VALIDATION_ERROR",
+  "CONFLICT_ERROR",
+);
 export interface MetricQueryResult {
-  Status: string;
+  Status?: MetricQueryResultStatus;
   Message?: string;
-  XAxisValues: XAxisValues;
-  MetricValues: MetricValues;
+  XAxisValues?: number[];
+  MetricValues?: number[];
 }
 export const MetricQueryResult = S.suspend(() =>
   S.Struct({
-    Status: S.String,
+    Status: S.optional(MetricQueryResultStatus),
     Message: S.optional(S.String),
-    XAxisValues: XAxisValues,
-    MetricValues: MetricValues,
+    XAxisValues: S.optional(XAxisValues),
+    MetricValues: S.optional(MetricValues),
   }),
 ).annotations({
   identifier: "MetricQueryResult",
@@ -203,18 +246,21 @@ export const MetricQueryResult = S.suspend(() =>
 export type MetricQueryResultList = MetricQueryResult[];
 export const MetricQueryResultList = S.Array(MetricQueryResult);
 export interface BatchPutMetricsError {
-  Code?: string;
+  Code?: PutMetricsErrorCode;
   MetricIndex?: number;
 }
 export const BatchPutMetricsError = S.suspend(() =>
-  S.Struct({ Code: S.optional(S.String), MetricIndex: S.optional(S.Number) }),
+  S.Struct({
+    Code: S.optional(PutMetricsErrorCode),
+    MetricIndex: S.optional(S.Number),
+  }),
 ).annotations({
   identifier: "BatchPutMetricsError",
 }) as any as S.Schema<BatchPutMetricsError>;
 export type BatchPutMetricsErrorList = BatchPutMetricsError[];
 export const BatchPutMetricsErrorList = S.Array(BatchPutMetricsError);
 export interface BatchGetMetricsResponse {
-  MetricQueryResults?: MetricQueryResultList;
+  MetricQueryResults?: MetricQueryResult[];
 }
 export const BatchGetMetricsResponse = S.suspend(() =>
   S.Struct({ MetricQueryResults: S.optional(MetricQueryResultList) }),
@@ -222,7 +268,7 @@ export const BatchGetMetricsResponse = S.suspend(() =>
   identifier: "BatchGetMetricsResponse",
 }) as any as S.Schema<BatchGetMetricsResponse>;
 export interface BatchPutMetricsResponse {
-  Errors?: BatchPutMetricsErrorList;
+  Errors?: BatchPutMetricsError[];
 }
 export const BatchPutMetricsResponse = S.suspend(() =>
   S.Struct({ Errors: S.optional(BatchPutMetricsErrorList) }),
@@ -238,7 +284,7 @@ export const BatchPutMetricsResponse = S.suspend(() =>
  */
 export const batchGetMetrics: (
   input: BatchGetMetricsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetMetricsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -252,7 +298,7 @@ export const batchGetMetrics: (
  */
 export const batchPutMetrics: (
   input: BatchPutMetricsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchPutMetricsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient

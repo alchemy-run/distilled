@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -144,7 +144,6 @@ export type MaxConcurrentDpus = number;
 export type DefaultExecutorDpuSize = number;
 export type ErrorMessage = string;
 export type AuthToken = string;
-export type Long = number;
 export type KmsKey = string;
 export type IdentityCenterInstanceArn = string;
 export type Age = number;
@@ -156,7 +155,6 @@ export type CalculationResultType = string;
 export type AllocatedDpusInteger = number;
 export type TableTypeString = string;
 export type IdentityCenterApplicationArn = string;
-export type Integer = number;
 export type ExecutorId = string;
 export type LogTypeKey = string;
 export type LogTypeValue = string;
@@ -174,12 +172,73 @@ export type PreparedStatementNameList = string[];
 export const PreparedStatementNameList = S.Array(S.String);
 export type QueryExecutionIdList = string[];
 export const QueryExecutionIdList = S.Array(S.String);
+export type DataCatalogType = "LAMBDA" | "GLUE" | "HIVE" | "FEDERATED";
+export const DataCatalogType = S.Literal("LAMBDA", "GLUE", "HIVE", "FEDERATED");
+export type QueryResultType = "DATA_MANIFEST" | "DATA_ROWS";
+export const QueryResultType = S.Literal("DATA_MANIFEST", "DATA_ROWS");
+export type NotebookType = "IPYNB";
+export const NotebookType = S.Literal("IPYNB");
+export type CalculationExecutionState =
+  | "CREATING"
+  | "CREATED"
+  | "QUEUED"
+  | "RUNNING"
+  | "CANCELING"
+  | "CANCELED"
+  | "COMPLETED"
+  | "FAILED";
+export const CalculationExecutionState = S.Literal(
+  "CREATING",
+  "CREATED",
+  "QUEUED",
+  "RUNNING",
+  "CANCELING",
+  "CANCELED",
+  "COMPLETED",
+  "FAILED",
+);
+export type ExecutorState =
+  | "CREATING"
+  | "CREATED"
+  | "REGISTERED"
+  | "TERMINATING"
+  | "TERMINATED"
+  | "FAILED";
+export const ExecutorState = S.Literal(
+  "CREATING",
+  "CREATED",
+  "REGISTERED",
+  "TERMINATING",
+  "TERMINATED",
+  "FAILED",
+);
+export type SessionState =
+  | "CREATING"
+  | "CREATED"
+  | "IDLE"
+  | "BUSY"
+  | "TERMINATING"
+  | "TERMINATED"
+  | "DEGRADED"
+  | "FAILED";
+export const SessionState = S.Literal(
+  "CREATING",
+  "CREATED",
+  "IDLE",
+  "BUSY",
+  "TERMINATING",
+  "TERMINATED",
+  "DEGRADED",
+  "FAILED",
+);
 export type ExecutionParameters = string[];
 export const ExecutionParameters = S.Array(S.String);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type WorkGroupState = "ENABLED" | "DISABLED";
+export const WorkGroupState = S.Literal("ENABLED", "DISABLED");
 export interface BatchGetNamedQueryInput {
-  NamedQueryIds: NamedQueryIdList;
+  NamedQueryIds: string[];
 }
 export const BatchGetNamedQueryInput = S.suspend(() =>
   S.Struct({ NamedQueryIds: NamedQueryIdList }).pipe(
@@ -189,7 +248,7 @@ export const BatchGetNamedQueryInput = S.suspend(() =>
   identifier: "BatchGetNamedQueryInput",
 }) as any as S.Schema<BatchGetNamedQueryInput>;
 export interface BatchGetPreparedStatementInput {
-  PreparedStatementNames: PreparedStatementNameList;
+  PreparedStatementNames: string[];
   WorkGroup: string;
 }
 export const BatchGetPreparedStatementInput = S.suspend(() =>
@@ -203,7 +262,7 @@ export const BatchGetPreparedStatementInput = S.suspend(() =>
   identifier: "BatchGetPreparedStatementInput",
 }) as any as S.Schema<BatchGetPreparedStatementInput>;
 export interface BatchGetQueryExecutionInput {
-  QueryExecutionIds: QueryExecutionIdList;
+  QueryExecutionIds: string[];
 }
 export const BatchGetQueryExecutionInput = S.suspend(() =>
   S.Struct({ QueryExecutionIds: QueryExecutionIdList }).pipe(
@@ -522,14 +581,14 @@ export interface GetQueryResultsInput {
   QueryExecutionId: string;
   NextToken?: string;
   MaxResults?: number;
-  QueryResultType?: string;
+  QueryResultType?: QueryResultType;
 }
 export const GetQueryResultsInput = S.suspend(() =>
   S.Struct({
     QueryExecutionId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-    QueryResultType: S.optional(S.String),
+    QueryResultType: S.optional(QueryResultType),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -618,7 +677,7 @@ export interface ImportNotebookInput {
   WorkGroup: string;
   Name: string;
   Payload?: string;
-  Type: string;
+  Type: NotebookType;
   NotebookS3LocationUri?: string;
   ClientRequestToken?: string;
 }
@@ -627,7 +686,7 @@ export const ImportNotebookInput = S.suspend(() =>
     WorkGroup: S.String,
     Name: S.String,
     Payload: S.optional(S.String),
-    Type: S.String,
+    Type: NotebookType,
     NotebookS3LocationUri: S.optional(S.String),
     ClientRequestToken: S.optional(S.String),
   }).pipe(
@@ -652,14 +711,14 @@ export const ListApplicationDPUSizesInput = S.suspend(() =>
 }) as any as S.Schema<ListApplicationDPUSizesInput>;
 export interface ListCalculationExecutionsRequest {
   SessionId: string;
-  StateFilter?: string;
+  StateFilter?: CalculationExecutionState;
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListCalculationExecutionsRequest = S.suspend(() =>
   S.Struct({
     SessionId: S.String,
-    StateFilter: S.optional(S.String),
+    StateFilter: S.optional(CalculationExecutionState),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -732,14 +791,14 @@ export const ListEngineVersionsInput = S.suspend(() =>
 }) as any as S.Schema<ListEngineVersionsInput>;
 export interface ListExecutorsRequest {
   SessionId: string;
-  ExecutorStateFilter?: string;
+  ExecutorStateFilter?: ExecutorState;
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListExecutorsRequest = S.suspend(() =>
   S.Struct({
     SessionId: S.String,
-    ExecutorStateFilter: S.optional(S.String),
+    ExecutorStateFilter: S.optional(ExecutorState),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -814,14 +873,14 @@ export const ListQueryExecutionsInput = S.suspend(() =>
 }) as any as S.Schema<ListQueryExecutionsInput>;
 export interface ListSessionsRequest {
   WorkGroup: string;
-  StateFilter?: string;
+  StateFilter?: SessionState;
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListSessionsRequest = S.suspend(() =>
   S.Struct({
     WorkGroup: S.String,
-    StateFilter: S.optional(S.String),
+    StateFilter: S.optional(SessionState),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -919,7 +978,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagResourceInput {
   ResourceARN: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
@@ -944,7 +1003,7 @@ export const TerminateSessionRequest = S.suspend(() =>
 }) as any as S.Schema<TerminateSessionRequest>;
 export interface UntagResourceInput {
   ResourceARN: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
@@ -978,14 +1037,14 @@ export type ParametersMap = { [key: string]: string };
 export const ParametersMap = S.Record({ key: S.String, value: S.String });
 export interface UpdateDataCatalogInput {
   Name: string;
-  Type: string;
+  Type: DataCatalogType;
   Description?: string;
-  Parameters?: ParametersMap;
+  Parameters?: { [key: string]: string };
 }
 export const UpdateDataCatalogInput = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Type: S.String,
+    Type: DataCatalogType,
     Description: S.optional(S.String),
     Parameters: S.optional(ParametersMap),
   }).pipe(
@@ -1025,7 +1084,7 @@ export const UpdateNamedQueryOutput = S.suspend(() => S.Struct({})).annotations(
 export interface UpdateNotebookInput {
   NotebookId: string;
   Payload: string;
-  Type: string;
+  Type: NotebookType;
   SessionId?: string;
   ClientRequestToken?: string;
 }
@@ -1033,7 +1092,7 @@ export const UpdateNotebookInput = S.suspend(() =>
   S.Struct({
     NotebookId: S.String,
     Payload: S.String,
-    Type: S.String,
+    Type: NotebookType,
     SessionId: S.optional(S.String),
     ClientRequestToken: S.optional(S.String),
   }).pipe(
@@ -1094,15 +1153,36 @@ export const UpdatePreparedStatementOutput = S.suspend(() =>
 }) as any as S.Schema<UpdatePreparedStatementOutput>;
 export type WorkGroupNamesList = string[];
 export const WorkGroupNamesList = S.Array(S.String);
+export type CapacityReservationStatus =
+  | "PENDING"
+  | "ACTIVE"
+  | "CANCELLING"
+  | "CANCELLED"
+  | "FAILED"
+  | "UPDATE_PENDING";
+export const CapacityReservationStatus = S.Literal(
+  "PENDING",
+  "ACTIVE",
+  "CANCELLING",
+  "CANCELLED",
+  "FAILED",
+  "UPDATE_PENDING",
+);
+export type CapacityAllocationStatus = "PENDING" | "SUCCEEDED" | "FAILED";
+export const CapacityAllocationStatus = S.Literal(
+  "PENDING",
+  "SUCCEEDED",
+  "FAILED",
+);
 export interface CapacityAllocation {
-  Status: string;
+  Status: CapacityAllocationStatus;
   StatusMessage?: string;
   RequestTime: Date;
   RequestCompletionTime?: Date;
 }
 export const CapacityAllocation = S.suspend(() =>
   S.Struct({
-    Status: S.String,
+    Status: CapacityAllocationStatus,
     StatusMessage: S.optional(S.String),
     RequestTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     RequestCompletionTime: S.optional(
@@ -1114,7 +1194,7 @@ export const CapacityAllocation = S.suspend(() =>
 }) as any as S.Schema<CapacityAllocation>;
 export interface CapacityReservation {
   Name: string;
-  Status: string;
+  Status: CapacityReservationStatus;
   TargetDpus: number;
   AllocatedDpus: number;
   LastAllocation?: CapacityAllocation;
@@ -1124,7 +1204,7 @@ export interface CapacityReservation {
 export const CapacityReservation = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Status: S.String,
+    Status: CapacityReservationStatus,
     TargetDpus: S.Number,
     AllocatedDpus: S.Number,
     LastAllocation: S.optional(CapacityAllocation),
@@ -1141,7 +1221,7 @@ export const CapacityReservationsList = S.Array(CapacityReservation);
 export interface Database {
   Name: string;
   Description?: string;
-  Parameters?: ParametersMap;
+  Parameters?: { [key: string]: string };
 }
 export const Database = S.suspend(() =>
   S.Struct({
@@ -1193,9 +1273,9 @@ export interface TableMetadata {
   CreateTime?: Date;
   LastAccessTime?: Date;
   TableType?: string;
-  Columns?: ColumnList;
-  PartitionKeys?: ColumnList;
-  Parameters?: ParametersMap;
+  Columns?: Column[];
+  PartitionKeys?: Column[];
+  Parameters?: { [key: string]: string };
 }
 export const TableMetadata = S.suspend(() =>
   S.Struct({
@@ -1213,7 +1293,7 @@ export const TableMetadata = S.suspend(() =>
 export type TableMetadataList = TableMetadata[];
 export const TableMetadataList = S.Array(TableMetadata);
 export interface CapacityAssignment {
-  WorkGroupNames?: WorkGroupNamesList;
+  WorkGroupNames?: string[];
 }
 export const CapacityAssignment = S.suspend(() =>
   S.Struct({ WorkGroupNames: S.optional(WorkGroupNamesList) }),
@@ -1239,10 +1319,16 @@ export const QueryExecutionContext = S.suspend(() =>
 ).annotations({
   identifier: "QueryExecutionContext",
 }) as any as S.Schema<QueryExecutionContext>;
+export type AuthenticationType = "DIRECTORY_IDENTITY";
+export const AuthenticationType = S.Literal("DIRECTORY_IDENTITY");
+export type EncryptionOption = "SSE_S3" | "SSE_KMS" | "CSE_KMS";
+export const EncryptionOption = S.Literal("SSE_S3", "SSE_KMS", "CSE_KMS");
+export type S3AclOption = "BUCKET_OWNER_FULL_CONTROL";
+export const S3AclOption = S.Literal("BUCKET_OWNER_FULL_CONTROL");
 export interface CreateCapacityReservationInput {
   TargetDpus: number;
   Name: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateCapacityReservationInput = S.suspend(() =>
   S.Struct({
@@ -1263,15 +1349,15 @@ export const CreateCapacityReservationOutput = S.suspend(() =>
 }) as any as S.Schema<CreateCapacityReservationOutput>;
 export interface CreateDataCatalogInput {
   Name: string;
-  Type: string;
+  Type: DataCatalogType;
   Description?: string;
-  Parameters?: ParametersMap;
-  Tags?: TagList;
+  Parameters?: { [key: string]: string };
+  Tags?: Tag[];
 }
 export const CreateDataCatalogInput = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Type: S.String,
+    Type: DataCatalogType,
     Description: S.optional(S.String),
     Parameters: S.optional(ParametersMap),
     Tags: S.optional(TagList),
@@ -1322,7 +1408,7 @@ export const GetCalculationExecutionCodeResponse = S.suspend(() =>
 export interface CalculationStatus {
   SubmissionDateTime?: Date;
   CompletionDateTime?: Date;
-  State?: string;
+  State?: CalculationExecutionState;
   StateChangeReason?: string;
 }
 export const CalculationStatus = S.suspend(() =>
@@ -1333,7 +1419,7 @@ export const CalculationStatus = S.suspend(() =>
     CompletionDateTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    State: S.optional(S.String),
+    State: S.optional(CalculationExecutionState),
     StateChangeReason: S.optional(S.String),
   }),
 ).annotations({
@@ -1363,23 +1449,87 @@ export const GetCalculationExecutionStatusResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetCalculationExecutionStatusResponse",
 }) as any as S.Schema<GetCalculationExecutionStatusResponse>;
+export type DataCatalogStatus =
+  | "CREATE_IN_PROGRESS"
+  | "CREATE_COMPLETE"
+  | "CREATE_FAILED"
+  | "CREATE_FAILED_CLEANUP_IN_PROGRESS"
+  | "CREATE_FAILED_CLEANUP_COMPLETE"
+  | "CREATE_FAILED_CLEANUP_FAILED"
+  | "DELETE_IN_PROGRESS"
+  | "DELETE_COMPLETE"
+  | "DELETE_FAILED";
+export const DataCatalogStatus = S.Literal(
+  "CREATE_IN_PROGRESS",
+  "CREATE_COMPLETE",
+  "CREATE_FAILED",
+  "CREATE_FAILED_CLEANUP_IN_PROGRESS",
+  "CREATE_FAILED_CLEANUP_COMPLETE",
+  "CREATE_FAILED_CLEANUP_FAILED",
+  "DELETE_IN_PROGRESS",
+  "DELETE_COMPLETE",
+  "DELETE_FAILED",
+);
+export type ConnectionType =
+  | "DYNAMODB"
+  | "MYSQL"
+  | "POSTGRESQL"
+  | "REDSHIFT"
+  | "ORACLE"
+  | "SYNAPSE"
+  | "SQLSERVER"
+  | "DB2"
+  | "OPENSEARCH"
+  | "BIGQUERY"
+  | "GOOGLECLOUDSTORAGE"
+  | "HBASE"
+  | "DOCUMENTDB"
+  | "CMDB"
+  | "TPCDS"
+  | "TIMESTREAM"
+  | "SAPHANA"
+  | "SNOWFLAKE"
+  | "DATALAKEGEN2"
+  | "DB2AS400";
+export const ConnectionType = S.Literal(
+  "DYNAMODB",
+  "MYSQL",
+  "POSTGRESQL",
+  "REDSHIFT",
+  "ORACLE",
+  "SYNAPSE",
+  "SQLSERVER",
+  "DB2",
+  "OPENSEARCH",
+  "BIGQUERY",
+  "GOOGLECLOUDSTORAGE",
+  "HBASE",
+  "DOCUMENTDB",
+  "CMDB",
+  "TPCDS",
+  "TIMESTREAM",
+  "SAPHANA",
+  "SNOWFLAKE",
+  "DATALAKEGEN2",
+  "DB2AS400",
+);
 export interface DataCatalog {
   Name: string;
   Description?: string;
-  Type: string;
-  Parameters?: ParametersMap;
-  Status?: string;
-  ConnectionType?: string;
+  Type: DataCatalogType;
+  Parameters?: { [key: string]: string };
+  Status?: DataCatalogStatus;
+  ConnectionType?: ConnectionType;
   Error?: string;
 }
 export const DataCatalog = S.suspend(() =>
   S.Struct({
     Name: S.String,
     Description: S.optional(S.String),
-    Type: S.String,
+    Type: DataCatalogType,
     Parameters: S.optional(ParametersMap),
-    Status: S.optional(S.String),
-    ConnectionType: S.optional(S.String),
+    Status: S.optional(DataCatalogStatus),
+    ConnectionType: S.optional(ConnectionType),
     Error: S.optional(S.String),
   }),
 ).annotations({ identifier: "DataCatalog" }) as any as S.Schema<DataCatalog>;
@@ -1422,7 +1572,7 @@ export interface NotebookMetadata {
   Name?: string;
   WorkGroup?: string;
   CreationTime?: Date;
-  Type?: string;
+  Type?: NotebookType;
   LastModifiedTime?: Date;
 }
 export const NotebookMetadata = S.suspend(() =>
@@ -1431,7 +1581,7 @@ export const NotebookMetadata = S.suspend(() =>
     Name: S.optional(S.String),
     WorkGroup: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Type: S.optional(S.String),
+    Type: S.optional(NotebookType),
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1475,6 +1625,8 @@ export const GetPreparedStatementOutput = S.suspend(() =>
 ).annotations({
   identifier: "GetPreparedStatementOutput",
 }) as any as S.Schema<GetPreparedStatementOutput>;
+export type StatementType = "DDL" | "DML" | "UTILITY";
+export const StatementType = S.Literal("DDL", "DML", "UTILITY");
 export interface ManagedQueryResultsEncryptionConfiguration {
   KmsKey: string;
 }
@@ -1498,19 +1650,22 @@ export const ManagedQueryResultsConfiguration = S.suspend(() =>
   identifier: "ManagedQueryResultsConfiguration",
 }) as any as S.Schema<ManagedQueryResultsConfiguration>;
 export interface EncryptionConfiguration {
-  EncryptionOption: string;
+  EncryptionOption: EncryptionOption;
   KmsKey?: string;
 }
 export const EncryptionConfiguration = S.suspend(() =>
-  S.Struct({ EncryptionOption: S.String, KmsKey: S.optional(S.String) }),
+  S.Struct({
+    EncryptionOption: EncryptionOption,
+    KmsKey: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "EncryptionConfiguration",
 }) as any as S.Schema<EncryptionConfiguration>;
 export interface AclConfiguration {
-  S3AclOption: string;
+  S3AclOption: S3AclOption;
 }
 export const AclConfiguration = S.suspend(() =>
-  S.Struct({ S3AclOption: S.String }),
+  S.Struct({ S3AclOption: S3AclOption }),
 ).annotations({
   identifier: "AclConfiguration",
 }) as any as S.Schema<AclConfiguration>;
@@ -1549,6 +1704,19 @@ export const ResultReuseConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ResultReuseConfiguration",
 }) as any as S.Schema<ResultReuseConfiguration>;
+export type QueryExecutionState =
+  | "QUEUED"
+  | "RUNNING"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "CANCELLED";
+export const QueryExecutionState = S.Literal(
+  "QUEUED",
+  "RUNNING",
+  "SUCCEEDED",
+  "FAILED",
+  "CANCELLED",
+);
 export interface AthenaError {
   ErrorCategory?: number;
   ErrorType?: number;
@@ -1564,7 +1732,7 @@ export const AthenaError = S.suspend(() =>
   }),
 ).annotations({ identifier: "AthenaError" }) as any as S.Schema<AthenaError>;
 export interface QueryExecutionStatus {
-  State?: string;
+  State?: QueryExecutionState;
   StateChangeReason?: string;
   SubmissionDateTime?: Date;
   CompletionDateTime?: Date;
@@ -1572,7 +1740,7 @@ export interface QueryExecutionStatus {
 }
 export const QueryExecutionStatus = S.suspend(() =>
   S.Struct({
-    State: S.optional(S.String),
+    State: S.optional(QueryExecutionState),
     StateChangeReason: S.optional(S.String),
     SubmissionDateTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1624,13 +1792,13 @@ export const QueryExecutionStatistics = S.suspend(() =>
 export interface QueryResultsS3AccessGrantsConfiguration {
   EnableS3AccessGrants: boolean;
   CreateUserLevelPrefix?: boolean;
-  AuthenticationType: string;
+  AuthenticationType: AuthenticationType;
 }
 export const QueryResultsS3AccessGrantsConfiguration = S.suspend(() =>
   S.Struct({
     EnableS3AccessGrants: S.Boolean,
     CreateUserLevelPrefix: S.optional(S.Boolean),
-    AuthenticationType: S.String,
+    AuthenticationType: AuthenticationType,
   }),
 ).annotations({
   identifier: "QueryResultsS3AccessGrantsConfiguration",
@@ -1638,7 +1806,7 @@ export const QueryResultsS3AccessGrantsConfiguration = S.suspend(() =>
 export interface QueryExecution {
   QueryExecutionId?: string;
   Query?: string;
-  StatementType?: string;
+  StatementType?: StatementType;
   ManagedQueryResultsConfiguration?: ManagedQueryResultsConfiguration;
   ResultConfiguration?: ResultConfiguration;
   ResultReuseConfiguration?: ResultReuseConfiguration;
@@ -1647,7 +1815,7 @@ export interface QueryExecution {
   Statistics?: QueryExecutionStatistics;
   WorkGroup?: string;
   EngineVersion?: EngineVersion;
-  ExecutionParameters?: ExecutionParameters;
+  ExecutionParameters?: string[];
   SubstatementType?: string;
   QueryResultsS3AccessGrantsConfiguration?: QueryResultsS3AccessGrantsConfiguration;
 }
@@ -1655,7 +1823,7 @@ export const QueryExecution = S.suspend(() =>
   S.Struct({
     QueryExecutionId: S.optional(S.String),
     Query: S.optional(S.String),
-    StatementType: S.optional(S.String),
+    StatementType: S.optional(StatementType),
     ManagedQueryResultsConfiguration: S.optional(
       ManagedQueryResultsConfiguration,
     ),
@@ -1710,7 +1878,7 @@ export interface SessionStatus {
   LastModifiedDateTime?: Date;
   EndDateTime?: Date;
   IdleSinceDateTime?: Date;
-  State?: string;
+  State?: SessionState;
   StateChangeReason?: string;
 }
 export const SessionStatus = S.suspend(() =>
@@ -1723,7 +1891,7 @@ export const SessionStatus = S.suspend(() =>
     IdleSinceDateTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    State: S.optional(S.String),
+    State: S.optional(SessionState),
     StateChangeReason: S.optional(S.String),
   }),
 ).annotations({
@@ -1751,7 +1919,7 @@ export const ImportNotebookOutput = S.suspend(() =>
 }) as any as S.Schema<ImportNotebookOutput>;
 export interface ListCapacityReservationsOutput {
   NextToken?: string;
-  CapacityReservations: CapacityReservationsList;
+  CapacityReservations: CapacityReservation[];
 }
 export const ListCapacityReservationsOutput = S.suspend(() =>
   S.Struct({
@@ -1762,7 +1930,7 @@ export const ListCapacityReservationsOutput = S.suspend(() =>
   identifier: "ListCapacityReservationsOutput",
 }) as any as S.Schema<ListCapacityReservationsOutput>;
 export interface ListDatabasesOutput {
-  DatabaseList?: DatabaseList;
+  DatabaseList?: Database[];
   NextToken?: string;
 }
 export const ListDatabasesOutput = S.suspend(() =>
@@ -1774,7 +1942,7 @@ export const ListDatabasesOutput = S.suspend(() =>
   identifier: "ListDatabasesOutput",
 }) as any as S.Schema<ListDatabasesOutput>;
 export interface ListEngineVersionsOutput {
-  EngineVersions?: EngineVersionsList;
+  EngineVersions?: EngineVersion[];
   NextToken?: string;
 }
 export const ListEngineVersionsOutput = S.suspend(() =>
@@ -1786,7 +1954,7 @@ export const ListEngineVersionsOutput = S.suspend(() =>
   identifier: "ListEngineVersionsOutput",
 }) as any as S.Schema<ListEngineVersionsOutput>;
 export interface ListNamedQueriesOutput {
-  NamedQueryIds?: NamedQueryIdList;
+  NamedQueryIds?: string[];
   NextToken?: string;
 }
 export const ListNamedQueriesOutput = S.suspend(() =>
@@ -1816,7 +1984,7 @@ export const ListNotebookMetadataInput = S.suspend(() =>
   identifier: "ListNotebookMetadataInput",
 }) as any as S.Schema<ListNotebookMetadataInput>;
 export interface ListQueryExecutionsOutput {
-  QueryExecutionIds?: QueryExecutionIdList;
+  QueryExecutionIds?: string[];
   NextToken?: string;
 }
 export const ListQueryExecutionsOutput = S.suspend(() =>
@@ -1828,7 +1996,7 @@ export const ListQueryExecutionsOutput = S.suspend(() =>
   identifier: "ListQueryExecutionsOutput",
 }) as any as S.Schema<ListQueryExecutionsOutput>;
 export interface ListTableMetadataOutput {
-  TableMetadataList?: TableMetadataList;
+  TableMetadataList?: TableMetadata[];
   NextToken?: string;
 }
 export const ListTableMetadataOutput = S.suspend(() =>
@@ -1840,7 +2008,7 @@ export const ListTableMetadataOutput = S.suspend(() =>
   identifier: "ListTableMetadataOutput",
 }) as any as S.Schema<ListTableMetadataOutput>;
 export interface ListTagsForResourceOutput {
-  Tags?: TagList;
+  Tags?: Tag[];
   NextToken?: string;
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
@@ -1850,7 +2018,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface PutCapacityAssignmentConfigurationInput {
   CapacityReservationName: string;
-  CapacityAssignments: CapacityAssignmentsList;
+  CapacityAssignments: CapacityAssignment[];
 }
 export const PutCapacityAssignmentConfigurationInput = S.suspend(() =>
   S.Struct({
@@ -1889,18 +2057,18 @@ export const StartCalculationExecutionRequest = S.suspend(() =>
   identifier: "StartCalculationExecutionRequest",
 }) as any as S.Schema<StartCalculationExecutionRequest>;
 export interface StopCalculationExecutionResponse {
-  State?: string;
+  State?: CalculationExecutionState;
 }
 export const StopCalculationExecutionResponse = S.suspend(() =>
-  S.Struct({ State: S.optional(S.String) }),
+  S.Struct({ State: S.optional(CalculationExecutionState) }),
 ).annotations({
   identifier: "StopCalculationExecutionResponse",
 }) as any as S.Schema<StopCalculationExecutionResponse>;
 export interface TerminateSessionResponse {
-  State?: string;
+  State?: SessionState;
 }
 export const TerminateSessionResponse = S.suspend(() =>
-  S.Struct({ State: S.optional(S.String) }),
+  S.Struct({ State: S.optional(SessionState) }),
 ).annotations({
   identifier: "TerminateSessionResponse",
 }) as any as S.Schema<TerminateSessionResponse>;
@@ -1926,9 +2094,11 @@ export const IdentityCenterConfiguration = S.suspend(() =>
 }) as any as S.Schema<IdentityCenterConfiguration>;
 export type SupportedDPUSizeList = number[];
 export const SupportedDPUSizeList = S.Array(S.Number);
+export type ExecutorType = "COORDINATOR" | "GATEWAY" | "WORKER";
+export const ExecutorType = S.Literal("COORDINATOR", "GATEWAY", "WORKER");
 export interface Classification {
   Name?: string;
-  Properties?: ParametersMap;
+  Properties?: { [key: string]: string };
 }
 export const Classification = S.suspend(() =>
   S.Struct({
@@ -2080,7 +2250,7 @@ export const CalculationResult = S.suspend(() =>
 }) as any as S.Schema<CalculationResult>;
 export interface CapacityAssignmentConfiguration {
   CapacityReservationName?: string;
-  CapacityAssignments?: CapacityAssignmentsList;
+  CapacityAssignments?: CapacityAssignment[];
 }
 export const CapacityAssignmentConfiguration = S.suspend(() =>
   S.Struct({
@@ -2116,7 +2286,7 @@ export const SessionStatistics = S.suspend(() =>
 ).annotations({
   identifier: "SessionStatistics",
 }) as any as S.Schema<SessionStatistics>;
-export type LogTypesMap = { [key: string]: LogTypeValuesList };
+export type LogTypesMap = { [key: string]: string[] };
 export const LogTypesMap = S.Record({
   key: S.String,
   value: LogTypeValuesList,
@@ -2125,7 +2295,7 @@ export interface CloudWatchLoggingConfiguration {
   Enabled: boolean;
   LogGroup?: string;
   LogStreamNamePrefix?: string;
-  LogTypes?: LogTypesMap;
+  LogTypes?: { [key: string]: string[] };
 }
 export const CloudWatchLoggingConfiguration = S.suspend(() =>
   S.Struct({
@@ -2155,9 +2325,9 @@ export interface EngineConfiguration {
   CoordinatorDpuSize?: number;
   MaxConcurrentDpus?: number;
   DefaultExecutorDpuSize?: number;
-  AdditionalConfigs?: ParametersMap;
-  SparkProperties?: ParametersMap;
-  Classifications?: ClassificationList;
+  AdditionalConfigs?: { [key: string]: string };
+  SparkProperties?: { [key: string]: string };
+  Classifications?: Classification[];
 }
 export const EngineConfiguration = S.suspend(() =>
   S.Struct({
@@ -2217,7 +2387,7 @@ export const WorkGroupConfiguration = S.suspend(() =>
 }) as any as S.Schema<WorkGroupConfiguration>;
 export interface WorkGroup {
   Name: string;
-  State?: string;
+  State?: WorkGroupState;
   Configuration?: WorkGroupConfiguration;
   Description?: string;
   CreationTime?: Date;
@@ -2226,7 +2396,7 @@ export interface WorkGroup {
 export const WorkGroup = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    State: S.optional(S.String),
+    State: S.optional(WorkGroupState),
     Configuration: S.optional(WorkGroupConfiguration),
     Description: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2235,7 +2405,7 @@ export const WorkGroup = S.suspend(() =>
 ).annotations({ identifier: "WorkGroup" }) as any as S.Schema<WorkGroup>;
 export interface ApplicationDPUSizes {
   ApplicationRuntimeId?: string;
-  SupportedDPUSizes?: SupportedDPUSizeList;
+  SupportedDPUSizes?: number[];
 }
 export const ApplicationDPUSizes = S.suspend(() =>
   S.Struct({
@@ -2265,17 +2435,17 @@ export type CalculationsList = CalculationSummary[];
 export const CalculationsList = S.Array(CalculationSummary);
 export interface DataCatalogSummary {
   CatalogName?: string;
-  Type?: string;
-  Status?: string;
-  ConnectionType?: string;
+  Type?: DataCatalogType;
+  Status?: DataCatalogStatus;
+  ConnectionType?: ConnectionType;
   Error?: string;
 }
 export const DataCatalogSummary = S.suspend(() =>
   S.Struct({
     CatalogName: S.optional(S.String),
-    Type: S.optional(S.String),
-    Status: S.optional(S.String),
-    ConnectionType: S.optional(S.String),
+    Type: S.optional(DataCatalogType),
+    Status: S.optional(DataCatalogStatus),
+    ConnectionType: S.optional(ConnectionType),
     Error: S.optional(S.String),
   }),
 ).annotations({
@@ -2285,19 +2455,19 @@ export type DataCatalogSummaryList = DataCatalogSummary[];
 export const DataCatalogSummaryList = S.Array(DataCatalogSummary);
 export interface ExecutorsSummary {
   ExecutorId: string;
-  ExecutorType?: string;
+  ExecutorType?: ExecutorType;
   StartDateTime?: number;
   TerminationDateTime?: number;
-  ExecutorState?: string;
+  ExecutorState?: ExecutorState;
   ExecutorSize?: number;
 }
 export const ExecutorsSummary = S.suspend(() =>
   S.Struct({
     ExecutorId: S.String,
-    ExecutorType: S.optional(S.String),
+    ExecutorType: S.optional(ExecutorType),
     StartDateTime: S.optional(S.Number),
     TerminationDateTime: S.optional(S.Number),
-    ExecutorState: S.optional(S.String),
+    ExecutorState: S.optional(ExecutorState),
     ExecutorSize: S.optional(S.Number),
   }),
 ).annotations({
@@ -2359,7 +2529,7 @@ export type SessionsList = SessionSummary[];
 export const SessionsList = S.Array(SessionSummary);
 export interface WorkGroupSummary {
   Name?: string;
-  State?: string;
+  State?: WorkGroupState;
   Description?: string;
   CreationTime?: Date;
   EngineVersion?: EngineVersion;
@@ -2368,7 +2538,7 @@ export interface WorkGroupSummary {
 export const WorkGroupSummary = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(WorkGroupState),
     Description: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EngineVersion: S.optional(EngineVersion),
@@ -2432,8 +2602,8 @@ export const QueryStages = S.Array(
   }),
 ) as any as S.Schema<QueryStages>;
 export interface BatchGetNamedQueryOutput {
-  NamedQueries?: NamedQueryList;
-  UnprocessedNamedQueryIds?: UnprocessedNamedQueryIdList;
+  NamedQueries?: NamedQuery[];
+  UnprocessedNamedQueryIds?: UnprocessedNamedQueryId[];
 }
 export const BatchGetNamedQueryOutput = S.suspend(() =>
   S.Struct({
@@ -2444,8 +2614,8 @@ export const BatchGetNamedQueryOutput = S.suspend(() =>
   identifier: "BatchGetNamedQueryOutput",
 }) as any as S.Schema<BatchGetNamedQueryOutput>;
 export interface BatchGetPreparedStatementOutput {
-  PreparedStatements?: PreparedStatementDetailsList;
-  UnprocessedPreparedStatementNames?: UnprocessedPreparedStatementNameList;
+  PreparedStatements?: PreparedStatement[];
+  UnprocessedPreparedStatementNames?: UnprocessedPreparedStatementName[];
 }
 export const BatchGetPreparedStatementOutput = S.suspend(() =>
   S.Struct({
@@ -2562,7 +2732,7 @@ export const GetWorkGroupOutput = S.suspend(() =>
   identifier: "GetWorkGroupOutput",
 }) as any as S.Schema<GetWorkGroupOutput>;
 export interface ListApplicationDPUSizesOutput {
-  ApplicationDPUSizes?: ApplicationDPUSizesList;
+  ApplicationDPUSizes?: ApplicationDPUSizes[];
   NextToken?: string;
 }
 export const ListApplicationDPUSizesOutput = S.suspend(() =>
@@ -2575,7 +2745,7 @@ export const ListApplicationDPUSizesOutput = S.suspend(() =>
 }) as any as S.Schema<ListApplicationDPUSizesOutput>;
 export interface ListCalculationExecutionsResponse {
   NextToken?: string;
-  Calculations?: CalculationsList;
+  Calculations?: CalculationSummary[];
 }
 export const ListCalculationExecutionsResponse = S.suspend(() =>
   S.Struct({
@@ -2586,7 +2756,7 @@ export const ListCalculationExecutionsResponse = S.suspend(() =>
   identifier: "ListCalculationExecutionsResponse",
 }) as any as S.Schema<ListCalculationExecutionsResponse>;
 export interface ListDataCatalogsOutput {
-  DataCatalogsSummary?: DataCatalogSummaryList;
+  DataCatalogsSummary?: DataCatalogSummary[];
   NextToken?: string;
 }
 export const ListDataCatalogsOutput = S.suspend(() =>
@@ -2600,7 +2770,7 @@ export const ListDataCatalogsOutput = S.suspend(() =>
 export interface ListExecutorsResponse {
   SessionId: string;
   NextToken?: string;
-  ExecutorsSummary?: ExecutorsSummaryList;
+  ExecutorsSummary?: ExecutorsSummary[];
 }
 export const ListExecutorsResponse = S.suspend(() =>
   S.Struct({
@@ -2613,7 +2783,7 @@ export const ListExecutorsResponse = S.suspend(() =>
 }) as any as S.Schema<ListExecutorsResponse>;
 export interface ListNotebookMetadataOutput {
   NextToken?: string;
-  NotebookMetadataList?: NotebookMetadataArray;
+  NotebookMetadataList?: NotebookMetadata[];
 }
 export const ListNotebookMetadataOutput = S.suspend(() =>
   S.Struct({
@@ -2624,7 +2794,7 @@ export const ListNotebookMetadataOutput = S.suspend(() =>
   identifier: "ListNotebookMetadataOutput",
 }) as any as S.Schema<ListNotebookMetadataOutput>;
 export interface ListNotebookSessionsResponse {
-  NotebookSessionsList: NotebookSessionsList;
+  NotebookSessionsList: NotebookSessionSummary[];
   NextToken?: string;
 }
 export const ListNotebookSessionsResponse = S.suspend(() =>
@@ -2636,7 +2806,7 @@ export const ListNotebookSessionsResponse = S.suspend(() =>
   identifier: "ListNotebookSessionsResponse",
 }) as any as S.Schema<ListNotebookSessionsResponse>;
 export interface ListPreparedStatementsOutput {
-  PreparedStatements?: PreparedStatementsList;
+  PreparedStatements?: PreparedStatementSummary[];
   NextToken?: string;
 }
 export const ListPreparedStatementsOutput = S.suspend(() =>
@@ -2649,7 +2819,7 @@ export const ListPreparedStatementsOutput = S.suspend(() =>
 }) as any as S.Schema<ListPreparedStatementsOutput>;
 export interface ListSessionsResponse {
   NextToken?: string;
-  Sessions?: SessionsList;
+  Sessions?: SessionSummary[];
 }
 export const ListSessionsResponse = S.suspend(() =>
   S.Struct({
@@ -2660,7 +2830,7 @@ export const ListSessionsResponse = S.suspend(() =>
   identifier: "ListSessionsResponse",
 }) as any as S.Schema<ListSessionsResponse>;
 export interface ListWorkGroupsOutput {
-  WorkGroups?: WorkGroupsList;
+  WorkGroups?: WorkGroupSummary[];
   NextToken?: string;
 }
 export const ListWorkGroupsOutput = S.suspend(() =>
@@ -2673,12 +2843,12 @@ export const ListWorkGroupsOutput = S.suspend(() =>
 }) as any as S.Schema<ListWorkGroupsOutput>;
 export interface StartCalculationExecutionResponse {
   CalculationExecutionId?: string;
-  State?: string;
+  State?: CalculationExecutionState;
 }
 export const StartCalculationExecutionResponse = S.suspend(() =>
   S.Struct({
     CalculationExecutionId: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(CalculationExecutionState),
   }),
 ).annotations({
   identifier: "StartCalculationExecutionResponse",
@@ -2689,7 +2859,7 @@ export interface StartQueryExecutionInput {
   QueryExecutionContext?: QueryExecutionContext;
   ResultConfiguration?: ResultConfiguration;
   WorkGroup?: string;
-  ExecutionParameters?: ExecutionParameters;
+  ExecutionParameters?: string[];
   ResultReuseConfiguration?: ResultReuseConfiguration;
   EngineConfiguration?: EngineConfiguration;
 }
@@ -2713,14 +2883,14 @@ export interface UpdateWorkGroupInput {
   WorkGroup: string;
   Description?: string;
   ConfigurationUpdates?: WorkGroupConfigurationUpdates;
-  State?: string;
+  State?: WorkGroupState;
 }
 export const UpdateWorkGroupInput = S.suspend(() =>
   S.Struct({
     WorkGroup: S.String,
     Description: S.optional(S.String),
     ConfigurationUpdates: S.optional(WorkGroupConfigurationUpdates),
-    State: S.optional(S.String),
+    State: S.optional(WorkGroupState),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -2767,6 +2937,8 @@ export const QueryRuntimeStatisticsRows = S.suspend(() =>
 ).annotations({
   identifier: "QueryRuntimeStatisticsRows",
 }) as any as S.Schema<QueryRuntimeStatisticsRows>;
+export type ColumnNullable = "NOT_NULL" | "NULLABLE" | "UNKNOWN";
+export const ColumnNullable = S.Literal("NOT_NULL", "NULLABLE", "UNKNOWN");
 export type QueryStagePlanNodes = QueryStagePlanNode[];
 export const QueryStagePlanNodes = S.Array(
   S.suspend(
@@ -2775,6 +2947,8 @@ export const QueryStagePlanNodes = S.Array(
 ) as any as S.Schema<QueryStagePlanNodes>;
 export type StringList = string[];
 export const StringList = S.Array(S.String);
+export type ThrottleReason = "CONCURRENT_QUERY_LIMIT_EXCEEDED";
+export const ThrottleReason = S.Literal("CONCURRENT_QUERY_LIMIT_EXCEEDED");
 export interface Datum {
   VarCharValue?: string;
 }
@@ -2792,7 +2966,7 @@ export interface ColumnInfo {
   Type: string;
   Precision?: number;
   Scale?: number;
-  Nullable?: string;
+  Nullable?: ColumnNullable;
   CaseSensitive?: boolean;
 }
 export const ColumnInfo = S.suspend(() =>
@@ -2805,7 +2979,7 @@ export const ColumnInfo = S.suspend(() =>
     Type: S.String,
     Precision: S.optional(S.Number),
     Scale: S.optional(S.Number),
-    Nullable: S.optional(S.String),
+    Nullable: S.optional(ColumnNullable),
     CaseSensitive: S.optional(S.Boolean),
   }),
 ).annotations({ identifier: "ColumnInfo" }) as any as S.Schema<ColumnInfo>;
@@ -2814,8 +2988,8 @@ export const ColumnInfoList = S.Array(ColumnInfo);
 export interface QueryStagePlanNode {
   Name?: string;
   Identifier?: string;
-  Children?: QueryStagePlanNodes;
-  RemoteSources?: StringList;
+  Children?: QueryStagePlanNode[];
+  RemoteSources?: string[];
 }
 export const QueryStagePlanNode = S.suspend(() =>
   S.Struct({
@@ -2835,7 +3009,7 @@ export interface CreateWorkGroupInput {
   Name: string;
   Configuration?: WorkGroupConfiguration;
   Description?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateWorkGroupInput = S.suspend(() =>
   S.Struct({
@@ -2886,7 +3060,7 @@ export interface StartSessionRequest {
   NotebookVersion?: string;
   SessionIdleTimeoutInMinutes?: number;
   ClientRequestToken?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   CopyWorkGroupTags?: boolean;
 }
 export const StartSessionRequest = S.suspend(() =>
@@ -2908,7 +3082,7 @@ export const StartSessionRequest = S.suspend(() =>
   identifier: "StartSessionRequest",
 }) as any as S.Schema<StartSessionRequest>;
 export interface Row {
-  Data?: datumList;
+  Data?: Datum[];
 }
 export const Row = S.suspend(() =>
   S.Struct({ Data: S.optional(datumList) }),
@@ -2916,7 +3090,7 @@ export const Row = S.suspend(() =>
 export type RowList = Row[];
 export const RowList = S.Array(Row);
 export interface ResultSetMetadata {
-  ColumnInfo?: ColumnInfoList;
+  ColumnInfo?: ColumnInfo[];
 }
 export const ResultSetMetadata = S.suspend(() =>
   S.Struct({ ColumnInfo: S.optional(ColumnInfoList) }),
@@ -2932,7 +3106,7 @@ export interface QueryStage {
   InputRows?: number;
   ExecutionTime?: number;
   QueryStagePlan?: QueryStagePlanNode;
-  SubStages?: QueryStages;
+  SubStages?: QueryStage[];
 }
 export const QueryStage = S.suspend(() =>
   S.Struct({
@@ -2956,7 +3130,7 @@ export const QueryStage = S.suspend(() =>
 export type QueryExecutionList = QueryExecution[];
 export const QueryExecutionList = S.Array(QueryExecution);
 export interface ResultSet {
-  Rows?: RowList;
+  Rows?: Row[];
   ResultSetMetadata?: ResultSetMetadata;
 }
 export const ResultSet = S.suspend(() =>
@@ -2980,8 +3154,8 @@ export const QueryRuntimeStatistics = S.suspend(() =>
   identifier: "QueryRuntimeStatistics",
 }) as any as S.Schema<QueryRuntimeStatistics>;
 export interface BatchGetQueryExecutionOutput {
-  QueryExecutions?: QueryExecutionList;
-  UnprocessedQueryExecutionIds?: UnprocessedQueryExecutionIdList;
+  QueryExecutions?: QueryExecution[];
+  UnprocessedQueryExecutionIds?: UnprocessedQueryExecutionId[];
 }
 export const BatchGetQueryExecutionOutput = S.suspend(() =>
   S.Struct({
@@ -3015,10 +3189,13 @@ export const GetQueryRuntimeStatisticsOutput = S.suspend(() =>
 }) as any as S.Schema<GetQueryRuntimeStatisticsOutput>;
 export interface StartSessionResponse {
   SessionId?: string;
-  State?: string;
+  State?: SessionState;
 }
 export const StartSessionResponse = S.suspend(() =>
-  S.Struct({ SessionId: S.optional(S.String), State: S.optional(S.String) }),
+  S.Struct({
+    SessionId: S.optional(S.String),
+    State: S.optional(SessionState),
+  }),
 ).annotations({
   identifier: "StartSessionResponse",
 }) as any as S.Schema<StartSessionResponse>;
@@ -3034,7 +3211,7 @@ export class InvalidRequestException extends S.TaggedError<InvalidRequestExcepti
 ) {}
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
-  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+  { Message: S.optional(S.String), Reason: S.optional(ThrottleReason) },
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
@@ -3058,7 +3235,7 @@ export class SessionAlreadyExistsException extends S.TaggedError<SessionAlreadyE
  */
 export const cancelCapacityReservation: (
   input: CancelCapacityReservationInput,
-) => Effect.Effect<
+) => effect.Effect<
   CancelCapacityReservationOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3088,7 +3265,7 @@ export const cancelCapacityReservation: (
  */
 export const createDataCatalog: (
   input: CreateDataCatalogInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataCatalogOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3102,7 +3279,7 @@ export const createDataCatalog: (
  */
 export const deleteDataCatalog: (
   input: DeleteDataCatalogInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDataCatalogOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3117,7 +3294,7 @@ export const deleteDataCatalog: (
  */
 export const getCapacityAssignmentConfiguration: (
   input: GetCapacityAssignmentConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetCapacityAssignmentConfigurationOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3131,7 +3308,7 @@ export const getCapacityAssignmentConfiguration: (
  */
 export const getWorkGroup: (
   input: GetWorkGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkGroupOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3149,21 +3326,21 @@ export const getWorkGroup: (
 export const listDataCatalogs: {
   (
     input: ListDataCatalogsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataCatalogsOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListDataCatalogsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataCatalogsOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDataCatalogsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataCatalogSummary,
     InternalServerException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3185,21 +3362,21 @@ export const listDataCatalogs: {
 export const listPreparedStatements: {
   (
     input: ListPreparedStatementsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPreparedStatementsOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListPreparedStatementsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPreparedStatementsOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPreparedStatementsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServerException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3220,21 +3397,21 @@ export const listPreparedStatements: {
 export const listWorkGroups: {
   (
     input: ListWorkGroupsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkGroupsOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListWorkGroupsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkGroupsOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkGroupsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServerException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3255,7 +3432,7 @@ export const listWorkGroups: {
  */
 export const updateWorkGroup: (
   input: UpdateWorkGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkGroupOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3270,7 +3447,7 @@ export const updateWorkGroup: (
  */
 export const createCapacityReservation: (
   input: CreateCapacityReservationInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCapacityReservationOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3285,7 +3462,7 @@ export const createCapacityReservation: (
  */
 export const createNamedQuery: (
   input: CreateNamedQueryInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateNamedQueryOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3299,7 +3476,7 @@ export const createNamedQuery: (
  */
 export const getDataCatalog: (
   input: GetDataCatalogInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataCatalogOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3314,7 +3491,7 @@ export const getDataCatalog: (
  */
 export const getNamedQuery: (
   input: GetNamedQueryInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetNamedQueryOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3330,7 +3507,7 @@ export const getNamedQuery: (
  */
 export const getQueryExecution: (
   input: GetQueryExecutionInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetQueryExecutionOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3345,21 +3522,21 @@ export const getQueryExecution: (
 export const listCapacityReservations: {
   (
     input: ListCapacityReservationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCapacityReservationsOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListCapacityReservationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCapacityReservationsOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCapacityReservationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServerException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3381,21 +3558,21 @@ export const listCapacityReservations: {
 export const listEngineVersions: {
   (
     input: ListEngineVersionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEngineVersionsOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListEngineVersionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEngineVersionsOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEngineVersionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServerException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3418,21 +3595,21 @@ export const listEngineVersions: {
 export const listNamedQueries: {
   (
     input: ListNamedQueriesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListNamedQueriesOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListNamedQueriesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListNamedQueriesOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListNamedQueriesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServerException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3456,21 +3633,21 @@ export const listNamedQueries: {
 export const listQueryExecutions: {
   (
     input: ListQueryExecutionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListQueryExecutionsOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListQueryExecutionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListQueryExecutionsOutput,
     InternalServerException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListQueryExecutionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServerException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3492,7 +3669,7 @@ export const listQueryExecutions: {
  */
 export const putCapacityAssignmentConfiguration: (
   input: PutCapacityAssignmentConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutCapacityAssignmentConfigurationOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3506,7 +3683,7 @@ export const putCapacityAssignmentConfiguration: (
  */
 export const createPreparedStatement: (
   input: CreatePreparedStatementInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePreparedStatementOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3524,7 +3701,7 @@ export const createPreparedStatement: (
  */
 export const deleteCapacityReservation: (
   input: DeleteCapacityReservationInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCapacityReservationOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3539,7 +3716,7 @@ export const deleteCapacityReservation: (
  */
 export const deleteNamedQuery: (
   input: DeleteNamedQueryInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteNamedQueryOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3554,7 +3731,7 @@ export const deleteNamedQuery: (
  */
 export const deleteWorkGroup: (
   input: DeleteWorkGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkGroupOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3569,7 +3746,7 @@ export const deleteWorkGroup: (
  */
 export const stopQueryExecution: (
   input: StopQueryExecutionInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopQueryExecutionOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3584,7 +3761,7 @@ export const stopQueryExecution: (
  */
 export const updateCapacityReservation: (
   input: UpdateCapacityReservationInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCapacityReservationOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3598,7 +3775,7 @@ export const updateCapacityReservation: (
  */
 export const updateDataCatalog: (
   input: UpdateDataCatalogInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDataCatalogOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3613,7 +3790,7 @@ export const updateDataCatalog: (
  */
 export const updateNamedQuery: (
   input: UpdateNamedQueryInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateNamedQueryOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3635,7 +3812,7 @@ export const updateNamedQuery: (
  */
 export const batchGetNamedQuery: (
   input: BatchGetNamedQueryInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetNamedQueryOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3653,7 +3830,7 @@ export const batchGetNamedQuery: (
  */
 export const batchGetPreparedStatement: (
   input: BatchGetPreparedStatementInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetPreparedStatementOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3668,7 +3845,7 @@ export const batchGetPreparedStatement: (
  */
 export const createWorkGroup: (
   input: CreateWorkGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkGroupOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3682,7 +3859,7 @@ export const createWorkGroup: (
  */
 export const exportNotebook: (
   input: ExportNotebookInput,
-) => Effect.Effect<
+) => effect.Effect<
   ExportNotebookOutput,
   | InternalServerException
   | InvalidRequestException
@@ -3703,7 +3880,7 @@ export const exportNotebook: (
  */
 export const getCalculationExecution: (
   input: GetCalculationExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCalculationExecutionResponse,
   | InternalServerException
   | InvalidRequestException
@@ -3724,7 +3901,7 @@ export const getCalculationExecution: (
  */
 export const getCapacityReservation: (
   input: GetCapacityReservationInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetCapacityReservationOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3738,7 +3915,7 @@ export const getCapacityReservation: (
  */
 export const getDatabase: (
   input: GetDatabaseInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetDatabaseOutput,
   | InternalServerException
   | InvalidRequestException
@@ -3755,7 +3932,7 @@ export const getDatabase: (
  */
 export const getTableMetadata: (
   input: GetTableMetadataInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetTableMetadataOutput,
   | InternalServerException
   | InvalidRequestException
@@ -3777,7 +3954,7 @@ export const getTableMetadata: (
  */
 export const startQueryExecution: (
   input: StartQueryExecutionInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartQueryExecutionOutput,
   | InternalServerException
   | InvalidRequestException
@@ -3800,7 +3977,7 @@ export const startQueryExecution: (
 export const listApplicationDPUSizes: {
   (
     input: ListApplicationDPUSizesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationDPUSizesOutput,
     | InternalServerException
     | InvalidRequestException
@@ -3810,7 +3987,7 @@ export const listApplicationDPUSizes: {
   >;
   pages: (
     input: ListApplicationDPUSizesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationDPUSizesOutput,
     | InternalServerException
     | InvalidRequestException
@@ -3820,7 +3997,7 @@ export const listApplicationDPUSizes: {
   >;
   items: (
     input: ListApplicationDPUSizesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | InvalidRequestException
@@ -3847,7 +4024,7 @@ export const listApplicationDPUSizes: {
  */
 export const listNotebookMetadata: (
   input: ListNotebookMetadataInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListNotebookMetadataOutput,
   | InternalServerException
   | InvalidRequestException
@@ -3870,7 +4047,7 @@ export const listNotebookMetadata: (
  */
 export const createNotebook: (
   input: CreateNotebookInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateNotebookOutput,
   | InternalServerException
   | InvalidRequestException
@@ -3891,7 +4068,7 @@ export const createNotebook: (
  */
 export const getNotebookMetadata: (
   input: GetNotebookMetadataInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetNotebookMetadataOutput,
   | InternalServerException
   | InvalidRequestException
@@ -3917,7 +4094,7 @@ export const getNotebookMetadata: (
  */
 export const importNotebook: (
   input: ImportNotebookInput,
-) => Effect.Effect<
+) => effect.Effect<
   ImportNotebookOutput,
   | InternalServerException
   | InvalidRequestException
@@ -3938,7 +4115,7 @@ export const importNotebook: (
  */
 export const deleteNotebook: (
   input: DeleteNotebookInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteNotebookOutput,
   | InternalServerException
   | InvalidRequestException
@@ -3959,7 +4136,7 @@ export const deleteNotebook: (
  */
 export const updateNotebook: (
   input: UpdateNotebookInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateNotebookOutput,
   | InternalServerException
   | InvalidRequestException
@@ -3980,7 +4157,7 @@ export const updateNotebook: (
  */
 export const updateNotebookMetadata: (
   input: UpdateNotebookMetadataInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateNotebookMetadataOutput,
   | InternalServerException
   | InvalidRequestException
@@ -4002,7 +4179,7 @@ export const updateNotebookMetadata: (
  */
 export const getSession: (
   input: GetSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSessionResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4025,7 +4202,7 @@ export const getSession: (
 export const listCalculationExecutions: {
   (
     input: ListCalculationExecutionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCalculationExecutionsResponse,
     | InternalServerException
     | InvalidRequestException
@@ -4035,7 +4212,7 @@ export const listCalculationExecutions: {
   >;
   pages: (
     input: ListCalculationExecutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCalculationExecutionsResponse,
     | InternalServerException
     | InvalidRequestException
@@ -4045,7 +4222,7 @@ export const listCalculationExecutions: {
   >;
   items: (
     input: ListCalculationExecutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | InvalidRequestException
@@ -4075,7 +4252,7 @@ export const listCalculationExecutions: {
 export const listExecutors: {
   (
     input: ListExecutorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListExecutorsResponse,
     | InternalServerException
     | InvalidRequestException
@@ -4085,7 +4262,7 @@ export const listExecutors: {
   >;
   pages: (
     input: ListExecutorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListExecutorsResponse,
     | InternalServerException
     | InvalidRequestException
@@ -4095,7 +4272,7 @@ export const listExecutors: {
   >;
   items: (
     input: ListExecutorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | InvalidRequestException
@@ -4125,7 +4302,7 @@ export const listExecutors: {
  */
 export const listNotebookSessions: (
   input: ListNotebookSessionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListNotebookSessionsResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4150,7 +4327,7 @@ export const listNotebookSessions: (
 export const listSessions: {
   (
     input: ListSessionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSessionsResponse,
     | InternalServerException
     | InvalidRequestException
@@ -4160,7 +4337,7 @@ export const listSessions: {
   >;
   pages: (
     input: ListSessionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSessionsResponse,
     | InternalServerException
     | InvalidRequestException
@@ -4170,7 +4347,7 @@ export const listSessions: {
   >;
   items: (
     input: ListSessionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | InvalidRequestException
@@ -4203,7 +4380,7 @@ export const listSessions: {
  */
 export const startCalculationExecution: (
   input: StartCalculationExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartCalculationExecutionResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4228,7 +4405,7 @@ export const startCalculationExecution: (
  */
 export const createPresignedNotebookUrl: (
   input: CreatePresignedNotebookUrlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePresignedNotebookUrlResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4249,7 +4426,7 @@ export const createPresignedNotebookUrl: (
  */
 export const getCalculationExecutionCode: (
   input: GetCalculationExecutionCodeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCalculationExecutionCodeResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4270,7 +4447,7 @@ export const getCalculationExecutionCode: (
  */
 export const getCalculationExecutionStatus: (
   input: GetCalculationExecutionStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCalculationExecutionStatusResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4292,7 +4469,7 @@ export const getCalculationExecutionStatus: (
  */
 export const getPreparedStatement: (
   input: GetPreparedStatementInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetPreparedStatementOutput,
   | InternalServerException
   | InvalidRequestException
@@ -4313,7 +4490,7 @@ export const getPreparedStatement: (
  */
 export const getResourceDashboard: (
   input: GetResourceDashboardRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourceDashboardResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4334,7 +4511,7 @@ export const getResourceDashboard: (
  */
 export const getSessionEndpoint: (
   input: GetSessionEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSessionEndpointResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4355,7 +4532,7 @@ export const getSessionEndpoint: (
  */
 export const getSessionStatus: (
   input: GetSessionStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSessionStatusResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4377,7 +4554,7 @@ export const getSessionStatus: (
 export const listTagsForResource: {
   (
     input: ListTagsForResourceInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTagsForResourceOutput,
     | InternalServerException
     | InvalidRequestException
@@ -4387,7 +4564,7 @@ export const listTagsForResource: {
   >;
   pages: (
     input: ListTagsForResourceInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTagsForResourceOutput,
     | InternalServerException
     | InvalidRequestException
@@ -4397,7 +4574,7 @@ export const listTagsForResource: {
   >;
   items: (
     input: ListTagsForResourceInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Tag,
     | InternalServerException
     | InvalidRequestException
@@ -4433,7 +4610,7 @@ export const listTagsForResource: {
  */
 export const stopCalculationExecution: (
   input: StopCalculationExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopCalculationExecutionResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4458,7 +4635,7 @@ export const stopCalculationExecution: (
  */
 export const terminateSession: (
   input: TerminateSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TerminateSessionResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4480,7 +4657,7 @@ export const terminateSession: (
  */
 export const deletePreparedStatement: (
   input: DeletePreparedStatementInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePreparedStatementOutput,
   | InternalServerException
   | InvalidRequestException
@@ -4511,7 +4688,7 @@ export const deletePreparedStatement: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   | InternalServerException
   | InvalidRequestException
@@ -4532,7 +4709,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   | InternalServerException
   | InvalidRequestException
@@ -4553,7 +4730,7 @@ export const untagResource: (
  */
 export const updatePreparedStatement: (
   input: UpdatePreparedStatementInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePreparedStatementOutput,
   | InternalServerException
   | InvalidRequestException
@@ -4575,7 +4752,7 @@ export const updatePreparedStatement: (
 export const listDatabases: {
   (
     input: ListDatabasesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDatabasesOutput,
     | InternalServerException
     | InvalidRequestException
@@ -4585,7 +4762,7 @@ export const listDatabases: {
   >;
   pages: (
     input: ListDatabasesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDatabasesOutput,
     | InternalServerException
     | InvalidRequestException
@@ -4595,7 +4772,7 @@ export const listDatabases: {
   >;
   items: (
     input: ListDatabasesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Database,
     | InternalServerException
     | InvalidRequestException
@@ -4620,7 +4797,7 @@ export const listDatabases: {
 export const listTableMetadata: {
   (
     input: ListTableMetadataInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTableMetadataOutput,
     | InternalServerException
     | InvalidRequestException
@@ -4630,7 +4807,7 @@ export const listTableMetadata: {
   >;
   pages: (
     input: ListTableMetadataInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTableMetadataOutput,
     | InternalServerException
     | InvalidRequestException
@@ -4640,7 +4817,7 @@ export const listTableMetadata: {
   >;
   items: (
     input: ListTableMetadataInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TableMetadata,
     | InternalServerException
     | InvalidRequestException
@@ -4669,7 +4846,7 @@ export const listTableMetadata: {
  */
 export const batchGetQueryExecution: (
   input: BatchGetQueryExecutionInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetQueryExecutionOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4699,7 +4876,7 @@ export const batchGetQueryExecution: (
 export const getQueryResults: {
   (
     input: GetQueryResultsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetQueryResultsOutput,
     | InternalServerException
     | InvalidRequestException
@@ -4709,7 +4886,7 @@ export const getQueryResults: {
   >;
   pages: (
     input: GetQueryResultsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetQueryResultsOutput,
     | InternalServerException
     | InvalidRequestException
@@ -4719,7 +4896,7 @@ export const getQueryResults: {
   >;
   items: (
     input: GetQueryResultsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | InvalidRequestException
@@ -4752,7 +4929,7 @@ export const getQueryResults: {
  */
 export const getQueryRuntimeStatistics: (
   input: GetQueryRuntimeStatisticsInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetQueryRuntimeStatisticsOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4767,7 +4944,7 @@ export const getQueryRuntimeStatistics: (
  */
 export const startSession: (
   input: StartSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartSessionResponse,
   | InternalServerException
   | InvalidRequestException

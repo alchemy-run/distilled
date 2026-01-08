@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -60,7 +60,7 @@ export type Email = string;
 export type ClientToken = string;
 export type TagKey = string;
 export type UnicodeString = string;
-export type SensitiveUnicodeString = string | Redacted.Redacted<string>;
+export type SensitiveUnicodeString = string | redacted.Redacted<string>;
 export type ParticipantIdentifier = string;
 export type ConnectionInvitationId = string;
 export type NextToken = string;
@@ -68,7 +68,7 @@ export type MaxResults = number;
 export type Revision = number;
 export type ConnectionId = string;
 export type ConnectionTypeFilter = string;
-export type EmailVerificationCode = string | Redacted.Redacted<string>;
+export type EmailVerificationCode = string | redacted.Redacted<string>;
 export type PartnerIdentifier = string;
 export type ProfileTaskId = string;
 export type DomainName = string;
@@ -83,23 +83,80 @@ export type AwsAccountId = string;
 export type PartnerArn = string;
 export type PartnerId = string;
 export type PartnerProfileId = string;
-export type LegalName = string | Redacted.Redacted<string>;
-export type RegistrationId = string | Redacted.Redacted<string>;
+export type LegalName = string | redacted.Redacted<string>;
+export type RegistrationId = string | redacted.Redacted<string>;
 export type CountryCode = string;
 export type JurisdictionCode = string;
 export type CompletionUrl = string;
 export type SellerProfileId = string;
 
 //# Schemas
+export type VerificationType =
+  | "BUSINESS_VERIFICATION"
+  | "REGISTRANT_VERIFICATION";
+export const VerificationType = S.Literal(
+  "BUSINESS_VERIFICATION",
+  "REGISTRANT_VERIFICATION",
+);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type ConnectionType = "OPPORTUNITY_COLLABORATION" | "SUBSIDIARY";
+export const ConnectionType = S.Literal(
+  "OPPORTUNITY_COLLABORATION",
+  "SUBSIDIARY",
+);
 export type ParticipantIdentifierList = string[];
 export const ParticipantIdentifierList = S.Array(S.String);
+export type ParticipantType = "SENDER" | "RECEIVER";
+export const ParticipantType = S.Literal("SENDER", "RECEIVER");
+export type InvitationStatus =
+  | "PENDING"
+  | "ACCEPTED"
+  | "REJECTED"
+  | "CANCELED"
+  | "EXPIRED";
+export const InvitationStatus = S.Literal(
+  "PENDING",
+  "ACCEPTED",
+  "REJECTED",
+  "CANCELED",
+  "EXPIRED",
+);
+export type AccessType =
+  | "ALLOW_ALL"
+  | "DENY_ALL"
+  | "ALLOW_BY_DEFAULT_DENY_SOME";
+export const AccessType = S.Literal(
+  "ALLOW_ALL",
+  "DENY_ALL",
+  "ALLOW_BY_DEFAULT_DENY_SOME",
+);
+export type PrimarySolutionType =
+  | "SOFTWARE_PRODUCTS"
+  | "CONSULTING_SERVICES"
+  | "PROFESSIONAL_SERVICES"
+  | "MANAGED_SERVICES"
+  | "HARDWARE_PRODUCTS"
+  | "COMMUNICATION_SERVICES"
+  | "VALUE_ADDED_RESALE_AWS_SERVICES"
+  | "TRAINING_SERVICES";
+export const PrimarySolutionType = S.Literal(
+  "SOFTWARE_PRODUCTS",
+  "CONSULTING_SERVICES",
+  "PROFESSIONAL_SERVICES",
+  "MANAGED_SERVICES",
+  "HARDWARE_PRODUCTS",
+  "COMMUNICATION_SERVICES",
+  "VALUE_ADDED_RESALE_AWS_SERVICES",
+  "TRAINING_SERVICES",
+);
+export type ProfileVisibility = "PRIVATE" | "PUBLIC";
+export const ProfileVisibility = S.Literal("PRIVATE", "PUBLIC");
 export interface GetVerificationRequest {
-  VerificationType: string;
+  VerificationType: VerificationType;
 }
 export const GetVerificationRequest = S.suspend(() =>
-  S.Struct({ VerificationType: S.String }).pipe(
+  S.Struct({ VerificationType: VerificationType }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -134,7 +191,7 @@ export const SendEmailVerificationCodeResponse = S.suspend(() =>
 }) as any as S.Schema<SendEmailVerificationCodeResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
@@ -150,17 +207,17 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 export interface CreateConnectionInvitationRequest {
   Catalog: string;
   ClientToken: string;
-  ConnectionType: string;
+  ConnectionType: ConnectionType;
   Email: string;
   Message: string;
-  Name: string | Redacted.Redacted<string>;
+  Name: string | redacted.Redacted<string>;
   ReceiverIdentifier: string;
 }
 export const CreateConnectionInvitationRequest = S.suspend(() =>
   S.Struct({
     Catalog: S.String,
     ClientToken: S.String,
-    ConnectionType: S.String,
+    ConnectionType: ConnectionType,
     Email: S.String,
     Message: S.String,
     Name: SensitiveString,
@@ -185,21 +242,21 @@ export const GetConnectionInvitationRequest = S.suspend(() =>
 export interface ListConnectionInvitationsRequest {
   Catalog: string;
   NextToken?: string;
-  ConnectionType?: string;
+  ConnectionType?: ConnectionType;
   MaxResults?: number;
-  OtherParticipantIdentifiers?: ParticipantIdentifierList;
-  ParticipantType?: string;
-  Status?: string;
+  OtherParticipantIdentifiers?: string[];
+  ParticipantType?: ParticipantType;
+  Status?: InvitationStatus;
 }
 export const ListConnectionInvitationsRequest = S.suspend(() =>
   S.Struct({
     Catalog: S.String,
     NextToken: S.optional(S.String),
-    ConnectionType: S.optional(S.String),
+    ConnectionType: S.optional(ConnectionType),
     MaxResults: S.optional(S.Number),
     OtherParticipantIdentifiers: S.optional(ParticipantIdentifierList),
-    ParticipantType: S.optional(S.String),
-    Status: S.optional(S.String),
+    ParticipantType: S.optional(ParticipantType),
+    Status: S.optional(InvitationStatus),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -269,14 +326,14 @@ export const GetConnectionPreferencesRequest = S.suspend(() =>
 export interface UpdateConnectionPreferencesRequest {
   Catalog: string;
   Revision: number;
-  AccessType: string;
-  ExcludedParticipantIdentifiers?: ParticipantIdentifierList;
+  AccessType: AccessType;
+  ExcludedParticipantIdentifiers?: string[];
 }
 export const UpdateConnectionPreferencesRequest = S.suspend(() =>
   S.Struct({
     Catalog: S.String,
     Revision: S.Number,
-    AccessType: S.String,
+    AccessType: AccessType,
     ExcludedParticipantIdentifiers: S.optional(ParticipantIdentifierList),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -300,7 +357,7 @@ export interface ListConnectionsRequest {
   NextToken?: string;
   ConnectionType?: string;
   MaxResults?: number;
-  OtherParticipantIdentifiers?: ParticipantIdentifierList;
+  OtherParticipantIdentifiers?: string[];
 }
 export const ListConnectionsRequest = S.suspend(() =>
   S.Struct({
@@ -318,7 +375,7 @@ export const ListConnectionsRequest = S.suspend(() =>
 export interface CancelConnectionRequest {
   Catalog: string;
   Identifier: string;
-  ConnectionType: string;
+  ConnectionType: ConnectionType;
   Reason: string;
   ClientToken: string;
 }
@@ -326,7 +383,7 @@ export const CancelConnectionRequest = S.suspend(() =>
   S.Struct({
     Catalog: S.String,
     Identifier: S.String,
-    ConnectionType: S.String,
+    ConnectionType: ConnectionType,
     Reason: S.String,
     ClientToken: S.String,
   }).pipe(
@@ -362,7 +419,7 @@ export interface AssociateAwsTrainingCertificationEmailDomainRequest {
   Identifier: string;
   ClientToken?: string;
   Email: string;
-  EmailVerificationCode: string | Redacted.Redacted<string>;
+  EmailVerificationCode: string | redacted.Redacted<string>;
 }
 export const AssociateAwsTrainingCertificationEmailDomainRequest = S.suspend(
   () =>
@@ -460,10 +517,10 @@ export const GetProfileVisibilityRequest = S.suspend(() =>
   identifier: "GetProfileVisibilityRequest",
 }) as any as S.Schema<GetProfileVisibilityRequest>;
 export interface AllianceLeadContact {
-  FirstName: string | Redacted.Redacted<string>;
-  LastName: string | Redacted.Redacted<string>;
+  FirstName: string | redacted.Redacted<string>;
+  LastName: string | redacted.Redacted<string>;
   Email: string;
-  BusinessTitle: string | Redacted.Redacted<string>;
+  BusinessTitle: string | redacted.Redacted<string>;
 }
 export const AllianceLeadContact = S.suspend(() =>
   S.Struct({
@@ -479,7 +536,7 @@ export interface PutAllianceLeadContactRequest {
   Catalog: string;
   Identifier: string;
   AllianceLeadContact: AllianceLeadContact;
-  EmailVerificationCode?: string | Redacted.Redacted<string>;
+  EmailVerificationCode?: string | redacted.Redacted<string>;
 }
 export const PutAllianceLeadContactRequest = S.suspend(() =>
   S.Struct({
@@ -496,13 +553,13 @@ export const PutAllianceLeadContactRequest = S.suspend(() =>
 export interface PutProfileVisibilityRequest {
   Catalog: string;
   Identifier: string;
-  Visibility: string;
+  Visibility: ProfileVisibility;
 }
 export const PutProfileVisibilityRequest = S.suspend(() =>
   S.Struct({
     Catalog: S.String,
     Identifier: S.String,
-    Visibility: S.String,
+    Visibility: ProfileVisibility,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -515,8 +572,105 @@ export const RegistrantVerificationDetails = S.suspend(() =>
 ).annotations({
   identifier: "RegistrantVerificationDetails",
 }) as any as S.Schema<RegistrantVerificationDetails>;
-export type IndustrySegmentList = string[];
-export const IndustrySegmentList = S.Array(S.String);
+export type IndustrySegment =
+  | "AGRICULTURE_MINING"
+  | "BIOTECHNOLOGY"
+  | "BUSINESS_CONSUMER_SERVICES"
+  | "BUSINESS_SERV"
+  | "COMMUNICATIONS"
+  | "COMPUTER_HARDWARE"
+  | "COMPUTERS_ELECTRONICS"
+  | "COMPUTER_SOFTWARE"
+  | "CONSUMER_GOODS"
+  | "CONSUMER_RELATED"
+  | "EDUCATION"
+  | "ENERGY_UTILITIES"
+  | "FINANCIAL_SERVICES"
+  | "GAMING"
+  | "GOVERNMENT"
+  | "GOVERNMENT_EDUCATION_PUBLIC_SERVICES"
+  | "HEALTHCARE"
+  | "HEALTHCARE_PHARMACEUTICALS_BIOTECH"
+  | "INDUSTRIAL_ENERGY"
+  | "INTERNET_SPECIFIC"
+  | "LIFE_SCIENCES"
+  | "MANUFACTURING"
+  | "MEDIA_ENTERTAINMENT_LEISURE"
+  | "MEDIA_ENTERTAINMENT"
+  | "MEDICAL_HEALTH"
+  | "NON_PROFIT_ORGANIZATION"
+  | "OTHER"
+  | "PROFESSIONAL_SERVICES"
+  | "REAL_ESTATE_CONSTRUCTION"
+  | "RETAIL"
+  | "RETAIL_WHOLESALE_DISTRIBUTION"
+  | "SEMICONDUCTOR_ELECTR"
+  | "SOFTWARE_INTERNET"
+  | "TELECOMMUNICATIONS"
+  | "TRANSPORTATION_LOGISTICS"
+  | "TRAVEL_HOSPITALITY"
+  | "WHOLESALE_DISTRIBUTION";
+export const IndustrySegment = S.Literal(
+  "AGRICULTURE_MINING",
+  "BIOTECHNOLOGY",
+  "BUSINESS_CONSUMER_SERVICES",
+  "BUSINESS_SERV",
+  "COMMUNICATIONS",
+  "COMPUTER_HARDWARE",
+  "COMPUTERS_ELECTRONICS",
+  "COMPUTER_SOFTWARE",
+  "CONSUMER_GOODS",
+  "CONSUMER_RELATED",
+  "EDUCATION",
+  "ENERGY_UTILITIES",
+  "FINANCIAL_SERVICES",
+  "GAMING",
+  "GOVERNMENT",
+  "GOVERNMENT_EDUCATION_PUBLIC_SERVICES",
+  "HEALTHCARE",
+  "HEALTHCARE_PHARMACEUTICALS_BIOTECH",
+  "INDUSTRIAL_ENERGY",
+  "INTERNET_SPECIFIC",
+  "LIFE_SCIENCES",
+  "MANUFACTURING",
+  "MEDIA_ENTERTAINMENT_LEISURE",
+  "MEDIA_ENTERTAINMENT",
+  "MEDICAL_HEALTH",
+  "NON_PROFIT_ORGANIZATION",
+  "OTHER",
+  "PROFESSIONAL_SERVICES",
+  "REAL_ESTATE_CONSTRUCTION",
+  "RETAIL",
+  "RETAIL_WHOLESALE_DISTRIBUTION",
+  "SEMICONDUCTOR_ELECTR",
+  "SOFTWARE_INTERNET",
+  "TELECOMMUNICATIONS",
+  "TRANSPORTATION_LOGISTICS",
+  "TRAVEL_HOSPITALITY",
+  "WHOLESALE_DISTRIBUTION",
+);
+export type IndustrySegmentList = IndustrySegment[];
+export const IndustrySegmentList = S.Array(IndustrySegment);
+export type VerificationStatus =
+  | "PENDING_CUSTOMER_ACTION"
+  | "IN_PROGRESS"
+  | "FAILED"
+  | "SUCCEEDED"
+  | "REJECTED";
+export const VerificationStatus = S.Literal(
+  "PENDING_CUSTOMER_ACTION",
+  "IN_PROGRESS",
+  "FAILED",
+  "SUCCEEDED",
+  "REJECTED",
+);
+export type AccessDeniedExceptionReason =
+  | "ACCESS_DENIED"
+  | "INCOMPATIBLE_BENEFIT_AWS_PARTNER_STATE";
+export const AccessDeniedExceptionReason = S.Literal(
+  "ACCESS_DENIED",
+  "INCOMPATIBLE_BENEFIT_AWS_PARTNER_STATE",
+);
 export interface Tag {
   Key: string;
   Value: string;
@@ -526,9 +680,20 @@ export const Tag = S.suspend(() =>
 ).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);
+export type ProfileTaskStatus =
+  | "IN_PROGRESS"
+  | "CANCELED"
+  | "SUCCEEDED"
+  | "FAILED";
+export const ProfileTaskStatus = S.Literal(
+  "IN_PROGRESS",
+  "CANCELED",
+  "SUCCEEDED",
+  "FAILED",
+);
 export interface ListTagsForResourceResponse {
   ResourceArn: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: S.optional(TagList) }),
@@ -537,7 +702,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
@@ -555,16 +720,16 @@ export interface CreateConnectionInvitationResponse {
   Id: string;
   Arn: string;
   ConnectionId?: string;
-  ConnectionType: string;
+  ConnectionType: ConnectionType;
   CreatedAt: Date;
   UpdatedAt: Date;
   ExpiresAt?: Date;
   OtherParticipantIdentifier: string;
-  ParticipantType: string;
-  Status: string;
+  ParticipantType: ParticipantType;
+  Status: InvitationStatus;
   InvitationMessage: string;
   InviterEmail: string;
-  InviterName: string | Redacted.Redacted<string>;
+  InviterName: string | redacted.Redacted<string>;
 }
 export const CreateConnectionInvitationResponse = S.suspend(() =>
   S.Struct({
@@ -572,13 +737,13 @@ export const CreateConnectionInvitationResponse = S.suspend(() =>
     Id: S.String,
     Arn: S.String,
     ConnectionId: S.optional(S.String),
-    ConnectionType: S.String,
+    ConnectionType: ConnectionType,
     CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     OtherParticipantIdentifier: S.String,
-    ParticipantType: S.String,
-    Status: S.String,
+    ParticipantType: ParticipantType,
+    Status: InvitationStatus,
     InvitationMessage: S.String,
     InviterEmail: S.String,
     InviterName: SensitiveString,
@@ -591,16 +756,16 @@ export interface GetConnectionInvitationResponse {
   Id: string;
   Arn: string;
   ConnectionId?: string;
-  ConnectionType: string;
+  ConnectionType: ConnectionType;
   CreatedAt: Date;
   UpdatedAt: Date;
   ExpiresAt?: Date;
   OtherParticipantIdentifier: string;
-  ParticipantType: string;
-  Status: string;
+  ParticipantType: ParticipantType;
+  Status: InvitationStatus;
   InvitationMessage: string;
   InviterEmail: string;
-  InviterName: string | Redacted.Redacted<string>;
+  InviterName: string | redacted.Redacted<string>;
 }
 export const GetConnectionInvitationResponse = S.suspend(() =>
   S.Struct({
@@ -608,13 +773,13 @@ export const GetConnectionInvitationResponse = S.suspend(() =>
     Id: S.String,
     Arn: S.String,
     ConnectionId: S.optional(S.String),
-    ConnectionType: S.String,
+    ConnectionType: ConnectionType,
     CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     OtherParticipantIdentifier: S.String,
-    ParticipantType: S.String,
-    Status: S.String,
+    ParticipantType: ParticipantType,
+    Status: InvitationStatus,
     InvitationMessage: S.String,
     InviterEmail: S.String,
     InviterName: SensitiveString,
@@ -627,16 +792,16 @@ export interface CancelConnectionInvitationResponse {
   Id: string;
   Arn: string;
   ConnectionId?: string;
-  ConnectionType: string;
+  ConnectionType: ConnectionType;
   CreatedAt: Date;
   UpdatedAt: Date;
   ExpiresAt?: Date;
   OtherParticipantIdentifier: string;
-  ParticipantType: string;
-  Status: string;
+  ParticipantType: ParticipantType;
+  Status: InvitationStatus;
   InvitationMessage: string;
   InviterEmail: string;
-  InviterName: string | Redacted.Redacted<string>;
+  InviterName: string | redacted.Redacted<string>;
 }
 export const CancelConnectionInvitationResponse = S.suspend(() =>
   S.Struct({
@@ -644,13 +809,13 @@ export const CancelConnectionInvitationResponse = S.suspend(() =>
     Id: S.String,
     Arn: S.String,
     ConnectionId: S.optional(S.String),
-    ConnectionType: S.String,
+    ConnectionType: ConnectionType,
     CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     OtherParticipantIdentifier: S.String,
-    ParticipantType: S.String,
-    Status: S.String,
+    ParticipantType: ParticipantType,
+    Status: InvitationStatus,
     InvitationMessage: S.String,
     InviterEmail: S.String,
     InviterName: SensitiveString,
@@ -663,16 +828,16 @@ export interface RejectConnectionInvitationResponse {
   Id: string;
   Arn: string;
   ConnectionId?: string;
-  ConnectionType: string;
+  ConnectionType: ConnectionType;
   CreatedAt: Date;
   UpdatedAt: Date;
   ExpiresAt?: Date;
   OtherParticipantIdentifier: string;
-  ParticipantType: string;
-  Status: string;
+  ParticipantType: ParticipantType;
+  Status: InvitationStatus;
   InvitationMessage: string;
   InviterEmail: string;
-  InviterName: string | Redacted.Redacted<string>;
+  InviterName: string | redacted.Redacted<string>;
 }
 export const RejectConnectionInvitationResponse = S.suspend(() =>
   S.Struct({
@@ -680,13 +845,13 @@ export const RejectConnectionInvitationResponse = S.suspend(() =>
     Id: S.String,
     Arn: S.String,
     ConnectionId: S.optional(S.String),
-    ConnectionType: S.String,
+    ConnectionType: ConnectionType,
     CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     OtherParticipantIdentifier: S.String,
-    ParticipantType: S.String,
-    Status: S.String,
+    ParticipantType: ParticipantType,
+    Status: InvitationStatus,
     InvitationMessage: S.String,
     InviterEmail: S.String,
     InviterName: SensitiveString,
@@ -697,8 +862,8 @@ export const RejectConnectionInvitationResponse = S.suspend(() =>
 export interface GetConnectionPreferencesResponse {
   Catalog: string;
   Arn: string;
-  AccessType: string;
-  ExcludedParticipantIds?: ParticipantIdentifierList;
+  AccessType: AccessType;
+  ExcludedParticipantIds?: string[];
   UpdatedAt: Date;
   Revision: number;
 }
@@ -706,7 +871,7 @@ export const GetConnectionPreferencesResponse = S.suspend(() =>
   S.Struct({
     Catalog: S.String,
     Arn: S.String,
-    AccessType: S.String,
+    AccessType: AccessType,
     ExcludedParticipantIds: S.optional(ParticipantIdentifierList),
     UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     Revision: S.Number,
@@ -717,8 +882,8 @@ export const GetConnectionPreferencesResponse = S.suspend(() =>
 export interface UpdateConnectionPreferencesResponse {
   Catalog: string;
   Arn: string;
-  AccessType: string;
-  ExcludedParticipantIds?: ParticipantIdentifierList;
+  AccessType: AccessType;
+  ExcludedParticipantIds?: string[];
   UpdatedAt: Date;
   Revision: number;
 }
@@ -726,7 +891,7 @@ export const UpdateConnectionPreferencesResponse = S.suspend(() =>
   S.Struct({
     Catalog: S.String,
     Arn: S.String,
-    AccessType: S.String,
+    AccessType: AccessType,
     ExcludedParticipantIds: S.optional(ParticipantIdentifierList),
     UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     Revision: S.Number,
@@ -734,6 +899,8 @@ export const UpdateConnectionPreferencesResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateConnectionPreferencesResponse",
 }) as any as S.Schema<UpdateConnectionPreferencesResponse>;
+export type ConnectionTypeStatus = "ACTIVE" | "CANCELED";
+export const ConnectionTypeStatus = S.Literal("ACTIVE", "CANCELED");
 export interface PartnerProfileSummary {
   Id: string;
   Name: string;
@@ -772,18 +939,18 @@ export const Participant = S.Union(
 export interface ConnectionTypeDetail {
   CreatedAt: Date;
   InviterEmail: string;
-  InviterName: string | Redacted.Redacted<string>;
-  Status: string;
+  InviterName: string | redacted.Redacted<string>;
+  Status: ConnectionTypeStatus;
   CanceledAt?: Date;
   CanceledBy?: string;
-  OtherParticipant: (typeof Participant)["Type"];
+  OtherParticipant: Participant;
 }
 export const ConnectionTypeDetail = S.suspend(() =>
   S.Struct({
     CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     InviterEmail: S.String,
     InviterName: SensitiveString,
-    Status: S.String,
+    Status: ConnectionTypeStatus,
     CanceledAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     CanceledBy: S.optional(S.String),
     OtherParticipant: Participant,
@@ -791,18 +958,19 @@ export const ConnectionTypeDetail = S.suspend(() =>
 ).annotations({
   identifier: "ConnectionTypeDetail",
 }) as any as S.Schema<ConnectionTypeDetail>;
-export type ConnectionTypeDetailMap = { [key: string]: ConnectionTypeDetail };
-export const ConnectionTypeDetailMap = S.Record({
-  key: S.String,
-  value: ConnectionTypeDetail,
-});
+export type ConnectionTypeDetailMap = {
+  [key in ConnectionType]?: ConnectionTypeDetail;
+};
+export const ConnectionTypeDetailMap = S.partial(
+  S.Record({ key: ConnectionType, value: ConnectionTypeDetail }),
+);
 export interface CancelConnectionResponse {
   Catalog: string;
   Id: string;
   Arn: string;
   OtherParticipantAccountId: string;
   UpdatedAt: Date;
-  ConnectionTypes: ConnectionTypeDetailMap;
+  ConnectionTypes: { [key: string]: ConnectionTypeDetail };
 }
 export const CancelConnectionResponse = S.suspend(() =>
   S.Struct({
@@ -819,18 +987,18 @@ export const CancelConnectionResponse = S.suspend(() =>
 export interface CreatePartnerRequest {
   Catalog: string;
   ClientToken?: string;
-  LegalName: string | Redacted.Redacted<string>;
-  PrimarySolutionType: string;
+  LegalName: string | redacted.Redacted<string>;
+  PrimarySolutionType: PrimarySolutionType;
   AllianceLeadContact: AllianceLeadContact;
-  EmailVerificationCode: string | Redacted.Redacted<string>;
-  Tags?: TagList;
+  EmailVerificationCode: string | redacted.Redacted<string>;
+  Tags?: Tag[];
 }
 export const CreatePartnerRequest = S.suspend(() =>
   S.Struct({
     Catalog: S.String,
     ClientToken: S.optional(S.String),
     LegalName: SensitiveString,
-    PrimarySolutionType: S.String,
+    PrimarySolutionType: PrimarySolutionType,
     AllianceLeadContact: AllianceLeadContact,
     EmailVerificationCode: SensitiveString,
     Tags: S.optional(TagList),
@@ -881,10 +1049,10 @@ export interface TaskDetails {
   Description: string;
   WebsiteUrl: string;
   LogoUrl: string;
-  PrimarySolutionType: string;
-  IndustrySegments: IndustrySegmentList;
+  PrimarySolutionType: PrimarySolutionType;
+  IndustrySegments: IndustrySegment[];
   TranslationSourceLocale: string;
-  LocalizedContents?: LocalizedContentList;
+  LocalizedContents?: LocalizedContent[];
 }
 export const TaskDetails = S.suspend(() =>
   S.Struct({
@@ -892,19 +1060,40 @@ export const TaskDetails = S.suspend(() =>
     Description: S.String,
     WebsiteUrl: S.String,
     LogoUrl: S.String,
-    PrimarySolutionType: S.String,
+    PrimarySolutionType: PrimarySolutionType,
     IndustrySegments: IndustrySegmentList,
     TranslationSourceLocale: S.String,
     LocalizedContents: S.optional(LocalizedContentList),
   }),
 ).annotations({ identifier: "TaskDetails" }) as any as S.Schema<TaskDetails>;
+export type ProfileValidationErrorReason =
+  | "INVALID_CONTENT"
+  | "DUPLICATE_PROFILE"
+  | "INVALID_LOGO"
+  | "INVALID_LOGO_URL"
+  | "INVALID_LOGO_FILE"
+  | "INVALID_LOGO_SIZE"
+  | "INVALID_WEBSITE_URL";
+export const ProfileValidationErrorReason = S.Literal(
+  "INVALID_CONTENT",
+  "DUPLICATE_PROFILE",
+  "INVALID_LOGO",
+  "INVALID_LOGO_URL",
+  "INVALID_LOGO_FILE",
+  "INVALID_LOGO_SIZE",
+  "INVALID_WEBSITE_URL",
+);
 export interface ErrorDetail {
   Locale: string;
   Message: string;
-  Reason: string;
+  Reason: ProfileValidationErrorReason;
 }
 export const ErrorDetail = S.suspend(() =>
-  S.Struct({ Locale: S.String, Message: S.String, Reason: S.String }),
+  S.Struct({
+    Locale: S.String,
+    Message: S.String,
+    Reason: ProfileValidationErrorReason,
+  }),
 ).annotations({ identifier: "ErrorDetail" }) as any as S.Schema<ErrorDetail>;
 export type ErrorDetailList = ErrorDetail[];
 export const ErrorDetailList = S.Array(ErrorDetail);
@@ -915,9 +1104,9 @@ export interface GetProfileUpdateTaskResponse {
   TaskId: string;
   TaskDetails: TaskDetails;
   StartedAt: Date;
-  Status: string;
+  Status: ProfileTaskStatus;
   EndedAt?: Date;
-  ErrorDetailList?: ErrorDetailList;
+  ErrorDetailList?: ErrorDetail[];
 }
 export const GetProfileUpdateTaskResponse = S.suspend(() =>
   S.Struct({
@@ -927,7 +1116,7 @@ export const GetProfileUpdateTaskResponse = S.suspend(() =>
     TaskId: S.String,
     TaskDetails: TaskDetails,
     StartedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    Status: S.String,
+    Status: ProfileTaskStatus,
     EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     ErrorDetailList: S.optional(ErrorDetailList),
   }),
@@ -938,7 +1127,7 @@ export interface GetProfileVisibilityResponse {
   Catalog: string;
   Arn: string;
   Id: string;
-  Visibility: string;
+  Visibility: ProfileVisibility;
   ProfileId: string;
 }
 export const GetProfileVisibilityResponse = S.suspend(() =>
@@ -946,7 +1135,7 @@ export const GetProfileVisibilityResponse = S.suspend(() =>
     Catalog: S.String,
     Arn: S.String,
     Id: S.String,
-    Visibility: S.String,
+    Visibility: ProfileVisibility,
     ProfileId: S.String,
   }),
 ).annotations({
@@ -972,7 +1161,7 @@ export interface PutProfileVisibilityResponse {
   Catalog: string;
   Arn: string;
   Id: string;
-  Visibility: string;
+  Visibility: ProfileVisibility;
   ProfileId: string;
 }
 export const PutProfileVisibilityResponse = S.suspend(() =>
@@ -980,15 +1169,15 @@ export const PutProfileVisibilityResponse = S.suspend(() =>
     Catalog: S.String,
     Arn: S.String,
     Id: S.String,
-    Visibility: S.String,
+    Visibility: ProfileVisibility,
     ProfileId: S.String,
   }),
 ).annotations({
   identifier: "PutProfileVisibilityResponse",
 }) as any as S.Schema<PutProfileVisibilityResponse>;
 export interface BusinessVerificationDetails {
-  LegalName: string | Redacted.Redacted<string>;
-  RegistrationId: string | Redacted.Redacted<string>;
+  LegalName: string | redacted.Redacted<string>;
+  RegistrationId: string | redacted.Redacted<string>;
   CountryCode: string;
   JurisdictionOfIncorporation?: string;
 }
@@ -1009,18 +1198,45 @@ export const VerificationDetails = S.Union(
   S.Struct({ BusinessVerificationDetails: BusinessVerificationDetails }),
   S.Struct({ RegistrantVerificationDetails: RegistrantVerificationDetails }),
 );
+export type ConflictExceptionReason =
+  | "CONFLICT_CLIENT_TOKEN"
+  | "DUPLICATE_PARTNER"
+  | "INCOMPATIBLE_PROFILE_STATE"
+  | "INCOMPATIBLE_PARTNER_PROFILE_TASK_STATE"
+  | "DUPLICATE_CONNECTION_INVITATION"
+  | "INCOMPATIBLE_CONNECTION_INVITATION_STATE"
+  | "INCOMPATIBLE_CONNECTION_INVITATION_RECEIVER"
+  | "DUPLICATE_CONNECTION"
+  | "INCOMPATIBLE_CONNECTION_STATE"
+  | "INCOMPATIBLE_CONNECTION_PREFERENCES_REVISION"
+  | "ACCOUNT_ALREADY_VERIFIED"
+  | "VERIFICATION_ALREADY_IN_PROGRESS";
+export const ConflictExceptionReason = S.Literal(
+  "CONFLICT_CLIENT_TOKEN",
+  "DUPLICATE_PARTNER",
+  "INCOMPATIBLE_PROFILE_STATE",
+  "INCOMPATIBLE_PARTNER_PROFILE_TASK_STATE",
+  "DUPLICATE_CONNECTION_INVITATION",
+  "INCOMPATIBLE_CONNECTION_INVITATION_STATE",
+  "INCOMPATIBLE_CONNECTION_INVITATION_RECEIVER",
+  "DUPLICATE_CONNECTION",
+  "INCOMPATIBLE_CONNECTION_STATE",
+  "INCOMPATIBLE_CONNECTION_PREFERENCES_REVISION",
+  "ACCOUNT_ALREADY_VERIFIED",
+  "VERIFICATION_ALREADY_IN_PROGRESS",
+);
 export interface ConnectionInvitationSummary {
   Catalog: string;
   Id: string;
   Arn: string;
   ConnectionId?: string;
-  ConnectionType: string;
+  ConnectionType: ConnectionType;
   CreatedAt: Date;
   UpdatedAt: Date;
   ExpiresAt?: Date;
   OtherParticipantIdentifier: string;
-  ParticipantType: string;
-  Status: string;
+  ParticipantType: ParticipantType;
+  Status: InvitationStatus;
 }
 export const ConnectionInvitationSummary = S.suspend(() =>
   S.Struct({
@@ -1028,13 +1244,13 @@ export const ConnectionInvitationSummary = S.suspend(() =>
     Id: S.String,
     Arn: S.String,
     ConnectionId: S.optional(S.String),
-    ConnectionType: S.String,
+    ConnectionType: ConnectionType,
     CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     OtherParticipantIdentifier: S.String,
-    ParticipantType: S.String,
-    Status: S.String,
+    ParticipantType: ParticipantType,
+    Status: InvitationStatus,
   }),
 ).annotations({
   identifier: "ConnectionInvitationSummary",
@@ -1049,7 +1265,7 @@ export interface Connection {
   Arn: string;
   OtherParticipantAccountId: string;
   UpdatedAt: Date;
-  ConnectionTypes: ConnectionTypeDetailMap;
+  ConnectionTypes: { [key: string]: ConnectionTypeDetail };
 }
 export const Connection = S.suspend(() =>
   S.Struct({
@@ -1066,10 +1282,10 @@ export interface PartnerProfile {
   Description: string;
   WebsiteUrl: string;
   LogoUrl: string;
-  PrimarySolutionType: string;
-  IndustrySegments: IndustrySegmentList;
+  PrimarySolutionType: PrimarySolutionType;
+  IndustrySegments: IndustrySegment[];
   TranslationSourceLocale: string;
-  LocalizedContents?: LocalizedContentList;
+  LocalizedContents?: LocalizedContent[];
   ProfileId?: string;
 }
 export const PartnerProfile = S.suspend(() =>
@@ -1078,7 +1294,7 @@ export const PartnerProfile = S.suspend(() =>
     Description: S.String,
     WebsiteUrl: S.String,
     LogoUrl: S.String,
-    PrimarySolutionType: S.String,
+    PrimarySolutionType: PrimarySolutionType,
     IndustrySegments: IndustrySegmentList,
     TranslationSourceLocale: S.String,
     LocalizedContents: S.optional(LocalizedContentList),
@@ -1105,7 +1321,7 @@ export interface PartnerSummary {
   Catalog: string;
   Arn: string;
   Id: string;
-  LegalName: string | Redacted.Redacted<string>;
+  LegalName: string | redacted.Redacted<string>;
   CreatedAt: Date;
 }
 export const PartnerSummary = S.suspend(() =>
@@ -1123,7 +1339,7 @@ export type PartnerSummaryList = PartnerSummary[];
 export const PartnerSummaryList = S.Array(PartnerSummary);
 export interface StartVerificationRequest {
   ClientToken?: string;
-  VerificationDetails?: (typeof VerificationDetails)["Type"];
+  VerificationDetails?: VerificationDetails;
 }
 export const StartVerificationRequest = S.suspend(() =>
   S.Struct({
@@ -1136,7 +1352,7 @@ export const StartVerificationRequest = S.suspend(() =>
   identifier: "StartVerificationRequest",
 }) as any as S.Schema<StartVerificationRequest>;
 export interface ListConnectionInvitationsResponse {
-  ConnectionInvitationSummaries: ConnectionInvitationSummaryList;
+  ConnectionInvitationSummaries: ConnectionInvitationSummary[];
   NextToken?: string;
 }
 export const ListConnectionInvitationsResponse = S.suspend(() =>
@@ -1159,10 +1375,10 @@ export interface CreatePartnerResponse {
   Catalog: string;
   Arn: string;
   Id: string;
-  LegalName: string | Redacted.Redacted<string>;
+  LegalName: string | redacted.Redacted<string>;
   CreatedAt: Date;
   Profile: PartnerProfile;
-  AwsTrainingCertificationEmailDomains?: PartnerDomainList;
+  AwsTrainingCertificationEmailDomains?: PartnerDomain[];
   AllianceLeadContact: AllianceLeadContact;
 }
 export const CreatePartnerResponse = S.suspend(() =>
@@ -1183,10 +1399,10 @@ export interface GetPartnerResponse {
   Catalog: string;
   Arn: string;
   Id: string;
-  LegalName: string | Redacted.Redacted<string>;
+  LegalName: string | redacted.Redacted<string>;
   CreatedAt: Date;
   Profile: PartnerProfile;
-  AwsTrainingCertificationEmailDomains?: PartnerDomainList;
+  AwsTrainingCertificationEmailDomains?: PartnerDomain[];
 }
 export const GetPartnerResponse = S.suspend(() =>
   S.Struct({
@@ -1202,7 +1418,7 @@ export const GetPartnerResponse = S.suspend(() =>
   identifier: "GetPartnerResponse",
 }) as any as S.Schema<GetPartnerResponse>;
 export interface ListPartnersResponse {
-  PartnerSummaryList: PartnerSummaryList;
+  PartnerSummaryList: PartnerSummary[];
   NextToken?: string;
 }
 export const ListPartnersResponse = S.suspend(() =>
@@ -1220,9 +1436,9 @@ export interface CancelProfileUpdateTaskResponse {
   TaskId: string;
   TaskDetails: TaskDetails;
   StartedAt: Date;
-  Status: string;
+  Status: ProfileTaskStatus;
   EndedAt?: Date;
-  ErrorDetailList?: ErrorDetailList;
+  ErrorDetailList?: ErrorDetail[];
 }
 export const CancelProfileUpdateTaskResponse = S.suspend(() =>
   S.Struct({
@@ -1232,7 +1448,7 @@ export const CancelProfileUpdateTaskResponse = S.suspend(() =>
     TaskId: S.String,
     TaskDetails: TaskDetails,
     StartedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    Status: S.String,
+    Status: ProfileTaskStatus,
     EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     ErrorDetailList: S.optional(ErrorDetailList),
   }),
@@ -1284,27 +1500,55 @@ export const VerificationResponseDetails = S.Union(
   S.Struct({ BusinessVerificationResponse: BusinessVerificationResponse }),
   S.Struct({ RegistrantVerificationResponse: RegistrantVerificationResponse }),
 );
+export type ServiceQuotaExceededExceptionReason =
+  | "LIMIT_EXCEEDED_NUMBER_OF_EMAIL"
+  | "LIMIT_EXCEEDED_NUMBER_OF_DOMAIN";
+export const ServiceQuotaExceededExceptionReason = S.Literal(
+  "LIMIT_EXCEEDED_NUMBER_OF_EMAIL",
+  "LIMIT_EXCEEDED_NUMBER_OF_DOMAIN",
+);
+export type ResourceNotFoundExceptionReason =
+  | "PARTNER_NOT_FOUND"
+  | "PARTNER_PROFILE_NOT_FOUND"
+  | "PARTNER_PROFILE_TASK_NOT_FOUND"
+  | "PARTNER_DOMAIN_NOT_FOUND"
+  | "SENDER_PROFILE_NOT_FOUND"
+  | "RECEIVER_PROFILE_NOT_FOUND"
+  | "CONNECTION_INVITATION_NOT_FOUND"
+  | "CONNECTION_NOT_FOUND"
+  | "VERIFICATION_NOT_FOUND";
+export const ResourceNotFoundExceptionReason = S.Literal(
+  "PARTNER_NOT_FOUND",
+  "PARTNER_PROFILE_NOT_FOUND",
+  "PARTNER_PROFILE_TASK_NOT_FOUND",
+  "PARTNER_DOMAIN_NOT_FOUND",
+  "SENDER_PROFILE_NOT_FOUND",
+  "RECEIVER_PROFILE_NOT_FOUND",
+  "CONNECTION_INVITATION_NOT_FOUND",
+  "CONNECTION_NOT_FOUND",
+  "VERIFICATION_NOT_FOUND",
+);
 export interface ConnectionTypeSummary {
-  Status: string;
-  OtherParticipant: (typeof Participant)["Type"];
+  Status: ConnectionTypeStatus;
+  OtherParticipant: Participant;
 }
 export const ConnectionTypeSummary = S.suspend(() =>
-  S.Struct({ Status: S.String, OtherParticipant: Participant }),
+  S.Struct({ Status: ConnectionTypeStatus, OtherParticipant: Participant }),
 ).annotations({
   identifier: "ConnectionTypeSummary",
 }) as any as S.Schema<ConnectionTypeSummary>;
 export interface GetVerificationResponse {
-  VerificationType: string;
-  VerificationStatus: string;
+  VerificationType: VerificationType;
+  VerificationStatus: VerificationStatus;
   VerificationStatusReason?: string;
-  VerificationResponseDetails: (typeof VerificationResponseDetails)["Type"];
+  VerificationResponseDetails: VerificationResponseDetails;
   StartedAt: Date;
   CompletedAt?: Date;
 }
 export const GetVerificationResponse = S.suspend(() =>
   S.Struct({
-    VerificationType: S.String,
-    VerificationStatus: S.String,
+    VerificationType: VerificationType,
+    VerificationStatus: VerificationStatus,
     VerificationStatusReason: S.optional(S.String),
     VerificationResponseDetails: VerificationResponseDetails,
     StartedAt: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -1314,17 +1558,17 @@ export const GetVerificationResponse = S.suspend(() =>
   identifier: "GetVerificationResponse",
 }) as any as S.Schema<GetVerificationResponse>;
 export interface StartVerificationResponse {
-  VerificationType: string;
-  VerificationStatus: string;
+  VerificationType: VerificationType;
+  VerificationStatus: VerificationStatus;
   VerificationStatusReason?: string;
-  VerificationResponseDetails: (typeof VerificationResponseDetails)["Type"];
+  VerificationResponseDetails: VerificationResponseDetails;
   StartedAt: Date;
   CompletedAt?: Date;
 }
 export const StartVerificationResponse = S.suspend(() =>
   S.Struct({
-    VerificationType: S.String,
-    VerificationStatus: S.String,
+    VerificationType: VerificationType,
+    VerificationStatus: VerificationStatus,
     VerificationStatusReason: S.optional(S.String),
     VerificationResponseDetails: VerificationResponseDetails,
     StartedAt: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -1340,9 +1584,9 @@ export interface StartProfileUpdateTaskResponse {
   TaskId: string;
   TaskDetails: TaskDetails;
   StartedAt: Date;
-  Status: string;
+  Status: ProfileTaskStatus;
   EndedAt?: Date;
-  ErrorDetailList?: ErrorDetailList;
+  ErrorDetailList?: ErrorDetail[];
 }
 export const StartProfileUpdateTaskResponse = S.suspend(() =>
   S.Struct({
@@ -1352,25 +1596,33 @@ export const StartProfileUpdateTaskResponse = S.suspend(() =>
     TaskId: S.String,
     TaskDetails: TaskDetails,
     StartedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    Status: S.String,
+    Status: ProfileTaskStatus,
     EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     ErrorDetailList: S.optional(ErrorDetailList),
   }),
 ).annotations({
   identifier: "StartProfileUpdateTaskResponse",
 }) as any as S.Schema<StartProfileUpdateTaskResponse>;
-export type ConnectionTypeSummaryMap = { [key: string]: ConnectionTypeSummary };
-export const ConnectionTypeSummaryMap = S.Record({
-  key: S.String,
-  value: ConnectionTypeSummary,
-});
+export type ConnectionTypeSummaryMap = {
+  [key in ConnectionType]?: ConnectionTypeSummary;
+};
+export const ConnectionTypeSummaryMap = S.partial(
+  S.Record({ key: ConnectionType, value: ConnectionTypeSummary }),
+);
+export type ValidationExceptionReason =
+  | "REQUEST_VALIDATION_FAILED"
+  | "BUSINESS_VALIDATION_FAILED";
+export const ValidationExceptionReason = S.Literal(
+  "REQUEST_VALIDATION_FAILED",
+  "BUSINESS_VALIDATION_FAILED",
+);
 export interface ConnectionSummary {
   Catalog: string;
   Id: string;
   Arn: string;
   OtherParticipantAccountId: string;
   UpdatedAt: Date;
-  ConnectionTypes: ConnectionTypeSummaryMap;
+  ConnectionTypes: { [key: string]: ConnectionTypeSummary };
 }
 export const ConnectionSummary = S.suspend(() =>
   S.Struct({
@@ -1387,7 +1639,7 @@ export const ConnectionSummary = S.suspend(() =>
 export type ConnectionSummaryList = ConnectionSummary[];
 export const ConnectionSummaryList = S.Array(ConnectionSummary);
 export interface ListConnectionsResponse {
-  ConnectionSummaries: ConnectionSummaryList;
+  ConnectionSummaries: ConnectionSummary[];
   NextToken?: string;
 }
 export const ListConnectionsResponse = S.suspend(() =>
@@ -1398,13 +1650,47 @@ export const ListConnectionsResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListConnectionsResponse",
 }) as any as S.Schema<ListConnectionsResponse>;
+export type FieldValidationCode =
+  | "REQUIRED_FIELD_MISSING"
+  | "DUPLICATE_VALUE"
+  | "INVALID_VALUE"
+  | "INVALID_STRING_FORMAT"
+  | "TOO_MANY_VALUES"
+  | "ACTION_NOT_PERMITTED"
+  | "INVALID_ENUM_VALUE";
+export const FieldValidationCode = S.Literal(
+  "REQUIRED_FIELD_MISSING",
+  "DUPLICATE_VALUE",
+  "INVALID_VALUE",
+  "INVALID_STRING_FORMAT",
+  "TOO_MANY_VALUES",
+  "ACTION_NOT_PERMITTED",
+  "INVALID_ENUM_VALUE",
+);
+export type BusinessValidationCode =
+  | "INCOMPATIBLE_CONNECTION_INVITATION_REQUEST"
+  | "INCOMPATIBLE_LEGAL_NAME"
+  | "INCOMPATIBLE_KNOW_YOUR_BUSINESS_STATUS"
+  | "INCOMPATIBLE_IDENTITY_VERIFICATION_STATUS"
+  | "INVALID_ACCOUNT_LINKING_STATUS"
+  | "INVALID_ACCOUNT_STATE"
+  | "INCOMPATIBLE_DOMAIN";
+export const BusinessValidationCode = S.Literal(
+  "INCOMPATIBLE_CONNECTION_INVITATION_REQUEST",
+  "INCOMPATIBLE_LEGAL_NAME",
+  "INCOMPATIBLE_KNOW_YOUR_BUSINESS_STATUS",
+  "INCOMPATIBLE_IDENTITY_VERIFICATION_STATUS",
+  "INVALID_ACCOUNT_LINKING_STATUS",
+  "INVALID_ACCOUNT_STATE",
+  "INCOMPATIBLE_DOMAIN",
+);
 export interface GetConnectionResponse {
   Catalog: string;
   Id: string;
   Arn: string;
   OtherParticipantAccountId: string;
   UpdatedAt: Date;
-  ConnectionTypes: ConnectionTypeDetailMap;
+  ConnectionTypes: { [key: string]: ConnectionTypeDetail };
 }
 export const GetConnectionResponse = S.suspend(() =>
   S.Struct({
@@ -1421,19 +1707,19 @@ export const GetConnectionResponse = S.suspend(() =>
 export interface FieldValidationError {
   Name: string;
   Message: string;
-  Code: string;
+  Code: FieldValidationCode;
 }
 export const FieldValidationError = S.suspend(() =>
-  S.Struct({ Name: S.String, Message: S.String, Code: S.String }),
+  S.Struct({ Name: S.String, Message: S.String, Code: FieldValidationCode }),
 ).annotations({
   identifier: "FieldValidationError",
 }) as any as S.Schema<FieldValidationError>;
 export interface BusinessValidationError {
   Message: string;
-  Code: string;
+  Code: BusinessValidationCode;
 }
 export const BusinessValidationError = S.suspend(() =>
-  S.Struct({ Message: S.String, Code: S.String }),
+  S.Struct({ Message: S.String, Code: BusinessValidationCode }),
 ).annotations({
   identifier: "BusinessValidationError",
 }) as any as S.Schema<BusinessValidationError>;
@@ -1444,13 +1730,13 @@ export const ValidationError = S.Union(
   S.Struct({ FieldValidationError: FieldValidationError }),
   S.Struct({ BusinessValidationError: BusinessValidationError }),
 );
-export type ValidationErrorList = (typeof ValidationError)["Type"][];
+export type ValidationErrorList = ValidationError[];
 export const ValidationErrorList = S.Array(ValidationError);
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  { Message: S.String, Reason: S.String },
+  { Message: S.String, Reason: AccessDeniedExceptionReason },
 ).pipe(C.withAuthError) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
@@ -1459,15 +1745,15 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
 ).pipe(C.withServerError, C.withRetryableError) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  { Message: S.String, Reason: S.String },
+  { Message: S.String, Reason: ConflictExceptionReason },
 ).pipe(C.withConflictError) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  { Message: S.String, Reason: S.String },
+  { Message: S.String, Reason: ServiceQuotaExceededExceptionReason },
 ).pipe(C.withQuotaError) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  { Message: S.String, Reason: S.String },
+  { Message: S.String, Reason: ResourceNotFoundExceptionReason },
 ).pipe(C.withBadRequestError) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
@@ -1482,7 +1768,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     Message: S.String,
-    Reason: S.String,
+    Reason: ValidationExceptionReason,
     ErrorDetails: S.optional(ValidationErrorList),
   },
 ).pipe(C.withBadRequestError) {}
@@ -1494,7 +1780,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listConnectionInvitations: {
   (
     input: ListConnectionInvitationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConnectionInvitationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1505,7 +1791,7 @@ export const listConnectionInvitations: {
   >;
   pages: (
     input: ListConnectionInvitationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConnectionInvitationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1516,7 +1802,7 @@ export const listConnectionInvitations: {
   >;
   items: (
     input: ListConnectionInvitationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConnectionInvitationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1546,7 +1832,7 @@ export const listConnectionInvitations: {
  */
 export const startProfileUpdateTask: (
   input: StartProfileUpdateTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartProfileUpdateTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -1573,7 +1859,7 @@ export const startProfileUpdateTask: (
  */
 export const acceptConnectionInvitation: (
   input: AcceptConnectionInvitationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AcceptConnectionInvitationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1600,7 +1886,7 @@ export const acceptConnectionInvitation: (
  */
 export const getPartner: (
   input: GetPartnerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPartnerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1625,7 +1911,7 @@ export const getPartner: (
  */
 export const cancelProfileUpdateTask: (
   input: CancelProfileUpdateTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelProfileUpdateTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -1652,7 +1938,7 @@ export const cancelProfileUpdateTask: (
  */
 export const getConnectionInvitation: (
   input: GetConnectionInvitationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConnectionInvitationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1677,7 +1963,7 @@ export const getConnectionInvitation: (
  */
 export const getAllianceLeadContact: (
   input: GetAllianceLeadContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAllianceLeadContactResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1702,7 +1988,7 @@ export const getAllianceLeadContact: (
  */
 export const getProfileUpdateTask: (
   input: GetProfileUpdateTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetProfileUpdateTaskResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1727,7 +2013,7 @@ export const getProfileUpdateTask: (
  */
 export const getProfileVisibility: (
   input: GetProfileVisibilityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetProfileVisibilityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1752,7 +2038,7 @@ export const getProfileVisibility: (
  */
 export const putAllianceLeadContact: (
   input: PutAllianceLeadContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAllianceLeadContactResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1777,7 +2063,7 @@ export const putAllianceLeadContact: (
  */
 export const putProfileVisibility: (
   input: PutProfileVisibilityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutProfileVisibilityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1802,7 +2088,7 @@ export const putProfileVisibility: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1827,7 +2113,7 @@ export const listTagsForResource: (
  */
 export const createConnectionInvitation: (
   input: CreateConnectionInvitationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConnectionInvitationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1854,7 +2140,7 @@ export const createConnectionInvitation: (
  */
 export const cancelConnectionInvitation: (
   input: CancelConnectionInvitationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelConnectionInvitationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1881,7 +2167,7 @@ export const cancelConnectionInvitation: (
  */
 export const rejectConnectionInvitation: (
   input: RejectConnectionInvitationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RejectConnectionInvitationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1908,7 +2194,7 @@ export const rejectConnectionInvitation: (
  */
 export const cancelConnection: (
   input: CancelConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelConnectionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1935,7 +2221,7 @@ export const cancelConnection: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1962,7 +2248,7 @@ export const untagResource: (
  */
 export const associateAwsTrainingCertificationEmailDomain: (
   input: AssociateAwsTrainingCertificationEmailDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateAwsTrainingCertificationEmailDomainResponse,
   | AccessDeniedException
   | ConflictException
@@ -1989,7 +2275,7 @@ export const associateAwsTrainingCertificationEmailDomain: (
  */
 export const disassociateAwsTrainingCertificationEmailDomain: (
   input: DisassociateAwsTrainingCertificationEmailDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateAwsTrainingCertificationEmailDomainResponse,
   | AccessDeniedException
   | ConflictException
@@ -2014,7 +2300,7 @@ export const disassociateAwsTrainingCertificationEmailDomain: (
  */
 export const getVerification: (
   input: GetVerificationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetVerificationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2039,7 +2325,7 @@ export const getVerification: (
  */
 export const createPartner: (
   input: CreatePartnerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePartnerResponse,
   | AccessDeniedException
   | ConflictException
@@ -2065,7 +2351,7 @@ export const createPartner: (
 export const listPartners: {
   (
     input: ListPartnersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPartnersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2076,7 +2362,7 @@ export const listPartners: {
   >;
   pages: (
     input: ListPartnersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPartnersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2087,7 +2373,7 @@ export const listPartners: {
   >;
   items: (
     input: ListPartnersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PartnerSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2116,7 +2402,7 @@ export const listPartners: {
  */
 export const getConnectionPreferences: (
   input: GetConnectionPreferencesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConnectionPreferencesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2139,7 +2425,7 @@ export const getConnectionPreferences: (
  */
 export const updateConnectionPreferences: (
   input: UpdateConnectionPreferencesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConnectionPreferencesResponse,
   | AccessDeniedException
   | ConflictException
@@ -2164,7 +2450,7 @@ export const updateConnectionPreferences: (
  */
 export const sendEmailVerificationCode: (
   input: SendEmailVerificationCodeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendEmailVerificationCodeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2189,7 +2475,7 @@ export const sendEmailVerificationCode: (
  */
 export const startVerification: (
   input: StartVerificationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartVerificationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2216,7 +2502,7 @@ export const startVerification: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2244,7 +2530,7 @@ export const tagResource: (
 export const listConnections: {
   (
     input: ListConnectionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConnectionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2255,7 +2541,7 @@ export const listConnections: {
   >;
   pages: (
     input: ListConnectionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConnectionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2266,7 +2552,7 @@ export const listConnections: {
   >;
   items: (
     input: ListConnectionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConnectionSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2296,7 +2582,7 @@ export const listConnections: {
  */
 export const getConnection: (
   input: GetConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConnectionResponse,
   | AccessDeniedException
   | InternalServerException

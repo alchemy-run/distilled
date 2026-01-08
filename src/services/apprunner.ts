@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -119,23 +119,24 @@ export type UUID = string;
 export type ErrorMessage = string;
 export type SourceDirectory = string;
 export type ImageIdentifier = string;
-export type Integer = number;
 export type AutoScalingConfigurationRevision = number;
 export type MaxConcurrency = number;
 export type MinSize = number;
 export type MaxSize = number;
 export type ServiceId = string;
 export type CustomerAccountId = string;
-export type StartCommand = string | Redacted.Redacted<string>;
-export type BuildCommand = string | Redacted.Redacted<string>;
-export type RuntimeEnvironmentVariablesKey = string | Redacted.Redacted<string>;
+export type StartCommand = string | redacted.Redacted<string>;
+export type BuildCommand = string | redacted.Redacted<string>;
+export type RuntimeEnvironmentVariablesKey = string | redacted.Redacted<string>;
 export type RuntimeEnvironmentVariablesValue =
   | string
-  | Redacted.Redacted<string>;
-export type RuntimeEnvironmentSecretsName = string | Redacted.Redacted<string>;
-export type RuntimeEnvironmentSecretsValue = string | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
+export type RuntimeEnvironmentSecretsName = string | redacted.Redacted<string>;
+export type RuntimeEnvironmentSecretsValue = string | redacted.Redacted<string>;
 
 //# Schemas
+export type ProviderType = "GITHUB" | "BITBUCKET";
+export const ProviderType = S.Literal("GITHUB", "BITBUCKET");
 export type StringList = string[];
 export const StringList = S.Array(S.String);
 export type TagKeyList = string[];
@@ -175,13 +176,13 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface CreateConnectionRequest {
   ConnectionName: string;
-  ProviderType: string;
-  Tags?: TagList;
+  ProviderType: ProviderType;
+  Tags?: Tag[];
 }
 export const CreateConnectionRequest = S.suspend(() =>
   S.Struct({
     ConnectionName: S.String,
-    ProviderType: S.String,
+    ProviderType: ProviderType,
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -199,9 +200,9 @@ export const CreateConnectionRequest = S.suspend(() =>
 }) as any as S.Schema<CreateConnectionRequest>;
 export interface CreateVpcConnectorRequest {
   VpcConnectorName: string;
-  Subnets: StringList;
-  SecurityGroups?: StringList;
-  Tags?: TagList;
+  Subnets: string[];
+  SecurityGroups?: string[];
+  Tags?: Tag[];
 }
 export const CreateVpcConnectorRequest = S.suspend(() =>
   S.Struct({
@@ -710,7 +711,7 @@ export const StartDeploymentRequest = S.suspend(() =>
 }) as any as S.Schema<StartDeploymentRequest>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
@@ -735,7 +736,7 @@ export const TagResourceResponse = S.suspend(() =>
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
@@ -776,40 +777,77 @@ export const UpdateDefaultAutoScalingConfigurationRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateDefaultAutoScalingConfigurationRequest",
 }) as any as S.Schema<UpdateDefaultAutoScalingConfigurationRequest>;
+export type SourceCodeVersionType = "BRANCH";
+export const SourceCodeVersionType = S.Literal("BRANCH");
 export interface SourceCodeVersion {
-  Type: string;
+  Type: SourceCodeVersionType;
   Value: string;
 }
 export const SourceCodeVersion = S.suspend(() =>
-  S.Struct({ Type: S.String, Value: S.String }),
+  S.Struct({ Type: SourceCodeVersionType, Value: S.String }),
 ).annotations({
   identifier: "SourceCodeVersion",
 }) as any as S.Schema<SourceCodeVersion>;
+export type ConfigurationSource = "REPOSITORY" | "API";
+export const ConfigurationSource = S.Literal("REPOSITORY", "API");
+export type Runtime =
+  | "PYTHON_3"
+  | "NODEJS_12"
+  | "NODEJS_14"
+  | "CORRETTO_8"
+  | "CORRETTO_11"
+  | "NODEJS_16"
+  | "GO_1"
+  | "DOTNET_6"
+  | "PHP_81"
+  | "RUBY_31"
+  | "PYTHON_311"
+  | "NODEJS_18"
+  | "NODEJS_22";
+export const Runtime = S.Literal(
+  "PYTHON_3",
+  "NODEJS_12",
+  "NODEJS_14",
+  "CORRETTO_8",
+  "CORRETTO_11",
+  "NODEJS_16",
+  "GO_1",
+  "DOTNET_6",
+  "PHP_81",
+  "RUBY_31",
+  "PYTHON_311",
+  "NODEJS_18",
+  "NODEJS_22",
+);
 export type RuntimeEnvironmentVariables = {
-  [key: string]: string | Redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string>;
 };
 export const RuntimeEnvironmentVariables = S.Record({
   key: S.String,
   value: SensitiveString,
 });
 export type RuntimeEnvironmentSecrets = {
-  [key: string]: string | Redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string>;
 };
 export const RuntimeEnvironmentSecrets = S.Record({
   key: S.String,
   value: SensitiveString,
 });
 export interface CodeConfigurationValues {
-  Runtime: string;
-  BuildCommand?: string | Redacted.Redacted<string>;
-  StartCommand?: string | Redacted.Redacted<string>;
+  Runtime: Runtime;
+  BuildCommand?: string | redacted.Redacted<string>;
+  StartCommand?: string | redacted.Redacted<string>;
   Port?: string;
-  RuntimeEnvironmentVariables?: RuntimeEnvironmentVariables;
-  RuntimeEnvironmentSecrets?: RuntimeEnvironmentSecrets;
+  RuntimeEnvironmentVariables?: {
+    [key: string]: string | redacted.Redacted<string>;
+  };
+  RuntimeEnvironmentSecrets?: {
+    [key: string]: string | redacted.Redacted<string>;
+  };
 }
 export const CodeConfigurationValues = S.suspend(() =>
   S.Struct({
-    Runtime: S.String,
+    Runtime: Runtime,
     BuildCommand: S.optional(SensitiveString),
     StartCommand: S.optional(SensitiveString),
     Port: S.optional(S.String),
@@ -820,12 +858,12 @@ export const CodeConfigurationValues = S.suspend(() =>
   identifier: "CodeConfigurationValues",
 }) as any as S.Schema<CodeConfigurationValues>;
 export interface CodeConfiguration {
-  ConfigurationSource: string;
+  ConfigurationSource: ConfigurationSource;
   CodeConfigurationValues?: CodeConfigurationValues;
 }
 export const CodeConfiguration = S.suspend(() =>
   S.Struct({
-    ConfigurationSource: S.String,
+    ConfigurationSource: ConfigurationSource,
     CodeConfigurationValues: S.optional(CodeConfigurationValues),
   }),
 ).annotations({
@@ -848,10 +886,14 @@ export const CodeRepository = S.suspend(() =>
   identifier: "CodeRepository",
 }) as any as S.Schema<CodeRepository>;
 export interface ImageConfiguration {
-  RuntimeEnvironmentVariables?: RuntimeEnvironmentVariables;
-  StartCommand?: string | Redacted.Redacted<string>;
+  RuntimeEnvironmentVariables?: {
+    [key: string]: string | redacted.Redacted<string>;
+  };
+  StartCommand?: string | redacted.Redacted<string>;
   Port?: string;
-  RuntimeEnvironmentSecrets?: RuntimeEnvironmentSecrets;
+  RuntimeEnvironmentSecrets?: {
+    [key: string]: string | redacted.Redacted<string>;
+  };
 }
 export const ImageConfiguration = S.suspend(() =>
   S.Struct({
@@ -863,16 +905,18 @@ export const ImageConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ImageConfiguration",
 }) as any as S.Schema<ImageConfiguration>;
+export type ImageRepositoryType = "ECR" | "ECR_PUBLIC";
+export const ImageRepositoryType = S.Literal("ECR", "ECR_PUBLIC");
 export interface ImageRepository {
   ImageIdentifier: string;
   ImageConfiguration?: ImageConfiguration;
-  ImageRepositoryType: string;
+  ImageRepositoryType: ImageRepositoryType;
 }
 export const ImageRepository = S.suspend(() =>
   S.Struct({
     ImageIdentifier: S.String,
     ImageConfiguration: S.optional(ImageConfiguration),
-    ImageRepositoryType: S.String,
+    ImageRepositoryType: ImageRepositoryType,
   }),
 ).annotations({
   identifier: "ImageRepository",
@@ -919,8 +963,10 @@ export const InstanceConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "InstanceConfiguration",
 }) as any as S.Schema<InstanceConfiguration>;
+export type HealthCheckProtocol = "TCP" | "HTTP";
+export const HealthCheckProtocol = S.Literal("TCP", "HTTP");
 export interface HealthCheckConfiguration {
-  Protocol?: string;
+  Protocol?: HealthCheckProtocol;
   Path?: string;
   Interval?: number;
   Timeout?: number;
@@ -929,7 +975,7 @@ export interface HealthCheckConfiguration {
 }
 export const HealthCheckConfiguration = S.suspend(() =>
   S.Struct({
-    Protocol: S.optional(S.String),
+    Protocol: S.optional(HealthCheckProtocol),
     Path: S.optional(S.String),
     Interval: S.optional(S.Number),
     Timeout: S.optional(S.Number),
@@ -939,13 +985,15 @@ export const HealthCheckConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "HealthCheckConfiguration",
 }) as any as S.Schema<HealthCheckConfiguration>;
+export type EgressType = "DEFAULT" | "VPC";
+export const EgressType = S.Literal("DEFAULT", "VPC");
 export interface EgressConfiguration {
-  EgressType?: string;
+  EgressType?: EgressType;
   VpcConnectorArn?: string;
 }
 export const EgressConfiguration = S.suspend(() =>
   S.Struct({
-    EgressType: S.optional(S.String),
+    EgressType: S.optional(EgressType),
     VpcConnectorArn: S.optional(S.String),
   }),
 ).annotations({
@@ -959,16 +1007,18 @@ export const IngressConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "IngressConfiguration",
 }) as any as S.Schema<IngressConfiguration>;
+export type IpAddressType = "IPV4" | "DUAL_STACK";
+export const IpAddressType = S.Literal("IPV4", "DUAL_STACK");
 export interface NetworkConfiguration {
   EgressConfiguration?: EgressConfiguration;
   IngressConfiguration?: IngressConfiguration;
-  IpAddressType?: string;
+  IpAddressType?: IpAddressType;
 }
 export const NetworkConfiguration = S.suspend(() =>
   S.Struct({
     EgressConfiguration: S.optional(EgressConfiguration),
     IngressConfiguration: S.optional(IngressConfiguration),
-    IpAddressType: S.optional(S.String),
+    IpAddressType: S.optional(IpAddressType),
   }),
 ).annotations({
   identifier: "NetworkConfiguration",
@@ -1051,11 +1101,13 @@ export const UpdateVpcIngressConnectionRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateVpcIngressConnectionRequest",
 }) as any as S.Schema<UpdateVpcIngressConnectionRequest>;
+export type TracingVendor = "AWSXRAY";
+export const TracingVendor = S.Literal("AWSXRAY");
 export interface TraceConfiguration {
-  Vendor: string;
+  Vendor: TracingVendor;
 }
 export const TraceConfiguration = S.suspend(() =>
-  S.Struct({ Vendor: S.String }),
+  S.Struct({ Vendor: TracingVendor }),
 ).annotations({
   identifier: "TraceConfiguration",
 }) as any as S.Schema<TraceConfiguration>;
@@ -1067,18 +1119,27 @@ export const EncryptionConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "EncryptionConfiguration",
 }) as any as S.Schema<EncryptionConfiguration>;
+export type CertificateValidationRecordStatus =
+  | "PENDING_VALIDATION"
+  | "SUCCESS"
+  | "FAILED";
+export const CertificateValidationRecordStatus = S.Literal(
+  "PENDING_VALIDATION",
+  "SUCCESS",
+  "FAILED",
+);
 export interface CertificateValidationRecord {
   Name?: string;
   Type?: string;
   Value?: string;
-  Status?: string;
+  Status?: CertificateValidationRecordStatus;
 }
 export const CertificateValidationRecord = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     Type: S.optional(S.String),
     Value: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(CertificateValidationRecordStatus),
   }),
 ).annotations({
   identifier: "CertificateValidationRecord",
@@ -1087,31 +1148,50 @@ export type CertificateValidationRecordList = CertificateValidationRecord[];
 export const CertificateValidationRecordList = S.Array(
   CertificateValidationRecord,
 );
+export type CustomDomainAssociationStatus =
+  | "CREATING"
+  | "CREATE_FAILED"
+  | "ACTIVE"
+  | "DELETING"
+  | "DELETE_FAILED"
+  | "PENDING_CERTIFICATE_DNS_VALIDATION"
+  | "BINDING_CERTIFICATE";
+export const CustomDomainAssociationStatus = S.Literal(
+  "CREATING",
+  "CREATE_FAILED",
+  "ACTIVE",
+  "DELETING",
+  "DELETE_FAILED",
+  "PENDING_CERTIFICATE_DNS_VALIDATION",
+  "BINDING_CERTIFICATE",
+);
 export interface CustomDomain {
   DomainName: string;
   EnableWWWSubdomain: boolean;
-  CertificateValidationRecords?: CertificateValidationRecordList;
-  Status: string;
+  CertificateValidationRecords?: CertificateValidationRecord[];
+  Status: CustomDomainAssociationStatus;
 }
 export const CustomDomain = S.suspend(() =>
   S.Struct({
     DomainName: S.String,
     EnableWWWSubdomain: S.Boolean,
     CertificateValidationRecords: S.optional(CertificateValidationRecordList),
-    Status: S.String,
+    Status: CustomDomainAssociationStatus,
   }),
 ).annotations({ identifier: "CustomDomain" }) as any as S.Schema<CustomDomain>;
 export type CustomDomainList = CustomDomain[];
 export const CustomDomainList = S.Array(CustomDomain);
 export type ServiceArnList = string[];
 export const ServiceArnList = S.Array(S.String);
+export type VpcConnectorStatus = "ACTIVE" | "INACTIVE";
+export const VpcConnectorStatus = S.Literal("ACTIVE", "INACTIVE");
 export interface VpcConnector {
   VpcConnectorName?: string;
   VpcConnectorArn?: string;
   VpcConnectorRevision?: number;
-  Subnets?: StringList;
-  SecurityGroups?: StringList;
-  Status?: string;
+  Subnets?: string[];
+  SecurityGroups?: string[];
+  Status?: VpcConnectorStatus;
   CreatedAt?: Date;
   DeletedAt?: Date;
 }
@@ -1122,7 +1202,7 @@ export const VpcConnector = S.suspend(() =>
     VpcConnectorRevision: S.optional(S.Number),
     Subnets: S.optional(StringList),
     SecurityGroups: S.optional(StringList),
-    Status: S.optional(S.String),
+    Status: S.optional(VpcConnectorStatus),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DeletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -1146,7 +1226,7 @@ export interface CreateAutoScalingConfigurationRequest {
   MaxConcurrency?: number;
   MinSize?: number;
   MaxSize?: number;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateAutoScalingConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -1172,7 +1252,7 @@ export const CreateAutoScalingConfigurationRequest = S.suspend(() =>
 export interface CreateObservabilityConfigurationRequest {
   ObservabilityConfigurationName: string;
   TraceConfiguration?: TraceConfiguration;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateObservabilityConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -1197,7 +1277,7 @@ export interface CreateVpcIngressConnectionRequest {
   ServiceArn: string;
   VpcIngressConnectionName: string;
   IngressVpcConfiguration: IngressVpcConfiguration;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateVpcIngressConnectionRequest = S.suspend(() =>
   S.Struct({
@@ -1219,19 +1299,30 @@ export const CreateVpcIngressConnectionRequest = S.suspend(() =>
 ).annotations({
   identifier: "CreateVpcIngressConnectionRequest",
 }) as any as S.Schema<CreateVpcIngressConnectionRequest>;
+export type ConnectionStatus =
+  | "PENDING_HANDSHAKE"
+  | "AVAILABLE"
+  | "ERROR"
+  | "DELETED";
+export const ConnectionStatus = S.Literal(
+  "PENDING_HANDSHAKE",
+  "AVAILABLE",
+  "ERROR",
+  "DELETED",
+);
 export interface Connection {
   ConnectionName?: string;
   ConnectionArn?: string;
-  ProviderType?: string;
-  Status?: string;
+  ProviderType?: ProviderType;
+  Status?: ConnectionStatus;
   CreatedAt?: Date;
 }
 export const Connection = S.suspend(() =>
   S.Struct({
     ConnectionName: S.optional(S.String),
     ConnectionArn: S.optional(S.String),
-    ProviderType: S.optional(S.String),
-    Status: S.optional(S.String),
+    ProviderType: S.optional(ProviderType),
+    Status: S.optional(ConnectionStatus),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({ identifier: "Connection" }) as any as S.Schema<Connection>;
@@ -1251,12 +1342,14 @@ export const DeleteVpcConnectorResponse = S.suspend(() =>
 ).annotations({
   identifier: "DeleteVpcConnectorResponse",
 }) as any as S.Schema<DeleteVpcConnectorResponse>;
+export type AutoScalingConfigurationStatus = "ACTIVE" | "INACTIVE";
+export const AutoScalingConfigurationStatus = S.Literal("ACTIVE", "INACTIVE");
 export interface AutoScalingConfiguration {
   AutoScalingConfigurationArn?: string;
   AutoScalingConfigurationName?: string;
   AutoScalingConfigurationRevision?: number;
   Latest?: boolean;
-  Status?: string;
+  Status?: AutoScalingConfigurationStatus;
   MaxConcurrency?: number;
   MinSize?: number;
   MaxSize?: number;
@@ -1271,7 +1364,7 @@ export const AutoScalingConfiguration = S.suspend(() =>
     AutoScalingConfigurationName: S.optional(S.String),
     AutoScalingConfigurationRevision: S.optional(S.Number),
     Latest: S.optional(S.Boolean),
-    Status: S.optional(S.String),
+    Status: S.optional(AutoScalingConfigurationStatus),
     MaxConcurrency: S.optional(S.Number),
     MinSize: S.optional(S.Number),
     MaxSize: S.optional(S.Number),
@@ -1308,8 +1401,8 @@ export const VpcDNSTargetList = S.Array(VpcDNSTarget);
 export interface DescribeCustomDomainsResponse {
   DNSTarget: string;
   ServiceArn: string;
-  CustomDomains: CustomDomainList;
-  VpcDNSTargets: VpcDNSTargetList;
+  CustomDomains: CustomDomain[];
+  VpcDNSTargets: VpcDNSTarget[];
   NextToken?: string;
 }
 export const DescribeCustomDomainsResponse = S.suspend(() =>
@@ -1323,13 +1416,15 @@ export const DescribeCustomDomainsResponse = S.suspend(() =>
 ).annotations({
   identifier: "DescribeCustomDomainsResponse",
 }) as any as S.Schema<DescribeCustomDomainsResponse>;
+export type ObservabilityConfigurationStatus = "ACTIVE" | "INACTIVE";
+export const ObservabilityConfigurationStatus = S.Literal("ACTIVE", "INACTIVE");
 export interface ObservabilityConfiguration {
   ObservabilityConfigurationArn?: string;
   ObservabilityConfigurationName?: string;
   TraceConfiguration?: TraceConfiguration;
   ObservabilityConfigurationRevision?: number;
   Latest?: boolean;
-  Status?: string;
+  Status?: ObservabilityConfigurationStatus;
   CreatedAt?: Date;
   DeletedAt?: Date;
 }
@@ -1340,7 +1435,7 @@ export const ObservabilityConfiguration = S.suspend(() =>
     TraceConfiguration: S.optional(TraceConfiguration),
     ObservabilityConfigurationRevision: S.optional(S.Number),
     Latest: S.optional(S.Boolean),
-    Status: S.optional(S.String),
+    Status: S.optional(ObservabilityConfigurationStatus),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DeletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -1355,11 +1450,26 @@ export const DescribeObservabilityConfigurationResponse = S.suspend(() =>
 ).annotations({
   identifier: "DescribeObservabilityConfigurationResponse",
 }) as any as S.Schema<DescribeObservabilityConfigurationResponse>;
+export type ServiceStatus =
+  | "CREATE_FAILED"
+  | "RUNNING"
+  | "DELETED"
+  | "DELETE_FAILED"
+  | "PAUSED"
+  | "OPERATION_IN_PROGRESS";
+export const ServiceStatus = S.Literal(
+  "CREATE_FAILED",
+  "RUNNING",
+  "DELETED",
+  "DELETE_FAILED",
+  "PAUSED",
+  "OPERATION_IN_PROGRESS",
+);
 export interface AutoScalingConfigurationSummary {
   AutoScalingConfigurationArn?: string;
   AutoScalingConfigurationName?: string;
   AutoScalingConfigurationRevision?: number;
-  Status?: string;
+  Status?: AutoScalingConfigurationStatus;
   CreatedAt?: Date;
   HasAssociatedService?: boolean;
   IsDefault?: boolean;
@@ -1369,7 +1479,7 @@ export const AutoScalingConfigurationSummary = S.suspend(() =>
     AutoScalingConfigurationArn: S.optional(S.String),
     AutoScalingConfigurationName: S.optional(S.String),
     AutoScalingConfigurationRevision: S.optional(S.Number),
-    Status: S.optional(S.String),
+    Status: S.optional(AutoScalingConfigurationStatus),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     HasAssociatedService: S.optional(S.Boolean),
     IsDefault: S.optional(S.Boolean),
@@ -1385,7 +1495,7 @@ export interface Service {
   CreatedAt: Date;
   UpdatedAt: Date;
   DeletedAt?: Date;
-  Status: string;
+  Status: ServiceStatus;
   SourceConfiguration: SourceConfiguration;
   InstanceConfiguration: InstanceConfiguration;
   EncryptionConfiguration?: EncryptionConfiguration;
@@ -1403,7 +1513,7 @@ export const Service = S.suspend(() =>
     CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     UpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     DeletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.String,
+    Status: ServiceStatus,
     SourceConfiguration: SourceConfiguration,
     InstanceConfiguration: InstanceConfiguration,
     EncryptionConfiguration: S.optional(EncryptionConfiguration),
@@ -1429,11 +1539,30 @@ export const DescribeVpcConnectorResponse = S.suspend(() =>
 ).annotations({
   identifier: "DescribeVpcConnectorResponse",
 }) as any as S.Schema<DescribeVpcConnectorResponse>;
+export type VpcIngressConnectionStatus =
+  | "AVAILABLE"
+  | "PENDING_CREATION"
+  | "PENDING_UPDATE"
+  | "PENDING_DELETION"
+  | "FAILED_CREATION"
+  | "FAILED_UPDATE"
+  | "FAILED_DELETION"
+  | "DELETED";
+export const VpcIngressConnectionStatus = S.Literal(
+  "AVAILABLE",
+  "PENDING_CREATION",
+  "PENDING_UPDATE",
+  "PENDING_DELETION",
+  "FAILED_CREATION",
+  "FAILED_UPDATE",
+  "FAILED_DELETION",
+  "DELETED",
+);
 export interface VpcIngressConnection {
   VpcIngressConnectionArn?: string;
   VpcIngressConnectionName?: string;
   ServiceArn?: string;
-  Status?: string;
+  Status?: VpcIngressConnectionStatus;
   AccountId?: string;
   DomainName?: string;
   IngressVpcConfiguration?: IngressVpcConfiguration;
@@ -1445,7 +1574,7 @@ export const VpcIngressConnection = S.suspend(() =>
     VpcIngressConnectionArn: S.optional(S.String),
     VpcIngressConnectionName: S.optional(S.String),
     ServiceArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(VpcIngressConnectionStatus),
     AccountId: S.optional(S.String),
     DomainName: S.optional(S.String),
     IngressVpcConfiguration: S.optional(IngressVpcConfiguration),
@@ -1467,7 +1596,7 @@ export interface DisassociateCustomDomainResponse {
   DNSTarget: string;
   ServiceArn: string;
   CustomDomain: CustomDomain;
-  VpcDNSTargets: VpcDNSTargetList;
+  VpcDNSTargets: VpcDNSTarget[];
 }
 export const DisassociateCustomDomainResponse = S.suspend(() =>
   S.Struct({
@@ -1480,7 +1609,7 @@ export const DisassociateCustomDomainResponse = S.suspend(() =>
   identifier: "DisassociateCustomDomainResponse",
 }) as any as S.Schema<DisassociateCustomDomainResponse>;
 export interface ListServicesForAutoScalingConfigurationResponse {
-  ServiceArnList: ServiceArnList;
+  ServiceArnList: string[];
   NextToken?: string;
 }
 export const ListServicesForAutoScalingConfigurationResponse = S.suspend(() =>
@@ -1492,7 +1621,7 @@ export const ListServicesForAutoScalingConfigurationResponse = S.suspend(() =>
   identifier: "ListServicesForAutoScalingConfigurationResponse",
 }) as any as S.Schema<ListServicesForAutoScalingConfigurationResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
@@ -1500,7 +1629,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListVpcConnectorsResponse {
-  VpcConnectors: VpcConnectors;
+  VpcConnectors: VpcConnector[];
   NextToken?: string;
 }
 export const ListVpcConnectorsResponse = S.suspend(() =>
@@ -1586,6 +1715,38 @@ export const UpdateVpcIngressConnectionResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateVpcIngressConnectionResponse",
 }) as any as S.Schema<UpdateVpcIngressConnectionResponse>;
+export type OperationType =
+  | "START_DEPLOYMENT"
+  | "CREATE_SERVICE"
+  | "PAUSE_SERVICE"
+  | "RESUME_SERVICE"
+  | "DELETE_SERVICE"
+  | "UPDATE_SERVICE";
+export const OperationType = S.Literal(
+  "START_DEPLOYMENT",
+  "CREATE_SERVICE",
+  "PAUSE_SERVICE",
+  "RESUME_SERVICE",
+  "DELETE_SERVICE",
+  "UPDATE_SERVICE",
+);
+export type OperationStatus =
+  | "PENDING"
+  | "IN_PROGRESS"
+  | "FAILED"
+  | "SUCCEEDED"
+  | "ROLLBACK_IN_PROGRESS"
+  | "ROLLBACK_FAILED"
+  | "ROLLBACK_SUCCEEDED";
+export const OperationStatus = S.Literal(
+  "PENDING",
+  "IN_PROGRESS",
+  "FAILED",
+  "SUCCEEDED",
+  "ROLLBACK_IN_PROGRESS",
+  "ROLLBACK_FAILED",
+  "ROLLBACK_SUCCEEDED",
+);
 export type AutoScalingConfigurationSummaryList =
   AutoScalingConfigurationSummary[];
 export const AutoScalingConfigurationSummaryList = S.Array(
@@ -1594,16 +1755,16 @@ export const AutoScalingConfigurationSummaryList = S.Array(
 export interface ConnectionSummary {
   ConnectionName?: string;
   ConnectionArn?: string;
-  ProviderType?: string;
-  Status?: string;
+  ProviderType?: ProviderType;
+  Status?: ConnectionStatus;
   CreatedAt?: Date;
 }
 export const ConnectionSummary = S.suspend(() =>
   S.Struct({
     ConnectionName: S.optional(S.String),
     ConnectionArn: S.optional(S.String),
-    ProviderType: S.optional(S.String),
-    Status: S.optional(S.String),
+    ProviderType: S.optional(ProviderType),
+    Status: S.optional(ConnectionStatus),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({
@@ -1632,8 +1793,8 @@ export const ObservabilityConfigurationSummaryList = S.Array(
 );
 export interface OperationSummary {
   Id?: string;
-  Type?: string;
-  Status?: string;
+  Type?: OperationType;
+  Status?: OperationStatus;
   TargetArn?: string;
   StartedAt?: Date;
   EndedAt?: Date;
@@ -1642,8 +1803,8 @@ export interface OperationSummary {
 export const OperationSummary = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
-    Type: S.optional(S.String),
-    Status: S.optional(S.String),
+    Type: S.optional(OperationType),
+    Status: S.optional(OperationStatus),
     TargetArn: S.optional(S.String),
     StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1661,7 +1822,7 @@ export interface ServiceSummary {
   ServiceUrl?: string;
   CreatedAt?: Date;
   UpdatedAt?: Date;
-  Status?: string;
+  Status?: ServiceStatus;
 }
 export const ServiceSummary = S.suspend(() =>
   S.Struct({
@@ -1671,7 +1832,7 @@ export const ServiceSummary = S.suspend(() =>
     ServiceUrl: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
+    Status: S.optional(ServiceStatus),
   }),
 ).annotations({
   identifier: "ServiceSummary",
@@ -1752,7 +1913,7 @@ export const DeleteVpcIngressConnectionResponse = S.suspend(() =>
   identifier: "DeleteVpcIngressConnectionResponse",
 }) as any as S.Schema<DeleteVpcIngressConnectionResponse>;
 export interface ListAutoScalingConfigurationsResponse {
-  AutoScalingConfigurationSummaryList: AutoScalingConfigurationSummaryList;
+  AutoScalingConfigurationSummaryList: AutoScalingConfigurationSummary[];
   NextToken?: string;
 }
 export const ListAutoScalingConfigurationsResponse = S.suspend(() =>
@@ -1764,7 +1925,7 @@ export const ListAutoScalingConfigurationsResponse = S.suspend(() =>
   identifier: "ListAutoScalingConfigurationsResponse",
 }) as any as S.Schema<ListAutoScalingConfigurationsResponse>;
 export interface ListConnectionsResponse {
-  ConnectionSummaryList: ConnectionSummaryList;
+  ConnectionSummaryList: ConnectionSummary[];
   NextToken?: string;
 }
 export const ListConnectionsResponse = S.suspend(() =>
@@ -1776,7 +1937,7 @@ export const ListConnectionsResponse = S.suspend(() =>
   identifier: "ListConnectionsResponse",
 }) as any as S.Schema<ListConnectionsResponse>;
 export interface ListObservabilityConfigurationsResponse {
-  ObservabilityConfigurationSummaryList: ObservabilityConfigurationSummaryList;
+  ObservabilityConfigurationSummaryList: ObservabilityConfigurationSummary[];
   NextToken?: string;
 }
 export const ListObservabilityConfigurationsResponse = S.suspend(() =>
@@ -1789,7 +1950,7 @@ export const ListObservabilityConfigurationsResponse = S.suspend(() =>
   identifier: "ListObservabilityConfigurationsResponse",
 }) as any as S.Schema<ListObservabilityConfigurationsResponse>;
 export interface ListOperationsResponse {
-  OperationSummaryList?: OperationSummaryList;
+  OperationSummaryList?: OperationSummary[];
   NextToken?: string;
 }
 export const ListOperationsResponse = S.suspend(() =>
@@ -1801,7 +1962,7 @@ export const ListOperationsResponse = S.suspend(() =>
   identifier: "ListOperationsResponse",
 }) as any as S.Schema<ListOperationsResponse>;
 export interface ListServicesResponse {
-  ServiceSummaryList: ServiceSummaryList;
+  ServiceSummaryList: ServiceSummary[];
   NextToken?: string;
 }
 export const ListServicesResponse = S.suspend(() =>
@@ -1832,7 +1993,7 @@ export interface AssociateCustomDomainResponse {
   DNSTarget: string;
   ServiceArn: string;
   CustomDomain: CustomDomain;
-  VpcDNSTargets: VpcDNSTargetList;
+  VpcDNSTargets: VpcDNSTarget[];
 }
 export const AssociateCustomDomainResponse = S.suspend(() =>
   S.Struct({
@@ -1845,7 +2006,7 @@ export const AssociateCustomDomainResponse = S.suspend(() =>
   identifier: "AssociateCustomDomainResponse",
 }) as any as S.Schema<AssociateCustomDomainResponse>;
 export interface ListVpcIngressConnectionsResponse {
-  VpcIngressConnectionSummaryList: VpcIngressConnectionSummaryList;
+  VpcIngressConnectionSummaryList: VpcIngressConnectionSummary[];
   NextToken?: string;
 }
 export const ListVpcIngressConnectionsResponse = S.suspend(() =>
@@ -1860,7 +2021,7 @@ export interface CreateServiceRequest {
   ServiceName: string;
   SourceConfiguration: SourceConfiguration;
   InstanceConfiguration?: InstanceConfiguration;
-  Tags?: TagList;
+  Tags?: Tag[];
   EncryptionConfiguration?: EncryptionConfiguration;
   HealthCheckConfiguration?: HealthCheckConfiguration;
   AutoScalingConfigurationArn?: string;
@@ -1936,21 +2097,21 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export const listVpcConnectors: {
   (
     input: ListVpcConnectorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVpcConnectorsResponse,
     InternalServiceErrorException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListVpcConnectorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVpcConnectorsResponse,
     InternalServiceErrorException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVpcConnectorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServiceErrorException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1976,21 +2137,21 @@ export const listVpcConnectors: {
 export const listAutoScalingConfigurations: {
   (
     input: ListAutoScalingConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAutoScalingConfigurationsResponse,
     InternalServiceErrorException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListAutoScalingConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAutoScalingConfigurationsResponse,
     InternalServiceErrorException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAutoScalingConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServiceErrorException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2011,21 +2172,21 @@ export const listAutoScalingConfigurations: {
 export const listConnections: {
   (
     input: ListConnectionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConnectionsResponse,
     InternalServiceErrorException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListConnectionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConnectionsResponse,
     InternalServiceErrorException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConnectionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServiceErrorException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2051,21 +2212,21 @@ export const listConnections: {
 export const listObservabilityConfigurations: {
   (
     input: ListObservabilityConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListObservabilityConfigurationsResponse,
     InternalServiceErrorException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListObservabilityConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListObservabilityConfigurationsResponse,
     InternalServiceErrorException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListObservabilityConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServiceErrorException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2086,21 +2247,21 @@ export const listObservabilityConfigurations: {
 export const listServices: {
   (
     input: ListServicesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServicesResponse,
     InternalServiceErrorException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListServicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServicesResponse,
     InternalServiceErrorException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServiceErrorException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2121,21 +2282,21 @@ export const listServices: {
 export const listVpcIngressConnections: {
   (
     input: ListVpcIngressConnectionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVpcIngressConnectionsResponse,
     InternalServiceErrorException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListVpcIngressConnectionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVpcIngressConnectionsResponse,
     InternalServiceErrorException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVpcIngressConnectionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServiceErrorException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2156,7 +2317,7 @@ export const listVpcIngressConnections: {
  */
 export const updateDefaultAutoScalingConfiguration: (
   input: UpdateDefaultAutoScalingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDefaultAutoScalingConfigurationResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2188,7 +2349,7 @@ export const updateDefaultAutoScalingConfiguration: (
  */
 export const createAutoScalingConfiguration: (
   input: CreateAutoScalingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAutoScalingConfigurationResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2216,7 +2377,7 @@ export const createAutoScalingConfiguration: (
  */
 export const updateService: (
   input: UpdateServiceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateServiceResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2245,7 +2406,7 @@ export const updateService: (
  */
 export const updateVpcIngressConnection: (
   input: UpdateVpcIngressConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateVpcIngressConnectionResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2268,7 +2429,7 @@ export const updateVpcIngressConnection: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2295,7 +2456,7 @@ export const untagResource: (
  */
 export const disassociateCustomDomain: (
   input: DisassociateCustomDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateCustomDomainResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2318,7 +2479,7 @@ export const disassociateCustomDomain: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2345,7 +2506,7 @@ export const listTagsForResource: (
  */
 export const pauseService: (
   input: PauseServiceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PauseServiceResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2371,7 +2532,7 @@ export const pauseService: (
  */
 export const resumeService: (
   input: ResumeServiceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResumeServiceResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2394,7 +2555,7 @@ export const resumeService: (
  */
 export const createVpcIngressConnection: (
   input: CreateVpcIngressConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVpcIngressConnectionResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2422,7 +2583,7 @@ export const createVpcIngressConnection: (
  */
 export const deleteService: (
   input: DeleteServiceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteServiceResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2453,7 +2614,7 @@ export const deleteService: (
  */
 export const deleteVpcIngressConnection: (
   input: DeleteVpcIngressConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVpcIngressConnectionResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2481,7 +2642,7 @@ export const deleteVpcIngressConnection: (
  */
 export const associateCustomDomain: (
   input: AssociateCustomDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateCustomDomainResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2503,7 +2664,7 @@ export const associateCustomDomain: (
  */
 export const deleteConnection: (
   input: DeleteConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConnectionResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2525,7 +2686,7 @@ export const deleteConnection: (
  */
 export const deleteVpcConnector: (
   input: DeleteVpcConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVpcConnectorResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2546,7 +2707,7 @@ export const deleteVpcConnector: (
  */
 export const describeAutoScalingConfiguration: (
   input: DescribeAutoScalingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAutoScalingConfigurationResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2568,7 +2729,7 @@ export const describeAutoScalingConfiguration: (
 export const describeCustomDomains: {
   (
     input: DescribeCustomDomainsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeCustomDomainsResponse,
     | InternalServiceErrorException
     | InvalidRequestException
@@ -2578,7 +2739,7 @@ export const describeCustomDomains: {
   >;
   pages: (
     input: DescribeCustomDomainsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeCustomDomainsResponse,
     | InternalServiceErrorException
     | InvalidRequestException
@@ -2588,7 +2749,7 @@ export const describeCustomDomains: {
   >;
   items: (
     input: DescribeCustomDomainsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServiceErrorException
     | InvalidRequestException
@@ -2615,7 +2776,7 @@ export const describeCustomDomains: {
  */
 export const describeObservabilityConfiguration: (
   input: DescribeObservabilityConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeObservabilityConfigurationResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2636,7 +2797,7 @@ export const describeObservabilityConfiguration: (
  */
 export const describeService: (
   input: DescribeServiceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeServiceResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2657,7 +2818,7 @@ export const describeService: (
  */
 export const describeVpcConnector: (
   input: DescribeVpcConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeVpcConnectorResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2678,7 +2839,7 @@ export const describeVpcConnector: (
  */
 export const describeVpcIngressConnection: (
   input: DescribeVpcIngressConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeVpcIngressConnectionResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2700,7 +2861,7 @@ export const describeVpcIngressConnection: (
 export const listServicesForAutoScalingConfiguration: {
   (
     input: ListServicesForAutoScalingConfigurationRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServicesForAutoScalingConfigurationResponse,
     | InternalServiceErrorException
     | InvalidRequestException
@@ -2710,7 +2871,7 @@ export const listServicesForAutoScalingConfiguration: {
   >;
   pages: (
     input: ListServicesForAutoScalingConfigurationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServicesForAutoScalingConfigurationResponse,
     | InternalServiceErrorException
     | InvalidRequestException
@@ -2720,7 +2881,7 @@ export const listServicesForAutoScalingConfiguration: {
   >;
   items: (
     input: ListServicesForAutoScalingConfigurationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServiceErrorException
     | InvalidRequestException
@@ -2754,7 +2915,7 @@ export const listServicesForAutoScalingConfiguration: {
  */
 export const startDeployment: (
   input: StartDeploymentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartDeploymentResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2777,7 +2938,7 @@ export const startDeployment: (
  */
 export const deleteAutoScalingConfiguration: (
   input: DeleteAutoScalingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAutoScalingConfigurationResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2799,7 +2960,7 @@ export const deleteAutoScalingConfiguration: (
  */
 export const deleteObservabilityConfiguration: (
   input: DeleteObservabilityConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteObservabilityConfigurationResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2824,7 +2985,7 @@ export const deleteObservabilityConfiguration: (
 export const listOperations: {
   (
     input: ListOperationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOperationsResponse,
     | InternalServiceErrorException
     | InvalidRequestException
@@ -2834,7 +2995,7 @@ export const listOperations: {
   >;
   pages: (
     input: ListOperationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOperationsResponse,
     | InternalServiceErrorException
     | InvalidRequestException
@@ -2844,7 +3005,7 @@ export const listOperations: {
   >;
   items: (
     input: ListOperationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServiceErrorException
     | InvalidRequestException
@@ -2871,7 +3032,7 @@ export const listOperations: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2899,7 +3060,7 @@ export const tagResource: (
  */
 export const createConnection: (
   input: CreateConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConnectionResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2930,7 +3091,7 @@ export const createConnection: (
  */
 export const createObservabilityConfiguration: (
   input: CreateObservabilityConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateObservabilityConfigurationResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2952,7 +3113,7 @@ export const createObservabilityConfiguration: (
  */
 export const createVpcConnector: (
   input: CreateVpcConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVpcConnectorResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2975,7 +3136,7 @@ export const createVpcConnector: (
  */
 export const createService: (
   input: CreateServiceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateServiceResponse,
   | InternalServiceErrorException
   | InvalidRequestException

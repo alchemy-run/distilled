@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -126,12 +126,12 @@ export type EncryptionKeyArn = string;
 export type LogGroupName = string;
 export type LogStreamNamePrefix = string;
 export type PrometheusUrlString = string;
-export type EntryPointPath = string | Redacted.Redacted<string>;
-export type EntryPointArgument = string | Redacted.Redacted<string>;
-export type SparkSubmitParameters = string | Redacted.Redacted<string>;
-export type Query = string | Redacted.Redacted<string>;
-export type InitScriptPath = string | Redacted.Redacted<string>;
-export type HiveCliParameters = string | Redacted.Redacted<string>;
+export type EntryPointPath = string | redacted.Redacted<string>;
+export type EntryPointArgument = string | redacted.Redacted<string>;
+export type SparkSubmitParameters = string | redacted.Redacted<string>;
+export type Query = string | redacted.Redacted<string>;
+export type InitScriptPath = string | redacted.Redacted<string>;
+export type HiveCliParameters = string | redacted.Redacted<string>;
 export type ApplicationArn = string;
 export type JobArn = string;
 export type RequestIdentityUserArn = string;
@@ -167,7 +167,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -275,8 +275,8 @@ export const SubnetIds = S.Array(S.String);
 export type SecurityGroupIds = string[];
 export const SecurityGroupIds = S.Array(S.String);
 export interface NetworkConfiguration {
-  subnetIds?: SubnetIds;
-  securityGroupIds?: SecurityGroupIds;
+  subnetIds?: string[];
+  securityGroupIds?: string[];
 }
 export const NetworkConfiguration = S.suspend(() =>
   S.Struct({
@@ -353,14 +353,14 @@ export const ManagedPersistenceMonitoringConfiguration = S.suspend(() =>
 }) as any as S.Schema<ManagedPersistenceMonitoringConfiguration>;
 export type LogTypeList = string[];
 export const LogTypeList = S.Array(S.String);
-export type LogTypeMap = { [key: string]: LogTypeList };
+export type LogTypeMap = { [key: string]: string[] };
 export const LogTypeMap = S.Record({ key: S.String, value: LogTypeList });
 export interface CloudWatchLoggingConfiguration {
   enabled: boolean;
   logGroupName?: string;
   logStreamNamePrefix?: string;
   encryptionKeyArn?: string;
-  logTypes?: LogTypeMap;
+  logTypes?: { [key: string]: string[] };
 }
 export const CloudWatchLoggingConfiguration = S.suspend(() =>
   S.Struct({
@@ -436,17 +436,17 @@ export const JobLevelCostAllocationConfiguration = S.suspend(() =>
 export interface UpdateApplicationRequest {
   applicationId: string;
   clientToken: string;
-  initialCapacity?: InitialCapacityConfigMap;
+  initialCapacity?: { [key: string]: InitialCapacityConfig };
   maximumCapacity?: MaximumAllowedResources;
   autoStartConfiguration?: AutoStartConfig;
   autoStopConfiguration?: AutoStopConfig;
   networkConfiguration?: NetworkConfiguration;
   architecture?: string;
   imageConfiguration?: ImageConfigurationInput;
-  workerTypeSpecifications?: WorkerTypeSpecificationInputMap;
+  workerTypeSpecifications?: { [key: string]: WorkerTypeSpecificationInput };
   interactiveConfiguration?: InteractiveConfiguration;
   releaseLabel?: string;
-  runtimeConfiguration?: ConfigurationList;
+  runtimeConfiguration?: Configuration[];
   monitoringConfiguration?: MonitoringConfiguration;
   schedulerConfiguration?: SchedulerConfiguration;
   identityCenterConfiguration?: IdentityCenterConfigurationInput;
@@ -512,7 +512,7 @@ export const DeleteApplicationResponse = S.suspend(() =>
 export interface ListApplicationsRequest {
   nextToken?: string;
   maxResults?: number;
-  states?: ApplicationStateSet;
+  states?: string[];
 }
 export const ListApplicationsRequest = S.suspend(() =>
   S.Struct({
@@ -638,7 +638,7 @@ export interface ListJobRunsRequest {
   maxResults?: number;
   createdAtAfter?: Date;
   createdAtBefore?: Date;
-  states?: JobRunStateSet;
+  states?: string[];
   mode?: string;
 }
 export const ListJobRunsRequest = S.suspend(() =>
@@ -731,7 +731,7 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface JobRunExecutionIamPolicy {
   policy?: string;
-  policyArns?: PolicyArnList;
+  policyArns?: string[];
 }
 export const JobRunExecutionIamPolicy = S.suspend(() =>
   S.Struct({
@@ -742,7 +742,7 @@ export const JobRunExecutionIamPolicy = S.suspend(() =>
   identifier: "JobRunExecutionIamPolicy",
 }) as any as S.Schema<JobRunExecutionIamPolicy>;
 export interface ConfigurationOverrides {
-  applicationConfiguration?: ConfigurationList;
+  applicationConfiguration?: Configuration[];
   monitoringConfiguration?: MonitoringConfiguration;
 }
 export const ConfigurationOverrides = S.suspend(() =>
@@ -763,10 +763,10 @@ export const RetryPolicy = S.suspend(() =>
     maxFailedAttemptsPerHour: S.optional(S.Number),
   }),
 ).annotations({ identifier: "RetryPolicy" }) as any as S.Schema<RetryPolicy>;
-export type EntryPointArguments = string | Redacted.Redacted<string>[];
+export type EntryPointArguments = string | redacted.Redacted<string>[];
 export const EntryPointArguments = S.Array(SensitiveString);
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -775,7 +775,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -844,18 +844,18 @@ export interface Application {
   type: string;
   state: string;
   stateDetails?: string;
-  initialCapacity?: InitialCapacityConfigMap;
+  initialCapacity?: { [key: string]: InitialCapacityConfig };
   maximumCapacity?: MaximumAllowedResources;
   createdAt: Date;
   updatedAt: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   autoStartConfiguration?: AutoStartConfig;
   autoStopConfiguration?: AutoStopConfig;
   networkConfiguration?: NetworkConfiguration;
   architecture?: string;
   imageConfiguration?: ImageConfiguration;
-  workerTypeSpecifications?: WorkerTypeSpecificationMap;
-  runtimeConfiguration?: ConfigurationList;
+  workerTypeSpecifications?: { [key: string]: WorkerTypeSpecification };
+  runtimeConfiguration?: Configuration[];
   monitoringConfiguration?: MonitoringConfiguration;
   interactiveConfiguration?: InteractiveConfiguration;
   schedulerConfiguration?: SchedulerConfiguration;
@@ -923,9 +923,9 @@ export const SensitivePropertiesMap = S.Record({
   value: S.String,
 });
 export interface SparkSubmit {
-  entryPoint: string | Redacted.Redacted<string>;
-  entryPointArguments?: EntryPointArguments;
-  sparkSubmitParameters?: string | Redacted.Redacted<string>;
+  entryPoint: string | redacted.Redacted<string>;
+  entryPointArguments?: string | redacted.Redacted<string>[];
+  sparkSubmitParameters?: string | redacted.Redacted<string>;
 }
 export const SparkSubmit = S.suspend(() =>
   S.Struct({
@@ -935,9 +935,9 @@ export const SparkSubmit = S.suspend(() =>
   }),
 ).annotations({ identifier: "SparkSubmit" }) as any as S.Schema<SparkSubmit>;
 export interface Hive {
-  query: string | Redacted.Redacted<string>;
-  initQueryFile?: string | Redacted.Redacted<string>;
-  parameters?: string | Redacted.Redacted<string>;
+  query: string | redacted.Redacted<string>;
+  initQueryFile?: string | redacted.Redacted<string>;
+  parameters?: string | redacted.Redacted<string>;
 }
 export const Hive = S.suspend(() =>
   S.Struct({
@@ -948,8 +948,8 @@ export const Hive = S.suspend(() =>
 ).annotations({ identifier: "Hive" }) as any as S.Schema<Hive>;
 export interface Configuration {
   classification: string;
-  properties?: SensitivePropertiesMap;
-  configurations?: ConfigurationList;
+  properties?: { [key: string]: string };
+  configurations?: Configuration[];
 }
 export const Configuration = S.suspend(() =>
   S.Struct({
@@ -1086,7 +1086,7 @@ export const JobRunAttemptSummary = S.suspend(() =>
 export type JobRunAttempts = JobRunAttemptSummary[];
 export const JobRunAttempts = S.Array(JobRunAttemptSummary);
 export interface ListApplicationsResponse {
-  applications: ApplicationList;
+  applications: ApplicationSummary[];
   nextToken?: string;
 }
 export const ListApplicationsResponse = S.suspend(() =>
@@ -1099,9 +1099,9 @@ export interface StartJobRunRequest {
   clientToken: string;
   executionRoleArn: string;
   executionIamPolicy?: JobRunExecutionIamPolicy;
-  jobDriver?: (typeof JobDriver)["Type"];
+  jobDriver?: JobDriver;
   configurationOverrides?: ConfigurationOverrides;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   executionTimeoutMinutes?: number;
   name?: string;
   mode?: string;
@@ -1134,7 +1134,7 @@ export const StartJobRunRequest = S.suspend(() =>
   identifier: "StartJobRunRequest",
 }) as any as S.Schema<StartJobRunRequest>;
 export interface ListJobRunsResponse {
-  jobRuns: JobRuns;
+  jobRuns: JobRunSummary[];
   nextToken?: string;
 }
 export const ListJobRunsResponse = S.suspend(() =>
@@ -1143,7 +1143,7 @@ export const ListJobRunsResponse = S.suspend(() =>
   identifier: "ListJobRunsResponse",
 }) as any as S.Schema<ListJobRunsResponse>;
 export interface ListJobRunAttemptsResponse {
-  jobRunAttempts: JobRunAttempts;
+  jobRunAttempts: JobRunAttemptSummary[];
   nextToken?: string;
 }
 export const ListJobRunAttemptsResponse = S.suspend(() =>
@@ -1193,8 +1193,8 @@ export interface JobRun {
   stateDetails: string;
   releaseLabel: string;
   configurationOverrides?: ConfigurationOverrides;
-  jobDriver: (typeof JobDriver)["Type"];
-  tags?: TagMap;
+  jobDriver: JobDriver;
+  tags?: { [key: string]: string };
   totalResourceUtilization?: TotalResourceUtilization;
   networkConfiguration?: NetworkConfiguration;
   totalExecutionDurationSeconds?: number;
@@ -1250,16 +1250,16 @@ export interface CreateApplicationRequest {
   releaseLabel: string;
   type: string;
   clientToken: string;
-  initialCapacity?: InitialCapacityConfigMap;
+  initialCapacity?: { [key: string]: InitialCapacityConfig };
   maximumCapacity?: MaximumAllowedResources;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   autoStartConfiguration?: AutoStartConfig;
   autoStopConfiguration?: AutoStopConfig;
   networkConfiguration?: NetworkConfiguration;
   architecture?: string;
   imageConfiguration?: ImageConfigurationInput;
-  workerTypeSpecifications?: WorkerTypeSpecificationInputMap;
-  runtimeConfiguration?: ConfigurationList;
+  workerTypeSpecifications?: { [key: string]: WorkerTypeSpecificationInput };
+  runtimeConfiguration?: Configuration[];
   monitoringConfiguration?: MonitoringConfiguration;
   interactiveConfiguration?: InteractiveConfiguration;
   schedulerConfiguration?: SchedulerConfiguration;
@@ -1371,7 +1371,7 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1392,7 +1392,7 @@ export const untagResource: (
  */
 export const getJobRun: (
   input: GetJobRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetJobRunResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1413,7 +1413,7 @@ export const getJobRun: (
  */
 export const startApplication: (
   input: StartApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartApplicationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1437,21 +1437,21 @@ export const startApplication: (
 export const listApplications: {
   (
     input: ListApplicationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListApplicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ApplicationSummary,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1473,21 +1473,21 @@ export const listApplications: {
 export const listJobRuns: {
   (
     input: ListJobRunsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListJobRunsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListJobRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListJobRunsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     JobRunSummary,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1509,7 +1509,7 @@ export const listJobRuns: {
 export const listJobRunAttempts: {
   (
     input: ListJobRunAttemptsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListJobRunAttemptsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1519,7 +1519,7 @@ export const listJobRunAttempts: {
   >;
   pages: (
     input: ListJobRunAttemptsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListJobRunAttemptsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1529,7 +1529,7 @@ export const listJobRunAttempts: {
   >;
   items: (
     input: ListJobRunAttemptsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     JobRunAttemptSummary,
     | InternalServerException
     | ResourceNotFoundException
@@ -1557,7 +1557,7 @@ export const listJobRunAttempts: {
  */
 export const updateApplication: (
   input: UpdateApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateApplicationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1578,7 +1578,7 @@ export const updateApplication: (
  */
 export const cancelJobRun: (
   input: CancelJobRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelJobRunResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1603,7 +1603,7 @@ export const cancelJobRun: (
  */
 export const getDashboardForJobRun: (
   input: GetDashboardForJobRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDashboardForJobRunResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1624,7 +1624,7 @@ export const getDashboardForJobRun: (
  */
 export const deleteApplication: (
   input: DeleteApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApplicationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1645,7 +1645,7 @@ export const deleteApplication: (
  */
 export const stopApplication: (
   input: StopApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopApplicationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1666,7 +1666,7 @@ export const stopApplication: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1687,7 +1687,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1708,7 +1708,7 @@ export const tagResource: (
  */
 export const getApplication: (
   input: GetApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetApplicationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1729,7 +1729,7 @@ export const getApplication: (
  */
 export const startJobRun: (
   input: StartJobRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartJobRunResponse,
   | ConflictException
   | InternalServerException
@@ -1752,7 +1752,7 @@ export const startJobRun: (
  */
 export const createApplication: (
   input: CreateApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateApplicationResponse,
   | ConflictException
   | InternalServerException

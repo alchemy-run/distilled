@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -502,10 +502,46 @@ export const DescribeLimitsInput = S.suspend(() =>
 ).annotations({
   identifier: "DescribeLimitsInput",
 }) as any as S.Schema<DescribeLimitsInput>;
-export type MetricsNameList = string[];
-export const MetricsNameList = S.Array(S.String);
+export type MetricsName =
+  | "IncomingBytes"
+  | "IncomingRecords"
+  | "OutgoingBytes"
+  | "OutgoingRecords"
+  | "WriteProvisionedThroughputExceeded"
+  | "ReadProvisionedThroughputExceeded"
+  | "IteratorAgeMilliseconds"
+  | "ALL";
+export const MetricsName = S.Literal(
+  "IncomingBytes",
+  "IncomingRecords",
+  "OutgoingBytes",
+  "OutgoingRecords",
+  "WriteProvisionedThroughputExceeded",
+  "ReadProvisionedThroughputExceeded",
+  "IteratorAgeMilliseconds",
+  "ALL",
+);
+export type MetricsNameList = MetricsName[];
+export const MetricsNameList = S.Array(MetricsName);
+export type ShardIteratorType =
+  | "AT_SEQUENCE_NUMBER"
+  | "AFTER_SEQUENCE_NUMBER"
+  | "TRIM_HORIZON"
+  | "LATEST"
+  | "AT_TIMESTAMP";
+export const ShardIteratorType = S.Literal(
+  "AT_SEQUENCE_NUMBER",
+  "AFTER_SEQUENCE_NUMBER",
+  "TRIM_HORIZON",
+  "LATEST",
+  "AT_TIMESTAMP",
+);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type EncryptionType = "NONE" | "KMS";
+export const EncryptionType = S.Literal("NONE", "KMS");
+export type ScalingType = "UNIFORM_SCALING";
+export const ScalingType = S.Literal("UNIFORM_SCALING");
 export interface DecreaseStreamRetentionPeriodInput {
   StreamName?: string;
   RetentionPeriodHours: number;
@@ -717,7 +753,7 @@ export const DescribeStreamSummaryInput = S.suspend(() =>
 }) as any as S.Schema<DescribeStreamSummaryInput>;
 export interface DisableEnhancedMonitoringInput {
   StreamName?: string;
-  ShardLevelMetrics: MetricsNameList;
+  ShardLevelMetrics: MetricsName[];
   StreamARN?: string;
 }
 export const DisableEnhancedMonitoringInput = S.suspend(() =>
@@ -742,7 +778,7 @@ export const DisableEnhancedMonitoringInput = S.suspend(() =>
 }) as any as S.Schema<DisableEnhancedMonitoringInput>;
 export interface EnableEnhancedMonitoringInput {
   StreamName?: string;
-  ShardLevelMetrics: MetricsNameList;
+  ShardLevelMetrics: MetricsName[];
   StreamARN?: string;
 }
 export const EnableEnhancedMonitoringInput = S.suspend(() =>
@@ -812,7 +848,7 @@ export const GetResourcePolicyInput = S.suspend(() =>
 export interface GetShardIteratorInput {
   StreamName?: string;
   ShardId: string;
-  ShardIteratorType: string;
+  ShardIteratorType: ShardIteratorType;
   StartingSequenceNumber?: string;
   Timestamp?: Date;
   StreamARN?: string;
@@ -821,7 +857,7 @@ export const GetShardIteratorInput = S.suspend(() =>
   S.Struct({
     StreamName: S.optional(S.String),
     ShardId: S.String,
-    ShardIteratorType: S.String,
+    ShardIteratorType: ShardIteratorType,
     StartingSequenceNumber: S.optional(S.String),
     Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
@@ -1068,7 +1104,7 @@ export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface RegisterStreamConsumerInput {
   StreamARN: string;
   ConsumerName: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const RegisterStreamConsumerInput = S.suspend(() =>
   S.Struct({
@@ -1092,7 +1128,7 @@ export const RegisterStreamConsumerInput = S.suspend(() =>
 }) as any as S.Schema<RegisterStreamConsumerInput>;
 export interface RemoveTagsFromStreamInput {
   StreamName?: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
   StreamARN?: string;
 }
 export const RemoveTagsFromStreamInput = S.suspend(() =>
@@ -1156,14 +1192,14 @@ export const SplitShardResponse = S.suspend(() =>
 }) as any as S.Schema<SplitShardResponse>;
 export interface StartStreamEncryptionInput {
   StreamName?: string;
-  EncryptionType: string;
+  EncryptionType: EncryptionType;
   KeyId: string;
   StreamARN?: string;
 }
 export const StartStreamEncryptionInput = S.suspend(() =>
   S.Struct({
     StreamName: S.optional(S.String),
-    EncryptionType: S.String,
+    EncryptionType: EncryptionType,
     KeyId: S.String,
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
   }).pipe(
@@ -1189,14 +1225,14 @@ export const StartStreamEncryptionResponse = S.suspend(() =>
 }) as any as S.Schema<StartStreamEncryptionResponse>;
 export interface StopStreamEncryptionInput {
   StreamName?: string;
-  EncryptionType: string;
+  EncryptionType: EncryptionType;
   KeyId: string;
   StreamARN?: string;
 }
 export const StopStreamEncryptionInput = S.suspend(() =>
   S.Struct({
     StreamName: S.optional(S.String),
-    EncryptionType: S.String,
+    EncryptionType: EncryptionType,
     KeyId: S.String,
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
   }).pipe(
@@ -1221,7 +1257,7 @@ export const StopStreamEncryptionResponse = S.suspend(() =>
   identifier: "StopStreamEncryptionResponse",
 }) as any as S.Schema<StopStreamEncryptionResponse>;
 export interface TagResourceInput {
-  Tags: TagMap;
+  Tags: { [key: string]: string };
   ResourceARN: string;
 }
 export const TagResourceInput = S.suspend(() =>
@@ -1250,7 +1286,7 @@ export const TagResourceResponse = S.suspend(() =>
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceInput {
-  TagKeys: TagKeyList;
+  TagKeys: string[];
   ResourceARN: string;
 }
 export const UntagResourceInput = S.suspend(() =>
@@ -1310,14 +1346,14 @@ export const UpdateMaxRecordSizeResponse = S.suspend(() =>
 export interface UpdateShardCountInput {
   StreamName?: string;
   TargetShardCount: number;
-  ScalingType: string;
+  ScalingType: ScalingType;
   StreamARN?: string;
 }
 export const UpdateShardCountInput = S.suspend(() =>
   S.Struct({
     StreamName: S.optional(S.String),
     TargetShardCount: S.Number,
-    ScalingType: S.String,
+    ScalingType: ScalingType,
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
   }).pipe(
     T.all(
@@ -1334,11 +1370,13 @@ export const UpdateShardCountInput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateShardCountInput",
 }) as any as S.Schema<UpdateShardCountInput>;
+export type StreamMode = "PROVISIONED" | "ON_DEMAND";
+export const StreamMode = S.Literal("PROVISIONED", "ON_DEMAND");
 export interface StreamModeDetails {
-  StreamMode: string;
+  StreamMode: StreamMode;
 }
 export const StreamModeDetails = S.suspend(() =>
-  S.Struct({ StreamMode: S.String }),
+  S.Struct({ StreamMode: StreamMode }),
 ).annotations({
   identifier: "StreamModeDetails",
 }) as any as S.Schema<StreamModeDetails>;
@@ -1398,15 +1436,46 @@ export const UpdateStreamWarmThroughputInput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateStreamWarmThroughputInput",
 }) as any as S.Schema<UpdateStreamWarmThroughputInput>;
+export type MinimumThroughputBillingCommitmentOutputStatus =
+  | "ENABLED"
+  | "DISABLED"
+  | "ENABLED_UNTIL_EARLIEST_ALLOWED_END";
+export const MinimumThroughputBillingCommitmentOutputStatus = S.Literal(
+  "ENABLED",
+  "DISABLED",
+  "ENABLED_UNTIL_EARLIEST_ALLOWED_END",
+);
+export type ShardFilterType =
+  | "AFTER_SHARD_ID"
+  | "AT_TRIM_HORIZON"
+  | "FROM_TRIM_HORIZON"
+  | "AT_LATEST"
+  | "AT_TIMESTAMP"
+  | "FROM_TIMESTAMP";
+export const ShardFilterType = S.Literal(
+  "AFTER_SHARD_ID",
+  "AT_TRIM_HORIZON",
+  "FROM_TRIM_HORIZON",
+  "AT_LATEST",
+  "AT_TIMESTAMP",
+  "FROM_TIMESTAMP",
+);
+export type MinimumThroughputBillingCommitmentInputStatus =
+  | "ENABLED"
+  | "DISABLED";
+export const MinimumThroughputBillingCommitmentInputStatus = S.Literal(
+  "ENABLED",
+  "DISABLED",
+);
 export interface MinimumThroughputBillingCommitmentOutput {
-  Status: string;
+  Status: MinimumThroughputBillingCommitmentOutputStatus;
   StartedAt?: Date;
   EndedAt?: Date;
   EarliestAllowedEndAt?: Date;
 }
 export const MinimumThroughputBillingCommitmentOutput = S.suspend(() =>
   S.Struct({
-    Status: S.String,
+    Status: MinimumThroughputBillingCommitmentOutputStatus,
     StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EarliestAllowedEndAt: S.optional(
@@ -1417,13 +1486,13 @@ export const MinimumThroughputBillingCommitmentOutput = S.suspend(() =>
   identifier: "MinimumThroughputBillingCommitmentOutput",
 }) as any as S.Schema<MinimumThroughputBillingCommitmentOutput>;
 export interface ShardFilter {
-  Type: string;
+  Type: ShardFilterType;
   ShardId?: string;
   Timestamp?: Date;
 }
 export const ShardFilter = S.suspend(() =>
   S.Struct({
-    Type: S.String,
+    Type: ShardFilterType,
     ShardId: S.optional(S.String),
     Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -1447,13 +1516,13 @@ export const PutRecordsRequestEntry = S.suspend(() =>
 export type PutRecordsRequestEntryList = PutRecordsRequestEntry[];
 export const PutRecordsRequestEntryList = S.Array(PutRecordsRequestEntry);
 export interface StartingPosition {
-  Type: string;
+  Type: ShardIteratorType;
   SequenceNumber?: string;
   Timestamp?: Date;
 }
 export const StartingPosition = S.suspend(() =>
   S.Struct({
-    Type: S.String,
+    Type: ShardIteratorType,
     SequenceNumber: S.optional(S.String),
     Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -1461,16 +1530,16 @@ export const StartingPosition = S.suspend(() =>
   identifier: "StartingPosition",
 }) as any as S.Schema<StartingPosition>;
 export interface MinimumThroughputBillingCommitmentInput {
-  Status: string;
+  Status: MinimumThroughputBillingCommitmentInputStatus;
 }
 export const MinimumThroughputBillingCommitmentInput = S.suspend(() =>
-  S.Struct({ Status: S.String }),
+  S.Struct({ Status: MinimumThroughputBillingCommitmentInputStatus }),
 ).annotations({
   identifier: "MinimumThroughputBillingCommitmentInput",
 }) as any as S.Schema<MinimumThroughputBillingCommitmentInput>;
 export interface AddTagsToStreamInput {
   StreamName?: string;
-  Tags: TagMap;
+  Tags: { [key: string]: string };
   StreamARN?: string;
 }
 export const AddTagsToStreamInput = S.suspend(() =>
@@ -1503,7 +1572,7 @@ export interface CreateStreamInput {
   StreamName: string;
   ShardCount?: number;
   StreamModeDetails?: StreamModeDetails;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   WarmThroughputMiBps?: number;
   MaxRecordSizeInKiB?: number;
 }
@@ -1549,8 +1618,8 @@ export const DescribeAccountSettingsOutput = S.suspend(() =>
 }) as any as S.Schema<DescribeAccountSettingsOutput>;
 export interface EnhancedMonitoringOutput {
   StreamName?: string;
-  CurrentShardLevelMetrics?: MetricsNameList;
-  DesiredShardLevelMetrics?: MetricsNameList;
+  CurrentShardLevelMetrics?: MetricsName[];
+  DesiredShardLevelMetrics?: MetricsName[];
   StreamARN?: string;
 }
 export const EnhancedMonitoringOutput = S.suspend(() =>
@@ -1624,7 +1693,7 @@ export const Tag = S.suspend(() =>
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface ListTagsForStreamOutput {
-  Tags: TagList;
+  Tags: Tag[];
   HasMoreTags: boolean;
 }
 export const ListTagsForStreamOutput = S.suspend(() =>
@@ -1635,19 +1704,19 @@ export const ListTagsForStreamOutput = S.suspend(() =>
 export interface PutRecordOutput {
   ShardId: string;
   SequenceNumber: string;
-  EncryptionType?: string;
+  EncryptionType?: EncryptionType;
 }
 export const PutRecordOutput = S.suspend(() =>
   S.Struct({
     ShardId: S.String,
     SequenceNumber: S.String,
-    EncryptionType: S.optional(S.String),
+    EncryptionType: S.optional(EncryptionType),
   }).pipe(ns),
 ).annotations({
   identifier: "PutRecordOutput",
 }) as any as S.Schema<PutRecordOutput>;
 export interface PutRecordsInput {
-  Records: PutRecordsRequestEntryList;
+  Records: PutRecordsRequestEntry[];
   StreamName?: string;
   StreamARN?: string;
 }
@@ -1671,17 +1740,19 @@ export const PutRecordsInput = S.suspend(() =>
 ).annotations({
   identifier: "PutRecordsInput",
 }) as any as S.Schema<PutRecordsInput>;
+export type ConsumerStatus = "CREATING" | "DELETING" | "ACTIVE";
+export const ConsumerStatus = S.Literal("CREATING", "DELETING", "ACTIVE");
 export interface Consumer {
   ConsumerName: string;
   ConsumerARN: string;
-  ConsumerStatus: string;
+  ConsumerStatus: ConsumerStatus;
   ConsumerCreationTimestamp: Date;
 }
 export const Consumer = S.suspend(() =>
   S.Struct({
     ConsumerName: S.String,
     ConsumerARN: S.String,
-    ConsumerStatus: S.String,
+    ConsumerStatus: ConsumerStatus,
     ConsumerCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
 ).annotations({ identifier: "Consumer" }) as any as S.Schema<Consumer>;
@@ -1754,12 +1825,19 @@ export const UpdateShardCountOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateShardCountOutput",
 }) as any as S.Schema<UpdateShardCountOutput>;
+export type StreamStatus = "CREATING" | "DELETING" | "ACTIVE" | "UPDATING";
+export const StreamStatus = S.Literal(
+  "CREATING",
+  "DELETING",
+  "ACTIVE",
+  "UPDATING",
+);
 export type ShardIdList = string[];
 export const ShardIdList = S.Array(S.String);
 export interface ConsumerDescription {
   ConsumerName: string;
   ConsumerARN: string;
-  ConsumerStatus: string;
+  ConsumerStatus: ConsumerStatus;
   ConsumerCreationTimestamp: Date;
   StreamARN: string;
 }
@@ -1767,7 +1845,7 @@ export const ConsumerDescription = S.suspend(() =>
   S.Struct({
     ConsumerName: S.String,
     ConsumerARN: S.String,
-    ConsumerStatus: S.String,
+    ConsumerStatus: ConsumerStatus,
     ConsumerCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     StreamARN: S.String,
   }),
@@ -1775,7 +1853,7 @@ export const ConsumerDescription = S.suspend(() =>
   identifier: "ConsumerDescription",
 }) as any as S.Schema<ConsumerDescription>;
 export interface EnhancedMetrics {
-  ShardLevelMetrics?: MetricsNameList;
+  ShardLevelMetrics?: MetricsName[];
 }
 export const EnhancedMetrics = S.suspend(() =>
   S.Struct({ ShardLevelMetrics: S.optional(MetricsNameList) }),
@@ -1799,12 +1877,12 @@ export const WarmThroughputObject = S.suspend(() =>
 export interface StreamDescriptionSummary {
   StreamName: string;
   StreamARN: string;
-  StreamStatus: string;
+  StreamStatus: StreamStatus;
   StreamModeDetails?: StreamModeDetails;
   RetentionPeriodHours: number;
   StreamCreationTimestamp: Date;
-  EnhancedMonitoring: EnhancedMonitoringList;
-  EncryptionType?: string;
+  EnhancedMonitoring: EnhancedMetrics[];
+  EncryptionType?: EncryptionType;
   KeyId?: string;
   OpenShardCount: number;
   ConsumerCount?: number;
@@ -1815,12 +1893,12 @@ export const StreamDescriptionSummary = S.suspend(() =>
   S.Struct({
     StreamName: S.String,
     StreamARN: S.String,
-    StreamStatus: S.String,
+    StreamStatus: StreamStatus,
     StreamModeDetails: S.optional(StreamModeDetails),
     RetentionPeriodHours: S.Number,
     StreamCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     EnhancedMonitoring: EnhancedMonitoringList,
-    EncryptionType: S.optional(S.String),
+    EncryptionType: S.optional(EncryptionType),
     KeyId: S.optional(S.String),
     OpenShardCount: S.Number,
     ConsumerCount: S.optional(S.Number),
@@ -1835,7 +1913,7 @@ export interface Record {
   ApproximateArrivalTimestamp?: Date;
   Data: Uint8Array;
   PartitionKey: string;
-  EncryptionType?: string;
+  EncryptionType?: EncryptionType;
 }
 export const Record = S.suspend(() =>
   S.Struct({
@@ -1845,7 +1923,7 @@ export const Record = S.suspend(() =>
     ),
     Data: T.Blob,
     PartitionKey: S.String,
-    EncryptionType: S.optional(S.String),
+    EncryptionType: S.optional(EncryptionType),
   }),
 ).annotations({ identifier: "Record" }) as any as S.Schema<Record>;
 export type RecordList = Record[];
@@ -1855,7 +1933,7 @@ export const ConsumerList = S.Array(Consumer);
 export interface StreamSummary {
   StreamName: string;
   StreamARN: string;
-  StreamStatus: string;
+  StreamStatus: StreamStatus;
   StreamModeDetails?: StreamModeDetails;
   StreamCreationTimestamp?: Date;
 }
@@ -1863,7 +1941,7 @@ export const StreamSummary = S.suspend(() =>
   S.Struct({
     StreamName: S.String,
     StreamARN: S.String,
-    StreamStatus: S.String,
+    StreamStatus: StreamStatus,
     StreamModeDetails: S.optional(StreamModeDetails),
     StreamCreationTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1928,7 +2006,7 @@ export const Shard = S.suspend(() =>
 export type ShardList = Shard[];
 export const ShardList = S.Array(Shard);
 export interface ListShardsOutput {
-  Shards?: ShardList;
+  Shards?: Shard[];
   NextToken?: string;
 }
 export const ListShardsOutput = S.suspend(() =>
@@ -1940,7 +2018,7 @@ export const ListShardsOutput = S.suspend(() =>
   identifier: "ListShardsOutput",
 }) as any as S.Schema<ListShardsOutput>;
 export interface ListStreamConsumersOutput {
-  Consumers?: ConsumerList;
+  Consumers?: Consumer[];
   NextToken?: string;
 }
 export const ListStreamConsumersOutput = S.suspend(() =>
@@ -1952,10 +2030,10 @@ export const ListStreamConsumersOutput = S.suspend(() =>
   identifier: "ListStreamConsumersOutput",
 }) as any as S.Schema<ListStreamConsumersOutput>;
 export interface ListStreamsOutput {
-  StreamNames: StreamNameList;
+  StreamNames: string[];
   HasMoreStreams: boolean;
   NextToken?: string;
-  StreamSummaries?: StreamSummaryList;
+  StreamSummaries?: StreamSummary[];
 }
 export const ListStreamsOutput = S.suspend(() =>
   S.Struct({
@@ -1968,7 +2046,7 @@ export const ListStreamsOutput = S.suspend(() =>
   identifier: "ListStreamsOutput",
 }) as any as S.Schema<ListStreamsOutput>;
 export interface ListTagsForResourceOutput {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
@@ -2003,7 +2081,7 @@ export const UpdateStreamWarmThroughputOutput = S.suspend(() =>
 }) as any as S.Schema<UpdateStreamWarmThroughputOutput>;
 export interface ChildShard {
   ShardId: string;
-  ParentShards: ShardIdList;
+  ParentShards: string[];
   HashKeyRange: HashKeyRange;
 }
 export const ChildShard = S.suspend(() =>
@@ -2034,10 +2112,10 @@ export const PutRecordsResultEntry = S.suspend(() =>
 export type PutRecordsResultEntryList = PutRecordsResultEntry[];
 export const PutRecordsResultEntryList = S.Array(PutRecordsResultEntry);
 export interface GetRecordsOutput {
-  Records: RecordList;
+  Records: Record[];
   NextShardIterator?: string;
   MillisBehindLatest?: number;
-  ChildShards?: ChildShardList;
+  ChildShards?: ChildShard[];
 }
 export const GetRecordsOutput = S.suspend(() =>
   S.Struct({
@@ -2051,23 +2129,23 @@ export const GetRecordsOutput = S.suspend(() =>
 }) as any as S.Schema<GetRecordsOutput>;
 export interface PutRecordsOutput {
   FailedRecordCount?: number;
-  Records: PutRecordsResultEntryList;
-  EncryptionType?: string;
+  Records: PutRecordsResultEntry[];
+  EncryptionType?: EncryptionType;
 }
 export const PutRecordsOutput = S.suspend(() =>
   S.Struct({
     FailedRecordCount: S.optional(S.Number),
     Records: PutRecordsResultEntryList,
-    EncryptionType: S.optional(S.String),
+    EncryptionType: S.optional(EncryptionType),
   }).pipe(ns),
 ).annotations({
   identifier: "PutRecordsOutput",
 }) as any as S.Schema<PutRecordsOutput>;
 export interface SubscribeToShardEvent {
-  Records: RecordList;
+  Records: Record[];
   ContinuationSequenceNumber: string;
   MillisBehindLatest: number;
-  ChildShards?: ChildShardList;
+  ChildShards?: ChildShard[];
 }
 export const SubscribeToShardEvent = S.suspend(() =>
   S.Struct({
@@ -2082,33 +2160,44 @@ export const SubscribeToShardEvent = S.suspend(() =>
 export interface StreamDescription {
   StreamName: string;
   StreamARN: string;
-  StreamStatus: string;
+  StreamStatus: StreamStatus;
   StreamModeDetails?: StreamModeDetails;
-  Shards: ShardList;
+  Shards: Shard[];
   HasMoreShards: boolean;
   RetentionPeriodHours: number;
   StreamCreationTimestamp: Date;
-  EnhancedMonitoring: EnhancedMonitoringList;
-  EncryptionType?: string;
+  EnhancedMonitoring: EnhancedMetrics[];
+  EncryptionType?: EncryptionType;
   KeyId?: string;
 }
 export const StreamDescription = S.suspend(() =>
   S.Struct({
     StreamName: S.String,
     StreamARN: S.String,
-    StreamStatus: S.String,
+    StreamStatus: StreamStatus,
     StreamModeDetails: S.optional(StreamModeDetails),
     Shards: ShardList,
     HasMoreShards: S.Boolean,
     RetentionPeriodHours: S.Number,
     StreamCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     EnhancedMonitoring: EnhancedMonitoringList,
-    EncryptionType: S.optional(S.String),
+    EncryptionType: S.optional(EncryptionType),
     KeyId: S.optional(S.String),
   }),
 ).annotations({
   identifier: "StreamDescription",
 }) as any as S.Schema<StreamDescription>;
+export type SubscribeToShardEventStream =
+  | { SubscribeToShardEvent: SubscribeToShardEvent }
+  | { ResourceNotFoundException: ResourceNotFoundException }
+  | { ResourceInUseException: ResourceInUseException }
+  | { KMSDisabledException: KMSDisabledException }
+  | { KMSInvalidStateException: KMSInvalidStateException }
+  | { KMSAccessDeniedException: KMSAccessDeniedException }
+  | { KMSNotFoundException: KMSNotFoundException }
+  | { KMSOptInRequired: KMSOptInRequired }
+  | { KMSThrottlingException: KMSThrottlingException }
+  | { InternalFailureException: InternalFailureException };
 export const SubscribeToShardEventStream = T.EventStream(
   S.Union(
     S.Struct({ SubscribeToShardEvent: SubscribeToShardEvent }),
@@ -2158,7 +2247,7 @@ export const SubscribeToShardEventStream = T.EventStream(
       ).annotations({ identifier: "InternalFailureException" }),
     }),
   ),
-);
+) as any as S.Schema<stream.Stream<SubscribeToShardEventStream, Error, never>>;
 export interface DescribeStreamOutput {
   StreamDescription: StreamDescription;
 }
@@ -2168,7 +2257,7 @@ export const DescribeStreamOutput = S.suspend(() =>
   identifier: "DescribeStreamOutput",
 }) as any as S.Schema<DescribeStreamOutput>;
 export interface SubscribeToShardOutput {
-  EventStream: (typeof SubscribeToShardEventStream)["Type"];
+  EventStream: stream.Stream<SubscribeToShardEventStream, Error, never>;
 }
 export const SubscribeToShardOutput = S.suspend(() =>
   S.Struct({ EventStream: SubscribeToShardEventStream }).pipe(ns),
@@ -2253,7 +2342,7 @@ export class ExpiredIteratorException extends S.TaggedError<ExpiredIteratorExcep
  */
 export const describeLimits: (
   input: DescribeLimitsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeLimitsOutput,
   LimitExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2269,7 +2358,7 @@ export const describeLimits: (
  */
 export const describeAccountSettings: (
   input: DescribeAccountSettingsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAccountSettingsOutput,
   LimitExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2288,7 +2377,7 @@ export const describeAccountSettings: (
  */
 export const listTagsForStream: (
   input: ListTagsForStreamInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForStreamOutput,
   | AccessDeniedException
   | InvalidArgumentException
@@ -2315,7 +2404,7 @@ export const listTagsForStream: (
  */
 export const getResourcePolicy: (
   input: GetResourcePolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourcePolicyOutput,
   | AccessDeniedException
   | InvalidArgumentException
@@ -2358,7 +2447,7 @@ export const getResourcePolicy: (
  */
 export const registerStreamConsumer: (
   input: RegisterStreamConsumerInput,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterStreamConsumerOutput,
   | InvalidArgumentException
   | LimitExceededException
@@ -2385,7 +2474,7 @@ export const registerStreamConsumer: (
  */
 export const deleteResourcePolicy: (
   input: DeleteResourcePolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourcePolicyResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -2435,7 +2524,7 @@ export const deleteResourcePolicy: (
  */
 export const deleteStream: (
   input: DeleteStreamInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteStreamResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -2464,7 +2553,7 @@ export const deleteStream: (
  */
 export const enableEnhancedMonitoring: (
   input: EnableEnhancedMonitoringInput,
-) => Effect.Effect<
+) => effect.Effect<
   EnhancedMonitoringOutput,
   | AccessDeniedException
   | InvalidArgumentException
@@ -2502,7 +2591,7 @@ export const enableEnhancedMonitoring: (
  */
 export const increaseStreamRetentionPeriod: (
   input: IncreaseStreamRetentionPeriodInput,
-) => Effect.Effect<
+) => effect.Effect<
   IncreaseStreamRetentionPeriodResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -2539,7 +2628,7 @@ export const increaseStreamRetentionPeriod: (
  */
 export const putResourcePolicy: (
   input: PutResourcePolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourcePolicyResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -2574,7 +2663,7 @@ export const putResourcePolicy: (
  */
 export const removeTagsFromStream: (
   input: RemoveTagsFromStreamInput,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveTagsFromStreamResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -2620,7 +2709,7 @@ export const removeTagsFromStream: (
  */
 export const stopStreamEncryption: (
   input: StopStreamEncryptionInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopStreamEncryptionResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -2645,7 +2734,7 @@ export const stopStreamEncryption: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -2670,7 +2759,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -2706,7 +2795,7 @@ export const untagResource: (
  */
 export const addTagsToStream: (
   input: AddTagsToStreamInput,
-) => Effect.Effect<
+) => effect.Effect<
   AddTagsToStreamResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -2741,7 +2830,7 @@ export const addTagsToStream: (
  */
 export const decreaseStreamRetentionPeriod: (
   input: DecreaseStreamRetentionPeriodInput,
-) => Effect.Effect<
+) => effect.Effect<
   DecreaseStreamRetentionPeriodResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -2774,7 +2863,7 @@ export const decreaseStreamRetentionPeriod: (
  */
 export const deregisterStreamConsumer: (
   input: DeregisterStreamConsumerInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterStreamConsumerResponse,
   | InvalidArgumentException
   | LimitExceededException
@@ -2805,7 +2894,7 @@ export const deregisterStreamConsumer: (
  */
 export const describeStreamConsumer: (
   input: DescribeStreamConsumerInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeStreamConsumerOutput,
   | InvalidArgumentException
   | LimitExceededException
@@ -2838,7 +2927,7 @@ export const describeStreamConsumer: (
  */
 export const describeStreamSummary: (
   input: DescribeStreamSummaryInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeStreamSummaryOutput,
   | AccessDeniedException
   | InvalidArgumentException
@@ -2865,7 +2954,7 @@ export const describeStreamSummary: (
  */
 export const disableEnhancedMonitoring: (
   input: DisableEnhancedMonitoringInput,
-) => Effect.Effect<
+) => effect.Effect<
   EnhancedMonitoringOutput,
   | AccessDeniedException
   | InvalidArgumentException
@@ -2892,7 +2981,7 @@ export const disableEnhancedMonitoring: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   | AccessDeniedException
   | InvalidArgumentException
@@ -2959,7 +3048,7 @@ export const listTagsForResource: (
  */
 export const getShardIterator: (
   input: GetShardIteratorInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetShardIteratorOutput,
   | AccessDeniedException
   | InternalFailureException
@@ -2998,7 +3087,7 @@ export const getShardIterator: (
  */
 export const listShards: (
   input: ListShardsInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListShardsOutput,
   | AccessDeniedException
   | ExpiredNextTokenException
@@ -3033,7 +3122,7 @@ export const listShards: (
  */
 export const updateAccountSettings: (
   input: UpdateAccountSettingsInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAccountSettingsOutput,
   | InvalidArgumentException
   | LimitExceededException
@@ -3058,7 +3147,7 @@ export const updateAccountSettings: (
 export const listStreamConsumers: {
   (
     input: ListStreamConsumersInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStreamConsumersOutput,
     | ExpiredNextTokenException
     | InvalidArgumentException
@@ -3070,7 +3159,7 @@ export const listStreamConsumers: {
   >;
   pages: (
     input: ListStreamConsumersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStreamConsumersOutput,
     | ExpiredNextTokenException
     | InvalidArgumentException
@@ -3082,7 +3171,7 @@ export const listStreamConsumers: {
   >;
   items: (
     input: ListStreamConsumersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | ExpiredNextTokenException
     | InvalidArgumentException
@@ -3131,7 +3220,7 @@ export const listStreamConsumers: {
 export const listStreams: {
   (
     input: ListStreamsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStreamsOutput,
     | ExpiredNextTokenException
     | InvalidArgumentException
@@ -3141,7 +3230,7 @@ export const listStreams: {
   >;
   pages: (
     input: ListStreamsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStreamsOutput,
     | ExpiredNextTokenException
     | InvalidArgumentException
@@ -3151,7 +3240,7 @@ export const listStreams: {
   >;
   items: (
     input: ListStreamsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | ExpiredNextTokenException
     | InvalidArgumentException
@@ -3193,7 +3282,7 @@ export const listStreams: {
  */
 export const updateStreamWarmThroughput: (
   input: UpdateStreamWarmThroughputInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateStreamWarmThroughputOutput,
   | AccessDeniedException
   | InvalidArgumentException
@@ -3266,7 +3355,7 @@ export const updateStreamWarmThroughput: (
  */
 export const updateShardCount: (
   input: UpdateShardCountInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateShardCountOutput,
   | AccessDeniedException
   | InvalidArgumentException
@@ -3337,7 +3426,7 @@ export const updateShardCount: (
  */
 export const mergeShards: (
   input: MergeShardsInput,
-) => Effect.Effect<
+) => effect.Effect<
   MergeShardsResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -3414,7 +3503,7 @@ export const mergeShards: (
  */
 export const splitShard: (
   input: SplitShardInput,
-) => Effect.Effect<
+) => effect.Effect<
   SplitShardResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -3441,7 +3530,7 @@ export const splitShard: (
  */
 export const updateMaxRecordSize: (
   input: UpdateMaxRecordSizeInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMaxRecordSizeResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -3472,7 +3561,7 @@ export const updateMaxRecordSize: (
  */
 export const updateStreamMode: (
   input: UpdateStreamModeInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateStreamModeResponse,
   | InvalidArgumentException
   | LimitExceededException
@@ -3535,7 +3624,7 @@ export const updateStreamMode: (
  */
 export const createStream: (
   input: CreateStreamInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateStreamResponse,
   | InvalidArgumentException
   | LimitExceededException
@@ -3603,7 +3692,7 @@ export const createStream: (
  */
 export const putRecord: (
   input: PutRecordInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutRecordOutput,
   | AccessDeniedException
   | InternalFailureException
@@ -3708,7 +3797,7 @@ export const putRecord: (
  */
 export const putRecords: (
   input: PutRecordsInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutRecordsOutput,
   | AccessDeniedException
   | InternalFailureException
@@ -3767,7 +3856,7 @@ export const putRecords: (
  */
 export const startStreamEncryption: (
   input: StartStreamEncryptionInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartStreamEncryptionResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -3830,7 +3919,7 @@ export const startStreamEncryption: (
  */
 export const describeStream: (
   input: DescribeStreamInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeStreamOutput,
   | AccessDeniedException
   | InvalidArgumentException
@@ -3911,7 +4000,7 @@ export const describeStream: (
  */
 export const getRecords: (
   input: GetRecordsInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetRecordsOutput,
   | AccessDeniedException
   | ExpiredIteratorException
@@ -3976,7 +4065,7 @@ export const getRecords: (
  */
 export const subscribeToShard: (
   input: SubscribeToShardInput,
-) => Effect.Effect<
+) => effect.Effect<
   SubscribeToShardOutput,
   | AccessDeniedException
   | InvalidArgumentException

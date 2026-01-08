@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -107,11 +107,13 @@ export type ErrorCode = string;
 export type Message = string;
 
 //# Schemas
+export type EndpointAccessType = "Private" | "CustomerOwnedIp";
+export const EndpointAccessType = S.Literal("Private", "CustomerOwnedIp");
 export interface CreateEndpointRequest {
   OutpostId: string;
   SubnetId: string;
   SecurityGroupId: string;
-  AccessType?: string;
+  AccessType?: EndpointAccessType;
   CustomerOwnedIpv4Pool?: string;
 }
 export const CreateEndpointRequest = S.suspend(() =>
@@ -119,7 +121,7 @@ export const CreateEndpointRequest = S.suspend(() =>
     OutpostId: S.String,
     SubnetId: S.String,
     SecurityGroupId: S.String,
-    AccessType: S.optional(S.String),
+    AccessType: S.optional(EndpointAccessType),
     CustomerOwnedIpv4Pool: S.optional(S.String),
   }).pipe(
     T.all(
@@ -232,6 +234,19 @@ export const CreateEndpointResult = S.suspend(() =>
 ).annotations({
   identifier: "CreateEndpointResult",
 }) as any as S.Schema<CreateEndpointResult>;
+export type EndpointStatus =
+  | "Pending"
+  | "Available"
+  | "Deleting"
+  | "Create_Failed"
+  | "Delete_Failed";
+export const EndpointStatus = S.Literal(
+  "Pending",
+  "Available",
+  "Deleting",
+  "Create_Failed",
+  "Delete_Failed",
+);
 export interface NetworkInterface {
   NetworkInterfaceId?: string;
 }
@@ -253,13 +268,13 @@ export interface Endpoint {
   EndpointArn?: string;
   OutpostsId?: string;
   CidrBlock?: string;
-  Status?: string;
+  Status?: EndpointStatus;
   CreationTime?: Date;
-  NetworkInterfaces?: NetworkInterfaces;
+  NetworkInterfaces?: NetworkInterface[];
   VpcId?: string;
   SubnetId?: string;
   SecurityGroupId?: string;
-  AccessType?: string;
+  AccessType?: EndpointAccessType;
   CustomerOwnedIpv4Pool?: string;
   FailedReason?: FailedReason;
 }
@@ -268,13 +283,13 @@ export const Endpoint = S.suspend(() =>
     EndpointArn: S.optional(S.String),
     OutpostsId: S.optional(S.String),
     CidrBlock: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(EndpointStatus),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     NetworkInterfaces: S.optional(NetworkInterfaces),
     VpcId: S.optional(S.String),
     SubnetId: S.optional(S.String),
     SecurityGroupId: S.optional(S.String),
-    AccessType: S.optional(S.String),
+    AccessType: S.optional(EndpointAccessType),
     CustomerOwnedIpv4Pool: S.optional(S.String),
     FailedReason: S.optional(FailedReason),
   }),
@@ -282,7 +297,7 @@ export const Endpoint = S.suspend(() =>
 export type Endpoints = Endpoint[];
 export const Endpoints = S.Array(Endpoint);
 export interface ListSharedEndpointsResult {
-  Endpoints?: Endpoints;
+  Endpoints?: Endpoint[];
   NextToken?: string;
 }
 export const ListSharedEndpointsResult = S.suspend(() =>
@@ -312,7 +327,7 @@ export const Outpost = S.suspend(() =>
 export type Outposts = Outpost[];
 export const Outposts = S.Array(Outpost);
 export interface ListOutpostsWithS3Result {
-  Outposts?: Outposts;
+  Outposts?: Outpost[];
   NextToken?: string;
 }
 export const ListOutpostsWithS3Result = S.suspend(() =>
@@ -321,7 +336,7 @@ export const ListOutpostsWithS3Result = S.suspend(() =>
   identifier: "ListOutpostsWithS3Result",
 }) as any as S.Schema<ListOutpostsWithS3Result>;
 export interface ListEndpointsResult {
-  Endpoints?: Endpoints;
+  Endpoints?: Endpoint[];
   NextToken?: string;
 }
 export const ListEndpointsResult = S.suspend(() =>
@@ -372,7 +387,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listOutpostsWithS3: {
   (
     input: ListOutpostsWithS3Request,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOutpostsWithS3Result,
     | AccessDeniedException
     | InternalServerException
@@ -383,7 +398,7 @@ export const listOutpostsWithS3: {
   >;
   pages: (
     input: ListOutpostsWithS3Request,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOutpostsWithS3Result,
     | AccessDeniedException
     | InternalServerException
@@ -394,7 +409,7 @@ export const listOutpostsWithS3: {
   >;
   items: (
     input: ListOutpostsWithS3Request,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Outpost,
     | AccessDeniedException
     | InternalServerException
@@ -431,7 +446,7 @@ export const listOutpostsWithS3: {
 export const listSharedEndpoints: {
   (
     input: ListSharedEndpointsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSharedEndpointsResult,
     | AccessDeniedException
     | InternalServerException
@@ -443,7 +458,7 @@ export const listSharedEndpoints: {
   >;
   pages: (
     input: ListSharedEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSharedEndpointsResult,
     | AccessDeniedException
     | InternalServerException
@@ -455,7 +470,7 @@ export const listSharedEndpoints: {
   >;
   items: (
     input: ListSharedEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Endpoint,
     | AccessDeniedException
     | InternalServerException
@@ -495,7 +510,7 @@ export const listSharedEndpoints: {
  */
 export const createEndpoint: (
   input: CreateEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEndpointResult,
   | AccessDeniedException
   | ConflictException
@@ -532,7 +547,7 @@ export const createEndpoint: (
  */
 export const deleteEndpoint: (
   input: DeleteEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEndpointResponse,
   | AccessDeniedException
   | InternalServerException
@@ -566,7 +581,7 @@ export const deleteEndpoint: (
 export const listEndpoints: {
   (
     input: ListEndpointsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEndpointsResult,
     | AccessDeniedException
     | InternalServerException
@@ -578,7 +593,7 @@ export const listEndpoints: {
   >;
   pages: (
     input: ListEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEndpointsResult,
     | AccessDeniedException
     | InternalServerException
@@ -590,7 +605,7 @@ export const listEndpoints: {
   >;
   items: (
     input: ListEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Endpoint,
     | AccessDeniedException
     | InternalServerException

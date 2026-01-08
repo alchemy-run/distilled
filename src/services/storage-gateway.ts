@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -101,7 +101,7 @@ export type ResourceARN = string;
 export type TapeARN = string;
 export type PoolId = string;
 export type DomainUserName = string;
-export type DomainUserPassword = string | Redacted.Redacted<string>;
+export type DomainUserPassword = string | redacted.Redacted<string>;
 export type ClientToken = string;
 export type FileSystemLocationARN = string;
 export type AuditDestinationARN = string;
@@ -144,11 +144,11 @@ export type Host = string;
 export type TimeoutInSeconds = number;
 export type Folder = string;
 export type TagKey = string;
-export type LocalConsolePassword = string | Redacted.Redacted<string>;
-export type SMBGuestPassword = string | Redacted.Redacted<string>;
+export type LocalConsolePassword = string | redacted.Redacted<string>;
+export type SMBGuestPassword = string | redacted.Redacted<string>;
 export type BandwidthUploadRateLimit = number;
 export type BandwidthDownloadRateLimit = number;
-export type ChapSecret = string | Redacted.Redacted<string>;
+export type ChapSecret = string | redacted.Redacted<string>;
 export type CloudWatchLogGroupARN = string;
 export type HourOfDay = number;
 export type MinuteOfHour = number;
@@ -207,10 +207,35 @@ export type FileSystemAssociationSyncErrorCode = string;
 //# Schemas
 export type DiskIds = string[];
 export const DiskIds = S.Array(S.String);
+export type EncryptionType = "SseS3" | "SseKms" | "DsseKms";
+export const EncryptionType = S.Literal("SseS3", "SseKms", "DsseKms");
+export type ObjectACL =
+  | "private"
+  | "public-read"
+  | "public-read-write"
+  | "authenticated-read"
+  | "bucket-owner-read"
+  | "bucket-owner-full-control"
+  | "aws-exec-read";
+export const ObjectACL = S.Literal(
+  "private",
+  "public-read",
+  "public-read-write",
+  "authenticated-read",
+  "bucket-owner-read",
+  "bucket-owner-full-control",
+  "aws-exec-read",
+);
 export type FileShareClientList = string[];
 export const FileShareClientList = S.Array(S.String);
 export type UserList = string[];
 export const UserList = S.Array(S.String);
+export type CaseSensitivity = "ClientSpecified" | "CaseSensitive";
+export const CaseSensitivity = S.Literal("ClientSpecified", "CaseSensitive");
+export type TapeStorageClass = "DEEP_ARCHIVE" | "GLACIER";
+export const TapeStorageClass = S.Literal("DEEP_ARCHIVE", "GLACIER");
+export type RetentionLockType = "COMPLIANCE" | "GOVERNANCE" | "NONE";
+export const RetentionLockType = S.Literal("COMPLIANCE", "GOVERNANCE", "NONE");
 export type VolumeARNs = string[];
 export const VolumeARNs = S.Array(S.String);
 export type FileSystemAssociationARNList = string[];
@@ -229,9 +254,22 @@ export type FolderList = string[];
 export const FolderList = S.Array(S.String);
 export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
+export type GatewayCapacity = "Small" | "Medium" | "Large";
+export const GatewayCapacity = S.Literal("Small", "Medium", "Large");
+export type SMBSecurityStrategy =
+  | "ClientSpecified"
+  | "MandatorySigning"
+  | "MandatoryEncryption"
+  | "MandatoryEncryptionNoAes128";
+export const SMBSecurityStrategy = S.Literal(
+  "ClientSpecified",
+  "MandatorySigning",
+  "MandatoryEncryption",
+  "MandatoryEncryptionNoAes128",
+);
 export interface AddCacheInput {
   GatewayARN: string;
-  DiskIds: DiskIds;
+  DiskIds: string[];
 }
 export const AddCacheInput = S.suspend(() =>
   S.Struct({ GatewayARN: S.String, DiskIds: DiskIds }).pipe(
@@ -259,7 +297,7 @@ export type Tags = Tag[];
 export const Tags = S.Array(Tag);
 export interface AddTagsToResourceInput {
   ResourceARN: string;
-  Tags: Tags;
+  Tags: Tag[];
 }
 export const AddTagsToResourceInput = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: Tags }).pipe(
@@ -278,7 +316,7 @@ export const AddTagsToResourceInput = S.suspend(() =>
 }) as any as S.Schema<AddTagsToResourceInput>;
 export interface AddUploadBufferInput {
   GatewayARN: string;
-  DiskIds: DiskIds;
+  DiskIds: string[];
 }
 export const AddUploadBufferInput = S.suspend(() =>
   S.Struct({ GatewayARN: S.String, DiskIds: DiskIds }).pipe(
@@ -297,7 +335,7 @@ export const AddUploadBufferInput = S.suspend(() =>
 }) as any as S.Schema<AddUploadBufferInput>;
 export interface AddWorkingStorageInput {
   GatewayARN: string;
-  DiskIds: DiskIds;
+  DiskIds: string[];
 }
 export const AddWorkingStorageInput = S.suspend(() =>
   S.Struct({ GatewayARN: S.String, DiskIds: DiskIds }).pipe(
@@ -432,7 +470,7 @@ export interface CreateCachediSCSIVolumeInput {
   ClientToken: string;
   KMSEncrypted?: boolean;
   KMSKey?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreateCachediSCSIVolumeInput = S.suspend(() =>
   S.Struct({
@@ -471,25 +509,25 @@ export const CacheAttributes = S.suspend(() =>
 export interface CreateSMBFileShareInput {
   ClientToken: string;
   GatewayARN: string;
-  EncryptionType?: string;
+  EncryptionType?: EncryptionType;
   KMSEncrypted?: boolean;
   KMSKey?: string;
   Role: string;
   LocationARN: string;
   DefaultStorageClass?: string;
-  ObjectACL?: string;
+  ObjectACL?: ObjectACL;
   ReadOnly?: boolean;
   GuessMIMETypeEnabled?: boolean;
   RequesterPays?: boolean;
   SMBACLEnabled?: boolean;
   AccessBasedEnumeration?: boolean;
-  AdminUserList?: UserList;
-  ValidUserList?: UserList;
-  InvalidUserList?: UserList;
+  AdminUserList?: string[];
+  ValidUserList?: string[];
+  InvalidUserList?: string[];
   AuditDestinationARN?: string;
   Authentication?: string;
-  CaseSensitivity?: string;
-  Tags?: Tags;
+  CaseSensitivity?: CaseSensitivity;
+  Tags?: Tag[];
   FileShareName?: string;
   CacheAttributes?: CacheAttributes;
   NotificationPolicy?: string;
@@ -501,13 +539,13 @@ export const CreateSMBFileShareInput = S.suspend(() =>
   S.Struct({
     ClientToken: S.String,
     GatewayARN: S.String,
-    EncryptionType: S.optional(S.String),
+    EncryptionType: S.optional(EncryptionType),
     KMSEncrypted: S.optional(S.Boolean),
     KMSKey: S.optional(S.String),
     Role: S.String,
     LocationARN: S.String,
     DefaultStorageClass: S.optional(S.String),
-    ObjectACL: S.optional(S.String),
+    ObjectACL: S.optional(ObjectACL),
     ReadOnly: S.optional(S.Boolean),
     GuessMIMETypeEnabled: S.optional(S.Boolean),
     RequesterPays: S.optional(S.Boolean),
@@ -518,7 +556,7 @@ export const CreateSMBFileShareInput = S.suspend(() =>
     InvalidUserList: S.optional(UserList),
     AuditDestinationARN: S.optional(S.String),
     Authentication: S.optional(S.String),
-    CaseSensitivity: S.optional(S.String),
+    CaseSensitivity: S.optional(CaseSensitivity),
     Tags: S.optional(Tags),
     FileShareName: S.optional(S.String),
     CacheAttributes: S.optional(CacheAttributes),
@@ -543,7 +581,7 @@ export const CreateSMBFileShareInput = S.suspend(() =>
 export interface CreateSnapshotInput {
   VolumeARN: string;
   SnapshotDescription: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreateSnapshotInput = S.suspend(() =>
   S.Struct({
@@ -567,7 +605,7 @@ export const CreateSnapshotInput = S.suspend(() =>
 export interface CreateSnapshotFromVolumeRecoveryPointInput {
   VolumeARN: string;
   SnapshotDescription: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreateSnapshotFromVolumeRecoveryPointInput = S.suspend(() =>
   S.Struct({
@@ -597,7 +635,7 @@ export interface CreateStorediSCSIVolumeInput {
   NetworkInterfaceId: string;
   KMSEncrypted?: boolean;
   KMSKey?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreateStorediSCSIVolumeInput = S.suspend(() =>
   S.Struct({
@@ -626,16 +664,16 @@ export const CreateStorediSCSIVolumeInput = S.suspend(() =>
 }) as any as S.Schema<CreateStorediSCSIVolumeInput>;
 export interface CreateTapePoolInput {
   PoolName: string;
-  StorageClass: string;
-  RetentionLockType?: string;
+  StorageClass: TapeStorageClass;
+  RetentionLockType?: RetentionLockType;
   RetentionLockTimeInDays?: number;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreateTapePoolInput = S.suspend(() =>
   S.Struct({
     PoolName: S.String,
-    StorageClass: S.String,
-    RetentionLockType: S.optional(S.String),
+    StorageClass: TapeStorageClass,
+    RetentionLockType: S.optional(RetentionLockType),
     RetentionLockTimeInDays: S.optional(S.Number),
     Tags: S.optional(Tags),
   }).pipe(
@@ -662,7 +700,7 @@ export interface CreateTapesInput {
   KMSKey?: string;
   PoolId?: string;
   Worm?: boolean;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreateTapesInput = S.suspend(() =>
   S.Struct({
@@ -698,7 +736,7 @@ export interface CreateTapeWithBarcodeInput {
   KMSKey?: string;
   PoolId?: string;
   Worm?: boolean;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreateTapeWithBarcodeInput = S.suspend(() =>
   S.Struct({
@@ -1008,7 +1046,7 @@ export const DescribeCacheInput = S.suspend(() =>
   identifier: "DescribeCacheInput",
 }) as any as S.Schema<DescribeCacheInput>;
 export interface DescribeCachediSCSIVolumesInput {
-  VolumeARNs: VolumeARNs;
+  VolumeARNs: string[];
 }
 export const DescribeCachediSCSIVolumesInput = S.suspend(() =>
   S.Struct({ VolumeARNs: VolumeARNs }).pipe(
@@ -1062,7 +1100,7 @@ export const DescribeChapCredentialsInput = S.suspend(() =>
   identifier: "DescribeChapCredentialsInput",
 }) as any as S.Schema<DescribeChapCredentialsInput>;
 export interface DescribeFileSystemAssociationsInput {
-  FileSystemAssociationARNList: FileSystemAssociationARNList;
+  FileSystemAssociationARNList: string[];
 }
 export const DescribeFileSystemAssociationsInput = S.suspend(() =>
   S.Struct({ FileSystemAssociationARNList: FileSystemAssociationARNList }).pipe(
@@ -1116,7 +1154,7 @@ export const DescribeMaintenanceStartTimeInput = S.suspend(() =>
   identifier: "DescribeMaintenanceStartTimeInput",
 }) as any as S.Schema<DescribeMaintenanceStartTimeInput>;
 export interface DescribeNFSFileSharesInput {
-  FileShareARNList: FileShareARNList;
+  FileShareARNList: string[];
 }
 export const DescribeNFSFileSharesInput = S.suspend(() =>
   S.Struct({ FileShareARNList: FileShareARNList }).pipe(
@@ -1134,7 +1172,7 @@ export const DescribeNFSFileSharesInput = S.suspend(() =>
   identifier: "DescribeNFSFileSharesInput",
 }) as any as S.Schema<DescribeNFSFileSharesInput>;
 export interface DescribeSMBFileSharesInput {
-  FileShareARNList: FileShareARNList;
+  FileShareARNList: string[];
 }
 export const DescribeSMBFileSharesInput = S.suspend(() =>
   S.Struct({ FileShareARNList: FileShareARNList }).pipe(
@@ -1188,7 +1226,7 @@ export const DescribeSnapshotScheduleInput = S.suspend(() =>
   identifier: "DescribeSnapshotScheduleInput",
 }) as any as S.Schema<DescribeSnapshotScheduleInput>;
 export interface DescribeStorediSCSIVolumesInput {
-  VolumeARNs: VolumeARNs;
+  VolumeARNs: string[];
 }
 export const DescribeStorediSCSIVolumesInput = S.suspend(() =>
   S.Struct({ VolumeARNs: VolumeARNs }).pipe(
@@ -1206,7 +1244,7 @@ export const DescribeStorediSCSIVolumesInput = S.suspend(() =>
   identifier: "DescribeStorediSCSIVolumesInput",
 }) as any as S.Schema<DescribeStorediSCSIVolumesInput>;
 export interface DescribeTapeArchivesInput {
-  TapeARNs?: TapeARNs;
+  TapeARNs?: string[];
   Marker?: string;
   Limit?: number;
 }
@@ -1255,7 +1293,7 @@ export const DescribeTapeRecoveryPointsInput = S.suspend(() =>
 }) as any as S.Schema<DescribeTapeRecoveryPointsInput>;
 export interface DescribeTapesInput {
   GatewayARN: string;
-  TapeARNs?: TapeARNs;
+  TapeARNs?: string[];
   Marker?: string;
   Limit?: number;
 }
@@ -1299,7 +1337,7 @@ export const DescribeUploadBufferInput = S.suspend(() =>
 }) as any as S.Schema<DescribeUploadBufferInput>;
 export interface DescribeVTLDevicesInput {
   GatewayARN: string;
-  VTLDeviceARNs?: VTLDeviceARNs;
+  VTLDeviceARNs?: string[];
   Marker?: string;
   Limit?: number;
 }
@@ -1423,10 +1461,10 @@ export interface JoinDomainInput {
   GatewayARN: string;
   DomainName: string;
   OrganizationalUnit?: string;
-  DomainControllers?: Hosts;
+  DomainControllers?: string[];
   TimeoutInSeconds?: number;
   UserName: string;
-  Password: string | Redacted.Redacted<string>;
+  Password: string | redacted.Redacted<string>;
 }
 export const JoinDomainInput = S.suspend(() =>
   S.Struct({
@@ -1597,7 +1635,7 @@ export const ListTagsForResourceInput = S.suspend(() =>
   identifier: "ListTagsForResourceInput",
 }) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTapePoolsInput {
-  PoolARNs?: PoolARNs;
+  PoolARNs?: string[];
   Marker?: string;
   Limit?: number;
 }
@@ -1621,7 +1659,7 @@ export const ListTapePoolsInput = S.suspend(() =>
   identifier: "ListTapePoolsInput",
 }) as any as S.Schema<ListTapePoolsInput>;
 export interface ListTapesInput {
-  TapeARNs?: TapeARNs;
+  TapeARNs?: string[];
   Marker?: string;
   Limit?: number;
 }
@@ -1724,7 +1762,7 @@ export const NotifyWhenUploadedInput = S.suspend(() =>
 }) as any as S.Schema<NotifyWhenUploadedInput>;
 export interface RefreshCacheInput {
   FileShareARN: string;
-  FolderList?: FolderList;
+  FolderList?: string[];
   Recursive?: boolean;
 }
 export const RefreshCacheInput = S.suspend(() =>
@@ -1748,7 +1786,7 @@ export const RefreshCacheInput = S.suspend(() =>
 }) as any as S.Schema<RefreshCacheInput>;
 export interface RemoveTagsFromResourceInput {
   ResourceARN: string;
-  TagKeys: TagKeys;
+  TagKeys: string[];
 }
 export const RemoveTagsFromResourceInput = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeys }).pipe(
@@ -1823,7 +1861,7 @@ export const RetrieveTapeRecoveryPointInput = S.suspend(() =>
 }) as any as S.Schema<RetrieveTapeRecoveryPointInput>;
 export interface SetLocalConsolePasswordInput {
   GatewayARN: string;
-  LocalConsolePassword: string | Redacted.Redacted<string>;
+  LocalConsolePassword: string | redacted.Redacted<string>;
 }
 export const SetLocalConsolePasswordInput = S.suspend(() =>
   S.Struct({
@@ -1845,7 +1883,7 @@ export const SetLocalConsolePasswordInput = S.suspend(() =>
 }) as any as S.Schema<SetLocalConsolePasswordInput>;
 export interface SetSMBGuestPasswordInput {
   GatewayARN: string;
-  Password: string | Redacted.Redacted<string>;
+  Password: string | redacted.Redacted<string>;
 }
 export const SetSMBGuestPasswordInput = S.suspend(() =>
   S.Struct({ GatewayARN: S.String, Password: SensitiveString }).pipe(
@@ -1942,9 +1980,9 @@ export const UpdateBandwidthRateLimitInput = S.suspend(() =>
 }) as any as S.Schema<UpdateBandwidthRateLimitInput>;
 export interface UpdateChapCredentialsInput {
   TargetARN: string;
-  SecretToAuthenticateInitiator: string | Redacted.Redacted<string>;
+  SecretToAuthenticateInitiator: string | redacted.Redacted<string>;
   InitiatorName: string;
-  SecretToAuthenticateTarget?: string | Redacted.Redacted<string>;
+  SecretToAuthenticateTarget?: string | redacted.Redacted<string>;
 }
 export const UpdateChapCredentialsInput = S.suspend(() =>
   S.Struct({
@@ -1969,7 +2007,7 @@ export const UpdateChapCredentialsInput = S.suspend(() =>
 export interface UpdateFileSystemAssociationInput {
   FileSystemAssociationARN: string;
   UserName?: string;
-  Password?: string | Redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
   AuditDestinationARN?: string;
   CacheAttributes?: CacheAttributes;
 }
@@ -1999,7 +2037,7 @@ export interface UpdateGatewayInformationInput {
   GatewayName?: string;
   GatewayTimezone?: string;
   CloudWatchLogGroupARN?: string;
-  GatewayCapacity?: string;
+  GatewayCapacity?: GatewayCapacity;
 }
 export const UpdateGatewayInformationInput = S.suspend(() =>
   S.Struct({
@@ -2007,7 +2045,7 @@ export const UpdateGatewayInformationInput = S.suspend(() =>
     GatewayName: S.optional(S.String),
     GatewayTimezone: S.optional(S.String),
     CloudWatchLogGroupARN: S.optional(S.String),
-    GatewayCapacity: S.optional(S.String),
+    GatewayCapacity: S.optional(GatewayCapacity),
   }).pipe(
     T.all(
       ns,
@@ -2058,13 +2096,13 @@ export const NFSFileShareDefaults = S.suspend(() =>
 }) as any as S.Schema<NFSFileShareDefaults>;
 export interface UpdateNFSFileShareInput {
   FileShareARN: string;
-  EncryptionType?: string;
+  EncryptionType?: EncryptionType;
   KMSEncrypted?: boolean;
   KMSKey?: string;
   NFSFileShareDefaults?: NFSFileShareDefaults;
   DefaultStorageClass?: string;
-  ObjectACL?: string;
-  ClientList?: FileShareClientList;
+  ObjectACL?: ObjectACL;
+  ClientList?: string[];
   Squash?: string;
   ReadOnly?: boolean;
   GuessMIMETypeEnabled?: boolean;
@@ -2077,12 +2115,12 @@ export interface UpdateNFSFileShareInput {
 export const UpdateNFSFileShareInput = S.suspend(() =>
   S.Struct({
     FileShareARN: S.String,
-    EncryptionType: S.optional(S.String),
+    EncryptionType: S.optional(EncryptionType),
     KMSEncrypted: S.optional(S.Boolean),
     KMSKey: S.optional(S.String),
     NFSFileShareDefaults: S.optional(NFSFileShareDefaults),
     DefaultStorageClass: S.optional(S.String),
-    ObjectACL: S.optional(S.String),
+    ObjectACL: S.optional(ObjectACL),
     ClientList: S.optional(FileShareClientList),
     Squash: S.optional(S.String),
     ReadOnly: S.optional(S.Boolean),
@@ -2108,21 +2146,21 @@ export const UpdateNFSFileShareInput = S.suspend(() =>
 }) as any as S.Schema<UpdateNFSFileShareInput>;
 export interface UpdateSMBFileShareInput {
   FileShareARN: string;
-  EncryptionType?: string;
+  EncryptionType?: EncryptionType;
   KMSEncrypted?: boolean;
   KMSKey?: string;
   DefaultStorageClass?: string;
-  ObjectACL?: string;
+  ObjectACL?: ObjectACL;
   ReadOnly?: boolean;
   GuessMIMETypeEnabled?: boolean;
   RequesterPays?: boolean;
   SMBACLEnabled?: boolean;
   AccessBasedEnumeration?: boolean;
-  AdminUserList?: UserList;
-  ValidUserList?: UserList;
-  InvalidUserList?: UserList;
+  AdminUserList?: string[];
+  ValidUserList?: string[];
+  InvalidUserList?: string[];
   AuditDestinationARN?: string;
-  CaseSensitivity?: string;
+  CaseSensitivity?: CaseSensitivity;
   FileShareName?: string;
   CacheAttributes?: CacheAttributes;
   NotificationPolicy?: string;
@@ -2131,11 +2169,11 @@ export interface UpdateSMBFileShareInput {
 export const UpdateSMBFileShareInput = S.suspend(() =>
   S.Struct({
     FileShareARN: S.String,
-    EncryptionType: S.optional(S.String),
+    EncryptionType: S.optional(EncryptionType),
     KMSEncrypted: S.optional(S.Boolean),
     KMSKey: S.optional(S.String),
     DefaultStorageClass: S.optional(S.String),
-    ObjectACL: S.optional(S.String),
+    ObjectACL: S.optional(ObjectACL),
     ReadOnly: S.optional(S.Boolean),
     GuessMIMETypeEnabled: S.optional(S.Boolean),
     RequesterPays: S.optional(S.Boolean),
@@ -2145,7 +2183,7 @@ export const UpdateSMBFileShareInput = S.suspend(() =>
     ValidUserList: S.optional(UserList),
     InvalidUserList: S.optional(UserList),
     AuditDestinationARN: S.optional(S.String),
-    CaseSensitivity: S.optional(S.String),
+    CaseSensitivity: S.optional(CaseSensitivity),
     FileShareName: S.optional(S.String),
     CacheAttributes: S.optional(CacheAttributes),
     NotificationPolicy: S.optional(S.String),
@@ -2185,10 +2223,13 @@ export const UpdateSMBFileShareVisibilityInput = S.suspend(() =>
 }) as any as S.Schema<UpdateSMBFileShareVisibilityInput>;
 export interface UpdateSMBSecurityStrategyInput {
   GatewayARN: string;
-  SMBSecurityStrategy: string;
+  SMBSecurityStrategy: SMBSecurityStrategy;
 }
 export const UpdateSMBSecurityStrategyInput = S.suspend(() =>
-  S.Struct({ GatewayARN: S.String, SMBSecurityStrategy: S.String }).pipe(
+  S.Struct({
+    GatewayARN: S.String,
+    SMBSecurityStrategy: SMBSecurityStrategy,
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2207,7 +2248,7 @@ export interface UpdateSnapshotScheduleInput {
   StartAt: number;
   RecurrenceInHours: number;
   Description?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const UpdateSnapshotScheduleInput = S.suspend(() =>
   S.Struct({
@@ -2251,26 +2292,89 @@ export const UpdateVTLDeviceTypeInput = S.suspend(() =>
 }) as any as S.Schema<UpdateVTLDeviceTypeInput>;
 export type IpAddressList = string[];
 export const IpAddressList = S.Array(S.String);
+export type CacheReportFilterName = "UploadState" | "UploadFailureReason";
+export const CacheReportFilterName = S.Literal(
+  "UploadState",
+  "UploadFailureReason",
+);
 export type CacheReportFilterValues = string[];
 export const CacheReportFilterValues = S.Array(S.String);
 export type DaysOfWeek = number[];
 export const DaysOfWeek = S.Array(S.Number);
+export type AutomaticUpdatePolicy = "ALL_VERSIONS" | "EMERGENCY_VERSIONS_ONLY";
+export const AutomaticUpdatePolicy = S.Literal(
+  "ALL_VERSIONS",
+  "EMERGENCY_VERSIONS_ONLY",
+);
 export interface EndpointNetworkConfiguration {
-  IpAddresses?: IpAddressList;
+  IpAddresses?: string[];
 }
 export const EndpointNetworkConfiguration = S.suspend(() =>
   S.Struct({ IpAddresses: S.optional(IpAddressList) }),
 ).annotations({
   identifier: "EndpointNetworkConfiguration",
 }) as any as S.Schema<EndpointNetworkConfiguration>;
-export type SupportedGatewayCapacities = string[];
-export const SupportedGatewayCapacities = S.Array(S.String);
+export type AvailabilityMonitorTestStatus = "COMPLETE" | "FAILED" | "PENDING";
+export const AvailabilityMonitorTestStatus = S.Literal(
+  "COMPLETE",
+  "FAILED",
+  "PENDING",
+);
+export type HostEnvironment =
+  | "VMWARE"
+  | "HYPER-V"
+  | "EC2"
+  | "KVM"
+  | "OTHER"
+  | "SNOWBALL";
+export const HostEnvironment = S.Literal(
+  "VMWARE",
+  "HYPER-V",
+  "EC2",
+  "KVM",
+  "OTHER",
+  "SNOWBALL",
+);
+export type SupportedGatewayCapacities = GatewayCapacity[];
+export const SupportedGatewayCapacities = S.Array(GatewayCapacity);
+export type ActiveDirectoryStatus =
+  | "ACCESS_DENIED"
+  | "DETACHED"
+  | "JOINED"
+  | "JOINING"
+  | "NETWORK_ERROR"
+  | "TIMEOUT"
+  | "UNKNOWN_ERROR"
+  | "INSUFFICIENT_PERMISSIONS";
+export const ActiveDirectoryStatus = S.Literal(
+  "ACCESS_DENIED",
+  "DETACHED",
+  "JOINED",
+  "JOINING",
+  "NETWORK_ERROR",
+  "TIMEOUT",
+  "UNKNOWN_ERROR",
+  "INSUFFICIENT_PERMISSIONS",
+);
+export type CacheReportStatus =
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "CANCELED"
+  | "FAILED"
+  | "ERROR";
+export const CacheReportStatus = S.Literal(
+  "IN_PROGRESS",
+  "COMPLETED",
+  "CANCELED",
+  "FAILED",
+  "ERROR",
+);
 export interface CacheReportFilter {
-  Name: string;
-  Values: CacheReportFilterValues;
+  Name: CacheReportFilterName;
+  Values: string[];
 }
 export const CacheReportFilter = S.suspend(() =>
-  S.Struct({ Name: S.String, Values: CacheReportFilterValues }),
+  S.Struct({ Name: CacheReportFilterName, Values: CacheReportFilterValues }),
 ).annotations({
   identifier: "CacheReportFilter",
 }) as any as S.Schema<CacheReportFilter>;
@@ -2278,22 +2382,22 @@ export type CacheReportFilterList = CacheReportFilter[];
 export const CacheReportFilterList = S.Array(CacheReportFilter);
 export interface CacheReportInfo {
   CacheReportARN?: string;
-  CacheReportStatus?: string;
+  CacheReportStatus?: CacheReportStatus;
   ReportCompletionPercent?: number;
   EndTime?: Date;
   Role?: string;
   FileShareARN?: string;
   LocationARN?: string;
   StartTime?: Date;
-  InclusionFilters?: CacheReportFilterList;
-  ExclusionFilters?: CacheReportFilterList;
+  InclusionFilters?: CacheReportFilter[];
+  ExclusionFilters?: CacheReportFilter[];
   ReportName?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CacheReportInfo = S.suspend(() =>
   S.Struct({
     CacheReportARN: S.optional(S.String),
-    CacheReportStatus: S.optional(S.String),
+    CacheReportStatus: S.optional(CacheReportStatus),
     ReportCompletionPercent: S.optional(S.Number),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Role: S.optional(S.String),
@@ -2337,7 +2441,7 @@ export interface BandwidthRateLimitInterval {
   StartMinuteOfHour: number;
   EndHourOfDay: number;
   EndMinuteOfHour: number;
-  DaysOfWeek: DaysOfWeek;
+  DaysOfWeek: number[];
   AverageUploadRateLimitInBitsPerSec?: number;
   AverageDownloadRateLimitInBitsPerSec?: number;
 }
@@ -2357,15 +2461,15 @@ export const BandwidthRateLimitInterval = S.suspend(() =>
 export type BandwidthRateLimitIntervals = BandwidthRateLimitInterval[];
 export const BandwidthRateLimitIntervals = S.Array(BandwidthRateLimitInterval);
 export interface SoftwareUpdatePreferences {
-  AutomaticUpdatePolicy?: string;
+  AutomaticUpdatePolicy?: AutomaticUpdatePolicy;
 }
 export const SoftwareUpdatePreferences = S.suspend(() =>
-  S.Struct({ AutomaticUpdatePolicy: S.optional(S.String) }),
+  S.Struct({ AutomaticUpdatePolicy: S.optional(AutomaticUpdatePolicy) }),
 ).annotations({
   identifier: "SoftwareUpdatePreferences",
 }) as any as S.Schema<SoftwareUpdatePreferences>;
 export interface SMBLocalGroups {
-  GatewayAdmins?: UserList;
+  GatewayAdmins?: string[];
 }
 export const SMBLocalGroups = S.suspend(() =>
   S.Struct({ GatewayAdmins: S.optional(UserList) }),
@@ -2380,7 +2484,7 @@ export interface ActivateGatewayInput {
   GatewayType?: string;
   TapeDriveType?: string;
   MediumChangerType?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const ActivateGatewayInput = S.suspend(() =>
   S.Struct({
@@ -2448,11 +2552,11 @@ export const AssignTapePoolOutput = S.suspend(() =>
 }) as any as S.Schema<AssignTapePoolOutput>;
 export interface AssociateFileSystemInput {
   UserName: string;
-  Password: string | Redacted.Redacted<string>;
+  Password: string | redacted.Redacted<string>;
   ClientToken: string;
   GatewayARN: string;
   LocationARN: string;
-  Tags?: Tags;
+  Tags?: Tag[];
   AuditDestinationARN?: string;
   CacheAttributes?: CacheAttributes;
   EndpointNetworkConfiguration?: EndpointNetworkConfiguration;
@@ -2534,19 +2638,19 @@ export interface CreateNFSFileShareInput {
   ClientToken: string;
   NFSFileShareDefaults?: NFSFileShareDefaults;
   GatewayARN: string;
-  EncryptionType?: string;
+  EncryptionType?: EncryptionType;
   KMSEncrypted?: boolean;
   KMSKey?: string;
   Role: string;
   LocationARN: string;
   DefaultStorageClass?: string;
-  ObjectACL?: string;
-  ClientList?: FileShareClientList;
+  ObjectACL?: ObjectACL;
+  ClientList?: string[];
   Squash?: string;
   ReadOnly?: boolean;
   GuessMIMETypeEnabled?: boolean;
   RequesterPays?: boolean;
-  Tags?: Tags;
+  Tags?: Tag[];
   FileShareName?: string;
   CacheAttributes?: CacheAttributes;
   NotificationPolicy?: string;
@@ -2559,13 +2663,13 @@ export const CreateNFSFileShareInput = S.suspend(() =>
     ClientToken: S.String,
     NFSFileShareDefaults: S.optional(NFSFileShareDefaults),
     GatewayARN: S.String,
-    EncryptionType: S.optional(S.String),
+    EncryptionType: S.optional(EncryptionType),
     KMSEncrypted: S.optional(S.Boolean),
     KMSKey: S.optional(S.String),
     Role: S.String,
     LocationARN: S.String,
     DefaultStorageClass: S.optional(S.String),
-    ObjectACL: S.optional(S.String),
+    ObjectACL: S.optional(ObjectACL),
     ClientList: S.optional(FileShareClientList),
     Squash: S.optional(S.String),
     ReadOnly: S.optional(S.Boolean),
@@ -2649,7 +2753,7 @@ export const CreateTapePoolOutput = S.suspend(() =>
   identifier: "CreateTapePoolOutput",
 }) as any as S.Schema<CreateTapePoolOutput>;
 export interface CreateTapesOutput {
-  TapeARNs?: TapeARNs;
+  TapeARNs?: string[];
 }
 export const CreateTapesOutput = S.suspend(() =>
   S.Struct({ TapeARNs: S.optional(TapeARNs) }).pipe(ns),
@@ -2758,13 +2862,13 @@ export const DeleteVolumeOutput = S.suspend(() =>
 }) as any as S.Schema<DeleteVolumeOutput>;
 export interface DescribeAvailabilityMonitorTestOutput {
   GatewayARN?: string;
-  Status?: string;
+  Status?: AvailabilityMonitorTestStatus;
   StartTime?: Date;
 }
 export const DescribeAvailabilityMonitorTestOutput = S.suspend(() =>
   S.Struct({
     GatewayARN: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(AvailabilityMonitorTestStatus),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }).pipe(ns),
 ).annotations({
@@ -2786,7 +2890,7 @@ export const DescribeBandwidthRateLimitOutput = S.suspend(() =>
 }) as any as S.Schema<DescribeBandwidthRateLimitOutput>;
 export interface DescribeBandwidthRateLimitScheduleOutput {
   GatewayARN?: string;
-  BandwidthRateLimitIntervals?: BandwidthRateLimitIntervals;
+  BandwidthRateLimitIntervals?: BandwidthRateLimitInterval[];
 }
 export const DescribeBandwidthRateLimitScheduleOutput = S.suspend(() =>
   S.Struct({
@@ -2798,7 +2902,7 @@ export const DescribeBandwidthRateLimitScheduleOutput = S.suspend(() =>
 }) as any as S.Schema<DescribeBandwidthRateLimitScheduleOutput>;
 export interface DescribeCacheOutput {
   GatewayARN?: string;
-  DiskIds?: DiskIds;
+  DiskIds?: string[];
   CacheAllocatedInBytes?: number;
   CacheUsedPercentage?: number;
   CacheDirtyPercentage?: number;
@@ -2843,9 +2947,9 @@ export const DescribeMaintenanceStartTimeOutput = S.suspend(() =>
 export interface DescribeSMBSettingsOutput {
   GatewayARN?: string;
   DomainName?: string;
-  ActiveDirectoryStatus?: string;
+  ActiveDirectoryStatus?: ActiveDirectoryStatus;
   SMBGuestPasswordSet?: boolean;
-  SMBSecurityStrategy?: string;
+  SMBSecurityStrategy?: SMBSecurityStrategy;
   FileSharesVisible?: boolean;
   SMBLocalGroups?: SMBLocalGroups;
 }
@@ -2853,9 +2957,9 @@ export const DescribeSMBSettingsOutput = S.suspend(() =>
   S.Struct({
     GatewayARN: S.optional(S.String),
     DomainName: S.optional(S.String),
-    ActiveDirectoryStatus: S.optional(S.String),
+    ActiveDirectoryStatus: S.optional(ActiveDirectoryStatus),
     SMBGuestPasswordSet: S.optional(S.Boolean),
-    SMBSecurityStrategy: S.optional(S.String),
+    SMBSecurityStrategy: S.optional(SMBSecurityStrategy),
     FileSharesVisible: S.optional(S.Boolean),
     SMBLocalGroups: S.optional(SMBLocalGroups),
   }).pipe(ns),
@@ -2868,7 +2972,7 @@ export interface DescribeSnapshotScheduleOutput {
   RecurrenceInHours?: number;
   Description?: string;
   Timezone?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const DescribeSnapshotScheduleOutput = S.suspend(() =>
   S.Struct({
@@ -2884,7 +2988,7 @@ export const DescribeSnapshotScheduleOutput = S.suspend(() =>
 }) as any as S.Schema<DescribeSnapshotScheduleOutput>;
 export interface DescribeUploadBufferOutput {
   GatewayARN?: string;
-  DiskIds?: DiskIds;
+  DiskIds?: string[];
   UploadBufferUsedInBytes?: number;
   UploadBufferAllocatedInBytes?: number;
 }
@@ -2900,7 +3004,7 @@ export const DescribeUploadBufferOutput = S.suspend(() =>
 }) as any as S.Schema<DescribeUploadBufferOutput>;
 export interface DescribeWorkingStorageOutput {
   GatewayARN?: string;
-  DiskIds?: DiskIds;
+  DiskIds?: string[];
   WorkingStorageUsedInBytes?: number;
   WorkingStorageAllocatedInBytes?: number;
 }
@@ -2948,18 +3052,18 @@ export const EvictFilesFailingUploadOutput = S.suspend(() =>
 }) as any as S.Schema<EvictFilesFailingUploadOutput>;
 export interface JoinDomainOutput {
   GatewayARN?: string;
-  ActiveDirectoryStatus?: string;
+  ActiveDirectoryStatus?: ActiveDirectoryStatus;
 }
 export const JoinDomainOutput = S.suspend(() =>
   S.Struct({
     GatewayARN: S.optional(S.String),
-    ActiveDirectoryStatus: S.optional(S.String),
+    ActiveDirectoryStatus: S.optional(ActiveDirectoryStatus),
   }).pipe(ns),
 ).annotations({
   identifier: "JoinDomainOutput",
 }) as any as S.Schema<JoinDomainOutput>;
 export interface ListCacheReportsOutput {
-  CacheReportList?: CacheReportList;
+  CacheReportList?: CacheReportInfo[];
   Marker?: string;
 }
 export const ListCacheReportsOutput = S.suspend(() =>
@@ -2973,7 +3077,7 @@ export const ListCacheReportsOutput = S.suspend(() =>
 export interface ListTagsForResourceOutput {
   ResourceARN?: string;
   Marker?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({
@@ -2985,7 +3089,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
   identifier: "ListTagsForResourceOutput",
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface ListVolumeInitiatorsOutput {
-  Initiators?: Initiators;
+  Initiators?: string[];
 }
 export const ListVolumeInitiatorsOutput = S.suspend(() =>
   S.Struct({ Initiators: S.optional(Initiators) }).pipe(ns),
@@ -3086,10 +3190,10 @@ export interface StartCacheReportInput {
   LocationARN: string;
   BucketRegion: string;
   VPCEndpointDNSName?: string;
-  InclusionFilters?: CacheReportFilterList;
-  ExclusionFilters?: CacheReportFilterList;
+  InclusionFilters?: CacheReportFilter[];
+  ExclusionFilters?: CacheReportFilter[];
   ClientToken: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const StartCacheReportInput = S.suspend(() =>
   S.Struct({
@@ -3125,7 +3229,7 @@ export const StartGatewayOutput = S.suspend(() =>
   identifier: "StartGatewayOutput",
 }) as any as S.Schema<StartGatewayOutput>;
 export interface UpdateAutomaticTapeCreationPolicyInput {
-  AutomaticTapeCreationRules: AutomaticTapeCreationRules;
+  AutomaticTapeCreationRules: AutomaticTapeCreationRule[];
   GatewayARN: string;
 }
 export const UpdateAutomaticTapeCreationPolicyInput = S.suspend(() =>
@@ -3156,7 +3260,7 @@ export const UpdateBandwidthRateLimitOutput = S.suspend(() =>
 }) as any as S.Schema<UpdateBandwidthRateLimitOutput>;
 export interface UpdateBandwidthRateLimitScheduleInput {
   GatewayARN: string;
-  BandwidthRateLimitIntervals: BandwidthRateLimitIntervals;
+  BandwidthRateLimitIntervals: BandwidthRateLimitInterval[];
 }
 export const UpdateBandwidthRateLimitScheduleInput = S.suspend(() =>
   S.Struct({
@@ -3313,13 +3417,17 @@ export const UpdateVTLDeviceTypeOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateVTLDeviceTypeOutput",
 }) as any as S.Schema<UpdateVTLDeviceTypeOutput>;
+export type FileShareType = "NFS" | "SMB";
+export const FileShareType = S.Literal("NFS", "SMB");
 export type DiskAttributeList = string[];
 export const DiskAttributeList = S.Array(S.String);
+export type PoolStatus = "ACTIVE" | "DELETED";
+export const PoolStatus = S.Literal("ACTIVE", "DELETED");
 export interface ChapInfo {
   TargetARN?: string;
-  SecretToAuthenticateInitiator?: string | Redacted.Redacted<string>;
+  SecretToAuthenticateInitiator?: string | redacted.Redacted<string>;
   InitiatorName?: string;
-  SecretToAuthenticateTarget?: string | Redacted.Redacted<string>;
+  SecretToAuthenticateTarget?: string | redacted.Redacted<string>;
 }
 export const ChapInfo = S.suspend(() =>
   S.Struct({
@@ -3353,20 +3461,20 @@ export interface NFSFileShareInfo {
   FileShareId?: string;
   FileShareStatus?: string;
   GatewayARN?: string;
-  EncryptionType?: string;
+  EncryptionType?: EncryptionType;
   KMSEncrypted?: boolean;
   KMSKey?: string;
   Path?: string;
   Role?: string;
   LocationARN?: string;
   DefaultStorageClass?: string;
-  ObjectACL?: string;
-  ClientList?: FileShareClientList;
+  ObjectACL?: ObjectACL;
+  ClientList?: string[];
   Squash?: string;
   ReadOnly?: boolean;
   GuessMIMETypeEnabled?: boolean;
   RequesterPays?: boolean;
-  Tags?: Tags;
+  Tags?: Tag[];
   FileShareName?: string;
   CacheAttributes?: CacheAttributes;
   NotificationPolicy?: string;
@@ -3381,14 +3489,14 @@ export const NFSFileShareInfo = S.suspend(() =>
     FileShareId: S.optional(S.String),
     FileShareStatus: S.optional(S.String),
     GatewayARN: S.optional(S.String),
-    EncryptionType: S.optional(S.String),
+    EncryptionType: S.optional(EncryptionType),
     KMSEncrypted: S.optional(S.Boolean),
     KMSKey: S.optional(S.String),
     Path: S.optional(S.String),
     Role: S.optional(S.String),
     LocationARN: S.optional(S.String),
     DefaultStorageClass: S.optional(S.String),
-    ObjectACL: S.optional(S.String),
+    ObjectACL: S.optional(ObjectACL),
     ClientList: S.optional(FileShareClientList),
     Squash: S.optional(S.String),
     ReadOnly: S.optional(S.Boolean),
@@ -3412,26 +3520,26 @@ export interface SMBFileShareInfo {
   FileShareId?: string;
   FileShareStatus?: string;
   GatewayARN?: string;
-  EncryptionType?: string;
+  EncryptionType?: EncryptionType;
   KMSEncrypted?: boolean;
   KMSKey?: string;
   Path?: string;
   Role?: string;
   LocationARN?: string;
   DefaultStorageClass?: string;
-  ObjectACL?: string;
+  ObjectACL?: ObjectACL;
   ReadOnly?: boolean;
   GuessMIMETypeEnabled?: boolean;
   RequesterPays?: boolean;
   SMBACLEnabled?: boolean;
   AccessBasedEnumeration?: boolean;
-  AdminUserList?: UserList;
-  ValidUserList?: UserList;
-  InvalidUserList?: UserList;
+  AdminUserList?: string[];
+  ValidUserList?: string[];
+  InvalidUserList?: string[];
   AuditDestinationARN?: string;
   Authentication?: string;
-  CaseSensitivity?: string;
-  Tags?: Tags;
+  CaseSensitivity?: CaseSensitivity;
+  Tags?: Tag[];
   FileShareName?: string;
   CacheAttributes?: CacheAttributes;
   NotificationPolicy?: string;
@@ -3445,14 +3553,14 @@ export const SMBFileShareInfo = S.suspend(() =>
     FileShareId: S.optional(S.String),
     FileShareStatus: S.optional(S.String),
     GatewayARN: S.optional(S.String),
-    EncryptionType: S.optional(S.String),
+    EncryptionType: S.optional(EncryptionType),
     KMSEncrypted: S.optional(S.Boolean),
     KMSKey: S.optional(S.String),
     Path: S.optional(S.String),
     Role: S.optional(S.String),
     LocationARN: S.optional(S.String),
     DefaultStorageClass: S.optional(S.String),
-    ObjectACL: S.optional(S.String),
+    ObjectACL: S.optional(ObjectACL),
     ReadOnly: S.optional(S.Boolean),
     GuessMIMETypeEnabled: S.optional(S.Boolean),
     RequesterPays: S.optional(S.Boolean),
@@ -3463,7 +3571,7 @@ export const SMBFileShareInfo = S.suspend(() =>
     InvalidUserList: S.optional(UserList),
     AuditDestinationARN: S.optional(S.String),
     Authentication: S.optional(S.String),
-    CaseSensitivity: S.optional(S.String),
+    CaseSensitivity: S.optional(CaseSensitivity),
     Tags: S.optional(Tags),
     FileShareName: S.optional(S.String),
     CacheAttributes: S.optional(CacheAttributes),
@@ -3632,7 +3740,7 @@ export const Tape = S.suspend(() =>
 export type Tapes = Tape[];
 export const Tapes = S.Array(Tape);
 export interface AutomaticTapeCreationPolicyInfo {
-  AutomaticTapeCreationRules?: AutomaticTapeCreationRules;
+  AutomaticTapeCreationRules?: AutomaticTapeCreationRule[];
   GatewayARN?: string;
 }
 export const AutomaticTapeCreationPolicyInfo = S.suspend(() =>
@@ -3649,7 +3757,7 @@ export const AutomaticTapeCreationPolicyInfos = S.Array(
   AutomaticTapeCreationPolicyInfo,
 );
 export interface FileShareInfo {
-  FileShareType?: string;
+  FileShareType?: FileShareType;
   FileShareARN?: string;
   FileShareId?: string;
   FileShareStatus?: string;
@@ -3657,7 +3765,7 @@ export interface FileShareInfo {
 }
 export const FileShareInfo = S.suspend(() =>
   S.Struct({
-    FileShareType: S.optional(S.String),
+    FileShareType: S.optional(FileShareType),
     FileShareARN: S.optional(S.String),
     FileShareId: S.optional(S.String),
     FileShareStatus: S.optional(S.String),
@@ -3696,7 +3804,7 @@ export interface GatewayInfo {
   GatewayName?: string;
   Ec2InstanceId?: string;
   Ec2InstanceRegion?: string;
-  HostEnvironment?: string;
+  HostEnvironment?: HostEnvironment;
   HostEnvironmentId?: string;
   DeprecationDate?: string;
   SoftwareVersion?: string;
@@ -3710,7 +3818,7 @@ export const GatewayInfo = S.suspend(() =>
     GatewayName: S.optional(S.String),
     Ec2InstanceId: S.optional(S.String),
     Ec2InstanceRegion: S.optional(S.String),
-    HostEnvironment: S.optional(S.String),
+    HostEnvironment: S.optional(HostEnvironment),
     HostEnvironmentId: S.optional(S.String),
     DeprecationDate: S.optional(S.String),
     SoftwareVersion: S.optional(S.String),
@@ -3726,7 +3834,7 @@ export interface Disk {
   DiskSizeInBytes?: number;
   DiskAllocationType?: string;
   DiskAllocationResource?: string;
-  DiskAttributeList?: DiskAttributeList;
+  DiskAttributeList?: string[];
 }
 export const Disk = S.suspend(() =>
   S.Struct({
@@ -3745,19 +3853,19 @@ export const Disks = S.Array(Disk);
 export interface PoolInfo {
   PoolARN?: string;
   PoolName?: string;
-  StorageClass?: string;
-  RetentionLockType?: string;
+  StorageClass?: TapeStorageClass;
+  RetentionLockType?: RetentionLockType;
   RetentionLockTimeInDays?: number;
-  PoolStatus?: string;
+  PoolStatus?: PoolStatus;
 }
 export const PoolInfo = S.suspend(() =>
   S.Struct({
     PoolARN: S.optional(S.String),
     PoolName: S.optional(S.String),
-    StorageClass: S.optional(S.String),
-    RetentionLockType: S.optional(S.String),
+    StorageClass: S.optional(TapeStorageClass),
+    RetentionLockType: S.optional(RetentionLockType),
     RetentionLockTimeInDays: S.optional(S.Number),
-    PoolStatus: S.optional(S.String),
+    PoolStatus: S.optional(PoolStatus),
   }),
 ).annotations({ identifier: "PoolInfo" }) as any as S.Schema<PoolInfo>;
 export type PoolInfos = PoolInfo[];
@@ -3861,7 +3969,7 @@ export const DescribeCacheReportOutput = S.suspend(() =>
   identifier: "DescribeCacheReportOutput",
 }) as any as S.Schema<DescribeCacheReportOutput>;
 export interface DescribeChapCredentialsOutput {
-  ChapCredentials?: ChapCredentials;
+  ChapCredentials?: ChapInfo[];
 }
 export const DescribeChapCredentialsOutput = S.suspend(() =>
   S.Struct({ ChapCredentials: S.optional(ChapCredentials) }).pipe(ns),
@@ -3874,21 +3982,21 @@ export interface DescribeGatewayInformationOutput {
   GatewayName?: string;
   GatewayTimezone?: string;
   GatewayState?: string;
-  GatewayNetworkInterfaces?: GatewayNetworkInterfaces;
+  GatewayNetworkInterfaces?: NetworkInterface[];
   GatewayType?: string;
   NextUpdateAvailabilityDate?: string;
   LastSoftwareUpdate?: string;
   Ec2InstanceId?: string;
   Ec2InstanceRegion?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
   VPCEndpoint?: string;
   CloudWatchLogGroupARN?: string;
-  HostEnvironment?: string;
+  HostEnvironment?: HostEnvironment;
   EndpointType?: string;
   SoftwareUpdatesEndDate?: string;
   DeprecationDate?: string;
-  GatewayCapacity?: string;
-  SupportedGatewayCapacities?: SupportedGatewayCapacities;
+  GatewayCapacity?: GatewayCapacity;
+  SupportedGatewayCapacities?: GatewayCapacity[];
   HostEnvironmentId?: string;
   SoftwareVersion?: string;
 }
@@ -3908,11 +4016,11 @@ export const DescribeGatewayInformationOutput = S.suspend(() =>
     Tags: S.optional(Tags),
     VPCEndpoint: S.optional(S.String),
     CloudWatchLogGroupARN: S.optional(S.String),
-    HostEnvironment: S.optional(S.String),
+    HostEnvironment: S.optional(HostEnvironment),
     EndpointType: S.optional(S.String),
     SoftwareUpdatesEndDate: S.optional(S.String),
     DeprecationDate: S.optional(S.String),
-    GatewayCapacity: S.optional(S.String),
+    GatewayCapacity: S.optional(GatewayCapacity),
     SupportedGatewayCapacities: S.optional(SupportedGatewayCapacities),
     HostEnvironmentId: S.optional(S.String),
     SoftwareVersion: S.optional(S.String),
@@ -3921,7 +4029,7 @@ export const DescribeGatewayInformationOutput = S.suspend(() =>
   identifier: "DescribeGatewayInformationOutput",
 }) as any as S.Schema<DescribeGatewayInformationOutput>;
 export interface DescribeNFSFileSharesOutput {
-  NFSFileShareInfoList?: NFSFileShareInfoList;
+  NFSFileShareInfoList?: NFSFileShareInfo[];
 }
 export const DescribeNFSFileSharesOutput = S.suspend(() =>
   S.Struct({ NFSFileShareInfoList: S.optional(NFSFileShareInfoList) }).pipe(ns),
@@ -3929,7 +4037,7 @@ export const DescribeNFSFileSharesOutput = S.suspend(() =>
   identifier: "DescribeNFSFileSharesOutput",
 }) as any as S.Schema<DescribeNFSFileSharesOutput>;
 export interface DescribeSMBFileSharesOutput {
-  SMBFileShareInfoList?: SMBFileShareInfoList;
+  SMBFileShareInfoList?: SMBFileShareInfo[];
 }
 export const DescribeSMBFileSharesOutput = S.suspend(() =>
   S.Struct({ SMBFileShareInfoList: S.optional(SMBFileShareInfoList) }).pipe(ns),
@@ -3937,7 +4045,7 @@ export const DescribeSMBFileSharesOutput = S.suspend(() =>
   identifier: "DescribeSMBFileSharesOutput",
 }) as any as S.Schema<DescribeSMBFileSharesOutput>;
 export interface DescribeStorediSCSIVolumesOutput {
-  StorediSCSIVolumes?: StorediSCSIVolumes;
+  StorediSCSIVolumes?: StorediSCSIVolume[];
 }
 export const DescribeStorediSCSIVolumesOutput = S.suspend(() =>
   S.Struct({ StorediSCSIVolumes: S.optional(StorediSCSIVolumes) }).pipe(ns),
@@ -3945,7 +4053,7 @@ export const DescribeStorediSCSIVolumesOutput = S.suspend(() =>
   identifier: "DescribeStorediSCSIVolumesOutput",
 }) as any as S.Schema<DescribeStorediSCSIVolumesOutput>;
 export interface DescribeTapeArchivesOutput {
-  TapeArchives?: TapeArchives;
+  TapeArchives?: TapeArchive[];
   Marker?: string;
 }
 export const DescribeTapeArchivesOutput = S.suspend(() =>
@@ -3958,7 +4066,7 @@ export const DescribeTapeArchivesOutput = S.suspend(() =>
 }) as any as S.Schema<DescribeTapeArchivesOutput>;
 export interface DescribeTapeRecoveryPointsOutput {
   GatewayARN?: string;
-  TapeRecoveryPointInfos?: TapeRecoveryPointInfos;
+  TapeRecoveryPointInfos?: TapeRecoveryPointInfo[];
   Marker?: string;
 }
 export const DescribeTapeRecoveryPointsOutput = S.suspend(() =>
@@ -3971,7 +4079,7 @@ export const DescribeTapeRecoveryPointsOutput = S.suspend(() =>
   identifier: "DescribeTapeRecoveryPointsOutput",
 }) as any as S.Schema<DescribeTapeRecoveryPointsOutput>;
 export interface DescribeTapesOutput {
-  Tapes?: Tapes;
+  Tapes?: Tape[];
   Marker?: string;
 }
 export const DescribeTapesOutput = S.suspend(() =>
@@ -3980,7 +4088,7 @@ export const DescribeTapesOutput = S.suspend(() =>
   identifier: "DescribeTapesOutput",
 }) as any as S.Schema<DescribeTapesOutput>;
 export interface ListAutomaticTapeCreationPoliciesOutput {
-  AutomaticTapeCreationPolicyInfos?: AutomaticTapeCreationPolicyInfos;
+  AutomaticTapeCreationPolicyInfos?: AutomaticTapeCreationPolicyInfo[];
 }
 export const ListAutomaticTapeCreationPoliciesOutput = S.suspend(() =>
   S.Struct({
@@ -3994,7 +4102,7 @@ export const ListAutomaticTapeCreationPoliciesOutput = S.suspend(() =>
 export interface ListFileSharesOutput {
   Marker?: string;
   NextMarker?: string;
-  FileShareInfoList?: FileShareInfoList;
+  FileShareInfoList?: FileShareInfo[];
 }
 export const ListFileSharesOutput = S.suspend(() =>
   S.Struct({
@@ -4008,7 +4116,7 @@ export const ListFileSharesOutput = S.suspend(() =>
 export interface ListFileSystemAssociationsOutput {
   Marker?: string;
   NextMarker?: string;
-  FileSystemAssociationSummaryList?: FileSystemAssociationSummaryList;
+  FileSystemAssociationSummaryList?: FileSystemAssociationSummary[];
 }
 export const ListFileSystemAssociationsOutput = S.suspend(() =>
   S.Struct({
@@ -4022,7 +4130,7 @@ export const ListFileSystemAssociationsOutput = S.suspend(() =>
   identifier: "ListFileSystemAssociationsOutput",
 }) as any as S.Schema<ListFileSystemAssociationsOutput>;
 export interface ListGatewaysOutput {
-  Gateways?: Gateways;
+  Gateways?: GatewayInfo[];
   Marker?: string;
 }
 export const ListGatewaysOutput = S.suspend(() =>
@@ -4035,7 +4143,7 @@ export const ListGatewaysOutput = S.suspend(() =>
 }) as any as S.Schema<ListGatewaysOutput>;
 export interface ListLocalDisksOutput {
   GatewayARN?: string;
-  Disks?: Disks;
+  Disks?: Disk[];
 }
 export const ListLocalDisksOutput = S.suspend(() =>
   S.Struct({ GatewayARN: S.optional(S.String), Disks: S.optional(Disks) }).pipe(
@@ -4045,7 +4153,7 @@ export const ListLocalDisksOutput = S.suspend(() =>
   identifier: "ListLocalDisksOutput",
 }) as any as S.Schema<ListLocalDisksOutput>;
 export interface ListTapePoolsOutput {
-  PoolInfos?: PoolInfos;
+  PoolInfos?: PoolInfo[];
   Marker?: string;
 }
 export const ListTapePoolsOutput = S.suspend(() =>
@@ -4057,7 +4165,7 @@ export const ListTapePoolsOutput = S.suspend(() =>
   identifier: "ListTapePoolsOutput",
 }) as any as S.Schema<ListTapePoolsOutput>;
 export interface ListTapesOutput {
-  TapeInfos?: TapeInfos;
+  TapeInfos?: TapeInfo[];
   Marker?: string;
 }
 export const ListTapesOutput = S.suspend(() =>
@@ -4070,7 +4178,7 @@ export const ListTapesOutput = S.suspend(() =>
 }) as any as S.Schema<ListTapesOutput>;
 export interface ListVolumeRecoveryPointsOutput {
   GatewayARN?: string;
-  VolumeRecoveryPointInfos?: VolumeRecoveryPointInfos;
+  VolumeRecoveryPointInfos?: VolumeRecoveryPointInfo[];
 }
 export const ListVolumeRecoveryPointsOutput = S.suspend(() =>
   S.Struct({
@@ -4083,7 +4191,7 @@ export const ListVolumeRecoveryPointsOutput = S.suspend(() =>
 export interface ListVolumesOutput {
   GatewayARN?: string;
   Marker?: string;
-  VolumeInfos?: VolumeInfos;
+  VolumeInfos?: VolumeInfo[];
 }
 export const ListVolumesOutput = S.suspend(() =>
   S.Struct({
@@ -4134,6 +4242,133 @@ export const UpdateSMBLocalGroupsOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateSMBLocalGroupsOutput",
 }) as any as S.Schema<UpdateSMBLocalGroupsOutput>;
+export type ErrorCode =
+  | "ActivationKeyExpired"
+  | "ActivationKeyInvalid"
+  | "ActivationKeyNotFound"
+  | "GatewayInternalError"
+  | "GatewayNotConnected"
+  | "GatewayNotFound"
+  | "GatewayProxyNetworkConnectionBusy"
+  | "AuthenticationFailure"
+  | "BandwidthThrottleScheduleNotFound"
+  | "Blocked"
+  | "CannotExportSnapshot"
+  | "ChapCredentialNotFound"
+  | "DiskAlreadyAllocated"
+  | "DiskDoesNotExist"
+  | "DiskSizeGreaterThanVolumeMaxSize"
+  | "DiskSizeLessThanVolumeSize"
+  | "DiskSizeNotGigAligned"
+  | "DuplicateCertificateInfo"
+  | "DuplicateSchedule"
+  | "EndpointNotFound"
+  | "IAMNotSupported"
+  | "InitiatorInvalid"
+  | "InitiatorNotFound"
+  | "InternalError"
+  | "InvalidGateway"
+  | "InvalidEndpoint"
+  | "InvalidParameters"
+  | "InvalidSchedule"
+  | "LocalStorageLimitExceeded"
+  | "LunAlreadyAllocated "
+  | "LunInvalid"
+  | "JoinDomainInProgress"
+  | "MaximumContentLengthExceeded"
+  | "MaximumTapeCartridgeCountExceeded"
+  | "MaximumVolumeCountExceeded"
+  | "NetworkConfigurationChanged"
+  | "NoDisksAvailable"
+  | "NotImplemented"
+  | "NotSupported"
+  | "OperationAborted"
+  | "OutdatedGateway"
+  | "ParametersNotImplemented"
+  | "RegionInvalid"
+  | "RequestTimeout"
+  | "ServiceUnavailable"
+  | "SnapshotDeleted"
+  | "SnapshotIdInvalid"
+  | "SnapshotInProgress"
+  | "SnapshotNotFound"
+  | "SnapshotScheduleNotFound"
+  | "StagingAreaFull"
+  | "StorageFailure"
+  | "TapeCartridgeNotFound"
+  | "TargetAlreadyExists"
+  | "TargetInvalid"
+  | "TargetNotFound"
+  | "UnauthorizedOperation"
+  | "VolumeAlreadyExists"
+  | "VolumeIdInvalid"
+  | "VolumeInUse"
+  | "VolumeNotFound"
+  | "VolumeNotReady";
+export const ErrorCode = S.Literal(
+  "ActivationKeyExpired",
+  "ActivationKeyInvalid",
+  "ActivationKeyNotFound",
+  "GatewayInternalError",
+  "GatewayNotConnected",
+  "GatewayNotFound",
+  "GatewayProxyNetworkConnectionBusy",
+  "AuthenticationFailure",
+  "BandwidthThrottleScheduleNotFound",
+  "Blocked",
+  "CannotExportSnapshot",
+  "ChapCredentialNotFound",
+  "DiskAlreadyAllocated",
+  "DiskDoesNotExist",
+  "DiskSizeGreaterThanVolumeMaxSize",
+  "DiskSizeLessThanVolumeSize",
+  "DiskSizeNotGigAligned",
+  "DuplicateCertificateInfo",
+  "DuplicateSchedule",
+  "EndpointNotFound",
+  "IAMNotSupported",
+  "InitiatorInvalid",
+  "InitiatorNotFound",
+  "InternalError",
+  "InvalidGateway",
+  "InvalidEndpoint",
+  "InvalidParameters",
+  "InvalidSchedule",
+  "LocalStorageLimitExceeded",
+  "LunAlreadyAllocated ",
+  "LunInvalid",
+  "JoinDomainInProgress",
+  "MaximumContentLengthExceeded",
+  "MaximumTapeCartridgeCountExceeded",
+  "MaximumVolumeCountExceeded",
+  "NetworkConfigurationChanged",
+  "NoDisksAvailable",
+  "NotImplemented",
+  "NotSupported",
+  "OperationAborted",
+  "OutdatedGateway",
+  "ParametersNotImplemented",
+  "RegionInvalid",
+  "RequestTimeout",
+  "ServiceUnavailable",
+  "SnapshotDeleted",
+  "SnapshotIdInvalid",
+  "SnapshotInProgress",
+  "SnapshotNotFound",
+  "SnapshotScheduleNotFound",
+  "StagingAreaFull",
+  "StorageFailure",
+  "TapeCartridgeNotFound",
+  "TargetAlreadyExists",
+  "TargetInvalid",
+  "TargetNotFound",
+  "UnauthorizedOperation",
+  "VolumeAlreadyExists",
+  "VolumeIdInvalid",
+  "VolumeInUse",
+  "VolumeNotFound",
+  "VolumeNotReady",
+);
 export interface FileSystemAssociationStatusDetail {
   ErrorCode?: string;
 }
@@ -4205,10 +4440,10 @@ export interface FileSystemAssociationInfo {
   FileSystemAssociationStatus?: string;
   AuditDestinationARN?: string;
   GatewayARN?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
   CacheAttributes?: CacheAttributes;
   EndpointNetworkConfiguration?: EndpointNetworkConfiguration;
-  FileSystemAssociationStatusDetails?: FileSystemAssociationStatusDetails;
+  FileSystemAssociationStatusDetails?: FileSystemAssociationStatusDetail[];
 }
 export const FileSystemAssociationInfo = S.suspend(() =>
   S.Struct({
@@ -4248,7 +4483,7 @@ export const VTLDevice = S.suspend(() =>
 export type VTLDevices = VTLDevice[];
 export const VTLDevices = S.Array(VTLDevice);
 export interface DescribeCachediSCSIVolumesOutput {
-  CachediSCSIVolumes?: CachediSCSIVolumes;
+  CachediSCSIVolumes?: CachediSCSIVolume[];
 }
 export const DescribeCachediSCSIVolumesOutput = S.suspend(() =>
   S.Struct({ CachediSCSIVolumes: S.optional(CachediSCSIVolumes) }).pipe(ns),
@@ -4256,7 +4491,7 @@ export const DescribeCachediSCSIVolumesOutput = S.suspend(() =>
   identifier: "DescribeCachediSCSIVolumesOutput",
 }) as any as S.Schema<DescribeCachediSCSIVolumesOutput>;
 export interface DescribeFileSystemAssociationsOutput {
-  FileSystemAssociationInfoList?: FileSystemAssociationInfoList;
+  FileSystemAssociationInfoList?: FileSystemAssociationInfo[];
 }
 export const DescribeFileSystemAssociationsOutput = S.suspend(() =>
   S.Struct({
@@ -4267,7 +4502,7 @@ export const DescribeFileSystemAssociationsOutput = S.suspend(() =>
 }) as any as S.Schema<DescribeFileSystemAssociationsOutput>;
 export interface DescribeVTLDevicesOutput {
   GatewayARN?: string;
-  VTLDevices?: VTLDevices;
+  VTLDevices?: VTLDevice[];
   Marker?: string;
 }
 export const DescribeVTLDevicesOutput = S.suspend(() =>
@@ -4282,12 +4517,12 @@ export const DescribeVTLDevicesOutput = S.suspend(() =>
 export type errorDetails = { [key: string]: string };
 export const errorDetails = S.Record({ key: S.String, value: S.String });
 export interface StorageGatewayError {
-  errorCode?: string;
-  errorDetails?: errorDetails;
+  errorCode?: ErrorCode;
+  errorDetails?: { [key: string]: string };
 }
 export const StorageGatewayError = S.suspend(() =>
   S.Struct({
-    errorCode: S.optional(S.String),
+    errorCode: S.optional(ErrorCode),
     errorDetails: S.optional(errorDetails),
   }),
 ).annotations({
@@ -4318,7 +4553,7 @@ export class ServiceUnavailableError extends S.TaggedError<ServiceUnavailableErr
  */
 export const addCache: (
   input: AddCacheInput,
-) => Effect.Effect<
+) => effect.Effect<
   AddCacheOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4348,7 +4583,7 @@ export const addCache: (
  */
 export const addTagsToResource: (
   input: AddTagsToResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   AddTagsToResourceOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4368,7 +4603,7 @@ export const addTagsToResource: (
  */
 export const addUploadBuffer: (
   input: AddUploadBufferInput,
-) => Effect.Effect<
+) => effect.Effect<
   AddUploadBufferOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4392,7 +4627,7 @@ export const addUploadBuffer: (
  */
 export const addWorkingStorage: (
   input: AddWorkingStorageInput,
-) => Effect.Effect<
+) => effect.Effect<
   AddWorkingStorageOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4409,7 +4644,7 @@ export const addWorkingStorage: (
  */
 export const assignTapePool: (
   input: AssignTapePoolInput,
-) => Effect.Effect<
+) => effect.Effect<
   AssignTapePoolOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4426,7 +4661,7 @@ export const assignTapePool: (
  */
 export const attachVolume: (
   input: AttachVolumeInput,
-) => Effect.Effect<
+) => effect.Effect<
   AttachVolumeOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4441,7 +4676,7 @@ export const attachVolume: (
  */
 export const cancelArchival: (
   input: CancelArchivalInput,
-) => Effect.Effect<
+) => effect.Effect<
   CancelArchivalOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4459,7 +4694,7 @@ export const cancelArchival: (
  */
 export const cancelCacheReport: (
   input: CancelCacheReportInput,
-) => Effect.Effect<
+) => effect.Effect<
   CancelCacheReportOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4475,7 +4710,7 @@ export const cancelCacheReport: (
  */
 export const cancelRetrieval: (
   input: CancelRetrievalInput,
-) => Effect.Effect<
+) => effect.Effect<
   CancelRetrievalOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4504,7 +4739,7 @@ export const cancelRetrieval: (
  */
 export const createCachediSCSIVolume: (
   input: CreateCachediSCSIVolumeInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCachediSCSIVolumeOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4532,7 +4767,7 @@ export const createCachediSCSIVolume: (
  */
 export const createSMBFileShare: (
   input: CreateSMBFileShareInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSMBFileShareOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4557,7 +4792,7 @@ export const createSMBFileShare: (
  */
 export const createStorediSCSIVolume: (
   input: CreateStorediSCSIVolumeInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateStorediSCSIVolumeOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4572,7 +4807,7 @@ export const createStorediSCSIVolume: (
  */
 export const createTapePool: (
   input: CreateTapePoolInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTapePoolOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4590,7 +4825,7 @@ export const createTapePool: (
  */
 export const createTapes: (
   input: CreateTapesInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTapesOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4610,7 +4845,7 @@ export const createTapes: (
  */
 export const createTapeWithBarcode: (
   input: CreateTapeWithBarcodeInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTapeWithBarcodeOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4626,7 +4861,7 @@ export const createTapeWithBarcode: (
  */
 export const deleteAutomaticTapeCreationPolicy: (
   input: DeleteAutomaticTapeCreationPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAutomaticTapeCreationPolicyOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4644,7 +4879,7 @@ export const deleteAutomaticTapeCreationPolicy: (
  */
 export const deleteBandwidthRateLimit: (
   input: DeleteBandwidthRateLimitInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBandwidthRateLimitOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4662,7 +4897,7 @@ export const deleteBandwidthRateLimit: (
  */
 export const deleteCacheReport: (
   input: DeleteCacheReportInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCacheReportOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4678,7 +4913,7 @@ export const deleteCacheReport: (
  */
 export const deleteChapCredentials: (
   input: DeleteChapCredentialsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteChapCredentialsOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4693,7 +4928,7 @@ export const deleteChapCredentials: (
  */
 export const deleteFileShare: (
   input: DeleteFileShareInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFileShareOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4722,7 +4957,7 @@ export const deleteFileShare: (
  */
 export const deleteGateway: (
   input: DeleteGatewayInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGatewayOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4747,7 +4982,7 @@ export const deleteGateway: (
  */
 export const deleteSnapshotSchedule: (
   input: DeleteSnapshotScheduleInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSnapshotScheduleOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4762,7 +4997,7 @@ export const deleteSnapshotSchedule: (
  */
 export const deleteTape: (
   input: DeleteTapeInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTapeOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4777,7 +5012,7 @@ export const deleteTape: (
  */
 export const deleteTapeArchive: (
   input: DeleteTapeArchiveInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTapeArchiveOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4793,7 +5028,7 @@ export const deleteTapeArchive: (
  */
 export const deleteTapePool: (
   input: DeleteTapePoolInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTapePoolOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4819,7 +5054,7 @@ export const deleteTapePool: (
  */
 export const deleteVolume: (
   input: DeleteVolumeInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVolumeOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4835,7 +5070,7 @@ export const deleteVolume: (
  */
 export const describeAvailabilityMonitorTest: (
   input: DescribeAvailabilityMonitorTestInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAvailabilityMonitorTestOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4857,7 +5092,7 @@ export const describeAvailabilityMonitorTest: (
  */
 export const describeBandwidthRateLimit: (
   input: DescribeBandwidthRateLimitInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeBandwidthRateLimitOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4887,7 +5122,7 @@ export const describeBandwidthRateLimit: (
  */
 export const describeBandwidthRateLimitSchedule: (
   input: DescribeBandwidthRateLimitScheduleInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeBandwidthRateLimitScheduleOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4905,7 +5140,7 @@ export const describeBandwidthRateLimitSchedule: (
  */
 export const describeCache: (
   input: DescribeCacheInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCacheOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4921,7 +5156,7 @@ export const describeCache: (
  */
 export const describeMaintenanceStartTime: (
   input: DescribeMaintenanceStartTimeInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeMaintenanceStartTimeOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4936,7 +5171,7 @@ export const describeMaintenanceStartTime: (
  */
 export const describeSMBSettings: (
   input: DescribeSMBSettingsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSMBSettingsOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4953,7 +5188,7 @@ export const describeSMBSettings: (
  */
 export const describeSnapshotSchedule: (
   input: DescribeSnapshotScheduleInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSnapshotScheduleOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4971,7 +5206,7 @@ export const describeSnapshotSchedule: (
  */
 export const describeUploadBuffer: (
   input: DescribeUploadBufferInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeUploadBufferOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4993,7 +5228,7 @@ export const describeUploadBuffer: (
  */
 export const describeWorkingStorage: (
   input: DescribeWorkingStorageInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeWorkingStorageOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5011,7 +5246,7 @@ export const describeWorkingStorage: (
  */
 export const detachVolume: (
   input: DetachVolumeInput,
-) => Effect.Effect<
+) => effect.Effect<
   DetachVolumeOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5031,7 +5266,7 @@ export const detachVolume: (
  */
 export const disableGateway: (
   input: DisableGatewayInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisableGatewayOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5047,7 +5282,7 @@ export const disableGateway: (
  */
 export const disassociateFileSystem: (
   input: DisassociateFileSystemInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateFileSystemOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5072,7 +5307,7 @@ export const disassociateFileSystem: (
  */
 export const evictFilesFailingUpload: (
   input: EvictFilesFailingUploadInput,
-) => Effect.Effect<
+) => effect.Effect<
   EvictFilesFailingUploadOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5096,7 +5331,7 @@ export const evictFilesFailingUpload: (
  */
 export const joinDomain: (
   input: JoinDomainInput,
-) => Effect.Effect<
+) => effect.Effect<
   JoinDomainOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5114,21 +5349,21 @@ export const joinDomain: (
 export const listCacheReports: {
   (
     input: ListCacheReportsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCacheReportsOutput,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListCacheReportsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCacheReportsOutput,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCacheReportsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CacheReportInfo,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -5150,21 +5385,21 @@ export const listCacheReports: {
 export const listTagsForResource: {
   (
     input: ListTagsForResourceInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTagsForResourceOutput,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListTagsForResourceInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTagsForResourceOutput,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTagsForResourceInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Tag,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -5187,7 +5422,7 @@ export const listTagsForResource: {
  */
 export const listVolumeInitiators: (
   input: ListVolumeInitiatorsInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListVolumeInitiatorsOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5213,7 +5448,7 @@ export const listVolumeInitiators: (
  */
 export const notifyWhenUploaded: (
   input: NotifyWhenUploadedInput,
-) => Effect.Effect<
+) => effect.Effect<
   NotifyWhenUploadedOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5264,7 +5499,7 @@ export const notifyWhenUploaded: (
  */
 export const refreshCache: (
   input: RefreshCacheInput,
-) => Effect.Effect<
+) => effect.Effect<
   RefreshCacheOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5279,7 +5514,7 @@ export const refreshCache: (
  */
 export const removeTagsFromResource: (
   input: RemoveTagsFromResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveTagsFromResourceOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5303,7 +5538,7 @@ export const removeTagsFromResource: (
  */
 export const resetCache: (
   input: ResetCacheInput,
-) => Effect.Effect<
+) => effect.Effect<
   ResetCacheOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5324,7 +5559,7 @@ export const resetCache: (
  */
 export const retrieveTapeArchive: (
   input: RetrieveTapeArchiveInput,
-) => Effect.Effect<
+) => effect.Effect<
   RetrieveTapeArchiveOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5347,7 +5582,7 @@ export const retrieveTapeArchive: (
  */
 export const retrieveTapeRecoveryPoint: (
   input: RetrieveTapeRecoveryPointInput,
-) => Effect.Effect<
+) => effect.Effect<
   RetrieveTapeRecoveryPointOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5364,7 +5599,7 @@ export const retrieveTapeRecoveryPoint: (
  */
 export const setLocalConsolePassword: (
   input: SetLocalConsolePasswordInput,
-) => Effect.Effect<
+) => effect.Effect<
   SetLocalConsolePasswordOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5380,7 +5615,7 @@ export const setLocalConsolePassword: (
  */
 export const setSMBGuestPassword: (
   input: SetSMBGuestPasswordInput,
-) => Effect.Effect<
+) => effect.Effect<
   SetSMBGuestPasswordOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5416,7 +5651,7 @@ export const setSMBGuestPassword: (
  */
 export const shutdownGateway: (
   input: ShutdownGatewayInput,
-) => Effect.Effect<
+) => effect.Effect<
   ShutdownGatewayOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5436,7 +5671,7 @@ export const shutdownGateway: (
  */
 export const startAvailabilityMonitorTest: (
   input: StartAvailabilityMonitorTestInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartAvailabilityMonitorTestOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5460,7 +5695,7 @@ export const startAvailabilityMonitorTest: (
  */
 export const startGateway: (
   input: StartGatewayInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartGatewayOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5485,7 +5720,7 @@ export const startGateway: (
  */
 export const updateBandwidthRateLimit: (
   input: UpdateBandwidthRateLimitInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateBandwidthRateLimitOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5505,7 +5740,7 @@ export const updateBandwidthRateLimit: (
  */
 export const updateChapCredentials: (
   input: UpdateChapCredentialsInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateChapCredentialsOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5520,7 +5755,7 @@ export const updateChapCredentials: (
  */
 export const updateFileSystemAssociation: (
   input: UpdateFileSystemAssociationInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFileSystemAssociationOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5540,7 +5775,7 @@ export const updateFileSystemAssociation: (
  */
 export const updateGatewayInformation: (
   input: UpdateGatewayInformationInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGatewayInformationOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5565,7 +5800,7 @@ export const updateGatewayInformation: (
  */
 export const updateGatewaySoftwareNow: (
   input: UpdateGatewaySoftwareNowInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGatewaySoftwareNowOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5595,7 +5830,7 @@ export const updateGatewaySoftwareNow: (
  */
 export const updateNFSFileShare: (
   input: UpdateNFSFileShareInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateNFSFileShareOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5624,7 +5859,7 @@ export const updateNFSFileShare: (
  */
 export const updateSMBFileShare: (
   input: UpdateSMBFileShareInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSMBFileShareOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5639,7 +5874,7 @@ export const updateSMBFileShare: (
  */
 export const updateSMBFileShareVisibility: (
   input: UpdateSMBFileShareVisibilityInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSMBFileShareVisibilityOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5660,7 +5895,7 @@ export const updateSMBFileShareVisibility: (
  */
 export const updateSMBSecurityStrategy: (
   input: UpdateSMBSecurityStrategyInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSMBSecurityStrategyOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5683,7 +5918,7 @@ export const updateSMBSecurityStrategy: (
  */
 export const updateSnapshotSchedule: (
   input: UpdateSnapshotScheduleInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSnapshotScheduleOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5700,7 +5935,7 @@ export const updateSnapshotSchedule: (
  */
 export const updateVTLDeviceType: (
   input: UpdateVTLDeviceTypeInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateVTLDeviceTypeOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5720,7 +5955,7 @@ export const updateVTLDeviceType: (
  */
 export const activateGateway: (
   input: ActivateGatewayInput,
-) => Effect.Effect<
+) => effect.Effect<
   ActivateGatewayOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5737,7 +5972,7 @@ export const activateGateway: (
  */
 export const associateFileSystem: (
   input: AssociateFileSystemInput,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateFileSystemOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5765,7 +6000,7 @@ export const associateFileSystem: (
  */
 export const createNFSFileShare: (
   input: CreateNFSFileShareInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateNFSFileShareOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5780,7 +6015,7 @@ export const createNFSFileShare: (
  */
 export const describeCacheReport: (
   input: DescribeCacheReportInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCacheReportOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5796,7 +6031,7 @@ export const describeCacheReport: (
  */
 export const describeChapCredentials: (
   input: DescribeChapCredentialsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeChapCredentialsOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5812,7 +6047,7 @@ export const describeChapCredentials: (
  */
 export const describeGatewayInformation: (
   input: DescribeGatewayInformationInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeGatewayInformationOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5827,7 +6062,7 @@ export const describeGatewayInformation: (
  */
 export const describeNFSFileShares: (
   input: DescribeNFSFileSharesInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeNFSFileSharesOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5842,7 +6077,7 @@ export const describeNFSFileShares: (
  */
 export const describeSMBFileShares: (
   input: DescribeSMBFileSharesInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSMBFileSharesOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5858,7 +6093,7 @@ export const describeSMBFileShares: (
  */
 export const describeStorediSCSIVolumes: (
   input: DescribeStorediSCSIVolumesInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeStorediSCSIVolumesOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5877,21 +6112,21 @@ export const describeStorediSCSIVolumes: (
 export const describeTapeArchives: {
   (
     input: DescribeTapeArchivesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeTapeArchivesOutput,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeTapeArchivesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeTapeArchivesOutput,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeTapeArchivesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TapeArchive,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -5919,21 +6154,21 @@ export const describeTapeArchives: {
 export const describeTapeRecoveryPoints: {
   (
     input: DescribeTapeRecoveryPointsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeTapeRecoveryPointsOutput,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeTapeRecoveryPointsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeTapeRecoveryPointsOutput,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeTapeRecoveryPointsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TapeRecoveryPointInfo,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -5965,21 +6200,21 @@ export const describeTapeRecoveryPoints: {
 export const describeTapes: {
   (
     input: DescribeTapesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeTapesOutput,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeTapesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeTapesOutput,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeTapesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Tape,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -6003,7 +6238,7 @@ export const describeTapes: {
  */
 export const listAutomaticTapeCreationPolicies: (
   input: ListAutomaticTapeCreationPoliciesInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListAutomaticTapeCreationPoliciesOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6020,21 +6255,21 @@ export const listAutomaticTapeCreationPolicies: (
 export const listFileShares: {
   (
     input: ListFileSharesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFileSharesOutput,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListFileSharesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFileSharesOutput,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFileSharesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FileShareInfo,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -6058,21 +6293,21 @@ export const listFileShares: {
 export const listFileSystemAssociations: {
   (
     input: ListFileSystemAssociationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFileSystemAssociationsOutput,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListFileSystemAssociationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFileSystemAssociationsOutput,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListFileSystemAssociationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FileSystemAssociationSummary,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -6104,21 +6339,21 @@ export const listFileSystemAssociations: {
 export const listGateways: {
   (
     input: ListGatewaysInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGatewaysOutput,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListGatewaysInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGatewaysOutput,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGatewaysInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GatewayInfo,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -6147,7 +6382,7 @@ export const listGateways: {
  */
 export const listLocalDisks: (
   input: ListLocalDisksInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListLocalDisksOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6170,21 +6405,21 @@ export const listLocalDisks: (
 export const listTapePools: {
   (
     input: ListTapePoolsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTapePoolsOutput,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListTapePoolsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTapePoolsOutput,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTapePoolsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PoolInfo,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -6216,21 +6451,21 @@ export const listTapePools: {
 export const listTapes: {
   (
     input: ListTapesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTapesOutput,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListTapesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTapesOutput,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTapesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TapeInfo,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -6257,7 +6492,7 @@ export const listTapes: {
  */
 export const listVolumeRecoveryPoints: (
   input: ListVolumeRecoveryPointsInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListVolumeRecoveryPointsOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6281,21 +6516,21 @@ export const listVolumeRecoveryPoints: (
 export const listVolumes: {
   (
     input: ListVolumesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVolumesOutput,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListVolumesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVolumesOutput,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVolumesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     VolumeInfo,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -6343,7 +6578,7 @@ export const listVolumes: {
  */
 export const startCacheReport: (
   input: StartCacheReportInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartCacheReportOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6363,7 +6598,7 @@ export const startCacheReport: (
  */
 export const updateAutomaticTapeCreationPolicy: (
   input: UpdateAutomaticTapeCreationPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAutomaticTapeCreationPolicyOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6382,7 +6617,7 @@ export const updateAutomaticTapeCreationPolicy: (
  */
 export const updateBandwidthRateLimitSchedule: (
   input: UpdateBandwidthRateLimitScheduleInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateBandwidthRateLimitScheduleOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6411,7 +6646,7 @@ export const updateBandwidthRateLimitSchedule: (
  */
 export const updateMaintenanceStartTime: (
   input: UpdateMaintenanceStartTimeInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMaintenanceStartTimeOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6426,7 +6661,7 @@ export const updateMaintenanceStartTime: (
  */
 export const updateSMBLocalGroups: (
   input: UpdateSMBLocalGroupsInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSMBLocalGroupsOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6445,7 +6680,7 @@ export const updateSMBLocalGroups: (
  */
 export const describeCachediSCSIVolumes: (
   input: DescribeCachediSCSIVolumesInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCachediSCSIVolumesOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6460,7 +6695,7 @@ export const describeCachediSCSIVolumes: (
  */
 export const describeFileSystemAssociations: (
   input: DescribeFileSystemAssociationsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeFileSystemAssociationsOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6478,21 +6713,21 @@ export const describeFileSystemAssociations: (
 export const describeVTLDevices: {
   (
     input: DescribeVTLDevicesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeVTLDevicesOutput,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeVTLDevicesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeVTLDevicesOutput,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeVTLDevicesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     VTLDevice,
     InternalServerError | InvalidGatewayRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -6536,7 +6771,7 @@ export const describeVTLDevices: {
  */
 export const createSnapshot: (
   input: CreateSnapshotInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSnapshotOutput,
   | InternalServerError
   | InvalidGatewayRequestException
@@ -6575,7 +6810,7 @@ export const createSnapshot: (
  */
 export const createSnapshotFromVolumeRecoveryPoint: (
   input: CreateSnapshotFromVolumeRecoveryPointInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSnapshotFromVolumeRecoveryPointOutput,
   | InternalServerError
   | InvalidGatewayRequestException

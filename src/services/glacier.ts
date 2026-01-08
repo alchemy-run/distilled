@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -93,7 +93,6 @@ export type TagValue = string;
 export type Size = number;
 export type long = number;
 export type httpstatus = number;
-export type NullableLong = number;
 export type DateTime = string;
 
 //# Schemas
@@ -749,7 +748,7 @@ export const PurchaseProvisionedCapacityInput = S.suspend(() =>
 export interface RemoveTagsFromVaultInput {
   accountId: string;
   vaultName: string;
-  TagKeys?: TagKeyList;
+  TagKeys?: string[];
 }
 export const RemoveTagsFromVaultInput = S.suspend(() =>
   S.Struct({
@@ -849,6 +848,14 @@ export type NotificationEventList = string[];
 export const NotificationEventList = S.Array(S.String);
 export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
+export type ActionCode = "ArchiveRetrieval" | "InventoryRetrieval" | "Select";
+export const ActionCode = S.Literal(
+  "ArchiveRetrieval",
+  "InventoryRetrieval",
+  "Select",
+);
+export type StatusCode = "InProgress" | "Succeeded" | "Failed";
+export const StatusCode = S.Literal("InProgress", "Succeeded", "Failed");
 export interface VaultLockPolicy {
   Policy?: string;
 }
@@ -875,8 +882,10 @@ export const InventoryRetrievalJobDescription = S.suspend(() =>
 ).annotations({
   identifier: "InventoryRetrievalJobDescription",
 }) as any as S.Schema<InventoryRetrievalJobDescription>;
+export type FileHeaderInfo = "USE" | "IGNORE" | "NONE";
+export const FileHeaderInfo = S.Literal("USE", "IGNORE", "NONE");
 export interface CSVInput {
-  FileHeaderInfo?: string;
+  FileHeaderInfo?: FileHeaderInfo;
   Comments?: string;
   QuoteEscapeCharacter?: string;
   RecordDelimiter?: string;
@@ -885,7 +894,7 @@ export interface CSVInput {
 }
 export const CSVInput = S.suspend(() =>
   S.Struct({
-    FileHeaderInfo: S.optional(S.String),
+    FileHeaderInfo: S.optional(FileHeaderInfo),
     Comments: S.optional(S.String),
     QuoteEscapeCharacter: S.optional(S.String),
     RecordDelimiter: S.optional(S.String),
@@ -901,8 +910,12 @@ export const InputSerialization = S.suspend(() =>
 ).annotations({
   identifier: "InputSerialization",
 }) as any as S.Schema<InputSerialization>;
+export type ExpressionType = "SQL";
+export const ExpressionType = S.Literal("SQL");
+export type QuoteFields = "ALWAYS" | "ASNEEDED";
+export const QuoteFields = S.Literal("ALWAYS", "ASNEEDED");
 export interface CSVOutput {
-  QuoteFields?: string;
+  QuoteFields?: QuoteFields;
   QuoteEscapeCharacter?: string;
   RecordDelimiter?: string;
   FieldDelimiter?: string;
@@ -910,7 +923,7 @@ export interface CSVOutput {
 }
 export const CSVOutput = S.suspend(() =>
   S.Struct({
-    QuoteFields: S.optional(S.String),
+    QuoteFields: S.optional(QuoteFields),
     QuoteEscapeCharacter: S.optional(S.String),
     RecordDelimiter: S.optional(S.String),
     FieldDelimiter: S.optional(S.String),
@@ -927,34 +940,59 @@ export const OutputSerialization = S.suspend(() =>
 }) as any as S.Schema<OutputSerialization>;
 export interface SelectParameters {
   InputSerialization?: InputSerialization;
-  ExpressionType?: string;
+  ExpressionType?: ExpressionType;
   Expression?: string;
   OutputSerialization?: OutputSerialization;
 }
 export const SelectParameters = S.suspend(() =>
   S.Struct({
     InputSerialization: S.optional(InputSerialization),
-    ExpressionType: S.optional(S.String),
+    ExpressionType: S.optional(ExpressionType),
     Expression: S.optional(S.String),
     OutputSerialization: S.optional(OutputSerialization),
   }),
 ).annotations({
   identifier: "SelectParameters",
 }) as any as S.Schema<SelectParameters>;
+export type EncryptionType = "aws:kms" | "AES256";
+export const EncryptionType = S.Literal("aws:kms", "AES256");
 export interface Encryption {
-  EncryptionType?: string;
+  EncryptionType?: EncryptionType;
   KMSKeyId?: string;
   KMSContext?: string;
 }
 export const Encryption = S.suspend(() =>
   S.Struct({
-    EncryptionType: S.optional(S.String),
+    EncryptionType: S.optional(EncryptionType),
     KMSKeyId: S.optional(S.String),
     KMSContext: S.optional(S.String),
   }),
 ).annotations({ identifier: "Encryption" }) as any as S.Schema<Encryption>;
+export type CannedACL =
+  | "private"
+  | "public-read"
+  | "public-read-write"
+  | "aws-exec-read"
+  | "authenticated-read"
+  | "bucket-owner-read"
+  | "bucket-owner-full-control";
+export const CannedACL = S.Literal(
+  "private",
+  "public-read",
+  "public-read-write",
+  "aws-exec-read",
+  "authenticated-read",
+  "bucket-owner-read",
+  "bucket-owner-full-control",
+);
+export type Type = "AmazonCustomerByEmail" | "CanonicalUser" | "Group";
+export const Type = S.Literal(
+  "AmazonCustomerByEmail",
+  "CanonicalUser",
+  "Group",
+);
 export interface Grantee {
-  Type: string;
+  Type: Type;
   DisplayName?: string;
   URI?: string;
   ID?: string;
@@ -962,44 +1000,66 @@ export interface Grantee {
 }
 export const Grantee = S.suspend(() =>
   S.Struct({
-    Type: S.String,
+    Type: Type,
     DisplayName: S.optional(S.String),
     URI: S.optional(S.String),
     ID: S.optional(S.String),
     EmailAddress: S.optional(S.String),
   }),
 ).annotations({ identifier: "Grantee" }) as any as S.Schema<Grantee>;
+export type Permission =
+  | "FULL_CONTROL"
+  | "WRITE"
+  | "WRITE_ACP"
+  | "READ"
+  | "READ_ACP";
+export const Permission = S.Literal(
+  "FULL_CONTROL",
+  "WRITE",
+  "WRITE_ACP",
+  "READ",
+  "READ_ACP",
+);
 export interface Grant {
   Grantee?: Grantee;
-  Permission?: string;
+  Permission?: Permission;
 }
 export const Grant = S.suspend(() =>
-  S.Struct({ Grantee: S.optional(Grantee), Permission: S.optional(S.String) }),
+  S.Struct({
+    Grantee: S.optional(Grantee),
+    Permission: S.optional(Permission),
+  }),
 ).annotations({ identifier: "Grant" }) as any as S.Schema<Grant>;
 export type AccessControlPolicyList = Grant[];
 export const AccessControlPolicyList = S.Array(Grant);
 export type hashmap = { [key: string]: string };
 export const hashmap = S.Record({ key: S.String, value: S.String });
+export type StorageClass = "STANDARD" | "REDUCED_REDUNDANCY" | "STANDARD_IA";
+export const StorageClass = S.Literal(
+  "STANDARD",
+  "REDUCED_REDUNDANCY",
+  "STANDARD_IA",
+);
 export interface S3Location {
   BucketName?: string;
   Prefix?: string;
   Encryption?: Encryption;
-  CannedACL?: string;
-  AccessControlList?: AccessControlPolicyList;
-  Tagging?: hashmap;
-  UserMetadata?: hashmap;
-  StorageClass?: string;
+  CannedACL?: CannedACL;
+  AccessControlList?: Grant[];
+  Tagging?: { [key: string]: string };
+  UserMetadata?: { [key: string]: string };
+  StorageClass?: StorageClass;
 }
 export const S3Location = S.suspend(() =>
   S.Struct({
     BucketName: S.optional(S.String),
     Prefix: S.optional(S.String),
     Encryption: S.optional(Encryption),
-    CannedACL: S.optional(S.String),
+    CannedACL: S.optional(CannedACL),
     AccessControlList: S.optional(AccessControlPolicyList),
     Tagging: S.optional(hashmap),
     UserMetadata: S.optional(hashmap),
-    StorageClass: S.optional(S.String),
+    StorageClass: S.optional(StorageClass),
   }),
 ).annotations({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
 export interface OutputLocation {
@@ -1013,12 +1073,12 @@ export const OutputLocation = S.suspend(() =>
 export interface GlacierJobDescription {
   JobId?: string;
   JobDescription?: string;
-  Action?: string;
+  Action?: ActionCode;
   ArchiveId?: string;
   VaultARN?: string;
   CreationDate?: string;
   Completed?: boolean;
-  StatusCode?: string;
+  StatusCode?: StatusCode;
   StatusMessage?: string;
   ArchiveSizeInBytes?: number;
   InventorySizeInBytes?: number;
@@ -1037,12 +1097,12 @@ export const GlacierJobDescription = S.suspend(() =>
   S.Struct({
     JobId: S.optional(S.String),
     JobDescription: S.optional(S.String),
-    Action: S.optional(S.String),
+    Action: S.optional(ActionCode),
     ArchiveId: S.optional(S.String),
     VaultARN: S.optional(S.String),
     CreationDate: S.optional(S.String),
     Completed: S.optional(S.Boolean),
-    StatusCode: S.optional(S.String),
+    StatusCode: S.optional(StatusCode),
     StatusMessage: S.optional(S.String),
     ArchiveSizeInBytes: S.optional(S.Number),
     InventorySizeInBytes: S.optional(S.Number),
@@ -1094,7 +1154,7 @@ export const VaultAccessPolicy = S.suspend(() =>
 }) as any as S.Schema<VaultAccessPolicy>;
 export interface VaultNotificationConfig {
   SNSTopic?: string;
-  Events?: NotificationEventList;
+  Events?: string[];
 }
 export const VaultNotificationConfig = S.suspend(() =>
   S.Struct({
@@ -1107,7 +1167,7 @@ export const VaultNotificationConfig = S.suspend(() =>
 export interface AddTagsToVaultInput {
   accountId: string;
   vaultName: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const AddTagsToVaultInput = S.suspend(() =>
   S.Struct({
@@ -1176,7 +1236,7 @@ export const DataRetrievalRule = S.suspend(() =>
 export type DataRetrievalRulesList = DataRetrievalRule[];
 export const DataRetrievalRulesList = S.Array(DataRetrievalRule);
 export interface DataRetrievalPolicy {
-  Rules?: DataRetrievalRulesList;
+  Rules?: DataRetrievalRule[];
 }
 export const DataRetrievalPolicy = S.suspend(() =>
   S.Struct({ Rules: S.optional(DataRetrievalRulesList) }),
@@ -1299,7 +1359,7 @@ export const InitiateVaultLockInput = S.suspend(() =>
   identifier: "InitiateVaultLockInput",
 }) as any as S.Schema<InitiateVaultLockInput>;
 export interface ListJobsOutput {
-  JobList?: JobList;
+  JobList?: GlacierJobDescription[];
   Marker?: string;
 }
 export const ListJobsOutput = S.suspend(() =>
@@ -1310,7 +1370,7 @@ export const ListJobsOutput = S.suspend(() =>
   identifier: "ListJobsOutput",
 }) as any as S.Schema<ListJobsOutput>;
 export interface ListTagsForVaultOutput {
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForVaultOutput = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }).pipe(ns),
@@ -1318,7 +1378,7 @@ export const ListTagsForVaultOutput = S.suspend(() =>
   identifier: "ListTagsForVaultOutput",
 }) as any as S.Schema<ListTagsForVaultOutput>;
 export interface ListVaultsOutput {
-  VaultList?: VaultList;
+  VaultList?: DescribeVaultOutput[];
   Marker?: string;
 }
 export const ListVaultsOutput = S.suspend(() =>
@@ -1496,7 +1556,7 @@ export const InitiateVaultLockOutput = S.suspend(() =>
   identifier: "InitiateVaultLockOutput",
 }) as any as S.Schema<InitiateVaultLockOutput>;
 export interface ListMultipartUploadsOutput {
-  UploadsList?: UploadsList;
+  UploadsList?: UploadListElement[];
   Marker?: string;
 }
 export const ListMultipartUploadsOutput = S.suspend(() =>
@@ -1513,7 +1573,7 @@ export interface ListPartsOutput {
   ArchiveDescription?: string;
   PartSizeInBytes?: number;
   CreationDate?: string;
-  Parts?: PartList;
+  Parts?: PartListElement[];
   Marker?: string;
 }
 export const ListPartsOutput = S.suspend(() =>
@@ -1530,7 +1590,7 @@ export const ListPartsOutput = S.suspend(() =>
   identifier: "ListPartsOutput",
 }) as any as S.Schema<ListPartsOutput>;
 export interface ListProvisionedCapacityOutput {
-  ProvisionedCapacityList?: ProvisionedCapacityList;
+  ProvisionedCapacityList?: ProvisionedCapacityDescription[];
 }
 export const ListProvisionedCapacityOutput = S.suspend(() =>
   S.Struct({
@@ -1719,7 +1779,7 @@ export class PolicyEnforcedException extends S.TaggedError<PolicyEnforcedExcepti
  */
 export const listProvisionedCapacity: (
   input: ListProvisionedCapacityInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListProvisionedCapacityOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -1783,7 +1843,7 @@ export const listProvisionedCapacity: (
  */
 export const uploadMultipartPart: (
   input: UploadMultipartPartInput,
-) => Effect.Effect<
+) => effect.Effect<
   UploadMultipartPartOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -1814,7 +1874,7 @@ export const uploadMultipartPart: (
  */
 export const addTagsToVault: (
   input: AddTagsToVaultInput,
-) => Effect.Effect<
+) => effect.Effect<
   AddTagsToVaultResponse,
   | InvalidParameterValueException
   | LimitExceededException
@@ -1862,7 +1922,7 @@ export const addTagsToVault: (
  */
 export const describeJob: (
   input: DescribeJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   GlacierJobDescription,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -1918,7 +1978,7 @@ export const describeJob: (
  */
 export const initiateVaultLock: (
   input: InitiateVaultLockInput,
-) => Effect.Effect<
+) => effect.Effect<
   InitiateVaultLockOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -1969,7 +2029,7 @@ export const initiateVaultLock: (
 export const listMultipartUploads: {
   (
     input: ListMultipartUploadsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMultipartUploadsOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -1981,7 +2041,7 @@ export const listMultipartUploads: {
   >;
   pages: (
     input: ListMultipartUploadsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMultipartUploadsOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -1993,7 +2053,7 @@ export const listMultipartUploads: {
   >;
   items: (
     input: ListMultipartUploadsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     UploadListElement,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -2048,7 +2108,7 @@ export const listMultipartUploads: {
 export const listParts: {
   (
     input: ListPartsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPartsOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -2060,7 +2120,7 @@ export const listParts: {
   >;
   pages: (
     input: ListPartsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPartsOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -2072,7 +2132,7 @@ export const listParts: {
   >;
   items: (
     input: ListPartsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PartListElement,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -2142,7 +2202,7 @@ export const listParts: {
  */
 export const completeMultipartUpload: (
   input: CompleteMultipartUploadInput,
-) => Effect.Effect<
+) => effect.Effect<
   ArchiveCreationOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2185,7 +2245,7 @@ export const completeMultipartUpload: (
  */
 export const describeVault: (
   input: DescribeVaultInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeVaultOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2249,7 +2309,7 @@ export const describeVault: (
  */
 export const getJobOutput: (
   input: GetJobOutputInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetJobOutputOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2279,7 +2339,7 @@ export const getJobOutput: (
  */
 export const getVaultAccessPolicy: (
   input: GetVaultAccessPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetVaultAccessPolicyOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2326,7 +2386,7 @@ export const getVaultAccessPolicy: (
  */
 export const getVaultLock: (
   input: GetVaultLockInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetVaultLockOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2367,7 +2427,7 @@ export const getVaultLock: (
  */
 export const getVaultNotifications: (
   input: GetVaultNotificationsInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetVaultNotificationsOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2424,7 +2484,7 @@ export const getVaultNotifications: (
  */
 export const initiateMultipartUpload: (
   input: InitiateMultipartUploadInput,
-) => Effect.Effect<
+) => effect.Effect<
   InitiateMultipartUploadOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2483,7 +2543,7 @@ export const initiateMultipartUpload: (
 export const listJobs: {
   (
     input: ListJobsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListJobsOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -2495,7 +2555,7 @@ export const listJobs: {
   >;
   pages: (
     input: ListJobsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListJobsOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -2507,7 +2567,7 @@ export const listJobs: {
   >;
   items: (
     input: ListJobsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GlacierJobDescription,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -2541,7 +2601,7 @@ export const listJobs: {
  */
 export const listTagsForVault: (
   input: ListTagsForVaultInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForVaultOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2586,7 +2646,7 @@ export const listTagsForVault: (
 export const listVaults: {
   (
     input: ListVaultsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVaultsOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -2598,7 +2658,7 @@ export const listVaults: {
   >;
   pages: (
     input: ListVaultsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVaultsOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -2610,7 +2670,7 @@ export const listVaults: {
   >;
   items: (
     input: ListVaultsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeVaultOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -2647,7 +2707,7 @@ export const listVaults: {
  */
 export const setVaultAccessPolicy: (
   input: SetVaultAccessPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   SetVaultAccessPolicyResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2702,7 +2762,7 @@ export const setVaultAccessPolicy: (
  */
 export const setVaultNotifications: (
   input: SetVaultNotificationsInput,
-) => Effect.Effect<
+) => effect.Effect<
   SetVaultNotificationsResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2742,7 +2802,7 @@ export const setVaultNotifications: (
  */
 export const abortVaultLock: (
   input: AbortVaultLockInput,
-) => Effect.Effect<
+) => effect.Effect<
   AbortVaultLockResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2782,7 +2842,7 @@ export const abortVaultLock: (
  */
 export const completeVaultLock: (
   input: CompleteVaultLockInput,
-) => Effect.Effect<
+) => effect.Effect<
   CompleteVaultLockResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2830,7 +2890,7 @@ export const completeVaultLock: (
  */
 export const deleteArchive: (
   input: DeleteArchiveInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteArchiveResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2875,7 +2935,7 @@ export const deleteArchive: (
  */
 export const deleteVault: (
   input: DeleteVaultInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVaultResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2907,7 +2967,7 @@ export const deleteVault: (
  */
 export const deleteVaultAccessPolicy: (
   input: DeleteVaultAccessPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVaultAccessPolicyResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2945,7 +3005,7 @@ export const deleteVaultAccessPolicy: (
  */
 export const deleteVaultNotifications: (
   input: DeleteVaultNotificationsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVaultNotificationsResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2973,7 +3033,7 @@ export const deleteVaultNotifications: (
  */
 export const removeTagsFromVault: (
   input: RemoveTagsFromVaultInput,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveTagsFromVaultResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -3004,7 +3064,7 @@ export const removeTagsFromVault: (
  */
 export const setDataRetrievalPolicy: (
   input: SetDataRetrievalPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   SetDataRetrievalPolicyResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -3029,7 +3089,7 @@ export const setDataRetrievalPolicy: (
  */
 export const getDataRetrievalPolicy: (
   input: GetDataRetrievalPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataRetrievalPolicyOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -3073,7 +3133,7 @@ export const getDataRetrievalPolicy: (
  */
 export const createVault: (
   input: CreateVaultInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVaultOutput,
   | InvalidParameterValueException
   | LimitExceededException
@@ -3098,7 +3158,7 @@ export const createVault: (
  */
 export const purchaseProvisionedCapacity: (
   input: PurchaseProvisionedCapacityInput,
-) => Effect.Effect<
+) => effect.Effect<
   PurchaseProvisionedCapacityOutput,
   | InvalidParameterValueException
   | LimitExceededException
@@ -3140,7 +3200,7 @@ export const purchaseProvisionedCapacity: (
  */
 export const abortMultipartUpload: (
   input: AbortMultipartUploadInput,
-) => Effect.Effect<
+) => effect.Effect<
   AbortMultipartUploadResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -3197,7 +3257,7 @@ export const abortMultipartUpload: (
  */
 export const uploadArchive: (
   input: UploadArchiveInput,
-) => Effect.Effect<
+) => effect.Effect<
   ArchiveCreationOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -3227,7 +3287,7 @@ export const uploadArchive: (
  */
 export const initiateJob: (
   input: InitiateJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   InitiateJobOutput,
   | InsufficientCapacityException
   | InvalidParameterValueException

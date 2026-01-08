@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -108,7 +108,7 @@ export type FsxOpenZfsSubdirectory = string;
 export type FsxWindowsSubdirectory = string;
 export type SmbUser = string;
 export type SmbDomain = string;
-export type SmbPassword = string | Redacted.Redacted<string>;
+export type SmbPassword = string | redacted.Redacted<string>;
 export type HdfsSubdirectory = string;
 export type HdfsBlockSize = number;
 export type HdfsReplicationFactor = number;
@@ -121,7 +121,7 @@ export type ObjectStorageServerPort = number;
 export type S3Subdirectory = string;
 export type ObjectStorageBucketName = string;
 export type ObjectStorageAccessKey = string;
-export type ObjectStorageSecretKey = string | Redacted.Redacted<string>;
+export type ObjectStorageSecretKey = string | redacted.Redacted<string>;
 export type S3BucketArn = string;
 export type SmbSubdirectory = string;
 export type ServerIpAddress = string;
@@ -135,7 +135,7 @@ export type TagKey = string;
 export type UpdatedEfsAccessPointArn = string;
 export type UpdatedEfsIamRoleArn = string;
 export type UpdateSmbDomain = string;
-export type AzureBlobSasToken = string | Redacted.Redacted<string>;
+export type AzureBlobSasToken = string | redacted.Redacted<string>;
 export type SecretArn = string;
 export type KmsKeyArn = string;
 export type IamRoleArnOrEmptyString = string;
@@ -160,12 +160,47 @@ export type PLSubnetArnList = string[];
 export const PLSubnetArnList = S.Array(S.String);
 export type PLSecurityGroupArnList = string[];
 export const PLSecurityGroupArnList = S.Array(S.String);
+export type AzureBlobAuthenticationType = "SAS" | "NONE";
+export const AzureBlobAuthenticationType = S.Literal("SAS", "NONE");
+export type AzureBlobType = "BLOCK";
+export const AzureBlobType = S.Literal("BLOCK");
+export type AzureAccessTier = "HOT" | "COOL" | "ARCHIVE";
+export const AzureAccessTier = S.Literal("HOT", "COOL", "ARCHIVE");
 export type AgentArnList = string[];
 export const AgentArnList = S.Array(S.String);
+export type EfsInTransitEncryption = "NONE" | "TLS1_2";
+export const EfsInTransitEncryption = S.Literal("NONE", "TLS1_2");
 export type Ec2SecurityGroupArnList = string[];
 export const Ec2SecurityGroupArnList = S.Array(S.String);
+export type HdfsAuthenticationType = "SIMPLE" | "KERBEROS";
+export const HdfsAuthenticationType = S.Literal("SIMPLE", "KERBEROS");
+export type ObjectStorageServerProtocol = "HTTPS" | "HTTP";
+export const ObjectStorageServerProtocol = S.Literal("HTTPS", "HTTP");
+export type S3StorageClass =
+  | "STANDARD"
+  | "STANDARD_IA"
+  | "ONEZONE_IA"
+  | "INTELLIGENT_TIERING"
+  | "GLACIER"
+  | "DEEP_ARCHIVE"
+  | "OUTPOSTS"
+  | "GLACIER_INSTANT_RETRIEVAL";
+export const S3StorageClass = S.Literal(
+  "STANDARD",
+  "STANDARD_IA",
+  "ONEZONE_IA",
+  "INTELLIGENT_TIERING",
+  "GLACIER",
+  "DEEP_ARCHIVE",
+  "OUTPOSTS",
+  "GLACIER_INSTANT_RETRIEVAL",
+);
+export type SmbAuthenticationType = "NTLM" | "KERBEROS";
+export const SmbAuthenticationType = S.Literal("NTLM", "KERBEROS");
 export type DnsIpList = string[];
 export const DnsIpList = S.Array(S.String);
+export type TaskMode = "BASIC" | "ENHANCED";
+export const TaskMode = S.Literal("BASIC", "ENHANCED");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface CancelTaskExecutionRequest {
@@ -195,9 +230,9 @@ export type InputTagList = TagListEntry[];
 export const InputTagList = S.Array(TagListEntry);
 export interface CreateLocationFsxLustreRequest {
   FsxFilesystemArn: string;
-  SecurityGroupArns: Ec2SecurityGroupArnList;
+  SecurityGroupArns: string[];
   Subdirectory?: string;
-  Tags?: InputTagList;
+  Tags?: TagListEntry[];
 }
 export const CreateLocationFsxLustreRequest = S.suspend(() =>
   S.Struct({
@@ -211,11 +246,13 @@ export const CreateLocationFsxLustreRequest = S.suspend(() =>
 ).annotations({
   identifier: "CreateLocationFsxLustreRequest",
 }) as any as S.Schema<CreateLocationFsxLustreRequest>;
+export type NfsVersion = "AUTOMATIC" | "NFS3" | "NFS4_0" | "NFS4_1";
+export const NfsVersion = S.Literal("AUTOMATIC", "NFS3", "NFS4_0", "NFS4_1");
 export interface NfsMountOptions {
-  Version?: string;
+  Version?: NfsVersion;
 }
 export const NfsMountOptions = S.suspend(() =>
-  S.Struct({ Version: S.optional(S.String) }),
+  S.Struct({ Version: S.optional(NfsVersion) }),
 ).annotations({
   identifier: "NfsMountOptions",
 }) as any as S.Schema<NfsMountOptions>;
@@ -227,18 +264,26 @@ export const FsxProtocolNfs = S.suspend(() =>
 ).annotations({
   identifier: "FsxProtocolNfs",
 }) as any as S.Schema<FsxProtocolNfs>;
+export type SmbVersion = "AUTOMATIC" | "SMB2" | "SMB3" | "SMB1" | "SMB2_0";
+export const SmbVersion = S.Literal(
+  "AUTOMATIC",
+  "SMB2",
+  "SMB3",
+  "SMB1",
+  "SMB2_0",
+);
 export interface SmbMountOptions {
-  Version?: string;
+  Version?: SmbVersion;
 }
 export const SmbMountOptions = S.suspend(() =>
-  S.Struct({ Version: S.optional(S.String) }),
+  S.Struct({ Version: S.optional(SmbVersion) }),
 ).annotations({
   identifier: "SmbMountOptions",
 }) as any as S.Schema<SmbMountOptions>;
 export interface FsxProtocolSmb {
   Domain?: string;
   MountOptions?: SmbMountOptions;
-  Password: string | Redacted.Redacted<string>;
+  Password: string | redacted.Redacted<string>;
   User: string;
 }
 export const FsxProtocolSmb = S.suspend(() =>
@@ -264,9 +309,9 @@ export const FsxProtocol = S.suspend(() =>
 export interface CreateLocationFsxOpenZfsRequest {
   FsxFilesystemArn: string;
   Protocol: FsxProtocol;
-  SecurityGroupArns: Ec2SecurityGroupArnList;
+  SecurityGroupArns: string[];
   Subdirectory?: string;
-  Tags?: InputTagList;
+  Tags?: TagListEntry[];
 }
 export const CreateLocationFsxOpenZfsRequest = S.suspend(() =>
   S.Struct({
@@ -284,11 +329,11 @@ export const CreateLocationFsxOpenZfsRequest = S.suspend(() =>
 export interface CreateLocationFsxWindowsRequest {
   Subdirectory?: string;
   FsxFilesystemArn: string;
-  SecurityGroupArns: Ec2SecurityGroupArnList;
-  Tags?: InputTagList;
+  SecurityGroupArns: string[];
+  Tags?: TagListEntry[];
   User: string;
   Domain?: string;
-  Password: string | Redacted.Redacted<string>;
+  Password: string | redacted.Redacted<string>;
 }
 export const CreateLocationFsxWindowsRequest = S.suspend(() =>
   S.Struct({
@@ -332,13 +377,13 @@ export const CustomSecretConfig = S.suspend(() =>
 export interface CreateLocationObjectStorageRequest {
   ServerHostname: string;
   ServerPort?: number;
-  ServerProtocol?: string;
+  ServerProtocol?: ObjectStorageServerProtocol;
   Subdirectory?: string;
   BucketName: string;
   AccessKey?: string;
-  SecretKey?: string | Redacted.Redacted<string>;
-  AgentArns?: AgentArnList;
-  Tags?: InputTagList;
+  SecretKey?: string | redacted.Redacted<string>;
+  AgentArns?: string[];
+  Tags?: TagListEntry[];
   ServerCertificate?: Uint8Array;
   CmkSecretConfig?: CmkSecretConfig;
   CustomSecretConfig?: CustomSecretConfig;
@@ -347,7 +392,7 @@ export const CreateLocationObjectStorageRequest = S.suspend(() =>
   S.Struct({
     ServerHostname: S.String,
     ServerPort: S.optional(S.Number),
-    ServerProtocol: S.optional(S.String),
+    ServerProtocol: S.optional(ObjectStorageServerProtocol),
     Subdirectory: S.optional(S.String),
     BucketName: S.String,
     AccessKey: S.optional(S.String),
@@ -591,51 +636,99 @@ export const ListTaskExecutionsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListTaskExecutionsRequest",
 }) as any as S.Schema<ListTaskExecutionsRequest>;
+export type VerifyMode =
+  | "POINT_IN_TIME_CONSISTENT"
+  | "ONLY_FILES_TRANSFERRED"
+  | "NONE";
+export const VerifyMode = S.Literal(
+  "POINT_IN_TIME_CONSISTENT",
+  "ONLY_FILES_TRANSFERRED",
+  "NONE",
+);
+export type OverwriteMode = "ALWAYS" | "NEVER";
+export const OverwriteMode = S.Literal("ALWAYS", "NEVER");
+export type Atime = "NONE" | "BEST_EFFORT";
+export const Atime = S.Literal("NONE", "BEST_EFFORT");
+export type Mtime = "NONE" | "PRESERVE";
+export const Mtime = S.Literal("NONE", "PRESERVE");
+export type Uid = "NONE" | "INT_VALUE" | "NAME" | "BOTH";
+export const Uid = S.Literal("NONE", "INT_VALUE", "NAME", "BOTH");
+export type Gid = "NONE" | "INT_VALUE" | "NAME" | "BOTH";
+export const Gid = S.Literal("NONE", "INT_VALUE", "NAME", "BOTH");
+export type PreserveDeletedFiles = "PRESERVE" | "REMOVE";
+export const PreserveDeletedFiles = S.Literal("PRESERVE", "REMOVE");
+export type PreserveDevices = "NONE" | "PRESERVE";
+export const PreserveDevices = S.Literal("NONE", "PRESERVE");
+export type PosixPermissions = "NONE" | "PRESERVE";
+export const PosixPermissions = S.Literal("NONE", "PRESERVE");
+export type TaskQueueing = "ENABLED" | "DISABLED";
+export const TaskQueueing = S.Literal("ENABLED", "DISABLED");
+export type LogLevel = "OFF" | "BASIC" | "TRANSFER";
+export const LogLevel = S.Literal("OFF", "BASIC", "TRANSFER");
+export type TransferMode = "CHANGED" | "ALL";
+export const TransferMode = S.Literal("CHANGED", "ALL");
+export type SmbSecurityDescriptorCopyFlags =
+  | "NONE"
+  | "OWNER_DACL"
+  | "OWNER_DACL_SACL";
+export const SmbSecurityDescriptorCopyFlags = S.Literal(
+  "NONE",
+  "OWNER_DACL",
+  "OWNER_DACL_SACL",
+);
+export type ObjectTags = "PRESERVE" | "NONE";
+export const ObjectTags = S.Literal("PRESERVE", "NONE");
 export interface Options {
-  VerifyMode?: string;
-  OverwriteMode?: string;
-  Atime?: string;
-  Mtime?: string;
-  Uid?: string;
-  Gid?: string;
-  PreserveDeletedFiles?: string;
-  PreserveDevices?: string;
-  PosixPermissions?: string;
+  VerifyMode?: VerifyMode;
+  OverwriteMode?: OverwriteMode;
+  Atime?: Atime;
+  Mtime?: Mtime;
+  Uid?: Uid;
+  Gid?: Gid;
+  PreserveDeletedFiles?: PreserveDeletedFiles;
+  PreserveDevices?: PreserveDevices;
+  PosixPermissions?: PosixPermissions;
   BytesPerSecond?: number;
-  TaskQueueing?: string;
-  LogLevel?: string;
-  TransferMode?: string;
-  SecurityDescriptorCopyFlags?: string;
-  ObjectTags?: string;
+  TaskQueueing?: TaskQueueing;
+  LogLevel?: LogLevel;
+  TransferMode?: TransferMode;
+  SecurityDescriptorCopyFlags?: SmbSecurityDescriptorCopyFlags;
+  ObjectTags?: ObjectTags;
 }
 export const Options = S.suspend(() =>
   S.Struct({
-    VerifyMode: S.optional(S.String),
-    OverwriteMode: S.optional(S.String),
-    Atime: S.optional(S.String),
-    Mtime: S.optional(S.String),
-    Uid: S.optional(S.String),
-    Gid: S.optional(S.String),
-    PreserveDeletedFiles: S.optional(S.String),
-    PreserveDevices: S.optional(S.String),
-    PosixPermissions: S.optional(S.String),
+    VerifyMode: S.optional(VerifyMode),
+    OverwriteMode: S.optional(OverwriteMode),
+    Atime: S.optional(Atime),
+    Mtime: S.optional(Mtime),
+    Uid: S.optional(Uid),
+    Gid: S.optional(Gid),
+    PreserveDeletedFiles: S.optional(PreserveDeletedFiles),
+    PreserveDevices: S.optional(PreserveDevices),
+    PosixPermissions: S.optional(PosixPermissions),
     BytesPerSecond: S.optional(S.Number),
-    TaskQueueing: S.optional(S.String),
-    LogLevel: S.optional(S.String),
-    TransferMode: S.optional(S.String),
-    SecurityDescriptorCopyFlags: S.optional(S.String),
-    ObjectTags: S.optional(S.String),
+    TaskQueueing: S.optional(TaskQueueing),
+    LogLevel: S.optional(LogLevel),
+    TransferMode: S.optional(TransferMode),
+    SecurityDescriptorCopyFlags: S.optional(SmbSecurityDescriptorCopyFlags),
+    ObjectTags: S.optional(ObjectTags),
   }),
 ).annotations({ identifier: "Options" }) as any as S.Schema<Options>;
+export type FilterType = "SIMPLE_PATTERN";
+export const FilterType = S.Literal("SIMPLE_PATTERN");
 export interface FilterRule {
-  FilterType?: string;
+  FilterType?: FilterType;
   Value?: string;
 }
 export const FilterRule = S.suspend(() =>
-  S.Struct({ FilterType: S.optional(S.String), Value: S.optional(S.String) }),
+  S.Struct({ FilterType: S.optional(FilterType), Value: S.optional(S.String) }),
 ).annotations({ identifier: "FilterRule" }) as any as S.Schema<FilterRule>;
 export type FilterList = FilterRule[];
 export const FilterList = S.Array(FilterRule);
+export type ManifestAction = "TRANSFER";
+export const ManifestAction = S.Literal("TRANSFER");
+export type ManifestFormat = "CSV";
+export const ManifestFormat = S.Literal("CSV");
 export interface S3ManifestConfig {
   ManifestObjectPath: string;
   BucketAccessRoleArn: string;
@@ -661,14 +754,14 @@ export const SourceManifestConfig = S.suspend(() =>
   identifier: "SourceManifestConfig",
 }) as any as S.Schema<SourceManifestConfig>;
 export interface ManifestConfig {
-  Action?: string;
-  Format?: string;
+  Action?: ManifestAction;
+  Format?: ManifestFormat;
   Source?: SourceManifestConfig;
 }
 export const ManifestConfig = S.suspend(() =>
   S.Struct({
-    Action: S.optional(S.String),
-    Format: S.optional(S.String),
+    Action: S.optional(ManifestAction),
+    Format: S.optional(ManifestFormat),
     Source: S.optional(SourceManifestConfig),
   }),
 ).annotations({
@@ -696,11 +789,17 @@ export const ReportDestination = S.suspend(() =>
 ).annotations({
   identifier: "ReportDestination",
 }) as any as S.Schema<ReportDestination>;
+export type ReportOutputType = "SUMMARY_ONLY" | "STANDARD";
+export const ReportOutputType = S.Literal("SUMMARY_ONLY", "STANDARD");
+export type ReportLevel = "ERRORS_ONLY" | "SUCCESSES_AND_ERRORS";
+export const ReportLevel = S.Literal("ERRORS_ONLY", "SUCCESSES_AND_ERRORS");
+export type ObjectVersionIds = "INCLUDE" | "NONE";
+export const ObjectVersionIds = S.Literal("INCLUDE", "NONE");
 export interface ReportOverride {
-  ReportLevel?: string;
+  ReportLevel?: ReportLevel;
 }
 export const ReportOverride = S.suspend(() =>
-  S.Struct({ ReportLevel: S.optional(S.String) }),
+  S.Struct({ ReportLevel: S.optional(ReportLevel) }),
 ).annotations({
   identifier: "ReportOverride",
 }) as any as S.Schema<ReportOverride>;
@@ -722,17 +821,17 @@ export const ReportOverrides = S.suspend(() =>
 }) as any as S.Schema<ReportOverrides>;
 export interface TaskReportConfig {
   Destination?: ReportDestination;
-  OutputType?: string;
-  ReportLevel?: string;
-  ObjectVersionIds?: string;
+  OutputType?: ReportOutputType;
+  ReportLevel?: ReportLevel;
+  ObjectVersionIds?: ObjectVersionIds;
   Overrides?: ReportOverrides;
 }
 export const TaskReportConfig = S.suspend(() =>
   S.Struct({
     Destination: S.optional(ReportDestination),
-    OutputType: S.optional(S.String),
-    ReportLevel: S.optional(S.String),
-    ObjectVersionIds: S.optional(S.String),
+    OutputType: S.optional(ReportOutputType),
+    ReportLevel: S.optional(ReportLevel),
+    ObjectVersionIds: S.optional(ObjectVersionIds),
     Overrides: S.optional(ReportOverrides),
   }),
 ).annotations({
@@ -741,11 +840,11 @@ export const TaskReportConfig = S.suspend(() =>
 export interface StartTaskExecutionRequest {
   TaskArn: string;
   OverrideOptions?: Options;
-  Includes?: FilterList;
-  Excludes?: FilterList;
+  Includes?: FilterRule[];
+  Excludes?: FilterRule[];
   ManifestConfig?: ManifestConfig;
   TaskReportConfig?: TaskReportConfig;
-  Tags?: InputTagList;
+  Tags?: TagListEntry[];
 }
 export const StartTaskExecutionRequest = S.suspend(() =>
   S.Struct({
@@ -764,7 +863,7 @@ export const StartTaskExecutionRequest = S.suspend(() =>
 }) as any as S.Schema<StartTaskExecutionRequest>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: InputTagList;
+  Tags: TagListEntry[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: InputTagList }).pipe(
@@ -779,7 +878,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  Keys: TagKeyList;
+  Keys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Keys: TagKeyList }).pipe(
@@ -808,7 +907,7 @@ export const UpdateAgentResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UpdateAgentResponse",
 }) as any as S.Schema<UpdateAgentResponse>;
 export interface AzureBlobSasConfiguration {
-  Token: string | Redacted.Redacted<string>;
+  Token: string | redacted.Redacted<string>;
 }
 export const AzureBlobSasConfiguration = S.suspend(() =>
   S.Struct({ Token: SensitiveString }),
@@ -818,11 +917,11 @@ export const AzureBlobSasConfiguration = S.suspend(() =>
 export interface UpdateLocationAzureBlobRequest {
   LocationArn: string;
   Subdirectory?: string;
-  AuthenticationType?: string;
+  AuthenticationType?: AzureBlobAuthenticationType;
   SasConfiguration?: AzureBlobSasConfiguration;
-  BlobType?: string;
-  AccessTier?: string;
-  AgentArns?: AgentArnList;
+  BlobType?: AzureBlobType;
+  AccessTier?: AzureAccessTier;
+  AgentArns?: string[];
   CmkSecretConfig?: CmkSecretConfig;
   CustomSecretConfig?: CustomSecretConfig;
 }
@@ -830,10 +929,10 @@ export const UpdateLocationAzureBlobRequest = S.suspend(() =>
   S.Struct({
     LocationArn: S.String,
     Subdirectory: S.optional(S.String),
-    AuthenticationType: S.optional(S.String),
+    AuthenticationType: S.optional(AzureBlobAuthenticationType),
     SasConfiguration: S.optional(AzureBlobSasConfiguration),
-    BlobType: S.optional(S.String),
-    AccessTier: S.optional(S.String),
+    BlobType: S.optional(AzureBlobType),
+    AccessTier: S.optional(AzureAccessTier),
     AgentArns: S.optional(AgentArnList),
     CmkSecretConfig: S.optional(CmkSecretConfig),
     CustomSecretConfig: S.optional(CustomSecretConfig),
@@ -854,7 +953,7 @@ export interface UpdateLocationEfsRequest {
   Subdirectory?: string;
   AccessPointArn?: string;
   FileSystemAccessRoleArn?: string;
-  InTransitEncryption?: string;
+  InTransitEncryption?: EfsInTransitEncryption;
 }
 export const UpdateLocationEfsRequest = S.suspend(() =>
   S.Struct({
@@ -862,7 +961,7 @@ export const UpdateLocationEfsRequest = S.suspend(() =>
     Subdirectory: S.optional(S.String),
     AccessPointArn: S.optional(S.String),
     FileSystemAccessRoleArn: S.optional(S.String),
-    InTransitEncryption: S.optional(S.String),
+    InTransitEncryption: S.optional(EfsInTransitEncryption),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -919,7 +1018,7 @@ export interface UpdateLocationFsxWindowsRequest {
   Subdirectory?: string;
   Domain?: string;
   User?: string;
-  Password?: string | Redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
 }
 export const UpdateLocationFsxWindowsRequest = S.suspend(() =>
   S.Struct({
@@ -949,14 +1048,36 @@ export const HdfsNameNode = S.suspend(() =>
 ).annotations({ identifier: "HdfsNameNode" }) as any as S.Schema<HdfsNameNode>;
 export type HdfsNameNodeList = HdfsNameNode[];
 export const HdfsNameNodeList = S.Array(HdfsNameNode);
+export type HdfsRpcProtection =
+  | "DISABLED"
+  | "AUTHENTICATION"
+  | "INTEGRITY"
+  | "PRIVACY";
+export const HdfsRpcProtection = S.Literal(
+  "DISABLED",
+  "AUTHENTICATION",
+  "INTEGRITY",
+  "PRIVACY",
+);
+export type HdfsDataTransferProtection =
+  | "DISABLED"
+  | "AUTHENTICATION"
+  | "INTEGRITY"
+  | "PRIVACY";
+export const HdfsDataTransferProtection = S.Literal(
+  "DISABLED",
+  "AUTHENTICATION",
+  "INTEGRITY",
+  "PRIVACY",
+);
 export interface QopConfiguration {
-  RpcProtection?: string;
-  DataTransferProtection?: string;
+  RpcProtection?: HdfsRpcProtection;
+  DataTransferProtection?: HdfsDataTransferProtection;
 }
 export const QopConfiguration = S.suspend(() =>
   S.Struct({
-    RpcProtection: S.optional(S.String),
-    DataTransferProtection: S.optional(S.String),
+    RpcProtection: S.optional(HdfsRpcProtection),
+    DataTransferProtection: S.optional(HdfsDataTransferProtection),
   }),
 ).annotations({
   identifier: "QopConfiguration",
@@ -964,17 +1085,17 @@ export const QopConfiguration = S.suspend(() =>
 export interface UpdateLocationHdfsRequest {
   LocationArn: string;
   Subdirectory?: string;
-  NameNodes?: HdfsNameNodeList;
+  NameNodes?: HdfsNameNode[];
   BlockSize?: number;
   ReplicationFactor?: number;
   KmsKeyProviderUri?: string;
   QopConfiguration?: QopConfiguration;
-  AuthenticationType?: string;
+  AuthenticationType?: HdfsAuthenticationType;
   SimpleUser?: string;
   KerberosPrincipal?: string;
   KerberosKeytab?: Uint8Array;
   KerberosKrb5Conf?: Uint8Array;
-  AgentArns?: AgentArnList;
+  AgentArns?: string[];
 }
 export const UpdateLocationHdfsRequest = S.suspend(() =>
   S.Struct({
@@ -985,7 +1106,7 @@ export const UpdateLocationHdfsRequest = S.suspend(() =>
     ReplicationFactor: S.optional(S.Number),
     KmsKeyProviderUri: S.optional(S.String),
     QopConfiguration: S.optional(QopConfiguration),
-    AuthenticationType: S.optional(S.String),
+    AuthenticationType: S.optional(HdfsAuthenticationType),
     SimpleUser: S.optional(S.String),
     KerberosPrincipal: S.optional(S.String),
     KerberosKeytab: S.optional(T.Blob),
@@ -1004,7 +1125,7 @@ export const UpdateLocationHdfsResponse = S.suspend(() =>
   identifier: "UpdateLocationHdfsResponse",
 }) as any as S.Schema<UpdateLocationHdfsResponse>;
 export interface OnPremConfig {
-  AgentArns: AgentArnList;
+  AgentArns: string[];
 }
 export const OnPremConfig = S.suspend(() =>
   S.Struct({ AgentArns: AgentArnList }),
@@ -1038,12 +1159,12 @@ export const UpdateLocationNfsResponse = S.suspend(() =>
 export interface UpdateLocationObjectStorageRequest {
   LocationArn: string;
   ServerPort?: number;
-  ServerProtocol?: string;
+  ServerProtocol?: ObjectStorageServerProtocol;
   Subdirectory?: string;
   ServerHostname?: string;
   AccessKey?: string;
-  SecretKey?: string | Redacted.Redacted<string>;
-  AgentArns?: AgentArnList;
+  SecretKey?: string | redacted.Redacted<string>;
+  AgentArns?: string[];
   ServerCertificate?: Uint8Array;
   CmkSecretConfig?: CmkSecretConfig;
   CustomSecretConfig?: CustomSecretConfig;
@@ -1052,7 +1173,7 @@ export const UpdateLocationObjectStorageRequest = S.suspend(() =>
   S.Struct({
     LocationArn: S.String,
     ServerPort: S.optional(S.Number),
-    ServerProtocol: S.optional(S.String),
+    ServerProtocol: S.optional(ObjectStorageServerProtocol),
     Subdirectory: S.optional(S.String),
     ServerHostname: S.optional(S.String),
     AccessKey: S.optional(S.String),
@@ -1082,14 +1203,14 @@ export const S3Config = S.suspend(() =>
 export interface UpdateLocationS3Request {
   LocationArn: string;
   Subdirectory?: string;
-  S3StorageClass?: string;
+  S3StorageClass?: S3StorageClass;
   S3Config?: S3Config;
 }
 export const UpdateLocationS3Request = S.suspend(() =>
   S.Struct({
     LocationArn: S.String,
     Subdirectory: S.optional(S.String),
-    S3StorageClass: S.optional(S.String),
+    S3StorageClass: S.optional(S3StorageClass),
     S3Config: S.optional(S3Config),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -1109,13 +1230,13 @@ export interface UpdateLocationSmbRequest {
   ServerHostname?: string;
   User?: string;
   Domain?: string;
-  Password?: string | Redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
   CmkSecretConfig?: CmkSecretConfig;
   CustomSecretConfig?: CustomSecretConfig;
-  AgentArns?: AgentArnList;
+  AgentArns?: string[];
   MountOptions?: SmbMountOptions;
-  AuthenticationType?: string;
-  DnsIpAddresses?: DnsIpList;
+  AuthenticationType?: SmbAuthenticationType;
+  DnsIpAddresses?: string[];
   KerberosPrincipal?: string;
   KerberosKeytab?: Uint8Array;
   KerberosKrb5Conf?: Uint8Array;
@@ -1132,7 +1253,7 @@ export const UpdateLocationSmbRequest = S.suspend(() =>
     CustomSecretConfig: S.optional(CustomSecretConfig),
     AgentArns: S.optional(AgentArnList),
     MountOptions: S.optional(SmbMountOptions),
-    AuthenticationType: S.optional(S.String),
+    AuthenticationType: S.optional(SmbAuthenticationType),
     DnsIpAddresses: S.optional(DnsIpList),
     KerberosPrincipal: S.optional(S.String),
     KerberosKeytab: S.optional(T.Blob),
@@ -1149,21 +1270,26 @@ export const UpdateLocationSmbResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateLocationSmbResponse",
 }) as any as S.Schema<UpdateLocationSmbResponse>;
+export type ScheduleStatus = "ENABLED" | "DISABLED";
+export const ScheduleStatus = S.Literal("ENABLED", "DISABLED");
 export interface TaskSchedule {
   ScheduleExpression: string;
-  Status?: string;
+  Status?: ScheduleStatus;
 }
 export const TaskSchedule = S.suspend(() =>
-  S.Struct({ ScheduleExpression: S.String, Status: S.optional(S.String) }),
+  S.Struct({
+    ScheduleExpression: S.String,
+    Status: S.optional(ScheduleStatus),
+  }),
 ).annotations({ identifier: "TaskSchedule" }) as any as S.Schema<TaskSchedule>;
 export interface UpdateTaskRequest {
   TaskArn: string;
   Options?: Options;
-  Excludes?: FilterList;
+  Excludes?: FilterRule[];
   Schedule?: TaskSchedule;
   Name?: string;
   CloudWatchLogGroupArn?: string;
-  Includes?: FilterList;
+  Includes?: FilterRule[];
   ManifestConfig?: ManifestConfig;
   TaskReportConfig?: TaskReportConfig;
 }
@@ -1205,26 +1331,109 @@ export const UpdateTaskExecutionResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateTaskExecutionResponse",
 }) as any as S.Schema<UpdateTaskExecutionResponse>;
+export type LocationFilterName =
+  | "LocationUri"
+  | "LocationType"
+  | "CreationTime";
+export const LocationFilterName = S.Literal(
+  "LocationUri",
+  "LocationType",
+  "CreationTime",
+);
 export type FilterValues = string[];
 export const FilterValues = S.Array(S.String);
+export type Operator =
+  | "Equals"
+  | "NotEquals"
+  | "In"
+  | "LessThanOrEqual"
+  | "LessThan"
+  | "GreaterThanOrEqual"
+  | "GreaterThan"
+  | "Contains"
+  | "NotContains"
+  | "BeginsWith";
+export const Operator = S.Literal(
+  "Equals",
+  "NotEquals",
+  "In",
+  "LessThanOrEqual",
+  "LessThan",
+  "GreaterThanOrEqual",
+  "GreaterThan",
+  "Contains",
+  "NotContains",
+  "BeginsWith",
+);
+export type TaskFilterName = "LocationId" | "CreationTime";
+export const TaskFilterName = S.Literal("LocationId", "CreationTime");
 export interface Ec2Config {
   SubnetArn: string;
-  SecurityGroupArns: Ec2SecurityGroupArnList;
+  SecurityGroupArns: string[];
 }
 export const Ec2Config = S.suspend(() =>
   S.Struct({ SubnetArn: S.String, SecurityGroupArns: Ec2SecurityGroupArnList }),
 ).annotations({ identifier: "Ec2Config" }) as any as S.Schema<Ec2Config>;
+export type AgentStatus = "ONLINE" | "OFFLINE";
+export const AgentStatus = S.Literal("ONLINE", "OFFLINE");
+export type EndpointType =
+  | "PUBLIC"
+  | "PRIVATE_LINK"
+  | "FIPS"
+  | "FIPS_PRIVATE_LINK";
+export const EndpointType = S.Literal(
+  "PUBLIC",
+  "PRIVATE_LINK",
+  "FIPS",
+  "FIPS_PRIVATE_LINK",
+);
+export type TaskStatus =
+  | "AVAILABLE"
+  | "CREATING"
+  | "QUEUED"
+  | "RUNNING"
+  | "UNAVAILABLE";
+export const TaskStatus = S.Literal(
+  "AVAILABLE",
+  "CREATING",
+  "QUEUED",
+  "RUNNING",
+  "UNAVAILABLE",
+);
 export type SourceNetworkInterfaceArns = string[];
 export const SourceNetworkInterfaceArns = S.Array(S.String);
 export type DestinationNetworkInterfaceArns = string[];
 export const DestinationNetworkInterfaceArns = S.Array(S.String);
+export type TaskExecutionStatus =
+  | "QUEUED"
+  | "CANCELLING"
+  | "LAUNCHING"
+  | "PREPARING"
+  | "TRANSFERRING"
+  | "VERIFYING"
+  | "SUCCESS"
+  | "ERROR";
+export const TaskExecutionStatus = S.Literal(
+  "QUEUED",
+  "CANCELLING",
+  "LAUNCHING",
+  "PREPARING",
+  "TRANSFERRING",
+  "VERIFYING",
+  "SUCCESS",
+  "ERROR",
+);
 export interface LocationFilter {
-  Name: string;
-  Values: FilterValues;
-  Operator: string;
+  Name: LocationFilterName;
+  Values: string[];
+  Operator: Operator;
 }
 export const LocationFilter = S.suspend(() =>
-  S.Struct({ Name: S.String, Values: FilterValues, Operator: S.String }),
+  S.Struct({
+    Name: LocationFilterName,
+    Values: FilterValues,
+    Operator: Operator,
+  }),
 ).annotations({
   identifier: "LocationFilter",
 }) as any as S.Schema<LocationFilter>;
@@ -1233,22 +1442,22 @@ export const LocationFilters = S.Array(LocationFilter);
 export type OutputTagList = TagListEntry[];
 export const OutputTagList = S.Array(TagListEntry);
 export interface TaskFilter {
-  Name: string;
-  Values: FilterValues;
-  Operator: string;
+  Name: TaskFilterName;
+  Values: string[];
+  Operator: Operator;
 }
 export const TaskFilter = S.suspend(() =>
-  S.Struct({ Name: S.String, Values: FilterValues, Operator: S.String }),
+  S.Struct({ Name: TaskFilterName, Values: FilterValues, Operator: Operator }),
 ).annotations({ identifier: "TaskFilter" }) as any as S.Schema<TaskFilter>;
 export type TaskFilters = TaskFilter[];
 export const TaskFilters = S.Array(TaskFilter);
 export interface CreateAgentRequest {
   ActivationKey: string;
   AgentName?: string;
-  Tags?: InputTagList;
+  Tags?: TagListEntry[];
   VpcEndpointId?: string;
-  SubnetArns?: PLSubnetArnList;
-  SecurityGroupArns?: PLSecurityGroupArnList;
+  SubnetArns?: string[];
+  SecurityGroupArns?: string[];
 }
 export const CreateAgentRequest = S.suspend(() =>
   S.Struct({
@@ -1266,23 +1475,23 @@ export const CreateAgentRequest = S.suspend(() =>
 }) as any as S.Schema<CreateAgentRequest>;
 export interface CreateLocationAzureBlobRequest {
   ContainerUrl: string;
-  AuthenticationType: string;
+  AuthenticationType: AzureBlobAuthenticationType;
   SasConfiguration?: AzureBlobSasConfiguration;
-  BlobType?: string;
-  AccessTier?: string;
+  BlobType?: AzureBlobType;
+  AccessTier?: AzureAccessTier;
   Subdirectory?: string;
-  AgentArns?: AgentArnList;
-  Tags?: InputTagList;
+  AgentArns?: string[];
+  Tags?: TagListEntry[];
   CmkSecretConfig?: CmkSecretConfig;
   CustomSecretConfig?: CustomSecretConfig;
 }
 export const CreateLocationAzureBlobRequest = S.suspend(() =>
   S.Struct({
     ContainerUrl: S.String,
-    AuthenticationType: S.String,
+    AuthenticationType: AzureBlobAuthenticationType,
     SasConfiguration: S.optional(AzureBlobSasConfiguration),
-    BlobType: S.optional(S.String),
-    AccessTier: S.optional(S.String),
+    BlobType: S.optional(AzureBlobType),
+    AccessTier: S.optional(AzureAccessTier),
     Subdirectory: S.optional(S.String),
     AgentArns: S.optional(AgentArnList),
     Tags: S.optional(InputTagList),
@@ -1298,10 +1507,10 @@ export interface CreateLocationEfsRequest {
   Subdirectory?: string;
   EfsFilesystemArn: string;
   Ec2Config: Ec2Config;
-  Tags?: InputTagList;
+  Tags?: TagListEntry[];
   AccessPointArn?: string;
   FileSystemAccessRoleArn?: string;
-  InTransitEncryption?: string;
+  InTransitEncryption?: EfsInTransitEncryption;
 }
 export const CreateLocationEfsRequest = S.suspend(() =>
   S.Struct({
@@ -1311,7 +1520,7 @@ export const CreateLocationEfsRequest = S.suspend(() =>
     Tags: S.optional(InputTagList),
     AccessPointArn: S.optional(S.String),
     FileSystemAccessRoleArn: S.optional(S.String),
-    InTransitEncryption: S.optional(S.String),
+    InTransitEncryption: S.optional(EfsInTransitEncryption),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -1344,18 +1553,18 @@ export const CreateLocationFsxWindowsResponse = S.suspend(() =>
 }) as any as S.Schema<CreateLocationFsxWindowsResponse>;
 export interface CreateLocationHdfsRequest {
   Subdirectory?: string;
-  NameNodes: HdfsNameNodeList;
+  NameNodes: HdfsNameNode[];
   BlockSize?: number;
   ReplicationFactor?: number;
   KmsKeyProviderUri?: string;
   QopConfiguration?: QopConfiguration;
-  AuthenticationType: string;
+  AuthenticationType: HdfsAuthenticationType;
   SimpleUser?: string;
   KerberosPrincipal?: string;
   KerberosKeytab?: Uint8Array;
   KerberosKrb5Conf?: Uint8Array;
-  AgentArns: AgentArnList;
-  Tags?: InputTagList;
+  AgentArns: string[];
+  Tags?: TagListEntry[];
 }
 export const CreateLocationHdfsRequest = S.suspend(() =>
   S.Struct({
@@ -1365,7 +1574,7 @@ export const CreateLocationHdfsRequest = S.suspend(() =>
     ReplicationFactor: S.optional(S.Number),
     KmsKeyProviderUri: S.optional(S.String),
     QopConfiguration: S.optional(QopConfiguration),
-    AuthenticationType: S.String,
+    AuthenticationType: HdfsAuthenticationType,
     SimpleUser: S.optional(S.String),
     KerberosPrincipal: S.optional(S.String),
     KerberosKeytab: S.optional(T.Blob),
@@ -1383,7 +1592,7 @@ export interface CreateLocationNfsRequest {
   ServerHostname: string;
   OnPremConfig: OnPremConfig;
   MountOptions?: NfsMountOptions;
-  Tags?: InputTagList;
+  Tags?: TagListEntry[];
 }
 export const CreateLocationNfsRequest = S.suspend(() =>
   S.Struct({
@@ -1409,16 +1618,16 @@ export const CreateLocationObjectStorageResponse = S.suspend(() =>
 export interface CreateLocationS3Request {
   Subdirectory?: string;
   S3BucketArn: string;
-  S3StorageClass?: string;
+  S3StorageClass?: S3StorageClass;
   S3Config: S3Config;
-  AgentArns?: AgentArnList;
-  Tags?: InputTagList;
+  AgentArns?: string[];
+  Tags?: TagListEntry[];
 }
 export const CreateLocationS3Request = S.suspend(() =>
   S.Struct({
     Subdirectory: S.optional(S.String),
     S3BucketArn: S.String,
-    S3StorageClass: S.optional(S.String),
+    S3StorageClass: S.optional(S3StorageClass),
     S3Config: S3Config,
     AgentArns: S.optional(AgentArnList),
     Tags: S.optional(InputTagList),
@@ -1433,14 +1642,14 @@ export interface CreateLocationSmbRequest {
   ServerHostname: string;
   User?: string;
   Domain?: string;
-  Password?: string | Redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
   CmkSecretConfig?: CmkSecretConfig;
   CustomSecretConfig?: CustomSecretConfig;
-  AgentArns: AgentArnList;
+  AgentArns: string[];
   MountOptions?: SmbMountOptions;
-  Tags?: InputTagList;
-  AuthenticationType?: string;
-  DnsIpAddresses?: DnsIpList;
+  Tags?: TagListEntry[];
+  AuthenticationType?: SmbAuthenticationType;
+  DnsIpAddresses?: string[];
   KerberosPrincipal?: string;
   KerberosKeytab?: Uint8Array;
   KerberosKrb5Conf?: Uint8Array;
@@ -1457,7 +1666,7 @@ export const CreateLocationSmbRequest = S.suspend(() =>
     AgentArns: AgentArnList,
     MountOptions: S.optional(SmbMountOptions),
     Tags: S.optional(InputTagList),
-    AuthenticationType: S.optional(S.String),
+    AuthenticationType: S.optional(SmbAuthenticationType),
     DnsIpAddresses: S.optional(DnsIpList),
     KerberosPrincipal: S.optional(S.String),
     KerberosKeytab: S.optional(T.Blob),
@@ -1475,7 +1684,7 @@ export interface DescribeLocationEfsResponse {
   CreationTime?: Date;
   AccessPointArn?: string;
   FileSystemAccessRoleArn?: string;
-  InTransitEncryption?: string;
+  InTransitEncryption?: EfsInTransitEncryption;
 }
 export const DescribeLocationEfsResponse = S.suspend(() =>
   S.Struct({
@@ -1485,7 +1694,7 @@ export const DescribeLocationEfsResponse = S.suspend(() =>
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     AccessPointArn: S.optional(S.String),
     FileSystemAccessRoleArn: S.optional(S.String),
-    InTransitEncryption: S.optional(S.String),
+    InTransitEncryption: S.optional(EfsInTransitEncryption),
   }),
 ).annotations({
   identifier: "DescribeLocationEfsResponse",
@@ -1493,7 +1702,7 @@ export const DescribeLocationEfsResponse = S.suspend(() =>
 export interface DescribeLocationFsxLustreResponse {
   LocationArn?: string;
   LocationUri?: string;
-  SecurityGroupArns?: Ec2SecurityGroupArnList;
+  SecurityGroupArns?: string[];
   CreationTime?: Date;
 }
 export const DescribeLocationFsxLustreResponse = S.suspend(() =>
@@ -1511,7 +1720,7 @@ export interface DescribeLocationFsxOntapResponse {
   LocationArn?: string;
   LocationUri?: string;
   Protocol?: FsxProtocol;
-  SecurityGroupArns?: Ec2SecurityGroupArnList;
+  SecurityGroupArns?: string[];
   StorageVirtualMachineArn?: string;
   FsxFilesystemArn?: string;
 }
@@ -1531,7 +1740,7 @@ export const DescribeLocationFsxOntapResponse = S.suspend(() =>
 export interface DescribeLocationFsxOpenZfsResponse {
   LocationArn?: string;
   LocationUri?: string;
-  SecurityGroupArns?: Ec2SecurityGroupArnList;
+  SecurityGroupArns?: string[];
   Protocol?: FsxProtocol;
   CreationTime?: Date;
 }
@@ -1549,7 +1758,7 @@ export const DescribeLocationFsxOpenZfsResponse = S.suspend(() =>
 export interface DescribeLocationFsxWindowsResponse {
   LocationArn?: string;
   LocationUri?: string;
-  SecurityGroupArns?: Ec2SecurityGroupArnList;
+  SecurityGroupArns?: string[];
   CreationTime?: Date;
   User?: string;
   Domain?: string;
@@ -1569,15 +1778,15 @@ export const DescribeLocationFsxWindowsResponse = S.suspend(() =>
 export interface DescribeLocationHdfsResponse {
   LocationArn?: string;
   LocationUri?: string;
-  NameNodes?: HdfsNameNodeList;
+  NameNodes?: HdfsNameNode[];
   BlockSize?: number;
   ReplicationFactor?: number;
   KmsKeyProviderUri?: string;
   QopConfiguration?: QopConfiguration;
-  AuthenticationType?: string;
+  AuthenticationType?: HdfsAuthenticationType;
   SimpleUser?: string;
   KerberosPrincipal?: string;
-  AgentArns?: AgentArnList;
+  AgentArns?: string[];
   CreationTime?: Date;
 }
 export const DescribeLocationHdfsResponse = S.suspend(() =>
@@ -1589,7 +1798,7 @@ export const DescribeLocationHdfsResponse = S.suspend(() =>
     ReplicationFactor: S.optional(S.Number),
     KmsKeyProviderUri: S.optional(S.String),
     QopConfiguration: S.optional(QopConfiguration),
-    AuthenticationType: S.optional(S.String),
+    AuthenticationType: S.optional(HdfsAuthenticationType),
     SimpleUser: S.optional(S.String),
     KerberosPrincipal: S.optional(S.String),
     AgentArns: S.optional(AgentArnList),
@@ -1629,8 +1838,8 @@ export interface DescribeLocationObjectStorageResponse {
   LocationUri?: string;
   AccessKey?: string;
   ServerPort?: number;
-  ServerProtocol?: string;
-  AgentArns?: AgentArnList;
+  ServerProtocol?: ObjectStorageServerProtocol;
+  AgentArns?: string[];
   CreationTime?: Date;
   ServerCertificate?: Uint8Array;
   ManagedSecretConfig?: ManagedSecretConfig;
@@ -1643,7 +1852,7 @@ export const DescribeLocationObjectStorageResponse = S.suspend(() =>
     LocationUri: S.optional(S.String),
     AccessKey: S.optional(S.String),
     ServerPort: S.optional(S.Number),
-    ServerProtocol: S.optional(S.String),
+    ServerProtocol: S.optional(ObjectStorageServerProtocol),
     AgentArns: S.optional(AgentArnList),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ServerCertificate: S.optional(T.Blob),
@@ -1657,16 +1866,16 @@ export const DescribeLocationObjectStorageResponse = S.suspend(() =>
 export interface DescribeLocationS3Response {
   LocationArn?: string;
   LocationUri?: string;
-  S3StorageClass?: string;
+  S3StorageClass?: S3StorageClass;
   S3Config?: S3Config;
-  AgentArns?: AgentArnList;
+  AgentArns?: string[];
   CreationTime?: Date;
 }
 export const DescribeLocationS3Response = S.suspend(() =>
   S.Struct({
     LocationArn: S.optional(S.String),
     LocationUri: S.optional(S.String),
-    S3StorageClass: S.optional(S.String),
+    S3StorageClass: S.optional(S3StorageClass),
     S3Config: S.optional(S3Config),
     AgentArns: S.optional(AgentArnList),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1677,14 +1886,14 @@ export const DescribeLocationS3Response = S.suspend(() =>
 export interface DescribeLocationSmbResponse {
   LocationArn?: string;
   LocationUri?: string;
-  AgentArns?: AgentArnList;
+  AgentArns?: string[];
   User?: string;
   Domain?: string;
   MountOptions?: SmbMountOptions;
   CreationTime?: Date;
-  DnsIpAddresses?: DnsIpList;
+  DnsIpAddresses?: string[];
   KerberosPrincipal?: string;
-  AuthenticationType?: string;
+  AuthenticationType?: SmbAuthenticationType;
   ManagedSecretConfig?: ManagedSecretConfig;
   CmkSecretConfig?: CmkSecretConfig;
   CustomSecretConfig?: CustomSecretConfig;
@@ -1700,7 +1909,7 @@ export const DescribeLocationSmbResponse = S.suspend(() =>
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DnsIpAddresses: S.optional(DnsIpList),
     KerberosPrincipal: S.optional(S.String),
-    AuthenticationType: S.optional(S.String),
+    AuthenticationType: S.optional(SmbAuthenticationType),
     ManagedSecretConfig: S.optional(ManagedSecretConfig),
     CmkSecretConfig: S.optional(CmkSecretConfig),
     CustomSecretConfig: S.optional(CustomSecretConfig),
@@ -1711,7 +1920,7 @@ export const DescribeLocationSmbResponse = S.suspend(() =>
 export interface ListLocationsRequest {
   MaxResults?: number;
   NextToken?: string;
-  Filters?: LocationFilters;
+  Filters?: LocationFilter[];
 }
 export const ListLocationsRequest = S.suspend(() =>
   S.Struct({
@@ -1725,7 +1934,7 @@ export const ListLocationsRequest = S.suspend(() =>
   identifier: "ListLocationsRequest",
 }) as any as S.Schema<ListLocationsRequest>;
 export interface ListTagsForResourceResponse {
-  Tags?: OutputTagList;
+  Tags?: TagListEntry[];
   NextToken?: string;
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
@@ -1739,7 +1948,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 export interface ListTasksRequest {
   MaxResults?: number;
   NextToken?: string;
-  Filters?: TaskFilters;
+  Filters?: TaskFilter[];
 }
 export const ListTasksRequest = S.suspend(() =>
   S.Struct({
@@ -1760,10 +1969,14 @@ export const StartTaskExecutionResponse = S.suspend(() =>
 ).annotations({
   identifier: "StartTaskExecutionResponse",
 }) as any as S.Schema<StartTaskExecutionResponse>;
+export type ScheduleDisabledBy = "USER" | "SERVICE";
+export const ScheduleDisabledBy = S.Literal("USER", "SERVICE");
+export type PhaseStatus = "PENDING" | "SUCCESS" | "ERROR";
+export const PhaseStatus = S.Literal("PENDING", "SUCCESS", "ERROR");
 export interface FsxUpdateProtocolSmb {
   Domain?: string;
   MountOptions?: SmbMountOptions;
-  Password?: string | Redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
   User?: string;
 }
 export const FsxUpdateProtocolSmb = S.suspend(() =>
@@ -1779,8 +1992,8 @@ export const FsxUpdateProtocolSmb = S.suspend(() =>
 export interface PrivateLinkConfig {
   VpcEndpointId?: string;
   PrivateLinkEndpoint?: string;
-  SubnetArns?: PLSubnetArnList;
-  SecurityGroupArns?: PLSecurityGroupArnList;
+  SubnetArns?: string[];
+  SecurityGroupArns?: string[];
 }
 export const PrivateLinkConfig = S.suspend(() =>
   S.Struct({
@@ -1801,7 +2014,7 @@ export const Platform = S.suspend(() =>
 export interface TaskScheduleDetails {
   StatusUpdateTime?: Date;
   DisabledReason?: string;
-  DisabledBy?: string;
+  DisabledBy?: ScheduleDisabledBy;
 }
 export const TaskScheduleDetails = S.suspend(() =>
   S.Struct({
@@ -1809,31 +2022,31 @@ export const TaskScheduleDetails = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     DisabledReason: S.optional(S.String),
-    DisabledBy: S.optional(S.String),
+    DisabledBy: S.optional(ScheduleDisabledBy),
   }),
 ).annotations({
   identifier: "TaskScheduleDetails",
 }) as any as S.Schema<TaskScheduleDetails>;
 export interface TaskExecutionResultDetail {
   PrepareDuration?: number;
-  PrepareStatus?: string;
+  PrepareStatus?: PhaseStatus;
   TotalDuration?: number;
   TransferDuration?: number;
-  TransferStatus?: string;
+  TransferStatus?: PhaseStatus;
   VerifyDuration?: number;
-  VerifyStatus?: string;
+  VerifyStatus?: PhaseStatus;
   ErrorCode?: string;
   ErrorDetail?: string;
 }
 export const TaskExecutionResultDetail = S.suspend(() =>
   S.Struct({
     PrepareDuration: S.optional(S.Number),
-    PrepareStatus: S.optional(S.String),
+    PrepareStatus: S.optional(PhaseStatus),
     TotalDuration: S.optional(S.Number),
     TransferDuration: S.optional(S.Number),
-    TransferStatus: S.optional(S.String),
+    TransferStatus: S.optional(PhaseStatus),
     VerifyDuration: S.optional(S.Number),
-    VerifyStatus: S.optional(S.String),
+    VerifyStatus: S.optional(PhaseStatus),
     ErrorCode: S.optional(S.String),
     ErrorDetail: S.optional(S.String),
   }),
@@ -1841,13 +2054,13 @@ export const TaskExecutionResultDetail = S.suspend(() =>
   identifier: "TaskExecutionResultDetail",
 }) as any as S.Schema<TaskExecutionResultDetail>;
 export interface ReportResult {
-  Status?: string;
+  Status?: PhaseStatus;
   ErrorCode?: string;
   ErrorDetail?: string;
 }
 export const ReportResult = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(PhaseStatus),
     ErrorCode: S.optional(S.String),
     ErrorDetail: S.optional(S.String),
   }),
@@ -1913,14 +2126,14 @@ export const TaskExecutionFoldersFailedDetail = S.suspend(() =>
 export interface AgentListEntry {
   AgentArn?: string;
   Name?: string;
-  Status?: string;
+  Status?: AgentStatus;
   Platform?: Platform;
 }
 export const AgentListEntry = S.suspend(() =>
   S.Struct({
     AgentArn: S.optional(S.String),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(AgentStatus),
     Platform: S.optional(Platform),
   }),
 ).annotations({
@@ -1930,14 +2143,14 @@ export type AgentList = AgentListEntry[];
 export const AgentList = S.Array(AgentListEntry);
 export interface TaskExecutionListEntry {
   TaskExecutionArn?: string;
-  Status?: string;
-  TaskMode?: string;
+  Status?: TaskExecutionStatus;
+  TaskMode?: TaskMode;
 }
 export const TaskExecutionListEntry = S.suspend(() =>
   S.Struct({
     TaskExecutionArn: S.optional(S.String),
-    Status: S.optional(S.String),
-    TaskMode: S.optional(S.String),
+    Status: S.optional(TaskExecutionStatus),
+    TaskMode: S.optional(TaskMode),
   }),
 ).annotations({
   identifier: "TaskExecutionListEntry",
@@ -1982,10 +2195,10 @@ export const CreateLocationEfsResponse = S.suspend(() =>
 }) as any as S.Schema<CreateLocationEfsResponse>;
 export interface CreateLocationFsxOntapRequest {
   Protocol: FsxProtocol;
-  SecurityGroupArns: Ec2SecurityGroupArnList;
+  SecurityGroupArns: string[];
   StorageVirtualMachineArn: string;
   Subdirectory?: string;
-  Tags?: InputTagList;
+  Tags?: TagListEntry[];
 }
 export const CreateLocationFsxOntapRequest = S.suspend(() =>
   S.Struct({
@@ -2035,10 +2248,10 @@ export const CreateLocationSmbResponse = S.suspend(() =>
 export interface DescribeAgentResponse {
   AgentArn?: string;
   Name?: string;
-  Status?: string;
+  Status?: AgentStatus;
   LastConnectionTime?: Date;
   CreationTime?: Date;
-  EndpointType?: string;
+  EndpointType?: EndpointType;
   PrivateLinkConfig?: PrivateLinkConfig;
   Platform?: Platform;
 }
@@ -2046,12 +2259,12 @@ export const DescribeAgentResponse = S.suspend(() =>
   S.Struct({
     AgentArn: S.optional(S.String),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(AgentStatus),
     LastConnectionTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndpointType: S.optional(S.String),
+    EndpointType: S.optional(EndpointType),
     PrivateLinkConfig: S.optional(PrivateLinkConfig),
     Platform: S.optional(Platform),
   }),
@@ -2061,10 +2274,10 @@ export const DescribeAgentResponse = S.suspend(() =>
 export interface DescribeLocationAzureBlobResponse {
   LocationArn?: string;
   LocationUri?: string;
-  AuthenticationType?: string;
-  BlobType?: string;
-  AccessTier?: string;
-  AgentArns?: AgentArnList;
+  AuthenticationType?: AzureBlobAuthenticationType;
+  BlobType?: AzureBlobType;
+  AccessTier?: AzureAccessTier;
+  AgentArns?: string[];
   CreationTime?: Date;
   ManagedSecretConfig?: ManagedSecretConfig;
   CmkSecretConfig?: CmkSecretConfig;
@@ -2074,9 +2287,9 @@ export const DescribeLocationAzureBlobResponse = S.suspend(() =>
   S.Struct({
     LocationArn: S.optional(S.String),
     LocationUri: S.optional(S.String),
-    AuthenticationType: S.optional(S.String),
-    BlobType: S.optional(S.String),
-    AccessTier: S.optional(S.String),
+    AuthenticationType: S.optional(AzureBlobAuthenticationType),
+    BlobType: S.optional(AzureBlobType),
+    AccessTier: S.optional(AzureAccessTier),
     AgentArns: S.optional(AgentArnList),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ManagedSecretConfig: S.optional(ManagedSecretConfig),
@@ -2088,30 +2301,30 @@ export const DescribeLocationAzureBlobResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeLocationAzureBlobResponse>;
 export interface DescribeTaskResponse {
   TaskArn?: string;
-  Status?: string;
+  Status?: TaskStatus;
   Name?: string;
   CurrentTaskExecutionArn?: string;
   SourceLocationArn?: string;
   DestinationLocationArn?: string;
   CloudWatchLogGroupArn?: string;
-  SourceNetworkInterfaceArns?: SourceNetworkInterfaceArns;
-  DestinationNetworkInterfaceArns?: DestinationNetworkInterfaceArns;
+  SourceNetworkInterfaceArns?: string[];
+  DestinationNetworkInterfaceArns?: string[];
   Options?: Options;
-  Excludes?: FilterList;
+  Excludes?: FilterRule[];
   Schedule?: TaskSchedule;
   ErrorCode?: string;
   ErrorDetail?: string;
   CreationTime?: Date;
-  Includes?: FilterList;
+  Includes?: FilterRule[];
   ManifestConfig?: ManifestConfig;
   TaskReportConfig?: TaskReportConfig;
   ScheduleDetails?: TaskScheduleDetails;
-  TaskMode?: string;
+  TaskMode?: TaskMode;
 }
 export const DescribeTaskResponse = S.suspend(() =>
   S.Struct({
     TaskArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(TaskStatus),
     Name: S.optional(S.String),
     CurrentTaskExecutionArn: S.optional(S.String),
     SourceLocationArn: S.optional(S.String),
@@ -2131,17 +2344,17 @@ export const DescribeTaskResponse = S.suspend(() =>
     ManifestConfig: S.optional(ManifestConfig),
     TaskReportConfig: S.optional(TaskReportConfig),
     ScheduleDetails: S.optional(TaskScheduleDetails),
-    TaskMode: S.optional(S.String),
+    TaskMode: S.optional(TaskMode),
   }),
 ).annotations({
   identifier: "DescribeTaskResponse",
 }) as any as S.Schema<DescribeTaskResponse>;
 export interface DescribeTaskExecutionResponse {
   TaskExecutionArn?: string;
-  Status?: string;
+  Status?: TaskExecutionStatus;
   Options?: Options;
-  Excludes?: FilterList;
-  Includes?: FilterList;
+  Excludes?: FilterRule[];
+  Includes?: FilterRule[];
   ManifestConfig?: ManifestConfig;
   StartTime?: Date;
   EstimatedFilesToTransfer?: number;
@@ -2157,7 +2370,7 @@ export interface DescribeTaskExecutionResponse {
   FilesVerified?: number;
   ReportResult?: ReportResult;
   EstimatedFilesToDelete?: number;
-  TaskMode?: string;
+  TaskMode?: TaskMode;
   FilesPrepared?: number;
   FilesListed?: TaskExecutionFilesListedDetail;
   FilesFailed?: TaskExecutionFilesFailedDetail;
@@ -2176,7 +2389,7 @@ export interface DescribeTaskExecutionResponse {
 export const DescribeTaskExecutionResponse = S.suspend(() =>
   S.Struct({
     TaskExecutionArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(TaskExecutionStatus),
     Options: S.optional(Options),
     Excludes: S.optional(FilterList),
     Includes: S.optional(FilterList),
@@ -2195,7 +2408,7 @@ export const DescribeTaskExecutionResponse = S.suspend(() =>
     FilesVerified: S.optional(S.Number),
     ReportResult: S.optional(ReportResult),
     EstimatedFilesToDelete: S.optional(S.Number),
-    TaskMode: S.optional(S.String),
+    TaskMode: S.optional(TaskMode),
     FilesPrepared: S.optional(S.Number),
     FilesListed: S.optional(TaskExecutionFilesListedDetail),
     FilesFailed: S.optional(TaskExecutionFilesFailedDetail),
@@ -2215,7 +2428,7 @@ export const DescribeTaskExecutionResponse = S.suspend(() =>
   identifier: "DescribeTaskExecutionResponse",
 }) as any as S.Schema<DescribeTaskExecutionResponse>;
 export interface ListAgentsResponse {
-  Agents?: AgentList;
+  Agents?: AgentListEntry[];
   NextToken?: string;
 }
 export const ListAgentsResponse = S.suspend(() =>
@@ -2224,7 +2437,7 @@ export const ListAgentsResponse = S.suspend(() =>
   identifier: "ListAgentsResponse",
 }) as any as S.Schema<ListAgentsResponse>;
 export interface ListTaskExecutionsResponse {
-  TaskExecutions?: TaskExecutionList;
+  TaskExecutions?: TaskExecutionListEntry[];
   NextToken?: string;
 }
 export const ListTaskExecutionsResponse = S.suspend(() =>
@@ -2273,16 +2486,16 @@ export type LocationList = LocationListEntry[];
 export const LocationList = S.Array(LocationListEntry);
 export interface TaskListEntry {
   TaskArn?: string;
-  Status?: string;
+  Status?: TaskStatus;
   Name?: string;
-  TaskMode?: string;
+  TaskMode?: TaskMode;
 }
 export const TaskListEntry = S.suspend(() =>
   S.Struct({
     TaskArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(TaskStatus),
     Name: S.optional(S.String),
-    TaskMode: S.optional(S.String),
+    TaskMode: S.optional(TaskMode),
   }),
 ).annotations({
   identifier: "TaskListEntry",
@@ -2303,13 +2516,13 @@ export interface CreateTaskRequest {
   CloudWatchLogGroupArn?: string;
   Name?: string;
   Options?: Options;
-  Excludes?: FilterList;
+  Excludes?: FilterRule[];
   Schedule?: TaskSchedule;
-  Tags?: InputTagList;
-  Includes?: FilterList;
+  Tags?: TagListEntry[];
+  Includes?: FilterRule[];
   ManifestConfig?: ManifestConfig;
   TaskReportConfig?: TaskReportConfig;
-  TaskMode?: string;
+  TaskMode?: TaskMode;
 }
 export const CreateTaskRequest = S.suspend(() =>
   S.Struct({
@@ -2324,7 +2537,7 @@ export const CreateTaskRequest = S.suspend(() =>
     Includes: S.optional(FilterList),
     ManifestConfig: S.optional(ManifestConfig),
     TaskReportConfig: S.optional(TaskReportConfig),
-    TaskMode: S.optional(S.String),
+    TaskMode: S.optional(TaskMode),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -2332,7 +2545,7 @@ export const CreateTaskRequest = S.suspend(() =>
   identifier: "CreateTaskRequest",
 }) as any as S.Schema<CreateTaskRequest>;
 export interface ListLocationsResponse {
-  Locations?: LocationList;
+  Locations?: LocationListEntry[];
   NextToken?: string;
 }
 export const ListLocationsResponse = S.suspend(() =>
@@ -2344,7 +2557,7 @@ export const ListLocationsResponse = S.suspend(() =>
   identifier: "ListLocationsResponse",
 }) as any as S.Schema<ListLocationsResponse>;
 export interface ListTasksResponse {
-  Tasks?: TaskList;
+  Tasks?: TaskListEntry[];
   NextToken?: string;
 }
 export const ListTasksResponse = S.suspend(() =>
@@ -2388,7 +2601,7 @@ export class InvalidRequestException extends S.TaggedError<InvalidRequestExcepti
  */
 export const cancelTaskExecution: (
   input: CancelTaskExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelTaskExecutionResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2406,7 +2619,7 @@ export const cancelTaskExecution: (
  */
 export const createAgent: (
   input: CreateAgentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAgentResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2425,7 +2638,7 @@ export const createAgent: (
  */
 export const createLocationAzureBlob: (
   input: CreateLocationAzureBlobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLocationAzureBlobResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2445,7 +2658,7 @@ export const createLocationAzureBlob: (
  */
 export const createLocationEfs: (
   input: CreateLocationEfsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLocationEfsResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2465,7 +2678,7 @@ export const createLocationEfs: (
  */
 export const createLocationHdfs: (
   input: CreateLocationHdfsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLocationHdfsResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2485,7 +2698,7 @@ export const createLocationHdfs: (
  */
 export const createLocationNfs: (
   input: CreateLocationNfsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLocationNfsResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2511,7 +2724,7 @@ export const createLocationNfs: (
  */
 export const createLocationS3: (
   input: CreateLocationS3Request,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLocationS3Response,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2530,7 +2743,7 @@ export const createLocationS3: (
  */
 export const createLocationSmb: (
   input: CreateLocationSmbRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLocationSmbResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2545,7 +2758,7 @@ export const createLocationSmb: (
  */
 export const describeAgent: (
   input: DescribeAgentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAgentResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2560,7 +2773,7 @@ export const describeAgent: (
  */
 export const describeLocationAzureBlob: (
   input: DescribeLocationAzureBlobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeLocationAzureBlobResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2575,7 +2788,7 @@ export const describeLocationAzureBlob: (
  */
 export const describeTask: (
   input: DescribeTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeTaskResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2595,7 +2808,7 @@ export const describeTask: (
  */
 export const describeTaskExecution: (
   input: DescribeTaskExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeTaskExecutionResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2621,21 +2834,21 @@ export const describeTaskExecution: (
 export const listAgents: {
   (
     input: ListAgentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAgentsResponse,
     InternalException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListAgentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAgentsResponse,
     InternalException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAgentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AgentListEntry,
     InternalException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2657,21 +2870,21 @@ export const listAgents: {
 export const listTaskExecutions: {
   (
     input: ListTaskExecutionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTaskExecutionsResponse,
     InternalException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListTaskExecutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTaskExecutionsResponse,
     InternalException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTaskExecutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TaskExecutionListEntry,
     InternalException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2696,7 +2909,7 @@ export const listTaskExecutions: {
  */
 export const updateLocationFsxOntap: (
   input: UpdateLocationFsxOntapRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLocationFsxOntapResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2715,7 +2928,7 @@ export const updateLocationFsxOntap: (
  */
 export const createLocationFsxLustre: (
   input: CreateLocationFsxLustreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLocationFsxLustreResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2738,7 +2951,7 @@ export const createLocationFsxLustre: (
  */
 export const createLocationFsxOpenZfs: (
   input: CreateLocationFsxOpenZfsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLocationFsxOpenZfsResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2758,7 +2971,7 @@ export const createLocationFsxOpenZfs: (
  */
 export const createLocationFsxWindows: (
   input: CreateLocationFsxWindowsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLocationFsxWindowsResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2776,7 +2989,7 @@ export const createLocationFsxWindows: (
  */
 export const createLocationObjectStorage: (
   input: CreateLocationObjectStorageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLocationObjectStorageResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2790,7 +3003,7 @@ export const createLocationObjectStorage: (
  */
 export const describeLocationEfs: (
   input: DescribeLocationEfsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeLocationEfsResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2804,7 +3017,7 @@ export const describeLocationEfs: (
  */
 export const describeLocationFsxLustre: (
   input: DescribeLocationFsxLustreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeLocationFsxLustreResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2821,7 +3034,7 @@ export const describeLocationFsxLustre: (
  */
 export const describeLocationFsxOntap: (
   input: DescribeLocationFsxOntapRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeLocationFsxOntapResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2838,7 +3051,7 @@ export const describeLocationFsxOntap: (
  */
 export const describeLocationFsxOpenZfs: (
   input: DescribeLocationFsxOpenZfsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeLocationFsxOpenZfsResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2852,7 +3065,7 @@ export const describeLocationFsxOpenZfs: (
  */
 export const describeLocationFsxWindows: (
   input: DescribeLocationFsxWindowsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeLocationFsxWindowsResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2867,7 +3080,7 @@ export const describeLocationFsxWindows: (
  */
 export const describeLocationHdfs: (
   input: DescribeLocationHdfsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeLocationHdfsResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2882,7 +3095,7 @@ export const describeLocationHdfs: (
  */
 export const describeLocationNfs: (
   input: DescribeLocationNfsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeLocationNfsResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2897,7 +3110,7 @@ export const describeLocationNfs: (
  */
 export const describeLocationObjectStorage: (
   input: DescribeLocationObjectStorageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeLocationObjectStorageResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2912,7 +3125,7 @@ export const describeLocationObjectStorage: (
  */
 export const describeLocationS3: (
   input: DescribeLocationS3Request,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeLocationS3Response,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2927,7 +3140,7 @@ export const describeLocationS3: (
  */
 export const describeLocationSmb: (
   input: DescribeLocationSmbRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeLocationSmbResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2942,21 +3155,21 @@ export const describeLocationSmb: (
 export const listTagsForResource: {
   (
     input: ListTagsForResourceRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTagsForResourceResponse,
     InternalException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListTagsForResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTagsForResourceResponse,
     InternalException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTagsForResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TagListEntry,
     InternalException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2985,7 +3198,7 @@ export const listTagsForResource: {
  */
 export const startTaskExecution: (
   input: StartTaskExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartTaskExecutionResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3004,7 +3217,7 @@ export const startTaskExecution: (
  */
 export const deleteAgent: (
   input: DeleteAgentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAgentResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3018,7 +3231,7 @@ export const deleteAgent: (
  */
 export const deleteLocation: (
   input: DeleteLocationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLocationResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3032,7 +3245,7 @@ export const deleteLocation: (
  */
 export const deleteTask: (
   input: DeleteTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTaskResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3050,7 +3263,7 @@ export const deleteTask: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3064,7 +3277,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3078,7 +3291,7 @@ export const untagResource: (
  */
 export const updateAgent: (
   input: UpdateAgentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAgentResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3095,7 +3308,7 @@ export const updateAgent: (
  */
 export const updateLocationAzureBlob: (
   input: UpdateLocationAzureBlobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLocationAzureBlobResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3113,7 +3326,7 @@ export const updateLocationAzureBlob: (
  */
 export const updateLocationEfs: (
   input: UpdateLocationEfsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLocationEfsResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3131,7 +3344,7 @@ export const updateLocationEfs: (
  */
 export const updateLocationFsxLustre: (
   input: UpdateLocationFsxLustreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLocationFsxLustreResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3152,7 +3365,7 @@ export const updateLocationFsxLustre: (
  */
 export const updateLocationFsxOpenZfs: (
   input: UpdateLocationFsxOpenZfsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLocationFsxOpenZfsResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3170,7 +3383,7 @@ export const updateLocationFsxOpenZfs: (
  */
 export const updateLocationFsxWindows: (
   input: UpdateLocationFsxWindowsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLocationFsxWindowsResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3188,7 +3401,7 @@ export const updateLocationFsxWindows: (
  */
 export const updateLocationHdfs: (
   input: UpdateLocationHdfsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLocationHdfsResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3206,7 +3419,7 @@ export const updateLocationHdfs: (
  */
 export const updateLocationNfs: (
   input: UpdateLocationNfsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLocationNfsResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3224,7 +3437,7 @@ export const updateLocationNfs: (
  */
 export const updateLocationObjectStorage: (
   input: UpdateLocationObjectStorageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLocationObjectStorageResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3246,7 +3459,7 @@ export const updateLocationObjectStorage: (
  */
 export const updateLocationS3: (
   input: UpdateLocationS3Request,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLocationS3Response,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3264,7 +3477,7 @@ export const updateLocationS3: (
  */
 export const updateLocationSmb: (
   input: UpdateLocationSmbRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLocationSmbResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3279,7 +3492,7 @@ export const updateLocationSmb: (
  */
 export const updateTask: (
   input: UpdateTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTaskResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3299,7 +3512,7 @@ export const updateTask: (
  */
 export const updateTaskExecution: (
   input: UpdateTaskExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTaskExecutionResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3318,7 +3531,7 @@ export const updateTaskExecution: (
  */
 export const createLocationFsxOntap: (
   input: CreateLocationFsxOntapRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLocationFsxOntapResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3337,21 +3550,21 @@ export const createLocationFsxOntap: (
 export const listLocations: {
   (
     input: ListLocationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLocationsResponse,
     InternalException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListLocationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLocationsResponse,
     InternalException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLocationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LocationListEntry,
     InternalException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3373,21 +3586,21 @@ export const listLocations: {
 export const listTasks: {
   (
     input: ListTasksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTasksResponse,
     InternalException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListTasksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTasksResponse,
     InternalException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTasksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TaskListEntry,
     InternalException | InvalidRequestException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3417,7 +3630,7 @@ export const listTasks: {
  */
 export const createTask: (
   input: CreateTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTaskResponse,
   InternalException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -163,6 +163,8 @@ export const InputParallelism = S.suspend(() =>
 ).annotations({
   identifier: "InputParallelism",
 }) as any as S.Schema<InputParallelism>;
+export type RecordFormatType = "JSON" | "CSV";
+export const RecordFormatType = S.Literal("JSON", "CSV");
 export interface JSONMappingParameters {
   RecordRowPath: string;
 }
@@ -193,12 +195,12 @@ export const MappingParameters = S.suspend(() =>
   identifier: "MappingParameters",
 }) as any as S.Schema<MappingParameters>;
 export interface RecordFormat {
-  RecordFormatType: string;
+  RecordFormatType: RecordFormatType;
   MappingParameters?: MappingParameters;
 }
 export const RecordFormat = S.suspend(() =>
   S.Struct({
-    RecordFormatType: S.String,
+    RecordFormatType: RecordFormatType,
     MappingParameters: S.optional(MappingParameters),
   }),
 ).annotations({ identifier: "RecordFormat" }) as any as S.Schema<RecordFormat>;
@@ -219,7 +221,7 @@ export const RecordColumns = S.Array(RecordColumn);
 export interface SourceSchema {
   RecordFormat: RecordFormat;
   RecordEncoding?: string;
-  RecordColumns: RecordColumns;
+  RecordColumns: RecordColumn[];
 }
 export const SourceSchema = S.suspend(() =>
   S.Struct({
@@ -274,10 +276,10 @@ export const LambdaOutput = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, RoleARN: S.String }),
 ).annotations({ identifier: "LambdaOutput" }) as any as S.Schema<LambdaOutput>;
 export interface DestinationSchema {
-  RecordFormatType: string;
+  RecordFormatType: RecordFormatType;
 }
 export const DestinationSchema = S.suspend(() =>
-  S.Struct({ RecordFormatType: S.String }),
+  S.Struct({ RecordFormatType: RecordFormatType }),
 ).annotations({
   identifier: "DestinationSchema",
 }) as any as S.Schema<DestinationSchema>;
@@ -554,7 +556,7 @@ export type Tags = Tag[];
 export const Tags = S.Array(Tag);
 export interface TagResourceRequest {
   ResourceARN: string;
-  Tags: Tags;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: Tags }).pipe(
@@ -579,7 +581,7 @@ export const TagResourceResponse = S.suspend(() =>
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceARN: string;
-  TagKeys: TagKeys;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeys }).pipe(
@@ -602,11 +604,20 @@ export const UntagResourceResponse = S.suspend(() =>
 ).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
+export type InputStartingPosition =
+  | "NOW"
+  | "TRIM_HORIZON"
+  | "LAST_STOPPED_POINT";
+export const InputStartingPosition = S.Literal(
+  "NOW",
+  "TRIM_HORIZON",
+  "LAST_STOPPED_POINT",
+);
 export interface InputStartingPositionConfiguration {
-  InputStartingPosition?: string;
+  InputStartingPosition?: InputStartingPosition;
 }
 export const InputStartingPositionConfiguration = S.suspend(() =>
-  S.Struct({ InputStartingPosition: S.optional(S.String) }),
+  S.Struct({ InputStartingPosition: S.optional(InputStartingPosition) }),
 ).annotations({
   identifier: "InputStartingPositionConfiguration",
 }) as any as S.Schema<InputStartingPositionConfiguration>;
@@ -667,11 +678,11 @@ export const AddApplicationCloudWatchLoggingOptionResponse = S.suspend(() =>
 export interface CreateApplicationRequest {
   ApplicationName: string;
   ApplicationDescription?: string;
-  Inputs?: Inputs;
-  Outputs?: Outputs;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
+  Inputs?: Input[];
+  Outputs?: Output[];
+  CloudWatchLoggingOptions?: CloudWatchLoggingOption[];
   ApplicationCode?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreateApplicationRequest = S.suspend(() =>
   S.Struct({
@@ -727,7 +738,7 @@ export const DiscoverInputSchemaRequest = S.suspend(() =>
   identifier: "DiscoverInputSchemaRequest",
 }) as any as S.Schema<DiscoverInputSchemaRequest>;
 export interface ListTagsForResourceResponse {
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }).pipe(ns),
@@ -736,7 +747,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface StartApplicationRequest {
   ApplicationName: string;
-  InputConfigurations: InputConfigurations;
+  InputConfigurations: InputConfiguration[];
 }
 export const StartApplicationRequest = S.suspend(() =>
   S.Struct({
@@ -776,6 +787,21 @@ export const S3ReferenceDataSource = S.suspend(() =>
 ).annotations({
   identifier: "S3ReferenceDataSource",
 }) as any as S.Schema<S3ReferenceDataSource>;
+export type ApplicationStatus =
+  | "DELETING"
+  | "STARTING"
+  | "STOPPING"
+  | "READY"
+  | "RUNNING"
+  | "UPDATING";
+export const ApplicationStatus = S.Literal(
+  "DELETING",
+  "STARTING",
+  "STOPPING",
+  "READY",
+  "RUNNING",
+  "UPDATING",
+);
 export interface CloudWatchLoggingOptionUpdate {
   CloudWatchLoggingOptionId: string;
   LogStreamARNUpdate?: string;
@@ -810,7 +836,7 @@ export const ReferenceDataSource = S.suspend(() =>
 }) as any as S.Schema<ReferenceDataSource>;
 export type ParsedInputRecord = string[];
 export const ParsedInputRecord = S.Array(S.String);
-export type ParsedInputRecords = ParsedInputRecord[];
+export type ParsedInputRecords = string[][];
 export const ParsedInputRecords = S.Array(ParsedInputRecord);
 export type ProcessedInputRecords = string[];
 export const ProcessedInputRecords = S.Array(S.String);
@@ -819,13 +845,13 @@ export const RawInputRecords = S.Array(S.String);
 export interface ApplicationSummary {
   ApplicationName: string;
   ApplicationARN: string;
-  ApplicationStatus: string;
+  ApplicationStatus: ApplicationStatus;
 }
 export const ApplicationSummary = S.suspend(() =>
   S.Struct({
     ApplicationName: S.String,
     ApplicationARN: S.String,
-    ApplicationStatus: S.String,
+    ApplicationStatus: ApplicationStatus,
   }),
 ).annotations({
   identifier: "ApplicationSummary",
@@ -861,7 +887,7 @@ export const KinesisFirehoseInputUpdate = S.suspend(() =>
 export interface InputSchemaUpdate {
   RecordFormatUpdate?: RecordFormat;
   RecordEncodingUpdate?: string;
-  RecordColumnUpdates?: RecordColumns;
+  RecordColumnUpdates?: RecordColumn[];
 }
 export const InputSchemaUpdate = S.suspend(() =>
   S.Struct({
@@ -1032,9 +1058,9 @@ export const CreateApplicationResponse = S.suspend(() =>
 }) as any as S.Schema<CreateApplicationResponse>;
 export interface DiscoverInputSchemaResponse {
   InputSchema?: SourceSchema;
-  ParsedInputRecords?: ParsedInputRecords;
-  ProcessedInputRecords?: ProcessedInputRecords;
-  RawInputRecords?: RawInputRecords;
+  ParsedInputRecords?: string[][];
+  ProcessedInputRecords?: string[];
+  RawInputRecords?: string[];
 }
 export const DiscoverInputSchemaResponse = S.suspend(() =>
   S.Struct({
@@ -1047,7 +1073,7 @@ export const DiscoverInputSchemaResponse = S.suspend(() =>
   identifier: "DiscoverInputSchemaResponse",
 }) as any as S.Schema<DiscoverInputSchemaResponse>;
 export interface ListApplicationsResponse {
-  ApplicationSummaries: ApplicationSummaries;
+  ApplicationSummaries: ApplicationSummary[];
   HasMoreApplications: boolean;
 }
 export const ListApplicationsResponse = S.suspend(() =>
@@ -1292,11 +1318,11 @@ export const InputLambdaProcessorDescription = S.suspend(() =>
   identifier: "InputLambdaProcessorDescription",
 }) as any as S.Schema<InputLambdaProcessorDescription>;
 export interface ApplicationUpdate {
-  InputUpdates?: InputUpdates;
+  InputUpdates?: InputUpdate[];
   ApplicationCodeUpdate?: string;
-  OutputUpdates?: OutputUpdates;
-  ReferenceDataSourceUpdates?: ReferenceDataSourceUpdates;
-  CloudWatchLoggingOptionUpdates?: CloudWatchLoggingOptionUpdates;
+  OutputUpdates?: OutputUpdate[];
+  ReferenceDataSourceUpdates?: ReferenceDataSourceUpdate[];
+  CloudWatchLoggingOptionUpdates?: CloudWatchLoggingOptionUpdate[];
 }
 export const ApplicationUpdate = S.suspend(() =>
   S.Struct({
@@ -1354,7 +1380,7 @@ export const UpdateApplicationResponse = S.suspend(() =>
 export interface InputDescription {
   InputId?: string;
   NamePrefix?: string;
-  InAppStreamNames?: InAppStreamNames;
+  InAppStreamNames?: string[];
   InputProcessingConfigurationDescription?: InputProcessingConfigurationDescription;
   KinesisStreamsInputDescription?: KinesisStreamsInputDescription;
   KinesisFirehoseInputDescription?: KinesisFirehoseInputDescription;
@@ -1389,13 +1415,13 @@ export interface ApplicationDetail {
   ApplicationName: string;
   ApplicationDescription?: string;
   ApplicationARN: string;
-  ApplicationStatus: string;
+  ApplicationStatus: ApplicationStatus;
   CreateTimestamp?: Date;
   LastUpdateTimestamp?: Date;
-  InputDescriptions?: InputDescriptions;
-  OutputDescriptions?: OutputDescriptions;
-  ReferenceDataSourceDescriptions?: ReferenceDataSourceDescriptions;
-  CloudWatchLoggingOptionDescriptions?: CloudWatchLoggingOptionDescriptions;
+  InputDescriptions?: InputDescription[];
+  OutputDescriptions?: OutputDescription[];
+  ReferenceDataSourceDescriptions?: ReferenceDataSourceDescription[];
+  CloudWatchLoggingOptionDescriptions?: CloudWatchLoggingOptionDescription[];
   ApplicationCode?: string;
   ApplicationVersionId: number;
 }
@@ -1404,7 +1430,7 @@ export const ApplicationDetail = S.suspend(() =>
     ApplicationName: S.String,
     ApplicationDescription: S.optional(S.String),
     ApplicationARN: S.String,
-    ApplicationStatus: S.String,
+    ApplicationStatus: ApplicationStatus,
     CreateTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1540,7 +1566,7 @@ export class UnableToDetectSchemaException extends S.TaggedError<UnableToDetectS
  */
 export const listApplications: (
   input: ListApplicationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListApplicationsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1554,7 +1580,7 @@ export const listApplications: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -1585,7 +1611,7 @@ export const listTagsForResource: (
  */
 export const stopApplication: (
   input: StopApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopApplicationResponse,
   | ResourceInUseException
   | ResourceNotFoundException
@@ -1607,7 +1633,7 @@ export const stopApplication: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -1636,7 +1662,7 @@ export const tagResource: (
  */
 export const deleteApplicationCloudWatchLoggingOption: (
   input: DeleteApplicationCloudWatchLoggingOptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApplicationCloudWatchLoggingOptionResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -1663,7 +1689,7 @@ export const deleteApplicationCloudWatchLoggingOption: (
  */
 export const deleteApplicationInputProcessingConfiguration: (
   input: DeleteApplicationInputProcessingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApplicationInputProcessingConfigurationResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -1693,7 +1719,7 @@ export const deleteApplicationInputProcessingConfiguration: (
  */
 export const deleteApplicationOutput: (
   input: DeleteApplicationOutputRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApplicationOutputResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -1726,7 +1752,7 @@ export const deleteApplicationOutput: (
  */
 export const deleteApplicationReferenceDataSource: (
   input: DeleteApplicationReferenceDataSourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApplicationReferenceDataSourceResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -1756,7 +1782,7 @@ export const deleteApplicationReferenceDataSource: (
  */
 export const addApplicationCloudWatchLoggingOption: (
   input: AddApplicationCloudWatchLoggingOptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddApplicationCloudWatchLoggingOptionResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -1785,7 +1811,7 @@ export const addApplicationCloudWatchLoggingOption: (
  */
 export const addApplicationInputProcessingConfiguration: (
   input: AddApplicationInputProcessingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddApplicationInputProcessingConfigurationResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -1833,7 +1859,7 @@ export const addApplicationInputProcessingConfiguration: (
  */
 export const addApplicationOutput: (
   input: AddApplicationOutputRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddApplicationOutputResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -1869,7 +1895,7 @@ export const addApplicationOutput: (
  */
 export const addApplicationReferenceDataSource: (
   input: AddApplicationReferenceDataSourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddApplicationReferenceDataSourceResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -1898,7 +1924,7 @@ export const addApplicationReferenceDataSource: (
  */
 export const deleteApplication: (
   input: DeleteApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApplicationResponse,
   | ConcurrentModificationException
   | ResourceInUseException
@@ -1934,7 +1960,7 @@ export const deleteApplication: (
  */
 export const startApplication: (
   input: StartApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartApplicationResponse,
   | InvalidApplicationConfigurationException
   | InvalidArgumentException
@@ -1959,7 +1985,7 @@ export const startApplication: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -2006,7 +2032,7 @@ export const untagResource: (
  */
 export const createApplication: (
   input: CreateApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateApplicationResponse,
   | CodeValidationException
   | ConcurrentModificationException
@@ -2043,7 +2069,7 @@ export const createApplication: (
  */
 export const updateApplication: (
   input: UpdateApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateApplicationResponse,
   | CodeValidationException
   | ConcurrentModificationException
@@ -2085,7 +2111,7 @@ export const updateApplication: (
  */
 export const addApplicationInput: (
   input: AddApplicationInputRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddApplicationInputResponse,
   | CodeValidationException
   | ConcurrentModificationException
@@ -2121,7 +2147,7 @@ export const addApplicationInput: (
  */
 export const describeApplication: (
   input: DescribeApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeApplicationResponse,
   ResourceNotFoundException | UnsupportedOperationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2146,7 +2172,7 @@ export const describeApplication: (
  */
 export const discoverInputSchema: (
   input: DiscoverInputSchemaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DiscoverInputSchemaResponse,
   | InvalidArgumentException
   | ResourceProvisionedThroughputExceededException

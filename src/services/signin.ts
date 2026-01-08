@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -110,7 +110,7 @@ export type GrantType = string;
 export type AuthorizationCode = string;
 export type RedirectUri = string;
 export type CodeVerifier = string;
-export type RefreshToken = string | Redacted.Redacted<string>;
+export type RefreshToken = string | redacted.Redacted<string>;
 export type TokenType = string;
 export type ExpiresIn = number;
 export type IdToken = string;
@@ -122,7 +122,7 @@ export interface CreateOAuth2TokenRequestBody {
   code?: string;
   redirectUri?: string;
   codeVerifier?: string;
-  refreshToken?: string | Redacted.Redacted<string>;
+  refreshToken?: string | redacted.Redacted<string>;
 }
 export const CreateOAuth2TokenRequestBody = S.suspend(() =>
   S.Struct({
@@ -173,7 +173,7 @@ export interface CreateOAuth2TokenResponseBody {
   accessToken: AccessToken;
   tokenType: string;
   expiresIn: number;
-  refreshToken: string | Redacted.Redacted<string>;
+  refreshToken: string | redacted.Redacted<string>;
   idToken?: string;
 }
 export const CreateOAuth2TokenResponseBody = S.suspend(() =>
@@ -201,23 +201,38 @@ export const CreateOAuth2TokenResponse = S.suspend(() =>
 ).annotations({
   identifier: "CreateOAuth2TokenResponse",
 }) as any as S.Schema<CreateOAuth2TokenResponse>;
+export type OAuth2ErrorCode =
+  | "TOKEN_EXPIRED"
+  | "USER_CREDENTIALS_CHANGED"
+  | "INSUFFICIENT_PERMISSIONS"
+  | "AUTHCODE_EXPIRED"
+  | "server_error"
+  | "INVALID_REQUEST";
+export const OAuth2ErrorCode = S.Literal(
+  "TOKEN_EXPIRED",
+  "USER_CREDENTIALS_CHANGED",
+  "INSUFFICIENT_PERMISSIONS",
+  "AUTHCODE_EXPIRED",
+  "server_error",
+  "INVALID_REQUEST",
+);
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  { error: S.String, message: S.String },
+  { error: OAuth2ErrorCode, message: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  { error: S.String, message: S.String },
+  { error: OAuth2ErrorCode, message: S.String },
 ).pipe(C.withServerError) {}
 export class TooManyRequestsError extends S.TaggedError<TooManyRequestsError>()(
   "TooManyRequestsError",
-  { error: S.String, message: S.String },
+  { error: OAuth2ErrorCode, message: S.String },
 ).pipe(C.withThrottlingError) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  { error: S.String, message: S.String },
+  { error: OAuth2ErrorCode, message: S.String },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
@@ -253,7 +268,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const createOAuth2Token: (
   input: CreateOAuth2TokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateOAuth2TokenResponse,
   | AccessDeniedException
   | InternalServerException

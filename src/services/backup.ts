@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -89,8 +89,7 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type BackupVaultName = string;
 export type ARN = string;
-export type RequesterComment = string | Redacted.Redacted<string>;
-export type Long = number;
+export type RequesterComment = string | redacted.Redacted<string>;
 export type FrameworkName = string;
 export type FrameworkDescription = string;
 export type ReportPlanName = string;
@@ -176,14 +175,247 @@ export const GetSupportedResourceTypesRequest = S.suspend(() =>
 }) as any as S.Schema<GetSupportedResourceTypesRequest>;
 export type ResourceTypes = string[];
 export const ResourceTypes = S.Array(S.String);
-export type BackupVaultEvents = string[];
-export const BackupVaultEvents = S.Array(S.String);
+export type BackupJobState =
+  | "CREATED"
+  | "PENDING"
+  | "RUNNING"
+  | "ABORTING"
+  | "ABORTED"
+  | "COMPLETED"
+  | "FAILED"
+  | "EXPIRED"
+  | "PARTIAL";
+export const BackupJobState = S.Literal(
+  "CREATED",
+  "PENDING",
+  "RUNNING",
+  "ABORTING",
+  "ABORTED",
+  "COMPLETED",
+  "FAILED",
+  "EXPIRED",
+  "PARTIAL",
+);
+export type BackupJobStatus =
+  | "CREATED"
+  | "PENDING"
+  | "RUNNING"
+  | "ABORTING"
+  | "ABORTED"
+  | "COMPLETED"
+  | "FAILED"
+  | "EXPIRED"
+  | "PARTIAL"
+  | "AGGREGATE_ALL"
+  | "ANY";
+export const BackupJobStatus = S.Literal(
+  "CREATED",
+  "PENDING",
+  "RUNNING",
+  "ABORTING",
+  "ABORTED",
+  "COMPLETED",
+  "FAILED",
+  "EXPIRED",
+  "PARTIAL",
+  "AGGREGATE_ALL",
+  "ANY",
+);
+export type AggregationPeriod = "ONE_DAY" | "SEVEN_DAYS" | "FOURTEEN_DAYS";
+export const AggregationPeriod = S.Literal(
+  "ONE_DAY",
+  "SEVEN_DAYS",
+  "FOURTEEN_DAYS",
+);
+export type VaultType =
+  | "BACKUP_VAULT"
+  | "LOGICALLY_AIR_GAPPED_BACKUP_VAULT"
+  | "RESTORE_ACCESS_BACKUP_VAULT";
+export const VaultType = S.Literal(
+  "BACKUP_VAULT",
+  "LOGICALLY_AIR_GAPPED_BACKUP_VAULT",
+  "RESTORE_ACCESS_BACKUP_VAULT",
+);
+export type CopyJobState =
+  | "CREATED"
+  | "RUNNING"
+  | "COMPLETED"
+  | "FAILED"
+  | "PARTIAL";
+export const CopyJobState = S.Literal(
+  "CREATED",
+  "RUNNING",
+  "COMPLETED",
+  "FAILED",
+  "PARTIAL",
+);
+export type CopyJobStatus =
+  | "CREATED"
+  | "RUNNING"
+  | "ABORTING"
+  | "ABORTED"
+  | "COMPLETING"
+  | "COMPLETED"
+  | "FAILING"
+  | "FAILED"
+  | "PARTIAL"
+  | "AGGREGATE_ALL"
+  | "ANY";
+export const CopyJobStatus = S.Literal(
+  "CREATED",
+  "RUNNING",
+  "ABORTING",
+  "ABORTED",
+  "COMPLETING",
+  "COMPLETED",
+  "FAILING",
+  "FAILED",
+  "PARTIAL",
+  "AGGREGATE_ALL",
+  "ANY",
+);
+export type IndexStatus = "PENDING" | "ACTIVE" | "FAILED" | "DELETING";
+export const IndexStatus = S.Literal("PENDING", "ACTIVE", "FAILED", "DELETING");
+export type RestoreJobStatus =
+  | "PENDING"
+  | "RUNNING"
+  | "COMPLETED"
+  | "ABORTED"
+  | "FAILED";
+export const RestoreJobStatus = S.Literal(
+  "PENDING",
+  "RUNNING",
+  "COMPLETED",
+  "ABORTED",
+  "FAILED",
+);
+export type RestoreJobState =
+  | "CREATED"
+  | "PENDING"
+  | "RUNNING"
+  | "ABORTED"
+  | "COMPLETED"
+  | "FAILED"
+  | "AGGREGATE_ALL"
+  | "ANY";
+export const RestoreJobState = S.Literal(
+  "CREATED",
+  "PENDING",
+  "RUNNING",
+  "ABORTED",
+  "COMPLETED",
+  "FAILED",
+  "AGGREGATE_ALL",
+  "ANY",
+);
+export type MalwareScanner = "GUARDDUTY";
+export const MalwareScanner = S.Literal("GUARDDUTY");
+export type ScanResourceType = "EBS" | "EC2" | "S3";
+export const ScanResourceType = S.Literal("EBS", "EC2", "S3");
+export type ScanResultStatus = "NO_THREATS_FOUND" | "THREATS_FOUND";
+export const ScanResultStatus = S.Literal("NO_THREATS_FOUND", "THREATS_FOUND");
+export type ScanState =
+  | "CANCELED"
+  | "COMPLETED"
+  | "COMPLETED_WITH_ISSUES"
+  | "CREATED"
+  | "FAILED"
+  | "RUNNING";
+export const ScanState = S.Literal(
+  "CANCELED",
+  "COMPLETED",
+  "COMPLETED_WITH_ISSUES",
+  "CREATED",
+  "FAILED",
+  "RUNNING",
+);
+export type ScanJobStatus =
+  | "CREATED"
+  | "COMPLETED"
+  | "COMPLETED_WITH_ISSUES"
+  | "RUNNING"
+  | "FAILED"
+  | "CANCELED"
+  | "AGGREGATE_ALL"
+  | "ANY";
+export const ScanJobStatus = S.Literal(
+  "CREATED",
+  "COMPLETED",
+  "COMPLETED_WITH_ISSUES",
+  "RUNNING",
+  "FAILED",
+  "CANCELED",
+  "AGGREGATE_ALL",
+  "ANY",
+);
+export type BackupVaultEvent =
+  | "BACKUP_JOB_STARTED"
+  | "BACKUP_JOB_COMPLETED"
+  | "BACKUP_JOB_SUCCESSFUL"
+  | "BACKUP_JOB_FAILED"
+  | "BACKUP_JOB_EXPIRED"
+  | "RESTORE_JOB_STARTED"
+  | "RESTORE_JOB_COMPLETED"
+  | "RESTORE_JOB_SUCCESSFUL"
+  | "RESTORE_JOB_FAILED"
+  | "COPY_JOB_STARTED"
+  | "COPY_JOB_SUCCESSFUL"
+  | "COPY_JOB_FAILED"
+  | "RECOVERY_POINT_MODIFIED"
+  | "BACKUP_PLAN_CREATED"
+  | "BACKUP_PLAN_MODIFIED"
+  | "S3_BACKUP_OBJECT_FAILED"
+  | "S3_RESTORE_OBJECT_FAILED"
+  | "CONTINUOUS_BACKUP_INTERRUPTED"
+  | "RECOVERY_POINT_INDEX_COMPLETED"
+  | "RECOVERY_POINT_INDEX_DELETED"
+  | "RECOVERY_POINT_INDEXING_FAILED";
+export const BackupVaultEvent = S.Literal(
+  "BACKUP_JOB_STARTED",
+  "BACKUP_JOB_COMPLETED",
+  "BACKUP_JOB_SUCCESSFUL",
+  "BACKUP_JOB_FAILED",
+  "BACKUP_JOB_EXPIRED",
+  "RESTORE_JOB_STARTED",
+  "RESTORE_JOB_COMPLETED",
+  "RESTORE_JOB_SUCCESSFUL",
+  "RESTORE_JOB_FAILED",
+  "COPY_JOB_STARTED",
+  "COPY_JOB_SUCCESSFUL",
+  "COPY_JOB_FAILED",
+  "RECOVERY_POINT_MODIFIED",
+  "BACKUP_PLAN_CREATED",
+  "BACKUP_PLAN_MODIFIED",
+  "S3_BACKUP_OBJECT_FAILED",
+  "S3_RESTORE_OBJECT_FAILED",
+  "CONTINUOUS_BACKUP_INTERRUPTED",
+  "RECOVERY_POINT_INDEX_COMPLETED",
+  "RECOVERY_POINT_INDEX_DELETED",
+  "RECOVERY_POINT_INDEXING_FAILED",
+);
+export type BackupVaultEvents = BackupVaultEvent[];
+export const BackupVaultEvents = S.Array(BackupVaultEvent);
+export type RestoreValidationStatus =
+  | "FAILED"
+  | "SUCCESSFUL"
+  | "TIMED_OUT"
+  | "VALIDATING";
+export const RestoreValidationStatus = S.Literal(
+  "FAILED",
+  "SUCCESSFUL",
+  "TIMED_OUT",
+  "VALIDATING",
+);
+export type Index = "ENABLED" | "DISABLED";
+export const Index = S.Literal("ENABLED", "DISABLED");
+export type ScanMode = "FULL_SCAN" | "INCREMENTAL_SCAN";
+export const ScanMode = S.Literal("FULL_SCAN", "INCREMENTAL_SCAN");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface AssociateBackupVaultMpaApprovalTeamInput {
   BackupVaultName: string;
   MpaApprovalTeamArn: string;
-  RequesterComment?: string | Redacted.Redacted<string>;
+  RequesterComment?: string | redacted.Redacted<string>;
 }
 export const AssociateBackupVaultMpaApprovalTeamInput = S.suspend(() =>
   S.Struct({
@@ -245,7 +477,7 @@ export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
 export interface CreateBackupVaultInput {
   BackupVaultName: string;
-  BackupVaultTags?: Tags;
+  BackupVaultTags?: { [key: string]: string };
   EncryptionKeyArn?: string;
   CreatorRequestId?: string;
 }
@@ -270,7 +502,7 @@ export const CreateBackupVaultInput = S.suspend(() =>
 }) as any as S.Schema<CreateBackupVaultInput>;
 export interface CreateLogicallyAirGappedBackupVaultInput {
   BackupVaultName: string;
-  BackupVaultTags?: Tags;
+  BackupVaultTags?: { [key: string]: string };
   CreatorRequestId?: string;
   MinRetentionDays: number;
   MaxRetentionDays: number;
@@ -303,9 +535,9 @@ export const CreateLogicallyAirGappedBackupVaultInput = S.suspend(() =>
 export interface CreateRestoreAccessBackupVaultInput {
   SourceBackupVaultArn: string;
   BackupVaultName?: string;
-  BackupVaultTags?: Tags;
+  BackupVaultTags?: { [key: string]: string };
   CreatorRequestId?: string;
-  RequesterComment?: string | Redacted.Redacted<string>;
+  RequesterComment?: string | redacted.Redacted<string>;
 }
 export const CreateRestoreAccessBackupVaultInput = S.suspend(() =>
   S.Struct({
@@ -846,7 +1078,7 @@ export const DescribeScanJobInput = S.suspend(() =>
 }) as any as S.Schema<DescribeScanJobInput>;
 export interface DisassociateBackupVaultMpaApprovalTeamInput {
   BackupVaultName: string;
-  RequesterComment?: string | Redacted.Redacted<string>;
+  RequesterComment?: string | redacted.Redacted<string>;
 }
 export const DisassociateBackupVaultMpaApprovalTeamInput = S.suspend(() =>
   S.Struct({
@@ -1247,7 +1479,7 @@ export const GetRestoreTestingSelectionInput = S.suspend(() =>
   identifier: "GetRestoreTestingSelectionInput",
 }) as any as S.Schema<GetRestoreTestingSelectionInput>;
 export interface GetSupportedResourceTypesOutput {
-  ResourceTypes?: ResourceTypes;
+  ResourceTypes?: string[];
 }
 export const GetSupportedResourceTypesOutput = S.suspend(() =>
   S.Struct({ ResourceTypes: S.optional(ResourceTypes) }),
@@ -1282,7 +1514,7 @@ export interface ListBackupJobsInput {
   NextToken?: string;
   MaxResults?: number;
   ByResourceArn?: string;
-  ByState?: string;
+  ByState?: BackupJobState;
   ByBackupVaultName?: string;
   ByCreatedBefore?: Date;
   ByCreatedAfter?: Date;
@@ -1298,7 +1530,7 @@ export const ListBackupJobsInput = S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     ByResourceArn: S.optional(S.String).pipe(T.HttpQuery("resourceArn")),
-    ByState: S.optional(S.String).pipe(T.HttpQuery("state")),
+    ByState: S.optional(BackupJobState).pipe(T.HttpQuery("state")),
     ByBackupVaultName: S.optional(S.String).pipe(
       T.HttpQuery("backupVaultName"),
     ),
@@ -1335,20 +1567,20 @@ export const ListBackupJobsInput = S.suspend(() =>
 }) as any as S.Schema<ListBackupJobsInput>;
 export interface ListBackupJobSummariesInput {
   AccountId?: string;
-  State?: string;
+  State?: BackupJobStatus;
   ResourceType?: string;
   MessageCategory?: string;
-  AggregationPeriod?: string;
+  AggregationPeriod?: AggregationPeriod;
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListBackupJobSummariesInput = S.suspend(() =>
   S.Struct({
     AccountId: S.optional(S.String).pipe(T.HttpQuery("AccountId")),
-    State: S.optional(S.String).pipe(T.HttpQuery("State")),
+    State: S.optional(BackupJobStatus).pipe(T.HttpQuery("State")),
     ResourceType: S.optional(S.String).pipe(T.HttpQuery("ResourceType")),
     MessageCategory: S.optional(S.String).pipe(T.HttpQuery("MessageCategory")),
-    AggregationPeriod: S.optional(S.String).pipe(
+    AggregationPeriod: S.optional(AggregationPeriod).pipe(
       T.HttpQuery("AggregationPeriod"),
     ),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
@@ -1457,14 +1689,14 @@ export const ListBackupSelectionsInput = S.suspend(() =>
   identifier: "ListBackupSelectionsInput",
 }) as any as S.Schema<ListBackupSelectionsInput>;
 export interface ListBackupVaultsInput {
-  ByVaultType?: string;
+  ByVaultType?: VaultType;
   ByShared?: boolean;
   NextToken?: string;
   MaxResults?: number;
 }
 export const ListBackupVaultsInput = S.suspend(() =>
   S.Struct({
-    ByVaultType: S.optional(S.String).pipe(T.HttpQuery("vaultType")),
+    ByVaultType: S.optional(VaultType).pipe(T.HttpQuery("vaultType")),
     ByShared: S.optional(S.Boolean).pipe(T.HttpQuery("shared")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -1485,7 +1717,7 @@ export interface ListCopyJobsInput {
   NextToken?: string;
   MaxResults?: number;
   ByResourceArn?: string;
-  ByState?: string;
+  ByState?: CopyJobState;
   ByCreatedBefore?: Date;
   ByCreatedAfter?: Date;
   ByResourceType?: string;
@@ -1502,7 +1734,7 @@ export const ListCopyJobsInput = S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     ByResourceArn: S.optional(S.String).pipe(T.HttpQuery("resourceArn")),
-    ByState: S.optional(S.String).pipe(T.HttpQuery("state")),
+    ByState: S.optional(CopyJobState).pipe(T.HttpQuery("state")),
     ByCreatedBefore: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ).pipe(T.HttpQuery("createdBefore")),
@@ -1542,20 +1774,20 @@ export const ListCopyJobsInput = S.suspend(() =>
 }) as any as S.Schema<ListCopyJobsInput>;
 export interface ListCopyJobSummariesInput {
   AccountId?: string;
-  State?: string;
+  State?: CopyJobStatus;
   ResourceType?: string;
   MessageCategory?: string;
-  AggregationPeriod?: string;
+  AggregationPeriod?: AggregationPeriod;
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListCopyJobSummariesInput = S.suspend(() =>
   S.Struct({
     AccountId: S.optional(S.String).pipe(T.HttpQuery("AccountId")),
-    State: S.optional(S.String).pipe(T.HttpQuery("State")),
+    State: S.optional(CopyJobStatus).pipe(T.HttpQuery("State")),
     ResourceType: S.optional(S.String).pipe(T.HttpQuery("ResourceType")),
     MessageCategory: S.optional(S.String).pipe(T.HttpQuery("MessageCategory")),
-    AggregationPeriod: S.optional(S.String).pipe(
+    AggregationPeriod: S.optional(AggregationPeriod).pipe(
       T.HttpQuery("AggregationPeriod"),
     ),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
@@ -1601,7 +1833,7 @@ export interface ListIndexedRecoveryPointsInput {
   CreatedBefore?: Date;
   CreatedAfter?: Date;
   ResourceType?: string;
-  IndexStatus?: string;
+  IndexStatus?: IndexStatus;
 }
 export const ListIndexedRecoveryPointsInput = S.suspend(() =>
   S.Struct({
@@ -1617,7 +1849,7 @@ export const ListIndexedRecoveryPointsInput = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ).pipe(T.HttpQuery("createdAfter")),
     ResourceType: S.optional(S.String).pipe(T.HttpQuery("resourceType")),
-    IndexStatus: S.optional(S.String).pipe(T.HttpQuery("indexStatus")),
+    IndexStatus: S.optional(IndexStatus).pipe(T.HttpQuery("indexStatus")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/indexes/recovery-point" }),
@@ -1894,7 +2126,7 @@ export interface ListRestoreJobsInput {
   ByResourceType?: string;
   ByCreatedBefore?: Date;
   ByCreatedAfter?: Date;
-  ByStatus?: string;
+  ByStatus?: RestoreJobStatus;
   ByCompleteBefore?: Date;
   ByCompleteAfter?: Date;
   ByRestoreTestingPlanArn?: string;
@@ -1912,7 +2144,7 @@ export const ListRestoreJobsInput = S.suspend(() =>
     ByCreatedAfter: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ).pipe(T.HttpQuery("createdAfter")),
-    ByStatus: S.optional(S.String).pipe(T.HttpQuery("status")),
+    ByStatus: S.optional(RestoreJobStatus).pipe(T.HttpQuery("status")),
     ByCompleteBefore: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ).pipe(T.HttpQuery("completeBefore")),
@@ -1938,7 +2170,7 @@ export const ListRestoreJobsInput = S.suspend(() =>
 }) as any as S.Schema<ListRestoreJobsInput>;
 export interface ListRestoreJobsByProtectedResourceInput {
   ResourceArn: string;
-  ByStatus?: string;
+  ByStatus?: RestoreJobStatus;
   ByRecoveryPointCreationDateAfter?: Date;
   ByRecoveryPointCreationDateBefore?: Date;
   NextToken?: string;
@@ -1947,7 +2179,7 @@ export interface ListRestoreJobsByProtectedResourceInput {
 export const ListRestoreJobsByProtectedResourceInput = S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    ByStatus: S.optional(S.String).pipe(T.HttpQuery("status")),
+    ByStatus: S.optional(RestoreJobStatus).pipe(T.HttpQuery("status")),
     ByRecoveryPointCreationDateAfter: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ).pipe(T.HttpQuery("recoveryPointCreationDateAfter")),
@@ -1971,18 +2203,18 @@ export const ListRestoreJobsByProtectedResourceInput = S.suspend(() =>
 }) as any as S.Schema<ListRestoreJobsByProtectedResourceInput>;
 export interface ListRestoreJobSummariesInput {
   AccountId?: string;
-  State?: string;
+  State?: RestoreJobState;
   ResourceType?: string;
-  AggregationPeriod?: string;
+  AggregationPeriod?: AggregationPeriod;
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListRestoreJobSummariesInput = S.suspend(() =>
   S.Struct({
     AccountId: S.optional(S.String).pipe(T.HttpQuery("AccountId")),
-    State: S.optional(S.String).pipe(T.HttpQuery("State")),
+    State: S.optional(RestoreJobState).pipe(T.HttpQuery("State")),
     ResourceType: S.optional(S.String).pipe(T.HttpQuery("ResourceType")),
-    AggregationPeriod: S.optional(S.String).pipe(
+    AggregationPeriod: S.optional(AggregationPeriod).pipe(
       T.HttpQuery("AggregationPeriod"),
     ),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
@@ -2054,12 +2286,12 @@ export interface ListScanJobsInput {
   ByBackupVaultName?: string;
   ByCompleteAfter?: Date;
   ByCompleteBefore?: Date;
-  ByMalwareScanner?: string;
+  ByMalwareScanner?: MalwareScanner;
   ByRecoveryPointArn?: string;
   ByResourceArn?: string;
-  ByResourceType?: string;
-  ByScanResultStatus?: string;
-  ByState?: string;
+  ByResourceType?: ScanResourceType;
+  ByScanResultStatus?: ScanResultStatus;
+  ByState?: ScanState;
   MaxResults?: number;
   NextToken?: string;
 }
@@ -2075,18 +2307,20 @@ export const ListScanJobsInput = S.suspend(() =>
     ByCompleteBefore: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ).pipe(T.HttpQuery("ByCompleteBefore")),
-    ByMalwareScanner: S.optional(S.String).pipe(
+    ByMalwareScanner: S.optional(MalwareScanner).pipe(
       T.HttpQuery("ByMalwareScanner"),
     ),
     ByRecoveryPointArn: S.optional(S.String).pipe(
       T.HttpQuery("ByRecoveryPointArn"),
     ),
     ByResourceArn: S.optional(S.String).pipe(T.HttpQuery("ByResourceArn")),
-    ByResourceType: S.optional(S.String).pipe(T.HttpQuery("ByResourceType")),
-    ByScanResultStatus: S.optional(S.String).pipe(
+    ByResourceType: S.optional(ScanResourceType).pipe(
+      T.HttpQuery("ByResourceType"),
+    ),
+    ByScanResultStatus: S.optional(ScanResultStatus).pipe(
       T.HttpQuery("ByScanResultStatus"),
     ),
-    ByState: S.optional(S.String).pipe(T.HttpQuery("ByState")),
+    ByState: S.optional(ScanState).pipe(T.HttpQuery("ByState")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
   }).pipe(
@@ -2105,10 +2339,10 @@ export const ListScanJobsInput = S.suspend(() =>
 export interface ListScanJobSummariesInput {
   AccountId?: string;
   ResourceType?: string;
-  MalwareScanner?: string;
-  ScanResultStatus?: string;
-  State?: string;
-  AggregationPeriod?: string;
+  MalwareScanner?: MalwareScanner;
+  ScanResultStatus?: ScanResultStatus;
+  State?: ScanJobStatus;
+  AggregationPeriod?: AggregationPeriod;
   MaxResults?: number;
   NextToken?: string;
 }
@@ -2116,12 +2350,14 @@ export const ListScanJobSummariesInput = S.suspend(() =>
   S.Struct({
     AccountId: S.optional(S.String).pipe(T.HttpQuery("AccountId")),
     ResourceType: S.optional(S.String).pipe(T.HttpQuery("ResourceType")),
-    MalwareScanner: S.optional(S.String).pipe(T.HttpQuery("MalwareScanner")),
-    ScanResultStatus: S.optional(S.String).pipe(
+    MalwareScanner: S.optional(MalwareScanner).pipe(
+      T.HttpQuery("MalwareScanner"),
+    ),
+    ScanResultStatus: S.optional(ScanResultStatus).pipe(
       T.HttpQuery("ScanResultStatus"),
     ),
-    State: S.optional(S.String).pipe(T.HttpQuery("State")),
-    AggregationPeriod: S.optional(S.String).pipe(
+    State: S.optional(ScanJobStatus).pipe(T.HttpQuery("State")),
+    AggregationPeriod: S.optional(AggregationPeriod).pipe(
       T.HttpQuery("AggregationPeriod"),
     ),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
@@ -2250,7 +2486,7 @@ export const PutBackupVaultLockConfigurationResponse = S.suspend(() =>
 export interface PutBackupVaultNotificationsInput {
   BackupVaultName: string;
   SNSTopicArn: string;
-  BackupVaultEvents: BackupVaultEvents;
+  BackupVaultEvents: BackupVaultEvent[];
 }
 export const PutBackupVaultNotificationsInput = S.suspend(() =>
   S.Struct({
@@ -2281,13 +2517,13 @@ export const PutBackupVaultNotificationsResponse = S.suspend(() =>
 }) as any as S.Schema<PutBackupVaultNotificationsResponse>;
 export interface PutRestoreValidationResultInput {
   RestoreJobId: string;
-  ValidationStatus: string;
+  ValidationStatus: RestoreValidationStatus;
   ValidationStatusMessage?: string;
 }
 export const PutRestoreValidationResultInput = S.suspend(() =>
   S.Struct({
     RestoreJobId: S.String.pipe(T.HttpLabel("RestoreJobId")),
-    ValidationStatus: S.String,
+    ValidationStatus: RestoreValidationStatus,
     ValidationStatusMessage: S.optional(S.String),
   }).pipe(
     T.all(
@@ -2314,7 +2550,7 @@ export const PutRestoreValidationResultResponse = S.suspend(() =>
 export interface RevokeRestoreAccessBackupVaultInput {
   BackupVaultName: string;
   RestoreAccessBackupVaultArn: string;
-  RequesterComment?: string | Redacted.Redacted<string>;
+  RequesterComment?: string | redacted.Redacted<string>;
 }
 export const RevokeRestoreAccessBackupVaultInput = S.suspend(() =>
   S.Struct({
@@ -2347,18 +2583,20 @@ export const RevokeRestoreAccessBackupVaultResponse = S.suspend(() =>
 ).annotations({
   identifier: "RevokeRestoreAccessBackupVaultResponse",
 }) as any as S.Schema<RevokeRestoreAccessBackupVaultResponse>;
+export type LifecycleDeleteAfterEvent = "DELETE_AFTER_COPY";
+export const LifecycleDeleteAfterEvent = S.Literal("DELETE_AFTER_COPY");
 export interface Lifecycle {
   MoveToColdStorageAfterDays?: number;
   DeleteAfterDays?: number;
   OptInToArchiveForSupportedResources?: boolean;
-  DeleteAfterEvent?: string;
+  DeleteAfterEvent?: LifecycleDeleteAfterEvent;
 }
 export const Lifecycle = S.suspend(() =>
   S.Struct({
     MoveToColdStorageAfterDays: S.optional(S.Number),
     DeleteAfterDays: S.optional(S.Number),
     OptInToArchiveForSupportedResources: S.optional(S.Boolean),
-    DeleteAfterEvent: S.optional(S.String),
+    DeleteAfterEvent: S.optional(LifecycleDeleteAfterEvent),
   }),
 ).annotations({ identifier: "Lifecycle" }) as any as S.Schema<Lifecycle>;
 export interface StartCopyJobInput {
@@ -2415,10 +2653,10 @@ export interface StartScanJobInput {
   BackupVaultName: string;
   IamRoleArn: string;
   IdempotencyToken?: string;
-  MalwareScanner: string;
+  MalwareScanner: MalwareScanner;
   RecoveryPointArn: string;
   ScanBaseRecoveryPointArn?: string;
-  ScanMode: string;
+  ScanMode: ScanMode;
   ScannerRoleArn: string;
 }
 export const StartScanJobInput = S.suspend(() =>
@@ -2426,10 +2664,10 @@ export const StartScanJobInput = S.suspend(() =>
     BackupVaultName: S.String,
     IamRoleArn: S.String,
     IdempotencyToken: S.optional(S.String),
-    MalwareScanner: S.String,
+    MalwareScanner: MalwareScanner,
     RecoveryPointArn: S.String,
     ScanBaseRecoveryPointArn: S.optional(S.String),
-    ScanMode: S.String,
+    ScanMode: ScanMode,
     ScannerRoleArn: S.String,
   }).pipe(
     T.all(
@@ -2467,7 +2705,7 @@ export const StopBackupJobResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<StopBackupJobResponse>;
 export interface TagResourceInput {
   ResourceArn: string;
-  Tags: Tags;
+  Tags: { [key: string]: string };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -2492,7 +2730,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceInput {
   ResourceArn: string;
-  TagKeyList: TagKeyList;
+  TagKeyList: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({
@@ -2528,7 +2766,7 @@ export const CopyAction = S.suspend(() =>
 export type CopyActions = CopyAction[];
 export const CopyActions = S.Array(CopyAction);
 export interface IndexAction {
-  ResourceTypes?: ResourceTypes;
+  ResourceTypes?: string[];
 }
 export const IndexAction = S.suspend(() =>
   S.Struct({ ResourceTypes: S.optional(ResourceTypes) }),
@@ -2536,13 +2774,13 @@ export const IndexAction = S.suspend(() =>
 export type IndexActions = IndexAction[];
 export const IndexActions = S.Array(IndexAction);
 export interface ScanAction {
-  MalwareScanner?: string;
-  ScanMode?: string;
+  MalwareScanner?: MalwareScanner;
+  ScanMode?: ScanMode;
 }
 export const ScanAction = S.suspend(() =>
   S.Struct({
-    MalwareScanner: S.optional(S.String),
-    ScanMode: S.optional(S.String),
+    MalwareScanner: S.optional(MalwareScanner),
+    ScanMode: S.optional(ScanMode),
   }),
 ).annotations({ identifier: "ScanAction" }) as any as S.Schema<ScanAction>;
 export type ScanActions = ScanAction[];
@@ -2555,12 +2793,12 @@ export interface BackupRuleInput {
   StartWindowMinutes?: number;
   CompletionWindowMinutes?: number;
   Lifecycle?: Lifecycle;
-  RecoveryPointTags?: Tags;
-  CopyActions?: CopyActions;
+  RecoveryPointTags?: { [key: string]: string };
+  CopyActions?: CopyAction[];
   EnableContinuousBackup?: boolean;
   ScheduleExpressionTimezone?: string;
-  IndexActions?: IndexActions;
-  ScanActions?: ScanActions;
+  IndexActions?: IndexAction[];
+  ScanActions?: ScanAction[];
 }
 export const BackupRuleInput = S.suspend(() =>
   S.Struct({
@@ -2587,7 +2825,7 @@ export type BackupOptions = { [key: string]: string };
 export const BackupOptions = S.Record({ key: S.String, value: S.String });
 export interface AdvancedBackupSetting {
   ResourceType?: string;
-  BackupOptions?: BackupOptions;
+  BackupOptions?: { [key: string]: string };
 }
 export const AdvancedBackupSetting = S.suspend(() =>
   S.Struct({
@@ -2600,13 +2838,13 @@ export const AdvancedBackupSetting = S.suspend(() =>
 export type AdvancedBackupSettings = AdvancedBackupSetting[];
 export const AdvancedBackupSettings = S.Array(AdvancedBackupSetting);
 export interface ScanSetting {
-  MalwareScanner?: string;
-  ResourceTypes?: ResourceTypes;
+  MalwareScanner?: MalwareScanner;
+  ResourceTypes?: string[];
   ScannerRoleArn?: string;
 }
 export const ScanSetting = S.suspend(() =>
   S.Struct({
-    MalwareScanner: S.optional(S.String),
+    MalwareScanner: S.optional(MalwareScanner),
     ResourceTypes: S.optional(ResourceTypes),
     ScannerRoleArn: S.optional(S.String),
   }),
@@ -2615,9 +2853,9 @@ export type ScanSettings = ScanSetting[];
 export const ScanSettings = S.Array(ScanSetting);
 export interface BackupPlanInput {
   BackupPlanName: string;
-  Rules: BackupRulesInput;
-  AdvancedBackupSettings?: AdvancedBackupSettings;
-  ScanSettings?: ScanSettings;
+  Rules: BackupRuleInput[];
+  AdvancedBackupSettings?: AdvancedBackupSetting[];
+  ScanSettings?: ScanSetting[];
 }
 export const BackupPlanInput = S.suspend(() =>
   S.Struct({
@@ -2671,9 +2909,9 @@ export const ResourceTypeList = S.Array(S.String);
 export type stringMap = { [key: string]: string };
 export const stringMap = S.Record({ key: S.String, value: S.String });
 export interface ControlScope {
-  ComplianceResourceIds?: ComplianceResourceIdList;
-  ComplianceResourceTypes?: ResourceTypeList;
-  Tags?: stringMap;
+  ComplianceResourceIds?: string[];
+  ComplianceResourceTypes?: string[];
+  Tags?: { [key: string]: string };
 }
 export const ControlScope = S.suspend(() =>
   S.Struct({
@@ -2684,7 +2922,7 @@ export const ControlScope = S.suspend(() =>
 ).annotations({ identifier: "ControlScope" }) as any as S.Schema<ControlScope>;
 export interface FrameworkControl {
   ControlName: string;
-  ControlInputParameters?: ControlInputParameters;
+  ControlInputParameters?: ControlInputParameter[];
   ControlScope?: ControlScope;
 }
 export const FrameworkControl = S.suspend(() =>
@@ -2701,7 +2939,7 @@ export const FrameworkControls = S.Array(FrameworkControl);
 export interface UpdateFrameworkInput {
   FrameworkName: string;
   FrameworkDescription?: string;
-  FrameworkControls?: FrameworkControls;
+  FrameworkControls?: FrameworkControl[];
   IdempotencyToken?: string;
 }
 export const UpdateFrameworkInput = S.suspend(() =>
@@ -2726,7 +2964,7 @@ export const UpdateFrameworkInput = S.suspend(() =>
 export type GlobalSettings = { [key: string]: string };
 export const GlobalSettings = S.Record({ key: S.String, value: S.String });
 export interface UpdateGlobalSettingsInput {
-  GlobalSettings?: GlobalSettings;
+  GlobalSettings?: { [key: string]: string };
 }
 export const UpdateGlobalSettingsInput = S.suspend(() =>
   S.Struct({ GlobalSettings: S.optional(GlobalSettings) }).pipe(
@@ -2752,14 +2990,14 @@ export interface UpdateRecoveryPointIndexSettingsInput {
   BackupVaultName: string;
   RecoveryPointArn: string;
   IamRoleArn?: string;
-  Index: string;
+  Index: Index;
 }
 export const UpdateRecoveryPointIndexSettingsInput = S.suspend(() =>
   S.Struct({
     BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
     RecoveryPointArn: S.String.pipe(T.HttpLabel("RecoveryPointArn")),
     IamRoleArn: S.optional(S.String),
-    Index: S.String,
+    Index: Index,
   }).pipe(
     T.all(
       T.Http({
@@ -2813,8 +3051,8 @@ export const ResourceTypeManagementPreference = S.Record({
   value: S.Boolean,
 });
 export interface UpdateRegionSettingsInput {
-  ResourceTypeOptInPreference?: ResourceTypeOptInPreference;
-  ResourceTypeManagementPreference?: ResourceTypeManagementPreference;
+  ResourceTypeOptInPreference?: { [key: string]: boolean };
+  ResourceTypeManagementPreference?: { [key: string]: boolean };
 }
 export const UpdateRegionSettingsInput = S.suspend(() =>
   S.Struct({
@@ -2846,7 +3084,7 @@ export const FormatList = S.Array(S.String);
 export interface ReportDeliveryChannel {
   S3BucketName: string;
   S3KeyPrefix?: string;
-  Formats?: FormatList;
+  Formats?: string[];
 }
 export const ReportDeliveryChannel = S.suspend(() =>
   S.Struct({
@@ -2861,11 +3099,11 @@ export type stringList = string[];
 export const stringList = S.Array(S.String);
 export interface ReportSetting {
   ReportTemplate: string;
-  FrameworkArns?: stringList;
+  FrameworkArns?: string[];
   NumberOfFrameworks?: number;
-  Accounts?: stringList;
-  OrganizationUnits?: stringList;
-  Regions?: stringList;
+  Accounts?: string[];
+  OrganizationUnits?: string[];
+  Regions?: string[];
 }
 export const ReportSetting = S.suspend(() =>
   S.Struct({
@@ -2912,8 +3150,49 @@ export type VaultNames = string[];
 export const VaultNames = S.Array(S.String);
 export type ResourceIdentifiers = string[];
 export const ResourceIdentifiers = S.Array(S.String);
+export type VaultState = "CREATING" | "AVAILABLE" | "FAILED";
+export const VaultState = S.Literal("CREATING", "AVAILABLE", "FAILED");
 export type SensitiveStringMap = { [key: string]: string };
 export const SensitiveStringMap = S.Record({ key: S.String, value: S.String });
+export type EncryptionKeyType =
+  | "AWS_OWNED_KMS_KEY"
+  | "CUSTOMER_MANAGED_KMS_KEY";
+export const EncryptionKeyType = S.Literal(
+  "AWS_OWNED_KMS_KEY",
+  "CUSTOMER_MANAGED_KMS_KEY",
+);
+export type RecoveryPointStatus =
+  | "COMPLETED"
+  | "PARTIAL"
+  | "DELETING"
+  | "EXPIRED"
+  | "AVAILABLE"
+  | "STOPPED"
+  | "CREATING";
+export const RecoveryPointStatus = S.Literal(
+  "COMPLETED",
+  "PARTIAL",
+  "DELETING",
+  "EXPIRED",
+  "AVAILABLE",
+  "STOPPED",
+  "CREATING",
+);
+export type StorageClass = "WARM" | "COLD" | "DELETED";
+export const StorageClass = S.Literal("WARM", "COLD", "DELETED");
+export type RestoreDeletionStatus = "DELETING" | "FAILED" | "SUCCESSFUL";
+export const RestoreDeletionStatus = S.Literal(
+  "DELETING",
+  "FAILED",
+  "SUCCESSFUL",
+);
+export type LegalHoldStatus = "CREATING" | "ACTIVE" | "CANCELING" | "CANCELED";
+export const LegalHoldStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "CANCELING",
+  "CANCELED",
+);
 export interface BackupPlansListMember {
   BackupPlanArn?: string;
   BackupPlanId?: string;
@@ -2923,7 +3202,7 @@ export interface BackupPlansListMember {
   BackupPlanName?: string;
   CreatorRequestId?: string;
   LastExecutionDate?: Date;
-  AdvancedBackupSettings?: AdvancedBackupSettings;
+  AdvancedBackupSettings?: AdvancedBackupSetting[];
 }
 export const BackupPlansListMember = S.suspend(() =>
   S.Struct({
@@ -2968,11 +3247,10 @@ export const RecoveryPointCreator = S.suspend(() =>
 ).annotations({
   identifier: "RecoveryPointCreator",
 }) as any as S.Schema<RecoveryPointCreator>;
-export type CopyJobChildJobsInState = { [key: string]: number };
-export const CopyJobChildJobsInState = S.Record({
-  key: S.String,
-  value: S.Number,
-});
+export type CopyJobChildJobsInState = { [key in CopyJobState]?: number };
+export const CopyJobChildJobsInState = S.partial(
+  S.Record({ key: CopyJobState, value: S.Number }),
+);
 export interface CopyJob {
   AccountId?: string;
   CopyJobId?: string;
@@ -2987,7 +3265,7 @@ export interface CopyJob {
   ResourceArn?: string;
   CreationDate?: Date;
   CompletionDate?: Date;
-  State?: string;
+  State?: CopyJobState;
   StatusMessage?: string;
   BackupSizeInBytes?: number;
   IamRoleArn?: string;
@@ -2998,7 +3276,7 @@ export interface CopyJob {
   IsParent?: boolean;
   CompositeMemberIdentifier?: string;
   NumberOfChildJobs?: number;
-  ChildJobsInState?: CopyJobChildJobsInState;
+  ChildJobsInState?: { [key: string]: number };
   ResourceName?: string;
   MessageCategory?: string;
 }
@@ -3017,7 +3295,7 @@ export const CopyJob = S.suspend(() =>
     ResourceArn: S.optional(S.String),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CompletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    State: S.optional(S.String),
+    State: S.optional(CopyJobState),
     StatusMessage: S.optional(S.String),
     BackupSizeInBytes: S.optional(S.Number),
     IamRoleArn: S.optional(S.String),
@@ -3037,7 +3315,7 @@ export type CopyJobsList = CopyJob[];
 export const CopyJobsList = S.Array(CopyJob);
 export interface ReportDestination {
   S3BucketName?: string;
-  S3Keys?: stringList;
+  S3Keys?: string[];
 }
 export const ReportDestination = S.suspend(() =>
   S.Struct({
@@ -3103,18 +3381,33 @@ export type ReportPlanList = ReportPlan[];
 export const ReportPlanList = S.Array(ReportPlan);
 export type Metadata = { [key: string]: string };
 export const Metadata = S.Record({ key: S.String, value: S.String });
-export type RestoreTestingRecoveryPointTypeList = string[];
-export const RestoreTestingRecoveryPointTypeList = S.Array(S.String);
+export type RestoreTestingRecoveryPointSelectionAlgorithm =
+  | "LATEST_WITHIN_WINDOW"
+  | "RANDOM_WITHIN_WINDOW";
+export const RestoreTestingRecoveryPointSelectionAlgorithm = S.Literal(
+  "LATEST_WITHIN_WINDOW",
+  "RANDOM_WITHIN_WINDOW",
+);
+export type RestoreTestingRecoveryPointType = "CONTINUOUS" | "SNAPSHOT";
+export const RestoreTestingRecoveryPointType = S.Literal(
+  "CONTINUOUS",
+  "SNAPSHOT",
+);
+export type RestoreTestingRecoveryPointTypeList =
+  RestoreTestingRecoveryPointType[];
+export const RestoreTestingRecoveryPointTypeList = S.Array(
+  RestoreTestingRecoveryPointType,
+);
 export interface RestoreTestingRecoveryPointSelection {
-  Algorithm?: string;
-  ExcludeVaults?: stringList;
-  IncludeVaults?: stringList;
-  RecoveryPointTypes?: RestoreTestingRecoveryPointTypeList;
+  Algorithm?: RestoreTestingRecoveryPointSelectionAlgorithm;
+  ExcludeVaults?: string[];
+  IncludeVaults?: string[];
+  RecoveryPointTypes?: RestoreTestingRecoveryPointType[];
   SelectionWindowDays?: number;
 }
 export const RestoreTestingRecoveryPointSelection = S.suspend(() =>
   S.Struct({
-    Algorithm: S.optional(S.String),
+    Algorithm: S.optional(RestoreTestingRecoveryPointSelectionAlgorithm),
     ExcludeVaults: S.optional(stringList),
     IncludeVaults: S.optional(stringList),
     RecoveryPointTypes: S.optional(RestoreTestingRecoveryPointTypeList),
@@ -3149,8 +3442,8 @@ export const KeyValue = S.suspend(() =>
 export type KeyValueList = KeyValue[];
 export const KeyValueList = S.Array(KeyValue);
 export interface ProtectedResourceConditions {
-  StringEquals?: KeyValueList;
-  StringNotEquals?: KeyValueList;
+  StringEquals?: KeyValue[];
+  StringNotEquals?: KeyValue[];
 }
 export const ProtectedResourceConditions = S.suspend(() =>
   S.Struct({
@@ -3162,9 +3455,9 @@ export const ProtectedResourceConditions = S.suspend(() =>
 }) as any as S.Schema<ProtectedResourceConditions>;
 export interface RestoreTestingSelectionForUpdate {
   IamRoleArn?: string;
-  ProtectedResourceArns?: stringList;
+  ProtectedResourceArns?: string[];
   ProtectedResourceConditions?: ProtectedResourceConditions;
-  RestoreMetadataOverrides?: SensitiveStringMap;
+  RestoreMetadataOverrides?: { [key: string]: string };
   ValidationWindowHours?: number;
 }
 export const RestoreTestingSelectionForUpdate = S.suspend(() =>
@@ -3179,7 +3472,7 @@ export const RestoreTestingSelectionForUpdate = S.suspend(() =>
   identifier: "RestoreTestingSelectionForUpdate",
 }) as any as S.Schema<RestoreTestingSelectionForUpdate>;
 export interface ResourceSelection {
-  Resources: ResourceArns;
+  Resources: string[];
   TieringDownSettingsInDays: number;
   ResourceType: string;
 }
@@ -3195,7 +3488,7 @@ export const ResourceSelection = S.suspend(() =>
 export type ResourceSelections = ResourceSelection[];
 export const ResourceSelections = S.Array(ResourceSelection);
 export interface TieringConfigurationInputForUpdate {
-  ResourceSelection: ResourceSelections;
+  ResourceSelection: ResourceSelection[];
   BackupVaultName: string;
 }
 export const TieringConfigurationInputForUpdate = S.suspend(() =>
@@ -3206,6 +3499,8 @@ export const TieringConfigurationInputForUpdate = S.suspend(() =>
 ).annotations({
   identifier: "TieringConfigurationInputForUpdate",
 }) as any as S.Schema<TieringConfigurationInputForUpdate>;
+export type ConditionType = "STRINGEQUALS";
+export const ConditionType = S.Literal("STRINGEQUALS");
 export interface CreateBackupVaultOutput {
   BackupVaultName?: string;
   BackupVaultArn?: string;
@@ -3224,14 +3519,14 @@ export interface CreateLogicallyAirGappedBackupVaultOutput {
   BackupVaultName?: string;
   BackupVaultArn?: string;
   CreationDate?: Date;
-  VaultState?: string;
+  VaultState?: VaultState;
 }
 export const CreateLogicallyAirGappedBackupVaultOutput = S.suspend(() =>
   S.Struct({
     BackupVaultName: S.optional(S.String),
     BackupVaultArn: S.optional(S.String),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    VaultState: S.optional(S.String),
+    VaultState: S.optional(VaultState),
   }),
 ).annotations({
   identifier: "CreateLogicallyAirGappedBackupVaultOutput",
@@ -3241,7 +3536,7 @@ export interface CreateReportPlanInput {
   ReportPlanDescription?: string;
   ReportDeliveryChannel: ReportDeliveryChannel;
   ReportSetting: ReportSetting;
-  ReportPlanTags?: stringMap;
+  ReportPlanTags?: { [key: string]: string };
   IdempotencyToken?: string;
 }
 export const CreateReportPlanInput = S.suspend(() =>
@@ -3267,14 +3562,14 @@ export const CreateReportPlanInput = S.suspend(() =>
 }) as any as S.Schema<CreateReportPlanInput>;
 export interface CreateRestoreAccessBackupVaultOutput {
   RestoreAccessBackupVaultArn?: string;
-  VaultState?: string;
+  VaultState?: VaultState;
   RestoreAccessBackupVaultName?: string;
   CreationDate?: Date;
 }
 export const CreateRestoreAccessBackupVaultOutput = S.suspend(() =>
   S.Struct({
     RestoreAccessBackupVaultArn: S.optional(S.String),
-    VaultState: S.optional(S.String),
+    VaultState: S.optional(VaultState),
     RestoreAccessBackupVaultName: S.optional(S.String),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -3301,7 +3596,7 @@ export interface DescribeFrameworkOutput {
   FrameworkName?: string;
   FrameworkArn?: string;
   FrameworkDescription?: string;
-  FrameworkControls?: FrameworkControls;
+  FrameworkControls?: FrameworkControl[];
   CreationTime?: Date;
   DeploymentStatus?: string;
   FrameworkStatus?: string;
@@ -3322,7 +3617,7 @@ export const DescribeFrameworkOutput = S.suspend(() =>
   identifier: "DescribeFrameworkOutput",
 }) as any as S.Schema<DescribeFrameworkOutput>;
 export interface DescribeGlobalSettingsOutput {
-  GlobalSettings?: GlobalSettings;
+  GlobalSettings?: { [key: string]: string };
   LastUpdateTime?: Date;
 }
 export const DescribeGlobalSettingsOutput = S.suspend(() =>
@@ -3364,8 +3659,8 @@ export const DescribeProtectedResourceOutput = S.suspend(() =>
   identifier: "DescribeProtectedResourceOutput",
 }) as any as S.Schema<DescribeProtectedResourceOutput>;
 export interface DescribeRegionSettingsOutput {
-  ResourceTypeOptInPreference?: ResourceTypeOptInPreference;
-  ResourceTypeManagementPreference?: ResourceTypeManagementPreference;
+  ResourceTypeOptInPreference?: { [key: string]: boolean };
+  ResourceTypeManagementPreference?: { [key: string]: boolean };
 }
 export const DescribeRegionSettingsOutput = S.suspend(() =>
   S.Struct({
@@ -3393,13 +3688,13 @@ export interface BackupRule {
   StartWindowMinutes?: number;
   CompletionWindowMinutes?: number;
   Lifecycle?: Lifecycle;
-  RecoveryPointTags?: Tags;
+  RecoveryPointTags?: { [key: string]: string };
   RuleId?: string;
-  CopyActions?: CopyActions;
+  CopyActions?: CopyAction[];
   EnableContinuousBackup?: boolean;
   ScheduleExpressionTimezone?: string;
-  IndexActions?: IndexActions;
-  ScanActions?: ScanActions;
+  IndexActions?: IndexAction[];
+  ScanActions?: ScanAction[];
 }
 export const BackupRule = S.suspend(() =>
   S.Struct({
@@ -3423,9 +3718,9 @@ export type BackupRules = BackupRule[];
 export const BackupRules = S.Array(BackupRule);
 export interface BackupPlan {
   BackupPlanName: string;
-  Rules: BackupRules;
-  AdvancedBackupSettings?: AdvancedBackupSettings;
-  ScanSettings?: ScanSettings;
+  Rules: BackupRule[];
+  AdvancedBackupSettings?: AdvancedBackupSetting[];
+  ScanSettings?: ScanSetting[];
 }
 export const BackupPlan = S.suspend(() =>
   S.Struct({
@@ -3452,13 +3747,13 @@ export const GetBackupPlanFromTemplateOutput = S.suspend(() =>
   identifier: "GetBackupPlanFromTemplateOutput",
 }) as any as S.Schema<GetBackupPlanFromTemplateOutput>;
 export interface Condition {
-  ConditionType: string;
+  ConditionType: ConditionType;
   ConditionKey: string;
   ConditionValue: string;
 }
 export const Condition = S.suspend(() =>
   S.Struct({
-    ConditionType: S.String,
+    ConditionType: ConditionType,
     ConditionKey: S.String,
     ConditionValue: S.String,
   }),
@@ -3480,10 +3775,10 @@ export const ConditionParameter = S.suspend(() =>
 export type ConditionParameters = ConditionParameter[];
 export const ConditionParameters = S.Array(ConditionParameter);
 export interface Conditions {
-  StringEquals?: ConditionParameters;
-  StringNotEquals?: ConditionParameters;
-  StringLike?: ConditionParameters;
-  StringNotLike?: ConditionParameters;
+  StringEquals?: ConditionParameter[];
+  StringNotEquals?: ConditionParameter[];
+  StringLike?: ConditionParameter[];
+  StringNotLike?: ConditionParameter[];
 }
 export const Conditions = S.suspend(() =>
   S.Struct({
@@ -3496,9 +3791,9 @@ export const Conditions = S.suspend(() =>
 export interface BackupSelection {
   SelectionName: string;
   IamRoleArn: string;
-  Resources?: ResourceArns;
-  ListOfTags?: ListOfTags;
-  NotResources?: ResourceArns;
+  Resources?: string[];
+  ListOfTags?: Condition[];
+  NotResources?: string[];
   Conditions?: Conditions;
 }
 export const BackupSelection = S.suspend(() =>
@@ -3549,7 +3844,7 @@ export interface GetBackupVaultNotificationsOutput {
   BackupVaultName?: string;
   BackupVaultArn?: string;
   SNSTopicArn?: string;
-  BackupVaultEvents?: BackupVaultEvents;
+  BackupVaultEvents?: BackupVaultEvent[];
 }
 export const GetBackupVaultNotificationsOutput = S.suspend(() =>
   S.Struct({
@@ -3572,8 +3867,8 @@ export const DateRange = S.suspend(() =>
   }),
 ).annotations({ identifier: "DateRange" }) as any as S.Schema<DateRange>;
 export interface RecoveryPointSelection {
-  VaultNames?: VaultNames;
-  ResourceIdentifiers?: ResourceIdentifiers;
+  VaultNames?: string[];
+  ResourceIdentifiers?: string[];
   DateRange?: DateRange;
 }
 export const RecoveryPointSelection = S.suspend(() =>
@@ -3587,7 +3882,7 @@ export const RecoveryPointSelection = S.suspend(() =>
 }) as any as S.Schema<RecoveryPointSelection>;
 export interface GetLegalHoldOutput {
   Title?: string;
-  Status?: string;
+  Status?: LegalHoldStatus;
   Description?: string;
   CancelDescription?: string;
   LegalHoldId?: string;
@@ -3600,7 +3895,7 @@ export interface GetLegalHoldOutput {
 export const GetLegalHoldOutput = S.suspend(() =>
   S.Struct({
     Title: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(LegalHoldStatus),
     Description: S.optional(S.String),
     CancelDescription: S.optional(S.String),
     LegalHoldId: S.optional(S.String),
@@ -3624,7 +3919,7 @@ export interface GetRecoveryPointIndexDetailsOutput {
   IndexCreationDate?: Date;
   IndexDeletionDate?: Date;
   IndexCompletionDate?: Date;
-  IndexStatus?: string;
+  IndexStatus?: IndexStatus;
   IndexStatusMessage?: string;
   TotalItemsIndexed?: number;
 }
@@ -3642,7 +3937,7 @@ export const GetRecoveryPointIndexDetailsOutput = S.suspend(() =>
     IndexCompletionDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    IndexStatus: S.optional(S.String),
+    IndexStatus: S.optional(IndexStatus),
     IndexStatusMessage: S.optional(S.String),
     TotalItemsIndexed: S.optional(S.Number),
   }),
@@ -3652,7 +3947,7 @@ export const GetRecoveryPointIndexDetailsOutput = S.suspend(() =>
 export interface GetRecoveryPointRestoreMetadataOutput {
   BackupVaultArn?: string;
   RecoveryPointArn?: string;
-  RestoreMetadata?: Metadata;
+  RestoreMetadata?: { [key: string]: string };
   ResourceType?: string;
 }
 export const GetRecoveryPointRestoreMetadataOutput = S.suspend(() =>
@@ -3667,7 +3962,7 @@ export const GetRecoveryPointRestoreMetadataOutput = S.suspend(() =>
 }) as any as S.Schema<GetRecoveryPointRestoreMetadataOutput>;
 export interface GetRestoreJobMetadataOutput {
   RestoreJobId?: string;
-  Metadata?: Metadata;
+  Metadata?: { [key: string]: string };
 }
 export const GetRestoreJobMetadataOutput = S.suspend(() =>
   S.Struct({
@@ -3678,7 +3973,7 @@ export const GetRestoreJobMetadataOutput = S.suspend(() =>
   identifier: "GetRestoreJobMetadataOutput",
 }) as any as S.Schema<GetRestoreJobMetadataOutput>;
 export interface GetRestoreTestingInferredMetadataOutput {
-  InferredMetadata: stringMap;
+  InferredMetadata: { [key: string]: string };
 }
 export const GetRestoreTestingInferredMetadataOutput = S.suspend(() =>
   S.Struct({ InferredMetadata: stringMap }),
@@ -3687,7 +3982,7 @@ export const GetRestoreTestingInferredMetadataOutput = S.suspend(() =>
 }) as any as S.Schema<GetRestoreTestingInferredMetadataOutput>;
 export interface ListBackupPlanVersionsOutput {
   NextToken?: string;
-  BackupPlanVersionsList?: BackupPlanVersionsList;
+  BackupPlanVersionsList?: BackupPlansListMember[];
 }
 export const ListBackupPlanVersionsOutput = S.suspend(() =>
   S.Struct({
@@ -3698,7 +3993,7 @@ export const ListBackupPlanVersionsOutput = S.suspend(() =>
   identifier: "ListBackupPlanVersionsOutput",
 }) as any as S.Schema<ListBackupPlanVersionsOutput>;
 export interface ListCopyJobsOutput {
-  CopyJobs?: CopyJobsList;
+  CopyJobs?: CopyJob[];
   NextToken?: string;
 }
 export const ListCopyJobsOutput = S.suspend(() =>
@@ -3732,7 +4027,7 @@ export const ProtectedResource = S.suspend(() =>
 export type ProtectedResourcesList = ProtectedResource[];
 export const ProtectedResourcesList = S.Array(ProtectedResource);
 export interface ListProtectedResourcesByBackupVaultOutput {
-  Results?: ProtectedResourcesList;
+  Results?: ProtectedResource[];
   NextToken?: string;
 }
 export const ListProtectedResourcesByBackupVaultOutput = S.suspend(() =>
@@ -3744,7 +4039,7 @@ export const ListProtectedResourcesByBackupVaultOutput = S.suspend(() =>
   identifier: "ListProtectedResourcesByBackupVaultOutput",
 }) as any as S.Schema<ListProtectedResourcesByBackupVaultOutput>;
 export interface ListReportJobsOutput {
-  ReportJobs?: ReportJobList;
+  ReportJobs?: ReportJob[];
   NextToken?: string;
 }
 export const ListReportJobsOutput = S.suspend(() =>
@@ -3756,7 +4051,7 @@ export const ListReportJobsOutput = S.suspend(() =>
   identifier: "ListReportJobsOutput",
 }) as any as S.Schema<ListReportJobsOutput>;
 export interface ListReportPlansOutput {
-  ReportPlans?: ReportPlanList;
+  ReportPlans?: ReportPlan[];
   NextToken?: string;
 }
 export const ListReportPlansOutput = S.suspend(() =>
@@ -3783,7 +4078,7 @@ export interface RestoreJobsListMember {
   BackupVaultArn?: string;
   CreationDate?: Date;
   CompletionDate?: Date;
-  Status?: string;
+  Status?: RestoreJobStatus;
   StatusMessage?: string;
   PercentDone?: string;
   BackupSizeInBytes?: number;
@@ -3795,9 +4090,9 @@ export interface RestoreJobsListMember {
   IsParent?: boolean;
   ParentJobId?: string;
   CreatedBy?: RestoreJobCreator;
-  ValidationStatus?: string;
+  ValidationStatus?: RestoreValidationStatus;
   ValidationStatusMessage?: string;
-  DeletionStatus?: string;
+  DeletionStatus?: RestoreDeletionStatus;
   DeletionStatusMessage?: string;
 }
 export const RestoreJobsListMember = S.suspend(() =>
@@ -3809,7 +4104,7 @@ export const RestoreJobsListMember = S.suspend(() =>
     BackupVaultArn: S.optional(S.String),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CompletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
+    Status: S.optional(RestoreJobStatus),
     StatusMessage: S.optional(S.String),
     PercentDone: S.optional(S.String),
     BackupSizeInBytes: S.optional(S.Number),
@@ -3823,9 +4118,9 @@ export const RestoreJobsListMember = S.suspend(() =>
     IsParent: S.optional(S.Boolean),
     ParentJobId: S.optional(S.String),
     CreatedBy: S.optional(RestoreJobCreator),
-    ValidationStatus: S.optional(S.String),
+    ValidationStatus: S.optional(RestoreValidationStatus),
     ValidationStatusMessage: S.optional(S.String),
-    DeletionStatus: S.optional(S.String),
+    DeletionStatus: S.optional(RestoreDeletionStatus),
     DeletionStatusMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -3834,7 +4129,7 @@ export const RestoreJobsListMember = S.suspend(() =>
 export type RestoreJobsList = RestoreJobsListMember[];
 export const RestoreJobsList = S.Array(RestoreJobsListMember);
 export interface ListRestoreJobsByProtectedResourceOutput {
-  RestoreJobs?: RestoreJobsList;
+  RestoreJobs?: RestoreJobsListMember[];
   NextToken?: string;
 }
 export const ListRestoreJobsByProtectedResourceOutput = S.suspend(() =>
@@ -3847,7 +4142,7 @@ export const ListRestoreJobsByProtectedResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListRestoreJobsByProtectedResourceOutput>;
 export interface ListTagsOutput {
   NextToken?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsOutput = S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), Tags: S.optional(Tags) }),
@@ -3863,9 +4158,9 @@ export interface StartBackupJobInput {
   StartWindowMinutes?: number;
   CompleteWindowMinutes?: number;
   Lifecycle?: Lifecycle;
-  RecoveryPointTags?: Tags;
-  BackupOptions?: BackupOptions;
-  Index?: string;
+  RecoveryPointTags?: { [key: string]: string };
+  BackupOptions?: { [key: string]: string };
+  Index?: Index;
 }
 export const StartBackupJobInput = S.suspend(() =>
   S.Struct({
@@ -3879,7 +4174,7 @@ export const StartBackupJobInput = S.suspend(() =>
     Lifecycle: S.optional(Lifecycle),
     RecoveryPointTags: S.optional(Tags),
     BackupOptions: S.optional(BackupOptions),
-    Index: S.optional(S.String),
+    Index: S.optional(Index),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/backup-jobs" }),
@@ -3917,7 +4212,7 @@ export const StartReportJobOutput = S.suspend(() =>
 }) as any as S.Schema<StartReportJobOutput>;
 export interface StartRestoreJobInput {
   RecoveryPointArn: string;
-  Metadata: Metadata;
+  Metadata: { [key: string]: string };
   IamRoleArn?: string;
   IdempotencyToken?: string;
   ResourceType?: string;
@@ -3961,8 +4256,8 @@ export interface UpdateBackupPlanOutput {
   BackupPlanArn?: string;
   CreationDate?: Date;
   VersionId?: string;
-  AdvancedBackupSettings?: AdvancedBackupSettings;
-  ScanSettings?: ScanSettings;
+  AdvancedBackupSettings?: AdvancedBackupSetting[];
+  ScanSettings?: ScanSetting[];
 }
 export const UpdateBackupPlanOutput = S.suspend(() =>
   S.Struct({
@@ -3993,15 +4288,15 @@ export const UpdateFrameworkOutput = S.suspend(() =>
 export interface UpdateRecoveryPointIndexSettingsOutput {
   BackupVaultName?: string;
   RecoveryPointArn?: string;
-  IndexStatus?: string;
-  Index?: string;
+  IndexStatus?: IndexStatus;
+  Index?: Index;
 }
 export const UpdateRecoveryPointIndexSettingsOutput = S.suspend(() =>
   S.Struct({
     BackupVaultName: S.optional(S.String),
     RecoveryPointArn: S.optional(S.String),
-    IndexStatus: S.optional(S.String),
-    Index: S.optional(S.String),
+    IndexStatus: S.optional(IndexStatus),
+    Index: S.optional(Index),
   }),
 ).annotations({
   identifier: "UpdateRecoveryPointIndexSettingsOutput",
@@ -4132,8 +4427,32 @@ export const UpdateTieringConfigurationInput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateTieringConfigurationInput",
 }) as any as S.Schema<UpdateTieringConfigurationInput>;
-export type ScanFindings = string[];
-export const ScanFindings = S.Array(S.String);
+export type MpaSessionStatus = "PENDING" | "APPROVED" | "FAILED";
+export const MpaSessionStatus = S.Literal("PENDING", "APPROVED", "FAILED");
+export type ScanJobState =
+  | "COMPLETED"
+  | "COMPLETED_WITH_ISSUES"
+  | "FAILED"
+  | "CANCELED";
+export const ScanJobState = S.Literal(
+  "COMPLETED",
+  "COMPLETED_WITH_ISSUES",
+  "FAILED",
+  "CANCELED",
+);
+export type ScanFinding = "MALWARE";
+export const ScanFinding = S.Literal("MALWARE");
+export type ScanFindings = ScanFinding[];
+export const ScanFindings = S.Array(ScanFinding);
+export type RuleExecutionType =
+  | "CONTINUOUS"
+  | "SNAPSHOTS"
+  | "CONTINUOUS_AND_SNAPSHOTS";
+export const RuleExecutionType = S.Literal(
+  "CONTINUOUS",
+  "SNAPSHOTS",
+  "CONTINUOUS_AND_SNAPSHOTS",
+);
 export interface RestoreTestingPlanForCreate {
   RecoveryPointSelection: RestoreTestingRecoveryPointSelection;
   RestoreTestingPlanName: string;
@@ -4155,7 +4474,7 @@ export const RestoreTestingPlanForCreate = S.suspend(() =>
 export interface TieringConfigurationInputForCreate {
   TieringConfigurationName: string;
   BackupVaultName: string;
-  ResourceSelection: ResourceSelections;
+  ResourceSelection: ResourceSelection[];
 }
 export const TieringConfigurationInputForCreate = S.suspend(() =>
   S.Struct({
@@ -4166,14 +4485,13 @@ export const TieringConfigurationInputForCreate = S.suspend(() =>
 ).annotations({
   identifier: "TieringConfigurationInputForCreate",
 }) as any as S.Schema<TieringConfigurationInputForCreate>;
-export type BackupJobChildJobsInState = { [key: string]: number };
-export const BackupJobChildJobsInState = S.Record({
-  key: S.String,
-  value: S.Number,
-});
+export type BackupJobChildJobsInState = { [key in BackupJobState]?: number };
+export const BackupJobChildJobsInState = S.partial(
+  S.Record({ key: BackupJobState, value: S.Number }),
+);
 export interface LatestMpaApprovalTeamUpdate {
   MpaSessionArn?: string;
-  Status?: string;
+  Status?: MpaSessionStatus;
   StatusMessage?: string;
   InitiationDate?: Date;
   ExpiryDate?: Date;
@@ -4181,7 +4499,7 @@ export interface LatestMpaApprovalTeamUpdate {
 export const LatestMpaApprovalTeamUpdate = S.suspend(() =>
   S.Struct({
     MpaSessionArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(MpaSessionStatus),
     StatusMessage: S.optional(S.String),
     InitiationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ExpiryDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -4190,15 +4508,15 @@ export const LatestMpaApprovalTeamUpdate = S.suspend(() =>
   identifier: "LatestMpaApprovalTeamUpdate",
 }) as any as S.Schema<LatestMpaApprovalTeamUpdate>;
 export interface ScanResult {
-  MalwareScanner?: string;
-  ScanJobState?: string;
+  MalwareScanner?: MalwareScanner;
+  ScanJobState?: ScanJobState;
   LastScanTimestamp?: Date;
-  Findings?: ScanFindings;
+  Findings?: ScanFinding[];
 }
 export const ScanResult = S.suspend(() =>
   S.Struct({
-    MalwareScanner: S.optional(S.String),
-    ScanJobState: S.optional(S.String),
+    MalwareScanner: S.optional(MalwareScanner),
+    ScanJobState: S.optional(ScanJobState),
     LastScanTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -4224,23 +4542,23 @@ export const ScanJobCreator = S.suspend(() =>
   identifier: "ScanJobCreator",
 }) as any as S.Schema<ScanJobCreator>;
 export interface ScanResultInfo {
-  ScanResultStatus: string;
+  ScanResultStatus: ScanResultStatus;
 }
 export const ScanResultInfo = S.suspend(() =>
-  S.Struct({ ScanResultStatus: S.String }),
+  S.Struct({ ScanResultStatus: ScanResultStatus }),
 ).annotations({
   identifier: "ScanResultInfo",
 }) as any as S.Schema<ScanResultInfo>;
 export interface ScheduledPlanExecutionMember {
   ExecutionTime?: Date;
   RuleId?: string;
-  RuleExecutionType?: string;
+  RuleExecutionType?: RuleExecutionType;
 }
 export const ScheduledPlanExecutionMember = S.suspend(() =>
   S.Struct({
     ExecutionTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     RuleId: S.optional(S.String),
-    RuleExecutionType: S.optional(S.String),
+    RuleExecutionType: S.optional(RuleExecutionType),
   }),
 ).annotations({
   identifier: "ScheduledPlanExecutionMember",
@@ -4281,10 +4599,10 @@ export interface RestoreTestingSelectionForGet {
   CreationTime: Date;
   CreatorRequestId?: string;
   IamRoleArn: string;
-  ProtectedResourceArns?: stringList;
+  ProtectedResourceArns?: string[];
   ProtectedResourceConditions?: ProtectedResourceConditions;
   ProtectedResourceType: string;
-  RestoreMetadataOverrides?: SensitiveStringMap;
+  RestoreMetadataOverrides?: { [key: string]: string };
   RestoreTestingPlanName: string;
   RestoreTestingSelectionName: string;
   ValidationWindowHours?: number;
@@ -4309,7 +4627,7 @@ export interface TieringConfiguration {
   TieringConfigurationName: string;
   TieringConfigurationArn?: string;
   BackupVaultName: string;
-  ResourceSelection: ResourceSelections;
+  ResourceSelection: ResourceSelection[];
   CreatorRequestId?: string;
   CreationTime?: Date;
   LastUpdatedTime?: Date;
@@ -4343,7 +4661,7 @@ export interface BackupJob {
   ResourceArn?: string;
   CreationDate?: Date;
   CompletionDate?: Date;
-  State?: string;
+  State?: BackupJobState;
   StatusMessage?: string;
   PercentDone?: string;
   BackupSizeInBytes?: number;
@@ -4353,7 +4671,7 @@ export interface BackupJob {
   StartBy?: Date;
   ResourceType?: string;
   BytesTransferred?: number;
-  BackupOptions?: BackupOptions;
+  BackupOptions?: { [key: string]: string };
   BackupType?: string;
   ParentJobId?: string;
   IsParent?: boolean;
@@ -4376,7 +4694,7 @@ export const BackupJob = S.suspend(() =>
     ResourceArn: S.optional(S.String),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CompletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    State: S.optional(S.String),
+    State: S.optional(BackupJobState),
     StatusMessage: S.optional(S.String),
     PercentDone: S.optional(S.String),
     BackupSizeInBytes: S.optional(S.Number),
@@ -4402,7 +4720,7 @@ export const BackupJobsList = S.Array(BackupJob);
 export interface BackupJobSummary {
   Region?: string;
   AccountId?: string;
-  State?: string;
+  State?: BackupJobStatus;
   ResourceType?: string;
   MessageCategory?: string;
   Count?: number;
@@ -4413,7 +4731,7 @@ export const BackupJobSummary = S.suspend(() =>
   S.Struct({
     Region: S.optional(S.String),
     AccountId: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(BackupJobStatus),
     ResourceType: S.optional(S.String),
     MessageCategory: S.optional(S.String),
     Count: S.optional(S.Number),
@@ -4466,8 +4784,8 @@ export const BackupSelectionsList = S.Array(BackupSelectionsListMember);
 export interface BackupVaultListMember {
   BackupVaultName?: string;
   BackupVaultArn?: string;
-  VaultType?: string;
-  VaultState?: string;
+  VaultType?: VaultType;
+  VaultState?: VaultState;
   CreationDate?: Date;
   EncryptionKeyArn?: string;
   CreatorRequestId?: string;
@@ -4476,14 +4794,14 @@ export interface BackupVaultListMember {
   MinRetentionDays?: number;
   MaxRetentionDays?: number;
   LockDate?: Date;
-  EncryptionKeyType?: string;
+  EncryptionKeyType?: EncryptionKeyType;
 }
 export const BackupVaultListMember = S.suspend(() =>
   S.Struct({
     BackupVaultName: S.optional(S.String),
     BackupVaultArn: S.optional(S.String),
-    VaultType: S.optional(S.String),
-    VaultState: S.optional(S.String),
+    VaultType: S.optional(VaultType),
+    VaultState: S.optional(VaultState),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EncryptionKeyArn: S.optional(S.String),
     CreatorRequestId: S.optional(S.String),
@@ -4492,7 +4810,7 @@ export const BackupVaultListMember = S.suspend(() =>
     MinRetentionDays: S.optional(S.Number),
     MaxRetentionDays: S.optional(S.Number),
     LockDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EncryptionKeyType: S.optional(S.String),
+    EncryptionKeyType: S.optional(EncryptionKeyType),
   }),
 ).annotations({
   identifier: "BackupVaultListMember",
@@ -4502,7 +4820,7 @@ export const BackupVaultList = S.Array(BackupVaultListMember);
 export interface CopyJobSummary {
   Region?: string;
   AccountId?: string;
-  State?: string;
+  State?: CopyJobStatus;
   ResourceType?: string;
   MessageCategory?: string;
   Count?: number;
@@ -4513,7 +4831,7 @@ export const CopyJobSummary = S.suspend(() =>
   S.Struct({
     Region: S.optional(S.String),
     AccountId: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(CopyJobStatus),
     ResourceType: S.optional(S.String),
     MessageCategory: S.optional(S.String),
     Count: S.optional(S.Number),
@@ -4552,7 +4870,7 @@ export interface IndexedRecoveryPoint {
   BackupCreationDate?: Date;
   ResourceType?: string;
   IndexCreationDate?: Date;
-  IndexStatus?: string;
+  IndexStatus?: IndexStatus;
   IndexStatusMessage?: string;
   BackupVaultArn?: string;
 }
@@ -4568,7 +4886,7 @@ export const IndexedRecoveryPoint = S.suspend(() =>
     IndexCreationDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    IndexStatus: S.optional(S.String),
+    IndexStatus: S.optional(IndexStatus),
     IndexStatusMessage: S.optional(S.String),
     BackupVaultArn: S.optional(S.String),
   }),
@@ -4579,7 +4897,7 @@ export type IndexedRecoveryPointList = IndexedRecoveryPoint[];
 export const IndexedRecoveryPointList = S.Array(IndexedRecoveryPoint);
 export interface LegalHold {
   Title?: string;
-  Status?: string;
+  Status?: LegalHoldStatus;
   Description?: string;
   LegalHoldId?: string;
   LegalHoldArn?: string;
@@ -4589,7 +4907,7 @@ export interface LegalHold {
 export const LegalHold = S.suspend(() =>
   S.Struct({
     Title: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(LegalHoldStatus),
     Description: S.optional(S.String),
     LegalHoldId: S.optional(S.String),
     LegalHoldArn: S.optional(S.String),
@@ -4621,7 +4939,7 @@ export type RecoveryPointsList = RecoveryPointMember[];
 export const RecoveryPointsList = S.Array(RecoveryPointMember);
 export interface AggregatedScanResult {
   FailedScan?: boolean;
-  Findings?: ScanFindings;
+  Findings?: ScanFinding[];
   LastComputed?: Date;
 }
 export const AggregatedScanResult = S.suspend(() =>
@@ -4636,7 +4954,7 @@ export const AggregatedScanResult = S.suspend(() =>
 export interface RecoveryPointByResource {
   RecoveryPointArn?: string;
   CreationDate?: Date;
-  Status?: string;
+  Status?: RecoveryPointStatus;
   StatusMessage?: string;
   EncryptionKeyArn?: string;
   BackupSizeBytes?: number;
@@ -4644,17 +4962,17 @@ export interface RecoveryPointByResource {
   IsParent?: boolean;
   ParentRecoveryPointArn?: string;
   ResourceName?: string;
-  VaultType?: string;
-  IndexStatus?: string;
+  VaultType?: VaultType;
+  IndexStatus?: IndexStatus;
   IndexStatusMessage?: string;
-  EncryptionKeyType?: string;
+  EncryptionKeyType?: EncryptionKeyType;
   AggregatedScanResult?: AggregatedScanResult;
 }
 export const RecoveryPointByResource = S.suspend(() =>
   S.Struct({
     RecoveryPointArn: S.optional(S.String),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
+    Status: S.optional(RecoveryPointStatus),
     StatusMessage: S.optional(S.String),
     EncryptionKeyArn: S.optional(S.String),
     BackupSizeBytes: S.optional(S.Number),
@@ -4662,10 +4980,10 @@ export const RecoveryPointByResource = S.suspend(() =>
     IsParent: S.optional(S.Boolean),
     ParentRecoveryPointArn: S.optional(S.String),
     ResourceName: S.optional(S.String),
-    VaultType: S.optional(S.String),
-    IndexStatus: S.optional(S.String),
+    VaultType: S.optional(VaultType),
+    IndexStatus: S.optional(IndexStatus),
     IndexStatusMessage: S.optional(S.String),
-    EncryptionKeyType: S.optional(S.String),
+    EncryptionKeyType: S.optional(EncryptionKeyType),
     AggregatedScanResult: S.optional(AggregatedScanResult),
   }),
 ).annotations({
@@ -4676,7 +4994,7 @@ export const RecoveryPointByResourceList = S.Array(RecoveryPointByResource);
 export interface RestoreJobSummary {
   Region?: string;
   AccountId?: string;
-  State?: string;
+  State?: RestoreJobState;
   ResourceType?: string;
   Count?: number;
   StartTime?: Date;
@@ -4686,7 +5004,7 @@ export const RestoreJobSummary = S.suspend(() =>
   S.Struct({
     Region: S.optional(S.String),
     AccountId: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(RestoreJobState),
     ResourceType: S.optional(S.String),
     Count: S.optional(S.Number),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -4755,18 +5073,18 @@ export interface ScanJob {
   CreatedBy: ScanJobCreator;
   CreationDate: Date;
   IamRoleArn: string;
-  MalwareScanner: string;
+  MalwareScanner: MalwareScanner;
   RecoveryPointArn: string;
   ResourceArn: string;
   ResourceName: string;
-  ResourceType: string;
+  ResourceType: ScanResourceType;
   ScanBaseRecoveryPointArn?: string;
   ScanId?: string;
   ScanJobId: string;
-  ScanMode: string;
+  ScanMode: ScanMode;
   ScanResult?: ScanResultInfo;
   ScannerRoleArn: string;
-  State?: string;
+  State?: ScanState;
   StatusMessage?: string;
 }
 export const ScanJob = S.suspend(() =>
@@ -4778,18 +5096,18 @@ export const ScanJob = S.suspend(() =>
     CreatedBy: ScanJobCreator,
     CreationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     IamRoleArn: S.String,
-    MalwareScanner: S.String,
+    MalwareScanner: MalwareScanner,
     RecoveryPointArn: S.String,
     ResourceArn: S.String,
     ResourceName: S.String,
-    ResourceType: S.String,
+    ResourceType: ScanResourceType,
     ScanBaseRecoveryPointArn: S.optional(S.String),
     ScanId: S.optional(S.String),
     ScanJobId: S.String,
-    ScanMode: S.String,
+    ScanMode: ScanMode,
     ScanResult: S.optional(ScanResultInfo),
     ScannerRoleArn: S.String,
-    State: S.optional(S.String),
+    State: S.optional(ScanState),
     StatusMessage: S.optional(S.String),
   }),
 ).annotations({ identifier: "ScanJob" }) as any as S.Schema<ScanJob>;
@@ -4798,25 +5116,25 @@ export const ScanJobs = S.Array(ScanJob);
 export interface ScanJobSummary {
   Region?: string;
   AccountId?: string;
-  State?: string;
+  State?: ScanJobStatus;
   ResourceType?: string;
   Count?: number;
   StartTime?: Date;
   EndTime?: Date;
-  MalwareScanner?: string;
-  ScanResultStatus?: string;
+  MalwareScanner?: MalwareScanner;
+  ScanResultStatus?: ScanResultStatus;
 }
 export const ScanJobSummary = S.suspend(() =>
   S.Struct({
     Region: S.optional(S.String),
     AccountId: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(ScanJobStatus),
     ResourceType: S.optional(S.String),
     Count: S.optional(S.Number),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    MalwareScanner: S.optional(S.String),
-    ScanResultStatus: S.optional(S.String),
+    MalwareScanner: S.optional(MalwareScanner),
+    ScanResultStatus: S.optional(ScanResultStatus),
   }),
 ).annotations({
   identifier: "ScanJobSummary",
@@ -4847,12 +5165,14 @@ export type TieringConfigurationsList = TieringConfigurationsListMember[];
 export const TieringConfigurationsList = S.Array(
   TieringConfigurationsListMember,
 );
+export type MpaRevokeSessionStatus = "PENDING" | "FAILED";
+export const MpaRevokeSessionStatus = S.Literal("PENDING", "FAILED");
 export interface CreateFrameworkInput {
   FrameworkName: string;
   FrameworkDescription?: string;
-  FrameworkControls: FrameworkControls;
+  FrameworkControls: FrameworkControl[];
   IdempotencyToken?: string;
-  FrameworkTags?: stringMap;
+  FrameworkTags?: { [key: string]: string };
 }
 export const CreateFrameworkInput = S.suspend(() =>
   S.Struct({
@@ -4879,7 +5199,7 @@ export interface CreateLegalHoldInput {
   Description: string;
   IdempotencyToken?: string;
   RecoveryPointSelection?: RecoveryPointSelection;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const CreateLegalHoldInput = S.suspend(() =>
   S.Struct({
@@ -4918,7 +5238,7 @@ export const CreateReportPlanOutput = S.suspend(() =>
 export interface CreateRestoreTestingPlanInput {
   CreatorRequestId?: string;
   RestoreTestingPlan: RestoreTestingPlanForCreate;
-  Tags?: SensitiveStringMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateRestoreTestingPlanInput = S.suspend(() =>
   S.Struct({
@@ -4940,7 +5260,7 @@ export const CreateRestoreTestingPlanInput = S.suspend(() =>
 }) as any as S.Schema<CreateRestoreTestingPlanInput>;
 export interface CreateTieringConfigurationInput {
   TieringConfiguration: TieringConfigurationInputForCreate;
-  TieringConfigurationTags?: Tags;
+  TieringConfigurationTags?: { [key: string]: string };
   CreatorRequestId?: string;
 }
 export const CreateTieringConfigurationInput = S.suspend(() =>
@@ -4975,7 +5295,7 @@ export interface DescribeBackupJobOutput {
   ResourceArn?: string;
   CreationDate?: Date;
   CompletionDate?: Date;
-  State?: string;
+  State?: BackupJobState;
   StatusMessage?: string;
   PercentDone?: string;
   BackupSizeInBytes?: number;
@@ -4985,12 +5305,12 @@ export interface DescribeBackupJobOutput {
   BytesTransferred?: number;
   ExpectedCompletionDate?: Date;
   StartBy?: Date;
-  BackupOptions?: BackupOptions;
+  BackupOptions?: { [key: string]: string };
   BackupType?: string;
   ParentJobId?: string;
   IsParent?: boolean;
   NumberOfChildJobs?: number;
-  ChildJobsInState?: BackupJobChildJobsInState;
+  ChildJobsInState?: { [key: string]: number };
   ResourceName?: string;
   InitiationDate?: Date;
   MessageCategory?: string;
@@ -5010,7 +5330,7 @@ export const DescribeBackupJobOutput = S.suspend(() =>
     ResourceArn: S.optional(S.String),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CompletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    State: S.optional(S.String),
+    State: S.optional(BackupJobState),
     StatusMessage: S.optional(S.String),
     PercentDone: S.optional(S.String),
     BackupSizeInBytes: S.optional(S.Number),
@@ -5038,8 +5358,8 @@ export const DescribeBackupJobOutput = S.suspend(() =>
 export interface DescribeBackupVaultOutput {
   BackupVaultName?: string;
   BackupVaultArn?: string;
-  VaultType?: string;
-  VaultState?: string;
+  VaultType?: VaultType;
+  VaultState?: VaultState;
   EncryptionKeyArn?: string;
   CreationDate?: Date;
   CreatorRequestId?: string;
@@ -5052,14 +5372,14 @@ export interface DescribeBackupVaultOutput {
   MpaApprovalTeamArn?: string;
   MpaSessionArn?: string;
   LatestMpaApprovalTeamUpdate?: LatestMpaApprovalTeamUpdate;
-  EncryptionKeyType?: string;
+  EncryptionKeyType?: EncryptionKeyType;
 }
 export const DescribeBackupVaultOutput = S.suspend(() =>
   S.Struct({
     BackupVaultName: S.optional(S.String),
     BackupVaultArn: S.optional(S.String),
-    VaultType: S.optional(S.String),
-    VaultState: S.optional(S.String),
+    VaultType: S.optional(VaultType),
+    VaultState: S.optional(VaultState),
     EncryptionKeyArn: S.optional(S.String),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatorRequestId: S.optional(S.String),
@@ -5072,7 +5392,7 @@ export const DescribeBackupVaultOutput = S.suspend(() =>
     MpaApprovalTeamArn: S.optional(S.String),
     MpaSessionArn: S.optional(S.String),
     LatestMpaApprovalTeamUpdate: S.optional(LatestMpaApprovalTeamUpdate),
-    EncryptionKeyType: S.optional(S.String),
+    EncryptionKeyType: S.optional(EncryptionKeyType),
   }),
 ).annotations({
   identifier: "DescribeBackupVaultOutput",
@@ -5086,7 +5406,7 @@ export interface DescribeRecoveryPointOutput {
   ResourceType?: string;
   CreatedBy?: RecoveryPointCreator;
   IamRoleArn?: string;
-  Status?: string;
+  Status?: RecoveryPointStatus;
   StatusMessage?: string;
   CreationDate?: Date;
   InitiationDate?: Date;
@@ -5096,17 +5416,17 @@ export interface DescribeRecoveryPointOutput {
   Lifecycle?: Lifecycle;
   EncryptionKeyArn?: string;
   IsEncrypted?: boolean;
-  StorageClass?: string;
+  StorageClass?: StorageClass;
   LastRestoreTime?: Date;
   ParentRecoveryPointArn?: string;
   CompositeMemberIdentifier?: string;
   IsParent?: boolean;
   ResourceName?: string;
-  VaultType?: string;
-  IndexStatus?: string;
+  VaultType?: VaultType;
+  IndexStatus?: IndexStatus;
   IndexStatusMessage?: string;
-  EncryptionKeyType?: string;
-  ScanResults?: ScanResults;
+  EncryptionKeyType?: EncryptionKeyType;
+  ScanResults?: ScanResult[];
 }
 export const DescribeRecoveryPointOutput = S.suspend(() =>
   S.Struct({
@@ -5118,7 +5438,7 @@ export const DescribeRecoveryPointOutput = S.suspend(() =>
     ResourceType: S.optional(S.String),
     CreatedBy: S.optional(RecoveryPointCreator),
     IamRoleArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(RecoveryPointStatus),
     StatusMessage: S.optional(S.String),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     InitiationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -5128,7 +5448,7 @@ export const DescribeRecoveryPointOutput = S.suspend(() =>
     Lifecycle: S.optional(Lifecycle),
     EncryptionKeyArn: S.optional(S.String),
     IsEncrypted: S.optional(S.Boolean),
-    StorageClass: S.optional(S.String),
+    StorageClass: S.optional(StorageClass),
     LastRestoreTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -5136,10 +5456,10 @@ export const DescribeRecoveryPointOutput = S.suspend(() =>
     CompositeMemberIdentifier: S.optional(S.String),
     IsParent: S.optional(S.Boolean),
     ResourceName: S.optional(S.String),
-    VaultType: S.optional(S.String),
-    IndexStatus: S.optional(S.String),
+    VaultType: S.optional(VaultType),
+    IndexStatus: S.optional(IndexStatus),
     IndexStatusMessage: S.optional(S.String),
-    EncryptionKeyType: S.optional(S.String),
+    EncryptionKeyType: S.optional(EncryptionKeyType),
     ScanResults: S.optional(ScanResults),
   }),
 ).annotations({
@@ -5161,7 +5481,7 @@ export interface DescribeRestoreJobOutput {
   BackupVaultArn?: string;
   CreationDate?: Date;
   CompletionDate?: Date;
-  Status?: string;
+  Status?: RestoreJobStatus;
   StatusMessage?: string;
   PercentDone?: string;
   BackupSizeInBytes?: number;
@@ -5171,9 +5491,9 @@ export interface DescribeRestoreJobOutput {
   ResourceType?: string;
   RecoveryPointCreationDate?: Date;
   CreatedBy?: RestoreJobCreator;
-  ValidationStatus?: string;
+  ValidationStatus?: RestoreValidationStatus;
   ValidationStatusMessage?: string;
-  DeletionStatus?: string;
+  DeletionStatus?: RestoreDeletionStatus;
   DeletionStatusMessage?: string;
   IsParent?: boolean;
   ParentJobId?: string;
@@ -5187,7 +5507,7 @@ export const DescribeRestoreJobOutput = S.suspend(() =>
     BackupVaultArn: S.optional(S.String),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CompletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
+    Status: S.optional(RestoreJobStatus),
     StatusMessage: S.optional(S.String),
     PercentDone: S.optional(S.String),
     BackupSizeInBytes: S.optional(S.Number),
@@ -5199,9 +5519,9 @@ export const DescribeRestoreJobOutput = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     CreatedBy: S.optional(RestoreJobCreator),
-    ValidationStatus: S.optional(S.String),
+    ValidationStatus: S.optional(RestoreValidationStatus),
     ValidationStatusMessage: S.optional(S.String),
-    DeletionStatus: S.optional(S.String),
+    DeletionStatus: S.optional(RestoreDeletionStatus),
     DeletionStatusMessage: S.optional(S.String),
     IsParent: S.optional(S.Boolean),
     ParentJobId: S.optional(S.String),
@@ -5217,18 +5537,18 @@ export interface DescribeScanJobOutput {
   CreatedBy: ScanJobCreator;
   CreationDate: Date;
   IamRoleArn: string;
-  MalwareScanner: string;
+  MalwareScanner: MalwareScanner;
   RecoveryPointArn: string;
   ResourceArn: string;
   ResourceName: string;
-  ResourceType: string;
+  ResourceType: ScanResourceType;
   ScanBaseRecoveryPointArn?: string;
   ScanId?: string;
   ScanJobId: string;
-  ScanMode: string;
+  ScanMode: ScanMode;
   ScanResult?: ScanResultInfo;
   ScannerRoleArn: string;
-  State: string;
+  State: ScanState;
   StatusMessage?: string;
 }
 export const DescribeScanJobOutput = S.suspend(() =>
@@ -5240,18 +5560,18 @@ export const DescribeScanJobOutput = S.suspend(() =>
     CreatedBy: ScanJobCreator,
     CreationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     IamRoleArn: S.String,
-    MalwareScanner: S.String,
+    MalwareScanner: MalwareScanner,
     RecoveryPointArn: S.String,
     ResourceArn: S.String,
     ResourceName: S.String,
-    ResourceType: S.String,
+    ResourceType: ScanResourceType,
     ScanBaseRecoveryPointArn: S.optional(S.String),
     ScanId: S.optional(S.String),
     ScanJobId: S.String,
-    ScanMode: S.String,
+    ScanMode: ScanMode,
     ScanResult: S.optional(ScanResultInfo),
     ScannerRoleArn: S.String,
-    State: S.String,
+    State: ScanState,
     StatusMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -5282,7 +5602,7 @@ export const GetTieringConfigurationOutput = S.suspend(() =>
   identifier: "GetTieringConfigurationOutput",
 }) as any as S.Schema<GetTieringConfigurationOutput>;
 export interface ListBackupJobsOutput {
-  BackupJobs?: BackupJobsList;
+  BackupJobs?: BackupJob[];
   NextToken?: string;
 }
 export const ListBackupJobsOutput = S.suspend(() =>
@@ -5294,7 +5614,7 @@ export const ListBackupJobsOutput = S.suspend(() =>
   identifier: "ListBackupJobsOutput",
 }) as any as S.Schema<ListBackupJobsOutput>;
 export interface ListBackupJobSummariesOutput {
-  BackupJobSummaries?: BackupJobSummaryList;
+  BackupJobSummaries?: BackupJobSummary[];
   AggregationPeriod?: string;
   NextToken?: string;
 }
@@ -5309,7 +5629,7 @@ export const ListBackupJobSummariesOutput = S.suspend(() =>
 }) as any as S.Schema<ListBackupJobSummariesOutput>;
 export interface ListBackupPlansOutput {
   NextToken?: string;
-  BackupPlansList?: BackupPlansList;
+  BackupPlansList?: BackupPlansListMember[];
 }
 export const ListBackupPlansOutput = S.suspend(() =>
   S.Struct({
@@ -5321,7 +5641,7 @@ export const ListBackupPlansOutput = S.suspend(() =>
 }) as any as S.Schema<ListBackupPlansOutput>;
 export interface ListBackupPlanTemplatesOutput {
   NextToken?: string;
-  BackupPlanTemplatesList?: BackupPlanTemplatesList;
+  BackupPlanTemplatesList?: BackupPlanTemplatesListMember[];
 }
 export const ListBackupPlanTemplatesOutput = S.suspend(() =>
   S.Struct({
@@ -5333,7 +5653,7 @@ export const ListBackupPlanTemplatesOutput = S.suspend(() =>
 }) as any as S.Schema<ListBackupPlanTemplatesOutput>;
 export interface ListBackupSelectionsOutput {
   NextToken?: string;
-  BackupSelectionsList?: BackupSelectionsList;
+  BackupSelectionsList?: BackupSelectionsListMember[];
 }
 export const ListBackupSelectionsOutput = S.suspend(() =>
   S.Struct({
@@ -5344,7 +5664,7 @@ export const ListBackupSelectionsOutput = S.suspend(() =>
   identifier: "ListBackupSelectionsOutput",
 }) as any as S.Schema<ListBackupSelectionsOutput>;
 export interface ListBackupVaultsOutput {
-  BackupVaultList?: BackupVaultList;
+  BackupVaultList?: BackupVaultListMember[];
   NextToken?: string;
 }
 export const ListBackupVaultsOutput = S.suspend(() =>
@@ -5356,7 +5676,7 @@ export const ListBackupVaultsOutput = S.suspend(() =>
   identifier: "ListBackupVaultsOutput",
 }) as any as S.Schema<ListBackupVaultsOutput>;
 export interface ListCopyJobSummariesOutput {
-  CopyJobSummaries?: CopyJobSummaryList;
+  CopyJobSummaries?: CopyJobSummary[];
   AggregationPeriod?: string;
   NextToken?: string;
 }
@@ -5370,7 +5690,7 @@ export const ListCopyJobSummariesOutput = S.suspend(() =>
   identifier: "ListCopyJobSummariesOutput",
 }) as any as S.Schema<ListCopyJobSummariesOutput>;
 export interface ListFrameworksOutput {
-  Frameworks?: FrameworkList;
+  Frameworks?: Framework[];
   NextToken?: string;
 }
 export const ListFrameworksOutput = S.suspend(() =>
@@ -5382,7 +5702,7 @@ export const ListFrameworksOutput = S.suspend(() =>
   identifier: "ListFrameworksOutput",
 }) as any as S.Schema<ListFrameworksOutput>;
 export interface ListIndexedRecoveryPointsOutput {
-  IndexedRecoveryPoints?: IndexedRecoveryPointList;
+  IndexedRecoveryPoints?: IndexedRecoveryPoint[];
   NextToken?: string;
 }
 export const ListIndexedRecoveryPointsOutput = S.suspend(() =>
@@ -5395,7 +5715,7 @@ export const ListIndexedRecoveryPointsOutput = S.suspend(() =>
 }) as any as S.Schema<ListIndexedRecoveryPointsOutput>;
 export interface ListLegalHoldsOutput {
   NextToken?: string;
-  LegalHolds?: LegalHoldsList;
+  LegalHolds?: LegalHold[];
 }
 export const ListLegalHoldsOutput = S.suspend(() =>
   S.Struct({
@@ -5406,7 +5726,7 @@ export const ListLegalHoldsOutput = S.suspend(() =>
   identifier: "ListLegalHoldsOutput",
 }) as any as S.Schema<ListLegalHoldsOutput>;
 export interface ListProtectedResourcesOutput {
-  Results?: ProtectedResourcesList;
+  Results?: ProtectedResource[];
   NextToken?: string;
 }
 export const ListProtectedResourcesOutput = S.suspend(() =>
@@ -5418,7 +5738,7 @@ export const ListProtectedResourcesOutput = S.suspend(() =>
   identifier: "ListProtectedResourcesOutput",
 }) as any as S.Schema<ListProtectedResourcesOutput>;
 export interface ListRecoveryPointsByLegalHoldOutput {
-  RecoveryPoints?: RecoveryPointsList;
+  RecoveryPoints?: RecoveryPointMember[];
   NextToken?: string;
 }
 export const ListRecoveryPointsByLegalHoldOutput = S.suspend(() =>
@@ -5431,7 +5751,7 @@ export const ListRecoveryPointsByLegalHoldOutput = S.suspend(() =>
 }) as any as S.Schema<ListRecoveryPointsByLegalHoldOutput>;
 export interface ListRecoveryPointsByResourceOutput {
   NextToken?: string;
-  RecoveryPoints?: RecoveryPointByResourceList;
+  RecoveryPoints?: RecoveryPointByResource[];
 }
 export const ListRecoveryPointsByResourceOutput = S.suspend(() =>
   S.Struct({
@@ -5442,7 +5762,7 @@ export const ListRecoveryPointsByResourceOutput = S.suspend(() =>
   identifier: "ListRecoveryPointsByResourceOutput",
 }) as any as S.Schema<ListRecoveryPointsByResourceOutput>;
 export interface ListRestoreJobsOutput {
-  RestoreJobs?: RestoreJobsList;
+  RestoreJobs?: RestoreJobsListMember[];
   NextToken?: string;
 }
 export const ListRestoreJobsOutput = S.suspend(() =>
@@ -5454,7 +5774,7 @@ export const ListRestoreJobsOutput = S.suspend(() =>
   identifier: "ListRestoreJobsOutput",
 }) as any as S.Schema<ListRestoreJobsOutput>;
 export interface ListRestoreJobSummariesOutput {
-  RestoreJobSummaries?: RestoreJobSummaryList;
+  RestoreJobSummaries?: RestoreJobSummary[];
   AggregationPeriod?: string;
   NextToken?: string;
 }
@@ -5469,7 +5789,7 @@ export const ListRestoreJobSummariesOutput = S.suspend(() =>
 }) as any as S.Schema<ListRestoreJobSummariesOutput>;
 export interface ListRestoreTestingPlansOutput {
   NextToken?: string;
-  RestoreTestingPlans: RestoreTestingPlans;
+  RestoreTestingPlans: RestoreTestingPlanForList[];
 }
 export const ListRestoreTestingPlansOutput = S.suspend(() =>
   S.Struct({
@@ -5481,7 +5801,7 @@ export const ListRestoreTestingPlansOutput = S.suspend(() =>
 }) as any as S.Schema<ListRestoreTestingPlansOutput>;
 export interface ListRestoreTestingSelectionsOutput {
   NextToken?: string;
-  RestoreTestingSelections: RestoreTestingSelections;
+  RestoreTestingSelections: RestoreTestingSelectionForList[];
 }
 export const ListRestoreTestingSelectionsOutput = S.suspend(() =>
   S.Struct({
@@ -5493,7 +5813,7 @@ export const ListRestoreTestingSelectionsOutput = S.suspend(() =>
 }) as any as S.Schema<ListRestoreTestingSelectionsOutput>;
 export interface ListScanJobsOutput {
   NextToken?: string;
-  ScanJobs: ScanJobs;
+  ScanJobs: ScanJob[];
 }
 export const ListScanJobsOutput = S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), ScanJobs: ScanJobs }),
@@ -5501,7 +5821,7 @@ export const ListScanJobsOutput = S.suspend(() =>
   identifier: "ListScanJobsOutput",
 }) as any as S.Schema<ListScanJobsOutput>;
 export interface ListScanJobSummariesOutput {
-  ScanJobSummaries?: ScanJobSummaryList;
+  ScanJobSummaries?: ScanJobSummary[];
   AggregationPeriod?: string;
   NextToken?: string;
 }
@@ -5515,7 +5835,7 @@ export const ListScanJobSummariesOutput = S.suspend(() =>
   identifier: "ListScanJobSummariesOutput",
 }) as any as S.Schema<ListScanJobSummariesOutput>;
 export interface ListTieringConfigurationsOutput {
-  TieringConfigurations?: TieringConfigurationsList;
+  TieringConfigurations?: TieringConfigurationsListMember[];
   NextToken?: string;
 }
 export const ListTieringConfigurationsOutput = S.suspend(() =>
@@ -5604,7 +5924,7 @@ export const UpdateTieringConfigurationOutput = S.suspend(() =>
 }) as any as S.Schema<UpdateTieringConfigurationOutput>;
 export interface LatestRevokeRequest {
   MpaSessionArn?: string;
-  Status?: string;
+  Status?: MpaRevokeSessionStatus;
   StatusMessage?: string;
   InitiationDate?: Date;
   ExpiryDate?: Date;
@@ -5612,7 +5932,7 @@ export interface LatestRevokeRequest {
 export const LatestRevokeRequest = S.suspend(() =>
   S.Struct({
     MpaSessionArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(MpaRevokeSessionStatus),
     StatusMessage: S.optional(S.String),
     InitiationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ExpiryDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -5622,10 +5942,10 @@ export const LatestRevokeRequest = S.suspend(() =>
 }) as any as S.Schema<LatestRevokeRequest>;
 export interface RestoreTestingSelectionForCreate {
   IamRoleArn: string;
-  ProtectedResourceArns?: stringList;
+  ProtectedResourceArns?: string[];
   ProtectedResourceConditions?: ProtectedResourceConditions;
   ProtectedResourceType: string;
-  RestoreMetadataOverrides?: SensitiveStringMap;
+  RestoreMetadataOverrides?: { [key: string]: string };
   RestoreTestingSelectionName: string;
   ValidationWindowHours?: number;
 }
@@ -5651,7 +5971,7 @@ export interface RecoveryPointByBackupVault {
   ResourceType?: string;
   CreatedBy?: RecoveryPointCreator;
   IamRoleArn?: string;
-  Status?: string;
+  Status?: RecoveryPointStatus;
   StatusMessage?: string;
   CreationDate?: Date;
   InitiationDate?: Date;
@@ -5666,10 +5986,10 @@ export interface RecoveryPointByBackupVault {
   CompositeMemberIdentifier?: string;
   IsParent?: boolean;
   ResourceName?: string;
-  VaultType?: string;
-  IndexStatus?: string;
+  VaultType?: VaultType;
+  IndexStatus?: IndexStatus;
   IndexStatusMessage?: string;
-  EncryptionKeyType?: string;
+  EncryptionKeyType?: EncryptionKeyType;
   AggregatedScanResult?: AggregatedScanResult;
 }
 export const RecoveryPointByBackupVault = S.suspend(() =>
@@ -5682,7 +6002,7 @@ export const RecoveryPointByBackupVault = S.suspend(() =>
     ResourceType: S.optional(S.String),
     CreatedBy: S.optional(RecoveryPointCreator),
     IamRoleArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(RecoveryPointStatus),
     StatusMessage: S.optional(S.String),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     InitiationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -5699,10 +6019,10 @@ export const RecoveryPointByBackupVault = S.suspend(() =>
     CompositeMemberIdentifier: S.optional(S.String),
     IsParent: S.optional(S.Boolean),
     ResourceName: S.optional(S.String),
-    VaultType: S.optional(S.String),
-    IndexStatus: S.optional(S.String),
+    VaultType: S.optional(VaultType),
+    IndexStatus: S.optional(IndexStatus),
     IndexStatusMessage: S.optional(S.String),
-    EncryptionKeyType: S.optional(S.String),
+    EncryptionKeyType: S.optional(EncryptionKeyType),
     AggregatedScanResult: S.optional(AggregatedScanResult),
   }),
 ).annotations({
@@ -5716,7 +6036,7 @@ export interface RestoreAccessBackupVaultListMember {
   RestoreAccessBackupVaultArn?: string;
   CreationDate?: Date;
   ApprovalDate?: Date;
-  VaultState?: string;
+  VaultState?: VaultState;
   LatestRevokeRequest?: LatestRevokeRequest;
 }
 export const RestoreAccessBackupVaultListMember = S.suspend(() =>
@@ -5724,7 +6044,7 @@ export const RestoreAccessBackupVaultListMember = S.suspend(() =>
     RestoreAccessBackupVaultArn: S.optional(S.String),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ApprovalDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    VaultState: S.optional(S.String),
+    VaultState: S.optional(VaultState),
     LatestRevokeRequest: S.optional(LatestRevokeRequest),
   }),
 ).annotations({
@@ -5736,7 +6056,7 @@ export const RestoreAccessBackupVaultList = S.Array(
 );
 export interface CreateBackupPlanInput {
   BackupPlan: BackupPlanInput;
-  BackupPlanTags?: Tags;
+  BackupPlanTags?: { [key: string]: string };
   CreatorRequestId?: string;
 }
 export const CreateBackupPlanInput = S.suspend(() =>
@@ -5794,7 +6114,7 @@ export const CreateFrameworkOutput = S.suspend(() =>
 }) as any as S.Schema<CreateFrameworkOutput>;
 export interface CreateLegalHoldOutput {
   Title?: string;
-  Status?: string;
+  Status?: LegalHoldStatus;
   Description?: string;
   LegalHoldId?: string;
   LegalHoldArn?: string;
@@ -5804,7 +6124,7 @@ export interface CreateLegalHoldOutput {
 export const CreateLegalHoldOutput = S.suspend(() =>
   S.Struct({
     Title: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(LegalHoldStatus),
     Description: S.optional(S.String),
     LegalHoldId: S.optional(S.String),
     LegalHoldArn: S.optional(S.String),
@@ -5895,8 +6215,8 @@ export interface GetBackupPlanOutput {
   CreationDate?: Date;
   DeletionDate?: Date;
   LastExecutionDate?: Date;
-  AdvancedBackupSettings?: AdvancedBackupSettings;
-  ScheduledRunsPreview?: ScheduledRunsPreview;
+  AdvancedBackupSettings?: AdvancedBackupSetting[];
+  ScheduledRunsPreview?: ScheduledPlanExecutionMember[];
 }
 export const GetBackupPlanOutput = S.suspend(() =>
   S.Struct({
@@ -5918,7 +6238,7 @@ export const GetBackupPlanOutput = S.suspend(() =>
 }) as any as S.Schema<GetBackupPlanOutput>;
 export interface ListRecoveryPointsByBackupVaultOutput {
   NextToken?: string;
-  RecoveryPoints?: RecoveryPointByBackupVaultList;
+  RecoveryPoints?: RecoveryPointByBackupVault[];
 }
 export const ListRecoveryPointsByBackupVaultOutput = S.suspend(() =>
   S.Struct({
@@ -5930,7 +6250,7 @@ export const ListRecoveryPointsByBackupVaultOutput = S.suspend(() =>
 }) as any as S.Schema<ListRecoveryPointsByBackupVaultOutput>;
 export interface ListRestoreAccessBackupVaultsOutput {
   NextToken?: string;
-  RestoreAccessBackupVaults?: RestoreAccessBackupVaultList;
+  RestoreAccessBackupVaults?: RestoreAccessBackupVaultListMember[];
 }
 export const ListRestoreAccessBackupVaultsOutput = S.suspend(() =>
   S.Struct({
@@ -5945,7 +6265,7 @@ export interface CreateBackupPlanOutput {
   BackupPlanArn?: string;
   CreationDate?: Date;
   VersionId?: string;
-  AdvancedBackupSettings?: AdvancedBackupSettings;
+  AdvancedBackupSettings?: AdvancedBackupSetting[];
 }
 export const CreateBackupPlanOutput = S.suspend(() =>
   S.Struct({
@@ -6090,7 +6410,7 @@ export class DependencyFailureException extends S.TaggedError<DependencyFailureE
  */
 export const getSupportedResourceTypes: (
   input: GetSupportedResourceTypesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSupportedResourceTypesOutput,
   ServiceUnavailableException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6105,21 +6425,21 @@ export const getSupportedResourceTypes: (
 export const listCopyJobs: {
   (
     input: ListCopyJobsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCopyJobsOutput,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListCopyJobsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCopyJobsOutput,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListCopyJobsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CopyJob,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -6141,7 +6461,7 @@ export const listCopyJobs: {
 export const listProtectedResourcesByBackupVault: {
   (
     input: ListProtectedResourcesByBackupVaultInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProtectedResourcesByBackupVaultOutput,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -6151,7 +6471,7 @@ export const listProtectedResourcesByBackupVault: {
   >;
   pages: (
     input: ListProtectedResourcesByBackupVaultInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProtectedResourcesByBackupVaultOutput,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -6161,7 +6481,7 @@ export const listProtectedResourcesByBackupVault: {
   >;
   items: (
     input: ListProtectedResourcesByBackupVaultInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProtectedResource,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -6190,7 +6510,7 @@ export const listProtectedResourcesByBackupVault: {
 export const listReportJobs: {
   (
     input: ListReportJobsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReportJobsOutput,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -6200,7 +6520,7 @@ export const listReportJobs: {
   >;
   pages: (
     input: ListReportJobsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReportJobsOutput,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -6210,7 +6530,7 @@ export const listReportJobs: {
   >;
   items: (
     input: ListReportJobsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -6239,21 +6559,21 @@ export const listReportJobs: {
 export const listReportPlans: {
   (
     input: ListReportPlansInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReportPlansOutput,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListReportPlansInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReportPlansOutput,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListReportPlansInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -6276,7 +6596,7 @@ export const listReportPlans: {
  */
 export const deleteRestoreTestingPlan: (
   input: DeleteRestoreTestingPlanInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRestoreTestingPlanResponse,
   InvalidRequestException | ServiceUnavailableException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6294,7 +6614,7 @@ export const deleteRestoreTestingPlan: (
  */
 export const deleteRestoreTestingSelection: (
   input: DeleteRestoreTestingSelectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRestoreTestingSelectionResponse,
   ResourceNotFoundException | ServiceUnavailableException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6310,7 +6630,7 @@ export const deleteRestoreTestingSelection: (
  */
 export const describeGlobalSettings: (
   input: DescribeGlobalSettingsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeGlobalSettingsOutput,
   InvalidRequestException | ServiceUnavailableException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6328,7 +6648,7 @@ export const describeGlobalSettings: (
  */
 export const describeRegionSettings: (
   input: DescribeRegionSettingsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRegionSettingsOutput,
   ServiceUnavailableException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6342,7 +6662,7 @@ export const describeRegionSettings: (
  */
 export const deleteFramework: (
   input: DeleteFrameworkInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFrameworkResponse,
   | ConflictException
   | InvalidParameterValueException
@@ -6367,7 +6687,7 @@ export const deleteFramework: (
  */
 export const describeBackupVault: (
   input: DescribeBackupVaultInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeBackupVaultOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -6391,7 +6711,7 @@ export const describeBackupVault: (
  */
 export const describeRecoveryPoint: (
   input: DescribeRecoveryPointInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRecoveryPointOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -6414,7 +6734,7 @@ export const describeRecoveryPoint: (
  */
 export const describeReportPlan: (
   input: DescribeReportPlanInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeReportPlanOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -6437,7 +6757,7 @@ export const describeReportPlan: (
  */
 export const describeScanJob: (
   input: DescribeScanJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeScanJobOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -6460,7 +6780,7 @@ export const describeScanJob: (
  */
 export const getBackupPlanFromJSON: (
   input: GetBackupPlanFromJSONInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetBackupPlanFromJSONOutput,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -6487,7 +6807,7 @@ export const getBackupPlanFromJSON: (
  */
 export const getRestoreTestingPlan: (
   input: GetRestoreTestingPlanInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetRestoreTestingPlanOutput,
   ResourceNotFoundException | ServiceUnavailableException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6502,7 +6822,7 @@ export const getRestoreTestingPlan: (
  */
 export const getRestoreTestingSelection: (
   input: GetRestoreTestingSelectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetRestoreTestingSelectionOutput,
   ResourceNotFoundException | ServiceUnavailableException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6518,7 +6838,7 @@ export const getRestoreTestingSelection: (
  */
 export const getTieringConfiguration: (
   input: GetTieringConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetTieringConfigurationOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -6543,21 +6863,21 @@ export const getTieringConfiguration: (
 export const listBackupJobs: {
   (
     input: ListBackupJobsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBackupJobsOutput,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListBackupJobsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBackupJobsOutput,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListBackupJobsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BackupJob,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -6587,21 +6907,21 @@ export const listBackupJobs: {
 export const listBackupJobSummaries: {
   (
     input: ListBackupJobSummariesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBackupJobSummariesOutput,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListBackupJobSummariesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBackupJobSummariesOutput,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListBackupJobSummariesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -6622,7 +6942,7 @@ export const listBackupJobSummaries: {
 export const listBackupPlans: {
   (
     input: ListBackupPlansInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBackupPlansOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -6633,7 +6953,7 @@ export const listBackupPlans: {
   >;
   pages: (
     input: ListBackupPlansInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBackupPlansOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -6644,7 +6964,7 @@ export const listBackupPlans: {
   >;
   items: (
     input: ListBackupPlansInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BackupPlansListMember,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -6675,7 +6995,7 @@ export const listBackupPlans: {
 export const listBackupPlanTemplates: {
   (
     input: ListBackupPlanTemplatesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBackupPlanTemplatesOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -6686,7 +7006,7 @@ export const listBackupPlanTemplates: {
   >;
   pages: (
     input: ListBackupPlanTemplatesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBackupPlanTemplatesOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -6697,7 +7017,7 @@ export const listBackupPlanTemplates: {
   >;
   items: (
     input: ListBackupPlanTemplatesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BackupPlanTemplatesListMember,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -6729,7 +7049,7 @@ export const listBackupPlanTemplates: {
 export const listBackupSelections: {
   (
     input: ListBackupSelectionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBackupSelectionsOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -6740,7 +7060,7 @@ export const listBackupSelections: {
   >;
   pages: (
     input: ListBackupSelectionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBackupSelectionsOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -6751,7 +7071,7 @@ export const listBackupSelections: {
   >;
   items: (
     input: ListBackupSelectionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BackupSelectionsListMember,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -6783,7 +7103,7 @@ export const listBackupSelections: {
 export const listBackupVaults: {
   (
     input: ListBackupVaultsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBackupVaultsOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -6794,7 +7114,7 @@ export const listBackupVaults: {
   >;
   pages: (
     input: ListBackupVaultsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBackupVaultsOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -6805,7 +7125,7 @@ export const listBackupVaults: {
   >;
   items: (
     input: ListBackupVaultsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BackupVaultListMember,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -6844,21 +7164,21 @@ export const listBackupVaults: {
 export const listCopyJobSummaries: {
   (
     input: ListCopyJobSummariesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCopyJobSummariesOutput,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListCopyJobSummariesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCopyJobSummariesOutput,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListCopyJobSummariesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -6879,21 +7199,21 @@ export const listCopyJobSummaries: {
 export const listFrameworks: {
   (
     input: ListFrameworksInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFrameworksOutput,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListFrameworksInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFrameworksOutput,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListFrameworksInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -6919,7 +7239,7 @@ export const listFrameworks: {
 export const listIndexedRecoveryPoints: {
   (
     input: ListIndexedRecoveryPointsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListIndexedRecoveryPointsOutput,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -6929,7 +7249,7 @@ export const listIndexedRecoveryPoints: {
   >;
   pages: (
     input: ListIndexedRecoveryPointsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListIndexedRecoveryPointsOutput,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -6939,7 +7259,7 @@ export const listIndexedRecoveryPoints: {
   >;
   items: (
     input: ListIndexedRecoveryPointsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     IndexedRecoveryPoint,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -6968,21 +7288,21 @@ export const listIndexedRecoveryPoints: {
 export const listLegalHolds: {
   (
     input: ListLegalHoldsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLegalHoldsOutput,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListLegalHoldsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLegalHoldsOutput,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListLegalHoldsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LegalHold,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -7006,21 +7326,21 @@ export const listLegalHolds: {
 export const listProtectedResources: {
   (
     input: ListProtectedResourcesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProtectedResourcesOutput,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListProtectedResourcesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProtectedResourcesOutput,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListProtectedResourcesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProtectedResource,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -7043,7 +7363,7 @@ export const listProtectedResources: {
 export const listRecoveryPointsByLegalHold: {
   (
     input: ListRecoveryPointsByLegalHoldInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRecoveryPointsByLegalHoldOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -7053,7 +7373,7 @@ export const listRecoveryPointsByLegalHold: {
   >;
   pages: (
     input: ListRecoveryPointsByLegalHoldInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRecoveryPointsByLegalHoldOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -7063,7 +7383,7 @@ export const listRecoveryPointsByLegalHold: {
   >;
   items: (
     input: ListRecoveryPointsByLegalHoldInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RecoveryPointMember,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -7096,7 +7416,7 @@ export const listRecoveryPointsByLegalHold: {
 export const listRecoveryPointsByResource: {
   (
     input: ListRecoveryPointsByResourceInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRecoveryPointsByResourceOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -7107,7 +7427,7 @@ export const listRecoveryPointsByResource: {
   >;
   pages: (
     input: ListRecoveryPointsByResourceInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRecoveryPointsByResourceOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -7118,7 +7438,7 @@ export const listRecoveryPointsByResource: {
   >;
   items: (
     input: ListRecoveryPointsByResourceInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RecoveryPointByResource,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -7150,7 +7470,7 @@ export const listRecoveryPointsByResource: {
 export const listRestoreJobs: {
   (
     input: ListRestoreJobsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRestoreJobsOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -7161,7 +7481,7 @@ export const listRestoreJobs: {
   >;
   pages: (
     input: ListRestoreJobsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRestoreJobsOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -7172,7 +7492,7 @@ export const listRestoreJobs: {
   >;
   items: (
     input: ListRestoreJobsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RestoreJobsListMember,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -7211,21 +7531,21 @@ export const listRestoreJobs: {
 export const listRestoreJobSummaries: {
   (
     input: ListRestoreJobSummariesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRestoreJobSummariesOutput,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListRestoreJobSummariesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRestoreJobSummariesOutput,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListRestoreJobSummariesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -7246,21 +7566,21 @@ export const listRestoreJobSummaries: {
 export const listRestoreTestingPlans: {
   (
     input: ListRestoreTestingPlansInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRestoreTestingPlansOutput,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListRestoreTestingPlansInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRestoreTestingPlansOutput,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListRestoreTestingPlansInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RestoreTestingPlanForList,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -7283,7 +7603,7 @@ export const listRestoreTestingPlans: {
 export const listRestoreTestingSelections: {
   (
     input: ListRestoreTestingSelectionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRestoreTestingSelectionsOutput,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -7293,7 +7613,7 @@ export const listRestoreTestingSelections: {
   >;
   pages: (
     input: ListRestoreTestingSelectionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRestoreTestingSelectionsOutput,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -7303,7 +7623,7 @@ export const listRestoreTestingSelections: {
   >;
   items: (
     input: ListRestoreTestingSelectionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RestoreTestingSelectionForList,
     | InvalidParameterValueException
     | ResourceNotFoundException
@@ -7332,21 +7652,21 @@ export const listRestoreTestingSelections: {
 export const listScanJobs: {
   (
     input: ListScanJobsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListScanJobsOutput,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListScanJobsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListScanJobsOutput,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListScanJobsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ScanJob,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -7368,21 +7688,21 @@ export const listScanJobs: {
 export const listScanJobSummaries: {
   (
     input: ListScanJobSummariesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListScanJobSummariesOutput,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListScanJobSummariesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListScanJobSummariesOutput,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListScanJobSummariesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ScanJobSummary,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -7404,21 +7724,21 @@ export const listScanJobSummaries: {
 export const listTieringConfigurations: {
   (
     input: ListTieringConfigurationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTieringConfigurationsOutput,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListTieringConfigurationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTieringConfigurationsOutput,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListTieringConfigurationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TieringConfigurationsListMember,
     InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -7439,7 +7759,7 @@ export const listTieringConfigurations: {
  */
 export const startBackupJob: (
   input: StartBackupJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartBackupJobOutput,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -7466,7 +7786,7 @@ export const startBackupJob: (
  */
 export const startRestoreJob: (
   input: StartRestoreJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartRestoreJobOutput,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -7505,7 +7825,7 @@ export const startRestoreJob: (
  */
 export const updateRestoreTestingPlan: (
   input: UpdateRestoreTestingPlanInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRestoreTestingPlanOutput,
   | ConflictException
   | InvalidParameterValueException
@@ -7535,7 +7855,7 @@ export const updateRestoreTestingPlan: (
  */
 export const updateRestoreTestingSelection: (
   input: UpdateRestoreTestingSelectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRestoreTestingSelectionOutput,
   | ConflictException
   | InvalidParameterValueException
@@ -7570,7 +7890,7 @@ export const updateRestoreTestingSelection: (
  */
 export const updateTieringConfiguration: (
   input: UpdateTieringConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTieringConfigurationOutput,
   | AlreadyExistsException
   | ConflictException
@@ -7600,7 +7920,7 @@ export const updateTieringConfiguration: (
  */
 export const cancelLegalHold: (
   input: CancelLegalHoldInput,
-) => Effect.Effect<
+) => effect.Effect<
   CancelLegalHoldOutput,
   | InvalidParameterValueException
   | InvalidResourceStateException
@@ -7632,7 +7952,7 @@ export const cancelLegalHold: (
  */
 export const createLogicallyAirGappedBackupVault: (
   input: CreateLogicallyAirGappedBackupVaultInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLogicallyAirGappedBackupVaultOutput,
   | AlreadyExistsException
   | InvalidParameterValueException
@@ -7659,7 +7979,7 @@ export const createLogicallyAirGappedBackupVault: (
  */
 export const createRestoreAccessBackupVault: (
   input: CreateRestoreAccessBackupVaultInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRestoreAccessBackupVaultOutput,
   | AlreadyExistsException
   | InvalidParameterValueException
@@ -7688,7 +8008,7 @@ export const createRestoreAccessBackupVault: (
  */
 export const updateFramework: (
   input: UpdateFrameworkInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFrameworkOutput,
   | AlreadyExistsException
   | ConflictException
@@ -7717,7 +8037,7 @@ export const updateFramework: (
  */
 export const describeFramework: (
   input: DescribeFrameworkInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeFrameworkOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7742,7 +8062,7 @@ export const describeFramework: (
  */
 export const describeProtectedResource: (
   input: DescribeProtectedResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeProtectedResourceOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7765,7 +8085,7 @@ export const describeProtectedResource: (
  */
 export const exportBackupPlanTemplate: (
   input: ExportBackupPlanTemplateInput,
-) => Effect.Effect<
+) => effect.Effect<
   ExportBackupPlanTemplateOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7788,7 +8108,7 @@ export const exportBackupPlanTemplate: (
  */
 export const getBackupPlanFromTemplate: (
   input: GetBackupPlanFromTemplateInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetBackupPlanFromTemplateOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7812,7 +8132,7 @@ export const getBackupPlanFromTemplate: (
  */
 export const getBackupSelection: (
   input: GetBackupSelectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetBackupSelectionOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7836,7 +8156,7 @@ export const getBackupSelection: (
  */
 export const getBackupVaultAccessPolicy: (
   input: GetBackupVaultAccessPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetBackupVaultAccessPolicyOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7859,7 +8179,7 @@ export const getBackupVaultAccessPolicy: (
  */
 export const getBackupVaultNotifications: (
   input: GetBackupVaultNotificationsInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetBackupVaultNotificationsOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7883,7 +8203,7 @@ export const getBackupVaultNotifications: (
  */
 export const getLegalHold: (
   input: GetLegalHoldInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetLegalHoldOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7907,7 +8227,7 @@ export const getLegalHold: (
  */
 export const getRecoveryPointIndexDetails: (
   input: GetRecoveryPointIndexDetailsInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetRecoveryPointIndexDetailsOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7930,7 +8250,7 @@ export const getRecoveryPointIndexDetails: (
  */
 export const getRecoveryPointRestoreMetadata: (
   input: GetRecoveryPointRestoreMetadataInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetRecoveryPointRestoreMetadataOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7953,7 +8273,7 @@ export const getRecoveryPointRestoreMetadata: (
  */
 export const getRestoreJobMetadata: (
   input: GetRestoreJobMetadataInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetRestoreJobMetadataOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7979,7 +8299,7 @@ export const getRestoreJobMetadata: (
  */
 export const getRestoreTestingInferredMetadata: (
   input: GetRestoreTestingInferredMetadataInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetRestoreTestingInferredMetadataOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -8004,7 +8324,7 @@ export const getRestoreTestingInferredMetadata: (
 export const listBackupPlanVersions: {
   (
     input: ListBackupPlanVersionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBackupPlanVersionsOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -8015,7 +8335,7 @@ export const listBackupPlanVersions: {
   >;
   pages: (
     input: ListBackupPlanVersionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBackupPlanVersionsOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -8026,7 +8346,7 @@ export const listBackupPlanVersions: {
   >;
   items: (
     input: ListBackupPlanVersionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BackupPlansListMember,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -8062,7 +8382,7 @@ export const listBackupPlanVersions: {
 export const listRestoreJobsByProtectedResource: {
   (
     input: ListRestoreJobsByProtectedResourceInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRestoreJobsByProtectedResourceOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -8073,7 +8393,7 @@ export const listRestoreJobsByProtectedResource: {
   >;
   pages: (
     input: ListRestoreJobsByProtectedResourceInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRestoreJobsByProtectedResourceOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -8084,7 +8404,7 @@ export const listRestoreJobsByProtectedResource: {
   >;
   items: (
     input: ListRestoreJobsByProtectedResourceInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RestoreJobsListMember,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -8129,7 +8449,7 @@ export const listRestoreJobsByProtectedResource: {
 export const listTags: {
   (
     input: ListTagsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTagsOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -8140,7 +8460,7 @@ export const listTags: {
   >;
   pages: (
     input: ListTagsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTagsOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -8151,7 +8471,7 @@ export const listTags: {
   >;
   items: (
     input: ListTagsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -8180,7 +8500,7 @@ export const listTags: {
  */
 export const startReportJob: (
   input: StartReportJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartReportJobOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -8203,7 +8523,7 @@ export const startReportJob: (
  */
 export const updateBackupPlan: (
   input: UpdateBackupPlanInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateBackupPlanOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -8228,7 +8548,7 @@ export const updateBackupPlan: (
  */
 export const updateRecoveryPointIndexSettings: (
   input: UpdateRecoveryPointIndexSettingsInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRecoveryPointIndexSettingsOutput,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -8271,7 +8591,7 @@ export const updateRecoveryPointIndexSettings: (
  */
 export const updateRecoveryPointLifecycle: (
   input: UpdateRecoveryPointLifecycleInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRecoveryPointLifecycleOutput,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -8296,7 +8616,7 @@ export const updateRecoveryPointLifecycle: (
  */
 export const updateReportPlan: (
   input: UpdateReportPlanInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateReportPlanOutput,
   | ConflictException
   | InvalidParameterValueException
@@ -8322,7 +8642,7 @@ export const updateReportPlan: (
  */
 export const deleteBackupSelection: (
   input: DeleteBackupSelectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBackupSelectionResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -8346,7 +8666,7 @@ export const deleteBackupSelection: (
  */
 export const deleteBackupVault: (
   input: DeleteBackupVaultInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBackupVaultResponse,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -8371,7 +8691,7 @@ export const deleteBackupVault: (
  */
 export const deleteBackupVaultAccessPolicy: (
   input: DeleteBackupVaultAccessPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBackupVaultAccessPolicyResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -8400,7 +8720,7 @@ export const deleteBackupVaultAccessPolicy: (
  */
 export const deleteBackupVaultLockConfiguration: (
   input: DeleteBackupVaultLockConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBackupVaultLockConfigurationResponse,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -8425,7 +8745,7 @@ export const deleteBackupVaultLockConfiguration: (
  */
 export const deleteBackupVaultNotifications: (
   input: DeleteBackupVaultNotificationsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBackupVaultNotificationsResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -8448,7 +8768,7 @@ export const deleteBackupVaultNotifications: (
  */
 export const deleteTieringConfiguration: (
   input: DeleteTieringConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTieringConfigurationOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -8471,7 +8791,7 @@ export const deleteTieringConfiguration: (
  */
 export const disassociateBackupVaultMpaApprovalTeam: (
   input: DisassociateBackupVaultMpaApprovalTeamInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateBackupVaultMpaApprovalTeamResponse,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -8497,7 +8817,7 @@ export const disassociateBackupVaultMpaApprovalTeam: (
  */
 export const disassociateRecoveryPointFromParent: (
   input: DisassociateRecoveryPointFromParentInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateRecoveryPointFromParentResponse,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -8524,7 +8844,7 @@ export const disassociateRecoveryPointFromParent: (
  */
 export const putBackupVaultAccessPolicy: (
   input: PutBackupVaultAccessPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutBackupVaultAccessPolicyResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -8559,7 +8879,7 @@ export const putBackupVaultAccessPolicy: (
  */
 export const putBackupVaultLockConfiguration: (
   input: PutBackupVaultLockConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutBackupVaultLockConfigurationResponse,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -8584,7 +8904,7 @@ export const putBackupVaultLockConfiguration: (
  */
 export const putBackupVaultNotifications: (
   input: PutBackupVaultNotificationsInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutBackupVaultNotificationsResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -8611,7 +8931,7 @@ export const putBackupVaultNotifications: (
  */
 export const putRestoreValidationResult: (
   input: PutRestoreValidationResultInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutRestoreValidationResultResponse,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -8636,7 +8956,7 @@ export const putRestoreValidationResult: (
  */
 export const revokeRestoreAccessBackupVault: (
   input: RevokeRestoreAccessBackupVaultInput,
-) => Effect.Effect<
+) => effect.Effect<
   RevokeRestoreAccessBackupVaultResponse,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -8681,7 +9001,7 @@ export const revokeRestoreAccessBackupVault: (
  */
 export const stopBackupJob: (
   input: StopBackupJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopBackupJobResponse,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -8711,7 +9031,7 @@ export const stopBackupJob: (
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -8736,7 +9056,7 @@ export const untagResource: (
  */
 export const updateGlobalSettings: (
   input: UpdateGlobalSettingsInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGlobalSettingsResponse,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -8763,7 +9083,7 @@ export const updateGlobalSettings: (
  */
 export const updateRegionSettings: (
   input: UpdateRegionSettingsInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRegionSettingsResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -8784,7 +9104,7 @@ export const updateRegionSettings: (
  */
 export const deleteReportPlan: (
   input: DeleteReportPlanInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteReportPlanResponse,
   | ConflictException
   | InvalidParameterValueException
@@ -8809,7 +9129,7 @@ export const deleteReportPlan: (
  */
 export const associateBackupVaultMpaApprovalTeam: (
   input: AssociateBackupVaultMpaApprovalTeamInput,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateBackupVaultMpaApprovalTeamResponse,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -8836,7 +9156,7 @@ export const associateBackupVaultMpaApprovalTeam: (
  */
 export const deleteBackupPlan: (
   input: DeleteBackupPlanInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBackupPlanOutput,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -8867,7 +9187,7 @@ export const deleteBackupPlan: (
  */
 export const startCopyJob: (
   input: StartCopyJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartCopyJobOutput,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -8894,7 +9214,7 @@ export const startCopyJob: (
  */
 export const startScanJob: (
   input: StartScanJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartScanJobOutput,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -8921,7 +9241,7 @@ export const startScanJob: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InvalidParameterValueException
   | LimitExceededException
@@ -8951,7 +9271,7 @@ export const tagResource: (
  */
 export const createBackupVault: (
   input: CreateBackupVaultInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBackupVaultOutput,
   | AlreadyExistsException
   | InvalidParameterValueException
@@ -8980,7 +9300,7 @@ export const createBackupVault: (
  */
 export const createReportPlan: (
   input: CreateReportPlanInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateReportPlanOutput,
   | AlreadyExistsException
   | InvalidParameterValueException
@@ -9020,7 +9340,7 @@ export const createReportPlan: (
  */
 export const deleteRecoveryPoint: (
   input: DeleteRecoveryPointInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRecoveryPointResponse,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -9051,7 +9371,7 @@ export const deleteRecoveryPoint: (
  */
 export const disassociateRecoveryPoint: (
   input: DisassociateRecoveryPointInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateRecoveryPointResponse,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -9081,7 +9401,7 @@ export const disassociateRecoveryPoint: (
  */
 export const createFramework: (
   input: CreateFrameworkInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFrameworkOutput,
   | AlreadyExistsException
   | InvalidParameterValueException
@@ -9109,7 +9429,7 @@ export const createFramework: (
  */
 export const createLegalHold: (
   input: CreateLegalHoldInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLegalHoldOutput,
   | InvalidParameterValueException
   | LimitExceededException
@@ -9136,7 +9456,7 @@ export const createLegalHold: (
  */
 export const createRestoreTestingPlan: (
   input: CreateRestoreTestingPlanInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRestoreTestingPlanOutput,
   | AlreadyExistsException
   | ConflictException
@@ -9167,7 +9487,7 @@ export const createRestoreTestingPlan: (
  */
 export const createTieringConfiguration: (
   input: CreateTieringConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTieringConfigurationOutput,
   | AlreadyExistsException
   | ConflictException
@@ -9194,7 +9514,7 @@ export const createTieringConfiguration: (
  */
 export const describeBackupJob: (
   input: DescribeBackupJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeBackupJobOutput,
   | DependencyFailureException
   | InvalidParameterValueException
@@ -9219,7 +9539,7 @@ export const describeBackupJob: (
  */
 export const describeCopyJob: (
   input: DescribeCopyJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCopyJobOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -9243,7 +9563,7 @@ export const describeCopyJob: (
  */
 export const describeReportJob: (
   input: DescribeReportJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeReportJobOutput,
   | MissingParameterValueException
   | ResourceNotFoundException
@@ -9265,7 +9585,7 @@ export const describeReportJob: (
  */
 export const getBackupPlan: (
   input: GetBackupPlanInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetBackupPlanOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -9289,7 +9609,7 @@ export const getBackupPlan: (
 export const listRecoveryPointsByBackupVault: {
   (
     input: ListRecoveryPointsByBackupVaultInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRecoveryPointsByBackupVaultOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -9300,7 +9620,7 @@ export const listRecoveryPointsByBackupVault: {
   >;
   pages: (
     input: ListRecoveryPointsByBackupVaultInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRecoveryPointsByBackupVaultOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -9311,7 +9631,7 @@ export const listRecoveryPointsByBackupVault: {
   >;
   items: (
     input: ListRecoveryPointsByBackupVaultInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RecoveryPointByBackupVault,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -9342,7 +9662,7 @@ export const listRecoveryPointsByBackupVault: {
 export const listRestoreAccessBackupVaults: {
   (
     input: ListRestoreAccessBackupVaultsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRestoreAccessBackupVaultsOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -9353,7 +9673,7 @@ export const listRestoreAccessBackupVaults: {
   >;
   pages: (
     input: ListRestoreAccessBackupVaultsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRestoreAccessBackupVaultsOutput,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -9364,7 +9684,7 @@ export const listRestoreAccessBackupVaults: {
   >;
   items: (
     input: ListRestoreAccessBackupVaultsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RestoreAccessBackupVaultListMember,
     | InvalidParameterValueException
     | MissingParameterValueException
@@ -9394,7 +9714,7 @@ export const listRestoreAccessBackupVaults: {
  */
 export const describeRestoreJob: (
   input: DescribeRestoreJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRestoreJobOutput,
   | DependencyFailureException
   | InvalidParameterValueException
@@ -9424,7 +9744,7 @@ export const describeRestoreJob: (
  */
 export const createBackupPlan: (
   input: CreateBackupPlanInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBackupPlanOutput,
   | AlreadyExistsException
   | InvalidParameterValueException
@@ -9450,7 +9770,7 @@ export const createBackupPlan: (
  */
 export const createBackupSelection: (
   input: CreateBackupSelectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBackupSelectionOutput,
   | AlreadyExistsException
   | InvalidParameterValueException
@@ -9494,7 +9814,7 @@ export const createBackupSelection: (
  */
 export const createRestoreTestingSelection: (
   input: CreateRestoreTestingSelectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRestoreTestingSelectionOutput,
   | AlreadyExistsException
   | InvalidParameterValueException

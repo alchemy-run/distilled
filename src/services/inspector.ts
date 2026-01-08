@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -118,7 +118,6 @@ export type RulesPackageName = string;
 export type Version = string;
 export type ProviderName = string;
 export type MessageType = string;
-export type Long = number;
 export type Hostname = string;
 export type AgentVersion = string;
 export type OperatingSystem = string;
@@ -146,10 +145,31 @@ export type BatchDescribeArnList = string[];
 export const BatchDescribeArnList = S.Array(S.String);
 export type BatchDescribeExclusionsArnList = string[];
 export const BatchDescribeExclusionsArnList = S.Array(S.String);
+export type Locale = "EN_US";
+export const Locale = S.Literal("EN_US");
+export type ReportFileFormat = "HTML" | "PDF";
+export const ReportFileFormat = S.Literal("HTML", "PDF");
+export type ReportType = "FINDING" | "FULL";
+export const ReportType = S.Literal("FINDING", "FULL");
 export type ListParentArnList = string[];
 export const ListParentArnList = S.Array(S.String);
 export type UserAttributeKeyList = string[];
 export const UserAttributeKeyList = S.Array(S.String);
+export type StopAction = "START_EVALUATION" | "SKIP_EVALUATION";
+export const StopAction = S.Literal("START_EVALUATION", "SKIP_EVALUATION");
+export type InspectorEvent =
+  | "ASSESSMENT_RUN_STARTED"
+  | "ASSESSMENT_RUN_COMPLETED"
+  | "ASSESSMENT_RUN_STATE_CHANGED"
+  | "FINDING_REPORTED"
+  | "OTHER";
+export const InspectorEvent = S.Literal(
+  "ASSESSMENT_RUN_STARTED",
+  "ASSESSMENT_RUN_COMPLETED",
+  "ASSESSMENT_RUN_STATE_CHANGED",
+  "FINDING_REPORTED",
+  "OTHER",
+);
 export interface CreateAssessmentTargetRequest {
   assessmentTargetName: string;
   resourceGroupArn?: string;
@@ -177,8 +197,8 @@ export interface CreateAssessmentTemplateRequest {
   assessmentTargetArn: string;
   assessmentTemplateName: string;
   durationInSeconds: number;
-  rulesPackageArns: AssessmentTemplateRulesPackageArnList;
-  userAttributesForFindings?: UserAttributeList;
+  rulesPackageArns: string[];
+  userAttributesForFindings?: Attribute[];
 }
 export const CreateAssessmentTemplateRequest = S.suspend(() =>
   S.Struct({
@@ -252,7 +272,7 @@ export const DeleteAssessmentTemplateResponse = S.suspend(() =>
   identifier: "DeleteAssessmentTemplateResponse",
 }) as any as S.Schema<DeleteAssessmentTemplateResponse>;
 export interface DescribeAssessmentRunsRequest {
-  assessmentRunArns: BatchDescribeArnList;
+  assessmentRunArns: string[];
 }
 export const DescribeAssessmentRunsRequest = S.suspend(() =>
   S.Struct({ assessmentRunArns: BatchDescribeArnList }).pipe(
@@ -262,7 +282,7 @@ export const DescribeAssessmentRunsRequest = S.suspend(() =>
   identifier: "DescribeAssessmentRunsRequest",
 }) as any as S.Schema<DescribeAssessmentRunsRequest>;
 export interface DescribeAssessmentTargetsRequest {
-  assessmentTargetArns: BatchDescribeArnList;
+  assessmentTargetArns: string[];
 }
 export const DescribeAssessmentTargetsRequest = S.suspend(() =>
   S.Struct({ assessmentTargetArns: BatchDescribeArnList }).pipe(
@@ -272,7 +292,7 @@ export const DescribeAssessmentTargetsRequest = S.suspend(() =>
   identifier: "DescribeAssessmentTargetsRequest",
 }) as any as S.Schema<DescribeAssessmentTargetsRequest>;
 export interface DescribeAssessmentTemplatesRequest {
-  assessmentTemplateArns: BatchDescribeArnList;
+  assessmentTemplateArns: string[];
 }
 export const DescribeAssessmentTemplatesRequest = S.suspend(() =>
   S.Struct({ assessmentTemplateArns: BatchDescribeArnList }).pipe(
@@ -296,13 +316,13 @@ export const DescribeCrossAccountAccessRoleResponse = S.suspend(() =>
   identifier: "DescribeCrossAccountAccessRoleResponse",
 }) as any as S.Schema<DescribeCrossAccountAccessRoleResponse>;
 export interface DescribeExclusionsRequest {
-  exclusionArns: BatchDescribeExclusionsArnList;
-  locale?: string;
+  exclusionArns: string[];
+  locale?: Locale;
 }
 export const DescribeExclusionsRequest = S.suspend(() =>
   S.Struct({
     exclusionArns: BatchDescribeExclusionsArnList,
-    locale: S.optional(S.String),
+    locale: S.optional(Locale),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -310,13 +330,13 @@ export const DescribeExclusionsRequest = S.suspend(() =>
   identifier: "DescribeExclusionsRequest",
 }) as any as S.Schema<DescribeExclusionsRequest>;
 export interface DescribeFindingsRequest {
-  findingArns: BatchDescribeArnList;
-  locale?: string;
+  findingArns: string[];
+  locale?: Locale;
 }
 export const DescribeFindingsRequest = S.suspend(() =>
   S.Struct({
     findingArns: BatchDescribeArnList,
-    locale: S.optional(S.String),
+    locale: S.optional(Locale),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -324,7 +344,7 @@ export const DescribeFindingsRequest = S.suspend(() =>
   identifier: "DescribeFindingsRequest",
 }) as any as S.Schema<DescribeFindingsRequest>;
 export interface DescribeResourceGroupsRequest {
-  resourceGroupArns: BatchDescribeArnList;
+  resourceGroupArns: string[];
 }
 export const DescribeResourceGroupsRequest = S.suspend(() =>
   S.Struct({ resourceGroupArns: BatchDescribeArnList }).pipe(
@@ -334,13 +354,13 @@ export const DescribeResourceGroupsRequest = S.suspend(() =>
   identifier: "DescribeResourceGroupsRequest",
 }) as any as S.Schema<DescribeResourceGroupsRequest>;
 export interface DescribeRulesPackagesRequest {
-  rulesPackageArns: BatchDescribeArnList;
-  locale?: string;
+  rulesPackageArns: string[];
+  locale?: Locale;
 }
 export const DescribeRulesPackagesRequest = S.suspend(() =>
   S.Struct({
     rulesPackageArns: BatchDescribeArnList,
-    locale: S.optional(S.String),
+    locale: S.optional(Locale),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -349,14 +369,14 @@ export const DescribeRulesPackagesRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeRulesPackagesRequest>;
 export interface GetAssessmentReportRequest {
   assessmentRunArn: string;
-  reportFileFormat: string;
-  reportType: string;
+  reportFileFormat: ReportFileFormat;
+  reportType: ReportType;
 }
 export const GetAssessmentReportRequest = S.suspend(() =>
   S.Struct({
     assessmentRunArn: S.String,
-    reportFileFormat: S.String,
-    reportType: S.String,
+    reportFileFormat: ReportFileFormat,
+    reportType: ReportType,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -368,7 +388,7 @@ export interface GetExclusionsPreviewRequest {
   previewToken: string;
   nextToken?: string;
   maxResults?: number;
-  locale?: string;
+  locale?: Locale;
 }
 export const GetExclusionsPreviewRequest = S.suspend(() =>
   S.Struct({
@@ -376,7 +396,7 @@ export const GetExclusionsPreviewRequest = S.suspend(() =>
     previewToken: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-    locale: S.optional(S.String),
+    locale: S.optional(Locale),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -482,8 +502,8 @@ export const RegisterCrossAccountAccessRoleResponse = S.suspend(() =>
   identifier: "RegisterCrossAccountAccessRoleResponse",
 }) as any as S.Schema<RegisterCrossAccountAccessRoleResponse>;
 export interface RemoveAttributesFromFindingsRequest {
-  findingArns: AddRemoveAttributesFindingArnList;
-  attributeKeys: UserAttributeKeyList;
+  findingArns: string[];
+  attributeKeys: string[];
 }
 export const RemoveAttributesFromFindingsRequest = S.suspend(() =>
   S.Struct({
@@ -511,12 +531,12 @@ export const StartAssessmentRunRequest = S.suspend(() =>
 }) as any as S.Schema<StartAssessmentRunRequest>;
 export interface StopAssessmentRunRequest {
   assessmentRunArn: string;
-  stopAction?: string;
+  stopAction?: StopAction;
 }
 export const StopAssessmentRunRequest = S.suspend(() =>
   S.Struct({
     assessmentRunArn: S.String,
-    stopAction: S.optional(S.String),
+    stopAction: S.optional(StopAction),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -531,11 +551,15 @@ export const StopAssessmentRunResponse = S.suspend(() =>
 }) as any as S.Schema<StopAssessmentRunResponse>;
 export interface SubscribeToEventRequest {
   resourceArn: string;
-  event: string;
+  event: InspectorEvent;
   topicArn: string;
 }
 export const SubscribeToEventRequest = S.suspend(() =>
-  S.Struct({ resourceArn: S.String, event: S.String, topicArn: S.String }).pipe(
+  S.Struct({
+    resourceArn: S.String,
+    event: InspectorEvent,
+    topicArn: S.String,
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -549,11 +573,15 @@ export const SubscribeToEventResponse = S.suspend(() =>
 }) as any as S.Schema<SubscribeToEventResponse>;
 export interface UnsubscribeFromEventRequest {
   resourceArn: string;
-  event: string;
+  event: InspectorEvent;
   topicArn: string;
 }
 export const UnsubscribeFromEventRequest = S.suspend(() =>
-  S.Struct({ resourceArn: S.String, event: S.String, topicArn: S.String }).pipe(
+  S.Struct({
+    resourceArn: S.String,
+    event: InspectorEvent,
+    topicArn: S.String,
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -587,12 +615,58 @@ export const UpdateAssessmentTargetResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateAssessmentTargetResponse",
 }) as any as S.Schema<UpdateAssessmentTargetResponse>;
-export type AgentHealthList = string[];
-export const AgentHealthList = S.Array(S.String);
-export type AgentHealthCodeList = string[];
-export const AgentHealthCodeList = S.Array(S.String);
-export type AssessmentRunStateList = string[];
-export const AssessmentRunStateList = S.Array(S.String);
+export type AgentHealth = "HEALTHY" | "UNHEALTHY" | "UNKNOWN";
+export const AgentHealth = S.Literal("HEALTHY", "UNHEALTHY", "UNKNOWN");
+export type AgentHealthList = AgentHealth[];
+export const AgentHealthList = S.Array(AgentHealth);
+export type AgentHealthCode =
+  | "IDLE"
+  | "RUNNING"
+  | "SHUTDOWN"
+  | "UNHEALTHY"
+  | "THROTTLED"
+  | "UNKNOWN";
+export const AgentHealthCode = S.Literal(
+  "IDLE",
+  "RUNNING",
+  "SHUTDOWN",
+  "UNHEALTHY",
+  "THROTTLED",
+  "UNKNOWN",
+);
+export type AgentHealthCodeList = AgentHealthCode[];
+export const AgentHealthCodeList = S.Array(AgentHealthCode);
+export type AssessmentRunState =
+  | "CREATED"
+  | "START_DATA_COLLECTION_PENDING"
+  | "START_DATA_COLLECTION_IN_PROGRESS"
+  | "COLLECTING_DATA"
+  | "STOP_DATA_COLLECTION_PENDING"
+  | "DATA_COLLECTED"
+  | "START_EVALUATING_RULES_PENDING"
+  | "EVALUATING_RULES"
+  | "FAILED"
+  | "ERROR"
+  | "COMPLETED"
+  | "COMPLETED_WITH_ERRORS"
+  | "CANCELED";
+export const AssessmentRunState = S.Literal(
+  "CREATED",
+  "START_DATA_COLLECTION_PENDING",
+  "START_DATA_COLLECTION_IN_PROGRESS",
+  "COLLECTING_DATA",
+  "STOP_DATA_COLLECTION_PENDING",
+  "DATA_COLLECTED",
+  "START_EVALUATING_RULES_PENDING",
+  "EVALUATING_RULES",
+  "FAILED",
+  "ERROR",
+  "COMPLETED",
+  "COMPLETED_WITH_ERRORS",
+  "CANCELED",
+);
+export type AssessmentRunStateList = AssessmentRunState[];
+export const AssessmentRunStateList = S.Array(AssessmentRunState);
 export type FilterRulesPackageArnList = string[];
 export const FilterRulesPackageArnList = S.Array(S.String);
 export type AgentIdList = string[];
@@ -601,8 +675,21 @@ export type AutoScalingGroupList = string[];
 export const AutoScalingGroupList = S.Array(S.String);
 export type RuleNameList = string[];
 export const RuleNameList = S.Array(S.String);
-export type SeverityList = string[];
-export const SeverityList = S.Array(S.String);
+export type Severity =
+  | "Low"
+  | "Medium"
+  | "High"
+  | "Informational"
+  | "Undefined";
+export const Severity = S.Literal(
+  "Low",
+  "Medium",
+  "High",
+  "Informational",
+  "Undefined",
+);
+export type SeverityList = Severity[];
+export const SeverityList = S.Array(Severity);
 export type AttributeList = Attribute[];
 export const AttributeList = S.Array(Attribute);
 export interface ResourceGroupTag {
@@ -616,9 +703,36 @@ export const ResourceGroupTag = S.suspend(() =>
 }) as any as S.Schema<ResourceGroupTag>;
 export type ResourceGroupTags = ResourceGroupTag[];
 export const ResourceGroupTags = S.Array(ResourceGroupTag);
+export type AccessDeniedErrorCode =
+  | "ACCESS_DENIED_TO_ASSESSMENT_TARGET"
+  | "ACCESS_DENIED_TO_ASSESSMENT_TEMPLATE"
+  | "ACCESS_DENIED_TO_ASSESSMENT_RUN"
+  | "ACCESS_DENIED_TO_FINDING"
+  | "ACCESS_DENIED_TO_RESOURCE_GROUP"
+  | "ACCESS_DENIED_TO_RULES_PACKAGE"
+  | "ACCESS_DENIED_TO_SNS_TOPIC"
+  | "ACCESS_DENIED_TO_IAM_ROLE";
+export const AccessDeniedErrorCode = S.Literal(
+  "ACCESS_DENIED_TO_ASSESSMENT_TARGET",
+  "ACCESS_DENIED_TO_ASSESSMENT_TEMPLATE",
+  "ACCESS_DENIED_TO_ASSESSMENT_RUN",
+  "ACCESS_DENIED_TO_FINDING",
+  "ACCESS_DENIED_TO_RESOURCE_GROUP",
+  "ACCESS_DENIED_TO_RULES_PACKAGE",
+  "ACCESS_DENIED_TO_SNS_TOPIC",
+  "ACCESS_DENIED_TO_IAM_ROLE",
+);
+export type ReportStatus = "WORK_IN_PROGRESS" | "FAILED" | "COMPLETED";
+export const ReportStatus = S.Literal(
+  "WORK_IN_PROGRESS",
+  "FAILED",
+  "COMPLETED",
+);
+export type PreviewStatus = "WORK_IN_PROGRESS" | "COMPLETED";
+export const PreviewStatus = S.Literal("WORK_IN_PROGRESS", "COMPLETED");
 export interface AgentFilter {
-  agentHealths: AgentHealthList;
-  agentHealthCodes: AgentHealthCodeList;
+  agentHealths: AgentHealth[];
+  agentHealthCodes: AgentHealthCode[];
 }
 export const AgentFilter = S.suspend(() =>
   S.Struct({
@@ -649,7 +763,7 @@ export const DurationRange = S.suspend(() =>
 export interface AssessmentTemplateFilter {
   namePattern?: string;
   durationRange?: DurationRange;
-  rulesPackageArns?: FilterRulesPackageArnList;
+  rulesPackageArns?: string[];
 }
 export const AssessmentTemplateFilter = S.suspend(() =>
   S.Struct({
@@ -675,13 +789,13 @@ export const TimestampRange = S.suspend(() =>
   identifier: "TimestampRange",
 }) as any as S.Schema<TimestampRange>;
 export interface FindingFilter {
-  agentIds?: AgentIdList;
-  autoScalingGroups?: AutoScalingGroupList;
-  ruleNames?: RuleNameList;
-  severities?: SeverityList;
-  rulesPackageArns?: FilterRulesPackageArnList;
-  attributes?: AttributeList;
-  userAttributes?: AttributeList;
+  agentIds?: string[];
+  autoScalingGroups?: string[];
+  ruleNames?: string[];
+  severities?: Severity[];
+  rulesPackageArns?: string[];
+  attributes?: Attribute[];
+  userAttributes?: Attribute[];
   creationTimeRange?: TimestampRange;
 }
 export const FindingFilter = S.suspend(() =>
@@ -708,8 +822,8 @@ export const Tag = S.suspend(() =>
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface AddAttributesToFindingsRequest {
-  findingArns: AddRemoveAttributesFindingArnList;
-  attributes: UserAttributeList;
+  findingArns: string[];
+  attributes: Attribute[];
 }
 export const AddAttributesToFindingsRequest = S.suspend(() =>
   S.Struct({
@@ -746,7 +860,7 @@ export const CreateExclusionsPreviewResponse = S.suspend(() =>
   identifier: "CreateExclusionsPreviewResponse",
 }) as any as S.Schema<CreateExclusionsPreviewResponse>;
 export interface CreateResourceGroupRequest {
-  resourceGroupTags: ResourceGroupTags;
+  resourceGroupTags: ResourceGroupTag[];
 }
 export const CreateResourceGroupRequest = S.suspend(() =>
   S.Struct({ resourceGroupTags: ResourceGroupTags }).pipe(
@@ -756,11 +870,11 @@ export const CreateResourceGroupRequest = S.suspend(() =>
   identifier: "CreateResourceGroupRequest",
 }) as any as S.Schema<CreateResourceGroupRequest>;
 export interface GetAssessmentReportResponse {
-  status: string;
+  status: ReportStatus;
   url?: string;
 }
 export const GetAssessmentReportResponse = S.suspend(() =>
-  S.Struct({ status: S.String, url: S.optional(S.String) }),
+  S.Struct({ status: ReportStatus, url: S.optional(S.String) }),
 ).annotations({
   identifier: "GetAssessmentReportResponse",
 }) as any as S.Schema<GetAssessmentReportResponse>;
@@ -799,7 +913,7 @@ export const ListAssessmentTargetsRequest = S.suspend(() =>
   identifier: "ListAssessmentTargetsRequest",
 }) as any as S.Schema<ListAssessmentTargetsRequest>;
 export interface ListAssessmentTemplatesRequest {
-  assessmentTargetArns?: ListParentArnList;
+  assessmentTargetArns?: string[];
   filter?: AssessmentTemplateFilter;
   nextToken?: string;
   maxResults?: number;
@@ -817,7 +931,7 @@ export const ListAssessmentTemplatesRequest = S.suspend(() =>
   identifier: "ListAssessmentTemplatesRequest",
 }) as any as S.Schema<ListAssessmentTemplatesRequest>;
 export interface ListExclusionsResponse {
-  exclusionArns: ListReturnedArnList;
+  exclusionArns: string[];
   nextToken?: string;
 }
 export const ListExclusionsResponse = S.suspend(() =>
@@ -829,7 +943,7 @@ export const ListExclusionsResponse = S.suspend(() =>
   identifier: "ListExclusionsResponse",
 }) as any as S.Schema<ListExclusionsResponse>;
 export interface ListFindingsRequest {
-  assessmentRunArns?: ListParentArnList;
+  assessmentRunArns?: string[];
   filter?: FindingFilter;
   nextToken?: string;
   maxResults?: number;
@@ -847,7 +961,7 @@ export const ListFindingsRequest = S.suspend(() =>
   identifier: "ListFindingsRequest",
 }) as any as S.Schema<ListFindingsRequest>;
 export interface ListRulesPackagesResponse {
-  rulesPackageArns: ListReturnedArnList;
+  rulesPackageArns: string[];
   nextToken?: string;
 }
 export const ListRulesPackagesResponse = S.suspend(() =>
@@ -859,19 +973,34 @@ export const ListRulesPackagesResponse = S.suspend(() =>
   identifier: "ListRulesPackagesResponse",
 }) as any as S.Schema<ListRulesPackagesResponse>;
 export interface ListTagsForResourceResponse {
-  tags: TagList;
+  tags: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: TagList }),
 ).annotations({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
+export type FailedItemErrorCode =
+  | "INVALID_ARN"
+  | "DUPLICATE_ARN"
+  | "ITEM_DOES_NOT_EXIST"
+  | "ACCESS_DENIED"
+  | "LIMIT_EXCEEDED"
+  | "INTERNAL_ERROR";
+export const FailedItemErrorCode = S.Literal(
+  "INVALID_ARN",
+  "DUPLICATE_ARN",
+  "ITEM_DOES_NOT_EXIST",
+  "ACCESS_DENIED",
+  "LIMIT_EXCEEDED",
+  "INTERNAL_ERROR",
+);
 export interface FailedItemDetails {
-  failureCode: string;
+  failureCode: FailedItemErrorCode;
   retryable: boolean;
 }
 export const FailedItemDetails = S.suspend(() =>
-  S.Struct({ failureCode: S.String, retryable: S.Boolean }),
+  S.Struct({ failureCode: FailedItemErrorCode, retryable: S.Boolean }),
 ).annotations({
   identifier: "FailedItemDetails",
 }) as any as S.Schema<FailedItemDetails>;
@@ -881,7 +1010,7 @@ export const FailedItems = S.Record({
   value: FailedItemDetails,
 });
 export interface RemoveAttributesFromFindingsResponse {
-  failedItems: FailedItems;
+  failedItems: { [key: string]: FailedItemDetails };
 }
 export const RemoveAttributesFromFindingsResponse = S.suspend(() =>
   S.Struct({ failedItems: FailedItems }),
@@ -890,7 +1019,7 @@ export const RemoveAttributesFromFindingsResponse = S.suspend(() =>
 }) as any as S.Schema<RemoveAttributesFromFindingsResponse>;
 export interface SetTagsForResourceRequest {
   resourceArn: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const SetTagsForResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: S.optional(TagList) }).pipe(
@@ -915,6 +1044,8 @@ export const StartAssessmentRunResponse = S.suspend(() =>
 }) as any as S.Schema<StartAssessmentRunResponse>;
 export type AssessmentRulesPackageArnList = string[];
 export const AssessmentRulesPackageArnList = S.Array(S.String);
+export type AssetType = "ec2-instance";
+export const AssetType = S.Literal("ec2-instance");
 export type AssessmentRunInProgressArnList = string[];
 export const AssessmentRunInProgressArnList = S.Array(S.String);
 export interface AssessmentTarget {
@@ -942,8 +1073,8 @@ export interface AssessmentTemplate {
   name: string;
   assessmentTargetArn: string;
   durationInSeconds: number;
-  rulesPackageArns: AssessmentTemplateRulesPackageArnList;
-  userAttributesForFindings: UserAttributeList;
+  rulesPackageArns: string[];
+  userAttributesForFindings: Attribute[];
   lastAssessmentRunArn?: string;
   assessmentRunCount: number;
   createdAt: Date;
@@ -967,7 +1098,7 @@ export type AssessmentTemplateList = AssessmentTemplate[];
 export const AssessmentTemplateList = S.Array(AssessmentTemplate);
 export interface ResourceGroup {
   arn: string;
-  tags: ResourceGroupTags;
+  tags: ResourceGroupTag[];
   createdAt: Date;
 }
 export const ResourceGroup = S.suspend(() =>
@@ -1017,9 +1148,9 @@ export type TelemetryMetadataList = TelemetryMetadata[];
 export const TelemetryMetadataList = S.Array(TelemetryMetadata);
 export interface AssessmentRunFilter {
   namePattern?: string;
-  states?: AssessmentRunStateList;
+  states?: AssessmentRunState[];
   durationRange?: DurationRange;
-  rulesPackageArns?: FilterRulesPackageArnList;
+  rulesPackageArns?: string[];
   startTimeRange?: TimestampRange;
   completionTimeRange?: TimestampRange;
   stateChangeTimeRange?: TimestampRange;
@@ -1037,11 +1168,122 @@ export const AssessmentRunFilter = S.suspend(() =>
 ).annotations({
   identifier: "AssessmentRunFilter",
 }) as any as S.Schema<AssessmentRunFilter>;
+export type InvalidInputErrorCode =
+  | "INVALID_ASSESSMENT_TARGET_ARN"
+  | "INVALID_ASSESSMENT_TEMPLATE_ARN"
+  | "INVALID_ASSESSMENT_RUN_ARN"
+  | "INVALID_FINDING_ARN"
+  | "INVALID_RESOURCE_GROUP_ARN"
+  | "INVALID_RULES_PACKAGE_ARN"
+  | "INVALID_RESOURCE_ARN"
+  | "INVALID_SNS_TOPIC_ARN"
+  | "INVALID_IAM_ROLE_ARN"
+  | "INVALID_ASSESSMENT_TARGET_NAME"
+  | "INVALID_ASSESSMENT_TARGET_NAME_PATTERN"
+  | "INVALID_ASSESSMENT_TEMPLATE_NAME"
+  | "INVALID_ASSESSMENT_TEMPLATE_NAME_PATTERN"
+  | "INVALID_ASSESSMENT_TEMPLATE_DURATION"
+  | "INVALID_ASSESSMENT_TEMPLATE_DURATION_RANGE"
+  | "INVALID_ASSESSMENT_RUN_DURATION_RANGE"
+  | "INVALID_ASSESSMENT_RUN_START_TIME_RANGE"
+  | "INVALID_ASSESSMENT_RUN_COMPLETION_TIME_RANGE"
+  | "INVALID_ASSESSMENT_RUN_STATE_CHANGE_TIME_RANGE"
+  | "INVALID_ASSESSMENT_RUN_STATE"
+  | "INVALID_TAG"
+  | "INVALID_TAG_KEY"
+  | "INVALID_TAG_VALUE"
+  | "INVALID_RESOURCE_GROUP_TAG_KEY"
+  | "INVALID_RESOURCE_GROUP_TAG_VALUE"
+  | "INVALID_ATTRIBUTE"
+  | "INVALID_USER_ATTRIBUTE"
+  | "INVALID_USER_ATTRIBUTE_KEY"
+  | "INVALID_USER_ATTRIBUTE_VALUE"
+  | "INVALID_PAGINATION_TOKEN"
+  | "INVALID_MAX_RESULTS"
+  | "INVALID_AGENT_ID"
+  | "INVALID_AUTO_SCALING_GROUP"
+  | "INVALID_RULE_NAME"
+  | "INVALID_SEVERITY"
+  | "INVALID_LOCALE"
+  | "INVALID_EVENT"
+  | "ASSESSMENT_TARGET_NAME_ALREADY_TAKEN"
+  | "ASSESSMENT_TEMPLATE_NAME_ALREADY_TAKEN"
+  | "INVALID_NUMBER_OF_ASSESSMENT_TARGET_ARNS"
+  | "INVALID_NUMBER_OF_ASSESSMENT_TEMPLATE_ARNS"
+  | "INVALID_NUMBER_OF_ASSESSMENT_RUN_ARNS"
+  | "INVALID_NUMBER_OF_FINDING_ARNS"
+  | "INVALID_NUMBER_OF_RESOURCE_GROUP_ARNS"
+  | "INVALID_NUMBER_OF_RULES_PACKAGE_ARNS"
+  | "INVALID_NUMBER_OF_ASSESSMENT_RUN_STATES"
+  | "INVALID_NUMBER_OF_TAGS"
+  | "INVALID_NUMBER_OF_RESOURCE_GROUP_TAGS"
+  | "INVALID_NUMBER_OF_ATTRIBUTES"
+  | "INVALID_NUMBER_OF_USER_ATTRIBUTES"
+  | "INVALID_NUMBER_OF_AGENT_IDS"
+  | "INVALID_NUMBER_OF_AUTO_SCALING_GROUPS"
+  | "INVALID_NUMBER_OF_RULE_NAMES"
+  | "INVALID_NUMBER_OF_SEVERITIES";
+export const InvalidInputErrorCode = S.Literal(
+  "INVALID_ASSESSMENT_TARGET_ARN",
+  "INVALID_ASSESSMENT_TEMPLATE_ARN",
+  "INVALID_ASSESSMENT_RUN_ARN",
+  "INVALID_FINDING_ARN",
+  "INVALID_RESOURCE_GROUP_ARN",
+  "INVALID_RULES_PACKAGE_ARN",
+  "INVALID_RESOURCE_ARN",
+  "INVALID_SNS_TOPIC_ARN",
+  "INVALID_IAM_ROLE_ARN",
+  "INVALID_ASSESSMENT_TARGET_NAME",
+  "INVALID_ASSESSMENT_TARGET_NAME_PATTERN",
+  "INVALID_ASSESSMENT_TEMPLATE_NAME",
+  "INVALID_ASSESSMENT_TEMPLATE_NAME_PATTERN",
+  "INVALID_ASSESSMENT_TEMPLATE_DURATION",
+  "INVALID_ASSESSMENT_TEMPLATE_DURATION_RANGE",
+  "INVALID_ASSESSMENT_RUN_DURATION_RANGE",
+  "INVALID_ASSESSMENT_RUN_START_TIME_RANGE",
+  "INVALID_ASSESSMENT_RUN_COMPLETION_TIME_RANGE",
+  "INVALID_ASSESSMENT_RUN_STATE_CHANGE_TIME_RANGE",
+  "INVALID_ASSESSMENT_RUN_STATE",
+  "INVALID_TAG",
+  "INVALID_TAG_KEY",
+  "INVALID_TAG_VALUE",
+  "INVALID_RESOURCE_GROUP_TAG_KEY",
+  "INVALID_RESOURCE_GROUP_TAG_VALUE",
+  "INVALID_ATTRIBUTE",
+  "INVALID_USER_ATTRIBUTE",
+  "INVALID_USER_ATTRIBUTE_KEY",
+  "INVALID_USER_ATTRIBUTE_VALUE",
+  "INVALID_PAGINATION_TOKEN",
+  "INVALID_MAX_RESULTS",
+  "INVALID_AGENT_ID",
+  "INVALID_AUTO_SCALING_GROUP",
+  "INVALID_RULE_NAME",
+  "INVALID_SEVERITY",
+  "INVALID_LOCALE",
+  "INVALID_EVENT",
+  "ASSESSMENT_TARGET_NAME_ALREADY_TAKEN",
+  "ASSESSMENT_TEMPLATE_NAME_ALREADY_TAKEN",
+  "INVALID_NUMBER_OF_ASSESSMENT_TARGET_ARNS",
+  "INVALID_NUMBER_OF_ASSESSMENT_TEMPLATE_ARNS",
+  "INVALID_NUMBER_OF_ASSESSMENT_RUN_ARNS",
+  "INVALID_NUMBER_OF_FINDING_ARNS",
+  "INVALID_NUMBER_OF_RESOURCE_GROUP_ARNS",
+  "INVALID_NUMBER_OF_RULES_PACKAGE_ARNS",
+  "INVALID_NUMBER_OF_ASSESSMENT_RUN_STATES",
+  "INVALID_NUMBER_OF_TAGS",
+  "INVALID_NUMBER_OF_RESOURCE_GROUP_TAGS",
+  "INVALID_NUMBER_OF_ATTRIBUTES",
+  "INVALID_NUMBER_OF_USER_ATTRIBUTES",
+  "INVALID_NUMBER_OF_AGENT_IDS",
+  "INVALID_NUMBER_OF_AUTO_SCALING_GROUPS",
+  "INVALID_NUMBER_OF_RULE_NAMES",
+  "INVALID_NUMBER_OF_SEVERITIES",
+);
 export interface AgentPreview {
   hostname?: string;
   agentId: string;
   autoScalingGroup?: string;
-  agentHealth?: string;
+  agentHealth?: AgentHealth;
   agentVersion?: string;
   operatingSystem?: string;
   kernelVersion?: string;
@@ -1052,7 +1294,7 @@ export const AgentPreview = S.suspend(() =>
     hostname: S.optional(S.String),
     agentId: S.String,
     autoScalingGroup: S.optional(S.String),
-    agentHealth: S.optional(S.String),
+    agentHealth: S.optional(AgentHealth),
     agentVersion: S.optional(S.String),
     operatingSystem: S.optional(S.String),
     kernelVersion: S.optional(S.String),
@@ -1061,12 +1303,32 @@ export const AgentPreview = S.suspend(() =>
 ).annotations({ identifier: "AgentPreview" }) as any as S.Schema<AgentPreview>;
 export type AgentPreviewList = AgentPreview[];
 export const AgentPreviewList = S.Array(AgentPreview);
+export type InvalidCrossAccountRoleErrorCode =
+  | "ROLE_DOES_NOT_EXIST_OR_INVALID_TRUST_RELATIONSHIP"
+  | "ROLE_DOES_NOT_HAVE_CORRECT_POLICY";
+export const InvalidCrossAccountRoleErrorCode = S.Literal(
+  "ROLE_DOES_NOT_EXIST_OR_INVALID_TRUST_RELATIONSHIP",
+  "ROLE_DOES_NOT_HAVE_CORRECT_POLICY",
+);
+export type AssessmentRunNotificationSnsStatusCode =
+  | "SUCCESS"
+  | "TOPIC_DOES_NOT_EXIST"
+  | "ACCESS_DENIED"
+  | "INTERNAL_ERROR";
+export const AssessmentRunNotificationSnsStatusCode = S.Literal(
+  "SUCCESS",
+  "TOPIC_DOES_NOT_EXIST",
+  "ACCESS_DENIED",
+  "INTERNAL_ERROR",
+);
 export type Ipv4AddressList = string[];
 export const Ipv4AddressList = S.Array(S.String);
 export type Tags = Tag[];
 export const Tags = S.Array(Tag);
+export type ScopeType = "INSTANCE_ID" | "RULES_PACKAGE_ARN";
+export const ScopeType = S.Literal("INSTANCE_ID", "RULES_PACKAGE_ARN");
 export interface AddAttributesToFindingsResponse {
-  failedItems: FailedItems;
+  failedItems: { [key: string]: FailedItemDetails };
 }
 export const AddAttributesToFindingsResponse = S.suspend(() =>
   S.Struct({ failedItems: FailedItems }),
@@ -1082,8 +1344,8 @@ export const CreateResourceGroupResponse = S.suspend(() =>
   identifier: "CreateResourceGroupResponse",
 }) as any as S.Schema<CreateResourceGroupResponse>;
 export interface DescribeAssessmentTargetsResponse {
-  assessmentTargets: AssessmentTargetList;
-  failedItems: FailedItems;
+  assessmentTargets: AssessmentTarget[];
+  failedItems: { [key: string]: FailedItemDetails };
 }
 export const DescribeAssessmentTargetsResponse = S.suspend(() =>
   S.Struct({
@@ -1094,8 +1356,8 @@ export const DescribeAssessmentTargetsResponse = S.suspend(() =>
   identifier: "DescribeAssessmentTargetsResponse",
 }) as any as S.Schema<DescribeAssessmentTargetsResponse>;
 export interface DescribeAssessmentTemplatesResponse {
-  assessmentTemplates: AssessmentTemplateList;
-  failedItems: FailedItems;
+  assessmentTemplates: AssessmentTemplate[];
+  failedItems: { [key: string]: FailedItemDetails };
 }
 export const DescribeAssessmentTemplatesResponse = S.suspend(() =>
   S.Struct({
@@ -1106,8 +1368,8 @@ export const DescribeAssessmentTemplatesResponse = S.suspend(() =>
   identifier: "DescribeAssessmentTemplatesResponse",
 }) as any as S.Schema<DescribeAssessmentTemplatesResponse>;
 export interface DescribeResourceGroupsResponse {
-  resourceGroups: ResourceGroupList;
-  failedItems: FailedItems;
+  resourceGroups: ResourceGroup[];
+  failedItems: { [key: string]: FailedItemDetails };
 }
 export const DescribeResourceGroupsResponse = S.suspend(() =>
   S.Struct({ resourceGroups: ResourceGroupList, failedItems: FailedItems }),
@@ -1115,8 +1377,8 @@ export const DescribeResourceGroupsResponse = S.suspend(() =>
   identifier: "DescribeResourceGroupsResponse",
 }) as any as S.Schema<DescribeResourceGroupsResponse>;
 export interface DescribeRulesPackagesResponse {
-  rulesPackages: RulesPackageList;
-  failedItems: FailedItems;
+  rulesPackages: RulesPackage[];
+  failedItems: { [key: string]: FailedItemDetails };
 }
 export const DescribeRulesPackagesResponse = S.suspend(() =>
   S.Struct({ rulesPackages: RulesPackageList, failedItems: FailedItems }),
@@ -1124,7 +1386,7 @@ export const DescribeRulesPackagesResponse = S.suspend(() =>
   identifier: "DescribeRulesPackagesResponse",
 }) as any as S.Schema<DescribeRulesPackagesResponse>;
 export interface GetTelemetryMetadataResponse {
-  telemetryMetadata: TelemetryMetadataList;
+  telemetryMetadata: TelemetryMetadata[];
 }
 export const GetTelemetryMetadataResponse = S.suspend(() =>
   S.Struct({ telemetryMetadata: TelemetryMetadataList }),
@@ -1132,7 +1394,7 @@ export const GetTelemetryMetadataResponse = S.suspend(() =>
   identifier: "GetTelemetryMetadataResponse",
 }) as any as S.Schema<GetTelemetryMetadataResponse>;
 export interface ListAssessmentRunsRequest {
-  assessmentTemplateArns?: ListParentArnList;
+  assessmentTemplateArns?: string[];
   filter?: AssessmentRunFilter;
   nextToken?: string;
   maxResults?: number;
@@ -1150,7 +1412,7 @@ export const ListAssessmentRunsRequest = S.suspend(() =>
   identifier: "ListAssessmentRunsRequest",
 }) as any as S.Schema<ListAssessmentRunsRequest>;
 export interface ListAssessmentTargetsResponse {
-  assessmentTargetArns: ListReturnedArnList;
+  assessmentTargetArns: string[];
   nextToken?: string;
 }
 export const ListAssessmentTargetsResponse = S.suspend(() =>
@@ -1162,7 +1424,7 @@ export const ListAssessmentTargetsResponse = S.suspend(() =>
   identifier: "ListAssessmentTargetsResponse",
 }) as any as S.Schema<ListAssessmentTargetsResponse>;
 export interface ListAssessmentTemplatesResponse {
-  assessmentTemplateArns: ListReturnedArnList;
+  assessmentTemplateArns: string[];
   nextToken?: string;
 }
 export const ListAssessmentTemplatesResponse = S.suspend(() =>
@@ -1174,7 +1436,7 @@ export const ListAssessmentTemplatesResponse = S.suspend(() =>
   identifier: "ListAssessmentTemplatesResponse",
 }) as any as S.Schema<ListAssessmentTemplatesResponse>;
 export interface ListFindingsResponse {
-  findingArns: ListReturnedArnList;
+  findingArns: string[];
   nextToken?: string;
 }
 export const ListFindingsResponse = S.suspend(() =>
@@ -1186,7 +1448,7 @@ export const ListFindingsResponse = S.suspend(() =>
   identifier: "ListFindingsResponse",
 }) as any as S.Schema<ListFindingsResponse>;
 export interface PreviewAgentsResponse {
-  agentPreviews: AgentPreviewList;
+  agentPreviews: AgentPreview[];
   nextToken?: string;
 }
 export const PreviewAgentsResponse = S.suspend(() =>
@@ -1199,12 +1461,12 @@ export const PreviewAgentsResponse = S.suspend(() =>
 }) as any as S.Schema<PreviewAgentsResponse>;
 export interface AssessmentRunStateChange {
   stateChangedAt: Date;
-  state: string;
+  state: AssessmentRunState;
 }
 export const AssessmentRunStateChange = S.suspend(() =>
   S.Struct({
     stateChangedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    state: S.String,
+    state: AssessmentRunState,
   }),
 ).annotations({
   identifier: "AssessmentRunStateChange",
@@ -1213,37 +1475,36 @@ export type AssessmentRunStateChangeList = AssessmentRunStateChange[];
 export const AssessmentRunStateChangeList = S.Array(AssessmentRunStateChange);
 export interface AssessmentRunNotification {
   date: Date;
-  event: string;
+  event: InspectorEvent;
   message?: string;
   error: boolean;
   snsTopicArn?: string;
-  snsPublishStatusCode?: string;
+  snsPublishStatusCode?: AssessmentRunNotificationSnsStatusCode;
 }
 export const AssessmentRunNotification = S.suspend(() =>
   S.Struct({
     date: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    event: S.String,
+    event: InspectorEvent,
     message: S.optional(S.String),
     error: S.Boolean,
     snsTopicArn: S.optional(S.String),
-    snsPublishStatusCode: S.optional(S.String),
+    snsPublishStatusCode: S.optional(AssessmentRunNotificationSnsStatusCode),
   }),
 ).annotations({
   identifier: "AssessmentRunNotification",
 }) as any as S.Schema<AssessmentRunNotification>;
 export type AssessmentRunNotificationList = AssessmentRunNotification[];
 export const AssessmentRunNotificationList = S.Array(AssessmentRunNotification);
-export type AssessmentRunFindingCounts = { [key: string]: number };
-export const AssessmentRunFindingCounts = S.Record({
-  key: S.String,
-  value: S.Number,
-});
+export type AssessmentRunFindingCounts = { [key in Severity]?: number };
+export const AssessmentRunFindingCounts = S.partial(
+  S.Record({ key: Severity, value: S.Number }),
+);
 export interface Scope {
-  key?: string;
+  key?: ScopeType;
   value?: string;
 }
 export const Scope = S.suspend(() =>
-  S.Struct({ key: S.optional(S.String), value: S.optional(S.String) }),
+  S.Struct({ key: S.optional(ScopeType), value: S.optional(S.String) }),
 ).annotations({ identifier: "Scope" }) as any as S.Schema<Scope>;
 export type ScopeList = Scope[];
 export const ScopeList = S.Array(Scope);
@@ -1252,8 +1513,8 @@ export interface Exclusion {
   title: string;
   description: string;
   recommendation: string;
-  scopes: ScopeList;
-  attributes?: AttributeList;
+  scopes: Scope[];
+  attributes?: Attribute[];
 }
 export const Exclusion = S.suspend(() =>
   S.Struct({
@@ -1280,12 +1541,12 @@ export const InspectorServiceAttributes = S.suspend(() =>
   identifier: "InspectorServiceAttributes",
 }) as any as S.Schema<InspectorServiceAttributes>;
 export interface EventSubscription {
-  event: string;
+  event: InspectorEvent;
   subscribedAt: Date;
 }
 export const EventSubscription = S.suspend(() =>
   S.Struct({
-    event: S.String,
+    event: InspectorEvent,
     subscribedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
 ).annotations({
@@ -1299,25 +1560,25 @@ export interface AssessmentRun {
   arn: string;
   name: string;
   assessmentTemplateArn: string;
-  state: string;
+  state: AssessmentRunState;
   durationInSeconds: number;
-  rulesPackageArns: AssessmentRulesPackageArnList;
-  userAttributesForFindings: UserAttributeList;
+  rulesPackageArns: string[];
+  userAttributesForFindings: Attribute[];
   createdAt: Date;
   startedAt?: Date;
   completedAt?: Date;
   stateChangedAt: Date;
   dataCollected: boolean;
-  stateChanges: AssessmentRunStateChangeList;
-  notifications: AssessmentRunNotificationList;
-  findingCounts: AssessmentRunFindingCounts;
+  stateChanges: AssessmentRunStateChange[];
+  notifications: AssessmentRunNotification[];
+  findingCounts: { [key: string]: number };
 }
 export const AssessmentRun = S.suspend(() =>
   S.Struct({
     arn: S.String,
     name: S.String,
     assessmentTemplateArn: S.String,
-    state: S.String,
+    state: AssessmentRunState,
     durationInSeconds: S.Number,
     rulesPackageArns: AssessmentRulesPackageArnList,
     userAttributesForFindings: UserAttributeList,
@@ -1341,8 +1602,8 @@ export interface ExclusionPreview {
   title: string;
   description: string;
   recommendation: string;
-  scopes: ScopeList;
-  attributes?: AttributeList;
+  scopes: Scope[];
+  attributes?: Attribute[];
 }
 export const ExclusionPreview = S.suspend(() =>
   S.Struct({
@@ -1360,18 +1621,18 @@ export const ExclusionPreviewList = S.Array(ExclusionPreview);
 export interface AssessmentRunAgent {
   agentId: string;
   assessmentRunArn: string;
-  agentHealth: string;
-  agentHealthCode: string;
+  agentHealth: AgentHealth;
+  agentHealthCode: AgentHealthCode;
   agentHealthDetails?: string;
   autoScalingGroup?: string;
-  telemetryMetadata: TelemetryMetadataList;
+  telemetryMetadata: TelemetryMetadata[];
 }
 export const AssessmentRunAgent = S.suspend(() =>
   S.Struct({
     agentId: S.String,
     assessmentRunArn: S.String,
-    agentHealth: S.String,
-    agentHealthCode: S.String,
+    agentHealth: AgentHealth,
+    agentHealthCode: AgentHealthCode,
     agentHealthDetails: S.optional(S.String),
     autoScalingGroup: S.optional(S.String),
     telemetryMetadata: TelemetryMetadataList,
@@ -1384,7 +1645,7 @@ export const AssessmentRunAgentList = S.Array(AssessmentRunAgent);
 export interface Subscription {
   resourceArn: string;
   topicArn: string;
-  eventSubscriptions: EventSubscriptionList;
+  eventSubscriptions: EventSubscription[];
 }
 export const Subscription = S.suspend(() =>
   S.Struct({
@@ -1395,6 +1656,25 @@ export const Subscription = S.suspend(() =>
 ).annotations({ identifier: "Subscription" }) as any as S.Schema<Subscription>;
 export type SubscriptionList = Subscription[];
 export const SubscriptionList = S.Array(Subscription);
+export type NoSuchEntityErrorCode =
+  | "ASSESSMENT_TARGET_DOES_NOT_EXIST"
+  | "ASSESSMENT_TEMPLATE_DOES_NOT_EXIST"
+  | "ASSESSMENT_RUN_DOES_NOT_EXIST"
+  | "FINDING_DOES_NOT_EXIST"
+  | "RESOURCE_GROUP_DOES_NOT_EXIST"
+  | "RULES_PACKAGE_DOES_NOT_EXIST"
+  | "SNS_TOPIC_DOES_NOT_EXIST"
+  | "IAM_ROLE_DOES_NOT_EXIST";
+export const NoSuchEntityErrorCode = S.Literal(
+  "ASSESSMENT_TARGET_DOES_NOT_EXIST",
+  "ASSESSMENT_TEMPLATE_DOES_NOT_EXIST",
+  "ASSESSMENT_RUN_DOES_NOT_EXIST",
+  "FINDING_DOES_NOT_EXIST",
+  "RESOURCE_GROUP_DOES_NOT_EXIST",
+  "RULES_PACKAGE_DOES_NOT_EXIST",
+  "SNS_TOPIC_DOES_NOT_EXIST",
+  "IAM_ROLE_DOES_NOT_EXIST",
+);
 export interface AgentAlreadyRunningAssessment {
   agentId: string;
   assessmentRunArn: string;
@@ -1408,9 +1688,22 @@ export type AgentAlreadyRunningAssessmentList = AgentAlreadyRunningAssessment[];
 export const AgentAlreadyRunningAssessmentList = S.Array(
   AgentAlreadyRunningAssessment,
 );
+export type LimitExceededErrorCode =
+  | "ASSESSMENT_TARGET_LIMIT_EXCEEDED"
+  | "ASSESSMENT_TEMPLATE_LIMIT_EXCEEDED"
+  | "ASSESSMENT_RUN_LIMIT_EXCEEDED"
+  | "RESOURCE_GROUP_LIMIT_EXCEEDED"
+  | "EVENT_SUBSCRIPTION_LIMIT_EXCEEDED";
+export const LimitExceededErrorCode = S.Literal(
+  "ASSESSMENT_TARGET_LIMIT_EXCEEDED",
+  "ASSESSMENT_TEMPLATE_LIMIT_EXCEEDED",
+  "ASSESSMENT_RUN_LIMIT_EXCEEDED",
+  "RESOURCE_GROUP_LIMIT_EXCEEDED",
+  "EVENT_SUBSCRIPTION_LIMIT_EXCEEDED",
+);
 export interface DescribeAssessmentRunsResponse {
-  assessmentRuns: AssessmentRunList;
-  failedItems: FailedItems;
+  assessmentRuns: AssessmentRun[];
+  failedItems: { [key: string]: FailedItemDetails };
 }
 export const DescribeAssessmentRunsResponse = S.suspend(() =>
   S.Struct({ assessmentRuns: AssessmentRunList, failedItems: FailedItems }),
@@ -1418,8 +1711,8 @@ export const DescribeAssessmentRunsResponse = S.suspend(() =>
   identifier: "DescribeAssessmentRunsResponse",
 }) as any as S.Schema<DescribeAssessmentRunsResponse>;
 export interface DescribeExclusionsResponse {
-  exclusions: ExclusionMap;
-  failedItems: FailedItems;
+  exclusions: { [key: string]: Exclusion };
+  failedItems: { [key: string]: FailedItemDetails };
 }
 export const DescribeExclusionsResponse = S.suspend(() =>
   S.Struct({ exclusions: ExclusionMap, failedItems: FailedItems }),
@@ -1427,13 +1720,13 @@ export const DescribeExclusionsResponse = S.suspend(() =>
   identifier: "DescribeExclusionsResponse",
 }) as any as S.Schema<DescribeExclusionsResponse>;
 export interface GetExclusionsPreviewResponse {
-  previewStatus: string;
-  exclusionPreviews?: ExclusionPreviewList;
+  previewStatus: PreviewStatus;
+  exclusionPreviews?: ExclusionPreview[];
   nextToken?: string;
 }
 export const GetExclusionsPreviewResponse = S.suspend(() =>
   S.Struct({
-    previewStatus: S.String,
+    previewStatus: PreviewStatus,
     exclusionPreviews: S.optional(ExclusionPreviewList),
     nextToken: S.optional(S.String),
   }),
@@ -1441,7 +1734,7 @@ export const GetExclusionsPreviewResponse = S.suspend(() =>
   identifier: "GetExclusionsPreviewResponse",
 }) as any as S.Schema<GetExclusionsPreviewResponse>;
 export interface ListAssessmentRunAgentsResponse {
-  assessmentRunAgents: AssessmentRunAgentList;
+  assessmentRunAgents: AssessmentRunAgent[];
   nextToken?: string;
 }
 export const ListAssessmentRunAgentsResponse = S.suspend(() =>
@@ -1453,7 +1746,7 @@ export const ListAssessmentRunAgentsResponse = S.suspend(() =>
   identifier: "ListAssessmentRunAgentsResponse",
 }) as any as S.Schema<ListAssessmentRunAgentsResponse>;
 export interface ListAssessmentRunsResponse {
-  assessmentRunArns: ListReturnedArnList;
+  assessmentRunArns: string[];
   nextToken?: string;
 }
 export const ListAssessmentRunsResponse = S.suspend(() =>
@@ -1465,7 +1758,7 @@ export const ListAssessmentRunsResponse = S.suspend(() =>
   identifier: "ListAssessmentRunsResponse",
 }) as any as S.Schema<ListAssessmentRunsResponse>;
 export interface ListEventSubscriptionsResponse {
-  subscriptions: SubscriptionList;
+  subscriptions: Subscription[];
   nextToken?: string;
 }
 export const ListEventSubscriptionsResponse = S.suspend(() =>
@@ -1505,11 +1798,11 @@ export interface NetworkInterface {
   vpcId?: string;
   privateDnsName?: string;
   privateIpAddress?: string;
-  privateIpAddresses?: PrivateIpAddresses;
+  privateIpAddresses?: PrivateIp[];
   publicDnsName?: string;
   publicIp?: string;
-  ipv6Addresses?: Ipv6Addresses;
-  securityGroups?: SecurityGroups;
+  ipv6Addresses?: string[];
+  securityGroups?: SecurityGroup[];
 }
 export const NetworkInterface = S.suspend(() =>
   S.Struct({
@@ -1535,9 +1828,9 @@ export interface AssetAttributes {
   autoScalingGroup?: string;
   amiId?: string;
   hostname?: string;
-  ipv4Addresses?: Ipv4AddressList;
-  tags?: Tags;
-  networkInterfaces?: NetworkInterfaces;
+  ipv4Addresses?: string[];
+  tags?: Tag[];
+  networkInterfaces?: NetworkInterface[];
 }
 export const AssetAttributes = S.suspend(() =>
   S.Struct({
@@ -1558,18 +1851,18 @@ export interface Finding {
   schemaVersion?: number;
   service?: string;
   serviceAttributes?: InspectorServiceAttributes;
-  assetType?: string;
+  assetType?: AssetType;
   assetAttributes?: AssetAttributes;
   id?: string;
   title?: string;
   description?: string;
   recommendation?: string;
-  severity?: string;
+  severity?: Severity;
   numericSeverity?: number;
   confidence?: number;
   indicatorOfCompromise?: boolean;
-  attributes: AttributeList;
-  userAttributes: UserAttributeList;
+  attributes: Attribute[];
+  userAttributes: Attribute[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -1579,13 +1872,13 @@ export const Finding = S.suspend(() =>
     schemaVersion: S.optional(S.Number),
     service: S.optional(S.String),
     serviceAttributes: S.optional(InspectorServiceAttributes),
-    assetType: S.optional(S.String),
+    assetType: S.optional(AssetType),
     assetAttributes: S.optional(AssetAttributes),
     id: S.optional(S.String),
     title: S.optional(S.String),
     description: S.optional(S.String),
     recommendation: S.optional(S.String),
-    severity: S.optional(S.String),
+    severity: S.optional(Severity),
     numericSeverity: S.optional(S.Number),
     confidence: S.optional(S.Number),
     indicatorOfCompromise: S.optional(S.Boolean),
@@ -1598,8 +1891,8 @@ export const Finding = S.suspend(() =>
 export type FindingList = Finding[];
 export const FindingList = S.Array(Finding);
 export interface DescribeFindingsResponse {
-  findings: FindingList;
-  failedItems: FailedItems;
+  findings: Finding[];
+  failedItems: { [key: string]: FailedItemDetails };
 }
 export const DescribeFindingsResponse = S.suspend(() =>
   S.Struct({ findings: FindingList, failedItems: FailedItems }),
@@ -1610,7 +1903,7 @@ export const DescribeFindingsResponse = S.suspend(() =>
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  { message: S.String, errorCode: S.String, canRetry: S.Boolean },
+  { message: S.String, errorCode: AccessDeniedErrorCode, canRetry: S.Boolean },
 ).pipe(C.withAuthError) {}
 export class InternalException extends S.TaggedError<InternalException>()(
   "InternalException",
@@ -1627,15 +1920,19 @@ export class AssessmentRunInProgressException extends S.TaggedError<AssessmentRu
 ) {}
 export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
   "InvalidInputException",
-  { message: S.String, errorCode: S.String, canRetry: S.Boolean },
+  { message: S.String, errorCode: InvalidInputErrorCode, canRetry: S.Boolean },
 ) {}
 export class InvalidCrossAccountRoleException extends S.TaggedError<InvalidCrossAccountRoleException>()(
   "InvalidCrossAccountRoleException",
-  { message: S.String, errorCode: S.String, canRetry: S.Boolean },
+  {
+    message: S.String,
+    errorCode: InvalidCrossAccountRoleErrorCode,
+    canRetry: S.Boolean,
+  },
 ) {}
 export class NoSuchEntityException extends S.TaggedError<NoSuchEntityException>()(
   "NoSuchEntityException",
-  { message: S.String, errorCode: S.String, canRetry: S.Boolean },
+  { message: S.String, errorCode: NoSuchEntityErrorCode, canRetry: S.Boolean },
 ) {}
 export class AgentsAlreadyRunningAssessmentException extends S.TaggedError<AgentsAlreadyRunningAssessmentException>()(
   "AgentsAlreadyRunningAssessmentException",
@@ -1652,7 +1949,7 @@ export class ServiceTemporarilyUnavailableException extends S.TaggedError<Servic
 ).pipe(C.withServerError) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
-  { message: S.String, errorCode: S.String, canRetry: S.Boolean },
+  { message: S.String, errorCode: LimitExceededErrorCode, canRetry: S.Boolean },
 ) {}
 export class UnsupportedFeatureException extends S.TaggedError<UnsupportedFeatureException>()(
   "UnsupportedFeatureException",
@@ -1670,7 +1967,7 @@ export class PreviewGenerationInProgressException extends S.TaggedError<PreviewG
  */
 export const describeCrossAccountAccessRole: (
   input: DescribeCrossAccountAccessRoleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCrossAccountAccessRoleResponse,
   InternalException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1685,7 +1982,7 @@ export const describeCrossAccountAccessRole: (
 export const listRulesPackages: {
   (
     input: ListRulesPackagesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRulesPackagesResponse,
     | AccessDeniedException
     | InternalException
@@ -1695,7 +1992,7 @@ export const listRulesPackages: {
   >;
   pages: (
     input: ListRulesPackagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRulesPackagesResponse,
     | AccessDeniedException
     | InternalException
@@ -1705,7 +2002,7 @@ export const listRulesPackages: {
   >;
   items: (
     input: ListRulesPackagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalException
@@ -1729,7 +2026,7 @@ export const listRulesPackages: {
  */
 export const describeAssessmentTargets: (
   input: DescribeAssessmentTargetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAssessmentTargetsResponse,
   InternalException | InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1744,7 +2041,7 @@ export const describeAssessmentTargets: (
  */
 export const describeAssessmentTemplates: (
   input: DescribeAssessmentTemplatesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAssessmentTemplatesResponse,
   InternalException | InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1759,7 +2056,7 @@ export const describeAssessmentTemplates: (
  */
 export const describeResourceGroups: (
   input: DescribeResourceGroupsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeResourceGroupsResponse,
   InternalException | InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1774,7 +2071,7 @@ export const describeResourceGroups: (
  */
 export const describeRulesPackages: (
   input: DescribeRulesPackagesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRulesPackagesResponse,
   InternalException | InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1791,7 +2088,7 @@ export const describeRulesPackages: (
 export const listAssessmentTargets: {
   (
     input: ListAssessmentTargetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAssessmentTargetsResponse,
     | AccessDeniedException
     | InternalException
@@ -1801,7 +2098,7 @@ export const listAssessmentTargets: {
   >;
   pages: (
     input: ListAssessmentTargetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAssessmentTargetsResponse,
     | AccessDeniedException
     | InternalException
@@ -1811,7 +2108,7 @@ export const listAssessmentTargets: {
   >;
   items: (
     input: ListAssessmentTargetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalException
@@ -1835,7 +2132,7 @@ export const listAssessmentTargets: {
  */
 export const describeAssessmentRuns: (
   input: DescribeAssessmentRunsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAssessmentRunsResponse,
   InternalException | InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1849,7 +2146,7 @@ export const describeAssessmentRuns: (
  */
 export const describeExclusions: (
   input: DescribeExclusionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeExclusionsResponse,
   InternalException | InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1864,7 +2161,7 @@ export const describeExclusions: (
 export const listExclusions: {
   (
     input: ListExclusionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListExclusionsResponse,
     | AccessDeniedException
     | InternalException
@@ -1875,7 +2172,7 @@ export const listExclusions: {
   >;
   pages: (
     input: ListExclusionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListExclusionsResponse,
     | AccessDeniedException
     | InternalException
@@ -1886,7 +2183,7 @@ export const listExclusions: {
   >;
   items: (
     input: ListExclusionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalException
@@ -1916,7 +2213,7 @@ export const listExclusions: {
  */
 export const registerCrossAccountAccessRole: (
   input: RegisterCrossAccountAccessRoleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterCrossAccountAccessRoleResponse,
   | AccessDeniedException
   | InternalException
@@ -1942,7 +2239,7 @@ export const registerCrossAccountAccessRole: (
  */
 export const subscribeToEvent: (
   input: SubscribeToEventRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SubscribeToEventResponse,
   | AccessDeniedException
   | InternalException
@@ -1971,7 +2268,7 @@ export const subscribeToEvent: (
 export const listFindings: {
   (
     input: ListFindingsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFindingsResponse,
     | AccessDeniedException
     | InternalException
@@ -1982,7 +2279,7 @@ export const listFindings: {
   >;
   pages: (
     input: ListFindingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFindingsResponse,
     | AccessDeniedException
     | InternalException
@@ -1993,7 +2290,7 @@ export const listFindings: {
   >;
   items: (
     input: ListFindingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalException
@@ -2023,7 +2320,7 @@ export const listFindings: {
  */
 export const deleteAssessmentTarget: (
   input: DeleteAssessmentTargetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAssessmentTargetResponse,
   | AccessDeniedException
   | AssessmentRunInProgressException
@@ -2051,7 +2348,7 @@ export const deleteAssessmentTarget: (
  */
 export const deleteAssessmentTemplate: (
   input: DeleteAssessmentTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAssessmentTemplateResponse,
   | AccessDeniedException
   | AssessmentRunInProgressException
@@ -2078,7 +2375,7 @@ export const deleteAssessmentTemplate: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalException
@@ -2102,7 +2399,7 @@ export const listTagsForResource: (
  */
 export const removeAttributesFromFindings: (
   input: RemoveAttributesFromFindingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveAttributesFromFindingsResponse,
   | AccessDeniedException
   | InternalException
@@ -2128,7 +2425,7 @@ export const removeAttributesFromFindings: (
  */
 export const setTagsForResource: (
   input: SetTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetTagsForResourceResponse,
   | AccessDeniedException
   | InternalException
@@ -2154,7 +2451,7 @@ export const setTagsForResource: (
  */
 export const stopAssessmentRun: (
   input: StopAssessmentRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopAssessmentRunResponse,
   | AccessDeniedException
   | InternalException
@@ -2180,7 +2477,7 @@ export const stopAssessmentRun: (
  */
 export const unsubscribeFromEvent: (
   input: UnsubscribeFromEventRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UnsubscribeFromEventResponse,
   | AccessDeniedException
   | InternalException
@@ -2209,7 +2506,7 @@ export const unsubscribeFromEvent: (
  */
 export const updateAssessmentTarget: (
   input: UpdateAssessmentTargetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAssessmentTargetResponse,
   | AccessDeniedException
   | InternalException
@@ -2235,7 +2532,7 @@ export const updateAssessmentTarget: (
  */
 export const addAttributesToFindings: (
   input: AddAttributesToFindingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddAttributesToFindingsResponse,
   | AccessDeniedException
   | InternalException
@@ -2261,7 +2558,7 @@ export const addAttributesToFindings: (
  */
 export const deleteAssessmentRun: (
   input: DeleteAssessmentRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAssessmentRunResponse,
   | AccessDeniedException
   | AssessmentRunInProgressException
@@ -2289,7 +2586,7 @@ export const deleteAssessmentRun: (
  */
 export const getTelemetryMetadata: (
   input: GetTelemetryMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTelemetryMetadataResponse,
   | AccessDeniedException
   | InternalException
@@ -2314,7 +2611,7 @@ export const getTelemetryMetadata: (
 export const listAssessmentTemplates: {
   (
     input: ListAssessmentTemplatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAssessmentTemplatesResponse,
     | AccessDeniedException
     | InternalException
@@ -2325,7 +2622,7 @@ export const listAssessmentTemplates: {
   >;
   pages: (
     input: ListAssessmentTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAssessmentTemplatesResponse,
     | AccessDeniedException
     | InternalException
@@ -2336,7 +2633,7 @@ export const listAssessmentTemplates: {
   >;
   items: (
     input: ListAssessmentTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalException
@@ -2367,7 +2664,7 @@ export const listAssessmentTemplates: {
 export const previewAgents: {
   (
     input: PreviewAgentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     PreviewAgentsResponse,
     | AccessDeniedException
     | InternalException
@@ -2379,7 +2676,7 @@ export const previewAgents: {
   >;
   pages: (
     input: PreviewAgentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PreviewAgentsResponse,
     | AccessDeniedException
     | InternalException
@@ -2391,7 +2688,7 @@ export const previewAgents: {
   >;
   items: (
     input: PreviewAgentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalException
@@ -2425,7 +2722,7 @@ export const previewAgents: {
 export const getExclusionsPreview: {
   (
     input: GetExclusionsPreviewRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetExclusionsPreviewResponse,
     | AccessDeniedException
     | InternalException
@@ -2436,7 +2733,7 @@ export const getExclusionsPreview: {
   >;
   pages: (
     input: GetExclusionsPreviewRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetExclusionsPreviewResponse,
     | AccessDeniedException
     | InternalException
@@ -2447,7 +2744,7 @@ export const getExclusionsPreview: {
   >;
   items: (
     input: GetExclusionsPreviewRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalException
@@ -2478,7 +2775,7 @@ export const getExclusionsPreview: {
 export const listAssessmentRunAgents: {
   (
     input: ListAssessmentRunAgentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAssessmentRunAgentsResponse,
     | AccessDeniedException
     | InternalException
@@ -2489,7 +2786,7 @@ export const listAssessmentRunAgents: {
   >;
   pages: (
     input: ListAssessmentRunAgentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAssessmentRunAgentsResponse,
     | AccessDeniedException
     | InternalException
@@ -2500,7 +2797,7 @@ export const listAssessmentRunAgents: {
   >;
   items: (
     input: ListAssessmentRunAgentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalException
@@ -2531,7 +2828,7 @@ export const listAssessmentRunAgents: {
 export const listAssessmentRuns: {
   (
     input: ListAssessmentRunsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAssessmentRunsResponse,
     | AccessDeniedException
     | InternalException
@@ -2542,7 +2839,7 @@ export const listAssessmentRuns: {
   >;
   pages: (
     input: ListAssessmentRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAssessmentRunsResponse,
     | AccessDeniedException
     | InternalException
@@ -2553,7 +2850,7 @@ export const listAssessmentRuns: {
   >;
   items: (
     input: ListAssessmentRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalException
@@ -2584,7 +2881,7 @@ export const listAssessmentRuns: {
 export const listEventSubscriptions: {
   (
     input: ListEventSubscriptionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEventSubscriptionsResponse,
     | AccessDeniedException
     | InternalException
@@ -2595,7 +2892,7 @@ export const listEventSubscriptions: {
   >;
   pages: (
     input: ListEventSubscriptionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEventSubscriptionsResponse,
     | AccessDeniedException
     | InternalException
@@ -2606,7 +2903,7 @@ export const listEventSubscriptions: {
   >;
   items: (
     input: ListEventSubscriptionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalException
@@ -2638,7 +2935,7 @@ export const listEventSubscriptions: {
  */
 export const createAssessmentTemplate: (
   input: CreateAssessmentTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAssessmentTemplateResponse,
   | AccessDeniedException
   | InternalException
@@ -2668,7 +2965,7 @@ export const createAssessmentTemplate: (
  */
 export const createResourceGroup: (
   input: CreateResourceGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateResourceGroupResponse,
   | AccessDeniedException
   | InternalException
@@ -2700,7 +2997,7 @@ export const createResourceGroup: (
  */
 export const createAssessmentTarget: (
   input: CreateAssessmentTargetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAssessmentTargetResponse,
   | AccessDeniedException
   | InternalException
@@ -2731,7 +3028,7 @@ export const createAssessmentTarget: (
  */
 export const startAssessmentRun: (
   input: StartAssessmentRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartAssessmentRunResponse,
   | AccessDeniedException
   | AgentsAlreadyRunningAssessmentException
@@ -2763,7 +3060,7 @@ export const startAssessmentRun: (
  */
 export const getAssessmentReport: (
   input: GetAssessmentReportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAssessmentReportResponse,
   | AccessDeniedException
   | AssessmentRunInProgressException
@@ -2794,7 +3091,7 @@ export const getAssessmentReport: (
  */
 export const createExclusionsPreview: (
   input: CreateExclusionsPreviewRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateExclusionsPreviewResponse,
   | AccessDeniedException
   | InternalException
@@ -2821,7 +3118,7 @@ export const createExclusionsPreview: (
  */
 export const describeFindings: (
   input: DescribeFindingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeFindingsResponse,
   InternalException | InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

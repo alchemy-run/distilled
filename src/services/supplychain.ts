@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -94,7 +94,7 @@ export type DataIntegrationEventMaxResults = number;
 export type DataIntegrationFlowExecutionNextToken = string;
 export type DataIntegrationFlowExecutionMaxResults = number;
 export type AscResourceArn = string;
-export type DataIntegrationEventData = string | Redacted.Redacted<string>;
+export type DataIntegrationEventData = string | redacted.Redacted<string>;
 export type DataIntegrationEventGroupId = string;
 export type ClientToken = string;
 export type TagKey = string;
@@ -122,7 +122,7 @@ export type DataLakeDatasetSchemaName = string;
 export type S3BucketName = string;
 export type DataIntegrationFlowS3Prefix = string;
 export type DatasetIdentifier = string;
-export type DataIntegrationFlowSQLQuery = string | Redacted.Redacted<string>;
+export type DataIntegrationFlowSQLQuery = string | redacted.Redacted<string>;
 export type DataLakeDatasetSchemaFieldName = string;
 export type AwsAccountId = string;
 export type DataIntegrationFlowExecutionDiagnosticReportsRootS3URI = string;
@@ -130,12 +130,62 @@ export type DataIntegrationS3ObjectKey = string;
 export type DataIntegrationFlowFieldPriorityDedupeFieldName = string;
 
 //# Schemas
+export type DataIntegrationEventType =
+  | "scn.data.forecast"
+  | "scn.data.inventorylevel"
+  | "scn.data.inboundorder"
+  | "scn.data.inboundorderline"
+  | "scn.data.inboundorderlineschedule"
+  | "scn.data.outboundorderline"
+  | "scn.data.outboundshipment"
+  | "scn.data.processheader"
+  | "scn.data.processoperation"
+  | "scn.data.processproduct"
+  | "scn.data.reservation"
+  | "scn.data.shipment"
+  | "scn.data.shipmentstop"
+  | "scn.data.shipmentstoporder"
+  | "scn.data.supplyplan"
+  | "scn.data.dataset";
+export const DataIntegrationEventType = S.Literal(
+  "scn.data.forecast",
+  "scn.data.inventorylevel",
+  "scn.data.inboundorder",
+  "scn.data.inboundorderline",
+  "scn.data.inboundorderlineschedule",
+  "scn.data.outboundorderline",
+  "scn.data.outboundshipment",
+  "scn.data.processheader",
+  "scn.data.processoperation",
+  "scn.data.processproduct",
+  "scn.data.reservation",
+  "scn.data.shipment",
+  "scn.data.shipmentstop",
+  "scn.data.shipmentstoporder",
+  "scn.data.supplyplan",
+  "scn.data.dataset",
+);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export type InstanceNameList = string[];
 export const InstanceNameList = S.Array(S.String);
-export type InstanceStateList = string[];
-export const InstanceStateList = S.Array(S.String);
+export type InstanceState =
+  | "Initializing"
+  | "Active"
+  | "CreateFailed"
+  | "DeleteFailed"
+  | "Deleting"
+  | "Deleted";
+export const InstanceState = S.Literal(
+  "Initializing",
+  "Active",
+  "CreateFailed",
+  "DeleteFailed",
+  "Deleting",
+  "Deleted",
+);
+export type InstanceStateList = InstanceState[];
+export const InstanceStateList = S.Array(InstanceState);
 export interface GetDataIntegrationEventRequest {
   instanceId: string;
   eventId: string;
@@ -188,14 +238,16 @@ export const GetDataIntegrationFlowExecutionRequest = S.suspend(() =>
 }) as any as S.Schema<GetDataIntegrationFlowExecutionRequest>;
 export interface ListDataIntegrationEventsRequest {
   instanceId: string;
-  eventType?: string;
+  eventType?: DataIntegrationEventType;
   nextToken?: string;
   maxResults?: number;
 }
 export const ListDataIntegrationEventsRequest = S.suspend(() =>
   S.Struct({
     instanceId: S.String.pipe(T.HttpLabel("instanceId")),
-    eventType: S.optional(S.String).pipe(T.HttpQuery("eventType")),
+    eventType: S.optional(DataIntegrationEventType).pipe(
+      T.HttpQuery("eventType"),
+    ),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
@@ -261,7 +313,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -358,11 +410,15 @@ export const GetDataIntegrationFlowRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetDataIntegrationFlowRequest",
 }) as any as S.Schema<GetDataIntegrationFlowRequest>;
+export type DataIntegrationFlowSourceType = "S3" | "DATASET";
+export const DataIntegrationFlowSourceType = S.Literal("S3", "DATASET");
+export type DataIntegrationFlowFileType = "CSV" | "PARQUET" | "JSON";
+export const DataIntegrationFlowFileType = S.Literal("CSV", "PARQUET", "JSON");
 export interface DataIntegrationFlowS3Options {
-  fileType?: string;
+  fileType?: DataIntegrationFlowFileType;
 }
 export const DataIntegrationFlowS3Options = S.suspend(() =>
-  S.Struct({ fileType: S.optional(S.String) }),
+  S.Struct({ fileType: S.optional(DataIntegrationFlowFileType) }),
 ).annotations({
   identifier: "DataIntegrationFlowS3Options",
 }) as any as S.Schema<DataIntegrationFlowS3Options>;
@@ -380,12 +436,25 @@ export const DataIntegrationFlowS3SourceConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "DataIntegrationFlowS3SourceConfiguration",
 }) as any as S.Schema<DataIntegrationFlowS3SourceConfiguration>;
+export type DataIntegrationFlowLoadType = "INCREMENTAL" | "REPLACE";
+export const DataIntegrationFlowLoadType = S.Literal("INCREMENTAL", "REPLACE");
+export type DataIntegrationFlowDedupeStrategyType = "FIELD_PRIORITY";
+export const DataIntegrationFlowDedupeStrategyType =
+  S.Literal("FIELD_PRIORITY");
+export type DataIntegrationFlowFieldPriorityDedupeSortOrder = "ASC" | "DESC";
+export const DataIntegrationFlowFieldPriorityDedupeSortOrder = S.Literal(
+  "ASC",
+  "DESC",
+);
 export interface DataIntegrationFlowFieldPriorityDedupeField {
   name: string;
-  sortOrder: string;
+  sortOrder: DataIntegrationFlowFieldPriorityDedupeSortOrder;
 }
 export const DataIntegrationFlowFieldPriorityDedupeField = S.suspend(() =>
-  S.Struct({ name: S.String, sortOrder: S.String }),
+  S.Struct({
+    name: S.String,
+    sortOrder: DataIntegrationFlowFieldPriorityDedupeSortOrder,
+  }),
 ).annotations({
   identifier: "DataIntegrationFlowFieldPriorityDedupeField",
 }) as any as S.Schema<DataIntegrationFlowFieldPriorityDedupeField>;
@@ -395,7 +464,7 @@ export const DataIntegrationFlowFieldPriorityDedupeFieldList = S.Array(
   DataIntegrationFlowFieldPriorityDedupeField,
 );
 export interface DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration {
-  fields: DataIntegrationFlowFieldPriorityDedupeFieldList;
+  fields: DataIntegrationFlowFieldPriorityDedupeField[];
 }
 export const DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration =
   S.suspend(() =>
@@ -404,12 +473,12 @@ export const DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration =
     identifier: "DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration",
   }) as any as S.Schema<DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration>;
 export interface DataIntegrationFlowDedupeStrategy {
-  type: string;
+  type: DataIntegrationFlowDedupeStrategyType;
   fieldPriority?: DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration;
 }
 export const DataIntegrationFlowDedupeStrategy = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: DataIntegrationFlowDedupeStrategyType,
     fieldPriority: S.optional(
       DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration,
     ),
@@ -418,13 +487,13 @@ export const DataIntegrationFlowDedupeStrategy = S.suspend(() =>
   identifier: "DataIntegrationFlowDedupeStrategy",
 }) as any as S.Schema<DataIntegrationFlowDedupeStrategy>;
 export interface DataIntegrationFlowDatasetOptions {
-  loadType?: string;
+  loadType?: DataIntegrationFlowLoadType;
   dedupeRecords?: boolean;
   dedupeStrategy?: DataIntegrationFlowDedupeStrategy;
 }
 export const DataIntegrationFlowDatasetOptions = S.suspend(() =>
   S.Struct({
-    loadType: S.optional(S.String),
+    loadType: S.optional(DataIntegrationFlowLoadType),
     dedupeRecords: S.optional(S.Boolean),
     dedupeStrategy: S.optional(DataIntegrationFlowDedupeStrategy),
   }),
@@ -444,14 +513,14 @@ export const DataIntegrationFlowDatasetSourceConfiguration = S.suspend(() =>
   identifier: "DataIntegrationFlowDatasetSourceConfiguration",
 }) as any as S.Schema<DataIntegrationFlowDatasetSourceConfiguration>;
 export interface DataIntegrationFlowSource {
-  sourceType: string;
+  sourceType: DataIntegrationFlowSourceType;
   sourceName: string;
   s3Source?: DataIntegrationFlowS3SourceConfiguration;
   datasetSource?: DataIntegrationFlowDatasetSourceConfiguration;
 }
 export const DataIntegrationFlowSource = S.suspend(() =>
   S.Struct({
-    sourceType: S.String,
+    sourceType: DataIntegrationFlowSourceType,
     sourceName: S.String,
     s3Source: S.optional(DataIntegrationFlowS3SourceConfiguration),
     datasetSource: S.optional(DataIntegrationFlowDatasetSourceConfiguration),
@@ -461,8 +530,10 @@ export const DataIntegrationFlowSource = S.suspend(() =>
 }) as any as S.Schema<DataIntegrationFlowSource>;
 export type DataIntegrationFlowSourceList = DataIntegrationFlowSource[];
 export const DataIntegrationFlowSourceList = S.Array(DataIntegrationFlowSource);
+export type DataIntegrationFlowTransformationType = "SQL" | "NONE";
+export const DataIntegrationFlowTransformationType = S.Literal("SQL", "NONE");
 export interface DataIntegrationFlowSQLTransformationConfiguration {
-  query: string | Redacted.Redacted<string>;
+  query: string | redacted.Redacted<string>;
 }
 export const DataIntegrationFlowSQLTransformationConfiguration = S.suspend(() =>
   S.Struct({ query: SensitiveString }),
@@ -470,12 +541,12 @@ export const DataIntegrationFlowSQLTransformationConfiguration = S.suspend(() =>
   identifier: "DataIntegrationFlowSQLTransformationConfiguration",
 }) as any as S.Schema<DataIntegrationFlowSQLTransformationConfiguration>;
 export interface DataIntegrationFlowTransformation {
-  transformationType: string;
+  transformationType: DataIntegrationFlowTransformationType;
   sqlTransformation?: DataIntegrationFlowSQLTransformationConfiguration;
 }
 export const DataIntegrationFlowTransformation = S.suspend(() =>
   S.Struct({
-    transformationType: S.String,
+    transformationType: DataIntegrationFlowTransformationType,
     sqlTransformation: S.optional(
       DataIntegrationFlowSQLTransformationConfiguration,
     ),
@@ -483,6 +554,8 @@ export const DataIntegrationFlowTransformation = S.suspend(() =>
 ).annotations({
   identifier: "DataIntegrationFlowTransformation",
 }) as any as S.Schema<DataIntegrationFlowTransformation>;
+export type DataIntegrationFlowTargetType = "S3" | "DATASET";
+export const DataIntegrationFlowTargetType = S.Literal("S3", "DATASET");
 export interface DataIntegrationFlowS3TargetConfiguration {
   bucketName: string;
   prefix: string;
@@ -510,13 +583,13 @@ export const DataIntegrationFlowDatasetTargetConfiguration = S.suspend(() =>
   identifier: "DataIntegrationFlowDatasetTargetConfiguration",
 }) as any as S.Schema<DataIntegrationFlowDatasetTargetConfiguration>;
 export interface DataIntegrationFlowTarget {
-  targetType: string;
+  targetType: DataIntegrationFlowTargetType;
   s3Target?: DataIntegrationFlowS3TargetConfiguration;
   datasetTarget?: DataIntegrationFlowDatasetTargetConfiguration;
 }
 export const DataIntegrationFlowTarget = S.suspend(() =>
   S.Struct({
-    targetType: S.String,
+    targetType: DataIntegrationFlowTargetType,
     s3Target: S.optional(DataIntegrationFlowS3TargetConfiguration),
     datasetTarget: S.optional(DataIntegrationFlowDatasetTargetConfiguration),
   }),
@@ -526,7 +599,7 @@ export const DataIntegrationFlowTarget = S.suspend(() =>
 export interface UpdateDataIntegrationFlowRequest {
   instanceId: string;
   name: string;
-  sources?: DataIntegrationFlowSourceList;
+  sources?: DataIntegrationFlowSource[];
   transformation?: DataIntegrationFlowTransformation;
   target?: DataIntegrationFlowTarget;
 }
@@ -717,7 +790,7 @@ export interface CreateDataLakeNamespaceRequest {
   instanceId: string;
   name: string;
   description?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateDataLakeNamespaceRequest = S.suspend(() =>
   S.Struct({
@@ -846,7 +919,7 @@ export interface CreateInstanceRequest {
   instanceDescription?: string;
   kmsKeyArn?: string;
   webAppDnsDomain?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   clientToken?: string;
 }
 export const CreateInstanceRequest = S.suspend(() =>
@@ -930,8 +1003,8 @@ export const DeleteInstanceRequest = S.suspend(() =>
 export interface ListInstancesRequest {
   nextToken?: string;
   maxResults?: number;
-  instanceNameFilter?: InstanceNameList;
-  instanceStateFilter?: InstanceStateList;
+  instanceNameFilter?: string[];
+  instanceStateFilter?: InstanceState[];
 }
 export const ListInstancesRequest = S.suspend(() =>
   S.Struct({
@@ -956,24 +1029,45 @@ export const ListInstancesRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListInstancesRequest",
 }) as any as S.Schema<ListInstancesRequest>;
+export type DataIntegrationEventDatasetOperationType =
+  | "APPEND"
+  | "UPSERT"
+  | "DELETE";
+export const DataIntegrationEventDatasetOperationType = S.Literal(
+  "APPEND",
+  "UPSERT",
+  "DELETE",
+);
+export type DataIntegrationEventDatasetLoadStatus =
+  | "SUCCEEDED"
+  | "IN_PROGRESS"
+  | "FAILED";
+export const DataIntegrationEventDatasetLoadStatus = S.Literal(
+  "SUCCEEDED",
+  "IN_PROGRESS",
+  "FAILED",
+);
 export interface DataIntegrationEventDatasetLoadExecutionDetails {
-  status: string;
+  status: DataIntegrationEventDatasetLoadStatus;
   message?: string;
 }
 export const DataIntegrationEventDatasetLoadExecutionDetails = S.suspend(() =>
-  S.Struct({ status: S.String, message: S.optional(S.String) }),
+  S.Struct({
+    status: DataIntegrationEventDatasetLoadStatus,
+    message: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "DataIntegrationEventDatasetLoadExecutionDetails",
 }) as any as S.Schema<DataIntegrationEventDatasetLoadExecutionDetails>;
 export interface DataIntegrationEventDatasetTargetDetails {
   datasetIdentifier: string;
-  operationType: string;
+  operationType: DataIntegrationEventDatasetOperationType;
   datasetLoadExecution: DataIntegrationEventDatasetLoadExecutionDetails;
 }
 export const DataIntegrationEventDatasetTargetDetails = S.suspend(() =>
   S.Struct({
     datasetIdentifier: S.String,
-    operationType: S.String,
+    operationType: DataIntegrationEventDatasetOperationType,
     datasetLoadExecution: DataIntegrationEventDatasetLoadExecutionDetails,
   }),
 ).annotations({
@@ -982,7 +1076,7 @@ export const DataIntegrationEventDatasetTargetDetails = S.suspend(() =>
 export interface DataIntegrationEvent {
   instanceId: string;
   eventId: string;
-  eventType: string;
+  eventType: DataIntegrationEventType;
   eventGroupId: string;
   eventTimestamp: Date;
   datasetTargetDetails?: DataIntegrationEventDatasetTargetDetails;
@@ -991,7 +1085,7 @@ export const DataIntegrationEvent = S.suspend(() =>
   S.Struct({
     instanceId: S.String,
     eventId: S.String,
-    eventType: S.String,
+    eventType: DataIntegrationEventType,
     eventGroupId: S.String,
     eventTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     datasetTargetDetails: S.optional(DataIntegrationEventDatasetTargetDetails),
@@ -1001,6 +1095,15 @@ export const DataIntegrationEvent = S.suspend(() =>
 }) as any as S.Schema<DataIntegrationEvent>;
 export type DataIntegrationEventList = DataIntegrationEvent[];
 export const DataIntegrationEventList = S.Array(DataIntegrationEvent);
+export type DataIntegrationFlowExecutionStatus =
+  | "SUCCEEDED"
+  | "IN_PROGRESS"
+  | "FAILED";
+export const DataIntegrationFlowExecutionStatus = S.Literal(
+  "SUCCEEDED",
+  "IN_PROGRESS",
+  "FAILED",
+);
 export interface DataIntegrationFlowS3Source {
   bucketName: string;
   key: string;
@@ -1019,13 +1122,13 @@ export const DataIntegrationFlowDatasetSource = S.suspend(() =>
   identifier: "DataIntegrationFlowDatasetSource",
 }) as any as S.Schema<DataIntegrationFlowDatasetSource>;
 export interface DataIntegrationFlowExecutionSourceInfo {
-  sourceType: string;
+  sourceType: DataIntegrationFlowSourceType;
   s3Source?: DataIntegrationFlowS3Source;
   datasetSource?: DataIntegrationFlowDatasetSource;
 }
 export const DataIntegrationFlowExecutionSourceInfo = S.suspend(() =>
   S.Struct({
-    sourceType: S.String,
+    sourceType: DataIntegrationFlowSourceType,
     s3Source: S.optional(DataIntegrationFlowS3Source),
     datasetSource: S.optional(DataIntegrationFlowDatasetSource),
   }),
@@ -1044,7 +1147,7 @@ export interface DataIntegrationFlowExecution {
   instanceId: string;
   flowName: string;
   executionId: string;
-  status?: string;
+  status?: DataIntegrationFlowExecutionStatus;
   sourceInfo?: DataIntegrationFlowExecutionSourceInfo;
   message?: string;
   startTime?: Date;
@@ -1056,7 +1159,7 @@ export const DataIntegrationFlowExecution = S.suspend(() =>
     instanceId: S.String,
     flowName: S.String,
     executionId: S.String,
-    status: S.optional(S.String),
+    status: S.optional(DataIntegrationFlowExecutionStatus),
     sourceInfo: S.optional(DataIntegrationFlowExecutionSourceInfo),
     message: S.optional(S.String),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1072,17 +1175,20 @@ export const DataIntegrationFlowExecutionList = S.Array(
 );
 export interface DataIntegrationEventDatasetTargetConfiguration {
   datasetIdentifier: string;
-  operationType: string;
+  operationType: DataIntegrationEventDatasetOperationType;
 }
 export const DataIntegrationEventDatasetTargetConfiguration = S.suspend(() =>
-  S.Struct({ datasetIdentifier: S.String, operationType: S.String }),
+  S.Struct({
+    datasetIdentifier: S.String,
+    operationType: DataIntegrationEventDatasetOperationType,
+  }),
 ).annotations({
   identifier: "DataIntegrationEventDatasetTargetConfiguration",
 }) as any as S.Schema<DataIntegrationEventDatasetTargetConfiguration>;
 export interface DataIntegrationFlow {
   instanceId: string;
   name: string;
-  sources: DataIntegrationFlowSourceList;
+  sources: DataIntegrationFlowSource[];
   transformation: DataIntegrationFlowTransformation;
   target: DataIntegrationFlowTarget;
   createdTime: Date;
@@ -1103,13 +1209,30 @@ export const DataIntegrationFlow = S.suspend(() =>
 }) as any as S.Schema<DataIntegrationFlow>;
 export type DataIntegrationFlowList = DataIntegrationFlow[];
 export const DataIntegrationFlowList = S.Array(DataIntegrationFlow);
+export type DataLakeDatasetSchemaFieldType =
+  | "INT"
+  | "DOUBLE"
+  | "STRING"
+  | "TIMESTAMP"
+  | "LONG";
+export const DataLakeDatasetSchemaFieldType = S.Literal(
+  "INT",
+  "DOUBLE",
+  "STRING",
+  "TIMESTAMP",
+  "LONG",
+);
 export interface DataLakeDatasetSchemaField {
   name: string;
-  type: string;
+  type: DataLakeDatasetSchemaFieldType;
   isRequired: boolean;
 }
 export const DataLakeDatasetSchemaField = S.suspend(() =>
-  S.Struct({ name: S.String, type: S.String, isRequired: S.Boolean }),
+  S.Struct({
+    name: S.String,
+    type: DataLakeDatasetSchemaFieldType,
+    isRequired: S.Boolean,
+  }),
 ).annotations({
   identifier: "DataLakeDatasetSchemaField",
 }) as any as S.Schema<DataLakeDatasetSchemaField>;
@@ -1132,8 +1255,8 @@ export const DataLakeDatasetPrimaryKeyFieldList = S.Array(
 );
 export interface DataLakeDatasetSchema {
   name: string;
-  fields: DataLakeDatasetSchemaFieldList;
-  primaryKeys?: DataLakeDatasetPrimaryKeyFieldList;
+  fields: DataLakeDatasetSchemaField[];
+  primaryKeys?: DataLakeDatasetPrimaryKeyField[];
 }
 export const DataLakeDatasetSchema = S.suspend(() =>
   S.Struct({
@@ -1144,11 +1267,24 @@ export const DataLakeDatasetSchema = S.suspend(() =>
 ).annotations({
   identifier: "DataLakeDatasetSchema",
 }) as any as S.Schema<DataLakeDatasetSchema>;
+export type DataLakeDatasetPartitionTransformType =
+  | "YEAR"
+  | "MONTH"
+  | "DAY"
+  | "HOUR"
+  | "IDENTITY";
+export const DataLakeDatasetPartitionTransformType = S.Literal(
+  "YEAR",
+  "MONTH",
+  "DAY",
+  "HOUR",
+  "IDENTITY",
+);
 export interface DataLakeDatasetPartitionFieldTransform {
-  type: string;
+  type: DataLakeDatasetPartitionTransformType;
 }
 export const DataLakeDatasetPartitionFieldTransform = S.suspend(() =>
-  S.Struct({ type: S.String }),
+  S.Struct({ type: DataLakeDatasetPartitionTransformType }),
 ).annotations({
   identifier: "DataLakeDatasetPartitionFieldTransform",
 }) as any as S.Schema<DataLakeDatasetPartitionFieldTransform>;
@@ -1169,7 +1305,7 @@ export const DataLakeDatasetPartitionFieldList = S.Array(
   DataLakeDatasetPartitionField,
 );
 export interface DataLakeDatasetPartitionSpec {
-  fields: DataLakeDatasetPartitionFieldList;
+  fields: DataLakeDatasetPartitionField[];
 }
 export const DataLakeDatasetPartitionSpec = S.suspend(() =>
   S.Struct({ fields: DataLakeDatasetPartitionFieldList }),
@@ -1229,7 +1365,7 @@ export const DataLakeNamespaceList = S.Array(DataLakeNamespace);
 export interface Instance {
   instanceId: string;
   awsAccountId: string;
-  state: string;
+  state: InstanceState;
   errorMessage?: string;
   webAppDnsDomain?: string;
   createdTime?: Date;
@@ -1243,7 +1379,7 @@ export const Instance = S.suspend(() =>
   S.Struct({
     instanceId: S.String,
     awsAccountId: S.String,
-    state: S.String,
+    state: InstanceState,
     errorMessage: S.optional(S.String),
     webAppDnsDomain: S.optional(S.String),
     createdTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1259,7 +1395,7 @@ export const Instance = S.suspend(() =>
 export type InstanceList = Instance[];
 export const InstanceList = S.Array(Instance);
 export interface ListDataIntegrationEventsResponse {
-  events: DataIntegrationEventList;
+  events: DataIntegrationEvent[];
   nextToken?: string;
 }
 export const ListDataIntegrationEventsResponse = S.suspend(() =>
@@ -1271,7 +1407,7 @@ export const ListDataIntegrationEventsResponse = S.suspend(() =>
   identifier: "ListDataIntegrationEventsResponse",
 }) as any as S.Schema<ListDataIntegrationEventsResponse>;
 export interface ListDataIntegrationFlowExecutionsResponse {
-  flowExecutions: DataIntegrationFlowExecutionList;
+  flowExecutions: DataIntegrationFlowExecution[];
   nextToken?: string;
 }
 export const ListDataIntegrationFlowExecutionsResponse = S.suspend(() =>
@@ -1283,7 +1419,7 @@ export const ListDataIntegrationFlowExecutionsResponse = S.suspend(() =>
   identifier: "ListDataIntegrationFlowExecutionsResponse",
 }) as any as S.Schema<ListDataIntegrationFlowExecutionsResponse>;
 export interface ListTagsForResourceResponse {
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: TagMap }),
@@ -1292,8 +1428,8 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface SendDataIntegrationEventRequest {
   instanceId: string;
-  eventType: string;
-  data: string | Redacted.Redacted<string>;
+  eventType: DataIntegrationEventType;
+  data: string | redacted.Redacted<string>;
   eventGroupId: string;
   eventTimestamp?: Date;
   clientToken?: string;
@@ -1302,7 +1438,7 @@ export interface SendDataIntegrationEventRequest {
 export const SendDataIntegrationEventRequest = S.suspend(() =>
   S.Struct({
     instanceId: S.String.pipe(T.HttpLabel("instanceId")),
-    eventType: S.String,
+    eventType: DataIntegrationEventType,
     data: SensitiveString,
     eventGroupId: S.String,
     eventTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1326,7 +1462,7 @@ export const SendDataIntegrationEventRequest = S.suspend(() =>
 }) as any as S.Schema<SendDataIntegrationEventRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1375,7 +1511,7 @@ export const DeleteDataIntegrationFlowResponse = S.suspend(() =>
   identifier: "DeleteDataIntegrationFlowResponse",
 }) as any as S.Schema<DeleteDataIntegrationFlowResponse>;
 export interface ListDataIntegrationFlowsResponse {
-  flows: DataIntegrationFlowList;
+  flows: DataIntegrationFlow[];
   nextToken?: string;
 }
 export const ListDataIntegrationFlowsResponse = S.suspend(() =>
@@ -1402,7 +1538,7 @@ export const DeleteDataLakeDatasetResponse = S.suspend(() =>
   identifier: "DeleteDataLakeDatasetResponse",
 }) as any as S.Schema<DeleteDataLakeDatasetResponse>;
 export interface ListDataLakeDatasetsResponse {
-  datasets: DataLakeDatasetList;
+  datasets: DataLakeDataset[];
   nextToken?: string;
 }
 export const ListDataLakeDatasetsResponse = S.suspend(() =>
@@ -1436,7 +1572,7 @@ export const DeleteDataLakeNamespaceResponse = S.suspend(() =>
   identifier: "DeleteDataLakeNamespaceResponse",
 }) as any as S.Schema<DeleteDataLakeNamespaceResponse>;
 export interface ListDataLakeNamespacesResponse {
-  namespaces: DataLakeNamespaceList;
+  namespaces: DataLakeNamespace[];
   nextToken?: string;
 }
 export const ListDataLakeNamespacesResponse = S.suspend(() =>
@@ -1472,7 +1608,7 @@ export const DeleteInstanceResponse = S.suspend(() =>
   identifier: "DeleteInstanceResponse",
 }) as any as S.Schema<DeleteInstanceResponse>;
 export interface ListInstancesResponse {
-  instances: InstanceList;
+  instances: Instance[];
   nextToken?: string;
 }
 export const ListInstancesResponse = S.suspend(() =>
@@ -1480,10 +1616,23 @@ export const ListInstancesResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListInstancesResponse",
 }) as any as S.Schema<ListInstancesResponse>;
+export type ConfigurationJobStatus =
+  | "NEW"
+  | "FAILED"
+  | "IN_PROGRESS"
+  | "QUEUED"
+  | "SUCCESS";
+export const ConfigurationJobStatus = S.Literal(
+  "NEW",
+  "FAILED",
+  "IN_PROGRESS",
+  "QUEUED",
+  "SUCCESS",
+);
 export interface BillOfMaterialsImportJob {
   instanceId: string;
   jobId: string;
-  status: string;
+  status: ConfigurationJobStatus;
   s3uri: string;
   message?: string;
 }
@@ -1491,7 +1640,7 @@ export const BillOfMaterialsImportJob = S.suspend(() =>
   S.Struct({
     instanceId: S.String,
     jobId: S.String,
-    status: S.String,
+    status: ConfigurationJobStatus,
     s3uri: S.String,
     message: S.optional(S.String),
   }),
@@ -1553,7 +1702,7 @@ export interface CreateDataLakeDatasetRequest {
   schema?: DataLakeDatasetSchema;
   description?: string;
   partitionSpec?: DataLakeDatasetPartitionSpec;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateDataLakeDatasetRequest = S.suspend(() =>
   S.Struct({
@@ -1607,10 +1756,10 @@ export const CreateDataLakeDatasetResponse = S.suspend(() =>
 export interface CreateDataIntegrationFlowRequest {
   instanceId: string;
   name: string;
-  sources: DataIntegrationFlowSourceList;
+  sources: DataIntegrationFlowSource[];
   transformation: DataIntegrationFlowTransformation;
   target: DataIntegrationFlowTarget;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateDataIntegrationFlowRequest = S.suspend(() =>
   S.Struct({
@@ -1684,7 +1833,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const deleteDataIntegrationFlow: (
   input: DeleteDataIntegrationFlowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDataIntegrationFlowResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1708,7 +1857,7 @@ export const deleteDataIntegrationFlow: (
 export const listDataIntegrationFlows: {
   (
     input: ListDataIntegrationFlowsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataIntegrationFlowsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1719,7 +1868,7 @@ export const listDataIntegrationFlows: {
   >;
   pages: (
     input: ListDataIntegrationFlowsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataIntegrationFlowsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1730,7 +1879,7 @@ export const listDataIntegrationFlows: {
   >;
   items: (
     input: ListDataIntegrationFlowsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataIntegrationFlow,
     | AccessDeniedException
     | InternalServerException
@@ -1760,7 +1909,7 @@ export const listDataIntegrationFlows: {
  */
 export const getBillOfMaterialsImportJob: (
   input: GetBillOfMaterialsImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBillOfMaterialsImportJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1785,7 +1934,7 @@ export const getBillOfMaterialsImportJob: (
  */
 export const getDataIntegrationFlow: (
   input: GetDataIntegrationFlowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataIntegrationFlowResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1810,7 +1959,7 @@ export const getDataIntegrationFlow: (
  */
 export const getDataLakeDataset: (
   input: GetDataLakeDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataLakeDatasetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1835,7 +1984,7 @@ export const getDataLakeDataset: (
  */
 export const updateDataIntegrationFlow: (
   input: UpdateDataIntegrationFlowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDataIntegrationFlowResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1860,7 +2009,7 @@ export const updateDataIntegrationFlow: (
  */
 export const updateDataLakeDataset: (
   input: UpdateDataLakeDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDataLakeDatasetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1885,7 +2034,7 @@ export const updateDataLakeDataset: (
  */
 export const deleteDataLakeDataset: (
   input: DeleteDataLakeDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDataLakeDatasetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1911,7 +2060,7 @@ export const deleteDataLakeDataset: (
 export const listDataLakeDatasets: {
   (
     input: ListDataLakeDatasetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataLakeDatasetsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1923,7 +2072,7 @@ export const listDataLakeDatasets: {
   >;
   pages: (
     input: ListDataLakeDatasetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataLakeDatasetsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1935,7 +2084,7 @@ export const listDataLakeDatasets: {
   >;
   items: (
     input: ListDataLakeDatasetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataLakeDataset,
     | AccessDeniedException
     | InternalServerException
@@ -1967,7 +2116,7 @@ export const listDataLakeDatasets: {
  */
 export const getDataLakeNamespace: (
   input: GetDataLakeNamespaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataLakeNamespaceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1992,7 +2141,7 @@ export const getDataLakeNamespace: (
  */
 export const updateDataLakeNamespace: (
   input: UpdateDataLakeNamespaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDataLakeNamespaceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2017,7 +2166,7 @@ export const updateDataLakeNamespace: (
  */
 export const deleteDataLakeNamespace: (
   input: DeleteDataLakeNamespaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDataLakeNamespaceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2042,7 +2191,7 @@ export const deleteDataLakeNamespace: (
  */
 export const getInstance: (
   input: GetInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInstanceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2067,7 +2216,7 @@ export const getInstance: (
  */
 export const updateInstance: (
   input: UpdateInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateInstanceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2094,7 +2243,7 @@ export const updateInstance: (
  */
 export const deleteInstance: (
   input: DeleteInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteInstanceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2120,7 +2269,7 @@ export const deleteInstance: (
 export const listDataIntegrationFlowExecutions: {
   (
     input: ListDataIntegrationFlowExecutionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataIntegrationFlowExecutionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2132,7 +2281,7 @@ export const listDataIntegrationFlowExecutions: {
   >;
   pages: (
     input: ListDataIntegrationFlowExecutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataIntegrationFlowExecutionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2144,7 +2293,7 @@ export const listDataIntegrationFlowExecutions: {
   >;
   items: (
     input: ListDataIntegrationFlowExecutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataIntegrationFlowExecution,
     | AccessDeniedException
     | InternalServerException
@@ -2176,7 +2325,7 @@ export const listDataIntegrationFlowExecutions: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2201,7 +2350,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2226,7 +2375,7 @@ export const tagResource: (
  */
 export const sendDataIntegrationEvent: (
   input: SendDataIntegrationEventRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendDataIntegrationEventResponse,
   | AccessDeniedException
   | ConflictException
@@ -2255,7 +2404,7 @@ export const sendDataIntegrationEvent: (
  */
 export const createDataLakeNamespace: (
   input: CreateDataLakeNamespaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataLakeNamespaceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2284,7 +2433,7 @@ export const createDataLakeNamespace: (
  */
 export const createInstance: (
   input: CreateInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateInstanceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2312,7 +2461,7 @@ export const createInstance: (
 export const listDataLakeNamespaces: {
   (
     input: ListDataLakeNamespacesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataLakeNamespacesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2323,7 +2472,7 @@ export const listDataLakeNamespaces: {
   >;
   pages: (
     input: ListDataLakeNamespacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataLakeNamespacesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2334,7 +2483,7 @@ export const listDataLakeNamespaces: {
   >;
   items: (
     input: ListDataLakeNamespacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataLakeNamespace,
     | AccessDeniedException
     | InternalServerException
@@ -2365,7 +2514,7 @@ export const listDataLakeNamespaces: {
 export const listInstances: {
   (
     input: ListInstancesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInstancesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2376,7 +2525,7 @@ export const listInstances: {
   >;
   pages: (
     input: ListInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInstancesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2387,7 +2536,7 @@ export const listInstances: {
   >;
   items: (
     input: ListInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Instance,
     | AccessDeniedException
     | InternalServerException
@@ -2418,7 +2567,7 @@ export const listInstances: {
 export const listDataIntegrationEvents: {
   (
     input: ListDataIntegrationEventsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataIntegrationEventsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2429,7 +2578,7 @@ export const listDataIntegrationEvents: {
   >;
   pages: (
     input: ListDataIntegrationEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataIntegrationEventsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2440,7 +2589,7 @@ export const listDataIntegrationEvents: {
   >;
   items: (
     input: ListDataIntegrationEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataIntegrationEvent,
     | AccessDeniedException
     | InternalServerException
@@ -2470,7 +2619,7 @@ export const listDataIntegrationEvents: {
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2497,7 +2646,7 @@ export const untagResource: (
  */
 export const createBillOfMaterialsImportJob: (
   input: CreateBillOfMaterialsImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBillOfMaterialsImportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -2524,7 +2673,7 @@ export const createBillOfMaterialsImportJob: (
  */
 export const getDataIntegrationEvent: (
   input: GetDataIntegrationEventRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataIntegrationEventResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2549,7 +2698,7 @@ export const getDataIntegrationEvent: (
  */
 export const getDataIntegrationFlowExecution: (
   input: GetDataIntegrationFlowExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataIntegrationFlowExecutionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2574,7 +2723,7 @@ export const getDataIntegrationFlowExecution: (
  */
 export const createDataLakeDataset: (
   input: CreateDataLakeDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataLakeDatasetResponse,
   | AccessDeniedException
   | ConflictException
@@ -2603,7 +2752,7 @@ export const createDataLakeDataset: (
  */
 export const createDataIntegrationFlow: (
   input: CreateDataIntegrationFlowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataIntegrationFlowResponse,
   | AccessDeniedException
   | ConflictException

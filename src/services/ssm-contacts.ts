@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -124,6 +124,18 @@ export type RetryAfterSeconds = number;
 export type RetryIntervalInMinutes = number;
 
 //# Schemas
+export type AcceptType = "DELIVERED" | "READ";
+export const AcceptType = S.Literal("DELIVERED", "READ");
+export type AcceptCodeValidation = "IGNORE" | "ENFORCE";
+export const AcceptCodeValidation = S.Literal("IGNORE", "ENFORCE");
+export type ContactType = "PERSONAL" | "ESCALATION" | "ONCALL_SCHEDULE";
+export const ContactType = S.Literal(
+  "PERSONAL",
+  "ESCALATION",
+  "ONCALL_SCHEDULE",
+);
+export type ChannelType = "SMS" | "VOICE" | "EMAIL";
+export const ChannelType = S.Literal("SMS", "VOICE", "EMAIL");
 export type RotationContactsArnList = string[];
 export const RotationContactsArnList = S.Array(S.String);
 export type RotationOverrideContactsArnList = string[];
@@ -135,19 +147,19 @@ export const TagKeyList = S.Array(S.String);
 export interface AcceptPageRequest {
   PageId: string;
   ContactChannelId?: string;
-  AcceptType: string;
+  AcceptType: AcceptType;
   Note?: string;
   AcceptCode: string;
-  AcceptCodeValidation?: string;
+  AcceptCodeValidation?: AcceptCodeValidation;
 }
 export const AcceptPageRequest = S.suspend(() =>
   S.Struct({
     PageId: S.String,
     ContactChannelId: S.optional(S.String),
-    AcceptType: S.String,
+    AcceptType: AcceptType,
     Note: S.optional(S.String),
     AcceptCode: S.String,
-    AcceptCodeValidation: S.optional(S.String),
+    AcceptCodeValidation: S.optional(AcceptCodeValidation),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -177,7 +189,7 @@ export const ActivateContactChannelResult = S.suspend(() =>
 }) as any as S.Schema<ActivateContactChannelResult>;
 export interface CreateRotationOverrideRequest {
   RotationId: string;
-  NewContactIds: RotationOverrideContactsArnList;
+  NewContactIds: string[];
   StartTime: Date;
   EndTime: Date;
   IdempotencyToken?: string;
@@ -363,14 +375,14 @@ export interface ListContactsRequest {
   NextToken?: string;
   MaxResults?: number;
   AliasPrefix?: string;
-  Type?: string;
+  Type?: ContactType;
 }
 export const ListContactsRequest = S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     AliasPrefix: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(ContactType),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -585,7 +597,7 @@ export type TagsList = Tag[];
 export const TagsList = S.Array(Tag);
 export interface TagResourceRequest {
   ResourceARN: string;
-  Tags: TagsList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagsList }).pipe(
@@ -600,7 +612,7 @@ export const TagResourceResult = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResult>;
 export interface UntagResourceRequest {
   ResourceARN: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
@@ -648,7 +660,7 @@ export type TargetsList = Target[];
 export const TargetsList = S.Array(Target);
 export interface Stage {
   DurationInMinutes: number;
-  Targets: TargetsList;
+  Targets: Target[];
 }
 export const Stage = S.suspend(() =>
   S.Struct({ DurationInMinutes: S.Number, Targets: TargetsList }),
@@ -658,8 +670,8 @@ export const StagesList = S.Array(Stage);
 export type SsmContactsArnList = string[];
 export const SsmContactsArnList = S.Array(S.String);
 export interface Plan {
-  Stages?: StagesList;
-  RotationIds?: SsmContactsArnList;
+  Stages?: Stage[];
+  RotationIds?: string[];
 }
 export const Plan = S.suspend(() =>
   S.Struct({
@@ -735,12 +747,22 @@ export const MonthlySetting = S.suspend(() =>
 }) as any as S.Schema<MonthlySetting>;
 export type MonthlySettings = MonthlySetting[];
 export const MonthlySettings = S.Array(MonthlySetting);
+export type DayOfWeek = "MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN";
+export const DayOfWeek = S.Literal(
+  "MON",
+  "TUE",
+  "WED",
+  "THU",
+  "FRI",
+  "SAT",
+  "SUN",
+);
 export interface WeeklySetting {
-  DayOfWeek: string;
+  DayOfWeek: DayOfWeek;
   HandOffTime: HandOffTime;
 }
 export const WeeklySetting = S.suspend(() =>
-  S.Struct({ DayOfWeek: S.String, HandOffTime: HandOffTime }),
+  S.Struct({ DayOfWeek: DayOfWeek, HandOffTime: HandOffTime }),
 ).annotations({
   identifier: "WeeklySetting",
 }) as any as S.Schema<WeeklySetting>;
@@ -757,17 +779,16 @@ export const CoverageTime = S.suspend(() =>
 ).annotations({ identifier: "CoverageTime" }) as any as S.Schema<CoverageTime>;
 export type CoverageTimes = CoverageTime[];
 export const CoverageTimes = S.Array(CoverageTime);
-export type ShiftCoveragesMap = { [key: string]: CoverageTimes };
-export const ShiftCoveragesMap = S.Record({
-  key: S.String,
-  value: CoverageTimes,
-});
+export type ShiftCoveragesMap = { [key in DayOfWeek]?: CoverageTime[] };
+export const ShiftCoveragesMap = S.partial(
+  S.Record({ key: DayOfWeek, value: CoverageTimes }),
+);
 export interface RecurrenceSettings {
-  MonthlySettings?: MonthlySettings;
-  WeeklySettings?: WeeklySettings;
-  DailySettings?: DailySettings;
+  MonthlySettings?: MonthlySetting[];
+  WeeklySettings?: WeeklySetting[];
+  DailySettings?: HandOffTime[];
   NumberOfOnCalls: number;
-  ShiftCoverages?: ShiftCoveragesMap;
+  ShiftCoverages?: { [key: string]: CoverageTime[] };
   RecurrenceMultiplier: number;
 }
 export const RecurrenceSettings = S.suspend(() =>
@@ -784,7 +805,7 @@ export const RecurrenceSettings = S.suspend(() =>
 }) as any as S.Schema<RecurrenceSettings>;
 export interface UpdateRotationRequest {
   RotationId: string;
-  ContactIds?: RotationContactsArnList;
+  ContactIds?: string[];
   StartTime?: Date;
   TimeZoneId?: string;
   Recurrence: RecurrenceSettings;
@@ -808,6 +829,8 @@ export const UpdateRotationResult = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UpdateRotationResult>;
 export type RotationOverridePreviewMemberList = string[];
 export const RotationOverridePreviewMemberList = S.Array(S.String);
+export type ActivationStatus = "ACTIVATED" | "NOT_ACTIVATED";
+export const ActivationStatus = S.Literal("ACTIVATED", "NOT_ACTIVATED");
 export interface TimeRange {
   StartTime?: Date;
   EndTime?: Date;
@@ -819,7 +842,7 @@ export const TimeRange = S.suspend(() =>
   }),
 ).annotations({ identifier: "TimeRange" }) as any as S.Schema<TimeRange>;
 export interface PreviewOverride {
-  NewMembers?: RotationOverridePreviewMemberList;
+  NewMembers?: string[];
   StartTime?: Date;
   EndTime?: Date;
 }
@@ -837,7 +860,7 @@ export const OverrideList = S.Array(PreviewOverride);
 export interface CreateContactChannelRequest {
   ContactId: string;
   Name: string;
-  Type: string;
+  Type: ChannelType;
   DeliveryAddress: ContactChannelAddress;
   DeferActivation?: boolean;
   IdempotencyToken?: string;
@@ -846,7 +869,7 @@ export const CreateContactChannelRequest = S.suspend(() =>
   S.Struct({
     ContactId: S.String,
     Name: S.String,
-    Type: S.String,
+    Type: ChannelType,
     DeliveryAddress: ContactChannelAddress,
     DeferActivation: S.optional(S.Boolean),
     IdempotencyToken: S.optional(S.String),
@@ -928,7 +951,7 @@ export interface GetContactResult {
   ContactArn: string;
   Alias: string;
   DisplayName?: string;
-  Type: string;
+  Type: ContactType;
   Plan: Plan;
 }
 export const GetContactResult = S.suspend(() =>
@@ -936,7 +959,7 @@ export const GetContactResult = S.suspend(() =>
     ContactArn: S.String,
     Alias: S.String,
     DisplayName: S.optional(S.String),
-    Type: S.String,
+    Type: ContactType,
     Plan: Plan,
   }),
 ).annotations({
@@ -946,18 +969,18 @@ export interface GetContactChannelResult {
   ContactArn: string;
   ContactChannelArn: string;
   Name: string;
-  Type: string;
+  Type: ChannelType;
   DeliveryAddress: ContactChannelAddress;
-  ActivationStatus?: string;
+  ActivationStatus?: ActivationStatus;
 }
 export const GetContactChannelResult = S.suspend(() =>
   S.Struct({
     ContactArn: S.String,
     ContactChannelArn: S.String,
     Name: S.String,
-    Type: S.String,
+    Type: ChannelType,
     DeliveryAddress: ContactChannelAddress,
-    ActivationStatus: S.optional(S.String),
+    ActivationStatus: S.optional(ActivationStatus),
   }),
 ).annotations({
   identifier: "GetContactChannelResult",
@@ -974,7 +997,7 @@ export const GetContactPolicyResult = S.suspend(() =>
 export interface GetRotationResult {
   RotationArn: string;
   Name: string;
-  ContactIds: RotationContactsArnList;
+  ContactIds: string[];
   StartTime: Date;
   TimeZoneId: string;
   Recurrence: RecurrenceSettings;
@@ -994,7 +1017,7 @@ export const GetRotationResult = S.suspend(() =>
 export interface GetRotationOverrideResult {
   RotationOverrideId?: string;
   RotationArn?: string;
-  NewContactIds?: SsmContactsArnList;
+  NewContactIds?: string[];
   StartTime?: Date;
   EndTime?: Date;
   CreateTime?: Date;
@@ -1055,7 +1078,7 @@ export type PagesList = Page[];
 export const PagesList = S.Array(Page);
 export interface ListPagesByEngagementResult {
   NextToken?: string;
-  Pages: PagesList;
+  Pages: Page[];
 }
 export const ListPagesByEngagementResult = S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), Pages: PagesList }),
@@ -1066,10 +1089,10 @@ export interface ListPreviewRotationShiftsRequest {
   RotationStartTime?: Date;
   StartTime?: Date;
   EndTime: Date;
-  Members: RotationPreviewMemberList;
+  Members: string[];
   TimeZoneId: string;
   Recurrence: RecurrenceSettings;
-  Overrides?: OverrideList;
+  Overrides?: PreviewOverride[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -1093,7 +1116,7 @@ export const ListPreviewRotationShiftsRequest = S.suspend(() =>
   identifier: "ListPreviewRotationShiftsRequest",
 }) as any as S.Schema<ListPreviewRotationShiftsRequest>;
 export interface ListTagsForResourceResult {
-  Tags?: TagsList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResult = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagsList) }),
@@ -1108,22 +1131,32 @@ export const StartEngagementResult = S.suspend(() =>
 ).annotations({
   identifier: "StartEngagementResult",
 }) as any as S.Schema<StartEngagementResult>;
+export type ReceiptType = "DELIVERED" | "ERROR" | "READ" | "SENT" | "STOP";
+export const ReceiptType = S.Literal(
+  "DELIVERED",
+  "ERROR",
+  "READ",
+  "SENT",
+  "STOP",
+);
+export type ShiftType = "REGULAR" | "OVERRIDDEN";
+export const ShiftType = S.Literal("REGULAR", "OVERRIDDEN");
 export interface ContactChannel {
   ContactChannelArn: string;
   ContactArn: string;
   Name: string;
-  Type?: string;
+  Type?: ChannelType;
   DeliveryAddress: ContactChannelAddress;
-  ActivationStatus: string;
+  ActivationStatus: ActivationStatus;
 }
 export const ContactChannel = S.suspend(() =>
   S.Struct({
     ContactChannelArn: S.String,
     ContactArn: S.String,
     Name: S.String,
-    Type: S.optional(S.String),
+    Type: S.optional(ChannelType),
     DeliveryAddress: ContactChannelAddress,
-    ActivationStatus: S.String,
+    ActivationStatus: ActivationStatus,
   }),
 ).annotations({
   identifier: "ContactChannel",
@@ -1134,28 +1167,28 @@ export interface Contact {
   ContactArn: string;
   Alias: string;
   DisplayName?: string;
-  Type: string;
+  Type: ContactType;
 }
 export const Contact = S.suspend(() =>
   S.Struct({
     ContactArn: S.String,
     Alias: S.String,
     DisplayName: S.optional(S.String),
-    Type: S.String,
+    Type: ContactType,
   }),
 ).annotations({ identifier: "Contact" }) as any as S.Schema<Contact>;
 export type ContactsList = Contact[];
 export const ContactsList = S.Array(Contact);
 export interface Receipt {
   ContactChannelArn?: string;
-  ReceiptType: string;
+  ReceiptType: ReceiptType;
   ReceiptInfo?: string;
   ReceiptTime: Date;
 }
 export const Receipt = S.suspend(() =>
   S.Struct({
     ContactChannelArn: S.optional(S.String),
-    ReceiptType: S.String,
+    ReceiptType: ReceiptType,
     ReceiptInfo: S.optional(S.String),
     ReceiptTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
@@ -1164,13 +1197,13 @@ export type ReceiptsList = Receipt[];
 export const ReceiptsList = S.Array(Receipt);
 export interface ResolutionContact {
   ContactArn: string;
-  Type: string;
+  Type: ContactType;
   StageIndex?: number;
 }
 export const ResolutionContact = S.suspend(() =>
   S.Struct({
     ContactArn: S.String,
-    Type: S.String,
+    Type: ContactType,
     StageIndex: S.optional(S.Number),
   }),
 ).annotations({
@@ -1180,7 +1213,7 @@ export type ResolutionList = ResolutionContact[];
 export const ResolutionList = S.Array(ResolutionContact);
 export interface RotationOverride {
   RotationOverrideId: string;
-  NewContactIds: SsmContactsArnList;
+  NewContactIds: string[];
   StartTime: Date;
   EndTime: Date;
   CreateTime: Date;
@@ -1201,7 +1234,7 @@ export const RotationOverrides = S.Array(RotationOverride);
 export interface Rotation {
   RotationArn: string;
   Name: string;
-  ContactIds?: SsmContactsArnList;
+  ContactIds?: string[];
   StartTime?: Date;
   TimeZoneId?: string;
   Recurrence?: RecurrenceSettings;
@@ -1228,7 +1261,7 @@ export const CreateContactChannelResult = S.suspend(() =>
 }) as any as S.Schema<CreateContactChannelResult>;
 export interface ListContactChannelsResult {
   NextToken?: string;
-  ContactChannels: ContactChannelList;
+  ContactChannels: ContactChannel[];
 }
 export const ListContactChannelsResult = S.suspend(() =>
   S.Struct({
@@ -1240,7 +1273,7 @@ export const ListContactChannelsResult = S.suspend(() =>
 }) as any as S.Schema<ListContactChannelsResult>;
 export interface ListContactsResult {
   NextToken?: string;
-  Contacts?: ContactsList;
+  Contacts?: Contact[];
 }
 export const ListContactsResult = S.suspend(() =>
   S.Struct({
@@ -1252,7 +1285,7 @@ export const ListContactsResult = S.suspend(() =>
 }) as any as S.Schema<ListContactsResult>;
 export interface ListPageReceiptsResult {
   NextToken?: string;
-  Receipts?: ReceiptsList;
+  Receipts?: Receipt[];
 }
 export const ListPageReceiptsResult = S.suspend(() =>
   S.Struct({
@@ -1264,7 +1297,7 @@ export const ListPageReceiptsResult = S.suspend(() =>
 }) as any as S.Schema<ListPageReceiptsResult>;
 export interface ListPageResolutionsResult {
   NextToken?: string;
-  PageResolutions: ResolutionList;
+  PageResolutions: ResolutionContact[];
 }
 export const ListPageResolutionsResult = S.suspend(() =>
   S.Struct({
@@ -1276,7 +1309,7 @@ export const ListPageResolutionsResult = S.suspend(() =>
 }) as any as S.Schema<ListPageResolutionsResult>;
 export interface ListPagesByContactResult {
   NextToken?: string;
-  Pages: PagesList;
+  Pages: Page[];
 }
 export const ListPagesByContactResult = S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), Pages: PagesList }),
@@ -1284,16 +1317,16 @@ export const ListPagesByContactResult = S.suspend(() =>
   identifier: "ListPagesByContactResult",
 }) as any as S.Schema<ListPagesByContactResult>;
 export interface ShiftDetails {
-  OverriddenContactIds: SsmContactsArnList;
+  OverriddenContactIds: string[];
 }
 export const ShiftDetails = S.suspend(() =>
   S.Struct({ OverriddenContactIds: SsmContactsArnList }),
 ).annotations({ identifier: "ShiftDetails" }) as any as S.Schema<ShiftDetails>;
 export interface RotationShift {
-  ContactIds?: SsmContactsArnList;
+  ContactIds?: string[];
   StartTime: Date;
   EndTime: Date;
-  Type?: string;
+  Type?: ShiftType;
   ShiftDetails?: ShiftDetails;
 }
 export const RotationShift = S.suspend(() =>
@@ -1301,7 +1334,7 @@ export const RotationShift = S.suspend(() =>
     ContactIds: S.optional(SsmContactsArnList),
     StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Type: S.optional(S.String),
+    Type: S.optional(ShiftType),
     ShiftDetails: S.optional(ShiftDetails),
   }),
 ).annotations({
@@ -1310,7 +1343,7 @@ export const RotationShift = S.suspend(() =>
 export type RotationShifts = RotationShift[];
 export const RotationShifts = S.Array(RotationShift);
 export interface ListPreviewRotationShiftsResult {
-  RotationShifts?: RotationShifts;
+  RotationShifts?: RotationShift[];
   NextToken?: string;
 }
 export const ListPreviewRotationShiftsResult = S.suspend(() =>
@@ -1322,7 +1355,7 @@ export const ListPreviewRotationShiftsResult = S.suspend(() =>
   identifier: "ListPreviewRotationShiftsResult",
 }) as any as S.Schema<ListPreviewRotationShiftsResult>;
 export interface ListRotationOverridesResult {
-  RotationOverrides?: RotationOverrides;
+  RotationOverrides?: RotationOverride[];
   NextToken?: string;
 }
 export const ListRotationOverridesResult = S.suspend(() =>
@@ -1335,7 +1368,7 @@ export const ListRotationOverridesResult = S.suspend(() =>
 }) as any as S.Schema<ListRotationOverridesResult>;
 export interface ListRotationsResult {
   NextToken?: string;
-  Rotations: Rotations;
+  Rotations: Rotation[];
 }
 export const ListRotationsResult = S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), Rotations: Rotations }),
@@ -1364,7 +1397,7 @@ export type EngagementsList = Engagement[];
 export const EngagementsList = S.Array(Engagement);
 export interface DependentEntity {
   RelationType: string;
-  DependentResourceIds: SsmContactsArnList;
+  DependentResourceIds: string[];
 }
 export const DependentEntity = S.suspend(() =>
   S.Struct({
@@ -1378,11 +1411,11 @@ export type DependentEntityList = DependentEntity[];
 export const DependentEntityList = S.Array(DependentEntity);
 export interface CreateRotationRequest {
   Name: string;
-  ContactIds: RotationContactsArnList;
+  ContactIds: string[];
   StartTime?: Date;
   TimeZoneId: string;
   Recurrence: RecurrenceSettings;
-  Tags?: TagsList;
+  Tags?: Tag[];
   IdempotencyToken?: string;
 }
 export const CreateRotationRequest = S.suspend(() =>
@@ -1402,7 +1435,7 @@ export const CreateRotationRequest = S.suspend(() =>
 }) as any as S.Schema<CreateRotationRequest>;
 export interface ListEngagementsResult {
   NextToken?: string;
-  Engagements: EngagementsList;
+  Engagements: Engagement[];
 }
 export const ListEngagementsResult = S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), Engagements: EngagementsList }),
@@ -1410,7 +1443,7 @@ export const ListEngagementsResult = S.suspend(() =>
   identifier: "ListEngagementsResult",
 }) as any as S.Schema<ListEngagementsResult>;
 export interface ListRotationShiftsResult {
-  RotationShifts?: RotationShifts;
+  RotationShifts?: RotationShift[];
   NextToken?: string;
 }
 export const ListRotationShiftsResult = S.suspend(() =>
@@ -1421,19 +1454,30 @@ export const ListRotationShiftsResult = S.suspend(() =>
 ).annotations({
   identifier: "ListRotationShiftsResult",
 }) as any as S.Schema<ListRotationShiftsResult>;
+export type ValidationExceptionReason =
+  | "UNKNOWN_OPERATION"
+  | "CANNOT_PARSE"
+  | "FIELD_VALIDATION_FAILED"
+  | "OTHER";
+export const ValidationExceptionReason = S.Literal(
+  "UNKNOWN_OPERATION",
+  "CANNOT_PARSE",
+  "FIELD_VALIDATION_FAILED",
+  "OTHER",
+);
 export interface CreateContactRequest {
   Alias: string;
   DisplayName?: string;
-  Type: string;
+  Type: ContactType;
   Plan: Plan;
-  Tags?: TagsList;
+  Tags?: Tag[];
   IdempotencyToken?: string;
 }
 export const CreateContactRequest = S.suspend(() =>
   S.Struct({
     Alias: S.String,
     DisplayName: S.optional(S.String),
-    Type: S.String,
+    Type: ContactType,
     Plan: Plan,
     Tags: S.optional(TagsList),
     IdempotencyToken: S.optional(S.String),
@@ -1523,7 +1567,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     Message: S.String,
-    Reason: S.optional(S.String),
+    Reason: S.optional(ValidationExceptionReason),
     Fields: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
@@ -1535,7 +1579,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listContacts: {
   (
     input: ListContactsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListContactsResult,
     | AccessDeniedException
     | InternalServerException
@@ -1546,7 +1590,7 @@ export const listContacts: {
   >;
   pages: (
     input: ListContactsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListContactsResult,
     | AccessDeniedException
     | InternalServerException
@@ -1557,7 +1601,7 @@ export const listContacts: {
   >;
   items: (
     input: ListContactsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Contact,
     | AccessDeniedException
     | InternalServerException
@@ -1588,7 +1632,7 @@ export const listContacts: {
 export const listEngagements: {
   (
     input: ListEngagementsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEngagementsResult,
     | AccessDeniedException
     | InternalServerException
@@ -1599,7 +1643,7 @@ export const listEngagements: {
   >;
   pages: (
     input: ListEngagementsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEngagementsResult,
     | AccessDeniedException
     | InternalServerException
@@ -1610,7 +1654,7 @@ export const listEngagements: {
   >;
   items: (
     input: ListEngagementsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Engagement,
     | AccessDeniedException
     | InternalServerException
@@ -1644,7 +1688,7 @@ export const listEngagements: {
  */
 export const deleteContact: (
   input: DeleteContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteContactResult,
   | AccessDeniedException
   | ConflictException
@@ -1672,7 +1716,7 @@ export const deleteContact: (
  */
 export const describeEngagement: (
   input: DescribeEngagementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEngagementResult,
   | AccessDeniedException
   | DataEncryptionException
@@ -1700,7 +1744,7 @@ export const describeEngagement: (
 export const listContactChannels: {
   (
     input: ListContactChannelsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListContactChannelsResult,
     | AccessDeniedException
     | DataEncryptionException
@@ -1713,7 +1757,7 @@ export const listContactChannels: {
   >;
   pages: (
     input: ListContactChannelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListContactChannelsResult,
     | AccessDeniedException
     | DataEncryptionException
@@ -1726,7 +1770,7 @@ export const listContactChannels: {
   >;
   items: (
     input: ListContactChannelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ContactChannel,
     | AccessDeniedException
     | DataEncryptionException
@@ -1761,7 +1805,7 @@ export const listContactChannels: {
 export const listPageReceipts: {
   (
     input: ListPageReceiptsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPageReceiptsResult,
     | AccessDeniedException
     | InternalServerException
@@ -1773,7 +1817,7 @@ export const listPageReceipts: {
   >;
   pages: (
     input: ListPageReceiptsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPageReceiptsResult,
     | AccessDeniedException
     | InternalServerException
@@ -1785,7 +1829,7 @@ export const listPageReceipts: {
   >;
   items: (
     input: ListPageReceiptsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Receipt,
     | AccessDeniedException
     | InternalServerException
@@ -1822,7 +1866,7 @@ export const listPageReceipts: {
 export const listPageResolutions: {
   (
     input: ListPageResolutionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPageResolutionsResult,
     | AccessDeniedException
     | InternalServerException
@@ -1834,7 +1878,7 @@ export const listPageResolutions: {
   >;
   pages: (
     input: ListPageResolutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPageResolutionsResult,
     | AccessDeniedException
     | InternalServerException
@@ -1846,7 +1890,7 @@ export const listPageResolutions: {
   >;
   items: (
     input: ListPageResolutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResolutionContact,
     | AccessDeniedException
     | InternalServerException
@@ -1878,7 +1922,7 @@ export const listPageResolutions: {
 export const listPagesByContact: {
   (
     input: ListPagesByContactRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPagesByContactResult,
     | AccessDeniedException
     | InternalServerException
@@ -1890,7 +1934,7 @@ export const listPagesByContact: {
   >;
   pages: (
     input: ListPagesByContactRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPagesByContactResult,
     | AccessDeniedException
     | InternalServerException
@@ -1902,7 +1946,7 @@ export const listPagesByContact: {
   >;
   items: (
     input: ListPagesByContactRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Page,
     | AccessDeniedException
     | InternalServerException
@@ -1935,7 +1979,7 @@ export const listPagesByContact: {
 export const listRotationOverrides: {
   (
     input: ListRotationOverridesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRotationOverridesResult,
     | AccessDeniedException
     | InternalServerException
@@ -1947,7 +1991,7 @@ export const listRotationOverrides: {
   >;
   pages: (
     input: ListRotationOverridesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRotationOverridesResult,
     | AccessDeniedException
     | InternalServerException
@@ -1959,7 +2003,7 @@ export const listRotationOverrides: {
   >;
   items: (
     input: ListRotationOverridesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RotationOverride,
     | AccessDeniedException
     | InternalServerException
@@ -1992,7 +2036,7 @@ export const listRotationOverrides: {
 export const listRotations: {
   (
     input: ListRotationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRotationsResult,
     | AccessDeniedException
     | InternalServerException
@@ -2004,7 +2048,7 @@ export const listRotations: {
   >;
   pages: (
     input: ListRotationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRotationsResult,
     | AccessDeniedException
     | InternalServerException
@@ -2016,7 +2060,7 @@ export const listRotations: {
   >;
   items: (
     input: ListRotationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Rotation,
     | AccessDeniedException
     | InternalServerException
@@ -2049,7 +2093,7 @@ export const listRotations: {
  */
 export const getContactPolicy: (
   input: GetContactPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContactPolicyResult,
   | AccessDeniedException
   | InternalServerException
@@ -2074,7 +2118,7 @@ export const getContactPolicy: (
  */
 export const getRotation: (
   input: GetRotationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRotationResult,
   | AccessDeniedException
   | InternalServerException
@@ -2099,7 +2143,7 @@ export const getRotation: (
  */
 export const getRotationOverride: (
   input: GetRotationOverrideRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRotationOverrideResult,
   | AccessDeniedException
   | InternalServerException
@@ -2125,7 +2169,7 @@ export const getRotationOverride: (
 export const listPagesByEngagement: {
   (
     input: ListPagesByEngagementRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPagesByEngagementResult,
     | AccessDeniedException
     | InternalServerException
@@ -2137,7 +2181,7 @@ export const listPagesByEngagement: {
   >;
   pages: (
     input: ListPagesByEngagementRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPagesByEngagementResult,
     | AccessDeniedException
     | InternalServerException
@@ -2149,7 +2193,7 @@ export const listPagesByEngagement: {
   >;
   items: (
     input: ListPagesByEngagementRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Page,
     | AccessDeniedException
     | InternalServerException
@@ -2181,7 +2225,7 @@ export const listPagesByEngagement: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResult,
   | AccessDeniedException
   | InternalServerException
@@ -2207,7 +2251,7 @@ export const listTagsForResource: (
  */
 export const activateContactChannel: (
   input: ActivateContactChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ActivateContactChannelResult,
   | AccessDeniedException
   | InternalServerException
@@ -2233,7 +2277,7 @@ export const activateContactChannel: (
  */
 export const deactivateContactChannel: (
   input: DeactivateContactChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeactivateContactChannelResult,
   | AccessDeniedException
   | InternalServerException
@@ -2262,7 +2306,7 @@ export const deactivateContactChannel: (
  */
 export const deleteContactChannel: (
   input: DeleteContactChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteContactChannelResult,
   | AccessDeniedException
   | InternalServerException
@@ -2287,7 +2331,7 @@ export const deleteContactChannel: (
  */
 export const deleteRotationOverride: (
   input: DeleteRotationOverrideRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRotationOverrideResult,
   | AccessDeniedException
   | InternalServerException
@@ -2313,7 +2357,7 @@ export const deleteRotationOverride: (
  */
 export const stopEngagement: (
   input: StopEngagementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopEngagementResult,
   | AccessDeniedException
   | InternalServerException
@@ -2338,7 +2382,7 @@ export const stopEngagement: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResult,
   | AccessDeniedException
   | InternalServerException
@@ -2363,7 +2407,7 @@ export const untagResource: (
  */
 export const describePage: (
   input: DescribePageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePageResult,
   | AccessDeniedException
   | DataEncryptionException
@@ -2390,7 +2434,7 @@ export const describePage: (
  */
 export const getContact: (
   input: GetContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContactResult,
   | AccessDeniedException
   | DataEncryptionException
@@ -2417,7 +2461,7 @@ export const getContact: (
  */
 export const getContactChannel: (
   input: GetContactChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContactChannelResult,
   | AccessDeniedException
   | DataEncryptionException
@@ -2445,7 +2489,7 @@ export const getContactChannel: (
  */
 export const startEngagement: (
   input: StartEngagementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartEngagementResult,
   | AccessDeniedException
   | DataEncryptionException
@@ -2475,7 +2519,7 @@ export const startEngagement: (
 export const listPreviewRotationShifts: {
   (
     input: ListPreviewRotationShiftsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPreviewRotationShiftsResult,
     | AccessDeniedException
     | InternalServerException
@@ -2486,7 +2530,7 @@ export const listPreviewRotationShifts: {
   >;
   pages: (
     input: ListPreviewRotationShiftsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPreviewRotationShiftsResult,
     | AccessDeniedException
     | InternalServerException
@@ -2497,7 +2541,7 @@ export const listPreviewRotationShifts: {
   >;
   items: (
     input: ListPreviewRotationShiftsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RotationShift,
     | AccessDeniedException
     | InternalServerException
@@ -2527,7 +2571,7 @@ export const listPreviewRotationShifts: {
  */
 export const acceptPage: (
   input: AcceptPageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AcceptPageResult,
   | AccessDeniedException
   | InternalServerException
@@ -2553,7 +2597,7 @@ export const acceptPage: (
  */
 export const deleteRotation: (
   input: DeleteRotationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRotationResult,
   | AccessDeniedException
   | ConflictException
@@ -2582,7 +2626,7 @@ export const deleteRotation: (
  */
 export const putContactPolicy: (
   input: PutContactPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutContactPolicyResult,
   | AccessDeniedException
   | ConflictException
@@ -2609,7 +2653,7 @@ export const putContactPolicy: (
  */
 export const updateContactChannel: (
   input: UpdateContactChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateContactChannelResult,
   | AccessDeniedException
   | ConflictException
@@ -2638,7 +2682,7 @@ export const updateContactChannel: (
  */
 export const updateRotation: (
   input: UpdateRotationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRotationResult,
   | AccessDeniedException
   | ConflictException
@@ -2665,7 +2709,7 @@ export const updateRotation: (
  */
 export const createContactChannel: (
   input: CreateContactChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateContactChannelResult,
   | AccessDeniedException
   | ConflictException
@@ -2693,7 +2737,7 @@ export const createContactChannel: (
 export const listRotationShifts: {
   (
     input: ListRotationShiftsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRotationShiftsResult,
     | AccessDeniedException
     | ConflictException
@@ -2706,7 +2750,7 @@ export const listRotationShifts: {
   >;
   pages: (
     input: ListRotationShiftsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRotationShiftsResult,
     | AccessDeniedException
     | ConflictException
@@ -2719,7 +2763,7 @@ export const listRotationShifts: {
   >;
   items: (
     input: ListRotationShiftsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RotationShift,
     | AccessDeniedException
     | ConflictException
@@ -2753,7 +2797,7 @@ export const listRotationShifts: {
  */
 export const createRotationOverride: (
   input: CreateRotationOverrideRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRotationOverrideResult,
   | AccessDeniedException
   | InternalServerException
@@ -2781,7 +2825,7 @@ export const createRotationOverride: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResult,
   | AccessDeniedException
   | InternalServerException
@@ -2810,7 +2854,7 @@ export const tagResource: (
  */
 export const sendActivationCode: (
   input: SendActivationCodeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendActivationCodeResult,
   | AccessDeniedException
   | DataEncryptionException
@@ -2839,7 +2883,7 @@ export const sendActivationCode: (
  */
 export const updateContact: (
   input: UpdateContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateContactResult,
   | AccessDeniedException
   | DataEncryptionException
@@ -2868,7 +2912,7 @@ export const updateContact: (
  */
 export const createRotation: (
   input: CreateRotationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRotationResult,
   | AccessDeniedException
   | InternalServerException
@@ -2897,7 +2941,7 @@ export const createRotation: (
  */
 export const createContact: (
   input: CreateContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateContactResult,
   | AccessDeniedException
   | ConflictException

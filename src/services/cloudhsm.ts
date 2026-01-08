@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -106,7 +106,6 @@ export type PaginationToken = string;
 export type PartitionSerial = string;
 export type TagKey = string;
 export type TagValue = string;
-export type Timestamp = string;
 export type EniId = string;
 export type VpcId = string;
 export type PartitionArn = string;
@@ -120,6 +119,10 @@ export const ListAvailableZonesRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListAvailableZonesRequest",
 }) as any as S.Schema<ListAvailableZonesRequest>;
+export type SubscriptionType = "PRODUCTION";
+export const SubscriptionType = S.Literal("PRODUCTION");
+export type ClientVersion = "5.1" | "5.3";
+export const ClientVersion = S.Literal("5.1", "5.3");
 export type HapgList = string[];
 export const HapgList = S.Array(S.String);
 export type AZList = string[];
@@ -144,7 +147,7 @@ export interface CreateHsmRequest {
   EniIp?: string;
   IamRoleArn: string;
   ExternalId?: string;
-  SubscriptionType: string;
+  SubscriptionType: SubscriptionType;
   ClientToken?: string;
   SyslogIp?: string;
 }
@@ -155,7 +158,7 @@ export const CreateHsmRequest = S.suspend(() =>
     EniIp: S.optional(S.String).pipe(T.XmlName("EniIp")),
     IamRoleArn: S.String.pipe(T.XmlName("IamRoleArn")),
     ExternalId: S.optional(S.String).pipe(T.XmlName("ExternalId")),
-    SubscriptionType: S.String.pipe(T.XmlName("SubscriptionType")),
+    SubscriptionType: SubscriptionType.pipe(T.XmlName("SubscriptionType")),
     ClientToken: S.optional(S.String).pipe(T.XmlName("ClientToken")),
     SyslogIp: S.optional(S.String).pipe(T.XmlName("SyslogIp")),
   }).pipe(
@@ -261,13 +264,13 @@ export const DescribeLunaClientRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeLunaClientRequest>;
 export interface GetConfigRequest {
   ClientArn: string;
-  ClientVersion: string;
-  HapgList: HapgList;
+  ClientVersion: ClientVersion;
+  HapgList: string[];
 }
 export const GetConfigRequest = S.suspend(() =>
   S.Struct({
     ClientArn: S.String,
-    ClientVersion: S.String,
+    ClientVersion: ClientVersion,
     HapgList: HapgList,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -276,7 +279,7 @@ export const GetConfigRequest = S.suspend(() =>
   identifier: "GetConfigRequest",
 }) as any as S.Schema<GetConfigRequest>;
 export interface ListAvailableZonesResponse {
-  AZList?: AZList;
+  AZList?: string[];
 }
 export const ListAvailableZonesResponse = S.suspend(() =>
   S.Struct({ AZList: S.optional(AZList) }),
@@ -326,7 +329,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 export interface ModifyHapgRequest {
   HapgArn: string;
   Label?: string;
-  PartitionSerialList?: PartitionSerialList;
+  PartitionSerialList?: string[];
 }
 export const ModifyHapgRequest = S.suspend(() =>
   S.Struct({
@@ -382,7 +385,7 @@ export const ModifyLunaClientRequest = S.suspend(() =>
 }) as any as S.Schema<ModifyLunaClientRequest>;
 export interface RemoveTagsFromResourceRequest {
   ResourceArn: string;
-  TagKeyList: TagKeyList;
+  TagKeyList: string[];
 }
 export const RemoveTagsFromResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeyList: TagKeyList }).pipe(
@@ -402,13 +405,32 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export type HsmList = string[];
 export const HsmList = S.Array(S.String);
+export type CloudHsmObjectState = "READY" | "UPDATING" | "DEGRADED";
+export const CloudHsmObjectState = S.Literal("READY", "UPDATING", "DEGRADED");
+export type HsmStatus =
+  | "PENDING"
+  | "RUNNING"
+  | "UPDATING"
+  | "SUSPENDED"
+  | "TERMINATING"
+  | "TERMINATED"
+  | "DEGRADED";
+export const HsmStatus = S.Literal(
+  "PENDING",
+  "RUNNING",
+  "UPDATING",
+  "SUSPENDED",
+  "TERMINATING",
+  "TERMINATED",
+  "DEGRADED",
+);
 export type PartitionList = string[];
 export const PartitionList = S.Array(S.String);
 export type ClientList = string[];
 export const ClientList = S.Array(S.String);
 export interface AddTagsToResourceRequest {
   ResourceArn: string;
-  TagList: TagList;
+  TagList: Tag[];
 }
 export const AddTagsToResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagList: TagList }).pipe(
@@ -468,13 +490,13 @@ export const DeleteLunaClientResponse = S.suspend(() =>
 export interface DescribeHapgResponse {
   HapgArn?: string;
   HapgSerial?: string;
-  HsmsLastActionFailed?: HsmList;
-  HsmsPendingDeletion?: HsmList;
-  HsmsPendingRegistration?: HsmList;
+  HsmsLastActionFailed?: string[];
+  HsmsPendingDeletion?: string[];
+  HsmsPendingRegistration?: string[];
   Label?: string;
   LastModifiedTimestamp?: string;
-  PartitionSerialList?: PartitionSerialList;
-  State?: string;
+  PartitionSerialList?: string[];
+  State?: CloudHsmObjectState;
 }
 export const DescribeHapgResponse = S.suspend(() =>
   S.Struct({
@@ -486,19 +508,19 @@ export const DescribeHapgResponse = S.suspend(() =>
     Label: S.optional(S.String),
     LastModifiedTimestamp: S.optional(S.String),
     PartitionSerialList: S.optional(PartitionSerialList),
-    State: S.optional(S.String),
+    State: S.optional(CloudHsmObjectState),
   }),
 ).annotations({
   identifier: "DescribeHapgResponse",
 }) as any as S.Schema<DescribeHapgResponse>;
 export interface DescribeHsmResponse {
   HsmArn?: string;
-  Status?: string;
+  Status?: HsmStatus;
   StatusDetails?: string;
   AvailabilityZone?: string;
   EniId?: string;
   EniIp?: string;
-  SubscriptionType?: string;
+  SubscriptionType?: SubscriptionType;
   SubscriptionStartDate?: string;
   SubscriptionEndDate?: string;
   VpcId?: string;
@@ -512,17 +534,17 @@ export interface DescribeHsmResponse {
   SshKeyLastUpdated?: string;
   ServerCertUri?: string;
   ServerCertLastUpdated?: string;
-  Partitions?: PartitionList;
+  Partitions?: string[];
 }
 export const DescribeHsmResponse = S.suspend(() =>
   S.Struct({
     HsmArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(HsmStatus),
     StatusDetails: S.optional(S.String),
     AvailabilityZone: S.optional(S.String),
     EniId: S.optional(S.String),
     EniIp: S.optional(S.String),
-    SubscriptionType: S.optional(S.String),
+    SubscriptionType: S.optional(SubscriptionType),
     SubscriptionStartDate: S.optional(S.String),
     SubscriptionEndDate: S.optional(S.String),
     VpcId: S.optional(S.String),
@@ -574,7 +596,7 @@ export const GetConfigResponse = S.suspend(() =>
   identifier: "GetConfigResponse",
 }) as any as S.Schema<GetConfigResponse>;
 export interface ListHapgsResponse {
-  HapgList: HapgList;
+  HapgList: string[];
   NextToken?: string;
 }
 export const ListHapgsResponse = S.suspend(() =>
@@ -583,7 +605,7 @@ export const ListHapgsResponse = S.suspend(() =>
   identifier: "ListHapgsResponse",
 }) as any as S.Schema<ListHapgsResponse>;
 export interface ListHsmsResponse {
-  HsmList?: HsmList;
+  HsmList?: string[];
   NextToken?: string;
 }
 export const ListHsmsResponse = S.suspend(() =>
@@ -592,7 +614,7 @@ export const ListHsmsResponse = S.suspend(() =>
   identifier: "ListHsmsResponse",
 }) as any as S.Schema<ListHsmsResponse>;
 export interface ListLunaClientsResponse {
-  ClientList: ClientList;
+  ClientList: string[];
   NextToken?: string;
 }
 export const ListLunaClientsResponse = S.suspend(() =>
@@ -601,7 +623,7 @@ export const ListLunaClientsResponse = S.suspend(() =>
   identifier: "ListLunaClientsResponse",
 }) as any as S.Schema<ListLunaClientsResponse>;
 export interface ListTagsForResourceResponse {
-  TagList: TagList;
+  TagList: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ TagList: TagList }),
@@ -683,7 +705,7 @@ export class InvalidRequestException extends S.TaggedError<InvalidRequestExcepti
  */
 export const modifyLunaClient: (
   input: ModifyLunaClientRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyLunaClientResponse,
   CloudHsmServiceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -708,7 +730,7 @@ export const modifyLunaClient: (
  */
 export const listAvailableZones: (
   input: ListAvailableZonesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListAvailableZonesResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -745,7 +767,7 @@ export const listAvailableZones: (
  */
 export const listHapgs: (
   input: ListHapgsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListHapgsResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -783,7 +805,7 @@ export const listHapgs: (
  */
 export const listHsms: (
   input: ListHsmsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListHsmsResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -820,7 +842,7 @@ export const listHsms: (
  */
 export const listLunaClients: (
   input: ListLunaClientsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListLunaClientsResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -852,7 +874,7 @@ export const listLunaClients: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -884,7 +906,7 @@ export const listTagsForResource: (
  */
 export const modifyHapg: (
   input: ModifyHapgRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyHapgResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -921,7 +943,7 @@ export const modifyHapg: (
  */
 export const modifyHsm: (
   input: ModifyHsmRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyHsmResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -956,7 +978,7 @@ export const modifyHsm: (
  */
 export const removeTagsFromResource: (
   input: RemoveTagsFromResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveTagsFromResourceResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -989,7 +1011,7 @@ export const removeTagsFromResource: (
  */
 export const createHapg: (
   input: CreateHapgRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateHapgResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -1030,7 +1052,7 @@ export const createHapg: (
  */
 export const createHsm: (
   input: CreateHsmRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateHsmResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -1062,7 +1084,7 @@ export const createHsm: (
  */
 export const createLunaClient: (
   input: CreateLunaClientRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLunaClientResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -1094,7 +1116,7 @@ export const createLunaClient: (
  */
 export const deleteHapg: (
   input: DeleteHapgRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteHapgResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -1127,7 +1149,7 @@ export const deleteHapg: (
  */
 export const deleteHsm: (
   input: DeleteHsmRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteHsmResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -1159,7 +1181,7 @@ export const deleteHsm: (
  */
 export const deleteLunaClient: (
   input: DeleteLunaClientRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLunaClientResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -1191,7 +1213,7 @@ export const deleteLunaClient: (
  */
 export const describeHapg: (
   input: DescribeHapgRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeHapgResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -1224,7 +1246,7 @@ export const describeHapg: (
  */
 export const describeHsm: (
   input: DescribeHsmRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeHsmResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -1256,7 +1278,7 @@ export const describeHsm: (
  */
 export const describeLunaClient: (
   input: DescribeLunaClientRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeLunaClientResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -1289,7 +1311,7 @@ export const describeLunaClient: (
  */
 export const getConfig: (
   input: GetConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConfigResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -1324,7 +1346,7 @@ export const getConfig: (
  */
 export const addTagsToResource: (
   input: AddTagsToResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddTagsToResourceResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException

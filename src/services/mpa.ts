@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -58,29 +58,31 @@ export type QualifiedPolicyArn = string;
 export type MaxResults = number;
 export type Token = string;
 export type UnqualifiedPolicyArn = string;
-export type TagKey = string | Redacted.Redacted<string>;
-export type Description = string | Redacted.Redacted<string>;
+export type TagKey = string | redacted.Redacted<string>;
+export type Description = string | redacted.Redacted<string>;
 export type ApprovalTeamName = string;
 export type ApprovalTeamArn = string;
 export type SessionArn = string;
-export type TagValue = string | Redacted.Redacted<string>;
+export type TagValue = string | redacted.Redacted<string>;
 export type IdentityId = string;
 export type PolicyName = string;
-export type PolicyDocument = string | Redacted.Redacted<string>;
+export type PolicyDocument = string | redacted.Redacted<string>;
 export type Message = string;
 export type ActionName = string;
 export type ServicePrincipal = string;
 export type AccountId = string;
 export type Region = string;
-export type RequesterComment = string | Redacted.Redacted<string>;
+export type RequesterComment = string | redacted.Redacted<string>;
 export type IdcInstanceArn = string;
 export type PolicyVersionId = number;
 export type ParticipantId = string;
-export type SessionKey = string | Redacted.Redacted<string>;
-export type SessionValue = string | Redacted.Redacted<string>;
+export type SessionKey = string | redacted.Redacted<string>;
+export type SessionValue = string | redacted.Redacted<string>;
 
 //# Schemas
-export type TagKeyList = string | Redacted.Redacted<string>[];
+export type PolicyType = "AWS_MANAGED" | "AWS_RAM";
+export const PolicyType = S.Literal("AWS_MANAGED", "AWS_RAM");
+export type TagKeyList = string | redacted.Redacted<string>[];
 export const TagKeyList = S.Array(SensitiveString);
 export interface GetPolicyVersionRequest {
   PolicyVersionArn: string;
@@ -104,13 +106,13 @@ export const GetPolicyVersionRequest = S.suspend(() =>
 export interface GetResourcePolicyRequest {
   ResourceArn: string;
   PolicyName: string;
-  PolicyType: string;
+  PolicyType: PolicyType;
 }
 export const GetResourcePolicyRequest = S.suspend(() =>
   S.Struct({
     ResourceArn: S.String,
     PolicyName: S.String,
-    PolicyType: S.String,
+    PolicyType: PolicyType,
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/GetResourcePolicy" }),
@@ -210,7 +212,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string | redacted.Redacted<string>[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -276,9 +278,9 @@ export const ApprovalTeamRequestApprovers = S.Array(
   ApprovalTeamRequestApprover,
 );
 export interface UpdateApprovalTeamRequest {
-  ApprovalStrategy?: (typeof ApprovalStrategy)["Type"];
-  Approvers?: ApprovalTeamRequestApprovers;
-  Description?: string | Redacted.Redacted<string>;
+  ApprovalStrategy?: ApprovalStrategy;
+  Approvers?: ApprovalTeamRequestApprover[];
+  Description?: string | redacted.Redacted<string>;
   Arn: string;
 }
 export const UpdateApprovalTeamRequest = S.suspend(() =>
@@ -475,7 +477,43 @@ export interface CancelSessionResponse {}
 export const CancelSessionResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "CancelSessionResponse",
 }) as any as S.Schema<CancelSessionResponse>;
-export type Tags = { [key: string]: string | Redacted.Redacted<string> };
+export type FilterField =
+  | "ActionName"
+  | "ApprovalTeamName"
+  | "VotingTime"
+  | "Vote"
+  | "SessionStatus"
+  | "InitiationTime";
+export const FilterField = S.Literal(
+  "ActionName",
+  "ApprovalTeamName",
+  "VotingTime",
+  "Vote",
+  "SessionStatus",
+  "InitiationTime",
+);
+export type Operator =
+  | "EQ"
+  | "NE"
+  | "GT"
+  | "LT"
+  | "GTE"
+  | "LTE"
+  | "CONTAINS"
+  | "NOT_CONTAINS"
+  | "BETWEEN";
+export const Operator = S.Literal(
+  "EQ",
+  "NE",
+  "GT",
+  "LT",
+  "GTE",
+  "LTE",
+  "CONTAINS",
+  "NOT_CONTAINS",
+  "BETWEEN",
+);
+export type Tags = { [key: string]: string | redacted.Redacted<string> };
 export const Tags = S.Record({ key: S.String, value: SensitiveString });
 export interface PolicyReference {
   PolicyArn: string;
@@ -487,15 +525,101 @@ export const PolicyReference = S.suspend(() =>
 }) as any as S.Schema<PolicyReference>;
 export type PoliciesReferences = PolicyReference[];
 export const PoliciesReferences = S.Array(PolicyReference);
+export type ApprovalTeamStatus = "ACTIVE" | "INACTIVE" | "DELETING" | "PENDING";
+export const ApprovalTeamStatus = S.Literal(
+  "ACTIVE",
+  "INACTIVE",
+  "DELETING",
+  "PENDING",
+);
+export type ApprovalTeamStatusCode =
+  | "VALIDATING"
+  | "PENDING_ACTIVATION"
+  | "FAILED_VALIDATION"
+  | "FAILED_ACTIVATION"
+  | "UPDATE_PENDING_APPROVAL"
+  | "UPDATE_PENDING_ACTIVATION"
+  | "UPDATE_FAILED_APPROVAL"
+  | "UPDATE_FAILED_ACTIVATION"
+  | "UPDATE_FAILED_VALIDATION"
+  | "DELETE_PENDING_APPROVAL"
+  | "DELETE_FAILED_APPROVAL"
+  | "DELETE_FAILED_VALIDATION";
+export const ApprovalTeamStatusCode = S.Literal(
+  "VALIDATING",
+  "PENDING_ACTIVATION",
+  "FAILED_VALIDATION",
+  "FAILED_ACTIVATION",
+  "UPDATE_PENDING_APPROVAL",
+  "UPDATE_PENDING_ACTIVATION",
+  "UPDATE_FAILED_APPROVAL",
+  "UPDATE_FAILED_ACTIVATION",
+  "UPDATE_FAILED_VALIDATION",
+  "DELETE_PENDING_APPROVAL",
+  "DELETE_FAILED_APPROVAL",
+  "DELETE_FAILED_VALIDATION",
+);
+export type IdentitySourceType = "IAM_IDENTITY_CENTER";
+export const IdentitySourceType = S.Literal("IAM_IDENTITY_CENTER");
+export type IdentitySourceStatus = "CREATING" | "ACTIVE" | "DELETING" | "ERROR";
+export const IdentitySourceStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "DELETING",
+  "ERROR",
+);
+export type IdentitySourceStatusCode =
+  | "ACCESS_DENIED"
+  | "DELETION_FAILED"
+  | "IDC_INSTANCE_NOT_FOUND"
+  | "IDC_INSTANCE_NOT_VALID";
+export const IdentitySourceStatusCode = S.Literal(
+  "ACCESS_DENIED",
+  "DELETION_FAILED",
+  "IDC_INSTANCE_NOT_FOUND",
+  "IDC_INSTANCE_NOT_VALID",
+);
+export type SessionStatus =
+  | "PENDING"
+  | "CANCELLED"
+  | "APPROVED"
+  | "FAILED"
+  | "CREATING";
+export const SessionStatus = S.Literal(
+  "PENDING",
+  "CANCELLED",
+  "APPROVED",
+  "FAILED",
+  "CREATING",
+);
+export type SessionStatusCode =
+  | "REJECTED"
+  | "EXPIRED"
+  | "CONFIGURATION_CHANGED";
+export const SessionStatusCode = S.Literal(
+  "REJECTED",
+  "EXPIRED",
+  "CONFIGURATION_CHANGED",
+);
+export type SessionExecutionStatus = "EXECUTED" | "FAILED" | "PENDING";
+export const SessionExecutionStatus = S.Literal(
+  "EXECUTED",
+  "FAILED",
+  "PENDING",
+);
+export type ActionCompletionStrategy = "AUTO_COMPLETION_UPON_APPROVAL";
+export const ActionCompletionStrategy = S.Literal(
+  "AUTO_COMPLETION_UPON_APPROVAL",
+);
 export interface Filter {
-  FieldName?: string;
-  Operator?: string;
+  FieldName?: FilterField;
+  Operator?: Operator;
   Value?: string;
 }
 export const Filter = S.suspend(() =>
   S.Struct({
-    FieldName: S.optional(S.String),
-    Operator: S.optional(S.String),
+    FieldName: S.optional(FilterField),
+    Operator: S.optional(Operator),
     Value: S.optional(S.String),
   }),
 ).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
@@ -503,15 +627,15 @@ export type Filters = Filter[];
 export const Filters = S.Array(Filter);
 export interface GetResourcePolicyResponse {
   ResourceArn: string;
-  PolicyType: string;
+  PolicyType: PolicyType;
   PolicyVersionArn?: string;
   PolicyName: string;
-  PolicyDocument: string | Redacted.Redacted<string>;
+  PolicyDocument: string | redacted.Redacted<string>;
 }
 export const GetResourcePolicyResponse = S.suspend(() =>
   S.Struct({
     ResourceArn: S.String,
-    PolicyType: S.String,
+    PolicyType: PolicyType,
     PolicyVersionArn: S.optional(S.String),
     PolicyName: S.String,
     PolicyDocument: SensitiveString,
@@ -520,7 +644,7 @@ export const GetResourcePolicyResponse = S.suspend(() =>
   identifier: "GetResourcePolicyResponse",
 }) as any as S.Schema<GetResourcePolicyResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: Tags;
+  Tags?: { [key: string]: string | redacted.Redacted<string> };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }),
@@ -529,7 +653,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: Tags;
+  Tags: { [key: string]: string | redacted.Redacted<string> };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -578,7 +702,7 @@ export interface ListSessionsRequest {
   ApprovalTeamArn: string;
   MaxResults?: number;
   NextToken?: string;
-  Filters?: Filters;
+  Filters?: Filter[];
 }
 export const ListSessionsRequest = S.suspend(() =>
   S.Struct({
@@ -602,6 +726,15 @@ export const ListSessionsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListSessionsRequest",
 }) as any as S.Schema<ListSessionsRequest>;
+export type PolicyStatus = "ATTACHABLE" | "DEPRECATED";
+export const PolicyStatus = S.Literal("ATTACHABLE", "DEPRECATED");
+export type IdentityStatus = "PENDING" | "ACCEPTED" | "REJECTED" | "INVALID";
+export const IdentityStatus = S.Literal(
+  "PENDING",
+  "ACCEPTED",
+  "REJECTED",
+  "INVALID",
+);
 export interface IamIdentityCenter {
   InstanceArn: string;
   Region: string;
@@ -611,27 +744,29 @@ export const IamIdentityCenter = S.suspend(() =>
 ).annotations({
   identifier: "IamIdentityCenter",
 }) as any as S.Schema<IamIdentityCenter>;
+export type SessionResponse = "APPROVED" | "REJECTED" | "NO_RESPONSE";
+export const SessionResponse = S.Literal("APPROVED", "REJECTED", "NO_RESPONSE");
 export interface PolicyVersion {
   Arn: string;
   PolicyArn: string;
   VersionId: number;
-  PolicyType: string;
+  PolicyType: PolicyType;
   IsDefault: boolean;
   Name: string;
-  Status: string;
+  Status: PolicyStatus;
   CreationTime: Date;
   LastUpdatedTime: Date;
-  Document: string | Redacted.Redacted<string>;
+  Document: string | redacted.Redacted<string>;
 }
 export const PolicyVersion = S.suspend(() =>
   S.Struct({
     Arn: S.String,
     PolicyArn: S.String,
     VersionId: S.Number,
-    PolicyType: S.String,
+    PolicyType: PolicyType,
     IsDefault: S.Boolean,
     Name: S.String,
-    Status: S.String,
+    Status: PolicyStatus,
     CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
     LastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
     Document: SensitiveString,
@@ -642,14 +777,14 @@ export const PolicyVersion = S.suspend(() =>
 export interface Policy {
   Arn: string;
   DefaultVersion: number;
-  PolicyType: string;
+  PolicyType: PolicyType;
   Name: string;
 }
 export const Policy = S.suspend(() =>
   S.Struct({
     Arn: S.String,
     DefaultVersion: S.Number,
-    PolicyType: S.String,
+    PolicyType: PolicyType,
     Name: S.String,
   }),
 ).annotations({ identifier: "Policy" }) as any as S.Schema<Policy>;
@@ -659,10 +794,10 @@ export interface PolicyVersionSummary {
   Arn: string;
   PolicyArn: string;
   VersionId: number;
-  PolicyType: string;
+  PolicyType: PolicyType;
   IsDefault: boolean;
   Name: string;
-  Status: string;
+  Status: PolicyStatus;
   CreationTime: Date;
   LastUpdatedTime: Date;
 }
@@ -671,10 +806,10 @@ export const PolicyVersionSummary = S.suspend(() =>
     Arn: S.String,
     PolicyArn: S.String,
     VersionId: S.Number,
-    PolicyType: S.String,
+    PolicyType: PolicyType,
     IsDefault: S.Boolean,
     Name: S.String,
-    Status: S.String,
+    Status: PolicyStatus,
     CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
     LastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
   }),
@@ -685,13 +820,13 @@ export type PolicyVersions = PolicyVersionSummary[];
 export const PolicyVersions = S.Array(PolicyVersionSummary);
 export interface ListResourcePoliciesResponseResourcePolicy {
   PolicyArn?: string;
-  PolicyType?: string;
+  PolicyType?: PolicyType;
   PolicyName?: string;
 }
 export const ListResourcePoliciesResponseResourcePolicy = S.suspend(() =>
   S.Struct({
     PolicyArn: S.optional(S.String),
-    PolicyType: S.optional(S.String),
+    PolicyType: S.optional(PolicyType),
     PolicyName: S.optional(S.String),
   }),
 ).annotations({
@@ -711,7 +846,7 @@ export interface GetApprovalTeamResponseApprover {
   ResponseTime?: Date;
   PrimaryIdentityId?: string;
   PrimaryIdentitySourceArn?: string;
-  PrimaryIdentityStatus?: string;
+  PrimaryIdentityStatus?: IdentityStatus;
 }
 export const GetApprovalTeamResponseApprover = S.suspend(() =>
   S.Struct({
@@ -719,7 +854,7 @@ export const GetApprovalTeamResponseApprover = S.suspend(() =>
     ResponseTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     PrimaryIdentityId: S.optional(S.String),
     PrimaryIdentitySourceArn: S.optional(S.String),
-    PrimaryIdentityStatus: S.optional(S.String),
+    PrimaryIdentityStatus: S.optional(IdentityStatus),
   }),
 ).annotations({
   identifier: "GetApprovalTeamResponseApprover",
@@ -732,12 +867,12 @@ export const GetApprovalTeamResponseApprovers = S.Array(
 export interface PendingUpdate {
   VersionId?: string;
   Description?: string;
-  ApprovalStrategy?: (typeof ApprovalStrategyResponse)["Type"];
+  ApprovalStrategy?: ApprovalStrategyResponse;
   NumberOfApprovers?: number;
-  Status?: string;
-  StatusCode?: string;
+  Status?: ApprovalTeamStatus;
+  StatusCode?: ApprovalTeamStatusCode;
   StatusMessage?: string;
-  Approvers?: GetApprovalTeamResponseApprovers;
+  Approvers?: GetApprovalTeamResponseApprover[];
   UpdateInitiationTime?: Date;
 }
 export const PendingUpdate = S.suspend(() =>
@@ -746,8 +881,8 @@ export const PendingUpdate = S.suspend(() =>
     Description: S.optional(S.String),
     ApprovalStrategy: S.optional(ApprovalStrategyResponse),
     NumberOfApprovers: S.optional(S.Number),
-    Status: S.optional(S.String),
-    StatusCode: S.optional(S.String),
+    Status: S.optional(ApprovalTeamStatus),
+    StatusCode: S.optional(ApprovalTeamStatusCode),
     StatusMessage: S.optional(S.String),
     Approvers: S.optional(GetApprovalTeamResponseApprovers),
     UpdateInitiationTime: S.optional(
@@ -759,13 +894,13 @@ export const PendingUpdate = S.suspend(() =>
 }) as any as S.Schema<PendingUpdate>;
 export interface ListApprovalTeamsResponseApprovalTeam {
   CreationTime?: Date;
-  ApprovalStrategy?: (typeof ApprovalStrategyResponse)["Type"];
+  ApprovalStrategy?: ApprovalStrategyResponse;
   NumberOfApprovers?: number;
   Arn?: string;
   Name?: string;
-  Description?: string | Redacted.Redacted<string>;
-  Status?: string;
-  StatusCode?: string;
+  Description?: string | redacted.Redacted<string>;
+  Status?: ApprovalTeamStatus;
+  StatusCode?: ApprovalTeamStatusCode;
   StatusMessage?: string;
 }
 export const ListApprovalTeamsResponseApprovalTeam = S.suspend(() =>
@@ -776,8 +911,8 @@ export const ListApprovalTeamsResponseApprovalTeam = S.suspend(() =>
     Arn: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(SensitiveString),
-    Status: S.optional(S.String),
-    StatusCode: S.optional(S.String),
+    Status: S.optional(ApprovalTeamStatus),
+    StatusCode: S.optional(ApprovalTeamStatusCode),
     StatusMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -797,7 +932,7 @@ export const IdentitySourceParameters = S.suspend(() =>
   identifier: "IdentitySourceParameters",
 }) as any as S.Schema<IdentitySourceParameters>;
 export type SessionMetadata = {
-  [key: string]: string | Redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string>;
 };
 export const SessionMetadata = S.Record({
   key: S.String,
@@ -807,7 +942,7 @@ export interface GetSessionResponseApproverResponse {
   ApproverId?: string;
   IdentitySourceArn?: string;
   IdentityId?: string;
-  Response?: string;
+  Response?: SessionResponse;
   ResponseTime?: Date;
 }
 export const GetSessionResponseApproverResponse = S.suspend(() =>
@@ -815,7 +950,7 @@ export const GetSessionResponseApproverResponse = S.suspend(() =>
     ApproverId: S.optional(S.String),
     IdentitySourceArn: S.optional(S.String),
     IdentityId: S.optional(S.String),
-    Response: S.optional(S.String),
+    Response: S.optional(SessionResponse),
     ResponseTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotations({
@@ -836,7 +971,7 @@ export const GetPolicyVersionResponse = S.suspend(() =>
 }) as any as S.Schema<GetPolicyVersionResponse>;
 export interface ListPoliciesResponse {
   NextToken?: string;
-  Policies?: Policies;
+  Policies?: Policy[];
 }
 export const ListPoliciesResponse = S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), Policies: S.optional(Policies) }),
@@ -845,7 +980,7 @@ export const ListPoliciesResponse = S.suspend(() =>
 }) as any as S.Schema<ListPoliciesResponse>;
 export interface ListPolicyVersionsResponse {
   NextToken?: string;
-  PolicyVersions?: PolicyVersions;
+  PolicyVersions?: PolicyVersionSummary[];
 }
 export const ListPolicyVersionsResponse = S.suspend(() =>
   S.Struct({
@@ -857,7 +992,7 @@ export const ListPolicyVersionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListPolicyVersionsResponse>;
 export interface ListResourcePoliciesResponse {
   NextToken?: string;
-  ResourcePolicies?: ListResourcePoliciesResponseResourcePolicies;
+  ResourcePolicies?: ListResourcePoliciesResponseResourcePolicy[];
 }
 export const ListResourcePoliciesResponse = S.suspend(() =>
   S.Struct({
@@ -869,12 +1004,12 @@ export const ListResourcePoliciesResponse = S.suspend(() =>
 }) as any as S.Schema<ListResourcePoliciesResponse>;
 export interface CreateApprovalTeamRequest {
   ClientToken?: string;
-  ApprovalStrategy: (typeof ApprovalStrategy)["Type"];
-  Approvers: ApprovalTeamRequestApprovers;
-  Description: string | Redacted.Redacted<string>;
-  Policies: PoliciesReferences;
+  ApprovalStrategy: ApprovalStrategy;
+  Approvers: ApprovalTeamRequestApprover[];
+  Description: string | redacted.Redacted<string>;
+  Policies: PolicyReference[];
   Name: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string | redacted.Redacted<string> };
 }
 export const CreateApprovalTeamRequest = S.suspend(() =>
   S.Struct({
@@ -900,18 +1035,18 @@ export const CreateApprovalTeamRequest = S.suspend(() =>
 }) as any as S.Schema<CreateApprovalTeamRequest>;
 export interface GetApprovalTeamResponse {
   CreationTime?: Date;
-  ApprovalStrategy?: (typeof ApprovalStrategyResponse)["Type"];
+  ApprovalStrategy?: ApprovalStrategyResponse;
   NumberOfApprovers?: number;
-  Approvers?: GetApprovalTeamResponseApprovers;
+  Approvers?: GetApprovalTeamResponseApprover[];
   Arn?: string;
-  Description?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   Name?: string;
-  Status?: string;
-  StatusCode?: string;
+  Status?: ApprovalTeamStatus;
+  StatusCode?: ApprovalTeamStatusCode;
   StatusMessage?: string;
   UpdateSessionArn?: string;
   VersionId?: string;
-  Policies?: PoliciesReferences;
+  Policies?: PolicyReference[];
   LastUpdateTime?: Date;
   PendingUpdate?: PendingUpdate;
 }
@@ -924,8 +1059,8 @@ export const GetApprovalTeamResponse = S.suspend(() =>
     Arn: S.optional(S.String),
     Description: S.optional(SensitiveString),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
-    StatusCode: S.optional(S.String),
+    Status: S.optional(ApprovalTeamStatus),
+    StatusCode: S.optional(ApprovalTeamStatusCode),
     StatusMessage: S.optional(S.String),
     UpdateSessionArn: S.optional(S.String),
     VersionId: S.optional(S.String),
@@ -938,7 +1073,7 @@ export const GetApprovalTeamResponse = S.suspend(() =>
 }) as any as S.Schema<GetApprovalTeamResponse>;
 export interface ListApprovalTeamsResponse {
   NextToken?: string;
-  ApprovalTeams?: ListApprovalTeamsResponseApprovalTeams;
+  ApprovalTeams?: ListApprovalTeamsResponseApprovalTeam[];
 }
 export const ListApprovalTeamsResponse = S.suspend(() =>
   S.Struct({
@@ -951,7 +1086,7 @@ export const ListApprovalTeamsResponse = S.suspend(() =>
 export interface CreateIdentitySourceRequest {
   IdentitySourceParameters: IdentitySourceParameters;
   ClientToken?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string | redacted.Redacted<string> };
 }
 export const CreateIdentitySourceRequest = S.suspend(() =>
   S.Struct({
@@ -976,25 +1111,25 @@ export interface GetSessionResponse {
   ApprovalTeamArn?: string;
   ApprovalTeamName?: string;
   ProtectedResourceArn?: string;
-  ApprovalStrategy?: (typeof ApprovalStrategyResponse)["Type"];
+  ApprovalStrategy?: ApprovalStrategyResponse;
   NumberOfApprovers?: number;
   InitiationTime?: Date;
   ExpirationTime?: Date;
   CompletionTime?: Date;
-  Description?: string | Redacted.Redacted<string>;
-  Metadata?: SessionMetadata;
-  Status?: string;
-  StatusCode?: string;
+  Description?: string | redacted.Redacted<string>;
+  Metadata?: { [key: string]: string | redacted.Redacted<string> };
+  Status?: SessionStatus;
+  StatusCode?: SessionStatusCode;
   StatusMessage?: string;
-  ExecutionStatus?: string;
+  ExecutionStatus?: SessionExecutionStatus;
   ActionName?: string;
   RequesterServicePrincipal?: string;
   RequesterPrincipalArn?: string;
   RequesterAccountId?: string;
   RequesterRegion?: string;
-  RequesterComment?: string | Redacted.Redacted<string>;
-  ActionCompletionStrategy?: string;
-  ApproverResponses?: GetSessionResponseApproverResponses;
+  RequesterComment?: string | redacted.Redacted<string>;
+  ActionCompletionStrategy?: ActionCompletionStrategy;
+  ApproverResponses?: GetSessionResponseApproverResponse[];
 }
 export const GetSessionResponse = S.suspend(() =>
   S.Struct({
@@ -1009,17 +1144,17 @@ export const GetSessionResponse = S.suspend(() =>
     CompletionTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     Description: S.optional(SensitiveString),
     Metadata: S.optional(SessionMetadata),
-    Status: S.optional(S.String),
-    StatusCode: S.optional(S.String),
+    Status: S.optional(SessionStatus),
+    StatusCode: S.optional(SessionStatusCode),
     StatusMessage: S.optional(S.String),
-    ExecutionStatus: S.optional(S.String),
+    ExecutionStatus: S.optional(SessionExecutionStatus),
     ActionName: S.optional(S.String),
     RequesterServicePrincipal: S.optional(S.String),
     RequesterPrincipalArn: S.optional(S.String),
     RequesterAccountId: S.optional(S.String),
     RequesterRegion: S.optional(S.String),
     RequesterComment: S.optional(SensitiveString),
-    ActionCompletionStrategy: S.optional(S.String),
+    ActionCompletionStrategy: S.optional(ActionCompletionStrategy),
     ApproverResponses: S.optional(GetSessionResponseApproverResponses),
   }),
 ).annotations({
@@ -1052,17 +1187,17 @@ export interface ListSessionsResponseSession {
   InitiationTime?: Date;
   ExpirationTime?: Date;
   CompletionTime?: Date;
-  Description?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   ActionName?: string;
   ProtectedResourceArn?: string;
   RequesterServicePrincipal?: string;
   RequesterPrincipalArn?: string;
   RequesterRegion?: string;
   RequesterAccountId?: string;
-  Status?: string;
-  StatusCode?: string;
+  Status?: SessionStatus;
+  StatusCode?: SessionStatusCode;
   StatusMessage?: string;
-  ActionCompletionStrategy?: string;
+  ActionCompletionStrategy?: ActionCompletionStrategy;
 }
 export const ListSessionsResponseSession = S.suspend(() =>
   S.Struct({
@@ -1079,10 +1214,10 @@ export const ListSessionsResponseSession = S.suspend(() =>
     RequesterPrincipalArn: S.optional(S.String),
     RequesterRegion: S.optional(S.String),
     RequesterAccountId: S.optional(S.String),
-    Status: S.optional(S.String),
-    StatusCode: S.optional(S.String),
+    Status: S.optional(SessionStatus),
+    StatusCode: S.optional(SessionStatusCode),
     StatusMessage: S.optional(S.String),
-    ActionCompletionStrategy: S.optional(S.String),
+    ActionCompletionStrategy: S.optional(ActionCompletionStrategy),
   }),
 ).annotations({
   identifier: "ListSessionsResponseSession",
@@ -1122,13 +1257,13 @@ export const CreateApprovalTeamResponse = S.suspend(() =>
   identifier: "CreateApprovalTeamResponse",
 }) as any as S.Schema<CreateApprovalTeamResponse>;
 export interface CreateIdentitySourceResponse {
-  IdentitySourceType?: string;
+  IdentitySourceType?: IdentitySourceType;
   IdentitySourceArn?: string;
   CreationTime?: Date;
 }
 export const CreateIdentitySourceResponse = S.suspend(() =>
   S.Struct({
-    IdentitySourceType: S.optional(S.String),
+    IdentitySourceType: S.optional(IdentitySourceType),
     IdentitySourceArn: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
@@ -1136,22 +1271,22 @@ export const CreateIdentitySourceResponse = S.suspend(() =>
   identifier: "CreateIdentitySourceResponse",
 }) as any as S.Schema<CreateIdentitySourceResponse>;
 export interface GetIdentitySourceResponse {
-  IdentitySourceType?: string;
-  IdentitySourceParameters?: (typeof IdentitySourceParametersForGet)["Type"];
+  IdentitySourceType?: IdentitySourceType;
+  IdentitySourceParameters?: IdentitySourceParametersForGet;
   IdentitySourceArn?: string;
   CreationTime?: Date;
-  Status?: string;
-  StatusCode?: string;
+  Status?: IdentitySourceStatus;
+  StatusCode?: IdentitySourceStatusCode;
   StatusMessage?: string;
 }
 export const GetIdentitySourceResponse = S.suspend(() =>
   S.Struct({
-    IdentitySourceType: S.optional(S.String),
+    IdentitySourceType: S.optional(IdentitySourceType),
     IdentitySourceParameters: S.optional(IdentitySourceParametersForGet),
     IdentitySourceArn: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    Status: S.optional(S.String),
-    StatusCode: S.optional(S.String),
+    Status: S.optional(IdentitySourceStatus),
+    StatusCode: S.optional(IdentitySourceStatusCode),
     StatusMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -1159,7 +1294,7 @@ export const GetIdentitySourceResponse = S.suspend(() =>
 }) as any as S.Schema<GetIdentitySourceResponse>;
 export interface ListSessionsResponse {
   NextToken?: string;
-  Sessions?: ListSessionsResponseSessions;
+  Sessions?: ListSessionsResponseSession[];
 }
 export const ListSessionsResponse = S.suspend(() =>
   S.Struct({
@@ -1176,22 +1311,22 @@ export const IdentitySourceParametersForList = S.Union(
   S.Struct({ IamIdentityCenter: IamIdentityCenterForList }),
 );
 export interface IdentitySourceForList {
-  IdentitySourceType?: string;
-  IdentitySourceParameters?: (typeof IdentitySourceParametersForList)["Type"];
+  IdentitySourceType?: IdentitySourceType;
+  IdentitySourceParameters?: IdentitySourceParametersForList;
   IdentitySourceArn?: string;
   CreationTime?: Date;
-  Status?: string;
-  StatusCode?: string;
+  Status?: IdentitySourceStatus;
+  StatusCode?: IdentitySourceStatusCode;
   StatusMessage?: string;
 }
 export const IdentitySourceForList = S.suspend(() =>
   S.Struct({
-    IdentitySourceType: S.optional(S.String),
+    IdentitySourceType: S.optional(IdentitySourceType),
     IdentitySourceParameters: S.optional(IdentitySourceParametersForList),
     IdentitySourceArn: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    Status: S.optional(S.String),
-    StatusCode: S.optional(S.String),
+    Status: S.optional(IdentitySourceStatus),
+    StatusCode: S.optional(IdentitySourceStatusCode),
     StatusMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -1201,7 +1336,7 @@ export type IdentitySources = IdentitySourceForList[];
 export const IdentitySources = S.Array(IdentitySourceForList);
 export interface ListIdentitySourcesResponse {
   NextToken?: string;
-  IdentitySources?: IdentitySources;
+  IdentitySources?: IdentitySourceForList[];
 }
 export const ListIdentitySourcesResponse = S.suspend(() =>
   S.Struct({
@@ -1258,7 +1393,7 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
 export const listApprovalTeams: {
   (
     input: ListApprovalTeamsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApprovalTeamsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1269,7 +1404,7 @@ export const listApprovalTeams: {
   >;
   pages: (
     input: ListApprovalTeamsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApprovalTeamsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1280,7 +1415,7 @@ export const listApprovalTeams: {
   >;
   items: (
     input: ListApprovalTeamsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApprovalTeamsResponseApprovalTeam,
     | AccessDeniedException
     | InternalServerException
@@ -1311,7 +1446,7 @@ export const listApprovalTeams: {
 export const listIdentitySources: {
   (
     input: ListIdentitySourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListIdentitySourcesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1322,7 +1457,7 @@ export const listIdentitySources: {
   >;
   pages: (
     input: ListIdentitySourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListIdentitySourcesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1333,7 +1468,7 @@ export const listIdentitySources: {
   >;
   items: (
     input: ListIdentitySourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     IdentitySourceForList,
     | AccessDeniedException
     | InternalServerException
@@ -1363,7 +1498,7 @@ export const listIdentitySources: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1390,7 +1525,7 @@ export const tagResource: (
  */
 export const createIdentitySource: (
   input: CreateIdentitySourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateIdentitySourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1419,7 +1554,7 @@ export const createIdentitySource: (
  */
 export const updateApprovalTeam: (
   input: UpdateApprovalTeamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateApprovalTeamResponse,
   | AccessDeniedException
   | ConflictException
@@ -1448,7 +1583,7 @@ export const updateApprovalTeam: (
  */
 export const getIdentitySource: (
   input: GetIdentitySourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIdentitySourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1474,7 +1609,7 @@ export const getIdentitySource: (
 export const listSessions: {
   (
     input: ListSessionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSessionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1486,7 +1621,7 @@ export const listSessions: {
   >;
   pages: (
     input: ListSessionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSessionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1498,7 +1633,7 @@ export const listSessions: {
   >;
   items: (
     input: ListSessionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSessionsResponseSession,
     | AccessDeniedException
     | InternalServerException
@@ -1530,7 +1665,7 @@ export const listSessions: {
  */
 export const getApprovalTeam: (
   input: GetApprovalTeamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetApprovalTeamResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1555,7 +1690,7 @@ export const getApprovalTeam: (
  */
 export const getSession: (
   input: GetSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSessionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1580,7 +1715,7 @@ export const getSession: (
  */
 export const getResourcePolicy: (
   input: GetResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourcePolicyResponse,
   | AccessDeniedException
   | InvalidParameterException
@@ -1605,7 +1740,7 @@ export const getResourcePolicy: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1632,7 +1767,7 @@ export const listTagsForResource: (
  */
 export const getPolicyVersion: (
   input: GetPolicyVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPolicyVersionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1660,7 +1795,7 @@ export const getPolicyVersion: (
 export const listPolicyVersions: {
   (
     input: ListPolicyVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPolicyVersionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1672,7 +1807,7 @@ export const listPolicyVersions: {
   >;
   pages: (
     input: ListPolicyVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPolicyVersionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1684,7 +1819,7 @@ export const listPolicyVersions: {
   >;
   items: (
     input: ListPolicyVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PolicyVersionSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1717,7 +1852,7 @@ export const listPolicyVersions: {
 export const listResourcePolicies: {
   (
     input: ListResourcePoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResourcePoliciesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1729,7 +1864,7 @@ export const listResourcePolicies: {
   >;
   pages: (
     input: ListResourcePoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResourcePoliciesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1741,7 +1876,7 @@ export const listResourcePolicies: {
   >;
   items: (
     input: ListResourcePoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResourcePoliciesResponseResourcePolicy,
     | AccessDeniedException
     | InternalServerException
@@ -1777,7 +1912,7 @@ export const listResourcePolicies: {
  */
 export const startActiveApprovalTeamDeletion: (
   input: StartActiveApprovalTeamDeletionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartActiveApprovalTeamDeletionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1806,7 +1941,7 @@ export const startActiveApprovalTeamDeletion: (
  */
 export const deleteInactiveApprovalTeamVersion: (
   input: DeleteInactiveApprovalTeamVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteInactiveApprovalTeamVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1833,7 +1968,7 @@ export const deleteInactiveApprovalTeamVersion: (
  */
 export const cancelSession: (
   input: CancelSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1863,7 +1998,7 @@ export const cancelSession: (
 export const listPolicies: {
   (
     input: ListPoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPoliciesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1874,7 +2009,7 @@ export const listPolicies: {
   >;
   pages: (
     input: ListPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPoliciesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1885,7 +2020,7 @@ export const listPolicies: {
   >;
   items: (
     input: ListPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Policy,
     | AccessDeniedException
     | InternalServerException
@@ -1915,7 +2050,7 @@ export const listPolicies: {
  */
 export const deleteIdentitySource: (
   input: DeleteIdentitySourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIdentitySourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1940,7 +2075,7 @@ export const deleteIdentitySource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1965,7 +2100,7 @@ export const untagResource: (
  */
 export const createApprovalTeam: (
   input: CreateApprovalTeamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateApprovalTeamResponse,
   | AccessDeniedException
   | ConflictException

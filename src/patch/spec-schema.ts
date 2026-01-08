@@ -53,6 +53,24 @@ export const MemberOverride = S.Struct({
 export type MemberOverride = typeof MemberOverride.Type;
 
 /**
+ * Enum override - specifies additional or replacement values for an enum.
+ * Use this when AWS returns values not in the Smithy model, or with different casing.
+ */
+export const EnumOverride = S.Struct({
+  /**
+   * Additional values to add to the enum (merged with existing values).
+   * Use this when AWS returns values not documented in the Smithy model.
+   */
+  add: S.optional(S.Array(S.String)),
+  /**
+   * Completely replace the enum values with these.
+   * Use this when the Smithy model is wrong and you need full control.
+   */
+  replace: S.optional(S.Array(S.String)),
+});
+export type EnumOverride = typeof EnumOverride.Type;
+
+/**
  * Structure override - specifies member overrides for a specific structure
  */
 export const StructureOverride = S.Struct({
@@ -77,6 +95,12 @@ export const ServiceSpec = S.Struct({
    * For example, when AWS returns undefined for a field marked as required.
    */
   structures: S.optional(S.Record({ key: S.String, value: StructureOverride })),
+  /**
+   * Map of enum names to their value overrides.
+   * Use this to fix enums where AWS returns values not in the Smithy model,
+   * or with different casing than documented.
+   */
+  enums: S.optional(S.Record({ key: S.String, value: EnumOverride })),
 });
 export type ServiceSpec = typeof ServiceSpec.Type;
 

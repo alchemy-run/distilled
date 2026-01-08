@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -159,7 +159,7 @@ export type LoadBalancerNamesMax20 = string[];
 export const LoadBalancerNamesMax20 = S.Array(S.String);
 export interface ApplySecurityGroupsToLoadBalancerInput {
   LoadBalancerName: string;
-  SecurityGroups: SecurityGroups;
+  SecurityGroups: string[];
 }
 export const ApplySecurityGroupsToLoadBalancerInput = S.suspend(() =>
   S.Struct({ LoadBalancerName: S.String, SecurityGroups: SecurityGroups }).pipe(
@@ -178,7 +178,7 @@ export const ApplySecurityGroupsToLoadBalancerInput = S.suspend(() =>
 }) as any as S.Schema<ApplySecurityGroupsToLoadBalancerInput>;
 export interface AttachLoadBalancerToSubnetsInput {
   LoadBalancerName: string;
-  Subnets: Subnets;
+  Subnets: string[];
 }
 export const AttachLoadBalancerToSubnetsInput = S.suspend(() =>
   S.Struct({ LoadBalancerName: S.String, Subnets: Subnets }).pipe(
@@ -275,7 +275,7 @@ export type Listeners = Listener[];
 export const Listeners = S.Array(Listener);
 export interface CreateLoadBalancerListenerInput {
   LoadBalancerName: string;
-  Listeners: Listeners;
+  Listeners: Listener[];
 }
 export const CreateLoadBalancerListenerInput = S.suspend(() =>
   S.Struct({ LoadBalancerName: S.String, Listeners: Listeners }).pipe(
@@ -324,7 +324,7 @@ export const DeleteAccessPointOutput = S.suspend(() =>
 }) as any as S.Schema<DeleteAccessPointOutput>;
 export interface DeleteLoadBalancerListenerInput {
   LoadBalancerName: string;
-  LoadBalancerPorts: Ports;
+  LoadBalancerPorts: number[];
 }
 export const DeleteLoadBalancerListenerInput = S.suspend(() =>
   S.Struct({ LoadBalancerName: S.String, LoadBalancerPorts: Ports }).pipe(
@@ -404,7 +404,7 @@ export type Instances = Instance[];
 export const Instances = S.Array(Instance);
 export interface DescribeEndPointStateInput {
   LoadBalancerName: string;
-  Instances?: Instances;
+  Instances?: Instance[];
 }
 export const DescribeEndPointStateInput = S.suspend(() =>
   S.Struct({
@@ -444,7 +444,7 @@ export const DescribeLoadBalancerAttributesInput = S.suspend(() =>
 }) as any as S.Schema<DescribeLoadBalancerAttributesInput>;
 export interface DescribeLoadBalancerPoliciesInput {
   LoadBalancerName?: string;
-  PolicyNames?: PolicyNames;
+  PolicyNames?: string[];
 }
 export const DescribeLoadBalancerPoliciesInput = S.suspend(() =>
   S.Struct({
@@ -465,7 +465,7 @@ export const DescribeLoadBalancerPoliciesInput = S.suspend(() =>
   identifier: "DescribeLoadBalancerPoliciesInput",
 }) as any as S.Schema<DescribeLoadBalancerPoliciesInput>;
 export interface DescribeLoadBalancerPolicyTypesInput {
-  PolicyTypeNames?: PolicyTypeNames;
+  PolicyTypeNames?: string[];
 }
 export const DescribeLoadBalancerPolicyTypesInput = S.suspend(() =>
   S.Struct({ PolicyTypeNames: S.optional(PolicyTypeNames) }).pipe(
@@ -483,7 +483,7 @@ export const DescribeLoadBalancerPolicyTypesInput = S.suspend(() =>
   identifier: "DescribeLoadBalancerPolicyTypesInput",
 }) as any as S.Schema<DescribeLoadBalancerPolicyTypesInput>;
 export interface DescribeAccessPointsInput {
-  LoadBalancerNames?: LoadBalancerNames;
+  LoadBalancerNames?: string[];
   Marker?: string;
   PageSize?: number;
 }
@@ -507,7 +507,7 @@ export const DescribeAccessPointsInput = S.suspend(() =>
   identifier: "DescribeAccessPointsInput",
 }) as any as S.Schema<DescribeAccessPointsInput>;
 export interface DescribeTagsInput {
-  LoadBalancerNames: LoadBalancerNamesMax20;
+  LoadBalancerNames: string[];
 }
 export const DescribeTagsInput = S.suspend(() =>
   S.Struct({ LoadBalancerNames: LoadBalancerNamesMax20 }).pipe(
@@ -526,7 +526,7 @@ export const DescribeTagsInput = S.suspend(() =>
 }) as any as S.Schema<DescribeTagsInput>;
 export interface DetachLoadBalancerFromSubnetsInput {
   LoadBalancerName: string;
-  Subnets: Subnets;
+  Subnets: string[];
 }
 export const DetachLoadBalancerFromSubnetsInput = S.suspend(() =>
   S.Struct({ LoadBalancerName: S.String, Subnets: Subnets }).pipe(
@@ -545,7 +545,7 @@ export const DetachLoadBalancerFromSubnetsInput = S.suspend(() =>
 }) as any as S.Schema<DetachLoadBalancerFromSubnetsInput>;
 export interface RemoveAvailabilityZonesInput {
   LoadBalancerName: string;
-  AvailabilityZones: AvailabilityZones;
+  AvailabilityZones: string[];
 }
 export const RemoveAvailabilityZonesInput = S.suspend(() =>
   S.Struct({
@@ -567,7 +567,7 @@ export const RemoveAvailabilityZonesInput = S.suspend(() =>
 }) as any as S.Schema<RemoveAvailabilityZonesInput>;
 export interface AddAvailabilityZonesInput {
   LoadBalancerName: string;
-  AvailabilityZones: AvailabilityZones;
+  AvailabilityZones: string[];
 }
 export const AddAvailabilityZonesInput = S.suspend(() =>
   S.Struct({
@@ -589,7 +589,7 @@ export const AddAvailabilityZonesInput = S.suspend(() =>
 }) as any as S.Schema<AddAvailabilityZonesInput>;
 export interface RegisterEndPointsInput {
   LoadBalancerName: string;
-  Instances: Instances;
+  Instances: Instance[];
 }
 export const RegisterEndPointsInput = S.suspend(() =>
   S.Struct({ LoadBalancerName: S.String, Instances: Instances }).pipe(
@@ -639,7 +639,7 @@ export const SetLoadBalancerListenerSSLCertificateOutput = S.suspend(() =>
 export interface SetLoadBalancerPoliciesForBackendServerInput {
   LoadBalancerName: string;
   InstancePort: number;
-  PolicyNames: PolicyNames;
+  PolicyNames: string[];
 }
 export const SetLoadBalancerPoliciesForBackendServerInput = S.suspend(() =>
   S.Struct({
@@ -669,7 +669,7 @@ export const SetLoadBalancerPoliciesForBackendServerOutput = S.suspend(() =>
 export interface SetLoadBalancerPoliciesOfListenerInput {
   LoadBalancerName: string;
   LoadBalancerPort: number;
-  PolicyNames: PolicyNames;
+  PolicyNames: string[];
 }
 export const SetLoadBalancerPoliciesOfListenerInput = S.suspend(() =>
   S.Struct({
@@ -744,8 +744,8 @@ export const TagKeyOnly = S.suspend(() =>
 export type TagKeyList = TagKeyOnly[];
 export const TagKeyList = S.Array(TagKeyOnly);
 export interface AddTagsInput {
-  LoadBalancerNames: LoadBalancerNames;
-  Tags: TagList;
+  LoadBalancerNames: string[];
+  Tags: Tag[];
 }
 export const AddTagsInput = S.suspend(() =>
   S.Struct({ LoadBalancerNames: LoadBalancerNames, Tags: TagList }).pipe(
@@ -765,7 +765,7 @@ export const AddTagsOutput = S.suspend(() => S.Struct({}).pipe(ns)).annotations(
   { identifier: "AddTagsOutput" },
 ) as any as S.Schema<AddTagsOutput>;
 export interface ApplySecurityGroupsToLoadBalancerOutput {
-  SecurityGroups?: SecurityGroups;
+  SecurityGroups?: string[];
 }
 export const ApplySecurityGroupsToLoadBalancerOutput = S.suspend(() =>
   S.Struct({ SecurityGroups: S.optional(SecurityGroups) }).pipe(ns),
@@ -773,7 +773,7 @@ export const ApplySecurityGroupsToLoadBalancerOutput = S.suspend(() =>
   identifier: "ApplySecurityGroupsToLoadBalancerOutput",
 }) as any as S.Schema<ApplySecurityGroupsToLoadBalancerOutput>;
 export interface AttachLoadBalancerToSubnetsOutput {
-  Subnets?: Subnets;
+  Subnets?: string[];
 }
 export const AttachLoadBalancerToSubnetsOutput = S.suspend(() =>
   S.Struct({ Subnets: S.optional(Subnets) }).pipe(ns),
@@ -801,12 +801,12 @@ export const ConfigureHealthCheckInput = S.suspend(() =>
 }) as any as S.Schema<ConfigureHealthCheckInput>;
 export interface CreateAccessPointInput {
   LoadBalancerName: string;
-  Listeners: Listeners;
-  AvailabilityZones?: AvailabilityZones;
-  Subnets?: Subnets;
-  SecurityGroups?: SecurityGroups;
+  Listeners: Listener[];
+  AvailabilityZones?: string[];
+  Subnets?: string[];
+  SecurityGroups?: string[];
   Scheme?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateAccessPointInput = S.suspend(() =>
   S.Struct({
@@ -835,7 +835,7 @@ export interface CreateLoadBalancerPolicyInput {
   LoadBalancerName: string;
   PolicyName: string;
   PolicyTypeName: string;
-  PolicyAttributes?: PolicyAttributes;
+  PolicyAttributes?: PolicyAttribute[];
 }
 export const CreateLoadBalancerPolicyInput = S.suspend(() =>
   S.Struct({
@@ -865,7 +865,7 @@ export const CreateLoadBalancerPolicyOutput = S.suspend(() =>
 }) as any as S.Schema<CreateLoadBalancerPolicyOutput>;
 export interface DeregisterEndPointsInput {
   LoadBalancerName: string;
-  Instances: Instances;
+  Instances: Instance[];
 }
 export const DeregisterEndPointsInput = S.suspend(() =>
   S.Struct({ LoadBalancerName: S.String, Instances: Instances }).pipe(
@@ -937,7 +937,7 @@ export interface LoadBalancerAttributes {
   AccessLog?: AccessLog;
   ConnectionDraining?: ConnectionDraining;
   ConnectionSettings?: ConnectionSettings;
-  AdditionalAttributes?: AdditionalAttributes;
+  AdditionalAttributes?: AdditionalAttribute[];
 }
 export const LoadBalancerAttributes = S.suspend(() =>
   S.Struct({
@@ -961,7 +961,7 @@ export const DescribeLoadBalancerAttributesOutput = S.suspend(() =>
   identifier: "DescribeLoadBalancerAttributesOutput",
 }) as any as S.Schema<DescribeLoadBalancerAttributesOutput>;
 export interface DetachLoadBalancerFromSubnetsOutput {
-  Subnets?: Subnets;
+  Subnets?: string[];
 }
 export const DetachLoadBalancerFromSubnetsOutput = S.suspend(() =>
   S.Struct({ Subnets: S.optional(Subnets) }).pipe(ns),
@@ -969,7 +969,7 @@ export const DetachLoadBalancerFromSubnetsOutput = S.suspend(() =>
   identifier: "DetachLoadBalancerFromSubnetsOutput",
 }) as any as S.Schema<DetachLoadBalancerFromSubnetsOutput>;
 export interface RemoveAvailabilityZonesOutput {
-  AvailabilityZones?: AvailabilityZones;
+  AvailabilityZones?: string[];
 }
 export const RemoveAvailabilityZonesOutput = S.suspend(() =>
   S.Struct({ AvailabilityZones: S.optional(AvailabilityZones) }).pipe(ns),
@@ -977,7 +977,7 @@ export const RemoveAvailabilityZonesOutput = S.suspend(() =>
   identifier: "RemoveAvailabilityZonesOutput",
 }) as any as S.Schema<RemoveAvailabilityZonesOutput>;
 export interface AddAvailabilityZonesOutput {
-  AvailabilityZones?: AvailabilityZones;
+  AvailabilityZones?: string[];
 }
 export const AddAvailabilityZonesOutput = S.suspend(() =>
   S.Struct({ AvailabilityZones: S.optional(AvailabilityZones) }).pipe(ns),
@@ -985,7 +985,7 @@ export const AddAvailabilityZonesOutput = S.suspend(() =>
   identifier: "AddAvailabilityZonesOutput",
 }) as any as S.Schema<AddAvailabilityZonesOutput>;
 export interface RegisterEndPointsOutput {
-  Instances?: Instances;
+  Instances?: Instance[];
 }
 export const RegisterEndPointsOutput = S.suspend(() =>
   S.Struct({ Instances: S.optional(Instances) }).pipe(ns),
@@ -993,8 +993,8 @@ export const RegisterEndPointsOutput = S.suspend(() =>
   identifier: "RegisterEndPointsOutput",
 }) as any as S.Schema<RegisterEndPointsOutput>;
 export interface RemoveTagsInput {
-  LoadBalancerNames: LoadBalancerNames;
-  Tags: TagKeyList;
+  LoadBalancerNames: string[];
+  Tags: TagKeyOnly[];
 }
 export const RemoveTagsInput = S.suspend(() =>
   S.Struct({ LoadBalancerNames: LoadBalancerNames, Tags: TagKeyList }).pipe(
@@ -1046,7 +1046,7 @@ export type InstanceStates = InstanceState[];
 export const InstanceStates = S.Array(InstanceState);
 export interface TagDescription {
   LoadBalancerName?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const TagDescription = S.suspend(() =>
   S.Struct({
@@ -1075,7 +1075,7 @@ export const CreateAccessPointOutput = S.suspend(() =>
   identifier: "CreateAccessPointOutput",
 }) as any as S.Schema<CreateAccessPointOutput>;
 export interface DeregisterEndPointsOutput {
-  Instances?: Instances;
+  Instances?: Instance[];
 }
 export const DeregisterEndPointsOutput = S.suspend(() =>
   S.Struct({ Instances: S.optional(Instances) }).pipe(ns),
@@ -1083,7 +1083,7 @@ export const DeregisterEndPointsOutput = S.suspend(() =>
   identifier: "DeregisterEndPointsOutput",
 }) as any as S.Schema<DeregisterEndPointsOutput>;
 export interface DescribeAccountLimitsOutput {
-  Limits?: Limits;
+  Limits?: Limit[];
   NextMarker?: string;
 }
 export const DescribeAccountLimitsOutput = S.suspend(() =>
@@ -1095,7 +1095,7 @@ export const DescribeAccountLimitsOutput = S.suspend(() =>
   identifier: "DescribeAccountLimitsOutput",
 }) as any as S.Schema<DescribeAccountLimitsOutput>;
 export interface DescribeEndPointStateOutput {
-  InstanceStates?: InstanceStates;
+  InstanceStates?: InstanceState[];
 }
 export const DescribeEndPointStateOutput = S.suspend(() =>
   S.Struct({ InstanceStates: S.optional(InstanceStates) }).pipe(ns),
@@ -1103,7 +1103,7 @@ export const DescribeEndPointStateOutput = S.suspend(() =>
   identifier: "DescribeEndPointStateOutput",
 }) as any as S.Schema<DescribeEndPointStateOutput>;
 export interface DescribeTagsOutput {
-  TagDescriptions?: TagDescriptions;
+  TagDescriptions?: TagDescription[];
 }
 export const DescribeTagsOutput = S.suspend(() =>
   S.Struct({ TagDescriptions: S.optional(TagDescriptions) }).pipe(ns),
@@ -1170,7 +1170,7 @@ export const PolicyAttributeTypeDescriptions = S.Array(
 );
 export interface ListenerDescription {
   Listener?: Listener;
-  PolicyNames?: PolicyNames;
+  PolicyNames?: string[];
 }
 export const ListenerDescription = S.suspend(() =>
   S.Struct({
@@ -1184,7 +1184,7 @@ export type ListenerDescriptions = ListenerDescription[];
 export const ListenerDescriptions = S.Array(ListenerDescription);
 export interface BackendServerDescription {
   InstancePort?: number;
-  PolicyNames?: PolicyNames;
+  PolicyNames?: string[];
 }
 export const BackendServerDescription = S.suspend(() =>
   S.Struct({
@@ -1211,7 +1211,7 @@ export const SourceSecurityGroup = S.suspend(() =>
 export interface PolicyDescription {
   PolicyName?: string;
   PolicyTypeName?: string;
-  PolicyAttributeDescriptions?: PolicyAttributeDescriptions;
+  PolicyAttributeDescriptions?: PolicyAttributeDescription[];
 }
 export const PolicyDescription = S.suspend(() =>
   S.Struct({
@@ -1227,7 +1227,7 @@ export const PolicyDescriptions = S.Array(PolicyDescription);
 export interface PolicyTypeDescription {
   PolicyTypeName?: string;
   Description?: string;
-  PolicyAttributeTypeDescriptions?: PolicyAttributeTypeDescriptions;
+  PolicyAttributeTypeDescriptions?: PolicyAttributeTypeDescription[];
 }
 export const PolicyTypeDescription = S.suspend(() =>
   S.Struct({
@@ -1271,7 +1271,7 @@ export const LBCookieStickinessPolicy = S.suspend(() =>
 export type LBCookieStickinessPolicies = LBCookieStickinessPolicy[];
 export const LBCookieStickinessPolicies = S.Array(LBCookieStickinessPolicy);
 export interface DescribeLoadBalancerPoliciesOutput {
-  PolicyDescriptions?: PolicyDescriptions;
+  PolicyDescriptions?: PolicyDescription[];
 }
 export const DescribeLoadBalancerPoliciesOutput = S.suspend(() =>
   S.Struct({ PolicyDescriptions: S.optional(PolicyDescriptions) }).pipe(ns),
@@ -1279,7 +1279,7 @@ export const DescribeLoadBalancerPoliciesOutput = S.suspend(() =>
   identifier: "DescribeLoadBalancerPoliciesOutput",
 }) as any as S.Schema<DescribeLoadBalancerPoliciesOutput>;
 export interface DescribeLoadBalancerPolicyTypesOutput {
-  PolicyTypeDescriptions?: PolicyTypeDescriptions;
+  PolicyTypeDescriptions?: PolicyTypeDescription[];
 }
 export const DescribeLoadBalancerPolicyTypesOutput = S.suspend(() =>
   S.Struct({ PolicyTypeDescriptions: S.optional(PolicyTypeDescriptions) }).pipe(
@@ -1301,9 +1301,9 @@ export const ModifyLoadBalancerAttributesOutput = S.suspend(() =>
   identifier: "ModifyLoadBalancerAttributesOutput",
 }) as any as S.Schema<ModifyLoadBalancerAttributesOutput>;
 export interface Policies {
-  AppCookieStickinessPolicies?: AppCookieStickinessPolicies;
-  LBCookieStickinessPolicies?: LBCookieStickinessPolicies;
-  OtherPolicies?: PolicyNames;
+  AppCookieStickinessPolicies?: AppCookieStickinessPolicy[];
+  LBCookieStickinessPolicies?: LBCookieStickinessPolicy[];
+  OtherPolicies?: string[];
 }
 export const Policies = S.suspend(() =>
   S.Struct({
@@ -1317,16 +1317,16 @@ export interface LoadBalancerDescription {
   DNSName?: string;
   CanonicalHostedZoneName?: string;
   CanonicalHostedZoneNameID?: string;
-  ListenerDescriptions?: ListenerDescriptions;
+  ListenerDescriptions?: ListenerDescription[];
   Policies?: Policies;
-  BackendServerDescriptions?: BackendServerDescriptions;
-  AvailabilityZones?: AvailabilityZones;
-  Subnets?: Subnets;
+  BackendServerDescriptions?: BackendServerDescription[];
+  AvailabilityZones?: string[];
+  Subnets?: string[];
   VPCId?: string;
-  Instances?: Instances;
+  Instances?: Instance[];
   HealthCheck?: HealthCheck;
   SourceSecurityGroup?: SourceSecurityGroup;
-  SecurityGroups?: SecurityGroups;
+  SecurityGroups?: string[];
   CreatedTime?: Date;
   Scheme?: string;
 }
@@ -1355,7 +1355,7 @@ export const LoadBalancerDescription = S.suspend(() =>
 export type LoadBalancerDescriptions = LoadBalancerDescription[];
 export const LoadBalancerDescriptions = S.Array(LoadBalancerDescription);
 export interface DescribeAccessPointsOutput {
-  LoadBalancerDescriptions?: LoadBalancerDescriptions;
+  LoadBalancerDescriptions?: LoadBalancerDescription[];
   NextMarker?: string;
 }
 export const DescribeAccessPointsOutput = S.suspend(() =>
@@ -1496,7 +1496,7 @@ export class TooManyAccessPointsException extends S.TaggedError<TooManyAccessPoi
  */
 export const deleteLoadBalancer: (
   input: DeleteAccessPointInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccessPointOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1517,7 +1517,7 @@ export const deleteLoadBalancer: (
  */
 export const enableAvailabilityZonesForLoadBalancer: (
   input: AddAvailabilityZonesInput,
-) => Effect.Effect<
+) => effect.Effect<
   AddAvailabilityZonesOutput,
   AccessPointNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1531,7 +1531,7 @@ export const enableAvailabilityZonesForLoadBalancer: (
  */
 export const removeTags: (
   input: RemoveTagsInput,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveTagsOutput,
   AccessPointNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1545,7 +1545,7 @@ export const removeTags: (
  */
 export const deleteLoadBalancerListeners: (
   input: DeleteLoadBalancerListenerInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLoadBalancerListenerOutput,
   AccessPointNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1562,7 +1562,7 @@ export const deleteLoadBalancerListeners: (
  */
 export const configureHealthCheck: (
   input: ConfigureHealthCheckInput,
-) => Effect.Effect<
+) => effect.Effect<
   ConfigureHealthCheckOutput,
   AccessPointNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1579,7 +1579,7 @@ export const configureHealthCheck: (
  */
 export const describeAccountLimits: (
   input: DescribeAccountLimitsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAccountLimitsOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1593,7 +1593,7 @@ export const describeAccountLimits: (
  */
 export const describeLoadBalancerAttributes: (
   input: DescribeLoadBalancerAttributesInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeLoadBalancerAttributesOutput,
   | AccessPointNotFoundException
   | LoadBalancerAttributeNotFoundException
@@ -1612,7 +1612,7 @@ export const describeLoadBalancerAttributes: (
  */
 export const describeTags: (
   input: DescribeTagsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeTagsOutput,
   AccessPointNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1630,7 +1630,7 @@ export const describeTags: (
  */
 export const detachLoadBalancerFromSubnets: (
   input: DetachLoadBalancerFromSubnetsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DetachLoadBalancerFromSubnetsOutput,
   | AccessPointNotFoundException
   | InvalidConfigurationRequestException
@@ -1664,7 +1664,7 @@ export const detachLoadBalancerFromSubnets: (
  */
 export const registerInstancesWithLoadBalancer: (
   input: RegisterEndPointsInput,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterEndPointsOutput,
   AccessPointNotFoundException | InvalidEndPointException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1689,7 +1689,7 @@ export const registerInstancesWithLoadBalancer: (
  */
 export const disableAvailabilityZonesForLoadBalancer: (
   input: RemoveAvailabilityZonesInput,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveAvailabilityZonesOutput,
   | AccessPointNotFoundException
   | InvalidConfigurationRequestException
@@ -1705,7 +1705,7 @@ export const disableAvailabilityZonesForLoadBalancer: (
  */
 export const deleteLoadBalancerPolicy: (
   input: DeleteLoadBalancerPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLoadBalancerPolicyOutput,
   | AccessPointNotFoundException
   | InvalidConfigurationRequestException
@@ -1726,7 +1726,7 @@ export const deleteLoadBalancerPolicy: (
  */
 export const deregisterInstancesFromLoadBalancer: (
   input: DeregisterEndPointsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterEndPointsOutput,
   AccessPointNotFoundException | InvalidEndPointException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1740,7 +1740,7 @@ export const deregisterInstancesFromLoadBalancer: (
  */
 export const describeInstanceHealth: (
   input: DescribeEndPointStateInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEndPointStateOutput,
   AccessPointNotFoundException | InvalidEndPointException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1768,7 +1768,7 @@ export const describeInstanceHealth: (
  */
 export const modifyLoadBalancerAttributes: (
   input: ModifyLoadBalancerAttributesInput,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyLoadBalancerAttributesOutput,
   | AccessPointNotFoundException
   | InvalidConfigurationRequestException
@@ -1795,7 +1795,7 @@ export const modifyLoadBalancerAttributes: (
  */
 export const addTags: (
   input: AddTagsInput,
-) => Effect.Effect<
+) => effect.Effect<
   AddTagsOutput,
   | AccessPointNotFoundException
   | DuplicateTagKeysException
@@ -1824,7 +1824,7 @@ export const addTags: (
  */
 export const createLBCookieStickinessPolicy: (
   input: CreateLBCookieStickinessPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLBCookieStickinessPolicyOutput,
   | AccessPointNotFoundException
   | DuplicatePolicyNameException
@@ -1859,7 +1859,7 @@ export const createLBCookieStickinessPolicy: (
  */
 export const setLoadBalancerPoliciesForBackendServer: (
   input: SetLoadBalancerPoliciesForBackendServerInput,
-) => Effect.Effect<
+) => effect.Effect<
   SetLoadBalancerPoliciesForBackendServerOutput,
   | AccessPointNotFoundException
   | InvalidConfigurationRequestException
@@ -1888,7 +1888,7 @@ export const setLoadBalancerPoliciesForBackendServer: (
  */
 export const setLoadBalancerPoliciesOfListener: (
   input: SetLoadBalancerPoliciesOfListenerInput,
-) => Effect.Effect<
+) => effect.Effect<
   SetLoadBalancerPoliciesOfListenerOutput,
   | AccessPointNotFoundException
   | InvalidConfigurationRequestException
@@ -1914,7 +1914,7 @@ export const setLoadBalancerPoliciesOfListener: (
  */
 export const applySecurityGroupsToLoadBalancer: (
   input: ApplySecurityGroupsToLoadBalancerInput,
-) => Effect.Effect<
+) => effect.Effect<
   ApplySecurityGroupsToLoadBalancerOutput,
   | AccessPointNotFoundException
   | InvalidConfigurationRequestException
@@ -1944,7 +1944,7 @@ export const applySecurityGroupsToLoadBalancer: (
  */
 export const describeLoadBalancerPolicyTypes: (
   input: DescribeLoadBalancerPolicyTypesInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeLoadBalancerPolicyTypesOutput,
   PolicyTypeNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1969,7 +1969,7 @@ export const describeLoadBalancerPolicyTypes: (
  */
 export const createAppCookieStickinessPolicy: (
   input: CreateAppCookieStickinessPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAppCookieStickinessPolicyOutput,
   | AccessPointNotFoundException
   | DuplicatePolicyNameException
@@ -1994,7 +1994,7 @@ export const createAppCookieStickinessPolicy: (
  */
 export const createLoadBalancerPolicy: (
   input: CreateLoadBalancerPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLoadBalancerPolicyOutput,
   | AccessPointNotFoundException
   | DuplicatePolicyNameException
@@ -2024,7 +2024,7 @@ export const createLoadBalancerPolicy: (
  */
 export const describeLoadBalancerPolicies: (
   input: DescribeLoadBalancerPoliciesInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeLoadBalancerPoliciesOutput,
   AccessPointNotFoundException | PolicyNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2041,7 +2041,7 @@ export const describeLoadBalancerPolicies: (
  */
 export const createLoadBalancerListeners: (
   input: CreateLoadBalancerListenerInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLoadBalancerListenerOutput,
   | AccessPointNotFoundException
   | CertificateNotFoundException
@@ -2070,7 +2070,7 @@ export const createLoadBalancerListeners: (
  */
 export const attachLoadBalancerToSubnets: (
   input: AttachLoadBalancerToSubnetsInput,
-) => Effect.Effect<
+) => effect.Effect<
   AttachLoadBalancerToSubnetsOutput,
   | AccessPointNotFoundException
   | InvalidConfigurationRequestException
@@ -2097,7 +2097,7 @@ export const attachLoadBalancerToSubnets: (
  */
 export const setLoadBalancerListenerSSLCertificate: (
   input: SetLoadBalancerListenerSSLCertificateInput,
-) => Effect.Effect<
+) => effect.Effect<
   SetLoadBalancerListenerSSLCertificateOutput,
   | AccessPointNotFoundException
   | CertificateNotFoundException
@@ -2123,21 +2123,21 @@ export const setLoadBalancerListenerSSLCertificate: (
 export const describeLoadBalancers: {
   (
     input: DescribeAccessPointsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeAccessPointsOutput,
     AccessPointNotFoundException | DependencyThrottleException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeAccessPointsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeAccessPointsOutput,
     AccessPointNotFoundException | DependencyThrottleException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAccessPointsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LoadBalancerDescription,
     AccessPointNotFoundException | DependencyThrottleException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2171,7 +2171,7 @@ export const describeLoadBalancers: {
  */
 export const createLoadBalancer: (
   input: CreateAccessPointInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAccessPointOutput,
   | CertificateNotFoundException
   | DuplicateAccessPointNameException

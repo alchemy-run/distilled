@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -141,14 +141,100 @@ export type OutpostResolverStatusMessage = string;
 export type IpAddressCount = number;
 
 //# Schemas
+export type MutationProtectionStatus = "ENABLED" | "DISABLED";
+export const MutationProtectionStatus = S.Literal("ENABLED", "DISABLED");
+export type Action = "ALLOW" | "BLOCK" | "ALERT";
+export const Action = S.Literal("ALLOW", "BLOCK", "ALERT");
+export type BlockResponse = "NODATA" | "NXDOMAIN" | "OVERRIDE";
+export const BlockResponse = S.Literal("NODATA", "NXDOMAIN", "OVERRIDE");
+export type BlockOverrideDnsType = "CNAME";
+export const BlockOverrideDnsType = S.Literal("CNAME");
+export type FirewallDomainRedirectionAction =
+  | "INSPECT_REDIRECTION_DOMAIN"
+  | "TRUST_REDIRECTION_DOMAIN";
+export const FirewallDomainRedirectionAction = S.Literal(
+  "INSPECT_REDIRECTION_DOMAIN",
+  "TRUST_REDIRECTION_DOMAIN",
+);
+export type DnsThreatProtection = "DGA" | "DNS_TUNNELING" | "DICTIONARY_DGA";
+export const DnsThreatProtection = S.Literal(
+  "DGA",
+  "DNS_TUNNELING",
+  "DICTIONARY_DGA",
+);
+export type ConfidenceThreshold = "LOW" | "MEDIUM" | "HIGH";
+export const ConfidenceThreshold = S.Literal("LOW", "MEDIUM", "HIGH");
 export type SecurityGroupIds = string[];
 export const SecurityGroupIds = S.Array(S.String);
-export type ProtocolList = string[];
-export const ProtocolList = S.Array(S.String);
+export type ResolverEndpointDirection =
+  | "INBOUND"
+  | "OUTBOUND"
+  | "INBOUND_DELEGATION";
+export const ResolverEndpointDirection = S.Literal(
+  "INBOUND",
+  "OUTBOUND",
+  "INBOUND_DELEGATION",
+);
+export type ResolverEndpointType = "IPV6" | "IPV4" | "DUALSTACK";
+export const ResolverEndpointType = S.Literal("IPV6", "IPV4", "DUALSTACK");
+export type Protocol = "DoH" | "Do53" | "DoH-FIPS";
+export const Protocol = S.Literal("DoH", "Do53", "DoH-FIPS");
+export type ProtocolList = Protocol[];
+export const ProtocolList = S.Array(Protocol);
+export type RuleTypeOption = "FORWARD" | "SYSTEM" | "RECURSIVE" | "DELEGATE";
+export const RuleTypeOption = S.Literal(
+  "FORWARD",
+  "SYSTEM",
+  "RECURSIVE",
+  "DELEGATE",
+);
+export type FirewallDomainImportOperation = "REPLACE";
+export const FirewallDomainImportOperation = S.Literal("REPLACE");
+export type FirewallRuleGroupAssociationStatus =
+  | "COMPLETE"
+  | "DELETING"
+  | "UPDATING";
+export const FirewallRuleGroupAssociationStatus = S.Literal(
+  "COMPLETE",
+  "DELETING",
+  "UPDATING",
+);
+export type SortOrder = "ASCENDING" | "DESCENDING";
+export const SortOrder = S.Literal("ASCENDING", "DESCENDING");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type FirewallFailOpenStatus =
+  | "ENABLED"
+  | "DISABLED"
+  | "USE_LOCAL_RESOURCE_SETTING";
+export const FirewallFailOpenStatus = S.Literal(
+  "ENABLED",
+  "DISABLED",
+  "USE_LOCAL_RESOURCE_SETTING",
+);
+export type FirewallDomainUpdateOperation = "ADD" | "REMOVE" | "REPLACE";
+export const FirewallDomainUpdateOperation = S.Literal(
+  "ADD",
+  "REMOVE",
+  "REPLACE",
+);
 export type FirewallDomains = string[];
 export const FirewallDomains = S.Array(S.String);
+export type AutodefinedReverseFlag =
+  | "ENABLE"
+  | "DISABLE"
+  | "USE_LOCAL_RESOURCE_SETTING";
+export const AutodefinedReverseFlag = S.Literal(
+  "ENABLE",
+  "DISABLE",
+  "USE_LOCAL_RESOURCE_SETTING",
+);
+export type Validation = "ENABLE" | "DISABLE" | "USE_LOCAL_RESOURCE_SETTING";
+export const Validation = S.Literal(
+  "ENABLE",
+  "DISABLE",
+  "USE_LOCAL_RESOURCE_SETTING",
+);
 export interface AssociateResolverQueryLogConfigRequest {
   ResolverQueryLogConfigId: string;
   ResourceId: string;
@@ -188,7 +274,7 @@ export const TagList = S.Array(Tag);
 export interface CreateFirewallDomainListRequest {
   CreatorRequestId: string;
   Name: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateFirewallDomainListRequest = S.suspend(() =>
   S.Struct({
@@ -206,16 +292,16 @@ export interface CreateFirewallRuleRequest {
   FirewallRuleGroupId: string;
   FirewallDomainListId?: string;
   Priority: number;
-  Action: string;
-  BlockResponse?: string;
+  Action: Action;
+  BlockResponse?: BlockResponse;
   BlockOverrideDomain?: string;
-  BlockOverrideDnsType?: string;
+  BlockOverrideDnsType?: BlockOverrideDnsType;
   BlockOverrideTtl?: number;
   Name: string;
-  FirewallDomainRedirectionAction?: string;
+  FirewallDomainRedirectionAction?: FirewallDomainRedirectionAction;
   Qtype?: string;
-  DnsThreatProtection?: string;
-  ConfidenceThreshold?: string;
+  DnsThreatProtection?: DnsThreatProtection;
+  ConfidenceThreshold?: ConfidenceThreshold;
 }
 export const CreateFirewallRuleRequest = S.suspend(() =>
   S.Struct({
@@ -223,16 +309,18 @@ export const CreateFirewallRuleRequest = S.suspend(() =>
     FirewallRuleGroupId: S.String,
     FirewallDomainListId: S.optional(S.String),
     Priority: S.Number,
-    Action: S.String,
-    BlockResponse: S.optional(S.String),
+    Action: Action,
+    BlockResponse: S.optional(BlockResponse),
     BlockOverrideDomain: S.optional(S.String),
-    BlockOverrideDnsType: S.optional(S.String),
+    BlockOverrideDnsType: S.optional(BlockOverrideDnsType),
     BlockOverrideTtl: S.optional(S.Number),
     Name: S.String,
-    FirewallDomainRedirectionAction: S.optional(S.String),
+    FirewallDomainRedirectionAction: S.optional(
+      FirewallDomainRedirectionAction,
+    ),
     Qtype: S.optional(S.String),
-    DnsThreatProtection: S.optional(S.String),
-    ConfidenceThreshold: S.optional(S.String),
+    DnsThreatProtection: S.optional(DnsThreatProtection),
+    ConfidenceThreshold: S.optional(ConfidenceThreshold),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -242,7 +330,7 @@ export const CreateFirewallRuleRequest = S.suspend(() =>
 export interface CreateFirewallRuleGroupRequest {
   CreatorRequestId: string;
   Name: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateFirewallRuleGroupRequest = S.suspend(() =>
   S.Struct({
@@ -261,7 +349,7 @@ export interface CreateOutpostResolverRequest {
   InstanceCount?: number;
   PreferredInstanceType: string;
   OutpostArn: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateOutpostResolverRequest = S.suspend(() =>
   S.Struct({
@@ -281,7 +369,7 @@ export interface CreateResolverQueryLogConfigRequest {
   Name: string;
   DestinationArn: string;
   CreatorRequestId: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateResolverQueryLogConfigRequest = S.suspend(() =>
   S.Struct({
@@ -584,13 +672,13 @@ export const GetResolverRulePolicyRequest = S.suspend(() =>
 }) as any as S.Schema<GetResolverRulePolicyRequest>;
 export interface ImportFirewallDomainsRequest {
   FirewallDomainListId: string;
-  Operation: string;
+  Operation: FirewallDomainImportOperation;
   DomainFileUrl: string;
 }
 export const ImportFirewallDomainsRequest = S.suspend(() =>
   S.Struct({
     FirewallDomainListId: S.String,
-    Operation: S.String,
+    Operation: FirewallDomainImportOperation,
     DomainFileUrl: S.String,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -646,7 +734,7 @@ export interface ListFirewallRuleGroupAssociationsRequest {
   FirewallRuleGroupId?: string;
   VpcId?: string;
   Priority?: number;
-  Status?: string;
+  Status?: FirewallRuleGroupAssociationStatus;
   MaxResults?: number;
   NextToken?: string;
 }
@@ -655,7 +743,7 @@ export const ListFirewallRuleGroupAssociationsRequest = S.suspend(() =>
     FirewallRuleGroupId: S.optional(S.String),
     VpcId: S.optional(S.String),
     Priority: S.optional(S.Number),
-    Status: S.optional(S.String),
+    Status: S.optional(FirewallRuleGroupAssociationStatus),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -681,7 +769,7 @@ export const ListFirewallRuleGroupsRequest = S.suspend(() =>
 export interface ListFirewallRulesRequest {
   FirewallRuleGroupId: string;
   Priority?: number;
-  Action?: string;
+  Action?: Action;
   MaxResults?: number;
   NextToken?: string;
 }
@@ -689,7 +777,7 @@ export const ListFirewallRulesRequest = S.suspend(() =>
   S.Struct({
     FirewallRuleGroupId: S.String,
     Priority: S.optional(S.Number),
-    Action: S.optional(S.String),
+    Action: S.optional(Action),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -748,7 +836,7 @@ export type FilterValues = string[];
 export const FilterValues = S.Array(S.String);
 export interface Filter {
   Name?: string;
-  Values?: FilterValues;
+  Values?: string[];
 }
 export const Filter = S.suspend(() =>
   S.Struct({ Name: S.optional(S.String), Values: S.optional(FilterValues) }),
@@ -758,7 +846,7 @@ export const Filters = S.Array(Filter);
 export interface ListResolverEndpointsRequest {
   MaxResults?: number;
   NextToken?: string;
-  Filters?: Filters;
+  Filters?: Filter[];
 }
 export const ListResolverEndpointsRequest = S.suspend(() =>
   S.Struct({
@@ -774,9 +862,9 @@ export const ListResolverEndpointsRequest = S.suspend(() =>
 export interface ListResolverQueryLogConfigAssociationsRequest {
   MaxResults?: number;
   NextToken?: string;
-  Filters?: Filters;
+  Filters?: Filter[];
   SortBy?: string;
-  SortOrder?: string;
+  SortOrder?: SortOrder;
 }
 export const ListResolverQueryLogConfigAssociationsRequest = S.suspend(() =>
   S.Struct({
@@ -784,7 +872,7 @@ export const ListResolverQueryLogConfigAssociationsRequest = S.suspend(() =>
     NextToken: S.optional(S.String),
     Filters: S.optional(Filters),
     SortBy: S.optional(S.String),
-    SortOrder: S.optional(S.String),
+    SortOrder: S.optional(SortOrder),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -794,9 +882,9 @@ export const ListResolverQueryLogConfigAssociationsRequest = S.suspend(() =>
 export interface ListResolverQueryLogConfigsRequest {
   MaxResults?: number;
   NextToken?: string;
-  Filters?: Filters;
+  Filters?: Filter[];
   SortBy?: string;
-  SortOrder?: string;
+  SortOrder?: SortOrder;
 }
 export const ListResolverQueryLogConfigsRequest = S.suspend(() =>
   S.Struct({
@@ -804,7 +892,7 @@ export const ListResolverQueryLogConfigsRequest = S.suspend(() =>
     NextToken: S.optional(S.String),
     Filters: S.optional(Filters),
     SortBy: S.optional(S.String),
-    SortOrder: S.optional(S.String),
+    SortOrder: S.optional(SortOrder),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -814,7 +902,7 @@ export const ListResolverQueryLogConfigsRequest = S.suspend(() =>
 export interface ListResolverRuleAssociationsRequest {
   MaxResults?: number;
   NextToken?: string;
-  Filters?: Filters;
+  Filters?: Filter[];
 }
 export const ListResolverRuleAssociationsRequest = S.suspend(() =>
   S.Struct({
@@ -830,7 +918,7 @@ export const ListResolverRuleAssociationsRequest = S.suspend(() =>
 export interface ListResolverRulesRequest {
   MaxResults?: number;
   NextToken?: string;
-  Filters?: Filters;
+  Filters?: Filter[];
 }
 export const ListResolverRulesRequest = S.suspend(() =>
   S.Struct({
@@ -894,7 +982,7 @@ export const PutResolverRulePolicyRequest = S.suspend(() =>
 }) as any as S.Schema<PutResolverRulePolicyRequest>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
@@ -909,7 +997,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
@@ -924,10 +1012,13 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateFirewallConfigRequest {
   ResourceId: string;
-  FirewallFailOpen: string;
+  FirewallFailOpen: FirewallFailOpenStatus;
 }
 export const UpdateFirewallConfigRequest = S.suspend(() =>
-  S.Struct({ ResourceId: S.String, FirewallFailOpen: S.String }).pipe(
+  S.Struct({
+    ResourceId: S.String,
+    FirewallFailOpen: FirewallFailOpenStatus,
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -935,13 +1026,13 @@ export const UpdateFirewallConfigRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateFirewallConfigRequest>;
 export interface UpdateFirewallDomainsRequest {
   FirewallDomainListId: string;
-  Operation: string;
-  Domains: FirewallDomains;
+  Operation: FirewallDomainUpdateOperation;
+  Domains: string[];
 }
 export const UpdateFirewallDomainsRequest = S.suspend(() =>
   S.Struct({
     FirewallDomainListId: S.String,
-    Operation: S.String,
+    Operation: FirewallDomainUpdateOperation,
     Domains: FirewallDomains,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -954,16 +1045,16 @@ export interface UpdateFirewallRuleRequest {
   FirewallDomainListId?: string;
   FirewallThreatProtectionId?: string;
   Priority?: number;
-  Action?: string;
-  BlockResponse?: string;
+  Action?: Action;
+  BlockResponse?: BlockResponse;
   BlockOverrideDomain?: string;
-  BlockOverrideDnsType?: string;
+  BlockOverrideDnsType?: BlockOverrideDnsType;
   BlockOverrideTtl?: number;
   Name?: string;
-  FirewallDomainRedirectionAction?: string;
+  FirewallDomainRedirectionAction?: FirewallDomainRedirectionAction;
   Qtype?: string;
-  DnsThreatProtection?: string;
-  ConfidenceThreshold?: string;
+  DnsThreatProtection?: DnsThreatProtection;
+  ConfidenceThreshold?: ConfidenceThreshold;
 }
 export const UpdateFirewallRuleRequest = S.suspend(() =>
   S.Struct({
@@ -971,16 +1062,18 @@ export const UpdateFirewallRuleRequest = S.suspend(() =>
     FirewallDomainListId: S.optional(S.String),
     FirewallThreatProtectionId: S.optional(S.String),
     Priority: S.optional(S.Number),
-    Action: S.optional(S.String),
-    BlockResponse: S.optional(S.String),
+    Action: S.optional(Action),
+    BlockResponse: S.optional(BlockResponse),
     BlockOverrideDomain: S.optional(S.String),
-    BlockOverrideDnsType: S.optional(S.String),
+    BlockOverrideDnsType: S.optional(BlockOverrideDnsType),
     BlockOverrideTtl: S.optional(S.Number),
     Name: S.optional(S.String),
-    FirewallDomainRedirectionAction: S.optional(S.String),
+    FirewallDomainRedirectionAction: S.optional(
+      FirewallDomainRedirectionAction,
+    ),
     Qtype: S.optional(S.String),
-    DnsThreatProtection: S.optional(S.String),
-    ConfidenceThreshold: S.optional(S.String),
+    DnsThreatProtection: S.optional(DnsThreatProtection),
+    ConfidenceThreshold: S.optional(ConfidenceThreshold),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -990,14 +1083,14 @@ export const UpdateFirewallRuleRequest = S.suspend(() =>
 export interface UpdateFirewallRuleGroupAssociationRequest {
   FirewallRuleGroupAssociationId: string;
   Priority?: number;
-  MutationProtection?: string;
+  MutationProtection?: MutationProtectionStatus;
   Name?: string;
 }
 export const UpdateFirewallRuleGroupAssociationRequest = S.suspend(() =>
   S.Struct({
     FirewallRuleGroupAssociationId: S.String,
     Priority: S.optional(S.Number),
-    MutationProtection: S.optional(S.String),
+    MutationProtection: S.optional(MutationProtectionStatus),
     Name: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -1025,10 +1118,13 @@ export const UpdateOutpostResolverRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateOutpostResolverRequest>;
 export interface UpdateResolverConfigRequest {
   ResourceId: string;
-  AutodefinedReverseFlag: string;
+  AutodefinedReverseFlag: AutodefinedReverseFlag;
 }
 export const UpdateResolverConfigRequest = S.suspend(() =>
-  S.Struct({ ResourceId: S.String, AutodefinedReverseFlag: S.String }).pipe(
+  S.Struct({
+    ResourceId: S.String,
+    AutodefinedReverseFlag: AutodefinedReverseFlag,
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -1036,10 +1132,10 @@ export const UpdateResolverConfigRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateResolverConfigRequest>;
 export interface UpdateResolverDnssecConfigRequest {
   ResourceId: string;
-  Validation: string;
+  Validation: Validation;
 }
 export const UpdateResolverDnssecConfigRequest = S.suspend(() =>
-  S.Struct({ ResourceId: S.String, Validation: S.String }).pipe(
+  S.Struct({ ResourceId: S.String, Validation: Validation }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -1065,7 +1161,7 @@ export interface TargetAddress {
   Ip?: string;
   Port?: number;
   Ipv6?: string;
-  Protocol?: string;
+  Protocol?: Protocol;
   ServerNameIndication?: string;
 }
 export const TargetAddress = S.suspend(() =>
@@ -1073,7 +1169,7 @@ export const TargetAddress = S.suspend(() =>
     Ip: S.optional(S.String),
     Port: S.optional(S.Number),
     Ipv6: S.optional(S.String),
-    Protocol: S.optional(S.String),
+    Protocol: S.optional(Protocol),
     ServerNameIndication: S.optional(S.String),
   }),
 ).annotations({
@@ -1081,18 +1177,31 @@ export const TargetAddress = S.suspend(() =>
 }) as any as S.Schema<TargetAddress>;
 export type TargetList = TargetAddress[];
 export const TargetList = S.Array(TargetAddress);
+export type FirewallDomainListStatus =
+  | "COMPLETE"
+  | "COMPLETE_IMPORT_FAILED"
+  | "IMPORTING"
+  | "DELETING"
+  | "UPDATING";
+export const FirewallDomainListStatus = S.Literal(
+  "COMPLETE",
+  "COMPLETE_IMPORT_FAILED",
+  "IMPORTING",
+  "DELETING",
+  "UPDATING",
+);
 export interface FirewallConfig {
   Id?: string;
   ResourceId?: string;
   OwnerId?: string;
-  FirewallFailOpen?: string;
+  FirewallFailOpen?: FirewallFailOpenStatus;
 }
 export const FirewallConfig = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     ResourceId: S.optional(S.String),
     OwnerId: S.optional(S.String),
-    FirewallFailOpen: S.optional(S.String),
+    FirewallFailOpen: S.optional(FirewallFailOpenStatus),
   }),
 ).annotations({
   identifier: "FirewallConfig",
@@ -1106,9 +1215,9 @@ export interface FirewallRuleGroupAssociation {
   VpcId?: string;
   Name?: string;
   Priority?: number;
-  MutationProtection?: string;
+  MutationProtection?: MutationProtectionStatus;
   ManagedOwnerName?: string;
-  Status?: string;
+  Status?: FirewallRuleGroupAssociationStatus;
   StatusMessage?: string;
   CreatorRequestId?: string;
   CreationTime?: string;
@@ -1122,9 +1231,9 @@ export const FirewallRuleGroupAssociation = S.suspend(() =>
     VpcId: S.optional(S.String),
     Name: S.optional(S.String),
     Priority: S.optional(S.Number),
-    MutationProtection: S.optional(S.String),
+    MutationProtection: S.optional(MutationProtectionStatus),
     ManagedOwnerName: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(FirewallRuleGroupAssociationStatus),
     StatusMessage: S.optional(S.String),
     CreatorRequestId: S.optional(S.String),
     CreationTime: S.optional(S.String),
@@ -1143,18 +1252,18 @@ export interface FirewallRule {
   FirewallThreatProtectionId?: string;
   Name?: string;
   Priority?: number;
-  Action?: string;
-  BlockResponse?: string;
+  Action?: Action;
+  BlockResponse?: BlockResponse;
   BlockOverrideDomain?: string;
-  BlockOverrideDnsType?: string;
+  BlockOverrideDnsType?: BlockOverrideDnsType;
   BlockOverrideTtl?: number;
   CreatorRequestId?: string;
   CreationTime?: string;
   ModificationTime?: string;
-  FirewallDomainRedirectionAction?: string;
+  FirewallDomainRedirectionAction?: FirewallDomainRedirectionAction;
   Qtype?: string;
-  DnsThreatProtection?: string;
-  ConfidenceThreshold?: string;
+  DnsThreatProtection?: DnsThreatProtection;
+  ConfidenceThreshold?: ConfidenceThreshold;
 }
 export const FirewallRule = S.suspend(() =>
   S.Struct({
@@ -1163,22 +1272,41 @@ export const FirewallRule = S.suspend(() =>
     FirewallThreatProtectionId: S.optional(S.String),
     Name: S.optional(S.String),
     Priority: S.optional(S.Number),
-    Action: S.optional(S.String),
-    BlockResponse: S.optional(S.String),
+    Action: S.optional(Action),
+    BlockResponse: S.optional(BlockResponse),
     BlockOverrideDomain: S.optional(S.String),
-    BlockOverrideDnsType: S.optional(S.String),
+    BlockOverrideDnsType: S.optional(BlockOverrideDnsType),
     BlockOverrideTtl: S.optional(S.Number),
     CreatorRequestId: S.optional(S.String),
     CreationTime: S.optional(S.String),
     ModificationTime: S.optional(S.String),
-    FirewallDomainRedirectionAction: S.optional(S.String),
+    FirewallDomainRedirectionAction: S.optional(
+      FirewallDomainRedirectionAction,
+    ),
     Qtype: S.optional(S.String),
-    DnsThreatProtection: S.optional(S.String),
-    ConfidenceThreshold: S.optional(S.String),
+    DnsThreatProtection: S.optional(DnsThreatProtection),
+    ConfidenceThreshold: S.optional(ConfidenceThreshold),
   }),
 ).annotations({ identifier: "FirewallRule" }) as any as S.Schema<FirewallRule>;
 export type FirewallRules = FirewallRule[];
 export const FirewallRules = S.Array(FirewallRule);
+export type OutpostResolverStatus =
+  | "CREATING"
+  | "OPERATIONAL"
+  | "UPDATING"
+  | "DELETING"
+  | "ACTION_NEEDED"
+  | "FAILED_CREATION"
+  | "FAILED_DELETION";
+export const OutpostResolverStatus = S.Literal(
+  "CREATING",
+  "OPERATIONAL",
+  "UPDATING",
+  "DELETING",
+  "ACTION_NEEDED",
+  "FAILED_CREATION",
+  "FAILED_DELETION",
+);
 export interface OutpostResolver {
   Arn?: string;
   CreationTime?: string;
@@ -1188,7 +1316,7 @@ export interface OutpostResolver {
   InstanceCount?: number;
   PreferredInstanceType?: string;
   Name?: string;
-  Status?: string;
+  Status?: OutpostResolverStatus;
   StatusMessage?: string;
   OutpostArn?: string;
 }
@@ -1202,7 +1330,7 @@ export const OutpostResolver = S.suspend(() =>
     InstanceCount: S.optional(S.Number),
     PreferredInstanceType: S.optional(S.String),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(OutpostResolverStatus),
     StatusMessage: S.optional(S.String),
     OutpostArn: S.optional(S.String),
   }),
@@ -1211,41 +1339,71 @@ export const OutpostResolver = S.suspend(() =>
 }) as any as S.Schema<OutpostResolver>;
 export type OutpostResolverList = OutpostResolver[];
 export const OutpostResolverList = S.Array(OutpostResolver);
+export type ResolverAutodefinedReverseStatus =
+  | "ENABLING"
+  | "ENABLED"
+  | "DISABLING"
+  | "DISABLED"
+  | "UPDATING_TO_USE_LOCAL_RESOURCE_SETTING"
+  | "USE_LOCAL_RESOURCE_SETTING";
+export const ResolverAutodefinedReverseStatus = S.Literal(
+  "ENABLING",
+  "ENABLED",
+  "DISABLING",
+  "DISABLED",
+  "UPDATING_TO_USE_LOCAL_RESOURCE_SETTING",
+  "USE_LOCAL_RESOURCE_SETTING",
+);
 export interface ResolverConfig {
   Id?: string;
   ResourceId?: string;
   OwnerId?: string;
-  AutodefinedReverse?: string;
+  AutodefinedReverse?: ResolverAutodefinedReverseStatus;
 }
 export const ResolverConfig = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     ResourceId: S.optional(S.String),
     OwnerId: S.optional(S.String),
-    AutodefinedReverse: S.optional(S.String),
+    AutodefinedReverse: S.optional(ResolverAutodefinedReverseStatus),
   }),
 ).annotations({
   identifier: "ResolverConfig",
 }) as any as S.Schema<ResolverConfig>;
 export type ResolverConfigList = ResolverConfig[];
 export const ResolverConfigList = S.Array(ResolverConfig);
+export type ResolverEndpointStatus =
+  | "CREATING"
+  | "OPERATIONAL"
+  | "UPDATING"
+  | "AUTO_RECOVERING"
+  | "ACTION_NEEDED"
+  | "DELETING";
+export const ResolverEndpointStatus = S.Literal(
+  "CREATING",
+  "OPERATIONAL",
+  "UPDATING",
+  "AUTO_RECOVERING",
+  "ACTION_NEEDED",
+  "DELETING",
+);
 export interface ResolverEndpoint {
   Id?: string;
   CreatorRequestId?: string;
   Arn?: string;
   Name?: string;
-  SecurityGroupIds?: SecurityGroupIds;
-  Direction?: string;
+  SecurityGroupIds?: string[];
+  Direction?: ResolverEndpointDirection;
   IpAddressCount?: number;
   HostVPCId?: string;
-  Status?: string;
+  Status?: ResolverEndpointStatus;
   StatusMessage?: string;
   CreationTime?: string;
   ModificationTime?: string;
   OutpostArn?: string;
   PreferredInstanceType?: string;
-  ResolverEndpointType?: string;
-  Protocols?: ProtocolList;
+  ResolverEndpointType?: ResolverEndpointType;
+  Protocols?: Protocol[];
   RniEnhancedMetricsEnabled?: boolean;
   TargetNameServerMetricsEnabled?: boolean;
 }
@@ -1256,16 +1414,16 @@ export const ResolverEndpoint = S.suspend(() =>
     Arn: S.optional(S.String),
     Name: S.optional(S.String),
     SecurityGroupIds: S.optional(SecurityGroupIds),
-    Direction: S.optional(S.String),
+    Direction: S.optional(ResolverEndpointDirection),
     IpAddressCount: S.optional(S.Number),
     HostVPCId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ResolverEndpointStatus),
     StatusMessage: S.optional(S.String),
     CreationTime: S.optional(S.String),
     ModificationTime: S.optional(S.String),
     OutpostArn: S.optional(S.String),
     PreferredInstanceType: S.optional(S.String),
-    ResolverEndpointType: S.optional(S.String),
+    ResolverEndpointType: S.optional(ResolverEndpointType),
     Protocols: S.optional(ProtocolList),
     RniEnhancedMetricsEnabled: S.optional(S.Boolean),
     TargetNameServerMetricsEnabled: S.optional(S.Boolean),
@@ -1275,12 +1433,36 @@ export const ResolverEndpoint = S.suspend(() =>
 }) as any as S.Schema<ResolverEndpoint>;
 export type ResolverEndpoints = ResolverEndpoint[];
 export const ResolverEndpoints = S.Array(ResolverEndpoint);
+export type ResolverQueryLogConfigAssociationStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "ACTION_NEEDED"
+  | "DELETING"
+  | "FAILED";
+export const ResolverQueryLogConfigAssociationStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "ACTION_NEEDED",
+  "DELETING",
+  "FAILED",
+);
+export type ResolverQueryLogConfigAssociationError =
+  | "NONE"
+  | "DESTINATION_NOT_FOUND"
+  | "ACCESS_DENIED"
+  | "INTERNAL_SERVICE_ERROR";
+export const ResolverQueryLogConfigAssociationError = S.Literal(
+  "NONE",
+  "DESTINATION_NOT_FOUND",
+  "ACCESS_DENIED",
+  "INTERNAL_SERVICE_ERROR",
+);
 export interface ResolverQueryLogConfigAssociation {
   Id?: string;
   ResolverQueryLogConfigId?: string;
   ResourceId?: string;
-  Status?: string;
-  Error?: string;
+  Status?: ResolverQueryLogConfigAssociationStatus;
+  Error?: ResolverQueryLogConfigAssociationError;
   ErrorMessage?: string;
   CreationTime?: string;
 }
@@ -1289,8 +1471,8 @@ export const ResolverQueryLogConfigAssociation = S.suspend(() =>
     Id: S.optional(S.String),
     ResolverQueryLogConfigId: S.optional(S.String),
     ResourceId: S.optional(S.String),
-    Status: S.optional(S.String),
-    Error: S.optional(S.String),
+    Status: S.optional(ResolverQueryLogConfigAssociationStatus),
+    Error: S.optional(ResolverQueryLogConfigAssociationError),
     ErrorMessage: S.optional(S.String),
     CreationTime: S.optional(S.String),
   }),
@@ -1302,11 +1484,28 @@ export type ResolverQueryLogConfigAssociationList =
 export const ResolverQueryLogConfigAssociationList = S.Array(
   ResolverQueryLogConfigAssociation,
 );
+export type ResolverQueryLogConfigStatus =
+  | "CREATING"
+  | "CREATED"
+  | "DELETING"
+  | "FAILED";
+export const ResolverQueryLogConfigStatus = S.Literal(
+  "CREATING",
+  "CREATED",
+  "DELETING",
+  "FAILED",
+);
+export type ShareStatus = "NOT_SHARED" | "SHARED_WITH_ME" | "SHARED_BY_ME";
+export const ShareStatus = S.Literal(
+  "NOT_SHARED",
+  "SHARED_WITH_ME",
+  "SHARED_BY_ME",
+);
 export interface ResolverQueryLogConfig {
   Id?: string;
   OwnerId?: string;
-  Status?: string;
-  ShareStatus?: string;
+  Status?: ResolverQueryLogConfigStatus;
+  ShareStatus?: ShareStatus;
   AssociationCount?: number;
   Arn?: string;
   Name?: string;
@@ -1318,8 +1517,8 @@ export const ResolverQueryLogConfig = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     OwnerId: S.optional(S.String),
-    Status: S.optional(S.String),
-    ShareStatus: S.optional(S.String),
+    Status: S.optional(ResolverQueryLogConfigStatus),
+    ShareStatus: S.optional(ShareStatus),
     AssociationCount: S.optional(S.Number),
     Arn: S.optional(S.String),
     Name: S.optional(S.String),
@@ -1332,12 +1531,25 @@ export const ResolverQueryLogConfig = S.suspend(() =>
 }) as any as S.Schema<ResolverQueryLogConfig>;
 export type ResolverQueryLogConfigList = ResolverQueryLogConfig[];
 export const ResolverQueryLogConfigList = S.Array(ResolverQueryLogConfig);
+export type ResolverRuleAssociationStatus =
+  | "CREATING"
+  | "COMPLETE"
+  | "DELETING"
+  | "FAILED"
+  | "OVERRIDDEN";
+export const ResolverRuleAssociationStatus = S.Literal(
+  "CREATING",
+  "COMPLETE",
+  "DELETING",
+  "FAILED",
+  "OVERRIDDEN",
+);
 export interface ResolverRuleAssociation {
   Id?: string;
   ResolverRuleId?: string;
   Name?: string;
   VPCId?: string;
-  Status?: string;
+  Status?: ResolverRuleAssociationStatus;
   StatusMessage?: string;
 }
 export const ResolverRuleAssociation = S.suspend(() =>
@@ -1346,7 +1558,7 @@ export const ResolverRuleAssociation = S.suspend(() =>
     ResolverRuleId: S.optional(S.String),
     Name: S.optional(S.String),
     VPCId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ResolverRuleAssociationStatus),
     StatusMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -1354,19 +1566,30 @@ export const ResolverRuleAssociation = S.suspend(() =>
 }) as any as S.Schema<ResolverRuleAssociation>;
 export type ResolverRuleAssociations = ResolverRuleAssociation[];
 export const ResolverRuleAssociations = S.Array(ResolverRuleAssociation);
+export type ResolverRuleStatus =
+  | "COMPLETE"
+  | "DELETING"
+  | "UPDATING"
+  | "FAILED";
+export const ResolverRuleStatus = S.Literal(
+  "COMPLETE",
+  "DELETING",
+  "UPDATING",
+  "FAILED",
+);
 export interface ResolverRule {
   Id?: string;
   CreatorRequestId?: string;
   Arn?: string;
   DomainName?: string;
-  Status?: string;
+  Status?: ResolverRuleStatus;
   StatusMessage?: string;
-  RuleType?: string;
+  RuleType?: RuleTypeOption;
   Name?: string;
-  TargetIps?: TargetList;
+  TargetIps?: TargetAddress[];
   ResolverEndpointId?: string;
   OwnerId?: string;
-  ShareStatus?: string;
+  ShareStatus?: ShareStatus;
   CreationTime?: string;
   ModificationTime?: string;
   DelegationRecord?: string;
@@ -1377,14 +1600,14 @@ export const ResolverRule = S.suspend(() =>
     CreatorRequestId: S.optional(S.String),
     Arn: S.optional(S.String),
     DomainName: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ResolverRuleStatus),
     StatusMessage: S.optional(S.String),
-    RuleType: S.optional(S.String),
+    RuleType: S.optional(RuleTypeOption),
     Name: S.optional(S.String),
     TargetIps: S.optional(TargetList),
     ResolverEndpointId: S.optional(S.String),
     OwnerId: S.optional(S.String),
-    ShareStatus: S.optional(S.String),
+    ShareStatus: S.optional(ShareStatus),
     CreationTime: S.optional(S.String),
     ModificationTime: S.optional(S.String),
     DelegationRecord: S.optional(S.String),
@@ -1405,7 +1628,7 @@ export type UpdateIpAddresses = UpdateIpAddress[];
 export const UpdateIpAddresses = S.Array(UpdateIpAddress);
 export interface ResolverRuleConfig {
   Name?: string;
-  TargetIps?: TargetList;
+  TargetIps?: TargetAddress[];
   ResolverEndpointId?: string;
 }
 export const ResolverRuleConfig = S.suspend(() =>
@@ -1423,8 +1646,8 @@ export interface AssociateFirewallRuleGroupRequest {
   VpcId: string;
   Priority: number;
   Name: string;
-  MutationProtection?: string;
-  Tags?: TagList;
+  MutationProtection?: MutationProtectionStatus;
+  Tags?: Tag[];
 }
 export const AssociateFirewallRuleGroupRequest = S.suspend(() =>
   S.Struct({
@@ -1433,7 +1656,7 @@ export const AssociateFirewallRuleGroupRequest = S.suspend(() =>
     VpcId: S.String,
     Priority: S.Number,
     Name: S.String,
-    MutationProtection: S.optional(S.String),
+    MutationProtection: S.optional(MutationProtectionStatus),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -1455,14 +1678,14 @@ export const AssociateResolverEndpointIpAddressRequest = S.suspend(() =>
 export interface CreateResolverEndpointRequest {
   CreatorRequestId: string;
   Name?: string;
-  SecurityGroupIds: SecurityGroupIds;
-  Direction: string;
-  IpAddresses: IpAddressesRequest;
+  SecurityGroupIds: string[];
+  Direction: ResolverEndpointDirection;
+  IpAddresses: IpAddressRequest[];
   OutpostArn?: string;
   PreferredInstanceType?: string;
-  Tags?: TagList;
-  ResolverEndpointType?: string;
-  Protocols?: ProtocolList;
+  Tags?: Tag[];
+  ResolverEndpointType?: ResolverEndpointType;
+  Protocols?: Protocol[];
   RniEnhancedMetricsEnabled?: boolean;
   TargetNameServerMetricsEnabled?: boolean;
 }
@@ -1471,12 +1694,12 @@ export const CreateResolverEndpointRequest = S.suspend(() =>
     CreatorRequestId: S.String,
     Name: S.optional(S.String),
     SecurityGroupIds: SecurityGroupIds,
-    Direction: S.String,
+    Direction: ResolverEndpointDirection,
     IpAddresses: IpAddressesRequest,
     OutpostArn: S.optional(S.String),
     PreferredInstanceType: S.optional(S.String),
     Tags: S.optional(TagList),
-    ResolverEndpointType: S.optional(S.String),
+    ResolverEndpointType: S.optional(ResolverEndpointType),
     Protocols: S.optional(ProtocolList),
     RniEnhancedMetricsEnabled: S.optional(S.Boolean),
     TargetNameServerMetricsEnabled: S.optional(S.Boolean),
@@ -1489,18 +1712,18 @@ export const CreateResolverEndpointRequest = S.suspend(() =>
 export interface CreateResolverRuleRequest {
   CreatorRequestId: string;
   Name?: string;
-  RuleType: string;
+  RuleType: RuleTypeOption;
   DomainName?: string;
-  TargetIps?: TargetList;
+  TargetIps?: TargetAddress[];
   ResolverEndpointId?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   DelegationRecord?: string;
 }
 export const CreateResolverRuleRequest = S.suspend(() =>
   S.Struct({
     CreatorRequestId: S.String,
     Name: S.optional(S.String),
-    RuleType: S.String,
+    RuleType: RuleTypeOption,
     DomainName: S.optional(S.String),
     TargetIps: S.optional(TargetList),
     ResolverEndpointId: S.optional(S.String),
@@ -1517,7 +1740,7 @@ export interface FirewallDomainList {
   Arn?: string;
   Name?: string;
   DomainCount?: number;
-  Status?: string;
+  Status?: FirewallDomainListStatus;
   StatusMessage?: string;
   ManagedOwnerName?: string;
   CreatorRequestId?: string;
@@ -1530,7 +1753,7 @@ export const FirewallDomainList = S.suspend(() =>
     Arn: S.optional(S.String),
     Name: S.optional(S.String),
     DomainCount: S.optional(S.Number),
-    Status: S.optional(S.String),
+    Status: S.optional(FirewallDomainListStatus),
     StatusMessage: S.optional(S.String),
     ManagedOwnerName: S.optional(S.String),
     CreatorRequestId: S.optional(S.String),
@@ -1556,16 +1779,22 @@ export const DeleteFirewallRuleResponse = S.suspend(() =>
 ).annotations({
   identifier: "DeleteFirewallRuleResponse",
 }) as any as S.Schema<DeleteFirewallRuleResponse>;
+export type FirewallRuleGroupStatus = "COMPLETE" | "DELETING" | "UPDATING";
+export const FirewallRuleGroupStatus = S.Literal(
+  "COMPLETE",
+  "DELETING",
+  "UPDATING",
+);
 export interface FirewallRuleGroup {
   Id?: string;
   Arn?: string;
   Name?: string;
   RuleCount?: number;
-  Status?: string;
+  Status?: FirewallRuleGroupStatus;
   StatusMessage?: string;
   OwnerId?: string;
   CreatorRequestId?: string;
-  ShareStatus?: string;
+  ShareStatus?: ShareStatus;
   CreationTime?: string;
   ModificationTime?: string;
 }
@@ -1575,11 +1804,11 @@ export const FirewallRuleGroup = S.suspend(() =>
     Arn: S.optional(S.String),
     Name: S.optional(S.String),
     RuleCount: S.optional(S.Number),
-    Status: S.optional(S.String),
+    Status: S.optional(FirewallRuleGroupStatus),
     StatusMessage: S.optional(S.String),
     OwnerId: S.optional(S.String),
     CreatorRequestId: S.optional(S.String),
-    ShareStatus: S.optional(S.String),
+    ShareStatus: S.optional(ShareStatus),
     CreationTime: S.optional(S.String),
     ModificationTime: S.optional(S.String),
   }),
@@ -1743,14 +1972,14 @@ export const GetResolverRulePolicyResponse = S.suspend(() =>
 export interface ImportFirewallDomainsResponse {
   Id?: string;
   Name?: string;
-  Status?: string;
+  Status?: FirewallDomainListStatus;
   StatusMessage?: string;
 }
 export const ImportFirewallDomainsResponse = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(FirewallDomainListStatus),
     StatusMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -1758,7 +1987,7 @@ export const ImportFirewallDomainsResponse = S.suspend(() =>
 }) as any as S.Schema<ImportFirewallDomainsResponse>;
 export interface ListFirewallConfigsResponse {
   NextToken?: string;
-  FirewallConfigs?: FirewallConfigList;
+  FirewallConfigs?: FirewallConfig[];
 }
 export const ListFirewallConfigsResponse = S.suspend(() =>
   S.Struct({
@@ -1770,7 +1999,7 @@ export const ListFirewallConfigsResponse = S.suspend(() =>
 }) as any as S.Schema<ListFirewallConfigsResponse>;
 export interface ListFirewallDomainsResponse {
   NextToken?: string;
-  Domains?: FirewallDomains;
+  Domains?: string[];
 }
 export const ListFirewallDomainsResponse = S.suspend(() =>
   S.Struct({
@@ -1782,7 +2011,7 @@ export const ListFirewallDomainsResponse = S.suspend(() =>
 }) as any as S.Schema<ListFirewallDomainsResponse>;
 export interface ListFirewallRuleGroupAssociationsResponse {
   NextToken?: string;
-  FirewallRuleGroupAssociations?: FirewallRuleGroupAssociations;
+  FirewallRuleGroupAssociations?: FirewallRuleGroupAssociation[];
 }
 export const ListFirewallRuleGroupAssociationsResponse = S.suspend(() =>
   S.Struct({
@@ -1794,7 +2023,7 @@ export const ListFirewallRuleGroupAssociationsResponse = S.suspend(() =>
 }) as any as S.Schema<ListFirewallRuleGroupAssociationsResponse>;
 export interface ListFirewallRulesResponse {
   NextToken?: string;
-  FirewallRules?: FirewallRules;
+  FirewallRules?: FirewallRule[];
 }
 export const ListFirewallRulesResponse = S.suspend(() =>
   S.Struct({
@@ -1805,7 +2034,7 @@ export const ListFirewallRulesResponse = S.suspend(() =>
   identifier: "ListFirewallRulesResponse",
 }) as any as S.Schema<ListFirewallRulesResponse>;
 export interface ListOutpostResolversResponse {
-  OutpostResolvers?: OutpostResolverList;
+  OutpostResolvers?: OutpostResolver[];
   NextToken?: string;
 }
 export const ListOutpostResolversResponse = S.suspend(() =>
@@ -1818,7 +2047,7 @@ export const ListOutpostResolversResponse = S.suspend(() =>
 }) as any as S.Schema<ListOutpostResolversResponse>;
 export interface ListResolverConfigsResponse {
   NextToken?: string;
-  ResolverConfigs?: ResolverConfigList;
+  ResolverConfigs?: ResolverConfig[];
 }
 export const ListResolverConfigsResponse = S.suspend(() =>
   S.Struct({
@@ -1831,7 +2060,7 @@ export const ListResolverConfigsResponse = S.suspend(() =>
 export interface ListResolverDnssecConfigsRequest {
   MaxResults?: number;
   NextToken?: string;
-  Filters?: Filters;
+  Filters?: Filter[];
 }
 export const ListResolverDnssecConfigsRequest = S.suspend(() =>
   S.Struct({
@@ -1847,7 +2076,7 @@ export const ListResolverDnssecConfigsRequest = S.suspend(() =>
 export interface ListResolverEndpointsResponse {
   NextToken?: string;
   MaxResults?: number;
-  ResolverEndpoints?: ResolverEndpoints;
+  ResolverEndpoints?: ResolverEndpoint[];
 }
 export const ListResolverEndpointsResponse = S.suspend(() =>
   S.Struct({
@@ -1862,7 +2091,7 @@ export interface ListResolverQueryLogConfigAssociationsResponse {
   NextToken?: string;
   TotalCount?: number;
   TotalFilteredCount?: number;
-  ResolverQueryLogConfigAssociations?: ResolverQueryLogConfigAssociationList;
+  ResolverQueryLogConfigAssociations?: ResolverQueryLogConfigAssociation[];
 }
 export const ListResolverQueryLogConfigAssociationsResponse = S.suspend(() =>
   S.Struct({
@@ -1880,7 +2109,7 @@ export interface ListResolverQueryLogConfigsResponse {
   NextToken?: string;
   TotalCount?: number;
   TotalFilteredCount?: number;
-  ResolverQueryLogConfigs?: ResolverQueryLogConfigList;
+  ResolverQueryLogConfigs?: ResolverQueryLogConfig[];
 }
 export const ListResolverQueryLogConfigsResponse = S.suspend(() =>
   S.Struct({
@@ -1895,7 +2124,7 @@ export const ListResolverQueryLogConfigsResponse = S.suspend(() =>
 export interface ListResolverRuleAssociationsResponse {
   NextToken?: string;
   MaxResults?: number;
-  ResolverRuleAssociations?: ResolverRuleAssociations;
+  ResolverRuleAssociations?: ResolverRuleAssociation[];
 }
 export const ListResolverRuleAssociationsResponse = S.suspend(() =>
   S.Struct({
@@ -1909,7 +2138,7 @@ export const ListResolverRuleAssociationsResponse = S.suspend(() =>
 export interface ListResolverRulesResponse {
   NextToken?: string;
   MaxResults?: number;
-  ResolverRules?: ResolverRules;
+  ResolverRules?: ResolverRule[];
 }
 export const ListResolverRulesResponse = S.suspend(() =>
   S.Struct({
@@ -1921,7 +2150,7 @@ export const ListResolverRulesResponse = S.suspend(() =>
   identifier: "ListResolverRulesResponse",
 }) as any as S.Schema<ListResolverRulesResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
   NextToken?: string;
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
@@ -1964,14 +2193,14 @@ export const UpdateFirewallConfigResponse = S.suspend(() =>
 export interface UpdateFirewallDomainsResponse {
   Id?: string;
   Name?: string;
-  Status?: string;
+  Status?: FirewallDomainListStatus;
   StatusMessage?: string;
 }
 export const UpdateFirewallDomainsResponse = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(FirewallDomainListStatus),
     StatusMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -2011,18 +2240,33 @@ export const UpdateResolverConfigResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateResolverConfigResponse",
 }) as any as S.Schema<UpdateResolverConfigResponse>;
+export type ResolverDNSSECValidationStatus =
+  | "ENABLING"
+  | "ENABLED"
+  | "DISABLING"
+  | "DISABLED"
+  | "UPDATING_TO_USE_LOCAL_RESOURCE_SETTING"
+  | "USE_LOCAL_RESOURCE_SETTING";
+export const ResolverDNSSECValidationStatus = S.Literal(
+  "ENABLING",
+  "ENABLED",
+  "DISABLING",
+  "DISABLED",
+  "UPDATING_TO_USE_LOCAL_RESOURCE_SETTING",
+  "USE_LOCAL_RESOURCE_SETTING",
+);
 export interface ResolverDnssecConfig {
   Id?: string;
   OwnerId?: string;
   ResourceId?: string;
-  ValidationStatus?: string;
+  ValidationStatus?: ResolverDNSSECValidationStatus;
 }
 export const ResolverDnssecConfig = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     OwnerId: S.optional(S.String),
     ResourceId: S.optional(S.String),
-    ValidationStatus: S.optional(S.String),
+    ValidationStatus: S.optional(ResolverDNSSECValidationStatus),
   }),
 ).annotations({
   identifier: "ResolverDnssecConfig",
@@ -2038,9 +2282,9 @@ export const UpdateResolverDnssecConfigResponse = S.suspend(() =>
 export interface UpdateResolverEndpointRequest {
   ResolverEndpointId: string;
   Name?: string;
-  ResolverEndpointType?: string;
-  UpdateIpAddresses?: UpdateIpAddresses;
-  Protocols?: ProtocolList;
+  ResolverEndpointType?: ResolverEndpointType;
+  UpdateIpAddresses?: UpdateIpAddress[];
+  Protocols?: Protocol[];
   RniEnhancedMetricsEnabled?: boolean;
   TargetNameServerMetricsEnabled?: boolean;
 }
@@ -2048,7 +2292,7 @@ export const UpdateResolverEndpointRequest = S.suspend(() =>
   S.Struct({
     ResolverEndpointId: S.String,
     Name: S.optional(S.String),
-    ResolverEndpointType: S.optional(S.String),
+    ResolverEndpointType: S.optional(ResolverEndpointType),
     UpdateIpAddresses: S.optional(UpdateIpAddresses),
     Protocols: S.optional(ProtocolList),
     RniEnhancedMetricsEnabled: S.optional(S.Boolean),
@@ -2070,6 +2314,35 @@ export const UpdateResolverRuleRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateResolverRuleRequest",
 }) as any as S.Schema<UpdateResolverRuleRequest>;
+export type IpAddressStatus =
+  | "CREATING"
+  | "FAILED_CREATION"
+  | "ATTACHING"
+  | "ATTACHED"
+  | "REMAP_DETACHING"
+  | "REMAP_ATTACHING"
+  | "DETACHING"
+  | "FAILED_RESOURCE_GONE"
+  | "DELETING"
+  | "DELETE_FAILED_FAS_EXPIRED"
+  | "UPDATING"
+  | "UPDATE_FAILED"
+  | "ISOLATED";
+export const IpAddressStatus = S.Literal(
+  "CREATING",
+  "FAILED_CREATION",
+  "ATTACHING",
+  "ATTACHED",
+  "REMAP_DETACHING",
+  "REMAP_ATTACHING",
+  "DETACHING",
+  "FAILED_RESOURCE_GONE",
+  "DELETING",
+  "DELETE_FAILED_FAS_EXPIRED",
+  "UPDATING",
+  "UPDATE_FAILED",
+  "ISOLATED",
+);
 export interface FirewallDomainListMetadata {
   Id?: string;
   Arn?: string;
@@ -2098,7 +2371,7 @@ export interface FirewallRuleGroupMetadata {
   Name?: string;
   OwnerId?: string;
   CreatorRequestId?: string;
-  ShareStatus?: string;
+  ShareStatus?: ShareStatus;
 }
 export const FirewallRuleGroupMetadata = S.suspend(() =>
   S.Struct({
@@ -2107,7 +2380,7 @@ export const FirewallRuleGroupMetadata = S.suspend(() =>
     Name: S.optional(S.String),
     OwnerId: S.optional(S.String),
     CreatorRequestId: S.optional(S.String),
-    ShareStatus: S.optional(S.String),
+    ShareStatus: S.optional(ShareStatus),
   }),
 ).annotations({
   identifier: "FirewallRuleGroupMetadata",
@@ -2121,7 +2394,7 @@ export interface IpAddressResponse {
   SubnetId?: string;
   Ip?: string;
   Ipv6?: string;
-  Status?: string;
+  Status?: IpAddressStatus;
   StatusMessage?: string;
   CreationTime?: string;
   ModificationTime?: string;
@@ -2132,7 +2405,7 @@ export const IpAddressResponse = S.suspend(() =>
     SubnetId: S.optional(S.String),
     Ip: S.optional(S.String),
     Ipv6: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(IpAddressStatus),
     StatusMessage: S.optional(S.String),
     CreationTime: S.optional(S.String),
     ModificationTime: S.optional(S.String),
@@ -2288,7 +2561,7 @@ export const GetResolverDnssecConfigResponse = S.suspend(() =>
 }) as any as S.Schema<GetResolverDnssecConfigResponse>;
 export interface ListFirewallDomainListsResponse {
   NextToken?: string;
-  FirewallDomainLists?: FirewallDomainListMetadataList;
+  FirewallDomainLists?: FirewallDomainListMetadata[];
 }
 export const ListFirewallDomainListsResponse = S.suspend(() =>
   S.Struct({
@@ -2300,7 +2573,7 @@ export const ListFirewallDomainListsResponse = S.suspend(() =>
 }) as any as S.Schema<ListFirewallDomainListsResponse>;
 export interface ListFirewallRuleGroupsResponse {
   NextToken?: string;
-  FirewallRuleGroups?: FirewallRuleGroupMetadataList;
+  FirewallRuleGroups?: FirewallRuleGroupMetadata[];
 }
 export const ListFirewallRuleGroupsResponse = S.suspend(() =>
   S.Struct({
@@ -2312,7 +2585,7 @@ export const ListFirewallRuleGroupsResponse = S.suspend(() =>
 }) as any as S.Schema<ListFirewallRuleGroupsResponse>;
 export interface ListResolverDnssecConfigsResponse {
   NextToken?: string;
-  ResolverDnssecConfigs?: ResolverDnssecConfigList;
+  ResolverDnssecConfigs?: ResolverDnssecConfig[];
 }
 export const ListResolverDnssecConfigsResponse = S.suspend(() =>
   S.Struct({
@@ -2325,7 +2598,7 @@ export const ListResolverDnssecConfigsResponse = S.suspend(() =>
 export interface ListResolverEndpointIpAddressesResponse {
   NextToken?: string;
   MaxResults?: number;
-  IpAddresses?: IpAddressesResponse;
+  IpAddresses?: IpAddressResponse[];
 }
 export const ListResolverEndpointIpAddressesResponse = S.suspend(() =>
   S.Struct({
@@ -2430,7 +2703,7 @@ export class ResourceExistsException extends S.TaggedError<ResourceExistsExcepti
  */
 export const getResolverRulePolicy: (
   input: GetResolverRulePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResolverRulePolicyResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2454,7 +2727,7 @@ export const getResolverRulePolicy: (
  */
 export const putResolverQueryLogConfigPolicy: (
   input: PutResolverQueryLogConfigPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutResolverQueryLogConfigPolicyResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2481,7 +2754,7 @@ export const putResolverQueryLogConfigPolicy: (
  */
 export const getFirewallDomainList: (
   input: GetFirewallDomainListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFirewallDomainListResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2504,7 +2777,7 @@ export const getFirewallDomainList: (
  */
 export const getFirewallRuleGroup: (
   input: GetFirewallRuleGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFirewallRuleGroupResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2527,7 +2800,7 @@ export const getFirewallRuleGroup: (
  */
 export const getFirewallRuleGroupAssociation: (
   input: GetFirewallRuleGroupAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFirewallRuleGroupAssociationResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2553,7 +2826,7 @@ export const getFirewallRuleGroupAssociation: (
  */
 export const disassociateResolverRule: (
   input: DisassociateResolverRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateResolverRuleResponse,
   | InternalServiceErrorException
   | InvalidParameterException
@@ -2577,7 +2850,7 @@ export const disassociateResolverRule: (
  */
 export const getResolverEndpoint: (
   input: GetResolverEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResolverEndpointResponse,
   | InternalServiceErrorException
   | InvalidParameterException
@@ -2601,7 +2874,7 @@ export const getResolverEndpoint: (
  */
 export const getResolverRule: (
   input: GetResolverRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResolverRuleResponse,
   | InternalServiceErrorException
   | InvalidParameterException
@@ -2625,7 +2898,7 @@ export const getResolverRule: (
  */
 export const getResolverRuleAssociation: (
   input: GetResolverRuleAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResolverRuleAssociationResponse,
   | InternalServiceErrorException
   | InvalidParameterException
@@ -2649,7 +2922,7 @@ export const getResolverRuleAssociation: (
 export const listResolverEndpointIpAddresses: {
   (
     input: ListResolverEndpointIpAddressesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResolverEndpointIpAddressesResponse,
     | InternalServiceErrorException
     | InvalidNextTokenException
@@ -2661,7 +2934,7 @@ export const listResolverEndpointIpAddresses: {
   >;
   pages: (
     input: ListResolverEndpointIpAddressesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResolverEndpointIpAddressesResponse,
     | InternalServiceErrorException
     | InvalidNextTokenException
@@ -2673,7 +2946,7 @@ export const listResolverEndpointIpAddresses: {
   >;
   items: (
     input: ListResolverEndpointIpAddressesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     IpAddressResponse,
     | InternalServiceErrorException
     | InvalidNextTokenException
@@ -2705,7 +2978,7 @@ export const listResolverEndpointIpAddresses: {
  */
 export const deleteFirewallDomainList: (
   input: DeleteFirewallDomainListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFirewallDomainListResponse,
   | AccessDeniedException
   | ConflictException
@@ -2732,7 +3005,7 @@ export const deleteFirewallDomainList: (
  */
 export const deleteResolverRule: (
   input: DeleteResolverRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResolverRuleResponse,
   | InternalServiceErrorException
   | InvalidParameterException
@@ -2758,7 +3031,7 @@ export const deleteResolverRule: (
  */
 export const updateResolverEndpoint: (
   input: UpdateResolverEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateResolverEndpointResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2795,7 +3068,7 @@ export const updateResolverEndpoint: (
  */
 export const deleteResolverQueryLogConfig: (
   input: DeleteResolverQueryLogConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResolverQueryLogConfigResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2831,7 +3104,7 @@ export const deleteResolverQueryLogConfig: (
  */
 export const disassociateResolverQueryLogConfig: (
   input: DisassociateResolverQueryLogConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateResolverQueryLogConfigResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2859,7 +3132,7 @@ export const disassociateResolverQueryLogConfig: (
  */
 export const getResolverQueryLogConfig: (
   input: GetResolverQueryLogConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResolverQueryLogConfigResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2887,7 +3160,7 @@ export const getResolverQueryLogConfig: (
  */
 export const getResolverQueryLogConfigAssociation: (
   input: GetResolverQueryLogConfigAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResolverQueryLogConfigAssociationResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2915,7 +3188,7 @@ export const getResolverQueryLogConfigAssociation: (
  */
 export const getResolverQueryLogConfigPolicy: (
   input: GetResolverQueryLogConfigPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResolverQueryLogConfigPolicyResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2941,7 +3214,7 @@ export const getResolverQueryLogConfigPolicy: (
 export const listResolverQueryLogConfigAssociations: {
   (
     input: ListResolverQueryLogConfigAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResolverQueryLogConfigAssociationsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -2954,7 +3227,7 @@ export const listResolverQueryLogConfigAssociations: {
   >;
   pages: (
     input: ListResolverQueryLogConfigAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResolverQueryLogConfigAssociationsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -2967,7 +3240,7 @@ export const listResolverQueryLogConfigAssociations: {
   >;
   items: (
     input: ListResolverQueryLogConfigAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResolverQueryLogConfigAssociation,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -3001,7 +3274,7 @@ export const listResolverQueryLogConfigAssociations: {
  */
 export const updateResolverDnssecConfig: (
   input: UpdateResolverDnssecConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateResolverDnssecConfigResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -3029,7 +3302,7 @@ export const updateResolverDnssecConfig: (
 export const listResolverEndpoints: {
   (
     input: ListResolverEndpointsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResolverEndpointsResponse,
     | InternalServiceErrorException
     | InvalidNextTokenException
@@ -3041,7 +3314,7 @@ export const listResolverEndpoints: {
   >;
   pages: (
     input: ListResolverEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResolverEndpointsResponse,
     | InternalServiceErrorException
     | InvalidNextTokenException
@@ -3053,7 +3326,7 @@ export const listResolverEndpoints: {
   >;
   items: (
     input: ListResolverEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResolverEndpoint,
     | InternalServiceErrorException
     | InvalidNextTokenException
@@ -3085,7 +3358,7 @@ export const listResolverEndpoints: {
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServiceErrorException
   | InvalidParameterException
@@ -3116,7 +3389,7 @@ export const untagResource: (
  */
 export const deleteResolverEndpoint: (
   input: DeleteResolverEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResolverEndpointResponse,
   | InternalServiceErrorException
   | InvalidParameterException
@@ -3141,7 +3414,7 @@ export const deleteResolverEndpoint: (
  */
 export const getResolverDnssecConfig: (
   input: GetResolverDnssecConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResolverDnssecConfigResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -3169,7 +3442,7 @@ export const getResolverDnssecConfig: (
 export const listResolverRuleAssociations: {
   (
     input: ListResolverRuleAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResolverRuleAssociationsResponse,
     | InternalServiceErrorException
     | InvalidNextTokenException
@@ -3181,7 +3454,7 @@ export const listResolverRuleAssociations: {
   >;
   pages: (
     input: ListResolverRuleAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResolverRuleAssociationsResponse,
     | InternalServiceErrorException
     | InvalidNextTokenException
@@ -3193,7 +3466,7 @@ export const listResolverRuleAssociations: {
   >;
   items: (
     input: ListResolverRuleAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResolverRuleAssociation,
     | InternalServiceErrorException
     | InvalidNextTokenException
@@ -3226,7 +3499,7 @@ export const listResolverRuleAssociations: {
 export const listResolverRules: {
   (
     input: ListResolverRulesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResolverRulesResponse,
     | InternalServiceErrorException
     | InvalidNextTokenException
@@ -3238,7 +3511,7 @@ export const listResolverRules: {
   >;
   pages: (
     input: ListResolverRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResolverRulesResponse,
     | InternalServiceErrorException
     | InvalidNextTokenException
@@ -3250,7 +3523,7 @@ export const listResolverRules: {
   >;
   items: (
     input: ListResolverRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResolverRule,
     | InternalServiceErrorException
     | InvalidNextTokenException
@@ -3283,7 +3556,7 @@ export const listResolverRules: {
 export const listTagsForResource: {
   (
     input: ListTagsForResourceRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTagsForResourceResponse,
     | InternalServiceErrorException
     | InvalidNextTokenException
@@ -3296,7 +3569,7 @@ export const listTagsForResource: {
   >;
   pages: (
     input: ListTagsForResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTagsForResourceResponse,
     | InternalServiceErrorException
     | InvalidNextTokenException
@@ -3309,7 +3582,7 @@ export const listTagsForResource: {
   >;
   items: (
     input: ListTagsForResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Tag,
     | InternalServiceErrorException
     | InvalidNextTokenException
@@ -3344,7 +3617,7 @@ export const listTagsForResource: {
 export const listResolverDnssecConfigs: {
   (
     input: ListResolverDnssecConfigsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResolverDnssecConfigsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -3357,7 +3630,7 @@ export const listResolverDnssecConfigs: {
   >;
   pages: (
     input: ListResolverDnssecConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResolverDnssecConfigsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -3370,7 +3643,7 @@ export const listResolverDnssecConfigs: {
   >;
   items: (
     input: ListResolverDnssecConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResolverDnssecConfig,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -3406,7 +3679,7 @@ export const listResolverDnssecConfigs: {
 export const listResolverQueryLogConfigs: {
   (
     input: ListResolverQueryLogConfigsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResolverQueryLogConfigsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -3419,7 +3692,7 @@ export const listResolverQueryLogConfigs: {
   >;
   pages: (
     input: ListResolverQueryLogConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResolverQueryLogConfigsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -3432,7 +3705,7 @@ export const listResolverQueryLogConfigs: {
   >;
   items: (
     input: ListResolverQueryLogConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResolverQueryLogConfig,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -3467,7 +3740,7 @@ export const listResolverQueryLogConfigs: {
  */
 export const putResolverRulePolicy: (
   input: PutResolverRulePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutResolverRulePolicyResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -3495,7 +3768,7 @@ export const putResolverRulePolicy: (
 export const listFirewallDomainLists: {
   (
     input: ListFirewallDomainListsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFirewallDomainListsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -3506,7 +3779,7 @@ export const listFirewallDomainLists: {
   >;
   pages: (
     input: ListFirewallDomainListsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFirewallDomainListsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -3517,7 +3790,7 @@ export const listFirewallDomainLists: {
   >;
   items: (
     input: ListFirewallDomainListsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FirewallDomainListMetadata,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -3547,7 +3820,7 @@ export const listFirewallDomainLists: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServiceErrorException
   | InvalidParameterException
@@ -3576,7 +3849,7 @@ export const tagResource: (
  */
 export const updateOutpostResolver: (
   input: UpdateOutpostResolverRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateOutpostResolverResponse,
   | AccessDeniedException
   | ConflictException
@@ -3605,7 +3878,7 @@ export const updateOutpostResolver: (
  */
 export const createFirewallDomainList: (
   input: CreateFirewallDomainListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFirewallDomainListResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -3630,7 +3903,7 @@ export const createFirewallDomainList: (
  */
 export const disassociateFirewallRuleGroup: (
   input: DisassociateFirewallRuleGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateFirewallRuleGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -3657,7 +3930,7 @@ export const disassociateFirewallRuleGroup: (
  */
 export const deleteFirewallRuleGroup: (
   input: DeleteFirewallRuleGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFirewallRuleGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -3684,7 +3957,7 @@ export const deleteFirewallRuleGroup: (
  */
 export const deleteOutpostResolver: (
   input: DeleteOutpostResolverRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteOutpostResolverResponse,
   | AccessDeniedException
   | ConflictException
@@ -3722,7 +3995,7 @@ export const deleteOutpostResolver: (
  */
 export const importFirewallDomains: (
   input: ImportFirewallDomainsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ImportFirewallDomainsResponse,
   | AccessDeniedException
   | ConflictException
@@ -3751,7 +4024,7 @@ export const importFirewallDomains: (
  */
 export const updateFirewallDomains: (
   input: UpdateFirewallDomainsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFirewallDomainsResponse,
   | AccessDeniedException
   | ConflictException
@@ -3780,7 +4053,7 @@ export const updateFirewallDomains: (
  */
 export const updateFirewallRule: (
   input: UpdateFirewallRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFirewallRuleResponse,
   | AccessDeniedException
   | ConflictException
@@ -3807,7 +4080,7 @@ export const updateFirewallRule: (
  */
 export const updateFirewallRuleGroupAssociation: (
   input: UpdateFirewallRuleGroupAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFirewallRuleGroupAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3834,7 +4107,7 @@ export const updateFirewallRuleGroupAssociation: (
  */
 export const associateFirewallRuleGroup: (
   input: AssociateFirewallRuleGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateFirewallRuleGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -3863,7 +4136,7 @@ export const associateFirewallRuleGroup: (
  */
 export const deleteFirewallRule: (
   input: DeleteFirewallRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFirewallRuleResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -3889,7 +4162,7 @@ export const deleteFirewallRule: (
  */
 export const getFirewallRuleGroupPolicy: (
   input: GetFirewallRuleGroupPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFirewallRuleGroupPolicyResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -3915,7 +4188,7 @@ export const getFirewallRuleGroupPolicy: (
  */
 export const getOutpostResolver: (
   input: GetOutpostResolverRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetOutpostResolverResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -3943,7 +4216,7 @@ export const getOutpostResolver: (
 export const listFirewallDomains: {
   (
     input: ListFirewallDomainsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFirewallDomainsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -3955,7 +4228,7 @@ export const listFirewallDomains: {
   >;
   pages: (
     input: ListFirewallDomainsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFirewallDomainsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -3967,7 +4240,7 @@ export const listFirewallDomains: {
   >;
   items: (
     input: ListFirewallDomainsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FirewallDomainName,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -4002,7 +4275,7 @@ export const listFirewallDomains: {
 export const listFirewallRules: {
   (
     input: ListFirewallRulesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFirewallRulesResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -4014,7 +4287,7 @@ export const listFirewallRules: {
   >;
   pages: (
     input: ListFirewallRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFirewallRulesResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -4026,7 +4299,7 @@ export const listFirewallRules: {
   >;
   items: (
     input: ListFirewallRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FirewallRule,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -4059,7 +4332,7 @@ export const listFirewallRules: {
 export const listOutpostResolvers: {
   (
     input: ListOutpostResolversRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOutpostResolversResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -4071,7 +4344,7 @@ export const listOutpostResolvers: {
   >;
   pages: (
     input: ListOutpostResolversRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOutpostResolversResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -4083,7 +4356,7 @@ export const listOutpostResolvers: {
   >;
   items: (
     input: ListOutpostResolversRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OutpostResolver,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -4117,7 +4390,7 @@ export const listOutpostResolvers: {
  */
 export const putFirewallRuleGroupPolicy: (
   input: PutFirewallRuleGroupPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutFirewallRuleGroupPolicyResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -4143,7 +4416,7 @@ export const putFirewallRuleGroupPolicy: (
  */
 export const updateFirewallConfig: (
   input: UpdateFirewallConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFirewallConfigResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -4169,7 +4442,7 @@ export const updateFirewallConfig: (
  */
 export const getResolverConfig: (
   input: GetResolverConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResolverConfigResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -4199,7 +4472,7 @@ export const getResolverConfig: (
 export const listFirewallRuleGroups: {
   (
     input: ListFirewallRuleGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFirewallRuleGroupsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -4210,7 +4483,7 @@ export const listFirewallRuleGroups: {
   >;
   pages: (
     input: ListFirewallRuleGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFirewallRuleGroupsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -4221,7 +4494,7 @@ export const listFirewallRuleGroups: {
   >;
   items: (
     input: ListFirewallRuleGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FirewallRuleGroupMetadata,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -4254,7 +4527,7 @@ export const listFirewallRuleGroups: {
 export const listFirewallConfigs: {
   (
     input: ListFirewallConfigsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFirewallConfigsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -4265,7 +4538,7 @@ export const listFirewallConfigs: {
   >;
   pages: (
     input: ListFirewallConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFirewallConfigsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -4276,7 +4549,7 @@ export const listFirewallConfigs: {
   >;
   items: (
     input: ListFirewallConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FirewallConfig,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -4309,7 +4582,7 @@ export const listFirewallConfigs: {
 export const listFirewallRuleGroupAssociations: {
   (
     input: ListFirewallRuleGroupAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFirewallRuleGroupAssociationsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -4320,7 +4593,7 @@ export const listFirewallRuleGroupAssociations: {
   >;
   pages: (
     input: ListFirewallRuleGroupAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFirewallRuleGroupAssociationsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -4331,7 +4604,7 @@ export const listFirewallRuleGroupAssociations: {
   >;
   items: (
     input: ListFirewallRuleGroupAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FirewallRuleGroupAssociation,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -4362,7 +4635,7 @@ export const listFirewallRuleGroupAssociations: {
  */
 export const getFirewallConfig: (
   input: GetFirewallConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFirewallConfigResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -4389,7 +4662,7 @@ export const getFirewallConfig: (
 export const listResolverConfigs: {
   (
     input: ListResolverConfigsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResolverConfigsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -4403,7 +4676,7 @@ export const listResolverConfigs: {
   >;
   pages: (
     input: ListResolverConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResolverConfigsResponse,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -4417,7 +4690,7 @@ export const listResolverConfigs: {
   >;
   items: (
     input: ListResolverConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResolverConfig,
     | AccessDeniedException
     | InternalServiceErrorException
@@ -4453,7 +4726,7 @@ export const listResolverConfigs: {
  */
 export const createFirewallRule: (
   input: CreateFirewallRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFirewallRuleResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -4481,7 +4754,7 @@ export const createFirewallRule: (
  */
 export const createFirewallRuleGroup: (
   input: CreateFirewallRuleGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFirewallRuleGroupResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -4507,7 +4780,7 @@ export const createFirewallRuleGroup: (
  */
 export const updateResolverRule: (
   input: UpdateResolverRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateResolverRuleResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -4545,7 +4818,7 @@ export const updateResolverRule: (
  */
 export const associateResolverQueryLogConfig: (
   input: AssociateResolverQueryLogConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateResolverQueryLogConfigResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -4576,7 +4849,7 @@ export const associateResolverQueryLogConfig: (
  */
 export const createOutpostResolver: (
   input: CreateOutpostResolverRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateOutpostResolverResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -4604,7 +4877,7 @@ export const createOutpostResolver: (
  */
 export const updateResolverConfig: (
   input: UpdateResolverConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateResolverConfigResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -4643,7 +4916,7 @@ export const updateResolverConfig: (
  */
 export const createResolverEndpoint: (
   input: CreateResolverEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateResolverEndpointResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -4682,7 +4955,7 @@ export const createResolverEndpoint: (
  */
 export const createResolverQueryLogConfig: (
   input: CreateResolverQueryLogConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateResolverQueryLogConfigResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -4714,7 +4987,7 @@ export const createResolverQueryLogConfig: (
  */
 export const createResolverRule: (
   input: CreateResolverRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateResolverRuleResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -4751,7 +5024,7 @@ export const createResolverRule: (
  */
 export const disassociateResolverEndpointIpAddress: (
   input: DisassociateResolverEndpointIpAddressRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateResolverEndpointIpAddressResponse,
   | InternalServiceErrorException
   | InvalidParameterException
@@ -4782,7 +5055,7 @@ export const disassociateResolverEndpointIpAddress: (
  */
 export const associateResolverEndpointIpAddress: (
   input: AssociateResolverEndpointIpAddressRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateResolverEndpointIpAddressResponse,
   | InternalServiceErrorException
   | InvalidParameterException
@@ -4814,7 +5087,7 @@ export const associateResolverEndpointIpAddress: (
  */
 export const associateResolverRule: (
   input: AssociateResolverRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateResolverRuleResponse,
   | InternalServiceErrorException
   | InvalidParameterException

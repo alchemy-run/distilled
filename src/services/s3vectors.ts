@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -82,6 +82,10 @@ export type ExceptionMessage = string;
 //# Schemas
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type DataType = "float32";
+export const DataType = S.Literal("float32");
+export type DistanceMetric = "euclidean" | "cosine";
+export const DistanceMetric = S.Literal("euclidean", "cosine");
 export type DeleteVectorsInputList = string[];
 export const DeleteVectorsInputList = S.Array(S.String);
 export type GetVectorsInputList = string[];
@@ -105,7 +109,7 @@ export const ListTagsForResourceInput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceInput>;
 export interface UntagResourceInput {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({
@@ -357,7 +361,7 @@ export interface DeleteVectorsInput {
   vectorBucketName?: string;
   indexName?: string;
   indexArn?: string;
-  keys: DeleteVectorsInputList;
+  keys: string[];
 }
 export const DeleteVectorsInput = S.suspend(() =>
   S.Struct({
@@ -386,7 +390,7 @@ export interface GetVectorsInput {
   vectorBucketName?: string;
   indexName?: string;
   indexArn?: string;
-  keys: GetVectorsInputList;
+  keys: string[];
   returnData?: boolean;
   returnMetadata?: boolean;
 }
@@ -446,6 +450,8 @@ export const ListVectorsInput = S.suspend(() =>
 ).annotations({
   identifier: "ListVectorsInput",
 }) as any as S.Schema<ListVectorsInput>;
+export type SseType = "AES256" | "aws:kms";
+export const SseType = S.Literal("AES256", "aws:kms");
 export type NonFilterableMetadataKeys = string[];
 export const NonFilterableMetadataKeys = S.Array(S.String);
 export type Float32VectorData = number[];
@@ -453,27 +459,27 @@ export const Float32VectorData = S.Array(S.Number);
 export type TagsMap = { [key: string]: string };
 export const TagsMap = S.Record({ key: S.String, value: S.String });
 export interface EncryptionConfiguration {
-  sseType?: string;
+  sseType?: SseType;
   kmsKeyArn?: string;
 }
 export const EncryptionConfiguration = S.suspend(() =>
-  S.Struct({ sseType: S.optional(S.String), kmsKeyArn: S.optional(S.String) }),
+  S.Struct({ sseType: S.optional(SseType), kmsKeyArn: S.optional(S.String) }),
 ).annotations({
   identifier: "EncryptionConfiguration",
 }) as any as S.Schema<EncryptionConfiguration>;
 export interface MetadataConfiguration {
-  nonFilterableMetadataKeys: NonFilterableMetadataKeys;
+  nonFilterableMetadataKeys: string[];
 }
 export const MetadataConfiguration = S.suspend(() =>
   S.Struct({ nonFilterableMetadataKeys: NonFilterableMetadataKeys }),
 ).annotations({
   identifier: "MetadataConfiguration",
 }) as any as S.Schema<MetadataConfiguration>;
-export type VectorData = { float32: Float32VectorData };
+export type VectorData = { float32: number[] };
 export const VectorData = S.Union(S.Struct({ float32: Float32VectorData }));
 export interface PutInputVector {
   key: string;
-  data: (typeof VectorData)["Type"];
+  data: VectorData;
   metadata?: any;
 }
 export const PutInputVector = S.suspend(() =>
@@ -484,7 +490,7 @@ export const PutInputVector = S.suspend(() =>
 export type PutVectorsInputList = PutInputVector[];
 export const PutVectorsInputList = S.Array(PutInputVector);
 export interface ListTagsForResourceOutput {
-  tags: TagsMap;
+  tags: { [key: string]: string };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: TagsMap }),
@@ -493,7 +499,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   resourceArn: string;
-  tags: TagsMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -519,7 +525,7 @@ export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
 export interface CreateVectorBucketInput {
   vectorBucketName: string;
   encryptionConfiguration?: EncryptionConfiguration;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const CreateVectorBucketInput = S.suspend(() =>
   S.Struct({
@@ -551,21 +557,21 @@ export interface CreateIndexInput {
   vectorBucketName?: string;
   vectorBucketArn?: string;
   indexName: string;
-  dataType: string;
+  dataType: DataType;
   dimension: number;
-  distanceMetric: string;
+  distanceMetric: DistanceMetric;
   metadataConfiguration?: MetadataConfiguration;
   encryptionConfiguration?: EncryptionConfiguration;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const CreateIndexInput = S.suspend(() =>
   S.Struct({
     vectorBucketName: S.optional(S.String),
     vectorBucketArn: S.optional(S.String),
     indexName: S.String,
-    dataType: S.String,
+    dataType: DataType,
     dimension: S.Number,
-    distanceMetric: S.String,
+    distanceMetric: DistanceMetric,
     metadataConfiguration: S.optional(MetadataConfiguration),
     encryptionConfiguration: S.optional(EncryptionConfiguration),
     tags: S.optional(TagsMap),
@@ -586,7 +592,7 @@ export interface PutVectorsInput {
   vectorBucketName?: string;
   indexName?: string;
   indexArn?: string;
-  vectors: PutVectorsInputList;
+  vectors: PutInputVector[];
 }
 export const PutVectorsInput = S.suspend(() =>
   S.Struct({
@@ -616,7 +622,7 @@ export interface QueryVectorsInput {
   indexName?: string;
   indexArn?: string;
   topK: number;
-  queryVector: (typeof VectorData)["Type"];
+  queryVector: VectorData;
   filter?: any;
   returnMetadata?: boolean;
   returnDistance?: boolean;
@@ -679,9 +685,9 @@ export interface Index {
   indexName: string;
   indexArn: string;
   creationTime: Date;
-  dataType: string;
+  dataType: DataType;
   dimension: number;
-  distanceMetric: string;
+  distanceMetric: DistanceMetric;
   metadataConfiguration?: MetadataConfiguration;
   encryptionConfiguration?: EncryptionConfiguration;
 }
@@ -691,9 +697,9 @@ export const Index = S.suspend(() =>
     indexName: S.String,
     indexArn: S.String,
     creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    dataType: S.String,
+    dataType: DataType,
     dimension: S.Number,
-    distanceMetric: S.String,
+    distanceMetric: DistanceMetric,
     metadataConfiguration: S.optional(MetadataConfiguration),
     encryptionConfiguration: S.optional(EncryptionConfiguration),
   }),
@@ -716,7 +722,7 @@ export type ListIndexesOutputList = IndexSummary[];
 export const ListIndexesOutputList = S.Array(IndexSummary);
 export interface GetOutputVector {
   key: string;
-  data?: (typeof VectorData)["Type"];
+  data?: VectorData;
   metadata?: any;
 }
 export const GetOutputVector = S.suspend(() =>
@@ -732,7 +738,7 @@ export type GetVectorsOutputList = GetOutputVector[];
 export const GetVectorsOutputList = S.Array(GetOutputVector);
 export interface ListOutputVector {
   key: string;
-  data?: (typeof VectorData)["Type"];
+  data?: VectorData;
   metadata?: any;
 }
 export const ListOutputVector = S.suspend(() =>
@@ -747,10 +753,10 @@ export const ListOutputVector = S.suspend(() =>
 export type ListVectorsOutputList = ListOutputVector[];
 export const ListVectorsOutputList = S.Array(ListOutputVector);
 export interface CreateVectorBucketOutput {
-  vectorBucketArn: string;
+  vectorBucketArn?: string;
 }
 export const CreateVectorBucketOutput = S.suspend(() =>
-  S.Struct({ vectorBucketArn: S.String }),
+  S.Struct({ vectorBucketArn: S.optional(S.String) }),
 ).annotations({
   identifier: "CreateVectorBucketOutput",
 }) as any as S.Schema<CreateVectorBucketOutput>;
@@ -764,7 +770,7 @@ export const GetVectorBucketOutput = S.suspend(() =>
 }) as any as S.Schema<GetVectorBucketOutput>;
 export interface ListVectorBucketsOutput {
   nextToken?: string;
-  vectorBuckets: ListVectorBucketsOutputList;
+  vectorBuckets: VectorBucketSummary[];
 }
 export const ListVectorBucketsOutput = S.suspend(() =>
   S.Struct({
@@ -775,10 +781,10 @@ export const ListVectorBucketsOutput = S.suspend(() =>
   identifier: "ListVectorBucketsOutput",
 }) as any as S.Schema<ListVectorBucketsOutput>;
 export interface CreateIndexOutput {
-  indexArn: string;
+  indexArn?: string;
 }
 export const CreateIndexOutput = S.suspend(() =>
-  S.Struct({ indexArn: S.String }),
+  S.Struct({ indexArn: S.optional(S.String) }),
 ).annotations({
   identifier: "CreateIndexOutput",
 }) as any as S.Schema<CreateIndexOutput>;
@@ -792,7 +798,7 @@ export const GetIndexOutput = S.suspend(() =>
 }) as any as S.Schema<GetIndexOutput>;
 export interface ListIndexesOutput {
   nextToken?: string;
-  indexes: ListIndexesOutputList;
+  indexes: IndexSummary[];
 }
 export const ListIndexesOutput = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), indexes: ListIndexesOutputList }),
@@ -800,7 +806,7 @@ export const ListIndexesOutput = S.suspend(() =>
   identifier: "ListIndexesOutput",
 }) as any as S.Schema<ListIndexesOutput>;
 export interface GetVectorsOutput {
-  vectors: GetVectorsOutputList;
+  vectors: GetOutputVector[];
 }
 export const GetVectorsOutput = S.suspend(() =>
   S.Struct({ vectors: GetVectorsOutputList }),
@@ -809,7 +815,7 @@ export const GetVectorsOutput = S.suspend(() =>
 }) as any as S.Schema<GetVectorsOutput>;
 export interface ListVectorsOutput {
   nextToken?: string;
-  vectors: ListVectorsOutputList;
+  vectors: ListOutputVector[];
 }
 export const ListVectorsOutput = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), vectors: ListVectorsOutputList }),
@@ -833,11 +839,14 @@ export const QueryOutputVector = S.suspend(() =>
 export type QueryVectorsOutputList = QueryOutputVector[];
 export const QueryVectorsOutputList = S.Array(QueryOutputVector);
 export interface QueryVectorsOutput {
-  vectors: QueryVectorsOutputList;
-  distanceMetric: string;
+  vectors: QueryOutputVector[];
+  distanceMetric?: DistanceMetric;
 }
 export const QueryVectorsOutput = S.suspend(() =>
-  S.Struct({ vectors: QueryVectorsOutputList, distanceMetric: S.String }),
+  S.Struct({
+    vectors: QueryVectorsOutputList,
+    distanceMetric: S.optional(DistanceMetric),
+  }),
 ).annotations({
   identifier: "QueryVectorsOutput",
 }) as any as S.Schema<QueryVectorsOutput>;
@@ -891,7 +900,7 @@ export class KmsNotFoundException extends S.TaggedError<KmsNotFoundException>()(
  */
 export const deleteVectorBucketPolicy: (
   input: DeleteVectorBucketPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVectorBucketPolicyOutput,
   NotFoundException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -909,7 +918,7 @@ export const deleteVectorBucketPolicy: (
  */
 export const getVectorBucket: (
   input: GetVectorBucketInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetVectorBucketOutput,
   NotFoundException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -928,21 +937,21 @@ export const getVectorBucket: (
 export const listVectorBuckets: {
   (
     input: ListVectorBucketsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVectorBucketsOutput,
     ServiceUnavailableException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListVectorBucketsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVectorBucketsOutput,
     ServiceUnavailableException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVectorBucketsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     VectorBucketSummary,
     ServiceUnavailableException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -967,7 +976,7 @@ export const listVectorBuckets: {
  */
 export const getIndex: (
   input: GetIndexInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetIndexOutput,
   NotFoundException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -986,21 +995,21 @@ export const getIndex: (
 export const listIndexes: {
   (
     input: ListIndexesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListIndexesOutput,
     NotFoundException | ServiceUnavailableException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListIndexesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListIndexesOutput,
     NotFoundException | ServiceUnavailableException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIndexesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     IndexSummary,
     NotFoundException | ServiceUnavailableException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1032,7 +1041,7 @@ export const listIndexes: {
 export const listVectors: {
   (
     input: ListVectorsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVectorsOutput,
     | AccessDeniedException
     | NotFoundException
@@ -1042,7 +1051,7 @@ export const listVectors: {
   >;
   pages: (
     input: ListVectorsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVectorsOutput,
     | AccessDeniedException
     | NotFoundException
@@ -1052,7 +1061,7 @@ export const listVectors: {
   >;
   items: (
     input: ListVectorsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOutputVector,
     | AccessDeniedException
     | NotFoundException
@@ -1084,7 +1093,7 @@ export const listVectors: {
  */
 export const getVectorBucketPolicy: (
   input: GetVectorBucketPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetVectorBucketPolicyOutput,
   NotFoundException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1102,7 +1111,7 @@ export const getVectorBucketPolicy: (
  */
 export const deleteVectorBucket: (
   input: DeleteVectorBucketInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVectorBucketOutput,
   | ConflictException
   | NotFoundException
@@ -1125,7 +1134,7 @@ export const deleteVectorBucket: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   | ConflictException
   | NotFoundException
@@ -1146,7 +1155,7 @@ export const tagResource: (
  */
 export const putVectorBucketPolicy: (
   input: PutVectorBucketPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutVectorBucketPolicyOutput,
   NotFoundException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1164,7 +1173,7 @@ export const putVectorBucketPolicy: (
  */
 export const deleteIndex: (
   input: DeleteIndexInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIndexOutput,
   NotFoundException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1184,7 +1193,7 @@ export const deleteIndex: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   NotFoundException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1204,7 +1213,7 @@ export const listTagsForResource: (
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   | ConflictException
   | NotFoundException
@@ -1227,7 +1236,7 @@ export const untagResource: (
  */
 export const createVectorBucket: (
   input: CreateVectorBucketInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVectorBucketOutput,
   | ConflictException
   | ServiceQuotaExceededException
@@ -1254,7 +1263,7 @@ export const createVectorBucket: (
  */
 export const createIndex: (
   input: CreateIndexInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateIndexOutput,
   | ConflictException
   | NotFoundException
@@ -1281,7 +1290,7 @@ export const createIndex: (
  */
 export const deleteVectors: (
   input: DeleteVectorsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVectorsOutput,
   | AccessDeniedException
   | KmsDisabledException
@@ -1320,7 +1329,7 @@ export const deleteVectors: (
  */
 export const queryVectors: (
   input: QueryVectorsInput,
-) => Effect.Effect<
+) => effect.Effect<
   QueryVectorsOutput,
   | KmsDisabledException
   | KmsInvalidKeyUsageException
@@ -1351,7 +1360,7 @@ export const queryVectors: (
  */
 export const getVectors: (
   input: GetVectorsInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetVectorsOutput,
   | KmsDisabledException
   | KmsInvalidKeyUsageException
@@ -1386,7 +1395,7 @@ export const getVectors: (
  */
 export const putVectors: (
   input: PutVectorsInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutVectorsOutput,
   | AccessDeniedException
   | KmsDisabledException

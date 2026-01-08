@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -117,32 +117,45 @@ export const GetAutoshiftObserverNotificationStatusRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetAutoshiftObserverNotificationStatusRequest",
 }) as any as S.Schema<GetAutoshiftObserverNotificationStatusRequest>;
+export type AutoshiftExecutionStatus = "ACTIVE" | "COMPLETED";
+export const AutoshiftExecutionStatus = S.Literal("ACTIVE", "COMPLETED");
+export type AutoshiftObserverNotificationStatus = "ENABLED" | "DISABLED";
+export const AutoshiftObserverNotificationStatus = S.Literal(
+  "ENABLED",
+  "DISABLED",
+);
+export type ZonalAutoshiftStatus = "ENABLED" | "DISABLED";
+export const ZonalAutoshiftStatus = S.Literal("ENABLED", "DISABLED");
 export type BlockedWindows = string[];
 export const BlockedWindows = S.Array(S.String);
 export type BlockedDates = string[];
 export const BlockedDates = S.Array(S.String);
 export type AllowedWindows = string[];
 export const AllowedWindows = S.Array(S.String);
+export type ControlConditionType = "CLOUDWATCH";
+export const ControlConditionType = S.Literal("CLOUDWATCH");
 export interface ControlCondition {
-  type: string;
+  type: ControlConditionType;
   alarmIdentifier: string;
 }
 export const ControlCondition = S.suspend(() =>
-  S.Struct({ type: S.String, alarmIdentifier: S.String }),
+  S.Struct({ type: ControlConditionType, alarmIdentifier: S.String }),
 ).annotations({
   identifier: "ControlCondition",
 }) as any as S.Schema<ControlCondition>;
 export type OutcomeAlarms = ControlCondition[];
 export const OutcomeAlarms = S.Array(ControlCondition);
+export type ZonalShiftStatus = "ACTIVE" | "EXPIRED" | "CANCELED";
+export const ZonalShiftStatus = S.Literal("ACTIVE", "EXPIRED", "CANCELED");
 export interface ListAutoshiftsRequest {
   nextToken?: string;
-  status?: string;
+  status?: AutoshiftExecutionStatus;
   maxResults?: number;
 }
 export const ListAutoshiftsRequest = S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    status: S.optional(S.String).pipe(T.HttpQuery("status")),
+    status: S.optional(AutoshiftExecutionStatus).pipe(T.HttpQuery("status")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
     T.all(
@@ -158,18 +171,18 @@ export const ListAutoshiftsRequest = S.suspend(() =>
   identifier: "ListAutoshiftsRequest",
 }) as any as S.Schema<ListAutoshiftsRequest>;
 export interface GetAutoshiftObserverNotificationStatusResponse {
-  status: string;
+  status: AutoshiftObserverNotificationStatus;
 }
 export const GetAutoshiftObserverNotificationStatusResponse = S.suspend(() =>
-  S.Struct({ status: S.String }),
+  S.Struct({ status: AutoshiftObserverNotificationStatus }),
 ).annotations({
   identifier: "GetAutoshiftObserverNotificationStatusResponse",
 }) as any as S.Schema<GetAutoshiftObserverNotificationStatusResponse>;
 export interface UpdateAutoshiftObserverNotificationStatusRequest {
-  status: string;
+  status: AutoshiftObserverNotificationStatus;
 }
 export const UpdateAutoshiftObserverNotificationStatusRequest = S.suspend(() =>
-  S.Struct({ status: S.String }).pipe(
+  S.Struct({ status: AutoshiftObserverNotificationStatus }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/autoshift-observer-notification" }),
       svc,
@@ -224,12 +237,12 @@ export const ListManagedResourcesRequest = S.suspend(() =>
 }) as any as S.Schema<ListManagedResourcesRequest>;
 export interface UpdateZonalAutoshiftConfigurationRequest {
   resourceIdentifier: string;
-  zonalAutoshiftStatus: string;
+  zonalAutoshiftStatus: ZonalAutoshiftStatus;
 }
 export const UpdateZonalAutoshiftConfigurationRequest = S.suspend(() =>
   S.Struct({
     resourceIdentifier: S.String.pipe(T.HttpLabel("resourceIdentifier")),
-    zonalAutoshiftStatus: S.String,
+    zonalAutoshiftStatus: ZonalAutoshiftStatus,
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/managedresources/{resourceIdentifier}" }),
@@ -266,11 +279,11 @@ export type BlockingAlarms = ControlCondition[];
 export const BlockingAlarms = S.Array(ControlCondition);
 export interface CreatePracticeRunConfigurationRequest {
   resourceIdentifier: string;
-  blockedWindows?: BlockedWindows;
-  blockedDates?: BlockedDates;
-  blockingAlarms?: BlockingAlarms;
-  allowedWindows?: AllowedWindows;
-  outcomeAlarms: OutcomeAlarms;
+  blockedWindows?: string[];
+  blockedDates?: string[];
+  blockingAlarms?: ControlCondition[];
+  allowedWindows?: string[];
+  outcomeAlarms: ControlCondition[];
 }
 export const CreatePracticeRunConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -352,14 +365,14 @@ export const UpdateZonalShiftRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateZonalShiftRequest>;
 export interface ListZonalShiftsRequest {
   nextToken?: string;
-  status?: string;
+  status?: ZonalShiftStatus;
   maxResults?: number;
   resourceIdentifier?: string;
 }
 export const ListZonalShiftsRequest = S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    status: S.optional(S.String).pipe(T.HttpQuery("status")),
+    status: S.optional(ZonalShiftStatus).pipe(T.HttpQuery("status")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     resourceIdentifier: S.optional(S.String).pipe(
       T.HttpQuery("resourceIdentifier"),
@@ -426,29 +439,32 @@ export const StartZonalShiftRequest = S.suspend(() =>
   identifier: "StartZonalShiftRequest",
 }) as any as S.Schema<StartZonalShiftRequest>;
 export interface UpdateAutoshiftObserverNotificationStatusResponse {
-  status: string;
+  status: AutoshiftObserverNotificationStatus;
 }
 export const UpdateAutoshiftObserverNotificationStatusResponse = S.suspend(() =>
-  S.Struct({ status: S.String }),
+  S.Struct({ status: AutoshiftObserverNotificationStatus }),
 ).annotations({
   identifier: "UpdateAutoshiftObserverNotificationStatusResponse",
 }) as any as S.Schema<UpdateAutoshiftObserverNotificationStatusResponse>;
 export interface UpdateZonalAutoshiftConfigurationResponse {
   resourceIdentifier: string;
-  zonalAutoshiftStatus: string;
+  zonalAutoshiftStatus: ZonalAutoshiftStatus;
 }
 export const UpdateZonalAutoshiftConfigurationResponse = S.suspend(() =>
-  S.Struct({ resourceIdentifier: S.String, zonalAutoshiftStatus: S.String }),
+  S.Struct({
+    resourceIdentifier: S.String,
+    zonalAutoshiftStatus: ZonalAutoshiftStatus,
+  }),
 ).annotations({
   identifier: "UpdateZonalAutoshiftConfigurationResponse",
 }) as any as S.Schema<UpdateZonalAutoshiftConfigurationResponse>;
 export interface UpdatePracticeRunConfigurationRequest {
   resourceIdentifier: string;
-  blockedWindows?: BlockedWindows;
-  blockedDates?: BlockedDates;
-  blockingAlarms?: BlockingAlarms;
-  allowedWindows?: AllowedWindows;
-  outcomeAlarms?: OutcomeAlarms;
+  blockedWindows?: string[];
+  blockedDates?: string[];
+  blockingAlarms?: ControlCondition[];
+  allowedWindows?: string[];
+  outcomeAlarms?: ControlCondition[];
 }
 export const UpdatePracticeRunConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -474,19 +490,23 @@ export const UpdatePracticeRunConfigurationRequest = S.suspend(() =>
 export interface DeletePracticeRunConfigurationResponse {
   arn: string;
   name: string;
-  zonalAutoshiftStatus: string;
+  zonalAutoshiftStatus: ZonalAutoshiftStatus;
 }
 export const DeletePracticeRunConfigurationResponse = S.suspend(() =>
-  S.Struct({ arn: S.String, name: S.String, zonalAutoshiftStatus: S.String }),
+  S.Struct({
+    arn: S.String,
+    name: S.String,
+    zonalAutoshiftStatus: ZonalAutoshiftStatus,
+  }),
 ).annotations({
   identifier: "DeletePracticeRunConfigurationResponse",
 }) as any as S.Schema<DeletePracticeRunConfigurationResponse>;
 export interface PracticeRunConfiguration {
-  blockingAlarms?: BlockingAlarms;
-  outcomeAlarms: OutcomeAlarms;
-  blockedWindows?: BlockedWindows;
-  allowedWindows?: AllowedWindows;
-  blockedDates?: BlockedDates;
+  blockingAlarms?: ControlCondition[];
+  outcomeAlarms: ControlCondition[];
+  blockedWindows?: string[];
+  allowedWindows?: string[];
+  blockedDates?: string[];
 }
 export const PracticeRunConfiguration = S.suspend(() =>
   S.Struct({
@@ -502,14 +522,14 @@ export const PracticeRunConfiguration = S.suspend(() =>
 export interface CreatePracticeRunConfigurationResponse {
   arn: string;
   name: string;
-  zonalAutoshiftStatus: string;
+  zonalAutoshiftStatus: ZonalAutoshiftStatus;
   practiceRunConfiguration: PracticeRunConfiguration;
 }
 export const CreatePracticeRunConfigurationResponse = S.suspend(() =>
   S.Struct({
     arn: S.String,
     name: S.String,
-    zonalAutoshiftStatus: S.String,
+    zonalAutoshiftStatus: ZonalAutoshiftStatus,
     practiceRunConfiguration: PracticeRunConfiguration,
   }),
 ).annotations({
@@ -521,7 +541,7 @@ export interface CancelPracticeRunResponse {
   awayFrom: string;
   expiryTime: Date;
   startTime: Date;
-  status: string;
+  status: ZonalShiftStatus;
   comment: string;
 }
 export const CancelPracticeRunResponse = S.suspend(() =>
@@ -531,7 +551,7 @@ export const CancelPracticeRunResponse = S.suspend(() =>
     awayFrom: S.String,
     expiryTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    status: S.String,
+    status: ZonalShiftStatus,
     comment: S.String,
   }),
 ).annotations({
@@ -543,7 +563,7 @@ export interface ZonalShift {
   awayFrom: string;
   expiryTime: Date;
   startTime: Date;
-  status: string;
+  status: ZonalShiftStatus;
   comment: string;
 }
 export const ZonalShift = S.suspend(() =>
@@ -553,7 +573,7 @@ export const ZonalShift = S.suspend(() =>
     awayFrom: S.String,
     expiryTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    status: S.String,
+    status: ZonalShiftStatus,
     comment: S.String,
   }),
 ).annotations({ identifier: "ZonalShift" }) as any as S.Schema<ZonalShift>;
@@ -563,7 +583,7 @@ export interface StartPracticeRunResponse {
   awayFrom: string;
   expiryTime: Date;
   startTime: Date;
-  status: string;
+  status: ZonalShiftStatus;
   comment: string;
 }
 export const StartPracticeRunResponse = S.suspend(() =>
@@ -573,26 +593,54 @@ export const StartPracticeRunResponse = S.suspend(() =>
     awayFrom: S.String,
     expiryTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    status: S.String,
+    status: ZonalShiftStatus,
     comment: S.String,
   }),
 ).annotations({
   identifier: "StartPracticeRunResponse",
 }) as any as S.Schema<StartPracticeRunResponse>;
+export type AppliedStatus = "APPLIED" | "NOT_APPLIED";
+export const AppliedStatus = S.Literal("APPLIED", "NOT_APPLIED");
+export type ShiftType =
+  | "ZONAL_SHIFT"
+  | "PRACTICE_RUN"
+  | "FIS_EXPERIMENT"
+  | "ZONAL_AUTOSHIFT";
+export const ShiftType = S.Literal(
+  "ZONAL_SHIFT",
+  "PRACTICE_RUN",
+  "FIS_EXPERIMENT",
+  "ZONAL_AUTOSHIFT",
+);
+export type PracticeRunOutcome =
+  | "FAILED"
+  | "INTERRUPTED"
+  | "PENDING"
+  | "SUCCEEDED"
+  | "CAPACITY_CHECK_FAILED";
+export const PracticeRunOutcome = S.Literal(
+  "FAILED",
+  "INTERRUPTED",
+  "PENDING",
+  "SUCCEEDED",
+  "CAPACITY_CHECK_FAILED",
+);
+export type AutoshiftAppliedStatus = "APPLIED" | "NOT_APPLIED";
+export const AutoshiftAppliedStatus = S.Literal("APPLIED", "NOT_APPLIED");
 export type AvailabilityZones = string[];
 export const AvailabilityZones = S.Array(S.String);
 export interface AutoshiftSummary {
   awayFrom: string;
   endTime?: Date;
   startTime: Date;
-  status: string;
+  status: AutoshiftExecutionStatus;
 }
 export const AutoshiftSummary = S.suspend(() =>
   S.Struct({
     awayFrom: S.String,
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    status: S.String,
+    status: AutoshiftExecutionStatus,
   }),
 ).annotations({
   identifier: "AutoshiftSummary",
@@ -602,27 +650,27 @@ export const AutoshiftSummaries = S.Array(AutoshiftSummary);
 export type AppliedWeights = { [key: string]: number };
 export const AppliedWeights = S.Record({ key: S.String, value: S.Number });
 export interface ZonalShiftInResource {
-  appliedStatus: string;
+  appliedStatus: AppliedStatus;
   zonalShiftId: string;
   resourceIdentifier: string;
   awayFrom: string;
   expiryTime: Date;
   startTime: Date;
   comment: string;
-  shiftType?: string;
-  practiceRunOutcome?: string;
+  shiftType?: ShiftType;
+  practiceRunOutcome?: PracticeRunOutcome;
 }
 export const ZonalShiftInResource = S.suspend(() =>
   S.Struct({
-    appliedStatus: S.String,
+    appliedStatus: AppliedStatus,
     zonalShiftId: S.String,
     resourceIdentifier: S.String,
     awayFrom: S.String,
     expiryTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     comment: S.String,
-    shiftType: S.optional(S.String),
-    practiceRunOutcome: S.optional(S.String),
+    shiftType: S.optional(ShiftType),
+    practiceRunOutcome: S.optional(PracticeRunOutcome),
   }),
 ).annotations({
   identifier: "ZonalShiftInResource",
@@ -630,13 +678,13 @@ export const ZonalShiftInResource = S.suspend(() =>
 export type ZonalShiftsInResource = ZonalShiftInResource[];
 export const ZonalShiftsInResource = S.Array(ZonalShiftInResource);
 export interface AutoshiftInResource {
-  appliedStatus: string;
+  appliedStatus: AutoshiftAppliedStatus;
   awayFrom: string;
   startTime: Date;
 }
 export const AutoshiftInResource = S.suspend(() =>
   S.Struct({
-    appliedStatus: S.String,
+    appliedStatus: AutoshiftAppliedStatus,
     awayFrom: S.String,
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
@@ -648,12 +696,12 @@ export const AutoshiftsInResource = S.Array(AutoshiftInResource);
 export interface ManagedResourceSummary {
   arn?: string;
   name?: string;
-  availabilityZones: AvailabilityZones;
-  appliedWeights?: AppliedWeights;
-  zonalShifts?: ZonalShiftsInResource;
-  autoshifts?: AutoshiftsInResource;
-  zonalAutoshiftStatus?: string;
-  practiceRunStatus?: string;
+  availabilityZones: string[];
+  appliedWeights?: { [key: string]: number };
+  zonalShifts?: ZonalShiftInResource[];
+  autoshifts?: AutoshiftInResource[];
+  zonalAutoshiftStatus?: ZonalAutoshiftStatus;
+  practiceRunStatus?: ZonalAutoshiftStatus;
 }
 export const ManagedResourceSummary = S.suspend(() =>
   S.Struct({
@@ -663,24 +711,51 @@ export const ManagedResourceSummary = S.suspend(() =>
     appliedWeights: S.optional(AppliedWeights),
     zonalShifts: S.optional(ZonalShiftsInResource),
     autoshifts: S.optional(AutoshiftsInResource),
-    zonalAutoshiftStatus: S.optional(S.String),
-    practiceRunStatus: S.optional(S.String),
+    zonalAutoshiftStatus: S.optional(ZonalAutoshiftStatus),
+    practiceRunStatus: S.optional(ZonalAutoshiftStatus),
   }),
 ).annotations({
   identifier: "ManagedResourceSummary",
 }) as any as S.Schema<ManagedResourceSummary>;
 export type ManagedResourceSummaries = ManagedResourceSummary[];
 export const ManagedResourceSummaries = S.Array(ManagedResourceSummary);
+export type ConflictExceptionReason =
+  | "ZonalShiftAlreadyExists"
+  | "ZonalShiftStatusNotActive"
+  | "SimultaneousZonalShiftsConflict"
+  | "PracticeConfigurationAlreadyExists"
+  | "AutoShiftEnabled"
+  | "PracticeConfigurationDoesNotExist"
+  | "ZonalAutoshiftActive"
+  | "PracticeOutcomeAlarmsRed"
+  | "PracticeBlockingAlarmsRed"
+  | "PracticeInBlockedDates"
+  | "PracticeInBlockedWindows"
+  | "PracticeOutsideAllowedWindows";
+export const ConflictExceptionReason = S.Literal(
+  "ZonalShiftAlreadyExists",
+  "ZonalShiftStatusNotActive",
+  "SimultaneousZonalShiftsConflict",
+  "PracticeConfigurationAlreadyExists",
+  "AutoShiftEnabled",
+  "PracticeConfigurationDoesNotExist",
+  "ZonalAutoshiftActive",
+  "PracticeOutcomeAlarmsRed",
+  "PracticeBlockingAlarmsRed",
+  "PracticeInBlockedDates",
+  "PracticeInBlockedWindows",
+  "PracticeOutsideAllowedWindows",
+);
 export interface ZonalShiftSummary {
   zonalShiftId: string;
   resourceIdentifier: string;
   awayFrom: string;
   expiryTime: Date;
   startTime: Date;
-  status: string;
+  status: ZonalShiftStatus;
   comment: string;
-  shiftType?: string;
-  practiceRunOutcome?: string;
+  shiftType?: ShiftType;
+  practiceRunOutcome?: PracticeRunOutcome;
 }
 export const ZonalShiftSummary = S.suspend(() =>
   S.Struct({
@@ -689,10 +764,10 @@ export const ZonalShiftSummary = S.suspend(() =>
     awayFrom: S.String,
     expiryTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    status: S.String,
+    status: ZonalShiftStatus,
     comment: S.String,
-    shiftType: S.optional(S.String),
-    practiceRunOutcome: S.optional(S.String),
+    shiftType: S.optional(ShiftType),
+    practiceRunOutcome: S.optional(PracticeRunOutcome),
   }),
 ).annotations({
   identifier: "ZonalShiftSummary",
@@ -700,7 +775,7 @@ export const ZonalShiftSummary = S.suspend(() =>
 export type ZonalShiftSummaries = ZonalShiftSummary[];
 export const ZonalShiftSummaries = S.Array(ZonalShiftSummary);
 export interface ListAutoshiftsResponse {
-  items?: AutoshiftSummaries;
+  items?: AutoshiftSummary[];
   nextToken?: string;
 }
 export const ListAutoshiftsResponse = S.suspend(() =>
@@ -714,11 +789,11 @@ export const ListAutoshiftsResponse = S.suspend(() =>
 export interface GetManagedResourceResponse {
   arn?: string;
   name?: string;
-  appliedWeights: AppliedWeights;
-  zonalShifts: ZonalShiftsInResource;
-  autoshifts?: AutoshiftsInResource;
+  appliedWeights: { [key: string]: number };
+  zonalShifts: ZonalShiftInResource[];
+  autoshifts?: AutoshiftInResource[];
   practiceRunConfiguration?: PracticeRunConfiguration;
-  zonalAutoshiftStatus?: string;
+  zonalAutoshiftStatus?: ZonalAutoshiftStatus;
 }
 export const GetManagedResourceResponse = S.suspend(() =>
   S.Struct({
@@ -728,13 +803,13 @@ export const GetManagedResourceResponse = S.suspend(() =>
     zonalShifts: ZonalShiftsInResource,
     autoshifts: S.optional(AutoshiftsInResource),
     practiceRunConfiguration: S.optional(PracticeRunConfiguration),
-    zonalAutoshiftStatus: S.optional(S.String),
+    zonalAutoshiftStatus: S.optional(ZonalAutoshiftStatus),
   }),
 ).annotations({
   identifier: "GetManagedResourceResponse",
 }) as any as S.Schema<GetManagedResourceResponse>;
 export interface ListManagedResourcesResponse {
-  items: ManagedResourceSummaries;
+  items: ManagedResourceSummary[];
   nextToken?: string;
 }
 export const ListManagedResourcesResponse = S.suspend(() =>
@@ -748,21 +823,21 @@ export const ListManagedResourcesResponse = S.suspend(() =>
 export interface UpdatePracticeRunConfigurationResponse {
   arn: string;
   name: string;
-  zonalAutoshiftStatus: string;
+  zonalAutoshiftStatus: ZonalAutoshiftStatus;
   practiceRunConfiguration: PracticeRunConfiguration;
 }
 export const UpdatePracticeRunConfigurationResponse = S.suspend(() =>
   S.Struct({
     arn: S.String,
     name: S.String,
-    zonalAutoshiftStatus: S.String,
+    zonalAutoshiftStatus: ZonalAutoshiftStatus,
     practiceRunConfiguration: PracticeRunConfiguration,
   }),
 ).annotations({
   identifier: "UpdatePracticeRunConfigurationResponse",
 }) as any as S.Schema<UpdatePracticeRunConfigurationResponse>;
 export interface ListZonalShiftsResponse {
-  items?: ZonalShiftSummaries;
+  items?: ZonalShiftSummary[];
   nextToken?: string;
 }
 export const ListZonalShiftsResponse = S.suspend(() =>
@@ -773,6 +848,39 @@ export const ListZonalShiftsResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListZonalShiftsResponse",
 }) as any as S.Schema<ListZonalShiftsResponse>;
+export type ValidationExceptionReason =
+  | "InvalidExpiresIn"
+  | "InvalidStatus"
+  | "MissingValue"
+  | "InvalidToken"
+  | "InvalidResourceIdentifier"
+  | "InvalidAz"
+  | "UnsupportedAz"
+  | "InvalidAlarmCondition"
+  | "InvalidConditionType"
+  | "InvalidPracticeBlocker"
+  | "FISExperimentUpdateNotAllowed"
+  | "AutoshiftUpdateNotAllowed"
+  | "UnsupportedPracticeCancelShiftType"
+  | "InvalidPracticeAllowedWindow"
+  | "InvalidPracticeWindows";
+export const ValidationExceptionReason = S.Literal(
+  "InvalidExpiresIn",
+  "InvalidStatus",
+  "MissingValue",
+  "InvalidToken",
+  "InvalidResourceIdentifier",
+  "InvalidAz",
+  "UnsupportedAz",
+  "InvalidAlarmCondition",
+  "InvalidConditionType",
+  "InvalidPracticeBlocker",
+  "FISExperimentUpdateNotAllowed",
+  "AutoshiftUpdateNotAllowed",
+  "UnsupportedPracticeCancelShiftType",
+  "InvalidPracticeAllowedWindow",
+  "InvalidPracticeWindows",
+);
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
@@ -785,7 +893,11 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
 ).pipe(C.withServerError) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  { message: S.String, reason: S.String, zonalShiftId: S.optional(S.String) },
+  {
+    message: S.String,
+    reason: ConflictExceptionReason,
+    zonalShiftId: S.optional(S.String),
+  },
 ).pipe(C.withConflictError) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
@@ -797,7 +909,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 ).pipe(C.withBadRequestError) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  { message: S.String, reason: S.String },
+  { message: S.String, reason: ValidationExceptionReason },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
@@ -806,7 +918,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const getAutoshiftObserverNotificationStatus: (
   input: GetAutoshiftObserverNotificationStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAutoshiftObserverNotificationStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -823,7 +935,7 @@ export const getAutoshiftObserverNotificationStatus: (
  */
 export const getManagedResource: (
   input: GetManagedResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetManagedResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -849,7 +961,7 @@ export const getManagedResource: (
 export const listManagedResources: {
   (
     input: ListManagedResourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListManagedResourcesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -860,7 +972,7 @@ export const listManagedResources: {
   >;
   pages: (
     input: ListManagedResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListManagedResourcesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -871,7 +983,7 @@ export const listManagedResources: {
   >;
   items: (
     input: ListManagedResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ManagedResourceSummary,
     | AccessDeniedException
     | InternalServerException
@@ -904,7 +1016,7 @@ export const listManagedResources: {
 export const listZonalShifts: {
   (
     input: ListZonalShiftsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListZonalShiftsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -915,7 +1027,7 @@ export const listZonalShifts: {
   >;
   pages: (
     input: ListZonalShiftsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListZonalShiftsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -926,7 +1038,7 @@ export const listZonalShifts: {
   >;
   items: (
     input: ListZonalShiftsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ZonalShiftSummary,
     | AccessDeniedException
     | InternalServerException
@@ -960,7 +1072,7 @@ export const listZonalShifts: {
  */
 export const updateAutoshiftObserverNotificationStatus: (
   input: UpdateAutoshiftObserverNotificationStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAutoshiftObserverNotificationStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -984,7 +1096,7 @@ export const updateAutoshiftObserverNotificationStatus: (
 export const listAutoshifts: {
   (
     input: ListAutoshiftsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAutoshiftsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -995,7 +1107,7 @@ export const listAutoshifts: {
   >;
   pages: (
     input: ListAutoshiftsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAutoshiftsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1006,7 +1118,7 @@ export const listAutoshifts: {
   >;
   items: (
     input: ListAutoshiftsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AutoshiftSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1038,7 +1150,7 @@ export const listAutoshifts: {
  */
 export const updateZonalAutoshiftConfiguration: (
   input: UpdateZonalAutoshiftConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateZonalAutoshiftConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1065,7 +1177,7 @@ export const updateZonalAutoshiftConfiguration: (
  */
 export const updatePracticeRunConfiguration: (
   input: UpdatePracticeRunConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePracticeRunConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1092,7 +1204,7 @@ export const updatePracticeRunConfiguration: (
  */
 export const deletePracticeRunConfiguration: (
   input: DeletePracticeRunConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePracticeRunConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1123,7 +1235,7 @@ export const deletePracticeRunConfiguration: (
  */
 export const createPracticeRunConfiguration: (
   input: CreatePracticeRunConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePracticeRunConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1150,7 +1262,7 @@ export const createPracticeRunConfiguration: (
  */
 export const cancelPracticeRun: (
   input: CancelPracticeRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelPracticeRunResponse,
   | AccessDeniedException
   | ConflictException
@@ -1179,7 +1291,7 @@ export const cancelPracticeRun: (
  */
 export const cancelZonalShift: (
   input: CancelZonalShiftRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ZonalShift,
   | AccessDeniedException
   | ConflictException
@@ -1208,7 +1320,7 @@ export const cancelZonalShift: (
  */
 export const startPracticeRun: (
   input: StartPracticeRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartPracticeRunResponse,
   | AccessDeniedException
   | ConflictException
@@ -1235,7 +1347,7 @@ export const startPracticeRun: (
  */
 export const updateZonalShift: (
   input: UpdateZonalShiftRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ZonalShift,
   | AccessDeniedException
   | ConflictException
@@ -1276,7 +1388,7 @@ export const updateZonalShift: (
  */
 export const startZonalShift: (
   input: StartZonalShiftRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ZonalShift,
   | AccessDeniedException
   | ConflictException

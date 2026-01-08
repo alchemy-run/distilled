@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Strm from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -165,6 +165,17 @@ export type StringAttributeValue = string;
 export type NumberAttributeValue = string;
 
 //# Schemas
+export type ShardIteratorType =
+  | "TRIM_HORIZON"
+  | "LATEST"
+  | "AT_SEQUENCE_NUMBER"
+  | "AFTER_SEQUENCE_NUMBER";
+export const ShardIteratorType = S.Literal(
+  "TRIM_HORIZON",
+  "LATEST",
+  "AT_SEQUENCE_NUMBER",
+  "AFTER_SEQUENCE_NUMBER",
+);
 export interface GetRecordsInput {
   ShardIterator: string;
   Limit?: number;
@@ -187,14 +198,14 @@ export const GetRecordsInput = S.suspend(() =>
 export interface GetShardIteratorInput {
   StreamArn: string;
   ShardId: string;
-  ShardIteratorType: string;
+  ShardIteratorType: ShardIteratorType;
   SequenceNumber?: string;
 }
 export const GetShardIteratorInput = S.suspend(() =>
   S.Struct({
     StreamArn: S.String,
     ShardId: S.String,
-    ShardIteratorType: S.String,
+    ShardIteratorType: ShardIteratorType,
     SequenceNumber: S.optional(S.String),
   }).pipe(
     T.all(
@@ -234,12 +245,17 @@ export const ListStreamsInput = S.suspend(() =>
 ).annotations({
   identifier: "ListStreamsInput",
 }) as any as S.Schema<ListStreamsInput>;
+export type ShardFilterType = "CHILD_SHARDS";
+export const ShardFilterType = S.Literal("CHILD_SHARDS");
 export interface ShardFilter {
-  Type?: string;
+  Type?: ShardFilterType;
   ShardId?: string;
 }
 export const ShardFilter = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String), ShardId: S.optional(S.String) }),
+  S.Struct({
+    Type: S.optional(ShardFilterType),
+    ShardId: S.optional(S.String),
+  }),
 ).annotations({ identifier: "ShardFilter" }) as any as S.Schema<ShardFilter>;
 export interface DescribeStreamInput {
   StreamArn: string;
@@ -275,6 +291,8 @@ export const GetShardIteratorOutput = S.suspend(() =>
 ).annotations({
   identifier: "GetShardIteratorOutput",
 }) as any as S.Schema<GetShardIteratorOutput>;
+export type OperationType = "INSERT" | "MODIFY" | "REMOVE";
+export const OperationType = S.Literal("INSERT", "MODIFY", "REMOVE");
 export interface Stream {
   StreamArn?: string;
   TableName?: string;
@@ -289,8 +307,19 @@ export const Stream = S.suspend(() =>
 ).annotations({ identifier: "Stream" }) as any as S.Schema<Stream>;
 export type StreamList = Stream[];
 export const StreamList = S.Array(Stream);
+export type StreamViewType =
+  | "NEW_IMAGE"
+  | "OLD_IMAGE"
+  | "NEW_AND_OLD_IMAGES"
+  | "KEYS_ONLY";
+export const StreamViewType = S.Literal(
+  "NEW_IMAGE",
+  "OLD_IMAGE",
+  "NEW_AND_OLD_IMAGES",
+  "KEYS_ONLY",
+);
 export interface ListStreamsOutput {
-  Streams?: StreamList;
+  Streams?: Stream[];
   LastEvaluatedStreamArn?: string;
 }
 export const ListStreamsOutput = S.suspend(() =>
@@ -301,6 +330,13 @@ export const ListStreamsOutput = S.suspend(() =>
 ).annotations({
   identifier: "ListStreamsOutput",
 }) as any as S.Schema<ListStreamsOutput>;
+export type StreamStatus = "ENABLING" | "ENABLED" | "DISABLING" | "DISABLED";
+export const StreamStatus = S.Literal(
+  "ENABLING",
+  "ENABLED",
+  "DISABLING",
+  "DISABLED",
+);
 export interface Identity {
   PrincipalId?: string;
   Type?: string;
@@ -308,6 +344,8 @@ export interface Identity {
 export const Identity = S.suspend(() =>
   S.Struct({ PrincipalId: S.optional(S.String), Type: S.optional(S.String) }),
 ).annotations({ identifier: "Identity" }) as any as S.Schema<Identity>;
+export type KeyType = "HASH" | "RANGE";
+export const KeyType = S.Literal("HASH", "RANGE");
 export type StringSetAttributeValue = string[];
 export const StringSetAttributeValue = S.Array(S.String);
 export type NumberSetAttributeValue = string[];
@@ -320,10 +358,10 @@ export const ListAttributeValue = S.Array(
 ) as any as S.Schema<ListAttributeValue>;
 export interface KeySchemaElement {
   AttributeName: string;
-  KeyType: string;
+  KeyType: KeyType;
 }
 export const KeySchemaElement = S.suspend(() =>
-  S.Struct({ AttributeName: S.String, KeyType: S.String }),
+  S.Struct({ AttributeName: S.String, KeyType: KeyType }),
 ).annotations({
   identifier: "KeySchemaElement",
 }) as any as S.Schema<KeySchemaElement>;
@@ -366,11 +404,11 @@ export type AttributeValue =
   | { S: string }
   | { N: string }
   | { B: Uint8Array }
-  | { SS: StringSetAttributeValue }
-  | { NS: NumberSetAttributeValue }
-  | { BS: BinarySetAttributeValue }
-  | { M: MapAttributeValue }
-  | { L: ListAttributeValue }
+  | { SS: string[] }
+  | { NS: string[] }
+  | { BS: Uint8Array[] }
+  | { M: { [key: string]: AttributeValue } }
+  | { L: AttributeValue[] }
   | { NULL: boolean }
   | { BOOL: boolean };
 export const AttributeValue = S.Union(
@@ -396,20 +434,20 @@ export const AttributeValue = S.Union(
 export interface StreamDescription {
   StreamArn?: string;
   StreamLabel?: string;
-  StreamStatus?: string;
-  StreamViewType?: string;
+  StreamStatus?: StreamStatus;
+  StreamViewType?: StreamViewType;
   CreationRequestDateTime?: Date;
   TableName?: string;
-  KeySchema?: KeySchema;
-  Shards?: ShardDescriptionList;
+  KeySchema?: KeySchemaElement[];
+  Shards?: Shard[];
   LastEvaluatedShardId?: string;
 }
 export const StreamDescription = S.suspend(() =>
   S.Struct({
     StreamArn: S.optional(S.String),
     StreamLabel: S.optional(S.String),
-    StreamStatus: S.optional(S.String),
-    StreamViewType: S.optional(S.String),
+    StreamStatus: S.optional(StreamStatus),
+    StreamViewType: S.optional(StreamViewType),
     CreationRequestDateTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -438,12 +476,12 @@ export const DescribeStreamOutput = S.suspend(() =>
 }) as any as S.Schema<DescribeStreamOutput>;
 export interface StreamRecord {
   ApproximateCreationDateTime?: Date;
-  Keys?: AttributeMap;
-  NewImage?: AttributeMap;
-  OldImage?: AttributeMap;
+  Keys?: { [key: string]: AttributeValue };
+  NewImage?: { [key: string]: AttributeValue };
+  OldImage?: { [key: string]: AttributeValue };
   SequenceNumber?: string;
   SizeBytes?: number;
-  StreamViewType?: string;
+  StreamViewType?: StreamViewType;
 }
 export const StreamRecord = S.suspend(() =>
   S.Struct({
@@ -455,12 +493,12 @@ export const StreamRecord = S.suspend(() =>
     OldImage: S.optional(AttributeMap),
     SequenceNumber: S.optional(S.String),
     SizeBytes: S.optional(S.Number),
-    StreamViewType: S.optional(S.String),
+    StreamViewType: S.optional(StreamViewType),
   }),
 ).annotations({ identifier: "StreamRecord" }) as any as S.Schema<StreamRecord>;
 export interface Record {
   eventID?: string;
-  eventName?: string;
+  eventName?: OperationType;
   eventVersion?: string;
   eventSource?: string;
   awsRegion?: string;
@@ -470,7 +508,7 @@ export interface Record {
 export const Record = S.suspend(() =>
   S.Struct({
     eventID: S.optional(S.String),
-    eventName: S.optional(S.String),
+    eventName: S.optional(OperationType),
     eventVersion: S.optional(S.String),
     eventSource: S.optional(S.String),
     awsRegion: S.optional(S.String),
@@ -481,7 +519,7 @@ export const Record = S.suspend(() =>
 export type RecordList = Record[];
 export const RecordList = S.Array(Record);
 export interface GetRecordsOutput {
-  Records?: RecordList;
+  Records?: Record[];
   NextShardIterator?: string;
 }
 export const GetRecordsOutput = S.suspend(() =>
@@ -525,7 +563,7 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
  */
 export const listStreams: (
   input: ListStreamsInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListStreamsOutput,
   InternalServerError | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -545,7 +583,7 @@ export const listStreams: (
  */
 export const getShardIterator: (
   input: GetShardIteratorInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetShardIteratorOutput,
   | InternalServerError
   | ResourceNotFoundException
@@ -574,7 +612,7 @@ export const getShardIterator: (
  */
 export const describeStream: (
   input: DescribeStreamInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeStreamOutput,
   InternalServerError | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -597,7 +635,7 @@ export const describeStream: (
  */
 export const getRecords: (
   input: GetRecordsInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetRecordsOutput,
   | ExpiredIteratorException
   | InternalServerError

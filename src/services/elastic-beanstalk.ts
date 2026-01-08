@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -155,7 +155,6 @@ export type ConfigurationOptionPossibleValue = string;
 export type OptionRestrictionMinValue = number;
 export type OptionRestrictionMaxValue = number;
 export type OptionRestrictionMaxLength = number;
-export type NullableInteger = number;
 export type RequestCount = number;
 export type EventMessage = string;
 export type InstanceId = string;
@@ -165,14 +164,11 @@ export type Message = string;
 export type ValidationMessageString = string;
 export type RegexPattern = string;
 export type RegexLabel = string;
-export type NullableDouble = number;
 export type ResourceId = string;
 export type LoadAverageValue = number;
-export type NullableLong = number;
 export type VirtualizationType = string;
 export type ImageId = string;
 export type BranchOrder = number;
-export type Integer = number;
 
 //# Schemas
 export interface CreateStorageLocationRequest {}
@@ -229,16 +225,84 @@ export type ApplicationNamesList = string[];
 export const ApplicationNamesList = S.Array(S.String);
 export type VersionLabelsList = string[];
 export const VersionLabelsList = S.Array(S.String);
-export type EnvironmentHealthAttributes = string[];
-export const EnvironmentHealthAttributes = S.Array(S.String);
+export type EnvironmentHealthAttribute =
+  | "Status"
+  | "Color"
+  | "Causes"
+  | "ApplicationMetrics"
+  | "InstancesHealth"
+  | "All"
+  | "HealthStatus"
+  | "RefreshedAt";
+export const EnvironmentHealthAttribute = S.Literal(
+  "Status",
+  "Color",
+  "Causes",
+  "ApplicationMetrics",
+  "InstancesHealth",
+  "All",
+  "HealthStatus",
+  "RefreshedAt",
+);
+export type EnvironmentHealthAttributes = EnvironmentHealthAttribute[];
+export const EnvironmentHealthAttributes = S.Array(EnvironmentHealthAttribute);
+export type ActionStatus = "Scheduled" | "Pending" | "Running" | "Unknown";
+export const ActionStatus = S.Literal(
+  "Scheduled",
+  "Pending",
+  "Running",
+  "Unknown",
+);
 export type EnvironmentIdList = string[];
 export const EnvironmentIdList = S.Array(S.String);
 export type EnvironmentNamesList = string[];
 export const EnvironmentNamesList = S.Array(S.String);
-export type InstancesHealthAttributes = string[];
-export const InstancesHealthAttributes = S.Array(S.String);
+export type EventSeverity =
+  | "TRACE"
+  | "DEBUG"
+  | "INFO"
+  | "WARN"
+  | "ERROR"
+  | "FATAL";
+export const EventSeverity = S.Literal(
+  "TRACE",
+  "DEBUG",
+  "INFO",
+  "WARN",
+  "ERROR",
+  "FATAL",
+);
+export type InstancesHealthAttribute =
+  | "HealthStatus"
+  | "Color"
+  | "Causes"
+  | "ApplicationMetrics"
+  | "RefreshedAt"
+  | "LaunchedAt"
+  | "System"
+  | "Deployment"
+  | "AvailabilityZone"
+  | "InstanceType"
+  | "All";
+export const InstancesHealthAttribute = S.Literal(
+  "HealthStatus",
+  "Color",
+  "Causes",
+  "ApplicationMetrics",
+  "RefreshedAt",
+  "LaunchedAt",
+  "System",
+  "Deployment",
+  "AvailabilityZone",
+  "InstanceType",
+  "All",
+);
+export type InstancesHealthAttributes = InstancesHealthAttribute[];
+export const InstancesHealthAttributes = S.Array(InstancesHealthAttribute);
 export type AvailableSolutionStackNamesList = string[];
 export const AvailableSolutionStackNamesList = S.Array(S.String);
+export type EnvironmentInfoType = "tail" | "bundle";
+export const EnvironmentInfoType = S.Literal("tail", "bundle");
 export interface Tag {
   Key?: string;
   Value?: string;
@@ -348,7 +412,7 @@ export const CheckDNSAvailabilityMessage = S.suspend(() =>
 export interface ComposeEnvironmentsMessage {
   ApplicationName?: string;
   GroupName?: string;
-  VersionLabels?: VersionLabels;
+  VersionLabels?: string[];
 }
 export const ComposeEnvironmentsMessage = S.suspend(() =>
   S.Struct({
@@ -403,8 +467,8 @@ export interface CreatePlatformVersionRequest {
   PlatformVersion: string;
   PlatformDefinitionBundle: S3Location;
   EnvironmentName?: string;
-  OptionSettings?: ConfigurationOptionSettingsList;
-  Tags?: Tags;
+  OptionSettings?: ConfigurationOptionSetting[];
+  Tags?: Tag[];
 }
 export const CreatePlatformVersionRequest = S.suspend(() =>
   S.Struct({
@@ -563,7 +627,7 @@ export const DeletePlatformVersionRequest = S.suspend(() =>
   identifier: "DeletePlatformVersionRequest",
 }) as any as S.Schema<DeletePlatformVersionRequest>;
 export interface DescribeApplicationsMessage {
-  ApplicationNames?: ApplicationNamesList;
+  ApplicationNames?: string[];
 }
 export const DescribeApplicationsMessage = S.suspend(() =>
   S.Struct({ ApplicationNames: S.optional(ApplicationNamesList) }).pipe(
@@ -582,7 +646,7 @@ export const DescribeApplicationsMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeApplicationsMessage>;
 export interface DescribeApplicationVersionsMessage {
   ApplicationName?: string;
-  VersionLabels?: VersionLabelsList;
+  VersionLabels?: string[];
   MaxRecords?: number;
   NextToken?: string;
 }
@@ -628,7 +692,7 @@ export interface DescribeConfigurationOptionsMessage {
   EnvironmentName?: string;
   SolutionStackName?: string;
   PlatformArn?: string;
-  Options?: OptionsSpecifierList;
+  Options?: OptionSpecification[];
 }
 export const DescribeConfigurationOptionsMessage = S.suspend(() =>
   S.Struct({
@@ -679,7 +743,7 @@ export const DescribeConfigurationSettingsMessage = S.suspend(() =>
 export interface DescribeEnvironmentHealthRequest {
   EnvironmentName?: string;
   EnvironmentId?: string;
-  AttributeNames?: EnvironmentHealthAttributes;
+  AttributeNames?: EnvironmentHealthAttribute[];
 }
 export const DescribeEnvironmentHealthRequest = S.suspend(() =>
   S.Struct({
@@ -729,13 +793,13 @@ export const DescribeEnvironmentManagedActionHistoryRequest = S.suspend(() =>
 export interface DescribeEnvironmentManagedActionsRequest {
   EnvironmentName?: string;
   EnvironmentId?: string;
-  Status?: string;
+  Status?: ActionStatus;
 }
 export const DescribeEnvironmentManagedActionsRequest = S.suspend(() =>
   S.Struct({
     EnvironmentName: S.optional(S.String),
     EnvironmentId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ActionStatus),
   }).pipe(
     T.all(
       ns,
@@ -775,8 +839,8 @@ export const DescribeEnvironmentResourcesMessage = S.suspend(() =>
 export interface DescribeEnvironmentsMessage {
   ApplicationName?: string;
   VersionLabel?: string;
-  EnvironmentIds?: EnvironmentIdList;
-  EnvironmentNames?: EnvironmentNamesList;
+  EnvironmentIds?: string[];
+  EnvironmentNames?: string[];
   IncludeDeleted?: boolean;
   IncludedDeletedBackTo?: Date;
   MaxRecords?: number;
@@ -816,7 +880,7 @@ export interface DescribeEventsMessage {
   EnvironmentName?: string;
   PlatformArn?: string;
   RequestId?: string;
-  Severity?: string;
+  Severity?: EventSeverity;
   StartTime?: Date;
   EndTime?: Date;
   MaxRecords?: number;
@@ -831,7 +895,7 @@ export const DescribeEventsMessage = S.suspend(() =>
     EnvironmentName: S.optional(S.String),
     PlatformArn: S.optional(S.String),
     RequestId: S.optional(S.String),
-    Severity: S.optional(S.String),
+    Severity: S.optional(EventSeverity),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     MaxRecords: S.optional(S.Number),
@@ -853,7 +917,7 @@ export const DescribeEventsMessage = S.suspend(() =>
 export interface DescribeInstancesHealthRequest {
   EnvironmentName?: string;
   EnvironmentId?: string;
-  AttributeNames?: InstancesHealthAttributes;
+  AttributeNames?: InstancesHealthAttribute[];
   NextToken?: string;
 }
 export const DescribeInstancesHealthRequest = S.suspend(() =>
@@ -967,13 +1031,13 @@ export const RebuildEnvironmentResponse = S.suspend(() =>
 export interface RequestEnvironmentInfoMessage {
   EnvironmentId?: string;
   EnvironmentName?: string;
-  InfoType: string;
+  InfoType: EnvironmentInfoType;
 }
 export const RequestEnvironmentInfoMessage = S.suspend(() =>
   S.Struct({
     EnvironmentId: S.optional(S.String),
     EnvironmentName: S.optional(S.String),
-    InfoType: S.String,
+    InfoType: EnvironmentInfoType,
   }).pipe(
     T.all(
       ns,
@@ -1025,13 +1089,13 @@ export const RestartAppServerResponse = S.suspend(() =>
 export interface RetrieveEnvironmentInfoMessage {
   EnvironmentId?: string;
   EnvironmentName?: string;
-  InfoType: string;
+  InfoType: EnvironmentInfoType;
 }
 export const RetrieveEnvironmentInfoMessage = S.suspend(() =>
   S.Struct({
     EnvironmentId: S.optional(S.String),
     EnvironmentName: S.optional(S.String),
-    InfoType: S.String,
+    InfoType: EnvironmentInfoType,
   }).pipe(
     T.all(
       ns,
@@ -1224,8 +1288,8 @@ export interface UpdateConfigurationTemplateMessage {
   ApplicationName: string;
   TemplateName: string;
   Description?: string;
-  OptionSettings?: ConfigurationOptionSettingsList;
-  OptionsToRemove?: OptionsSpecifierList;
+  OptionSettings?: ConfigurationOptionSetting[];
+  OptionsToRemove?: OptionSpecification[];
 }
 export const UpdateConfigurationTemplateMessage = S.suspend(() =>
   S.Struct({
@@ -1273,8 +1337,8 @@ export interface UpdateEnvironmentMessage {
   TemplateName?: string;
   SolutionStackName?: string;
   PlatformArn?: string;
-  OptionSettings?: ConfigurationOptionSettingsList;
-  OptionsToRemove?: OptionsSpecifierList;
+  OptionSettings?: ConfigurationOptionSetting[];
+  OptionsToRemove?: OptionSpecification[];
 }
 export const UpdateEnvironmentMessage = S.suspend(() =>
   S.Struct({
@@ -1306,8 +1370,8 @@ export const UpdateEnvironmentMessage = S.suspend(() =>
 }) as any as S.Schema<UpdateEnvironmentMessage>;
 export interface UpdateTagsForResourceMessage {
   ResourceArn: string;
-  TagsToAdd?: TagList;
-  TagsToRemove?: TagKeyList;
+  TagsToAdd?: Tag[];
+  TagsToRemove?: string[];
 }
 export const UpdateTagsForResourceMessage = S.suspend(() =>
   S.Struct({
@@ -1338,7 +1402,7 @@ export interface ValidateConfigurationSettingsMessage {
   ApplicationName: string;
   TemplateName?: string;
   EnvironmentName?: string;
-  OptionSettings: ConfigurationOptionSettingsList;
+  OptionSettings: ConfigurationOptionSetting[];
 }
 export const ValidateConfigurationSettingsMessage = S.suspend(() =>
   S.Struct({
@@ -1360,12 +1424,73 @@ export const ValidateConfigurationSettingsMessage = S.suspend(() =>
 ).annotations({
   identifier: "ValidateConfigurationSettingsMessage",
 }) as any as S.Schema<ValidateConfigurationSettingsMessage>;
+export type SourceType = "Git" | "Zip";
+export const SourceType = S.Literal("Git", "Zip");
+export type SourceRepository = "CodeCommit" | "S3";
+export const SourceRepository = S.Literal("CodeCommit", "S3");
+export type ComputeType =
+  | "BUILD_GENERAL1_SMALL"
+  | "BUILD_GENERAL1_MEDIUM"
+  | "BUILD_GENERAL1_LARGE";
+export const ComputeType = S.Literal(
+  "BUILD_GENERAL1_SMALL",
+  "BUILD_GENERAL1_MEDIUM",
+  "BUILD_GENERAL1_LARGE",
+);
 export type SolutionStackFileTypeList = string[];
 export const SolutionStackFileTypeList = S.Array(S.String);
 export type SearchFilterValues = string[];
 export const SearchFilterValues = S.Array(S.String);
 export type PlatformFilterValueList = string[];
 export const PlatformFilterValueList = S.Array(S.String);
+export type ActionType = "InstanceRefresh" | "PlatformUpdate" | "Unknown";
+export const ActionType = S.Literal(
+  "InstanceRefresh",
+  "PlatformUpdate",
+  "Unknown",
+);
+export type EnvironmentStatus =
+  | "Aborting"
+  | "Launching"
+  | "Updating"
+  | "LinkingFrom"
+  | "LinkingTo"
+  | "Ready"
+  | "Terminating"
+  | "Terminated";
+export const EnvironmentStatus = S.Literal(
+  "Aborting",
+  "Launching",
+  "Updating",
+  "LinkingFrom",
+  "LinkingTo",
+  "Ready",
+  "Terminating",
+  "Terminated",
+);
+export type EnvironmentHealth = "Green" | "Yellow" | "Red" | "Grey";
+export const EnvironmentHealth = S.Literal("Green", "Yellow", "Red", "Grey");
+export type EnvironmentHealthStatus =
+  | "NoData"
+  | "Unknown"
+  | "Pending"
+  | "Ok"
+  | "Info"
+  | "Warning"
+  | "Degraded"
+  | "Severe"
+  | "Suspended";
+export const EnvironmentHealthStatus = S.Literal(
+  "NoData",
+  "Unknown",
+  "Pending",
+  "Ok",
+  "Info",
+  "Warning",
+  "Degraded",
+  "Severe",
+  "Suspended",
+);
 export interface Listener {
   Protocol?: string;
   Port?: number;
@@ -1378,7 +1503,7 @@ export const LoadBalancerListenersDescription = S.Array(Listener);
 export interface LoadBalancerDescription {
   LoadBalancerName?: string;
   Domain?: string;
-  Listeners?: LoadBalancerListenersDescription;
+  Listeners?: Listener[];
 }
 export const LoadBalancerDescription = S.suspend(() =>
   S.Struct({
@@ -1424,13 +1549,13 @@ export interface EnvironmentDescription {
   CNAME?: string;
   DateCreated?: Date;
   DateUpdated?: Date;
-  Status?: string;
+  Status?: EnvironmentStatus;
   AbortableOperationInProgress?: boolean;
-  Health?: string;
-  HealthStatus?: string;
+  Health?: EnvironmentHealth;
+  HealthStatus?: EnvironmentHealthStatus;
   Resources?: EnvironmentResourcesDescription;
   Tier?: EnvironmentTier;
-  EnvironmentLinks?: EnvironmentLinks;
+  EnvironmentLinks?: EnvironmentLink[];
   EnvironmentArn?: string;
   OperationsRole?: string;
 }
@@ -1448,10 +1573,10 @@ export const EnvironmentDescription = S.suspend(() =>
     CNAME: S.optional(S.String),
     DateCreated: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     DateUpdated: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    Status: S.optional(S.String),
+    Status: S.optional(EnvironmentStatus),
     AbortableOperationInProgress: S.optional(S.Boolean),
-    Health: S.optional(S.String),
-    HealthStatus: S.optional(S.String),
+    Health: S.optional(EnvironmentHealth),
+    HealthStatus: S.optional(EnvironmentHealthStatus),
     Resources: S.optional(EnvironmentResourcesDescription),
     Tier: S.optional(EnvironmentTier),
     EnvironmentLinks: S.optional(EnvironmentLinks),
@@ -1464,14 +1589,14 @@ export const EnvironmentDescription = S.suspend(() =>
 export type EnvironmentDescriptionsList = EnvironmentDescription[];
 export const EnvironmentDescriptionsList = S.Array(EnvironmentDescription);
 export interface SourceBuildInformation {
-  SourceType: string;
-  SourceRepository: string;
+  SourceType: SourceType;
+  SourceRepository: SourceRepository;
   SourceLocation: string;
 }
 export const SourceBuildInformation = S.suspend(() =>
   S.Struct({
-    SourceType: S.String,
-    SourceRepository: S.String,
+    SourceType: SourceType,
+    SourceRepository: SourceRepository,
     SourceLocation: S.String,
   }),
 ).annotations({
@@ -1480,7 +1605,7 @@ export const SourceBuildInformation = S.suspend(() =>
 export interface BuildConfiguration {
   ArtifactName?: string;
   CodeBuildServiceRole: string;
-  ComputeType?: string;
+  ComputeType?: ComputeType;
   Image: string;
   TimeoutInMinutes?: number;
 }
@@ -1488,7 +1613,7 @@ export const BuildConfiguration = S.suspend(() =>
   S.Struct({
     ArtifactName: S.optional(S.String),
     CodeBuildServiceRole: S.String,
-    ComputeType: S.optional(S.String),
+    ComputeType: S.optional(ComputeType),
     Image: S.String,
     TimeoutInMinutes: S.optional(S.Number),
   }),
@@ -1507,6 +1632,12 @@ export const SourceConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "SourceConfiguration",
 }) as any as S.Schema<SourceConfiguration>;
+export type ConfigurationDeploymentStatus = "deployed" | "pending" | "failed";
+export const ConfigurationDeploymentStatus = S.Literal(
+  "deployed",
+  "pending",
+  "failed",
+);
 export interface ConfigurationSettingsDescription {
   SolutionStackName?: string;
   PlatformArn?: string;
@@ -1514,10 +1645,10 @@ export interface ConfigurationSettingsDescription {
   TemplateName?: string;
   Description?: string;
   EnvironmentName?: string;
-  DeploymentStatus?: string;
+  DeploymentStatus?: ConfigurationDeploymentStatus;
   DateCreated?: Date;
   DateUpdated?: Date;
-  OptionSettings?: ConfigurationOptionSettingsList;
+  OptionSettings?: ConfigurationOptionSetting[];
 }
 export const ConfigurationSettingsDescription = S.suspend(() =>
   S.Struct({
@@ -1527,7 +1658,7 @@ export const ConfigurationSettingsDescription = S.suspend(() =>
     TemplateName: S.optional(S.String),
     Description: S.optional(S.String),
     EnvironmentName: S.optional(S.String),
-    DeploymentStatus: S.optional(S.String),
+    DeploymentStatus: S.optional(ConfigurationDeploymentStatus),
     DateCreated: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     DateUpdated: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     OptionSettings: S.optional(ConfigurationOptionSettingsList),
@@ -1544,7 +1675,7 @@ export type Causes = string[];
 export const Causes = S.Array(S.String);
 export interface SolutionStackDescription {
   SolutionStackName?: string;
-  PermittedFileTypes?: SolutionStackFileTypeList;
+  PermittedFileTypes?: string[];
 }
 export const SolutionStackDescription = S.suspend(() =>
   S.Struct({
@@ -1561,7 +1692,7 @@ export const AvailableSolutionStackDetailsList = S.Array(
 export interface SearchFilter {
   Attribute?: string;
   Operator?: string;
-  Values?: SearchFilterValues;
+  Values?: string[];
 }
 export const SearchFilter = S.suspend(() =>
   S.Struct({
@@ -1575,7 +1706,7 @@ export const SearchFilters = S.Array(SearchFilter);
 export interface PlatformFilter {
   Type?: string;
   Operator?: string;
-  Values?: PlatformFilterValueList;
+  Values?: string[];
 }
 export const PlatformFilter = S.suspend(() =>
   S.Struct({
@@ -1591,14 +1722,14 @@ export const PlatformFilters = S.Array(PlatformFilter);
 export interface ApplyEnvironmentManagedActionResult {
   ActionId?: string;
   ActionDescription?: string;
-  ActionType?: string;
+  ActionType?: ActionType;
   Status?: string;
 }
 export const ApplyEnvironmentManagedActionResult = S.suspend(() =>
   S.Struct({
     ActionId: S.optional(S.String),
     ActionDescription: S.optional(S.String),
-    ActionType: S.optional(S.String),
+    ActionType: S.optional(ActionType),
     Status: S.optional(S.String),
   }).pipe(ns),
 ).annotations({
@@ -1617,7 +1748,7 @@ export const CheckDNSAvailabilityResultMessage = S.suspend(() =>
   identifier: "CheckDNSAvailabilityResultMessage",
 }) as any as S.Schema<CheckDNSAvailabilityResultMessage>;
 export interface EnvironmentDescriptionsMessage {
-  Environments?: EnvironmentDescriptionsList;
+  Environments?: EnvironmentDescription[];
   NextToken?: string;
 }
 export const EnvironmentDescriptionsMessage = S.suspend(() =>
@@ -1637,7 +1768,7 @@ export interface CreateApplicationVersionMessage {
   BuildConfiguration?: BuildConfiguration;
   AutoCreateApplication?: boolean;
   Process?: boolean;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreateApplicationVersionMessage = S.suspend(() =>
   S.Struct({
@@ -1672,8 +1803,8 @@ export interface CreateConfigurationTemplateMessage {
   SourceConfiguration?: SourceConfiguration;
   EnvironmentId?: string;
   Description?: string;
-  OptionSettings?: ConfigurationOptionSettingsList;
-  Tags?: Tags;
+  OptionSettings?: ConfigurationOptionSetting[];
+  Tags?: Tag[];
 }
 export const CreateConfigurationTemplateMessage = S.suspend(() =>
   S.Struct({
@@ -1707,13 +1838,13 @@ export interface CreateEnvironmentMessage {
   Description?: string;
   CNAMEPrefix?: string;
   Tier?: EnvironmentTier;
-  Tags?: Tags;
+  Tags?: Tag[];
   VersionLabel?: string;
   TemplateName?: string;
   SolutionStackName?: string;
   PlatformArn?: string;
-  OptionSettings?: ConfigurationOptionSettingsList;
-  OptionsToRemove?: OptionsSpecifierList;
+  OptionSettings?: ConfigurationOptionSetting[];
+  OptionsToRemove?: OptionSpecification[];
   OperationsRole?: string;
 }
 export const CreateEnvironmentMessage = S.suspend(() =>
@@ -1746,6 +1877,19 @@ export const CreateEnvironmentMessage = S.suspend(() =>
 ).annotations({
   identifier: "CreateEnvironmentMessage",
 }) as any as S.Schema<CreateEnvironmentMessage>;
+export type PlatformStatus =
+  | "Creating"
+  | "Failed"
+  | "Ready"
+  | "Deleting"
+  | "Deleted";
+export const PlatformStatus = S.Literal(
+  "Creating",
+  "Failed",
+  "Ready",
+  "Deleting",
+  "Deleted",
+);
 export type SupportedTierList = string[];
 export const SupportedTierList = S.Array(S.String);
 export type SupportedAddonList = string[];
@@ -1753,12 +1897,12 @@ export const SupportedAddonList = S.Array(S.String);
 export interface PlatformSummary {
   PlatformArn?: string;
   PlatformOwner?: string;
-  PlatformStatus?: string;
+  PlatformStatus?: PlatformStatus;
   PlatformCategory?: string;
   OperatingSystemName?: string;
   OperatingSystemVersion?: string;
-  SupportedTierList?: SupportedTierList;
-  SupportedAddonList?: SupportedAddonList;
+  SupportedTierList?: string[];
+  SupportedAddonList?: string[];
   PlatformLifecycleState?: string;
   PlatformVersion?: string;
   PlatformBranchName?: string;
@@ -1768,7 +1912,7 @@ export const PlatformSummary = S.suspend(() =>
   S.Struct({
     PlatformArn: S.optional(S.String),
     PlatformOwner: S.optional(S.String),
-    PlatformStatus: S.optional(S.String),
+    PlatformStatus: S.optional(PlatformStatus),
     PlatformCategory: S.optional(S.String),
     OperatingSystemName: S.optional(S.String),
     OperatingSystemVersion: S.optional(S.String),
@@ -1791,7 +1935,7 @@ export const DeletePlatformVersionResult = S.suspend(() =>
   identifier: "DeletePlatformVersionResult",
 }) as any as S.Schema<DeletePlatformVersionResult>;
 export interface ConfigurationSettingsDescriptions {
-  ConfigurationSettings?: ConfigurationSettingsDescriptionList;
+  ConfigurationSettings?: ConfigurationSettingsDescription[];
 }
 export const ConfigurationSettingsDescriptions = S.suspend(() =>
   S.Struct({
@@ -1801,8 +1945,8 @@ export const ConfigurationSettingsDescriptions = S.suspend(() =>
   identifier: "ConfigurationSettingsDescriptions",
 }) as any as S.Schema<ConfigurationSettingsDescriptions>;
 export interface ListAvailableSolutionStacksResultMessage {
-  SolutionStacks?: AvailableSolutionStackNamesList;
-  SolutionStackDetails?: AvailableSolutionStackDetailsList;
+  SolutionStacks?: string[];
+  SolutionStackDetails?: SolutionStackDescription[];
 }
 export const ListAvailableSolutionStacksResultMessage = S.suspend(() =>
   S.Struct({
@@ -1813,7 +1957,7 @@ export const ListAvailableSolutionStacksResultMessage = S.suspend(() =>
   identifier: "ListAvailableSolutionStacksResultMessage",
 }) as any as S.Schema<ListAvailableSolutionStacksResultMessage>;
 export interface ListPlatformBranchesRequest {
-  Filters?: SearchFilters;
+  Filters?: SearchFilter[];
   MaxRecords?: number;
   NextToken?: string;
 }
@@ -1837,7 +1981,7 @@ export const ListPlatformBranchesRequest = S.suspend(() =>
   identifier: "ListPlatformBranchesRequest",
 }) as any as S.Schema<ListPlatformBranchesRequest>;
 export interface ListPlatformVersionsRequest {
-  Filters?: PlatformFilters;
+  Filters?: PlatformFilter[];
   MaxRecords?: number;
   NextToken?: string;
 }
@@ -1862,7 +2006,7 @@ export const ListPlatformVersionsRequest = S.suspend(() =>
 }) as any as S.Schema<ListPlatformVersionsRequest>;
 export interface ResourceTagsDescriptionMessage {
   ResourceArn?: string;
-  ResourceTags?: TagList;
+  ResourceTags?: Tag[];
 }
 export const ResourceTagsDescriptionMessage = S.suspend(() =>
   S.Struct({
@@ -1880,8 +2024,8 @@ export interface ApplicationDescription {
   Description?: string;
   DateCreated?: Date;
   DateUpdated?: Date;
-  Versions?: VersionLabelsList;
-  ConfigurationTemplates?: ConfigurationTemplateNamesList;
+  Versions?: string[];
+  ConfigurationTemplates?: string[];
   ResourceLifecycleConfig?: ApplicationResourceLifecycleConfig;
 }
 export const ApplicationDescription = S.suspend(() =>
@@ -1918,6 +2062,19 @@ export const ApplicationResourceLifecycleDescriptionMessage = S.suspend(() =>
 ).annotations({
   identifier: "ApplicationResourceLifecycleDescriptionMessage",
 }) as any as S.Schema<ApplicationResourceLifecycleDescriptionMessage>;
+export type ApplicationVersionStatus =
+  | "Processed"
+  | "Unprocessed"
+  | "Failed"
+  | "Processing"
+  | "Building";
+export const ApplicationVersionStatus = S.Literal(
+  "Processed",
+  "Unprocessed",
+  "Failed",
+  "Processing",
+  "Building",
+);
 export interface ApplicationVersionDescription {
   ApplicationVersionArn?: string;
   ApplicationName?: string;
@@ -1928,7 +2085,7 @@ export interface ApplicationVersionDescription {
   SourceBundle?: S3Location;
   DateCreated?: Date;
   DateUpdated?: Date;
-  Status?: string;
+  Status?: ApplicationVersionStatus;
 }
 export const ApplicationVersionDescription = S.suspend(() =>
   S.Struct({
@@ -1941,7 +2098,7 @@ export const ApplicationVersionDescription = S.suspend(() =>
     SourceBundle: S.optional(S3Location),
     DateCreated: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     DateUpdated: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    Status: S.optional(S.String),
+    Status: S.optional(ApplicationVersionStatus),
   }),
 ).annotations({
   identifier: "ApplicationVersionDescription",
@@ -1964,8 +2121,31 @@ export const ResourceQuota = S.suspend(() =>
 ).annotations({
   identifier: "ResourceQuota",
 }) as any as S.Schema<ResourceQuota>;
+export type ConfigurationOptionValueType = "Scalar" | "List";
+export const ConfigurationOptionValueType = S.Literal("Scalar", "List");
 export type ConfigurationOptionPossibleValues = string[];
 export const ConfigurationOptionPossibleValues = S.Array(S.String);
+export type FailureType =
+  | "UpdateCancelled"
+  | "CancellationFailed"
+  | "RollbackFailed"
+  | "RollbackSuccessful"
+  | "InternalFailure"
+  | "InvalidEnvironmentState"
+  | "PermissionsError";
+export const FailureType = S.Literal(
+  "UpdateCancelled",
+  "CancellationFailed",
+  "RollbackFailed",
+  "RollbackSuccessful",
+  "InternalFailure",
+  "InvalidEnvironmentState",
+  "PermissionsError",
+);
+export type ActionHistoryStatus = "Completed" | "Failed" | "Unknown";
+export const ActionHistoryStatus = S.Literal("Completed", "Failed", "Unknown");
+export type ValidationSeverity = "error" | "warning";
+export const ValidationSeverity = S.Literal("error", "warning");
 export interface Builder {
   ARN?: string;
 }
@@ -2022,10 +2202,10 @@ export const InstanceHealthSummary = S.suspend(() =>
 }) as any as S.Schema<InstanceHealthSummary>;
 export interface ManagedActionHistoryItem {
   ActionId?: string;
-  ActionType?: string;
+  ActionType?: ActionType;
   ActionDescription?: string;
-  FailureType?: string;
-  Status?: string;
+  FailureType?: FailureType;
+  Status?: ActionHistoryStatus;
   FailureDescription?: string;
   ExecutedTime?: Date;
   FinishedTime?: Date;
@@ -2033,10 +2213,10 @@ export interface ManagedActionHistoryItem {
 export const ManagedActionHistoryItem = S.suspend(() =>
   S.Struct({
     ActionId: S.optional(S.String),
-    ActionType: S.optional(S.String),
+    ActionType: S.optional(ActionType),
     ActionDescription: S.optional(S.String),
-    FailureType: S.optional(S.String),
-    Status: S.optional(S.String),
+    FailureType: S.optional(FailureType),
+    Status: S.optional(ActionHistoryStatus),
     FailureDescription: S.optional(S.String),
     ExecutedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     FinishedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -2049,16 +2229,16 @@ export const ManagedActionHistoryItems = S.Array(ManagedActionHistoryItem);
 export interface ManagedAction {
   ActionId?: string;
   ActionDescription?: string;
-  ActionType?: string;
-  Status?: string;
+  ActionType?: ActionType;
+  Status?: ActionStatus;
   WindowStartTime?: Date;
 }
 export const ManagedAction = S.suspend(() =>
   S.Struct({
     ActionId: S.optional(S.String),
     ActionDescription: S.optional(S.String),
-    ActionType: S.optional(S.String),
-    Status: S.optional(S.String),
+    ActionType: S.optional(ActionType),
+    Status: S.optional(ActionStatus),
     WindowStartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotations({
@@ -2075,7 +2255,7 @@ export interface EventDescription {
   EnvironmentName?: string;
   PlatformArn?: string;
   RequestId?: string;
-  Severity?: string;
+  Severity?: EventSeverity;
 }
 export const EventDescription = S.suspend(() =>
   S.Struct({
@@ -2087,7 +2267,7 @@ export const EventDescription = S.suspend(() =>
     EnvironmentName: S.optional(S.String),
     PlatformArn: S.optional(S.String),
     RequestId: S.optional(S.String),
-    Severity: S.optional(S.String),
+    Severity: S.optional(EventSeverity),
   }),
 ).annotations({
   identifier: "EventDescription",
@@ -2097,14 +2277,14 @@ export const EventDescriptionList = S.Array(EventDescription);
 export type PlatformSummaryList = PlatformSummary[];
 export const PlatformSummaryList = S.Array(PlatformSummary);
 export interface EnvironmentInfoDescription {
-  InfoType?: string;
+  InfoType?: EnvironmentInfoType;
   Ec2InstanceId?: string;
   SampleTimestamp?: Date;
   Message?: string;
 }
 export const EnvironmentInfoDescription = S.suspend(() =>
   S.Struct({
-    InfoType: S.optional(S.String),
+    InfoType: S.optional(EnvironmentInfoType),
     Ec2InstanceId: S.optional(S.String),
     SampleTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     Message: S.optional(S.String),
@@ -2118,14 +2298,14 @@ export const EnvironmentInfoDescriptionList = S.Array(
 );
 export interface ValidationMessage {
   Message?: string;
-  Severity?: string;
+  Severity?: ValidationSeverity;
   Namespace?: string;
   OptionName?: string;
 }
 export const ValidationMessage = S.suspend(() =>
   S.Struct({
     Message: S.optional(S.String),
-    Severity: S.optional(S.String),
+    Severity: S.optional(ValidationSeverity),
     Namespace: S.optional(S.String),
     OptionName: S.optional(S.String),
   }),
@@ -2157,7 +2337,7 @@ export const DescribeAccountAttributesResult = S.suspend(() =>
   identifier: "DescribeAccountAttributesResult",
 }) as any as S.Schema<DescribeAccountAttributesResult>;
 export interface ApplicationDescriptionsMessage {
-  Applications?: ApplicationDescriptionList;
+  Applications?: ApplicationDescription[];
 }
 export const ApplicationDescriptionsMessage = S.suspend(() =>
   S.Struct({ Applications: S.optional(ApplicationDescriptionList) }).pipe(ns),
@@ -2165,7 +2345,7 @@ export const ApplicationDescriptionsMessage = S.suspend(() =>
   identifier: "ApplicationDescriptionsMessage",
 }) as any as S.Schema<ApplicationDescriptionsMessage>;
 export interface ApplicationVersionDescriptionsMessage {
-  ApplicationVersions?: ApplicationVersionDescriptionList;
+  ApplicationVersions?: ApplicationVersionDescription[];
   NextToken?: string;
 }
 export const ApplicationVersionDescriptionsMessage = S.suspend(() =>
@@ -2177,7 +2357,7 @@ export const ApplicationVersionDescriptionsMessage = S.suspend(() =>
   identifier: "ApplicationVersionDescriptionsMessage",
 }) as any as S.Schema<ApplicationVersionDescriptionsMessage>;
 export interface DescribeEnvironmentManagedActionHistoryResult {
-  ManagedActionHistoryItems?: ManagedActionHistoryItems;
+  ManagedActionHistoryItems?: ManagedActionHistoryItem[];
   NextToken?: string;
 }
 export const DescribeEnvironmentManagedActionHistoryResult = S.suspend(() =>
@@ -2189,7 +2369,7 @@ export const DescribeEnvironmentManagedActionHistoryResult = S.suspend(() =>
   identifier: "DescribeEnvironmentManagedActionHistoryResult",
 }) as any as S.Schema<DescribeEnvironmentManagedActionHistoryResult>;
 export interface DescribeEnvironmentManagedActionsResult {
-  ManagedActions?: ManagedActions;
+  ManagedActions?: ManagedAction[];
 }
 export const DescribeEnvironmentManagedActionsResult = S.suspend(() =>
   S.Struct({ ManagedActions: S.optional(ManagedActions) }).pipe(ns),
@@ -2197,7 +2377,7 @@ export const DescribeEnvironmentManagedActionsResult = S.suspend(() =>
   identifier: "DescribeEnvironmentManagedActionsResult",
 }) as any as S.Schema<DescribeEnvironmentManagedActionsResult>;
 export interface EventDescriptionsMessage {
-  Events?: EventDescriptionList;
+  Events?: EventDescription[];
   NextToken?: string;
 }
 export const EventDescriptionsMessage = S.suspend(() =>
@@ -2209,7 +2389,7 @@ export const EventDescriptionsMessage = S.suspend(() =>
   identifier: "EventDescriptionsMessage",
 }) as any as S.Schema<EventDescriptionsMessage>;
 export interface ListPlatformVersionsResult {
-  PlatformSummaryList?: PlatformSummaryList;
+  PlatformSummaryList?: PlatformSummary[];
   NextToken?: string;
 }
 export const ListPlatformVersionsResult = S.suspend(() =>
@@ -2221,7 +2401,7 @@ export const ListPlatformVersionsResult = S.suspend(() =>
   identifier: "ListPlatformVersionsResult",
 }) as any as S.Schema<ListPlatformVersionsResult>;
 export interface RetrieveEnvironmentInfoResultMessage {
-  EnvironmentInfo?: EnvironmentInfoDescriptionList;
+  EnvironmentInfo?: EnvironmentInfoDescription[];
 }
 export const RetrieveEnvironmentInfoResultMessage = S.suspend(() =>
   S.Struct({
@@ -2231,7 +2411,7 @@ export const RetrieveEnvironmentInfoResultMessage = S.suspend(() =>
   identifier: "RetrieveEnvironmentInfoResultMessage",
 }) as any as S.Schema<RetrieveEnvironmentInfoResultMessage>;
 export interface ConfigurationSettingsValidationMessages {
-  Messages?: ValidationMessagesList;
+  Messages?: ValidationMessage[];
 }
 export const ConfigurationSettingsValidationMessages = S.suspend(() =>
   S.Struct({ Messages: S.optional(ValidationMessagesList) }).pipe(ns),
@@ -2402,8 +2582,8 @@ export interface ConfigurationOptionDescription {
   DefaultValue?: string;
   ChangeSeverity?: string;
   UserDefined?: boolean;
-  ValueType?: string;
-  ValueOptions?: ConfigurationOptionPossibleValues;
+  ValueType?: ConfigurationOptionValueType;
+  ValueOptions?: string[];
   MinValue?: number;
   MaxValue?: number;
   MaxLength?: number;
@@ -2416,7 +2596,7 @@ export const ConfigurationOptionDescription = S.suspend(() =>
     DefaultValue: S.optional(S.String),
     ChangeSeverity: S.optional(S.String),
     UserDefined: S.optional(S.Boolean),
-    ValueType: S.optional(S.String),
+    ValueType: S.optional(ConfigurationOptionValueType),
     ValueOptions: S.optional(ConfigurationOptionPossibleValues),
     MinValue: S.optional(S.Number),
     MaxValue: S.optional(S.Number),
@@ -2449,13 +2629,13 @@ export const ApplicationMetrics = S.suspend(() =>
 }) as any as S.Schema<ApplicationMetrics>;
 export interface EnvironmentResourceDescription {
   EnvironmentName?: string;
-  AutoScalingGroups?: AutoScalingGroupList;
-  Instances?: InstanceList;
-  LaunchConfigurations?: LaunchConfigurationList;
-  LaunchTemplates?: LaunchTemplateList;
-  LoadBalancers?: LoadBalancerList;
-  Triggers?: TriggerList;
-  Queues?: QueueList;
+  AutoScalingGroups?: AutoScalingGroup[];
+  Instances?: Instance[];
+  LaunchConfigurations?: LaunchConfiguration[];
+  LaunchTemplates?: LaunchTemplate[];
+  LoadBalancers?: LoadBalancer[];
+  Triggers?: Trigger[];
+  Queues?: Queue[];
 }
 export const EnvironmentResourceDescription = S.suspend(() =>
   S.Struct({
@@ -2477,7 +2657,7 @@ export interface PlatformDescription {
   PlatformName?: string;
   PlatformVersion?: string;
   SolutionStackName?: string;
-  PlatformStatus?: string;
+  PlatformStatus?: PlatformStatus;
   DateCreated?: Date;
   DateUpdated?: Date;
   PlatformCategory?: string;
@@ -2485,11 +2665,11 @@ export interface PlatformDescription {
   Maintainer?: string;
   OperatingSystemName?: string;
   OperatingSystemVersion?: string;
-  ProgrammingLanguages?: PlatformProgrammingLanguages;
-  Frameworks?: PlatformFrameworks;
-  CustomAmiList?: CustomAmiList;
-  SupportedTierList?: SupportedTierList;
-  SupportedAddonList?: SupportedAddonList;
+  ProgrammingLanguages?: PlatformProgrammingLanguage[];
+  Frameworks?: PlatformFramework[];
+  CustomAmiList?: CustomAmi[];
+  SupportedTierList?: string[];
+  SupportedAddonList?: string[];
   PlatformLifecycleState?: string;
   PlatformBranchName?: string;
   PlatformBranchLifecycleState?: string;
@@ -2501,7 +2681,7 @@ export const PlatformDescription = S.suspend(() =>
     PlatformName: S.optional(S.String),
     PlatformVersion: S.optional(S.String),
     SolutionStackName: S.optional(S.String),
-    PlatformStatus: S.optional(S.String),
+    PlatformStatus: S.optional(PlatformStatus),
     DateCreated: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     DateUpdated: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     PlatformCategory: S.optional(S.String),
@@ -2526,7 +2706,7 @@ export interface PlatformBranchSummary {
   BranchName?: string;
   LifecycleState?: string;
   BranchOrder?: number;
-  SupportedTierList?: SupportedTierList;
+  SupportedTierList?: string[];
 }
 export const PlatformBranchSummary = S.suspend(() =>
   S.Struct({
@@ -2569,7 +2749,7 @@ export interface CreateApplicationMessage {
   ApplicationName: string;
   Description?: string;
   ResourceLifecycleConfig?: ApplicationResourceLifecycleConfig;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreateApplicationMessage = S.suspend(() =>
   S.Struct({
@@ -2594,7 +2774,7 @@ export const CreateApplicationMessage = S.suspend(() =>
 export interface ConfigurationOptionsDescription {
   SolutionStackName?: string;
   PlatformArn?: string;
-  Options?: ConfigurationOptionDescriptionsList;
+  Options?: ConfigurationOptionDescription[];
 }
 export const ConfigurationOptionsDescription = S.suspend(() =>
   S.Struct({
@@ -2608,9 +2788,9 @@ export const ConfigurationOptionsDescription = S.suspend(() =>
 export interface DescribeEnvironmentHealthResult {
   EnvironmentName?: string;
   HealthStatus?: string;
-  Status?: string;
+  Status?: EnvironmentHealth;
   Color?: string;
-  Causes?: Causes;
+  Causes?: string[];
   ApplicationMetrics?: ApplicationMetrics;
   InstancesHealth?: InstanceHealthSummary;
   RefreshedAt?: Date;
@@ -2619,7 +2799,7 @@ export const DescribeEnvironmentHealthResult = S.suspend(() =>
   S.Struct({
     EnvironmentName: S.optional(S.String),
     HealthStatus: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(EnvironmentHealth),
     Color: S.optional(S.String),
     Causes: S.optional(Causes),
     ApplicationMetrics: S.optional(ApplicationMetrics),
@@ -2648,7 +2828,7 @@ export const DescribePlatformVersionResult = S.suspend(() =>
   identifier: "DescribePlatformVersionResult",
 }) as any as S.Schema<DescribePlatformVersionResult>;
 export interface ListPlatformBranchesResult {
-  PlatformBranchSummaryList?: PlatformBranchSummaryList;
+  PlatformBranchSummaryList?: PlatformBranchSummary[];
   NextToken?: string;
 }
 export const ListPlatformBranchesResult = S.suspend(() =>
@@ -2661,7 +2841,7 @@ export const ListPlatformBranchesResult = S.suspend(() =>
 }) as any as S.Schema<ListPlatformBranchesResult>;
 export interface SystemStatus {
   CPUUtilization?: CPUUtilization;
-  LoadAverage?: LoadAverage;
+  LoadAverage?: number[];
 }
 export const SystemStatus = S.suspend(() =>
   S.Struct({
@@ -2673,7 +2853,7 @@ export interface SingleInstanceHealth {
   InstanceId?: string;
   HealthStatus?: string;
   Color?: string;
-  Causes?: Causes;
+  Causes?: string[];
   LaunchedAt?: Date;
   ApplicationMetrics?: ApplicationMetrics;
   System?: SystemStatus;
@@ -2700,7 +2880,7 @@ export const SingleInstanceHealth = S.suspend(() =>
 export type InstanceHealthList = SingleInstanceHealth[];
 export const InstanceHealthList = S.Array(SingleInstanceHealth);
 export interface DescribeInstancesHealthResult {
-  InstanceHealthList?: InstanceHealthList;
+  InstanceHealthList?: SingleInstanceHealth[];
   RefreshedAt?: Date;
   NextToken?: string;
 }
@@ -2857,7 +3037,7 @@ export class TooManyApplicationVersionsException extends S.TaggedError<TooManyAp
  */
 export const deleteEnvironmentConfiguration: (
   input: DeleteEnvironmentConfigurationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEnvironmentConfigurationResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2871,7 +3051,7 @@ export const deleteEnvironmentConfiguration: (
  */
 export const describeEnvironments: (
   input: DescribeEnvironmentsMessage,
-) => Effect.Effect<
+) => effect.Effect<
   EnvironmentDescriptionsMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2899,7 +3079,7 @@ export const describeEnvironments: (
  */
 export const requestEnvironmentInfo: (
   input: RequestEnvironmentInfoMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RequestEnvironmentInfoResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2914,7 +3094,7 @@ export const requestEnvironmentInfo: (
  */
 export const restartAppServer: (
   input: RestartAppServerMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RestartAppServerResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2928,7 +3108,7 @@ export const restartAppServer: (
  */
 export const swapEnvironmentCNAMEs: (
   input: SwapEnvironmentCNAMEsMessage,
-) => Effect.Effect<
+) => effect.Effect<
   SwapEnvironmentCNAMEsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2943,7 +3123,7 @@ export const swapEnvironmentCNAMEs: (
  */
 export const abortEnvironmentUpdate: (
   input: AbortEnvironmentUpdateMessage,
-) => Effect.Effect<
+) => effect.Effect<
   AbortEnvironmentUpdateResponse,
   InsufficientPrivilegesException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2957,7 +3137,7 @@ export const abortEnvironmentUpdate: (
  */
 export const checkDNSAvailability: (
   input: CheckDNSAvailabilityMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CheckDNSAvailabilityResultMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2975,7 +3155,7 @@ export const checkDNSAvailability: (
  */
 export const deleteApplication: (
   input: DeleteApplicationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApplicationResponse,
   OperationInProgressException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2990,7 +3170,7 @@ export const deleteApplication: (
  */
 export const listAvailableSolutionStacks: (
   input: ListAvailableSolutionStacksRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListAvailableSolutionStacksResultMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3007,7 +3187,7 @@ export const listAvailableSolutionStacks: (
  */
 export const updateApplication: (
   input: UpdateApplicationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ApplicationDescriptionMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3021,7 +3201,7 @@ export const updateApplication: (
  */
 export const updateApplicationResourceLifecycle: (
   input: UpdateApplicationResourceLifecycleMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ApplicationResourceLifecycleDescriptionMessage,
   InsufficientPrivilegesException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3038,7 +3218,7 @@ export const updateApplicationResourceLifecycle: (
  */
 export const updateApplicationVersion: (
   input: UpdateApplicationVersionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ApplicationVersionDescriptionMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3055,7 +3235,7 @@ export const updateApplicationVersion: (
  */
 export const associateEnvironmentOperationsRole: (
   input: AssociateEnvironmentOperationsRoleMessage,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateEnvironmentOperationsRoleResponse,
   InsufficientPrivilegesException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3072,7 +3252,7 @@ export const associateEnvironmentOperationsRole: (
  */
 export const disassociateEnvironmentOperationsRole: (
   input: DisassociateEnvironmentOperationsRoleMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateEnvironmentOperationsRoleResponse,
   InsufficientPrivilegesException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3087,7 +3267,7 @@ export const disassociateEnvironmentOperationsRole: (
  */
 export const rebuildEnvironment: (
   input: RebuildEnvironmentMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RebuildEnvironmentResponse,
   InsufficientPrivilegesException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3105,7 +3285,7 @@ export const rebuildEnvironment: (
  */
 export const deleteConfigurationTemplate: (
   input: DeleteConfigurationTemplateMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConfigurationTemplateResponse,
   OperationInProgressException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3124,7 +3304,7 @@ export const deleteConfigurationTemplate: (
  */
 export const composeEnvironments: (
   input: ComposeEnvironmentsMessage,
-) => Effect.Effect<
+) => effect.Effect<
   EnvironmentDescriptionsMessage,
   InsufficientPrivilegesException | TooManyEnvironmentsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3141,7 +3321,7 @@ export const composeEnvironments: (
  */
 export const describeAccountAttributes: (
   input: DescribeAccountAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAccountAttributesResult,
   InsufficientPrivilegesException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3155,7 +3335,7 @@ export const describeAccountAttributes: (
  */
 export const describeApplications: (
   input: DescribeApplicationsMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ApplicationDescriptionsMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3169,7 +3349,7 @@ export const describeApplications: (
  */
 export const describeApplicationVersions: (
   input: DescribeApplicationVersionsMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ApplicationVersionDescriptionsMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3184,21 +3364,21 @@ export const describeApplicationVersions: (
 export const describeEnvironmentManagedActionHistory: {
   (
     input: DescribeEnvironmentManagedActionHistoryRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeEnvironmentManagedActionHistoryResult,
     ElasticBeanstalkServiceException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeEnvironmentManagedActionHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeEnvironmentManagedActionHistoryResult,
     ElasticBeanstalkServiceException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEnvironmentManagedActionHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ManagedActionHistoryItem,
     ElasticBeanstalkServiceException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3219,7 +3399,7 @@ export const describeEnvironmentManagedActionHistory: {
  */
 export const describeEnvironmentManagedActions: (
   input: DescribeEnvironmentManagedActionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEnvironmentManagedActionsResult,
   ElasticBeanstalkServiceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3237,21 +3417,21 @@ export const describeEnvironmentManagedActions: (
 export const describeEvents: {
   (
     input: DescribeEventsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     EventDescriptionsMessage,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeEventsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EventDescriptionsMessage,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEventsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EventDescription,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3278,7 +3458,7 @@ export const describeEvents: {
 export const listPlatformVersions: {
   (
     input: ListPlatformVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPlatformVersionsResult,
     | ElasticBeanstalkServiceException
     | InsufficientPrivilegesException
@@ -3287,7 +3467,7 @@ export const listPlatformVersions: {
   >;
   pages: (
     input: ListPlatformVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPlatformVersionsResult,
     | ElasticBeanstalkServiceException
     | InsufficientPrivilegesException
@@ -3296,7 +3476,7 @@ export const listPlatformVersions: {
   >;
   items: (
     input: ListPlatformVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PlatformSummary,
     | ElasticBeanstalkServiceException
     | InsufficientPrivilegesException
@@ -3324,7 +3504,7 @@ export const listPlatformVersions: {
  */
 export const retrieveEnvironmentInfo: (
   input: RetrieveEnvironmentInfoMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RetrieveEnvironmentInfoResultMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3342,7 +3522,7 @@ export const retrieveEnvironmentInfo: (
  */
 export const validateConfigurationSettings: (
   input: ValidateConfigurationSettingsMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ConfigurationSettingsValidationMessages,
   InsufficientPrivilegesException | TooManyBucketsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3360,7 +3540,7 @@ export const validateConfigurationSettings: (
  */
 export const createStorageLocation: (
   input: CreateStorageLocationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateStorageLocationResultMessage,
   | InsufficientPrivilegesException
   | S3SubscriptionRequiredException
@@ -3382,7 +3562,7 @@ export const createStorageLocation: (
  */
 export const createEnvironment: (
   input: CreateEnvironmentMessage,
-) => Effect.Effect<
+) => effect.Effect<
   EnvironmentDescription,
   InsufficientPrivilegesException | TooManyEnvironmentsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3407,7 +3587,7 @@ export const createEnvironment: (
  */
 export const describeConfigurationSettings: (
   input: DescribeConfigurationSettingsMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ConfigurationSettingsDescriptions,
   TooManyBucketsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3429,7 +3609,7 @@ export const describeConfigurationSettings: (
  */
 export const updateConfigurationTemplate: (
   input: UpdateConfigurationTemplateMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ConfigurationSettingsDescription,
   InsufficientPrivilegesException | TooManyBucketsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3453,7 +3633,7 @@ export const updateConfigurationTemplate: (
  */
 export const updateEnvironment: (
   input: UpdateEnvironmentMessage,
-) => Effect.Effect<
+) => effect.Effect<
   EnvironmentDescription,
   InsufficientPrivilegesException | TooManyBucketsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3469,7 +3649,7 @@ export const updateEnvironment: (
  */
 export const applyEnvironmentManagedAction: (
   input: ApplyEnvironmentManagedActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ApplyEnvironmentManagedActionResult,
   | ElasticBeanstalkServiceException
   | ManagedActionInvalidStateException
@@ -3502,7 +3682,7 @@ export const applyEnvironmentManagedAction: (
  */
 export const createConfigurationTemplate: (
   input: CreateConfigurationTemplateMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ConfigurationSettingsDescription,
   | InsufficientPrivilegesException
   | TooManyBucketsException
@@ -3523,7 +3703,7 @@ export const createConfigurationTemplate: (
  */
 export const createPlatformVersion: (
   input: CreatePlatformVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePlatformVersionResult,
   | ElasticBeanstalkServiceException
   | InsufficientPrivilegesException
@@ -3547,7 +3727,7 @@ export const createPlatformVersion: (
  */
 export const describeConfigurationOptions: (
   input: DescribeConfigurationOptionsMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ConfigurationOptionsDescription,
   TooManyBucketsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3561,7 +3741,7 @@ export const describeConfigurationOptions: (
  */
 export const describeEnvironmentResources: (
   input: DescribeEnvironmentResourcesMessage,
-) => Effect.Effect<
+) => effect.Effect<
   EnvironmentResourceDescriptionsMessage,
   InsufficientPrivilegesException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3579,7 +3759,7 @@ export const describeEnvironmentResources: (
  */
 export const describePlatformVersion: (
   input: DescribePlatformVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePlatformVersionResult,
   | ElasticBeanstalkServiceException
   | InsufficientPrivilegesException
@@ -3600,21 +3780,21 @@ export const describePlatformVersion: (
 export const listPlatformBranches: {
   (
     input: ListPlatformBranchesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPlatformBranchesResult,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListPlatformBranchesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPlatformBranchesResult,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPlatformBranchesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3638,7 +3818,7 @@ export const listPlatformBranches: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ResourceTagsDescriptionMessage,
   | InsufficientPrivilegesException
   | ResourceNotFoundException
@@ -3662,7 +3842,7 @@ export const listTagsForResource: (
  */
 export const deleteApplicationVersion: (
   input: DeleteApplicationVersionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApplicationVersionResponse,
   | InsufficientPrivilegesException
   | OperationInProgressException
@@ -3685,7 +3865,7 @@ export const deleteApplicationVersion: (
  */
 export const deletePlatformVersion: (
   input: DeletePlatformVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePlatformVersionResult,
   | ElasticBeanstalkServiceException
   | InsufficientPrivilegesException
@@ -3709,7 +3889,7 @@ export const deletePlatformVersion: (
  */
 export const createApplication: (
   input: CreateApplicationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ApplicationDescriptionMessage,
   TooManyApplicationsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3725,7 +3905,7 @@ export const createApplication: (
  */
 export const describeEnvironmentHealth: (
   input: DescribeEnvironmentHealthRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEnvironmentHealthResult,
   ElasticBeanstalkServiceException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3741,7 +3921,7 @@ export const describeEnvironmentHealth: (
  */
 export const describeInstancesHealth: (
   input: DescribeInstancesHealthRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeInstancesHealthResult,
   ElasticBeanstalkServiceException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3755,7 +3935,7 @@ export const describeInstancesHealth: (
  */
 export const terminateEnvironment: (
   input: TerminateEnvironmentMessage,
-) => Effect.Effect<
+) => effect.Effect<
   EnvironmentDescription,
   InsufficientPrivilegesException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3789,7 +3969,7 @@ export const terminateEnvironment: (
  */
 export const updateTagsForResource: (
   input: UpdateTagsForResourceMessage,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTagsForResourceResponse,
   | InsufficientPrivilegesException
   | OperationInProgressException
@@ -3832,7 +4012,7 @@ export const updateTagsForResource: (
  */
 export const createApplicationVersion: (
   input: CreateApplicationVersionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ApplicationVersionDescriptionMessage,
   | CodeBuildNotInServiceRegionException
   | InsufficientPrivilegesException

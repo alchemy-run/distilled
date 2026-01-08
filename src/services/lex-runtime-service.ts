@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -105,24 +105,23 @@ export type UserId = string;
 export type IntentSummaryCheckpointLabel = string;
 export type SynthesizedJsonAttributesString =
   | string
-  | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
 export type HttpContentType = string;
 export type Accept = string;
 export type SynthesizedJsonActiveContextsString =
   | string
-  | Redacted.Redacted<string>;
-export type Text = string | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
+export type Text = string | redacted.Redacted<string>;
 export type ActiveContextName = string;
 export type IntentName = string;
 export type SynthesizedJsonString = string;
-export type SensitiveString = string | Redacted.Redacted<string>;
-export type SensitiveStringUnbounded = string | Redacted.Redacted<string>;
+export type SensitiveString = string | redacted.Redacted<string>;
+export type SensitiveStringUnbounded = string | redacted.Redacted<string>;
 export type BotVersion = string;
 export type ActiveContextTimeToLiveInSeconds = number;
 export type ActiveContextTurnsToLive = number;
 export type ParameterName = string;
 export type ErrorMessage = string;
-export type Double = number;
 export type SentimentLabel = string;
 export type SentimentScore = string;
 export type StringWithLength = string;
@@ -191,12 +190,12 @@ export interface PostContentRequest {
   botName: string;
   botAlias: string;
   userId: string;
-  sessionAttributes?: string | Redacted.Redacted<string>;
-  requestAttributes?: string | Redacted.Redacted<string>;
+  sessionAttributes?: string | redacted.Redacted<string>;
+  requestAttributes?: string | redacted.Redacted<string>;
   contentType: string;
   accept?: string;
   inputStream: T.StreamingInputBody;
-  activeContexts?: string | Redacted.Redacted<string>;
+  activeContexts?: string | redacted.Redacted<string>;
 }
 export const PostContentRequest = S.suspend(() =>
   S.Struct({
@@ -231,35 +230,82 @@ export const PostContentRequest = S.suspend(() =>
 ).annotations({
   identifier: "PostContentRequest",
 }) as any as S.Schema<PostContentRequest>;
+export type DialogActionType =
+  | "ElicitIntent"
+  | "ConfirmIntent"
+  | "ElicitSlot"
+  | "Close"
+  | "Delegate";
+export const DialogActionType = S.Literal(
+  "ElicitIntent",
+  "ConfirmIntent",
+  "ElicitSlot",
+  "Close",
+  "Delegate",
+);
+export type FulfillmentState = "Fulfilled" | "Failed" | "ReadyForFulfillment";
+export const FulfillmentState = S.Literal(
+  "Fulfilled",
+  "Failed",
+  "ReadyForFulfillment",
+);
+export type MessageFormatType =
+  | "PlainText"
+  | "CustomPayload"
+  | "SSML"
+  | "Composite";
+export const MessageFormatType = S.Literal(
+  "PlainText",
+  "CustomPayload",
+  "SSML",
+  "Composite",
+);
+export type ConfirmationStatus = "None" | "Confirmed" | "Denied";
+export const ConfirmationStatus = S.Literal("None", "Confirmed", "Denied");
+export type DialogState =
+  | "ElicitIntent"
+  | "ConfirmIntent"
+  | "ElicitSlot"
+  | "Fulfilled"
+  | "ReadyForFulfillment"
+  | "Failed";
+export const DialogState = S.Literal(
+  "ElicitIntent",
+  "ConfirmIntent",
+  "ElicitSlot",
+  "Fulfilled",
+  "ReadyForFulfillment",
+  "Failed",
+);
 export type StringMap = { [key: string]: string };
 export const StringMap = S.Record({ key: S.String, value: S.String });
 export interface DialogAction {
-  type: string;
+  type: DialogActionType;
   intentName?: string;
-  slots?: StringMap;
+  slots?: { [key: string]: string };
   slotToElicit?: string;
-  fulfillmentState?: string;
-  message?: string | Redacted.Redacted<string>;
-  messageFormat?: string;
+  fulfillmentState?: FulfillmentState;
+  message?: string | redacted.Redacted<string>;
+  messageFormat?: MessageFormatType;
 }
 export const DialogAction = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: DialogActionType,
     intentName: S.optional(S.String),
     slots: S.optional(StringMap),
     slotToElicit: S.optional(S.String),
-    fulfillmentState: S.optional(S.String),
+    fulfillmentState: S.optional(FulfillmentState),
     message: S.optional(SensitiveString),
-    messageFormat: S.optional(S.String),
+    messageFormat: S.optional(MessageFormatType),
   }),
 ).annotations({ identifier: "DialogAction" }) as any as S.Schema<DialogAction>;
 export interface IntentSummary {
   intentName?: string;
   checkpointLabel?: string;
-  slots?: StringMap;
-  confirmationStatus?: string;
-  dialogActionType: string;
-  fulfillmentState?: string;
+  slots?: { [key: string]: string };
+  confirmationStatus?: ConfirmationStatus;
+  dialogActionType: DialogActionType;
+  fulfillmentState?: FulfillmentState;
   slotToElicit?: string;
 }
 export const IntentSummary = S.suspend(() =>
@@ -267,9 +313,9 @@ export const IntentSummary = S.suspend(() =>
     intentName: S.optional(S.String),
     checkpointLabel: S.optional(S.String),
     slots: S.optional(StringMap),
-    confirmationStatus: S.optional(S.String),
-    dialogActionType: S.String,
-    fulfillmentState: S.optional(S.String),
+    confirmationStatus: S.optional(ConfirmationStatus),
+    dialogActionType: DialogActionType,
+    fulfillmentState: S.optional(FulfillmentState),
     slotToElicit: S.optional(S.String),
   }),
 ).annotations({
@@ -306,7 +352,7 @@ export const ActiveContextTimeToLive = S.suspend(() =>
   identifier: "ActiveContextTimeToLive",
 }) as any as S.Schema<ActiveContextTimeToLive>;
 export type ActiveContextParametersMap = {
-  [key: string]: string | Redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string>;
 };
 export const ActiveContextParametersMap = S.Record({
   key: S.String,
@@ -315,7 +361,7 @@ export const ActiveContextParametersMap = S.Record({
 export interface ActiveContext {
   name: string;
   timeToLive: ActiveContextTimeToLive;
-  parameters: ActiveContextParametersMap;
+  parameters: { [key: string]: string | redacted.Redacted<string> };
 }
 export const ActiveContext = S.suspend(() =>
   S.Struct({
@@ -329,11 +375,11 @@ export const ActiveContext = S.suspend(() =>
 export type ActiveContextsList = ActiveContext[];
 export const ActiveContextsList = S.Array(ActiveContext);
 export interface GetSessionResponse {
-  recentIntentSummaryView?: IntentSummaryList;
-  sessionAttributes?: StringMap;
+  recentIntentSummaryView?: IntentSummary[];
+  sessionAttributes?: { [key: string]: string };
   sessionId?: string;
   dialogAction?: DialogAction;
-  activeContexts?: ActiveContextsList;
+  activeContexts?: ActiveContext[];
 }
 export const GetSessionResponse = S.suspend(() =>
   S.Struct({
@@ -354,17 +400,17 @@ export interface PostContentResponse {
   slots?: string;
   sessionAttributes?: string;
   sentimentResponse?: string;
-  message?: string | Redacted.Redacted<string>;
-  encodedMessage?: string | Redacted.Redacted<string>;
-  messageFormat?: string;
-  dialogState?: string;
+  message?: string | redacted.Redacted<string>;
+  encodedMessage?: string | redacted.Redacted<string>;
+  messageFormat?: MessageFormatType;
+  dialogState?: DialogState;
   slotToElicit?: string;
   inputTranscript?: string;
-  encodedInputTranscript?: string | Redacted.Redacted<string>;
+  encodedInputTranscript?: string | redacted.Redacted<string>;
   audioStream?: T.StreamingOutputBody;
   botVersion?: string;
   sessionId?: string;
-  activeContexts?: string | Redacted.Redacted<string>;
+  activeContexts?: string | redacted.Redacted<string>;
 }
 export const PostContentResponse = S.suspend(() =>
   S.Struct({
@@ -391,10 +437,10 @@ export const PostContentResponse = S.suspend(() =>
     encodedMessage: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-lex-encoded-message"),
     ),
-    messageFormat: S.optional(S.String).pipe(
+    messageFormat: S.optional(MessageFormatType).pipe(
       T.HttpHeader("x-amz-lex-message-format"),
     ),
-    dialogState: S.optional(S.String).pipe(
+    dialogState: S.optional(DialogState).pipe(
       T.HttpHeader("x-amz-lex-dialog-state"),
     ),
     slotToElicit: S.optional(S.String).pipe(
@@ -422,11 +468,11 @@ export interface PutSessionRequest {
   botName: string;
   botAlias: string;
   userId: string;
-  sessionAttributes?: StringMap;
+  sessionAttributes?: { [key: string]: string };
   dialogAction?: DialogAction;
-  recentIntentSummaryView?: IntentSummaryList;
+  recentIntentSummaryView?: IntentSummary[];
   accept?: string;
-  activeContexts?: ActiveContextsList;
+  activeContexts?: ActiveContext[];
 }
 export const PutSessionRequest = S.suspend(() =>
   S.Struct({
@@ -458,10 +504,10 @@ export interface PostTextRequest {
   botName: string;
   botAlias: string;
   userId: string;
-  sessionAttributes?: StringMap;
-  requestAttributes?: StringMap;
-  inputText: string | Redacted.Redacted<string>;
-  activeContexts?: ActiveContextsList;
+  sessionAttributes?: { [key: string]: string };
+  requestAttributes?: { [key: string]: string };
+  inputText: string | redacted.Redacted<string>;
+  activeContexts?: ActiveContext[];
 }
 export const PostTextRequest = S.suspend(() =>
   S.Struct({
@@ -493,14 +539,14 @@ export interface PutSessionResponse {
   intentName?: string;
   slots?: string;
   sessionAttributes?: string;
-  message?: string | Redacted.Redacted<string>;
-  encodedMessage?: string | Redacted.Redacted<string>;
-  messageFormat?: string;
-  dialogState?: string;
+  message?: string | redacted.Redacted<string>;
+  encodedMessage?: string | redacted.Redacted<string>;
+  messageFormat?: MessageFormatType;
+  dialogState?: DialogState;
   slotToElicit?: string;
   audioStream?: T.StreamingOutputBody;
   sessionId?: string;
-  activeContexts?: string | Redacted.Redacted<string>;
+  activeContexts?: string | redacted.Redacted<string>;
 }
 export const PutSessionResponse = S.suspend(() =>
   S.Struct({
@@ -518,10 +564,10 @@ export const PutSessionResponse = S.suspend(() =>
     encodedMessage: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-lex-encoded-message"),
     ),
-    messageFormat: S.optional(S.String).pipe(
+    messageFormat: S.optional(MessageFormatType).pipe(
       T.HttpHeader("x-amz-lex-message-format"),
     ),
-    dialogState: S.optional(S.String).pipe(
+    dialogState: S.optional(DialogState).pipe(
       T.HttpHeader("x-amz-lex-dialog-state"),
     ),
     slotToElicit: S.optional(S.String).pipe(
@@ -536,6 +582,8 @@ export const PutSessionResponse = S.suspend(() =>
 ).annotations({
   identifier: "PutSessionResponse",
 }) as any as S.Schema<PutSessionResponse>;
+export type ContentType = "application/vnd.amazonaws.card.generic";
+export const ContentType = S.Literal("application/vnd.amazonaws.card.generic");
 export interface IntentConfidence {
   score?: number;
 }
@@ -547,7 +595,7 @@ export const IntentConfidence = S.suspend(() =>
 export interface PredictedIntent {
   intentName?: string;
   nluIntentConfidence?: IntentConfidence;
-  slots?: StringMap;
+  slots?: { [key: string]: string };
 }
 export const PredictedIntent = S.suspend(() =>
   S.Struct({
@@ -586,7 +634,7 @@ export interface GenericAttachment {
   subTitle?: string;
   attachmentLinkUrl?: string;
   imageUrl?: string;
-  buttons?: listOfButtons;
+  buttons?: Button[];
 }
 export const GenericAttachment = S.suspend(() =>
   S.Struct({
@@ -603,31 +651,31 @@ export type genericAttachmentList = GenericAttachment[];
 export const genericAttachmentList = S.Array(GenericAttachment);
 export interface ResponseCard {
   version?: string;
-  contentType?: string;
-  genericAttachments?: genericAttachmentList;
+  contentType?: ContentType;
+  genericAttachments?: GenericAttachment[];
 }
 export const ResponseCard = S.suspend(() =>
   S.Struct({
     version: S.optional(S.String),
-    contentType: S.optional(S.String),
+    contentType: S.optional(ContentType),
     genericAttachments: S.optional(genericAttachmentList),
   }),
 ).annotations({ identifier: "ResponseCard" }) as any as S.Schema<ResponseCard>;
 export interface PostTextResponse {
   intentName?: string;
   nluIntentConfidence?: IntentConfidence;
-  alternativeIntents?: IntentList;
-  slots?: StringMap;
-  sessionAttributes?: StringMap;
-  message?: string | Redacted.Redacted<string>;
+  alternativeIntents?: PredictedIntent[];
+  slots?: { [key: string]: string };
+  sessionAttributes?: { [key: string]: string };
+  message?: string | redacted.Redacted<string>;
   sentimentResponse?: SentimentResponse;
-  messageFormat?: string;
-  dialogState?: string;
+  messageFormat?: MessageFormatType;
+  dialogState?: DialogState;
   slotToElicit?: string;
   responseCard?: ResponseCard;
   sessionId?: string;
   botVersion?: string;
-  activeContexts?: ActiveContextsList;
+  activeContexts?: ActiveContext[];
 }
 export const PostTextResponse = S.suspend(() =>
   S.Struct({
@@ -638,8 +686,8 @@ export const PostTextResponse = S.suspend(() =>
     sessionAttributes: S.optional(StringMap),
     message: S.optional(SensitiveString),
     sentimentResponse: S.optional(SentimentResponse),
-    messageFormat: S.optional(S.String),
-    dialogState: S.optional(S.String),
+    messageFormat: S.optional(MessageFormatType),
+    dialogState: S.optional(DialogState),
     slotToElicit: S.optional(S.String),
     responseCard: S.optional(ResponseCard),
     sessionId: S.optional(S.String),
@@ -706,7 +754,7 @@ export class UnsupportedMediaTypeException extends S.TaggedError<UnsupportedMedi
  */
 export const getSession: (
   input: GetSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSessionResponse,
   | BadRequestException
   | InternalFailureException
@@ -729,7 +777,7 @@ export const getSession: (
  */
 export const deleteSession: (
   input: DeleteSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSessionResponse,
   | BadRequestException
   | ConflictException
@@ -759,7 +807,7 @@ export const deleteSession: (
  */
 export const putSession: (
   input: PutSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutSessionResponse,
   | BadGatewayException
   | BadRequestException
@@ -845,7 +893,7 @@ export const putSession: (
  */
 export const postText: (
   input: PostTextRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PostTextResponse,
   | BadGatewayException
   | BadRequestException
@@ -934,7 +982,7 @@ export const postText: (
  */
 export const postContent: (
   input: PostContentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PostContentResponse,
   | BadGatewayException
   | BadRequestException

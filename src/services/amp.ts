@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -175,7 +175,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeys;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -246,8 +246,8 @@ export const RoleConfiguration = S.suspend(() =>
 export interface UpdateScraperRequest {
   scraperId: string;
   alias?: string;
-  scrapeConfiguration?: (typeof ScrapeConfiguration)["Type"];
-  destination?: (typeof Destination)["Type"];
+  scrapeConfiguration?: ScrapeConfiguration;
+  destination?: Destination;
   roleConfiguration?: RoleConfiguration;
   clientToken?: string;
 }
@@ -348,7 +348,7 @@ export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface CreateWorkspaceRequest {
   alias?: string;
   clientToken?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   kmsKeyArn?: string;
 }
 export const CreateWorkspaceRequest = S.suspend(() =>
@@ -584,8 +584,8 @@ export interface RandomCutForestConfiguration {
   query: string;
   shingleSize?: number;
   sampleSize?: number;
-  ignoreNearExpectedFromAbove?: (typeof IgnoreNearExpected)["Type"];
-  ignoreNearExpectedFromBelow?: (typeof IgnoreNearExpected)["Type"];
+  ignoreNearExpectedFromAbove?: IgnoreNearExpected;
+  ignoreNearExpectedFromBelow?: IgnoreNearExpected;
 }
 export const RandomCutForestConfiguration = S.suspend(() =>
   S.Struct({
@@ -613,9 +613,9 @@ export interface PutAnomalyDetectorRequest {
   workspaceId: string;
   anomalyDetectorId: string;
   evaluationIntervalInSeconds?: number;
-  missingDataAction?: (typeof AnomalyDetectorMissingDataAction)["Type"];
-  configuration: (typeof AnomalyDetectorConfiguration)["Type"];
-  labels?: PrometheusMetricLabelMap;
+  missingDataAction?: AnomalyDetectorMissingDataAction;
+  configuration: AnomalyDetectorConfiguration;
+  labels?: { [key: string]: string };
   clientToken?: string;
 }
 export const PutAnomalyDetectorRequest = S.suspend(() =>
@@ -866,7 +866,7 @@ export type LoggingDestinations = LoggingDestination[];
 export const LoggingDestinations = S.Array(LoggingDestination);
 export interface UpdateQueryLoggingConfigurationRequest {
   workspaceId: string;
-  destinations: LoggingDestinations;
+  destinations: LoggingDestination[];
   clientToken?: string;
 }
 export const UpdateQueryLoggingConfigurationRequest = S.suspend(() =>
@@ -922,7 +922,7 @@ export interface CreateRuleGroupsNamespaceRequest {
   name: string;
   data: Uint8Array;
   clientToken?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateRuleGroupsNamespaceRequest = S.suspend(() =>
   S.Struct({
@@ -1149,14 +1149,14 @@ export const DeleteResourcePolicyResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteResourcePolicyResponse>;
 export type FilterValues = string[];
 export const FilterValues = S.Array(S.String);
-export type ScraperFilters = { [key: string]: FilterValues };
+export type ScraperFilters = { [key: string]: string[] };
 export const ScraperFilters = S.Record({ key: S.String, value: FilterValues });
 export type SecurityGroupIds = string[];
 export const SecurityGroupIds = S.Array(S.String);
 export type SubnetIds = string[];
 export const SubnetIds = S.Array(S.String);
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -1165,7 +1165,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1206,7 +1206,7 @@ export const DeleteScraperResponse = S.suspend(() =>
   identifier: "DeleteScraperResponse",
 }) as any as S.Schema<DeleteScraperResponse>;
 export interface ListScrapersRequest {
-  filters?: ScraperFilters;
+  filters?: { [key: string]: string[] };
   nextToken?: string;
   maxResults?: number;
 }
@@ -1275,7 +1275,7 @@ export interface PutRuleGroupsNamespaceResponse {
   name: string;
   arn: string;
   status: RuleGroupsNamespaceStatus;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const PutRuleGroupsNamespaceResponse = S.suspend(() =>
   S.Struct({
@@ -1312,8 +1312,8 @@ export const DescribeResourcePolicyResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeResourcePolicyResponse>;
 export interface EksConfiguration {
   clusterArn: string;
-  securityGroupIds?: SecurityGroupIds;
-  subnetIds: SubnetIds;
+  securityGroupIds?: string[];
+  subnetIds: string[];
 }
 export const EksConfiguration = S.suspend(() =>
   S.Struct({
@@ -1325,14 +1325,31 @@ export const EksConfiguration = S.suspend(() =>
   identifier: "EksConfiguration",
 }) as any as S.Schema<EksConfiguration>;
 export interface VpcConfiguration {
-  securityGroupIds: SecurityGroupIds;
-  subnetIds: SubnetIds;
+  securityGroupIds: string[];
+  subnetIds: string[];
 }
 export const VpcConfiguration = S.suspend(() =>
   S.Struct({ securityGroupIds: SecurityGroupIds, subnetIds: SubnetIds }),
 ).annotations({
   identifier: "VpcConfiguration",
 }) as any as S.Schema<VpcConfiguration>;
+export type AnomalyDetectorStatusCode =
+  | "CREATING"
+  | "ACTIVE"
+  | "UPDATING"
+  | "DELETING"
+  | "CREATION_FAILED"
+  | "UPDATE_FAILED"
+  | "DELETION_FAILED";
+export const AnomalyDetectorStatusCode = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "UPDATING",
+  "DELETING",
+  "CREATION_FAILED",
+  "UPDATE_FAILED",
+  "DELETION_FAILED",
+);
 export interface LimitsPerLabelSetEntry {
   maxSeries?: number;
 }
@@ -1358,11 +1375,11 @@ export interface ScraperDescription {
   status: ScraperStatus;
   createdAt: Date;
   lastModifiedAt: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   statusReason?: string;
-  scrapeConfiguration: (typeof ScrapeConfiguration)["Type"];
-  source: (typeof Source)["Type"];
-  destination: (typeof Destination)["Type"];
+  scrapeConfiguration: ScrapeConfiguration;
+  source: Source;
+  destination: Destination;
   roleConfiguration?: RoleConfiguration;
 }
 export const ScraperDescription = S.suspend(() =>
@@ -1414,7 +1431,7 @@ export interface WorkspaceDescription {
   status: WorkspaceStatus;
   prometheusEndpoint?: string;
   createdAt: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   kmsKeyArn?: string;
 }
 export const WorkspaceDescription = S.suspend(() =>
@@ -1437,7 +1454,7 @@ export interface WorkspaceSummary {
   arn: string;
   status: WorkspaceStatus;
   createdAt: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   kmsKeyArn?: string;
 }
 export const WorkspaceSummary = S.suspend(() =>
@@ -1472,11 +1489,14 @@ export const AlertManagerDefinitionDescription = S.suspend(() =>
   identifier: "AlertManagerDefinitionDescription",
 }) as any as S.Schema<AlertManagerDefinitionDescription>;
 export interface AnomalyDetectorStatus {
-  statusCode: string;
+  statusCode: AnomalyDetectorStatusCode;
   statusReason?: string;
 }
 export const AnomalyDetectorStatus = S.suspend(() =>
-  S.Struct({ statusCode: S.String, statusReason: S.optional(S.String) }),
+  S.Struct({
+    statusCode: AnomalyDetectorStatusCode,
+    statusReason: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "AnomalyDetectorStatus",
 }) as any as S.Schema<AnomalyDetectorStatus>;
@@ -1485,13 +1505,13 @@ export interface AnomalyDetectorDescription {
   anomalyDetectorId: string;
   alias: string;
   evaluationIntervalInSeconds?: number;
-  missingDataAction?: (typeof AnomalyDetectorMissingDataAction)["Type"];
-  configuration?: (typeof AnomalyDetectorConfiguration)["Type"];
-  labels?: PrometheusMetricLabelMap;
+  missingDataAction?: AnomalyDetectorMissingDataAction;
+  configuration?: AnomalyDetectorConfiguration;
+  labels?: { [key: string]: string };
   status: AnomalyDetectorStatus;
   createdAt: Date;
   modifiedAt: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const AnomalyDetectorDescription = S.suspend(() =>
   S.Struct({
@@ -1517,7 +1537,7 @@ export interface AnomalyDetectorSummary {
   status: AnomalyDetectorStatus;
   createdAt: Date;
   modifiedAt: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const AnomalyDetectorSummary = S.suspend(() =>
   S.Struct({
@@ -1564,7 +1584,7 @@ export const QueryLoggingConfigurationStatus = S.suspend(() =>
 export interface QueryLoggingConfigurationMetadata {
   status: QueryLoggingConfigurationStatus;
   workspace: string;
-  destinations: LoggingDestinations;
+  destinations: LoggingDestination[];
   createdAt: Date;
   modifiedAt: Date;
 }
@@ -1586,7 +1606,7 @@ export interface RuleGroupsNamespaceDescription {
   data: Uint8Array;
   createdAt: Date;
   modifiedAt: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const RuleGroupsNamespaceDescription = S.suspend(() =>
   S.Struct({
@@ -1607,7 +1627,7 @@ export interface RuleGroupsNamespaceSummary {
   status: RuleGroupsNamespaceStatus;
   createdAt: Date;
   modifiedAt: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const RuleGroupsNamespaceSummary = S.suspend(() =>
   S.Struct({
@@ -1627,7 +1647,7 @@ export const RuleGroupsNamespaceSummaryList = S.Array(
 );
 export interface LimitsPerLabelSet {
   limits: LimitsPerLabelSetEntry;
-  labelSet: LabelSet;
+  labelSet: { [key: string]: string };
 }
 export const LimitsPerLabelSet = S.suspend(() =>
   S.Struct({ limits: LimitsPerLabelSetEntry, labelSet: LabelSet }),
@@ -1640,12 +1660,12 @@ export type StringMap = { [key: string]: string };
 export const StringMap = S.Record({ key: S.String, value: S.String });
 export interface CreateScraperRequest {
   alias?: string;
-  scrapeConfiguration: (typeof ScrapeConfiguration)["Type"];
-  source: (typeof Source)["Type"];
-  destination: (typeof Destination)["Type"];
+  scrapeConfiguration: ScrapeConfiguration;
+  source: Source;
+  destination: Destination;
   roleConfiguration?: RoleConfiguration;
   clientToken?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateScraperRequest = S.suspend(() =>
   S.Struct({
@@ -1681,7 +1701,7 @@ export interface UpdateScraperResponse {
   scraperId: string;
   arn: string;
   status: ScraperStatus;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const UpdateScraperResponse = S.suspend(() =>
   S.Struct({
@@ -1694,7 +1714,7 @@ export const UpdateScraperResponse = S.suspend(() =>
   identifier: "UpdateScraperResponse",
 }) as any as S.Schema<UpdateScraperResponse>;
 export interface ComponentConfig {
-  options?: StringMap;
+  options?: { [key: string]: string };
 }
 export const ComponentConfig = S.suspend(() =>
   S.Struct({ options: S.optional(StringMap) }),
@@ -1715,8 +1735,8 @@ export const ScraperComponents = S.Array(ScraperComponent);
 export interface DescribeScraperLoggingConfigurationResponse {
   status: ScraperLoggingConfigurationStatus;
   scraperId: string;
-  loggingDestination: (typeof ScraperLoggingDestination)["Type"];
-  scraperComponents: ScraperComponents;
+  loggingDestination: ScraperLoggingDestination;
+  scraperComponents: ScraperComponent[];
   modifiedAt: Date;
 }
 export const DescribeScraperLoggingConfigurationResponse = S.suspend(() =>
@@ -1734,7 +1754,7 @@ export interface CreateWorkspaceResponse {
   workspaceId: string;
   arn: string;
   status: WorkspaceStatus;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   kmsKeyArn?: string;
 }
 export const CreateWorkspaceResponse = S.suspend(() =>
@@ -1757,7 +1777,7 @@ export const DescribeWorkspaceResponse = S.suspend(() =>
   identifier: "DescribeWorkspaceResponse",
 }) as any as S.Schema<DescribeWorkspaceResponse>;
 export interface ListWorkspacesResponse {
-  workspaces: WorkspaceSummaryList;
+  workspaces: WorkspaceSummary[];
   nextToken?: string;
 }
 export const ListWorkspacesResponse = S.suspend(() =>
@@ -1788,7 +1808,7 @@ export interface PutAnomalyDetectorResponse {
   anomalyDetectorId: string;
   arn: string;
   status: AnomalyDetectorStatus;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const PutAnomalyDetectorResponse = S.suspend(() =>
   S.Struct({
@@ -1809,7 +1829,7 @@ export const DescribeAnomalyDetectorResponse = S.suspend(() =>
   identifier: "DescribeAnomalyDetectorResponse",
 }) as any as S.Schema<DescribeAnomalyDetectorResponse>;
 export interface ListAnomalyDetectorsResponse {
-  anomalyDetectors: AnomalyDetectorSummaryList;
+  anomalyDetectors: AnomalyDetectorSummary[];
   nextToken?: string;
 }
 export const ListAnomalyDetectorsResponse = S.suspend(() =>
@@ -1838,7 +1858,7 @@ export const DescribeLoggingConfigurationResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeLoggingConfigurationResponse>;
 export interface CreateQueryLoggingConfigurationRequest {
   workspaceId: string;
-  destinations: LoggingDestinations;
+  destinations: LoggingDestination[];
   clientToken?: string;
 }
 export const CreateQueryLoggingConfigurationRequest = S.suspend(() =>
@@ -1882,7 +1902,7 @@ export interface CreateRuleGroupsNamespaceResponse {
   name: string;
   arn: string;
   status: RuleGroupsNamespaceStatus;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateRuleGroupsNamespaceResponse = S.suspend(() =>
   S.Struct({
@@ -1903,7 +1923,7 @@ export const DescribeRuleGroupsNamespaceResponse = S.suspend(() =>
   identifier: "DescribeRuleGroupsNamespaceResponse",
 }) as any as S.Schema<DescribeRuleGroupsNamespaceResponse>;
 export interface ListRuleGroupsNamespacesResponse {
-  ruleGroupsNamespaces: RuleGroupsNamespaceSummaryList;
+  ruleGroupsNamespaces: RuleGroupsNamespaceSummary[];
   nextToken?: string;
 }
 export const ListRuleGroupsNamespacesResponse = S.suspend(() =>
@@ -1917,7 +1937,7 @@ export const ListRuleGroupsNamespacesResponse = S.suspend(() =>
 export interface UpdateWorkspaceConfigurationRequest {
   workspaceId: string;
   clientToken?: string;
-  limitsPerLabelSet?: LimitsPerLabelSetList;
+  limitsPerLabelSet?: LimitsPerLabelSet[];
   retentionPeriodInDays?: number;
 }
 export const UpdateWorkspaceConfigurationRequest = S.suspend(() =>
@@ -1959,10 +1979,10 @@ export interface ScraperSummary {
   status: ScraperStatus;
   createdAt: Date;
   lastModifiedAt: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   statusReason?: string;
-  source: (typeof Source)["Type"];
-  destination: (typeof Destination)["Type"];
+  source: Source;
+  destination: Destination;
   roleConfiguration?: RoleConfiguration;
 }
 export const ScraperSummary = S.suspend(() =>
@@ -1987,7 +2007,7 @@ export type ScraperSummaryList = ScraperSummary[];
 export const ScraperSummaryList = S.Array(ScraperSummary);
 export interface WorkspaceConfigurationDescription {
   status: WorkspaceConfigurationStatus;
-  limitsPerLabelSet?: LimitsPerLabelSetList;
+  limitsPerLabelSet?: LimitsPerLabelSet[];
   retentionPeriodInDays?: number;
 }
 export const WorkspaceConfigurationDescription = S.suspend(() =>
@@ -2003,7 +2023,7 @@ export interface CreateScraperResponse {
   scraperId: string;
   arn: string;
   status: ScraperStatus;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateScraperResponse = S.suspend(() =>
   S.Struct({
@@ -2016,7 +2036,7 @@ export const CreateScraperResponse = S.suspend(() =>
   identifier: "CreateScraperResponse",
 }) as any as S.Schema<CreateScraperResponse>;
 export interface ListScrapersResponse {
-  scrapers: ScraperSummaryList;
+  scrapers: ScraperSummary[];
   nextToken?: string;
 }
 export const ListScrapersResponse = S.suspend(() =>
@@ -2026,8 +2046,8 @@ export const ListScrapersResponse = S.suspend(() =>
 }) as any as S.Schema<ListScrapersResponse>;
 export interface UpdateScraperLoggingConfigurationRequest {
   scraperId: string;
-  loggingDestination: (typeof ScraperLoggingDestination)["Type"];
-  scraperComponents?: ScraperComponents;
+  loggingDestination: ScraperLoggingDestination;
+  scraperComponents?: ScraperComponent[];
 }
 export const UpdateScraperLoggingConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -2054,11 +2074,11 @@ export interface CreateAnomalyDetectorRequest {
   workspaceId: string;
   alias: string;
   evaluationIntervalInSeconds?: number;
-  missingDataAction?: (typeof AnomalyDetectorMissingDataAction)["Type"];
-  configuration: (typeof AnomalyDetectorConfiguration)["Type"];
-  labels?: PrometheusMetricLabelMap;
+  missingDataAction?: AnomalyDetectorMissingDataAction;
+  configuration: AnomalyDetectorConfiguration;
+  labels?: { [key: string]: string };
   clientToken?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateAnomalyDetectorRequest = S.suspend(() =>
   S.Struct({
@@ -2122,7 +2142,7 @@ export interface CreateAnomalyDetectorResponse {
   anomalyDetectorId: string;
   arn: string;
   status: AnomalyDetectorStatus;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateAnomalyDetectorResponse = S.suspend(() =>
   S.Struct({
@@ -2202,7 +2222,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const getDefaultScraperConfiguration: (
   input: GetDefaultScraperConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDefaultScraperConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2219,7 +2239,7 @@ export const getDefaultScraperConfiguration: (
  */
 export const describeScraper: (
   input: DescribeScraperRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeScraperResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2245,7 +2265,7 @@ export const describeScraper: (
 export const listScrapers: {
   (
     input: ListScrapersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListScrapersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2256,7 +2276,7 @@ export const listScrapers: {
   >;
   pages: (
     input: ListScrapersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListScrapersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2267,7 +2287,7 @@ export const listScrapers: {
   >;
   items: (
     input: ListScrapersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ScraperSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2297,7 +2317,7 @@ export const listScrapers: {
  */
 export const createWorkspace: (
   input: CreateWorkspaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkspaceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2324,7 +2344,7 @@ export const createWorkspace: (
  */
 export const createQueryLoggingConfiguration: (
   input: CreateQueryLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateQueryLoggingConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2347,7 +2367,7 @@ export const createQueryLoggingConfiguration: (
  */
 export const describeWorkspaceConfiguration: (
   input: DescribeWorkspaceConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeWorkspaceConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2374,7 +2394,7 @@ export const describeWorkspaceConfiguration: (
  */
 export const updateWorkspaceConfiguration: (
   input: UpdateWorkspaceConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkspaceConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2404,7 +2424,7 @@ export const updateWorkspaceConfiguration: (
 export const listWorkspaces: {
   (
     input: ListWorkspacesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkspacesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2415,7 +2435,7 @@ export const listWorkspaces: {
   >;
   pages: (
     input: ListWorkspacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkspacesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2426,7 +2446,7 @@ export const listWorkspaces: {
   >;
   items: (
     input: ListWorkspacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkspaceSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2456,7 +2476,7 @@ export const listWorkspaces: {
  */
 export const deleteScraper: (
   input: DeleteScraperRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteScraperResponse,
   | AccessDeniedException
   | ConflictException
@@ -2483,7 +2503,7 @@ export const deleteScraper: (
  */
 export const describeScraperLoggingConfiguration: (
   input: DescribeScraperLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeScraperLoggingConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2506,7 +2526,7 @@ export const describeScraperLoggingConfiguration: (
  */
 export const describeWorkspace: (
   input: DescribeWorkspaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeWorkspaceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2531,7 +2551,7 @@ export const describeWorkspace: (
  */
 export const createAlertManagerDefinition: (
   input: CreateAlertManagerDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAlertManagerDefinitionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2560,7 +2580,7 @@ export const createAlertManagerDefinition: (
  */
 export const describeAlertManagerDefinition: (
   input: DescribeAlertManagerDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAlertManagerDefinitionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2585,7 +2605,7 @@ export const describeAlertManagerDefinition: (
  */
 export const describeAnomalyDetector: (
   input: DescribeAnomalyDetectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAnomalyDetectorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2611,7 +2631,7 @@ export const describeAnomalyDetector: (
 export const listAnomalyDetectors: {
   (
     input: ListAnomalyDetectorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAnomalyDetectorsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2623,7 +2643,7 @@ export const listAnomalyDetectors: {
   >;
   pages: (
     input: ListAnomalyDetectorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAnomalyDetectorsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2635,7 +2655,7 @@ export const listAnomalyDetectors: {
   >;
   items: (
     input: ListAnomalyDetectorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AnomalyDetectorSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2669,7 +2689,7 @@ export const listAnomalyDetectors: {
  */
 export const createLoggingConfiguration: (
   input: CreateLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLoggingConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2694,7 +2714,7 @@ export const createLoggingConfiguration: (
  */
 export const describeLoggingConfiguration: (
   input: DescribeLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeLoggingConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2717,7 +2737,7 @@ export const describeLoggingConfiguration: (
  */
 export const describeQueryLoggingConfiguration: (
   input: DescribeQueryLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeQueryLoggingConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2740,7 +2760,7 @@ export const describeQueryLoggingConfiguration: (
  */
 export const updateQueryLoggingConfiguration: (
   input: UpdateQueryLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateQueryLoggingConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2769,7 +2789,7 @@ export const updateQueryLoggingConfiguration: (
  */
 export const createRuleGroupsNamespace: (
   input: CreateRuleGroupsNamespaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRuleGroupsNamespaceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2798,7 +2818,7 @@ export const createRuleGroupsNamespace: (
  */
 export const describeRuleGroupsNamespace: (
   input: DescribeRuleGroupsNamespaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRuleGroupsNamespaceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2824,7 +2844,7 @@ export const describeRuleGroupsNamespace: (
 export const listRuleGroupsNamespaces: {
   (
     input: ListRuleGroupsNamespacesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRuleGroupsNamespacesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2836,7 +2856,7 @@ export const listRuleGroupsNamespaces: {
   >;
   pages: (
     input: ListRuleGroupsNamespacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRuleGroupsNamespacesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2848,7 +2868,7 @@ export const listRuleGroupsNamespaces: {
   >;
   items: (
     input: ListRuleGroupsNamespacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RuleGroupsNamespaceSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2880,7 +2900,7 @@ export const listRuleGroupsNamespaces: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2907,7 +2927,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2932,7 +2952,7 @@ export const tagResource: (
  */
 export const describeResourcePolicy: (
   input: DescribeResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2957,7 +2977,7 @@ export const describeResourcePolicy: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2982,7 +3002,7 @@ export const untagResource: (
  */
 export const putAlertManagerDefinition: (
   input: PutAlertManagerDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAlertManagerDefinitionResponse,
   | AccessDeniedException
   | ConflictException
@@ -3013,7 +3033,7 @@ export const putAlertManagerDefinition: (
  */
 export const updateLoggingConfiguration: (
   input: UpdateLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLoggingConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3044,7 +3064,7 @@ export const updateLoggingConfiguration: (
  */
 export const putRuleGroupsNamespace: (
   input: PutRuleGroupsNamespaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutRuleGroupsNamespaceResponse,
   | AccessDeniedException
   | ConflictException
@@ -3079,7 +3099,7 @@ export const putRuleGroupsNamespace: (
  */
 export const putResourcePolicy: (
   input: PutResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourcePolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -3106,7 +3126,7 @@ export const putResourcePolicy: (
  */
 export const deleteScraperLoggingConfiguration: (
   input: DeleteScraperLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteScraperLoggingConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3131,7 +3151,7 @@ export const deleteScraperLoggingConfiguration: (
  */
 export const updateWorkspaceAlias: (
   input: UpdateWorkspaceAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkspaceAliasResponse,
   | AccessDeniedException
   | ConflictException
@@ -3162,7 +3182,7 @@ export const updateWorkspaceAlias: (
  */
 export const deleteWorkspace: (
   input: DeleteWorkspaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkspaceResponse,
   | AccessDeniedException
   | ConflictException
@@ -3189,7 +3209,7 @@ export const deleteWorkspace: (
  */
 export const deleteAlertManagerDefinition: (
   input: DeleteAlertManagerDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAlertManagerDefinitionResponse,
   | AccessDeniedException
   | ConflictException
@@ -3216,7 +3236,7 @@ export const deleteAlertManagerDefinition: (
  */
 export const deleteAnomalyDetector: (
   input: DeleteAnomalyDetectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAnomalyDetectorResponse,
   | AccessDeniedException
   | ConflictException
@@ -3245,7 +3265,7 @@ export const deleteAnomalyDetector: (
  */
 export const deleteLoggingConfiguration: (
   input: DeleteLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLoggingConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3270,7 +3290,7 @@ export const deleteLoggingConfiguration: (
  */
 export const deleteQueryLoggingConfiguration: (
   input: DeleteQueryLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteQueryLoggingConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3295,7 +3315,7 @@ export const deleteQueryLoggingConfiguration: (
  */
 export const deleteRuleGroupsNamespace: (
   input: DeleteRuleGroupsNamespaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRuleGroupsNamespaceResponse,
   | AccessDeniedException
   | ConflictException
@@ -3322,7 +3342,7 @@ export const deleteRuleGroupsNamespace: (
  */
 export const deleteResourcePolicy: (
   input: DeleteResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourcePolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -3351,7 +3371,7 @@ export const deleteResourcePolicy: (
  */
 export const updateScraper: (
   input: UpdateScraperRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateScraperResponse,
   | AccessDeniedException
   | ConflictException
@@ -3388,7 +3408,7 @@ export const updateScraper: (
  */
 export const createScraper: (
   input: CreateScraperRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateScraperResponse,
   | AccessDeniedException
   | ConflictException
@@ -3417,7 +3437,7 @@ export const createScraper: (
  */
 export const putAnomalyDetector: (
   input: PutAnomalyDetectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAnomalyDetectorResponse,
   | AccessDeniedException
   | ConflictException
@@ -3444,7 +3464,7 @@ export const putAnomalyDetector: (
  */
 export const updateScraperLoggingConfiguration: (
   input: UpdateScraperLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateScraperLoggingConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3469,7 +3489,7 @@ export const updateScraperLoggingConfiguration: (
  */
 export const createAnomalyDetector: (
   input: CreateAnomalyDetectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAnomalyDetectorResponse,
   | AccessDeniedException
   | ConflictException

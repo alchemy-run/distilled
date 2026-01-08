@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -128,24 +128,56 @@ export type EventName = string;
 export type EventState = string;
 
 //# Schemas
-export type ProviderTypes = string[];
-export const ProviderTypes = S.Array(S.String);
-export type JobStates = string[];
-export const JobStates = S.Array(S.String);
+export type ProviderType =
+  | "CodeCommit"
+  | "GitHub"
+  | "Bitbucket"
+  | "GitHubEnterpriseServer"
+  | "S3Bucket";
+export const ProviderType = S.Literal(
+  "CodeCommit",
+  "GitHub",
+  "Bitbucket",
+  "GitHubEnterpriseServer",
+  "S3Bucket",
+);
+export type ProviderTypes = ProviderType[];
+export const ProviderTypes = S.Array(ProviderType);
+export type JobState = "Completed" | "Pending" | "Failed" | "Deleting";
+export const JobState = S.Literal("Completed", "Pending", "Failed", "Deleting");
+export type JobStates = JobState[];
+export const JobStates = S.Array(JobState);
 export type RepositoryNames = string[];
 export const RepositoryNames = S.Array(S.String);
+export type Type = "PullRequest" | "RepositoryAnalysis";
+export const Type = S.Literal("PullRequest", "RepositoryAnalysis");
 export type UserIds = string[];
 export const UserIds = S.Array(S.String);
 export type RecommendationIds = string[];
 export const RecommendationIds = S.Array(S.String);
-export type RepositoryAssociationStates = string[];
-export const RepositoryAssociationStates = S.Array(S.String);
+export type RepositoryAssociationState =
+  | "Associated"
+  | "Associating"
+  | "Failed"
+  | "Disassociating"
+  | "Disassociated";
+export const RepositoryAssociationState = S.Literal(
+  "Associated",
+  "Associating",
+  "Failed",
+  "Disassociating",
+  "Disassociated",
+);
+export type RepositoryAssociationStates = RepositoryAssociationState[];
+export const RepositoryAssociationStates = S.Array(RepositoryAssociationState);
 export type Names = string[];
 export const Names = S.Array(S.String);
 export type Owners = string[];
 export const Owners = S.Array(S.String);
-export type Reactions = string[];
-export const Reactions = S.Array(S.String);
+export type Reaction = "ThumbsUp" | "ThumbsDown";
+export const Reaction = S.Literal("ThumbsUp", "ThumbsDown");
+export type Reactions = Reaction[];
+export const Reactions = S.Array(Reaction);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface DescribeCodeReviewRequest {
@@ -227,10 +259,10 @@ export const DisassociateRepositoryRequest = S.suspend(() =>
   identifier: "DisassociateRepositoryRequest",
 }) as any as S.Schema<DisassociateRepositoryRequest>;
 export interface ListCodeReviewsRequest {
-  ProviderTypes?: ProviderTypes;
-  States?: JobStates;
-  RepositoryNames?: RepositoryNames;
-  Type: string;
+  ProviderTypes?: ProviderType[];
+  States?: JobState[];
+  RepositoryNames?: string[];
+  Type: Type;
   MaxResults?: number;
   NextToken?: string;
 }
@@ -241,7 +273,7 @@ export const ListCodeReviewsRequest = S.suspend(() =>
     RepositoryNames: S.optional(RepositoryNames).pipe(
       T.HttpQuery("RepositoryNames"),
     ),
-    Type: S.String.pipe(T.HttpQuery("Type")),
+    Type: Type.pipe(T.HttpQuery("Type")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
   }).pipe(
@@ -261,8 +293,8 @@ export interface ListRecommendationFeedbackRequest {
   NextToken?: string;
   MaxResults?: number;
   CodeReviewArn: string;
-  UserIds?: UserIds;
-  RecommendationIds?: RecommendationIds;
+  UserIds?: string[];
+  RecommendationIds?: string[];
 }
 export const ListRecommendationFeedbackRequest = S.suspend(() =>
   S.Struct({
@@ -316,10 +348,10 @@ export const ListRecommendationsRequest = S.suspend(() =>
   identifier: "ListRecommendationsRequest",
 }) as any as S.Schema<ListRecommendationsRequest>;
 export interface ListRepositoryAssociationsRequest {
-  ProviderTypes?: ProviderTypes;
-  States?: RepositoryAssociationStates;
-  Names?: Names;
-  Owners?: Owners;
+  ProviderTypes?: ProviderType[];
+  States?: RepositoryAssociationState[];
+  Names?: string[];
+  Owners?: string[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -364,7 +396,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 export interface PutRecommendationFeedbackRequest {
   CodeReviewArn: string;
   RecommendationId: string;
-  Reactions: Reactions;
+  Reactions: Reaction[];
 }
 export const PutRecommendationFeedbackRequest = S.suspend(() =>
   S.Struct({
@@ -394,7 +426,7 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface TagResourceRequest {
   resourceArn: string;
-  Tags: TagMap;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -419,7 +451,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -442,16 +474,23 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type AnalysisTypes = string[];
-export const AnalysisTypes = S.Array(S.String);
+export type EncryptionOption = "AWS_OWNED_CMK" | "CUSTOMER_MANAGED_CMK";
+export const EncryptionOption = S.Literal(
+  "AWS_OWNED_CMK",
+  "CUSTOMER_MANAGED_CMK",
+);
+export type AnalysisType = "Security" | "CodeQuality";
+export const AnalysisType = S.Literal("Security", "CodeQuality");
+export type AnalysisTypes = AnalysisType[];
+export const AnalysisTypes = S.Array(AnalysisType);
 export interface KMSKeyDetails {
   KMSKeyId?: string;
-  EncryptionOption?: string;
+  EncryptionOption?: EncryptionOption;
 }
 export const KMSKeyDetails = S.suspend(() =>
   S.Struct({
     KMSKeyId: S.optional(S.String),
-    EncryptionOption: S.optional(S.String),
+    EncryptionOption: S.optional(EncryptionOption),
   }),
 ).annotations({
   identifier: "KMSKeyDetails",
@@ -486,8 +525,8 @@ export interface RepositoryAssociation {
   ConnectionArn?: string;
   Name?: string;
   Owner?: string;
-  ProviderType?: string;
-  State?: string;
+  ProviderType?: ProviderType;
+  State?: RepositoryAssociationState;
   StateReason?: string;
   LastUpdatedTimeStamp?: Date;
   CreatedTimeStamp?: Date;
@@ -501,8 +540,8 @@ export const RepositoryAssociation = S.suspend(() =>
     ConnectionArn: S.optional(S.String),
     Name: S.optional(S.String),
     Owner: S.optional(S.String),
-    ProviderType: S.optional(S.String),
-    State: S.optional(S.String),
+    ProviderType: S.optional(ProviderType),
+    State: S.optional(RepositoryAssociationState),
     StateReason: S.optional(S.String),
     LastUpdatedTimeStamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -518,7 +557,7 @@ export const RepositoryAssociation = S.suspend(() =>
 }) as any as S.Schema<RepositoryAssociation>;
 export interface DisassociateRepositoryResponse {
   RepositoryAssociation?: RepositoryAssociation;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const DisassociateRepositoryResponse = S.suspend(() =>
   S.Struct({
@@ -529,7 +568,7 @@ export const DisassociateRepositoryResponse = S.suspend(() =>
   identifier: "DisassociateRepositoryResponse",
 }) as any as S.Schema<DisassociateRepositoryResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -561,6 +600,39 @@ export interface S3Repository {
 export const S3Repository = S.suspend(() =>
   S.Struct({ Name: S.String, BucketName: S.String }),
 ).annotations({ identifier: "S3Repository" }) as any as S.Schema<S3Repository>;
+export type ConfigFileState = "Present" | "Absent" | "PresentWithErrors";
+export const ConfigFileState = S.Literal(
+  "Present",
+  "Absent",
+  "PresentWithErrors",
+);
+export type RecommendationCategory =
+  | "AWSBestPractices"
+  | "AWSCloudFormationIssues"
+  | "DuplicateCode"
+  | "CodeMaintenanceIssues"
+  | "ConcurrencyIssues"
+  | "InputValidations"
+  | "PythonBestPractices"
+  | "JavaBestPractices"
+  | "ResourceLeaks"
+  | "SecurityIssues"
+  | "CodeInconsistencies";
+export const RecommendationCategory = S.Literal(
+  "AWSBestPractices",
+  "AWSCloudFormationIssues",
+  "DuplicateCode",
+  "CodeMaintenanceIssues",
+  "ConcurrencyIssues",
+  "InputValidations",
+  "PythonBestPractices",
+  "JavaBestPractices",
+  "ResourceLeaks",
+  "SecurityIssues",
+  "CodeInconsistencies",
+);
+export type Severity = "Info" | "Low" | "Medium" | "High" | "Critical";
+export const Severity = S.Literal("Info", "Low", "Medium", "High", "Critical");
 export interface Repository {
   CodeCommit?: CodeCommitRepository;
   Bitbucket?: ThirdPartySourceRepository;
@@ -578,7 +650,7 @@ export const Repository = S.suspend(() =>
 export interface RecommendationFeedback {
   CodeReviewArn?: string;
   RecommendationId?: string;
-  Reactions?: Reactions;
+  Reactions?: Reaction[];
   UserId?: string;
   CreatedTimeStamp?: Date;
   LastUpdatedTimeStamp?: Date;
@@ -601,7 +673,7 @@ export const RecommendationFeedback = S.suspend(() =>
 }) as any as S.Schema<RecommendationFeedback>;
 export interface RecommendationFeedbackSummary {
   RecommendationId?: string;
-  Reactions?: Reactions;
+  Reactions?: Reaction[];
   UserId?: string;
 }
 export const RecommendationFeedbackSummary = S.suspend(() =>
@@ -624,8 +696,8 @@ export interface RepositoryAssociationSummary {
   AssociationId?: string;
   Name?: string;
   Owner?: string;
-  ProviderType?: string;
-  State?: string;
+  ProviderType?: ProviderType;
+  State?: RepositoryAssociationState;
 }
 export const RepositoryAssociationSummary = S.suspend(() =>
   S.Struct({
@@ -637,8 +709,8 @@ export const RepositoryAssociationSummary = S.suspend(() =>
     AssociationId: S.optional(S.String),
     Name: S.optional(S.String),
     Owner: S.optional(S.String),
-    ProviderType: S.optional(S.String),
-    State: S.optional(S.String),
+    ProviderType: S.optional(ProviderType),
+    State: S.optional(RepositoryAssociationState),
   }),
 ).annotations({
   identifier: "RepositoryAssociationSummary",
@@ -660,7 +732,7 @@ export const RuleTags = S.Array(S.String);
 export interface AssociateRepositoryRequest {
   Repository: Repository;
   ClientRequestToken?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   KMSKeyDetails?: KMSKeyDetails;
 }
 export const AssociateRepositoryRequest = S.suspend(() =>
@@ -682,6 +754,8 @@ export const AssociateRepositoryRequest = S.suspend(() =>
 ).annotations({
   identifier: "AssociateRepositoryRequest",
 }) as any as S.Schema<AssociateRepositoryRequest>;
+export type VendorName = "GitHub" | "GitLab" | "NativeS3";
+export const VendorName = S.Literal("GitHub", "GitLab", "NativeS3");
 export interface DescribeRecommendationFeedbackResponse {
   RecommendationFeedback?: RecommendationFeedback;
 }
@@ -691,7 +765,7 @@ export const DescribeRecommendationFeedbackResponse = S.suspend(() =>
   identifier: "DescribeRecommendationFeedbackResponse",
 }) as any as S.Schema<DescribeRecommendationFeedbackResponse>;
 export interface ListRecommendationFeedbackResponse {
-  RecommendationFeedbackSummaries?: RecommendationFeedbackSummaries;
+  RecommendationFeedbackSummaries?: RecommendationFeedbackSummary[];
   NextToken?: string;
 }
 export const ListRecommendationFeedbackResponse = S.suspend(() =>
@@ -705,7 +779,7 @@ export const ListRecommendationFeedbackResponse = S.suspend(() =>
   identifier: "ListRecommendationFeedbackResponse",
 }) as any as S.Schema<ListRecommendationFeedbackResponse>;
 export interface ListRepositoryAssociationsResponse {
-  RepositoryAssociationSummaries?: RepositoryAssociationSummaries;
+  RepositoryAssociationSummaries?: RepositoryAssociationSummary[];
   NextToken?: string;
 }
 export const ListRepositoryAssociationsResponse = S.suspend(() =>
@@ -747,7 +821,7 @@ export interface RuleMetadata {
   RuleName?: string;
   ShortDescription?: string;
   LongDescription?: string;
-  RuleTags?: RuleTags;
+  RuleTags?: string[];
 }
 export const RuleMetadata = S.suspend(() =>
   S.Struct({
@@ -801,14 +875,14 @@ export interface RequestMetadata {
   RequestId?: string;
   Requester?: string;
   EventInfo?: EventInfo;
-  VendorName?: string;
+  VendorName?: VendorName;
 }
 export const RequestMetadata = S.suspend(() =>
   S.Struct({
     RequestId: S.optional(S.String),
     Requester: S.optional(S.String),
     EventInfo: S.optional(EventInfo),
-    VendorName: S.optional(S.String),
+    VendorName: S.optional(VendorName),
   }),
 ).annotations({
   identifier: "RequestMetadata",
@@ -836,18 +910,18 @@ export interface CodeReview {
   CodeReviewArn?: string;
   RepositoryName?: string;
   Owner?: string;
-  ProviderType?: string;
-  State?: string;
+  ProviderType?: ProviderType;
+  State?: JobState;
   StateReason?: string;
   CreatedTimeStamp?: Date;
   LastUpdatedTimeStamp?: Date;
-  Type?: string;
+  Type?: Type;
   PullRequestId?: string;
   SourceCodeType?: SourceCodeType;
   AssociationArn?: string;
   Metrics?: Metrics;
-  AnalysisTypes?: AnalysisTypes;
-  ConfigFileState?: string;
+  AnalysisTypes?: AnalysisType[];
+  ConfigFileState?: ConfigFileState;
 }
 export const CodeReview = S.suspend(() =>
   S.Struct({
@@ -855,8 +929,8 @@ export const CodeReview = S.suspend(() =>
     CodeReviewArn: S.optional(S.String),
     RepositoryName: S.optional(S.String),
     Owner: S.optional(S.String),
-    ProviderType: S.optional(S.String),
-    State: S.optional(S.String),
+    ProviderType: S.optional(ProviderType),
+    State: S.optional(JobState),
     StateReason: S.optional(S.String),
     CreatedTimeStamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -864,13 +938,13 @@ export const CodeReview = S.suspend(() =>
     LastUpdatedTimeStamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    Type: S.optional(S.String),
+    Type: S.optional(Type),
     PullRequestId: S.optional(S.String),
     SourceCodeType: S.optional(SourceCodeType),
     AssociationArn: S.optional(S.String),
     Metrics: S.optional(Metrics),
     AnalysisTypes: S.optional(AnalysisTypes),
-    ConfigFileState: S.optional(S.String),
+    ConfigFileState: S.optional(ConfigFileState),
   }),
 ).annotations({ identifier: "CodeReview" }) as any as S.Schema<CodeReview>;
 export interface CodeReviewSummary {
@@ -878,11 +952,11 @@ export interface CodeReviewSummary {
   CodeReviewArn?: string;
   RepositoryName?: string;
   Owner?: string;
-  ProviderType?: string;
-  State?: string;
+  ProviderType?: ProviderType;
+  State?: JobState;
   CreatedTimeStamp?: Date;
   LastUpdatedTimeStamp?: Date;
-  Type?: string;
+  Type?: Type;
   PullRequestId?: string;
   MetricsSummary?: MetricsSummary;
   SourceCodeType?: SourceCodeType;
@@ -893,15 +967,15 @@ export const CodeReviewSummary = S.suspend(() =>
     CodeReviewArn: S.optional(S.String),
     RepositoryName: S.optional(S.String),
     Owner: S.optional(S.String),
-    ProviderType: S.optional(S.String),
-    State: S.optional(S.String),
+    ProviderType: S.optional(ProviderType),
+    State: S.optional(JobState),
     CreatedTimeStamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     LastUpdatedTimeStamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    Type: S.optional(S.String),
+    Type: S.optional(Type),
     PullRequestId: S.optional(S.String),
     MetricsSummary: S.optional(MetricsSummary),
     SourceCodeType: S.optional(SourceCodeType),
@@ -917,9 +991,9 @@ export interface RecommendationSummary {
   StartLine?: number;
   EndLine?: number;
   Description?: string;
-  RecommendationCategory?: string;
+  RecommendationCategory?: RecommendationCategory;
   RuleMetadata?: RuleMetadata;
-  Severity?: string;
+  Severity?: Severity;
 }
 export const RecommendationSummary = S.suspend(() =>
   S.Struct({
@@ -928,9 +1002,9 @@ export const RecommendationSummary = S.suspend(() =>
     StartLine: S.optional(S.Number),
     EndLine: S.optional(S.Number),
     Description: S.optional(S.String),
-    RecommendationCategory: S.optional(S.String),
+    RecommendationCategory: S.optional(RecommendationCategory),
     RuleMetadata: S.optional(RuleMetadata),
-    Severity: S.optional(S.String),
+    Severity: S.optional(Severity),
   }),
 ).annotations({
   identifier: "RecommendationSummary",
@@ -939,7 +1013,7 @@ export type RecommendationSummaries = RecommendationSummary[];
 export const RecommendationSummaries = S.Array(RecommendationSummary);
 export interface AssociateRepositoryResponse {
   RepositoryAssociation?: RepositoryAssociation;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const AssociateRepositoryResponse = S.suspend(() =>
   S.Struct({
@@ -958,7 +1032,7 @@ export const DescribeCodeReviewResponse = S.suspend(() =>
   identifier: "DescribeCodeReviewResponse",
 }) as any as S.Schema<DescribeCodeReviewResponse>;
 export interface ListCodeReviewsResponse {
-  CodeReviewSummaries?: CodeReviewSummaries;
+  CodeReviewSummaries?: CodeReviewSummary[];
   NextToken?: string;
 }
 export const ListCodeReviewsResponse = S.suspend(() =>
@@ -970,7 +1044,7 @@ export const ListCodeReviewsResponse = S.suspend(() =>
   identifier: "ListCodeReviewsResponse",
 }) as any as S.Schema<ListCodeReviewsResponse>;
 export interface ListRecommendationsResponse {
-  RecommendationSummaries?: RecommendationSummaries;
+  RecommendationSummaries?: RecommendationSummary[];
   NextToken?: string;
 }
 export const ListRecommendationsResponse = S.suspend(() =>
@@ -983,7 +1057,7 @@ export const ListRecommendationsResponse = S.suspend(() =>
 }) as any as S.Schema<ListRecommendationsResponse>;
 export interface DescribeRepositoryAssociationResponse {
   RepositoryAssociation?: RepositoryAssociation;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const DescribeRepositoryAssociationResponse = S.suspend(() =>
   S.Struct({
@@ -1007,7 +1081,7 @@ export const RepositoryAnalysis = S.suspend(() =>
 }) as any as S.Schema<RepositoryAnalysis>;
 export interface CodeReviewType {
   RepositoryAnalysis: RepositoryAnalysis;
-  AnalysisTypes?: AnalysisTypes;
+  AnalysisTypes?: AnalysisType[];
 }
 export const CodeReviewType = S.suspend(() =>
   S.Struct({
@@ -1087,7 +1161,7 @@ export class NotFoundException extends S.TaggedError<NotFoundException>()(
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1109,7 +1183,7 @@ export const tagResource: (
  */
 export const putRecommendationFeedback: (
   input: PutRecommendationFeedbackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutRecommendationFeedbackResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1134,7 +1208,7 @@ export const putRecommendationFeedback: (
  */
 export const describeRecommendationFeedback: (
   input: DescribeRecommendationFeedbackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRecommendationFeedbackResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1161,7 +1235,7 @@ export const describeRecommendationFeedback: (
 export const listRecommendationFeedback: {
   (
     input: ListRecommendationFeedbackRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRecommendationFeedbackResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1173,7 +1247,7 @@ export const listRecommendationFeedback: {
   >;
   pages: (
     input: ListRecommendationFeedbackRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRecommendationFeedbackResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1185,7 +1259,7 @@ export const listRecommendationFeedback: {
   >;
   items: (
     input: ListRecommendationFeedbackRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -1233,7 +1307,7 @@ export const listRecommendationFeedback: {
  */
 export const associateRepository: (
   input: AssociateRepositoryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateRepositoryResponse,
   | AccessDeniedException
   | ConflictException
@@ -1258,7 +1332,7 @@ export const associateRepository: (
  */
 export const describeCodeReview: (
   input: DescribeCodeReviewRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCodeReviewResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1284,7 +1358,7 @@ export const describeCodeReview: (
 export const listCodeReviews: {
   (
     input: ListCodeReviewsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCodeReviewsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1295,7 +1369,7 @@ export const listCodeReviews: {
   >;
   pages: (
     input: ListCodeReviewsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCodeReviewsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1306,7 +1380,7 @@ export const listCodeReviews: {
   >;
   items: (
     input: ListCodeReviewsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -1336,7 +1410,7 @@ export const listCodeReviews: {
 export const listRecommendations: {
   (
     input: ListRecommendationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRecommendationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1348,7 +1422,7 @@ export const listRecommendations: {
   >;
   pages: (
     input: ListRecommendationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRecommendationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1360,7 +1434,7 @@ export const listRecommendations: {
   >;
   items: (
     input: ListRecommendationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -1391,7 +1465,7 @@ export const listRecommendations: {
  */
 export const disassociateRepository: (
   input: DisassociateRepositoryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateRepositoryResponse,
   | AccessDeniedException
   | ConflictException
@@ -1418,7 +1492,7 @@ export const disassociateRepository: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1439,7 +1513,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1462,7 +1536,7 @@ export const listTagsForResource: (
 export const listRepositoryAssociations: {
   (
     input: ListRepositoryAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRepositoryAssociationsResponse,
     | InternalServerException
     | ThrottlingException
@@ -1472,7 +1546,7 @@ export const listRepositoryAssociations: {
   >;
   pages: (
     input: ListRepositoryAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRepositoryAssociationsResponse,
     | InternalServerException
     | ThrottlingException
@@ -1482,7 +1556,7 @@ export const listRepositoryAssociations: {
   >;
   items: (
     input: ListRepositoryAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RepositoryAssociationSummary,
     | InternalServerException
     | ThrottlingException
@@ -1507,7 +1581,7 @@ export const listRepositoryAssociations: {
  */
 export const describeRepositoryAssociation: (
   input: DescribeRepositoryAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRepositoryAssociationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1535,7 +1609,7 @@ export const describeRepositoryAssociation: (
  */
 export const createCodeReview: (
   input: CreateCodeReviewRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCodeReviewResponse,
   | AccessDeniedException
   | ConflictException

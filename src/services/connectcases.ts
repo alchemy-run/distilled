@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -112,7 +112,7 @@ export type TemplateName = string;
 export type TemplateDescription = string;
 export type TemplateStatus = string;
 export type UserArn = string;
-export type CustomEntity = string | Redacted.Redacted<string>;
+export type CustomEntity = string | redacted.Redacted<string>;
 export type Order = string;
 export type SearchAllRelatedItemsSortProperty = string;
 export type FieldOptionName = string;
@@ -126,7 +126,7 @@ export type CommentBody = string;
 export type CommentBodyTextType = string;
 export type FileArn = string;
 export type Channel = string;
-export type SlaName = string | Redacted.Redacted<string>;
+export type SlaName = string | redacted.Redacted<string>;
 export type SlaStatus = string;
 export type AuditEventId = string;
 export type AuditEventType = string;
@@ -177,7 +177,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   arn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -219,7 +219,7 @@ export const FieldValueUnion = S.Union(
 );
 export interface FieldValue {
   id: string;
-  value: (typeof FieldValueUnion)["Type"];
+  value: FieldValueUnion;
 }
 export const FieldValue = S.suspend(() =>
   S.Struct({ id: S.String, value: FieldValueUnion }),
@@ -228,7 +228,7 @@ export type FieldValueList = FieldValue[];
 export const FieldValueList = S.Array(FieldValue);
 export type UserUnion =
   | { userArn: string }
-  | { customEntity: string | Redacted.Redacted<string> };
+  | { customEntity: string | redacted.Redacted<string> };
 export const UserUnion = S.Union(
   S.Struct({ userArn: S.String }),
   S.Struct({ customEntity: SensitiveString }),
@@ -236,8 +236,8 @@ export const UserUnion = S.Union(
 export interface UpdateCaseRequest {
   domainId: string;
   caseId: string;
-  fields: FieldValueList;
-  performedBy?: (typeof UserUnion)["Type"];
+  fields: FieldValue[];
+  performedBy?: UserUnion;
 }
 export const UpdateCaseRequest = S.suspend(() =>
   S.Struct({
@@ -393,8 +393,8 @@ export const OperandTwo = S.Union(
   S.Struct({ emptyValue: EmptyOperandValue }),
 );
 export interface BooleanOperands {
-  operandOne: (typeof OperandOne)["Type"];
-  operandTwo: (typeof OperandTwo)["Type"];
+  operandOne: OperandOne;
+  operandTwo: OperandTwo;
   result: boolean;
 }
 export const BooleanOperands = S.suspend(() =>
@@ -413,11 +413,11 @@ export const BooleanCondition = S.Union(
   S.Struct({ equalTo: BooleanOperands }),
   S.Struct({ notEqualTo: BooleanOperands }),
 );
-export type BooleanConditionList = (typeof BooleanCondition)["Type"][];
+export type BooleanConditionList = BooleanCondition[];
 export const BooleanConditionList = S.Array(BooleanCondition);
 export interface RequiredCaseRule {
   defaultValue: boolean;
-  conditions: BooleanConditionList;
+  conditions: BooleanCondition[];
 }
 export const RequiredCaseRule = S.suspend(() =>
   S.Struct({ defaultValue: S.Boolean, conditions: BooleanConditionList }),
@@ -428,7 +428,7 @@ export type ParentChildFieldOptionValueList = string[];
 export const ParentChildFieldOptionValueList = S.Array(S.String);
 export interface ParentChildFieldOptionsMapping {
   parentFieldOptionValue: string;
-  childFieldOptionValues: ParentChildFieldOptionValueList;
+  childFieldOptionValues: string[];
 }
 export const ParentChildFieldOptionsMapping = S.suspend(() =>
   S.Struct({
@@ -446,7 +446,7 @@ export const ParentChildFieldOptionsMappingList = S.Array(
 export interface FieldOptionsCaseRule {
   parentFieldId?: string;
   childFieldId?: string;
-  parentChildFieldOptionsMappings: ParentChildFieldOptionsMappingList;
+  parentChildFieldOptionsMappings: ParentChildFieldOptionsMapping[];
 }
 export const FieldOptionsCaseRule = S.suspend(() =>
   S.Struct({
@@ -459,7 +459,7 @@ export const FieldOptionsCaseRule = S.suspend(() =>
 }) as any as S.Schema<FieldOptionsCaseRule>;
 export interface HiddenCaseRule {
   defaultValue: boolean;
-  conditions: BooleanConditionList;
+  conditions: BooleanCondition[];
 }
 export const HiddenCaseRule = S.suspend(() =>
   S.Struct({ defaultValue: S.Boolean, conditions: BooleanConditionList }),
@@ -480,7 +480,7 @@ export interface UpdateCaseRuleRequest {
   caseRuleId: string;
   name?: string;
   description?: string;
-  rule?: (typeof CaseRuleDetails)["Type"];
+  rule?: CaseRuleDetails;
 }
 export const UpdateCaseRuleRequest = S.suspend(() =>
   S.Struct({
@@ -763,7 +763,7 @@ export interface ListFieldOptionsRequest {
   fieldId: string;
   maxResults?: number;
   nextToken?: string;
-  values?: ValuesList;
+  values?: string[];
 }
 export const ListFieldOptionsRequest = S.suspend(() =>
   S.Struct({
@@ -790,7 +790,7 @@ export const ListFieldOptionsRequest = S.suspend(() =>
 }) as any as S.Schema<ListFieldOptionsRequest>;
 export interface BatchGetFieldRequest {
   domainId: string;
-  fields: BatchGetFieldIdentifierList;
+  fields: FieldIdentifier[];
 }
 export const BatchGetFieldRequest = S.suspend(() =>
   S.Struct({
@@ -840,17 +840,17 @@ export type FieldList = FieldItem[];
 export const FieldList = S.Array(FieldItem);
 export interface FieldGroup {
   name?: string;
-  fields: FieldList;
+  fields: FieldItem[];
 }
 export const FieldGroup = S.suspend(() =>
   S.Struct({ name: S.optional(S.String), fields: FieldList }),
 ).annotations({ identifier: "FieldGroup" }) as any as S.Schema<FieldGroup>;
 export type Section = { fieldGroup: FieldGroup };
 export const Section = S.Union(S.Struct({ fieldGroup: FieldGroup }));
-export type SectionsList = (typeof Section)["Type"][];
+export type SectionsList = Section[];
 export const SectionsList = S.Array(Section);
 export interface LayoutSections {
-  sections?: SectionsList;
+  sections?: Section[];
 }
 export const LayoutSections = S.suspend(() =>
   S.Struct({ sections: S.optional(SectionsList) }),
@@ -873,7 +873,7 @@ export interface UpdateLayoutRequest {
   domainId: string;
   layoutId: string;
   name?: string;
-  content?: (typeof LayoutContent)["Type"];
+  content?: LayoutContent;
 }
 export const UpdateLayoutRequest = S.suspend(() =>
   S.Struct({
@@ -1006,9 +1006,9 @@ export interface UpdateTemplateRequest {
   name?: string;
   description?: string;
   layoutConfiguration?: LayoutConfiguration;
-  requiredFields?: RequiredFieldList;
+  requiredFields?: RequiredField[];
   status?: string;
-  rules?: TemplateCaseRuleList;
+  rules?: TemplateRule[];
 }
 export const UpdateTemplateRequest = S.suspend(() =>
   S.Struct({
@@ -1072,7 +1072,7 @@ export interface ListTemplatesRequest {
   domainId: string;
   maxResults?: number;
   nextToken?: string;
-  status?: TemplateStatusFilters;
+  status?: string[];
 }
 export const ListTemplatesRequest = S.suspend(() =>
   S.Struct({
@@ -1150,7 +1150,7 @@ export const FieldOptionsList = S.Array(FieldOption);
 export type ChannelList = string[];
 export const ChannelList = S.Array(S.String);
 export interface ListTagsForResourceResponse {
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -1159,7 +1159,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   arn: string;
-  tags: Tags;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")), tags: Tags }).pipe(
@@ -1182,7 +1182,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 export interface GetCaseRequest {
   caseId: string;
   domainId: string;
-  fields: FieldIdentifierList;
+  fields: FieldIdentifier[];
   nextToken?: string;
 }
 export const GetCaseRequest = S.suspend(() =>
@@ -1206,7 +1206,7 @@ export const GetCaseRequest = S.suspend(() =>
 }) as any as S.Schema<GetCaseRequest>;
 export interface BatchGetCaseRuleRequest {
   domainId: string;
-  caseRules: CaseRuleIdentifierList;
+  caseRules: CaseRuleIdentifier[];
 }
 export const BatchGetCaseRuleRequest = S.suspend(() =>
   S.Struct({
@@ -1241,7 +1241,7 @@ export interface GetDomainResponse {
   name: string;
   createdTime: Date;
   domainStatus: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const GetDomainResponse = S.suspend(() =>
   S.Struct({
@@ -1256,7 +1256,7 @@ export const GetDomainResponse = S.suspend(() =>
   identifier: "GetDomainResponse",
 }) as any as S.Schema<GetDomainResponse>;
 export interface CaseEventIncludedData {
-  fields: FieldIdentifierList;
+  fields: FieldIdentifier[];
 }
 export const CaseEventIncludedData = S.suspend(() =>
   S.Struct({ fields: FieldIdentifierList }),
@@ -1301,7 +1301,7 @@ export const GetCaseEventConfigurationResponse = S.suspend(() =>
   identifier: "GetCaseEventConfigurationResponse",
 }) as any as S.Schema<GetCaseEventConfigurationResponse>;
 export interface ContactFilter {
-  channel?: ChannelList;
+  channel?: string[];
   contactArn?: string;
 }
 export const ContactFilter = S.suspend(() =>
@@ -1319,7 +1319,7 @@ export const FileFilter = S.suspend(() =>
   S.Struct({ fileArn: S.optional(S.String) }),
 ).annotations({ identifier: "FileFilter" }) as any as S.Schema<FileFilter>;
 export interface SlaFilter {
-  name?: string | Redacted.Redacted<string>;
+  name?: string | redacted.Redacted<string>;
   status?: string;
 }
 export const SlaFilter = S.suspend(() =>
@@ -1349,10 +1349,10 @@ export const FieldFilter = S.Union(
   S.Struct({ lessThanOrEqualTo: FieldValue }),
 );
 export type CustomFieldsFilter =
-  | { field: (typeof FieldFilter)["Type"] }
+  | { field: FieldFilter }
   | { not: CustomFieldsFilter }
-  | { andAll: CustomFieldsFilterList }
-  | { orAll: CustomFieldsFilterList };
+  | { andAll: CustomFieldsFilter[] }
+  | { orAll: CustomFieldsFilter[] };
 export const CustomFieldsFilter = S.Union(
   S.Struct({ field: FieldFilter }),
   S.Struct({
@@ -1392,14 +1392,14 @@ export const RelatedItemTypeFilter = S.Union(
   S.Struct({ connectCase: ConnectCaseFilter }),
   S.Struct({ custom: CustomFilter }),
 );
-export type RelatedItemFilterList = (typeof RelatedItemTypeFilter)["Type"][];
+export type RelatedItemFilterList = RelatedItemTypeFilter[];
 export const RelatedItemFilterList = S.Array(RelatedItemTypeFilter);
 export interface SearchAllRelatedItemsRequest {
   domainId: string;
   maxResults?: number;
   nextToken?: string;
-  filters?: RelatedItemFilterList;
-  sorts?: SearchAllRelatedItemsSortList;
+  filters?: RelatedItemTypeFilter[];
+  sorts?: SearchAllRelatedItemsSort[];
 }
 export const SearchAllRelatedItemsRequest = S.suspend(() =>
   S.Struct({
@@ -1436,7 +1436,7 @@ export const CreateFieldResponse = S.suspend(() =>
 export interface BatchPutFieldOptionsRequest {
   domainId: string;
   fieldId: string;
-  options: FieldOptionsList;
+  options: FieldOption[];
 }
 export const BatchPutFieldOptionsRequest = S.suspend(() =>
   S.Struct({
@@ -1460,7 +1460,7 @@ export const BatchPutFieldOptionsRequest = S.suspend(() =>
   identifier: "BatchPutFieldOptionsRequest",
 }) as any as S.Schema<BatchPutFieldOptionsRequest>;
 export interface ListFieldOptionsResponse {
-  options: FieldOptionsList;
+  options: FieldOption[];
   nextToken?: string;
 }
 export const ListFieldOptionsResponse = S.suspend(() =>
@@ -1472,8 +1472,8 @@ export interface GetLayoutResponse {
   layoutId: string;
   layoutArn: string;
   name: string;
-  content: (typeof LayoutContent)["Type"];
-  tags?: Tags;
+  content: LayoutContent;
+  tags?: { [key: string]: string };
   deleted?: boolean;
   createdTime?: Date;
   lastModifiedTime?: Date;
@@ -1497,9 +1497,9 @@ export interface CreateTemplateRequest {
   name: string;
   description?: string;
   layoutConfiguration?: LayoutConfiguration;
-  requiredFields?: RequiredFieldList;
+  requiredFields?: RequiredField[];
   status?: string;
-  rules?: TemplateCaseRuleList;
+  rules?: TemplateRule[];
 }
 export const CreateTemplateRequest = S.suspend(() =>
   S.Struct({
@@ -1529,13 +1529,13 @@ export interface GetTemplateResponse {
   name: string;
   description?: string;
   layoutConfiguration?: LayoutConfiguration;
-  requiredFields?: RequiredFieldList;
-  tags?: Tags;
+  requiredFields?: RequiredField[];
+  tags?: { [key: string]: string };
   status: string;
   deleted?: boolean;
   createdTime?: Date;
   lastModifiedTime?: Date;
-  rules?: TemplateCaseRuleList;
+  rules?: TemplateRule[];
 }
 export const GetTemplateResponse = S.suspend(() =>
   S.Struct({
@@ -1585,14 +1585,14 @@ export const ConnectCaseInputContent = S.suspend(() =>
   identifier: "ConnectCaseInputContent",
 }) as any as S.Schema<ConnectCaseInputContent>;
 export interface CustomInputContent {
-  fields: FieldValueList;
+  fields: FieldValue[];
 }
 export const CustomInputContent = S.suspend(() =>
   S.Struct({ fields: FieldValueList }),
 ).annotations({
   identifier: "CustomInputContent",
 }) as any as S.Schema<CustomInputContent>;
-export type SlaFieldValueUnionList = (typeof FieldValueUnion)["Type"][];
+export type SlaFieldValueUnionList = FieldValueUnion[];
 export const SlaFieldValueUnionList = S.Array(FieldValueUnion);
 export type CustomFieldsFilterList = CustomFieldsFilter[];
 export const CustomFieldsFilterList = S.Array(
@@ -1610,10 +1610,10 @@ export const CaseSummary = S.suspend(() =>
 export type CaseSummaryList = CaseSummary[];
 export const CaseSummaryList = S.Array(CaseSummary);
 export type CaseFilter =
-  | { field: (typeof FieldFilter)["Type"] }
+  | { field: FieldFilter }
   | { not: CaseFilter }
-  | { andAll: CaseFilterList }
-  | { orAll: CaseFilterList };
+  | { andAll: CaseFilter[] }
+  | { orAll: CaseFilter[] };
 export const CaseFilter = S.Union(
   S.Struct({ field: FieldFilter }),
   S.Struct({
@@ -1689,7 +1689,7 @@ export interface GetFieldResponse {
   description?: string;
   type: string;
   namespace: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   deleted?: boolean;
   createdTime?: Date;
   lastModifiedTime?: Date;
@@ -1757,10 +1757,10 @@ export const TemplateSummary = S.suspend(() =>
 export type TemplateSummaryList = TemplateSummary[];
 export const TemplateSummaryList = S.Array(TemplateSummary);
 export interface SlaInputConfiguration {
-  name: string | Redacted.Redacted<string>;
+  name: string | redacted.Redacted<string>;
   type: string;
   fieldId?: string;
-  targetFieldValues?: SlaFieldValueUnionList;
+  targetFieldValues?: FieldValueUnion[];
   targetSlaMinutes: number;
 }
 export const SlaInputConfiguration = S.suspend(() =>
@@ -1777,9 +1777,9 @@ export const SlaInputConfiguration = S.suspend(() =>
 export interface CreateCaseRequest {
   domainId: string;
   templateId: string;
-  fields: FieldValueList;
+  fields: FieldValue[];
   clientToken?: string;
-  performedBy?: (typeof UserUnion)["Type"];
+  performedBy?: UserUnion;
 }
 export const CreateCaseRequest = S.suspend(() =>
   S.Struct({
@@ -1802,10 +1802,10 @@ export const CreateCaseRequest = S.suspend(() =>
   identifier: "CreateCaseRequest",
 }) as any as S.Schema<CreateCaseRequest>;
 export interface GetCaseResponse {
-  fields: FieldValueList;
+  fields: FieldValue[];
   templateId: string;
   nextToken?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const GetCaseResponse = S.suspend(() =>
   S.Struct({
@@ -1818,7 +1818,7 @@ export const GetCaseResponse = S.suspend(() =>
   identifier: "GetCaseResponse",
 }) as any as S.Schema<GetCaseResponse>;
 export interface ListCasesForContactResponse {
-  cases: CaseSummaryList;
+  cases: CaseSummary[];
   nextToken?: string;
 }
 export const ListCasesForContactResponse = S.suspend(() =>
@@ -1832,8 +1832,8 @@ export interface SearchCasesRequest {
   nextToken?: string;
   searchTerm?: string;
   filter?: CaseFilter;
-  sorts?: SortList;
-  fields?: FieldIdentifierList;
+  sorts?: Sort[];
+  fields?: FieldIdentifier[];
 }
 export const SearchCasesRequest = S.suspend(() =>
   S.Struct({
@@ -1858,7 +1858,7 @@ export const SearchCasesRequest = S.suspend(() =>
   identifier: "SearchCasesRequest",
 }) as any as S.Schema<SearchCasesRequest>;
 export interface ListCaseRulesResponse {
-  caseRules: CaseRuleSummaryList;
+  caseRules: CaseRuleSummary[];
   nextToken?: string;
 }
 export const ListCaseRulesResponse = S.suspend(() =>
@@ -1867,7 +1867,7 @@ export const ListCaseRulesResponse = S.suspend(() =>
   identifier: "ListCaseRulesResponse",
 }) as any as S.Schema<ListCaseRulesResponse>;
 export interface ListDomainsResponse {
-  domains: DomainSummaryList;
+  domains: DomainSummary[];
   nextToken?: string;
 }
 export const ListDomainsResponse = S.suspend(() =>
@@ -1876,7 +1876,7 @@ export const ListDomainsResponse = S.suspend(() =>
   identifier: "ListDomainsResponse",
 }) as any as S.Schema<ListDomainsResponse>;
 export interface ListFieldsResponse {
-  fields: FieldSummaryList;
+  fields: FieldSummary[];
   nextToken?: string;
 }
 export const ListFieldsResponse = S.suspend(() =>
@@ -1885,8 +1885,8 @@ export const ListFieldsResponse = S.suspend(() =>
   identifier: "ListFieldsResponse",
 }) as any as S.Schema<ListFieldsResponse>;
 export interface BatchGetFieldResponse {
-  fields: BatchGetFieldList;
-  errors: BatchGetFieldErrorList;
+  fields: GetFieldResponse[];
+  errors: FieldError[];
 }
 export const BatchGetFieldResponse = S.suspend(() =>
   S.Struct({ fields: BatchGetFieldList, errors: BatchGetFieldErrorList }),
@@ -1894,7 +1894,7 @@ export const BatchGetFieldResponse = S.suspend(() =>
   identifier: "BatchGetFieldResponse",
 }) as any as S.Schema<BatchGetFieldResponse>;
 export interface ListLayoutsResponse {
-  layouts: LayoutSummaryList;
+  layouts: LayoutSummary[];
   nextToken?: string;
 }
 export const ListLayoutsResponse = S.suspend(() =>
@@ -1912,7 +1912,7 @@ export const CreateTemplateResponse = S.suspend(() =>
   identifier: "CreateTemplateResponse",
 }) as any as S.Schema<CreateTemplateResponse>;
 export interface ListTemplatesResponse {
-  templates: TemplateSummaryList;
+  templates: TemplateSummary[];
   nextToken?: string;
 }
 export const ListTemplatesResponse = S.suspend(() =>
@@ -1921,7 +1921,7 @@ export const ListTemplatesResponse = S.suspend(() =>
   identifier: "ListTemplatesResponse",
 }) as any as S.Schema<ListTemplatesResponse>;
 export interface AuditEventPerformedBy {
-  user?: (typeof UserUnion)["Type"];
+  user?: UserUnion;
   iamPrincipalArn: string;
 }
 export const AuditEventPerformedBy = S.suspend(() =>
@@ -1937,7 +1937,7 @@ export type RelatedItemInputContent =
   | { contact: Contact }
   | { comment: CommentContent }
   | { file: FileContent }
-  | { sla: (typeof SlaInputContent)["Type"] }
+  | { sla: SlaInputContent }
   | { connectCase: ConnectCaseInputContent }
   | { custom: CustomInputContent };
 export const RelatedItemInputContent = S.Union(
@@ -1952,12 +1952,12 @@ export interface GetCaseRuleResponse {
   caseRuleId: string;
   name: string;
   caseRuleArn: string;
-  rule: (typeof CaseRuleDetails)["Type"];
+  rule: CaseRuleDetails;
   description?: string;
   deleted?: boolean;
   createdTime?: Date;
   lastModifiedTime?: Date;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const GetCaseRuleResponse = S.suspend(() =>
   S.Struct({
@@ -2030,8 +2030,8 @@ export interface CreateRelatedItemRequest {
   domainId: string;
   caseId: string;
   type: string;
-  content: (typeof RelatedItemInputContent)["Type"];
-  performedBy?: (typeof UserUnion)["Type"];
+  content: RelatedItemInputContent;
+  performedBy?: UserUnion;
 }
 export const CreateRelatedItemRequest = S.suspend(() =>
   S.Struct({
@@ -2061,7 +2061,7 @@ export interface SearchRelatedItemsRequest {
   caseId: string;
   maxResults?: number;
   nextToken?: string;
-  filters?: RelatedItemFilterList;
+  filters?: RelatedItemTypeFilter[];
 }
 export const SearchRelatedItemsRequest = S.suspend(() =>
   S.Struct({
@@ -2087,9 +2087,9 @@ export const SearchRelatedItemsRequest = S.suspend(() =>
   identifier: "SearchRelatedItemsRequest",
 }) as any as S.Schema<SearchRelatedItemsRequest>;
 export interface BatchGetCaseRuleResponse {
-  caseRules: BatchGetCaseRuleList;
-  errors: BatchGetCaseRuleErrorList;
-  unprocessedCaseRules?: BatchGetCaseRuleUnprocessedList;
+  caseRules: GetCaseRuleResponse[];
+  errors: CaseRuleError[];
+  unprocessedCaseRules?: string[];
 }
 export const BatchGetCaseRuleResponse = S.suspend(() =>
   S.Struct({
@@ -2131,7 +2131,7 @@ export const PutCaseEventConfigurationResponse = S.suspend(() =>
   identifier: "PutCaseEventConfigurationResponse",
 }) as any as S.Schema<PutCaseEventConfigurationResponse>;
 export interface BatchPutFieldOptionsResponse {
-  errors?: FieldOptionErrorList;
+  errors?: FieldOptionError[];
 }
 export const BatchPutFieldOptionsResponse = S.suspend(() =>
   S.Struct({ errors: S.optional(FieldOptionErrorList) }),
@@ -2140,8 +2140,8 @@ export const BatchPutFieldOptionsResponse = S.suspend(() =>
 }) as any as S.Schema<BatchPutFieldOptionsResponse>;
 export interface AuditEventField {
   eventFieldId: string;
-  oldValue?: (typeof AuditEventFieldValueUnion)["Type"];
-  newValue: (typeof AuditEventFieldValueUnion)["Type"];
+  oldValue?: AuditEventFieldValueUnion;
+  newValue: AuditEventFieldValueUnion;
 }
 export const AuditEventField = S.suspend(() =>
   S.Struct({
@@ -2159,7 +2159,7 @@ export interface AuditEvent {
   type: string;
   relatedItemType?: string;
   performedTime: Date;
-  fields: AuditEventFieldList;
+  fields: AuditEventField[];
   performedBy?: AuditEventPerformedBy;
 }
 export const AuditEvent = S.suspend(() =>
@@ -2177,8 +2177,8 @@ export const AuditEventsList = S.Array(AuditEvent).pipe(T.Sparse());
 export interface SearchCasesResponseItem {
   caseId: string;
   templateId: string;
-  fields: FieldValueList;
-  tags?: Tags;
+  fields: FieldValue[];
+  tags?: { [key: string]: string };
 }
 export const SearchCasesResponseItem = S.suspend(() =>
   S.Struct({
@@ -2217,7 +2217,7 @@ export const ConnectCaseContent = S.suspend(() =>
   identifier: "ConnectCaseContent",
 }) as any as S.Schema<ConnectCaseContent>;
 export interface CustomContent {
-  fields: FieldValueList;
+  fields: FieldValue[];
 }
 export const CustomContent = S.suspend(() =>
   S.Struct({ fields: FieldValueList }),
@@ -2226,7 +2226,7 @@ export const CustomContent = S.suspend(() =>
 }) as any as S.Schema<CustomContent>;
 export interface GetCaseAuditEventsResponse {
   nextToken?: string;
-  auditEvents: AuditEventsList;
+  auditEvents: AuditEvent[];
 }
 export const GetCaseAuditEventsResponse = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), auditEvents: AuditEventsList }),
@@ -2235,7 +2235,7 @@ export const GetCaseAuditEventsResponse = S.suspend(() =>
 }) as any as S.Schema<GetCaseAuditEventsResponse>;
 export interface SearchCasesResponse {
   nextToken?: string;
-  cases: SearchCasesResponseItemList;
+  cases: SearchCasesResponseItem[];
 }
 export const SearchCasesResponse = S.suspend(() =>
   S.Struct({
@@ -2255,11 +2255,11 @@ export const CreateRelatedItemResponse = S.suspend(() =>
   identifier: "CreateRelatedItemResponse",
 }) as any as S.Schema<CreateRelatedItemResponse>;
 export interface SlaConfiguration {
-  name: string | Redacted.Redacted<string>;
+  name: string | redacted.Redacted<string>;
   type: string;
   status: string;
   fieldId?: string;
-  targetFieldValues?: SlaFieldValueUnionList;
+  targetFieldValues?: FieldValueUnion[];
   targetTime: Date;
   completionTime?: Date;
 }
@@ -2301,9 +2301,9 @@ export interface SearchRelatedItemsResponseItem {
   relatedItemId: string;
   type: string;
   associationTime: Date;
-  content: (typeof RelatedItemContent)["Type"];
-  tags?: Tags;
-  performedBy?: (typeof UserUnion)["Type"];
+  content: RelatedItemContent;
+  tags?: { [key: string]: string };
+  performedBy?: UserUnion;
 }
 export const SearchRelatedItemsResponseItem = S.suspend(() =>
   S.Struct({
@@ -2324,7 +2324,7 @@ export const SearchRelatedItemsResponseItemList = S.Array(
 ).pipe(T.Sparse());
 export interface SearchRelatedItemsResponse {
   nextToken?: string;
-  relatedItems: SearchRelatedItemsResponseItemList;
+  relatedItems: SearchRelatedItemsResponseItem[];
 }
 export const SearchRelatedItemsResponse = S.suspend(() =>
   S.Struct({
@@ -2338,7 +2338,7 @@ export interface CreateCaseRuleRequest {
   domainId: string;
   name: string;
   description?: string;
-  rule: (typeof CaseRuleDetails)["Type"];
+  rule: CaseRuleDetails;
 }
 export const CreateCaseRuleRequest = S.suspend(() =>
   S.Struct({
@@ -2364,9 +2364,9 @@ export interface SearchAllRelatedItemsResponseItem {
   caseId: string;
   type: string;
   associationTime: Date;
-  content: (typeof RelatedItemContent)["Type"];
-  performedBy?: (typeof UserUnion)["Type"];
-  tags?: Tags;
+  content: RelatedItemContent;
+  performedBy?: UserUnion;
+  tags?: { [key: string]: string };
 }
 export const SearchAllRelatedItemsResponseItem = S.suspend(() =>
   S.Struct({
@@ -2397,7 +2397,7 @@ export const CreateCaseRuleResponse = S.suspend(() =>
 }) as any as S.Schema<CreateCaseRuleResponse>;
 export interface SearchAllRelatedItemsResponse {
   nextToken?: string;
-  relatedItems: SearchAllRelatedItemsResponseItemList;
+  relatedItems: SearchAllRelatedItemsResponseItem[];
 }
 export const SearchAllRelatedItemsResponse = S.suspend(() =>
   S.Struct({
@@ -2410,7 +2410,7 @@ export const SearchAllRelatedItemsResponse = S.suspend(() =>
 export interface CreateLayoutRequest {
   domainId: string;
   name: string;
-  content: (typeof LayoutContent)["Type"];
+  content: LayoutContent;
 }
 export const CreateLayoutRequest = S.suspend(() =>
   S.Struct({
@@ -2481,7 +2481,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const deleteCaseRule: (
   input: DeleteCaseRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCaseRuleResponse,
   | AccessDeniedException
   | ConflictException
@@ -2507,7 +2507,7 @@ export const deleteCaseRule: (
 export const listDomains: {
   (
     input: ListDomainsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDomainsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2518,7 +2518,7 @@ export const listDomains: {
   >;
   pages: (
     input: ListDomainsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDomainsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2529,7 +2529,7 @@ export const listDomains: {
   >;
   items: (
     input: ListDomainsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -2558,7 +2558,7 @@ export const listDomains: {
  */
 export const putCaseEventConfiguration: (
   input: PutCaseEventConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutCaseEventConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2585,7 +2585,7 @@ export const putCaseEventConfiguration: (
  */
 export const batchPutFieldOptions: (
   input: BatchPutFieldOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchPutFieldOptionsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2613,7 +2613,7 @@ export const batchPutFieldOptions: (
 export const getCase: {
   (
     input: GetCaseRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetCaseResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2625,7 +2625,7 @@ export const getCase: {
   >;
   pages: (
     input: GetCaseRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetCaseResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2637,7 +2637,7 @@ export const getCase: {
   >;
   items: (
     input: GetCaseRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -2665,7 +2665,7 @@ export const getCase: {
 export const listCasesForContact: {
   (
     input: ListCasesForContactRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCasesForContactResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2677,7 +2677,7 @@ export const listCasesForContact: {
   >;
   pages: (
     input: ListCasesForContactRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCasesForContactResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2689,7 +2689,7 @@ export const listCasesForContact: {
   >;
   items: (
     input: ListCasesForContactRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -2721,7 +2721,7 @@ export const listCasesForContact: {
 export const listCaseRules: {
   (
     input: ListCaseRulesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCaseRulesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2733,7 +2733,7 @@ export const listCaseRules: {
   >;
   pages: (
     input: ListCaseRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCaseRulesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2745,7 +2745,7 @@ export const listCaseRules: {
   >;
   items: (
     input: ListCaseRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CaseRuleSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2778,7 +2778,7 @@ export const listCaseRules: {
 export const listFields: {
   (
     input: ListFieldsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFieldsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2790,7 +2790,7 @@ export const listFields: {
   >;
   pages: (
     input: ListFieldsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFieldsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2802,7 +2802,7 @@ export const listFields: {
   >;
   items: (
     input: ListFieldsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -2833,7 +2833,7 @@ export const listFields: {
  */
 export const batchGetField: (
   input: BatchGetFieldRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetFieldResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2859,7 +2859,7 @@ export const batchGetField: (
 export const listLayouts: {
   (
     input: ListLayoutsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLayoutsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2871,7 +2871,7 @@ export const listLayouts: {
   >;
   pages: (
     input: ListLayoutsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLayoutsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2883,7 +2883,7 @@ export const listLayouts: {
   >;
   items: (
     input: ListLayoutsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -2924,7 +2924,7 @@ export const listLayouts: {
  */
 export const createTemplate: (
   input: CreateTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -2964,7 +2964,7 @@ export const createTemplate: (
 export const listTemplates: {
   (
     input: ListTemplatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTemplatesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2976,7 +2976,7 @@ export const listTemplates: {
   >;
   pages: (
     input: ListTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTemplatesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2988,7 +2988,7 @@ export const listTemplates: {
   >;
   items: (
     input: ListTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3019,7 +3019,7 @@ export const listTemplates: {
  */
 export const getDomain: (
   input: GetDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDomainResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3044,7 +3044,7 @@ export const getDomain: (
  */
 export const getCaseEventConfiguration: (
   input: GetCaseEventConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCaseEventConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3070,7 +3070,7 @@ export const getCaseEventConfiguration: (
 export const listFieldOptions: {
   (
     input: ListFieldOptionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFieldOptionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3082,7 +3082,7 @@ export const listFieldOptions: {
   >;
   pages: (
     input: ListFieldOptionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFieldOptionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3094,7 +3094,7 @@ export const listFieldOptions: {
   >;
   items: (
     input: ListFieldOptionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3125,7 +3125,7 @@ export const listFieldOptions: {
  */
 export const getLayout: (
   input: GetLayoutRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLayoutResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3158,7 +3158,7 @@ export const getLayout: (
  */
 export const getTemplate: (
   input: GetTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTemplateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3187,7 +3187,7 @@ export const getTemplate: (
  */
 export const updateCase: (
   input: UpdateCaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCaseResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3220,7 +3220,7 @@ export const updateCase: (
  */
 export const deleteCase: (
   input: DeleteCaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCaseResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3247,7 +3247,7 @@ export const deleteCase: (
  */
 export const deleteRelatedItem: (
   input: DeleteRelatedItemRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRelatedItemResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3272,7 +3272,7 @@ export const deleteRelatedItem: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3297,7 +3297,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3322,7 +3322,7 @@ export const tagResource: (
  */
 export const createField: (
   input: CreateFieldRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFieldResponse,
   | AccessDeniedException
   | ConflictException
@@ -3351,7 +3351,7 @@ export const createField: (
  */
 export const updateCaseRule: (
   input: UpdateCaseRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCaseRuleResponse,
   | AccessDeniedException
   | ConflictException
@@ -3382,7 +3382,7 @@ export const updateCaseRule: (
  */
 export const deleteDomain: (
   input: DeleteDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDomainResponse,
   | AccessDeniedException
   | ConflictException
@@ -3409,7 +3409,7 @@ export const deleteDomain: (
  */
 export const updateField: (
   input: UpdateFieldRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFieldResponse,
   | AccessDeniedException
   | ConflictException
@@ -3462,7 +3462,7 @@ export const updateField: (
  */
 export const deleteField: (
   input: DeleteFieldRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFieldResponse,
   | AccessDeniedException
   | ConflictException
@@ -3497,7 +3497,7 @@ export const deleteField: (
  */
 export const updateLayout: (
   input: UpdateLayoutRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLayoutResponse,
   | AccessDeniedException
   | ConflictException
@@ -3534,7 +3534,7 @@ export const updateLayout: (
  */
 export const deleteLayout: (
   input: DeleteLayoutRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLayoutResponse,
   | AccessDeniedException
   | ConflictException
@@ -3571,7 +3571,7 @@ export const deleteLayout: (
  */
 export const updateTemplate: (
   input: UpdateTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -3610,7 +3610,7 @@ export const updateTemplate: (
  */
 export const deleteTemplate: (
   input: DeleteTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -3637,7 +3637,7 @@ export const deleteTemplate: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3670,7 +3670,7 @@ export const untagResource: (
  */
 export const createCase: (
   input: CreateCaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -3697,7 +3697,7 @@ export const createCase: (
  */
 export const batchGetCaseRule: (
   input: BatchGetCaseRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetCaseRuleResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3724,7 +3724,7 @@ export const batchGetCaseRule: (
  */
 export const createDomain: (
   input: CreateDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDomainResponse,
   | AccessDeniedException
   | ConflictException
@@ -3752,7 +3752,7 @@ export const createDomain: (
 export const getCaseAuditEvents: {
   (
     input: GetCaseAuditEventsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetCaseAuditEventsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3764,7 +3764,7 @@ export const getCaseAuditEvents: {
   >;
   pages: (
     input: GetCaseAuditEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetCaseAuditEventsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3776,7 +3776,7 @@ export const getCaseAuditEvents: {
   >;
   items: (
     input: GetCaseAuditEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3810,7 +3810,7 @@ export const getCaseAuditEvents: {
 export const searchCases: {
   (
     input: SearchCasesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchCasesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3822,7 +3822,7 @@ export const searchCases: {
   >;
   pages: (
     input: SearchCasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchCasesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3834,7 +3834,7 @@ export const searchCases: {
   >;
   items: (
     input: SearchCasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchCasesResponseItem,
     | AccessDeniedException
     | InternalServerException
@@ -3896,7 +3896,7 @@ export const searchCases: {
  */
 export const createRelatedItem: (
   input: CreateRelatedItemRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRelatedItemResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3926,7 +3926,7 @@ export const createRelatedItem: (
 export const searchRelatedItems: {
   (
     input: SearchRelatedItemsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchRelatedItemsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3938,7 +3938,7 @@ export const searchRelatedItems: {
   >;
   pages: (
     input: SearchRelatedItemsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchRelatedItemsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3950,7 +3950,7 @@ export const searchRelatedItems: {
   >;
   items: (
     input: SearchRelatedItemsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchRelatedItemsResponseItem,
     | AccessDeniedException
     | InternalServerException
@@ -3982,7 +3982,7 @@ export const searchRelatedItems: {
  */
 export const createCaseRule: (
   input: CreateCaseRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCaseRuleResponse,
   | AccessDeniedException
   | ConflictException
@@ -4030,7 +4030,7 @@ export const createCaseRule: (
 export const searchAllRelatedItems: {
   (
     input: SearchAllRelatedItemsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchAllRelatedItemsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4042,7 +4042,7 @@ export const searchAllRelatedItems: {
   >;
   pages: (
     input: SearchAllRelatedItemsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchAllRelatedItemsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4054,7 +4054,7 @@ export const searchAllRelatedItems: {
   >;
   items: (
     input: SearchAllRelatedItemsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchAllRelatedItemsResponseItem,
     | AccessDeniedException
     | InternalServerException
@@ -4092,7 +4092,7 @@ export const searchAllRelatedItems: {
  */
 export const createLayout: (
   input: CreateLayoutRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLayoutResponse,
   | AccessDeniedException
   | ConflictException

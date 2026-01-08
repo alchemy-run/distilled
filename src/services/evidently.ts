@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -200,7 +200,7 @@ export const TestSegmentPatternRequest = S.suspend(() =>
 }) as any as S.Schema<TestSegmentPatternRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -426,7 +426,7 @@ export const TreatmentToWeightMap = S.Record({
 });
 export interface OnlineAbConfig {
   controlTreatmentName?: string;
-  treatmentWeights?: TreatmentToWeightMap;
+  treatmentWeights?: { [key: string]: number };
 }
 export const OnlineAbConfig = S.suspend(() =>
   S.Struct({
@@ -440,8 +440,8 @@ export interface UpdateExperimentRequest {
   project: string;
   experiment: string;
   description?: string;
-  treatments?: TreatmentConfigList;
-  metricGoals?: MetricGoalConfigList;
+  treatments?: TreatmentConfig[];
+  metricGoals?: MetricGoalConfig[];
   randomizationSalt?: string;
   samplingRate?: number;
   segment?: string;
@@ -536,11 +536,11 @@ export interface GetExperimentResultsRequest {
   experiment: string;
   startTime?: Date;
   endTime?: Date;
-  metricNames: MetricNameList;
-  treatmentNames: TreatmentNameList;
+  metricNames: string[];
+  treatmentNames: string[];
   baseStat?: string;
-  resultStats?: ExperimentResultRequestTypeList;
-  reportNames?: ExperimentReportNameList;
+  resultStats?: string[];
+  reportNames?: string[];
   period?: number;
 }
 export const GetExperimentResultsRequest = S.suspend(() =>
@@ -659,7 +659,7 @@ export const VariableValue = S.Union(
 );
 export interface VariationConfig {
   name: string;
-  value: (typeof VariableValue)["Type"];
+  value: VariableValue;
 }
 export const VariationConfig = S.suspend(() =>
   S.Struct({ name: S.String, value: VariableValue }),
@@ -675,10 +675,10 @@ export interface UpdateFeatureRequest {
   feature: string;
   evaluationStrategy?: string;
   description?: string;
-  addOrUpdateVariations?: VariationConfigsList;
-  removeVariations?: VariationNameList;
+  addOrUpdateVariations?: VariationConfig[];
+  removeVariations?: string[];
   defaultVariation?: string;
-  entityOverrides?: EntityOverrideMap;
+  entityOverrides?: { [key: string]: string };
 }
 export const UpdateFeatureRequest = S.suspend(() =>
   S.Struct({
@@ -811,7 +811,7 @@ export const GroupToWeightMap = S.Record({ key: S.String, value: S.Number });
 export interface SegmentOverride {
   segment: string;
   evaluationOrder: number;
-  weights: GroupToWeightMap;
+  weights: { [key: string]: number };
 }
 export const SegmentOverride = S.suspend(() =>
   S.Struct({
@@ -826,8 +826,8 @@ export type SegmentOverridesList = SegmentOverride[];
 export const SegmentOverridesList = S.Array(SegmentOverride);
 export interface ScheduledSplitConfig {
   startTime: Date;
-  groupWeights: GroupToWeightMap;
-  segmentOverrides?: SegmentOverridesList;
+  groupWeights: { [key: string]: number };
+  segmentOverrides?: SegmentOverride[];
 }
 export const ScheduledSplitConfig = S.suspend(() =>
   S.Struct({
@@ -841,7 +841,7 @@ export const ScheduledSplitConfig = S.suspend(() =>
 export type ScheduledSplitConfigList = ScheduledSplitConfig[];
 export const ScheduledSplitConfigList = S.Array(ScheduledSplitConfig);
 export interface ScheduledSplitsLaunchConfig {
-  steps: ScheduledSplitConfigList;
+  steps: ScheduledSplitConfig[];
 }
 export const ScheduledSplitsLaunchConfig = S.suspend(() =>
   S.Struct({ steps: ScheduledSplitConfigList }),
@@ -852,8 +852,8 @@ export interface UpdateLaunchRequest {
   project: string;
   launch: string;
   description?: string;
-  groups?: LaunchGroupConfigList;
-  metricMonitors?: MetricMonitorConfigList;
+  groups?: LaunchGroupConfig[];
+  metricMonitors?: MetricMonitorConfig[];
   randomizationSalt?: string;
   scheduledSplitsConfig?: ScheduledSplitsLaunchConfig;
 }
@@ -990,7 +990,7 @@ export interface CreateSegmentRequest {
   name: string;
   pattern: string;
   description?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateSegmentRequest = S.suspend(() =>
   S.Struct({
@@ -1186,7 +1186,7 @@ export const FeatureToVariationMap = S.Record({
 export interface Treatment {
   name: string;
   description?: string;
-  featureVariations?: FeatureToVariationMap;
+  featureVariations?: { [key: string]: string };
 }
 export const Treatment = S.suspend(() =>
   S.Struct({
@@ -1229,7 +1229,7 @@ export type MetricGoalsList = MetricGoal[];
 export const MetricGoalsList = S.Array(MetricGoal);
 export interface OnlineAbDefinition {
   controlTreatmentName?: string;
-  treatmentWeights?: TreatmentToWeightMap;
+  treatmentWeights?: { [key: string]: number };
 }
 export const OnlineAbDefinition = S.suspend(() =>
   S.Struct({
@@ -1250,14 +1250,14 @@ export interface Experiment {
   lastUpdatedTime: Date;
   schedule?: ExperimentSchedule;
   execution?: ExperimentExecution;
-  treatments?: TreatmentList;
-  metricGoals?: MetricGoalsList;
+  treatments?: Treatment[];
+  metricGoals?: MetricGoal[];
   randomizationSalt?: string;
   samplingRate?: number;
   segment?: string;
   type: string;
   onlineAbDefinition?: OnlineAbDefinition;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const Experiment = S.suspend(() =>
   S.Struct({
@@ -1302,7 +1302,7 @@ export const LaunchExecution = S.suspend(() =>
 export interface LaunchGroup {
   name: string;
   description?: string;
-  featureVariations: FeatureToVariationMap;
+  featureVariations: { [key: string]: string };
 }
 export const LaunchGroup = S.suspend(() =>
   S.Struct({
@@ -1325,8 +1325,8 @@ export type MetricMonitorList = MetricMonitor[];
 export const MetricMonitorList = S.Array(MetricMonitor);
 export interface ScheduledSplit {
   startTime: Date;
-  groupWeights?: GroupToWeightMap;
-  segmentOverrides?: SegmentOverridesList;
+  groupWeights?: { [key: string]: number };
+  segmentOverrides?: SegmentOverride[];
 }
 export const ScheduledSplit = S.suspend(() =>
   S.Struct({
@@ -1340,7 +1340,7 @@ export const ScheduledSplit = S.suspend(() =>
 export type ScheduledStepList = ScheduledSplit[];
 export const ScheduledStepList = S.Array(ScheduledSplit);
 export interface ScheduledSplitsLaunchDefinition {
-  steps?: ScheduledStepList;
+  steps?: ScheduledSplit[];
 }
 export const ScheduledSplitsLaunchDefinition = S.suspend(() =>
   S.Struct({ steps: S.optional(ScheduledStepList) }),
@@ -1357,12 +1357,12 @@ export interface Launch {
   createdTime: Date;
   lastUpdatedTime: Date;
   execution?: LaunchExecution;
-  groups?: LaunchGroupList;
-  metricMonitors?: MetricMonitorList;
+  groups?: LaunchGroup[];
+  metricMonitors?: MetricMonitor[];
   randomizationSalt?: string;
   type: string;
   scheduledSplitsDefinition?: ScheduledSplitsLaunchDefinition;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const Launch = S.suspend(() =>
   S.Struct({
@@ -1394,7 +1394,7 @@ export interface Segment {
   description?: string;
   experimentCount?: number;
   launchCount?: number;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const Segment = S.suspend(() =>
   S.Struct({
@@ -1412,7 +1412,7 @@ export const Segment = S.suspend(() =>
 export type SegmentList = Segment[];
 export const SegmentList = S.Array(Segment);
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -1421,7 +1421,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1457,7 +1457,7 @@ export interface CreateProjectRequest {
   description?: string;
   dataDelivery?: ProjectDataDeliveryConfig;
   appConfigResource?: ProjectAppConfigResourceConfig;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateProjectRequest = S.suspend(() =>
   S.Struct({
@@ -1481,7 +1481,7 @@ export const CreateProjectRequest = S.suspend(() =>
 }) as any as S.Schema<CreateProjectRequest>;
 export interface BatchEvaluateFeatureRequest {
   project: string;
-  requests: EvaluationRequestsList;
+  requests: EvaluationRequest[];
 }
 export const BatchEvaluateFeatureRequest = S.suspend(() =>
   S.Struct({
@@ -1502,7 +1502,7 @@ export const BatchEvaluateFeatureRequest = S.suspend(() =>
 }) as any as S.Schema<BatchEvaluateFeatureRequest>;
 export interface EvaluateFeatureResponse {
   variation?: string;
-  value?: (typeof VariableValue)["Type"];
+  value?: VariableValue;
   reason?: string;
   details?: string;
 }
@@ -1518,7 +1518,7 @@ export const EvaluateFeatureResponse = S.suspend(() =>
 }) as any as S.Schema<EvaluateFeatureResponse>;
 export interface PutProjectEventsRequest {
   project: string;
-  events: EventList;
+  events: Event[];
 }
 export const PutProjectEventsRequest = S.suspend(() =>
   S.Struct({
@@ -1594,7 +1594,7 @@ export interface Project {
   activeExperimentCount?: number;
   dataDelivery?: ProjectDataDelivery;
   appConfigResource?: ProjectAppConfigResource;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const Project = S.suspend(() =>
   S.Struct({
@@ -1654,7 +1654,7 @@ export const UpdateExperimentResponse = S.suspend(() =>
   identifier: "UpdateExperimentResponse",
 }) as any as S.Schema<UpdateExperimentResponse>;
 export interface ListExperimentsResponse {
-  experiments?: ExperimentList;
+  experiments?: Experiment[];
   nextToken?: string;
 }
 export const ListExperimentsResponse = S.suspend(() =>
@@ -1687,7 +1687,7 @@ export const StopExperimentResponse = S.suspend(() =>
 }) as any as S.Schema<StopExperimentResponse>;
 export interface Variation {
   name?: string;
-  value?: (typeof VariableValue)["Type"];
+  value?: VariableValue;
 }
 export const Variation = S.suspend(() =>
   S.Struct({ name: S.optional(S.String), value: S.optional(VariableValue) }),
@@ -1715,11 +1715,11 @@ export interface Feature {
   description?: string;
   evaluationStrategy: string;
   valueType: string;
-  variations: VariationsList;
+  variations: Variation[];
   defaultVariation?: string;
-  evaluationRules?: EvaluationRulesList;
-  tags?: TagMap;
-  entityOverrides?: EntityOverrideMap;
+  evaluationRules?: EvaluationRule[];
+  tags?: { [key: string]: string };
+  entityOverrides?: { [key: string]: string };
 }
 export const Feature = S.suspend(() =>
   S.Struct({
@@ -1756,7 +1756,7 @@ export const UpdateLaunchResponse = S.suspend(() =>
   identifier: "UpdateLaunchResponse",
 }) as any as S.Schema<UpdateLaunchResponse>;
 export interface ListLaunchesResponse {
-  launches?: LaunchesList;
+  launches?: Launch[];
   nextToken?: string;
 }
 export const ListLaunchesResponse = S.suspend(() =>
@@ -1794,7 +1794,7 @@ export const GetSegmentResponse = S.suspend(() =>
   identifier: "GetSegmentResponse",
 }) as any as S.Schema<GetSegmentResponse>;
 export interface ListSegmentsResponse {
-  segments?: SegmentList;
+  segments?: Segment[];
   nextToken?: string;
 }
 export const ListSegmentsResponse = S.suspend(() =>
@@ -1819,7 +1819,7 @@ export interface ProjectSummary {
   activeLaunchCount?: number;
   experimentCount?: number;
   activeExperimentCount?: number;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ProjectSummary = S.suspend(() =>
   S.Struct({
@@ -1845,7 +1845,7 @@ export interface ExperimentResultsData {
   metricName?: string;
   treatmentName?: string;
   resultStat?: string;
-  values?: DoubleValueList;
+  values?: number[];
 }
 export const ExperimentResultsData = S.suspend(() =>
   S.Struct({
@@ -1885,9 +1885,9 @@ export interface FeatureSummary {
   createdTime: Date;
   lastUpdatedTime: Date;
   evaluationStrategy: string;
-  evaluationRules?: EvaluationRulesList;
+  evaluationRules?: EvaluationRule[];
   defaultVariation?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const FeatureSummary = S.suspend(() =>
   S.Struct({
@@ -1938,7 +1938,7 @@ export const CreateProjectResponse = S.suspend(() =>
   identifier: "CreateProjectResponse",
 }) as any as S.Schema<CreateProjectResponse>;
 export interface ListProjectsResponse {
-  projects?: ProjectSummariesList;
+  projects?: ProjectSummary[];
   nextToken?: string;
 }
 export const ListProjectsResponse = S.suspend(() =>
@@ -1961,13 +1961,13 @@ export interface CreateExperimentRequest {
   project: string;
   name: string;
   description?: string;
-  treatments: TreatmentConfigList;
-  metricGoals: MetricGoalConfigList;
+  treatments: TreatmentConfig[];
+  metricGoals: MetricGoalConfig[];
   randomizationSalt?: string;
   samplingRate?: number;
   onlineAbConfig?: OnlineAbConfig;
   segment?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateExperimentRequest = S.suspend(() =>
   S.Struct({
@@ -1995,9 +1995,9 @@ export const CreateExperimentRequest = S.suspend(() =>
   identifier: "CreateExperimentRequest",
 }) as any as S.Schema<CreateExperimentRequest>;
 export interface GetExperimentResultsResponse {
-  resultsData?: ExperimentResultsDataList;
-  reports?: ExperimentReportList;
-  timestamps?: TimestampList;
+  resultsData?: ExperimentResultsData[];
+  reports?: ExperimentReport[];
+  timestamps?: Date[];
   details?: string;
 }
 export const GetExperimentResultsResponse = S.suspend(() =>
@@ -2015,10 +2015,10 @@ export interface CreateFeatureRequest {
   name: string;
   evaluationStrategy?: string;
   description?: string;
-  variations: VariationConfigsList;
+  variations: VariationConfig[];
   defaultVariation?: string;
-  tags?: TagMap;
-  entityOverrides?: EntityOverrideMap;
+  tags?: { [key: string]: string };
+  entityOverrides?: { [key: string]: string };
 }
 export const CreateFeatureRequest = S.suspend(() =>
   S.Struct({
@@ -2044,7 +2044,7 @@ export const CreateFeatureRequest = S.suspend(() =>
   identifier: "CreateFeatureRequest",
 }) as any as S.Schema<CreateFeatureRequest>;
 export interface ListFeaturesResponse {
-  features?: FeatureSummariesList;
+  features?: FeatureSummary[];
   nextToken?: string;
 }
 export const ListFeaturesResponse = S.suspend(() =>
@@ -2064,7 +2064,7 @@ export const CreateSegmentResponse = S.suspend(() =>
   identifier: "CreateSegmentResponse",
 }) as any as S.Schema<CreateSegmentResponse>;
 export interface ListSegmentReferencesResponse {
-  referencedBy?: RefResourceList;
+  referencedBy?: RefResource[];
   nextToken?: string;
 }
 export const ListSegmentReferencesResponse = S.suspend(() =>
@@ -2079,7 +2079,7 @@ export interface EvaluationResult {
   project?: string;
   feature: string;
   variation?: string;
-  value?: (typeof VariableValue)["Type"];
+  value?: VariableValue;
   entityId: string;
   reason?: string;
   details?: string;
@@ -2118,7 +2118,7 @@ export const PutProjectEventsResultEntryList = S.Array(
   PutProjectEventsResultEntry,
 );
 export interface BatchEvaluateFeatureResponse {
-  results?: EvaluationResultsList;
+  results?: EvaluationResult[];
 }
 export const BatchEvaluateFeatureResponse = S.suspend(() =>
   S.Struct({ results: S.optional(EvaluationResultsList) }),
@@ -2127,7 +2127,7 @@ export const BatchEvaluateFeatureResponse = S.suspend(() =>
 }) as any as S.Schema<BatchEvaluateFeatureResponse>;
 export interface PutProjectEventsResponse {
   failedEventCount?: number;
-  eventResults?: PutProjectEventsResultEntryList;
+  eventResults?: PutProjectEventsResultEntry[];
 }
 export const PutProjectEventsResponse = S.suspend(() =>
   S.Struct({
@@ -2166,10 +2166,10 @@ export interface CreateLaunchRequest {
   name: string;
   description?: string;
   scheduledSplitsConfig?: ScheduledSplitsLaunchConfig;
-  metricMonitors?: MetricMonitorConfigList;
-  groups: LaunchGroupConfigList;
+  metricMonitors?: MetricMonitorConfig[];
+  groups: LaunchGroupConfig[];
   randomizationSalt?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateLaunchRequest = S.suspend(() =>
   S.Struct({
@@ -2300,7 +2300,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2318,7 +2318,7 @@ export const untagResource: (
  */
 export const getProject: (
   input: GetProjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetProjectResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2342,7 +2342,7 @@ export const getProject: (
  */
 export const getExperiment: (
   input: GetExperimentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetExperimentResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2374,7 +2374,7 @@ export const getExperiment: (
  */
 export const createLaunch: (
   input: CreateLaunchRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLaunchResponse,
   | AccessDeniedException
   | ConflictException
@@ -2400,7 +2400,7 @@ export const createLaunch: (
  */
 export const getLaunch: (
   input: GetLaunchRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLaunchResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2424,7 +2424,7 @@ export const getLaunch: (
 export const listLaunches: {
   (
     input: ListLaunchesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLaunchesResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -2434,7 +2434,7 @@ export const listLaunches: {
   >;
   pages: (
     input: ListLaunchesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLaunchesResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -2444,7 +2444,7 @@ export const listLaunches: {
   >;
   items: (
     input: ListLaunchesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Launch,
     | AccessDeniedException
     | ThrottlingException
@@ -2469,7 +2469,7 @@ export const listLaunches: {
 export const listSegmentReferences: {
   (
     input: ListSegmentReferencesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSegmentReferencesResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2480,7 +2480,7 @@ export const listSegmentReferences: {
   >;
   pages: (
     input: ListSegmentReferencesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSegmentReferencesResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2491,7 +2491,7 @@ export const listSegmentReferences: {
   >;
   items: (
     input: ListSegmentReferencesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RefResource,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2522,7 +2522,7 @@ export const listSegmentReferences: {
  */
 export const deleteProject: (
   input: DeleteProjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProjectResponse,
   | AccessDeniedException
   | ConflictException
@@ -2578,7 +2578,7 @@ export const deleteProject: (
  */
 export const evaluateFeature: (
   input: EvaluateFeatureRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EvaluateFeatureResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2604,7 +2604,7 @@ export const evaluateFeature: (
  */
 export const updateExperiment: (
   input: UpdateExperimentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateExperimentResponse,
   | AccessDeniedException
   | ConflictException
@@ -2628,7 +2628,7 @@ export const updateExperiment: (
 export const listExperiments: {
   (
     input: ListExperimentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListExperimentsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2638,7 +2638,7 @@ export const listExperiments: {
   >;
   pages: (
     input: ListExperimentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListExperimentsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2648,7 +2648,7 @@ export const listExperiments: {
   >;
   items: (
     input: ListExperimentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Experiment,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2679,7 +2679,7 @@ export const listExperiments: {
  */
 export const updateLaunch: (
   input: UpdateLaunchRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLaunchResponse,
   | AccessDeniedException
   | ConflictException
@@ -2706,7 +2706,7 @@ export const updateLaunch: (
  */
 export const stopLaunch: (
   input: StopLaunchRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopLaunchResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2730,7 +2730,7 @@ export const stopLaunch: (
  */
 export const getSegment: (
   input: GetSegmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSegmentResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2753,7 +2753,7 @@ export const getSegment: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2787,7 +2787,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2804,7 +2804,7 @@ export const tagResource: (
  */
 export const deleteFeature: (
   input: DeleteFeatureRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFeatureResponse,
   | AccessDeniedException
   | ConflictException
@@ -2831,7 +2831,7 @@ export const deleteFeature: (
  */
 export const deleteLaunch: (
   input: DeleteLaunchRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLaunchResponse,
   | AccessDeniedException
   | ConflictException
@@ -2857,7 +2857,7 @@ export const deleteLaunch: (
  */
 export const deleteSegment: (
   input: DeleteSegmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSegmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -2883,7 +2883,7 @@ export const deleteSegment: (
 export const listSegments: {
   (
     input: ListSegmentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSegmentsResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -2893,7 +2893,7 @@ export const listSegments: {
   >;
   pages: (
     input: ListSegmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSegmentsResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -2903,7 +2903,7 @@ export const listSegments: {
   >;
   items: (
     input: ListSegmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Segment,
     | AccessDeniedException
     | ThrottlingException
@@ -2928,7 +2928,7 @@ export const listSegments: {
  */
 export const testSegmentPattern: (
   input: TestSegmentPatternRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TestSegmentPatternResponse,
   | AccessDeniedException
   | ThrottlingException
@@ -2947,7 +2947,7 @@ export const testSegmentPattern: (
 export const listProjects: {
   (
     input: ListProjectsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProjectsResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -2957,7 +2957,7 @@ export const listProjects: {
   >;
   pages: (
     input: ListProjectsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProjectsResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -2967,7 +2967,7 @@ export const listProjects: {
   >;
   items: (
     input: ListProjectsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProjectSummary,
     | AccessDeniedException
     | ThrottlingException
@@ -2999,7 +2999,7 @@ export const listProjects: {
  */
 export const getExperimentResults: (
   input: GetExperimentResultsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetExperimentResultsResponse,
   | AccessDeniedException
   | ConflictException
@@ -3025,7 +3025,7 @@ export const getExperimentResults: (
 export const listFeatures: {
   (
     input: ListFeaturesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFeaturesResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -3036,7 +3036,7 @@ export const listFeatures: {
   >;
   pages: (
     input: ListFeaturesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFeaturesResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -3047,7 +3047,7 @@ export const listFeatures: {
   >;
   items: (
     input: ListFeaturesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FeatureSummary,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -3080,7 +3080,7 @@ export const listFeatures: {
  */
 export const createProject: (
   input: CreateProjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProjectResponse,
   | AccessDeniedException
   | ConflictException
@@ -3121,7 +3121,7 @@ export const createProject: (
  */
 export const batchEvaluateFeature: (
   input: BatchEvaluateFeatureRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchEvaluateFeatureResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3145,7 +3145,7 @@ export const batchEvaluateFeature: (
  */
 export const putProjectEvents: (
   input: PutProjectEventsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutProjectEventsResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3180,7 +3180,7 @@ export const putProjectEvents: (
  */
 export const createExperiment: (
   input: CreateExperimentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateExperimentResponse,
   | AccessDeniedException
   | ConflictException
@@ -3210,7 +3210,7 @@ export const createExperiment: (
  */
 export const createFeature: (
   input: CreateFeatureRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFeatureResponse,
   | AccessDeniedException
   | ConflictException
@@ -3236,7 +3236,7 @@ export const createFeature: (
  */
 export const getFeature: (
   input: GetFeatureRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFeatureResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3264,7 +3264,7 @@ export const getFeature: (
  */
 export const updateProjectDataDelivery: (
   input: UpdateProjectDataDeliveryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProjectDataDeliveryResponse,
   | AccessDeniedException
   | ConflictException
@@ -3304,7 +3304,7 @@ export const updateProjectDataDelivery: (
  */
 export const createSegment: (
   input: CreateSegmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSegmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -3335,7 +3335,7 @@ export const createSegment: (
  */
 export const updateProject: (
   input: UpdateProjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProjectResponse,
   | AccessDeniedException
   | ConflictException
@@ -3361,7 +3361,7 @@ export const updateProject: (
  */
 export const startExperiment: (
   input: StartExperimentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartExperimentResponse,
   | AccessDeniedException
   | ConflictException
@@ -3389,7 +3389,7 @@ export const startExperiment: (
  */
 export const stopExperiment: (
   input: StopExperimentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopExperimentResponse,
   | AccessDeniedException
   | ConflictException
@@ -3419,7 +3419,7 @@ export const stopExperiment: (
  */
 export const updateFeature: (
   input: UpdateFeatureRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFeatureResponse,
   | AccessDeniedException
   | ConflictException
@@ -3445,7 +3445,7 @@ export const updateFeature: (
  */
 export const startLaunch: (
   input: StartLaunchRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartLaunchResponse,
   | AccessDeniedException
   | ConflictException
@@ -3474,7 +3474,7 @@ export const startLaunch: (
  */
 export const deleteExperiment: (
   input: DeleteExperimentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteExperimentResponse,
   | AccessDeniedException
   | ConflictException

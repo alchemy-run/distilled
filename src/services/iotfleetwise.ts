@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -118,17 +118,17 @@ export type wildcardSignalName = string;
 export type maxSampleCount = number;
 export type DataPartitionId = string;
 export type languageVersion = number;
-export type actionEventExpression = string | Redacted.Redacted<string>;
+export type actionEventExpression = string | redacted.Redacted<string>;
 export type campaignArn = string;
 export type message = string;
 export type ResourceUniqueId = string;
 export type collectionPeriodMs = number;
-export type eventExpression = string | Redacted.Redacted<string>;
+export type eventExpression = string | redacted.Redacted<string>;
 export type S3BucketArn = string;
 export type Prefix = string;
 export type TimestreamTableArn = string;
 export type MqttTopicArn = string;
-export type StorageLocation = string | Redacted.Redacted<string>;
+export type StorageLocation = string | redacted.Redacted<string>;
 export type nonNegativeInteger = number;
 export type double = number;
 export type CanSignalName = string;
@@ -147,7 +147,7 @@ export type CustomDecodingSignalInterfaceName = string;
 export type StorageMaximumSizeValue = number;
 export type StorageMinimumTimeToLiveValue = number;
 export type positiveLong = number;
-export type fetchConfigEventExpression = string | Redacted.Redacted<string>;
+export type fetchConfigEventExpression = string | redacted.Redacted<string>;
 export type RetryAfterSeconds = number;
 export type StructureMessageName = string;
 export type maxStringSize = number;
@@ -198,18 +198,75 @@ export const GetRegisterAccountStatusRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetRegisterAccountStatusRequest",
 }) as any as S.Schema<GetRegisterAccountStatusRequest>;
+export type EncryptionStatus = "PENDING" | "SUCCESS" | "FAILURE";
+export const EncryptionStatus = S.Literal("PENDING", "SUCCESS", "FAILURE");
+export type EncryptionType =
+  | "KMS_BASED_ENCRYPTION"
+  | "FLEETWISE_DEFAULT_ENCRYPTION";
+export const EncryptionType = S.Literal(
+  "KMS_BASED_ENCRYPTION",
+  "FLEETWISE_DEFAULT_ENCRYPTION",
+);
+export type RegistrationStatus =
+  | "REGISTRATION_PENDING"
+  | "REGISTRATION_SUCCESS"
+  | "REGISTRATION_FAILURE";
+export const RegistrationStatus = S.Literal(
+  "REGISTRATION_PENDING",
+  "REGISTRATION_SUCCESS",
+  "REGISTRATION_FAILURE",
+);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type DiagnosticsMode = "OFF" | "SEND_ACTIVE_DTCS";
+export const DiagnosticsMode = S.Literal("OFF", "SEND_ACTIVE_DTCS");
+export type SpoolingMode = "OFF" | "TO_DISK";
+export const SpoolingMode = S.Literal("OFF", "TO_DISK");
+export type Compression = "OFF" | "SNAPPY";
+export const Compression = S.Literal("OFF", "SNAPPY");
 export type DataExtraDimensionNodePathList = string[];
 export const DataExtraDimensionNodePathList = S.Array(S.String);
+export type UpdateCampaignAction = "APPROVE" | "SUSPEND" | "RESUME" | "UPDATE";
+export const UpdateCampaignAction = S.Literal(
+  "APPROVE",
+  "SUSPEND",
+  "RESUME",
+  "UPDATE",
+);
+export type ListResponseScope = "METADATA_ONLY";
+export const ListResponseScope = S.Literal("METADATA_ONLY");
+export type DefaultForUnmappedSignalsType = "CUSTOM_DECODING";
+export const DefaultForUnmappedSignalsType = S.Literal("CUSTOM_DECODING");
 export type Fqns = string[];
 export const Fqns = S.Array(S.String);
 export type InterfaceIds = string[];
 export const InterfaceIds = S.Array(S.String);
+export type ManifestStatus = "ACTIVE" | "DRAFT" | "INVALID" | "VALIDATING";
+export const ManifestStatus = S.Literal(
+  "ACTIVE",
+  "DRAFT",
+  "INVALID",
+  "VALIDATING",
+);
 export type listOfStrings = string[];
 export const listOfStrings = S.Array(S.String);
 export type NodePaths = string[];
 export const NodePaths = S.Array(S.String);
+export type SignalNodeType =
+  | "SENSOR"
+  | "ACTUATOR"
+  | "ATTRIBUTE"
+  | "BRANCH"
+  | "CUSTOM_STRUCT"
+  | "CUSTOM_PROPERTY";
+export const SignalNodeType = S.Literal(
+  "SENSOR",
+  "ACTUATOR",
+  "ATTRIBUTE",
+  "BRANCH",
+  "CUSTOM_STRUCT",
+  "CUSTOM_PROPERTY",
+);
 export type StateTemplateProperties = string[];
 export const StateTemplateProperties = S.Array(S.String);
 export type StateTemplateDataExtraDimensionNodePathList = string[];
@@ -218,6 +275,15 @@ export type StateTemplateMetadataExtraDimensionNodePathList = string[];
 export const StateTemplateMetadataExtraDimensionNodePathList = S.Array(
   S.String,
 );
+export type VehicleAssociationBehavior =
+  | "CreateIotThing"
+  | "ValidateIotThingExists";
+export const VehicleAssociationBehavior = S.Literal(
+  "CreateIotThing",
+  "ValidateIotThingExists",
+);
+export type UpdateMode = "Overwrite" | "Merge";
+export const UpdateMode = S.Literal("Overwrite", "Merge");
 export type StateTemplateAssociationIdentifiers = string[];
 export const StateTemplateAssociationIdentifiers = S.Array(S.String);
 export type attributeNamesList = string[];
@@ -226,8 +292,8 @@ export type attributeValuesList = string[];
 export const attributeValuesList = S.Array(S.String);
 export interface GetEncryptionConfigurationResponse {
   kmsKeyId?: string;
-  encryptionStatus: string;
-  encryptionType: string;
+  encryptionStatus: EncryptionStatus;
+  encryptionType: EncryptionType;
   errorMessage?: string;
   creationTime?: Date;
   lastModificationTime?: Date;
@@ -235,8 +301,8 @@ export interface GetEncryptionConfigurationResponse {
 export const GetEncryptionConfigurationResponse = S.suspend(() =>
   S.Struct({
     kmsKeyId: S.optional(S.String),
-    encryptionStatus: S.String,
-    encryptionType: S.String,
+    encryptionStatus: EncryptionStatus,
+    encryptionType: EncryptionType,
     errorMessage: S.optional(S.String),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastModificationTime: S.optional(
@@ -288,10 +354,13 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface PutEncryptionConfigurationRequest {
   kmsKeyId?: string;
-  encryptionType: string;
+  encryptionType: EncryptionType;
 }
 export const PutEncryptionConfigurationRequest = S.suspend(() =>
-  S.Struct({ kmsKeyId: S.optional(S.String), encryptionType: S.String }).pipe(
+  S.Struct({
+    kmsKeyId: S.optional(S.String),
+    encryptionType: EncryptionType,
+  }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/encryptionConfiguration" }),
       svc,
@@ -304,12 +373,14 @@ export const PutEncryptionConfigurationRequest = S.suspend(() =>
 ).annotations({
   identifier: "PutEncryptionConfigurationRequest",
 }) as any as S.Schema<PutEncryptionConfigurationRequest>;
+export type LogType = "OFF" | "ERROR";
+export const LogType = S.Literal("OFF", "ERROR");
 export interface CloudWatchLogDeliveryOptions {
-  logType: string;
+  logType: LogType;
   logGroupName?: string;
 }
 export const CloudWatchLogDeliveryOptions = S.suspend(() =>
-  S.Struct({ logType: S.String, logGroupName: S.optional(S.String) }),
+  S.Struct({ logType: LogType, logGroupName: S.optional(S.String) }),
 ).annotations({
   identifier: "CloudWatchLogDeliveryOptions",
 }) as any as S.Schema<CloudWatchLogDeliveryOptions>;
@@ -338,7 +409,7 @@ export const PutLoggingOptionsResponse = S.suspend(() =>
 }) as any as S.Schema<PutLoggingOptionsResponse>;
 export interface UntagResourceRequest {
   ResourceARN: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -381,15 +452,15 @@ export const GetCampaignRequest = S.suspend(() =>
 export interface UpdateCampaignRequest {
   name: string;
   description?: string;
-  dataExtraDimensions?: DataExtraDimensionNodePathList;
-  action: string;
+  dataExtraDimensions?: string[];
+  action: UpdateCampaignAction;
 }
 export const UpdateCampaignRequest = S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.HttpLabel("name")),
     description: S.optional(S.String),
     dataExtraDimensions: S.optional(DataExtraDimensionNodePathList),
-    action: S.String,
+    action: UpdateCampaignAction,
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/campaigns/{name}" }),
@@ -424,14 +495,14 @@ export interface ListCampaignsRequest {
   nextToken?: string;
   maxResults?: number;
   status?: string;
-  listResponseScope?: string;
+  listResponseScope?: ListResponseScope;
 }
 export const ListCampaignsRequest = S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
-    listResponseScope: S.optional(S.String).pipe(
+    listResponseScope: S.optional(ListResponseScope).pipe(
       T.HttpQuery("listResponseScope"),
     ),
   }).pipe(
@@ -464,6 +535,19 @@ export const GetDecoderManifestRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetDecoderManifestRequest",
 }) as any as S.Schema<GetDecoderManifestRequest>;
+export type SignalDecoderType =
+  | "CAN_SIGNAL"
+  | "OBD_SIGNAL"
+  | "MESSAGE_SIGNAL"
+  | "CUSTOM_DECODING_SIGNAL";
+export const SignalDecoderType = S.Literal(
+  "CAN_SIGNAL",
+  "OBD_SIGNAL",
+  "MESSAGE_SIGNAL",
+  "CUSTOM_DECODING_SIGNAL",
+);
+export type SignalValueType = "INTEGER" | "FLOATING_POINT";
+export const SignalValueType = S.Literal("INTEGER", "FLOATING_POINT");
 export interface CanSignal {
   messageId: number;
   isBigEndian: boolean;
@@ -473,7 +557,7 @@ export interface CanSignal {
   factor: number;
   length: number;
   name?: string;
-  signalValueType?: string;
+  signalValueType?: SignalValueType;
 }
 export const CanSignal = S.suspend(() =>
   S.Struct({
@@ -485,7 +569,7 @@ export const CanSignal = S.suspend(() =>
     factor: S.Number,
     length: S.Number,
     name: S.optional(S.String),
-    signalValueType: S.optional(S.String),
+    signalValueType: S.optional(SignalValueType),
   }),
 ).annotations({ identifier: "CanSignal" }) as any as S.Schema<CanSignal>;
 export interface ObdSignal {
@@ -499,7 +583,7 @@ export interface ObdSignal {
   bitRightShift?: number;
   bitMaskLength?: number;
   isSigned?: boolean;
-  signalValueType?: string;
+  signalValueType?: SignalValueType;
 }
 export const ObdSignal = S.suspend(() =>
   S.Struct({
@@ -513,18 +597,51 @@ export const ObdSignal = S.suspend(() =>
     bitRightShift: S.optional(S.Number),
     bitMaskLength: S.optional(S.Number),
     isSigned: S.optional(S.Boolean),
-    signalValueType: S.optional(S.String),
+    signalValueType: S.optional(SignalValueType),
   }),
 ).annotations({ identifier: "ObdSignal" }) as any as S.Schema<ObdSignal>;
+export type ROS2PrimitiveType =
+  | "BOOL"
+  | "BYTE"
+  | "CHAR"
+  | "FLOAT32"
+  | "FLOAT64"
+  | "INT8"
+  | "UINT8"
+  | "INT16"
+  | "UINT16"
+  | "INT32"
+  | "UINT32"
+  | "INT64"
+  | "UINT64"
+  | "STRING"
+  | "WSTRING";
+export const ROS2PrimitiveType = S.Literal(
+  "BOOL",
+  "BYTE",
+  "CHAR",
+  "FLOAT32",
+  "FLOAT64",
+  "INT8",
+  "UINT8",
+  "INT16",
+  "UINT16",
+  "INT32",
+  "UINT32",
+  "INT64",
+  "UINT64",
+  "STRING",
+  "WSTRING",
+);
 export interface ROS2PrimitiveMessageDefinition {
-  primitiveType: string;
+  primitiveType: ROS2PrimitiveType;
   offset?: number;
   scaling?: number;
   upperBound?: number;
 }
 export const ROS2PrimitiveMessageDefinition = S.suspend(() =>
   S.Struct({
-    primitiveType: S.String,
+    primitiveType: ROS2PrimitiveType,
     offset: S.optional(S.Number),
     scaling: S.optional(S.Number),
     upperBound: S.optional(S.Number),
@@ -539,9 +656,11 @@ export const PrimitiveMessageDefinition = S.Union(
   S.Struct({ ros2PrimitiveMessageDefinition: ROS2PrimitiveMessageDefinition }),
 );
 export type StructuredMessage =
-  | { primitiveMessageDefinition: (typeof PrimitiveMessageDefinition)["Type"] }
+  | { primitiveMessageDefinition: PrimitiveMessageDefinition }
   | { structuredMessageListDefinition: StructuredMessageListDefinition }
-  | { structuredMessageDefinition: StructuredMessageDefinition };
+  | {
+      structuredMessageDefinition: StructuredMessageFieldNameAndDataTypePair[];
+    };
 export const StructuredMessage = S.Union(
   S.Struct({ primitiveMessageDefinition: PrimitiveMessageDefinition }),
   S.Struct({
@@ -575,7 +694,7 @@ export const CustomDecodingSignal = S.suspend(() =>
 }) as any as S.Schema<CustomDecodingSignal>;
 export interface SignalDecoder {
   fullyQualifiedName: string;
-  type: string;
+  type: SignalDecoderType;
   interfaceId: string;
   canSignal?: CanSignal;
   obdSignal?: ObdSignal;
@@ -585,7 +704,7 @@ export interface SignalDecoder {
 export const SignalDecoder = S.suspend(() =>
   S.Struct({
     fullyQualifiedName: S.String,
-    type: S.String,
+    type: SignalDecoderType,
     interfaceId: S.String,
     canSignal: S.optional(CanSignal),
     obdSignal: S.optional(ObdSignal),
@@ -597,6 +716,17 @@ export const SignalDecoder = S.suspend(() =>
 }) as any as S.Schema<SignalDecoder>;
 export type SignalDecoders = SignalDecoder[];
 export const SignalDecoders = S.Array(SignalDecoder);
+export type NetworkInterfaceType =
+  | "CAN_INTERFACE"
+  | "OBD_INTERFACE"
+  | "VEHICLE_MIDDLEWARE"
+  | "CUSTOM_DECODING_INTERFACE";
+export const NetworkInterfaceType = S.Literal(
+  "CAN_INTERFACE",
+  "OBD_INTERFACE",
+  "VEHICLE_MIDDLEWARE",
+  "CUSTOM_DECODING_INTERFACE",
+);
 export interface CanInterface {
   name: string;
   protocolName?: string;
@@ -629,12 +759,14 @@ export const ObdInterface = S.suspend(() =>
     hasTransmissionEcu: S.optional(S.Boolean),
   }),
 ).annotations({ identifier: "ObdInterface" }) as any as S.Schema<ObdInterface>;
+export type VehicleMiddlewareProtocol = "ROS_2";
+export const VehicleMiddlewareProtocol = S.Literal("ROS_2");
 export interface VehicleMiddleware {
   name: string;
-  protocolName: string;
+  protocolName: VehicleMiddlewareProtocol;
 }
 export const VehicleMiddleware = S.suspend(() =>
-  S.Struct({ name: S.String, protocolName: S.String }),
+  S.Struct({ name: S.String, protocolName: VehicleMiddlewareProtocol }),
 ).annotations({
   identifier: "VehicleMiddleware",
 }) as any as S.Schema<VehicleMiddleware>;
@@ -648,7 +780,7 @@ export const CustomDecodingInterface = S.suspend(() =>
 }) as any as S.Schema<CustomDecodingInterface>;
 export interface NetworkInterface {
   interfaceId: string;
-  type: string;
+  type: NetworkInterfaceType;
   canInterface?: CanInterface;
   obdInterface?: ObdInterface;
   vehicleMiddleware?: VehicleMiddleware;
@@ -657,7 +789,7 @@ export interface NetworkInterface {
 export const NetworkInterface = S.suspend(() =>
   S.Struct({
     interfaceId: S.String,
-    type: S.String,
+    type: NetworkInterfaceType,
     canInterface: S.optional(CanInterface),
     obdInterface: S.optional(ObdInterface),
     vehicleMiddleware: S.optional(VehicleMiddleware),
@@ -671,14 +803,14 @@ export const NetworkInterfaces = S.Array(NetworkInterface);
 export interface UpdateDecoderManifestRequest {
   name: string;
   description?: string;
-  signalDecodersToAdd?: SignalDecoders;
-  signalDecodersToUpdate?: SignalDecoders;
-  signalDecodersToRemove?: Fqns;
-  networkInterfacesToAdd?: NetworkInterfaces;
-  networkInterfacesToUpdate?: NetworkInterfaces;
-  networkInterfacesToRemove?: InterfaceIds;
-  status?: string;
-  defaultForUnmappedSignals?: string;
+  signalDecodersToAdd?: SignalDecoder[];
+  signalDecodersToUpdate?: SignalDecoder[];
+  signalDecodersToRemove?: string[];
+  networkInterfacesToAdd?: NetworkInterface[];
+  networkInterfacesToUpdate?: NetworkInterface[];
+  networkInterfacesToRemove?: string[];
+  status?: ManifestStatus;
+  defaultForUnmappedSignals?: DefaultForUnmappedSignalsType;
 }
 export const UpdateDecoderManifestRequest = S.suspend(() =>
   S.Struct({
@@ -690,8 +822,8 @@ export const UpdateDecoderManifestRequest = S.suspend(() =>
     networkInterfacesToAdd: S.optional(NetworkInterfaces),
     networkInterfacesToUpdate: S.optional(NetworkInterfaces),
     networkInterfacesToRemove: S.optional(InterfaceIds),
-    status: S.optional(S.String),
-    defaultForUnmappedSignals: S.optional(S.String),
+    status: S.optional(ManifestStatus),
+    defaultForUnmappedSignals: S.optional(DefaultForUnmappedSignalsType),
   }).pipe(
     T.all(
       T.Http({ method: "PATCH", uri: "/decoder-manifests/{name}" }),
@@ -726,7 +858,7 @@ export interface ListDecoderManifestsRequest {
   modelManifestArn?: string;
   nextToken?: string;
   maxResults?: number;
-  listResponseScope?: string;
+  listResponseScope?: ListResponseScope;
 }
 export const ListDecoderManifestsRequest = S.suspend(() =>
   S.Struct({
@@ -735,7 +867,7 @@ export const ListDecoderManifestsRequest = S.suspend(() =>
     ),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    listResponseScope: S.optional(S.String).pipe(
+    listResponseScope: S.optional(ListResponseScope).pipe(
       T.HttpQuery("listResponseScope"),
     ),
   }).pipe(
@@ -813,7 +945,7 @@ export interface CreateFleetRequest {
   fleetId: string;
   description?: string;
   signalCatalogArn: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateFleetRequest = S.suspend(() =>
   S.Struct({
@@ -892,13 +1024,13 @@ export const DeleteFleetRequest = S.suspend(() =>
 export interface ListFleetsRequest {
   nextToken?: string;
   maxResults?: number;
-  listResponseScope?: string;
+  listResponseScope?: ListResponseScope;
 }
 export const ListFleetsRequest = S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    listResponseScope: S.optional(S.String).pipe(
+    listResponseScope: S.optional(ListResponseScope).pipe(
       T.HttpQuery("listResponseScope"),
     ),
   }).pipe(
@@ -940,9 +1072,9 @@ export const ListVehiclesInFleetRequest = S.suspend(() =>
 export interface CreateModelManifestRequest {
   name: string;
   description?: string;
-  nodes: listOfStrings;
+  nodes: string[];
   signalCatalogArn: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateModelManifestRequest = S.suspend(() =>
   S.Struct({
@@ -984,9 +1116,9 @@ export const GetModelManifestRequest = S.suspend(() =>
 export interface UpdateModelManifestRequest {
   name: string;
   description?: string;
-  nodesToAdd?: NodePaths;
-  nodesToRemove?: NodePaths;
-  status?: string;
+  nodesToAdd?: string[];
+  nodesToRemove?: string[];
+  status?: ManifestStatus;
 }
 export const UpdateModelManifestRequest = S.suspend(() =>
   S.Struct({
@@ -994,7 +1126,7 @@ export const UpdateModelManifestRequest = S.suspend(() =>
     description: S.optional(S.String),
     nodesToAdd: S.optional(NodePaths),
     nodesToRemove: S.optional(NodePaths),
-    status: S.optional(S.String),
+    status: S.optional(ManifestStatus),
   }).pipe(
     T.all(
       T.Http({ method: "PATCH", uri: "/model-manifests/{name}" }),
@@ -1029,7 +1161,7 @@ export interface ListModelManifestsRequest {
   signalCatalogArn?: string;
   nextToken?: string;
   maxResults?: number;
-  listResponseScope?: string;
+  listResponseScope?: ListResponseScope;
 }
 export const ListModelManifestsRequest = S.suspend(() =>
   S.Struct({
@@ -1038,7 +1170,7 @@ export const ListModelManifestsRequest = S.suspend(() =>
     ),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    listResponseScope: S.optional(S.String).pipe(
+    listResponseScope: S.optional(ListResponseScope).pipe(
       T.HttpQuery("listResponseScope"),
     ),
   }).pipe(
@@ -1108,12 +1240,73 @@ export const Branch = S.suspend(() =>
     comment: S.optional(S.String),
   }),
 ).annotations({ identifier: "Branch" }) as any as S.Schema<Branch>;
+export type NodeDataType =
+  | "INT8"
+  | "UINT8"
+  | "INT16"
+  | "UINT16"
+  | "INT32"
+  | "UINT32"
+  | "INT64"
+  | "UINT64"
+  | "BOOLEAN"
+  | "FLOAT"
+  | "DOUBLE"
+  | "STRING"
+  | "UNIX_TIMESTAMP"
+  | "INT8_ARRAY"
+  | "UINT8_ARRAY"
+  | "INT16_ARRAY"
+  | "UINT16_ARRAY"
+  | "INT32_ARRAY"
+  | "UINT32_ARRAY"
+  | "INT64_ARRAY"
+  | "UINT64_ARRAY"
+  | "BOOLEAN_ARRAY"
+  | "FLOAT_ARRAY"
+  | "DOUBLE_ARRAY"
+  | "STRING_ARRAY"
+  | "UNIX_TIMESTAMP_ARRAY"
+  | "UNKNOWN"
+  | "STRUCT"
+  | "STRUCT_ARRAY";
+export const NodeDataType = S.Literal(
+  "INT8",
+  "UINT8",
+  "INT16",
+  "UINT16",
+  "INT32",
+  "UINT32",
+  "INT64",
+  "UINT64",
+  "BOOLEAN",
+  "FLOAT",
+  "DOUBLE",
+  "STRING",
+  "UNIX_TIMESTAMP",
+  "INT8_ARRAY",
+  "UINT8_ARRAY",
+  "INT16_ARRAY",
+  "UINT16_ARRAY",
+  "INT32_ARRAY",
+  "UINT32_ARRAY",
+  "INT64_ARRAY",
+  "UINT64_ARRAY",
+  "BOOLEAN_ARRAY",
+  "FLOAT_ARRAY",
+  "DOUBLE_ARRAY",
+  "STRING_ARRAY",
+  "UNIX_TIMESTAMP_ARRAY",
+  "UNKNOWN",
+  "STRUCT",
+  "STRUCT_ARRAY",
+);
 export interface Sensor {
   fullyQualifiedName: string;
-  dataType: string;
+  dataType: NodeDataType;
   description?: string;
   unit?: string;
-  allowedValues?: listOfStrings;
+  allowedValues?: string[];
   min?: number;
   max?: number;
   deprecationMessage?: string;
@@ -1123,7 +1316,7 @@ export interface Sensor {
 export const Sensor = S.suspend(() =>
   S.Struct({
     fullyQualifiedName: S.String,
-    dataType: S.String,
+    dataType: NodeDataType,
     description: S.optional(S.String),
     unit: S.optional(S.String),
     allowedValues: S.optional(listOfStrings),
@@ -1136,10 +1329,10 @@ export const Sensor = S.suspend(() =>
 ).annotations({ identifier: "Sensor" }) as any as S.Schema<Sensor>;
 export interface Actuator {
   fullyQualifiedName: string;
-  dataType: string;
+  dataType: NodeDataType;
   description?: string;
   unit?: string;
-  allowedValues?: listOfStrings;
+  allowedValues?: string[];
   min?: number;
   max?: number;
   assignedValue?: string;
@@ -1150,7 +1343,7 @@ export interface Actuator {
 export const Actuator = S.suspend(() =>
   S.Struct({
     fullyQualifiedName: S.String,
-    dataType: S.String,
+    dataType: NodeDataType,
     description: S.optional(S.String),
     unit: S.optional(S.String),
     allowedValues: S.optional(listOfStrings),
@@ -1164,10 +1357,10 @@ export const Actuator = S.suspend(() =>
 ).annotations({ identifier: "Actuator" }) as any as S.Schema<Actuator>;
 export interface Attribute {
   fullyQualifiedName: string;
-  dataType: string;
+  dataType: NodeDataType;
   description?: string;
   unit?: string;
-  allowedValues?: listOfStrings;
+  allowedValues?: string[];
   min?: number;
   max?: number;
   assignedValue?: string;
@@ -1178,7 +1371,7 @@ export interface Attribute {
 export const Attribute = S.suspend(() =>
   S.Struct({
     fullyQualifiedName: S.String,
-    dataType: S.String,
+    dataType: NodeDataType,
     description: S.optional(S.String),
     unit: S.optional(S.String),
     allowedValues: S.optional(listOfStrings),
@@ -1204,10 +1397,12 @@ export const CustomStruct = S.suspend(() =>
     comment: S.optional(S.String),
   }),
 ).annotations({ identifier: "CustomStruct" }) as any as S.Schema<CustomStruct>;
+export type NodeDataEncoding = "BINARY" | "TYPED";
+export const NodeDataEncoding = S.Literal("BINARY", "TYPED");
 export interface CustomProperty {
   fullyQualifiedName: string;
-  dataType: string;
-  dataEncoding?: string;
+  dataType: NodeDataType;
+  dataEncoding?: NodeDataEncoding;
   description?: string;
   deprecationMessage?: string;
   comment?: string;
@@ -1216,8 +1411,8 @@ export interface CustomProperty {
 export const CustomProperty = S.suspend(() =>
   S.Struct({
     fullyQualifiedName: S.String,
-    dataType: S.String,
-    dataEncoding: S.optional(S.String),
+    dataType: NodeDataType,
+    dataEncoding: S.optional(NodeDataEncoding),
     description: S.optional(S.String),
     deprecationMessage: S.optional(S.String),
     comment: S.optional(S.String),
@@ -1241,14 +1436,14 @@ export const Node = S.Union(
   S.Struct({ struct: CustomStruct }),
   S.Struct({ property: CustomProperty }),
 );
-export type Nodes = (typeof Node)["Type"][];
+export type Nodes = Node[];
 export const Nodes = S.Array(Node);
 export interface UpdateSignalCatalogRequest {
   name: string;
   description?: string;
-  nodesToAdd?: Nodes;
-  nodesToUpdate?: Nodes;
-  nodesToRemove?: NodePaths;
+  nodesToAdd?: Node[];
+  nodesToUpdate?: Node[];
+  nodesToRemove?: string[];
 }
 export const UpdateSignalCatalogRequest = S.suspend(() =>
   S.Struct({
@@ -1312,14 +1507,16 @@ export interface ListSignalCatalogNodesRequest {
   name: string;
   nextToken?: string;
   maxResults?: number;
-  signalNodeType?: string;
+  signalNodeType?: SignalNodeType;
 }
 export const ListSignalCatalogNodesRequest = S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.HttpLabel("name")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    signalNodeType: S.optional(S.String).pipe(T.HttpQuery("signalNodeType")),
+    signalNodeType: S.optional(SignalNodeType).pipe(
+      T.HttpQuery("signalNodeType"),
+    ),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/signal-catalogs/{name}/nodes" }),
@@ -1337,10 +1534,10 @@ export interface CreateStateTemplateRequest {
   name: string;
   description?: string;
   signalCatalogArn: string;
-  stateTemplateProperties: StateTemplateProperties;
-  dataExtraDimensions?: StateTemplateDataExtraDimensionNodePathList;
-  metadataExtraDimensions?: StateTemplateMetadataExtraDimensionNodePathList;
-  tags?: TagList;
+  stateTemplateProperties: string[];
+  dataExtraDimensions?: string[];
+  metadataExtraDimensions?: string[];
+  tags?: Tag[];
 }
 export const CreateStateTemplateRequest = S.suspend(() =>
   S.Struct({
@@ -1388,10 +1585,10 @@ export const GetStateTemplateRequest = S.suspend(() =>
 export interface UpdateStateTemplateRequest {
   identifier: string;
   description?: string;
-  stateTemplatePropertiesToAdd?: StateTemplateProperties;
-  stateTemplatePropertiesToRemove?: StateTemplateProperties;
-  dataExtraDimensions?: StateTemplateDataExtraDimensionNodePathList;
-  metadataExtraDimensions?: StateTemplateMetadataExtraDimensionNodePathList;
+  stateTemplatePropertiesToAdd?: string[];
+  stateTemplatePropertiesToRemove?: string[];
+  dataExtraDimensions?: string[];
+  metadataExtraDimensions?: string[];
 }
 export const UpdateStateTemplateRequest = S.suspend(() =>
   S.Struct({
@@ -1438,13 +1635,13 @@ export const DeleteStateTemplateRequest = S.suspend(() =>
 export interface ListStateTemplatesRequest {
   nextToken?: string;
   maxResults?: number;
-  listResponseScope?: string;
+  listResponseScope?: ListResponseScope;
 }
 export const ListStateTemplatesRequest = S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    listResponseScope: S.optional(S.String).pipe(
+    listResponseScope: S.optional(ListResponseScope).pipe(
       T.HttpQuery("listResponseScope"),
     ),
   }).pipe(
@@ -1479,12 +1676,14 @@ export const GetVehicleRequest = S.suspend(() =>
 }) as any as S.Schema<GetVehicleRequest>;
 export type attributesMap = { [key: string]: string };
 export const attributesMap = S.Record({ key: S.String, value: S.String });
+export type TimeUnit = "MILLISECOND" | "SECOND" | "MINUTE" | "HOUR";
+export const TimeUnit = S.Literal("MILLISECOND", "SECOND", "MINUTE", "HOUR");
 export interface TimePeriod {
-  unit: string;
+  unit: TimeUnit;
   value: number;
 }
 export const TimePeriod = S.suspend(() =>
-  S.Struct({ unit: S.String, value: S.Number }),
+  S.Struct({ unit: TimeUnit, value: S.Number }),
 ).annotations({ identifier: "TimePeriod" }) as any as S.Schema<TimePeriod>;
 export interface PeriodicStateTemplateUpdateStrategy {
   stateTemplateUpdateRate: TimePeriod;
@@ -1509,7 +1708,7 @@ export const StateTemplateUpdateStrategy = S.Union(
 );
 export interface StateTemplateAssociation {
   identifier: string;
-  stateTemplateUpdateStrategy: (typeof StateTemplateUpdateStrategy)["Type"];
+  stateTemplateUpdateStrategy: StateTemplateUpdateStrategy;
 }
 export const StateTemplateAssociation = S.suspend(() =>
   S.Struct({
@@ -1525,11 +1724,11 @@ export interface UpdateVehicleRequest {
   vehicleName: string;
   modelManifestArn?: string;
   decoderManifestArn?: string;
-  attributes?: attributesMap;
-  attributeUpdateMode?: string;
-  stateTemplatesToAdd?: StateTemplateAssociations;
-  stateTemplatesToRemove?: StateTemplateAssociationIdentifiers;
-  stateTemplatesToUpdate?: StateTemplateAssociations;
+  attributes?: { [key: string]: string };
+  attributeUpdateMode?: UpdateMode;
+  stateTemplatesToAdd?: StateTemplateAssociation[];
+  stateTemplatesToRemove?: string[];
+  stateTemplatesToUpdate?: StateTemplateAssociation[];
 }
 export const UpdateVehicleRequest = S.suspend(() =>
   S.Struct({
@@ -1537,7 +1736,7 @@ export const UpdateVehicleRequest = S.suspend(() =>
     modelManifestArn: S.optional(S.String),
     decoderManifestArn: S.optional(S.String),
     attributes: S.optional(attributesMap),
-    attributeUpdateMode: S.optional(S.String),
+    attributeUpdateMode: S.optional(UpdateMode),
     stateTemplatesToAdd: S.optional(StateTemplateAssociations),
     stateTemplatesToRemove: S.optional(StateTemplateAssociationIdentifiers),
     stateTemplatesToUpdate: S.optional(StateTemplateAssociations),
@@ -1573,11 +1772,11 @@ export const DeleteVehicleRequest = S.suspend(() =>
 }) as any as S.Schema<DeleteVehicleRequest>;
 export interface ListVehiclesRequest {
   modelManifestArn?: string;
-  attributeNames?: attributeNamesList;
-  attributeValues?: attributeValuesList;
+  attributeNames?: string[];
+  attributeValues?: string[];
   nextToken?: string;
   maxResults?: number;
-  listResponseScope?: string;
+  listResponseScope?: ListResponseScope;
 }
 export const ListVehiclesRequest = S.suspend(() =>
   S.Struct({
@@ -1592,7 +1791,7 @@ export const ListVehiclesRequest = S.suspend(() =>
     ),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    listResponseScope: S.optional(S.String).pipe(
+    listResponseScope: S.optional(ListResponseScope).pipe(
       T.HttpQuery("listResponseScope"),
     ),
   }).pipe(
@@ -1685,16 +1884,16 @@ export const ListFleetsForVehicleRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListFleetsForVehicleRequest",
 }) as any as S.Schema<ListFleetsForVehicleRequest>;
-export type EventExpressionList = string | Redacted.Redacted<string>[];
+export type EventExpressionList = string | redacted.Redacted<string>[];
 export const EventExpressionList = S.Array(SensitiveString);
 export interface CreateVehicleRequestItem {
   vehicleName: string;
   modelManifestArn: string;
   decoderManifestArn: string;
-  attributes?: attributesMap;
-  associationBehavior?: string;
-  tags?: TagList;
-  stateTemplates?: StateTemplateAssociations;
+  attributes?: { [key: string]: string };
+  associationBehavior?: VehicleAssociationBehavior;
+  tags?: Tag[];
+  stateTemplates?: StateTemplateAssociation[];
 }
 export const CreateVehicleRequestItem = S.suspend(() =>
   S.Struct({
@@ -1702,7 +1901,7 @@ export const CreateVehicleRequestItem = S.suspend(() =>
     modelManifestArn: S.String,
     decoderManifestArn: S.String,
     attributes: S.optional(attributesMap),
-    associationBehavior: S.optional(S.String),
+    associationBehavior: S.optional(VehicleAssociationBehavior),
     tags: S.optional(TagList),
     stateTemplates: S.optional(StateTemplateAssociations),
   }),
@@ -1715,11 +1914,11 @@ export interface UpdateVehicleRequestItem {
   vehicleName: string;
   modelManifestArn?: string;
   decoderManifestArn?: string;
-  attributes?: attributesMap;
-  attributeUpdateMode?: string;
-  stateTemplatesToAdd?: StateTemplateAssociations;
-  stateTemplatesToRemove?: StateTemplateAssociationIdentifiers;
-  stateTemplatesToUpdate?: StateTemplateAssociations;
+  attributes?: { [key: string]: string };
+  attributeUpdateMode?: UpdateMode;
+  stateTemplatesToAdd?: StateTemplateAssociation[];
+  stateTemplatesToRemove?: string[];
+  stateTemplatesToUpdate?: StateTemplateAssociation[];
 }
 export const UpdateVehicleRequestItem = S.suspend(() =>
   S.Struct({
@@ -1727,7 +1926,7 @@ export const UpdateVehicleRequestItem = S.suspend(() =>
     modelManifestArn: S.optional(S.String),
     decoderManifestArn: S.optional(S.String),
     attributes: S.optional(attributesMap),
-    attributeUpdateMode: S.optional(S.String),
+    attributeUpdateMode: S.optional(UpdateMode),
     stateTemplatesToAdd: S.optional(StateTemplateAssociations),
     stateTemplatesToRemove: S.optional(StateTemplateAssociationIdentifiers),
     stateTemplatesToUpdate: S.optional(StateTemplateAssociations),
@@ -1742,7 +1941,7 @@ export interface TimestreamRegistrationResponse {
   timestreamTableName: string;
   timestreamDatabaseArn?: string;
   timestreamTableArn?: string;
-  registrationStatus: string;
+  registrationStatus: RegistrationStatus;
   errorMessage?: string;
 }
 export const TimestreamRegistrationResponse = S.suspend(() =>
@@ -1751,7 +1950,7 @@ export const TimestreamRegistrationResponse = S.suspend(() =>
     timestreamTableName: S.String,
     timestreamDatabaseArn: S.optional(S.String),
     timestreamTableArn: S.optional(S.String),
-    registrationStatus: S.String,
+    registrationStatus: RegistrationStatus,
     errorMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -1759,13 +1958,13 @@ export const TimestreamRegistrationResponse = S.suspend(() =>
 }) as any as S.Schema<TimestreamRegistrationResponse>;
 export interface IamRegistrationResponse {
   roleArn: string;
-  registrationStatus: string;
+  registrationStatus: RegistrationStatus;
   errorMessage?: string;
 }
 export const IamRegistrationResponse = S.suspend(() =>
   S.Struct({
     roleArn: S.String,
-    registrationStatus: S.String,
+    registrationStatus: RegistrationStatus,
     errorMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -1804,16 +2003,33 @@ export const SignalInformation = S.suspend(() =>
 }) as any as S.Schema<SignalInformation>;
 export type SignalInformationList = SignalInformation[];
 export const SignalInformationList = S.Array(SignalInformation);
+export type CampaignStatus =
+  | "CREATING"
+  | "WAITING_FOR_APPROVAL"
+  | "RUNNING"
+  | "SUSPENDED";
+export const CampaignStatus = S.Literal(
+  "CREATING",
+  "WAITING_FOR_APPROVAL",
+  "RUNNING",
+  "SUSPENDED",
+);
 export type vehicles = string[];
 export const vehicles = S.Array(S.String);
 export type FormattedVss = { vssJson: string };
 export const FormattedVss = S.Union(S.Struct({ vssJson: S.String }));
 export type fleets = string[];
 export const fleets = S.Array(S.String);
+export type TriggerMode = "ALWAYS" | "RISING_EDGE";
+export const TriggerMode = S.Literal("ALWAYS", "RISING_EDGE");
+export type DataFormat = "JSON" | "PARQUET";
+export const DataFormat = S.Literal("JSON", "PARQUET");
+export type StorageCompressionFormat = "NONE" | "GZIP";
+export const StorageCompressionFormat = S.Literal("NONE", "GZIP");
 export type NetworkFilesList = Uint8Array[];
 export const NetworkFilesList = S.Array(T.Blob);
 export interface BatchCreateVehicleRequest {
-  vehicles: createVehicleRequestItems;
+  vehicles: CreateVehicleRequestItem[];
 }
 export const BatchCreateVehicleRequest = S.suspend(() =>
   S.Struct({ vehicles: createVehicleRequestItems }).pipe(
@@ -1830,7 +2046,7 @@ export const BatchCreateVehicleRequest = S.suspend(() =>
   identifier: "BatchCreateVehicleRequest",
 }) as any as S.Schema<BatchCreateVehicleRequest>;
 export interface BatchUpdateVehicleRequest {
-  vehicles: updateVehicleRequestItems;
+  vehicles: UpdateVehicleRequestItem[];
 }
 export const BatchUpdateVehicleRequest = S.suspend(() =>
   S.Struct({ vehicles: updateVehicleRequestItems }).pipe(
@@ -1856,7 +2072,7 @@ export const GetLoggingOptionsResponse = S.suspend(() =>
 }) as any as S.Schema<GetLoggingOptionsResponse>;
 export interface GetRegisterAccountStatusResponse {
   customerAccountId: string;
-  accountStatus: string;
+  accountStatus: RegistrationStatus;
   timestreamRegistrationResponse?: TimestreamRegistrationResponse;
   iamRegistrationResponse: IamRegistrationResponse;
   creationTime: Date;
@@ -1865,7 +2081,7 @@ export interface GetRegisterAccountStatusResponse {
 export const GetRegisterAccountStatusResponse = S.suspend(() =>
   S.Struct({
     customerAccountId: S.String,
-    accountStatus: S.String,
+    accountStatus: RegistrationStatus,
     timestreamRegistrationResponse: S.optional(TimestreamRegistrationResponse),
     iamRegistrationResponse: IamRegistrationResponse,
     creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1875,7 +2091,7 @@ export const GetRegisterAccountStatusResponse = S.suspend(() =>
   identifier: "GetRegisterAccountStatusResponse",
 }) as any as S.Schema<GetRegisterAccountStatusResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }),
@@ -1884,14 +2100,14 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface PutEncryptionConfigurationResponse {
   kmsKeyId?: string;
-  encryptionStatus: string;
-  encryptionType: string;
+  encryptionStatus: EncryptionStatus;
+  encryptionType: EncryptionType;
 }
 export const PutEncryptionConfigurationResponse = S.suspend(() =>
   S.Struct({
     kmsKeyId: S.optional(S.String),
-    encryptionStatus: S.String,
-    encryptionType: S.String,
+    encryptionStatus: EncryptionStatus,
+    encryptionType: EncryptionType,
   }),
 ).annotations({
   identifier: "PutEncryptionConfigurationResponse",
@@ -1919,7 +2135,7 @@ export const RegisterAccountRequest = S.suspend(() =>
 }) as any as S.Schema<RegisterAccountRequest>;
 export interface TagResourceRequest {
   ResourceARN: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1951,16 +2167,16 @@ export const TimeBasedCollectionScheme = S.suspend(() =>
   identifier: "TimeBasedCollectionScheme",
 }) as any as S.Schema<TimeBasedCollectionScheme>;
 export interface ConditionBasedCollectionScheme {
-  expression: string | Redacted.Redacted<string>;
+  expression: string | redacted.Redacted<string>;
   minimumTriggerIntervalMs?: number;
-  triggerMode?: string;
+  triggerMode?: TriggerMode;
   conditionLanguageVersion?: number;
 }
 export const ConditionBasedCollectionScheme = S.suspend(() =>
   S.Struct({
     expression: SensitiveString,
     minimumTriggerIntervalMs: S.optional(S.Number),
-    triggerMode: S.optional(S.String),
+    triggerMode: S.optional(TriggerMode),
     conditionLanguageVersion: S.optional(S.Number),
   }),
 ).annotations({
@@ -1975,15 +2191,15 @@ export const CollectionScheme = S.Union(
 );
 export interface S3Config {
   bucketArn: string;
-  dataFormat?: string;
-  storageCompressionFormat?: string;
+  dataFormat?: DataFormat;
+  storageCompressionFormat?: StorageCompressionFormat;
   prefix?: string;
 }
 export const S3Config = S.suspend(() =>
   S.Struct({
     bucketArn: S.String,
-    dataFormat: S.optional(S.String),
-    storageCompressionFormat: S.optional(S.String),
+    dataFormat: S.optional(DataFormat),
+    storageCompressionFormat: S.optional(StorageCompressionFormat),
     prefix: S.optional(S.String),
   }),
 ).annotations({ identifier: "S3Config" }) as any as S.Schema<S3Config>;
@@ -2014,29 +2230,33 @@ export const DataDestinationConfig = S.Union(
   S.Struct({ timestreamConfig: TimestreamConfig }),
   S.Struct({ mqttTopicConfig: MqttTopicConfig }),
 );
-export type DataDestinationConfigs = (typeof DataDestinationConfig)["Type"][];
+export type DataDestinationConfigs = DataDestinationConfig[];
 export const DataDestinationConfigs = S.Array(DataDestinationConfig);
+export type StorageMaximumSizeUnit = "MB" | "GB" | "TB";
+export const StorageMaximumSizeUnit = S.Literal("MB", "GB", "TB");
 export interface StorageMaximumSize {
-  unit: string;
+  unit: StorageMaximumSizeUnit;
   value: number;
 }
 export const StorageMaximumSize = S.suspend(() =>
-  S.Struct({ unit: S.String, value: S.Number }),
+  S.Struct({ unit: StorageMaximumSizeUnit, value: S.Number }),
 ).annotations({
   identifier: "StorageMaximumSize",
 }) as any as S.Schema<StorageMaximumSize>;
+export type StorageMinimumTimeToLiveUnit = "HOURS" | "DAYS" | "WEEKS";
+export const StorageMinimumTimeToLiveUnit = S.Literal("HOURS", "DAYS", "WEEKS");
 export interface StorageMinimumTimeToLive {
-  unit: string;
+  unit: StorageMinimumTimeToLiveUnit;
   value: number;
 }
 export const StorageMinimumTimeToLive = S.suspend(() =>
-  S.Struct({ unit: S.String, value: S.Number }),
+  S.Struct({ unit: StorageMinimumTimeToLiveUnit, value: S.Number }),
 ).annotations({
   identifier: "StorageMinimumTimeToLive",
 }) as any as S.Schema<StorageMinimumTimeToLive>;
 export interface DataPartitionStorageOptions {
   maximumSize: StorageMaximumSize;
-  storageLocation: string | Redacted.Redacted<string>;
+  storageLocation: string | redacted.Redacted<string>;
   minimumTimeToLive: StorageMinimumTimeToLive;
 }
 export const DataPartitionStorageOptions = S.suspend(() =>
@@ -2049,7 +2269,7 @@ export const DataPartitionStorageOptions = S.suspend(() =>
   identifier: "DataPartitionStorageOptions",
 }) as any as S.Schema<DataPartitionStorageOptions>;
 export interface DataPartitionUploadOptions {
-  expression: string | Redacted.Redacted<string>;
+  expression: string | redacted.Redacted<string>;
   conditionLanguageVersion?: number;
 }
 export const DataPartitionUploadOptions = S.suspend(() =>
@@ -2085,11 +2305,11 @@ export const TimeBasedSignalFetchConfig = S.suspend(() =>
   identifier: "TimeBasedSignalFetchConfig",
 }) as any as S.Schema<TimeBasedSignalFetchConfig>;
 export interface ConditionBasedSignalFetchConfig {
-  conditionExpression: string | Redacted.Redacted<string>;
-  triggerMode: string;
+  conditionExpression: string | redacted.Redacted<string>;
+  triggerMode: TriggerMode;
 }
 export const ConditionBasedSignalFetchConfig = S.suspend(() =>
-  S.Struct({ conditionExpression: SensitiveString, triggerMode: S.String }),
+  S.Struct({ conditionExpression: SensitiveString, triggerMode: TriggerMode }),
 ).annotations({
   identifier: "ConditionBasedSignalFetchConfig",
 }) as any as S.Schema<ConditionBasedSignalFetchConfig>;
@@ -2102,9 +2322,9 @@ export const SignalFetchConfig = S.Union(
 );
 export interface SignalFetchInformation {
   fullyQualifiedName: string;
-  signalFetchConfig: (typeof SignalFetchConfig)["Type"];
+  signalFetchConfig: SignalFetchConfig;
   conditionLanguageVersion?: number;
-  actions: EventExpressionList;
+  actions: string | redacted.Redacted<string>[];
 }
 export const SignalFetchInformation = S.suspend(() =>
   S.Struct({
@@ -2124,22 +2344,22 @@ export interface GetCampaignResponse {
   description?: string;
   signalCatalogArn?: string;
   targetArn?: string;
-  status?: string;
+  status?: CampaignStatus;
   startTime?: Date;
   expiryTime?: Date;
   postTriggerCollectionDuration?: number;
-  diagnosticsMode?: string;
-  spoolingMode?: string;
-  compression?: string;
+  diagnosticsMode?: DiagnosticsMode;
+  spoolingMode?: SpoolingMode;
+  compression?: Compression;
   priority?: number;
-  signalsToCollect?: SignalInformationList;
-  collectionScheme?: (typeof CollectionScheme)["Type"];
-  dataExtraDimensions?: DataExtraDimensionNodePathList;
+  signalsToCollect?: SignalInformation[];
+  collectionScheme?: CollectionScheme;
+  dataExtraDimensions?: string[];
   creationTime?: Date;
   lastModificationTime?: Date;
-  dataDestinationConfigs?: DataDestinationConfigs;
-  dataPartitions?: DataPartitions;
-  signalsToFetch?: SignalFetchInformationList;
+  dataDestinationConfigs?: DataDestinationConfig[];
+  dataPartitions?: DataPartition[];
+  signalsToFetch?: SignalFetchInformation[];
 }
 export const GetCampaignResponse = S.suspend(() =>
   S.Struct({
@@ -2148,13 +2368,13 @@ export const GetCampaignResponse = S.suspend(() =>
     description: S.optional(S.String),
     signalCatalogArn: S.optional(S.String),
     targetArn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(CampaignStatus),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     expiryTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     postTriggerCollectionDuration: S.optional(S.Number),
-    diagnosticsMode: S.optional(S.String),
-    spoolingMode: S.optional(S.String),
-    compression: S.optional(S.String),
+    diagnosticsMode: S.optional(DiagnosticsMode),
+    spoolingMode: S.optional(SpoolingMode),
+    compression: S.optional(Compression),
     priority: S.optional(S.Number),
     signalsToCollect: S.optional(SignalInformationList),
     collectionScheme: S.optional(CollectionScheme),
@@ -2173,13 +2393,13 @@ export const GetCampaignResponse = S.suspend(() =>
 export interface UpdateCampaignResponse {
   arn?: string;
   name?: string;
-  status?: string;
+  status?: CampaignStatus;
 }
 export const UpdateCampaignResponse = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     name: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(CampaignStatus),
   }),
 ).annotations({
   identifier: "UpdateCampaignResponse",
@@ -2198,7 +2418,7 @@ export interface GetDecoderManifestResponse {
   arn: string;
   description?: string;
   modelManifestArn?: string;
-  status?: string;
+  status?: ManifestStatus;
   creationTime: Date;
   lastModificationTime: Date;
   message?: string;
@@ -2209,7 +2429,7 @@ export const GetDecoderManifestResponse = S.suspend(() =>
     arn: S.String,
     description: S.optional(S.String),
     modelManifestArn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ManifestStatus),
     creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastModificationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     message: S.optional(S.String),
@@ -2236,7 +2456,7 @@ export const DeleteDecoderManifestResponse = S.suspend(() =>
   identifier: "DeleteDecoderManifestResponse",
 }) as any as S.Schema<DeleteDecoderManifestResponse>;
 export interface ListDecoderManifestNetworkInterfacesResponse {
-  networkInterfaces?: NetworkInterfaces;
+  networkInterfaces?: NetworkInterface[];
   nextToken?: string;
 }
 export const ListDecoderManifestNetworkInterfacesResponse = S.suspend(() =>
@@ -2248,7 +2468,7 @@ export const ListDecoderManifestNetworkInterfacesResponse = S.suspend(() =>
   identifier: "ListDecoderManifestNetworkInterfacesResponse",
 }) as any as S.Schema<ListDecoderManifestNetworkInterfacesResponse>;
 export interface ListDecoderManifestSignalsResponse {
-  signalDecoders?: SignalDecoders;
+  signalDecoders?: SignalDecoder[];
   nextToken?: string;
 }
 export const ListDecoderManifestSignalsResponse = S.suspend(() =>
@@ -2307,7 +2527,7 @@ export const DeleteFleetResponse = S.suspend(() =>
   identifier: "DeleteFleetResponse",
 }) as any as S.Schema<DeleteFleetResponse>;
 export interface ListVehiclesInFleetResponse {
-  vehicles?: vehicles;
+  vehicles?: string[];
   nextToken?: string;
 }
 export const ListVehiclesInFleetResponse = S.suspend(() =>
@@ -2329,7 +2549,7 @@ export interface GetModelManifestResponse {
   arn: string;
   description?: string;
   signalCatalogArn?: string;
-  status?: string;
+  status?: ManifestStatus;
   creationTime: Date;
   lastModificationTime: Date;
 }
@@ -2339,7 +2559,7 @@ export const GetModelManifestResponse = S.suspend(() =>
     arn: S.String,
     description: S.optional(S.String),
     signalCatalogArn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ManifestStatus),
     creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastModificationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
@@ -2365,7 +2585,7 @@ export const DeleteModelManifestResponse = S.suspend(() =>
   identifier: "DeleteModelManifestResponse",
 }) as any as S.Schema<DeleteModelManifestResponse>;
 export interface ListModelManifestNodesResponse {
-  nodes?: Nodes;
+  nodes?: Node[];
   nextToken?: string;
 }
 export const ListModelManifestNodesResponse = S.suspend(() =>
@@ -2394,8 +2614,8 @@ export const DeleteSignalCatalogResponse = S.suspend(() =>
 export interface ImportSignalCatalogRequest {
   name: string;
   description?: string;
-  vss?: (typeof FormattedVss)["Type"];
-  tags?: TagList;
+  vss?: FormattedVss;
+  tags?: Tag[];
 }
 export const ImportSignalCatalogRequest = S.suspend(() =>
   S.Struct({
@@ -2417,7 +2637,7 @@ export const ImportSignalCatalogRequest = S.suspend(() =>
   identifier: "ImportSignalCatalogRequest",
 }) as any as S.Schema<ImportSignalCatalogRequest>;
 export interface ListSignalCatalogNodesResponse {
-  nodes?: Nodes;
+  nodes?: Node[];
   nextToken?: string;
 }
 export const ListSignalCatalogNodesResponse = S.suspend(() =>
@@ -2444,9 +2664,9 @@ export interface GetStateTemplateResponse {
   arn?: string;
   description?: string;
   signalCatalogArn?: string;
-  stateTemplateProperties?: StateTemplateProperties;
-  dataExtraDimensions?: StateTemplateDataExtraDimensionNodePathList;
-  metadataExtraDimensions?: StateTemplateMetadataExtraDimensionNodePathList;
+  stateTemplateProperties?: string[];
+  dataExtraDimensions?: string[];
+  metadataExtraDimensions?: string[];
   creationTime?: Date;
   lastModificationTime?: Date;
   id?: string;
@@ -2506,8 +2726,8 @@ export interface GetVehicleResponse {
   arn?: string;
   modelManifestArn?: string;
   decoderManifestArn?: string;
-  attributes?: attributesMap;
-  stateTemplates?: StateTemplateAssociations;
+  attributes?: { [key: string]: string };
+  stateTemplates?: StateTemplateAssociation[];
   creationTime?: Date;
   lastModificationTime?: Date;
 }
@@ -2546,7 +2766,7 @@ export const DeleteVehicleResponse = S.suspend(() =>
   identifier: "DeleteVehicleResponse",
 }) as any as S.Schema<DeleteVehicleResponse>;
 export interface ListFleetsForVehicleResponse {
-  fleets?: fleets;
+  fleets?: string[];
   nextToken?: string;
 }
 export const ListFleetsForVehicleResponse = S.suspend(() =>
@@ -2554,16 +2774,31 @@ export const ListFleetsForVehicleResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListFleetsForVehicleResponse",
 }) as any as S.Schema<ListFleetsForVehicleResponse>;
+export type VehicleState =
+  | "CREATED"
+  | "READY"
+  | "HEALTHY"
+  | "SUSPENDED"
+  | "DELETING"
+  | "READY_FOR_CHECKIN";
+export const VehicleState = S.Literal(
+  "CREATED",
+  "READY",
+  "HEALTHY",
+  "SUSPENDED",
+  "DELETING",
+  "READY_FOR_CHECKIN",
+);
 export interface VehicleStatus {
   campaignName?: string;
   vehicleName?: string;
-  status?: string;
+  status?: VehicleState;
 }
 export const VehicleStatus = S.suspend(() =>
   S.Struct({
     campaignName: S.optional(S.String),
     vehicleName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(VehicleState),
   }),
 ).annotations({
   identifier: "VehicleStatus",
@@ -2576,7 +2811,7 @@ export interface CampaignSummary {
   description?: string;
   signalCatalogArn?: string;
   targetArn?: string;
-  status?: string;
+  status?: CampaignStatus;
   creationTime: Date;
   lastModificationTime: Date;
 }
@@ -2587,7 +2822,7 @@ export const CampaignSummary = S.suspend(() =>
     description: S.optional(S.String),
     signalCatalogArn: S.optional(S.String),
     targetArn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(CampaignStatus),
     creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastModificationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
@@ -2601,7 +2836,7 @@ export interface DecoderManifestSummary {
   arn?: string;
   modelManifestArn?: string;
   description?: string;
-  status?: string;
+  status?: ManifestStatus;
   creationTime: Date;
   lastModificationTime: Date;
   message?: string;
@@ -2612,7 +2847,7 @@ export const DecoderManifestSummary = S.suspend(() =>
     arn: S.optional(S.String),
     modelManifestArn: S.optional(S.String),
     description: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ManifestStatus),
     creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastModificationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     message: S.optional(S.String),
@@ -2649,7 +2884,7 @@ export interface ModelManifestSummary {
   arn?: string;
   signalCatalogArn?: string;
   description?: string;
-  status?: string;
+  status?: ManifestStatus;
   creationTime: Date;
   lastModificationTime: Date;
 }
@@ -2659,7 +2894,7 @@ export const ModelManifestSummary = S.suspend(() =>
     arn: S.optional(S.String),
     signalCatalogArn: S.optional(S.String),
     description: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ManifestStatus),
     creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastModificationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
@@ -2741,7 +2976,7 @@ export interface VehicleSummary {
   decoderManifestArn: string;
   creationTime: Date;
   lastModificationTime: Date;
-  attributes?: attributesMap;
+  attributes?: { [key: string]: string };
 }
 export const VehicleSummary = S.suspend(() =>
   S.Struct({
@@ -2761,7 +2996,7 @@ export const vehicleSummaries = S.Array(VehicleSummary);
 export type ModelSignalsMap = { [key: string]: string };
 export const ModelSignalsMap = S.Record({ key: S.String, value: S.String });
 export interface GetVehicleStatusResponse {
-  campaigns?: VehicleStatusList;
+  campaigns?: VehicleStatus[];
   nextToken?: string;
 }
 export const GetVehicleStatusResponse = S.suspend(() =>
@@ -2773,7 +3008,7 @@ export const GetVehicleStatusResponse = S.suspend(() =>
   identifier: "GetVehicleStatusResponse",
 }) as any as S.Schema<GetVehicleStatusResponse>;
 export interface RegisterAccountResponse {
-  registerAccountStatus: string;
+  registerAccountStatus: RegistrationStatus;
   timestreamResources?: TimestreamResources;
   iamResources: IamResources;
   creationTime: Date;
@@ -2781,7 +3016,7 @@ export interface RegisterAccountResponse {
 }
 export const RegisterAccountResponse = S.suspend(() =>
   S.Struct({
-    registerAccountStatus: S.String,
+    registerAccountStatus: RegistrationStatus,
     timestreamResources: S.optional(TimestreamResources),
     iamResources: IamResources,
     creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -2791,7 +3026,7 @@ export const RegisterAccountResponse = S.suspend(() =>
   identifier: "RegisterAccountResponse",
 }) as any as S.Schema<RegisterAccountResponse>;
 export interface ListCampaignsResponse {
-  campaignSummaries?: campaignSummaries;
+  campaignSummaries?: CampaignSummary[];
   nextToken?: string;
 }
 export const ListCampaignsResponse = S.suspend(() =>
@@ -2802,8 +3037,17 @@ export const ListCampaignsResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListCampaignsResponse",
 }) as any as S.Schema<ListCampaignsResponse>;
+export type StructuredMessageListType =
+  | "FIXED_CAPACITY"
+  | "DYNAMIC_UNBOUNDED_CAPACITY"
+  | "DYNAMIC_BOUNDED_CAPACITY";
+export const StructuredMessageListType = S.Literal(
+  "FIXED_CAPACITY",
+  "DYNAMIC_UNBOUNDED_CAPACITY",
+  "DYNAMIC_BOUNDED_CAPACITY",
+);
 export interface ListDecoderManifestsResponse {
-  summaries?: decoderManifestSummaries;
+  summaries?: DecoderManifestSummary[];
   nextToken?: string;
 }
 export const ListDecoderManifestsResponse = S.suspend(() =>
@@ -2815,7 +3059,7 @@ export const ListDecoderManifestsResponse = S.suspend(() =>
   identifier: "ListDecoderManifestsResponse",
 }) as any as S.Schema<ListDecoderManifestsResponse>;
 export interface ListFleetsResponse {
-  fleetSummaries?: fleetSummaries;
+  fleetSummaries?: FleetSummary[];
   nextToken?: string;
 }
 export const ListFleetsResponse = S.suspend(() =>
@@ -2827,7 +3071,7 @@ export const ListFleetsResponse = S.suspend(() =>
   identifier: "ListFleetsResponse",
 }) as any as S.Schema<ListFleetsResponse>;
 export interface ListModelManifestsResponse {
-  summaries?: modelManifestSummaries;
+  summaries?: ModelManifestSummary[];
   nextToken?: string;
 }
 export const ListModelManifestsResponse = S.suspend(() =>
@@ -2841,8 +3085,8 @@ export const ListModelManifestsResponse = S.suspend(() =>
 export interface CreateSignalCatalogRequest {
   name: string;
   description?: string;
-  nodes?: Nodes;
-  tags?: TagList;
+  nodes?: Node[];
+  tags?: Tag[];
 }
 export const CreateSignalCatalogRequest = S.suspend(() =>
   S.Struct({
@@ -2884,7 +3128,7 @@ export const GetSignalCatalogResponse = S.suspend(() =>
   identifier: "GetSignalCatalogResponse",
 }) as any as S.Schema<GetSignalCatalogResponse>;
 export interface ListSignalCatalogsResponse {
-  summaries?: signalCatalogSummaries;
+  summaries?: SignalCatalogSummary[];
   nextToken?: string;
 }
 export const ListSignalCatalogsResponse = S.suspend(() =>
@@ -2905,7 +3149,7 @@ export const ImportSignalCatalogResponse = S.suspend(() =>
   identifier: "ImportSignalCatalogResponse",
 }) as any as S.Schema<ImportSignalCatalogResponse>;
 export interface ListStateTemplatesResponse {
-  summaries?: StateTemplateSummaries;
+  summaries?: StateTemplateSummary[];
   nextToken?: string;
 }
 export const ListStateTemplatesResponse = S.suspend(() =>
@@ -2917,7 +3161,7 @@ export const ListStateTemplatesResponse = S.suspend(() =>
   identifier: "ListStateTemplatesResponse",
 }) as any as S.Schema<ListStateTemplatesResponse>;
 export interface ListVehiclesResponse {
-  vehicleSummaries?: vehicleSummaries;
+  vehicleSummaries?: VehicleSummary[];
   nextToken?: string;
 }
 export const ListVehiclesResponse = S.suspend(() =>
@@ -2930,8 +3174,8 @@ export const ListVehiclesResponse = S.suspend(() =>
 }) as any as S.Schema<ListVehiclesResponse>;
 export interface CanDbcDefinition {
   networkInterface: string;
-  canDbcFiles: NetworkFilesList;
-  signalsMap?: ModelSignalsMap;
+  canDbcFiles: Uint8Array[];
+  signalsMap?: { [key: string]: string };
 }
 export const CanDbcDefinition = S.suspend(() =>
   S.Struct({
@@ -2945,7 +3189,7 @@ export const CanDbcDefinition = S.suspend(() =>
 export interface StructuredMessageListDefinition {
   name: string;
   memberType: StructuredMessage;
-  listType: string;
+  listType: StructuredMessageListType;
   capacity?: number;
 }
 export const StructuredMessageListDefinition = S.suspend(() =>
@@ -2954,7 +3198,7 @@ export const StructuredMessageListDefinition = S.suspend(() =>
     memberType: S.suspend(() => StructuredMessage).annotations({
       identifier: "StructuredMessage",
     }),
-    listType: S.String,
+    listType: StructuredMessageListType,
     capacity: S.optional(S.Number),
   }),
 ).annotations({
@@ -3041,15 +3285,26 @@ export const UpdateVehicleError = S.suspend(() =>
 }) as any as S.Schema<UpdateVehicleError>;
 export type updateVehicleErrors = UpdateVehicleError[];
 export const updateVehicleErrors = S.Array(UpdateVehicleError);
+export type ValidationExceptionReason =
+  | "unknownOperation"
+  | "cannotParse"
+  | "fieldValidationFailed"
+  | "other";
+export const ValidationExceptionReason = S.Literal(
+  "unknownOperation",
+  "cannotParse",
+  "fieldValidationFailed",
+  "other",
+);
 export type NetworkFileDefinition = { canDbc: CanDbcDefinition };
 export const NetworkFileDefinition = S.Union(
   S.Struct({ canDbc: CanDbcDefinition }),
 );
-export type NetworkFileDefinitions = (typeof NetworkFileDefinition)["Type"][];
+export type NetworkFileDefinitions = NetworkFileDefinition[];
 export const NetworkFileDefinitions = S.Array(NetworkFileDefinition);
 export interface BatchCreateVehicleResponse {
-  vehicles?: createVehicleResponses;
-  errors?: createVehicleErrors;
+  vehicles?: CreateVehicleResponseItem[];
+  errors?: CreateVehicleError[];
 }
 export const BatchCreateVehicleResponse = S.suspend(() =>
   S.Struct({
@@ -3060,8 +3315,8 @@ export const BatchCreateVehicleResponse = S.suspend(() =>
   identifier: "BatchCreateVehicleResponse",
 }) as any as S.Schema<BatchCreateVehicleResponse>;
 export interface BatchUpdateVehicleResponse {
-  vehicles?: updateVehicleResponseItems;
-  errors?: updateVehicleErrors;
+  vehicles?: UpdateVehicleResponseItem[];
+  errors?: UpdateVehicleError[];
 }
 export const BatchUpdateVehicleResponse = S.suspend(() =>
   S.Struct({
@@ -3079,17 +3334,17 @@ export interface CreateCampaignRequest {
   startTime?: Date;
   expiryTime?: Date;
   postTriggerCollectionDuration?: number;
-  diagnosticsMode?: string;
-  spoolingMode?: string;
-  compression?: string;
+  diagnosticsMode?: DiagnosticsMode;
+  spoolingMode?: SpoolingMode;
+  compression?: Compression;
   priority?: number;
-  signalsToCollect?: SignalInformationList;
-  collectionScheme: (typeof CollectionScheme)["Type"];
-  dataExtraDimensions?: DataExtraDimensionNodePathList;
-  tags?: TagList;
-  dataDestinationConfigs?: DataDestinationConfigs;
-  dataPartitions?: DataPartitions;
-  signalsToFetch?: SignalFetchInformationList;
+  signalsToCollect?: SignalInformation[];
+  collectionScheme: CollectionScheme;
+  dataExtraDimensions?: string[];
+  tags?: Tag[];
+  dataDestinationConfigs?: DataDestinationConfig[];
+  dataPartitions?: DataPartition[];
+  signalsToFetch?: SignalFetchInformation[];
 }
 export const CreateCampaignRequest = S.suspend(() =>
   S.Struct({
@@ -3100,9 +3355,9 @@ export const CreateCampaignRequest = S.suspend(() =>
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     expiryTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     postTriggerCollectionDuration: S.optional(S.Number),
-    diagnosticsMode: S.optional(S.String),
-    spoolingMode: S.optional(S.String),
-    compression: S.optional(S.String),
+    diagnosticsMode: S.optional(DiagnosticsMode),
+    spoolingMode: S.optional(SpoolingMode),
+    compression: S.optional(Compression),
     priority: S.optional(S.Number),
     signalsToCollect: S.optional(SignalInformationList),
     collectionScheme: CollectionScheme,
@@ -3126,7 +3381,7 @@ export const CreateCampaignRequest = S.suspend(() =>
 }) as any as S.Schema<CreateCampaignRequest>;
 export interface ImportDecoderManifestRequest {
   name: string;
-  networkFileDefinitions: NetworkFileDefinitions;
+  networkFileDefinitions: NetworkFileDefinition[];
 }
 export const ImportDecoderManifestRequest = S.suspend(() =>
   S.Struct({
@@ -3154,6 +3409,60 @@ export const CreateSignalCatalogResponse = S.suspend(() =>
 ).annotations({
   identifier: "CreateSignalCatalogResponse",
 }) as any as S.Schema<CreateSignalCatalogResponse>;
+export type SignalDecoderFailureReason =
+  | "DUPLICATE_SIGNAL"
+  | "CONFLICTING_SIGNAL"
+  | "SIGNAL_TO_ADD_ALREADY_EXISTS"
+  | "SIGNAL_NOT_ASSOCIATED_WITH_NETWORK_INTERFACE"
+  | "NETWORK_INTERFACE_TYPE_INCOMPATIBLE_WITH_SIGNAL_DECODER_TYPE"
+  | "SIGNAL_NOT_IN_MODEL"
+  | "CAN_SIGNAL_INFO_IS_NULL"
+  | "OBD_SIGNAL_INFO_IS_NULL"
+  | "NO_DECODER_INFO_FOR_SIGNAL_IN_MODEL"
+  | "MESSAGE_SIGNAL_INFO_IS_NULL"
+  | "SIGNAL_DECODER_TYPE_INCOMPATIBLE_WITH_MESSAGE_SIGNAL_TYPE"
+  | "STRUCT_SIZE_MISMATCH"
+  | "NO_SIGNAL_IN_CATALOG_FOR_DECODER_SIGNAL"
+  | "SIGNAL_DECODER_INCOMPATIBLE_WITH_SIGNAL_CATALOG"
+  | "EMPTY_MESSAGE_SIGNAL"
+  | "CUSTOM_DECODING_SIGNAL_INFO_IS_NULL";
+export const SignalDecoderFailureReason = S.Literal(
+  "DUPLICATE_SIGNAL",
+  "CONFLICTING_SIGNAL",
+  "SIGNAL_TO_ADD_ALREADY_EXISTS",
+  "SIGNAL_NOT_ASSOCIATED_WITH_NETWORK_INTERFACE",
+  "NETWORK_INTERFACE_TYPE_INCOMPATIBLE_WITH_SIGNAL_DECODER_TYPE",
+  "SIGNAL_NOT_IN_MODEL",
+  "CAN_SIGNAL_INFO_IS_NULL",
+  "OBD_SIGNAL_INFO_IS_NULL",
+  "NO_DECODER_INFO_FOR_SIGNAL_IN_MODEL",
+  "MESSAGE_SIGNAL_INFO_IS_NULL",
+  "SIGNAL_DECODER_TYPE_INCOMPATIBLE_WITH_MESSAGE_SIGNAL_TYPE",
+  "STRUCT_SIZE_MISMATCH",
+  "NO_SIGNAL_IN_CATALOG_FOR_DECODER_SIGNAL",
+  "SIGNAL_DECODER_INCOMPATIBLE_WITH_SIGNAL_CATALOG",
+  "EMPTY_MESSAGE_SIGNAL",
+  "CUSTOM_DECODING_SIGNAL_INFO_IS_NULL",
+);
+export type NetworkInterfaceFailureReason =
+  | "DUPLICATE_NETWORK_INTERFACE"
+  | "CONFLICTING_NETWORK_INTERFACE"
+  | "NETWORK_INTERFACE_TO_ADD_ALREADY_EXISTS"
+  | "CAN_NETWORK_INTERFACE_INFO_IS_NULL"
+  | "OBD_NETWORK_INTERFACE_INFO_IS_NULL"
+  | "NETWORK_INTERFACE_TO_REMOVE_ASSOCIATED_WITH_SIGNALS"
+  | "VEHICLE_MIDDLEWARE_NETWORK_INTERFACE_INFO_IS_NULL"
+  | "CUSTOM_DECODING_SIGNAL_NETWORK_INTERFACE_INFO_IS_NULL";
+export const NetworkInterfaceFailureReason = S.Literal(
+  "DUPLICATE_NETWORK_INTERFACE",
+  "CONFLICTING_NETWORK_INTERFACE",
+  "NETWORK_INTERFACE_TO_ADD_ALREADY_EXISTS",
+  "CAN_NETWORK_INTERFACE_INFO_IS_NULL",
+  "OBD_NETWORK_INTERFACE_INFO_IS_NULL",
+  "NETWORK_INTERFACE_TO_REMOVE_ASSOCIATED_WITH_SIGNALS",
+  "VEHICLE_MIDDLEWARE_NETWORK_INTERFACE_INFO_IS_NULL",
+  "CUSTOM_DECODING_SIGNAL_NETWORK_INTERFACE_INFO_IS_NULL",
+);
 export interface ValidationExceptionField {
   name: string;
   message: string;
@@ -3178,13 +3487,13 @@ export type InvalidSignals = InvalidSignal[];
 export const InvalidSignals = S.Array(InvalidSignal);
 export interface InvalidSignalDecoder {
   name?: string;
-  reason?: string;
+  reason?: SignalDecoderFailureReason;
   hint?: string;
 }
 export const InvalidSignalDecoder = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    reason: S.optional(S.String),
+    reason: S.optional(SignalDecoderFailureReason),
     hint: S.optional(S.String),
   }),
 ).annotations({
@@ -3194,10 +3503,13 @@ export type InvalidSignalDecoders = InvalidSignalDecoder[];
 export const InvalidSignalDecoders = S.Array(InvalidSignalDecoder);
 export interface InvalidNetworkInterface {
   interfaceId?: string;
-  reason?: string;
+  reason?: NetworkInterfaceFailureReason;
 }
 export const InvalidNetworkInterface = S.suspend(() =>
-  S.Struct({ interfaceId: S.optional(S.String), reason: S.optional(S.String) }),
+  S.Struct({
+    interfaceId: S.optional(S.String),
+    reason: S.optional(NetworkInterfaceFailureReason),
+  }),
 ).annotations({
   identifier: "InvalidNetworkInterface",
 }) as any as S.Schema<InvalidNetworkInterface>;
@@ -3225,10 +3537,10 @@ export interface CreateVehicleRequest {
   vehicleName: string;
   modelManifestArn: string;
   decoderManifestArn: string;
-  attributes?: attributesMap;
-  associationBehavior?: string;
-  tags?: TagList;
-  stateTemplates?: StateTemplateAssociations;
+  attributes?: { [key: string]: string };
+  associationBehavior?: VehicleAssociationBehavior;
+  tags?: Tag[];
+  stateTemplates?: StateTemplateAssociation[];
 }
 export const CreateVehicleRequest = S.suspend(() =>
   S.Struct({
@@ -3236,7 +3548,7 @@ export const CreateVehicleRequest = S.suspend(() =>
     modelManifestArn: S.String,
     decoderManifestArn: S.String,
     attributes: S.optional(attributesMap),
-    associationBehavior: S.optional(S.String),
+    associationBehavior: S.optional(VehicleAssociationBehavior),
     tags: S.optional(TagList),
     stateTemplates: S.optional(StateTemplateAssociations),
   }).pipe(
@@ -3256,10 +3568,10 @@ export interface CreateDecoderManifestRequest {
   name: string;
   description?: string;
   modelManifestArn: string;
-  signalDecoders?: SignalDecoders;
-  networkInterfaces?: NetworkInterfaces;
-  defaultForUnmappedSignals?: string;
-  tags?: TagList;
+  signalDecoders?: SignalDecoder[];
+  networkInterfaces?: NetworkInterface[];
+  defaultForUnmappedSignals?: DefaultForUnmappedSignalsType;
+  tags?: Tag[];
 }
 export const CreateDecoderManifestRequest = S.suspend(() =>
   S.Struct({
@@ -3268,7 +3580,7 @@ export const CreateDecoderManifestRequest = S.suspend(() =>
     modelManifestArn: S.String,
     signalDecoders: S.optional(SignalDecoders),
     networkInterfaces: S.optional(NetworkInterfaces),
-    defaultForUnmappedSignals: S.optional(S.String),
+    defaultForUnmappedSignals: S.optional(DefaultForUnmappedSignalsType),
     tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -3352,7 +3664,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     message: S.String,
-    reason: S.optional(S.String),
+    reason: S.optional(ValidationExceptionReason),
     fieldList: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
@@ -3375,7 +3687,7 @@ export class DecoderManifestValidationException extends S.TaggedError<DecoderMan
  */
 export const getLoggingOptions: (
   input: GetLoggingOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLoggingOptionsResponse,
   AccessDeniedException | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3391,7 +3703,7 @@ export const getLoggingOptions: (
  */
 export const getCampaign: (
   input: GetCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCampaignResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3415,7 +3727,7 @@ export const getCampaign: (
  */
 export const importSignalCatalog: (
   input: ImportSignalCatalogRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ImportSignalCatalogResponse,
   | AccessDeniedException
   | ConflictException
@@ -3449,7 +3761,7 @@ export const importSignalCatalog: (
  */
 export const updateDecoderManifest: (
   input: UpdateDecoderManifestRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDecoderManifestResponse,
   | AccessDeniedException
   | ConflictException
@@ -3481,7 +3793,7 @@ export const updateDecoderManifest: (
 export const listCampaigns: {
   (
     input: ListCampaignsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCampaignsResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -3491,7 +3803,7 @@ export const listCampaigns: {
   >;
   pages: (
     input: ListCampaignsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCampaignsResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -3501,7 +3813,7 @@ export const listCampaigns: {
   >;
   items: (
     input: ListCampaignsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CampaignSummary,
     | AccessDeniedException
     | ThrottlingException
@@ -3528,7 +3840,7 @@ export const listCampaigns: {
 export const listDecoderManifests: {
   (
     input: ListDecoderManifestsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDecoderManifestsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3539,7 +3851,7 @@ export const listDecoderManifests: {
   >;
   pages: (
     input: ListDecoderManifestsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDecoderManifestsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3550,7 +3862,7 @@ export const listDecoderManifests: {
   >;
   items: (
     input: ListDecoderManifestsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DecoderManifestSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3583,7 +3895,7 @@ export const listDecoderManifests: {
 export const listFleets: {
   (
     input: ListFleetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFleetsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3595,7 +3907,7 @@ export const listFleets: {
   >;
   pages: (
     input: ListFleetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFleetsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3607,7 +3919,7 @@ export const listFleets: {
   >;
   items: (
     input: ListFleetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FleetSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3642,7 +3954,7 @@ export const listFleets: {
 export const listModelManifests: {
   (
     input: ListModelManifestsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListModelManifestsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3653,7 +3965,7 @@ export const listModelManifests: {
   >;
   pages: (
     input: ListModelManifestsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListModelManifestsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3664,7 +3976,7 @@ export const listModelManifests: {
   >;
   items: (
     input: ListModelManifestsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ModelManifestSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3694,7 +4006,7 @@ export const listModelManifests: {
  */
 export const getSignalCatalog: (
   input: GetSignalCatalogRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSignalCatalogResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3723,7 +4035,7 @@ export const getSignalCatalog: (
 export const listSignalCatalogs: {
   (
     input: ListSignalCatalogsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSignalCatalogsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3734,7 +4046,7 @@ export const listSignalCatalogs: {
   >;
   pages: (
     input: ListSignalCatalogsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSignalCatalogsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3745,7 +4057,7 @@ export const listSignalCatalogs: {
   >;
   items: (
     input: ListSignalCatalogsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SignalCatalogSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3778,7 +4090,7 @@ export const listSignalCatalogs: {
 export const listStateTemplates: {
   (
     input: ListStateTemplatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStateTemplatesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3789,7 +4101,7 @@ export const listStateTemplates: {
   >;
   pages: (
     input: ListStateTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStateTemplatesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3800,7 +4112,7 @@ export const listStateTemplates: {
   >;
   items: (
     input: ListStateTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     StateTemplateSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3833,7 +4145,7 @@ export const listStateTemplates: {
 export const listVehicles: {
   (
     input: ListVehiclesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVehiclesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3844,7 +4156,7 @@ export const listVehicles: {
   >;
   pages: (
     input: ListVehiclesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVehiclesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3855,7 +4167,7 @@ export const listVehicles: {
   >;
   items: (
     input: ListVehiclesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     VehicleSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3891,7 +4203,7 @@ export const listVehicles: {
  */
 export const getRegisterAccountStatus: (
   input: GetRegisterAccountStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRegisterAccountStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3916,7 +4228,7 @@ export const getRegisterAccountStatus: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3942,7 +4254,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3970,7 +4282,7 @@ export const tagResource: (
 export const listDecoderManifestNetworkInterfaces: {
   (
     input: ListDecoderManifestNetworkInterfacesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDecoderManifestNetworkInterfacesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3982,7 +4294,7 @@ export const listDecoderManifestNetworkInterfaces: {
   >;
   pages: (
     input: ListDecoderManifestNetworkInterfacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDecoderManifestNetworkInterfacesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3994,7 +4306,7 @@ export const listDecoderManifestNetworkInterfaces: {
   >;
   items: (
     input: ListDecoderManifestNetworkInterfacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NetworkInterface,
     | AccessDeniedException
     | InternalServerException
@@ -4029,7 +4341,7 @@ export const listDecoderManifestNetworkInterfaces: {
 export const listDecoderManifestSignals: {
   (
     input: ListDecoderManifestSignalsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDecoderManifestSignalsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4041,7 +4353,7 @@ export const listDecoderManifestSignals: {
   >;
   pages: (
     input: ListDecoderManifestSignalsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDecoderManifestSignalsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4053,7 +4365,7 @@ export const listDecoderManifestSignals: {
   >;
   items: (
     input: ListDecoderManifestSignalsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SignalDecoder,
     | AccessDeniedException
     | InternalServerException
@@ -4085,7 +4397,7 @@ export const listDecoderManifestSignals: {
  */
 export const getFleet: (
   input: GetFleetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFleetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4112,7 +4424,7 @@ export const getFleet: (
  */
 export const deleteFleet: (
   input: DeleteFleetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFleetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4138,7 +4450,7 @@ export const deleteFleet: (
 export const listVehiclesInFleet: {
   (
     input: ListVehiclesInFleetRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVehiclesInFleetResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4150,7 +4462,7 @@ export const listVehiclesInFleet: {
   >;
   pages: (
     input: ListVehiclesInFleetRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVehiclesInFleetResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4162,7 +4474,7 @@ export const listVehiclesInFleet: {
   >;
   items: (
     input: ListVehiclesInFleetRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     vehicleName,
     | AccessDeniedException
     | InternalServerException
@@ -4196,7 +4508,7 @@ export const listVehiclesInFleet: {
  */
 export const getStateTemplate: (
   input: GetStateTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetStateTemplateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4221,7 +4533,7 @@ export const getStateTemplate: (
  */
 export const deleteStateTemplate: (
   input: DeleteStateTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteStateTemplateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4244,7 +4556,7 @@ export const deleteStateTemplate: (
  */
 export const getVehicle: (
   input: GetVehicleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetVehicleResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4269,7 +4581,7 @@ export const getVehicle: (
  */
 export const deleteVehicle: (
   input: DeleteVehicleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVehicleResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4295,7 +4607,7 @@ export const deleteVehicle: (
 export const listFleetsForVehicle: {
   (
     input: ListFleetsForVehicleRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFleetsForVehicleResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4307,7 +4619,7 @@ export const listFleetsForVehicle: {
   >;
   pages: (
     input: ListFleetsForVehicleRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFleetsForVehicleResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4319,7 +4631,7 @@ export const listFleetsForVehicle: {
   >;
   items: (
     input: ListFleetsForVehicleRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     fleetId,
     | AccessDeniedException
     | InternalServerException
@@ -4351,7 +4663,7 @@ export const listFleetsForVehicle: {
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4377,7 +4689,7 @@ export const untagResource: (
  */
 export const disassociateVehicleFleet: (
   input: DisassociateVehicleFleetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateVehicleFleetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4402,7 +4714,7 @@ export const disassociateVehicleFleet: (
  */
 export const updateCampaign: (
   input: UpdateCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCampaignResponse,
   | AccessDeniedException
   | ConflictException
@@ -4428,7 +4740,7 @@ export const updateCampaign: (
  */
 export const deleteDecoderManifest: (
   input: DeleteDecoderManifestRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDecoderManifestResponse,
   | AccessDeniedException
   | ConflictException
@@ -4453,7 +4765,7 @@ export const deleteDecoderManifest: (
  */
 export const updateFleet: (
   input: UpdateFleetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFleetResponse,
   | AccessDeniedException
   | ConflictException
@@ -4480,7 +4792,7 @@ export const updateFleet: (
  */
 export const deleteModelManifest: (
   input: DeleteModelManifestRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteModelManifestResponse,
   | AccessDeniedException
   | ConflictException
@@ -4505,7 +4817,7 @@ export const deleteModelManifest: (
  */
 export const deleteSignalCatalog: (
   input: DeleteSignalCatalogRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSignalCatalogResponse,
   | AccessDeniedException
   | ConflictException
@@ -4530,7 +4842,7 @@ export const deleteSignalCatalog: (
  */
 export const putLoggingOptions: (
   input: PutLoggingOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutLoggingOptionsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4556,7 +4868,7 @@ export const putLoggingOptions: (
  */
 export const deleteCampaign: (
   input: DeleteCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCampaignResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4579,7 +4891,7 @@ export const deleteCampaign: (
  */
 export const getDecoderManifest: (
   input: GetDecoderManifestRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDecoderManifestResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4602,7 +4914,7 @@ export const getDecoderManifest: (
  */
 export const getModelManifest: (
   input: GetModelManifestRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetModelManifestResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4625,7 +4937,7 @@ export const getModelManifest: (
  */
 export const getEncryptionConfiguration: (
   input: GetEncryptionConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEncryptionConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4652,7 +4964,7 @@ export const getEncryptionConfiguration: (
 export const getVehicleStatus: {
   (
     input: GetVehicleStatusRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetVehicleStatusResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -4663,7 +4975,7 @@ export const getVehicleStatus: {
   >;
   pages: (
     input: GetVehicleStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetVehicleStatusResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -4674,7 +4986,7 @@ export const getVehicleStatus: {
   >;
   items: (
     input: GetVehicleStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     VehicleStatus,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -4707,7 +5019,7 @@ export const getVehicleStatus: {
  */
 export const putEncryptionConfiguration: (
   input: PutEncryptionConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutEncryptionConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4756,7 +5068,7 @@ export const putEncryptionConfiguration: (
  */
 export const registerAccount: (
   input: RegisterAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterAccountResponse,
   | AccessDeniedException
   | ConflictException
@@ -4786,7 +5098,7 @@ export const registerAccount: (
 export const listModelManifestNodes: {
   (
     input: ListModelManifestNodesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListModelManifestNodesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4799,7 +5111,7 @@ export const listModelManifestNodes: {
   >;
   pages: (
     input: ListModelManifestNodesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListModelManifestNodesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4812,7 +5124,7 @@ export const listModelManifestNodes: {
   >;
   items: (
     input: ListModelManifestNodesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Node,
     | AccessDeniedException
     | InternalServerException
@@ -4849,7 +5161,7 @@ export const listModelManifestNodes: {
 export const listSignalCatalogNodes: {
   (
     input: ListSignalCatalogNodesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSignalCatalogNodesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4862,7 +5174,7 @@ export const listSignalCatalogNodes: {
   >;
   pages: (
     input: ListSignalCatalogNodesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSignalCatalogNodesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4875,7 +5187,7 @@ export const listSignalCatalogNodes: {
   >;
   items: (
     input: ListSignalCatalogNodesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Node,
     | AccessDeniedException
     | InternalServerException
@@ -4909,7 +5221,7 @@ export const listSignalCatalogNodes: {
  */
 export const associateVehicleFleet: (
   input: AssociateVehicleFleetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateVehicleFleetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4941,7 +5253,7 @@ export const associateVehicleFleet: (
  */
 export const createFleet: (
   input: CreateFleetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFleetResponse,
   | AccessDeniedException
   | ConflictException
@@ -4972,7 +5284,7 @@ export const createFleet: (
  */
 export const updateVehicle: (
   input: UpdateVehicleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateVehicleResponse,
   | AccessDeniedException
   | ConflictException
@@ -5007,7 +5319,7 @@ export const updateVehicle: (
  */
 export const batchCreateVehicle: (
   input: BatchCreateVehicleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchCreateVehicleResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5038,7 +5350,7 @@ export const batchCreateVehicle: (
  */
 export const batchUpdateVehicle: (
   input: BatchUpdateVehicleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchUpdateVehicleResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5071,7 +5383,7 @@ export const batchUpdateVehicle: (
  */
 export const createCampaign: (
   input: CreateCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCampaignResponse,
   | AccessDeniedException
   | ConflictException
@@ -5100,7 +5412,7 @@ export const createCampaign: (
  */
 export const updateStateTemplate: (
   input: UpdateStateTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateStateTemplateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5133,7 +5445,7 @@ export const updateStateTemplate: (
  */
 export const createModelManifest: (
   input: CreateModelManifestRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateModelManifestResponse,
   | AccessDeniedException
   | ConflictException
@@ -5163,7 +5475,7 @@ export const createModelManifest: (
  */
 export const updateModelManifest: (
   input: UpdateModelManifestRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateModelManifestResponse,
   | AccessDeniedException
   | ConflictException
@@ -5194,7 +5506,7 @@ export const updateModelManifest: (
  */
 export const createStateTemplate: (
   input: CreateStateTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateStateTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -5225,7 +5537,7 @@ export const createStateTemplate: (
  */
 export const updateSignalCatalog: (
   input: UpdateSignalCatalogRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSignalCatalogResponse,
   | AccessDeniedException
   | ConflictException
@@ -5259,7 +5571,7 @@ export const updateSignalCatalog: (
  */
 export const createSignalCatalog: (
   input: CreateSignalCatalogRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSignalCatalogResponse,
   | AccessDeniedException
   | ConflictException
@@ -5290,7 +5602,7 @@ export const createSignalCatalog: (
  */
 export const importDecoderManifest: (
   input: ImportDecoderManifestRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ImportDecoderManifestResponse,
   | AccessDeniedException
   | ConflictException
@@ -5327,7 +5639,7 @@ export const importDecoderManifest: (
  */
 export const createVehicle: (
   input: CreateVehicleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVehicleResponse,
   | AccessDeniedException
   | ConflictException
@@ -5365,7 +5677,7 @@ export const createVehicle: (
  */
 export const createDecoderManifest: (
   input: CreateDecoderManifestRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDecoderManifestResponse,
   | AccessDeniedException
   | ConflictException

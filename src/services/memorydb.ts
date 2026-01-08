@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -111,8 +111,6 @@ export type ACLName = string;
 export type AccessString = string;
 export type FilterName = string;
 export type FilterValue = string;
-export type Integer = number;
-export type Double = number;
 export type ExceptionMessage = string;
 export type AwsQueryErrorMessage = string;
 
@@ -129,16 +127,48 @@ export type SnapshotArnsList = string[];
 export const SnapshotArnsList = S.Array(
   S.String.pipe(T.XmlName("SnapshotArn")),
 );
+export type NetworkType = "ipv4" | "ipv6" | "dual_stack";
+export const NetworkType = S.Literal("ipv4", "ipv6", "dual_stack");
+export type IpDiscovery = "ipv4" | "ipv6";
+export const IpDiscovery = S.Literal("ipv4", "ipv6");
 export type SubnetIdentifierList = string[];
 export const SubnetIdentifierList = S.Array(
   S.String.pipe(T.XmlName("SubnetIdentifier")),
 );
-export type ServiceUpdateStatusList = string[];
-export const ServiceUpdateStatusList = S.Array(S.String);
+export type SourceType =
+  | "node"
+  | "parameter-group"
+  | "subnet-group"
+  | "cluster"
+  | "user"
+  | "acl";
+export const SourceType = S.Literal(
+  "node",
+  "parameter-group",
+  "subnet-group",
+  "cluster",
+  "user",
+  "acl",
+);
+export type ServiceUpdateStatus =
+  | "available"
+  | "in-progress"
+  | "complete"
+  | "scheduled";
+export const ServiceUpdateStatus = S.Literal(
+  "available",
+  "in-progress",
+  "complete",
+  "scheduled",
+);
+export type ServiceUpdateStatusList = ServiceUpdateStatus[];
+export const ServiceUpdateStatusList = S.Array(ServiceUpdateStatus);
 export type ParameterNameList = string[];
 export const ParameterNameList = S.Array(S.String);
 export type KeyList = string[];
 export const KeyList = S.Array(S.String);
+export type UpdateStrategy = "coordinated" | "uncoordinated";
+export const UpdateStrategy = S.Literal("coordinated", "uncoordinated");
 export interface Tag {
   Key?: string;
   Value?: string;
@@ -152,8 +182,8 @@ export const TagList = S.Array(
 );
 export interface CreateACLRequest {
   ACLName: string;
-  UserNames?: UserNameListInput;
-  Tags?: TagList;
+  UserNames?: string[];
+  Tags?: Tag[];
 }
 export const CreateACLRequest = S.suspend(() =>
   S.Struct({
@@ -183,24 +213,24 @@ export interface CreateClusterRequest {
   NumShards?: number;
   NumReplicasPerShard?: number;
   SubnetGroupName?: string;
-  SecurityGroupIds?: SecurityGroupIdsList;
+  SecurityGroupIds?: string[];
   MaintenanceWindow?: string;
   Port?: number;
   SnsTopicArn?: string;
   TLSEnabled?: boolean;
   KmsKeyId?: string;
-  SnapshotArns?: SnapshotArnsList;
+  SnapshotArns?: string[];
   SnapshotName?: string;
   SnapshotRetentionLimit?: number;
-  Tags?: TagList;
+  Tags?: Tag[];
   SnapshotWindow?: string;
   ACLName: string;
   Engine?: string;
   EngineVersion?: string;
   AutoMinorVersionUpgrade?: boolean;
   DataTiering?: boolean;
-  NetworkType?: string;
-  IpDiscovery?: string;
+  NetworkType?: NetworkType;
+  IpDiscovery?: IpDiscovery;
 }
 export const CreateClusterRequest = S.suspend(() =>
   S.Struct({
@@ -228,8 +258,8 @@ export const CreateClusterRequest = S.suspend(() =>
     EngineVersion: S.optional(S.String),
     AutoMinorVersionUpgrade: S.optional(S.Boolean),
     DataTiering: S.optional(S.Boolean),
-    NetworkType: S.optional(S.String),
-    IpDiscovery: S.optional(S.String),
+    NetworkType: S.optional(NetworkType),
+    IpDiscovery: S.optional(IpDiscovery),
   }).pipe(
     T.all(
       ns,
@@ -253,7 +283,7 @@ export interface CreateMultiRegionClusterRequest {
   MultiRegionParameterGroupName?: string;
   NumShards?: number;
   TLSEnabled?: boolean;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateMultiRegionClusterRequest = S.suspend(() =>
   S.Struct({
@@ -284,7 +314,7 @@ export interface CreateParameterGroupRequest {
   ParameterGroupName: string;
   Family: string;
   Description?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateParameterGroupRequest = S.suspend(() =>
   S.Struct({
@@ -310,7 +340,7 @@ export interface CreateSnapshotRequest {
   ClusterName: string;
   SnapshotName: string;
   KmsKeyId?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateSnapshotRequest = S.suspend(() =>
   S.Struct({
@@ -335,8 +365,8 @@ export const CreateSnapshotRequest = S.suspend(() =>
 export interface CreateSubnetGroupRequest {
   SubnetGroupName: string;
   Description?: string;
-  SubnetIds: SubnetIdentifierList;
-  Tags?: TagList;
+  SubnetIds: string[];
+  Tags?: Tag[];
 }
 export const CreateSubnetGroupRequest = S.suspend(() =>
   S.Struct({
@@ -572,7 +602,7 @@ export const DescribeEngineVersionsRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeEngineVersionsRequest>;
 export interface DescribeEventsRequest {
   SourceName?: string;
-  SourceType?: string;
+  SourceType?: SourceType;
   StartTime?: Date;
   EndTime?: Date;
   Duration?: number;
@@ -582,7 +612,7 @@ export interface DescribeEventsRequest {
 export const DescribeEventsRequest = S.suspend(() =>
   S.Struct({
     SourceName: S.optional(S.String),
-    SourceType: S.optional(S.String),
+    SourceType: S.optional(SourceType),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Duration: S.optional(S.Number),
@@ -790,8 +820,8 @@ export const DescribeReservedNodesOfferingsRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeReservedNodesOfferingsRequest>;
 export interface DescribeServiceUpdatesRequest {
   ServiceUpdateName?: string;
-  ClusterNames?: ClusterNameList;
-  Status?: ServiceUpdateStatusList;
+  ClusterNames?: string[];
+  Status?: ServiceUpdateStatus[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -947,7 +977,7 @@ export interface PurchaseReservedNodesOfferingRequest {
   ReservedNodesOfferingId: string;
   ReservationId?: string;
   NodeCount?: number;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const PurchaseReservedNodesOfferingRequest = S.suspend(() =>
   S.Struct({
@@ -972,7 +1002,7 @@ export const PurchaseReservedNodesOfferingRequest = S.suspend(() =>
 export interface ResetParameterGroupRequest {
   ParameterGroupName: string;
   AllParameters?: boolean;
-  ParameterNames?: ParameterNameList;
+  ParameterNames?: string[];
 }
 export const ResetParameterGroupRequest = S.suspend(() =>
   S.Struct({
@@ -995,7 +1025,7 @@ export const ResetParameterGroupRequest = S.suspend(() =>
 }) as any as S.Schema<ResetParameterGroupRequest>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
@@ -1014,7 +1044,7 @@ export const TagResourceRequest = S.suspend(() =>
 }) as any as S.Schema<TagResourceRequest>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: KeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: KeyList }).pipe(
@@ -1033,8 +1063,8 @@ export const UntagResourceRequest = S.suspend(() =>
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UpdateACLRequest {
   ACLName: string;
-  UserNamesToAdd?: UserNameListInput;
-  UserNamesToRemove?: UserNameListInput;
+  UserNamesToAdd?: string[];
+  UserNamesToRemove?: string[];
 }
 export const UpdateACLRequest = S.suspend(() =>
   S.Struct({
@@ -1070,7 +1100,7 @@ export interface UpdateMultiRegionClusterRequest {
   EngineVersion?: string;
   ShardConfiguration?: ShardConfigurationRequest;
   MultiRegionParameterGroupName?: string;
-  UpdateStrategy?: string;
+  UpdateStrategy?: UpdateStrategy;
 }
 export const UpdateMultiRegionClusterRequest = S.suspend(() =>
   S.Struct({
@@ -1080,7 +1110,7 @@ export const UpdateMultiRegionClusterRequest = S.suspend(() =>
     EngineVersion: S.optional(S.String),
     ShardConfiguration: S.optional(ShardConfigurationRequest),
     MultiRegionParameterGroupName: S.optional(S.String),
-    UpdateStrategy: S.optional(S.String),
+    UpdateStrategy: S.optional(UpdateStrategy),
   }).pipe(
     T.all(
       ns,
@@ -1098,7 +1128,7 @@ export const UpdateMultiRegionClusterRequest = S.suspend(() =>
 export interface UpdateSubnetGroupRequest {
   SubnetGroupName: string;
   Description?: string;
-  SubnetIds?: SubnetIdentifierList;
+  SubnetIds?: string[];
 }
 export const UpdateSubnetGroupRequest = S.suspend(() =>
   S.Struct({
@@ -1119,15 +1149,17 @@ export const UpdateSubnetGroupRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateSubnetGroupRequest",
 }) as any as S.Schema<UpdateSubnetGroupRequest>;
+export type InputAuthenticationType = "password" | "iam";
+export const InputAuthenticationType = S.Literal("password", "iam");
 export type PasswordListInput = string[];
 export const PasswordListInput = S.Array(S.String);
 export interface AuthenticationMode {
-  Type?: string;
-  Passwords?: PasswordListInput;
+  Type?: InputAuthenticationType;
+  Passwords?: string[];
 }
 export const AuthenticationMode = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String),
+    Type: S.optional(InputAuthenticationType),
     Passwords: S.optional(PasswordListInput),
   }),
 ).annotations({
@@ -1170,8 +1202,8 @@ export const ServiceUpdateRequest = S.suspend(() =>
 export type UserNameList = string[];
 export const UserNameList = S.Array(S.String);
 export interface ACLPendingChanges {
-  UserNamesToRemove?: UserNameList;
-  UserNamesToAdd?: UserNameList;
+  UserNamesToRemove?: string[];
+  UserNamesToAdd?: string[];
 }
 export const ACLPendingChanges = S.suspend(() =>
   S.Struct({
@@ -1186,10 +1218,10 @@ export const ACLClusterNameList = S.Array(S.String);
 export interface ACL {
   Name?: string;
   Status?: string;
-  UserNames?: UserNameList;
+  UserNames?: string[];
   MinimumEngineVersion?: string;
   PendingChanges?: ACLPendingChanges;
-  Clusters?: ACLClusterNameList;
+  Clusters?: string[];
   ARN?: string;
 }
 export const ACL = S.suspend(() =>
@@ -1231,12 +1263,12 @@ export const ACLsUpdateStatus = S.suspend(() =>
 }) as any as S.Schema<ACLsUpdateStatus>;
 export interface PendingModifiedServiceUpdate {
   ServiceUpdateName?: string;
-  Status?: string;
+  Status?: ServiceUpdateStatus;
 }
 export const PendingModifiedServiceUpdate = S.suspend(() =>
   S.Struct({
     ServiceUpdateName: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ServiceUpdateStatus),
   }),
 ).annotations({
   identifier: "PendingModifiedServiceUpdate",
@@ -1250,7 +1282,7 @@ export const PendingModifiedServiceUpdateList = S.Array(
 export interface ClusterPendingUpdates {
   Resharding?: ReshardingStatus;
   ACLs?: ACLsUpdateStatus;
-  ServiceUpdates?: PendingModifiedServiceUpdateList;
+  ServiceUpdates?: PendingModifiedServiceUpdate[];
 }
 export const ClusterPendingUpdates = S.suspend(() =>
   S.Struct({
@@ -1292,7 +1324,7 @@ export interface Shard {
   Name?: string;
   Status?: string;
   Slots?: string;
-  Nodes?: NodeList;
+  Nodes?: Node[];
   NumberOfNodes?: number;
 }
 export const Shard = S.suspend(() =>
@@ -1308,6 +1340,8 @@ export type ShardList = Shard[];
 export const ShardList = S.Array(
   Shard.pipe(T.XmlName("Shard")).annotations({ identifier: "Shard" }),
 );
+export type AZStatus = "singleaz" | "multiaz";
+export const AZStatus = S.Literal("singleaz", "multiaz");
 export interface SecurityGroupMembership {
   SecurityGroupId?: string;
   Status?: string;
@@ -1322,6 +1356,8 @@ export const SecurityGroupMembership = S.suspend(() =>
 }) as any as S.Schema<SecurityGroupMembership>;
 export type SecurityGroupMembershipList = SecurityGroupMembership[];
 export const SecurityGroupMembershipList = S.Array(SecurityGroupMembership);
+export type DataTieringStatus = "true" | "false";
+export const DataTieringStatus = S.Literal("true", "false");
 export interface Cluster {
   Name?: string;
   Description?: string;
@@ -1329,8 +1365,8 @@ export interface Cluster {
   PendingUpdates?: ClusterPendingUpdates;
   MultiRegionClusterName?: string;
   NumberOfShards?: number;
-  Shards?: ShardList;
-  AvailabilityMode?: string;
+  Shards?: Shard[];
+  AvailabilityMode?: AZStatus;
   ClusterEndpoint?: Endpoint;
   NodeType?: string;
   Engine?: string;
@@ -1338,7 +1374,7 @@ export interface Cluster {
   EnginePatchVersion?: string;
   ParameterGroupName?: string;
   ParameterGroupStatus?: string;
-  SecurityGroups?: SecurityGroupMembershipList;
+  SecurityGroups?: SecurityGroupMembership[];
   SubnetGroupName?: string;
   TLSEnabled?: boolean;
   KmsKeyId?: string;
@@ -1350,9 +1386,9 @@ export interface Cluster {
   SnapshotWindow?: string;
   ACLName?: string;
   AutoMinorVersionUpgrade?: boolean;
-  DataTiering?: string;
-  NetworkType?: string;
-  IpDiscovery?: string;
+  DataTiering?: DataTieringStatus;
+  NetworkType?: NetworkType;
+  IpDiscovery?: IpDiscovery;
 }
 export const Cluster = S.suspend(() =>
   S.Struct({
@@ -1363,7 +1399,7 @@ export const Cluster = S.suspend(() =>
     MultiRegionClusterName: S.optional(S.String),
     NumberOfShards: S.optional(S.Number),
     Shards: S.optional(ShardList),
-    AvailabilityMode: S.optional(S.String),
+    AvailabilityMode: S.optional(AZStatus),
     ClusterEndpoint: S.optional(Endpoint),
     NodeType: S.optional(S.String),
     Engine: S.optional(S.String),
@@ -1383,9 +1419,9 @@ export const Cluster = S.suspend(() =>
     SnapshotWindow: S.optional(S.String),
     ACLName: S.optional(S.String),
     AutoMinorVersionUpgrade: S.optional(S.Boolean),
-    DataTiering: S.optional(S.String),
-    NetworkType: S.optional(S.String),
-    IpDiscovery: S.optional(S.String),
+    DataTiering: S.optional(DataTieringStatus),
+    NetworkType: S.optional(NetworkType),
+    IpDiscovery: S.optional(IpDiscovery),
   }),
 ).annotations({ identifier: "Cluster" }) as any as S.Schema<Cluster>;
 export type ClusterList = Cluster[];
@@ -1422,7 +1458,7 @@ export interface MultiRegionCluster {
   Engine?: string;
   EngineVersion?: string;
   NumberOfShards?: number;
-  Clusters?: RegionalClusterList;
+  Clusters?: RegionalCluster[];
   MultiRegionParameterGroupName?: string;
   TLSEnabled?: boolean;
   ARN?: string;
@@ -1510,7 +1546,7 @@ export interface ClusterConfiguration {
   SnapshotRetentionLimit?: number;
   SnapshotWindow?: string;
   NumShards?: number;
-  Shards?: ShardDetails;
+  Shards?: ShardDetail[];
   MultiRegionParameterGroupName?: string;
   MultiRegionClusterName?: string;
 }
@@ -1544,7 +1580,7 @@ export interface Snapshot {
   KmsKeyId?: string;
   ARN?: string;
   ClusterConfiguration?: ClusterConfiguration;
-  DataTiering?: string;
+  DataTiering?: DataTieringStatus;
 }
 export const Snapshot = S.suspend(() =>
   S.Struct({
@@ -1554,7 +1590,7 @@ export const Snapshot = S.suspend(() =>
     KmsKeyId: S.optional(S.String),
     ARN: S.optional(S.String),
     ClusterConfiguration: S.optional(ClusterConfiguration),
-    DataTiering: S.optional(S.String),
+    DataTiering: S.optional(DataTieringStatus),
   }),
 ).annotations({ identifier: "Snapshot" }) as any as S.Schema<Snapshot>;
 export type SnapshotList = Snapshot[];
@@ -1567,12 +1603,12 @@ export const AvailabilityZone = S.suspend(() =>
 ).annotations({
   identifier: "AvailabilityZone",
 }) as any as S.Schema<AvailabilityZone>;
-export type NetworkTypeList = string[];
-export const NetworkTypeList = S.Array(S.String);
+export type NetworkTypeList = NetworkType[];
+export const NetworkTypeList = S.Array(NetworkType);
 export interface Subnet {
   Identifier?: string;
   AvailabilityZone?: AvailabilityZone;
-  SupportedNetworkTypes?: NetworkTypeList;
+  SupportedNetworkTypes?: NetworkType[];
 }
 export const Subnet = S.suspend(() =>
   S.Struct({
@@ -1589,9 +1625,9 @@ export interface SubnetGroup {
   Name?: string;
   Description?: string;
   VpcId?: string;
-  Subnets?: SubnetList;
+  Subnets?: Subnet[];
   ARN?: string;
-  SupportedNetworkTypes?: NetworkTypeList;
+  SupportedNetworkTypes?: NetworkType[];
 }
 export const SubnetGroup = S.suspend(() =>
   S.Struct({
@@ -1607,7 +1643,7 @@ export type SubnetGroupList = SubnetGroup[];
 export const SubnetGroupList = S.Array(SubnetGroup);
 export interface Filter {
   Name: string;
-  Values: FilterValueList;
+  Values: string[];
 }
 export const Filter = S.suspend(() =>
   S.Struct({ Name: S.String, Values: FilterValueList }),
@@ -1643,7 +1679,7 @@ export const ParameterNameValueList = S.Array(
   }),
 );
 export interface BatchUpdateClusterRequest {
-  ClusterNames: ClusterNameList;
+  ClusterNames: string[];
   ServiceUpdate?: ServiceUpdateRequest;
 }
 export const BatchUpdateClusterRequest = S.suspend(() =>
@@ -1669,7 +1705,7 @@ export interface CopySnapshotRequest {
   TargetSnapshotName: string;
   TargetBucket?: string;
   KmsKeyId?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CopySnapshotRequest = S.suspend(() =>
   S.Struct({
@@ -1696,7 +1732,7 @@ export interface CreateUserRequest {
   UserName: string;
   AuthenticationMode: AuthenticationMode;
   AccessString: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateUserRequest = S.suspend(() =>
   S.Struct({
@@ -1767,7 +1803,7 @@ export const DeleteSubnetGroupResponse = S.suspend(() =>
   identifier: "DeleteSubnetGroupResponse",
 }) as any as S.Schema<DeleteSubnetGroupResponse>;
 export interface DescribeACLsResponse {
-  ACLs?: ACLList;
+  ACLs?: ACL[];
   NextToken?: string;
 }
 export const DescribeACLsResponse = S.suspend(() =>
@@ -1779,7 +1815,7 @@ export const DescribeACLsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeACLsResponse>;
 export interface DescribeClustersResponse {
   NextToken?: string;
-  Clusters?: ClusterList;
+  Clusters?: Cluster[];
 }
 export const DescribeClustersResponse = S.suspend(() =>
   S.Struct({
@@ -1791,7 +1827,7 @@ export const DescribeClustersResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeClustersResponse>;
 export interface DescribeMultiRegionClustersResponse {
   NextToken?: string;
-  MultiRegionClusters?: MultiRegionClusterList;
+  MultiRegionClusters?: MultiRegionCluster[];
 }
 export const DescribeMultiRegionClustersResponse = S.suspend(() =>
   S.Struct({
@@ -1803,7 +1839,7 @@ export const DescribeMultiRegionClustersResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeMultiRegionClustersResponse>;
 export interface DescribeParameterGroupsResponse {
   NextToken?: string;
-  ParameterGroups?: ParameterGroupList;
+  ParameterGroups?: ParameterGroup[];
 }
 export const DescribeParameterGroupsResponse = S.suspend(() =>
   S.Struct({
@@ -1815,7 +1851,7 @@ export const DescribeParameterGroupsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeParameterGroupsResponse>;
 export interface DescribeSnapshotsResponse {
   NextToken?: string;
-  Snapshots?: SnapshotList;
+  Snapshots?: Snapshot[];
 }
 export const DescribeSnapshotsResponse = S.suspend(() =>
   S.Struct({
@@ -1827,7 +1863,7 @@ export const DescribeSnapshotsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeSnapshotsResponse>;
 export interface DescribeSubnetGroupsResponse {
   NextToken?: string;
-  SubnetGroups?: SubnetGroupList;
+  SubnetGroups?: SubnetGroup[];
 }
 export const DescribeSubnetGroupsResponse = S.suspend(() =>
   S.Struct({
@@ -1839,7 +1875,7 @@ export const DescribeSubnetGroupsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeSubnetGroupsResponse>;
 export interface DescribeUsersRequest {
   UserName?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -1872,8 +1908,8 @@ export const FailoverShardResponse = S.suspend(() =>
   identifier: "FailoverShardResponse",
 }) as any as S.Schema<FailoverShardResponse>;
 export interface ListAllowedMultiRegionClusterUpdatesResponse {
-  ScaleUpNodeTypes?: NodeTypeList;
-  ScaleDownNodeTypes?: NodeTypeList;
+  ScaleUpNodeTypes?: string[];
+  ScaleDownNodeTypes?: string[];
 }
 export const ListAllowedMultiRegionClusterUpdatesResponse = S.suspend(() =>
   S.Struct({
@@ -1884,8 +1920,8 @@ export const ListAllowedMultiRegionClusterUpdatesResponse = S.suspend(() =>
   identifier: "ListAllowedMultiRegionClusterUpdatesResponse",
 }) as any as S.Schema<ListAllowedMultiRegionClusterUpdatesResponse>;
 export interface ListAllowedNodeTypeUpdatesResponse {
-  ScaleUpNodeTypes?: NodeTypeList;
-  ScaleDownNodeTypes?: NodeTypeList;
+  ScaleUpNodeTypes?: string[];
+  ScaleDownNodeTypes?: string[];
 }
 export const ListAllowedNodeTypeUpdatesResponse = S.suspend(() =>
   S.Struct({
@@ -1896,7 +1932,7 @@ export const ListAllowedNodeTypeUpdatesResponse = S.suspend(() =>
   identifier: "ListAllowedNodeTypeUpdatesResponse",
 }) as any as S.Schema<ListAllowedNodeTypeUpdatesResponse>;
 export interface ListTagsResponse {
-  TagList?: TagList;
+  TagList?: Tag[];
 }
 export const ListTagsResponse = S.suspend(() =>
   S.Struct({ TagList: S.optional(TagList) }).pipe(ns),
@@ -1931,7 +1967,7 @@ export interface ReservedNode {
   NodeCount?: number;
   OfferingType?: string;
   State?: string;
-  RecurringCharges?: RecurringChargeList;
+  RecurringCharges?: RecurringCharge[];
   ARN?: string;
 }
 export const ReservedNode = S.suspend(() =>
@@ -1966,7 +2002,7 @@ export const ResetParameterGroupResponse = S.suspend(() =>
   identifier: "ResetParameterGroupResponse",
 }) as any as S.Schema<ResetParameterGroupResponse>;
 export interface TagResourceResponse {
-  TagList?: TagList;
+  TagList?: Tag[];
 }
 export const TagResourceResponse = S.suspend(() =>
   S.Struct({ TagList: S.optional(TagList) }).pipe(ns),
@@ -1974,7 +2010,7 @@ export const TagResourceResponse = S.suspend(() =>
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceResponse {
-  TagList?: TagList;
+  TagList?: Tag[];
 }
 export const UntagResourceResponse = S.suspend(() =>
   S.Struct({ TagList: S.optional(TagList) }).pipe(ns),
@@ -1992,7 +2028,7 @@ export const UpdateACLResponse = S.suspend(() =>
 export interface UpdateClusterRequest {
   ClusterName: string;
   Description?: string;
-  SecurityGroupIds?: SecurityGroupIdsList;
+  SecurityGroupIds?: string[];
   MaintenanceWindow?: string;
   SnsTopicArn?: string;
   SnsTopicStatus?: string;
@@ -2005,7 +2041,7 @@ export interface UpdateClusterRequest {
   ReplicaConfiguration?: ReplicaConfigurationRequest;
   ShardConfiguration?: ShardConfigurationRequest;
   ACLName?: string;
-  IpDiscovery?: string;
+  IpDiscovery?: IpDiscovery;
 }
 export const UpdateClusterRequest = S.suspend(() =>
   S.Struct({
@@ -2024,7 +2060,7 @@ export const UpdateClusterRequest = S.suspend(() =>
     ReplicaConfiguration: S.optional(ReplicaConfigurationRequest),
     ShardConfiguration: S.optional(ShardConfigurationRequest),
     ACLName: S.optional(S.String),
-    IpDiscovery: S.optional(S.String),
+    IpDiscovery: S.optional(IpDiscovery),
   }).pipe(
     T.all(
       ns,
@@ -2049,7 +2085,7 @@ export const UpdateMultiRegionClusterResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateMultiRegionClusterResponse>;
 export interface UpdateParameterGroupRequest {
   ParameterGroupName: string;
-  ParameterNameValues: ParameterNameValueList;
+  ParameterNameValues: ParameterNameValue[];
 }
 export const UpdateParameterGroupRequest = S.suspend(() =>
   S.Struct({
@@ -2079,12 +2115,17 @@ export const UpdateSubnetGroupResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateSubnetGroupResponse>;
 export type ACLNameList = string[];
 export const ACLNameList = S.Array(S.String);
+export type AuthenticationType = "password" | "no-password" | "iam";
+export const AuthenticationType = S.Literal("password", "no-password", "iam");
 export interface Authentication {
-  Type?: string;
+  Type?: AuthenticationType;
   PasswordCount?: number;
 }
 export const Authentication = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String), PasswordCount: S.optional(S.Number) }),
+  S.Struct({
+    Type: S.optional(AuthenticationType),
+    PasswordCount: S.optional(S.Number),
+  }),
 ).annotations({
   identifier: "Authentication",
 }) as any as S.Schema<Authentication>;
@@ -2092,7 +2133,7 @@ export interface User {
   Name?: string;
   Status?: string;
   AccessString?: string;
-  ACLNames?: ACLNameList;
+  ACLNames?: string[];
   MinimumEngineVersion?: string;
   Authentication?: Authentication;
   ARN?: string;
@@ -2116,6 +2157,8 @@ export const UpdateUserResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateUserResponse",
 }) as any as S.Schema<UpdateUserResponse>;
+export type ServiceUpdateType = "security-update";
+export const ServiceUpdateType = S.Literal("security-update");
 export interface EngineVersionInfo {
   Engine?: string;
   EngineVersion?: string;
@@ -2136,14 +2179,14 @@ export type EngineVersionInfoList = EngineVersionInfo[];
 export const EngineVersionInfoList = S.Array(EngineVersionInfo);
 export interface Event {
   SourceName?: string;
-  SourceType?: string;
+  SourceType?: SourceType;
   Message?: string;
   Date?: Date;
 }
 export const Event = S.suspend(() =>
   S.Struct({
     SourceName: S.optional(S.String),
-    SourceType: S.optional(S.String),
+    SourceType: S.optional(SourceType),
     Message: S.optional(S.String),
     Date: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -2232,7 +2275,7 @@ export interface ReservedNodesOffering {
   Duration?: number;
   FixedPrice?: number;
   OfferingType?: string;
-  RecurringCharges?: RecurringChargeList;
+  RecurringCharges?: RecurringCharge[];
 }
 export const ReservedNodesOffering = S.suspend(() =>
   S.Struct({
@@ -2257,8 +2300,8 @@ export interface ServiceUpdate {
   ServiceUpdateName?: string;
   ReleaseDate?: Date;
   Description?: string;
-  Status?: string;
-  Type?: string;
+  Status?: ServiceUpdateStatus;
+  Type?: ServiceUpdateType;
   Engine?: string;
   NodesUpdated?: string;
   AutoUpdateStartDate?: Date;
@@ -2269,8 +2312,8 @@ export const ServiceUpdate = S.suspend(() =>
     ServiceUpdateName: S.optional(S.String),
     ReleaseDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Description: S.optional(S.String),
-    Status: S.optional(S.String),
-    Type: S.optional(S.String),
+    Status: S.optional(ServiceUpdateStatus),
+    Type: S.optional(ServiceUpdateType),
     Engine: S.optional(S.String),
     NodesUpdated: S.optional(S.String),
     AutoUpdateStartDate: S.optional(
@@ -2314,7 +2357,7 @@ export const CreateUserResponse = S.suspend(() =>
 }) as any as S.Schema<CreateUserResponse>;
 export interface DescribeEngineVersionsResponse {
   NextToken?: string;
-  EngineVersions?: EngineVersionInfoList;
+  EngineVersions?: EngineVersionInfo[];
 }
 export const DescribeEngineVersionsResponse = S.suspend(() =>
   S.Struct({
@@ -2326,7 +2369,7 @@ export const DescribeEngineVersionsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeEngineVersionsResponse>;
 export interface DescribeEventsResponse {
   NextToken?: string;
-  Events?: EventList;
+  Events?: Event[];
 }
 export const DescribeEventsResponse = S.suspend(() =>
   S.Struct({
@@ -2338,7 +2381,7 @@ export const DescribeEventsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeEventsResponse>;
 export interface DescribeMultiRegionParameterGroupsResponse {
   NextToken?: string;
-  MultiRegionParameterGroups?: MultiRegionParameterGroupList;
+  MultiRegionParameterGroups?: MultiRegionParameterGroup[];
 }
 export const DescribeMultiRegionParameterGroupsResponse = S.suspend(() =>
   S.Struct({
@@ -2350,7 +2393,7 @@ export const DescribeMultiRegionParameterGroupsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeMultiRegionParameterGroupsResponse>;
 export interface DescribeMultiRegionParametersResponse {
   NextToken?: string;
-  MultiRegionParameters?: MultiRegionParametersList;
+  MultiRegionParameters?: MultiRegionParameter[];
 }
 export const DescribeMultiRegionParametersResponse = S.suspend(() =>
   S.Struct({
@@ -2362,7 +2405,7 @@ export const DescribeMultiRegionParametersResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeMultiRegionParametersResponse>;
 export interface DescribeParametersResponse {
   NextToken?: string;
-  Parameters?: ParametersList;
+  Parameters?: Parameter[];
 }
 export const DescribeParametersResponse = S.suspend(() =>
   S.Struct({
@@ -2374,7 +2417,7 @@ export const DescribeParametersResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeParametersResponse>;
 export interface DescribeReservedNodesOfferingsResponse {
   NextToken?: string;
-  ReservedNodesOfferings?: ReservedNodesOfferingList;
+  ReservedNodesOfferings?: ReservedNodesOffering[];
 }
 export const DescribeReservedNodesOfferingsResponse = S.suspend(() =>
   S.Struct({
@@ -2386,7 +2429,7 @@ export const DescribeReservedNodesOfferingsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeReservedNodesOfferingsResponse>;
 export interface DescribeServiceUpdatesResponse {
   NextToken?: string;
-  ServiceUpdates?: ServiceUpdateList;
+  ServiceUpdates?: ServiceUpdate[];
 }
 export const DescribeServiceUpdatesResponse = S.suspend(() =>
   S.Struct({
@@ -2397,7 +2440,7 @@ export const DescribeServiceUpdatesResponse = S.suspend(() =>
   identifier: "DescribeServiceUpdatesResponse",
 }) as any as S.Schema<DescribeServiceUpdatesResponse>;
 export interface DescribeUsersResponse {
-  Users?: UserList;
+  Users?: User[];
   NextToken?: string;
 }
 export const DescribeUsersResponse = S.suspend(() =>
@@ -2451,8 +2494,8 @@ export const ReservedNodeList = S.Array(
   }),
 );
 export interface BatchUpdateClusterResponse {
-  ProcessedClusters?: ClusterList;
-  UnprocessedClusters?: UnprocessedClusterList;
+  ProcessedClusters?: Cluster[];
+  UnprocessedClusters?: UnprocessedCluster[];
 }
 export const BatchUpdateClusterResponse = S.suspend(() =>
   S.Struct({
@@ -2488,7 +2531,7 @@ export const DeleteUserResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteUserResponse>;
 export interface DescribeReservedNodesResponse {
   NextToken?: string;
-  ReservedNodes?: ReservedNodeList;
+  ReservedNodes?: ReservedNode[];
 }
 export const DescribeReservedNodesResponse = S.suspend(() =>
   S.Struct({
@@ -2886,21 +2929,21 @@ export class ShardsPerClusterQuotaExceededFault extends S.TaggedError<ShardsPerC
 export const describeACLs: {
   (
     input: DescribeACLsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeACLsResponse,
     ACLNotFoundFault | InvalidParameterCombinationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeACLsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeACLsResponse,
     ACLNotFoundFault | InvalidParameterCombinationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeACLsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ACL,
     ACLNotFoundFault | InvalidParameterCombinationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2922,21 +2965,21 @@ export const describeACLs: {
 export const describeUsers: {
   (
     input: DescribeUsersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeUsersResponse,
     InvalidParameterCombinationException | UserNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeUsersResponse,
     InvalidParameterCombinationException | UserNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     User,
     InvalidParameterCombinationException | UserNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2957,7 +3000,7 @@ export const describeUsers: {
  */
 export const updateACL: (
   input: UpdateACLRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateACLResponse,
   | ACLNotFoundFault
   | DefaultUserRequired
@@ -2987,7 +3030,7 @@ export const updateACL: (
 export const describeEngineVersions: {
   (
     input: DescribeEngineVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeEngineVersionsResponse,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -2997,7 +3040,7 @@ export const describeEngineVersions: {
   >;
   pages: (
     input: DescribeEngineVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeEngineVersionsResponse,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -3007,7 +3050,7 @@ export const describeEngineVersions: {
   >;
   items: (
     input: DescribeEngineVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EngineVersionInfo,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -3038,7 +3081,7 @@ export const describeEngineVersions: {
 export const describeEvents: {
   (
     input: DescribeEventsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeEventsResponse,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -3048,7 +3091,7 @@ export const describeEvents: {
   >;
   pages: (
     input: DescribeEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeEventsResponse,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -3058,7 +3101,7 @@ export const describeEvents: {
   >;
   items: (
     input: DescribeEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Event,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -3087,7 +3130,7 @@ export const describeEvents: {
 export const describeServiceUpdates: {
   (
     input: DescribeServiceUpdatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeServiceUpdatesResponse,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -3096,7 +3139,7 @@ export const describeServiceUpdates: {
   >;
   pages: (
     input: DescribeServiceUpdatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeServiceUpdatesResponse,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -3105,7 +3148,7 @@ export const describeServiceUpdates: {
   >;
   items: (
     input: DescribeServiceUpdatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServiceUpdate,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -3132,7 +3175,7 @@ export const describeServiceUpdates: {
 export const describeClusters: {
   (
     input: DescribeClustersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeClustersResponse,
     | ClusterNotFoundFault
     | InvalidParameterCombinationException
@@ -3143,7 +3186,7 @@ export const describeClusters: {
   >;
   pages: (
     input: DescribeClustersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeClustersResponse,
     | ClusterNotFoundFault
     | InvalidParameterCombinationException
@@ -3154,7 +3197,7 @@ export const describeClusters: {
   >;
   items: (
     input: DescribeClustersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Cluster,
     | ClusterNotFoundFault
     | InvalidParameterCombinationException
@@ -3186,7 +3229,7 @@ export const describeClusters: {
  */
 export const listAllowedNodeTypeUpdates: (
   input: ListAllowedNodeTypeUpdatesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListAllowedNodeTypeUpdatesResponse,
   | ClusterNotFoundFault
   | InvalidParameterCombinationException
@@ -3209,7 +3252,7 @@ export const listAllowedNodeTypeUpdates: (
  */
 export const deleteACL: (
   input: DeleteACLRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteACLResponse,
   | ACLNotFoundFault
   | InvalidACLStateFault
@@ -3231,21 +3274,21 @@ export const deleteACL: (
 export const describeSubnetGroups: {
   (
     input: DescribeSubnetGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeSubnetGroupsResponse,
     ServiceLinkedRoleNotFoundFault | SubnetGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeSubnetGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeSubnetGroupsResponse,
     ServiceLinkedRoleNotFoundFault | SubnetGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeSubnetGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SubnetGroup,
     ServiceLinkedRoleNotFoundFault | SubnetGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3266,7 +3309,7 @@ export const describeSubnetGroups: {
  */
 export const deleteSubnetGroup: (
   input: DeleteSubnetGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSubnetGroupResponse,
   | ServiceLinkedRoleNotFoundFault
   | SubnetGroupInUseFault
@@ -3287,7 +3330,7 @@ export const deleteSubnetGroup: (
  */
 export const deleteMultiRegionCluster: (
   input: DeleteMultiRegionClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMultiRegionClusterResponse,
   | InvalidMultiRegionClusterStateFault
   | InvalidParameterValueException
@@ -3309,7 +3352,7 @@ export const deleteMultiRegionCluster: (
  */
 export const deleteParameterGroup: (
   input: DeleteParameterGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteParameterGroupResponse,
   | InvalidParameterCombinationException
   | InvalidParameterGroupStateFault
@@ -3334,7 +3377,7 @@ export const deleteParameterGroup: (
  */
 export const deleteUser: (
   input: DeleteUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUserResponse,
   | InvalidParameterValueException
   | InvalidUserStateFault
@@ -3356,7 +3399,7 @@ export const deleteUser: (
 export const describeReservedNodes: {
   (
     input: DescribeReservedNodesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeReservedNodesResponse,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -3367,7 +3410,7 @@ export const describeReservedNodes: {
   >;
   pages: (
     input: DescribeReservedNodesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeReservedNodesResponse,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -3378,7 +3421,7 @@ export const describeReservedNodes: {
   >;
   items: (
     input: DescribeReservedNodesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReservedNode,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -3408,7 +3451,7 @@ export const describeReservedNodes: {
  */
 export const describeMultiRegionParameterGroups: (
   input: DescribeMultiRegionParameterGroupsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeMultiRegionParameterGroupsResponse,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -3432,7 +3475,7 @@ export const describeMultiRegionParameterGroups: (
 export const describeReservedNodesOfferings: {
   (
     input: DescribeReservedNodesOfferingsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeReservedNodesOfferingsResponse,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -3443,7 +3486,7 @@ export const describeReservedNodesOfferings: {
   >;
   pages: (
     input: DescribeReservedNodesOfferingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeReservedNodesOfferingsResponse,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -3454,7 +3497,7 @@ export const describeReservedNodesOfferings: {
   >;
   items: (
     input: DescribeReservedNodesOfferingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReservedNodesOffering,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -3486,7 +3529,7 @@ export const describeReservedNodesOfferings: {
 export const describeSnapshots: {
   (
     input: DescribeSnapshotsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeSnapshotsResponse,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -3497,7 +3540,7 @@ export const describeSnapshots: {
   >;
   pages: (
     input: DescribeSnapshotsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeSnapshotsResponse,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -3508,7 +3551,7 @@ export const describeSnapshots: {
   >;
   items: (
     input: DescribeSnapshotsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Snapshot,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -3538,7 +3581,7 @@ export const describeSnapshots: {
  */
 export const batchUpdateCluster: (
   input: BatchUpdateClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchUpdateClusterResponse,
   InvalidParameterValueException | ServiceUpdateNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3555,7 +3598,7 @@ export const batchUpdateCluster: (
  */
 export const deleteCluster: (
   input: DeleteClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteClusterResponse,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -3584,7 +3627,7 @@ export const deleteCluster: (
  */
 export const listTags: (
   input: ListTagsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsResponse,
   | ACLNotFoundFault
   | ClusterNotFoundFault
@@ -3622,7 +3665,7 @@ export const listTags: (
 export const describeMultiRegionClusters: {
   (
     input: DescribeMultiRegionClustersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeMultiRegionClustersResponse,
     | ClusterNotFoundFault
     | InvalidParameterCombinationException
@@ -3633,7 +3676,7 @@ export const describeMultiRegionClusters: {
   >;
   pages: (
     input: DescribeMultiRegionClustersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeMultiRegionClustersResponse,
     | ClusterNotFoundFault
     | InvalidParameterCombinationException
@@ -3644,7 +3687,7 @@ export const describeMultiRegionClusters: {
   >;
   items: (
     input: DescribeMultiRegionClustersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MultiRegionCluster,
     | ClusterNotFoundFault
     | InvalidParameterCombinationException
@@ -3674,7 +3717,7 @@ export const describeMultiRegionClusters: {
  */
 export const updateMultiRegionCluster: (
   input: UpdateMultiRegionClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMultiRegionClusterResponse,
   | InvalidMultiRegionClusterStateFault
   | InvalidParameterCombinationException
@@ -3699,7 +3742,7 @@ export const updateMultiRegionCluster: (
  */
 export const listAllowedMultiRegionClusterUpdates: (
   input: ListAllowedMultiRegionClusterUpdatesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListAllowedMultiRegionClusterUpdatesResponse,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -3728,7 +3771,7 @@ export const listAllowedMultiRegionClusterUpdates: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | ACLNotFoundFault
   | ClusterNotFoundFault
@@ -3770,7 +3813,7 @@ export const tagResource: (
 export const describeParameters: {
   (
     input: DescribeParametersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeParametersResponse,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -3781,7 +3824,7 @@ export const describeParameters: {
   >;
   pages: (
     input: DescribeParametersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeParametersResponse,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -3792,7 +3835,7 @@ export const describeParameters: {
   >;
   items: (
     input: DescribeParametersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Parameter,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -3823,7 +3866,7 @@ export const describeParameters: {
 export const describeParameterGroups: {
   (
     input: DescribeParameterGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeParameterGroupsResponse,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -3834,7 +3877,7 @@ export const describeParameterGroups: {
   >;
   pages: (
     input: DescribeParameterGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeParameterGroupsResponse,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -3845,7 +3888,7 @@ export const describeParameterGroups: {
   >;
   items: (
     input: DescribeParameterGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ParameterGroup,
     | InvalidParameterCombinationException
     | InvalidParameterValueException
@@ -3875,7 +3918,7 @@ export const describeParameterGroups: {
  */
 export const updateParameterGroup: (
   input: UpdateParameterGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateParameterGroupResponse,
   | InvalidParameterCombinationException
   | InvalidParameterGroupStateFault
@@ -3900,7 +3943,7 @@ export const updateParameterGroup: (
  */
 export const resetParameterGroup: (
   input: ResetParameterGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResetParameterGroupResponse,
   | InvalidParameterCombinationException
   | InvalidParameterGroupStateFault
@@ -3925,7 +3968,7 @@ export const resetParameterGroup: (
  */
 export const updateUser: (
   input: UpdateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserResponse,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -3948,7 +3991,7 @@ export const updateUser: (
  */
 export const createMultiRegionCluster: (
   input: CreateMultiRegionClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMultiRegionClusterResponse,
   | ClusterQuotaForCustomerExceededFault
   | InvalidParameterCombinationException
@@ -3975,7 +4018,7 @@ export const createMultiRegionCluster: (
  */
 export const describeMultiRegionParameters: (
   input: DescribeMultiRegionParametersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeMultiRegionParametersResponse,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -3998,7 +4041,7 @@ export const describeMultiRegionParameters: (
  */
 export const deleteSnapshot: (
   input: DeleteSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSnapshotResponse,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -4023,7 +4066,7 @@ export const deleteSnapshot: (
  */
 export const createACL: (
   input: CreateACLRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateACLResponse,
   | ACLAlreadyExistsFault
   | ACLQuotaExceededFault
@@ -4052,7 +4095,7 @@ export const createACL: (
  */
 export const purchaseReservedNodesOffering: (
   input: PurchaseReservedNodesOfferingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PurchaseReservedNodesOfferingResponse,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -4089,7 +4132,7 @@ export const purchaseReservedNodesOffering: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | ACLNotFoundFault
   | ClusterNotFoundFault
@@ -4131,7 +4174,7 @@ export const untagResource: (
  */
 export const createParameterGroup: (
   input: CreateParameterGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateParameterGroupResponse,
   | InvalidParameterCombinationException
   | InvalidParameterGroupStateFault
@@ -4160,7 +4203,7 @@ export const createParameterGroup: (
  */
 export const copySnapshot: (
   input: CopySnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CopySnapshotResponse,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -4191,7 +4234,7 @@ export const copySnapshot: (
  */
 export const createSnapshot: (
   input: CreateSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSnapshotResponse,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -4222,7 +4265,7 @@ export const createSnapshot: (
  */
 export const updateSubnetGroup: (
   input: UpdateSubnetGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSubnetGroupResponse,
   | InvalidSubnet
   | ServiceLinkedRoleNotFoundFault
@@ -4249,7 +4292,7 @@ export const updateSubnetGroup: (
  */
 export const createUser: (
   input: CreateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUserResponse,
   | DuplicateUserNameFault
   | InvalidParameterCombinationException
@@ -4277,7 +4320,7 @@ export const createUser: (
  */
 export const failoverShard: (
   input: FailoverShardRequest,
-) => Effect.Effect<
+) => effect.Effect<
   FailoverShardResponse,
   | APICallRateForCustomerExceededFault
   | ClusterNotFoundFault
@@ -4311,7 +4354,7 @@ export const failoverShard: (
  */
 export const createSubnetGroup: (
   input: CreateSubnetGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSubnetGroupResponse,
   | InvalidSubnet
   | ServiceLinkedRoleNotFoundFault
@@ -4340,7 +4383,7 @@ export const createSubnetGroup: (
  */
 export const createCluster: (
   input: CreateClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateClusterResponse,
   | ACLNotFoundFault
   | ClusterAlreadyExistsFault
@@ -4391,7 +4434,7 @@ export const createCluster: (
  */
 export const updateCluster: (
   input: UpdateClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateClusterResponse,
   | ACLNotFoundFault
   | ClusterNotFoundFault

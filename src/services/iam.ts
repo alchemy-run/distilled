@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -256,7 +256,7 @@ export type roleNameType = string;
 export type groupNameType = string;
 export type existingUserNameType = string;
 export type userNameType = string;
-export type passwordType = string | Redacted.Redacted<string>;
+export type passwordType = string | redacted.Redacted<string>;
 export type accountAliasType = string;
 export type accountIdType = string;
 export type delegationRequestDescriptionType = string;
@@ -276,7 +276,7 @@ export type roleDescriptionType = string;
 export type roleMaxSessionDurationType = number;
 export type SAMLMetadataDocumentType = string;
 export type SAMLProviderNameType = string;
-export type privateKeyType = string | Redacted.Redacted<string>;
+export type privateKeyType = string | redacted.Redacted<string>;
 export type customSuffixType = string;
 export type serviceName = string;
 export type credentialAgeDays = number;
@@ -336,13 +336,13 @@ export type integerType = number;
 export type malformedPolicyDocumentMessage = string;
 export type policyParameterNameType = string;
 export type policyParameterValueType = string;
-export type accessKeySecretType = string | Redacted.Redacted<string>;
+export type accessKeySecretType = string | redacted.Redacted<string>;
 export type idType = string;
 export type attachmentCountType = number;
 export type serviceUserName = string;
-export type servicePassword = string | Redacted.Redacted<string>;
+export type servicePassword = string | redacted.Redacted<string>;
 export type serviceCredentialAlias = string;
-export type serviceCredentialSecret = string | Redacted.Redacted<string>;
+export type serviceCredentialSecret = string | redacted.Redacted<string>;
 export type permissionType = string;
 export type requestorNameType = string;
 export type CertificationKeyType = string;
@@ -635,20 +635,77 @@ export type clientIDListType = string[];
 export const clientIDListType = S.Array(S.String);
 export type thumbprintListType = string[];
 export const thumbprintListType = S.Array(S.String);
-export type FeaturesListType = string[];
-export const FeaturesListType = S.Array(S.String);
-export type entityListType = string[];
-export const entityListType = S.Array(S.String);
+export type assertionEncryptionModeType = "Required" | "Allowed";
+export const assertionEncryptionModeType = S.Literal("Required", "Allowed");
+export type FeatureType = "RootCredentialsManagement" | "RootSessions";
+export const FeatureType = S.Literal(
+  "RootCredentialsManagement",
+  "RootSessions",
+);
+export type FeaturesListType = FeatureType[];
+export const FeaturesListType = S.Array(FeatureType);
+export type ReportStateType = "STARTED" | "INPROGRESS" | "COMPLETE";
+export const ReportStateType = S.Literal("STARTED", "INPROGRESS", "COMPLETE");
+export type AccessAdvisorUsageGranularityType =
+  | "SERVICE_LEVEL"
+  | "ACTION_LEVEL";
+export const AccessAdvisorUsageGranularityType = S.Literal(
+  "SERVICE_LEVEL",
+  "ACTION_LEVEL",
+);
+export type EntityType =
+  | "User"
+  | "Role"
+  | "Group"
+  | "LocalManagedPolicy"
+  | "AWSManagedPolicy";
+export const EntityType = S.Literal(
+  "User",
+  "Role",
+  "Group",
+  "LocalManagedPolicy",
+  "AWSManagedPolicy",
+);
+export type entityListType = EntityType[];
+export const entityListType = S.Array(EntityType);
 export type SimulationPolicyListType = string[];
 export const SimulationPolicyListType = S.Array(S.String);
+export type ReportFormatType = "text/csv";
+export const ReportFormatType = S.Literal("text/csv");
+export type sortKeyType =
+  | "SERVICE_NAMESPACE_ASCENDING"
+  | "SERVICE_NAMESPACE_DESCENDING"
+  | "LAST_AUTHENTICATED_TIME_ASCENDING"
+  | "LAST_AUTHENTICATED_TIME_DESCENDING";
+export const sortKeyType = S.Literal(
+  "SERVICE_NAMESPACE_ASCENDING",
+  "SERVICE_NAMESPACE_DESCENDING",
+  "LAST_AUTHENTICATED_TIME_ASCENDING",
+  "LAST_AUTHENTICATED_TIME_DESCENDING",
+);
+export type encodingType = "SSH" | "PEM";
+export const encodingType = S.Literal("SSH", "PEM");
+export type PolicyUsageType = "PermissionsPolicy" | "PermissionsBoundary";
+export const PolicyUsageType = S.Literal(
+  "PermissionsPolicy",
+  "PermissionsBoundary",
+);
+export type policyScopeType = "All" | "AWS" | "Local";
+export const policyScopeType = S.Literal("All", "AWS", "Local");
 export type serviceNamespaceListType = string[];
 export const serviceNamespaceListType = S.Array(S.String);
+export type assignmentStatusType = "Assigned" | "Unassigned" | "Any";
+export const assignmentStatusType = S.Literal("Assigned", "Unassigned", "Any");
+export type globalEndpointTokenVersion = "v1Token" | "v2Token";
+export const globalEndpointTokenVersion = S.Literal("v1Token", "v2Token");
 export type ActionNameListType = string[];
 export const ActionNameListType = S.Array(S.String);
 export type ResourceNameListType = string[];
 export const ResourceNameListType = S.Array(S.String);
 export type tagKeyListType = string[];
 export const tagKeyListType = S.Array(S.String);
+export type statusType = "Active" | "Inactive" | "Expired";
+export const statusType = S.Literal("Active", "Inactive", "Expired");
 export interface AcceptDelegationRequestRequest {
   DelegationRequestId: string;
 }
@@ -848,8 +905,8 @@ export const AttachUserPolicyResponse = S.suspend(() =>
   identifier: "AttachUserPolicyResponse",
 }) as any as S.Schema<AttachUserPolicyResponse>;
 export interface ChangePasswordRequest {
-  OldPassword: string | Redacted.Redacted<string>;
-  NewPassword: string | Redacted.Redacted<string>;
+  OldPassword: string | redacted.Redacted<string>;
+  NewPassword: string | redacted.Redacted<string>;
 }
 export const ChangePasswordRequest = S.suspend(() =>
   S.Struct({ OldPassword: SensitiveString, NewPassword: SensitiveString }).pipe(
@@ -935,7 +992,7 @@ export const CreateGroupRequest = S.suspend(() =>
 }) as any as S.Schema<CreateGroupRequest>;
 export interface CreateLoginProfileRequest {
   UserName?: string;
-  Password?: string | Redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
   PasswordResetRequired?: boolean;
 }
 export const CreateLoginProfileRequest = S.suspend(() =>
@@ -968,9 +1025,9 @@ export type tagListType = Tag[];
 export const tagListType = S.Array(Tag);
 export interface CreateOpenIDConnectProviderRequest {
   Url: string;
-  ClientIDList?: clientIDListType;
-  ThumbprintList?: thumbprintListType;
-  Tags?: tagListType;
+  ClientIDList?: string[];
+  ThumbprintList?: string[];
+  Tags?: Tag[];
 }
 export const CreateOpenIDConnectProviderRequest = S.suspend(() =>
   S.Struct({
@@ -997,7 +1054,7 @@ export interface CreatePolicyRequest {
   Path?: string;
   PolicyDocument: string;
   Description?: string;
-  Tags?: tagListType;
+  Tags?: Tag[];
 }
 export const CreatePolicyRequest = S.suspend(() =>
   S.Struct({
@@ -1051,7 +1108,7 @@ export interface CreateRoleRequest {
   Description?: string;
   MaxSessionDuration?: number;
   PermissionsBoundary?: string;
-  Tags?: tagListType;
+  Tags?: Tag[];
 }
 export const CreateRoleRequest = S.suspend(() =>
   S.Struct({
@@ -1079,16 +1136,16 @@ export const CreateRoleRequest = S.suspend(() =>
 export interface CreateSAMLProviderRequest {
   SAMLMetadataDocument: string;
   Name: string;
-  Tags?: tagListType;
-  AssertionEncryptionMode?: string;
-  AddPrivateKey?: string | Redacted.Redacted<string>;
+  Tags?: Tag[];
+  AssertionEncryptionMode?: assertionEncryptionModeType;
+  AddPrivateKey?: string | redacted.Redacted<string>;
 }
 export const CreateSAMLProviderRequest = S.suspend(() =>
   S.Struct({
     SAMLMetadataDocument: S.String,
     Name: S.String,
     Tags: S.optional(tagListType),
-    AssertionEncryptionMode: S.optional(S.String),
+    AssertionEncryptionMode: S.optional(assertionEncryptionModeType),
     AddPrivateKey: S.optional(SensitiveString),
   }).pipe(
     T.all(
@@ -1156,7 +1213,7 @@ export interface CreateUserRequest {
   Path?: string;
   UserName: string;
   PermissionsBoundary?: string;
-  Tags?: tagListType;
+  Tags?: Tag[];
 }
 export const CreateUserRequest = S.suspend(() =>
   S.Struct({
@@ -1181,7 +1238,7 @@ export const CreateUserRequest = S.suspend(() =>
 export interface CreateVirtualMFADeviceRequest {
   Path?: string;
   VirtualMFADeviceName: string;
-  Tags?: tagListType;
+  Tags?: Tag[];
 }
 export const CreateVirtualMFADeviceRequest = S.suspend(() =>
   S.Struct({
@@ -1837,7 +1894,7 @@ export const DetachUserPolicyResponse = S.suspend(() =>
 }) as any as S.Schema<DetachUserPolicyResponse>;
 export interface DisableOrganizationsRootCredentialsManagementResponse {
   OrganizationId?: string;
-  EnabledFeatures?: FeaturesListType;
+  EnabledFeatures?: FeatureType[];
 }
 export const DisableOrganizationsRootCredentialsManagementResponse = S.suspend(
   () =>
@@ -1850,7 +1907,7 @@ export const DisableOrganizationsRootCredentialsManagementResponse = S.suspend(
 }) as any as S.Schema<DisableOrganizationsRootCredentialsManagementResponse>;
 export interface DisableOrganizationsRootSessionsResponse {
   OrganizationId?: string;
-  EnabledFeatures?: FeaturesListType;
+  EnabledFeatures?: FeatureType[];
 }
 export const DisableOrganizationsRootSessionsResponse = S.suspend(() =>
   S.Struct({
@@ -1894,7 +1951,7 @@ export const EnableMFADeviceResponse = S.suspend(() =>
 }) as any as S.Schema<EnableMFADeviceResponse>;
 export interface EnableOrganizationsRootCredentialsManagementResponse {
   OrganizationId?: string;
-  EnabledFeatures?: FeaturesListType;
+  EnabledFeatures?: FeatureType[];
 }
 export const EnableOrganizationsRootCredentialsManagementResponse = S.suspend(
   () =>
@@ -1907,7 +1964,7 @@ export const EnableOrganizationsRootCredentialsManagementResponse = S.suspend(
 }) as any as S.Schema<EnableOrganizationsRootCredentialsManagementResponse>;
 export interface EnableOrganizationsRootSessionsResponse {
   OrganizationId?: string;
-  EnabledFeatures?: FeaturesListType;
+  EnabledFeatures?: FeatureType[];
 }
 export const EnableOrganizationsRootSessionsResponse = S.suspend(() =>
   S.Struct({
@@ -1926,12 +1983,12 @@ export const EnableOutboundWebIdentityFederationResponse = S.suspend(() =>
   identifier: "EnableOutboundWebIdentityFederationResponse",
 }) as any as S.Schema<EnableOutboundWebIdentityFederationResponse>;
 export interface GenerateCredentialReportResponse {
-  State?: string;
+  State?: ReportStateType;
   Description?: string;
 }
 export const GenerateCredentialReportResponse = S.suspend(() =>
   S.Struct({
-    State: S.optional(S.String),
+    State: S.optional(ReportStateType),
     Description: S.optional(S.String),
   }).pipe(ns),
 ).annotations({
@@ -1961,10 +2018,13 @@ export const GenerateOrganizationsAccessReportRequest = S.suspend(() =>
 }) as any as S.Schema<GenerateOrganizationsAccessReportRequest>;
 export interface GenerateServiceLastAccessedDetailsRequest {
   Arn: string;
-  Granularity?: string;
+  Granularity?: AccessAdvisorUsageGranularityType;
 }
 export const GenerateServiceLastAccessedDetailsRequest = S.suspend(() =>
-  S.Struct({ Arn: S.String, Granularity: S.optional(S.String) }).pipe(
+  S.Struct({
+    Arn: S.String,
+    Granularity: S.optional(AccessAdvisorUsageGranularityType),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1997,7 +2057,7 @@ export const GetAccessKeyLastUsedRequest = S.suspend(() =>
   identifier: "GetAccessKeyLastUsedRequest",
 }) as any as S.Schema<GetAccessKeyLastUsedRequest>;
 export interface GetAccountAuthorizationDetailsRequest {
-  Filter?: entityListType;
+  Filter?: EntityType[];
   MaxItems?: number;
   Marker?: string;
 }
@@ -2021,7 +2081,7 @@ export const GetAccountAuthorizationDetailsRequest = S.suspend(() =>
   identifier: "GetAccountAuthorizationDetailsRequest",
 }) as any as S.Schema<GetAccountAuthorizationDetailsRequest>;
 export interface GetContextKeysForCustomPolicyRequest {
-  PolicyInputList: SimulationPolicyListType;
+  PolicyInputList: string[];
 }
 export const GetContextKeysForCustomPolicyRequest = S.suspend(() =>
   S.Struct({ PolicyInputList: SimulationPolicyListType }).pipe(
@@ -2040,7 +2100,7 @@ export const GetContextKeysForCustomPolicyRequest = S.suspend(() =>
 }) as any as S.Schema<GetContextKeysForCustomPolicyRequest>;
 export interface GetContextKeysForPrincipalPolicyRequest {
   PolicySourceArn: string;
-  PolicyInputList?: SimulationPolicyListType;
+  PolicyInputList?: string[];
 }
 export const GetContextKeysForPrincipalPolicyRequest = S.suspend(() =>
   S.Struct({
@@ -2062,13 +2122,13 @@ export const GetContextKeysForPrincipalPolicyRequest = S.suspend(() =>
 }) as any as S.Schema<GetContextKeysForPrincipalPolicyRequest>;
 export interface GetCredentialReportResponse {
   Content?: Uint8Array;
-  ReportFormat?: string;
+  ReportFormat?: ReportFormatType;
   GeneratedTime?: Date;
 }
 export const GetCredentialReportResponse = S.suspend(() =>
   S.Struct({
     Content: S.optional(T.Blob),
-    ReportFormat: S.optional(S.String),
+    ReportFormat: S.optional(ReportFormatType),
     GeneratedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }).pipe(ns),
 ).annotations({
@@ -2235,14 +2295,14 @@ export interface GetOrganizationsAccessReportRequest {
   JobId: string;
   MaxItems?: number;
   Marker?: string;
-  SortKey?: string;
+  SortKey?: sortKeyType;
 }
 export const GetOrganizationsAccessReportRequest = S.suspend(() =>
   S.Struct({
     JobId: S.String,
     MaxItems: S.optional(S.Number),
     Marker: S.optional(S.String),
-    SortKey: S.optional(S.String),
+    SortKey: S.optional(sortKeyType),
   }).pipe(
     T.all(
       ns,
@@ -2450,13 +2510,13 @@ export const GetServiceLinkedRoleDeletionStatusRequest = S.suspend(() =>
 export interface GetSSHPublicKeyRequest {
   UserName: string;
   SSHPublicKeyId: string;
-  Encoding: string;
+  Encoding: encodingType;
 }
 export const GetSSHPublicKeyRequest = S.suspend(() =>
   S.Struct({
     UserName: S.String,
     SSHPublicKeyId: S.String,
-    Encoding: S.String,
+    Encoding: encodingType,
   }).pipe(
     T.all(
       ns,
@@ -2658,18 +2718,18 @@ export const ListDelegationRequestsRequest = S.suspend(() =>
 }) as any as S.Schema<ListDelegationRequestsRequest>;
 export interface ListEntitiesForPolicyRequest {
   PolicyArn: string;
-  EntityFilter?: string;
+  EntityFilter?: EntityType;
   PathPrefix?: string;
-  PolicyUsageFilter?: string;
+  PolicyUsageFilter?: PolicyUsageType;
   Marker?: string;
   MaxItems?: number;
 }
 export const ListEntitiesForPolicyRequest = S.suspend(() =>
   S.Struct({
     PolicyArn: S.String,
-    EntityFilter: S.optional(S.String),
+    EntityFilter: S.optional(EntityType),
     PathPrefix: S.optional(S.String),
-    PolicyUsageFilter: S.optional(S.String),
+    PolicyUsageFilter: S.optional(PolicyUsageType),
     Marker: S.optional(S.String),
     MaxItems: S.optional(S.Number),
   }).pipe(
@@ -2904,7 +2964,7 @@ export const ListOpenIDConnectProviderTagsRequest = S.suspend(() =>
 }) as any as S.Schema<ListOpenIDConnectProviderTagsRequest>;
 export interface ListOrganizationsFeaturesResponse {
   OrganizationId?: string;
-  EnabledFeatures?: FeaturesListType;
+  EnabledFeatures?: FeatureType[];
 }
 export const ListOrganizationsFeaturesResponse = S.suspend(() =>
   S.Struct({
@@ -2915,19 +2975,19 @@ export const ListOrganizationsFeaturesResponse = S.suspend(() =>
   identifier: "ListOrganizationsFeaturesResponse",
 }) as any as S.Schema<ListOrganizationsFeaturesResponse>;
 export interface ListPoliciesRequest {
-  Scope?: string;
+  Scope?: policyScopeType;
   OnlyAttached?: boolean;
   PathPrefix?: string;
-  PolicyUsageFilter?: string;
+  PolicyUsageFilter?: PolicyUsageType;
   Marker?: string;
   MaxItems?: number;
 }
 export const ListPoliciesRequest = S.suspend(() =>
   S.Struct({
-    Scope: S.optional(S.String),
+    Scope: S.optional(policyScopeType),
     OnlyAttached: S.optional(S.Boolean),
     PathPrefix: S.optional(S.String),
-    PolicyUsageFilter: S.optional(S.String),
+    PolicyUsageFilter: S.optional(PolicyUsageType),
     Marker: S.optional(S.String),
     MaxItems: S.optional(S.Number),
   }).pipe(
@@ -2947,7 +3007,7 @@ export const ListPoliciesRequest = S.suspend(() =>
 export interface ListPoliciesGrantingServiceAccessRequest {
   Marker?: string;
   Arn: string;
-  ServiceNamespaces: serviceNamespaceListType;
+  ServiceNamespaces: string[];
 }
 export const ListPoliciesGrantingServiceAccessRequest = S.suspend(() =>
   S.Struct({
@@ -3309,13 +3369,13 @@ export const ListUserTagsRequest = S.suspend(() =>
   identifier: "ListUserTagsRequest",
 }) as any as S.Schema<ListUserTagsRequest>;
 export interface ListVirtualMFADevicesRequest {
-  AssignmentStatus?: string;
+  AssignmentStatus?: assignmentStatusType;
   Marker?: string;
   MaxItems?: number;
 }
 export const ListVirtualMFADevicesRequest = S.suspend(() =>
   S.Struct({
-    AssignmentStatus: S.optional(S.String),
+    AssignmentStatus: S.optional(assignmentStatusType),
     Marker: S.optional(S.String),
     MaxItems: S.optional(S.Number),
   }).pipe(
@@ -3676,10 +3736,10 @@ export const SetDefaultPolicyVersionResponse = S.suspend(() =>
   identifier: "SetDefaultPolicyVersionResponse",
 }) as any as S.Schema<SetDefaultPolicyVersionResponse>;
 export interface SetSecurityTokenServicePreferencesRequest {
-  GlobalEndpointTokenVersion: string;
+  GlobalEndpointTokenVersion: globalEndpointTokenVersion;
 }
 export const SetSecurityTokenServicePreferencesRequest = S.suspend(() =>
-  S.Struct({ GlobalEndpointTokenVersion: S.String }).pipe(
+  S.Struct({ GlobalEndpointTokenVersion: globalEndpointTokenVersion }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -3701,30 +3761,57 @@ export const SetSecurityTokenServicePreferencesResponse = S.suspend(() =>
 }) as any as S.Schema<SetSecurityTokenServicePreferencesResponse>;
 export type ContextKeyValueListType = string[];
 export const ContextKeyValueListType = S.Array(S.String);
+export type ContextKeyTypeEnum =
+  | "string"
+  | "stringList"
+  | "numeric"
+  | "numericList"
+  | "boolean"
+  | "booleanList"
+  | "ip"
+  | "ipList"
+  | "binary"
+  | "binaryList"
+  | "date"
+  | "dateList";
+export const ContextKeyTypeEnum = S.Literal(
+  "string",
+  "stringList",
+  "numeric",
+  "numericList",
+  "boolean",
+  "booleanList",
+  "ip",
+  "ipList",
+  "binary",
+  "binaryList",
+  "date",
+  "dateList",
+);
 export interface ContextEntry {
   ContextKeyName?: string;
-  ContextKeyValues?: ContextKeyValueListType;
-  ContextKeyType?: string;
+  ContextKeyValues?: string[];
+  ContextKeyType?: ContextKeyTypeEnum;
 }
 export const ContextEntry = S.suspend(() =>
   S.Struct({
     ContextKeyName: S.optional(S.String),
     ContextKeyValues: S.optional(ContextKeyValueListType),
-    ContextKeyType: S.optional(S.String),
+    ContextKeyType: S.optional(ContextKeyTypeEnum),
   }),
 ).annotations({ identifier: "ContextEntry" }) as any as S.Schema<ContextEntry>;
 export type ContextEntryListType = ContextEntry[];
 export const ContextEntryListType = S.Array(ContextEntry);
 export interface SimulatePrincipalPolicyRequest {
   PolicySourceArn: string;
-  PolicyInputList?: SimulationPolicyListType;
-  PermissionsBoundaryPolicyInputList?: SimulationPolicyListType;
-  ActionNames: ActionNameListType;
-  ResourceArns?: ResourceNameListType;
+  PolicyInputList?: string[];
+  PermissionsBoundaryPolicyInputList?: string[];
+  ActionNames: string[];
+  ResourceArns?: string[];
   ResourcePolicy?: string;
   ResourceOwner?: string;
   CallerArn?: string;
-  ContextEntries?: ContextEntryListType;
+  ContextEntries?: ContextEntry[];
   ResourceHandlingOption?: string;
   MaxItems?: number;
   Marker?: string;
@@ -3759,7 +3846,7 @@ export const SimulatePrincipalPolicyRequest = S.suspend(() =>
 }) as any as S.Schema<SimulatePrincipalPolicyRequest>;
 export interface TagInstanceProfileRequest {
   InstanceProfileName: string;
-  Tags: tagListType;
+  Tags: Tag[];
 }
 export const TagInstanceProfileRequest = S.suspend(() =>
   S.Struct({ InstanceProfileName: S.String, Tags: tagListType }).pipe(
@@ -3784,7 +3871,7 @@ export const TagInstanceProfileResponse = S.suspend(() =>
 }) as any as S.Schema<TagInstanceProfileResponse>;
 export interface TagMFADeviceRequest {
   SerialNumber: string;
-  Tags: tagListType;
+  Tags: Tag[];
 }
 export const TagMFADeviceRequest = S.suspend(() =>
   S.Struct({ SerialNumber: S.String, Tags: tagListType }).pipe(
@@ -3809,7 +3896,7 @@ export const TagMFADeviceResponse = S.suspend(() =>
 }) as any as S.Schema<TagMFADeviceResponse>;
 export interface TagOpenIDConnectProviderRequest {
   OpenIDConnectProviderArn: string;
-  Tags: tagListType;
+  Tags: Tag[];
 }
 export const TagOpenIDConnectProviderRequest = S.suspend(() =>
   S.Struct({ OpenIDConnectProviderArn: S.String, Tags: tagListType }).pipe(
@@ -3834,7 +3921,7 @@ export const TagOpenIDConnectProviderResponse = S.suspend(() =>
 }) as any as S.Schema<TagOpenIDConnectProviderResponse>;
 export interface TagPolicyRequest {
   PolicyArn: string;
-  Tags: tagListType;
+  Tags: Tag[];
 }
 export const TagPolicyRequest = S.suspend(() =>
   S.Struct({ PolicyArn: S.String, Tags: tagListType }).pipe(
@@ -3859,7 +3946,7 @@ export const TagPolicyResponse = S.suspend(() =>
 }) as any as S.Schema<TagPolicyResponse>;
 export interface TagRoleRequest {
   RoleName: string;
-  Tags: tagListType;
+  Tags: Tag[];
 }
 export const TagRoleRequest = S.suspend(() =>
   S.Struct({ RoleName: S.String, Tags: tagListType }).pipe(
@@ -3884,7 +3971,7 @@ export const TagRoleResponse = S.suspend(() =>
 }) as any as S.Schema<TagRoleResponse>;
 export interface TagSAMLProviderRequest {
   SAMLProviderArn: string;
-  Tags: tagListType;
+  Tags: Tag[];
 }
 export const TagSAMLProviderRequest = S.suspend(() =>
   S.Struct({ SAMLProviderArn: S.String, Tags: tagListType }).pipe(
@@ -3909,7 +3996,7 @@ export const TagSAMLProviderResponse = S.suspend(() =>
 }) as any as S.Schema<TagSAMLProviderResponse>;
 export interface TagServerCertificateRequest {
   ServerCertificateName: string;
-  Tags: tagListType;
+  Tags: Tag[];
 }
 export const TagServerCertificateRequest = S.suspend(() =>
   S.Struct({ ServerCertificateName: S.String, Tags: tagListType }).pipe(
@@ -3934,7 +4021,7 @@ export const TagServerCertificateResponse = S.suspend(() =>
 }) as any as S.Schema<TagServerCertificateResponse>;
 export interface TagUserRequest {
   UserName: string;
-  Tags: tagListType;
+  Tags: Tag[];
 }
 export const TagUserRequest = S.suspend(() =>
   S.Struct({ UserName: S.String, Tags: tagListType }).pipe(
@@ -3959,7 +4046,7 @@ export const TagUserResponse = S.suspend(() =>
 }) as any as S.Schema<TagUserResponse>;
 export interface UntagInstanceProfileRequest {
   InstanceProfileName: string;
-  TagKeys: tagKeyListType;
+  TagKeys: string[];
 }
 export const UntagInstanceProfileRequest = S.suspend(() =>
   S.Struct({ InstanceProfileName: S.String, TagKeys: tagKeyListType }).pipe(
@@ -3984,7 +4071,7 @@ export const UntagInstanceProfileResponse = S.suspend(() =>
 }) as any as S.Schema<UntagInstanceProfileResponse>;
 export interface UntagMFADeviceRequest {
   SerialNumber: string;
-  TagKeys: tagKeyListType;
+  TagKeys: string[];
 }
 export const UntagMFADeviceRequest = S.suspend(() =>
   S.Struct({ SerialNumber: S.String, TagKeys: tagKeyListType }).pipe(
@@ -4009,7 +4096,7 @@ export const UntagMFADeviceResponse = S.suspend(() =>
 }) as any as S.Schema<UntagMFADeviceResponse>;
 export interface UntagOpenIDConnectProviderRequest {
   OpenIDConnectProviderArn: string;
-  TagKeys: tagKeyListType;
+  TagKeys: string[];
 }
 export const UntagOpenIDConnectProviderRequest = S.suspend(() =>
   S.Struct({
@@ -4037,7 +4124,7 @@ export const UntagOpenIDConnectProviderResponse = S.suspend(() =>
 }) as any as S.Schema<UntagOpenIDConnectProviderResponse>;
 export interface UntagPolicyRequest {
   PolicyArn: string;
-  TagKeys: tagKeyListType;
+  TagKeys: string[];
 }
 export const UntagPolicyRequest = S.suspend(() =>
   S.Struct({ PolicyArn: S.String, TagKeys: tagKeyListType }).pipe(
@@ -4062,7 +4149,7 @@ export const UntagPolicyResponse = S.suspend(() =>
 }) as any as S.Schema<UntagPolicyResponse>;
 export interface UntagRoleRequest {
   RoleName: string;
-  TagKeys: tagKeyListType;
+  TagKeys: string[];
 }
 export const UntagRoleRequest = S.suspend(() =>
   S.Struct({ RoleName: S.String, TagKeys: tagKeyListType }).pipe(
@@ -4087,7 +4174,7 @@ export const UntagRoleResponse = S.suspend(() =>
 }) as any as S.Schema<UntagRoleResponse>;
 export interface UntagSAMLProviderRequest {
   SAMLProviderArn: string;
-  TagKeys: tagKeyListType;
+  TagKeys: string[];
 }
 export const UntagSAMLProviderRequest = S.suspend(() =>
   S.Struct({ SAMLProviderArn: S.String, TagKeys: tagKeyListType }).pipe(
@@ -4112,7 +4199,7 @@ export const UntagSAMLProviderResponse = S.suspend(() =>
 }) as any as S.Schema<UntagSAMLProviderResponse>;
 export interface UntagServerCertificateRequest {
   ServerCertificateName: string;
-  TagKeys: tagKeyListType;
+  TagKeys: string[];
 }
 export const UntagServerCertificateRequest = S.suspend(() =>
   S.Struct({ ServerCertificateName: S.String, TagKeys: tagKeyListType }).pipe(
@@ -4137,7 +4224,7 @@ export const UntagServerCertificateResponse = S.suspend(() =>
 }) as any as S.Schema<UntagServerCertificateResponse>;
 export interface UntagUserRequest {
   UserName: string;
-  TagKeys: tagKeyListType;
+  TagKeys: string[];
 }
 export const UntagUserRequest = S.suspend(() =>
   S.Struct({ UserName: S.String, TagKeys: tagKeyListType }).pipe(
@@ -4163,13 +4250,13 @@ export const UntagUserResponse = S.suspend(() =>
 export interface UpdateAccessKeyRequest {
   UserName?: string;
   AccessKeyId: string;
-  Status: string;
+  Status: statusType;
 }
 export const UpdateAccessKeyRequest = S.suspend(() =>
   S.Struct({
     UserName: S.optional(S.String),
     AccessKeyId: S.String,
-    Status: S.String,
+    Status: statusType,
   }).pipe(
     T.all(
       ns,
@@ -4314,7 +4401,7 @@ export const UpdateGroupResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateGroupResponse>;
 export interface UpdateLoginProfileRequest {
   UserName: string;
-  Password?: string | Redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
   PasswordResetRequired?: boolean;
 }
 export const UpdateLoginProfileRequest = S.suspend(() =>
@@ -4344,7 +4431,7 @@ export const UpdateLoginProfileResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateLoginProfileResponse>;
 export interface UpdateOpenIDConnectProviderThumbprintRequest {
   OpenIDConnectProviderArn: string;
-  ThumbprintList: thumbprintListType;
+  ThumbprintList: string[];
 }
 export const UpdateOpenIDConnectProviderThumbprintRequest = S.suspend(() =>
   S.Struct({
@@ -4422,15 +4509,15 @@ export const UpdateRoleDescriptionRequest = S.suspend(() =>
 export interface UpdateSAMLProviderRequest {
   SAMLMetadataDocument?: string;
   SAMLProviderArn: string;
-  AssertionEncryptionMode?: string;
-  AddPrivateKey?: string | Redacted.Redacted<string>;
+  AssertionEncryptionMode?: assertionEncryptionModeType;
+  AddPrivateKey?: string | redacted.Redacted<string>;
   RemovePrivateKey?: string;
 }
 export const UpdateSAMLProviderRequest = S.suspend(() =>
   S.Struct({
     SAMLMetadataDocument: S.optional(S.String),
     SAMLProviderArn: S.String,
-    AssertionEncryptionMode: S.optional(S.String),
+    AssertionEncryptionMode: S.optional(assertionEncryptionModeType),
     AddPrivateKey: S.optional(SensitiveString),
     RemovePrivateKey: S.optional(S.String),
   }).pipe(
@@ -4480,13 +4567,13 @@ export const UpdateServerCertificateResponse = S.suspend(() =>
 export interface UpdateServiceSpecificCredentialRequest {
   UserName?: string;
   ServiceSpecificCredentialId: string;
-  Status: string;
+  Status: statusType;
 }
 export const UpdateServiceSpecificCredentialRequest = S.suspend(() =>
   S.Struct({
     UserName: S.optional(S.String),
     ServiceSpecificCredentialId: S.String,
-    Status: S.String,
+    Status: statusType,
   }).pipe(
     T.all(
       ns,
@@ -4510,13 +4597,13 @@ export const UpdateServiceSpecificCredentialResponse = S.suspend(() =>
 export interface UpdateSigningCertificateRequest {
   UserName?: string;
   CertificateId: string;
-  Status: string;
+  Status: statusType;
 }
 export const UpdateSigningCertificateRequest = S.suspend(() =>
   S.Struct({
     UserName: S.optional(S.String),
     CertificateId: S.String,
-    Status: S.String,
+    Status: statusType,
   }).pipe(
     T.all(
       ns,
@@ -4540,13 +4627,13 @@ export const UpdateSigningCertificateResponse = S.suspend(() =>
 export interface UpdateSSHPublicKeyRequest {
   UserName: string;
   SSHPublicKeyId: string;
-  Status: string;
+  Status: statusType;
 }
 export const UpdateSSHPublicKeyRequest = S.suspend(() =>
   S.Struct({
     UserName: S.String,
     SSHPublicKeyId: S.String,
-    Status: S.String,
+    Status: statusType,
   }).pipe(
     T.all(
       ns,
@@ -4601,9 +4688,9 @@ export interface UploadServerCertificateRequest {
   Path?: string;
   ServerCertificateName: string;
   CertificateBody: string;
-  PrivateKey: string | Redacted.Redacted<string>;
+  PrivateKey: string | redacted.Redacted<string>;
   CertificateChain?: string;
-  Tags?: tagListType;
+  Tags?: Tag[];
 }
 export const UploadServerCertificateRequest = S.suspend(() =>
   S.Struct({
@@ -4665,6 +4752,77 @@ export const UploadSSHPublicKeyRequest = S.suspend(() =>
 ).annotations({
   identifier: "UploadSSHPublicKeyRequest",
 }) as any as S.Schema<UploadSSHPublicKeyRequest>;
+export type summaryKeyType =
+  | "Users"
+  | "UsersQuota"
+  | "Groups"
+  | "GroupsQuota"
+  | "ServerCertificates"
+  | "ServerCertificatesQuota"
+  | "UserPolicySizeQuota"
+  | "GroupPolicySizeQuota"
+  | "GroupsPerUserQuota"
+  | "SigningCertificatesPerUserQuota"
+  | "AccessKeysPerUserQuota"
+  | "MFADevices"
+  | "MFADevicesInUse"
+  | "AccountMFAEnabled"
+  | "AccountAccessKeysPresent"
+  | "AccountPasswordPresent"
+  | "AccountSigningCertificatesPresent"
+  | "AttachedPoliciesPerGroupQuota"
+  | "AttachedPoliciesPerRoleQuota"
+  | "AttachedPoliciesPerUserQuota"
+  | "Policies"
+  | "PoliciesQuota"
+  | "PolicySizeQuota"
+  | "PolicyVersionsInUse"
+  | "PolicyVersionsInUseQuota"
+  | "VersionsPerPolicyQuota"
+  | "GlobalEndpointTokenVersion"
+  | "AssumeRolePolicySizeQuota"
+  | "InstanceProfiles"
+  | "InstanceProfilesQuota"
+  | "Providers"
+  | "RolePolicySizeQuota"
+  | "Roles"
+  | "RolesQuota";
+export const summaryKeyType = S.Literal(
+  "Users",
+  "UsersQuota",
+  "Groups",
+  "GroupsQuota",
+  "ServerCertificates",
+  "ServerCertificatesQuota",
+  "UserPolicySizeQuota",
+  "GroupPolicySizeQuota",
+  "GroupsPerUserQuota",
+  "SigningCertificatesPerUserQuota",
+  "AccessKeysPerUserQuota",
+  "MFADevices",
+  "MFADevicesInUse",
+  "AccountMFAEnabled",
+  "AccountAccessKeysPresent",
+  "AccountPasswordPresent",
+  "AccountSigningCertificatesPresent",
+  "AttachedPoliciesPerGroupQuota",
+  "AttachedPoliciesPerRoleQuota",
+  "AttachedPoliciesPerUserQuota",
+  "Policies",
+  "PoliciesQuota",
+  "PolicySizeQuota",
+  "PolicyVersionsInUse",
+  "PolicyVersionsInUseQuota",
+  "VersionsPerPolicyQuota",
+  "GlobalEndpointTokenVersion",
+  "AssumeRolePolicySizeQuota",
+  "InstanceProfiles",
+  "InstanceProfilesQuota",
+  "Providers",
+  "RolePolicySizeQuota",
+  "Roles",
+  "RolesQuota",
+);
 export interface PasswordPolicy {
   MinimumPasswordLength?: number;
   RequireSymbols?: boolean;
@@ -4693,17 +4851,35 @@ export const PasswordPolicy = S.suspend(() =>
 ).annotations({
   identifier: "PasswordPolicy",
 }) as any as S.Schema<PasswordPolicy>;
-export type summaryMapType = { [key: string]: number };
-export const summaryMapType = S.Record({ key: S.String, value: S.Number });
+export type summaryMapType = { [key in summaryKeyType]?: number };
+export const summaryMapType = S.partial(
+  S.Record({ key: summaryKeyType, value: S.Number }),
+);
 export type ContextKeyNamesResultListType = string[];
 export const ContextKeyNamesResultListType = S.Array(S.String);
+export type permissionCheckStatusType = "COMPLETE" | "IN_PROGRESS" | "FAILED";
+export const permissionCheckStatusType = S.Literal(
+  "COMPLETE",
+  "IN_PROGRESS",
+  "FAILED",
+);
+export type permissionCheckResultType = "ALLOWED" | "DENIED" | "UNSURE";
+export const permissionCheckResultType = S.Literal(
+  "ALLOWED",
+  "DENIED",
+  "UNSURE",
+);
+export type PermissionsBoundaryAttachmentType = "PermissionsBoundaryPolicy";
+export const PermissionsBoundaryAttachmentType = S.Literal(
+  "PermissionsBoundaryPolicy",
+);
 export interface AttachedPermissionsBoundary {
-  PermissionsBoundaryType?: string;
+  PermissionsBoundaryType?: PermissionsBoundaryAttachmentType;
   PermissionsBoundaryArn?: string;
 }
 export const AttachedPermissionsBoundary = S.suspend(() =>
   S.Struct({
-    PermissionsBoundaryType: S.optional(S.String),
+    PermissionsBoundaryType: S.optional(PermissionsBoundaryAttachmentType),
     PermissionsBoundaryArn: S.optional(S.String),
   }),
 ).annotations({
@@ -4717,7 +4893,7 @@ export interface User {
   CreateDate: Date;
   PasswordLastUsed?: Date;
   PermissionsBoundary?: AttachedPermissionsBoundary;
-  Tags?: tagListType;
+  Tags?: Tag[];
 }
 export const User = S.suspend(() =>
   S.Struct({
@@ -4733,20 +4909,46 @@ export const User = S.suspend(() =>
 ).annotations({ identifier: "User" }) as any as S.Schema<User>;
 export type userListType = User[];
 export const userListType = S.Array(User);
+export type summaryStateType =
+  | "AVAILABLE"
+  | "NOT_AVAILABLE"
+  | "NOT_SUPPORTED"
+  | "FAILED";
+export const summaryStateType = S.Literal(
+  "AVAILABLE",
+  "NOT_AVAILABLE",
+  "NOT_SUPPORTED",
+  "FAILED",
+);
+export type jobStatusType = "IN_PROGRESS" | "COMPLETED" | "FAILED";
+export const jobStatusType = S.Literal("IN_PROGRESS", "COMPLETED", "FAILED");
+export type DeletionTaskStatusType =
+  | "SUCCEEDED"
+  | "IN_PROGRESS"
+  | "FAILED"
+  | "NOT_STARTED";
+export const DeletionTaskStatusType = S.Literal(
+  "SUCCEEDED",
+  "IN_PROGRESS",
+  "FAILED",
+  "NOT_STARTED",
+);
 export type accountAliasListType = string[];
 export const accountAliasListType = S.Array(S.String);
 export type policyParameterValuesListType = string[];
 export const policyParameterValuesListType = S.Array(S.String);
+export type PolicyParameterTypeEnum = "string" | "stringList";
+export const PolicyParameterTypeEnum = S.Literal("string", "stringList");
 export interface PolicyParameter {
   Name?: string;
-  Values?: policyParameterValuesListType;
-  Type?: string;
+  Values?: string[];
+  Type?: PolicyParameterTypeEnum;
 }
 export const PolicyParameter = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     Values: S.optional(policyParameterValuesListType),
-    Type: S.optional(S.String),
+    Type: S.optional(PolicyParameterTypeEnum),
   }),
 ).annotations({
   identifier: "PolicyParameter",
@@ -4755,7 +4957,7 @@ export type policyParameterListType = PolicyParameter[];
 export const policyParameterListType = S.Array(PolicyParameter);
 export interface DelegationPermission {
   PolicyTemplateArn?: string;
-  Parameters?: policyParameterListType;
+  Parameters?: PolicyParameter[];
 }
 export const DelegationPermission = S.suspend(() =>
   S.Struct({
@@ -4767,6 +4969,23 @@ export const DelegationPermission = S.suspend(() =>
 }) as any as S.Schema<DelegationPermission>;
 export type rolePermissionRestrictionArnListType = string[];
 export const rolePermissionRestrictionArnListType = S.Array(S.String);
+export type stateType =
+  | "UNASSIGNED"
+  | "ASSIGNED"
+  | "PENDING_APPROVAL"
+  | "FINALIZED"
+  | "ACCEPTED"
+  | "REJECTED"
+  | "EXPIRED";
+export const stateType = S.Literal(
+  "UNASSIGNED",
+  "ASSIGNED",
+  "PENDING_APPROVAL",
+  "FINALIZED",
+  "ACCEPTED",
+  "REJECTED",
+  "EXPIRED",
+);
 export interface DelegationRequest {
   DelegationRequestId?: string;
   OwnerAccountId?: string;
@@ -4774,10 +4993,10 @@ export interface DelegationRequest {
   RequestMessage?: string;
   Permissions?: DelegationPermission;
   PermissionPolicy?: string;
-  RolePermissionRestrictionArns?: rolePermissionRestrictionArnListType;
+  RolePermissionRestrictionArns?: string[];
   OwnerId?: string;
   ApproverId?: string;
-  State?: string;
+  State?: stateType;
   ExpirationTime?: Date;
   RequestorId?: string;
   RequestorName?: string;
@@ -4802,7 +5021,7 @@ export const DelegationRequest = S.suspend(() =>
     ),
     OwnerId: S.optional(S.String),
     ApproverId: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(stateType),
     ExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     RequestorId: S.optional(S.String),
     RequestorName: S.optional(S.String),
@@ -4859,7 +5078,7 @@ export interface Role {
   Description?: string;
   MaxSessionDuration?: number;
   PermissionsBoundary?: AttachedPermissionsBoundary;
-  Tags?: tagListType;
+  Tags?: Tag[];
   RoleLastUsed?: RoleLastUsed;
 }
 export const Role = S.suspend(() =>
@@ -4885,8 +5104,8 @@ export interface InstanceProfile {
   InstanceProfileId: string;
   Arn: string;
   CreateDate: Date;
-  Roles: roleListType;
-  Tags?: tagListType;
+  Roles: Role[];
+  Tags?: Tag[];
 }
 export const InstanceProfile = S.suspend(() =>
   S.Struct({
@@ -4927,7 +5146,7 @@ export interface Policy {
   Description?: string;
   CreateDate?: Date;
   UpdateDate?: Date;
-  Tags?: tagListType;
+  Tags?: Tag[];
 }
 export const Policy = S.suspend(() =>
   S.Struct({
@@ -4983,11 +5202,11 @@ export type SAMLProviderListType = SAMLProviderListEntry[];
 export const SAMLProviderListType = S.Array(SAMLProviderListEntry);
 export interface VirtualMFADevice {
   SerialNumber: string;
-  Base32StringSeed?: Uint8Array | Redacted.Redacted<Uint8Array>;
-  QRCodePNG?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  Base32StringSeed?: Uint8Array | redacted.Redacted<Uint8Array>;
+  QRCodePNG?: Uint8Array | redacted.Redacted<Uint8Array>;
   User?: User;
   EnableDate?: Date;
-  Tags?: tagListType;
+  Tags?: Tag[];
 }
 export const VirtualMFADevice = S.suspend(() =>
   S.Struct({
@@ -5006,7 +5225,7 @@ export const virtualMFADeviceListType = S.Array(VirtualMFADevice);
 export interface CreateInstanceProfileRequest {
   InstanceProfileName: string;
   Path?: string;
-  Tags?: tagListType;
+  Tags?: Tag[];
 }
 export const CreateInstanceProfileRequest = S.suspend(() =>
   S.Struct({
@@ -5029,7 +5248,7 @@ export const CreateInstanceProfileRequest = S.suspend(() =>
 }) as any as S.Schema<CreateInstanceProfileRequest>;
 export interface CreateOpenIDConnectProviderResponse {
   OpenIDConnectProviderArn?: string;
-  Tags?: tagListType;
+  Tags?: Tag[];
 }
 export const CreateOpenIDConnectProviderResponse = S.suspend(() =>
   S.Struct({
@@ -5041,7 +5260,7 @@ export const CreateOpenIDConnectProviderResponse = S.suspend(() =>
 }) as any as S.Schema<CreateOpenIDConnectProviderResponse>;
 export interface CreateSAMLProviderResponse {
   SAMLProviderArn?: string;
-  Tags?: tagListType;
+  Tags?: Tag[];
 }
 export const CreateSAMLProviderResponse = S.suspend(() =>
   S.Struct({
@@ -5092,7 +5311,7 @@ export const GetAccountPasswordPolicyResponse = S.suspend(() =>
   identifier: "GetAccountPasswordPolicyResponse",
 }) as any as S.Schema<GetAccountPasswordPolicyResponse>;
 export interface GetAccountSummaryResponse {
-  SummaryMap?: summaryMapType;
+  SummaryMap?: { [key: string]: number };
 }
 export const GetAccountSummaryResponse = S.suspend(() =>
   S.Struct({ SummaryMap: S.optional(summaryMapType) }).pipe(ns),
@@ -5100,7 +5319,7 @@ export const GetAccountSummaryResponse = S.suspend(() =>
   identifier: "GetAccountSummaryResponse",
 }) as any as S.Schema<GetAccountSummaryResponse>;
 export interface GetContextKeysForPolicyResponse {
-  ContextKeyNames?: ContextKeyNamesResultListType;
+  ContextKeyNames?: string[];
 }
 export const GetContextKeysForPolicyResponse = S.suspend(() =>
   S.Struct({ ContextKeyNames: S.optional(ContextKeyNamesResultListType) }).pipe(
@@ -5111,7 +5330,7 @@ export const GetContextKeysForPolicyResponse = S.suspend(() =>
 }) as any as S.Schema<GetContextKeysForPolicyResponse>;
 export interface GetGroupResponse {
   Group: Group;
-  Users: userListType;
+  Users: User[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -5142,13 +5361,13 @@ export const GetGroupPolicyResponse = S.suspend(() =>
 export interface GetHumanReadableSummaryResponse {
   SummaryContent?: string;
   Locale?: string;
-  SummaryState?: string;
+  SummaryState?: summaryStateType;
 }
 export const GetHumanReadableSummaryResponse = S.suspend(() =>
   S.Struct({
     SummaryContent: S.optional(S.String),
     Locale: S.optional(S.String),
-    SummaryState: S.optional(S.String),
+    SummaryState: S.optional(summaryStateType),
   }).pipe(ns),
 ).annotations({
   identifier: "GetHumanReadableSummaryResponse",
@@ -5175,10 +5394,10 @@ export const GetLoginProfileResponse = S.suspend(() =>
 }) as any as S.Schema<GetLoginProfileResponse>;
 export interface GetOpenIDConnectProviderResponse {
   Url?: string;
-  ClientIDList?: clientIDListType;
-  ThumbprintList?: thumbprintListType;
+  ClientIDList?: string[];
+  ThumbprintList?: string[];
   CreateDate?: Date;
-  Tags?: tagListType;
+  Tags?: Tag[];
 }
 export const GetOpenIDConnectProviderResponse = S.suspend(() =>
   S.Struct({
@@ -5252,7 +5471,7 @@ export const GetUserPolicyResponse = S.suspend(() =>
   identifier: "GetUserPolicyResponse",
 }) as any as S.Schema<GetUserPolicyResponse>;
 export interface ListAccountAliasesResponse {
-  AccountAliases: accountAliasListType;
+  AccountAliases: string[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -5280,7 +5499,7 @@ export const AttachedPolicy = S.suspend(() =>
 export type attachedPoliciesListType = AttachedPolicy[];
 export const attachedPoliciesListType = S.Array(AttachedPolicy);
 export interface ListAttachedRolePoliciesResponse {
-  AttachedPolicies?: attachedPoliciesListType;
+  AttachedPolicies?: AttachedPolicy[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -5294,7 +5513,7 @@ export const ListAttachedRolePoliciesResponse = S.suspend(() =>
   identifier: "ListAttachedRolePoliciesResponse",
 }) as any as S.Schema<ListAttachedRolePoliciesResponse>;
 export interface ListAttachedUserPoliciesResponse {
-  AttachedPolicies?: attachedPoliciesListType;
+  AttachedPolicies?: AttachedPolicy[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -5308,7 +5527,7 @@ export const ListAttachedUserPoliciesResponse = S.suspend(() =>
   identifier: "ListAttachedUserPoliciesResponse",
 }) as any as S.Schema<ListAttachedUserPoliciesResponse>;
 export interface ListDelegationRequestsResponse {
-  DelegationRequests?: delegationRequestsListType;
+  DelegationRequests?: DelegationRequest[];
   Marker?: string;
   isTruncated?: boolean;
 }
@@ -5322,7 +5541,7 @@ export const ListDelegationRequestsResponse = S.suspend(() =>
   identifier: "ListDelegationRequestsResponse",
 }) as any as S.Schema<ListDelegationRequestsResponse>;
 export interface ListGroupPoliciesResponse {
-  PolicyNames: policyNameListType;
+  PolicyNames: string[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -5336,7 +5555,7 @@ export const ListGroupPoliciesResponse = S.suspend(() =>
   identifier: "ListGroupPoliciesResponse",
 }) as any as S.Schema<ListGroupPoliciesResponse>;
 export interface ListGroupsResponse {
-  Groups: groupListType;
+  Groups: Group[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -5350,7 +5569,7 @@ export const ListGroupsResponse = S.suspend(() =>
   identifier: "ListGroupsResponse",
 }) as any as S.Schema<ListGroupsResponse>;
 export interface ListGroupsForUserResponse {
-  Groups: groupListType;
+  Groups: Group[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -5364,7 +5583,7 @@ export const ListGroupsForUserResponse = S.suspend(() =>
   identifier: "ListGroupsForUserResponse",
 }) as any as S.Schema<ListGroupsForUserResponse>;
 export interface ListInstanceProfilesResponse {
-  InstanceProfiles: instanceProfileListType;
+  InstanceProfiles: InstanceProfile[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -5378,7 +5597,7 @@ export const ListInstanceProfilesResponse = S.suspend(() =>
   identifier: "ListInstanceProfilesResponse",
 }) as any as S.Schema<ListInstanceProfilesResponse>;
 export interface ListInstanceProfilesForRoleResponse {
-  InstanceProfiles: instanceProfileListType;
+  InstanceProfiles: InstanceProfile[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -5392,7 +5611,7 @@ export const ListInstanceProfilesForRoleResponse = S.suspend(() =>
   identifier: "ListInstanceProfilesForRoleResponse",
 }) as any as S.Schema<ListInstanceProfilesForRoleResponse>;
 export interface ListInstanceProfileTagsResponse {
-  Tags: tagListType;
+  Tags: Tag[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -5406,7 +5625,7 @@ export const ListInstanceProfileTagsResponse = S.suspend(() =>
   identifier: "ListInstanceProfileTagsResponse",
 }) as any as S.Schema<ListInstanceProfileTagsResponse>;
 export interface ListMFADeviceTagsResponse {
-  Tags: tagListType;
+  Tags: Tag[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -5420,7 +5639,7 @@ export const ListMFADeviceTagsResponse = S.suspend(() =>
   identifier: "ListMFADeviceTagsResponse",
 }) as any as S.Schema<ListMFADeviceTagsResponse>;
 export interface ListOpenIDConnectProvidersResponse {
-  OpenIDConnectProviderList?: OpenIDConnectProviderListType;
+  OpenIDConnectProviderList?: OpenIDConnectProviderListEntry[];
 }
 export const ListOpenIDConnectProvidersResponse = S.suspend(() =>
   S.Struct({
@@ -5430,7 +5649,7 @@ export const ListOpenIDConnectProvidersResponse = S.suspend(() =>
   identifier: "ListOpenIDConnectProvidersResponse",
 }) as any as S.Schema<ListOpenIDConnectProvidersResponse>;
 export interface ListOpenIDConnectProviderTagsResponse {
-  Tags: tagListType;
+  Tags: Tag[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -5444,7 +5663,7 @@ export const ListOpenIDConnectProviderTagsResponse = S.suspend(() =>
   identifier: "ListOpenIDConnectProviderTagsResponse",
 }) as any as S.Schema<ListOpenIDConnectProviderTagsResponse>;
 export interface ListPoliciesResponse {
-  Policies?: policyListType;
+  Policies?: Policy[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -5458,7 +5677,7 @@ export const ListPoliciesResponse = S.suspend(() =>
   identifier: "ListPoliciesResponse",
 }) as any as S.Schema<ListPoliciesResponse>;
 export interface ListPolicyTagsResponse {
-  Tags: tagListType;
+  Tags: Tag[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -5472,7 +5691,7 @@ export const ListPolicyTagsResponse = S.suspend(() =>
   identifier: "ListPolicyTagsResponse",
 }) as any as S.Schema<ListPolicyTagsResponse>;
 export interface ListPolicyVersionsResponse {
-  Versions?: policyDocumentVersionListType;
+  Versions?: PolicyVersion[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -5486,7 +5705,7 @@ export const ListPolicyVersionsResponse = S.suspend(() =>
   identifier: "ListPolicyVersionsResponse",
 }) as any as S.Schema<ListPolicyVersionsResponse>;
 export interface ListRolePoliciesResponse {
-  PolicyNames: policyNameListType;
+  PolicyNames: string[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -5500,7 +5719,7 @@ export const ListRolePoliciesResponse = S.suspend(() =>
   identifier: "ListRolePoliciesResponse",
 }) as any as S.Schema<ListRolePoliciesResponse>;
 export interface ListRolesResponse {
-  Roles: roleListType;
+  Roles: Role[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -5514,7 +5733,7 @@ export const ListRolesResponse = S.suspend(() =>
   identifier: "ListRolesResponse",
 }) as any as S.Schema<ListRolesResponse>;
 export interface ListRoleTagsResponse {
-  Tags: tagListType;
+  Tags: Tag[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -5528,7 +5747,7 @@ export const ListRoleTagsResponse = S.suspend(() =>
   identifier: "ListRoleTagsResponse",
 }) as any as S.Schema<ListRoleTagsResponse>;
 export interface ListSAMLProvidersResponse {
-  SAMLProviderList?: SAMLProviderListType;
+  SAMLProviderList?: SAMLProviderListEntry[];
 }
 export const ListSAMLProvidersResponse = S.suspend(() =>
   S.Struct({ SAMLProviderList: S.optional(SAMLProviderListType) }).pipe(ns),
@@ -5536,7 +5755,7 @@ export const ListSAMLProvidersResponse = S.suspend(() =>
   identifier: "ListSAMLProvidersResponse",
 }) as any as S.Schema<ListSAMLProvidersResponse>;
 export interface ListSAMLProviderTagsResponse {
-  Tags: tagListType;
+  Tags: Tag[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -5550,7 +5769,7 @@ export const ListSAMLProviderTagsResponse = S.suspend(() =>
   identifier: "ListSAMLProviderTagsResponse",
 }) as any as S.Schema<ListSAMLProviderTagsResponse>;
 export interface ListServerCertificateTagsResponse {
-  Tags: tagListType;
+  Tags: Tag[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -5564,7 +5783,7 @@ export const ListServerCertificateTagsResponse = S.suspend(() =>
   identifier: "ListServerCertificateTagsResponse",
 }) as any as S.Schema<ListServerCertificateTagsResponse>;
 export interface ListUserPoliciesResponse {
-  PolicyNames: policyNameListType;
+  PolicyNames: string[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -5578,7 +5797,7 @@ export const ListUserPoliciesResponse = S.suspend(() =>
   identifier: "ListUserPoliciesResponse",
 }) as any as S.Schema<ListUserPoliciesResponse>;
 export interface ListUsersResponse {
-  Users: userListType;
+  Users: User[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -5592,7 +5811,7 @@ export const ListUsersResponse = S.suspend(() =>
   identifier: "ListUsersResponse",
 }) as any as S.Schema<ListUsersResponse>;
 export interface ListUserTagsResponse {
-  Tags: tagListType;
+  Tags: Tag[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -5606,7 +5825,7 @@ export const ListUserTagsResponse = S.suspend(() =>
   identifier: "ListUserTagsResponse",
 }) as any as S.Schema<ListUserTagsResponse>;
 export interface ListVirtualMFADevicesResponse {
-  VirtualMFADevices: virtualMFADeviceListType;
+  VirtualMFADevices: VirtualMFADevice[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -5624,12 +5843,12 @@ export interface ServiceSpecificCredential {
   ExpirationDate?: Date;
   ServiceName: string;
   ServiceUserName?: string;
-  ServicePassword?: string | Redacted.Redacted<string>;
+  ServicePassword?: string | redacted.Redacted<string>;
   ServiceCredentialAlias?: string;
-  ServiceCredentialSecret?: string | Redacted.Redacted<string>;
+  ServiceCredentialSecret?: string | redacted.Redacted<string>;
   ServiceSpecificCredentialId: string;
   UserName: string;
-  Status: string;
+  Status: statusType;
 }
 export const ServiceSpecificCredential = S.suspend(() =>
   S.Struct({
@@ -5642,7 +5861,7 @@ export const ServiceSpecificCredential = S.suspend(() =>
     ServiceCredentialSecret: S.optional(SensitiveString),
     ServiceSpecificCredentialId: S.String,
     UserName: S.String,
-    Status: S.String,
+    Status: statusType,
   }),
 ).annotations({
   identifier: "ServiceSpecificCredential",
@@ -5658,14 +5877,14 @@ export const ResetServiceSpecificCredentialResponse = S.suspend(() =>
   identifier: "ResetServiceSpecificCredentialResponse",
 }) as any as S.Schema<ResetServiceSpecificCredentialResponse>;
 export interface SimulateCustomPolicyRequest {
-  PolicyInputList: SimulationPolicyListType;
-  PermissionsBoundaryPolicyInputList?: SimulationPolicyListType;
-  ActionNames: ActionNameListType;
-  ResourceArns?: ResourceNameListType;
+  PolicyInputList: string[];
+  PermissionsBoundaryPolicyInputList?: string[];
+  ActionNames: string[];
+  ResourceArns?: string[];
   ResourcePolicy?: string;
   ResourceOwner?: string;
   CallerArn?: string;
-  ContextEntries?: ContextEntryListType;
+  ContextEntries?: ContextEntry[];
   ResourceHandlingOption?: string;
   MaxItems?: number;
   Marker?: string;
@@ -5735,7 +5954,7 @@ export const ServerCertificateMetadata = S.suspend(() =>
 }) as any as S.Schema<ServerCertificateMetadata>;
 export interface UploadServerCertificateResponse {
   ServerCertificateMetadata?: ServerCertificateMetadata;
-  Tags?: tagListType;
+  Tags?: Tag[];
 }
 export const UploadServerCertificateResponse = S.suspend(() =>
   S.Struct({
@@ -5749,7 +5968,7 @@ export interface SigningCertificate {
   UserName: string;
   CertificateId: string;
   CertificateBody: string;
-  Status: string;
+  Status: statusType;
   UploadDate?: Date;
 }
 export const SigningCertificate = S.suspend(() =>
@@ -5757,7 +5976,7 @@ export const SigningCertificate = S.suspend(() =>
     UserName: S.String,
     CertificateId: S.String,
     CertificateBody: S.String,
-    Status: S.String,
+    Status: statusType,
     UploadDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotations({
@@ -5776,7 +5995,7 @@ export interface SSHPublicKey {
   SSHPublicKeyId: string;
   Fingerprint: string;
   SSHPublicKeyBody: string;
-  Status: string;
+  Status: statusType;
   UploadDate?: Date;
 }
 export const SSHPublicKey = S.suspend(() =>
@@ -5785,7 +6004,7 @@ export const SSHPublicKey = S.suspend(() =>
     SSHPublicKeyId: S.String,
     Fingerprint: S.String,
     SSHPublicKeyBody: S.String,
-    Status: S.String,
+    Status: statusType,
     UploadDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotations({ identifier: "SSHPublicKey" }) as any as S.Schema<SSHPublicKey>;
@@ -5799,18 +6018,27 @@ export const UploadSSHPublicKeyResponse = S.suspend(() =>
 }) as any as S.Schema<UploadSSHPublicKeyResponse>;
 export type groupNameListType = string[];
 export const groupNameListType = S.Array(S.String);
+export type PolicyEvaluationDecisionType =
+  | "allowed"
+  | "explicitDeny"
+  | "implicitDeny";
+export const PolicyEvaluationDecisionType = S.Literal(
+  "allowed",
+  "explicitDeny",
+  "implicitDeny",
+);
 export interface AccessKey {
   UserName: string;
   AccessKeyId: string;
-  Status: string;
-  SecretAccessKey: string | Redacted.Redacted<string>;
+  Status: statusType;
+  SecretAccessKey: string | redacted.Redacted<string>;
   CreateDate?: Date;
 }
 export const AccessKey = S.suspend(() =>
   S.Struct({
     UserName: S.String,
     AccessKeyId: S.String,
-    Status: S.String,
+    Status: statusType,
     SecretAccessKey: SensitiveString,
     CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
@@ -5847,8 +6075,8 @@ export interface GroupDetail {
   GroupId?: string;
   Arn?: string;
   CreateDate?: Date;
-  GroupPolicyList?: policyDetailListType;
-  AttachedManagedPolicies?: attachedPoliciesListType;
+  GroupPolicyList?: PolicyDetail[];
+  AttachedManagedPolicies?: AttachedPolicy[];
 }
 export const GroupDetail = S.suspend(() =>
   S.Struct({
@@ -5870,11 +6098,11 @@ export interface RoleDetail {
   Arn?: string;
   CreateDate?: Date;
   AssumeRolePolicyDocument?: string;
-  InstanceProfileList?: instanceProfileListType;
-  RolePolicyList?: policyDetailListType;
-  AttachedManagedPolicies?: attachedPoliciesListType;
+  InstanceProfileList?: InstanceProfile[];
+  RolePolicyList?: PolicyDetail[];
+  AttachedManagedPolicies?: AttachedPolicy[];
   PermissionsBoundary?: AttachedPermissionsBoundary;
-  Tags?: tagListType;
+  Tags?: Tag[];
   RoleLastUsed?: RoleLastUsed;
 }
 export const RoleDetail = S.suspend(() =>
@@ -5907,7 +6135,7 @@ export interface ManagedPolicyDetail {
   Description?: string;
   CreateDate?: Date;
   UpdateDate?: Date;
-  PolicyVersionList?: policyDocumentVersionListType;
+  PolicyVersionList?: PolicyVersion[];
 }
 export const ManagedPolicyDetail = S.suspend(() =>
   S.Struct({
@@ -5981,7 +6209,7 @@ export interface ServerCertificate {
   ServerCertificateMetadata: ServerCertificateMetadata;
   CertificateBody: string;
   CertificateChain?: string;
-  Tags?: tagListType;
+  Tags?: Tag[];
 }
 export const ServerCertificate = S.suspend(() =>
   S.Struct({
@@ -5996,14 +6224,14 @@ export const ServerCertificate = S.suspend(() =>
 export interface AccessKeyMetadata {
   UserName?: string;
   AccessKeyId?: string;
-  Status?: string;
+  Status?: statusType;
   CreateDate?: Date;
 }
 export const AccessKeyMetadata = S.suspend(() =>
   S.Struct({
     UserName: S.optional(S.String),
     AccessKeyId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(statusType),
     CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotations({
@@ -6058,7 +6286,7 @@ export const serverCertificateMetadataListType = S.Array(
 );
 export interface ServiceSpecificCredentialMetadata {
   UserName: string;
-  Status: string;
+  Status: statusType;
   ServiceUserName?: string;
   ServiceCredentialAlias?: string;
   CreateDate: Date;
@@ -6069,7 +6297,7 @@ export interface ServiceSpecificCredentialMetadata {
 export const ServiceSpecificCredentialMetadata = S.suspend(() =>
   S.Struct({
     UserName: S.String,
-    Status: S.String,
+    Status: statusType,
     ServiceUserName: S.optional(S.String),
     ServiceCredentialAlias: S.optional(S.String),
     CreateDate: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -6090,14 +6318,14 @@ export const certificateListType = S.Array(SigningCertificate);
 export interface SSHPublicKeyMetadata {
   UserName: string;
   SSHPublicKeyId: string;
-  Status: string;
+  Status: statusType;
   UploadDate: Date;
 }
 export const SSHPublicKeyMetadata = S.suspend(() =>
   S.Struct({
     UserName: S.String,
     SSHPublicKeyId: S.String,
-    Status: S.String,
+    Status: statusType,
     UploadDate: S.Date.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotations({
@@ -6105,8 +6333,29 @@ export const SSHPublicKeyMetadata = S.suspend(() =>
 }) as any as S.Schema<SSHPublicKeyMetadata>;
 export type SSHPublicKeyListType = SSHPublicKeyMetadata[];
 export const SSHPublicKeyListType = S.Array(SSHPublicKeyMetadata);
+export type policyOwnerEntityType = "USER" | "ROLE" | "GROUP";
+export const policyOwnerEntityType = S.Literal("USER", "ROLE", "GROUP");
 export type ArnListType = string[];
 export const ArnListType = S.Array(S.String);
+export type policyType = "INLINE" | "MANAGED";
+export const policyType = S.Literal("INLINE", "MANAGED");
+export type PolicySourceType =
+  | "user"
+  | "group"
+  | "role"
+  | "aws-managed"
+  | "user-managed"
+  | "resource"
+  | "none";
+export const PolicySourceType = S.Literal(
+  "user",
+  "group",
+  "role",
+  "aws-managed",
+  "user-managed",
+  "resource",
+  "none",
+);
 export interface CreateAccessKeyResponse {
   AccessKey: AccessKey;
 }
@@ -6231,14 +6480,14 @@ export const GetAccessKeyLastUsedResponse = S.suspend(() =>
 }) as any as S.Schema<GetAccessKeyLastUsedResponse>;
 export interface GetDelegationRequestResponse {
   DelegationRequest?: DelegationRequest;
-  PermissionCheckStatus?: string;
-  PermissionCheckResult?: string;
+  PermissionCheckStatus?: permissionCheckStatusType;
+  PermissionCheckResult?: permissionCheckResultType;
 }
 export const GetDelegationRequestResponse = S.suspend(() =>
   S.Struct({
     DelegationRequest: S.optional(DelegationRequest),
-    PermissionCheckStatus: S.optional(S.String),
-    PermissionCheckResult: S.optional(S.String),
+    PermissionCheckStatus: S.optional(permissionCheckStatusType),
+    PermissionCheckResult: S.optional(permissionCheckResultType),
   }).pipe(ns),
 ).annotations({
   identifier: "GetDelegationRequestResponse",
@@ -6255,7 +6504,7 @@ export interface GetMFADeviceResponse {
   UserName?: string;
   SerialNumber: string;
   EnableDate?: Date;
-  Certifications?: CertificationMapType;
+  Certifications?: { [key: string]: string };
 }
 export const GetMFADeviceResponse = S.suspend(() =>
   S.Struct({
@@ -6268,19 +6517,19 @@ export const GetMFADeviceResponse = S.suspend(() =>
   identifier: "GetMFADeviceResponse",
 }) as any as S.Schema<GetMFADeviceResponse>;
 export interface GetOrganizationsAccessReportResponse {
-  JobStatus: string;
+  JobStatus: jobStatusType;
   JobCreationDate: Date;
   JobCompletionDate?: Date;
   NumberOfServicesAccessible?: number;
   NumberOfServicesNotAccessed?: number;
-  AccessDetails?: AccessDetails;
+  AccessDetails?: AccessDetail[];
   IsTruncated?: boolean;
   Marker?: string;
   ErrorDetails?: ErrorDetails;
 }
 export const GetOrganizationsAccessReportResponse = S.suspend(() =>
   S.Struct({
-    JobStatus: S.String,
+    JobStatus: jobStatusType,
     JobCreationDate: S.Date.pipe(T.TimestampFormat("date-time")),
     JobCompletionDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     NumberOfServicesAccessible: S.optional(S.Number),
@@ -6298,9 +6547,9 @@ export interface GetSAMLProviderResponse {
   SAMLMetadataDocument?: string;
   CreateDate?: Date;
   ValidUntil?: Date;
-  Tags?: tagListType;
-  AssertionEncryptionMode?: string;
-  PrivateKeyList?: privateKeyList;
+  Tags?: Tag[];
+  AssertionEncryptionMode?: assertionEncryptionModeType;
+  PrivateKeyList?: SAMLPrivateKey[];
 }
 export const GetSAMLProviderResponse = S.suspend(() =>
   S.Struct({
@@ -6309,7 +6558,7 @@ export const GetSAMLProviderResponse = S.suspend(() =>
     CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     ValidUntil: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     Tags: S.optional(tagListType),
-    AssertionEncryptionMode: S.optional(S.String),
+    AssertionEncryptionMode: S.optional(assertionEncryptionModeType),
     PrivateKeyList: S.optional(privateKeyList),
   }).pipe(ns),
 ).annotations({
@@ -6332,7 +6581,7 @@ export const GetSSHPublicKeyResponse = S.suspend(() =>
   identifier: "GetSSHPublicKeyResponse",
 }) as any as S.Schema<GetSSHPublicKeyResponse>;
 export interface ListAccessKeysResponse {
-  AccessKeyMetadata: accessKeyMetadataListType;
+  AccessKeyMetadata: AccessKeyMetadata[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -6346,7 +6595,7 @@ export const ListAccessKeysResponse = S.suspend(() =>
   identifier: "ListAccessKeysResponse",
 }) as any as S.Schema<ListAccessKeysResponse>;
 export interface ListAttachedGroupPoliciesResponse {
-  AttachedPolicies?: attachedPoliciesListType;
+  AttachedPolicies?: AttachedPolicy[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -6360,9 +6609,9 @@ export const ListAttachedGroupPoliciesResponse = S.suspend(() =>
   identifier: "ListAttachedGroupPoliciesResponse",
 }) as any as S.Schema<ListAttachedGroupPoliciesResponse>;
 export interface ListEntitiesForPolicyResponse {
-  PolicyGroups?: PolicyGroupListType;
-  PolicyUsers?: PolicyUserListType;
-  PolicyRoles?: PolicyRoleListType;
+  PolicyGroups?: PolicyGroup[];
+  PolicyUsers?: PolicyUser[];
+  PolicyRoles?: PolicyRole[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -6378,7 +6627,7 @@ export const ListEntitiesForPolicyResponse = S.suspend(() =>
   identifier: "ListEntitiesForPolicyResponse",
 }) as any as S.Schema<ListEntitiesForPolicyResponse>;
 export interface ListMFADevicesResponse {
-  MFADevices: mfaDeviceListType;
+  MFADevices: MFADevice[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -6392,7 +6641,7 @@ export const ListMFADevicesResponse = S.suspend(() =>
   identifier: "ListMFADevicesResponse",
 }) as any as S.Schema<ListMFADevicesResponse>;
 export interface ListServerCertificatesResponse {
-  ServerCertificateMetadataList: serverCertificateMetadataListType;
+  ServerCertificateMetadataList: ServerCertificateMetadata[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -6406,7 +6655,7 @@ export const ListServerCertificatesResponse = S.suspend(() =>
   identifier: "ListServerCertificatesResponse",
 }) as any as S.Schema<ListServerCertificatesResponse>;
 export interface ListServiceSpecificCredentialsResponse {
-  ServiceSpecificCredentials?: ServiceSpecificCredentialsListType;
+  ServiceSpecificCredentials?: ServiceSpecificCredentialMetadata[];
   Marker?: string;
   IsTruncated?: boolean;
 }
@@ -6420,7 +6669,7 @@ export const ListServiceSpecificCredentialsResponse = S.suspend(() =>
   identifier: "ListServiceSpecificCredentialsResponse",
 }) as any as S.Schema<ListServiceSpecificCredentialsResponse>;
 export interface ListSigningCertificatesResponse {
-  Certificates: certificateListType;
+  Certificates: SigningCertificate[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -6434,7 +6683,7 @@ export const ListSigningCertificatesResponse = S.suspend(() =>
   identifier: "ListSigningCertificatesResponse",
 }) as any as S.Schema<ListSigningCertificatesResponse>;
 export interface ListSSHPublicKeysResponse {
-  SSHPublicKeys?: SSHPublicKeyListType;
+  SSHPublicKeys?: SSHPublicKeyMetadata[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -6468,7 +6717,7 @@ export const TrackedActionsLastAccessed = S.Array(TrackedActionLastAccessed);
 export interface EntityInfo {
   Arn: string;
   Name: string;
-  Type: string;
+  Type: policyOwnerEntityType;
   Id: string;
   Path?: string;
 }
@@ -6476,14 +6725,14 @@ export const EntityInfo = S.suspend(() =>
   S.Struct({
     Arn: S.String,
     Name: S.String,
-    Type: S.String,
+    Type: policyOwnerEntityType,
     Id: S.String,
     Path: S.optional(S.String),
   }),
 ).annotations({ identifier: "EntityInfo" }) as any as S.Schema<EntityInfo>;
 export interface RoleUsageType {
   Region?: string;
-  Resources?: ArnListType;
+  Resources?: string[];
 }
 export const RoleUsageType = S.suspend(() =>
   S.Struct({
@@ -6497,17 +6746,17 @@ export type RoleUsageListType = RoleUsageType[];
 export const RoleUsageListType = S.Array(RoleUsageType);
 export interface PolicyGrantingServiceAccess {
   PolicyName: string;
-  PolicyType: string;
+  PolicyType: policyType;
   PolicyArn?: string;
-  EntityType?: string;
+  EntityType?: policyOwnerEntityType;
   EntityName?: string;
 }
 export const PolicyGrantingServiceAccess = S.suspend(() =>
   S.Struct({
     PolicyName: S.String,
-    PolicyType: S.String,
+    PolicyType: policyType,
     PolicyArn: S.optional(S.String),
-    EntityType: S.optional(S.String),
+    EntityType: S.optional(policyOwnerEntityType),
     EntityName: S.optional(S.String),
   }),
 ).annotations({
@@ -6533,10 +6782,12 @@ export const PermissionsBoundaryDecisionDetail = S.suspend(() =>
 ).annotations({
   identifier: "PermissionsBoundaryDecisionDetail",
 }) as any as S.Schema<PermissionsBoundaryDecisionDetail>;
-export type EvalDecisionDetailsType = { [key: string]: string };
+export type EvalDecisionDetailsType = {
+  [key: string]: PolicyEvaluationDecisionType;
+};
 export const EvalDecisionDetailsType = S.Record({
   key: S.String,
-  value: S.String,
+  value: PolicyEvaluationDecisionType,
 });
 export interface Position {
   Line?: number;
@@ -6547,14 +6798,14 @@ export const Position = S.suspend(() =>
 ).annotations({ identifier: "Position" }) as any as S.Schema<Position>;
 export interface Statement {
   SourcePolicyId?: string;
-  SourcePolicyType?: string;
+  SourcePolicyType?: PolicySourceType;
   StartPosition?: Position;
   EndPosition?: Position;
 }
 export const Statement = S.suspend(() =>
   S.Struct({
     SourcePolicyId: S.optional(S.String),
-    SourcePolicyType: S.optional(S.String),
+    SourcePolicyType: S.optional(PolicySourceType),
     StartPosition: S.optional(Position),
     EndPosition: S.optional(Position),
   }),
@@ -6563,16 +6814,16 @@ export type StatementListType = Statement[];
 export const StatementListType = S.Array(Statement);
 export interface ResourceSpecificResult {
   EvalResourceName: string;
-  EvalResourceDecision: string;
-  MatchedStatements?: StatementListType;
-  MissingContextValues?: ContextKeyNamesResultListType;
-  EvalDecisionDetails?: EvalDecisionDetailsType;
+  EvalResourceDecision: PolicyEvaluationDecisionType;
+  MatchedStatements?: Statement[];
+  MissingContextValues?: string[];
+  EvalDecisionDetails?: { [key: string]: PolicyEvaluationDecisionType };
   PermissionsBoundaryDecisionDetail?: PermissionsBoundaryDecisionDetail;
 }
 export const ResourceSpecificResult = S.suspend(() =>
   S.Struct({
     EvalResourceName: S.String,
-    EvalResourceDecision: S.String,
+    EvalResourceDecision: PolicyEvaluationDecisionType,
     MatchedStatements: S.optional(StatementListType),
     MissingContextValues: S.optional(ContextKeyNamesResultListType),
     EvalDecisionDetails: S.optional(EvalDecisionDetailsType),
@@ -6591,11 +6842,11 @@ export interface UserDetail {
   UserId?: string;
   Arn?: string;
   CreateDate?: Date;
-  UserPolicyList?: policyDetailListType;
-  GroupList?: groupNameListType;
-  AttachedManagedPolicies?: attachedPoliciesListType;
+  UserPolicyList?: PolicyDetail[];
+  GroupList?: string[];
+  AttachedManagedPolicies?: AttachedPolicy[];
   PermissionsBoundary?: AttachedPermissionsBoundary;
-  Tags?: tagListType;
+  Tags?: Tag[];
 }
 export const UserDetail = S.suspend(() =>
   S.Struct({
@@ -6620,7 +6871,7 @@ export interface ServiceLastAccessed {
   LastAuthenticatedEntity?: string;
   LastAuthenticatedRegion?: string;
   TotalAuthenticatedEntities?: number;
-  TrackedActionsLastAccessed?: TrackedActionsLastAccessed;
+  TrackedActionsLastAccessed?: TrackedActionLastAccessed[];
 }
 export const ServiceLastAccessed = S.suspend(() =>
   S.Struct({
@@ -6653,7 +6904,7 @@ export type entityDetailsListType = EntityDetails[];
 export const entityDetailsListType = S.Array(EntityDetails);
 export interface DeletionTaskFailureReasonType {
   Reason?: string;
-  RoleUsageList?: RoleUsageListType;
+  RoleUsageList?: RoleUsageType[];
 }
 export const DeletionTaskFailureReasonType = S.suspend(() =>
   S.Struct({
@@ -6665,7 +6916,7 @@ export const DeletionTaskFailureReasonType = S.suspend(() =>
 }) as any as S.Schema<DeletionTaskFailureReasonType>;
 export interface ListPoliciesGrantingServiceAccessEntry {
   ServiceNamespace?: string;
-  Policies?: policyGrantingServiceAccessListType;
+  Policies?: PolicyGrantingServiceAccess[];
 }
 export const ListPoliciesGrantingServiceAccessEntry = S.suspend(() =>
   S.Struct({
@@ -6701,10 +6952,10 @@ export const CreateRoleResponse = S.suspend(() =>
   identifier: "CreateRoleResponse",
 }) as any as S.Schema<CreateRoleResponse>;
 export interface GetAccountAuthorizationDetailsResponse {
-  UserDetailList?: userDetailListType;
-  GroupDetailList?: groupDetailListType;
-  RoleDetailList?: roleDetailListType;
-  Policies?: ManagedPolicyDetailListType;
+  UserDetailList?: UserDetail[];
+  GroupDetailList?: GroupDetail[];
+  RoleDetailList?: RoleDetail[];
+  Policies?: ManagedPolicyDetail[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -6721,10 +6972,10 @@ export const GetAccountAuthorizationDetailsResponse = S.suspend(() =>
   identifier: "GetAccountAuthorizationDetailsResponse",
 }) as any as S.Schema<GetAccountAuthorizationDetailsResponse>;
 export interface GetServiceLastAccessedDetailsResponse {
-  JobStatus: string;
-  JobType?: string;
+  JobStatus: jobStatusType;
+  JobType?: AccessAdvisorUsageGranularityType;
   JobCreationDate: Date;
-  ServicesLastAccessed: ServicesLastAccessed;
+  ServicesLastAccessed: ServiceLastAccessed[];
   JobCompletionDate: Date;
   IsTruncated?: boolean;
   Marker?: string;
@@ -6732,8 +6983,8 @@ export interface GetServiceLastAccessedDetailsResponse {
 }
 export const GetServiceLastAccessedDetailsResponse = S.suspend(() =>
   S.Struct({
-    JobStatus: S.String,
-    JobType: S.optional(S.String),
+    JobStatus: jobStatusType,
+    JobType: S.optional(AccessAdvisorUsageGranularityType),
     JobCreationDate: S.Date.pipe(T.TimestampFormat("date-time")),
     ServicesLastAccessed: ServicesLastAccessed,
     JobCompletionDate: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -6745,17 +6996,17 @@ export const GetServiceLastAccessedDetailsResponse = S.suspend(() =>
   identifier: "GetServiceLastAccessedDetailsResponse",
 }) as any as S.Schema<GetServiceLastAccessedDetailsResponse>;
 export interface GetServiceLastAccessedDetailsWithEntitiesResponse {
-  JobStatus: string;
+  JobStatus: jobStatusType;
   JobCreationDate: Date;
   JobCompletionDate: Date;
-  EntityDetailsList: entityDetailsListType;
+  EntityDetailsList: EntityDetails[];
   IsTruncated?: boolean;
   Marker?: string;
   Error?: ErrorDetails;
 }
 export const GetServiceLastAccessedDetailsWithEntitiesResponse = S.suspend(() =>
   S.Struct({
-    JobStatus: S.String,
+    JobStatus: jobStatusType,
     JobCreationDate: S.Date.pipe(T.TimestampFormat("date-time")),
     JobCompletionDate: S.Date.pipe(T.TimestampFormat("date-time")),
     EntityDetailsList: entityDetailsListType,
@@ -6767,19 +7018,19 @@ export const GetServiceLastAccessedDetailsWithEntitiesResponse = S.suspend(() =>
   identifier: "GetServiceLastAccessedDetailsWithEntitiesResponse",
 }) as any as S.Schema<GetServiceLastAccessedDetailsWithEntitiesResponse>;
 export interface GetServiceLinkedRoleDeletionStatusResponse {
-  Status: string;
+  Status: DeletionTaskStatusType;
   Reason?: DeletionTaskFailureReasonType;
 }
 export const GetServiceLinkedRoleDeletionStatusResponse = S.suspend(() =>
   S.Struct({
-    Status: S.String,
+    Status: DeletionTaskStatusType,
     Reason: S.optional(DeletionTaskFailureReasonType),
   }).pipe(ns),
 ).annotations({
   identifier: "GetServiceLinkedRoleDeletionStatusResponse",
 }) as any as S.Schema<GetServiceLinkedRoleDeletionStatusResponse>;
 export interface ListPoliciesGrantingServiceAccessResponse {
-  PoliciesGrantingServiceAccess: listPolicyGrantingServiceAccessResponseListType;
+  PoliciesGrantingServiceAccess: ListPoliciesGrantingServiceAccessEntry[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -6796,19 +7047,19 @@ export const ListPoliciesGrantingServiceAccessResponse = S.suspend(() =>
 export interface EvaluationResult {
   EvalActionName: string;
   EvalResourceName?: string;
-  EvalDecision: string;
-  MatchedStatements?: StatementListType;
-  MissingContextValues?: ContextKeyNamesResultListType;
+  EvalDecision: PolicyEvaluationDecisionType;
+  MatchedStatements?: Statement[];
+  MissingContextValues?: string[];
   OrganizationsDecisionDetail?: OrganizationsDecisionDetail;
   PermissionsBoundaryDecisionDetail?: PermissionsBoundaryDecisionDetail;
-  EvalDecisionDetails?: EvalDecisionDetailsType;
-  ResourceSpecificResults?: ResourceSpecificResultListType;
+  EvalDecisionDetails?: { [key: string]: PolicyEvaluationDecisionType };
+  ResourceSpecificResults?: ResourceSpecificResult[];
 }
 export const EvaluationResult = S.suspend(() =>
   S.Struct({
     EvalActionName: S.String,
     EvalResourceName: S.optional(S.String),
-    EvalDecision: S.String,
+    EvalDecision: PolicyEvaluationDecisionType,
     MatchedStatements: S.optional(StatementListType),
     MissingContextValues: S.optional(ContextKeyNamesResultListType),
     OrganizationsDecisionDetail: S.optional(OrganizationsDecisionDetail),
@@ -6824,7 +7075,7 @@ export const EvaluationResult = S.suspend(() =>
 export type EvaluationResultsListType = EvaluationResult[];
 export const EvaluationResultsListType = S.Array(EvaluationResult);
 export interface SimulatePolicyResponse {
-  EvaluationResults?: EvaluationResultsListType;
+  EvaluationResults?: EvaluationResult[];
   IsTruncated?: boolean;
   Marker?: string;
 }
@@ -7030,7 +7281,7 @@ export class ServiceAccessNotEnabledException extends S.TaggedError<ServiceAcces
  */
 export const disableOutboundWebIdentityFederation: (
   input: DisableOutboundWebIdentityFederationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisableOutboundWebIdentityFederationResponse,
   FeatureDisabledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7045,7 +7296,7 @@ export const disableOutboundWebIdentityFederation: (
  */
 export const getOutboundWebIdentityFederationInfo: (
   input: GetOutboundWebIdentityFederationInfoRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetOutboundWebIdentityFederationInfoResponse,
   FeatureDisabledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7061,7 +7312,7 @@ export const getOutboundWebIdentityFederationInfo: (
  */
 export const enableOutboundWebIdentityFederation: (
   input: EnableOutboundWebIdentityFederationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableOutboundWebIdentityFederationResponse,
   FeatureEnabledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7077,7 +7328,7 @@ export const enableOutboundWebIdentityFederation: (
  */
 export const generateCredentialReport: (
   input: GenerateCredentialReportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GenerateCredentialReportResponse,
   LimitExceededException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7142,7 +7393,7 @@ export const generateCredentialReport: (
  */
 export const generateServiceLastAccessedDetails: (
   input: GenerateServiceLastAccessedDetailsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GenerateServiceLastAccessedDetailsResponse,
   InvalidInputException | NoSuchEntityException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7159,7 +7410,7 @@ export const generateServiceLastAccessedDetails: (
  */
 export const getAccountPasswordPolicy: (
   input: GetAccountPasswordPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccountPasswordPolicyResponse,
   NoSuchEntityException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7177,7 +7428,7 @@ export const getAccountPasswordPolicy: (
  */
 export const getAccountSummary: (
   input: GetAccountSummaryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccountSummaryResponse,
   ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7201,7 +7452,7 @@ export const getAccountSummary: (
  */
 export const getContextKeysForCustomPolicy: (
   input: GetContextKeysForCustomPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContextKeysForPolicyResponse,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7217,21 +7468,21 @@ export const getContextKeysForCustomPolicy: (
 export const getGroup: {
   (
     input: GetGroupRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetGroupResponse,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: GetGroupRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetGroupResponse,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetGroupRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     User,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -7268,7 +7519,7 @@ export const getGroup: {
  */
 export const getGroupPolicy: (
   input: GetGroupPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetGroupPolicyResponse,
   NoSuchEntityException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7297,7 +7548,7 @@ export const getGroupPolicy: (
  */
 export const getHumanReadableSummary: (
   input: GetHumanReadableSummaryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetHumanReadableSummaryResponse,
   | InvalidInputException
   | NoSuchEntityException
@@ -7329,7 +7580,7 @@ export const getHumanReadableSummary: (
  */
 export const getLoginProfile: (
   input: GetLoginProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLoginProfileResponse,
   NoSuchEntityException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7344,7 +7595,7 @@ export const getLoginProfile: (
  */
 export const getOpenIDConnectProvider: (
   input: GetOpenIDConnectProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetOpenIDConnectProviderResponse,
   | InvalidInputException
   | NoSuchEntityException
@@ -7376,7 +7627,7 @@ export const getOpenIDConnectProvider: (
  */
 export const getPolicy: (
   input: GetPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPolicyResponse,
   | InvalidInputException
   | NoSuchEntityException
@@ -7417,7 +7668,7 @@ export const getPolicy: (
  */
 export const getPolicyVersion: (
   input: GetPolicyVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPolicyVersionResponse,
   | InvalidInputException
   | NoSuchEntityException
@@ -7448,7 +7699,7 @@ export const getPolicyVersion: (
  */
 export const getRole: (
   input: GetRoleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRoleResponse,
   NoSuchEntityException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7481,7 +7732,7 @@ export const getRole: (
  */
 export const getRolePolicy: (
   input: GetRolePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRolePolicyResponse,
   NoSuchEntityException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7499,7 +7750,7 @@ export const getRolePolicy: (
  */
 export const getUser: (
   input: GetUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUserResponse,
   NoSuchEntityException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7529,7 +7780,7 @@ export const getUser: (
  */
 export const getUserPolicy: (
   input: GetUserPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUserPolicyResponse,
   NoSuchEntityException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7547,21 +7798,21 @@ export const getUserPolicy: (
 export const listAccountAliases: {
   (
     input: ListAccountAliasesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccountAliasesResponse,
     ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListAccountAliasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccountAliasesResponse,
     ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAccountAliasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     accountAliasType,
     ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -7594,7 +7845,7 @@ export const listAccountAliases: {
 export const listAttachedRolePolicies: {
   (
     input: ListAttachedRolePoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAttachedRolePoliciesResponse,
     | InvalidInputException
     | NoSuchEntityException
@@ -7604,7 +7855,7 @@ export const listAttachedRolePolicies: {
   >;
   pages: (
     input: ListAttachedRolePoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAttachedRolePoliciesResponse,
     | InvalidInputException
     | NoSuchEntityException
@@ -7614,7 +7865,7 @@ export const listAttachedRolePolicies: {
   >;
   items: (
     input: ListAttachedRolePoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AttachedPolicy,
     | InvalidInputException
     | NoSuchEntityException
@@ -7654,7 +7905,7 @@ export const listAttachedRolePolicies: {
 export const listAttachedUserPolicies: {
   (
     input: ListAttachedUserPoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAttachedUserPoliciesResponse,
     | InvalidInputException
     | NoSuchEntityException
@@ -7664,7 +7915,7 @@ export const listAttachedUserPolicies: {
   >;
   pages: (
     input: ListAttachedUserPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAttachedUserPoliciesResponse,
     | InvalidInputException
     | NoSuchEntityException
@@ -7674,7 +7925,7 @@ export const listAttachedUserPolicies: {
   >;
   items: (
     input: ListAttachedUserPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AttachedPolicy,
     | InvalidInputException
     | NoSuchEntityException
@@ -7709,7 +7960,7 @@ export const listAttachedUserPolicies: {
  */
 export const listDelegationRequests: (
   input: ListDelegationRequestsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDelegationRequestsResponse,
   | InvalidInputException
   | NoSuchEntityException
@@ -7741,21 +7992,21 @@ export const listDelegationRequests: (
 export const listGroupPolicies: {
   (
     input: ListGroupPoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGroupPoliciesResponse,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListGroupPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGroupPoliciesResponse,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGroupPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     policyNameType,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -7780,21 +8031,21 @@ export const listGroupPolicies: {
 export const listGroups: {
   (
     input: ListGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGroupsResponse,
     ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGroupsResponse,
     ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Group,
     ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -7819,21 +8070,21 @@ export const listGroups: {
 export const listGroupsForUser: {
   (
     input: ListGroupsForUserRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGroupsForUserResponse,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListGroupsForUserRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGroupsForUserResponse,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListGroupsForUserRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Group,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -7865,21 +8116,21 @@ export const listGroupsForUser: {
 export const listInstanceProfiles: {
   (
     input: ListInstanceProfilesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInstanceProfilesResponse,
     ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListInstanceProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInstanceProfilesResponse,
     ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInstanceProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     InstanceProfile,
     ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -7907,21 +8158,21 @@ export const listInstanceProfiles: {
 export const listInstanceProfilesForRole: {
   (
     input: ListInstanceProfilesForRoleRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInstanceProfilesForRoleResponse,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListInstanceProfilesForRoleRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInstanceProfilesForRoleResponse,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInstanceProfilesForRoleRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     InstanceProfile,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -7945,21 +8196,21 @@ export const listInstanceProfilesForRole: {
 export const listInstanceProfileTags: {
   (
     input: ListInstanceProfileTagsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInstanceProfileTagsResponse,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListInstanceProfileTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInstanceProfileTagsResponse,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInstanceProfileTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Tag,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -7983,7 +8234,7 @@ export const listInstanceProfileTags: {
 export const listMFADeviceTags: {
   (
     input: ListMFADeviceTagsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMFADeviceTagsResponse,
     | InvalidInputException
     | NoSuchEntityException
@@ -7993,7 +8244,7 @@ export const listMFADeviceTags: {
   >;
   pages: (
     input: ListMFADeviceTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMFADeviceTagsResponse,
     | InvalidInputException
     | NoSuchEntityException
@@ -8003,7 +8254,7 @@ export const listMFADeviceTags: {
   >;
   items: (
     input: ListMFADeviceTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Tag,
     | InvalidInputException
     | NoSuchEntityException
@@ -8035,7 +8286,7 @@ export const listMFADeviceTags: {
  */
 export const listOpenIDConnectProviders: (
   input: ListOpenIDConnectProvidersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListOpenIDConnectProvidersResponse,
   ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8055,7 +8306,7 @@ export const listOpenIDConnectProviders: (
 export const listOpenIDConnectProviderTags: {
   (
     input: ListOpenIDConnectProviderTagsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOpenIDConnectProviderTagsResponse,
     | InvalidInputException
     | NoSuchEntityException
@@ -8065,7 +8316,7 @@ export const listOpenIDConnectProviderTags: {
   >;
   pages: (
     input: ListOpenIDConnectProviderTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOpenIDConnectProviderTagsResponse,
     | InvalidInputException
     | NoSuchEntityException
@@ -8075,7 +8326,7 @@ export const listOpenIDConnectProviderTags: {
   >;
   items: (
     input: ListOpenIDConnectProviderTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Tag,
     | InvalidInputException
     | NoSuchEntityException
@@ -8121,21 +8372,21 @@ export const listOpenIDConnectProviderTags: {
 export const listPolicies: {
   (
     input: ListPoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPoliciesResponse,
     ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPoliciesResponse,
     ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Policy,
     ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8159,7 +8410,7 @@ export const listPolicies: {
 export const listPolicyTags: {
   (
     input: ListPolicyTagsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPolicyTagsResponse,
     | InvalidInputException
     | NoSuchEntityException
@@ -8169,7 +8420,7 @@ export const listPolicyTags: {
   >;
   pages: (
     input: ListPolicyTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPolicyTagsResponse,
     | InvalidInputException
     | NoSuchEntityException
@@ -8179,7 +8430,7 @@ export const listPolicyTags: {
   >;
   items: (
     input: ListPolicyTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Tag,
     | InvalidInputException
     | NoSuchEntityException
@@ -8212,7 +8463,7 @@ export const listPolicyTags: {
 export const listPolicyVersions: {
   (
     input: ListPolicyVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPolicyVersionsResponse,
     | InvalidInputException
     | NoSuchEntityException
@@ -8222,7 +8473,7 @@ export const listPolicyVersions: {
   >;
   pages: (
     input: ListPolicyVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPolicyVersionsResponse,
     | InvalidInputException
     | NoSuchEntityException
@@ -8232,7 +8483,7 @@ export const listPolicyVersions: {
   >;
   items: (
     input: ListPolicyVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PolicyVersion,
     | InvalidInputException
     | NoSuchEntityException
@@ -8271,21 +8522,21 @@ export const listPolicyVersions: {
 export const listRolePolicies: {
   (
     input: ListRolePoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRolePoliciesResponse,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListRolePoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRolePoliciesResponse,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRolePoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     policyNameType,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8323,21 +8574,21 @@ export const listRolePolicies: {
 export const listRoles: {
   (
     input: ListRolesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRolesResponse,
     ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListRolesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRolesResponse,
     ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRolesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Role,
     ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8361,21 +8612,21 @@ export const listRoles: {
 export const listRoleTags: {
   (
     input: ListRoleTagsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRoleTagsResponse,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListRoleTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRoleTagsResponse,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRoleTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Tag,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8400,7 +8651,7 @@ export const listRoleTags: {
  */
 export const listSAMLProviders: (
   input: ListSAMLProvidersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListSAMLProvidersResponse,
   ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8420,7 +8671,7 @@ export const listSAMLProviders: (
 export const listSAMLProviderTags: {
   (
     input: ListSAMLProviderTagsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSAMLProviderTagsResponse,
     | InvalidInputException
     | NoSuchEntityException
@@ -8430,7 +8681,7 @@ export const listSAMLProviderTags: {
   >;
   pages: (
     input: ListSAMLProviderTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSAMLProviderTagsResponse,
     | InvalidInputException
     | NoSuchEntityException
@@ -8440,7 +8691,7 @@ export const listSAMLProviderTags: {
   >;
   items: (
     input: ListSAMLProviderTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Tag,
     | InvalidInputException
     | NoSuchEntityException
@@ -8477,21 +8728,21 @@ export const listSAMLProviderTags: {
 export const listServerCertificateTags: {
   (
     input: ListServerCertificateTagsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServerCertificateTagsResponse,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListServerCertificateTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServerCertificateTagsResponse,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServerCertificateTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Tag,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8522,21 +8773,21 @@ export const listServerCertificateTags: {
 export const listUserPolicies: {
   (
     input: ListUserPoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUserPoliciesResponse,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListUserPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUserPoliciesResponse,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListUserPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     policyNameType,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8572,21 +8823,21 @@ export const listUserPolicies: {
 export const listUsers: {
   (
     input: ListUsersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUsersResponse,
     ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUsersResponse,
     ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     User,
     ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8609,21 +8860,21 @@ export const listUsers: {
 export const listUserTags: {
   (
     input: ListUserTagsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUserTagsResponse,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListUserTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUserTagsResponse,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListUserTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Tag,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8654,21 +8905,21 @@ export const listUserTags: {
 export const listVirtualMFADevices: {
   (
     input: ListVirtualMFADevicesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVirtualMFADevicesResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListVirtualMFADevicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVirtualMFADevicesResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVirtualMFADevicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     VirtualMFADevice,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8708,7 +8959,7 @@ export const listVirtualMFADevices: {
  */
 export const putGroupPolicy: (
   input: PutGroupPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutGroupPolicyResponse,
   | LimitExceededException
   | MalformedPolicyDocumentException
@@ -8734,7 +8985,7 @@ export const putGroupPolicy: (
  */
 export const resetServiceSpecificCredential: (
   input: ResetServiceSpecificCredentialRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResetServiceSpecificCredentialResponse,
   NoSuchEntityException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8750,7 +9001,7 @@ export const resetServiceSpecificCredential: (
  */
 export const updateSAMLProvider: (
   input: UpdateSAMLProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSAMLProviderResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -8779,7 +9030,7 @@ export const updateSAMLProvider: (
  */
 export const addClientIDToOpenIDConnectProvider: (
   input: AddClientIDToOpenIDConnectProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddClientIDToOpenIDConnectProviderResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -8823,7 +9074,7 @@ export const addClientIDToOpenIDConnectProvider: (
  */
 export const associateDelegationRequest: (
   input: AssociateDelegationRequestRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateDelegationRequestResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -8849,7 +9100,7 @@ export const associateDelegationRequest: (
  */
 export const createAccountAlias: (
   input: CreateAccountAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAccountAliasResponse,
   | ConcurrentModificationException
   | EntityAlreadyExistsException
@@ -8877,7 +9128,7 @@ export const createAccountAlias: (
  */
 export const deactivateMFADevice: (
   input: DeactivateMFADeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeactivateMFADeviceResponse,
   | ConcurrentModificationException
   | EntityTemporarilyUnmodifiableException
@@ -8905,7 +9156,7 @@ export const deactivateMFADevice: (
  */
 export const deleteAccountAlias: (
   input: DeleteAccountAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccountAliasResponse,
   | ConcurrentModificationException
   | LimitExceededException
@@ -8933,7 +9184,7 @@ export const deleteAccountAlias: (
  */
 export const deleteSigningCertificate: (
   input: DeleteSigningCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSigningCertificateResponse,
   | ConcurrentModificationException
   | LimitExceededException
@@ -8977,7 +9228,7 @@ export const deleteSigningCertificate: (
  */
 export const deleteUser: (
   input: DeleteUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUserResponse,
   | ConcurrentModificationException
   | DeleteConflictException
@@ -9005,7 +9256,7 @@ export const deleteUser: (
  */
 export const deleteVirtualMFADevice: (
   input: DeleteVirtualMFADeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVirtualMFADeviceResponse,
   | ConcurrentModificationException
   | DeleteConflictException
@@ -9038,7 +9289,7 @@ export const deleteVirtualMFADevice: (
  */
 export const rejectDelegationRequest: (
   input: RejectDelegationRequestRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RejectDelegationRequestResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -9066,7 +9317,7 @@ export const rejectDelegationRequest: (
  */
 export const removeClientIDFromOpenIDConnectProvider: (
   input: RemoveClientIDFromOpenIDConnectProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveClientIDFromOpenIDConnectProviderResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -9100,7 +9351,7 @@ export const removeClientIDFromOpenIDConnectProvider: (
  */
 export const sendDelegationToken: (
   input: SendDelegationTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendDelegationTokenResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -9147,7 +9398,7 @@ export const sendDelegationToken: (
  */
 export const tagInstanceProfile: (
   input: TagInstanceProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagInstanceProfileResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -9197,7 +9448,7 @@ export const tagInstanceProfile: (
  */
 export const tagMFADevice: (
   input: TagMFADeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagMFADeviceResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -9248,7 +9499,7 @@ export const tagMFADevice: (
  */
 export const tagOpenIDConnectProvider: (
   input: TagOpenIDConnectProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagOpenIDConnectProviderResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -9297,7 +9548,7 @@ export const tagOpenIDConnectProvider: (
  */
 export const tagPolicy: (
   input: TagPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagPolicyResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -9354,7 +9605,7 @@ export const tagPolicy: (
  */
 export const tagRole: (
   input: TagRoleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagRoleResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -9405,7 +9656,7 @@ export const tagRole: (
  */
 export const tagSAMLProvider: (
   input: TagSAMLProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagSAMLProviderResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -9463,7 +9714,7 @@ export const tagSAMLProvider: (
  */
 export const tagServerCertificate: (
   input: TagServerCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagServerCertificateResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -9519,7 +9770,7 @@ export const tagServerCertificate: (
  */
 export const tagUser: (
   input: TagUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagUserResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -9545,7 +9796,7 @@ export const tagUser: (
  */
 export const untagInstanceProfile: (
   input: UntagInstanceProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagInstanceProfileResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -9570,7 +9821,7 @@ export const untagInstanceProfile: (
  */
 export const untagMFADevice: (
   input: UntagMFADeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagMFADeviceResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -9596,7 +9847,7 @@ export const untagMFADevice: (
  */
 export const untagOpenIDConnectProvider: (
   input: UntagOpenIDConnectProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagOpenIDConnectProviderResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -9620,7 +9871,7 @@ export const untagOpenIDConnectProvider: (
  */
 export const untagPolicy: (
   input: UntagPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagPolicyResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -9644,7 +9895,7 @@ export const untagPolicy: (
  */
 export const untagRole: (
   input: UntagRoleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagRoleResponse,
   | ConcurrentModificationException
   | NoSuchEntityException
@@ -9668,7 +9919,7 @@ export const untagRole: (
  */
 export const untagSAMLProvider: (
   input: UntagSAMLProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagSAMLProviderResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -9699,7 +9950,7 @@ export const untagSAMLProvider: (
  */
 export const untagServerCertificate: (
   input: UntagServerCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagServerCertificateResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -9723,7 +9974,7 @@ export const untagServerCertificate: (
  */
 export const untagUser: (
   input: UntagUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagUserResponse,
   | ConcurrentModificationException
   | NoSuchEntityException
@@ -9750,7 +10001,7 @@ export const untagUser: (
  */
 export const updateDelegationRequest: (
   input: UpdateDelegationRequestRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDelegationRequestResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -9794,7 +10045,7 @@ export const updateDelegationRequest: (
  */
 export const updateOpenIDConnectProviderThumbprint: (
   input: UpdateOpenIDConnectProviderThumbprintRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateOpenIDConnectProviderThumbprintResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -9827,7 +10078,7 @@ export const updateOpenIDConnectProviderThumbprint: (
  */
 export const updateUser: (
   input: UpdateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserResponse,
   | ConcurrentModificationException
   | EntityAlreadyExistsException
@@ -9865,7 +10116,7 @@ export const updateUser: (
  */
 export const updateGroup: (
   input: UpdateGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGroupResponse,
   | EntityAlreadyExistsException
   | LimitExceededException
@@ -9906,7 +10157,7 @@ export const updateGroup: (
  */
 export const updateServerCertificate: (
   input: UpdateServerCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateServerCertificateResponse,
   | EntityAlreadyExistsException
   | LimitExceededException
@@ -9936,7 +10187,7 @@ export const updateServerCertificate: (
  */
 export const deleteOpenIDConnectProvider: (
   input: DeleteOpenIDConnectProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteOpenIDConnectProviderResponse,
   | InvalidInputException
   | NoSuchEntityException
@@ -9963,7 +10214,7 @@ export const deleteOpenIDConnectProvider: (
  */
 export const deleteSAMLProvider: (
   input: DeleteSAMLProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSAMLProviderResponse,
   | InvalidInputException
   | LimitExceededException
@@ -9991,7 +10242,7 @@ export const deleteSAMLProvider: (
  */
 export const detachGroupPolicy: (
   input: DetachGroupPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetachGroupPolicyResponse,
   | InvalidInputException
   | LimitExceededException
@@ -10019,7 +10270,7 @@ export const detachGroupPolicy: (
  */
 export const detachUserPolicy: (
   input: DetachUserPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetachUserPolicyResponse,
   | InvalidInputException
   | LimitExceededException
@@ -10058,7 +10309,7 @@ export const detachUserPolicy: (
  */
 export const getContextKeysForPrincipalPolicy: (
   input: GetContextKeysForPrincipalPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContextKeysForPolicyResponse,
   InvalidInputException | NoSuchEntityException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10079,7 +10330,7 @@ export const getContextKeysForPrincipalPolicy: (
  */
 export const setDefaultPolicyVersion: (
   input: SetDefaultPolicyVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetDefaultPolicyVersionResponse,
   | InvalidInputException
   | LimitExceededException
@@ -10114,7 +10365,7 @@ export const setDefaultPolicyVersion: (
  */
 export const updateAccessKey: (
   input: UpdateAccessKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAccessKeyResponse,
   | InvalidInputException
   | LimitExceededException
@@ -10145,7 +10396,7 @@ export const updateAccessKey: (
  */
 export const updateSigningCertificate: (
   input: UpdateSigningCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSigningCertificateResponse,
   | InvalidInputException
   | LimitExceededException
@@ -10175,7 +10426,7 @@ export const updateSigningCertificate: (
  */
 export const updateSSHPublicKey: (
   input: UpdateSSHPublicKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSSHPublicKeyResponse,
   InvalidInputException | NoSuchEntityException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10202,7 +10453,7 @@ export const updateSSHPublicKey: (
  */
 export const deleteLoginProfile: (
   input: DeleteLoginProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLoginProfileResponse,
   | EntityTemporarilyUnmodifiableException
   | LimitExceededException
@@ -10231,7 +10482,7 @@ export const deleteLoginProfile: (
  */
 export const deleteGroupPolicy: (
   input: DeleteGroupPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGroupPolicyResponse,
   | LimitExceededException
   | NoSuchEntityException
@@ -10252,7 +10503,7 @@ export const deleteGroupPolicy: (
  */
 export const deleteServiceSpecificCredential: (
   input: DeleteServiceSpecificCredentialRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteServiceSpecificCredentialResponse,
   NoSuchEntityException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10271,7 +10522,7 @@ export const deleteServiceSpecificCredential: (
  */
 export const deleteSSHPublicKey: (
   input: DeleteSSHPublicKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSSHPublicKeyResponse,
   NoSuchEntityException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10288,7 +10539,7 @@ export const deleteSSHPublicKey: (
  */
 export const deleteUserPermissionsBoundary: (
   input: DeleteUserPermissionsBoundaryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUserPermissionsBoundaryResponse,
   NoSuchEntityException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10308,7 +10559,7 @@ export const deleteUserPermissionsBoundary: (
  */
 export const deleteUserPolicy: (
   input: DeleteUserPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUserPolicyResponse,
   | LimitExceededException
   | NoSuchEntityException
@@ -10329,7 +10580,7 @@ export const deleteUserPolicy: (
  */
 export const removeUserFromGroup: (
   input: RemoveUserFromGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveUserFromGroupResponse,
   | LimitExceededException
   | NoSuchEntityException
@@ -10353,7 +10604,7 @@ export const removeUserFromGroup: (
  */
 export const updateServiceSpecificCredential: (
   input: UpdateServiceSpecificCredentialRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateServiceSpecificCredentialResponse,
   NoSuchEntityException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10367,7 +10618,7 @@ export const updateServiceSpecificCredential: (
  */
 export const addUserToGroup: (
   input: AddUserToGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddUserToGroupResponse,
   | LimitExceededException
   | NoSuchEntityException
@@ -10393,7 +10644,7 @@ export const addUserToGroup: (
  */
 export const deleteAccessKey: (
   input: DeleteAccessKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccessKeyResponse,
   | LimitExceededException
   | NoSuchEntityException
@@ -10423,7 +10674,7 @@ export const deleteAccessKey: (
  */
 export const acceptDelegationRequest: (
   input: AcceptDelegationRequestRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AcceptDelegationRequestResponse,
   | ConcurrentModificationException
   | NoSuchEntityException
@@ -10453,7 +10704,7 @@ export const acceptDelegationRequest: (
  */
 export const createServiceLinkedRole: (
   input: CreateServiceLinkedRoleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateServiceLinkedRoleResponse,
   | InvalidInputException
   | LimitExceededException
@@ -10485,7 +10736,7 @@ export const createServiceLinkedRole: (
  */
 export const deleteInstanceProfile: (
   input: DeleteInstanceProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteInstanceProfileResponse,
   | DeleteConflictException
   | LimitExceededException
@@ -10527,7 +10778,7 @@ export const deleteInstanceProfile: (
  */
 export const deletePolicy: (
   input: DeletePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePolicyResponse,
   | DeleteConflictException
   | InvalidInputException
@@ -10559,7 +10810,7 @@ export const deletePolicy: (
  */
 export const deletePolicyVersion: (
   input: DeletePolicyVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePolicyVersionResponse,
   | DeleteConflictException
   | InvalidInputException
@@ -10598,7 +10849,7 @@ export const deletePolicyVersion: (
  */
 export const deleteServerCertificate: (
   input: DeleteServerCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteServerCertificateResponse,
   | DeleteConflictException
   | LimitExceededException
@@ -10642,7 +10893,7 @@ export const deleteServerCertificate: (
  */
 export const setSecurityTokenServicePreferences: (
   input: SetSecurityTokenServicePreferencesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetSecurityTokenServicePreferencesResponse,
   ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10675,7 +10926,7 @@ export const setSecurityTokenServicePreferences: (
  */
 export const createSAMLProvider: (
   input: CreateSAMLProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSAMLProviderResponse,
   | ConcurrentModificationException
   | EntityAlreadyExistsException
@@ -10700,7 +10951,7 @@ export const createSAMLProvider: (
  */
 export const deleteAccountPasswordPolicy: (
   input: DeleteAccountPasswordPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccountPasswordPolicyResponse,
   | LimitExceededException
   | NoSuchEntityException
@@ -10722,7 +10973,7 @@ export const deleteAccountPasswordPolicy: (
  */
 export const deleteGroup: (
   input: DeleteGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGroupResponse,
   | DeleteConflictException
   | LimitExceededException
@@ -10763,7 +11014,7 @@ export const deleteGroup: (
  */
 export const deleteServiceLinkedRole: (
   input: DeleteServiceLinkedRoleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteServiceLinkedRoleResponse,
   | LimitExceededException
   | NoSuchEntityException
@@ -10803,7 +11054,7 @@ export const deleteServiceLinkedRole: (
  */
 export const putUserPolicy: (
   input: PutUserPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutUserPolicyResponse,
   | LimitExceededException
   | MalformedPolicyDocumentException
@@ -10836,7 +11087,7 @@ export const putUserPolicy: (
  */
 export const updateAccountPasswordPolicy: (
   input: UpdateAccountPasswordPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAccountPasswordPolicyResponse,
   | LimitExceededException
   | MalformedPolicyDocumentException
@@ -10873,7 +11124,7 @@ export const updateAccountPasswordPolicy: (
  */
 export const createAccessKey: (
   input: CreateAccessKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAccessKeyResponse,
   | LimitExceededException
   | NoSuchEntityException
@@ -10897,7 +11148,7 @@ export const createAccessKey: (
  */
 export const createGroup: (
   input: CreateGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGroupResponse,
   | EntityAlreadyExistsException
   | LimitExceededException
@@ -10925,7 +11176,7 @@ export const createGroup: (
  */
 export const createInstanceProfile: (
   input: CreateInstanceProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateInstanceProfileResponse,
   | ConcurrentModificationException
   | EntityAlreadyExistsException
@@ -10986,7 +11237,7 @@ export const createInstanceProfile: (
  */
 export const createOpenIDConnectProvider: (
   input: CreateOpenIDConnectProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateOpenIDConnectProviderResponse,
   | ConcurrentModificationException
   | EntityAlreadyExistsException
@@ -11026,7 +11277,7 @@ export const createOpenIDConnectProvider: (
  */
 export const createPolicy: (
   input: CreatePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePolicyResponse,
   | ConcurrentModificationException
   | EntityAlreadyExistsException
@@ -11062,7 +11313,7 @@ export const createPolicy: (
  */
 export const createPolicyVersion: (
   input: CreatePolicyVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePolicyVersionResponse,
   | InvalidInputException
   | LimitExceededException
@@ -11090,7 +11341,7 @@ export const createPolicyVersion: (
  */
 export const createUser: (
   input: CreateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUserResponse,
   | ConcurrentModificationException
   | EntityAlreadyExistsException
@@ -11130,7 +11381,7 @@ export const createUser: (
  */
 export const createVirtualMFADevice: (
   input: CreateVirtualMFADeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVirtualMFADeviceResponse,
   | ConcurrentModificationException
   | EntityAlreadyExistsException
@@ -11271,7 +11522,7 @@ export const createVirtualMFADevice: (
  */
 export const generateOrganizationsAccessReport: (
   input: GenerateOrganizationsAccessReportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GenerateOrganizationsAccessReportResponse,
   ReportGenerationLimitExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11287,7 +11538,7 @@ export const generateOrganizationsAccessReport: (
  */
 export const getAccessKeyLastUsed: (
   input: GetAccessKeyLastUsedRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccessKeyLastUsedResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11309,7 +11560,7 @@ export const getAccessKeyLastUsed: (
  */
 export const getDelegationRequest: (
   input: GetDelegationRequestRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDelegationRequestResponse,
   NoSuchEntityException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11326,7 +11577,7 @@ export const getDelegationRequest: (
  */
 export const getInstanceProfile: (
   input: GetInstanceProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInstanceProfileResponse,
   NoSuchEntityException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11340,7 +11591,7 @@ export const getInstanceProfile: (
  */
 export const getMFADevice: (
   input: GetMFADeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMFADeviceResponse,
   NoSuchEntityException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11375,7 +11626,7 @@ export const getMFADevice: (
  */
 export const getOrganizationsAccessReport: (
   input: GetOrganizationsAccessReportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetOrganizationsAccessReportResponse,
   NoSuchEntityException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11392,7 +11643,7 @@ export const getOrganizationsAccessReport: (
  */
 export const getSAMLProvider: (
   input: GetSAMLProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSAMLProviderResponse,
   | InvalidInputException
   | NoSuchEntityException
@@ -11418,7 +11669,7 @@ export const getSAMLProvider: (
  */
 export const getServerCertificate: (
   input: GetServerCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetServerCertificateResponse,
   NoSuchEntityException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11449,21 +11700,21 @@ export const getServerCertificate: (
 export const listAccessKeys: {
   (
     input: ListAccessKeysRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccessKeysResponse,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListAccessKeysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccessKeysResponse,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAccessKeysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AccessKeyMetadata,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11496,7 +11747,7 @@ export const listAccessKeys: {
 export const listAttachedGroupPolicies: {
   (
     input: ListAttachedGroupPoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAttachedGroupPoliciesResponse,
     | InvalidInputException
     | NoSuchEntityException
@@ -11506,7 +11757,7 @@ export const listAttachedGroupPolicies: {
   >;
   pages: (
     input: ListAttachedGroupPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAttachedGroupPoliciesResponse,
     | InvalidInputException
     | NoSuchEntityException
@@ -11516,7 +11767,7 @@ export const listAttachedGroupPolicies: {
   >;
   items: (
     input: ListAttachedGroupPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AttachedPolicy,
     | InvalidInputException
     | NoSuchEntityException
@@ -11554,7 +11805,7 @@ export const listAttachedGroupPolicies: {
 export const listEntitiesForPolicy: {
   (
     input: ListEntitiesForPolicyRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEntitiesForPolicyResponse,
     | InvalidInputException
     | NoSuchEntityException
@@ -11564,7 +11815,7 @@ export const listEntitiesForPolicy: {
   >;
   pages: (
     input: ListEntitiesForPolicyRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEntitiesForPolicyResponse,
     | InvalidInputException
     | NoSuchEntityException
@@ -11574,7 +11825,7 @@ export const listEntitiesForPolicy: {
   >;
   items: (
     input: ListEntitiesForPolicyRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidInputException
     | NoSuchEntityException
@@ -11608,21 +11859,21 @@ export const listEntitiesForPolicy: {
 export const listMFADevices: {
   (
     input: ListMFADevicesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMFADevicesResponse,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListMFADevicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMFADevicesResponse,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListMFADevicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MFADevice,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11657,21 +11908,21 @@ export const listMFADevices: {
 export const listServerCertificates: {
   (
     input: ListServerCertificatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServerCertificatesResponse,
     ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListServerCertificatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServerCertificatesResponse,
     ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListServerCertificatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServerCertificateMetadata,
     ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11704,21 +11955,21 @@ export const listServerCertificates: {
 export const listSigningCertificates: {
   (
     input: ListSigningCertificatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSigningCertificatesResponse,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSigningCertificatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSigningCertificatesResponse,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSigningCertificatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SigningCertificate,
     NoSuchEntityException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11749,21 +12000,21 @@ export const listSigningCertificates: {
 export const listSSHPublicKeys: {
   (
     input: ListSSHPublicKeysRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSSHPublicKeysResponse,
     NoSuchEntityException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSSHPublicKeysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSSHPublicKeysResponse,
     NoSuchEntityException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSSHPublicKeysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SSHPublicKeyMetadata,
     NoSuchEntityException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11811,21 +12062,21 @@ export const listSSHPublicKeys: {
 export const simulateCustomPolicy: {
   (
     input: SimulateCustomPolicyRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SimulatePolicyResponse,
     InvalidInputException | PolicyEvaluationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: SimulateCustomPolicyRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SimulatePolicyResponse,
     InvalidInputException | PolicyEvaluationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: SimulateCustomPolicyRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EvaluationResult,
     InvalidInputException | PolicyEvaluationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11849,7 +12100,7 @@ export const simulateCustomPolicy: {
  */
 export const updateRoleDescription: (
   input: UpdateRoleDescriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRoleDescriptionResponse,
   | NoSuchEntityException
   | ServiceFailureException
@@ -11872,7 +12123,7 @@ export const updateRoleDescription: (
  */
 export const enableMFADevice: (
   input: EnableMFADeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableMFADeviceResponse,
   | ConcurrentModificationException
   | EntityAlreadyExistsException
@@ -11922,7 +12173,7 @@ export const enableMFADevice: (
  */
 export const attachRolePolicy: (
   input: AttachRolePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AttachRolePolicyResponse,
   | InvalidInputException
   | LimitExceededException
@@ -11956,7 +12207,7 @@ export const attachRolePolicy: (
  */
 export const updateLoginProfile: (
   input: UpdateLoginProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLoginProfileResponse,
   | EntityTemporarilyUnmodifiableException
   | LimitExceededException
@@ -11997,7 +12248,7 @@ export const updateLoginProfile: (
  */
 export const deleteRole: (
   input: DeleteRoleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRoleResponse,
   | ConcurrentModificationException
   | DeleteConflictException
@@ -12029,7 +12280,7 @@ export const deleteRole: (
  */
 export const detachRolePolicy: (
   input: DetachRolePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetachRolePolicyResponse,
   | InvalidInputException
   | LimitExceededException
@@ -12060,7 +12311,7 @@ export const detachRolePolicy: (
  */
 export const deleteRolePermissionsBoundary: (
   input: DeleteRolePermissionsBoundaryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRolePermissionsBoundaryResponse,
   | NoSuchEntityException
   | ServiceFailureException
@@ -12087,7 +12338,7 @@ export const deleteRolePermissionsBoundary: (
  */
 export const deleteRolePolicy: (
   input: DeleteRolePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRolePolicyResponse,
   | LimitExceededException
   | NoSuchEntityException
@@ -12120,7 +12371,7 @@ export const deleteRolePolicy: (
  */
 export const removeRoleFromInstanceProfile: (
   input: RemoveRoleFromInstanceProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveRoleFromInstanceProfileResponse,
   | LimitExceededException
   | NoSuchEntityException
@@ -12143,7 +12394,7 @@ export const removeRoleFromInstanceProfile: (
  */
 export const updateRole: (
   input: UpdateRoleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRoleResponse,
   | NoSuchEntityException
   | ServiceFailureException
@@ -12183,7 +12434,7 @@ export const updateRole: (
  */
 export const addRoleToInstanceProfile: (
   input: AddRoleToInstanceProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddRoleToInstanceProfileResponse,
   | EntityAlreadyExistsException
   | LimitExceededException
@@ -12238,7 +12489,7 @@ export const addRoleToInstanceProfile: (
  */
 export const putRolePolicy: (
   input: PutRolePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutRolePolicyResponse,
   | LimitExceededException
   | MalformedPolicyDocumentException
@@ -12266,7 +12517,7 @@ export const putRolePolicy: (
  */
 export const updateAssumeRolePolicy: (
   input: UpdateAssumeRolePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAssumeRolePolicyResponse,
   | LimitExceededException
   | MalformedPolicyDocumentException
@@ -12295,7 +12546,7 @@ export const updateAssumeRolePolicy: (
  */
 export const resyncMFADevice: (
   input: ResyncMFADeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResyncMFADeviceResponse,
   | ConcurrentModificationException
   | InvalidAuthenticationCodeException
@@ -12332,7 +12583,7 @@ export const resyncMFADevice: (
  */
 export const attachUserPolicy: (
   input: AttachUserPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AttachUserPolicyResponse,
   | InvalidInputException
   | LimitExceededException
@@ -12368,7 +12619,7 @@ export const attachUserPolicy: (
  */
 export const putRolePermissionsBoundary: (
   input: PutRolePermissionsBoundaryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutRolePermissionsBoundaryResponse,
   | InvalidInputException
   | NoSuchEntityException
@@ -12402,7 +12653,7 @@ export const putRolePermissionsBoundary: (
  */
 export const putUserPermissionsBoundary: (
   input: PutUserPermissionsBoundaryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutUserPermissionsBoundaryResponse,
   | InvalidInputException
   | NoSuchEntityException
@@ -12437,7 +12688,7 @@ export const putUserPermissionsBoundary: (
  */
 export const attachGroupPolicy: (
   input: AttachGroupPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AttachGroupPolicyResponse,
   | InvalidInputException
   | LimitExceededException
@@ -12471,7 +12722,7 @@ export const attachGroupPolicy: (
  */
 export const changePassword: (
   input: ChangePasswordRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ChangePasswordResponse,
   | EntityTemporarilyUnmodifiableException
   | InvalidUserTypeException
@@ -12505,7 +12756,7 @@ export const changePassword: (
  */
 export const createLoginProfile: (
   input: CreateLoginProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLoginProfileResponse,
   | EntityAlreadyExistsException
   | LimitExceededException
@@ -12534,7 +12785,7 @@ export const createLoginProfile: (
  */
 export const createDelegationRequest: (
   input: CreateDelegationRequestRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDelegationRequestResponse,
   | ConcurrentModificationException
   | EntityAlreadyExistsException
@@ -12564,7 +12815,7 @@ export const createDelegationRequest: (
  */
 export const createRole: (
   input: CreateRoleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRoleResponse,
   | ConcurrentModificationException
   | EntityAlreadyExistsException
@@ -12603,7 +12854,7 @@ export const createRole: (
  */
 export const createServiceSpecificCredential: (
   input: CreateServiceSpecificCredentialRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateServiceSpecificCredentialResponse,
   | LimitExceededException
   | NoSuchEntityException
@@ -12639,21 +12890,21 @@ export const createServiceSpecificCredential: (
 export const getAccountAuthorizationDetails: {
   (
     input: GetAccountAuthorizationDetailsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetAccountAuthorizationDetailsResponse,
     ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: GetAccountAuthorizationDetailsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetAccountAuthorizationDetailsResponse,
     ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetAccountAuthorizationDetailsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -12675,7 +12926,7 @@ export const getAccountAuthorizationDetails: {
  */
 export const getCredentialReport: (
   input: GetCredentialReportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCredentialReportResponse,
   | CredentialReportExpiredException
   | CredentialReportNotPresentException
@@ -12743,7 +12994,7 @@ export const getCredentialReport: (
  */
 export const getServiceLastAccessedDetails: (
   input: GetServiceLastAccessedDetailsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceLastAccessedDetailsResponse,
   InvalidInputException | NoSuchEntityException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12779,7 +13030,7 @@ export const getServiceLastAccessedDetails: (
  */
 export const getServiceLastAccessedDetailsWithEntities: (
   input: GetServiceLastAccessedDetailsWithEntitiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceLastAccessedDetailsWithEntitiesResponse,
   InvalidInputException | NoSuchEntityException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12797,7 +13048,7 @@ export const getServiceLastAccessedDetailsWithEntities: (
  */
 export const getServiceLinkedRoleDeletionStatus: (
   input: GetServiceLinkedRoleDeletionStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceLinkedRoleDeletionStatusResponse,
   | InvalidInputException
   | NoSuchEntityException
@@ -12823,7 +13074,7 @@ export const getServiceLinkedRoleDeletionStatus: (
  */
 export const getSSHPublicKey: (
   input: GetSSHPublicKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSSHPublicKeyResponse,
   NoSuchEntityException | UnrecognizedPublicKeyEncodingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12870,7 +13121,7 @@ export const getSSHPublicKey: (
  */
 export const listPoliciesGrantingServiceAccess: (
   input: ListPoliciesGrantingServiceAccessRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListPoliciesGrantingServiceAccessResponse,
   InvalidInputException | NoSuchEntityException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12909,7 +13160,7 @@ export const listPoliciesGrantingServiceAccess: (
  */
 export const uploadServerCertificate: (
   input: UploadServerCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UploadServerCertificateResponse,
   | ConcurrentModificationException
   | EntityAlreadyExistsException
@@ -12958,7 +13209,7 @@ export const uploadServerCertificate: (
  */
 export const uploadSigningCertificate: (
   input: UploadSigningCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UploadSigningCertificateResponse,
   | ConcurrentModificationException
   | DuplicateCertificateException
@@ -12994,7 +13245,7 @@ export const uploadSigningCertificate: (
  */
 export const uploadSSHPublicKey: (
   input: UploadSSHPublicKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UploadSSHPublicKeyResponse,
   | DuplicateSSHPublicKeyException
   | InvalidPublicKeyException
@@ -13024,7 +13275,7 @@ export const uploadSSHPublicKey: (
  */
 export const listServiceSpecificCredentials: (
   input: ListServiceSpecificCredentialsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListServiceSpecificCredentialsResponse,
   NoSuchEntityException | ServiceNotSupportedException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13041,7 +13292,7 @@ export const listServiceSpecificCredentials: (
  */
 export const disableOrganizationsRootCredentialsManagement: (
   input: DisableOrganizationsRootCredentialsManagementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisableOrganizationsRootCredentialsManagementResponse,
   | AccountNotManagementOrDelegatedAdministratorException
   | OrganizationNotFoundException
@@ -13100,7 +13351,7 @@ export const disableOrganizationsRootCredentialsManagement: (
 export const simulatePrincipalPolicy: {
   (
     input: SimulatePrincipalPolicyRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SimulatePolicyResponse,
     | InvalidInputException
     | NoSuchEntityException
@@ -13110,7 +13361,7 @@ export const simulatePrincipalPolicy: {
   >;
   pages: (
     input: SimulatePrincipalPolicyRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SimulatePolicyResponse,
     | InvalidInputException
     | NoSuchEntityException
@@ -13120,7 +13371,7 @@ export const simulatePrincipalPolicy: {
   >;
   items: (
     input: SimulatePrincipalPolicyRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EvaluationResult,
     | InvalidInputException
     | NoSuchEntityException
@@ -13160,7 +13411,7 @@ export const simulatePrincipalPolicy: {
  */
 export const enableOrganizationsRootCredentialsManagement: (
   input: EnableOrganizationsRootCredentialsManagementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableOrganizationsRootCredentialsManagementResponse,
   | AccountNotManagementOrDelegatedAdministratorException
   | CallerIsNotManagementAccountException
@@ -13188,7 +13439,7 @@ export const enableOrganizationsRootCredentialsManagement: (
  */
 export const disableOrganizationsRootSessions: (
   input: DisableOrganizationsRootSessionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisableOrganizationsRootSessionsResponse,
   | AccountNotManagementOrDelegatedAdministratorException
   | OrganizationNotFoundException
@@ -13212,7 +13463,7 @@ export const disableOrganizationsRootSessions: (
  */
 export const listOrganizationsFeatures: (
   input: ListOrganizationsFeaturesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListOrganizationsFeaturesResponse,
   | AccountNotManagementOrDelegatedAdministratorException
   | OrganizationNotFoundException
@@ -13246,7 +13497,7 @@ export const listOrganizationsFeatures: (
  */
 export const enableOrganizationsRootSessions: (
   input: EnableOrganizationsRootSessionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableOrganizationsRootSessionsResponse,
   | AccountNotManagementOrDelegatedAdministratorException
   | CallerIsNotManagementAccountException

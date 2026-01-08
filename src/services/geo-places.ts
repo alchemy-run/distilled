@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -159,13 +159,13 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Newtypes
-export type SensitiveString = string | Redacted.Redacted<string>;
+export type SensitiveString = string | redacted.Redacted<string>;
 export type PostalCodeMode = string;
 export type AutocompleteAdditionalFeature = string;
 export type LanguageTag = string;
-export type CountryCode = string | Redacted.Redacted<string>;
+export type CountryCode = string | redacted.Redacted<string>;
 export type AutocompleteIntendedUse = string;
-export type ApiKey = string | Redacted.Redacted<string>;
+export type ApiKey = string | redacted.Redacted<string>;
 export type GeocodeAdditionalFeature = string;
 export type GeocodeIntendedUse = string;
 export type GetPlaceAdditionalFeature = string;
@@ -182,20 +182,20 @@ export type SearchTextIntendedUse = string;
 export type SuggestAdditionalFeature = string;
 export type SuggestIntendedUse = string;
 export type AutocompleteFilterPlaceType = string;
-export type GeocodeFilterPlaceType = string | Redacted.Redacted<string>;
+export type GeocodeFilterPlaceType = string | redacted.Redacted<string>;
 export type ReverseGeocodeFilterPlaceType = string;
-export type PlaceType = string | Redacted.Redacted<string>;
-export type CountryCode3 = string | Redacted.Redacted<string>;
+export type PlaceType = string | redacted.Redacted<string>;
+export type CountryCode3 = string | redacted.Redacted<string>;
 export type IntersectionStreet = string;
-export type PostalAuthority = string | Redacted.Redacted<string>;
-export type PostalCodeType = string | Redacted.Redacted<string>;
-export type OpeningHoursDisplay = string | Redacted.Redacted<string>;
+export type PostalAuthority = string | redacted.Redacted<string>;
+export type PostalCodeType = string | redacted.Redacted<string>;
+export type OpeningHoursDisplay = string | redacted.Redacted<string>;
 export type DurationSeconds = number;
-export type CountryCode2 = string | Redacted.Redacted<string>;
+export type CountryCode2 = string | redacted.Redacted<string>;
 export type TypePlacement = string;
 export type TypeSeparator = string;
-export type ZipClassificationCode = string | Redacted.Redacted<string>;
-export type RecordTypeCode = string | Redacted.Redacted<string>;
+export type ZipClassificationCode = string | redacted.Redacted<string>;
+export type RecordTypeCode = string | redacted.Redacted<string>;
 export type SuggestResultItemType = string;
 export type MatchScore = number;
 export type QueryType = string;
@@ -219,12 +219,12 @@ export const SearchTextAdditionalFeatureList = S.Array(S.String);
 export type SuggestAdditionalFeatureList = string[];
 export const SuggestAdditionalFeatureList = S.Array(S.String);
 export interface GetPlaceRequest {
-  PlaceId: string | Redacted.Redacted<string>;
-  AdditionalFeatures?: GetPlaceAdditionalFeatureList;
+  PlaceId: string | redacted.Redacted<string>;
+  AdditionalFeatures?: string[];
   Language?: string;
-  PoliticalView?: string | Redacted.Redacted<string>;
+  PoliticalView?: string | redacted.Redacted<string>;
   IntendedUse?: string;
-  Key?: string | Redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string>;
 }
 export const GetPlaceRequest = S.suspend(() =>
   S.Struct({
@@ -253,29 +253,29 @@ export const GetPlaceRequest = S.suspend(() =>
 }) as any as S.Schema<GetPlaceRequest>;
 export type BoundingBox = number[];
 export const BoundingBox = S.Array(S.Number);
-export type CountryCodeList = string | Redacted.Redacted<string>[];
+export type CountryCodeList = string | redacted.Redacted<string>[];
 export const CountryCodeList = S.Array(SensitiveString);
 export type AutocompleteFilterPlaceTypeList = string[];
 export const AutocompleteFilterPlaceTypeList = S.Array(S.String);
-export type GeocodeFilterPlaceTypeList = string | Redacted.Redacted<string>[];
+export type GeocodeFilterPlaceTypeList = string | redacted.Redacted<string>[];
 export const GeocodeFilterPlaceTypeList = S.Array(SensitiveString);
 export type ReverseGeocodeFilterPlaceTypeList = string[];
 export const ReverseGeocodeFilterPlaceTypeList = S.Array(S.String);
-export type FilterCategoryList = string | Redacted.Redacted<string>[];
+export type FilterCategoryList = string | redacted.Redacted<string>[];
 export const FilterCategoryList = S.Array(SensitiveString);
-export type FilterBusinessChainList = string | Redacted.Redacted<string>[];
+export type FilterBusinessChainList = string | redacted.Redacted<string>[];
 export const FilterBusinessChainList = S.Array(SensitiveString);
-export type FilterFoodTypeList = string | Redacted.Redacted<string>[];
+export type FilterFoodTypeList = string | redacted.Redacted<string>[];
 export const FilterFoodTypeList = S.Array(SensitiveString);
 export interface GeocodeQueryComponents {
-  Country?: string | Redacted.Redacted<string>;
-  Region?: string | Redacted.Redacted<string>;
-  SubRegion?: string | Redacted.Redacted<string>;
-  Locality?: string | Redacted.Redacted<string>;
-  District?: string | Redacted.Redacted<string>;
-  Street?: string | Redacted.Redacted<string>;
-  AddressNumber?: string | Redacted.Redacted<string>;
-  PostalCode?: string | Redacted.Redacted<string>;
+  Country?: string | redacted.Redacted<string>;
+  Region?: string | redacted.Redacted<string>;
+  SubRegion?: string | redacted.Redacted<string>;
+  Locality?: string | redacted.Redacted<string>;
+  District?: string | redacted.Redacted<string>;
+  Street?: string | redacted.Redacted<string>;
+  AddressNumber?: string | redacted.Redacted<string>;
+  PostalCode?: string | redacted.Redacted<string>;
 }
 export const GeocodeQueryComponents = S.suspend(() =>
   S.Struct({
@@ -292,8 +292,8 @@ export const GeocodeQueryComponents = S.suspend(() =>
   identifier: "GeocodeQueryComponents",
 }) as any as S.Schema<GeocodeQueryComponents>;
 export interface GeocodeFilter {
-  IncludeCountries?: CountryCodeList;
-  IncludePlaceTypes?: GeocodeFilterPlaceTypeList;
+  IncludeCountries?: string | redacted.Redacted<string>[];
+  IncludePlaceTypes?: string | redacted.Redacted<string>[];
 }
 export const GeocodeFilter = S.suspend(() =>
   S.Struct({
@@ -304,9 +304,9 @@ export const GeocodeFilter = S.suspend(() =>
   identifier: "GeocodeFilter",
 }) as any as S.Schema<GeocodeFilter>;
 export interface Country {
-  Code2?: string | Redacted.Redacted<string>;
-  Code3?: string | Redacted.Redacted<string>;
-  Name?: string | Redacted.Redacted<string>;
+  Code2?: string | redacted.Redacted<string>;
+  Code3?: string | redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
 }
 export const Country = S.suspend(() =>
   S.Struct({
@@ -316,8 +316,8 @@ export const Country = S.suspend(() =>
   }),
 ).annotations({ identifier: "Country" }) as any as S.Schema<Country>;
 export interface Region {
-  Code?: string | Redacted.Redacted<string>;
-  Name?: string | Redacted.Redacted<string>;
+  Code?: string | redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
 }
 export const Region = S.suspend(() =>
   S.Struct({
@@ -326,8 +326,8 @@ export const Region = S.suspend(() =>
   }),
 ).annotations({ identifier: "Region" }) as any as S.Schema<Region>;
 export interface SubRegion {
-  Code?: string | Redacted.Redacted<string>;
-  Name?: string | Redacted.Redacted<string>;
+  Code?: string | redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
 }
 export const SubRegion = S.suspend(() =>
   S.Struct({
@@ -338,13 +338,13 @@ export const SubRegion = S.suspend(() =>
 export type IntersectionStreetList = string[];
 export const IntersectionStreetList = S.Array(S.String);
 export interface StreetComponents {
-  BaseName?: string | Redacted.Redacted<string>;
-  Type?: string | Redacted.Redacted<string>;
+  BaseName?: string | redacted.Redacted<string>;
+  Type?: string | redacted.Redacted<string>;
   TypePlacement?: string;
   TypeSeparator?: string;
-  Prefix?: string | Redacted.Redacted<string>;
-  Suffix?: string | Redacted.Redacted<string>;
-  Direction?: string | Redacted.Redacted<string>;
+  Prefix?: string | redacted.Redacted<string>;
+  Suffix?: string | redacted.Redacted<string>;
+  Direction?: string | redacted.Redacted<string>;
   Language?: string;
 }
 export const StreetComponents = S.suspend(() =>
@@ -364,8 +364,8 @@ export const StreetComponents = S.suspend(() =>
 export type StreetComponentsList = StreetComponents[];
 export const StreetComponentsList = S.Array(StreetComponents);
 export interface SecondaryAddressComponent {
-  Number: string | Redacted.Redacted<string>;
-  Designator?: string | Redacted.Redacted<string>;
+  Number: string | redacted.Redacted<string>;
+  Designator?: string | redacted.Redacted<string>;
 }
 export const SecondaryAddressComponent = S.suspend(() =>
   S.Struct({
@@ -378,22 +378,22 @@ export const SecondaryAddressComponent = S.suspend(() =>
 export type SecondaryAddressComponentList = SecondaryAddressComponent[];
 export const SecondaryAddressComponentList = S.Array(SecondaryAddressComponent);
 export interface Address {
-  Label?: string | Redacted.Redacted<string>;
+  Label?: string | redacted.Redacted<string>;
   Country?: Country;
   Region?: Region;
   SubRegion?: SubRegion;
-  Locality?: string | Redacted.Redacted<string>;
-  District?: string | Redacted.Redacted<string>;
-  SubDistrict?: string | Redacted.Redacted<string>;
-  PostalCode?: string | Redacted.Redacted<string>;
-  Block?: string | Redacted.Redacted<string>;
-  SubBlock?: string | Redacted.Redacted<string>;
-  Intersection?: IntersectionStreetList;
-  Street?: string | Redacted.Redacted<string>;
-  StreetComponents?: StreetComponentsList;
-  AddressNumber?: string | Redacted.Redacted<string>;
-  Building?: string | Redacted.Redacted<string>;
-  SecondaryAddressComponents?: SecondaryAddressComponentList;
+  Locality?: string | redacted.Redacted<string>;
+  District?: string | redacted.Redacted<string>;
+  SubDistrict?: string | redacted.Redacted<string>;
+  PostalCode?: string | redacted.Redacted<string>;
+  Block?: string | redacted.Redacted<string>;
+  SubBlock?: string | redacted.Redacted<string>;
+  Intersection?: string[];
+  Street?: string | redacted.Redacted<string>;
+  StreetComponents?: StreetComponents[];
+  AddressNumber?: string | redacted.Redacted<string>;
+  Building?: string | redacted.Redacted<string>;
+  SecondaryAddressComponents?: SecondaryAddressComponent[];
 }
 export const Address = S.suspend(() =>
   S.Struct({
@@ -416,7 +416,7 @@ export const Address = S.suspend(() =>
   }),
 ).annotations({ identifier: "Address" }) as any as S.Schema<Address>;
 export interface AccessPoint {
-  Position?: Position;
+  Position?: number[];
 }
 export const AccessPoint = S.suspend(() =>
   S.Struct({ Position: S.optional(Position) }),
@@ -424,12 +424,12 @@ export const AccessPoint = S.suspend(() =>
 export type AccessPointList = AccessPoint[];
 export const AccessPointList = S.Array(AccessPoint);
 export interface RelatedPlace {
-  PlaceId: string | Redacted.Redacted<string>;
-  PlaceType: string | Redacted.Redacted<string>;
-  Title: string | Redacted.Redacted<string>;
+  PlaceId: string | redacted.Redacted<string>;
+  PlaceType: string | redacted.Redacted<string>;
+  Title: string | redacted.Redacted<string>;
   Address?: Address;
-  Position?: Position;
-  AccessPoints?: AccessPointList;
+  Position?: number[];
+  AccessPoints?: AccessPoint[];
 }
 export const RelatedPlace = S.suspend(() =>
   S.Struct({
@@ -444,7 +444,7 @@ export const RelatedPlace = S.suspend(() =>
 export type RelatedPlaceList = RelatedPlace[];
 export const RelatedPlaceList = S.Array(RelatedPlace);
 export interface ReverseGeocodeFilter {
-  IncludePlaceTypes?: ReverseGeocodeFilterPlaceTypeList;
+  IncludePlaceTypes?: string[];
 }
 export const ReverseGeocodeFilter = S.suspend(() =>
   S.Struct({
@@ -454,14 +454,14 @@ export const ReverseGeocodeFilter = S.suspend(() =>
   identifier: "ReverseGeocodeFilter",
 }) as any as S.Schema<ReverseGeocodeFilter>;
 export interface SearchNearbyFilter {
-  BoundingBox?: BoundingBox;
-  IncludeCountries?: CountryCodeList;
-  IncludeCategories?: FilterCategoryList;
-  ExcludeCategories?: FilterCategoryList;
-  IncludeBusinessChains?: FilterBusinessChainList;
-  ExcludeBusinessChains?: FilterBusinessChainList;
-  IncludeFoodTypes?: FilterFoodTypeList;
-  ExcludeFoodTypes?: FilterFoodTypeList;
+  BoundingBox?: number[];
+  IncludeCountries?: string | redacted.Redacted<string>[];
+  IncludeCategories?: string | redacted.Redacted<string>[];
+  ExcludeCategories?: string | redacted.Redacted<string>[];
+  IncludeBusinessChains?: string | redacted.Redacted<string>[];
+  ExcludeBusinessChains?: string | redacted.Redacted<string>[];
+  IncludeFoodTypes?: string | redacted.Redacted<string>[];
+  ExcludeFoodTypes?: string | redacted.Redacted<string>[];
 }
 export const SearchNearbyFilter = S.suspend(() =>
   S.Struct({
@@ -478,16 +478,16 @@ export const SearchNearbyFilter = S.suspend(() =>
   identifier: "SearchNearbyFilter",
 }) as any as S.Schema<SearchNearbyFilter>;
 export interface FilterCircle {
-  Center: Position;
+  Center: number[];
   Radius: number;
 }
 export const FilterCircle = S.suspend(() =>
   S.Struct({ Center: Position, Radius: S.Number }),
 ).annotations({ identifier: "FilterCircle" }) as any as S.Schema<FilterCircle>;
 export interface SearchTextFilter {
-  BoundingBox?: BoundingBox;
+  BoundingBox?: number[];
   Circle?: FilterCircle;
-  IncludeCountries?: CountryCodeList;
+  IncludeCountries?: string | redacted.Redacted<string>[];
 }
 export const SearchTextFilter = S.suspend(() =>
   S.Struct({
@@ -499,9 +499,9 @@ export const SearchTextFilter = S.suspend(() =>
   identifier: "SearchTextFilter",
 }) as any as S.Schema<SearchTextFilter>;
 export interface SuggestFilter {
-  BoundingBox?: BoundingBox;
+  BoundingBox?: number[];
   Circle?: FilterCircle;
-  IncludeCountries?: CountryCodeList;
+  IncludeCountries?: string | redacted.Redacted<string>[];
 }
 export const SuggestFilter = S.suspend(() =>
   S.Struct({
@@ -513,16 +513,16 @@ export const SuggestFilter = S.suspend(() =>
   identifier: "SuggestFilter",
 }) as any as S.Schema<SuggestFilter>;
 export interface GeocodeRequest {
-  QueryText?: string | Redacted.Redacted<string>;
+  QueryText?: string | redacted.Redacted<string>;
   QueryComponents?: GeocodeQueryComponents;
   MaxResults?: number;
-  BiasPosition?: Position;
+  BiasPosition?: number[];
   Filter?: GeocodeFilter;
-  AdditionalFeatures?: GeocodeAdditionalFeatureList;
+  AdditionalFeatures?: string[];
   Language?: string;
-  PoliticalView?: string | Redacted.Redacted<string>;
+  PoliticalView?: string | redacted.Redacted<string>;
   IntendedUse?: string;
-  Key?: string | Redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string>;
 }
 export const GeocodeRequest = S.suspend(() =>
   S.Struct({
@@ -550,15 +550,15 @@ export const GeocodeRequest = S.suspend(() =>
   identifier: "GeocodeRequest",
 }) as any as S.Schema<GeocodeRequest>;
 export interface ReverseGeocodeRequest {
-  QueryPosition: Position;
+  QueryPosition: number[];
   QueryRadius?: number;
   MaxResults?: number;
   Filter?: ReverseGeocodeFilter;
-  AdditionalFeatures?: ReverseGeocodeAdditionalFeatureList;
+  AdditionalFeatures?: string[];
   Language?: string;
-  PoliticalView?: string | Redacted.Redacted<string>;
+  PoliticalView?: string | redacted.Redacted<string>;
   IntendedUse?: string;
-  Key?: string | Redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string>;
   Heading?: number;
 }
 export const ReverseGeocodeRequest = S.suspend(() =>
@@ -587,16 +587,16 @@ export const ReverseGeocodeRequest = S.suspend(() =>
   identifier: "ReverseGeocodeRequest",
 }) as any as S.Schema<ReverseGeocodeRequest>;
 export interface SearchNearbyRequest {
-  QueryPosition: Position;
+  QueryPosition: number[];
   QueryRadius?: number;
   MaxResults?: number;
   Filter?: SearchNearbyFilter;
-  AdditionalFeatures?: SearchNearbyAdditionalFeatureList;
+  AdditionalFeatures?: string[];
   Language?: string;
-  PoliticalView?: string | Redacted.Redacted<string>;
+  PoliticalView?: string | redacted.Redacted<string>;
   IntendedUse?: string;
   NextToken?: string;
-  Key?: string | Redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string>;
 }
 export const SearchNearbyRequest = S.suspend(() =>
   S.Struct({
@@ -624,17 +624,17 @@ export const SearchNearbyRequest = S.suspend(() =>
   identifier: "SearchNearbyRequest",
 }) as any as S.Schema<SearchNearbyRequest>;
 export interface SearchTextRequest {
-  QueryText?: string | Redacted.Redacted<string>;
-  QueryId?: string | Redacted.Redacted<string>;
+  QueryText?: string | redacted.Redacted<string>;
+  QueryId?: string | redacted.Redacted<string>;
   MaxResults?: number;
-  BiasPosition?: Position;
+  BiasPosition?: number[];
   Filter?: SearchTextFilter;
-  AdditionalFeatures?: SearchTextAdditionalFeatureList;
+  AdditionalFeatures?: string[];
   Language?: string;
-  PoliticalView?: string | Redacted.Redacted<string>;
+  PoliticalView?: string | redacted.Redacted<string>;
   IntendedUse?: string;
   NextToken?: string;
-  Key?: string | Redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string>;
 }
 export const SearchTextRequest = S.suspend(() =>
   S.Struct({
@@ -663,16 +663,16 @@ export const SearchTextRequest = S.suspend(() =>
   identifier: "SearchTextRequest",
 }) as any as S.Schema<SearchTextRequest>;
 export interface SuggestRequest {
-  QueryText: string | Redacted.Redacted<string>;
+  QueryText: string | redacted.Redacted<string>;
   MaxResults?: number;
   MaxQueryRefinements?: number;
-  BiasPosition?: Position;
+  BiasPosition?: number[];
   Filter?: SuggestFilter;
-  AdditionalFeatures?: SuggestAdditionalFeatureList;
+  AdditionalFeatures?: string[];
   Language?: string;
-  PoliticalView?: string | Redacted.Redacted<string>;
+  PoliticalView?: string | redacted.Redacted<string>;
   IntendedUse?: string;
-  Key?: string | Redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string>;
 }
 export const SuggestRequest = S.suspend(() =>
   S.Struct({
@@ -699,13 +699,13 @@ export const SuggestRequest = S.suspend(() =>
 ).annotations({
   identifier: "SuggestRequest",
 }) as any as S.Schema<SuggestRequest>;
-export type OpeningHoursDisplayList = string | Redacted.Redacted<string>[];
+export type OpeningHoursDisplayList = string | redacted.Redacted<string>[];
 export const OpeningHoursDisplayList = S.Array(SensitiveString);
 export interface AutocompleteFilter {
-  BoundingBox?: BoundingBox;
+  BoundingBox?: number[];
   Circle?: FilterCircle;
-  IncludeCountries?: CountryCodeList;
-  IncludePlaceTypes?: AutocompleteFilterPlaceTypeList;
+  IncludeCountries?: string | redacted.Redacted<string>[];
+  IncludePlaceTypes?: string[];
 }
 export const AutocompleteFilter = S.suspend(() =>
   S.Struct({
@@ -718,9 +718,9 @@ export const AutocompleteFilter = S.suspend(() =>
   identifier: "AutocompleteFilter",
 }) as any as S.Schema<AutocompleteFilter>;
 export interface Category {
-  Id: string | Redacted.Redacted<string>;
-  Name: string | Redacted.Redacted<string>;
-  LocalizedName?: string | Redacted.Redacted<string>;
+  Id: string | redacted.Redacted<string>;
+  Name: string | redacted.Redacted<string>;
+  LocalizedName?: string | redacted.Redacted<string>;
   Primary?: boolean;
 }
 export const Category = S.suspend(() =>
@@ -734,8 +734,8 @@ export const Category = S.suspend(() =>
 export type CategoryList = Category[];
 export const CategoryList = S.Array(Category);
 export interface FoodType {
-  LocalizedName: string | Redacted.Redacted<string>;
-  Id?: string | Redacted.Redacted<string>;
+  LocalizedName: string | redacted.Redacted<string>;
+  Id?: string | redacted.Redacted<string>;
   Primary?: boolean;
 }
 export const FoodType = S.suspend(() =>
@@ -748,8 +748,8 @@ export const FoodType = S.suspend(() =>
 export type FoodTypeList = FoodType[];
 export const FoodTypeList = S.Array(FoodType);
 export interface BusinessChain {
-  Name?: string | Redacted.Redacted<string>;
-  Id?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
+  Id?: string | redacted.Redacted<string>;
 }
 export const BusinessChain = S.suspend(() =>
   S.Struct({
@@ -763,7 +763,7 @@ export type BusinessChainList = BusinessChain[];
 export const BusinessChainList = S.Array(BusinessChain);
 export interface AccessRestriction {
   Restricted?: boolean;
-  Categories?: CategoryList;
+  Categories?: Category[];
 }
 export const AccessRestriction = S.suspend(() =>
   S.Struct({
@@ -776,8 +776,8 @@ export const AccessRestriction = S.suspend(() =>
 export type AccessRestrictionList = AccessRestriction[];
 export const AccessRestrictionList = S.Array(AccessRestriction);
 export interface TimeZone {
-  Name: string | Redacted.Redacted<string>;
-  Offset?: string | Redacted.Redacted<string>;
+  Name: string | redacted.Redacted<string>;
+  Offset?: string | redacted.Redacted<string>;
   OffsetSeconds?: number;
 }
 export const TimeZone = S.suspend(() =>
@@ -788,16 +788,16 @@ export const TimeZone = S.suspend(() =>
   }),
 ).annotations({ identifier: "TimeZone" }) as any as S.Schema<TimeZone>;
 export interface AutocompleteRequest {
-  QueryText: string | Redacted.Redacted<string>;
+  QueryText: string | redacted.Redacted<string>;
   MaxResults?: number;
-  BiasPosition?: Position;
+  BiasPosition?: number[];
   Filter?: AutocompleteFilter;
   PostalCodeMode?: string;
-  AdditionalFeatures?: AutocompleteAdditionalFeatureList;
+  AdditionalFeatures?: string[];
   Language?: string;
-  PoliticalView?: string | Redacted.Redacted<string>;
+  PoliticalView?: string | redacted.Redacted<string>;
   IntendedUse?: string;
-  Key?: string | Redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string>;
 }
 export const AutocompleteRequest = S.suspend(() =>
   S.Struct({
@@ -825,21 +825,21 @@ export const AutocompleteRequest = S.suspend(() =>
   identifier: "AutocompleteRequest",
 }) as any as S.Schema<AutocompleteRequest>;
 export interface UspsZip {
-  ZipClassificationCode?: string | Redacted.Redacted<string>;
+  ZipClassificationCode?: string | redacted.Redacted<string>;
 }
 export const UspsZip = S.suspend(() =>
   S.Struct({ ZipClassificationCode: S.optional(SensitiveString) }),
 ).annotations({ identifier: "UspsZip" }) as any as S.Schema<UspsZip>;
 export interface UspsZipPlus4 {
-  RecordTypeCode?: string | Redacted.Redacted<string>;
+  RecordTypeCode?: string | redacted.Redacted<string>;
 }
 export const UspsZipPlus4 = S.suspend(() =>
   S.Struct({ RecordTypeCode: S.optional(SensitiveString) }),
 ).annotations({ identifier: "UspsZipPlus4" }) as any as S.Schema<UspsZipPlus4>;
 export interface ContactDetails {
-  Label?: string | Redacted.Redacted<string>;
-  Value?: string | Redacted.Redacted<string>;
-  Categories?: CategoryList;
+  Label?: string | redacted.Redacted<string>;
+  Value?: string | redacted.Redacted<string>;
+  Categories?: Category[];
 }
 export const ContactDetails = S.suspend(() =>
   S.Struct({
@@ -853,9 +853,9 @@ export const ContactDetails = S.suspend(() =>
 export type ContactDetailsList = ContactDetails[];
 export const ContactDetailsList = S.Array(ContactDetails);
 export interface OpeningHoursComponents {
-  OpenTime?: string | Redacted.Redacted<string>;
-  OpenDuration?: string | Redacted.Redacted<string>;
-  Recurrence?: string | Redacted.Redacted<string>;
+  OpenTime?: string | redacted.Redacted<string>;
+  OpenDuration?: string | redacted.Redacted<string>;
+  Recurrence?: string | redacted.Redacted<string>;
 }
 export const OpeningHoursComponents = S.suspend(() =>
   S.Struct({
@@ -869,7 +869,7 @@ export const OpeningHoursComponents = S.suspend(() =>
 export type OpeningHoursComponentsList = OpeningHoursComponents[];
 export const OpeningHoursComponentsList = S.Array(OpeningHoursComponents);
 export interface PhonemeTranscription {
-  Value?: string | Redacted.Redacted<string>;
+  Value?: string | redacted.Redacted<string>;
   Language?: string;
   Preferred?: boolean;
 }
@@ -885,15 +885,15 @@ export const PhonemeTranscription = S.suspend(() =>
 export type PhonemeTranscriptionList = PhonemeTranscription[];
 export const PhonemeTranscriptionList = S.Array(PhonemeTranscription);
 export interface AddressComponentPhonemes {
-  Country?: PhonemeTranscriptionList;
-  Region?: PhonemeTranscriptionList;
-  SubRegion?: PhonemeTranscriptionList;
-  Locality?: PhonemeTranscriptionList;
-  District?: PhonemeTranscriptionList;
-  SubDistrict?: PhonemeTranscriptionList;
-  Block?: PhonemeTranscriptionList;
-  SubBlock?: PhonemeTranscriptionList;
-  Street?: PhonemeTranscriptionList;
+  Country?: PhonemeTranscription[];
+  Region?: PhonemeTranscription[];
+  SubRegion?: PhonemeTranscription[];
+  Locality?: PhonemeTranscription[];
+  District?: PhonemeTranscription[];
+  SubDistrict?: PhonemeTranscription[];
+  Block?: PhonemeTranscription[];
+  SubBlock?: PhonemeTranscription[];
+  Street?: PhonemeTranscription[];
 }
 export const AddressComponentPhonemes = S.suspend(() =>
   S.Struct({
@@ -911,9 +911,9 @@ export const AddressComponentPhonemes = S.suspend(() =>
   identifier: "AddressComponentPhonemes",
 }) as any as S.Schema<AddressComponentPhonemes>;
 export interface PostalCodeDetails {
-  PostalCode?: string | Redacted.Redacted<string>;
-  PostalAuthority?: string | Redacted.Redacted<string>;
-  PostalCodeType?: string | Redacted.Redacted<string>;
+  PostalCode?: string | redacted.Redacted<string>;
+  PostalAuthority?: string | redacted.Redacted<string>;
+  PostalCodeType?: string | redacted.Redacted<string>;
   UspsZip?: UspsZip;
   UspsZipPlus4?: UspsZipPlus4;
 }
@@ -931,10 +931,10 @@ export const PostalCodeDetails = S.suspend(() =>
 export type PostalCodeDetailsList = PostalCodeDetails[];
 export const PostalCodeDetailsList = S.Array(PostalCodeDetails);
 export interface Contacts {
-  Phones?: ContactDetailsList;
-  Faxes?: ContactDetailsList;
-  Websites?: ContactDetailsList;
-  Emails?: ContactDetailsList;
+  Phones?: ContactDetails[];
+  Faxes?: ContactDetails[];
+  Websites?: ContactDetails[];
+  Emails?: ContactDetails[];
 }
 export const Contacts = S.suspend(() =>
   S.Struct({
@@ -945,10 +945,10 @@ export const Contacts = S.suspend(() =>
   }),
 ).annotations({ identifier: "Contacts" }) as any as S.Schema<Contacts>;
 export interface OpeningHours {
-  Display?: OpeningHoursDisplayList;
+  Display?: string | redacted.Redacted<string>[];
   OpenNow?: boolean;
-  Components?: OpeningHoursComponentsList;
-  Categories?: CategoryList;
+  Components?: OpeningHoursComponents[];
+  Categories?: Category[];
 }
 export const OpeningHours = S.suspend(() =>
   S.Struct({
@@ -961,7 +961,7 @@ export const OpeningHours = S.suspend(() =>
 export type OpeningHoursList = OpeningHours[];
 export const OpeningHoursList = S.Array(OpeningHours);
 export interface PhonemeDetails {
-  Title?: PhonemeTranscriptionList;
+  Title?: PhonemeTranscription[];
   Address?: AddressComponentPhonemes;
 }
 export const PhonemeDetails = S.suspend(() =>
@@ -973,14 +973,14 @@ export const PhonemeDetails = S.suspend(() =>
   identifier: "PhonemeDetails",
 }) as any as S.Schema<PhonemeDetails>;
 export interface Intersection {
-  PlaceId: string | Redacted.Redacted<string>;
-  Title: string | Redacted.Redacted<string>;
+  PlaceId: string | redacted.Redacted<string>;
+  Title: string | redacted.Redacted<string>;
   Address?: Address;
-  Position?: Position;
+  Position?: number[];
   Distance?: number;
   RouteDistance?: number;
-  MapView?: BoundingBox;
-  AccessPoints?: AccessPointList;
+  MapView?: number[];
+  AccessPoints?: AccessPoint[];
 }
 export const Intersection = S.suspend(() =>
   S.Struct({
@@ -997,21 +997,21 @@ export const Intersection = S.suspend(() =>
 export type IntersectionList = Intersection[];
 export const IntersectionList = S.Array(Intersection);
 export interface ReverseGeocodeResultItem {
-  PlaceId: string | Redacted.Redacted<string>;
-  PlaceType: string | Redacted.Redacted<string>;
-  Title: string | Redacted.Redacted<string>;
+  PlaceId: string | redacted.Redacted<string>;
+  PlaceType: string | redacted.Redacted<string>;
+  Title: string | redacted.Redacted<string>;
   Address?: Address;
   AddressNumberCorrected?: boolean;
-  PostalCodeDetails?: PostalCodeDetailsList;
-  Position?: Position;
+  PostalCodeDetails?: PostalCodeDetails[];
+  Position?: number[];
   Distance?: number;
-  MapView?: BoundingBox;
-  Categories?: CategoryList;
-  FoodTypes?: FoodTypeList;
-  AccessPoints?: AccessPointList;
+  MapView?: number[];
+  Categories?: Category[];
+  FoodTypes?: FoodType[];
+  AccessPoints?: AccessPoint[];
   TimeZone?: TimeZone;
-  PoliticalView?: string | Redacted.Redacted<string>;
-  Intersections?: IntersectionList;
+  PoliticalView?: string | redacted.Redacted<string>;
+  Intersections?: Intersection[];
 }
 export const ReverseGeocodeResultItem = S.suspend(() =>
   S.Struct({
@@ -1037,23 +1037,23 @@ export const ReverseGeocodeResultItem = S.suspend(() =>
 export type ReverseGeocodeResultItemList = ReverseGeocodeResultItem[];
 export const ReverseGeocodeResultItemList = S.Array(ReverseGeocodeResultItem);
 export interface SearchNearbyResultItem {
-  PlaceId: string | Redacted.Redacted<string>;
-  PlaceType: string | Redacted.Redacted<string>;
-  Title: string | Redacted.Redacted<string>;
+  PlaceId: string | redacted.Redacted<string>;
+  PlaceType: string | redacted.Redacted<string>;
+  Title: string | redacted.Redacted<string>;
   Address?: Address;
   AddressNumberCorrected?: boolean;
-  Position?: Position;
+  Position?: number[];
   Distance?: number;
-  MapView?: BoundingBox;
-  Categories?: CategoryList;
-  FoodTypes?: FoodTypeList;
-  BusinessChains?: BusinessChainList;
+  MapView?: number[];
+  Categories?: Category[];
+  FoodTypes?: FoodType[];
+  BusinessChains?: BusinessChain[];
   Contacts?: Contacts;
-  OpeningHours?: OpeningHoursList;
-  AccessPoints?: AccessPointList;
-  AccessRestrictions?: AccessRestrictionList;
+  OpeningHours?: OpeningHours[];
+  AccessPoints?: AccessPoint[];
+  AccessRestrictions?: AccessRestriction[];
   TimeZone?: TimeZone;
-  PoliticalView?: string | Redacted.Redacted<string>;
+  PoliticalView?: string | redacted.Redacted<string>;
   Phonemes?: PhonemeDetails;
 }
 export const SearchNearbyResultItem = S.suspend(() =>
@@ -1083,23 +1083,23 @@ export const SearchNearbyResultItem = S.suspend(() =>
 export type SearchNearbyResultItemList = SearchNearbyResultItem[];
 export const SearchNearbyResultItemList = S.Array(SearchNearbyResultItem);
 export interface SearchTextResultItem {
-  PlaceId: string | Redacted.Redacted<string>;
-  PlaceType: string | Redacted.Redacted<string>;
-  Title: string | Redacted.Redacted<string>;
+  PlaceId: string | redacted.Redacted<string>;
+  PlaceType: string | redacted.Redacted<string>;
+  Title: string | redacted.Redacted<string>;
   Address?: Address;
   AddressNumberCorrected?: boolean;
-  Position?: Position;
+  Position?: number[];
   Distance?: number;
-  MapView?: BoundingBox;
-  Categories?: CategoryList;
-  FoodTypes?: FoodTypeList;
-  BusinessChains?: BusinessChainList;
+  MapView?: number[];
+  Categories?: Category[];
+  FoodTypes?: FoodType[];
+  BusinessChains?: BusinessChain[];
   Contacts?: Contacts;
-  OpeningHours?: OpeningHoursList;
-  AccessPoints?: AccessPointList;
-  AccessRestrictions?: AccessRestrictionList;
+  OpeningHours?: OpeningHours[];
+  AccessPoints?: AccessPoint[];
+  AccessRestrictions?: AccessRestriction[];
   TimeZone?: TimeZone;
-  PoliticalView?: string | Redacted.Redacted<string>;
+  PoliticalView?: string | redacted.Redacted<string>;
   Phonemes?: PhonemeDetails;
 }
 export const SearchTextResultItem = S.suspend(() =>
@@ -1129,8 +1129,8 @@ export const SearchTextResultItem = S.suspend(() =>
 export type SearchTextResultItemList = SearchTextResultItem[];
 export const SearchTextResultItemList = S.Array(SearchTextResultItem);
 export interface QueryRefinement {
-  RefinedTerm: string | Redacted.Redacted<string>;
-  OriginalTerm: string | Redacted.Redacted<string>;
+  RefinedTerm: string | redacted.Redacted<string>;
+  OriginalTerm: string | redacted.Redacted<string>;
   StartIndex: number;
   EndIndex: number;
 }
@@ -1147,27 +1147,27 @@ export const QueryRefinement = S.suspend(() =>
 export type QueryRefinementList = QueryRefinement[];
 export const QueryRefinementList = S.Array(QueryRefinement);
 export interface GetPlaceResponse {
-  PlaceId: string | Redacted.Redacted<string>;
-  PlaceType: string | Redacted.Redacted<string>;
-  Title: string | Redacted.Redacted<string>;
+  PlaceId: string | redacted.Redacted<string>;
+  PlaceType: string | redacted.Redacted<string>;
+  Title: string | redacted.Redacted<string>;
   PricingBucket: string;
   Address?: Address;
   AddressNumberCorrected?: boolean;
-  PostalCodeDetails?: PostalCodeDetailsList;
-  Position?: Position;
-  MapView?: BoundingBox;
-  Categories?: CategoryList;
-  FoodTypes?: FoodTypeList;
-  BusinessChains?: BusinessChainList;
+  PostalCodeDetails?: PostalCodeDetails[];
+  Position?: number[];
+  MapView?: number[];
+  Categories?: Category[];
+  FoodTypes?: FoodType[];
+  BusinessChains?: BusinessChain[];
   Contacts?: Contacts;
-  OpeningHours?: OpeningHoursList;
-  AccessPoints?: AccessPointList;
-  AccessRestrictions?: AccessRestrictionList;
+  OpeningHours?: OpeningHours[];
+  AccessPoints?: AccessPoint[];
+  AccessRestrictions?: AccessRestriction[];
   TimeZone?: TimeZone;
-  PoliticalView?: string | Redacted.Redacted<string>;
+  PoliticalView?: string | redacted.Redacted<string>;
   Phonemes?: PhonemeDetails;
   MainAddress?: RelatedPlace;
-  SecondaryAddresses?: RelatedPlaceList;
+  SecondaryAddresses?: RelatedPlace[];
 }
 export const GetPlaceResponse = S.suspend(() =>
   S.Struct({
@@ -1198,7 +1198,7 @@ export const GetPlaceResponse = S.suspend(() =>
 }) as any as S.Schema<GetPlaceResponse>;
 export interface ReverseGeocodeResponse {
   PricingBucket: string;
-  ResultItems?: ReverseGeocodeResultItemList;
+  ResultItems?: ReverseGeocodeResultItem[];
 }
 export const ReverseGeocodeResponse = S.suspend(() =>
   S.Struct({
@@ -1210,7 +1210,7 @@ export const ReverseGeocodeResponse = S.suspend(() =>
 }) as any as S.Schema<ReverseGeocodeResponse>;
 export interface SearchNearbyResponse {
   PricingBucket: string;
-  ResultItems?: SearchNearbyResultItemList;
+  ResultItems?: SearchNearbyResultItem[];
   NextToken?: string;
 }
 export const SearchNearbyResponse = S.suspend(() =>
@@ -1224,7 +1224,7 @@ export const SearchNearbyResponse = S.suspend(() =>
 }) as any as S.Schema<SearchNearbyResponse>;
 export interface SearchTextResponse {
   PricingBucket: string;
-  ResultItems?: SearchTextResultItemList;
+  ResultItems?: SearchTextResultItem[];
   NextToken?: string;
 }
 export const SearchTextResponse = S.suspend(() =>
@@ -1237,19 +1237,19 @@ export const SearchTextResponse = S.suspend(() =>
   identifier: "SearchTextResponse",
 }) as any as S.Schema<SearchTextResponse>;
 export interface SuggestPlaceResult {
-  PlaceId?: string | Redacted.Redacted<string>;
-  PlaceType?: string | Redacted.Redacted<string>;
+  PlaceId?: string | redacted.Redacted<string>;
+  PlaceType?: string | redacted.Redacted<string>;
   Address?: Address;
-  Position?: Position;
+  Position?: number[];
   Distance?: number;
-  MapView?: BoundingBox;
-  Categories?: CategoryList;
-  FoodTypes?: FoodTypeList;
-  BusinessChains?: BusinessChainList;
-  AccessPoints?: AccessPointList;
-  AccessRestrictions?: AccessRestrictionList;
+  MapView?: number[];
+  Categories?: Category[];
+  FoodTypes?: FoodType[];
+  BusinessChains?: BusinessChain[];
+  AccessPoints?: AccessPoint[];
+  AccessRestrictions?: AccessRestriction[];
   TimeZone?: TimeZone;
-  PoliticalView?: string | Redacted.Redacted<string>;
+  PoliticalView?: string | redacted.Redacted<string>;
   Phonemes?: PhonemeDetails;
 }
 export const SuggestPlaceResult = S.suspend(() =>
@@ -1273,7 +1273,7 @@ export const SuggestPlaceResult = S.suspend(() =>
   identifier: "SuggestPlaceResult",
 }) as any as S.Schema<SuggestPlaceResult>;
 export interface SuggestQueryResult {
-  QueryId?: string | Redacted.Redacted<string>;
+  QueryId?: string | redacted.Redacted<string>;
   QueryType?: string;
 }
 export const SuggestQueryResult = S.suspend(() =>
@@ -1287,8 +1287,8 @@ export const SuggestQueryResult = S.suspend(() =>
 export interface ParsedQueryComponent {
   StartIndex?: number;
   EndIndex?: number;
-  Value?: string | Redacted.Redacted<string>;
-  QueryComponent?: string | Redacted.Redacted<string>;
+  Value?: string | redacted.Redacted<string>;
+  QueryComponent?: string | redacted.Redacted<string>;
 }
 export const ParsedQueryComponent = S.suspend(() =>
   S.Struct({
@@ -1305,7 +1305,7 @@ export const ParsedQueryComponentList = S.Array(ParsedQueryComponent);
 export interface Highlight {
   StartIndex?: number;
   EndIndex?: number;
-  Value?: string | Redacted.Redacted<string>;
+  Value?: string | redacted.Redacted<string>;
 }
 export const Highlight = S.suspend(() =>
   S.Struct({
@@ -1317,7 +1317,7 @@ export const Highlight = S.suspend(() =>
 export type HighlightList = Highlight[];
 export const HighlightList = S.Array(Highlight);
 export interface SuggestAddressHighlights {
-  Label?: HighlightList;
+  Label?: Highlight[];
 }
 export const SuggestAddressHighlights = S.suspend(() =>
   S.Struct({ Label: S.optional(HighlightList) }),
@@ -1327,7 +1327,7 @@ export const SuggestAddressHighlights = S.suspend(() =>
 export type MatchScoreList = number[];
 export const MatchScoreList = S.Array(S.Number);
 export interface SuggestHighlights {
-  Title?: HighlightList;
+  Title?: Highlight[];
   Address?: SuggestAddressHighlights;
 }
 export const SuggestHighlights = S.suspend(() =>
@@ -1338,14 +1338,14 @@ export const SuggestHighlights = S.suspend(() =>
 ).annotations({
   identifier: "SuggestHighlights",
 }) as any as S.Schema<SuggestHighlights>;
-export type IntersectionHighlightsList = HighlightList[];
+export type IntersectionHighlightsList = Highlight[][];
 export const IntersectionHighlightsList = S.Array(HighlightList);
 export interface ParsedQuerySecondaryAddressComponent {
   StartIndex: number;
   EndIndex: number;
-  Value: string | Redacted.Redacted<string>;
-  Number: string | Redacted.Redacted<string>;
-  Designator: string | Redacted.Redacted<string>;
+  Value: string | redacted.Redacted<string>;
+  Number: string | redacted.Redacted<string>;
+  Designator: string | redacted.Redacted<string>;
 }
 export const ParsedQuerySecondaryAddressComponent = S.suspend(() =>
   S.Struct({
@@ -1364,7 +1364,7 @@ export const ParsedQuerySecondaryAddressComponentList = S.Array(
   ParsedQuerySecondaryAddressComponent,
 );
 export interface SuggestResultItem {
-  Title: string | Redacted.Redacted<string>;
+  Title: string | redacted.Redacted<string>;
   SuggestResultItemType: string;
   Place?: SuggestPlaceResult;
   Query?: SuggestQueryResult;
@@ -1384,19 +1384,19 @@ export const SuggestResultItem = S.suspend(() =>
 export type SuggestResultItemList = SuggestResultItem[];
 export const SuggestResultItemList = S.Array(SuggestResultItem);
 export interface GeocodeParsedQueryAddressComponents {
-  Country?: ParsedQueryComponentList;
-  Region?: ParsedQueryComponentList;
-  SubRegion?: ParsedQueryComponentList;
-  Locality?: ParsedQueryComponentList;
-  District?: ParsedQueryComponentList;
-  SubDistrict?: ParsedQueryComponentList;
-  PostalCode?: ParsedQueryComponentList;
-  Block?: ParsedQueryComponentList;
-  SubBlock?: ParsedQueryComponentList;
-  Street?: ParsedQueryComponentList;
-  AddressNumber?: ParsedQueryComponentList;
-  Building?: ParsedQueryComponentList;
-  SecondaryAddressComponents?: ParsedQuerySecondaryAddressComponentList;
+  Country?: ParsedQueryComponent[];
+  Region?: ParsedQueryComponent[];
+  SubRegion?: ParsedQueryComponent[];
+  Locality?: ParsedQueryComponent[];
+  District?: ParsedQueryComponent[];
+  SubDistrict?: ParsedQueryComponent[];
+  PostalCode?: ParsedQueryComponent[];
+  Block?: ParsedQueryComponent[];
+  SubBlock?: ParsedQueryComponent[];
+  Street?: ParsedQueryComponent[];
+  AddressNumber?: ParsedQueryComponent[];
+  Building?: ParsedQueryComponent[];
+  SecondaryAddressComponents?: ParsedQuerySecondaryAddressComponent[];
 }
 export const GeocodeParsedQueryAddressComponents = S.suspend(() =>
   S.Struct({
@@ -1434,8 +1434,8 @@ export const SecondaryAddressComponentMatchScoreList = S.Array(
 );
 export interface SuggestResponse {
   PricingBucket: string;
-  ResultItems?: SuggestResultItemList;
-  QueryRefinements?: QueryRefinementList;
+  ResultItems?: SuggestResultItem[];
+  QueryRefinements?: QueryRefinement[];
 }
 export const SuggestResponse = S.suspend(() =>
   S.Struct({
@@ -1447,7 +1447,7 @@ export const SuggestResponse = S.suspend(() =>
   identifier: "SuggestResponse",
 }) as any as S.Schema<SuggestResponse>;
 export interface GeocodeParsedQuery {
-  Title?: ParsedQueryComponentList;
+  Title?: ParsedQueryComponent[];
   Address?: GeocodeParsedQueryAddressComponents;
 }
 export const GeocodeParsedQuery = S.suspend(() =>
@@ -1459,8 +1459,8 @@ export const GeocodeParsedQuery = S.suspend(() =>
   identifier: "GeocodeParsedQuery",
 }) as any as S.Schema<GeocodeParsedQuery>;
 export interface CountryHighlights {
-  Code?: HighlightList;
-  Name?: HighlightList;
+  Code?: Highlight[];
+  Name?: Highlight[];
 }
 export const CountryHighlights = S.suspend(() =>
   S.Struct({
@@ -1471,8 +1471,8 @@ export const CountryHighlights = S.suspend(() =>
   identifier: "CountryHighlights",
 }) as any as S.Schema<CountryHighlights>;
 export interface RegionHighlights {
-  Code?: HighlightList;
-  Name?: HighlightList;
+  Code?: Highlight[];
+  Name?: Highlight[];
 }
 export const RegionHighlights = S.suspend(() =>
   S.Struct({
@@ -1483,8 +1483,8 @@ export const RegionHighlights = S.suspend(() =>
   identifier: "RegionHighlights",
 }) as any as S.Schema<RegionHighlights>;
 export interface SubRegionHighlights {
-  Code?: HighlightList;
-  Name?: HighlightList;
+  Code?: Highlight[];
+  Name?: Highlight[];
 }
 export const SubRegionHighlights = S.suspend(() =>
   S.Struct({
@@ -1504,10 +1504,10 @@ export interface AddressComponentMatchScores {
   PostalCode?: number;
   Block?: number;
   SubBlock?: number;
-  Intersection?: MatchScoreList;
+  Intersection?: number[];
   AddressNumber?: number;
   Building?: number;
-  SecondaryAddressComponents?: SecondaryAddressComponentMatchScoreList;
+  SecondaryAddressComponents?: SecondaryAddressComponentMatchScore[];
 }
 export const AddressComponentMatchScores = S.suspend(() =>
   S.Struct({
@@ -1531,20 +1531,20 @@ export const AddressComponentMatchScores = S.suspend(() =>
   identifier: "AddressComponentMatchScores",
 }) as any as S.Schema<AddressComponentMatchScores>;
 export interface AutocompleteAddressHighlights {
-  Label?: HighlightList;
+  Label?: Highlight[];
   Country?: CountryHighlights;
   Region?: RegionHighlights;
   SubRegion?: SubRegionHighlights;
-  Locality?: HighlightList;
-  District?: HighlightList;
-  SubDistrict?: HighlightList;
-  Street?: HighlightList;
-  Block?: HighlightList;
-  SubBlock?: HighlightList;
-  Intersection?: IntersectionHighlightsList;
-  PostalCode?: HighlightList;
-  AddressNumber?: HighlightList;
-  Building?: HighlightList;
+  Locality?: Highlight[];
+  District?: Highlight[];
+  SubDistrict?: Highlight[];
+  Street?: Highlight[];
+  Block?: Highlight[];
+  SubBlock?: Highlight[];
+  Intersection?: Highlight[][];
+  PostalCode?: Highlight[];
+  AddressNumber?: Highlight[];
+  Building?: Highlight[];
 }
 export const AutocompleteAddressHighlights = S.suspend(() =>
   S.Struct({
@@ -1579,7 +1579,7 @@ export const ComponentMatchScores = S.suspend(() =>
   identifier: "ComponentMatchScores",
 }) as any as S.Schema<ComponentMatchScores>;
 export interface AutocompleteHighlights {
-  Title?: HighlightList;
+  Title?: Highlight[];
   Address?: AutocompleteAddressHighlights;
 }
 export const AutocompleteHighlights = S.suspend(() =>
@@ -1603,13 +1603,13 @@ export const MatchScoreDetails = S.suspend(() =>
   identifier: "MatchScoreDetails",
 }) as any as S.Schema<MatchScoreDetails>;
 export interface AutocompleteResultItem {
-  PlaceId: string | Redacted.Redacted<string>;
-  PlaceType: string | Redacted.Redacted<string>;
-  Title: string | Redacted.Redacted<string>;
+  PlaceId: string | redacted.Redacted<string>;
+  PlaceType: string | redacted.Redacted<string>;
+  Title: string | redacted.Redacted<string>;
   Address?: Address;
   Distance?: number;
   Language?: string;
-  PoliticalView?: string | Redacted.Redacted<string>;
+  PoliticalView?: string | redacted.Redacted<string>;
   Highlights?: AutocompleteHighlights;
 }
 export const AutocompleteResultItem = S.suspend(() =>
@@ -1629,25 +1629,25 @@ export const AutocompleteResultItem = S.suspend(() =>
 export type AutocompleteResultItemList = AutocompleteResultItem[];
 export const AutocompleteResultItemList = S.Array(AutocompleteResultItem);
 export interface GeocodeResultItem {
-  PlaceId: string | Redacted.Redacted<string>;
-  PlaceType: string | Redacted.Redacted<string>;
-  Title: string | Redacted.Redacted<string>;
+  PlaceId: string | redacted.Redacted<string>;
+  PlaceType: string | redacted.Redacted<string>;
+  Title: string | redacted.Redacted<string>;
   Address?: Address;
   AddressNumberCorrected?: boolean;
-  PostalCodeDetails?: PostalCodeDetailsList;
-  Position?: Position;
+  PostalCodeDetails?: PostalCodeDetails[];
+  Position?: number[];
   Distance?: number;
-  MapView?: BoundingBox;
-  Categories?: CategoryList;
-  FoodTypes?: FoodTypeList;
-  AccessPoints?: AccessPointList;
+  MapView?: number[];
+  Categories?: Category[];
+  FoodTypes?: FoodType[];
+  AccessPoints?: AccessPoint[];
   TimeZone?: TimeZone;
-  PoliticalView?: string | Redacted.Redacted<string>;
+  PoliticalView?: string | redacted.Redacted<string>;
   MatchScores?: MatchScoreDetails;
   ParsedQuery?: GeocodeParsedQuery;
-  Intersections?: IntersectionList;
+  Intersections?: Intersection[];
   MainAddress?: RelatedPlace;
-  SecondaryAddresses?: RelatedPlaceList;
+  SecondaryAddresses?: RelatedPlace[];
 }
 export const GeocodeResultItem = S.suspend(() =>
   S.Struct({
@@ -1678,7 +1678,7 @@ export type GeocodeResultItemList = GeocodeResultItem[];
 export const GeocodeResultItemList = S.Array(GeocodeResultItem);
 export interface AutocompleteResponse {
   PricingBucket: string;
-  ResultItems?: AutocompleteResultItemList;
+  ResultItems?: AutocompleteResultItem[];
 }
 export const AutocompleteResponse = S.suspend(() =>
   S.Struct({
@@ -1690,7 +1690,7 @@ export const AutocompleteResponse = S.suspend(() =>
 }) as any as S.Schema<AutocompleteResponse>;
 export interface GeocodeResponse {
   PricingBucket: string;
-  ResultItems?: GeocodeResultItemList;
+  ResultItems?: GeocodeResultItem[];
 }
 export const GeocodeResponse = S.suspend(() =>
   S.Struct({
@@ -1747,7 +1747,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const getPlace: (
   input: GetPlaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPlaceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1772,7 +1772,7 @@ export const getPlace: (
  */
 export const suggest: (
   input: SuggestRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SuggestResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1797,7 +1797,7 @@ export const suggest: (
  */
 export const reverseGeocode: (
   input: ReverseGeocodeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ReverseGeocodeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1822,7 +1822,7 @@ export const reverseGeocode: (
  */
 export const searchNearby: (
   input: SearchNearbyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SearchNearbyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1847,7 +1847,7 @@ export const searchNearby: (
  */
 export const searchText: (
   input: SearchTextRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SearchTextResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1872,7 +1872,7 @@ export const searchText: (
  */
 export const autocomplete: (
   input: AutocompleteRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AutocompleteResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1897,7 +1897,7 @@ export const autocomplete: (
  */
 export const geocode: (
   input: GeocodeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GeocodeResponse,
   | AccessDeniedException
   | InternalServerException

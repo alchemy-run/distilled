@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -168,9 +168,9 @@ export type ReputationEntityReference = string;
 export type Domain = string;
 export type NextTokenV2 = string;
 export type PageSizeV2 = number;
-export type WebsiteURL = string | Redacted.Redacted<string>;
-export type UseCaseDescription = string | Redacted.Redacted<string>;
-export type AdditionalContactEmailAddress = string | Redacted.Redacted<string>;
+export type WebsiteURL = string | redacted.Redacted<string>;
+export type UseCaseDescription = string | redacted.Redacted<string>;
+export type AdditionalContactEmailAddress = string | redacted.Redacted<string>;
 export type ArchiveArn = string;
 export type SendingPoolName = string;
 export type MaxDeliverySeconds = number;
@@ -185,7 +185,7 @@ export type TagValue = string;
 export type TopicName = string;
 export type DisplayName = string;
 export type Selector = string;
-export type PrivateKey = string | Redacted.Redacted<string>;
+export type PrivateKey = string | redacted.Redacted<string>;
 export type EmailTemplateText = string;
 export type EmailTemplateHtml = string;
 export type S3Url = string;
@@ -202,8 +202,8 @@ export type TenantId = string;
 export type MessageContent = string;
 export type ProcessedRecordsCount = number;
 export type FailedRecordsCount = number;
-export type InsightsEmailAddress = string | Redacted.Redacted<string>;
-export type EmailSubject = string | Redacted.Redacted<string>;
+export type InsightsEmailAddress = string | redacted.Redacted<string>;
+export type EmailSubject = string | redacted.Redacted<string>;
 export type DnsToken = string;
 export type HostedZone = string;
 export type RenderedEmailTemplate = string;
@@ -277,18 +277,133 @@ export const GetDeliverabilityDashboardOptionsRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetDeliverabilityDashboardOptionsRequest",
 }) as any as S.Schema<GetDeliverabilityDashboardOptionsRequest>;
+export type ScalingMode = "STANDARD" | "MANAGED";
+export const ScalingMode = S.Literal("STANDARD", "MANAGED");
 export type BlacklistItemNames = string[];
 export const BlacklistItemNames = S.Array(S.String);
-export type SuppressionListReasons = string[];
-export const SuppressionListReasons = S.Array(S.String);
+export type DeliverabilityDashboardAccountStatus =
+  | "ACTIVE"
+  | "PENDING_EXPIRATION"
+  | "DISABLED";
+export const DeliverabilityDashboardAccountStatus = S.Literal(
+  "ACTIVE",
+  "PENDING_EXPIRATION",
+  "DISABLED",
+);
+export type ReputationEntityType = "RESOURCE";
+export const ReputationEntityType = S.Literal("RESOURCE");
+export type ExportSourceType = "METRICS_DATA" | "MESSAGE_INSIGHTS";
+export const ExportSourceType = S.Literal("METRICS_DATA", "MESSAGE_INSIGHTS");
+export type JobStatus =
+  | "CREATED"
+  | "PROCESSING"
+  | "COMPLETED"
+  | "FAILED"
+  | "CANCELLED";
+export const JobStatus = S.Literal(
+  "CREATED",
+  "PROCESSING",
+  "COMPLETED",
+  "FAILED",
+  "CANCELLED",
+);
+export type ImportDestinationType = "SUPPRESSION_LIST" | "CONTACT_LIST";
+export const ImportDestinationType = S.Literal(
+  "SUPPRESSION_LIST",
+  "CONTACT_LIST",
+);
+export type SuppressionListReason = "BOUNCE" | "COMPLAINT";
+export const SuppressionListReason = S.Literal("BOUNCE", "COMPLAINT");
+export type SuppressionListReasons = SuppressionListReason[];
+export const SuppressionListReasons = S.Array(SuppressionListReason);
+export type MailType = "MARKETING" | "TRANSACTIONAL";
+export const MailType = S.Literal("MARKETING", "TRANSACTIONAL");
+export type ContactLanguage = "EN" | "JA";
+export const ContactLanguage = S.Literal("EN", "JA");
 export type AdditionalContactEmailAddresses =
   | string
-  | Redacted.Redacted<string>[];
+  | redacted.Redacted<string>[];
 export const AdditionalContactEmailAddresses = S.Array(SensitiveString);
+export type TlsPolicy = "REQUIRE" | "OPTIONAL";
+export const TlsPolicy = S.Literal("REQUIRE", "OPTIONAL");
+export type HttpsPolicy = "REQUIRE" | "REQUIRE_OPEN_ONLY" | "OPTIONAL";
+export const HttpsPolicy = S.Literal(
+  "REQUIRE",
+  "REQUIRE_OPEN_ONLY",
+  "OPTIONAL",
+);
+export type DkimSigningAttributesOrigin =
+  | "AWS_SES"
+  | "EXTERNAL"
+  | "AWS_SES_AF_SOUTH_1"
+  | "AWS_SES_EU_NORTH_1"
+  | "AWS_SES_AP_SOUTH_1"
+  | "AWS_SES_EU_WEST_3"
+  | "AWS_SES_EU_WEST_2"
+  | "AWS_SES_EU_SOUTH_1"
+  | "AWS_SES_EU_WEST_1"
+  | "AWS_SES_AP_NORTHEAST_3"
+  | "AWS_SES_AP_NORTHEAST_2"
+  | "AWS_SES_ME_SOUTH_1"
+  | "AWS_SES_AP_NORTHEAST_1"
+  | "AWS_SES_IL_CENTRAL_1"
+  | "AWS_SES_SA_EAST_1"
+  | "AWS_SES_CA_CENTRAL_1"
+  | "AWS_SES_AP_SOUTHEAST_1"
+  | "AWS_SES_AP_SOUTHEAST_2"
+  | "AWS_SES_AP_SOUTHEAST_3"
+  | "AWS_SES_EU_CENTRAL_1"
+  | "AWS_SES_US_EAST_1"
+  | "AWS_SES_US_EAST_2"
+  | "AWS_SES_US_WEST_1"
+  | "AWS_SES_US_WEST_2"
+  | "AWS_SES_ME_CENTRAL_1"
+  | "AWS_SES_AP_SOUTH_2"
+  | "AWS_SES_EU_CENTRAL_2"
+  | "AWS_SES_AP_SOUTHEAST_5"
+  | "AWS_SES_CA_WEST_1";
+export const DkimSigningAttributesOrigin = S.Literal(
+  "AWS_SES",
+  "EXTERNAL",
+  "AWS_SES_AF_SOUTH_1",
+  "AWS_SES_EU_NORTH_1",
+  "AWS_SES_AP_SOUTH_1",
+  "AWS_SES_EU_WEST_3",
+  "AWS_SES_EU_WEST_2",
+  "AWS_SES_EU_SOUTH_1",
+  "AWS_SES_EU_WEST_1",
+  "AWS_SES_AP_NORTHEAST_3",
+  "AWS_SES_AP_NORTHEAST_2",
+  "AWS_SES_ME_SOUTH_1",
+  "AWS_SES_AP_NORTHEAST_1",
+  "AWS_SES_IL_CENTRAL_1",
+  "AWS_SES_SA_EAST_1",
+  "AWS_SES_CA_CENTRAL_1",
+  "AWS_SES_AP_SOUTHEAST_1",
+  "AWS_SES_AP_SOUTHEAST_2",
+  "AWS_SES_AP_SOUTHEAST_3",
+  "AWS_SES_EU_CENTRAL_1",
+  "AWS_SES_US_EAST_1",
+  "AWS_SES_US_EAST_2",
+  "AWS_SES_US_WEST_1",
+  "AWS_SES_US_WEST_2",
+  "AWS_SES_ME_CENTRAL_1",
+  "AWS_SES_AP_SOUTH_2",
+  "AWS_SES_EU_CENTRAL_2",
+  "AWS_SES_AP_SOUTHEAST_5",
+  "AWS_SES_CA_WEST_1",
+);
+export type BehaviorOnMxFailure = "USE_DEFAULT_VALUE" | "REJECT_MESSAGE";
+export const BehaviorOnMxFailure = S.Literal(
+  "USE_DEFAULT_VALUE",
+  "REJECT_MESSAGE",
+);
 export type EmailAddressList = string[];
 export const EmailAddressList = S.Array(S.String);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type SendingStatus = "ENABLED" | "REINSTATED" | "DISABLED";
+export const SendingStatus = S.Literal("ENABLED", "REINSTATED", "DISABLED");
 export interface CancelExportJobRequest {
   JobId: string;
 }
@@ -326,7 +441,7 @@ export interface CreateCustomVerificationEmailTemplateRequest {
   FromEmailAddress: string;
   TemplateSubject: string;
   TemplateContent: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   SuccessRedirectionURL: string;
   FailureRedirectionURL: string;
 }
@@ -363,14 +478,14 @@ export const CreateCustomVerificationEmailTemplateResponse = S.suspend(() =>
 }) as any as S.Schema<CreateCustomVerificationEmailTemplateResponse>;
 export interface CreateDedicatedIpPoolRequest {
   PoolName: string;
-  Tags?: TagList;
-  ScalingMode?: string;
+  Tags?: Tag[];
+  ScalingMode?: ScalingMode;
 }
 export const CreateDedicatedIpPoolRequest = S.suspend(() =>
   S.Struct({
     PoolName: S.String,
     Tags: S.optional(TagList),
-    ScalingMode: S.optional(S.String),
+    ScalingMode: S.optional(ScalingMode),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v2/email/dedicated-ip-pools" }),
@@ -424,7 +539,7 @@ export const CreateEmailIdentityPolicyResponse = S.suspend(() =>
 }) as any as S.Schema<CreateEmailIdentityPolicyResponse>;
 export interface CreateTenantRequest {
   TenantName: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateTenantRequest = S.suspend(() =>
   S.Struct({ TenantName: S.String, Tags: S.optional(TagList) }).pipe(
@@ -798,7 +913,7 @@ export const DeleteTenantResourceAssociationResponse = S.suspend(() =>
   identifier: "DeleteTenantResourceAssociationResponse",
 }) as any as S.Schema<DeleteTenantResourceAssociationResponse>;
 export interface GetBlacklistReportsRequest {
-  BlacklistItemNames: BlacklistItemNames;
+  BlacklistItemNames: string[];
 }
 export const GetBlacklistReportsRequest = S.suspend(() =>
   S.Struct({
@@ -1202,14 +1317,16 @@ export const GetMultiRegionEndpointRequest = S.suspend(() =>
 }) as any as S.Schema<GetMultiRegionEndpointRequest>;
 export interface GetReputationEntityRequest {
   ReputationEntityReference: string;
-  ReputationEntityType: string;
+  ReputationEntityType: ReputationEntityType;
 }
 export const GetReputationEntityRequest = S.suspend(() =>
   S.Struct({
     ReputationEntityReference: S.String.pipe(
       T.HttpLabel("ReputationEntityReference"),
     ),
-    ReputationEntityType: S.String.pipe(T.HttpLabel("ReputationEntityType")),
+    ReputationEntityType: ReputationEntityType.pipe(
+      T.HttpLabel("ReputationEntityType"),
+    ),
   }).pipe(
     T.all(
       T.Http({
@@ -1453,15 +1570,15 @@ export const ListEmailTemplatesRequest = S.suspend(() =>
 export interface ListExportJobsRequest {
   NextToken?: string;
   PageSize?: number;
-  ExportSourceType?: string;
-  JobStatus?: string;
+  ExportSourceType?: ExportSourceType;
+  JobStatus?: JobStatus;
 }
 export const ListExportJobsRequest = S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String),
     PageSize: S.optional(S.Number),
-    ExportSourceType: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    ExportSourceType: S.optional(ExportSourceType),
+    JobStatus: S.optional(JobStatus),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v2/email/list-export-jobs" }),
@@ -1476,13 +1593,13 @@ export const ListExportJobsRequest = S.suspend(() =>
   identifier: "ListExportJobsRequest",
 }) as any as S.Schema<ListExportJobsRequest>;
 export interface ListImportJobsRequest {
-  ImportDestinationType?: string;
+  ImportDestinationType?: ImportDestinationType;
   NextToken?: string;
   PageSize?: number;
 }
 export const ListImportJobsRequest = S.suspend(() =>
   S.Struct({
-    ImportDestinationType: S.optional(S.String),
+    ImportDestinationType: S.optional(ImportDestinationType),
     NextToken: S.optional(S.String),
     PageSize: S.optional(S.Number),
   }).pipe(
@@ -1543,7 +1660,7 @@ export const ListResourceTenantsRequest = S.suspend(() =>
   identifier: "ListResourceTenantsRequest",
 }) as any as S.Schema<ListResourceTenantsRequest>;
 export interface ListSuppressedDestinationsRequest {
-  Reasons?: SuppressionListReasons;
+  Reasons?: SuppressionListReason[];
   StartDate?: Date;
   EndDate?: Date;
   NextToken?: string;
@@ -1635,18 +1752,18 @@ export const PutAccountDedicatedIpWarmupAttributesResponse = S.suspend(() =>
   identifier: "PutAccountDedicatedIpWarmupAttributesResponse",
 }) as any as S.Schema<PutAccountDedicatedIpWarmupAttributesResponse>;
 export interface PutAccountDetailsRequest {
-  MailType: string;
-  WebsiteURL: string | Redacted.Redacted<string>;
-  ContactLanguage?: string;
-  UseCaseDescription?: string | Redacted.Redacted<string>;
-  AdditionalContactEmailAddresses?: AdditionalContactEmailAddresses;
+  MailType: MailType;
+  WebsiteURL: string | redacted.Redacted<string>;
+  ContactLanguage?: ContactLanguage;
+  UseCaseDescription?: string | redacted.Redacted<string>;
+  AdditionalContactEmailAddresses?: string | redacted.Redacted<string>[];
   ProductionAccessEnabled?: boolean;
 }
 export const PutAccountDetailsRequest = S.suspend(() =>
   S.Struct({
-    MailType: S.String,
+    MailType: MailType,
     WebsiteURL: SensitiveString,
-    ContactLanguage: S.optional(S.String),
+    ContactLanguage: S.optional(ContactLanguage),
     UseCaseDescription: S.optional(SensitiveString),
     AdditionalContactEmailAddresses: S.optional(
       AdditionalContactEmailAddresses,
@@ -1694,30 +1811,32 @@ export const PutAccountSendingAttributesResponse = S.suspend(() =>
 ).annotations({
   identifier: "PutAccountSendingAttributesResponse",
 }) as any as S.Schema<PutAccountSendingAttributesResponse>;
+export type FeatureStatus = "ENABLED" | "DISABLED";
+export const FeatureStatus = S.Literal("ENABLED", "DISABLED");
 export interface DashboardAttributes {
-  EngagementMetrics?: string;
+  EngagementMetrics?: FeatureStatus;
 }
 export const DashboardAttributes = S.suspend(() =>
-  S.Struct({ EngagementMetrics: S.optional(S.String) }),
+  S.Struct({ EngagementMetrics: S.optional(FeatureStatus) }),
 ).annotations({
   identifier: "DashboardAttributes",
 }) as any as S.Schema<DashboardAttributes>;
 export interface GuardianAttributes {
-  OptimizedSharedDelivery?: string;
+  OptimizedSharedDelivery?: FeatureStatus;
 }
 export const GuardianAttributes = S.suspend(() =>
-  S.Struct({ OptimizedSharedDelivery: S.optional(S.String) }),
+  S.Struct({ OptimizedSharedDelivery: S.optional(FeatureStatus) }),
 ).annotations({
   identifier: "GuardianAttributes",
 }) as any as S.Schema<GuardianAttributes>;
 export interface VdmAttributes {
-  VdmEnabled: string;
+  VdmEnabled: FeatureStatus;
   DashboardAttributes?: DashboardAttributes;
   GuardianAttributes?: GuardianAttributes;
 }
 export const VdmAttributes = S.suspend(() =>
   S.Struct({
-    VdmEnabled: S.String,
+    VdmEnabled: FeatureStatus,
     DashboardAttributes: S.optional(DashboardAttributes),
     GuardianAttributes: S.optional(GuardianAttributes),
   }),
@@ -1779,14 +1898,14 @@ export const PutConfigurationSetArchivingOptionsResponse = S.suspend(() =>
 }) as any as S.Schema<PutConfigurationSetArchivingOptionsResponse>;
 export interface PutConfigurationSetDeliveryOptionsRequest {
   ConfigurationSetName: string;
-  TlsPolicy?: string;
+  TlsPolicy?: TlsPolicy;
   SendingPoolName?: string;
   MaxDeliverySeconds?: number;
 }
 export const PutConfigurationSetDeliveryOptionsRequest = S.suspend(() =>
   S.Struct({
     ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")),
-    TlsPolicy: S.optional(S.String),
+    TlsPolicy: S.optional(TlsPolicy),
     SendingPoolName: S.optional(S.String),
     MaxDeliverySeconds: S.optional(S.Number),
   }).pipe(
@@ -1874,13 +1993,13 @@ export const PutConfigurationSetSendingOptionsResponse = S.suspend(() =>
 export interface PutConfigurationSetTrackingOptionsRequest {
   ConfigurationSetName: string;
   CustomRedirectDomain?: string;
-  HttpsPolicy?: string;
+  HttpsPolicy?: HttpsPolicy;
 }
 export const PutConfigurationSetTrackingOptionsRequest = S.suspend(() =>
   S.Struct({
     ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")),
     CustomRedirectDomain: S.optional(S.String),
-    HttpsPolicy: S.optional(S.String),
+    HttpsPolicy: S.optional(HttpsPolicy),
   }).pipe(
     T.all(
       T.Http({
@@ -1904,18 +2023,18 @@ export const PutConfigurationSetTrackingOptionsResponse = S.suspend(() =>
   identifier: "PutConfigurationSetTrackingOptionsResponse",
 }) as any as S.Schema<PutConfigurationSetTrackingOptionsResponse>;
 export interface DashboardOptions {
-  EngagementMetrics?: string;
+  EngagementMetrics?: FeatureStatus;
 }
 export const DashboardOptions = S.suspend(() =>
-  S.Struct({ EngagementMetrics: S.optional(S.String) }),
+  S.Struct({ EngagementMetrics: S.optional(FeatureStatus) }),
 ).annotations({
   identifier: "DashboardOptions",
 }) as any as S.Schema<DashboardOptions>;
 export interface GuardianOptions {
-  OptimizedSharedDelivery?: string;
+  OptimizedSharedDelivery?: FeatureStatus;
 }
 export const GuardianOptions = S.suspend(() =>
-  S.Struct({ OptimizedSharedDelivery: S.optional(S.String) }),
+  S.Struct({ OptimizedSharedDelivery: S.optional(FeatureStatus) }),
 ).annotations({
   identifier: "GuardianOptions",
 }) as any as S.Schema<GuardianOptions>;
@@ -1988,12 +2107,12 @@ export const PutDedicatedIpInPoolResponse = S.suspend(() =>
 }) as any as S.Schema<PutDedicatedIpInPoolResponse>;
 export interface PutDedicatedIpPoolScalingAttributesRequest {
   PoolName: string;
-  ScalingMode: string;
+  ScalingMode: ScalingMode;
 }
 export const PutDedicatedIpPoolScalingAttributesRequest = S.suspend(() =>
   S.Struct({
     PoolName: S.String.pipe(T.HttpLabel("PoolName")),
-    ScalingMode: S.String,
+    ScalingMode: ScalingMode,
   }).pipe(
     T.all(
       T.Http({
@@ -2047,7 +2166,7 @@ export type IspNameList = string[];
 export const IspNameList = S.Array(S.String);
 export interface InboxPlacementTrackingOption {
   Global?: boolean;
-  TrackedIsps?: IspNameList;
+  TrackedIsps?: string[];
 }
 export const InboxPlacementTrackingOption = S.suspend(() =>
   S.Struct({
@@ -2080,7 +2199,7 @@ export const DomainDeliverabilityTrackingOptions = S.Array(
 );
 export interface PutDeliverabilityDashboardOptionRequest {
   DashboardEnabled: boolean;
-  SubscribedDomains?: DomainDeliverabilityTrackingOptions;
+  SubscribedDomains?: DomainDeliverabilityTrackingOption[];
 }
 export const PutDeliverabilityDashboardOptionRequest = S.suspend(() =>
   S.Struct({
@@ -2165,31 +2284,33 @@ export const PutEmailIdentityDkimAttributesResponse = S.suspend(() =>
 ).annotations({
   identifier: "PutEmailIdentityDkimAttributesResponse",
 }) as any as S.Schema<PutEmailIdentityDkimAttributesResponse>;
+export type DkimSigningKeyLength = "RSA_1024_BIT" | "RSA_2048_BIT";
+export const DkimSigningKeyLength = S.Literal("RSA_1024_BIT", "RSA_2048_BIT");
 export interface DkimSigningAttributes {
   DomainSigningSelector?: string;
-  DomainSigningPrivateKey?: string | Redacted.Redacted<string>;
-  NextSigningKeyLength?: string;
-  DomainSigningAttributesOrigin?: string;
+  DomainSigningPrivateKey?: string | redacted.Redacted<string>;
+  NextSigningKeyLength?: DkimSigningKeyLength;
+  DomainSigningAttributesOrigin?: DkimSigningAttributesOrigin;
 }
 export const DkimSigningAttributes = S.suspend(() =>
   S.Struct({
     DomainSigningSelector: S.optional(S.String),
     DomainSigningPrivateKey: S.optional(SensitiveString),
-    NextSigningKeyLength: S.optional(S.String),
-    DomainSigningAttributesOrigin: S.optional(S.String),
+    NextSigningKeyLength: S.optional(DkimSigningKeyLength),
+    DomainSigningAttributesOrigin: S.optional(DkimSigningAttributesOrigin),
   }),
 ).annotations({
   identifier: "DkimSigningAttributes",
 }) as any as S.Schema<DkimSigningAttributes>;
 export interface PutEmailIdentityDkimSigningAttributesRequest {
   EmailIdentity: string;
-  SigningAttributesOrigin: string;
+  SigningAttributesOrigin: DkimSigningAttributesOrigin;
   SigningAttributes?: DkimSigningAttributes;
 }
 export const PutEmailIdentityDkimSigningAttributesRequest = S.suspend(() =>
   S.Struct({
     EmailIdentity: S.String.pipe(T.HttpLabel("EmailIdentity")),
-    SigningAttributesOrigin: S.String,
+    SigningAttributesOrigin: DkimSigningAttributesOrigin,
     SigningAttributes: S.optional(DkimSigningAttributes),
   }).pipe(
     T.all(
@@ -2240,13 +2361,13 @@ export const PutEmailIdentityFeedbackAttributesResponse = S.suspend(() =>
 export interface PutEmailIdentityMailFromAttributesRequest {
   EmailIdentity: string;
   MailFromDomain?: string;
-  BehaviorOnMxFailure?: string;
+  BehaviorOnMxFailure?: BehaviorOnMxFailure;
 }
 export const PutEmailIdentityMailFromAttributesRequest = S.suspend(() =>
   S.Struct({
     EmailIdentity: S.String.pipe(T.HttpLabel("EmailIdentity")),
     MailFromDomain: S.optional(S.String),
-    BehaviorOnMxFailure: S.optional(S.String),
+    BehaviorOnMxFailure: S.optional(BehaviorOnMxFailure),
   }).pipe(
     T.all(
       T.Http({
@@ -2271,10 +2392,10 @@ export const PutEmailIdentityMailFromAttributesResponse = S.suspend(() =>
 }) as any as S.Schema<PutEmailIdentityMailFromAttributesResponse>;
 export interface PutSuppressedDestinationRequest {
   EmailAddress: string;
-  Reason: string;
+  Reason: SuppressionListReason;
 }
 export const PutSuppressedDestinationRequest = S.suspend(() =>
-  S.Struct({ EmailAddress: S.String, Reason: S.String }).pipe(
+  S.Struct({ EmailAddress: S.String, Reason: SuppressionListReason }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/v2/email/suppression/addresses" }),
       svc,
@@ -2321,7 +2442,7 @@ export const SendCustomVerificationEmailRequest = S.suspend(() =>
 }) as any as S.Schema<SendCustomVerificationEmailRequest>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
@@ -2367,7 +2488,7 @@ export const TestRenderEmailTemplateRequest = S.suspend(() =>
 }) as any as S.Schema<TestRenderEmailTemplateRequest>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -2390,8 +2511,31 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type EventTypes = string[];
-export const EventTypes = S.Array(S.String);
+export type EventType =
+  | "SEND"
+  | "REJECT"
+  | "BOUNCE"
+  | "COMPLAINT"
+  | "DELIVERY"
+  | "OPEN"
+  | "CLICK"
+  | "RENDERING_FAILURE"
+  | "DELIVERY_DELAY"
+  | "SUBSCRIPTION";
+export const EventType = S.Literal(
+  "SEND",
+  "REJECT",
+  "BOUNCE",
+  "COMPLAINT",
+  "DELIVERY",
+  "OPEN",
+  "CLICK",
+  "RENDERING_FAILURE",
+  "DELIVERY_DELAY",
+  "SUBSCRIPTION",
+);
+export type EventTypes = EventType[];
+export const EventTypes = S.Array(EventType);
 export interface KinesisFirehoseDestination {
   IamRoleArn: string;
   DeliveryStreamArn: string;
@@ -2401,15 +2545,21 @@ export const KinesisFirehoseDestination = S.suspend(() =>
 ).annotations({
   identifier: "KinesisFirehoseDestination",
 }) as any as S.Schema<KinesisFirehoseDestination>;
+export type DimensionValueSource = "MESSAGE_TAG" | "EMAIL_HEADER" | "LINK_TAG";
+export const DimensionValueSource = S.Literal(
+  "MESSAGE_TAG",
+  "EMAIL_HEADER",
+  "LINK_TAG",
+);
 export interface CloudWatchDimensionConfiguration {
   DimensionName: string;
-  DimensionValueSource: string;
+  DimensionValueSource: DimensionValueSource;
   DefaultDimensionValue: string;
 }
 export const CloudWatchDimensionConfiguration = S.suspend(() =>
   S.Struct({
     DimensionName: S.String,
-    DimensionValueSource: S.String,
+    DimensionValueSource: DimensionValueSource,
     DefaultDimensionValue: S.String,
   }),
 ).annotations({
@@ -2421,7 +2571,7 @@ export const CloudWatchDimensionConfigurations = S.Array(
   CloudWatchDimensionConfiguration,
 );
 export interface CloudWatchDestination {
-  DimensionConfigurations: CloudWatchDimensionConfigurations;
+  DimensionConfigurations: CloudWatchDimensionConfiguration[];
 }
 export const CloudWatchDestination = S.suspend(() =>
   S.Struct({ DimensionConfigurations: CloudWatchDimensionConfigurations }),
@@ -2454,7 +2604,7 @@ export const PinpointDestination = S.suspend(() =>
 }) as any as S.Schema<PinpointDestination>;
 export interface EventDestinationDefinition {
   Enabled?: boolean;
-  MatchingEventTypes?: EventTypes;
+  MatchingEventTypes?: EventType[];
   KinesisFirehoseDestination?: KinesisFirehoseDestination;
   CloudWatchDestination?: CloudWatchDestination;
   SnsDestination?: SnsDestination;
@@ -2506,12 +2656,14 @@ export const UpdateConfigurationSetEventDestinationResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateConfigurationSetEventDestinationResponse",
 }) as any as S.Schema<UpdateConfigurationSetEventDestinationResponse>;
+export type SubscriptionStatus = "OPT_IN" | "OPT_OUT";
+export const SubscriptionStatus = S.Literal("OPT_IN", "OPT_OUT");
 export interface TopicPreference {
   TopicName: string;
-  SubscriptionStatus: string;
+  SubscriptionStatus: SubscriptionStatus;
 }
 export const TopicPreference = S.suspend(() =>
-  S.Struct({ TopicName: S.String, SubscriptionStatus: S.String }),
+  S.Struct({ TopicName: S.String, SubscriptionStatus: SubscriptionStatus }),
 ).annotations({
   identifier: "TopicPreference",
 }) as any as S.Schema<TopicPreference>;
@@ -2520,7 +2672,7 @@ export const TopicPreferenceList = S.Array(TopicPreference);
 export interface UpdateContactRequest {
   ContactListName: string;
   EmailAddress: string;
-  TopicPreferences?: TopicPreferenceList;
+  TopicPreferences?: TopicPreference[];
   UnsubscribeAll?: boolean;
   AttributesData?: string;
 }
@@ -2555,21 +2707,21 @@ export interface Topic {
   TopicName: string;
   DisplayName: string;
   Description?: string;
-  DefaultSubscriptionStatus: string;
+  DefaultSubscriptionStatus: SubscriptionStatus;
 }
 export const Topic = S.suspend(() =>
   S.Struct({
     TopicName: S.String,
     DisplayName: S.String,
     Description: S.optional(S.String),
-    DefaultSubscriptionStatus: S.String,
+    DefaultSubscriptionStatus: SubscriptionStatus,
   }),
 ).annotations({ identifier: "Topic" }) as any as S.Schema<Topic>;
 export type Topics = Topic[];
 export const Topics = S.Array(Topic);
 export interface UpdateContactListRequest {
   ContactListName: string;
-  Topics?: Topics;
+  Topics?: Topic[];
   Description?: string;
 }
 export const UpdateContactListRequest = S.suspend(() =>
@@ -2711,18 +2863,20 @@ export const UpdateEmailTemplateResponse = S.suspend(() =>
   identifier: "UpdateEmailTemplateResponse",
 }) as any as S.Schema<UpdateEmailTemplateResponse>;
 export interface UpdateReputationEntityCustomerManagedStatusRequest {
-  ReputationEntityType: string;
+  ReputationEntityType: ReputationEntityType;
   ReputationEntityReference: string;
-  SendingStatus: string;
+  SendingStatus: SendingStatus;
 }
 export const UpdateReputationEntityCustomerManagedStatusRequest = S.suspend(
   () =>
     S.Struct({
-      ReputationEntityType: S.String.pipe(T.HttpLabel("ReputationEntityType")),
+      ReputationEntityType: ReputationEntityType.pipe(
+        T.HttpLabel("ReputationEntityType"),
+      ),
       ReputationEntityReference: S.String.pipe(
         T.HttpLabel("ReputationEntityReference"),
       ),
-      SendingStatus: S.String,
+      SendingStatus: SendingStatus,
     }).pipe(
       T.all(
         T.Http({
@@ -2746,13 +2900,15 @@ export const UpdateReputationEntityCustomerManagedStatusResponse = S.suspend(
   identifier: "UpdateReputationEntityCustomerManagedStatusResponse",
 }) as any as S.Schema<UpdateReputationEntityCustomerManagedStatusResponse>;
 export interface UpdateReputationEntityPolicyRequest {
-  ReputationEntityType: string;
+  ReputationEntityType: ReputationEntityType;
   ReputationEntityReference: string;
   ReputationEntityPolicy: string;
 }
 export const UpdateReputationEntityPolicyRequest = S.suspend(() =>
   S.Struct({
-    ReputationEntityType: S.String.pipe(T.HttpLabel("ReputationEntityType")),
+    ReputationEntityType: ReputationEntityType.pipe(
+      T.HttpLabel("ReputationEntityType"),
+    ),
     ReputationEntityReference: S.String.pipe(
       T.HttpLabel("ReputationEntityReference"),
     ),
@@ -2779,26 +2935,77 @@ export const UpdateReputationEntityPolicyResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateReputationEntityPolicyResponse",
 }) as any as S.Schema<UpdateReputationEntityPolicyResponse>;
+export type MetricNamespace = "VDM";
+export const MetricNamespace = S.Literal("VDM");
+export type Metric =
+  | "SEND"
+  | "COMPLAINT"
+  | "PERMANENT_BOUNCE"
+  | "TRANSIENT_BOUNCE"
+  | "OPEN"
+  | "CLICK"
+  | "DELIVERY"
+  | "DELIVERY_OPEN"
+  | "DELIVERY_CLICK"
+  | "DELIVERY_COMPLAINT";
+export const Metric = S.Literal(
+  "SEND",
+  "COMPLAINT",
+  "PERMANENT_BOUNCE",
+  "TRANSIENT_BOUNCE",
+  "OPEN",
+  "CLICK",
+  "DELIVERY",
+  "DELIVERY_OPEN",
+  "DELIVERY_CLICK",
+  "DELIVERY_COMPLAINT",
+);
+export type DataFormat = "CSV" | "JSON";
+export const DataFormat = S.Literal("CSV", "JSON");
+export type ListRecommendationsFilterKey =
+  | "TYPE"
+  | "IMPACT"
+  | "STATUS"
+  | "RESOURCE_ARN";
+export const ListRecommendationsFilterKey = S.Literal(
+  "TYPE",
+  "IMPACT",
+  "STATUS",
+  "RESOURCE_ARN",
+);
+export type ReputationEntityFilterKey =
+  | "ENTITY_TYPE"
+  | "REPUTATION_IMPACT"
+  | "SENDING_STATUS"
+  | "ENTITY_REFERENCE_PREFIX";
+export const ReputationEntityFilterKey = S.Literal(
+  "ENTITY_TYPE",
+  "REPUTATION_IMPACT",
+  "SENDING_STATUS",
+  "ENTITY_REFERENCE_PREFIX",
+);
+export type ListTenantResourcesFilterKey = "RESOURCE_TYPE";
+export const ListTenantResourcesFilterKey = S.Literal("RESOURCE_TYPE");
 export interface TrackingOptions {
   CustomRedirectDomain: string;
-  HttpsPolicy?: string;
+  HttpsPolicy?: HttpsPolicy;
 }
 export const TrackingOptions = S.suspend(() =>
   S.Struct({
     CustomRedirectDomain: S.String,
-    HttpsPolicy: S.optional(S.String),
+    HttpsPolicy: S.optional(HttpsPolicy),
   }),
 ).annotations({
   identifier: "TrackingOptions",
 }) as any as S.Schema<TrackingOptions>;
 export interface DeliveryOptions {
-  TlsPolicy?: string;
+  TlsPolicy?: TlsPolicy;
   SendingPoolName?: string;
   MaxDeliverySeconds?: number;
 }
 export const DeliveryOptions = S.suspend(() =>
   S.Struct({
-    TlsPolicy: S.optional(S.String),
+    TlsPolicy: S.optional(TlsPolicy),
     SendingPoolName: S.optional(S.String),
     MaxDeliverySeconds: S.optional(S.Number),
   }),
@@ -2825,21 +3032,32 @@ export const SendingOptions = S.suspend(() =>
 ).annotations({
   identifier: "SendingOptions",
 }) as any as S.Schema<SendingOptions>;
+export type SuppressionConfidenceVerdictThreshold =
+  | "MEDIUM"
+  | "HIGH"
+  | "MANAGED";
+export const SuppressionConfidenceVerdictThreshold = S.Literal(
+  "MEDIUM",
+  "HIGH",
+  "MANAGED",
+);
 export interface SuppressionConfidenceThreshold {
-  ConfidenceVerdictThreshold: string;
+  ConfidenceVerdictThreshold: SuppressionConfidenceVerdictThreshold;
 }
 export const SuppressionConfidenceThreshold = S.suspend(() =>
-  S.Struct({ ConfidenceVerdictThreshold: S.String }),
+  S.Struct({
+    ConfidenceVerdictThreshold: SuppressionConfidenceVerdictThreshold,
+  }),
 ).annotations({
   identifier: "SuppressionConfidenceThreshold",
 }) as any as S.Schema<SuppressionConfidenceThreshold>;
 export interface SuppressionConditionThreshold {
-  ConditionThresholdEnabled: string;
+  ConditionThresholdEnabled: FeatureStatus;
   OverallConfidenceThreshold?: SuppressionConfidenceThreshold;
 }
 export const SuppressionConditionThreshold = S.suspend(() =>
   S.Struct({
-    ConditionThresholdEnabled: S.String,
+    ConditionThresholdEnabled: FeatureStatus,
     OverallConfidenceThreshold: S.optional(SuppressionConfidenceThreshold),
   }),
 ).annotations({
@@ -2854,7 +3072,7 @@ export const SuppressionValidationOptions = S.suspend(() =>
   identifier: "SuppressionValidationOptions",
 }) as any as S.Schema<SuppressionValidationOptions>;
 export interface SuppressionOptions {
-  SuppressedReasons?: SuppressionListReasons;
+  SuppressedReasons?: SuppressionListReason[];
   ValidationOptions?: SuppressionValidationOptions;
 }
 export const SuppressionOptions = S.suspend(() =>
@@ -2874,23 +3092,25 @@ export const ArchivingOptions = S.suspend(() =>
   identifier: "ArchivingOptions",
 }) as any as S.Schema<ArchivingOptions>;
 export interface ExportDestination {
-  DataFormat: string;
+  DataFormat: DataFormat;
   S3Url?: string;
 }
 export const ExportDestination = S.suspend(() =>
-  S.Struct({ DataFormat: S.String, S3Url: S.optional(S.String) }),
+  S.Struct({ DataFormat: DataFormat, S3Url: S.optional(S.String) }),
 ).annotations({
   identifier: "ExportDestination",
 }) as any as S.Schema<ExportDestination>;
 export interface ImportDataSource {
   S3Url: string;
-  DataFormat: string;
+  DataFormat: DataFormat;
 }
 export const ImportDataSource = S.suspend(() =>
-  S.Struct({ S3Url: S.String, DataFormat: S.String }),
+  S.Struct({ S3Url: S.String, DataFormat: DataFormat }),
 ).annotations({
   identifier: "ImportDataSource",
 }) as any as S.Schema<ImportDataSource>;
+export type Status = "CREATING" | "READY" | "FAILED" | "DELETING";
+export const Status = S.Literal("CREATING", "READY", "FAILED", "DELETING");
 export interface SendQuota {
   Max24HourSend?: number;
   MaxSendRate?: number;
@@ -2912,7 +3132,7 @@ export const SuppressionValidationAttributes = S.suspend(() =>
   identifier: "SuppressionValidationAttributes",
 }) as any as S.Schema<SuppressionValidationAttributes>;
 export interface SuppressionAttributes {
-  SuppressedReasons?: SuppressionListReasons;
+  SuppressedReasons?: SuppressionListReason[];
   ValidationAttributes?: SuppressionValidationAttributes;
 }
 export const SuppressionAttributes = S.suspend(() =>
@@ -2923,33 +3143,56 @@ export const SuppressionAttributes = S.suspend(() =>
 ).annotations({
   identifier: "SuppressionAttributes",
 }) as any as S.Schema<SuppressionAttributes>;
+export type WarmupStatus = "IN_PROGRESS" | "DONE" | "NOT_APPLICABLE";
+export const WarmupStatus = S.Literal("IN_PROGRESS", "DONE", "NOT_APPLICABLE");
 export interface DedicatedIp {
   Ip: string;
-  WarmupStatus: string;
+  WarmupStatus: WarmupStatus;
   WarmupPercentage: number;
   PoolName?: string;
 }
 export const DedicatedIp = S.suspend(() =>
   S.Struct({
     Ip: S.String,
-    WarmupStatus: S.String,
+    WarmupStatus: WarmupStatus,
     WarmupPercentage: S.Number,
     PoolName: S.optional(S.String),
   }),
 ).annotations({ identifier: "DedicatedIp" }) as any as S.Schema<DedicatedIp>;
 export type DedicatedIpList = DedicatedIp[];
 export const DedicatedIpList = S.Array(DedicatedIp);
+export type IdentityType = "EMAIL_ADDRESS" | "DOMAIN" | "MANAGED_DOMAIN";
+export const IdentityType = S.Literal(
+  "EMAIL_ADDRESS",
+  "DOMAIN",
+  "MANAGED_DOMAIN",
+);
+export type VerificationStatus =
+  | "PENDING"
+  | "SUCCESS"
+  | "FAILED"
+  | "TEMPORARY_FAILURE"
+  | "NOT_STARTED";
+export const VerificationStatus = S.Literal(
+  "PENDING",
+  "SUCCESS",
+  "FAILED",
+  "TEMPORARY_FAILURE",
+  "NOT_STARTED",
+);
 export type ConfigurationSetNameList = string[];
 export const ConfigurationSetNameList = S.Array(S.String);
 export type ListOfDedicatedIpPools = string[];
 export const ListOfDedicatedIpPools = S.Array(S.String);
+export type DeliverabilityTestStatus = "IN_PROGRESS" | "COMPLETED";
+export const DeliverabilityTestStatus = S.Literal("IN_PROGRESS", "COMPLETED");
 export interface DeliverabilityTestReport {
   ReportId?: string;
   ReportName?: string;
   Subject?: string;
   FromEmailAddress?: string;
   CreateDate?: Date;
-  DeliverabilityTestStatus?: string;
+  DeliverabilityTestStatus?: DeliverabilityTestStatus;
 }
 export const DeliverabilityTestReport = S.suspend(() =>
   S.Struct({
@@ -2958,7 +3201,7 @@ export const DeliverabilityTestReport = S.suspend(() =>
     Subject: S.optional(S.String),
     FromEmailAddress: S.optional(S.String),
     CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    DeliverabilityTestStatus: S.optional(S.String),
+    DeliverabilityTestStatus: S.optional(DeliverabilityTestStatus),
   }),
 ).annotations({
   identifier: "DeliverabilityTestReport",
@@ -2974,7 +3217,7 @@ export interface DomainDeliverabilityCampaign {
   ImageUrl?: string;
   Subject?: string;
   FromAddress?: string;
-  SendingIps?: IpList;
+  SendingIps?: string[];
   FirstSeenDateTime?: Date;
   LastSeenDateTime?: Date;
   InboxCount?: number;
@@ -2983,7 +3226,7 @@ export interface DomainDeliverabilityCampaign {
   DeleteRate?: number;
   ReadDeleteRate?: number;
   ProjectedVolume?: number;
-  Esps?: Esps;
+  Esps?: string[];
 }
 export const DomainDeliverabilityCampaign = S.suspend(() =>
   S.Struct({
@@ -3013,21 +3256,37 @@ export type DomainDeliverabilityCampaignList = DomainDeliverabilityCampaign[];
 export const DomainDeliverabilityCampaignList = S.Array(
   DomainDeliverabilityCampaign,
 );
-export type ListRecommendationsFilter = { [key: string]: string };
-export const ListRecommendationsFilter = S.Record({
-  key: S.String,
-  value: S.String,
-});
-export type ReputationEntityFilter = { [key: string]: string };
-export const ReputationEntityFilter = S.Record({
-  key: S.String,
-  value: S.String,
-});
-export type ListTenantResourcesFilter = { [key: string]: string };
-export const ListTenantResourcesFilter = S.Record({
-  key: S.String,
-  value: S.String,
-});
+export type ListRecommendationsFilter = {
+  [key in ListRecommendationsFilterKey]?: string;
+};
+export const ListRecommendationsFilter = S.partial(
+  S.Record({ key: ListRecommendationsFilterKey, value: S.String }),
+);
+export type ReputationEntityFilter = {
+  [key in ReputationEntityFilterKey]?: string;
+};
+export const ReputationEntityFilter = S.partial(
+  S.Record({ key: ReputationEntityFilterKey, value: S.String }),
+);
+export type ListTenantResourcesFilter = {
+  [key in ListTenantResourcesFilterKey]?: string;
+};
+export const ListTenantResourcesFilter = S.partial(
+  S.Record({ key: ListTenantResourcesFilterKey, value: S.String }),
+);
+export type DkimStatus =
+  | "PENDING"
+  | "SUCCESS"
+  | "FAILED"
+  | "TEMPORARY_FAILURE"
+  | "NOT_STARTED";
+export const DkimStatus = S.Literal(
+  "PENDING",
+  "SUCCESS",
+  "FAILED",
+  "TEMPORARY_FAILURE",
+  "NOT_STARTED",
+);
 export type DnsTokenList = string[];
 export const DnsTokenList = S.Array(S.String);
 export interface MessageTag {
@@ -3050,23 +3309,34 @@ export const MessageHeader = S.suspend(() =>
 }) as any as S.Schema<MessageHeader>;
 export type MessageHeaderList = MessageHeader[];
 export const MessageHeaderList = S.Array(MessageHeader);
+export type AttachmentContentDisposition = "ATTACHMENT" | "INLINE";
+export const AttachmentContentDisposition = S.Literal("ATTACHMENT", "INLINE");
+export type AttachmentContentTransferEncoding =
+  | "BASE64"
+  | "QUOTED_PRINTABLE"
+  | "SEVEN_BIT";
+export const AttachmentContentTransferEncoding = S.Literal(
+  "BASE64",
+  "QUOTED_PRINTABLE",
+  "SEVEN_BIT",
+);
 export interface Attachment {
   RawContent: Uint8Array;
-  ContentDisposition?: string;
+  ContentDisposition?: AttachmentContentDisposition;
   FileName: string;
   ContentDescription?: string;
   ContentId?: string;
-  ContentTransferEncoding?: string;
+  ContentTransferEncoding?: AttachmentContentTransferEncoding;
   ContentType?: string;
 }
 export const Attachment = S.suspend(() =>
   S.Struct({
     RawContent: T.Blob,
-    ContentDisposition: S.optional(S.String),
+    ContentDisposition: S.optional(AttachmentContentDisposition),
     FileName: S.String,
     ContentDescription: S.optional(S.String),
     ContentId: S.optional(S.String),
-    ContentTransferEncoding: S.optional(S.String),
+    ContentTransferEncoding: S.optional(AttachmentContentTransferEncoding),
     ContentType: S.optional(S.String),
   }),
 ).annotations({ identifier: "Attachment" }) as any as S.Schema<Attachment>;
@@ -3077,8 +3347,8 @@ export interface Template {
   TemplateArn?: string;
   TemplateContent?: EmailTemplateContent;
   TemplateData?: string;
-  Headers?: MessageHeaderList;
-  Attachments?: AttachmentList;
+  Headers?: MessageHeader[];
+  Attachments?: Attachment[];
 }
 export const Template = S.suspend(() =>
   S.Struct({
@@ -3099,9 +3369,9 @@ export const BulkEmailContent = S.suspend(() =>
   identifier: "BulkEmailContent",
 }) as any as S.Schema<BulkEmailContent>;
 export interface Destination {
-  ToAddresses?: EmailAddressList;
-  CcAddresses?: EmailAddressList;
-  BccAddresses?: EmailAddressList;
+  ToAddresses?: string[];
+  CcAddresses?: string[];
+  BccAddresses?: string[];
 }
 export const Destination = S.suspend(() =>
   S.Struct({
@@ -3119,10 +3389,25 @@ export const ListManagementOptions = S.suspend(() =>
 ).annotations({
   identifier: "ListManagementOptions",
 }) as any as S.Schema<ListManagementOptions>;
+export type MetricDimensionName =
+  | "EMAIL_IDENTITY"
+  | "CONFIGURATION_SET"
+  | "ISP";
+export const MetricDimensionName = S.Literal(
+  "EMAIL_IDENTITY",
+  "CONFIGURATION_SET",
+  "ISP",
+);
+export type SuppressionListImportAction = "DELETE" | "PUT";
+export const SuppressionListImportAction = S.Literal("DELETE", "PUT");
+export type ContactListImportAction = "DELETE" | "PUT";
+export const ContactListImportAction = S.Literal("DELETE", "PUT");
+export type ReviewStatus = "PENDING" | "FAILED" | "GRANTED" | "DENIED";
+export const ReviewStatus = S.Literal("PENDING", "FAILED", "GRANTED", "DENIED");
 export interface CreateContactRequest {
   ContactListName: string;
   EmailAddress: string;
-  TopicPreferences?: TopicPreferenceList;
+  TopicPreferences?: TopicPreference[];
   UnsubscribeAll?: boolean;
   AttributesData?: string;
 }
@@ -3155,9 +3440,9 @@ export const CreateContactResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<CreateContactResponse>;
 export interface CreateContactListRequest {
   ContactListName: string;
-  Topics?: Topics;
+  Topics?: Topic[];
   Description?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateContactListRequest = S.suspend(() =>
   S.Struct({
@@ -3186,7 +3471,7 @@ export const CreateContactListResponse = S.suspend(() =>
 }) as any as S.Schema<CreateContactListResponse>;
 export interface CreateEmailIdentityRequest {
   EmailIdentity: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   DkimSigningAttributes?: DkimSigningAttributes;
   ConfigurationSetName?: string;
 }
@@ -3212,7 +3497,7 @@ export const CreateEmailIdentityRequest = S.suspend(() =>
 export interface CreateEmailTemplateRequest {
   TemplateName: string;
   TemplateContent: EmailTemplateContent;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateEmailTemplateRequest = S.suspend(() =>
   S.Struct({
@@ -3243,8 +3528,8 @@ export interface CreateTenantResponse {
   TenantId?: string;
   TenantArn?: string;
   CreatedTimestamp?: Date;
-  Tags?: TagList;
-  SendingStatus?: string;
+  Tags?: Tag[];
+  SendingStatus?: SendingStatus;
 }
 export const CreateTenantResponse = S.suspend(() =>
   S.Struct({
@@ -3255,16 +3540,16 @@ export const CreateTenantResponse = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     Tags: S.optional(TagList),
-    SendingStatus: S.optional(S.String),
+    SendingStatus: S.optional(SendingStatus),
   }),
 ).annotations({
   identifier: "CreateTenantResponse",
 }) as any as S.Schema<CreateTenantResponse>;
 export interface DeleteMultiRegionEndpointResponse {
-  Status?: string;
+  Status?: Status;
 }
 export const DeleteMultiRegionEndpointResponse = S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String) }),
+  S.Struct({ Status: S.optional(Status) }),
 ).annotations({
   identifier: "DeleteMultiRegionEndpointResponse",
 }) as any as S.Schema<DeleteMultiRegionEndpointResponse>;
@@ -3274,7 +3559,7 @@ export interface GetConfigurationSetResponse {
   DeliveryOptions?: DeliveryOptions;
   ReputationOptions?: ReputationOptions;
   SendingOptions?: SendingOptions;
-  Tags?: TagList;
+  Tags?: Tag[];
   SuppressionOptions?: SuppressionOptions;
   VdmOptions?: VdmOptions;
   ArchivingOptions?: ArchivingOptions;
@@ -3297,8 +3582,8 @@ export const GetConfigurationSetResponse = S.suspend(() =>
 export interface GetContactResponse {
   ContactListName?: string;
   EmailAddress?: string;
-  TopicPreferences?: TopicPreferenceList;
-  TopicDefaultPreferences?: TopicPreferenceList;
+  TopicPreferences?: TopicPreference[];
+  TopicDefaultPreferences?: TopicPreference[];
   UnsubscribeAll?: boolean;
   AttributesData?: string;
   CreatedTimestamp?: Date;
@@ -3324,11 +3609,11 @@ export const GetContactResponse = S.suspend(() =>
 }) as any as S.Schema<GetContactResponse>;
 export interface GetContactListResponse {
   ContactListName?: string;
-  Topics?: Topics;
+  Topics?: Topic[];
   Description?: string;
   CreatedTimestamp?: Date;
   LastUpdatedTimestamp?: Date;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const GetContactListResponse = S.suspend(() =>
   S.Struct({
@@ -3351,7 +3636,7 @@ export interface GetCustomVerificationEmailTemplateResponse {
   FromEmailAddress?: string;
   TemplateSubject?: string;
   TemplateContent?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   SuccessRedirectionURL?: string;
   FailureRedirectionURL?: string;
 }
@@ -3369,7 +3654,7 @@ export const GetCustomVerificationEmailTemplateResponse = S.suspend(() =>
   identifier: "GetCustomVerificationEmailTemplateResponse",
 }) as any as S.Schema<GetCustomVerificationEmailTemplateResponse>;
 export interface GetDedicatedIpsResponse {
-  DedicatedIps?: DedicatedIpList;
+  DedicatedIps?: DedicatedIp[];
   NextToken?: string;
 }
 export const GetDedicatedIpsResponse = S.suspend(() =>
@@ -3383,7 +3668,7 @@ export const GetDedicatedIpsResponse = S.suspend(() =>
 export type PolicyMap = { [key: string]: string };
 export const PolicyMap = S.Record({ key: S.String, value: S.String });
 export interface GetEmailIdentityPoliciesResponse {
-  Policies?: PolicyMap;
+  Policies?: { [key: string]: string };
 }
 export const GetEmailIdentityPoliciesResponse = S.suspend(() =>
   S.Struct({ Policies: S.optional(PolicyMap) }),
@@ -3393,7 +3678,7 @@ export const GetEmailIdentityPoliciesResponse = S.suspend(() =>
 export interface GetEmailTemplateResponse {
   TemplateName: string;
   TemplateContent: EmailTemplateContent;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const GetEmailTemplateResponse = S.suspend(() =>
   S.Struct({
@@ -3405,19 +3690,22 @@ export const GetEmailTemplateResponse = S.suspend(() =>
   identifier: "GetEmailTemplateResponse",
 }) as any as S.Schema<GetEmailTemplateResponse>;
 export interface SuppressionListDestination {
-  SuppressionListImportAction: string;
+  SuppressionListImportAction: SuppressionListImportAction;
 }
 export const SuppressionListDestination = S.suspend(() =>
-  S.Struct({ SuppressionListImportAction: S.String }),
+  S.Struct({ SuppressionListImportAction: SuppressionListImportAction }),
 ).annotations({
   identifier: "SuppressionListDestination",
 }) as any as S.Schema<SuppressionListDestination>;
 export interface ContactListDestination {
   ContactListName: string;
-  ContactListImportAction: string;
+  ContactListImportAction: ContactListImportAction;
 }
 export const ContactListDestination = S.suspend(() =>
-  S.Struct({ ContactListName: S.String, ContactListImportAction: S.String }),
+  S.Struct({
+    ContactListName: S.String,
+    ContactListImportAction: ContactListImportAction,
+  }),
 ).annotations({
   identifier: "ContactListDestination",
 }) as any as S.Schema<ContactListDestination>;
@@ -3448,7 +3736,7 @@ export interface GetImportJobResponse {
   ImportDestination?: ImportDestination;
   ImportDataSource?: ImportDataSource;
   FailureInfo?: FailureInfo;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   CreatedTimestamp?: Date;
   CompletedTimestamp?: Date;
   ProcessedRecordsCount?: number;
@@ -3460,7 +3748,7 @@ export const GetImportJobResponse = S.suspend(() =>
     ImportDestination: S.optional(ImportDestination),
     ImportDataSource: S.optional(ImportDataSource),
     FailureInfo: S.optional(FailureInfo),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     CreatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -3474,7 +3762,7 @@ export const GetImportJobResponse = S.suspend(() =>
   identifier: "GetImportJobResponse",
 }) as any as S.Schema<GetImportJobResponse>;
 export interface ListConfigurationSetsResponse {
-  ConfigurationSets?: ConfigurationSetNameList;
+  ConfigurationSets?: string[];
   NextToken?: string;
 }
 export const ListConfigurationSetsResponse = S.suspend(() =>
@@ -3486,7 +3774,7 @@ export const ListConfigurationSetsResponse = S.suspend(() =>
   identifier: "ListConfigurationSetsResponse",
 }) as any as S.Schema<ListConfigurationSetsResponse>;
 export interface ListDedicatedIpPoolsResponse {
-  DedicatedIpPools?: ListOfDedicatedIpPools;
+  DedicatedIpPools?: string[];
   NextToken?: string;
 }
 export const ListDedicatedIpPoolsResponse = S.suspend(() =>
@@ -3498,7 +3786,7 @@ export const ListDedicatedIpPoolsResponse = S.suspend(() =>
   identifier: "ListDedicatedIpPoolsResponse",
 }) as any as S.Schema<ListDedicatedIpPoolsResponse>;
 export interface ListDeliverabilityTestReportsResponse {
-  DeliverabilityTestReports: DeliverabilityTestReports;
+  DeliverabilityTestReports: DeliverabilityTestReport[];
   NextToken?: string;
 }
 export const ListDeliverabilityTestReportsResponse = S.suspend(() =>
@@ -3510,7 +3798,7 @@ export const ListDeliverabilityTestReportsResponse = S.suspend(() =>
   identifier: "ListDeliverabilityTestReportsResponse",
 }) as any as S.Schema<ListDeliverabilityTestReportsResponse>;
 export interface ListDomainDeliverabilityCampaignsResponse {
-  DomainDeliverabilityCampaigns: DomainDeliverabilityCampaignList;
+  DomainDeliverabilityCampaigns: DomainDeliverabilityCampaign[];
   NextToken?: string;
 }
 export const ListDomainDeliverabilityCampaignsResponse = S.suspend(() =>
@@ -3522,7 +3810,7 @@ export const ListDomainDeliverabilityCampaignsResponse = S.suspend(() =>
   identifier: "ListDomainDeliverabilityCampaignsResponse",
 }) as any as S.Schema<ListDomainDeliverabilityCampaignsResponse>;
 export interface ListRecommendationsRequest {
-  Filter?: ListRecommendationsFilter;
+  Filter?: { [key: string]: string };
   NextToken?: string;
   PageSize?: number;
 }
@@ -3545,7 +3833,7 @@ export const ListRecommendationsRequest = S.suspend(() =>
   identifier: "ListRecommendationsRequest",
 }) as any as S.Schema<ListRecommendationsRequest>;
 export interface ListReputationEntitiesRequest {
-  Filter?: ReputationEntityFilter;
+  Filter?: { [key: string]: string };
   NextToken?: string;
   PageSize?: number;
 }
@@ -3568,7 +3856,7 @@ export const ListReputationEntitiesRequest = S.suspend(() =>
   identifier: "ListReputationEntitiesRequest",
 }) as any as S.Schema<ListReputationEntitiesRequest>;
 export interface ListTagsForResourceResponse {
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: TagList }),
@@ -3577,7 +3865,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListTenantResourcesRequest {
   TenantName: string;
-  Filter?: ListTenantResourcesFilter;
+  Filter?: { [key: string]: string };
   PageSize?: number;
   NextToken?: string;
 }
@@ -3602,7 +3890,7 @@ export const ListTenantResourcesRequest = S.suspend(() =>
 }) as any as S.Schema<ListTenantResourcesRequest>;
 export interface PutConfigurationSetSuppressionOptionsRequest {
   ConfigurationSetName: string;
-  SuppressedReasons?: SuppressionListReasons;
+  SuppressedReasons?: SuppressionListReason[];
   ValidationOptions?: SuppressionValidationOptions;
 }
 export const PutConfigurationSetSuppressionOptionsRequest = S.suspend(() =>
@@ -3633,13 +3921,13 @@ export const PutConfigurationSetSuppressionOptionsResponse = S.suspend(() =>
   identifier: "PutConfigurationSetSuppressionOptionsResponse",
 }) as any as S.Schema<PutConfigurationSetSuppressionOptionsResponse>;
 export interface PutEmailIdentityDkimSigningAttributesResponse {
-  DkimStatus?: string;
-  DkimTokens?: DnsTokenList;
+  DkimStatus?: DkimStatus;
+  DkimTokens?: string[];
   SigningHostedZone?: string;
 }
 export const PutEmailIdentityDkimSigningAttributesResponse = S.suspend(() =>
   S.Struct({
-    DkimStatus: S.optional(S.String),
+    DkimStatus: S.optional(DkimStatus),
     DkimTokens: S.optional(DnsTokenList),
     SigningHostedZone: S.optional(S.String),
   }),
@@ -3671,8 +3959,8 @@ export const Body = S.suspend(() =>
 export interface Message {
   Subject: Content;
   Body: Body;
-  Headers?: MessageHeaderList;
-  Attachments?: AttachmentList;
+  Headers?: MessageHeader[];
+  Attachments?: Attachment[];
 }
 export const Message = S.suspend(() =>
   S.Struct({
@@ -3704,11 +3992,11 @@ export interface SendEmailRequest {
   FromEmailAddress?: string;
   FromEmailAddressIdentityArn?: string;
   Destination?: Destination;
-  ReplyToAddresses?: EmailAddressList;
+  ReplyToAddresses?: string[];
   FeedbackForwardingEmailAddress?: string;
   FeedbackForwardingEmailAddressIdentityArn?: string;
   Content: EmailContent;
-  EmailTags?: MessageTagList;
+  EmailTags?: MessageTag[];
   ConfigurationSetName?: string;
   EndpointId?: string;
   TenantName?: string;
@@ -3749,8 +4037,10 @@ export const TestRenderEmailTemplateResponse = S.suspend(() =>
 ).annotations({
   identifier: "TestRenderEmailTemplateResponse",
 }) as any as S.Schema<TestRenderEmailTemplateResponse>;
-export type Dimensions = { [key: string]: string };
-export const Dimensions = S.Record({ key: S.String, value: S.String });
+export type Dimensions = { [key in MetricDimensionName]?: string };
+export const Dimensions = S.partial(
+  S.Record({ key: MetricDimensionName, value: S.String }),
+);
 export interface RouteDetails {
   Region: string;
 }
@@ -3760,14 +4050,50 @@ export const RouteDetails = S.suspend(() =>
 export type RoutesDetails = RouteDetails[];
 export const RoutesDetails = S.Array(RouteDetails);
 export interface ReviewDetails {
-  Status?: string;
+  Status?: ReviewStatus;
   CaseId?: string;
 }
 export const ReviewDetails = S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String), CaseId: S.optional(S.String) }),
+  S.Struct({ Status: S.optional(ReviewStatus), CaseId: S.optional(S.String) }),
 ).annotations({
   identifier: "ReviewDetails",
 }) as any as S.Schema<ReviewDetails>;
+export type MailFromDomainStatus =
+  | "PENDING"
+  | "SUCCESS"
+  | "FAILED"
+  | "TEMPORARY_FAILURE";
+export const MailFromDomainStatus = S.Literal(
+  "PENDING",
+  "SUCCESS",
+  "FAILED",
+  "TEMPORARY_FAILURE",
+);
+export type VerificationError =
+  | "SERVICE_ERROR"
+  | "DNS_SERVER_ERROR"
+  | "HOST_NOT_FOUND"
+  | "TYPE_NOT_FOUND"
+  | "INVALID_VALUE"
+  | "REPLICATION_ACCESS_DENIED"
+  | "REPLICATION_PRIMARY_NOT_FOUND"
+  | "REPLICATION_PRIMARY_BYO_DKIM_NOT_SUPPORTED"
+  | "REPLICATION_REPLICA_AS_PRIMARY_NOT_SUPPORTED"
+  | "REPLICATION_PRIMARY_INVALID_REGION";
+export const VerificationError = S.Literal(
+  "SERVICE_ERROR",
+  "DNS_SERVER_ERROR",
+  "HOST_NOT_FOUND",
+  "TYPE_NOT_FOUND",
+  "INVALID_VALUE",
+  "REPLICATION_ACCESS_DENIED",
+  "REPLICATION_PRIMARY_NOT_FOUND",
+  "REPLICATION_PRIMARY_BYO_DKIM_NOT_SUPPORTED",
+  "REPLICATION_REPLICA_AS_PRIMARY_NOT_SUPPORTED",
+  "REPLICATION_PRIMARY_INVALID_REGION",
+);
+export type RecommendationImpact = "LOW" | "HIGH";
+export const RecommendationImpact = S.Literal("LOW", "HIGH");
 export interface TopicFilter {
   TopicName?: string;
   UseDefaultIfPreferenceUnavailable?: boolean;
@@ -3782,29 +4108,48 @@ export type Regions = string[];
 export const Regions = S.Array(S.String);
 export type ExportDimensionValue = string[];
 export const ExportDimensionValue = S.Array(S.String);
-export type EmailAddressFilterList = string | Redacted.Redacted<string>[];
+export type MetricAggregation = "RATE" | "VOLUME";
+export const MetricAggregation = S.Literal("RATE", "VOLUME");
+export type EmailAddressFilterList = string | redacted.Redacted<string>[];
 export const EmailAddressFilterList = S.Array(SensitiveString);
-export type EmailSubjectFilterList = string | Redacted.Redacted<string>[];
+export type EmailSubjectFilterList = string | redacted.Redacted<string>[];
 export const EmailSubjectFilterList = S.Array(SensitiveString);
 export type IspFilterList = string[];
 export const IspFilterList = S.Array(S.String);
-export type LastDeliveryEventList = string[];
-export const LastDeliveryEventList = S.Array(S.String);
-export type LastEngagementEventList = string[];
-export const LastEngagementEventList = S.Array(S.String);
+export type DeliveryEventType =
+  | "SEND"
+  | "DELIVERY"
+  | "TRANSIENT_BOUNCE"
+  | "PERMANENT_BOUNCE"
+  | "UNDETERMINED_BOUNCE"
+  | "COMPLAINT";
+export const DeliveryEventType = S.Literal(
+  "SEND",
+  "DELIVERY",
+  "TRANSIENT_BOUNCE",
+  "PERMANENT_BOUNCE",
+  "UNDETERMINED_BOUNCE",
+  "COMPLAINT",
+);
+export type LastDeliveryEventList = DeliveryEventType[];
+export const LastDeliveryEventList = S.Array(DeliveryEventType);
+export type EngagementEventType = "OPEN" | "CLICK";
+export const EngagementEventType = S.Literal("OPEN", "CLICK");
+export type LastEngagementEventList = EngagementEventType[];
+export const LastEngagementEventList = S.Array(EngagementEventType);
 export interface BatchGetMetricDataQuery {
   Id: string;
-  Namespace: string;
-  Metric: string;
-  Dimensions?: Dimensions;
+  Namespace: MetricNamespace;
+  Metric: Metric;
+  Dimensions?: { [key: string]: string };
   StartDate: Date;
   EndDate: Date;
 }
 export const BatchGetMetricDataQuery = S.suspend(() =>
   S.Struct({
     Id: S.String,
-    Namespace: S.String,
-    Metric: S.String,
+    Namespace: MetricNamespace,
+    Metric: Metric,
     Dimensions: S.optional(Dimensions),
     StartDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     EndDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -3815,24 +4160,24 @@ export const BatchGetMetricDataQuery = S.suspend(() =>
 export type BatchGetMetricDataQueries = BatchGetMetricDataQuery[];
 export const BatchGetMetricDataQueries = S.Array(BatchGetMetricDataQuery);
 export interface Details {
-  RoutesDetails: RoutesDetails;
+  RoutesDetails: RouteDetails[];
 }
 export const Details = S.suspend(() =>
   S.Struct({ RoutesDetails: RoutesDetails }),
 ).annotations({ identifier: "Details" }) as any as S.Schema<Details>;
 export interface AccountDetails {
-  MailType?: string;
-  WebsiteURL?: string | Redacted.Redacted<string>;
-  ContactLanguage?: string;
-  UseCaseDescription?: string | Redacted.Redacted<string>;
-  AdditionalContactEmailAddresses?: AdditionalContactEmailAddresses;
+  MailType?: MailType;
+  WebsiteURL?: string | redacted.Redacted<string>;
+  ContactLanguage?: ContactLanguage;
+  UseCaseDescription?: string | redacted.Redacted<string>;
+  AdditionalContactEmailAddresses?: string | redacted.Redacted<string>[];
   ReviewDetails?: ReviewDetails;
 }
 export const AccountDetails = S.suspend(() =>
   S.Struct({
-    MailType: S.optional(S.String),
+    MailType: S.optional(MailType),
     WebsiteURL: S.optional(SensitiveString),
-    ContactLanguage: S.optional(S.String),
+    ContactLanguage: S.optional(ContactLanguage),
     UseCaseDescription: S.optional(SensitiveString),
     AdditionalContactEmailAddresses: S.optional(
       AdditionalContactEmailAddresses,
@@ -3845,7 +4190,7 @@ export const AccountDetails = S.suspend(() =>
 export interface EventDestination {
   Name: string;
   Enabled?: boolean;
-  MatchingEventTypes: EventTypes;
+  MatchingEventTypes: EventType[];
   KinesisFirehoseDestination?: KinesisFirehoseDestination;
   CloudWatchDestination?: CloudWatchDestination;
   SnsDestination?: SnsDestination;
@@ -3870,10 +4215,10 @@ export type EventDestinations = EventDestination[];
 export const EventDestinations = S.Array(EventDestination);
 export interface DedicatedIpPool {
   PoolName: string;
-  ScalingMode: string;
+  ScalingMode: ScalingMode;
 }
 export const DedicatedIpPool = S.suspend(() =>
-  S.Struct({ PoolName: S.String, ScalingMode: S.String }),
+  S.Struct({ PoolName: S.String, ScalingMode: ScalingMode }),
 ).annotations({
   identifier: "DedicatedIpPool",
 }) as any as S.Schema<DedicatedIpPool>;
@@ -3946,7 +4291,7 @@ export const DomainIspPlacements = S.Array(DomainIspPlacement);
 export interface DailyVolume {
   StartDate?: Date;
   VolumeStatistics?: VolumeStatistics;
-  DomainIspPlacements?: DomainIspPlacements;
+  DomainIspPlacements?: DomainIspPlacement[];
 }
 export const DailyVolume = S.suspend(() =>
   S.Struct({
@@ -3959,23 +4304,23 @@ export type DailyVolumes = DailyVolume[];
 export const DailyVolumes = S.Array(DailyVolume);
 export interface DkimAttributes {
   SigningEnabled?: boolean;
-  Status?: string;
-  Tokens?: DnsTokenList;
+  Status?: DkimStatus;
+  Tokens?: string[];
   SigningHostedZone?: string;
-  SigningAttributesOrigin?: string;
-  NextSigningKeyLength?: string;
-  CurrentSigningKeyLength?: string;
+  SigningAttributesOrigin?: DkimSigningAttributesOrigin;
+  NextSigningKeyLength?: DkimSigningKeyLength;
+  CurrentSigningKeyLength?: DkimSigningKeyLength;
   LastKeyGenerationTimestamp?: Date;
 }
 export const DkimAttributes = S.suspend(() =>
   S.Struct({
     SigningEnabled: S.optional(S.Boolean),
-    Status: S.optional(S.String),
+    Status: S.optional(DkimStatus),
     Tokens: S.optional(DnsTokenList),
     SigningHostedZone: S.optional(S.String),
-    SigningAttributesOrigin: S.optional(S.String),
-    NextSigningKeyLength: S.optional(S.String),
-    CurrentSigningKeyLength: S.optional(S.String),
+    SigningAttributesOrigin: S.optional(DkimSigningAttributesOrigin),
+    NextSigningKeyLength: S.optional(DkimSigningKeyLength),
+    CurrentSigningKeyLength: S.optional(DkimSigningKeyLength),
     LastKeyGenerationTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -3985,14 +4330,14 @@ export const DkimAttributes = S.suspend(() =>
 }) as any as S.Schema<DkimAttributes>;
 export interface MailFromAttributes {
   MailFromDomain: string;
-  MailFromDomainStatus: string;
-  BehaviorOnMxFailure: string;
+  MailFromDomainStatus: MailFromDomainStatus;
+  BehaviorOnMxFailure: BehaviorOnMxFailure;
 }
 export const MailFromAttributes = S.suspend(() =>
   S.Struct({
     MailFromDomain: S.String,
-    MailFromDomainStatus: S.String,
-    BehaviorOnMxFailure: S.String,
+    MailFromDomainStatus: MailFromDomainStatus,
+    BehaviorOnMxFailure: BehaviorOnMxFailure,
   }),
 ).annotations({
   identifier: "MailFromAttributes",
@@ -4022,8 +4367,8 @@ export interface Tenant {
   TenantId?: string;
   TenantArn?: string;
   CreatedTimestamp?: Date;
-  Tags?: TagList;
-  SendingStatus?: string;
+  Tags?: Tag[];
+  SendingStatus?: SendingStatus;
 }
 export const Tenant = S.suspend(() =>
   S.Struct({
@@ -4034,7 +4379,7 @@ export const Tenant = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     Tags: S.optional(TagList),
-    SendingStatus: S.optional(S.String),
+    SendingStatus: S.optional(SendingStatus),
   }),
 ).annotations({ identifier: "Tenant" }) as any as S.Schema<Tenant>;
 export interface ContactList {
@@ -4052,12 +4397,12 @@ export const ContactList = S.suspend(() =>
 export type ListOfContactLists = ContactList[];
 export const ListOfContactLists = S.Array(ContactList);
 export interface ListContactsFilter {
-  FilteredStatus?: string;
+  FilteredStatus?: SubscriptionStatus;
   TopicFilter?: TopicFilter;
 }
 export const ListContactsFilter = S.suspend(() =>
   S.Struct({
-    FilteredStatus: S.optional(S.String),
+    FilteredStatus: S.optional(SubscriptionStatus),
     TopicFilter: S.optional(TopicFilter),
   }),
 ).annotations({
@@ -4087,17 +4432,17 @@ export const CustomVerificationEmailTemplatesList = S.Array(
   CustomVerificationEmailTemplateMetadata,
 );
 export interface IdentityInfo {
-  IdentityType?: string;
+  IdentityType?: IdentityType;
   IdentityName?: string;
   SendingEnabled?: boolean;
-  VerificationStatus?: string;
+  VerificationStatus?: VerificationStatus;
 }
 export const IdentityInfo = S.suspend(() =>
   S.Struct({
-    IdentityType: S.optional(S.String),
+    IdentityType: S.optional(IdentityType),
     IdentityName: S.optional(S.String),
     SendingEnabled: S.optional(S.Boolean),
-    VerificationStatus: S.optional(S.String),
+    VerificationStatus: S.optional(VerificationStatus),
   }),
 ).annotations({ identifier: "IdentityInfo" }) as any as S.Schema<IdentityInfo>;
 export type IdentityInfoList = IdentityInfo[];
@@ -4120,16 +4465,16 @@ export type EmailTemplateMetadataList = EmailTemplateMetadata[];
 export const EmailTemplateMetadataList = S.Array(EmailTemplateMetadata);
 export interface ExportJobSummary {
   JobId?: string;
-  ExportSourceType?: string;
-  JobStatus?: string;
+  ExportSourceType?: ExportSourceType;
+  JobStatus?: JobStatus;
   CreatedTimestamp?: Date;
   CompletedTimestamp?: Date;
 }
 export const ExportJobSummary = S.suspend(() =>
   S.Struct({
     JobId: S.optional(S.String),
-    ExportSourceType: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    ExportSourceType: S.optional(ExportSourceType),
+    JobStatus: S.optional(JobStatus),
     CreatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -4145,7 +4490,7 @@ export const ExportJobSummaryList = S.Array(ExportJobSummary);
 export interface ImportJobSummary {
   JobId?: string;
   ImportDestination?: ImportDestination;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   CreatedTimestamp?: Date;
   ProcessedRecordsCount?: number;
   FailedRecordsCount?: number;
@@ -4154,7 +4499,7 @@ export const ImportJobSummary = S.suspend(() =>
   S.Struct({
     JobId: S.optional(S.String),
     ImportDestination: S.optional(ImportDestination),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     CreatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -4168,16 +4513,16 @@ export type ImportJobSummaryList = ImportJobSummary[];
 export const ImportJobSummaryList = S.Array(ImportJobSummary);
 export interface MultiRegionEndpoint {
   EndpointName?: string;
-  Status?: string;
+  Status?: Status;
   EndpointId?: string;
-  Regions?: Regions;
+  Regions?: string[];
   CreatedTimestamp?: Date;
   LastUpdatedTimestamp?: Date;
 }
 export const MultiRegionEndpoint = S.suspend(() =>
   S.Struct({
     EndpointName: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(Status),
     EndpointId: S.optional(S.String),
     Regions: S.optional(Regions),
     CreatedTimestamp: S.optional(
@@ -4193,13 +4538,13 @@ export const MultiRegionEndpoint = S.suspend(() =>
 export type MultiRegionEndpoints = MultiRegionEndpoint[];
 export const MultiRegionEndpoints = S.Array(MultiRegionEndpoint);
 export interface StatusRecord {
-  Status?: string;
+  Status?: SendingStatus;
   Cause?: string;
   LastUpdatedTimestamp?: Date;
 }
 export const StatusRecord = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(SendingStatus),
     Cause: S.optional(S.String),
     LastUpdatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -4208,22 +4553,22 @@ export const StatusRecord = S.suspend(() =>
 ).annotations({ identifier: "StatusRecord" }) as any as S.Schema<StatusRecord>;
 export interface ReputationEntity {
   ReputationEntityReference?: string;
-  ReputationEntityType?: string;
+  ReputationEntityType?: ReputationEntityType;
   ReputationManagementPolicy?: string;
   CustomerManagedStatus?: StatusRecord;
   AwsSesManagedStatus?: StatusRecord;
-  SendingStatusAggregate?: string;
-  ReputationImpact?: string;
+  SendingStatusAggregate?: SendingStatus;
+  ReputationImpact?: RecommendationImpact;
 }
 export const ReputationEntity = S.suspend(() =>
   S.Struct({
     ReputationEntityReference: S.optional(S.String),
-    ReputationEntityType: S.optional(S.String),
+    ReputationEntityType: S.optional(ReputationEntityType),
     ReputationManagementPolicy: S.optional(S.String),
     CustomerManagedStatus: S.optional(StatusRecord),
     AwsSesManagedStatus: S.optional(StatusRecord),
-    SendingStatusAggregate: S.optional(S.String),
-    ReputationImpact: S.optional(S.String),
+    SendingStatusAggregate: S.optional(SendingStatus),
+    ReputationImpact: S.optional(RecommendationImpact),
   }),
 ).annotations({
   identifier: "ReputationEntity",
@@ -4252,13 +4597,13 @@ export type ResourceTenantMetadataList = ResourceTenantMetadata[];
 export const ResourceTenantMetadataList = S.Array(ResourceTenantMetadata);
 export interface SuppressedDestinationSummary {
   EmailAddress: string;
-  Reason: string;
+  Reason: SuppressionListReason;
   LastUpdateTime: Date;
 }
 export const SuppressedDestinationSummary = S.suspend(() =>
   S.Struct({
     EmailAddress: S.String,
-    Reason: S.String,
+    Reason: SuppressionListReason,
     LastUpdateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
 ).annotations({
@@ -4286,27 +4631,29 @@ export const TenantInfo = S.suspend(() =>
 ).annotations({ identifier: "TenantInfo" }) as any as S.Schema<TenantInfo>;
 export type TenantInfoList = TenantInfo[];
 export const TenantInfoList = S.Array(TenantInfo);
-export type ExportDimensions = { [key: string]: ExportDimensionValue };
-export const ExportDimensions = S.Record({
-  key: S.String,
-  value: ExportDimensionValue,
-});
+export type ExportDimensions = { [key in MetricDimensionName]?: string[] };
+export const ExportDimensions = S.partial(
+  S.Record({ key: MetricDimensionName, value: ExportDimensionValue }),
+);
 export interface ExportMetric {
-  Name?: string;
-  Aggregation?: string;
+  Name?: Metric;
+  Aggregation?: MetricAggregation;
 }
 export const ExportMetric = S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Aggregation: S.optional(S.String) }),
+  S.Struct({
+    Name: S.optional(Metric),
+    Aggregation: S.optional(MetricAggregation),
+  }),
 ).annotations({ identifier: "ExportMetric" }) as any as S.Schema<ExportMetric>;
 export type ExportMetrics = ExportMetric[];
 export const ExportMetrics = S.Array(ExportMetric);
 export interface MessageInsightsFilters {
-  FromEmailAddress?: EmailAddressFilterList;
-  Destination?: EmailAddressFilterList;
-  Subject?: EmailSubjectFilterList;
-  Isp?: IspFilterList;
-  LastDeliveryEvent?: LastDeliveryEventList;
-  LastEngagementEvent?: LastEngagementEventList;
+  FromEmailAddress?: string | redacted.Redacted<string>[];
+  Destination?: string | redacted.Redacted<string>[];
+  Subject?: string | redacted.Redacted<string>[];
+  Isp?: string[];
+  LastDeliveryEvent?: DeliveryEventType[];
+  LastEngagementEvent?: EngagementEventType[];
 }
 export const MessageInsightsFilters = S.suspend(() =>
   S.Struct({
@@ -4320,6 +4667,12 @@ export const MessageInsightsFilters = S.suspend(() =>
 ).annotations({
   identifier: "MessageInsightsFilters",
 }) as any as S.Schema<MessageInsightsFilters>;
+export type EmailAddressInsightsConfidenceVerdict = "LOW" | "MEDIUM" | "HIGH";
+export const EmailAddressInsightsConfidenceVerdict = S.Literal(
+  "LOW",
+  "MEDIUM",
+  "HIGH",
+);
 export interface ReplacementTemplate {
   ReplacementTemplateData?: string;
 }
@@ -4329,7 +4682,7 @@ export const ReplacementTemplate = S.suspend(() =>
   identifier: "ReplacementTemplate",
 }) as any as S.Schema<ReplacementTemplate>;
 export interface BatchGetMetricDataRequest {
-  Queries: BatchGetMetricDataQueries;
+  Queries: BatchGetMetricDataQuery[];
 }
 export const BatchGetMetricDataRequest = S.suspend(() =>
   S.Struct({ Queries: BatchGetMetricDataQueries }).pipe(
@@ -4351,7 +4704,7 @@ export interface CreateConfigurationSetRequest {
   DeliveryOptions?: DeliveryOptions;
   ReputationOptions?: ReputationOptions;
   SendingOptions?: SendingOptions;
-  Tags?: TagList;
+  Tags?: Tag[];
   SuppressionOptions?: SuppressionOptions;
   VdmOptions?: VdmOptions;
   ArchivingOptions?: ArchivingOptions;
@@ -4387,13 +4740,13 @@ export const CreateConfigurationSetResponse = S.suspend(() =>
   identifier: "CreateConfigurationSetResponse",
 }) as any as S.Schema<CreateConfigurationSetResponse>;
 export interface CreateEmailIdentityResponse {
-  IdentityType?: string;
+  IdentityType?: IdentityType;
   VerifiedForSendingStatus?: boolean;
   DkimAttributes?: DkimAttributes;
 }
 export const CreateEmailIdentityResponse = S.suspend(() =>
   S.Struct({
-    IdentityType: S.optional(S.String),
+    IdentityType: S.optional(IdentityType),
     VerifiedForSendingStatus: S.optional(S.Boolean),
     DkimAttributes: S.optional(DkimAttributes),
   }),
@@ -4424,7 +4777,7 @@ export const CreateImportJobRequest = S.suspend(() =>
 export interface CreateMultiRegionEndpointRequest {
   EndpointName: string;
   Details: Details;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateMultiRegionEndpointRequest = S.suspend(() =>
   S.Struct({
@@ -4469,7 +4822,7 @@ export const GetAccountResponse = S.suspend(() =>
   identifier: "GetAccountResponse",
 }) as any as S.Schema<GetAccountResponse>;
 export interface GetConfigurationSetEventDestinationsResponse {
-  EventDestinations?: EventDestinations;
+  EventDestinations?: EventDestination[];
 }
 export const GetConfigurationSetEventDestinationsResponse = S.suspend(() =>
   S.Struct({ EventDestinations: S.optional(EventDestinations) }),
@@ -4495,9 +4848,9 @@ export const GetDedicatedIpPoolResponse = S.suspend(() =>
 export interface GetDeliverabilityDashboardOptionsResponse {
   DashboardEnabled: boolean;
   SubscriptionExpiryDate?: Date;
-  AccountStatus?: string;
-  ActiveSubscribedDomains?: DomainDeliverabilityTrackingOptions;
-  PendingExpirationSubscribedDomains?: DomainDeliverabilityTrackingOptions;
+  AccountStatus?: DeliverabilityDashboardAccountStatus;
+  ActiveSubscribedDomains?: DomainDeliverabilityTrackingOption[];
+  PendingExpirationSubscribedDomains?: DomainDeliverabilityTrackingOption[];
 }
 export const GetDeliverabilityDashboardOptionsResponse = S.suspend(() =>
   S.Struct({
@@ -4505,7 +4858,7 @@ export const GetDeliverabilityDashboardOptionsResponse = S.suspend(() =>
     SubscriptionExpiryDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    AccountStatus: S.optional(S.String),
+    AccountStatus: S.optional(DeliverabilityDashboardAccountStatus),
     ActiveSubscribedDomains: S.optional(DomainDeliverabilityTrackingOptions),
     PendingExpirationSubscribedDomains: S.optional(
       DomainDeliverabilityTrackingOptions,
@@ -4517,9 +4870,9 @@ export const GetDeliverabilityDashboardOptionsResponse = S.suspend(() =>
 export interface GetDeliverabilityTestReportResponse {
   DeliverabilityTestReport: DeliverabilityTestReport;
   OverallPlacement: PlacementStatistics;
-  IspPlacements: IspPlacements;
+  IspPlacements: IspPlacement[];
   Message?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const GetDeliverabilityTestReportResponse = S.suspend(() =>
   S.Struct({
@@ -4541,16 +4894,16 @@ export const GetDomainDeliverabilityCampaignResponse = S.suspend(() =>
   identifier: "GetDomainDeliverabilityCampaignResponse",
 }) as any as S.Schema<GetDomainDeliverabilityCampaignResponse>;
 export interface MetricsDataSource {
-  Dimensions: ExportDimensions;
-  Namespace: string;
-  Metrics: ExportMetrics;
+  Dimensions: { [key: string]: string[] };
+  Namespace: MetricNamespace;
+  Metrics: ExportMetric[];
   StartDate: Date;
   EndDate: Date;
 }
 export const MetricsDataSource = S.suspend(() =>
   S.Struct({
     Dimensions: ExportDimensions,
-    Namespace: S.String,
+    Namespace: MetricNamespace,
     Metrics: ExportMetrics,
     StartDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     EndDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -4590,8 +4943,8 @@ export const ExportDataSource = S.suspend(() =>
 }) as any as S.Schema<ExportDataSource>;
 export interface GetExportJobResponse {
   JobId?: string;
-  ExportSourceType?: string;
-  JobStatus?: string;
+  ExportSourceType?: ExportSourceType;
+  JobStatus?: JobStatus;
   ExportDestination?: ExportDestination;
   ExportDataSource?: ExportDataSource;
   CreatedTimestamp?: Date;
@@ -4602,8 +4955,8 @@ export interface GetExportJobResponse {
 export const GetExportJobResponse = S.suspend(() =>
   S.Struct({
     JobId: S.optional(S.String),
-    ExportSourceType: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    ExportSourceType: S.optional(ExportSourceType),
+    JobStatus: S.optional(JobStatus),
     ExportDestination: S.optional(ExportDestination),
     ExportDataSource: S.optional(ExportDataSource),
     CreatedTimestamp: S.optional(
@@ -4621,8 +4974,8 @@ export const GetExportJobResponse = S.suspend(() =>
 export interface GetMultiRegionEndpointResponse {
   EndpointName?: string;
   EndpointId?: string;
-  Routes?: Routes;
-  Status?: string;
+  Routes?: Route[];
+  Status?: Status;
   CreatedTimestamp?: Date;
   LastUpdatedTimestamp?: Date;
 }
@@ -4631,7 +4984,7 @@ export const GetMultiRegionEndpointResponse = S.suspend(() =>
     EndpointName: S.optional(S.String),
     EndpointId: S.optional(S.String),
     Routes: S.optional(Routes),
-    Status: S.optional(S.String),
+    Status: S.optional(Status),
     CreatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -4651,7 +5004,7 @@ export const GetTenantResponse = S.suspend(() =>
   identifier: "GetTenantResponse",
 }) as any as S.Schema<GetTenantResponse>;
 export interface ListContactListsResponse {
-  ContactLists?: ListOfContactLists;
+  ContactLists?: ContactList[];
   NextToken?: string;
 }
 export const ListContactListsResponse = S.suspend(() =>
@@ -4691,7 +5044,7 @@ export const ListContactsRequest = S.suspend(() =>
   identifier: "ListContactsRequest",
 }) as any as S.Schema<ListContactsRequest>;
 export interface ListCustomVerificationEmailTemplatesResponse {
-  CustomVerificationEmailTemplates?: CustomVerificationEmailTemplatesList;
+  CustomVerificationEmailTemplates?: CustomVerificationEmailTemplateMetadata[];
   NextToken?: string;
 }
 export const ListCustomVerificationEmailTemplatesResponse = S.suspend(() =>
@@ -4705,7 +5058,7 @@ export const ListCustomVerificationEmailTemplatesResponse = S.suspend(() =>
   identifier: "ListCustomVerificationEmailTemplatesResponse",
 }) as any as S.Schema<ListCustomVerificationEmailTemplatesResponse>;
 export interface ListEmailIdentitiesResponse {
-  EmailIdentities?: IdentityInfoList;
+  EmailIdentities?: IdentityInfo[];
   NextToken?: string;
 }
 export const ListEmailIdentitiesResponse = S.suspend(() =>
@@ -4717,7 +5070,7 @@ export const ListEmailIdentitiesResponse = S.suspend(() =>
   identifier: "ListEmailIdentitiesResponse",
 }) as any as S.Schema<ListEmailIdentitiesResponse>;
 export interface ListEmailTemplatesResponse {
-  TemplatesMetadata?: EmailTemplateMetadataList;
+  TemplatesMetadata?: EmailTemplateMetadata[];
   NextToken?: string;
 }
 export const ListEmailTemplatesResponse = S.suspend(() =>
@@ -4729,7 +5082,7 @@ export const ListEmailTemplatesResponse = S.suspend(() =>
   identifier: "ListEmailTemplatesResponse",
 }) as any as S.Schema<ListEmailTemplatesResponse>;
 export interface ListExportJobsResponse {
-  ExportJobs?: ExportJobSummaryList;
+  ExportJobs?: ExportJobSummary[];
   NextToken?: string;
 }
 export const ListExportJobsResponse = S.suspend(() =>
@@ -4741,7 +5094,7 @@ export const ListExportJobsResponse = S.suspend(() =>
   identifier: "ListExportJobsResponse",
 }) as any as S.Schema<ListExportJobsResponse>;
 export interface ListImportJobsResponse {
-  ImportJobs?: ImportJobSummaryList;
+  ImportJobs?: ImportJobSummary[];
   NextToken?: string;
 }
 export const ListImportJobsResponse = S.suspend(() =>
@@ -4753,7 +5106,7 @@ export const ListImportJobsResponse = S.suspend(() =>
   identifier: "ListImportJobsResponse",
 }) as any as S.Schema<ListImportJobsResponse>;
 export interface ListMultiRegionEndpointsResponse {
-  MultiRegionEndpoints?: MultiRegionEndpoints;
+  MultiRegionEndpoints?: MultiRegionEndpoint[];
   NextToken?: string;
 }
 export const ListMultiRegionEndpointsResponse = S.suspend(() =>
@@ -4765,7 +5118,7 @@ export const ListMultiRegionEndpointsResponse = S.suspend(() =>
   identifier: "ListMultiRegionEndpointsResponse",
 }) as any as S.Schema<ListMultiRegionEndpointsResponse>;
 export interface ListReputationEntitiesResponse {
-  ReputationEntities?: ReputationEntitiesList;
+  ReputationEntities?: ReputationEntity[];
   NextToken?: string;
 }
 export const ListReputationEntitiesResponse = S.suspend(() =>
@@ -4777,7 +5130,7 @@ export const ListReputationEntitiesResponse = S.suspend(() =>
   identifier: "ListReputationEntitiesResponse",
 }) as any as S.Schema<ListReputationEntitiesResponse>;
 export interface ListResourceTenantsResponse {
-  ResourceTenants?: ResourceTenantMetadataList;
+  ResourceTenants?: ResourceTenantMetadata[];
   NextToken?: string;
 }
 export const ListResourceTenantsResponse = S.suspend(() =>
@@ -4789,7 +5142,7 @@ export const ListResourceTenantsResponse = S.suspend(() =>
   identifier: "ListResourceTenantsResponse",
 }) as any as S.Schema<ListResourceTenantsResponse>;
 export interface ListSuppressedDestinationsResponse {
-  SuppressedDestinationSummaries?: SuppressedDestinationSummaries;
+  SuppressedDestinationSummaries?: SuppressedDestinationSummary[];
   NextToken?: string;
 }
 export const ListSuppressedDestinationsResponse = S.suspend(() =>
@@ -4801,7 +5154,7 @@ export const ListSuppressedDestinationsResponse = S.suspend(() =>
   identifier: "ListSuppressedDestinationsResponse",
 }) as any as S.Schema<ListSuppressedDestinationsResponse>;
 export interface ListTenantsResponse {
-  Tenants?: TenantInfoList;
+  Tenants?: TenantInfo[];
   NextToken?: string;
 }
 export const ListTenantsResponse = S.suspend(() =>
@@ -4837,10 +5190,12 @@ export const BlacklistEntry = S.suspend(() =>
 export type BlacklistEntries = BlacklistEntry[];
 export const BlacklistEntries = S.Array(BlacklistEntry);
 export interface EmailAddressInsightsVerdict {
-  ConfidenceVerdict?: string;
+  ConfidenceVerdict?: EmailAddressInsightsConfidenceVerdict;
 }
 export const EmailAddressInsightsVerdict = S.suspend(() =>
-  S.Struct({ ConfidenceVerdict: S.optional(S.String) }),
+  S.Struct({
+    ConfidenceVerdict: S.optional(EmailAddressInsightsConfidenceVerdict),
+  }),
 ).annotations({
   identifier: "EmailAddressInsightsVerdict",
 }) as any as S.Schema<EmailAddressInsightsVerdict>;
@@ -4888,6 +5243,36 @@ export const SuppressedDestinationAttributes = S.suspend(() =>
 ).annotations({
   identifier: "SuppressedDestinationAttributes",
 }) as any as S.Schema<SuppressedDestinationAttributes>;
+export type RecommendationType =
+  | "DKIM"
+  | "DMARC"
+  | "SPF"
+  | "BIMI"
+  | "COMPLAINT"
+  | "BOUNCE"
+  | "FEEDBACK_3P"
+  | "IP_LISTING";
+export const RecommendationType = S.Literal(
+  "DKIM",
+  "DMARC",
+  "SPF",
+  "BIMI",
+  "COMPLAINT",
+  "BOUNCE",
+  "FEEDBACK_3P",
+  "IP_LISTING",
+);
+export type RecommendationStatus = "OPEN" | "FIXED";
+export const RecommendationStatus = S.Literal("OPEN", "FIXED");
+export type ResourceType =
+  | "EMAIL_IDENTITY"
+  | "CONFIGURATION_SET"
+  | "EMAIL_TEMPLATE";
+export const ResourceType = S.Literal(
+  "EMAIL_IDENTITY",
+  "CONFIGURATION_SET",
+  "EMAIL_TEMPLATE",
+);
 export interface ReplacementEmailContent {
   ReplacementTemplate?: ReplacementTemplate;
 }
@@ -4896,7 +5281,7 @@ export const ReplacementEmailContent = S.suspend(() =>
 ).annotations({
   identifier: "ReplacementEmailContent",
 }) as any as S.Schema<ReplacementEmailContent>;
-export type BlacklistReport = { [key: string]: BlacklistEntries };
+export type BlacklistReport = { [key: string]: BlacklistEntry[] };
 export const BlacklistReport = S.Record({
   key: S.String,
   value: BlacklistEntries,
@@ -4904,7 +5289,7 @@ export const BlacklistReport = S.Record({
 export interface OverallVolume {
   VolumeStatistics?: VolumeStatistics;
   ReadRatePercent?: number;
-  DomainIspPlacements?: DomainIspPlacements;
+  DomainIspPlacements?: DomainIspPlacement[];
 }
 export const OverallVolume = S.suspend(() =>
   S.Struct({
@@ -4930,7 +5315,7 @@ export const MailboxValidation = S.suspend(() =>
 export interface VerificationInfo {
   LastCheckedTimestamp?: Date;
   LastSuccessTimestamp?: Date;
-  ErrorType?: string;
+  ErrorType?: VerificationError;
   SOARecord?: SOARecord;
 }
 export const VerificationInfo = S.suspend(() =>
@@ -4941,7 +5326,7 @@ export const VerificationInfo = S.suspend(() =>
     LastSuccessTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    ErrorType: S.optional(S.String),
+    ErrorType: S.optional(VerificationError),
     SOARecord: S.optional(SOARecord),
   }),
 ).annotations({
@@ -4949,14 +5334,14 @@ export const VerificationInfo = S.suspend(() =>
 }) as any as S.Schema<VerificationInfo>;
 export interface SuppressedDestination {
   EmailAddress: string;
-  Reason: string;
+  Reason: SuppressionListReason;
   LastUpdateTime: Date;
   Attributes?: SuppressedDestinationAttributes;
 }
 export const SuppressedDestination = S.suspend(() =>
   S.Struct({
     EmailAddress: S.String,
-    Reason: S.String,
+    Reason: SuppressionListReason,
     LastUpdateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     Attributes: S.optional(SuppressedDestinationAttributes),
   }),
@@ -4965,26 +5350,26 @@ export const SuppressedDestination = S.suspend(() =>
 }) as any as S.Schema<SuppressedDestination>;
 export interface Recommendation {
   ResourceArn?: string;
-  Type?: string;
+  Type?: RecommendationType;
   Description?: string;
-  Status?: string;
+  Status?: RecommendationStatus;
   CreatedTimestamp?: Date;
   LastUpdatedTimestamp?: Date;
-  Impact?: string;
+  Impact?: RecommendationImpact;
 }
 export const Recommendation = S.suspend(() =>
   S.Struct({
     ResourceArn: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(RecommendationType),
     Description: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(RecommendationStatus),
     CreatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     LastUpdatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    Impact: S.optional(S.String),
+    Impact: S.optional(RecommendationImpact),
   }),
 ).annotations({
   identifier: "Recommendation",
@@ -4992,12 +5377,12 @@ export const Recommendation = S.suspend(() =>
 export type RecommendationsList = Recommendation[];
 export const RecommendationsList = S.Array(Recommendation);
 export interface TenantResource {
-  ResourceType?: string;
+  ResourceType?: ResourceType;
   ResourceArn?: string;
 }
 export const TenantResource = S.suspend(() =>
   S.Struct({
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(ResourceType),
     ResourceArn: S.optional(S.String),
   }),
 ).annotations({
@@ -5007,9 +5392,9 @@ export type TenantResourceList = TenantResource[];
 export const TenantResourceList = S.Array(TenantResource);
 export interface BulkEmailEntry {
   Destination: Destination;
-  ReplacementTags?: MessageTagList;
+  ReplacementTags?: MessageTag[];
   ReplacementEmailContent?: ReplacementEmailContent;
-  ReplacementHeaders?: MessageHeaderList;
+  ReplacementHeaders?: MessageHeader[];
 }
 export const BulkEmailEntry = S.suspend(() =>
   S.Struct({
@@ -5059,7 +5444,7 @@ export interface CreateDeliverabilityTestReportRequest {
   ReportName?: string;
   FromEmailAddress: string;
   Content: EmailContent;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateDeliverabilityTestReportRequest = S.suspend(() =>
   S.Struct({
@@ -5113,16 +5498,16 @@ export const CreateImportJobResponse = S.suspend(() =>
   identifier: "CreateImportJobResponse",
 }) as any as S.Schema<CreateImportJobResponse>;
 export interface CreateMultiRegionEndpointResponse {
-  Status?: string;
+  Status?: Status;
   EndpointId?: string;
 }
 export const CreateMultiRegionEndpointResponse = S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String), EndpointId: S.optional(S.String) }),
+  S.Struct({ Status: S.optional(Status), EndpointId: S.optional(S.String) }),
 ).annotations({
   identifier: "CreateMultiRegionEndpointResponse",
 }) as any as S.Schema<CreateMultiRegionEndpointResponse>;
 export interface GetBlacklistReportsResponse {
-  BlacklistReport: BlacklistReport;
+  BlacklistReport: { [key: string]: BlacklistEntry[] };
 }
 export const GetBlacklistReportsResponse = S.suspend(() =>
   S.Struct({ BlacklistReport: BlacklistReport }),
@@ -5131,7 +5516,7 @@ export const GetBlacklistReportsResponse = S.suspend(() =>
 }) as any as S.Schema<GetBlacklistReportsResponse>;
 export interface GetDomainStatisticsReportResponse {
   OverallVolume: OverallVolume;
-  DailyVolumes: DailyVolumes;
+  DailyVolumes: DailyVolume[];
 }
 export const GetDomainStatisticsReportResponse = S.suspend(() =>
   S.Struct({ OverallVolume: OverallVolume, DailyVolumes: DailyVolumes }),
@@ -5147,20 +5532,20 @@ export const GetEmailAddressInsightsResponse = S.suspend(() =>
   identifier: "GetEmailAddressInsightsResponse",
 }) as any as S.Schema<GetEmailAddressInsightsResponse>;
 export interface GetEmailIdentityResponse {
-  IdentityType?: string;
+  IdentityType?: IdentityType;
   FeedbackForwardingStatus?: boolean;
   VerifiedForSendingStatus?: boolean;
   DkimAttributes?: DkimAttributes;
   MailFromAttributes?: MailFromAttributes;
-  Policies?: PolicyMap;
-  Tags?: TagList;
+  Policies?: { [key: string]: string };
+  Tags?: Tag[];
   ConfigurationSetName?: string;
-  VerificationStatus?: string;
+  VerificationStatus?: VerificationStatus;
   VerificationInfo?: VerificationInfo;
 }
 export const GetEmailIdentityResponse = S.suspend(() =>
   S.Struct({
-    IdentityType: S.optional(S.String),
+    IdentityType: S.optional(IdentityType),
     FeedbackForwardingStatus: S.optional(S.Boolean),
     VerifiedForSendingStatus: S.optional(S.Boolean),
     DkimAttributes: S.optional(DkimAttributes),
@@ -5168,12 +5553,14 @@ export const GetEmailIdentityResponse = S.suspend(() =>
     Policies: S.optional(PolicyMap),
     Tags: S.optional(TagList),
     ConfigurationSetName: S.optional(S.String),
-    VerificationStatus: S.optional(S.String),
+    VerificationStatus: S.optional(VerificationStatus),
     VerificationInfo: S.optional(VerificationInfo),
   }),
 ).annotations({
   identifier: "GetEmailIdentityResponse",
 }) as any as S.Schema<GetEmailIdentityResponse>;
+export type BounceType = "UNDETERMINED" | "TRANSIENT" | "PERMANENT";
+export const BounceType = S.Literal("UNDETERMINED", "TRANSIENT", "PERMANENT");
 export interface GetReputationEntityResponse {
   ReputationEntity?: ReputationEntity;
 }
@@ -5191,7 +5578,7 @@ export const GetSuppressedDestinationResponse = S.suspend(() =>
   identifier: "GetSuppressedDestinationResponse",
 }) as any as S.Schema<GetSuppressedDestinationResponse>;
 export interface ListRecommendationsResponse {
-  Recommendations?: RecommendationsList;
+  Recommendations?: Recommendation[];
   NextToken?: string;
 }
 export const ListRecommendationsResponse = S.suspend(() =>
@@ -5203,7 +5590,7 @@ export const ListRecommendationsResponse = S.suspend(() =>
   identifier: "ListRecommendationsResponse",
 }) as any as S.Schema<ListRecommendationsResponse>;
 export interface ListTenantResourcesResponse {
-  TenantResources?: TenantResourceList;
+  TenantResources?: TenantResource[];
   NextToken?: string;
 }
 export const ListTenantResourcesResponse = S.suspend(() =>
@@ -5215,7 +5602,7 @@ export const ListTenantResourcesResponse = S.suspend(() =>
   identifier: "ListTenantResourcesResponse",
 }) as any as S.Schema<ListTenantResourcesResponse>;
 export interface PutAccountSuppressionAttributesRequest {
-  SuppressedReasons?: SuppressionListReasons;
+  SuppressedReasons?: SuppressionListReason[];
   ValidationAttributes?: SuppressionValidationAttributes;
 }
 export const PutAccountSuppressionAttributesRequest = S.suspend(() =>
@@ -5244,12 +5631,12 @@ export const PutAccountSuppressionAttributesResponse = S.suspend(() =>
 export interface SendBulkEmailRequest {
   FromEmailAddress?: string;
   FromEmailAddressIdentityArn?: string;
-  ReplyToAddresses?: EmailAddressList;
+  ReplyToAddresses?: string[];
   FeedbackForwardingEmailAddress?: string;
   FeedbackForwardingEmailAddressIdentityArn?: string;
-  DefaultEmailTags?: MessageTagList;
+  DefaultEmailTags?: MessageTag[];
   DefaultContent: BulkEmailContent;
-  BulkEmailEntries: BulkEmailEntryList;
+  BulkEmailEntries: BulkEmailEntry[];
   ConfigurationSetName?: string;
   EndpointId?: string;
   TenantName?: string;
@@ -5286,14 +5673,16 @@ export const TimestampList = S.Array(
 );
 export type MetricValueList = number[];
 export const MetricValueList = S.Array(S.Number);
+export type QueryErrorCode = "INTERNAL_FAILURE" | "ACCESS_DENIED";
+export const QueryErrorCode = S.Literal("INTERNAL_FAILURE", "ACCESS_DENIED");
 export interface Bounce {
-  BounceType?: string;
+  BounceType?: BounceType;
   BounceSubType?: string;
   DiagnosticCode?: string;
 }
 export const Bounce = S.suspend(() =>
   S.Struct({
-    BounceType: S.optional(S.String),
+    BounceType: S.optional(BounceType),
     BounceSubType: S.optional(S.String),
     DiagnosticCode: S.optional(S.String),
   }),
@@ -5310,8 +5699,8 @@ export const Complaint = S.suspend(() =>
 ).annotations({ identifier: "Complaint" }) as any as S.Schema<Complaint>;
 export interface MetricDataResult {
   Id?: string;
-  Timestamps?: TimestampList;
-  Values?: MetricValueList;
+  Timestamps?: Date[];
+  Values?: number[];
 }
 export const MetricDataResult = S.suspend(() =>
   S.Struct({
@@ -5326,13 +5715,13 @@ export type MetricDataResultList = MetricDataResult[];
 export const MetricDataResultList = S.Array(MetricDataResult);
 export interface MetricDataError {
   Id?: string;
-  Code?: string;
+  Code?: QueryErrorCode;
   Message?: string;
 }
 export const MetricDataError = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
-    Code: S.optional(S.String),
+    Code: S.optional(QueryErrorCode),
     Message: S.optional(S.String),
   }),
 ).annotations({
@@ -5342,8 +5731,8 @@ export type MetricDataErrorList = MetricDataError[];
 export const MetricDataErrorList = S.Array(MetricDataError);
 export interface Contact {
   EmailAddress?: string;
-  TopicPreferences?: TopicPreferenceList;
-  TopicDefaultPreferences?: TopicPreferenceList;
+  TopicPreferences?: TopicPreference[];
+  TopicDefaultPreferences?: TopicPreference[];
   UnsubscribeAll?: boolean;
   LastUpdatedTimestamp?: Date;
 }
@@ -5368,8 +5757,8 @@ export const EventDetails = S.suspend(() =>
   S.Struct({ Bounce: S.optional(Bounce), Complaint: S.optional(Complaint) }),
 ).annotations({ identifier: "EventDetails" }) as any as S.Schema<EventDetails>;
 export interface BatchGetMetricDataResponse {
-  Results?: MetricDataResultList;
-  Errors?: MetricDataErrorList;
+  Results?: MetricDataResult[];
+  Errors?: MetricDataError[];
 }
 export const BatchGetMetricDataResponse = S.suspend(() =>
   S.Struct({
@@ -5381,10 +5770,13 @@ export const BatchGetMetricDataResponse = S.suspend(() =>
 }) as any as S.Schema<BatchGetMetricDataResponse>;
 export interface CreateDeliverabilityTestReportResponse {
   ReportId: string;
-  DeliverabilityTestStatus: string;
+  DeliverabilityTestStatus: DeliverabilityTestStatus;
 }
 export const CreateDeliverabilityTestReportResponse = S.suspend(() =>
-  S.Struct({ ReportId: S.String, DeliverabilityTestStatus: S.String }),
+  S.Struct({
+    ReportId: S.String,
+    DeliverabilityTestStatus: DeliverabilityTestStatus,
+  }),
 ).annotations({
   identifier: "CreateDeliverabilityTestReportResponse",
 }) as any as S.Schema<CreateDeliverabilityTestReportResponse>;
@@ -5397,7 +5789,7 @@ export const CreateExportJobResponse = S.suspend(() =>
   identifier: "CreateExportJobResponse",
 }) as any as S.Schema<CreateExportJobResponse>;
 export interface ListContactsResponse {
-  Contacts?: ListOfContacts;
+  Contacts?: Contact[];
   NextToken?: string;
 }
 export const ListContactsResponse = S.suspend(() =>
@@ -5410,13 +5802,13 @@ export const ListContactsResponse = S.suspend(() =>
 }) as any as S.Schema<ListContactsResponse>;
 export interface InsightsEvent {
   Timestamp?: Date;
-  Type?: string;
+  Type?: EventType;
   Details?: EventDetails;
 }
 export const InsightsEvent = S.suspend(() =>
   S.Struct({
     Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Type: S.optional(S.String),
+    Type: S.optional(EventType),
     Details: S.optional(EventDetails),
   }),
 ).annotations({
@@ -5424,10 +5816,41 @@ export const InsightsEvent = S.suspend(() =>
 }) as any as S.Schema<InsightsEvent>;
 export type InsightsEvents = InsightsEvent[];
 export const InsightsEvents = S.Array(InsightsEvent);
+export type BulkEmailStatus =
+  | "SUCCESS"
+  | "MESSAGE_REJECTED"
+  | "MAIL_FROM_DOMAIN_NOT_VERIFIED"
+  | "CONFIGURATION_SET_NOT_FOUND"
+  | "TEMPLATE_NOT_FOUND"
+  | "ACCOUNT_SUSPENDED"
+  | "ACCOUNT_THROTTLED"
+  | "ACCOUNT_DAILY_QUOTA_EXCEEDED"
+  | "INVALID_SENDING_POOL_NAME"
+  | "ACCOUNT_SENDING_PAUSED"
+  | "CONFIGURATION_SET_SENDING_PAUSED"
+  | "INVALID_PARAMETER"
+  | "TRANSIENT_FAILURE"
+  | "FAILED";
+export const BulkEmailStatus = S.Literal(
+  "SUCCESS",
+  "MESSAGE_REJECTED",
+  "MAIL_FROM_DOMAIN_NOT_VERIFIED",
+  "CONFIGURATION_SET_NOT_FOUND",
+  "TEMPLATE_NOT_FOUND",
+  "ACCOUNT_SUSPENDED",
+  "ACCOUNT_THROTTLED",
+  "ACCOUNT_DAILY_QUOTA_EXCEEDED",
+  "INVALID_SENDING_POOL_NAME",
+  "ACCOUNT_SENDING_PAUSED",
+  "CONFIGURATION_SET_SENDING_PAUSED",
+  "INVALID_PARAMETER",
+  "TRANSIENT_FAILURE",
+  "FAILED",
+);
 export interface EmailInsights {
-  Destination?: string | Redacted.Redacted<string>;
+  Destination?: string | redacted.Redacted<string>;
   Isp?: string;
-  Events?: InsightsEvents;
+  Events?: InsightsEvent[];
 }
 export const EmailInsights = S.suspend(() =>
   S.Struct({
@@ -5441,13 +5864,13 @@ export const EmailInsights = S.suspend(() =>
 export type EmailInsightsList = EmailInsights[];
 export const EmailInsightsList = S.Array(EmailInsights);
 export interface BulkEmailEntryResult {
-  Status?: string;
+  Status?: BulkEmailStatus;
   Error?: string;
   MessageId?: string;
 }
 export const BulkEmailEntryResult = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(BulkEmailStatus),
     Error: S.optional(S.String),
     MessageId: S.optional(S.String),
   }),
@@ -5458,10 +5881,10 @@ export type BulkEmailEntryResultList = BulkEmailEntryResult[];
 export const BulkEmailEntryResultList = S.Array(BulkEmailEntryResult);
 export interface GetMessageInsightsResponse {
   MessageId?: string;
-  FromEmailAddress?: string | Redacted.Redacted<string>;
-  Subject?: string | Redacted.Redacted<string>;
-  EmailTags?: MessageTagList;
-  Insights?: EmailInsightsList;
+  FromEmailAddress?: string | redacted.Redacted<string>;
+  Subject?: string | redacted.Redacted<string>;
+  EmailTags?: MessageTag[];
+  Insights?: EmailInsights[];
 }
 export const GetMessageInsightsResponse = S.suspend(() =>
   S.Struct({
@@ -5475,7 +5898,7 @@ export const GetMessageInsightsResponse = S.suspend(() =>
   identifier: "GetMessageInsightsResponse",
 }) as any as S.Schema<GetMessageInsightsResponse>;
 export interface SendBulkEmailResponse {
-  BulkEmailEntryResults: BulkEmailEntryResultList;
+  BulkEmailEntryResults: BulkEmailEntryResult[];
 }
 export const SendBulkEmailResponse = S.suspend(() =>
   S.Struct({ BulkEmailEntryResults: BulkEmailEntryResultList }),
@@ -5550,21 +5973,21 @@ export class SendingPausedException extends S.TaggedError<SendingPausedException
 export const listConfigurationSets: {
   (
     input: ListConfigurationSetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConfigurationSetsResponse,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListConfigurationSetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConfigurationSetsResponse,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListConfigurationSetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -5588,21 +6011,21 @@ export const listConfigurationSets: {
 export const listContactLists: {
   (
     input: ListContactListsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListContactListsResponse,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListContactListsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListContactListsResponse,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListContactListsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -5630,21 +6053,21 @@ export const listContactLists: {
 export const listCustomVerificationEmailTemplates: {
   (
     input: ListCustomVerificationEmailTemplatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCustomVerificationEmailTemplatesResponse,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListCustomVerificationEmailTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCustomVerificationEmailTemplatesResponse,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListCustomVerificationEmailTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -5668,21 +6091,21 @@ export const listCustomVerificationEmailTemplates: {
 export const listEmailIdentities: {
   (
     input: ListEmailIdentitiesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEmailIdentitiesResponse,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListEmailIdentitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEmailIdentitiesResponse,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListEmailIdentitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -5706,21 +6129,21 @@ export const listEmailIdentities: {
 export const listEmailTemplates: {
   (
     input: ListEmailTemplatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEmailTemplatesResponse,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListEmailTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEmailTemplatesResponse,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListEmailTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -5741,21 +6164,21 @@ export const listEmailTemplates: {
 export const listExportJobs: {
   (
     input: ListExportJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListExportJobsResponse,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListExportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListExportJobsResponse,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListExportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -5776,21 +6199,21 @@ export const listExportJobs: {
 export const listImportJobs: {
   (
     input: ListImportJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListImportJobsResponse,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListImportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListImportJobsResponse,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListImportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -5814,21 +6237,21 @@ export const listImportJobs: {
 export const listMultiRegionEndpoints: {
   (
     input: ListMultiRegionEndpointsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMultiRegionEndpointsResponse,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListMultiRegionEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMultiRegionEndpointsResponse,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListMultiRegionEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MultiRegionEndpoint,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -5856,21 +6279,21 @@ export const listMultiRegionEndpoints: {
 export const listReputationEntities: {
   (
     input: ListReputationEntitiesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReputationEntitiesResponse,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListReputationEntitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReputationEntitiesResponse,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListReputationEntitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReputationEntity,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -5896,7 +6319,7 @@ export const listReputationEntities: {
 export const listResourceTenants: {
   (
     input: ListResourceTenantsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResourceTenantsResponse,
     | BadRequestException
     | NotFoundException
@@ -5906,7 +6329,7 @@ export const listResourceTenants: {
   >;
   pages: (
     input: ListResourceTenantsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResourceTenantsResponse,
     | BadRequestException
     | NotFoundException
@@ -5916,7 +6339,7 @@ export const listResourceTenants: {
   >;
   items: (
     input: ListResourceTenantsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResourceTenantMetadata,
     | BadRequestException
     | NotFoundException
@@ -5944,21 +6367,21 @@ export const listResourceTenants: {
 export const listTenants: {
   (
     input: ListTenantsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTenantsResponse,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListTenantsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTenantsResponse,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListTenantsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TenantInfo,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -5979,7 +6402,7 @@ export const listTenants: {
  */
 export const putAccountDetails: (
   input: PutAccountDetailsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAccountDetailsResponse,
   | BadRequestException
   | ConflictException
@@ -6003,7 +6426,7 @@ export const putAccountDetails: (
  */
 export const getConfigurationSet: (
   input: GetConfigurationSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConfigurationSetResponse,
   | BadRequestException
   | NotFoundException
@@ -6020,7 +6443,7 @@ export const getConfigurationSet: (
  */
 export const getContact: (
   input: GetContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContactResponse,
   | BadRequestException
   | NotFoundException
@@ -6038,7 +6461,7 @@ export const getContact: (
  */
 export const getContactList: (
   input: GetContactListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContactListResponse,
   | BadRequestException
   | NotFoundException
@@ -6062,7 +6485,7 @@ export const getContactList: (
  */
 export const getCustomVerificationEmailTemplate: (
   input: GetCustomVerificationEmailTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCustomVerificationEmailTemplateResponse,
   | BadRequestException
   | NotFoundException
@@ -6081,7 +6504,7 @@ export const getCustomVerificationEmailTemplate: (
 export const getDedicatedIps: {
   (
     input: GetDedicatedIpsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetDedicatedIpsResponse,
     | BadRequestException
     | NotFoundException
@@ -6091,7 +6514,7 @@ export const getDedicatedIps: {
   >;
   pages: (
     input: GetDedicatedIpsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetDedicatedIpsResponse,
     | BadRequestException
     | NotFoundException
@@ -6101,7 +6524,7 @@ export const getDedicatedIps: {
   >;
   items: (
     input: GetDedicatedIpsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | NotFoundException
@@ -6136,7 +6559,7 @@ export const getDedicatedIps: {
  */
 export const getEmailIdentityPolicies: (
   input: GetEmailIdentityPoliciesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEmailIdentityPoliciesResponse,
   | BadRequestException
   | NotFoundException
@@ -6156,7 +6579,7 @@ export const getEmailIdentityPolicies: (
  */
 export const getEmailTemplate: (
   input: GetEmailTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEmailTemplateResponse,
   | BadRequestException
   | NotFoundException
@@ -6173,7 +6596,7 @@ export const getEmailTemplate: (
  */
 export const getImportJob: (
   input: GetImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetImportJobResponse,
   | BadRequestException
   | NotFoundException
@@ -6193,7 +6616,7 @@ export const getImportJob: (
 export const listDeliverabilityTestReports: {
   (
     input: ListDeliverabilityTestReportsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDeliverabilityTestReportsResponse,
     | BadRequestException
     | NotFoundException
@@ -6203,7 +6626,7 @@ export const listDeliverabilityTestReports: {
   >;
   pages: (
     input: ListDeliverabilityTestReportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDeliverabilityTestReportsResponse,
     | BadRequestException
     | NotFoundException
@@ -6213,7 +6636,7 @@ export const listDeliverabilityTestReports: {
   >;
   items: (
     input: ListDeliverabilityTestReportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | NotFoundException
@@ -6239,7 +6662,7 @@ export const listDeliverabilityTestReports: {
 export const listDomainDeliverabilityCampaigns: {
   (
     input: ListDomainDeliverabilityCampaignsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDomainDeliverabilityCampaignsResponse,
     | BadRequestException
     | NotFoundException
@@ -6249,7 +6672,7 @@ export const listDomainDeliverabilityCampaigns: {
   >;
   pages: (
     input: ListDomainDeliverabilityCampaignsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDomainDeliverabilityCampaignsResponse,
     | BadRequestException
     | NotFoundException
@@ -6259,7 +6682,7 @@ export const listDomainDeliverabilityCampaigns: {
   >;
   items: (
     input: ListDomainDeliverabilityCampaignsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | NotFoundException
@@ -6287,7 +6710,7 @@ export const listDomainDeliverabilityCampaigns: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | BadRequestException
   | NotFoundException
@@ -6304,7 +6727,7 @@ export const listTagsForResource: (
  */
 export const putConfigurationSetSuppressionOptions: (
   input: PutConfigurationSetSuppressionOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutConfigurationSetSuppressionOptionsResponse,
   | BadRequestException
   | NotFoundException
@@ -6335,7 +6758,7 @@ export const putConfigurationSetSuppressionOptions: (
  */
 export const putEmailIdentityDkimSigningAttributes: (
   input: PutEmailIdentityDkimSigningAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutEmailIdentityDkimSigningAttributesResponse,
   | BadRequestException
   | NotFoundException
@@ -6355,7 +6778,7 @@ export const putEmailIdentityDkimSigningAttributes: (
  */
 export const testRenderEmailTemplate: (
   input: TestRenderEmailTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TestRenderEmailTemplateResponse,
   | BadRequestException
   | NotFoundException
@@ -6377,7 +6800,7 @@ export const testRenderEmailTemplate: (
  */
 export const deleteConfigurationSetEventDestination: (
   input: DeleteConfigurationSetEventDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConfigurationSetEventDestinationResponse,
   | BadRequestException
   | NotFoundException
@@ -6394,7 +6817,7 @@ export const deleteConfigurationSetEventDestination: (
  */
 export const deleteContact: (
   input: DeleteContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteContactResponse,
   | BadRequestException
   | NotFoundException
@@ -6417,7 +6840,7 @@ export const deleteContact: (
  */
 export const deleteCustomVerificationEmailTemplate: (
   input: DeleteCustomVerificationEmailTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCustomVerificationEmailTemplateResponse,
   | BadRequestException
   | NotFoundException
@@ -6446,7 +6869,7 @@ export const deleteCustomVerificationEmailTemplate: (
  */
 export const deleteEmailIdentityPolicy: (
   input: DeleteEmailIdentityPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEmailIdentityPolicyResponse,
   | BadRequestException
   | NotFoundException
@@ -6465,7 +6888,7 @@ export const deleteEmailIdentityPolicy: (
  */
 export const deleteEmailTemplate: (
   input: DeleteEmailTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEmailTemplateResponse,
   | BadRequestException
   | NotFoundException
@@ -6482,7 +6905,7 @@ export const deleteEmailTemplate: (
  */
 export const deleteSuppressedDestination: (
   input: DeleteSuppressedDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSuppressedDestinationResponse,
   | BadRequestException
   | NotFoundException
@@ -6502,7 +6925,7 @@ export const deleteSuppressedDestination: (
  */
 export const deleteTenant: (
   input: DeleteTenantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTenantResponse,
   | BadRequestException
   | NotFoundException
@@ -6523,7 +6946,7 @@ export const deleteTenant: (
  */
 export const deleteTenantResourceAssociation: (
   input: DeleteTenantResourceAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTenantResourceAssociationResponse,
   | BadRequestException
   | NotFoundException
@@ -6542,7 +6965,7 @@ export const deleteTenantResourceAssociation: (
  */
 export const putConfigurationSetArchivingOptions: (
   input: PutConfigurationSetArchivingOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutConfigurationSetArchivingOptionsResponse,
   | BadRequestException
   | NotFoundException
@@ -6560,7 +6983,7 @@ export const putConfigurationSetArchivingOptions: (
  */
 export const putConfigurationSetDeliveryOptions: (
   input: PutConfigurationSetDeliveryOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutConfigurationSetDeliveryOptionsResponse,
   | BadRequestException
   | NotFoundException
@@ -6578,7 +7001,7 @@ export const putConfigurationSetDeliveryOptions: (
  */
 export const putConfigurationSetReputationOptions: (
   input: PutConfigurationSetReputationOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutConfigurationSetReputationOptionsResponse,
   | BadRequestException
   | NotFoundException
@@ -6596,7 +7019,7 @@ export const putConfigurationSetReputationOptions: (
  */
 export const putConfigurationSetSendingOptions: (
   input: PutConfigurationSetSendingOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutConfigurationSetSendingOptionsResponse,
   | BadRequestException
   | NotFoundException
@@ -6614,7 +7037,7 @@ export const putConfigurationSetSendingOptions: (
  */
 export const putConfigurationSetTrackingOptions: (
   input: PutConfigurationSetTrackingOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutConfigurationSetTrackingOptionsResponse,
   | BadRequestException
   | NotFoundException
@@ -6633,7 +7056,7 @@ export const putConfigurationSetTrackingOptions: (
  */
 export const putConfigurationSetVdmOptions: (
   input: PutConfigurationSetVdmOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutConfigurationSetVdmOptionsResponse,
   | BadRequestException
   | NotFoundException
@@ -6656,7 +7079,7 @@ export const putConfigurationSetVdmOptions: (
  */
 export const putDedicatedIpInPool: (
   input: PutDedicatedIpInPoolRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutDedicatedIpInPoolResponse,
   | BadRequestException
   | NotFoundException
@@ -6673,7 +7096,7 @@ export const putDedicatedIpInPool: (
  */
 export const putDedicatedIpWarmupAttributes: (
   input: PutDedicatedIpWarmupAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutDedicatedIpWarmupAttributesResponse,
   | BadRequestException
   | NotFoundException
@@ -6690,7 +7113,7 @@ export const putDedicatedIpWarmupAttributes: (
  */
 export const putEmailIdentityConfigurationSetAttributes: (
   input: PutEmailIdentityConfigurationSetAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutEmailIdentityConfigurationSetAttributesResponse,
   | BadRequestException
   | NotFoundException
@@ -6707,7 +7130,7 @@ export const putEmailIdentityConfigurationSetAttributes: (
  */
 export const putEmailIdentityDkimAttributes: (
   input: PutEmailIdentityDkimAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutEmailIdentityDkimAttributesResponse,
   | BadRequestException
   | NotFoundException
@@ -6735,7 +7158,7 @@ export const putEmailIdentityDkimAttributes: (
  */
 export const putEmailIdentityFeedbackAttributes: (
   input: PutEmailIdentityFeedbackAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutEmailIdentityFeedbackAttributesResponse,
   | BadRequestException
   | NotFoundException
@@ -6753,7 +7176,7 @@ export const putEmailIdentityFeedbackAttributes: (
  */
 export const putEmailIdentityMailFromAttributes: (
   input: PutEmailIdentityMailFromAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutEmailIdentityMailFromAttributesResponse,
   | BadRequestException
   | NotFoundException
@@ -6775,7 +7198,7 @@ export const putEmailIdentityMailFromAttributes: (
  */
 export const updateConfigurationSetEventDestination: (
   input: UpdateConfigurationSetEventDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConfigurationSetEventDestinationResponse,
   | BadRequestException
   | NotFoundException
@@ -6798,7 +7221,7 @@ export const updateConfigurationSetEventDestination: (
  */
 export const updateCustomVerificationEmailTemplate: (
   input: UpdateCustomVerificationEmailTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCustomVerificationEmailTemplateResponse,
   | BadRequestException
   | NotFoundException
@@ -6827,7 +7250,7 @@ export const updateCustomVerificationEmailTemplate: (
  */
 export const updateEmailIdentityPolicy: (
   input: UpdateEmailIdentityPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEmailIdentityPolicyResponse,
   | BadRequestException
   | NotFoundException
@@ -6848,7 +7271,7 @@ export const updateEmailIdentityPolicy: (
  */
 export const updateEmailTemplate: (
   input: UpdateEmailTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEmailTemplateResponse,
   | BadRequestException
   | NotFoundException
@@ -6872,7 +7295,7 @@ export const updateEmailTemplate: (
  */
 export const createTenantResourceAssociation: (
   input: CreateTenantResourceAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTenantResourceAssociationResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -6896,7 +7319,7 @@ export const createTenantResourceAssociation: (
  */
 export const createContact: (
   input: CreateContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateContactResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -6923,7 +7346,7 @@ export const createContact: (
  */
 export const createEmailTemplate: (
   input: CreateEmailTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEmailTemplateResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -6951,7 +7374,7 @@ export const createEmailTemplate: (
  */
 export const createTenant: (
   input: CreateTenantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTenantResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -6985,7 +7408,7 @@ export const createTenant: (
  */
 export const createEmailIdentityPolicy: (
   input: CreateEmailIdentityPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEmailIdentityPolicyResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -7016,7 +7439,7 @@ export const createEmailIdentityPolicy: (
  */
 export const putDeliverabilityDashboardOption: (
   input: PutDeliverabilityDashboardOptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutDeliverabilityDashboardOptionResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -7041,7 +7464,7 @@ export const putDeliverabilityDashboardOption: (
  */
 export const createContactList: (
   input: CreateContactListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateContactListResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -7069,7 +7492,7 @@ export const createContactList: (
  */
 export const deleteConfigurationSet: (
   input: DeleteConfigurationSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConfigurationSetResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -7092,7 +7515,7 @@ export const deleteConfigurationSet: (
  */
 export const deleteContactList: (
   input: DeleteContactListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteContactListResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -7115,7 +7538,7 @@ export const deleteContactList: (
  */
 export const deleteDedicatedIpPool: (
   input: DeleteDedicatedIpPoolRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDedicatedIpPoolResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -7139,7 +7562,7 @@ export const deleteDedicatedIpPool: (
  */
 export const deleteEmailIdentity: (
   input: DeleteEmailIdentityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEmailIdentityResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -7164,7 +7587,7 @@ export const deleteEmailIdentity: (
  */
 export const putDedicatedIpPoolScalingAttributes: (
   input: PutDedicatedIpPoolScalingAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutDedicatedIpPoolScalingAttributesResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -7196,7 +7619,7 @@ export const putDedicatedIpPoolScalingAttributes: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -7219,7 +7642,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -7246,7 +7669,7 @@ export const untagResource: (
  */
 export const updateContact: (
   input: UpdateContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateContactResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -7269,7 +7692,7 @@ export const updateContact: (
  */
 export const updateContactList: (
   input: UpdateContactListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateContactListResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -7295,7 +7718,7 @@ export const updateContactList: (
  */
 export const createDedicatedIpPool: (
   input: CreateDedicatedIpPoolRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDedicatedIpPoolResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -7324,7 +7747,7 @@ export const createDedicatedIpPool: (
  */
 export const createConfigurationSet: (
   input: CreateConfigurationSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConfigurationSetResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -7379,7 +7802,7 @@ export const createConfigurationSet: (
  */
 export const createEmailIdentity: (
   input: CreateEmailIdentityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEmailIdentityResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -7408,21 +7831,21 @@ export const createEmailIdentity: (
 export const listDedicatedIpPools: {
   (
     input: ListDedicatedIpPoolsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDedicatedIpPoolsResponse,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListDedicatedIpPoolsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDedicatedIpPoolsResponse,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListDedicatedIpPoolsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     BadRequestException | TooManyRequestsException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -7442,7 +7865,7 @@ export const listDedicatedIpPools: {
  */
 export const putAccountDedicatedIpWarmupAttributes: (
   input: PutAccountDedicatedIpWarmupAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAccountDedicatedIpWarmupAttributesResponse,
   BadRequestException | TooManyRequestsException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7456,7 +7879,7 @@ export const putAccountDedicatedIpWarmupAttributes: (
  */
 export const putAccountSendingAttributes: (
   input: PutAccountSendingAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAccountSendingAttributesResponse,
   BadRequestException | TooManyRequestsException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7472,7 +7895,7 @@ export const putAccountSendingAttributes: (
  */
 export const putAccountVdmAttributes: (
   input: PutAccountVdmAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAccountVdmAttributesResponse,
   BadRequestException | TooManyRequestsException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7486,7 +7909,7 @@ export const putAccountVdmAttributes: (
  */
 export const putSuppressedDestination: (
   input: PutSuppressedDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutSuppressedDestinationResponse,
   BadRequestException | TooManyRequestsException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7500,7 +7923,7 @@ export const putSuppressedDestination: (
  */
 export const cancelExportJob: (
   input: CancelExportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelExportJobResponse,
   | BadRequestException
   | NotFoundException
@@ -7523,7 +7946,7 @@ export const cancelExportJob: (
  */
 export const createCustomVerificationEmailTemplate: (
   input: CreateCustomVerificationEmailTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCustomVerificationEmailTemplateResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -7551,7 +7974,7 @@ export const createCustomVerificationEmailTemplate: (
  */
 export const deleteMultiRegionEndpoint: (
   input: DeleteMultiRegionEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMultiRegionEndpointResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -7575,7 +7998,7 @@ export const deleteMultiRegionEndpoint: (
  */
 export const getAccount: (
   input: GetAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccountResponse,
   BadRequestException | TooManyRequestsException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7595,7 +8018,7 @@ export const getAccount: (
  */
 export const getConfigurationSetEventDestinations: (
   input: GetConfigurationSetEventDestinationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConfigurationSetEventDestinationsResponse,
   | BadRequestException
   | NotFoundException
@@ -7614,7 +8037,7 @@ export const getConfigurationSetEventDestinations: (
  */
 export const getDedicatedIp: (
   input: GetDedicatedIpRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDedicatedIpResponse,
   | BadRequestException
   | NotFoundException
@@ -7631,7 +8054,7 @@ export const getDedicatedIp: (
  */
 export const getDedicatedIpPool: (
   input: GetDedicatedIpPoolRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDedicatedIpPoolResponse,
   | BadRequestException
   | NotFoundException
@@ -7655,7 +8078,7 @@ export const getDedicatedIpPool: (
  */
 export const getDeliverabilityDashboardOptions: (
   input: GetDeliverabilityDashboardOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDeliverabilityDashboardOptionsResponse,
   | BadRequestException
   | LimitExceededException
@@ -7676,7 +8099,7 @@ export const getDeliverabilityDashboardOptions: (
  */
 export const getDeliverabilityTestReport: (
   input: GetDeliverabilityTestReportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDeliverabilityTestReportResponse,
   | BadRequestException
   | NotFoundException
@@ -7695,7 +8118,7 @@ export const getDeliverabilityTestReport: (
  */
 export const getDomainDeliverabilityCampaign: (
   input: GetDomainDeliverabilityCampaignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDomainDeliverabilityCampaignResponse,
   | BadRequestException
   | NotFoundException
@@ -7712,7 +8135,7 @@ export const getDomainDeliverabilityCampaign: (
  */
 export const getExportJob: (
   input: GetExportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetExportJobResponse,
   | BadRequestException
   | NotFoundException
@@ -7732,7 +8155,7 @@ export const getExportJob: (
  */
 export const getMultiRegionEndpoint: (
   input: GetMultiRegionEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMultiRegionEndpointResponse,
   | BadRequestException
   | NotFoundException
@@ -7750,7 +8173,7 @@ export const getMultiRegionEndpoint: (
  */
 export const getTenant: (
   input: GetTenantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTenantResponse,
   | BadRequestException
   | NotFoundException
@@ -7776,7 +8199,7 @@ export const getTenant: (
  */
 export const updateReputationEntityCustomerManagedStatus: (
   input: UpdateReputationEntityCustomerManagedStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateReputationEntityCustomerManagedStatusResponse,
   | BadRequestException
   | ConflictException
@@ -7798,7 +8221,7 @@ export const updateReputationEntityCustomerManagedStatus: (
  */
 export const updateReputationEntityPolicy: (
   input: UpdateReputationEntityPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateReputationEntityPolicyResponse,
   | BadRequestException
   | ConflictException
@@ -7821,7 +8244,7 @@ export const updateReputationEntityPolicy: (
  */
 export const createConfigurationSetEventDestination: (
   input: CreateConfigurationSetEventDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConfigurationSetEventDestinationResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -7846,7 +8269,7 @@ export const createConfigurationSetEventDestination: (
  */
 export const createImportJob: (
   input: CreateImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateImportJobResponse,
   | BadRequestException
   | LimitExceededException
@@ -7873,7 +8296,7 @@ export const createImportJob: (
  */
 export const createMultiRegionEndpoint: (
   input: CreateMultiRegionEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMultiRegionEndpointResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -7896,7 +8319,7 @@ export const createMultiRegionEndpoint: (
  */
 export const getBlacklistReports: (
   input: GetBlacklistReportsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBlacklistReportsResponse,
   | BadRequestException
   | NotFoundException
@@ -7914,7 +8337,7 @@ export const getBlacklistReports: (
  */
 export const getDomainStatisticsReport: (
   input: GetDomainStatisticsReportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDomainStatisticsReportResponse,
   | BadRequestException
   | NotFoundException
@@ -7931,7 +8354,7 @@ export const getDomainStatisticsReport: (
  */
 export const getEmailAddressInsights: (
   input: GetEmailAddressInsightsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEmailAddressInsightsResponse,
   BadRequestException | TooManyRequestsException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7947,7 +8370,7 @@ export const getEmailAddressInsights: (
  */
 export const getEmailIdentity: (
   input: GetEmailIdentityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEmailIdentityResponse,
   | BadRequestException
   | NotFoundException
@@ -7971,7 +8394,7 @@ export const getEmailIdentity: (
  */
 export const getReputationEntity: (
   input: GetReputationEntityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetReputationEntityResponse,
   | BadRequestException
   | NotFoundException
@@ -7989,7 +8412,7 @@ export const getReputationEntity: (
  */
 export const getSuppressedDestination: (
   input: GetSuppressedDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSuppressedDestinationResponse,
   | BadRequestException
   | NotFoundException
@@ -8009,7 +8432,7 @@ export const getSuppressedDestination: (
 export const listRecommendations: {
   (
     input: ListRecommendationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRecommendationsResponse,
     | BadRequestException
     | NotFoundException
@@ -8019,7 +8442,7 @@ export const listRecommendations: {
   >;
   pages: (
     input: ListRecommendationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRecommendationsResponse,
     | BadRequestException
     | NotFoundException
@@ -8029,7 +8452,7 @@ export const listRecommendations: {
   >;
   items: (
     input: ListRecommendationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | NotFoundException
@@ -8054,7 +8477,7 @@ export const listRecommendations: {
 export const listSuppressedDestinations: {
   (
     input: ListSuppressedDestinationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSuppressedDestinationsResponse,
     | BadRequestException
     | InvalidNextTokenException
@@ -8064,7 +8487,7 @@ export const listSuppressedDestinations: {
   >;
   pages: (
     input: ListSuppressedDestinationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSuppressedDestinationsResponse,
     | BadRequestException
     | InvalidNextTokenException
@@ -8074,7 +8497,7 @@ export const listSuppressedDestinations: {
   >;
   items: (
     input: ListSuppressedDestinationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | InvalidNextTokenException
@@ -8106,7 +8529,7 @@ export const listSuppressedDestinations: {
 export const listTenantResources: {
   (
     input: ListTenantResourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTenantResourcesResponse,
     | BadRequestException
     | NotFoundException
@@ -8116,7 +8539,7 @@ export const listTenantResources: {
   >;
   pages: (
     input: ListTenantResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTenantResourcesResponse,
     | BadRequestException
     | NotFoundException
@@ -8126,7 +8549,7 @@ export const listTenantResources: {
   >;
   items: (
     input: ListTenantResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TenantResource,
     | BadRequestException
     | NotFoundException
@@ -8150,7 +8573,7 @@ export const listTenantResources: {
  */
 export const putAccountSuppressionAttributes: (
   input: PutAccountSuppressionAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAccountSuppressionAttributesResponse,
   BadRequestException | TooManyRequestsException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -8166,7 +8589,7 @@ export const putAccountSuppressionAttributes: (
  */
 export const createExportJob: (
   input: CreateExportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateExportJobResponse,
   | BadRequestException
   | LimitExceededException
@@ -8190,7 +8613,7 @@ export const createExportJob: (
 export const listContacts: {
   (
     input: ListContactsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListContactsResponse,
     | BadRequestException
     | NotFoundException
@@ -8200,7 +8623,7 @@ export const listContacts: {
   >;
   pages: (
     input: ListContactsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListContactsResponse,
     | BadRequestException
     | NotFoundException
@@ -8210,7 +8633,7 @@ export const listContacts: {
   >;
   items: (
     input: ListContactsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | NotFoundException
@@ -8236,7 +8659,7 @@ export const listContacts: {
  */
 export const batchGetMetricData: (
   input: BatchGetMetricDataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetMetricDataResponse,
   | BadRequestException
   | InternalServiceErrorException
@@ -8262,7 +8685,7 @@ export const batchGetMetricData: (
  */
 export const getMessageInsights: (
   input: GetMessageInsightsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMessageInsightsResponse,
   | BadRequestException
   | NotFoundException
@@ -8289,7 +8712,7 @@ export const getMessageInsights: (
  */
 export const sendCustomVerificationEmail: (
   input: SendCustomVerificationEmailRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendCustomVerificationEmailResponse,
   | BadRequestException
   | LimitExceededException
@@ -8333,7 +8756,7 @@ export const sendCustomVerificationEmail: (
  */
 export const sendEmail: (
   input: SendEmailRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendEmailResponse,
   | AccountSuspendedException
   | BadRequestException
@@ -8370,7 +8793,7 @@ export const sendEmail: (
  */
 export const createDeliverabilityTestReport: (
   input: CreateDeliverabilityTestReportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDeliverabilityTestReportResponse,
   | AccountSuspendedException
   | BadRequestException
@@ -8403,7 +8826,7 @@ export const createDeliverabilityTestReport: (
  */
 export const sendBulkEmail: (
   input: SendBulkEmailRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendBulkEmailResponse,
   | AccountSuspendedException
   | BadRequestException

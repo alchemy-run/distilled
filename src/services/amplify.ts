@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -90,10 +90,10 @@ export type Description = string;
 export type Repository = string;
 export type ComputeRoleArn = string;
 export type ServiceRoleArn = string;
-export type OauthToken = string | Redacted.Redacted<string>;
-export type AccessToken = string | Redacted.Redacted<string>;
-export type BasicAuthCredentials = string | Redacted.Redacted<string>;
-export type BuildSpec = string | Redacted.Redacted<string>;
+export type OauthToken = string | redacted.Redacted<string>;
+export type AccessToken = string | redacted.Redacted<string>;
+export type BasicAuthCredentials = string | redacted.Redacted<string>;
+export type BuildSpec = string | redacted.Redacted<string>;
 export type CustomHeaders = string;
 export type AutoBranchCreationPattern = string;
 export type AppId = string;
@@ -163,10 +163,29 @@ export type ThumbnailName = string;
 export type Code = string;
 
 //# Schemas
+export type Platform = "WEB" | "WEB_DYNAMIC" | "WEB_COMPUTE";
+export const Platform = S.Literal("WEB", "WEB_DYNAMIC", "WEB_COMPUTE");
 export type AutoBranchCreationPatterns = string[];
 export const AutoBranchCreationPatterns = S.Array(S.String);
+export type Stage =
+  | "PRODUCTION"
+  | "BETA"
+  | "DEVELOPMENT"
+  | "EXPERIMENTAL"
+  | "PULL_REQUEST";
+export const Stage = S.Literal(
+  "PRODUCTION",
+  "BETA",
+  "DEVELOPMENT",
+  "EXPERIMENTAL",
+  "PULL_REQUEST",
+);
 export type AutoSubDomainCreationPatterns = string[];
 export const AutoSubDomainCreationPatterns = S.Array(S.String);
+export type SourceUrlType = "ZIP" | "BUCKET_PREFIX";
+export const SourceUrlType = S.Literal("ZIP", "BUCKET_PREFIX");
+export type JobType = "RELEASE" | "RETRY" | "MANUAL" | "WEB_HOOK";
+export const JobType = S.Literal("RELEASE", "RETRY", "MANUAL", "WEB_HOOK");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface CreateBackendEnvironmentRequest {
@@ -730,7 +749,7 @@ export interface StartDeploymentRequest {
   branchName: string;
   jobId?: string;
   sourceUrl?: string;
-  sourceUrlType?: string;
+  sourceUrlType?: SourceUrlType;
 }
 export const StartDeploymentRequest = S.suspend(() =>
   S.Struct({
@@ -738,7 +757,7 @@ export const StartDeploymentRequest = S.suspend(() =>
     branchName: S.String.pipe(T.HttpLabel("branchName")),
     jobId: S.optional(S.String),
     sourceUrl: S.optional(S.String),
-    sourceUrlType: S.optional(S.String),
+    sourceUrlType: S.optional(SourceUrlType),
   }).pipe(
     T.all(
       ns,
@@ -760,7 +779,7 @@ export interface StartJobRequest {
   appId: string;
   branchName: string;
   jobId?: string;
-  jobType: string;
+  jobType: JobType;
   jobReason?: string;
   commitId?: string;
   commitMessage?: string;
@@ -771,7 +790,7 @@ export const StartJobRequest = S.suspend(() =>
     appId: S.String.pipe(T.HttpLabel("appId")),
     branchName: S.String.pipe(T.HttpLabel("branchName")),
     jobId: S.optional(S.String),
-    jobType: S.String,
+    jobType: JobType,
     jobReason: S.optional(S.String),
     commitId: S.optional(S.String),
     commitMessage: S.optional(S.String),
@@ -824,7 +843,7 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -852,7 +871,7 @@ export const TagResourceResponse = S.suspend(() =>
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -900,20 +919,20 @@ export const CustomRule = S.suspend(() =>
 export type CustomRules = CustomRule[];
 export const CustomRules = S.Array(CustomRule);
 export interface AutoBranchCreationConfig {
-  stage?: string;
+  stage?: Stage;
   framework?: string;
   enableAutoBuild?: boolean;
-  environmentVariables?: EnvironmentVariables;
-  basicAuthCredentials?: string | Redacted.Redacted<string>;
+  environmentVariables?: { [key: string]: string };
+  basicAuthCredentials?: string | redacted.Redacted<string>;
   enableBasicAuth?: boolean;
   enablePerformanceMode?: boolean;
-  buildSpec?: string | Redacted.Redacted<string>;
+  buildSpec?: string | redacted.Redacted<string>;
   enablePullRequestPreview?: boolean;
   pullRequestEnvironmentName?: string;
 }
 export const AutoBranchCreationConfig = S.suspend(() =>
   S.Struct({
-    stage: S.optional(S.String),
+    stage: S.optional(Stage),
     framework: S.optional(S.String),
     enableAutoBuild: S.optional(S.Boolean),
     environmentVariables: S.optional(EnvironmentVariables),
@@ -927,39 +946,50 @@ export const AutoBranchCreationConfig = S.suspend(() =>
 ).annotations({
   identifier: "AutoBranchCreationConfig",
 }) as any as S.Schema<AutoBranchCreationConfig>;
+export type BuildComputeType = "STANDARD_8GB" | "LARGE_16GB" | "XLARGE_72GB";
+export const BuildComputeType = S.Literal(
+  "STANDARD_8GB",
+  "LARGE_16GB",
+  "XLARGE_72GB",
+);
 export interface JobConfig {
-  buildComputeType: string;
+  buildComputeType: BuildComputeType;
 }
 export const JobConfig = S.suspend(() =>
-  S.Struct({ buildComputeType: S.String }),
+  S.Struct({ buildComputeType: BuildComputeType }),
 ).annotations({ identifier: "JobConfig" }) as any as S.Schema<JobConfig>;
+export type CacheConfigType = "AMPLIFY_MANAGED" | "AMPLIFY_MANAGED_NO_COOKIES";
+export const CacheConfigType = S.Literal(
+  "AMPLIFY_MANAGED",
+  "AMPLIFY_MANAGED_NO_COOKIES",
+);
 export interface CacheConfig {
-  type: string;
+  type: CacheConfigType;
 }
 export const CacheConfig = S.suspend(() =>
-  S.Struct({ type: S.String }),
+  S.Struct({ type: CacheConfigType }),
 ).annotations({ identifier: "CacheConfig" }) as any as S.Schema<CacheConfig>;
 export interface UpdateAppRequest {
   appId: string;
   name?: string;
   description?: string;
-  platform?: string;
+  platform?: Platform;
   computeRoleArn?: string;
   iamServiceRoleArn?: string;
-  environmentVariables?: EnvironmentVariables;
+  environmentVariables?: { [key: string]: string };
   enableBranchAutoBuild?: boolean;
   enableBranchAutoDeletion?: boolean;
   enableBasicAuth?: boolean;
-  basicAuthCredentials?: string | Redacted.Redacted<string>;
-  customRules?: CustomRules;
-  buildSpec?: string | Redacted.Redacted<string>;
+  basicAuthCredentials?: string | redacted.Redacted<string>;
+  customRules?: CustomRule[];
+  buildSpec?: string | redacted.Redacted<string>;
   customHeaders?: string;
   enableAutoBranchCreation?: boolean;
-  autoBranchCreationPatterns?: AutoBranchCreationPatterns;
+  autoBranchCreationPatterns?: string[];
   autoBranchCreationConfig?: AutoBranchCreationConfig;
   repository?: string;
-  oauthToken?: string | Redacted.Redacted<string>;
-  accessToken?: string | Redacted.Redacted<string>;
+  oauthToken?: string | redacted.Redacted<string>;
+  accessToken?: string | redacted.Redacted<string>;
   jobConfig?: JobConfig;
   cacheConfig?: CacheConfig;
 }
@@ -968,7 +998,7 @@ export const UpdateAppRequest = S.suspend(() =>
     appId: S.String.pipe(T.HttpLabel("appId")),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    platform: S.optional(S.String),
+    platform: S.optional(Platform),
     computeRoleArn: S.optional(S.String),
     iamServiceRoleArn: S.optional(S.String),
     environmentVariables: S.optional(EnvironmentVariables),
@@ -1012,15 +1042,15 @@ export interface UpdateBranchRequest {
   branchName: string;
   description?: string;
   framework?: string;
-  stage?: string;
+  stage?: Stage;
   enableNotification?: boolean;
   enableAutoBuild?: boolean;
   enableSkewProtection?: boolean;
-  environmentVariables?: EnvironmentVariables;
-  basicAuthCredentials?: string | Redacted.Redacted<string>;
+  environmentVariables?: { [key: string]: string };
+  basicAuthCredentials?: string | redacted.Redacted<string>;
   enableBasicAuth?: boolean;
   enablePerformanceMode?: boolean;
-  buildSpec?: string | Redacted.Redacted<string>;
+  buildSpec?: string | redacted.Redacted<string>;
   ttl?: string;
   displayName?: string;
   enablePullRequestPreview?: boolean;
@@ -1035,7 +1065,7 @@ export const UpdateBranchRequest = S.suspend(() =>
     branchName: S.String.pipe(T.HttpLabel("branchName")),
     description: S.optional(S.String),
     framework: S.optional(S.String),
-    stage: S.optional(S.String),
+    stage: S.optional(Stage),
     enableNotification: S.optional(S.Boolean),
     enableAutoBuild: S.optional(S.Boolean),
     enableSkewProtection: S.optional(S.Boolean),
@@ -1076,12 +1106,17 @@ export const SubDomainSetting = S.suspend(() =>
 }) as any as S.Schema<SubDomainSetting>;
 export type SubDomainSettings = SubDomainSetting[];
 export const SubDomainSettings = S.Array(SubDomainSetting);
+export type CertificateType = "AMPLIFY_MANAGED" | "CUSTOM";
+export const CertificateType = S.Literal("AMPLIFY_MANAGED", "CUSTOM");
 export interface CertificateSettings {
-  type: string;
+  type: CertificateType;
   customCertificateArn?: string;
 }
 export const CertificateSettings = S.suspend(() =>
-  S.Struct({ type: S.String, customCertificateArn: S.optional(S.String) }),
+  S.Struct({
+    type: CertificateType,
+    customCertificateArn: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "CertificateSettings",
 }) as any as S.Schema<CertificateSettings>;
@@ -1089,8 +1124,8 @@ export interface UpdateDomainAssociationRequest {
   appId: string;
   domainName: string;
   enableAutoSubDomain?: boolean;
-  subDomainSettings?: SubDomainSettings;
-  autoSubDomainCreationPatterns?: AutoSubDomainCreationPatterns;
+  subDomainSettings?: SubDomainSetting[];
+  autoSubDomainCreationPatterns?: string[];
   autoSubDomainIAMRole?: string;
   certificateSettings?: CertificateSettings;
 }
@@ -1159,15 +1194,30 @@ export const ProductionBranch = S.suspend(() =>
 ).annotations({
   identifier: "ProductionBranch",
 }) as any as S.Schema<ProductionBranch>;
+export type RepositoryCloneMethod = "SSH" | "TOKEN" | "SIGV4";
+export const RepositoryCloneMethod = S.Literal("SSH", "TOKEN", "SIGV4");
+export type WafStatus =
+  | "ASSOCIATING"
+  | "ASSOCIATION_FAILED"
+  | "ASSOCIATION_SUCCESS"
+  | "DISASSOCIATING"
+  | "DISASSOCIATION_FAILED";
+export const WafStatus = S.Literal(
+  "ASSOCIATING",
+  "ASSOCIATION_FAILED",
+  "ASSOCIATION_SUCCESS",
+  "DISASSOCIATING",
+  "DISASSOCIATION_FAILED",
+);
 export interface WafConfiguration {
   webAclArn?: string;
-  wafStatus?: string;
+  wafStatus?: WafStatus;
   statusReason?: string;
 }
 export const WafConfiguration = S.suspend(() =>
   S.Struct({
     webAclArn: S.optional(S.String),
-    wafStatus: S.optional(S.String),
+    wafStatus: S.optional(WafStatus),
     statusReason: S.optional(S.String),
   }),
 ).annotations({
@@ -1177,28 +1227,28 @@ export interface App {
   appId: string;
   appArn: string;
   name: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   description: string;
   repository: string;
-  platform: string;
+  platform: Platform;
   createTime: Date;
   updateTime: Date;
   computeRoleArn?: string;
   iamServiceRoleArn?: string;
-  environmentVariables: EnvironmentVariables;
+  environmentVariables: { [key: string]: string };
   defaultDomain: string;
   enableBranchAutoBuild: boolean;
   enableBranchAutoDeletion?: boolean;
   enableBasicAuth: boolean;
-  basicAuthCredentials?: string | Redacted.Redacted<string>;
-  customRules?: CustomRules;
+  basicAuthCredentials?: string | redacted.Redacted<string>;
+  customRules?: CustomRule[];
   productionBranch?: ProductionBranch;
-  buildSpec?: string | Redacted.Redacted<string>;
+  buildSpec?: string | redacted.Redacted<string>;
   customHeaders?: string;
   enableAutoBranchCreation?: boolean;
-  autoBranchCreationPatterns?: AutoBranchCreationPatterns;
+  autoBranchCreationPatterns?: string[];
   autoBranchCreationConfig?: AutoBranchCreationConfig;
-  repositoryCloneMethod?: string;
+  repositoryCloneMethod?: RepositoryCloneMethod;
   cacheConfig?: CacheConfig;
   webhookCreateTime?: Date;
   wafConfiguration?: WafConfiguration;
@@ -1212,7 +1262,7 @@ export const App = S.suspend(() =>
     tags: S.optional(TagMap),
     description: S.String,
     repository: S.String,
-    platform: S.String,
+    platform: Platform,
     createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     computeRoleArn: S.optional(S.String),
@@ -1230,7 +1280,7 @@ export const App = S.suspend(() =>
     enableAutoBranchCreation: S.optional(S.Boolean),
     autoBranchCreationPatterns: S.optional(AutoBranchCreationPatterns),
     autoBranchCreationConfig: S.optional(AutoBranchCreationConfig),
-    repositoryCloneMethod: S.optional(S.String),
+    repositoryCloneMethod: S.optional(RepositoryCloneMethod),
     cacheConfig: S.optional(CacheConfig),
     webhookCreateTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1271,26 +1321,26 @@ export interface Branch {
   branchArn: string;
   branchName: string;
   description: string;
-  tags?: TagMap;
-  stage: string;
+  tags?: { [key: string]: string };
+  stage: Stage;
   displayName: string;
   enableNotification: boolean;
   createTime: Date;
   updateTime: Date;
-  environmentVariables: EnvironmentVariables;
+  environmentVariables: { [key: string]: string };
   enableAutoBuild: boolean;
   enableSkewProtection?: boolean;
-  customDomains: CustomDomains;
+  customDomains: string[];
   framework: string;
   activeJobId: string;
   totalNumberOfJobs: string;
   enableBasicAuth: boolean;
   enablePerformanceMode?: boolean;
   thumbnailUrl?: string;
-  basicAuthCredentials?: string | Redacted.Redacted<string>;
-  buildSpec?: string | Redacted.Redacted<string>;
+  basicAuthCredentials?: string | redacted.Redacted<string>;
+  buildSpec?: string | redacted.Redacted<string>;
   ttl: string;
-  associatedResources?: AssociatedResources;
+  associatedResources?: string[];
   enablePullRequestPreview: boolean;
   pullRequestEnvironmentName?: string;
   destinationBranch?: string;
@@ -1305,7 +1355,7 @@ export const Branch = S.suspend(() =>
     branchName: S.String,
     description: S.String,
     tags: S.optional(TagMap),
-    stage: S.String,
+    stage: Stage,
     displayName: S.String,
     enableNotification: S.Boolean,
     createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1335,6 +1385,46 @@ export const Branch = S.suspend(() =>
 ).annotations({ identifier: "Branch" }) as any as S.Schema<Branch>;
 export type Branches = Branch[];
 export const Branches = S.Array(Branch);
+export type DomainStatus =
+  | "PENDING_VERIFICATION"
+  | "IN_PROGRESS"
+  | "AVAILABLE"
+  | "IMPORTING_CUSTOM_CERTIFICATE"
+  | "PENDING_DEPLOYMENT"
+  | "AWAITING_APP_CNAME"
+  | "FAILED"
+  | "CREATING"
+  | "REQUESTING_CERTIFICATE"
+  | "UPDATING";
+export const DomainStatus = S.Literal(
+  "PENDING_VERIFICATION",
+  "IN_PROGRESS",
+  "AVAILABLE",
+  "IMPORTING_CUSTOM_CERTIFICATE",
+  "PENDING_DEPLOYMENT",
+  "AWAITING_APP_CNAME",
+  "FAILED",
+  "CREATING",
+  "REQUESTING_CERTIFICATE",
+  "UPDATING",
+);
+export type UpdateStatus =
+  | "REQUESTING_CERTIFICATE"
+  | "PENDING_VERIFICATION"
+  | "IMPORTING_CUSTOM_CERTIFICATE"
+  | "PENDING_DEPLOYMENT"
+  | "AWAITING_APP_CNAME"
+  | "UPDATE_COMPLETE"
+  | "UPDATE_FAILED";
+export const UpdateStatus = S.Literal(
+  "REQUESTING_CERTIFICATE",
+  "PENDING_VERIFICATION",
+  "IMPORTING_CUSTOM_CERTIFICATE",
+  "PENDING_DEPLOYMENT",
+  "AWAITING_APP_CNAME",
+  "UPDATE_COMPLETE",
+  "UPDATE_FAILED",
+);
 export interface SubDomain {
   subDomainSetting: SubDomainSetting;
   verified: boolean;
@@ -1350,13 +1440,13 @@ export const SubDomain = S.suspend(() =>
 export type SubDomains = SubDomain[];
 export const SubDomains = S.Array(SubDomain);
 export interface Certificate {
-  type: string;
+  type: CertificateType;
   customCertificateArn?: string;
   certificateVerificationDNSRecord?: string;
 }
 export const Certificate = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: CertificateType,
     customCertificateArn: S.optional(S.String),
     certificateVerificationDNSRecord: S.optional(S.String),
   }),
@@ -1365,13 +1455,13 @@ export interface DomainAssociation {
   domainAssociationArn: string;
   domainName: string;
   enableAutoSubDomain: boolean;
-  autoSubDomainCreationPatterns?: AutoSubDomainCreationPatterns;
+  autoSubDomainCreationPatterns?: string[];
   autoSubDomainIAMRole?: string;
-  domainStatus: string;
-  updateStatus?: string;
+  domainStatus: DomainStatus;
+  updateStatus?: UpdateStatus;
   statusReason: string;
   certificateVerificationDNSRecord?: string;
-  subDomains: SubDomains;
+  subDomains: SubDomain[];
   certificate?: Certificate;
 }
 export const DomainAssociation = S.suspend(() =>
@@ -1381,8 +1471,8 @@ export const DomainAssociation = S.suspend(() =>
     enableAutoSubDomain: S.Boolean,
     autoSubDomainCreationPatterns: S.optional(AutoSubDomainCreationPatterns),
     autoSubDomainIAMRole: S.optional(S.String),
-    domainStatus: S.String,
-    updateStatus: S.optional(S.String),
+    domainStatus: DomainStatus,
+    updateStatus: S.optional(UpdateStatus),
     statusReason: S.String,
     certificateVerificationDNSRecord: S.optional(S.String),
     subDomains: SubDomains,
@@ -1393,6 +1483,25 @@ export const DomainAssociation = S.suspend(() =>
 }) as any as S.Schema<DomainAssociation>;
 export type DomainAssociations = DomainAssociation[];
 export const DomainAssociations = S.Array(DomainAssociation);
+export type JobStatus =
+  | "CREATED"
+  | "PENDING"
+  | "PROVISIONING"
+  | "RUNNING"
+  | "FAILED"
+  | "SUCCEED"
+  | "CANCELLING"
+  | "CANCELLED";
+export const JobStatus = S.Literal(
+  "CREATED",
+  "PENDING",
+  "PROVISIONING",
+  "RUNNING",
+  "FAILED",
+  "SUCCEED",
+  "CANCELLING",
+  "CANCELLED",
+);
 export interface JobSummary {
   jobArn: string;
   jobId: string;
@@ -1400,11 +1509,11 @@ export interface JobSummary {
   commitMessage: string;
   commitTime: Date;
   startTime: Date;
-  status: string;
+  status: JobStatus;
   endTime?: Date;
-  jobType: string;
+  jobType: JobType;
   sourceUrl?: string;
-  sourceUrlType?: string;
+  sourceUrlType?: SourceUrlType;
 }
 export const JobSummary = S.suspend(() =>
   S.Struct({
@@ -1414,11 +1523,11 @@ export const JobSummary = S.suspend(() =>
     commitMessage: S.String,
     commitTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    status: S.String,
+    status: JobStatus,
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    jobType: S.String,
+    jobType: JobType,
     sourceUrl: S.optional(S.String),
-    sourceUrlType: S.optional(S.String),
+    sourceUrlType: S.optional(SourceUrlType),
   }),
 ).annotations({ identifier: "JobSummary" }) as any as S.Schema<JobSummary>;
 export type JobSummaries = JobSummary[];
@@ -1451,22 +1560,22 @@ export interface CreateAppRequest {
   name: string;
   description?: string;
   repository?: string;
-  platform?: string;
+  platform?: Platform;
   computeRoleArn?: string;
   iamServiceRoleArn?: string;
-  oauthToken?: string | Redacted.Redacted<string>;
-  accessToken?: string | Redacted.Redacted<string>;
-  environmentVariables?: EnvironmentVariables;
+  oauthToken?: string | redacted.Redacted<string>;
+  accessToken?: string | redacted.Redacted<string>;
+  environmentVariables?: { [key: string]: string };
   enableBranchAutoBuild?: boolean;
   enableBranchAutoDeletion?: boolean;
   enableBasicAuth?: boolean;
-  basicAuthCredentials?: string | Redacted.Redacted<string>;
-  customRules?: CustomRules;
-  tags?: TagMap;
-  buildSpec?: string | Redacted.Redacted<string>;
+  basicAuthCredentials?: string | redacted.Redacted<string>;
+  customRules?: CustomRule[];
+  tags?: { [key: string]: string };
+  buildSpec?: string | redacted.Redacted<string>;
   customHeaders?: string;
   enableAutoBranchCreation?: boolean;
-  autoBranchCreationPatterns?: AutoBranchCreationPatterns;
+  autoBranchCreationPatterns?: string[];
   autoBranchCreationConfig?: AutoBranchCreationConfig;
   jobConfig?: JobConfig;
   cacheConfig?: CacheConfig;
@@ -1476,7 +1585,7 @@ export const CreateAppRequest = S.suspend(() =>
     name: S.String,
     description: S.optional(S.String),
     repository: S.optional(S.String),
-    platform: S.optional(S.String),
+    platform: S.optional(Platform),
     computeRoleArn: S.optional(S.String),
     iamServiceRoleArn: S.optional(S.String),
     oauthToken: S.optional(SensitiveString),
@@ -1513,17 +1622,17 @@ export interface CreateBranchRequest {
   appId: string;
   branchName: string;
   description?: string;
-  stage?: string;
+  stage?: Stage;
   framework?: string;
   enableNotification?: boolean;
   enableAutoBuild?: boolean;
   enableSkewProtection?: boolean;
-  environmentVariables?: EnvironmentVariables;
-  basicAuthCredentials?: string | Redacted.Redacted<string>;
+  environmentVariables?: { [key: string]: string };
+  basicAuthCredentials?: string | redacted.Redacted<string>;
   enableBasicAuth?: boolean;
   enablePerformanceMode?: boolean;
-  tags?: TagMap;
-  buildSpec?: string | Redacted.Redacted<string>;
+  tags?: { [key: string]: string };
+  buildSpec?: string | redacted.Redacted<string>;
   ttl?: string;
   displayName?: string;
   enablePullRequestPreview?: boolean;
@@ -1537,7 +1646,7 @@ export const CreateBranchRequest = S.suspend(() =>
     appId: S.String.pipe(T.HttpLabel("appId")),
     branchName: S.String,
     description: S.optional(S.String),
-    stage: S.optional(S.String),
+    stage: S.optional(Stage),
     framework: S.optional(S.String),
     enableNotification: S.optional(S.Boolean),
     enableAutoBuild: S.optional(S.Boolean),
@@ -1572,7 +1681,7 @@ export const CreateBranchRequest = S.suspend(() =>
 export interface CreateDeploymentRequest {
   appId: string;
   branchName: string;
-  fileMap?: FileMap;
+  fileMap?: { [key: string]: string };
 }
 export const CreateDeploymentRequest = S.suspend(() =>
   S.Struct({
@@ -1600,8 +1709,8 @@ export interface CreateDomainAssociationRequest {
   appId: string;
   domainName: string;
   enableAutoSubDomain?: boolean;
-  subDomainSettings: SubDomainSettings;
-  autoSubDomainCreationPatterns?: AutoSubDomainCreationPatterns;
+  subDomainSettings: SubDomainSetting[];
+  autoSubDomainCreationPatterns?: string[];
   autoSubDomainIAMRole?: string;
   certificateSettings?: CertificateSettings;
 }
@@ -1700,7 +1809,7 @@ export const GetWebhookResult = S.suspend(() =>
   identifier: "GetWebhookResult",
 }) as any as S.Schema<GetWebhookResult>;
 export interface ListAppsResult {
-  apps: Apps;
+  apps: App[];
   nextToken?: string;
 }
 export const ListAppsResult = S.suspend(() =>
@@ -1709,7 +1818,7 @@ export const ListAppsResult = S.suspend(() =>
   identifier: "ListAppsResult",
 }) as any as S.Schema<ListAppsResult>;
 export interface ListBackendEnvironmentsResult {
-  backendEnvironments: BackendEnvironments;
+  backendEnvironments: BackendEnvironment[];
   nextToken?: string;
 }
 export const ListBackendEnvironmentsResult = S.suspend(() =>
@@ -1721,7 +1830,7 @@ export const ListBackendEnvironmentsResult = S.suspend(() =>
   identifier: "ListBackendEnvironmentsResult",
 }) as any as S.Schema<ListBackendEnvironmentsResult>;
 export interface ListBranchesResult {
-  branches: Branches;
+  branches: Branch[];
   nextToken?: string;
 }
 export const ListBranchesResult = S.suspend(() =>
@@ -1730,7 +1839,7 @@ export const ListBranchesResult = S.suspend(() =>
   identifier: "ListBranchesResult",
 }) as any as S.Schema<ListBranchesResult>;
 export interface ListDomainAssociationsResult {
-  domainAssociations: DomainAssociations;
+  domainAssociations: DomainAssociation[];
   nextToken?: string;
 }
 export const ListDomainAssociationsResult = S.suspend(() =>
@@ -1742,7 +1851,7 @@ export const ListDomainAssociationsResult = S.suspend(() =>
   identifier: "ListDomainAssociationsResult",
 }) as any as S.Schema<ListDomainAssociationsResult>;
 export interface ListJobsResult {
-  jobSummaries: JobSummaries;
+  jobSummaries: JobSummary[];
   nextToken?: string;
 }
 export const ListJobsResult = S.suspend(() =>
@@ -1754,7 +1863,7 @@ export const ListJobsResult = S.suspend(() =>
   identifier: "ListJobsResult",
 }) as any as S.Schema<ListJobsResult>;
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }).pipe(ns),
@@ -1762,7 +1871,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListWebhooksResult {
-  webhooks: Webhooks;
+  webhooks: Webhook[];
   nextToken?: string;
 }
 export const ListWebhooksResult = S.suspend(() =>
@@ -1892,7 +2001,7 @@ export const DeleteJobResult = S.suspend(() =>
   identifier: "DeleteJobResult",
 }) as any as S.Schema<DeleteJobResult>;
 export interface ListArtifactsResult {
-  artifacts: Artifacts;
+  artifacts: Artifact[];
   nextToken?: string;
 }
 export const ListArtifactsResult = S.suspend(() =>
@@ -1906,7 +2015,7 @@ export type Screenshots = { [key: string]: string };
 export const Screenshots = S.Record({ key: S.String, value: S.String });
 export interface CreateDeploymentResult {
   jobId?: string;
-  fileUploadUrls: FileUploadUrls;
+  fileUploadUrls: { [key: string]: string };
   zipUploadUrl: string;
 }
 export const CreateDeploymentResult = S.suspend(() =>
@@ -1937,13 +2046,13 @@ export const DeleteDomainAssociationResult = S.suspend(() =>
 export interface Step {
   stepName: string;
   startTime: Date;
-  status: string;
+  status: JobStatus;
   endTime: Date;
   logUrl?: string;
   artifactsUrl?: string;
   testArtifactsUrl?: string;
   testConfigUrl?: string;
-  screenshots?: Screenshots;
+  screenshots?: { [key: string]: string };
   statusReason?: string;
   context?: string;
 }
@@ -1951,7 +2060,7 @@ export const Step = S.suspend(() =>
   S.Struct({
     stepName: S.String,
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    status: S.String,
+    status: JobStatus,
     endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     logUrl: S.optional(S.String),
     artifactsUrl: S.optional(S.String),
@@ -1966,7 +2075,7 @@ export type Steps = Step[];
 export const Steps = S.Array(Step);
 export interface Job {
   summary: JobSummary;
-  steps: Steps;
+  steps: Step[];
 }
 export const Job = S.suspend(() =>
   S.Struct({ summary: JobSummary, steps: Steps }),
@@ -2014,7 +2123,7 @@ export class UnauthorizedException extends S.TaggedError<UnauthorizedException>(
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | BadRequestException
   | InternalFailureException
@@ -2036,7 +2145,7 @@ export const tagResource: (
 export const listApps: {
   (
     input: ListAppsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAppsResult,
     | BadRequestException
     | InternalFailureException
@@ -2046,7 +2155,7 @@ export const listApps: {
   >;
   pages: (
     input: ListAppsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAppsResult,
     | BadRequestException
     | InternalFailureException
@@ -2056,7 +2165,7 @@ export const listApps: {
   >;
   items: (
     input: ListAppsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     App,
     | BadRequestException
     | InternalFailureException
@@ -2084,7 +2193,7 @@ export const listApps: {
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | BadRequestException
   | InternalFailureException
@@ -2105,7 +2214,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | BadRequestException
   | InternalFailureException
@@ -2126,7 +2235,7 @@ export const listTagsForResource: (
  */
 export const updateApp: (
   input: UpdateAppRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAppResult,
   | BadRequestException
   | InternalFailureException
@@ -2149,7 +2258,7 @@ export const updateApp: (
  */
 export const generateAccessLogs: (
   input: GenerateAccessLogsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GenerateAccessLogsResult,
   | BadRequestException
   | InternalFailureException
@@ -2172,7 +2281,7 @@ export const generateAccessLogs: (
  */
 export const getApp: (
   input: GetAppRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAppResult,
   | BadRequestException
   | InternalFailureException
@@ -2201,7 +2310,7 @@ export const getApp: (
  */
 export const getBackendEnvironment: (
   input: GetBackendEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBackendEnvironmentResult,
   | BadRequestException
   | InternalFailureException
@@ -2224,7 +2333,7 @@ export const getBackendEnvironment: (
  */
 export const getBranch: (
   input: GetBranchRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBranchResult,
   | BadRequestException
   | InternalFailureException
@@ -2247,7 +2356,7 @@ export const getBranch: (
  */
 export const getDomainAssociation: (
   input: GetDomainAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDomainAssociationResult,
   | BadRequestException
   | InternalFailureException
@@ -2270,7 +2379,7 @@ export const getDomainAssociation: (
  */
 export const updateDomainAssociation: (
   input: UpdateDomainAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDomainAssociationResult,
   | BadRequestException
   | DependentServiceFailureException
@@ -2295,7 +2404,7 @@ export const updateDomainAssociation: (
  */
 export const updateWebhook: (
   input: UpdateWebhookRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWebhookResult,
   | BadRequestException
   | DependentServiceFailureException
@@ -2326,7 +2435,7 @@ export const updateWebhook: (
  */
 export const deleteBackendEnvironment: (
   input: DeleteBackendEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBackendEnvironmentResult,
   | BadRequestException
   | DependentServiceFailureException
@@ -2351,7 +2460,7 @@ export const deleteBackendEnvironment: (
  */
 export const deleteBranch: (
   input: DeleteBranchRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBranchResult,
   | BadRequestException
   | DependentServiceFailureException
@@ -2376,7 +2485,7 @@ export const deleteBranch: (
  */
 export const deleteApp: (
   input: DeleteAppRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAppResult,
   | BadRequestException
   | DependentServiceFailureException
@@ -2401,7 +2510,7 @@ export const deleteApp: (
  */
 export const deleteDomainAssociation: (
   input: DeleteDomainAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDomainAssociationResult,
   | BadRequestException
   | DependentServiceFailureException
@@ -2426,7 +2535,7 @@ export const deleteDomainAssociation: (
  */
 export const getArtifactUrl: (
   input: GetArtifactUrlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetArtifactUrlResult,
   | BadRequestException
   | InternalFailureException
@@ -2451,7 +2560,7 @@ export const getArtifactUrl: (
  */
 export const getWebhook: (
   input: GetWebhookRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWebhookResult,
   | BadRequestException
   | InternalFailureException
@@ -2477,7 +2586,7 @@ export const getWebhook: (
 export const listJobs: {
   (
     input: ListJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListJobsResult,
     | BadRequestException
     | InternalFailureException
@@ -2488,7 +2597,7 @@ export const listJobs: {
   >;
   pages: (
     input: ListJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListJobsResult,
     | BadRequestException
     | InternalFailureException
@@ -2499,7 +2608,7 @@ export const listJobs: {
   >;
   items: (
     input: ListJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     JobSummary,
     | BadRequestException
     | InternalFailureException
@@ -2529,7 +2638,7 @@ export const listJobs: {
  */
 export const listWebhooks: (
   input: ListWebhooksRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListWebhooksResult,
   | BadRequestException
   | InternalFailureException
@@ -2558,7 +2667,7 @@ export const listWebhooks: (
  */
 export const startDeployment: (
   input: StartDeploymentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartDeploymentResult,
   | BadRequestException
   | InternalFailureException
@@ -2583,7 +2692,7 @@ export const startDeployment: (
  */
 export const startJob: (
   input: StartJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartJobResult,
   | BadRequestException
   | InternalFailureException
@@ -2608,7 +2717,7 @@ export const startJob: (
  */
 export const stopJob: (
   input: StopJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopJobResult,
   | BadRequestException
   | InternalFailureException
@@ -2639,7 +2748,7 @@ export const stopJob: (
  */
 export const createBackendEnvironment: (
   input: CreateBackendEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBackendEnvironmentResult,
   | BadRequestException
   | InternalFailureException
@@ -2664,7 +2773,7 @@ export const createBackendEnvironment: (
  */
 export const deleteJob: (
   input: DeleteJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteJobResult,
   | BadRequestException
   | InternalFailureException
@@ -2696,7 +2805,7 @@ export const deleteJob: (
  */
 export const listArtifacts: (
   input: ListArtifactsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListArtifactsResult,
   | BadRequestException
   | InternalFailureException
@@ -2719,7 +2828,7 @@ export const listArtifacts: (
  */
 export const createApp: (
   input: CreateAppRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAppResult,
   | BadRequestException
   | DependentServiceFailureException
@@ -2744,7 +2853,7 @@ export const createApp: (
  */
 export const createBranch: (
   input: CreateBranchRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBranchResult,
   | BadRequestException
   | DependentServiceFailureException
@@ -2772,7 +2881,7 @@ export const createBranch: (
  */
 export const createDomainAssociation: (
   input: CreateDomainAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDomainAssociationResult,
   | BadRequestException
   | DependentServiceFailureException
@@ -2799,7 +2908,7 @@ export const createDomainAssociation: (
  */
 export const createWebhook: (
   input: CreateWebhookRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWebhookResult,
   | BadRequestException
   | DependentServiceFailureException
@@ -2832,7 +2941,7 @@ export const createWebhook: (
  */
 export const createDeployment: (
   input: CreateDeploymentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDeploymentResult,
   | BadRequestException
   | InternalFailureException
@@ -2861,7 +2970,7 @@ export const createDeployment: (
  */
 export const listBackendEnvironments: (
   input: ListBackendEnvironmentsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListBackendEnvironmentsResult,
   | BadRequestException
   | InternalFailureException
@@ -2883,7 +2992,7 @@ export const listBackendEnvironments: (
 export const listBranches: {
   (
     input: ListBranchesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBranchesResult,
     | BadRequestException
     | InternalFailureException
@@ -2893,7 +3002,7 @@ export const listBranches: {
   >;
   pages: (
     input: ListBranchesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBranchesResult,
     | BadRequestException
     | InternalFailureException
@@ -2903,7 +3012,7 @@ export const listBranches: {
   >;
   items: (
     input: ListBranchesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Branch,
     | BadRequestException
     | InternalFailureException
@@ -2932,7 +3041,7 @@ export const listBranches: {
 export const listDomainAssociations: {
   (
     input: ListDomainAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDomainAssociationsResult,
     | BadRequestException
     | InternalFailureException
@@ -2942,7 +3051,7 @@ export const listDomainAssociations: {
   >;
   pages: (
     input: ListDomainAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDomainAssociationsResult,
     | BadRequestException
     | InternalFailureException
@@ -2952,7 +3061,7 @@ export const listDomainAssociations: {
   >;
   items: (
     input: ListDomainAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DomainAssociation,
     | BadRequestException
     | InternalFailureException
@@ -2980,7 +3089,7 @@ export const listDomainAssociations: {
  */
 export const updateBranch: (
   input: UpdateBranchRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateBranchResult,
   | BadRequestException
   | DependentServiceFailureException
@@ -3005,7 +3114,7 @@ export const updateBranch: (
  */
 export const deleteWebhook: (
   input: DeleteWebhookRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWebhookResult,
   | BadRequestException
   | InternalFailureException
@@ -3030,7 +3139,7 @@ export const deleteWebhook: (
  */
 export const getJob: (
   input: GetJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetJobResult,
   | BadRequestException
   | InternalFailureException

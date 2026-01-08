@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -110,10 +110,10 @@ export type DirectoryId = string;
 export type OrganizationName = string;
 export type KmsKeyArn = string;
 export type ResourceName = string;
-export type ResourceDescription = string | Redacted.Redacted<string>;
+export type ResourceDescription = string | redacted.Redacted<string>;
 export type UserName = string;
-export type UserAttribute = string | Redacted.Redacted<string>;
-export type Password = string | Redacted.Redacted<string>;
+export type UserAttribute = string | redacted.Redacted<string>;
+export type Password = string | redacted.Redacted<string>;
 export type IdentityProviderUserId = string;
 export type AccessControlRuleName = string;
 export type ApplicationArn = string;
@@ -131,13 +131,13 @@ export type AccessControlRuleDescription = string;
 export type IpRange = string;
 export type RoleArn = string;
 export type LogGroupArn = string;
-export type PolicyDescription = string | Redacted.Redacted<string>;
+export type PolicyDescription = string | redacted.Redacted<string>;
 export type Description = string;
 export type S3BucketName = string;
 export type S3ObjectKey = string;
 export type TagKey = string;
 export type MailboxQuota = number;
-export type NewResourceDescription = string | Redacted.Redacted<string>;
+export type NewResourceDescription = string | redacted.Redacted<string>;
 export type IdentityProviderUserIdForUpdate = string;
 export type Url = string;
 export type ExternalUserName = string;
@@ -161,6 +161,10 @@ export type PersonalAccessTokenName = string;
 export type PersonalAccessTokenScope = string;
 
 //# Schemas
+export type ImpersonationRoleType = "FULL_ACCESS" | "READ_ONLY";
+export const ImpersonationRoleType = S.Literal("FULL_ACCESS", "READ_ONLY");
+export type MobileDeviceAccessRuleEffect = "ALLOW" | "DENY";
+export const MobileDeviceAccessRuleEffect = S.Literal("ALLOW", "DENY");
 export type DeviceTypeList = string[];
 export const DeviceTypeList = S.Array(S.String);
 export type DeviceModelList = string[];
@@ -169,6 +173,17 @@ export type DeviceOperatingSystemList = string[];
 export const DeviceOperatingSystemList = S.Array(S.String);
 export type DeviceUserAgentList = string[];
 export const DeviceUserAgentList = S.Array(S.String);
+export type ResourceType = "ROOM" | "EQUIPMENT";
+export const ResourceType = S.Literal("ROOM", "EQUIPMENT");
+export type UserRole = "USER" | "RESOURCE" | "SYSTEM_USER" | "REMOTE_USER";
+export const UserRole = S.Literal(
+  "USER",
+  "RESOURCE",
+  "SYSTEM_USER",
+  "REMOTE_USER",
+);
+export type AccessControlRuleEffect = "ALLOW" | "DENY";
+export const AccessControlRuleEffect = S.Literal("ALLOW", "DENY");
 export type IpRangeList = string[];
 export const IpRangeList = S.Array(S.String);
 export type ActionsList = string[];
@@ -177,8 +192,21 @@ export type UserIdList = string[];
 export const UserIdList = S.Array(S.String);
 export type ImpersonationRoleIdList = string[];
 export const ImpersonationRoleIdList = S.Array(S.String);
-export type PermissionValues = string[];
-export const PermissionValues = S.Array(S.String);
+export type IdentityProviderAuthenticationMode =
+  | "IDENTITY_PROVIDER_ONLY"
+  | "IDENTITY_PROVIDER_AND_DIRECTORY";
+export const IdentityProviderAuthenticationMode = S.Literal(
+  "IDENTITY_PROVIDER_ONLY",
+  "IDENTITY_PROVIDER_AND_DIRECTORY",
+);
+export type PermissionType = "FULL_ACCESS" | "SEND_AS" | "SEND_ON_BEHALF";
+export const PermissionType = S.Literal(
+  "FULL_ACCESS",
+  "SEND_AS",
+  "SEND_ON_BEHALF",
+);
+export type PermissionValues = PermissionType[];
+export const PermissionValues = S.Array(PermissionType);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface AssociateDelegateToResourceRequest {
@@ -315,15 +343,15 @@ export interface CreateMobileDeviceAccessRuleRequest {
   ClientToken?: string;
   Name: string;
   Description?: string;
-  Effect: string;
-  DeviceTypes?: DeviceTypeList;
-  NotDeviceTypes?: DeviceTypeList;
-  DeviceModels?: DeviceModelList;
-  NotDeviceModels?: DeviceModelList;
-  DeviceOperatingSystems?: DeviceOperatingSystemList;
-  NotDeviceOperatingSystems?: DeviceOperatingSystemList;
-  DeviceUserAgents?: DeviceUserAgentList;
-  NotDeviceUserAgents?: DeviceUserAgentList;
+  Effect: MobileDeviceAccessRuleEffect;
+  DeviceTypes?: string[];
+  NotDeviceTypes?: string[];
+  DeviceModels?: string[];
+  NotDeviceModels?: string[];
+  DeviceOperatingSystems?: string[];
+  NotDeviceOperatingSystems?: string[];
+  DeviceUserAgents?: string[];
+  NotDeviceUserAgents?: string[];
 }
 export const CreateMobileDeviceAccessRuleRequest = S.suspend(() =>
   S.Struct({
@@ -331,7 +359,7 @@ export const CreateMobileDeviceAccessRuleRequest = S.suspend(() =>
     ClientToken: S.optional(S.String),
     Name: S.String,
     Description: S.optional(S.String),
-    Effect: S.String,
+    Effect: MobileDeviceAccessRuleEffect,
     DeviceTypes: S.optional(DeviceTypeList),
     NotDeviceTypes: S.optional(DeviceTypeList),
     DeviceModels: S.optional(DeviceModelList),
@@ -349,15 +377,15 @@ export const CreateMobileDeviceAccessRuleRequest = S.suspend(() =>
 export interface CreateResourceRequest {
   OrganizationId: string;
   Name: string;
-  Type: string;
-  Description?: string | Redacted.Redacted<string>;
+  Type: ResourceType;
+  Description?: string | redacted.Redacted<string>;
   HiddenFromGlobalAddressList?: boolean;
 }
 export const CreateResourceRequest = S.suspend(() =>
   S.Struct({
     OrganizationId: S.String,
     Name: S.String,
-    Type: S.String,
+    Type: ResourceType,
     Description: S.optional(SensitiveString),
     HiddenFromGlobalAddressList: S.optional(S.Boolean),
   }).pipe(
@@ -369,11 +397,11 @@ export const CreateResourceRequest = S.suspend(() =>
 export interface CreateUserRequest {
   OrganizationId: string;
   Name: string;
-  DisplayName: string | Redacted.Redacted<string>;
-  Password?: string | Redacted.Redacted<string>;
-  Role?: string;
-  FirstName?: string | Redacted.Redacted<string>;
-  LastName?: string | Redacted.Redacted<string>;
+  DisplayName: string | redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
+  Role?: UserRole;
+  FirstName?: string | redacted.Redacted<string>;
+  LastName?: string | redacted.Redacted<string>;
   HiddenFromGlobalAddressList?: boolean;
   IdentityProviderUserId?: string;
 }
@@ -383,7 +411,7 @@ export const CreateUserRequest = S.suspend(() =>
     Name: S.String,
     DisplayName: SensitiveString,
     Password: S.optional(SensitiveString),
-    Role: S.optional(S.String),
+    Role: S.optional(UserRole),
     FirstName: S.optional(SensitiveString),
     LastName: S.optional(SensitiveString),
     HiddenFromGlobalAddressList: S.optional(S.Boolean),
@@ -1195,22 +1223,22 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface PutAccessControlRuleRequest {
   Name: string;
-  Effect: string;
+  Effect: AccessControlRuleEffect;
   Description: string;
-  IpRanges?: IpRangeList;
-  NotIpRanges?: IpRangeList;
-  Actions?: ActionsList;
-  NotActions?: ActionsList;
-  UserIds?: UserIdList;
-  NotUserIds?: UserIdList;
+  IpRanges?: string[];
+  NotIpRanges?: string[];
+  Actions?: string[];
+  NotActions?: string[];
+  UserIds?: string[];
+  NotUserIds?: string[];
   OrganizationId: string;
-  ImpersonationRoleIds?: ImpersonationRoleIdList;
-  NotImpersonationRoleIds?: ImpersonationRoleIdList;
+  ImpersonationRoleIds?: string[];
+  NotImpersonationRoleIds?: string[];
 }
 export const PutAccessControlRuleRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Effect: S.String,
+    Effect: AccessControlRuleEffect,
     Description: S.String,
     IpRanges: S.optional(IpRangeList),
     NotIpRanges: S.optional(IpRangeList),
@@ -1276,7 +1304,7 @@ export interface PutMailboxPermissionsRequest {
   OrganizationId: string;
   EntityId: string;
   GranteeId: string;
-  PermissionValues: PermissionValues;
+  PermissionValues: PermissionType[];
 }
 export const PutMailboxPermissionsRequest = S.suspend(() =>
   S.Struct({
@@ -1300,7 +1328,7 @@ export interface PutMobileDeviceAccessOverrideRequest {
   OrganizationId: string;
   UserId: string;
   DeviceId: string;
-  Effect: string;
+  Effect: MobileDeviceAccessRuleEffect;
   Description?: string;
 }
 export const PutMobileDeviceAccessOverrideRequest = S.suspend(() =>
@@ -1308,7 +1336,7 @@ export const PutMobileDeviceAccessOverrideRequest = S.suspend(() =>
     OrganizationId: S.String,
     UserId: S.String,
     DeviceId: S.String,
-    Effect: S.String,
+    Effect: MobileDeviceAccessRuleEffect,
     Description: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -1369,7 +1397,7 @@ export const RegisterToWorkMailResponse = S.suspend(() =>
 export interface ResetPasswordRequest {
   OrganizationId: string;
   UserId: string;
-  Password: string | Redacted.Redacted<string>;
+  Password: string | redacted.Redacted<string>;
 }
 export const ResetPasswordRequest = S.suspend(() =>
   S.Struct({
@@ -1415,7 +1443,7 @@ export const StartMailboxExportJobRequest = S.suspend(() =>
 export interface EwsAvailabilityProvider {
   EwsEndpoint: string;
   EwsUsername: string;
-  EwsPassword: string | Redacted.Redacted<string>;
+  EwsPassword: string | redacted.Redacted<string>;
 }
 export const EwsAvailabilityProvider = S.suspend(() =>
   S.Struct({
@@ -1454,7 +1482,7 @@ export const TestAvailabilityConfigurationRequest = S.suspend(() =>
 }) as any as S.Schema<TestAvailabilityConfigurationRequest>;
 export interface UntagResourceRequest {
   ResourceARN: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
@@ -1528,22 +1556,24 @@ export interface UpdateGroupResponse {}
 export const UpdateGroupResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UpdateGroupResponse",
 }) as any as S.Schema<UpdateGroupResponse>;
+export type AccessEffect = "ALLOW" | "DENY";
+export const AccessEffect = S.Literal("ALLOW", "DENY");
 export type TargetUsers = string[];
 export const TargetUsers = S.Array(S.String);
 export interface ImpersonationRule {
   ImpersonationRuleId: string;
   Name?: string;
   Description?: string;
-  Effect: string;
-  TargetUsers?: TargetUsers;
-  NotTargetUsers?: TargetUsers;
+  Effect: AccessEffect;
+  TargetUsers?: string[];
+  NotTargetUsers?: string[];
 }
 export const ImpersonationRule = S.suspend(() =>
   S.Struct({
     ImpersonationRuleId: S.String,
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    Effect: S.String,
+    Effect: AccessEffect,
     TargetUsers: S.optional(TargetUsers),
     NotTargetUsers: S.optional(TargetUsers),
   }),
@@ -1556,16 +1586,16 @@ export interface UpdateImpersonationRoleRequest {
   OrganizationId: string;
   ImpersonationRoleId: string;
   Name: string;
-  Type: string;
+  Type: ImpersonationRoleType;
   Description?: string;
-  Rules: ImpersonationRuleList;
+  Rules: ImpersonationRule[];
 }
 export const UpdateImpersonationRoleRequest = S.suspend(() =>
   S.Struct({
     OrganizationId: S.String,
     ImpersonationRoleId: S.String,
     Name: S.String,
-    Type: S.String,
+    Type: ImpersonationRoleType,
     Description: S.optional(S.String),
     Rules: ImpersonationRuleList,
   }).pipe(
@@ -1607,15 +1637,15 @@ export interface UpdateMobileDeviceAccessRuleRequest {
   MobileDeviceAccessRuleId: string;
   Name: string;
   Description?: string;
-  Effect: string;
-  DeviceTypes?: DeviceTypeList;
-  NotDeviceTypes?: DeviceTypeList;
-  DeviceModels?: DeviceModelList;
-  NotDeviceModels?: DeviceModelList;
-  DeviceOperatingSystems?: DeviceOperatingSystemList;
-  NotDeviceOperatingSystems?: DeviceOperatingSystemList;
-  DeviceUserAgents?: DeviceUserAgentList;
-  NotDeviceUserAgents?: DeviceUserAgentList;
+  Effect: MobileDeviceAccessRuleEffect;
+  DeviceTypes?: string[];
+  NotDeviceTypes?: string[];
+  DeviceModels?: string[];
+  NotDeviceModels?: string[];
+  DeviceOperatingSystems?: string[];
+  NotDeviceOperatingSystems?: string[];
+  DeviceUserAgents?: string[];
+  NotDeviceUserAgents?: string[];
 }
 export const UpdateMobileDeviceAccessRuleRequest = S.suspend(() =>
   S.Struct({
@@ -1623,7 +1653,7 @@ export const UpdateMobileDeviceAccessRuleRequest = S.suspend(() =>
     MobileDeviceAccessRuleId: S.String,
     Name: S.String,
     Description: S.optional(S.String),
-    Effect: S.String,
+    Effect: MobileDeviceAccessRuleEffect,
     DeviceTypes: S.optional(DeviceTypeList),
     NotDeviceTypes: S.optional(DeviceTypeList),
     DeviceModels: S.optional(DeviceModelList),
@@ -1669,28 +1699,28 @@ export const UpdatePrimaryEmailAddressResponse = S.suspend(() =>
 export interface UpdateUserRequest {
   OrganizationId: string;
   UserId: string;
-  Role?: string;
-  DisplayName?: string | Redacted.Redacted<string>;
-  FirstName?: string | Redacted.Redacted<string>;
-  LastName?: string | Redacted.Redacted<string>;
+  Role?: UserRole;
+  DisplayName?: string | redacted.Redacted<string>;
+  FirstName?: string | redacted.Redacted<string>;
+  LastName?: string | redacted.Redacted<string>;
   HiddenFromGlobalAddressList?: boolean;
-  Initials?: string | Redacted.Redacted<string>;
-  Telephone?: string | Redacted.Redacted<string>;
-  Street?: string | Redacted.Redacted<string>;
-  JobTitle?: string | Redacted.Redacted<string>;
-  City?: string | Redacted.Redacted<string>;
-  Company?: string | Redacted.Redacted<string>;
-  ZipCode?: string | Redacted.Redacted<string>;
-  Department?: string | Redacted.Redacted<string>;
-  Country?: string | Redacted.Redacted<string>;
-  Office?: string | Redacted.Redacted<string>;
+  Initials?: string | redacted.Redacted<string>;
+  Telephone?: string | redacted.Redacted<string>;
+  Street?: string | redacted.Redacted<string>;
+  JobTitle?: string | redacted.Redacted<string>;
+  City?: string | redacted.Redacted<string>;
+  Company?: string | redacted.Redacted<string>;
+  ZipCode?: string | redacted.Redacted<string>;
+  Department?: string | redacted.Redacted<string>;
+  Country?: string | redacted.Redacted<string>;
+  Office?: string | redacted.Redacted<string>;
   IdentityProviderUserId?: string;
 }
 export const UpdateUserRequest = S.suspend(() =>
   S.Struct({
     OrganizationId: S.String,
     UserId: S.String,
-    Role: S.optional(S.String),
+    Role: S.optional(UserRole),
     DisplayName: S.optional(SensitiveString),
     FirstName: S.optional(SensitiveString),
     LastName: S.optional(SensitiveString),
@@ -1716,6 +1746,32 @@ export interface UpdateUserResponse {}
 export const UpdateUserResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UpdateUserResponse",
 }) as any as S.Schema<UpdateUserResponse>;
+export type EntityState = "ENABLED" | "DISABLED" | "DELETED";
+export const EntityState = S.Literal("ENABLED", "DISABLED", "DELETED");
+export type PersonalAccessTokenConfigurationStatus = "ACTIVE" | "INACTIVE";
+export const PersonalAccessTokenConfigurationStatus = S.Literal(
+  "ACTIVE",
+  "INACTIVE",
+);
+export type FolderName =
+  | "INBOX"
+  | "DELETED_ITEMS"
+  | "SENT_ITEMS"
+  | "DRAFTS"
+  | "JUNK_EMAIL";
+export const FolderName = S.Literal(
+  "INBOX",
+  "DELETED_ITEMS",
+  "SENT_ITEMS",
+  "DRAFTS",
+  "JUNK_EMAIL",
+);
+export type RetentionAction = "NONE" | "DELETE" | "PERMANENTLY_DELETE";
+export const RetentionAction = S.Literal(
+  "NONE",
+  "DELETE",
+  "PERMANENTLY_DELETE",
+);
 export interface Domain {
   DomainName: string;
   HostedZoneId?: string;
@@ -1725,8 +1781,27 @@ export const Domain = S.suspend(() =>
 ).annotations({ identifier: "Domain" }) as any as S.Schema<Domain>;
 export type Domains = Domain[];
 export const Domains = S.Array(Domain);
+export type EntityType = "GROUP" | "USER" | "RESOURCE";
+export const EntityType = S.Literal("GROUP", "USER", "RESOURCE");
+export type MailboxExportJobState =
+  | "RUNNING"
+  | "COMPLETED"
+  | "FAILED"
+  | "CANCELLED";
+export const MailboxExportJobState = S.Literal(
+  "RUNNING",
+  "COMPLETED",
+  "FAILED",
+  "CANCELLED",
+);
 export type AccessControlRuleNameList = string[];
 export const AccessControlRuleNameList = S.Array(S.String);
+export type DnsRecordVerificationStatus = "PENDING" | "VERIFIED" | "FAILED";
+export const DnsRecordVerificationStatus = S.Literal(
+  "PENDING",
+  "VERIFIED",
+  "FAILED",
+);
 export type PersonalAccessTokenScopeList = string[];
 export const PersonalAccessTokenScopeList = S.Array(S.String);
 export type Aliases = string[];
@@ -1734,13 +1809,13 @@ export const Aliases = S.Array(S.String);
 export interface ListGroupsFilters {
   NamePrefix?: string;
   PrimaryEmailPrefix?: string;
-  State?: string;
+  State?: EntityState;
 }
 export const ListGroupsFilters = S.suspend(() =>
   S.Struct({
     NamePrefix: S.optional(S.String),
     PrimaryEmailPrefix: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(EntityState),
   }),
 ).annotations({
   identifier: "ListGroupsFilters",
@@ -1756,22 +1831,22 @@ export const ListGroupsForEntityFilters = S.suspend(() =>
 export interface ListResourcesFilters {
   NamePrefix?: string;
   PrimaryEmailPrefix?: string;
-  State?: string;
+  State?: EntityState;
 }
 export const ListResourcesFilters = S.suspend(() =>
   S.Struct({
     NamePrefix: S.optional(S.String),
     PrimaryEmailPrefix: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(EntityState),
   }),
 ).annotations({
   identifier: "ListResourcesFilters",
 }) as any as S.Schema<ListResourcesFilters>;
 export interface ListUsersFilters {
   UsernamePrefix?: string;
-  DisplayNamePrefix?: string | Redacted.Redacted<string>;
+  DisplayNamePrefix?: string | redacted.Redacted<string>;
   PrimaryEmailPrefix?: string;
-  State?: string;
+  State?: EntityState;
   IdentityProviderUserIdPrefix?: string;
 }
 export const ListUsersFilters = S.suspend(() =>
@@ -1779,7 +1854,7 @@ export const ListUsersFilters = S.suspend(() =>
     UsernamePrefix: S.optional(S.String),
     DisplayNamePrefix: S.optional(SensitiveString),
     PrimaryEmailPrefix: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(EntityState),
     IdentityProviderUserIdPrefix: S.optional(S.String),
   }),
 ).annotations({
@@ -1795,21 +1870,28 @@ export const IdentityCenterConfiguration = S.suspend(() =>
   identifier: "IdentityCenterConfiguration",
 }) as any as S.Schema<IdentityCenterConfiguration>;
 export interface PersonalAccessTokenConfiguration {
-  Status: string;
+  Status: PersonalAccessTokenConfigurationStatus;
   LifetimeInDays?: number;
 }
 export const PersonalAccessTokenConfiguration = S.suspend(() =>
-  S.Struct({ Status: S.String, LifetimeInDays: S.optional(S.Number) }),
+  S.Struct({
+    Status: PersonalAccessTokenConfigurationStatus,
+    LifetimeInDays: S.optional(S.Number),
+  }),
 ).annotations({
   identifier: "PersonalAccessTokenConfiguration",
 }) as any as S.Schema<PersonalAccessTokenConfiguration>;
 export interface FolderConfiguration {
-  Name: string;
-  Action: string;
+  Name: FolderName;
+  Action: RetentionAction;
   Period?: number;
 }
 export const FolderConfiguration = S.suspend(() =>
-  S.Struct({ Name: S.String, Action: S.String, Period: S.optional(S.Number) }),
+  S.Struct({
+    Name: FolderName,
+    Action: RetentionAction,
+    Period: S.optional(S.Number),
+  }),
 ).annotations({
   identifier: "FolderConfiguration",
 }) as any as S.Schema<FolderConfiguration>;
@@ -1893,16 +1975,16 @@ export interface CreateImpersonationRoleRequest {
   ClientToken?: string;
   OrganizationId: string;
   Name: string;
-  Type: string;
+  Type: ImpersonationRoleType;
   Description?: string;
-  Rules: ImpersonationRuleList;
+  Rules: ImpersonationRule[];
 }
 export const CreateImpersonationRoleRequest = S.suspend(() =>
   S.Struct({
     ClientToken: S.optional(S.String),
     OrganizationId: S.String,
     Name: S.String,
-    Type: S.String,
+    Type: ImpersonationRoleType,
     Description: S.optional(S.String),
     Rules: ImpersonationRuleList,
   }).pipe(
@@ -1923,7 +2005,7 @@ export interface CreateOrganizationRequest {
   DirectoryId?: string;
   Alias: string;
   ClientToken?: string;
-  Domains?: Domains;
+  Domains?: Domain[];
   KmsKeyArn?: string;
   EnableInteroperability?: boolean;
 }
@@ -1984,13 +2066,13 @@ export const DescribeEmailMonitoringConfigurationResponse = S.suspend(() =>
 export interface DescribeEntityResponse {
   EntityId?: string;
   Name?: string;
-  Type?: string;
+  Type?: EntityType;
 }
 export const DescribeEntityResponse = S.suspend(() =>
   S.Struct({
     EntityId: S.optional(S.String),
     Name: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(EntityType),
   }),
 ).annotations({
   identifier: "DescribeEntityResponse",
@@ -1999,7 +2081,7 @@ export interface DescribeGroupResponse {
   GroupId?: string;
   Name?: string;
   Email?: string;
-  State?: string;
+  State?: EntityState;
   EnabledDate?: Date;
   DisabledDate?: Date;
   HiddenFromGlobalAddressList?: boolean;
@@ -2009,7 +2091,7 @@ export const DescribeGroupResponse = S.suspend(() =>
     GroupId: S.optional(S.String),
     Name: S.optional(S.String),
     Email: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(EntityState),
     EnabledDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DisabledDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     HiddenFromGlobalAddressList: S.optional(S.Boolean),
@@ -2018,13 +2100,13 @@ export const DescribeGroupResponse = S.suspend(() =>
   identifier: "DescribeGroupResponse",
 }) as any as S.Schema<DescribeGroupResponse>;
 export interface DescribeIdentityProviderConfigurationResponse {
-  AuthenticationMode?: string;
+  AuthenticationMode?: IdentityProviderAuthenticationMode;
   IdentityCenterConfiguration?: IdentityCenterConfiguration;
   PersonalAccessTokenConfiguration?: PersonalAccessTokenConfiguration;
 }
 export const DescribeIdentityProviderConfigurationResponse = S.suspend(() =>
   S.Struct({
-    AuthenticationMode: S.optional(S.String),
+    AuthenticationMode: S.optional(IdentityProviderAuthenticationMode),
     IdentityCenterConfiguration: S.optional(IdentityCenterConfiguration),
     PersonalAccessTokenConfiguration: S.optional(
       PersonalAccessTokenConfiguration,
@@ -2050,7 +2132,7 @@ export interface DescribeMailboxExportJobResponse {
   S3Prefix?: string;
   S3Path?: string;
   EstimatedProgress?: number;
-  State?: string;
+  State?: MailboxExportJobState;
   ErrorInfo?: string;
   StartTime?: Date;
   EndTime?: Date;
@@ -2065,7 +2147,7 @@ export const DescribeMailboxExportJobResponse = S.suspend(() =>
     S3Prefix: S.optional(S.String),
     S3Path: S.optional(S.String),
     EstimatedProgress: S.optional(S.Number),
-    State: S.optional(S.String),
+    State: S.optional(MailboxExportJobState),
     ErrorInfo: S.optional(S.String),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2107,12 +2189,12 @@ export interface DescribeResourceResponse {
   ResourceId?: string;
   Email?: string;
   Name?: string;
-  Type?: string;
+  Type?: ResourceType;
   BookingOptions?: BookingOptions;
-  State?: string;
+  State?: EntityState;
   EnabledDate?: Date;
   DisabledDate?: Date;
-  Description?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   HiddenFromGlobalAddressList?: boolean;
 }
 export const DescribeResourceResponse = S.suspend(() =>
@@ -2120,9 +2202,9 @@ export const DescribeResourceResponse = S.suspend(() =>
     ResourceId: S.optional(S.String),
     Email: S.optional(S.String),
     Name: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(ResourceType),
     BookingOptions: S.optional(BookingOptions),
-    State: S.optional(S.String),
+    State: S.optional(EntityState),
     EnabledDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DisabledDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Description: S.optional(SensitiveString),
@@ -2135,26 +2217,26 @@ export interface DescribeUserResponse {
   UserId?: string;
   Name?: string;
   Email?: string;
-  DisplayName?: string | Redacted.Redacted<string>;
-  State?: string;
-  UserRole?: string;
+  DisplayName?: string | redacted.Redacted<string>;
+  State?: EntityState;
+  UserRole?: UserRole;
   EnabledDate?: Date;
   DisabledDate?: Date;
   MailboxProvisionedDate?: Date;
   MailboxDeprovisionedDate?: Date;
-  FirstName?: string | Redacted.Redacted<string>;
-  LastName?: string | Redacted.Redacted<string>;
+  FirstName?: string | redacted.Redacted<string>;
+  LastName?: string | redacted.Redacted<string>;
   HiddenFromGlobalAddressList?: boolean;
-  Initials?: string | Redacted.Redacted<string>;
-  Telephone?: string | Redacted.Redacted<string>;
-  Street?: string | Redacted.Redacted<string>;
-  JobTitle?: string | Redacted.Redacted<string>;
-  City?: string | Redacted.Redacted<string>;
-  Company?: string | Redacted.Redacted<string>;
-  ZipCode?: string | Redacted.Redacted<string>;
-  Department?: string | Redacted.Redacted<string>;
-  Country?: string | Redacted.Redacted<string>;
-  Office?: string | Redacted.Redacted<string>;
+  Initials?: string | redacted.Redacted<string>;
+  Telephone?: string | redacted.Redacted<string>;
+  Street?: string | redacted.Redacted<string>;
+  JobTitle?: string | redacted.Redacted<string>;
+  City?: string | redacted.Redacted<string>;
+  Company?: string | redacted.Redacted<string>;
+  ZipCode?: string | redacted.Redacted<string>;
+  Department?: string | redacted.Redacted<string>;
+  Country?: string | redacted.Redacted<string>;
+  Office?: string | redacted.Redacted<string>;
   IdentityProviderUserId?: string;
   IdentityProviderIdentityStoreId?: string;
 }
@@ -2164,8 +2246,8 @@ export const DescribeUserResponse = S.suspend(() =>
     Name: S.optional(S.String),
     Email: S.optional(S.String),
     DisplayName: S.optional(SensitiveString),
-    State: S.optional(S.String),
-    UserRole: S.optional(S.String),
+    State: S.optional(EntityState),
+    UserRole: S.optional(UserRole),
     EnabledDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DisabledDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     MailboxProvisionedDate: S.optional(
@@ -2194,12 +2276,12 @@ export const DescribeUserResponse = S.suspend(() =>
   identifier: "DescribeUserResponse",
 }) as any as S.Schema<DescribeUserResponse>;
 export interface GetAccessControlEffectResponse {
-  Effect?: string;
-  MatchedRules?: AccessControlRuleNameList;
+  Effect?: AccessControlRuleEffect;
+  MatchedRules?: string[];
 }
 export const GetAccessControlEffectResponse = S.suspend(() =>
   S.Struct({
-    Effect: S.optional(S.String),
+    Effect: S.optional(AccessControlRuleEffect),
     MatchedRules: S.optional(AccessControlRuleNameList),
   }),
 ).annotations({
@@ -2209,7 +2291,7 @@ export interface GetDefaultRetentionPolicyResponse {
   Id?: string;
   Name?: string;
   Description?: string;
-  FolderConfigurations?: FolderConfigurations;
+  FolderConfigurations?: FolderConfiguration[];
 }
 export const GetDefaultRetentionPolicyResponse = S.suspend(() =>
   S.Struct({
@@ -2224,9 +2306,9 @@ export const GetDefaultRetentionPolicyResponse = S.suspend(() =>
 export interface GetImpersonationRoleResponse {
   ImpersonationRoleId?: string;
   Name?: string;
-  Type?: string;
+  Type?: ImpersonationRoleType;
   Description?: string;
-  Rules?: ImpersonationRuleList;
+  Rules?: ImpersonationRule[];
   DateCreated?: Date;
   DateModified?: Date;
 }
@@ -2234,7 +2316,7 @@ export const GetImpersonationRoleResponse = S.suspend(() =>
   S.Struct({
     ImpersonationRoleId: S.optional(S.String),
     Name: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(ImpersonationRoleType),
     Description: S.optional(S.String),
     Rules: S.optional(ImpersonationRuleList),
     DateCreated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2258,7 +2340,7 @@ export const GetMailboxDetailsResponse = S.suspend(() =>
 export interface GetMobileDeviceAccessOverrideResponse {
   UserId?: string;
   DeviceId?: string;
-  Effect?: string;
+  Effect?: MobileDeviceAccessRuleEffect;
   Description?: string;
   DateCreated?: Date;
   DateModified?: Date;
@@ -2267,7 +2349,7 @@ export const GetMobileDeviceAccessOverrideResponse = S.suspend(() =>
   S.Struct({
     UserId: S.optional(S.String),
     DeviceId: S.optional(S.String),
-    Effect: S.optional(S.String),
+    Effect: S.optional(MobileDeviceAccessRuleEffect),
     Description: S.optional(S.String),
     DateCreated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DateModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2282,7 +2364,7 @@ export interface GetPersonalAccessTokenMetadataResponse {
   DateCreated?: Date;
   DateLastUsed?: Date;
   ExpiresTime?: Date;
-  Scopes?: PersonalAccessTokenScopeList;
+  Scopes?: string[];
 }
 export const GetPersonalAccessTokenMetadataResponse = S.suspend(() =>
   S.Struct({
@@ -2298,7 +2380,7 @@ export const GetPersonalAccessTokenMetadataResponse = S.suspend(() =>
   identifier: "GetPersonalAccessTokenMetadataResponse",
 }) as any as S.Schema<GetPersonalAccessTokenMetadataResponse>;
 export interface ListAliasesResponse {
-  Aliases?: Aliases;
+  Aliases?: string[];
   NextToken?: string;
 }
 export const ListAliasesResponse = S.suspend(() =>
@@ -2363,7 +2445,7 @@ export const ListResourcesRequest = S.suspend(() =>
   identifier: "ListResourcesRequest",
 }) as any as S.Schema<ListResourcesRequest>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }),
@@ -2390,14 +2472,14 @@ export const ListUsersRequest = S.suspend(() =>
 }) as any as S.Schema<ListUsersRequest>;
 export interface PutIdentityProviderConfigurationRequest {
   OrganizationId: string;
-  AuthenticationMode: string;
+  AuthenticationMode: IdentityProviderAuthenticationMode;
   IdentityCenterConfiguration: IdentityCenterConfiguration;
   PersonalAccessTokenConfiguration: PersonalAccessTokenConfiguration;
 }
 export const PutIdentityProviderConfigurationRequest = S.suspend(() =>
   S.Struct({
     OrganizationId: S.String,
-    AuthenticationMode: S.String,
+    AuthenticationMode: IdentityProviderAuthenticationMode,
     IdentityCenterConfiguration: IdentityCenterConfiguration,
     PersonalAccessTokenConfiguration: PersonalAccessTokenConfiguration,
   }).pipe(
@@ -2416,8 +2498,8 @@ export interface PutRetentionPolicyRequest {
   OrganizationId: string;
   Id?: string;
   Name: string;
-  Description?: string | Redacted.Redacted<string>;
-  FolderConfigurations: FolderConfigurations;
+  Description?: string | redacted.Redacted<string>;
+  FolderConfigurations: FolderConfiguration[];
 }
 export const PutRetentionPolicyRequest = S.suspend(() =>
   S.Struct({
@@ -2448,7 +2530,7 @@ export const StartMailboxExportJobResponse = S.suspend(() =>
 }) as any as S.Schema<StartMailboxExportJobResponse>;
 export interface TagResourceRequest {
   ResourceARN: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
@@ -2478,8 +2560,8 @@ export interface UpdateResourceRequest {
   ResourceId: string;
   Name?: string;
   BookingOptions?: BookingOptions;
-  Description?: string | Redacted.Redacted<string>;
-  Type?: string;
+  Description?: string | redacted.Redacted<string>;
+  Type?: ResourceType;
   HiddenFromGlobalAddressList?: boolean;
 }
 export const UpdateResourceRequest = S.suspend(() =>
@@ -2489,7 +2571,7 @@ export const UpdateResourceRequest = S.suspend(() =>
     Name: S.optional(S.String),
     BookingOptions: S.optional(BookingOptions),
     Description: S.optional(SensitiveString),
-    Type: S.optional(S.String),
+    Type: S.optional(ResourceType),
     HiddenFromGlobalAddressList: S.optional(S.Boolean),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -2501,6 +2583,10 @@ export interface UpdateResourceResponse {}
 export const UpdateResourceResponse = S.suspend(() => S.Struct({})).annotations(
   { identifier: "UpdateResourceResponse" },
 ) as any as S.Schema<UpdateResourceResponse>;
+export type AvailabilityProviderType = "EWS" | "LAMBDA";
+export const AvailabilityProviderType = S.Literal("EWS", "LAMBDA");
+export type MemberType = "GROUP" | "USER";
+export const MemberType = S.Literal("GROUP", "USER");
 export interface ImpersonationMatchedRule {
   ImpersonationRuleId?: string;
   Name?: string;
@@ -2547,23 +2633,23 @@ export const MobileDeviceAccessMatchedRuleList = S.Array(
 );
 export interface AccessControlRule {
   Name?: string;
-  Effect?: string;
+  Effect?: AccessControlRuleEffect;
   Description?: string;
-  IpRanges?: IpRangeList;
-  NotIpRanges?: IpRangeList;
-  Actions?: ActionsList;
-  NotActions?: ActionsList;
-  UserIds?: UserIdList;
-  NotUserIds?: UserIdList;
+  IpRanges?: string[];
+  NotIpRanges?: string[];
+  Actions?: string[];
+  NotActions?: string[];
+  UserIds?: string[];
+  NotUserIds?: string[];
   DateCreated?: Date;
   DateModified?: Date;
-  ImpersonationRoleIds?: ImpersonationRoleIdList;
-  NotImpersonationRoleIds?: ImpersonationRoleIdList;
+  ImpersonationRoleIds?: string[];
+  NotImpersonationRoleIds?: string[];
 }
 export const AccessControlRule = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    Effect: S.optional(S.String),
+    Effect: S.optional(AccessControlRuleEffect),
     Description: S.optional(S.String),
     IpRanges: S.optional(IpRangeList),
     NotIpRanges: S.optional(IpRangeList),
@@ -2584,8 +2670,8 @@ export const AccessControlRulesList = S.Array(AccessControlRule);
 export interface Member {
   Id?: string;
   Name?: string;
-  Type?: string;
-  State?: string;
+  Type?: MemberType;
+  State?: EntityState;
   EnabledDate?: Date;
   DisabledDate?: Date;
 }
@@ -2593,8 +2679,8 @@ export const Member = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Name: S.optional(S.String),
-    Type: S.optional(S.String),
-    State: S.optional(S.String),
+    Type: S.optional(MemberType),
+    State: S.optional(EntityState),
     EnabledDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DisabledDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -2604,7 +2690,7 @@ export const Members = S.Array(Member);
 export interface ImpersonationRole {
   ImpersonationRoleId?: string;
   Name?: string;
-  Type?: string;
+  Type?: ImpersonationRoleType;
   DateCreated?: Date;
   DateModified?: Date;
 }
@@ -2612,7 +2698,7 @@ export const ImpersonationRole = S.suspend(() =>
   S.Struct({
     ImpersonationRoleId: S.optional(S.String),
     Name: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(ImpersonationRoleType),
     DateCreated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DateModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -2628,7 +2714,7 @@ export interface MailboxExportJob {
   S3BucketName?: string;
   S3Path?: string;
   EstimatedProgress?: number;
-  State?: string;
+  State?: MailboxExportJobState;
   StartTime?: Date;
   EndTime?: Date;
 }
@@ -2640,7 +2726,7 @@ export const MailboxExportJob = S.suspend(() =>
     S3BucketName: S.optional(S.String),
     S3Path: S.optional(S.String),
     EstimatedProgress: S.optional(S.Number),
-    State: S.optional(S.String),
+    State: S.optional(MailboxExportJobState),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -2651,13 +2737,13 @@ export type Jobs = MailboxExportJob[];
 export const Jobs = S.Array(MailboxExportJob);
 export interface Permission {
   GranteeId: string;
-  GranteeType: string;
-  PermissionValues: PermissionValues;
+  GranteeType: MemberType;
+  PermissionValues: PermissionType[];
 }
 export const Permission = S.suspend(() =>
   S.Struct({
     GranteeId: S.String,
-    GranteeType: S.String,
+    GranteeType: MemberType,
     PermissionValues: PermissionValues,
   }),
 ).annotations({ identifier: "Permission" }) as any as S.Schema<Permission>;
@@ -2680,7 +2766,7 @@ export const MailDomains = S.Array(MailDomainSummary);
 export interface MobileDeviceAccessOverride {
   UserId?: string;
   DeviceId?: string;
-  Effect?: string;
+  Effect?: MobileDeviceAccessRuleEffect;
   Description?: string;
   DateCreated?: Date;
   DateModified?: Date;
@@ -2689,7 +2775,7 @@ export const MobileDeviceAccessOverride = S.suspend(() =>
   S.Struct({
     UserId: S.optional(S.String),
     DeviceId: S.optional(S.String),
-    Effect: S.optional(S.String),
+    Effect: S.optional(MobileDeviceAccessRuleEffect),
     Description: S.optional(S.String),
     DateCreated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DateModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2705,15 +2791,15 @@ export interface MobileDeviceAccessRule {
   MobileDeviceAccessRuleId?: string;
   Name?: string;
   Description?: string;
-  Effect?: string;
-  DeviceTypes?: DeviceTypeList;
-  NotDeviceTypes?: DeviceTypeList;
-  DeviceModels?: DeviceModelList;
-  NotDeviceModels?: DeviceModelList;
-  DeviceOperatingSystems?: DeviceOperatingSystemList;
-  NotDeviceOperatingSystems?: DeviceOperatingSystemList;
-  DeviceUserAgents?: DeviceUserAgentList;
-  NotDeviceUserAgents?: DeviceUserAgentList;
+  Effect?: MobileDeviceAccessRuleEffect;
+  DeviceTypes?: string[];
+  NotDeviceTypes?: string[];
+  DeviceModels?: string[];
+  NotDeviceModels?: string[];
+  DeviceOperatingSystems?: string[];
+  NotDeviceOperatingSystems?: string[];
+  DeviceUserAgents?: string[];
+  NotDeviceUserAgents?: string[];
   DateCreated?: Date;
   DateModified?: Date;
 }
@@ -2722,7 +2808,7 @@ export const MobileDeviceAccessRule = S.suspend(() =>
     MobileDeviceAccessRuleId: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    Effect: S.optional(S.String),
+    Effect: S.optional(MobileDeviceAccessRuleEffect),
     DeviceTypes: S.optional(DeviceTypeList),
     NotDeviceTypes: S.optional(DeviceTypeList),
     DeviceModels: S.optional(DeviceModelList),
@@ -2766,7 +2852,7 @@ export interface PersonalAccessTokenSummary {
   DateCreated?: Date;
   DateLastUsed?: Date;
   ExpiresTime?: Date;
-  Scopes?: PersonalAccessTokenScopeList;
+  Scopes?: string[];
 }
 export const PersonalAccessTokenSummary = S.suspend(() =>
   S.Struct({
@@ -2787,10 +2873,10 @@ export const PersonalAccessTokenSummaryList = S.Array(
 );
 export interface Delegate {
   Id: string;
-  Type: string;
+  Type: MemberType;
 }
 export const Delegate = S.suspend(() =>
-  S.Struct({ Id: S.String, Type: S.String }),
+  S.Struct({ Id: S.String, Type: MemberType }),
 ).annotations({ identifier: "Delegate" }) as any as S.Schema<Delegate>;
 export type ResourceDelegates = Delegate[];
 export const ResourceDelegates = S.Array(Delegate);
@@ -2811,51 +2897,51 @@ export const CreateOrganizationResponse = S.suspend(() =>
   identifier: "CreateOrganizationResponse",
 }) as any as S.Schema<CreateOrganizationResponse>;
 export interface GetImpersonationRoleEffectResponse {
-  Type?: string;
-  Effect?: string;
-  MatchedRules?: ImpersonationMatchedRuleList;
+  Type?: ImpersonationRoleType;
+  Effect?: AccessEffect;
+  MatchedRules?: ImpersonationMatchedRule[];
 }
 export const GetImpersonationRoleEffectResponse = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String),
-    Effect: S.optional(S.String),
+    Type: S.optional(ImpersonationRoleType),
+    Effect: S.optional(AccessEffect),
     MatchedRules: S.optional(ImpersonationMatchedRuleList),
   }),
 ).annotations({
   identifier: "GetImpersonationRoleEffectResponse",
 }) as any as S.Schema<GetImpersonationRoleEffectResponse>;
 export interface GetMailDomainResponse {
-  Records?: DnsRecords;
+  Records?: DnsRecord[];
   IsTestDomain?: boolean;
   IsDefault?: boolean;
-  OwnershipVerificationStatus?: string;
-  DkimVerificationStatus?: string;
+  OwnershipVerificationStatus?: DnsRecordVerificationStatus;
+  DkimVerificationStatus?: DnsRecordVerificationStatus;
 }
 export const GetMailDomainResponse = S.suspend(() =>
   S.Struct({
     Records: S.optional(DnsRecords),
     IsTestDomain: S.optional(S.Boolean),
     IsDefault: S.optional(S.Boolean),
-    OwnershipVerificationStatus: S.optional(S.String),
-    DkimVerificationStatus: S.optional(S.String),
+    OwnershipVerificationStatus: S.optional(DnsRecordVerificationStatus),
+    DkimVerificationStatus: S.optional(DnsRecordVerificationStatus),
   }),
 ).annotations({
   identifier: "GetMailDomainResponse",
 }) as any as S.Schema<GetMailDomainResponse>;
 export interface GetMobileDeviceAccessEffectResponse {
-  Effect?: string;
-  MatchedRules?: MobileDeviceAccessMatchedRuleList;
+  Effect?: MobileDeviceAccessRuleEffect;
+  MatchedRules?: MobileDeviceAccessMatchedRule[];
 }
 export const GetMobileDeviceAccessEffectResponse = S.suspend(() =>
   S.Struct({
-    Effect: S.optional(S.String),
+    Effect: S.optional(MobileDeviceAccessRuleEffect),
     MatchedRules: S.optional(MobileDeviceAccessMatchedRuleList),
   }),
 ).annotations({
   identifier: "GetMobileDeviceAccessEffectResponse",
 }) as any as S.Schema<GetMobileDeviceAccessEffectResponse>;
 export interface ListAccessControlRulesResponse {
-  Rules?: AccessControlRulesList;
+  Rules?: AccessControlRule[];
 }
 export const ListAccessControlRulesResponse = S.suspend(() =>
   S.Struct({ Rules: S.optional(AccessControlRulesList) }),
@@ -2863,7 +2949,7 @@ export const ListAccessControlRulesResponse = S.suspend(() =>
   identifier: "ListAccessControlRulesResponse",
 }) as any as S.Schema<ListAccessControlRulesResponse>;
 export interface ListGroupMembersResponse {
-  Members?: Members;
+  Members?: Member[];
   NextToken?: string;
 }
 export const ListGroupMembersResponse = S.suspend(() =>
@@ -2872,7 +2958,7 @@ export const ListGroupMembersResponse = S.suspend(() =>
   identifier: "ListGroupMembersResponse",
 }) as any as S.Schema<ListGroupMembersResponse>;
 export interface ListImpersonationRolesResponse {
-  Roles?: ImpersonationRoleList;
+  Roles?: ImpersonationRole[];
   NextToken?: string;
 }
 export const ListImpersonationRolesResponse = S.suspend(() =>
@@ -2884,7 +2970,7 @@ export const ListImpersonationRolesResponse = S.suspend(() =>
   identifier: "ListImpersonationRolesResponse",
 }) as any as S.Schema<ListImpersonationRolesResponse>;
 export interface ListMailboxExportJobsResponse {
-  Jobs?: Jobs;
+  Jobs?: MailboxExportJob[];
   NextToken?: string;
 }
 export const ListMailboxExportJobsResponse = S.suspend(() =>
@@ -2893,7 +2979,7 @@ export const ListMailboxExportJobsResponse = S.suspend(() =>
   identifier: "ListMailboxExportJobsResponse",
 }) as any as S.Schema<ListMailboxExportJobsResponse>;
 export interface ListMailboxPermissionsResponse {
-  Permissions?: Permissions;
+  Permissions?: Permission[];
   NextToken?: string;
 }
 export const ListMailboxPermissionsResponse = S.suspend(() =>
@@ -2905,7 +2991,7 @@ export const ListMailboxPermissionsResponse = S.suspend(() =>
   identifier: "ListMailboxPermissionsResponse",
 }) as any as S.Schema<ListMailboxPermissionsResponse>;
 export interface ListMailDomainsResponse {
-  MailDomains?: MailDomains;
+  MailDomains?: MailDomainSummary[];
   NextToken?: string;
 }
 export const ListMailDomainsResponse = S.suspend(() =>
@@ -2917,7 +3003,7 @@ export const ListMailDomainsResponse = S.suspend(() =>
   identifier: "ListMailDomainsResponse",
 }) as any as S.Schema<ListMailDomainsResponse>;
 export interface ListMobileDeviceAccessOverridesResponse {
-  Overrides?: MobileDeviceAccessOverridesList;
+  Overrides?: MobileDeviceAccessOverride[];
   NextToken?: string;
 }
 export const ListMobileDeviceAccessOverridesResponse = S.suspend(() =>
@@ -2929,7 +3015,7 @@ export const ListMobileDeviceAccessOverridesResponse = S.suspend(() =>
   identifier: "ListMobileDeviceAccessOverridesResponse",
 }) as any as S.Schema<ListMobileDeviceAccessOverridesResponse>;
 export interface ListMobileDeviceAccessRulesResponse {
-  Rules?: MobileDeviceAccessRulesList;
+  Rules?: MobileDeviceAccessRule[];
 }
 export const ListMobileDeviceAccessRulesResponse = S.suspend(() =>
   S.Struct({ Rules: S.optional(MobileDeviceAccessRulesList) }),
@@ -2937,7 +3023,7 @@ export const ListMobileDeviceAccessRulesResponse = S.suspend(() =>
   identifier: "ListMobileDeviceAccessRulesResponse",
 }) as any as S.Schema<ListMobileDeviceAccessRulesResponse>;
 export interface ListOrganizationsResponse {
-  OrganizationSummaries?: OrganizationSummaries;
+  OrganizationSummaries?: OrganizationSummary[];
   NextToken?: string;
 }
 export const ListOrganizationsResponse = S.suspend(() =>
@@ -2950,7 +3036,7 @@ export const ListOrganizationsResponse = S.suspend(() =>
 }) as any as S.Schema<ListOrganizationsResponse>;
 export interface ListPersonalAccessTokensResponse {
   NextToken?: string;
-  PersonalAccessTokenSummaries?: PersonalAccessTokenSummaryList;
+  PersonalAccessTokenSummaries?: PersonalAccessTokenSummary[];
 }
 export const ListPersonalAccessTokensResponse = S.suspend(() =>
   S.Struct({
@@ -2961,7 +3047,7 @@ export const ListPersonalAccessTokensResponse = S.suspend(() =>
   identifier: "ListPersonalAccessTokensResponse",
 }) as any as S.Schema<ListPersonalAccessTokensResponse>;
 export interface ListResourceDelegatesResponse {
-  Delegates?: ResourceDelegates;
+  Delegates?: Delegate[];
   NextToken?: string;
 }
 export const ListResourceDelegatesResponse = S.suspend(() =>
@@ -2986,7 +3072,7 @@ export const RedactedEwsAvailabilityProvider = S.suspend(() =>
 }) as any as S.Schema<RedactedEwsAvailabilityProvider>;
 export interface AvailabilityConfiguration {
   DomainName?: string;
-  ProviderType?: string;
+  ProviderType?: AvailabilityProviderType;
   EwsProvider?: RedactedEwsAvailabilityProvider;
   LambdaProvider?: LambdaAvailabilityProvider;
   DateCreated?: Date;
@@ -2995,7 +3081,7 @@ export interface AvailabilityConfiguration {
 export const AvailabilityConfiguration = S.suspend(() =>
   S.Struct({
     DomainName: S.optional(S.String),
-    ProviderType: S.optional(S.String),
+    ProviderType: S.optional(AvailabilityProviderType),
     EwsProvider: S.optional(RedactedEwsAvailabilityProvider),
     LambdaProvider: S.optional(LambdaAvailabilityProvider),
     DateCreated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -3010,7 +3096,7 @@ export interface Group {
   Id?: string;
   Email?: string;
   Name?: string;
-  State?: string;
+  State?: EntityState;
   EnabledDate?: Date;
   DisabledDate?: Date;
 }
@@ -3019,7 +3105,7 @@ export const Group = S.suspend(() =>
     Id: S.optional(S.String),
     Email: S.optional(S.String),
     Name: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(EntityState),
     EnabledDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DisabledDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -3041,19 +3127,19 @@ export interface Resource {
   Id?: string;
   Email?: string;
   Name?: string;
-  Type?: string;
-  State?: string;
+  Type?: ResourceType;
+  State?: EntityState;
   EnabledDate?: Date;
   DisabledDate?: Date;
-  Description?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
 }
 export const Resource = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Email: S.optional(S.String),
     Name: S.optional(S.String),
-    Type: S.optional(S.String),
-    State: S.optional(S.String),
+    Type: S.optional(ResourceType),
+    State: S.optional(EntityState),
     EnabledDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DisabledDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Description: S.optional(SensitiveString),
@@ -3066,8 +3152,8 @@ export interface User {
   Email?: string;
   Name?: string;
   DisplayName?: string;
-  State?: string;
-  UserRole?: string;
+  State?: EntityState;
+  UserRole?: UserRole;
   EnabledDate?: Date;
   DisabledDate?: Date;
   IdentityProviderUserId?: string;
@@ -3079,8 +3165,8 @@ export const User = S.suspend(() =>
     Email: S.optional(S.String),
     Name: S.optional(S.String),
     DisplayName: S.optional(S.String),
-    State: S.optional(S.String),
-    UserRole: S.optional(S.String),
+    State: S.optional(EntityState),
+    UserRole: S.optional(UserRole),
     EnabledDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DisabledDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     IdentityProviderUserId: S.optional(S.String),
@@ -3090,7 +3176,7 @@ export const User = S.suspend(() =>
 export type Users = User[];
 export const Users = S.Array(User);
 export interface ListAvailabilityConfigurationsResponse {
-  AvailabilityConfigurations?: AvailabilityConfigurationList;
+  AvailabilityConfigurations?: AvailabilityConfiguration[];
   NextToken?: string;
 }
 export const ListAvailabilityConfigurationsResponse = S.suspend(() =>
@@ -3102,7 +3188,7 @@ export const ListAvailabilityConfigurationsResponse = S.suspend(() =>
   identifier: "ListAvailabilityConfigurationsResponse",
 }) as any as S.Schema<ListAvailabilityConfigurationsResponse>;
 export interface ListGroupsResponse {
-  Groups?: Groups;
+  Groups?: Group[];
   NextToken?: string;
 }
 export const ListGroupsResponse = S.suspend(() =>
@@ -3111,7 +3197,7 @@ export const ListGroupsResponse = S.suspend(() =>
   identifier: "ListGroupsResponse",
 }) as any as S.Schema<ListGroupsResponse>;
 export interface ListGroupsForEntityResponse {
-  Groups?: GroupIdentifiers;
+  Groups?: GroupIdentifier[];
   NextToken?: string;
 }
 export const ListGroupsForEntityResponse = S.suspend(() =>
@@ -3123,7 +3209,7 @@ export const ListGroupsForEntityResponse = S.suspend(() =>
   identifier: "ListGroupsForEntityResponse",
 }) as any as S.Schema<ListGroupsForEntityResponse>;
 export interface ListResourcesResponse {
-  Resources?: Resources;
+  Resources?: Resource[];
   NextToken?: string;
 }
 export const ListResourcesResponse = S.suspend(() =>
@@ -3135,7 +3221,7 @@ export const ListResourcesResponse = S.suspend(() =>
   identifier: "ListResourcesResponse",
 }) as any as S.Schema<ListResourcesResponse>;
 export interface ListUsersResponse {
-  Users?: Users;
+  Users?: User[];
   NextToken?: string;
 }
 export const ListUsersResponse = S.suspend(() =>
@@ -3241,7 +3327,7 @@ export class ReservedNameException extends S.TaggedError<ReservedNameException>(
  */
 export const describeOrganization: (
   input: DescribeOrganizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeOrganizationResponse,
   InvalidParameterException | OrganizationNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3256,7 +3342,7 @@ export const describeOrganization: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3270,7 +3356,7 @@ export const untagResource: (
  */
 export const createIdentityCenterApplication: (
   input: CreateIdentityCenterApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateIdentityCenterApplicationResponse,
   InvalidParameterException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3284,7 +3370,7 @@ export const createIdentityCenterApplication: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3300,7 +3386,7 @@ export const listTagsForResource: (
  */
 export const deleteAccessControlRule: (
   input: DeleteAccessControlRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccessControlRuleResponse,
   OrganizationNotFoundException | OrganizationStateException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3315,7 +3401,7 @@ export const deleteAccessControlRule: (
  */
 export const deregisterMailDomain: (
   input: DeregisterMailDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterMailDomainResponse,
   | InvalidCustomSesConfigurationException
   | InvalidParameterException
@@ -3340,7 +3426,7 @@ export const deregisterMailDomain: (
  */
 export const getImpersonationRoleEffect: (
   input: GetImpersonationRoleEffectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetImpersonationRoleEffectResponse,
   | EntityNotFoundException
   | EntityStateException
@@ -3368,7 +3454,7 @@ export const getImpersonationRoleEffect: (
  */
 export const getMobileDeviceAccessEffect: (
   input: GetMobileDeviceAccessEffectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMobileDeviceAccessEffectResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -3389,7 +3475,7 @@ export const getMobileDeviceAccessEffect: (
  */
 export const listAccessControlRules: (
   input: ListAccessControlRulesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListAccessControlRulesResponse,
   OrganizationNotFoundException | OrganizationStateException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3405,7 +3491,7 @@ export const listAccessControlRules: (
 export const listGroupMembers: {
   (
     input: ListGroupMembersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGroupMembersResponse,
     | EntityNotFoundException
     | EntityStateException
@@ -3417,7 +3503,7 @@ export const listGroupMembers: {
   >;
   pages: (
     input: ListGroupMembersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGroupMembersResponse,
     | EntityNotFoundException
     | EntityStateException
@@ -3429,7 +3515,7 @@ export const listGroupMembers: {
   >;
   items: (
     input: ListGroupMembersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EntityNotFoundException
     | EntityStateException
@@ -3461,7 +3547,7 @@ export const listGroupMembers: {
 export const listImpersonationRoles: {
   (
     input: ListImpersonationRolesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListImpersonationRolesResponse,
     | InvalidParameterException
     | OrganizationNotFoundException
@@ -3471,7 +3557,7 @@ export const listImpersonationRoles: {
   >;
   pages: (
     input: ListImpersonationRolesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListImpersonationRolesResponse,
     | InvalidParameterException
     | OrganizationNotFoundException
@@ -3481,7 +3567,7 @@ export const listImpersonationRoles: {
   >;
   items: (
     input: ListImpersonationRolesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidParameterException
     | OrganizationNotFoundException
@@ -3510,7 +3596,7 @@ export const listImpersonationRoles: {
 export const listMailboxExportJobs: {
   (
     input: ListMailboxExportJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMailboxExportJobsResponse,
     | InvalidParameterException
     | OrganizationNotFoundException
@@ -3520,7 +3606,7 @@ export const listMailboxExportJobs: {
   >;
   pages: (
     input: ListMailboxExportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMailboxExportJobsResponse,
     | InvalidParameterException
     | OrganizationNotFoundException
@@ -3530,7 +3616,7 @@ export const listMailboxExportJobs: {
   >;
   items: (
     input: ListMailboxExportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidParameterException
     | OrganizationNotFoundException
@@ -3559,7 +3645,7 @@ export const listMailboxExportJobs: {
 export const listMailboxPermissions: {
   (
     input: ListMailboxPermissionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMailboxPermissionsResponse,
     | EntityNotFoundException
     | InvalidParameterException
@@ -3570,7 +3656,7 @@ export const listMailboxPermissions: {
   >;
   pages: (
     input: ListMailboxPermissionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMailboxPermissionsResponse,
     | EntityNotFoundException
     | InvalidParameterException
@@ -3581,7 +3667,7 @@ export const listMailboxPermissions: {
   >;
   items: (
     input: ListMailboxPermissionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EntityNotFoundException
     | InvalidParameterException
@@ -3611,7 +3697,7 @@ export const listMailboxPermissions: {
 export const listMailDomains: {
   (
     input: ListMailDomainsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMailDomainsResponse,
     | InvalidParameterException
     | OrganizationNotFoundException
@@ -3621,7 +3707,7 @@ export const listMailDomains: {
   >;
   pages: (
     input: ListMailDomainsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMailDomainsResponse,
     | InvalidParameterException
     | OrganizationNotFoundException
@@ -3631,7 +3717,7 @@ export const listMailDomains: {
   >;
   items: (
     input: ListMailDomainsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidParameterException
     | OrganizationNotFoundException
@@ -3659,7 +3745,7 @@ export const listMailDomains: {
 export const listMobileDeviceAccessOverrides: {
   (
     input: ListMobileDeviceAccessOverridesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMobileDeviceAccessOverridesResponse,
     | EntityNotFoundException
     | InvalidParameterException
@@ -3670,7 +3756,7 @@ export const listMobileDeviceAccessOverrides: {
   >;
   pages: (
     input: ListMobileDeviceAccessOverridesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMobileDeviceAccessOverridesResponse,
     | EntityNotFoundException
     | InvalidParameterException
@@ -3681,7 +3767,7 @@ export const listMobileDeviceAccessOverrides: {
   >;
   items: (
     input: ListMobileDeviceAccessOverridesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EntityNotFoundException
     | InvalidParameterException
@@ -3710,7 +3796,7 @@ export const listMobileDeviceAccessOverrides: {
  */
 export const listMobileDeviceAccessRules: (
   input: ListMobileDeviceAccessRulesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListMobileDeviceAccessRulesResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -3732,21 +3818,21 @@ export const listMobileDeviceAccessRules: (
 export const listOrganizations: {
   (
     input: ListOrganizationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOrganizationsResponse,
     InvalidParameterException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListOrganizationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOrganizationsResponse,
     InvalidParameterException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOrganizationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidParameterException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3767,7 +3853,7 @@ export const listOrganizations: {
 export const listPersonalAccessTokens: {
   (
     input: ListPersonalAccessTokensRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPersonalAccessTokensResponse,
     | EntityNotFoundException
     | EntityStateException
@@ -3779,7 +3865,7 @@ export const listPersonalAccessTokens: {
   >;
   pages: (
     input: ListPersonalAccessTokensRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPersonalAccessTokensResponse,
     | EntityNotFoundException
     | EntityStateException
@@ -3791,7 +3877,7 @@ export const listPersonalAccessTokens: {
   >;
   items: (
     input: ListPersonalAccessTokensRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PersonalAccessTokenSummary,
     | EntityNotFoundException
     | EntityStateException
@@ -3823,7 +3909,7 @@ export const listPersonalAccessTokens: {
  */
 export const putRetentionPolicy: (
   input: PutRetentionPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutRetentionPolicyResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -3846,7 +3932,7 @@ export const putRetentionPolicy: (
  */
 export const describeUser: (
   input: DescribeUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeUserResponse,
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
@@ -3873,7 +3959,7 @@ export const describeUser: (
  */
 export const deleteEmailMonitoringConfiguration: (
   input: DeleteEmailMonitoringConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEmailMonitoringConfigurationResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -3894,7 +3980,7 @@ export const deleteEmailMonitoringConfiguration: (
  */
 export const deleteOrganization: (
   input: DeleteOrganizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteOrganizationResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -3915,7 +4001,7 @@ export const deleteOrganization: (
  */
 export const describeEmailMonitoringConfiguration: (
   input: DescribeEmailMonitoringConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEmailMonitoringConfigurationResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -3938,7 +4024,7 @@ export const describeEmailMonitoringConfiguration: (
  */
 export const describeEntity: (
   input: DescribeEntityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEntityResponse,
   | EntityNotFoundException
   | InvalidParameterException
@@ -3961,7 +4047,7 @@ export const describeEntity: (
  */
 export const describeGroup: (
   input: DescribeGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeGroupResponse,
   | EntityNotFoundException
   | InvalidParameterException
@@ -3984,7 +4070,7 @@ export const describeGroup: (
  */
 export const describeIdentityProviderConfiguration: (
   input: DescribeIdentityProviderConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeIdentityProviderConfigurationResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -4007,7 +4093,7 @@ export const describeIdentityProviderConfiguration: (
  */
 export const describeInboundDmarcSettings: (
   input: DescribeInboundDmarcSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeInboundDmarcSettingsResponse,
   OrganizationNotFoundException | OrganizationStateException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4021,7 +4107,7 @@ export const describeInboundDmarcSettings: (
  */
 export const describeMailboxExportJob: (
   input: DescribeMailboxExportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeMailboxExportJobResponse,
   | EntityNotFoundException
   | InvalidParameterException
@@ -4045,7 +4131,7 @@ export const describeMailboxExportJob: (
  */
 export const getAccessControlEffect: (
   input: GetAccessControlEffectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccessControlEffectResponse,
   | EntityNotFoundException
   | InvalidParameterException
@@ -4070,7 +4156,7 @@ export const getAccessControlEffect: (
  */
 export const getDefaultRetentionPolicy: (
   input: GetDefaultRetentionPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDefaultRetentionPolicyResponse,
   | EntityNotFoundException
   | InvalidParameterException
@@ -4093,7 +4179,7 @@ export const getDefaultRetentionPolicy: (
  */
 export const getImpersonationRole: (
   input: GetImpersonationRoleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetImpersonationRoleResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -4116,7 +4202,7 @@ export const getImpersonationRole: (
  */
 export const getMailboxDetails: (
   input: GetMailboxDetailsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMailboxDetailsResponse,
   | EntityNotFoundException
   | InvalidParameterException
@@ -4139,7 +4225,7 @@ export const getMailboxDetails: (
  */
 export const getMobileDeviceAccessOverride: (
   input: GetMobileDeviceAccessOverrideRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMobileDeviceAccessOverrideResponse,
   | EntityNotFoundException
   | InvalidParameterException
@@ -4164,7 +4250,7 @@ export const getMobileDeviceAccessOverride: (
  */
 export const getPersonalAccessTokenMetadata: (
   input: GetPersonalAccessTokenMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPersonalAccessTokenMetadataResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -4189,7 +4275,7 @@ export const getPersonalAccessTokenMetadata: (
 export const listAliases: {
   (
     input: ListAliasesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAliasesResponse,
     | EntityNotFoundException
     | EntityStateException
@@ -4201,7 +4287,7 @@ export const listAliases: {
   >;
   pages: (
     input: ListAliasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAliasesResponse,
     | EntityNotFoundException
     | EntityStateException
@@ -4213,7 +4299,7 @@ export const listAliases: {
   >;
   items: (
     input: ListAliasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EntityNotFoundException
     | EntityStateException
@@ -4245,7 +4331,7 @@ export const listAliases: {
  */
 export const putIdentityProviderConfiguration: (
   input: PutIdentityProviderConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutIdentityProviderConfigurationResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -4274,7 +4360,7 @@ export const putIdentityProviderConfiguration: (
  */
 export const testAvailabilityConfiguration: (
   input: TestAvailabilityConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TestAvailabilityConfigurationResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -4300,7 +4386,7 @@ export const testAvailabilityConfiguration: (
  */
 export const cancelMailboxExportJob: (
   input: CancelMailboxExportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelMailboxExportJobResponse,
   | EntityNotFoundException
   | InvalidParameterException
@@ -4324,7 +4410,7 @@ export const cancelMailboxExportJob: (
  */
 export const deleteAlias: (
   input: DeleteAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAliasResponse,
   | EntityNotFoundException
   | EntityStateException
@@ -4349,7 +4435,7 @@ export const deleteAlias: (
  */
 export const deleteMailboxPermissions: (
   input: DeleteMailboxPermissionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMailboxPermissionsResponse,
   | EntityNotFoundException
   | EntityStateException
@@ -4376,7 +4462,7 @@ export const deleteMailboxPermissions: (
  */
 export const deleteMobileDeviceAccessOverride: (
   input: DeleteMobileDeviceAccessOverrideRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMobileDeviceAccessOverrideResponse,
   | EntityNotFoundException
   | InvalidParameterException
@@ -4402,7 +4488,7 @@ export const deleteMobileDeviceAccessOverride: (
  */
 export const deregisterFromWorkMail: (
   input: DeregisterFromWorkMailRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterFromWorkMailResponse,
   | EntityNotFoundException
   | EntityStateException
@@ -4428,7 +4514,7 @@ export const deregisterFromWorkMail: (
  */
 export const putMailboxPermissions: (
   input: PutMailboxPermissionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutMailboxPermissionsResponse,
   | EntityNotFoundException
   | EntityStateException
@@ -4453,7 +4539,7 @@ export const putMailboxPermissions: (
  */
 export const putMobileDeviceAccessOverride: (
   input: PutMobileDeviceAccessOverrideRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutMobileDeviceAccessOverrideResponse,
   | EntityNotFoundException
   | EntityStateException
@@ -4479,7 +4565,7 @@ export const putMobileDeviceAccessOverride: (
  */
 export const updateMailboxQuota: (
   input: UpdateMailboxQuotaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMailboxQuotaResponse,
   | EntityNotFoundException
   | EntityStateException
@@ -4504,7 +4590,7 @@ export const updateMailboxQuota: (
  */
 export const updateMobileDeviceAccessRule: (
   input: UpdateMobileDeviceAccessRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMobileDeviceAccessRuleResponse,
   | EntityNotFoundException
   | InvalidParameterException
@@ -4527,7 +4613,7 @@ export const updateMobileDeviceAccessRule: (
  */
 export const deleteAvailabilityConfiguration: (
   input: DeleteAvailabilityConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAvailabilityConfigurationResponse,
   OrganizationNotFoundException | OrganizationStateException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4541,7 +4627,7 @@ export const deleteAvailabilityConfiguration: (
  */
 export const putInboundDmarcSettings: (
   input: PutInboundDmarcSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutInboundDmarcSettingsResponse,
   OrganizationNotFoundException | OrganizationStateException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4555,7 +4641,7 @@ export const putInboundDmarcSettings: (
  */
 export const deleteIdentityCenterApplication: (
   input: DeleteIdentityCenterApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIdentityCenterApplicationResponse,
   InvalidParameterException | OrganizationStateException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4569,7 +4655,7 @@ export const deleteIdentityCenterApplication: (
  */
 export const deleteIdentityProviderConfiguration: (
   input: DeleteIdentityProviderConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIdentityProviderConfigurationResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -4590,7 +4676,7 @@ export const deleteIdentityProviderConfiguration: (
  */
 export const deleteImpersonationRole: (
   input: DeleteImpersonationRoleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteImpersonationRoleResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -4613,7 +4699,7 @@ export const deleteImpersonationRole: (
  */
 export const deleteMobileDeviceAccessRule: (
   input: DeleteMobileDeviceAccessRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMobileDeviceAccessRuleResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -4634,7 +4720,7 @@ export const deleteMobileDeviceAccessRule: (
  */
 export const deletePersonalAccessToken: (
   input: DeletePersonalAccessTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePersonalAccessTokenResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -4655,7 +4741,7 @@ export const deletePersonalAccessToken: (
  */
 export const deleteRetentionPolicy: (
   input: DeleteRetentionPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRetentionPolicyResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -4676,7 +4762,7 @@ export const deleteRetentionPolicy: (
  */
 export const putEmailMonitoringConfiguration: (
   input: PutEmailMonitoringConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutEmailMonitoringConfigurationResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -4700,7 +4786,7 @@ export const putEmailMonitoringConfiguration: (
  */
 export const updateAvailabilityConfiguration: (
   input: UpdateAvailabilityConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAvailabilityConfigurationResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -4724,7 +4810,7 @@ export const updateAvailabilityConfiguration: (
  */
 export const assumeImpersonationRole: (
   input: AssumeImpersonationRoleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssumeImpersonationRoleResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -4750,7 +4836,7 @@ export const assumeImpersonationRole: (
  */
 export const startMailboxExportJob: (
   input: StartMailboxExportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartMailboxExportJobResponse,
   | EntityNotFoundException
   | InvalidParameterException
@@ -4778,7 +4864,7 @@ export const startMailboxExportJob: (
  */
 export const putAccessControlRule: (
   input: PutAccessControlRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAccessControlRuleResponse,
   | EntityNotFoundException
   | InvalidParameterException
@@ -4805,7 +4891,7 @@ export const putAccessControlRule: (
  */
 export const updateImpersonationRole: (
   input: UpdateImpersonationRoleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateImpersonationRoleResponse,
   | EntityNotFoundException
   | EntityStateException
@@ -4835,7 +4921,7 @@ export const updateImpersonationRole: (
  */
 export const registerMailDomain: (
   input: RegisterMailDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterMailDomainResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -4860,7 +4946,7 @@ export const registerMailDomain: (
  */
 export const createMobileDeviceAccessRule: (
   input: CreateMobileDeviceAccessRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMobileDeviceAccessRuleResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -4888,7 +4974,7 @@ export const createMobileDeviceAccessRule: (
  */
 export const createImpersonationRole: (
   input: CreateImpersonationRoleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateImpersonationRoleResponse,
   | EntityNotFoundException
   | EntityStateException
@@ -4915,7 +5001,7 @@ export const createImpersonationRole: (
  */
 export const getMailDomain: (
   input: GetMailDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMailDomainResponse,
   | InvalidParameterException
   | MailDomainNotFoundException
@@ -4939,7 +5025,7 @@ export const getMailDomain: (
 export const listAvailabilityConfigurations: {
   (
     input: ListAvailabilityConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAvailabilityConfigurationsResponse,
     | InvalidParameterException
     | OrganizationNotFoundException
@@ -4949,7 +5035,7 @@ export const listAvailabilityConfigurations: {
   >;
   pages: (
     input: ListAvailabilityConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAvailabilityConfigurationsResponse,
     | InvalidParameterException
     | OrganizationNotFoundException
@@ -4959,7 +5045,7 @@ export const listAvailabilityConfigurations: {
   >;
   items: (
     input: ListAvailabilityConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AvailabilityConfiguration,
     | InvalidParameterException
     | OrganizationNotFoundException
@@ -4988,7 +5074,7 @@ export const listAvailabilityConfigurations: {
 export const listGroups: {
   (
     input: ListGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGroupsResponse,
     | EntityNotFoundException
     | InvalidParameterException
@@ -4999,7 +5085,7 @@ export const listGroups: {
   >;
   pages: (
     input: ListGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGroupsResponse,
     | EntityNotFoundException
     | InvalidParameterException
@@ -5010,7 +5096,7 @@ export const listGroups: {
   >;
   items: (
     input: ListGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EntityNotFoundException
     | InvalidParameterException
@@ -5040,7 +5126,7 @@ export const listGroups: {
 export const listGroupsForEntity: {
   (
     input: ListGroupsForEntityRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGroupsForEntityResponse,
     | EntityNotFoundException
     | EntityStateException
@@ -5052,7 +5138,7 @@ export const listGroupsForEntity: {
   >;
   pages: (
     input: ListGroupsForEntityRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGroupsForEntityResponse,
     | EntityNotFoundException
     | EntityStateException
@@ -5064,7 +5150,7 @@ export const listGroupsForEntity: {
   >;
   items: (
     input: ListGroupsForEntityRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EntityNotFoundException
     | EntityStateException
@@ -5097,7 +5183,7 @@ export const listGroupsForEntity: {
 export const listResourceDelegates: {
   (
     input: ListResourceDelegatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResourceDelegatesResponse,
     | EntityNotFoundException
     | EntityStateException
@@ -5110,7 +5196,7 @@ export const listResourceDelegates: {
   >;
   pages: (
     input: ListResourceDelegatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResourceDelegatesResponse,
     | EntityNotFoundException
     | EntityStateException
@@ -5123,7 +5209,7 @@ export const listResourceDelegates: {
   >;
   items: (
     input: ListResourceDelegatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EntityNotFoundException
     | EntityStateException
@@ -5157,7 +5243,7 @@ export const listResourceDelegates: {
 export const listResources: {
   (
     input: ListResourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResourcesResponse,
     | InvalidParameterException
     | OrganizationNotFoundException
@@ -5168,7 +5254,7 @@ export const listResources: {
   >;
   pages: (
     input: ListResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResourcesResponse,
     | InvalidParameterException
     | OrganizationNotFoundException
@@ -5179,7 +5265,7 @@ export const listResources: {
   >;
   items: (
     input: ListResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidParameterException
     | OrganizationNotFoundException
@@ -5209,7 +5295,7 @@ export const listResources: {
 export const listUsers: {
   (
     input: ListUsersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUsersResponse,
     | InvalidParameterException
     | OrganizationNotFoundException
@@ -5219,7 +5305,7 @@ export const listUsers: {
   >;
   pages: (
     input: ListUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUsersResponse,
     | InvalidParameterException
     | OrganizationNotFoundException
@@ -5229,7 +5315,7 @@ export const listUsers: {
   >;
   items: (
     input: ListUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidParameterException
     | OrganizationNotFoundException
@@ -5257,7 +5343,7 @@ export const listUsers: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InvalidParameterException
   | OrganizationStateException
@@ -5280,7 +5366,7 @@ export const tagResource: (
  */
 export const updateDefaultMailDomain: (
   input: UpdateDefaultMailDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDefaultMailDomainResponse,
   | InvalidParameterException
   | MailDomainNotFoundException
@@ -5305,7 +5391,7 @@ export const updateDefaultMailDomain: (
  */
 export const deleteGroup: (
   input: DeleteGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGroupResponse,
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
@@ -5339,7 +5425,7 @@ export const deleteGroup: (
  */
 export const deleteUser: (
   input: DeleteUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUserResponse,
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
@@ -5368,7 +5454,7 @@ export const deleteUser: (
  */
 export const disassociateMemberFromGroup: (
   input: DisassociateMemberFromGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateMemberFromGroupResponse,
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
@@ -5401,7 +5487,7 @@ export const disassociateMemberFromGroup: (
  */
 export const updateUser: (
   input: UpdateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserResponse,
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
@@ -5432,7 +5518,7 @@ export const updateUser: (
  */
 export const deleteResource: (
   input: DeleteResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourceResponse,
   | EntityStateException
   | InvalidParameterException
@@ -5457,7 +5543,7 @@ export const deleteResource: (
  */
 export const describeResource: (
   input: DescribeResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeResourceResponse,
   | EntityNotFoundException
   | InvalidParameterException
@@ -5482,7 +5568,7 @@ export const describeResource: (
  */
 export const disassociateDelegateFromResource: (
   input: DisassociateDelegateFromResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateDelegateFromResourceResponse,
   | EntityNotFoundException
   | EntityStateException
@@ -5509,7 +5595,7 @@ export const disassociateDelegateFromResource: (
  */
 export const updateGroup: (
   input: UpdateGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGroupResponse,
   | EntityNotFoundException
   | EntityStateException
@@ -5536,7 +5622,7 @@ export const updateGroup: (
  */
 export const associateDelegateToResource: (
   input: AssociateDelegateToResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateDelegateToResourceResponse,
   | EntityNotFoundException
   | EntityStateException
@@ -5563,7 +5649,7 @@ export const associateDelegateToResource: (
  */
 export const associateMemberToGroup: (
   input: AssociateMemberToGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateMemberToGroupResponse,
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
@@ -5594,7 +5680,7 @@ export const associateMemberToGroup: (
  */
 export const createAvailabilityConfiguration: (
   input: CreateAvailabilityConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAvailabilityConfigurationResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -5629,7 +5715,7 @@ export const createAvailabilityConfiguration: (
  */
 export const createOrganization: (
   input: CreateOrganizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateOrganizationResponse,
   | DirectoryInUseException
   | DirectoryUnavailableException
@@ -5654,7 +5740,7 @@ export const createOrganization: (
  */
 export const resetPassword: (
   input: ResetPasswordRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResetPasswordResponse,
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
@@ -5687,7 +5773,7 @@ export const resetPassword: (
  */
 export const createAlias: (
   input: CreateAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAliasResponse,
   | EmailAddressInUseException
   | EntityNotFoundException
@@ -5722,7 +5808,7 @@ export const createAlias: (
  */
 export const updatePrimaryEmailAddress: (
   input: UpdatePrimaryEmailAddressRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePrimaryEmailAddressResponse,
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
@@ -5761,7 +5847,7 @@ export const updatePrimaryEmailAddress: (
  */
 export const updateResource: (
   input: UpdateResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateResourceResponse,
   | DirectoryUnavailableException
   | EmailAddressInUseException
@@ -5807,7 +5893,7 @@ export const updateResource: (
  */
 export const registerToWorkMail: (
   input: RegisterToWorkMailRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterToWorkMailResponse,
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
@@ -5846,7 +5932,7 @@ export const registerToWorkMail: (
  */
 export const createGroup: (
   input: CreateGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGroupResponse,
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
@@ -5877,7 +5963,7 @@ export const createGroup: (
  */
 export const createUser: (
   input: CreateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUserResponse,
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
@@ -5910,7 +5996,7 @@ export const createUser: (
  */
 export const createResource: (
   input: CreateResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateResourceResponse,
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException

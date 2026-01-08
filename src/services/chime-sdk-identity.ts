@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -87,29 +87,37 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Newtypes
-export type NonEmptyResourceName = string | Redacted.Redacted<string>;
-export type Metadata = string | Redacted.Redacted<string>;
+export type NonEmptyResourceName = string | redacted.Redacted<string>;
+export type Metadata = string | redacted.Redacted<string>;
 export type ClientRequestToken = string;
 export type ChimeArn = string;
-export type ResourceName = string | Redacted.Redacted<string>;
-export type UserId = string | Redacted.Redacted<string>;
-export type UserName = string | Redacted.Redacted<string>;
+export type ResourceName = string | redacted.Redacted<string>;
+export type UserId = string | redacted.Redacted<string>;
+export type UserName = string | redacted.Redacted<string>;
 export type String64 = string;
 export type String1600 = string;
 export type MaxResults = number;
-export type NextToken = string | Redacted.Redacted<string>;
-export type SensitiveChimeArn = string | Redacted.Redacted<string>;
-export type SensitiveString1600 = string | Redacted.Redacted<string>;
-export type TagKey = string | Redacted.Redacted<string>;
-export type TagValue = string | Redacted.Redacted<string>;
+export type NextToken = string | redacted.Redacted<string>;
+export type SensitiveChimeArn = string | redacted.Redacted<string>;
+export type SensitiveString1600 = string | redacted.Redacted<string>;
+export type TagKey = string | redacted.Redacted<string>;
+export type TagValue = string | redacted.Redacted<string>;
 export type ExpirationDays = number;
-export type NonEmptySensitiveString1600 = string | Redacted.Redacted<string>;
+export type NonEmptySensitiveString1600 = string | redacted.Redacted<string>;
 export type LexBotAliasArn = string;
 export type LexIntentName = string;
 export type RetentionDays = number;
 
 //# Schemas
-export type TagKeyList = string | Redacted.Redacted<string>[];
+export type AppInstanceUserEndpointType = "APNS" | "APNS_SANDBOX" | "GCM";
+export const AppInstanceUserEndpointType = S.Literal(
+  "APNS",
+  "APNS_SANDBOX",
+  "GCM",
+);
+export type AllowMessages = "ALL" | "NONE";
+export const AllowMessages = S.Literal("ALL", "NONE");
+export type TagKeyList = string | redacted.Redacted<string>[];
 export const TagKeyList = S.Array(SensitiveString);
 export interface CreateAppInstanceAdminRequest {
   AppInstanceAdminArn: string;
@@ -406,7 +414,7 @@ export const GetAppInstanceRetentionSettingsRequest = S.suspend(() =>
 export interface ListAppInstanceAdminsRequest {
   AppInstanceArn: string;
   MaxResults?: number;
-  NextToken?: string | Redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListAppInstanceAdminsRequest = S.suspend(() =>
   S.Struct({
@@ -429,7 +437,7 @@ export const ListAppInstanceAdminsRequest = S.suspend(() =>
 export interface ListAppInstanceBotsRequest {
   AppInstanceArn: string;
   MaxResults?: number;
-  NextToken?: string | Redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListAppInstanceBotsRequest = S.suspend(() =>
   S.Struct({
@@ -451,7 +459,7 @@ export const ListAppInstanceBotsRequest = S.suspend(() =>
 }) as any as S.Schema<ListAppInstanceBotsRequest>;
 export interface ListAppInstancesRequest {
   MaxResults?: number;
-  NextToken?: string | Redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListAppInstancesRequest = S.suspend(() =>
   S.Struct({
@@ -471,9 +479,9 @@ export const ListAppInstancesRequest = S.suspend(() =>
   identifier: "ListAppInstancesRequest",
 }) as any as S.Schema<ListAppInstancesRequest>;
 export interface ListAppInstanceUserEndpointsRequest {
-  AppInstanceUserArn: string | Redacted.Redacted<string>;
+  AppInstanceUserArn: string | redacted.Redacted<string>;
   MaxResults?: number;
-  NextToken?: string | Redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListAppInstanceUserEndpointsRequest = S.suspend(() =>
   S.Struct({
@@ -499,7 +507,7 @@ export const ListAppInstanceUserEndpointsRequest = S.suspend(() =>
 export interface ListAppInstanceUsersRequest {
   AppInstanceArn: string;
   MaxResults?: number;
-  NextToken?: string | Redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListAppInstanceUsersRequest = S.suspend(() =>
   S.Struct({
@@ -536,12 +544,17 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
+export type ExpirationCriterion = "CREATED_TIMESTAMP";
+export const ExpirationCriterion = S.Literal("CREATED_TIMESTAMP");
 export interface ExpirationSettings {
   ExpirationDays: number;
-  ExpirationCriterion: string;
+  ExpirationCriterion: ExpirationCriterion;
 }
 export const ExpirationSettings = S.suspend(() =>
-  S.Struct({ ExpirationDays: S.Number, ExpirationCriterion: S.String }),
+  S.Struct({
+    ExpirationDays: S.Number,
+    ExpirationCriterion: ExpirationCriterion,
+  }),
 ).annotations({
   identifier: "ExpirationSettings",
 }) as any as S.Schema<ExpirationSettings>;
@@ -570,8 +583,8 @@ export const PutAppInstanceUserExpirationSettingsRequest = S.suspend(() =>
   identifier: "PutAppInstanceUserExpirationSettingsRequest",
 }) as any as S.Schema<PutAppInstanceUserExpirationSettingsRequest>;
 export interface Tag {
-  Key: string | Redacted.Redacted<string>;
-  Value: string | Redacted.Redacted<string>;
+  Key: string | redacted.Redacted<string>;
+  Value: string | redacted.Redacted<string>;
 }
 export const Tag = S.suspend(() =>
   S.Struct({ Key: SensitiveString, Value: SensitiveString }),
@@ -580,7 +593,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagResourceRequest {
   ResourceARN: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
@@ -602,7 +615,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceARN: string;
-  TagKeys: TagKeyList;
+  TagKeys: string | redacted.Redacted<string>[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
@@ -624,8 +637,8 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAppInstanceRequest {
   AppInstanceArn: string;
-  Name: string | Redacted.Redacted<string>;
-  Metadata: string | Redacted.Redacted<string>;
+  Name: string | redacted.Redacted<string>;
+  Metadata: string | redacted.Redacted<string>;
 }
 export const UpdateAppInstanceRequest = S.suspend(() =>
   S.Struct({
@@ -645,15 +658,24 @@ export const UpdateAppInstanceRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateAppInstanceRequest",
 }) as any as S.Schema<UpdateAppInstanceRequest>;
+export type RespondsTo = "STANDARD_MESSAGES";
+export const RespondsTo = S.Literal("STANDARD_MESSAGES");
+export type StandardMessages = "AUTO" | "ALL" | "MENTIONS" | "NONE";
+export const StandardMessages = S.Literal("AUTO", "ALL", "MENTIONS", "NONE");
+export type TargetedMessages = "ALL" | "NONE";
+export const TargetedMessages = S.Literal("ALL", "NONE");
 export interface InvokedBy {
-  StandardMessages: string;
-  TargetedMessages: string;
+  StandardMessages: StandardMessages;
+  TargetedMessages: TargetedMessages;
 }
 export const InvokedBy = S.suspend(() =>
-  S.Struct({ StandardMessages: S.String, TargetedMessages: S.String }),
+  S.Struct({
+    StandardMessages: StandardMessages,
+    TargetedMessages: TargetedMessages,
+  }),
 ).annotations({ identifier: "InvokedBy" }) as any as S.Schema<InvokedBy>;
 export interface LexConfiguration {
-  RespondsTo?: string;
+  RespondsTo?: RespondsTo;
   InvokedBy?: InvokedBy;
   LexBotAliasArn: string;
   LocaleId: string;
@@ -661,7 +683,7 @@ export interface LexConfiguration {
 }
 export const LexConfiguration = S.suspend(() =>
   S.Struct({
-    RespondsTo: S.optional(S.String),
+    RespondsTo: S.optional(RespondsTo),
     InvokedBy: S.optional(InvokedBy),
     LexBotAliasArn: S.String,
     LocaleId: S.String,
@@ -680,8 +702,8 @@ export const Configuration = S.suspend(() =>
 }) as any as S.Schema<Configuration>;
 export interface UpdateAppInstanceBotRequest {
   AppInstanceBotArn: string;
-  Name: string | Redacted.Redacted<string>;
-  Metadata: string | Redacted.Redacted<string>;
+  Name: string | redacted.Redacted<string>;
+  Metadata: string | redacted.Redacted<string>;
   Configuration?: Configuration;
 }
 export const UpdateAppInstanceBotRequest = S.suspend(() =>
@@ -705,8 +727,8 @@ export const UpdateAppInstanceBotRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateAppInstanceBotRequest>;
 export interface UpdateAppInstanceUserRequest {
   AppInstanceUserArn: string;
-  Name: string | Redacted.Redacted<string>;
-  Metadata: string | Redacted.Redacted<string>;
+  Name: string | redacted.Redacted<string>;
+  Metadata: string | redacted.Redacted<string>;
 }
 export const UpdateAppInstanceUserRequest = S.suspend(() =>
   S.Struct({
@@ -732,15 +754,15 @@ export const UpdateAppInstanceUserRequest = S.suspend(() =>
 export interface UpdateAppInstanceUserEndpointRequest {
   AppInstanceUserArn: string;
   EndpointId: string;
-  Name?: string | Redacted.Redacted<string>;
-  AllowMessages?: string;
+  Name?: string | redacted.Redacted<string>;
+  AllowMessages?: AllowMessages;
 }
 export const UpdateAppInstanceUserEndpointRequest = S.suspend(() =>
   S.Struct({
     AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
     EndpointId: S.String.pipe(T.HttpLabel("EndpointId")),
     Name: S.optional(SensitiveString),
-    AllowMessages: S.optional(S.String),
+    AllowMessages: S.optional(AllowMessages),
   }).pipe(
     T.all(
       T.Http({
@@ -757,9 +779,42 @@ export const UpdateAppInstanceUserEndpointRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateAppInstanceUserEndpointRequest",
 }) as any as S.Schema<UpdateAppInstanceUserEndpointRequest>;
+export type ErrorCode =
+  | "BadRequest"
+  | "Conflict"
+  | "Forbidden"
+  | "NotFound"
+  | "PreconditionFailed"
+  | "ResourceLimitExceeded"
+  | "ServiceFailure"
+  | "AccessDenied"
+  | "ServiceUnavailable"
+  | "Throttled"
+  | "Throttling"
+  | "Unauthorized"
+  | "Unprocessable"
+  | "VoiceConnectorGroupAssociationsExist"
+  | "PhoneNumberAssociationsExist";
+export const ErrorCode = S.Literal(
+  "BadRequest",
+  "Conflict",
+  "Forbidden",
+  "NotFound",
+  "PreconditionFailed",
+  "ResourceLimitExceeded",
+  "ServiceFailure",
+  "AccessDenied",
+  "ServiceUnavailable",
+  "Throttled",
+  "Throttling",
+  "Unauthorized",
+  "Unprocessable",
+  "VoiceConnectorGroupAssociationsExist",
+  "PhoneNumberAssociationsExist",
+);
 export interface EndpointAttributes {
-  DeviceToken: string | Redacted.Redacted<string>;
-  VoipDeviceToken?: string | Redacted.Redacted<string>;
+  DeviceToken: string | redacted.Redacted<string>;
+  VoipDeviceToken?: string | redacted.Redacted<string>;
 }
 export const EndpointAttributes = S.suspend(() =>
   S.Struct({
@@ -770,10 +825,10 @@ export const EndpointAttributes = S.suspend(() =>
   identifier: "EndpointAttributes",
 }) as any as S.Schema<EndpointAttributes>;
 export interface CreateAppInstanceRequest {
-  Name: string | Redacted.Redacted<string>;
-  Metadata?: string | Redacted.Redacted<string>;
+  Name: string | redacted.Redacted<string>;
+  Metadata?: string | redacted.Redacted<string>;
   ClientRequestToken: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateAppInstanceRequest = S.suspend(() =>
   S.Struct({
@@ -796,11 +851,11 @@ export const CreateAppInstanceRequest = S.suspend(() =>
 }) as any as S.Schema<CreateAppInstanceRequest>;
 export interface CreateAppInstanceUserRequest {
   AppInstanceArn: string;
-  AppInstanceUserId: string | Redacted.Redacted<string>;
-  Name: string | Redacted.Redacted<string>;
-  Metadata?: string | Redacted.Redacted<string>;
+  AppInstanceUserId: string | redacted.Redacted<string>;
+  Name: string | redacted.Redacted<string>;
+  Metadata?: string | redacted.Redacted<string>;
   ClientRequestToken: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   ExpirationSettings?: ExpirationSettings;
 }
 export const CreateAppInstanceUserRequest = S.suspend(() =>
@@ -856,7 +911,7 @@ export const GetAppInstanceRetentionSettingsResponse = S.suspend(() =>
   identifier: "GetAppInstanceRetentionSettingsResponse",
 }) as any as S.Schema<GetAppInstanceRetentionSettingsResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }),
@@ -876,23 +931,23 @@ export const PutAppInstanceUserExpirationSettingsResponse = S.suspend(() =>
   identifier: "PutAppInstanceUserExpirationSettingsResponse",
 }) as any as S.Schema<PutAppInstanceUserExpirationSettingsResponse>;
 export interface RegisterAppInstanceUserEndpointRequest {
-  AppInstanceUserArn: string | Redacted.Redacted<string>;
-  Name?: string | Redacted.Redacted<string>;
-  Type: string;
+  AppInstanceUserArn: string | redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
+  Type: AppInstanceUserEndpointType;
   ResourceArn: string;
   EndpointAttributes: EndpointAttributes;
   ClientRequestToken: string;
-  AllowMessages?: string;
+  AllowMessages?: AllowMessages;
 }
 export const RegisterAppInstanceUserEndpointRequest = S.suspend(() =>
   S.Struct({
     AppInstanceUserArn: SensitiveString.pipe(T.HttpLabel("AppInstanceUserArn")),
     Name: S.optional(SensitiveString),
-    Type: S.String,
+    Type: AppInstanceUserEndpointType,
     ResourceArn: S.String,
     EndpointAttributes: EndpointAttributes,
     ClientRequestToken: S.String,
-    AllowMessages: S.optional(S.String),
+    AllowMessages: S.optional(AllowMessages),
   }).pipe(
     T.all(
       T.Http({
@@ -947,17 +1002,17 @@ export const UpdateAppInstanceUserEndpointResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateAppInstanceUserEndpointResponse>;
 export interface Identity {
   Arn?: string;
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
 }
 export const Identity = S.suspend(() =>
   S.Struct({ Arn: S.optional(S.String), Name: S.optional(SensitiveString) }),
 ).annotations({ identifier: "Identity" }) as any as S.Schema<Identity>;
 export interface AppInstance {
   AppInstanceArn?: string;
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
   CreatedTimestamp?: Date;
   LastUpdatedTimestamp?: Date;
-  Metadata?: string | Redacted.Redacted<string>;
+  Metadata?: string | redacted.Redacted<string>;
 }
 export const AppInstance = S.suspend(() =>
   S.Struct({
@@ -990,11 +1045,11 @@ export const AppInstanceAdmin = S.suspend(() =>
 }) as any as S.Schema<AppInstanceAdmin>;
 export interface AppInstanceBot {
   AppInstanceBotArn?: string;
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
   Configuration?: Configuration;
   CreatedTimestamp?: Date;
   LastUpdatedTimestamp?: Date;
-  Metadata?: string | Redacted.Redacted<string>;
+  Metadata?: string | redacted.Redacted<string>;
 }
 export const AppInstanceBot = S.suspend(() =>
   S.Struct({
@@ -1014,8 +1069,8 @@ export const AppInstanceBot = S.suspend(() =>
 }) as any as S.Schema<AppInstanceBot>;
 export interface AppInstanceUser {
   AppInstanceUserArn?: string;
-  Name?: string | Redacted.Redacted<string>;
-  Metadata?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
+  Metadata?: string | redacted.Redacted<string>;
   CreatedTimestamp?: Date;
   LastUpdatedTimestamp?: Date;
   ExpirationSettings?: ExpirationSettings;
@@ -1048,8 +1103,8 @@ export type AppInstanceAdminList = AppInstanceAdminSummary[];
 export const AppInstanceAdminList = S.Array(AppInstanceAdminSummary);
 export interface AppInstanceBotSummary {
   AppInstanceBotArn?: string;
-  Name?: string | Redacted.Redacted<string>;
-  Metadata?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
+  Metadata?: string | redacted.Redacted<string>;
 }
 export const AppInstanceBotSummary = S.suspend(() =>
   S.Struct({
@@ -1064,8 +1119,8 @@ export type AppInstanceBotList = AppInstanceBotSummary[];
 export const AppInstanceBotList = S.Array(AppInstanceBotSummary);
 export interface AppInstanceSummary {
   AppInstanceArn?: string;
-  Name?: string | Redacted.Redacted<string>;
-  Metadata?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
+  Metadata?: string | redacted.Redacted<string>;
 }
 export const AppInstanceSummary = S.suspend(() =>
   S.Struct({
@@ -1078,21 +1133,33 @@ export const AppInstanceSummary = S.suspend(() =>
 }) as any as S.Schema<AppInstanceSummary>;
 export type AppInstanceList = AppInstanceSummary[];
 export const AppInstanceList = S.Array(AppInstanceSummary);
+export type EndpointStatus = "ACTIVE" | "INACTIVE";
+export const EndpointStatus = S.Literal("ACTIVE", "INACTIVE");
+export type EndpointStatusReason =
+  | "INVALID_DEVICE_TOKEN"
+  | "INVALID_PINPOINT_ARN";
+export const EndpointStatusReason = S.Literal(
+  "INVALID_DEVICE_TOKEN",
+  "INVALID_PINPOINT_ARN",
+);
 export interface EndpointState {
-  Status: string;
-  StatusReason?: string;
+  Status: EndpointStatus;
+  StatusReason?: EndpointStatusReason;
 }
 export const EndpointState = S.suspend(() =>
-  S.Struct({ Status: S.String, StatusReason: S.optional(S.String) }),
+  S.Struct({
+    Status: EndpointStatus,
+    StatusReason: S.optional(EndpointStatusReason),
+  }),
 ).annotations({
   identifier: "EndpointState",
 }) as any as S.Schema<EndpointState>;
 export interface AppInstanceUserEndpointSummary {
   AppInstanceUserArn?: string;
   EndpointId?: string;
-  Name?: string | Redacted.Redacted<string>;
-  Type?: string;
-  AllowMessages?: string;
+  Name?: string | redacted.Redacted<string>;
+  Type?: AppInstanceUserEndpointType;
+  AllowMessages?: AllowMessages;
   EndpointState?: EndpointState;
 }
 export const AppInstanceUserEndpointSummary = S.suspend(() =>
@@ -1100,8 +1167,8 @@ export const AppInstanceUserEndpointSummary = S.suspend(() =>
     AppInstanceUserArn: S.optional(S.String),
     EndpointId: S.optional(S.String),
     Name: S.optional(SensitiveString),
-    Type: S.optional(S.String),
-    AllowMessages: S.optional(S.String),
+    Type: S.optional(AppInstanceUserEndpointType),
+    AllowMessages: S.optional(AllowMessages),
     EndpointState: S.optional(EndpointState),
   }),
 ).annotations({
@@ -1114,8 +1181,8 @@ export const AppInstanceUserEndpointSummaryList = S.Array(
 );
 export interface AppInstanceUserSummary {
   AppInstanceUserArn?: string;
-  Name?: string | Redacted.Redacted<string>;
-  Metadata?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
+  Metadata?: string | redacted.Redacted<string>;
 }
 export const AppInstanceUserSummary = S.suspend(() =>
   S.Struct({
@@ -1190,8 +1257,8 @@ export const DescribeAppInstanceUserResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeAppInstanceUserResponse>;
 export interface ListAppInstanceAdminsResponse {
   AppInstanceArn?: string;
-  AppInstanceAdmins?: AppInstanceAdminList;
-  NextToken?: string | Redacted.Redacted<string>;
+  AppInstanceAdmins?: AppInstanceAdminSummary[];
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListAppInstanceAdminsResponse = S.suspend(() =>
   S.Struct({
@@ -1204,8 +1271,8 @@ export const ListAppInstanceAdminsResponse = S.suspend(() =>
 }) as any as S.Schema<ListAppInstanceAdminsResponse>;
 export interface ListAppInstanceBotsResponse {
   AppInstanceArn?: string;
-  AppInstanceBots?: AppInstanceBotList;
-  NextToken?: string | Redacted.Redacted<string>;
+  AppInstanceBots?: AppInstanceBotSummary[];
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListAppInstanceBotsResponse = S.suspend(() =>
   S.Struct({
@@ -1217,8 +1284,8 @@ export const ListAppInstanceBotsResponse = S.suspend(() =>
   identifier: "ListAppInstanceBotsResponse",
 }) as any as S.Schema<ListAppInstanceBotsResponse>;
 export interface ListAppInstancesResponse {
-  AppInstances?: AppInstanceList;
-  NextToken?: string | Redacted.Redacted<string>;
+  AppInstances?: AppInstanceSummary[];
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListAppInstancesResponse = S.suspend(() =>
   S.Struct({
@@ -1229,8 +1296,8 @@ export const ListAppInstancesResponse = S.suspend(() =>
   identifier: "ListAppInstancesResponse",
 }) as any as S.Schema<ListAppInstancesResponse>;
 export interface ListAppInstanceUserEndpointsResponse {
-  AppInstanceUserEndpoints?: AppInstanceUserEndpointSummaryList;
-  NextToken?: string | Redacted.Redacted<string>;
+  AppInstanceUserEndpoints?: AppInstanceUserEndpointSummary[];
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListAppInstanceUserEndpointsResponse = S.suspend(() =>
   S.Struct({
@@ -1242,8 +1309,8 @@ export const ListAppInstanceUserEndpointsResponse = S.suspend(() =>
 }) as any as S.Schema<ListAppInstanceUserEndpointsResponse>;
 export interface ListAppInstanceUsersResponse {
   AppInstanceArn?: string;
-  AppInstanceUsers?: AppInstanceUserList;
-  NextToken?: string | Redacted.Redacted<string>;
+  AppInstanceUsers?: AppInstanceUserSummary[];
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListAppInstanceUsersResponse = S.suspend(() =>
   S.Struct({
@@ -1293,13 +1360,13 @@ export const RegisterAppInstanceUserEndpointResponse = S.suspend(() =>
 export interface AppInstanceUserEndpoint {
   AppInstanceUserArn?: string;
   EndpointId?: string;
-  Name?: string | Redacted.Redacted<string>;
-  Type?: string;
+  Name?: string | redacted.Redacted<string>;
+  Type?: AppInstanceUserEndpointType;
   ResourceArn?: string;
   EndpointAttributes?: EndpointAttributes;
   CreatedTimestamp?: Date;
   LastUpdatedTimestamp?: Date;
-  AllowMessages?: string;
+  AllowMessages?: AllowMessages;
   EndpointState?: EndpointState;
 }
 export const AppInstanceUserEndpoint = S.suspend(() =>
@@ -1307,7 +1374,7 @@ export const AppInstanceUserEndpoint = S.suspend(() =>
     AppInstanceUserArn: S.optional(S.String),
     EndpointId: S.optional(S.String),
     Name: S.optional(SensitiveString),
-    Type: S.optional(S.String),
+    Type: S.optional(AppInstanceUserEndpointType),
     ResourceArn: S.optional(S.String),
     EndpointAttributes: S.optional(EndpointAttributes),
     CreatedTimestamp: S.optional(
@@ -1316,7 +1383,7 @@ export const AppInstanceUserEndpoint = S.suspend(() =>
     LastUpdatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    AllowMessages: S.optional(S.String),
+    AllowMessages: S.optional(AllowMessages),
     EndpointState: S.optional(EndpointState),
   }),
 ).annotations({
@@ -1324,10 +1391,10 @@ export const AppInstanceUserEndpoint = S.suspend(() =>
 }) as any as S.Schema<AppInstanceUserEndpoint>;
 export interface CreateAppInstanceBotRequest {
   AppInstanceArn: string;
-  Name?: string | Redacted.Redacted<string>;
-  Metadata?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
+  Metadata?: string | redacted.Redacted<string>;
   ClientRequestToken: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   Configuration: Configuration;
 }
 export const CreateAppInstanceBotRequest = S.suspend(() =>
@@ -1385,39 +1452,39 @@ export const CreateAppInstanceBotResponse = S.suspend(() =>
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
   "ForbiddenException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withConflictError) {}
 export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitExceededException>()(
   "ResourceLimitExceededException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class ServiceFailureException extends S.TaggedError<ServiceFailureException>()(
   "ServiceFailureException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
 export class ThrottledClientException extends S.TaggedError<ThrottledClientException>()(
   "ThrottledClientException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withThrottlingError) {}
 export class UnauthorizedClientException extends S.TaggedError<UnauthorizedClientException>()(
   "UnauthorizedClientException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
 
 //# Operations
@@ -1426,7 +1493,7 @@ export class UnauthorizedClientException extends S.TaggedError<UnauthorizedClien
  */
 export const describeAppInstance: (
   input: DescribeAppInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAppInstanceResponse,
   | BadRequestException
   | ForbiddenException
@@ -1453,7 +1520,7 @@ export const describeAppInstance: (
  */
 export const describeAppInstanceBot: (
   input: DescribeAppInstanceBotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAppInstanceBotResponse,
   | BadRequestException
   | ForbiddenException
@@ -1482,7 +1549,7 @@ export const describeAppInstanceBot: (
  */
 export const describeAppInstanceUserEndpoint: (
   input: DescribeAppInstanceUserEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAppInstanceUserEndpointResponse,
   | BadRequestException
   | ForbiddenException
@@ -1510,7 +1577,7 @@ export const describeAppInstanceUserEndpoint: (
  */
 export const putAppInstanceRetentionSettings: (
   input: PutAppInstanceRetentionSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAppInstanceRetentionSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -1538,7 +1605,7 @@ export const putAppInstanceRetentionSettings: (
 export const listAppInstanceAdmins: {
   (
     input: ListAppInstanceAdminsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAppInstanceAdminsResponse,
     | BadRequestException
     | ForbiddenException
@@ -1552,7 +1619,7 @@ export const listAppInstanceAdmins: {
   >;
   pages: (
     input: ListAppInstanceAdminsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAppInstanceAdminsResponse,
     | BadRequestException
     | ForbiddenException
@@ -1566,7 +1633,7 @@ export const listAppInstanceAdmins: {
   >;
   items: (
     input: ListAppInstanceAdminsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -1602,7 +1669,7 @@ export const listAppInstanceAdmins: {
 export const listAppInstanceBots: {
   (
     input: ListAppInstanceBotsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAppInstanceBotsResponse,
     | BadRequestException
     | ForbiddenException
@@ -1616,7 +1683,7 @@ export const listAppInstanceBots: {
   >;
   pages: (
     input: ListAppInstanceBotsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAppInstanceBotsResponse,
     | BadRequestException
     | ForbiddenException
@@ -1630,7 +1697,7 @@ export const listAppInstanceBots: {
   >;
   items: (
     input: ListAppInstanceBotsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -1665,7 +1732,7 @@ export const listAppInstanceBots: {
  */
 export const registerAppInstanceUserEndpoint: (
   input: RegisterAppInstanceUserEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterAppInstanceUserEndpointResponse,
   | BadRequestException
   | ConflictException
@@ -1696,7 +1763,7 @@ export const registerAppInstanceUserEndpoint: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -1725,7 +1792,7 @@ export const tagResource: (
  */
 export const updateAppInstanceBot: (
   input: UpdateAppInstanceBotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAppInstanceBotResponse,
   | BadRequestException
   | ConflictException
@@ -1757,7 +1824,7 @@ export const updateAppInstanceBot: (
  */
 export const updateAppInstanceUser: (
   input: UpdateAppInstanceUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAppInstanceUserResponse,
   | BadRequestException
   | ConflictException
@@ -1790,7 +1857,7 @@ export const updateAppInstanceUser: (
  */
 export const deleteAppInstanceAdmin: (
   input: DeleteAppInstanceAdminRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAppInstanceAdminResponse,
   | BadRequestException
   | ConflictException
@@ -1821,7 +1888,7 @@ export const deleteAppInstanceAdmin: (
  */
 export const deleteAppInstanceBot: (
   input: DeleteAppInstanceBotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAppInstanceBotResponse,
   | BadRequestException
   | ConflictException
@@ -1852,7 +1919,7 @@ export const deleteAppInstanceBot: (
  */
 export const deleteAppInstanceUser: (
   input: DeleteAppInstanceUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAppInstanceUserResponse,
   | BadRequestException
   | ConflictException
@@ -1887,7 +1954,7 @@ export const deleteAppInstanceUser: (
  */
 export const createAppInstance: (
   input: CreateAppInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAppInstanceResponse,
   | BadRequestException
   | ConflictException
@@ -1928,7 +1995,7 @@ export const createAppInstance: (
  */
 export const createAppInstanceAdmin: (
   input: CreateAppInstanceAdminRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAppInstanceAdminResponse,
   | BadRequestException
   | ConflictException
@@ -1960,7 +2027,7 @@ export const createAppInstanceAdmin: (
  */
 export const createAppInstanceUser: (
   input: CreateAppInstanceUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAppInstanceUserResponse,
   | BadRequestException
   | ConflictException
@@ -1991,7 +2058,7 @@ export const createAppInstanceUser: (
  */
 export const describeAppInstanceAdmin: (
   input: DescribeAppInstanceAdminRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAppInstanceAdminResponse,
   | BadRequestException
   | ForbiddenException
@@ -2018,7 +2085,7 @@ export const describeAppInstanceAdmin: (
  */
 export const describeAppInstanceUser: (
   input: DescribeAppInstanceUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAppInstanceUserResponse,
   | BadRequestException
   | ForbiddenException
@@ -2047,7 +2114,7 @@ export const describeAppInstanceUser: (
 export const listAppInstances: {
   (
     input: ListAppInstancesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAppInstancesResponse,
     | BadRequestException
     | ForbiddenException
@@ -2060,7 +2127,7 @@ export const listAppInstances: {
   >;
   pages: (
     input: ListAppInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAppInstancesResponse,
     | BadRequestException
     | ForbiddenException
@@ -2073,7 +2140,7 @@ export const listAppInstances: {
   >;
   items: (
     input: ListAppInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -2107,7 +2174,7 @@ export const listAppInstances: {
 export const listAppInstanceUserEndpoints: {
   (
     input: ListAppInstanceUserEndpointsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAppInstanceUserEndpointsResponse,
     | BadRequestException
     | ForbiddenException
@@ -2120,7 +2187,7 @@ export const listAppInstanceUserEndpoints: {
   >;
   pages: (
     input: ListAppInstanceUserEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAppInstanceUserEndpointsResponse,
     | BadRequestException
     | ForbiddenException
@@ -2133,7 +2200,7 @@ export const listAppInstanceUserEndpoints: {
   >;
   items: (
     input: ListAppInstanceUserEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -2168,7 +2235,7 @@ export const listAppInstanceUserEndpoints: {
 export const listAppInstanceUsers: {
   (
     input: ListAppInstanceUsersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAppInstanceUsersResponse,
     | BadRequestException
     | ForbiddenException
@@ -2181,7 +2248,7 @@ export const listAppInstanceUsers: {
   >;
   pages: (
     input: ListAppInstanceUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAppInstanceUsersResponse,
     | BadRequestException
     | ForbiddenException
@@ -2194,7 +2261,7 @@ export const listAppInstanceUsers: {
   >;
   items: (
     input: ListAppInstanceUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -2233,7 +2300,7 @@ export const listAppInstanceUsers: {
  */
 export const putAppInstanceUserExpirationSettings: (
   input: PutAppInstanceUserExpirationSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAppInstanceUserExpirationSettingsResponse,
   | BadRequestException
   | ConflictException
@@ -2262,7 +2329,7 @@ export const putAppInstanceUserExpirationSettings: (
  */
 export const getAppInstanceRetentionSettings: (
   input: GetAppInstanceRetentionSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAppInstanceRetentionSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -2289,7 +2356,7 @@ export const getAppInstanceRetentionSettings: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -2316,7 +2383,7 @@ export const listTagsForResource: (
  */
 export const deregisterAppInstanceUserEndpoint: (
   input: DeregisterAppInstanceUserEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterAppInstanceUserEndpointResponse,
   | BadRequestException
   | ForbiddenException
@@ -2343,7 +2410,7 @@ export const deregisterAppInstanceUserEndpoint: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -2370,7 +2437,7 @@ export const untagResource: (
  */
 export const updateAppInstance: (
   input: UpdateAppInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAppInstanceResponse,
   | BadRequestException
   | ConflictException
@@ -2399,7 +2466,7 @@ export const updateAppInstance: (
  */
 export const updateAppInstanceUserEndpoint: (
   input: UpdateAppInstanceUserEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAppInstanceUserEndpointResponse,
   | BadRequestException
   | ConflictException
@@ -2428,7 +2495,7 @@ export const updateAppInstanceUserEndpoint: (
  */
 export const deleteAppInstance: (
   input: DeleteAppInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAppInstanceResponse,
   | BadRequestException
   | ForbiddenException
@@ -2458,7 +2525,7 @@ export const deleteAppInstance: (
  */
 export const createAppInstanceBot: (
   input: CreateAppInstanceBotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAppInstanceBotResponse,
   | BadRequestException
   | ConflictException

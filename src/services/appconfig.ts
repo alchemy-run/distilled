@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -104,7 +104,6 @@ export type KmsKeyIdentifier = string;
 export type MinutesBetween0And24Hours = number;
 export type GrowthFactor = number;
 export type ExtensionOrParameterName = string;
-export type Integer = number;
 export type Identifier = string;
 export type StringWithLengthBetween1And255 = string;
 export type VersionLabel = string;
@@ -120,12 +119,11 @@ export type KmsKeyIdentifierOrEmpty = string;
 export type TagValue = string;
 export type StringWithLengthBetween0And32768 =
   | string
-  | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
 export type StringWithLengthBetween1And2048 = string;
 export type DeletionProtectionDuration = number;
 export type DynamicParameterKey = string;
 export type Percentage = number;
-export type Float = number;
 
 //# Schemas
 export interface GetAccountSettingsRequest {}
@@ -136,6 +134,16 @@ export const GetAccountSettingsRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetAccountSettingsRequest",
 }) as any as S.Schema<GetAccountSettingsRequest>;
+export type GrowthType = "LINEAR" | "EXPONENTIAL";
+export const GrowthType = S.Literal("LINEAR", "EXPONENTIAL");
+export type ReplicateTo = "NONE" | "SSM_DOCUMENT";
+export const ReplicateTo = S.Literal("NONE", "SSM_DOCUMENT");
+export type DeletionProtectionCheck = "ACCOUNT_DEFAULT" | "APPLY" | "BYPASS";
+export const DeletionProtectionCheck = S.Literal(
+  "ACCOUNT_DEFAULT",
+  "APPLY",
+  "BYPASS",
+);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export type TagMap = { [key: string]: string };
@@ -146,9 +154,9 @@ export interface CreateDeploymentStrategyRequest {
   DeploymentDurationInMinutes: number;
   FinalBakeTimeInMinutes?: number;
   GrowthFactor: number;
-  GrowthType?: string;
-  ReplicateTo?: string;
-  Tags?: TagMap;
+  GrowthType?: GrowthType;
+  ReplicateTo?: ReplicateTo;
+  Tags?: { [key: string]: string };
 }
 export const CreateDeploymentStrategyRequest = S.suspend(() =>
   S.Struct({
@@ -157,8 +165,8 @@ export const CreateDeploymentStrategyRequest = S.suspend(() =>
     DeploymentDurationInMinutes: S.Number,
     FinalBakeTimeInMinutes: S.optional(S.Number),
     GrowthFactor: S.Number,
-    GrowthType: S.optional(S.String),
-    ReplicateTo: S.optional(S.String),
+    GrowthType: S.optional(GrowthType),
+    ReplicateTo: S.optional(ReplicateTo),
     Tags: S.optional(TagMap),
   }).pipe(
     T.all(
@@ -237,7 +245,7 @@ export const DeleteApplicationResponse = S.suspend(() =>
 export interface DeleteConfigurationProfileRequest {
   ApplicationId: string;
   ConfigurationProfileId: string;
-  DeletionProtectionCheck?: string;
+  DeletionProtectionCheck?: DeletionProtectionCheck;
 }
 export const DeleteConfigurationProfileRequest = S.suspend(() =>
   S.Struct({
@@ -245,7 +253,7 @@ export const DeleteConfigurationProfileRequest = S.suspend(() =>
     ConfigurationProfileId: S.String.pipe(
       T.HttpLabel("ConfigurationProfileId"),
     ),
-    DeletionProtectionCheck: S.optional(S.String).pipe(
+    DeletionProtectionCheck: S.optional(DeletionProtectionCheck).pipe(
       T.HttpHeader("x-amzn-deletion-protection-check"),
     ),
   }).pipe(
@@ -301,13 +309,13 @@ export const DeleteDeploymentStrategyResponse = S.suspend(() =>
 export interface DeleteEnvironmentRequest {
   EnvironmentId: string;
   ApplicationId: string;
-  DeletionProtectionCheck?: string;
+  DeletionProtectionCheck?: DeletionProtectionCheck;
 }
 export const DeleteEnvironmentRequest = S.suspend(() =>
   S.Struct({
     EnvironmentId: S.String.pipe(T.HttpLabel("EnvironmentId")),
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    DeletionProtectionCheck: S.optional(S.String).pipe(
+    DeletionProtectionCheck: S.optional(DeletionProtectionCheck).pipe(
       T.HttpHeader("x-amzn-deletion-protection-check"),
     ),
   }).pipe(
@@ -902,7 +910,7 @@ export const StopDeploymentRequest = S.suspend(() =>
 }) as any as S.Schema<StopDeploymentRequest>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagMap;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -927,7 +935,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1002,12 +1010,14 @@ export const UpdateApplicationRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateApplicationRequest",
 }) as any as S.Schema<UpdateApplicationRequest>;
+export type ValidatorType = "JSON_SCHEMA" | "LAMBDA";
+export const ValidatorType = S.Literal("JSON_SCHEMA", "LAMBDA");
 export interface Validator {
-  Type: string;
-  Content: string | Redacted.Redacted<string>;
+  Type: ValidatorType;
+  Content: string | redacted.Redacted<string>;
 }
 export const Validator = S.suspend(() =>
-  S.Struct({ Type: S.String, Content: SensitiveString }),
+  S.Struct({ Type: ValidatorType, Content: SensitiveString }),
 ).annotations({ identifier: "Validator" }) as any as S.Schema<Validator>;
 export type ValidatorList = Validator[];
 export const ValidatorList = S.Array(Validator);
@@ -1017,7 +1027,7 @@ export interface UpdateConfigurationProfileRequest {
   Name?: string;
   Description?: string;
   RetrievalRoleArn?: string;
-  Validators?: ValidatorList;
+  Validators?: Validator[];
   KmsKeyIdentifier?: string;
 }
 export const UpdateConfigurationProfileRequest = S.suspend(() =>
@@ -1053,7 +1063,7 @@ export interface UpdateDeploymentStrategyRequest {
   DeploymentDurationInMinutes?: number;
   FinalBakeTimeInMinutes?: number;
   GrowthFactor?: number;
-  GrowthType?: string;
+  GrowthType?: GrowthType;
 }
 export const UpdateDeploymentStrategyRequest = S.suspend(() =>
   S.Struct({
@@ -1062,7 +1072,7 @@ export const UpdateDeploymentStrategyRequest = S.suspend(() =>
     DeploymentDurationInMinutes: S.optional(S.Number),
     FinalBakeTimeInMinutes: S.optional(S.Number),
     GrowthFactor: S.optional(S.Number),
-    GrowthType: S.optional(S.String),
+    GrowthType: S.optional(GrowthType),
   }).pipe(
     T.all(
       T.Http({
@@ -1093,7 +1103,7 @@ export interface UpdateEnvironmentRequest {
   EnvironmentId: string;
   Name?: string;
   Description?: string;
-  Monitors?: MonitorList;
+  Monitors?: Monitor[];
 }
 export const UpdateEnvironmentRequest = S.suspend(() =>
   S.Struct({
@@ -1118,6 +1128,25 @@ export const UpdateEnvironmentRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateEnvironmentRequest",
 }) as any as S.Schema<UpdateEnvironmentRequest>;
+export type ActionPoint =
+  | "PRE_CREATE_HOSTED_CONFIGURATION_VERSION"
+  | "PRE_START_DEPLOYMENT"
+  | "AT_DEPLOYMENT_TICK"
+  | "ON_DEPLOYMENT_START"
+  | "ON_DEPLOYMENT_STEP"
+  | "ON_DEPLOYMENT_BAKING"
+  | "ON_DEPLOYMENT_COMPLETE"
+  | "ON_DEPLOYMENT_ROLLED_BACK";
+export const ActionPoint = S.Literal(
+  "PRE_CREATE_HOSTED_CONFIGURATION_VERSION",
+  "PRE_START_DEPLOYMENT",
+  "AT_DEPLOYMENT_TICK",
+  "ON_DEPLOYMENT_START",
+  "ON_DEPLOYMENT_STEP",
+  "ON_DEPLOYMENT_BAKING",
+  "ON_DEPLOYMENT_COMPLETE",
+  "ON_DEPLOYMENT_ROLLED_BACK",
+);
 export interface Action {
   Name?: string;
   Description?: string;
@@ -1134,8 +1163,10 @@ export const Action = S.suspend(() =>
 ).annotations({ identifier: "Action" }) as any as S.Schema<Action>;
 export type ActionList = Action[];
 export const ActionList = S.Array(Action);
-export type ActionsMap = { [key: string]: ActionList };
-export const ActionsMap = S.Record({ key: S.String, value: ActionList });
+export type ActionsMap = { [key in ActionPoint]?: Action[] };
+export const ActionsMap = S.partial(
+  S.Record({ key: ActionPoint, value: ActionList }),
+);
 export interface Parameter {
   Description?: string;
   Required?: boolean;
@@ -1153,8 +1184,8 @@ export const ParameterMap = S.Record({ key: S.String, value: Parameter });
 export interface UpdateExtensionRequest {
   ExtensionIdentifier: string;
   Description?: string;
-  Actions?: ActionsMap;
-  Parameters?: ParameterMap;
+  Actions?: { [key: string]: Action[] };
+  Parameters?: { [key: string]: Parameter };
   VersionNumber?: number;
 }
 export const UpdateExtensionRequest = S.suspend(() =>
@@ -1181,7 +1212,7 @@ export type ParameterValueMap = { [key: string]: string };
 export const ParameterValueMap = S.Record({ key: S.String, value: S.String });
 export interface UpdateExtensionAssociationRequest {
   ExtensionAssociationId: string;
-  Parameters?: ParameterValueMap;
+  Parameters?: { [key: string]: string };
 }
 export const UpdateExtensionAssociationRequest = S.suspend(() =>
   S.Struct({
@@ -1239,6 +1270,38 @@ export const ValidateConfigurationResponse = S.suspend(() =>
 ).annotations({
   identifier: "ValidateConfigurationResponse",
 }) as any as S.Schema<ValidateConfigurationResponse>;
+export type BadRequestReason = "InvalidConfiguration";
+export const BadRequestReason = S.Literal("InvalidConfiguration");
+export type DeploymentState =
+  | "BAKING"
+  | "VALIDATING"
+  | "DEPLOYING"
+  | "COMPLETE"
+  | "ROLLING_BACK"
+  | "ROLLED_BACK"
+  | "REVERTED";
+export const DeploymentState = S.Literal(
+  "BAKING",
+  "VALIDATING",
+  "DEPLOYING",
+  "COMPLETE",
+  "ROLLING_BACK",
+  "ROLLED_BACK",
+  "REVERTED",
+);
+export type EnvironmentState =
+  | "READY_FOR_DEPLOYMENT"
+  | "DEPLOYING"
+  | "ROLLING_BACK"
+  | "ROLLED_BACK"
+  | "REVERTED";
+export const EnvironmentState = S.Literal(
+  "READY_FOR_DEPLOYMENT",
+  "DEPLOYING",
+  "ROLLING_BACK",
+  "ROLLED_BACK",
+  "REVERTED",
+);
 export interface Application {
   Id?: string;
   Name?: string;
@@ -1258,10 +1321,10 @@ export interface DeploymentStrategy {
   Name?: string;
   Description?: string;
   DeploymentDurationInMinutes?: number;
-  GrowthType?: string;
+  GrowthType?: GrowthType;
   GrowthFactor?: number;
   FinalBakeTimeInMinutes?: number;
-  ReplicateTo?: string;
+  ReplicateTo?: ReplicateTo;
 }
 export const DeploymentStrategy = S.suspend(() =>
   S.Struct({
@@ -1269,10 +1332,10 @@ export const DeploymentStrategy = S.suspend(() =>
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     DeploymentDurationInMinutes: S.optional(S.Number),
-    GrowthType: S.optional(S.String),
+    GrowthType: S.optional(GrowthType),
     GrowthFactor: S.optional(S.Number),
     FinalBakeTimeInMinutes: S.optional(S.Number),
-    ReplicateTo: S.optional(S.String),
+    ReplicateTo: S.optional(ReplicateTo),
   }),
 ).annotations({
   identifier: "DeploymentStrategy",
@@ -1284,8 +1347,8 @@ export interface Environment {
   Id?: string;
   Name?: string;
   Description?: string;
-  State?: string;
-  Monitors?: MonitorList;
+  State?: EnvironmentState;
+  Monitors?: Monitor[];
 }
 export const Environment = S.suspend(() =>
   S.Struct({
@@ -1293,7 +1356,7 @@ export const Environment = S.suspend(() =>
     Id: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(EnvironmentState),
     Monitors: S.optional(MonitorList),
   }),
 ).annotations({ identifier: "Environment" }) as any as S.Schema<Environment>;
@@ -1304,7 +1367,7 @@ export const DynamicParameterMap = S.Record({ key: S.String, value: S.String });
 export interface CreateApplicationRequest {
   Name: string;
   Description?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateApplicationRequest = S.suspend(() =>
   S.Struct({
@@ -1330,8 +1393,8 @@ export interface CreateConfigurationProfileRequest {
   Description?: string;
   LocationUri: string;
   RetrievalRoleArn?: string;
-  Validators?: ValidatorList;
-  Tags?: TagMap;
+  Validators?: Validator[];
+  Tags?: { [key: string]: string };
   Type?: string;
   KmsKeyIdentifier?: string;
 }
@@ -1366,8 +1429,8 @@ export interface CreateEnvironmentRequest {
   ApplicationId: string;
   Name: string;
   Description?: string;
-  Monitors?: MonitorList;
-  Tags?: TagMap;
+  Monitors?: Monitor[];
+  Tags?: { [key: string]: string };
 }
 export const CreateEnvironmentRequest = S.suspend(() =>
   S.Struct({
@@ -1396,8 +1459,8 @@ export interface CreateExtensionAssociationRequest {
   ExtensionIdentifier: string;
   ExtensionVersionNumber?: number;
   ResourceIdentifier: string;
-  Parameters?: ParameterValueMap;
-  Tags?: TagMap;
+  Parameters?: { [key: string]: string };
+  Tags?: { [key: string]: string };
 }
 export const CreateExtensionAssociationRequest = S.suspend(() =>
   S.Struct({
@@ -1476,7 +1539,7 @@ export interface ConfigurationProfile {
   Description?: string;
   LocationUri?: string;
   RetrievalRoleArn?: string;
-  Validators?: ValidatorList;
+  Validators?: Validator[];
   Type?: string;
   KmsKeyArn?: string;
   KmsKeyIdentifier?: string;
@@ -1503,8 +1566,8 @@ export interface Extension {
   VersionNumber?: number;
   Arn?: string;
   Description?: string;
-  Actions?: ActionsMap;
-  Parameters?: ParameterMap;
+  Actions?: { [key: string]: Action[] };
+  Parameters?: { [key: string]: Parameter };
 }
 export const Extension = S.suspend(() =>
   S.Struct({
@@ -1522,7 +1585,7 @@ export interface ExtensionAssociation {
   ExtensionArn?: string;
   ResourceArn?: string;
   Arn?: string;
-  Parameters?: ParameterValueMap;
+  Parameters?: { [key: string]: string };
   ExtensionVersionNumber?: number;
 }
 export const ExtensionAssociation = S.suspend(() =>
@@ -1538,7 +1601,7 @@ export const ExtensionAssociation = S.suspend(() =>
   identifier: "ExtensionAssociation",
 }) as any as S.Schema<ExtensionAssociation>;
 export interface Applications {
-  Items?: ApplicationList;
+  Items?: Application[];
   NextToken?: string;
 }
 export const Applications = S.suspend(() =>
@@ -1548,7 +1611,7 @@ export const Applications = S.suspend(() =>
   }),
 ).annotations({ identifier: "Applications" }) as any as S.Schema<Applications>;
 export interface DeploymentStrategies {
-  Items?: DeploymentStrategyList;
+  Items?: DeploymentStrategy[];
   NextToken?: string;
 }
 export const DeploymentStrategies = S.suspend(() =>
@@ -1560,7 +1623,7 @@ export const DeploymentStrategies = S.suspend(() =>
   identifier: "DeploymentStrategies",
 }) as any as S.Schema<DeploymentStrategies>;
 export interface Environments {
-  Items?: EnvironmentList;
+  Items?: Environment[];
   NextToken?: string;
 }
 export const Environments = S.suspend(() =>
@@ -1570,7 +1633,7 @@ export const Environments = S.suspend(() =>
   }),
 ).annotations({ identifier: "Environments" }) as any as S.Schema<Environments>;
 export interface ResourceTags {
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const ResourceTags = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -1582,9 +1645,9 @@ export interface StartDeploymentRequest {
   ConfigurationProfileId: string;
   ConfigurationVersion: string;
   Description?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   KmsKeyIdentifier?: string;
-  DynamicExtensionParameters?: DynamicParameterMap;
+  DynamicExtensionParameters?: { [key: string]: string };
 }
 export const StartDeploymentRequest = S.suspend(() =>
   S.Struct({
@@ -1613,13 +1676,41 @@ export const StartDeploymentRequest = S.suspend(() =>
 ).annotations({
   identifier: "StartDeploymentRequest",
 }) as any as S.Schema<StartDeploymentRequest>;
-export type ValidatorTypeList = string[];
-export const ValidatorTypeList = S.Array(S.String);
+export type DeploymentEventType =
+  | "PERCENTAGE_UPDATED"
+  | "ROLLBACK_STARTED"
+  | "ROLLBACK_COMPLETED"
+  | "BAKE_TIME_STARTED"
+  | "DEPLOYMENT_STARTED"
+  | "DEPLOYMENT_COMPLETED"
+  | "REVERT_COMPLETED";
+export const DeploymentEventType = S.Literal(
+  "PERCENTAGE_UPDATED",
+  "ROLLBACK_STARTED",
+  "ROLLBACK_COMPLETED",
+  "BAKE_TIME_STARTED",
+  "DEPLOYMENT_STARTED",
+  "DEPLOYMENT_COMPLETED",
+  "REVERT_COMPLETED",
+);
+export type TriggeredBy =
+  | "USER"
+  | "APPCONFIG"
+  | "CLOUDWATCH_ALARM"
+  | "INTERNAL_ERROR";
+export const TriggeredBy = S.Literal(
+  "USER",
+  "APPCONFIG",
+  "CLOUDWATCH_ALARM",
+  "INTERNAL_ERROR",
+);
+export type ValidatorTypeList = ValidatorType[];
+export const ValidatorTypeList = S.Array(ValidatorType);
 export interface AppliedExtension {
   ExtensionId?: string;
   ExtensionAssociationId?: string;
   VersionNumber?: number;
-  Parameters?: ParameterValueMap;
+  Parameters?: { [key: string]: string };
 }
 export const AppliedExtension = S.suspend(() =>
   S.Struct({
@@ -1638,7 +1729,7 @@ export interface ConfigurationProfileSummary {
   Id?: string;
   Name?: string;
   LocationUri?: string;
-  ValidatorTypes?: ValidatorTypeList;
+  ValidatorTypes?: ValidatorType[];
   Type?: string;
 }
 export const ConfigurationProfileSummary = S.suspend(() =>
@@ -1662,10 +1753,10 @@ export interface DeploymentSummary {
   ConfigurationName?: string;
   ConfigurationVersion?: string;
   DeploymentDurationInMinutes?: number;
-  GrowthType?: string;
+  GrowthType?: GrowthType;
   GrowthFactor?: number;
   FinalBakeTimeInMinutes?: number;
-  State?: string;
+  State?: DeploymentState;
   PercentageComplete?: number;
   StartedAt?: Date;
   CompletedAt?: Date;
@@ -1677,10 +1768,10 @@ export const DeploymentSummary = S.suspend(() =>
     ConfigurationName: S.optional(S.String),
     ConfigurationVersion: S.optional(S.String),
     DeploymentDurationInMinutes: S.optional(S.Number),
-    GrowthType: S.optional(S.String),
+    GrowthType: S.optional(GrowthType),
     GrowthFactor: S.optional(S.Number),
     FinalBakeTimeInMinutes: S.optional(S.Number),
-    State: S.optional(S.String),
+    State: S.optional(DeploymentState),
     PercentageComplete: S.optional(S.Number),
     StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     CompletedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -1759,9 +1850,9 @@ export const HostedConfigurationVersionSummaryList = S.Array(
 export interface CreateExtensionRequest {
   Name: string;
   Description?: string;
-  Actions: ActionsMap;
-  Parameters?: ParameterMap;
-  Tags?: TagMap;
+  Actions: { [key: string]: Action[] };
+  Parameters?: { [key: string]: Parameter };
+  Tags?: { [key: string]: string };
   LatestVersionNumber?: number;
 }
 export const CreateExtensionRequest = S.suspend(() =>
@@ -1788,7 +1879,7 @@ export const CreateExtensionRequest = S.suspend(() =>
   identifier: "CreateExtensionRequest",
 }) as any as S.Schema<CreateExtensionRequest>;
 export interface ConfigurationProfiles {
-  Items?: ConfigurationProfileSummaryList;
+  Items?: ConfigurationProfileSummary[];
   NextToken?: string;
 }
 export const ConfigurationProfiles = S.suspend(() =>
@@ -1800,7 +1891,7 @@ export const ConfigurationProfiles = S.suspend(() =>
   identifier: "ConfigurationProfiles",
 }) as any as S.Schema<ConfigurationProfiles>;
 export interface Deployments {
-  Items?: DeploymentList;
+  Items?: DeploymentSummary[];
   NextToken?: string;
 }
 export const Deployments = S.suspend(() =>
@@ -1810,7 +1901,7 @@ export const Deployments = S.suspend(() =>
   }),
 ).annotations({ identifier: "Deployments" }) as any as S.Schema<Deployments>;
 export interface ExtensionAssociations {
-  Items?: ExtensionAssociationSummaries;
+  Items?: ExtensionAssociationSummary[];
   NextToken?: string;
 }
 export const ExtensionAssociations = S.suspend(() =>
@@ -1822,7 +1913,7 @@ export const ExtensionAssociations = S.suspend(() =>
   identifier: "ExtensionAssociations",
 }) as any as S.Schema<ExtensionAssociations>;
 export interface Extensions {
-  Items?: ExtensionSummaries;
+  Items?: ExtensionSummary[];
   NextToken?: string;
 }
 export const Extensions = S.suspend(() =>
@@ -1832,7 +1923,7 @@ export const Extensions = S.suspend(() =>
   }),
 ).annotations({ identifier: "Extensions" }) as any as S.Schema<Extensions>;
 export interface HostedConfigurationVersions {
-  Items?: HostedConfigurationVersionSummaryList;
+  Items?: HostedConfigurationVersionSummary[];
   NextToken?: string;
 }
 export const HostedConfigurationVersions = S.suspend(() =>
@@ -1890,22 +1981,22 @@ export const ActionInvocation = S.suspend(() =>
 export type ActionInvocations = ActionInvocation[];
 export const ActionInvocations = S.Array(ActionInvocation);
 export type BadRequestDetails = {
-  InvalidConfiguration: InvalidConfigurationDetailList;
+  InvalidConfiguration: InvalidConfigurationDetail[];
 };
 export const BadRequestDetails = S.Union(
   S.Struct({ InvalidConfiguration: InvalidConfigurationDetailList }),
 );
 export interface DeploymentEvent {
-  EventType?: string;
-  TriggeredBy?: string;
+  EventType?: DeploymentEventType;
+  TriggeredBy?: TriggeredBy;
   Description?: string;
-  ActionInvocations?: ActionInvocations;
+  ActionInvocations?: ActionInvocation[];
   OccurredAt?: Date;
 }
 export const DeploymentEvent = S.suspend(() =>
   S.Struct({
-    EventType: S.optional(S.String),
-    TriggeredBy: S.optional(S.String),
+    EventType: S.optional(DeploymentEventType),
+    TriggeredBy: S.optional(TriggeredBy),
     Description: S.optional(S.String),
     ActionInvocations: S.optional(ActionInvocations),
     OccurredAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -1926,15 +2017,15 @@ export interface Deployment {
   ConfigurationVersion?: string;
   Description?: string;
   DeploymentDurationInMinutes?: number;
-  GrowthType?: string;
+  GrowthType?: GrowthType;
   GrowthFactor?: number;
   FinalBakeTimeInMinutes?: number;
-  State?: string;
-  EventLog?: DeploymentEvents;
+  State?: DeploymentState;
+  EventLog?: DeploymentEvent[];
   PercentageComplete?: number;
   StartedAt?: Date;
   CompletedAt?: Date;
-  AppliedExtensions?: AppliedExtensions;
+  AppliedExtensions?: AppliedExtension[];
   KmsKeyArn?: string;
   KmsKeyIdentifier?: string;
   VersionLabel?: string;
@@ -1951,10 +2042,10 @@ export const Deployment = S.suspend(() =>
     ConfigurationVersion: S.optional(S.String),
     Description: S.optional(S.String),
     DeploymentDurationInMinutes: S.optional(S.Number),
-    GrowthType: S.optional(S.String),
+    GrowthType: S.optional(GrowthType),
     GrowthFactor: S.optional(S.Number),
     FinalBakeTimeInMinutes: S.optional(S.Number),
-    State: S.optional(S.String),
+    State: S.optional(DeploymentState),
     EventLog: S.optional(DeploymentEvents),
     PercentageComplete: S.optional(S.Number),
     StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -1965,13 +2056,15 @@ export const Deployment = S.suspend(() =>
     VersionLabel: S.optional(S.String),
   }),
 ).annotations({ identifier: "Deployment" }) as any as S.Schema<Deployment>;
+export type BytesMeasure = "KILOBYTES";
+export const BytesMeasure = S.Literal("KILOBYTES");
 
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
   {
     Message: S.optional(S.String),
-    Reason: S.optional(S.String),
+    Reason: S.optional(BadRequestReason),
     Details: S.optional(BadRequestDetails),
   },
 ).pipe(C.withBadRequestError) {}
@@ -1995,7 +2088,7 @@ export class PayloadTooLargeException extends S.TaggedError<PayloadTooLargeExcep
   "PayloadTooLargeException",
   {
     Message: S.optional(S.String),
-    Measure: S.optional(S.String),
+    Measure: S.optional(BytesMeasure),
     Limit: S.optional(S.Number),
     Size: S.optional(S.Number),
   },
@@ -2007,7 +2100,7 @@ export class PayloadTooLargeException extends S.TaggedError<PayloadTooLargeExcep
  */
 export const updateAccountSettings: (
   input: UpdateAccountSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AccountSettings,
   BadRequestException | InternalServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2022,7 +2115,7 @@ export const updateAccountSettings: (
  */
 export const getAccountSettings: (
   input: GetAccountSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AccountSettings,
   BadRequestException | InternalServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2037,21 +2130,21 @@ export const getAccountSettings: (
 export const listApplications: {
   (
     input: ListApplicationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     Applications,
     BadRequestException | InternalServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListApplicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Applications,
     BadRequestException | InternalServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Application,
     BadRequestException | InternalServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2073,21 +2166,21 @@ export const listApplications: {
 export const listDeploymentStrategies: {
   (
     input: ListDeploymentStrategiesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DeploymentStrategies,
     BadRequestException | InternalServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListDeploymentStrategiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DeploymentStrategies,
     BadRequestException | InternalServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDeploymentStrategiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DeploymentStrategy,
     BadRequestException | InternalServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2111,21 +2204,21 @@ export const listDeploymentStrategies: {
 export const listExtensionAssociations: {
   (
     input: ListExtensionAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ExtensionAssociations,
     BadRequestException | InternalServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListExtensionAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExtensionAssociations,
     BadRequestException | InternalServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListExtensionAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExtensionAssociationSummary,
     BadRequestException | InternalServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2149,21 +2242,21 @@ export const listExtensionAssociations: {
 export const listExtensions: {
   (
     input: ListExtensionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     Extensions,
     BadRequestException | InternalServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListExtensionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Extensions,
     BadRequestException | InternalServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListExtensionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExtensionSummary,
     BadRequestException | InternalServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2184,7 +2277,7 @@ export const listExtensions: {
  */
 export const deleteApplication: (
   input: DeleteApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApplicationResponse,
   | BadRequestException
   | InternalServerException
@@ -2209,7 +2302,7 @@ export const deleteApplication: (
  */
 export const createApplication: (
   input: CreateApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Application,
   | BadRequestException
   | InternalServerException
@@ -2234,7 +2327,7 @@ export const createApplication: (
  */
 export const deleteConfigurationProfile: (
   input: DeleteConfigurationProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConfigurationProfileResponse,
   | BadRequestException
   | ConflictException
@@ -2257,7 +2350,7 @@ export const deleteConfigurationProfile: (
  */
 export const getDeployment: (
   input: GetDeploymentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Deployment,
   | BadRequestException
   | InternalServerException
@@ -2278,7 +2371,7 @@ export const getDeployment: (
  */
 export const deleteDeploymentStrategy: (
   input: DeleteDeploymentStrategyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDeploymentStrategyResponse,
   | BadRequestException
   | InternalServerException
@@ -2300,7 +2393,7 @@ export const deleteDeploymentStrategy: (
  */
 export const deleteExtension: (
   input: DeleteExtensionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteExtensionResponse,
   | BadRequestException
   | InternalServerException
@@ -2322,7 +2415,7 @@ export const deleteExtension: (
  */
 export const deleteExtensionAssociation: (
   input: DeleteExtensionAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteExtensionAssociationResponse,
   | BadRequestException
   | InternalServerException
@@ -2344,7 +2437,7 @@ export const deleteExtensionAssociation: (
  */
 export const deleteHostedConfigurationVersion: (
   input: DeleteHostedConfigurationVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteHostedConfigurationVersionResponse,
   | BadRequestException
   | InternalServerException
@@ -2369,7 +2462,7 @@ export const deleteHostedConfigurationVersion: (
  */
 export const getDeploymentStrategy: (
   input: GetDeploymentStrategyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeploymentStrategy,
   | BadRequestException
   | InternalServerException
@@ -2390,7 +2483,7 @@ export const getDeploymentStrategy: (
  */
 export const getHostedConfigurationVersion: (
   input: GetHostedConfigurationVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   HostedConfigurationVersion,
   | BadRequestException
   | InternalServerException
@@ -2416,7 +2509,7 @@ export const getHostedConfigurationVersion: (
  */
 export const stopDeployment: (
   input: StopDeploymentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Deployment,
   | BadRequestException
   | InternalServerException
@@ -2439,7 +2532,7 @@ export const stopDeployment: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | BadRequestException
   | InternalServerException
@@ -2460,7 +2553,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | BadRequestException
   | InternalServerException
@@ -2481,7 +2574,7 @@ export const untagResource: (
  */
 export const updateApplication: (
   input: UpdateApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Application,
   | BadRequestException
   | InternalServerException
@@ -2502,7 +2595,7 @@ export const updateApplication: (
  */
 export const updateConfigurationProfile: (
   input: UpdateConfigurationProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ConfigurationProfile,
   | BadRequestException
   | InternalServerException
@@ -2523,7 +2616,7 @@ export const updateConfigurationProfile: (
  */
 export const updateDeploymentStrategy: (
   input: UpdateDeploymentStrategyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeploymentStrategy,
   | BadRequestException
   | InternalServerException
@@ -2544,7 +2637,7 @@ export const updateDeploymentStrategy: (
  */
 export const updateEnvironment: (
   input: UpdateEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Environment,
   | BadRequestException
   | InternalServerException
@@ -2567,7 +2660,7 @@ export const updateEnvironment: (
  */
 export const updateExtensionAssociation: (
   input: UpdateExtensionAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ExtensionAssociation,
   | BadRequestException
   | InternalServerException
@@ -2588,7 +2681,7 @@ export const updateExtensionAssociation: (
  */
 export const validateConfiguration: (
   input: ValidateConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ValidateConfigurationResponse,
   | BadRequestException
   | InternalServerException
@@ -2637,7 +2730,7 @@ export const validateConfiguration: (
  */
 export const createConfigurationProfile: (
   input: CreateConfigurationProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ConfigurationProfile,
   | BadRequestException
   | InternalServerException
@@ -2667,7 +2760,7 @@ export const createConfigurationProfile: (
  */
 export const createEnvironment: (
   input: CreateEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Environment,
   | BadRequestException
   | InternalServerException
@@ -2701,7 +2794,7 @@ export const createEnvironment: (
  */
 export const createExtensionAssociation: (
   input: CreateExtensionAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ExtensionAssociation,
   | BadRequestException
   | InternalServerException
@@ -2724,7 +2817,7 @@ export const createExtensionAssociation: (
  */
 export const getApplication: (
   input: GetApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Application,
   | BadRequestException
   | InternalServerException
@@ -2753,7 +2846,7 @@ export const getApplication: (
  */
 export const getConfiguration: (
   input: GetConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Configuration,
   | BadRequestException
   | InternalServerException
@@ -2774,7 +2867,7 @@ export const getConfiguration: (
  */
 export const getConfigurationProfile: (
   input: GetConfigurationProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ConfigurationProfile,
   | BadRequestException
   | InternalServerException
@@ -2800,7 +2893,7 @@ export const getConfigurationProfile: (
  */
 export const getEnvironment: (
   input: GetEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Environment,
   | BadRequestException
   | InternalServerException
@@ -2821,7 +2914,7 @@ export const getEnvironment: (
  */
 export const getExtension: (
   input: GetExtensionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Extension,
   | BadRequestException
   | InternalServerException
@@ -2844,7 +2937,7 @@ export const getExtension: (
  */
 export const getExtensionAssociation: (
   input: GetExtensionAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ExtensionAssociation,
   | BadRequestException
   | InternalServerException
@@ -2866,7 +2959,7 @@ export const getExtensionAssociation: (
 export const listEnvironments: {
   (
     input: ListEnvironmentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     Environments,
     | BadRequestException
     | InternalServerException
@@ -2876,7 +2969,7 @@ export const listEnvironments: {
   >;
   pages: (
     input: ListEnvironmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Environments,
     | BadRequestException
     | InternalServerException
@@ -2886,7 +2979,7 @@ export const listEnvironments: {
   >;
   items: (
     input: ListEnvironmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Environment,
     | BadRequestException
     | InternalServerException
@@ -2914,7 +3007,7 @@ export const listEnvironments: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResourceTags,
   | BadRequestException
   | InternalServerException
@@ -2936,7 +3029,7 @@ export const listTagsForResource: (
 export const listConfigurationProfiles: {
   (
     input: ListConfigurationProfilesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ConfigurationProfiles,
     | BadRequestException
     | InternalServerException
@@ -2946,7 +3039,7 @@ export const listConfigurationProfiles: {
   >;
   pages: (
     input: ListConfigurationProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConfigurationProfiles,
     | BadRequestException
     | InternalServerException
@@ -2956,7 +3049,7 @@ export const listConfigurationProfiles: {
   >;
   items: (
     input: ListConfigurationProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConfigurationProfileSummary,
     | BadRequestException
     | InternalServerException
@@ -2985,7 +3078,7 @@ export const listConfigurationProfiles: {
 export const listDeployments: {
   (
     input: ListDeploymentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     Deployments,
     | BadRequestException
     | InternalServerException
@@ -2995,7 +3088,7 @@ export const listDeployments: {
   >;
   pages: (
     input: ListDeploymentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Deployments,
     | BadRequestException
     | InternalServerException
@@ -3005,7 +3098,7 @@ export const listDeployments: {
   >;
   items: (
     input: ListDeploymentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DeploymentSummary,
     | BadRequestException
     | InternalServerException
@@ -3035,7 +3128,7 @@ export const listDeployments: {
 export const listHostedConfigurationVersions: {
   (
     input: ListHostedConfigurationVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     HostedConfigurationVersions,
     | BadRequestException
     | InternalServerException
@@ -3045,7 +3138,7 @@ export const listHostedConfigurationVersions: {
   >;
   pages: (
     input: ListHostedConfigurationVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     HostedConfigurationVersions,
     | BadRequestException
     | InternalServerException
@@ -3055,7 +3148,7 @@ export const listHostedConfigurationVersions: {
   >;
   items: (
     input: ListHostedConfigurationVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     HostedConfigurationVersionSummary,
     | BadRequestException
     | InternalServerException
@@ -3086,7 +3179,7 @@ export const listHostedConfigurationVersions: {
  */
 export const deleteEnvironment: (
   input: DeleteEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEnvironmentResponse,
   | BadRequestException
   | ConflictException
@@ -3111,7 +3204,7 @@ export const deleteEnvironment: (
  */
 export const updateExtension: (
   input: UpdateExtensionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Extension,
   | BadRequestException
   | ConflictException
@@ -3134,7 +3227,7 @@ export const updateExtension: (
  */
 export const startDeployment: (
   input: StartDeploymentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Deployment,
   | BadRequestException
   | ConflictException
@@ -3160,7 +3253,7 @@ export const startDeployment: (
  */
 export const createHostedConfigurationVersion: (
   input: CreateHostedConfigurationVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   HostedConfigurationVersion,
   | BadRequestException
   | ConflictException
@@ -3190,7 +3283,7 @@ export const createHostedConfigurationVersion: (
  */
 export const createDeploymentStrategy: (
   input: CreateDeploymentStrategyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeploymentStrategy,
   | BadRequestException
   | InternalServerException
@@ -3231,7 +3324,7 @@ export const createDeploymentStrategy: (
  */
 export const createExtension: (
   input: CreateExtensionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Extension,
   | BadRequestException
   | ConflictException

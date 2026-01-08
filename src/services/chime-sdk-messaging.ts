@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -90,43 +90,60 @@ const rules = T.EndpointResolver((p, _) => {
 export type ChimeArn = string;
 export type SubChannelId = string;
 export type CallbackIdType = string;
-export type NonEmptyResourceName = string | Redacted.Redacted<string>;
-export type Metadata = string | Redacted.Redacted<string>;
-export type ClientRequestToken = string | Redacted.Redacted<string>;
-export type ChannelId = string | Redacted.Redacted<string>;
+export type NonEmptyResourceName = string | redacted.Redacted<string>;
+export type Metadata = string | redacted.Redacted<string>;
+export type ClientRequestToken = string | redacted.Redacted<string>;
+export type ChannelId = string | redacted.Redacted<string>;
 export type MessageId = string;
 export type MaxResults = number;
-export type NextToken = string | Redacted.Redacted<string>;
-export type NonEmptyContent = string | Redacted.Redacted<string>;
-export type ContentType = string | Redacted.Redacted<string>;
-export type TagKey = string | Redacted.Redacted<string>;
-export type TagValue = string | Redacted.Redacted<string>;
+export type NextToken = string | redacted.Redacted<string>;
+export type NonEmptyContent = string | redacted.Redacted<string>;
+export type ContentType = string | redacted.Redacted<string>;
+export type TagKey = string | redacted.Redacted<string>;
+export type TagValue = string | redacted.Redacted<string>;
 export type MaximumSubChannels = number;
 export type TargetMembershipsPerSubChannel = number;
 export type MinimumMembershipPercentage = number;
 export type ExpirationDays = number;
 export type ChannelFlowExecutionOrder = number;
 export type SearchFieldValue = string;
-export type PushNotificationTitle = string | Redacted.Redacted<string>;
-export type PushNotificationBody = string | Redacted.Redacted<string>;
-export type MessageAttributeName = string | Redacted.Redacted<string>;
-export type FilterRule = string | Redacted.Redacted<string>;
-export type MessageAttributeStringValue = string | Redacted.Redacted<string>;
-export type ResourceName = string | Redacted.Redacted<string>;
-export type Content = string | Redacted.Redacted<string>;
+export type PushNotificationTitle = string | redacted.Redacted<string>;
+export type PushNotificationBody = string | redacted.Redacted<string>;
+export type MessageAttributeName = string | redacted.Redacted<string>;
+export type FilterRule = string | redacted.Redacted<string>;
+export type MessageAttributeStringValue = string | redacted.Redacted<string>;
+export type ResourceName = string | redacted.Redacted<string>;
+export type Content = string | redacted.Redacted<string>;
 export type StatusDetail = string;
 export type UrlType = string;
 export type MembershipCount = number;
 export type LambdaFunctionArn = string;
 
 //# Schemas
+export type ChannelMembershipType = "DEFAULT" | "HIDDEN";
+export const ChannelMembershipType = S.Literal("DEFAULT", "HIDDEN");
 export type MemberArns = string[];
 export const MemberArns = S.Array(S.String);
+export type ChannelMode = "UNRESTRICTED" | "RESTRICTED";
+export const ChannelMode = S.Literal("UNRESTRICTED", "RESTRICTED");
+export type ChannelPrivacy = "PUBLIC" | "PRIVATE";
+export const ChannelPrivacy = S.Literal("PUBLIC", "PRIVATE");
 export type ChannelMemberArns = string[];
 export const ChannelMemberArns = S.Array(S.String);
 export type ChannelModeratorArns = string[];
 export const ChannelModeratorArns = S.Array(S.String);
-export type TagKeyList = string | Redacted.Redacted<string>[];
+export type NetworkType = "IPV4_ONLY" | "DUAL_STACK";
+export const NetworkType = S.Literal("IPV4_ONLY", "DUAL_STACK");
+export type SortOrder = "ASCENDING" | "DESCENDING";
+export const SortOrder = S.Literal("ASCENDING", "DESCENDING");
+export type ChannelMessageType = "STANDARD" | "CONTROL";
+export const ChannelMessageType = S.Literal("STANDARD", "CONTROL");
+export type ChannelMessagePersistenceType = "PERSISTENT" | "NON_PERSISTENT";
+export const ChannelMessagePersistenceType = S.Literal(
+  "PERSISTENT",
+  "NON_PERSISTENT",
+);
+export type TagKeyList = string | redacted.Redacted<string>[];
 export const TagKeyList = S.Array(SensitiveString);
 export interface AssociateChannelFlowRequest {
   ChannelArn: string;
@@ -159,15 +176,15 @@ export const AssociateChannelFlowResponse = S.suspend(() =>
 }) as any as S.Schema<AssociateChannelFlowResponse>;
 export interface BatchCreateChannelMembershipRequest {
   ChannelArn: string;
-  Type?: string;
-  MemberArns: MemberArns;
+  Type?: ChannelMembershipType;
+  MemberArns: string[];
   ChimeBearer: string;
   SubChannelId?: string;
 }
 export const BatchCreateChannelMembershipRequest = S.suspend(() =>
   S.Struct({
     ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
-    Type: S.optional(S.String),
+    Type: S.optional(ChannelMembershipType),
     MemberArns: MemberArns,
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
     SubChannelId: S.optional(S.String),
@@ -213,7 +230,7 @@ export const CreateChannelBanRequest = S.suspend(() =>
 export interface CreateChannelMembershipRequest {
   ChannelArn: string;
   MemberArn: string;
-  Type: string;
+  Type: ChannelMembershipType;
   ChimeBearer: string;
   SubChannelId?: string;
 }
@@ -221,7 +238,7 @@ export const CreateChannelMembershipRequest = S.suspend(() =>
   S.Struct({
     ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     MemberArn: S.String,
-    Type: S.String,
+    Type: ChannelMembershipType,
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
     SubChannelId: S.optional(S.String),
   }).pipe(
@@ -755,11 +772,11 @@ export const GetChannelMessageStatusRequest = S.suspend(() =>
   identifier: "GetChannelMessageStatusRequest",
 }) as any as S.Schema<GetChannelMessageStatusRequest>;
 export interface GetMessagingSessionEndpointRequest {
-  NetworkType?: string;
+  NetworkType?: NetworkType;
 }
 export const GetMessagingSessionEndpointRequest = S.suspend(() =>
   S.Struct({
-    NetworkType: S.optional(S.String).pipe(T.HttpQuery("network-type")),
+    NetworkType: S.optional(NetworkType).pipe(T.HttpQuery("network-type")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/endpoints/messaging-session" }),
@@ -798,7 +815,7 @@ export const GetMessagingStreamingConfigurationsRequest = S.suspend(() =>
 export interface ListChannelBansRequest {
   ChannelArn: string;
   MaxResults?: number;
-  NextToken?: string | Redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string>;
   ChimeBearer: string;
 }
 export const ListChannelBansRequest = S.suspend(() =>
@@ -823,7 +840,7 @@ export const ListChannelBansRequest = S.suspend(() =>
 export interface ListChannelFlowsRequest {
   AppInstanceArn: string;
   MaxResults?: number;
-  NextToken?: string | Redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListChannelFlowsRequest = S.suspend(() =>
   S.Struct({
@@ -845,16 +862,16 @@ export const ListChannelFlowsRequest = S.suspend(() =>
 }) as any as S.Schema<ListChannelFlowsRequest>;
 export interface ListChannelMembershipsRequest {
   ChannelArn: string;
-  Type?: string;
+  Type?: ChannelMembershipType;
   MaxResults?: number;
-  NextToken?: string | Redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string>;
   ChimeBearer: string;
   SubChannelId?: string;
 }
 export const ListChannelMembershipsRequest = S.suspend(() =>
   S.Struct({
     ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
-    Type: S.optional(S.String).pipe(T.HttpQuery("type")),
+    Type: S.optional(ChannelMembershipType).pipe(T.HttpQuery("type")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
@@ -875,7 +892,7 @@ export const ListChannelMembershipsRequest = S.suspend(() =>
 export interface ListChannelMembershipsForAppInstanceUserRequest {
   AppInstanceUserArn?: string;
   MaxResults?: number;
-  NextToken?: string | Redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string>;
   ChimeBearer: string;
 }
 export const ListChannelMembershipsForAppInstanceUserRequest = S.suspend(() =>
@@ -904,18 +921,18 @@ export const ListChannelMembershipsForAppInstanceUserRequest = S.suspend(() =>
 }) as any as S.Schema<ListChannelMembershipsForAppInstanceUserRequest>;
 export interface ListChannelMessagesRequest {
   ChannelArn: string;
-  SortOrder?: string;
+  SortOrder?: SortOrder;
   NotBefore?: Date;
   NotAfter?: Date;
   MaxResults?: number;
-  NextToken?: string | Redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string>;
   ChimeBearer: string;
   SubChannelId?: string;
 }
 export const ListChannelMessagesRequest = S.suspend(() =>
   S.Struct({
     ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
-    SortOrder: S.optional(S.String).pipe(T.HttpQuery("sort-order")),
+    SortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sort-order")),
     NotBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
       T.HttpQuery("not-before"),
     ),
@@ -942,7 +959,7 @@ export const ListChannelMessagesRequest = S.suspend(() =>
 export interface ListChannelModeratorsRequest {
   ChannelArn: string;
   MaxResults?: number;
-  NextToken?: string | Redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string>;
   ChimeBearer: string;
 }
 export const ListChannelModeratorsRequest = S.suspend(() =>
@@ -966,15 +983,15 @@ export const ListChannelModeratorsRequest = S.suspend(() =>
 }) as any as S.Schema<ListChannelModeratorsRequest>;
 export interface ListChannelsRequest {
   AppInstanceArn: string;
-  Privacy?: string;
+  Privacy?: ChannelPrivacy;
   MaxResults?: number;
-  NextToken?: string | Redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string>;
   ChimeBearer: string;
 }
 export const ListChannelsRequest = S.suspend(() =>
   S.Struct({
     AppInstanceArn: S.String.pipe(T.HttpQuery("app-instance-arn")),
-    Privacy: S.optional(S.String).pipe(T.HttpQuery("privacy")),
+    Privacy: S.optional(ChannelPrivacy).pipe(T.HttpQuery("privacy")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
@@ -994,7 +1011,7 @@ export const ListChannelsRequest = S.suspend(() =>
 export interface ListChannelsAssociatedWithChannelFlowRequest {
   ChannelFlowArn: string;
   MaxResults?: number;
-  NextToken?: string | Redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListChannelsAssociatedWithChannelFlowRequest = S.suspend(() =>
   S.Struct({
@@ -1020,7 +1037,7 @@ export const ListChannelsAssociatedWithChannelFlowRequest = S.suspend(() =>
 export interface ListChannelsModeratedByAppInstanceUserRequest {
   AppInstanceUserArn?: string;
   MaxResults?: number;
-  NextToken?: string | Redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string>;
   ChimeBearer: string;
 }
 export const ListChannelsModeratedByAppInstanceUserRequest = S.suspend(() =>
@@ -1051,7 +1068,7 @@ export interface ListSubChannelsRequest {
   ChannelArn: string;
   ChimeBearer: string;
   MaxResults?: number;
-  NextToken?: string | Redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListSubChannelsRequest = S.suspend(() =>
   S.Struct({
@@ -1089,12 +1106,22 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
+export type ExpirationCriterion =
+  | "CREATED_TIMESTAMP"
+  | "LAST_MESSAGE_TIMESTAMP";
+export const ExpirationCriterion = S.Literal(
+  "CREATED_TIMESTAMP",
+  "LAST_MESSAGE_TIMESTAMP",
+);
 export interface ExpirationSettings {
   ExpirationDays: number;
-  ExpirationCriterion: string;
+  ExpirationCriterion: ExpirationCriterion;
 }
 export const ExpirationSettings = S.suspend(() =>
-  S.Struct({ ExpirationDays: S.Number, ExpirationCriterion: S.String }),
+  S.Struct({
+    ExpirationDays: S.Number,
+    ExpirationCriterion: ExpirationCriterion,
+  }),
 ).annotations({
   identifier: "ExpirationSettings",
 }) as any as S.Schema<ExpirationSettings>;
@@ -1153,8 +1180,8 @@ export const RedactChannelMessageRequest = S.suspend(() =>
   identifier: "RedactChannelMessageRequest",
 }) as any as S.Schema<RedactChannelMessageRequest>;
 export interface Tag {
-  Key: string | Redacted.Redacted<string>;
-  Value: string | Redacted.Redacted<string>;
+  Key: string | redacted.Redacted<string>;
+  Value: string | redacted.Redacted<string>;
 }
 export const Tag = S.suspend(() =>
   S.Struct({ Key: SensitiveString, Value: SensitiveString }),
@@ -1163,7 +1190,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagResourceRequest {
   ResourceARN: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
@@ -1185,7 +1212,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceARN: string;
-  TagKeys: TagKeyList;
+  TagKeys: string | redacted.Redacted<string>[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
@@ -1207,16 +1234,16 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateChannelRequest {
   ChannelArn: string;
-  Name?: string | Redacted.Redacted<string>;
-  Mode?: string;
-  Metadata?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
+  Mode?: ChannelMode;
+  Metadata?: string | redacted.Redacted<string>;
   ChimeBearer: string;
 }
 export const UpdateChannelRequest = S.suspend(() =>
   S.Struct({
     ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     Name: S.optional(SensitiveString),
-    Mode: S.optional(S.String),
+    Mode: S.optional(ChannelMode),
     Metadata: S.optional(SensitiveString),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   }).pipe(
@@ -1232,12 +1259,14 @@ export const UpdateChannelRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateChannelRequest",
 }) as any as S.Schema<UpdateChannelRequest>;
+export type InvocationType = "ASYNC";
+export const InvocationType = S.Literal("ASYNC");
 export interface LambdaConfiguration {
   ResourceArn: string;
-  InvocationType: string;
+  InvocationType: InvocationType;
 }
 export const LambdaConfiguration = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, InvocationType: S.String }),
+  S.Struct({ ResourceArn: S.String, InvocationType: InvocationType }),
 ).annotations({
   identifier: "LambdaConfiguration",
 }) as any as S.Schema<LambdaConfiguration>;
@@ -1249,26 +1278,28 @@ export const ProcessorConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ProcessorConfiguration",
 }) as any as S.Schema<ProcessorConfiguration>;
+export type FallbackAction = "CONTINUE" | "ABORT";
+export const FallbackAction = S.Literal("CONTINUE", "ABORT");
 export interface Processor {
-  Name: string | Redacted.Redacted<string>;
+  Name: string | redacted.Redacted<string>;
   Configuration: ProcessorConfiguration;
   ExecutionOrder: number;
-  FallbackAction: string;
+  FallbackAction: FallbackAction;
 }
 export const Processor = S.suspend(() =>
   S.Struct({
     Name: SensitiveString,
     Configuration: ProcessorConfiguration,
     ExecutionOrder: S.Number,
-    FallbackAction: S.String,
+    FallbackAction: FallbackAction,
   }),
 ).annotations({ identifier: "Processor" }) as any as S.Schema<Processor>;
 export type ProcessorList = Processor[];
 export const ProcessorList = S.Array(Processor);
 export interface UpdateChannelFlowRequest {
   ChannelFlowArn: string;
-  Processors: ProcessorList;
-  Name: string | Redacted.Redacted<string>;
+  Processors: Processor[];
+  Name: string | redacted.Redacted<string>;
 }
 export const UpdateChannelFlowRequest = S.suspend(() =>
   S.Struct({
@@ -1291,11 +1322,11 @@ export const UpdateChannelFlowRequest = S.suspend(() =>
 export interface UpdateChannelMessageRequest {
   ChannelArn: string;
   MessageId: string;
-  Content: string | Redacted.Redacted<string>;
-  Metadata?: string | Redacted.Redacted<string>;
+  Content: string | redacted.Redacted<string>;
+  Metadata?: string | redacted.Redacted<string>;
   ChimeBearer: string;
   SubChannelId?: string;
-  ContentType?: string | Redacted.Redacted<string>;
+  ContentType?: string | redacted.Redacted<string>;
 }
 export const UpdateChannelMessageRequest = S.suspend(() =>
   S.Struct({
@@ -1343,26 +1374,67 @@ export const UpdateChannelReadMarkerRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateChannelReadMarkerRequest",
 }) as any as S.Schema<UpdateChannelReadMarkerRequest>;
+export type MessagingDataType = "Channel" | "ChannelMessage";
+export const MessagingDataType = S.Literal("Channel", "ChannelMessage");
+export type SearchFieldKey = "MEMBERS";
+export const SearchFieldKey = S.Literal("MEMBERS");
 export type SearchFieldValues = string[];
 export const SearchFieldValues = S.Array(S.String);
+export type SearchFieldOperator = "EQUALS" | "INCLUDES";
+export const SearchFieldOperator = S.Literal("EQUALS", "INCLUDES");
+export type PushNotificationType = "DEFAULT" | "VOIP";
+export const PushNotificationType = S.Literal("DEFAULT", "VOIP");
+export type ErrorCode =
+  | "BadRequest"
+  | "Conflict"
+  | "Forbidden"
+  | "NotFound"
+  | "PreconditionFailed"
+  | "ResourceLimitExceeded"
+  | "ServiceFailure"
+  | "AccessDenied"
+  | "ServiceUnavailable"
+  | "Throttled"
+  | "Throttling"
+  | "Unauthorized"
+  | "Unprocessable"
+  | "VoiceConnectorGroupAssociationsExist"
+  | "PhoneNumberAssociationsExist";
+export const ErrorCode = S.Literal(
+  "BadRequest",
+  "Conflict",
+  "Forbidden",
+  "NotFound",
+  "PreconditionFailed",
+  "ResourceLimitExceeded",
+  "ServiceFailure",
+  "AccessDenied",
+  "ServiceUnavailable",
+  "Throttled",
+  "Throttling",
+  "Unauthorized",
+  "Unprocessable",
+  "VoiceConnectorGroupAssociationsExist",
+  "PhoneNumberAssociationsExist",
+);
 export interface PushNotificationConfiguration {
-  Title?: string | Redacted.Redacted<string>;
-  Body?: string | Redacted.Redacted<string>;
-  Type?: string;
+  Title?: string | redacted.Redacted<string>;
+  Body?: string | redacted.Redacted<string>;
+  Type?: PushNotificationType;
 }
 export const PushNotificationConfiguration = S.suspend(() =>
   S.Struct({
     Title: S.optional(SensitiveString),
     Body: S.optional(SensitiveString),
-    Type: S.optional(S.String),
+    Type: S.optional(PushNotificationType),
   }),
 ).annotations({
   identifier: "PushNotificationConfiguration",
 }) as any as S.Schema<PushNotificationConfiguration>;
-export type MessageAttributeStringValues = string | Redacted.Redacted<string>[];
+export type MessageAttributeStringValues = string | redacted.Redacted<string>[];
 export const MessageAttributeStringValues = S.Array(SensitiveString);
 export interface MessageAttributeValue {
-  StringValues?: MessageAttributeStringValues;
+  StringValues?: string | redacted.Redacted<string>[];
 }
 export const MessageAttributeValue = S.suspend(() =>
   S.Struct({ StringValues: S.optional(MessageAttributeStringValues) }),
@@ -1376,12 +1448,12 @@ export const MessageAttributeMap = S.Record({
 });
 export interface ChannelMessageCallback {
   MessageId: string;
-  Content?: string | Redacted.Redacted<string>;
-  Metadata?: string | Redacted.Redacted<string>;
+  Content?: string | redacted.Redacted<string>;
+  Metadata?: string | redacted.Redacted<string>;
   PushNotification?: PushNotificationConfiguration;
-  MessageAttributes?: MessageAttributeMap;
+  MessageAttributes?: { [key: string]: MessageAttributeValue };
   SubChannelId?: string;
-  ContentType?: string | Redacted.Redacted<string>;
+  ContentType?: string | redacted.Redacted<string>;
 }
 export const ChannelMessageCallback = S.suspend(() =>
   S.Struct({
@@ -1411,19 +1483,19 @@ export const ElasticChannelConfiguration = S.suspend(() =>
   identifier: "ElasticChannelConfiguration",
 }) as any as S.Schema<ElasticChannelConfiguration>;
 export interface ChannelSummary {
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
   ChannelArn?: string;
-  Mode?: string;
-  Privacy?: string;
-  Metadata?: string | Redacted.Redacted<string>;
+  Mode?: ChannelMode;
+  Privacy?: ChannelPrivacy;
+  Metadata?: string | redacted.Redacted<string>;
   LastMessageTimestamp?: Date;
 }
 export const ChannelSummary = S.suspend(() =>
   S.Struct({
     Name: S.optional(SensitiveString),
     ChannelArn: S.optional(S.String),
-    Mode: S.optional(S.String),
-    Privacy: S.optional(S.String),
+    Mode: S.optional(ChannelMode),
+    Privacy: S.optional(ChannelPrivacy),
     Metadata: S.optional(SensitiveString),
     LastMessageTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1433,13 +1505,13 @@ export const ChannelSummary = S.suspend(() =>
   identifier: "ChannelSummary",
 }) as any as S.Schema<ChannelSummary>;
 export interface AppInstanceUserMembershipSummary {
-  Type?: string;
+  Type?: ChannelMembershipType;
   ReadMarkerTimestamp?: Date;
   SubChannelId?: string;
 }
 export const AppInstanceUserMembershipSummary = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String),
+    Type: S.optional(ChannelMembershipType),
     ReadMarkerTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1481,23 +1553,27 @@ export const ChannelModeratedByAppInstanceUserSummaryList = S.Array(
   ChannelModeratedByAppInstanceUserSummary,
 );
 export interface StreamingConfiguration {
-  DataType: string;
+  DataType: MessagingDataType;
   ResourceArn: string;
 }
 export const StreamingConfiguration = S.suspend(() =>
-  S.Struct({ DataType: S.String, ResourceArn: S.String }),
+  S.Struct({ DataType: MessagingDataType, ResourceArn: S.String }),
 ).annotations({
   identifier: "StreamingConfiguration",
 }) as any as S.Schema<StreamingConfiguration>;
 export type StreamingConfigurationList = StreamingConfiguration[];
 export const StreamingConfigurationList = S.Array(StreamingConfiguration);
 export interface SearchField {
-  Key: string;
-  Values: SearchFieldValues;
-  Operator: string;
+  Key: SearchFieldKey;
+  Values: string[];
+  Operator: SearchFieldOperator;
 }
 export const SearchField = S.suspend(() =>
-  S.Struct({ Key: S.String, Values: SearchFieldValues, Operator: S.String }),
+  S.Struct({
+    Key: SearchFieldKey,
+    Values: SearchFieldValues,
+    Operator: SearchFieldOperator,
+  }),
 ).annotations({ identifier: "SearchField" }) as any as S.Schema<SearchField>;
 export type SearchFields = SearchField[];
 export const SearchFields = S.Array(SearchField);
@@ -1509,6 +1585,8 @@ export const Target = S.suspend(() =>
 ).annotations({ identifier: "Target" }) as any as S.Schema<Target>;
 export type TargetList = Target[];
 export const TargetList = S.Array(Target);
+export type AllowNotifications = "ALL" | "NONE" | "FILTERED";
+export const AllowNotifications = S.Literal("ALL", "NONE", "FILTERED");
 export interface ChannelFlowCallbackRequest {
   CallbackId: string;
   ChannelArn: string;
@@ -1539,16 +1617,16 @@ export const ChannelFlowCallbackRequest = S.suspend(() =>
 }) as any as S.Schema<ChannelFlowCallbackRequest>;
 export interface CreateChannelRequest {
   AppInstanceArn: string;
-  Name: string | Redacted.Redacted<string>;
-  Mode?: string;
-  Privacy?: string;
-  Metadata?: string | Redacted.Redacted<string>;
-  ClientRequestToken: string | Redacted.Redacted<string>;
-  Tags?: TagList;
+  Name: string | redacted.Redacted<string>;
+  Mode?: ChannelMode;
+  Privacy?: ChannelPrivacy;
+  Metadata?: string | redacted.Redacted<string>;
+  ClientRequestToken: string | redacted.Redacted<string>;
+  Tags?: Tag[];
   ChimeBearer: string;
-  ChannelId?: string | Redacted.Redacted<string>;
-  MemberArns?: ChannelMemberArns;
-  ModeratorArns?: ChannelModeratorArns;
+  ChannelId?: string | redacted.Redacted<string>;
+  MemberArns?: string[];
+  ModeratorArns?: string[];
   ElasticChannelConfiguration?: ElasticChannelConfiguration;
   ExpirationSettings?: ExpirationSettings;
 }
@@ -1556,8 +1634,8 @@ export const CreateChannelRequest = S.suspend(() =>
   S.Struct({
     AppInstanceArn: S.String,
     Name: SensitiveString,
-    Mode: S.optional(S.String),
-    Privacy: S.optional(S.String),
+    Mode: S.optional(ChannelMode),
+    Privacy: S.optional(ChannelPrivacy),
     Metadata: S.optional(SensitiveString),
     ClientRequestToken: SensitiveString,
     Tags: S.optional(TagList),
@@ -1582,7 +1660,7 @@ export const CreateChannelRequest = S.suspend(() =>
 }) as any as S.Schema<CreateChannelRequest>;
 export interface Identity {
   Arn?: string;
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
 }
 export const Identity = S.suspend(() =>
   S.Struct({ Arn: S.optional(S.String), Name: S.optional(SensitiveString) }),
@@ -1614,12 +1692,12 @@ export const CreateChannelModeratorResponse = S.suspend(() =>
   identifier: "CreateChannelModeratorResponse",
 }) as any as S.Schema<CreateChannelModeratorResponse>;
 export interface PushNotificationPreferences {
-  AllowNotifications: string;
-  FilterRule?: string | Redacted.Redacted<string>;
+  AllowNotifications: AllowNotifications;
+  FilterRule?: string | redacted.Redacted<string>;
 }
 export const PushNotificationPreferences = S.suspend(() =>
   S.Struct({
-    AllowNotifications: S.String,
+    AllowNotifications: AllowNotifications,
     FilterRule: S.optional(SensitiveString),
   }),
 ).annotations({
@@ -1648,7 +1726,7 @@ export const GetChannelMembershipPreferencesResponse = S.suspend(() =>
   identifier: "GetChannelMembershipPreferencesResponse",
 }) as any as S.Schema<GetChannelMembershipPreferencesResponse>;
 export interface GetMessagingStreamingConfigurationsResponse {
-  StreamingConfigurations?: StreamingConfigurationList;
+  StreamingConfigurations?: StreamingConfiguration[];
 }
 export const GetMessagingStreamingConfigurationsResponse = S.suspend(() =>
   S.Struct({ StreamingConfigurations: S.optional(StreamingConfigurationList) }),
@@ -1656,8 +1734,8 @@ export const GetMessagingStreamingConfigurationsResponse = S.suspend(() =>
   identifier: "GetMessagingStreamingConfigurationsResponse",
 }) as any as S.Schema<GetMessagingStreamingConfigurationsResponse>;
 export interface ListChannelMembershipsForAppInstanceUserResponse {
-  ChannelMemberships?: ChannelMembershipForAppInstanceUserSummaryList;
-  NextToken?: string | Redacted.Redacted<string>;
+  ChannelMemberships?: ChannelMembershipForAppInstanceUserSummary[];
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListChannelMembershipsForAppInstanceUserResponse = S.suspend(() =>
   S.Struct({
@@ -1670,8 +1748,8 @@ export const ListChannelMembershipsForAppInstanceUserResponse = S.suspend(() =>
   identifier: "ListChannelMembershipsForAppInstanceUserResponse",
 }) as any as S.Schema<ListChannelMembershipsForAppInstanceUserResponse>;
 export interface ListChannelsModeratedByAppInstanceUserResponse {
-  Channels?: ChannelModeratedByAppInstanceUserSummaryList;
-  NextToken?: string | Redacted.Redacted<string>;
+  Channels?: ChannelModeratedByAppInstanceUserSummary[];
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListChannelsModeratedByAppInstanceUserResponse = S.suspend(() =>
   S.Struct({
@@ -1682,7 +1760,7 @@ export const ListChannelsModeratedByAppInstanceUserResponse = S.suspend(() =>
   identifier: "ListChannelsModeratedByAppInstanceUserResponse",
 }) as any as S.Schema<ListChannelsModeratedByAppInstanceUserResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }),
@@ -1703,7 +1781,7 @@ export const PutChannelExpirationSettingsResponse = S.suspend(() =>
 }) as any as S.Schema<PutChannelExpirationSettingsResponse>;
 export interface PutMessagingStreamingConfigurationsRequest {
   AppInstanceArn: string;
-  StreamingConfigurations: StreamingConfigurationList;
+  StreamingConfigurations: StreamingConfiguration[];
 }
 export const PutMessagingStreamingConfigurationsRequest = S.suspend(() =>
   S.Struct({
@@ -1741,9 +1819,9 @@ export const RedactChannelMessageResponse = S.suspend(() =>
 }) as any as S.Schema<RedactChannelMessageResponse>;
 export interface SearchChannelsRequest {
   ChimeBearer?: string;
-  Fields: SearchFields;
+  Fields: SearchField[];
   MaxResults?: number;
-  NextToken?: string | Redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const SearchChannelsRequest = S.suspend(() =>
   S.Struct({
@@ -1780,12 +1858,22 @@ export const UpdateChannelFlowResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateChannelFlowResponse",
 }) as any as S.Schema<UpdateChannelFlowResponse>;
+export type ChannelMessageStatus = "SENT" | "PENDING" | "FAILED" | "DENIED";
+export const ChannelMessageStatus = S.Literal(
+  "SENT",
+  "PENDING",
+  "FAILED",
+  "DENIED",
+);
 export interface ChannelMessageStatusStructure {
-  Value?: string;
+  Value?: ChannelMessageStatus;
   Detail?: string;
 }
 export const ChannelMessageStatusStructure = S.suspend(() =>
-  S.Struct({ Value: S.optional(S.String), Detail: S.optional(S.String) }),
+  S.Struct({
+    Value: S.optional(ChannelMessageStatus),
+    Detail: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "ChannelMessageStatusStructure",
 }) as any as S.Schema<ChannelMessageStatusStructure>;
@@ -1817,15 +1905,15 @@ export type Members = Identity[];
 export const Members = S.Array(Identity);
 export interface BatchChannelMemberships {
   InvitedBy?: Identity;
-  Type?: string;
-  Members?: Members;
+  Type?: ChannelMembershipType;
+  Members?: Identity[];
   ChannelArn?: string;
   SubChannelId?: string;
 }
 export const BatchChannelMemberships = S.suspend(() =>
   S.Struct({
     InvitedBy: S.optional(Identity),
-    Type: S.optional(S.String),
+    Type: S.optional(ChannelMembershipType),
     Members: S.optional(Members),
     ChannelArn: S.optional(S.String),
     SubChannelId: S.optional(S.String),
@@ -1835,13 +1923,13 @@ export const BatchChannelMemberships = S.suspend(() =>
 }) as any as S.Schema<BatchChannelMemberships>;
 export interface BatchCreateChannelMembershipError {
   MemberArn?: string;
-  ErrorCode?: string;
+  ErrorCode?: ErrorCode;
   ErrorMessage?: string;
 }
 export const BatchCreateChannelMembershipError = S.suspend(() =>
   S.Struct({
     MemberArn: S.optional(S.String),
-    ErrorCode: S.optional(S.String),
+    ErrorCode: S.optional(ErrorCode),
     ErrorMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -1853,11 +1941,11 @@ export const BatchCreateChannelMembershipErrors = S.Array(
   BatchCreateChannelMembershipError,
 );
 export interface Channel {
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
   ChannelArn?: string;
-  Mode?: string;
-  Privacy?: string;
-  Metadata?: string | Redacted.Redacted<string>;
+  Mode?: ChannelMode;
+  Privacy?: ChannelPrivacy;
+  Metadata?: string | redacted.Redacted<string>;
   CreatedBy?: Identity;
   CreatedTimestamp?: Date;
   LastMessageTimestamp?: Date;
@@ -1870,8 +1958,8 @@ export const Channel = S.suspend(() =>
   S.Struct({
     Name: S.optional(SensitiveString),
     ChannelArn: S.optional(S.String),
-    Mode: S.optional(S.String),
-    Privacy: S.optional(S.String),
+    Mode: S.optional(ChannelMode),
+    Privacy: S.optional(ChannelPrivacy),
     Metadata: S.optional(SensitiveString),
     CreatedBy: S.optional(Identity),
     CreatedTimestamp: S.optional(
@@ -1906,8 +1994,8 @@ export const ChannelBan = S.suspend(() =>
 ).annotations({ identifier: "ChannelBan" }) as any as S.Schema<ChannelBan>;
 export interface ChannelFlow {
   ChannelFlowArn?: string;
-  Processors?: ProcessorList;
-  Name?: string | Redacted.Redacted<string>;
+  Processors?: Processor[];
+  Name?: string | redacted.Redacted<string>;
   CreatedTimestamp?: Date;
   LastUpdatedTimestamp?: Date;
 }
@@ -1926,7 +2014,7 @@ export const ChannelFlow = S.suspend(() =>
 ).annotations({ identifier: "ChannelFlow" }) as any as S.Schema<ChannelFlow>;
 export interface ChannelMembership {
   InvitedBy?: Identity;
-  Type?: string;
+  Type?: ChannelMembershipType;
   Member?: Identity;
   ChannelArn?: string;
   CreatedTimestamp?: Date;
@@ -1936,7 +2024,7 @@ export interface ChannelMembership {
 export const ChannelMembership = S.suspend(() =>
   S.Struct({
     InvitedBy: S.optional(Identity),
-    Type: S.optional(S.String),
+    Type: S.optional(ChannelMembershipType),
     Member: S.optional(Identity),
     ChannelArn: S.optional(S.String),
     CreatedTimestamp: S.optional(
@@ -1971,20 +2059,20 @@ export const ChannelModerator = S.suspend(() =>
 export interface ChannelMessage {
   ChannelArn?: string;
   MessageId?: string;
-  Content?: string | Redacted.Redacted<string>;
-  Metadata?: string | Redacted.Redacted<string>;
-  Type?: string;
+  Content?: string | redacted.Redacted<string>;
+  Metadata?: string | redacted.Redacted<string>;
+  Type?: ChannelMessageType;
   CreatedTimestamp?: Date;
   LastEditedTimestamp?: Date;
   LastUpdatedTimestamp?: Date;
   Sender?: Identity;
   Redacted?: boolean;
-  Persistence?: string;
+  Persistence?: ChannelMessagePersistenceType;
   Status?: ChannelMessageStatusStructure;
-  MessageAttributes?: MessageAttributeMap;
+  MessageAttributes?: { [key: string]: MessageAttributeValue };
   SubChannelId?: string;
-  ContentType?: string | Redacted.Redacted<string>;
-  Target?: TargetList;
+  ContentType?: string | redacted.Redacted<string>;
+  Target?: Target[];
 }
 export const ChannelMessage = S.suspend(() =>
   S.Struct({
@@ -1992,7 +2080,7 @@ export const ChannelMessage = S.suspend(() =>
     MessageId: S.optional(S.String),
     Content: S.optional(SensitiveString),
     Metadata: S.optional(SensitiveString),
-    Type: S.optional(S.String),
+    Type: S.optional(ChannelMessageType),
     CreatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -2004,7 +2092,7 @@ export const ChannelMessage = S.suspend(() =>
     ),
     Sender: S.optional(Identity),
     Redacted: S.optional(S.Boolean),
-    Persistence: S.optional(S.String),
+    Persistence: S.optional(ChannelMessagePersistenceType),
     Status: S.optional(ChannelMessageStatusStructure),
     MessageAttributes: S.optional(MessageAttributeMap),
     SubChannelId: S.optional(S.String),
@@ -2034,8 +2122,8 @@ export type ChannelBanSummaryList = ChannelBanSummary[];
 export const ChannelBanSummaryList = S.Array(ChannelBanSummary);
 export interface ChannelFlowSummary {
   ChannelFlowArn?: string;
-  Name?: string | Redacted.Redacted<string>;
-  Processors?: ProcessorList;
+  Name?: string | redacted.Redacted<string>;
+  Processors?: Processor[];
 }
 export const ChannelFlowSummary = S.suspend(() =>
   S.Struct({
@@ -2060,25 +2148,25 @@ export type ChannelMembershipSummaryList = ChannelMembershipSummary[];
 export const ChannelMembershipSummaryList = S.Array(ChannelMembershipSummary);
 export interface ChannelMessageSummary {
   MessageId?: string;
-  Content?: string | Redacted.Redacted<string>;
-  Metadata?: string | Redacted.Redacted<string>;
-  Type?: string;
+  Content?: string | redacted.Redacted<string>;
+  Metadata?: string | redacted.Redacted<string>;
+  Type?: ChannelMessageType;
   CreatedTimestamp?: Date;
   LastUpdatedTimestamp?: Date;
   LastEditedTimestamp?: Date;
   Sender?: Identity;
   Redacted?: boolean;
   Status?: ChannelMessageStatusStructure;
-  MessageAttributes?: MessageAttributeMap;
-  ContentType?: string | Redacted.Redacted<string>;
-  Target?: TargetList;
+  MessageAttributes?: { [key: string]: MessageAttributeValue };
+  ContentType?: string | redacted.Redacted<string>;
+  Target?: Target[];
 }
 export const ChannelMessageSummary = S.suspend(() =>
   S.Struct({
     MessageId: S.optional(S.String),
     Content: S.optional(SensitiveString),
     Metadata: S.optional(SensitiveString),
-    Type: S.optional(S.String),
+    Type: S.optional(ChannelMessageType),
     CreatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -2113,18 +2201,18 @@ export const ChannelModeratorSummaryList = S.Array(ChannelModeratorSummary);
 export type ChannelSummaryList = ChannelSummary[];
 export const ChannelSummaryList = S.Array(ChannelSummary);
 export interface ChannelAssociatedWithFlowSummary {
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
   ChannelArn?: string;
-  Mode?: string;
-  Privacy?: string;
-  Metadata?: string | Redacted.Redacted<string>;
+  Mode?: ChannelMode;
+  Privacy?: ChannelPrivacy;
+  Metadata?: string | redacted.Redacted<string>;
 }
 export const ChannelAssociatedWithFlowSummary = S.suspend(() =>
   S.Struct({
     Name: S.optional(SensitiveString),
     ChannelArn: S.optional(S.String),
-    Mode: S.optional(S.String),
-    Privacy: S.optional(S.String),
+    Mode: S.optional(ChannelMode),
+    Privacy: S.optional(ChannelPrivacy),
     Metadata: S.optional(SensitiveString),
   }),
 ).annotations({
@@ -2151,7 +2239,7 @@ export type SubChannelSummaryList = SubChannelSummary[];
 export const SubChannelSummaryList = S.Array(SubChannelSummary);
 export interface BatchCreateChannelMembershipResponse {
   BatchChannelMemberships?: BatchChannelMemberships;
-  Errors?: BatchCreateChannelMembershipErrors;
+  Errors?: BatchCreateChannelMembershipError[];
 }
 export const BatchCreateChannelMembershipResponse = S.suspend(() =>
   S.Struct({
@@ -2264,8 +2352,8 @@ export const GetMessagingSessionEndpointResponse = S.suspend(() =>
 }) as any as S.Schema<GetMessagingSessionEndpointResponse>;
 export interface ListChannelBansResponse {
   ChannelArn?: string;
-  NextToken?: string | Redacted.Redacted<string>;
-  ChannelBans?: ChannelBanSummaryList;
+  NextToken?: string | redacted.Redacted<string>;
+  ChannelBans?: ChannelBanSummary[];
 }
 export const ListChannelBansResponse = S.suspend(() =>
   S.Struct({
@@ -2277,8 +2365,8 @@ export const ListChannelBansResponse = S.suspend(() =>
   identifier: "ListChannelBansResponse",
 }) as any as S.Schema<ListChannelBansResponse>;
 export interface ListChannelFlowsResponse {
-  ChannelFlows?: ChannelFlowSummaryList;
-  NextToken?: string | Redacted.Redacted<string>;
+  ChannelFlows?: ChannelFlowSummary[];
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListChannelFlowsResponse = S.suspend(() =>
   S.Struct({
@@ -2290,8 +2378,8 @@ export const ListChannelFlowsResponse = S.suspend(() =>
 }) as any as S.Schema<ListChannelFlowsResponse>;
 export interface ListChannelMembershipsResponse {
   ChannelArn?: string;
-  ChannelMemberships?: ChannelMembershipSummaryList;
-  NextToken?: string | Redacted.Redacted<string>;
+  ChannelMemberships?: ChannelMembershipSummary[];
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListChannelMembershipsResponse = S.suspend(() =>
   S.Struct({
@@ -2304,8 +2392,8 @@ export const ListChannelMembershipsResponse = S.suspend(() =>
 }) as any as S.Schema<ListChannelMembershipsResponse>;
 export interface ListChannelMessagesResponse {
   ChannelArn?: string;
-  NextToken?: string | Redacted.Redacted<string>;
-  ChannelMessages?: ChannelMessageSummaryList;
+  NextToken?: string | redacted.Redacted<string>;
+  ChannelMessages?: ChannelMessageSummary[];
   SubChannelId?: string;
 }
 export const ListChannelMessagesResponse = S.suspend(() =>
@@ -2320,8 +2408,8 @@ export const ListChannelMessagesResponse = S.suspend(() =>
 }) as any as S.Schema<ListChannelMessagesResponse>;
 export interface ListChannelModeratorsResponse {
   ChannelArn?: string;
-  NextToken?: string | Redacted.Redacted<string>;
-  ChannelModerators?: ChannelModeratorSummaryList;
+  NextToken?: string | redacted.Redacted<string>;
+  ChannelModerators?: ChannelModeratorSummary[];
 }
 export const ListChannelModeratorsResponse = S.suspend(() =>
   S.Struct({
@@ -2333,8 +2421,8 @@ export const ListChannelModeratorsResponse = S.suspend(() =>
   identifier: "ListChannelModeratorsResponse",
 }) as any as S.Schema<ListChannelModeratorsResponse>;
 export interface ListChannelsResponse {
-  Channels?: ChannelSummaryList;
-  NextToken?: string | Redacted.Redacted<string>;
+  Channels?: ChannelSummary[];
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListChannelsResponse = S.suspend(() =>
   S.Struct({
@@ -2345,8 +2433,8 @@ export const ListChannelsResponse = S.suspend(() =>
   identifier: "ListChannelsResponse",
 }) as any as S.Schema<ListChannelsResponse>;
 export interface ListChannelsAssociatedWithChannelFlowResponse {
-  Channels?: ChannelAssociatedWithFlowSummaryList;
-  NextToken?: string | Redacted.Redacted<string>;
+  Channels?: ChannelAssociatedWithFlowSummary[];
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListChannelsAssociatedWithChannelFlowResponse = S.suspend(() =>
   S.Struct({
@@ -2358,8 +2446,8 @@ export const ListChannelsAssociatedWithChannelFlowResponse = S.suspend(() =>
 }) as any as S.Schema<ListChannelsAssociatedWithChannelFlowResponse>;
 export interface ListSubChannelsResponse {
   ChannelArn?: string;
-  SubChannels?: SubChannelSummaryList;
-  NextToken?: string | Redacted.Redacted<string>;
+  SubChannels?: SubChannelSummary[];
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListSubChannelsResponse = S.suspend(() =>
   S.Struct({
@@ -2399,7 +2487,7 @@ export const PutChannelMembershipPreferencesRequest = S.suspend(() =>
   identifier: "PutChannelMembershipPreferencesRequest",
 }) as any as S.Schema<PutChannelMembershipPreferencesRequest>;
 export interface PutMessagingStreamingConfigurationsResponse {
-  StreamingConfigurations?: StreamingConfigurationList;
+  StreamingConfigurations?: StreamingConfiguration[];
 }
 export const PutMessagingStreamingConfigurationsResponse = S.suspend(() =>
   S.Struct({ StreamingConfigurations: S.optional(StreamingConfigurationList) }),
@@ -2407,8 +2495,8 @@ export const PutMessagingStreamingConfigurationsResponse = S.suspend(() =>
   identifier: "PutMessagingStreamingConfigurationsResponse",
 }) as any as S.Schema<PutMessagingStreamingConfigurationsResponse>;
 export interface SearchChannelsResponse {
-  Channels?: ChannelSummaryList;
-  NextToken?: string | Redacted.Redacted<string>;
+  Channels?: ChannelSummary[];
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const SearchChannelsResponse = S.suspend(() =>
   S.Struct({
@@ -2420,24 +2508,24 @@ export const SearchChannelsResponse = S.suspend(() =>
 }) as any as S.Schema<SearchChannelsResponse>;
 export interface SendChannelMessageRequest {
   ChannelArn: string;
-  Content: string | Redacted.Redacted<string>;
-  Type: string;
-  Persistence: string;
-  Metadata?: string | Redacted.Redacted<string>;
-  ClientRequestToken: string | Redacted.Redacted<string>;
+  Content: string | redacted.Redacted<string>;
+  Type: ChannelMessageType;
+  Persistence: ChannelMessagePersistenceType;
+  Metadata?: string | redacted.Redacted<string>;
+  ClientRequestToken: string | redacted.Redacted<string>;
   ChimeBearer: string;
   PushNotification?: PushNotificationConfiguration;
-  MessageAttributes?: MessageAttributeMap;
+  MessageAttributes?: { [key: string]: MessageAttributeValue };
   SubChannelId?: string;
-  ContentType?: string | Redacted.Redacted<string>;
-  Target?: TargetList;
+  ContentType?: string | redacted.Redacted<string>;
+  Target?: Target[];
 }
 export const SendChannelMessageRequest = S.suspend(() =>
   S.Struct({
     ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     Content: SensitiveString,
-    Type: S.String,
-    Persistence: S.String,
+    Type: ChannelMessageType,
+    Persistence: ChannelMessagePersistenceType,
     Metadata: S.optional(SensitiveString),
     ClientRequestToken: SensitiveString,
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
@@ -2461,10 +2549,10 @@ export const SendChannelMessageRequest = S.suspend(() =>
 }) as any as S.Schema<SendChannelMessageRequest>;
 export interface CreateChannelFlowRequest {
   AppInstanceArn: string;
-  Processors: ProcessorList;
-  Name: string | Redacted.Redacted<string>;
-  Tags?: TagList;
-  ClientRequestToken: string | Redacted.Redacted<string>;
+  Processors: Processor[];
+  Name: string | redacted.Redacted<string>;
+  Tags?: Tag[];
+  ClientRequestToken: string | redacted.Redacted<string>;
 }
 export const CreateChannelFlowRequest = S.suspend(() =>
   S.Struct({
@@ -2539,39 +2627,39 @@ export const CreateChannelFlowResponse = S.suspend(() =>
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withConflictError) {}
 export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
   "ForbiddenException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
 export class ServiceFailureException extends S.TaggedError<ServiceFailureException>()(
   "ServiceFailureException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitExceededException>()(
   "ResourceLimitExceededException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
 export class ThrottledClientException extends S.TaggedError<ThrottledClientException>()(
   "ThrottledClientException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withThrottlingError) {}
 export class UnauthorizedClientException extends S.TaggedError<UnauthorizedClientException>()(
   "UnauthorizedClientException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
 
 //# Operations
@@ -2588,7 +2676,7 @@ export class UnauthorizedClientException extends S.TaggedError<UnauthorizedClien
  */
 export const getChannelMembershipPreferences: (
   input: GetChannelMembershipPreferencesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetChannelMembershipPreferencesResponse,
   | BadRequestException
   | ForbiddenException
@@ -2619,7 +2707,7 @@ export const getChannelMembershipPreferences: (
  */
 export const getChannelMessage: (
   input: GetChannelMessageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetChannelMessageResponse,
   | BadRequestException
   | ForbiddenException
@@ -2656,7 +2744,7 @@ export const getChannelMessage: (
  */
 export const putChannelMembershipPreferences: (
   input: PutChannelMembershipPreferencesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutChannelMembershipPreferencesResponse,
   | BadRequestException
   | ConflictException
@@ -2694,7 +2782,7 @@ export const putChannelMembershipPreferences: (
  */
 export const sendChannelMessage: (
   input: SendChannelMessageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendChannelMessageResponse,
   | BadRequestException
   | ConflictException
@@ -2737,7 +2825,7 @@ export const sendChannelMessage: (
  */
 export const createChannelModerator: (
   input: CreateChannelModeratorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateChannelModeratorResponse,
   | BadRequestException
   | ConflictException
@@ -2795,7 +2883,7 @@ export const createChannelModerator: (
  */
 export const getChannelMessageStatus: (
   input: GetChannelMessageStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetChannelMessageStatusResponse,
   | BadRequestException
   | ForbiddenException
@@ -2822,7 +2910,7 @@ export const getChannelMessageStatus: (
  */
 export const getMessagingSessionEndpoint: (
   input: GetMessagingSessionEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMessagingSessionEndpointResponse,
   | ForbiddenException
   | ServiceFailureException
@@ -2852,7 +2940,7 @@ export const getMessagingSessionEndpoint: (
 export const listChannelBans: {
   (
     input: ListChannelBansRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListChannelBansResponse,
     | BadRequestException
     | ForbiddenException
@@ -2865,7 +2953,7 @@ export const listChannelBans: {
   >;
   pages: (
     input: ListChannelBansRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListChannelBansResponse,
     | BadRequestException
     | ForbiddenException
@@ -2878,7 +2966,7 @@ export const listChannelBans: {
   >;
   items: (
     input: ListChannelBansRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -2912,7 +3000,7 @@ export const listChannelBans: {
 export const listChannelFlows: {
   (
     input: ListChannelFlowsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListChannelFlowsResponse,
     | BadRequestException
     | ForbiddenException
@@ -2925,7 +3013,7 @@ export const listChannelFlows: {
   >;
   pages: (
     input: ListChannelFlowsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListChannelFlowsResponse,
     | BadRequestException
     | ForbiddenException
@@ -2938,7 +3026,7 @@ export const listChannelFlows: {
   >;
   items: (
     input: ListChannelFlowsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -2979,7 +3067,7 @@ export const listChannelFlows: {
 export const listChannelMemberships: {
   (
     input: ListChannelMembershipsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListChannelMembershipsResponse,
     | BadRequestException
     | ForbiddenException
@@ -2992,7 +3080,7 @@ export const listChannelMemberships: {
   >;
   pages: (
     input: ListChannelMembershipsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListChannelMembershipsResponse,
     | BadRequestException
     | ForbiddenException
@@ -3005,7 +3093,7 @@ export const listChannelMemberships: {
   >;
   items: (
     input: ListChannelMembershipsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -3049,7 +3137,7 @@ export const listChannelMemberships: {
 export const listChannelMessages: {
   (
     input: ListChannelMessagesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListChannelMessagesResponse,
     | BadRequestException
     | ForbiddenException
@@ -3062,7 +3150,7 @@ export const listChannelMessages: {
   >;
   pages: (
     input: ListChannelMessagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListChannelMessagesResponse,
     | BadRequestException
     | ForbiddenException
@@ -3075,7 +3163,7 @@ export const listChannelMessages: {
   >;
   items: (
     input: ListChannelMessagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -3113,7 +3201,7 @@ export const listChannelMessages: {
 export const listChannelModerators: {
   (
     input: ListChannelModeratorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListChannelModeratorsResponse,
     | BadRequestException
     | ForbiddenException
@@ -3126,7 +3214,7 @@ export const listChannelModerators: {
   >;
   pages: (
     input: ListChannelModeratorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListChannelModeratorsResponse,
     | BadRequestException
     | ForbiddenException
@@ -3139,7 +3227,7 @@ export const listChannelModerators: {
   >;
   items: (
     input: ListChannelModeratorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -3186,7 +3274,7 @@ export const listChannelModerators: {
 export const listChannels: {
   (
     input: ListChannelsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListChannelsResponse,
     | BadRequestException
     | ForbiddenException
@@ -3199,7 +3287,7 @@ export const listChannels: {
   >;
   pages: (
     input: ListChannelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListChannelsResponse,
     | BadRequestException
     | ForbiddenException
@@ -3212,7 +3300,7 @@ export const listChannels: {
   >;
   items: (
     input: ListChannelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -3246,7 +3334,7 @@ export const listChannels: {
 export const listChannelsAssociatedWithChannelFlow: {
   (
     input: ListChannelsAssociatedWithChannelFlowRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListChannelsAssociatedWithChannelFlowResponse,
     | BadRequestException
     | ForbiddenException
@@ -3259,7 +3347,7 @@ export const listChannelsAssociatedWithChannelFlow: {
   >;
   pages: (
     input: ListChannelsAssociatedWithChannelFlowRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListChannelsAssociatedWithChannelFlowResponse,
     | BadRequestException
     | ForbiddenException
@@ -3272,7 +3360,7 @@ export const listChannelsAssociatedWithChannelFlow: {
   >;
   items: (
     input: ListChannelsAssociatedWithChannelFlowRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -3306,7 +3394,7 @@ export const listChannelsAssociatedWithChannelFlow: {
 export const listSubChannels: {
   (
     input: ListSubChannelsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSubChannelsResponse,
     | BadRequestException
     | ForbiddenException
@@ -3319,7 +3407,7 @@ export const listSubChannels: {
   >;
   pages: (
     input: ListSubChannelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSubChannelsResponse,
     | BadRequestException
     | ForbiddenException
@@ -3332,7 +3420,7 @@ export const listSubChannels: {
   >;
   items: (
     input: ListSubChannelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -3374,7 +3462,7 @@ export const listSubChannels: {
 export const searchChannels: {
   (
     input: SearchChannelsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchChannelsResponse,
     | BadRequestException
     | ForbiddenException
@@ -3387,7 +3475,7 @@ export const searchChannels: {
   >;
   pages: (
     input: SearchChannelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchChannelsResponse,
     | BadRequestException
     | ForbiddenException
@@ -3400,7 +3488,7 @@ export const searchChannels: {
   >;
   items: (
     input: SearchChannelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -3443,7 +3531,7 @@ export const searchChannels: {
  */
 export const putChannelExpirationSettings: (
   input: PutChannelExpirationSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutChannelExpirationSettingsResponse,
   | BadRequestException
   | ConflictException
@@ -3477,7 +3565,7 @@ export const putChannelExpirationSettings: (
  */
 export const redactChannelMessage: (
   input: RedactChannelMessageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RedactChannelMessageResponse,
   | BadRequestException
   | ConflictException
@@ -3512,7 +3600,7 @@ export const redactChannelMessage: (
  */
 export const updateChannel: (
   input: UpdateChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateChannelResponse,
   | BadRequestException
   | ConflictException
@@ -3541,7 +3629,7 @@ export const updateChannel: (
  */
 export const updateChannelFlow: (
   input: UpdateChannelFlowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateChannelFlowResponse,
   | BadRequestException
   | ConflictException
@@ -3574,7 +3662,7 @@ export const updateChannelFlow: (
  */
 export const updateChannelMessage: (
   input: UpdateChannelMessageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateChannelMessageResponse,
   | BadRequestException
   | ConflictException
@@ -3607,7 +3695,7 @@ export const updateChannelMessage: (
  */
 export const updateChannelReadMarker: (
   input: UpdateChannelReadMarkerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateChannelReadMarkerResponse,
   | BadRequestException
   | ConflictException
@@ -3641,7 +3729,7 @@ export const updateChannelReadMarker: (
  */
 export const deleteChannel: (
   input: DeleteChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteChannelResponse,
   | BadRequestException
   | ConflictException
@@ -3673,7 +3761,7 @@ export const deleteChannel: (
  */
 export const deleteChannelFlow: (
   input: DeleteChannelFlowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteChannelFlowResponse,
   | BadRequestException
   | ConflictException
@@ -3706,7 +3794,7 @@ export const deleteChannelFlow: (
  */
 export const deleteChannelMembership: (
   input: DeleteChannelMembershipRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteChannelMembershipResponse,
   | BadRequestException
   | ConflictException
@@ -3741,7 +3829,7 @@ export const deleteChannelMembership: (
 export const listChannelMembershipsForAppInstanceUser: {
   (
     input: ListChannelMembershipsForAppInstanceUserRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListChannelMembershipsForAppInstanceUserResponse,
     | BadRequestException
     | ForbiddenException
@@ -3754,7 +3842,7 @@ export const listChannelMembershipsForAppInstanceUser: {
   >;
   pages: (
     input: ListChannelMembershipsForAppInstanceUserRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListChannelMembershipsForAppInstanceUserResponse,
     | BadRequestException
     | ForbiddenException
@@ -3767,7 +3855,7 @@ export const listChannelMembershipsForAppInstanceUser: {
   >;
   items: (
     input: ListChannelMembershipsForAppInstanceUserRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -3805,7 +3893,7 @@ export const listChannelMembershipsForAppInstanceUser: {
 export const listChannelsModeratedByAppInstanceUser: {
   (
     input: ListChannelsModeratedByAppInstanceUserRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListChannelsModeratedByAppInstanceUserResponse,
     | BadRequestException
     | ForbiddenException
@@ -3818,7 +3906,7 @@ export const listChannelsModeratedByAppInstanceUser: {
   >;
   pages: (
     input: ListChannelsModeratedByAppInstanceUserRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListChannelsModeratedByAppInstanceUserResponse,
     | BadRequestException
     | ForbiddenException
@@ -3831,7 +3919,7 @@ export const listChannelsModeratedByAppInstanceUser: {
   >;
   items: (
     input: ListChannelsModeratedByAppInstanceUserRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -3864,7 +3952,7 @@ export const listChannelsModeratedByAppInstanceUser: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -3895,7 +3983,7 @@ export const listTagsForResource: (
  */
 export const deleteChannelBan: (
   input: DeleteChannelBanRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteChannelBanResponse,
   | BadRequestException
   | ForbiddenException
@@ -3928,7 +4016,7 @@ export const deleteChannelBan: (
  */
 export const deleteChannelMessage: (
   input: DeleteChannelMessageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteChannelMessageResponse,
   | BadRequestException
   | ForbiddenException
@@ -3959,7 +4047,7 @@ export const deleteChannelMessage: (
  */
 export const deleteChannelModerator: (
   input: DeleteChannelModeratorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteChannelModeratorResponse,
   | BadRequestException
   | ForbiddenException
@@ -3987,7 +4075,7 @@ export const deleteChannelModerator: (
  */
 export const deleteMessagingStreamingConfigurations: (
   input: DeleteMessagingStreamingConfigurationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMessagingStreamingConfigurationsResponse,
   | BadRequestException
   | ForbiddenException
@@ -4014,7 +4102,7 @@ export const deleteMessagingStreamingConfigurations: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -4049,7 +4137,7 @@ export const untagResource: (
  */
 export const channelFlowCallback: (
   input: ChannelFlowCallbackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ChannelFlowCallbackResponse,
   | BadRequestException
   | ConflictException
@@ -4083,7 +4171,7 @@ export const channelFlowCallback: (
  */
 export const describeChannel: (
   input: DescribeChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -4110,7 +4198,7 @@ export const describeChannel: (
  */
 export const describeChannelFlow: (
   input: DescribeChannelFlowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeChannelFlowResponse,
   | BadRequestException
   | ForbiddenException
@@ -4142,7 +4230,7 @@ export const describeChannelFlow: (
  */
 export const describeChannelModeratedByAppInstanceUser: (
   input: DescribeChannelModeratedByAppInstanceUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeChannelModeratedByAppInstanceUserResponse,
   | BadRequestException
   | ForbiddenException
@@ -4174,7 +4262,7 @@ export const describeChannelModeratedByAppInstanceUser: (
  */
 export const describeChannelMembershipForAppInstanceUser: (
   input: DescribeChannelMembershipForAppInstanceUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeChannelMembershipForAppInstanceUserResponse,
   | BadRequestException
   | ForbiddenException
@@ -4202,7 +4290,7 @@ export const describeChannelMembershipForAppInstanceUser: (
  */
 export const putMessagingStreamingConfigurations: (
   input: PutMessagingStreamingConfigurationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutMessagingStreamingConfigurationsResponse,
   | BadRequestException
   | ConflictException
@@ -4255,7 +4343,7 @@ export const putMessagingStreamingConfigurations: (
  */
 export const createChannelMembership: (
   input: CreateChannelMembershipRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateChannelMembershipResponse,
   | BadRequestException
   | ConflictException
@@ -4295,7 +4383,7 @@ export const createChannelMembership: (
  */
 export const disassociateChannelFlow: (
   input: DisassociateChannelFlowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateChannelFlowResponse,
   | BadRequestException
   | ConflictException
@@ -4327,7 +4415,7 @@ export const disassociateChannelFlow: (
  */
 export const getMessagingStreamingConfigurations: (
   input: GetMessagingStreamingConfigurationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMessagingStreamingConfigurationsResponse,
   | BadRequestException
   | ForbiddenException
@@ -4362,7 +4450,7 @@ export const getMessagingStreamingConfigurations: (
  */
 export const associateChannelFlow: (
   input: AssociateChannelFlowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateChannelFlowResponse,
   | BadRequestException
   | ConflictException
@@ -4393,7 +4481,7 @@ export const associateChannelFlow: (
  */
 export const batchCreateChannelMembership: (
   input: BatchCreateChannelMembershipRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchCreateChannelMembershipResponse,
   | BadRequestException
   | ForbiddenException
@@ -4428,7 +4516,7 @@ export const batchCreateChannelMembership: (
  */
 export const describeChannelBan: (
   input: DescribeChannelBanRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeChannelBanResponse,
   | BadRequestException
   | ForbiddenException
@@ -4461,7 +4549,7 @@ export const describeChannelBan: (
  */
 export const describeChannelMembership: (
   input: DescribeChannelMembershipRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeChannelMembershipResponse,
   | BadRequestException
   | ForbiddenException
@@ -4494,7 +4582,7 @@ export const describeChannelMembership: (
  */
 export const describeChannelModerator: (
   input: DescribeChannelModeratorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeChannelModeratorResponse,
   | BadRequestException
   | ForbiddenException
@@ -4523,7 +4611,7 @@ export const describeChannelModerator: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -4559,7 +4647,7 @@ export const tagResource: (
  */
 export const createChannel: (
   input: CreateChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateChannelResponse,
   | BadRequestException
   | ConflictException
@@ -4600,7 +4688,7 @@ export const createChannel: (
  */
 export const createChannelBan: (
   input: CreateChannelBanRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateChannelBanResponse,
   | BadRequestException
   | ConflictException
@@ -4645,7 +4733,7 @@ export const createChannelBan: (
  */
 export const createChannelFlow: (
   input: CreateChannelFlowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateChannelFlowResponse,
   | BadRequestException
   | ConflictException

@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -98,7 +98,7 @@ export type UserName = string;
 export type ExecutionId = string;
 export type WorkflowId = string;
 export type SecurityPolicyName = string;
-export type HostKey = string | Redacted.Redacted<string>;
+export type HostKey = string | redacted.Redacted<string>;
 export type HostKeyDescription = string;
 export type SshPublicKeyBody = string;
 export type MaxResults = number;
@@ -110,14 +110,14 @@ export type CallbackToken = string;
 export type FilePath = string;
 export type MaxItems = number;
 export type SourceIp = string;
-export type UserPassword = string | Redacted.Redacted<string>;
+export type UserPassword = string | redacted.Redacted<string>;
 export type TagKey = string;
 export type Description = string;
 export type ProfileId = string;
 export type AgreementId = string;
-export type CertificateBodyType = string | Redacted.Redacted<string>;
-export type CertificateChainType = string | Redacted.Redacted<string>;
-export type PrivateKeyType = string | Redacted.Redacted<string>;
+export type CertificateBodyType = string | redacted.Redacted<string>;
+export type CertificateChainType = string | redacted.Redacted<string>;
+export type PrivateKeyType = string | redacted.Redacted<string>;
 export type CertificateId = string;
 export type Url = string;
 export type ConnectorSecurityPolicyName = string;
@@ -192,16 +192,51 @@ export type RetryAfterSeconds = string;
 export type ExecutionErrorMessage = string;
 
 //# Schemas
+export type HomeDirectoryType = "PATH" | "LOGICAL";
+export const HomeDirectoryType = S.Literal("PATH", "LOGICAL");
+export type CustomStepStatus = "SUCCESS" | "FAILURE";
+export const CustomStepStatus = S.Literal("SUCCESS", "FAILURE");
 export type FilePaths = string[];
 export const FilePaths = S.Array(S.String);
+export type Protocol = "SFTP" | "FTP" | "FTPS" | "AS2";
+export const Protocol = S.Literal("SFTP", "FTP", "FTPS", "AS2");
 export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
+export type AgreementStatusType = "ACTIVE" | "INACTIVE";
+export const AgreementStatusType = S.Literal("ACTIVE", "INACTIVE");
+export type PreserveFilenameType = "ENABLED" | "DISABLED";
+export const PreserveFilenameType = S.Literal("ENABLED", "DISABLED");
+export type EnforceMessageSigningType = "ENABLED" | "DISABLED";
+export const EnforceMessageSigningType = S.Literal("ENABLED", "DISABLED");
+export type CertificateUsageType = "SIGNING" | "ENCRYPTION" | "TLS";
+export const CertificateUsageType = S.Literal("SIGNING", "ENCRYPTION", "TLS");
+export type ProfileType = "LOCAL" | "PARTNER";
+export const ProfileType = S.Literal("LOCAL", "PARTNER");
 export type CertificateIds = string[];
 export const CertificateIds = S.Array(S.String);
-export type Protocols = string[];
-export const Protocols = S.Array(S.String);
+export type Domain = "S3" | "EFS";
+export const Domain = S.Literal("S3", "EFS");
+export type EndpointType = "PUBLIC" | "VPC" | "VPC_ENDPOINT";
+export const EndpointType = S.Literal("PUBLIC", "VPC", "VPC_ENDPOINT");
+export type IdentityProviderType =
+  | "SERVICE_MANAGED"
+  | "API_GATEWAY"
+  | "AWS_DIRECTORY_SERVICE"
+  | "AWS_LAMBDA";
+export const IdentityProviderType = S.Literal(
+  "SERVICE_MANAGED",
+  "API_GATEWAY",
+  "AWS_DIRECTORY_SERVICE",
+  "AWS_LAMBDA",
+);
+export type Protocols = Protocol[];
+export const Protocols = S.Array(Protocol);
 export type StructuredLogDestinations = string[];
 export const StructuredLogDestinations = S.Array(S.String);
+export type IpAddressType = "IPV4" | "DUALSTACK";
+export const IpAddressType = S.Literal("IPV4", "DUALSTACK");
+export type WebAppEndpointPolicy = "FIPS" | "STANDARD";
+export const WebAppEndpointPolicy = S.Literal("FIPS", "STANDARD");
 export interface DeleteAccessRequest {
   ServerId: string;
   ExternalId: string;
@@ -420,14 +455,14 @@ export interface SendWorkflowStepStateRequest {
   WorkflowId: string;
   ExecutionId: string;
   Token: string;
-  Status: string;
+  Status: CustomStepStatus;
 }
 export const SendWorkflowStepStateRequest = S.suspend(() =>
   S.Struct({
     WorkflowId: S.String,
     ExecutionId: S.String,
     Token: S.String,
-    Status: S.String,
+    Status: CustomStepStatus,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -460,8 +495,8 @@ export const StartDirectoryListingRequest = S.suspend(() =>
 }) as any as S.Schema<StartDirectoryListingRequest>;
 export interface StartFileTransferRequest {
   ConnectorId: string;
-  SendFilePaths?: FilePaths;
-  RetrieveFilePaths?: FilePaths;
+  SendFilePaths?: string[];
+  RetrieveFilePaths?: string[];
   LocalDirectoryPath?: string;
   RemoteDirectoryPath?: string;
 }
@@ -558,7 +593,7 @@ export type Tags = Tag[];
 export const Tags = S.Array(Tag);
 export interface TagResourceRequest {
   Arn: string;
-  Tags: Tags;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ Arn: S.String, Tags: Tags }).pipe(
@@ -583,15 +618,15 @@ export const TestConnectionRequest = S.suspend(() =>
 }) as any as S.Schema<TestConnectionRequest>;
 export interface TestIdentityProviderRequest {
   ServerId: string;
-  ServerProtocol?: string;
+  ServerProtocol?: Protocol;
   SourceIp?: string;
   UserName: string;
-  UserPassword?: string | Redacted.Redacted<string>;
+  UserPassword?: string | redacted.Redacted<string>;
 }
 export const TestIdentityProviderRequest = S.suspend(() =>
   S.Struct({
     ServerId: S.String,
-    ServerProtocol: S.optional(S.String),
+    ServerProtocol: S.optional(Protocol),
     SourceIp: S.optional(S.String),
     UserName: S.String,
     UserPassword: S.optional(SensitiveString),
@@ -603,7 +638,7 @@ export const TestIdentityProviderRequest = S.suspend(() =>
 }) as any as S.Schema<TestIdentityProviderRequest>;
 export interface UntagResourceRequest {
   Arn: string;
-  TagKeys: TagKeys;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ Arn: S.String, TagKeys: TagKeys }).pipe(
@@ -616,13 +651,15 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
+export type MapType = "FILE" | "DIRECTORY";
+export const MapType = S.Literal("FILE", "DIRECTORY");
 export interface HomeDirectoryMapEntry {
   Entry: string;
   Target: string;
-  Type?: string;
+  Type?: MapType;
 }
 export const HomeDirectoryMapEntry = S.suspend(() =>
-  S.Struct({ Entry: S.String, Target: S.String, Type: S.optional(S.String) }),
+  S.Struct({ Entry: S.String, Target: S.String, Type: S.optional(MapType) }),
 ).annotations({
   identifier: "HomeDirectoryMapEntry",
 }) as any as S.Schema<HomeDirectoryMapEntry>;
@@ -633,7 +670,7 @@ export const SecondaryGids = S.Array(S.Number);
 export interface PosixProfile {
   Uid: number;
   Gid: number;
-  SecondaryGids?: SecondaryGids;
+  SecondaryGids?: number[];
 }
 export const PosixProfile = S.suspend(() =>
   S.Struct({
@@ -644,8 +681,8 @@ export const PosixProfile = S.suspend(() =>
 ).annotations({ identifier: "PosixProfile" }) as any as S.Schema<PosixProfile>;
 export interface UpdateAccessRequest {
   HomeDirectory?: string;
-  HomeDirectoryType?: string;
-  HomeDirectoryMappings?: HomeDirectoryMappings;
+  HomeDirectoryType?: HomeDirectoryType;
+  HomeDirectoryMappings?: HomeDirectoryMapEntry[];
   Policy?: string;
   PosixProfile?: PosixProfile;
   Role?: string;
@@ -655,7 +692,7 @@ export interface UpdateAccessRequest {
 export const UpdateAccessRequest = S.suspend(() =>
   S.Struct({
     HomeDirectory: S.optional(S.String),
-    HomeDirectoryType: S.optional(S.String),
+    HomeDirectoryType: S.optional(HomeDirectoryType),
     HomeDirectoryMappings: S.optional(HomeDirectoryMappings),
     Policy: S.optional(S.String),
     PosixProfile: S.optional(PosixProfile),
@@ -717,13 +754,13 @@ export interface UpdateAgreementRequest {
   AgreementId: string;
   ServerId: string;
   Description?: string;
-  Status?: string;
+  Status?: AgreementStatusType;
   LocalProfileId?: string;
   PartnerProfileId?: string;
   BaseDirectory?: string;
   AccessRole?: string;
-  PreserveFilename?: string;
-  EnforceMessageSigning?: string;
+  PreserveFilename?: PreserveFilenameType;
+  EnforceMessageSigning?: EnforceMessageSigningType;
   CustomDirectories?: CustomDirectoriesType;
 }
 export const UpdateAgreementRequest = S.suspend(() =>
@@ -731,13 +768,13 @@ export const UpdateAgreementRequest = S.suspend(() =>
     AgreementId: S.String,
     ServerId: S.String,
     Description: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(AgreementStatusType),
     LocalProfileId: S.optional(S.String),
     PartnerProfileId: S.optional(S.String),
     BaseDirectory: S.optional(S.String),
     AccessRole: S.optional(S.String),
-    PreserveFilename: S.optional(S.String),
-    EnforceMessageSigning: S.optional(S.String),
+    PreserveFilename: S.optional(PreserveFilenameType),
+    EnforceMessageSigning: S.optional(EnforceMessageSigningType),
     CustomDirectories: S.optional(CustomDirectoriesType),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -779,18 +816,18 @@ export const ListAgreementsRequest = S.suspend(() =>
   identifier: "ListAgreementsRequest",
 }) as any as S.Schema<ListAgreementsRequest>;
 export interface ImportCertificateRequest {
-  Usage: string;
-  Certificate: string | Redacted.Redacted<string>;
-  CertificateChain?: string | Redacted.Redacted<string>;
-  PrivateKey?: string | Redacted.Redacted<string>;
+  Usage: CertificateUsageType;
+  Certificate: string | redacted.Redacted<string>;
+  CertificateChain?: string | redacted.Redacted<string>;
+  PrivateKey?: string | redacted.Redacted<string>;
   ActiveDate?: Date;
   InactiveDate?: Date;
   Description?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const ImportCertificateRequest = S.suspend(() =>
   S.Struct({
-    Usage: S.String,
+    Usage: CertificateUsageType,
     Certificate: SensitiveString,
     CertificateChain: S.optional(SensitiveString),
     PrivateKey: S.optional(SensitiveString),
@@ -904,14 +941,14 @@ export const ListConnectorsRequest = S.suspend(() =>
 }) as any as S.Schema<ListConnectorsRequest>;
 export interface CreateProfileRequest {
   As2Id: string;
-  ProfileType: string;
-  CertificateIds?: CertificateIds;
-  Tags?: Tags;
+  ProfileType: ProfileType;
+  CertificateIds?: string[];
+  Tags?: Tag[];
 }
 export const CreateProfileRequest = S.suspend(() =>
   S.Struct({
     As2Id: S.String,
-    ProfileType: S.String,
+    ProfileType: ProfileType,
     CertificateIds: S.optional(CertificateIds),
     Tags: S.optional(Tags),
   }).pipe(
@@ -932,7 +969,7 @@ export const DescribeProfileRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeProfileRequest>;
 export interface UpdateProfileRequest {
   ProfileId: string;
-  CertificateIds?: CertificateIds;
+  CertificateIds?: string[];
 }
 export const UpdateProfileRequest = S.suspend(() =>
   S.Struct({
@@ -961,13 +998,13 @@ export const DeleteProfileResponse = S.suspend(() => S.Struct({})).annotations({
 export interface ListProfilesRequest {
   MaxResults?: number;
   NextToken?: string;
-  ProfileType?: string;
+  ProfileType?: ProfileType;
 }
 export const ListProfilesRequest = S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-    ProfileType: S.optional(S.String),
+    ProfileType: S.optional(ProfileType),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -984,19 +1021,29 @@ export const DescribeServerRequest = S.suspend(() =>
 ).annotations({
   identifier: "DescribeServerRequest",
 }) as any as S.Schema<DescribeServerRequest>;
-export type As2Transports = string[];
-export const As2Transports = S.Array(S.String);
+export type TlsSessionResumptionMode = "DISABLED" | "ENABLED" | "ENFORCED";
+export const TlsSessionResumptionMode = S.Literal(
+  "DISABLED",
+  "ENABLED",
+  "ENFORCED",
+);
+export type SetStatOption = "DEFAULT" | "ENABLE_NO_OP";
+export const SetStatOption = S.Literal("DEFAULT", "ENABLE_NO_OP");
+export type As2Transport = "HTTP";
+export const As2Transport = S.Literal("HTTP");
+export type As2Transports = As2Transport[];
+export const As2Transports = S.Array(As2Transport);
 export interface ProtocolDetails {
   PassiveIp?: string;
-  TlsSessionResumptionMode?: string;
-  SetStatOption?: string;
-  As2Transports?: As2Transports;
+  TlsSessionResumptionMode?: TlsSessionResumptionMode;
+  SetStatOption?: SetStatOption;
+  As2Transports?: As2Transport[];
 }
 export const ProtocolDetails = S.suspend(() =>
   S.Struct({
     PassiveIp: S.optional(S.String),
-    TlsSessionResumptionMode: S.optional(S.String),
-    SetStatOption: S.optional(S.String),
+    TlsSessionResumptionMode: S.optional(TlsSessionResumptionMode),
+    SetStatOption: S.optional(SetStatOption),
     As2Transports: S.optional(As2Transports),
   }),
 ).annotations({
@@ -1009,11 +1056,11 @@ export const SubnetIds = S.Array(S.String);
 export type SecurityGroupIds = string[];
 export const SecurityGroupIds = S.Array(S.String);
 export interface EndpointDetails {
-  AddressAllocationIds?: AddressAllocationIds;
-  SubnetIds?: SubnetIds;
+  AddressAllocationIds?: string[];
+  SubnetIds?: string[];
   VpcEndpointId?: string;
   VpcId?: string;
-  SecurityGroupIds?: SecurityGroupIds;
+  SecurityGroupIds?: string[];
 }
 export const EndpointDetails = S.suspend(() =>
   S.Struct({
@@ -1026,12 +1073,23 @@ export const EndpointDetails = S.suspend(() =>
 ).annotations({
   identifier: "EndpointDetails",
 }) as any as S.Schema<EndpointDetails>;
+export type SftpAuthenticationMethods =
+  | "PASSWORD"
+  | "PUBLIC_KEY"
+  | "PUBLIC_KEY_OR_PASSWORD"
+  | "PUBLIC_KEY_AND_PASSWORD";
+export const SftpAuthenticationMethods = S.Literal(
+  "PASSWORD",
+  "PUBLIC_KEY",
+  "PUBLIC_KEY_OR_PASSWORD",
+  "PUBLIC_KEY_AND_PASSWORD",
+);
 export interface IdentityProviderDetails {
   Url?: string;
   InvocationRole?: string;
   DirectoryId?: string;
   Function?: string;
-  SftpAuthenticationMethods?: string;
+  SftpAuthenticationMethods?: SftpAuthenticationMethods;
 }
 export const IdentityProviderDetails = S.suspend(() =>
   S.Struct({
@@ -1039,7 +1097,7 @@ export const IdentityProviderDetails = S.suspend(() =>
     InvocationRole: S.optional(S.String),
     DirectoryId: S.optional(S.String),
     Function: S.optional(S.String),
-    SftpAuthenticationMethods: S.optional(S.String),
+    SftpAuthenticationMethods: S.optional(SftpAuthenticationMethods),
   }),
 ).annotations({
   identifier: "IdentityProviderDetails",
@@ -1058,8 +1116,8 @@ export const OnUploadWorkflowDetails = S.Array(WorkflowDetail);
 export type OnPartialUploadWorkflowDetails = WorkflowDetail[];
 export const OnPartialUploadWorkflowDetails = S.Array(WorkflowDetail);
 export interface WorkflowDetails {
-  OnUpload?: OnUploadWorkflowDetails;
-  OnPartialUpload?: OnPartialUploadWorkflowDetails;
+  OnUpload?: WorkflowDetail[];
+  OnPartialUpload?: WorkflowDetail[];
 }
 export const WorkflowDetails = S.suspend(() =>
   S.Struct({
@@ -1069,11 +1127,15 @@ export const WorkflowDetails = S.suspend(() =>
 ).annotations({
   identifier: "WorkflowDetails",
 }) as any as S.Schema<WorkflowDetails>;
+export type DirectoryListingOptimization = "ENABLED" | "DISABLED";
+export const DirectoryListingOptimization = S.Literal("ENABLED", "DISABLED");
 export interface S3StorageOptions {
-  DirectoryListingOptimization?: string;
+  DirectoryListingOptimization?: DirectoryListingOptimization;
 }
 export const S3StorageOptions = S.suspend(() =>
-  S.Struct({ DirectoryListingOptimization: S.optional(S.String) }),
+  S.Struct({
+    DirectoryListingOptimization: S.optional(DirectoryListingOptimization),
+  }),
 ).annotations({
   identifier: "S3StorageOptions",
 }) as any as S.Schema<S3StorageOptions>;
@@ -1081,27 +1143,27 @@ export interface UpdateServerRequest {
   Certificate?: string;
   ProtocolDetails?: ProtocolDetails;
   EndpointDetails?: EndpointDetails;
-  EndpointType?: string;
-  HostKey?: string | Redacted.Redacted<string>;
+  EndpointType?: EndpointType;
+  HostKey?: string | redacted.Redacted<string>;
   IdentityProviderDetails?: IdentityProviderDetails;
   LoggingRole?: string;
   PostAuthenticationLoginBanner?: string;
   PreAuthenticationLoginBanner?: string;
-  Protocols?: Protocols;
+  Protocols?: Protocol[];
   SecurityPolicyName?: string;
   ServerId: string;
   WorkflowDetails?: WorkflowDetails;
-  StructuredLogDestinations?: StructuredLogDestinations;
+  StructuredLogDestinations?: string[];
   S3StorageOptions?: S3StorageOptions;
-  IpAddressType?: string;
-  IdentityProviderType?: string;
+  IpAddressType?: IpAddressType;
+  IdentityProviderType?: IdentityProviderType;
 }
 export const UpdateServerRequest = S.suspend(() =>
   S.Struct({
     Certificate: S.optional(S.String),
     ProtocolDetails: S.optional(ProtocolDetails),
     EndpointDetails: S.optional(EndpointDetails),
-    EndpointType: S.optional(S.String),
+    EndpointType: S.optional(EndpointType),
     HostKey: S.optional(SensitiveString),
     IdentityProviderDetails: S.optional(IdentityProviderDetails),
     LoggingRole: S.optional(S.String),
@@ -1113,8 +1175,8 @@ export const UpdateServerRequest = S.suspend(() =>
     WorkflowDetails: S.optional(WorkflowDetails),
     StructuredLogDestinations: S.optional(StructuredLogDestinations),
     S3StorageOptions: S.optional(S3StorageOptions),
-    IpAddressType: S.optional(S.String),
-    IdentityProviderType: S.optional(S.String),
+    IpAddressType: S.optional(IpAddressType),
+    IdentityProviderType: S.optional(IdentityProviderType),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -1151,20 +1213,20 @@ export const ListServersRequest = S.suspend(() =>
 }) as any as S.Schema<ListServersRequest>;
 export interface CreateUserRequest {
   HomeDirectory?: string;
-  HomeDirectoryType?: string;
-  HomeDirectoryMappings?: HomeDirectoryMappings;
+  HomeDirectoryType?: HomeDirectoryType;
+  HomeDirectoryMappings?: HomeDirectoryMapEntry[];
   Policy?: string;
   PosixProfile?: PosixProfile;
   Role: string;
   ServerId: string;
   SshPublicKeyBody?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
   UserName: string;
 }
 export const CreateUserRequest = S.suspend(() =>
   S.Struct({
     HomeDirectory: S.optional(S.String),
-    HomeDirectoryType: S.optional(S.String),
+    HomeDirectoryType: S.optional(HomeDirectoryType),
     HomeDirectoryMappings: S.optional(HomeDirectoryMappings),
     Policy: S.optional(S.String),
     PosixProfile: S.optional(PosixProfile),
@@ -1192,8 +1254,8 @@ export const DescribeUserRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeUserRequest>;
 export interface UpdateUserRequest {
   HomeDirectory?: string;
-  HomeDirectoryType?: string;
-  HomeDirectoryMappings?: HomeDirectoryMappings;
+  HomeDirectoryType?: HomeDirectoryType;
+  HomeDirectoryMappings?: HomeDirectoryMapEntry[];
   Policy?: string;
   PosixProfile?: PosixProfile;
   Role?: string;
@@ -1203,7 +1265,7 @@ export interface UpdateUserRequest {
 export const UpdateUserRequest = S.suspend(() =>
   S.Struct({
     HomeDirectory: S.optional(S.String),
-    HomeDirectoryType: S.optional(S.String),
+    HomeDirectoryType: S.optional(HomeDirectoryType),
     HomeDirectoryMappings: S.optional(HomeDirectoryMappings),
     Policy: S.optional(S.String),
     PosixProfile: S.optional(PosixProfile),
@@ -1267,8 +1329,8 @@ export const DescribeWebAppCustomizationRequest = S.suspend(() =>
 export interface UpdateWebAppCustomizationRequest {
   WebAppId: string;
   Title?: string;
-  LogoFile?: Uint8Array | Redacted.Redacted<Uint8Array>;
-  FaviconFile?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  LogoFile?: Uint8Array | redacted.Redacted<Uint8Array>;
+  FaviconFile?: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export const UpdateWebAppCustomizationRequest = S.suspend(() =>
   S.Struct({
@@ -1409,41 +1471,91 @@ export const ListWorkflowsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListWorkflowsRequest",
 }) as any as S.Schema<ListWorkflowsRequest>;
+export type CompressionEnum = "ZLIB" | "DISABLED";
+export const CompressionEnum = S.Literal("ZLIB", "DISABLED");
+export type EncryptionAlg =
+  | "AES128_CBC"
+  | "AES192_CBC"
+  | "AES256_CBC"
+  | "DES_EDE3_CBC"
+  | "NONE";
+export const EncryptionAlg = S.Literal(
+  "AES128_CBC",
+  "AES192_CBC",
+  "AES256_CBC",
+  "DES_EDE3_CBC",
+  "NONE",
+);
+export type SigningAlg = "SHA256" | "SHA384" | "SHA512" | "SHA1" | "NONE";
+export const SigningAlg = S.Literal(
+  "SHA256",
+  "SHA384",
+  "SHA512",
+  "SHA1",
+  "NONE",
+);
+export type MdnSigningAlg =
+  | "SHA256"
+  | "SHA384"
+  | "SHA512"
+  | "SHA1"
+  | "NONE"
+  | "DEFAULT";
+export const MdnSigningAlg = S.Literal(
+  "SHA256",
+  "SHA384",
+  "SHA512",
+  "SHA1",
+  "NONE",
+  "DEFAULT",
+);
+export type MdnResponse = "SYNC" | "NONE";
+export const MdnResponse = S.Literal("SYNC", "NONE");
+export type PreserveContentType = "ENABLED" | "DISABLED";
+export const PreserveContentType = S.Literal("ENABLED", "DISABLED");
 export type SftpConnectorTrustedHostKeyList = string[];
 export const SftpConnectorTrustedHostKeyList = S.Array(S.String);
+export type WorkflowStepType = "COPY" | "CUSTOM" | "TAG" | "DELETE" | "DECRYPT";
+export const WorkflowStepType = S.Literal(
+  "COPY",
+  "CUSTOM",
+  "TAG",
+  "DELETE",
+  "DECRYPT",
+);
 export type SecurityPolicyNames = string[];
 export const SecurityPolicyNames = S.Array(S.String);
 export interface As2ConnectorConfig {
   LocalProfileId?: string;
   PartnerProfileId?: string;
   MessageSubject?: string;
-  Compression?: string;
-  EncryptionAlgorithm?: string;
-  SigningAlgorithm?: string;
-  MdnSigningAlgorithm?: string;
-  MdnResponse?: string;
+  Compression?: CompressionEnum;
+  EncryptionAlgorithm?: EncryptionAlg;
+  SigningAlgorithm?: SigningAlg;
+  MdnSigningAlgorithm?: MdnSigningAlg;
+  MdnResponse?: MdnResponse;
   BasicAuthSecretId?: string;
-  PreserveContentType?: string;
+  PreserveContentType?: PreserveContentType;
 }
 export const As2ConnectorConfig = S.suspend(() =>
   S.Struct({
     LocalProfileId: S.optional(S.String),
     PartnerProfileId: S.optional(S.String),
     MessageSubject: S.optional(S.String),
-    Compression: S.optional(S.String),
-    EncryptionAlgorithm: S.optional(S.String),
-    SigningAlgorithm: S.optional(S.String),
-    MdnSigningAlgorithm: S.optional(S.String),
-    MdnResponse: S.optional(S.String),
+    Compression: S.optional(CompressionEnum),
+    EncryptionAlgorithm: S.optional(EncryptionAlg),
+    SigningAlgorithm: S.optional(SigningAlg),
+    MdnSigningAlgorithm: S.optional(MdnSigningAlg),
+    MdnResponse: S.optional(MdnResponse),
     BasicAuthSecretId: S.optional(S.String),
-    PreserveContentType: S.optional(S.String),
+    PreserveContentType: S.optional(PreserveContentType),
   }),
 ).annotations({
   identifier: "As2ConnectorConfig",
 }) as any as S.Schema<As2ConnectorConfig>;
 export interface SftpConnectorConfig {
   UserSecretId?: string;
-  TrustedHostKeys?: SftpConnectorTrustedHostKeyList;
+  TrustedHostKeys?: string[];
   MaxConcurrentConnections?: number;
 }
 export const SftpConnectorConfig = S.suspend(() =>
@@ -1457,10 +1569,14 @@ export const SftpConnectorConfig = S.suspend(() =>
 }) as any as S.Schema<SftpConnectorConfig>;
 export type WebAppUnits = { Provisioned: number };
 export const WebAppUnits = S.Union(S.Struct({ Provisioned: S.Number }));
+export type OverwriteExisting = "TRUE" | "FALSE";
+export const OverwriteExisting = S.Literal("TRUE", "FALSE");
+export type EncryptionType = "PGP";
+export const EncryptionType = S.Literal("PGP");
 export interface CreateAccessRequest {
   HomeDirectory?: string;
-  HomeDirectoryType?: string;
-  HomeDirectoryMappings?: HomeDirectoryMappings;
+  HomeDirectoryType?: HomeDirectoryType;
+  HomeDirectoryMappings?: HomeDirectoryMapEntry[];
   Policy?: string;
   PosixProfile?: PosixProfile;
   Role: string;
@@ -1470,7 +1586,7 @@ export interface CreateAccessRequest {
 export const CreateAccessRequest = S.suspend(() =>
   S.Struct({
     HomeDirectory: S.optional(S.String),
-    HomeDirectoryType: S.optional(S.String),
+    HomeDirectoryType: S.optional(HomeDirectoryType),
     HomeDirectoryMappings: S.optional(HomeDirectoryMappings),
     Policy: S.optional(S.String),
     PosixProfile: S.optional(PosixProfile),
@@ -1485,9 +1601,9 @@ export const CreateAccessRequest = S.suspend(() =>
 }) as any as S.Schema<CreateAccessRequest>;
 export interface ImportHostKeyRequest {
   ServerId: string;
-  HostKeyBody: string | Redacted.Redacted<string>;
+  HostKeyBody: string | redacted.Redacted<string>;
   Description?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const ImportHostKeyRequest = S.suspend(() =>
   S.Struct({
@@ -1517,7 +1633,7 @@ export const ImportSshPublicKeyResponse = S.suspend(() =>
 }) as any as S.Schema<ImportSshPublicKeyResponse>;
 export interface ListSecurityPoliciesResponse {
   NextToken?: string;
-  SecurityPolicyNames: SecurityPolicyNames;
+  SecurityPolicyNames: string[];
 }
 export const ListSecurityPoliciesResponse = S.suspend(() =>
   S.Struct({
@@ -1530,7 +1646,7 @@ export const ListSecurityPoliciesResponse = S.suspend(() =>
 export interface ListTagsForResourceResponse {
   Arn?: string;
   NextToken?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({
@@ -1615,10 +1731,10 @@ export interface CreateAgreementRequest {
   PartnerProfileId: string;
   BaseDirectory?: string;
   AccessRole: string;
-  Status?: string;
-  Tags?: Tags;
-  PreserveFilename?: string;
-  EnforceMessageSigning?: string;
+  Status?: AgreementStatusType;
+  Tags?: Tag[];
+  PreserveFilename?: PreserveFilenameType;
+  EnforceMessageSigning?: EnforceMessageSigningType;
   CustomDirectories?: CustomDirectoriesType;
 }
 export const CreateAgreementRequest = S.suspend(() =>
@@ -1629,10 +1745,10 @@ export const CreateAgreementRequest = S.suspend(() =>
     PartnerProfileId: S.String,
     BaseDirectory: S.optional(S.String),
     AccessRole: S.String,
-    Status: S.optional(S.String),
+    Status: S.optional(AgreementStatusType),
     Tags: S.optional(Tags),
-    PreserveFilename: S.optional(S.String),
-    EnforceMessageSigning: S.optional(S.String),
+    PreserveFilename: S.optional(PreserveFilenameType),
+    EnforceMessageSigning: S.optional(EnforceMessageSigningType),
     CustomDirectories: S.optional(CustomDirectoriesType),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -1714,10 +1830,47 @@ export const UpdateWebAppCustomizationResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateWebAppCustomizationResponse",
 }) as any as S.Schema<UpdateWebAppCustomizationResponse>;
+export type ExecutionStatus =
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "EXCEPTION"
+  | "HANDLING_EXCEPTION";
+export const ExecutionStatus = S.Literal(
+  "IN_PROGRESS",
+  "COMPLETED",
+  "EXCEPTION",
+  "HANDLING_EXCEPTION",
+);
 export type SecurityPolicyOptions = string[];
 export const SecurityPolicyOptions = S.Array(S.String);
-export type SecurityPolicyProtocols = string[];
-export const SecurityPolicyProtocols = S.Array(S.String);
+export type SecurityPolicyResourceType = "SERVER" | "CONNECTOR";
+export const SecurityPolicyResourceType = S.Literal("SERVER", "CONNECTOR");
+export type SecurityPolicyProtocol = "SFTP" | "FTPS";
+export const SecurityPolicyProtocol = S.Literal("SFTP", "FTPS");
+export type SecurityPolicyProtocols = SecurityPolicyProtocol[];
+export const SecurityPolicyProtocols = S.Array(SecurityPolicyProtocol);
+export type TransferTableStatus =
+  | "QUEUED"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "FAILED";
+export const TransferTableStatus = S.Literal(
+  "QUEUED",
+  "IN_PROGRESS",
+  "COMPLETED",
+  "FAILED",
+);
+export type CertificateStatusType = "ACTIVE" | "PENDING_ROTATION" | "INACTIVE";
+export const CertificateStatusType = S.Literal(
+  "ACTIVE",
+  "PENDING_ROTATION",
+  "INACTIVE",
+);
+export type CertificateType = "CERTIFICATE" | "CERTIFICATE_WITH_PRIVATE_KEY";
+export const CertificateType = S.Literal(
+  "CERTIFICATE",
+  "CERTIFICATE_WITH_PRIVATE_KEY",
+);
 export interface ConnectorVpcLatticeEgressConfig {
   ResourceConfigurationArn: string;
   PortNumber?: number;
@@ -1732,6 +1885,10 @@ export const ConnectorVpcLatticeEgressConfig = S.suspend(() =>
 }) as any as S.Schema<ConnectorVpcLatticeEgressConfig>;
 export type ServiceManagedEgressIpAddresses = string[];
 export const ServiceManagedEgressIpAddresses = S.Array(S.String);
+export type ConnectorEgressType = "SERVICE_MANAGED" | "VPC_LATTICE";
+export const ConnectorEgressType = S.Literal("SERVICE_MANAGED", "VPC_LATTICE");
+export type ConnectorStatus = "ACTIVE" | "ERRORED" | "PENDING";
+export const ConnectorStatus = S.Literal("ACTIVE", "ERRORED", "PENDING");
 export interface UpdateConnectorVpcLatticeEgressConfig {
   ResourceConfigurationArn?: string;
   PortNumber?: number;
@@ -1744,6 +1901,21 @@ export const UpdateConnectorVpcLatticeEgressConfig = S.suspend(() =>
 ).annotations({
   identifier: "UpdateConnectorVpcLatticeEgressConfig",
 }) as any as S.Schema<UpdateConnectorVpcLatticeEgressConfig>;
+export type State =
+  | "OFFLINE"
+  | "ONLINE"
+  | "STARTING"
+  | "STOPPING"
+  | "START_FAILED"
+  | "STOP_FAILED";
+export const State = S.Literal(
+  "OFFLINE",
+  "ONLINE",
+  "STARTING",
+  "STOPPING",
+  "START_FAILED",
+  "STOP_FAILED",
+);
 export interface IdentityCenterConfig {
   InstanceArn?: string;
   Role?: string;
@@ -1754,9 +1926,9 @@ export const IdentityCenterConfig = S.suspend(() =>
   identifier: "IdentityCenterConfig",
 }) as any as S.Schema<IdentityCenterConfig>;
 export interface WebAppVpcConfig {
-  SubnetIds?: SubnetIds;
+  SubnetIds?: string[];
   VpcId?: string;
-  SecurityGroupIds?: SecurityGroupIds;
+  SecurityGroupIds?: string[];
 }
 export const WebAppVpcConfig = S.suspend(() =>
   S.Struct({
@@ -1767,6 +1939,8 @@ export const WebAppVpcConfig = S.suspend(() =>
 ).annotations({
   identifier: "WebAppVpcConfig",
 }) as any as S.Schema<WebAppVpcConfig>;
+export type WebAppEndpointType = "PUBLIC" | "VPC";
+export const WebAppEndpointType = S.Literal("PUBLIC", "VPC");
 export interface UpdateWebAppIdentityCenterConfig {
   Role?: string;
 }
@@ -1776,7 +1950,7 @@ export const UpdateWebAppIdentityCenterConfig = S.suspend(() =>
   identifier: "UpdateWebAppIdentityCenterConfig",
 }) as any as S.Schema<UpdateWebAppIdentityCenterConfig>;
 export interface UpdateWebAppVpcConfig {
-  SubnetIds?: SubnetIds;
+  SubnetIds?: string[];
 }
 export const UpdateWebAppVpcConfig = S.suspend(() =>
   S.Struct({ SubnetIds: S.optional(SubnetIds) }),
@@ -1843,17 +2017,17 @@ export const InputFileLocation = S.suspend(() =>
 }) as any as S.Schema<InputFileLocation>;
 export interface DecryptStepDetails {
   Name?: string;
-  Type: string;
+  Type: EncryptionType;
   SourceFileLocation?: string;
-  OverwriteExisting?: string;
+  OverwriteExisting?: OverwriteExisting;
   DestinationFileLocation: InputFileLocation;
 }
 export const DecryptStepDetails = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    Type: S.String,
+    Type: EncryptionType,
     SourceFileLocation: S.optional(S.String),
-    OverwriteExisting: S.optional(S.String),
+    OverwriteExisting: S.optional(OverwriteExisting),
     DestinationFileLocation: InputFileLocation,
   }),
 ).annotations({
@@ -1861,8 +2035,8 @@ export const DecryptStepDetails = S.suspend(() =>
 }) as any as S.Schema<DecryptStepDetails>;
 export interface DescribedAccess {
   HomeDirectory?: string;
-  HomeDirectoryMappings?: HomeDirectoryMappings;
-  HomeDirectoryType?: string;
+  HomeDirectoryMappings?: HomeDirectoryMapEntry[];
+  HomeDirectoryType?: HomeDirectoryType;
   Policy?: string;
   PosixProfile?: PosixProfile;
   Role?: string;
@@ -1872,7 +2046,7 @@ export const DescribedAccess = S.suspend(() =>
   S.Struct({
     HomeDirectory: S.optional(S.String),
     HomeDirectoryMappings: S.optional(HomeDirectoryMappings),
-    HomeDirectoryType: S.optional(S.String),
+    HomeDirectoryType: S.optional(HomeDirectoryType),
     Policy: S.optional(S.String),
     PosixProfile: S.optional(PosixProfile),
     Role: S.optional(S.String),
@@ -1888,7 +2062,7 @@ export interface DescribedHostKey {
   Description?: string;
   Type?: string;
   DateImported?: Date;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const DescribedHostKey = S.suspend(() =>
   S.Struct({
@@ -1906,13 +2080,13 @@ export const DescribedHostKey = S.suspend(() =>
 export interface DescribedSecurityPolicy {
   Fips?: boolean;
   SecurityPolicyName: string;
-  SshCiphers?: SecurityPolicyOptions;
-  SshKexs?: SecurityPolicyOptions;
-  SshMacs?: SecurityPolicyOptions;
-  TlsCiphers?: SecurityPolicyOptions;
-  SshHostKeyAlgorithms?: SecurityPolicyOptions;
-  Type?: string;
-  Protocols?: SecurityPolicyProtocols;
+  SshCiphers?: string[];
+  SshKexs?: string[];
+  SshMacs?: string[];
+  TlsCiphers?: string[];
+  SshHostKeyAlgorithms?: string[];
+  Type?: SecurityPolicyResourceType;
+  Protocols?: SecurityPolicyProtocol[];
 }
 export const DescribedSecurityPolicy = S.suspend(() =>
   S.Struct({
@@ -1923,7 +2097,7 @@ export const DescribedSecurityPolicy = S.suspend(() =>
     SshMacs: S.optional(SecurityPolicyOptions),
     TlsCiphers: S.optional(SecurityPolicyOptions),
     SshHostKeyAlgorithms: S.optional(SecurityPolicyOptions),
-    Type: S.optional(S.String),
+    Type: S.optional(SecurityPolicyResourceType),
     Protocols: S.optional(SecurityPolicyProtocols),
   }),
 ).annotations({
@@ -1931,14 +2105,14 @@ export const DescribedSecurityPolicy = S.suspend(() =>
 }) as any as S.Schema<DescribedSecurityPolicy>;
 export interface ListedAccess {
   HomeDirectory?: string;
-  HomeDirectoryType?: string;
+  HomeDirectoryType?: HomeDirectoryType;
   Role?: string;
   ExternalId?: string;
 }
 export const ListedAccess = S.suspend(() =>
   S.Struct({
     HomeDirectory: S.optional(S.String),
-    HomeDirectoryType: S.optional(S.String),
+    HomeDirectoryType: S.optional(HomeDirectoryType),
     Role: S.optional(S.String),
     ExternalId: S.optional(S.String),
   }),
@@ -1995,14 +2169,14 @@ export interface ListedExecution {
   ExecutionId?: string;
   InitialFileLocation?: FileLocation;
   ServiceMetadata?: ServiceMetadata;
-  Status?: string;
+  Status?: ExecutionStatus;
 }
 export const ListedExecution = S.suspend(() =>
   S.Struct({
     ExecutionId: S.optional(S.String),
     InitialFileLocation: S.optional(FileLocation),
     ServiceMetadata: S.optional(ServiceMetadata),
-    Status: S.optional(S.String),
+    Status: S.optional(ExecutionStatus),
   }),
 ).annotations({
   identifier: "ListedExecution",
@@ -2011,14 +2185,14 @@ export type ListedExecutions = ListedExecution[];
 export const ListedExecutions = S.Array(ListedExecution);
 export interface ConnectorFileTransferResult {
   FilePath: string;
-  StatusCode: string;
+  StatusCode: TransferTableStatus;
   FailureCode?: string;
   FailureMessage?: string;
 }
 export const ConnectorFileTransferResult = S.suspend(() =>
   S.Struct({
     FilePath: S.String,
-    StatusCode: S.String,
+    StatusCode: TransferTableStatus,
     FailureCode: S.optional(S.String),
     FailureMessage: S.optional(S.String),
   }),
@@ -2063,15 +2237,15 @@ export interface DescribedAgreement {
   Arn: string;
   AgreementId?: string;
   Description?: string;
-  Status?: string;
+  Status?: AgreementStatusType;
   ServerId?: string;
   LocalProfileId?: string;
   PartnerProfileId?: string;
   BaseDirectory?: string;
   AccessRole?: string;
-  Tags?: Tags;
-  PreserveFilename?: string;
-  EnforceMessageSigning?: string;
+  Tags?: Tag[];
+  PreserveFilename?: PreserveFilenameType;
+  EnforceMessageSigning?: EnforceMessageSigningType;
   CustomDirectories?: CustomDirectoriesType;
 }
 export const DescribedAgreement = S.suspend(() =>
@@ -2079,15 +2253,15 @@ export const DescribedAgreement = S.suspend(() =>
     Arn: S.String,
     AgreementId: S.optional(S.String),
     Description: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(AgreementStatusType),
     ServerId: S.optional(S.String),
     LocalProfileId: S.optional(S.String),
     PartnerProfileId: S.optional(S.String),
     BaseDirectory: S.optional(S.String),
     AccessRole: S.optional(S.String),
     Tags: S.optional(Tags),
-    PreserveFilename: S.optional(S.String),
-    EnforceMessageSigning: S.optional(S.String),
+    PreserveFilename: S.optional(PreserveFilenameType),
+    EnforceMessageSigning: S.optional(EnforceMessageSigningType),
     CustomDirectories: S.optional(CustomDirectoriesType),
   }),
 ).annotations({
@@ -2097,7 +2271,7 @@ export interface ListedAgreement {
   Arn?: string;
   AgreementId?: string;
   Description?: string;
-  Status?: string;
+  Status?: AgreementStatusType;
   ServerId?: string;
   LocalProfileId?: string;
   PartnerProfileId?: string;
@@ -2107,7 +2281,7 @@ export const ListedAgreement = S.suspend(() =>
     Arn: S.optional(S.String),
     AgreementId: S.optional(S.String),
     Description: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(AgreementStatusType),
     ServerId: S.optional(S.String),
     LocalProfileId: S.optional(S.String),
     PartnerProfileId: S.optional(S.String),
@@ -2120,25 +2294,25 @@ export const ListedAgreements = S.Array(ListedAgreement);
 export interface DescribedCertificate {
   Arn: string;
   CertificateId?: string;
-  Usage?: string;
-  Status?: string;
-  Certificate?: string | Redacted.Redacted<string>;
-  CertificateChain?: string | Redacted.Redacted<string>;
+  Usage?: CertificateUsageType;
+  Status?: CertificateStatusType;
+  Certificate?: string | redacted.Redacted<string>;
+  CertificateChain?: string | redacted.Redacted<string>;
   ActiveDate?: Date;
   InactiveDate?: Date;
   Serial?: string;
   NotBeforeDate?: Date;
   NotAfterDate?: Date;
-  Type?: string;
+  Type?: CertificateType;
   Description?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const DescribedCertificate = S.suspend(() =>
   S.Struct({
     Arn: S.String,
     CertificateId: S.optional(S.String),
-    Usage: S.optional(S.String),
-    Status: S.optional(S.String),
+    Usage: S.optional(CertificateUsageType),
+    Status: S.optional(CertificateStatusType),
     Certificate: S.optional(SensitiveString),
     CertificateChain: S.optional(SensitiveString),
     ActiveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2146,7 +2320,7 @@ export const DescribedCertificate = S.suspend(() =>
     Serial: S.optional(S.String),
     NotBeforeDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     NotAfterDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Type: S.optional(S.String),
+    Type: S.optional(CertificateType),
     Description: S.optional(S.String),
     Tags: S.optional(Tags),
   }),
@@ -2156,22 +2330,22 @@ export const DescribedCertificate = S.suspend(() =>
 export interface ListedCertificate {
   Arn?: string;
   CertificateId?: string;
-  Usage?: string;
-  Status?: string;
+  Usage?: CertificateUsageType;
+  Status?: CertificateStatusType;
   ActiveDate?: Date;
   InactiveDate?: Date;
-  Type?: string;
+  Type?: CertificateType;
   Description?: string;
 }
 export const ListedCertificate = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     CertificateId: S.optional(S.String),
-    Usage: S.optional(S.String),
-    Status: S.optional(S.String),
+    Usage: S.optional(CertificateUsageType),
+    Status: S.optional(CertificateStatusType),
     ActiveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     InactiveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Type: S.optional(S.String),
+    Type: S.optional(CertificateType),
     Description: S.optional(S.String),
   }),
 ).annotations({
@@ -2210,16 +2384,16 @@ export const ListedConnectors = S.Array(ListedConnector);
 export interface DescribedProfile {
   Arn: string;
   ProfileId?: string;
-  ProfileType?: string;
+  ProfileType?: ProfileType;
   As2Id?: string;
-  CertificateIds?: CertificateIds;
-  Tags?: Tags;
+  CertificateIds?: string[];
+  Tags?: Tag[];
 }
 export const DescribedProfile = S.suspend(() =>
   S.Struct({
     Arn: S.String,
     ProfileId: S.optional(S.String),
-    ProfileType: S.optional(S.String),
+    ProfileType: S.optional(ProfileType),
     As2Id: S.optional(S.String),
     CertificateIds: S.optional(CertificateIds),
     Tags: S.optional(Tags),
@@ -2231,14 +2405,14 @@ export interface ListedProfile {
   Arn?: string;
   ProfileId?: string;
   As2Id?: string;
-  ProfileType?: string;
+  ProfileType?: ProfileType;
 }
 export const ListedProfile = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     ProfileId: S.optional(S.String),
     As2Id: S.optional(S.String),
-    ProfileType: S.optional(S.String),
+    ProfileType: S.optional(ProfileType),
   }),
 ).annotations({
   identifier: "ListedProfile",
@@ -2249,45 +2423,45 @@ export interface DescribedServer {
   Arn: string;
   Certificate?: string;
   ProtocolDetails?: ProtocolDetails;
-  Domain?: string;
+  Domain?: Domain;
   EndpointDetails?: EndpointDetails;
-  EndpointType?: string;
+  EndpointType?: EndpointType;
   HostKeyFingerprint?: string;
   IdentityProviderDetails?: IdentityProviderDetails;
-  IdentityProviderType?: string;
+  IdentityProviderType?: IdentityProviderType;
   LoggingRole?: string;
   PostAuthenticationLoginBanner?: string;
   PreAuthenticationLoginBanner?: string;
-  Protocols?: Protocols;
+  Protocols?: Protocol[];
   SecurityPolicyName?: string;
   ServerId?: string;
-  State?: string;
-  Tags?: Tags;
+  State?: State;
+  Tags?: Tag[];
   UserCount?: number;
   WorkflowDetails?: WorkflowDetails;
-  StructuredLogDestinations?: StructuredLogDestinations;
+  StructuredLogDestinations?: string[];
   S3StorageOptions?: S3StorageOptions;
-  As2ServiceManagedEgressIpAddresses?: ServiceManagedEgressIpAddresses;
-  IpAddressType?: string;
+  As2ServiceManagedEgressIpAddresses?: string[];
+  IpAddressType?: IpAddressType;
 }
 export const DescribedServer = S.suspend(() =>
   S.Struct({
     Arn: S.String,
     Certificate: S.optional(S.String),
     ProtocolDetails: S.optional(ProtocolDetails),
-    Domain: S.optional(S.String),
+    Domain: S.optional(Domain),
     EndpointDetails: S.optional(EndpointDetails),
-    EndpointType: S.optional(S.String),
+    EndpointType: S.optional(EndpointType),
     HostKeyFingerprint: S.optional(S.String),
     IdentityProviderDetails: S.optional(IdentityProviderDetails),
-    IdentityProviderType: S.optional(S.String),
+    IdentityProviderType: S.optional(IdentityProviderType),
     LoggingRole: S.optional(S.String),
     PostAuthenticationLoginBanner: S.optional(S.String),
     PreAuthenticationLoginBanner: S.optional(S.String),
     Protocols: S.optional(Protocols),
     SecurityPolicyName: S.optional(S.String),
     ServerId: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(State),
     Tags: S.optional(Tags),
     UserCount: S.optional(S.Number),
     WorkflowDetails: S.optional(WorkflowDetails),
@@ -2296,30 +2470,30 @@ export const DescribedServer = S.suspend(() =>
     As2ServiceManagedEgressIpAddresses: S.optional(
       ServiceManagedEgressIpAddresses,
     ),
-    IpAddressType: S.optional(S.String),
+    IpAddressType: S.optional(IpAddressType),
   }),
 ).annotations({
   identifier: "DescribedServer",
 }) as any as S.Schema<DescribedServer>;
 export interface ListedServer {
   Arn: string;
-  Domain?: string;
-  IdentityProviderType?: string;
-  EndpointType?: string;
+  Domain?: Domain;
+  IdentityProviderType?: IdentityProviderType;
+  EndpointType?: EndpointType;
   LoggingRole?: string;
   ServerId?: string;
-  State?: string;
+  State?: State;
   UserCount?: number;
 }
 export const ListedServer = S.suspend(() =>
   S.Struct({
     Arn: S.String,
-    Domain: S.optional(S.String),
-    IdentityProviderType: S.optional(S.String),
-    EndpointType: S.optional(S.String),
+    Domain: S.optional(Domain),
+    IdentityProviderType: S.optional(IdentityProviderType),
+    EndpointType: S.optional(EndpointType),
     LoggingRole: S.optional(S.String),
     ServerId: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(State),
     UserCount: S.optional(S.Number),
   }),
 ).annotations({ identifier: "ListedServer" }) as any as S.Schema<ListedServer>;
@@ -2328,7 +2502,7 @@ export const ListedServers = S.Array(ListedServer);
 export interface ListedUser {
   Arn: string;
   HomeDirectory?: string;
-  HomeDirectoryType?: string;
+  HomeDirectoryType?: HomeDirectoryType;
   Role?: string;
   SshPublicKeyCount?: number;
   UserName?: string;
@@ -2337,7 +2511,7 @@ export const ListedUser = S.suspend(() =>
   S.Struct({
     Arn: S.String,
     HomeDirectory: S.optional(S.String),
-    HomeDirectoryType: S.optional(S.String),
+    HomeDirectoryType: S.optional(HomeDirectoryType),
     Role: S.optional(S.String),
     SshPublicKeyCount: S.optional(S.Number),
     UserName: S.optional(S.String),
@@ -2349,8 +2523,8 @@ export interface DescribedWebAppCustomization {
   Arn: string;
   WebAppId: string;
   Title?: string;
-  LogoFile?: Uint8Array | Redacted.Redacted<Uint8Array>;
-  FaviconFile?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  LogoFile?: Uint8Array | redacted.Redacted<Uint8Array>;
+  FaviconFile?: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export const DescribedWebAppCustomization = S.suspend(() =>
   S.Struct({
@@ -2388,7 +2562,7 @@ export interface ListedWebApp {
   WebAppId: string;
   AccessEndpoint?: string;
   WebAppEndpoint?: string;
-  EndpointType?: string;
+  EndpointType?: WebAppEndpointType;
 }
 export const ListedWebApp = S.suspend(() =>
   S.Struct({
@@ -2396,7 +2570,7 @@ export const ListedWebApp = S.suspend(() =>
     WebAppId: S.String,
     AccessEndpoint: S.optional(S.String),
     WebAppEndpoint: S.optional(S.String),
-    EndpointType: S.optional(S.String),
+    EndpointType: S.optional(WebAppEndpointType),
   }),
 ).annotations({ identifier: "ListedWebApp" }) as any as S.Schema<ListedWebApp>;
 export type ListedWebApps = ListedWebApp[];
@@ -2404,14 +2578,14 @@ export const ListedWebApps = S.Array(ListedWebApp);
 export interface CopyStepDetails {
   Name?: string;
   DestinationFileLocation?: InputFileLocation;
-  OverwriteExisting?: string;
+  OverwriteExisting?: OverwriteExisting;
   SourceFileLocation?: string;
 }
 export const CopyStepDetails = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     DestinationFileLocation: S.optional(InputFileLocation),
-    OverwriteExisting: S.optional(S.String),
+    OverwriteExisting: S.optional(OverwriteExisting),
     SourceFileLocation: S.optional(S.String),
   }),
 ).annotations({
@@ -2428,7 +2602,7 @@ export type S3Tags = S3Tag[];
 export const S3Tags = S.Array(S3Tag);
 export interface TagStepDetails {
   Name?: string;
-  Tags?: S3Tags;
+  Tags?: S3Tag[];
   SourceFileLocation?: string;
 }
 export const TagStepDetails = S.suspend(() =>
@@ -2441,7 +2615,7 @@ export const TagStepDetails = S.suspend(() =>
   identifier: "TagStepDetails",
 }) as any as S.Schema<TagStepDetails>;
 export interface WorkflowStep {
-  Type?: string;
+  Type?: WorkflowStepType;
   CopyStepDetails?: CopyStepDetails;
   CustomStepDetails?: CustomStepDetails;
   DeleteStepDetails?: DeleteStepDetails;
@@ -2450,7 +2624,7 @@ export interface WorkflowStep {
 }
 export const WorkflowStep = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String),
+    Type: S.optional(WorkflowStepType),
     CopyStepDetails: S.optional(CopyStepDetails),
     CustomStepDetails: S.optional(CustomStepDetails),
     DeleteStepDetails: S.optional(DeleteStepDetails),
@@ -2463,10 +2637,10 @@ export const WorkflowSteps = S.Array(WorkflowStep);
 export interface DescribedWorkflow {
   Arn: string;
   Description?: string;
-  Steps?: WorkflowSteps;
-  OnExceptionSteps?: WorkflowSteps;
+  Steps?: WorkflowStep[];
+  OnExceptionSteps?: WorkflowStep[];
   WorkflowId?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const DescribedWorkflow = S.suspend(() =>
   S.Struct({
@@ -2542,7 +2716,7 @@ export const ImportHostKeyResponse = S.suspend(() =>
 export interface ListAccessesResponse {
   NextToken?: string;
   ServerId: string;
-  Accesses: ListedAccesses;
+  Accesses: ListedAccess[];
 }
 export const ListAccessesResponse = S.suspend(() =>
   S.Struct({
@@ -2556,7 +2730,7 @@ export const ListAccessesResponse = S.suspend(() =>
 export interface ListExecutionsResponse {
   NextToken?: string;
   WorkflowId: string;
-  Executions: ListedExecutions;
+  Executions: ListedExecution[];
 }
 export const ListExecutionsResponse = S.suspend(() =>
   S.Struct({
@@ -2568,7 +2742,7 @@ export const ListExecutionsResponse = S.suspend(() =>
   identifier: "ListExecutionsResponse",
 }) as any as S.Schema<ListExecutionsResponse>;
 export interface ListFileTransferResultsResponse {
-  FileTransferResults: ConnectorFileTransferResults;
+  FileTransferResults: ConnectorFileTransferResult[];
   NextToken?: string;
 }
 export const ListFileTransferResultsResponse = S.suspend(() =>
@@ -2582,7 +2756,7 @@ export const ListFileTransferResultsResponse = S.suspend(() =>
 export interface ListHostKeysResponse {
   NextToken?: string;
   ServerId: string;
-  HostKeys: ListedHostKeys;
+  HostKeys: ListedHostKey[];
 }
 export const ListHostKeysResponse = S.suspend(() =>
   S.Struct({
@@ -2627,7 +2801,7 @@ export const DescribeAgreementResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeAgreementResponse>;
 export interface ListAgreementsResponse {
   NextToken?: string;
-  Agreements: ListedAgreements;
+  Agreements: ListedAgreement[];
 }
 export const ListAgreementsResponse = S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), Agreements: ListedAgreements }),
@@ -2644,7 +2818,7 @@ export const DescribeCertificateResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeCertificateResponse>;
 export interface ListCertificatesResponse {
   NextToken?: string;
-  Certificates: ListedCertificates;
+  Certificates: ListedCertificate[];
 }
 export const ListCertificatesResponse = S.suspend(() =>
   S.Struct({
@@ -2659,10 +2833,10 @@ export interface CreateConnectorRequest {
   As2Config?: As2ConnectorConfig;
   AccessRole: string;
   LoggingRole?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
   SftpConfig?: SftpConnectorConfig;
   SecurityPolicyName?: string;
-  EgressConfig?: (typeof ConnectorEgressConfig)["Type"];
+  EgressConfig?: ConnectorEgressConfig;
 }
 export const CreateConnectorRequest = S.suspend(() =>
   S.Struct({
@@ -2688,7 +2862,7 @@ export interface UpdateConnectorRequest {
   LoggingRole?: string;
   SftpConfig?: SftpConnectorConfig;
   SecurityPolicyName?: string;
-  EgressConfig?: (typeof UpdateConnectorEgressConfig)["Type"];
+  EgressConfig?: UpdateConnectorEgressConfig;
 }
 export const UpdateConnectorRequest = S.suspend(() =>
   S.Struct({
@@ -2708,7 +2882,7 @@ export const UpdateConnectorRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateConnectorRequest>;
 export interface ListConnectorsResponse {
   NextToken?: string;
-  Connectors: ListedConnectors;
+  Connectors: ListedConnector[];
 }
 export const ListConnectorsResponse = S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), Connectors: ListedConnectors }),
@@ -2725,7 +2899,7 @@ export const DescribeProfileResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeProfileResponse>;
 export interface ListProfilesResponse {
   NextToken?: string;
-  Profiles: ListedProfiles;
+  Profiles: ListedProfile[];
 }
 export const ListProfilesResponse = S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), Profiles: ListedProfiles }),
@@ -2734,33 +2908,33 @@ export const ListProfilesResponse = S.suspend(() =>
 }) as any as S.Schema<ListProfilesResponse>;
 export interface CreateServerRequest {
   Certificate?: string;
-  Domain?: string;
+  Domain?: Domain;
   EndpointDetails?: EndpointDetails;
-  EndpointType?: string;
-  HostKey?: string | Redacted.Redacted<string>;
+  EndpointType?: EndpointType;
+  HostKey?: string | redacted.Redacted<string>;
   IdentityProviderDetails?: IdentityProviderDetails;
-  IdentityProviderType?: string;
+  IdentityProviderType?: IdentityProviderType;
   LoggingRole?: string;
   PostAuthenticationLoginBanner?: string;
   PreAuthenticationLoginBanner?: string;
-  Protocols?: Protocols;
+  Protocols?: Protocol[];
   ProtocolDetails?: ProtocolDetails;
   SecurityPolicyName?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
   WorkflowDetails?: WorkflowDetails;
-  StructuredLogDestinations?: StructuredLogDestinations;
+  StructuredLogDestinations?: string[];
   S3StorageOptions?: S3StorageOptions;
-  IpAddressType?: string;
+  IpAddressType?: IpAddressType;
 }
 export const CreateServerRequest = S.suspend(() =>
   S.Struct({
     Certificate: S.optional(S.String),
-    Domain: S.optional(S.String),
+    Domain: S.optional(Domain),
     EndpointDetails: S.optional(EndpointDetails),
-    EndpointType: S.optional(S.String),
+    EndpointType: S.optional(EndpointType),
     HostKey: S.optional(SensitiveString),
     IdentityProviderDetails: S.optional(IdentityProviderDetails),
-    IdentityProviderType: S.optional(S.String),
+    IdentityProviderType: S.optional(IdentityProviderType),
     LoggingRole: S.optional(S.String),
     PostAuthenticationLoginBanner: S.optional(S.String),
     PreAuthenticationLoginBanner: S.optional(S.String),
@@ -2771,7 +2945,7 @@ export const CreateServerRequest = S.suspend(() =>
     WorkflowDetails: S.optional(WorkflowDetails),
     StructuredLogDestinations: S.optional(StructuredLogDestinations),
     S3StorageOptions: S.optional(S3StorageOptions),
-    IpAddressType: S.optional(S.String),
+    IpAddressType: S.optional(IpAddressType),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -2788,7 +2962,7 @@ export const DescribeServerResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeServerResponse>;
 export interface ListServersResponse {
   NextToken?: string;
-  Servers: ListedServers;
+  Servers: ListedServer[];
 }
 export const ListServersResponse = S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), Servers: ListedServers }),
@@ -2798,7 +2972,7 @@ export const ListServersResponse = S.suspend(() =>
 export interface ListUsersResponse {
   NextToken?: string;
   ServerId: string;
-  Users: ListedUsers;
+  Users: ListedUser[];
 }
 export const ListUsersResponse = S.suspend(() =>
   S.Struct({
@@ -2818,12 +2992,12 @@ export const DescribeWebAppCustomizationResponse = S.suspend(() =>
   identifier: "DescribeWebAppCustomizationResponse",
 }) as any as S.Schema<DescribeWebAppCustomizationResponse>;
 export interface CreateWebAppRequest {
-  IdentityProviderDetails: (typeof WebAppIdentityProviderDetails)["Type"];
+  IdentityProviderDetails: WebAppIdentityProviderDetails;
   AccessEndpoint?: string;
-  WebAppUnits?: (typeof WebAppUnits)["Type"];
-  Tags?: Tags;
-  WebAppEndpointPolicy?: string;
-  EndpointDetails?: (typeof WebAppEndpointDetails)["Type"];
+  WebAppUnits?: WebAppUnits;
+  Tags?: Tag[];
+  WebAppEndpointPolicy?: WebAppEndpointPolicy;
+  EndpointDetails?: WebAppEndpointDetails;
 }
 export const CreateWebAppRequest = S.suspend(() =>
   S.Struct({
@@ -2831,7 +3005,7 @@ export const CreateWebAppRequest = S.suspend(() =>
     AccessEndpoint: S.optional(S.String),
     WebAppUnits: S.optional(WebAppUnits),
     Tags: S.optional(Tags),
-    WebAppEndpointPolicy: S.optional(S.String),
+    WebAppEndpointPolicy: S.optional(WebAppEndpointPolicy),
     EndpointDetails: S.optional(WebAppEndpointDetails),
   }).pipe(
     T.all(
@@ -2848,10 +3022,10 @@ export const CreateWebAppRequest = S.suspend(() =>
 }) as any as S.Schema<CreateWebAppRequest>;
 export interface UpdateWebAppRequest {
   WebAppId: string;
-  IdentityProviderDetails?: (typeof UpdateWebAppIdentityProviderDetails)["Type"];
+  IdentityProviderDetails?: UpdateWebAppIdentityProviderDetails;
   AccessEndpoint?: string;
-  WebAppUnits?: (typeof WebAppUnits)["Type"];
-  EndpointDetails?: (typeof UpdateWebAppEndpointDetails)["Type"];
+  WebAppUnits?: WebAppUnits;
+  EndpointDetails?: UpdateWebAppEndpointDetails;
 }
 export const UpdateWebAppRequest = S.suspend(() =>
   S.Struct({
@@ -2875,7 +3049,7 @@ export const UpdateWebAppRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateWebAppRequest>;
 export interface ListWebAppsResponse {
   NextToken?: string;
-  WebApps: ListedWebApps;
+  WebApps: ListedWebApp[];
 }
 export const ListWebAppsResponse = S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), WebApps: ListedWebApps }),
@@ -2892,7 +3066,7 @@ export const DescribeWorkflowResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeWorkflowResponse>;
 export interface ListWorkflowsResponse {
   NextToken?: string;
-  Workflows: ListedWorkflows;
+  Workflows: ListedWorkflow[];
 }
 export const ListWorkflowsResponse = S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), Workflows: ListedWorkflows }),
@@ -2928,13 +3102,13 @@ export const SshPublicKeys = S.Array(SshPublicKey);
 export interface DescribedUser {
   Arn: string;
   HomeDirectory?: string;
-  HomeDirectoryMappings?: HomeDirectoryMappings;
-  HomeDirectoryType?: string;
+  HomeDirectoryMappings?: HomeDirectoryMapEntry[];
+  HomeDirectoryType?: HomeDirectoryType;
   Policy?: string;
   PosixProfile?: PosixProfile;
   Role?: string;
-  SshPublicKeys?: SshPublicKeys;
-  Tags?: Tags;
+  SshPublicKeys?: SshPublicKey[];
+  Tags?: Tag[];
   UserName?: string;
 }
 export const DescribedUser = S.suspend(() =>
@@ -2942,7 +3116,7 @@ export const DescribedUser = S.suspend(() =>
     Arn: S.String,
     HomeDirectory: S.optional(S.String),
     HomeDirectoryMappings: S.optional(HomeDirectoryMappings),
-    HomeDirectoryType: S.optional(S.String),
+    HomeDirectoryType: S.optional(HomeDirectoryType),
     Policy: S.optional(S.String),
     PosixProfile: S.optional(PosixProfile),
     Role: S.optional(S.String),
@@ -2980,7 +3154,7 @@ export const DescribedIdentityCenterConfig = S.suspend(() =>
   identifier: "DescribedIdentityCenterConfig",
 }) as any as S.Schema<DescribedIdentityCenterConfig>;
 export interface DescribedWebAppVpcConfig {
-  SubnetIds?: SubnetIds;
+  SubnetIds?: string[];
   VpcId?: string;
   VpcEndpointId?: string;
 }
@@ -2993,6 +3167,25 @@ export const DescribedWebAppVpcConfig = S.suspend(() =>
 ).annotations({
   identifier: "DescribedWebAppVpcConfig",
 }) as any as S.Schema<DescribedWebAppVpcConfig>;
+export type ExecutionErrorType =
+  | "PERMISSION_DENIED"
+  | "CUSTOM_STEP_FAILED"
+  | "THROTTLED"
+  | "ALREADY_EXISTS"
+  | "NOT_FOUND"
+  | "BAD_REQUEST"
+  | "TIMEOUT"
+  | "INTERNAL_SERVER_ERROR";
+export const ExecutionErrorType = S.Literal(
+  "PERMISSION_DENIED",
+  "CUSTOM_STEP_FAILED",
+  "THROTTLED",
+  "ALREADY_EXISTS",
+  "NOT_FOUND",
+  "BAD_REQUEST",
+  "TIMEOUT",
+  "INTERNAL_SERVER_ERROR",
+);
 export interface CreateConnectorResponse {
   ConnectorId: string;
 }
@@ -3059,11 +3252,11 @@ export const DescribedWebAppEndpointDetails = S.Union(
   S.Struct({ Vpc: DescribedWebAppVpcConfig }),
 );
 export interface ExecutionError {
-  Type: string;
+  Type: ExecutionErrorType;
   Message: string;
 }
 export const ExecutionError = S.suspend(() =>
-  S.Struct({ Type: S.String, Message: S.String }),
+  S.Struct({ Type: ExecutionErrorType, Message: S.String }),
 ).annotations({
   identifier: "ExecutionError",
 }) as any as S.Schema<ExecutionError>;
@@ -3074,14 +3267,14 @@ export interface DescribedConnector {
   As2Config?: As2ConnectorConfig;
   AccessRole?: string;
   LoggingRole?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
   SftpConfig?: SftpConnectorConfig;
-  ServiceManagedEgressIpAddresses?: ServiceManagedEgressIpAddresses;
+  ServiceManagedEgressIpAddresses?: string[];
   SecurityPolicyName?: string;
-  EgressConfig?: (typeof DescribedConnectorEgressConfig)["Type"];
-  EgressType: string;
+  EgressConfig?: DescribedConnectorEgressConfig;
+  EgressType: ConnectorEgressType;
   ErrorMessage?: string;
-  Status: string;
+  Status: ConnectorStatus;
 }
 export const DescribedConnector = S.suspend(() =>
   S.Struct({
@@ -3098,9 +3291,9 @@ export const DescribedConnector = S.suspend(() =>
     ),
     SecurityPolicyName: S.optional(S.String),
     EgressConfig: S.optional(DescribedConnectorEgressConfig),
-    EgressType: S.String,
+    EgressType: ConnectorEgressType,
     ErrorMessage: S.optional(S.String),
-    Status: S.String,
+    Status: ConnectorStatus,
   }),
 ).annotations({
   identifier: "DescribedConnector",
@@ -3108,14 +3301,14 @@ export const DescribedConnector = S.suspend(() =>
 export interface DescribedWebApp {
   Arn: string;
   WebAppId: string;
-  DescribedIdentityProviderDetails?: (typeof DescribedWebAppIdentityProviderDetails)["Type"];
+  DescribedIdentityProviderDetails?: DescribedWebAppIdentityProviderDetails;
   AccessEndpoint?: string;
   WebAppEndpoint?: string;
-  WebAppUnits?: (typeof WebAppUnits)["Type"];
-  Tags?: Tags;
-  WebAppEndpointPolicy?: string;
-  EndpointType?: string;
-  DescribedEndpointDetails?: (typeof DescribedWebAppEndpointDetails)["Type"];
+  WebAppUnits?: WebAppUnits;
+  Tags?: Tag[];
+  WebAppEndpointPolicy?: WebAppEndpointPolicy;
+  EndpointType?: WebAppEndpointType;
+  DescribedEndpointDetails?: DescribedWebAppEndpointDetails;
 }
 export const DescribedWebApp = S.suspend(() =>
   S.Struct({
@@ -3128,21 +3321,21 @@ export const DescribedWebApp = S.suspend(() =>
     WebAppEndpoint: S.optional(S.String),
     WebAppUnits: S.optional(WebAppUnits),
     Tags: S.optional(Tags),
-    WebAppEndpointPolicy: S.optional(S.String),
-    EndpointType: S.optional(S.String),
+    WebAppEndpointPolicy: S.optional(WebAppEndpointPolicy),
+    EndpointType: S.optional(WebAppEndpointType),
     DescribedEndpointDetails: S.optional(DescribedWebAppEndpointDetails),
   }),
 ).annotations({
   identifier: "DescribedWebApp",
 }) as any as S.Schema<DescribedWebApp>;
 export interface ExecutionStepResult {
-  StepType?: string;
+  StepType?: WorkflowStepType;
   Outputs?: string;
   Error?: ExecutionError;
 }
 export const ExecutionStepResult = S.suspend(() =>
   S.Struct({
-    StepType: S.optional(S.String),
+    StepType: S.optional(WorkflowStepType),
     Outputs: S.optional(S.String),
     Error: S.optional(ExecutionError),
   }),
@@ -3169,9 +3362,9 @@ export const DescribeWebAppResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeWebAppResponse>;
 export interface CreateWorkflowRequest {
   Description?: string;
-  Steps: WorkflowSteps;
-  OnExceptionSteps?: WorkflowSteps;
-  Tags?: Tags;
+  Steps: WorkflowStep[];
+  OnExceptionSteps?: WorkflowStep[];
+  Tags?: Tag[];
 }
 export const CreateWorkflowRequest = S.suspend(() =>
   S.Struct({
@@ -3186,8 +3379,8 @@ export const CreateWorkflowRequest = S.suspend(() =>
   identifier: "CreateWorkflowRequest",
 }) as any as S.Schema<CreateWorkflowRequest>;
 export interface ExecutionResults {
-  Steps?: ExecutionStepResults;
-  OnExceptionSteps?: ExecutionStepResults;
+  Steps?: ExecutionStepResult[];
+  OnExceptionSteps?: ExecutionStepResult[];
 }
 export const ExecutionResults = S.suspend(() =>
   S.Struct({
@@ -3204,7 +3397,7 @@ export interface DescribedExecution {
   ExecutionRole?: string;
   LoggingConfiguration?: LoggingConfiguration;
   PosixProfile?: PosixProfile;
-  Status?: string;
+  Status?: ExecutionStatus;
   Results?: ExecutionResults;
 }
 export const DescribedExecution = S.suspend(() =>
@@ -3215,7 +3408,7 @@ export const DescribedExecution = S.suspend(() =>
     ExecutionRole: S.optional(S.String),
     LoggingConfiguration: S.optional(LoggingConfiguration),
     PosixProfile: S.optional(PosixProfile),
-    Status: S.optional(S.String),
+    Status: S.optional(ExecutionStatus),
     Results: S.optional(ExecutionResults),
   }),
 ).annotations({
@@ -3286,7 +3479,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
 export const listSecurityPolicies: {
   (
     input: ListSecurityPoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSecurityPoliciesResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -3297,7 +3490,7 @@ export const listSecurityPolicies: {
   >;
   pages: (
     input: ListSecurityPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSecurityPoliciesResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -3308,7 +3501,7 @@ export const listSecurityPolicies: {
   >;
   items: (
     input: ListSecurityPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SecurityPolicyName,
     | InternalServiceError
     | InvalidNextTokenException
@@ -3340,7 +3533,7 @@ export const listSecurityPolicies: {
  */
 export const describeUser: (
   input: DescribeUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeUserResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -3366,7 +3559,7 @@ export const describeUser: (
 export const listWebApps: {
   (
     input: ListWebAppsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWebAppsResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -3377,7 +3570,7 @@ export const listWebApps: {
   >;
   pages: (
     input: ListWebAppsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWebAppsResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -3388,7 +3581,7 @@ export const listWebApps: {
   >;
   items: (
     input: ListWebAppsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListedWebApp,
     | InternalServiceError
     | InvalidNextTokenException
@@ -3420,7 +3613,7 @@ export const listWebApps: {
  */
 export const describeAccess: (
   input: DescribeAccessRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAccessResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -3443,7 +3636,7 @@ export const describeAccess: (
  */
 export const describeHostKey: (
   input: DescribeHostKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeHostKeyResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -3466,7 +3659,7 @@ export const describeHostKey: (
  */
 export const describeSecurityPolicy: (
   input: DescribeSecurityPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSecurityPolicyResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -3492,7 +3685,7 @@ export const describeSecurityPolicy: (
 export const listFileTransferResults: {
   (
     input: ListFileTransferResultsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFileTransferResultsResponse,
     | InternalServiceError
     | InvalidRequestException
@@ -3503,7 +3696,7 @@ export const listFileTransferResults: {
   >;
   pages: (
     input: ListFileTransferResultsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFileTransferResultsResponse,
     | InternalServiceError
     | InvalidRequestException
@@ -3514,7 +3707,7 @@ export const listFileTransferResults: {
   >;
   items: (
     input: ListFileTransferResultsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConnectorFileTransferResult,
     | InternalServiceError
     | InvalidRequestException
@@ -3544,7 +3737,7 @@ export const listFileTransferResults: {
  */
 export const testConnection: (
   input: TestConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TestConnectionResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -3567,7 +3760,7 @@ export const testConnection: (
  */
 export const describeAgreement: (
   input: DescribeAgreementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAgreementResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -3591,7 +3784,7 @@ export const describeAgreement: (
 export const listAgreements: {
   (
     input: ListAgreementsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAgreementsResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -3603,7 +3796,7 @@ export const listAgreements: {
   >;
   pages: (
     input: ListAgreementsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAgreementsResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -3615,7 +3808,7 @@ export const listAgreements: {
   >;
   items: (
     input: ListAgreementsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListedAgreement,
     | InternalServiceError
     | InvalidNextTokenException
@@ -3649,7 +3842,7 @@ export const listAgreements: {
  */
 export const describeCertificate: (
   input: DescribeCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCertificateResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -3673,7 +3866,7 @@ export const describeCertificate: (
 export const listCertificates: {
   (
     input: ListCertificatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCertificatesResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -3685,7 +3878,7 @@ export const listCertificates: {
   >;
   pages: (
     input: ListCertificatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCertificatesResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -3697,7 +3890,7 @@ export const listCertificates: {
   >;
   items: (
     input: ListCertificatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListedCertificate,
     | InternalServiceError
     | InvalidNextTokenException
@@ -3730,7 +3923,7 @@ export const listCertificates: {
 export const listConnectors: {
   (
     input: ListConnectorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConnectorsResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -3742,7 +3935,7 @@ export const listConnectors: {
   >;
   pages: (
     input: ListConnectorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConnectorsResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -3754,7 +3947,7 @@ export const listConnectors: {
   >;
   items: (
     input: ListConnectorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListedConnector,
     | InternalServiceError
     | InvalidNextTokenException
@@ -3786,7 +3979,7 @@ export const listConnectors: {
  */
 export const describeProfile: (
   input: DescribeProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeProfileResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -3810,7 +4003,7 @@ export const describeProfile: (
 export const listProfiles: {
   (
     input: ListProfilesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProfilesResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -3822,7 +4015,7 @@ export const listProfiles: {
   >;
   pages: (
     input: ListProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProfilesResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -3834,7 +4027,7 @@ export const listProfiles: {
   >;
   items: (
     input: ListProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListedProfile,
     | InternalServiceError
     | InvalidNextTokenException
@@ -3868,7 +4061,7 @@ export const listProfiles: {
  */
 export const describeServer: (
   input: DescribeServerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeServerResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -3892,7 +4085,7 @@ export const describeServer: (
 export const listUsers: {
   (
     input: ListUsersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUsersResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -3904,7 +4097,7 @@ export const listUsers: {
   >;
   pages: (
     input: ListUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUsersResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -3916,7 +4109,7 @@ export const listUsers: {
   >;
   items: (
     input: ListUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListedUser,
     | InternalServiceError
     | InvalidNextTokenException
@@ -3948,7 +4141,7 @@ export const listUsers: {
  */
 export const describeWebAppCustomization: (
   input: DescribeWebAppCustomizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeWebAppCustomizationResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -3973,7 +4166,7 @@ export const describeWebAppCustomization: (
  */
 export const describeWorkflow: (
   input: DescribeWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeWorkflowResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -3998,7 +4191,7 @@ export const describeWorkflow: (
  */
 export const sendWorkflowStepState: (
   input: SendWorkflowStepStateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendWorkflowStepStateResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -4039,7 +4232,7 @@ export const sendWorkflowStepState: (
  */
 export const startDirectoryListing: (
   input: StartDirectoryListingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartDirectoryListingResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4072,7 +4265,7 @@ export const startDirectoryListing: (
  */
 export const startFileTransfer: (
   input: StartFileTransferRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartFileTransferResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4097,7 +4290,7 @@ export const startFileTransfer: (
  */
 export const startRemoteDelete: (
   input: StartRemoteDeleteRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartRemoteDeleteResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4122,7 +4315,7 @@ export const startRemoteDelete: (
  */
 export const startRemoteMove: (
   input: StartRemoteMoveRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartRemoteMoveResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4169,7 +4362,7 @@ export const startRemoteMove: (
  */
 export const testIdentityProvider: (
   input: TestIdentityProviderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TestIdentityProviderResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4192,7 +4385,7 @@ export const testIdentityProvider: (
  */
 export const updateHostKey: (
   input: UpdateHostKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateHostKeyResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4237,7 +4430,7 @@ export const updateHostKey: (
  */
 export const importCertificate: (
   input: ImportCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ImportCertificateResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4260,7 +4453,7 @@ export const importCertificate: (
  */
 export const updateCertificate: (
   input: UpdateCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCertificateResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4285,7 +4478,7 @@ export const updateCertificate: (
  */
 export const createProfile: (
   input: CreateProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProfileResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4310,7 +4503,7 @@ export const createProfile: (
  */
 export const updateProfile: (
   input: UpdateProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProfileResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4343,7 +4536,7 @@ export const updateProfile: (
  */
 export const updateUser: (
   input: UpdateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4368,7 +4561,7 @@ export const updateUser: (
  */
 export const deleteHostKey: (
   input: DeleteHostKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteHostKeyResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4393,7 +4586,7 @@ export const deleteHostKey: (
  */
 export const deleteSshPublicKey: (
   input: DeleteSshPublicKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSshPublicKeyResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4422,7 +4615,7 @@ export const deleteSshPublicKey: (
  */
 export const startServer: (
   input: StartServerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartServerResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4453,7 +4646,7 @@ export const startServer: (
  */
 export const stopServer: (
   input: StopServerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopServerResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4480,7 +4673,7 @@ export const stopServer: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4505,7 +4698,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4528,7 +4721,7 @@ export const untagResource: (
  */
 export const deleteAgreement: (
   input: DeleteAgreementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAgreementResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4551,7 +4744,7 @@ export const deleteAgreement: (
  */
 export const deleteCertificate: (
   input: DeleteCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCertificateResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4574,7 +4767,7 @@ export const deleteCertificate: (
  */
 export const deleteConnector: (
   input: DeleteConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConnectorResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4597,7 +4790,7 @@ export const deleteConnector: (
  */
 export const deleteProfile: (
   input: DeleteProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProfileResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4624,7 +4817,7 @@ export const deleteProfile: (
  */
 export const deleteUser: (
   input: DeleteUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUserResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4649,7 +4842,7 @@ export const deleteUser: (
  */
 export const deleteServer: (
   input: DeleteServerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteServerResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -4674,7 +4867,7 @@ export const deleteServer: (
  */
 export const deleteWebApp: (
   input: DeleteWebAppRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWebAppResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -4699,7 +4892,7 @@ export const deleteWebApp: (
  */
 export const deleteWorkflow: (
   input: DeleteWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkflowResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -4725,7 +4918,7 @@ export const deleteWorkflow: (
 export const listAccesses: {
   (
     input: ListAccessesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccessesResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -4737,7 +4930,7 @@ export const listAccesses: {
   >;
   pages: (
     input: ListAccessesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccessesResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -4749,7 +4942,7 @@ export const listAccesses: {
   >;
   items: (
     input: ListAccessesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListedAccess,
     | InternalServiceError
     | InvalidNextTokenException
@@ -4784,7 +4977,7 @@ export const listAccesses: {
 export const listExecutions: {
   (
     input: ListExecutionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListExecutionsResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -4796,7 +4989,7 @@ export const listExecutions: {
   >;
   pages: (
     input: ListExecutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListExecutionsResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -4808,7 +5001,7 @@ export const listExecutions: {
   >;
   items: (
     input: ListExecutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListedExecution,
     | InternalServiceError
     | InvalidNextTokenException
@@ -4840,7 +5033,7 @@ export const listExecutions: {
  */
 export const listHostKeys: (
   input: ListHostKeysRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListHostKeysResponse,
   | InternalServiceError
   | InvalidNextTokenException
@@ -4865,7 +5058,7 @@ export const listHostKeys: (
  */
 export const updateWebAppCustomization: (
   input: UpdateWebAppCustomizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWebAppCustomizationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4892,7 +5085,7 @@ export const updateWebAppCustomization: (
  */
 export const deleteWebAppCustomization: (
   input: DeleteWebAppCustomizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWebAppCustomizationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4923,7 +5116,7 @@ export const deleteWebAppCustomization: (
  */
 export const createAgreement: (
   input: CreateAgreementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAgreementResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4952,7 +5145,7 @@ export const createAgreement: (
  */
 export const updateServer: (
   input: UpdateServerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateServerResponse,
   | AccessDeniedException
   | ConflictException
@@ -4985,7 +5178,7 @@ export const updateServer: (
  */
 export const importSshPublicKey: (
   input: ImportSshPublicKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ImportSshPublicKeyResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -5012,7 +5205,7 @@ export const importSshPublicKey: (
  */
 export const updateAccess: (
   input: UpdateAccessRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAccessResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -5043,7 +5236,7 @@ export const updateAccess: (
  */
 export const updateAgreement: (
   input: UpdateAgreementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAgreementResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -5070,7 +5263,7 @@ export const updateAgreement: (
  */
 export const createUser: (
   input: CreateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUserResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -5095,7 +5288,7 @@ export const createUser: (
  */
 export const createAccess: (
   input: CreateAccessRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAccessResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -5121,7 +5314,7 @@ export const createAccess: (
 export const listServers: {
   (
     input: ListServersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServersResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -5132,7 +5325,7 @@ export const listServers: {
   >;
   pages: (
     input: ListServersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServersResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -5143,7 +5336,7 @@ export const listServers: {
   >;
   items: (
     input: ListServersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListedServer,
     | InternalServiceError
     | InvalidNextTokenException
@@ -5174,7 +5367,7 @@ export const listServers: {
 export const listWorkflows: {
   (
     input: ListWorkflowsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkflowsResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -5185,7 +5378,7 @@ export const listWorkflows: {
   >;
   pages: (
     input: ListWorkflowsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkflowsResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -5196,7 +5389,7 @@ export const listWorkflows: {
   >;
   items: (
     input: ListWorkflowsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListedWorkflow,
     | InternalServiceError
     | InvalidNextTokenException
@@ -5227,7 +5420,7 @@ export const listWorkflows: {
 export const listTagsForResource: {
   (
     input: ListTagsForResourceRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTagsForResourceResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -5238,7 +5431,7 @@ export const listTagsForResource: {
   >;
   pages: (
     input: ListTagsForResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTagsForResourceResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -5249,7 +5442,7 @@ export const listTagsForResource: {
   >;
   items: (
     input: ListTagsForResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Tag,
     | InternalServiceError
     | InvalidNextTokenException
@@ -5279,7 +5472,7 @@ export const listTagsForResource: {
  */
 export const deleteAccess: (
   input: DeleteAccessRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccessResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -5302,7 +5495,7 @@ export const deleteAccess: (
  */
 export const importHostKey: (
   input: ImportHostKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ImportHostKeyResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -5331,7 +5524,7 @@ export const importHostKey: (
  */
 export const createConnector: (
   input: CreateConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConnectorResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -5358,7 +5551,7 @@ export const createConnector: (
  */
 export const updateConnector: (
   input: UpdateConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConnectorResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -5385,7 +5578,7 @@ export const updateConnector: (
  */
 export const createServer: (
   input: CreateServerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateServerResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -5416,7 +5609,7 @@ export const createServer: (
  */
 export const createWebApp: (
   input: CreateWebAppRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWebAppResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -5443,7 +5636,7 @@ export const createWebApp: (
  */
 export const updateWebApp: (
   input: UpdateWebAppRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWebAppResponse,
   | AccessDeniedException
   | ConflictException
@@ -5470,7 +5663,7 @@ export const updateWebApp: (
  */
 export const describeConnector: (
   input: DescribeConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeConnectorResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -5495,7 +5688,7 @@ export const describeConnector: (
  */
 export const describeWebApp: (
   input: DescribeWebAppRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeWebAppResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -5524,7 +5717,7 @@ export const describeWebApp: (
  */
 export const describeExecution: (
   input: DescribeExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeExecutionResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -5547,7 +5740,7 @@ export const describeExecution: (
  */
 export const createWorkflow: (
   input: CreateWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkflowResponse,
   | AccessDeniedException
   | InternalServiceError

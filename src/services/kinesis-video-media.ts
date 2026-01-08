@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -95,15 +95,30 @@ export type ContentType = string;
 export type ErrorMessage = string;
 
 //# Schemas
+export type StartSelectorType =
+  | "FRAGMENT_NUMBER"
+  | "SERVER_TIMESTAMP"
+  | "PRODUCER_TIMESTAMP"
+  | "NOW"
+  | "EARLIEST"
+  | "CONTINUATION_TOKEN";
+export const StartSelectorType = S.Literal(
+  "FRAGMENT_NUMBER",
+  "SERVER_TIMESTAMP",
+  "PRODUCER_TIMESTAMP",
+  "NOW",
+  "EARLIEST",
+  "CONTINUATION_TOKEN",
+);
 export interface StartSelector {
-  StartSelectorType: string;
+  StartSelectorType: StartSelectorType;
   AfterFragmentNumber?: string;
   StartTimestamp?: Date;
   ContinuationToken?: string;
 }
 export const StartSelector = S.suspend(() =>
   S.Struct({
-    StartSelectorType: S.String,
+    StartSelectorType: StartSelectorType,
     AfterFragmentNumber: S.optional(S.String),
     StartTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ContinuationToken: S.optional(S.String),
@@ -213,7 +228,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
  */
 export const getMedia: (
   input: GetMediaInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetMediaOutput,
   | ClientLimitExceededException
   | ConnectionLimitExceededException

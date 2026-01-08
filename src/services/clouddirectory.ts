@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -119,6 +119,12 @@ export type RuleParameterValue = string;
 export type BatchOperationIndex = number;
 
 //# Schemas
+export type ConsistencyLevel = "SERIALIZABLE" | "EVENTUAL";
+export const ConsistencyLevel = S.Literal("SERIALIZABLE", "EVENTUAL");
+export type ObjectType = "NODE" | "LEAF_NODE" | "POLICY" | "INDEX";
+export const ObjectType = S.Literal("NODE", "LEAF_NODE", "POLICY", "INDEX");
+export type FacetStyle = "STATIC" | "DYNAMIC";
+export const FacetStyle = S.Literal("STATIC", "DYNAMIC");
 export interface SchemaFacet {
   SchemaArn?: string;
   FacetName?: string;
@@ -133,6 +139,8 @@ export type SchemaFacetList = SchemaFacet[];
 export const SchemaFacetList = S.Array(SchemaFacet);
 export type AttributeNameList = string[];
 export const AttributeNameList = S.Array(S.String);
+export type DirectoryState = "ENABLED" | "DISABLED" | "DELETED";
+export const DirectoryState = S.Literal("ENABLED", "DISABLED", "DELETED");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface ApplySchemaRequest {
@@ -298,7 +306,7 @@ export const TypedAttributeValue = S.Union(
 );
 export interface AttributeKeyAndValue {
   Key: AttributeKey;
-  Value: (typeof TypedAttributeValue)["Type"];
+  Value: TypedAttributeValue;
 }
 export const AttributeKeyAndValue = S.suspend(() =>
   S.Struct({ Key: AttributeKey, Value: TypedAttributeValue }),
@@ -309,8 +317,8 @@ export type AttributeKeyAndValueList = AttributeKeyAndValue[];
 export const AttributeKeyAndValueList = S.Array(AttributeKeyAndValue);
 export interface CreateObjectRequest {
   DirectoryArn: string;
-  SchemaFacets: SchemaFacetList;
-  ObjectAttributeList?: AttributeKeyAndValueList;
+  SchemaFacets: SchemaFacet[];
+  ObjectAttributeList?: AttributeKeyAndValue[];
   ParentReference?: ObjectReference;
   LinkName?: string;
 }
@@ -681,7 +689,7 @@ export const TypedLinkSchemaAndFacetName = S.suspend(() =>
 }) as any as S.Schema<TypedLinkSchemaAndFacetName>;
 export interface AttributeNameAndValue {
   AttributeName: string;
-  Value: (typeof TypedAttributeValue)["Type"];
+  Value: TypedAttributeValue;
 }
 export const AttributeNameAndValue = S.suspend(() =>
   S.Struct({ AttributeName: S.String, Value: TypedAttributeValue }),
@@ -694,7 +702,7 @@ export interface TypedLinkSpecifier {
   TypedLinkFacet: TypedLinkSchemaAndFacetName;
   SourceObjectReference: ObjectReference;
   TargetObjectReference: ObjectReference;
-  IdentityAttributeValues: AttributeNameAndValueList;
+  IdentityAttributeValues: AttributeNameAndValue[];
 }
 export const TypedLinkSpecifier = S.suspend(() =>
   S.Struct({
@@ -709,15 +717,15 @@ export const TypedLinkSpecifier = S.suspend(() =>
 export interface GetLinkAttributesRequest {
   DirectoryArn: string;
   TypedLinkSpecifier: TypedLinkSpecifier;
-  AttributeNames: AttributeNameList;
-  ConsistencyLevel?: string;
+  AttributeNames: string[];
+  ConsistencyLevel?: ConsistencyLevel;
 }
 export const GetLinkAttributesRequest = S.suspend(() =>
   S.Struct({
     DirectoryArn: S.String.pipe(T.HttpHeader("x-amz-data-partition")),
     TypedLinkSpecifier: TypedLinkSpecifier,
     AttributeNames: AttributeNameList,
-    ConsistencyLevel: S.optional(S.String),
+    ConsistencyLevel: S.optional(ConsistencyLevel),
   }).pipe(
     T.all(
       T.Http({
@@ -737,15 +745,15 @@ export const GetLinkAttributesRequest = S.suspend(() =>
 export interface GetObjectAttributesRequest {
   DirectoryArn: string;
   ObjectReference: ObjectReference;
-  ConsistencyLevel?: string;
+  ConsistencyLevel?: ConsistencyLevel;
   SchemaFacet: SchemaFacet;
-  AttributeNames: AttributeNameList;
+  AttributeNames: string[];
 }
 export const GetObjectAttributesRequest = S.suspend(() =>
   S.Struct({
     DirectoryArn: S.String.pipe(T.HttpHeader("x-amz-data-partition")),
     ObjectReference: ObjectReference,
-    ConsistencyLevel: S.optional(S.String).pipe(
+    ConsistencyLevel: S.optional(ConsistencyLevel).pipe(
       T.HttpHeader("x-amz-consistency-level"),
     ),
     SchemaFacet: SchemaFacet,
@@ -769,13 +777,13 @@ export const GetObjectAttributesRequest = S.suspend(() =>
 export interface GetObjectInformationRequest {
   DirectoryArn: string;
   ObjectReference: ObjectReference;
-  ConsistencyLevel?: string;
+  ConsistencyLevel?: ConsistencyLevel;
 }
 export const GetObjectInformationRequest = S.suspend(() =>
   S.Struct({
     DirectoryArn: S.String.pipe(T.HttpHeader("x-amz-data-partition")),
     ObjectReference: ObjectReference,
-    ConsistencyLevel: S.optional(S.String).pipe(
+    ConsistencyLevel: S.optional(ConsistencyLevel).pipe(
       T.HttpHeader("x-amz-consistency-level"),
     ),
   }).pipe(
@@ -873,7 +881,7 @@ export interface ListAttachedIndicesRequest {
   TargetReference: ObjectReference;
   NextToken?: string;
   MaxResults?: number;
-  ConsistencyLevel?: string;
+  ConsistencyLevel?: ConsistencyLevel;
 }
 export const ListAttachedIndicesRequest = S.suspend(() =>
   S.Struct({
@@ -881,7 +889,7 @@ export const ListAttachedIndicesRequest = S.suspend(() =>
     TargetReference: ObjectReference,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-    ConsistencyLevel: S.optional(S.String).pipe(
+    ConsistencyLevel: S.optional(ConsistencyLevel).pipe(
       T.HttpHeader("x-amz-consistency-level"),
     ),
   }).pipe(
@@ -927,13 +935,13 @@ export const ListDevelopmentSchemaArnsRequest = S.suspend(() =>
 export interface ListDirectoriesRequest {
   NextToken?: string;
   MaxResults?: number;
-  state?: string;
+  state?: DirectoryState;
 }
 export const ListDirectoriesRequest = S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-    state: S.optional(S.String),
+    state: S.optional(DirectoryState),
   }).pipe(
     T.all(
       T.Http({
@@ -1035,7 +1043,7 @@ export interface ListObjectAttributesRequest {
   ObjectReference: ObjectReference;
   NextToken?: string;
   MaxResults?: number;
-  ConsistencyLevel?: string;
+  ConsistencyLevel?: ConsistencyLevel;
   FacetFilter?: SchemaFacet;
 }
 export const ListObjectAttributesRequest = S.suspend(() =>
@@ -1044,7 +1052,7 @@ export const ListObjectAttributesRequest = S.suspend(() =>
     ObjectReference: ObjectReference,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-    ConsistencyLevel: S.optional(S.String).pipe(
+    ConsistencyLevel: S.optional(ConsistencyLevel).pipe(
       T.HttpHeader("x-amz-consistency-level"),
     ),
     FacetFilter: S.optional(SchemaFacet),
@@ -1069,7 +1077,7 @@ export interface ListObjectChildrenRequest {
   ObjectReference: ObjectReference;
   NextToken?: string;
   MaxResults?: number;
-  ConsistencyLevel?: string;
+  ConsistencyLevel?: ConsistencyLevel;
 }
 export const ListObjectChildrenRequest = S.suspend(() =>
   S.Struct({
@@ -1077,7 +1085,7 @@ export const ListObjectChildrenRequest = S.suspend(() =>
     ObjectReference: ObjectReference,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-    ConsistencyLevel: S.optional(S.String).pipe(
+    ConsistencyLevel: S.optional(ConsistencyLevel).pipe(
       T.HttpHeader("x-amz-consistency-level"),
     ),
   }).pipe(
@@ -1129,7 +1137,7 @@ export interface ListObjectParentsRequest {
   ObjectReference: ObjectReference;
   NextToken?: string;
   MaxResults?: number;
-  ConsistencyLevel?: string;
+  ConsistencyLevel?: ConsistencyLevel;
   IncludeAllLinksToEachParent?: boolean;
 }
 export const ListObjectParentsRequest = S.suspend(() =>
@@ -1138,7 +1146,7 @@ export const ListObjectParentsRequest = S.suspend(() =>
     ObjectReference: ObjectReference,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-    ConsistencyLevel: S.optional(S.String).pipe(
+    ConsistencyLevel: S.optional(ConsistencyLevel).pipe(
       T.HttpHeader("x-amz-consistency-level"),
     ),
     IncludeAllLinksToEachParent: S.optional(S.Boolean),
@@ -1163,7 +1171,7 @@ export interface ListObjectPoliciesRequest {
   ObjectReference: ObjectReference;
   NextToken?: string;
   MaxResults?: number;
-  ConsistencyLevel?: string;
+  ConsistencyLevel?: ConsistencyLevel;
 }
 export const ListObjectPoliciesRequest = S.suspend(() =>
   S.Struct({
@@ -1171,7 +1179,7 @@ export const ListObjectPoliciesRequest = S.suspend(() =>
     ObjectReference: ObjectReference,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-    ConsistencyLevel: S.optional(S.String).pipe(
+    ConsistencyLevel: S.optional(ConsistencyLevel).pipe(
       T.HttpHeader("x-amz-consistency-level"),
     ),
   }).pipe(
@@ -1190,17 +1198,30 @@ export const ListObjectPoliciesRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListObjectPoliciesRequest",
 }) as any as S.Schema<ListObjectPoliciesRequest>;
+export type RangeMode =
+  | "FIRST"
+  | "LAST"
+  | "LAST_BEFORE_MISSING_VALUES"
+  | "INCLUSIVE"
+  | "EXCLUSIVE";
+export const RangeMode = S.Literal(
+  "FIRST",
+  "LAST",
+  "LAST_BEFORE_MISSING_VALUES",
+  "INCLUSIVE",
+  "EXCLUSIVE",
+);
 export interface TypedAttributeValueRange {
-  StartMode: string;
-  StartValue?: (typeof TypedAttributeValue)["Type"];
-  EndMode: string;
-  EndValue?: (typeof TypedAttributeValue)["Type"];
+  StartMode: RangeMode;
+  StartValue?: TypedAttributeValue;
+  EndMode: RangeMode;
+  EndValue?: TypedAttributeValue;
 }
 export const TypedAttributeValueRange = S.suspend(() =>
   S.Struct({
-    StartMode: S.String,
+    StartMode: RangeMode,
     StartValue: S.optional(TypedAttributeValue),
-    EndMode: S.String,
+    EndMode: RangeMode,
     EndValue: S.optional(TypedAttributeValue),
   }),
 ).annotations({
@@ -1223,11 +1244,11 @@ export const TypedLinkAttributeRangeList = S.Array(TypedLinkAttributeRange);
 export interface ListOutgoingTypedLinksRequest {
   DirectoryArn: string;
   ObjectReference: ObjectReference;
-  FilterAttributeRanges?: TypedLinkAttributeRangeList;
+  FilterAttributeRanges?: TypedLinkAttributeRange[];
   FilterTypedLink?: TypedLinkSchemaAndFacetName;
   NextToken?: string;
   MaxResults?: number;
-  ConsistencyLevel?: string;
+  ConsistencyLevel?: ConsistencyLevel;
 }
 export const ListOutgoingTypedLinksRequest = S.suspend(() =>
   S.Struct({
@@ -1237,7 +1258,7 @@ export const ListOutgoingTypedLinksRequest = S.suspend(() =>
     FilterTypedLink: S.optional(TypedLinkSchemaAndFacetName),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-    ConsistencyLevel: S.optional(S.String),
+    ConsistencyLevel: S.optional(ConsistencyLevel),
   }).pipe(
     T.all(
       T.Http({
@@ -1259,7 +1280,7 @@ export interface ListPolicyAttachmentsRequest {
   PolicyReference: ObjectReference;
   NextToken?: string;
   MaxResults?: number;
-  ConsistencyLevel?: string;
+  ConsistencyLevel?: ConsistencyLevel;
 }
 export const ListPolicyAttachmentsRequest = S.suspend(() =>
   S.Struct({
@@ -1267,7 +1288,7 @@ export const ListPolicyAttachmentsRequest = S.suspend(() =>
     PolicyReference: ObjectReference,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-    ConsistencyLevel: S.optional(S.String).pipe(
+    ConsistencyLevel: S.optional(ConsistencyLevel).pipe(
       T.HttpHeader("x-amz-consistency-level"),
     ),
   }).pipe(
@@ -1503,7 +1524,7 @@ export const RemoveFacetFromObjectResponse = S.suspend(() =>
 }) as any as S.Schema<RemoveFacetFromObjectResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
@@ -1604,6 +1625,13 @@ export const UpgradePublishedSchemaRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpgradePublishedSchemaRequest",
 }) as any as S.Schema<UpgradePublishedSchemaRequest>;
+export type RequiredAttributeBehavior = "REQUIRED_ALWAYS" | "NOT_REQUIRED";
+export const RequiredAttributeBehavior = S.Literal(
+  "REQUIRED_ALWAYS",
+  "NOT_REQUIRED",
+);
+export type UpdateActionType = "CREATE_OR_UPDATE" | "DELETE";
+export const UpdateActionType = S.Literal("CREATE_OR_UPDATE", "DELETE");
 export type AttributeKeyList = AttributeKey[];
 export const AttributeKeyList = S.Array(AttributeKey);
 export type Arns = string[];
@@ -1611,14 +1639,14 @@ export const Arns = S.Array(S.String);
 export interface Directory {
   Name?: string;
   DirectoryArn?: string;
-  State?: string;
+  State?: DirectoryState;
   CreationDateTime?: Date;
 }
 export const Directory = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     DirectoryArn: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(DirectoryState),
     CreationDateTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1657,29 +1685,55 @@ export const Tag = S.suspend(() =>
 ).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);
+export type FacetAttributeType =
+  | "STRING"
+  | "BINARY"
+  | "BOOLEAN"
+  | "NUMBER"
+  | "DATETIME"
+  | "VARIANT";
+export const FacetAttributeType = S.Literal(
+  "STRING",
+  "BINARY",
+  "BOOLEAN",
+  "NUMBER",
+  "DATETIME",
+  "VARIANT",
+);
+export type RuleType =
+  | "BINARY_LENGTH"
+  | "NUMBER_COMPARISON"
+  | "STRING_FROM_SET"
+  | "STRING_LENGTH";
+export const RuleType = S.Literal(
+  "BINARY_LENGTH",
+  "NUMBER_COMPARISON",
+  "STRING_FROM_SET",
+  "STRING_LENGTH",
+);
 export type RuleParameterMap = { [key: string]: string };
 export const RuleParameterMap = S.Record({ key: S.String, value: S.String });
 export interface Rule {
-  Type?: string;
-  Parameters?: RuleParameterMap;
+  Type?: RuleType;
+  Parameters?: { [key: string]: string };
 }
 export const Rule = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String),
+    Type: S.optional(RuleType),
     Parameters: S.optional(RuleParameterMap),
   }),
 ).annotations({ identifier: "Rule" }) as any as S.Schema<Rule>;
 export type RuleMap = { [key: string]: Rule };
 export const RuleMap = S.Record({ key: S.String, value: Rule });
 export interface FacetAttributeDefinition {
-  Type: string;
-  DefaultValue?: (typeof TypedAttributeValue)["Type"];
+  Type: FacetAttributeType;
+  DefaultValue?: TypedAttributeValue;
   IsImmutable?: boolean;
-  Rules?: RuleMap;
+  Rules?: { [key: string]: Rule };
 }
 export const FacetAttributeDefinition = S.suspend(() =>
   S.Struct({
-    Type: S.String,
+    Type: FacetAttributeType,
     DefaultValue: S.optional(TypedAttributeValue),
     IsImmutable: S.optional(S.Boolean),
     Rules: S.optional(RuleMap),
@@ -1700,26 +1754,26 @@ export interface FacetAttribute {
   Name: string;
   AttributeDefinition?: FacetAttributeDefinition;
   AttributeReference?: FacetAttributeReference;
-  RequiredBehavior?: string;
+  RequiredBehavior?: RequiredAttributeBehavior;
 }
 export const FacetAttribute = S.suspend(() =>
   S.Struct({
     Name: S.String,
     AttributeDefinition: S.optional(FacetAttributeDefinition),
     AttributeReference: S.optional(FacetAttributeReference),
-    RequiredBehavior: S.optional(S.String),
+    RequiredBehavior: S.optional(RequiredAttributeBehavior),
   }),
 ).annotations({
   identifier: "FacetAttribute",
 }) as any as S.Schema<FacetAttribute>;
 export interface FacetAttributeUpdate {
   Attribute?: FacetAttribute;
-  Action?: string;
+  Action?: UpdateActionType;
 }
 export const FacetAttributeUpdate = S.suspend(() =>
   S.Struct({
     Attribute: S.optional(FacetAttribute),
-    Action: S.optional(S.String),
+    Action: S.optional(UpdateActionType),
   }),
 ).annotations({
   identifier: "FacetAttributeUpdate",
@@ -1728,30 +1782,33 @@ export type FacetAttributeUpdateList = FacetAttributeUpdate[];
 export const FacetAttributeUpdateList = S.Array(FacetAttributeUpdate);
 export interface TypedLinkAttributeDefinition {
   Name: string;
-  Type: string;
-  DefaultValue?: (typeof TypedAttributeValue)["Type"];
+  Type: FacetAttributeType;
+  DefaultValue?: TypedAttributeValue;
   IsImmutable?: boolean;
-  Rules?: RuleMap;
-  RequiredBehavior: string;
+  Rules?: { [key: string]: Rule };
+  RequiredBehavior: RequiredAttributeBehavior;
 }
 export const TypedLinkAttributeDefinition = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Type: S.String,
+    Type: FacetAttributeType,
     DefaultValue: S.optional(TypedAttributeValue),
     IsImmutable: S.optional(S.Boolean),
     Rules: S.optional(RuleMap),
-    RequiredBehavior: S.String,
+    RequiredBehavior: RequiredAttributeBehavior,
   }),
 ).annotations({
   identifier: "TypedLinkAttributeDefinition",
 }) as any as S.Schema<TypedLinkAttributeDefinition>;
 export interface TypedLinkFacetAttributeUpdate {
   Attribute: TypedLinkAttributeDefinition;
-  Action: string;
+  Action: UpdateActionType;
 }
 export const TypedLinkFacetAttributeUpdate = S.suspend(() =>
-  S.Struct({ Attribute: TypedLinkAttributeDefinition, Action: S.String }),
+  S.Struct({
+    Attribute: TypedLinkAttributeDefinition,
+    Action: UpdateActionType,
+  }),
 ).annotations({
   identifier: "TypedLinkFacetAttributeUpdate",
 }) as any as S.Schema<TypedLinkFacetAttributeUpdate>;
@@ -1792,7 +1849,7 @@ export interface AttachTypedLinkRequest {
   SourceObjectReference: ObjectReference;
   TargetObjectReference: ObjectReference;
   TypedLinkFacet: TypedLinkSchemaAndFacetName;
-  Attributes: AttributeNameAndValueList;
+  Attributes: AttributeNameAndValue[];
 }
 export const AttachTypedLinkRequest = S.suspend(() =>
   S.Struct({
@@ -1835,7 +1892,7 @@ export const CreateDirectoryResponse = S.suspend(() =>
 }) as any as S.Schema<CreateDirectoryResponse>;
 export interface CreateIndexRequest {
   DirectoryArn: string;
-  OrderedIndexedAttributeList: AttributeKeyList;
+  OrderedIndexedAttributeList: AttributeKey[];
   IsUnique: boolean;
   ParentReference?: ObjectReference;
   LinkName?: string;
@@ -1963,7 +2020,7 @@ export const GetAppliedSchemaVersionResponse = S.suspend(() =>
   identifier: "GetAppliedSchemaVersionResponse",
 }) as any as S.Schema<GetAppliedSchemaVersionResponse>;
 export interface GetLinkAttributesResponse {
-  Attributes?: AttributeKeyAndValueList;
+  Attributes?: AttributeKeyAndValue[];
 }
 export const GetLinkAttributesResponse = S.suspend(() =>
   S.Struct({ Attributes: S.optional(AttributeKeyAndValueList) }),
@@ -1971,7 +2028,7 @@ export const GetLinkAttributesResponse = S.suspend(() =>
   identifier: "GetLinkAttributesResponse",
 }) as any as S.Schema<GetLinkAttributesResponse>;
 export interface GetObjectAttributesResponse {
-  Attributes?: AttributeKeyAndValueList;
+  Attributes?: AttributeKeyAndValue[];
 }
 export const GetObjectAttributesResponse = S.suspend(() =>
   S.Struct({ Attributes: S.optional(AttributeKeyAndValueList) }),
@@ -1979,7 +2036,7 @@ export const GetObjectAttributesResponse = S.suspend(() =>
   identifier: "GetObjectAttributesResponse",
 }) as any as S.Schema<GetObjectAttributesResponse>;
 export interface GetObjectInformationResponse {
-  SchemaFacets?: SchemaFacetList;
+  SchemaFacets?: SchemaFacet[];
   ObjectIdentifier?: string;
 }
 export const GetObjectInformationResponse = S.suspend(() =>
@@ -2000,7 +2057,7 @@ export const GetSchemaAsJsonResponse = S.suspend(() =>
   identifier: "GetSchemaAsJsonResponse",
 }) as any as S.Schema<GetSchemaAsJsonResponse>;
 export interface GetTypedLinkFacetInformationResponse {
-  IdentityAttributeOrder?: AttributeNameList;
+  IdentityAttributeOrder?: string[];
 }
 export const GetTypedLinkFacetInformationResponse = S.suspend(() =>
   S.Struct({ IdentityAttributeOrder: S.optional(AttributeNameList) }),
@@ -2008,7 +2065,7 @@ export const GetTypedLinkFacetInformationResponse = S.suspend(() =>
   identifier: "GetTypedLinkFacetInformationResponse",
 }) as any as S.Schema<GetTypedLinkFacetInformationResponse>;
 export interface ListAppliedSchemaArnsResponse {
-  SchemaArns?: Arns;
+  SchemaArns?: string[];
   NextToken?: string;
 }
 export const ListAppliedSchemaArnsResponse = S.suspend(() =>
@@ -2017,7 +2074,7 @@ export const ListAppliedSchemaArnsResponse = S.suspend(() =>
   identifier: "ListAppliedSchemaArnsResponse",
 }) as any as S.Schema<ListAppliedSchemaArnsResponse>;
 export interface ListDevelopmentSchemaArnsResponse {
-  SchemaArns?: Arns;
+  SchemaArns?: string[];
   NextToken?: string;
 }
 export const ListDevelopmentSchemaArnsResponse = S.suspend(() =>
@@ -2026,7 +2083,7 @@ export const ListDevelopmentSchemaArnsResponse = S.suspend(() =>
   identifier: "ListDevelopmentSchemaArnsResponse",
 }) as any as S.Schema<ListDevelopmentSchemaArnsResponse>;
 export interface ListDirectoriesResponse {
-  Directories: DirectoryList;
+  Directories: Directory[];
   NextToken?: string;
 }
 export const ListDirectoriesResponse = S.suspend(() =>
@@ -2037,7 +2094,7 @@ export const ListDirectoriesResponse = S.suspend(() =>
 export type FacetAttributeList = FacetAttribute[];
 export const FacetAttributeList = S.Array(FacetAttribute);
 export interface ListFacetAttributesResponse {
-  Attributes?: FacetAttributeList;
+  Attributes?: FacetAttribute[];
   NextToken?: string;
 }
 export const ListFacetAttributesResponse = S.suspend(() =>
@@ -2049,7 +2106,7 @@ export const ListFacetAttributesResponse = S.suspend(() =>
   identifier: "ListFacetAttributesResponse",
 }) as any as S.Schema<ListFacetAttributesResponse>;
 export interface ListFacetNamesResponse {
-  FacetNames?: FacetNameList;
+  FacetNames?: string[];
   NextToken?: string;
 }
 export const ListFacetNamesResponse = S.suspend(() =>
@@ -2062,11 +2119,11 @@ export const ListFacetNamesResponse = S.suspend(() =>
 }) as any as S.Schema<ListFacetNamesResponse>;
 export interface ListIndexRequest {
   DirectoryArn: string;
-  RangesOnIndexedValues?: ObjectAttributeRangeList;
+  RangesOnIndexedValues?: ObjectAttributeRange[];
   IndexReference: ObjectReference;
   MaxResults?: number;
   NextToken?: string;
-  ConsistencyLevel?: string;
+  ConsistencyLevel?: ConsistencyLevel;
 }
 export const ListIndexRequest = S.suspend(() =>
   S.Struct({
@@ -2075,7 +2132,7 @@ export const ListIndexRequest = S.suspend(() =>
     IndexReference: ObjectReference,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-    ConsistencyLevel: S.optional(S.String).pipe(
+    ConsistencyLevel: S.optional(ConsistencyLevel).pipe(
       T.HttpHeader("x-amz-consistency-level"),
     ),
   }).pipe(
@@ -2095,7 +2152,7 @@ export const ListIndexRequest = S.suspend(() =>
   identifier: "ListIndexRequest",
 }) as any as S.Schema<ListIndexRequest>;
 export interface ListManagedSchemaArnsResponse {
-  SchemaArns?: Arns;
+  SchemaArns?: string[];
   NextToken?: string;
 }
 export const ListManagedSchemaArnsResponse = S.suspend(() =>
@@ -2104,7 +2161,7 @@ export const ListManagedSchemaArnsResponse = S.suspend(() =>
   identifier: "ListManagedSchemaArnsResponse",
 }) as any as S.Schema<ListManagedSchemaArnsResponse>;
 export interface ListObjectAttributesResponse {
-  Attributes?: AttributeKeyAndValueList;
+  Attributes?: AttributeKeyAndValue[];
   NextToken?: string;
 }
 export const ListObjectAttributesResponse = S.suspend(() =>
@@ -2116,7 +2173,7 @@ export const ListObjectAttributesResponse = S.suspend(() =>
   identifier: "ListObjectAttributesResponse",
 }) as any as S.Schema<ListObjectAttributesResponse>;
 export interface ListObjectPoliciesResponse {
-  AttachedPolicyIds?: ObjectIdentifierList;
+  AttachedPolicyIds?: string[];
   NextToken?: string;
 }
 export const ListObjectPoliciesResponse = S.suspend(() =>
@@ -2128,7 +2185,7 @@ export const ListObjectPoliciesResponse = S.suspend(() =>
   identifier: "ListObjectPoliciesResponse",
 }) as any as S.Schema<ListObjectPoliciesResponse>;
 export interface ListOutgoingTypedLinksResponse {
-  TypedLinkSpecifiers?: TypedLinkSpecifierList;
+  TypedLinkSpecifiers?: TypedLinkSpecifier[];
   NextToken?: string;
 }
 export const ListOutgoingTypedLinksResponse = S.suspend(() =>
@@ -2140,7 +2197,7 @@ export const ListOutgoingTypedLinksResponse = S.suspend(() =>
   identifier: "ListOutgoingTypedLinksResponse",
 }) as any as S.Schema<ListOutgoingTypedLinksResponse>;
 export interface ListPolicyAttachmentsResponse {
-  ObjectIdentifiers?: ObjectIdentifierList;
+  ObjectIdentifiers?: string[];
   NextToken?: string;
 }
 export const ListPolicyAttachmentsResponse = S.suspend(() =>
@@ -2152,7 +2209,7 @@ export const ListPolicyAttachmentsResponse = S.suspend(() =>
   identifier: "ListPolicyAttachmentsResponse",
 }) as any as S.Schema<ListPolicyAttachmentsResponse>;
 export interface ListPublishedSchemaArnsResponse {
-  SchemaArns?: Arns;
+  SchemaArns?: string[];
   NextToken?: string;
 }
 export const ListPublishedSchemaArnsResponse = S.suspend(() =>
@@ -2161,7 +2218,7 @@ export const ListPublishedSchemaArnsResponse = S.suspend(() =>
   identifier: "ListPublishedSchemaArnsResponse",
 }) as any as S.Schema<ListPublishedSchemaArnsResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
   NextToken?: string;
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
@@ -2174,7 +2231,7 @@ export const TypedLinkAttributeDefinitionList = S.Array(
   TypedLinkAttributeDefinition,
 );
 export interface ListTypedLinkFacetAttributesResponse {
-  Attributes?: TypedLinkAttributeDefinitionList;
+  Attributes?: TypedLinkAttributeDefinition[];
   NextToken?: string;
 }
 export const ListTypedLinkFacetAttributesResponse = S.suspend(() =>
@@ -2186,7 +2243,7 @@ export const ListTypedLinkFacetAttributesResponse = S.suspend(() =>
   identifier: "ListTypedLinkFacetAttributesResponse",
 }) as any as S.Schema<ListTypedLinkFacetAttributesResponse>;
 export interface ListTypedLinkFacetNamesResponse {
-  FacetNames?: TypedLinkNameList;
+  FacetNames?: string[];
   NextToken?: string;
 }
 export const ListTypedLinkFacetNamesResponse = S.suspend(() =>
@@ -2215,7 +2272,7 @@ export const PutSchemaFromJsonResponse = S.suspend(() =>
 }) as any as S.Schema<PutSchemaFromJsonResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
@@ -2241,15 +2298,15 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 export interface UpdateFacetRequest {
   SchemaArn: string;
   Name: string;
-  AttributeUpdates?: FacetAttributeUpdateList;
-  ObjectType?: string;
+  AttributeUpdates?: FacetAttributeUpdate[];
+  ObjectType?: ObjectType;
 }
 export const UpdateFacetRequest = S.suspend(() =>
   S.Struct({
     SchemaArn: S.String.pipe(T.HttpHeader("x-amz-data-partition")),
     Name: S.String,
     AttributeUpdates: S.optional(FacetAttributeUpdateList),
-    ObjectType: S.optional(S.String),
+    ObjectType: S.optional(ObjectType),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/amazonclouddirectory/2017-01-11/facet" }),
@@ -2278,8 +2335,8 @@ export const UpdateSchemaResponse = S.suspend(() =>
 export interface UpdateTypedLinkFacetRequest {
   SchemaArn: string;
   Name: string;
-  AttributeUpdates: TypedLinkFacetAttributeUpdateList;
-  IdentityAttributeOrder: AttributeNameList;
+  AttributeUpdates: TypedLinkFacetAttributeUpdate[];
+  IdentityAttributeOrder: string[];
 }
 export const UpdateTypedLinkFacetRequest = S.suspend(() =>
   S.Struct({
@@ -2398,7 +2455,7 @@ export const BatchGetObjectInformation = S.suspend(() =>
 export interface BatchGetObjectAttributes {
   ObjectReference: ObjectReference;
   SchemaFacet: SchemaFacet;
-  AttributeNames: AttributeNameList;
+  AttributeNames: string[];
 }
 export const BatchGetObjectAttributes = S.suspend(() =>
   S.Struct({
@@ -2466,7 +2523,7 @@ export const BatchLookupPolicy = S.suspend(() =>
   identifier: "BatchLookupPolicy",
 }) as any as S.Schema<BatchLookupPolicy>;
 export interface BatchListIndex {
-  RangesOnIndexedValues?: ObjectAttributeRangeList;
+  RangesOnIndexedValues?: ObjectAttributeRange[];
   IndexReference: ObjectReference;
   MaxResults?: number;
   NextToken?: string;
@@ -2483,7 +2540,7 @@ export const BatchListIndex = S.suspend(() =>
 }) as any as S.Schema<BatchListIndex>;
 export interface BatchListOutgoingTypedLinks {
   ObjectReference: ObjectReference;
-  FilterAttributeRanges?: TypedLinkAttributeRangeList;
+  FilterAttributeRanges?: TypedLinkAttributeRange[];
   FilterTypedLink?: TypedLinkSchemaAndFacetName;
   NextToken?: string;
   MaxResults?: number;
@@ -2501,7 +2558,7 @@ export const BatchListOutgoingTypedLinks = S.suspend(() =>
 }) as any as S.Schema<BatchListOutgoingTypedLinks>;
 export interface BatchListIncomingTypedLinks {
   ObjectReference: ObjectReference;
-  FilterAttributeRanges?: TypedLinkAttributeRangeList;
+  FilterAttributeRanges?: TypedLinkAttributeRange[];
   FilterTypedLink?: TypedLinkSchemaAndFacetName;
   NextToken?: string;
   MaxResults?: number;
@@ -2519,7 +2576,7 @@ export const BatchListIncomingTypedLinks = S.suspend(() =>
 }) as any as S.Schema<BatchListIncomingTypedLinks>;
 export interface BatchGetLinkAttributes {
   TypedLinkSpecifier: TypedLinkSpecifier;
-  AttributeNames: AttributeNameList;
+  AttributeNames: string[];
 }
 export const BatchGetLinkAttributes = S.suspend(() =>
   S.Struct({
@@ -2530,8 +2587,8 @@ export const BatchGetLinkAttributes = S.suspend(() =>
   identifier: "BatchGetLinkAttributes",
 }) as any as S.Schema<BatchGetLinkAttributes>;
 export interface BatchCreateObject {
-  SchemaFacet: SchemaFacetList;
-  ObjectAttributeList: AttributeKeyAndValueList;
+  SchemaFacet: SchemaFacet[];
+  ObjectAttributeList: AttributeKeyAndValue[];
   ParentReference?: ObjectReference;
   LinkName?: string;
   BatchReferenceName?: string;
@@ -2576,12 +2633,12 @@ export const BatchDetachObject = S.suspend(() =>
   identifier: "BatchDetachObject",
 }) as any as S.Schema<BatchDetachObject>;
 export interface ObjectAttributeAction {
-  ObjectAttributeActionType?: string;
-  ObjectAttributeUpdateValue?: (typeof TypedAttributeValue)["Type"];
+  ObjectAttributeActionType?: UpdateActionType;
+  ObjectAttributeUpdateValue?: TypedAttributeValue;
 }
 export const ObjectAttributeAction = S.suspend(() =>
   S.Struct({
-    ObjectAttributeActionType: S.optional(S.String),
+    ObjectAttributeActionType: S.optional(UpdateActionType),
     ObjectAttributeUpdateValue: S.optional(TypedAttributeValue),
   }),
 ).annotations({
@@ -2603,7 +2660,7 @@ export type ObjectAttributeUpdateList = ObjectAttributeUpdate[];
 export const ObjectAttributeUpdateList = S.Array(ObjectAttributeUpdate);
 export interface BatchUpdateObjectAttributes {
   ObjectReference: ObjectReference;
-  AttributeUpdates: ObjectAttributeUpdateList;
+  AttributeUpdates: ObjectAttributeUpdate[];
 }
 export const BatchUpdateObjectAttributes = S.suspend(() =>
   S.Struct({
@@ -2623,7 +2680,7 @@ export const BatchDeleteObject = S.suspend(() =>
 }) as any as S.Schema<BatchDeleteObject>;
 export interface BatchAddFacetToObject {
   SchemaFacet: SchemaFacet;
-  ObjectAttributeList: AttributeKeyAndValueList;
+  ObjectAttributeList: AttributeKeyAndValue[];
   ObjectReference: ObjectReference;
 }
 export const BatchAddFacetToObject = S.suspend(() =>
@@ -2669,7 +2726,7 @@ export const BatchDetachPolicy = S.suspend(() =>
   identifier: "BatchDetachPolicy",
 }) as any as S.Schema<BatchDetachPolicy>;
 export interface BatchCreateIndex {
-  OrderedIndexedAttributeList: AttributeKeyList;
+  OrderedIndexedAttributeList: AttributeKey[];
   IsUnique: boolean;
   ParentReference?: ObjectReference;
   LinkName?: string;
@@ -2714,7 +2771,7 @@ export interface BatchAttachTypedLink {
   SourceObjectReference: ObjectReference;
   TargetObjectReference: ObjectReference;
   TypedLinkFacet: TypedLinkSchemaAndFacetName;
-  Attributes: AttributeNameAndValueList;
+  Attributes: AttributeNameAndValue[];
 }
 export const BatchAttachTypedLink = S.suspend(() =>
   S.Struct({
@@ -2735,12 +2792,12 @@ export const BatchDetachTypedLink = S.suspend(() =>
   identifier: "BatchDetachTypedLink",
 }) as any as S.Schema<BatchDetachTypedLink>;
 export interface LinkAttributeAction {
-  AttributeActionType?: string;
-  AttributeUpdateValue?: (typeof TypedAttributeValue)["Type"];
+  AttributeActionType?: UpdateActionType;
+  AttributeUpdateValue?: TypedAttributeValue;
 }
 export const LinkAttributeAction = S.suspend(() =>
   S.Struct({
-    AttributeActionType: S.optional(S.String),
+    AttributeActionType: S.optional(UpdateActionType),
     AttributeUpdateValue: S.optional(TypedAttributeValue),
   }),
 ).annotations({
@@ -2762,7 +2819,7 @@ export type LinkAttributeUpdateList = LinkAttributeUpdate[];
 export const LinkAttributeUpdateList = S.Array(LinkAttributeUpdate);
 export interface BatchUpdateLinkAttributes {
   TypedLinkSpecifier: TypedLinkSpecifier;
-  AttributeUpdates: LinkAttributeUpdateList;
+  AttributeUpdates: LinkAttributeUpdate[];
 }
 export const BatchUpdateLinkAttributes = S.suspend(() =>
   S.Struct({
@@ -2852,8 +2909,8 @@ export type BatchWriteOperationList = BatchWriteOperation[];
 export const BatchWriteOperationList = S.Array(BatchWriteOperation);
 export interface TypedLinkFacet {
   Name: string;
-  Attributes: TypedLinkAttributeDefinitionList;
-  IdentityAttributeOrder: AttributeNameList;
+  Attributes: TypedLinkAttributeDefinition[];
+  IdentityAttributeOrder: string[];
 }
 export const TypedLinkFacet = S.suspend(() =>
   S.Struct({
@@ -2866,18 +2923,18 @@ export const TypedLinkFacet = S.suspend(() =>
 }) as any as S.Schema<TypedLinkFacet>;
 export interface Facet {
   Name?: string;
-  ObjectType?: string;
-  FacetStyle?: string;
+  ObjectType?: ObjectType;
+  FacetStyle?: FacetStyle;
 }
 export const Facet = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    ObjectType: S.optional(S.String),
-    FacetStyle: S.optional(S.String),
+    ObjectType: S.optional(ObjectType),
+    FacetStyle: S.optional(FacetStyle),
   }),
 ).annotations({ identifier: "Facet" }) as any as S.Schema<Facet>;
 export interface IndexAttachment {
-  IndexedAttributes?: AttributeKeyAndValueList;
+  IndexedAttributes?: AttributeKeyAndValue[];
   ObjectIdentifier?: string;
 }
 export const IndexAttachment = S.suspend(() =>
@@ -2897,7 +2954,7 @@ export const LinkNameToObjectIdentifierMap = S.Record({
 });
 export interface PathToObjectIdentifiers {
   Path?: string;
-  ObjectIdentifiers?: ObjectIdentifierList;
+  ObjectIdentifiers?: string[];
 }
 export const PathToObjectIdentifiers = S.suspend(() =>
   S.Struct({
@@ -2934,7 +2991,7 @@ export const ObjectIdentifierAndLinkNameList = S.Array(
 export interface AddFacetToObjectRequest {
   DirectoryArn: string;
   SchemaFacet: SchemaFacet;
-  ObjectAttributeList?: AttributeKeyAndValueList;
+  ObjectAttributeList?: AttributeKeyAndValue[];
   ObjectReference: ObjectReference;
 }
 export const AddFacetToObjectRequest = S.suspend(() =>
@@ -2975,14 +3032,14 @@ export const AttachTypedLinkResponse = S.suspend(() =>
 }) as any as S.Schema<AttachTypedLinkResponse>;
 export interface BatchReadRequest {
   DirectoryArn: string;
-  Operations: BatchReadOperationList;
-  ConsistencyLevel?: string;
+  Operations: BatchReadOperation[];
+  ConsistencyLevel?: ConsistencyLevel;
 }
 export const BatchReadRequest = S.suspend(() =>
   S.Struct({
     DirectoryArn: S.String.pipe(T.HttpHeader("x-amz-data-partition")),
     Operations: BatchReadOperationList,
-    ConsistencyLevel: S.optional(S.String).pipe(
+    ConsistencyLevel: S.optional(ConsistencyLevel).pipe(
       T.HttpHeader("x-amz-consistency-level"),
     ),
   }).pipe(
@@ -3003,7 +3060,7 @@ export const BatchReadRequest = S.suspend(() =>
 }) as any as S.Schema<BatchReadRequest>;
 export interface BatchWriteRequest {
   DirectoryArn: string;
-  Operations: BatchWriteOperationList;
+  Operations: BatchWriteOperation[];
 }
 export const BatchWriteRequest = S.suspend(() =>
   S.Struct({
@@ -3080,7 +3137,7 @@ export const GetFacetResponse = S.suspend(() =>
   identifier: "GetFacetResponse",
 }) as any as S.Schema<GetFacetResponse>;
 export interface ListAttachedIndicesResponse {
-  IndexAttachments?: IndexAttachmentList;
+  IndexAttachments?: IndexAttachment[];
   NextToken?: string;
 }
 export const ListAttachedIndicesResponse = S.suspend(() =>
@@ -3094,11 +3151,11 @@ export const ListAttachedIndicesResponse = S.suspend(() =>
 export interface ListIncomingTypedLinksRequest {
   DirectoryArn: string;
   ObjectReference: ObjectReference;
-  FilterAttributeRanges?: TypedLinkAttributeRangeList;
+  FilterAttributeRanges?: TypedLinkAttributeRange[];
   FilterTypedLink?: TypedLinkSchemaAndFacetName;
   NextToken?: string;
   MaxResults?: number;
-  ConsistencyLevel?: string;
+  ConsistencyLevel?: ConsistencyLevel;
 }
 export const ListIncomingTypedLinksRequest = S.suspend(() =>
   S.Struct({
@@ -3108,7 +3165,7 @@ export const ListIncomingTypedLinksRequest = S.suspend(() =>
     FilterTypedLink: S.optional(TypedLinkSchemaAndFacetName),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-    ConsistencyLevel: S.optional(S.String),
+    ConsistencyLevel: S.optional(ConsistencyLevel),
   }).pipe(
     T.all(
       T.Http({
@@ -3126,7 +3183,7 @@ export const ListIncomingTypedLinksRequest = S.suspend(() =>
   identifier: "ListIncomingTypedLinksRequest",
 }) as any as S.Schema<ListIncomingTypedLinksRequest>;
 export interface ListIndexResponse {
-  IndexAttachments?: IndexAttachmentList;
+  IndexAttachments?: IndexAttachment[];
   NextToken?: string;
 }
 export const ListIndexResponse = S.suspend(() =>
@@ -3138,7 +3195,7 @@ export const ListIndexResponse = S.suspend(() =>
   identifier: "ListIndexResponse",
 }) as any as S.Schema<ListIndexResponse>;
 export interface ListObjectChildrenResponse {
-  Children?: LinkNameToObjectIdentifierMap;
+  Children?: { [key: string]: string };
   NextToken?: string;
 }
 export const ListObjectChildrenResponse = S.suspend(() =>
@@ -3150,7 +3207,7 @@ export const ListObjectChildrenResponse = S.suspend(() =>
   identifier: "ListObjectChildrenResponse",
 }) as any as S.Schema<ListObjectChildrenResponse>;
 export interface ListObjectParentPathsResponse {
-  PathToObjectIdentifiersList?: PathToObjectIdentifiersList;
+  PathToObjectIdentifiersList?: PathToObjectIdentifiers[];
   NextToken?: string;
 }
 export const ListObjectParentPathsResponse = S.suspend(() =>
@@ -3162,9 +3219,9 @@ export const ListObjectParentPathsResponse = S.suspend(() =>
   identifier: "ListObjectParentPathsResponse",
 }) as any as S.Schema<ListObjectParentPathsResponse>;
 export interface ListObjectParentsResponse {
-  Parents?: ObjectIdentifierToLinkNameMap;
+  Parents?: { [key: string]: string };
   NextToken?: string;
-  ParentLinks?: ObjectIdentifierAndLinkNameList;
+  ParentLinks?: ObjectIdentifierAndLinkNameTuple[];
 }
 export const ListObjectParentsResponse = S.suspend(() =>
   S.Struct({
@@ -3178,7 +3235,7 @@ export const ListObjectParentsResponse = S.suspend(() =>
 export interface UpdateLinkAttributesRequest {
   DirectoryArn: string;
   TypedLinkSpecifier: TypedLinkSpecifier;
-  AttributeUpdates: LinkAttributeUpdateList;
+  AttributeUpdates: LinkAttributeUpdate[];
 }
 export const UpdateLinkAttributesRequest = S.suspend(() =>
   S.Struct({
@@ -3210,7 +3267,7 @@ export const UpdateLinkAttributesResponse = S.suspend(() =>
 export interface UpdateObjectAttributesRequest {
   DirectoryArn: string;
   ObjectReference: ObjectReference;
-  AttributeUpdates: ObjectAttributeUpdateList;
+  AttributeUpdates: ObjectAttributeUpdate[];
 }
 export const UpdateObjectAttributesRequest = S.suspend(() =>
   S.Struct({
@@ -3251,7 +3308,7 @@ export type PolicyAttachmentList = PolicyAttachment[];
 export const PolicyAttachmentList = S.Array(PolicyAttachment);
 export interface PolicyToPath {
   Path?: string;
-  Policies?: PolicyAttachmentList;
+  Policies?: PolicyAttachment[];
 }
 export const PolicyToPath = S.suspend(() =>
   S.Struct({
@@ -3262,7 +3319,7 @@ export const PolicyToPath = S.suspend(() =>
 export type PolicyToPathList = PolicyToPath[];
 export const PolicyToPathList = S.Array(PolicyToPath);
 export interface ListIncomingTypedLinksResponse {
-  LinkSpecifiers?: TypedLinkSpecifierList;
+  LinkSpecifiers?: TypedLinkSpecifier[];
   NextToken?: string;
 }
 export const ListIncomingTypedLinksResponse = S.suspend(() =>
@@ -3274,7 +3331,7 @@ export const ListIncomingTypedLinksResponse = S.suspend(() =>
   identifier: "ListIncomingTypedLinksResponse",
 }) as any as S.Schema<ListIncomingTypedLinksResponse>;
 export interface LookupPolicyResponse {
-  PolicyToPathList?: PolicyToPathList;
+  PolicyToPathList?: PolicyToPath[];
   NextToken?: string;
 }
 export const LookupPolicyResponse = S.suspend(() =>
@@ -3335,12 +3392,44 @@ export const BatchUpdateLinkAttributesResponse = S.suspend(() =>
 ).annotations({
   identifier: "BatchUpdateLinkAttributesResponse",
 }) as any as S.Schema<BatchUpdateLinkAttributesResponse>;
+export type BatchReadExceptionType =
+  | "ValidationException"
+  | "InvalidArnException"
+  | "ResourceNotFoundException"
+  | "InvalidNextTokenException"
+  | "AccessDeniedException"
+  | "NotNodeException"
+  | "FacetValidationException"
+  | "CannotListParentOfRootException"
+  | "NotIndexException"
+  | "NotPolicyException"
+  | "DirectoryNotEnabledException"
+  | "LimitExceededException"
+  | "InternalServiceException";
+export const BatchReadExceptionType = S.Literal(
+  "ValidationException",
+  "InvalidArnException",
+  "ResourceNotFoundException",
+  "InvalidNextTokenException",
+  "AccessDeniedException",
+  "NotNodeException",
+  "FacetValidationException",
+  "CannotListParentOfRootException",
+  "NotIndexException",
+  "NotPolicyException",
+  "DirectoryNotEnabledException",
+  "LimitExceededException",
+  "InternalServiceException",
+);
 export interface BatchReadException {
-  Type?: string;
+  Type?: BatchReadExceptionType;
   Message?: string;
 }
 export const BatchReadException = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String), Message: S.optional(S.String) }),
+  S.Struct({
+    Type: S.optional(BatchReadExceptionType),
+    Message: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "BatchReadException",
 }) as any as S.Schema<BatchReadException>;
@@ -3451,7 +3540,7 @@ export const BatchWriteOperationResponseList = S.Array(
   BatchWriteOperationResponse,
 );
 export interface BatchListObjectAttributesResponse {
-  Attributes?: AttributeKeyAndValueList;
+  Attributes?: AttributeKeyAndValue[];
   NextToken?: string;
 }
 export const BatchListObjectAttributesResponse = S.suspend(() =>
@@ -3463,7 +3552,7 @@ export const BatchListObjectAttributesResponse = S.suspend(() =>
   identifier: "BatchListObjectAttributesResponse",
 }) as any as S.Schema<BatchListObjectAttributesResponse>;
 export interface BatchListObjectChildrenResponse {
-  Children?: LinkNameToObjectIdentifierMap;
+  Children?: { [key: string]: string };
   NextToken?: string;
 }
 export const BatchListObjectChildrenResponse = S.suspend(() =>
@@ -3475,7 +3564,7 @@ export const BatchListObjectChildrenResponse = S.suspend(() =>
   identifier: "BatchListObjectChildrenResponse",
 }) as any as S.Schema<BatchListObjectChildrenResponse>;
 export interface BatchGetObjectInformationResponse {
-  SchemaFacets?: SchemaFacetList;
+  SchemaFacets?: SchemaFacet[];
   ObjectIdentifier?: string;
 }
 export const BatchGetObjectInformationResponse = S.suspend(() =>
@@ -3487,7 +3576,7 @@ export const BatchGetObjectInformationResponse = S.suspend(() =>
   identifier: "BatchGetObjectInformationResponse",
 }) as any as S.Schema<BatchGetObjectInformationResponse>;
 export interface BatchGetObjectAttributesResponse {
-  Attributes?: AttributeKeyAndValueList;
+  Attributes?: AttributeKeyAndValue[];
 }
 export const BatchGetObjectAttributesResponse = S.suspend(() =>
   S.Struct({ Attributes: S.optional(AttributeKeyAndValueList) }),
@@ -3495,7 +3584,7 @@ export const BatchGetObjectAttributesResponse = S.suspend(() =>
   identifier: "BatchGetObjectAttributesResponse",
 }) as any as S.Schema<BatchGetObjectAttributesResponse>;
 export interface BatchListAttachedIndicesResponse {
-  IndexAttachments?: IndexAttachmentList;
+  IndexAttachments?: IndexAttachment[];
   NextToken?: string;
 }
 export const BatchListAttachedIndicesResponse = S.suspend(() =>
@@ -3507,7 +3596,7 @@ export const BatchListAttachedIndicesResponse = S.suspend(() =>
   identifier: "BatchListAttachedIndicesResponse",
 }) as any as S.Schema<BatchListAttachedIndicesResponse>;
 export interface BatchListObjectParentPathsResponse {
-  PathToObjectIdentifiersList?: PathToObjectIdentifiersList;
+  PathToObjectIdentifiersList?: PathToObjectIdentifiers[];
   NextToken?: string;
 }
 export const BatchListObjectParentPathsResponse = S.suspend(() =>
@@ -3519,7 +3608,7 @@ export const BatchListObjectParentPathsResponse = S.suspend(() =>
   identifier: "BatchListObjectParentPathsResponse",
 }) as any as S.Schema<BatchListObjectParentPathsResponse>;
 export interface BatchListObjectPoliciesResponse {
-  AttachedPolicyIds?: ObjectIdentifierList;
+  AttachedPolicyIds?: string[];
   NextToken?: string;
 }
 export const BatchListObjectPoliciesResponse = S.suspend(() =>
@@ -3531,7 +3620,7 @@ export const BatchListObjectPoliciesResponse = S.suspend(() =>
   identifier: "BatchListObjectPoliciesResponse",
 }) as any as S.Schema<BatchListObjectPoliciesResponse>;
 export interface BatchListPolicyAttachmentsResponse {
-  ObjectIdentifiers?: ObjectIdentifierList;
+  ObjectIdentifiers?: string[];
   NextToken?: string;
 }
 export const BatchListPolicyAttachmentsResponse = S.suspend(() =>
@@ -3543,7 +3632,7 @@ export const BatchListPolicyAttachmentsResponse = S.suspend(() =>
   identifier: "BatchListPolicyAttachmentsResponse",
 }) as any as S.Schema<BatchListPolicyAttachmentsResponse>;
 export interface BatchLookupPolicyResponse {
-  PolicyToPathList?: PolicyToPathList;
+  PolicyToPathList?: PolicyToPath[];
   NextToken?: string;
 }
 export const BatchLookupPolicyResponse = S.suspend(() =>
@@ -3555,7 +3644,7 @@ export const BatchLookupPolicyResponse = S.suspend(() =>
   identifier: "BatchLookupPolicyResponse",
 }) as any as S.Schema<BatchLookupPolicyResponse>;
 export interface BatchListIndexResponse {
-  IndexAttachments?: IndexAttachmentList;
+  IndexAttachments?: IndexAttachment[];
   NextToken?: string;
 }
 export const BatchListIndexResponse = S.suspend(() =>
@@ -3567,7 +3656,7 @@ export const BatchListIndexResponse = S.suspend(() =>
   identifier: "BatchListIndexResponse",
 }) as any as S.Schema<BatchListIndexResponse>;
 export interface BatchListOutgoingTypedLinksResponse {
-  TypedLinkSpecifiers?: TypedLinkSpecifierList;
+  TypedLinkSpecifiers?: TypedLinkSpecifier[];
   NextToken?: string;
 }
 export const BatchListOutgoingTypedLinksResponse = S.suspend(() =>
@@ -3579,7 +3668,7 @@ export const BatchListOutgoingTypedLinksResponse = S.suspend(() =>
   identifier: "BatchListOutgoingTypedLinksResponse",
 }) as any as S.Schema<BatchListOutgoingTypedLinksResponse>;
 export interface BatchListIncomingTypedLinksResponse {
-  LinkSpecifiers?: TypedLinkSpecifierList;
+  LinkSpecifiers?: TypedLinkSpecifier[];
   NextToken?: string;
 }
 export const BatchListIncomingTypedLinksResponse = S.suspend(() =>
@@ -3591,7 +3680,7 @@ export const BatchListIncomingTypedLinksResponse = S.suspend(() =>
   identifier: "BatchListIncomingTypedLinksResponse",
 }) as any as S.Schema<BatchListIncomingTypedLinksResponse>;
 export interface BatchGetLinkAttributesResponse {
-  Attributes?: AttributeKeyAndValueList;
+  Attributes?: AttributeKeyAndValue[];
 }
 export const BatchGetLinkAttributesResponse = S.suspend(() =>
   S.Struct({ Attributes: S.optional(AttributeKeyAndValueList) }),
@@ -3599,7 +3688,7 @@ export const BatchGetLinkAttributesResponse = S.suspend(() =>
   identifier: "BatchGetLinkAttributesResponse",
 }) as any as S.Schema<BatchGetLinkAttributesResponse>;
 export interface BatchListObjectParentsResponse {
-  ParentLinks?: ObjectIdentifierAndLinkNameList;
+  ParentLinks?: ObjectIdentifierAndLinkNameTuple[];
   NextToken?: string;
 }
 export const BatchListObjectParentsResponse = S.suspend(() =>
@@ -3611,7 +3700,7 @@ export const BatchListObjectParentsResponse = S.suspend(() =>
   identifier: "BatchListObjectParentsResponse",
 }) as any as S.Schema<BatchListObjectParentsResponse>;
 export interface BatchWriteResponse {
-  Responses?: BatchWriteOperationResponseList;
+  Responses?: BatchWriteOperationResponse[];
 }
 export const BatchWriteResponse = S.suspend(() =>
   S.Struct({ Responses: S.optional(BatchWriteOperationResponseList) }),
@@ -3621,17 +3710,17 @@ export const BatchWriteResponse = S.suspend(() =>
 export interface CreateFacetRequest {
   SchemaArn: string;
   Name: string;
-  Attributes?: FacetAttributeList;
-  ObjectType?: string;
-  FacetStyle?: string;
+  Attributes?: FacetAttribute[];
+  ObjectType?: ObjectType;
+  FacetStyle?: FacetStyle;
 }
 export const CreateFacetRequest = S.suspend(() =>
   S.Struct({
     SchemaArn: S.String.pipe(T.HttpHeader("x-amz-data-partition")),
     Name: S.String,
     Attributes: S.optional(FacetAttributeList),
-    ObjectType: S.optional(S.String),
-    FacetStyle: S.optional(S.String),
+    ObjectType: S.optional(ObjectType),
+    FacetStyle: S.optional(FacetStyle),
   }).pipe(
     T.all(
       T.Http({
@@ -3704,8 +3793,47 @@ export type BatchReadOperationResponseList = BatchReadOperationResponse[];
 export const BatchReadOperationResponseList = S.Array(
   BatchReadOperationResponse,
 );
+export type BatchWriteExceptionType =
+  | "InternalServiceException"
+  | "ValidationException"
+  | "InvalidArnException"
+  | "LinkNameAlreadyInUseException"
+  | "StillContainsLinksException"
+  | "FacetValidationException"
+  | "ObjectNotDetachedException"
+  | "ResourceNotFoundException"
+  | "AccessDeniedException"
+  | "InvalidAttachmentException"
+  | "NotIndexException"
+  | "NotNodeException"
+  | "IndexedAttributeMissingException"
+  | "ObjectAlreadyDetachedException"
+  | "NotPolicyException"
+  | "DirectoryNotEnabledException"
+  | "LimitExceededException"
+  | "UnsupportedIndexTypeException";
+export const BatchWriteExceptionType = S.Literal(
+  "InternalServiceException",
+  "ValidationException",
+  "InvalidArnException",
+  "LinkNameAlreadyInUseException",
+  "StillContainsLinksException",
+  "FacetValidationException",
+  "ObjectNotDetachedException",
+  "ResourceNotFoundException",
+  "AccessDeniedException",
+  "InvalidAttachmentException",
+  "NotIndexException",
+  "NotNodeException",
+  "IndexedAttributeMissingException",
+  "ObjectAlreadyDetachedException",
+  "NotPolicyException",
+  "DirectoryNotEnabledException",
+  "LimitExceededException",
+  "UnsupportedIndexTypeException",
+);
 export interface BatchReadResponse {
-  Responses?: BatchReadOperationResponseList;
+  Responses?: BatchReadOperationResponse[];
 }
 export const BatchReadResponse = S.suspend(() =>
   S.Struct({ Responses: S.optional(BatchReadOperationResponseList) }),
@@ -3830,7 +3958,7 @@ export class BatchWriteException extends S.TaggedError<BatchWriteException>()(
   "BatchWriteException",
   {
     Index: S.optional(S.Number),
-    Type: S.optional(S.String),
+    Type: S.optional(BatchWriteExceptionType),
     Message: S.optional(S.String),
   },
 ) {}
@@ -3865,7 +3993,7 @@ export class UnsupportedIndexTypeException extends S.TaggedError<UnsupportedInde
  */
 export const createTypedLinkFacet: (
   input: CreateTypedLinkFacetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTypedLinkFacetResponse,
   | AccessDeniedException
   | FacetAlreadyExistsException
@@ -3900,7 +4028,7 @@ export const createTypedLinkFacet: (
  */
 export const detachFromIndex: (
   input: DetachFromIndexRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetachFromIndexResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -3935,7 +4063,7 @@ export const detachFromIndex: (
  */
 export const upgradeAppliedSchema: (
   input: UpgradeAppliedSchemaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpgradeAppliedSchemaResponse,
   | AccessDeniedException
   | IncompatibleSchemaException
@@ -3969,7 +4097,7 @@ export const upgradeAppliedSchema: (
  */
 export const applySchema: (
   input: ApplySchemaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ApplySchemaResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -4002,7 +4130,7 @@ export const applySchema: (
  */
 export const deleteSchema: (
   input: DeleteSchemaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSchemaResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -4033,7 +4161,7 @@ export const deleteSchema: (
  */
 export const publishSchema: (
   input: PublishSchemaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PublishSchemaResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -4065,7 +4193,7 @@ export const publishSchema: (
  */
 export const detachObject: (
   input: DetachObjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetachObjectResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -4099,7 +4227,7 @@ export const detachObject: (
  */
 export const deleteObject: (
   input: DeleteObjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteObjectResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -4132,7 +4260,7 @@ export const deleteObject: (
  */
 export const detachPolicy: (
   input: DetachPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetachPolicyResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -4165,7 +4293,7 @@ export const detachPolicy: (
  */
 export const getDirectory: (
   input: GetDirectoryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDirectoryResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -4193,7 +4321,7 @@ export const getDirectory: (
 export const listDirectories: {
   (
     input: ListDirectoriesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDirectoriesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -4207,7 +4335,7 @@ export const listDirectories: {
   >;
   pages: (
     input: ListDirectoriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDirectoriesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -4221,7 +4349,7 @@ export const listDirectories: {
   >;
   items: (
     input: ListDirectoriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServiceException
@@ -4256,7 +4384,7 @@ export const listDirectories: {
  */
 export const putSchemaFromJson: (
   input: PutSchemaFromJsonRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutSchemaFromJsonResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -4289,7 +4417,7 @@ export const putSchemaFromJson: (
  */
 export const listIncomingTypedLinks: (
   input: ListIncomingTypedLinksRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListIncomingTypedLinksResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -4330,7 +4458,7 @@ export const listIncomingTypedLinks: (
  */
 export const updateFacet: (
   input: UpdateFacetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFacetResponse,
   | AccessDeniedException
   | FacetNotFoundException
@@ -4370,7 +4498,7 @@ export const updateFacet: (
 export const listTagsForResource: {
   (
     input: ListTagsForResourceRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTagsForResourceResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -4385,7 +4513,7 @@ export const listTagsForResource: {
   >;
   pages: (
     input: ListTagsForResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTagsForResourceResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -4400,7 +4528,7 @@ export const listTagsForResource: {
   >;
   items: (
     input: ListTagsForResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServiceException
@@ -4439,7 +4567,7 @@ export const listTagsForResource: {
  */
 export const deleteDirectory: (
   input: DeleteDirectoryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDirectoryResponse,
   | AccessDeniedException
   | DirectoryDeletedException
@@ -4472,7 +4600,7 @@ export const deleteDirectory: (
  */
 export const updateLinkAttributes: (
   input: UpdateLinkAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLinkAttributesResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -4505,7 +4633,7 @@ export const updateLinkAttributes: (
  */
 export const detachTypedLink: (
   input: DetachTypedLinkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetachTypedLinkResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -4538,7 +4666,7 @@ export const detachTypedLink: (
  */
 export const getLinkAttributes: (
   input: GetLinkAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLinkAttributesResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -4571,7 +4699,7 @@ export const getLinkAttributes: (
  */
 export const getObjectAttributes: (
   input: GetObjectAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetObjectAttributesResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -4604,7 +4732,7 @@ export const getObjectAttributes: (
  */
 export const removeFacetFromObject: (
   input: RemoveFacetFromObjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveFacetFromObjectResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -4637,7 +4765,7 @@ export const removeFacetFromObject: (
  */
 export const addFacetToObject: (
   input: AddFacetToObjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddFacetToObjectResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -4671,7 +4799,7 @@ export const addFacetToObject: (
 export const listAttachedIndices: {
   (
     input: ListAttachedIndicesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAttachedIndicesResponse,
     | AccessDeniedException
     | DirectoryNotEnabledException
@@ -4686,7 +4814,7 @@ export const listAttachedIndices: {
   >;
   pages: (
     input: ListAttachedIndicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAttachedIndicesResponse,
     | AccessDeniedException
     | DirectoryNotEnabledException
@@ -4701,7 +4829,7 @@ export const listAttachedIndices: {
   >;
   items: (
     input: ListAttachedIndicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | DirectoryNotEnabledException
@@ -4740,7 +4868,7 @@ export const listAttachedIndices: {
  */
 export const deleteFacet: (
   input: DeleteFacetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFacetResponse,
   | AccessDeniedException
   | FacetInUseException
@@ -4773,7 +4901,7 @@ export const deleteFacet: (
  */
 export const getObjectInformation: (
   input: GetObjectInformationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetObjectInformationResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -4804,7 +4932,7 @@ export const getObjectInformation: (
  */
 export const getAppliedSchemaVersion: (
   input: GetAppliedSchemaVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAppliedSchemaVersionResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -4833,7 +4961,7 @@ export const getAppliedSchemaVersion: (
  */
 export const getSchemaAsJson: (
   input: GetSchemaAsJsonRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSchemaAsJsonResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -4863,7 +4991,7 @@ export const getSchemaAsJson: (
  */
 export const updateSchema: (
   input: UpdateSchemaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSchemaResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -4896,7 +5024,7 @@ export const updateSchema: (
  */
 export const createDirectory: (
   input: CreateDirectoryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDirectoryResponse,
   | AccessDeniedException
   | DirectoryAlreadyExistsException
@@ -4928,7 +5056,7 @@ export const createDirectory: (
  */
 export const disableDirectory: (
   input: DisableDirectoryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisableDirectoryResponse,
   | AccessDeniedException
   | DirectoryDeletedException
@@ -4960,7 +5088,7 @@ export const disableDirectory: (
  */
 export const enableDirectory: (
   input: EnableDirectoryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableDirectoryResponse,
   | AccessDeniedException
   | DirectoryDeletedException
@@ -4991,7 +5119,7 @@ export const enableDirectory: (
  */
 export const deleteTypedLinkFacet: (
   input: DeleteTypedLinkFacetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTypedLinkFacetResponse,
   | AccessDeniedException
   | FacetNotFoundException
@@ -5023,7 +5151,7 @@ export const deleteTypedLinkFacet: (
  */
 export const getFacet: (
   input: GetFacetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFacetResponse,
   | AccessDeniedException
   | FacetNotFoundException
@@ -5056,7 +5184,7 @@ export const getFacet: (
 export const listObjectParents: {
   (
     input: ListObjectParentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListObjectParentsResponse,
     | AccessDeniedException
     | CannotListParentOfRootException
@@ -5073,7 +5201,7 @@ export const listObjectParents: {
   >;
   pages: (
     input: ListObjectParentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListObjectParentsResponse,
     | AccessDeniedException
     | CannotListParentOfRootException
@@ -5090,7 +5218,7 @@ export const listObjectParents: {
   >;
   items: (
     input: ListObjectParentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | CannotListParentOfRootException
@@ -5137,7 +5265,7 @@ export const listObjectParents: {
 export const lookupPolicy: {
   (
     input: LookupPolicyRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     LookupPolicyResponse,
     | AccessDeniedException
     | DirectoryNotEnabledException
@@ -5153,7 +5281,7 @@ export const lookupPolicy: {
   >;
   pages: (
     input: LookupPolicyRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LookupPolicyResponse,
     | AccessDeniedException
     | DirectoryNotEnabledException
@@ -5169,7 +5297,7 @@ export const lookupPolicy: {
   >;
   items: (
     input: LookupPolicyRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | DirectoryNotEnabledException
@@ -5209,7 +5337,7 @@ export const lookupPolicy: {
 export const listObjectAttributes: {
   (
     input: ListObjectAttributesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListObjectAttributesResponse,
     | AccessDeniedException
     | DirectoryNotEnabledException
@@ -5226,7 +5354,7 @@ export const listObjectAttributes: {
   >;
   pages: (
     input: ListObjectAttributesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListObjectAttributesResponse,
     | AccessDeniedException
     | DirectoryNotEnabledException
@@ -5243,7 +5371,7 @@ export const listObjectAttributes: {
   >;
   items: (
     input: ListObjectAttributesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | DirectoryNotEnabledException
@@ -5286,7 +5414,7 @@ export const listObjectAttributes: {
  */
 export const listOutgoingTypedLinks: (
   input: ListOutgoingTypedLinksRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListOutgoingTypedLinksResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -5321,7 +5449,7 @@ export const listOutgoingTypedLinks: (
  */
 export const getTypedLinkFacetInformation: (
   input: GetTypedLinkFacetInformationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTypedLinkFacetInformationResponse,
   | AccessDeniedException
   | FacetNotFoundException
@@ -5363,7 +5491,7 @@ export const getTypedLinkFacetInformation: (
 export const listObjectParentPaths: {
   (
     input: ListObjectParentPathsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListObjectParentPathsResponse,
     | AccessDeniedException
     | DirectoryNotEnabledException
@@ -5379,7 +5507,7 @@ export const listObjectParentPaths: {
   >;
   pages: (
     input: ListObjectParentPathsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListObjectParentPathsResponse,
     | AccessDeniedException
     | DirectoryNotEnabledException
@@ -5395,7 +5523,7 @@ export const listObjectParentPaths: {
   >;
   items: (
     input: ListObjectParentPathsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | DirectoryNotEnabledException
@@ -5435,7 +5563,7 @@ export const listObjectParentPaths: {
 export const listObjectPolicies: {
   (
     input: ListObjectPoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListObjectPoliciesResponse,
     | AccessDeniedException
     | DirectoryNotEnabledException
@@ -5451,7 +5579,7 @@ export const listObjectPolicies: {
   >;
   pages: (
     input: ListObjectPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListObjectPoliciesResponse,
     | AccessDeniedException
     | DirectoryNotEnabledException
@@ -5467,7 +5595,7 @@ export const listObjectPolicies: {
   >;
   items: (
     input: ListObjectPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | DirectoryNotEnabledException
@@ -5507,7 +5635,7 @@ export const listObjectPolicies: {
 export const listAppliedSchemaArns: {
   (
     input: ListAppliedSchemaArnsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAppliedSchemaArnsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -5522,7 +5650,7 @@ export const listAppliedSchemaArns: {
   >;
   pages: (
     input: ListAppliedSchemaArnsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAppliedSchemaArnsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -5537,7 +5665,7 @@ export const listAppliedSchemaArns: {
   >;
   items: (
     input: ListAppliedSchemaArnsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServiceException
@@ -5576,7 +5704,7 @@ export const listAppliedSchemaArns: {
 export const listDevelopmentSchemaArns: {
   (
     input: ListDevelopmentSchemaArnsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDevelopmentSchemaArnsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -5591,7 +5719,7 @@ export const listDevelopmentSchemaArns: {
   >;
   pages: (
     input: ListDevelopmentSchemaArnsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDevelopmentSchemaArnsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -5606,7 +5734,7 @@ export const listDevelopmentSchemaArns: {
   >;
   items: (
     input: ListDevelopmentSchemaArnsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServiceException
@@ -5644,7 +5772,7 @@ export const listDevelopmentSchemaArns: {
 export const listFacetNames: {
   (
     input: ListFacetNamesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFacetNamesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -5659,7 +5787,7 @@ export const listFacetNames: {
   >;
   pages: (
     input: ListFacetNamesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFacetNamesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -5674,7 +5802,7 @@ export const listFacetNames: {
   >;
   items: (
     input: ListFacetNamesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServiceException
@@ -5712,7 +5840,7 @@ export const listFacetNames: {
 export const listManagedSchemaArns: {
   (
     input: ListManagedSchemaArnsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListManagedSchemaArnsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -5725,7 +5853,7 @@ export const listManagedSchemaArns: {
   >;
   pages: (
     input: ListManagedSchemaArnsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListManagedSchemaArnsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -5738,7 +5866,7 @@ export const listManagedSchemaArns: {
   >;
   items: (
     input: ListManagedSchemaArnsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServiceException
@@ -5772,7 +5900,7 @@ export const listManagedSchemaArns: {
 export const listPublishedSchemaArns: {
   (
     input: ListPublishedSchemaArnsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPublishedSchemaArnsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -5787,7 +5915,7 @@ export const listPublishedSchemaArns: {
   >;
   pages: (
     input: ListPublishedSchemaArnsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPublishedSchemaArnsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -5802,7 +5930,7 @@ export const listPublishedSchemaArns: {
   >;
   items: (
     input: ListPublishedSchemaArnsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServiceException
@@ -5841,7 +5969,7 @@ export const listPublishedSchemaArns: {
 export const listTypedLinkFacetNames: {
   (
     input: ListTypedLinkFacetNamesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTypedLinkFacetNamesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -5856,7 +5984,7 @@ export const listTypedLinkFacetNames: {
   >;
   pages: (
     input: ListTypedLinkFacetNamesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTypedLinkFacetNamesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -5871,7 +5999,7 @@ export const listTypedLinkFacetNames: {
   >;
   items: (
     input: ListTypedLinkFacetNamesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServiceException
@@ -5909,7 +6037,7 @@ export const listTypedLinkFacetNames: {
 export const listFacetAttributes: {
   (
     input: ListFacetAttributesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFacetAttributesResponse,
     | AccessDeniedException
     | FacetNotFoundException
@@ -5925,7 +6053,7 @@ export const listFacetAttributes: {
   >;
   pages: (
     input: ListFacetAttributesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFacetAttributesResponse,
     | AccessDeniedException
     | FacetNotFoundException
@@ -5941,7 +6069,7 @@ export const listFacetAttributes: {
   >;
   items: (
     input: ListFacetAttributesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | FacetNotFoundException
@@ -5981,7 +6109,7 @@ export const listFacetAttributes: {
 export const listTypedLinkFacetAttributes: {
   (
     input: ListTypedLinkFacetAttributesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTypedLinkFacetAttributesResponse,
     | AccessDeniedException
     | FacetNotFoundException
@@ -5997,7 +6125,7 @@ export const listTypedLinkFacetAttributes: {
   >;
   pages: (
     input: ListTypedLinkFacetAttributesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTypedLinkFacetAttributesResponse,
     | AccessDeniedException
     | FacetNotFoundException
@@ -6013,7 +6141,7 @@ export const listTypedLinkFacetAttributes: {
   >;
   items: (
     input: ListTypedLinkFacetAttributesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | FacetNotFoundException
@@ -6052,7 +6180,7 @@ export const listTypedLinkFacetAttributes: {
  */
 export const upgradePublishedSchema: (
   input: UpgradePublishedSchemaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpgradePublishedSchemaResponse,
   | AccessDeniedException
   | IncompatibleSchemaException
@@ -6085,7 +6213,7 @@ export const upgradePublishedSchema: (
  */
 export const attachTypedLink: (
   input: AttachTypedLinkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AttachTypedLinkResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -6120,7 +6248,7 @@ export const attachTypedLink: (
  */
 export const updateTypedLinkFacet: (
   input: UpdateTypedLinkFacetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTypedLinkFacetResponse,
   | AccessDeniedException
   | FacetNotFoundException
@@ -6157,7 +6285,7 @@ export const updateTypedLinkFacet: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -6188,7 +6316,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -6220,7 +6348,7 @@ export const untagResource: (
  */
 export const createFacet: (
   input: CreateFacetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFacetResponse,
   | AccessDeniedException
   | FacetAlreadyExistsException
@@ -6255,7 +6383,7 @@ export const createFacet: (
  */
 export const updateObjectAttributes: (
   input: UpdateObjectAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateObjectAttributesResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -6295,7 +6423,7 @@ export const updateObjectAttributes: (
  */
 export const attachObject: (
   input: AttachObjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AttachObjectResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -6333,7 +6461,7 @@ export const attachObject: (
 export const listIndex: {
   (
     input: ListIndexRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListIndexResponse,
     | AccessDeniedException
     | DirectoryNotEnabledException
@@ -6351,7 +6479,7 @@ export const listIndex: {
   >;
   pages: (
     input: ListIndexRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListIndexResponse,
     | AccessDeniedException
     | DirectoryNotEnabledException
@@ -6369,7 +6497,7 @@ export const listIndex: {
   >;
   items: (
     input: ListIndexRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | DirectoryNotEnabledException
@@ -6412,7 +6540,7 @@ export const listIndex: {
  */
 export const attachToIndex: (
   input: AttachToIndexRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AttachToIndexResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -6453,7 +6581,7 @@ export const attachToIndex: (
 export const listObjectChildren: {
   (
     input: ListObjectChildrenRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListObjectChildrenResponse,
     | AccessDeniedException
     | DirectoryNotEnabledException
@@ -6470,7 +6598,7 @@ export const listObjectChildren: {
   >;
   pages: (
     input: ListObjectChildrenRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListObjectChildrenResponse,
     | AccessDeniedException
     | DirectoryNotEnabledException
@@ -6487,7 +6615,7 @@ export const listObjectChildren: {
   >;
   items: (
     input: ListObjectChildrenRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | DirectoryNotEnabledException
@@ -6529,7 +6657,7 @@ export const listObjectChildren: {
  */
 export const attachPolicy: (
   input: AttachPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AttachPolicyResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -6563,7 +6691,7 @@ export const attachPolicy: (
 export const listPolicyAttachments: {
   (
     input: ListPolicyAttachmentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPolicyAttachmentsResponse,
     | AccessDeniedException
     | DirectoryNotEnabledException
@@ -6580,7 +6708,7 @@ export const listPolicyAttachments: {
   >;
   pages: (
     input: ListPolicyAttachmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPolicyAttachmentsResponse,
     | AccessDeniedException
     | DirectoryNotEnabledException
@@ -6597,7 +6725,7 @@ export const listPolicyAttachments: {
   >;
   items: (
     input: ListPolicyAttachmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | DirectoryNotEnabledException
@@ -6638,7 +6766,7 @@ export const listPolicyAttachments: {
  */
 export const batchRead: (
   input: BatchReadRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchReadResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -6668,7 +6796,7 @@ export const batchRead: (
  */
 export const batchWrite: (
   input: BatchWriteRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchWriteResponse,
   | AccessDeniedException
   | BatchWriteException
@@ -6711,7 +6839,7 @@ export const batchWrite: (
  */
 export const createSchema: (
   input: CreateSchemaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSchemaResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -6740,7 +6868,7 @@ export const createSchema: (
  */
 export const createIndex: (
   input: CreateIndexRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateIndexResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -6780,7 +6908,7 @@ export const createIndex: (
  */
 export const createObject: (
   input: CreateObjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateObjectResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException

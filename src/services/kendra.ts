@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -115,7 +115,6 @@ export type QuerySuggestionsBlockListId = string;
 export type ThesaurusId = string;
 export type EntityId = string;
 export type SuggestionQueryText = string;
-export type Integer = number;
 export type NextToken = string;
 export type MaxResultsIntegerForListAccessControlConfigurationsRequest = number;
 export type MaxResultsIntegerForListDataSourcesRequest = number;
@@ -143,7 +142,7 @@ export type VpcSecurityGroupId = string;
 export type TagValue = string;
 export type S3BucketName = string;
 export type S3ObjectKey = string;
-export type KmsKeyId = string | Redacted.Redacted<string>;
+export type KmsKeyId = string | redacted.Redacted<string>;
 export type TopDocumentAttributeValueCountPairsSize = number;
 export type DocumentMetadataConfigurationName = string;
 export type Token = string;
@@ -151,7 +150,6 @@ export type ResultId = string;
 export type StorageCapacityUnit = number;
 export type QueryCapacityUnit = number;
 export type ErrorMessage = string;
-export type Long = number;
 export type LambdaArn = string;
 export type DataSourceInclusionsExclusionsStringsMember = string;
 export type Url = string;
@@ -209,7 +207,7 @@ export type QuerySuggestionsId = string;
 export type IndexedQuestionAnswersCount = number;
 export type IndexedTextDocumentsCount = number;
 export type IndexedTextBytes = number;
-export type NameType = string | Redacted.Redacted<string>;
+export type NameType = string | redacted.Redacted<string>;
 export type SalesforceCustomKnowledgeArticleTypeName = string;
 export type SeedUrl = string;
 export type SiteMap = string;
@@ -223,14 +221,72 @@ export type DocumentIdList = string[];
 export const DocumentIdList = S.Array(S.String);
 export type FeaturedResultsSetIdList = string[];
 export const FeaturedResultsSetIdList = S.Array(S.String);
+export type DataSourceType =
+  | "S3"
+  | "SHAREPOINT"
+  | "DATABASE"
+  | "SALESFORCE"
+  | "ONEDRIVE"
+  | "SERVICENOW"
+  | "CUSTOM"
+  | "CONFLUENCE"
+  | "GOOGLEDRIVE"
+  | "WEBCRAWLER"
+  | "WORKDOCS"
+  | "FSX"
+  | "SLACK"
+  | "BOX"
+  | "QUIP"
+  | "JIRA"
+  | "GITHUB"
+  | "ALFRESCO"
+  | "TEMPLATE";
+export const DataSourceType = S.Literal(
+  "S3",
+  "SHAREPOINT",
+  "DATABASE",
+  "SALESFORCE",
+  "ONEDRIVE",
+  "SERVICENOW",
+  "CUSTOM",
+  "CONFLUENCE",
+  "GOOGLEDRIVE",
+  "WEBCRAWLER",
+  "WORKDOCS",
+  "FSX",
+  "SLACK",
+  "BOX",
+  "QUIP",
+  "JIRA",
+  "GITHUB",
+  "ALFRESCO",
+  "TEMPLATE",
+);
+export type FaqFileFormat = "CSV" | "CSV_WITH_HEADER" | "JSON";
+export const FaqFileFormat = S.Literal("CSV", "CSV_WITH_HEADER", "JSON");
+export type FeaturedResultsSetStatus = "ACTIVE" | "INACTIVE";
+export const FeaturedResultsSetStatus = S.Literal("ACTIVE", "INACTIVE");
 export type QueryTextList = string[];
 export const QueryTextList = S.Array(S.String);
+export type IndexEdition =
+  | "DEVELOPER_EDITION"
+  | "ENTERPRISE_EDITION"
+  | "GEN_AI_ENTERPRISE_EDITION";
+export const IndexEdition = S.Literal(
+  "DEVELOPER_EDITION",
+  "ENTERPRISE_EDITION",
+  "GEN_AI_ENTERPRISE_EDITION",
+);
+export type UserContextPolicy = "ATTRIBUTE_FILTER" | "USER_TOKEN";
+export const UserContextPolicy = S.Literal("ATTRIBUTE_FILTER", "USER_TOKEN");
+export type EntityType = "USER" | "GROUP";
+export const EntityType = S.Literal("USER", "GROUP");
 export interface EntityConfiguration {
   EntityId: string;
-  EntityType: string;
+  EntityType: EntityType;
 }
 export const EntityConfiguration = S.suspend(() =>
-  S.Struct({ EntityId: S.String, EntityType: S.String }),
+  S.Struct({ EntityId: S.String, EntityType: EntityType }),
 ).annotations({
   identifier: "EntityConfiguration",
 }) as any as S.Schema<EntityConfiguration>;
@@ -238,16 +294,73 @@ export type DisassociateEntityList = EntityConfiguration[];
 export const DisassociateEntityList = S.Array(EntityConfiguration);
 export type EntityIdsList = string[];
 export const EntityIdsList = S.Array(S.String);
-export type SuggestionTypes = string[];
-export const SuggestionTypes = S.Array(S.String);
+export type SuggestionType = "QUERY" | "DOCUMENT_ATTRIBUTES";
+export const SuggestionType = S.Literal("QUERY", "DOCUMENT_ATTRIBUTES");
+export type SuggestionTypes = SuggestionType[];
+export const SuggestionTypes = S.Array(SuggestionType);
+export type Interval =
+  | "THIS_MONTH"
+  | "THIS_WEEK"
+  | "ONE_WEEK_AGO"
+  | "TWO_WEEKS_AGO"
+  | "ONE_MONTH_AGO"
+  | "TWO_MONTHS_AGO";
+export const Interval = S.Literal(
+  "THIS_MONTH",
+  "THIS_WEEK",
+  "ONE_WEEK_AGO",
+  "TWO_WEEKS_AGO",
+  "ONE_MONTH_AGO",
+  "TWO_MONTHS_AGO",
+);
+export type MetricType =
+  | "QUERIES_BY_COUNT"
+  | "QUERIES_BY_ZERO_CLICK_RATE"
+  | "QUERIES_BY_ZERO_RESULT_RATE"
+  | "DOCS_BY_CLICK_COUNT"
+  | "AGG_QUERY_DOC_METRICS"
+  | "TREND_QUERY_DOC_METRICS";
+export const MetricType = S.Literal(
+  "QUERIES_BY_COUNT",
+  "QUERIES_BY_ZERO_CLICK_RATE",
+  "QUERIES_BY_ZERO_RESULT_RATE",
+  "DOCS_BY_CLICK_COUNT",
+  "AGG_QUERY_DOC_METRICS",
+  "TREND_QUERY_DOC_METRICS",
+);
+export type DataSourceSyncJobStatus =
+  | "FAILED"
+  | "SUCCEEDED"
+  | "SYNCING"
+  | "INCOMPLETE"
+  | "STOPPING"
+  | "ABORTED"
+  | "SYNCING_INDEXING";
+export const DataSourceSyncJobStatus = S.Literal(
+  "FAILED",
+  "SUCCEEDED",
+  "SYNCING",
+  "INCOMPLETE",
+  "STOPPING",
+  "ABORTED",
+  "SYNCING_INDEXING",
+);
 export type DocumentAttributeKeyList = string[];
 export const DocumentAttributeKeyList = S.Array(S.String);
+export type QueryResultType = "DOCUMENT" | "QUESTION_ANSWER" | "ANSWER";
+export const QueryResultType = S.Literal(
+  "DOCUMENT",
+  "QUESTION_ANSWER",
+  "ANSWER",
+);
+export type SortOrder = "DESC" | "ASC";
+export const SortOrder = S.Literal("DESC", "ASC");
 export interface SortingConfiguration {
   DocumentAttributeKey: string;
-  SortOrder: string;
+  SortOrder: SortOrder;
 }
 export const SortingConfiguration = S.suspend(() =>
-  S.Struct({ DocumentAttributeKey: S.String, SortOrder: S.String }),
+  S.Struct({ DocumentAttributeKey: S.String, SortOrder: SortOrder }),
 ).annotations({
   identifier: "SortingConfiguration",
 }) as any as S.Schema<SortingConfiguration>;
@@ -255,9 +368,11 @@ export type SortingConfigurationList = SortingConfiguration[];
 export const SortingConfigurationList = S.Array(SortingConfiguration);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type Mode = "ENABLED" | "LEARN_ONLY";
+export const Mode = S.Literal("ENABLED", "LEARN_ONLY");
 export interface BatchDeleteFeaturedResultsSetRequest {
   IndexId: string;
-  FeaturedResultsSetIds: FeaturedResultsSetIdList;
+  FeaturedResultsSetIds: string[];
 }
 export const BatchDeleteFeaturedResultsSetRequest = S.suspend(() =>
   S.Struct({
@@ -308,7 +423,7 @@ export interface CreateQuerySuggestionsBlockListRequest {
   SourceS3Path: S3Path;
   ClientToken?: string;
   RoleArn: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateQuerySuggestionsBlockListRequest = S.suspend(() =>
   S.Struct({
@@ -330,7 +445,7 @@ export interface CreateThesaurusRequest {
   Name: string;
   Description?: string;
   RoleArn: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   SourceS3Path: S3Path;
   ClientToken?: string;
 }
@@ -603,7 +718,7 @@ export const DescribeThesaurusRequest = S.suspend(() =>
 export interface DisassociateEntitiesFromExperienceRequest {
   Id: string;
   IndexId: string;
-  EntityList: DisassociateEntityList;
+  EntityList: EntityConfiguration[];
 }
 export const DisassociateEntitiesFromExperienceRequest = S.suspend(() =>
   S.Struct({
@@ -619,7 +734,7 @@ export const DisassociateEntitiesFromExperienceRequest = S.suspend(() =>
 export interface DisassociatePersonasFromEntitiesRequest {
   Id: string;
   IndexId: string;
-  EntityIds: EntityIdsList;
+  EntityIds: string[];
 }
 export const DisassociatePersonasFromEntitiesRequest = S.suspend(() =>
   S.Struct({ Id: S.String, IndexId: S.String, EntityIds: EntityIdsList }).pipe(
@@ -630,16 +745,16 @@ export const DisassociatePersonasFromEntitiesRequest = S.suspend(() =>
 }) as any as S.Schema<DisassociatePersonasFromEntitiesRequest>;
 export interface GetSnapshotsRequest {
   IndexId: string;
-  Interval: string;
-  MetricType: string;
+  Interval: Interval;
+  MetricType: MetricType;
   NextToken?: string;
   MaxResults?: number;
 }
 export const GetSnapshotsRequest = S.suspend(() =>
   S.Struct({
     IndexId: S.String,
-    Interval: S.String,
-    MetricType: S.String,
+    Interval: Interval,
+    MetricType: MetricType,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
@@ -842,7 +957,7 @@ export type DocumentAttributeStringListValue = string[];
 export const DocumentAttributeStringListValue = S.Array(S.String);
 export interface DocumentAttributeValue {
   StringValue?: string;
-  StringListValue?: DocumentAttributeStringListValue;
+  StringListValue?: string[];
   LongValue?: number;
   DateValue?: Date;
 }
@@ -866,8 +981,8 @@ export const DocumentAttribute = S.suspend(() =>
   identifier: "DocumentAttribute",
 }) as any as S.Schema<DocumentAttribute>;
 export interface AttributeFilter {
-  AndAllFilters?: AttributeFilterList;
-  OrAllFilters?: AttributeFilterList;
+  AndAllFilters?: AttributeFilter[];
+  OrAllFilters?: AttributeFilter[];
   NotFilter?: AttributeFilter;
   EqualsTo?: DocumentAttribute;
   ContainsAll?: DocumentAttribute;
@@ -905,21 +1020,23 @@ export const AttributeFilter = S.suspend(() =>
 ).annotations({
   identifier: "AttributeFilter",
 }) as any as S.Schema<AttributeFilter>;
+export type Order = "ASCENDING" | "DESCENDING";
+export const Order = S.Literal("ASCENDING", "DESCENDING");
 export type ValueImportanceMap = { [key: string]: number };
 export const ValueImportanceMap = S.Record({ key: S.String, value: S.Number });
 export interface Relevance {
   Freshness?: boolean;
   Importance?: number;
   Duration?: string;
-  RankOrder?: string;
-  ValueImportanceMap?: ValueImportanceMap;
+  RankOrder?: Order;
+  ValueImportanceMap?: { [key: string]: number };
 }
 export const Relevance = S.suspend(() =>
   S.Struct({
     Freshness: S.optional(S.Boolean),
     Importance: S.optional(S.Number),
     Duration: S.optional(S.String),
-    RankOrder: S.optional(S.String),
+    RankOrder: S.optional(Order),
     ValueImportanceMap: S.optional(ValueImportanceMap),
   }),
 ).annotations({ identifier: "Relevance" }) as any as S.Schema<Relevance>;
@@ -953,8 +1070,8 @@ export const DataSourceGroups = S.Array(DataSourceGroup);
 export interface UserContext {
   Token?: string;
   UserId?: string;
-  Groups?: Groups;
-  DataSourceGroups?: DataSourceGroups;
+  Groups?: string[];
+  DataSourceGroups?: DataSourceGroup[];
 }
 export const UserContext = S.suspend(() =>
   S.Struct({
@@ -968,8 +1085,8 @@ export interface RetrieveRequest {
   IndexId: string;
   QueryText: string;
   AttributeFilter?: AttributeFilter;
-  RequestedDocumentAttributes?: DocumentAttributeKeyList;
-  DocumentRelevanceOverrideConfigurations?: DocumentRelevanceOverrideConfigurationList;
+  RequestedDocumentAttributes?: string[];
+  DocumentRelevanceOverrideConfigurations?: DocumentRelevanceConfiguration[];
   PageNumber?: number;
   PageSize?: number;
   UserContext?: UserContext;
@@ -1022,7 +1139,7 @@ export const StopDataSourceSyncJobResponse = S.suspend(() =>
 }) as any as S.Schema<StopDataSourceSyncJobResponse>;
 export interface TagResourceRequest {
   ResourceARN: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
@@ -1037,7 +1154,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceARN: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
@@ -1050,24 +1167,28 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
+export type PrincipalType = "USER" | "GROUP";
+export const PrincipalType = S.Literal("USER", "GROUP");
+export type ReadAccessType = "ALLOW" | "DENY";
+export const ReadAccessType = S.Literal("ALLOW", "DENY");
 export interface Principal {
   Name: string;
-  Type: string;
-  Access: string;
+  Type: PrincipalType;
+  Access: ReadAccessType;
   DataSourceId?: string;
 }
 export const Principal = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Type: S.String,
-    Access: S.String,
+    Type: PrincipalType,
+    Access: ReadAccessType,
     DataSourceId: S.optional(S.String),
   }),
 ).annotations({ identifier: "Principal" }) as any as S.Schema<Principal>;
 export type PrincipalList = Principal[];
 export const PrincipalList = S.Array(Principal);
 export interface HierarchicalPrincipal {
-  PrincipalList: PrincipalList;
+  PrincipalList: Principal[];
 }
 export const HierarchicalPrincipal = S.suspend(() =>
   S.Struct({ PrincipalList: PrincipalList }),
@@ -1081,8 +1202,8 @@ export interface UpdateAccessControlConfigurationRequest {
   Id: string;
   Name?: string;
   Description?: string;
-  AccessControlList?: PrincipalList;
-  HierarchicalAccessControlList?: HierarchicalPrincipalList;
+  AccessControlList?: Principal[];
+  HierarchicalAccessControlList?: HierarchicalPrincipal[];
 }
 export const UpdateAccessControlConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -1124,9 +1245,9 @@ export const AccessControlListConfiguration = S.suspend(() =>
 }) as any as S.Schema<AccessControlListConfiguration>;
 export interface S3DataSourceConfiguration {
   BucketName: string;
-  InclusionPrefixes?: DataSourceInclusionsExclusionsStrings;
-  InclusionPatterns?: DataSourceInclusionsExclusionsStrings;
-  ExclusionPatterns?: DataSourceInclusionsExclusionsStrings;
+  InclusionPrefixes?: string[];
+  InclusionPatterns?: string[];
+  ExclusionPatterns?: string[];
   DocumentsMetadataConfiguration?: DocumentsMetadataConfiguration;
   AccessControlListConfiguration?: AccessControlListConfiguration;
 }
@@ -1142,6 +1263,17 @@ export const S3DataSourceConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "S3DataSourceConfiguration",
 }) as any as S.Schema<S3DataSourceConfiguration>;
+export type SharePointVersion =
+  | "SHAREPOINT_2013"
+  | "SHAREPOINT_2016"
+  | "SHAREPOINT_ONLINE"
+  | "SHAREPOINT_2019";
+export const SharePointVersion = S.Literal(
+  "SHAREPOINT_2013",
+  "SHAREPOINT_2016",
+  "SHAREPOINT_ONLINE",
+  "SHAREPOINT_2019",
+);
 export type SharePointUrlList = string[];
 export const SharePointUrlList = S.Array(S.String);
 export type SubnetIdList = string[];
@@ -1149,8 +1281,8 @@ export const SubnetIdList = S.Array(S.String);
 export type SecurityGroupIdList = string[];
 export const SecurityGroupIdList = S.Array(S.String);
 export interface DataSourceVpcConfiguration {
-  SubnetIds: SubnetIdList;
-  SecurityGroupIds: SecurityGroupIdList;
+  SubnetIds: string[];
+  SecurityGroupIds: string[];
 }
 export const DataSourceVpcConfiguration = S.suspend(() =>
   S.Struct({ SubnetIds: SubnetIdList, SecurityGroupIds: SecurityGroupIdList }),
@@ -1175,6 +1307,11 @@ export type DataSourceToIndexFieldMappingList = DataSourceToIndexFieldMapping[];
 export const DataSourceToIndexFieldMappingList = S.Array(
   DataSourceToIndexFieldMapping,
 );
+export type SharePointOnlineAuthenticationType = "HTTP_BASIC" | "OAUTH2";
+export const SharePointOnlineAuthenticationType = S.Literal(
+  "HTTP_BASIC",
+  "OAUTH2",
+);
 export interface ProxyConfiguration {
   Host: string;
   Port: number;
@@ -1190,24 +1327,24 @@ export const ProxyConfiguration = S.suspend(() =>
   identifier: "ProxyConfiguration",
 }) as any as S.Schema<ProxyConfiguration>;
 export interface SharePointConfiguration {
-  SharePointVersion: string;
-  Urls: SharePointUrlList;
+  SharePointVersion: SharePointVersion;
+  Urls: string[];
   SecretArn: string;
   CrawlAttachments?: boolean;
   UseChangeLog?: boolean;
-  InclusionPatterns?: DataSourceInclusionsExclusionsStrings;
-  ExclusionPatterns?: DataSourceInclusionsExclusionsStrings;
+  InclusionPatterns?: string[];
+  ExclusionPatterns?: string[];
   VpcConfiguration?: DataSourceVpcConfiguration;
-  FieldMappings?: DataSourceToIndexFieldMappingList;
+  FieldMappings?: DataSourceToIndexFieldMapping[];
   DocumentTitleFieldName?: string;
   DisableLocalGroups?: boolean;
   SslCertificateS3Path?: S3Path;
-  AuthenticationType?: string;
+  AuthenticationType?: SharePointOnlineAuthenticationType;
   ProxyConfiguration?: ProxyConfiguration;
 }
 export const SharePointConfiguration = S.suspend(() =>
   S.Struct({
-    SharePointVersion: S.String,
+    SharePointVersion: SharePointVersion,
     Urls: SharePointUrlList,
     SecretArn: S.String,
     CrawlAttachments: S.optional(S.Boolean),
@@ -1219,12 +1356,23 @@ export const SharePointConfiguration = S.suspend(() =>
     DocumentTitleFieldName: S.optional(S.String),
     DisableLocalGroups: S.optional(S.Boolean),
     SslCertificateS3Path: S.optional(S3Path),
-    AuthenticationType: S.optional(S.String),
+    AuthenticationType: S.optional(SharePointOnlineAuthenticationType),
     ProxyConfiguration: S.optional(ProxyConfiguration),
   }),
 ).annotations({
   identifier: "SharePointConfiguration",
 }) as any as S.Schema<SharePointConfiguration>;
+export type DatabaseEngineType =
+  | "RDS_AURORA_MYSQL"
+  | "RDS_AURORA_POSTGRESQL"
+  | "RDS_MYSQL"
+  | "RDS_POSTGRESQL";
+export const DatabaseEngineType = S.Literal(
+  "RDS_AURORA_MYSQL",
+  "RDS_AURORA_POSTGRESQL",
+  "RDS_MYSQL",
+  "RDS_POSTGRESQL",
+);
 export interface ConnectionConfiguration {
   DatabaseHost: string;
   DatabasePort: number;
@@ -1249,8 +1397,8 @@ export interface ColumnConfiguration {
   DocumentIdColumnName: string;
   DocumentDataColumnName: string;
   DocumentTitleColumnName?: string;
-  FieldMappings?: DataSourceToIndexFieldMappingList;
-  ChangeDetectingColumns: ChangeDetectingColumns;
+  FieldMappings?: DataSourceToIndexFieldMapping[];
+  ChangeDetectingColumns: string[];
 }
 export const ColumnConfiguration = S.suspend(() =>
   S.Struct({
@@ -1271,16 +1419,25 @@ export const AclConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "AclConfiguration",
 }) as any as S.Schema<AclConfiguration>;
+export type QueryIdentifiersEnclosingOption = "DOUBLE_QUOTES" | "NONE";
+export const QueryIdentifiersEnclosingOption = S.Literal(
+  "DOUBLE_QUOTES",
+  "NONE",
+);
 export interface SqlConfiguration {
-  QueryIdentifiersEnclosingOption?: string;
+  QueryIdentifiersEnclosingOption?: QueryIdentifiersEnclosingOption;
 }
 export const SqlConfiguration = S.suspend(() =>
-  S.Struct({ QueryIdentifiersEnclosingOption: S.optional(S.String) }),
+  S.Struct({
+    QueryIdentifiersEnclosingOption: S.optional(
+      QueryIdentifiersEnclosingOption,
+    ),
+  }),
 ).annotations({
   identifier: "SqlConfiguration",
 }) as any as S.Schema<SqlConfiguration>;
 export interface DatabaseConfiguration {
-  DatabaseEngineType: string;
+  DatabaseEngineType: DatabaseEngineType;
   ConnectionConfiguration: ConnectionConfiguration;
   VpcConfiguration?: DataSourceVpcConfiguration;
   ColumnConfiguration: ColumnConfiguration;
@@ -1289,7 +1446,7 @@ export interface DatabaseConfiguration {
 }
 export const DatabaseConfiguration = S.suspend(() =>
   S.Struct({
-    DatabaseEngineType: S.String,
+    DatabaseEngineType: DatabaseEngineType,
     ConnectionConfiguration: ConnectionConfiguration,
     VpcConfiguration: S.optional(DataSourceVpcConfiguration),
     ColumnConfiguration: ColumnConfiguration,
@@ -1299,15 +1456,52 @@ export const DatabaseConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "DatabaseConfiguration",
 }) as any as S.Schema<DatabaseConfiguration>;
+export type SalesforceStandardObjectName =
+  | "ACCOUNT"
+  | "CAMPAIGN"
+  | "CASE"
+  | "CONTACT"
+  | "CONTRACT"
+  | "DOCUMENT"
+  | "GROUP"
+  | "IDEA"
+  | "LEAD"
+  | "OPPORTUNITY"
+  | "PARTNER"
+  | "PRICEBOOK"
+  | "PRODUCT"
+  | "PROFILE"
+  | "SOLUTION"
+  | "TASK"
+  | "USER";
+export const SalesforceStandardObjectName = S.Literal(
+  "ACCOUNT",
+  "CAMPAIGN",
+  "CASE",
+  "CONTACT",
+  "CONTRACT",
+  "DOCUMENT",
+  "GROUP",
+  "IDEA",
+  "LEAD",
+  "OPPORTUNITY",
+  "PARTNER",
+  "PRICEBOOK",
+  "PRODUCT",
+  "PROFILE",
+  "SOLUTION",
+  "TASK",
+  "USER",
+);
 export interface SalesforceStandardObjectConfiguration {
-  Name: string;
+  Name: SalesforceStandardObjectName;
   DocumentDataFieldName: string;
   DocumentTitleFieldName?: string;
-  FieldMappings?: DataSourceToIndexFieldMappingList;
+  FieldMappings?: DataSourceToIndexFieldMapping[];
 }
 export const SalesforceStandardObjectConfiguration = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: SalesforceStandardObjectName,
     DocumentDataFieldName: S.String,
     DocumentTitleFieldName: S.optional(S.String),
     FieldMappings: S.optional(DataSourceToIndexFieldMappingList),
@@ -1320,12 +1514,24 @@ export type SalesforceStandardObjectConfigurationList =
 export const SalesforceStandardObjectConfigurationList = S.Array(
   SalesforceStandardObjectConfiguration,
 );
-export type SalesforceKnowledgeArticleStateList = string[];
-export const SalesforceKnowledgeArticleStateList = S.Array(S.String);
+export type SalesforceKnowledgeArticleState =
+  | "DRAFT"
+  | "PUBLISHED"
+  | "ARCHIVED";
+export const SalesforceKnowledgeArticleState = S.Literal(
+  "DRAFT",
+  "PUBLISHED",
+  "ARCHIVED",
+);
+export type SalesforceKnowledgeArticleStateList =
+  SalesforceKnowledgeArticleState[];
+export const SalesforceKnowledgeArticleStateList = S.Array(
+  SalesforceKnowledgeArticleState,
+);
 export interface SalesforceStandardKnowledgeArticleTypeConfiguration {
   DocumentDataFieldName: string;
   DocumentTitleFieldName?: string;
-  FieldMappings?: DataSourceToIndexFieldMappingList;
+  FieldMappings?: DataSourceToIndexFieldMapping[];
 }
 export const SalesforceStandardKnowledgeArticleTypeConfiguration = S.suspend(
   () =>
@@ -1341,7 +1547,7 @@ export interface SalesforceCustomKnowledgeArticleTypeConfiguration {
   Name: string;
   DocumentDataFieldName: string;
   DocumentTitleFieldName?: string;
-  FieldMappings?: DataSourceToIndexFieldMappingList;
+  FieldMappings?: DataSourceToIndexFieldMapping[];
 }
 export const SalesforceCustomKnowledgeArticleTypeConfiguration = S.suspend(() =>
   S.Struct({
@@ -1359,9 +1565,9 @@ export const SalesforceCustomKnowledgeArticleTypeConfigurationList = S.Array(
   SalesforceCustomKnowledgeArticleTypeConfiguration,
 );
 export interface SalesforceKnowledgeArticleConfiguration {
-  IncludedStates: SalesforceKnowledgeArticleStateList;
+  IncludedStates: SalesforceKnowledgeArticleState[];
   StandardKnowledgeArticleTypeConfiguration?: SalesforceStandardKnowledgeArticleTypeConfiguration;
-  CustomKnowledgeArticleTypeConfigurations?: SalesforceCustomKnowledgeArticleTypeConfigurationList;
+  CustomKnowledgeArticleTypeConfigurations?: SalesforceCustomKnowledgeArticleTypeConfiguration[];
 }
 export const SalesforceKnowledgeArticleConfiguration = S.suspend(() =>
   S.Struct({
@@ -1376,13 +1582,23 @@ export const SalesforceKnowledgeArticleConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "SalesforceKnowledgeArticleConfiguration",
 }) as any as S.Schema<SalesforceKnowledgeArticleConfiguration>;
-export type SalesforceChatterFeedIncludeFilterTypes = string[];
-export const SalesforceChatterFeedIncludeFilterTypes = S.Array(S.String);
+export type SalesforceChatterFeedIncludeFilterType =
+  | "ACTIVE_USER"
+  | "STANDARD_USER";
+export const SalesforceChatterFeedIncludeFilterType = S.Literal(
+  "ACTIVE_USER",
+  "STANDARD_USER",
+);
+export type SalesforceChatterFeedIncludeFilterTypes =
+  SalesforceChatterFeedIncludeFilterType[];
+export const SalesforceChatterFeedIncludeFilterTypes = S.Array(
+  SalesforceChatterFeedIncludeFilterType,
+);
 export interface SalesforceChatterFeedConfiguration {
   DocumentDataFieldName: string;
   DocumentTitleFieldName?: string;
-  FieldMappings?: DataSourceToIndexFieldMappingList;
-  IncludeFilterTypes?: SalesforceChatterFeedIncludeFilterTypes;
+  FieldMappings?: DataSourceToIndexFieldMapping[];
+  IncludeFilterTypes?: SalesforceChatterFeedIncludeFilterType[];
 }
 export const SalesforceChatterFeedConfiguration = S.suspend(() =>
   S.Struct({
@@ -1396,7 +1612,7 @@ export const SalesforceChatterFeedConfiguration = S.suspend(() =>
 }) as any as S.Schema<SalesforceChatterFeedConfiguration>;
 export interface SalesforceStandardObjectAttachmentConfiguration {
   DocumentTitleFieldName?: string;
-  FieldMappings?: DataSourceToIndexFieldMappingList;
+  FieldMappings?: DataSourceToIndexFieldMapping[];
 }
 export const SalesforceStandardObjectAttachmentConfiguration = S.suspend(() =>
   S.Struct({
@@ -1409,13 +1625,13 @@ export const SalesforceStandardObjectAttachmentConfiguration = S.suspend(() =>
 export interface SalesforceConfiguration {
   ServerUrl: string;
   SecretArn: string;
-  StandardObjectConfigurations?: SalesforceStandardObjectConfigurationList;
+  StandardObjectConfigurations?: SalesforceStandardObjectConfiguration[];
   KnowledgeArticleConfiguration?: SalesforceKnowledgeArticleConfiguration;
   ChatterFeedConfiguration?: SalesforceChatterFeedConfiguration;
   CrawlAttachments?: boolean;
   StandardObjectAttachmentConfiguration?: SalesforceStandardObjectAttachmentConfiguration;
-  IncludeAttachmentFilePatterns?: DataSourceInclusionsExclusionsStrings;
-  ExcludeAttachmentFilePatterns?: DataSourceInclusionsExclusionsStrings;
+  IncludeAttachmentFilePatterns?: string[];
+  ExcludeAttachmentFilePatterns?: string[];
 }
 export const SalesforceConfiguration = S.suspend(() =>
   S.Struct({
@@ -1445,7 +1661,7 @@ export const SalesforceConfiguration = S.suspend(() =>
 export type OneDriveUserList = string[];
 export const OneDriveUserList = S.Array(S.String);
 export interface OneDriveUsers {
-  OneDriveUserList?: OneDriveUserList;
+  OneDriveUserList?: string[];
   OneDriveUserS3Path?: S3Path;
 }
 export const OneDriveUsers = S.suspend(() =>
@@ -1460,9 +1676,9 @@ export interface OneDriveConfiguration {
   TenantDomain: string;
   SecretArn: string;
   OneDriveUsers: OneDriveUsers;
-  InclusionPatterns?: DataSourceInclusionsExclusionsStrings;
-  ExclusionPatterns?: DataSourceInclusionsExclusionsStrings;
-  FieldMappings?: DataSourceToIndexFieldMappingList;
+  InclusionPatterns?: string[];
+  ExclusionPatterns?: string[];
+  FieldMappings?: DataSourceToIndexFieldMapping[];
   DisableLocalGroups?: boolean;
 }
 export const OneDriveConfiguration = S.suspend(() =>
@@ -1478,13 +1694,15 @@ export const OneDriveConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "OneDriveConfiguration",
 }) as any as S.Schema<OneDriveConfiguration>;
+export type ServiceNowBuildVersionType = "LONDON" | "OTHERS";
+export const ServiceNowBuildVersionType = S.Literal("LONDON", "OTHERS");
 export interface ServiceNowKnowledgeArticleConfiguration {
   CrawlAttachments?: boolean;
-  IncludeAttachmentFilePatterns?: DataSourceInclusionsExclusionsStrings;
-  ExcludeAttachmentFilePatterns?: DataSourceInclusionsExclusionsStrings;
+  IncludeAttachmentFilePatterns?: string[];
+  ExcludeAttachmentFilePatterns?: string[];
   DocumentDataFieldName: string;
   DocumentTitleFieldName?: string;
-  FieldMappings?: DataSourceToIndexFieldMappingList;
+  FieldMappings?: DataSourceToIndexFieldMapping[];
   FilterQuery?: string;
 }
 export const ServiceNowKnowledgeArticleConfiguration = S.suspend(() =>
@@ -1506,11 +1724,11 @@ export const ServiceNowKnowledgeArticleConfiguration = S.suspend(() =>
 }) as any as S.Schema<ServiceNowKnowledgeArticleConfiguration>;
 export interface ServiceNowServiceCatalogConfiguration {
   CrawlAttachments?: boolean;
-  IncludeAttachmentFilePatterns?: DataSourceInclusionsExclusionsStrings;
-  ExcludeAttachmentFilePatterns?: DataSourceInclusionsExclusionsStrings;
+  IncludeAttachmentFilePatterns?: string[];
+  ExcludeAttachmentFilePatterns?: string[];
   DocumentDataFieldName: string;
   DocumentTitleFieldName?: string;
-  FieldMappings?: DataSourceToIndexFieldMappingList;
+  FieldMappings?: DataSourceToIndexFieldMapping[];
 }
 export const ServiceNowServiceCatalogConfiguration = S.suspend(() =>
   S.Struct({
@@ -1528,40 +1746,55 @@ export const ServiceNowServiceCatalogConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ServiceNowServiceCatalogConfiguration",
 }) as any as S.Schema<ServiceNowServiceCatalogConfiguration>;
+export type ServiceNowAuthenticationType = "HTTP_BASIC" | "OAUTH2";
+export const ServiceNowAuthenticationType = S.Literal("HTTP_BASIC", "OAUTH2");
 export interface ServiceNowConfiguration {
   HostUrl: string;
   SecretArn: string;
-  ServiceNowBuildVersion: string;
+  ServiceNowBuildVersion: ServiceNowBuildVersionType;
   KnowledgeArticleConfiguration?: ServiceNowKnowledgeArticleConfiguration;
   ServiceCatalogConfiguration?: ServiceNowServiceCatalogConfiguration;
-  AuthenticationType?: string;
+  AuthenticationType?: ServiceNowAuthenticationType;
 }
 export const ServiceNowConfiguration = S.suspend(() =>
   S.Struct({
     HostUrl: S.String,
     SecretArn: S.String,
-    ServiceNowBuildVersion: S.String,
+    ServiceNowBuildVersion: ServiceNowBuildVersionType,
     KnowledgeArticleConfiguration: S.optional(
       ServiceNowKnowledgeArticleConfiguration,
     ),
     ServiceCatalogConfiguration: S.optional(
       ServiceNowServiceCatalogConfiguration,
     ),
-    AuthenticationType: S.optional(S.String),
+    AuthenticationType: S.optional(ServiceNowAuthenticationType),
   }),
 ).annotations({
   identifier: "ServiceNowConfiguration",
 }) as any as S.Schema<ServiceNowConfiguration>;
+export type ConfluenceVersion = "CLOUD" | "SERVER";
+export const ConfluenceVersion = S.Literal("CLOUD", "SERVER");
 export type ConfluenceSpaceList = string[];
 export const ConfluenceSpaceList = S.Array(S.String);
+export type ConfluenceSpaceFieldName =
+  | "DISPLAY_URL"
+  | "ITEM_TYPE"
+  | "SPACE_KEY"
+  | "URL";
+export const ConfluenceSpaceFieldName = S.Literal(
+  "DISPLAY_URL",
+  "ITEM_TYPE",
+  "SPACE_KEY",
+  "URL",
+);
 export interface ConfluenceSpaceToIndexFieldMapping {
-  DataSourceFieldName?: string;
+  DataSourceFieldName?: ConfluenceSpaceFieldName;
   DateFieldFormat?: string;
   IndexFieldName?: string;
 }
 export const ConfluenceSpaceToIndexFieldMapping = S.suspend(() =>
   S.Struct({
-    DataSourceFieldName: S.optional(S.String),
+    DataSourceFieldName: S.optional(ConfluenceSpaceFieldName),
     DateFieldFormat: S.optional(S.String),
     IndexFieldName: S.optional(S.String),
   }),
@@ -1576,9 +1809,9 @@ export const ConfluenceSpaceFieldMappingsList = S.Array(
 export interface ConfluenceSpaceConfiguration {
   CrawlPersonalSpaces?: boolean;
   CrawlArchivedSpaces?: boolean;
-  IncludeSpaces?: ConfluenceSpaceList;
-  ExcludeSpaces?: ConfluenceSpaceList;
-  SpaceFieldMappings?: ConfluenceSpaceFieldMappingsList;
+  IncludeSpaces?: string[];
+  ExcludeSpaces?: string[];
+  SpaceFieldMappings?: ConfluenceSpaceToIndexFieldMapping[];
 }
 export const ConfluenceSpaceConfiguration = S.suspend(() =>
   S.Struct({
@@ -1591,14 +1824,41 @@ export const ConfluenceSpaceConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ConfluenceSpaceConfiguration",
 }) as any as S.Schema<ConfluenceSpaceConfiguration>;
+export type ConfluencePageFieldName =
+  | "AUTHOR"
+  | "CONTENT_STATUS"
+  | "CREATED_DATE"
+  | "DISPLAY_URL"
+  | "ITEM_TYPE"
+  | "LABELS"
+  | "MODIFIED_DATE"
+  | "PARENT_ID"
+  | "SPACE_KEY"
+  | "SPACE_NAME"
+  | "URL"
+  | "VERSION";
+export const ConfluencePageFieldName = S.Literal(
+  "AUTHOR",
+  "CONTENT_STATUS",
+  "CREATED_DATE",
+  "DISPLAY_URL",
+  "ITEM_TYPE",
+  "LABELS",
+  "MODIFIED_DATE",
+  "PARENT_ID",
+  "SPACE_KEY",
+  "SPACE_NAME",
+  "URL",
+  "VERSION",
+);
 export interface ConfluencePageToIndexFieldMapping {
-  DataSourceFieldName?: string;
+  DataSourceFieldName?: ConfluencePageFieldName;
   DateFieldFormat?: string;
   IndexFieldName?: string;
 }
 export const ConfluencePageToIndexFieldMapping = S.suspend(() =>
   S.Struct({
-    DataSourceFieldName: S.optional(S.String),
+    DataSourceFieldName: S.optional(ConfluencePageFieldName),
     DateFieldFormat: S.optional(S.String),
     IndexFieldName: S.optional(S.String),
   }),
@@ -1611,21 +1871,42 @@ export const ConfluencePageFieldMappingsList = S.Array(
   ConfluencePageToIndexFieldMapping,
 );
 export interface ConfluencePageConfiguration {
-  PageFieldMappings?: ConfluencePageFieldMappingsList;
+  PageFieldMappings?: ConfluencePageToIndexFieldMapping[];
 }
 export const ConfluencePageConfiguration = S.suspend(() =>
   S.Struct({ PageFieldMappings: S.optional(ConfluencePageFieldMappingsList) }),
 ).annotations({
   identifier: "ConfluencePageConfiguration",
 }) as any as S.Schema<ConfluencePageConfiguration>;
+export type ConfluenceBlogFieldName =
+  | "AUTHOR"
+  | "DISPLAY_URL"
+  | "ITEM_TYPE"
+  | "LABELS"
+  | "PUBLISH_DATE"
+  | "SPACE_KEY"
+  | "SPACE_NAME"
+  | "URL"
+  | "VERSION";
+export const ConfluenceBlogFieldName = S.Literal(
+  "AUTHOR",
+  "DISPLAY_URL",
+  "ITEM_TYPE",
+  "LABELS",
+  "PUBLISH_DATE",
+  "SPACE_KEY",
+  "SPACE_NAME",
+  "URL",
+  "VERSION",
+);
 export interface ConfluenceBlogToIndexFieldMapping {
-  DataSourceFieldName?: string;
+  DataSourceFieldName?: ConfluenceBlogFieldName;
   DateFieldFormat?: string;
   IndexFieldName?: string;
 }
 export const ConfluenceBlogToIndexFieldMapping = S.suspend(() =>
   S.Struct({
-    DataSourceFieldName: S.optional(S.String),
+    DataSourceFieldName: S.optional(ConfluenceBlogFieldName),
     DateFieldFormat: S.optional(S.String),
     IndexFieldName: S.optional(S.String),
   }),
@@ -1638,21 +1919,46 @@ export const ConfluenceBlogFieldMappingsList = S.Array(
   ConfluenceBlogToIndexFieldMapping,
 );
 export interface ConfluenceBlogConfiguration {
-  BlogFieldMappings?: ConfluenceBlogFieldMappingsList;
+  BlogFieldMappings?: ConfluenceBlogToIndexFieldMapping[];
 }
 export const ConfluenceBlogConfiguration = S.suspend(() =>
   S.Struct({ BlogFieldMappings: S.optional(ConfluenceBlogFieldMappingsList) }),
 ).annotations({
   identifier: "ConfluenceBlogConfiguration",
 }) as any as S.Schema<ConfluenceBlogConfiguration>;
+export type ConfluenceAttachmentFieldName =
+  | "AUTHOR"
+  | "CONTENT_TYPE"
+  | "CREATED_DATE"
+  | "DISPLAY_URL"
+  | "FILE_SIZE"
+  | "ITEM_TYPE"
+  | "PARENT_ID"
+  | "SPACE_KEY"
+  | "SPACE_NAME"
+  | "URL"
+  | "VERSION";
+export const ConfluenceAttachmentFieldName = S.Literal(
+  "AUTHOR",
+  "CONTENT_TYPE",
+  "CREATED_DATE",
+  "DISPLAY_URL",
+  "FILE_SIZE",
+  "ITEM_TYPE",
+  "PARENT_ID",
+  "SPACE_KEY",
+  "SPACE_NAME",
+  "URL",
+  "VERSION",
+);
 export interface ConfluenceAttachmentToIndexFieldMapping {
-  DataSourceFieldName?: string;
+  DataSourceFieldName?: ConfluenceAttachmentFieldName;
   DateFieldFormat?: string;
   IndexFieldName?: string;
 }
 export const ConfluenceAttachmentToIndexFieldMapping = S.suspend(() =>
   S.Struct({
-    DataSourceFieldName: S.optional(S.String),
+    DataSourceFieldName: S.optional(ConfluenceAttachmentFieldName),
     DateFieldFormat: S.optional(S.String),
     IndexFieldName: S.optional(S.String),
   }),
@@ -1666,7 +1972,7 @@ export const ConfluenceAttachmentFieldMappingsList = S.Array(
 );
 export interface ConfluenceAttachmentConfiguration {
   CrawlAttachments?: boolean;
-  AttachmentFieldMappings?: ConfluenceAttachmentFieldMappingsList;
+  AttachmentFieldMappings?: ConfluenceAttachmentToIndexFieldMapping[];
 }
 export const ConfluenceAttachmentConfiguration = S.suspend(() =>
   S.Struct({
@@ -1676,25 +1982,27 @@ export const ConfluenceAttachmentConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ConfluenceAttachmentConfiguration",
 }) as any as S.Schema<ConfluenceAttachmentConfiguration>;
+export type ConfluenceAuthenticationType = "HTTP_BASIC" | "PAT";
+export const ConfluenceAuthenticationType = S.Literal("HTTP_BASIC", "PAT");
 export interface ConfluenceConfiguration {
   ServerUrl: string;
   SecretArn: string;
-  Version: string;
+  Version: ConfluenceVersion;
   SpaceConfiguration?: ConfluenceSpaceConfiguration;
   PageConfiguration?: ConfluencePageConfiguration;
   BlogConfiguration?: ConfluenceBlogConfiguration;
   AttachmentConfiguration?: ConfluenceAttachmentConfiguration;
   VpcConfiguration?: DataSourceVpcConfiguration;
-  InclusionPatterns?: DataSourceInclusionsExclusionsStrings;
-  ExclusionPatterns?: DataSourceInclusionsExclusionsStrings;
+  InclusionPatterns?: string[];
+  ExclusionPatterns?: string[];
   ProxyConfiguration?: ProxyConfiguration;
-  AuthenticationType?: string;
+  AuthenticationType?: ConfluenceAuthenticationType;
 }
 export const ConfluenceConfiguration = S.suspend(() =>
   S.Struct({
     ServerUrl: S.String,
     SecretArn: S.String,
-    Version: S.String,
+    Version: ConfluenceVersion,
     SpaceConfiguration: S.optional(ConfluenceSpaceConfiguration),
     PageConfiguration: S.optional(ConfluencePageConfiguration),
     BlogConfiguration: S.optional(ConfluenceBlogConfiguration),
@@ -1703,7 +2011,7 @@ export const ConfluenceConfiguration = S.suspend(() =>
     InclusionPatterns: S.optional(DataSourceInclusionsExclusionsStrings),
     ExclusionPatterns: S.optional(DataSourceInclusionsExclusionsStrings),
     ProxyConfiguration: S.optional(ProxyConfiguration),
-    AuthenticationType: S.optional(S.String),
+    AuthenticationType: S.optional(ConfluenceAuthenticationType),
   }),
 ).annotations({
   identifier: "ConfluenceConfiguration",
@@ -1716,12 +2024,12 @@ export type ExcludeSharedDrivesList = string[];
 export const ExcludeSharedDrivesList = S.Array(S.String);
 export interface GoogleDriveConfiguration {
   SecretArn: string;
-  InclusionPatterns?: DataSourceInclusionsExclusionsStrings;
-  ExclusionPatterns?: DataSourceInclusionsExclusionsStrings;
-  FieldMappings?: DataSourceToIndexFieldMappingList;
-  ExcludeMimeTypes?: ExcludeMimeTypesList;
-  ExcludeUserAccounts?: ExcludeUserAccountsList;
-  ExcludeSharedDrives?: ExcludeSharedDrivesList;
+  InclusionPatterns?: string[];
+  ExclusionPatterns?: string[];
+  FieldMappings?: DataSourceToIndexFieldMapping[];
+  ExcludeMimeTypes?: string[];
+  ExcludeUserAccounts?: string[];
+  ExcludeSharedDrives?: string[];
 }
 export const GoogleDriveConfiguration = S.suspend(() =>
   S.Struct({
@@ -1738,19 +2046,28 @@ export const GoogleDriveConfiguration = S.suspend(() =>
 }) as any as S.Schema<GoogleDriveConfiguration>;
 export type SeedUrlList = string[];
 export const SeedUrlList = S.Array(S.String);
+export type WebCrawlerMode = "HOST_ONLY" | "SUBDOMAINS" | "EVERYTHING";
+export const WebCrawlerMode = S.Literal(
+  "HOST_ONLY",
+  "SUBDOMAINS",
+  "EVERYTHING",
+);
 export interface SeedUrlConfiguration {
-  SeedUrls: SeedUrlList;
-  WebCrawlerMode?: string;
+  SeedUrls: string[];
+  WebCrawlerMode?: WebCrawlerMode;
 }
 export const SeedUrlConfiguration = S.suspend(() =>
-  S.Struct({ SeedUrls: SeedUrlList, WebCrawlerMode: S.optional(S.String) }),
+  S.Struct({
+    SeedUrls: SeedUrlList,
+    WebCrawlerMode: S.optional(WebCrawlerMode),
+  }),
 ).annotations({
   identifier: "SeedUrlConfiguration",
 }) as any as S.Schema<SeedUrlConfiguration>;
 export type SiteMapsList = string[];
 export const SiteMapsList = S.Array(S.String);
 export interface SiteMapsConfiguration {
-  SiteMaps: SiteMapsList;
+  SiteMaps: string[];
 }
 export const SiteMapsConfiguration = S.suspend(() =>
   S.Struct({ SiteMaps: SiteMapsList }),
@@ -1783,7 +2100,7 @@ export const BasicAuthenticationConfigurationList = S.Array(
   BasicAuthenticationConfiguration,
 );
 export interface AuthenticationConfiguration {
-  BasicAuthentication?: BasicAuthenticationConfigurationList;
+  BasicAuthentication?: BasicAuthenticationConfiguration[];
 }
 export const AuthenticationConfiguration = S.suspend(() =>
   S.Struct({
@@ -1798,8 +2115,8 @@ export interface WebCrawlerConfiguration {
   MaxLinksPerPage?: number;
   MaxContentSizePerPageInMegaBytes?: number;
   MaxUrlsPerMinuteCrawlRate?: number;
-  UrlInclusionPatterns?: DataSourceInclusionsExclusionsStrings;
-  UrlExclusionPatterns?: DataSourceInclusionsExclusionsStrings;
+  UrlInclusionPatterns?: string[];
+  UrlExclusionPatterns?: string[];
   ProxyConfiguration?: ProxyConfiguration;
   AuthenticationConfiguration?: AuthenticationConfiguration;
 }
@@ -1822,9 +2139,9 @@ export interface WorkDocsConfiguration {
   OrganizationId: string;
   CrawlComments?: boolean;
   UseChangeLog?: boolean;
-  InclusionPatterns?: DataSourceInclusionsExclusionsStrings;
-  ExclusionPatterns?: DataSourceInclusionsExclusionsStrings;
-  FieldMappings?: DataSourceToIndexFieldMappingList;
+  InclusionPatterns?: string[];
+  ExclusionPatterns?: string[];
+  FieldMappings?: DataSourceToIndexFieldMapping[];
 }
 export const WorkDocsConfiguration = S.suspend(() =>
   S.Struct({
@@ -1838,19 +2155,21 @@ export const WorkDocsConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "WorkDocsConfiguration",
 }) as any as S.Schema<WorkDocsConfiguration>;
+export type FsxFileSystemType = "WINDOWS";
+export const FsxFileSystemType = S.Literal("WINDOWS");
 export interface FsxConfiguration {
   FileSystemId: string;
-  FileSystemType: string;
+  FileSystemType: FsxFileSystemType;
   VpcConfiguration: DataSourceVpcConfiguration;
   SecretArn?: string;
-  InclusionPatterns?: DataSourceInclusionsExclusionsStrings;
-  ExclusionPatterns?: DataSourceInclusionsExclusionsStrings;
-  FieldMappings?: DataSourceToIndexFieldMappingList;
+  InclusionPatterns?: string[];
+  ExclusionPatterns?: string[];
+  FieldMappings?: DataSourceToIndexFieldMapping[];
 }
 export const FsxConfiguration = S.suspend(() =>
   S.Struct({
     FileSystemId: S.String,
-    FileSystemType: S.String,
+    FileSystemType: FsxFileSystemType,
     VpcConfiguration: DataSourceVpcConfiguration,
     SecretArn: S.optional(S.String),
     InclusionPatterns: S.optional(DataSourceInclusionsExclusionsStrings),
@@ -1860,8 +2179,19 @@ export const FsxConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "FsxConfiguration",
 }) as any as S.Schema<FsxConfiguration>;
-export type SlackEntityList = string[];
-export const SlackEntityList = S.Array(S.String);
+export type SlackEntity =
+  | "PUBLIC_CHANNEL"
+  | "PRIVATE_CHANNEL"
+  | "GROUP_MESSAGE"
+  | "DIRECT_MESSAGE";
+export const SlackEntity = S.Literal(
+  "PUBLIC_CHANNEL",
+  "PRIVATE_CHANNEL",
+  "GROUP_MESSAGE",
+  "DIRECT_MESSAGE",
+);
+export type SlackEntityList = SlackEntity[];
+export const SlackEntityList = S.Array(SlackEntity);
 export type PrivateChannelFilter = string[];
 export const PrivateChannelFilter = S.Array(S.String);
 export type PublicChannelFilter = string[];
@@ -1870,17 +2200,17 @@ export interface SlackConfiguration {
   TeamId: string;
   SecretArn: string;
   VpcConfiguration?: DataSourceVpcConfiguration;
-  SlackEntityList: SlackEntityList;
+  SlackEntityList: SlackEntity[];
   UseChangeLog?: boolean;
   CrawlBotMessage?: boolean;
   ExcludeArchived?: boolean;
   SinceCrawlDate: string;
   LookBackPeriod?: number;
-  PrivateChannelFilter?: PrivateChannelFilter;
-  PublicChannelFilter?: PublicChannelFilter;
-  InclusionPatterns?: DataSourceInclusionsExclusionsStrings;
-  ExclusionPatterns?: DataSourceInclusionsExclusionsStrings;
-  FieldMappings?: DataSourceToIndexFieldMappingList;
+  PrivateChannelFilter?: string[];
+  PublicChannelFilter?: string[];
+  InclusionPatterns?: string[];
+  ExclusionPatterns?: string[];
+  FieldMappings?: DataSourceToIndexFieldMapping[];
 }
 export const SlackConfiguration = S.suspend(() =>
   S.Struct({
@@ -1909,12 +2239,12 @@ export interface BoxConfiguration {
   CrawlComments?: boolean;
   CrawlTasks?: boolean;
   CrawlWebLinks?: boolean;
-  FileFieldMappings?: DataSourceToIndexFieldMappingList;
-  TaskFieldMappings?: DataSourceToIndexFieldMappingList;
-  CommentFieldMappings?: DataSourceToIndexFieldMappingList;
-  WebLinkFieldMappings?: DataSourceToIndexFieldMappingList;
-  InclusionPatterns?: DataSourceInclusionsExclusionsStrings;
-  ExclusionPatterns?: DataSourceInclusionsExclusionsStrings;
+  FileFieldMappings?: DataSourceToIndexFieldMapping[];
+  TaskFieldMappings?: DataSourceToIndexFieldMapping[];
+  CommentFieldMappings?: DataSourceToIndexFieldMapping[];
+  WebLinkFieldMappings?: DataSourceToIndexFieldMapping[];
+  InclusionPatterns?: string[];
+  ExclusionPatterns?: string[];
   VpcConfiguration?: DataSourceVpcConfiguration;
 }
 export const BoxConfiguration = S.suspend(() =>
@@ -1944,12 +2274,12 @@ export interface QuipConfiguration {
   CrawlFileComments?: boolean;
   CrawlChatRooms?: boolean;
   CrawlAttachments?: boolean;
-  FolderIds?: FolderIdList;
-  ThreadFieldMappings?: DataSourceToIndexFieldMappingList;
-  MessageFieldMappings?: DataSourceToIndexFieldMappingList;
-  AttachmentFieldMappings?: DataSourceToIndexFieldMappingList;
-  InclusionPatterns?: DataSourceInclusionsExclusionsStrings;
-  ExclusionPatterns?: DataSourceInclusionsExclusionsStrings;
+  FolderIds?: string[];
+  ThreadFieldMappings?: DataSourceToIndexFieldMapping[];
+  MessageFieldMappings?: DataSourceToIndexFieldMapping[];
+  AttachmentFieldMappings?: DataSourceToIndexFieldMapping[];
+  InclusionPatterns?: string[];
+  ExclusionPatterns?: string[];
   VpcConfiguration?: DataSourceVpcConfiguration;
 }
 export const QuipConfiguration = S.suspend(() =>
@@ -1976,23 +2306,25 @@ export type IssueType = string[];
 export const IssueType = S.Array(S.String);
 export type JiraStatus = string[];
 export const JiraStatus = S.Array(S.String);
-export type IssueSubEntityFilter = string[];
-export const IssueSubEntityFilter = S.Array(S.String);
+export type IssueSubEntity = "COMMENTS" | "ATTACHMENTS" | "WORKLOGS";
+export const IssueSubEntity = S.Literal("COMMENTS", "ATTACHMENTS", "WORKLOGS");
+export type IssueSubEntityFilter = IssueSubEntity[];
+export const IssueSubEntityFilter = S.Array(IssueSubEntity);
 export interface JiraConfiguration {
   JiraAccountUrl: string;
   SecretArn: string;
   UseChangeLog?: boolean;
-  Project?: Project;
-  IssueType?: IssueType;
-  Status?: JiraStatus;
-  IssueSubEntityFilter?: IssueSubEntityFilter;
-  AttachmentFieldMappings?: DataSourceToIndexFieldMappingList;
-  CommentFieldMappings?: DataSourceToIndexFieldMappingList;
-  IssueFieldMappings?: DataSourceToIndexFieldMappingList;
-  ProjectFieldMappings?: DataSourceToIndexFieldMappingList;
-  WorkLogFieldMappings?: DataSourceToIndexFieldMappingList;
-  InclusionPatterns?: DataSourceInclusionsExclusionsStrings;
-  ExclusionPatterns?: DataSourceInclusionsExclusionsStrings;
+  Project?: string[];
+  IssueType?: string[];
+  Status?: string[];
+  IssueSubEntityFilter?: IssueSubEntity[];
+  AttachmentFieldMappings?: DataSourceToIndexFieldMapping[];
+  CommentFieldMappings?: DataSourceToIndexFieldMapping[];
+  IssueFieldMappings?: DataSourceToIndexFieldMapping[];
+  ProjectFieldMappings?: DataSourceToIndexFieldMapping[];
+  WorkLogFieldMappings?: DataSourceToIndexFieldMapping[];
+  InclusionPatterns?: string[];
+  ExclusionPatterns?: string[];
   VpcConfiguration?: DataSourceVpcConfiguration;
 }
 export const JiraConfiguration = S.suspend(() =>
@@ -2039,6 +2371,8 @@ export const OnPremiseConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "OnPremiseConfiguration",
 }) as any as S.Schema<OnPremiseConfiguration>;
+export type Type = "SAAS" | "ON_PREMISE";
+export const Type = S.Literal("SAAS", "ON_PREMISE");
 export interface GitHubDocumentCrawlProperties {
   CrawlRepositoryDocuments?: boolean;
   CrawlIssue?: boolean;
@@ -2068,32 +2402,32 @@ export const StringList = S.Array(S.String);
 export interface GitHubConfiguration {
   SaaSConfiguration?: SaaSConfiguration;
   OnPremiseConfiguration?: OnPremiseConfiguration;
-  Type?: string;
+  Type?: Type;
   SecretArn: string;
   UseChangeLog?: boolean;
   GitHubDocumentCrawlProperties?: GitHubDocumentCrawlProperties;
-  RepositoryFilter?: RepositoryNames;
-  InclusionFolderNamePatterns?: StringList;
-  InclusionFileTypePatterns?: StringList;
-  InclusionFileNamePatterns?: StringList;
-  ExclusionFolderNamePatterns?: StringList;
-  ExclusionFileTypePatterns?: StringList;
-  ExclusionFileNamePatterns?: StringList;
+  RepositoryFilter?: string[];
+  InclusionFolderNamePatterns?: string[];
+  InclusionFileTypePatterns?: string[];
+  InclusionFileNamePatterns?: string[];
+  ExclusionFolderNamePatterns?: string[];
+  ExclusionFileTypePatterns?: string[];
+  ExclusionFileNamePatterns?: string[];
   VpcConfiguration?: DataSourceVpcConfiguration;
-  GitHubRepositoryConfigurationFieldMappings?: DataSourceToIndexFieldMappingList;
-  GitHubCommitConfigurationFieldMappings?: DataSourceToIndexFieldMappingList;
-  GitHubIssueDocumentConfigurationFieldMappings?: DataSourceToIndexFieldMappingList;
-  GitHubIssueCommentConfigurationFieldMappings?: DataSourceToIndexFieldMappingList;
-  GitHubIssueAttachmentConfigurationFieldMappings?: DataSourceToIndexFieldMappingList;
-  GitHubPullRequestCommentConfigurationFieldMappings?: DataSourceToIndexFieldMappingList;
-  GitHubPullRequestDocumentConfigurationFieldMappings?: DataSourceToIndexFieldMappingList;
-  GitHubPullRequestDocumentAttachmentConfigurationFieldMappings?: DataSourceToIndexFieldMappingList;
+  GitHubRepositoryConfigurationFieldMappings?: DataSourceToIndexFieldMapping[];
+  GitHubCommitConfigurationFieldMappings?: DataSourceToIndexFieldMapping[];
+  GitHubIssueDocumentConfigurationFieldMappings?: DataSourceToIndexFieldMapping[];
+  GitHubIssueCommentConfigurationFieldMappings?: DataSourceToIndexFieldMapping[];
+  GitHubIssueAttachmentConfigurationFieldMappings?: DataSourceToIndexFieldMapping[];
+  GitHubPullRequestCommentConfigurationFieldMappings?: DataSourceToIndexFieldMapping[];
+  GitHubPullRequestDocumentConfigurationFieldMappings?: DataSourceToIndexFieldMapping[];
+  GitHubPullRequestDocumentAttachmentConfigurationFieldMappings?: DataSourceToIndexFieldMapping[];
 }
 export const GitHubConfiguration = S.suspend(() =>
   S.Struct({
     SaaSConfiguration: S.optional(SaaSConfiguration),
     OnPremiseConfiguration: S.optional(OnPremiseConfiguration),
-    Type: S.optional(S.String),
+    Type: S.optional(Type),
     SecretArn: S.String,
     UseChangeLog: S.optional(S.Boolean),
     GitHubDocumentCrawlProperties: S.optional(GitHubDocumentCrawlProperties),
@@ -2133,8 +2467,10 @@ export const GitHubConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "GitHubConfiguration",
 }) as any as S.Schema<GitHubConfiguration>;
-export type EntityFilter = string[];
-export const EntityFilter = S.Array(S.String);
+export type AlfrescoEntity = "wiki" | "blog" | "documentLibrary";
+export const AlfrescoEntity = S.Literal("wiki", "blog", "documentLibrary");
+export type EntityFilter = AlfrescoEntity[];
+export const EntityFilter = S.Array(AlfrescoEntity);
 export interface AlfrescoConfiguration {
   SiteUrl: string;
   SiteId: string;
@@ -2142,12 +2478,12 @@ export interface AlfrescoConfiguration {
   SslCertificateS3Path: S3Path;
   CrawlSystemFolders?: boolean;
   CrawlComments?: boolean;
-  EntityFilter?: EntityFilter;
-  DocumentLibraryFieldMappings?: DataSourceToIndexFieldMappingList;
-  BlogFieldMappings?: DataSourceToIndexFieldMappingList;
-  WikiFieldMappings?: DataSourceToIndexFieldMappingList;
-  InclusionPatterns?: DataSourceInclusionsExclusionsStrings;
-  ExclusionPatterns?: DataSourceInclusionsExclusionsStrings;
+  EntityFilter?: AlfrescoEntity[];
+  DocumentLibraryFieldMappings?: DataSourceToIndexFieldMapping[];
+  BlogFieldMappings?: DataSourceToIndexFieldMapping[];
+  WikiFieldMappings?: DataSourceToIndexFieldMapping[];
+  InclusionPatterns?: string[];
+  ExclusionPatterns?: string[];
   VpcConfiguration?: DataSourceVpcConfiguration;
 }
 export const AlfrescoConfiguration = S.suspend(() =>
@@ -2221,15 +2557,40 @@ export const DataSourceConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "DataSourceConfiguration",
 }) as any as S.Schema<DataSourceConfiguration>;
+export type ConditionOperator =
+  | "GreaterThan"
+  | "GreaterThanOrEquals"
+  | "LessThan"
+  | "LessThanOrEquals"
+  | "Equals"
+  | "NotEquals"
+  | "Contains"
+  | "NotContains"
+  | "Exists"
+  | "NotExists"
+  | "BeginsWith";
+export const ConditionOperator = S.Literal(
+  "GreaterThan",
+  "GreaterThanOrEquals",
+  "LessThan",
+  "LessThanOrEquals",
+  "Equals",
+  "NotEquals",
+  "Contains",
+  "NotContains",
+  "Exists",
+  "NotExists",
+  "BeginsWith",
+);
 export interface DocumentAttributeCondition {
   ConditionDocumentAttributeKey: string;
-  Operator: string;
+  Operator: ConditionOperator;
   ConditionOnValue?: DocumentAttributeValue;
 }
 export const DocumentAttributeCondition = S.suspend(() =>
   S.Struct({
     ConditionDocumentAttributeKey: S.String,
-    Operator: S.String,
+    Operator: ConditionOperator,
     ConditionOnValue: S.optional(DocumentAttributeValue),
   }),
 ).annotations({
@@ -2283,7 +2644,7 @@ export const HookConfiguration = S.suspend(() =>
   identifier: "HookConfiguration",
 }) as any as S.Schema<HookConfiguration>;
 export interface CustomDocumentEnrichmentConfiguration {
-  InlineConfigurations?: InlineCustomDocumentEnrichmentConfigurationList;
+  InlineConfigurations?: InlineCustomDocumentEnrichmentConfiguration[];
   PreExtractionHookConfiguration?: HookConfiguration;
   PostExtractionHookConfiguration?: HookConfiguration;
   RoleArn?: string;
@@ -2343,8 +2704,8 @@ export const DataSourceIdList = S.Array(S.String);
 export type FaqIdsList = string[];
 export const FaqIdsList = S.Array(S.String);
 export interface ContentSourceConfiguration {
-  DataSourceIds?: DataSourceIdList;
-  FaqIds?: FaqIdsList;
+  DataSourceIds?: string[];
+  FaqIds?: string[];
   DirectPutContent?: boolean;
 }
 export const ContentSourceConfiguration = S.suspend(() =>
@@ -2419,9 +2780,9 @@ export interface UpdateFeaturedResultsSetRequest {
   FeaturedResultsSetId: string;
   FeaturedResultsSetName?: string;
   Description?: string;
-  Status?: string;
-  QueryTexts?: QueryTextList;
-  FeaturedDocuments?: FeaturedDocumentList;
+  Status?: FeaturedResultsSetStatus;
+  QueryTexts?: string[];
+  FeaturedDocuments?: FeaturedDocument[];
 }
 export const UpdateFeaturedResultsSetRequest = S.suspend(() =>
   S.Struct({
@@ -2429,7 +2790,7 @@ export const UpdateFeaturedResultsSetRequest = S.suspend(() =>
     FeaturedResultsSetId: S.String,
     FeaturedResultsSetName: S.optional(S.String),
     Description: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(FeaturedResultsSetStatus),
     QueryTexts: S.optional(QueryTextList),
     FeaturedDocuments: S.optional(FeaturedDocumentList),
   }).pipe(
@@ -2494,20 +2855,72 @@ export const UpdateThesaurusResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateThesaurusResponse",
 }) as any as S.Schema<UpdateThesaurusResponse>;
+export type Persona = "OWNER" | "VIEWER";
+export const Persona = S.Literal("OWNER", "VIEWER");
+export type ContentType =
+  | "PDF"
+  | "HTML"
+  | "MS_WORD"
+  | "PLAIN_TEXT"
+  | "PPT"
+  | "RTF"
+  | "XML"
+  | "XSLT"
+  | "MS_EXCEL"
+  | "CSV"
+  | "JSON"
+  | "MD";
+export const ContentType = S.Literal(
+  "PDF",
+  "HTML",
+  "MS_WORD",
+  "PLAIN_TEXT",
+  "PPT",
+  "RTF",
+  "XML",
+  "XSLT",
+  "MS_EXCEL",
+  "CSV",
+  "JSON",
+  "MD",
+);
+export type UserGroupResolutionMode = "AWS_SSO" | "NONE";
+export const UserGroupResolutionMode = S.Literal("AWS_SSO", "NONE");
 export type AttributeFilterList = AttributeFilter[];
 export const AttributeFilterList = S.Array(
   S.suspend((): S.Schema<AttributeFilter, any> => AttributeFilter).annotations({
     identifier: "AttributeFilter",
   }),
 ) as any as S.Schema<AttributeFilterList>;
+export type MissingAttributeKeyStrategy = "IGNORE" | "COLLAPSE" | "EXPAND";
+export const MissingAttributeKeyStrategy = S.Literal(
+  "IGNORE",
+  "COLLAPSE",
+  "EXPAND",
+);
+export type RelevanceType = "RELEVANT" | "NOT_RELEVANT";
+export const RelevanceType = S.Literal("RELEVANT", "NOT_RELEVANT");
+export type DocumentAttributeValueType =
+  | "STRING_VALUE"
+  | "STRING_LIST_VALUE"
+  | "LONG_VALUE"
+  | "DATE_VALUE";
+export const DocumentAttributeValueType = S.Literal(
+  "STRING_VALUE",
+  "STRING_LIST_VALUE",
+  "LONG_VALUE",
+  "DATE_VALUE",
+);
+export type AttributeSuggestionsMode = "ACTIVE" | "INACTIVE";
+export const AttributeSuggestionsMode = S.Literal("ACTIVE", "INACTIVE");
 export type AssociateEntityList = EntityConfiguration[];
 export const AssociateEntityList = S.Array(EntityConfiguration);
 export interface EntityPersonaConfiguration {
   EntityId: string;
-  Persona: string;
+  Persona: Persona;
 }
 export const EntityPersonaConfiguration = S.suspend(() =>
-  S.Struct({ EntityId: S.String, Persona: S.String }),
+  S.Struct({ EntityId: S.String, Persona: Persona }),
 ).annotations({
   identifier: "EntityPersonaConfiguration",
 }) as any as S.Schema<EntityPersonaConfiguration>;
@@ -2534,10 +2947,10 @@ export interface Document {
   Title?: string;
   Blob?: Uint8Array;
   S3Path?: S3Path;
-  Attributes?: DocumentAttributeList;
-  AccessControlList?: PrincipalList;
-  HierarchicalAccessControlList?: HierarchicalPrincipalList;
-  ContentType?: string;
+  Attributes?: DocumentAttribute[];
+  AccessControlList?: Principal[];
+  HierarchicalAccessControlList?: HierarchicalPrincipal[];
+  ContentType?: ContentType;
   AccessControlConfigurationId?: string;
 }
 export const Document = S.suspend(() =>
@@ -2549,14 +2962,14 @@ export const Document = S.suspend(() =>
     Attributes: S.optional(DocumentAttributeList),
     AccessControlList: S.optional(PrincipalList),
     HierarchicalAccessControlList: S.optional(HierarchicalPrincipalList),
-    ContentType: S.optional(S.String),
+    ContentType: S.optional(ContentType),
     AccessControlConfigurationId: S.optional(S.String),
   }),
 ).annotations({ identifier: "Document" }) as any as S.Schema<Document>;
 export type DocumentList = Document[];
 export const DocumentList = S.Array(Document);
 export interface ServerSideEncryptionConfiguration {
-  KmsKeyId?: string | Redacted.Redacted<string>;
+  KmsKeyId?: string | redacted.Redacted<string>;
 }
 export const ServerSideEncryptionConfiguration = S.suspend(() =>
   S.Struct({ KmsKeyId: S.optional(SensitiveString) }),
@@ -2564,16 +2977,96 @@ export const ServerSideEncryptionConfiguration = S.suspend(() =>
   identifier: "ServerSideEncryptionConfiguration",
 }) as any as S.Schema<ServerSideEncryptionConfiguration>;
 export interface UserGroupResolutionConfiguration {
-  UserGroupResolutionMode: string;
+  UserGroupResolutionMode: UserGroupResolutionMode;
 }
 export const UserGroupResolutionConfiguration = S.suspend(() =>
-  S.Struct({ UserGroupResolutionMode: S.String }),
+  S.Struct({ UserGroupResolutionMode: UserGroupResolutionMode }),
 ).annotations({
   identifier: "UserGroupResolutionConfiguration",
 }) as any as S.Schema<UserGroupResolutionConfiguration>;
+export type DataSourceStatus =
+  | "CREATING"
+  | "DELETING"
+  | "FAILED"
+  | "UPDATING"
+  | "ACTIVE";
+export const DataSourceStatus = S.Literal(
+  "CREATING",
+  "DELETING",
+  "FAILED",
+  "UPDATING",
+  "ACTIVE",
+);
+export type ExperienceStatus = "CREATING" | "ACTIVE" | "DELETING" | "FAILED";
+export const ExperienceStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "DELETING",
+  "FAILED",
+);
+export type FaqStatus =
+  | "CREATING"
+  | "UPDATING"
+  | "ACTIVE"
+  | "DELETING"
+  | "FAILED";
+export const FaqStatus = S.Literal(
+  "CREATING",
+  "UPDATING",
+  "ACTIVE",
+  "DELETING",
+  "FAILED",
+);
+export type IndexStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "DELETING"
+  | "FAILED"
+  | "UPDATING"
+  | "SYSTEM_UPDATING";
+export const IndexStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "DELETING",
+  "FAILED",
+  "UPDATING",
+  "SYSTEM_UPDATING",
+);
+export type QuerySuggestionsBlockListStatus =
+  | "ACTIVE"
+  | "CREATING"
+  | "DELETING"
+  | "UPDATING"
+  | "ACTIVE_BUT_UPDATE_FAILED"
+  | "FAILED";
+export const QuerySuggestionsBlockListStatus = S.Literal(
+  "ACTIVE",
+  "CREATING",
+  "DELETING",
+  "UPDATING",
+  "ACTIVE_BUT_UPDATE_FAILED",
+  "FAILED",
+);
+export type QuerySuggestionsStatus = "ACTIVE" | "UPDATING";
+export const QuerySuggestionsStatus = S.Literal("ACTIVE", "UPDATING");
+export type ThesaurusStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "DELETING"
+  | "UPDATING"
+  | "ACTIVE_BUT_UPDATE_FAILED"
+  | "FAILED";
+export const ThesaurusStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "DELETING",
+  "UPDATING",
+  "ACTIVE_BUT_UPDATE_FAILED",
+  "FAILED",
+);
 export interface AttributeSuggestionsGetConfig {
-  SuggestionAttributes?: DocumentAttributeKeyList;
-  AdditionalResponseAttributes?: DocumentAttributeKeyList;
+  SuggestionAttributes?: string[];
+  AdditionalResponseAttributes?: string[];
   AttributeFilter?: AttributeFilter;
   UserContext?: UserContext;
 }
@@ -2591,7 +3084,7 @@ export type SnapshotsDataHeaderFields = string[];
 export const SnapshotsDataHeaderFields = S.Array(S.String);
 export type SnapshotsDataRecord = string[];
 export const SnapshotsDataRecord = S.Array(S.String);
-export type SnapshotsDataRecords = SnapshotsDataRecord[];
+export type SnapshotsDataRecords = string[][];
 export const SnapshotsDataRecords = S.Array(SnapshotsDataRecord);
 export interface TimeRange {
   StartTime?: Date;
@@ -2605,7 +3098,7 @@ export const TimeRange = S.suspend(() =>
 ).annotations({ identifier: "TimeRange" }) as any as S.Schema<TimeRange>;
 export interface Facet {
   DocumentAttributeKey?: string;
-  Facets?: FacetList;
+  Facets?: Facet[];
   MaxResults?: number;
 }
 export const Facet = S.suspend(() =>
@@ -2647,10 +3140,10 @@ export type ClickFeedbackList = ClickFeedback[];
 export const ClickFeedbackList = S.Array(ClickFeedback);
 export interface RelevanceFeedback {
   ResultId: string;
-  RelevanceValue: string;
+  RelevanceValue: RelevanceType;
 }
 export const RelevanceFeedback = S.suspend(() =>
-  S.Struct({ ResultId: S.String, RelevanceValue: S.String }),
+  S.Struct({ ResultId: S.String, RelevanceValue: RelevanceType }),
 ).annotations({
   identifier: "RelevanceFeedback",
 }) as any as S.Schema<RelevanceFeedback>;
@@ -2665,10 +3158,12 @@ export const CapacityUnitsConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "CapacityUnitsConfiguration",
 }) as any as S.Schema<CapacityUnitsConfiguration>;
+export type KeyLocation = "URL" | "SECRET_MANAGER";
+export const KeyLocation = S.Literal("URL", "SECRET_MANAGER");
 export interface AssociateEntitiesToExperienceRequest {
   Id: string;
   IndexId: string;
-  EntityList: AssociateEntityList;
+  EntityList: EntityConfiguration[];
 }
 export const AssociateEntitiesToExperienceRequest = S.suspend(() =>
   S.Struct({
@@ -2684,7 +3179,7 @@ export const AssociateEntitiesToExperienceRequest = S.suspend(() =>
 export interface AssociatePersonasToEntitiesRequest {
   Id: string;
   IndexId: string;
-  Personas: EntityPersonaConfigurationList;
+  Personas: EntityPersonaConfiguration[];
 }
 export const AssociatePersonasToEntitiesRequest = S.suspend(() =>
   S.Struct({
@@ -2699,7 +3194,7 @@ export const AssociatePersonasToEntitiesRequest = S.suspend(() =>
 }) as any as S.Schema<AssociatePersonasToEntitiesRequest>;
 export interface BatchDeleteDocumentRequest {
   IndexId: string;
-  DocumentIdList: DocumentIdList;
+  DocumentIdList: string[];
   DataSourceSyncJobMetricTarget?: DataSourceSyncJobMetricTarget;
 }
 export const BatchDeleteDocumentRequest = S.suspend(() =>
@@ -2717,8 +3212,8 @@ export interface CreateAccessControlConfigurationRequest {
   IndexId: string;
   Name: string;
   Description?: string;
-  AccessControlList?: PrincipalList;
-  HierarchicalAccessControlList?: HierarchicalPrincipalList;
+  AccessControlList?: Principal[];
+  HierarchicalAccessControlList?: HierarchicalPrincipal[];
   ClientToken?: string;
 }
 export const CreateAccessControlConfigurationRequest = S.suspend(() =>
@@ -2741,8 +3236,8 @@ export interface CreateFaqRequest {
   Description?: string;
   S3Path: S3Path;
   RoleArn: string;
-  Tags?: TagList;
-  FileFormat?: string;
+  Tags?: Tag[];
+  FileFormat?: FaqFileFormat;
   ClientToken?: string;
   LanguageCode?: string;
 }
@@ -2754,7 +3249,7 @@ export const CreateFaqRequest = S.suspend(() =>
     S3Path: S3Path,
     RoleArn: S.String,
     Tags: S.optional(TagList),
-    FileFormat: S.optional(S.String),
+    FileFormat: S.optional(FaqFileFormat),
     ClientToken: S.optional(S.String),
     LanguageCode: S.optional(S.String),
   }).pipe(
@@ -2768,10 +3263,10 @@ export interface CreateFeaturedResultsSetRequest {
   FeaturedResultsSetName: string;
   Description?: string;
   ClientToken?: string;
-  Status?: string;
-  QueryTexts?: QueryTextList;
-  FeaturedDocuments?: FeaturedDocumentList;
-  Tags?: TagList;
+  Status?: FeaturedResultsSetStatus;
+  QueryTexts?: string[];
+  FeaturedDocuments?: FeaturedDocument[];
+  Tags?: Tag[];
 }
 export const CreateFeaturedResultsSetRequest = S.suspend(() =>
   S.Struct({
@@ -2779,7 +3274,7 @@ export const CreateFeaturedResultsSetRequest = S.suspend(() =>
     FeaturedResultsSetName: S.String,
     Description: S.optional(S.String),
     ClientToken: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(FeaturedResultsSetStatus),
     QueryTexts: S.optional(QueryTextList),
     FeaturedDocuments: S.optional(FeaturedDocumentList),
     Tags: S.optional(TagList),
@@ -2809,8 +3304,8 @@ export interface DescribeAccessControlConfigurationResponse {
   Name: string;
   Description?: string;
   ErrorMessage?: string;
-  AccessControlList?: PrincipalList;
-  HierarchicalAccessControlList?: HierarchicalPrincipalList;
+  AccessControlList?: Principal[];
+  HierarchicalAccessControlList?: HierarchicalPrincipal[];
 }
 export const DescribeAccessControlConfigurationResponse = S.suspend(() =>
   S.Struct({
@@ -2827,13 +3322,13 @@ export interface DescribeDataSourceResponse {
   Id?: string;
   IndexId?: string;
   Name?: string;
-  Type?: string;
+  Type?: DataSourceType;
   Configuration?: DataSourceConfiguration;
   VpcConfiguration?: DataSourceVpcConfiguration;
   CreatedAt?: Date;
   UpdatedAt?: Date;
   Description?: string;
-  Status?: string;
+  Status?: DataSourceStatus;
   Schedule?: string;
   RoleArn?: string;
   ErrorMessage?: string;
@@ -2845,13 +3340,13 @@ export const DescribeDataSourceResponse = S.suspend(() =>
     Id: S.optional(S.String),
     IndexId: S.optional(S.String),
     Name: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(DataSourceType),
     Configuration: S.optional(DataSourceConfiguration),
     VpcConfiguration: S.optional(DataSourceVpcConfiguration),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Description: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(DataSourceStatus),
     Schedule: S.optional(S.String),
     RoleArn: S.optional(S.String),
     ErrorMessage: S.optional(S.String),
@@ -2871,10 +3366,10 @@ export interface DescribeFaqResponse {
   CreatedAt?: Date;
   UpdatedAt?: Date;
   S3Path?: S3Path;
-  Status?: string;
+  Status?: FaqStatus;
   RoleArn?: string;
   ErrorMessage?: string;
-  FileFormat?: string;
+  FileFormat?: FaqFileFormat;
   LanguageCode?: string;
 }
 export const DescribeFaqResponse = S.suspend(() =>
@@ -2886,10 +3381,10 @@ export const DescribeFaqResponse = S.suspend(() =>
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     S3Path: S.optional(S3Path),
-    Status: S.optional(S.String),
+    Status: S.optional(FaqStatus),
     RoleArn: S.optional(S.String),
     ErrorMessage: S.optional(S.String),
-    FileFormat: S.optional(S.String),
+    FileFormat: S.optional(FaqFileFormat),
     LanguageCode: S.optional(S.String),
   }),
 ).annotations({
@@ -2900,7 +3395,7 @@ export interface DescribeQuerySuggestionsBlockListResponse {
   Id?: string;
   Name?: string;
   Description?: string;
-  Status?: string;
+  Status?: QuerySuggestionsBlockListStatus;
   ErrorMessage?: string;
   CreatedAt?: Date;
   UpdatedAt?: Date;
@@ -2915,7 +3410,7 @@ export const DescribeQuerySuggestionsBlockListResponse = S.suspend(() =>
     Id: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(QuerySuggestionsBlockListStatus),
     ErrorMessage: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2932,7 +3427,7 @@ export interface DescribeThesaurusResponse {
   IndexId?: string;
   Name?: string;
   Description?: string;
-  Status?: string;
+  Status?: ThesaurusStatus;
   ErrorMessage?: string;
   CreatedAt?: Date;
   UpdatedAt?: Date;
@@ -2948,7 +3443,7 @@ export const DescribeThesaurusResponse = S.suspend(() =>
     IndexId: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ThesaurusStatus),
     ErrorMessage: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2974,7 +3469,7 @@ export const FailedEntity = S.suspend(() =>
 export type FailedEntityList = FailedEntity[];
 export const FailedEntityList = S.Array(FailedEntity);
 export interface DisassociatePersonasFromEntitiesResponse {
-  FailedEntityList?: FailedEntityList;
+  FailedEntityList?: FailedEntity[];
 }
 export const DisassociatePersonasFromEntitiesResponse = S.suspend(() =>
   S.Struct({ FailedEntityList: S.optional(FailedEntityList) }),
@@ -2985,7 +3480,7 @@ export interface GetQuerySuggestionsRequest {
   IndexId: string;
   QueryText: string;
   MaxSuggestionsCount?: number;
-  SuggestionTypes?: SuggestionTypes;
+  SuggestionTypes?: SuggestionType[];
   AttributeSuggestionsConfig?: AttributeSuggestionsGetConfig;
 }
 export const GetQuerySuggestionsRequest = S.suspend(() =>
@@ -3003,8 +3498,8 @@ export const GetQuerySuggestionsRequest = S.suspend(() =>
 }) as any as S.Schema<GetQuerySuggestionsRequest>;
 export interface GetSnapshotsResponse {
   SnapShotTimeFilter?: TimeRange;
-  SnapshotsDataHeader?: SnapshotsDataHeaderFields;
-  SnapshotsData?: SnapshotsDataRecords;
+  SnapshotsDataHeader?: string[];
+  SnapshotsData?: string[][];
   NextToken?: string;
 }
 export const GetSnapshotsResponse = S.suspend(() =>
@@ -3023,7 +3518,7 @@ export interface ListDataSourceSyncJobsRequest {
   NextToken?: string;
   MaxResults?: number;
   StartTimeFilter?: TimeRange;
-  StatusFilter?: string;
+  StatusFilter?: DataSourceSyncJobStatus;
 }
 export const ListDataSourceSyncJobsRequest = S.suspend(() =>
   S.Struct({
@@ -3032,7 +3527,7 @@ export const ListDataSourceSyncJobsRequest = S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     StartTimeFilter: S.optional(TimeRange),
-    StatusFilter: S.optional(S.String),
+    StatusFilter: S.optional(DataSourceSyncJobStatus),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -3040,7 +3535,7 @@ export const ListDataSourceSyncJobsRequest = S.suspend(() =>
   identifier: "ListDataSourceSyncJobsRequest",
 }) as any as S.Schema<ListDataSourceSyncJobsRequest>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }),
@@ -3058,8 +3553,8 @@ export const StartDataSourceSyncJobResponse = S.suspend(() =>
 export interface SubmitFeedbackRequest {
   IndexId: string;
   QueryId: string;
-  ClickFeedbackItems?: ClickFeedbackList;
-  RelevanceFeedbackItems?: RelevanceFeedbackList;
+  ClickFeedbackItems?: ClickFeedback[];
+  RelevanceFeedbackItems?: RelevanceFeedback[];
 }
 export const SubmitFeedbackRequest = S.suspend(() =>
   S.Struct({
@@ -3077,8 +3572,10 @@ export interface SubmitFeedbackResponse {}
 export const SubmitFeedbackResponse = S.suspend(() => S.Struct({})).annotations(
   { identifier: "SubmitFeedbackResponse" },
 ) as any as S.Schema<SubmitFeedbackResponse>;
+export type ErrorCode = "InternalError" | "InvalidRequest";
+export const ErrorCode = S.Literal("InternalError", "InvalidRequest");
 export interface JwtTokenTypeConfiguration {
-  KeyLocation: string;
+  KeyLocation: KeyLocation;
   URL?: string;
   SecretManagerArn?: string;
   UserNameAttributeField?: string;
@@ -3088,7 +3585,7 @@ export interface JwtTokenTypeConfiguration {
 }
 export const JwtTokenTypeConfiguration = S.suspend(() =>
   S.Struct({
-    KeyLocation: S.String,
+    KeyLocation: KeyLocation,
     URL: S.optional(S.String),
     SecretManagerArn: S.optional(S.String),
     UserNameAttributeField: S.optional(S.String),
@@ -3108,6 +3605,21 @@ export const JsonTokenTypeConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "JsonTokenTypeConfiguration",
 }) as any as S.Schema<JsonTokenTypeConfiguration>;
+export type EndpointType = "HOME";
+export const EndpointType = S.Literal("HOME");
+export type PrincipalMappingStatus =
+  | "FAILED"
+  | "SUCCEEDED"
+  | "PROCESSING"
+  | "DELETING"
+  | "DELETED";
+export const PrincipalMappingStatus = S.Literal(
+  "FAILED",
+  "SUCCEEDED",
+  "PROCESSING",
+  "DELETING",
+  "DELETED",
+);
 export interface MemberGroup {
   GroupId: string;
   DataSourceId?: string;
@@ -3170,11 +3682,11 @@ export const AssociateEntitiesToExperienceFailedEntityList =
   S.Array(FailedEntity);
 export interface BatchDeleteFeaturedResultsSetError {
   Id: string;
-  ErrorCode: string;
+  ErrorCode: ErrorCode;
   ErrorMessage: string;
 }
 export const BatchDeleteFeaturedResultsSetError = S.suspend(() =>
-  S.Struct({ Id: S.String, ErrorCode: S.String, ErrorMessage: S.String }),
+  S.Struct({ Id: S.String, ErrorCode: ErrorCode, ErrorMessage: S.String }),
 ).annotations({
   identifier: "BatchDeleteFeaturedResultsSetError",
 }) as any as S.Schema<BatchDeleteFeaturedResultsSetError>;
@@ -3198,12 +3710,12 @@ export const UserTokenConfiguration = S.suspend(() =>
 export type UserTokenConfigurationList = UserTokenConfiguration[];
 export const UserTokenConfigurationList = S.Array(UserTokenConfiguration);
 export interface ExperienceEndpoint {
-  EndpointType?: string;
+  EndpointType?: EndpointType;
   Endpoint?: string;
 }
 export const ExperienceEndpoint = S.suspend(() =>
   S.Struct({
-    EndpointType: S.optional(S.String),
+    EndpointType: S.optional(EndpointType),
     Endpoint: S.optional(S.String),
   }),
 ).annotations({
@@ -3240,7 +3752,7 @@ export const FeaturedDocumentMissing = S.suspend(() =>
 export type FeaturedDocumentMissingList = FeaturedDocumentMissing[];
 export const FeaturedDocumentMissingList = S.Array(FeaturedDocumentMissing);
 export interface GroupOrderingIdSummary {
-  Status?: string;
+  Status?: PrincipalMappingStatus;
   LastUpdatedAt?: Date;
   ReceivedAt?: Date;
   OrderingId?: number;
@@ -3248,7 +3760,7 @@ export interface GroupOrderingIdSummary {
 }
 export const GroupOrderingIdSummary = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(PrincipalMappingStatus),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ReceivedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     OrderingId: S.optional(S.Number),
@@ -3260,13 +3772,13 @@ export const GroupOrderingIdSummary = S.suspend(() =>
 export type GroupOrderingIdSummaries = GroupOrderingIdSummary[];
 export const GroupOrderingIdSummaries = S.Array(GroupOrderingIdSummary);
 export interface AttributeSuggestionsDescribeConfig {
-  SuggestableConfigList?: SuggestableConfigList;
-  AttributeSuggestionsMode?: string;
+  SuggestableConfigList?: SuggestableConfig[];
+  AttributeSuggestionsMode?: AttributeSuggestionsMode;
 }
 export const AttributeSuggestionsDescribeConfig = S.suspend(() =>
   S.Struct({
     SuggestableConfigList: S.optional(SuggestableConfigList),
-    AttributeSuggestionsMode: S.optional(S.String),
+    AttributeSuggestionsMode: S.optional(AttributeSuggestionsMode),
   }),
 ).annotations({
   identifier: "AttributeSuggestionsDescribeConfig",
@@ -3287,20 +3799,20 @@ export const AccessControlConfigurationSummaryList = S.Array(
 export interface DataSourceSummary {
   Name?: string;
   Id?: string;
-  Type?: string;
+  Type?: DataSourceType;
   CreatedAt?: Date;
   UpdatedAt?: Date;
-  Status?: string;
+  Status?: DataSourceStatus;
   LanguageCode?: string;
 }
 export const DataSourceSummary = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     Id: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(DataSourceType),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
+    Status: S.optional(DataSourceStatus),
     LanguageCode: S.optional(S.String),
   }),
 ).annotations({
@@ -3310,14 +3822,14 @@ export type DataSourceSummaryList = DataSourceSummary[];
 export const DataSourceSummaryList = S.Array(DataSourceSummary);
 export interface PersonasSummary {
   EntityId?: string;
-  Persona?: string;
+  Persona?: Persona;
   CreatedAt?: Date;
   UpdatedAt?: Date;
 }
 export const PersonasSummary = S.suspend(() =>
   S.Struct({
     EntityId: S.optional(S.String),
-    Persona: S.optional(S.String),
+    Persona: S.optional(Persona),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -3330,15 +3842,15 @@ export interface ExperiencesSummary {
   Name?: string;
   Id?: string;
   CreatedAt?: Date;
-  Status?: string;
-  Endpoints?: ExperienceEndpoints;
+  Status?: ExperienceStatus;
+  Endpoints?: ExperienceEndpoint[];
 }
 export const ExperiencesSummary = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     Id: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
+    Status: S.optional(ExperienceStatus),
     Endpoints: S.optional(ExperienceEndpoints),
   }),
 ).annotations({
@@ -3349,20 +3861,20 @@ export const ExperiencesSummaryList = S.Array(ExperiencesSummary);
 export interface FaqSummary {
   Id?: string;
   Name?: string;
-  Status?: string;
+  Status?: FaqStatus;
   CreatedAt?: Date;
   UpdatedAt?: Date;
-  FileFormat?: string;
+  FileFormat?: FaqFileFormat;
   LanguageCode?: string;
 }
 export const FaqSummary = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(FaqStatus),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    FileFormat: S.optional(S.String),
+    FileFormat: S.optional(FaqFileFormat),
     LanguageCode: S.optional(S.String),
   }),
 ).annotations({ identifier: "FaqSummary" }) as any as S.Schema<FaqSummary>;
@@ -3371,7 +3883,7 @@ export const FaqSummaryItems = S.Array(FaqSummary);
 export interface FeaturedResultsSetSummary {
   FeaturedResultsSetId?: string;
   FeaturedResultsSetName?: string;
-  Status?: string;
+  Status?: FeaturedResultsSetStatus;
   LastUpdatedTimestamp?: number;
   CreationTimestamp?: number;
 }
@@ -3379,7 +3891,7 @@ export const FeaturedResultsSetSummary = S.suspend(() =>
   S.Struct({
     FeaturedResultsSetId: S.optional(S.String),
     FeaturedResultsSetName: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(FeaturedResultsSetStatus),
     LastUpdatedTimestamp: S.optional(S.Number),
     CreationTimestamp: S.optional(S.Number),
   }),
@@ -3402,19 +3914,19 @@ export const ListOfGroupSummaries = S.Array(GroupSummary);
 export interface IndexConfigurationSummary {
   Name?: string;
   Id?: string;
-  Edition?: string;
+  Edition?: IndexEdition;
   CreatedAt: Date;
   UpdatedAt: Date;
-  Status: string;
+  Status: IndexStatus;
 }
 export const IndexConfigurationSummary = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     Id: S.optional(S.String),
-    Edition: S.optional(S.String),
+    Edition: S.optional(IndexEdition),
     CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     UpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Status: S.String,
+    Status: IndexStatus,
   }),
 ).annotations({
   identifier: "IndexConfigurationSummary",
@@ -3424,7 +3936,7 @@ export const IndexConfigurationSummaryList = S.Array(IndexConfigurationSummary);
 export interface QuerySuggestionsBlockListSummary {
   Id?: string;
   Name?: string;
-  Status?: string;
+  Status?: QuerySuggestionsBlockListStatus;
   CreatedAt?: Date;
   UpdatedAt?: Date;
   ItemCount?: number;
@@ -3433,7 +3945,7 @@ export const QuerySuggestionsBlockListSummary = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(QuerySuggestionsBlockListStatus),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ItemCount: S.optional(S.Number),
@@ -3449,7 +3961,7 @@ export const QuerySuggestionsBlockListSummaryItems = S.Array(
 export interface ThesaurusSummary {
   Id?: string;
   Name?: string;
-  Status?: string;
+  Status?: ThesaurusStatus;
   CreatedAt?: Date;
   UpdatedAt?: Date;
 }
@@ -3457,7 +3969,7 @@ export const ThesaurusSummary = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ThesaurusStatus),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -3467,8 +3979,8 @@ export const ThesaurusSummary = S.suspend(() =>
 export type ThesaurusSummaryItems = ThesaurusSummary[];
 export const ThesaurusSummaryItems = S.Array(ThesaurusSummary);
 export interface GroupMembers {
-  MemberGroups?: MemberGroups;
-  MemberUsers?: MemberUsers;
+  MemberGroups?: MemberGroup[];
+  MemberUsers?: MemberUser[];
   S3PathforGroupMembers?: S3Path;
 }
 export const GroupMembers = S.suspend(() =>
@@ -3480,8 +3992,8 @@ export const GroupMembers = S.suspend(() =>
 ).annotations({ identifier: "GroupMembers" }) as any as S.Schema<GroupMembers>;
 export interface CollapseConfiguration {
   DocumentAttributeKey: string;
-  SortingConfigurations?: SortingConfigurationList;
-  MissingAttributeKeyStrategy?: string;
+  SortingConfigurations?: SortingConfiguration[];
+  MissingAttributeKeyStrategy?: MissingAttributeKeyStrategy;
   Expand?: boolean;
   ExpandConfiguration?: ExpandConfiguration;
 }
@@ -3489,7 +4001,7 @@ export const CollapseConfiguration = S.suspend(() =>
   S.Struct({
     DocumentAttributeKey: S.String,
     SortingConfigurations: S.optional(SortingConfigurationList),
-    MissingAttributeKeyStrategy: S.optional(S.String),
+    MissingAttributeKeyStrategy: S.optional(MissingAttributeKeyStrategy),
     Expand: S.optional(S.Boolean),
     ExpandConfiguration: S.optional(ExpandConfiguration),
   }),
@@ -3500,9 +4012,9 @@ export interface FeaturedResultsSet {
   FeaturedResultsSetId?: string;
   FeaturedResultsSetName?: string;
   Description?: string;
-  Status?: string;
-  QueryTexts?: QueryTextList;
-  FeaturedDocuments?: FeaturedDocumentList;
+  Status?: FeaturedResultsSetStatus;
+  QueryTexts?: string[];
+  FeaturedDocuments?: FeaturedDocument[];
   LastUpdatedTimestamp?: number;
   CreationTimestamp?: number;
 }
@@ -3511,7 +4023,7 @@ export const FeaturedResultsSet = S.suspend(() =>
     FeaturedResultsSetId: S.optional(S.String),
     FeaturedResultsSetName: S.optional(S.String),
     Description: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(FeaturedResultsSetStatus),
     QueryTexts: S.optional(QueryTextList),
     FeaturedDocuments: S.optional(FeaturedDocumentList),
     LastUpdatedTimestamp: S.optional(S.Number),
@@ -3522,14 +4034,14 @@ export const FeaturedResultsSet = S.suspend(() =>
 }) as any as S.Schema<FeaturedResultsSet>;
 export interface DocumentMetadataConfiguration {
   Name: string;
-  Type: string;
+  Type: DocumentAttributeValueType;
   Relevance?: Relevance;
   Search?: Search;
 }
 export const DocumentMetadataConfiguration = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Type: S.String,
+    Type: DocumentAttributeValueType,
     Relevance: S.optional(Relevance),
     Search: S.optional(Search),
   }),
@@ -3541,19 +4053,32 @@ export const DocumentMetadataConfigurationList = S.Array(
   DocumentMetadataConfiguration,
 );
 export interface AttributeSuggestionsUpdateConfig {
-  SuggestableConfigList?: SuggestableConfigList;
-  AttributeSuggestionsMode?: string;
+  SuggestableConfigList?: SuggestableConfig[];
+  AttributeSuggestionsMode?: AttributeSuggestionsMode;
 }
 export const AttributeSuggestionsUpdateConfig = S.suspend(() =>
   S.Struct({
     SuggestableConfigList: S.optional(SuggestableConfigList),
-    AttributeSuggestionsMode: S.optional(S.String),
+    AttributeSuggestionsMode: S.optional(AttributeSuggestionsMode),
   }),
 ).annotations({
   identifier: "AttributeSuggestionsUpdateConfig",
 }) as any as S.Schema<AttributeSuggestionsUpdateConfig>;
+export type ScoreConfidence =
+  | "VERY_HIGH"
+  | "HIGH"
+  | "MEDIUM"
+  | "LOW"
+  | "NOT_AVAILABLE";
+export const ScoreConfidence = S.Literal(
+  "VERY_HIGH",
+  "HIGH",
+  "MEDIUM",
+  "LOW",
+  "NOT_AVAILABLE",
+);
 export interface AssociateEntitiesToExperienceResponse {
-  FailedEntityList?: AssociateEntitiesToExperienceFailedEntityList;
+  FailedEntityList?: FailedEntity[];
 }
 export const AssociateEntitiesToExperienceResponse = S.suspend(() =>
   S.Struct({
@@ -3563,7 +4088,7 @@ export const AssociateEntitiesToExperienceResponse = S.suspend(() =>
   identifier: "AssociateEntitiesToExperienceResponse",
 }) as any as S.Schema<AssociateEntitiesToExperienceResponse>;
 export interface AssociatePersonasToEntitiesResponse {
-  FailedEntityList?: FailedEntityList;
+  FailedEntityList?: FailedEntity[];
 }
 export const AssociatePersonasToEntitiesResponse = S.suspend(() =>
   S.Struct({ FailedEntityList: S.optional(FailedEntityList) }),
@@ -3571,7 +4096,7 @@ export const AssociatePersonasToEntitiesResponse = S.suspend(() =>
   identifier: "AssociatePersonasToEntitiesResponse",
 }) as any as S.Schema<AssociatePersonasToEntitiesResponse>;
 export interface BatchDeleteFeaturedResultsSetResponse {
-  Errors: BatchDeleteFeaturedResultsSetErrors;
+  Errors: BatchDeleteFeaturedResultsSetError[];
 }
 export const BatchDeleteFeaturedResultsSetResponse = S.suspend(() =>
   S.Struct({ Errors: BatchDeleteFeaturedResultsSetErrors }),
@@ -3626,20 +4151,20 @@ export const CreateFeaturedResultsSetResponse = S.suspend(() =>
 }) as any as S.Schema<CreateFeaturedResultsSetResponse>;
 export interface CreateIndexRequest {
   Name: string;
-  Edition?: string;
+  Edition?: IndexEdition;
   RoleArn: string;
   ServerSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
   Description?: string;
   ClientToken?: string;
-  Tags?: TagList;
-  UserTokenConfigurations?: UserTokenConfigurationList;
-  UserContextPolicy?: string;
+  Tags?: Tag[];
+  UserTokenConfigurations?: UserTokenConfiguration[];
+  UserContextPolicy?: UserContextPolicy;
   UserGroupResolutionConfiguration?: UserGroupResolutionConfiguration;
 }
 export const CreateIndexRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Edition: S.optional(S.String),
+    Edition: S.optional(IndexEdition),
     RoleArn: S.String,
     ServerSideEncryptionConfiguration: S.optional(
       ServerSideEncryptionConfiguration,
@@ -3648,7 +4173,7 @@ export const CreateIndexRequest = S.suspend(() =>
     ClientToken: S.optional(S.String),
     Tags: S.optional(TagList),
     UserTokenConfigurations: S.optional(UserTokenConfigurationList),
-    UserContextPolicy: S.optional(S.String),
+    UserContextPolicy: S.optional(UserContextPolicy),
     UserGroupResolutionConfiguration: S.optional(
       UserGroupResolutionConfiguration,
     ),
@@ -3662,12 +4187,12 @@ export interface DescribeExperienceResponse {
   Id?: string;
   IndexId?: string;
   Name?: string;
-  Endpoints?: ExperienceEndpoints;
+  Endpoints?: ExperienceEndpoint[];
   Configuration?: ExperienceConfiguration;
   CreatedAt?: Date;
   UpdatedAt?: Date;
   Description?: string;
-  Status?: string;
+  Status?: ExperienceStatus;
   RoleArn?: string;
   ErrorMessage?: string;
 }
@@ -3681,7 +4206,7 @@ export const DescribeExperienceResponse = S.suspend(() =>
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Description: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ExperienceStatus),
     RoleArn: S.optional(S.String),
     ErrorMessage: S.optional(S.String),
   }),
@@ -3692,10 +4217,10 @@ export interface DescribeFeaturedResultsSetResponse {
   FeaturedResultsSetId?: string;
   FeaturedResultsSetName?: string;
   Description?: string;
-  Status?: string;
-  QueryTexts?: QueryTextList;
-  FeaturedDocumentsWithMetadata?: FeaturedDocumentWithMetadataList;
-  FeaturedDocumentsMissing?: FeaturedDocumentMissingList;
+  Status?: FeaturedResultsSetStatus;
+  QueryTexts?: string[];
+  FeaturedDocumentsWithMetadata?: FeaturedDocumentWithMetadata[];
+  FeaturedDocumentsMissing?: FeaturedDocumentMissing[];
   LastUpdatedTimestamp?: number;
   CreationTimestamp?: number;
 }
@@ -3704,7 +4229,7 @@ export const DescribeFeaturedResultsSetResponse = S.suspend(() =>
     FeaturedResultsSetId: S.optional(S.String),
     FeaturedResultsSetName: S.optional(S.String),
     Description: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(FeaturedResultsSetStatus),
     QueryTexts: S.optional(QueryTextList),
     FeaturedDocumentsWithMetadata: S.optional(FeaturedDocumentWithMetadataList),
     FeaturedDocumentsMissing: S.optional(FeaturedDocumentMissingList),
@@ -3718,7 +4243,7 @@ export interface DescribePrincipalMappingResponse {
   IndexId?: string;
   DataSourceId?: string;
   GroupId?: string;
-  GroupOrderingIdSummaries?: GroupOrderingIdSummaries;
+  GroupOrderingIdSummaries?: GroupOrderingIdSummary[];
 }
 export const DescribePrincipalMappingResponse = S.suspend(() =>
   S.Struct({
@@ -3731,8 +4256,8 @@ export const DescribePrincipalMappingResponse = S.suspend(() =>
   identifier: "DescribePrincipalMappingResponse",
 }) as any as S.Schema<DescribePrincipalMappingResponse>;
 export interface DescribeQuerySuggestionsConfigResponse {
-  Mode?: string;
-  Status?: string;
+  Mode?: Mode;
+  Status?: QuerySuggestionsStatus;
   QueryLogLookBackWindowInDays?: number;
   IncludeQueriesWithoutUserInformation?: boolean;
   MinimumNumberOfQueryingUsers?: number;
@@ -3744,8 +4269,8 @@ export interface DescribeQuerySuggestionsConfigResponse {
 }
 export const DescribeQuerySuggestionsConfigResponse = S.suspend(() =>
   S.Struct({
-    Mode: S.optional(S.String),
-    Status: S.optional(S.String),
+    Mode: S.optional(Mode),
+    Status: S.optional(QuerySuggestionsStatus),
     QueryLogLookBackWindowInDays: S.optional(S.Number),
     IncludeQueriesWithoutUserInformation: S.optional(S.Boolean),
     MinimumNumberOfQueryingUsers: S.optional(S.Number),
@@ -3761,7 +4286,7 @@ export const DescribeQuerySuggestionsConfigResponse = S.suspend(() =>
   identifier: "DescribeQuerySuggestionsConfigResponse",
 }) as any as S.Schema<DescribeQuerySuggestionsConfigResponse>;
 export interface DisassociateEntitiesFromExperienceResponse {
-  FailedEntityList?: FailedEntityList;
+  FailedEntityList?: FailedEntity[];
 }
 export const DisassociateEntitiesFromExperienceResponse = S.suspend(() =>
   S.Struct({ FailedEntityList: S.optional(FailedEntityList) }),
@@ -3770,7 +4295,7 @@ export const DisassociateEntitiesFromExperienceResponse = S.suspend(() =>
 }) as any as S.Schema<DisassociateEntitiesFromExperienceResponse>;
 export interface ListAccessControlConfigurationsResponse {
   NextToken?: string;
-  AccessControlConfigurations: AccessControlConfigurationSummaryList;
+  AccessControlConfigurations: AccessControlConfigurationSummary[];
 }
 export const ListAccessControlConfigurationsResponse = S.suspend(() =>
   S.Struct({
@@ -3781,7 +4306,7 @@ export const ListAccessControlConfigurationsResponse = S.suspend(() =>
   identifier: "ListAccessControlConfigurationsResponse",
 }) as any as S.Schema<ListAccessControlConfigurationsResponse>;
 export interface ListDataSourcesResponse {
-  SummaryItems?: DataSourceSummaryList;
+  SummaryItems?: DataSourceSummary[];
   NextToken?: string;
 }
 export const ListDataSourcesResponse = S.suspend(() =>
@@ -3793,7 +4318,7 @@ export const ListDataSourcesResponse = S.suspend(() =>
   identifier: "ListDataSourcesResponse",
 }) as any as S.Schema<ListDataSourcesResponse>;
 export interface ListEntityPersonasResponse {
-  SummaryItems?: PersonasSummaryList;
+  SummaryItems?: PersonasSummary[];
   NextToken?: string;
 }
 export const ListEntityPersonasResponse = S.suspend(() =>
@@ -3805,7 +4330,7 @@ export const ListEntityPersonasResponse = S.suspend(() =>
   identifier: "ListEntityPersonasResponse",
 }) as any as S.Schema<ListEntityPersonasResponse>;
 export interface ListExperiencesResponse {
-  SummaryItems?: ExperiencesSummaryList;
+  SummaryItems?: ExperiencesSummary[];
   NextToken?: string;
 }
 export const ListExperiencesResponse = S.suspend(() =>
@@ -3818,7 +4343,7 @@ export const ListExperiencesResponse = S.suspend(() =>
 }) as any as S.Schema<ListExperiencesResponse>;
 export interface ListFaqsResponse {
   NextToken?: string;
-  FaqSummaryItems?: FaqSummaryItems;
+  FaqSummaryItems?: FaqSummary[];
 }
 export const ListFaqsResponse = S.suspend(() =>
   S.Struct({
@@ -3829,7 +4354,7 @@ export const ListFaqsResponse = S.suspend(() =>
   identifier: "ListFaqsResponse",
 }) as any as S.Schema<ListFaqsResponse>;
 export interface ListFeaturedResultsSetsResponse {
-  FeaturedResultsSetSummaryItems?: FeaturedResultsSetSummaryItems;
+  FeaturedResultsSetSummaryItems?: FeaturedResultsSetSummary[];
   NextToken?: string;
 }
 export const ListFeaturedResultsSetsResponse = S.suspend(() =>
@@ -3841,7 +4366,7 @@ export const ListFeaturedResultsSetsResponse = S.suspend(() =>
   identifier: "ListFeaturedResultsSetsResponse",
 }) as any as S.Schema<ListFeaturedResultsSetsResponse>;
 export interface ListGroupsOlderThanOrderingIdResponse {
-  GroupsSummaries?: ListOfGroupSummaries;
+  GroupsSummaries?: GroupSummary[];
   NextToken?: string;
 }
 export const ListGroupsOlderThanOrderingIdResponse = S.suspend(() =>
@@ -3853,7 +4378,7 @@ export const ListGroupsOlderThanOrderingIdResponse = S.suspend(() =>
   identifier: "ListGroupsOlderThanOrderingIdResponse",
 }) as any as S.Schema<ListGroupsOlderThanOrderingIdResponse>;
 export interface ListIndicesResponse {
-  IndexConfigurationSummaryItems?: IndexConfigurationSummaryList;
+  IndexConfigurationSummaryItems?: IndexConfigurationSummary[];
   NextToken?: string;
 }
 export const ListIndicesResponse = S.suspend(() =>
@@ -3865,7 +4390,7 @@ export const ListIndicesResponse = S.suspend(() =>
   identifier: "ListIndicesResponse",
 }) as any as S.Schema<ListIndicesResponse>;
 export interface ListQuerySuggestionsBlockListsResponse {
-  BlockListSummaryItems?: QuerySuggestionsBlockListSummaryItems;
+  BlockListSummaryItems?: QuerySuggestionsBlockListSummary[];
   NextToken?: string;
 }
 export const ListQuerySuggestionsBlockListsResponse = S.suspend(() =>
@@ -3878,7 +4403,7 @@ export const ListQuerySuggestionsBlockListsResponse = S.suspend(() =>
 }) as any as S.Schema<ListQuerySuggestionsBlockListsResponse>;
 export interface ListThesauriResponse {
   NextToken?: string;
-  ThesaurusSummaryItems?: ThesaurusSummaryItems;
+  ThesaurusSummaryItems?: ThesaurusSummary[];
 }
 export const ListThesauriResponse = S.suspend(() =>
   S.Struct({
@@ -3929,10 +4454,10 @@ export interface UpdateIndexRequest {
   Name?: string;
   RoleArn?: string;
   Description?: string;
-  DocumentMetadataConfigurationUpdates?: DocumentMetadataConfigurationList;
+  DocumentMetadataConfigurationUpdates?: DocumentMetadataConfiguration[];
   CapacityUnits?: CapacityUnitsConfiguration;
-  UserTokenConfigurations?: UserTokenConfigurationList;
-  UserContextPolicy?: string;
+  UserTokenConfigurations?: UserTokenConfiguration[];
+  UserContextPolicy?: UserContextPolicy;
   UserGroupResolutionConfiguration?: UserGroupResolutionConfiguration;
 }
 export const UpdateIndexRequest = S.suspend(() =>
@@ -3946,7 +4471,7 @@ export const UpdateIndexRequest = S.suspend(() =>
     ),
     CapacityUnits: S.optional(CapacityUnitsConfiguration),
     UserTokenConfigurations: S.optional(UserTokenConfigurationList),
-    UserContextPolicy: S.optional(S.String),
+    UserContextPolicy: S.optional(UserContextPolicy),
     UserGroupResolutionConfiguration: S.optional(
       UserGroupResolutionConfiguration,
     ),
@@ -3962,7 +4487,7 @@ export const UpdateIndexResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UpdateIndexResponse>;
 export interface UpdateQuerySuggestionsConfigRequest {
   IndexId: string;
-  Mode?: string;
+  Mode?: Mode;
   QueryLogLookBackWindowInDays?: number;
   IncludeQueriesWithoutUserInformation?: boolean;
   MinimumNumberOfQueryingUsers?: number;
@@ -3972,7 +4497,7 @@ export interface UpdateQuerySuggestionsConfigRequest {
 export const UpdateQuerySuggestionsConfigRequest = S.suspend(() =>
   S.Struct({
     IndexId: S.String,
-    Mode: S.optional(S.String),
+    Mode: S.optional(Mode),
     QueryLogLookBackWindowInDays: S.optional(S.Number),
     IncludeQueriesWithoutUserInformation: S.optional(S.Boolean),
     MinimumNumberOfQueryingUsers: S.optional(S.Number),
@@ -4008,11 +4533,11 @@ export const TextDocumentStatistics = S.suspend(() =>
   identifier: "TextDocumentStatistics",
 }) as any as S.Schema<TextDocumentStatistics>;
 export interface EntityDisplayData {
-  UserName?: string | Redacted.Redacted<string>;
-  GroupName?: string | Redacted.Redacted<string>;
-  IdentifiedUserName?: string | Redacted.Redacted<string>;
-  FirstName?: string | Redacted.Redacted<string>;
-  LastName?: string | Redacted.Redacted<string>;
+  UserName?: string | redacted.Redacted<string>;
+  GroupName?: string | redacted.Redacted<string>;
+  IdentifiedUserName?: string | redacted.Redacted<string>;
+  FirstName?: string | redacted.Redacted<string>;
+  LastName?: string | redacted.Redacted<string>;
 }
 export const EntityDisplayData = S.suspend(() =>
   S.Struct({
@@ -4026,24 +4551,24 @@ export const EntityDisplayData = S.suspend(() =>
   identifier: "EntityDisplayData",
 }) as any as S.Schema<EntityDisplayData>;
 export interface ScoreAttributes {
-  ScoreConfidence?: string;
+  ScoreConfidence?: ScoreConfidence;
 }
 export const ScoreAttributes = S.suspend(() =>
-  S.Struct({ ScoreConfidence: S.optional(S.String) }),
+  S.Struct({ ScoreConfidence: S.optional(ScoreConfidence) }),
 ).annotations({
   identifier: "ScoreAttributes",
 }) as any as S.Schema<ScoreAttributes>;
 export interface BatchDeleteDocumentResponseFailedDocument {
   Id?: string;
   DataSourceId?: string;
-  ErrorCode?: string;
+  ErrorCode?: ErrorCode;
   ErrorMessage?: string;
 }
 export const BatchDeleteDocumentResponseFailedDocument = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     DataSourceId: S.optional(S.String),
-    ErrorCode: S.optional(S.String),
+    ErrorCode: S.optional(ErrorCode),
     ErrorMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -4056,7 +4581,7 @@ export const BatchDeleteDocumentResponseFailedDocuments = S.Array(
 );
 export interface DocumentInfo {
   DocumentId: string;
-  Attributes?: DocumentAttributeList;
+  Attributes?: DocumentAttribute[];
 }
 export const DocumentInfo = S.suspend(() =>
   S.Struct({
@@ -4080,13 +4605,13 @@ export const IndexStatistics = S.suspend(() =>
 }) as any as S.Schema<IndexStatistics>;
 export interface ExperienceEntitiesSummary {
   EntityId?: string;
-  EntityType?: string;
+  EntityType?: EntityType;
   DisplayData?: EntityDisplayData;
 }
 export const ExperienceEntitiesSummary = S.suspend(() =>
   S.Struct({
     EntityId: S.optional(S.String),
-    EntityType: S.optional(S.String),
+    EntityType: S.optional(EntityType),
     DisplayData: S.optional(EntityDisplayData),
   }),
 ).annotations({
@@ -4100,7 +4625,7 @@ export interface RetrieveResultItem {
   DocumentTitle?: string;
   Content?: string;
   DocumentURI?: string;
-  DocumentAttributes?: DocumentAttributeList;
+  DocumentAttributes?: DocumentAttribute[];
   ScoreAttributes?: ScoreAttributes;
 }
 export const RetrieveResultItem = S.suspend(() =>
@@ -4119,7 +4644,7 @@ export const RetrieveResultItem = S.suspend(() =>
 export type RetrieveResultItemList = RetrieveResultItem[];
 export const RetrieveResultItemList = S.Array(RetrieveResultItem);
 export interface BatchDeleteDocumentResponse {
-  FailedDocuments?: BatchDeleteDocumentResponseFailedDocuments;
+  FailedDocuments?: BatchDeleteDocumentResponseFailedDocument[];
 }
 export const BatchDeleteDocumentResponse = S.suspend(() =>
   S.Struct({
@@ -4130,7 +4655,7 @@ export const BatchDeleteDocumentResponse = S.suspend(() =>
 }) as any as S.Schema<BatchDeleteDocumentResponse>;
 export interface BatchGetDocumentStatusRequest {
   IndexId: string;
-  DocumentInfoList: DocumentInfoList;
+  DocumentInfoList: DocumentInfo[];
 }
 export const BatchGetDocumentStatusRequest = S.suspend(() =>
   S.Struct({ IndexId: S.String, DocumentInfoList: DocumentInfoList }).pipe(
@@ -4142,7 +4667,7 @@ export const BatchGetDocumentStatusRequest = S.suspend(() =>
 export interface BatchPutDocumentRequest {
   IndexId: string;
   RoleArn?: string;
-  Documents: DocumentList;
+  Documents: Document[];
   CustomDocumentEnrichmentConfiguration?: CustomDocumentEnrichmentConfiguration;
 }
 export const BatchPutDocumentRequest = S.suspend(() =>
@@ -4178,31 +4703,31 @@ export const CreateIndexResponse = S.suspend(() =>
 export interface DescribeIndexResponse {
   Name?: string;
   Id?: string;
-  Edition?: string;
+  Edition?: IndexEdition;
   RoleArn?: string;
   ServerSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
-  Status?: string;
+  Status?: IndexStatus;
   Description?: string;
   CreatedAt?: Date;
   UpdatedAt?: Date;
-  DocumentMetadataConfigurations?: DocumentMetadataConfigurationList;
+  DocumentMetadataConfigurations?: DocumentMetadataConfiguration[];
   IndexStatistics?: IndexStatistics;
   ErrorMessage?: string;
   CapacityUnits?: CapacityUnitsConfiguration;
-  UserTokenConfigurations?: UserTokenConfigurationList;
-  UserContextPolicy?: string;
+  UserTokenConfigurations?: UserTokenConfiguration[];
+  UserContextPolicy?: UserContextPolicy;
   UserGroupResolutionConfiguration?: UserGroupResolutionConfiguration;
 }
 export const DescribeIndexResponse = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     Id: S.optional(S.String),
-    Edition: S.optional(S.String),
+    Edition: S.optional(IndexEdition),
     RoleArn: S.optional(S.String),
     ServerSideEncryptionConfiguration: S.optional(
       ServerSideEncryptionConfiguration,
     ),
-    Status: S.optional(S.String),
+    Status: S.optional(IndexStatus),
     Description: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -4213,7 +4738,7 @@ export const DescribeIndexResponse = S.suspend(() =>
     ErrorMessage: S.optional(S.String),
     CapacityUnits: S.optional(CapacityUnitsConfiguration),
     UserTokenConfigurations: S.optional(UserTokenConfigurationList),
-    UserContextPolicy: S.optional(S.String),
+    UserContextPolicy: S.optional(UserContextPolicy),
     UserGroupResolutionConfiguration: S.optional(
       UserGroupResolutionConfiguration,
     ),
@@ -4222,7 +4747,7 @@ export const DescribeIndexResponse = S.suspend(() =>
   identifier: "DescribeIndexResponse",
 }) as any as S.Schema<DescribeIndexResponse>;
 export interface ListExperienceEntitiesResponse {
-  SummaryItems?: ExperienceEntitiesSummaryList;
+  SummaryItems?: ExperienceEntitiesSummary[];
   NextToken?: string;
 }
 export const ListExperienceEntitiesResponse = S.suspend(() =>
@@ -4237,14 +4762,14 @@ export interface QueryRequest {
   IndexId: string;
   QueryText?: string;
   AttributeFilter?: AttributeFilter;
-  Facets?: FacetList;
-  RequestedDocumentAttributes?: DocumentAttributeKeyList;
-  QueryResultTypeFilter?: string;
-  DocumentRelevanceOverrideConfigurations?: DocumentRelevanceOverrideConfigurationList;
+  Facets?: Facet[];
+  RequestedDocumentAttributes?: string[];
+  QueryResultTypeFilter?: QueryResultType;
+  DocumentRelevanceOverrideConfigurations?: DocumentRelevanceConfiguration[];
   PageNumber?: number;
   PageSize?: number;
   SortingConfiguration?: SortingConfiguration;
-  SortingConfigurations?: SortingConfigurationList;
+  SortingConfigurations?: SortingConfiguration[];
   UserContext?: UserContext;
   VisitorId?: string;
   SpellCorrectionConfiguration?: SpellCorrectionConfiguration;
@@ -4257,7 +4782,7 @@ export const QueryRequest = S.suspend(() =>
     AttributeFilter: S.optional(AttributeFilter),
     Facets: S.optional(FacetList),
     RequestedDocumentAttributes: S.optional(DocumentAttributeKeyList),
-    QueryResultTypeFilter: S.optional(S.String),
+    QueryResultTypeFilter: S.optional(QueryResultType),
     DocumentRelevanceOverrideConfigurations: S.optional(
       DocumentRelevanceOverrideConfigurationList,
     ),
@@ -4275,7 +4800,7 @@ export const QueryRequest = S.suspend(() =>
 ).annotations({ identifier: "QueryRequest" }) as any as S.Schema<QueryRequest>;
 export interface RetrieveResult {
   QueryId?: string;
-  ResultItems?: RetrieveResultItemList;
+  ResultItems?: RetrieveResultItem[];
 }
 export const RetrieveResult = S.suspend(() =>
   S.Struct({
@@ -4287,8 +4812,8 @@ export const RetrieveResult = S.suspend(() =>
 }) as any as S.Schema<RetrieveResult>;
 export interface SourceDocument {
   DocumentId?: string;
-  SuggestionAttributes?: DocumentAttributeKeyList;
-  AdditionalAttributes?: DocumentAttributeList;
+  SuggestionAttributes?: string[];
+  AdditionalAttributes?: DocumentAttribute[];
 }
 export const SourceDocument = S.suspend(() =>
   S.Struct({
@@ -4339,9 +4864,9 @@ export interface DataSourceSyncJob {
   ExecutionId?: string;
   StartTime?: Date;
   EndTime?: Date;
-  Status?: string;
+  Status?: DataSourceSyncJobStatus;
   ErrorMessage?: string;
-  ErrorCode?: string;
+  ErrorCode?: ErrorCode;
   DataSourceErrorCode?: string;
   Metrics?: DataSourceSyncJobMetrics;
 }
@@ -4350,9 +4875,9 @@ export const DataSourceSyncJob = S.suspend(() =>
     ExecutionId: S.optional(S.String),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
+    Status: S.optional(DataSourceSyncJobStatus),
     ErrorMessage: S.optional(S.String),
-    ErrorCode: S.optional(S.String),
+    ErrorCode: S.optional(ErrorCode),
     DataSourceErrorCode: S.optional(S.String),
     Metrics: S.optional(DataSourceSyncJobMetrics),
   }),
@@ -4364,13 +4889,13 @@ export const DataSourceSyncJobHistoryList = S.Array(DataSourceSyncJob);
 export interface CreateDataSourceRequest {
   Name: string;
   IndexId: string;
-  Type: string;
+  Type: DataSourceType;
   Configuration?: DataSourceConfiguration;
   VpcConfiguration?: DataSourceVpcConfiguration;
   Description?: string;
   Schedule?: string;
   RoleArn?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   ClientToken?: string;
   LanguageCode?: string;
   CustomDocumentEnrichmentConfiguration?: CustomDocumentEnrichmentConfiguration;
@@ -4379,7 +4904,7 @@ export const CreateDataSourceRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
     IndexId: S.String,
-    Type: S.String,
+    Type: DataSourceType,
     Configuration: S.optional(DataSourceConfiguration),
     VpcConfiguration: S.optional(DataSourceVpcConfiguration),
     Description: S.optional(S.String),
@@ -4398,7 +4923,7 @@ export const CreateDataSourceRequest = S.suspend(() =>
   identifier: "CreateDataSourceRequest",
 }) as any as S.Schema<CreateDataSourceRequest>;
 export interface ListDataSourceSyncJobsResponse {
-  History?: DataSourceSyncJobHistoryList;
+  History?: DataSourceSyncJob[];
   NextToken?: string;
 }
 export const ListDataSourceSyncJobsResponse = S.suspend(() =>
@@ -4409,6 +4934,25 @@ export const ListDataSourceSyncJobsResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListDataSourceSyncJobsResponse",
 }) as any as S.Schema<ListDataSourceSyncJobsResponse>;
+export type DocumentStatus =
+  | "NOT_FOUND"
+  | "PROCESSING"
+  | "INDEXED"
+  | "UPDATED"
+  | "FAILED"
+  | "UPDATE_FAILED";
+export const DocumentStatus = S.Literal(
+  "NOT_FOUND",
+  "PROCESSING",
+  "INDEXED",
+  "UPDATED",
+  "FAILED",
+  "UPDATE_FAILED",
+);
+export type QueryResultFormat = "TABLE" | "TEXT";
+export const QueryResultFormat = S.Literal("TABLE", "TEXT");
+export type WarningCode = "QUERY_LANGUAGE_INVALID_SYNTAX";
+export const WarningCode = S.Literal("QUERY_LANGUAGE_INVALID_SYNTAX");
 export interface SuggestionHighlight {
   BeginOffset?: number;
   EndOffset?: number;
@@ -4426,14 +4970,14 @@ export const SuggestionHighlightList = S.Array(SuggestionHighlight);
 export interface BatchGetDocumentStatusResponseError {
   DocumentId?: string;
   DataSourceId?: string;
-  ErrorCode?: string;
+  ErrorCode?: ErrorCode;
   ErrorMessage?: string;
 }
 export const BatchGetDocumentStatusResponseError = S.suspend(() =>
   S.Struct({
     DocumentId: S.optional(S.String),
     DataSourceId: S.optional(S.String),
-    ErrorCode: S.optional(S.String),
+    ErrorCode: S.optional(ErrorCode),
     ErrorMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -4446,14 +4990,14 @@ export const BatchGetDocumentStatusResponseErrors = S.Array(
 );
 export interface Status {
   DocumentId?: string;
-  DocumentStatus?: string;
+  DocumentStatus?: DocumentStatus;
   FailureCode?: string;
   FailureReason?: string;
 }
 export const Status = S.suspend(() =>
   S.Struct({
     DocumentId: S.optional(S.String),
-    DocumentStatus: S.optional(S.String),
+    DocumentStatus: S.optional(DocumentStatus),
     FailureCode: S.optional(S.String),
     FailureReason: S.optional(S.String),
   }),
@@ -4463,14 +5007,14 @@ export const DocumentStatusList = S.Array(Status);
 export interface BatchPutDocumentResponseFailedDocument {
   Id?: string;
   DataSourceId?: string;
-  ErrorCode?: string;
+  ErrorCode?: ErrorCode;
   ErrorMessage?: string;
 }
 export const BatchPutDocumentResponseFailedDocument = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     DataSourceId: S.optional(S.String),
-    ErrorCode: S.optional(S.String),
+    ErrorCode: S.optional(ErrorCode),
     ErrorMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -4483,32 +5027,38 @@ export const BatchPutDocumentResponseFailedDocuments = S.Array(
 );
 export interface Warning {
   Message?: string;
-  Code?: string;
+  Code?: WarningCode;
 }
 export const Warning = S.suspend(() =>
-  S.Struct({ Message: S.optional(S.String), Code: S.optional(S.String) }),
+  S.Struct({ Message: S.optional(S.String), Code: S.optional(WarningCode) }),
 ).annotations({ identifier: "Warning" }) as any as S.Schema<Warning>;
 export type WarningList = Warning[];
 export const WarningList = S.Array(Warning);
+export type AdditionalResultAttributeValueType = "TEXT_WITH_HIGHLIGHTS_VALUE";
+export const AdditionalResultAttributeValueType = S.Literal(
+  "TEXT_WITH_HIGHLIGHTS_VALUE",
+);
+export type HighlightType = "STANDARD" | "THESAURUS_SYNONYM";
+export const HighlightType = S.Literal("STANDARD", "THESAURUS_SYNONYM");
 export interface Highlight {
   BeginOffset: number;
   EndOffset: number;
   TopAnswer?: boolean;
-  Type?: string;
+  Type?: HighlightType;
 }
 export const Highlight = S.suspend(() =>
   S.Struct({
     BeginOffset: S.Number,
     EndOffset: S.Number,
     TopAnswer: S.optional(S.Boolean),
-    Type: S.optional(S.String),
+    Type: S.optional(HighlightType),
   }),
 ).annotations({ identifier: "Highlight" }) as any as S.Schema<Highlight>;
 export type HighlightList = Highlight[];
 export const HighlightList = S.Array(Highlight);
 export interface TextWithHighlights {
   Text?: string;
-  Highlights?: HighlightList;
+  Highlights?: Highlight[];
 }
 export const TextWithHighlights = S.suspend(() =>
   S.Struct({
@@ -4528,13 +5078,13 @@ export const AdditionalResultAttributeValue = S.suspend(() =>
 }) as any as S.Schema<AdditionalResultAttributeValue>;
 export interface AdditionalResultAttribute {
   Key: string;
-  ValueType: string;
+  ValueType: AdditionalResultAttributeValueType;
   Value: AdditionalResultAttributeValue;
 }
 export const AdditionalResultAttribute = S.suspend(() =>
   S.Struct({
     Key: S.String,
-    ValueType: S.String,
+    ValueType: AdditionalResultAttributeValueType,
     Value: AdditionalResultAttributeValue,
   }),
 ).annotations({
@@ -4544,19 +5094,19 @@ export type AdditionalResultAttributeList = AdditionalResultAttribute[];
 export const AdditionalResultAttributeList = S.Array(AdditionalResultAttribute);
 export interface FeaturedResultsItem {
   Id?: string;
-  Type?: string;
-  AdditionalAttributes?: AdditionalResultAttributeList;
+  Type?: QueryResultType;
+  AdditionalAttributes?: AdditionalResultAttribute[];
   DocumentId?: string;
   DocumentTitle?: TextWithHighlights;
   DocumentExcerpt?: TextWithHighlights;
   DocumentURI?: string;
-  DocumentAttributes?: DocumentAttributeList;
+  DocumentAttributes?: DocumentAttribute[];
   FeedbackToken?: string;
 }
 export const FeaturedResultsItem = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(QueryResultType),
     AdditionalAttributes: S.optional(AdditionalResultAttributeList),
     DocumentId: S.optional(S.String),
     DocumentTitle: S.optional(TextWithHighlights),
@@ -4572,7 +5122,7 @@ export type FeaturedResultsItemList = FeaturedResultsItem[];
 export const FeaturedResultsItemList = S.Array(FeaturedResultsItem);
 export interface SuggestionTextWithHighlights {
   Text?: string;
-  Highlights?: SuggestionHighlightList;
+  Highlights?: SuggestionHighlight[];
 }
 export const SuggestionTextWithHighlights = S.suspend(() =>
   S.Struct({
@@ -4583,8 +5133,8 @@ export const SuggestionTextWithHighlights = S.suspend(() =>
   identifier: "SuggestionTextWithHighlights",
 }) as any as S.Schema<SuggestionTextWithHighlights>;
 export interface BatchGetDocumentStatusResponse {
-  Errors?: BatchGetDocumentStatusResponseErrors;
-  DocumentStatusList?: DocumentStatusList;
+  Errors?: BatchGetDocumentStatusResponseError[];
+  DocumentStatusList?: Status[];
 }
 export const BatchGetDocumentStatusResponse = S.suspend(() =>
   S.Struct({
@@ -4595,7 +5145,7 @@ export const BatchGetDocumentStatusResponse = S.suspend(() =>
   identifier: "BatchGetDocumentStatusResponse",
 }) as any as S.Schema<BatchGetDocumentStatusResponse>;
 export interface BatchPutDocumentResponse {
-  FailedDocuments?: BatchPutDocumentResponseFailedDocuments;
+  FailedDocuments?: BatchPutDocumentResponseFailedDocument[];
 }
 export const BatchPutDocumentResponse = S.suspend(() =>
   S.Struct({
@@ -4623,7 +5173,7 @@ export const SuggestionValue = S.suspend(() =>
 export interface DocumentAttributeValueCountPair {
   DocumentAttributeValue?: DocumentAttributeValue;
   Count?: number;
-  FacetResults?: FacetResultList;
+  FacetResults?: FacetResult[];
 }
 export const DocumentAttributeValueCountPair = S.suspend(() =>
   S.Struct({
@@ -4665,7 +5215,7 @@ export const CorrectionList = S.Array(Correction);
 export interface Suggestion {
   Id?: string;
   Value?: SuggestionValue;
-  SourceDocuments?: SourceDocuments;
+  SourceDocuments?: SourceDocument[];
 }
 export const Suggestion = S.suspend(() =>
   S.Struct({
@@ -4678,13 +5228,13 @@ export type SuggestionList = Suggestion[];
 export const SuggestionList = S.Array(Suggestion);
 export interface FacetResult {
   DocumentAttributeKey?: string;
-  DocumentAttributeValueType?: string;
-  DocumentAttributeValueCountPairs?: DocumentAttributeValueCountPairList;
+  DocumentAttributeValueType?: DocumentAttributeValueType;
+  DocumentAttributeValueCountPairs?: DocumentAttributeValueCountPair[];
 }
 export const FacetResult = S.suspend(() =>
   S.Struct({
     DocumentAttributeKey: S.optional(S.String),
-    DocumentAttributeValueType: S.optional(S.String),
+    DocumentAttributeValueType: S.optional(DocumentAttributeValueType),
     DocumentAttributeValueCountPairs: S.optional(
       S.suspend(() => DocumentAttributeValueCountPairList).annotations({
         identifier: "DocumentAttributeValueCountPairList",
@@ -4700,7 +5250,7 @@ export const FacetResultList = S.Array(
 ) as any as S.Schema<FacetResultList>;
 export interface SpellCorrectedQuery {
   SuggestedQueryText?: string;
-  Corrections?: CorrectionList;
+  Corrections?: Correction[];
 }
 export const SpellCorrectedQuery = S.suspend(() =>
   S.Struct({
@@ -4718,7 +5268,7 @@ export interface ExpandedResultItem {
   DocumentTitle?: TextWithHighlights;
   DocumentExcerpt?: TextWithHighlights;
   DocumentURI?: string;
-  DocumentAttributes?: DocumentAttributeList;
+  DocumentAttributes?: DocumentAttribute[];
 }
 export const ExpandedResultItem = S.suspend(() =>
   S.Struct({
@@ -4736,7 +5286,7 @@ export type ExpandedResultList = ExpandedResultItem[];
 export const ExpandedResultList = S.Array(ExpandedResultItem);
 export interface GetQuerySuggestionsResponse {
   QuerySuggestionsId?: string;
-  Suggestions?: SuggestionList;
+  Suggestions?: Suggestion[];
 }
 export const GetQuerySuggestionsResponse = S.suspend(() =>
   S.Struct({
@@ -4748,7 +5298,7 @@ export const GetQuerySuggestionsResponse = S.suspend(() =>
 }) as any as S.Schema<GetQuerySuggestionsResponse>;
 export interface CollapsedResultDetail {
   DocumentAttribute: DocumentAttribute;
-  ExpandedResults?: ExpandedResultList;
+  ExpandedResults?: ExpandedResultItem[];
 }
 export const CollapsedResultDetail = S.suspend(() =>
   S.Struct({
@@ -4775,7 +5325,7 @@ export const TableCell = S.suspend(() =>
 export type TableCellList = TableCell[];
 export const TableCellList = S.Array(TableCell);
 export interface TableRow {
-  Cells?: TableCellList;
+  Cells?: TableCell[];
 }
 export const TableRow = S.suspend(() =>
   S.Struct({ Cells: S.optional(TableCellList) }),
@@ -4783,7 +5333,7 @@ export const TableRow = S.suspend(() =>
 export type TableRowList = TableRow[];
 export const TableRowList = S.Array(TableRow);
 export interface TableExcerpt {
-  Rows?: TableRowList;
+  Rows?: TableRow[];
   TotalNumberOfRows?: number;
 }
 export const TableExcerpt = S.suspend(() =>
@@ -4794,14 +5344,14 @@ export const TableExcerpt = S.suspend(() =>
 ).annotations({ identifier: "TableExcerpt" }) as any as S.Schema<TableExcerpt>;
 export interface QueryResultItem {
   Id?: string;
-  Type?: string;
-  Format?: string;
-  AdditionalAttributes?: AdditionalResultAttributeList;
+  Type?: QueryResultType;
+  Format?: QueryResultFormat;
+  AdditionalAttributes?: AdditionalResultAttribute[];
   DocumentId?: string;
   DocumentTitle?: TextWithHighlights;
   DocumentExcerpt?: TextWithHighlights;
   DocumentURI?: string;
-  DocumentAttributes?: DocumentAttributeList;
+  DocumentAttributes?: DocumentAttribute[];
   ScoreAttributes?: ScoreAttributes;
   FeedbackToken?: string;
   TableExcerpt?: TableExcerpt;
@@ -4810,8 +5360,8 @@ export interface QueryResultItem {
 export const QueryResultItem = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
-    Type: S.optional(S.String),
-    Format: S.optional(S.String),
+    Type: S.optional(QueryResultType),
+    Format: S.optional(QueryResultFormat),
     AdditionalAttributes: S.optional(AdditionalResultAttributeList),
     DocumentId: S.optional(S.String),
     DocumentTitle: S.optional(TextWithHighlights),
@@ -4830,12 +5380,12 @@ export type QueryResultItemList = QueryResultItem[];
 export const QueryResultItemList = S.Array(QueryResultItem);
 export interface QueryResult {
   QueryId?: string;
-  ResultItems?: QueryResultItemList;
-  FacetResults?: FacetResultList;
+  ResultItems?: QueryResultItem[];
+  FacetResults?: FacetResult[];
   TotalNumberOfResults?: number;
-  Warnings?: WarningList;
-  SpellCorrectedQueries?: SpellCorrectedQueryList;
-  FeaturedResultsItems?: FeaturedResultsItemList;
+  Warnings?: Warning[];
+  SpellCorrectedQueries?: SpellCorrectedQuery[];
+  FeaturedResultsItems?: FeaturedResultsItem[];
 }
 export const QueryResult = S.suspend(() =>
   S.Struct({
@@ -4910,7 +5460,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export const getSnapshots: {
   (
     input: GetSnapshotsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetSnapshotsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4921,7 +5471,7 @@ export const getSnapshots: {
   >;
   pages: (
     input: GetSnapshotsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetSnapshotsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4932,7 +5482,7 @@ export const getSnapshots: {
   >;
   items: (
     input: GetSnapshotsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -4962,7 +5512,7 @@ export const getSnapshots: {
 export const listIndices: {
   (
     input: ListIndicesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListIndicesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4973,7 +5523,7 @@ export const listIndices: {
   >;
   pages: (
     input: ListIndicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListIndicesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4984,7 +5534,7 @@ export const listIndices: {
   >;
   items: (
     input: ListIndicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5051,7 +5601,7 @@ export const listIndices: {
  */
 export const retrieve: (
   input: RetrieveRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RetrieveResult,
   | AccessDeniedException
   | ConflictException
@@ -5084,7 +5634,7 @@ export const retrieve: (
  */
 export const updateFeaturedResultsSet: (
   input: UpdateFeaturedResultsSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFeaturedResultsSetResponse,
   | AccessDeniedException
   | FeaturedResultsConflictException
@@ -5117,7 +5667,7 @@ export const updateFeaturedResultsSet: (
  */
 export const startDataSourceSyncJob: (
   input: StartDataSourceSyncJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartDataSourceSyncJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -5147,7 +5697,7 @@ export const startDataSourceSyncJob: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5176,7 +5726,7 @@ export const listTagsForResource: (
  */
 export const associateEntitiesToExperience: (
   input: AssociateEntitiesToExperienceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateEntitiesToExperienceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5206,7 +5756,7 @@ export const associateEntitiesToExperience: (
  */
 export const describeExperience: (
   input: DescribeExperienceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeExperienceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5233,7 +5783,7 @@ export const describeExperience: (
  */
 export const describeFeaturedResultsSet: (
   input: DescribeFeaturedResultsSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeFeaturedResultsSetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5265,7 +5815,7 @@ export const describeFeaturedResultsSet: (
  */
 export const describePrincipalMapping: (
   input: DescribePrincipalMappingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePrincipalMappingResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5296,7 +5846,7 @@ export const describePrincipalMapping: (
  */
 export const describeQuerySuggestionsConfig: (
   input: DescribeQuerySuggestionsConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeQuerySuggestionsConfigResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5325,7 +5875,7 @@ export const describeQuerySuggestionsConfig: (
  */
 export const disassociateEntitiesFromExperience: (
   input: DisassociateEntitiesFromExperienceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateEntitiesFromExperienceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5354,7 +5904,7 @@ export const disassociateEntitiesFromExperience: (
 export const listAccessControlConfigurations: {
   (
     input: ListAccessControlConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccessControlConfigurationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5366,7 +5916,7 @@ export const listAccessControlConfigurations: {
   >;
   pages: (
     input: ListAccessControlConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccessControlConfigurationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5378,7 +5928,7 @@ export const listAccessControlConfigurations: {
   >;
   items: (
     input: ListAccessControlConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5410,7 +5960,7 @@ export const listAccessControlConfigurations: {
 export const listDataSources: {
   (
     input: ListDataSourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataSourcesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5422,7 +5972,7 @@ export const listDataSources: {
   >;
   pages: (
     input: ListDataSourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataSourcesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5434,7 +5984,7 @@ export const listDataSources: {
   >;
   items: (
     input: ListDataSourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5467,7 +6017,7 @@ export const listDataSources: {
 export const listEntityPersonas: {
   (
     input: ListEntityPersonasRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEntityPersonasResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5479,7 +6029,7 @@ export const listEntityPersonas: {
   >;
   pages: (
     input: ListEntityPersonasRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEntityPersonasResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5491,7 +6041,7 @@ export const listEntityPersonas: {
   >;
   items: (
     input: ListEntityPersonasRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5526,7 +6076,7 @@ export const listEntityPersonas: {
 export const listExperiences: {
   (
     input: ListExperiencesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListExperiencesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5538,7 +6088,7 @@ export const listExperiences: {
   >;
   pages: (
     input: ListExperiencesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListExperiencesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5550,7 +6100,7 @@ export const listExperiences: {
   >;
   items: (
     input: ListExperiencesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5582,7 +6132,7 @@ export const listExperiences: {
 export const listFaqs: {
   (
     input: ListFaqsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFaqsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5594,7 +6144,7 @@ export const listFaqs: {
   >;
   pages: (
     input: ListFaqsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFaqsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5606,7 +6156,7 @@ export const listFaqs: {
   >;
   items: (
     input: ListFaqsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5639,7 +6189,7 @@ export const listFaqs: {
  */
 export const listFeaturedResultsSets: (
   input: ListFeaturedResultsSetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListFeaturedResultsSetsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5668,7 +6218,7 @@ export const listFeaturedResultsSets: (
 export const listGroupsOlderThanOrderingId: {
   (
     input: ListGroupsOlderThanOrderingIdRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGroupsOlderThanOrderingIdResponse,
     | AccessDeniedException
     | ConflictException
@@ -5681,7 +6231,7 @@ export const listGroupsOlderThanOrderingId: {
   >;
   pages: (
     input: ListGroupsOlderThanOrderingIdRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGroupsOlderThanOrderingIdResponse,
     | AccessDeniedException
     | ConflictException
@@ -5694,7 +6244,7 @@ export const listGroupsOlderThanOrderingId: {
   >;
   items: (
     input: ListGroupsOlderThanOrderingIdRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | ConflictException
@@ -5735,7 +6285,7 @@ export const listGroupsOlderThanOrderingId: {
 export const listQuerySuggestionsBlockLists: {
   (
     input: ListQuerySuggestionsBlockListsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListQuerySuggestionsBlockListsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5747,7 +6297,7 @@ export const listQuerySuggestionsBlockLists: {
   >;
   pages: (
     input: ListQuerySuggestionsBlockListsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListQuerySuggestionsBlockListsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5759,7 +6309,7 @@ export const listQuerySuggestionsBlockLists: {
   >;
   items: (
     input: ListQuerySuggestionsBlockListsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5791,7 +6341,7 @@ export const listQuerySuggestionsBlockLists: {
 export const listThesauri: {
   (
     input: ListThesauriRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListThesauriResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5803,7 +6353,7 @@ export const listThesauri: {
   >;
   pages: (
     input: ListThesauriRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListThesauriResponse,
     | AccessDeniedException
     | InternalServerException
@@ -5815,7 +6365,7 @@ export const listThesauri: {
   >;
   items: (
     input: ListThesauriRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5861,7 +6411,7 @@ export const listThesauri: {
  */
 export const updateQuerySuggestionsConfig: (
   input: UpdateQuerySuggestionsConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateQuerySuggestionsConfigResponse,
   | AccessDeniedException
   | ConflictException
@@ -5891,7 +6441,7 @@ export const updateQuerySuggestionsConfig: (
  */
 export const deleteAccessControlConfiguration: (
   input: DeleteAccessControlConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccessControlConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5925,7 +6475,7 @@ export const deleteAccessControlConfiguration: (
  */
 export const deleteDataSource: (
   input: DeleteDataSourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDataSourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -5954,7 +6504,7 @@ export const deleteDataSource: (
  */
 export const deleteExperience: (
   input: DeleteExperienceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteExperienceResponse,
   | AccessDeniedException
   | ConflictException
@@ -5981,7 +6531,7 @@ export const deleteExperience: (
  */
 export const deleteFaq: (
   input: DeleteFaqRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFaqResponse,
   | AccessDeniedException
   | ConflictException
@@ -6010,7 +6560,7 @@ export const deleteFaq: (
  */
 export const deleteIndex: (
   input: DeleteIndexRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIndexResponse,
   | AccessDeniedException
   | ConflictException
@@ -6051,7 +6601,7 @@ export const deleteIndex: (
  */
 export const deletePrincipalMapping: (
   input: DeletePrincipalMappingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePrincipalMappingResponse,
   | AccessDeniedException
   | ConflictException
@@ -6085,7 +6635,7 @@ export const deletePrincipalMapping: (
  */
 export const deleteQuerySuggestionsBlockList: (
   input: DeleteQuerySuggestionsBlockListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteQuerySuggestionsBlockListResponse,
   | AccessDeniedException
   | ConflictException
@@ -6112,7 +6662,7 @@ export const deleteQuerySuggestionsBlockList: (
  */
 export const deleteThesaurus: (
   input: DeleteThesaurusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteThesaurusResponse,
   | AccessDeniedException
   | ConflictException
@@ -6139,7 +6689,7 @@ export const deleteThesaurus: (
  */
 export const updateDataSource: (
   input: UpdateDataSourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDataSourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -6168,7 +6718,7 @@ export const updateDataSource: (
  */
 export const updateExperience: (
   input: UpdateExperienceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateExperienceResponse,
   | AccessDeniedException
   | ConflictException
@@ -6208,7 +6758,7 @@ export const updateExperience: (
  */
 export const updateQuerySuggestionsBlockList: (
   input: UpdateQuerySuggestionsBlockListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateQuerySuggestionsBlockListResponse,
   | AccessDeniedException
   | ConflictException
@@ -6235,7 +6785,7 @@ export const updateQuerySuggestionsBlockList: (
  */
 export const updateThesaurus: (
   input: UpdateThesaurusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateThesaurusResponse,
   | AccessDeniedException
   | ConflictException
@@ -6262,7 +6812,7 @@ export const updateThesaurus: (
  */
 export const describeDataSource: (
   input: DescribeDataSourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDataSourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6287,7 +6837,7 @@ export const describeDataSource: (
  */
 export const describeFaq: (
   input: DescribeFaqRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeFaqResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6319,7 +6869,7 @@ export const describeFaq: (
  */
 export const describeQuerySuggestionsBlockList: (
   input: DescribeQuerySuggestionsBlockListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeQuerySuggestionsBlockListResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6344,7 +6894,7 @@ export const describeQuerySuggestionsBlockList: (
  */
 export const describeThesaurus: (
   input: DescribeThesaurusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeThesaurusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6373,7 +6923,7 @@ export const describeThesaurus: (
  */
 export const disassociatePersonasFromEntities: (
   input: DisassociatePersonasFromEntitiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociatePersonasFromEntitiesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6402,7 +6952,7 @@ export const disassociatePersonasFromEntities: (
  */
 export const submitFeedback: (
   input: SubmitFeedbackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SubmitFeedbackResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6430,7 +6980,7 @@ export const submitFeedback: (
  */
 export const stopDataSourceSyncJob: (
   input: StopDataSourceSyncJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopDataSourceSyncJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6457,7 +7007,7 @@ export const stopDataSourceSyncJob: (
  */
 export const batchDeleteFeaturedResultsSet: (
   input: BatchDeleteFeaturedResultsSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDeleteFeaturedResultsSetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6492,7 +7042,7 @@ export const batchDeleteFeaturedResultsSet: (
  */
 export const clearQuerySuggestions: (
   input: ClearQuerySuggestionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ClearQuerySuggestionsResponse,
   | AccessDeniedException
   | ConflictException
@@ -6530,7 +7080,7 @@ export const clearQuerySuggestions: (
  */
 export const batchDeleteDocument: (
   input: BatchDeleteDocumentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDeleteDocumentResponse,
   | AccessDeniedException
   | ConflictException
@@ -6560,7 +7110,7 @@ export const batchDeleteDocument: (
  */
 export const describeAccessControlConfiguration: (
   input: DescribeAccessControlConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAccessControlConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6585,7 +7135,7 @@ export const describeAccessControlConfiguration: (
  */
 export const describeIndex: (
   input: DescribeIndexRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeIndexResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6615,7 +7165,7 @@ export const describeIndex: (
 export const listExperienceEntities: {
   (
     input: ListExperienceEntitiesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListExperienceEntitiesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6627,7 +7177,7 @@ export const listExperienceEntities: {
   >;
   pages: (
     input: ListExperienceEntitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListExperienceEntitiesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6639,7 +7189,7 @@ export const listExperienceEntities: {
   >;
   items: (
     input: ListExperienceEntitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -6667,7 +7217,7 @@ export const listExperienceEntities: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6692,7 +7242,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6721,7 +7271,7 @@ export const untagResource: (
  */
 export const associatePersonasToEntities: (
   input: AssociatePersonasToEntitiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociatePersonasToEntitiesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6755,7 +7305,7 @@ export const associatePersonasToEntities: (
  */
 export const createFeaturedResultsSet: (
   input: CreateFeaturedResultsSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFeaturedResultsSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -6785,7 +7335,7 @@ export const createFeaturedResultsSet: (
 export const listDataSourceSyncJobs: {
   (
     input: ListDataSourceSyncJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataSourceSyncJobsResponse,
     | AccessDeniedException
     | ConflictException
@@ -6798,7 +7348,7 @@ export const listDataSourceSyncJobs: {
   >;
   pages: (
     input: ListDataSourceSyncJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataSourceSyncJobsResponse,
     | AccessDeniedException
     | ConflictException
@@ -6811,7 +7361,7 @@ export const listDataSourceSyncJobs: {
   >;
   items: (
     input: ListDataSourceSyncJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | ConflictException
@@ -6858,7 +7408,7 @@ export const listDataSourceSyncJobs: {
  */
 export const putPrincipalMapping: (
   input: PutPrincipalMappingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutPrincipalMappingResponse,
   | AccessDeniedException
   | ConflictException
@@ -6887,7 +7437,7 @@ export const putPrincipalMapping: (
  */
 export const updateIndex: (
   input: UpdateIndexRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateIndexResponse,
   | AccessDeniedException
   | ConflictException
@@ -6934,7 +7484,7 @@ export const updateIndex: (
  */
 export const createQuerySuggestionsBlockList: (
   input: CreateQuerySuggestionsBlockListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateQuerySuggestionsBlockListResponse,
   | AccessDeniedException
   | ConflictException
@@ -6968,7 +7518,7 @@ export const createQuerySuggestionsBlockList: (
  */
 export const createThesaurus: (
   input: CreateThesaurusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateThesaurusResponse,
   | AccessDeniedException
   | ConflictException
@@ -7022,7 +7572,7 @@ export const createThesaurus: (
  */
 export const updateAccessControlConfiguration: (
   input: UpdateAccessControlConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAccessControlConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -7076,7 +7626,7 @@ export const updateAccessControlConfiguration: (
  */
 export const createAccessControlConfiguration: (
   input: CreateAccessControlConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAccessControlConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -7110,7 +7660,7 @@ export const createAccessControlConfiguration: (
  */
 export const createFaq: (
   input: CreateFaqRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFaqResponse,
   | AccessDeniedException
   | ConflictException
@@ -7142,7 +7692,7 @@ export const createFaq: (
  */
 export const createExperience: (
   input: CreateExperienceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateExperienceResponse,
   | AccessDeniedException
   | ConflictException
@@ -7182,7 +7732,7 @@ export const createExperience: (
  */
 export const createIndex: (
   input: CreateIndexRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateIndexResponse,
   | AccessDeniedException
   | ConflictException
@@ -7221,7 +7771,7 @@ export const createIndex: (
  */
 export const batchGetDocumentStatus: (
   input: BatchGetDocumentStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetDocumentStatusResponse,
   | AccessDeniedException
   | ConflictException
@@ -7263,7 +7813,7 @@ export const batchGetDocumentStatus: (
  */
 export const batchPutDocument: (
   input: BatchPutDocumentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchPutDocumentResponse,
   | AccessDeniedException
   | ConflictException
@@ -7304,7 +7854,7 @@ export const batchPutDocument: (
  */
 export const createDataSource: (
   input: CreateDataSourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataSourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -7338,7 +7888,7 @@ export const createDataSource: (
  */
 export const getQuerySuggestions: (
   input: GetQuerySuggestionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetQuerySuggestionsResponse,
   | AccessDeniedException
   | ConflictException
@@ -7399,7 +7949,7 @@ export const getQuerySuggestions: (
  */
 export const query: (
   input: QueryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   QueryResult,
   | AccessDeniedException
   | ConflictException

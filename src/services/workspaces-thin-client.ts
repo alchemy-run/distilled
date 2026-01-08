@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -87,9 +87,9 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Newtypes
-export type EnvironmentName = string | Redacted.Redacted<string>;
+export type EnvironmentName = string | redacted.Redacted<string>;
 export type Arn = string;
-export type DesktopEndpoint = string | Redacted.Redacted<string>;
+export type DesktopEndpoint = string | redacted.Redacted<string>;
 export type SoftwareSetId = string;
 export type KmsKeyArn = string;
 export type ClientToken = string;
@@ -97,15 +97,15 @@ export type DeviceId = string;
 export type EnvironmentId = string;
 export type PaginationToken = string;
 export type MaxResults = number;
-export type DeviceName = string | Redacted.Redacted<string>;
+export type DeviceName = string | redacted.Redacted<string>;
 export type SoftwareSetIdOrEmptyString = string;
 export type Hour = number;
 export type Minute = number;
 export type DeviceCreationTagKey = string;
 export type DeviceCreationTagValue = string;
 export type ExceptionMessage = string;
-export type UserId = string | Redacted.Redacted<string>;
-export type ActivationCode = string | Redacted.Redacted<string>;
+export type UserId = string | redacted.Redacted<string>;
+export type ActivationCode = string | redacted.Redacted<string>;
 export type ResourceId = string;
 export type ResourceType = string;
 export type RetryAfterSeconds = number;
@@ -114,8 +114,24 @@ export type QuotaCode = string;
 export type FieldName = string;
 
 //# Schemas
+export type SoftwareSetUpdateSchedule =
+  | "USE_MAINTENANCE_WINDOW"
+  | "APPLY_IMMEDIATELY";
+export const SoftwareSetUpdateSchedule = S.Literal(
+  "USE_MAINTENANCE_WINDOW",
+  "APPLY_IMMEDIATELY",
+);
+export type SoftwareSetUpdateMode = "USE_LATEST" | "USE_DESIRED";
+export const SoftwareSetUpdateMode = S.Literal("USE_LATEST", "USE_DESIRED");
+export type TargetDeviceStatus = "DEREGISTERED" | "ARCHIVED";
+export const TargetDeviceStatus = S.Literal("DEREGISTERED", "ARCHIVED");
 export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
+export type SoftwareSetValidationStatus = "VALIDATED" | "NOT_VALIDATED";
+export const SoftwareSetValidationStatus = S.Literal(
+  "VALIDATED",
+  "NOT_VALIDATED",
+);
 export interface DeleteDeviceRequest {
   id: string;
   clientToken?: string;
@@ -170,13 +186,13 @@ export const DeleteEnvironmentResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteEnvironmentResponse>;
 export interface DeregisterDeviceRequest {
   id: string;
-  targetDeviceStatus?: string;
+  targetDeviceStatus?: TargetDeviceStatus;
   clientToken?: string;
 }
 export const DeregisterDeviceRequest = S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.HttpLabel("id")),
-    targetDeviceStatus: S.optional(S.String),
+    targetDeviceStatus: S.optional(TargetDeviceStatus),
     clientToken: S.optional(S.String),
   }).pipe(
     T.all(
@@ -332,7 +348,7 @@ export type TagsMap = { [key: string]: string };
 export const TagsMap = S.Record({ key: S.String, value: S.String });
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagsMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -357,7 +373,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeys;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -382,16 +398,16 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateDeviceRequest {
   id: string;
-  name?: string | Redacted.Redacted<string>;
+  name?: string | redacted.Redacted<string>;
   desiredSoftwareSetId?: string;
-  softwareSetUpdateSchedule?: string;
+  softwareSetUpdateSchedule?: SoftwareSetUpdateSchedule;
 }
 export const UpdateDeviceRequest = S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.HttpLabel("id")),
     name: S.optional(SensitiveString),
     desiredSoftwareSetId: S.optional(S.String),
-    softwareSetUpdateSchedule: S.optional(S.String),
+    softwareSetUpdateSchedule: S.optional(SoftwareSetUpdateSchedule),
   }).pipe(
     T.all(
       T.Http({ method: "PATCH", uri: "/devices/{id}" }),
@@ -405,26 +421,47 @@ export const UpdateDeviceRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateDeviceRequest",
 }) as any as S.Schema<UpdateDeviceRequest>;
-export type DayOfWeekList = string[];
-export const DayOfWeekList = S.Array(S.String);
+export type MaintenanceWindowType = "SYSTEM" | "CUSTOM";
+export const MaintenanceWindowType = S.Literal("SYSTEM", "CUSTOM");
+export type DayOfWeek =
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
+export const DayOfWeek = S.Literal(
+  "MONDAY",
+  "TUESDAY",
+  "WEDNESDAY",
+  "THURSDAY",
+  "FRIDAY",
+  "SATURDAY",
+  "SUNDAY",
+);
+export type DayOfWeekList = DayOfWeek[];
+export const DayOfWeekList = S.Array(DayOfWeek);
+export type ApplyTimeOf = "UTC" | "DEVICE";
+export const ApplyTimeOf = S.Literal("UTC", "DEVICE");
 export interface MaintenanceWindow {
-  type: string;
+  type: MaintenanceWindowType;
   startTimeHour?: number;
   startTimeMinute?: number;
   endTimeHour?: number;
   endTimeMinute?: number;
-  daysOfTheWeek?: DayOfWeekList;
-  applyTimeOf?: string;
+  daysOfTheWeek?: DayOfWeek[];
+  applyTimeOf?: ApplyTimeOf;
 }
 export const MaintenanceWindow = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: MaintenanceWindowType,
     startTimeHour: S.optional(S.Number),
     startTimeMinute: S.optional(S.Number),
     endTimeHour: S.optional(S.Number),
     endTimeMinute: S.optional(S.Number),
     daysOfTheWeek: S.optional(DayOfWeekList),
-    applyTimeOf: S.optional(S.String),
+    applyTimeOf: S.optional(ApplyTimeOf),
   }),
 ).annotations({
   identifier: "MaintenanceWindow",
@@ -436,14 +473,14 @@ export const DeviceCreationTagsMap = S.Record({
 });
 export interface UpdateEnvironmentRequest {
   id: string;
-  name?: string | Redacted.Redacted<string>;
+  name?: string | redacted.Redacted<string>;
   desktopArn?: string;
-  desktopEndpoint?: string | Redacted.Redacted<string>;
-  softwareSetUpdateSchedule?: string;
+  desktopEndpoint?: string | redacted.Redacted<string>;
+  softwareSetUpdateSchedule?: SoftwareSetUpdateSchedule;
   maintenanceWindow?: MaintenanceWindow;
-  softwareSetUpdateMode?: string;
+  softwareSetUpdateMode?: SoftwareSetUpdateMode;
   desiredSoftwareSetId?: string;
-  deviceCreationTags?: DeviceCreationTagsMap;
+  deviceCreationTags?: { [key: string]: string };
 }
 export const UpdateEnvironmentRequest = S.suspend(() =>
   S.Struct({
@@ -451,9 +488,9 @@ export const UpdateEnvironmentRequest = S.suspend(() =>
     name: S.optional(SensitiveString),
     desktopArn: S.optional(S.String),
     desktopEndpoint: S.optional(SensitiveString),
-    softwareSetUpdateSchedule: S.optional(S.String),
+    softwareSetUpdateSchedule: S.optional(SoftwareSetUpdateSchedule),
     maintenanceWindow: S.optional(MaintenanceWindow),
-    softwareSetUpdateMode: S.optional(S.String),
+    softwareSetUpdateMode: S.optional(SoftwareSetUpdateMode),
     desiredSoftwareSetId: S.optional(S.String),
     deviceCreationTags: S.optional(DeviceCreationTagsMap),
   }).pipe(
@@ -471,12 +508,12 @@ export const UpdateEnvironmentRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateEnvironmentRequest>;
 export interface UpdateSoftwareSetRequest {
   id: string;
-  validationStatus: string;
+  validationStatus: SoftwareSetValidationStatus;
 }
 export const UpdateSoftwareSetRequest = S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.HttpLabel("id")),
-    validationStatus: S.String,
+    validationStatus: SoftwareSetValidationStatus,
   }).pipe(
     T.all(
       T.Http({ method: "PATCH", uri: "/softwaresets/{id}" }),
@@ -497,26 +534,26 @@ export const UpdateSoftwareSetResponse = S.suspend(() =>
   identifier: "UpdateSoftwareSetResponse",
 }) as any as S.Schema<UpdateSoftwareSetResponse>;
 export interface CreateEnvironmentRequest {
-  name?: string | Redacted.Redacted<string>;
+  name?: string | redacted.Redacted<string>;
   desktopArn: string;
-  desktopEndpoint?: string | Redacted.Redacted<string>;
-  softwareSetUpdateSchedule?: string;
+  desktopEndpoint?: string | redacted.Redacted<string>;
+  softwareSetUpdateSchedule?: SoftwareSetUpdateSchedule;
   maintenanceWindow?: MaintenanceWindow;
-  softwareSetUpdateMode?: string;
+  softwareSetUpdateMode?: SoftwareSetUpdateMode;
   desiredSoftwareSetId?: string;
   kmsKeyArn?: string;
   clientToken?: string;
-  tags?: TagsMap;
-  deviceCreationTags?: DeviceCreationTagsMap;
+  tags?: { [key: string]: string };
+  deviceCreationTags?: { [key: string]: string };
 }
 export const CreateEnvironmentRequest = S.suspend(() =>
   S.Struct({
     name: S.optional(SensitiveString),
     desktopArn: S.String,
     desktopEndpoint: S.optional(SensitiveString),
-    softwareSetUpdateSchedule: S.optional(S.String),
+    softwareSetUpdateSchedule: S.optional(SoftwareSetUpdateSchedule),
     maintenanceWindow: S.optional(MaintenanceWindow),
-    softwareSetUpdateMode: S.optional(S.String),
+    softwareSetUpdateMode: S.optional(SoftwareSetUpdateMode),
     desiredSoftwareSetId: S.optional(S.String),
     kmsKeyArn: S.optional(S.String),
     clientToken: S.optional(S.String),
@@ -536,30 +573,41 @@ export const CreateEnvironmentRequest = S.suspend(() =>
   identifier: "CreateEnvironmentRequest",
 }) as any as S.Schema<CreateEnvironmentRequest>;
 export interface ListTagsForResourceResponse {
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagsMap) }),
 ).annotations({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
+export type DeviceStatus =
+  | "REGISTERED"
+  | "DEREGISTERING"
+  | "DEREGISTERED"
+  | "ARCHIVED";
+export const DeviceStatus = S.Literal(
+  "REGISTERED",
+  "DEREGISTERING",
+  "DEREGISTERED",
+  "ARCHIVED",
+);
 export interface DeviceSummary {
   id?: string;
   serialNumber?: string;
-  name?: string | Redacted.Redacted<string>;
+  name?: string | redacted.Redacted<string>;
   model?: string;
   environmentId?: string;
-  status?: string;
+  status?: DeviceStatus;
   currentSoftwareSetId?: string;
   desiredSoftwareSetId?: string;
   pendingSoftwareSetId?: string;
-  softwareSetUpdateSchedule?: string;
+  softwareSetUpdateSchedule?: SoftwareSetUpdateSchedule;
   lastConnectedAt?: Date;
   lastPostureAt?: Date;
   createdAt?: Date;
   updatedAt?: Date;
   arn?: string;
-  lastUserId?: string | Redacted.Redacted<string>;
+  lastUserId?: string | redacted.Redacted<string>;
 }
 export const DeviceSummary = S.suspend(() =>
   S.Struct({
@@ -568,11 +616,11 @@ export const DeviceSummary = S.suspend(() =>
     name: S.optional(SensitiveString),
     model: S.optional(S.String),
     environmentId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(DeviceStatus),
     currentSoftwareSetId: S.optional(S.String),
     desiredSoftwareSetId: S.optional(S.String),
     pendingSoftwareSetId: S.optional(S.String),
-    softwareSetUpdateSchedule: S.optional(S.String),
+    softwareSetUpdateSchedule: S.optional(SoftwareSetUpdateSchedule),
     lastConnectedAt: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -593,16 +641,22 @@ export const UpdateDeviceResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateDeviceResponse",
 }) as any as S.Schema<UpdateDeviceResponse>;
+export type DesktopType = "workspaces" | "appstream" | "workspaces-web";
+export const DesktopType = S.Literal(
+  "workspaces",
+  "appstream",
+  "workspaces-web",
+);
 export interface EnvironmentSummary {
   id?: string;
-  name?: string | Redacted.Redacted<string>;
+  name?: string | redacted.Redacted<string>;
   desktopArn?: string;
-  desktopEndpoint?: string | Redacted.Redacted<string>;
-  desktopType?: string;
-  activationCode?: string | Redacted.Redacted<string>;
-  softwareSetUpdateSchedule?: string;
+  desktopEndpoint?: string | redacted.Redacted<string>;
+  desktopType?: DesktopType;
+  activationCode?: string | redacted.Redacted<string>;
+  softwareSetUpdateSchedule?: SoftwareSetUpdateSchedule;
   maintenanceWindow?: MaintenanceWindow;
-  softwareSetUpdateMode?: string;
+  softwareSetUpdateMode?: SoftwareSetUpdateMode;
   desiredSoftwareSetId?: string;
   pendingSoftwareSetId?: string;
   createdAt?: Date;
@@ -615,11 +669,11 @@ export const EnvironmentSummary = S.suspend(() =>
     name: S.optional(SensitiveString),
     desktopArn: S.optional(S.String),
     desktopEndpoint: S.optional(SensitiveString),
-    desktopType: S.optional(S.String),
+    desktopType: S.optional(DesktopType),
     activationCode: S.optional(SensitiveString),
-    softwareSetUpdateSchedule: S.optional(S.String),
+    softwareSetUpdateSchedule: S.optional(SoftwareSetUpdateSchedule),
     maintenanceWindow: S.optional(MaintenanceWindow),
-    softwareSetUpdateMode: S.optional(S.String),
+    softwareSetUpdateMode: S.optional(SoftwareSetUpdateMode),
     desiredSoftwareSetId: S.optional(S.String),
     pendingSoftwareSetId: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -637,28 +691,55 @@ export const UpdateEnvironmentResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateEnvironmentResponse",
 }) as any as S.Schema<UpdateEnvironmentResponse>;
+export type DeviceSoftwareSetComplianceStatus =
+  | "NONE"
+  | "COMPLIANT"
+  | "NOT_COMPLIANT";
+export const DeviceSoftwareSetComplianceStatus = S.Literal(
+  "NONE",
+  "COMPLIANT",
+  "NOT_COMPLIANT",
+);
+export type SoftwareSetUpdateStatus =
+  | "AVAILABLE"
+  | "IN_PROGRESS"
+  | "UP_TO_DATE";
+export const SoftwareSetUpdateStatus = S.Literal(
+  "AVAILABLE",
+  "IN_PROGRESS",
+  "UP_TO_DATE",
+);
+export type EnvironmentSoftwareSetComplianceStatus =
+  | "NO_REGISTERED_DEVICES"
+  | "COMPLIANT"
+  | "NOT_COMPLIANT";
+export const EnvironmentSoftwareSetComplianceStatus = S.Literal(
+  "NO_REGISTERED_DEVICES",
+  "COMPLIANT",
+  "NOT_COMPLIANT",
+);
 export interface Device {
   id?: string;
   serialNumber?: string;
-  name?: string | Redacted.Redacted<string>;
+  name?: string | redacted.Redacted<string>;
   model?: string;
   environmentId?: string;
-  status?: string;
+  status?: DeviceStatus;
   currentSoftwareSetId?: string;
   currentSoftwareSetVersion?: string;
   desiredSoftwareSetId?: string;
   pendingSoftwareSetId?: string;
   pendingSoftwareSetVersion?: string;
-  softwareSetUpdateSchedule?: string;
-  softwareSetComplianceStatus?: string;
-  softwareSetUpdateStatus?: string;
+  softwareSetUpdateSchedule?: SoftwareSetUpdateSchedule;
+  softwareSetComplianceStatus?: DeviceSoftwareSetComplianceStatus;
+  softwareSetUpdateStatus?: SoftwareSetUpdateStatus;
   lastConnectedAt?: Date;
   lastPostureAt?: Date;
   createdAt?: Date;
   updatedAt?: Date;
   arn?: string;
   kmsKeyArn?: string;
-  lastUserId?: string | Redacted.Redacted<string>;
+  lastUserId?: string | redacted.Redacted<string>;
 }
 export const Device = S.suspend(() =>
   S.Struct({
@@ -667,15 +748,15 @@ export const Device = S.suspend(() =>
     name: S.optional(SensitiveString),
     model: S.optional(S.String),
     environmentId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(DeviceStatus),
     currentSoftwareSetId: S.optional(S.String),
     currentSoftwareSetVersion: S.optional(S.String),
     desiredSoftwareSetId: S.optional(S.String),
     pendingSoftwareSetId: S.optional(S.String),
     pendingSoftwareSetVersion: S.optional(S.String),
-    softwareSetUpdateSchedule: S.optional(S.String),
-    softwareSetComplianceStatus: S.optional(S.String),
-    softwareSetUpdateStatus: S.optional(S.String),
+    softwareSetUpdateSchedule: S.optional(SoftwareSetUpdateSchedule),
+    softwareSetComplianceStatus: S.optional(DeviceSoftwareSetComplianceStatus),
+    softwareSetUpdateStatus: S.optional(SoftwareSetUpdateStatus),
     lastConnectedAt: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -689,24 +770,24 @@ export const Device = S.suspend(() =>
 ).annotations({ identifier: "Device" }) as any as S.Schema<Device>;
 export interface Environment {
   id?: string;
-  name?: string | Redacted.Redacted<string>;
+  name?: string | redacted.Redacted<string>;
   desktopArn?: string;
-  desktopEndpoint?: string | Redacted.Redacted<string>;
-  desktopType?: string;
-  activationCode?: string | Redacted.Redacted<string>;
+  desktopEndpoint?: string | redacted.Redacted<string>;
+  desktopType?: DesktopType;
+  activationCode?: string | redacted.Redacted<string>;
   registeredDevicesCount?: number;
-  softwareSetUpdateSchedule?: string;
+  softwareSetUpdateSchedule?: SoftwareSetUpdateSchedule;
   maintenanceWindow?: MaintenanceWindow;
-  softwareSetUpdateMode?: string;
+  softwareSetUpdateMode?: SoftwareSetUpdateMode;
   desiredSoftwareSetId?: string;
   pendingSoftwareSetId?: string;
   pendingSoftwareSetVersion?: string;
-  softwareSetComplianceStatus?: string;
+  softwareSetComplianceStatus?: EnvironmentSoftwareSetComplianceStatus;
   createdAt?: Date;
   updatedAt?: Date;
   arn?: string;
   kmsKeyArn?: string;
-  deviceCreationTags?: DeviceCreationTagsMap;
+  deviceCreationTags?: { [key: string]: string };
 }
 export const Environment = S.suspend(() =>
   S.Struct({
@@ -714,16 +795,18 @@ export const Environment = S.suspend(() =>
     name: S.optional(SensitiveString),
     desktopArn: S.optional(S.String),
     desktopEndpoint: S.optional(SensitiveString),
-    desktopType: S.optional(S.String),
+    desktopType: S.optional(DesktopType),
     activationCode: S.optional(SensitiveString),
     registeredDevicesCount: S.optional(S.Number),
-    softwareSetUpdateSchedule: S.optional(S.String),
+    softwareSetUpdateSchedule: S.optional(SoftwareSetUpdateSchedule),
     maintenanceWindow: S.optional(MaintenanceWindow),
-    softwareSetUpdateMode: S.optional(S.String),
+    softwareSetUpdateMode: S.optional(SoftwareSetUpdateMode),
     desiredSoftwareSetId: S.optional(S.String),
     pendingSoftwareSetId: S.optional(S.String),
     pendingSoftwareSetVersion: S.optional(S.String),
-    softwareSetComplianceStatus: S.optional(S.String),
+    softwareSetComplianceStatus: S.optional(
+      EnvironmentSoftwareSetComplianceStatus,
+    ),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     arn: S.optional(S.String),
@@ -740,7 +823,7 @@ export interface SoftwareSetSummary {
   version?: string;
   releasedAt?: Date;
   supportedUntil?: Date;
-  validationStatus?: string;
+  validationStatus?: SoftwareSetValidationStatus;
   arn?: string;
 }
 export const SoftwareSetSummary = S.suspend(() =>
@@ -749,7 +832,7 @@ export const SoftwareSetSummary = S.suspend(() =>
     version: S.optional(S.String),
     releasedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     supportedUntil: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    validationStatus: S.optional(S.String),
+    validationStatus: S.optional(SoftwareSetValidationStatus),
     arn: S.optional(S.String),
   }),
 ).annotations({
@@ -782,7 +865,7 @@ export const GetEnvironmentResponse = S.suspend(() =>
   identifier: "GetEnvironmentResponse",
 }) as any as S.Schema<GetEnvironmentResponse>;
 export interface ListDevicesResponse {
-  devices?: DeviceList;
+  devices?: DeviceSummary[];
   nextToken?: string;
 }
 export const ListDevicesResponse = S.suspend(() =>
@@ -794,7 +877,7 @@ export const ListDevicesResponse = S.suspend(() =>
   identifier: "ListDevicesResponse",
 }) as any as S.Schema<ListDevicesResponse>;
 export interface ListEnvironmentsResponse {
-  environments?: EnvironmentList;
+  environments?: EnvironmentSummary[];
   nextToken?: string;
 }
 export const ListEnvironmentsResponse = S.suspend(() =>
@@ -806,7 +889,7 @@ export const ListEnvironmentsResponse = S.suspend(() =>
   identifier: "ListEnvironmentsResponse",
 }) as any as S.Schema<ListEnvironmentsResponse>;
 export interface ListSoftwareSetsResponse {
-  softwareSets?: SoftwareSetList;
+  softwareSets?: SoftwareSetSummary[];
   nextToken?: string;
 }
 export const ListSoftwareSetsResponse = S.suspend(() =>
@@ -831,8 +914,8 @@ export interface SoftwareSet {
   version?: string;
   releasedAt?: Date;
   supportedUntil?: Date;
-  validationStatus?: string;
-  software?: SoftwareList;
+  validationStatus?: SoftwareSetValidationStatus;
+  software?: Software[];
   arn?: string;
 }
 export const SoftwareSet = S.suspend(() =>
@@ -841,7 +924,7 @@ export const SoftwareSet = S.suspend(() =>
     version: S.optional(S.String),
     releasedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     supportedUntil: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    validationStatus: S.optional(S.String),
+    validationStatus: S.optional(SoftwareSetValidationStatus),
     software: S.optional(SoftwareList),
     arn: S.optional(S.String),
   }),
@@ -854,6 +937,17 @@ export const GetSoftwareSetResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetSoftwareSetResponse",
 }) as any as S.Schema<GetSoftwareSetResponse>;
+export type ValidationExceptionReason =
+  | "unknownOperation"
+  | "cannotParse"
+  | "fieldValidationFailed"
+  | "other";
+export const ValidationExceptionReason = S.Literal(
+  "unknownOperation",
+  "cannotParse",
+  "fieldValidationFailed",
+  "other",
+);
 export interface ValidationExceptionField {
   name: string;
   message: string;
@@ -917,7 +1011,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     message: S.optional(S.String),
-    reason: S.optional(S.String),
+    reason: S.optional(ValidationExceptionReason),
     fieldList: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
@@ -929,7 +1023,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listDevices: {
   (
     input: ListDevicesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDevicesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -940,7 +1034,7 @@ export const listDevices: {
   >;
   pages: (
     input: ListDevicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDevicesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -951,7 +1045,7 @@ export const listDevices: {
   >;
   items: (
     input: ListDevicesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DeviceSummary,
     | AccessDeniedException
     | InternalServerException
@@ -981,7 +1075,7 @@ export const listDevices: {
  */
 export const updateEnvironment: (
   input: UpdateEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEnvironmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -1008,7 +1102,7 @@ export const updateEnvironment: (
  */
 export const deleteEnvironment: (
   input: DeleteEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEnvironmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -1035,7 +1129,7 @@ export const deleteEnvironment: (
  */
 export const deregisterDevice: (
   input: DeregisterDeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterDeviceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1062,7 +1156,7 @@ export const deregisterDevice: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1089,7 +1183,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1116,7 +1210,7 @@ export const untagResource: (
  */
 export const updateDevice: (
   input: UpdateDeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDeviceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1141,7 +1235,7 @@ export const updateDevice: (
  */
 export const updateSoftwareSet: (
   input: UpdateSoftwareSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSoftwareSetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1166,7 +1260,7 @@ export const updateSoftwareSet: (
  */
 export const deleteDevice: (
   input: DeleteDeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDeviceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1193,7 +1287,7 @@ export const deleteDevice: (
  */
 export const getDevice: (
   input: GetDeviceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDeviceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1218,7 +1312,7 @@ export const getDevice: (
  */
 export const getEnvironment: (
   input: GetEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEnvironmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1243,7 +1337,7 @@ export const getEnvironment: (
  */
 export const getSoftwareSet: (
   input: GetSoftwareSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSoftwareSetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1269,7 +1363,7 @@ export const getSoftwareSet: (
 export const listEnvironments: {
   (
     input: ListEnvironmentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEnvironmentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1280,7 +1374,7 @@ export const listEnvironments: {
   >;
   pages: (
     input: ListEnvironmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEnvironmentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1291,7 +1385,7 @@ export const listEnvironments: {
   >;
   items: (
     input: ListEnvironmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EnvironmentSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1322,7 +1416,7 @@ export const listEnvironments: {
 export const listSoftwareSets: {
   (
     input: ListSoftwareSetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSoftwareSetsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1333,7 +1427,7 @@ export const listSoftwareSets: {
   >;
   pages: (
     input: ListSoftwareSetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSoftwareSetsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1344,7 +1438,7 @@ export const listSoftwareSets: {
   >;
   items: (
     input: ListSoftwareSetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SoftwareSetSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1374,7 +1468,7 @@ export const listSoftwareSets: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1399,7 +1493,7 @@ export const listTagsForResource: (
  */
 export const createEnvironment: (
   input: CreateEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEnvironmentResponse,
   | AccessDeniedException
   | ConflictException

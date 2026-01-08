@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -91,7 +91,7 @@ export type AliasNameType = string;
 export type CustomKeyStoreNameType = string;
 export type CloudHsmClusterIdType = string;
 export type TrustAnchorCertificateType = string;
-export type KeyStorePasswordType = string | Redacted.Redacted<string>;
+export type KeyStorePasswordType = string | redacted.Redacted<string>;
 export type XksProxyUriEndpointType = string;
 export type XksProxyUriPathType = string;
 export type XksProxyVpcEndpointServiceNameType = string;
@@ -115,10 +115,10 @@ export type PendingWindowInDaysType = number;
 export type TagKeyType = string;
 export type XksProxyAuthenticationAccessKeyIdType =
   | string
-  | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
 export type XksProxyAuthenticationRawSecretAccessKeyType =
   | string
-  | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
 export type TagValueType = string;
 export type EncryptionContextKey = string;
 export type EncryptionContextValue = string;
@@ -128,10 +128,264 @@ export type AWSAccountIdType = string;
 export type ArnType = string;
 
 //# Schemas
-export type GrantOperationList = string[];
-export const GrantOperationList = S.Array(S.String);
+export type CustomKeyStoreType = "AWS_CLOUDHSM" | "EXTERNAL_KEY_STORE";
+export const CustomKeyStoreType = S.Literal(
+  "AWS_CLOUDHSM",
+  "EXTERNAL_KEY_STORE",
+);
+export type XksProxyConnectivityType =
+  | "PUBLIC_ENDPOINT"
+  | "VPC_ENDPOINT_SERVICE";
+export const XksProxyConnectivityType = S.Literal(
+  "PUBLIC_ENDPOINT",
+  "VPC_ENDPOINT_SERVICE",
+);
+export type GrantOperation =
+  | "Decrypt"
+  | "Encrypt"
+  | "GenerateDataKey"
+  | "GenerateDataKeyWithoutPlaintext"
+  | "ReEncryptFrom"
+  | "ReEncryptTo"
+  | "Sign"
+  | "Verify"
+  | "GetPublicKey"
+  | "CreateGrant"
+  | "RetireGrant"
+  | "DescribeKey"
+  | "GenerateDataKeyPair"
+  | "GenerateDataKeyPairWithoutPlaintext"
+  | "GenerateMac"
+  | "VerifyMac"
+  | "DeriveSharedSecret";
+export const GrantOperation = S.Literal(
+  "Decrypt",
+  "Encrypt",
+  "GenerateDataKey",
+  "GenerateDataKeyWithoutPlaintext",
+  "ReEncryptFrom",
+  "ReEncryptTo",
+  "Sign",
+  "Verify",
+  "GetPublicKey",
+  "CreateGrant",
+  "RetireGrant",
+  "DescribeKey",
+  "GenerateDataKeyPair",
+  "GenerateDataKeyPairWithoutPlaintext",
+  "GenerateMac",
+  "VerifyMac",
+  "DeriveSharedSecret",
+);
+export type GrantOperationList = GrantOperation[];
+export const GrantOperationList = S.Array(GrantOperation);
 export type GrantTokenList = string[];
 export const GrantTokenList = S.Array(S.String);
+export type KeyUsageType =
+  | "SIGN_VERIFY"
+  | "ENCRYPT_DECRYPT"
+  | "GENERATE_VERIFY_MAC"
+  | "KEY_AGREEMENT";
+export const KeyUsageType = S.Literal(
+  "SIGN_VERIFY",
+  "ENCRYPT_DECRYPT",
+  "GENERATE_VERIFY_MAC",
+  "KEY_AGREEMENT",
+);
+export type CustomerMasterKeySpec =
+  | "RSA_2048"
+  | "RSA_3072"
+  | "RSA_4096"
+  | "ECC_NIST_P256"
+  | "ECC_NIST_P384"
+  | "ECC_NIST_P521"
+  | "ECC_SECG_P256K1"
+  | "SYMMETRIC_DEFAULT"
+  | "HMAC_224"
+  | "HMAC_256"
+  | "HMAC_384"
+  | "HMAC_512"
+  | "SM2";
+export const CustomerMasterKeySpec = S.Literal(
+  "RSA_2048",
+  "RSA_3072",
+  "RSA_4096",
+  "ECC_NIST_P256",
+  "ECC_NIST_P384",
+  "ECC_NIST_P521",
+  "ECC_SECG_P256K1",
+  "SYMMETRIC_DEFAULT",
+  "HMAC_224",
+  "HMAC_256",
+  "HMAC_384",
+  "HMAC_512",
+  "SM2",
+);
+export type KeySpec =
+  | "RSA_2048"
+  | "RSA_3072"
+  | "RSA_4096"
+  | "ECC_NIST_P256"
+  | "ECC_NIST_P384"
+  | "ECC_NIST_P521"
+  | "ECC_SECG_P256K1"
+  | "SYMMETRIC_DEFAULT"
+  | "HMAC_224"
+  | "HMAC_256"
+  | "HMAC_384"
+  | "HMAC_512"
+  | "SM2"
+  | "ML_DSA_44"
+  | "ML_DSA_65"
+  | "ML_DSA_87"
+  | "ECC_NIST_EDWARDS25519";
+export const KeySpec = S.Literal(
+  "RSA_2048",
+  "RSA_3072",
+  "RSA_4096",
+  "ECC_NIST_P256",
+  "ECC_NIST_P384",
+  "ECC_NIST_P521",
+  "ECC_SECG_P256K1",
+  "SYMMETRIC_DEFAULT",
+  "HMAC_224",
+  "HMAC_256",
+  "HMAC_384",
+  "HMAC_512",
+  "SM2",
+  "ML_DSA_44",
+  "ML_DSA_65",
+  "ML_DSA_87",
+  "ECC_NIST_EDWARDS25519",
+);
+export type OriginType =
+  | "AWS_KMS"
+  | "EXTERNAL"
+  | "AWS_CLOUDHSM"
+  | "EXTERNAL_KEY_STORE";
+export const OriginType = S.Literal(
+  "AWS_KMS",
+  "EXTERNAL",
+  "AWS_CLOUDHSM",
+  "EXTERNAL_KEY_STORE",
+);
+export type EncryptionAlgorithmSpec =
+  | "SYMMETRIC_DEFAULT"
+  | "RSAES_OAEP_SHA_1"
+  | "RSAES_OAEP_SHA_256"
+  | "SM2PKE";
+export const EncryptionAlgorithmSpec = S.Literal(
+  "SYMMETRIC_DEFAULT",
+  "RSAES_OAEP_SHA_1",
+  "RSAES_OAEP_SHA_256",
+  "SM2PKE",
+);
+export type KeyAgreementAlgorithmSpec = "ECDH";
+export const KeyAgreementAlgorithmSpec = S.Literal("ECDH");
+export type DataKeySpec = "AES_256" | "AES_128";
+export const DataKeySpec = S.Literal("AES_256", "AES_128");
+export type DataKeyPairSpec =
+  | "RSA_2048"
+  | "RSA_3072"
+  | "RSA_4096"
+  | "ECC_NIST_P256"
+  | "ECC_NIST_P384"
+  | "ECC_NIST_P521"
+  | "ECC_SECG_P256K1"
+  | "SM2"
+  | "ECC_NIST_EDWARDS25519";
+export const DataKeyPairSpec = S.Literal(
+  "RSA_2048",
+  "RSA_3072",
+  "RSA_4096",
+  "ECC_NIST_P256",
+  "ECC_NIST_P384",
+  "ECC_NIST_P521",
+  "ECC_SECG_P256K1",
+  "SM2",
+  "ECC_NIST_EDWARDS25519",
+);
+export type MacAlgorithmSpec =
+  | "HMAC_SHA_224"
+  | "HMAC_SHA_256"
+  | "HMAC_SHA_384"
+  | "HMAC_SHA_512";
+export const MacAlgorithmSpec = S.Literal(
+  "HMAC_SHA_224",
+  "HMAC_SHA_256",
+  "HMAC_SHA_384",
+  "HMAC_SHA_512",
+);
+export type AlgorithmSpec =
+  | "RSAES_PKCS1_V1_5"
+  | "RSAES_OAEP_SHA_1"
+  | "RSAES_OAEP_SHA_256"
+  | "RSA_AES_KEY_WRAP_SHA_1"
+  | "RSA_AES_KEY_WRAP_SHA_256"
+  | "SM2PKE";
+export const AlgorithmSpec = S.Literal(
+  "RSAES_PKCS1_V1_5",
+  "RSAES_OAEP_SHA_1",
+  "RSAES_OAEP_SHA_256",
+  "RSA_AES_KEY_WRAP_SHA_1",
+  "RSA_AES_KEY_WRAP_SHA_256",
+  "SM2PKE",
+);
+export type WrappingKeySpec = "RSA_2048" | "RSA_3072" | "RSA_4096" | "SM2";
+export const WrappingKeySpec = S.Literal(
+  "RSA_2048",
+  "RSA_3072",
+  "RSA_4096",
+  "SM2",
+);
+export type ExpirationModelType =
+  | "KEY_MATERIAL_EXPIRES"
+  | "KEY_MATERIAL_DOES_NOT_EXPIRE";
+export const ExpirationModelType = S.Literal(
+  "KEY_MATERIAL_EXPIRES",
+  "KEY_MATERIAL_DOES_NOT_EXPIRE",
+);
+export type ImportType = "NEW_KEY_MATERIAL" | "EXISTING_KEY_MATERIAL";
+export const ImportType = S.Literal(
+  "NEW_KEY_MATERIAL",
+  "EXISTING_KEY_MATERIAL",
+);
+export type IncludeKeyMaterial = "ALL_KEY_MATERIAL" | "ROTATIONS_ONLY";
+export const IncludeKeyMaterial = S.Literal(
+  "ALL_KEY_MATERIAL",
+  "ROTATIONS_ONLY",
+);
+export type MessageType = "RAW" | "DIGEST" | "EXTERNAL_MU";
+export const MessageType = S.Literal("RAW", "DIGEST", "EXTERNAL_MU");
+export type SigningAlgorithmSpec =
+  | "RSASSA_PSS_SHA_256"
+  | "RSASSA_PSS_SHA_384"
+  | "RSASSA_PSS_SHA_512"
+  | "RSASSA_PKCS1_V1_5_SHA_256"
+  | "RSASSA_PKCS1_V1_5_SHA_384"
+  | "RSASSA_PKCS1_V1_5_SHA_512"
+  | "ECDSA_SHA_256"
+  | "ECDSA_SHA_384"
+  | "ECDSA_SHA_512"
+  | "SM2DSA"
+  | "ML_DSA_SHAKE_256"
+  | "ED25519_SHA_512"
+  | "ED25519_PH_SHA_512";
+export const SigningAlgorithmSpec = S.Literal(
+  "RSASSA_PSS_SHA_256",
+  "RSASSA_PSS_SHA_384",
+  "RSASSA_PSS_SHA_512",
+  "RSASSA_PKCS1_V1_5_SHA_256",
+  "RSASSA_PKCS1_V1_5_SHA_384",
+  "RSASSA_PKCS1_V1_5_SHA_512",
+  "ECDSA_SHA_256",
+  "ECDSA_SHA_384",
+  "ECDSA_SHA_512",
+  "SM2DSA",
+  "ML_DSA_SHAKE_256",
+  "ED25519_SHA_512",
+  "ED25519_PH_SHA_512",
+);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface CancelKeyDeletionRequest {
@@ -268,13 +522,15 @@ export const DeleteImportedKeyMaterialRequest = S.suspend(() =>
 ).annotations({
   identifier: "DeleteImportedKeyMaterialRequest",
 }) as any as S.Schema<DeleteImportedKeyMaterialRequest>;
+export type KeyEncryptionMechanism = "RSAES_OAEP_SHA_256";
+export const KeyEncryptionMechanism = S.Literal("RSAES_OAEP_SHA_256");
 export interface RecipientInfo {
-  KeyEncryptionAlgorithm?: string;
+  KeyEncryptionAlgorithm?: KeyEncryptionMechanism;
   AttestationDocument?: Uint8Array;
 }
 export const RecipientInfo = S.suspend(() =>
   S.Struct({
-    KeyEncryptionAlgorithm: S.optional(S.String),
+    KeyEncryptionAlgorithm: S.optional(KeyEncryptionMechanism),
     AttestationDocument: S.optional(T.Blob),
   }),
 ).annotations({
@@ -282,16 +538,16 @@ export const RecipientInfo = S.suspend(() =>
 }) as any as S.Schema<RecipientInfo>;
 export interface DeriveSharedSecretRequest {
   KeyId: string;
-  KeyAgreementAlgorithm: string;
+  KeyAgreementAlgorithm: KeyAgreementAlgorithmSpec;
   PublicKey: Uint8Array;
-  GrantTokens?: GrantTokenList;
+  GrantTokens?: string[];
   DryRun?: boolean;
   Recipient?: RecipientInfo;
 }
 export const DeriveSharedSecretRequest = S.suspend(() =>
   S.Struct({
     KeyId: S.String,
-    KeyAgreementAlgorithm: S.String,
+    KeyAgreementAlgorithm: KeyAgreementAlgorithmSpec,
     PublicKey: T.Blob,
     GrantTokens: S.optional(GrantTokenList),
     DryRun: S.optional(S.Boolean),
@@ -338,7 +594,7 @@ export const DescribeCustomKeyStoresRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeCustomKeyStoresRequest>;
 export interface DescribeKeyRequest {
   KeyId: string;
-  GrantTokens?: GrantTokenList;
+  GrantTokens?: string[];
 }
 export const DescribeKeyRequest = S.suspend(() =>
   S.Struct({ KeyId: S.String, GrantTokens: S.optional(GrantTokenList) }).pipe(
@@ -486,10 +742,10 @@ export const EncryptionContextType = S.Record({
 });
 export interface EncryptRequest {
   KeyId: string;
-  Plaintext: Uint8Array | Redacted.Redacted<Uint8Array>;
-  EncryptionContext?: EncryptionContextType;
-  GrantTokens?: GrantTokenList;
-  EncryptionAlgorithm?: string;
+  Plaintext: Uint8Array | redacted.Redacted<Uint8Array>;
+  EncryptionContext?: { [key: string]: string };
+  GrantTokens?: string[];
+  EncryptionAlgorithm?: EncryptionAlgorithmSpec;
   DryRun?: boolean;
 }
 export const EncryptRequest = S.suspend(() =>
@@ -498,7 +754,7 @@ export const EncryptRequest = S.suspend(() =>
     Plaintext: SensitiveBlob,
     EncryptionContext: S.optional(EncryptionContextType),
     GrantTokens: S.optional(GrantTokenList),
-    EncryptionAlgorithm: S.optional(S.String),
+    EncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
     DryRun: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -516,10 +772,10 @@ export const EncryptRequest = S.suspend(() =>
 }) as any as S.Schema<EncryptRequest>;
 export interface GenerateDataKeyRequest {
   KeyId: string;
-  EncryptionContext?: EncryptionContextType;
+  EncryptionContext?: { [key: string]: string };
   NumberOfBytes?: number;
-  KeySpec?: string;
-  GrantTokens?: GrantTokenList;
+  KeySpec?: DataKeySpec;
+  GrantTokens?: string[];
   Recipient?: RecipientInfo;
   DryRun?: boolean;
 }
@@ -528,7 +784,7 @@ export const GenerateDataKeyRequest = S.suspend(() =>
     KeyId: S.String,
     EncryptionContext: S.optional(EncryptionContextType),
     NumberOfBytes: S.optional(S.Number),
-    KeySpec: S.optional(S.String),
+    KeySpec: S.optional(DataKeySpec),
     GrantTokens: S.optional(GrantTokenList),
     Recipient: S.optional(RecipientInfo),
     DryRun: S.optional(S.Boolean),
@@ -547,10 +803,10 @@ export const GenerateDataKeyRequest = S.suspend(() =>
   identifier: "GenerateDataKeyRequest",
 }) as any as S.Schema<GenerateDataKeyRequest>;
 export interface GenerateDataKeyPairRequest {
-  EncryptionContext?: EncryptionContextType;
+  EncryptionContext?: { [key: string]: string };
   KeyId: string;
-  KeyPairSpec: string;
-  GrantTokens?: GrantTokenList;
+  KeyPairSpec: DataKeyPairSpec;
+  GrantTokens?: string[];
   Recipient?: RecipientInfo;
   DryRun?: boolean;
 }
@@ -558,7 +814,7 @@ export const GenerateDataKeyPairRequest = S.suspend(() =>
   S.Struct({
     EncryptionContext: S.optional(EncryptionContextType),
     KeyId: S.String,
-    KeyPairSpec: S.String,
+    KeyPairSpec: DataKeyPairSpec,
     GrantTokens: S.optional(GrantTokenList),
     Recipient: S.optional(RecipientInfo),
     DryRun: S.optional(S.Boolean),
@@ -577,17 +833,17 @@ export const GenerateDataKeyPairRequest = S.suspend(() =>
   identifier: "GenerateDataKeyPairRequest",
 }) as any as S.Schema<GenerateDataKeyPairRequest>;
 export interface GenerateDataKeyPairWithoutPlaintextRequest {
-  EncryptionContext?: EncryptionContextType;
+  EncryptionContext?: { [key: string]: string };
   KeyId: string;
-  KeyPairSpec: string;
-  GrantTokens?: GrantTokenList;
+  KeyPairSpec: DataKeyPairSpec;
+  GrantTokens?: string[];
   DryRun?: boolean;
 }
 export const GenerateDataKeyPairWithoutPlaintextRequest = S.suspend(() =>
   S.Struct({
     EncryptionContext: S.optional(EncryptionContextType),
     KeyId: S.String,
-    KeyPairSpec: S.String,
+    KeyPairSpec: DataKeyPairSpec,
     GrantTokens: S.optional(GrantTokenList),
     DryRun: S.optional(S.Boolean),
   }).pipe(
@@ -606,17 +862,17 @@ export const GenerateDataKeyPairWithoutPlaintextRequest = S.suspend(() =>
 }) as any as S.Schema<GenerateDataKeyPairWithoutPlaintextRequest>;
 export interface GenerateDataKeyWithoutPlaintextRequest {
   KeyId: string;
-  EncryptionContext?: EncryptionContextType;
-  KeySpec?: string;
+  EncryptionContext?: { [key: string]: string };
+  KeySpec?: DataKeySpec;
   NumberOfBytes?: number;
-  GrantTokens?: GrantTokenList;
+  GrantTokens?: string[];
   DryRun?: boolean;
 }
 export const GenerateDataKeyWithoutPlaintextRequest = S.suspend(() =>
   S.Struct({
     KeyId: S.String,
     EncryptionContext: S.optional(EncryptionContextType),
-    KeySpec: S.optional(S.String),
+    KeySpec: S.optional(DataKeySpec),
     NumberOfBytes: S.optional(S.Number),
     GrantTokens: S.optional(GrantTokenList),
     DryRun: S.optional(S.Boolean),
@@ -635,17 +891,17 @@ export const GenerateDataKeyWithoutPlaintextRequest = S.suspend(() =>
   identifier: "GenerateDataKeyWithoutPlaintextRequest",
 }) as any as S.Schema<GenerateDataKeyWithoutPlaintextRequest>;
 export interface GenerateMacRequest {
-  Message: Uint8Array | Redacted.Redacted<Uint8Array>;
+  Message: Uint8Array | redacted.Redacted<Uint8Array>;
   KeyId: string;
-  MacAlgorithm: string;
-  GrantTokens?: GrantTokenList;
+  MacAlgorithm: MacAlgorithmSpec;
+  GrantTokens?: string[];
   DryRun?: boolean;
 }
 export const GenerateMacRequest = S.suspend(() =>
   S.Struct({
     Message: SensitiveBlob,
     KeyId: S.String,
-    MacAlgorithm: S.String,
+    MacAlgorithm: MacAlgorithmSpec,
     GrantTokens: S.optional(GrantTokenList),
     DryRun: S.optional(S.Boolean),
   }).pipe(
@@ -725,14 +981,14 @@ export const GetKeyRotationStatusRequest = S.suspend(() =>
 }) as any as S.Schema<GetKeyRotationStatusRequest>;
 export interface GetParametersForImportRequest {
   KeyId: string;
-  WrappingAlgorithm: string;
-  WrappingKeySpec: string;
+  WrappingAlgorithm: AlgorithmSpec;
+  WrappingKeySpec: WrappingKeySpec;
 }
 export const GetParametersForImportRequest = S.suspend(() =>
   S.Struct({
     KeyId: S.String,
-    WrappingAlgorithm: S.String,
-    WrappingKeySpec: S.String,
+    WrappingAlgorithm: AlgorithmSpec,
+    WrappingKeySpec: WrappingKeySpec,
   }).pipe(
     T.all(
       ns,
@@ -749,7 +1005,7 @@ export const GetParametersForImportRequest = S.suspend(() =>
 }) as any as S.Schema<GetParametersForImportRequest>;
 export interface GetPublicKeyRequest {
   KeyId: string;
-  GrantTokens?: GrantTokenList;
+  GrantTokens?: string[];
 }
 export const GetPublicKeyRequest = S.suspend(() =>
   S.Struct({ KeyId: S.String, GrantTokens: S.optional(GrantTokenList) }).pipe(
@@ -771,8 +1027,8 @@ export interface ImportKeyMaterialRequest {
   ImportToken: Uint8Array;
   EncryptedKeyMaterial: Uint8Array;
   ValidTo?: Date;
-  ExpirationModel?: string;
-  ImportType?: string;
+  ExpirationModel?: ExpirationModelType;
+  ImportType?: ImportType;
   KeyMaterialDescription?: string;
   KeyMaterialId?: string;
 }
@@ -782,8 +1038,8 @@ export const ImportKeyMaterialRequest = S.suspend(() =>
     ImportToken: T.Blob,
     EncryptedKeyMaterial: T.Blob,
     ValidTo: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ExpirationModel: S.optional(S.String),
-    ImportType: S.optional(S.String),
+    ExpirationModel: S.optional(ExpirationModelType),
+    ImportType: S.optional(ImportType),
     KeyMaterialDescription: S.optional(S.String),
     KeyMaterialId: S.optional(S.String),
   }).pipe(
@@ -878,14 +1134,14 @@ export const ListKeyPoliciesRequest = S.suspend(() =>
 }) as any as S.Schema<ListKeyPoliciesRequest>;
 export interface ListKeyRotationsRequest {
   KeyId: string;
-  IncludeKeyMaterial?: string;
+  IncludeKeyMaterial?: IncludeKeyMaterial;
   Limit?: number;
   Marker?: string;
 }
 export const ListKeyRotationsRequest = S.suspend(() =>
   S.Struct({
     KeyId: S.String,
-    IncludeKeyMaterial: S.optional(S.String),
+    IncludeKeyMaterial: S.optional(IncludeKeyMaterial),
     Limit: S.optional(S.Number),
     Marker: S.optional(S.String),
   }).pipe(
@@ -1003,13 +1259,13 @@ export const PutKeyPolicyResponse = S.suspend(() =>
 }) as any as S.Schema<PutKeyPolicyResponse>;
 export interface ReEncryptRequest {
   CiphertextBlob: Uint8Array;
-  SourceEncryptionContext?: EncryptionContextType;
+  SourceEncryptionContext?: { [key: string]: string };
   SourceKeyId?: string;
   DestinationKeyId: string;
-  DestinationEncryptionContext?: EncryptionContextType;
-  SourceEncryptionAlgorithm?: string;
-  DestinationEncryptionAlgorithm?: string;
-  GrantTokens?: GrantTokenList;
+  DestinationEncryptionContext?: { [key: string]: string };
+  SourceEncryptionAlgorithm?: EncryptionAlgorithmSpec;
+  DestinationEncryptionAlgorithm?: EncryptionAlgorithmSpec;
+  GrantTokens?: string[];
   DryRun?: boolean;
 }
 export const ReEncryptRequest = S.suspend(() =>
@@ -1019,8 +1275,8 @@ export const ReEncryptRequest = S.suspend(() =>
     SourceKeyId: S.optional(S.String),
     DestinationKeyId: S.String,
     DestinationEncryptionContext: S.optional(EncryptionContextType),
-    SourceEncryptionAlgorithm: S.optional(S.String),
-    DestinationEncryptionAlgorithm: S.optional(S.String),
+    SourceEncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
+    DestinationEncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
     GrantTokens: S.optional(GrantTokenList),
     DryRun: S.optional(S.Boolean),
   }).pipe(
@@ -1052,7 +1308,7 @@ export interface ReplicateKeyRequest {
   Policy?: string;
   BypassPolicyLockoutSafetyCheck?: boolean;
   Description?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ReplicateKeyRequest = S.suspend(() =>
   S.Struct({
@@ -1177,19 +1433,19 @@ export const ScheduleKeyDeletionRequest = S.suspend(() =>
 }) as any as S.Schema<ScheduleKeyDeletionRequest>;
 export interface SignRequest {
   KeyId: string;
-  Message: Uint8Array | Redacted.Redacted<Uint8Array>;
-  MessageType?: string;
-  GrantTokens?: GrantTokenList;
-  SigningAlgorithm: string;
+  Message: Uint8Array | redacted.Redacted<Uint8Array>;
+  MessageType?: MessageType;
+  GrantTokens?: string[];
+  SigningAlgorithm: SigningAlgorithmSpec;
   DryRun?: boolean;
 }
 export const SignRequest = S.suspend(() =>
   S.Struct({
     KeyId: S.String,
     Message: SensitiveBlob,
-    MessageType: S.optional(S.String),
+    MessageType: S.optional(MessageType),
     GrantTokens: S.optional(GrantTokenList),
-    SigningAlgorithm: S.String,
+    SigningAlgorithm: SigningAlgorithmSpec,
     DryRun: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -1205,7 +1461,7 @@ export const SignRequest = S.suspend(() =>
 ).annotations({ identifier: "SignRequest" }) as any as S.Schema<SignRequest>;
 export interface TagResourceRequest {
   KeyId: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ KeyId: S.String, Tags: TagList }).pipe(
@@ -1230,7 +1486,7 @@ export const TagResourceResponse = S.suspend(() =>
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   KeyId: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ KeyId: S.String, TagKeys: TagKeyList }).pipe(
@@ -1279,8 +1535,8 @@ export const UpdateAliasResponse = S.suspend(() =>
   identifier: "UpdateAliasResponse",
 }) as any as S.Schema<UpdateAliasResponse>;
 export interface XksProxyAuthenticationCredentialType {
-  AccessKeyId: string | Redacted.Redacted<string>;
-  RawSecretAccessKey: string | Redacted.Redacted<string>;
+  AccessKeyId: string | redacted.Redacted<string>;
+  RawSecretAccessKey: string | redacted.Redacted<string>;
 }
 export const XksProxyAuthenticationCredentialType = S.suspend(() =>
   S.Struct({
@@ -1293,14 +1549,14 @@ export const XksProxyAuthenticationCredentialType = S.suspend(() =>
 export interface UpdateCustomKeyStoreRequest {
   CustomKeyStoreId: string;
   NewCustomKeyStoreName?: string;
-  KeyStorePassword?: string | Redacted.Redacted<string>;
+  KeyStorePassword?: string | redacted.Redacted<string>;
   CloudHsmClusterId?: string;
   XksProxyUriEndpoint?: string;
   XksProxyUriPath?: string;
   XksProxyVpcEndpointServiceName?: string;
   XksProxyVpcEndpointServiceOwner?: string;
   XksProxyAuthenticationCredential?: XksProxyAuthenticationCredentialType;
-  XksProxyConnectivity?: string;
+  XksProxyConnectivity?: XksProxyConnectivityType;
 }
 export const UpdateCustomKeyStoreRequest = S.suspend(() =>
   S.Struct({
@@ -1315,7 +1571,7 @@ export const UpdateCustomKeyStoreRequest = S.suspend(() =>
     XksProxyAuthenticationCredential: S.optional(
       XksProxyAuthenticationCredentialType,
     ),
-    XksProxyConnectivity: S.optional(S.String),
+    XksProxyConnectivity: S.optional(XksProxyConnectivityType),
   }).pipe(
     T.all(
       ns,
@@ -1388,20 +1644,20 @@ export const UpdatePrimaryRegionResponse = S.suspend(() =>
 }) as any as S.Schema<UpdatePrimaryRegionResponse>;
 export interface VerifyRequest {
   KeyId: string;
-  Message: Uint8Array | Redacted.Redacted<Uint8Array>;
-  MessageType?: string;
+  Message: Uint8Array | redacted.Redacted<Uint8Array>;
+  MessageType?: MessageType;
   Signature: Uint8Array;
-  SigningAlgorithm: string;
-  GrantTokens?: GrantTokenList;
+  SigningAlgorithm: SigningAlgorithmSpec;
+  GrantTokens?: string[];
   DryRun?: boolean;
 }
 export const VerifyRequest = S.suspend(() =>
   S.Struct({
     KeyId: S.String,
     Message: SensitiveBlob,
-    MessageType: S.optional(S.String),
+    MessageType: S.optional(MessageType),
     Signature: T.Blob,
-    SigningAlgorithm: S.String,
+    SigningAlgorithm: SigningAlgorithmSpec,
     GrantTokens: S.optional(GrantTokenList),
     DryRun: S.optional(S.Boolean),
   }).pipe(
@@ -1419,18 +1675,18 @@ export const VerifyRequest = S.suspend(() =>
   identifier: "VerifyRequest",
 }) as any as S.Schema<VerifyRequest>;
 export interface VerifyMacRequest {
-  Message: Uint8Array | Redacted.Redacted<Uint8Array>;
+  Message: Uint8Array | redacted.Redacted<Uint8Array>;
   KeyId: string;
-  MacAlgorithm: string;
+  MacAlgorithm: MacAlgorithmSpec;
   Mac: Uint8Array;
-  GrantTokens?: GrantTokenList;
+  GrantTokens?: string[];
   DryRun?: boolean;
 }
 export const VerifyMacRequest = S.suspend(() =>
   S.Struct({
     Message: SensitiveBlob,
     KeyId: S.String,
-    MacAlgorithm: S.String,
+    MacAlgorithm: MacAlgorithmSpec,
     Mac: T.Blob,
     GrantTokens: S.optional(GrantTokenList),
     DryRun: S.optional(S.Boolean),
@@ -1449,8 +1705,8 @@ export const VerifyMacRequest = S.suspend(() =>
   identifier: "VerifyMacRequest",
 }) as any as S.Schema<VerifyMacRequest>;
 export interface GrantConstraints {
-  EncryptionContextSubset?: EncryptionContextType;
-  EncryptionContextEquals?: EncryptionContextType;
+  EncryptionContextSubset?: { [key: string]: string };
+  EncryptionContextEquals?: { [key: string]: string };
 }
 export const GrantConstraints = S.suspend(() =>
   S.Struct({
@@ -1460,14 +1716,33 @@ export const GrantConstraints = S.suspend(() =>
 ).annotations({
   identifier: "GrantConstraints",
 }) as any as S.Schema<GrantConstraints>;
-export type EncryptionAlgorithmSpecList = string[];
-export const EncryptionAlgorithmSpecList = S.Array(S.String);
-export type SigningAlgorithmSpecList = string[];
-export const SigningAlgorithmSpecList = S.Array(S.String);
-export type KeyAgreementAlgorithmSpecList = string[];
-export const KeyAgreementAlgorithmSpecList = S.Array(S.String);
+export type EncryptionAlgorithmSpecList = EncryptionAlgorithmSpec[];
+export const EncryptionAlgorithmSpecList = S.Array(EncryptionAlgorithmSpec);
+export type SigningAlgorithmSpecList = SigningAlgorithmSpec[];
+export const SigningAlgorithmSpecList = S.Array(SigningAlgorithmSpec);
+export type KeyAgreementAlgorithmSpecList = KeyAgreementAlgorithmSpec[];
+export const KeyAgreementAlgorithmSpecList = S.Array(KeyAgreementAlgorithmSpec);
 export type PolicyNameList = string[];
 export const PolicyNameList = S.Array(S.String);
+export type KeyState =
+  | "Creating"
+  | "Enabled"
+  | "Disabled"
+  | "PendingDeletion"
+  | "PendingImport"
+  | "PendingReplicaDeletion"
+  | "Unavailable"
+  | "Updating";
+export const KeyState = S.Literal(
+  "Creating",
+  "Enabled",
+  "Disabled",
+  "PendingDeletion",
+  "PendingImport",
+  "PendingReplicaDeletion",
+  "Unavailable",
+  "Updating",
+);
 export interface CancelKeyDeletionResponse {
   KeyId?: string;
 }
@@ -1480,14 +1755,14 @@ export interface CreateCustomKeyStoreRequest {
   CustomKeyStoreName: string;
   CloudHsmClusterId?: string;
   TrustAnchorCertificate?: string;
-  KeyStorePassword?: string | Redacted.Redacted<string>;
-  CustomKeyStoreType?: string;
+  KeyStorePassword?: string | redacted.Redacted<string>;
+  CustomKeyStoreType?: CustomKeyStoreType;
   XksProxyUriEndpoint?: string;
   XksProxyUriPath?: string;
   XksProxyVpcEndpointServiceName?: string;
   XksProxyVpcEndpointServiceOwner?: string;
   XksProxyAuthenticationCredential?: XksProxyAuthenticationCredentialType;
-  XksProxyConnectivity?: string;
+  XksProxyConnectivity?: XksProxyConnectivityType;
 }
 export const CreateCustomKeyStoreRequest = S.suspend(() =>
   S.Struct({
@@ -1495,7 +1770,7 @@ export const CreateCustomKeyStoreRequest = S.suspend(() =>
     CloudHsmClusterId: S.optional(S.String),
     TrustAnchorCertificate: S.optional(S.String),
     KeyStorePassword: S.optional(SensitiveString),
-    CustomKeyStoreType: S.optional(S.String),
+    CustomKeyStoreType: S.optional(CustomKeyStoreType),
     XksProxyUriEndpoint: S.optional(S.String),
     XksProxyUriPath: S.optional(S.String),
     XksProxyVpcEndpointServiceName: S.optional(S.String),
@@ -1503,7 +1778,7 @@ export const CreateCustomKeyStoreRequest = S.suspend(() =>
     XksProxyAuthenticationCredential: S.optional(
       XksProxyAuthenticationCredentialType,
     ),
-    XksProxyConnectivity: S.optional(S.String),
+    XksProxyConnectivity: S.optional(XksProxyConnectivityType),
   }).pipe(
     T.all(
       ns,
@@ -1522,9 +1797,9 @@ export interface CreateGrantRequest {
   KeyId: string;
   GranteePrincipal: string;
   RetiringPrincipal?: string;
-  Operations: GrantOperationList;
+  Operations: GrantOperation[];
   Constraints?: GrantConstraints;
-  GrantTokens?: GrantTokenList;
+  GrantTokens?: string[];
   Name?: string;
   DryRun?: boolean;
 }
@@ -1555,13 +1830,13 @@ export const CreateGrantRequest = S.suspend(() =>
 export interface CreateKeyRequest {
   Policy?: string;
   Description?: string;
-  KeyUsage?: string;
-  CustomerMasterKeySpec?: string;
-  KeySpec?: string;
-  Origin?: string;
+  KeyUsage?: KeyUsageType;
+  CustomerMasterKeySpec?: CustomerMasterKeySpec;
+  KeySpec?: KeySpec;
+  Origin?: OriginType;
   CustomKeyStoreId?: string;
   BypassPolicyLockoutSafetyCheck?: boolean;
-  Tags?: TagList;
+  Tags?: Tag[];
   MultiRegion?: boolean;
   XksKeyId?: string;
 }
@@ -1569,10 +1844,10 @@ export const CreateKeyRequest = S.suspend(() =>
   S.Struct({
     Policy: S.optional(S.String),
     Description: S.optional(S.String),
-    KeyUsage: S.optional(S.String),
-    CustomerMasterKeySpec: S.optional(S.String),
-    KeySpec: S.optional(S.String),
-    Origin: S.optional(S.String),
+    KeyUsage: S.optional(KeyUsageType),
+    CustomerMasterKeySpec: S.optional(CustomerMasterKeySpec),
+    KeySpec: S.optional(KeySpec),
+    Origin: S.optional(OriginType),
     CustomKeyStoreId: S.optional(S.String),
     BypassPolicyLockoutSafetyCheck: S.optional(S.Boolean),
     Tags: S.optional(TagList),
@@ -1594,10 +1869,10 @@ export const CreateKeyRequest = S.suspend(() =>
 }) as any as S.Schema<CreateKeyRequest>;
 export interface DecryptRequest {
   CiphertextBlob: Uint8Array;
-  EncryptionContext?: EncryptionContextType;
-  GrantTokens?: GrantTokenList;
+  EncryptionContext?: { [key: string]: string };
+  GrantTokens?: string[];
   KeyId?: string;
-  EncryptionAlgorithm?: string;
+  EncryptionAlgorithm?: EncryptionAlgorithmSpec;
   Recipient?: RecipientInfo;
   DryRun?: boolean;
 }
@@ -1607,7 +1882,7 @@ export const DecryptRequest = S.suspend(() =>
     EncryptionContext: S.optional(EncryptionContextType),
     GrantTokens: S.optional(GrantTokenList),
     KeyId: S.optional(S.String),
-    EncryptionAlgorithm: S.optional(S.String),
+    EncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
     Recipient: S.optional(RecipientInfo),
     DryRun: S.optional(S.Boolean),
   }).pipe(
@@ -1638,18 +1913,18 @@ export const DeleteImportedKeyMaterialResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteImportedKeyMaterialResponse>;
 export interface DeriveSharedSecretResponse {
   KeyId?: string;
-  SharedSecret?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  SharedSecret?: Uint8Array | redacted.Redacted<Uint8Array>;
   CiphertextForRecipient?: Uint8Array;
-  KeyAgreementAlgorithm?: string;
-  KeyOrigin?: string;
+  KeyAgreementAlgorithm?: KeyAgreementAlgorithmSpec;
+  KeyOrigin?: OriginType;
 }
 export const DeriveSharedSecretResponse = S.suspend(() =>
   S.Struct({
     KeyId: S.optional(S.String),
     SharedSecret: S.optional(SensitiveBlob),
     CiphertextForRecipient: S.optional(T.Blob),
-    KeyAgreementAlgorithm: S.optional(S.String),
-    KeyOrigin: S.optional(S.String),
+    KeyAgreementAlgorithm: S.optional(KeyAgreementAlgorithmSpec),
+    KeyOrigin: S.optional(OriginType),
   }).pipe(ns),
 ).annotations({
   identifier: "DeriveSharedSecretResponse",
@@ -1657,20 +1932,20 @@ export const DeriveSharedSecretResponse = S.suspend(() =>
 export interface EncryptResponse {
   CiphertextBlob?: Uint8Array;
   KeyId?: string;
-  EncryptionAlgorithm?: string;
+  EncryptionAlgorithm?: EncryptionAlgorithmSpec;
 }
 export const EncryptResponse = S.suspend(() =>
   S.Struct({
     CiphertextBlob: S.optional(T.Blob),
     KeyId: S.optional(S.String),
-    EncryptionAlgorithm: S.optional(S.String),
+    EncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
   }).pipe(ns),
 ).annotations({
   identifier: "EncryptResponse",
 }) as any as S.Schema<EncryptResponse>;
 export interface GenerateDataKeyResponse {
   CiphertextBlob?: Uint8Array;
-  Plaintext?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  Plaintext?: Uint8Array | redacted.Redacted<Uint8Array>;
   KeyId?: string;
   CiphertextForRecipient?: Uint8Array;
   KeyMaterialId?: string;
@@ -1688,10 +1963,10 @@ export const GenerateDataKeyResponse = S.suspend(() =>
 }) as any as S.Schema<GenerateDataKeyResponse>;
 export interface GenerateDataKeyPairResponse {
   PrivateKeyCiphertextBlob?: Uint8Array;
-  PrivateKeyPlaintext?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  PrivateKeyPlaintext?: Uint8Array | redacted.Redacted<Uint8Array>;
   PublicKey?: Uint8Array;
   KeyId?: string;
-  KeyPairSpec?: string;
+  KeyPairSpec?: DataKeyPairSpec;
   CiphertextForRecipient?: Uint8Array;
   KeyMaterialId?: string;
 }
@@ -1701,7 +1976,7 @@ export const GenerateDataKeyPairResponse = S.suspend(() =>
     PrivateKeyPlaintext: S.optional(SensitiveBlob),
     PublicKey: S.optional(T.Blob),
     KeyId: S.optional(S.String),
-    KeyPairSpec: S.optional(S.String),
+    KeyPairSpec: S.optional(DataKeyPairSpec),
     CiphertextForRecipient: S.optional(T.Blob),
     KeyMaterialId: S.optional(S.String),
   }).pipe(ns),
@@ -1712,7 +1987,7 @@ export interface GenerateDataKeyPairWithoutPlaintextResponse {
   PrivateKeyCiphertextBlob?: Uint8Array;
   PublicKey?: Uint8Array;
   KeyId?: string;
-  KeyPairSpec?: string;
+  KeyPairSpec?: DataKeyPairSpec;
   KeyMaterialId?: string;
 }
 export const GenerateDataKeyPairWithoutPlaintextResponse = S.suspend(() =>
@@ -1720,7 +1995,7 @@ export const GenerateDataKeyPairWithoutPlaintextResponse = S.suspend(() =>
     PrivateKeyCiphertextBlob: S.optional(T.Blob),
     PublicKey: S.optional(T.Blob),
     KeyId: S.optional(S.String),
-    KeyPairSpec: S.optional(S.String),
+    KeyPairSpec: S.optional(DataKeyPairSpec),
     KeyMaterialId: S.optional(S.String),
   }).pipe(ns),
 ).annotations({
@@ -1742,20 +2017,20 @@ export const GenerateDataKeyWithoutPlaintextResponse = S.suspend(() =>
 }) as any as S.Schema<GenerateDataKeyWithoutPlaintextResponse>;
 export interface GenerateMacResponse {
   Mac?: Uint8Array;
-  MacAlgorithm?: string;
+  MacAlgorithm?: MacAlgorithmSpec;
   KeyId?: string;
 }
 export const GenerateMacResponse = S.suspend(() =>
   S.Struct({
     Mac: S.optional(T.Blob),
-    MacAlgorithm: S.optional(S.String),
+    MacAlgorithm: S.optional(MacAlgorithmSpec),
     KeyId: S.optional(S.String),
   }).pipe(ns),
 ).annotations({
   identifier: "GenerateMacResponse",
 }) as any as S.Schema<GenerateMacResponse>;
 export interface GenerateRandomResponse {
-  Plaintext?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  Plaintext?: Uint8Array | redacted.Redacted<Uint8Array>;
   CiphertextForRecipient?: Uint8Array;
 }
 export const GenerateRandomResponse = S.suspend(() =>
@@ -1803,7 +2078,7 @@ export const GetKeyRotationStatusResponse = S.suspend(() =>
 export interface GetParametersForImportResponse {
   KeyId?: string;
   ImportToken?: Uint8Array;
-  PublicKey?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  PublicKey?: Uint8Array | redacted.Redacted<Uint8Array>;
   ParametersValidTo?: Date;
 }
 export const GetParametersForImportResponse = S.suspend(() =>
@@ -1821,20 +2096,20 @@ export const GetParametersForImportResponse = S.suspend(() =>
 export interface GetPublicKeyResponse {
   KeyId?: string;
   PublicKey?: Uint8Array;
-  CustomerMasterKeySpec?: string;
-  KeySpec?: string;
-  KeyUsage?: string;
-  EncryptionAlgorithms?: EncryptionAlgorithmSpecList;
-  SigningAlgorithms?: SigningAlgorithmSpecList;
-  KeyAgreementAlgorithms?: KeyAgreementAlgorithmSpecList;
+  CustomerMasterKeySpec?: CustomerMasterKeySpec;
+  KeySpec?: KeySpec;
+  KeyUsage?: KeyUsageType;
+  EncryptionAlgorithms?: EncryptionAlgorithmSpec[];
+  SigningAlgorithms?: SigningAlgorithmSpec[];
+  KeyAgreementAlgorithms?: KeyAgreementAlgorithmSpec[];
 }
 export const GetPublicKeyResponse = S.suspend(() =>
   S.Struct({
     KeyId: S.optional(S.String),
     PublicKey: S.optional(T.Blob),
-    CustomerMasterKeySpec: S.optional(S.String),
-    KeySpec: S.optional(S.String),
-    KeyUsage: S.optional(S.String),
+    CustomerMasterKeySpec: S.optional(CustomerMasterKeySpec),
+    KeySpec: S.optional(KeySpec),
+    KeyUsage: S.optional(KeyUsageType),
     EncryptionAlgorithms: S.optional(EncryptionAlgorithmSpecList),
     SigningAlgorithms: S.optional(SigningAlgorithmSpecList),
     KeyAgreementAlgorithms: S.optional(KeyAgreementAlgorithmSpecList),
@@ -1855,7 +2130,7 @@ export const ImportKeyMaterialResponse = S.suspend(() =>
   identifier: "ImportKeyMaterialResponse",
 }) as any as S.Schema<ImportKeyMaterialResponse>;
 export interface ListKeyPoliciesResponse {
-  PolicyNames?: PolicyNameList;
+  PolicyNames?: string[];
   NextMarker?: string;
   Truncated?: boolean;
 }
@@ -1869,7 +2144,7 @@ export const ListKeyPoliciesResponse = S.suspend(() =>
   identifier: "ListKeyPoliciesResponse",
 }) as any as S.Schema<ListKeyPoliciesResponse>;
 export interface ListResourceTagsResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
   NextMarker?: string;
   Truncated?: boolean;
 }
@@ -1886,8 +2161,8 @@ export interface ReEncryptResponse {
   CiphertextBlob?: Uint8Array;
   SourceKeyId?: string;
   KeyId?: string;
-  SourceEncryptionAlgorithm?: string;
-  DestinationEncryptionAlgorithm?: string;
+  SourceEncryptionAlgorithm?: EncryptionAlgorithmSpec;
+  DestinationEncryptionAlgorithm?: EncryptionAlgorithmSpec;
   SourceKeyMaterialId?: string;
   DestinationKeyMaterialId?: string;
 }
@@ -1896,14 +2171,18 @@ export const ReEncryptResponse = S.suspend(() =>
     CiphertextBlob: S.optional(T.Blob),
     SourceKeyId: S.optional(S.String),
     KeyId: S.optional(S.String),
-    SourceEncryptionAlgorithm: S.optional(S.String),
-    DestinationEncryptionAlgorithm: S.optional(S.String),
+    SourceEncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
+    DestinationEncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
     SourceKeyMaterialId: S.optional(S.String),
     DestinationKeyMaterialId: S.optional(S.String),
   }).pipe(ns),
 ).annotations({
   identifier: "ReEncryptResponse",
 }) as any as S.Schema<ReEncryptResponse>;
+export type KeyManagerType = "AWS" | "CUSTOMER";
+export const KeyManagerType = S.Literal("AWS", "CUSTOMER");
+export type MultiRegionKeyType = "PRIMARY" | "REPLICA";
+export const MultiRegionKeyType = S.Literal("PRIMARY", "REPLICA");
 export interface MultiRegionKey {
   Arn?: string;
   Region?: string;
@@ -1916,21 +2195,21 @@ export const MultiRegionKey = S.suspend(() =>
 export type MultiRegionKeyList = MultiRegionKey[];
 export const MultiRegionKeyList = S.Array(MultiRegionKey);
 export interface MultiRegionConfiguration {
-  MultiRegionKeyType?: string;
+  MultiRegionKeyType?: MultiRegionKeyType;
   PrimaryKey?: MultiRegionKey;
-  ReplicaKeys?: MultiRegionKeyList;
+  ReplicaKeys?: MultiRegionKey[];
 }
 export const MultiRegionConfiguration = S.suspend(() =>
   S.Struct({
-    MultiRegionKeyType: S.optional(S.String),
+    MultiRegionKeyType: S.optional(MultiRegionKeyType),
     PrimaryKey: S.optional(MultiRegionKey),
     ReplicaKeys: S.optional(MultiRegionKeyList),
   }),
 ).annotations({
   identifier: "MultiRegionConfiguration",
 }) as any as S.Schema<MultiRegionConfiguration>;
-export type MacAlgorithmSpecList = string[];
-export const MacAlgorithmSpecList = S.Array(S.String);
+export type MacAlgorithmSpecList = MacAlgorithmSpec[];
+export const MacAlgorithmSpecList = S.Array(MacAlgorithmSpec);
 export interface XksKeyConfigurationType {
   Id?: string;
 }
@@ -1946,24 +2225,24 @@ export interface KeyMetadata {
   CreationDate?: Date;
   Enabled?: boolean;
   Description?: string;
-  KeyUsage?: string;
-  KeyState?: string;
+  KeyUsage?: KeyUsageType;
+  KeyState?: KeyState;
   DeletionDate?: Date;
   ValidTo?: Date;
-  Origin?: string;
+  Origin?: OriginType;
   CustomKeyStoreId?: string;
   CloudHsmClusterId?: string;
-  ExpirationModel?: string;
-  KeyManager?: string;
-  CustomerMasterKeySpec?: string;
-  KeySpec?: string;
-  EncryptionAlgorithms?: EncryptionAlgorithmSpecList;
-  SigningAlgorithms?: SigningAlgorithmSpecList;
-  KeyAgreementAlgorithms?: KeyAgreementAlgorithmSpecList;
+  ExpirationModel?: ExpirationModelType;
+  KeyManager?: KeyManagerType;
+  CustomerMasterKeySpec?: CustomerMasterKeySpec;
+  KeySpec?: KeySpec;
+  EncryptionAlgorithms?: EncryptionAlgorithmSpec[];
+  SigningAlgorithms?: SigningAlgorithmSpec[];
+  KeyAgreementAlgorithms?: KeyAgreementAlgorithmSpec[];
   MultiRegion?: boolean;
   MultiRegionConfiguration?: MultiRegionConfiguration;
   PendingDeletionWindowInDays?: number;
-  MacAlgorithms?: MacAlgorithmSpecList;
+  MacAlgorithms?: MacAlgorithmSpec[];
   XksKeyConfiguration?: XksKeyConfigurationType;
   CurrentKeyMaterialId?: string;
 }
@@ -1975,17 +2254,17 @@ export const KeyMetadata = S.suspend(() =>
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Enabled: S.optional(S.Boolean),
     Description: S.optional(S.String),
-    KeyUsage: S.optional(S.String),
-    KeyState: S.optional(S.String),
+    KeyUsage: S.optional(KeyUsageType),
+    KeyState: S.optional(KeyState),
     DeletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ValidTo: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Origin: S.optional(S.String),
+    Origin: S.optional(OriginType),
     CustomKeyStoreId: S.optional(S.String),
     CloudHsmClusterId: S.optional(S.String),
-    ExpirationModel: S.optional(S.String),
-    KeyManager: S.optional(S.String),
-    CustomerMasterKeySpec: S.optional(S.String),
-    KeySpec: S.optional(S.String),
+    ExpirationModel: S.optional(ExpirationModelType),
+    KeyManager: S.optional(KeyManagerType),
+    CustomerMasterKeySpec: S.optional(CustomerMasterKeySpec),
+    KeySpec: S.optional(KeySpec),
     EncryptionAlgorithms: S.optional(EncryptionAlgorithmSpecList),
     SigningAlgorithms: S.optional(SigningAlgorithmSpecList),
     KeyAgreementAlgorithms: S.optional(KeyAgreementAlgorithmSpecList),
@@ -2000,7 +2279,7 @@ export const KeyMetadata = S.suspend(() =>
 export interface ReplicateKeyResponse {
   ReplicaKeyMetadata?: KeyMetadata;
   ReplicaPolicy?: string;
-  ReplicaTags?: TagList;
+  ReplicaTags?: Tag[];
 }
 export const ReplicateKeyResponse = S.suspend(() =>
   S.Struct({
@@ -2022,14 +2301,14 @@ export const RotateKeyOnDemandResponse = S.suspend(() =>
 export interface ScheduleKeyDeletionResponse {
   KeyId?: string;
   DeletionDate?: Date;
-  KeyState?: string;
+  KeyState?: KeyState;
   PendingWindowInDays?: number;
 }
 export const ScheduleKeyDeletionResponse = S.suspend(() =>
   S.Struct({
     KeyId: S.optional(S.String),
     DeletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    KeyState: S.optional(S.String),
+    KeyState: S.optional(KeyState),
     PendingWindowInDays: S.optional(S.Number),
   }).pipe(ns),
 ).annotations({
@@ -2038,25 +2317,25 @@ export const ScheduleKeyDeletionResponse = S.suspend(() =>
 export interface SignResponse {
   KeyId?: string;
   Signature?: Uint8Array;
-  SigningAlgorithm?: string;
+  SigningAlgorithm?: SigningAlgorithmSpec;
 }
 export const SignResponse = S.suspend(() =>
   S.Struct({
     KeyId: S.optional(S.String),
     Signature: S.optional(T.Blob),
-    SigningAlgorithm: S.optional(S.String),
+    SigningAlgorithm: S.optional(SigningAlgorithmSpec),
   }).pipe(ns),
 ).annotations({ identifier: "SignResponse" }) as any as S.Schema<SignResponse>;
 export interface VerifyResponse {
   KeyId?: string;
   SignatureValid?: boolean;
-  SigningAlgorithm?: string;
+  SigningAlgorithm?: SigningAlgorithmSpec;
 }
 export const VerifyResponse = S.suspend(() =>
   S.Struct({
     KeyId: S.optional(S.String),
     SignatureValid: S.optional(S.Boolean),
-    SigningAlgorithm: S.optional(S.String),
+    SigningAlgorithm: S.optional(SigningAlgorithmSpec),
   }).pipe(ns),
 ).annotations({
   identifier: "VerifyResponse",
@@ -2064,17 +2343,84 @@ export const VerifyResponse = S.suspend(() =>
 export interface VerifyMacResponse {
   KeyId?: string;
   MacValid?: boolean;
-  MacAlgorithm?: string;
+  MacAlgorithm?: MacAlgorithmSpec;
 }
 export const VerifyMacResponse = S.suspend(() =>
   S.Struct({
     KeyId: S.optional(S.String),
     MacValid: S.optional(S.Boolean),
-    MacAlgorithm: S.optional(S.String),
+    MacAlgorithm: S.optional(MacAlgorithmSpec),
   }).pipe(ns),
 ).annotations({
   identifier: "VerifyMacResponse",
 }) as any as S.Schema<VerifyMacResponse>;
+export type ConnectionStateType =
+  | "CONNECTED"
+  | "CONNECTING"
+  | "FAILED"
+  | "DISCONNECTED"
+  | "DISCONNECTING";
+export const ConnectionStateType = S.Literal(
+  "CONNECTED",
+  "CONNECTING",
+  "FAILED",
+  "DISCONNECTED",
+  "DISCONNECTING",
+);
+export type ConnectionErrorCodeType =
+  | "INVALID_CREDENTIALS"
+  | "CLUSTER_NOT_FOUND"
+  | "NETWORK_ERRORS"
+  | "INTERNAL_ERROR"
+  | "INSUFFICIENT_CLOUDHSM_HSMS"
+  | "USER_LOCKED_OUT"
+  | "USER_NOT_FOUND"
+  | "USER_LOGGED_IN"
+  | "SUBNET_NOT_FOUND"
+  | "INSUFFICIENT_FREE_ADDRESSES_IN_SUBNET"
+  | "XKS_PROXY_ACCESS_DENIED"
+  | "XKS_PROXY_NOT_REACHABLE"
+  | "XKS_VPC_ENDPOINT_SERVICE_NOT_FOUND"
+  | "XKS_PROXY_INVALID_RESPONSE"
+  | "XKS_PROXY_INVALID_CONFIGURATION"
+  | "XKS_VPC_ENDPOINT_SERVICE_INVALID_CONFIGURATION"
+  | "XKS_PROXY_TIMED_OUT"
+  | "XKS_PROXY_INVALID_TLS_CONFIGURATION";
+export const ConnectionErrorCodeType = S.Literal(
+  "INVALID_CREDENTIALS",
+  "CLUSTER_NOT_FOUND",
+  "NETWORK_ERRORS",
+  "INTERNAL_ERROR",
+  "INSUFFICIENT_CLOUDHSM_HSMS",
+  "USER_LOCKED_OUT",
+  "USER_NOT_FOUND",
+  "USER_LOGGED_IN",
+  "SUBNET_NOT_FOUND",
+  "INSUFFICIENT_FREE_ADDRESSES_IN_SUBNET",
+  "XKS_PROXY_ACCESS_DENIED",
+  "XKS_PROXY_NOT_REACHABLE",
+  "XKS_VPC_ENDPOINT_SERVICE_NOT_FOUND",
+  "XKS_PROXY_INVALID_RESPONSE",
+  "XKS_PROXY_INVALID_CONFIGURATION",
+  "XKS_VPC_ENDPOINT_SERVICE_INVALID_CONFIGURATION",
+  "XKS_PROXY_TIMED_OUT",
+  "XKS_PROXY_INVALID_TLS_CONFIGURATION",
+);
+export type ImportState = "IMPORTED" | "PENDING_IMPORT";
+export const ImportState = S.Literal("IMPORTED", "PENDING_IMPORT");
+export type KeyMaterialState =
+  | "NON_CURRENT"
+  | "CURRENT"
+  | "PENDING_ROTATION"
+  | "PENDING_MULTI_REGION_IMPORT_AND_ROTATION";
+export const KeyMaterialState = S.Literal(
+  "NON_CURRENT",
+  "CURRENT",
+  "PENDING_ROTATION",
+  "PENDING_MULTI_REGION_IMPORT_AND_ROTATION",
+);
+export type RotationType = "AUTOMATIC" | "ON_DEMAND";
+export const RotationType = S.Literal("AUTOMATIC", "ON_DEMAND");
 export interface AliasListEntry {
   AliasName?: string;
   AliasArn?: string;
@@ -2105,7 +2451,7 @@ export interface GrantListEntry {
   GranteePrincipal?: string;
   RetiringPrincipal?: string;
   IssuingAccount?: string;
-  Operations?: GrantOperationList;
+  Operations?: GrantOperation[];
   Constraints?: GrantConstraints;
 }
 export const GrantListEntry = S.suspend(() =>
@@ -2129,24 +2475,24 @@ export interface RotationsListEntry {
   KeyId?: string;
   KeyMaterialId?: string;
   KeyMaterialDescription?: string;
-  ImportState?: string;
-  KeyMaterialState?: string;
-  ExpirationModel?: string;
+  ImportState?: ImportState;
+  KeyMaterialState?: KeyMaterialState;
+  ExpirationModel?: ExpirationModelType;
   ValidTo?: Date;
   RotationDate?: Date;
-  RotationType?: string;
+  RotationType?: RotationType;
 }
 export const RotationsListEntry = S.suspend(() =>
   S.Struct({
     KeyId: S.optional(S.String),
     KeyMaterialId: S.optional(S.String),
     KeyMaterialDescription: S.optional(S.String),
-    ImportState: S.optional(S.String),
-    KeyMaterialState: S.optional(S.String),
-    ExpirationModel: S.optional(S.String),
+    ImportState: S.optional(ImportState),
+    KeyMaterialState: S.optional(KeyMaterialState),
+    ExpirationModel: S.optional(ExpirationModelType),
     ValidTo: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     RotationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    RotationType: S.optional(S.String),
+    RotationType: S.optional(RotationType),
   }),
 ).annotations({
   identifier: "RotationsListEntry",
@@ -2192,8 +2538,8 @@ export const CreateKeyResponse = S.suspend(() =>
 }) as any as S.Schema<CreateKeyResponse>;
 export interface DecryptResponse {
   KeyId?: string;
-  Plaintext?: Uint8Array | Redacted.Redacted<Uint8Array>;
-  EncryptionAlgorithm?: string;
+  Plaintext?: Uint8Array | redacted.Redacted<Uint8Array>;
+  EncryptionAlgorithm?: EncryptionAlgorithmSpec;
   CiphertextForRecipient?: Uint8Array;
   KeyMaterialId?: string;
 }
@@ -2201,7 +2547,7 @@ export const DecryptResponse = S.suspend(() =>
   S.Struct({
     KeyId: S.optional(S.String),
     Plaintext: S.optional(SensitiveBlob),
-    EncryptionAlgorithm: S.optional(S.String),
+    EncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
     CiphertextForRecipient: S.optional(T.Blob),
     KeyMaterialId: S.optional(S.String),
   }).pipe(ns),
@@ -2209,7 +2555,7 @@ export const DecryptResponse = S.suspend(() =>
   identifier: "DecryptResponse",
 }) as any as S.Schema<DecryptResponse>;
 export interface ListAliasesResponse {
-  Aliases?: AliasList;
+  Aliases?: AliasListEntry[];
   NextMarker?: string;
   Truncated?: boolean;
 }
@@ -2223,7 +2569,7 @@ export const ListAliasesResponse = S.suspend(() =>
   identifier: "ListAliasesResponse",
 }) as any as S.Schema<ListAliasesResponse>;
 export interface ListGrantsResponse {
-  Grants?: GrantList;
+  Grants?: GrantListEntry[];
   NextMarker?: string;
   Truncated?: boolean;
 }
@@ -2237,7 +2583,7 @@ export const ListGrantsResponse = S.suspend(() =>
   identifier: "ListGrantsResponse",
 }) as any as S.Schema<ListGrantsResponse>;
 export interface ListKeyRotationsResponse {
-  Rotations?: RotationsList;
+  Rotations?: RotationsListEntry[];
   NextMarker?: string;
   Truncated?: boolean;
 }
@@ -2251,7 +2597,7 @@ export const ListKeyRotationsResponse = S.suspend(() =>
   identifier: "ListKeyRotationsResponse",
 }) as any as S.Schema<ListKeyRotationsResponse>;
 export interface ListKeysResponse {
-  Keys?: KeyList;
+  Keys?: KeyListEntry[];
   NextMarker?: string;
   Truncated?: boolean;
 }
@@ -2265,8 +2611,8 @@ export const ListKeysResponse = S.suspend(() =>
   identifier: "ListKeysResponse",
 }) as any as S.Schema<ListKeysResponse>;
 export interface XksProxyConfigurationType {
-  Connectivity?: string;
-  AccessKeyId?: string | Redacted.Redacted<string>;
+  Connectivity?: XksProxyConnectivityType;
+  AccessKeyId?: string | redacted.Redacted<string>;
   UriEndpoint?: string;
   UriPath?: string;
   VpcEndpointServiceName?: string;
@@ -2274,7 +2620,7 @@ export interface XksProxyConfigurationType {
 }
 export const XksProxyConfigurationType = S.suspend(() =>
   S.Struct({
-    Connectivity: S.optional(S.String),
+    Connectivity: S.optional(XksProxyConnectivityType),
     AccessKeyId: S.optional(SensitiveString),
     UriEndpoint: S.optional(S.String),
     UriPath: S.optional(S.String),
@@ -2289,10 +2635,10 @@ export interface CustomKeyStoresListEntry {
   CustomKeyStoreName?: string;
   CloudHsmClusterId?: string;
   TrustAnchorCertificate?: string;
-  ConnectionState?: string;
-  ConnectionErrorCode?: string;
+  ConnectionState?: ConnectionStateType;
+  ConnectionErrorCode?: ConnectionErrorCodeType;
   CreationDate?: Date;
-  CustomKeyStoreType?: string;
+  CustomKeyStoreType?: CustomKeyStoreType;
   XksProxyConfiguration?: XksProxyConfigurationType;
 }
 export const CustomKeyStoresListEntry = S.suspend(() =>
@@ -2301,10 +2647,10 @@ export const CustomKeyStoresListEntry = S.suspend(() =>
     CustomKeyStoreName: S.optional(S.String),
     CloudHsmClusterId: S.optional(S.String),
     TrustAnchorCertificate: S.optional(S.String),
-    ConnectionState: S.optional(S.String),
-    ConnectionErrorCode: S.optional(S.String),
+    ConnectionState: S.optional(ConnectionStateType),
+    ConnectionErrorCode: S.optional(ConnectionErrorCodeType),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    CustomKeyStoreType: S.optional(S.String),
+    CustomKeyStoreType: S.optional(CustomKeyStoreType),
     XksProxyConfiguration: S.optional(XksProxyConfigurationType),
   }),
 ).annotations({
@@ -2313,7 +2659,7 @@ export const CustomKeyStoresListEntry = S.suspend(() =>
 export type CustomKeyStoresList = CustomKeyStoresListEntry[];
 export const CustomKeyStoresList = S.Array(CustomKeyStoresListEntry);
 export interface DescribeCustomKeyStoresResponse {
-  CustomKeyStores?: CustomKeyStoresList;
+  CustomKeyStores?: CustomKeyStoresListEntry[];
   NextMarker?: string;
   Truncated?: boolean;
 }
@@ -2688,7 +3034,7 @@ export class XksProxyVpcEndpointServiceNotFoundException extends S.TaggedError<X
  */
 export const disconnectCustomKeyStore: (
   input: DisconnectCustomKeyStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisconnectCustomKeyStoreResponse,
   | CustomKeyStoreInvalidStateException
   | CustomKeyStoreNotFoundException
@@ -2757,7 +3103,7 @@ export const disconnectCustomKeyStore: (
  */
 export const deleteCustomKeyStore: (
   input: DeleteCustomKeyStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCustomKeyStoreResponse,
   | CustomKeyStoreHasCMKsException
   | CustomKeyStoreInvalidStateException
@@ -2861,7 +3207,7 @@ export const deleteCustomKeyStore: (
  */
 export const connectCustomKeyStore: (
   input: ConnectCustomKeyStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ConnectCustomKeyStoreResponse,
   | CloudHsmClusterInvalidConfigurationException
   | CloudHsmClusterNotActiveException
@@ -2904,7 +3250,7 @@ export const connectCustomKeyStore: (
 export const listKeys: {
   (
     input: ListKeysRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListKeysResponse,
     | DependencyTimeoutException
     | InvalidMarkerException
@@ -2914,7 +3260,7 @@ export const listKeys: {
   >;
   pages: (
     input: ListKeysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListKeysResponse,
     | DependencyTimeoutException
     | InvalidMarkerException
@@ -2924,7 +3270,7 @@ export const listKeys: {
   >;
   items: (
     input: ListKeysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     KeyListEntry,
     | DependencyTimeoutException
     | InvalidMarkerException
@@ -3001,7 +3347,7 @@ export const listKeys: {
 export const describeCustomKeyStores: {
   (
     input: DescribeCustomKeyStoresRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeCustomKeyStoresResponse,
     | CustomKeyStoreNotFoundException
     | InvalidMarkerException
@@ -3011,7 +3357,7 @@ export const describeCustomKeyStores: {
   >;
   pages: (
     input: DescribeCustomKeyStoresRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeCustomKeyStoresResponse,
     | CustomKeyStoreNotFoundException
     | InvalidMarkerException
@@ -3021,7 +3367,7 @@ export const describeCustomKeyStores: {
   >;
   items: (
     input: DescribeCustomKeyStoresRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CustomKeyStoresListEntry,
     | CustomKeyStoreNotFoundException
     | InvalidMarkerException
@@ -3090,7 +3436,7 @@ export const describeCustomKeyStores: {
 export const listRetirableGrants: {
   (
     input: ListRetirableGrantsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGrantsResponse,
     | DependencyTimeoutException
     | InvalidArnException
@@ -3102,7 +3448,7 @@ export const listRetirableGrants: {
   >;
   pages: (
     input: ListRetirableGrantsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGrantsResponse,
     | DependencyTimeoutException
     | InvalidArnException
@@ -3114,7 +3460,7 @@ export const listRetirableGrants: {
   >;
   items: (
     input: ListRetirableGrantsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GrantListEntry,
     | DependencyTimeoutException
     | InvalidArnException
@@ -3162,7 +3508,7 @@ export const listRetirableGrants: {
  */
 export const disableKey: (
   input: DisableKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisableKeyResponse,
   | DependencyTimeoutException
   | InvalidArnException
@@ -3203,7 +3549,7 @@ export const disableKey: (
  */
 export const updateKeyDescription: (
   input: UpdateKeyDescriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateKeyDescriptionResponse,
   | DependencyTimeoutException
   | InvalidArnException
@@ -3244,7 +3590,7 @@ export const updateKeyDescription: (
  */
 export const cancelKeyDeletion: (
   input: CancelKeyDeletionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelKeyDeletionResponse,
   | DependencyTimeoutException
   | InvalidArnException
@@ -3278,7 +3624,7 @@ export const cancelKeyDeletion: (
  */
 export const getKeyPolicy: (
   input: GetKeyPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetKeyPolicyResponse,
   | DependencyTimeoutException
   | InvalidArnException
@@ -3319,7 +3665,7 @@ export const getKeyPolicy: (
 export const listKeyPolicies: {
   (
     input: ListKeyPoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListKeyPoliciesResponse,
     | DependencyTimeoutException
     | InvalidArnException
@@ -3331,7 +3677,7 @@ export const listKeyPolicies: {
   >;
   pages: (
     input: ListKeyPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListKeyPoliciesResponse,
     | DependencyTimeoutException
     | InvalidArnException
@@ -3343,7 +3689,7 @@ export const listKeyPolicies: {
   >;
   items: (
     input: ListKeyPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PolicyNameType,
     | DependencyTimeoutException
     | InvalidArnException
@@ -3428,7 +3774,7 @@ export const listKeyPolicies: {
  */
 export const scheduleKeyDeletion: (
   input: ScheduleKeyDeletionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ScheduleKeyDeletionResponse,
   | DependencyTimeoutException
   | InvalidArnException
@@ -3478,7 +3824,7 @@ export const scheduleKeyDeletion: (
  */
 export const generateRandom: (
   input: GenerateRandomRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GenerateRandomResponse,
   | CustomKeyStoreInvalidStateException
   | CustomKeyStoreNotFoundException
@@ -3537,7 +3883,7 @@ export const generateRandom: (
  */
 export const retireGrant: (
   input: RetireGrantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RetireGrantResponse,
   | DependencyTimeoutException
   | DryRunOperationException
@@ -3601,7 +3947,7 @@ export const retireGrant: (
  */
 export const revokeGrant: (
   input: RevokeGrantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RevokeGrantResponse,
   | DependencyTimeoutException
   | DryRunOperationException
@@ -3653,7 +3999,7 @@ export const revokeGrant: (
 export const listResourceTags: {
   (
     input: ListResourceTagsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResourceTagsResponse,
     | InvalidArnException
     | InvalidMarkerException
@@ -3664,7 +4010,7 @@ export const listResourceTags: {
   >;
   pages: (
     input: ListResourceTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResourceTagsResponse,
     | InvalidArnException
     | InvalidMarkerException
@@ -3675,7 +4021,7 @@ export const listResourceTags: {
   >;
   items: (
     input: ListResourceTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Tag,
     | InvalidArnException
     | InvalidMarkerException
@@ -3740,7 +4086,7 @@ export const listResourceTags: {
 export const listAliases: {
   (
     input: ListAliasesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAliasesResponse,
     | DependencyTimeoutException
     | InvalidArnException
@@ -3752,7 +4098,7 @@ export const listAliases: {
   >;
   pages: (
     input: ListAliasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAliasesResponse,
     | DependencyTimeoutException
     | InvalidArnException
@@ -3764,7 +4110,7 @@ export const listAliases: {
   >;
   items: (
     input: ListAliasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AliasListEntry,
     | DependencyTimeoutException
     | InvalidArnException
@@ -3829,7 +4175,7 @@ export const listAliases: {
  */
 export const deleteAlias: (
   input: DeleteAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAliasResponse,
   | DependencyTimeoutException
   | KMSInternalException
@@ -3886,7 +4232,7 @@ export const deleteAlias: (
 export const listGrants: {
   (
     input: ListGrantsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGrantsResponse,
     | DependencyTimeoutException
     | InvalidArnException
@@ -3900,7 +4246,7 @@ export const listGrants: {
   >;
   pages: (
     input: ListGrantsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGrantsResponse,
     | DependencyTimeoutException
     | InvalidArnException
@@ -3914,7 +4260,7 @@ export const listGrants: {
   >;
   items: (
     input: ListGrantsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GrantListEntry,
     | DependencyTimeoutException
     | InvalidArnException
@@ -4010,7 +4356,7 @@ export const listGrants: {
  */
 export const updatePrimaryRegion: (
   input: UpdatePrimaryRegionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePrimaryRegionResponse,
   | DisabledException
   | InvalidArnException
@@ -4069,7 +4415,7 @@ export const updatePrimaryRegion: (
  */
 export const disableKeyRotation: (
   input: DisableKeyRotationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisableKeyRotationResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -4150,7 +4496,7 @@ export const disableKeyRotation: (
  */
 export const enableKeyRotation: (
   input: EnableKeyRotationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableKeyRotationResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -4213,7 +4559,7 @@ export const enableKeyRotation: (
  */
 export const deleteImportedKeyMaterial: (
   input: DeleteImportedKeyMaterialRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteImportedKeyMaterialResponse,
   | DependencyTimeoutException
   | InvalidArnException
@@ -4292,7 +4638,7 @@ export const deleteImportedKeyMaterial: (
  */
 export const getKeyRotationStatus: (
   input: GetKeyRotationStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetKeyRotationStatusResponse,
   | DependencyTimeoutException
   | InvalidArnException
@@ -4383,7 +4729,7 @@ export const getKeyRotationStatus: (
  */
 export const getParametersForImport: (
   input: GetParametersForImportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetParametersForImportResponse,
   | DependencyTimeoutException
   | InvalidArnException
@@ -4440,7 +4786,7 @@ export const getParametersForImport: (
 export const listKeyRotations: {
   (
     input: ListKeyRotationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListKeyRotationsResponse,
     | InvalidArnException
     | InvalidMarkerException
@@ -4453,7 +4799,7 @@ export const listKeyRotations: {
   >;
   pages: (
     input: ListKeyRotationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListKeyRotationsResponse,
     | InvalidArnException
     | InvalidMarkerException
@@ -4466,7 +4812,7 @@ export const listKeyRotations: {
   >;
   items: (
     input: ListKeyRotationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RotationsListEntry,
     | InvalidArnException
     | InvalidMarkerException
@@ -4554,7 +4900,7 @@ export const listKeyRotations: {
  */
 export const rotateKeyOnDemand: (
   input: RotateKeyOnDemandRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RotateKeyOnDemandResponse,
   | ConflictException
   | DependencyTimeoutException
@@ -4631,7 +4977,7 @@ export const rotateKeyOnDemand: (
  */
 export const createAlias: (
   input: CreateAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAliasResponse,
   | AlreadyExistsException
   | DependencyTimeoutException
@@ -4673,7 +5019,7 @@ export const createAlias: (
  */
 export const enableKey: (
   input: EnableKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableKeyResponse,
   | DependencyTimeoutException
   | InvalidArnException
@@ -4748,7 +5094,7 @@ export const enableKey: (
  */
 export const updateAlias: (
   input: UpdateAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAliasResponse,
   | DependencyTimeoutException
   | KMSInternalException
@@ -4823,7 +5169,7 @@ export const updateAlias: (
  */
 export const createGrant: (
   input: CreateGrantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGrantResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -4912,7 +5258,7 @@ export const createGrant: (
  */
 export const describeKey: (
   input: DescribeKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeKeyResponse,
   | DependencyTimeoutException
   | InvalidArnException
@@ -4966,7 +5312,7 @@ export const describeKey: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InvalidArnException
   | KMSInternalException
@@ -5038,7 +5384,7 @@ export const untagResource: (
  */
 export const getPublicKey: (
   input: GetPublicKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPublicKeyResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -5110,7 +5456,7 @@ export const getPublicKey: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InvalidArnException
   | KMSInternalException
@@ -5153,7 +5499,7 @@ export const tagResource: (
  */
 export const putKeyPolicy: (
   input: PutKeyPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutKeyPolicyResponse,
   | DependencyTimeoutException
   | InvalidArnException
@@ -5254,7 +5600,7 @@ export const putKeyPolicy: (
  */
 export const replicateKey: (
   input: ReplicateKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ReplicateKeyResponse,
   | AlreadyExistsException
   | DisabledException
@@ -5362,7 +5708,7 @@ export const replicateKey: (
  */
 export const deriveSharedSecret: (
   input: DeriveSharedSecretRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeriveSharedSecretResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -5463,7 +5809,7 @@ export const deriveSharedSecret: (
  */
 export const encrypt: (
   input: EncryptRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EncryptResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -5582,7 +5928,7 @@ export const encrypt: (
  */
 export const generateDataKey: (
   input: GenerateDataKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GenerateDataKeyResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -5687,7 +6033,7 @@ export const generateDataKey: (
  */
 export const generateDataKeyPair: (
   input: GenerateDataKeyPairRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GenerateDataKeyPairResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -5775,7 +6121,7 @@ export const generateDataKeyPair: (
  */
 export const generateDataKeyPairWithoutPlaintext: (
   input: GenerateDataKeyPairWithoutPlaintextRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GenerateDataKeyPairWithoutPlaintextResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -5876,7 +6222,7 @@ export const generateDataKeyPairWithoutPlaintext: (
  */
 export const generateDataKeyWithoutPlaintext: (
   input: GenerateDataKeyWithoutPlaintextRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GenerateDataKeyWithoutPlaintextResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -5940,7 +6286,7 @@ export const generateDataKeyWithoutPlaintext: (
  */
 export const generateMac: (
   input: GenerateMacRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GenerateMacResponse,
   | DisabledException
   | DryRunOperationException
@@ -6021,7 +6367,7 @@ export const generateMac: (
  */
 export const sign: (
   input: SignRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SignResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -6126,7 +6472,7 @@ export const sign: (
  */
 export const reEncrypt: (
   input: ReEncryptRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ReEncryptResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -6232,7 +6578,7 @@ export const reEncrypt: (
  */
 export const decrypt: (
   input: DecryptRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DecryptResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -6382,7 +6728,7 @@ export const decrypt: (
  */
 export const importKeyMaterial: (
   input: ImportKeyMaterialRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ImportKeyMaterialResponse,
   | DependencyTimeoutException
   | ExpiredImportTokenException
@@ -6442,7 +6788,7 @@ export const importKeyMaterial: (
  */
 export const verifyMac: (
   input: VerifyMacRequest,
-) => Effect.Effect<
+) => effect.Effect<
   VerifyMacResponse,
   | DisabledException
   | DryRunOperationException
@@ -6516,7 +6862,7 @@ export const verifyMac: (
  */
 export const verify: (
   input: VerifyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   VerifyResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -6715,7 +7061,7 @@ export const verify: (
  */
 export const createKey: (
   input: CreateKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateKeyResponse,
   | CloudHsmClusterInvalidConfigurationException
   | CustomKeyStoreInvalidStateException
@@ -6838,7 +7184,7 @@ export const createKey: (
  */
 export const updateCustomKeyStore: (
   input: UpdateCustomKeyStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCustomKeyStoreResponse,
   | CloudHsmClusterInvalidConfigurationException
   | CloudHsmClusterNotActiveException
@@ -6959,7 +7305,7 @@ export const updateCustomKeyStore: (
  */
 export const createCustomKeyStore: (
   input: CreateCustomKeyStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCustomKeyStoreResponse,
   | CloudHsmClusterInUseException
   | CloudHsmClusterInvalidConfigurationException

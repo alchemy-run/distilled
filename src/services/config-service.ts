@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -158,8 +158,6 @@ export type QueryDescription = string;
 export type QueryExpression = string;
 export type ResourceConfiguration = string;
 export type ErrorMessage = string;
-export type Long = number;
-export type Integer = number;
 export type ResourceTypeValue = string;
 export type ServicePrincipalValue = string;
 export type ConfigurationAggregatorArn = string;
@@ -199,16 +197,1104 @@ export const GetComplianceSummaryByConfigRuleRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetComplianceSummaryByConfigRuleRequest",
 }) as any as S.Schema<GetComplianceSummaryByConfigRuleRequest>;
-export type ResourceTypeList = string[];
-export const ResourceTypeList = S.Array(S.String);
+export type ResourceType =
+  | "AWS::EC2::CustomerGateway"
+  | "AWS::EC2::EIP"
+  | "AWS::EC2::Host"
+  | "AWS::EC2::Instance"
+  | "AWS::EC2::InternetGateway"
+  | "AWS::EC2::NetworkAcl"
+  | "AWS::EC2::NetworkInterface"
+  | "AWS::EC2::RouteTable"
+  | "AWS::EC2::SecurityGroup"
+  | "AWS::EC2::Subnet"
+  | "AWS::CloudTrail::Trail"
+  | "AWS::EC2::Volume"
+  | "AWS::EC2::VPC"
+  | "AWS::EC2::VPNConnection"
+  | "AWS::EC2::VPNGateway"
+  | "AWS::EC2::RegisteredHAInstance"
+  | "AWS::EC2::NatGateway"
+  | "AWS::EC2::EgressOnlyInternetGateway"
+  | "AWS::EC2::VPCEndpoint"
+  | "AWS::EC2::VPCEndpointService"
+  | "AWS::EC2::FlowLog"
+  | "AWS::EC2::VPCPeeringConnection"
+  | "AWS::Elasticsearch::Domain"
+  | "AWS::IAM::Group"
+  | "AWS::IAM::Policy"
+  | "AWS::IAM::Role"
+  | "AWS::IAM::User"
+  | "AWS::ElasticLoadBalancingV2::LoadBalancer"
+  | "AWS::ACM::Certificate"
+  | "AWS::RDS::DBInstance"
+  | "AWS::RDS::DBSubnetGroup"
+  | "AWS::RDS::DBSecurityGroup"
+  | "AWS::RDS::DBSnapshot"
+  | "AWS::RDS::DBCluster"
+  | "AWS::RDS::DBClusterSnapshot"
+  | "AWS::RDS::EventSubscription"
+  | "AWS::S3::Bucket"
+  | "AWS::S3::AccountPublicAccessBlock"
+  | "AWS::Redshift::Cluster"
+  | "AWS::Redshift::ClusterSnapshot"
+  | "AWS::Redshift::ClusterParameterGroup"
+  | "AWS::Redshift::ClusterSecurityGroup"
+  | "AWS::Redshift::ClusterSubnetGroup"
+  | "AWS::Redshift::EventSubscription"
+  | "AWS::SSM::ManagedInstanceInventory"
+  | "AWS::CloudWatch::Alarm"
+  | "AWS::CloudFormation::Stack"
+  | "AWS::ElasticLoadBalancing::LoadBalancer"
+  | "AWS::AutoScaling::AutoScalingGroup"
+  | "AWS::AutoScaling::LaunchConfiguration"
+  | "AWS::AutoScaling::ScalingPolicy"
+  | "AWS::AutoScaling::ScheduledAction"
+  | "AWS::DynamoDB::Table"
+  | "AWS::CodeBuild::Project"
+  | "AWS::WAF::RateBasedRule"
+  | "AWS::WAF::Rule"
+  | "AWS::WAF::RuleGroup"
+  | "AWS::WAF::WebACL"
+  | "AWS::WAFRegional::RateBasedRule"
+  | "AWS::WAFRegional::Rule"
+  | "AWS::WAFRegional::RuleGroup"
+  | "AWS::WAFRegional::WebACL"
+  | "AWS::CloudFront::Distribution"
+  | "AWS::CloudFront::StreamingDistribution"
+  | "AWS::Lambda::Function"
+  | "AWS::NetworkFirewall::Firewall"
+  | "AWS::NetworkFirewall::FirewallPolicy"
+  | "AWS::NetworkFirewall::RuleGroup"
+  | "AWS::ElasticBeanstalk::Application"
+  | "AWS::ElasticBeanstalk::ApplicationVersion"
+  | "AWS::ElasticBeanstalk::Environment"
+  | "AWS::WAFv2::WebACL"
+  | "AWS::WAFv2::RuleGroup"
+  | "AWS::WAFv2::IPSet"
+  | "AWS::WAFv2::RegexPatternSet"
+  | "AWS::WAFv2::ManagedRuleSet"
+  | "AWS::XRay::EncryptionConfig"
+  | "AWS::SSM::AssociationCompliance"
+  | "AWS::SSM::PatchCompliance"
+  | "AWS::Shield::Protection"
+  | "AWS::ShieldRegional::Protection"
+  | "AWS::Config::ConformancePackCompliance"
+  | "AWS::Config::ResourceCompliance"
+  | "AWS::ApiGateway::Stage"
+  | "AWS::ApiGateway::RestApi"
+  | "AWS::ApiGatewayV2::Stage"
+  | "AWS::ApiGatewayV2::Api"
+  | "AWS::CodePipeline::Pipeline"
+  | "AWS::ServiceCatalog::CloudFormationProvisionedProduct"
+  | "AWS::ServiceCatalog::CloudFormationProduct"
+  | "AWS::ServiceCatalog::Portfolio"
+  | "AWS::SQS::Queue"
+  | "AWS::KMS::Key"
+  | "AWS::QLDB::Ledger"
+  | "AWS::SecretsManager::Secret"
+  | "AWS::SNS::Topic"
+  | "AWS::SSM::FileData"
+  | "AWS::Backup::BackupPlan"
+  | "AWS::Backup::BackupSelection"
+  | "AWS::Backup::BackupVault"
+  | "AWS::Backup::RecoveryPoint"
+  | "AWS::ECR::Repository"
+  | "AWS::ECS::Cluster"
+  | "AWS::ECS::Service"
+  | "AWS::ECS::TaskDefinition"
+  | "AWS::EFS::AccessPoint"
+  | "AWS::EFS::FileSystem"
+  | "AWS::EKS::Cluster"
+  | "AWS::OpenSearch::Domain"
+  | "AWS::EC2::TransitGateway"
+  | "AWS::Kinesis::Stream"
+  | "AWS::Kinesis::StreamConsumer"
+  | "AWS::CodeDeploy::Application"
+  | "AWS::CodeDeploy::DeploymentConfig"
+  | "AWS::CodeDeploy::DeploymentGroup"
+  | "AWS::EC2::LaunchTemplate"
+  | "AWS::ECR::PublicRepository"
+  | "AWS::GuardDuty::Detector"
+  | "AWS::EMR::SecurityConfiguration"
+  | "AWS::SageMaker::CodeRepository"
+  | "AWS::Route53Resolver::ResolverEndpoint"
+  | "AWS::Route53Resolver::ResolverRule"
+  | "AWS::Route53Resolver::ResolverRuleAssociation"
+  | "AWS::DMS::ReplicationSubnetGroup"
+  | "AWS::DMS::EventSubscription"
+  | "AWS::MSK::Cluster"
+  | "AWS::StepFunctions::Activity"
+  | "AWS::WorkSpaces::Workspace"
+  | "AWS::WorkSpaces::ConnectionAlias"
+  | "AWS::SageMaker::Model"
+  | "AWS::ElasticLoadBalancingV2::Listener"
+  | "AWS::StepFunctions::StateMachine"
+  | "AWS::Batch::JobQueue"
+  | "AWS::Batch::ComputeEnvironment"
+  | "AWS::AccessAnalyzer::Analyzer"
+  | "AWS::Athena::WorkGroup"
+  | "AWS::Athena::DataCatalog"
+  | "AWS::Detective::Graph"
+  | "AWS::GlobalAccelerator::Accelerator"
+  | "AWS::GlobalAccelerator::EndpointGroup"
+  | "AWS::GlobalAccelerator::Listener"
+  | "AWS::EC2::TransitGatewayAttachment"
+  | "AWS::EC2::TransitGatewayRouteTable"
+  | "AWS::DMS::Certificate"
+  | "AWS::AppConfig::Application"
+  | "AWS::AppSync::GraphQLApi"
+  | "AWS::DataSync::LocationSMB"
+  | "AWS::DataSync::LocationFSxLustre"
+  | "AWS::DataSync::LocationS3"
+  | "AWS::DataSync::LocationEFS"
+  | "AWS::DataSync::Task"
+  | "AWS::DataSync::LocationNFS"
+  | "AWS::EC2::NetworkInsightsAccessScopeAnalysis"
+  | "AWS::EKS::FargateProfile"
+  | "AWS::Glue::Job"
+  | "AWS::GuardDuty::ThreatIntelSet"
+  | "AWS::GuardDuty::IPSet"
+  | "AWS::SageMaker::Workteam"
+  | "AWS::SageMaker::NotebookInstanceLifecycleConfig"
+  | "AWS::ServiceDiscovery::Service"
+  | "AWS::ServiceDiscovery::PublicDnsNamespace"
+  | "AWS::SES::ContactList"
+  | "AWS::SES::ConfigurationSet"
+  | "AWS::Route53::HostedZone"
+  | "AWS::IoTEvents::Input"
+  | "AWS::IoTEvents::DetectorModel"
+  | "AWS::IoTEvents::AlarmModel"
+  | "AWS::ServiceDiscovery::HttpNamespace"
+  | "AWS::Events::EventBus"
+  | "AWS::ImageBuilder::ContainerRecipe"
+  | "AWS::ImageBuilder::DistributionConfiguration"
+  | "AWS::ImageBuilder::InfrastructureConfiguration"
+  | "AWS::DataSync::LocationObjectStorage"
+  | "AWS::DataSync::LocationHDFS"
+  | "AWS::Glue::Classifier"
+  | "AWS::Route53RecoveryReadiness::Cell"
+  | "AWS::Route53RecoveryReadiness::ReadinessCheck"
+  | "AWS::ECR::RegistryPolicy"
+  | "AWS::Backup::ReportPlan"
+  | "AWS::Lightsail::Certificate"
+  | "AWS::RUM::AppMonitor"
+  | "AWS::Events::Endpoint"
+  | "AWS::SES::ReceiptRuleSet"
+  | "AWS::Events::Archive"
+  | "AWS::Events::ApiDestination"
+  | "AWS::Lightsail::Disk"
+  | "AWS::FIS::ExperimentTemplate"
+  | "AWS::DataSync::LocationFSxWindows"
+  | "AWS::SES::ReceiptFilter"
+  | "AWS::GuardDuty::Filter"
+  | "AWS::SES::Template"
+  | "AWS::AmazonMQ::Broker"
+  | "AWS::AppConfig::Environment"
+  | "AWS::AppConfig::ConfigurationProfile"
+  | "AWS::Cloud9::EnvironmentEC2"
+  | "AWS::EventSchemas::Registry"
+  | "AWS::EventSchemas::RegistryPolicy"
+  | "AWS::EventSchemas::Discoverer"
+  | "AWS::FraudDetector::Label"
+  | "AWS::FraudDetector::EntityType"
+  | "AWS::FraudDetector::Variable"
+  | "AWS::FraudDetector::Outcome"
+  | "AWS::IoT::Authorizer"
+  | "AWS::IoT::SecurityProfile"
+  | "AWS::IoT::RoleAlias"
+  | "AWS::IoT::Dimension"
+  | "AWS::IoTAnalytics::Datastore"
+  | "AWS::Lightsail::Bucket"
+  | "AWS::Lightsail::StaticIp"
+  | "AWS::MediaPackage::PackagingGroup"
+  | "AWS::Route53RecoveryReadiness::RecoveryGroup"
+  | "AWS::ResilienceHub::ResiliencyPolicy"
+  | "AWS::Transfer::Workflow"
+  | "AWS::EKS::IdentityProviderConfig"
+  | "AWS::EKS::Addon"
+  | "AWS::Glue::MLTransform"
+  | "AWS::IoT::Policy"
+  | "AWS::IoT::MitigationAction"
+  | "AWS::IoTTwinMaker::Workspace"
+  | "AWS::IoTTwinMaker::Entity"
+  | "AWS::IoTAnalytics::Dataset"
+  | "AWS::IoTAnalytics::Pipeline"
+  | "AWS::IoTAnalytics::Channel"
+  | "AWS::IoTSiteWise::Dashboard"
+  | "AWS::IoTSiteWise::Project"
+  | "AWS::IoTSiteWise::Portal"
+  | "AWS::IoTSiteWise::AssetModel"
+  | "AWS::IVS::Channel"
+  | "AWS::IVS::RecordingConfiguration"
+  | "AWS::IVS::PlaybackKeyPair"
+  | "AWS::KinesisAnalyticsV2::Application"
+  | "AWS::RDS::GlobalCluster"
+  | "AWS::S3::MultiRegionAccessPoint"
+  | "AWS::DeviceFarm::TestGridProject"
+  | "AWS::Budgets::BudgetsAction"
+  | "AWS::Lex::Bot"
+  | "AWS::CodeGuruReviewer::RepositoryAssociation"
+  | "AWS::IoT::CustomMetric"
+  | "AWS::Route53Resolver::FirewallDomainList"
+  | "AWS::RoboMaker::RobotApplicationVersion"
+  | "AWS::EC2::TrafficMirrorSession"
+  | "AWS::IoTSiteWise::Gateway"
+  | "AWS::Lex::BotAlias"
+  | "AWS::LookoutMetrics::Alert"
+  | "AWS::IoT::AccountAuditConfiguration"
+  | "AWS::EC2::TrafficMirrorTarget"
+  | "AWS::S3::StorageLens"
+  | "AWS::IoT::ScheduledAudit"
+  | "AWS::Events::Connection"
+  | "AWS::EventSchemas::Schema"
+  | "AWS::MediaPackage::PackagingConfiguration"
+  | "AWS::KinesisVideo::SignalingChannel"
+  | "AWS::AppStream::DirectoryConfig"
+  | "AWS::LookoutVision::Project"
+  | "AWS::Route53RecoveryControl::Cluster"
+  | "AWS::Route53RecoveryControl::SafetyRule"
+  | "AWS::Route53RecoveryControl::ControlPanel"
+  | "AWS::Route53RecoveryControl::RoutingControl"
+  | "AWS::Route53RecoveryReadiness::ResourceSet"
+  | "AWS::RoboMaker::SimulationApplication"
+  | "AWS::RoboMaker::RobotApplication"
+  | "AWS::HealthLake::FHIRDatastore"
+  | "AWS::Pinpoint::Segment"
+  | "AWS::Pinpoint::ApplicationSettings"
+  | "AWS::Events::Rule"
+  | "AWS::EC2::DHCPOptions"
+  | "AWS::EC2::NetworkInsightsPath"
+  | "AWS::EC2::TrafficMirrorFilter"
+  | "AWS::EC2::IPAM"
+  | "AWS::IoTTwinMaker::Scene"
+  | "AWS::NetworkManager::TransitGatewayRegistration"
+  | "AWS::CustomerProfiles::Domain"
+  | "AWS::AutoScaling::WarmPool"
+  | "AWS::Connect::PhoneNumber"
+  | "AWS::AppConfig::DeploymentStrategy"
+  | "AWS::AppFlow::Flow"
+  | "AWS::AuditManager::Assessment"
+  | "AWS::CloudWatch::MetricStream"
+  | "AWS::DeviceFarm::InstanceProfile"
+  | "AWS::DeviceFarm::Project"
+  | "AWS::EC2::EC2Fleet"
+  | "AWS::EC2::SubnetRouteTableAssociation"
+  | "AWS::ECR::PullThroughCacheRule"
+  | "AWS::GroundStation::Config"
+  | "AWS::ImageBuilder::ImagePipeline"
+  | "AWS::IoT::FleetMetric"
+  | "AWS::IoTWireless::ServiceProfile"
+  | "AWS::NetworkManager::Device"
+  | "AWS::NetworkManager::GlobalNetwork"
+  | "AWS::NetworkManager::Link"
+  | "AWS::NetworkManager::Site"
+  | "AWS::Panorama::Package"
+  | "AWS::Pinpoint::App"
+  | "AWS::Redshift::ScheduledAction"
+  | "AWS::Route53Resolver::FirewallRuleGroupAssociation"
+  | "AWS::SageMaker::AppImageConfig"
+  | "AWS::SageMaker::Image"
+  | "AWS::ECS::TaskSet"
+  | "AWS::Cassandra::Keyspace"
+  | "AWS::Signer::SigningProfile"
+  | "AWS::Amplify::App"
+  | "AWS::AppMesh::VirtualNode"
+  | "AWS::AppMesh::VirtualService"
+  | "AWS::AppRunner::VpcConnector"
+  | "AWS::AppStream::Application"
+  | "AWS::CodeArtifact::Repository"
+  | "AWS::EC2::PrefixList"
+  | "AWS::EC2::SpotFleet"
+  | "AWS::Evidently::Project"
+  | "AWS::Forecast::Dataset"
+  | "AWS::IAM::SAMLProvider"
+  | "AWS::IAM::ServerCertificate"
+  | "AWS::Pinpoint::Campaign"
+  | "AWS::Pinpoint::InAppTemplate"
+  | "AWS::SageMaker::Domain"
+  | "AWS::Transfer::Agreement"
+  | "AWS::Transfer::Connector"
+  | "AWS::KinesisFirehose::DeliveryStream"
+  | "AWS::Amplify::Branch"
+  | "AWS::AppIntegrations::EventIntegration"
+  | "AWS::AppMesh::Route"
+  | "AWS::Athena::PreparedStatement"
+  | "AWS::EC2::IPAMScope"
+  | "AWS::Evidently::Launch"
+  | "AWS::Forecast::DatasetGroup"
+  | "AWS::GreengrassV2::ComponentVersion"
+  | "AWS::GroundStation::MissionProfile"
+  | "AWS::MediaConnect::FlowEntitlement"
+  | "AWS::MediaConnect::FlowVpcInterface"
+  | "AWS::MediaTailor::PlaybackConfiguration"
+  | "AWS::MSK::Configuration"
+  | "AWS::Personalize::Dataset"
+  | "AWS::Personalize::Schema"
+  | "AWS::Personalize::Solution"
+  | "AWS::Pinpoint::EmailTemplate"
+  | "AWS::Pinpoint::EventStream"
+  | "AWS::ResilienceHub::App"
+  | "AWS::ACMPCA::CertificateAuthority"
+  | "AWS::AppConfig::HostedConfigurationVersion"
+  | "AWS::AppMesh::VirtualGateway"
+  | "AWS::AppMesh::VirtualRouter"
+  | "AWS::AppRunner::Service"
+  | "AWS::CustomerProfiles::ObjectType"
+  | "AWS::DMS::Endpoint"
+  | "AWS::EC2::CapacityReservation"
+  | "AWS::EC2::ClientVpnEndpoint"
+  | "AWS::Kendra::Index"
+  | "AWS::KinesisVideo::Stream"
+  | "AWS::Logs::Destination"
+  | "AWS::Pinpoint::EmailChannel"
+  | "AWS::S3::AccessPoint"
+  | "AWS::NetworkManager::CustomerGatewayAssociation"
+  | "AWS::NetworkManager::LinkAssociation"
+  | "AWS::IoTWireless::MulticastGroup"
+  | "AWS::Personalize::DatasetGroup"
+  | "AWS::IoTTwinMaker::ComponentType"
+  | "AWS::CodeBuild::ReportGroup"
+  | "AWS::SageMaker::FeatureGroup"
+  | "AWS::MSK::BatchScramSecret"
+  | "AWS::AppStream::Stack"
+  | "AWS::IoT::JobTemplate"
+  | "AWS::IoTWireless::FuotaTask"
+  | "AWS::IoT::ProvisioningTemplate"
+  | "AWS::InspectorV2::Filter"
+  | "AWS::Route53Resolver::ResolverQueryLoggingConfigAssociation"
+  | "AWS::ServiceDiscovery::Instance"
+  | "AWS::Transfer::Certificate"
+  | "AWS::MediaConnect::FlowSource"
+  | "AWS::APS::RuleGroupsNamespace"
+  | "AWS::CodeGuruProfiler::ProfilingGroup"
+  | "AWS::Route53Resolver::ResolverQueryLoggingConfig"
+  | "AWS::Batch::SchedulingPolicy"
+  | "AWS::ACMPCA::CertificateAuthorityActivation"
+  | "AWS::AppMesh::GatewayRoute"
+  | "AWS::AppMesh::Mesh"
+  | "AWS::Connect::Instance"
+  | "AWS::Connect::QuickConnect"
+  | "AWS::EC2::CarrierGateway"
+  | "AWS::EC2::IPAMPool"
+  | "AWS::EC2::TransitGatewayConnect"
+  | "AWS::EC2::TransitGatewayMulticastDomain"
+  | "AWS::ECS::CapacityProvider"
+  | "AWS::IAM::InstanceProfile"
+  | "AWS::IoT::CACertificate"
+  | "AWS::IoTTwinMaker::SyncJob"
+  | "AWS::KafkaConnect::Connector"
+  | "AWS::Lambda::CodeSigningConfig"
+  | "AWS::NetworkManager::ConnectPeer"
+  | "AWS::ResourceExplorer2::Index"
+  | "AWS::AppStream::Fleet"
+  | "AWS::Cognito::UserPool"
+  | "AWS::Cognito::UserPoolClient"
+  | "AWS::Cognito::UserPoolGroup"
+  | "AWS::EC2::NetworkInsightsAccessScope"
+  | "AWS::EC2::NetworkInsightsAnalysis"
+  | "AWS::Grafana::Workspace"
+  | "AWS::GroundStation::DataflowEndpointGroup"
+  | "AWS::ImageBuilder::ImageRecipe"
+  | "AWS::KMS::Alias"
+  | "AWS::M2::Environment"
+  | "AWS::QuickSight::DataSource"
+  | "AWS::QuickSight::Template"
+  | "AWS::QuickSight::Theme"
+  | "AWS::RDS::OptionGroup"
+  | "AWS::Redshift::EndpointAccess"
+  | "AWS::Route53Resolver::FirewallRuleGroup"
+  | "AWS::SSM::Document"
+  | "AWS::AppConfig::ExtensionAssociation"
+  | "AWS::AppIntegrations::Application"
+  | "AWS::AppSync::ApiCache"
+  | "AWS::Bedrock::Guardrail"
+  | "AWS::Bedrock::KnowledgeBase"
+  | "AWS::Cognito::IdentityPool"
+  | "AWS::Connect::Rule"
+  | "AWS::Connect::User"
+  | "AWS::EC2::ClientVpnTargetNetworkAssociation"
+  | "AWS::EC2::EIPAssociation"
+  | "AWS::EC2::IPAMResourceDiscovery"
+  | "AWS::EC2::IPAMResourceDiscoveryAssociation"
+  | "AWS::EC2::InstanceConnectEndpoint"
+  | "AWS::EC2::SnapshotBlockPublicAccess"
+  | "AWS::EC2::VPCBlockPublicAccessExclusion"
+  | "AWS::EC2::VPCBlockPublicAccessOptions"
+  | "AWS::EC2::VPCEndpointConnectionNotification"
+  | "AWS::EC2::VPNConnectionRoute"
+  | "AWS::Evidently::Segment"
+  | "AWS::IAM::OIDCProvider"
+  | "AWS::InspectorV2::Activation"
+  | "AWS::MSK::ClusterPolicy"
+  | "AWS::MSK::VpcConnection"
+  | "AWS::MediaConnect::Gateway"
+  | "AWS::MemoryDB::SubnetGroup"
+  | "AWS::OpenSearchServerless::Collection"
+  | "AWS::OpenSearchServerless::VpcEndpoint"
+  | "AWS::Redshift::EndpointAuthorization"
+  | "AWS::Route53Profiles::Profile"
+  | "AWS::S3::StorageLensGroup"
+  | "AWS::S3Express::BucketPolicy"
+  | "AWS::S3Express::DirectoryBucket"
+  | "AWS::SageMaker::InferenceExperiment"
+  | "AWS::SecurityHub::Standard"
+  | "AWS::Transfer::Profile"
+  | "AWS::CloudFormation::StackSet"
+  | "AWS::MediaPackageV2::Channel"
+  | "AWS::S3::AccessGrantsLocation"
+  | "AWS::S3::AccessGrant"
+  | "AWS::S3::AccessGrantsInstance"
+  | "AWS::EMRServerless::Application"
+  | "AWS::Config::AggregationAuthorization"
+  | "AWS::Bedrock::ApplicationInferenceProfile"
+  | "AWS::ApiGatewayV2::Integration"
+  | "AWS::SageMaker::MlflowTrackingServer"
+  | "AWS::SageMaker::ModelBiasJobDefinition"
+  | "AWS::SecretsManager::RotationSchedule"
+  | "AWS::Deadline::QueueFleetAssociation"
+  | "AWS::ECR::RepositoryCreationTemplate"
+  | "AWS::CloudFormation::LambdaHook"
+  | "AWS::EC2::SubnetNetworkAclAssociation"
+  | "AWS::ApiGateway::UsagePlan"
+  | "AWS::AppConfig::Extension"
+  | "AWS::Deadline::Fleet"
+  | "AWS::EMR::Studio"
+  | "AWS::S3Tables::TableBucket"
+  | "AWS::CloudFront::RealtimeLogConfig"
+  | "AWS::BackupGateway::Hypervisor"
+  | "AWS::BCMDataExports::Export"
+  | "AWS::CloudFormation::GuardHook"
+  | "AWS::CloudFront::PublicKey"
+  | "AWS::CloudTrail::EventDataStore"
+  | "AWS::EntityResolution::IdMappingWorkflow"
+  | "AWS::EntityResolution::SchemaMapping"
+  | "AWS::IoT::DomainConfiguration"
+  | "AWS::PCAConnectorAD::DirectoryRegistration"
+  | "AWS::RDS::Integration"
+  | "AWS::Config::ConformancePack"
+  | "AWS::RolesAnywhere::Profile"
+  | "AWS::CodeArtifact::Domain"
+  | "AWS::Backup::RestoreTestingPlan"
+  | "AWS::Config::StoredQuery"
+  | "AWS::SageMaker::DataQualityJobDefinition"
+  | "AWS::SageMaker::ModelExplainabilityJobDefinition"
+  | "AWS::SageMaker::ModelQualityJobDefinition"
+  | "AWS::SageMaker::StudioLifecycleConfig"
+  | "AWS::SES::DedicatedIpPool"
+  | "AWS::SES::MailManagerTrafficPolicy"
+  | "AWS::SSM::ResourceDataSync"
+  | "AWS::BedrockAgentCore::Runtime"
+  | "AWS::BedrockAgentCore::BrowserCustom"
+  | "AWS::ElasticLoadBalancingV2::TargetGroup"
+  | "AWS::EMRContainers::VirtualCluster"
+  | "AWS::EntityResolution::MatchingWorkflow"
+  | "AWS::IoTCoreDeviceAdvisor::SuiteDefinition"
+  | "AWS::EC2::SecurityGroupVpcAssociation"
+  | "AWS::EC2::VerifiedAccessInstance"
+  | "AWS::KafkaConnect::CustomPlugin"
+  | "AWS::NetworkManager::TransitGatewayPeering"
+  | "AWS::OpenSearchServerless::SecurityConfig"
+  | "AWS::Redshift::Integration"
+  | "AWS::RolesAnywhere::TrustAnchor"
+  | "AWS::Route53Profiles::ProfileAssociation"
+  | "AWS::SSMIncidents::ResponsePlan"
+  | "AWS::Transfer::Server"
+  | "AWS::Glue::Database"
+  | "AWS::Organizations::OrganizationalUnit"
+  | "AWS::EC2::IPAMPoolCidr"
+  | "AWS::EC2::VPCGatewayAttachment"
+  | "AWS::Bedrock::Prompt"
+  | "AWS::Comprehend::Flywheel"
+  | "AWS::DataSync::Agent"
+  | "AWS::MediaTailor::LiveSource"
+  | "AWS::MSK::ServerlessCluster"
+  | "AWS::IoTSiteWise::Asset"
+  | "AWS::B2BI::Capability"
+  | "AWS::CloudFront::KeyValueStore"
+  | "AWS::Deadline::Monitor"
+  | "AWS::GuardDuty::MalwareProtectionPlan"
+  | "AWS::Location::APIKey"
+  | "AWS::MediaPackageV2::OriginEndpoint"
+  | "AWS::PCAConnectorAD::Connector"
+  | "AWS::S3Tables::TableBucketPolicy"
+  | "AWS::SecretsManager::ResourcePolicy"
+  | "AWS::SSMContacts::Contact"
+  | "AWS::IoT::ThingGroup"
+  | "AWS::ImageBuilder::LifecyclePolicy"
+  | "AWS::GameLift::Build"
+  | "AWS::ECR::ReplicationConfiguration"
+  | "AWS::EC2::SubnetCidrBlock"
+  | "AWS::Connect::SecurityProfile"
+  | "AWS::CleanRoomsML::TrainingDataset"
+  | "AWS::AppStream::AppBlockBuilder"
+  | "AWS::Route53::DNSSEC"
+  | "AWS::SageMaker::UserProfile"
+  | "AWS::ApiGateway::Method";
+export const ResourceType = S.Literal(
+  "AWS::EC2::CustomerGateway",
+  "AWS::EC2::EIP",
+  "AWS::EC2::Host",
+  "AWS::EC2::Instance",
+  "AWS::EC2::InternetGateway",
+  "AWS::EC2::NetworkAcl",
+  "AWS::EC2::NetworkInterface",
+  "AWS::EC2::RouteTable",
+  "AWS::EC2::SecurityGroup",
+  "AWS::EC2::Subnet",
+  "AWS::CloudTrail::Trail",
+  "AWS::EC2::Volume",
+  "AWS::EC2::VPC",
+  "AWS::EC2::VPNConnection",
+  "AWS::EC2::VPNGateway",
+  "AWS::EC2::RegisteredHAInstance",
+  "AWS::EC2::NatGateway",
+  "AWS::EC2::EgressOnlyInternetGateway",
+  "AWS::EC2::VPCEndpoint",
+  "AWS::EC2::VPCEndpointService",
+  "AWS::EC2::FlowLog",
+  "AWS::EC2::VPCPeeringConnection",
+  "AWS::Elasticsearch::Domain",
+  "AWS::IAM::Group",
+  "AWS::IAM::Policy",
+  "AWS::IAM::Role",
+  "AWS::IAM::User",
+  "AWS::ElasticLoadBalancingV2::LoadBalancer",
+  "AWS::ACM::Certificate",
+  "AWS::RDS::DBInstance",
+  "AWS::RDS::DBSubnetGroup",
+  "AWS::RDS::DBSecurityGroup",
+  "AWS::RDS::DBSnapshot",
+  "AWS::RDS::DBCluster",
+  "AWS::RDS::DBClusterSnapshot",
+  "AWS::RDS::EventSubscription",
+  "AWS::S3::Bucket",
+  "AWS::S3::AccountPublicAccessBlock",
+  "AWS::Redshift::Cluster",
+  "AWS::Redshift::ClusterSnapshot",
+  "AWS::Redshift::ClusterParameterGroup",
+  "AWS::Redshift::ClusterSecurityGroup",
+  "AWS::Redshift::ClusterSubnetGroup",
+  "AWS::Redshift::EventSubscription",
+  "AWS::SSM::ManagedInstanceInventory",
+  "AWS::CloudWatch::Alarm",
+  "AWS::CloudFormation::Stack",
+  "AWS::ElasticLoadBalancing::LoadBalancer",
+  "AWS::AutoScaling::AutoScalingGroup",
+  "AWS::AutoScaling::LaunchConfiguration",
+  "AWS::AutoScaling::ScalingPolicy",
+  "AWS::AutoScaling::ScheduledAction",
+  "AWS::DynamoDB::Table",
+  "AWS::CodeBuild::Project",
+  "AWS::WAF::RateBasedRule",
+  "AWS::WAF::Rule",
+  "AWS::WAF::RuleGroup",
+  "AWS::WAF::WebACL",
+  "AWS::WAFRegional::RateBasedRule",
+  "AWS::WAFRegional::Rule",
+  "AWS::WAFRegional::RuleGroup",
+  "AWS::WAFRegional::WebACL",
+  "AWS::CloudFront::Distribution",
+  "AWS::CloudFront::StreamingDistribution",
+  "AWS::Lambda::Function",
+  "AWS::NetworkFirewall::Firewall",
+  "AWS::NetworkFirewall::FirewallPolicy",
+  "AWS::NetworkFirewall::RuleGroup",
+  "AWS::ElasticBeanstalk::Application",
+  "AWS::ElasticBeanstalk::ApplicationVersion",
+  "AWS::ElasticBeanstalk::Environment",
+  "AWS::WAFv2::WebACL",
+  "AWS::WAFv2::RuleGroup",
+  "AWS::WAFv2::IPSet",
+  "AWS::WAFv2::RegexPatternSet",
+  "AWS::WAFv2::ManagedRuleSet",
+  "AWS::XRay::EncryptionConfig",
+  "AWS::SSM::AssociationCompliance",
+  "AWS::SSM::PatchCompliance",
+  "AWS::Shield::Protection",
+  "AWS::ShieldRegional::Protection",
+  "AWS::Config::ConformancePackCompliance",
+  "AWS::Config::ResourceCompliance",
+  "AWS::ApiGateway::Stage",
+  "AWS::ApiGateway::RestApi",
+  "AWS::ApiGatewayV2::Stage",
+  "AWS::ApiGatewayV2::Api",
+  "AWS::CodePipeline::Pipeline",
+  "AWS::ServiceCatalog::CloudFormationProvisionedProduct",
+  "AWS::ServiceCatalog::CloudFormationProduct",
+  "AWS::ServiceCatalog::Portfolio",
+  "AWS::SQS::Queue",
+  "AWS::KMS::Key",
+  "AWS::QLDB::Ledger",
+  "AWS::SecretsManager::Secret",
+  "AWS::SNS::Topic",
+  "AWS::SSM::FileData",
+  "AWS::Backup::BackupPlan",
+  "AWS::Backup::BackupSelection",
+  "AWS::Backup::BackupVault",
+  "AWS::Backup::RecoveryPoint",
+  "AWS::ECR::Repository",
+  "AWS::ECS::Cluster",
+  "AWS::ECS::Service",
+  "AWS::ECS::TaskDefinition",
+  "AWS::EFS::AccessPoint",
+  "AWS::EFS::FileSystem",
+  "AWS::EKS::Cluster",
+  "AWS::OpenSearch::Domain",
+  "AWS::EC2::TransitGateway",
+  "AWS::Kinesis::Stream",
+  "AWS::Kinesis::StreamConsumer",
+  "AWS::CodeDeploy::Application",
+  "AWS::CodeDeploy::DeploymentConfig",
+  "AWS::CodeDeploy::DeploymentGroup",
+  "AWS::EC2::LaunchTemplate",
+  "AWS::ECR::PublicRepository",
+  "AWS::GuardDuty::Detector",
+  "AWS::EMR::SecurityConfiguration",
+  "AWS::SageMaker::CodeRepository",
+  "AWS::Route53Resolver::ResolverEndpoint",
+  "AWS::Route53Resolver::ResolverRule",
+  "AWS::Route53Resolver::ResolverRuleAssociation",
+  "AWS::DMS::ReplicationSubnetGroup",
+  "AWS::DMS::EventSubscription",
+  "AWS::MSK::Cluster",
+  "AWS::StepFunctions::Activity",
+  "AWS::WorkSpaces::Workspace",
+  "AWS::WorkSpaces::ConnectionAlias",
+  "AWS::SageMaker::Model",
+  "AWS::ElasticLoadBalancingV2::Listener",
+  "AWS::StepFunctions::StateMachine",
+  "AWS::Batch::JobQueue",
+  "AWS::Batch::ComputeEnvironment",
+  "AWS::AccessAnalyzer::Analyzer",
+  "AWS::Athena::WorkGroup",
+  "AWS::Athena::DataCatalog",
+  "AWS::Detective::Graph",
+  "AWS::GlobalAccelerator::Accelerator",
+  "AWS::GlobalAccelerator::EndpointGroup",
+  "AWS::GlobalAccelerator::Listener",
+  "AWS::EC2::TransitGatewayAttachment",
+  "AWS::EC2::TransitGatewayRouteTable",
+  "AWS::DMS::Certificate",
+  "AWS::AppConfig::Application",
+  "AWS::AppSync::GraphQLApi",
+  "AWS::DataSync::LocationSMB",
+  "AWS::DataSync::LocationFSxLustre",
+  "AWS::DataSync::LocationS3",
+  "AWS::DataSync::LocationEFS",
+  "AWS::DataSync::Task",
+  "AWS::DataSync::LocationNFS",
+  "AWS::EC2::NetworkInsightsAccessScopeAnalysis",
+  "AWS::EKS::FargateProfile",
+  "AWS::Glue::Job",
+  "AWS::GuardDuty::ThreatIntelSet",
+  "AWS::GuardDuty::IPSet",
+  "AWS::SageMaker::Workteam",
+  "AWS::SageMaker::NotebookInstanceLifecycleConfig",
+  "AWS::ServiceDiscovery::Service",
+  "AWS::ServiceDiscovery::PublicDnsNamespace",
+  "AWS::SES::ContactList",
+  "AWS::SES::ConfigurationSet",
+  "AWS::Route53::HostedZone",
+  "AWS::IoTEvents::Input",
+  "AWS::IoTEvents::DetectorModel",
+  "AWS::IoTEvents::AlarmModel",
+  "AWS::ServiceDiscovery::HttpNamespace",
+  "AWS::Events::EventBus",
+  "AWS::ImageBuilder::ContainerRecipe",
+  "AWS::ImageBuilder::DistributionConfiguration",
+  "AWS::ImageBuilder::InfrastructureConfiguration",
+  "AWS::DataSync::LocationObjectStorage",
+  "AWS::DataSync::LocationHDFS",
+  "AWS::Glue::Classifier",
+  "AWS::Route53RecoveryReadiness::Cell",
+  "AWS::Route53RecoveryReadiness::ReadinessCheck",
+  "AWS::ECR::RegistryPolicy",
+  "AWS::Backup::ReportPlan",
+  "AWS::Lightsail::Certificate",
+  "AWS::RUM::AppMonitor",
+  "AWS::Events::Endpoint",
+  "AWS::SES::ReceiptRuleSet",
+  "AWS::Events::Archive",
+  "AWS::Events::ApiDestination",
+  "AWS::Lightsail::Disk",
+  "AWS::FIS::ExperimentTemplate",
+  "AWS::DataSync::LocationFSxWindows",
+  "AWS::SES::ReceiptFilter",
+  "AWS::GuardDuty::Filter",
+  "AWS::SES::Template",
+  "AWS::AmazonMQ::Broker",
+  "AWS::AppConfig::Environment",
+  "AWS::AppConfig::ConfigurationProfile",
+  "AWS::Cloud9::EnvironmentEC2",
+  "AWS::EventSchemas::Registry",
+  "AWS::EventSchemas::RegistryPolicy",
+  "AWS::EventSchemas::Discoverer",
+  "AWS::FraudDetector::Label",
+  "AWS::FraudDetector::EntityType",
+  "AWS::FraudDetector::Variable",
+  "AWS::FraudDetector::Outcome",
+  "AWS::IoT::Authorizer",
+  "AWS::IoT::SecurityProfile",
+  "AWS::IoT::RoleAlias",
+  "AWS::IoT::Dimension",
+  "AWS::IoTAnalytics::Datastore",
+  "AWS::Lightsail::Bucket",
+  "AWS::Lightsail::StaticIp",
+  "AWS::MediaPackage::PackagingGroup",
+  "AWS::Route53RecoveryReadiness::RecoveryGroup",
+  "AWS::ResilienceHub::ResiliencyPolicy",
+  "AWS::Transfer::Workflow",
+  "AWS::EKS::IdentityProviderConfig",
+  "AWS::EKS::Addon",
+  "AWS::Glue::MLTransform",
+  "AWS::IoT::Policy",
+  "AWS::IoT::MitigationAction",
+  "AWS::IoTTwinMaker::Workspace",
+  "AWS::IoTTwinMaker::Entity",
+  "AWS::IoTAnalytics::Dataset",
+  "AWS::IoTAnalytics::Pipeline",
+  "AWS::IoTAnalytics::Channel",
+  "AWS::IoTSiteWise::Dashboard",
+  "AWS::IoTSiteWise::Project",
+  "AWS::IoTSiteWise::Portal",
+  "AWS::IoTSiteWise::AssetModel",
+  "AWS::IVS::Channel",
+  "AWS::IVS::RecordingConfiguration",
+  "AWS::IVS::PlaybackKeyPair",
+  "AWS::KinesisAnalyticsV2::Application",
+  "AWS::RDS::GlobalCluster",
+  "AWS::S3::MultiRegionAccessPoint",
+  "AWS::DeviceFarm::TestGridProject",
+  "AWS::Budgets::BudgetsAction",
+  "AWS::Lex::Bot",
+  "AWS::CodeGuruReviewer::RepositoryAssociation",
+  "AWS::IoT::CustomMetric",
+  "AWS::Route53Resolver::FirewallDomainList",
+  "AWS::RoboMaker::RobotApplicationVersion",
+  "AWS::EC2::TrafficMirrorSession",
+  "AWS::IoTSiteWise::Gateway",
+  "AWS::Lex::BotAlias",
+  "AWS::LookoutMetrics::Alert",
+  "AWS::IoT::AccountAuditConfiguration",
+  "AWS::EC2::TrafficMirrorTarget",
+  "AWS::S3::StorageLens",
+  "AWS::IoT::ScheduledAudit",
+  "AWS::Events::Connection",
+  "AWS::EventSchemas::Schema",
+  "AWS::MediaPackage::PackagingConfiguration",
+  "AWS::KinesisVideo::SignalingChannel",
+  "AWS::AppStream::DirectoryConfig",
+  "AWS::LookoutVision::Project",
+  "AWS::Route53RecoveryControl::Cluster",
+  "AWS::Route53RecoveryControl::SafetyRule",
+  "AWS::Route53RecoveryControl::ControlPanel",
+  "AWS::Route53RecoveryControl::RoutingControl",
+  "AWS::Route53RecoveryReadiness::ResourceSet",
+  "AWS::RoboMaker::SimulationApplication",
+  "AWS::RoboMaker::RobotApplication",
+  "AWS::HealthLake::FHIRDatastore",
+  "AWS::Pinpoint::Segment",
+  "AWS::Pinpoint::ApplicationSettings",
+  "AWS::Events::Rule",
+  "AWS::EC2::DHCPOptions",
+  "AWS::EC2::NetworkInsightsPath",
+  "AWS::EC2::TrafficMirrorFilter",
+  "AWS::EC2::IPAM",
+  "AWS::IoTTwinMaker::Scene",
+  "AWS::NetworkManager::TransitGatewayRegistration",
+  "AWS::CustomerProfiles::Domain",
+  "AWS::AutoScaling::WarmPool",
+  "AWS::Connect::PhoneNumber",
+  "AWS::AppConfig::DeploymentStrategy",
+  "AWS::AppFlow::Flow",
+  "AWS::AuditManager::Assessment",
+  "AWS::CloudWatch::MetricStream",
+  "AWS::DeviceFarm::InstanceProfile",
+  "AWS::DeviceFarm::Project",
+  "AWS::EC2::EC2Fleet",
+  "AWS::EC2::SubnetRouteTableAssociation",
+  "AWS::ECR::PullThroughCacheRule",
+  "AWS::GroundStation::Config",
+  "AWS::ImageBuilder::ImagePipeline",
+  "AWS::IoT::FleetMetric",
+  "AWS::IoTWireless::ServiceProfile",
+  "AWS::NetworkManager::Device",
+  "AWS::NetworkManager::GlobalNetwork",
+  "AWS::NetworkManager::Link",
+  "AWS::NetworkManager::Site",
+  "AWS::Panorama::Package",
+  "AWS::Pinpoint::App",
+  "AWS::Redshift::ScheduledAction",
+  "AWS::Route53Resolver::FirewallRuleGroupAssociation",
+  "AWS::SageMaker::AppImageConfig",
+  "AWS::SageMaker::Image",
+  "AWS::ECS::TaskSet",
+  "AWS::Cassandra::Keyspace",
+  "AWS::Signer::SigningProfile",
+  "AWS::Amplify::App",
+  "AWS::AppMesh::VirtualNode",
+  "AWS::AppMesh::VirtualService",
+  "AWS::AppRunner::VpcConnector",
+  "AWS::AppStream::Application",
+  "AWS::CodeArtifact::Repository",
+  "AWS::EC2::PrefixList",
+  "AWS::EC2::SpotFleet",
+  "AWS::Evidently::Project",
+  "AWS::Forecast::Dataset",
+  "AWS::IAM::SAMLProvider",
+  "AWS::IAM::ServerCertificate",
+  "AWS::Pinpoint::Campaign",
+  "AWS::Pinpoint::InAppTemplate",
+  "AWS::SageMaker::Domain",
+  "AWS::Transfer::Agreement",
+  "AWS::Transfer::Connector",
+  "AWS::KinesisFirehose::DeliveryStream",
+  "AWS::Amplify::Branch",
+  "AWS::AppIntegrations::EventIntegration",
+  "AWS::AppMesh::Route",
+  "AWS::Athena::PreparedStatement",
+  "AWS::EC2::IPAMScope",
+  "AWS::Evidently::Launch",
+  "AWS::Forecast::DatasetGroup",
+  "AWS::GreengrassV2::ComponentVersion",
+  "AWS::GroundStation::MissionProfile",
+  "AWS::MediaConnect::FlowEntitlement",
+  "AWS::MediaConnect::FlowVpcInterface",
+  "AWS::MediaTailor::PlaybackConfiguration",
+  "AWS::MSK::Configuration",
+  "AWS::Personalize::Dataset",
+  "AWS::Personalize::Schema",
+  "AWS::Personalize::Solution",
+  "AWS::Pinpoint::EmailTemplate",
+  "AWS::Pinpoint::EventStream",
+  "AWS::ResilienceHub::App",
+  "AWS::ACMPCA::CertificateAuthority",
+  "AWS::AppConfig::HostedConfigurationVersion",
+  "AWS::AppMesh::VirtualGateway",
+  "AWS::AppMesh::VirtualRouter",
+  "AWS::AppRunner::Service",
+  "AWS::CustomerProfiles::ObjectType",
+  "AWS::DMS::Endpoint",
+  "AWS::EC2::CapacityReservation",
+  "AWS::EC2::ClientVpnEndpoint",
+  "AWS::Kendra::Index",
+  "AWS::KinesisVideo::Stream",
+  "AWS::Logs::Destination",
+  "AWS::Pinpoint::EmailChannel",
+  "AWS::S3::AccessPoint",
+  "AWS::NetworkManager::CustomerGatewayAssociation",
+  "AWS::NetworkManager::LinkAssociation",
+  "AWS::IoTWireless::MulticastGroup",
+  "AWS::Personalize::DatasetGroup",
+  "AWS::IoTTwinMaker::ComponentType",
+  "AWS::CodeBuild::ReportGroup",
+  "AWS::SageMaker::FeatureGroup",
+  "AWS::MSK::BatchScramSecret",
+  "AWS::AppStream::Stack",
+  "AWS::IoT::JobTemplate",
+  "AWS::IoTWireless::FuotaTask",
+  "AWS::IoT::ProvisioningTemplate",
+  "AWS::InspectorV2::Filter",
+  "AWS::Route53Resolver::ResolverQueryLoggingConfigAssociation",
+  "AWS::ServiceDiscovery::Instance",
+  "AWS::Transfer::Certificate",
+  "AWS::MediaConnect::FlowSource",
+  "AWS::APS::RuleGroupsNamespace",
+  "AWS::CodeGuruProfiler::ProfilingGroup",
+  "AWS::Route53Resolver::ResolverQueryLoggingConfig",
+  "AWS::Batch::SchedulingPolicy",
+  "AWS::ACMPCA::CertificateAuthorityActivation",
+  "AWS::AppMesh::GatewayRoute",
+  "AWS::AppMesh::Mesh",
+  "AWS::Connect::Instance",
+  "AWS::Connect::QuickConnect",
+  "AWS::EC2::CarrierGateway",
+  "AWS::EC2::IPAMPool",
+  "AWS::EC2::TransitGatewayConnect",
+  "AWS::EC2::TransitGatewayMulticastDomain",
+  "AWS::ECS::CapacityProvider",
+  "AWS::IAM::InstanceProfile",
+  "AWS::IoT::CACertificate",
+  "AWS::IoTTwinMaker::SyncJob",
+  "AWS::KafkaConnect::Connector",
+  "AWS::Lambda::CodeSigningConfig",
+  "AWS::NetworkManager::ConnectPeer",
+  "AWS::ResourceExplorer2::Index",
+  "AWS::AppStream::Fleet",
+  "AWS::Cognito::UserPool",
+  "AWS::Cognito::UserPoolClient",
+  "AWS::Cognito::UserPoolGroup",
+  "AWS::EC2::NetworkInsightsAccessScope",
+  "AWS::EC2::NetworkInsightsAnalysis",
+  "AWS::Grafana::Workspace",
+  "AWS::GroundStation::DataflowEndpointGroup",
+  "AWS::ImageBuilder::ImageRecipe",
+  "AWS::KMS::Alias",
+  "AWS::M2::Environment",
+  "AWS::QuickSight::DataSource",
+  "AWS::QuickSight::Template",
+  "AWS::QuickSight::Theme",
+  "AWS::RDS::OptionGroup",
+  "AWS::Redshift::EndpointAccess",
+  "AWS::Route53Resolver::FirewallRuleGroup",
+  "AWS::SSM::Document",
+  "AWS::AppConfig::ExtensionAssociation",
+  "AWS::AppIntegrations::Application",
+  "AWS::AppSync::ApiCache",
+  "AWS::Bedrock::Guardrail",
+  "AWS::Bedrock::KnowledgeBase",
+  "AWS::Cognito::IdentityPool",
+  "AWS::Connect::Rule",
+  "AWS::Connect::User",
+  "AWS::EC2::ClientVpnTargetNetworkAssociation",
+  "AWS::EC2::EIPAssociation",
+  "AWS::EC2::IPAMResourceDiscovery",
+  "AWS::EC2::IPAMResourceDiscoveryAssociation",
+  "AWS::EC2::InstanceConnectEndpoint",
+  "AWS::EC2::SnapshotBlockPublicAccess",
+  "AWS::EC2::VPCBlockPublicAccessExclusion",
+  "AWS::EC2::VPCBlockPublicAccessOptions",
+  "AWS::EC2::VPCEndpointConnectionNotification",
+  "AWS::EC2::VPNConnectionRoute",
+  "AWS::Evidently::Segment",
+  "AWS::IAM::OIDCProvider",
+  "AWS::InspectorV2::Activation",
+  "AWS::MSK::ClusterPolicy",
+  "AWS::MSK::VpcConnection",
+  "AWS::MediaConnect::Gateway",
+  "AWS::MemoryDB::SubnetGroup",
+  "AWS::OpenSearchServerless::Collection",
+  "AWS::OpenSearchServerless::VpcEndpoint",
+  "AWS::Redshift::EndpointAuthorization",
+  "AWS::Route53Profiles::Profile",
+  "AWS::S3::StorageLensGroup",
+  "AWS::S3Express::BucketPolicy",
+  "AWS::S3Express::DirectoryBucket",
+  "AWS::SageMaker::InferenceExperiment",
+  "AWS::SecurityHub::Standard",
+  "AWS::Transfer::Profile",
+  "AWS::CloudFormation::StackSet",
+  "AWS::MediaPackageV2::Channel",
+  "AWS::S3::AccessGrantsLocation",
+  "AWS::S3::AccessGrant",
+  "AWS::S3::AccessGrantsInstance",
+  "AWS::EMRServerless::Application",
+  "AWS::Config::AggregationAuthorization",
+  "AWS::Bedrock::ApplicationInferenceProfile",
+  "AWS::ApiGatewayV2::Integration",
+  "AWS::SageMaker::MlflowTrackingServer",
+  "AWS::SageMaker::ModelBiasJobDefinition",
+  "AWS::SecretsManager::RotationSchedule",
+  "AWS::Deadline::QueueFleetAssociation",
+  "AWS::ECR::RepositoryCreationTemplate",
+  "AWS::CloudFormation::LambdaHook",
+  "AWS::EC2::SubnetNetworkAclAssociation",
+  "AWS::ApiGateway::UsagePlan",
+  "AWS::AppConfig::Extension",
+  "AWS::Deadline::Fleet",
+  "AWS::EMR::Studio",
+  "AWS::S3Tables::TableBucket",
+  "AWS::CloudFront::RealtimeLogConfig",
+  "AWS::BackupGateway::Hypervisor",
+  "AWS::BCMDataExports::Export",
+  "AWS::CloudFormation::GuardHook",
+  "AWS::CloudFront::PublicKey",
+  "AWS::CloudTrail::EventDataStore",
+  "AWS::EntityResolution::IdMappingWorkflow",
+  "AWS::EntityResolution::SchemaMapping",
+  "AWS::IoT::DomainConfiguration",
+  "AWS::PCAConnectorAD::DirectoryRegistration",
+  "AWS::RDS::Integration",
+  "AWS::Config::ConformancePack",
+  "AWS::RolesAnywhere::Profile",
+  "AWS::CodeArtifact::Domain",
+  "AWS::Backup::RestoreTestingPlan",
+  "AWS::Config::StoredQuery",
+  "AWS::SageMaker::DataQualityJobDefinition",
+  "AWS::SageMaker::ModelExplainabilityJobDefinition",
+  "AWS::SageMaker::ModelQualityJobDefinition",
+  "AWS::SageMaker::StudioLifecycleConfig",
+  "AWS::SES::DedicatedIpPool",
+  "AWS::SES::MailManagerTrafficPolicy",
+  "AWS::SSM::ResourceDataSync",
+  "AWS::BedrockAgentCore::Runtime",
+  "AWS::BedrockAgentCore::BrowserCustom",
+  "AWS::ElasticLoadBalancingV2::TargetGroup",
+  "AWS::EMRContainers::VirtualCluster",
+  "AWS::EntityResolution::MatchingWorkflow",
+  "AWS::IoTCoreDeviceAdvisor::SuiteDefinition",
+  "AWS::EC2::SecurityGroupVpcAssociation",
+  "AWS::EC2::VerifiedAccessInstance",
+  "AWS::KafkaConnect::CustomPlugin",
+  "AWS::NetworkManager::TransitGatewayPeering",
+  "AWS::OpenSearchServerless::SecurityConfig",
+  "AWS::Redshift::Integration",
+  "AWS::RolesAnywhere::TrustAnchor",
+  "AWS::Route53Profiles::ProfileAssociation",
+  "AWS::SSMIncidents::ResponsePlan",
+  "AWS::Transfer::Server",
+  "AWS::Glue::Database",
+  "AWS::Organizations::OrganizationalUnit",
+  "AWS::EC2::IPAMPoolCidr",
+  "AWS::EC2::VPCGatewayAttachment",
+  "AWS::Bedrock::Prompt",
+  "AWS::Comprehend::Flywheel",
+  "AWS::DataSync::Agent",
+  "AWS::MediaTailor::LiveSource",
+  "AWS::MSK::ServerlessCluster",
+  "AWS::IoTSiteWise::Asset",
+  "AWS::B2BI::Capability",
+  "AWS::CloudFront::KeyValueStore",
+  "AWS::Deadline::Monitor",
+  "AWS::GuardDuty::MalwareProtectionPlan",
+  "AWS::Location::APIKey",
+  "AWS::MediaPackageV2::OriginEndpoint",
+  "AWS::PCAConnectorAD::Connector",
+  "AWS::S3Tables::TableBucketPolicy",
+  "AWS::SecretsManager::ResourcePolicy",
+  "AWS::SSMContacts::Contact",
+  "AWS::IoT::ThingGroup",
+  "AWS::ImageBuilder::LifecyclePolicy",
+  "AWS::GameLift::Build",
+  "AWS::ECR::ReplicationConfiguration",
+  "AWS::EC2::SubnetCidrBlock",
+  "AWS::Connect::SecurityProfile",
+  "AWS::CleanRoomsML::TrainingDataset",
+  "AWS::AppStream::AppBlockBuilder",
+  "AWS::Route53::DNSSEC",
+  "AWS::SageMaker::UserProfile",
+  "AWS::ApiGateway::Method",
+);
+export type ResourceTypeList = ResourceType[];
+export const ResourceTypeList = S.Array(ResourceType);
 export type ConfigRuleNames = string[];
 export const ConfigRuleNames = S.Array(S.String);
-export type ComplianceTypes = string[];
-export const ComplianceTypes = S.Array(S.String);
+export type ComplianceType =
+  | "COMPLIANT"
+  | "NON_COMPLIANT"
+  | "NOT_APPLICABLE"
+  | "INSUFFICIENT_DATA";
+export const ComplianceType = S.Literal(
+  "COMPLIANT",
+  "NON_COMPLIANT",
+  "NOT_APPLICABLE",
+  "INSUFFICIENT_DATA",
+);
+export type ComplianceTypes = ComplianceType[];
+export const ComplianceTypes = S.Array(ComplianceType);
 export type ConfigurationAggregatorNameList = string[];
 export const ConfigurationAggregatorNameList = S.Array(S.String);
-export type AggregatedSourceStatusTypeList = string[];
-export const AggregatedSourceStatusTypeList = S.Array(S.String);
+export type AggregatedSourceStatusType = "FAILED" | "SUCCEEDED" | "OUTDATED";
+export const AggregatedSourceStatusType = S.Literal(
+  "FAILED",
+  "SUCCEEDED",
+  "OUTDATED",
+);
+export type AggregatedSourceStatusTypeList = AggregatedSourceStatusType[];
+export const AggregatedSourceStatusTypeList = S.Array(
+  AggregatedSourceStatusType,
+);
 export type ConfigurationRecorderNameList = string[];
 export const ConfigurationRecorderNameList = S.Array(S.String);
 export type ConformancePackNamesList = string[];
@@ -221,16 +1307,45 @@ export type OrganizationConformancePackNames = string[];
 export const OrganizationConformancePackNames = S.Array(S.String);
 export type RetentionConfigurationNameList = string[];
 export const RetentionConfigurationNameList = S.Array(S.String);
+export type ConfigRuleComplianceSummaryGroupKey = "ACCOUNT_ID" | "AWS_REGION";
+export const ConfigRuleComplianceSummaryGroupKey = S.Literal(
+  "ACCOUNT_ID",
+  "AWS_REGION",
+);
+export type AggregateConformancePackComplianceSummaryGroupKey =
+  | "ACCOUNT_ID"
+  | "AWS_REGION";
+export const AggregateConformancePackComplianceSummaryGroupKey = S.Literal(
+  "ACCOUNT_ID",
+  "AWS_REGION",
+);
+export type ResourceCountGroupKey =
+  | "RESOURCE_TYPE"
+  | "ACCOUNT_ID"
+  | "AWS_REGION";
+export const ResourceCountGroupKey = S.Literal(
+  "RESOURCE_TYPE",
+  "ACCOUNT_ID",
+  "AWS_REGION",
+);
 export type ResourceTypes = string[];
 export const ResourceTypes = S.Array(S.String);
 export type ConformancePackNamesToSummarizeList = string[];
 export const ConformancePackNamesToSummarizeList = S.Array(S.String);
+export type ChronologicalOrder = "Reverse" | "Forward";
+export const ChronologicalOrder = S.Literal("Reverse", "Forward");
+export type SortOrder = "ASCENDING" | "DESCENDING";
+export const SortOrder = S.Literal("ASCENDING", "DESCENDING");
+export type SortBy = "SCORE";
+export const SortBy = S.Literal("SCORE");
 export type ResourceIdList = string[];
 export const ResourceIdList = S.Array(S.String);
 export type ExcludedAccounts = string[];
 export const ExcludedAccounts = S.Array(S.String);
 export type ReevaluateConfigRuleNames = string[];
 export const ReevaluateConfigRuleNames = S.Array(S.String);
+export type EvaluationMode = "DETECTIVE" | "PROACTIVE";
+export const EvaluationMode = S.Literal("DETECTIVE", "PROACTIVE");
 export interface Tag {
   Key?: string;
   Value?: string;
@@ -244,7 +1359,7 @@ export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface AssociateResourceTypesRequest {
   ConfigurationRecorderArn: string;
-  ResourceTypes: ResourceTypeList;
+  ResourceTypes: ResourceType[];
 }
 export const AssociateResourceTypesRequest = S.suspend(() =>
   S.Struct({
@@ -669,8 +1784,8 @@ export const DescribeAggregationAuthorizationsRequest = S.suspend(() =>
   identifier: "DescribeAggregationAuthorizationsRequest",
 }) as any as S.Schema<DescribeAggregationAuthorizationsRequest>;
 export interface DescribeComplianceByConfigRuleRequest {
-  ConfigRuleNames?: ConfigRuleNames;
-  ComplianceTypes?: ComplianceTypes;
+  ConfigRuleNames?: string[];
+  ComplianceTypes?: ComplianceType[];
   NextToken?: string;
 }
 export const DescribeComplianceByConfigRuleRequest = S.suspend(() =>
@@ -695,7 +1810,7 @@ export const DescribeComplianceByConfigRuleRequest = S.suspend(() =>
 export interface DescribeComplianceByResourceRequest {
   ResourceType?: string;
   ResourceId?: string;
-  ComplianceTypes?: ComplianceTypes;
+  ComplianceTypes?: ComplianceType[];
   Limit?: number;
   NextToken?: string;
 }
@@ -721,7 +1836,7 @@ export const DescribeComplianceByResourceRequest = S.suspend(() =>
   identifier: "DescribeComplianceByResourceRequest",
 }) as any as S.Schema<DescribeComplianceByResourceRequest>;
 export interface DescribeConfigRuleEvaluationStatusRequest {
-  ConfigRuleNames?: ConfigRuleNames;
+  ConfigRuleNames?: string[];
   NextToken?: string;
   Limit?: number;
 }
@@ -745,7 +1860,7 @@ export const DescribeConfigRuleEvaluationStatusRequest = S.suspend(() =>
   identifier: "DescribeConfigRuleEvaluationStatusRequest",
 }) as any as S.Schema<DescribeConfigRuleEvaluationStatusRequest>;
 export interface DescribeConfigurationAggregatorsRequest {
-  ConfigurationAggregatorNames?: ConfigurationAggregatorNameList;
+  ConfigurationAggregatorNames?: string[];
   NextToken?: string;
   Limit?: number;
 }
@@ -770,7 +1885,7 @@ export const DescribeConfigurationAggregatorsRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeConfigurationAggregatorsRequest>;
 export interface DescribeConfigurationAggregatorSourcesStatusRequest {
   ConfigurationAggregatorName: string;
-  UpdateStatus?: AggregatedSourceStatusTypeList;
+  UpdateStatus?: AggregatedSourceStatusType[];
   NextToken?: string;
   Limit?: number;
 }
@@ -796,7 +1911,7 @@ export const DescribeConfigurationAggregatorSourcesStatusRequest = S.suspend(
   identifier: "DescribeConfigurationAggregatorSourcesStatusRequest",
 }) as any as S.Schema<DescribeConfigurationAggregatorSourcesStatusRequest>;
 export interface DescribeConfigurationRecordersRequest {
-  ConfigurationRecorderNames?: ConfigurationRecorderNameList;
+  ConfigurationRecorderNames?: string[];
   ServicePrincipal?: string;
   Arn?: string;
 }
@@ -820,7 +1935,7 @@ export const DescribeConfigurationRecordersRequest = S.suspend(() =>
   identifier: "DescribeConfigurationRecordersRequest",
 }) as any as S.Schema<DescribeConfigurationRecordersRequest>;
 export interface DescribeConfigurationRecorderStatusRequest {
-  ConfigurationRecorderNames?: ConfigurationRecorderNameList;
+  ConfigurationRecorderNames?: string[];
   ServicePrincipal?: string;
   Arn?: string;
 }
@@ -844,7 +1959,7 @@ export const DescribeConfigurationRecorderStatusRequest = S.suspend(() =>
   identifier: "DescribeConfigurationRecorderStatusRequest",
 }) as any as S.Schema<DescribeConfigurationRecorderStatusRequest>;
 export interface DescribeConformancePacksRequest {
-  ConformancePackNames?: ConformancePackNamesList;
+  ConformancePackNames?: string[];
   Limit?: number;
   NextToken?: string;
 }
@@ -868,7 +1983,7 @@ export const DescribeConformancePacksRequest = S.suspend(() =>
   identifier: "DescribeConformancePacksRequest",
 }) as any as S.Schema<DescribeConformancePacksRequest>;
 export interface DescribeConformancePackStatusRequest {
-  ConformancePackNames?: ConformancePackNamesList;
+  ConformancePackNames?: string[];
   Limit?: number;
   NextToken?: string;
 }
@@ -892,7 +2007,7 @@ export const DescribeConformancePackStatusRequest = S.suspend(() =>
   identifier: "DescribeConformancePackStatusRequest",
 }) as any as S.Schema<DescribeConformancePackStatusRequest>;
 export interface DescribeDeliveryChannelsRequest {
-  DeliveryChannelNames?: DeliveryChannelNameList;
+  DeliveryChannelNames?: string[];
 }
 export const DescribeDeliveryChannelsRequest = S.suspend(() =>
   S.Struct({ DeliveryChannelNames: S.optional(DeliveryChannelNameList) }).pipe(
@@ -910,7 +2025,7 @@ export const DescribeDeliveryChannelsRequest = S.suspend(() =>
   identifier: "DescribeDeliveryChannelsRequest",
 }) as any as S.Schema<DescribeDeliveryChannelsRequest>;
 export interface DescribeDeliveryChannelStatusRequest {
-  DeliveryChannelNames?: DeliveryChannelNameList;
+  DeliveryChannelNames?: string[];
 }
 export const DescribeDeliveryChannelStatusRequest = S.suspend(() =>
   S.Struct({ DeliveryChannelNames: S.optional(DeliveryChannelNameList) }).pipe(
@@ -928,7 +2043,7 @@ export const DescribeDeliveryChannelStatusRequest = S.suspend(() =>
   identifier: "DescribeDeliveryChannelStatusRequest",
 }) as any as S.Schema<DescribeDeliveryChannelStatusRequest>;
 export interface DescribeOrganizationConfigRulesRequest {
-  OrganizationConfigRuleNames?: OrganizationConfigRuleNames;
+  OrganizationConfigRuleNames?: string[];
   Limit?: number;
   NextToken?: string;
 }
@@ -952,7 +2067,7 @@ export const DescribeOrganizationConfigRulesRequest = S.suspend(() =>
   identifier: "DescribeOrganizationConfigRulesRequest",
 }) as any as S.Schema<DescribeOrganizationConfigRulesRequest>;
 export interface DescribeOrganizationConfigRuleStatusesRequest {
-  OrganizationConfigRuleNames?: OrganizationConfigRuleNames;
+  OrganizationConfigRuleNames?: string[];
   Limit?: number;
   NextToken?: string;
 }
@@ -976,7 +2091,7 @@ export const DescribeOrganizationConfigRuleStatusesRequest = S.suspend(() =>
   identifier: "DescribeOrganizationConfigRuleStatusesRequest",
 }) as any as S.Schema<DescribeOrganizationConfigRuleStatusesRequest>;
 export interface DescribeOrganizationConformancePacksRequest {
-  OrganizationConformancePackNames?: OrganizationConformancePackNames;
+  OrganizationConformancePackNames?: string[];
   Limit?: number;
   NextToken?: string;
 }
@@ -1002,7 +2117,7 @@ export const DescribeOrganizationConformancePacksRequest = S.suspend(() =>
   identifier: "DescribeOrganizationConformancePacksRequest",
 }) as any as S.Schema<DescribeOrganizationConformancePacksRequest>;
 export interface DescribeOrganizationConformancePackStatusesRequest {
-  OrganizationConformancePackNames?: OrganizationConformancePackNames;
+  OrganizationConformancePackNames?: string[];
   Limit?: number;
   NextToken?: string;
 }
@@ -1051,7 +2166,7 @@ export const DescribePendingAggregationRequestsRequest = S.suspend(() =>
   identifier: "DescribePendingAggregationRequestsRequest",
 }) as any as S.Schema<DescribePendingAggregationRequestsRequest>;
 export interface DescribeRemediationConfigurationsRequest {
-  ConfigRuleNames: ConfigRuleNames;
+  ConfigRuleNames: string[];
 }
 export const DescribeRemediationConfigurationsRequest = S.suspend(() =>
   S.Struct({ ConfigRuleNames: ConfigRuleNames }).pipe(
@@ -1087,7 +2202,7 @@ export const RemediationExceptionResourceKeys = S.Array(
 );
 export interface DescribeRemediationExceptionsRequest {
   ConfigRuleName: string;
-  ResourceKeys?: RemediationExceptionResourceKeys;
+  ResourceKeys?: RemediationExceptionResourceKey[];
   Limit?: number;
   NextToken?: string;
 }
@@ -1112,17 +2227,17 @@ export const DescribeRemediationExceptionsRequest = S.suspend(() =>
   identifier: "DescribeRemediationExceptionsRequest",
 }) as any as S.Schema<DescribeRemediationExceptionsRequest>;
 export interface ResourceKey {
-  resourceType: string;
+  resourceType: ResourceType;
   resourceId: string;
 }
 export const ResourceKey = S.suspend(() =>
-  S.Struct({ resourceType: S.String, resourceId: S.String }),
+  S.Struct({ resourceType: ResourceType, resourceId: S.String }),
 ).annotations({ identifier: "ResourceKey" }) as any as S.Schema<ResourceKey>;
 export type ResourceKeys = ResourceKey[];
 export const ResourceKeys = S.Array(ResourceKey);
 export interface DescribeRemediationExecutionStatusRequest {
   ConfigRuleName: string;
-  ResourceKeys?: ResourceKeys;
+  ResourceKeys?: ResourceKey[];
   Limit?: number;
   NextToken?: string;
 }
@@ -1147,7 +2262,7 @@ export const DescribeRemediationExecutionStatusRequest = S.suspend(() =>
   identifier: "DescribeRemediationExecutionStatusRequest",
 }) as any as S.Schema<DescribeRemediationExecutionStatusRequest>;
 export interface DescribeRetentionConfigurationsRequest {
-  RetentionConfigurationNames?: RetentionConfigurationNameList;
+  RetentionConfigurationNames?: string[];
   NextToken?: string;
 }
 export const DescribeRetentionConfigurationsRequest = S.suspend(() =>
@@ -1170,7 +2285,7 @@ export const DescribeRetentionConfigurationsRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeRetentionConfigurationsRequest>;
 export interface DisassociateResourceTypesRequest {
   ConfigurationRecorderArn: string;
-  ResourceTypes: ResourceTypeList;
+  ResourceTypes: ResourceType[];
 }
 export const DisassociateResourceTypesRequest = S.suspend(() =>
   S.Struct({
@@ -1195,7 +2310,7 @@ export interface GetAggregateComplianceDetailsByConfigRuleRequest {
   ConfigRuleName: string;
   AccountId: string;
   AwsRegion: string;
-  ComplianceType?: string;
+  ComplianceType?: ComplianceType;
   Limit?: number;
   NextToken?: string;
 }
@@ -1205,7 +2320,7 @@ export const GetAggregateComplianceDetailsByConfigRuleRequest = S.suspend(() =>
     ConfigRuleName: S.String,
     AccountId: S.String,
     AwsRegion: S.String,
-    ComplianceType: S.optional(S.String),
+    ComplianceType: S.optional(ComplianceType),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -1226,7 +2341,7 @@ export interface AggregateResourceIdentifier {
   SourceAccountId: string;
   SourceRegion: string;
   ResourceId: string;
-  ResourceType: string;
+  ResourceType: ResourceType;
   ResourceName?: string;
 }
 export const AggregateResourceIdentifier = S.suspend(() =>
@@ -1234,7 +2349,7 @@ export const AggregateResourceIdentifier = S.suspend(() =>
     SourceAccountId: S.String,
     SourceRegion: S.String,
     ResourceId: S.String,
-    ResourceType: S.String,
+    ResourceType: ResourceType,
     ResourceName: S.optional(S.String),
   }),
 ).annotations({
@@ -1264,7 +2379,7 @@ export const GetAggregateResourceConfigRequest = S.suspend(() =>
 }) as any as S.Schema<GetAggregateResourceConfigRequest>;
 export interface GetComplianceDetailsByConfigRuleRequest {
   ConfigRuleName: string;
-  ComplianceTypes?: ComplianceTypes;
+  ComplianceTypes?: ComplianceType[];
   Limit?: number;
   NextToken?: string;
 }
@@ -1291,7 +2406,7 @@ export const GetComplianceDetailsByConfigRuleRequest = S.suspend(() =>
 export interface GetComplianceDetailsByResourceRequest {
   ResourceType?: string;
   ResourceId?: string;
-  ComplianceTypes?: ComplianceTypes;
+  ComplianceTypes?: ComplianceType[];
   NextToken?: string;
   ResourceEvaluationId?: string;
 }
@@ -1317,7 +2432,7 @@ export const GetComplianceDetailsByResourceRequest = S.suspend(() =>
   identifier: "GetComplianceDetailsByResourceRequest",
 }) as any as S.Schema<GetComplianceDetailsByResourceRequest>;
 export interface GetComplianceSummaryByResourceTypeRequest {
-  ResourceTypes?: ResourceTypes;
+  ResourceTypes?: string[];
 }
 export const GetComplianceSummaryByResourceTypeRequest = S.suspend(() =>
   S.Struct({ ResourceTypes: S.optional(ResourceTypes) }).pipe(
@@ -1335,7 +2450,7 @@ export const GetComplianceSummaryByResourceTypeRequest = S.suspend(() =>
   identifier: "GetComplianceSummaryByResourceTypeRequest",
 }) as any as S.Schema<GetComplianceSummaryByResourceTypeRequest>;
 export interface GetConformancePackComplianceSummaryRequest {
-  ConformancePackNames: ConformancePackNamesToSummarizeList;
+  ConformancePackNames: string[];
   Limit?: number;
   NextToken?: string;
 }
@@ -1377,7 +2492,7 @@ export const GetCustomRulePolicyRequest = S.suspend(() =>
   identifier: "GetCustomRulePolicyRequest",
 }) as any as S.Schema<GetCustomRulePolicyRequest>;
 export interface GetDiscoveredResourceCountsRequest {
-  resourceTypes?: ResourceTypes;
+  resourceTypes?: string[];
   limit?: number;
   nextToken?: string;
 }
@@ -1419,21 +2534,21 @@ export const GetOrganizationCustomRulePolicyRequest = S.suspend(() =>
   identifier: "GetOrganizationCustomRulePolicyRequest",
 }) as any as S.Schema<GetOrganizationCustomRulePolicyRequest>;
 export interface GetResourceConfigHistoryRequest {
-  resourceType: string;
+  resourceType: ResourceType;
   resourceId: string;
   laterTime?: Date;
   earlierTime?: Date;
-  chronologicalOrder?: string;
+  chronologicalOrder?: ChronologicalOrder;
   limit?: number;
   nextToken?: string;
 }
 export const GetResourceConfigHistoryRequest = S.suspend(() =>
   S.Struct({
-    resourceType: S.String,
+    resourceType: ResourceType,
     resourceId: S.String,
     laterTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     earlierTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    chronologicalOrder: S.optional(S.String),
+    chronologicalOrder: S.optional(ChronologicalOrder),
     limit: S.optional(S.Number),
     nextToken: S.optional(S.String),
   }).pipe(
@@ -1487,8 +2602,8 @@ export const GetStoredQueryRequest = S.suspend(() =>
   identifier: "GetStoredQueryRequest",
 }) as any as S.Schema<GetStoredQueryRequest>;
 export interface ListDiscoveredResourcesRequest {
-  resourceType: string;
-  resourceIds?: ResourceIdList;
+  resourceType: ResourceType;
+  resourceIds?: string[];
   resourceName?: string;
   limit?: number;
   includeDeletedResources?: boolean;
@@ -1496,7 +2611,7 @@ export interface ListDiscoveredResourcesRequest {
 }
 export const ListDiscoveredResourcesRequest = S.suspend(() =>
   S.Struct({
-    resourceType: S.String,
+    resourceType: ResourceType,
     resourceIds: S.optional(ResourceIdList),
     resourceName: S.optional(S.String),
     limit: S.optional(S.Number),
@@ -1581,8 +2696,8 @@ export interface PutOrganizationConformancePackRequest {
   TemplateBody?: string;
   DeliveryS3Bucket?: string;
   DeliveryS3KeyPrefix?: string;
-  ConformancePackInputParameters?: ConformancePackInputParameters;
-  ExcludedAccounts?: ExcludedAccounts;
+  ConformancePackInputParameters?: ConformancePackInputParameter[];
+  ExcludedAccounts?: string[];
 }
 export const PutOrganizationConformancePackRequest = S.suspend(() =>
   S.Struct({
@@ -1609,7 +2724,7 @@ export const PutOrganizationConformancePackRequest = S.suspend(() =>
 }) as any as S.Schema<PutOrganizationConformancePackRequest>;
 export interface PutRemediationExceptionsRequest {
   ConfigRuleName: string;
-  ResourceKeys: RemediationExceptionResourceKeys;
+  ResourceKeys: RemediationExceptionResourceKey[];
   Message?: string;
   ExpirationTime?: Date;
 }
@@ -1655,7 +2770,7 @@ export type TagsList = Tag[];
 export const TagsList = S.Array(Tag);
 export interface PutServiceLinkedConfigurationRecorderRequest {
   ServicePrincipal: string;
-  Tags?: TagsList;
+  Tags?: Tag[];
 }
 export const PutServiceLinkedConfigurationRecorderRequest = S.suspend(() =>
   S.Struct({ ServicePrincipal: S.String, Tags: S.optional(TagsList) }).pipe(
@@ -1725,7 +2840,7 @@ export const SelectResourceConfigRequest = S.suspend(() =>
   identifier: "SelectResourceConfigRequest",
 }) as any as S.Schema<SelectResourceConfigRequest>;
 export interface StartConfigRulesEvaluationRequest {
-  ConfigRuleNames?: ReevaluateConfigRuleNames;
+  ConfigRuleNames?: string[];
 }
 export const StartConfigRulesEvaluationRequest = S.suspend(() =>
   S.Struct({ ConfigRuleNames: S.optional(ReevaluateConfigRuleNames) }).pipe(
@@ -1774,7 +2889,7 @@ export const StartConfigurationRecorderResponse = S.suspend(() =>
 }) as any as S.Schema<StartConfigurationRecorderResponse>;
 export interface StartRemediationExecutionRequest {
   ConfigRuleName: string;
-  ResourceKeys: ResourceKeys;
+  ResourceKeys: ResourceKey[];
 }
 export const StartRemediationExecutionRequest = S.suspend(() =>
   S.Struct({ ConfigRuleName: S.String, ResourceKeys: ResourceKeys }).pipe(
@@ -1817,7 +2932,7 @@ export const StopConfigurationRecorderResponse = S.suspend(() =>
 }) as any as S.Schema<StopConfigurationRecorderResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
@@ -1842,7 +2957,7 @@ export const TagResourceResponse = S.suspend(() =>
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
@@ -1865,38 +2980,143 @@ export const UntagResourceResponse = S.suspend(() =>
 ).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
+export type ConformancePackComplianceType =
+  | "COMPLIANT"
+  | "NON_COMPLIANT"
+  | "INSUFFICIENT_DATA";
+export const ConformancePackComplianceType = S.Literal(
+  "COMPLIANT",
+  "NON_COMPLIANT",
+  "INSUFFICIENT_DATA",
+);
 export type ConformancePackConfigRuleNames = string[];
 export const ConformancePackConfigRuleNames = S.Array(S.String);
 export type ConformancePackComplianceResourceIds = string[];
 export const ConformancePackComplianceResourceIds = S.Array(S.String);
+export type MemberAccountRuleStatus =
+  | "CREATE_SUCCESSFUL"
+  | "CREATE_IN_PROGRESS"
+  | "CREATE_FAILED"
+  | "DELETE_SUCCESSFUL"
+  | "DELETE_FAILED"
+  | "DELETE_IN_PROGRESS"
+  | "UPDATE_SUCCESSFUL"
+  | "UPDATE_IN_PROGRESS"
+  | "UPDATE_FAILED";
+export const MemberAccountRuleStatus = S.Literal(
+  "CREATE_SUCCESSFUL",
+  "CREATE_IN_PROGRESS",
+  "CREATE_FAILED",
+  "DELETE_SUCCESSFUL",
+  "DELETE_FAILED",
+  "DELETE_IN_PROGRESS",
+  "UPDATE_SUCCESSFUL",
+  "UPDATE_IN_PROGRESS",
+  "UPDATE_FAILED",
+);
+export type OrganizationResourceDetailedStatus =
+  | "CREATE_SUCCESSFUL"
+  | "CREATE_IN_PROGRESS"
+  | "CREATE_FAILED"
+  | "DELETE_SUCCESSFUL"
+  | "DELETE_FAILED"
+  | "DELETE_IN_PROGRESS"
+  | "UPDATE_SUCCESSFUL"
+  | "UPDATE_IN_PROGRESS"
+  | "UPDATE_FAILED";
+export const OrganizationResourceDetailedStatus = S.Literal(
+  "CREATE_SUCCESSFUL",
+  "CREATE_IN_PROGRESS",
+  "CREATE_FAILED",
+  "DELETE_SUCCESSFUL",
+  "DELETE_FAILED",
+  "DELETE_IN_PROGRESS",
+  "UPDATE_SUCCESSFUL",
+  "UPDATE_IN_PROGRESS",
+  "UPDATE_FAILED",
+);
+export type ConfigurationRecorderFilterName = "recordingScope";
+export const ConfigurationRecorderFilterName = S.Literal("recordingScope");
 export type ConfigurationRecorderFilterValues = string[];
 export const ConfigurationRecorderFilterValues = S.Array(S.String);
 export type ConformancePackNameFilter = string[];
 export const ConformancePackNameFilter = S.Array(S.String);
+export type MaximumExecutionFrequency =
+  | "One_Hour"
+  | "Three_Hours"
+  | "Six_Hours"
+  | "Twelve_Hours"
+  | "TwentyFour_Hours";
+export const MaximumExecutionFrequency = S.Literal(
+  "One_Hour",
+  "Three_Hours",
+  "Six_Hours",
+  "Twelve_Hours",
+  "TwentyFour_Hours",
+);
+export type ConfigRuleState =
+  | "ACTIVE"
+  | "DELETING"
+  | "DELETING_RESULTS"
+  | "EVALUATING";
+export const ConfigRuleState = S.Literal(
+  "ACTIVE",
+  "DELETING",
+  "DELETING_RESULTS",
+  "EVALUATING",
+);
 export type AccountAggregationSourceAccountList = string[];
 export const AccountAggregationSourceAccountList = S.Array(S.String);
 export type AggregatorRegionList = string[];
 export const AggregatorRegionList = S.Array(S.String);
+export type RecordingScope = "INTERNAL" | "PAID";
+export const RecordingScope = S.Literal("INTERNAL", "PAID");
 export type ResourceTypesScope = string[];
 export const ResourceTypesScope = S.Array(S.String);
-export type OrganizationConfigRuleTriggerTypes = string[];
-export const OrganizationConfigRuleTriggerTypes = S.Array(S.String);
-export type OrganizationConfigRuleTriggerTypeNoSNs = string[];
-export const OrganizationConfigRuleTriggerTypeNoSNs = S.Array(S.String);
+export type OrganizationConfigRuleTriggerType =
+  | "ConfigurationItemChangeNotification"
+  | "OversizedConfigurationItemChangeNotification"
+  | "ScheduledNotification";
+export const OrganizationConfigRuleTriggerType = S.Literal(
+  "ConfigurationItemChangeNotification",
+  "OversizedConfigurationItemChangeNotification",
+  "ScheduledNotification",
+);
+export type OrganizationConfigRuleTriggerTypes =
+  OrganizationConfigRuleTriggerType[];
+export const OrganizationConfigRuleTriggerTypes = S.Array(
+  OrganizationConfigRuleTriggerType,
+);
+export type OrganizationConfigRuleTriggerTypeNoSN =
+  | "ConfigurationItemChangeNotification"
+  | "OversizedConfigurationItemChangeNotification";
+export const OrganizationConfigRuleTriggerTypeNoSN = S.Literal(
+  "ConfigurationItemChangeNotification",
+  "OversizedConfigurationItemChangeNotification",
+);
+export type OrganizationConfigRuleTriggerTypeNoSNs =
+  OrganizationConfigRuleTriggerTypeNoSN[];
+export const OrganizationConfigRuleTriggerTypeNoSNs = S.Array(
+  OrganizationConfigRuleTriggerTypeNoSN,
+);
 export type DebugLogDeliveryAccounts = string[];
 export const DebugLogDeliveryAccounts = S.Array(S.String);
+export type RemediationTargetType = "SSM_DOCUMENT";
+export const RemediationTargetType = S.Literal("SSM_DOCUMENT");
+export type ResourceConfigurationSchemaType = "CFN_RESOURCE_SCHEMA";
+export const ResourceConfigurationSchemaType = S.Literal("CFN_RESOURCE_SCHEMA");
 export type ResourceIdentifiersList = AggregateResourceIdentifier[];
 export const ResourceIdentifiersList = S.Array(AggregateResourceIdentifier);
 export interface ConfigRuleComplianceFilters {
   ConfigRuleName?: string;
-  ComplianceType?: string;
+  ComplianceType?: ComplianceType;
   AccountId?: string;
   AwsRegion?: string;
 }
 export const ConfigRuleComplianceFilters = S.suspend(() =>
   S.Struct({
     ConfigRuleName: S.optional(S.String),
-    ComplianceType: S.optional(S.String),
+    ComplianceType: S.optional(ComplianceType),
     AccountId: S.optional(S.String),
     AwsRegion: S.optional(S.String),
   }),
@@ -1905,14 +3125,14 @@ export const ConfigRuleComplianceFilters = S.suspend(() =>
 }) as any as S.Schema<ConfigRuleComplianceFilters>;
 export interface AggregateConformancePackComplianceFilters {
   ConformancePackName?: string;
-  ComplianceType?: string;
+  ComplianceType?: ConformancePackComplianceType;
   AccountId?: string;
   AwsRegion?: string;
 }
 export const AggregateConformancePackComplianceFilters = S.suspend(() =>
   S.Struct({
     ConformancePackName: S.optional(S.String),
-    ComplianceType: S.optional(S.String),
+    ComplianceType: S.optional(ConformancePackComplianceType),
     AccountId: S.optional(S.String),
     AwsRegion: S.optional(S.String),
   }),
@@ -1920,33 +3140,42 @@ export const AggregateConformancePackComplianceFilters = S.suspend(() =>
   identifier: "AggregateConformancePackComplianceFilters",
 }) as any as S.Schema<AggregateConformancePackComplianceFilters>;
 export interface DescribeConfigRulesFilters {
-  EvaluationMode?: string;
+  EvaluationMode?: EvaluationMode;
 }
 export const DescribeConfigRulesFilters = S.suspend(() =>
-  S.Struct({ EvaluationMode: S.optional(S.String) }),
+  S.Struct({ EvaluationMode: S.optional(EvaluationMode) }),
 ).annotations({
   identifier: "DescribeConfigRulesFilters",
 }) as any as S.Schema<DescribeConfigRulesFilters>;
 export interface ExclusionByResourceTypes {
-  resourceTypes?: ResourceTypeList;
+  resourceTypes?: ResourceType[];
 }
 export const ExclusionByResourceTypes = S.suspend(() =>
   S.Struct({ resourceTypes: S.optional(ResourceTypeList) }),
 ).annotations({
   identifier: "ExclusionByResourceTypes",
 }) as any as S.Schema<ExclusionByResourceTypes>;
+export type RecordingStrategyType =
+  | "ALL_SUPPORTED_RESOURCE_TYPES"
+  | "INCLUSION_BY_RESOURCE_TYPES"
+  | "EXCLUSION_BY_RESOURCE_TYPES";
+export const RecordingStrategyType = S.Literal(
+  "ALL_SUPPORTED_RESOURCE_TYPES",
+  "INCLUSION_BY_RESOURCE_TYPES",
+  "EXCLUSION_BY_RESOURCE_TYPES",
+);
 export interface RecordingStrategy {
-  useOnly?: string;
+  useOnly?: RecordingStrategyType;
 }
 export const RecordingStrategy = S.suspend(() =>
-  S.Struct({ useOnly: S.optional(S.String) }),
+  S.Struct({ useOnly: S.optional(RecordingStrategyType) }),
 ).annotations({
   identifier: "RecordingStrategy",
 }) as any as S.Schema<RecordingStrategy>;
 export interface RecordingGroup {
   allSupported?: boolean;
   includeGlobalResourceTypes?: boolean;
-  resourceTypes?: ResourceTypeList;
+  resourceTypes?: ResourceType[];
   exclusionByResourceTypes?: ExclusionByResourceTypes;
   recordingStrategy?: RecordingStrategy;
 }
@@ -1961,18 +3190,20 @@ export const RecordingGroup = S.suspend(() =>
 ).annotations({
   identifier: "RecordingGroup",
 }) as any as S.Schema<RecordingGroup>;
-export type RecordingModeResourceTypesList = string[];
-export const RecordingModeResourceTypesList = S.Array(S.String);
+export type RecordingFrequency = "CONTINUOUS" | "DAILY";
+export const RecordingFrequency = S.Literal("CONTINUOUS", "DAILY");
+export type RecordingModeResourceTypesList = ResourceType[];
+export const RecordingModeResourceTypesList = S.Array(ResourceType);
 export interface RecordingModeOverride {
   description?: string;
-  resourceTypes: RecordingModeResourceTypesList;
-  recordingFrequency: string;
+  resourceTypes: ResourceType[];
+  recordingFrequency: RecordingFrequency;
 }
 export const RecordingModeOverride = S.suspend(() =>
   S.Struct({
     description: S.optional(S.String),
     resourceTypes: RecordingModeResourceTypesList,
-    recordingFrequency: S.String,
+    recordingFrequency: RecordingFrequency,
   }),
 ).annotations({
   identifier: "RecordingModeOverride",
@@ -1980,12 +3211,12 @@ export const RecordingModeOverride = S.suspend(() =>
 export type RecordingModeOverrides = RecordingModeOverride[];
 export const RecordingModeOverrides = S.Array(RecordingModeOverride);
 export interface RecordingMode {
-  recordingFrequency: string;
-  recordingModeOverrides?: RecordingModeOverrides;
+  recordingFrequency: RecordingFrequency;
+  recordingModeOverrides?: RecordingModeOverride[];
 }
 export const RecordingMode = S.suspend(() =>
   S.Struct({
-    recordingFrequency: S.String,
+    recordingFrequency: RecordingFrequency,
     recordingModeOverrides: S.optional(RecordingModeOverrides),
   }),
 ).annotations({
@@ -1997,7 +3228,7 @@ export interface ConfigurationRecorder {
   roleARN?: string;
   recordingGroup?: RecordingGroup;
   recordingMode?: RecordingMode;
-  recordingScope?: string;
+  recordingScope?: RecordingScope;
   servicePrincipal?: string;
 }
 export const ConfigurationRecorder = S.suspend(() =>
@@ -2007,7 +3238,7 @@ export const ConfigurationRecorder = S.suspend(() =>
     roleARN: S.optional(S.String),
     recordingGroup: S.optional(RecordingGroup),
     recordingMode: S.optional(RecordingMode),
-    recordingScope: S.optional(S.String),
+    recordingScope: S.optional(RecordingScope),
     servicePrincipal: S.optional(S.String),
   }),
 ).annotations({
@@ -2016,22 +3247,22 @@ export const ConfigurationRecorder = S.suspend(() =>
 export type ConfigurationRecorderList = ConfigurationRecorder[];
 export const ConfigurationRecorderList = S.Array(ConfigurationRecorder);
 export interface ConformancePackComplianceFilters {
-  ConfigRuleNames?: ConformancePackConfigRuleNames;
-  ComplianceType?: string;
+  ConfigRuleNames?: string[];
+  ComplianceType?: ConformancePackComplianceType;
 }
 export const ConformancePackComplianceFilters = S.suspend(() =>
   S.Struct({
     ConfigRuleNames: S.optional(ConformancePackConfigRuleNames),
-    ComplianceType: S.optional(S.String),
+    ComplianceType: S.optional(ConformancePackComplianceType),
   }),
 ).annotations({
   identifier: "ConformancePackComplianceFilters",
 }) as any as S.Schema<ConformancePackComplianceFilters>;
 export interface ConfigSnapshotDeliveryProperties {
-  deliveryFrequency?: string;
+  deliveryFrequency?: MaximumExecutionFrequency;
 }
 export const ConfigSnapshotDeliveryProperties = S.suspend(() =>
-  S.Struct({ deliveryFrequency: S.optional(S.String) }),
+  S.Struct({ deliveryFrequency: S.optional(MaximumExecutionFrequency) }),
 ).annotations({
   identifier: "ConfigSnapshotDeliveryProperties",
 }) as any as S.Schema<ConfigSnapshotDeliveryProperties>;
@@ -2084,13 +3315,13 @@ export const AggregateConformancePackComplianceSummaryFilters = S.suspend(() =>
   identifier: "AggregateConformancePackComplianceSummaryFilters",
 }) as any as S.Schema<AggregateConformancePackComplianceSummaryFilters>;
 export interface ResourceCountFilters {
-  ResourceType?: string;
+  ResourceType?: ResourceType;
   AccountId?: string;
   Region?: string;
 }
 export const ResourceCountFilters = S.suspend(() =>
   S.Struct({
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(ResourceType),
     AccountId: S.optional(S.String),
     Region: S.optional(S.String),
   }),
@@ -2098,15 +3329,15 @@ export const ResourceCountFilters = S.suspend(() =>
   identifier: "ResourceCountFilters",
 }) as any as S.Schema<ResourceCountFilters>;
 export interface ConformancePackEvaluationFilters {
-  ConfigRuleNames?: ConformancePackConfigRuleNames;
-  ComplianceType?: string;
+  ConfigRuleNames?: string[];
+  ComplianceType?: ConformancePackComplianceType;
   ResourceType?: string;
-  ResourceIds?: ConformancePackComplianceResourceIds;
+  ResourceIds?: string[];
 }
 export const ConformancePackEvaluationFilters = S.suspend(() =>
   S.Struct({
     ConfigRuleNames: S.optional(ConformancePackConfigRuleNames),
-    ComplianceType: S.optional(S.String),
+    ComplianceType: S.optional(ConformancePackComplianceType),
     ResourceType: S.optional(S.String),
     ResourceIds: S.optional(ConformancePackComplianceResourceIds),
   }),
@@ -2115,38 +3346,54 @@ export const ConformancePackEvaluationFilters = S.suspend(() =>
 }) as any as S.Schema<ConformancePackEvaluationFilters>;
 export interface StatusDetailFilters {
   AccountId?: string;
-  MemberAccountRuleStatus?: string;
+  MemberAccountRuleStatus?: MemberAccountRuleStatus;
 }
 export const StatusDetailFilters = S.suspend(() =>
   S.Struct({
     AccountId: S.optional(S.String),
-    MemberAccountRuleStatus: S.optional(S.String),
+    MemberAccountRuleStatus: S.optional(MemberAccountRuleStatus),
   }),
 ).annotations({
   identifier: "StatusDetailFilters",
 }) as any as S.Schema<StatusDetailFilters>;
 export interface OrganizationResourceDetailedStatusFilters {
   AccountId?: string;
-  Status?: string;
+  Status?: OrganizationResourceDetailedStatus;
 }
 export const OrganizationResourceDetailedStatusFilters = S.suspend(() =>
-  S.Struct({ AccountId: S.optional(S.String), Status: S.optional(S.String) }),
+  S.Struct({
+    AccountId: S.optional(S.String),
+    Status: S.optional(OrganizationResourceDetailedStatus),
+  }),
 ).annotations({
   identifier: "OrganizationResourceDetailedStatusFilters",
 }) as any as S.Schema<OrganizationResourceDetailedStatusFilters>;
+export type ConfigurationItemStatus =
+  | "OK"
+  | "ResourceDiscovered"
+  | "ResourceNotRecorded"
+  | "ResourceDeleted"
+  | "ResourceDeletedNotRecorded";
+export const ConfigurationItemStatus = S.Literal(
+  "OK",
+  "ResourceDiscovered",
+  "ResourceNotRecorded",
+  "ResourceDeleted",
+  "ResourceDeletedNotRecorded",
+);
 export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
 export type RelatedEventList = string[];
 export const RelatedEventList = S.Array(S.String);
 export interface Relationship {
-  resourceType?: string;
+  resourceType?: ResourceType;
   resourceId?: string;
   resourceName?: string;
   relationshipName?: string;
 }
 export const Relationship = S.suspend(() =>
   S.Struct({
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     resourceId: S.optional(S.String),
     resourceName: S.optional(S.String),
     relationshipName: S.optional(S.String),
@@ -2163,22 +3410,22 @@ export interface ConfigurationItem {
   version?: string;
   accountId?: string;
   configurationItemCaptureTime?: Date;
-  configurationItemStatus?: string;
+  configurationItemStatus?: ConfigurationItemStatus;
   configurationStateId?: string;
   configurationItemMD5Hash?: string;
   arn?: string;
-  resourceType?: string;
+  resourceType?: ResourceType;
   resourceId?: string;
   resourceName?: string;
   awsRegion?: string;
   availabilityZone?: string;
   resourceCreationTime?: Date;
-  tags?: Tags;
-  relatedEvents?: RelatedEventList;
-  relationships?: RelationshipList;
+  tags?: { [key: string]: string };
+  relatedEvents?: string[];
+  relationships?: Relationship[];
   configuration?: string;
-  supplementaryConfiguration?: SupplementaryConfiguration;
-  recordingFrequency?: string;
+  supplementaryConfiguration?: { [key: string]: string };
+  recordingFrequency?: RecordingFrequency;
   configurationItemDeliveryTime?: Date;
 }
 export const ConfigurationItem = S.suspend(() =>
@@ -2188,11 +3435,11 @@ export const ConfigurationItem = S.suspend(() =>
     configurationItemCaptureTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    configurationItemStatus: S.optional(S.String),
+    configurationItemStatus: S.optional(ConfigurationItemStatus),
     configurationStateId: S.optional(S.String),
     configurationItemMD5Hash: S.optional(S.String),
     arn: S.optional(S.String),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     resourceId: S.optional(S.String),
     resourceName: S.optional(S.String),
     awsRegion: S.optional(S.String),
@@ -2205,7 +3452,7 @@ export const ConfigurationItem = S.suspend(() =>
     relationships: S.optional(RelationshipList),
     configuration: S.optional(S.String),
     supplementaryConfiguration: S.optional(SupplementaryConfiguration),
-    recordingFrequency: S.optional(S.String),
+    recordingFrequency: S.optional(RecordingFrequency),
     configurationItemDeliveryTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -2232,12 +3479,12 @@ export const ResourceFilters = S.suspend(() =>
   identifier: "ResourceFilters",
 }) as any as S.Schema<ResourceFilters>;
 export interface ConfigurationRecorderFilter {
-  filterName?: string;
-  filterValue?: ConfigurationRecorderFilterValues;
+  filterName?: ConfigurationRecorderFilterName;
+  filterValue?: string[];
 }
 export const ConfigurationRecorderFilter = S.suspend(() =>
   S.Struct({
-    filterName: S.optional(S.String),
+    filterName: S.optional(ConfigurationRecorderFilterName),
     filterValue: S.optional(ConfigurationRecorderFilterValues),
   }),
 ).annotations({
@@ -2248,7 +3495,7 @@ export const ConfigurationRecorderFilterList = S.Array(
   ConfigurationRecorderFilter,
 );
 export interface ConformancePackComplianceScoresFilters {
-  ConformancePackNames: ConformancePackNameFilter;
+  ConformancePackNames: string[];
 }
 export const ConformancePackComplianceScoresFilters = S.suspend(() =>
   S.Struct({ ConformancePackNames: ConformancePackNameFilter }),
@@ -2256,9 +3503,9 @@ export const ConformancePackComplianceScoresFilters = S.suspend(() =>
   identifier: "ConformancePackComplianceScoresFilters",
 }) as any as S.Schema<ConformancePackComplianceScoresFilters>;
 export interface AccountAggregationSource {
-  AccountIds: AccountAggregationSourceAccountList;
+  AccountIds: string[];
   AllAwsRegions?: boolean;
-  AwsRegions?: AggregatorRegionList;
+  AwsRegions?: string[];
 }
 export const AccountAggregationSource = S.suspend(() =>
   S.Struct({
@@ -2273,7 +3520,7 @@ export type AccountAggregationSourceList = AccountAggregationSource[];
 export const AccountAggregationSourceList = S.Array(AccountAggregationSource);
 export interface OrganizationAggregationSource {
   RoleArn: string;
-  AwsRegions?: AggregatorRegionList;
+  AwsRegions?: string[];
   AllAwsRegions?: boolean;
 }
 export const OrganizationAggregationSource = S.suspend(() =>
@@ -2297,7 +3544,7 @@ export const TemplateSSMDocumentDetails = S.suspend(() =>
 export interface Evaluation {
   ComplianceResourceType: string;
   ComplianceResourceId: string;
-  ComplianceType: string;
+  ComplianceType: ComplianceType;
   Annotation?: string;
   OrderingTimestamp: Date;
 }
@@ -2305,7 +3552,7 @@ export const Evaluation = S.suspend(() =>
   S.Struct({
     ComplianceResourceType: S.String,
     ComplianceResourceId: S.String,
-    ComplianceType: S.String,
+    ComplianceType: ComplianceType,
     Annotation: S.optional(S.String),
     OrderingTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
@@ -2315,7 +3562,7 @@ export const Evaluations = S.Array(Evaluation);
 export interface ExternalEvaluation {
   ComplianceResourceType: string;
   ComplianceResourceId: string;
-  ComplianceType: string;
+  ComplianceType: ComplianceType;
   Annotation?: string;
   OrderingTimestamp: Date;
 }
@@ -2323,7 +3570,7 @@ export const ExternalEvaluation = S.suspend(() =>
   S.Struct({
     ComplianceResourceType: S.String,
     ComplianceResourceId: S.String,
-    ComplianceType: S.String,
+    ComplianceType: ComplianceType,
     Annotation: S.optional(S.String),
     OrderingTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
@@ -2334,8 +3581,8 @@ export interface OrganizationManagedRuleMetadata {
   Description?: string;
   RuleIdentifier: string;
   InputParameters?: string;
-  MaximumExecutionFrequency?: string;
-  ResourceTypesScope?: ResourceTypesScope;
+  MaximumExecutionFrequency?: MaximumExecutionFrequency;
+  ResourceTypesScope?: string[];
   ResourceIdScope?: string;
   TagKeyScope?: string;
   TagValueScope?: string;
@@ -2345,7 +3592,7 @@ export const OrganizationManagedRuleMetadata = S.suspend(() =>
     Description: S.optional(S.String),
     RuleIdentifier: S.String,
     InputParameters: S.optional(S.String),
-    MaximumExecutionFrequency: S.optional(S.String),
+    MaximumExecutionFrequency: S.optional(MaximumExecutionFrequency),
     ResourceTypesScope: S.optional(ResourceTypesScope),
     ResourceIdScope: S.optional(S.String),
     TagKeyScope: S.optional(S.String),
@@ -2357,10 +3604,10 @@ export const OrganizationManagedRuleMetadata = S.suspend(() =>
 export interface OrganizationCustomRuleMetadata {
   Description?: string;
   LambdaFunctionArn: string;
-  OrganizationConfigRuleTriggerTypes: OrganizationConfigRuleTriggerTypes;
+  OrganizationConfigRuleTriggerTypes: OrganizationConfigRuleTriggerType[];
   InputParameters?: string;
-  MaximumExecutionFrequency?: string;
-  ResourceTypesScope?: ResourceTypesScope;
+  MaximumExecutionFrequency?: MaximumExecutionFrequency;
+  ResourceTypesScope?: string[];
   ResourceIdScope?: string;
   TagKeyScope?: string;
   TagValueScope?: string;
@@ -2371,7 +3618,7 @@ export const OrganizationCustomRuleMetadata = S.suspend(() =>
     LambdaFunctionArn: S.String,
     OrganizationConfigRuleTriggerTypes: OrganizationConfigRuleTriggerTypes,
     InputParameters: S.optional(S.String),
-    MaximumExecutionFrequency: S.optional(S.String),
+    MaximumExecutionFrequency: S.optional(MaximumExecutionFrequency),
     ResourceTypesScope: S.optional(ResourceTypesScope),
     ResourceIdScope: S.optional(S.String),
     TagKeyScope: S.optional(S.String),
@@ -2382,16 +3629,16 @@ export const OrganizationCustomRuleMetadata = S.suspend(() =>
 }) as any as S.Schema<OrganizationCustomRuleMetadata>;
 export interface OrganizationCustomPolicyRuleMetadata {
   Description?: string;
-  OrganizationConfigRuleTriggerTypes?: OrganizationConfigRuleTriggerTypeNoSNs;
+  OrganizationConfigRuleTriggerTypes?: OrganizationConfigRuleTriggerTypeNoSN[];
   InputParameters?: string;
-  MaximumExecutionFrequency?: string;
-  ResourceTypesScope?: ResourceTypesScope;
+  MaximumExecutionFrequency?: MaximumExecutionFrequency;
+  ResourceTypesScope?: string[];
   ResourceIdScope?: string;
   TagKeyScope?: string;
   TagValueScope?: string;
   PolicyRuntime: string;
   PolicyText: string;
-  DebugLogDeliveryAccounts?: DebugLogDeliveryAccounts;
+  DebugLogDeliveryAccounts?: string[];
 }
 export const OrganizationCustomPolicyRuleMetadata = S.suspend(() =>
   S.Struct({
@@ -2400,7 +3647,7 @@ export const OrganizationCustomPolicyRuleMetadata = S.suspend(() =>
       OrganizationConfigRuleTriggerTypeNoSNs,
     ),
     InputParameters: S.optional(S.String),
-    MaximumExecutionFrequency: S.optional(S.String),
+    MaximumExecutionFrequency: S.optional(MaximumExecutionFrequency),
     ResourceTypesScope: S.optional(ResourceTypesScope),
     ResourceIdScope: S.optional(S.String),
     TagKeyScope: S.optional(S.String),
@@ -2434,14 +3681,16 @@ export interface ResourceDetails {
   ResourceId: string;
   ResourceType: string;
   ResourceConfiguration: string;
-  ResourceConfigurationSchemaType?: string;
+  ResourceConfigurationSchemaType?: ResourceConfigurationSchemaType;
 }
 export const ResourceDetails = S.suspend(() =>
   S.Struct({
     ResourceId: S.String,
     ResourceType: S.String,
     ResourceConfiguration: S.String,
-    ResourceConfigurationSchemaType: S.optional(S.String),
+    ResourceConfigurationSchemaType: S.optional(
+      ResourceConfigurationSchemaType,
+    ),
   }),
 ).annotations({
   identifier: "ResourceDetails",
@@ -2456,6 +3705,10 @@ export const EvaluationContext = S.suspend(() =>
 }) as any as S.Schema<EvaluationContext>;
 export type ComplianceResourceTypes = string[];
 export const ComplianceResourceTypes = S.Array(S.String);
+export type Owner = "CUSTOM_LAMBDA" | "AWS" | "CUSTOM_POLICY";
+export const Owner = S.Literal("CUSTOM_LAMBDA", "AWS", "CUSTOM_POLICY");
+export type AggregatorFilterType = "INCLUDE";
+export const AggregatorFilterType = S.Literal("INCLUDE");
 export type ResourceTypeValueList = string[];
 export const ResourceTypeValueList = S.Array(S.String);
 export type ServicePrincipalValueList = string[];
@@ -2470,7 +3723,7 @@ export const AssociateResourceTypesResponse = S.suspend(() =>
 }) as any as S.Schema<AssociateResourceTypesResponse>;
 export interface BatchGetAggregateResourceConfigRequest {
   ConfigurationAggregatorName: string;
-  ResourceIdentifiers: ResourceIdentifiersList;
+  ResourceIdentifiers: AggregateResourceIdentifier[];
 }
 export const BatchGetAggregateResourceConfigRequest = S.suspend(() =>
   S.Struct({
@@ -2491,7 +3744,7 @@ export const BatchGetAggregateResourceConfigRequest = S.suspend(() =>
   identifier: "BatchGetAggregateResourceConfigRequest",
 }) as any as S.Schema<BatchGetAggregateResourceConfigRequest>;
 export interface BatchGetResourceConfigRequest {
-  resourceKeys: ResourceKeys;
+  resourceKeys: ResourceKey[];
 }
 export const BatchGetResourceConfigRequest = S.suspend(() =>
   S.Struct({ resourceKeys: ResourceKeys }).pipe(
@@ -2510,7 +3763,7 @@ export const BatchGetResourceConfigRequest = S.suspend(() =>
 }) as any as S.Schema<BatchGetResourceConfigRequest>;
 export interface DeleteRemediationExceptionsRequest {
   ConfigRuleName: string;
-  ResourceKeys: RemediationExceptionResourceKeys;
+  ResourceKeys: RemediationExceptionResourceKey[];
 }
 export const DeleteRemediationExceptionsRequest = S.suspend(() =>
   S.Struct({
@@ -2601,7 +3854,7 @@ export const DescribeAggregateComplianceByConformancePacksRequest = S.suspend(
   identifier: "DescribeAggregateComplianceByConformancePacksRequest",
 }) as any as S.Schema<DescribeAggregateComplianceByConformancePacksRequest>;
 export interface DescribeConfigRulesRequest {
-  ConfigRuleNames?: ConfigRuleNames;
+  ConfigRuleNames?: string[];
   NextToken?: string;
   Filters?: DescribeConfigRulesFilters;
 }
@@ -2625,7 +3878,7 @@ export const DescribeConfigRulesRequest = S.suspend(() =>
   identifier: "DescribeConfigRulesRequest",
 }) as any as S.Schema<DescribeConfigRulesRequest>;
 export interface DescribeConfigurationRecordersResponse {
-  ConfigurationRecorders?: ConfigurationRecorderList;
+  ConfigurationRecorders?: ConfigurationRecorder[];
 }
 export const DescribeConfigurationRecordersResponse = S.suspend(() =>
   S.Struct({
@@ -2661,25 +3914,27 @@ export const DescribeConformancePackComplianceRequest = S.suspend(() =>
   identifier: "DescribeConformancePackComplianceRequest",
 }) as any as S.Schema<DescribeConformancePackComplianceRequest>;
 export interface DescribeDeliveryChannelsResponse {
-  DeliveryChannels?: DeliveryChannelList;
+  DeliveryChannels?: DeliveryChannel[];
 }
 export const DescribeDeliveryChannelsResponse = S.suspend(() =>
   S.Struct({ DeliveryChannels: S.optional(DeliveryChannelList) }).pipe(ns),
 ).annotations({
   identifier: "DescribeDeliveryChannelsResponse",
 }) as any as S.Schema<DescribeDeliveryChannelsResponse>;
+export type ResourceValueType = "RESOURCE_ID";
+export const ResourceValueType = S.Literal("RESOURCE_ID");
 export interface ResourceValue {
-  Value: string;
+  Value: ResourceValueType;
 }
 export const ResourceValue = S.suspend(() =>
-  S.Struct({ Value: S.String }),
+  S.Struct({ Value: ResourceValueType }),
 ).annotations({
   identifier: "ResourceValue",
 }) as any as S.Schema<ResourceValue>;
 export type StaticParameterValues = string[];
 export const StaticParameterValues = S.Array(S.String);
 export interface StaticValue {
-  Values: StaticParameterValues;
+  Values: string[];
 }
 export const StaticValue = S.suspend(() =>
   S.Struct({ Values: StaticParameterValues }),
@@ -2723,10 +3978,10 @@ export const ExecutionControls = S.suspend(() =>
 }) as any as S.Schema<ExecutionControls>;
 export interface RemediationConfiguration {
   ConfigRuleName: string;
-  TargetType: string;
+  TargetType: RemediationTargetType;
   TargetId: string;
   TargetVersion?: string;
-  Parameters?: RemediationParameters;
+  Parameters?: { [key: string]: RemediationParameterValue };
   ResourceType?: string;
   Automatic?: boolean;
   ExecutionControls?: ExecutionControls;
@@ -2738,7 +3993,7 @@ export interface RemediationConfiguration {
 export const RemediationConfiguration = S.suspend(() =>
   S.Struct({
     ConfigRuleName: S.String,
-    TargetType: S.String,
+    TargetType: RemediationTargetType,
     TargetId: S.String,
     TargetVersion: S.optional(S.String),
     Parameters: S.optional(RemediationParameters),
@@ -2756,7 +4011,7 @@ export const RemediationConfiguration = S.suspend(() =>
 export type RemediationConfigurations = RemediationConfiguration[];
 export const RemediationConfigurations = S.Array(RemediationConfiguration);
 export interface DescribeRemediationConfigurationsResponse {
-  RemediationConfigurations?: RemediationConfigurations;
+  RemediationConfigurations?: RemediationConfiguration[];
 }
 export const DescribeRemediationConfigurationsResponse = S.suspend(() =>
   S.Struct({
@@ -2776,7 +4031,7 @@ export const DisassociateResourceTypesResponse = S.suspend(() =>
 export interface GetAggregateConfigRuleComplianceSummaryRequest {
   ConfigurationAggregatorName: string;
   Filters?: ConfigRuleComplianceSummaryFilters;
-  GroupByKey?: string;
+  GroupByKey?: ConfigRuleComplianceSummaryGroupKey;
   Limit?: number;
   NextToken?: string;
 }
@@ -2784,7 +4039,7 @@ export const GetAggregateConfigRuleComplianceSummaryRequest = S.suspend(() =>
   S.Struct({
     ConfigurationAggregatorName: S.String,
     Filters: S.optional(ConfigRuleComplianceSummaryFilters),
-    GroupByKey: S.optional(S.String),
+    GroupByKey: S.optional(ConfigRuleComplianceSummaryGroupKey),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -2804,7 +4059,7 @@ export const GetAggregateConfigRuleComplianceSummaryRequest = S.suspend(() =>
 export interface GetAggregateConformancePackComplianceSummaryRequest {
   ConfigurationAggregatorName: string;
   Filters?: AggregateConformancePackComplianceSummaryFilters;
-  GroupByKey?: string;
+  GroupByKey?: AggregateConformancePackComplianceSummaryGroupKey;
   Limit?: number;
   NextToken?: string;
 }
@@ -2813,7 +4068,7 @@ export const GetAggregateConformancePackComplianceSummaryRequest = S.suspend(
     S.Struct({
       ConfigurationAggregatorName: S.String,
       Filters: S.optional(AggregateConformancePackComplianceSummaryFilters),
-      GroupByKey: S.optional(S.String),
+      GroupByKey: S.optional(AggregateConformancePackComplianceSummaryGroupKey),
       Limit: S.optional(S.Number),
       NextToken: S.optional(S.String),
     }).pipe(
@@ -2833,7 +4088,7 @@ export const GetAggregateConformancePackComplianceSummaryRequest = S.suspend(
 export interface GetAggregateDiscoveredResourceCountsRequest {
   ConfigurationAggregatorName: string;
   Filters?: ResourceCountFilters;
-  GroupByKey?: string;
+  GroupByKey?: ResourceCountGroupKey;
   Limit?: number;
   NextToken?: string;
 }
@@ -2841,7 +4096,7 @@ export const GetAggregateDiscoveredResourceCountsRequest = S.suspend(() =>
   S.Struct({
     ConfigurationAggregatorName: S.String,
     Filters: S.optional(ResourceCountFilters),
-    GroupByKey: S.optional(S.String),
+    GroupByKey: S.optional(ResourceCountGroupKey),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -2862,14 +4117,14 @@ export interface EvaluationResultQualifier {
   ConfigRuleName?: string;
   ResourceType?: string;
   ResourceId?: string;
-  EvaluationMode?: string;
+  EvaluationMode?: EvaluationMode;
 }
 export const EvaluationResultQualifier = S.suspend(() =>
   S.Struct({
     ConfigRuleName: S.optional(S.String),
     ResourceType: S.optional(S.String),
     ResourceId: S.optional(S.String),
-    EvaluationMode: S.optional(S.String),
+    EvaluationMode: S.optional(EvaluationMode),
   }),
 ).annotations({
   identifier: "EvaluationResultQualifier",
@@ -2892,7 +4147,7 @@ export const EvaluationResultIdentifier = S.suspend(() =>
 }) as any as S.Schema<EvaluationResultIdentifier>;
 export interface EvaluationResult {
   EvaluationResultIdentifier?: EvaluationResultIdentifier;
-  ComplianceType?: string;
+  ComplianceType?: ComplianceType;
   ResultRecordedTime?: Date;
   ConfigRuleInvokedTime?: Date;
   Annotation?: string;
@@ -2901,7 +4156,7 @@ export interface EvaluationResult {
 export const EvaluationResult = S.suspend(() =>
   S.Struct({
     EvaluationResultIdentifier: S.optional(EvaluationResultIdentifier),
-    ComplianceType: S.optional(S.String),
+    ComplianceType: S.optional(ComplianceType),
     ResultRecordedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -2917,7 +4172,7 @@ export const EvaluationResult = S.suspend(() =>
 export type EvaluationResults = EvaluationResult[];
 export const EvaluationResults = S.Array(EvaluationResult);
 export interface GetComplianceDetailsByResourceResponse {
-  EvaluationResults?: EvaluationResults;
+  EvaluationResults?: EvaluationResult[];
   NextToken?: string;
 }
 export const GetComplianceDetailsByResourceResponse = S.suspend(() =>
@@ -3024,7 +4279,7 @@ export const GetOrganizationCustomRulePolicyResponse = S.suspend(() =>
   identifier: "GetOrganizationCustomRulePolicyResponse",
 }) as any as S.Schema<GetOrganizationCustomRulePolicyResponse>;
 export interface GetResourceConfigHistoryResponse {
-  configurationItems?: ConfigurationItemList;
+  configurationItems?: ConfigurationItem[];
   nextToken?: string;
 }
 export const GetResourceConfigHistoryResponse = S.suspend(() =>
@@ -3045,7 +4300,7 @@ export const GetStoredQueryResponse = S.suspend(() =>
 }) as any as S.Schema<GetStoredQueryResponse>;
 export interface ListAggregateDiscoveredResourcesRequest {
   ConfigurationAggregatorName: string;
-  ResourceType: string;
+  ResourceType: ResourceType;
   Filters?: ResourceFilters;
   Limit?: number;
   NextToken?: string;
@@ -3053,7 +4308,7 @@ export interface ListAggregateDiscoveredResourcesRequest {
 export const ListAggregateDiscoveredResourcesRequest = S.suspend(() =>
   S.Struct({
     ConfigurationAggregatorName: S.String,
-    ResourceType: S.String,
+    ResourceType: ResourceType,
     Filters: S.optional(ResourceFilters),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
@@ -3072,7 +4327,7 @@ export const ListAggregateDiscoveredResourcesRequest = S.suspend(() =>
   identifier: "ListAggregateDiscoveredResourcesRequest",
 }) as any as S.Schema<ListAggregateDiscoveredResourcesRequest>;
 export interface ListConfigurationRecordersRequest {
-  Filters?: ConfigurationRecorderFilterList;
+  Filters?: ConfigurationRecorderFilter[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -3097,16 +4352,16 @@ export const ListConfigurationRecordersRequest = S.suspend(() =>
 }) as any as S.Schema<ListConfigurationRecordersRequest>;
 export interface ListConformancePackComplianceScoresRequest {
   Filters?: ConformancePackComplianceScoresFilters;
-  SortOrder?: string;
-  SortBy?: string;
+  SortOrder?: SortOrder;
+  SortBy?: SortBy;
   Limit?: number;
   NextToken?: string;
 }
 export const ListConformancePackComplianceScoresRequest = S.suspend(() =>
   S.Struct({
     Filters: S.optional(ConformancePackComplianceScoresFilters),
-    SortOrder: S.optional(S.String),
-    SortBy: S.optional(S.String),
+    SortOrder: S.optional(SortOrder),
+    SortBy: S.optional(SortBy),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -3124,7 +4379,7 @@ export const ListConformancePackComplianceScoresRequest = S.suspend(() =>
   identifier: "ListConformancePackComplianceScoresRequest",
 }) as any as S.Schema<ListConformancePackComplianceScoresRequest>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
   NextToken?: string;
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
@@ -3137,7 +4392,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 export interface PutAggregationAuthorizationRequest {
   AuthorizedAccountId: string;
   AuthorizedAwsRegion: string;
-  Tags?: TagsList;
+  Tags?: Tag[];
 }
 export const PutAggregationAuthorizationRequest = S.suspend(() =>
   S.Struct({
@@ -3164,7 +4419,7 @@ export interface PutConformancePackRequest {
   TemplateBody?: string;
   DeliveryS3Bucket?: string;
   DeliveryS3KeyPrefix?: string;
-  ConformancePackInputParameters?: ConformancePackInputParameters;
+  ConformancePackInputParameters?: ConformancePackInputParameter[];
   TemplateSSMDocumentDetails?: TemplateSSMDocumentDetails;
 }
 export const PutConformancePackRequest = S.suspend(() =>
@@ -3191,7 +4446,7 @@ export const PutConformancePackRequest = S.suspend(() =>
   identifier: "PutConformancePackRequest",
 }) as any as S.Schema<PutConformancePackRequest>;
 export interface PutEvaluationsRequest {
-  Evaluations?: Evaluations;
+  Evaluations?: Evaluation[];
   ResultToken: string;
   TestMode?: boolean;
 }
@@ -3246,7 +4501,7 @@ export interface PutOrganizationConfigRuleRequest {
   OrganizationConfigRuleName: string;
   OrganizationManagedRuleMetadata?: OrganizationManagedRuleMetadata;
   OrganizationCustomRuleMetadata?: OrganizationCustomRuleMetadata;
-  ExcludedAccounts?: ExcludedAccounts;
+  ExcludedAccounts?: string[];
   OrganizationCustomPolicyRuleMetadata?: OrganizationCustomPolicyRuleMetadata;
 }
 export const PutOrganizationConfigRuleRequest = S.suspend(() =>
@@ -3288,7 +4543,7 @@ export interface PutResourceConfigRequest {
   ResourceId: string;
   ResourceName?: string;
   Configuration: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const PutResourceConfigRequest = S.suspend(() =>
   S.Struct({
@@ -3348,7 +4603,7 @@ export const PutServiceLinkedConfigurationRecorderResponse = S.suspend(() =>
 }) as any as S.Schema<PutServiceLinkedConfigurationRecorderResponse>;
 export interface PutStoredQueryRequest {
   StoredQuery: StoredQuery;
-  Tags?: TagsList;
+  Tags?: Tag[];
 }
 export const PutStoredQueryRequest = S.suspend(() =>
   S.Struct({ StoredQuery: StoredQuery, Tags: S.optional(TagsList) }).pipe(
@@ -3374,13 +4629,13 @@ export const FieldInfo = S.suspend(() =>
 export type FieldInfoList = FieldInfo[];
 export const FieldInfoList = S.Array(FieldInfo);
 export interface QueryInfo {
-  SelectFields?: FieldInfoList;
+  SelectFields?: FieldInfo[];
 }
 export const QueryInfo = S.suspend(() =>
   S.Struct({ SelectFields: S.optional(FieldInfoList) }),
 ).annotations({ identifier: "QueryInfo" }) as any as S.Schema<QueryInfo>;
 export interface SelectResourceConfigResponse {
-  Results?: Results;
+  Results?: string[];
   QueryInfo?: QueryInfo;
   NextToken?: string;
 }
@@ -3395,7 +4650,7 @@ export const SelectResourceConfigResponse = S.suspend(() =>
 }) as any as S.Schema<SelectResourceConfigResponse>;
 export interface StartRemediationExecutionResponse {
   FailureMessage?: string;
-  FailedItems?: ResourceKeys;
+  FailedItems?: ResourceKey[];
 }
 export const StartRemediationExecutionResponse = S.suspend(() =>
   S.Struct({
@@ -3408,7 +4663,7 @@ export const StartRemediationExecutionResponse = S.suspend(() =>
 export interface StartResourceEvaluationRequest {
   ResourceDetails: ResourceDetails;
   EvaluationContext?: EvaluationContext;
-  EvaluationMode: string;
+  EvaluationMode: EvaluationMode;
   EvaluationTimeout?: number;
   ClientToken?: string;
 }
@@ -3416,7 +4671,7 @@ export const StartResourceEvaluationRequest = S.suspend(() =>
   S.Struct({
     ResourceDetails: ResourceDetails,
     EvaluationContext: S.optional(EvaluationContext),
-    EvaluationMode: S.String,
+    EvaluationMode: EvaluationMode,
     EvaluationTimeout: S.optional(S.Number),
     ClientToken: S.optional(S.String),
   }).pipe(
@@ -3433,6 +4688,87 @@ export const StartResourceEvaluationRequest = S.suspend(() =>
 ).annotations({
   identifier: "StartResourceEvaluationRequest",
 }) as any as S.Schema<StartResourceEvaluationRequest>;
+export type AggregatedSourceType = "ACCOUNT" | "ORGANIZATION";
+export const AggregatedSourceType = S.Literal("ACCOUNT", "ORGANIZATION");
+export type RecorderStatus =
+  | "Pending"
+  | "Success"
+  | "Failure"
+  | "NotApplicable";
+export const RecorderStatus = S.Literal(
+  "Pending",
+  "Success",
+  "Failure",
+  "NotApplicable",
+);
+export type ConformancePackState =
+  | "CREATE_IN_PROGRESS"
+  | "CREATE_COMPLETE"
+  | "CREATE_FAILED"
+  | "DELETE_IN_PROGRESS"
+  | "DELETE_FAILED";
+export const ConformancePackState = S.Literal(
+  "CREATE_IN_PROGRESS",
+  "CREATE_COMPLETE",
+  "CREATE_FAILED",
+  "DELETE_IN_PROGRESS",
+  "DELETE_FAILED",
+);
+export type OrganizationRuleStatus =
+  | "CREATE_SUCCESSFUL"
+  | "CREATE_IN_PROGRESS"
+  | "CREATE_FAILED"
+  | "DELETE_SUCCESSFUL"
+  | "DELETE_FAILED"
+  | "DELETE_IN_PROGRESS"
+  | "UPDATE_SUCCESSFUL"
+  | "UPDATE_IN_PROGRESS"
+  | "UPDATE_FAILED";
+export const OrganizationRuleStatus = S.Literal(
+  "CREATE_SUCCESSFUL",
+  "CREATE_IN_PROGRESS",
+  "CREATE_FAILED",
+  "DELETE_SUCCESSFUL",
+  "DELETE_FAILED",
+  "DELETE_IN_PROGRESS",
+  "UPDATE_SUCCESSFUL",
+  "UPDATE_IN_PROGRESS",
+  "UPDATE_FAILED",
+);
+export type OrganizationResourceStatus =
+  | "CREATE_SUCCESSFUL"
+  | "CREATE_IN_PROGRESS"
+  | "CREATE_FAILED"
+  | "DELETE_SUCCESSFUL"
+  | "DELETE_FAILED"
+  | "DELETE_IN_PROGRESS"
+  | "UPDATE_SUCCESSFUL"
+  | "UPDATE_IN_PROGRESS"
+  | "UPDATE_FAILED";
+export const OrganizationResourceStatus = S.Literal(
+  "CREATE_SUCCESSFUL",
+  "CREATE_IN_PROGRESS",
+  "CREATE_FAILED",
+  "DELETE_SUCCESSFUL",
+  "DELETE_FAILED",
+  "DELETE_IN_PROGRESS",
+  "UPDATE_SUCCESSFUL",
+  "UPDATE_IN_PROGRESS",
+  "UPDATE_FAILED",
+);
+export type RemediationExecutionState =
+  | "QUEUED"
+  | "IN_PROGRESS"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "UNKNOWN";
+export const RemediationExecutionState = S.Literal(
+  "QUEUED",
+  "IN_PROGRESS",
+  "SUCCEEDED",
+  "FAILED",
+  "UNKNOWN",
+);
 export interface ComplianceContributorCount {
   CappedCount?: number;
   CapExceeded?: boolean;
@@ -3445,6 +4781,12 @@ export const ComplianceContributorCount = S.suspend(() =>
 ).annotations({
   identifier: "ComplianceContributorCount",
 }) as any as S.Schema<ComplianceContributorCount>;
+export type ResourceEvaluationStatus = "IN_PROGRESS" | "FAILED" | "SUCCEEDED";
+export const ResourceEvaluationStatus = S.Literal(
+  "IN_PROGRESS",
+  "FAILED",
+  "SUCCEEDED",
+);
 export interface TimeWindow {
   StartTime?: Date;
   EndTime?: Date;
@@ -3456,7 +4798,7 @@ export const TimeWindow = S.suspend(() =>
   }),
 ).annotations({ identifier: "TimeWindow" }) as any as S.Schema<TimeWindow>;
 export interface Scope {
-  ComplianceResourceTypes?: ComplianceResourceTypes;
+  ComplianceResourceTypes?: string[];
   TagKey?: string;
   TagValue?: string;
   ComplianceResourceId?: string;
@@ -3470,39 +4812,52 @@ export const Scope = S.suspend(() =>
   }),
 ).annotations({ identifier: "Scope" }) as any as S.Schema<Scope>;
 export interface EvaluationModeConfiguration {
-  Mode?: string;
+  Mode?: EvaluationMode;
 }
 export const EvaluationModeConfiguration = S.suspend(() =>
-  S.Struct({ Mode: S.optional(S.String) }),
+  S.Struct({ Mode: S.optional(EvaluationMode) }),
 ).annotations({
   identifier: "EvaluationModeConfiguration",
 }) as any as S.Schema<EvaluationModeConfiguration>;
 export type EvaluationModes = EvaluationModeConfiguration[];
 export const EvaluationModes = S.Array(EvaluationModeConfiguration);
 export interface AggregatorFilterResourceType {
-  Type?: string;
-  Value?: ResourceTypeValueList;
+  Type?: AggregatorFilterType;
+  Value?: string[];
 }
 export const AggregatorFilterResourceType = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String),
+    Type: S.optional(AggregatorFilterType),
     Value: S.optional(ResourceTypeValueList),
   }),
 ).annotations({
   identifier: "AggregatorFilterResourceType",
 }) as any as S.Schema<AggregatorFilterResourceType>;
 export interface AggregatorFilterServicePrincipal {
-  Type?: string;
-  Value?: ServicePrincipalValueList;
+  Type?: AggregatorFilterType;
+  Value?: string[];
 }
 export const AggregatorFilterServicePrincipal = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String),
+    Type: S.optional(AggregatorFilterType),
     Value: S.optional(ServicePrincipalValueList),
   }),
 ).annotations({
   identifier: "AggregatorFilterServicePrincipal",
 }) as any as S.Schema<AggregatorFilterServicePrincipal>;
+export type EventSource = "aws.config";
+export const EventSource = S.Literal("aws.config");
+export type MessageType =
+  | "ConfigurationItemChangeNotification"
+  | "ConfigurationSnapshotDeliveryCompleted"
+  | "ScheduledNotification"
+  | "OversizedConfigurationItemChangeNotification";
+export const MessageType = S.Literal(
+  "ConfigurationItemChangeNotification",
+  "ConfigurationSnapshotDeliveryCompleted",
+  "ScheduledNotification",
+  "OversizedConfigurationItemChangeNotification",
+);
 export type UnprocessedResourceIdentifierList = AggregateResourceIdentifier[];
 export const UnprocessedResourceIdentifierList = S.Array(
   AggregateResourceIdentifier,
@@ -3526,12 +4881,12 @@ export const AggregationAuthorization = S.suspend(() =>
 export type AggregationAuthorizationList = AggregationAuthorization[];
 export const AggregationAuthorizationList = S.Array(AggregationAuthorization);
 export interface Compliance {
-  ComplianceType?: string;
+  ComplianceType?: ComplianceType;
   ComplianceContributorCount?: ComplianceContributorCount;
 }
 export const Compliance = S.suspend(() =>
   S.Struct({
-    ComplianceType: S.optional(S.String),
+    ComplianceType: S.optional(ComplianceType),
     ComplianceContributorCount: S.optional(ComplianceContributorCount),
   }),
 ).annotations({ identifier: "Compliance" }) as any as S.Schema<Compliance>;
@@ -3608,15 +4963,15 @@ export const ConfigRuleEvaluationStatusList = S.Array(
   ConfigRuleEvaluationStatus,
 );
 export interface SourceDetail {
-  EventSource?: string;
-  MessageType?: string;
-  MaximumExecutionFrequency?: string;
+  EventSource?: EventSource;
+  MessageType?: MessageType;
+  MaximumExecutionFrequency?: MaximumExecutionFrequency;
 }
 export const SourceDetail = S.suspend(() =>
   S.Struct({
-    EventSource: S.optional(S.String),
-    MessageType: S.optional(S.String),
-    MaximumExecutionFrequency: S.optional(S.String),
+    EventSource: S.optional(EventSource),
+    MessageType: S.optional(MessageType),
+    MaximumExecutionFrequency: S.optional(MaximumExecutionFrequency),
   }),
 ).annotations({ identifier: "SourceDetail" }) as any as S.Schema<SourceDetail>;
 export type SourceDetails = SourceDetail[];
@@ -3636,14 +4991,14 @@ export const CustomPolicyDetails = S.suspend(() =>
   identifier: "CustomPolicyDetails",
 }) as any as S.Schema<CustomPolicyDetails>;
 export interface Source {
-  Owner: string;
+  Owner: Owner;
   SourceIdentifier?: string;
-  SourceDetails?: SourceDetails;
+  SourceDetails?: SourceDetail[];
   CustomPolicyDetails?: CustomPolicyDetails;
 }
 export const Source = S.suspend(() =>
   S.Struct({
-    Owner: S.String,
+    Owner: Owner,
     SourceIdentifier: S.optional(S.String),
     SourceDetails: S.optional(SourceDetails),
     CustomPolicyDetails: S.optional(CustomPolicyDetails),
@@ -3657,10 +5012,10 @@ export interface ConfigRule {
   Scope?: Scope;
   Source: Source;
   InputParameters?: string;
-  MaximumExecutionFrequency?: string;
-  ConfigRuleState?: string;
+  MaximumExecutionFrequency?: MaximumExecutionFrequency;
+  ConfigRuleState?: ConfigRuleState;
   CreatedBy?: string;
-  EvaluationModes?: EvaluationModes;
+  EvaluationModes?: EvaluationModeConfiguration[];
 }
 export const ConfigRule = S.suspend(() =>
   S.Struct({
@@ -3671,8 +5026,8 @@ export const ConfigRule = S.suspend(() =>
     Scope: S.optional(Scope),
     Source: Source,
     InputParameters: S.optional(S.String),
-    MaximumExecutionFrequency: S.optional(S.String),
-    ConfigRuleState: S.optional(S.String),
+    MaximumExecutionFrequency: S.optional(MaximumExecutionFrequency),
+    ConfigRuleState: S.optional(ConfigRuleState),
     CreatedBy: S.optional(S.String),
     EvaluationModes: S.optional(EvaluationModes),
   }),
@@ -3694,7 +5049,7 @@ export const AggregatorFilters = S.suspend(() =>
 export interface ConfigurationAggregator {
   ConfigurationAggregatorName?: string;
   ConfigurationAggregatorArn?: string;
-  AccountAggregationSources?: AccountAggregationSourceList;
+  AccountAggregationSources?: AccountAggregationSource[];
   OrganizationAggregationSource?: OrganizationAggregationSource;
   CreationTime?: Date;
   LastUpdatedTime?: Date;
@@ -3721,9 +5076,9 @@ export type ConfigurationAggregatorList = ConfigurationAggregator[];
 export const ConfigurationAggregatorList = S.Array(ConfigurationAggregator);
 export interface AggregatedSourceStatus {
   SourceId?: string;
-  SourceType?: string;
+  SourceType?: AggregatedSourceType;
   AwsRegion?: string;
-  LastUpdateStatus?: string;
+  LastUpdateStatus?: AggregatedSourceStatusType;
   LastUpdateTime?: Date;
   LastErrorCode?: string;
   LastErrorMessage?: string;
@@ -3731,9 +5086,9 @@ export interface AggregatedSourceStatus {
 export const AggregatedSourceStatus = S.suspend(() =>
   S.Struct({
     SourceId: S.optional(S.String),
-    SourceType: S.optional(S.String),
+    SourceType: S.optional(AggregatedSourceType),
     AwsRegion: S.optional(S.String),
-    LastUpdateStatus: S.optional(S.String),
+    LastUpdateStatus: S.optional(AggregatedSourceStatusType),
     LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastErrorCode: S.optional(S.String),
     LastErrorMessage: S.optional(S.String),
@@ -3749,7 +5104,7 @@ export interface ConfigurationRecorderStatus {
   lastStartTime?: Date;
   lastStopTime?: Date;
   recording?: boolean;
-  lastStatus?: string;
+  lastStatus?: RecorderStatus;
   lastErrorCode?: string;
   lastErrorMessage?: string;
   lastStatusChangeTime?: Date;
@@ -3762,7 +5117,7 @@ export const ConfigurationRecorderStatus = S.suspend(() =>
     lastStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastStopTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     recording: S.optional(S.Boolean),
-    lastStatus: S.optional(S.String),
+    lastStatus: S.optional(RecorderStatus),
     lastErrorCode: S.optional(S.String),
     lastErrorMessage: S.optional(S.String),
     lastStatusChangeTime: S.optional(
@@ -3783,7 +5138,7 @@ export interface ConformancePackDetail {
   ConformancePackId: string;
   DeliveryS3Bucket?: string;
   DeliveryS3KeyPrefix?: string;
-  ConformancePackInputParameters?: ConformancePackInputParameters;
+  ConformancePackInputParameters?: ConformancePackInputParameter[];
   LastUpdateRequestedTime?: Date;
   CreatedBy?: string;
   TemplateSSMDocumentDetails?: TemplateSSMDocumentDetails;
@@ -3811,7 +5166,7 @@ export interface ConformancePackStatusDetail {
   ConformancePackName: string;
   ConformancePackId: string;
   ConformancePackArn: string;
-  ConformancePackState: string;
+  ConformancePackState: ConformancePackState;
   StackArn: string;
   ConformancePackStatusReason?: string;
   LastUpdateRequestedTime: Date;
@@ -3822,7 +5177,7 @@ export const ConformancePackStatusDetail = S.suspend(() =>
     ConformancePackName: S.String,
     ConformancePackId: S.String,
     ConformancePackArn: S.String,
-    ConformancePackState: S.String,
+    ConformancePackState: ConformancePackState,
     StackArn: S.String,
     ConformancePackStatusReason: S.optional(S.String),
     LastUpdateRequestedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -3839,7 +5194,7 @@ export const ConformancePackStatusDetailsList = S.Array(
 );
 export interface OrganizationConfigRuleStatus {
   OrganizationConfigRuleName: string;
-  OrganizationRuleStatus: string;
+  OrganizationRuleStatus: OrganizationRuleStatus;
   ErrorCode?: string;
   ErrorMessage?: string;
   LastUpdateTime?: Date;
@@ -3847,7 +5202,7 @@ export interface OrganizationConfigRuleStatus {
 export const OrganizationConfigRuleStatus = S.suspend(() =>
   S.Struct({
     OrganizationConfigRuleName: S.String,
-    OrganizationRuleStatus: S.String,
+    OrganizationRuleStatus: OrganizationRuleStatus,
     ErrorCode: S.optional(S.String),
     ErrorMessage: S.optional(S.String),
     LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -3864,8 +5219,8 @@ export interface OrganizationConformancePack {
   OrganizationConformancePackArn: string;
   DeliveryS3Bucket?: string;
   DeliveryS3KeyPrefix?: string;
-  ConformancePackInputParameters?: ConformancePackInputParameters;
-  ExcludedAccounts?: ExcludedAccounts;
+  ConformancePackInputParameters?: ConformancePackInputParameter[];
+  ExcludedAccounts?: string[];
   LastUpdateTime: Date;
 }
 export const OrganizationConformancePack = S.suspend(() =>
@@ -3887,7 +5242,7 @@ export const OrganizationConformancePacks = S.Array(
 );
 export interface OrganizationConformancePackStatus {
   OrganizationConformancePackName: string;
-  Status: string;
+  Status: OrganizationResourceStatus;
   ErrorCode?: string;
   ErrorMessage?: string;
   LastUpdateTime?: Date;
@@ -3895,7 +5250,7 @@ export interface OrganizationConformancePackStatus {
 export const OrganizationConformancePackStatus = S.suspend(() =>
   S.Struct({
     OrganizationConformancePackName: S.String,
-    Status: S.String,
+    Status: OrganizationResourceStatus,
     ErrorCode: S.optional(S.String),
     ErrorMessage: S.optional(S.String),
     LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -3979,12 +5334,12 @@ export const ComplianceSummariesByResourceType = S.Array(
 );
 export interface ConformancePackComplianceSummary {
   ConformancePackName: string;
-  ConformancePackComplianceStatus: string;
+  ConformancePackComplianceStatus: ConformancePackComplianceType;
 }
 export const ConformancePackComplianceSummary = S.suspend(() =>
   S.Struct({
     ConformancePackName: S.String,
-    ConformancePackComplianceStatus: S.String,
+    ConformancePackComplianceStatus: ConformancePackComplianceType,
   }),
 ).annotations({
   identifier: "ConformancePackComplianceSummary",
@@ -3995,22 +5350,28 @@ export const ConformancePackComplianceSummaryList = S.Array(
   ConformancePackComplianceSummary,
 );
 export interface ResourceCount {
-  resourceType?: string;
+  resourceType?: ResourceType;
   count?: number;
 }
 export const ResourceCount = S.suspend(() =>
-  S.Struct({ resourceType: S.optional(S.String), count: S.optional(S.Number) }),
+  S.Struct({
+    resourceType: S.optional(ResourceType),
+    count: S.optional(S.Number),
+  }),
 ).annotations({
   identifier: "ResourceCount",
 }) as any as S.Schema<ResourceCount>;
 export type ResourceCounts = ResourceCount[];
 export const ResourceCounts = S.Array(ResourceCount);
 export interface EvaluationStatus {
-  Status: string;
+  Status: ResourceEvaluationStatus;
   FailureReason?: string;
 }
 export const EvaluationStatus = S.suspend(() =>
-  S.Struct({ Status: S.String, FailureReason: S.optional(S.String) }),
+  S.Struct({
+    Status: ResourceEvaluationStatus,
+    FailureReason: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "EvaluationStatus",
 }) as any as S.Schema<EvaluationStatus>;
@@ -4019,14 +5380,14 @@ export const DiscoveredResourceIdentifierList = S.Array(
   AggregateResourceIdentifier,
 );
 export interface ResourceIdentifier {
-  resourceType?: string;
+  resourceType?: ResourceType;
   resourceId?: string;
   resourceName?: string;
   resourceDeletionTime?: Date;
 }
 export const ResourceIdentifier = S.suspend(() =>
   S.Struct({
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     resourceId: S.optional(S.String),
     resourceName: S.optional(S.String),
     resourceDeletionTime: S.optional(
@@ -4039,13 +5400,13 @@ export const ResourceIdentifier = S.suspend(() =>
 export type ResourceIdentifierList = ResourceIdentifier[];
 export const ResourceIdentifierList = S.Array(ResourceIdentifier);
 export interface ResourceEvaluationFilters {
-  EvaluationMode?: string;
+  EvaluationMode?: EvaluationMode;
   TimeWindow?: TimeWindow;
   EvaluationContextIdentifier?: string;
 }
 export const ResourceEvaluationFilters = S.suspend(() =>
   S.Struct({
-    EvaluationMode: S.optional(S.String),
+    EvaluationMode: S.optional(EvaluationMode),
     TimeWindow: S.optional(TimeWindow),
     EvaluationContextIdentifier: S.optional(S.String),
   }),
@@ -4072,7 +5433,7 @@ export type StoredQueryMetadataList = StoredQueryMetadata[];
 export const StoredQueryMetadataList = S.Array(StoredQueryMetadata);
 export interface FailedRemediationExceptionBatch {
   FailureMessage?: string;
-  FailedItems?: RemediationExceptions;
+  FailedItems?: RemediationException[];
 }
 export const FailedRemediationExceptionBatch = S.suspend(() =>
   S.Struct({
@@ -4087,22 +5448,39 @@ export type FailedRemediationExceptionBatches =
 export const FailedRemediationExceptionBatches = S.Array(
   FailedRemediationExceptionBatch,
 );
+export type DeliveryStatus = "Success" | "Failure" | "Not_Applicable";
+export const DeliveryStatus = S.Literal("Success", "Failure", "Not_Applicable");
+export type RemediationExecutionStepState =
+  | "SUCCEEDED"
+  | "PENDING"
+  | "FAILED"
+  | "IN_PROGRESS"
+  | "EXITED"
+  | "UNKNOWN";
+export const RemediationExecutionStepState = S.Literal(
+  "SUCCEEDED",
+  "PENDING",
+  "FAILED",
+  "IN_PROGRESS",
+  "EXITED",
+  "UNKNOWN",
+);
 export interface BaseConfigurationItem {
   version?: string;
   accountId?: string;
   configurationItemCaptureTime?: Date;
-  configurationItemStatus?: string;
+  configurationItemStatus?: ConfigurationItemStatus;
   configurationStateId?: string;
   arn?: string;
-  resourceType?: string;
+  resourceType?: ResourceType;
   resourceId?: string;
   resourceName?: string;
   awsRegion?: string;
   availabilityZone?: string;
   resourceCreationTime?: Date;
   configuration?: string;
-  supplementaryConfiguration?: SupplementaryConfiguration;
-  recordingFrequency?: string;
+  supplementaryConfiguration?: { [key: string]: string };
+  recordingFrequency?: RecordingFrequency;
   configurationItemDeliveryTime?: Date;
 }
 export const BaseConfigurationItem = S.suspend(() =>
@@ -4112,10 +5490,10 @@ export const BaseConfigurationItem = S.suspend(() =>
     configurationItemCaptureTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    configurationItemStatus: S.optional(S.String),
+    configurationItemStatus: S.optional(ConfigurationItemStatus),
     configurationStateId: S.optional(S.String),
     arn: S.optional(S.String),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     resourceId: S.optional(S.String),
     resourceName: S.optional(S.String),
     awsRegion: S.optional(S.String),
@@ -4125,7 +5503,7 @@ export const BaseConfigurationItem = S.suspend(() =>
     ),
     configuration: S.optional(S.String),
     supplementaryConfiguration: S.optional(SupplementaryConfiguration),
-    recordingFrequency: S.optional(S.String),
+    recordingFrequency: S.optional(RecordingFrequency),
     configurationItemDeliveryTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -4136,8 +5514,8 @@ export const BaseConfigurationItem = S.suspend(() =>
 export type BaseConfigurationItems = BaseConfigurationItem[];
 export const BaseConfigurationItems = S.Array(BaseConfigurationItem);
 export interface BatchGetResourceConfigResponse {
-  baseConfigurationItems?: BaseConfigurationItems;
-  unprocessedResourceKeys?: ResourceKeys;
+  baseConfigurationItems?: BaseConfigurationItem[];
+  unprocessedResourceKeys?: ResourceKey[];
 }
 export const BatchGetResourceConfigResponse = S.suspend(() =>
   S.Struct({
@@ -4148,7 +5526,7 @@ export const BatchGetResourceConfigResponse = S.suspend(() =>
   identifier: "BatchGetResourceConfigResponse",
 }) as any as S.Schema<BatchGetResourceConfigResponse>;
 export interface DescribeAggregationAuthorizationsResponse {
-  AggregationAuthorizations?: AggregationAuthorizationList;
+  AggregationAuthorizations?: AggregationAuthorization[];
   NextToken?: string;
 }
 export const DescribeAggregationAuthorizationsResponse = S.suspend(() =>
@@ -4160,7 +5538,7 @@ export const DescribeAggregationAuthorizationsResponse = S.suspend(() =>
   identifier: "DescribeAggregationAuthorizationsResponse",
 }) as any as S.Schema<DescribeAggregationAuthorizationsResponse>;
 export interface DescribeComplianceByResourceResponse {
-  ComplianceByResources?: ComplianceByResources;
+  ComplianceByResources?: ComplianceByResource[];
   NextToken?: string;
 }
 export const DescribeComplianceByResourceResponse = S.suspend(() =>
@@ -4172,7 +5550,7 @@ export const DescribeComplianceByResourceResponse = S.suspend(() =>
   identifier: "DescribeComplianceByResourceResponse",
 }) as any as S.Schema<DescribeComplianceByResourceResponse>;
 export interface DescribeConfigRuleEvaluationStatusResponse {
-  ConfigRulesEvaluationStatus?: ConfigRuleEvaluationStatusList;
+  ConfigRulesEvaluationStatus?: ConfigRuleEvaluationStatus[];
   NextToken?: string;
 }
 export const DescribeConfigRuleEvaluationStatusResponse = S.suspend(() =>
@@ -4184,7 +5562,7 @@ export const DescribeConfigRuleEvaluationStatusResponse = S.suspend(() =>
   identifier: "DescribeConfigRuleEvaluationStatusResponse",
 }) as any as S.Schema<DescribeConfigRuleEvaluationStatusResponse>;
 export interface DescribeConfigRulesResponse {
-  ConfigRules?: ConfigRules;
+  ConfigRules?: ConfigRule[];
   NextToken?: string;
 }
 export const DescribeConfigRulesResponse = S.suspend(() =>
@@ -4196,7 +5574,7 @@ export const DescribeConfigRulesResponse = S.suspend(() =>
   identifier: "DescribeConfigRulesResponse",
 }) as any as S.Schema<DescribeConfigRulesResponse>;
 export interface DescribeConfigurationAggregatorsResponse {
-  ConfigurationAggregators?: ConfigurationAggregatorList;
+  ConfigurationAggregators?: ConfigurationAggregator[];
   NextToken?: string;
 }
 export const DescribeConfigurationAggregatorsResponse = S.suspend(() =>
@@ -4208,7 +5586,7 @@ export const DescribeConfigurationAggregatorsResponse = S.suspend(() =>
   identifier: "DescribeConfigurationAggregatorsResponse",
 }) as any as S.Schema<DescribeConfigurationAggregatorsResponse>;
 export interface DescribeConfigurationAggregatorSourcesStatusResponse {
-  AggregatedSourceStatusList?: AggregatedSourceStatusList;
+  AggregatedSourceStatusList?: AggregatedSourceStatus[];
   NextToken?: string;
 }
 export const DescribeConfigurationAggregatorSourcesStatusResponse = S.suspend(
@@ -4221,7 +5599,7 @@ export const DescribeConfigurationAggregatorSourcesStatusResponse = S.suspend(
   identifier: "DescribeConfigurationAggregatorSourcesStatusResponse",
 }) as any as S.Schema<DescribeConfigurationAggregatorSourcesStatusResponse>;
 export interface DescribeConfigurationRecorderStatusResponse {
-  ConfigurationRecordersStatus?: ConfigurationRecorderStatusList;
+  ConfigurationRecordersStatus?: ConfigurationRecorderStatus[];
 }
 export const DescribeConfigurationRecorderStatusResponse = S.suspend(() =>
   S.Struct({
@@ -4231,7 +5609,7 @@ export const DescribeConfigurationRecorderStatusResponse = S.suspend(() =>
   identifier: "DescribeConfigurationRecorderStatusResponse",
 }) as any as S.Schema<DescribeConfigurationRecorderStatusResponse>;
 export interface DescribeConformancePacksResponse {
-  ConformancePackDetails?: ConformancePackDetailList;
+  ConformancePackDetails?: ConformancePackDetail[];
   NextToken?: string;
 }
 export const DescribeConformancePacksResponse = S.suspend(() =>
@@ -4243,7 +5621,7 @@ export const DescribeConformancePacksResponse = S.suspend(() =>
   identifier: "DescribeConformancePacksResponse",
 }) as any as S.Schema<DescribeConformancePacksResponse>;
 export interface DescribeConformancePackStatusResponse {
-  ConformancePackStatusDetails?: ConformancePackStatusDetailsList;
+  ConformancePackStatusDetails?: ConformancePackStatusDetail[];
   NextToken?: string;
 }
 export const DescribeConformancePackStatusResponse = S.suspend(() =>
@@ -4255,7 +5633,7 @@ export const DescribeConformancePackStatusResponse = S.suspend(() =>
   identifier: "DescribeConformancePackStatusResponse",
 }) as any as S.Schema<DescribeConformancePackStatusResponse>;
 export interface DescribeOrganizationConfigRuleStatusesResponse {
-  OrganizationConfigRuleStatuses?: OrganizationConfigRuleStatuses;
+  OrganizationConfigRuleStatuses?: OrganizationConfigRuleStatus[];
   NextToken?: string;
 }
 export const DescribeOrganizationConfigRuleStatusesResponse = S.suspend(() =>
@@ -4267,7 +5645,7 @@ export const DescribeOrganizationConfigRuleStatusesResponse = S.suspend(() =>
   identifier: "DescribeOrganizationConfigRuleStatusesResponse",
 }) as any as S.Schema<DescribeOrganizationConfigRuleStatusesResponse>;
 export interface DescribeOrganizationConformancePacksResponse {
-  OrganizationConformancePacks?: OrganizationConformancePacks;
+  OrganizationConformancePacks?: OrganizationConformancePack[];
   NextToken?: string;
 }
 export const DescribeOrganizationConformancePacksResponse = S.suspend(() =>
@@ -4279,7 +5657,7 @@ export const DescribeOrganizationConformancePacksResponse = S.suspend(() =>
   identifier: "DescribeOrganizationConformancePacksResponse",
 }) as any as S.Schema<DescribeOrganizationConformancePacksResponse>;
 export interface DescribeOrganizationConformancePackStatusesResponse {
-  OrganizationConformancePackStatuses?: OrganizationConformancePackStatuses;
+  OrganizationConformancePackStatuses?: OrganizationConformancePackStatus[];
   NextToken?: string;
 }
 export const DescribeOrganizationConformancePackStatusesResponse = S.suspend(
@@ -4294,7 +5672,7 @@ export const DescribeOrganizationConformancePackStatusesResponse = S.suspend(
   identifier: "DescribeOrganizationConformancePackStatusesResponse",
 }) as any as S.Schema<DescribeOrganizationConformancePackStatusesResponse>;
 export interface DescribePendingAggregationRequestsResponse {
-  PendingAggregationRequests?: PendingAggregationRequestList;
+  PendingAggregationRequests?: PendingAggregationRequest[];
   NextToken?: string;
 }
 export const DescribePendingAggregationRequestsResponse = S.suspend(() =>
@@ -4306,7 +5684,7 @@ export const DescribePendingAggregationRequestsResponse = S.suspend(() =>
   identifier: "DescribePendingAggregationRequestsResponse",
 }) as any as S.Schema<DescribePendingAggregationRequestsResponse>;
 export interface DescribeRemediationExceptionsResponse {
-  RemediationExceptions?: RemediationExceptions;
+  RemediationExceptions?: RemediationException[];
   NextToken?: string;
 }
 export const DescribeRemediationExceptionsResponse = S.suspend(() =>
@@ -4318,7 +5696,7 @@ export const DescribeRemediationExceptionsResponse = S.suspend(() =>
   identifier: "DescribeRemediationExceptionsResponse",
 }) as any as S.Schema<DescribeRemediationExceptionsResponse>;
 export interface DescribeRetentionConfigurationsResponse {
-  RetentionConfigurations?: RetentionConfigurationList;
+  RetentionConfigurations?: RetentionConfiguration[];
   NextToken?: string;
 }
 export const DescribeRetentionConfigurationsResponse = S.suspend(() =>
@@ -4330,7 +5708,7 @@ export const DescribeRetentionConfigurationsResponse = S.suspend(() =>
   identifier: "DescribeRetentionConfigurationsResponse",
 }) as any as S.Schema<DescribeRetentionConfigurationsResponse>;
 export interface GetComplianceDetailsByConfigRuleResponse {
-  EvaluationResults?: EvaluationResults;
+  EvaluationResults?: EvaluationResult[];
   NextToken?: string;
 }
 export const GetComplianceDetailsByConfigRuleResponse = S.suspend(() =>
@@ -4350,7 +5728,7 @@ export const GetComplianceSummaryByConfigRuleResponse = S.suspend(() =>
   identifier: "GetComplianceSummaryByConfigRuleResponse",
 }) as any as S.Schema<GetComplianceSummaryByConfigRuleResponse>;
 export interface GetComplianceSummaryByResourceTypeResponse {
-  ComplianceSummariesByResourceType?: ComplianceSummariesByResourceType;
+  ComplianceSummariesByResourceType?: ComplianceSummaryByResourceType[];
 }
 export const GetComplianceSummaryByResourceTypeResponse = S.suspend(() =>
   S.Struct({
@@ -4362,7 +5740,7 @@ export const GetComplianceSummaryByResourceTypeResponse = S.suspend(() =>
   identifier: "GetComplianceSummaryByResourceTypeResponse",
 }) as any as S.Schema<GetComplianceSummaryByResourceTypeResponse>;
 export interface GetConformancePackComplianceSummaryResponse {
-  ConformancePackComplianceSummaryList?: ConformancePackComplianceSummaryList;
+  ConformancePackComplianceSummaryList?: ConformancePackComplianceSummary[];
   NextToken?: string;
 }
 export const GetConformancePackComplianceSummaryResponse = S.suspend(() =>
@@ -4377,7 +5755,7 @@ export const GetConformancePackComplianceSummaryResponse = S.suspend(() =>
 }) as any as S.Schema<GetConformancePackComplianceSummaryResponse>;
 export interface GetDiscoveredResourceCountsResponse {
   totalDiscoveredResources?: number;
-  resourceCounts?: ResourceCounts;
+  resourceCounts?: ResourceCount[];
   nextToken?: string;
 }
 export const GetDiscoveredResourceCountsResponse = S.suspend(() =>
@@ -4391,22 +5769,22 @@ export const GetDiscoveredResourceCountsResponse = S.suspend(() =>
 }) as any as S.Schema<GetDiscoveredResourceCountsResponse>;
 export interface GetResourceEvaluationSummaryResponse {
   ResourceEvaluationId?: string;
-  EvaluationMode?: string;
+  EvaluationMode?: EvaluationMode;
   EvaluationStatus?: EvaluationStatus;
   EvaluationStartTimestamp?: Date;
-  Compliance?: string;
+  Compliance?: ComplianceType;
   EvaluationContext?: EvaluationContext;
   ResourceDetails?: ResourceDetails;
 }
 export const GetResourceEvaluationSummaryResponse = S.suspend(() =>
   S.Struct({
     ResourceEvaluationId: S.optional(S.String),
-    EvaluationMode: S.optional(S.String),
+    EvaluationMode: S.optional(EvaluationMode),
     EvaluationStatus: S.optional(EvaluationStatus),
     EvaluationStartTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    Compliance: S.optional(S.String),
+    Compliance: S.optional(ComplianceType),
     EvaluationContext: S.optional(EvaluationContext),
     ResourceDetails: S.optional(ResourceDetails),
   }).pipe(ns),
@@ -4414,7 +5792,7 @@ export const GetResourceEvaluationSummaryResponse = S.suspend(() =>
   identifier: "GetResourceEvaluationSummaryResponse",
 }) as any as S.Schema<GetResourceEvaluationSummaryResponse>;
 export interface ListAggregateDiscoveredResourcesResponse {
-  ResourceIdentifiers?: DiscoveredResourceIdentifierList;
+  ResourceIdentifiers?: AggregateResourceIdentifier[];
   NextToken?: string;
 }
 export const ListAggregateDiscoveredResourcesResponse = S.suspend(() =>
@@ -4426,7 +5804,7 @@ export const ListAggregateDiscoveredResourcesResponse = S.suspend(() =>
   identifier: "ListAggregateDiscoveredResourcesResponse",
 }) as any as S.Schema<ListAggregateDiscoveredResourcesResponse>;
 export interface ListDiscoveredResourcesResponse {
-  resourceIdentifiers?: ResourceIdentifierList;
+  resourceIdentifiers?: ResourceIdentifier[];
   nextToken?: string;
 }
 export const ListDiscoveredResourcesResponse = S.suspend(() =>
@@ -4462,7 +5840,7 @@ export const ListResourceEvaluationsRequest = S.suspend(() =>
   identifier: "ListResourceEvaluationsRequest",
 }) as any as S.Schema<ListResourceEvaluationsRequest>;
 export interface ListStoredQueriesResponse {
-  StoredQueryMetadata?: StoredQueryMetadataList;
+  StoredQueryMetadata?: StoredQueryMetadata[];
   NextToken?: string;
 }
 export const ListStoredQueriesResponse = S.suspend(() =>
@@ -4485,9 +5863,9 @@ export const PutAggregationAuthorizationResponse = S.suspend(() =>
 }) as any as S.Schema<PutAggregationAuthorizationResponse>;
 export interface PutConfigurationAggregatorRequest {
   ConfigurationAggregatorName: string;
-  AccountAggregationSources?: AccountAggregationSourceList;
+  AccountAggregationSources?: AccountAggregationSource[];
   OrganizationAggregationSource?: OrganizationAggregationSource;
-  Tags?: TagsList;
+  Tags?: Tag[];
   AggregatorFilters?: AggregatorFilters;
 }
 export const PutConfigurationAggregatorRequest = S.suspend(() =>
@@ -4544,7 +5922,7 @@ export const PutDeliveryChannelResponse = S.suspend(() =>
   identifier: "PutDeliveryChannelResponse",
 }) as any as S.Schema<PutDeliveryChannelResponse>;
 export interface PutEvaluationsResponse {
-  FailedEvaluations?: Evaluations;
+  FailedEvaluations?: Evaluation[];
 }
 export const PutEvaluationsResponse = S.suspend(() =>
   S.Struct({ FailedEvaluations: S.optional(Evaluations) }).pipe(ns),
@@ -4560,7 +5938,7 @@ export const PutOrganizationConfigRuleResponse = S.suspend(() =>
   identifier: "PutOrganizationConfigRuleResponse",
 }) as any as S.Schema<PutOrganizationConfigRuleResponse>;
 export interface PutRemediationExceptionsResponse {
-  FailedBatches?: FailedRemediationExceptionBatches;
+  FailedBatches?: FailedRemediationExceptionBatch[];
 }
 export const PutRemediationExceptionsResponse = S.suspend(() =>
   S.Struct({
@@ -4588,7 +5966,7 @@ export const StartResourceEvaluationResponse = S.suspend(() =>
 export type ControlsList = string[];
 export const ControlsList = S.Array(S.String);
 export interface ConfigExportDeliveryInfo {
-  lastStatus?: string;
+  lastStatus?: DeliveryStatus;
   lastErrorCode?: string;
   lastErrorMessage?: string;
   lastAttemptTime?: Date;
@@ -4597,7 +5975,7 @@ export interface ConfigExportDeliveryInfo {
 }
 export const ConfigExportDeliveryInfo = S.suspend(() =>
   S.Struct({
-    lastStatus: S.optional(S.String),
+    lastStatus: S.optional(DeliveryStatus),
     lastErrorCode: S.optional(S.String),
     lastErrorMessage: S.optional(S.String),
     lastAttemptTime: S.optional(
@@ -4614,14 +5992,14 @@ export const ConfigExportDeliveryInfo = S.suspend(() =>
   identifier: "ConfigExportDeliveryInfo",
 }) as any as S.Schema<ConfigExportDeliveryInfo>;
 export interface ConfigStreamDeliveryInfo {
-  lastStatus?: string;
+  lastStatus?: DeliveryStatus;
   lastErrorCode?: string;
   lastErrorMessage?: string;
   lastStatusChangeTime?: Date;
 }
 export const ConfigStreamDeliveryInfo = S.suspend(() =>
   S.Struct({
-    lastStatus: S.optional(S.String),
+    lastStatus: S.optional(DeliveryStatus),
     lastErrorCode: S.optional(S.String),
     lastErrorMessage: S.optional(S.String),
     lastStatusChangeTime: S.optional(
@@ -4633,15 +6011,15 @@ export const ConfigStreamDeliveryInfo = S.suspend(() =>
 }) as any as S.Schema<ConfigStreamDeliveryInfo>;
 export interface OrganizationCustomPolicyRuleMetadataNoPolicy {
   Description?: string;
-  OrganizationConfigRuleTriggerTypes?: OrganizationConfigRuleTriggerTypeNoSNs;
+  OrganizationConfigRuleTriggerTypes?: OrganizationConfigRuleTriggerTypeNoSN[];
   InputParameters?: string;
-  MaximumExecutionFrequency?: string;
-  ResourceTypesScope?: ResourceTypesScope;
+  MaximumExecutionFrequency?: MaximumExecutionFrequency;
+  ResourceTypesScope?: string[];
   ResourceIdScope?: string;
   TagKeyScope?: string;
   TagValueScope?: string;
   PolicyRuntime?: string;
-  DebugLogDeliveryAccounts?: DebugLogDeliveryAccounts;
+  DebugLogDeliveryAccounts?: string[];
 }
 export const OrganizationCustomPolicyRuleMetadataNoPolicy = S.suspend(() =>
   S.Struct({
@@ -4650,7 +6028,7 @@ export const OrganizationCustomPolicyRuleMetadataNoPolicy = S.suspend(() =>
       OrganizationConfigRuleTriggerTypeNoSNs,
     ),
     InputParameters: S.optional(S.String),
-    MaximumExecutionFrequency: S.optional(S.String),
+    MaximumExecutionFrequency: S.optional(MaximumExecutionFrequency),
     ResourceTypesScope: S.optional(ResourceTypesScope),
     ResourceIdScope: S.optional(S.String),
     TagKeyScope: S.optional(S.String),
@@ -4663,7 +6041,7 @@ export const OrganizationCustomPolicyRuleMetadataNoPolicy = S.suspend(() =>
 }) as any as S.Schema<OrganizationCustomPolicyRuleMetadataNoPolicy>;
 export interface RemediationExecutionStep {
   Name?: string;
-  State?: string;
+  State?: RemediationExecutionStepState;
   ErrorMessage?: string;
   StartTime?: Date;
   StopTime?: Date;
@@ -4671,7 +6049,7 @@ export interface RemediationExecutionStep {
 export const RemediationExecutionStep = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(RemediationExecutionStepState),
     ErrorMessage: S.optional(S.String),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     StopTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -4683,7 +6061,7 @@ export type RemediationExecutionSteps = RemediationExecutionStep[];
 export const RemediationExecutionSteps = S.Array(RemediationExecutionStep);
 export interface FailedDeleteRemediationExceptionsBatch {
   FailureMessage?: string;
-  FailedItems?: RemediationExceptionResourceKeys;
+  FailedItems?: RemediationExceptionResourceKey[];
 }
 export const FailedDeleteRemediationExceptionsBatch = S.suspend(() =>
   S.Struct({
@@ -4735,13 +6113,13 @@ export type ComplianceByConfigRules = ComplianceByConfigRule[];
 export const ComplianceByConfigRules = S.Array(ComplianceByConfigRule);
 export interface ConformancePackRuleCompliance {
   ConfigRuleName?: string;
-  ComplianceType?: string;
-  Controls?: ControlsList;
+  ComplianceType?: ConformancePackComplianceType;
+  Controls?: string[];
 }
 export const ConformancePackRuleCompliance = S.suspend(() =>
   S.Struct({
     ConfigRuleName: S.optional(S.String),
-    ComplianceType: S.optional(S.String),
+    ComplianceType: S.optional(ConformancePackComplianceType),
     Controls: S.optional(ControlsList),
   }),
 ).annotations({
@@ -4774,7 +6152,7 @@ export interface OrganizationConfigRule {
   OrganizationConfigRuleArn: string;
   OrganizationManagedRuleMetadata?: OrganizationManagedRuleMetadata;
   OrganizationCustomRuleMetadata?: OrganizationCustomRuleMetadata;
-  ExcludedAccounts?: ExcludedAccounts;
+  ExcludedAccounts?: string[];
   LastUpdateTime?: Date;
   OrganizationCustomPolicyRuleMetadata?: OrganizationCustomPolicyRuleMetadataNoPolicy;
 }
@@ -4799,15 +6177,15 @@ export type OrganizationConfigRules = OrganizationConfigRule[];
 export const OrganizationConfigRules = S.Array(OrganizationConfigRule);
 export interface RemediationExecutionStatus {
   ResourceKey?: ResourceKey;
-  State?: string;
-  StepDetails?: RemediationExecutionSteps;
+  State?: RemediationExecutionState;
+  StepDetails?: RemediationExecutionStep[];
   InvocationTime?: Date;
   LastUpdatedTime?: Date;
 }
 export const RemediationExecutionStatus = S.suspend(() =>
   S.Struct({
     ResourceKey: S.optional(ResourceKey),
-    State: S.optional(S.String),
+    State: S.optional(RemediationExecutionState),
     StepDetails: S.optional(RemediationExecutionSteps),
     InvocationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedTime: S.optional(
@@ -4845,7 +6223,7 @@ export const GroupedResourceCount = S.suspend(() =>
 export type GroupedResourceCountList = GroupedResourceCount[];
 export const GroupedResourceCountList = S.Array(GroupedResourceCount);
 export interface ConformancePackEvaluationResult {
-  ComplianceType: string;
+  ComplianceType: ConformancePackComplianceType;
   EvaluationResultIdentifier: EvaluationResultIdentifier;
   ConfigRuleInvokedTime: Date;
   ResultRecordedTime: Date;
@@ -4853,7 +6231,7 @@ export interface ConformancePackEvaluationResult {
 }
 export const ConformancePackEvaluationResult = S.suspend(() =>
   S.Struct({
-    ComplianceType: S.String,
+    ComplianceType: ConformancePackComplianceType,
     EvaluationResultIdentifier: EvaluationResultIdentifier,
     ConfigRuleInvokedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ResultRecordedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -4870,7 +6248,7 @@ export const ConformancePackRuleEvaluationResultsList = S.Array(
 export interface MemberAccountStatus {
   AccountId: string;
   ConfigRuleName: string;
-  MemberAccountRuleStatus: string;
+  MemberAccountRuleStatus: MemberAccountRuleStatus;
   ErrorCode?: string;
   ErrorMessage?: string;
   LastUpdateTime?: Date;
@@ -4879,7 +6257,7 @@ export const MemberAccountStatus = S.suspend(() =>
   S.Struct({
     AccountId: S.String,
     ConfigRuleName: S.String,
-    MemberAccountRuleStatus: S.String,
+    MemberAccountRuleStatus: MemberAccountRuleStatus,
     ErrorCode: S.optional(S.String),
     ErrorMessage: S.optional(S.String),
     LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -4893,7 +6271,7 @@ export const OrganizationConfigRuleDetailedStatus =
 export interface OrganizationConformancePackDetailedStatus {
   AccountId: string;
   ConformancePackName: string;
-  Status: string;
+  Status: OrganizationResourceDetailedStatus;
   ErrorCode?: string;
   ErrorMessage?: string;
   LastUpdateTime?: Date;
@@ -4902,7 +6280,7 @@ export const OrganizationConformancePackDetailedStatus = S.suspend(() =>
   S.Struct({
     AccountId: S.String,
     ConformancePackName: S.String,
-    Status: S.String,
+    Status: OrganizationResourceDetailedStatus,
     ErrorCode: S.optional(S.String),
     ErrorMessage: S.optional(S.String),
     LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -4919,14 +6297,14 @@ export interface ConfigurationRecorderSummary {
   arn: string;
   name: string;
   servicePrincipal?: string;
-  recordingScope: string;
+  recordingScope: RecordingScope;
 }
 export const ConfigurationRecorderSummary = S.suspend(() =>
   S.Struct({
     arn: S.String,
     name: S.String,
     servicePrincipal: S.optional(S.String),
-    recordingScope: S.String,
+    recordingScope: RecordingScope,
   }),
 ).annotations({
   identifier: "ConfigurationRecorderSummary",
@@ -4956,8 +6334,8 @@ export const ConformancePackComplianceScores = S.Array(
   ConformancePackComplianceScore,
 );
 export interface BatchGetAggregateResourceConfigResponse {
-  BaseConfigurationItems?: BaseConfigurationItems;
-  UnprocessedResourceIdentifiers?: UnprocessedResourceIdentifierList;
+  BaseConfigurationItems?: BaseConfigurationItem[];
+  UnprocessedResourceIdentifiers?: AggregateResourceIdentifier[];
 }
 export const BatchGetAggregateResourceConfigResponse = S.suspend(() =>
   S.Struct({
@@ -4970,7 +6348,7 @@ export const BatchGetAggregateResourceConfigResponse = S.suspend(() =>
   identifier: "BatchGetAggregateResourceConfigResponse",
 }) as any as S.Schema<BatchGetAggregateResourceConfigResponse>;
 export interface DeleteRemediationExceptionsResponse {
-  FailedBatches?: FailedDeleteRemediationExceptionsBatches;
+  FailedBatches?: FailedDeleteRemediationExceptionsBatch[];
 }
 export const DeleteRemediationExceptionsResponse = S.suspend(() =>
   S.Struct({
@@ -4980,7 +6358,7 @@ export const DeleteRemediationExceptionsResponse = S.suspend(() =>
   identifier: "DeleteRemediationExceptionsResponse",
 }) as any as S.Schema<DeleteRemediationExceptionsResponse>;
 export interface DescribeAggregateComplianceByConfigRulesResponse {
-  AggregateComplianceByConfigRules?: AggregateComplianceByConfigRuleList;
+  AggregateComplianceByConfigRules?: AggregateComplianceByConfigRule[];
   NextToken?: string;
 }
 export const DescribeAggregateComplianceByConfigRulesResponse = S.suspend(() =>
@@ -4994,7 +6372,7 @@ export const DescribeAggregateComplianceByConfigRulesResponse = S.suspend(() =>
   identifier: "DescribeAggregateComplianceByConfigRulesResponse",
 }) as any as S.Schema<DescribeAggregateComplianceByConfigRulesResponse>;
 export interface DescribeComplianceByConfigRuleResponse {
-  ComplianceByConfigRules?: ComplianceByConfigRules;
+  ComplianceByConfigRules?: ComplianceByConfigRule[];
   NextToken?: string;
 }
 export const DescribeComplianceByConfigRuleResponse = S.suspend(() =>
@@ -5007,7 +6385,7 @@ export const DescribeComplianceByConfigRuleResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeComplianceByConfigRuleResponse>;
 export interface DescribeConformancePackComplianceResponse {
   ConformancePackName: string;
-  ConformancePackRuleComplianceList: ConformancePackRuleComplianceList;
+  ConformancePackRuleComplianceList: ConformancePackRuleCompliance[];
   NextToken?: string;
 }
 export const DescribeConformancePackComplianceResponse = S.suspend(() =>
@@ -5020,7 +6398,7 @@ export const DescribeConformancePackComplianceResponse = S.suspend(() =>
   identifier: "DescribeConformancePackComplianceResponse",
 }) as any as S.Schema<DescribeConformancePackComplianceResponse>;
 export interface DescribeDeliveryChannelStatusResponse {
-  DeliveryChannelsStatus?: DeliveryChannelStatusList;
+  DeliveryChannelsStatus?: DeliveryChannelStatus[];
 }
 export const DescribeDeliveryChannelStatusResponse = S.suspend(() =>
   S.Struct({
@@ -5030,7 +6408,7 @@ export const DescribeDeliveryChannelStatusResponse = S.suspend(() =>
   identifier: "DescribeDeliveryChannelStatusResponse",
 }) as any as S.Schema<DescribeDeliveryChannelStatusResponse>;
 export interface DescribeOrganizationConfigRulesResponse {
-  OrganizationConfigRules?: OrganizationConfigRules;
+  OrganizationConfigRules?: OrganizationConfigRule[];
   NextToken?: string;
 }
 export const DescribeOrganizationConfigRulesResponse = S.suspend(() =>
@@ -5042,7 +6420,7 @@ export const DescribeOrganizationConfigRulesResponse = S.suspend(() =>
   identifier: "DescribeOrganizationConfigRulesResponse",
 }) as any as S.Schema<DescribeOrganizationConfigRulesResponse>;
 export interface DescribeRemediationExecutionStatusResponse {
-  RemediationExecutionStatuses?: RemediationExecutionStatuses;
+  RemediationExecutionStatuses?: RemediationExecutionStatus[];
   NextToken?: string;
 }
 export const DescribeRemediationExecutionStatusResponse = S.suspend(() =>
@@ -5055,7 +6433,7 @@ export const DescribeRemediationExecutionStatusResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeRemediationExecutionStatusResponse>;
 export interface GetAggregateConfigRuleComplianceSummaryResponse {
   GroupByKey?: string;
-  AggregateComplianceCounts?: AggregateComplianceCountList;
+  AggregateComplianceCounts?: AggregateComplianceCount[];
   NextToken?: string;
 }
 export const GetAggregateConfigRuleComplianceSummaryResponse = S.suspend(() =>
@@ -5070,7 +6448,7 @@ export const GetAggregateConfigRuleComplianceSummaryResponse = S.suspend(() =>
 export interface GetAggregateDiscoveredResourceCountsResponse {
   TotalDiscoveredResources: number;
   GroupByKey?: string;
-  GroupedResourceCounts?: GroupedResourceCountList;
+  GroupedResourceCounts?: GroupedResourceCount[];
   NextToken?: string;
 }
 export const GetAggregateDiscoveredResourceCountsResponse = S.suspend(() =>
@@ -5093,7 +6471,7 @@ export const GetAggregateResourceConfigResponse = S.suspend(() =>
 }) as any as S.Schema<GetAggregateResourceConfigResponse>;
 export interface GetConformancePackComplianceDetailsResponse {
   ConformancePackName: string;
-  ConformancePackRuleEvaluationResults?: ConformancePackRuleEvaluationResultsList;
+  ConformancePackRuleEvaluationResults?: ConformancePackEvaluationResult[];
   NextToken?: string;
 }
 export const GetConformancePackComplianceDetailsResponse = S.suspend(() =>
@@ -5108,7 +6486,7 @@ export const GetConformancePackComplianceDetailsResponse = S.suspend(() =>
   identifier: "GetConformancePackComplianceDetailsResponse",
 }) as any as S.Schema<GetConformancePackComplianceDetailsResponse>;
 export interface GetOrganizationConfigRuleDetailedStatusResponse {
-  OrganizationConfigRuleDetailedStatus?: OrganizationConfigRuleDetailedStatus;
+  OrganizationConfigRuleDetailedStatus?: MemberAccountStatus[];
   NextToken?: string;
 }
 export const GetOrganizationConfigRuleDetailedStatusResponse = S.suspend(() =>
@@ -5122,7 +6500,7 @@ export const GetOrganizationConfigRuleDetailedStatusResponse = S.suspend(() =>
   identifier: "GetOrganizationConfigRuleDetailedStatusResponse",
 }) as any as S.Schema<GetOrganizationConfigRuleDetailedStatusResponse>;
 export interface GetOrganizationConformancePackDetailedStatusResponse {
-  OrganizationConformancePackDetailedStatuses?: OrganizationConformancePackDetailedStatuses;
+  OrganizationConformancePackDetailedStatuses?: OrganizationConformancePackDetailedStatus[];
   NextToken?: string;
 }
 export const GetOrganizationConformancePackDetailedStatusResponse = S.suspend(
@@ -5137,7 +6515,7 @@ export const GetOrganizationConformancePackDetailedStatusResponse = S.suspend(
   identifier: "GetOrganizationConformancePackDetailedStatusResponse",
 }) as any as S.Schema<GetOrganizationConformancePackDetailedStatusResponse>;
 export interface ListConfigurationRecordersResponse {
-  ConfigurationRecorderSummaries: ConfigurationRecorderSummaries;
+  ConfigurationRecorderSummaries: ConfigurationRecorderSummary[];
   NextToken?: string;
 }
 export const ListConfigurationRecordersResponse = S.suspend(() =>
@@ -5150,7 +6528,7 @@ export const ListConfigurationRecordersResponse = S.suspend(() =>
 }) as any as S.Schema<ListConfigurationRecordersResponse>;
 export interface ListConformancePackComplianceScoresResponse {
   NextToken?: string;
-  ConformancePackComplianceScores: ConformancePackComplianceScores;
+  ConformancePackComplianceScores: ConformancePackComplianceScore[];
 }
 export const ListConformancePackComplianceScoresResponse = S.suspend(() =>
   S.Struct({
@@ -5162,7 +6540,7 @@ export const ListConformancePackComplianceScoresResponse = S.suspend(() =>
 }) as any as S.Schema<ListConformancePackComplianceScoresResponse>;
 export interface PutConfigRuleRequest {
   ConfigRule: ConfigRule;
-  Tags?: TagsList;
+  Tags?: Tag[];
 }
 export const PutConfigRuleRequest = S.suspend(() =>
   S.Struct({ ConfigRule: ConfigRule, Tags: S.optional(TagsList) }).pipe(
@@ -5197,7 +6575,7 @@ export const PutConfigurationAggregatorResponse = S.suspend(() =>
 }) as any as S.Schema<PutConfigurationAggregatorResponse>;
 export interface PutConfigurationRecorderRequest {
   ConfigurationRecorder: ConfigurationRecorder;
-  Tags?: TagsList;
+  Tags?: Tag[];
 }
 export const PutConfigurationRecorderRequest = S.suspend(() =>
   S.Struct({
@@ -5224,7 +6602,7 @@ export const PutConfigurationRecorderResponse = S.suspend(() =>
   identifier: "PutConfigurationRecorderResponse",
 }) as any as S.Schema<PutConfigurationRecorderResponse>;
 export interface SelectAggregateResourceConfigResponse {
-  Results?: Results;
+  Results?: string[];
   QueryInfo?: QueryInfo;
   NextToken?: string;
 }
@@ -5238,14 +6616,14 @@ export const SelectAggregateResourceConfigResponse = S.suspend(() =>
   identifier: "SelectAggregateResourceConfigResponse",
 }) as any as S.Schema<SelectAggregateResourceConfigResponse>;
 export interface AggregateConformancePackCompliance {
-  ComplianceType?: string;
+  ComplianceType?: ConformancePackComplianceType;
   CompliantRuleCount?: number;
   NonCompliantRuleCount?: number;
   TotalRuleCount?: number;
 }
 export const AggregateConformancePackCompliance = S.suspend(() =>
   S.Struct({
-    ComplianceType: S.optional(S.String),
+    ComplianceType: S.optional(ConformancePackComplianceType),
     CompliantRuleCount: S.optional(S.Number),
     NonCompliantRuleCount: S.optional(S.Number),
     TotalRuleCount: S.optional(S.Number),
@@ -5288,7 +6666,7 @@ export const AggregateComplianceByConformancePackList = S.Array(
 );
 export interface AggregateEvaluationResult {
   EvaluationResultIdentifier?: EvaluationResultIdentifier;
-  ComplianceType?: string;
+  ComplianceType?: ComplianceType;
   ResultRecordedTime?: Date;
   ConfigRuleInvokedTime?: Date;
   Annotation?: string;
@@ -5298,7 +6676,7 @@ export interface AggregateEvaluationResult {
 export const AggregateEvaluationResult = S.suspend(() =>
   S.Struct({
     EvaluationResultIdentifier: S.optional(EvaluationResultIdentifier),
-    ComplianceType: S.optional(S.String),
+    ComplianceType: S.optional(ComplianceType),
     ResultRecordedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -5333,13 +6711,13 @@ export const AggregateConformancePackComplianceSummaryList = S.Array(
 );
 export interface ResourceEvaluation {
   ResourceEvaluationId?: string;
-  EvaluationMode?: string;
+  EvaluationMode?: EvaluationMode;
   EvaluationStartTimestamp?: Date;
 }
 export const ResourceEvaluation = S.suspend(() =>
   S.Struct({
     ResourceEvaluationId: S.optional(S.String),
-    EvaluationMode: S.optional(S.String),
+    EvaluationMode: S.optional(EvaluationMode),
     EvaluationStartTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -5350,7 +6728,7 @@ export const ResourceEvaluation = S.suspend(() =>
 export type ResourceEvaluations = ResourceEvaluation[];
 export const ResourceEvaluations = S.Array(ResourceEvaluation);
 export interface DescribeAggregateComplianceByConformancePacksResponse {
-  AggregateComplianceByConformancePacks?: AggregateComplianceByConformancePackList;
+  AggregateComplianceByConformancePacks?: AggregateComplianceByConformancePack[];
   NextToken?: string;
 }
 export const DescribeAggregateComplianceByConformancePacksResponse = S.suspend(
@@ -5365,7 +6743,7 @@ export const DescribeAggregateComplianceByConformancePacksResponse = S.suspend(
   identifier: "DescribeAggregateComplianceByConformancePacksResponse",
 }) as any as S.Schema<DescribeAggregateComplianceByConformancePacksResponse>;
 export interface GetAggregateComplianceDetailsByConfigRuleResponse {
-  AggregateEvaluationResults?: AggregateEvaluationResultList;
+  AggregateEvaluationResults?: AggregateEvaluationResult[];
   NextToken?: string;
 }
 export const GetAggregateComplianceDetailsByConfigRuleResponse = S.suspend(() =>
@@ -5377,7 +6755,7 @@ export const GetAggregateComplianceDetailsByConfigRuleResponse = S.suspend(() =>
   identifier: "GetAggregateComplianceDetailsByConfigRuleResponse",
 }) as any as S.Schema<GetAggregateComplianceDetailsByConfigRuleResponse>;
 export interface GetAggregateConformancePackComplianceSummaryResponse {
-  AggregateConformancePackComplianceSummaries?: AggregateConformancePackComplianceSummaryList;
+  AggregateConformancePackComplianceSummaries?: AggregateConformancePackComplianceSummary[];
   GroupByKey?: string;
   NextToken?: string;
 }
@@ -5394,7 +6772,7 @@ export const GetAggregateConformancePackComplianceSummaryResponse = S.suspend(
   identifier: "GetAggregateConformancePackComplianceSummaryResponse",
 }) as any as S.Schema<GetAggregateConformancePackComplianceSummaryResponse>;
 export interface ListResourceEvaluationsResponse {
-  ResourceEvaluations?: ResourceEvaluations;
+  ResourceEvaluations?: ResourceEvaluation[];
   NextToken?: string;
 }
 export const ListResourceEvaluationsResponse = S.suspend(() =>
@@ -5406,7 +6784,7 @@ export const ListResourceEvaluationsResponse = S.suspend(() =>
   identifier: "ListResourceEvaluationsResponse",
 }) as any as S.Schema<ListResourceEvaluationsResponse>;
 export interface PutRemediationConfigurationsRequest {
-  RemediationConfigurations: RemediationConfigurations;
+  RemediationConfigurations: RemediationConfiguration[];
 }
 export const PutRemediationConfigurationsRequest = S.suspend(() =>
   S.Struct({ RemediationConfigurations: RemediationConfigurations }).pipe(
@@ -5425,7 +6803,7 @@ export const PutRemediationConfigurationsRequest = S.suspend(() =>
 }) as any as S.Schema<PutRemediationConfigurationsRequest>;
 export interface FailedRemediationBatch {
   FailureMessage?: string;
-  FailedItems?: RemediationConfigurations;
+  FailedItems?: RemediationConfiguration[];
 }
 export const FailedRemediationBatch = S.suspend(() =>
   S.Struct({
@@ -5438,7 +6816,7 @@ export const FailedRemediationBatch = S.suspend(() =>
 export type FailedRemediationBatches = FailedRemediationBatch[];
 export const FailedRemediationBatches = S.Array(FailedRemediationBatch);
 export interface PutRemediationConfigurationsResponse {
-  FailedBatches?: FailedRemediationBatches;
+  FailedBatches?: FailedRemediationBatch[];
 }
 export const PutRemediationConfigurationsResponse = S.suspend(() =>
   S.Struct({ FailedBatches: S.optional(FailedRemediationBatches) }).pipe(ns),
@@ -5679,7 +7057,7 @@ export class NoSuchBucketException extends S.TaggedError<NoSuchBucketException>(
  */
 export const deleteAggregationAuthorization: (
   input: DeleteAggregationAuthorizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAggregationAuthorizationResponse,
   InvalidParameterValueException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5694,7 +7072,7 @@ export const deleteAggregationAuthorization: (
  */
 export const deleteConfigurationAggregator: (
   input: DeleteConfigurationAggregatorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConfigurationAggregatorResponse,
   NoSuchConfigurationAggregatorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5708,7 +7086,7 @@ export const deleteConfigurationAggregator: (
  */
 export const describeRemediationConfigurations: (
   input: DescribeRemediationConfigurationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRemediationConfigurationsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5726,21 +7104,21 @@ export const describeRemediationConfigurations: (
 export const getComplianceDetailsByResource: {
   (
     input: GetComplianceDetailsByResourceRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetComplianceDetailsByResourceResponse,
     InvalidParameterValueException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: GetComplianceDetailsByResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetComplianceDetailsByResourceResponse,
     InvalidParameterValueException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetComplianceDetailsByResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EvaluationResult,
     InvalidParameterValueException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -5760,7 +7138,7 @@ export const getComplianceDetailsByResource: {
  */
 export const getCustomRulePolicy: (
   input: GetCustomRulePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCustomRulePolicyResponse,
   NoSuchConfigRuleException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5775,7 +7153,7 @@ export const getCustomRulePolicy: (
  */
 export const putExternalEvaluation: (
   input: PutExternalEvaluationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutExternalEvaluationResponse,
   InvalidParameterValueException | NoSuchConfigRuleException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5790,7 +7168,7 @@ export const putExternalEvaluation: (
  */
 export const deletePendingAggregationRequest: (
   input: DeletePendingAggregationRequestRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePendingAggregationRequestResponse,
   InvalidParameterValueException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5826,7 +7204,7 @@ export const deletePendingAggregationRequest: (
  */
 export const deleteConfigRule: (
   input: DeleteConfigRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConfigRuleResponse,
   NoSuchConfigRuleException | ResourceInUseException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5847,7 +7225,7 @@ export const deleteConfigRule: (
  */
 export const deleteConfigurationRecorder: (
   input: DeleteConfigurationRecorderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConfigurationRecorderResponse,
   | NoSuchConfigurationRecorderException
   | UnmodifiableEntityException
@@ -5865,7 +7243,7 @@ export const deleteConfigurationRecorder: (
  */
 export const deleteDeliveryChannel: (
   input: DeleteDeliveryChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDeliveryChannelResponse,
   | LastDeliveryChannelDeleteFailedException
   | NoSuchDeliveryChannelException
@@ -5903,7 +7281,7 @@ export const deleteDeliveryChannel: (
  */
 export const deleteOrganizationConfigRule: (
   input: DeleteOrganizationConfigRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteOrganizationConfigRuleResponse,
   | NoSuchOrganizationConfigRuleException
   | OrganizationAccessDeniedException
@@ -5924,7 +7302,7 @@ export const deleteOrganizationConfigRule: (
  */
 export const deleteResourceConfig: (
   input: DeleteResourceConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourceConfigResponse,
   NoRunningConfigurationRecorderException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5949,7 +7327,7 @@ export const deleteResourceConfig: (
  */
 export const deliverConfigSnapshot: (
   input: DeliverConfigSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeliverConfigSnapshotResponse,
   | NoAvailableConfigurationRecorderException
   | NoRunningConfigurationRecorderException
@@ -5978,7 +7356,7 @@ export const deliverConfigSnapshot: (
  */
 export const describeConfigurationRecorderStatus: (
   input: DescribeConfigurationRecorderStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeConfigurationRecorderStatusResponse,
   NoSuchConfigurationRecorderException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5993,7 +7371,7 @@ export const describeConfigurationRecorderStatus: (
  */
 export const getComplianceSummaryByConfigRule: (
   input: GetComplianceSummaryByConfigRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetComplianceSummaryByConfigRuleResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6010,7 +7388,7 @@ export const getComplianceSummaryByConfigRule: (
  */
 export const getComplianceSummaryByResourceType: (
   input: GetComplianceSummaryByResourceTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetComplianceSummaryByResourceTypeResponse,
   InvalidParameterValueException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6029,7 +7407,7 @@ export const getComplianceSummaryByResourceType: (
  */
 export const getResourceEvaluationSummary: (
   input: GetResourceEvaluationSummaryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourceEvaluationSummaryResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6051,7 +7429,7 @@ export const getResourceEvaluationSummary: (
  */
 export const putAggregationAuthorization: (
   input: PutAggregationAuthorizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAggregationAuthorizationResponse,
   InvalidParameterValueException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6098,7 +7476,7 @@ export const putAggregationAuthorization: (
  */
 export const putRemediationExceptions: (
   input: PutRemediationExceptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutRemediationExceptionsResponse,
   | InsufficientPermissionsException
   | InvalidParameterValueException
@@ -6123,7 +7501,7 @@ export const putRemediationExceptions: (
  */
 export const putResourceConfig: (
   input: PutResourceConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourceConfigResponse,
   | InsufficientPermissionsException
   | MaxActiveResourcesExceededException
@@ -6155,7 +7533,7 @@ export const putResourceConfig: (
  */
 export const putRetentionConfiguration: (
   input: PutRetentionConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutRetentionConfigurationResponse,
   | InvalidParameterValueException
   | MaxNumberOfRetentionConfigurationsExceededException
@@ -6184,7 +7562,7 @@ export const putRetentionConfiguration: (
  */
 export const deleteServiceLinkedConfigurationRecorder: (
   input: DeleteServiceLinkedConfigurationRecorderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteServiceLinkedConfigurationRecorderResponse,
   | ConflictException
   | NoSuchConfigurationRecorderException
@@ -6207,7 +7585,7 @@ export const deleteServiceLinkedConfigurationRecorder: (
  */
 export const disassociateResourceTypes: (
   input: DisassociateResourceTypesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateResourceTypesResponse,
   | ConflictException
   | NoSuchConfigurationRecorderException
@@ -6228,7 +7606,7 @@ export const disassociateResourceTypes: (
  */
 export const deleteRetentionConfiguration: (
   input: DeleteRetentionConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRetentionConfigurationResponse,
   | InvalidParameterValueException
   | NoSuchRetentionConfigurationException
@@ -6286,7 +7664,7 @@ export const deleteRetentionConfiguration: (
  */
 export const startConfigRulesEvaluation: (
   input: StartConfigRulesEvaluationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartConfigRulesEvaluationResponse,
   | InvalidParameterValueException
   | LimitExceededException
@@ -6325,7 +7703,7 @@ export const startConfigRulesEvaluation: (
  */
 export const deleteConformancePack: (
   input: DeleteConformancePackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConformancePackResponse,
   NoSuchConformancePackException | ResourceInUseException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6342,7 +7720,7 @@ export const deleteConformancePack: (
  */
 export const deleteEvaluationResults: (
   input: DeleteEvaluationResultsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEvaluationResultsResponse,
   NoSuchConfigRuleException | ResourceInUseException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6359,7 +7737,7 @@ export const deleteEvaluationResults: (
  */
 export const startConfigurationRecorder: (
   input: StartConfigurationRecorderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartConfigurationRecorderResponse,
   | NoAvailableDeliveryChannelException
   | NoSuchConfigurationRecorderException
@@ -6380,7 +7758,7 @@ export const startConfigurationRecorder: (
  */
 export const stopConfigurationRecorder: (
   input: StopConfigurationRecorderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopConfigurationRecorderResponse,
   | NoSuchConfigurationRecorderException
   | UnmodifiableEntityException
@@ -6401,7 +7779,7 @@ export const stopConfigurationRecorder: (
  */
 export const describeDeliveryChannels: (
   input: DescribeDeliveryChannelsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDeliveryChannelsResponse,
   NoSuchDeliveryChannelException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6435,7 +7813,7 @@ export const describeDeliveryChannels: (
  */
 export const deleteOrganizationConformancePack: (
   input: DeleteOrganizationConformancePackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteOrganizationConformancePackResponse,
   | NoSuchOrganizationConformancePackException
   | OrganizationAccessDeniedException
@@ -6456,7 +7834,7 @@ export const deleteOrganizationConformancePack: (
  */
 export const getOrganizationCustomRulePolicy: (
   input: GetOrganizationCustomRulePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetOrganizationCustomRulePolicyResponse,
   | NoSuchOrganizationConfigRuleException
   | OrganizationAccessDeniedException
@@ -6477,7 +7855,7 @@ export const getOrganizationCustomRulePolicy: (
  */
 export const startRemediationExecution: (
   input: StartRemediationExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartRemediationExecutionResponse,
   | InsufficientPermissionsException
   | InvalidParameterValueException
@@ -6498,7 +7876,7 @@ export const startRemediationExecution: (
  */
 export const deleteStoredQuery: (
   input: DeleteStoredQueryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteStoredQueryResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6517,7 +7895,7 @@ export const deleteStoredQuery: (
  */
 export const describeConfigurationRecorders: (
   input: DescribeConfigurationRecordersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeConfigurationRecordersResponse,
   NoSuchConfigurationRecorderException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6531,7 +7909,7 @@ export const describeConfigurationRecorders: (
  */
 export const getStoredQuery: (
   input: GetStoredQueryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetStoredQueryResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6545,7 +7923,7 @@ export const getStoredQuery: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6561,7 +7939,7 @@ export const untagResource: (
  */
 export const associateResourceTypes: (
   input: AssociateResourceTypesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateResourceTypesResponse,
   | ConflictException
   | NoSuchConfigurationRecorderException
@@ -6583,7 +7961,7 @@ export const associateResourceTypes: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | ResourceNotFoundException
   | TooManyTagsException
@@ -6616,7 +7994,7 @@ export const tagResource: (
  */
 export const batchGetResourceConfig: (
   input: BatchGetResourceConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetResourceConfigResponse,
   | NoAvailableConfigurationRecorderException
   | ValidationException
@@ -6648,7 +8026,7 @@ export const batchGetResourceConfig: (
  */
 export const putServiceLinkedConfigurationRecorder: (
   input: PutServiceLinkedConfigurationRecorderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutServiceLinkedConfigurationRecorderResponse,
   | ConflictException
   | InsufficientPermissionsException
@@ -6676,7 +8054,7 @@ export const putServiceLinkedConfigurationRecorder: (
  */
 export const batchGetAggregateResourceConfig: (
   input: BatchGetAggregateResourceConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetAggregateResourceConfigResponse,
   NoSuchConfigurationAggregatorException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6690,7 +8068,7 @@ export const batchGetAggregateResourceConfig: (
  */
 export const deleteRemediationConfiguration: (
   input: DeleteRemediationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRemediationConfigurationResponse,
   | InsufficientPermissionsException
   | InvalidParameterValueException
@@ -6743,21 +8121,21 @@ export const deleteRemediationConfiguration: (
 export const describeComplianceByResource: {
   (
     input: DescribeComplianceByResourceRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeComplianceByResourceResponse,
     InvalidNextTokenException | InvalidParameterValueException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeComplianceByResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeComplianceByResourceResponse,
     InvalidNextTokenException | InvalidParameterValueException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeComplianceByResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ComplianceByResource,
     InvalidNextTokenException | InvalidParameterValueException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -6784,7 +8162,7 @@ export const describeComplianceByResource: {
  */
 export const describeDeliveryChannelStatus: (
   input: DescribeDeliveryChannelStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDeliveryChannelStatusResponse,
   NoSuchDeliveryChannelException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6817,7 +8195,7 @@ export const describeDeliveryChannelStatus: (
 export const describeOrganizationConfigRules: {
   (
     input: DescribeOrganizationConfigRulesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeOrganizationConfigRulesResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -6828,7 +8206,7 @@ export const describeOrganizationConfigRules: {
   >;
   pages: (
     input: DescribeOrganizationConfigRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeOrganizationConfigRulesResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -6839,7 +8217,7 @@ export const describeOrganizationConfigRules: {
   >;
   items: (
     input: DescribeOrganizationConfigRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OrganizationConfigRule,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -6871,7 +8249,7 @@ export const describeOrganizationConfigRules: {
 export const describeRemediationExecutionStatus: {
   (
     input: DescribeRemediationExecutionStatusRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeRemediationExecutionStatusResponse,
     | InvalidNextTokenException
     | InvalidParameterValueException
@@ -6881,7 +8259,7 @@ export const describeRemediationExecutionStatus: {
   >;
   pages: (
     input: DescribeRemediationExecutionStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeRemediationExecutionStatusResponse,
     | InvalidNextTokenException
     | InvalidParameterValueException
@@ -6891,7 +8269,7 @@ export const describeRemediationExecutionStatus: {
   >;
   items: (
     input: DescribeRemediationExecutionStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RemediationExecutionStatus,
     | InvalidNextTokenException
     | InvalidParameterValueException
@@ -6925,7 +8303,7 @@ export const describeRemediationExecutionStatus: {
 export const getAggregateConfigRuleComplianceSummary: {
   (
     input: GetAggregateConfigRuleComplianceSummaryRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetAggregateConfigRuleComplianceSummaryResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -6936,7 +8314,7 @@ export const getAggregateConfigRuleComplianceSummary: {
   >;
   pages: (
     input: GetAggregateConfigRuleComplianceSummaryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetAggregateConfigRuleComplianceSummaryResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -6947,7 +8325,7 @@ export const getAggregateConfigRuleComplianceSummary: {
   >;
   items: (
     input: GetAggregateConfigRuleComplianceSummaryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -6980,7 +8358,7 @@ export const getAggregateConfigRuleComplianceSummary: {
 export const getAggregateDiscoveredResourceCounts: {
   (
     input: GetAggregateDiscoveredResourceCountsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetAggregateDiscoveredResourceCountsResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -6991,7 +8369,7 @@ export const getAggregateDiscoveredResourceCounts: {
   >;
   pages: (
     input: GetAggregateDiscoveredResourceCountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetAggregateDiscoveredResourceCountsResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -7002,7 +8380,7 @@ export const getAggregateDiscoveredResourceCounts: {
   >;
   items: (
     input: GetAggregateDiscoveredResourceCountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -7032,7 +8410,7 @@ export const getAggregateDiscoveredResourceCounts: {
 export const getOrganizationConfigRuleDetailedStatus: {
   (
     input: GetOrganizationConfigRuleDetailedStatusRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetOrganizationConfigRuleDetailedStatusResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -7043,7 +8421,7 @@ export const getOrganizationConfigRuleDetailedStatus: {
   >;
   pages: (
     input: GetOrganizationConfigRuleDetailedStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetOrganizationConfigRuleDetailedStatusResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -7054,7 +8432,7 @@ export const getOrganizationConfigRuleDetailedStatus: {
   >;
   items: (
     input: GetOrganizationConfigRuleDetailedStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MemberAccountStatus,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -7085,7 +8463,7 @@ export const getOrganizationConfigRuleDetailedStatus: {
 export const getOrganizationConformancePackDetailedStatus: {
   (
     input: GetOrganizationConformancePackDetailedStatusRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetOrganizationConformancePackDetailedStatusResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -7096,7 +8474,7 @@ export const getOrganizationConformancePackDetailedStatus: {
   >;
   pages: (
     input: GetOrganizationConformancePackDetailedStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetOrganizationConformancePackDetailedStatusResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -7107,7 +8485,7 @@ export const getOrganizationConformancePackDetailedStatus: {
   >;
   items: (
     input: GetOrganizationConformancePackDetailedStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OrganizationConformancePackDetailedStatus,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -7138,21 +8516,21 @@ export const getOrganizationConformancePackDetailedStatus: {
 export const listConfigurationRecorders: {
   (
     input: ListConfigurationRecordersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConfigurationRecordersResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListConfigurationRecordersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConfigurationRecordersResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConfigurationRecordersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConfigurationRecorderSummary,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -7179,7 +8557,7 @@ export const listConfigurationRecorders: {
 export const listConformancePackComplianceScores: {
   (
     input: ListConformancePackComplianceScoresRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConformancePackComplianceScoresResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -7189,7 +8567,7 @@ export const listConformancePackComplianceScores: {
   >;
   pages: (
     input: ListConformancePackComplianceScoresRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConformancePackComplianceScoresResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -7199,7 +8577,7 @@ export const listConformancePackComplianceScores: {
   >;
   items: (
     input: ListConformancePackComplianceScoresRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -7228,7 +8606,7 @@ export const listConformancePackComplianceScores: {
  */
 export const putEvaluations: (
   input: PutEvaluationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutEvaluationsResponse,
   | InvalidParameterValueException
   | InvalidResultTokenException
@@ -7255,7 +8633,7 @@ export const putEvaluations: (
  */
 export const putStoredQuery: (
   input: PutStoredQueryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutStoredQueryResponse,
   | ResourceConcurrentModificationException
   | TooManyTagsException
@@ -7289,7 +8667,7 @@ export const putStoredQuery: (
 export const selectAggregateResourceConfig: {
   (
     input: SelectAggregateResourceConfigRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SelectAggregateResourceConfigResponse,
     | InvalidExpressionException
     | InvalidLimitException
@@ -7300,7 +8678,7 @@ export const selectAggregateResourceConfig: {
   >;
   pages: (
     input: SelectAggregateResourceConfigRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SelectAggregateResourceConfigResponse,
     | InvalidExpressionException
     | InvalidLimitException
@@ -7311,7 +8689,7 @@ export const selectAggregateResourceConfig: {
   >;
   items: (
     input: SelectAggregateResourceConfigRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     String,
     | InvalidExpressionException
     | InvalidLimitException
@@ -7352,7 +8730,7 @@ export const selectAggregateResourceConfig: {
  */
 export const startResourceEvaluation: (
   input: StartResourceEvaluationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartResourceEvaluationResponse,
   IdempotentParameterMismatch | InvalidParameterValueException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7368,7 +8746,7 @@ export const startResourceEvaluation: (
 export const describeConfigRuleEvaluationStatus: {
   (
     input: DescribeConfigRuleEvaluationStatusRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeConfigRuleEvaluationStatusResponse,
     | InvalidNextTokenException
     | InvalidParameterValueException
@@ -7378,7 +8756,7 @@ export const describeConfigRuleEvaluationStatus: {
   >;
   pages: (
     input: DescribeConfigRuleEvaluationStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeConfigRuleEvaluationStatusResponse,
     | InvalidNextTokenException
     | InvalidParameterValueException
@@ -7388,7 +8766,7 @@ export const describeConfigRuleEvaluationStatus: {
   >;
   items: (
     input: DescribeConfigRuleEvaluationStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConfigRuleEvaluationStatus,
     | InvalidNextTokenException
     | InvalidParameterValueException
@@ -7417,7 +8795,7 @@ export const describeConfigRuleEvaluationStatus: {
 export const describeConfigRules: {
   (
     input: DescribeConfigRulesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeConfigRulesResponse,
     | InvalidNextTokenException
     | InvalidParameterValueException
@@ -7427,7 +8805,7 @@ export const describeConfigRules: {
   >;
   pages: (
     input: DescribeConfigRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeConfigRulesResponse,
     | InvalidNextTokenException
     | InvalidParameterValueException
@@ -7437,7 +8815,7 @@ export const describeConfigRules: {
   >;
   items: (
     input: DescribeConfigRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConfigRule,
     | InvalidNextTokenException
     | InvalidParameterValueException
@@ -7473,21 +8851,21 @@ export const describeConfigRules: {
 export const describeRemediationExceptions: {
   (
     input: DescribeRemediationExceptionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeRemediationExceptionsResponse,
     InvalidNextTokenException | InvalidParameterValueException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeRemediationExceptionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeRemediationExceptionsResponse,
     InvalidNextTokenException | InvalidParameterValueException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeRemediationExceptionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidNextTokenException | InvalidParameterValueException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -7514,7 +8892,7 @@ export const describeRemediationExceptions: {
 export const describeRetentionConfigurations: {
   (
     input: DescribeRetentionConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeRetentionConfigurationsResponse,
     | InvalidNextTokenException
     | InvalidParameterValueException
@@ -7524,7 +8902,7 @@ export const describeRetentionConfigurations: {
   >;
   pages: (
     input: DescribeRetentionConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeRetentionConfigurationsResponse,
     | InvalidNextTokenException
     | InvalidParameterValueException
@@ -7534,7 +8912,7 @@ export const describeRetentionConfigurations: {
   >;
   items: (
     input: DescribeRetentionConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RetentionConfiguration,
     | InvalidNextTokenException
     | InvalidParameterValueException
@@ -7565,7 +8943,7 @@ export const describeRetentionConfigurations: {
 export const getComplianceDetailsByConfigRule: {
   (
     input: GetComplianceDetailsByConfigRuleRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetComplianceDetailsByConfigRuleResponse,
     | InvalidNextTokenException
     | InvalidParameterValueException
@@ -7575,7 +8953,7 @@ export const getComplianceDetailsByConfigRule: {
   >;
   pages: (
     input: GetComplianceDetailsByConfigRuleRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetComplianceDetailsByConfigRuleResponse,
     | InvalidNextTokenException
     | InvalidParameterValueException
@@ -7585,7 +8963,7 @@ export const getComplianceDetailsByConfigRule: {
   >;
   items: (
     input: GetComplianceDetailsByConfigRuleRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EvaluationResult,
     | InvalidNextTokenException
     | InvalidParameterValueException
@@ -7618,7 +8996,7 @@ export const getComplianceDetailsByConfigRule: {
 export const listAggregateDiscoveredResources: {
   (
     input: ListAggregateDiscoveredResourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAggregateDiscoveredResourcesResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -7629,7 +9007,7 @@ export const listAggregateDiscoveredResources: {
   >;
   pages: (
     input: ListAggregateDiscoveredResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAggregateDiscoveredResourcesResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -7640,7 +9018,7 @@ export const listAggregateDiscoveredResources: {
   >;
   items: (
     input: ListAggregateDiscoveredResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AggregateResourceIdentifier,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -7704,7 +9082,7 @@ export const listAggregateDiscoveredResources: {
 export const listDiscoveredResources: {
   (
     input: ListDiscoveredResourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDiscoveredResourcesResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -7715,7 +9093,7 @@ export const listDiscoveredResources: {
   >;
   pages: (
     input: ListDiscoveredResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDiscoveredResourcesResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -7726,7 +9104,7 @@ export const listDiscoveredResources: {
   >;
   items: (
     input: ListDiscoveredResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResourceIdentifier,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -7757,21 +9135,21 @@ export const listDiscoveredResources: {
 export const listStoredQueries: {
   (
     input: ListStoredQueriesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStoredQueriesResponse,
     InvalidNextTokenException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListStoredQueriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStoredQueriesResponse,
     InvalidNextTokenException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStoredQueriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidNextTokenException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -7797,7 +9175,7 @@ export const listStoredQueries: {
 export const selectResourceConfig: {
   (
     input: SelectResourceConfigRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SelectResourceConfigResponse,
     | InvalidExpressionException
     | InvalidLimitException
@@ -7807,7 +9185,7 @@ export const selectResourceConfig: {
   >;
   pages: (
     input: SelectResourceConfigRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SelectResourceConfigResponse,
     | InvalidExpressionException
     | InvalidLimitException
@@ -7817,7 +9195,7 @@ export const selectResourceConfig: {
   >;
   items: (
     input: SelectResourceConfigRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     String,
     | InvalidExpressionException
     | InvalidLimitException
@@ -7846,7 +9224,7 @@ export const selectResourceConfig: {
 export const listTagsForResource: {
   (
     input: ListTagsForResourceRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTagsForResourceResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -7857,7 +9235,7 @@ export const listTagsForResource: {
   >;
   pages: (
     input: ListTagsForResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTagsForResourceResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -7868,7 +9246,7 @@ export const listTagsForResource: {
   >;
   items: (
     input: ListTagsForResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Tag,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -7900,7 +9278,7 @@ export const listTagsForResource: {
 export const describeAggregationAuthorizations: {
   (
     input: DescribeAggregationAuthorizationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeAggregationAuthorizationsResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -7910,7 +9288,7 @@ export const describeAggregationAuthorizations: {
   >;
   pages: (
     input: DescribeAggregationAuthorizationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeAggregationAuthorizationsResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -7920,7 +9298,7 @@ export const describeAggregationAuthorizations: {
   >;
   items: (
     input: DescribeAggregationAuthorizationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AggregationAuthorization,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -7952,7 +9330,7 @@ export const describeAggregationAuthorizations: {
 export const describeConfigurationAggregators: {
   (
     input: DescribeConfigurationAggregatorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeConfigurationAggregatorsResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -7963,7 +9341,7 @@ export const describeConfigurationAggregators: {
   >;
   pages: (
     input: DescribeConfigurationAggregatorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeConfigurationAggregatorsResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -7974,7 +9352,7 @@ export const describeConfigurationAggregators: {
   >;
   items: (
     input: DescribeConfigurationAggregatorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConfigurationAggregator,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8006,7 +9384,7 @@ export const describeConfigurationAggregators: {
 export const describeConfigurationAggregatorSourcesStatus: {
   (
     input: DescribeConfigurationAggregatorSourcesStatusRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeConfigurationAggregatorSourcesStatusResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8017,7 +9395,7 @@ export const describeConfigurationAggregatorSourcesStatus: {
   >;
   pages: (
     input: DescribeConfigurationAggregatorSourcesStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeConfigurationAggregatorSourcesStatusResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8028,7 +9406,7 @@ export const describeConfigurationAggregatorSourcesStatus: {
   >;
   items: (
     input: DescribeConfigurationAggregatorSourcesStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AggregatedSourceStatus,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8059,7 +9437,7 @@ export const describeConfigurationAggregatorSourcesStatus: {
 export const describeConformancePacks: {
   (
     input: DescribeConformancePacksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeConformancePacksResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8070,7 +9448,7 @@ export const describeConformancePacks: {
   >;
   pages: (
     input: DescribeConformancePacksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeConformancePacksResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8081,7 +9459,7 @@ export const describeConformancePacks: {
   >;
   items: (
     input: DescribeConformancePacksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConformancePackDetail,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8114,7 +9492,7 @@ export const describeConformancePacks: {
 export const describeConformancePackStatus: {
   (
     input: DescribeConformancePackStatusRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeConformancePackStatusResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8124,7 +9502,7 @@ export const describeConformancePackStatus: {
   >;
   pages: (
     input: DescribeConformancePackStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeConformancePackStatusResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8134,7 +9512,7 @@ export const describeConformancePackStatus: {
   >;
   items: (
     input: DescribeConformancePackStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConformancePackStatusDetail,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8170,7 +9548,7 @@ export const describeConformancePackStatus: {
 export const describeOrganizationConfigRuleStatuses: {
   (
     input: DescribeOrganizationConfigRuleStatusesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeOrganizationConfigRuleStatusesResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8181,7 +9559,7 @@ export const describeOrganizationConfigRuleStatuses: {
   >;
   pages: (
     input: DescribeOrganizationConfigRuleStatusesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeOrganizationConfigRuleStatusesResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8192,7 +9570,7 @@ export const describeOrganizationConfigRuleStatuses: {
   >;
   items: (
     input: DescribeOrganizationConfigRuleStatusesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OrganizationConfigRuleStatus,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8241,7 +9619,7 @@ export const describeOrganizationConfigRuleStatuses: {
 export const describeOrganizationConformancePacks: {
   (
     input: DescribeOrganizationConformancePacksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeOrganizationConformancePacksResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8252,7 +9630,7 @@ export const describeOrganizationConformancePacks: {
   >;
   pages: (
     input: DescribeOrganizationConformancePacksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeOrganizationConformancePacksResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8263,7 +9641,7 @@ export const describeOrganizationConformancePacks: {
   >;
   items: (
     input: DescribeOrganizationConformancePacksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OrganizationConformancePack,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8301,7 +9679,7 @@ export const describeOrganizationConformancePacks: {
 export const describeOrganizationConformancePackStatuses: {
   (
     input: DescribeOrganizationConformancePackStatusesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeOrganizationConformancePackStatusesResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8312,7 +9690,7 @@ export const describeOrganizationConformancePackStatuses: {
   >;
   pages: (
     input: DescribeOrganizationConformancePackStatusesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeOrganizationConformancePackStatusesResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8323,7 +9701,7 @@ export const describeOrganizationConformancePackStatuses: {
   >;
   items: (
     input: DescribeOrganizationConformancePackStatusesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OrganizationConformancePackStatus,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8354,7 +9732,7 @@ export const describeOrganizationConformancePackStatuses: {
 export const describePendingAggregationRequests: {
   (
     input: DescribePendingAggregationRequestsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribePendingAggregationRequestsResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8364,7 +9742,7 @@ export const describePendingAggregationRequests: {
   >;
   pages: (
     input: DescribePendingAggregationRequestsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribePendingAggregationRequestsResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8374,7 +9752,7 @@ export const describePendingAggregationRequests: {
   >;
   items: (
     input: DescribePendingAggregationRequestsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PendingAggregationRequest,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8403,7 +9781,7 @@ export const describePendingAggregationRequests: {
 export const getConformancePackComplianceSummary: {
   (
     input: GetConformancePackComplianceSummaryRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetConformancePackComplianceSummaryResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8413,7 +9791,7 @@ export const getConformancePackComplianceSummary: {
   >;
   pages: (
     input: GetConformancePackComplianceSummaryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetConformancePackComplianceSummaryResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8423,7 +9801,7 @@ export const getConformancePackComplianceSummary: {
   >;
   items: (
     input: GetConformancePackComplianceSummaryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConformancePackComplianceSummary,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8494,7 +9872,7 @@ export const getConformancePackComplianceSummary: {
 export const getDiscoveredResourceCounts: {
   (
     input: GetDiscoveredResourceCountsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetDiscoveredResourceCountsResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8504,7 +9882,7 @@ export const getDiscoveredResourceCounts: {
   >;
   pages: (
     input: GetDiscoveredResourceCountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetDiscoveredResourceCountsResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8514,7 +9892,7 @@ export const getDiscoveredResourceCounts: {
   >;
   items: (
     input: GetDiscoveredResourceCountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8547,7 +9925,7 @@ export const getDiscoveredResourceCounts: {
 export const describeAggregateComplianceByConfigRules: {
   (
     input: DescribeAggregateComplianceByConfigRulesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeAggregateComplianceByConfigRulesResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8558,7 +9936,7 @@ export const describeAggregateComplianceByConfigRules: {
   >;
   pages: (
     input: DescribeAggregateComplianceByConfigRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeAggregateComplianceByConfigRulesResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8569,7 +9947,7 @@ export const describeAggregateComplianceByConfigRules: {
   >;
   items: (
     input: DescribeAggregateComplianceByConfigRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8628,7 +10006,7 @@ export const describeAggregateComplianceByConfigRules: {
 export const describeComplianceByConfigRule: {
   (
     input: DescribeComplianceByConfigRuleRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeComplianceByConfigRuleResponse,
     | InvalidNextTokenException
     | InvalidParameterValueException
@@ -8638,7 +10016,7 @@ export const describeComplianceByConfigRule: {
   >;
   pages: (
     input: DescribeComplianceByConfigRuleRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeComplianceByConfigRuleResponse,
     | InvalidNextTokenException
     | InvalidParameterValueException
@@ -8648,7 +10026,7 @@ export const describeComplianceByConfigRule: {
   >;
   items: (
     input: DescribeComplianceByConfigRuleRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ComplianceByConfigRule,
     | InvalidNextTokenException
     | InvalidParameterValueException
@@ -8678,7 +10056,7 @@ export const describeComplianceByConfigRule: {
  */
 export const deleteRemediationExceptions: (
   input: DeleteRemediationExceptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRemediationExceptionsResponse,
   NoSuchRemediationExceptionException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8696,7 +10074,7 @@ export const deleteRemediationExceptions: (
 export const describeAggregateComplianceByConformancePacks: {
   (
     input: DescribeAggregateComplianceByConformancePacksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeAggregateComplianceByConformancePacksResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8707,7 +10085,7 @@ export const describeAggregateComplianceByConformancePacks: {
   >;
   pages: (
     input: DescribeAggregateComplianceByConformancePacksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeAggregateComplianceByConformancePacksResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8718,7 +10096,7 @@ export const describeAggregateComplianceByConformancePacks: {
   >;
   items: (
     input: DescribeAggregateComplianceByConformancePacksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AggregateComplianceByConformancePack,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8751,7 +10129,7 @@ export const describeAggregateComplianceByConformancePacks: {
 export const describeConformancePackCompliance: {
   (
     input: DescribeConformancePackComplianceRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeConformancePackComplianceResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8763,7 +10141,7 @@ export const describeConformancePackCompliance: {
   >;
   pages: (
     input: DescribeConformancePackComplianceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeConformancePackComplianceResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8775,7 +10153,7 @@ export const describeConformancePackCompliance: {
   >;
   items: (
     input: DescribeConformancePackComplianceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8814,7 +10192,7 @@ export const describeConformancePackCompliance: {
 export const getAggregateComplianceDetailsByConfigRule: {
   (
     input: GetAggregateComplianceDetailsByConfigRuleRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetAggregateComplianceDetailsByConfigRuleResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8825,7 +10203,7 @@ export const getAggregateComplianceDetailsByConfigRule: {
   >;
   pages: (
     input: GetAggregateComplianceDetailsByConfigRuleRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetAggregateComplianceDetailsByConfigRuleResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8836,7 +10214,7 @@ export const getAggregateComplianceDetailsByConfigRule: {
   >;
   items: (
     input: GetAggregateComplianceDetailsByConfigRuleRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AggregateEvaluationResult,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8869,7 +10247,7 @@ export const getAggregateComplianceDetailsByConfigRule: {
 export const getAggregateConformancePackComplianceSummary: {
   (
     input: GetAggregateConformancePackComplianceSummaryRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetAggregateConformancePackComplianceSummaryResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8880,7 +10258,7 @@ export const getAggregateConformancePackComplianceSummary: {
   >;
   pages: (
     input: GetAggregateConformancePackComplianceSummaryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetAggregateConformancePackComplianceSummaryResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8891,7 +10269,7 @@ export const getAggregateConformancePackComplianceSummary: {
   >;
   items: (
     input: GetAggregateConformancePackComplianceSummaryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -8971,7 +10349,7 @@ export const getAggregateConformancePackComplianceSummary: {
  */
 export const putConfigRule: (
   input: PutConfigRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutConfigRuleResponse,
   | InsufficientPermissionsException
   | InvalidParameterValueException
@@ -9016,7 +10394,7 @@ export const putConfigRule: (
  */
 export const putConformancePack: (
   input: PutConformancePackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutConformancePackResponse,
   | ConformancePackTemplateValidationException
   | InsufficientPermissionsException
@@ -9042,7 +10420,7 @@ export const putConformancePack: (
 export const getConformancePackComplianceDetails: {
   (
     input: GetConformancePackComplianceDetailsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetConformancePackComplianceDetailsResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -9054,7 +10432,7 @@ export const getConformancePackComplianceDetails: {
   >;
   pages: (
     input: GetConformancePackComplianceDetailsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetConformancePackComplianceDetailsResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -9066,7 +10444,7 @@ export const getConformancePackComplianceDetails: {
   >;
   items: (
     input: GetConformancePackComplianceDetailsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -9138,7 +10516,7 @@ export const getConformancePackComplianceDetails: {
  */
 export const putOrganizationConfigRule: (
   input: PutOrganizationConfigRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutOrganizationConfigRuleResponse,
   | InsufficientPermissionsException
   | InvalidParameterValueException
@@ -9190,7 +10568,7 @@ export const putOrganizationConfigRule: (
  */
 export const putConfigurationAggregator: (
   input: PutConfigurationAggregatorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutConfigurationAggregatorResponse,
   | InvalidParameterValueException
   | InvalidRoleException
@@ -9218,7 +10596,7 @@ export const putConfigurationAggregator: (
 export const listResourceEvaluations: {
   (
     input: ListResourceEvaluationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResourceEvaluationsResponse,
     | InvalidNextTokenException
     | InvalidParameterValueException
@@ -9228,7 +10606,7 @@ export const listResourceEvaluations: {
   >;
   pages: (
     input: ListResourceEvaluationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResourceEvaluationsResponse,
     | InvalidNextTokenException
     | InvalidParameterValueException
@@ -9238,7 +10616,7 @@ export const listResourceEvaluations: {
   >;
   items: (
     input: ListResourceEvaluationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResourceEvaluation,
     | InvalidNextTokenException
     | InvalidParameterValueException
@@ -9268,7 +10646,7 @@ export const listResourceEvaluations: {
  */
 export const getAggregateResourceConfig: (
   input: GetAggregateResourceConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAggregateResourceConfigResponse,
   | NoSuchConfigurationAggregatorException
   | OversizedConfigurationItemException
@@ -9325,7 +10703,7 @@ export const getAggregateResourceConfig: (
  */
 export const putOrganizationConformancePack: (
   input: PutOrganizationConformancePackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutOrganizationConformancePackResponse,
   | InsufficientPermissionsException
   | MaxNumberOfOrganizationConformancePacksExceededException
@@ -9385,7 +10763,7 @@ export const putOrganizationConformancePack: (
 export const getResourceConfigHistory: {
   (
     input: GetResourceConfigHistoryRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetResourceConfigHistoryResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -9398,7 +10776,7 @@ export const getResourceConfigHistory: {
   >;
   pages: (
     input: GetResourceConfigHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetResourceConfigHistoryResponse,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -9411,7 +10789,7 @@ export const getResourceConfigHistory: {
   >;
   items: (
     input: GetResourceConfigHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConfigurationItem,
     | InvalidLimitException
     | InvalidNextTokenException
@@ -9470,7 +10848,7 @@ export const getResourceConfigHistory: {
  */
 export const putConfigurationRecorder: (
   input: PutConfigurationRecorderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutConfigurationRecorderResponse,
   | InvalidConfigurationRecorderNameException
   | InvalidRecordingGroupException
@@ -9524,7 +10902,7 @@ export const putConfigurationRecorder: (
  */
 export const putRemediationConfigurations: (
   input: PutRemediationConfigurationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutRemediationConfigurationsResponse,
   | InsufficientPermissionsException
   | InvalidParameterValueException
@@ -9552,7 +10930,7 @@ export const putRemediationConfigurations: (
  */
 export const putDeliveryChannel: (
   input: PutDeliveryChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutDeliveryChannelResponse,
   | InsufficientDeliveryPolicyException
   | InvalidDeliveryChannelNameException

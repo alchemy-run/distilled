@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -99,13 +99,13 @@ export type Arn = string;
 export type MaxPageResults = number;
 export type ResourceDeploymentStatus = string;
 export type DeploymentId = string;
-export type StatusMessage = string | Redacted.Redacted<string>;
+export type StatusMessage = string | redacted.Redacted<string>;
 export type TagKey = string;
 export type RoleArnOrEmptyString = string;
-export type Description = string | Redacted.Redacted<string>;
-export type TemplateFileContents = string | Redacted.Redacted<string>;
-export type TemplateManifestContents = string | Redacted.Redacted<string>;
-export type SpecContents = string | Redacted.Redacted<string>;
+export type Description = string | redacted.Redacted<string>;
+export type TemplateFileContents = string | redacted.Redacted<string>;
+export type TemplateManifestContents = string | redacted.Redacted<string>;
+export type SpecContents = string | redacted.Redacted<string>;
 export type ClientToken = string;
 export type ComponentDeploymentUpdateType = string;
 export type ResourceNameOrEmpty = string;
@@ -116,7 +116,7 @@ export type EnvironmentAccountConnectionId = string;
 export type EnvironmentAccountConnectionRequesterAccountType = string;
 export type EnvironmentAccountConnectionStatus = string;
 export type DeploymentUpdateType = string;
-export type DisplayName = string | Redacted.Redacted<string>;
+export type DisplayName = string | redacted.Redacted<string>;
 export type Provisioning = string;
 export type TemplateVersionStatus = string;
 export type ListServiceInstancesSortBy = string;
@@ -130,7 +130,7 @@ export type OutputValueString = string;
 export type TagValue = string;
 export type ListServiceInstancesFilterBy = string;
 export type ListServiceInstancesFilterValue = string;
-export type ErrorMessage = string | Redacted.Redacted<string>;
+export type ErrorMessage = string | redacted.Redacted<string>;
 export type RepositoryArn = string;
 export type S3Bucket = string;
 export type S3Key = string;
@@ -150,7 +150,7 @@ export type EnvironmentAccountConnectionArn = string;
 export type EnvironmentTemplateArn = string;
 export type FullTemplateVersionNumber = string;
 export type EnvironmentTemplateVersionArn = string;
-export type TemplateSchema = string | Redacted.Redacted<string>;
+export type TemplateSchema = string | redacted.Redacted<string>;
 export type ServiceArn = string;
 export type ServiceStatus = string;
 export type BlockerType = string;
@@ -305,7 +305,7 @@ export const ListTagsForResourceInput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceInput>;
 export interface UntagResourceInput {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({
@@ -359,14 +359,14 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface CreateComponentInput {
   name: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   serviceName?: string;
   serviceInstanceName?: string;
   environmentName?: string;
-  templateFile: string | Redacted.Redacted<string>;
-  manifest: string | Redacted.Redacted<string>;
-  serviceSpec?: string | Redacted.Redacted<string>;
-  tags?: TagList;
+  templateFile: string | redacted.Redacted<string>;
+  manifest: string | redacted.Redacted<string>;
+  serviceSpec?: string | redacted.Redacted<string>;
+  tags?: Tag[];
   clientToken?: string;
 }
 export const CreateComponentInput = S.suspend(() =>
@@ -400,11 +400,11 @@ export const GetComponentInput = S.suspend(() =>
 export interface UpdateComponentInput {
   name: string;
   deploymentType: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   serviceName?: string;
   serviceInstanceName?: string;
-  serviceSpec?: string | Redacted.Redacted<string>;
-  templateFile?: string | Redacted.Redacted<string>;
+  serviceSpec?: string | redacted.Redacted<string>;
+  templateFile?: string | redacted.Redacted<string>;
   clientToken?: string;
 }
 export const UpdateComponentInput = S.suspend(() =>
@@ -510,7 +510,7 @@ export interface CreateEnvironmentAccountConnectionInput {
   managementAccountId: string;
   roleArn?: string;
   environmentName: string;
-  tags?: TagList;
+  tags?: Tag[];
   componentRoleArn?: string;
   codebuildRoleArn?: string;
 }
@@ -570,7 +570,7 @@ export const DeleteEnvironmentAccountConnectionInput = S.suspend(() =>
 export interface ListEnvironmentAccountConnectionsInput {
   requestedBy: string;
   environmentName?: string;
-  statuses?: EnvironmentAccountConnectionStatusList;
+  statuses?: string[];
   nextToken?: string;
   maxResults?: number;
 }
@@ -649,11 +649,11 @@ export interface CreateEnvironmentInput {
   templateName: string;
   templateMajorVersion: string;
   templateMinorVersion?: string;
-  description?: string | Redacted.Redacted<string>;
-  spec: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  spec: string | redacted.Redacted<string>;
   protonServiceRoleArn?: string;
   environmentAccountConnectionId?: string;
-  tags?: TagList;
+  tags?: Tag[];
   provisioningRepository?: RepositoryBranchInput;
   componentRoleArn?: string;
   codebuildRoleArn?: string;
@@ -690,8 +690,8 @@ export const GetEnvironmentInput = S.suspend(() =>
 }) as any as S.Schema<GetEnvironmentInput>;
 export interface UpdateEnvironmentInput {
   name: string;
-  description?: string | Redacted.Redacted<string>;
-  spec?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  spec?: string | redacted.Redacted<string>;
   templateMajorVersion?: string;
   templateMinorVersion?: string;
   protonServiceRoleArn?: string;
@@ -732,11 +732,11 @@ export const DeleteEnvironmentInput = S.suspend(() =>
 }) as any as S.Schema<DeleteEnvironmentInput>;
 export interface CreateEnvironmentTemplateInput {
   name: string;
-  displayName?: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   encryptionKey?: string;
   provisioning?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateEnvironmentTemplateInput = S.suspend(() =>
   S.Struct({
@@ -764,8 +764,8 @@ export const GetEnvironmentTemplateInput = S.suspend(() =>
 }) as any as S.Schema<GetEnvironmentTemplateInput>;
 export interface UpdateEnvironmentTemplateInput {
   name: string;
-  displayName?: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
 }
 export const UpdateEnvironmentTemplateInput = S.suspend(() =>
   S.Struct({
@@ -822,7 +822,7 @@ export interface UpdateEnvironmentTemplateVersionInput {
   templateName: string;
   majorVersion: string;
   minorVersion: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   status?: string;
 }
 export const UpdateEnvironmentTemplateVersionInput = S.suspend(() =>
@@ -877,7 +877,7 @@ export interface CreateRepositoryInput {
   name: string;
   connectionArn: string;
   encryptionKey?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateRepositoryInput = S.suspend(() =>
   S.Struct({
@@ -965,10 +965,10 @@ export const ListServiceInstanceProvisionedResourcesInput = S.suspend(() =>
 export interface CreateServiceInstanceInput {
   name: string;
   serviceName: string;
-  spec: string | Redacted.Redacted<string>;
+  spec: string | redacted.Redacted<string>;
   templateMajorVersion?: string;
   templateMinorVersion?: string;
-  tags?: TagList;
+  tags?: Tag[];
   clientToken?: string;
 }
 export const CreateServiceInstanceInput = S.suspend(() =>
@@ -1001,7 +1001,7 @@ export interface UpdateServiceInstanceInput {
   name: string;
   serviceName: string;
   deploymentType: string;
-  spec?: string | Redacted.Redacted<string>;
+  spec?: string | redacted.Redacted<string>;
   templateMajorVersion?: string;
   templateMinorVersion?: string;
   clientToken?: string;
@@ -1050,7 +1050,7 @@ export const ListServicePipelineProvisionedResourcesInput = S.suspend(() =>
 }) as any as S.Schema<ListServicePipelineProvisionedResourcesInput>;
 export interface UpdateServicePipelineInput {
   serviceName: string;
-  spec: string | Redacted.Redacted<string>;
+  spec: string | redacted.Redacted<string>;
   deploymentType: string;
   templateMajorVersion?: string;
   templateMinorVersion?: string;
@@ -1070,15 +1070,15 @@ export const UpdateServicePipelineInput = S.suspend(() =>
 }) as any as S.Schema<UpdateServicePipelineInput>;
 export interface CreateServiceInput {
   name: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   templateName: string;
   templateMajorVersion: string;
   templateMinorVersion?: string;
-  spec: string | Redacted.Redacted<string>;
+  spec: string | redacted.Redacted<string>;
   repositoryConnectionArn?: string;
   repositoryId?: string;
   branchName?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateServiceInput = S.suspend(() =>
   S.Struct({
@@ -1110,8 +1110,8 @@ export const GetServiceInput = S.suspend(() =>
 }) as any as S.Schema<GetServiceInput>;
 export interface UpdateServiceInput {
   name: string;
-  description?: string | Redacted.Redacted<string>;
-  spec?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  spec?: string | redacted.Redacted<string>;
 }
 export const UpdateServiceInput = S.suspend(() =>
   S.Struct({
@@ -1235,11 +1235,11 @@ export const DeleteServiceSyncConfigInput = S.suspend(() =>
 }) as any as S.Schema<DeleteServiceSyncConfigInput>;
 export interface CreateServiceTemplateInput {
   name: string;
-  displayName?: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   encryptionKey?: string;
   pipelineProvisioning?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateServiceTemplateInput = S.suspend(() =>
   S.Struct({
@@ -1267,8 +1267,8 @@ export const GetServiceTemplateInput = S.suspend(() =>
 }) as any as S.Schema<GetServiceTemplateInput>;
 export interface UpdateServiceTemplateInput {
   name: string;
-  displayName?: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
 }
 export const UpdateServiceTemplateInput = S.suspend(() =>
   S.Struct({
@@ -1339,10 +1339,10 @@ export interface UpdateServiceTemplateVersionInput {
   templateName: string;
   majorVersion: string;
   minorVersion: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   status?: string;
-  compatibleEnvironmentTemplates?: CompatibleEnvironmentTemplateInputList;
-  supportedComponentSources?: ServiceTemplateSupportedComponentSourceInputList;
+  compatibleEnvironmentTemplates?: CompatibleEnvironmentTemplateInput[];
+  supportedComponentSources?: string[];
 }
 export const UpdateServiceTemplateVersionInput = S.suspend(() =>
   S.Struct({
@@ -1536,7 +1536,7 @@ export interface ResourceSyncAttempt {
   target: string;
   startedAt: Date;
   status: string;
-  events: ResourceSyncEvents;
+  events: ResourceSyncEvent[];
 }
 export const ResourceSyncAttempt = S.suspend(() =>
   S.Struct({
@@ -1565,7 +1565,7 @@ export const GetTemplateSyncStatusOutput = S.suspend(() =>
   identifier: "GetTemplateSyncStatusOutput",
 }) as any as S.Schema<GetTemplateSyncStatusOutput>;
 export interface ListTagsForResourceOutput {
-  tags: TagList;
+  tags: Tag[];
   nextToken?: string;
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
@@ -1576,9 +1576,9 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 export interface NotifyResourceDeploymentStatusChangeInput {
   resourceArn: string;
   status?: string;
-  outputs?: OutputsList;
+  outputs?: Output[];
   deploymentId?: string;
-  statusMessage?: string | Redacted.Redacted<string>;
+  statusMessage?: string | redacted.Redacted<string>;
 }
 export const NotifyResourceDeploymentStatusChangeInput = S.suspend(() =>
   S.Struct({
@@ -1601,7 +1601,7 @@ export const NotifyResourceDeploymentStatusChangeOutput = S.suspend(() =>
 }) as any as S.Schema<NotifyResourceDeploymentStatusChangeOutput>;
 export interface TagResourceInput {
   resourceArn: string;
-  tags: TagList;
+  tags: Tag[];
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -1637,7 +1637,7 @@ export const UpdateAccountSettingsInput = S.suspend(() =>
 }) as any as S.Schema<UpdateAccountSettingsInput>;
 export interface ListComponentOutputsOutput {
   nextToken?: string;
-  outputs: OutputsList;
+  outputs: Output[];
 }
 export const ListComponentOutputsOutput = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), outputs: OutputsList }),
@@ -1646,7 +1646,7 @@ export const ListComponentOutputsOutput = S.suspend(() =>
 }) as any as S.Schema<ListComponentOutputsOutput>;
 export interface Component {
   name: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   arn: string;
   environmentName: string;
   serviceName?: string;
@@ -1656,8 +1656,8 @@ export interface Component {
   lastDeploymentAttemptedAt?: Date;
   lastDeploymentSucceededAt?: Date;
   deploymentStatus: string;
-  deploymentStatusMessage?: string | Redacted.Redacted<string>;
-  serviceSpec?: string | Redacted.Redacted<string>;
+  deploymentStatusMessage?: string | redacted.Redacted<string>;
+  serviceSpec?: string | redacted.Redacted<string>;
   lastClientRequestToken?: string;
   lastAttemptedDeploymentId?: string;
   lastSucceededDeploymentId?: string;
@@ -1721,11 +1721,11 @@ export const DeleteComponentOutput = S.suspend(() =>
 export type ComponentDeploymentIdList = string[];
 export const ComponentDeploymentIdList = S.Array(S.String);
 export interface ServiceInstanceState {
-  spec: string | Redacted.Redacted<string>;
+  spec: string | redacted.Redacted<string>;
   templateName: string;
   templateMajorVersion: string;
   templateMinorVersion: string;
-  lastSuccessfulComponentDeploymentIds?: ComponentDeploymentIdList;
+  lastSuccessfulComponentDeploymentIds?: string[];
   lastSuccessfulEnvironmentDeploymentId?: string;
   lastSuccessfulServicePipelineDeploymentId?: string;
 }
@@ -1743,7 +1743,7 @@ export const ServiceInstanceState = S.suspend(() =>
   identifier: "ServiceInstanceState",
 }) as any as S.Schema<ServiceInstanceState>;
 export interface EnvironmentState {
-  spec?: string | Redacted.Redacted<string>;
+  spec?: string | redacted.Redacted<string>;
   templateName: string;
   templateMajorVersion: string;
   templateMinorVersion: string;
@@ -1759,7 +1759,7 @@ export const EnvironmentState = S.suspend(() =>
   identifier: "EnvironmentState",
 }) as any as S.Schema<EnvironmentState>;
 export interface ServicePipelineState {
-  spec?: string | Redacted.Redacted<string>;
+  spec?: string | redacted.Redacted<string>;
   templateName: string;
   templateMajorVersion: string;
   templateMinorVersion: string;
@@ -1777,8 +1777,8 @@ export const ServicePipelineState = S.suspend(() =>
 export interface ComponentState {
   serviceName?: string;
   serviceInstanceName?: string;
-  serviceSpec?: string | Redacted.Redacted<string>;
-  templateFile?: string | Redacted.Redacted<string>;
+  serviceSpec?: string | redacted.Redacted<string>;
+  templateFile?: string | redacted.Redacted<string>;
 }
 export const ComponentState = S.suspend(() =>
   S.Struct({
@@ -1812,14 +1812,14 @@ export interface Deployment {
   serviceInstanceName?: string;
   componentName?: string;
   deploymentStatus: string;
-  deploymentStatusMessage?: string | Redacted.Redacted<string>;
+  deploymentStatusMessage?: string | redacted.Redacted<string>;
   createdAt: Date;
   lastModifiedAt: Date;
   completedAt?: Date;
   lastAttemptedDeploymentId?: string;
   lastSucceededDeploymentId?: string;
-  initialState?: (typeof DeploymentState)["Type"];
-  targetState?: (typeof DeploymentState)["Type"];
+  initialState?: DeploymentState;
+  targetState?: DeploymentState;
 }
 export const Deployment = S.suspend(() =>
   S.Struct({
@@ -1925,7 +1925,7 @@ export const RejectEnvironmentAccountConnectionOutput = S.suspend(() =>
 }) as any as S.Schema<RejectEnvironmentAccountConnectionOutput>;
 export interface ListEnvironmentOutputsOutput {
   nextToken?: string;
-  outputs: OutputsList;
+  outputs: Output[];
 }
 export const ListEnvironmentOutputsOutput = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), outputs: OutputsList }),
@@ -1950,7 +1950,7 @@ export type ProvisionedResourceList = ProvisionedResource[];
 export const ProvisionedResourceList = S.Array(ProvisionedResource);
 export interface ListEnvironmentProvisionedResourcesOutput {
   nextToken?: string;
-  provisionedResources: ProvisionedResourceList;
+  provisionedResources: ProvisionedResource[];
 }
 export const ListEnvironmentProvisionedResourcesOutput = S.suspend(() =>
   S.Struct({
@@ -1978,7 +1978,7 @@ export const RepositoryBranch = S.suspend(() =>
 }) as any as S.Schema<RepositoryBranch>;
 export interface Environment {
   name: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   createdAt: Date;
   lastDeploymentAttemptedAt: Date;
   lastDeploymentSucceededAt: Date;
@@ -1987,11 +1987,11 @@ export interface Environment {
   templateMajorVersion: string;
   templateMinorVersion: string;
   deploymentStatus: string;
-  deploymentStatusMessage?: string | Redacted.Redacted<string>;
+  deploymentStatusMessage?: string | redacted.Redacted<string>;
   protonServiceRoleArn?: string;
   environmentAccountConnectionId?: string;
   environmentAccountId?: string;
-  spec?: string | Redacted.Redacted<string>;
+  spec?: string | redacted.Redacted<string>;
   provisioning?: string;
   provisioningRepository?: RepositoryBranch;
   componentRoleArn?: string;
@@ -2059,7 +2059,7 @@ export const DeleteEnvironmentOutput = S.suspend(() =>
 export interface ListEnvironmentsInput {
   nextToken?: string;
   maxResults?: number;
-  environmentTemplates?: EnvironmentTemplateFilterList;
+  environmentTemplates?: EnvironmentTemplateFilter[];
 }
 export const ListEnvironmentsInput = S.suspend(() =>
   S.Struct({
@@ -2077,8 +2077,8 @@ export interface EnvironmentTemplate {
   arn: string;
   createdAt: Date;
   lastModifiedAt: Date;
-  displayName?: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   recommendedVersion?: string;
   encryptionKey?: string;
   provisioning?: string;
@@ -2128,12 +2128,12 @@ export interface EnvironmentTemplateVersion {
   minorVersion: string;
   recommendedMinorVersion?: string;
   status: string;
-  statusMessage?: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  statusMessage?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   arn: string;
   createdAt: Date;
   lastModifiedAt: Date;
-  schema?: string | Redacted.Redacted<string>;
+  schema?: string | redacted.Redacted<string>;
 }
 export const EnvironmentTemplateVersion = S.suspend(() =>
   S.Struct({
@@ -2204,7 +2204,7 @@ export const DeleteRepositoryOutput = S.suspend(() =>
 }) as any as S.Schema<DeleteRepositoryOutput>;
 export interface ListServiceInstanceOutputsOutput {
   nextToken?: string;
-  outputs: OutputsList;
+  outputs: Output[];
 }
 export const ListServiceInstanceOutputsOutput = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), outputs: OutputsList }),
@@ -2213,7 +2213,7 @@ export const ListServiceInstanceOutputsOutput = S.suspend(() =>
 }) as any as S.Schema<ListServiceInstanceOutputsOutput>;
 export interface ListServiceInstanceProvisionedResourcesOutput {
   nextToken?: string;
-  provisionedResources: ProvisionedResourceList;
+  provisionedResources: ProvisionedResource[];
 }
 export const ListServiceInstanceProvisionedResourcesOutput = S.suspend(() =>
   S.Struct({
@@ -2235,8 +2235,8 @@ export interface ServiceInstance {
   templateMajorVersion: string;
   templateMinorVersion: string;
   deploymentStatus: string;
-  deploymentStatusMessage?: string | Redacted.Redacted<string>;
-  spec?: string | Redacted.Redacted<string>;
+  deploymentStatusMessage?: string | redacted.Redacted<string>;
+  spec?: string | redacted.Redacted<string>;
   lastClientRequestToken?: string;
   lastAttemptedDeploymentId?: string;
   lastSucceededDeploymentId?: string;
@@ -2291,7 +2291,7 @@ export interface ListServiceInstancesInput {
   serviceName?: string;
   nextToken?: string;
   maxResults?: number;
-  filters?: ListServiceInstancesFilterList;
+  filters?: ListServiceInstancesFilter[];
   sortBy?: string;
   sortOrder?: string;
 }
@@ -2311,7 +2311,7 @@ export const ListServiceInstancesInput = S.suspend(() =>
 }) as any as S.Schema<ListServiceInstancesInput>;
 export interface ListServicePipelineOutputsOutput {
   nextToken?: string;
-  outputs: OutputsList;
+  outputs: Output[];
 }
 export const ListServicePipelineOutputsOutput = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), outputs: OutputsList }),
@@ -2320,7 +2320,7 @@ export const ListServicePipelineOutputsOutput = S.suspend(() =>
 }) as any as S.Schema<ListServicePipelineOutputsOutput>;
 export interface ListServicePipelineProvisionedResourcesOutput {
   nextToken?: string;
-  provisionedResources: ProvisionedResourceList;
+  provisionedResources: ProvisionedResource[];
 }
 export const ListServicePipelineProvisionedResourcesOutput = S.suspend(() =>
   S.Struct({
@@ -2339,8 +2339,8 @@ export interface ServicePipeline {
   templateMajorVersion: string;
   templateMinorVersion: string;
   deploymentStatus: string;
-  deploymentStatusMessage?: string | Redacted.Redacted<string>;
-  spec?: string | Redacted.Redacted<string>;
+  deploymentStatusMessage?: string | redacted.Redacted<string>;
+  spec?: string | redacted.Redacted<string>;
   lastAttemptedDeploymentId?: string;
   lastSucceededDeploymentId?: string;
 }
@@ -2372,14 +2372,14 @@ export const UpdateServicePipelineOutput = S.suspend(() =>
 }) as any as S.Schema<UpdateServicePipelineOutput>;
 export interface Service {
   name: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   arn: string;
   templateName: string;
   createdAt: Date;
   lastModifiedAt: Date;
   status: string;
-  statusMessage?: string | Redacted.Redacted<string>;
-  spec: string | Redacted.Redacted<string>;
+  statusMessage?: string | redacted.Redacted<string>;
+  spec: string | redacted.Redacted<string>;
   pipeline?: ServicePipeline;
   repositoryConnectionArn?: string;
   repositoryId?: string;
@@ -2473,8 +2473,8 @@ export interface ServiceTemplate {
   arn: string;
   createdAt: Date;
   lastModifiedAt: Date;
-  displayName?: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   recommendedVersion?: string;
   encryptionKey?: string;
   pipelineProvisioning?: string;
@@ -2534,12 +2534,12 @@ export const TemplateVersionSourceInput = S.Union(
 export interface CreateServiceTemplateVersionInput {
   clientToken?: string;
   templateName: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   majorVersion?: string;
-  source: (typeof TemplateVersionSourceInput)["Type"];
-  compatibleEnvironmentTemplates: CompatibleEnvironmentTemplateInputList;
-  tags?: TagList;
-  supportedComponentSources?: ServiceTemplateSupportedComponentSourceInputList;
+  source: TemplateVersionSourceInput;
+  compatibleEnvironmentTemplates: CompatibleEnvironmentTemplateInput[];
+  tags?: Tag[];
+  supportedComponentSources?: string[];
 }
 export const CreateServiceTemplateVersionInput = S.suspend(() =>
   S.Struct({
@@ -2578,14 +2578,14 @@ export interface ServiceTemplateVersion {
   minorVersion: string;
   recommendedMinorVersion?: string;
   status: string;
-  statusMessage?: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  statusMessage?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   arn: string;
   createdAt: Date;
   lastModifiedAt: Date;
-  compatibleEnvironmentTemplates: CompatibleEnvironmentTemplateList;
-  schema?: string | Redacted.Redacted<string>;
-  supportedComponentSources?: ServiceTemplateSupportedComponentSourceInputList;
+  compatibleEnvironmentTemplates: CompatibleEnvironmentTemplate[];
+  schema?: string | redacted.Redacted<string>;
+  supportedComponentSources?: string[];
 }
 export const ServiceTemplateVersion = S.suspend(() =>
   S.Struct({
@@ -2703,7 +2703,7 @@ export interface SyncBlocker {
   status: string;
   createdReason: string;
   createdAt: Date;
-  contexts?: SyncBlockerContexts;
+  contexts?: SyncBlockerContext[];
   resolvedReason?: string;
   resolvedAt?: Date;
 }
@@ -2786,7 +2786,7 @@ export interface ComponentSummary {
   lastDeploymentAttemptedAt?: Date;
   lastDeploymentSucceededAt?: Date;
   deploymentStatus: string;
-  deploymentStatusMessage?: string | Redacted.Redacted<string>;
+  deploymentStatusMessage?: string | redacted.Redacted<string>;
   lastAttemptedDeploymentId?: string;
   lastSucceededDeploymentId?: string;
 }
@@ -2893,8 +2893,8 @@ export interface EnvironmentTemplateSummary {
   arn: string;
   createdAt: Date;
   lastModifiedAt: Date;
-  displayName?: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   recommendedVersion?: string;
   provisioning?: string;
 }
@@ -2922,8 +2922,8 @@ export interface EnvironmentTemplateVersionSummary {
   minorVersion: string;
   recommendedMinorVersion?: string;
   status: string;
-  statusMessage?: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  statusMessage?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   arn: string;
   createdAt: Date;
   lastModifiedAt: Date;
@@ -2969,13 +2969,13 @@ export type RepositorySummaryList = RepositorySummary[];
 export const RepositorySummaryList = S.Array(RepositorySummary);
 export interface ServiceSummary {
   name: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   arn: string;
   templateName: string;
   createdAt: Date;
   lastModifiedAt: Date;
   status: string;
-  statusMessage?: string | Redacted.Redacted<string>;
+  statusMessage?: string | redacted.Redacted<string>;
 }
 export const ServiceSummary = S.suspend(() =>
   S.Struct({
@@ -2996,7 +2996,7 @@ export const ServiceSummaryList = S.Array(ServiceSummary);
 export interface ServiceSyncBlockerSummary {
   serviceName: string;
   serviceInstanceName?: string;
-  latestBlockers?: LatestSyncBlockers;
+  latestBlockers?: SyncBlocker[];
 }
 export const ServiceSyncBlockerSummary = S.suspend(() =>
   S.Struct({
@@ -3012,8 +3012,8 @@ export interface ServiceTemplateSummary {
   arn: string;
   createdAt: Date;
   lastModifiedAt: Date;
-  displayName?: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   recommendedVersion?: string;
   pipelineProvisioning?: string;
 }
@@ -3039,8 +3039,8 @@ export interface ServiceTemplateVersionSummary {
   minorVersion: string;
   recommendedMinorVersion?: string;
   status: string;
-  statusMessage?: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  statusMessage?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   arn: string;
   createdAt: Date;
   lastModifiedAt: Date;
@@ -3107,7 +3107,7 @@ export const GetResourcesSummaryOutput = S.suspend(() =>
 }) as any as S.Schema<GetResourcesSummaryOutput>;
 export interface ListRepositorySyncDefinitionsOutput {
   nextToken?: string;
-  syncDefinitions: RepositorySyncDefinitionList;
+  syncDefinitions: RepositorySyncDefinition[];
 }
 export const ListRepositorySyncDefinitionsOutput = S.suspend(() =>
   S.Struct({
@@ -3135,7 +3135,7 @@ export const UpdateAccountSettingsOutput = S.suspend(() =>
 }) as any as S.Schema<UpdateAccountSettingsOutput>;
 export interface ListComponentProvisionedResourcesOutput {
   nextToken?: string;
-  provisionedResources: ProvisionedResourceList;
+  provisionedResources: ProvisionedResource[];
 }
 export const ListComponentProvisionedResourcesOutput = S.suspend(() =>
   S.Struct({
@@ -3147,7 +3147,7 @@ export const ListComponentProvisionedResourcesOutput = S.suspend(() =>
 }) as any as S.Schema<ListComponentProvisionedResourcesOutput>;
 export interface ListComponentsOutput {
   nextToken?: string;
-  components: ComponentSummaryList;
+  components: ComponentSummary[];
 }
 export const ListComponentsOutput = S.suspend(() =>
   S.Struct({
@@ -3159,7 +3159,7 @@ export const ListComponentsOutput = S.suspend(() =>
 }) as any as S.Schema<ListComponentsOutput>;
 export interface ListDeploymentsOutput {
   nextToken?: string;
-  deployments: DeploymentSummaryList;
+  deployments: DeploymentSummary[];
 }
 export const ListDeploymentsOutput = S.suspend(() =>
   S.Struct({
@@ -3178,7 +3178,7 @@ export const CreateEnvironmentAccountConnectionOutput = S.suspend(() =>
   identifier: "CreateEnvironmentAccountConnectionOutput",
 }) as any as S.Schema<CreateEnvironmentAccountConnectionOutput>;
 export interface ListEnvironmentAccountConnectionsOutput {
-  environmentAccountConnections: EnvironmentAccountConnectionSummaryList;
+  environmentAccountConnections: EnvironmentAccountConnectionSummary[];
   nextToken?: string;
 }
 export const ListEnvironmentAccountConnectionsOutput = S.suspend(() =>
@@ -3199,7 +3199,7 @@ export const CreateEnvironmentTemplateOutput = S.suspend(() =>
 }) as any as S.Schema<CreateEnvironmentTemplateOutput>;
 export interface ListEnvironmentTemplatesOutput {
   nextToken?: string;
-  templates: EnvironmentTemplateSummaryList;
+  templates: EnvironmentTemplateSummary[];
 }
 export const ListEnvironmentTemplatesOutput = S.suspend(() =>
   S.Struct({
@@ -3212,10 +3212,10 @@ export const ListEnvironmentTemplatesOutput = S.suspend(() =>
 export interface CreateEnvironmentTemplateVersionInput {
   clientToken?: string;
   templateName: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   majorVersion?: string;
-  source: (typeof TemplateVersionSourceInput)["Type"];
-  tags?: TagList;
+  source: TemplateVersionSourceInput;
+  tags?: Tag[];
 }
 export const CreateEnvironmentTemplateVersionInput = S.suspend(() =>
   S.Struct({
@@ -3241,7 +3241,7 @@ export const GetEnvironmentTemplateVersionOutput = S.suspend(() =>
 }) as any as S.Schema<GetEnvironmentTemplateVersionOutput>;
 export interface ListEnvironmentTemplateVersionsOutput {
   nextToken?: string;
-  templateVersions: EnvironmentTemplateVersionSummaryList;
+  templateVersions: EnvironmentTemplateVersionSummary[];
 }
 export const ListEnvironmentTemplateVersionsOutput = S.suspend(() =>
   S.Struct({
@@ -3261,7 +3261,7 @@ export const CreateRepositoryOutput = S.suspend(() =>
 }) as any as S.Schema<CreateRepositoryOutput>;
 export interface ListRepositoriesOutput {
   nextToken?: string;
-  repositories: RepositorySummaryList;
+  repositories: RepositorySummary[];
 }
 export const ListRepositoriesOutput = S.suspend(() =>
   S.Struct({
@@ -3281,7 +3281,7 @@ export const CreateServiceOutput = S.suspend(() =>
 }) as any as S.Schema<CreateServiceOutput>;
 export interface ListServicesOutput {
   nextToken?: string;
-  services: ServiceSummaryList;
+  services: ServiceSummary[];
 }
 export const ListServicesOutput = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), services: ServiceSummaryList }),
@@ -3316,7 +3316,7 @@ export const CreateServiceTemplateOutput = S.suspend(() =>
 }) as any as S.Schema<CreateServiceTemplateOutput>;
 export interface ListServiceTemplatesOutput {
   nextToken?: string;
-  templates: ServiceTemplateSummaryList;
+  templates: ServiceTemplateSummary[];
 }
 export const ListServiceTemplatesOutput = S.suspend(() =>
   S.Struct({
@@ -3336,7 +3336,7 @@ export const CreateServiceTemplateVersionOutput = S.suspend(() =>
 }) as any as S.Schema<CreateServiceTemplateVersionOutput>;
 export interface ListServiceTemplateVersionsOutput {
   nextToken?: string;
-  templateVersions: ServiceTemplateVersionSummaryList;
+  templateVersions: ServiceTemplateVersionSummary[];
 }
 export const ListServiceTemplateVersionsOutput = S.suspend(() =>
   S.Struct({
@@ -3375,7 +3375,7 @@ export const RepositorySyncEvents = S.Array(RepositorySyncEvent);
 export interface RepositorySyncAttempt {
   startedAt: Date;
   status: string;
-  events: RepositorySyncEvents;
+  events: RepositorySyncEvent[];
 }
 export const RepositorySyncAttempt = S.suspend(() =>
   S.Struct({
@@ -3388,7 +3388,7 @@ export const RepositorySyncAttempt = S.suspend(() =>
 }) as any as S.Schema<RepositorySyncAttempt>;
 export interface EnvironmentSummary {
   name: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   createdAt: Date;
   lastDeploymentAttemptedAt: Date;
   lastDeploymentSucceededAt: Date;
@@ -3397,7 +3397,7 @@ export interface EnvironmentSummary {
   templateMajorVersion: string;
   templateMinorVersion: string;
   deploymentStatus: string;
-  deploymentStatusMessage?: string | Redacted.Redacted<string>;
+  deploymentStatusMessage?: string | redacted.Redacted<string>;
   protonServiceRoleArn?: string;
   environmentAccountConnectionId?: string;
   environmentAccountId?: string;
@@ -3444,7 +3444,7 @@ export interface ServiceInstanceSummary {
   templateMajorVersion: string;
   templateMinorVersion: string;
   deploymentStatus: string;
-  deploymentStatusMessage?: string | Redacted.Redacted<string>;
+  deploymentStatusMessage?: string | redacted.Redacted<string>;
   lastAttemptedDeploymentId?: string;
   lastSucceededDeploymentId?: string;
 }
@@ -3494,7 +3494,7 @@ export const GetServiceInstanceSyncStatusOutput = S.suspend(() =>
 }) as any as S.Schema<GetServiceInstanceSyncStatusOutput>;
 export interface ListEnvironmentsOutput {
   nextToken?: string;
-  environments: EnvironmentSummaryList;
+  environments: EnvironmentSummary[];
 }
 export const ListEnvironmentsOutput = S.suspend(() =>
   S.Struct({
@@ -3514,7 +3514,7 @@ export const CreateEnvironmentTemplateVersionOutput = S.suspend(() =>
 }) as any as S.Schema<CreateEnvironmentTemplateVersionOutput>;
 export interface ListServiceInstancesOutput {
   nextToken?: string;
-  serviceInstances: ServiceInstanceSummaryList;
+  serviceInstances: ServiceInstanceSummary[];
 }
 export const ListServiceInstancesOutput = S.suspend(() =>
   S.Struct({
@@ -3598,7 +3598,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listComponents: {
   (
     input: ListComponentsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListComponentsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3609,7 +3609,7 @@ export const listComponents: {
   >;
   pages: (
     input: ListComponentsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListComponentsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3620,7 +3620,7 @@ export const listComponents: {
   >;
   items: (
     input: ListComponentsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ComponentSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3650,7 +3650,7 @@ export const listComponents: {
  */
 export const getDeployment: (
   input: GetDeploymentInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetDeploymentOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3680,7 +3680,7 @@ export const getDeployment: (
  */
 export const createEnvironmentAccountConnection: (
   input: CreateEnvironmentAccountConnectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEnvironmentAccountConnectionOutput,
   | AccessDeniedException
   | ConflictException
@@ -3708,7 +3708,7 @@ export const createEnvironmentAccountConnection: (
 export const listEnvironments: {
   (
     input: ListEnvironmentsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEnvironmentsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3720,7 +3720,7 @@ export const listEnvironments: {
   >;
   pages: (
     input: ListEnvironmentsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEnvironmentsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3732,7 +3732,7 @@ export const listEnvironments: {
   >;
   items: (
     input: ListEnvironmentsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EnvironmentSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3766,7 +3766,7 @@ export const listEnvironments: {
  */
 export const createEnvironmentTemplateVersion: (
   input: CreateEnvironmentTemplateVersionInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEnvironmentTemplateVersionOutput,
   | AccessDeniedException
   | ConflictException
@@ -3797,7 +3797,7 @@ export const createEnvironmentTemplateVersion: (
 export const listServiceInstances: {
   (
     input: ListServiceInstancesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServiceInstancesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3809,7 +3809,7 @@ export const listServiceInstances: {
   >;
   pages: (
     input: ListServiceInstancesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServiceInstancesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3821,7 +3821,7 @@ export const listServiceInstances: {
   >;
   items: (
     input: ListServiceInstancesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServiceInstanceSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3853,7 +3853,7 @@ export const listServiceInstances: {
  */
 export const updateServiceSyncBlocker: (
   input: UpdateServiceSyncBlockerInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateServiceSyncBlockerOutput,
   | AccessDeniedException
   | ConflictException
@@ -3880,7 +3880,7 @@ export const updateServiceSyncBlocker: (
  */
 export const getServiceTemplateVersion: (
   input: GetServiceTemplateVersionInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceTemplateVersionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3910,7 +3910,7 @@ export const getServiceTemplateVersion: (
 export const listComponentProvisionedResources: {
   (
     input: ListComponentProvisionedResourcesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListComponentProvisionedResourcesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3922,7 +3922,7 @@ export const listComponentProvisionedResources: {
   >;
   pages: (
     input: ListComponentProvisionedResourcesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListComponentProvisionedResourcesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3934,7 +3934,7 @@ export const listComponentProvisionedResources: {
   >;
   items: (
     input: ListComponentProvisionedResourcesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProvisionedResource,
     | AccessDeniedException
     | InternalServerException
@@ -3966,7 +3966,7 @@ export const listComponentProvisionedResources: {
 export const listDeployments: {
   (
     input: ListDeploymentsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDeploymentsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3978,7 +3978,7 @@ export const listDeployments: {
   >;
   pages: (
     input: ListDeploymentsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDeploymentsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3990,7 +3990,7 @@ export const listDeployments: {
   >;
   items: (
     input: ListDeploymentsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DeploymentSummary,
     | AccessDeniedException
     | InternalServerException
@@ -4022,7 +4022,7 @@ export const listDeployments: {
  */
 export const getEnvironmentTemplateVersion: (
   input: GetEnvironmentTemplateVersionInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetEnvironmentTemplateVersionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4048,7 +4048,7 @@ export const getEnvironmentTemplateVersion: (
 export const listEnvironmentTemplateVersions: {
   (
     input: ListEnvironmentTemplateVersionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEnvironmentTemplateVersionsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -4060,7 +4060,7 @@ export const listEnvironmentTemplateVersions: {
   >;
   pages: (
     input: ListEnvironmentTemplateVersionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEnvironmentTemplateVersionsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -4072,7 +4072,7 @@ export const listEnvironmentTemplateVersions: {
   >;
   items: (
     input: ListEnvironmentTemplateVersionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EnvironmentTemplateVersionSummary,
     | AccessDeniedException
     | InternalServerException
@@ -4105,7 +4105,7 @@ export const listEnvironmentTemplateVersions: {
 export const listRepositories: {
   (
     input: ListRepositoriesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRepositoriesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -4117,7 +4117,7 @@ export const listRepositories: {
   >;
   pages: (
     input: ListRepositoriesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRepositoriesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -4129,7 +4129,7 @@ export const listRepositories: {
   >;
   items: (
     input: ListRepositoriesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RepositorySummary,
     | AccessDeniedException
     | InternalServerException
@@ -4164,7 +4164,7 @@ export const listRepositories: {
  */
 export const createService: (
   input: CreateServiceInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateServiceOutput,
   | AccessDeniedException
   | ConflictException
@@ -4193,7 +4193,7 @@ export const createService: (
  */
 export const getServiceSyncBlockerSummary: (
   input: GetServiceSyncBlockerSummaryInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceSyncBlockerSummaryOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4220,7 +4220,7 @@ export const getServiceSyncBlockerSummary: (
  */
 export const createServiceTemplateVersion: (
   input: CreateServiceTemplateVersionInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateServiceTemplateVersionOutput,
   | AccessDeniedException
   | ConflictException
@@ -4250,7 +4250,7 @@ export const createServiceTemplateVersion: (
 export const listServiceTemplateVersions: {
   (
     input: ListServiceTemplateVersionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServiceTemplateVersionsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -4262,7 +4262,7 @@ export const listServiceTemplateVersions: {
   >;
   pages: (
     input: ListServiceTemplateVersionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServiceTemplateVersionsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -4274,7 +4274,7 @@ export const listServiceTemplateVersions: {
   >;
   items: (
     input: ListServiceTemplateVersionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServiceTemplateVersionSummary,
     | AccessDeniedException
     | InternalServerException
@@ -4310,7 +4310,7 @@ export const listServiceTemplateVersions: {
  */
 export const createComponent: (
   input: CreateComponentInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateComponentOutput,
   | AccessDeniedException
   | ConflictException
@@ -4348,7 +4348,7 @@ export const createComponent: (
  */
 export const updateComponent: (
   input: UpdateComponentInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateComponentOutput,
   | AccessDeniedException
   | ConflictException
@@ -4381,7 +4381,7 @@ export const updateComponent: (
  */
 export const deleteComponent: (
   input: DeleteComponentInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteComponentOutput,
   | AccessDeniedException
   | ConflictException
@@ -4411,7 +4411,7 @@ export const deleteComponent: (
  */
 export const updateEnvironmentAccountConnection: (
   input: UpdateEnvironmentAccountConnectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEnvironmentAccountConnectionOutput,
   | AccessDeniedException
   | ConflictException
@@ -4445,7 +4445,7 @@ export const updateEnvironmentAccountConnection: (
  */
 export const deleteEnvironmentAccountConnection: (
   input: DeleteEnvironmentAccountConnectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEnvironmentAccountConnectionOutput,
   | AccessDeniedException
   | ConflictException
@@ -4476,7 +4476,7 @@ export const deleteEnvironmentAccountConnection: (
  */
 export const acceptEnvironmentAccountConnection: (
   input: AcceptEnvironmentAccountConnectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   AcceptEnvironmentAccountConnectionOutput,
   | AccessDeniedException
   | ConflictException
@@ -4511,7 +4511,7 @@ export const acceptEnvironmentAccountConnection: (
  */
 export const rejectEnvironmentAccountConnection: (
   input: RejectEnvironmentAccountConnectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   RejectEnvironmentAccountConnectionOutput,
   | AccessDeniedException
   | ConflictException
@@ -4549,7 +4549,7 @@ export const rejectEnvironmentAccountConnection: (
  */
 export const createEnvironment: (
   input: CreateEnvironmentInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEnvironmentOutput,
   | AccessDeniedException
   | ConflictException
@@ -4620,7 +4620,7 @@ export const createEnvironment: (
  */
 export const updateEnvironment: (
   input: UpdateEnvironmentInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEnvironmentOutput,
   | AccessDeniedException
   | ConflictException
@@ -4647,7 +4647,7 @@ export const updateEnvironment: (
  */
 export const deleteEnvironment: (
   input: DeleteEnvironmentInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEnvironmentOutput,
   | AccessDeniedException
   | ConflictException
@@ -4674,7 +4674,7 @@ export const deleteEnvironment: (
  */
 export const updateEnvironmentTemplate: (
   input: UpdateEnvironmentTemplateInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEnvironmentTemplateOutput,
   | AccessDeniedException
   | ConflictException
@@ -4701,7 +4701,7 @@ export const updateEnvironmentTemplate: (
  */
 export const deleteEnvironmentTemplate: (
   input: DeleteEnvironmentTemplateInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEnvironmentTemplateOutput,
   | AccessDeniedException
   | ConflictException
@@ -4728,7 +4728,7 @@ export const deleteEnvironmentTemplate: (
  */
 export const updateEnvironmentTemplateVersion: (
   input: UpdateEnvironmentTemplateVersionInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEnvironmentTemplateVersionOutput,
   | AccessDeniedException
   | ConflictException
@@ -4761,7 +4761,7 @@ export const updateEnvironmentTemplateVersion: (
  */
 export const deleteEnvironmentTemplateVersion: (
   input: DeleteEnvironmentTemplateVersionInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEnvironmentTemplateVersionOutput,
   | AccessDeniedException
   | ConflictException
@@ -4788,7 +4788,7 @@ export const deleteEnvironmentTemplateVersion: (
  */
 export const deleteRepository: (
   input: DeleteRepositoryInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRepositoryOutput,
   | AccessDeniedException
   | ConflictException
@@ -4815,7 +4815,7 @@ export const deleteRepository: (
  */
 export const createServiceInstance: (
   input: CreateServiceInstanceInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateServiceInstanceOutput,
   | AccessDeniedException
   | ConflictException
@@ -4852,7 +4852,7 @@ export const createServiceInstance: (
  */
 export const updateServiceInstance: (
   input: UpdateServiceInstanceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateServiceInstanceOutput,
   | AccessDeniedException
   | ConflictException
@@ -4906,7 +4906,7 @@ export const updateServiceInstance: (
  */
 export const updateServicePipeline: (
   input: UpdateServicePipelineInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateServicePipelineOutput,
   | AccessDeniedException
   | ConflictException
@@ -4947,7 +4947,7 @@ export const updateServicePipeline: (
  */
 export const updateService: (
   input: UpdateServiceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateServiceOutput,
   | AccessDeniedException
   | ConflictException
@@ -4983,7 +4983,7 @@ export const updateService: (
  */
 export const deleteService: (
   input: DeleteServiceInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteServiceOutput,
   | AccessDeniedException
   | ConflictException
@@ -5010,7 +5010,7 @@ export const deleteService: (
  */
 export const updateServiceSyncConfig: (
   input: UpdateServiceSyncConfigInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateServiceSyncConfigOutput,
   | AccessDeniedException
   | ConflictException
@@ -5037,7 +5037,7 @@ export const updateServiceSyncConfig: (
  */
 export const deleteServiceSyncConfig: (
   input: DeleteServiceSyncConfigInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteServiceSyncConfigOutput,
   | AccessDeniedException
   | ConflictException
@@ -5064,7 +5064,7 @@ export const deleteServiceSyncConfig: (
  */
 export const updateServiceTemplate: (
   input: UpdateServiceTemplateInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateServiceTemplateOutput,
   | AccessDeniedException
   | ConflictException
@@ -5092,7 +5092,7 @@ export const updateServiceTemplate: (
  */
 export const deleteServiceTemplate: (
   input: DeleteServiceTemplateInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteServiceTemplateOutput,
   | AccessDeniedException
   | ConflictException
@@ -5119,7 +5119,7 @@ export const deleteServiceTemplate: (
  */
 export const updateServiceTemplateVersion: (
   input: UpdateServiceTemplateVersionInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateServiceTemplateVersionOutput,
   | AccessDeniedException
   | ConflictException
@@ -5155,7 +5155,7 @@ export const updateServiceTemplateVersion: (
  */
 export const deleteServiceTemplateVersion: (
   input: DeleteServiceTemplateVersionInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteServiceTemplateVersionOutput,
   | AccessDeniedException
   | ConflictException
@@ -5184,7 +5184,7 @@ export const deleteServiceTemplateVersion: (
  */
 export const updateTemplateSyncConfig: (
   input: UpdateTemplateSyncConfigInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTemplateSyncConfigOutput,
   | AccessDeniedException
   | ConflictException
@@ -5211,7 +5211,7 @@ export const updateTemplateSyncConfig: (
  */
 export const deleteTemplateSyncConfig: (
   input: DeleteTemplateSyncConfigInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTemplateSyncConfigOutput,
   | AccessDeniedException
   | ConflictException
@@ -5240,7 +5240,7 @@ export const deleteTemplateSyncConfig: (
  */
 export const notifyResourceDeploymentStatusChange: (
   input: NotifyResourceDeploymentStatusChangeInput,
-) => Effect.Effect<
+) => effect.Effect<
   NotifyResourceDeploymentStatusChangeOutput,
   | AccessDeniedException
   | ConflictException
@@ -5272,7 +5272,7 @@ export const notifyResourceDeploymentStatusChange: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -5303,7 +5303,7 @@ export const tagResource: (
  */
 export const cancelComponentDeployment: (
   input: CancelComponentDeploymentInput,
-) => Effect.Effect<
+) => effect.Effect<
   CancelComponentDeploymentOutput,
   | AccessDeniedException
   | ConflictException
@@ -5341,7 +5341,7 @@ export const cancelComponentDeployment: (
  */
 export const cancelEnvironmentDeployment: (
   input: CancelEnvironmentDeploymentInput,
-) => Effect.Effect<
+) => effect.Effect<
   CancelEnvironmentDeploymentOutput,
   | AccessDeniedException
   | ConflictException
@@ -5382,7 +5382,7 @@ export const cancelEnvironmentDeployment: (
  */
 export const cancelServiceInstanceDeployment: (
   input: CancelServiceInstanceDeploymentInput,
-) => Effect.Effect<
+) => effect.Effect<
   CancelServiceInstanceDeploymentOutput,
   | AccessDeniedException
   | ConflictException
@@ -5423,7 +5423,7 @@ export const cancelServiceInstanceDeployment: (
  */
 export const cancelServicePipelineDeployment: (
   input: CancelServicePipelineDeploymentInput,
-) => Effect.Effect<
+) => effect.Effect<
   CancelServicePipelineDeploymentOutput,
   | AccessDeniedException
   | ConflictException
@@ -5454,7 +5454,7 @@ export const cancelServicePipelineDeployment: (
  */
 export const getComponent: (
   input: GetComponentInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetComponentOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5479,7 +5479,7 @@ export const getComponent: (
  */
 export const deleteDeployment: (
   input: DeleteDeploymentInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDeploymentOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5507,7 +5507,7 @@ export const deleteDeployment: (
  */
 export const getEnvironmentAccountConnection: (
   input: GetEnvironmentAccountConnectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetEnvironmentAccountConnectionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5533,7 +5533,7 @@ export const getEnvironmentAccountConnection: (
 export const listEnvironmentOutputs: {
   (
     input: ListEnvironmentOutputsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEnvironmentOutputsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -5545,7 +5545,7 @@ export const listEnvironmentOutputs: {
   >;
   pages: (
     input: ListEnvironmentOutputsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEnvironmentOutputsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -5557,7 +5557,7 @@ export const listEnvironmentOutputs: {
   >;
   items: (
     input: ListEnvironmentOutputsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Output,
     | AccessDeniedException
     | InternalServerException
@@ -5589,7 +5589,7 @@ export const listEnvironmentOutputs: {
 export const listEnvironmentProvisionedResources: {
   (
     input: ListEnvironmentProvisionedResourcesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEnvironmentProvisionedResourcesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -5601,7 +5601,7 @@ export const listEnvironmentProvisionedResources: {
   >;
   pages: (
     input: ListEnvironmentProvisionedResourcesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEnvironmentProvisionedResourcesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -5613,7 +5613,7 @@ export const listEnvironmentProvisionedResources: {
   >;
   items: (
     input: ListEnvironmentProvisionedResourcesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProvisionedResource,
     | AccessDeniedException
     | InternalServerException
@@ -5644,7 +5644,7 @@ export const listEnvironmentProvisionedResources: {
  */
 export const getEnvironment: (
   input: GetEnvironmentInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetEnvironmentOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5669,7 +5669,7 @@ export const getEnvironment: (
  */
 export const getEnvironmentTemplate: (
   input: GetEnvironmentTemplateInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetEnvironmentTemplateOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5694,7 +5694,7 @@ export const getEnvironmentTemplate: (
  */
 export const getRepository: (
   input: GetRepositoryInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetRepositoryOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5720,7 +5720,7 @@ export const getRepository: (
 export const listServiceInstanceOutputs: {
   (
     input: ListServiceInstanceOutputsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServiceInstanceOutputsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -5732,7 +5732,7 @@ export const listServiceInstanceOutputs: {
   >;
   pages: (
     input: ListServiceInstanceOutputsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServiceInstanceOutputsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -5744,7 +5744,7 @@ export const listServiceInstanceOutputs: {
   >;
   items: (
     input: ListServiceInstanceOutputsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Output,
     | AccessDeniedException
     | InternalServerException
@@ -5776,7 +5776,7 @@ export const listServiceInstanceOutputs: {
 export const listServiceInstanceProvisionedResources: {
   (
     input: ListServiceInstanceProvisionedResourcesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServiceInstanceProvisionedResourcesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -5788,7 +5788,7 @@ export const listServiceInstanceProvisionedResources: {
   >;
   pages: (
     input: ListServiceInstanceProvisionedResourcesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServiceInstanceProvisionedResourcesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -5800,7 +5800,7 @@ export const listServiceInstanceProvisionedResources: {
   >;
   items: (
     input: ListServiceInstanceProvisionedResourcesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProvisionedResource,
     | AccessDeniedException
     | InternalServerException
@@ -5832,7 +5832,7 @@ export const listServiceInstanceProvisionedResources: {
  */
 export const getServiceInstance: (
   input: GetServiceInstanceInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceInstanceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5858,7 +5858,7 @@ export const getServiceInstance: (
 export const listServicePipelineOutputs: {
   (
     input: ListServicePipelineOutputsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServicePipelineOutputsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -5870,7 +5870,7 @@ export const listServicePipelineOutputs: {
   >;
   pages: (
     input: ListServicePipelineOutputsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServicePipelineOutputsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -5882,7 +5882,7 @@ export const listServicePipelineOutputs: {
   >;
   items: (
     input: ListServicePipelineOutputsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Output,
     | AccessDeniedException
     | InternalServerException
@@ -5914,7 +5914,7 @@ export const listServicePipelineOutputs: {
 export const listServicePipelineProvisionedResources: {
   (
     input: ListServicePipelineProvisionedResourcesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServicePipelineProvisionedResourcesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -5926,7 +5926,7 @@ export const listServicePipelineProvisionedResources: {
   >;
   pages: (
     input: ListServicePipelineProvisionedResourcesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServicePipelineProvisionedResourcesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -5938,7 +5938,7 @@ export const listServicePipelineProvisionedResources: {
   >;
   items: (
     input: ListServicePipelineProvisionedResourcesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProvisionedResource,
     | AccessDeniedException
     | InternalServerException
@@ -5969,7 +5969,7 @@ export const listServicePipelineProvisionedResources: {
  */
 export const getService: (
   input: GetServiceInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5994,7 +5994,7 @@ export const getService: (
  */
 export const getServiceSyncConfig: (
   input: GetServiceSyncConfigInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceSyncConfigOutput,
   | AccessDeniedException
   | InternalServerException
@@ -6019,7 +6019,7 @@ export const getServiceSyncConfig: (
  */
 export const getServiceTemplate: (
   input: GetServiceTemplateInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceTemplateOutput,
   | AccessDeniedException
   | InternalServerException
@@ -6044,7 +6044,7 @@ export const getServiceTemplate: (
  */
 export const getTemplateSyncConfig: (
   input: GetTemplateSyncConfigInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetTemplateSyncConfigOutput,
   | AccessDeniedException
   | InternalServerException
@@ -6069,7 +6069,7 @@ export const getTemplateSyncConfig: (
  */
 export const getTemplateSyncStatus: (
   input: GetTemplateSyncStatusInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetTemplateSyncStatusOutput,
   | AccessDeniedException
   | InternalServerException
@@ -6096,7 +6096,7 @@ export const getTemplateSyncStatus: (
 export const listTagsForResource: {
   (
     input: ListTagsForResourceInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTagsForResourceOutput,
     | AccessDeniedException
     | InternalServerException
@@ -6108,7 +6108,7 @@ export const listTagsForResource: {
   >;
   pages: (
     input: ListTagsForResourceInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTagsForResourceOutput,
     | AccessDeniedException
     | InternalServerException
@@ -6120,7 +6120,7 @@ export const listTagsForResource: {
   >;
   items: (
     input: ListTagsForResourceInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Tag,
     | AccessDeniedException
     | InternalServerException
@@ -6155,7 +6155,7 @@ export const listTagsForResource: {
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -6182,7 +6182,7 @@ export const untagResource: (
  */
 export const getAccountSettings: (
   input: GetAccountSettingsInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccountSettingsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -6214,7 +6214,7 @@ export const getAccountSettings: (
  */
 export const getRepositorySyncStatus: (
   input: GetRepositorySyncStatusInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetRepositorySyncStatusOutput,
   | AccessDeniedException
   | InternalServerException
@@ -6239,7 +6239,7 @@ export const getRepositorySyncStatus: (
  */
 export const getServiceInstanceSyncStatus: (
   input: GetServiceInstanceSyncStatusInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetServiceInstanceSyncStatusOutput,
   | AccessDeniedException
   | InternalServerException
@@ -6268,7 +6268,7 @@ export const getServiceInstanceSyncStatus: (
 export const listEnvironmentAccountConnections: {
   (
     input: ListEnvironmentAccountConnectionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEnvironmentAccountConnectionsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -6279,7 +6279,7 @@ export const listEnvironmentAccountConnections: {
   >;
   pages: (
     input: ListEnvironmentAccountConnectionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEnvironmentAccountConnectionsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -6290,7 +6290,7 @@ export const listEnvironmentAccountConnections: {
   >;
   items: (
     input: ListEnvironmentAccountConnectionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EnvironmentAccountConnectionSummary,
     | AccessDeniedException
     | InternalServerException
@@ -6321,7 +6321,7 @@ export const listEnvironmentAccountConnections: {
 export const listEnvironmentTemplates: {
   (
     input: ListEnvironmentTemplatesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEnvironmentTemplatesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -6332,7 +6332,7 @@ export const listEnvironmentTemplates: {
   >;
   pages: (
     input: ListEnvironmentTemplatesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEnvironmentTemplatesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -6343,7 +6343,7 @@ export const listEnvironmentTemplates: {
   >;
   items: (
     input: ListEnvironmentTemplatesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EnvironmentTemplateSummary,
     | AccessDeniedException
     | InternalServerException
@@ -6374,7 +6374,7 @@ export const listEnvironmentTemplates: {
 export const listServices: {
   (
     input: ListServicesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServicesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -6385,7 +6385,7 @@ export const listServices: {
   >;
   pages: (
     input: ListServicesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServicesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -6396,7 +6396,7 @@ export const listServices: {
   >;
   items: (
     input: ListServicesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServiceSummary,
     | AccessDeniedException
     | InternalServerException
@@ -6427,7 +6427,7 @@ export const listServices: {
 export const listServiceTemplates: {
   (
     input: ListServiceTemplatesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServiceTemplatesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -6438,7 +6438,7 @@ export const listServiceTemplates: {
   >;
   pages: (
     input: ListServiceTemplatesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServiceTemplatesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -6449,7 +6449,7 @@ export const listServiceTemplates: {
   >;
   items: (
     input: ListServiceTemplatesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServiceTemplateSummary,
     | AccessDeniedException
     | InternalServerException
@@ -6492,7 +6492,7 @@ export const listServiceTemplates: {
  */
 export const getResourcesSummary: (
   input: GetResourcesSummaryInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourcesSummaryOutput,
   | AccessDeniedException
   | InternalServerException
@@ -6516,7 +6516,7 @@ export const getResourcesSummary: (
 export const listRepositorySyncDefinitions: {
   (
     input: ListRepositorySyncDefinitionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRepositorySyncDefinitionsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -6527,7 +6527,7 @@ export const listRepositorySyncDefinitions: {
   >;
   pages: (
     input: ListRepositorySyncDefinitionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRepositorySyncDefinitionsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -6538,7 +6538,7 @@ export const listRepositorySyncDefinitions: {
   >;
   items: (
     input: ListRepositorySyncDefinitionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RepositorySyncDefinition,
     | AccessDeniedException
     | InternalServerException
@@ -6567,7 +6567,7 @@ export const listRepositorySyncDefinitions: {
  */
 export const updateAccountSettings: (
   input: UpdateAccountSettingsInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAccountSettingsOutput,
   | AccessDeniedException
   | ConflictException
@@ -6597,7 +6597,7 @@ export const updateAccountSettings: (
 export const listComponentOutputs: {
   (
     input: ListComponentOutputsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListComponentOutputsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -6609,7 +6609,7 @@ export const listComponentOutputs: {
   >;
   pages: (
     input: ListComponentOutputsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListComponentOutputsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -6621,7 +6621,7 @@ export const listComponentOutputs: {
   >;
   items: (
     input: ListComponentOutputsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Output,
     | AccessDeniedException
     | InternalServerException
@@ -6663,7 +6663,7 @@ export const listComponentOutputs: {
  */
 export const createEnvironmentTemplate: (
   input: CreateEnvironmentTemplateInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEnvironmentTemplateOutput,
   | AccessDeniedException
   | ConflictException
@@ -6696,7 +6696,7 @@ export const createEnvironmentTemplate: (
  */
 export const createRepository: (
   input: CreateRepositoryInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRepositoryOutput,
   | AccessDeniedException
   | ConflictException
@@ -6723,7 +6723,7 @@ export const createRepository: (
  */
 export const createServiceSyncConfig: (
   input: CreateServiceSyncConfigInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateServiceSyncConfigOutput,
   | AccessDeniedException
   | ConflictException
@@ -6755,7 +6755,7 @@ export const createServiceSyncConfig: (
  */
 export const createServiceTemplate: (
   input: CreateServiceTemplateInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateServiceTemplateOutput,
   | AccessDeniedException
   | ConflictException
@@ -6787,7 +6787,7 @@ export const createServiceTemplate: (
  */
 export const createTemplateSyncConfig: (
   input: CreateTemplateSyncConfigInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTemplateSyncConfigOutput,
   | AccessDeniedException
   | ConflictException

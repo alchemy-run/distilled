@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -130,11 +130,18 @@ export const GetAccountSettingsRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetAccountSettingsRequest",
 }) as any as S.Schema<GetAccountSettingsRequest>;
+export type NotificationSubscriptionStatus = "SUBSCRIBED" | "NOT_SUBSCRIBED";
+export const NotificationSubscriptionStatus = S.Literal(
+  "SUBSCRIBED",
+  "NOT_SUBSCRIBED",
+);
 export interface PutAccountSettingsRequest {
-  notificationSubscriptionStatus?: string;
+  notificationSubscriptionStatus?: NotificationSubscriptionStatus;
 }
 export const PutAccountSettingsRequest = S.suspend(() =>
-  S.Struct({ notificationSubscriptionStatus: S.optional(S.String) }).pipe(
+  S.Struct({
+    notificationSubscriptionStatus: S.optional(NotificationSubscriptionStatus),
+  }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/v1/account-settings/put" }),
       svc,
@@ -278,10 +285,12 @@ export const ListReportVersionsRequest = S.suspend(() =>
   identifier: "ListReportVersionsRequest",
 }) as any as S.Schema<ListReportVersionsRequest>;
 export interface AccountSettings {
-  notificationSubscriptionStatus?: string;
+  notificationSubscriptionStatus?: NotificationSubscriptionStatus;
 }
 export const AccountSettings = S.suspend(() =>
-  S.Struct({ notificationSubscriptionStatus: S.optional(S.String) }),
+  S.Struct({
+    notificationSubscriptionStatus: S.optional(NotificationSubscriptionStatus),
+  }),
 ).annotations({
   identifier: "AccountSettings",
 }) as any as S.Schema<AccountSettings>;
@@ -321,13 +330,24 @@ export const GetTermForReportResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetTermForReportResponse",
 }) as any as S.Schema<GetTermForReportResponse>;
+export type PublishedState = "PUBLISHED" | "UNPUBLISHED";
+export const PublishedState = S.Literal("PUBLISHED", "UNPUBLISHED");
+export type UploadState = "PROCESSING" | "COMPLETE" | "FAILED" | "FAULT";
+export const UploadState = S.Literal(
+  "PROCESSING",
+  "COMPLETE",
+  "FAILED",
+  "FAULT",
+);
+export type AcceptanceType = "PASSTHROUGH" | "EXPLICIT";
+export const AcceptanceType = S.Literal("PASSTHROUGH", "EXPLICIT");
 export interface ReportSummary {
   id?: string;
   name?: string;
-  state?: string;
+  state?: PublishedState;
   arn?: string;
   version?: number;
-  uploadState?: string;
+  uploadState?: UploadState;
   description?: string;
   periodStart?: Date;
   periodEnd?: Date;
@@ -336,16 +356,16 @@ export interface ReportSummary {
   companyName?: string;
   productName?: string;
   statusMessage?: string;
-  acceptanceType?: string;
+  acceptanceType?: AcceptanceType;
 }
 export const ReportSummary = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
-    state: S.optional(S.String),
+    state: S.optional(PublishedState),
     arn: S.optional(S.String),
     version: S.optional(S.Number),
-    uploadState: S.optional(S.String),
+    uploadState: S.optional(UploadState),
     description: S.optional(S.String),
     periodStart: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     periodEnd: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -354,7 +374,7 @@ export const ReportSummary = S.suspend(() =>
     companyName: S.optional(S.String),
     productName: S.optional(S.String),
     statusMessage: S.optional(S.String),
-    acceptanceType: S.optional(S.String),
+    acceptanceType: S.optional(AcceptanceType),
   }),
 ).annotations({
   identifier: "ReportSummary",
@@ -362,7 +382,7 @@ export const ReportSummary = S.suspend(() =>
 export type ReportsList = ReportSummary[];
 export const ReportsList = S.Array(ReportSummary);
 export interface ListReportVersionsResponse {
-  reports: ReportsList;
+  reports: ReportSummary[];
   nextToken?: string;
 }
 export const ListReportVersionsResponse = S.suspend(() =>
@@ -370,8 +390,19 @@ export const ListReportVersionsResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListReportVersionsResponse",
 }) as any as S.Schema<ListReportVersionsResponse>;
+export type CustomerAgreementState =
+  | "ACTIVE"
+  | "CUSTOMER_TERMINATED"
+  | "AWS_TERMINATED";
+export const CustomerAgreementState = S.Literal(
+  "ACTIVE",
+  "CUSTOMER_TERMINATED",
+  "AWS_TERMINATED",
+);
 export type AgreementTerms = string[];
 export const AgreementTerms = S.Array(S.String);
+export type AgreementType = "CUSTOM" | "DEFAULT" | "MODIFIED";
+export const AgreementType = S.Literal("CUSTOM", "DEFAULT", "MODIFIED");
 export interface CustomerAgreementSummary {
   name?: string;
   arn?: string;
@@ -381,11 +412,11 @@ export interface CustomerAgreementSummary {
   organizationArn?: string;
   effectiveStart?: Date;
   effectiveEnd?: Date;
-  state?: string;
+  state?: CustomerAgreementState;
   description?: string;
-  acceptanceTerms?: AgreementTerms;
-  terminateTerms?: AgreementTerms;
-  type?: string;
+  acceptanceTerms?: string[];
+  terminateTerms?: string[];
+  type?: AgreementType;
 }
 export const CustomerAgreementSummary = S.suspend(() =>
   S.Struct({
@@ -397,11 +428,11 @@ export const CustomerAgreementSummary = S.suspend(() =>
     organizationArn: S.optional(S.String),
     effectiveStart: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     effectiveEnd: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    state: S.optional(S.String),
+    state: S.optional(CustomerAgreementState),
     description: S.optional(S.String),
     acceptanceTerms: S.optional(AgreementTerms),
     terminateTerms: S.optional(AgreementTerms),
-    type: S.optional(S.String),
+    type: S.optional(AgreementType),
   }),
 ).annotations({
   identifier: "CustomerAgreementSummary",
@@ -417,7 +448,7 @@ export interface ReportDetail {
   createdAt?: Date;
   lastModifiedAt?: Date;
   deletedAt?: Date;
-  state?: string;
+  state?: PublishedState;
   arn?: string;
   series?: string;
   category?: string;
@@ -425,9 +456,9 @@ export interface ReportDetail {
   productName?: string;
   termArn?: string;
   version?: number;
-  acceptanceType?: string;
+  acceptanceType?: AcceptanceType;
   sequenceNumber?: number;
-  uploadState?: string;
+  uploadState?: UploadState;
   statusMessage?: string;
 }
 export const ReportDetail = S.suspend(() =>
@@ -440,7 +471,7 @@ export const ReportDetail = S.suspend(() =>
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     lastModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     deletedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    state: S.optional(S.String),
+    state: S.optional(PublishedState),
     arn: S.optional(S.String),
     series: S.optional(S.String),
     category: S.optional(S.String),
@@ -448,14 +479,14 @@ export const ReportDetail = S.suspend(() =>
     productName: S.optional(S.String),
     termArn: S.optional(S.String),
     version: S.optional(S.Number),
-    acceptanceType: S.optional(S.String),
+    acceptanceType: S.optional(AcceptanceType),
     sequenceNumber: S.optional(S.Number),
-    uploadState: S.optional(S.String),
+    uploadState: S.optional(UploadState),
     statusMessage: S.optional(S.String),
   }),
 ).annotations({ identifier: "ReportDetail" }) as any as S.Schema<ReportDetail>;
 export interface ListCustomerAgreementsResponse {
-  customerAgreements: CustomerAgreementList;
+  customerAgreements: CustomerAgreementSummary[];
   nextToken?: string;
 }
 export const ListCustomerAgreementsResponse = S.suspend(() =>
@@ -475,7 +506,7 @@ export const GetReportMetadataResponse = S.suspend(() =>
   identifier: "GetReportMetadataResponse",
 }) as any as S.Schema<GetReportMetadataResponse>;
 export interface ListReportsResponse {
-  reports?: ReportsList;
+  reports?: ReportSummary[];
   nextToken?: string;
 }
 export const ListReportsResponse = S.suspend(() =>
@@ -555,7 +586,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listCustomerAgreements: {
   (
     input: ListCustomerAgreementsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCustomerAgreementsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -566,7 +597,7 @@ export const listCustomerAgreements: {
   >;
   pages: (
     input: ListCustomerAgreementsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCustomerAgreementsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -577,7 +608,7 @@ export const listCustomerAgreements: {
   >;
   items: (
     input: ListCustomerAgreementsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CustomerAgreementSummary,
     | AccessDeniedException
     | InternalServerException
@@ -607,7 +638,7 @@ export const listCustomerAgreements: {
  */
 export const putAccountSettings: (
   input: PutAccountSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAccountSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -636,7 +667,7 @@ export const putAccountSettings: (
  */
 export const getReport: (
   input: GetReportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetReportResponse,
   | AccessDeniedException
   | ConflictException
@@ -665,7 +696,7 @@ export const getReport: (
  */
 export const getTermForReport: (
   input: GetTermForReportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTermForReportResponse,
   | AccessDeniedException
   | ConflictException
@@ -694,7 +725,7 @@ export const getTermForReport: (
  */
 export const getReportMetadata: (
   input: GetReportMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetReportMetadataResponse,
   | AccessDeniedException
   | InternalServerException
@@ -722,7 +753,7 @@ export const getReportMetadata: (
 export const listReports: {
   (
     input: ListReportsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReportsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -735,7 +766,7 @@ export const listReports: {
   >;
   pages: (
     input: ListReportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReportsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -748,7 +779,7 @@ export const listReports: {
   >;
   items: (
     input: ListReportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReportSummary,
     | AccessDeniedException
     | InternalServerException
@@ -783,7 +814,7 @@ export const listReports: {
 export const listReportVersions: {
   (
     input: ListReportVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReportVersionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -796,7 +827,7 @@ export const listReportVersions: {
   >;
   pages: (
     input: ListReportVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReportVersionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -809,7 +840,7 @@ export const listReportVersions: {
   >;
   items: (
     input: ListReportVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReportSummary,
     | AccessDeniedException
     | InternalServerException
@@ -843,7 +874,7 @@ export const listReportVersions: {
  */
 export const getAccountSettings: (
   input: GetAccountSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccountSettingsResponse,
   | AccessDeniedException
   | ConflictException

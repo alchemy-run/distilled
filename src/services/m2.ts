@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -113,7 +113,6 @@ export type StringFree65000 = string;
 export type BatchParamKey = string;
 export type BatchParamValue = string;
 export type ApplicationLifecycle = string;
-export type Integer = number;
 export type ApplicationVersionLifecycle = string;
 export type BatchJobType = string;
 export type DataSetTaskLifecycle = string;
@@ -190,7 +189,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -239,7 +238,7 @@ export interface UpdateApplicationRequest {
   applicationId: string;
   description?: string;
   currentApplicationVersion: number;
-  definition?: (typeof Definition)["Type"];
+  definition?: Definition;
 }
 export const UpdateApplicationRequest = S.suspend(() =>
   S.Struct({
@@ -286,7 +285,7 @@ export const DeleteApplicationResponse = S.suspend(() =>
 export interface ListApplicationsRequest {
   nextToken?: string;
   maxResults?: number;
-  names?: EntityNameList;
+  names?: string[];
   environmentId?: string;
 }
 export const ListApplicationsRequest = S.suspend(() =>
@@ -597,7 +596,7 @@ export interface ListBatchJobExecutionsRequest {
   nextToken?: string;
   maxResults?: number;
   applicationId: string;
-  executionIds?: IdentifierList;
+  executionIds?: string[];
   jobName?: string;
   status?: string;
   startedAfter?: Date;
@@ -890,7 +889,7 @@ export const DeleteEnvironmentResponse = S.suspend(() =>
 export interface ListEnvironmentsRequest {
   nextToken?: string;
   maxResults?: number;
-  names?: EntityNameList;
+  names?: string[];
   engineType?: string;
 }
 export const ListEnvironmentsRequest = S.suspend(() =>
@@ -950,7 +949,7 @@ export const HighAvailabilityConfig = S.suspend(() =>
   identifier: "HighAvailabilityConfig",
 }) as any as S.Schema<HighAvailabilityConfig>;
 export interface ListTagsForResourceResponse {
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: TagMap }),
@@ -959,7 +958,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -986,8 +985,8 @@ export interface CreateApplicationRequest {
   name: string;
   description?: string;
   engineType: string;
-  definition: (typeof Definition)["Type"];
-  tags?: TagMap;
+  definition: Definition;
+  tags?: { [key: string]: string };
   clientToken?: string;
   kmsKeyId?: string;
   roleArn?: string;
@@ -1076,7 +1075,7 @@ export const GetDeploymentResponse = S.suspend(() =>
   identifier: "GetDeploymentResponse",
 }) as any as S.Schema<GetDeploymentResponse>;
 export interface ListApplicationVersionsResponse {
-  applicationVersions: ApplicationVersionSummaryList;
+  applicationVersions: ApplicationVersionSummary[];
   nextToken?: string;
 }
 export const ListApplicationVersionsResponse = S.suspend(() =>
@@ -1284,7 +1283,7 @@ export const JobIdentifier = S.Union(
 export interface S3BatchJobIdentifier {
   bucket: string;
   keyPrefix?: string;
-  identifier: (typeof JobIdentifier)["Type"];
+  identifier: JobIdentifier;
 }
 export const S3BatchJobIdentifier = S.suspend(() =>
   S.Struct({
@@ -1316,7 +1315,7 @@ export interface BatchJobExecutionSummary {
   startTime: Date;
   endTime?: Date;
   returnCode?: string;
-  batchJobIdentifier?: (typeof BatchJobIdentifier)["Type"];
+  batchJobIdentifier?: BatchJobIdentifier;
 }
 export const BatchJobExecutionSummary = S.suspend(() =>
   S.Struct({
@@ -1457,7 +1456,7 @@ export const StorageConfiguration = S.Union(
   S.Struct({ efs: EfsStorageConfiguration }),
   S.Struct({ fsx: FsxStorageConfiguration }),
 );
-export type StorageConfigurationList = (typeof StorageConfiguration)["Type"][];
+export type StorageConfigurationList = StorageConfiguration[];
 export const StorageConfigurationList = S.Array(StorageConfiguration);
 export interface EnvironmentSummary {
   name: string;
@@ -1490,7 +1489,7 @@ export const EnvironmentSummaryList = S.Array(EnvironmentSummary);
 export type ExternalLocation = { s3Location: string };
 export const ExternalLocation = S.Union(S.Struct({ s3Location: S.String }));
 export interface ListEngineVersionsResponse {
-  engineVersions: EngineVersionsSummaryList;
+  engineVersions: EngineVersionsSummary[];
   nextToken?: string;
 }
 export const ListEngineVersionsResponse = S.suspend(() =>
@@ -1524,14 +1523,14 @@ export interface GetApplicationResponse {
   latestVersion: ApplicationVersionSummary;
   deployedVersion?: DeployedVersionSummary;
   engineType: string;
-  logGroups?: LogGroupSummaries;
+  logGroups?: LogGroupSummary[];
   creationTime: Date;
   lastStartTime?: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   environmentId?: string;
-  targetGroupArns?: ArnList;
-  listenerArns?: ArnList;
-  listenerPorts?: PortList;
+  targetGroupArns?: string[];
+  listenerArns?: string[];
+  listenerPorts?: number[];
   loadBalancerDnsName?: string;
   statusReason?: string;
   kmsKeyId?: string;
@@ -1564,7 +1563,7 @@ export const GetApplicationResponse = S.suspend(() =>
   identifier: "GetApplicationResponse",
 }) as any as S.Schema<GetApplicationResponse>;
 export interface ListApplicationsResponse {
-  applications: ApplicationSummaryList;
+  applications: ApplicationSummary[];
   nextToken?: string;
 }
 export const ListApplicationsResponse = S.suspend(() =>
@@ -1587,7 +1586,7 @@ export interface GetBatchJobExecutionResponse {
   endTime?: Date;
   statusReason?: string;
   returnCode?: string;
-  batchJobIdentifier?: (typeof BatchJobIdentifier)["Type"];
+  batchJobIdentifier?: BatchJobIdentifier;
   jobStepRestartMarker?: JobStepRestartMarker;
 }
 export const GetBatchJobExecutionResponse = S.suspend(() =>
@@ -1642,7 +1641,7 @@ export const GetDataSetImportTaskResponse = S.suspend(() =>
   identifier: "GetDataSetImportTaskResponse",
 }) as any as S.Schema<GetDataSetImportTaskResponse>;
 export interface ListBatchJobExecutionsResponse {
-  batchJobExecutions: BatchJobExecutionSummaryList;
+  batchJobExecutions: BatchJobExecutionSummary[];
   nextToken?: string;
 }
 export const ListBatchJobExecutionsResponse = S.suspend(() =>
@@ -1654,7 +1653,7 @@ export const ListBatchJobExecutionsResponse = S.suspend(() =>
   identifier: "ListBatchJobExecutionsResponse",
 }) as any as S.Schema<ListBatchJobExecutionsResponse>;
 export interface ListBatchJobRestartPointsResponse {
-  batchJobSteps?: BatchJobStepList;
+  batchJobSteps?: JobStep[];
 }
 export const ListBatchJobRestartPointsResponse = S.suspend(() =>
   S.Struct({ batchJobSteps: S.optional(BatchJobStepList) }),
@@ -1662,7 +1661,7 @@ export const ListBatchJobRestartPointsResponse = S.suspend(() =>
   identifier: "ListBatchJobRestartPointsResponse",
 }) as any as S.Schema<ListBatchJobRestartPointsResponse>;
 export interface ListDataSetExportHistoryResponse {
-  dataSetExportTasks: DataSetExportTaskList;
+  dataSetExportTasks: DataSetExportTask[];
   nextToken?: string;
 }
 export const ListDataSetExportHistoryResponse = S.suspend(() =>
@@ -1674,7 +1673,7 @@ export const ListDataSetExportHistoryResponse = S.suspend(() =>
   identifier: "ListDataSetExportHistoryResponse",
 }) as any as S.Schema<ListDataSetExportHistoryResponse>;
 export interface ListDataSetImportHistoryResponse {
-  dataSetImportTasks: DataSetImportTaskList;
+  dataSetImportTasks: DataSetImportTask[];
   nextToken?: string;
 }
 export const ListDataSetImportHistoryResponse = S.suspend(() =>
@@ -1686,7 +1685,7 @@ export const ListDataSetImportHistoryResponse = S.suspend(() =>
   identifier: "ListDataSetImportHistoryResponse",
 }) as any as S.Schema<ListDataSetImportHistoryResponse>;
 export interface ListDataSetsResponse {
-  dataSets: DataSetsSummaryList;
+  dataSets: DataSetSummary[];
   nextToken?: string;
 }
 export const ListDataSetsResponse = S.suspend(() =>
@@ -1695,7 +1694,7 @@ export const ListDataSetsResponse = S.suspend(() =>
   identifier: "ListDataSetsResponse",
 }) as any as S.Schema<ListDataSetsResponse>;
 export interface ListDeploymentsResponse {
-  deployments: DeploymentList;
+  deployments: DeploymentSummary[];
   nextToken?: string;
 }
 export const ListDeploymentsResponse = S.suspend(() =>
@@ -1709,12 +1708,12 @@ export interface CreateEnvironmentRequest {
   description?: string;
   engineType: string;
   engineVersion?: string;
-  subnetIds?: String50List;
-  securityGroupIds?: String50List;
-  storageConfigurations?: StorageConfigurationList;
+  subnetIds?: string[];
+  securityGroupIds?: string[];
+  storageConfigurations?: StorageConfiguration[];
   publiclyAccessible?: boolean;
   highAvailabilityConfig?: HighAvailabilityConfig;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   preferredMaintenanceWindow?: string;
   networkType?: string;
   clientToken?: string;
@@ -1751,7 +1750,7 @@ export const CreateEnvironmentRequest = S.suspend(() =>
   identifier: "CreateEnvironmentRequest",
 }) as any as S.Schema<CreateEnvironmentRequest>;
 export interface ListEnvironmentsResponse {
-  environments: EnvironmentSummaryList;
+  environments: EnvironmentSummary[];
   nextToken?: string;
 }
 export const ListEnvironmentsResponse = S.suspend(() =>
@@ -1764,7 +1763,7 @@ export const ListEnvironmentsResponse = S.suspend(() =>
 }) as any as S.Schema<ListEnvironmentsResponse>;
 export interface DataSetExportItem {
   datasetName: string;
-  externalLocation: (typeof ExternalLocation)["Type"];
+  externalLocation: ExternalLocation;
 }
 export const DataSetExportItem = S.suspend(() =>
   S.Struct({ datasetName: S.String, externalLocation: ExternalLocation }),
@@ -1841,7 +1840,7 @@ export const RecordLength = S.suspend(() =>
 ).annotations({ identifier: "RecordLength" }) as any as S.Schema<RecordLength>;
 export type DataSetExportConfig =
   | { s3Location: string }
-  | { dataSets: DataSetExportList };
+  | { dataSets: DataSetExportItem[] };
 export const DataSetExportConfig = S.Union(
   S.Struct({ s3Location: S.String }),
   S.Struct({ dataSets: DataSetExportList }),
@@ -1855,7 +1854,7 @@ export const BatchJobDefinition = S.Union(
   S.Struct({ fileBatchJobDefinition: FileBatchJobDefinition }),
   S.Struct({ scriptBatchJobDefinition: ScriptBatchJobDefinition }),
 );
-export type BatchJobDefinitions = (typeof BatchJobDefinition)["Type"][];
+export type BatchJobDefinitions = BatchJobDefinition[];
 export const BatchJobDefinitions = S.Array(BatchJobDefinition);
 export interface PendingMaintenance {
   schedule?: MaintenanceSchedule;
@@ -1895,7 +1894,7 @@ export type AlternateKeyList = AlternateKey[];
 export const AlternateKeyList = S.Array(AlternateKey);
 export interface CreateDataSetExportTaskRequest {
   applicationId: string;
-  exportConfig: (typeof DataSetExportConfig)["Type"];
+  exportConfig: DataSetExportConfig;
   clientToken?: string;
   kmsKeyId?: string;
 }
@@ -1926,7 +1925,7 @@ export interface VsamAttributes {
   encoding?: string;
   compressed?: boolean;
   primaryKey?: PrimaryKey;
-  alternateKeys?: AlternateKeyList;
+  alternateKeys?: AlternateKey[];
 }
 export const VsamAttributes = S.suspend(() =>
   S.Struct({
@@ -1954,7 +1953,7 @@ export const GdgAttributes = S.suspend(() =>
 export interface PoAttributes {
   format: string;
   encoding?: string;
-  memberFileExtensions: String20List;
+  memberFileExtensions: string[];
 }
 export const PoAttributes = S.suspend(() =>
   S.Struct({
@@ -1971,7 +1970,7 @@ export const PsAttributes = S.suspend(() =>
   S.Struct({ format: S.String, encoding: S.optional(S.String) }),
 ).annotations({ identifier: "PsAttributes" }) as any as S.Schema<PsAttributes>;
 export interface ListBatchJobDefinitionsResponse {
-  batchJobDefinitions: BatchJobDefinitions;
+  batchJobDefinitions: BatchJobDefinition[];
   nextToken?: string;
 }
 export const ListBatchJobDefinitionsResponse = S.suspend(() =>
@@ -1984,8 +1983,8 @@ export const ListBatchJobDefinitionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListBatchJobDefinitionsResponse>;
 export interface StartBatchJobRequest {
   applicationId: string;
-  batchJobIdentifier: (typeof BatchJobIdentifier)["Type"];
-  jobParams?: BatchJobParametersMap;
+  batchJobIdentifier: BatchJobIdentifier;
+  jobParams?: { [key: string]: string };
   authSecretsManagerArn?: string;
 }
 export const StartBatchJobRequest = S.suspend(() =>
@@ -2028,11 +2027,11 @@ export interface GetEnvironmentResponse {
   engineType: string;
   engineVersion: string;
   vpcId: string;
-  subnetIds: String50List;
-  securityGroupIds: String50List;
+  subnetIds: string[];
+  securityGroupIds: string[];
   creationTime: Date;
-  storageConfigurations?: StorageConfigurationList;
-  tags?: TagMap;
+  storageConfigurations?: StorageConfiguration[];
+  tags?: { [key: string]: string };
   highAvailabilityConfig?: HighAvailabilityConfig;
   publiclyAccessible?: boolean;
   actualCapacity?: number;
@@ -2078,7 +2077,7 @@ export interface VsamDetailAttributes {
   compressed?: boolean;
   cacheAtStartup?: boolean;
   primaryKey?: PrimaryKey;
-  alternateKeys?: AlternateKeyList;
+  alternateKeys?: AlternateKey[];
 }
 export const VsamDetailAttributes = S.suspend(() =>
   S.Struct({
@@ -2117,7 +2116,7 @@ export const DatasetDetailOrgAttributes = S.Union(
 export interface DataSet {
   storageType?: string;
   datasetName: string;
-  datasetOrg: (typeof DatasetOrgAttributes)["Type"];
+  datasetOrg: DatasetOrgAttributes;
   relativePath?: string;
   recordLength: RecordLength;
 }
@@ -2140,7 +2139,7 @@ export const CreateDataSetExportTaskResponse = S.suspend(() =>
 }) as any as S.Schema<CreateDataSetExportTaskResponse>;
 export interface GetDataSetDetailsResponse {
   dataSetName: string;
-  dataSetOrg?: (typeof DatasetDetailOrgAttributes)["Type"];
+  dataSetOrg?: DatasetDetailOrgAttributes;
   recordLength?: number;
   location?: string;
   blocksize?: number;
@@ -2178,7 +2177,7 @@ export const StartBatchJobResponse = S.suspend(() =>
 }) as any as S.Schema<StartBatchJobResponse>;
 export interface DataSetImportItem {
   dataSet: DataSet;
-  externalLocation: (typeof ExternalLocation)["Type"];
+  externalLocation: ExternalLocation;
 }
 export const DataSetImportItem = S.suspend(() =>
   S.Struct({ dataSet: DataSet, externalLocation: ExternalLocation }),
@@ -2200,14 +2199,14 @@ export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export type DataSetImportConfig =
   | { s3Location: string }
-  | { dataSets: DataSetImportList };
+  | { dataSets: DataSetImportItem[] };
 export const DataSetImportConfig = S.Union(
   S.Struct({ s3Location: S.String }),
   S.Struct({ dataSets: DataSetImportList }),
 );
 export interface CreateDataSetImportTaskRequest {
   applicationId: string;
-  importConfig: (typeof DataSetImportConfig)["Type"];
+  importConfig: DataSetImportConfig;
   clientToken?: string;
 }
 export const CreateDataSetImportTaskRequest = S.suspend(() =>
@@ -2314,7 +2313,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const getSignedBluinsightsUrl: (
   input: GetSignedBluinsightsUrlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSignedBluinsightsUrlResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2331,7 +2330,7 @@ export const getSignedBluinsightsUrl: (
  */
 export const getApplication: (
   input: GetApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetApplicationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2359,7 +2358,7 @@ export const getApplication: (
 export const listBatchJobDefinitions: {
   (
     input: ListBatchJobDefinitionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBatchJobDefinitionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2371,7 +2370,7 @@ export const listBatchJobDefinitions: {
   >;
   pages: (
     input: ListBatchJobDefinitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBatchJobDefinitionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2383,7 +2382,7 @@ export const listBatchJobDefinitions: {
   >;
   items: (
     input: ListBatchJobDefinitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BatchJobDefinition,
     | AccessDeniedException
     | InternalServerException
@@ -2415,7 +2414,7 @@ export const listBatchJobDefinitions: {
  */
 export const getEnvironment: (
   input: GetEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEnvironmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2441,7 +2440,7 @@ export const getEnvironment: (
 export const listEngineVersions: {
   (
     input: ListEngineVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEngineVersionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2452,7 +2451,7 @@ export const listEngineVersions: {
   >;
   pages: (
     input: ListEngineVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEngineVersionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2463,7 +2462,7 @@ export const listEngineVersions: {
   >;
   items: (
     input: ListEngineVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EngineVersionsSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2496,7 +2495,7 @@ export const listEngineVersions: {
 export const listApplications: {
   (
     input: ListApplicationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2507,7 +2506,7 @@ export const listApplications: {
   >;
   pages: (
     input: ListApplicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2518,7 +2517,7 @@ export const listApplications: {
   >;
   items: (
     input: ListApplicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ApplicationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2549,7 +2548,7 @@ export const listApplications: {
 export const listEnvironments: {
   (
     input: ListEnvironmentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEnvironmentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2560,7 +2559,7 @@ export const listEnvironments: {
   >;
   pages: (
     input: ListEnvironmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEnvironmentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2571,7 +2570,7 @@ export const listEnvironments: {
   >;
   items: (
     input: ListEnvironmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EnvironmentSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2601,7 +2600,7 @@ export const listEnvironments: {
  */
 export const deleteApplication: (
   input: DeleteApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2628,7 +2627,7 @@ export const deleteApplication: (
  */
 export const deleteEnvironment: (
   input: DeleteEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEnvironmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -2653,7 +2652,7 @@ export const deleteEnvironment: (
  */
 export const updateApplication: (
   input: UpdateApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2680,7 +2679,7 @@ export const updateApplication: (
  */
 export const getBatchJobExecution: (
   input: GetBatchJobExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBatchJobExecutionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2705,7 +2704,7 @@ export const getBatchJobExecution: (
  */
 export const getDataSetExportTask: (
   input: GetDataSetExportTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataSetExportTaskResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2730,7 +2729,7 @@ export const getDataSetExportTask: (
  */
 export const getDataSetImportTask: (
   input: GetDataSetImportTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataSetImportTaskResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2757,7 +2756,7 @@ export const getDataSetImportTask: (
 export const listBatchJobExecutions: {
   (
     input: ListBatchJobExecutionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBatchJobExecutionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2769,7 +2768,7 @@ export const listBatchJobExecutions: {
   >;
   pages: (
     input: ListBatchJobExecutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBatchJobExecutionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2781,7 +2780,7 @@ export const listBatchJobExecutions: {
   >;
   items: (
     input: ListBatchJobExecutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BatchJobExecutionSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2813,7 +2812,7 @@ export const listBatchJobExecutions: {
  */
 export const listBatchJobRestartPoints: (
   input: ListBatchJobRestartPointsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListBatchJobRestartPointsResponse,
   | AccessDeniedException
   | ConflictException
@@ -2841,7 +2840,7 @@ export const listBatchJobRestartPoints: (
 export const listDataSetExportHistory: {
   (
     input: ListDataSetExportHistoryRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataSetExportHistoryResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2853,7 +2852,7 @@ export const listDataSetExportHistory: {
   >;
   pages: (
     input: ListDataSetExportHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataSetExportHistoryResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2865,7 +2864,7 @@ export const listDataSetExportHistory: {
   >;
   items: (
     input: ListDataSetExportHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataSetExportTask,
     | AccessDeniedException
     | InternalServerException
@@ -2898,7 +2897,7 @@ export const listDataSetExportHistory: {
 export const listDataSetImportHistory: {
   (
     input: ListDataSetImportHistoryRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataSetImportHistoryResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2910,7 +2909,7 @@ export const listDataSetImportHistory: {
   >;
   pages: (
     input: ListDataSetImportHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataSetImportHistoryResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2922,7 +2921,7 @@ export const listDataSetImportHistory: {
   >;
   items: (
     input: ListDataSetImportHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataSetImportTask,
     | AccessDeniedException
     | InternalServerException
@@ -2957,7 +2956,7 @@ export const listDataSetImportHistory: {
 export const listDeployments: {
   (
     input: ListDeploymentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDeploymentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2969,7 +2968,7 @@ export const listDeployments: {
   >;
   pages: (
     input: ListDeploymentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDeploymentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2981,7 +2980,7 @@ export const listDeployments: {
   >;
   items: (
     input: ListDeploymentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DeploymentSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3013,7 +3012,7 @@ export const listDeployments: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3038,7 +3037,7 @@ export const listTagsForResource: (
  */
 export const getApplicationVersion: (
   input: GetApplicationVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetApplicationVersionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3063,7 +3062,7 @@ export const getApplicationVersion: (
  */
 export const getDeployment: (
   input: GetDeploymentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDeploymentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3089,7 +3088,7 @@ export const getDeployment: (
 export const listApplicationVersions: {
   (
     input: ListApplicationVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationVersionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3101,7 +3100,7 @@ export const listApplicationVersions: {
   >;
   pages: (
     input: ListApplicationVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationVersionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3113,7 +3112,7 @@ export const listApplicationVersions: {
   >;
   items: (
     input: ListApplicationVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ApplicationVersionSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3145,7 +3144,7 @@ export const listApplicationVersions: {
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3170,7 +3169,7 @@ export const untagResource: (
  */
 export const cancelBatchJobExecution: (
   input: CancelBatchJobExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelBatchJobExecutionResponse,
   | AccessDeniedException
   | ConflictException
@@ -3200,7 +3199,7 @@ export const cancelBatchJobExecution: (
  */
 export const deleteApplicationFromEnvironment: (
   input: DeleteApplicationFromEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApplicationFromEnvironmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -3227,7 +3226,7 @@ export const deleteApplicationFromEnvironment: (
  */
 export const startApplication: (
   input: StartApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3254,7 +3253,7 @@ export const startApplication: (
  */
 export const stopApplication: (
   input: StopApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3282,7 +3281,7 @@ export const stopApplication: (
  */
 export const createApplication: (
   input: CreateApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3309,7 +3308,7 @@ export const createApplication: (
  */
 export const createEnvironment: (
   input: CreateEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEnvironmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -3336,7 +3335,7 @@ export const createEnvironment: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3364,7 +3363,7 @@ export const tagResource: (
  */
 export const createDeployment: (
   input: CreateDeploymentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDeploymentResponse,
   | AccessDeniedException
   | ConflictException
@@ -3393,7 +3392,7 @@ export const createDeployment: (
  */
 export const updateEnvironment: (
   input: UpdateEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEnvironmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -3422,7 +3421,7 @@ export const updateEnvironment: (
  */
 export const createDataSetExportTask: (
   input: CreateDataSetExportTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataSetExportTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -3454,7 +3453,7 @@ export const createDataSetExportTask: (
 export const listDataSets: {
   (
     input: ListDataSetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataSetsResponse,
     | AccessDeniedException
     | ConflictException
@@ -3469,7 +3468,7 @@ export const listDataSets: {
   >;
   pages: (
     input: ListDataSetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataSetsResponse,
     | AccessDeniedException
     | ConflictException
@@ -3484,7 +3483,7 @@ export const listDataSets: {
   >;
   items: (
     input: ListDataSetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataSetSummary,
     | AccessDeniedException
     | ConflictException
@@ -3523,7 +3522,7 @@ export const listDataSets: {
  */
 export const startBatchJob: (
   input: StartBatchJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartBatchJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -3550,7 +3549,7 @@ export const startBatchJob: (
  */
 export const getDataSetDetails: (
   input: GetDataSetDetailsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataSetDetailsResponse,
   | AccessDeniedException
   | ConflictException
@@ -3581,7 +3580,7 @@ export const getDataSetDetails: (
  */
 export const createDataSetImportTask: (
   input: CreateDataSetImportTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataSetImportTaskResponse,
   | AccessDeniedException
   | ConflictException

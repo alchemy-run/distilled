@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -97,23 +97,83 @@ export type DataSetRequestId = string;
 export type ExceptionMessage = string;
 
 //# Schemas
+export type DataSetType =
+  | "customer_subscriber_hourly_monthly_subscriptions"
+  | "customer_subscriber_annual_subscriptions"
+  | "daily_business_usage_by_instance_type"
+  | "daily_business_fees"
+  | "daily_business_free_trial_conversions"
+  | "daily_business_new_instances"
+  | "daily_business_new_product_subscribers"
+  | "daily_business_canceled_product_subscribers"
+  | "monthly_revenue_billing_and_revenue_data"
+  | "monthly_revenue_annual_subscriptions"
+  | "monthly_revenue_field_demonstration_usage"
+  | "monthly_revenue_flexible_payment_schedule"
+  | "disbursed_amount_by_product"
+  | "disbursed_amount_by_product_with_uncollected_funds"
+  | "disbursed_amount_by_instance_hours"
+  | "disbursed_amount_by_customer_geo"
+  | "disbursed_amount_by_age_of_uncollected_funds"
+  | "disbursed_amount_by_age_of_disbursed_funds"
+  | "disbursed_amount_by_age_of_past_due_funds"
+  | "disbursed_amount_by_uncollected_funds_breakdown"
+  | "customer_profile_by_industry"
+  | "customer_profile_by_revenue"
+  | "customer_profile_by_geography"
+  | "sales_compensation_billed_revenue"
+  | "us_sales_and_use_tax_records";
+export const DataSetType = S.Literal(
+  "customer_subscriber_hourly_monthly_subscriptions",
+  "customer_subscriber_annual_subscriptions",
+  "daily_business_usage_by_instance_type",
+  "daily_business_fees",
+  "daily_business_free_trial_conversions",
+  "daily_business_new_instances",
+  "daily_business_new_product_subscribers",
+  "daily_business_canceled_product_subscribers",
+  "monthly_revenue_billing_and_revenue_data",
+  "monthly_revenue_annual_subscriptions",
+  "monthly_revenue_field_demonstration_usage",
+  "monthly_revenue_flexible_payment_schedule",
+  "disbursed_amount_by_product",
+  "disbursed_amount_by_product_with_uncollected_funds",
+  "disbursed_amount_by_instance_hours",
+  "disbursed_amount_by_customer_geo",
+  "disbursed_amount_by_age_of_uncollected_funds",
+  "disbursed_amount_by_age_of_disbursed_funds",
+  "disbursed_amount_by_age_of_past_due_funds",
+  "disbursed_amount_by_uncollected_funds_breakdown",
+  "customer_profile_by_industry",
+  "customer_profile_by_revenue",
+  "customer_profile_by_geography",
+  "sales_compensation_billed_revenue",
+  "us_sales_and_use_tax_records",
+);
+export type SupportDataSetType =
+  | "customer_support_contacts_data"
+  | "test_customer_support_contacts_data";
+export const SupportDataSetType = S.Literal(
+  "customer_support_contacts_data",
+  "test_customer_support_contacts_data",
+);
 export type CustomerDefinedValues = { [key: string]: string };
 export const CustomerDefinedValues = S.Record({
   key: S.String,
   value: S.String,
 });
 export interface StartSupportDataExportRequest {
-  dataSetType: string;
+  dataSetType: SupportDataSetType;
   fromDate: Date;
   roleNameArn: string;
   destinationS3BucketName: string;
   destinationS3Prefix?: string;
   snsTopicArn: string;
-  customerDefinedValues?: CustomerDefinedValues;
+  customerDefinedValues?: { [key: string]: string };
 }
 export const StartSupportDataExportRequest = S.suspend(() =>
   S.Struct({
-    dataSetType: S.String,
+    dataSetType: SupportDataSetType,
     fromDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     roleNameArn: S.String,
     destinationS3BucketName: S.String,
@@ -127,17 +187,17 @@ export const StartSupportDataExportRequest = S.suspend(() =>
   identifier: "StartSupportDataExportRequest",
 }) as any as S.Schema<StartSupportDataExportRequest>;
 export interface GenerateDataSetRequest {
-  dataSetType: string;
+  dataSetType: DataSetType;
   dataSetPublicationDate: Date;
   roleNameArn: string;
   destinationS3BucketName: string;
   destinationS3Prefix?: string;
   snsTopicArn: string;
-  customerDefinedValues?: CustomerDefinedValues;
+  customerDefinedValues?: { [key: string]: string };
 }
 export const GenerateDataSetRequest = S.suspend(() =>
   S.Struct({
-    dataSetType: S.String,
+    dataSetType: DataSetType,
     dataSetPublicationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     roleNameArn: S.String,
     destinationS3BucketName: S.String,
@@ -186,7 +246,7 @@ export class MarketplaceCommerceAnalyticsException extends S.TaggedError<Marketp
  */
 export const startSupportDataExport: (
   input: StartSupportDataExportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartSupportDataExportResult,
   MarketplaceCommerceAnalyticsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -207,7 +267,7 @@ export const startSupportDataExport: (
  */
 export const generateDataSet: (
   input: GenerateDataSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GenerateDataSetResult,
   MarketplaceCommerceAnalyticsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

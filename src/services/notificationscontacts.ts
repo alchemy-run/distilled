@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -68,12 +68,12 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type EmailContactArn = string;
 export type TagKey = string;
-export type EmailContactName = string | Redacted.Redacted<string>;
+export type EmailContactName = string | redacted.Redacted<string>;
 export type EmailContactAddress = string;
-export type Token = string | Redacted.Redacted<string>;
+export type Token = string | redacted.Redacted<string>;
 export type TagValue = string;
 export type ErrorMessage = string;
-export type SensitiveEmailContactAddress = string | Redacted.Redacted<string>;
+export type SensitiveEmailContactAddress = string | redacted.Redacted<string>;
 export type EmailContactStatus = string;
 export type ResourceId = string;
 export type ResourceType = string;
@@ -102,7 +102,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   arn: string;
-  tagKeys: TagKeys;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -128,9 +128,9 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface CreateEmailContactRequest {
-  name: string | Redacted.Redacted<string>;
+  name: string | redacted.Redacted<string>;
   emailAddress: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateEmailContactRequest = S.suspend(() =>
   S.Struct({
@@ -213,7 +213,7 @@ export const ListEmailContactsRequest = S.suspend(() =>
 }) as any as S.Schema<ListEmailContactsRequest>;
 export interface ActivateEmailContactRequest {
   arn: string;
-  code: string | Redacted.Redacted<string>;
+  code: string | redacted.Redacted<string>;
 }
 export const ActivateEmailContactRequest = S.suspend(() =>
   S.Struct({
@@ -266,8 +266,8 @@ export const SendActivationCodeResponse = S.suspend(() =>
 }) as any as S.Schema<SendActivationCodeResponse>;
 export interface EmailContact {
   arn: string;
-  name: string | Redacted.Redacted<string>;
-  address: string | Redacted.Redacted<string>;
+  name: string | redacted.Redacted<string>;
+  address: string | redacted.Redacted<string>;
   status: string;
   creationTime: Date;
   updateTime: Date;
@@ -285,7 +285,7 @@ export const EmailContact = S.suspend(() =>
 export type EmailContacts = EmailContact[];
 export const EmailContacts = S.Array(EmailContact);
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -294,7 +294,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   arn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")), tags: TagMap }).pipe(
@@ -324,7 +324,7 @@ export const CreateEmailContactResponse = S.suspend(() =>
 }) as any as S.Schema<CreateEmailContactResponse>;
 export interface ListEmailContactsResponse {
   nextToken?: string;
-  emailContacts: EmailContacts;
+  emailContacts: EmailContact[];
 }
 export const ListEmailContactsResponse = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), emailContacts: EmailContacts }),
@@ -339,6 +339,11 @@ export const GetEmailContactResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetEmailContactResponse",
 }) as any as S.Schema<GetEmailContactResponse>;
+export type ValidationExceptionReason = "fieldValidationFailed" | "other";
+export const ValidationExceptionReason = S.Literal(
+  "fieldValidationFailed",
+  "other",
+);
 export interface ValidationExceptionField {
   name: string;
   message: string;
@@ -393,7 +398,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     message: S.String,
-    reason: S.String,
+    reason: ValidationExceptionReason,
     fieldList: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
@@ -405,7 +410,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listEmailContacts: {
   (
     input: ListEmailContactsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEmailContactsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -416,7 +421,7 @@ export const listEmailContacts: {
   >;
   pages: (
     input: ListEmailContactsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEmailContactsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -427,7 +432,7 @@ export const listEmailContacts: {
   >;
   items: (
     input: ListEmailContactsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EmailContact,
     | AccessDeniedException
     | InternalServerException
@@ -457,7 +462,7 @@ export const listEmailContacts: {
  */
 export const getEmailContact: (
   input: GetEmailContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEmailContactResponse,
   | AccessDeniedException
   | InternalServerException
@@ -482,7 +487,7 @@ export const getEmailContact: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -507,7 +512,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -534,7 +539,7 @@ export const tagResource: (
  */
 export const deleteEmailContact: (
   input: DeleteEmailContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEmailContactResponse,
   | AccessDeniedException
   | ConflictException
@@ -561,7 +566,7 @@ export const deleteEmailContact: (
  */
 export const activateEmailContact: (
   input: ActivateEmailContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ActivateEmailContactResponse,
   | AccessDeniedException
   | ConflictException
@@ -590,7 +595,7 @@ export const activateEmailContact: (
  */
 export const sendActivationCode: (
   input: SendActivationCodeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendActivationCodeResponse,
   | AccessDeniedException
   | ConflictException
@@ -617,7 +622,7 @@ export const sendActivationCode: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -642,7 +647,7 @@ export const untagResource: (
  */
 export const createEmailContact: (
   input: CreateEmailContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEmailContactResponse,
   | AccessDeniedException
   | ConflictException

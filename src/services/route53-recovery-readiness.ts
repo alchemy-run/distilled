@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -99,11 +99,11 @@ export type __stringMax64 = string;
 export type __listOf__string = string[];
 export const __listOf__string = S.Array(S.String);
 export interface CreateCrossAccountAuthorizationRequest {
-  CrossAccountAuthorization: string;
+  CrossAccountAuthorization?: string;
 }
 export const CreateCrossAccountAuthorizationRequest = S.suspend(() =>
   S.Struct({
-    CrossAccountAuthorization: S.String.pipe(
+    CrossAccountAuthorization: S.optional(S.String).pipe(
       T.JsonName("crossAccountAuthorization"),
     ),
   }).pipe(
@@ -122,14 +122,16 @@ export const CreateCrossAccountAuthorizationRequest = S.suspend(() =>
 export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
 export interface CreateReadinessCheckRequest {
-  ReadinessCheckName: string;
-  ResourceSetName: string;
-  Tags?: Tags;
+  ReadinessCheckName?: string;
+  ResourceSetName?: string;
+  Tags?: { [key: string]: string };
 }
 export const CreateReadinessCheckRequest = S.suspend(() =>
   S.Struct({
-    ReadinessCheckName: S.String.pipe(T.JsonName("readinessCheckName")),
-    ResourceSetName: S.String.pipe(T.JsonName("resourceSetName")),
+    ReadinessCheckName: S.optional(S.String).pipe(
+      T.JsonName("readinessCheckName"),
+    ),
+    ResourceSetName: S.optional(S.String).pipe(T.JsonName("resourceSetName")),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
   }).pipe(
     T.all(
@@ -145,14 +147,16 @@ export const CreateReadinessCheckRequest = S.suspend(() =>
   identifier: "CreateReadinessCheckRequest",
 }) as any as S.Schema<CreateReadinessCheckRequest>;
 export interface CreateRecoveryGroupRequest {
-  Cells?: __listOf__string;
-  RecoveryGroupName: string;
-  Tags?: Tags;
+  Cells?: string[];
+  RecoveryGroupName?: string;
+  Tags?: { [key: string]: string };
 }
 export const CreateRecoveryGroupRequest = S.suspend(() =>
   S.Struct({
     Cells: S.optional(__listOf__string).pipe(T.JsonName("cells")),
-    RecoveryGroupName: S.String.pipe(T.JsonName("recoveryGroupName")),
+    RecoveryGroupName: S.optional(S.String).pipe(
+      T.JsonName("recoveryGroupName"),
+    ),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
   }).pipe(
     T.all(
@@ -646,12 +650,12 @@ export const ListTagsForResourcesRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourcesRequest>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: Tags;
+  Tags?: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: Tags.pipe(T.JsonName("tags")),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
@@ -671,12 +675,12 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: __listOf__string;
+  TagKeys?: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    TagKeys: __listOf__string.pipe(T.HttpQuery("tagKeys")),
+    TagKeys: S.optional(__listOf__string).pipe(T.HttpQuery("tagKeys")),
   }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
@@ -696,12 +700,12 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateCellRequest {
   CellName: string;
-  Cells: __listOf__string;
+  Cells?: string[];
 }
 export const UpdateCellRequest = S.suspend(() =>
   S.Struct({
     CellName: S.String.pipe(T.HttpLabel("CellName")),
-    Cells: __listOf__string.pipe(T.JsonName("cells")),
+    Cells: S.optional(__listOf__string).pipe(T.JsonName("cells")),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/cells/{CellName}" }),
@@ -717,12 +721,12 @@ export const UpdateCellRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateCellRequest>;
 export interface UpdateReadinessCheckRequest {
   ReadinessCheckName: string;
-  ResourceSetName: string;
+  ResourceSetName?: string;
 }
 export const UpdateReadinessCheckRequest = S.suspend(() =>
   S.Struct({
     ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")),
-    ResourceSetName: S.String.pipe(T.JsonName("resourceSetName")),
+    ResourceSetName: S.optional(S.String).pipe(T.JsonName("resourceSetName")),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/readinesschecks/{ReadinessCheckName}" }),
@@ -737,12 +741,12 @@ export const UpdateReadinessCheckRequest = S.suspend(() =>
   identifier: "UpdateReadinessCheckRequest",
 }) as any as S.Schema<UpdateReadinessCheckRequest>;
 export interface UpdateRecoveryGroupRequest {
-  Cells: __listOf__string;
+  Cells?: string[];
   RecoveryGroupName: string;
 }
 export const UpdateRecoveryGroupRequest = S.suspend(() =>
   S.Struct({
-    Cells: __listOf__string.pipe(T.JsonName("cells")),
+    Cells: S.optional(__listOf__string).pipe(T.JsonName("cells")),
     RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")),
   }).pipe(
     T.all(
@@ -814,7 +818,7 @@ export const DNSTargetResource = S.suspend(() =>
 export interface Resource {
   ComponentId?: string;
   DnsTargetResource?: DNSTargetResource;
-  ReadinessScopes?: __listOf__string;
+  ReadinessScopes?: string[];
   ResourceArn?: string;
 }
 export const Resource = S.suspend(() =>
@@ -833,14 +837,14 @@ export type __listOfResource = Resource[];
 export const __listOfResource = S.Array(Resource);
 export interface UpdateResourceSetRequest {
   ResourceSetName: string;
-  ResourceSetType: string;
-  Resources: __listOfResource;
+  ResourceSetType?: string;
+  Resources?: Resource[];
 }
 export const UpdateResourceSetRequest = S.suspend(() =>
   S.Struct({
     ResourceSetName: S.String.pipe(T.HttpLabel("ResourceSetName")),
-    ResourceSetType: S.String.pipe(T.JsonName("resourceSetType")),
-    Resources: __listOfResource.pipe(T.JsonName("resources")),
+    ResourceSetType: S.optional(S.String).pipe(T.JsonName("resourceSetType")),
+    Resources: S.optional(__listOfResource).pipe(T.JsonName("resources")),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/resourcesets/{ResourceSetName}" }),
@@ -854,16 +858,23 @@ export const UpdateResourceSetRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateResourceSetRequest",
 }) as any as S.Schema<UpdateResourceSetRequest>;
+export type Readiness = "READY" | "NOT_READY" | "UNKNOWN" | "NOT_AUTHORIZED";
+export const Readiness = S.Literal(
+  "READY",
+  "NOT_READY",
+  "UNKNOWN",
+  "NOT_AUTHORIZED",
+);
 export type __listOfCrossAccountAuthorization = string[];
 export const __listOfCrossAccountAuthorization = S.Array(S.String);
 export interface CreateCellRequest {
-  CellName: string;
-  Cells?: __listOf__string;
-  Tags?: Tags;
+  CellName?: string;
+  Cells?: string[];
+  Tags?: { [key: string]: string };
 }
 export const CreateCellRequest = S.suspend(() =>
   S.Struct({
-    CellName: S.String.pipe(T.JsonName("cellName")),
+    CellName: S.optional(S.String).pipe(T.JsonName("cellName")),
     Cells: S.optional(__listOf__string).pipe(T.JsonName("cells")),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
   }).pipe(
@@ -895,7 +906,7 @@ export interface CreateReadinessCheckResponse {
   ReadinessCheckArn?: string;
   ReadinessCheckName?: string;
   ResourceSet?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const CreateReadinessCheckResponse = S.suspend(() =>
   S.Struct({
@@ -912,10 +923,10 @@ export const CreateReadinessCheckResponse = S.suspend(() =>
   identifier: "CreateReadinessCheckResponse",
 }) as any as S.Schema<CreateReadinessCheckResponse>;
 export interface CreateRecoveryGroupResponse {
-  Cells?: __listOf__string;
+  Cells?: string[];
   RecoveryGroupArn?: string;
   RecoveryGroupName?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const CreateRecoveryGroupResponse = S.suspend(() =>
   S.Struct({
@@ -932,9 +943,9 @@ export const CreateRecoveryGroupResponse = S.suspend(() =>
 export interface GetCellResponse {
   CellArn?: string;
   CellName?: string;
-  Cells?: __listOf__string;
-  ParentReadinessScopes?: __listOf__string;
-  Tags?: Tags;
+  Cells?: string[];
+  ParentReadinessScopes?: string[];
+  Tags?: { [key: string]: string };
 }
 export const GetCellResponse = S.suspend(() =>
   S.Struct({
@@ -953,7 +964,7 @@ export interface GetReadinessCheckResponse {
   ReadinessCheckArn?: string;
   ReadinessCheckName?: string;
   ResourceSet?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const GetReadinessCheckResponse = S.suspend(() =>
   S.Struct({
@@ -970,10 +981,10 @@ export const GetReadinessCheckResponse = S.suspend(() =>
   identifier: "GetReadinessCheckResponse",
 }) as any as S.Schema<GetReadinessCheckResponse>;
 export interface GetRecoveryGroupResponse {
-  Cells?: __listOf__string;
+  Cells?: string[];
   RecoveryGroupArn?: string;
   RecoveryGroupName?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const GetRecoveryGroupResponse = S.suspend(() =>
   S.Struct({
@@ -988,12 +999,12 @@ export const GetRecoveryGroupResponse = S.suspend(() =>
   identifier: "GetRecoveryGroupResponse",
 }) as any as S.Schema<GetRecoveryGroupResponse>;
 export interface ReadinessCheckSummary {
-  Readiness?: string;
+  Readiness?: Readiness;
   ReadinessCheckName?: string;
 }
 export const ReadinessCheckSummary = S.suspend(() =>
   S.Struct({
-    Readiness: S.optional(S.String).pipe(T.JsonName("readiness")),
+    Readiness: S.optional(Readiness).pipe(T.JsonName("readiness")),
     ReadinessCheckName: S.optional(S.String).pipe(
       T.JsonName("readinessCheckName"),
     ),
@@ -1005,13 +1016,13 @@ export type __listOfReadinessCheckSummary = ReadinessCheckSummary[];
 export const __listOfReadinessCheckSummary = S.Array(ReadinessCheckSummary);
 export interface GetRecoveryGroupReadinessSummaryResponse {
   NextToken?: string;
-  Readiness?: string;
-  ReadinessChecks?: __listOfReadinessCheckSummary;
+  Readiness?: Readiness;
+  ReadinessChecks?: ReadinessCheckSummary[];
 }
 export const GetRecoveryGroupReadinessSummaryResponse = S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-    Readiness: S.optional(S.String).pipe(T.JsonName("readiness")),
+    Readiness: S.optional(Readiness).pipe(T.JsonName("readiness")),
     ReadinessChecks: S.optional(__listOfReadinessCheckSummary).pipe(
       T.JsonName("readinessChecks"),
     ),
@@ -1023,8 +1034,8 @@ export interface GetResourceSetResponse {
   ResourceSetArn?: string;
   ResourceSetName?: string;
   ResourceSetType?: string;
-  Resources?: __listOfResource;
-  Tags?: Tags;
+  Resources?: Resource[];
+  Tags?: { [key: string]: string };
 }
 export const GetResourceSetResponse = S.suspend(() =>
   S.Struct({
@@ -1038,7 +1049,7 @@ export const GetResourceSetResponse = S.suspend(() =>
   identifier: "GetResourceSetResponse",
 }) as any as S.Schema<GetResourceSetResponse>;
 export interface ListCrossAccountAuthorizationsResponse {
-  CrossAccountAuthorizations?: __listOfCrossAccountAuthorization;
+  CrossAccountAuthorizations?: string[];
   NextToken?: string;
 }
 export const ListCrossAccountAuthorizationsResponse = S.suspend(() =>
@@ -1052,7 +1063,7 @@ export const ListCrossAccountAuthorizationsResponse = S.suspend(() =>
   identifier: "ListCrossAccountAuthorizationsResponse",
 }) as any as S.Schema<ListCrossAccountAuthorizationsResponse>;
 export interface ListTagsForResourcesResponse {
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourcesResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags).pipe(T.JsonName("tags")) }),
@@ -1062,9 +1073,9 @@ export const ListTagsForResourcesResponse = S.suspend(() =>
 export interface UpdateCellResponse {
   CellArn?: string;
   CellName?: string;
-  Cells?: __listOf__string;
-  ParentReadinessScopes?: __listOf__string;
-  Tags?: Tags;
+  Cells?: string[];
+  ParentReadinessScopes?: string[];
+  Tags?: { [key: string]: string };
 }
 export const UpdateCellResponse = S.suspend(() =>
   S.Struct({
@@ -1083,7 +1094,7 @@ export interface UpdateReadinessCheckResponse {
   ReadinessCheckArn?: string;
   ReadinessCheckName?: string;
   ResourceSet?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const UpdateReadinessCheckResponse = S.suspend(() =>
   S.Struct({
@@ -1100,10 +1111,10 @@ export const UpdateReadinessCheckResponse = S.suspend(() =>
   identifier: "UpdateReadinessCheckResponse",
 }) as any as S.Schema<UpdateReadinessCheckResponse>;
 export interface UpdateRecoveryGroupResponse {
-  Cells?: __listOf__string;
+  Cells?: string[];
   RecoveryGroupArn?: string;
   RecoveryGroupName?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const UpdateRecoveryGroupResponse = S.suspend(() =>
   S.Struct({
@@ -1121,8 +1132,8 @@ export interface UpdateResourceSetResponse {
   ResourceSetArn?: string;
   ResourceSetName?: string;
   ResourceSetType?: string;
-  Resources?: __listOfResource;
-  Tags?: Tags;
+  Resources?: Resource[];
+  Tags?: { [key: string]: string };
 }
 export const UpdateResourceSetResponse = S.suspend(() =>
   S.Struct({
@@ -1136,11 +1147,13 @@ export const UpdateResourceSetResponse = S.suspend(() =>
   identifier: "UpdateResourceSetResponse",
 }) as any as S.Schema<UpdateResourceSetResponse>;
 export interface Recommendation {
-  RecommendationText: string;
+  RecommendationText?: string;
 }
 export const Recommendation = S.suspend(() =>
   S.Struct({
-    RecommendationText: S.String.pipe(T.JsonName("recommendationText")),
+    RecommendationText: S.optional(S.String).pipe(
+      T.JsonName("recommendationText"),
+    ),
   }),
 ).annotations({
   identifier: "Recommendation",
@@ -1158,36 +1171,36 @@ export const Message = S.suspend(() =>
 export type __listOfMessage = Message[];
 export const __listOfMessage = S.Array(Message);
 export interface RuleResult {
-  LastCheckedTimestamp: Date;
-  Messages: __listOfMessage;
-  Readiness: string;
-  RuleId: string;
+  LastCheckedTimestamp?: Date;
+  Messages?: Message[];
+  Readiness?: Readiness;
+  RuleId?: string;
 }
 export const RuleResult = S.suspend(() =>
   S.Struct({
-    LastCheckedTimestamp: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
-      T.JsonName("lastCheckedTimestamp"),
-    ),
-    Messages: __listOfMessage.pipe(T.JsonName("messages")),
-    Readiness: S.String.pipe(T.JsonName("readiness")),
-    RuleId: S.String.pipe(T.JsonName("ruleId")),
+    LastCheckedTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.JsonName("lastCheckedTimestamp")),
+    Messages: S.optional(__listOfMessage).pipe(T.JsonName("messages")),
+    Readiness: S.optional(Readiness).pipe(T.JsonName("readiness")),
+    RuleId: S.optional(S.String).pipe(T.JsonName("ruleId")),
   }),
 ).annotations({ identifier: "RuleResult" }) as any as S.Schema<RuleResult>;
 export type __listOfRuleResult = RuleResult[];
 export const __listOfRuleResult = S.Array(RuleResult);
 export interface ResourceResult {
   ComponentId?: string;
-  LastCheckedTimestamp: Date;
-  Readiness: string;
+  LastCheckedTimestamp?: Date;
+  Readiness?: Readiness;
   ResourceArn?: string;
 }
 export const ResourceResult = S.suspend(() =>
   S.Struct({
     ComponentId: S.optional(S.String).pipe(T.JsonName("componentId")),
-    LastCheckedTimestamp: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
-      T.JsonName("lastCheckedTimestamp"),
-    ),
-    Readiness: S.String.pipe(T.JsonName("readiness")),
+    LastCheckedTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.JsonName("lastCheckedTimestamp")),
+    Readiness: S.optional(Readiness).pipe(T.JsonName("readiness")),
     ResourceArn: S.optional(S.String).pipe(T.JsonName("resourceArn")),
   }),
 ).annotations({
@@ -1196,18 +1209,18 @@ export const ResourceResult = S.suspend(() =>
 export type __listOfResourceResult = ResourceResult[];
 export const __listOfResourceResult = S.Array(ResourceResult);
 export interface CellOutput {
-  CellArn: string;
-  CellName: string;
-  Cells: __listOf__string;
-  ParentReadinessScopes: __listOf__string;
-  Tags?: Tags;
+  CellArn?: string;
+  CellName?: string;
+  Cells?: string[];
+  ParentReadinessScopes?: string[];
+  Tags?: { [key: string]: string };
 }
 export const CellOutput = S.suspend(() =>
   S.Struct({
-    CellArn: S.String.pipe(T.JsonName("cellArn")),
-    CellName: S.String.pipe(T.JsonName("cellName")),
-    Cells: __listOf__string.pipe(T.JsonName("cells")),
-    ParentReadinessScopes: __listOf__string.pipe(
+    CellArn: S.optional(S.String).pipe(T.JsonName("cellArn")),
+    CellName: S.optional(S.String).pipe(T.JsonName("cellName")),
+    Cells: S.optional(__listOf__string).pipe(T.JsonName("cells")),
+    ParentReadinessScopes: S.optional(__listOf__string).pipe(
       T.JsonName("parentReadinessScopes"),
     ),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
@@ -1216,18 +1229,20 @@ export const CellOutput = S.suspend(() =>
 export type __listOfCellOutput = CellOutput[];
 export const __listOfCellOutput = S.Array(CellOutput);
 export interface ReadinessCheckOutput {
-  ReadinessCheckArn: string;
+  ReadinessCheckArn?: string;
   ReadinessCheckName?: string;
-  ResourceSet: string;
-  Tags?: Tags;
+  ResourceSet?: string;
+  Tags?: { [key: string]: string };
 }
 export const ReadinessCheckOutput = S.suspend(() =>
   S.Struct({
-    ReadinessCheckArn: S.String.pipe(T.JsonName("readinessCheckArn")),
+    ReadinessCheckArn: S.optional(S.String).pipe(
+      T.JsonName("readinessCheckArn"),
+    ),
     ReadinessCheckName: S.optional(S.String).pipe(
       T.JsonName("readinessCheckName"),
     ),
-    ResourceSet: S.String.pipe(T.JsonName("resourceSet")),
+    ResourceSet: S.optional(S.String).pipe(T.JsonName("resourceSet")),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
   }),
 ).annotations({
@@ -1236,16 +1251,18 @@ export const ReadinessCheckOutput = S.suspend(() =>
 export type __listOfReadinessCheckOutput = ReadinessCheckOutput[];
 export const __listOfReadinessCheckOutput = S.Array(ReadinessCheckOutput);
 export interface RecoveryGroupOutput {
-  Cells: __listOf__string;
-  RecoveryGroupArn: string;
-  RecoveryGroupName: string;
-  Tags?: Tags;
+  Cells?: string[];
+  RecoveryGroupArn?: string;
+  RecoveryGroupName?: string;
+  Tags?: { [key: string]: string };
 }
 export const RecoveryGroupOutput = S.suspend(() =>
   S.Struct({
-    Cells: __listOf__string.pipe(T.JsonName("cells")),
-    RecoveryGroupArn: S.String.pipe(T.JsonName("recoveryGroupArn")),
-    RecoveryGroupName: S.String.pipe(T.JsonName("recoveryGroupName")),
+    Cells: S.optional(__listOf__string).pipe(T.JsonName("cells")),
+    RecoveryGroupArn: S.optional(S.String).pipe(T.JsonName("recoveryGroupArn")),
+    RecoveryGroupName: S.optional(S.String).pipe(
+      T.JsonName("recoveryGroupName"),
+    ),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
   }),
 ).annotations({
@@ -1254,18 +1271,18 @@ export const RecoveryGroupOutput = S.suspend(() =>
 export type __listOfRecoveryGroupOutput = RecoveryGroupOutput[];
 export const __listOfRecoveryGroupOutput = S.Array(RecoveryGroupOutput);
 export interface ResourceSetOutput {
-  ResourceSetArn: string;
-  ResourceSetName: string;
-  ResourceSetType: string;
-  Resources: __listOfResource;
-  Tags?: Tags;
+  ResourceSetArn?: string;
+  ResourceSetName?: string;
+  ResourceSetType?: string;
+  Resources?: Resource[];
+  Tags?: { [key: string]: string };
 }
 export const ResourceSetOutput = S.suspend(() =>
   S.Struct({
-    ResourceSetArn: S.String.pipe(T.JsonName("resourceSetArn")),
-    ResourceSetName: S.String.pipe(T.JsonName("resourceSetName")),
-    ResourceSetType: S.String.pipe(T.JsonName("resourceSetType")),
-    Resources: __listOfResource.pipe(T.JsonName("resources")),
+    ResourceSetArn: S.optional(S.String).pipe(T.JsonName("resourceSetArn")),
+    ResourceSetName: S.optional(S.String).pipe(T.JsonName("resourceSetName")),
+    ResourceSetType: S.optional(S.String).pipe(T.JsonName("resourceSetType")),
+    Resources: S.optional(__listOfResource).pipe(T.JsonName("resources")),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
   }),
 ).annotations({
@@ -1274,15 +1291,15 @@ export const ResourceSetOutput = S.suspend(() =>
 export type __listOfResourceSetOutput = ResourceSetOutput[];
 export const __listOfResourceSetOutput = S.Array(ResourceSetOutput);
 export interface ListRulesOutput {
-  ResourceType: string;
-  RuleDescription: string;
-  RuleId: string;
+  ResourceType?: string;
+  RuleDescription?: string;
+  RuleId?: string;
 }
 export const ListRulesOutput = S.suspend(() =>
   S.Struct({
-    ResourceType: S.String.pipe(T.JsonName("resourceType")),
-    RuleDescription: S.String.pipe(T.JsonName("ruleDescription")),
-    RuleId: S.String.pipe(T.JsonName("ruleId")),
+    ResourceType: S.optional(S.String).pipe(T.JsonName("resourceType")),
+    RuleDescription: S.optional(S.String).pipe(T.JsonName("ruleDescription")),
+    RuleId: S.optional(S.String).pipe(T.JsonName("ruleId")),
   }),
 ).annotations({
   identifier: "ListRulesOutput",
@@ -1292,9 +1309,9 @@ export const __listOfListRulesOutput = S.Array(ListRulesOutput);
 export interface CreateCellResponse {
   CellArn?: string;
   CellName?: string;
-  Cells?: __listOf__string;
-  ParentReadinessScopes?: __listOf__string;
-  Tags?: Tags;
+  Cells?: string[];
+  ParentReadinessScopes?: string[];
+  Tags?: { [key: string]: string };
 }
 export const CreateCellResponse = S.suspend(() =>
   S.Struct({
@@ -1312,7 +1329,7 @@ export const CreateCellResponse = S.suspend(() =>
 export interface GetArchitectureRecommendationsResponse {
   LastAuditTimestamp?: Date;
   NextToken?: string;
-  Recommendations?: __listOfRecommendation;
+  Recommendations?: Recommendation[];
 }
 export const GetArchitectureRecommendationsResponse = S.suspend(() =>
   S.Struct({
@@ -1329,13 +1346,13 @@ export const GetArchitectureRecommendationsResponse = S.suspend(() =>
 }) as any as S.Schema<GetArchitectureRecommendationsResponse>;
 export interface GetCellReadinessSummaryResponse {
   NextToken?: string;
-  Readiness?: string;
-  ReadinessChecks?: __listOfReadinessCheckSummary;
+  Readiness?: Readiness;
+  ReadinessChecks?: ReadinessCheckSummary[];
 }
 export const GetCellReadinessSummaryResponse = S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-    Readiness: S.optional(S.String).pipe(T.JsonName("readiness")),
+    Readiness: S.optional(Readiness).pipe(T.JsonName("readiness")),
     ReadinessChecks: S.optional(__listOfReadinessCheckSummary).pipe(
       T.JsonName("readinessChecks"),
     ),
@@ -1345,36 +1362,36 @@ export const GetCellReadinessSummaryResponse = S.suspend(() =>
 }) as any as S.Schema<GetCellReadinessSummaryResponse>;
 export interface GetReadinessCheckResourceStatusResponse {
   NextToken?: string;
-  Readiness?: string;
-  Rules?: __listOfRuleResult;
+  Readiness?: Readiness;
+  Rules?: RuleResult[];
 }
 export const GetReadinessCheckResourceStatusResponse = S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-    Readiness: S.optional(S.String).pipe(T.JsonName("readiness")),
+    Readiness: S.optional(Readiness).pipe(T.JsonName("readiness")),
     Rules: S.optional(__listOfRuleResult).pipe(T.JsonName("rules")),
   }),
 ).annotations({
   identifier: "GetReadinessCheckResourceStatusResponse",
 }) as any as S.Schema<GetReadinessCheckResourceStatusResponse>;
 export interface GetReadinessCheckStatusResponse {
-  Messages?: __listOfMessage;
+  Messages?: Message[];
   NextToken?: string;
-  Readiness?: string;
-  Resources?: __listOfResourceResult;
+  Readiness?: Readiness;
+  Resources?: ResourceResult[];
 }
 export const GetReadinessCheckStatusResponse = S.suspend(() =>
   S.Struct({
     Messages: S.optional(__listOfMessage).pipe(T.JsonName("messages")),
     NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-    Readiness: S.optional(S.String).pipe(T.JsonName("readiness")),
+    Readiness: S.optional(Readiness).pipe(T.JsonName("readiness")),
     Resources: S.optional(__listOfResourceResult).pipe(T.JsonName("resources")),
   }),
 ).annotations({
   identifier: "GetReadinessCheckStatusResponse",
 }) as any as S.Schema<GetReadinessCheckStatusResponse>;
 export interface ListCellsResponse {
-  Cells?: __listOfCellOutput;
+  Cells?: CellOutput[];
   NextToken?: string;
 }
 export const ListCellsResponse = S.suspend(() =>
@@ -1387,7 +1404,7 @@ export const ListCellsResponse = S.suspend(() =>
 }) as any as S.Schema<ListCellsResponse>;
 export interface ListReadinessChecksResponse {
   NextToken?: string;
-  ReadinessChecks?: __listOfReadinessCheckOutput;
+  ReadinessChecks?: ReadinessCheckOutput[];
 }
 export const ListReadinessChecksResponse = S.suspend(() =>
   S.Struct({
@@ -1401,7 +1418,7 @@ export const ListReadinessChecksResponse = S.suspend(() =>
 }) as any as S.Schema<ListReadinessChecksResponse>;
 export interface ListRecoveryGroupsResponse {
   NextToken?: string;
-  RecoveryGroups?: __listOfRecoveryGroupOutput;
+  RecoveryGroups?: RecoveryGroupOutput[];
 }
 export const ListRecoveryGroupsResponse = S.suspend(() =>
   S.Struct({
@@ -1415,7 +1432,7 @@ export const ListRecoveryGroupsResponse = S.suspend(() =>
 }) as any as S.Schema<ListRecoveryGroupsResponse>;
 export interface ListResourceSetsResponse {
   NextToken?: string;
-  ResourceSets?: __listOfResourceSetOutput;
+  ResourceSets?: ResourceSetOutput[];
 }
 export const ListResourceSetsResponse = S.suspend(() =>
   S.Struct({
@@ -1429,7 +1446,7 @@ export const ListResourceSetsResponse = S.suspend(() =>
 }) as any as S.Schema<ListResourceSetsResponse>;
 export interface ListRulesResponse {
   NextToken?: string;
-  Rules?: __listOfListRulesOutput;
+  Rules?: ListRulesOutput[];
 }
 export const ListRulesResponse = S.suspend(() =>
   S.Struct({
@@ -1440,16 +1457,16 @@ export const ListRulesResponse = S.suspend(() =>
   identifier: "ListRulesResponse",
 }) as any as S.Schema<ListRulesResponse>;
 export interface CreateResourceSetRequest {
-  ResourceSetName: string;
-  ResourceSetType: string;
-  Resources: __listOfResource;
-  Tags?: Tags;
+  ResourceSetName?: string;
+  ResourceSetType?: string;
+  Resources?: Resource[];
+  Tags?: { [key: string]: string };
 }
 export const CreateResourceSetRequest = S.suspend(() =>
   S.Struct({
-    ResourceSetName: S.String.pipe(T.JsonName("resourceSetName")),
-    ResourceSetType: S.String.pipe(T.JsonName("resourceSetType")),
-    Resources: __listOfResource.pipe(T.JsonName("resources")),
+    ResourceSetName: S.optional(S.String).pipe(T.JsonName("resourceSetName")),
+    ResourceSetType: S.optional(S.String).pipe(T.JsonName("resourceSetType")),
+    Resources: S.optional(__listOfResource).pipe(T.JsonName("resources")),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
   }).pipe(
     T.all(
@@ -1468,8 +1485,8 @@ export interface CreateResourceSetResponse {
   ResourceSetArn?: string;
   ResourceSetName?: string;
   ResourceSetType?: string;
-  Resources?: __listOfResource;
-  Tags?: Tags;
+  Resources?: Resource[];
+  Tags?: { [key: string]: string };
 }
 export const CreateResourceSetResponse = S.suspend(() =>
   S.Struct({
@@ -1515,7 +1532,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1536,7 +1553,7 @@ export const tagResource: (
  */
 export const deleteCrossAccountAuthorization: (
   input: DeleteCrossAccountAuthorizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCrossAccountAuthorizationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1559,7 +1576,7 @@ export const deleteCrossAccountAuthorization: (
  */
 export const createCrossAccountAuthorization: (
   input: CreateCrossAccountAuthorizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCrossAccountAuthorizationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1584,7 +1601,7 @@ export const createCrossAccountAuthorization: (
  */
 export const updateCell: (
   input: UpdateCellRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCellResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1609,7 +1626,7 @@ export const updateCell: (
  */
 export const updateReadinessCheck: (
   input: UpdateReadinessCheckRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateReadinessCheckResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1634,7 +1651,7 @@ export const updateReadinessCheck: (
  */
 export const updateRecoveryGroup: (
   input: UpdateRecoveryGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRecoveryGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1659,7 +1676,7 @@ export const updateRecoveryGroup: (
  */
 export const updateResourceSet: (
   input: UpdateResourceSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateResourceSetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1684,7 +1701,7 @@ export const updateResourceSet: (
  */
 export const deleteReadinessCheck: (
   input: DeleteReadinessCheckRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteReadinessCheckResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1709,7 +1726,7 @@ export const deleteReadinessCheck: (
  */
 export const deleteRecoveryGroup: (
   input: DeleteRecoveryGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRecoveryGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1734,7 +1751,7 @@ export const deleteRecoveryGroup: (
  */
 export const deleteResourceSet: (
   input: DeleteResourceSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourceSetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1759,7 +1776,7 @@ export const deleteResourceSet: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1780,7 +1797,7 @@ export const untagResource: (
  */
 export const deleteCell: (
   input: DeleteCellRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCellResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1805,7 +1822,7 @@ export const deleteCell: (
  */
 export const getCell: (
   input: GetCellRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCellResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1830,7 +1847,7 @@ export const getCell: (
  */
 export const getReadinessCheck: (
   input: GetReadinessCheckRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetReadinessCheckResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1855,7 +1872,7 @@ export const getReadinessCheck: (
  */
 export const getRecoveryGroup: (
   input: GetRecoveryGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRecoveryGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1881,7 +1898,7 @@ export const getRecoveryGroup: (
 export const getRecoveryGroupReadinessSummary: {
   (
     input: GetRecoveryGroupReadinessSummaryRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetRecoveryGroupReadinessSummaryResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1893,7 +1910,7 @@ export const getRecoveryGroupReadinessSummary: {
   >;
   pages: (
     input: GetRecoveryGroupReadinessSummaryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetRecoveryGroupReadinessSummaryResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1905,7 +1922,7 @@ export const getRecoveryGroupReadinessSummary: {
   >;
   items: (
     input: GetRecoveryGroupReadinessSummaryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReadinessCheckSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1937,7 +1954,7 @@ export const getRecoveryGroupReadinessSummary: {
  */
 export const getResourceSet: (
   input: GetResourceSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourceSetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1962,7 +1979,7 @@ export const getResourceSet: (
  */
 export const listTagsForResources: (
   input: ListTagsForResourcesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourcesResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1983,7 +2000,7 @@ export const listTagsForResources: (
  */
 export const getArchitectureRecommendations: (
   input: GetArchitectureRecommendationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetArchitectureRecommendationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2009,7 +2026,7 @@ export const getArchitectureRecommendations: (
 export const getCellReadinessSummary: {
   (
     input: GetCellReadinessSummaryRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetCellReadinessSummaryResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2021,7 +2038,7 @@ export const getCellReadinessSummary: {
   >;
   pages: (
     input: GetCellReadinessSummaryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetCellReadinessSummaryResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2033,7 +2050,7 @@ export const getCellReadinessSummary: {
   >;
   items: (
     input: GetCellReadinessSummaryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReadinessCheckSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2066,7 +2083,7 @@ export const getCellReadinessSummary: {
 export const getReadinessCheckResourceStatus: {
   (
     input: GetReadinessCheckResourceStatusRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetReadinessCheckResourceStatusResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2078,7 +2095,7 @@ export const getReadinessCheckResourceStatus: {
   >;
   pages: (
     input: GetReadinessCheckResourceStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetReadinessCheckResourceStatusResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2090,7 +2107,7 @@ export const getReadinessCheckResourceStatus: {
   >;
   items: (
     input: GetReadinessCheckResourceStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RuleResult,
     | AccessDeniedException
     | InternalServerException
@@ -2123,7 +2140,7 @@ export const getReadinessCheckResourceStatus: {
 export const getReadinessCheckStatus: {
   (
     input: GetReadinessCheckStatusRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetReadinessCheckStatusResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2135,7 +2152,7 @@ export const getReadinessCheckStatus: {
   >;
   pages: (
     input: GetReadinessCheckStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetReadinessCheckStatusResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2147,7 +2164,7 @@ export const getReadinessCheckStatus: {
   >;
   items: (
     input: GetReadinessCheckStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResourceResult,
     | AccessDeniedException
     | InternalServerException
@@ -2180,7 +2197,7 @@ export const getReadinessCheckStatus: {
 export const listCrossAccountAuthorizations: {
   (
     input: ListCrossAccountAuthorizationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCrossAccountAuthorizationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2191,7 +2208,7 @@ export const listCrossAccountAuthorizations: {
   >;
   pages: (
     input: ListCrossAccountAuthorizationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCrossAccountAuthorizationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2202,7 +2219,7 @@ export const listCrossAccountAuthorizations: {
   >;
   items: (
     input: ListCrossAccountAuthorizationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CrossAccountAuthorization,
     | AccessDeniedException
     | InternalServerException
@@ -2233,7 +2250,7 @@ export const listCrossAccountAuthorizations: {
 export const listCells: {
   (
     input: ListCellsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCellsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2244,7 +2261,7 @@ export const listCells: {
   >;
   pages: (
     input: ListCellsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCellsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2255,7 +2272,7 @@ export const listCells: {
   >;
   items: (
     input: ListCellsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CellOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2286,7 +2303,7 @@ export const listCells: {
 export const listReadinessChecks: {
   (
     input: ListReadinessChecksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReadinessChecksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2297,7 +2314,7 @@ export const listReadinessChecks: {
   >;
   pages: (
     input: ListReadinessChecksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReadinessChecksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2308,7 +2325,7 @@ export const listReadinessChecks: {
   >;
   items: (
     input: ListReadinessChecksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReadinessCheckOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2339,7 +2356,7 @@ export const listReadinessChecks: {
 export const listRecoveryGroups: {
   (
     input: ListRecoveryGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRecoveryGroupsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2350,7 +2367,7 @@ export const listRecoveryGroups: {
   >;
   pages: (
     input: ListRecoveryGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRecoveryGroupsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2361,7 +2378,7 @@ export const listRecoveryGroups: {
   >;
   items: (
     input: ListRecoveryGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RecoveryGroupOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2392,7 +2409,7 @@ export const listRecoveryGroups: {
 export const listResourceSets: {
   (
     input: ListResourceSetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResourceSetsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2403,7 +2420,7 @@ export const listResourceSets: {
   >;
   pages: (
     input: ListResourceSetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResourceSetsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2414,7 +2431,7 @@ export const listResourceSets: {
   >;
   items: (
     input: ListResourceSetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResourceSetOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2445,7 +2462,7 @@ export const listResourceSets: {
 export const listRules: {
   (
     input: ListRulesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRulesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2456,7 +2473,7 @@ export const listRules: {
   >;
   pages: (
     input: ListRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRulesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2467,7 +2484,7 @@ export const listRules: {
   >;
   items: (
     input: ListRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRulesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2497,7 +2514,7 @@ export const listRules: {
  */
 export const createReadinessCheck: (
   input: CreateReadinessCheckRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateReadinessCheckResponse,
   | AccessDeniedException
   | ConflictException
@@ -2522,7 +2539,7 @@ export const createReadinessCheck: (
  */
 export const createRecoveryGroup: (
   input: CreateRecoveryGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRecoveryGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -2547,7 +2564,7 @@ export const createRecoveryGroup: (
  */
 export const createCell: (
   input: CreateCellRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCellResponse,
   | AccessDeniedException
   | ConflictException
@@ -2572,7 +2589,7 @@ export const createCell: (
  */
 export const createResourceSet: (
   input: CreateResourceSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateResourceSetResponse,
   | AccessDeniedException
   | ConflictException

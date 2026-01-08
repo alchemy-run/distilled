@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -330,7 +330,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface CreateOptOutListRequest {
   OptOutListName: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   ClientToken?: string;
 }
 export const CreateOptOutListRequest = S.suspend(() =>
@@ -349,7 +349,7 @@ export interface CreatePoolRequest {
   IsoCountryCode: string;
   MessageType: string;
   DeletionProtectionEnabled?: boolean;
-  Tags?: TagList;
+  Tags?: Tag[];
   ClientToken?: string;
 }
 export const CreatePoolRequest = S.suspend(() =>
@@ -369,7 +369,7 @@ export const CreatePoolRequest = S.suspend(() =>
 export interface CreateProtectConfigurationRequest {
   ClientToken?: string;
   DeletionProtectionEnabled?: boolean;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateProtectConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -384,7 +384,7 @@ export const CreateProtectConfigurationRequest = S.suspend(() =>
 }) as any as S.Schema<CreateProtectConfigurationRequest>;
 export interface CreateRegistrationRequest {
   RegistrationType: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   ClientToken?: string;
 }
 export const CreateRegistrationRequest = S.suspend(() =>
@@ -412,7 +412,7 @@ export const CreateRegistrationAssociationRequest = S.suspend(() =>
 export interface CreateRegistrationAttachmentRequest {
   AttachmentBody?: Uint8Array;
   AttachmentUrl?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   ClientToken?: string;
 }
 export const CreateRegistrationAttachmentRequest = S.suspend(() =>
@@ -439,7 +439,7 @@ export const CreateRegistrationVersionRequest = S.suspend(() =>
 }) as any as S.Schema<CreateRegistrationVersionRequest>;
 export interface CreateVerifiedDestinationNumberRequest {
   DestinationPhoneNumber: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   ClientToken?: string;
 }
 export const CreateVerifiedDestinationNumberRequest = S.suspend(() =>
@@ -680,7 +680,7 @@ export const DescribeAccountLimitsRequest = S.suspend(() =>
   identifier: "DescribeAccountLimitsRequest",
 }) as any as S.Schema<DescribeAccountLimitsRequest>;
 export interface DescribeOptOutListsRequest {
-  OptOutListNames?: OptOutListNameList;
+  OptOutListNames?: string[];
   NextToken?: string;
   MaxResults?: number;
   Owner?: string;
@@ -700,7 +700,7 @@ export const DescribeOptOutListsRequest = S.suspend(() =>
 export interface DescribeRegistrationFieldDefinitionsRequest {
   RegistrationType: string;
   SectionPath?: string;
-  FieldPaths?: FieldPathList;
+  FieldPaths?: string[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -721,7 +721,7 @@ export interface DescribeRegistrationFieldValuesRequest {
   RegistrationId: string;
   VersionNumber?: number;
   SectionPath?: string;
-  FieldPaths?: FieldPathList;
+  FieldPaths?: string[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -741,7 +741,7 @@ export const DescribeRegistrationFieldValuesRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeRegistrationFieldValuesRequest>;
 export interface DescribeRegistrationSectionDefinitionsRequest {
   RegistrationType: string;
-  SectionPaths?: SectionPathList;
+  SectionPaths?: string[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -913,7 +913,7 @@ export const PutProtectConfigurationRuleSetNumberOverrideRequest = S.suspend(
 export interface PutRegistrationFieldValueRequest {
   RegistrationId: string;
   FieldPath: string;
-  SelectChoices?: SelectChoiceList;
+  SelectChoices?: string[];
   TextValue?: string;
   RegistrationAttachmentId?: string;
 }
@@ -965,14 +965,14 @@ export const ReleaseSenderIdRequest = S.suspend(() =>
 export interface RequestPhoneNumberRequest {
   IsoCountryCode: string;
   MessageType: string;
-  NumberCapabilities: NumberCapabilityList;
+  NumberCapabilities: string[];
   NumberType: string;
   OptOutListName?: string;
   PoolId?: string;
   RegistrationId?: string;
   InternationalSendingEnabled?: boolean;
   DeletionProtectionEnabled?: boolean;
-  Tags?: TagList;
+  Tags?: Tag[];
   ClientToken?: string;
 }
 export const RequestPhoneNumberRequest = S.suspend(() =>
@@ -997,9 +997,9 @@ export const RequestPhoneNumberRequest = S.suspend(() =>
 export interface RequestSenderIdRequest {
   SenderId: string;
   IsoCountryCode: string;
-  MessageTypes?: MessageTypeList;
+  MessageTypes?: string[];
   DeletionProtectionEnabled?: boolean;
-  Tags?: TagList;
+  Tags?: Tag[];
   ClientToken?: string;
 }
 export const RequestSenderIdRequest = S.suspend(() =>
@@ -1022,11 +1022,11 @@ export interface SendMediaMessageRequest {
   DestinationPhoneNumber: string;
   OriginationIdentity: string;
   MessageBody?: string;
-  MediaUrls?: MediaUrlList;
+  MediaUrls?: string[];
   ConfigurationSetName?: string;
   MaxPrice?: string;
   TimeToLive?: number;
-  Context?: ContextMap;
+  Context?: { [key: string]: string };
   DryRun?: boolean;
   ProtectConfigurationId?: string;
   MessageFeedbackEnabled?: boolean;
@@ -1064,8 +1064,8 @@ export interface SendTextMessageRequest {
   ConfigurationSetName?: string;
   MaxPrice?: string;
   TimeToLive?: number;
-  Context?: ContextMap;
-  DestinationCountryParameters?: DestinationCountryParameters;
+  Context?: { [key: string]: string };
+  DestinationCountryParameters?: { [key: string]: string };
   DryRun?: boolean;
   ProtectConfigurationId?: string;
   MessageFeedbackEnabled?: boolean;
@@ -1100,7 +1100,7 @@ export interface SendVoiceMessageRequest {
   ConfigurationSetName?: string;
   MaxPricePerMinute?: string;
   TimeToLive?: number;
-  Context?: ContextMap;
+  Context?: { [key: string]: string };
   DryRun?: boolean;
   ProtectConfigurationId?: string;
   MessageFeedbackEnabled?: boolean;
@@ -1214,7 +1214,7 @@ export const SubmitRegistrationVersionRequest = S.suspend(() =>
 }) as any as S.Schema<SubmitRegistrationVersionRequest>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: NonEmptyTagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: NonEmptyTagList }).pipe(
@@ -1229,7 +1229,7 @@ export const TagResourceResult = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResult>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
@@ -1272,7 +1272,7 @@ export interface UpdateEventDestinationRequest {
   ConfigurationSetName: string;
   EventDestinationName: string;
   Enabled?: boolean;
-  MatchingEventTypes?: EventTypeList;
+  MatchingEventTypes?: string[];
   CloudWatchLogsDestination?: CloudWatchLogsDestination;
   KinesisFirehoseDestination?: KinesisFirehoseDestination;
   SnsDestination?: SnsDestination;
@@ -1392,7 +1392,7 @@ export type FilterValueList = string[];
 export const FilterValueList = S.Array(S.String);
 export interface ConfigurationSetFilter {
   Name: string;
-  Values: FilterValueList;
+  Values: string[];
 }
 export const ConfigurationSetFilter = S.suspend(() =>
   S.Struct({ Name: S.String, Values: FilterValueList }),
@@ -1403,7 +1403,7 @@ export type ConfigurationSetFilterList = ConfigurationSetFilter[];
 export const ConfigurationSetFilterList = S.Array(ConfigurationSetFilter);
 export interface KeywordFilter {
   Name: string;
-  Values: FilterValueList;
+  Values: string[];
 }
 export const KeywordFilter = S.suspend(() =>
   S.Struct({ Name: S.String, Values: FilterValueList }),
@@ -1414,7 +1414,7 @@ export type KeywordFilterList = KeywordFilter[];
 export const KeywordFilterList = S.Array(KeywordFilter);
 export interface OptedOutFilter {
   Name: string;
-  Values: FilterValueList;
+  Values: string[];
 }
 export const OptedOutFilter = S.suspend(() =>
   S.Struct({ Name: S.String, Values: FilterValueList }),
@@ -1425,7 +1425,7 @@ export type OptedOutFilterList = OptedOutFilter[];
 export const OptedOutFilterList = S.Array(OptedOutFilter);
 export interface PhoneNumberFilter {
   Name: string;
-  Values: FilterValueList;
+  Values: string[];
 }
 export const PhoneNumberFilter = S.suspend(() =>
   S.Struct({ Name: S.String, Values: FilterValueList }),
@@ -1436,7 +1436,7 @@ export type PhoneNumberFilterList = PhoneNumberFilter[];
 export const PhoneNumberFilterList = S.Array(PhoneNumberFilter);
 export interface PoolFilter {
   Name: string;
-  Values: FilterValueList;
+  Values: string[];
 }
 export const PoolFilter = S.suspend(() =>
   S.Struct({ Name: S.String, Values: FilterValueList }),
@@ -1445,7 +1445,7 @@ export type PoolFilterList = PoolFilter[];
 export const PoolFilterList = S.Array(PoolFilter);
 export interface ProtectConfigurationFilter {
   Name: string;
-  Values: FilterValueList;
+  Values: string[];
 }
 export const ProtectConfigurationFilter = S.suspend(() =>
   S.Struct({ Name: S.String, Values: FilterValueList }),
@@ -1458,7 +1458,7 @@ export const ProtectConfigurationFilterList = S.Array(
 );
 export interface RegistrationAttachmentFilter {
   Name: string;
-  Values: FilterValueList;
+  Values: string[];
 }
 export const RegistrationAttachmentFilter = S.suspend(() =>
   S.Struct({ Name: S.String, Values: FilterValueList }),
@@ -1471,7 +1471,7 @@ export const RegistrationAttachmentFilterList = S.Array(
 );
 export interface RegistrationFilter {
   Name: string;
-  Values: FilterValueList;
+  Values: string[];
 }
 export const RegistrationFilter = S.suspend(() =>
   S.Struct({ Name: S.String, Values: FilterValueList }),
@@ -1482,7 +1482,7 @@ export type RegistrationFilterList = RegistrationFilter[];
 export const RegistrationFilterList = S.Array(RegistrationFilter);
 export interface RegistrationTypeFilter {
   Name: string;
-  Values: FilterValueList;
+  Values: string[];
 }
 export const RegistrationTypeFilter = S.suspend(() =>
   S.Struct({ Name: S.String, Values: FilterValueList }),
@@ -1493,7 +1493,7 @@ export type RegistrationTypeFilterList = RegistrationTypeFilter[];
 export const RegistrationTypeFilterList = S.Array(RegistrationTypeFilter);
 export interface RegistrationVersionFilter {
   Name: string;
-  Values: FilterValueList;
+  Values: string[];
 }
 export const RegistrationVersionFilter = S.suspend(() =>
   S.Struct({ Name: S.String, Values: FilterValueList }),
@@ -1515,7 +1515,7 @@ export type SenderIdList = SenderIdAndCountry[];
 export const SenderIdList = S.Array(SenderIdAndCountry);
 export interface SenderIdFilter {
   Name: string;
-  Values: FilterValueList;
+  Values: string[];
 }
 export const SenderIdFilter = S.suspend(() =>
   S.Struct({ Name: S.String, Values: FilterValueList }),
@@ -1526,7 +1526,7 @@ export type SenderIdFilterList = SenderIdFilter[];
 export const SenderIdFilterList = S.Array(SenderIdFilter);
 export interface VerifiedDestinationNumberFilter {
   Name: string;
-  Values: FilterValueList;
+  Values: string[];
 }
 export const VerifiedDestinationNumberFilter = S.suspend(() =>
   S.Struct({ Name: S.String, Values: FilterValueList }),
@@ -1540,7 +1540,7 @@ export const VerifiedDestinationNumberFilterList = S.Array(
 );
 export interface PoolOriginationIdentitiesFilter {
   Name: string;
-  Values: FilterValueList;
+  Values: string[];
 }
 export const PoolOriginationIdentitiesFilter = S.suspend(() =>
   S.Struct({ Name: S.String, Values: FilterValueList }),
@@ -1554,7 +1554,7 @@ export const PoolOriginationIdentitiesFilterList = S.Array(
 );
 export interface ProtectConfigurationRuleSetNumberOverrideFilterItem {
   Name: string;
-  Values: FilterValueList;
+  Values: string[];
 }
 export const ProtectConfigurationRuleSetNumberOverrideFilterItem = S.suspend(
   () => S.Struct({ Name: S.String, Values: FilterValueList }),
@@ -1568,7 +1568,7 @@ export const ListProtectConfigurationRuleSetNumberOverrideFilter = S.Array(
 );
 export interface RegistrationAssociationFilter {
   Name: string;
-  Values: FilterValueList;
+  Values: string[];
 }
 export const RegistrationAssociationFilter = S.suspend(() =>
   S.Struct({ Name: S.String, Values: FilterValueList }),
@@ -1639,7 +1639,7 @@ export const CarrierLookupResult = S.suspend(() =>
 }) as any as S.Schema<CarrierLookupResult>;
 export interface CreateConfigurationSetRequest {
   ConfigurationSetName: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   ClientToken?: string;
 }
 export const CreateConfigurationSetRequest = S.suspend(() =>
@@ -1656,7 +1656,7 @@ export const CreateConfigurationSetRequest = S.suspend(() =>
 export interface CreateEventDestinationRequest {
   ConfigurationSetName: string;
   EventDestinationName: string;
-  MatchingEventTypes: EventTypeList;
+  MatchingEventTypes: string[];
   CloudWatchLogsDestination?: CloudWatchLogsDestination;
   KinesisFirehoseDestination?: KinesisFirehoseDestination;
   SnsDestination?: SnsDestination;
@@ -1680,7 +1680,7 @@ export const CreateEventDestinationRequest = S.suspend(() =>
 export interface CreateOptOutListResult {
   OptOutListArn?: string;
   OptOutListName?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   CreatedTimestamp?: Date;
 }
 export const CreateOptOutListResult = S.suspend(() =>
@@ -1707,7 +1707,7 @@ export interface CreatePoolResult {
   OptOutListName?: string;
   SharedRoutesEnabled?: boolean;
   DeletionProtectionEnabled?: boolean;
-  Tags?: TagList;
+  Tags?: Tag[];
   CreatedTimestamp?: Date;
 }
 export const CreatePoolResult = S.suspend(() =>
@@ -1737,7 +1737,7 @@ export interface CreateProtectConfigurationResult {
   CreatedTimestamp: Date;
   AccountDefault: boolean;
   DeletionProtectionEnabled: boolean;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateProtectConfigurationResult = S.suspend(() =>
   S.Struct({
@@ -1779,7 +1779,7 @@ export interface CreateRegistrationAttachmentResult {
   RegistrationAttachmentArn: string;
   RegistrationAttachmentId: string;
   AttachmentStatus: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   CreatedTimestamp: Date;
 }
 export const CreateRegistrationAttachmentResult = S.suspend(() =>
@@ -1798,7 +1798,7 @@ export interface CreateVerifiedDestinationNumberResult {
   VerifiedDestinationNumberId: string;
   DestinationPhoneNumber: string;
   Status: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   CreatedTimestamp: Date;
 }
 export const CreateVerifiedDestinationNumberResult = S.suspend(() =>
@@ -1844,7 +1844,7 @@ export const DeleteDefaultSenderIdResult = S.suspend(() =>
 export interface EventDestination {
   EventDestinationName: string;
   Enabled: boolean;
-  MatchingEventTypes: EventTypeList;
+  MatchingEventTypes: string[];
   CloudWatchLogsDestination?: CloudWatchLogsDestination;
   KinesisFirehoseDestination?: KinesisFirehoseDestination;
   SnsDestination?: SnsDestination;
@@ -2014,7 +2014,7 @@ export interface DeleteRegistrationResult {
   CurrentVersionNumber: number;
   ApprovedVersionNumber?: number;
   LatestDeniedVersionNumber?: number;
-  AdditionalAttributes?: StringMap;
+  AdditionalAttributes?: { [key: string]: string };
   CreatedTimestamp: Date;
 }
 export const DeleteRegistrationResult = S.suspend(() =>
@@ -2055,7 +2055,7 @@ export interface DeleteRegistrationFieldValueResult {
   RegistrationId: string;
   VersionNumber: number;
   FieldPath: string;
-  SelectChoices?: SelectChoiceList;
+  SelectChoices?: string[];
   TextValue?: string;
   RegistrationAttachmentId?: string;
 }
@@ -2105,8 +2105,8 @@ export const DeleteVerifiedDestinationNumberResult = S.suspend(() =>
   identifier: "DeleteVerifiedDestinationNumberResult",
 }) as any as S.Schema<DeleteVerifiedDestinationNumberResult>;
 export interface DescribeConfigurationSetsRequest {
-  ConfigurationSetNames?: ConfigurationSetNameList;
-  Filters?: ConfigurationSetFilterList;
+  ConfigurationSetNames?: string[];
+  Filters?: ConfigurationSetFilter[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -2124,8 +2124,8 @@ export const DescribeConfigurationSetsRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeConfigurationSetsRequest>;
 export interface DescribeKeywordsRequest {
   OriginationIdentity: string;
-  Keywords?: KeywordList;
-  Filters?: KeywordFilterList;
+  Keywords?: string[];
+  Filters?: KeywordFilter[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -2144,8 +2144,8 @@ export const DescribeKeywordsRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeKeywordsRequest>;
 export interface DescribeOptedOutNumbersRequest {
   OptOutListName: string;
-  OptedOutNumbers?: OptedOutNumberList;
-  Filters?: OptedOutFilterList;
+  OptedOutNumbers?: string[];
+  Filters?: OptedOutFilter[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -2163,8 +2163,8 @@ export const DescribeOptedOutNumbersRequest = S.suspend(() =>
   identifier: "DescribeOptedOutNumbersRequest",
 }) as any as S.Schema<DescribeOptedOutNumbersRequest>;
 export interface DescribePhoneNumbersRequest {
-  PhoneNumberIds?: PhoneNumberIdList;
-  Filters?: PhoneNumberFilterList;
+  PhoneNumberIds?: string[];
+  Filters?: PhoneNumberFilter[];
   NextToken?: string;
   MaxResults?: number;
   Owner?: string;
@@ -2183,8 +2183,8 @@ export const DescribePhoneNumbersRequest = S.suspend(() =>
   identifier: "DescribePhoneNumbersRequest",
 }) as any as S.Schema<DescribePhoneNumbersRequest>;
 export interface DescribePoolsRequest {
-  PoolIds?: PoolIdList;
-  Filters?: PoolFilterList;
+  PoolIds?: string[];
+  Filters?: PoolFilter[];
   NextToken?: string;
   MaxResults?: number;
   Owner?: string;
@@ -2203,8 +2203,8 @@ export const DescribePoolsRequest = S.suspend(() =>
   identifier: "DescribePoolsRequest",
 }) as any as S.Schema<DescribePoolsRequest>;
 export interface DescribeProtectConfigurationsRequest {
-  ProtectConfigurationIds?: ProtectConfigurationIdList;
-  Filters?: ProtectConfigurationFilterList;
+  ProtectConfigurationIds?: string[];
+  Filters?: ProtectConfigurationFilter[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -2221,8 +2221,8 @@ export const DescribeProtectConfigurationsRequest = S.suspend(() =>
   identifier: "DescribeProtectConfigurationsRequest",
 }) as any as S.Schema<DescribeProtectConfigurationsRequest>;
 export interface DescribeRegistrationAttachmentsRequest {
-  RegistrationAttachmentIds?: RegistrationAttachmentIdList;
-  Filters?: RegistrationAttachmentFilterList;
+  RegistrationAttachmentIds?: string[];
+  Filters?: RegistrationAttachmentFilter[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -2239,8 +2239,8 @@ export const DescribeRegistrationAttachmentsRequest = S.suspend(() =>
   identifier: "DescribeRegistrationAttachmentsRequest",
 }) as any as S.Schema<DescribeRegistrationAttachmentsRequest>;
 export interface DescribeRegistrationsRequest {
-  RegistrationIds?: RegistrationIdList;
-  Filters?: RegistrationFilterList;
+  RegistrationIds?: string[];
+  Filters?: RegistrationFilter[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -2257,8 +2257,8 @@ export const DescribeRegistrationsRequest = S.suspend(() =>
   identifier: "DescribeRegistrationsRequest",
 }) as any as S.Schema<DescribeRegistrationsRequest>;
 export interface DescribeRegistrationTypeDefinitionsRequest {
-  RegistrationTypes?: RegistrationTypeList;
-  Filters?: RegistrationTypeFilterList;
+  RegistrationTypes?: string[];
+  Filters?: RegistrationTypeFilter[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -2276,8 +2276,8 @@ export const DescribeRegistrationTypeDefinitionsRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeRegistrationTypeDefinitionsRequest>;
 export interface DescribeRegistrationVersionsRequest {
   RegistrationId: string;
-  VersionNumbers?: RegistrationVersionNumberList;
-  Filters?: RegistrationVersionFilterList;
+  VersionNumbers?: number[];
+  Filters?: RegistrationVersionFilter[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -2295,8 +2295,8 @@ export const DescribeRegistrationVersionsRequest = S.suspend(() =>
   identifier: "DescribeRegistrationVersionsRequest",
 }) as any as S.Schema<DescribeRegistrationVersionsRequest>;
 export interface DescribeSenderIdsRequest {
-  SenderIds?: SenderIdList;
-  Filters?: SenderIdFilterList;
+  SenderIds?: SenderIdAndCountry[];
+  Filters?: SenderIdFilter[];
   NextToken?: string;
   MaxResults?: number;
   Owner?: string;
@@ -2315,9 +2315,9 @@ export const DescribeSenderIdsRequest = S.suspend(() =>
   identifier: "DescribeSenderIdsRequest",
 }) as any as S.Schema<DescribeSenderIdsRequest>;
 export interface DescribeVerifiedDestinationNumbersRequest {
-  VerifiedDestinationNumberIds?: VerifiedDestinationNumberIdList;
-  DestinationPhoneNumbers?: DestinationPhoneNumberList;
-  Filters?: VerifiedDestinationNumberFilterList;
+  VerifiedDestinationNumberIds?: string[];
+  DestinationPhoneNumbers?: string[];
+  Filters?: VerifiedDestinationNumberFilter[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -2451,7 +2451,9 @@ export interface GetProtectConfigurationCountryRuleSetResult {
   ProtectConfigurationArn: string;
   ProtectConfigurationId: string;
   NumberCapability: string;
-  CountryRuleSet: ProtectConfigurationCountryRuleSet;
+  CountryRuleSet: {
+    [key: string]: ProtectConfigurationCountryRuleSetInformation;
+  };
 }
 export const GetProtectConfigurationCountryRuleSetResult = S.suspend(() =>
   S.Struct({
@@ -2481,7 +2483,7 @@ export const GetResourcePolicyResult = S.suspend(() =>
 }) as any as S.Schema<GetResourcePolicyResult>;
 export interface ListPoolOriginationIdentitiesRequest {
   PoolId: string;
-  Filters?: PoolOriginationIdentitiesFilterList;
+  Filters?: PoolOriginationIdentitiesFilter[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -2499,7 +2501,7 @@ export const ListPoolOriginationIdentitiesRequest = S.suspend(() =>
 }) as any as S.Schema<ListPoolOriginationIdentitiesRequest>;
 export interface ListProtectConfigurationRuleSetNumberOverridesRequest {
   ProtectConfigurationId: string;
-  Filters?: ListProtectConfigurationRuleSetNumberOverrideFilter;
+  Filters?: ProtectConfigurationRuleSetNumberOverrideFilterItem[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -2518,7 +2520,7 @@ export const ListProtectConfigurationRuleSetNumberOverridesRequest = S.suspend(
 }) as any as S.Schema<ListProtectConfigurationRuleSetNumberOverridesRequest>;
 export interface ListRegistrationAssociationsRequest {
   RegistrationId: string;
-  Filters?: RegistrationAssociationFilterList;
+  Filters?: RegistrationAssociationFilter[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -2536,7 +2538,7 @@ export const ListRegistrationAssociationsRequest = S.suspend(() =>
 }) as any as S.Schema<ListRegistrationAssociationsRequest>;
 export interface ListTagsForResourceResult {
   ResourceArn?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResult = S.suspend(() =>
   S.Struct({ ResourceArn: S.optional(S.String), Tags: S.optional(TagList) }),
@@ -2620,7 +2622,7 @@ export interface PutRegistrationFieldValueResult {
   RegistrationId: string;
   VersionNumber: number;
   FieldPath: string;
-  SelectChoices?: SelectChoiceList;
+  SelectChoices?: string[];
   TextValue?: string;
   RegistrationAttachmentId?: string;
 }
@@ -2660,7 +2662,7 @@ export interface ReleasePhoneNumberResult {
   Status?: string;
   IsoCountryCode?: string;
   MessageType?: string;
-  NumberCapabilities?: NumberCapabilityList;
+  NumberCapabilities?: string[];
   NumberType?: string;
   MonthlyLeasingPrice?: string;
   TwoWayEnabled?: boolean;
@@ -2699,7 +2701,7 @@ export interface ReleaseSenderIdResult {
   SenderIdArn: string;
   SenderId: string;
   IsoCountryCode: string;
-  MessageTypes: MessageTypeList;
+  MessageTypes: string[];
   MonthlyLeasingPrice: string;
   Registered: boolean;
   RegistrationId?: string;
@@ -2724,7 +2726,7 @@ export interface RequestPhoneNumberResult {
   Status?: string;
   IsoCountryCode?: string;
   MessageType?: string;
-  NumberCapabilities?: NumberCapabilityList;
+  NumberCapabilities?: string[];
   NumberType?: string;
   MonthlyLeasingPrice?: string;
   TwoWayEnabled?: boolean;
@@ -2736,7 +2738,7 @@ export interface RequestPhoneNumberResult {
   DeletionProtectionEnabled?: boolean;
   PoolId?: string;
   RegistrationId?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   CreatedTimestamp?: Date;
 }
 export const RequestPhoneNumberResult = S.suspend(() =>
@@ -2771,11 +2773,11 @@ export interface RequestSenderIdResult {
   SenderIdArn: string;
   SenderId: string;
   IsoCountryCode: string;
-  MessageTypes: MessageTypeList;
+  MessageTypes: string[];
   MonthlyLeasingPrice: string;
   DeletionProtectionEnabled: boolean;
   Registered: boolean;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const RequestSenderIdResult = S.suspend(() =>
   S.Struct({
@@ -2797,8 +2799,8 @@ export interface SendDestinationNumberVerificationCodeRequest {
   LanguageCode?: string;
   OriginationIdentity?: string;
   ConfigurationSetName?: string;
-  Context?: ContextMap;
-  DestinationCountryParameters?: DestinationCountryParameters;
+  Context?: { [key: string]: string };
+  DestinationCountryParameters?: { [key: string]: string };
 }
 export const SendDestinationNumberVerificationCodeRequest = S.suspend(() =>
   S.Struct({
@@ -2958,7 +2960,7 @@ export interface UpdatePhoneNumberResult {
   Status?: string;
   IsoCountryCode?: string;
   MessageType?: string;
-  NumberCapabilities?: NumberCapabilityList;
+  NumberCapabilities?: string[];
   NumberType?: string;
   MonthlyLeasingPrice?: string;
   TwoWayEnabled?: boolean;
@@ -3053,7 +3055,7 @@ export interface UpdateSenderIdResult {
   SenderIdArn: string;
   SenderId: string;
   IsoCountryCode: string;
-  MessageTypes: MessageTypeList;
+  MessageTypes: string[];
   MonthlyLeasingPrice: string;
   DeletionProtectionEnabled: boolean;
   Registered: boolean;
@@ -3132,7 +3134,7 @@ export type OptOutListInformationList = OptOutListInformation[];
 export const OptOutListInformationList = S.Array(OptOutListInformation);
 export interface RegistrationFieldValueInformation {
   FieldPath: string;
-  SelectChoices?: SelectChoiceList;
+  SelectChoices?: string[];
   TextValue?: string;
   RegistrationAttachmentId?: string;
   DeniedReason?: string;
@@ -3176,7 +3178,7 @@ export const StringList = S.Array(S.String);
 export interface CreateConfigurationSetResult {
   ConfigurationSetArn?: string;
   ConfigurationSetName?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   CreatedTimestamp?: Date;
 }
 export const CreateConfigurationSetResult = S.suspend(() =>
@@ -3211,8 +3213,8 @@ export interface CreateRegistrationResult {
   RegistrationType: string;
   RegistrationStatus: string;
   CurrentVersionNumber: number;
-  AdditionalAttributes?: StringMap;
-  Tags?: TagList;
+  AdditionalAttributes?: { [key: string]: string };
+  Tags?: Tag[];
   CreatedTimestamp: Date;
 }
 export const CreateRegistrationResult = S.suspend(() =>
@@ -3250,7 +3252,7 @@ export const CreateRegistrationVersionResult = S.suspend(() =>
 export interface DeleteConfigurationSetResult {
   ConfigurationSetArn?: string;
   ConfigurationSetName?: string;
-  EventDestinations?: EventDestinationList;
+  EventDestinations?: EventDestination[];
   DefaultMessageType?: string;
   DefaultSenderId?: string;
   DefaultMessageFeedbackEnabled?: boolean;
@@ -3272,7 +3274,7 @@ export const DeleteConfigurationSetResult = S.suspend(() =>
   identifier: "DeleteConfigurationSetResult",
 }) as any as S.Schema<DeleteConfigurationSetResult>;
 export interface DescribeAccountAttributesResult {
-  AccountAttributes?: AccountAttributeList;
+  AccountAttributes?: AccountAttribute[];
   NextToken?: string;
 }
 export const DescribeAccountAttributesResult = S.suspend(() =>
@@ -3284,7 +3286,7 @@ export const DescribeAccountAttributesResult = S.suspend(() =>
   identifier: "DescribeAccountAttributesResult",
 }) as any as S.Schema<DescribeAccountAttributesResult>;
 export interface DescribeAccountLimitsResult {
-  AccountLimits?: AccountLimitList;
+  AccountLimits?: AccountLimit[];
   NextToken?: string;
 }
 export const DescribeAccountLimitsResult = S.suspend(() =>
@@ -3296,7 +3298,7 @@ export const DescribeAccountLimitsResult = S.suspend(() =>
   identifier: "DescribeAccountLimitsResult",
 }) as any as S.Schema<DescribeAccountLimitsResult>;
 export interface DescribeOptOutListsResult {
-  OptOutLists?: OptOutListInformationList;
+  OptOutLists?: OptOutListInformation[];
   NextToken?: string;
 }
 export const DescribeOptOutListsResult = S.suspend(() =>
@@ -3311,7 +3313,7 @@ export interface DescribeRegistrationFieldValuesResult {
   RegistrationArn: string;
   RegistrationId: string;
   VersionNumber: number;
-  RegistrationFieldValues: RegistrationFieldValueInformationList;
+  RegistrationFieldValues: RegistrationFieldValueInformation[];
   NextToken?: string;
 }
 export const DescribeRegistrationFieldValuesResult = S.suspend(() =>
@@ -3326,7 +3328,7 @@ export const DescribeRegistrationFieldValuesResult = S.suspend(() =>
   identifier: "DescribeRegistrationFieldValuesResult",
 }) as any as S.Schema<DescribeRegistrationFieldValuesResult>;
 export interface DescribeSpendLimitsResult {
-  SpendLimits?: SpendLimitList;
+  SpendLimits?: SpendLimit[];
   NextToken?: string;
 }
 export const DescribeSpendLimitsResult = S.suspend(() =>
@@ -3348,7 +3350,9 @@ export const SendDestinationNumberVerificationCodeResult = S.suspend(() =>
 export interface UpdateProtectConfigurationCountryRuleSetRequest {
   ProtectConfigurationId: string;
   NumberCapability: string;
-  CountryRuleSetUpdates: ProtectConfigurationCountryRuleSet;
+  CountryRuleSetUpdates: {
+    [key: string]: ProtectConfigurationCountryRuleSetInformation;
+  };
 }
 export const UpdateProtectConfigurationCountryRuleSetRequest = S.suspend(() =>
   S.Struct({
@@ -3364,7 +3368,7 @@ export const UpdateProtectConfigurationCountryRuleSetRequest = S.suspend(() =>
 export interface SelectValidation {
   MinChoices: number;
   MaxChoices: number;
-  Options: StringList;
+  Options: string[];
 }
 export const SelectValidation = S.suspend(() =>
   S.Struct({ MinChoices: S.Number, MaxChoices: S.Number, Options: StringList }),
@@ -3402,7 +3406,7 @@ export const RegistrationSectionDisplayHints = S.suspend(() =>
 export interface ConfigurationSetInformation {
   ConfigurationSetArn: string;
   ConfigurationSetName: string;
-  EventDestinations: EventDestinationList;
+  EventDestinations: EventDestination[];
   DefaultMessageType?: string;
   DefaultSenderId?: string;
   DefaultMessageFeedbackEnabled?: boolean;
@@ -3466,7 +3470,7 @@ export interface PhoneNumberInformation {
   Status: string;
   IsoCountryCode: string;
   MessageType: string;
-  NumberCapabilities: NumberCapabilityList;
+  NumberCapabilities: string[];
   NumberType: string;
   MonthlyLeasingPrice: string;
   TwoWayEnabled: boolean;
@@ -3595,7 +3599,7 @@ export interface RegistrationInformation {
   CurrentVersionNumber: number;
   ApprovedVersionNumber?: number;
   LatestDeniedVersionNumber?: number;
-  AdditionalAttributes?: StringMap;
+  AdditionalAttributes?: { [key: string]: string };
   CreatedTimestamp: Date;
 }
 export const RegistrationInformation = S.suspend(() =>
@@ -3635,7 +3639,7 @@ export interface SenderIdInformation {
   SenderIdArn: string;
   SenderId: string;
   IsoCountryCode: string;
-  MessageTypes: MessageTypeList;
+  MessageTypes: string[];
   MonthlyLeasingPrice: string;
   DeletionProtectionEnabled: boolean;
   Registered: boolean;
@@ -3684,7 +3688,7 @@ export interface OriginationIdentityMetadata {
   OriginationIdentityArn: string;
   OriginationIdentity: string;
   IsoCountryCode: string;
-  NumberCapabilities: NumberCapabilityList;
+  NumberCapabilities: string[];
   PhoneNumber?: string;
 }
 export const OriginationIdentityMetadata = S.suspend(() =>
@@ -3767,7 +3771,7 @@ export const SelectOptionDescription = S.suspend(() =>
 export type SelectOptionDescriptionsList = SelectOptionDescription[];
 export const SelectOptionDescriptionsList = S.Array(SelectOptionDescription);
 export interface DescribeConfigurationSetsResult {
-  ConfigurationSets?: ConfigurationSetInformationList;
+  ConfigurationSets?: ConfigurationSetInformation[];
   NextToken?: string;
 }
 export const DescribeConfigurationSetsResult = S.suspend(() =>
@@ -3781,7 +3785,7 @@ export const DescribeConfigurationSetsResult = S.suspend(() =>
 export interface DescribeKeywordsResult {
   OriginationIdentityArn?: string;
   OriginationIdentity?: string;
-  Keywords?: KeywordInformationList;
+  Keywords?: KeywordInformation[];
   NextToken?: string;
 }
 export const DescribeKeywordsResult = S.suspend(() =>
@@ -3797,7 +3801,7 @@ export const DescribeKeywordsResult = S.suspend(() =>
 export interface DescribeOptedOutNumbersResult {
   OptOutListArn?: string;
   OptOutListName?: string;
-  OptedOutNumbers?: OptedOutNumberInformationList;
+  OptedOutNumbers?: OptedOutNumberInformation[];
   NextToken?: string;
 }
 export const DescribeOptedOutNumbersResult = S.suspend(() =>
@@ -3811,7 +3815,7 @@ export const DescribeOptedOutNumbersResult = S.suspend(() =>
   identifier: "DescribeOptedOutNumbersResult",
 }) as any as S.Schema<DescribeOptedOutNumbersResult>;
 export interface DescribePhoneNumbersResult {
-  PhoneNumbers?: PhoneNumberInformationList;
+  PhoneNumbers?: PhoneNumberInformation[];
   NextToken?: string;
 }
 export const DescribePhoneNumbersResult = S.suspend(() =>
@@ -3823,7 +3827,7 @@ export const DescribePhoneNumbersResult = S.suspend(() =>
   identifier: "DescribePhoneNumbersResult",
 }) as any as S.Schema<DescribePhoneNumbersResult>;
 export interface DescribePoolsResult {
-  Pools?: PoolInformationList;
+  Pools?: PoolInformation[];
   NextToken?: string;
 }
 export const DescribePoolsResult = S.suspend(() =>
@@ -3835,7 +3839,7 @@ export const DescribePoolsResult = S.suspend(() =>
   identifier: "DescribePoolsResult",
 }) as any as S.Schema<DescribePoolsResult>;
 export interface DescribeProtectConfigurationsResult {
-  ProtectConfigurations?: ProtectConfigurationInformationList;
+  ProtectConfigurations?: ProtectConfigurationInformation[];
   NextToken?: string;
 }
 export const DescribeProtectConfigurationsResult = S.suspend(() =>
@@ -3847,7 +3851,7 @@ export const DescribeProtectConfigurationsResult = S.suspend(() =>
   identifier: "DescribeProtectConfigurationsResult",
 }) as any as S.Schema<DescribeProtectConfigurationsResult>;
 export interface DescribeRegistrationAttachmentsResult {
-  RegistrationAttachments: RegistrationAttachmentsInformationList;
+  RegistrationAttachments: RegistrationAttachmentsInformation[];
   NextToken?: string;
 }
 export const DescribeRegistrationAttachmentsResult = S.suspend(() =>
@@ -3859,7 +3863,7 @@ export const DescribeRegistrationAttachmentsResult = S.suspend(() =>
   identifier: "DescribeRegistrationAttachmentsResult",
 }) as any as S.Schema<DescribeRegistrationAttachmentsResult>;
 export interface DescribeRegistrationsResult {
-  Registrations: RegistrationInformationList;
+  Registrations: RegistrationInformation[];
   NextToken?: string;
 }
 export const DescribeRegistrationsResult = S.suspend(() =>
@@ -3872,7 +3876,7 @@ export const DescribeRegistrationsResult = S.suspend(() =>
 }) as any as S.Schema<DescribeRegistrationsResult>;
 export interface DescribeRegistrationSectionDefinitionsResult {
   RegistrationType: string;
-  RegistrationSectionDefinitions: RegistrationSectionDefinitionList;
+  RegistrationSectionDefinitions: RegistrationSectionDefinition[];
   NextToken?: string;
 }
 export const DescribeRegistrationSectionDefinitionsResult = S.suspend(() =>
@@ -3885,7 +3889,7 @@ export const DescribeRegistrationSectionDefinitionsResult = S.suspend(() =>
   identifier: "DescribeRegistrationSectionDefinitionsResult",
 }) as any as S.Schema<DescribeRegistrationSectionDefinitionsResult>;
 export interface DescribeSenderIdsResult {
-  SenderIds?: SenderIdInformationList;
+  SenderIds?: SenderIdInformation[];
   NextToken?: string;
 }
 export const DescribeSenderIdsResult = S.suspend(() =>
@@ -3897,7 +3901,7 @@ export const DescribeSenderIdsResult = S.suspend(() =>
   identifier: "DescribeSenderIdsResult",
 }) as any as S.Schema<DescribeSenderIdsResult>;
 export interface DescribeVerifiedDestinationNumbersResult {
-  VerifiedDestinationNumbers: VerifiedDestinationNumberInformationList;
+  VerifiedDestinationNumbers: VerifiedDestinationNumberInformation[];
   NextToken?: string;
 }
 export const DescribeVerifiedDestinationNumbersResult = S.suspend(() =>
@@ -3911,7 +3915,7 @@ export const DescribeVerifiedDestinationNumbersResult = S.suspend(() =>
 export interface ListPoolOriginationIdentitiesResult {
   PoolArn?: string;
   PoolId?: string;
-  OriginationIdentities?: OriginationIdentityMetadataList;
+  OriginationIdentities?: OriginationIdentityMetadata[];
   NextToken?: string;
 }
 export const ListPoolOriginationIdentitiesResult = S.suspend(() =>
@@ -3927,7 +3931,7 @@ export const ListPoolOriginationIdentitiesResult = S.suspend(() =>
 export interface ListProtectConfigurationRuleSetNumberOverridesResult {
   ProtectConfigurationArn: string;
   ProtectConfigurationId: string;
-  RuleSetNumberOverrides?: ProtectConfigurationRuleSetNumberOverrideList;
+  RuleSetNumberOverrides?: ProtectConfigurationRuleSetNumberOverride[];
   NextToken?: string;
 }
 export const ListProtectConfigurationRuleSetNumberOverridesResult = S.suspend(
@@ -3947,7 +3951,7 @@ export interface ListRegistrationAssociationsResult {
   RegistrationArn: string;
   RegistrationId: string;
   RegistrationType: string;
-  RegistrationAssociations: RegistrationAssociationMetadataList;
+  RegistrationAssociations: RegistrationAssociationMetadata[];
   NextToken?: string;
 }
 export const ListRegistrationAssociationsResult = S.suspend(() =>
@@ -3965,7 +3969,9 @@ export interface UpdateProtectConfigurationCountryRuleSetResult {
   ProtectConfigurationArn: string;
   ProtectConfigurationId: string;
   NumberCapability: string;
-  CountryRuleSet: ProtectConfigurationCountryRuleSet;
+  CountryRuleSet: {
+    [key: string]: ProtectConfigurationCountryRuleSetInformation;
+  };
 }
 export const UpdateProtectConfigurationCountryRuleSetResult = S.suspend(() =>
   S.Struct({
@@ -3983,7 +3989,7 @@ export interface RegistrationFieldDisplayHints {
   LongDescription?: string;
   DocumentationTitle?: string;
   DocumentationLink?: string;
-  SelectOptionDescriptions?: SelectOptionDescriptionsList;
+  SelectOptionDescriptions?: SelectOptionDescription[];
   TextValidationDescription?: string;
   ExampleTextValue?: string;
 }
@@ -4088,7 +4094,7 @@ export const RegistrationFieldDefinitionList = S.Array(
 );
 export interface RegistrationTypeDefinition {
   RegistrationType: string;
-  SupportedAssociations?: SupportedAssociationList;
+  SupportedAssociations?: SupportedAssociation[];
   DisplayHints: RegistrationTypeDisplayHints;
 }
 export const RegistrationTypeDefinition = S.suspend(() =>
@@ -4108,7 +4114,7 @@ export interface RegistrationVersionInformation {
   VersionNumber: number;
   RegistrationVersionStatus: string;
   RegistrationVersionStatusHistory: RegistrationVersionStatusHistory;
-  DeniedReasons?: RegistrationDeniedReasonInformationList;
+  DeniedReasons?: RegistrationDeniedReasonInformation[];
   Feedback?: string;
 }
 export const RegistrationVersionInformation = S.suspend(() =>
@@ -4129,7 +4135,7 @@ export const RegistrationVersionInformationList = S.Array(
 );
 export interface DescribeRegistrationFieldDefinitionsResult {
   RegistrationType: string;
-  RegistrationFieldDefinitions: RegistrationFieldDefinitionList;
+  RegistrationFieldDefinitions: RegistrationFieldDefinition[];
   NextToken?: string;
 }
 export const DescribeRegistrationFieldDefinitionsResult = S.suspend(() =>
@@ -4142,7 +4148,7 @@ export const DescribeRegistrationFieldDefinitionsResult = S.suspend(() =>
   identifier: "DescribeRegistrationFieldDefinitionsResult",
 }) as any as S.Schema<DescribeRegistrationFieldDefinitionsResult>;
 export interface DescribeRegistrationTypeDefinitionsResult {
-  RegistrationTypeDefinitions: RegistrationTypeDefinitionList;
+  RegistrationTypeDefinitions: RegistrationTypeDefinition[];
   NextToken?: string;
 }
 export const DescribeRegistrationTypeDefinitionsResult = S.suspend(() =>
@@ -4156,7 +4162,7 @@ export const DescribeRegistrationTypeDefinitionsResult = S.suspend(() =>
 export interface DescribeRegistrationVersionsResult {
   RegistrationArn: string;
   RegistrationId: string;
-  RegistrationVersions: RegistrationVersionInformationList;
+  RegistrationVersions: RegistrationVersionInformation[];
   NextToken?: string;
 }
 export const DescribeRegistrationVersionsResult = S.suspend(() =>
@@ -4235,7 +4241,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const describeAccountAttributes: {
   (
     input: DescribeAccountAttributesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeAccountAttributesResult,
     | AccessDeniedException
     | InternalServerException
@@ -4246,7 +4252,7 @@ export const describeAccountAttributes: {
   >;
   pages: (
     input: DescribeAccountAttributesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeAccountAttributesResult,
     | AccessDeniedException
     | InternalServerException
@@ -4257,7 +4263,7 @@ export const describeAccountAttributes: {
   >;
   items: (
     input: DescribeAccountAttributesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AccountAttribute,
     | AccessDeniedException
     | InternalServerException
@@ -4292,7 +4298,7 @@ export const describeAccountAttributes: {
 export const describeConfigurationSets: {
   (
     input: DescribeConfigurationSetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeConfigurationSetsResult,
     | AccessDeniedException
     | InternalServerException
@@ -4304,7 +4310,7 @@ export const describeConfigurationSets: {
   >;
   pages: (
     input: DescribeConfigurationSetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeConfigurationSetsResult,
     | AccessDeniedException
     | InternalServerException
@@ -4316,7 +4322,7 @@ export const describeConfigurationSets: {
   >;
   items: (
     input: DescribeConfigurationSetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConfigurationSetInformation,
     | AccessDeniedException
     | InternalServerException
@@ -4353,7 +4359,7 @@ export const describeConfigurationSets: {
 export const describeKeywords: {
   (
     input: DescribeKeywordsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeKeywordsResult,
     | AccessDeniedException
     | InternalServerException
@@ -4365,7 +4371,7 @@ export const describeKeywords: {
   >;
   pages: (
     input: DescribeKeywordsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeKeywordsResult,
     | AccessDeniedException
     | InternalServerException
@@ -4377,7 +4383,7 @@ export const describeKeywords: {
   >;
   items: (
     input: DescribeKeywordsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     KeywordInformation,
     | AccessDeniedException
     | InternalServerException
@@ -4414,7 +4420,7 @@ export const describeKeywords: {
 export const describeOptedOutNumbers: {
   (
     input: DescribeOptedOutNumbersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeOptedOutNumbersResult,
     | AccessDeniedException
     | InternalServerException
@@ -4426,7 +4432,7 @@ export const describeOptedOutNumbers: {
   >;
   pages: (
     input: DescribeOptedOutNumbersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeOptedOutNumbersResult,
     | AccessDeniedException
     | InternalServerException
@@ -4438,7 +4444,7 @@ export const describeOptedOutNumbers: {
   >;
   items: (
     input: DescribeOptedOutNumbersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OptedOutNumberInformation,
     | AccessDeniedException
     | InternalServerException
@@ -4475,7 +4481,7 @@ export const describeOptedOutNumbers: {
 export const describePhoneNumbers: {
   (
     input: DescribePhoneNumbersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribePhoneNumbersResult,
     | AccessDeniedException
     | InternalServerException
@@ -4487,7 +4493,7 @@ export const describePhoneNumbers: {
   >;
   pages: (
     input: DescribePhoneNumbersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribePhoneNumbersResult,
     | AccessDeniedException
     | InternalServerException
@@ -4499,7 +4505,7 @@ export const describePhoneNumbers: {
   >;
   items: (
     input: DescribePhoneNumbersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PhoneNumberInformation,
     | AccessDeniedException
     | InternalServerException
@@ -4538,7 +4544,7 @@ export const describePhoneNumbers: {
 export const describePools: {
   (
     input: DescribePoolsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribePoolsResult,
     | AccessDeniedException
     | InternalServerException
@@ -4550,7 +4556,7 @@ export const describePools: {
   >;
   pages: (
     input: DescribePoolsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribePoolsResult,
     | AccessDeniedException
     | InternalServerException
@@ -4562,7 +4568,7 @@ export const describePools: {
   >;
   items: (
     input: DescribePoolsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PoolInformation,
     | AccessDeniedException
     | InternalServerException
@@ -4595,7 +4601,7 @@ export const describePools: {
 export const describeProtectConfigurations: {
   (
     input: DescribeProtectConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeProtectConfigurationsResult,
     | AccessDeniedException
     | InternalServerException
@@ -4607,7 +4613,7 @@ export const describeProtectConfigurations: {
   >;
   pages: (
     input: DescribeProtectConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeProtectConfigurationsResult,
     | AccessDeniedException
     | InternalServerException
@@ -4619,7 +4625,7 @@ export const describeProtectConfigurations: {
   >;
   items: (
     input: DescribeProtectConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProtectConfigurationInformation,
     | AccessDeniedException
     | InternalServerException
@@ -4652,7 +4658,7 @@ export const describeProtectConfigurations: {
 export const describeRegistrationAttachments: {
   (
     input: DescribeRegistrationAttachmentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeRegistrationAttachmentsResult,
     | AccessDeniedException
     | InternalServerException
@@ -4664,7 +4670,7 @@ export const describeRegistrationAttachments: {
   >;
   pages: (
     input: DescribeRegistrationAttachmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeRegistrationAttachmentsResult,
     | AccessDeniedException
     | InternalServerException
@@ -4676,7 +4682,7 @@ export const describeRegistrationAttachments: {
   >;
   items: (
     input: DescribeRegistrationAttachmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RegistrationAttachmentsInformation,
     | AccessDeniedException
     | InternalServerException
@@ -4709,7 +4715,7 @@ export const describeRegistrationAttachments: {
 export const describeRegistrations: {
   (
     input: DescribeRegistrationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeRegistrationsResult,
     | AccessDeniedException
     | InternalServerException
@@ -4721,7 +4727,7 @@ export const describeRegistrations: {
   >;
   pages: (
     input: DescribeRegistrationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeRegistrationsResult,
     | AccessDeniedException
     | InternalServerException
@@ -4733,7 +4739,7 @@ export const describeRegistrations: {
   >;
   items: (
     input: DescribeRegistrationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RegistrationInformation,
     | AccessDeniedException
     | InternalServerException
@@ -4766,7 +4772,7 @@ export const describeRegistrations: {
 export const describeRegistrationSectionDefinitions: {
   (
     input: DescribeRegistrationSectionDefinitionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeRegistrationSectionDefinitionsResult,
     | AccessDeniedException
     | InternalServerException
@@ -4777,7 +4783,7 @@ export const describeRegistrationSectionDefinitions: {
   >;
   pages: (
     input: DescribeRegistrationSectionDefinitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeRegistrationSectionDefinitionsResult,
     | AccessDeniedException
     | InternalServerException
@@ -4788,7 +4794,7 @@ export const describeRegistrationSectionDefinitions: {
   >;
   items: (
     input: DescribeRegistrationSectionDefinitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RegistrationSectionDefinition,
     | AccessDeniedException
     | InternalServerException
@@ -4823,7 +4829,7 @@ export const describeRegistrationSectionDefinitions: {
 export const describeSenderIds: {
   (
     input: DescribeSenderIdsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeSenderIdsResult,
     | AccessDeniedException
     | InternalServerException
@@ -4835,7 +4841,7 @@ export const describeSenderIds: {
   >;
   pages: (
     input: DescribeSenderIdsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeSenderIdsResult,
     | AccessDeniedException
     | InternalServerException
@@ -4847,7 +4853,7 @@ export const describeSenderIds: {
   >;
   items: (
     input: DescribeSenderIdsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SenderIdInformation,
     | AccessDeniedException
     | InternalServerException
@@ -4880,7 +4886,7 @@ export const describeSenderIds: {
 export const describeVerifiedDestinationNumbers: {
   (
     input: DescribeVerifiedDestinationNumbersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeVerifiedDestinationNumbersResult,
     | AccessDeniedException
     | InternalServerException
@@ -4892,7 +4898,7 @@ export const describeVerifiedDestinationNumbers: {
   >;
   pages: (
     input: DescribeVerifiedDestinationNumbersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeVerifiedDestinationNumbersResult,
     | AccessDeniedException
     | InternalServerException
@@ -4904,7 +4910,7 @@ export const describeVerifiedDestinationNumbers: {
   >;
   items: (
     input: DescribeVerifiedDestinationNumbersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     VerifiedDestinationNumberInformation,
     | AccessDeniedException
     | InternalServerException
@@ -4939,7 +4945,7 @@ export const describeVerifiedDestinationNumbers: {
 export const listPoolOriginationIdentities: {
   (
     input: ListPoolOriginationIdentitiesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPoolOriginationIdentitiesResult,
     | AccessDeniedException
     | InternalServerException
@@ -4951,7 +4957,7 @@ export const listPoolOriginationIdentities: {
   >;
   pages: (
     input: ListPoolOriginationIdentitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPoolOriginationIdentitiesResult,
     | AccessDeniedException
     | InternalServerException
@@ -4963,7 +4969,7 @@ export const listPoolOriginationIdentities: {
   >;
   items: (
     input: ListPoolOriginationIdentitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OriginationIdentityMetadata,
     | AccessDeniedException
     | InternalServerException
@@ -4996,7 +5002,7 @@ export const listPoolOriginationIdentities: {
 export const listProtectConfigurationRuleSetNumberOverrides: {
   (
     input: ListProtectConfigurationRuleSetNumberOverridesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProtectConfigurationRuleSetNumberOverridesResult,
     | AccessDeniedException
     | InternalServerException
@@ -5008,7 +5014,7 @@ export const listProtectConfigurationRuleSetNumberOverrides: {
   >;
   pages: (
     input: ListProtectConfigurationRuleSetNumberOverridesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProtectConfigurationRuleSetNumberOverridesResult,
     | AccessDeniedException
     | InternalServerException
@@ -5020,7 +5026,7 @@ export const listProtectConfigurationRuleSetNumberOverrides: {
   >;
   items: (
     input: ListProtectConfigurationRuleSetNumberOverridesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProtectConfigurationRuleSetNumberOverride,
     | AccessDeniedException
     | InternalServerException
@@ -5053,7 +5059,7 @@ export const listProtectConfigurationRuleSetNumberOverrides: {
 export const listRegistrationAssociations: {
   (
     input: ListRegistrationAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRegistrationAssociationsResult,
     | AccessDeniedException
     | InternalServerException
@@ -5065,7 +5071,7 @@ export const listRegistrationAssociations: {
   >;
   pages: (
     input: ListRegistrationAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRegistrationAssociationsResult,
     | AccessDeniedException
     | InternalServerException
@@ -5077,7 +5083,7 @@ export const listRegistrationAssociations: {
   >;
   items: (
     input: ListRegistrationAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RegistrationAssociationMetadata,
     | AccessDeniedException
     | InternalServerException
@@ -5109,7 +5115,7 @@ export const listRegistrationAssociations: {
  */
 export const updateProtectConfigurationCountryRuleSet: (
   input: UpdateProtectConfigurationCountryRuleSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProtectConfigurationCountryRuleSetResult,
   | AccessDeniedException
   | InternalServerException
@@ -5134,7 +5140,7 @@ export const updateProtectConfigurationCountryRuleSet: (
  */
 export const carrierLookup: (
   input: CarrierLookupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CarrierLookupResult,
   | AccessDeniedException
   | InternalServerException
@@ -5161,7 +5167,7 @@ export const carrierLookup: (
  */
 export const deleteConfigurationSet: (
   input: DeleteConfigurationSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConfigurationSetResult,
   | AccessDeniedException
   | InternalServerException
@@ -5190,7 +5196,7 @@ export const deleteConfigurationSet: (
  */
 export const deleteKeyword: (
   input: DeleteKeywordRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteKeywordResult,
   | AccessDeniedException
   | ConflictException
@@ -5222,7 +5228,7 @@ export const deleteKeyword: (
 export const describeOptOutLists: {
   (
     input: DescribeOptOutListsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeOptOutListsResult,
     | AccessDeniedException
     | InternalServerException
@@ -5234,7 +5240,7 @@ export const describeOptOutLists: {
   >;
   pages: (
     input: DescribeOptOutListsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeOptOutListsResult,
     | AccessDeniedException
     | InternalServerException
@@ -5246,7 +5252,7 @@ export const describeOptOutLists: {
   >;
   items: (
     input: DescribeOptOutListsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OptOutListInformation,
     | AccessDeniedException
     | InternalServerException
@@ -5279,7 +5285,7 @@ export const describeOptOutLists: {
 export const describeRegistrationFieldValues: {
   (
     input: DescribeRegistrationFieldValuesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeRegistrationFieldValuesResult,
     | AccessDeniedException
     | InternalServerException
@@ -5291,7 +5297,7 @@ export const describeRegistrationFieldValues: {
   >;
   pages: (
     input: DescribeRegistrationFieldValuesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeRegistrationFieldValuesResult,
     | AccessDeniedException
     | InternalServerException
@@ -5303,7 +5309,7 @@ export const describeRegistrationFieldValues: {
   >;
   items: (
     input: DescribeRegistrationFieldValuesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RegistrationFieldValueInformation,
     | AccessDeniedException
     | InternalServerException
@@ -5335,7 +5341,7 @@ export const describeRegistrationFieldValues: {
  */
 export const sendDestinationNumberVerificationCode: (
   input: SendDestinationNumberVerificationCodeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendDestinationNumberVerificationCodeResult,
   | AccessDeniedException
   | ConflictException
@@ -5366,7 +5372,7 @@ export const sendDestinationNumberVerificationCode: (
  */
 export const deleteDefaultMessageType: (
   input: DeleteDefaultMessageTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDefaultMessageTypeResult,
   | AccessDeniedException
   | InternalServerException
@@ -5393,7 +5399,7 @@ export const deleteDefaultMessageType: (
  */
 export const deleteDefaultSenderId: (
   input: DeleteDefaultSenderIdRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDefaultSenderIdResult,
   | AccessDeniedException
   | InternalServerException
@@ -5420,7 +5426,7 @@ export const deleteDefaultSenderId: (
  */
 export const deleteEventDestination: (
   input: DeleteEventDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEventDestinationResult,
   | AccessDeniedException
   | InternalServerException
@@ -5445,7 +5451,7 @@ export const deleteEventDestination: (
  */
 export const deleteProtectConfigurationRuleSetNumberOverride: (
   input: DeleteProtectConfigurationRuleSetNumberOverrideRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProtectConfigurationRuleSetNumberOverrideResult,
   | AccessDeniedException
   | InternalServerException
@@ -5470,7 +5476,7 @@ export const deleteProtectConfigurationRuleSetNumberOverride: (
  */
 export const deleteResourcePolicy: (
   input: DeleteResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourcePolicyResult,
   | AccessDeniedException
   | InternalServerException
@@ -5495,7 +5501,7 @@ export const deleteResourcePolicy: (
  */
 export const getProtectConfigurationCountryRuleSet: (
   input: GetProtectConfigurationCountryRuleSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetProtectConfigurationCountryRuleSetResult,
   | AccessDeniedException
   | InternalServerException
@@ -5520,7 +5526,7 @@ export const getProtectConfigurationCountryRuleSet: (
  */
 export const getResourcePolicy: (
   input: GetResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourcePolicyResult,
   | AccessDeniedException
   | InternalServerException
@@ -5545,7 +5551,7 @@ export const getResourcePolicy: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResult,
   | AccessDeniedException
   | InternalServerException
@@ -5572,7 +5578,7 @@ export const listTagsForResource: (
  */
 export const putMessageFeedback: (
   input: PutMessageFeedbackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutMessageFeedbackResult,
   | AccessDeniedException
   | InternalServerException
@@ -5599,7 +5605,7 @@ export const putMessageFeedback: (
  */
 export const putOptedOutNumber: (
   input: PutOptedOutNumberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutOptedOutNumberResult,
   | AccessDeniedException
   | InternalServerException
@@ -5624,7 +5630,7 @@ export const putOptedOutNumber: (
  */
 export const putResourcePolicy: (
   input: PutResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourcePolicyResult,
   | AccessDeniedException
   | InternalServerException
@@ -5649,7 +5655,7 @@ export const putResourcePolicy: (
  */
 export const setAccountDefaultProtectConfiguration: (
   input: SetAccountDefaultProtectConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetAccountDefaultProtectConfigurationResult,
   | AccessDeniedException
   | InternalServerException
@@ -5674,7 +5680,7 @@ export const setAccountDefaultProtectConfiguration: (
  */
 export const setDefaultMessageFeedbackEnabled: (
   input: SetDefaultMessageFeedbackEnabledRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetDefaultMessageFeedbackEnabledResult,
   | AccessDeniedException
   | InternalServerException
@@ -5701,7 +5707,7 @@ export const setDefaultMessageFeedbackEnabled: (
  */
 export const setDefaultMessageType: (
   input: SetDefaultMessageTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetDefaultMessageTypeResult,
   | AccessDeniedException
   | InternalServerException
@@ -5728,7 +5734,7 @@ export const setDefaultMessageType: (
  */
 export const setDefaultSenderId: (
   input: SetDefaultSenderIdRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetDefaultSenderIdResult,
   | AccessDeniedException
   | InternalServerException
@@ -5753,7 +5759,7 @@ export const setDefaultSenderId: (
  */
 export const updateProtectConfiguration: (
   input: UpdateProtectConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProtectConfigurationResult,
   | AccessDeniedException
   | InternalServerException
@@ -5778,7 +5784,7 @@ export const updateProtectConfiguration: (
  */
 export const updateSenderId: (
   input: UpdateSenderIdRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSenderIdResult,
   | AccessDeniedException
   | InternalServerException
@@ -5803,7 +5809,7 @@ export const updateSenderId: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResult,
   | AccessDeniedException
   | InternalServerException
@@ -5830,7 +5836,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResult,
   | AccessDeniedException
   | InternalServerException
@@ -5859,7 +5865,7 @@ export const untagResource: (
  */
 export const deleteOptedOutNumber: (
   input: DeleteOptedOutNumberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteOptedOutNumberResult,
   | AccessDeniedException
   | ConflictException
@@ -5888,7 +5894,7 @@ export const deleteOptedOutNumber: (
  */
 export const deleteOptOutList: (
   input: DeleteOptOutListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteOptOutListResult,
   | AccessDeniedException
   | ConflictException
@@ -5919,7 +5925,7 @@ export const deleteOptOutList: (
  */
 export const deletePool: (
   input: DeletePoolRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePoolResult,
   | AccessDeniedException
   | ConflictException
@@ -5946,7 +5952,7 @@ export const deletePool: (
  */
 export const deleteProtectConfiguration: (
   input: DeleteProtectConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProtectConfigurationResult,
   | AccessDeniedException
   | ConflictException
@@ -5973,7 +5979,7 @@ export const deleteProtectConfiguration: (
  */
 export const deleteRegistration: (
   input: DeleteRegistrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRegistrationResult,
   | AccessDeniedException
   | ConflictException
@@ -6000,7 +6006,7 @@ export const deleteRegistration: (
  */
 export const deleteRegistrationAttachment: (
   input: DeleteRegistrationAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRegistrationAttachmentResult,
   | AccessDeniedException
   | ConflictException
@@ -6027,7 +6033,7 @@ export const deleteRegistrationAttachment: (
  */
 export const deleteRegistrationFieldValue: (
   input: DeleteRegistrationFieldValueRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRegistrationFieldValueResult,
   | AccessDeniedException
   | ConflictException
@@ -6054,7 +6060,7 @@ export const deleteRegistrationFieldValue: (
  */
 export const deleteVerifiedDestinationNumber: (
   input: DeleteVerifiedDestinationNumberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVerifiedDestinationNumberResult,
   | AccessDeniedException
   | ConflictException
@@ -6083,7 +6089,7 @@ export const deleteVerifiedDestinationNumber: (
  */
 export const disassociateOriginationIdentity: (
   input: DisassociateOriginationIdentityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateOriginationIdentityResult,
   | AccessDeniedException
   | ConflictException
@@ -6110,7 +6116,7 @@ export const disassociateOriginationIdentity: (
  */
 export const disassociateProtectConfiguration: (
   input: DisassociateProtectConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateProtectConfigurationResult,
   | AccessDeniedException
   | ConflictException
@@ -6137,7 +6143,7 @@ export const disassociateProtectConfiguration: (
  */
 export const discardRegistrationVersion: (
   input: DiscardRegistrationVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DiscardRegistrationVersionResult,
   | AccessDeniedException
   | ConflictException
@@ -6168,7 +6174,7 @@ export const discardRegistrationVersion: (
  */
 export const putKeyword: (
   input: PutKeywordRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutKeywordResult,
   | AccessDeniedException
   | ConflictException
@@ -6197,7 +6203,7 @@ export const putKeyword: (
  */
 export const putRegistrationFieldValue: (
   input: PutRegistrationFieldValueRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutRegistrationFieldValueResult,
   | AccessDeniedException
   | ConflictException
@@ -6226,7 +6232,7 @@ export const putRegistrationFieldValue: (
  */
 export const releasePhoneNumber: (
   input: ReleasePhoneNumberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ReleasePhoneNumberResult,
   | AccessDeniedException
   | ConflictException
@@ -6253,7 +6259,7 @@ export const releasePhoneNumber: (
  */
 export const releaseSenderId: (
   input: ReleaseSenderIdRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ReleaseSenderIdResult,
   | AccessDeniedException
   | ConflictException
@@ -6280,7 +6286,7 @@ export const releaseSenderId: (
  */
 export const requestPhoneNumber: (
   input: RequestPhoneNumberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RequestPhoneNumberResult,
   | AccessDeniedException
   | ConflictException
@@ -6309,7 +6315,7 @@ export const requestPhoneNumber: (
  */
 export const sendMediaMessage: (
   input: SendMediaMessageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendMediaMessageResult,
   | AccessDeniedException
   | ConflictException
@@ -6340,7 +6346,7 @@ export const sendMediaMessage: (
  */
 export const sendTextMessage: (
   input: SendTextMessageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendTextMessageResult,
   | AccessDeniedException
   | ConflictException
@@ -6369,7 +6375,7 @@ export const sendTextMessage: (
  */
 export const sendVoiceMessage: (
   input: SendVoiceMessageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendVoiceMessageResult,
   | AccessDeniedException
   | ConflictException
@@ -6398,7 +6404,7 @@ export const sendVoiceMessage: (
  */
 export const submitRegistrationVersion: (
   input: SubmitRegistrationVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SubmitRegistrationVersionResult,
   | AccessDeniedException
   | ConflictException
@@ -6427,7 +6433,7 @@ export const submitRegistrationVersion: (
  */
 export const updateEventDestination: (
   input: UpdateEventDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEventDestinationResult,
   | AccessDeniedException
   | ConflictException
@@ -6456,7 +6462,7 @@ export const updateEventDestination: (
  */
 export const updatePhoneNumber: (
   input: UpdatePhoneNumberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePhoneNumberResult,
   | AccessDeniedException
   | ConflictException
@@ -6483,7 +6489,7 @@ export const updatePhoneNumber: (
  */
 export const updatePool: (
   input: UpdatePoolRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePoolResult,
   | AccessDeniedException
   | ConflictException
@@ -6510,7 +6516,7 @@ export const updatePool: (
  */
 export const verifyDestinationNumber: (
   input: VerifyDestinationNumberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   VerifyDestinationNumberResult,
   | AccessDeniedException
   | ConflictException
@@ -6541,7 +6547,7 @@ export const verifyDestinationNumber: (
  */
 export const associateOriginationIdentity: (
   input: AssociateOriginationIdentityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateOriginationIdentityResult,
   | AccessDeniedException
   | ConflictException
@@ -6570,7 +6576,7 @@ export const associateOriginationIdentity: (
  */
 export const associateProtectConfiguration: (
   input: AssociateProtectConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateProtectConfigurationResult,
   | AccessDeniedException
   | ConflictException
@@ -6601,7 +6607,7 @@ export const associateProtectConfiguration: (
  */
 export const createPool: (
   input: CreatePoolRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePoolResult,
   | AccessDeniedException
   | ConflictException
@@ -6630,7 +6636,7 @@ export const createPool: (
  */
 export const createRegistrationAssociation: (
   input: CreateRegistrationAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRegistrationAssociationResult,
   | AccessDeniedException
   | ConflictException
@@ -6665,7 +6671,7 @@ export const createRegistrationAssociation: (
  */
 export const createEventDestination: (
   input: CreateEventDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEventDestinationResult,
   | AccessDeniedException
   | ConflictException
@@ -6694,7 +6700,7 @@ export const createEventDestination: (
  */
 export const createRegistrationVersion: (
   input: CreateRegistrationVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRegistrationVersionResult,
   | AccessDeniedException
   | ConflictException
@@ -6726,7 +6732,7 @@ export const createRegistrationVersion: (
 export const describeAccountLimits: {
   (
     input: DescribeAccountLimitsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeAccountLimitsResult,
     | AccessDeniedException
     | InternalServerException
@@ -6737,7 +6743,7 @@ export const describeAccountLimits: {
   >;
   pages: (
     input: DescribeAccountLimitsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeAccountLimitsResult,
     | AccessDeniedException
     | InternalServerException
@@ -6748,7 +6754,7 @@ export const describeAccountLimits: {
   >;
   items: (
     input: DescribeAccountLimitsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AccountLimit,
     | AccessDeniedException
     | InternalServerException
@@ -6781,7 +6787,7 @@ export const describeAccountLimits: {
 export const describeSpendLimits: {
   (
     input: DescribeSpendLimitsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeSpendLimitsResult,
     | AccessDeniedException
     | InternalServerException
@@ -6792,7 +6798,7 @@ export const describeSpendLimits: {
   >;
   pages: (
     input: DescribeSpendLimitsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeSpendLimitsResult,
     | AccessDeniedException
     | InternalServerException
@@ -6803,7 +6809,7 @@ export const describeSpendLimits: {
   >;
   items: (
     input: DescribeSpendLimitsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SpendLimit,
     | AccessDeniedException
     | InternalServerException
@@ -6833,7 +6839,7 @@ export const describeSpendLimits: {
  */
 export const setMediaMessageSpendLimitOverride: (
   input: SetMediaMessageSpendLimitOverrideRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetMediaMessageSpendLimitOverrideResult,
   | AccessDeniedException
   | InternalServerException
@@ -6856,7 +6862,7 @@ export const setMediaMessageSpendLimitOverride: (
  */
 export const setTextMessageSpendLimitOverride: (
   input: SetTextMessageSpendLimitOverrideRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetTextMessageSpendLimitOverrideResult,
   | AccessDeniedException
   | InternalServerException
@@ -6879,7 +6885,7 @@ export const setTextMessageSpendLimitOverride: (
  */
 export const setVoiceMessageSpendLimitOverride: (
   input: SetVoiceMessageSpendLimitOverrideRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetVoiceMessageSpendLimitOverrideResult,
   | AccessDeniedException
   | InternalServerException
@@ -6902,7 +6908,7 @@ export const setVoiceMessageSpendLimitOverride: (
  */
 export const deleteMediaMessageSpendLimitOverride: (
   input: DeleteMediaMessageSpendLimitOverrideRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMediaMessageSpendLimitOverrideResult,
   | AccessDeniedException
   | InternalServerException
@@ -6925,7 +6931,7 @@ export const deleteMediaMessageSpendLimitOverride: (
  */
 export const deleteTextMessageSpendLimitOverride: (
   input: DeleteTextMessageSpendLimitOverrideRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTextMessageSpendLimitOverrideResult,
   | AccessDeniedException
   | InternalServerException
@@ -6948,7 +6954,7 @@ export const deleteTextMessageSpendLimitOverride: (
  */
 export const deleteVoiceMessageSpendLimitOverride: (
   input: DeleteVoiceMessageSpendLimitOverrideRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVoiceMessageSpendLimitOverrideResult,
   | AccessDeniedException
   | InternalServerException
@@ -6971,7 +6977,7 @@ export const deleteVoiceMessageSpendLimitOverride: (
  */
 export const deleteAccountDefaultProtectConfiguration: (
   input: DeleteAccountDefaultProtectConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccountDefaultProtectConfigurationResult,
   | AccessDeniedException
   | InternalServerException
@@ -6996,7 +7002,7 @@ export const deleteAccountDefaultProtectConfiguration: (
  */
 export const putProtectConfigurationRuleSetNumberOverride: (
   input: PutProtectConfigurationRuleSetNumberOverrideRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutProtectConfigurationRuleSetNumberOverrideResult,
   | AccessDeniedException
   | ConflictException
@@ -7023,7 +7029,7 @@ export const putProtectConfigurationRuleSetNumberOverride: (
  */
 export const requestSenderId: (
   input: RequestSenderIdRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RequestSenderIdResult,
   | AccessDeniedException
   | ConflictException
@@ -7054,7 +7060,7 @@ export const requestSenderId: (
  */
 export const createOptOutList: (
   input: CreateOptOutListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateOptOutListResult,
   | AccessDeniedException
   | ConflictException
@@ -7081,7 +7087,7 @@ export const createOptOutList: (
  */
 export const createProtectConfiguration: (
   input: CreateProtectConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProtectConfigurationResult,
   | AccessDeniedException
   | ConflictException
@@ -7110,7 +7116,7 @@ export const createProtectConfiguration: (
  */
 export const createRegistrationAttachment: (
   input: CreateRegistrationAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRegistrationAttachmentResult,
   | AccessDeniedException
   | ConflictException
@@ -7137,7 +7143,7 @@ export const createRegistrationAttachment: (
  */
 export const createVerifiedDestinationNumber: (
   input: CreateVerifiedDestinationNumberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVerifiedDestinationNumberResult,
   | AccessDeniedException
   | ConflictException
@@ -7168,7 +7174,7 @@ export const createVerifiedDestinationNumber: (
  */
 export const createConfigurationSet: (
   input: CreateConfigurationSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConfigurationSetResult,
   | AccessDeniedException
   | ConflictException
@@ -7195,7 +7201,7 @@ export const createConfigurationSet: (
  */
 export const createRegistration: (
   input: CreateRegistrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRegistrationResult,
   | AccessDeniedException
   | ConflictException
@@ -7223,7 +7229,7 @@ export const createRegistration: (
 export const describeRegistrationFieldDefinitions: {
   (
     input: DescribeRegistrationFieldDefinitionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeRegistrationFieldDefinitionsResult,
     | AccessDeniedException
     | InternalServerException
@@ -7234,7 +7240,7 @@ export const describeRegistrationFieldDefinitions: {
   >;
   pages: (
     input: DescribeRegistrationFieldDefinitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeRegistrationFieldDefinitionsResult,
     | AccessDeniedException
     | InternalServerException
@@ -7245,7 +7251,7 @@ export const describeRegistrationFieldDefinitions: {
   >;
   items: (
     input: DescribeRegistrationFieldDefinitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RegistrationFieldDefinition,
     | AccessDeniedException
     | InternalServerException
@@ -7276,7 +7282,7 @@ export const describeRegistrationFieldDefinitions: {
 export const describeRegistrationTypeDefinitions: {
   (
     input: DescribeRegistrationTypeDefinitionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeRegistrationTypeDefinitionsResult,
     | AccessDeniedException
     | InternalServerException
@@ -7287,7 +7293,7 @@ export const describeRegistrationTypeDefinitions: {
   >;
   pages: (
     input: DescribeRegistrationTypeDefinitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeRegistrationTypeDefinitionsResult,
     | AccessDeniedException
     | InternalServerException
@@ -7298,7 +7304,7 @@ export const describeRegistrationTypeDefinitions: {
   >;
   items: (
     input: DescribeRegistrationTypeDefinitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RegistrationTypeDefinition,
     | AccessDeniedException
     | InternalServerException
@@ -7329,7 +7335,7 @@ export const describeRegistrationTypeDefinitions: {
 export const describeRegistrationVersions: {
   (
     input: DescribeRegistrationVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeRegistrationVersionsResult,
     | AccessDeniedException
     | InternalServerException
@@ -7341,7 +7347,7 @@ export const describeRegistrationVersions: {
   >;
   pages: (
     input: DescribeRegistrationVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeRegistrationVersionsResult,
     | AccessDeniedException
     | InternalServerException
@@ -7353,7 +7359,7 @@ export const describeRegistrationVersions: {
   >;
   items: (
     input: DescribeRegistrationVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RegistrationVersionInformation,
     | AccessDeniedException
     | InternalServerException

@@ -1,4 +1,12 @@
 {
+  "enums": {
+    "LastUpdateStatusReasonCode": {
+      "add": ["Creating"]
+    },
+    "StateReasonCode": {
+      "add": ["Creating"]
+    }
+  },
   "operations": {
     "createEventSourceMapping": {
       "errors": [

@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -109,7 +109,7 @@ export type NameType = string;
 export type ClientRequestTokenType = string;
 export type DescriptionType = string;
 export type KmsKeyIdType = string;
-export type SecretStringType = string | Redacted.Redacted<string>;
+export type SecretStringType = string | redacted.Redacted<string>;
 export type MedeaTypeType = string;
 export type RecoveryWindowInDaysType = number;
 export type PasswordLengthType = number;
@@ -118,7 +118,7 @@ export type SecretVersionIdType = string;
 export type SecretVersionStageType = string;
 export type MaxResultsType = number;
 export type NonEmptyResourcePolicyType = string;
-export type RotationTokenType = string | Redacted.Redacted<string>;
+export type RotationTokenType = string | redacted.Redacted<string>;
 export type RegionType = string;
 export type RotationLambdaARNType = string;
 export type RoleARNType = string;
@@ -133,7 +133,7 @@ export type ExternalSecretRotationMetadataItemValueType = string;
 export type SecretARNType = string;
 export type SecretNameType = string;
 export type OwningServiceType = string;
-export type RandomPasswordType = string | Redacted.Redacted<string>;
+export type RandomPasswordType = string | redacted.Redacted<string>;
 export type ErrorMessage = string;
 export type StatusMessageType = string;
 export type ErrorCode = string;
@@ -141,6 +141,19 @@ export type ErrorCode = string;
 //# Schemas
 export type SecretIdListType = string[];
 export const SecretIdListType = S.Array(S.String);
+export type SortOrderType = "asc" | "desc";
+export const SortOrderType = S.Literal("asc", "desc");
+export type SortByType =
+  | "created-date"
+  | "last-accessed-date"
+  | "last-changed-date"
+  | "name";
+export const SortByType = S.Literal(
+  "created-date",
+  "last-accessed-date",
+  "last-changed-date",
+  "name",
+);
 export type SecretVersionStagesType = string[];
 export const SecretVersionStagesType = S.Array(S.String);
 export type RemoveReplicaRegionListType = string[];
@@ -245,15 +258,32 @@ export const GetSecretValueRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetSecretValueRequest",
 }) as any as S.Schema<GetSecretValueRequest>;
+export type FilterNameStringType =
+  | "description"
+  | "name"
+  | "tag-key"
+  | "tag-value"
+  | "primary-region"
+  | "owning-service"
+  | "all";
+export const FilterNameStringType = S.Literal(
+  "description",
+  "name",
+  "tag-key",
+  "tag-value",
+  "primary-region",
+  "owning-service",
+  "all",
+);
 export type FilterValuesStringList = string[];
 export const FilterValuesStringList = S.Array(S.String);
 export interface Filter {
-  Key?: string;
-  Values?: FilterValuesStringList;
+  Key?: FilterNameStringType;
+  Values?: string[];
 }
 export const Filter = S.suspend(() =>
   S.Struct({
-    Key: S.optional(S.String),
+    Key: S.optional(FilterNameStringType),
     Values: S.optional(FilterValuesStringList),
   }),
 ).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
@@ -263,9 +293,9 @@ export interface ListSecretsRequest {
   IncludePlannedDeletion?: boolean;
   MaxResults?: number;
   NextToken?: string;
-  Filters?: FiltersListType;
-  SortOrder?: string;
-  SortBy?: string;
+  Filters?: Filter[];
+  SortOrder?: SortOrderType;
+  SortBy?: SortByType;
 }
 export const ListSecretsRequest = S.suspend(() =>
   S.Struct({
@@ -273,8 +303,8 @@ export const ListSecretsRequest = S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     Filters: S.optional(FiltersListType),
-    SortOrder: S.optional(S.String),
-    SortBy: S.optional(S.String),
+    SortOrder: S.optional(SortOrderType),
+    SortBy: S.optional(SortByType),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -318,10 +348,10 @@ export const PutResourcePolicyRequest = S.suspend(() =>
 export interface PutSecretValueRequest {
   SecretId: string;
   ClientRequestToken?: string;
-  SecretBinary?: Uint8Array | Redacted.Redacted<Uint8Array>;
-  SecretString?: string | Redacted.Redacted<string>;
-  VersionStages?: SecretVersionStagesType;
-  RotationToken?: string | Redacted.Redacted<string>;
+  SecretBinary?: Uint8Array | redacted.Redacted<Uint8Array>;
+  SecretString?: string | redacted.Redacted<string>;
+  VersionStages?: string[];
+  RotationToken?: string | redacted.Redacted<string>;
 }
 export const PutSecretValueRequest = S.suspend(() =>
   S.Struct({
@@ -339,7 +369,7 @@ export const PutSecretValueRequest = S.suspend(() =>
 }) as any as S.Schema<PutSecretValueRequest>;
 export interface RemoveRegionsFromReplicationRequest {
   SecretId: string;
-  RemoveReplicaRegions: RemoveReplicaRegionListType;
+  RemoveReplicaRegions: string[];
 }
 export const RemoveRegionsFromReplicationRequest = S.suspend(() =>
   S.Struct({
@@ -364,7 +394,7 @@ export type AddReplicaRegionListType = ReplicaRegionType[];
 export const AddReplicaRegionListType = S.Array(ReplicaRegionType);
 export interface ReplicateSecretToRegionsRequest {
   SecretId: string;
-  AddReplicaRegions: AddReplicaRegionListType;
+  AddReplicaRegions: ReplicaRegionType[];
   ForceOverwriteReplicaSecret?: boolean;
 }
 export const ReplicateSecretToRegionsRequest = S.suspend(() =>
@@ -409,7 +439,7 @@ export type TagListType = Tag[];
 export const TagListType = S.Array(Tag);
 export interface TagResourceRequest {
   SecretId: string;
-  Tags: TagListType;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ SecretId: S.String, Tags: TagListType }).pipe(
@@ -424,7 +454,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   SecretId: string;
-  TagKeys: TagKeyListType;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ SecretId: S.String, TagKeys: TagKeyListType }).pipe(
@@ -442,8 +472,8 @@ export interface UpdateSecretRequest {
   ClientRequestToken?: string;
   Description?: string;
   KmsKeyId?: string;
-  SecretBinary?: Uint8Array | Redacted.Redacted<Uint8Array>;
-  SecretString?: string | Redacted.Redacted<string>;
+  SecretBinary?: Uint8Array | redacted.Redacted<Uint8Array>;
+  SecretString?: string | redacted.Redacted<string>;
   Type?: string;
 }
 export const UpdateSecretRequest = S.suspend(() =>
@@ -519,8 +549,8 @@ export const ExternalSecretRotationMetadataType = S.Array(
   ExternalSecretRotationMetadataItem,
 );
 export interface BatchGetSecretValueRequest {
-  SecretIdList?: SecretIdListType;
-  Filters?: FiltersListType;
+  SecretIdList?: string[];
+  Filters?: Filter[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -555,10 +585,10 @@ export interface CreateSecretRequest {
   ClientRequestToken?: string;
   Description?: string;
   KmsKeyId?: string;
-  SecretBinary?: Uint8Array | Redacted.Redacted<Uint8Array>;
-  SecretString?: string | Redacted.Redacted<string>;
-  Tags?: TagListType;
-  AddReplicaRegions?: AddReplicaRegionListType;
+  SecretBinary?: Uint8Array | redacted.Redacted<Uint8Array>;
+  SecretString?: string | redacted.Redacted<string>;
+  Tags?: Tag[];
+  AddReplicaRegions?: ReplicaRegionType[];
   ForceOverwriteReplicaSecret?: boolean;
   Type?: string;
 }
@@ -604,7 +634,7 @@ export const DeleteSecretResponse = S.suspend(() =>
   identifier: "DeleteSecretResponse",
 }) as any as S.Schema<DeleteSecretResponse>;
 export interface GetRandomPasswordResponse {
-  RandomPassword?: string | Redacted.Redacted<string>;
+  RandomPassword?: string | redacted.Redacted<string>;
 }
 export const GetRandomPasswordResponse = S.suspend(() =>
   S.Struct({ RandomPassword: S.optional(SensitiveString) }),
@@ -629,9 +659,9 @@ export interface GetSecretValueResponse {
   ARN?: string;
   Name?: string;
   VersionId?: string;
-  SecretBinary?: Uint8Array | Redacted.Redacted<Uint8Array>;
-  SecretString?: string | Redacted.Redacted<string>;
-  VersionStages?: SecretVersionStagesType;
+  SecretBinary?: Uint8Array | redacted.Redacted<Uint8Array>;
+  SecretString?: string | redacted.Redacted<string>;
+  VersionStages?: string[];
   CreatedDate?: Date;
 }
 export const GetSecretValueResponse = S.suspend(() =>
@@ -660,7 +690,7 @@ export interface PutSecretValueResponse {
   ARN?: string;
   Name?: string;
   VersionId?: string;
-  VersionStages?: SecretVersionStagesType;
+  VersionStages?: string[];
 }
 export const PutSecretValueResponse = S.suspend(() =>
   S.Struct({
@@ -672,10 +702,12 @@ export const PutSecretValueResponse = S.suspend(() =>
 ).annotations({
   identifier: "PutSecretValueResponse",
 }) as any as S.Schema<PutSecretValueResponse>;
+export type StatusType = "InSync" | "Failed" | "InProgress";
+export const StatusType = S.Literal("InSync", "Failed", "InProgress");
 export interface ReplicationStatusType {
   Region?: string;
   KmsKeyId?: string;
-  Status?: string;
+  Status?: StatusType;
   StatusMessage?: string;
   LastAccessedDate?: Date;
 }
@@ -683,7 +715,7 @@ export const ReplicationStatusType = S.suspend(() =>
   S.Struct({
     Region: S.optional(S.String),
     KmsKeyId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(StatusType),
     StatusMessage: S.optional(S.String),
     LastAccessedDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -696,7 +728,7 @@ export type ReplicationStatusListType = ReplicationStatusType[];
 export const ReplicationStatusListType = S.Array(ReplicationStatusType);
 export interface RemoveRegionsFromReplicationResponse {
   ARN?: string;
-  ReplicationStatus?: ReplicationStatusListType;
+  ReplicationStatus?: ReplicationStatusType[];
 }
 export const RemoveRegionsFromReplicationResponse = S.suspend(() =>
   S.Struct({
@@ -708,7 +740,7 @@ export const RemoveRegionsFromReplicationResponse = S.suspend(() =>
 }) as any as S.Schema<RemoveRegionsFromReplicationResponse>;
 export interface ReplicateSecretToRegionsResponse {
   ARN?: string;
-  ReplicationStatus?: ReplicationStatusListType;
+  ReplicationStatus?: ReplicationStatusType[];
 }
 export const ReplicateSecretToRegionsResponse = S.suspend(() =>
   S.Struct({
@@ -732,7 +764,7 @@ export interface RotateSecretRequest {
   ClientRequestToken?: string;
   RotationLambdaARN?: string;
   RotationRules?: RotationRulesType;
-  ExternalSecretRotationMetadata?: ExternalSecretRotationMetadataType;
+  ExternalSecretRotationMetadata?: ExternalSecretRotationMetadataItem[];
   ExternalSecretRotationRoleArn?: string;
   RotateImmediately?: boolean;
 }
@@ -786,9 +818,7 @@ export const UpdateSecretVersionStageResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateSecretVersionStageResponse>;
 export type KmsKeyIdListType = string[];
 export const KmsKeyIdListType = S.Array(S.String);
-export type SecretVersionsToStagesMapType = {
-  [key: string]: SecretVersionStagesType;
-};
+export type SecretVersionsToStagesMapType = { [key: string]: string[] };
 export const SecretVersionsToStagesMapType = S.Record({
   key: S.String,
   value: SecretVersionStagesType,
@@ -802,15 +832,15 @@ export interface SecretListEntry {
   RotationEnabled?: boolean;
   RotationLambdaARN?: string;
   RotationRules?: RotationRulesType;
-  ExternalSecretRotationMetadata?: ExternalSecretRotationMetadataType;
+  ExternalSecretRotationMetadata?: ExternalSecretRotationMetadataItem[];
   ExternalSecretRotationRoleArn?: string;
   LastRotatedDate?: Date;
   LastChangedDate?: Date;
   LastAccessedDate?: Date;
   DeletedDate?: Date;
   NextRotationDate?: Date;
-  Tags?: TagListType;
-  SecretVersionsToStages?: SecretVersionsToStagesMapType;
+  Tags?: Tag[];
+  SecretVersionsToStages?: { [key: string]: string[] };
   OwningService?: string;
   CreatedDate?: Date;
   PrimaryRegion?: string;
@@ -855,10 +885,10 @@ export type SecretListType = SecretListEntry[];
 export const SecretListType = S.Array(SecretListEntry);
 export interface SecretVersionsListEntry {
   VersionId?: string;
-  VersionStages?: SecretVersionStagesType;
+  VersionStages?: string[];
   LastAccessedDate?: Date;
   CreatedDate?: Date;
-  KmsKeyIds?: KmsKeyIdListType;
+  KmsKeyIds?: string[];
 }
 export const SecretVersionsListEntry = S.suspend(() =>
   S.Struct({
@@ -893,7 +923,7 @@ export interface CreateSecretResponse {
   ARN?: string;
   Name?: string;
   VersionId?: string;
-  ReplicationStatus?: ReplicationStatusListType;
+  ReplicationStatus?: ReplicationStatusType[];
 }
 export const CreateSecretResponse = S.suspend(() =>
   S.Struct({
@@ -914,19 +944,19 @@ export interface DescribeSecretResponse {
   RotationEnabled?: boolean;
   RotationLambdaARN?: string;
   RotationRules?: RotationRulesType;
-  ExternalSecretRotationMetadata?: ExternalSecretRotationMetadataType;
+  ExternalSecretRotationMetadata?: ExternalSecretRotationMetadataItem[];
   ExternalSecretRotationRoleArn?: string;
   LastRotatedDate?: Date;
   LastChangedDate?: Date;
   LastAccessedDate?: Date;
   DeletedDate?: Date;
   NextRotationDate?: Date;
-  Tags?: TagListType;
-  VersionIdsToStages?: SecretVersionsToStagesMapType;
+  Tags?: Tag[];
+  VersionIdsToStages?: { [key: string]: string[] };
   OwningService?: string;
   CreatedDate?: Date;
   PrimaryRegion?: string;
-  ReplicationStatus?: ReplicationStatusListType;
+  ReplicationStatus?: ReplicationStatusType[];
 }
 export const DescribeSecretResponse = S.suspend(() =>
   S.Struct({
@@ -966,7 +996,7 @@ export const DescribeSecretResponse = S.suspend(() =>
   identifier: "DescribeSecretResponse",
 }) as any as S.Schema<DescribeSecretResponse>;
 export interface ListSecretsResponse {
-  SecretList?: SecretListType;
+  SecretList?: SecretListEntry[];
   NextToken?: string;
 }
 export const ListSecretsResponse = S.suspend(() =>
@@ -978,7 +1008,7 @@ export const ListSecretsResponse = S.suspend(() =>
   identifier: "ListSecretsResponse",
 }) as any as S.Schema<ListSecretsResponse>;
 export interface ListSecretVersionIdsResponse {
-  Versions?: SecretVersionsListType;
+  Versions?: SecretVersionsListEntry[];
   NextToken?: string;
   ARN?: string;
   Name?: string;
@@ -1009,7 +1039,7 @@ export const RotateSecretResponse = S.suspend(() =>
 }) as any as S.Schema<RotateSecretResponse>;
 export interface ValidateResourcePolicyResponse {
   PolicyValidationPassed?: boolean;
-  ValidationErrors?: ValidationErrorsType;
+  ValidationErrors?: ValidationErrorsEntry[];
 }
 export const ValidateResourcePolicyResponse = S.suspend(() =>
   S.Struct({
@@ -1023,9 +1053,9 @@ export interface SecretValueEntry {
   ARN?: string;
   Name?: string;
   VersionId?: string;
-  SecretBinary?: Uint8Array | Redacted.Redacted<Uint8Array>;
-  SecretString?: string | Redacted.Redacted<string>;
-  VersionStages?: SecretVersionStagesType;
+  SecretBinary?: Uint8Array | redacted.Redacted<Uint8Array>;
+  SecretString?: string | redacted.Redacted<string>;
+  VersionStages?: string[];
   CreatedDate?: Date;
 }
 export const SecretValueEntry = S.suspend(() =>
@@ -1058,9 +1088,9 @@ export const APIErrorType = S.suspend(() =>
 export type APIErrorListType = APIErrorType[];
 export const APIErrorListType = S.Array(APIErrorType);
 export interface BatchGetSecretValueResponse {
-  SecretValues?: SecretValuesType;
+  SecretValues?: SecretValueEntry[];
   NextToken?: string;
-  Errors?: APIErrorListType;
+  Errors?: APIErrorType[];
 }
 export const BatchGetSecretValueResponse = S.suspend(() =>
   S.Struct({
@@ -1137,7 +1167,7 @@ export class PublicPolicyException extends S.TaggedError<PublicPolicyException>(
  */
 export const describeSecret: (
   input: DescribeSecretRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSecretResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -1174,7 +1204,7 @@ export const describeSecret: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -1216,7 +1246,7 @@ export const untagResource: (
  */
 export const cancelRotateSecret: (
   input: CancelRotateSecretRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelRotateSecretResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -1248,7 +1278,7 @@ export const cancelRotateSecret: (
  */
 export const deleteResourcePolicy: (
   input: DeleteResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourcePolicyResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -1308,7 +1338,7 @@ export const deleteResourcePolicy: (
  */
 export const deleteSecret: (
   input: DeleteSecretRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSecretResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -1344,7 +1374,7 @@ export const deleteSecret: (
  */
 export const getRandomPassword: (
   input: GetRandomPasswordRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRandomPasswordResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -1374,7 +1404,7 @@ export const getRandomPassword: (
  */
 export const getResourcePolicy: (
   input: GetResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourcePolicyResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -1407,7 +1437,7 @@ export const getResourcePolicy: (
  */
 export const removeRegionsFromReplication: (
   input: RemoveRegionsFromReplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveRegionsFromReplicationResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -1443,7 +1473,7 @@ export const removeRegionsFromReplication: (
  */
 export const replicateSecretToRegions: (
   input: ReplicateSecretToRegionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ReplicateSecretToRegionsResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -1475,7 +1505,7 @@ export const replicateSecretToRegions: (
  */
 export const restoreSecret: (
   input: RestoreSecretRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RestoreSecretResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -1510,7 +1540,7 @@ export const restoreSecret: (
  */
 export const stopReplicationToReplica: (
   input: StopReplicationToReplicaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopReplicationToReplicaResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -1554,7 +1584,7 @@ export const stopReplicationToReplica: (
  */
 export const getSecretValue: (
   input: GetSecretValueRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSecretValueResponse,
   | DecryptionFailure
   | InternalServiceError
@@ -1604,7 +1634,7 @@ export const getSecretValue: (
  */
 export const rotateSecret: (
   input: RotateSecretRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RotateSecretResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -1650,7 +1680,7 @@ export const rotateSecret: (
 export const listSecrets: {
   (
     input: ListSecretsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSecretsResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -1661,7 +1691,7 @@ export const listSecrets: {
   >;
   pages: (
     input: ListSecretsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSecretsResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -1672,7 +1702,7 @@ export const listSecrets: {
   >;
   items: (
     input: ListSecretsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServiceError
     | InvalidNextTokenException
@@ -1719,7 +1749,7 @@ export const listSecrets: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -1755,7 +1785,7 @@ export const tagResource: (
 export const listSecretVersionIds: {
   (
     input: ListSecretVersionIdsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSecretVersionIdsResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -1766,7 +1796,7 @@ export const listSecretVersionIds: {
   >;
   pages: (
     input: ListSecretVersionIdsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSecretVersionIdsResponse,
     | InternalServiceError
     | InvalidNextTokenException
@@ -1777,7 +1807,7 @@ export const listSecretVersionIds: {
   >;
   items: (
     input: ListSecretVersionIdsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServiceError
     | InvalidNextTokenException
@@ -1829,7 +1859,7 @@ export const listSecretVersionIds: {
 export const batchGetSecretValue: {
   (
     input: BatchGetSecretValueRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     BatchGetSecretValueResponse,
     | DecryptionFailure
     | InternalServiceError
@@ -1842,7 +1872,7 @@ export const batchGetSecretValue: {
   >;
   pages: (
     input: BatchGetSecretValueRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BatchGetSecretValueResponse,
     | DecryptionFailure
     | InternalServiceError
@@ -1855,7 +1885,7 @@ export const batchGetSecretValue: {
   >;
   items: (
     input: BatchGetSecretValueRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | DecryptionFailure
     | InternalServiceError
@@ -1908,7 +1938,7 @@ export const batchGetSecretValue: {
  */
 export const validateResourcePolicy: (
   input: ValidateResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ValidateResourcePolicyResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -1960,7 +1990,7 @@ export const validateResourcePolicy: (
  */
 export const updateSecretVersionStage: (
   input: UpdateSecretVersionStageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSecretVersionStageResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -2022,7 +2052,7 @@ export const updateSecretVersionStage: (
  */
 export const putSecretValue: (
   input: PutSecretValueRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutSecretValueResponse,
   | DecryptionFailure
   | EncryptionFailure
@@ -2097,7 +2127,7 @@ export const putSecretValue: (
  */
 export const updateSecret: (
   input: UpdateSecretRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSecretResponse,
   | DecryptionFailure
   | EncryptionFailure
@@ -2143,7 +2173,7 @@ export const updateSecret: (
  */
 export const putResourcePolicy: (
   input: PutResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourcePolicyResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -2224,7 +2254,7 @@ export const putResourcePolicy: (
  */
 export const createSecret: (
   input: CreateSecretRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSecretResponse,
   | DecryptionFailure
   | EncryptionFailure

@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -166,15 +166,64 @@ export type RoutingControlArn = string;
 export type KubernetesNamespace = string;
 
 //# Schemas
+export type Approval = "approve" | "decline";
+export const Approval = S.Literal("approve", "decline");
+export type ExecutionState =
+  | "inProgress"
+  | "pausedByFailedStep"
+  | "pausedByOperator"
+  | "completed"
+  | "completedWithExceptions"
+  | "canceled"
+  | "planExecutionTimedOut"
+  | "pendingManualApproval"
+  | "failed"
+  | "pending"
+  | "completedMonitoringApplicationHealth";
+export const ExecutionState = S.Literal(
+  "inProgress",
+  "pausedByFailedStep",
+  "pausedByOperator",
+  "completed",
+  "completedWithExceptions",
+  "canceled",
+  "planExecutionTimedOut",
+  "pendingManualApproval",
+  "failed",
+  "pending",
+  "completedMonitoringApplicationHealth",
+);
+export type ExecutionAction = "activate" | "deactivate";
+export const ExecutionAction = S.Literal("activate", "deactivate");
+export type ExecutionMode = "graceful" | "ungraceful";
+export const ExecutionMode = S.Literal("graceful", "ungraceful");
+export type UpdatePlanExecutionAction =
+  | "switchToGraceful"
+  | "switchToUngraceful"
+  | "pause"
+  | "resume";
+export const UpdatePlanExecutionAction = S.Literal(
+  "switchToGraceful",
+  "switchToUngraceful",
+  "pause",
+  "resume",
+);
+export type UpdatePlanExecutionStepAction = "switchToUngraceful" | "skip";
+export const UpdatePlanExecutionStepAction = S.Literal(
+  "switchToUngraceful",
+  "skip",
+);
 export type RegionList = string[];
 export const RegionList = S.Array(S.String);
+export type RecoveryApproach = "activeActive" | "activePassive";
+export const RecoveryApproach = S.Literal("activeActive", "activePassive");
 export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
 export interface ApprovePlanExecutionStepRequest {
   planArn: string;
   executionId: string;
   stepName: string;
-  approval: string;
+  approval: Approval;
   comment?: string;
 }
 export const ApprovePlanExecutionStepRequest = S.suspend(() =>
@@ -182,7 +231,7 @@ export const ApprovePlanExecutionStepRequest = S.suspend(() =>
     planArn: S.String,
     executionId: S.String,
     stepName: S.String,
-    approval: S.String,
+    approval: Approval,
     comment: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -286,14 +335,14 @@ export interface ListPlanExecutionsRequest {
   planArn: string;
   maxResults?: number;
   nextToken?: string;
-  state?: string;
+  state?: ExecutionState;
 }
 export const ListPlanExecutionsRequest = S.suspend(() =>
   S.Struct({
     planArn: S.String,
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-    state: S.optional(S.String),
+    state: S.optional(ExecutionState),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -365,8 +414,8 @@ export const ListRoute53HealthChecksInRegionRequest = S.suspend(() =>
 export interface StartPlanExecutionRequest {
   planArn: string;
   targetRegion: string;
-  action: string;
-  mode?: string;
+  action: ExecutionAction;
+  mode?: ExecutionMode;
   comment?: string;
   latestVersion?: string;
 }
@@ -374,8 +423,8 @@ export const StartPlanExecutionRequest = S.suspend(() =>
   S.Struct({
     planArn: S.String,
     targetRegion: S.String,
-    action: S.String,
-    mode: S.optional(S.String),
+    action: ExecutionAction,
+    mode: S.optional(ExecutionMode),
     comment: S.optional(S.String),
     latestVersion: S.optional(S.String),
   }).pipe(
@@ -387,14 +436,14 @@ export const StartPlanExecutionRequest = S.suspend(() =>
 export interface UpdatePlanExecutionRequest {
   planArn: string;
   executionId: string;
-  action: string;
+  action: UpdatePlanExecutionAction;
   comment?: string;
 }
 export const UpdatePlanExecutionRequest = S.suspend(() =>
   S.Struct({
     planArn: S.String,
     executionId: S.String,
-    action: S.String,
+    action: UpdatePlanExecutionAction,
     comment: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -413,7 +462,7 @@ export interface UpdatePlanExecutionStepRequest {
   executionId: string;
   comment: string;
   stepName: string;
-  actionToTake: string;
+  actionToTake: UpdatePlanExecutionStepAction;
 }
 export const UpdatePlanExecutionStepRequest = S.suspend(() =>
   S.Struct({
@@ -421,7 +470,7 @@ export const UpdatePlanExecutionStepRequest = S.suspend(() =>
     executionId: S.String,
     comment: S.String,
     stepName: S.String,
-    actionToTake: S.String,
+    actionToTake: UpdatePlanExecutionStepAction,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -458,34 +507,38 @@ export const Steps = S.Array(
     identifier: "Step",
   }),
 ) as any as S.Schema<Steps>;
+export type WorkflowTargetAction = "activate" | "deactivate";
+export const WorkflowTargetAction = S.Literal("activate", "deactivate");
 export interface Workflow {
-  steps?: Steps;
-  workflowTargetAction: string;
+  steps?: Step[];
+  workflowTargetAction: WorkflowTargetAction;
   workflowTargetRegion?: string;
   workflowDescription?: string;
 }
 export const Workflow = S.suspend(() =>
   S.Struct({
     steps: S.optional(Steps),
-    workflowTargetAction: S.String,
+    workflowTargetAction: WorkflowTargetAction,
     workflowTargetRegion: S.optional(S.String),
     workflowDescription: S.optional(S.String),
   }),
 ).annotations({ identifier: "Workflow" }) as any as S.Schema<Workflow>;
 export type WorkflowList = Workflow[];
 export const WorkflowList = S.Array(Workflow);
+export type AlarmType = "applicationHealth" | "trigger";
+export const AlarmType = S.Literal("applicationHealth", "trigger");
 export interface AssociatedAlarm {
   crossAccountRole?: string;
   externalId?: string;
   resourceIdentifier: string;
-  alarmType: string;
+  alarmType: AlarmType;
 }
 export const AssociatedAlarm = S.suspend(() =>
   S.Struct({
     crossAccountRole: S.optional(S.String),
     externalId: S.optional(S.String),
     resourceIdentifier: S.String,
-    alarmType: S.String,
+    alarmType: AlarmType,
   }),
 ).annotations({
   identifier: "AssociatedAlarm",
@@ -495,12 +548,14 @@ export const AssociatedAlarmMap = S.Record({
   key: S.String,
   value: AssociatedAlarm,
 });
+export type AlarmCondition = "red" | "green";
+export const AlarmCondition = S.Literal("red", "green");
 export interface TriggerCondition {
   associatedAlarmName: string;
-  condition: string;
+  condition: AlarmCondition;
 }
 export const TriggerCondition = S.suspend(() =>
-  S.Struct({ associatedAlarmName: S.String, condition: S.String }),
+  S.Struct({ associatedAlarmName: S.String, condition: AlarmCondition }),
 ).annotations({
   identifier: "TriggerCondition",
 }) as any as S.Schema<TriggerCondition>;
@@ -509,15 +564,15 @@ export const TriggerConditionList = S.Array(TriggerCondition);
 export interface Trigger {
   description?: string;
   targetRegion: string;
-  action: string;
-  conditions: TriggerConditionList;
+  action: WorkflowTargetAction;
+  conditions: TriggerCondition[];
   minDelayMinutesBetweenExecutions: number;
 }
 export const Trigger = S.suspend(() =>
   S.Struct({
     description: S.optional(S.String),
     targetRegion: S.String,
-    action: S.String,
+    action: WorkflowTargetAction,
     conditions: TriggerConditionList,
     minDelayMinutesBetweenExecutions: S.Number,
   }),
@@ -542,10 +597,10 @@ export type ReportOutputConfiguration = {
 export const ReportOutputConfiguration = S.Union(
   S.Struct({ s3Configuration: S3ReportOutputConfiguration }),
 );
-export type ReportOutputList = (typeof ReportOutputConfiguration)["Type"][];
+export type ReportOutputList = ReportOutputConfiguration[];
 export const ReportOutputList = S.Array(ReportOutputConfiguration);
 export interface ReportConfiguration {
-  reportOutput?: ReportOutputList;
+  reportOutput?: ReportOutputConfiguration[];
 }
 export const ReportConfiguration = S.suspend(() =>
   S.Struct({ reportOutput: S.optional(ReportOutputList) }),
@@ -555,11 +610,11 @@ export const ReportConfiguration = S.suspend(() =>
 export interface UpdatePlanRequest {
   arn: string;
   description?: string;
-  workflows: WorkflowList;
+  workflows: Workflow[];
   executionRole: string;
   recoveryTimeObjectiveMinutes?: number;
-  associatedAlarms?: AssociatedAlarmMap;
-  triggers?: TriggerList;
+  associatedAlarms?: { [key: string]: AssociatedAlarm };
+  triggers?: Trigger[];
   reportConfiguration?: ReportConfiguration;
 }
 export const UpdatePlanRequest = S.suspend(() =>
@@ -652,7 +707,7 @@ export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
 export interface TagResourceRequest {
   arn: string;
-  tags: Tags;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ arn: S.String, tags: Tags }).pipe(
@@ -675,7 +730,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   arn: string;
-  resourceTagKeys: TagKeys;
+  resourceTagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ arn: S.String, resourceTagKeys: TagKeys }).pipe(
@@ -696,18 +751,54 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
+export type EvaluationStatus =
+  | "passed"
+  | "actionRequired"
+  | "pendingEvaluation"
+  | "unknown";
+export const EvaluationStatus = S.Literal(
+  "passed",
+  "actionRequired",
+  "pendingEvaluation",
+  "unknown",
+);
+export type ExecutionBlockType =
+  | "CustomActionLambda"
+  | "ManualApproval"
+  | "AuroraGlobalDatabase"
+  | "EC2AutoScaling"
+  | "ARCRoutingControl"
+  | "ARCRegionSwitchPlan"
+  | "Parallel"
+  | "ECSServiceScaling"
+  | "EKSResourceScaling"
+  | "Route53HealthCheck"
+  | "DocumentDb";
+export const ExecutionBlockType = S.Literal(
+  "CustomActionLambda",
+  "ManualApproval",
+  "AuroraGlobalDatabase",
+  "EC2AutoScaling",
+  "ARCRoutingControl",
+  "ARCRegionSwitchPlan",
+  "Parallel",
+  "ECSServiceScaling",
+  "EKSResourceScaling",
+  "Route53HealthCheck",
+  "DocumentDb",
+);
 export interface Plan {
   arn: string;
   description?: string;
-  workflows: WorkflowList;
+  workflows: Workflow[];
   executionRole: string;
   recoveryTimeObjectiveMinutes?: number;
-  associatedAlarms?: AssociatedAlarmMap;
-  triggers?: TriggerList;
+  associatedAlarms?: { [key: string]: AssociatedAlarm };
+  triggers?: Trigger[];
   reportConfiguration?: ReportConfiguration;
   name: string;
-  regions: RegionList;
-  recoveryApproach: string;
+  regions: string[];
+  recoveryApproach: RecoveryApproach;
   primaryRegion?: string;
   owner: string;
   version?: string;
@@ -725,7 +816,7 @@ export const Plan = S.suspend(() =>
     reportConfiguration: S.optional(ReportConfiguration),
     name: S.String,
     regions: RegionList,
-    recoveryApproach: S.String,
+    recoveryApproach: RecoveryApproach,
     primaryRegion: S.optional(S.String),
     owner: S.String,
     version: S.optional(S.String),
@@ -740,11 +831,17 @@ export const GetPlanInRegionResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetPlanInRegionResponse",
 }) as any as S.Schema<GetPlanInRegionResponse>;
+export type Route53HealthCheckStatus = "healthy" | "unhealthy" | "unknown";
+export const Route53HealthCheckStatus = S.Literal(
+  "healthy",
+  "unhealthy",
+  "unknown",
+);
 export interface Route53HealthCheck {
   hostedZoneId: string;
   recordName: string;
   healthCheckId?: string;
-  status?: string;
+  status?: Route53HealthCheckStatus;
   region: string;
 }
 export const Route53HealthCheck = S.suspend(() =>
@@ -752,7 +849,7 @@ export const Route53HealthCheck = S.suspend(() =>
     hostedZoneId: S.String,
     recordName: S.String,
     healthCheckId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(Route53HealthCheckStatus),
     region: S.String,
   }),
 ).annotations({
@@ -761,7 +858,7 @@ export const Route53HealthCheck = S.suspend(() =>
 export type Route53HealthCheckList = Route53HealthCheck[];
 export const Route53HealthCheckList = S.Array(Route53HealthCheck);
 export interface ListRoute53HealthChecksInRegionResponse {
-  healthChecks?: Route53HealthCheckList;
+  healthChecks?: Route53HealthCheck[];
   nextToken?: string;
 }
 export const ListRoute53HealthChecksInRegionResponse = S.suspend(() =>
@@ -810,8 +907,8 @@ export interface AbbreviatedPlan {
   arn: string;
   owner: string;
   name: string;
-  regions: RegionList;
-  recoveryApproach: string;
+  regions: string[];
+  recoveryApproach: RecoveryApproach;
   primaryRegion?: string;
   version?: string;
   updatedAt?: Date;
@@ -826,7 +923,7 @@ export const AbbreviatedPlan = S.suspend(() =>
     owner: S.String,
     name: S.String,
     regions: RegionList,
-    recoveryApproach: S.String,
+    recoveryApproach: RecoveryApproach,
     primaryRegion: S.optional(S.String),
     version: S.optional(S.String),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -841,7 +938,7 @@ export const AbbreviatedPlan = S.suspend(() =>
 export type PlanList = AbbreviatedPlan[];
 export const PlanList = S.Array(AbbreviatedPlan);
 export interface ListPlansResponse {
-  plans?: PlanList;
+  plans?: AbbreviatedPlan[];
   nextToken?: string;
 }
 export const ListPlansResponse = S.suspend(() =>
@@ -850,39 +947,113 @@ export const ListPlansResponse = S.suspend(() =>
   identifier: "ListPlansResponse",
 }) as any as S.Schema<ListPlansResponse>;
 export interface ListTagsForResourceResponse {
-  resourceTags?: Tags;
+  resourceTags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ resourceTags: S.optional(Tags) }),
 ).annotations({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
+export type ResourceWarningStatus = "active" | "resolved";
+export const ResourceWarningStatus = S.Literal("active", "resolved");
+export type StepStatus =
+  | "notStarted"
+  | "running"
+  | "failed"
+  | "completed"
+  | "canceled"
+  | "skipped"
+  | "pendingApproval";
+export const StepStatus = S.Literal(
+  "notStarted",
+  "running",
+  "failed",
+  "completed",
+  "canceled",
+  "skipped",
+  "pendingApproval",
+);
+export type ExecutionEventType =
+  | "unknown"
+  | "executionPending"
+  | "executionStarted"
+  | "executionSucceeded"
+  | "executionFailed"
+  | "executionPausing"
+  | "executionPaused"
+  | "executionCanceling"
+  | "executionCanceled"
+  | "executionPendingApproval"
+  | "executionBehaviorChangedToUngraceful"
+  | "executionBehaviorChangedToGraceful"
+  | "executionPendingChildPlanManualApproval"
+  | "executionSuccessMonitoringApplicationHealth"
+  | "stepStarted"
+  | "stepUpdate"
+  | "stepSucceeded"
+  | "stepFailed"
+  | "stepSkipped"
+  | "stepPausedByError"
+  | "stepPausedByOperator"
+  | "stepCanceled"
+  | "stepPendingApproval"
+  | "stepExecutionBehaviorChangedToUngraceful"
+  | "stepPendingApplicationHealthMonitor"
+  | "planEvaluationWarning";
+export const ExecutionEventType = S.Literal(
+  "unknown",
+  "executionPending",
+  "executionStarted",
+  "executionSucceeded",
+  "executionFailed",
+  "executionPausing",
+  "executionPaused",
+  "executionCanceling",
+  "executionCanceled",
+  "executionPendingApproval",
+  "executionBehaviorChangedToUngraceful",
+  "executionBehaviorChangedToGraceful",
+  "executionPendingChildPlanManualApproval",
+  "executionSuccessMonitoringApplicationHealth",
+  "stepStarted",
+  "stepUpdate",
+  "stepSucceeded",
+  "stepFailed",
+  "stepSkipped",
+  "stepPausedByError",
+  "stepPausedByOperator",
+  "stepCanceled",
+  "stepPendingApproval",
+  "stepExecutionBehaviorChangedToUngraceful",
+  "stepPendingApplicationHealthMonitor",
+  "planEvaluationWarning",
+);
 export type Resources = string[];
 export const Resources = S.Array(S.String);
 export interface StepState {
   name?: string;
-  status?: string;
+  status?: StepStatus;
   startTime?: Date;
   endTime?: Date;
-  stepMode?: string;
+  stepMode?: ExecutionMode;
 }
 export const StepState = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(StepStatus),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    stepMode: S.optional(S.String),
+    stepMode: S.optional(ExecutionMode),
   }),
 ).annotations({ identifier: "StepState" }) as any as S.Schema<StepState>;
 export type StepStates = StepState[];
 export const StepStates = S.Array(StepState);
 export interface ExecutionEvent {
   timestamp?: Date;
-  type?: string;
+  type?: ExecutionEventType;
   stepName?: string;
-  executionBlockType?: string;
-  resources?: Resources;
+  executionBlockType?: ExecutionBlockType;
+  resources?: string[];
   error?: string;
   description?: string;
   eventId: string;
@@ -891,9 +1062,9 @@ export interface ExecutionEvent {
 export const ExecutionEvent = S.suspend(() =>
   S.Struct({
     timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    type: S.optional(S.String),
+    type: S.optional(ExecutionEventType),
     stepName: S.optional(S.String),
-    executionBlockType: S.optional(S.String),
+    executionBlockType: S.optional(ExecutionBlockType),
     resources: S.optional(Resources),
     error: S.optional(S.String),
     description: S.optional(S.String),
@@ -913,9 +1084,9 @@ export interface AbbreviatedExecution {
   comment?: string;
   startTime: Date;
   endTime?: Date;
-  mode: string;
-  executionState: string;
-  executionAction: string;
+  mode: ExecutionMode;
+  executionState: ExecutionState;
+  executionAction: ExecutionAction;
   executionRegion: string;
   actualRecoveryTime?: string;
 }
@@ -928,9 +1099,9 @@ export const AbbreviatedExecution = S.suspend(() =>
     comment: S.optional(S.String),
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    mode: S.String,
-    executionState: S.String,
-    executionAction: S.String,
+    mode: ExecutionMode,
+    executionState: ExecutionState,
+    executionAction: ExecutionAction,
     executionRegion: S.String,
     actualRecoveryTime: S.optional(S.String),
   }),
@@ -940,7 +1111,7 @@ export const AbbreviatedExecution = S.suspend(() =>
 export type AbbreviatedExecutionsList = AbbreviatedExecution[];
 export const AbbreviatedExecutionsList = S.Array(AbbreviatedExecution);
 export interface ListPlanExecutionEventsResponse {
-  items?: ExecutionEventList;
+  items?: ExecutionEvent[];
   nextToken?: string;
 }
 export const ListPlanExecutionEventsResponse = S.suspend(() =>
@@ -952,7 +1123,7 @@ export const ListPlanExecutionEventsResponse = S.suspend(() =>
   identifier: "ListPlanExecutionEventsResponse",
 }) as any as S.Schema<ListPlanExecutionEventsResponse>;
 export interface ListPlanExecutionsResponse {
-  items?: AbbreviatedExecutionsList;
+  items?: AbbreviatedExecution[];
   nextToken?: string;
 }
 export const ListPlanExecutionsResponse = S.suspend(() =>
@@ -964,7 +1135,7 @@ export const ListPlanExecutionsResponse = S.suspend(() =>
   identifier: "ListPlanExecutionsResponse",
 }) as any as S.Schema<ListPlanExecutionsResponse>;
 export interface ListPlansInRegionResponse {
-  plans?: PlanList;
+  plans?: AbbreviatedPlan[];
   nextToken?: string;
 }
 export const ListPlansInRegionResponse = S.suspend(() =>
@@ -973,7 +1144,7 @@ export const ListPlansInRegionResponse = S.suspend(() =>
   identifier: "ListPlansInRegionResponse",
 }) as any as S.Schema<ListPlansInRegionResponse>;
 export interface ListRoute53HealthChecksResponse {
-  healthChecks?: Route53HealthCheckList;
+  healthChecks?: Route53HealthCheck[];
   nextToken?: string;
 }
 export const ListRoute53HealthChecksResponse = S.suspend(() =>
@@ -984,19 +1155,61 @@ export const ListRoute53HealthChecksResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListRoute53HealthChecksResponse",
 }) as any as S.Schema<ListRoute53HealthChecksResponse>;
+export type RegionToRunIn = "activatingRegion" | "deactivatingRegion";
+export const RegionToRunIn = S.Literal(
+  "activatingRegion",
+  "deactivatingRegion",
+);
+export type Ec2AsgCapacityMonitoringApproach =
+  | "sampledMaxInLast24Hours"
+  | "autoscalingMaxInLast24Hours";
+export const Ec2AsgCapacityMonitoringApproach = S.Literal(
+  "sampledMaxInLast24Hours",
+  "autoscalingMaxInLast24Hours",
+);
+export type GlobalAuroraDefaultBehavior = "switchoverOnly" | "failover";
+export const GlobalAuroraDefaultBehavior = S.Literal(
+  "switchoverOnly",
+  "failover",
+);
 export type AuroraClusterArns = string[];
 export const AuroraClusterArns = S.Array(S.String);
+export type EcsCapacityMonitoringApproach =
+  | "sampledMaxInLast24Hours"
+  | "containerInsightsMaxInLast24Hours";
+export const EcsCapacityMonitoringApproach = S.Literal(
+  "sampledMaxInLast24Hours",
+  "containerInsightsMaxInLast24Hours",
+);
+export type EksCapacityMonitoringApproach = "sampledMaxInLast24Hours";
+export const EksCapacityMonitoringApproach = S.Literal(
+  "sampledMaxInLast24Hours",
+);
+export type DocumentDbDefaultBehavior = "switchoverOnly" | "failover";
+export const DocumentDbDefaultBehavior = S.Literal(
+  "switchoverOnly",
+  "failover",
+);
 export type DocumentDbClusterArns = string[];
 export const DocumentDbClusterArns = S.Array(S.String);
 export interface MinimalWorkflow {
-  action?: string;
+  action?: ExecutionAction;
   name?: string;
 }
 export const MinimalWorkflow = S.suspend(() =>
-  S.Struct({ action: S.optional(S.String), name: S.optional(S.String) }),
+  S.Struct({ action: S.optional(ExecutionAction), name: S.optional(S.String) }),
 ).annotations({
   identifier: "MinimalWorkflow",
 }) as any as S.Schema<MinimalWorkflow>;
+export type FailedReportErrorCode =
+  | "insufficientPermissions"
+  | "invalidResource"
+  | "configurationError";
+export const FailedReportErrorCode = S.Literal(
+  "insufficientPermissions",
+  "invalidResource",
+  "configurationError",
+);
 export interface ExecutionApprovalConfiguration {
   timeoutMinutes?: number;
   approvalRole: string;
@@ -1007,7 +1220,7 @@ export const ExecutionApprovalConfiguration = S.suspend(() =>
   identifier: "ExecutionApprovalConfiguration",
 }) as any as S.Schema<ExecutionApprovalConfiguration>;
 export interface ParallelExecutionBlockConfiguration {
-  steps: Steps;
+  steps: Step[];
 }
 export const ParallelExecutionBlockConfiguration = S.suspend(() =>
   S.Struct({
@@ -1035,7 +1248,7 @@ export interface ResourceWarning {
   version: string;
   stepName?: string;
   resourceArn?: string;
-  warningStatus: string;
+  warningStatus: ResourceWarningStatus;
   warningUpdatedTime: Date;
   warningMessage: string;
 }
@@ -1045,7 +1258,7 @@ export const ResourceWarning = S.suspend(() =>
     version: S.String,
     stepName: S.optional(S.String),
     resourceArn: S.optional(S.String),
-    warningStatus: S.String,
+    warningStatus: ResourceWarningStatus,
     warningUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     warningMessage: S.String,
   }),
@@ -1054,6 +1267,12 @@ export const ResourceWarning = S.suspend(() =>
 }) as any as S.Schema<ResourceWarning>;
 export type PlanWarnings = ResourceWarning[];
 export const PlanWarnings = S.Array(ResourceWarning);
+export type LambdaUngracefulBehavior = "skip";
+export const LambdaUngracefulBehavior = S.Literal("skip");
+export type GlobalAuroraUngracefulBehavior = "failover";
+export const GlobalAuroraUngracefulBehavior = S.Literal("failover");
+export type DocumentDbUngracefulBehavior = "failover";
+export const DocumentDbUngracefulBehavior = S.Literal("failover");
 export interface S3ReportOutput {
   s3ObjectKey?: string;
 }
@@ -1063,12 +1282,12 @@ export const S3ReportOutput = S.suspend(() =>
   identifier: "S3ReportOutput",
 }) as any as S.Schema<S3ReportOutput>;
 export interface FailedReportOutput {
-  errorCode?: string;
+  errorCode?: FailedReportErrorCode;
   errorMessage?: string;
 }
 export const FailedReportOutput = S.suspend(() =>
   S.Struct({
-    errorCode: S.optional(S.String),
+    errorCode: S.optional(FailedReportErrorCode),
     errorMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -1079,8 +1298,8 @@ export interface GetPlanEvaluationStatusResponse {
   lastEvaluationTime?: Date;
   lastEvaluatedVersion?: string;
   region?: string;
-  evaluationState?: string;
-  warnings?: PlanWarnings;
+  evaluationState?: EvaluationStatus;
+  warnings?: ResourceWarning[];
   nextToken?: string;
 }
 export const GetPlanEvaluationStatusResponse = S.suspend(() =>
@@ -1091,7 +1310,7 @@ export const GetPlanEvaluationStatusResponse = S.suspend(() =>
     ),
     lastEvaluatedVersion: S.optional(S.String),
     region: S.optional(S.String),
-    evaluationState: S.optional(S.String),
+    evaluationState: S.optional(EvaluationStatus),
     warnings: S.optional(PlanWarnings),
     nextToken: S.optional(S.String),
   }),
@@ -1113,10 +1332,10 @@ export const Lambdas = S.suspend(() =>
 export type LambdaList = Lambdas[];
 export const LambdaList = S.Array(Lambdas);
 export interface LambdaUngraceful {
-  behavior?: string;
+  behavior?: LambdaUngracefulBehavior;
 }
 export const LambdaUngraceful = S.suspend(() =>
-  S.Struct({ behavior: S.optional(S.String) }),
+  S.Struct({ behavior: S.optional(LambdaUngracefulBehavior) }),
 ).annotations({
   identifier: "LambdaUngraceful",
 }) as any as S.Schema<LambdaUngraceful>;
@@ -1143,10 +1362,10 @@ export const Ec2Ungraceful = S.suspend(() =>
   identifier: "Ec2Ungraceful",
 }) as any as S.Schema<Ec2Ungraceful>;
 export interface GlobalAuroraUngraceful {
-  ungraceful?: string;
+  ungraceful?: GlobalAuroraUngracefulBehavior;
 }
 export const GlobalAuroraUngraceful = S.suspend(() =>
-  S.Struct({ ungraceful: S.optional(S.String) }),
+  S.Struct({ ungraceful: S.optional(GlobalAuroraUngracefulBehavior) }),
 ).annotations({
   identifier: "GlobalAuroraUngraceful",
 }) as any as S.Schema<GlobalAuroraUngraceful>;
@@ -1220,10 +1439,10 @@ export const Route53ResourceRecordSet = S.suspend(() =>
 export type Route53ResourceRecordSetList = Route53ResourceRecordSet[];
 export const Route53ResourceRecordSetList = S.Array(Route53ResourceRecordSet);
 export interface DocumentDbUngraceful {
-  ungraceful?: string;
+  ungraceful?: DocumentDbUngracefulBehavior;
 }
 export const DocumentDbUngraceful = S.suspend(() =>
-  S.Struct({ ungraceful: S.optional(S.String) }),
+  S.Struct({ ungraceful: S.optional(DocumentDbUngracefulBehavior) }),
 ).annotations({
   identifier: "DocumentDbUngraceful",
 }) as any as S.Schema<DocumentDbUngraceful>;
@@ -1234,11 +1453,13 @@ export const ReportOutput = S.Union(
   S.Struct({ s3ReportOutput: S3ReportOutput }),
   S.Struct({ failedReportOutput: FailedReportOutput }),
 );
+export type RoutingControlStateChange = "On" | "Off";
+export const RoutingControlStateChange = S.Literal("On", "Off");
 export interface CustomActionLambdaConfiguration {
   timeoutMinutes?: number;
-  lambdas: LambdaList;
+  lambdas: Lambdas[];
   retryIntervalMinutes: number;
-  regionToRun: string;
+  regionToRun: RegionToRunIn;
   ungraceful?: LambdaUngraceful;
 }
 export const CustomActionLambdaConfiguration = S.suspend(() =>
@@ -1246,7 +1467,7 @@ export const CustomActionLambdaConfiguration = S.suspend(() =>
     timeoutMinutes: S.optional(S.Number),
     lambdas: LambdaList,
     retryIntervalMinutes: S.Number,
-    regionToRun: S.String,
+    regionToRun: RegionToRunIn,
     ungraceful: S.optional(LambdaUngraceful),
   }),
 ).annotations({
@@ -1254,10 +1475,10 @@ export const CustomActionLambdaConfiguration = S.suspend(() =>
 }) as any as S.Schema<CustomActionLambdaConfiguration>;
 export interface Ec2AsgCapacityIncreaseConfiguration {
   timeoutMinutes?: number;
-  asgs: AsgList;
+  asgs: Asg[];
   ungraceful?: Ec2Ungraceful;
   targetPercent?: number;
-  capacityMonitoringApproach?: string;
+  capacityMonitoringApproach?: Ec2AsgCapacityMonitoringApproach;
 }
 export const Ec2AsgCapacityIncreaseConfiguration = S.suspend(() =>
   S.Struct({
@@ -1265,7 +1486,7 @@ export const Ec2AsgCapacityIncreaseConfiguration = S.suspend(() =>
     asgs: AsgList,
     ungraceful: S.optional(Ec2Ungraceful),
     targetPercent: S.optional(S.Number),
-    capacityMonitoringApproach: S.optional(S.String),
+    capacityMonitoringApproach: S.optional(Ec2AsgCapacityMonitoringApproach),
   }),
 ).annotations({
   identifier: "Ec2AsgCapacityIncreaseConfiguration",
@@ -1274,17 +1495,17 @@ export interface GlobalAuroraConfiguration {
   timeoutMinutes?: number;
   crossAccountRole?: string;
   externalId?: string;
-  behavior: string;
+  behavior: GlobalAuroraDefaultBehavior;
   ungraceful?: GlobalAuroraUngraceful;
   globalClusterIdentifier: string;
-  databaseClusterArns: AuroraClusterArns;
+  databaseClusterArns: string[];
 }
 export const GlobalAuroraConfiguration = S.suspend(() =>
   S.Struct({
     timeoutMinutes: S.optional(S.Number),
     crossAccountRole: S.optional(S.String),
     externalId: S.optional(S.String),
-    behavior: S.String,
+    behavior: GlobalAuroraDefaultBehavior,
     ungraceful: S.optional(GlobalAuroraUngraceful),
     globalClusterIdentifier: S.String,
     databaseClusterArns: AuroraClusterArns,
@@ -1294,10 +1515,10 @@ export const GlobalAuroraConfiguration = S.suspend(() =>
 }) as any as S.Schema<GlobalAuroraConfiguration>;
 export interface EcsCapacityIncreaseConfiguration {
   timeoutMinutes?: number;
-  services: ServiceList;
+  services: Service[];
   ungraceful?: EcsUngraceful;
   targetPercent?: number;
-  capacityMonitoringApproach?: string;
+  capacityMonitoringApproach?: EcsCapacityMonitoringApproach;
 }
 export const EcsCapacityIncreaseConfiguration = S.suspend(() =>
   S.Struct({
@@ -1305,7 +1526,7 @@ export const EcsCapacityIncreaseConfiguration = S.suspend(() =>
     services: ServiceList,
     ungraceful: S.optional(EcsUngraceful),
     targetPercent: S.optional(S.Number),
-    capacityMonitoringApproach: S.optional(S.String),
+    capacityMonitoringApproach: S.optional(EcsCapacityMonitoringApproach),
   }),
 ).annotations({
   identifier: "EcsCapacityIncreaseConfiguration",
@@ -1316,7 +1537,7 @@ export interface Route53HealthCheckConfiguration {
   externalId?: string;
   hostedZoneId: string;
   recordName: string;
-  recordSets?: Route53ResourceRecordSetList;
+  recordSets?: Route53ResourceRecordSet[];
 }
 export const Route53HealthCheckConfiguration = S.suspend(() =>
   S.Struct({
@@ -1334,17 +1555,17 @@ export interface DocumentDbConfiguration {
   timeoutMinutes?: number;
   crossAccountRole?: string;
   externalId?: string;
-  behavior: string;
+  behavior: DocumentDbDefaultBehavior;
   ungraceful?: DocumentDbUngraceful;
   globalClusterIdentifier: string;
-  databaseClusterArns: DocumentDbClusterArns;
+  databaseClusterArns: string[];
 }
 export const DocumentDbConfiguration = S.suspend(() =>
   S.Struct({
     timeoutMinutes: S.optional(S.Number),
     crossAccountRole: S.optional(S.String),
     externalId: S.optional(S.String),
-    behavior: S.String,
+    behavior: DocumentDbDefaultBehavior,
     ungraceful: S.optional(DocumentDbUngraceful),
     globalClusterIdentifier: S.String,
     databaseClusterArns: DocumentDbClusterArns,
@@ -1354,7 +1575,7 @@ export const DocumentDbConfiguration = S.suspend(() =>
 }) as any as S.Schema<DocumentDbConfiguration>;
 export interface GeneratedReport {
   reportGenerationTime?: Date;
-  reportOutput?: (typeof ReportOutput)["Type"];
+  reportOutput?: ReportOutput;
 }
 export const GeneratedReport = S.suspend(() =>
   S.Struct({
@@ -1370,10 +1591,10 @@ export type GeneratedReportDetails = GeneratedReport[];
 export const GeneratedReportDetails = S.Array(GeneratedReport);
 export interface ArcRoutingControlState {
   routingControlArn: string;
-  state: string;
+  state: RoutingControlStateChange;
 }
 export const ArcRoutingControlState = S.suspend(() =>
-  S.Struct({ routingControlArn: S.String, state: S.String }),
+  S.Struct({ routingControlArn: S.String, state: RoutingControlStateChange }),
 ).annotations({
   identifier: "ArcRoutingControlState",
 }) as any as S.Schema<ArcRoutingControlState>;
@@ -1387,14 +1608,14 @@ export interface GetPlanExecutionResponse {
   comment?: string;
   startTime: Date;
   endTime?: Date;
-  mode: string;
-  executionState: string;
-  executionAction: string;
+  mode: ExecutionMode;
+  executionState: ExecutionState;
+  executionAction: ExecutionAction;
   executionRegion: string;
-  stepStates?: StepStates;
+  stepStates?: StepState[];
   plan?: Plan;
   actualRecoveryTime?: string;
-  generatedReportDetails?: GeneratedReportDetails;
+  generatedReportDetails?: GeneratedReport[];
   nextToken?: string;
 }
 export const GetPlanExecutionResponse = S.suspend(() =>
@@ -1406,9 +1627,9 @@ export const GetPlanExecutionResponse = S.suspend(() =>
     comment: S.optional(S.String),
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    mode: S.String,
-    executionState: S.String,
-    executionAction: S.String,
+    mode: ExecutionMode,
+    executionState: ExecutionState,
+    executionAction: ExecutionAction,
     executionRegion: S.String,
     stepStates: S.optional(StepStates),
     plan: S.optional(Plan),
@@ -1420,7 +1641,7 @@ export const GetPlanExecutionResponse = S.suspend(() =>
   identifier: "GetPlanExecutionResponse",
 }) as any as S.Schema<GetPlanExecutionResponse>;
 export type RegionAndRoutingControls = {
-  [key: string]: ArcRoutingControlStates;
+  [key: string]: ArcRoutingControlState[];
 };
 export const RegionAndRoutingControls = S.Record({
   key: S.String,
@@ -1444,7 +1665,7 @@ export interface ArcRoutingControlConfiguration {
   timeoutMinutes?: number;
   crossAccountRole?: string;
   externalId?: string;
-  regionAndRoutingControls: RegionAndRoutingControls;
+  regionAndRoutingControls: { [key: string]: ArcRoutingControlState[] };
 }
 export const ArcRoutingControlConfiguration = S.suspend(() =>
   S.Struct({
@@ -1464,22 +1685,26 @@ export const RegionalScalingResource = S.Record({
   value: KubernetesScalingResource,
 });
 export type KubernetesScalingApplication = {
-  [key: string]: RegionalScalingResource;
+  [key: string]: { [key: string]: KubernetesScalingResource };
 };
 export const KubernetesScalingApplication = S.Record({
   key: S.String,
   value: RegionalScalingResource,
 });
-export type KubernetesScalingApps = KubernetesScalingApplication[];
+export type KubernetesScalingApps = {
+  [key: string]: { [key: string]: KubernetesScalingResource };
+}[];
 export const KubernetesScalingApps = S.Array(KubernetesScalingApplication);
 export interface EksResourceScalingConfiguration {
   timeoutMinutes?: number;
   kubernetesResourceType: KubernetesResourceType;
-  scalingResources?: KubernetesScalingApps;
-  eksClusters?: EksClusters;
+  scalingResources?: {
+    [key: string]: { [key: string]: KubernetesScalingResource };
+  }[];
+  eksClusters?: EksCluster[];
   ungraceful?: EksResourceScalingUngraceful;
   targetPercent?: number;
-  capacityMonitoringApproach?: string;
+  capacityMonitoringApproach?: EksCapacityMonitoringApproach;
 }
 export const EksResourceScalingConfiguration = S.suspend(() =>
   S.Struct({
@@ -1489,7 +1714,7 @@ export const EksResourceScalingConfiguration = S.suspend(() =>
     eksClusters: S.optional(EksClusters),
     ungraceful: S.optional(EksResourceScalingUngraceful),
     targetPercent: S.optional(S.Number),
-    capacityMonitoringApproach: S.optional(S.String),
+    capacityMonitoringApproach: S.optional(EksCapacityMonitoringApproach),
   }),
 ).annotations({
   identifier: "EksResourceScalingConfiguration",
@@ -1530,7 +1755,7 @@ export interface Step {
   name: string;
   description?: string;
   executionBlockConfiguration: ExecutionBlockConfiguration;
-  executionBlockType: string;
+  executionBlockType: ExecutionBlockType;
 }
 export const Step = S.suspend(() =>
   S.Struct({
@@ -1539,22 +1764,22 @@ export const Step = S.suspend(() =>
     executionBlockConfiguration: S.suspend(
       () => ExecutionBlockConfiguration,
     ).annotations({ identifier: "ExecutionBlockConfiguration" }),
-    executionBlockType: S.String,
+    executionBlockType: ExecutionBlockType,
   }),
 ).annotations({ identifier: "Step" }) as any as S.Schema<Step>;
 export interface CreatePlanRequest {
   description?: string;
-  workflows: WorkflowList;
+  workflows: Workflow[];
   executionRole: string;
   recoveryTimeObjectiveMinutes?: number;
-  associatedAlarms?: AssociatedAlarmMap;
-  triggers?: TriggerList;
+  associatedAlarms?: { [key: string]: AssociatedAlarm };
+  triggers?: Trigger[];
   reportConfiguration?: ReportConfiguration;
   name: string;
-  regions: RegionList;
-  recoveryApproach: string;
+  regions: string[];
+  recoveryApproach: RecoveryApproach;
   primaryRegion?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreatePlanRequest = S.suspend(() =>
   S.Struct({
@@ -1567,7 +1792,7 @@ export const CreatePlanRequest = S.suspend(() =>
     reportConfiguration: S.optional(ReportConfiguration),
     name: S.String,
     regions: RegionList,
-    recoveryApproach: S.String,
+    recoveryApproach: RecoveryApproach,
     primaryRegion: S.optional(S.String),
     tags: S.optional(Tags),
   }).pipe(
@@ -1622,21 +1847,21 @@ export class IllegalArgumentException extends S.TaggedError<IllegalArgumentExcep
 export const listPlans: {
   (
     input: ListPlansRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPlansResponse,
     CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListPlansRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPlansResponse,
     CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListPlansRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AbbreviatedPlan,
     CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -1659,7 +1884,7 @@ export const listPlans: {
  */
 export const approvePlanExecutionStep: (
   input: ApprovePlanExecutionStepRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ApprovePlanExecutionStepResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -1674,21 +1899,21 @@ export const approvePlanExecutionStep: (
 export const listPlanExecutionEvents: {
   (
     input: ListPlanExecutionEventsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPlanExecutionEventsResponse,
     AccessDeniedException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListPlanExecutionEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPlanExecutionEventsResponse,
     AccessDeniedException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListPlanExecutionEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExecutionEvent,
     AccessDeniedException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -1710,21 +1935,21 @@ export const listPlanExecutionEvents: {
 export const listPlanExecutions: {
   (
     input: ListPlanExecutionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPlanExecutionsResponse,
     AccessDeniedException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListPlanExecutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPlanExecutionsResponse,
     AccessDeniedException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListPlanExecutionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AbbreviatedExecution,
     AccessDeniedException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -1746,21 +1971,21 @@ export const listPlanExecutions: {
 export const listPlansInRegion: {
   (
     input: ListPlansInRegionRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPlansInRegionResponse,
     AccessDeniedException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: ListPlansInRegionRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPlansInRegionResponse,
     AccessDeniedException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: ListPlansInRegionRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AbbreviatedPlan,
     AccessDeniedException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -1782,7 +2007,7 @@ export const listPlansInRegion: {
 export const listRoute53HealthChecks: {
   (
     input: ListRoute53HealthChecksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRoute53HealthChecksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1792,7 +2017,7 @@ export const listRoute53HealthChecks: {
   >;
   pages: (
     input: ListRoute53HealthChecksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRoute53HealthChecksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1802,7 +2027,7 @@ export const listRoute53HealthChecks: {
   >;
   items: (
     input: ListRoute53HealthChecksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Route53HealthCheck,
     | AccessDeniedException
     | InternalServerException
@@ -1831,7 +2056,7 @@ export const listRoute53HealthChecks: {
 export const listRoute53HealthChecksInRegion: {
   (
     input: ListRoute53HealthChecksInRegionRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRoute53HealthChecksInRegionResponse,
     | AccessDeniedException
     | IllegalArgumentException
@@ -1842,7 +2067,7 @@ export const listRoute53HealthChecksInRegion: {
   >;
   pages: (
     input: ListRoute53HealthChecksInRegionRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRoute53HealthChecksInRegionResponse,
     | AccessDeniedException
     | IllegalArgumentException
@@ -1853,7 +2078,7 @@ export const listRoute53HealthChecksInRegion: {
   >;
   items: (
     input: ListRoute53HealthChecksInRegionRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Route53HealthCheck,
     | AccessDeniedException
     | IllegalArgumentException
@@ -1883,7 +2108,7 @@ export const listRoute53HealthChecksInRegion: {
  */
 export const getPlanInRegion: (
   input: GetPlanInRegionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPlanInRegionResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -1897,7 +2122,7 @@ export const getPlanInRegion: (
  */
 export const getPlan: (
   input: GetPlanRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPlanResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -1911,7 +2136,7 @@ export const getPlan: (
  */
 export const updatePlan: (
   input: UpdatePlanRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePlanResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -1927,7 +2152,7 @@ export const updatePlan: (
  */
 export const deletePlan: (
   input: DeletePlanRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePlanResponse,
   IllegalStateException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -1941,7 +2166,7 @@ export const deletePlan: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   InternalServerException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -1957,7 +2182,7 @@ export const tagResource: (
  */
 export const cancelPlanExecution: (
   input: CancelPlanExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelPlanExecutionResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -1971,7 +2196,7 @@ export const cancelPlanExecution: (
  */
 export const updatePlanExecution: (
   input: UpdatePlanExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePlanExecutionResponse,
   | AccessDeniedException
   | IllegalStateException
@@ -1992,7 +2217,7 @@ export const updatePlanExecution: (
  */
 export const updatePlanExecutionStep: (
   input: UpdatePlanExecutionStepRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePlanExecutionStepResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -2006,7 +2231,7 @@ export const updatePlanExecutionStep: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   InternalServerException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -2020,7 +2245,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   InternalServerException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -2036,7 +2261,7 @@ export const listTagsForResource: (
  */
 export const startPlanExecution: (
   input: StartPlanExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartPlanExecutionResponse,
   | AccessDeniedException
   | IllegalArgumentException
@@ -2060,21 +2285,21 @@ export const startPlanExecution: (
 export const getPlanEvaluationStatus: {
   (
     input: GetPlanEvaluationStatusRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetPlanEvaluationStatusResponse,
     AccessDeniedException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: GetPlanEvaluationStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetPlanEvaluationStatusResponse,
     AccessDeniedException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetPlanEvaluationStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResourceWarning,
     AccessDeniedException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -2096,21 +2321,21 @@ export const getPlanEvaluationStatus: {
 export const getPlanExecution: {
   (
     input: GetPlanExecutionRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetPlanExecutionResponse,
     AccessDeniedException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: GetPlanExecutionRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetPlanExecutionResponse,
     AccessDeniedException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetPlanExecutionRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     StepState,
     AccessDeniedException | ResourceNotFoundException | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
@@ -2133,7 +2358,7 @@ export const getPlanExecution: {
  */
 export const createPlan: (
   input: CreatePlanRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePlanResponse,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient

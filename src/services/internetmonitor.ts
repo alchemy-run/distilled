@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -138,7 +138,7 @@ export const ListTagsForResourceInput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceInput>;
 export interface UntagResourceInput {
   ResourceArn: string;
-  TagKeys: TagKeys;
+  TagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({
@@ -286,8 +286,8 @@ export const HealthEventsConfig = S.suspend(() =>
 }) as any as S.Schema<HealthEventsConfig>;
 export interface UpdateMonitorInput {
   MonitorName: string;
-  ResourcesToAdd?: SetOfARNs;
-  ResourcesToRemove?: SetOfARNs;
+  ResourcesToAdd?: string[];
+  ResourcesToRemove?: string[];
   Status?: string;
   ClientToken?: string;
   MaxCityNetworksToMonitor?: number;
@@ -519,12 +519,12 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export type QueryRow = string[];
 export const QueryRow = S.Array(S.String);
-export type QueryData = QueryRow[];
+export type QueryData = string[][];
 export const QueryData = S.Array(QueryRow);
 export interface FilterParameter {
   Field?: string;
   Operator?: string;
-  Values?: FilterList;
+  Values?: string[];
 }
 export const FilterParameter = S.suspend(() =>
   S.Struct({
@@ -538,7 +538,7 @@ export const FilterParameter = S.suspend(() =>
 export type FilterParameters = FilterParameter[];
 export const FilterParameters = S.Array(FilterParameter);
 export interface ListTagsForResourceOutput {
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -547,7 +547,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   ResourceArn: string;
-  Tags: TagMap;
+  Tags: { [key: string]: string };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -573,13 +573,13 @@ export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
 export interface GetMonitorOutput {
   MonitorName: string;
   MonitorArn: string;
-  Resources: SetOfARNs;
+  Resources: string[];
   Status: string;
   CreatedAt: Date;
   ModifiedAt: Date;
   ProcessingStatus?: string;
   ProcessingStatusInfo?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   MaxCityNetworksToMonitor?: number;
   InternetMeasurementsLogDelivery?: InternetMeasurementsLogDelivery;
   TrafficPercentageToMonitor?: number;
@@ -628,7 +628,7 @@ export interface StartQueryInput {
   StartTime: Date;
   EndTime: Date;
   QueryType: string;
-  FilterParameters?: FilterParameters;
+  FilterParameters?: FilterParameter[];
   LinkedAccountId?: string;
 }
 export const StartQueryInput = S.suspend(() =>
@@ -740,8 +740,8 @@ export const Network = S.suspend(() =>
 export type NetworkList = Network[];
 export const NetworkList = S.Array(Network);
 export interface NetworkImpairment {
-  Networks: NetworkList;
-  AsPath: NetworkList;
+  Networks: Network[];
+  AsPath: Network[];
   NetworkEventType: string;
 }
 export const NetworkImpairment = S.suspend(() =>
@@ -824,7 +824,7 @@ export interface ImpactedLocation {
   Status: string;
   CausedBy?: NetworkImpairment;
   InternetHealth?: InternetHealth;
-  Ipv4Prefixes?: Ipv4PrefixList;
+  Ipv4Prefixes?: string[];
 }
 export const ImpactedLocation = S.suspend(() =>
   S.Struct({
@@ -856,7 +856,7 @@ export interface HealthEvent {
   EndedAt?: Date;
   CreatedAt?: Date;
   LastUpdatedAt: Date;
-  ImpactedLocations: ImpactedLocationsList;
+  ImpactedLocations: ImpactedLocation[];
   Status: string;
   PercentOfTotalTrafficImpacted?: number;
   ImpactType: string;
@@ -902,7 +902,7 @@ export const GetInternetEventOutput = S.suspend(() =>
   identifier: "GetInternetEventOutput",
 }) as any as S.Schema<GetInternetEventOutput>;
 export interface ListInternetEventsOutput {
-  InternetEvents: InternetEventsList;
+  InternetEvents: InternetEventSummary[];
   NextToken?: string;
 }
 export const ListInternetEventsOutput = S.suspend(() =>
@@ -915,9 +915,9 @@ export const ListInternetEventsOutput = S.suspend(() =>
 }) as any as S.Schema<ListInternetEventsOutput>;
 export interface CreateMonitorInput {
   MonitorName: string;
-  Resources?: SetOfARNs;
+  Resources?: string[];
   ClientToken?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   MaxCityNetworksToMonitor?: number;
   InternetMeasurementsLogDelivery?: InternetMeasurementsLogDelivery;
   TrafficPercentageToMonitor?: number;
@@ -949,7 +949,7 @@ export const CreateMonitorInput = S.suspend(() =>
   identifier: "CreateMonitorInput",
 }) as any as S.Schema<CreateMonitorInput>;
 export interface ListMonitorsOutput {
-  Monitors: MonitorList;
+  Monitors: Monitor[];
   NextToken?: string;
 }
 export const ListMonitorsOutput = S.suspend(() =>
@@ -958,8 +958,8 @@ export const ListMonitorsOutput = S.suspend(() =>
   identifier: "ListMonitorsOutput",
 }) as any as S.Schema<ListMonitorsOutput>;
 export interface GetQueryResultsOutput {
-  Fields: QueryFields;
-  Data: QueryData;
+  Fields: QueryField[];
+  Data: string[][];
   NextToken?: string;
 }
 export const GetQueryResultsOutput = S.suspend(() =>
@@ -980,7 +980,7 @@ export const StartQueryOutput = S.suspend(() =>
   identifier: "StartQueryOutput",
 }) as any as S.Schema<StartQueryOutput>;
 export interface ListHealthEventsOutput {
-  HealthEvents: HealthEventList;
+  HealthEvents: HealthEvent[];
   NextToken?: string;
 }
 export const ListHealthEventsOutput = S.suspend(() =>
@@ -1004,7 +1004,7 @@ export interface GetHealthEventOutput {
   EndedAt?: Date;
   CreatedAt?: Date;
   LastUpdatedAt: Date;
-  ImpactedLocations: ImpactedLocationsList;
+  ImpactedLocations: ImpactedLocation[];
   Status: string;
   PercentOfTotalTrafficImpacted?: number;
   ImpactType: string;
@@ -1085,7 +1085,7 @@ export class TooManyRequestsException extends S.TaggedError<TooManyRequestsExcep
  */
 export const getMonitor: (
   input: GetMonitorInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetMonitorOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1114,7 +1114,7 @@ export const getMonitor: (
 export const getQueryResults: {
   (
     input: GetQueryResultsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetQueryResultsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1126,7 +1126,7 @@ export const getQueryResults: {
   >;
   pages: (
     input: GetQueryResultsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetQueryResultsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1138,7 +1138,7 @@ export const getQueryResults: {
   >;
   items: (
     input: GetQueryResultsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -1170,7 +1170,7 @@ export const getQueryResults: {
 export const listMonitors: {
   (
     input: ListMonitorsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMonitorsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1181,7 +1181,7 @@ export const listMonitors: {
   >;
   pages: (
     input: ListMonitorsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMonitorsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1192,7 +1192,7 @@ export const listMonitors: {
   >;
   items: (
     input: ListMonitorsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Monitor,
     | AccessDeniedException
     | InternalServerException
@@ -1226,7 +1226,7 @@ export const listMonitors: {
 export const listHealthEvents: {
   (
     input: ListHealthEventsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListHealthEventsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1237,7 +1237,7 @@ export const listHealthEvents: {
   >;
   pages: (
     input: ListHealthEventsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListHealthEventsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1248,7 +1248,7 @@ export const listHealthEvents: {
   >;
   items: (
     input: ListHealthEventsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     HealthEvent,
     | AccessDeniedException
     | InternalServerException
@@ -1278,7 +1278,7 @@ export const listHealthEvents: {
  */
 export const deleteMonitor: (
   input: DeleteMonitorInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMonitorOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1307,7 +1307,7 @@ export const deleteMonitor: (
  */
 export const getInternetEvent: (
   input: GetInternetEventInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetInternetEventOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1340,7 +1340,7 @@ export const getInternetEvent: (
 export const listInternetEvents: {
   (
     input: ListInternetEventsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInternetEventsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1351,7 +1351,7 @@ export const listInternetEvents: {
   >;
   pages: (
     input: ListInternetEventsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInternetEventsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1362,7 +1362,7 @@ export const listInternetEvents: {
   >;
   items: (
     input: ListInternetEventsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     InternetEventSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1398,7 +1398,7 @@ export const listInternetEvents: {
  */
 export const startQuery: (
   input: StartQueryInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartQueryOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1434,7 +1434,7 @@ export const startQuery: (
  */
 export const getQueryStatus: (
   input: GetQueryStatusInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetQueryStatusOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1459,7 +1459,7 @@ export const getQueryStatus: (
  */
 export const stopQuery: (
   input: StopQueryInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopQueryOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1493,7 +1493,7 @@ export const stopQuery: (
  */
 export const createMonitor: (
   input: CreateMonitorInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMonitorOutput,
   | AccessDeniedException
   | ConflictException
@@ -1524,7 +1524,7 @@ export const createMonitor: (
  */
 export const updateMonitor: (
   input: UpdateMonitorInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMonitorOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1551,7 +1551,7 @@ export const updateMonitor: (
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   | AccessDeniedException
   | BadRequestException
@@ -1582,7 +1582,7 @@ export const untagResource: (
  */
 export const getHealthEvent: (
   input: GetHealthEventInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetHealthEventOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1605,7 +1605,7 @@ export const getHealthEvent: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   | AccessDeniedException
   | BadRequestException
@@ -1632,7 +1632,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   | AccessDeniedException
   | BadRequestException

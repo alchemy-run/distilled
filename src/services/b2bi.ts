@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -98,8 +98,8 @@ export type PageToken = string;
 export type MaxResults = number;
 export type ProfileId = string;
 export type PartnerName = string;
-export type Email = string | Redacted.Redacted<string>;
-export type Phone = string | Redacted.Redacted<string>;
+export type Email = string | redacted.Redacted<string>;
+export type Phone = string | redacted.Redacted<string>;
 export type PartnershipId = string;
 export type ProfileName = string;
 export type BusinessName = string;
@@ -132,8 +132,14 @@ export type StartingFunctionalGroupControlNumber = number;
 export type StartingTransactionSetControlNumber = number;
 
 //# Schemas
+export type MappingType = "JSONATA" | "XSLT";
+export const MappingType = S.Literal("JSONATA", "XSLT");
+export type FileFormat = "XML" | "JSON" | "NOT_USED";
+export const FileFormat = S.Literal("XML", "JSON", "NOT_USED");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type CapabilityType = "edi";
+export const CapabilityType = S.Literal("edi");
 export interface S3Location {
   bucketName?: string;
   key?: string;
@@ -145,16 +151,20 @@ export type InstructionsDocuments = S3Location[];
 export const InstructionsDocuments = S.Array(S3Location);
 export type PartnershipCapabilities = string[];
 export const PartnershipCapabilities = S.Array(S.String);
+export type Logging = "ENABLED" | "DISABLED";
+export const Logging = S.Literal("ENABLED", "DISABLED");
+export type TransformerStatus = "active" | "inactive";
+export const TransformerStatus = S.Literal("active", "inactive");
 export interface GenerateMappingRequest {
   inputFileContent: string;
   outputFileContent: string;
-  mappingType: string;
+  mappingType: MappingType;
 }
 export const GenerateMappingRequest = S.suspend(() =>
   S.Struct({
     inputFileContent: S.String,
     outputFileContent: S.String,
-    mappingType: S.String,
+    mappingType: MappingType,
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/generate-mapping" }),
@@ -234,13 +244,13 @@ export const StartTransformerJobRequest = S.suspend(() =>
 export interface TestMappingRequest {
   inputFileContent: string;
   mappingTemplate: string;
-  fileFormat: string;
+  fileFormat: FileFormat;
 }
 export const TestMappingRequest = S.suspend(() =>
   S.Struct({
     inputFileContent: S.String,
     mappingTemplate: S.String,
-    fileFormat: S.String,
+    fileFormat: FileFormat,
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/testmapping" }),
@@ -256,7 +266,7 @@ export const TestMappingRequest = S.suspend(() =>
 }) as any as S.Schema<TestMappingRequest>;
 export interface UntagResourceRequest {
   ResourceARN: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -296,28 +306,732 @@ export const GetCapabilityRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetCapabilityRequest",
 }) as any as S.Schema<GetCapabilityRequest>;
+export type CapabilityDirection = "INBOUND" | "OUTBOUND";
+export const CapabilityDirection = S.Literal("INBOUND", "OUTBOUND");
+export type X12TransactionSet =
+  | "X12_100"
+  | "X12_101"
+  | "X12_102"
+  | "X12_103"
+  | "X12_104"
+  | "X12_105"
+  | "X12_106"
+  | "X12_107"
+  | "X12_108"
+  | "X12_109"
+  | "X12_110"
+  | "X12_111"
+  | "X12_112"
+  | "X12_113"
+  | "X12_120"
+  | "X12_121"
+  | "X12_124"
+  | "X12_125"
+  | "X12_126"
+  | "X12_127"
+  | "X12_128"
+  | "X12_129"
+  | "X12_130"
+  | "X12_131"
+  | "X12_132"
+  | "X12_133"
+  | "X12_135"
+  | "X12_138"
+  | "X12_139"
+  | "X12_140"
+  | "X12_141"
+  | "X12_142"
+  | "X12_143"
+  | "X12_144"
+  | "X12_146"
+  | "X12_147"
+  | "X12_148"
+  | "X12_149"
+  | "X12_150"
+  | "X12_151"
+  | "X12_152"
+  | "X12_153"
+  | "X12_154"
+  | "X12_155"
+  | "X12_157"
+  | "X12_158"
+  | "X12_159"
+  | "X12_160"
+  | "X12_161"
+  | "X12_163"
+  | "X12_170"
+  | "X12_175"
+  | "X12_176"
+  | "X12_179"
+  | "X12_180"
+  | "X12_185"
+  | "X12_186"
+  | "X12_187"
+  | "X12_188"
+  | "X12_189"
+  | "X12_190"
+  | "X12_191"
+  | "X12_194"
+  | "X12_195"
+  | "X12_196"
+  | "X12_197"
+  | "X12_198"
+  | "X12_199"
+  | "X12_200"
+  | "X12_201"
+  | "X12_202"
+  | "X12_203"
+  | "X12_204"
+  | "X12_205"
+  | "X12_206"
+  | "X12_210"
+  | "X12_211"
+  | "X12_212"
+  | "X12_213"
+  | "X12_214"
+  | "X12_215"
+  | "X12_216"
+  | "X12_217"
+  | "X12_218"
+  | "X12_219"
+  | "X12_220"
+  | "X12_222"
+  | "X12_223"
+  | "X12_224"
+  | "X12_225"
+  | "X12_227"
+  | "X12_228"
+  | "X12_240"
+  | "X12_242"
+  | "X12_244"
+  | "X12_245"
+  | "X12_248"
+  | "X12_249"
+  | "X12_250"
+  | "X12_251"
+  | "X12_252"
+  | "X12_255"
+  | "X12_256"
+  | "X12_259"
+  | "X12_260"
+  | "X12_261"
+  | "X12_262"
+  | "X12_263"
+  | "X12_264"
+  | "X12_265"
+  | "X12_266"
+  | "X12_267"
+  | "X12_268"
+  | "X12_269"
+  | "X12_270"
+  | "X12_271"
+  | "X12_272"
+  | "X12_273"
+  | "X12_274"
+  | "X12_275"
+  | "X12_276"
+  | "X12_277"
+  | "X12_278"
+  | "X12_280"
+  | "X12_283"
+  | "X12_284"
+  | "X12_285"
+  | "X12_286"
+  | "X12_288"
+  | "X12_290"
+  | "X12_300"
+  | "X12_301"
+  | "X12_303"
+  | "X12_304"
+  | "X12_309"
+  | "X12_310"
+  | "X12_311"
+  | "X12_312"
+  | "X12_313"
+  | "X12_315"
+  | "X12_317"
+  | "X12_319"
+  | "X12_322"
+  | "X12_323"
+  | "X12_324"
+  | "X12_325"
+  | "X12_326"
+  | "X12_350"
+  | "X12_352"
+  | "X12_353"
+  | "X12_354"
+  | "X12_355"
+  | "X12_356"
+  | "X12_357"
+  | "X12_358"
+  | "X12_361"
+  | "X12_362"
+  | "X12_404"
+  | "X12_410"
+  | "X12_412"
+  | "X12_414"
+  | "X12_417"
+  | "X12_418"
+  | "X12_419"
+  | "X12_420"
+  | "X12_421"
+  | "X12_422"
+  | "X12_423"
+  | "X12_424"
+  | "X12_425"
+  | "X12_426"
+  | "X12_429"
+  | "X12_431"
+  | "X12_432"
+  | "X12_433"
+  | "X12_434"
+  | "X12_435"
+  | "X12_436"
+  | "X12_437"
+  | "X12_440"
+  | "X12_451"
+  | "X12_452"
+  | "X12_453"
+  | "X12_455"
+  | "X12_456"
+  | "X12_460"
+  | "X12_463"
+  | "X12_466"
+  | "X12_468"
+  | "X12_470"
+  | "X12_475"
+  | "X12_485"
+  | "X12_486"
+  | "X12_490"
+  | "X12_492"
+  | "X12_494"
+  | "X12_500"
+  | "X12_501"
+  | "X12_503"
+  | "X12_504"
+  | "X12_511"
+  | "X12_517"
+  | "X12_521"
+  | "X12_527"
+  | "X12_536"
+  | "X12_540"
+  | "X12_561"
+  | "X12_567"
+  | "X12_568"
+  | "X12_601"
+  | "X12_602"
+  | "X12_620"
+  | "X12_625"
+  | "X12_650"
+  | "X12_715"
+  | "X12_753"
+  | "X12_754"
+  | "X12_805"
+  | "X12_806"
+  | "X12_810"
+  | "X12_811"
+  | "X12_812"
+  | "X12_813"
+  | "X12_814"
+  | "X12_815"
+  | "X12_816"
+  | "X12_818"
+  | "X12_819"
+  | "X12_820"
+  | "X12_821"
+  | "X12_822"
+  | "X12_823"
+  | "X12_824"
+  | "X12_826"
+  | "X12_827"
+  | "X12_828"
+  | "X12_829"
+  | "X12_830"
+  | "X12_831"
+  | "X12_832"
+  | "X12_833"
+  | "X12_834"
+  | "X12_835"
+  | "X12_836"
+  | "X12_837"
+  | "X12_838"
+  | "X12_839"
+  | "X12_840"
+  | "X12_841"
+  | "X12_842"
+  | "X12_843"
+  | "X12_844"
+  | "X12_845"
+  | "X12_846"
+  | "X12_847"
+  | "X12_848"
+  | "X12_849"
+  | "X12_850"
+  | "X12_851"
+  | "X12_852"
+  | "X12_853"
+  | "X12_854"
+  | "X12_855"
+  | "X12_856"
+  | "X12_857"
+  | "X12_858"
+  | "X12_859"
+  | "X12_860"
+  | "X12_861"
+  | "X12_862"
+  | "X12_863"
+  | "X12_864"
+  | "X12_865"
+  | "X12_866"
+  | "X12_867"
+  | "X12_868"
+  | "X12_869"
+  | "X12_870"
+  | "X12_871"
+  | "X12_872"
+  | "X12_873"
+  | "X12_874"
+  | "X12_875"
+  | "X12_876"
+  | "X12_877"
+  | "X12_878"
+  | "X12_879"
+  | "X12_880"
+  | "X12_881"
+  | "X12_882"
+  | "X12_883"
+  | "X12_884"
+  | "X12_885"
+  | "X12_886"
+  | "X12_887"
+  | "X12_888"
+  | "X12_889"
+  | "X12_891"
+  | "X12_893"
+  | "X12_894"
+  | "X12_895"
+  | "X12_896"
+  | "X12_920"
+  | "X12_924"
+  | "X12_925"
+  | "X12_926"
+  | "X12_928"
+  | "X12_940"
+  | "X12_943"
+  | "X12_944"
+  | "X12_945"
+  | "X12_947"
+  | "X12_980"
+  | "X12_990"
+  | "X12_993"
+  | "X12_996"
+  | "X12_997"
+  | "X12_998"
+  | "X12_999"
+  | "X12_270_X279"
+  | "X12_271_X279"
+  | "X12_275_X210"
+  | "X12_275_X211"
+  | "X12_276_X212"
+  | "X12_277_X212"
+  | "X12_277_X214"
+  | "X12_277_X364"
+  | "X12_278_X217"
+  | "X12_820_X218"
+  | "X12_820_X306"
+  | "X12_824_X186"
+  | "X12_834_X220"
+  | "X12_834_X307"
+  | "X12_834_X318"
+  | "X12_835_X221"
+  | "X12_837_X222"
+  | "X12_837_X223"
+  | "X12_837_X224"
+  | "X12_837_X291"
+  | "X12_837_X292"
+  | "X12_837_X298"
+  | "X12_999_X231";
+export const X12TransactionSet = S.Literal(
+  "X12_100",
+  "X12_101",
+  "X12_102",
+  "X12_103",
+  "X12_104",
+  "X12_105",
+  "X12_106",
+  "X12_107",
+  "X12_108",
+  "X12_109",
+  "X12_110",
+  "X12_111",
+  "X12_112",
+  "X12_113",
+  "X12_120",
+  "X12_121",
+  "X12_124",
+  "X12_125",
+  "X12_126",
+  "X12_127",
+  "X12_128",
+  "X12_129",
+  "X12_130",
+  "X12_131",
+  "X12_132",
+  "X12_133",
+  "X12_135",
+  "X12_138",
+  "X12_139",
+  "X12_140",
+  "X12_141",
+  "X12_142",
+  "X12_143",
+  "X12_144",
+  "X12_146",
+  "X12_147",
+  "X12_148",
+  "X12_149",
+  "X12_150",
+  "X12_151",
+  "X12_152",
+  "X12_153",
+  "X12_154",
+  "X12_155",
+  "X12_157",
+  "X12_158",
+  "X12_159",
+  "X12_160",
+  "X12_161",
+  "X12_163",
+  "X12_170",
+  "X12_175",
+  "X12_176",
+  "X12_179",
+  "X12_180",
+  "X12_185",
+  "X12_186",
+  "X12_187",
+  "X12_188",
+  "X12_189",
+  "X12_190",
+  "X12_191",
+  "X12_194",
+  "X12_195",
+  "X12_196",
+  "X12_197",
+  "X12_198",
+  "X12_199",
+  "X12_200",
+  "X12_201",
+  "X12_202",
+  "X12_203",
+  "X12_204",
+  "X12_205",
+  "X12_206",
+  "X12_210",
+  "X12_211",
+  "X12_212",
+  "X12_213",
+  "X12_214",
+  "X12_215",
+  "X12_216",
+  "X12_217",
+  "X12_218",
+  "X12_219",
+  "X12_220",
+  "X12_222",
+  "X12_223",
+  "X12_224",
+  "X12_225",
+  "X12_227",
+  "X12_228",
+  "X12_240",
+  "X12_242",
+  "X12_244",
+  "X12_245",
+  "X12_248",
+  "X12_249",
+  "X12_250",
+  "X12_251",
+  "X12_252",
+  "X12_255",
+  "X12_256",
+  "X12_259",
+  "X12_260",
+  "X12_261",
+  "X12_262",
+  "X12_263",
+  "X12_264",
+  "X12_265",
+  "X12_266",
+  "X12_267",
+  "X12_268",
+  "X12_269",
+  "X12_270",
+  "X12_271",
+  "X12_272",
+  "X12_273",
+  "X12_274",
+  "X12_275",
+  "X12_276",
+  "X12_277",
+  "X12_278",
+  "X12_280",
+  "X12_283",
+  "X12_284",
+  "X12_285",
+  "X12_286",
+  "X12_288",
+  "X12_290",
+  "X12_300",
+  "X12_301",
+  "X12_303",
+  "X12_304",
+  "X12_309",
+  "X12_310",
+  "X12_311",
+  "X12_312",
+  "X12_313",
+  "X12_315",
+  "X12_317",
+  "X12_319",
+  "X12_322",
+  "X12_323",
+  "X12_324",
+  "X12_325",
+  "X12_326",
+  "X12_350",
+  "X12_352",
+  "X12_353",
+  "X12_354",
+  "X12_355",
+  "X12_356",
+  "X12_357",
+  "X12_358",
+  "X12_361",
+  "X12_362",
+  "X12_404",
+  "X12_410",
+  "X12_412",
+  "X12_414",
+  "X12_417",
+  "X12_418",
+  "X12_419",
+  "X12_420",
+  "X12_421",
+  "X12_422",
+  "X12_423",
+  "X12_424",
+  "X12_425",
+  "X12_426",
+  "X12_429",
+  "X12_431",
+  "X12_432",
+  "X12_433",
+  "X12_434",
+  "X12_435",
+  "X12_436",
+  "X12_437",
+  "X12_440",
+  "X12_451",
+  "X12_452",
+  "X12_453",
+  "X12_455",
+  "X12_456",
+  "X12_460",
+  "X12_463",
+  "X12_466",
+  "X12_468",
+  "X12_470",
+  "X12_475",
+  "X12_485",
+  "X12_486",
+  "X12_490",
+  "X12_492",
+  "X12_494",
+  "X12_500",
+  "X12_501",
+  "X12_503",
+  "X12_504",
+  "X12_511",
+  "X12_517",
+  "X12_521",
+  "X12_527",
+  "X12_536",
+  "X12_540",
+  "X12_561",
+  "X12_567",
+  "X12_568",
+  "X12_601",
+  "X12_602",
+  "X12_620",
+  "X12_625",
+  "X12_650",
+  "X12_715",
+  "X12_753",
+  "X12_754",
+  "X12_805",
+  "X12_806",
+  "X12_810",
+  "X12_811",
+  "X12_812",
+  "X12_813",
+  "X12_814",
+  "X12_815",
+  "X12_816",
+  "X12_818",
+  "X12_819",
+  "X12_820",
+  "X12_821",
+  "X12_822",
+  "X12_823",
+  "X12_824",
+  "X12_826",
+  "X12_827",
+  "X12_828",
+  "X12_829",
+  "X12_830",
+  "X12_831",
+  "X12_832",
+  "X12_833",
+  "X12_834",
+  "X12_835",
+  "X12_836",
+  "X12_837",
+  "X12_838",
+  "X12_839",
+  "X12_840",
+  "X12_841",
+  "X12_842",
+  "X12_843",
+  "X12_844",
+  "X12_845",
+  "X12_846",
+  "X12_847",
+  "X12_848",
+  "X12_849",
+  "X12_850",
+  "X12_851",
+  "X12_852",
+  "X12_853",
+  "X12_854",
+  "X12_855",
+  "X12_856",
+  "X12_857",
+  "X12_858",
+  "X12_859",
+  "X12_860",
+  "X12_861",
+  "X12_862",
+  "X12_863",
+  "X12_864",
+  "X12_865",
+  "X12_866",
+  "X12_867",
+  "X12_868",
+  "X12_869",
+  "X12_870",
+  "X12_871",
+  "X12_872",
+  "X12_873",
+  "X12_874",
+  "X12_875",
+  "X12_876",
+  "X12_877",
+  "X12_878",
+  "X12_879",
+  "X12_880",
+  "X12_881",
+  "X12_882",
+  "X12_883",
+  "X12_884",
+  "X12_885",
+  "X12_886",
+  "X12_887",
+  "X12_888",
+  "X12_889",
+  "X12_891",
+  "X12_893",
+  "X12_894",
+  "X12_895",
+  "X12_896",
+  "X12_920",
+  "X12_924",
+  "X12_925",
+  "X12_926",
+  "X12_928",
+  "X12_940",
+  "X12_943",
+  "X12_944",
+  "X12_945",
+  "X12_947",
+  "X12_980",
+  "X12_990",
+  "X12_993",
+  "X12_996",
+  "X12_997",
+  "X12_998",
+  "X12_999",
+  "X12_270_X279",
+  "X12_271_X279",
+  "X12_275_X210",
+  "X12_275_X211",
+  "X12_276_X212",
+  "X12_277_X212",
+  "X12_277_X214",
+  "X12_277_X364",
+  "X12_278_X217",
+  "X12_820_X218",
+  "X12_820_X306",
+  "X12_824_X186",
+  "X12_834_X220",
+  "X12_834_X307",
+  "X12_834_X318",
+  "X12_835_X221",
+  "X12_837_X222",
+  "X12_837_X223",
+  "X12_837_X224",
+  "X12_837_X291",
+  "X12_837_X292",
+  "X12_837_X298",
+  "X12_999_X231",
+);
+export type X12Version =
+  | "VERSION_4010"
+  | "VERSION_4030"
+  | "VERSION_4050"
+  | "VERSION_4060"
+  | "VERSION_5010"
+  | "VERSION_5010_HIPAA";
+export const X12Version = S.Literal(
+  "VERSION_4010",
+  "VERSION_4030",
+  "VERSION_4050",
+  "VERSION_4060",
+  "VERSION_5010",
+  "VERSION_5010_HIPAA",
+);
 export interface X12Details {
-  transactionSet?: string;
-  version?: string;
+  transactionSet?: X12TransactionSet;
+  version?: X12Version;
 }
 export const X12Details = S.suspend(() =>
   S.Struct({
-    transactionSet: S.optional(S.String),
-    version: S.optional(S.String),
+    transactionSet: S.optional(X12TransactionSet),
+    version: S.optional(X12Version),
   }),
 ).annotations({ identifier: "X12Details" }) as any as S.Schema<X12Details>;
 export type EdiType = { x12Details: X12Details };
 export const EdiType = S.Union(S.Struct({ x12Details: X12Details }));
 export interface EdiConfiguration {
-  capabilityDirection?: string;
-  type: (typeof EdiType)["Type"];
+  capabilityDirection?: CapabilityDirection;
+  type: EdiType;
   inputLocation: S3Location;
   outputLocation: S3Location;
   transformerId: string;
 }
 export const EdiConfiguration = S.suspend(() =>
   S.Struct({
-    capabilityDirection: S.optional(S.String),
+    capabilityDirection: S.optional(CapabilityDirection),
     type: EdiType,
     inputLocation: S3Location,
     outputLocation: S3Location,
@@ -333,8 +1047,8 @@ export const CapabilityConfiguration = S.Union(
 export interface UpdateCapabilityRequest {
   capabilityId: string;
   name?: string;
-  configuration?: (typeof CapabilityConfiguration)["Type"];
-  instructionsDocuments?: InstructionsDocuments;
+  configuration?: CapabilityConfiguration;
+  instructionsDocuments?: S3Location[];
 }
 export const UpdateCapabilityRequest = S.suspend(() =>
   S.Struct({
@@ -480,13 +1194,15 @@ export const X12ControlNumbers = S.suspend(() =>
 ).annotations({
   identifier: "X12ControlNumbers",
 }) as any as S.Schema<X12ControlNumbers>;
+export type X12GS05TimeFormat = "HHMM" | "HHMMSS" | "HHMMSSDD";
+export const X12GS05TimeFormat = S.Literal("HHMM", "HHMMSS", "HHMMSSDD");
 export interface X12OutboundEdiHeaders {
   interchangeControlHeaders?: X12InterchangeControlHeaders;
   functionalGroupHeaders?: X12FunctionalGroupHeaders;
   delimiters?: X12Delimiters;
   validateEdi?: boolean;
   controlNumbers?: X12ControlNumbers;
-  gs05TimeFormat?: string;
+  gs05TimeFormat?: X12GS05TimeFormat;
 }
 export const X12OutboundEdiHeaders = S.suspend(() =>
   S.Struct({
@@ -495,20 +1211,24 @@ export const X12OutboundEdiHeaders = S.suspend(() =>
     delimiters: S.optional(X12Delimiters),
     validateEdi: S.optional(S.Boolean),
     controlNumbers: S.optional(X12ControlNumbers),
-    gs05TimeFormat: S.optional(S.String),
+    gs05TimeFormat: S.optional(X12GS05TimeFormat),
   }),
 ).annotations({
   identifier: "X12OutboundEdiHeaders",
 }) as any as S.Schema<X12OutboundEdiHeaders>;
+export type WrapFormat = "SEGMENT" | "ONE_LINE" | "LINE_LENGTH";
+export const WrapFormat = S.Literal("SEGMENT", "ONE_LINE", "LINE_LENGTH");
+export type LineTerminator = "CRLF" | "LF" | "CR";
+export const LineTerminator = S.Literal("CRLF", "LF", "CR");
 export interface WrapOptions {
-  wrapBy: string;
-  lineTerminator?: string;
+  wrapBy: WrapFormat;
+  lineTerminator?: LineTerminator;
   lineLength?: number;
 }
 export const WrapOptions = S.suspend(() =>
   S.Struct({
-    wrapBy: S.String,
-    lineTerminator: S.optional(S.String),
+    wrapBy: WrapFormat,
+    lineTerminator: S.optional(LineTerminator),
     lineLength: S.optional(S.Number),
   }),
 ).annotations({ identifier: "WrapOptions" }) as any as S.Schema<WrapOptions>;
@@ -524,14 +1244,30 @@ export const X12Envelope = S.suspend(() =>
 ).annotations({ identifier: "X12Envelope" }) as any as S.Schema<X12Envelope>;
 export type OutboundEdiOptions = { x12: X12Envelope };
 export const OutboundEdiOptions = S.Union(S.Struct({ x12: X12Envelope }));
+export type X12FunctionalAcknowledgment =
+  | "DO_NOT_GENERATE"
+  | "GENERATE_ALL_SEGMENTS"
+  | "GENERATE_WITHOUT_TRANSACTION_SET_RESPONSE_LOOP";
+export const X12FunctionalAcknowledgment = S.Literal(
+  "DO_NOT_GENERATE",
+  "GENERATE_ALL_SEGMENTS",
+  "GENERATE_WITHOUT_TRANSACTION_SET_RESPONSE_LOOP",
+);
+export type X12TechnicalAcknowledgment =
+  | "DO_NOT_GENERATE"
+  | "GENERATE_ALL_SEGMENTS";
+export const X12TechnicalAcknowledgment = S.Literal(
+  "DO_NOT_GENERATE",
+  "GENERATE_ALL_SEGMENTS",
+);
 export interface X12AcknowledgmentOptions {
-  functionalAcknowledgment: string;
-  technicalAcknowledgment: string;
+  functionalAcknowledgment: X12FunctionalAcknowledgment;
+  technicalAcknowledgment: X12TechnicalAcknowledgment;
 }
 export const X12AcknowledgmentOptions = S.suspend(() =>
   S.Struct({
-    functionalAcknowledgment: S.String,
-    technicalAcknowledgment: S.String,
+    functionalAcknowledgment: X12FunctionalAcknowledgment,
+    technicalAcknowledgment: X12TechnicalAcknowledgment,
   }),
 ).annotations({
   identifier: "X12AcknowledgmentOptions",
@@ -553,7 +1289,7 @@ export const InboundEdiOptions = S.suspend(() =>
   identifier: "InboundEdiOptions",
 }) as any as S.Schema<InboundEdiOptions>;
 export interface CapabilityOptions {
-  outboundEdi?: (typeof OutboundEdiOptions)["Type"];
+  outboundEdi?: OutboundEdiOptions;
   inboundEdi?: InboundEdiOptions;
 }
 export const CapabilityOptions = S.suspend(() =>
@@ -567,7 +1303,7 @@ export const CapabilityOptions = S.suspend(() =>
 export interface UpdatePartnershipRequest {
   partnershipId: string;
   name?: string;
-  capabilities?: PartnershipCapabilities;
+  capabilities?: string[];
   capabilityOptions?: CapabilityOptions;
 }
 export const UpdatePartnershipRequest = S.suspend(() =>
@@ -646,12 +1382,12 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface CreateProfileRequest {
   name: string;
-  email?: string | Redacted.Redacted<string>;
-  phone: string | Redacted.Redacted<string>;
+  email?: string | redacted.Redacted<string>;
+  phone: string | redacted.Redacted<string>;
   businessName: string;
-  logging: string;
+  logging: Logging;
   clientToken?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateProfileRequest = S.suspend(() =>
   S.Struct({
@@ -659,7 +1395,7 @@ export const CreateProfileRequest = S.suspend(() =>
     email: S.optional(SensitiveString),
     phone: SensitiveString,
     businessName: S.String,
-    logging: S.String,
+    logging: Logging,
     clientToken: S.optional(S.String),
     tags: S.optional(TagList),
   }).pipe(
@@ -695,8 +1431,8 @@ export const GetProfileRequest = S.suspend(() =>
 export interface UpdateProfileRequest {
   profileId: string;
   name?: string;
-  email?: string | Redacted.Redacted<string>;
-  phone?: string | Redacted.Redacted<string>;
+  email?: string | redacted.Redacted<string>;
+  phone?: string | redacted.Redacted<string>;
   businessName?: string;
 }
 export const UpdateProfileRequest = S.suspend(() =>
@@ -778,13 +1514,17 @@ export const GetTransformerRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetTransformerRequest",
 }) as any as S.Schema<GetTransformerRequest>;
+export type FromFormat = "X12";
+export const FromFormat = S.Literal("X12");
 export type FormatOptions = { x12: X12Details };
 export const FormatOptions = S.Union(S.Struct({ x12: X12Details }));
+export type X12SplitBy = "NONE" | "TRANSACTION";
+export const X12SplitBy = S.Literal("NONE", "TRANSACTION");
 export interface X12SplitOptions {
-  splitBy: string;
+  splitBy: X12SplitBy;
 }
 export const X12SplitOptions = S.suspend(() =>
-  S.Struct({ splitBy: S.String }),
+  S.Struct({ splitBy: X12SplitBy }),
 ).annotations({
   identifier: "X12SplitOptions",
 }) as any as S.Schema<X12SplitOptions>;
@@ -792,8 +1532,8 @@ export type CodeList = string[];
 export const CodeList = S.Array(S.String);
 export interface X12CodeListValidationRule {
   elementId: string;
-  codesToAdd?: CodeList;
-  codesToRemove?: CodeList;
+  codesToAdd?: string[];
+  codesToRemove?: string[];
 }
 export const X12CodeListValidationRule = S.suspend(() =>
   S.Struct({
@@ -814,12 +1554,14 @@ export const X12ElementLengthValidationRule = S.suspend(() =>
 ).annotations({
   identifier: "X12ElementLengthValidationRule",
 }) as any as S.Schema<X12ElementLengthValidationRule>;
+export type ElementRequirement = "OPTIONAL" | "MANDATORY";
+export const ElementRequirement = S.Literal("OPTIONAL", "MANDATORY");
 export interface X12ElementRequirementValidationRule {
   elementPosition: string;
-  requirement: string;
+  requirement: ElementRequirement;
 }
 export const X12ElementRequirementValidationRule = S.suspend(() =>
-  S.Struct({ elementPosition: S.String, requirement: S.String }),
+  S.Struct({ elementPosition: S.String, requirement: ElementRequirement }),
 ).annotations({
   identifier: "X12ElementRequirementValidationRule",
 }) as any as S.Schema<X12ElementRequirementValidationRule>;
@@ -834,10 +1576,10 @@ export const X12ValidationRule = S.Union(
     elementRequirementValidationRule: X12ElementRequirementValidationRule,
   }),
 );
-export type X12ValidationRules = (typeof X12ValidationRule)["Type"][];
+export type X12ValidationRules = X12ValidationRule[];
 export const X12ValidationRules = S.Array(X12ValidationRule);
 export interface X12ValidationOptions {
-  validationRules?: X12ValidationRules;
+  validationRules?: X12ValidationRule[];
 }
 export const X12ValidationOptions = S.suspend(() =>
   S.Struct({ validationRules: S.optional(X12ValidationRules) }),
@@ -865,34 +1607,41 @@ export const AdvancedOptions = S.suspend(() =>
   identifier: "AdvancedOptions",
 }) as any as S.Schema<AdvancedOptions>;
 export interface InputConversion {
-  fromFormat: string;
-  formatOptions?: (typeof FormatOptions)["Type"];
+  fromFormat: FromFormat;
+  formatOptions?: FormatOptions;
   advancedOptions?: AdvancedOptions;
 }
 export const InputConversion = S.suspend(() =>
   S.Struct({
-    fromFormat: S.String,
+    fromFormat: FromFormat,
     formatOptions: S.optional(FormatOptions),
     advancedOptions: S.optional(AdvancedOptions),
   }),
 ).annotations({
   identifier: "InputConversion",
 }) as any as S.Schema<InputConversion>;
+export type MappingTemplateLanguage = "XSLT" | "JSONATA";
+export const MappingTemplateLanguage = S.Literal("XSLT", "JSONATA");
 export interface Mapping {
-  templateLanguage: string;
+  templateLanguage: MappingTemplateLanguage;
   template?: string;
 }
 export const Mapping = S.suspend(() =>
-  S.Struct({ templateLanguage: S.String, template: S.optional(S.String) }),
+  S.Struct({
+    templateLanguage: MappingTemplateLanguage,
+    template: S.optional(S.String),
+  }),
 ).annotations({ identifier: "Mapping" }) as any as S.Schema<Mapping>;
+export type ToFormat = "X12";
+export const ToFormat = S.Literal("X12");
 export interface OutputConversion {
-  toFormat: string;
-  formatOptions?: (typeof FormatOptions)["Type"];
+  toFormat: ToFormat;
+  formatOptions?: FormatOptions;
   advancedOptions?: AdvancedOptions;
 }
 export const OutputConversion = S.suspend(() =>
   S.Struct({
-    toFormat: S.String,
+    toFormat: ToFormat,
     formatOptions: S.optional(FormatOptions),
     advancedOptions: S.optional(AdvancedOptions),
   }),
@@ -912,7 +1661,7 @@ export type KeyList = SampleDocumentKeys[];
 export const KeyList = S.Array(SampleDocumentKeys);
 export interface SampleDocuments {
   bucketName: string;
-  keys: KeyList;
+  keys: SampleDocumentKeys[];
 }
 export const SampleDocuments = S.suspend(() =>
   S.Struct({ bucketName: S.String, keys: KeyList }),
@@ -922,10 +1671,10 @@ export const SampleDocuments = S.suspend(() =>
 export interface UpdateTransformerRequest {
   transformerId: string;
   name?: string;
-  status?: string;
-  fileFormat?: string;
+  status?: TransformerStatus;
+  fileFormat?: FileFormat;
   mappingTemplate?: string;
-  ediType?: (typeof EdiType)["Type"];
+  ediType?: EdiType;
   sampleDocument?: string;
   inputConversion?: InputConversion;
   mapping?: Mapping;
@@ -936,8 +1685,8 @@ export const UpdateTransformerRequest = S.suspend(() =>
   S.Struct({
     transformerId: S.String.pipe(T.HttpLabel("transformerId")),
     name: S.optional(S.String),
-    status: S.optional(S.String),
-    fileFormat: S.optional(S.String),
+    status: S.optional(TransformerStatus),
+    fileFormat: S.optional(FileFormat),
     mappingTemplate: S.optional(S.String),
     ediType: S.optional(EdiType),
     sampleDocument: S.optional(S.String),
@@ -1002,6 +1751,12 @@ export const ListTransformersRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListTransformersRequest",
 }) as any as S.Schema<ListTransformersRequest>;
+export type ConversionSourceFormat = "JSON" | "XML";
+export const ConversionSourceFormat = S.Literal("JSON", "XML");
+export type ConversionTargetFormat = "X12";
+export const ConversionTargetFormat = S.Literal("X12");
+export type TransformerJobStatus = "running" | "succeeded" | "failed";
+export const TransformerJobStatus = S.Literal("running", "succeeded", "failed");
 export type S3LocationList = S3Location[];
 export const S3LocationList = S.Array(S3Location);
 export interface GenerateMappingResponse {
@@ -1017,13 +1772,13 @@ export const GenerateMappingResponse = S.suspend(() =>
   identifier: "GenerateMappingResponse",
 }) as any as S.Schema<GenerateMappingResponse>;
 export interface GetTransformerJobResponse {
-  status: string;
-  outputFiles?: S3LocationList;
+  status: TransformerJobStatus;
+  outputFiles?: S3Location[];
   message?: string;
 }
 export const GetTransformerJobResponse = S.suspend(() =>
   S.Struct({
-    status: S.String,
+    status: TransformerJobStatus,
     outputFiles: S.optional(S3LocationList),
     message: S.optional(S.String),
   }),
@@ -1031,7 +1786,7 @@ export const GetTransformerJobResponse = S.suspend(() =>
   identifier: "GetTransformerJobResponse",
 }) as any as S.Schema<GetTransformerJobResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }),
@@ -1048,7 +1803,7 @@ export const StartTransformerJobResponse = S.suspend(() =>
 }) as any as S.Schema<StartTransformerJobResponse>;
 export interface TagResourceRequest {
   ResourceARN: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1083,9 +1838,9 @@ export interface GetCapabilityResponse {
   capabilityId: string;
   capabilityArn: string;
   name: string;
-  type: string;
-  configuration: (typeof CapabilityConfiguration)["Type"];
-  instructionsDocuments?: InstructionsDocuments;
+  type: CapabilityType;
+  configuration: CapabilityConfiguration;
+  instructionsDocuments?: S3Location[];
   createdAt: Date;
   modifiedAt?: Date;
 }
@@ -1094,7 +1849,7 @@ export const GetCapabilityResponse = S.suspend(() =>
     capabilityId: S.String,
     capabilityArn: S.String,
     name: S.String,
-    type: S.String,
+    type: CapabilityType,
     configuration: CapabilityConfiguration,
     instructionsDocuments: S.optional(InstructionsDocuments),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -1107,9 +1862,9 @@ export interface UpdateCapabilityResponse {
   capabilityId: string;
   capabilityArn: string;
   name: string;
-  type: string;
-  configuration: (typeof CapabilityConfiguration)["Type"];
-  instructionsDocuments?: InstructionsDocuments;
+  type: CapabilityType;
+  configuration: CapabilityConfiguration;
+  instructionsDocuments?: S3Location[];
   createdAt: Date;
   modifiedAt?: Date;
 }
@@ -1118,7 +1873,7 @@ export const UpdateCapabilityResponse = S.suspend(() =>
     capabilityId: S.String,
     capabilityArn: S.String,
     name: S.String,
-    type: S.String,
+    type: CapabilityType,
     configuration: CapabilityConfiguration,
     instructionsDocuments: S.optional(InstructionsDocuments),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -1132,9 +1887,9 @@ export interface GetPartnershipResponse {
   partnershipId: string;
   partnershipArn: string;
   name?: string;
-  email?: string | Redacted.Redacted<string>;
-  phone?: string | Redacted.Redacted<string>;
-  capabilities?: PartnershipCapabilities;
+  email?: string | redacted.Redacted<string>;
+  phone?: string | redacted.Redacted<string>;
+  capabilities?: string[];
   capabilityOptions?: CapabilityOptions;
   tradingPartnerId?: string;
   createdAt: Date;
@@ -1162,9 +1917,9 @@ export interface UpdatePartnershipResponse {
   partnershipId: string;
   partnershipArn: string;
   name?: string;
-  email?: string | Redacted.Redacted<string>;
-  phone?: string | Redacted.Redacted<string>;
-  capabilities?: PartnershipCapabilities;
+  email?: string | redacted.Redacted<string>;
+  phone?: string | redacted.Redacted<string>;
+  capabilities?: string[];
   capabilityOptions?: CapabilityOptions;
   tradingPartnerId?: string;
   createdAt: Date;
@@ -1192,9 +1947,9 @@ export interface CreateProfileResponse {
   profileArn: string;
   name: string;
   businessName: string;
-  phone: string | Redacted.Redacted<string>;
-  email?: string | Redacted.Redacted<string>;
-  logging?: string;
+  phone: string | redacted.Redacted<string>;
+  email?: string | redacted.Redacted<string>;
+  logging?: Logging;
   logGroupName?: string;
   createdAt: Date;
 }
@@ -1206,7 +1961,7 @@ export const CreateProfileResponse = S.suspend(() =>
     businessName: S.String,
     phone: SensitiveString,
     email: S.optional(SensitiveString),
-    logging: S.optional(S.String),
+    logging: S.optional(Logging),
     logGroupName: S.optional(S.String),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
   }),
@@ -1217,10 +1972,10 @@ export interface GetProfileResponse {
   profileId: string;
   profileArn: string;
   name: string;
-  email?: string | Redacted.Redacted<string>;
-  phone: string | Redacted.Redacted<string>;
+  email?: string | redacted.Redacted<string>;
+  phone: string | redacted.Redacted<string>;
   businessName: string;
-  logging?: string;
+  logging?: Logging;
   logGroupName?: string;
   createdAt: Date;
   modifiedAt?: Date;
@@ -1233,7 +1988,7 @@ export const GetProfileResponse = S.suspend(() =>
     email: S.optional(SensitiveString),
     phone: SensitiveString,
     businessName: S.String,
-    logging: S.optional(S.String),
+    logging: S.optional(Logging),
     logGroupName: S.optional(S.String),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -1245,10 +2000,10 @@ export interface UpdateProfileResponse {
   profileId: string;
   profileArn: string;
   name: string;
-  email?: string | Redacted.Redacted<string>;
-  phone: string | Redacted.Redacted<string>;
+  email?: string | redacted.Redacted<string>;
+  phone: string | redacted.Redacted<string>;
   businessName: string;
-  logging?: string;
+  logging?: Logging;
   logGroupName?: string;
   createdAt: Date;
   modifiedAt?: Date;
@@ -1261,7 +2016,7 @@ export const UpdateProfileResponse = S.suspend(() =>
     email: S.optional(SensitiveString),
     phone: SensitiveString,
     businessName: S.String,
-    logging: S.optional(S.String),
+    logging: S.optional(Logging),
     logGroupName: S.optional(S.String),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -1273,12 +2028,12 @@ export interface GetTransformerResponse {
   transformerId: string;
   transformerArn: string;
   name: string;
-  status: string;
+  status: TransformerStatus;
   createdAt: Date;
   modifiedAt?: Date;
-  fileFormat?: string;
+  fileFormat?: FileFormat;
   mappingTemplate?: string;
-  ediType?: (typeof EdiType)["Type"];
+  ediType?: EdiType;
   sampleDocument?: string;
   inputConversion?: InputConversion;
   mapping?: Mapping;
@@ -1290,10 +2045,10 @@ export const GetTransformerResponse = S.suspend(() =>
     transformerId: S.String,
     transformerArn: S.String,
     name: S.String,
-    status: S.String,
+    status: TransformerStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    fileFormat: S.optional(S.String),
+    fileFormat: S.optional(FileFormat),
     mappingTemplate: S.optional(S.String),
     ediType: S.optional(EdiType),
     sampleDocument: S.optional(S.String),
@@ -1309,12 +2064,12 @@ export interface UpdateTransformerResponse {
   transformerId: string;
   transformerArn: string;
   name: string;
-  status: string;
+  status: TransformerStatus;
   createdAt: Date;
   modifiedAt: Date;
-  fileFormat?: string;
+  fileFormat?: FileFormat;
   mappingTemplate?: string;
-  ediType?: (typeof EdiType)["Type"];
+  ediType?: EdiType;
   sampleDocument?: string;
   inputConversion?: InputConversion;
   mapping?: Mapping;
@@ -1326,10 +2081,10 @@ export const UpdateTransformerResponse = S.suspend(() =>
     transformerId: S.String,
     transformerArn: S.String,
     name: S.String,
-    status: S.String,
+    status: TransformerStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     modifiedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    fileFormat: S.optional(S.String),
+    fileFormat: S.optional(FileFormat),
     mappingTemplate: S.optional(S.String),
     ediType: S.optional(EdiType),
     sampleDocument: S.optional(S.String),
@@ -1354,23 +2109,23 @@ export const OutputSampleFileSource = S.Union(
 export type TemplateDetails = { x12: X12Details };
 export const TemplateDetails = S.Union(S.Struct({ x12: X12Details }));
 export interface ConversionSource {
-  fileFormat: string;
-  inputFile: (typeof InputFileSource)["Type"];
+  fileFormat: ConversionSourceFormat;
+  inputFile: InputFileSource;
 }
 export const ConversionSource = S.suspend(() =>
-  S.Struct({ fileFormat: S.String, inputFile: InputFileSource }),
+  S.Struct({ fileFormat: ConversionSourceFormat, inputFile: InputFileSource }),
 ).annotations({
   identifier: "ConversionSource",
 }) as any as S.Schema<ConversionSource>;
 export interface ConversionTarget {
-  fileFormat: string;
-  formatDetails?: (typeof ConversionTargetFormatDetails)["Type"];
-  outputSampleFile?: (typeof OutputSampleFileSource)["Type"];
+  fileFormat: ConversionTargetFormat;
+  formatDetails?: ConversionTargetFormatDetails;
+  outputSampleFile?: OutputSampleFileSource;
   advancedOptions?: AdvancedOptions;
 }
 export const ConversionTarget = S.suspend(() =>
   S.Struct({
-    fileFormat: S.String,
+    fileFormat: ConversionTargetFormat,
     formatDetails: S.optional(ConversionTargetFormatDetails),
     outputSampleFile: S.optional(OutputSampleFileSource),
     advancedOptions: S.optional(AdvancedOptions),
@@ -1381,7 +2136,7 @@ export const ConversionTarget = S.suspend(() =>
 export interface CapabilitySummary {
   capabilityId: string;
   name: string;
-  type: string;
+  type: CapabilityType;
   createdAt: Date;
   modifiedAt?: Date;
 }
@@ -1389,7 +2144,7 @@ export const CapabilitySummary = S.suspend(() =>
   S.Struct({
     capabilityId: S.String,
     name: S.String,
-    type: S.String,
+    type: CapabilityType,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
@@ -1402,7 +2157,7 @@ export interface PartnershipSummary {
   profileId: string;
   partnershipId: string;
   name?: string;
-  capabilities?: PartnershipCapabilities;
+  capabilities?: string[];
   capabilityOptions?: CapabilityOptions;
   tradingPartnerId?: string;
   createdAt: Date;
@@ -1428,7 +2183,7 @@ export interface ProfileSummary {
   profileId: string;
   name: string;
   businessName: string;
-  logging?: string;
+  logging?: Logging;
   logGroupName?: string;
   createdAt: Date;
   modifiedAt?: Date;
@@ -1438,7 +2193,7 @@ export const ProfileSummary = S.suspend(() =>
     profileId: S.String,
     name: S.String,
     businessName: S.String,
-    logging: S.optional(S.String),
+    logging: S.optional(Logging),
     logGroupName: S.optional(S.String),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -1451,12 +2206,12 @@ export const ProfileList = S.Array(ProfileSummary);
 export interface TransformerSummary {
   transformerId: string;
   name: string;
-  status: string;
+  status: TransformerStatus;
   createdAt: Date;
   modifiedAt?: Date;
-  fileFormat?: string;
+  fileFormat?: FileFormat;
   mappingTemplate?: string;
-  ediType?: (typeof EdiType)["Type"];
+  ediType?: EdiType;
   sampleDocument?: string;
   inputConversion?: InputConversion;
   mapping?: Mapping;
@@ -1467,10 +2222,10 @@ export const TransformerSummary = S.suspend(() =>
   S.Struct({
     transformerId: S.String,
     name: S.String,
-    status: S.String,
+    status: TransformerStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    fileFormat: S.optional(S.String),
+    fileFormat: S.optional(FileFormat),
     mappingTemplate: S.optional(S.String),
     ediType: S.optional(EdiType),
     sampleDocument: S.optional(S.String),
@@ -1486,13 +2241,13 @@ export type TransformerList = TransformerSummary[];
 export const TransformerList = S.Array(TransformerSummary);
 export interface CreateStarterMappingTemplateRequest {
   outputSampleLocation?: S3Location;
-  mappingType: string;
-  templateDetails: (typeof TemplateDetails)["Type"];
+  mappingType: MappingType;
+  templateDetails: TemplateDetails;
 }
 export const CreateStarterMappingTemplateRequest = S.suspend(() =>
   S.Struct({
     outputSampleLocation: S.optional(S3Location),
-    mappingType: S.String,
+    mappingType: MappingType,
     templateDetails: TemplateDetails,
   }).pipe(
     T.all(
@@ -1527,16 +2282,16 @@ export const TestConversionRequest = S.suspend(() =>
 }) as any as S.Schema<TestConversionRequest>;
 export interface CreateCapabilityRequest {
   name: string;
-  type: string;
-  configuration: (typeof CapabilityConfiguration)["Type"];
-  instructionsDocuments?: InstructionsDocuments;
+  type: CapabilityType;
+  configuration: CapabilityConfiguration;
+  instructionsDocuments?: S3Location[];
   clientToken?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateCapabilityRequest = S.suspend(() =>
   S.Struct({
     name: S.String,
-    type: S.String,
+    type: CapabilityType,
     configuration: CapabilityConfiguration,
     instructionsDocuments: S.optional(InstructionsDocuments),
     clientToken: S.optional(S.String),
@@ -1555,7 +2310,7 @@ export const CreateCapabilityRequest = S.suspend(() =>
   identifier: "CreateCapabilityRequest",
 }) as any as S.Schema<CreateCapabilityRequest>;
 export interface ListCapabilitiesResponse {
-  capabilities: CapabilityList;
+  capabilities: CapabilitySummary[];
   nextToken?: string;
 }
 export const ListCapabilitiesResponse = S.suspend(() =>
@@ -1564,7 +2319,7 @@ export const ListCapabilitiesResponse = S.suspend(() =>
   identifier: "ListCapabilitiesResponse",
 }) as any as S.Schema<ListCapabilitiesResponse>;
 export interface ListPartnershipsResponse {
-  partnerships: PartnershipList;
+  partnerships: PartnershipSummary[];
   nextToken?: string;
 }
 export const ListPartnershipsResponse = S.suspend(() =>
@@ -1573,7 +2328,7 @@ export const ListPartnershipsResponse = S.suspend(() =>
   identifier: "ListPartnershipsResponse",
 }) as any as S.Schema<ListPartnershipsResponse>;
 export interface ListProfilesResponse {
-  profiles: ProfileList;
+  profiles: ProfileSummary[];
   nextToken?: string;
 }
 export const ListProfilesResponse = S.suspend(() =>
@@ -1584,10 +2339,10 @@ export const ListProfilesResponse = S.suspend(() =>
 export interface CreateTransformerRequest {
   name: string;
   clientToken?: string;
-  tags?: TagList;
-  fileFormat?: string;
+  tags?: Tag[];
+  fileFormat?: FileFormat;
   mappingTemplate?: string;
-  ediType?: (typeof EdiType)["Type"];
+  ediType?: EdiType;
   sampleDocument?: string;
   inputConversion?: InputConversion;
   mapping?: Mapping;
@@ -1599,7 +2354,7 @@ export const CreateTransformerRequest = S.suspend(() =>
     name: S.String,
     clientToken: S.optional(S.String),
     tags: S.optional(TagList),
-    fileFormat: S.optional(S.String),
+    fileFormat: S.optional(FileFormat),
     mappingTemplate: S.optional(S.String),
     ediType: S.optional(EdiType),
     sampleDocument: S.optional(S.String),
@@ -1621,7 +2376,7 @@ export const CreateTransformerRequest = S.suspend(() =>
   identifier: "CreateTransformerRequest",
 }) as any as S.Schema<CreateTransformerRequest>;
 export interface ListTransformersResponse {
-  transformers: TransformerList;
+  transformers: TransformerSummary[];
   nextToken?: string;
 }
 export const ListTransformersResponse = S.suspend(() =>
@@ -1641,7 +2396,7 @@ export const CreateStarterMappingTemplateResponse = S.suspend(() =>
 }) as any as S.Schema<CreateStarterMappingTemplateResponse>;
 export interface TestConversionResponse {
   convertedFileContent: string;
-  validationMessages?: ValidationMessages;
+  validationMessages?: string[];
 }
 export const TestConversionResponse = S.suspend(() =>
   S.Struct({
@@ -1655,9 +2410,9 @@ export interface CreateCapabilityResponse {
   capabilityId: string;
   capabilityArn: string;
   name: string;
-  type: string;
-  configuration: (typeof CapabilityConfiguration)["Type"];
-  instructionsDocuments?: InstructionsDocuments;
+  type: CapabilityType;
+  configuration: CapabilityConfiguration;
+  instructionsDocuments?: S3Location[];
   createdAt: Date;
 }
 export const CreateCapabilityResponse = S.suspend(() =>
@@ -1665,7 +2420,7 @@ export const CreateCapabilityResponse = S.suspend(() =>
     capabilityId: S.String,
     capabilityArn: S.String,
     name: S.String,
-    type: S.String,
+    type: CapabilityType,
     configuration: CapabilityConfiguration,
     instructionsDocuments: S.optional(InstructionsDocuments),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -1677,11 +2432,11 @@ export interface CreateTransformerResponse {
   transformerId: string;
   transformerArn: string;
   name: string;
-  status: string;
+  status: TransformerStatus;
   createdAt: Date;
-  fileFormat?: string;
+  fileFormat?: FileFormat;
   mappingTemplate?: string;
-  ediType?: (typeof EdiType)["Type"];
+  ediType?: EdiType;
   sampleDocument?: string;
   inputConversion?: InputConversion;
   mapping?: Mapping;
@@ -1693,9 +2448,9 @@ export const CreateTransformerResponse = S.suspend(() =>
     transformerId: S.String,
     transformerArn: S.String,
     name: S.String,
-    status: S.String,
+    status: TransformerStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    fileFormat: S.optional(S.String),
+    fileFormat: S.optional(FileFormat),
     mappingTemplate: S.optional(S.String),
     ediType: S.optional(EdiType),
     sampleDocument: S.optional(S.String),
@@ -1709,14 +2464,14 @@ export const CreateTransformerResponse = S.suspend(() =>
 }) as any as S.Schema<CreateTransformerResponse>;
 export interface TestParsingRequest {
   inputFile: S3Location;
-  fileFormat: string;
-  ediType: (typeof EdiType)["Type"];
+  fileFormat: FileFormat;
+  ediType: EdiType;
   advancedOptions?: AdvancedOptions;
 }
 export const TestParsingRequest = S.suspend(() =>
   S.Struct({
     inputFile: S3Location,
-    fileFormat: S.String,
+    fileFormat: FileFormat,
     ediType: EdiType,
     advancedOptions: S.optional(AdvancedOptions),
   }).pipe(
@@ -1735,12 +2490,12 @@ export const TestParsingRequest = S.suspend(() =>
 export interface CreatePartnershipRequest {
   profileId: string;
   name: string;
-  email: string | Redacted.Redacted<string>;
-  phone?: string | Redacted.Redacted<string>;
-  capabilities: PartnershipCapabilities;
+  email: string | redacted.Redacted<string>;
+  phone?: string | redacted.Redacted<string>;
+  capabilities: string[];
   capabilityOptions?: CapabilityOptions;
   clientToken?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreatePartnershipRequest = S.suspend(() =>
   S.Struct({
@@ -1769,8 +2524,8 @@ export type ParsedSplitFileContentsList = string[];
 export const ParsedSplitFileContentsList = S.Array(S.String);
 export interface TestParsingResponse {
   parsedFileContent: string;
-  parsedSplitFileContents?: ParsedSplitFileContentsList;
-  validationMessages?: ValidationMessages;
+  parsedSplitFileContents?: string[];
+  validationMessages?: string[];
 }
 export const TestParsingResponse = S.suspend(() =>
   S.Struct({
@@ -1786,9 +2541,9 @@ export interface CreatePartnershipResponse {
   partnershipId: string;
   partnershipArn: string;
   name?: string;
-  email?: string | Redacted.Redacted<string>;
-  phone?: string | Redacted.Redacted<string>;
-  capabilities?: PartnershipCapabilities;
+  email?: string | redacted.Redacted<string>;
+  phone?: string | redacted.Redacted<string>;
+  capabilities?: string[];
   capabilityOptions?: CapabilityOptions;
   tradingPartnerId?: string;
   createdAt: Date;
@@ -1860,7 +2615,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1881,7 +2636,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1912,7 +2667,7 @@ export const listTagsForResource: (
  */
 export const generateMapping: (
   input: GenerateMappingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GenerateMappingResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1935,7 +2690,7 @@ export const generateMapping: (
  */
 export const deletePartnership: (
   input: DeletePartnershipRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePartnershipResponse,
   | AccessDeniedException
   | ConflictException
@@ -1962,7 +2717,7 @@ export const deletePartnership: (
  */
 export const deleteProfile: (
   input: DeleteProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProfileResponse,
   | AccessDeniedException
   | ConflictException
@@ -1989,7 +2744,7 @@ export const deleteProfile: (
  */
 export const deleteTransformer: (
   input: DeleteTransformerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTransformerResponse,
   | AccessDeniedException
   | ConflictException
@@ -2020,7 +2775,7 @@ export const deleteTransformer: (
  */
 export const startTransformerJob: (
   input: StartTransformerJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartTransformerJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -2047,7 +2802,7 @@ export const startTransformerJob: (
  */
 export const deleteCapability: (
   input: DeleteCapabilityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCapabilityResponse,
   | AccessDeniedException
   | ConflictException
@@ -2075,7 +2830,7 @@ export const deleteCapability: (
 export const listCapabilities: {
   (
     input: ListCapabilitiesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCapabilitiesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2086,7 +2841,7 @@ export const listCapabilities: {
   >;
   pages: (
     input: ListCapabilitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCapabilitiesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2097,7 +2852,7 @@ export const listCapabilities: {
   >;
   items: (
     input: ListCapabilitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CapabilitySummary,
     | AccessDeniedException
     | InternalServerException
@@ -2128,7 +2883,7 @@ export const listCapabilities: {
 export const listPartnerships: {
   (
     input: ListPartnershipsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPartnershipsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2140,7 +2895,7 @@ export const listPartnerships: {
   >;
   pages: (
     input: ListPartnershipsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPartnershipsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2152,7 +2907,7 @@ export const listPartnerships: {
   >;
   items: (
     input: ListPartnershipsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PartnershipSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2185,7 +2940,7 @@ export const listPartnerships: {
 export const listProfiles: {
   (
     input: ListProfilesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProfilesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2196,7 +2951,7 @@ export const listProfiles: {
   >;
   pages: (
     input: ListProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProfilesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2207,7 +2962,7 @@ export const listProfiles: {
   >;
   items: (
     input: ListProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProfileSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2238,7 +2993,7 @@ export const listProfiles: {
 export const listTransformers: {
   (
     input: ListTransformersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTransformersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2249,7 +3004,7 @@ export const listTransformers: {
   >;
   pages: (
     input: ListTransformersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTransformersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2260,7 +3015,7 @@ export const listTransformers: {
   >;
   items: (
     input: ListTransformersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TransformerSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2290,7 +3045,7 @@ export const listTransformers: {
  */
 export const getPartnership: (
   input: GetPartnershipRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPartnershipResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2315,7 +3070,7 @@ export const getPartnership: (
  */
 export const getProfile: (
   input: GetProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetProfileResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2340,7 +3095,7 @@ export const getProfile: (
  */
 export const getTransformer: (
   input: GetTransformerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTransformerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2367,7 +3122,7 @@ export const getTransformer: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2392,7 +3147,7 @@ export const tagResource: (
  */
 export const getTransformerJob: (
   input: GetTransformerJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTransformerJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2417,7 +3172,7 @@ export const getTransformerJob: (
  */
 export const testMapping: (
   input: TestMappingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TestMappingResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2442,7 +3197,7 @@ export const testMapping: (
  */
 export const getCapability: (
   input: GetCapabilityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCapabilityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2473,7 +3228,7 @@ export const getCapability: (
  */
 export const createStarterMappingTemplate: (
   input: CreateStarterMappingTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateStarterMappingTemplateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2496,7 +3251,7 @@ export const createStarterMappingTemplate: (
  */
 export const testConversion: (
   input: TestConversionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TestConversionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2521,7 +3276,7 @@ export const testConversion: (
  */
 export const updatePartnership: (
   input: UpdatePartnershipRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePartnershipResponse,
   | AccessDeniedException
   | ConflictException
@@ -2550,7 +3305,7 @@ export const updatePartnership: (
  */
 export const createProfile: (
   input: CreateProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProfileResponse,
   | AccessDeniedException
   | ConflictException
@@ -2579,7 +3334,7 @@ export const createProfile: (
  */
 export const updateProfile: (
   input: UpdateProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProfileResponse,
   | AccessDeniedException
   | ConflictException
@@ -2608,7 +3363,7 @@ export const updateProfile: (
  */
 export const updateTransformer: (
   input: UpdateTransformerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTransformerResponse,
   | AccessDeniedException
   | ConflictException
@@ -2637,7 +3392,7 @@ export const updateTransformer: (
  */
 export const updateCapability: (
   input: UpdateCapabilityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCapabilityResponse,
   | AccessDeniedException
   | ConflictException
@@ -2666,7 +3421,7 @@ export const updateCapability: (
  */
 export const createCapability: (
   input: CreateCapabilityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCapabilityResponse,
   | AccessDeniedException
   | ConflictException
@@ -2707,7 +3462,7 @@ export const createCapability: (
  */
 export const createTransformer: (
   input: CreateTransformerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTransformerResponse,
   | AccessDeniedException
   | ConflictException
@@ -2736,7 +3491,7 @@ export const createTransformer: (
  */
 export const testParsing: (
   input: TestParsingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TestParsingResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2761,7 +3516,7 @@ export const testParsing: (
  */
 export const createPartnership: (
   input: CreatePartnershipRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePartnershipResponse,
   | AccessDeniedException
   | ConflictException

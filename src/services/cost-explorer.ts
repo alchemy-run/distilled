@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -289,24 +289,189 @@ export const StartSavingsPlansPurchaseRecommendationGenerationRequest =
   ).annotations({
     identifier: "StartSavingsPlansPurchaseRecommendationGenerationRequest",
   }) as any as S.Schema<StartSavingsPlansPurchaseRecommendationGenerationRequest>;
+export type CostCategoryRuleVersion = "CostCategoryExpression.v1";
+export const CostCategoryRuleVersion = S.Literal("CostCategoryExpression.v1");
+export type AnomalyFeedbackType = "YES" | "NO" | "PLANNED_ACTIVITY";
+export const AnomalyFeedbackType = S.Literal("YES", "NO", "PLANNED_ACTIVITY");
 export type Values = string[];
 export const Values = S.Array(S.String);
+export type Granularity = "DAILY" | "MONTHLY" | "HOURLY";
+export const Granularity = S.Literal("DAILY", "MONTHLY", "HOURLY");
 export type UsageServices = string[];
 export const UsageServices = S.Array(S.String);
+export type ApproximationDimension = "SERVICE" | "RESOURCE";
+export const ApproximationDimension = S.Literal("SERVICE", "RESOURCE");
 export type MetricNames = string[];
 export const MetricNames = S.Array(S.String);
-export type SavingsPlansDataTypes = string[];
-export const SavingsPlansDataTypes = S.Array(S.String);
+export type Metric =
+  | "BLENDED_COST"
+  | "UNBLENDED_COST"
+  | "AMORTIZED_COST"
+  | "NET_UNBLENDED_COST"
+  | "NET_AMORTIZED_COST"
+  | "USAGE_QUANTITY"
+  | "NORMALIZED_USAGE_AMOUNT";
+export const Metric = S.Literal(
+  "BLENDED_COST",
+  "UNBLENDED_COST",
+  "AMORTIZED_COST",
+  "NET_UNBLENDED_COST",
+  "NET_AMORTIZED_COST",
+  "USAGE_QUANTITY",
+  "NORMALIZED_USAGE_AMOUNT",
+);
+export type Dimension =
+  | "AZ"
+  | "INSTANCE_TYPE"
+  | "LINKED_ACCOUNT"
+  | "PAYER_ACCOUNT"
+  | "LINKED_ACCOUNT_NAME"
+  | "OPERATION"
+  | "PURCHASE_TYPE"
+  | "REGION"
+  | "SERVICE"
+  | "SERVICE_CODE"
+  | "USAGE_TYPE"
+  | "USAGE_TYPE_GROUP"
+  | "RECORD_TYPE"
+  | "OPERATING_SYSTEM"
+  | "TENANCY"
+  | "SCOPE"
+  | "PLATFORM"
+  | "SUBSCRIPTION_ID"
+  | "LEGAL_ENTITY_NAME"
+  | "DEPLOYMENT_OPTION"
+  | "DATABASE_ENGINE"
+  | "CACHE_ENGINE"
+  | "INSTANCE_TYPE_FAMILY"
+  | "BILLING_ENTITY"
+  | "RESERVATION_ID"
+  | "RESOURCE_ID"
+  | "RIGHTSIZING_TYPE"
+  | "SAVINGS_PLANS_TYPE"
+  | "SAVINGS_PLAN_ARN"
+  | "PAYMENT_OPTION"
+  | "AGREEMENT_END_DATE_TIME_AFTER"
+  | "AGREEMENT_END_DATE_TIME_BEFORE"
+  | "INVOICING_ENTITY"
+  | "ANOMALY_TOTAL_IMPACT_ABSOLUTE"
+  | "ANOMALY_TOTAL_IMPACT_PERCENTAGE";
+export const Dimension = S.Literal(
+  "AZ",
+  "INSTANCE_TYPE",
+  "LINKED_ACCOUNT",
+  "PAYER_ACCOUNT",
+  "LINKED_ACCOUNT_NAME",
+  "OPERATION",
+  "PURCHASE_TYPE",
+  "REGION",
+  "SERVICE",
+  "SERVICE_CODE",
+  "USAGE_TYPE",
+  "USAGE_TYPE_GROUP",
+  "RECORD_TYPE",
+  "OPERATING_SYSTEM",
+  "TENANCY",
+  "SCOPE",
+  "PLATFORM",
+  "SUBSCRIPTION_ID",
+  "LEGAL_ENTITY_NAME",
+  "DEPLOYMENT_OPTION",
+  "DATABASE_ENGINE",
+  "CACHE_ENGINE",
+  "INSTANCE_TYPE_FAMILY",
+  "BILLING_ENTITY",
+  "RESERVATION_ID",
+  "RESOURCE_ID",
+  "RIGHTSIZING_TYPE",
+  "SAVINGS_PLANS_TYPE",
+  "SAVINGS_PLAN_ARN",
+  "PAYMENT_OPTION",
+  "AGREEMENT_END_DATE_TIME_AFTER",
+  "AGREEMENT_END_DATE_TIME_BEFORE",
+  "INVOICING_ENTITY",
+  "ANOMALY_TOTAL_IMPACT_ABSOLUTE",
+  "ANOMALY_TOTAL_IMPACT_PERCENTAGE",
+);
+export type Context = "COST_AND_USAGE" | "RESERVATIONS" | "SAVINGS_PLANS";
+export const Context = S.Literal(
+  "COST_AND_USAGE",
+  "RESERVATIONS",
+  "SAVINGS_PLANS",
+);
+export type AccountScope = "PAYER" | "LINKED";
+export const AccountScope = S.Literal("PAYER", "LINKED");
+export type LookbackPeriodInDays = "SEVEN_DAYS" | "THIRTY_DAYS" | "SIXTY_DAYS";
+export const LookbackPeriodInDays = S.Literal(
+  "SEVEN_DAYS",
+  "THIRTY_DAYS",
+  "SIXTY_DAYS",
+);
+export type TermInYears = "ONE_YEAR" | "THREE_YEARS";
+export const TermInYears = S.Literal("ONE_YEAR", "THREE_YEARS");
+export type PaymentOption =
+  | "NO_UPFRONT"
+  | "PARTIAL_UPFRONT"
+  | "ALL_UPFRONT"
+  | "LIGHT_UTILIZATION"
+  | "MEDIUM_UTILIZATION"
+  | "HEAVY_UTILIZATION";
+export const PaymentOption = S.Literal(
+  "NO_UPFRONT",
+  "PARTIAL_UPFRONT",
+  "ALL_UPFRONT",
+  "LIGHT_UTILIZATION",
+  "MEDIUM_UTILIZATION",
+  "HEAVY_UTILIZATION",
+);
+export type SupportedSavingsPlansType =
+  | "COMPUTE_SP"
+  | "EC2_INSTANCE_SP"
+  | "SAGEMAKER_SP"
+  | "DATABASE_SP";
+export const SupportedSavingsPlansType = S.Literal(
+  "COMPUTE_SP",
+  "EC2_INSTANCE_SP",
+  "SAGEMAKER_SP",
+  "DATABASE_SP",
+);
+export type SavingsPlansDataType =
+  | "ATTRIBUTES"
+  | "UTILIZATION"
+  | "AMORTIZED_COMMITMENT"
+  | "SAVINGS";
+export const SavingsPlansDataType = S.Literal(
+  "ATTRIBUTES",
+  "UTILIZATION",
+  "AMORTIZED_COMMITMENT",
+  "SAVINGS",
+);
+export type SavingsPlansDataTypes = SavingsPlansDataType[];
+export const SavingsPlansDataTypes = S.Array(SavingsPlansDataType);
+export type AnalysisStatus = "SUCCEEDED" | "PROCESSING" | "FAILED";
+export const AnalysisStatus = S.Literal("SUCCEEDED", "PROCESSING", "FAILED");
 export type AnalysisIds = string[];
 export const AnalysisIds = S.Array(S.String);
+export type CostAllocationTagStatus = "Active" | "Inactive";
+export const CostAllocationTagStatus = S.Literal("Active", "Inactive");
 export type CostAllocationTagKeyList = string[];
 export const CostAllocationTagKeyList = S.Array(S.String);
+export type CostAllocationTagType = "AWSGenerated" | "UserDefined";
+export const CostAllocationTagType = S.Literal("AWSGenerated", "UserDefined");
 export type ResourceTypesFilterInput = string[];
 export const ResourceTypesFilterInput = S.Array(S.String);
+export type GenerationStatus = "SUCCEEDED" | "PROCESSING" | "FAILED";
+export const GenerationStatus = S.Literal("SUCCEEDED", "PROCESSING", "FAILED");
 export type RecommendationIdList = string[];
 export const RecommendationIdList = S.Array(S.String);
 export type ResourceTagKeyList = string[];
 export const ResourceTagKeyList = S.Array(S.String);
+export type AnomalySubscriptionFrequency = "DAILY" | "IMMEDIATE" | "WEEKLY";
+export const AnomalySubscriptionFrequency = S.Literal(
+  "DAILY",
+  "IMMEDIATE",
+  "WEEKLY",
+);
 export type MonitorArnList = string[];
 export const MonitorArnList = S.Array(S.String);
 export interface DeleteAnomalyMonitorRequest {
@@ -366,7 +531,7 @@ export const DescribeCostCategoryDefinitionRequest = S.suspend(() =>
   identifier: "DescribeCostCategoryDefinitionRequest",
 }) as any as S.Schema<DescribeCostCategoryDefinitionRequest>;
 export interface GetAnomalyMonitorsRequest {
-  MonitorArnList?: Values;
+  MonitorArnList?: string[];
   NextPageToken?: string;
   MaxResults?: number;
 }
@@ -382,7 +547,7 @@ export const GetAnomalyMonitorsRequest = S.suspend(() =>
   identifier: "GetAnomalyMonitorsRequest",
 }) as any as S.Schema<GetAnomalyMonitorsRequest>;
 export interface GetAnomalySubscriptionsRequest {
-  SubscriptionArnList?: Values;
+  SubscriptionArnList?: string[];
   MonitorArn?: string;
   NextPageToken?: string;
   MaxResults?: number;
@@ -400,15 +565,15 @@ export const GetAnomalySubscriptionsRequest = S.suspend(() =>
   identifier: "GetAnomalySubscriptionsRequest",
 }) as any as S.Schema<GetAnomalySubscriptionsRequest>;
 export interface GetApproximateUsageRecordsRequest {
-  Granularity: string;
-  Services?: UsageServices;
-  ApproximationDimension: string;
+  Granularity: Granularity;
+  Services?: string[];
+  ApproximationDimension: ApproximationDimension;
 }
 export const GetApproximateUsageRecordsRequest = S.suspend(() =>
   S.Struct({
-    Granularity: S.String,
+    Granularity: Granularity,
     Services: S.optional(UsageServices),
-    ApproximationDimension: S.String,
+    ApproximationDimension: ApproximationDimension,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -432,16 +597,35 @@ export interface DateInterval {
 export const DateInterval = S.suspend(() =>
   S.Struct({ Start: S.String, End: S.String }),
 ).annotations({ identifier: "DateInterval" }) as any as S.Schema<DateInterval>;
-export type MatchOptions = string[];
-export const MatchOptions = S.Array(S.String);
+export type MatchOption =
+  | "EQUALS"
+  | "ABSENT"
+  | "STARTS_WITH"
+  | "ENDS_WITH"
+  | "CONTAINS"
+  | "CASE_SENSITIVE"
+  | "CASE_INSENSITIVE"
+  | "GREATER_THAN_OR_EQUAL";
+export const MatchOption = S.Literal(
+  "EQUALS",
+  "ABSENT",
+  "STARTS_WITH",
+  "ENDS_WITH",
+  "CONTAINS",
+  "CASE_SENSITIVE",
+  "CASE_INSENSITIVE",
+  "GREATER_THAN_OR_EQUAL",
+);
+export type MatchOptions = MatchOption[];
+export const MatchOptions = S.Array(MatchOption);
 export interface DimensionValues {
-  Key?: string;
-  Values?: Values;
-  MatchOptions?: MatchOptions;
+  Key?: Dimension;
+  Values?: string[];
+  MatchOptions?: MatchOption[];
 }
 export const DimensionValues = S.suspend(() =>
   S.Struct({
-    Key: S.optional(S.String),
+    Key: S.optional(Dimension),
     Values: S.optional(Values),
     MatchOptions: S.optional(MatchOptions),
   }),
@@ -450,8 +634,8 @@ export const DimensionValues = S.suspend(() =>
 }) as any as S.Schema<DimensionValues>;
 export interface TagValues {
   Key?: string;
-  Values?: Values;
-  MatchOptions?: MatchOptions;
+  Values?: string[];
+  MatchOptions?: MatchOption[];
 }
 export const TagValues = S.suspend(() =>
   S.Struct({
@@ -462,8 +646,8 @@ export const TagValues = S.suspend(() =>
 ).annotations({ identifier: "TagValues" }) as any as S.Schema<TagValues>;
 export interface CostCategoryValues {
   Key?: string;
-  Values?: Values;
-  MatchOptions?: MatchOptions;
+  Values?: string[];
+  MatchOptions?: MatchOption[];
 }
 export const CostCategoryValues = S.suspend(() =>
   S.Struct({
@@ -475,8 +659,8 @@ export const CostCategoryValues = S.suspend(() =>
   identifier: "CostCategoryValues",
 }) as any as S.Schema<CostCategoryValues>;
 export interface Expression {
-  Or?: Expressions;
-  And?: Expressions;
+  Or?: Expression[];
+  And?: Expression[];
   Not?: Expression;
   Dimensions?: DimensionValues;
   Tags?: TagValues;
@@ -500,12 +684,21 @@ export const Expression = S.suspend(() =>
     CostCategories: S.optional(CostCategoryValues),
   }),
 ).annotations({ identifier: "Expression" }) as any as S.Schema<Expression>;
+export type GroupDefinitionType = "DIMENSION" | "TAG" | "COST_CATEGORY";
+export const GroupDefinitionType = S.Literal(
+  "DIMENSION",
+  "TAG",
+  "COST_CATEGORY",
+);
 export interface GroupDefinition {
-  Type?: string;
+  Type?: GroupDefinitionType;
   Key?: string;
 }
 export const GroupDefinition = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String), Key: S.optional(S.String) }),
+  S.Struct({
+    Type: S.optional(GroupDefinitionType),
+    Key: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "GroupDefinition",
 }) as any as S.Schema<GroupDefinition>;
@@ -517,7 +710,7 @@ export interface GetCostAndUsageComparisonsRequest {
   ComparisonTimePeriod: DateInterval;
   MetricForComparison: string;
   Filter?: Expression;
-  GroupBy?: GroupDefinitions;
+  GroupBy?: GroupDefinition[];
   MaxResults?: number;
   NextPageToken?: string;
 }
@@ -539,17 +732,17 @@ export const GetCostAndUsageComparisonsRequest = S.suspend(() =>
 }) as any as S.Schema<GetCostAndUsageComparisonsRequest>;
 export interface GetCostAndUsageWithResourcesRequest {
   TimePeriod: DateInterval;
-  Granularity: string;
+  Granularity: Granularity;
   Filter: Expression;
-  Metrics?: MetricNames;
-  GroupBy?: GroupDefinitions;
+  Metrics?: string[];
+  GroupBy?: GroupDefinition[];
   BillingViewArn?: string;
   NextPageToken?: string;
 }
 export const GetCostAndUsageWithResourcesRequest = S.suspend(() =>
   S.Struct({
     TimePeriod: DateInterval,
-    Granularity: S.String,
+    Granularity: Granularity,
     Filter: Expression,
     Metrics: S.optional(MetricNames),
     GroupBy: S.optional(GroupDefinitions),
@@ -567,7 +760,7 @@ export interface GetCostComparisonDriversRequest {
   ComparisonTimePeriod: DateInterval;
   MetricForComparison: string;
   Filter?: Expression;
-  GroupBy?: GroupDefinitions;
+  GroupBy?: GroupDefinition[];
   MaxResults?: number;
   NextPageToken?: string;
 }
@@ -589,8 +782,8 @@ export const GetCostComparisonDriversRequest = S.suspend(() =>
 }) as any as S.Schema<GetCostComparisonDriversRequest>;
 export interface GetCostForecastRequest {
   TimePeriod: DateInterval;
-  Metric: string;
-  Granularity: string;
+  Metric: Metric;
+  Granularity: Granularity;
   Filter?: Expression;
   BillingViewArn?: string;
   PredictionIntervalLevel?: number;
@@ -598,8 +791,8 @@ export interface GetCostForecastRequest {
 export const GetCostForecastRequest = S.suspend(() =>
   S.Struct({
     TimePeriod: DateInterval,
-    Metric: S.String,
-    Granularity: S.String,
+    Metric: Metric,
+    Granularity: Granularity,
     Filter: S.optional(Expression),
     BillingViewArn: S.optional(S.String),
     PredictionIntervalLevel: S.optional(S.Number),
@@ -609,12 +802,14 @@ export const GetCostForecastRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetCostForecastRequest",
 }) as any as S.Schema<GetCostForecastRequest>;
+export type SortOrder = "ASCENDING" | "DESCENDING";
+export const SortOrder = S.Literal("ASCENDING", "DESCENDING");
 export interface SortDefinition {
   Key: string;
-  SortOrder?: string;
+  SortOrder?: SortOrder;
 }
 export const SortDefinition = S.suspend(() =>
-  S.Struct({ Key: S.String, SortOrder: S.optional(S.String) }),
+  S.Struct({ Key: S.String, SortOrder: S.optional(SortOrder) }),
 ).annotations({
   identifier: "SortDefinition",
 }) as any as S.Schema<SortDefinition>;
@@ -623,10 +818,10 @@ export const SortDefinitions = S.Array(SortDefinition);
 export interface GetDimensionValuesRequest {
   SearchString?: string;
   TimePeriod: DateInterval;
-  Dimension: string;
-  Context?: string;
+  Dimension: Dimension;
+  Context?: Context;
   Filter?: Expression;
-  SortBy?: SortDefinitions;
+  SortBy?: SortDefinition[];
   BillingViewArn?: string;
   MaxResults?: number;
   NextPageToken?: string;
@@ -635,8 +830,8 @@ export const GetDimensionValuesRequest = S.suspend(() =>
   S.Struct({
     SearchString: S.optional(S.String),
     TimePeriod: DateInterval,
-    Dimension: S.String,
-    Context: S.optional(S.String),
+    Dimension: Dimension,
+    Context: S.optional(Context),
     Filter: S.optional(Expression),
     SortBy: S.optional(SortDefinitions),
     BillingViewArn: S.optional(S.String),
@@ -650,10 +845,10 @@ export const GetDimensionValuesRequest = S.suspend(() =>
 }) as any as S.Schema<GetDimensionValuesRequest>;
 export interface GetReservationCoverageRequest {
   TimePeriod: DateInterval;
-  GroupBy?: GroupDefinitions;
-  Granularity?: string;
+  GroupBy?: GroupDefinition[];
+  Granularity?: Granularity;
   Filter?: Expression;
-  Metrics?: MetricNames;
+  Metrics?: string[];
   NextPageToken?: string;
   SortBy?: SortDefinition;
   MaxResults?: number;
@@ -662,7 +857,7 @@ export const GetReservationCoverageRequest = S.suspend(() =>
   S.Struct({
     TimePeriod: DateInterval,
     GroupBy: S.optional(GroupDefinitions),
-    Granularity: S.optional(S.String),
+    Granularity: S.optional(Granularity),
     Filter: S.optional(Expression),
     Metrics: S.optional(MetricNames),
     NextPageToken: S.optional(S.String),
@@ -676,8 +871,8 @@ export const GetReservationCoverageRequest = S.suspend(() =>
 }) as any as S.Schema<GetReservationCoverageRequest>;
 export interface GetReservationUtilizationRequest {
   TimePeriod: DateInterval;
-  GroupBy?: GroupDefinitions;
-  Granularity?: string;
+  GroupBy?: GroupDefinition[];
+  Granularity?: Granularity;
   Filter?: Expression;
   SortBy?: SortDefinition;
   NextPageToken?: string;
@@ -687,7 +882,7 @@ export const GetReservationUtilizationRequest = S.suspend(() =>
   S.Struct({
     TimePeriod: DateInterval,
     GroupBy: S.optional(GroupDefinitions),
-    Granularity: S.optional(S.String),
+    Granularity: S.optional(Granularity),
     Filter: S.optional(Expression),
     SortBy: S.optional(SortDefinition),
     NextPageToken: S.optional(S.String),
@@ -711,10 +906,10 @@ export const GetSavingsPlanPurchaseRecommendationDetailsRequest = S.suspend(
 }) as any as S.Schema<GetSavingsPlanPurchaseRecommendationDetailsRequest>;
 export interface GetSavingsPlansCoverageRequest {
   TimePeriod: DateInterval;
-  GroupBy?: GroupDefinitions;
-  Granularity?: string;
+  GroupBy?: GroupDefinition[];
+  Granularity?: Granularity;
   Filter?: Expression;
-  Metrics?: MetricNames;
+  Metrics?: string[];
   NextToken?: string;
   MaxResults?: number;
   SortBy?: SortDefinition;
@@ -723,7 +918,7 @@ export const GetSavingsPlansCoverageRequest = S.suspend(() =>
   S.Struct({
     TimePeriod: DateInterval,
     GroupBy: S.optional(GroupDefinitions),
-    Granularity: S.optional(S.String),
+    Granularity: S.optional(Granularity),
     Filter: S.optional(Expression),
     Metrics: S.optional(MetricNames),
     NextToken: S.optional(S.String),
@@ -736,24 +931,24 @@ export const GetSavingsPlansCoverageRequest = S.suspend(() =>
   identifier: "GetSavingsPlansCoverageRequest",
 }) as any as S.Schema<GetSavingsPlansCoverageRequest>;
 export interface GetSavingsPlansPurchaseRecommendationRequest {
-  SavingsPlansType: string;
-  TermInYears: string;
-  PaymentOption: string;
-  AccountScope?: string;
+  SavingsPlansType: SupportedSavingsPlansType;
+  TermInYears: TermInYears;
+  PaymentOption: PaymentOption;
+  AccountScope?: AccountScope;
   NextPageToken?: string;
   PageSize?: number;
-  LookbackPeriodInDays: string;
+  LookbackPeriodInDays: LookbackPeriodInDays;
   Filter?: Expression;
 }
 export const GetSavingsPlansPurchaseRecommendationRequest = S.suspend(() =>
   S.Struct({
-    SavingsPlansType: S.String,
-    TermInYears: S.String,
-    PaymentOption: S.String,
-    AccountScope: S.optional(S.String),
+    SavingsPlansType: SupportedSavingsPlansType,
+    TermInYears: TermInYears,
+    PaymentOption: PaymentOption,
+    AccountScope: S.optional(AccountScope),
     NextPageToken: S.optional(S.String),
     PageSize: S.optional(S.Number),
-    LookbackPeriodInDays: S.String,
+    LookbackPeriodInDays: LookbackPeriodInDays,
     Filter: S.optional(Expression),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -763,14 +958,14 @@ export const GetSavingsPlansPurchaseRecommendationRequest = S.suspend(() =>
 }) as any as S.Schema<GetSavingsPlansPurchaseRecommendationRequest>;
 export interface GetSavingsPlansUtilizationRequest {
   TimePeriod: DateInterval;
-  Granularity?: string;
+  Granularity?: Granularity;
   Filter?: Expression;
   SortBy?: SortDefinition;
 }
 export const GetSavingsPlansUtilizationRequest = S.suspend(() =>
   S.Struct({
     TimePeriod: DateInterval,
-    Granularity: S.optional(S.String),
+    Granularity: S.optional(Granularity),
     Filter: S.optional(Expression),
     SortBy: S.optional(SortDefinition),
   }).pipe(
@@ -782,7 +977,7 @@ export const GetSavingsPlansUtilizationRequest = S.suspend(() =>
 export interface GetSavingsPlansUtilizationDetailsRequest {
   TimePeriod: DateInterval;
   Filter?: Expression;
-  DataType?: SavingsPlansDataTypes;
+  DataType?: SavingsPlansDataType[];
   NextToken?: string;
   MaxResults?: number;
   SortBy?: SortDefinition;
@@ -806,7 +1001,7 @@ export interface GetTagsRequest {
   TimePeriod: DateInterval;
   TagKey?: string;
   Filter?: Expression;
-  SortBy?: SortDefinitions;
+  SortBy?: SortDefinition[];
   BillingViewArn?: string;
   MaxResults?: number;
   NextPageToken?: string;
@@ -829,8 +1024,8 @@ export const GetTagsRequest = S.suspend(() =>
 }) as any as S.Schema<GetTagsRequest>;
 export interface GetUsageForecastRequest {
   TimePeriod: DateInterval;
-  Metric: string;
-  Granularity: string;
+  Metric: Metric;
+  Granularity: Granularity;
   Filter?: Expression;
   BillingViewArn?: string;
   PredictionIntervalLevel?: number;
@@ -838,8 +1033,8 @@ export interface GetUsageForecastRequest {
 export const GetUsageForecastRequest = S.suspend(() =>
   S.Struct({
     TimePeriod: DateInterval,
-    Metric: S.String,
-    Granularity: S.String,
+    Metric: Metric,
+    Granularity: Granularity,
     Filter: S.optional(Expression),
     BillingViewArn: S.optional(S.String),
     PredictionIntervalLevel: S.optional(S.Number),
@@ -850,14 +1045,14 @@ export const GetUsageForecastRequest = S.suspend(() =>
   identifier: "GetUsageForecastRequest",
 }) as any as S.Schema<GetUsageForecastRequest>;
 export interface ListCommitmentPurchaseAnalysesRequest {
-  AnalysisStatus?: string;
+  AnalysisStatus?: AnalysisStatus;
   NextPageToken?: string;
   PageSize?: number;
-  AnalysisIds?: AnalysisIds;
+  AnalysisIds?: string[];
 }
 export const ListCommitmentPurchaseAnalysesRequest = S.suspend(() =>
   S.Struct({
-    AnalysisStatus: S.optional(S.String),
+    AnalysisStatus: S.optional(AnalysisStatus),
     NextPageToken: S.optional(S.String),
     PageSize: S.optional(S.Number),
     AnalysisIds: S.optional(AnalysisIds),
@@ -882,17 +1077,17 @@ export const ListCostAllocationTagBackfillHistoryRequest = S.suspend(() =>
   identifier: "ListCostAllocationTagBackfillHistoryRequest",
 }) as any as S.Schema<ListCostAllocationTagBackfillHistoryRequest>;
 export interface ListCostAllocationTagsRequest {
-  Status?: string;
-  TagKeys?: CostAllocationTagKeyList;
-  Type?: string;
+  Status?: CostAllocationTagStatus;
+  TagKeys?: string[];
+  Type?: CostAllocationTagType;
   NextToken?: string;
   MaxResults?: number;
 }
 export const ListCostAllocationTagsRequest = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(CostAllocationTagStatus),
     TagKeys: S.optional(CostAllocationTagKeyList),
-    Type: S.optional(S.String),
+    Type: S.optional(CostAllocationTagType),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
@@ -905,7 +1100,7 @@ export interface ListCostCategoryDefinitionsRequest {
   EffectiveOn?: string;
   NextToken?: string;
   MaxResults?: number;
-  SupportedResourceTypes?: ResourceTypesFilterInput;
+  SupportedResourceTypes?: string[];
 }
 export const ListCostCategoryDefinitionsRequest = S.suspend(() =>
   S.Struct({
@@ -936,15 +1131,15 @@ export const ListCostCategoryResourceAssociationsRequest = S.suspend(() =>
   identifier: "ListCostCategoryResourceAssociationsRequest",
 }) as any as S.Schema<ListCostCategoryResourceAssociationsRequest>;
 export interface ListSavingsPlansPurchaseRecommendationGenerationRequest {
-  GenerationStatus?: string;
-  RecommendationIds?: RecommendationIdList;
+  GenerationStatus?: GenerationStatus;
+  RecommendationIds?: string[];
   PageSize?: number;
   NextPageToken?: string;
 }
 export const ListSavingsPlansPurchaseRecommendationGenerationRequest =
   S.suspend(() =>
     S.Struct({
-      GenerationStatus: S.optional(S.String),
+      GenerationStatus: S.optional(GenerationStatus),
       RecommendationIds: S.optional(RecommendationIdList),
       PageSize: S.optional(S.Number),
       NextPageToken: S.optional(S.String),
@@ -966,10 +1161,10 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ProvideAnomalyFeedbackRequest {
   AnomalyId: string;
-  Feedback: string;
+  Feedback: AnomalyFeedbackType;
 }
 export const ProvideAnomalyFeedbackRequest = S.suspend(() =>
-  S.Struct({ AnomalyId: S.String, Feedback: S.String }).pipe(
+  S.Struct({ AnomalyId: S.String, Feedback: AnomalyFeedbackType }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -1011,7 +1206,7 @@ export type ResourceTagList = ResourceTag[];
 export const ResourceTagList = S.Array(ResourceTag);
 export interface TagResourceRequest {
   ResourceArn: string;
-  ResourceTags: ResourceTagList;
+  ResourceTags: ResourceTag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, ResourceTags: ResourceTagList }).pipe(
@@ -1026,7 +1221,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  ResourceTagKeys: ResourceTagKeyList;
+  ResourceTagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, ResourceTagKeys: ResourceTagKeyList }).pipe(
@@ -1050,30 +1245,39 @@ export const UpdateAnomalyMonitorRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateAnomalyMonitorRequest",
 }) as any as S.Schema<UpdateAnomalyMonitorRequest>;
+export type CostCategoryInheritedValueDimensionName =
+  | "LINKED_ACCOUNT_NAME"
+  | "TAG";
+export const CostCategoryInheritedValueDimensionName = S.Literal(
+  "LINKED_ACCOUNT_NAME",
+  "TAG",
+);
 export interface CostCategoryInheritedValueDimension {
-  DimensionName?: string;
+  DimensionName?: CostCategoryInheritedValueDimensionName;
   DimensionKey?: string;
 }
 export const CostCategoryInheritedValueDimension = S.suspend(() =>
   S.Struct({
-    DimensionName: S.optional(S.String),
+    DimensionName: S.optional(CostCategoryInheritedValueDimensionName),
     DimensionKey: S.optional(S.String),
   }),
 ).annotations({
   identifier: "CostCategoryInheritedValueDimension",
 }) as any as S.Schema<CostCategoryInheritedValueDimension>;
+export type CostCategoryRuleType = "REGULAR" | "INHERITED_VALUE";
+export const CostCategoryRuleType = S.Literal("REGULAR", "INHERITED_VALUE");
 export interface CostCategoryRule {
   Value?: string;
   Rule?: Expression;
   InheritedValue?: CostCategoryInheritedValueDimension;
-  Type?: string;
+  Type?: CostCategoryRuleType;
 }
 export const CostCategoryRule = S.suspend(() =>
   S.Struct({
     Value: S.optional(S.String),
     Rule: S.optional(Expression),
     InheritedValue: S.optional(CostCategoryInheritedValueDimension),
-    Type: S.optional(S.String),
+    Type: S.optional(CostCategoryRuleType),
   }),
 ).annotations({
   identifier: "CostCategoryRule",
@@ -1082,15 +1286,25 @@ export type CostCategoryRulesList = CostCategoryRule[];
 export const CostCategoryRulesList = S.Array(CostCategoryRule);
 export type CostCategorySplitChargeRuleTargetsList = string[];
 export const CostCategorySplitChargeRuleTargetsList = S.Array(S.String);
+export type CostCategorySplitChargeMethod = "FIXED" | "PROPORTIONAL" | "EVEN";
+export const CostCategorySplitChargeMethod = S.Literal(
+  "FIXED",
+  "PROPORTIONAL",
+  "EVEN",
+);
+export type CostCategorySplitChargeRuleParameterType = "ALLOCATION_PERCENTAGES";
+export const CostCategorySplitChargeRuleParameterType = S.Literal(
+  "ALLOCATION_PERCENTAGES",
+);
 export type CostCategorySplitChargeRuleParameterValuesList = string[];
 export const CostCategorySplitChargeRuleParameterValuesList = S.Array(S.String);
 export interface CostCategorySplitChargeRuleParameter {
-  Type: string;
-  Values: CostCategorySplitChargeRuleParameterValuesList;
+  Type: CostCategorySplitChargeRuleParameterType;
+  Values: string[];
 }
 export const CostCategorySplitChargeRuleParameter = S.suspend(() =>
   S.Struct({
-    Type: S.String,
+    Type: CostCategorySplitChargeRuleParameterType,
     Values: CostCategorySplitChargeRuleParameterValuesList,
   }),
 ).annotations({
@@ -1103,15 +1317,15 @@ export const CostCategorySplitChargeRuleParametersList = S.Array(
 );
 export interface CostCategorySplitChargeRule {
   Source: string;
-  Targets: CostCategorySplitChargeRuleTargetsList;
-  Method: string;
-  Parameters?: CostCategorySplitChargeRuleParametersList;
+  Targets: string[];
+  Method: CostCategorySplitChargeMethod;
+  Parameters?: CostCategorySplitChargeRuleParameter[];
 }
 export const CostCategorySplitChargeRule = S.suspend(() =>
   S.Struct({
     Source: S.String,
     Targets: CostCategorySplitChargeRuleTargetsList,
-    Method: S.String,
+    Method: CostCategorySplitChargeMethod,
     Parameters: S.optional(CostCategorySplitChargeRuleParametersList),
   }),
 ).annotations({
@@ -1124,16 +1338,16 @@ export const CostCategorySplitChargeRulesList = S.Array(
 export interface UpdateCostCategoryDefinitionRequest {
   CostCategoryArn: string;
   EffectiveStart?: string;
-  RuleVersion: string;
-  Rules: CostCategoryRulesList;
+  RuleVersion: CostCategoryRuleVersion;
+  Rules: CostCategoryRule[];
   DefaultValue?: string;
-  SplitChargeRules?: CostCategorySplitChargeRulesList;
+  SplitChargeRules?: CostCategorySplitChargeRule[];
 }
 export const UpdateCostCategoryDefinitionRequest = S.suspend(() =>
   S.Struct({
     CostCategoryArn: S.String,
     EffectiveStart: S.optional(S.String),
-    RuleVersion: S.String,
+    RuleVersion: CostCategoryRuleVersion,
     Rules: CostCategoryRulesList,
     DefaultValue: S.optional(S.String),
     SplitChargeRules: S.optional(CostCategorySplitChargeRulesList),
@@ -1143,20 +1357,59 @@ export const UpdateCostCategoryDefinitionRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateCostCategoryDefinitionRequest",
 }) as any as S.Schema<UpdateCostCategoryDefinitionRequest>;
+export type MonitorType = "DIMENSIONAL" | "CUSTOM";
+export const MonitorType = S.Literal("DIMENSIONAL", "CUSTOM");
+export type MonitorDimension =
+  | "SERVICE"
+  | "LINKED_ACCOUNT"
+  | "TAG"
+  | "COST_CATEGORY";
+export const MonitorDimension = S.Literal(
+  "SERVICE",
+  "LINKED_ACCOUNT",
+  "TAG",
+  "COST_CATEGORY",
+);
+export type NumericOperator =
+  | "EQUAL"
+  | "GREATER_THAN_OR_EQUAL"
+  | "LESS_THAN_OR_EQUAL"
+  | "GREATER_THAN"
+  | "LESS_THAN"
+  | "BETWEEN";
+export const NumericOperator = S.Literal(
+  "EQUAL",
+  "GREATER_THAN_OR_EQUAL",
+  "LESS_THAN_OR_EQUAL",
+  "GREATER_THAN",
+  "LESS_THAN",
+  "BETWEEN",
+);
 export type Expressions = Expression[];
 export const Expressions = S.Array(
   S.suspend((): S.Schema<Expression, any> => Expression).annotations({
     identifier: "Expression",
   }),
 ) as any as S.Schema<Expressions>;
+export type RecommendationTarget =
+  | "SAME_INSTANCE_FAMILY"
+  | "CROSS_INSTANCE_FAMILY";
+export const RecommendationTarget = S.Literal(
+  "SAME_INSTANCE_FAMILY",
+  "CROSS_INSTANCE_FAMILY",
+);
+export type SubscriberType = "EMAIL" | "SNS";
+export const SubscriberType = S.Literal("EMAIL", "SNS");
+export type SubscriberStatus = "CONFIRMED" | "DECLINED";
+export const SubscriberStatus = S.Literal("CONFIRMED", "DECLINED");
 export interface AnomalyMonitor {
   MonitorArn?: string;
   MonitorName: string;
   CreationDate?: string;
   LastUpdatedDate?: string;
   LastEvaluatedDate?: string;
-  MonitorType: string;
-  MonitorDimension?: string;
+  MonitorType: MonitorType;
+  MonitorDimension?: MonitorDimension;
   MonitorSpecification?: Expression;
   DimensionalValueCount?: number;
 }
@@ -1167,8 +1420,8 @@ export const AnomalyMonitor = S.suspend(() =>
     CreationDate: S.optional(S.String),
     LastUpdatedDate: S.optional(S.String),
     LastEvaluatedDate: S.optional(S.String),
-    MonitorType: S.String,
-    MonitorDimension: S.optional(S.String),
+    MonitorType: MonitorType,
+    MonitorDimension: S.optional(MonitorDimension),
     MonitorSpecification: S.optional(Expression),
     DimensionalValueCount: S.optional(S.Number),
   }),
@@ -1177,14 +1430,14 @@ export const AnomalyMonitor = S.suspend(() =>
 }) as any as S.Schema<AnomalyMonitor>;
 export interface Subscriber {
   Address?: string;
-  Type?: string;
-  Status?: string;
+  Type?: SubscriberType;
+  Status?: SubscriberStatus;
 }
 export const Subscriber = S.suspend(() =>
   S.Struct({
     Address: S.optional(S.String),
-    Type: S.optional(S.String),
-    Status: S.optional(S.String),
+    Type: S.optional(SubscriberType),
+    Status: S.optional(SubscriberStatus),
   }),
 ).annotations({ identifier: "Subscriber" }) as any as S.Schema<Subscriber>;
 export type Subscribers = Subscriber[];
@@ -1192,10 +1445,10 @@ export const Subscribers = S.Array(Subscriber);
 export interface AnomalySubscription {
   SubscriptionArn?: string;
   AccountId?: string;
-  MonitorArnList: MonitorArnList;
-  Subscribers: Subscribers;
+  MonitorArnList: string[];
+  Subscribers: Subscriber[];
   Threshold?: number;
-  Frequency: string;
+  Frequency: AnomalySubscriptionFrequency;
   SubscriptionName: string;
   ThresholdExpression?: Expression;
 }
@@ -1206,7 +1459,7 @@ export const AnomalySubscription = S.suspend(() =>
     MonitorArnList: MonitorArnList,
     Subscribers: Subscribers,
     Threshold: S.optional(S.Number),
-    Frequency: S.String,
+    Frequency: AnomalySubscriptionFrequency,
     SubscriptionName: S.String,
     ThresholdExpression: S.optional(Expression),
   }),
@@ -1223,13 +1476,13 @@ export const AnomalyDateInterval = S.suspend(() =>
   identifier: "AnomalyDateInterval",
 }) as any as S.Schema<AnomalyDateInterval>;
 export interface TotalImpactFilter {
-  NumericOperator: string;
+  NumericOperator: NumericOperator;
   StartValue: number;
   EndValue?: number;
 }
 export const TotalImpactFilter = S.suspend(() =>
   S.Struct({
-    NumericOperator: S.String,
+    NumericOperator: NumericOperator,
     StartValue: S.Number,
     EndValue: S.optional(S.Number),
   }),
@@ -1240,12 +1493,28 @@ export type AnomalyMonitors = AnomalyMonitor[];
 export const AnomalyMonitors = S.Array(AnomalyMonitor);
 export type AnomalySubscriptions = AnomalySubscription[];
 export const AnomalySubscriptions = S.Array(AnomalySubscription);
+export type ErrorCode =
+  | "NO_USAGE_FOUND"
+  | "INTERNAL_FAILURE"
+  | "INVALID_SAVINGS_PLANS_TO_ADD"
+  | "INVALID_SAVINGS_PLANS_TO_EXCLUDE"
+  | "INVALID_ACCOUNT_ID";
+export const ErrorCode = S.Literal(
+  "NO_USAGE_FOUND",
+  "INTERNAL_FAILURE",
+  "INVALID_SAVINGS_PLANS_TO_ADD",
+  "INVALID_SAVINGS_PLANS_TO_EXCLUDE",
+  "INVALID_ACCOUNT_ID",
+);
 export interface RightsizingRecommendationConfiguration {
-  RecommendationTarget: string;
+  RecommendationTarget: RecommendationTarget;
   BenefitsConsidered: boolean;
 }
 export const RightsizingRecommendationConfiguration = S.suspend(() =>
-  S.Struct({ RecommendationTarget: S.String, BenefitsConsidered: S.Boolean }),
+  S.Struct({
+    RecommendationTarget: RecommendationTarget,
+    BenefitsConsidered: S.Boolean,
+  }),
 ).annotations({
   identifier: "RightsizingRecommendationConfiguration",
 }) as any as S.Schema<RightsizingRecommendationConfiguration>;
@@ -1253,10 +1522,10 @@ export type TagList = string[];
 export const TagList = S.Array(S.String);
 export interface CostAllocationTagStatusEntry {
   TagKey: string;
-  Status: string;
+  Status: CostAllocationTagStatus;
 }
 export const CostAllocationTagStatusEntry = S.suspend(() =>
-  S.Struct({ TagKey: S.String, Status: S.String }),
+  S.Struct({ TagKey: S.String, Status: CostAllocationTagStatus }),
 ).annotations({
   identifier: "CostAllocationTagStatusEntry",
 }) as any as S.Schema<CostAllocationTagStatusEntry>;
@@ -1264,11 +1533,15 @@ export type CostAllocationTagStatusList = CostAllocationTagStatusEntry[];
 export const CostAllocationTagStatusList = S.Array(
   CostAllocationTagStatusEntry,
 );
+export type OfferingClass = "STANDARD" | "CONVERTIBLE";
+export const OfferingClass = S.Literal("STANDARD", "CONVERTIBLE");
+export type AnalysisType = "MAX_SAVINGS" | "CUSTOM_COMMITMENT";
+export const AnalysisType = S.Literal("MAX_SAVINGS", "CUSTOM_COMMITMENT");
 export type SavingsPlansToExclude = string[];
 export const SavingsPlansToExclude = S.Array(S.String);
 export interface CreateAnomalyMonitorRequest {
   AnomalyMonitor: AnomalyMonitor;
-  ResourceTags?: ResourceTagList;
+  ResourceTags?: ResourceTag[];
 }
 export const CreateAnomalyMonitorRequest = S.suspend(() =>
   S.Struct({
@@ -1282,7 +1555,7 @@ export const CreateAnomalyMonitorRequest = S.suspend(() =>
 }) as any as S.Schema<CreateAnomalyMonitorRequest>;
 export interface CreateAnomalySubscriptionRequest {
   AnomalySubscription: AnomalySubscription;
-  ResourceTags?: ResourceTagList;
+  ResourceTags?: ResourceTag[];
 }
 export const CreateAnomalySubscriptionRequest = S.suspend(() =>
   S.Struct({
@@ -1309,7 +1582,7 @@ export const DeleteCostCategoryDefinitionResponse = S.suspend(() =>
 export interface GetAnomaliesRequest {
   MonitorArn?: string;
   DateInterval: AnomalyDateInterval;
-  Feedback?: string;
+  Feedback?: AnomalyFeedbackType;
   TotalImpact?: TotalImpactFilter;
   NextPageToken?: string;
   MaxResults?: number;
@@ -1318,7 +1591,7 @@ export const GetAnomaliesRequest = S.suspend(() =>
   S.Struct({
     MonitorArn: S.optional(S.String),
     DateInterval: AnomalyDateInterval,
-    Feedback: S.optional(S.String),
+    Feedback: S.optional(AnomalyFeedbackType),
     TotalImpact: S.optional(TotalImpactFilter),
     NextPageToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
@@ -1329,7 +1602,7 @@ export const GetAnomaliesRequest = S.suspend(() =>
   identifier: "GetAnomaliesRequest",
 }) as any as S.Schema<GetAnomaliesRequest>;
 export interface GetAnomalyMonitorsResponse {
-  AnomalyMonitors: AnomalyMonitors;
+  AnomalyMonitors: AnomalyMonitor[];
   NextPageToken?: string;
 }
 export const GetAnomalyMonitorsResponse = S.suspend(() =>
@@ -1341,7 +1614,7 @@ export const GetAnomalyMonitorsResponse = S.suspend(() =>
   identifier: "GetAnomalyMonitorsResponse",
 }) as any as S.Schema<GetAnomalyMonitorsResponse>;
 export interface GetAnomalySubscriptionsResponse {
-  AnomalySubscriptions: AnomalySubscriptions;
+  AnomalySubscriptions: AnomalySubscription[];
   NextPageToken?: string;
 }
 export const GetAnomalySubscriptionsResponse = S.suspend(() =>
@@ -1357,7 +1630,7 @@ export interface GetCostCategoriesRequest {
   TimePeriod: DateInterval;
   CostCategoryName?: string;
   Filter?: Expression;
-  SortBy?: SortDefinitions;
+  SortBy?: SortDefinition[];
   BillingViewArn?: string;
   MaxResults?: number;
   NextPageToken?: string;
@@ -1382,7 +1655,7 @@ export type Attributes = { [key: string]: string };
 export const Attributes = S.Record({ key: S.String, value: S.String });
 export interface DimensionValuesWithAttributes {
   Value?: string;
-  Attributes?: Attributes;
+  Attributes?: { [key: string]: string };
 }
 export const DimensionValuesWithAttributes = S.suspend(() =>
   S.Struct({ Value: S.optional(S.String), Attributes: S.optional(Attributes) }),
@@ -1394,7 +1667,7 @@ export const DimensionValuesWithAttributesList = S.Array(
   DimensionValuesWithAttributes,
 );
 export interface GetDimensionValuesResponse {
-  DimensionValues: DimensionValuesWithAttributesList;
+  DimensionValues: DimensionValuesWithAttributes[];
   ReturnSize: number;
   TotalSize: number;
   NextPageToken?: string;
@@ -1431,7 +1704,7 @@ export const GetRightsizingRecommendationRequest = S.suspend(() =>
 }) as any as S.Schema<GetRightsizingRecommendationRequest>;
 export interface GetTagsResponse {
   NextPageToken?: string;
-  Tags: TagList;
+  Tags: string[];
   ReturnSize: number;
   TotalSize: number;
 }
@@ -1472,7 +1745,7 @@ export type ForecastResultsByTime = ForecastResult[];
 export const ForecastResultsByTime = S.Array(ForecastResult);
 export interface GetUsageForecastResponse {
   Total?: MetricValue;
-  ForecastResultsByTime?: ForecastResultsByTime;
+  ForecastResultsByTime?: ForecastResult[];
 }
 export const GetUsageForecastResponse = S.suspend(() =>
   S.Struct({
@@ -1483,7 +1756,7 @@ export const GetUsageForecastResponse = S.suspend(() =>
   identifier: "GetUsageForecastResponse",
 }) as any as S.Schema<GetUsageForecastResponse>;
 export interface ListTagsForResourceResponse {
-  ResourceTags?: ResourceTagList;
+  ResourceTags?: ResourceTag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ ResourceTags: S.optional(ResourceTagList) }),
@@ -1498,11 +1771,20 @@ export const ProvideAnomalyFeedbackResponse = S.suspend(() =>
 ).annotations({
   identifier: "ProvideAnomalyFeedbackResponse",
 }) as any as S.Schema<ProvideAnomalyFeedbackResponse>;
+export type CostAllocationTagBackfillStatus =
+  | "SUCCEEDED"
+  | "PROCESSING"
+  | "FAILED";
+export const CostAllocationTagBackfillStatus = S.Literal(
+  "SUCCEEDED",
+  "PROCESSING",
+  "FAILED",
+);
 export interface CostAllocationTagBackfillRequest {
   BackfillFrom?: string;
   RequestedAt?: string;
   CompletedAt?: string;
-  BackfillStatus?: string;
+  BackfillStatus?: CostAllocationTagBackfillStatus;
   LastUpdatedAt?: string;
 }
 export const CostAllocationTagBackfillRequest = S.suspend(() =>
@@ -1510,7 +1792,7 @@ export const CostAllocationTagBackfillRequest = S.suspend(() =>
     BackfillFrom: S.optional(S.String),
     RequestedAt: S.optional(S.String),
     CompletedAt: S.optional(S.String),
-    BackfillStatus: S.optional(S.String),
+    BackfillStatus: S.optional(CostAllocationTagBackfillStatus),
     LastUpdatedAt: S.optional(S.String),
   }),
 ).annotations({
@@ -1535,9 +1817,9 @@ export const UpdateAnomalyMonitorResponse = S.suspend(() =>
 export interface UpdateAnomalySubscriptionRequest {
   SubscriptionArn: string;
   Threshold?: number;
-  Frequency?: string;
-  MonitorArnList?: MonitorArnList;
-  Subscribers?: Subscribers;
+  Frequency?: AnomalySubscriptionFrequency;
+  MonitorArnList?: string[];
+  Subscribers?: Subscriber[];
   SubscriptionName?: string;
   ThresholdExpression?: Expression;
 }
@@ -1545,7 +1827,7 @@ export const UpdateAnomalySubscriptionRequest = S.suspend(() =>
   S.Struct({
     SubscriptionArn: S.String,
     Threshold: S.optional(S.Number),
-    Frequency: S.optional(S.String),
+    Frequency: S.optional(AnomalySubscriptionFrequency),
     MonitorArnList: S.optional(MonitorArnList),
     Subscribers: S.optional(Subscribers),
     SubscriptionName: S.optional(S.String),
@@ -1557,7 +1839,7 @@ export const UpdateAnomalySubscriptionRequest = S.suspend(() =>
   identifier: "UpdateAnomalySubscriptionRequest",
 }) as any as S.Schema<UpdateAnomalySubscriptionRequest>;
 export interface UpdateCostAllocationTagsStatusRequest {
-  CostAllocationTagsStatus: CostAllocationTagStatusList;
+  CostAllocationTagsStatus: CostAllocationTagStatusEntry[];
 }
 export const UpdateCostAllocationTagsStatusRequest = S.suspend(() =>
   S.Struct({ CostAllocationTagsStatus: CostAllocationTagStatusList }).pipe(
@@ -1579,10 +1861,10 @@ export const UpdateCostCategoryDefinitionResponse = S.suspend(() =>
   identifier: "UpdateCostCategoryDefinitionResponse",
 }) as any as S.Schema<UpdateCostCategoryDefinitionResponse>;
 export interface EC2Specification {
-  OfferingClass?: string;
+  OfferingClass?: OfferingClass;
 }
 export const EC2Specification = S.suspend(() =>
-  S.Struct({ OfferingClass: S.optional(S.String) }),
+  S.Struct({ OfferingClass: S.optional(OfferingClass) }),
 ).annotations({
   identifier: "EC2Specification",
 }) as any as S.Schema<EC2Specification>;
@@ -1618,7 +1900,7 @@ export const ComparisonMetrics = S.Record({
 });
 export interface CostAndUsageComparison {
   CostAndUsageSelector?: Expression;
-  Metrics?: ComparisonMetrics;
+  Metrics?: { [key: string]: ComparisonMetricValue };
 }
 export const CostAndUsageComparison = S.suspend(() =>
   S.Struct({
@@ -1754,7 +2036,7 @@ export const SavingsPlansUtilizationAggregates = S.suspend(() =>
 }) as any as S.Schema<SavingsPlansUtilizationAggregates>;
 export interface SavingsPlansUtilizationDetail {
   SavingsPlanArn?: string;
-  Attributes?: Attributes;
+  Attributes?: { [key: string]: string };
   Utilization?: SavingsPlansUtilization;
   Savings?: SavingsPlansSavings;
   AmortizedCommitment?: SavingsPlansAmortizedCommitment;
@@ -1775,21 +2057,21 @@ export const SavingsPlansUtilizationDetails = S.Array(
   SavingsPlansUtilizationDetail,
 );
 export interface SavingsPlans {
-  PaymentOption?: string;
-  SavingsPlansType?: string;
+  PaymentOption?: PaymentOption;
+  SavingsPlansType?: SupportedSavingsPlansType;
   Region?: string;
   InstanceFamily?: string;
-  TermInYears?: string;
+  TermInYears?: TermInYears;
   SavingsPlansCommitment?: number;
   OfferingId?: string;
 }
 export const SavingsPlans = S.suspend(() =>
   S.Struct({
-    PaymentOption: S.optional(S.String),
-    SavingsPlansType: S.optional(S.String),
+    PaymentOption: S.optional(PaymentOption),
+    SavingsPlansType: S.optional(SupportedSavingsPlansType),
     Region: S.optional(S.String),
     InstanceFamily: S.optional(S.String),
-    TermInYears: S.optional(S.String),
+    TermInYears: S.optional(TermInYears),
     SavingsPlansCommitment: S.optional(S.Number),
     OfferingId: S.optional(S.String),
   }),
@@ -1797,18 +2079,18 @@ export const SavingsPlans = S.suspend(() =>
 export type SavingsPlansToAdd = SavingsPlans[];
 export const SavingsPlansToAdd = S.Array(SavingsPlans);
 export interface SavingsPlansPurchaseAnalysisConfiguration {
-  AccountScope?: string;
+  AccountScope?: AccountScope;
   AccountId?: string;
-  AnalysisType: string;
-  SavingsPlansToAdd: SavingsPlansToAdd;
-  SavingsPlansToExclude?: SavingsPlansToExclude;
+  AnalysisType: AnalysisType;
+  SavingsPlansToAdd: SavingsPlans[];
+  SavingsPlansToExclude?: string[];
   LookBackTimePeriod: DateInterval;
 }
 export const SavingsPlansPurchaseAnalysisConfiguration = S.suspend(() =>
   S.Struct({
-    AccountScope: S.optional(S.String),
+    AccountScope: S.optional(AccountScope),
     AccountId: S.optional(S.String),
-    AnalysisType: S.String,
+    AnalysisType: AnalysisType,
     SavingsPlansToAdd: SavingsPlansToAdd,
     SavingsPlansToExclude: S.optional(SavingsPlansToExclude),
     LookBackTimePeriod: DateInterval,
@@ -1832,8 +2114,8 @@ export interface AnalysisSummary {
   EstimatedCompletionTime?: string;
   AnalysisCompletionTime?: string;
   AnalysisStartedTime?: string;
-  AnalysisStatus?: string;
-  ErrorCode?: string;
+  AnalysisStatus?: AnalysisStatus;
+  ErrorCode?: ErrorCode;
   AnalysisId?: string;
   CommitmentPurchaseAnalysisConfiguration?: CommitmentPurchaseAnalysisConfiguration;
 }
@@ -1842,8 +2124,8 @@ export const AnalysisSummary = S.suspend(() =>
     EstimatedCompletionTime: S.optional(S.String),
     AnalysisCompletionTime: S.optional(S.String),
     AnalysisStartedTime: S.optional(S.String),
-    AnalysisStatus: S.optional(S.String),
-    ErrorCode: S.optional(S.String),
+    AnalysisStatus: S.optional(AnalysisStatus),
+    ErrorCode: S.optional(ErrorCode),
     AnalysisId: S.optional(S.String),
     CommitmentPurchaseAnalysisConfiguration: S.optional(
       CommitmentPurchaseAnalysisConfiguration,
@@ -1861,16 +2143,16 @@ export const CostAllocationTagBackfillRequestList = S.Array(
 );
 export interface CostAllocationTag {
   TagKey: string;
-  Type: string;
-  Status: string;
+  Type: CostAllocationTagType;
+  Status: CostAllocationTagStatus;
   LastUpdatedDate?: string;
   LastUsedDate?: string;
 }
 export const CostAllocationTag = S.suspend(() =>
   S.Struct({
     TagKey: S.String,
-    Type: S.String,
-    Status: S.String,
+    Type: CostAllocationTagType,
+    Status: CostAllocationTagStatus,
     LastUpdatedDate: S.optional(S.String),
     LastUsedDate: S.optional(S.String),
   }),
@@ -1879,12 +2161,19 @@ export const CostAllocationTag = S.suspend(() =>
 }) as any as S.Schema<CostAllocationTag>;
 export type CostAllocationTagList = CostAllocationTag[];
 export const CostAllocationTagList = S.Array(CostAllocationTag);
+export type CostCategoryStatusComponent = "COST_EXPLORER";
+export const CostCategoryStatusComponent = S.Literal("COST_EXPLORER");
+export type CostCategoryStatus = "PROCESSING" | "APPLIED";
+export const CostCategoryStatus = S.Literal("PROCESSING", "APPLIED");
 export interface CostCategoryProcessingStatus {
-  Component?: string;
-  Status?: string;
+  Component?: CostCategoryStatusComponent;
+  Status?: CostCategoryStatus;
 }
 export const CostCategoryProcessingStatus = S.suspend(() =>
-  S.Struct({ Component: S.optional(S.String), Status: S.optional(S.String) }),
+  S.Struct({
+    Component: S.optional(CostCategoryStatusComponent),
+    Status: S.optional(CostCategoryStatus),
+  }),
 ).annotations({
   identifier: "CostCategoryProcessingStatus",
 }) as any as S.Schema<CostCategoryProcessingStatus>;
@@ -1898,10 +2187,10 @@ export interface CostCategoryReference {
   EffectiveStart?: string;
   EffectiveEnd?: string;
   NumberOfRules?: number;
-  ProcessingStatus?: CostCategoryProcessingStatusList;
-  Values?: CostCategoryValuesList;
+  ProcessingStatus?: CostCategoryProcessingStatus[];
+  Values?: string[];
   DefaultValue?: string;
-  SupportedResourceTypes?: ResourceTypes;
+  SupportedResourceTypes?: string[];
 }
 export const CostCategoryReference = S.suspend(() =>
   S.Struct({
@@ -1941,7 +2230,7 @@ export const CostCategoryResourceAssociations = S.Array(
 );
 export interface GenerationSummary {
   RecommendationId?: string;
-  GenerationStatus?: string;
+  GenerationStatus?: GenerationStatus;
   GenerationStartedTime?: string;
   GenerationCompletionTime?: string;
   EstimatedCompletionTime?: string;
@@ -1949,7 +2238,7 @@ export interface GenerationSummary {
 export const GenerationSummary = S.suspend(() =>
   S.Struct({
     RecommendationId: S.optional(S.String),
-    GenerationStatus: S.optional(S.String),
+    GenerationStatus: S.optional(GenerationStatus),
     GenerationStartedTime: S.optional(S.String),
     GenerationCompletionTime: S.optional(S.String),
     EstimatedCompletionTime: S.optional(S.String),
@@ -1980,17 +2269,17 @@ export const CreateAnomalySubscriptionResponse = S.suspend(() =>
 export interface CreateCostCategoryDefinitionRequest {
   Name: string;
   EffectiveStart?: string;
-  RuleVersion: string;
-  Rules: CostCategoryRulesList;
+  RuleVersion: CostCategoryRuleVersion;
+  Rules: CostCategoryRule[];
   DefaultValue?: string;
-  SplitChargeRules?: CostCategorySplitChargeRulesList;
-  ResourceTags?: ResourceTagList;
+  SplitChargeRules?: CostCategorySplitChargeRule[];
+  ResourceTags?: ResourceTag[];
 }
 export const CreateCostCategoryDefinitionRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
     EffectiveStart: S.optional(S.String),
-    RuleVersion: S.String,
+    RuleVersion: CostCategoryRuleVersion,
     Rules: CostCategoryRulesList,
     DefaultValue: S.optional(S.String),
     SplitChargeRules: S.optional(CostCategorySplitChargeRulesList),
@@ -2002,7 +2291,7 @@ export const CreateCostCategoryDefinitionRequest = S.suspend(() =>
   identifier: "CreateCostCategoryDefinitionRequest",
 }) as any as S.Schema<CreateCostCategoryDefinitionRequest>;
 export interface GetApproximateUsageRecordsResponse {
-  Services?: ApproximateUsageRecordsPerService;
+  Services?: { [key: string]: number };
   TotalRecords?: number;
   LookbackPeriod?: DateInterval;
 }
@@ -2017,17 +2306,17 @@ export const GetApproximateUsageRecordsResponse = S.suspend(() =>
 }) as any as S.Schema<GetApproximateUsageRecordsResponse>;
 export interface GetCostAndUsageRequest {
   TimePeriod: DateInterval;
-  Granularity: string;
+  Granularity: Granularity;
   Filter?: Expression;
-  Metrics: MetricNames;
-  GroupBy?: GroupDefinitions;
+  Metrics: string[];
+  GroupBy?: GroupDefinition[];
   BillingViewArn?: string;
   NextPageToken?: string;
 }
 export const GetCostAndUsageRequest = S.suspend(() =>
   S.Struct({
     TimePeriod: DateInterval,
-    Granularity: S.String,
+    Granularity: Granularity,
     Filter: S.optional(Expression),
     Metrics: MetricNames,
     GroupBy: S.optional(GroupDefinitions),
@@ -2041,8 +2330,8 @@ export const GetCostAndUsageRequest = S.suspend(() =>
 }) as any as S.Schema<GetCostAndUsageRequest>;
 export interface GetCostCategoriesResponse {
   NextPageToken?: string;
-  CostCategoryNames?: CostCategoryNamesList;
-  CostCategoryValues?: CostCategoryValuesList;
+  CostCategoryNames?: string[];
+  CostCategoryValues?: string[];
   ReturnSize: number;
   TotalSize: number;
 }
@@ -2059,7 +2348,7 @@ export const GetCostCategoriesResponse = S.suspend(() =>
 }) as any as S.Schema<GetCostCategoriesResponse>;
 export interface GetCostForecastResponse {
   Total?: MetricValue;
-  ForecastResultsByTime?: ForecastResultsByTime;
+  ForecastResultsByTime?: ForecastResult[];
 }
 export const GetCostForecastResponse = S.suspend(() =>
   S.Struct({
@@ -2073,10 +2362,10 @@ export interface GetReservationPurchaseRecommendationRequest {
   AccountId?: string;
   Service: string;
   Filter?: Expression;
-  AccountScope?: string;
-  LookbackPeriodInDays?: string;
-  TermInYears?: string;
-  PaymentOption?: string;
+  AccountScope?: AccountScope;
+  LookbackPeriodInDays?: LookbackPeriodInDays;
+  TermInYears?: TermInYears;
+  PaymentOption?: PaymentOption;
   ServiceSpecification?: ServiceSpecification;
   PageSize?: number;
   NextPageToken?: string;
@@ -2086,10 +2375,10 @@ export const GetReservationPurchaseRecommendationRequest = S.suspend(() =>
     AccountId: S.optional(S.String),
     Service: S.String,
     Filter: S.optional(Expression),
-    AccountScope: S.optional(S.String),
-    LookbackPeriodInDays: S.optional(S.String),
-    TermInYears: S.optional(S.String),
-    PaymentOption: S.optional(S.String),
+    AccountScope: S.optional(AccountScope),
+    LookbackPeriodInDays: S.optional(LookbackPeriodInDays),
+    TermInYears: S.optional(TermInYears),
+    PaymentOption: S.optional(PaymentOption),
     ServiceSpecification: S.optional(ServiceSpecification),
     PageSize: S.optional(S.Number),
     NextPageToken: S.optional(S.String),
@@ -2100,7 +2389,7 @@ export const GetReservationPurchaseRecommendationRequest = S.suspend(() =>
   identifier: "GetReservationPurchaseRecommendationRequest",
 }) as any as S.Schema<GetReservationPurchaseRecommendationRequest>;
 export interface GetSavingsPlansUtilizationDetailsResponse {
-  SavingsPlansUtilizationDetails: SavingsPlansUtilizationDetails;
+  SavingsPlansUtilizationDetails: SavingsPlansUtilizationDetail[];
   Total?: SavingsPlansUtilizationAggregates;
   TimePeriod: DateInterval;
   NextToken?: string;
@@ -2116,7 +2405,7 @@ export const GetSavingsPlansUtilizationDetailsResponse = S.suspend(() =>
   identifier: "GetSavingsPlansUtilizationDetailsResponse",
 }) as any as S.Schema<GetSavingsPlansUtilizationDetailsResponse>;
 export interface ListCommitmentPurchaseAnalysesResponse {
-  AnalysisSummaryList?: AnalysisSummaryList;
+  AnalysisSummaryList?: AnalysisSummary[];
   NextPageToken?: string;
 }
 export const ListCommitmentPurchaseAnalysesResponse = S.suspend(() =>
@@ -2128,7 +2417,7 @@ export const ListCommitmentPurchaseAnalysesResponse = S.suspend(() =>
   identifier: "ListCommitmentPurchaseAnalysesResponse",
 }) as any as S.Schema<ListCommitmentPurchaseAnalysesResponse>;
 export interface ListCostAllocationTagBackfillHistoryResponse {
-  BackfillRequests?: CostAllocationTagBackfillRequestList;
+  BackfillRequests?: CostAllocationTagBackfillRequest[];
   NextToken?: string;
 }
 export const ListCostAllocationTagBackfillHistoryResponse = S.suspend(() =>
@@ -2140,7 +2429,7 @@ export const ListCostAllocationTagBackfillHistoryResponse = S.suspend(() =>
   identifier: "ListCostAllocationTagBackfillHistoryResponse",
 }) as any as S.Schema<ListCostAllocationTagBackfillHistoryResponse>;
 export interface ListCostAllocationTagsResponse {
-  CostAllocationTags?: CostAllocationTagList;
+  CostAllocationTags?: CostAllocationTag[];
   NextToken?: string;
 }
 export const ListCostAllocationTagsResponse = S.suspend(() =>
@@ -2152,7 +2441,7 @@ export const ListCostAllocationTagsResponse = S.suspend(() =>
   identifier: "ListCostAllocationTagsResponse",
 }) as any as S.Schema<ListCostAllocationTagsResponse>;
 export interface ListCostCategoryDefinitionsResponse {
-  CostCategoryReferences?: CostCategoryReferencesList;
+  CostCategoryReferences?: CostCategoryReference[];
   NextToken?: string;
 }
 export const ListCostCategoryDefinitionsResponse = S.suspend(() =>
@@ -2164,7 +2453,7 @@ export const ListCostCategoryDefinitionsResponse = S.suspend(() =>
   identifier: "ListCostCategoryDefinitionsResponse",
 }) as any as S.Schema<ListCostCategoryDefinitionsResponse>;
 export interface ListCostCategoryResourceAssociationsResponse {
-  CostCategoryResourceAssociations?: CostCategoryResourceAssociations;
+  CostCategoryResourceAssociations?: CostCategoryResourceAssociation[];
   NextToken?: string;
 }
 export const ListCostCategoryResourceAssociationsResponse = S.suspend(() =>
@@ -2178,7 +2467,7 @@ export const ListCostCategoryResourceAssociationsResponse = S.suspend(() =>
   identifier: "ListCostCategoryResourceAssociationsResponse",
 }) as any as S.Schema<ListCostCategoryResourceAssociationsResponse>;
 export interface ListSavingsPlansPurchaseRecommendationGenerationResponse {
-  GenerationSummaryList?: GenerationSummaryList;
+  GenerationSummaryList?: GenerationSummary[];
   NextPageToken?: string;
 }
 export const ListSavingsPlansPurchaseRecommendationGenerationResponse =
@@ -2242,7 +2531,7 @@ export interface SavingsPlansPurchaseAnalysisDetails {
   LatestUsageTimestamp?: string;
   UpfrontCost?: string;
   AdditionalMetadata?: string;
-  MetricsOverLookbackPeriod?: MetricsOverLookbackPeriod;
+  MetricsOverLookbackPeriod?: RecommendationDetailHourlyMetrics[];
 }
 export const SavingsPlansPurchaseAnalysisDetails = S.suspend(() =>
   S.Struct({
@@ -2275,8 +2564,8 @@ export const SavingsPlansPurchaseAnalysisDetails = S.suspend(() =>
 export type Metrics = { [key: string]: MetricValue };
 export const Metrics = S.Record({ key: S.String, value: MetricValue });
 export interface Group {
-  Keys?: Keys;
-  Metrics?: Metrics;
+  Keys?: string[];
+  Metrics?: { [key: string]: MetricValue };
 }
 export const Group = S.suspend(() =>
   S.Struct({ Keys: S.optional(Keys), Metrics: S.optional(Metrics) }),
@@ -2286,7 +2575,7 @@ export const Groups = S.Array(Group);
 export interface CostDriver {
   Type?: string;
   Name?: string;
-  Metrics?: ComparisonMetrics;
+  Metrics?: { [key: string]: ComparisonMetricValue };
 }
 export const CostDriver = S.suspend(() =>
   S.Struct({
@@ -2348,7 +2637,7 @@ export const Coverage = S.suspend(() =>
   }),
 ).annotations({ identifier: "Coverage" }) as any as S.Schema<Coverage>;
 export interface ReservationCoverageGroup {
-  Attributes?: Attributes;
+  Attributes?: { [key: string]: string };
   Coverage?: Coverage;
 }
 export const ReservationCoverageGroup = S.suspend(() =>
@@ -2364,7 +2653,7 @@ export const ReservationCoverageGroups = S.Array(ReservationCoverageGroup);
 export interface ReservationUtilizationGroup {
   Key?: string;
   Value?: string;
-  Attributes?: Attributes;
+  Attributes?: { [key: string]: string };
   Utilization?: ReservationAggregates;
 }
 export const ReservationUtilizationGroup = S.suspend(() =>
@@ -2381,8 +2670,45 @@ export type ReservationUtilizationGroups = ReservationUtilizationGroup[];
 export const ReservationUtilizationGroups = S.Array(
   ReservationUtilizationGroup,
 );
-export type FindingReasonCodes = string[];
-export const FindingReasonCodes = S.Array(S.String);
+export type RightsizingType = "TERMINATE" | "MODIFY";
+export const RightsizingType = S.Literal("TERMINATE", "MODIFY");
+export type FindingReasonCode =
+  | "CPU_OVER_PROVISIONED"
+  | "CPU_UNDER_PROVISIONED"
+  | "MEMORY_OVER_PROVISIONED"
+  | "MEMORY_UNDER_PROVISIONED"
+  | "EBS_THROUGHPUT_OVER_PROVISIONED"
+  | "EBS_THROUGHPUT_UNDER_PROVISIONED"
+  | "EBS_IOPS_OVER_PROVISIONED"
+  | "EBS_IOPS_UNDER_PROVISIONED"
+  | "NETWORK_BANDWIDTH_OVER_PROVISIONED"
+  | "NETWORK_BANDWIDTH_UNDER_PROVISIONED"
+  | "NETWORK_PPS_OVER_PROVISIONED"
+  | "NETWORK_PPS_UNDER_PROVISIONED"
+  | "DISK_IOPS_OVER_PROVISIONED"
+  | "DISK_IOPS_UNDER_PROVISIONED"
+  | "DISK_THROUGHPUT_OVER_PROVISIONED"
+  | "DISK_THROUGHPUT_UNDER_PROVISIONED";
+export const FindingReasonCode = S.Literal(
+  "CPU_OVER_PROVISIONED",
+  "CPU_UNDER_PROVISIONED",
+  "MEMORY_OVER_PROVISIONED",
+  "MEMORY_UNDER_PROVISIONED",
+  "EBS_THROUGHPUT_OVER_PROVISIONED",
+  "EBS_THROUGHPUT_UNDER_PROVISIONED",
+  "EBS_IOPS_OVER_PROVISIONED",
+  "EBS_IOPS_UNDER_PROVISIONED",
+  "NETWORK_BANDWIDTH_OVER_PROVISIONED",
+  "NETWORK_BANDWIDTH_UNDER_PROVISIONED",
+  "NETWORK_PPS_OVER_PROVISIONED",
+  "NETWORK_PPS_UNDER_PROVISIONED",
+  "DISK_IOPS_OVER_PROVISIONED",
+  "DISK_IOPS_UNDER_PROVISIONED",
+  "DISK_THROUGHPUT_OVER_PROVISIONED",
+  "DISK_THROUGHPUT_UNDER_PROVISIONED",
+);
+export type FindingReasonCodes = FindingReasonCode[];
+export const FindingReasonCodes = S.Array(FindingReasonCode);
 export interface SavingsPlansCoverageData {
   SpendCoveredBySavingsPlans?: string;
   OnDemandCost?: string;
@@ -2434,10 +2760,10 @@ export interface CostCategory {
   EffectiveStart: string;
   EffectiveEnd?: string;
   Name: string;
-  RuleVersion: string;
-  Rules: CostCategoryRulesList;
-  SplitChargeRules?: CostCategorySplitChargeRulesList;
-  ProcessingStatus?: CostCategoryProcessingStatusList;
+  RuleVersion: CostCategoryRuleVersion;
+  Rules: CostCategoryRule[];
+  SplitChargeRules?: CostCategorySplitChargeRule[];
+  ProcessingStatus?: CostCategoryProcessingStatus[];
   DefaultValue?: string;
 }
 export const CostCategory = S.suspend(() =>
@@ -2446,7 +2772,7 @@ export const CostCategory = S.suspend(() =>
     EffectiveStart: S.String,
     EffectiveEnd: S.optional(S.String),
     Name: S.String,
-    RuleVersion: S.String,
+    RuleVersion: CostCategoryRuleVersion,
     Rules: CostCategoryRulesList,
     SplitChargeRules: S.optional(CostCategorySplitChargeRulesList),
     ProcessingStatus: S.optional(CostCategoryProcessingStatusList),
@@ -2467,8 +2793,8 @@ export const AnalysisDetails = S.suspend(() =>
 }) as any as S.Schema<AnalysisDetails>;
 export interface ResultByTime {
   TimePeriod?: DateInterval;
-  Total?: Metrics;
-  Groups?: Groups;
+  Total?: { [key: string]: MetricValue };
+  Groups?: Group[];
   Estimated?: boolean;
 }
 export const ResultByTime = S.suspend(() =>
@@ -2483,8 +2809,8 @@ export type ResultsByTime = ResultByTime[];
 export const ResultsByTime = S.Array(ResultByTime);
 export interface CostComparisonDriver {
   CostSelector?: Expression;
-  Metrics?: ComparisonMetrics;
-  CostDrivers?: CostDrivers;
+  Metrics?: { [key: string]: ComparisonMetricValue };
+  CostDrivers?: CostDriver[];
 }
 export const CostComparisonDriver = S.suspend(() =>
   S.Struct({
@@ -2499,7 +2825,7 @@ export type CostComparisonDrivers = CostComparisonDriver[];
 export const CostComparisonDrivers = S.Array(CostComparisonDriver);
 export interface CoverageByTime {
   TimePeriod?: DateInterval;
-  Groups?: ReservationCoverageGroups;
+  Groups?: ReservationCoverageGroup[];
   Total?: Coverage;
 }
 export const CoverageByTime = S.suspend(() =>
@@ -2515,7 +2841,7 @@ export type CoveragesByTime = CoverageByTime[];
 export const CoveragesByTime = S.Array(CoverageByTime);
 export interface UtilizationByTime {
   TimePeriod?: DateInterval;
-  Groups?: ReservationUtilizationGroups;
+  Groups?: ReservationUtilizationGroup[];
   Total?: ReservationAggregates;
 }
 export const UtilizationByTime = S.suspend(() =>
@@ -2532,14 +2858,14 @@ export const UtilizationsByTime = S.Array(UtilizationByTime);
 export interface RightsizingRecommendationMetadata {
   RecommendationId?: string;
   GenerationTimestamp?: string;
-  LookbackPeriodInDays?: string;
+  LookbackPeriodInDays?: LookbackPeriodInDays;
   AdditionalMetadata?: string;
 }
 export const RightsizingRecommendationMetadata = S.suspend(() =>
   S.Struct({
     RecommendationId: S.optional(S.String),
     GenerationTimestamp: S.optional(S.String),
-    LookbackPeriodInDays: S.optional(S.String),
+    LookbackPeriodInDays: S.optional(LookbackPeriodInDays),
     AdditionalMetadata: S.optional(S.String),
   }),
 ).annotations({
@@ -2562,11 +2888,11 @@ export const RightsizingRecommendationSummary = S.suspend(() =>
   identifier: "RightsizingRecommendationSummary",
 }) as any as S.Schema<RightsizingRecommendationSummary>;
 export interface RecommendationDetailData {
-  AccountScope?: string;
-  LookbackPeriodInDays?: string;
-  SavingsPlansType?: string;
-  TermInYears?: string;
-  PaymentOption?: string;
+  AccountScope?: AccountScope;
+  LookbackPeriodInDays?: LookbackPeriodInDays;
+  SavingsPlansType?: SupportedSavingsPlansType;
+  TermInYears?: TermInYears;
+  PaymentOption?: PaymentOption;
   AccountId?: string;
   CurrencyCode?: string;
   InstanceFamily?: string;
@@ -2590,15 +2916,15 @@ export interface RecommendationDetailData {
   UpfrontCost?: string;
   CurrentAverageCoverage?: string;
   EstimatedAverageCoverage?: string;
-  MetricsOverLookbackPeriod?: MetricsOverLookbackPeriod;
+  MetricsOverLookbackPeriod?: RecommendationDetailHourlyMetrics[];
 }
 export const RecommendationDetailData = S.suspend(() =>
   S.Struct({
-    AccountScope: S.optional(S.String),
-    LookbackPeriodInDays: S.optional(S.String),
-    SavingsPlansType: S.optional(S.String),
-    TermInYears: S.optional(S.String),
-    PaymentOption: S.optional(S.String),
+    AccountScope: S.optional(AccountScope),
+    LookbackPeriodInDays: S.optional(LookbackPeriodInDays),
+    SavingsPlansType: S.optional(SupportedSavingsPlansType),
+    TermInYears: S.optional(TermInYears),
+    PaymentOption: S.optional(PaymentOption),
     AccountId: S.optional(S.String),
     CurrencyCode: S.optional(S.String),
     InstanceFamily: S.optional(S.String),
@@ -2628,7 +2954,7 @@ export const RecommendationDetailData = S.suspend(() =>
   identifier: "RecommendationDetailData",
 }) as any as S.Schema<RecommendationDetailData>;
 export interface SavingsPlansCoverage {
-  Attributes?: Attributes;
+  Attributes?: { [key: string]: string };
   Coverage?: SavingsPlansCoverageData;
   TimePeriod?: DateInterval;
 }
@@ -2723,8 +3049,8 @@ export interface GetCommitmentPurchaseAnalysisResponse {
   AnalysisCompletionTime?: string;
   AnalysisStartedTime: string;
   AnalysisId: string;
-  AnalysisStatus: string;
-  ErrorCode?: string;
+  AnalysisStatus: AnalysisStatus;
+  ErrorCode?: ErrorCode;
   AnalysisDetails?: AnalysisDetails;
   CommitmentPurchaseAnalysisConfiguration: CommitmentPurchaseAnalysisConfiguration;
 }
@@ -2734,8 +3060,8 @@ export const GetCommitmentPurchaseAnalysisResponse = S.suspend(() =>
     AnalysisCompletionTime: S.optional(S.String),
     AnalysisStartedTime: S.String,
     AnalysisId: S.String,
-    AnalysisStatus: S.String,
-    ErrorCode: S.optional(S.String),
+    AnalysisStatus: AnalysisStatus,
+    ErrorCode: S.optional(ErrorCode),
     AnalysisDetails: S.optional(AnalysisDetails),
     CommitmentPurchaseAnalysisConfiguration:
       CommitmentPurchaseAnalysisConfiguration,
@@ -2745,9 +3071,9 @@ export const GetCommitmentPurchaseAnalysisResponse = S.suspend(() =>
 }) as any as S.Schema<GetCommitmentPurchaseAnalysisResponse>;
 export interface GetCostAndUsageResponse {
   NextPageToken?: string;
-  GroupDefinitions?: GroupDefinitions;
-  ResultsByTime?: ResultsByTime;
-  DimensionValueAttributes?: DimensionValuesWithAttributesList;
+  GroupDefinitions?: GroupDefinition[];
+  ResultsByTime?: ResultByTime[];
+  DimensionValueAttributes?: DimensionValuesWithAttributes[];
 }
 export const GetCostAndUsageResponse = S.suspend(() =>
   S.Struct({
@@ -2760,8 +3086,8 @@ export const GetCostAndUsageResponse = S.suspend(() =>
   identifier: "GetCostAndUsageResponse",
 }) as any as S.Schema<GetCostAndUsageResponse>;
 export interface GetCostAndUsageComparisonsResponse {
-  CostAndUsageComparisons?: CostAndUsageComparisons;
-  TotalCostAndUsage?: ComparisonMetrics;
+  CostAndUsageComparisons?: CostAndUsageComparison[];
+  TotalCostAndUsage?: { [key: string]: ComparisonMetricValue };
   NextPageToken?: string;
 }
 export const GetCostAndUsageComparisonsResponse = S.suspend(() =>
@@ -2775,9 +3101,9 @@ export const GetCostAndUsageComparisonsResponse = S.suspend(() =>
 }) as any as S.Schema<GetCostAndUsageComparisonsResponse>;
 export interface GetCostAndUsageWithResourcesResponse {
   NextPageToken?: string;
-  GroupDefinitions?: GroupDefinitions;
-  ResultsByTime?: ResultsByTime;
-  DimensionValueAttributes?: DimensionValuesWithAttributesList;
+  GroupDefinitions?: GroupDefinition[];
+  ResultsByTime?: ResultByTime[];
+  DimensionValueAttributes?: DimensionValuesWithAttributes[];
 }
 export const GetCostAndUsageWithResourcesResponse = S.suspend(() =>
   S.Struct({
@@ -2790,7 +3116,7 @@ export const GetCostAndUsageWithResourcesResponse = S.suspend(() =>
   identifier: "GetCostAndUsageWithResourcesResponse",
 }) as any as S.Schema<GetCostAndUsageWithResourcesResponse>;
 export interface GetCostComparisonDriversResponse {
-  CostComparisonDrivers?: CostComparisonDrivers;
+  CostComparisonDrivers?: CostComparisonDriver[];
   NextPageToken?: string;
 }
 export const GetCostComparisonDriversResponse = S.suspend(() =>
@@ -2802,7 +3128,7 @@ export const GetCostComparisonDriversResponse = S.suspend(() =>
   identifier: "GetCostComparisonDriversResponse",
 }) as any as S.Schema<GetCostComparisonDriversResponse>;
 export interface GetReservationCoverageResponse {
-  CoveragesByTime: CoveragesByTime;
+  CoveragesByTime: CoverageByTime[];
   Total?: Coverage;
   NextPageToken?: string;
 }
@@ -2816,7 +3142,7 @@ export const GetReservationCoverageResponse = S.suspend(() =>
   identifier: "GetReservationCoverageResponse",
 }) as any as S.Schema<GetReservationCoverageResponse>;
 export interface GetReservationUtilizationResponse {
-  UtilizationsByTime: UtilizationsByTime;
+  UtilizationsByTime: UtilizationByTime[];
   Total?: ReservationAggregates;
   NextPageToken?: string;
 }
@@ -2843,7 +3169,7 @@ export const GetSavingsPlanPurchaseRecommendationDetailsResponse = S.suspend(
   identifier: "GetSavingsPlanPurchaseRecommendationDetailsResponse",
 }) as any as S.Schema<GetSavingsPlanPurchaseRecommendationDetailsResponse>;
 export interface GetSavingsPlansCoverageResponse {
-  SavingsPlansCoverages: SavingsPlansCoverages;
+  SavingsPlansCoverages: SavingsPlansCoverage[];
   NextToken?: string;
 }
 export const GetSavingsPlansCoverageResponse = S.suspend(() =>
@@ -2855,7 +3181,7 @@ export const GetSavingsPlansCoverageResponse = S.suspend(() =>
   identifier: "GetSavingsPlansCoverageResponse",
 }) as any as S.Schema<GetSavingsPlansCoverageResponse>;
 export interface GetSavingsPlansUtilizationResponse {
-  SavingsPlansUtilizationsByTime?: SavingsPlansUtilizationsByTime;
+  SavingsPlansUtilizationsByTime?: SavingsPlansUtilizationByTime[];
   Total: SavingsPlansUtilizationAggregates;
 }
 export const GetSavingsPlansUtilizationResponse = S.suspend(() =>
@@ -2880,7 +3206,7 @@ export const StartCommitmentPurchaseAnalysisRequest = S.suspend(() =>
   identifier: "StartCommitmentPurchaseAnalysisRequest",
 }) as any as S.Schema<StartCommitmentPurchaseAnalysisRequest>;
 export interface UpdateCostAllocationTagsStatusResponse {
-  Errors?: UpdateCostAllocationTagsStatusErrors;
+  Errors?: UpdateCostAllocationTagsStatusError[];
 }
 export const UpdateCostAllocationTagsStatusResponse = S.suspend(() =>
   S.Struct({ Errors: S.optional(UpdateCostAllocationTagsStatusErrors) }),
@@ -2969,8 +3295,21 @@ export type SavingsPlansPurchaseRecommendationDetailList =
 export const SavingsPlansPurchaseRecommendationDetailList = S.Array(
   SavingsPlansPurchaseRecommendationDetail,
 );
-export type PlatformDifferences = string[];
-export const PlatformDifferences = S.Array(S.String);
+export type PlatformDifference =
+  | "HYPERVISOR"
+  | "NETWORK_INTERFACE"
+  | "STORAGE_INTERFACE"
+  | "INSTANCE_STORE_AVAILABILITY"
+  | "VIRTUALIZATION_TYPE";
+export const PlatformDifference = S.Literal(
+  "HYPERVISOR",
+  "NETWORK_INTERFACE",
+  "STORAGE_INTERFACE",
+  "INSTANCE_STORE_AVAILABILITY",
+  "VIRTUALIZATION_TYPE",
+);
+export type PlatformDifferences = PlatformDifference[];
+export const PlatformDifferences = S.Array(PlatformDifference);
 export interface ReservationPurchaseRecommendationMetadata {
   RecommendationId?: string;
   GenerationTimestamp?: string;
@@ -2986,21 +3325,21 @@ export const ReservationPurchaseRecommendationMetadata = S.suspend(() =>
   identifier: "ReservationPurchaseRecommendationMetadata",
 }) as any as S.Schema<ReservationPurchaseRecommendationMetadata>;
 export interface SavingsPlansPurchaseRecommendation {
-  AccountScope?: string;
-  SavingsPlansType?: string;
-  TermInYears?: string;
-  PaymentOption?: string;
-  LookbackPeriodInDays?: string;
-  SavingsPlansPurchaseRecommendationDetails?: SavingsPlansPurchaseRecommendationDetailList;
+  AccountScope?: AccountScope;
+  SavingsPlansType?: SupportedSavingsPlansType;
+  TermInYears?: TermInYears;
+  PaymentOption?: PaymentOption;
+  LookbackPeriodInDays?: LookbackPeriodInDays;
+  SavingsPlansPurchaseRecommendationDetails?: SavingsPlansPurchaseRecommendationDetail[];
   SavingsPlansPurchaseRecommendationSummary?: SavingsPlansPurchaseRecommendationSummary;
 }
 export const SavingsPlansPurchaseRecommendation = S.suspend(() =>
   S.Struct({
-    AccountScope: S.optional(S.String),
-    SavingsPlansType: S.optional(S.String),
-    TermInYears: S.optional(S.String),
-    PaymentOption: S.optional(S.String),
-    LookbackPeriodInDays: S.optional(S.String),
+    AccountScope: S.optional(AccountScope),
+    SavingsPlansType: S.optional(SupportedSavingsPlansType),
+    TermInYears: S.optional(TermInYears),
+    PaymentOption: S.optional(PaymentOption),
+    LookbackPeriodInDays: S.optional(LookbackPeriodInDays),
     SavingsPlansPurchaseRecommendationDetails: S.optional(
       SavingsPlansPurchaseRecommendationDetailList,
     ),
@@ -3136,7 +3475,7 @@ export interface TargetInstance {
   DefaultTargetInstance?: boolean;
   ResourceDetails?: ResourceDetails;
   ExpectedResourceUtilization?: ResourceUtilization;
-  PlatformDifferences?: PlatformDifferences;
+  PlatformDifferences?: PlatformDifference[];
 }
 export const TargetInstance = S.suspend(() =>
   S.Struct({
@@ -3218,7 +3557,7 @@ export const ReservationPurchaseRecommendationSummary = S.suspend(() =>
   identifier: "ReservationPurchaseRecommendationSummary",
 }) as any as S.Schema<ReservationPurchaseRecommendationSummary>;
 export interface ModifyRecommendationDetail {
-  TargetInstances?: TargetInstancesList;
+  TargetInstances?: TargetInstance[];
 }
 export const ModifyRecommendationDetail = S.suspend(() =>
   S.Struct({ TargetInstances: S.optional(TargetInstancesList) }),
@@ -3230,11 +3569,11 @@ export interface Anomaly {
   AnomalyStartDate?: string;
   AnomalyEndDate?: string;
   DimensionValue?: string;
-  RootCauses?: RootCauses;
+  RootCauses?: RootCause[];
   AnomalyScore: AnomalyScore;
   Impact: Impact;
   MonitorArn: string;
-  Feedback?: string;
+  Feedback?: AnomalyFeedbackType;
 }
 export const Anomaly = S.suspend(() =>
   S.Struct({
@@ -3246,13 +3585,13 @@ export const Anomaly = S.suspend(() =>
     AnomalyScore: AnomalyScore,
     Impact: Impact,
     MonitorArn: S.String,
-    Feedback: S.optional(S.String),
+    Feedback: S.optional(AnomalyFeedbackType),
   }),
 ).annotations({ identifier: "Anomaly" }) as any as S.Schema<Anomaly>;
 export type Anomalies = Anomaly[];
 export const Anomalies = S.Array(Anomaly);
 export interface GetAnomaliesResponse {
-  Anomalies: Anomalies;
+  Anomalies: Anomaly[];
   NextPageToken?: string;
 }
 export const GetAnomaliesResponse = S.suspend(() =>
@@ -3488,7 +3827,7 @@ export const ReservationPurchaseRecommendationDetails = S.Array(
 export interface CurrentInstance {
   ResourceId?: string;
   InstanceName?: string;
-  Tags?: TagValuesList;
+  Tags?: TagValues[];
   ResourceDetails?: ResourceDetails;
   ResourceUtilization?: ResourceUtilization;
   ReservationCoveredHoursInLookbackPeriod?: string;
@@ -3516,20 +3855,20 @@ export const CurrentInstance = S.suspend(() =>
   identifier: "CurrentInstance",
 }) as any as S.Schema<CurrentInstance>;
 export interface ReservationPurchaseRecommendation {
-  AccountScope?: string;
-  LookbackPeriodInDays?: string;
-  TermInYears?: string;
-  PaymentOption?: string;
+  AccountScope?: AccountScope;
+  LookbackPeriodInDays?: LookbackPeriodInDays;
+  TermInYears?: TermInYears;
+  PaymentOption?: PaymentOption;
   ServiceSpecification?: ServiceSpecification;
-  RecommendationDetails?: ReservationPurchaseRecommendationDetails;
+  RecommendationDetails?: ReservationPurchaseRecommendationDetail[];
   RecommendationSummary?: ReservationPurchaseRecommendationSummary;
 }
 export const ReservationPurchaseRecommendation = S.suspend(() =>
   S.Struct({
-    AccountScope: S.optional(S.String),
-    LookbackPeriodInDays: S.optional(S.String),
-    TermInYears: S.optional(S.String),
-    PaymentOption: S.optional(S.String),
+    AccountScope: S.optional(AccountScope),
+    LookbackPeriodInDays: S.optional(LookbackPeriodInDays),
+    TermInYears: S.optional(TermInYears),
+    PaymentOption: S.optional(PaymentOption),
     ServiceSpecification: S.optional(ServiceSpecification),
     RecommendationDetails: S.optional(ReservationPurchaseRecommendationDetails),
     RecommendationSummary: S.optional(ReservationPurchaseRecommendationSummary),
@@ -3545,16 +3884,16 @@ export const ReservationPurchaseRecommendations = S.Array(
 export interface RightsizingRecommendation {
   AccountId?: string;
   CurrentInstance?: CurrentInstance;
-  RightsizingType?: string;
+  RightsizingType?: RightsizingType;
   ModifyRecommendationDetail?: ModifyRecommendationDetail;
   TerminateRecommendationDetail?: TerminateRecommendationDetail;
-  FindingReasonCodes?: FindingReasonCodes;
+  FindingReasonCodes?: FindingReasonCode[];
 }
 export const RightsizingRecommendation = S.suspend(() =>
   S.Struct({
     AccountId: S.optional(S.String),
     CurrentInstance: S.optional(CurrentInstance),
-    RightsizingType: S.optional(S.String),
+    RightsizingType: S.optional(RightsizingType),
     ModifyRecommendationDetail: S.optional(ModifyRecommendationDetail),
     TerminateRecommendationDetail: S.optional(TerminateRecommendationDetail),
     FindingReasonCodes: S.optional(FindingReasonCodes),
@@ -3566,7 +3905,7 @@ export type RightsizingRecommendationList = RightsizingRecommendation[];
 export const RightsizingRecommendationList = S.Array(RightsizingRecommendation);
 export interface GetReservationPurchaseRecommendationResponse {
   Metadata?: ReservationPurchaseRecommendationMetadata;
-  Recommendations?: ReservationPurchaseRecommendations;
+  Recommendations?: ReservationPurchaseRecommendation[];
   NextPageToken?: string;
 }
 export const GetReservationPurchaseRecommendationResponse = S.suspend(() =>
@@ -3581,7 +3920,7 @@ export const GetReservationPurchaseRecommendationResponse = S.suspend(() =>
 export interface GetRightsizingRecommendationResponse {
   Metadata?: RightsizingRecommendationMetadata;
   Summary?: RightsizingRecommendationSummary;
-  RightsizingRecommendations?: RightsizingRecommendationList;
+  RightsizingRecommendations?: RightsizingRecommendation[];
   NextPageToken?: string;
   Configuration?: RightsizingRecommendationConfiguration;
 }
@@ -3665,7 +4004,7 @@ export class AnalysisNotFoundException extends S.TaggedError<AnalysisNotFoundExc
  */
 export const provideAnomalyFeedback: (
   input: ProvideAnomalyFeedbackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ProvideAnomalyFeedbackResponse,
   LimitExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3680,7 +4019,7 @@ export const provideAnomalyFeedback: (
  */
 export const createAnomalyMonitor: (
   input: CreateAnomalyMonitorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAnomalyMonitorResponse,
   LimitExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3694,7 +4033,7 @@ export const createAnomalyMonitor: (
  */
 export const deleteAnomalyMonitor: (
   input: DeleteAnomalyMonitorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAnomalyMonitorResponse,
   LimitExceededException | UnknownMonitorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3709,7 +4048,7 @@ export const deleteAnomalyMonitor: (
  */
 export const deleteCostCategoryDefinition: (
   input: DeleteCostCategoryDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCostCategoryDefinitionResponse,
   LimitExceededException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3725,7 +4064,7 @@ export const deleteCostCategoryDefinition: (
 export const getAnomalyMonitors: {
   (
     input: GetAnomalyMonitorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetAnomalyMonitorsResponse,
     | InvalidNextTokenException
     | LimitExceededException
@@ -3735,7 +4074,7 @@ export const getAnomalyMonitors: {
   >;
   pages: (
     input: GetAnomalyMonitorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetAnomalyMonitorsResponse,
     | InvalidNextTokenException
     | LimitExceededException
@@ -3745,7 +4084,7 @@ export const getAnomalyMonitors: {
   >;
   items: (
     input: GetAnomalyMonitorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AnomalyMonitor,
     | InvalidNextTokenException
     | LimitExceededException
@@ -3774,7 +4113,7 @@ export const getAnomalyMonitors: {
  */
 export const getApproximateUsageRecords: (
   input: GetApproximateUsageRecordsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetApproximateUsageRecordsResponse,
   DataUnavailableException | LimitExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3798,7 +4137,7 @@ export const getApproximateUsageRecords: (
 export const getSavingsPlansUtilizationDetails: {
   (
     input: GetSavingsPlansUtilizationDetailsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetSavingsPlansUtilizationDetailsResponse,
     | DataUnavailableException
     | InvalidNextTokenException
@@ -3808,7 +4147,7 @@ export const getSavingsPlansUtilizationDetails: {
   >;
   pages: (
     input: GetSavingsPlansUtilizationDetailsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetSavingsPlansUtilizationDetailsResponse,
     | DataUnavailableException
     | InvalidNextTokenException
@@ -3818,7 +4157,7 @@ export const getSavingsPlansUtilizationDetails: {
   >;
   items: (
     input: GetSavingsPlansUtilizationDetailsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | DataUnavailableException
     | InvalidNextTokenException
@@ -3845,7 +4184,7 @@ export const getSavingsPlansUtilizationDetails: {
  */
 export const listCommitmentPurchaseAnalyses: (
   input: ListCommitmentPurchaseAnalysesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListCommitmentPurchaseAnalysesResponse,
   | DataUnavailableException
   | InvalidNextTokenException
@@ -3867,21 +4206,21 @@ export const listCommitmentPurchaseAnalyses: (
 export const listCostAllocationTagBackfillHistory: {
   (
     input: ListCostAllocationTagBackfillHistoryRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCostAllocationTagBackfillHistoryResponse,
     InvalidNextTokenException | LimitExceededException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListCostAllocationTagBackfillHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCostAllocationTagBackfillHistoryResponse,
     InvalidNextTokenException | LimitExceededException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCostAllocationTagBackfillHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CostAllocationTagBackfillRequest,
     InvalidNextTokenException | LimitExceededException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3904,21 +4243,21 @@ export const listCostAllocationTagBackfillHistory: {
 export const listCostAllocationTags: {
   (
     input: ListCostAllocationTagsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCostAllocationTagsResponse,
     InvalidNextTokenException | LimitExceededException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListCostAllocationTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCostAllocationTagsResponse,
     InvalidNextTokenException | LimitExceededException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCostAllocationTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CostAllocationTag,
     InvalidNextTokenException | LimitExceededException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3946,21 +4285,21 @@ export const listCostAllocationTags: {
 export const listCostCategoryDefinitions: {
   (
     input: ListCostCategoryDefinitionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCostCategoryDefinitionsResponse,
     LimitExceededException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListCostCategoryDefinitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCostCategoryDefinitionsResponse,
     LimitExceededException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCostCategoryDefinitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CostCategoryReference,
     LimitExceededException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3982,21 +4321,21 @@ export const listCostCategoryDefinitions: {
 export const listCostCategoryResourceAssociations: {
   (
     input: ListCostCategoryResourceAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCostCategoryResourceAssociationsResponse,
     LimitExceededException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListCostCategoryResourceAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCostCategoryResourceAssociationsResponse,
     LimitExceededException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCostCategoryResourceAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CostCategoryResourceAssociation,
     LimitExceededException | ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -4018,7 +4357,7 @@ export const listCostCategoryResourceAssociations: {
  */
 export const listSavingsPlansPurchaseRecommendationGeneration: (
   input: ListSavingsPlansPurchaseRecommendationGenerationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListSavingsPlansPurchaseRecommendationGenerationResponse,
   | DataUnavailableException
   | InvalidNextTokenException
@@ -4041,7 +4380,7 @@ export const listSavingsPlansPurchaseRecommendationGeneration: (
  */
 export const startCostAllocationTagBackfill: (
   input: StartCostAllocationTagBackfillRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartCostAllocationTagBackfillResponse,
   BackfillLimitExceededException | LimitExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4055,7 +4394,7 @@ export const startCostAllocationTagBackfill: (
  */
 export const deleteAnomalySubscription: (
   input: DeleteAnomalySubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAnomalySubscriptionResponse,
   LimitExceededException | UnknownSubscriptionException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4070,7 +4409,7 @@ export const deleteAnomalySubscription: (
  */
 export const updateAnomalyMonitor: (
   input: UpdateAnomalyMonitorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAnomalyMonitorResponse,
   LimitExceededException | UnknownMonitorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4086,7 +4425,7 @@ export const updateAnomalyMonitor: (
  */
 export const createAnomalySubscription: (
   input: CreateAnomalySubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAnomalySubscriptionResponse,
   LimitExceededException | UnknownMonitorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4101,7 +4440,7 @@ export const createAnomalySubscription: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   LimitExceededException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4116,7 +4455,7 @@ export const listTagsForResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   LimitExceededException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4132,7 +4471,7 @@ export const untagResource: (
 export const getAnomalySubscriptions: {
   (
     input: GetAnomalySubscriptionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetAnomalySubscriptionsResponse,
     | InvalidNextTokenException
     | LimitExceededException
@@ -4142,7 +4481,7 @@ export const getAnomalySubscriptions: {
   >;
   pages: (
     input: GetAnomalySubscriptionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetAnomalySubscriptionsResponse,
     | InvalidNextTokenException
     | LimitExceededException
@@ -4152,7 +4491,7 @@ export const getAnomalySubscriptions: {
   >;
   items: (
     input: GetAnomalySubscriptionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AnomalySubscription,
     | InvalidNextTokenException
     | LimitExceededException
@@ -4181,7 +4520,7 @@ export const getAnomalySubscriptions: {
  */
 export const getCostForecast: (
   input: GetCostForecastRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCostForecastResponse,
   | BillingViewHealthStatusException
   | DataUnavailableException
@@ -4208,7 +4547,7 @@ export const getCostForecast: (
  */
 export const updateAnomalySubscription: (
   input: UpdateAnomalySubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAnomalySubscriptionResponse,
   | LimitExceededException
   | UnknownMonitorException
@@ -4235,7 +4574,7 @@ export const updateAnomalySubscription: (
  */
 export const describeCostCategoryDefinition: (
   input: DescribeCostCategoryDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCostCategoryDefinitionResponse,
   LimitExceededException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4252,7 +4591,7 @@ export const describeCostCategoryDefinition: (
 export const getCostAndUsageComparisons: {
   (
     input: GetCostAndUsageComparisonsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetCostAndUsageComparisonsResponse,
     | BillingViewHealthStatusException
     | DataUnavailableException
@@ -4264,7 +4603,7 @@ export const getCostAndUsageComparisons: {
   >;
   pages: (
     input: GetCostAndUsageComparisonsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetCostAndUsageComparisonsResponse,
     | BillingViewHealthStatusException
     | DataUnavailableException
@@ -4276,7 +4615,7 @@ export const getCostAndUsageComparisons: {
   >;
   items: (
     input: GetCostAndUsageComparisonsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CostAndUsageComparison,
     | BillingViewHealthStatusException
     | DataUnavailableException
@@ -4311,7 +4650,7 @@ export const getCostAndUsageComparisons: {
 export const getCostComparisonDrivers: {
   (
     input: GetCostComparisonDriversRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetCostComparisonDriversResponse,
     | BillingViewHealthStatusException
     | DataUnavailableException
@@ -4323,7 +4662,7 @@ export const getCostComparisonDrivers: {
   >;
   pages: (
     input: GetCostComparisonDriversRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetCostComparisonDriversResponse,
     | BillingViewHealthStatusException
     | DataUnavailableException
@@ -4335,7 +4674,7 @@ export const getCostComparisonDrivers: {
   >;
   items: (
     input: GetCostComparisonDriversRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CostComparisonDriver,
     | BillingViewHealthStatusException
     | DataUnavailableException
@@ -4399,7 +4738,7 @@ export const getCostComparisonDrivers: {
  */
 export const getReservationCoverage: (
   input: GetReservationCoverageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetReservationCoverageResponse,
   | DataUnavailableException
   | InvalidNextTokenException
@@ -4423,7 +4762,7 @@ export const getReservationCoverage: (
  */
 export const getReservationUtilization: (
   input: GetReservationUtilizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetReservationUtilizationResponse,
   | DataUnavailableException
   | InvalidNextTokenException
@@ -4445,7 +4784,7 @@ export const getReservationUtilization: (
  */
 export const getSavingsPlanPurchaseRecommendationDetails: (
   input: GetSavingsPlanPurchaseRecommendationDetailsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSavingsPlanPurchaseRecommendationDetailsResponse,
   DataUnavailableException | LimitExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4475,7 +4814,7 @@ export const getSavingsPlanPurchaseRecommendationDetails: (
 export const getSavingsPlansCoverage: {
   (
     input: GetSavingsPlansCoverageRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetSavingsPlansCoverageResponse,
     | DataUnavailableException
     | InvalidNextTokenException
@@ -4485,7 +4824,7 @@ export const getSavingsPlansCoverage: {
   >;
   pages: (
     input: GetSavingsPlansCoverageRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetSavingsPlansCoverageResponse,
     | DataUnavailableException
     | InvalidNextTokenException
@@ -4495,7 +4834,7 @@ export const getSavingsPlansCoverage: {
   >;
   items: (
     input: GetSavingsPlansCoverageRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | DataUnavailableException
     | InvalidNextTokenException
@@ -4528,7 +4867,7 @@ export const getSavingsPlansCoverage: {
  */
 export const getSavingsPlansUtilization: (
   input: GetSavingsPlansUtilizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSavingsPlansUtilizationResponse,
   DataUnavailableException | LimitExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4543,7 +4882,7 @@ export const getSavingsPlansUtilization: (
  */
 export const getUsageForecast: (
   input: GetUsageForecastRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUsageForecastResponse,
   | BillingViewHealthStatusException
   | DataUnavailableException
@@ -4574,7 +4913,7 @@ export const getUsageForecast: (
  */
 export const startSavingsPlansPurchaseRecommendationGeneration: (
   input: StartSavingsPlansPurchaseRecommendationGenerationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartSavingsPlansPurchaseRecommendationGenerationResponse,
   | DataUnavailableException
   | GenerationExistsException
@@ -4600,7 +4939,7 @@ export const startSavingsPlansPurchaseRecommendationGeneration: (
  */
 export const updateCostAllocationTagsStatus: (
   input: UpdateCostAllocationTagsStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCostAllocationTagsStatusResponse,
   LimitExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4622,7 +4961,7 @@ export const updateCostAllocationTagsStatus: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | LimitExceededException
   | ResourceNotFoundException
@@ -4644,7 +4983,7 @@ export const tagResource: (
  */
 export const getTags: (
   input: GetTagsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTagsResponse,
   | BillExpirationException
   | BillingViewHealthStatusException
@@ -4675,7 +5014,7 @@ export const getTags: (
  */
 export const updateCostCategoryDefinition: (
   input: UpdateCostCategoryDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCostCategoryDefinitionResponse,
   | LimitExceededException
   | ResourceNotFoundException
@@ -4696,7 +5035,7 @@ export const updateCostCategoryDefinition: (
  */
 export const createCostCategoryDefinition: (
   input: CreateCostCategoryDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCostCategoryDefinitionResponse,
   LimitExceededException | ServiceQuotaExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4713,7 +5052,7 @@ export const createCostCategoryDefinition: (
  */
 export const getCostCategories: (
   input: GetCostCategoriesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCostCategoriesResponse,
   | BillExpirationException
   | BillingViewHealthStatusException
@@ -4743,7 +5082,7 @@ export const getCostCategories: (
  */
 export const getDimensionValues: (
   input: GetDimensionValuesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDimensionValuesResponse,
   | BillExpirationException
   | BillingViewHealthStatusException
@@ -4779,7 +5118,7 @@ export const getDimensionValues: (
  */
 export const getCostAndUsage: (
   input: GetCostAndUsageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCostAndUsageResponse,
   | BillExpirationException
   | BillingViewHealthStatusException
@@ -4821,7 +5160,7 @@ export const getCostAndUsage: (
  */
 export const getCostAndUsageWithResources: (
   input: GetCostAndUsageWithResourcesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCostAndUsageWithResourcesResponse,
   | BillExpirationException
   | BillingViewHealthStatusException
@@ -4851,7 +5190,7 @@ export const getCostAndUsageWithResources: (
  */
 export const getCommitmentPurchaseAnalysis: (
   input: GetCommitmentPurchaseAnalysisRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCommitmentPurchaseAnalysisResponse,
   | AnalysisNotFoundException
   | DataUnavailableException
@@ -4875,7 +5214,7 @@ export const getCommitmentPurchaseAnalysis: (
  */
 export const getSavingsPlansPurchaseRecommendation: (
   input: GetSavingsPlansPurchaseRecommendationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSavingsPlansPurchaseRecommendationResponse,
   InvalidNextTokenException | LimitExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4891,7 +5230,7 @@ export const getSavingsPlansPurchaseRecommendation: (
  */
 export const startCommitmentPurchaseAnalysis: (
   input: StartCommitmentPurchaseAnalysisRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartCommitmentPurchaseAnalysisResponse,
   | DataUnavailableException
   | GenerationExistsException
@@ -4917,21 +5256,21 @@ export const startCommitmentPurchaseAnalysis: (
 export const getAnomalies: {
   (
     input: GetAnomaliesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetAnomaliesResponse,
     InvalidNextTokenException | LimitExceededException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: GetAnomaliesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetAnomaliesResponse,
     InvalidNextTokenException | LimitExceededException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetAnomaliesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Anomaly,
     InvalidNextTokenException | LimitExceededException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -4969,7 +5308,7 @@ export const getAnomalies: {
  */
 export const getReservationPurchaseRecommendation: (
   input: GetReservationPurchaseRecommendationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetReservationPurchaseRecommendationResponse,
   | DataUnavailableException
   | InvalidNextTokenException
@@ -4995,7 +5334,7 @@ export const getReservationPurchaseRecommendation: (
  */
 export const getRightsizingRecommendation: (
   input: GetRightsizingRecommendationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRightsizingRecommendationResponse,
   InvalidNextTokenException | LimitExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

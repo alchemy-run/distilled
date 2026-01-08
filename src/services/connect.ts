@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -121,8 +121,8 @@ export type AgentStatusName = string;
 export type AgentStatusDescription = string;
 export type AgentStatusOrderNumber = number;
 export type ExpiryDurationInMinutes = number;
-export type Name = string | Redacted.Redacted<string>;
-export type Description = string | Redacted.Redacted<string>;
+export type Name = string | redacted.Redacted<string>;
+export type Description = string | redacted.Redacted<string>;
 export type ContactFlowName = string;
 export type ContactFlowDescription = string;
 export type ContactFlowContent = string;
@@ -140,8 +140,8 @@ export type RegionName = string;
 export type DataTableName = string;
 export type DataTableDescription = string;
 export type TimeZone = string;
-export type EmailAddress = string | Redacted.Redacted<string>;
-export type EmailAddressDisplayName = string | Redacted.Redacted<string>;
+export type EmailAddress = string | redacted.Redacted<string>;
+export type EmailAddressDisplayName = string | redacted.Redacted<string>;
 export type EvaluationFormTitle = string;
 export type EvaluationFormDescription = string;
 export type CommonNameLength127 = string;
@@ -150,7 +150,7 @@ export type HoursOfOperationId = string;
 export type CommonHumanReadableName = string;
 export type CommonHumanReadableDescription = string;
 export type HoursOfOperationOverrideYearMonthDayDateFormat = string;
-export type DirectoryAlias = string | Redacted.Redacted<string>;
+export type DirectoryAlias = string | redacted.Redacted<string>;
 export type DirectoryId = string;
 export type URI = string;
 export type SourceApplicationName = string;
@@ -179,14 +179,14 @@ export type Name128 = string;
 export type Description250 = string;
 export type IntegrationAssociationId = string;
 export type AgentUsername = string;
-export type Password = string | Redacted.Redacted<string>;
+export type Password = string | redacted.Redacted<string>;
 export type DirectoryUserId = string;
 export type SecurityProfileId = string;
 export type HierarchyGroupName = string;
 export type ViewsInstanceId = string;
 export type ViewsClientToken = string;
 export type ViewDescription = string;
-export type ViewName = string | Redacted.Redacted<string>;
+export type ViewName = string | redacted.Redacted<string>;
 export type ViewId = string;
 export type ViewContentSha256 = string;
 export type VocabularyName = string;
@@ -237,7 +237,7 @@ export type FileName = string;
 export type FileSizeInBytes = number;
 export type ChatDurationInMinutes = number;
 export type SupportedMessagingContentType = string;
-export type CustomerIdNonEmpty = string | Redacted.Redacted<string>;
+export type CustomerIdNonEmpty = string | redacted.Redacted<string>;
 export type CampaignId = string;
 export type RingTimeoutInSeconds = number;
 export type StreamingId = string;
@@ -254,9 +254,9 @@ export type QueuePriority = number;
 export type UpdateHoursOfOperationDescription = string;
 export type InstanceAttributeValue = string;
 export type ParticipantToken = string;
-export type AuthorizationCode = string | Redacted.Redacted<string>;
-export type AuthenticationError = string | Redacted.Redacted<string>;
-export type AuthenticationErrorDescription = string | Redacted.Redacted<string>;
+export type AuthorizationCode = string | redacted.Redacted<string>;
+export type AuthenticationError = string | redacted.Redacted<string>;
+export type AuthenticationErrorDescription = string | redacted.Redacted<string>;
 export type UpdateQuickConnectDescription = string;
 export type AliasArn = string;
 export type Priority = number;
@@ -283,12 +283,12 @@ export type Permission = string;
 export type FlowModuleId = string;
 export type TaskTemplateFieldDescription = string;
 export type TaskTemplateSingleSelectOption = string;
-export type AgentFirstName = string | Redacted.Redacted<string>;
-export type AgentLastName = string | Redacted.Redacted<string>;
-export type Email = string | Redacted.Redacted<string>;
+export type AgentFirstName = string | redacted.Redacted<string>;
+export type AgentLastName = string | redacted.Redacted<string>;
+export type Email = string | redacted.Redacted<string>;
 export type AfterContactWorkTimeLimit = number;
 export type ViewTemplate = string;
-export type ViewAction = string | Redacted.Redacted<string>;
+export type ViewAction = string | redacted.Redacted<string>;
 export type RoutingExpression = string;
 export type ValidationTestType = string;
 export type CurrentMetricId = string;
@@ -340,15 +340,14 @@ export type TaskTemplateFieldName = string;
 export type ThresholdValue = number;
 export type NullableProficiencyLimitValue = number;
 export type DateTimeFormat = string;
-export type NullableDouble = number;
-export type SearchText = string | Redacted.Redacted<string>;
+export type SearchText = string | redacted.Redacted<string>;
 export type DateYearMonthDayFormat = string;
 export type TagKeyString = string;
 export type TagValueString = string;
-export type OutboundSubject = string | Redacted.Redacted<string>;
-export type Body = string | Redacted.Redacted<string>;
+export type OutboundSubject = string | redacted.Redacted<string>;
+export type Body = string | redacted.Redacted<string>;
 export type EmailMessageContentType = string;
-export type InboundSubject = string | Redacted.Redacted<string>;
+export type InboundSubject = string | redacted.Redacted<string>;
 export type CustomerProfileAttributesSerialized = string;
 export type EvaluationNoteString = string;
 export type Percentage = number;
@@ -363,13 +362,12 @@ export type TotalPauseDurationInSeconds = number;
 export type CustomerId = string;
 export type DataTableVersion = string;
 export type GlobalSignInEndpoint = string;
-export type Long = number;
 export type SecurityProfileName = string;
 export type InstanceArn = string;
 export type HierarchyLevelId = string;
 export type VocabularyFailureReason = string;
 export type MetadataUrl = string;
-export type SecurityToken = string | Redacted.Redacted<string>;
+export type SecurityToken = string | redacted.Redacted<string>;
 export type HoursOfOperationName = string;
 export type PromptName = string;
 export type QueueName = string;
@@ -377,21 +375,21 @@ export type KeyId = string;
 export type FieldValueId = string;
 export type SlaName = string;
 export type TargetSlaMinutes = number;
-export type SearchableContactAttributeKey = string | Redacted.Redacted<string>;
+export type SearchableContactAttributeKey = string | redacted.Redacted<string>;
 export type SearchableContactAttributeValue =
   | string
-  | Redacted.Redacted<string>;
-export type SearchableSegmentAttributeKey = string | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
+export type SearchableSegmentAttributeKey = string | redacted.Redacted<string>;
 export type SearchableSegmentAttributeValue =
   | string
-  | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
 export type EmailHeaderValue = string;
 export type EvaluationAnswerDataStringValue = string;
 export type EvaluationAnswerDataNumericValue = number;
 export type DurationInSeconds = number;
 export type ApproximateTotalCount = number;
 export type ParticipantId = string;
-export type ViewInputSchema = string | Redacted.Redacted<string>;
+export type ViewInputSchema = string | redacted.Redacted<string>;
 export type AgentPauseDurationInSeconds = number;
 export type Duration = number;
 export type EndpointDisplayName = string;
@@ -409,14 +407,12 @@ export type OriginRegion = string;
 export type ReplicationStatusReason = string;
 export type PhoneNumberWorkflowMessage = string;
 export type EvaluationScorePercentage = number;
-export type Double = number;
 export type EvaluationAcknowledgerCommentString = string;
 export type RealTimeContactAnalysisId256 = string;
 export type RealTimeContactAnalysisTranscriptContent = string;
 export type RealTimeContactAnalysisContentType = string;
 export type RealTimeContactAnalysisEventType = string;
 export type RealTimeContactAnalysisPostContactSummaryContent = string;
-export type Integer = number;
 export type FieldStringValue = string;
 export type PrimaryAttributeContextKeyName = string;
 export type IAMRestrictedPrimaryValue = string;
@@ -451,7 +447,7 @@ export type Value = number;
 export type UrlMetadataSignedHeadersKey = string;
 export type UrlMetadataSignedHeadersValue = string;
 export type AttendeeId = string;
-export type JoinToken = string | Redacted.Redacted<string>;
+export type JoinToken = string | redacted.Redacted<string>;
 export type MediaRegion = string;
 export type MeetingId = string;
 export type AudioQualityScore = number;
@@ -470,8 +466,121 @@ export type QuestionRuleCategoryAutomationLabel = string;
 export type EvaluationSuggestedAnswerTranscriptMillisOffset = number;
 
 //# Schemas
+export type VocabularyLanguageCode =
+  | "ar-AE"
+  | "de-CH"
+  | "de-DE"
+  | "en-AB"
+  | "en-AU"
+  | "en-GB"
+  | "en-IE"
+  | "en-IN"
+  | "en-US"
+  | "en-WL"
+  | "es-ES"
+  | "es-US"
+  | "fr-CA"
+  | "fr-FR"
+  | "hi-IN"
+  | "it-IT"
+  | "ja-JP"
+  | "ko-KR"
+  | "pt-BR"
+  | "pt-PT"
+  | "zh-CN"
+  | "en-NZ"
+  | "en-ZA"
+  | "ca-ES"
+  | "da-DK"
+  | "fi-FI"
+  | "id-ID"
+  | "ms-MY"
+  | "nl-NL"
+  | "no-NO"
+  | "pl-PL"
+  | "sv-SE"
+  | "tl-PH";
+export const VocabularyLanguageCode = S.Literal(
+  "ar-AE",
+  "de-CH",
+  "de-DE",
+  "en-AB",
+  "en-AU",
+  "en-GB",
+  "en-IE",
+  "en-IN",
+  "en-US",
+  "en-WL",
+  "es-ES",
+  "es-US",
+  "fr-CA",
+  "fr-FR",
+  "hi-IN",
+  "it-IT",
+  "ja-JP",
+  "ko-KR",
+  "pt-BR",
+  "pt-PT",
+  "zh-CN",
+  "en-NZ",
+  "en-ZA",
+  "ca-ES",
+  "da-DK",
+  "fi-FI",
+  "id-ID",
+  "ms-MY",
+  "nl-NL",
+  "no-NO",
+  "pl-PL",
+  "sv-SE",
+  "tl-PH",
+);
+export type FlowAssociationResourceType =
+  | "SMS_PHONE_NUMBER"
+  | "INBOUND_EMAIL"
+  | "OUTBOUND_EMAIL"
+  | "ANALYTICS_CONNECTOR"
+  | "WHATSAPP_MESSAGING_PHONE_NUMBER";
+export const FlowAssociationResourceType = S.Literal(
+  "SMS_PHONE_NUMBER",
+  "INBOUND_EMAIL",
+  "OUTBOUND_EMAIL",
+  "ANALYTICS_CONNECTOR",
+  "WHATSAPP_MESSAGING_PHONE_NUMBER",
+);
+export type InstanceStorageResourceType =
+  | "CHAT_TRANSCRIPTS"
+  | "CALL_RECORDINGS"
+  | "SCHEDULED_REPORTS"
+  | "MEDIA_STREAMS"
+  | "CONTACT_TRACE_RECORDS"
+  | "AGENT_EVENTS"
+  | "REAL_TIME_CONTACT_ANALYSIS_SEGMENTS"
+  | "ATTACHMENTS"
+  | "CONTACT_EVALUATIONS"
+  | "SCREEN_RECORDINGS"
+  | "REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS"
+  | "REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS"
+  | "EMAIL_MESSAGES";
+export const InstanceStorageResourceType = S.Literal(
+  "CHAT_TRANSCRIPTS",
+  "CALL_RECORDINGS",
+  "SCHEDULED_REPORTS",
+  "MEDIA_STREAMS",
+  "CONTACT_TRACE_RECORDS",
+  "AGENT_EVENTS",
+  "REAL_TIME_CONTACT_ANALYSIS_SEGMENTS",
+  "ATTACHMENTS",
+  "CONTACT_EVALUATIONS",
+  "SCREEN_RECORDINGS",
+  "REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS",
+  "REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS",
+  "EMAIL_MESSAGES",
+);
 export type QuickConnectsList = string[];
 export const QuickConnectsList = S.Array(S.String);
+export type EntityType = "USER" | "AI_AGENT";
+export const EntityType = S.Literal("USER", "AI_AGENT");
 export type WorkspaceResourceArnList = string[];
 export const WorkspaceResourceArnList = S.Array(S.String);
 export type DataSetIds = string[];
@@ -480,54 +589,886 @@ export type FileIdList = string[];
 export const FileIdList = S.Array(S.String);
 export type resourceArnListMaxLimit100 = string[];
 export const resourceArnListMaxLimit100 = S.Array(S.String);
+export type ListFlowAssociationResourceType =
+  | "WHATSAPP_MESSAGING_PHONE_NUMBER"
+  | "VOICE_PHONE_NUMBER"
+  | "INBOUND_EMAIL"
+  | "OUTBOUND_EMAIL"
+  | "ANALYTICS_CONNECTOR";
+export const ListFlowAssociationResourceType = S.Literal(
+  "WHATSAPP_MESSAGING_PHONE_NUMBER",
+  "VOICE_PHONE_NUMBER",
+  "INBOUND_EMAIL",
+  "OUTBOUND_EMAIL",
+  "ANALYTICS_CONNECTOR",
+);
+export type AgentStatusState = "ENABLED" | "DISABLED";
+export const AgentStatusState = S.Literal("ENABLED", "DISABLED");
+export type Channel = "VOICE" | "CHAT" | "TASK" | "EMAIL";
+export const Channel = S.Literal("VOICE", "CHAT", "TASK", "EMAIL");
+export type ContactInitiationMethod =
+  | "INBOUND"
+  | "OUTBOUND"
+  | "TRANSFER"
+  | "QUEUE_TRANSFER"
+  | "CALLBACK"
+  | "API"
+  | "DISCONNECT"
+  | "MONITOR"
+  | "EXTERNAL_OUTBOUND"
+  | "WEBRTC_API"
+  | "AGENT_REPLY"
+  | "FLOW";
+export const ContactInitiationMethod = S.Literal(
+  "INBOUND",
+  "OUTBOUND",
+  "TRANSFER",
+  "QUEUE_TRANSFER",
+  "CALLBACK",
+  "API",
+  "DISCONNECT",
+  "MONITOR",
+  "EXTERNAL_OUTBOUND",
+  "WEBRTC_API",
+  "AGENT_REPLY",
+  "FLOW",
+);
+export type InitiateAs = "CONNECTED_TO_USER" | "COMPLETED";
+export const InitiateAs = S.Literal("CONNECTED_TO_USER", "COMPLETED");
+export type ContactFlowType =
+  | "CONTACT_FLOW"
+  | "CUSTOMER_QUEUE"
+  | "CUSTOMER_HOLD"
+  | "CUSTOMER_WHISPER"
+  | "AGENT_HOLD"
+  | "AGENT_WHISPER"
+  | "OUTBOUND_WHISPER"
+  | "AGENT_TRANSFER"
+  | "QUEUE_TRANSFER"
+  | "CAMPAIGN";
+export const ContactFlowType = S.Literal(
+  "CONTACT_FLOW",
+  "CUSTOMER_QUEUE",
+  "CUSTOMER_HOLD",
+  "CUSTOMER_WHISPER",
+  "AGENT_HOLD",
+  "AGENT_WHISPER",
+  "OUTBOUND_WHISPER",
+  "AGENT_TRANSFER",
+  "QUEUE_TRANSFER",
+  "CAMPAIGN",
+);
+export type ContactFlowStatus = "PUBLISHED" | "SAVED";
+export const ContactFlowStatus = S.Literal("PUBLISHED", "SAVED");
+export type DataTableLockLevel =
+  | "NONE"
+  | "DATA_TABLE"
+  | "PRIMARY_VALUE"
+  | "ATTRIBUTE"
+  | "VALUE";
+export const DataTableLockLevel = S.Literal(
+  "NONE",
+  "DATA_TABLE",
+  "PRIMARY_VALUE",
+  "ATTRIBUTE",
+  "VALUE",
+);
+export type DataTableStatus = "PUBLISHED";
+export const DataTableStatus = S.Literal("PUBLISHED");
+export type DataTableAttributeValueType =
+  | "TEXT"
+  | "NUMBER"
+  | "BOOLEAN"
+  | "TEXT_LIST"
+  | "NUMBER_LIST";
+export const DataTableAttributeValueType = S.Literal(
+  "TEXT",
+  "NUMBER",
+  "BOOLEAN",
+  "TEXT_LIST",
+  "NUMBER_LIST",
+);
+export type DirectoryType = "SAML" | "CONNECT_MANAGED" | "EXISTING_DIRECTORY";
+export const DirectoryType = S.Literal(
+  "SAML",
+  "CONNECT_MANAGED",
+  "EXISTING_DIRECTORY",
+);
+export type IntegrationType =
+  | "EVENT"
+  | "VOICE_ID"
+  | "PINPOINT_APP"
+  | "WISDOM_ASSISTANT"
+  | "WISDOM_KNOWLEDGE_BASE"
+  | "WISDOM_QUICK_RESPONSES"
+  | "Q_MESSAGE_TEMPLATES"
+  | "CASES_DOMAIN"
+  | "APPLICATION"
+  | "FILE_SCANNER"
+  | "SES_IDENTITY"
+  | "ANALYTICS_CONNECTOR"
+  | "CALL_TRANSFER_CONNECTOR"
+  | "COGNITO_USER_POOL"
+  | "MESSAGE_PROCESSOR";
+export const IntegrationType = S.Literal(
+  "EVENT",
+  "VOICE_ID",
+  "PINPOINT_APP",
+  "WISDOM_ASSISTANT",
+  "WISDOM_KNOWLEDGE_BASE",
+  "WISDOM_QUICK_RESPONSES",
+  "Q_MESSAGE_TEMPLATES",
+  "CASES_DOMAIN",
+  "APPLICATION",
+  "FILE_SCANNER",
+  "SES_IDENTITY",
+  "ANALYTICS_CONNECTOR",
+  "CALL_TRANSFER_CONNECTOR",
+  "COGNITO_USER_POOL",
+  "MESSAGE_PROCESSOR",
+);
+export type SourceType = "SALESFORCE" | "ZENDESK" | "CASES";
+export const SourceType = S.Literal("SALESFORCE", "ZENDESK", "CASES");
+export type RehydrationType = "ENTIRE_PAST_SESSION" | "FROM_SEGMENT";
+export const RehydrationType = S.Literal("ENTIRE_PAST_SESSION", "FROM_SEGMENT");
 export type PredefinedAttributePurposeNameList = string[];
 export const PredefinedAttributePurposeNameList = S.Array(S.String);
+export type DeviceType = "GCM" | "APNS" | "APNS_SANDBOX";
+export const DeviceType = S.Literal("GCM", "APNS", "APNS_SANDBOX");
+export type AgentAvailabilityTimer =
+  | "TIME_SINCE_LAST_ACTIVITY"
+  | "TIME_SINCE_LAST_INBOUND";
+export const AgentAvailabilityTimer = S.Literal(
+  "TIME_SINCE_LAST_ACTIVITY",
+  "TIME_SINCE_LAST_INBOUND",
+);
+export type RulePublishStatus = "DRAFT" | "PUBLISHED";
+export const RulePublishStatus = S.Literal("DRAFT", "PUBLISHED");
 export type PermissionsList = string[];
 export const PermissionsList = S.Array(S.String);
 export type TagRestrictedResourceList = string[];
 export const TagRestrictedResourceList = S.Array(S.String);
 export type HierarchyRestrictedResourceList = string[];
 export const HierarchyRestrictedResourceList = S.Array(S.String);
+export type TaskTemplateStatus = "ACTIVE" | "INACTIVE";
+export const TaskTemplateStatus = S.Literal("ACTIVE", "INACTIVE");
+export type UseCaseType = "RULES_EVALUATION" | "CONNECT_CAMPAIGNS";
+export const UseCaseType = S.Literal("RULES_EVALUATION", "CONNECT_CAMPAIGNS");
 export type SecurityProfileIds = string[];
 export const SecurityProfileIds = S.Array(S.String);
-export type Groupings = string[];
-export const Groupings = S.Array(S.String);
+export type ViewStatus = "PUBLISHED" | "SAVED";
+export const ViewStatus = S.Literal("PUBLISHED", "SAVED");
+export type MediaType =
+  | "IMAGE_LOGO_LIGHT_FAVICON"
+  | "IMAGE_LOGO_DARK_FAVICON"
+  | "IMAGE_LOGO_LIGHT_HORIZONTAL"
+  | "IMAGE_LOGO_DARK_HORIZONTAL";
+export const MediaType = S.Literal(
+  "IMAGE_LOGO_LIGHT_FAVICON",
+  "IMAGE_LOGO_DARK_FAVICON",
+  "IMAGE_LOGO_LIGHT_HORIZONTAL",
+  "IMAGE_LOGO_DARK_HORIZONTAL",
+);
+export type InstanceAttributeType =
+  | "INBOUND_CALLS"
+  | "OUTBOUND_CALLS"
+  | "CONTACTFLOW_LOGS"
+  | "CONTACT_LENS"
+  | "AUTO_RESOLVE_BEST_VOICES"
+  | "USE_CUSTOM_TTS_VOICES"
+  | "EARLY_MEDIA"
+  | "MULTI_PARTY_CONFERENCE"
+  | "HIGH_VOLUME_OUTBOUND"
+  | "ENHANCED_CONTACT_MONITORING"
+  | "ENHANCED_CHAT_MONITORING"
+  | "MULTI_PARTY_CHAT_CONFERENCE"
+  | "MESSAGE_STREAMING";
+export const InstanceAttributeType = S.Literal(
+  "INBOUND_CALLS",
+  "OUTBOUND_CALLS",
+  "CONTACTFLOW_LOGS",
+  "CONTACT_LENS",
+  "AUTO_RESOLVE_BEST_VOICES",
+  "USE_CUSTOM_TTS_VOICES",
+  "EARLY_MEDIA",
+  "MULTI_PARTY_CONFERENCE",
+  "HIGH_VOLUME_OUTBOUND",
+  "ENHANCED_CONTACT_MONITORING",
+  "ENHANCED_CHAT_MONITORING",
+  "MULTI_PARTY_CHAT_CONFERENCE",
+  "MESSAGE_STREAMING",
+);
+export type Grouping =
+  | "QUEUE"
+  | "CHANNEL"
+  | "ROUTING_PROFILE"
+  | "ROUTING_STEP_EXPRESSION"
+  | "AGENT_STATUS"
+  | "SUBTYPE"
+  | "VALIDATION_TEST_TYPE";
+export const Grouping = S.Literal(
+  "QUEUE",
+  "CHANNEL",
+  "ROUTING_PROFILE",
+  "ROUTING_STEP_EXPRESSION",
+  "AGENT_STATUS",
+  "SUBTYPE",
+  "VALIDATION_TEST_TYPE",
+);
+export type Groupings = Grouping[];
+export const Groupings = S.Array(Grouping);
 export type GroupingsV2 = string[];
 export const GroupingsV2 = S.Array(S.String);
-export type AgentStatusTypes = string[];
-export const AgentStatusTypes = S.Array(S.String);
-export type ContactFlowTypes = string[];
-export const ContactFlowTypes = S.Array(S.String);
-export type ReferenceTypes = string[];
-export const ReferenceTypes = S.Array(S.String);
+export type AgentStatusType = "ROUTABLE" | "CUSTOM" | "OFFLINE";
+export const AgentStatusType = S.Literal("ROUTABLE", "CUSTOM", "OFFLINE");
+export type AgentStatusTypes = AgentStatusType[];
+export const AgentStatusTypes = S.Array(AgentStatusType);
+export type LexVersion = "V1" | "V2";
+export const LexVersion = S.Literal("V1", "V2");
+export type ContactFlowModuleState = "ACTIVE" | "ARCHIVED";
+export const ContactFlowModuleState = S.Literal("ACTIVE", "ARCHIVED");
+export type ContactFlowTypes = ContactFlowType[];
+export const ContactFlowTypes = S.Array(ContactFlowType);
+export type ReferenceType =
+  | "URL"
+  | "ATTACHMENT"
+  | "CONTACT_ANALYSIS"
+  | "NUMBER"
+  | "STRING"
+  | "DATE"
+  | "EMAIL"
+  | "EMAIL_MESSAGE"
+  | "EMAIL_MESSAGE_PLAIN_TEXT";
+export const ReferenceType = S.Literal(
+  "URL",
+  "ATTACHMENT",
+  "CONTACT_ANALYSIS",
+  "NUMBER",
+  "STRING",
+  "DATE",
+  "EMAIL",
+  "EMAIL_MESSAGE",
+  "EMAIL_MESSAGE_PLAIN_TEXT",
+);
+export type ReferenceTypes = ReferenceType[];
+export const ReferenceTypes = S.Array(ReferenceType);
 export type AttributeIds = string[];
 export const AttributeIds = S.Array(S.String);
 export type RecordIds = string[];
 export const RecordIds = S.Array(S.String);
-export type PhoneNumberTypes = string[];
-export const PhoneNumberTypes = S.Array(S.String);
-export type PhoneNumberCountryCodes = string[];
-export const PhoneNumberCountryCodes = S.Array(S.String);
-export type QueueTypes = string[];
-export const QueueTypes = S.Array(S.String);
-export type QuickConnectTypes = string[];
-export const QuickConnectTypes = S.Array(S.String);
-export type RealTimeContactAnalysisSegmentTypes = string[];
-export const RealTimeContactAnalysisSegmentTypes = S.Array(S.String);
-export type AllowedMonitorCapabilities = string[];
-export const AllowedMonitorCapabilities = S.Array(S.String);
+export type PhoneNumberType =
+  | "TOLL_FREE"
+  | "DID"
+  | "UIFN"
+  | "SHARED"
+  | "THIRD_PARTY_TF"
+  | "THIRD_PARTY_DID"
+  | "SHORT_CODE";
+export const PhoneNumberType = S.Literal(
+  "TOLL_FREE",
+  "DID",
+  "UIFN",
+  "SHARED",
+  "THIRD_PARTY_TF",
+  "THIRD_PARTY_DID",
+  "SHORT_CODE",
+);
+export type PhoneNumberTypes = PhoneNumberType[];
+export const PhoneNumberTypes = S.Array(PhoneNumberType);
+export type PhoneNumberCountryCode =
+  | "AF"
+  | "AL"
+  | "DZ"
+  | "AS"
+  | "AD"
+  | "AO"
+  | "AI"
+  | "AQ"
+  | "AG"
+  | "AR"
+  | "AM"
+  | "AW"
+  | "AU"
+  | "AT"
+  | "AZ"
+  | "BS"
+  | "BH"
+  | "BD"
+  | "BB"
+  | "BY"
+  | "BE"
+  | "BZ"
+  | "BJ"
+  | "BM"
+  | "BT"
+  | "BO"
+  | "BA"
+  | "BW"
+  | "BR"
+  | "IO"
+  | "VG"
+  | "BN"
+  | "BG"
+  | "BF"
+  | "BI"
+  | "KH"
+  | "CM"
+  | "CA"
+  | "CV"
+  | "KY"
+  | "CF"
+  | "TD"
+  | "CL"
+  | "CN"
+  | "CX"
+  | "CC"
+  | "CO"
+  | "KM"
+  | "CK"
+  | "CR"
+  | "HR"
+  | "CU"
+  | "CW"
+  | "CY"
+  | "CZ"
+  | "CD"
+  | "DK"
+  | "DJ"
+  | "DM"
+  | "DO"
+  | "TL"
+  | "EC"
+  | "EG"
+  | "SV"
+  | "GQ"
+  | "ER"
+  | "EE"
+  | "ET"
+  | "FK"
+  | "FO"
+  | "FJ"
+  | "FI"
+  | "FR"
+  | "PF"
+  | "GA"
+  | "GM"
+  | "GE"
+  | "DE"
+  | "GH"
+  | "GI"
+  | "GR"
+  | "GL"
+  | "GD"
+  | "GU"
+  | "GT"
+  | "GG"
+  | "GN"
+  | "GW"
+  | "GY"
+  | "HT"
+  | "HN"
+  | "HK"
+  | "HU"
+  | "IS"
+  | "IN"
+  | "ID"
+  | "IR"
+  | "IQ"
+  | "IE"
+  | "IM"
+  | "IL"
+  | "IT"
+  | "CI"
+  | "JM"
+  | "JP"
+  | "JE"
+  | "JO"
+  | "KZ"
+  | "KE"
+  | "KI"
+  | "KW"
+  | "KG"
+  | "LA"
+  | "LV"
+  | "LB"
+  | "LS"
+  | "LR"
+  | "LY"
+  | "LI"
+  | "LT"
+  | "LU"
+  | "MO"
+  | "MK"
+  | "MG"
+  | "MW"
+  | "MY"
+  | "MV"
+  | "ML"
+  | "MT"
+  | "MH"
+  | "MR"
+  | "MU"
+  | "YT"
+  | "MX"
+  | "FM"
+  | "MD"
+  | "MC"
+  | "MN"
+  | "ME"
+  | "MS"
+  | "MA"
+  | "MZ"
+  | "MM"
+  | "NA"
+  | "NR"
+  | "NP"
+  | "NL"
+  | "AN"
+  | "NC"
+  | "NZ"
+  | "NI"
+  | "NE"
+  | "NG"
+  | "NU"
+  | "KP"
+  | "MP"
+  | "NO"
+  | "OM"
+  | "PK"
+  | "PW"
+  | "PA"
+  | "PG"
+  | "PY"
+  | "PE"
+  | "PH"
+  | "PN"
+  | "PL"
+  | "PT"
+  | "PR"
+  | "QA"
+  | "CG"
+  | "RE"
+  | "RO"
+  | "RU"
+  | "RW"
+  | "BL"
+  | "SH"
+  | "KN"
+  | "LC"
+  | "MF"
+  | "PM"
+  | "VC"
+  | "WS"
+  | "SM"
+  | "ST"
+  | "SA"
+  | "SN"
+  | "RS"
+  | "SC"
+  | "SL"
+  | "SG"
+  | "SX"
+  | "SK"
+  | "SI"
+  | "SB"
+  | "SO"
+  | "ZA"
+  | "KR"
+  | "ES"
+  | "LK"
+  | "SD"
+  | "SR"
+  | "SJ"
+  | "SZ"
+  | "SE"
+  | "CH"
+  | "SY"
+  | "TW"
+  | "TJ"
+  | "TZ"
+  | "TH"
+  | "TG"
+  | "TK"
+  | "TO"
+  | "TT"
+  | "TN"
+  | "TR"
+  | "TM"
+  | "TC"
+  | "TV"
+  | "VI"
+  | "UG"
+  | "UA"
+  | "AE"
+  | "GB"
+  | "US"
+  | "UY"
+  | "UZ"
+  | "VU"
+  | "VA"
+  | "VE"
+  | "VN"
+  | "WF"
+  | "EH"
+  | "YE"
+  | "ZM"
+  | "ZW";
+export const PhoneNumberCountryCode = S.Literal(
+  "AF",
+  "AL",
+  "DZ",
+  "AS",
+  "AD",
+  "AO",
+  "AI",
+  "AQ",
+  "AG",
+  "AR",
+  "AM",
+  "AW",
+  "AU",
+  "AT",
+  "AZ",
+  "BS",
+  "BH",
+  "BD",
+  "BB",
+  "BY",
+  "BE",
+  "BZ",
+  "BJ",
+  "BM",
+  "BT",
+  "BO",
+  "BA",
+  "BW",
+  "BR",
+  "IO",
+  "VG",
+  "BN",
+  "BG",
+  "BF",
+  "BI",
+  "KH",
+  "CM",
+  "CA",
+  "CV",
+  "KY",
+  "CF",
+  "TD",
+  "CL",
+  "CN",
+  "CX",
+  "CC",
+  "CO",
+  "KM",
+  "CK",
+  "CR",
+  "HR",
+  "CU",
+  "CW",
+  "CY",
+  "CZ",
+  "CD",
+  "DK",
+  "DJ",
+  "DM",
+  "DO",
+  "TL",
+  "EC",
+  "EG",
+  "SV",
+  "GQ",
+  "ER",
+  "EE",
+  "ET",
+  "FK",
+  "FO",
+  "FJ",
+  "FI",
+  "FR",
+  "PF",
+  "GA",
+  "GM",
+  "GE",
+  "DE",
+  "GH",
+  "GI",
+  "GR",
+  "GL",
+  "GD",
+  "GU",
+  "GT",
+  "GG",
+  "GN",
+  "GW",
+  "GY",
+  "HT",
+  "HN",
+  "HK",
+  "HU",
+  "IS",
+  "IN",
+  "ID",
+  "IR",
+  "IQ",
+  "IE",
+  "IM",
+  "IL",
+  "IT",
+  "CI",
+  "JM",
+  "JP",
+  "JE",
+  "JO",
+  "KZ",
+  "KE",
+  "KI",
+  "KW",
+  "KG",
+  "LA",
+  "LV",
+  "LB",
+  "LS",
+  "LR",
+  "LY",
+  "LI",
+  "LT",
+  "LU",
+  "MO",
+  "MK",
+  "MG",
+  "MW",
+  "MY",
+  "MV",
+  "ML",
+  "MT",
+  "MH",
+  "MR",
+  "MU",
+  "YT",
+  "MX",
+  "FM",
+  "MD",
+  "MC",
+  "MN",
+  "ME",
+  "MS",
+  "MA",
+  "MZ",
+  "MM",
+  "NA",
+  "NR",
+  "NP",
+  "NL",
+  "AN",
+  "NC",
+  "NZ",
+  "NI",
+  "NE",
+  "NG",
+  "NU",
+  "KP",
+  "MP",
+  "NO",
+  "OM",
+  "PK",
+  "PW",
+  "PA",
+  "PG",
+  "PY",
+  "PE",
+  "PH",
+  "PN",
+  "PL",
+  "PT",
+  "PR",
+  "QA",
+  "CG",
+  "RE",
+  "RO",
+  "RU",
+  "RW",
+  "BL",
+  "SH",
+  "KN",
+  "LC",
+  "MF",
+  "PM",
+  "VC",
+  "WS",
+  "SM",
+  "ST",
+  "SA",
+  "SN",
+  "RS",
+  "SC",
+  "SL",
+  "SG",
+  "SX",
+  "SK",
+  "SI",
+  "SB",
+  "SO",
+  "ZA",
+  "KR",
+  "ES",
+  "LK",
+  "SD",
+  "SR",
+  "SJ",
+  "SZ",
+  "SE",
+  "CH",
+  "SY",
+  "TW",
+  "TJ",
+  "TZ",
+  "TH",
+  "TG",
+  "TK",
+  "TO",
+  "TT",
+  "TN",
+  "TR",
+  "TM",
+  "TC",
+  "TV",
+  "VI",
+  "UG",
+  "UA",
+  "AE",
+  "GB",
+  "US",
+  "UY",
+  "UZ",
+  "VU",
+  "VA",
+  "VE",
+  "VN",
+  "WF",
+  "EH",
+  "YE",
+  "ZM",
+  "ZW",
+);
+export type PhoneNumberCountryCodes = PhoneNumberCountryCode[];
+export const PhoneNumberCountryCodes = S.Array(PhoneNumberCountryCode);
+export type QueueType = "STANDARD" | "AGENT";
+export const QueueType = S.Literal("STANDARD", "AGENT");
+export type QueueTypes = QueueType[];
+export const QueueTypes = S.Array(QueueType);
+export type QuickConnectType = "USER" | "QUEUE" | "PHONE_NUMBER" | "FLOW";
+export const QuickConnectType = S.Literal(
+  "USER",
+  "QUEUE",
+  "PHONE_NUMBER",
+  "FLOW",
+);
+export type QuickConnectTypes = QuickConnectType[];
+export const QuickConnectTypes = S.Array(QuickConnectType);
+export type RealTimeContactAnalysisOutputType = "Raw" | "Redacted";
+export const RealTimeContactAnalysisOutputType = S.Literal("Raw", "Redacted");
+export type RealTimeContactAnalysisSegmentType =
+  | "Transcript"
+  | "Categories"
+  | "Issues"
+  | "Event"
+  | "Attachments"
+  | "PostContactSummary";
+export const RealTimeContactAnalysisSegmentType = S.Literal(
+  "Transcript",
+  "Categories",
+  "Issues",
+  "Event",
+  "Attachments",
+  "PostContactSummary",
+);
+export type RealTimeContactAnalysisSegmentTypes =
+  RealTimeContactAnalysisSegmentType[];
+export const RealTimeContactAnalysisSegmentTypes = S.Array(
+  RealTimeContactAnalysisSegmentType,
+);
+export type EventSourceName =
+  | "OnPostCallAnalysisAvailable"
+  | "OnRealTimeCallAnalysisAvailable"
+  | "OnRealTimeChatAnalysisAvailable"
+  | "OnPostChatAnalysisAvailable"
+  | "OnZendeskTicketCreate"
+  | "OnZendeskTicketStatusUpdate"
+  | "OnSalesforceCaseCreate"
+  | "OnContactEvaluationSubmit"
+  | "OnMetricDataUpdate"
+  | "OnCaseCreate"
+  | "OnCaseUpdate"
+  | "OnSlaBreach";
+export const EventSourceName = S.Literal(
+  "OnPostCallAnalysisAvailable",
+  "OnRealTimeCallAnalysisAvailable",
+  "OnRealTimeChatAnalysisAvailable",
+  "OnPostChatAnalysisAvailable",
+  "OnZendeskTicketCreate",
+  "OnZendeskTicketStatusUpdate",
+  "OnSalesforceCaseCreate",
+  "OnContactEvaluationSubmit",
+  "OnMetricDataUpdate",
+  "OnCaseCreate",
+  "OnCaseUpdate",
+  "OnSlaBreach",
+);
+export type ViewType = "CUSTOMER_MANAGED" | "AWS_MANAGED";
+export const ViewType = S.Literal("CUSTOMER_MANAGED", "AWS_MANAGED");
+export type MonitorCapability = "SILENT_MONITOR" | "BARGE";
+export const MonitorCapability = S.Literal("SILENT_MONITOR", "BARGE");
+export type AllowedMonitorCapabilities = MonitorCapability[];
+export const AllowedMonitorCapabilities = S.Array(MonitorCapability);
+export type ContactRecordingType = "AGENT" | "IVR" | "SCREEN";
+export const ContactRecordingType = S.Literal("AGENT", "IVR", "SCREEN");
 export type ResourceTypeList = string[];
 export const ResourceTypeList = S.Array(S.String);
+export type VocabularyState =
+  | "CREATION_IN_PROGRESS"
+  | "ACTIVE"
+  | "CREATION_FAILED"
+  | "DELETE_IN_PROGRESS";
+export const VocabularyState = S.Literal(
+  "CREATION_IN_PROGRESS",
+  "ACTIVE",
+  "CREATION_FAILED",
+  "DELETE_IN_PROGRESS",
+);
+export type TrafficType = "GENERAL" | "CAMPAIGN";
+export const TrafficType = S.Literal("GENERAL", "CAMPAIGN");
+export type FileUseCaseType = "EMAIL_MESSAGE" | "ATTACHMENT";
+export const FileUseCaseType = S.Literal("EMAIL_MESSAGE", "ATTACHMENT");
 export type SupportedMessagingContentTypes = string[];
 export const SupportedMessagingContentTypes = S.Array(S.String);
-export type DisconnectOnCustomerExit = string[];
-export const DisconnectOnCustomerExit = S.Array(S.String);
+export type DisconnectOnCustomerExitParticipantType = "AGENT";
+export const DisconnectOnCustomerExitParticipantType = S.Literal("AGENT");
+export type DisconnectOnCustomerExit =
+  DisconnectOnCustomerExitParticipantType[];
+export const DisconnectOnCustomerExit = S.Array(
+  DisconnectOnCustomerExitParticipantType,
+);
+export type ContactMediaProcessingFailureMode =
+  | "DELIVER_UNPROCESSED_MESSAGE"
+  | "DO_NOT_DELIVER_UNPROCESSED_MESSAGE";
+export const ContactMediaProcessingFailureMode = S.Literal(
+  "DELIVER_UNPROCESSED_MESSAGE",
+  "DO_NOT_DELIVER_UNPROCESSED_MESSAGE",
+);
 export type ContactTagKeys = string[];
 export const ContactTagKeys = S.Array(S.String);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export type IpCidrList = string[];
 export const IpCidrList = S.Array(S.String);
+export type ContactFlowState = "ACTIVE" | "ARCHIVED";
+export const ContactFlowState = S.Literal("ACTIVE", "ARCHIVED");
+export type QueueStatus = "ENABLED" | "DISABLED";
+export const QueueStatus = S.Literal("ENABLED", "DISABLED");
+export type Visibility = "ALL" | "ASSIGNED" | "NONE";
+export const Visibility = S.Literal("ALL", "ASSIGNED", "NONE");
 export interface ActivateEvaluationFormRequest {
   InstanceId: string;
   EvaluationFormId: string;
@@ -643,13 +1584,13 @@ export const AssociateContactWithUserResponse = S.suspend(() =>
 }) as any as S.Schema<AssociateContactWithUserResponse>;
 export interface AssociateDefaultVocabularyRequest {
   InstanceId: string;
-  LanguageCode: string;
+  LanguageCode: VocabularyLanguageCode;
   VocabularyId?: string;
 }
 export const AssociateDefaultVocabularyRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
-    LanguageCode: S.String.pipe(T.HttpLabel("LanguageCode")),
+    LanguageCode: VocabularyLanguageCode.pipe(T.HttpLabel("LanguageCode")),
     VocabularyId: S.optional(S.String),
   }).pipe(
     T.all(
@@ -677,14 +1618,14 @@ export interface AssociateFlowRequest {
   InstanceId: string;
   ResourceId: string;
   FlowId: string;
-  ResourceType: string;
+  ResourceType: FlowAssociationResourceType;
 }
 export const AssociateFlowRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ResourceId: S.String,
     FlowId: S.String,
-    ResourceType: S.String,
+    ResourceType: FlowAssociationResourceType,
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/flow-associations/{InstanceId}" }),
@@ -802,7 +1743,7 @@ export const AssociatePhoneNumberContactFlowResponse = S.suspend(() =>
 export interface AssociateQueueQuickConnectsRequest {
   InstanceId: string;
   QueueId: string;
-  QuickConnectIds: QuickConnectsList;
+  QuickConnectIds: string[];
 }
 export const AssociateQueueQuickConnectsRequest = S.suspend(() =>
   S.Struct({
@@ -891,7 +1832,7 @@ export const AssociateTrafficDistributionGroupUserResponse = S.suspend(() =>
 export interface AssociateWorkspaceRequest {
   InstanceId: string;
   WorkspaceId: string;
-  ResourceArns: WorkspaceResourceArnList;
+  ResourceArns: string[];
 }
 export const AssociateWorkspaceRequest = S.suspend(() =>
   S.Struct({
@@ -916,7 +1857,7 @@ export const AssociateWorkspaceRequest = S.suspend(() =>
 }) as any as S.Schema<AssociateWorkspaceRequest>;
 export interface BatchAssociateAnalyticsDataSetRequest {
   InstanceId: string;
-  DataSetIds: DataSetIds;
+  DataSetIds: string[];
   TargetAccountId?: string;
 }
 export const BatchAssociateAnalyticsDataSetRequest = S.suspend(() =>
@@ -942,7 +1883,7 @@ export const BatchAssociateAnalyticsDataSetRequest = S.suspend(() =>
 }) as any as S.Schema<BatchAssociateAnalyticsDataSetRequest>;
 export interface BatchDisassociateAnalyticsDataSetRequest {
   InstanceId: string;
-  DataSetIds: DataSetIds;
+  DataSetIds: string[];
   TargetAccountId?: string;
 }
 export const BatchDisassociateAnalyticsDataSetRequest = S.suspend(() =>
@@ -967,7 +1908,7 @@ export const BatchDisassociateAnalyticsDataSetRequest = S.suspend(() =>
   identifier: "BatchDisassociateAnalyticsDataSetRequest",
 }) as any as S.Schema<BatchDisassociateAnalyticsDataSetRequest>;
 export interface BatchGetAttachedFileMetadataRequest {
-  FileIds: FileIdList;
+  FileIds: string[];
   InstanceId: string;
   AssociatedResourceArn: string;
 }
@@ -991,14 +1932,14 @@ export const BatchGetAttachedFileMetadataRequest = S.suspend(() =>
 }) as any as S.Schema<BatchGetAttachedFileMetadataRequest>;
 export interface BatchGetFlowAssociationRequest {
   InstanceId: string;
-  ResourceIds: resourceArnListMaxLimit100;
-  ResourceType?: string;
+  ResourceIds: string[];
+  ResourceType?: ListFlowAssociationResourceType;
 }
 export const BatchGetFlowAssociationRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ResourceIds: resourceArnListMaxLimit100,
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(ListFlowAssociationResourceType),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/flow-associations-batch/{InstanceId}" }),
@@ -1038,7 +1979,7 @@ export const DataTableLockVersion = S.suspend(() =>
   identifier: "DataTableLockVersion",
 }) as any as S.Schema<DataTableLockVersion>;
 export interface DataTableValue {
-  PrimaryValues?: PrimaryValuesSet;
+  PrimaryValues?: PrimaryValue[];
   AttributeName: string;
   Value: string;
   LockVersion?: DataTableLockVersion;
@@ -1064,7 +2005,7 @@ export const DataTableValueList = S.Array(DataTableValue);
 export interface BatchUpdateDataTableValueRequest {
   InstanceId: string;
   DataTableId: string;
-  Values: DataTableValueList;
+  Values: DataTableValue[];
 }
 export const BatchUpdateDataTableValueRequest = S.suspend(() =>
   S.Struct({
@@ -1122,16 +2063,16 @@ export interface CreateAgentStatusRequest {
   InstanceId: string;
   Name: string;
   Description?: string;
-  State: string;
+  State: AgentStatusState;
   DisplayOrder?: number;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateAgentStatusRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Description: S.optional(S.String),
-    State: S.String,
+    State: AgentStatusState,
     DisplayOrder: S.optional(S.Number),
     Tags: S.optional(TagMap),
   }).pipe(
@@ -1150,20 +2091,20 @@ export const CreateAgentStatusRequest = S.suspend(() =>
 export interface CreateContactFlowRequest {
   InstanceId: string;
   Name: string;
-  Type: string;
+  Type: ContactFlowType;
   Description?: string;
   Content: string;
-  Status?: string;
-  Tags?: TagMap;
+  Status?: ContactFlowStatus;
+  Tags?: { [key: string]: string };
 }
 export const CreateContactFlowRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
-    Type: S.String,
+    Type: ContactFlowType,
     Description: S.optional(S.String),
     Content: S.String,
-    Status: S.optional(S.String),
+    Status: S.optional(ContactFlowStatus),
     Tags: S.optional(TagMap),
   }).pipe(
     T.all(
@@ -1277,9 +2218,9 @@ export interface CreateDataTableRequest {
   Name: string;
   Description?: string;
   TimeZone: string;
-  ValueLockLevel: string;
-  Status: string;
-  Tags?: TagMap;
+  ValueLockLevel: DataTableLockLevel;
+  Status: DataTableStatus;
+  Tags?: { [key: string]: string };
 }
 export const CreateDataTableRequest = S.suspend(() =>
   S.Struct({
@@ -1287,8 +2228,8 @@ export const CreateDataTableRequest = S.suspend(() =>
     Name: S.String,
     Description: S.optional(S.String),
     TimeZone: S.String,
-    ValueLockLevel: S.String,
-    Status: S.String,
+    ValueLockLevel: DataTableLockLevel,
+    Status: DataTableStatus,
     Tags: S.optional(TagMap),
   }).pipe(
     T.all(
@@ -1304,11 +2245,11 @@ export const CreateDataTableRequest = S.suspend(() =>
   identifier: "CreateDataTableRequest",
 }) as any as S.Schema<CreateDataTableRequest>;
 export interface CreateEmailAddressRequest {
-  Description?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   InstanceId: string;
-  EmailAddress: string | Redacted.Redacted<string>;
-  DisplayName?: string | Redacted.Redacted<string>;
-  Tags?: TagMap;
+  EmailAddress: string | redacted.Redacted<string>;
+  DisplayName?: string | redacted.Redacted<string>;
+  Tags?: { [key: string]: string };
   ClientToken?: string;
 }
 export const CreateEmailAddressRequest = S.suspend(() =>
@@ -1334,17 +2275,17 @@ export const CreateEmailAddressRequest = S.suspend(() =>
 }) as any as S.Schema<CreateEmailAddressRequest>;
 export interface CreateInstanceRequest {
   ClientToken?: string;
-  IdentityManagementType: string;
-  InstanceAlias?: string | Redacted.Redacted<string>;
+  IdentityManagementType: DirectoryType;
+  InstanceAlias?: string | redacted.Redacted<string>;
   DirectoryId?: string;
   InboundCallsEnabled: boolean;
   OutboundCallsEnabled: boolean;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateInstanceRequest = S.suspend(() =>
   S.Struct({
     ClientToken: S.optional(S.String),
-    IdentityManagementType: S.String,
+    IdentityManagementType: DirectoryType,
     InstanceAlias: S.optional(SensitiveString),
     DirectoryId: S.optional(S.String),
     InboundCallsEnabled: S.Boolean,
@@ -1365,21 +2306,21 @@ export const CreateInstanceRequest = S.suspend(() =>
 }) as any as S.Schema<CreateInstanceRequest>;
 export interface CreateIntegrationAssociationRequest {
   InstanceId: string;
-  IntegrationType: string;
+  IntegrationType: IntegrationType;
   IntegrationArn: string;
   SourceApplicationUrl?: string;
   SourceApplicationName?: string;
-  SourceType?: string;
-  Tags?: TagMap;
+  SourceType?: SourceType;
+  Tags?: { [key: string]: string };
 }
 export const CreateIntegrationAssociationRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
-    IntegrationType: S.String,
+    IntegrationType: IntegrationType,
     IntegrationArn: S.String,
     SourceApplicationUrl: S.optional(S.String),
     SourceApplicationName: S.optional(S.String),
-    SourceType: S.optional(S.String),
+    SourceType: S.optional(SourceType),
     Tags: S.optional(TagMap),
   }).pipe(
     T.all(
@@ -1400,7 +2341,7 @@ export const CreateIntegrationAssociationRequest = S.suspend(() =>
 export interface CreatePersistentContactAssociationRequest {
   InstanceId: string;
   InitialContactId: string;
-  RehydrationType: string;
+  RehydrationType: RehydrationType;
   SourceContactId: string;
   ClientToken?: string;
 }
@@ -1408,7 +2349,7 @@ export const CreatePersistentContactAssociationRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     InitialContactId: S.String.pipe(T.HttpLabel("InitialContactId")),
-    RehydrationType: S.String,
+    RehydrationType: RehydrationType,
     SourceContactId: S.String,
     ClientToken: S.optional(S.String),
   }).pipe(
@@ -1432,7 +2373,7 @@ export interface CreatePromptRequest {
   Name: string;
   Description?: string;
   S3Uri: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreatePromptRequest = S.suspend(() =>
   S.Struct({
@@ -1459,7 +2400,7 @@ export interface CreateTrafficDistributionGroupRequest {
   Description?: string;
   InstanceId: string;
   ClientToken?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateTrafficDistributionGroupRequest = S.suspend(() =>
   S.Struct({
@@ -1484,8 +2425,8 @@ export const CreateTrafficDistributionGroupRequest = S.suspend(() =>
 export interface CreateUseCaseRequest {
   InstanceId: string;
   IntegrationAssociationId: string;
-  UseCaseType: string;
-  Tags?: TagMap;
+  UseCaseType: UseCaseType;
+  Tags?: { [key: string]: string };
 }
 export const CreateUseCaseRequest = S.suspend(() =>
   S.Struct({
@@ -1493,7 +2434,7 @@ export const CreateUseCaseRequest = S.suspend(() =>
     IntegrationAssociationId: S.String.pipe(
       T.HttpLabel("IntegrationAssociationId"),
     ),
-    UseCaseType: S.String,
+    UseCaseType: UseCaseType,
     Tags: S.optional(TagMap),
   }).pipe(
     T.all(
@@ -1515,7 +2456,7 @@ export interface CreateUserHierarchyGroupRequest {
   Name: string;
   ParentGroupId?: string;
   InstanceId: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateUserHierarchyGroupRequest = S.suspend(() =>
   S.Struct({
@@ -1565,16 +2506,16 @@ export interface CreateVocabularyRequest {
   ClientToken?: string;
   InstanceId: string;
   VocabularyName: string;
-  LanguageCode: string;
+  LanguageCode: VocabularyLanguageCode;
   Content: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateVocabularyRequest = S.suspend(() =>
   S.Struct({
     ClientToken: S.optional(S.String),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     VocabularyName: S.String,
-    LanguageCode: S.String,
+    LanguageCode: VocabularyLanguageCode,
     Content: S.String,
     Tags: S.optional(TagMap),
   }).pipe(
@@ -2601,13 +3542,13 @@ export const DeleteWorkspaceResponse = S.suspend(() =>
 export interface DeleteWorkspaceMediaRequest {
   InstanceId: string;
   WorkspaceId: string;
-  MediaType: string;
+  MediaType: MediaType;
 }
 export const DeleteWorkspaceMediaRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
-    MediaType: S.String.pipe(T.HttpQuery("mediaType")),
+    MediaType: MediaType.pipe(T.HttpQuery("mediaType")),
   }).pipe(
     T.all(
       T.Http({
@@ -2999,12 +3940,12 @@ export const DescribeInstanceRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeInstanceRequest>;
 export interface DescribeInstanceAttributeRequest {
   InstanceId: string;
-  AttributeType: string;
+  AttributeType: InstanceAttributeType;
 }
 export const DescribeInstanceAttributeRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
-    AttributeType: S.String.pipe(T.HttpLabel("AttributeType")),
+    AttributeType: InstanceAttributeType.pipe(T.HttpLabel("AttributeType")),
   }).pipe(
     T.all(
       T.Http({
@@ -3024,13 +3965,13 @@ export const DescribeInstanceAttributeRequest = S.suspend(() =>
 export interface DescribeInstanceStorageConfigRequest {
   InstanceId: string;
   AssociationId: string;
-  ResourceType: string;
+  ResourceType: InstanceStorageResourceType;
 }
 export const DescribeInstanceStorageConfigRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     AssociationId: S.String.pipe(T.HttpLabel("AssociationId")),
-    ResourceType: S.String.pipe(T.HttpQuery("resourceType")),
+    ResourceType: InstanceStorageResourceType.pipe(T.HttpQuery("resourceType")),
   }).pipe(
     T.all(
       T.Http({
@@ -3518,13 +4459,13 @@ export const DisassociateEmailAddressAliasResponse = S.suspend(() =>
 export interface DisassociateFlowRequest {
   InstanceId: string;
   ResourceId: string;
-  ResourceType: string;
+  ResourceType: FlowAssociationResourceType;
 }
 export const DisassociateFlowRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ResourceId: S.String.pipe(T.HttpLabel("ResourceId")),
-    ResourceType: S.String.pipe(T.HttpLabel("ResourceType")),
+    ResourceType: FlowAssociationResourceType.pipe(T.HttpLabel("ResourceType")),
   }).pipe(
     T.all(
       T.Http({
@@ -3550,14 +4491,14 @@ export const DisassociateFlowResponse = S.suspend(() =>
 export interface DisassociateInstanceStorageConfigRequest {
   InstanceId: string;
   AssociationId: string;
-  ResourceType: string;
+  ResourceType: InstanceStorageResourceType;
   ClientToken?: string;
 }
 export const DisassociateInstanceStorageConfigRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     AssociationId: S.String.pipe(T.HttpLabel("AssociationId")),
-    ResourceType: S.String.pipe(T.HttpQuery("resourceType")),
+    ResourceType: InstanceStorageResourceType.pipe(T.HttpQuery("resourceType")),
     ClientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   }).pipe(
     T.all(
@@ -3677,7 +4618,7 @@ export const DisassociatePhoneNumberContactFlowResponse = S.suspend(() =>
 export interface DisassociateQueueQuickConnectsRequest {
   InstanceId: string;
   QueueId: string;
-  QuickConnectIds: QuickConnectsList;
+  QuickConnectIds: string[];
 }
 export const DisassociateQueueQuickConnectsRequest = S.suspend(() =>
   S.Struct({
@@ -3750,15 +4691,15 @@ export type SecurityProfiles = SecurityProfileItem[];
 export const SecurityProfiles = S.Array(SecurityProfileItem);
 export interface DisassociateSecurityProfilesRequest {
   InstanceId: string;
-  SecurityProfiles: SecurityProfiles;
-  EntityType: string;
+  SecurityProfiles: SecurityProfileItem[];
+  EntityType: EntityType;
   EntityArn: string;
 }
 export const DisassociateSecurityProfilesRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     SecurityProfiles: SecurityProfiles,
-    EntityType: S.String,
+    EntityType: EntityType,
     EntityArn: S.String,
   }).pipe(
     T.all(
@@ -3819,7 +4760,7 @@ export const DisassociateTrafficDistributionGroupUserResponse = S.suspend(() =>
 export interface DisassociateWorkspaceRequest {
   InstanceId: string;
   WorkspaceId: string;
-  ResourceArns: WorkspaceResourceArnList;
+  ResourceArns: string[];
 }
 export const DisassociateWorkspaceRequest = S.suspend(() =>
   S.Struct({
@@ -3970,13 +4911,13 @@ export const GetFederationTokenRequest = S.suspend(() =>
 export interface GetFlowAssociationRequest {
   InstanceId: string;
   ResourceId: string;
-  ResourceType: string;
+  ResourceType: FlowAssociationResourceType;
 }
 export const GetFlowAssociationRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ResourceId: S.String.pipe(T.HttpLabel("ResourceId")),
-    ResourceType: S.String.pipe(T.HttpLabel("ResourceType")),
+    ResourceType: FlowAssociationResourceType.pipe(T.HttpLabel("ResourceType")),
   }).pipe(
     T.all(
       T.Http({
@@ -4061,7 +5002,7 @@ export interface ImportPhoneNumberRequest {
   InstanceId: string;
   SourcePhoneNumberArn: string;
   PhoneNumberDescription?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   ClientToken?: string;
 }
 export const ImportPhoneNumberRequest = S.suspend(() =>
@@ -4087,14 +5028,14 @@ export const ImportPhoneNumberRequest = S.suspend(() =>
 export interface ImportWorkspaceMediaRequest {
   InstanceId: string;
   WorkspaceId: string;
-  MediaType: string;
+  MediaType: MediaType;
   MediaSource: string;
 }
 export const ImportWorkspaceMediaRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
-    MediaType: S.String,
+    MediaType: MediaType,
     MediaSource: S.String,
   }).pipe(
     T.all(
@@ -4122,7 +5063,7 @@ export interface ListAgentStatusRequest {
   InstanceId: string;
   NextToken?: string;
   MaxResults?: number;
-  AgentStatusTypes?: AgentStatusTypes;
+  AgentStatusTypes?: AgentStatusType[];
 }
 export const ListAgentStatusRequest = S.suspend(() =>
   S.Struct({
@@ -4277,14 +5218,14 @@ export interface ListBotsRequest {
   InstanceId: string;
   NextToken?: string;
   MaxResults?: number;
-  LexVersion: string;
+  LexVersion: LexVersion;
 }
 export const ListBotsRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    LexVersion: S.String.pipe(T.HttpQuery("lexVersion")),
+    LexVersion: LexVersion.pipe(T.HttpQuery("lexVersion")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/instance/{InstanceId}/bots" }),
@@ -4353,14 +5294,16 @@ export interface ListContactFlowModulesRequest {
   InstanceId: string;
   NextToken?: string;
   MaxResults?: number;
-  ContactFlowModuleState?: string;
+  ContactFlowModuleState?: ContactFlowModuleState;
 }
 export const ListContactFlowModulesRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    ContactFlowModuleState: S.optional(S.String).pipe(T.HttpQuery("state")),
+    ContactFlowModuleState: S.optional(ContactFlowModuleState).pipe(
+      T.HttpQuery("state"),
+    ),
   }).pipe(
     T.all(
       T.Http({
@@ -4407,7 +5350,7 @@ export const ListContactFlowModuleVersionsRequest = S.suspend(() =>
 }) as any as S.Schema<ListContactFlowModuleVersionsRequest>;
 export interface ListContactFlowsRequest {
   InstanceId: string;
-  ContactFlowTypes?: ContactFlowTypes;
+  ContactFlowTypes?: ContactFlowType[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -4463,7 +5406,7 @@ export const ListContactFlowVersionsRequest = S.suspend(() =>
 export interface ListContactReferencesRequest {
   InstanceId: string;
   ContactId: string;
-  ReferenceTypes: ReferenceTypes;
+  ReferenceTypes: ReferenceType[];
   NextToken?: string;
 }
 export const ListContactReferencesRequest = S.suspend(() =>
@@ -4491,7 +5434,7 @@ export const ListContactReferencesRequest = S.suspend(() =>
 export interface ListDataTableAttributesRequest {
   InstanceId: string;
   DataTableId: string;
-  AttributeIds?: AttributeIds;
+  AttributeIds?: string[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -4545,7 +5488,7 @@ export type ValueList = string[];
 export const ValueList = S.Array(S.String);
 export interface PrimaryAttributeValueFilter {
   AttributeName: string;
-  Values: ValueList;
+  Values: string[];
 }
 export const PrimaryAttributeValueFilter = S.suspend(() =>
   S.Struct({ AttributeName: S.String, Values: ValueList }),
@@ -4559,8 +5502,8 @@ export const PrimaryAttributeValueFilters = S.Array(
 export interface ListDataTableValuesRequest {
   InstanceId: string;
   DataTableId: string;
-  RecordIds?: RecordIds;
-  PrimaryAttributeValues?: PrimaryAttributeValueFilters;
+  RecordIds?: string[];
+  PrimaryAttributeValues?: PrimaryAttributeValueFilter[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -4590,14 +5533,14 @@ export const ListDataTableValuesRequest = S.suspend(() =>
 }) as any as S.Schema<ListDataTableValuesRequest>;
 export interface ListDefaultVocabulariesRequest {
   InstanceId: string;
-  LanguageCode?: string;
+  LanguageCode?: VocabularyLanguageCode;
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListDefaultVocabulariesRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
-    LanguageCode: S.optional(S.String),
+    LanguageCode: S.optional(VocabularyLanguageCode),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -4618,7 +5561,7 @@ export const ListDefaultVocabulariesRequest = S.suspend(() =>
 }) as any as S.Schema<ListDefaultVocabulariesRequest>;
 export interface ListEntitySecurityProfilesRequest {
   InstanceId: string;
-  EntityType: string;
+  EntityType: EntityType;
   EntityArn: string;
   NextToken?: string;
   MaxResults?: number;
@@ -4626,7 +5569,7 @@ export interface ListEntitySecurityProfilesRequest {
 export const ListEntitySecurityProfilesRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
-    EntityType: S.String,
+    EntityType: EntityType,
     EntityArn: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
@@ -4699,14 +5642,16 @@ export const ListEvaluationFormVersionsRequest = S.suspend(() =>
 }) as any as S.Schema<ListEvaluationFormVersionsRequest>;
 export interface ListFlowAssociationsRequest {
   InstanceId: string;
-  ResourceType?: string;
+  ResourceType?: ListFlowAssociationResourceType;
   NextToken?: string;
   MaxResults?: number;
 }
 export const ListFlowAssociationsRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
-    ResourceType: S.optional(S.String).pipe(T.HttpQuery("ResourceType")),
+    ResourceType: S.optional(ListFlowAssociationResourceType).pipe(
+      T.HttpQuery("ResourceType"),
+    ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
@@ -4822,14 +5767,14 @@ export const ListInstancesRequest = S.suspend(() =>
 }) as any as S.Schema<ListInstancesRequest>;
 export interface ListInstanceStorageConfigsRequest {
   InstanceId: string;
-  ResourceType: string;
+  ResourceType: InstanceStorageResourceType;
   NextToken?: string;
   MaxResults?: number;
 }
 export const ListInstanceStorageConfigsRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
-    ResourceType: S.String.pipe(T.HttpQuery("resourceType")),
+    ResourceType: InstanceStorageResourceType.pipe(T.HttpQuery("resourceType")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
@@ -4847,7 +5792,7 @@ export const ListInstanceStorageConfigsRequest = S.suspend(() =>
 }) as any as S.Schema<ListInstanceStorageConfigsRequest>;
 export interface ListIntegrationAssociationsRequest {
   InstanceId: string;
-  IntegrationType?: string;
+  IntegrationType?: IntegrationType;
   NextToken?: string;
   MaxResults?: number;
   IntegrationArn?: string;
@@ -4855,7 +5800,9 @@ export interface ListIntegrationAssociationsRequest {
 export const ListIntegrationAssociationsRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
-    IntegrationType: S.optional(S.String).pipe(T.HttpQuery("integrationType")),
+    IntegrationType: S.optional(IntegrationType).pipe(
+      T.HttpQuery("integrationType"),
+    ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     IntegrationArn: S.optional(S.String).pipe(T.HttpQuery("integrationArn")),
@@ -4923,8 +5870,8 @@ export const ListLexBotsRequest = S.suspend(() =>
 }) as any as S.Schema<ListLexBotsRequest>;
 export interface ListPhoneNumbersRequest {
   InstanceId: string;
-  PhoneNumberTypes?: PhoneNumberTypes;
-  PhoneNumberCountryCodes?: PhoneNumberCountryCodes;
+  PhoneNumberTypes?: PhoneNumberType[];
+  PhoneNumberCountryCodes?: PhoneNumberCountryCode[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -4957,8 +5904,8 @@ export interface ListPhoneNumbersV2Request {
   InstanceId?: string;
   MaxResults?: number;
   NextToken?: string;
-  PhoneNumberCountryCodes?: PhoneNumberCountryCodes;
-  PhoneNumberTypes?: PhoneNumberTypes;
+  PhoneNumberCountryCodes?: PhoneNumberCountryCode[];
+  PhoneNumberTypes?: PhoneNumberType[];
   PhoneNumberPrefix?: string;
 }
 export const ListPhoneNumbersV2Request = S.suspend(() =>
@@ -5059,7 +6006,7 @@ export const ListQueueQuickConnectsRequest = S.suspend(() =>
 }) as any as S.Schema<ListQueueQuickConnectsRequest>;
 export interface ListQueuesRequest {
   InstanceId: string;
-  QueueTypes?: QueueTypes;
+  QueueTypes?: QueueType[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -5086,7 +6033,7 @@ export interface ListQuickConnectsRequest {
   InstanceId: string;
   NextToken?: string;
   MaxResults?: number;
-  QuickConnectTypes?: QuickConnectTypes;
+  QuickConnectTypes?: QuickConnectType[];
 }
 export const ListQuickConnectsRequest = S.suspend(() =>
   S.Struct({
@@ -5114,8 +6061,8 @@ export interface ListRealtimeContactAnalysisSegmentsV2Request {
   ContactId: string;
   MaxResults?: number;
   NextToken?: string;
-  OutputType: string;
-  SegmentTypes: RealTimeContactAnalysisSegmentTypes;
+  OutputType: RealTimeContactAnalysisOutputType;
+  SegmentTypes: RealTimeContactAnalysisSegmentType[];
 }
 export const ListRealtimeContactAnalysisSegmentsV2Request = S.suspend(() =>
   S.Struct({
@@ -5123,7 +6070,7 @@ export const ListRealtimeContactAnalysisSegmentsV2Request = S.suspend(() =>
     ContactId: S.String.pipe(T.HttpLabel("ContactId")),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-    OutputType: S.String,
+    OutputType: RealTimeContactAnalysisOutputType,
     SegmentTypes: RealTimeContactAnalysisSegmentTypes,
   }).pipe(
     T.all(
@@ -5222,16 +6169,20 @@ export const ListRoutingProfilesRequest = S.suspend(() =>
 }) as any as S.Schema<ListRoutingProfilesRequest>;
 export interface ListRulesRequest {
   InstanceId: string;
-  PublishStatus?: string;
-  EventSourceName?: string;
+  PublishStatus?: RulePublishStatus;
+  EventSourceName?: EventSourceName;
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListRulesRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
-    PublishStatus: S.optional(S.String).pipe(T.HttpQuery("publishStatus")),
-    EventSourceName: S.optional(S.String).pipe(T.HttpQuery("eventSourceName")),
+    PublishStatus: S.optional(RulePublishStatus).pipe(
+      T.HttpQuery("publishStatus"),
+    ),
+    EventSourceName: S.optional(EventSourceName).pipe(
+      T.HttpQuery("eventSourceName"),
+    ),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
@@ -5398,7 +6349,7 @@ export interface ListTaskTemplatesRequest {
   InstanceId: string;
   NextToken?: string;
   MaxResults?: number;
-  Status?: string;
+  Status?: TaskTemplateStatus;
   Name?: string;
 }
 export const ListTaskTemplatesRequest = S.suspend(() =>
@@ -5406,7 +6357,7 @@ export const ListTaskTemplatesRequest = S.suspend(() =>
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    Status: S.optional(S.String).pipe(T.HttpQuery("status")),
+    Status: S.optional(TaskTemplateStatus).pipe(T.HttpQuery("status")),
     Name: S.optional(S.String).pipe(T.HttpQuery("name")),
   }).pipe(
     T.all(
@@ -5581,14 +6532,14 @@ export const ListUsersRequest = S.suspend(() =>
 }) as any as S.Schema<ListUsersRequest>;
 export interface ListViewsRequest {
   InstanceId: string;
-  Type?: string;
+  Type?: ViewType;
   NextToken?: string;
   MaxResults?: number;
 }
 export const ListViewsRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
-    Type: S.optional(S.String).pipe(T.HttpQuery("type")),
+    Type: S.optional(ViewType).pipe(T.HttpQuery("type")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
@@ -5708,7 +6659,7 @@ export interface MonitorContactRequest {
   InstanceId: string;
   ContactId: string;
   UserId: string;
-  AllowedMonitorCapabilities?: AllowedMonitorCapabilities;
+  AllowedMonitorCapabilities?: MonitorCapability[];
   ClientToken?: string;
 }
 export const MonitorContactRequest = S.suspend(() =>
@@ -5816,7 +6767,7 @@ export interface ReplicateInstanceRequest {
   InstanceId: string;
   ReplicaRegion: string;
   ClientToken?: string;
-  ReplicaAlias: string | Redacted.Redacted<string>;
+  ReplicaAlias: string | redacted.Redacted<string>;
 }
 export const ReplicateInstanceRequest = S.suspend(() =>
   S.Struct({
@@ -5868,14 +6819,14 @@ export interface ResumeContactRecordingRequest {
   InstanceId: string;
   ContactId: string;
   InitialContactId: string;
-  ContactRecordingType?: string;
+  ContactRecordingType?: ContactRecordingType;
 }
 export const ResumeContactRecordingRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String,
     ContactId: S.String,
     InitialContactId: S.String,
-    ContactRecordingType: S.optional(S.String),
+    ContactRecordingType: S.optional(ContactRecordingType),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/contact/resume-recording" }),
@@ -5898,8 +6849,8 @@ export const ResumeContactRecordingResponse = S.suspend(() =>
 export interface SearchAvailablePhoneNumbersRequest {
   TargetArn?: string;
   InstanceId?: string;
-  PhoneNumberCountryCode: string;
-  PhoneNumberType: string;
+  PhoneNumberCountryCode: PhoneNumberCountryCode;
+  PhoneNumberType: PhoneNumberType;
   PhoneNumberPrefix?: string;
   MaxResults?: number;
   NextToken?: string;
@@ -5908,8 +6859,8 @@ export const SearchAvailablePhoneNumbersRequest = S.suspend(() =>
   S.Struct({
     TargetArn: S.optional(S.String),
     InstanceId: S.optional(S.String),
-    PhoneNumberCountryCode: S.String,
-    PhoneNumberType: S.String,
+    PhoneNumberCountryCode: PhoneNumberCountryCode,
+    PhoneNumberType: PhoneNumberType,
     PhoneNumberPrefix: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
@@ -5930,18 +6881,18 @@ export interface SearchVocabulariesRequest {
   InstanceId: string;
   MaxResults?: number;
   NextToken?: string;
-  State?: string;
+  State?: VocabularyState;
   NameStartsWith?: string;
-  LanguageCode?: string;
+  LanguageCode?: VocabularyLanguageCode;
 }
 export const SearchVocabulariesRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(VocabularyState),
     NameStartsWith: S.optional(S.String),
-    LanguageCode: S.optional(S.String),
+    LanguageCode: S.optional(VocabularyLanguageCode),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/vocabulary-summary/{InstanceId}" }),
@@ -5959,14 +6910,14 @@ export interface StartContactMediaProcessingRequest {
   InstanceId?: string;
   ContactId?: string;
   ProcessorArn?: string;
-  FailureMode?: string;
+  FailureMode?: ContactMediaProcessingFailureMode;
 }
 export const StartContactMediaProcessingRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.optional(S.String),
     ContactId: S.optional(S.String),
     ProcessorArn: S.optional(S.String),
-    FailureMode: S.optional(S.String),
+    FailureMode: S.optional(ContactMediaProcessingFailureMode),
   }).pipe(
     T.all(
       T.Http({
@@ -5990,8 +6941,8 @@ export const StartContactMediaProcessingResponse = S.suspend(() =>
   identifier: "StartContactMediaProcessingResponse",
 }) as any as S.Schema<StartContactMediaProcessingResponse>;
 export interface EmailAddressInfo {
-  EmailAddress: string | Redacted.Redacted<string>;
-  DisplayName?: string | Redacted.Redacted<string>;
+  EmailAddress: string | redacted.Redacted<string>;
+  DisplayName?: string | redacted.Redacted<string>;
 }
 export const EmailAddressInfo = S.suspend(() =>
   S.Struct({
@@ -6004,17 +6955,19 @@ export const EmailAddressInfo = S.suspend(() =>
 export type EmailAddressRecipientList = EmailAddressInfo[];
 export const EmailAddressRecipientList = S.Array(EmailAddressInfo);
 export interface OutboundAdditionalRecipients {
-  CcEmailAddresses?: EmailAddressRecipientList;
+  CcEmailAddresses?: EmailAddressInfo[];
 }
 export const OutboundAdditionalRecipients = S.suspend(() =>
   S.Struct({ CcEmailAddresses: S.optional(EmailAddressRecipientList) }),
 ).annotations({
   identifier: "OutboundAdditionalRecipients",
 }) as any as S.Schema<OutboundAdditionalRecipients>;
+export type OutboundMessageSourceType = "TEMPLATE" | "RAW";
+export const OutboundMessageSourceType = S.Literal("TEMPLATE", "RAW");
 export type Attributes = { [key: string]: string };
 export const Attributes = S.Record({ key: S.String, value: S.String });
 export interface TemplateAttributes {
-  CustomAttributes?: Attributes;
+  CustomAttributes?: { [key: string]: string };
   CustomerProfileAttributes?: string;
 }
 export const TemplateAttributes = S.suspend(() =>
@@ -6040,8 +6993,8 @@ export const TemplatedMessageConfig = S.suspend(() =>
   identifier: "TemplatedMessageConfig",
 }) as any as S.Schema<TemplatedMessageConfig>;
 export interface OutboundRawMessage {
-  Subject: string | Redacted.Redacted<string>;
-  Body: string | Redacted.Redacted<string>;
+  Subject: string | redacted.Redacted<string>;
+  Body: string | redacted.Redacted<string>;
   ContentType: string;
 }
 export const OutboundRawMessage = S.suspend(() =>
@@ -6054,13 +7007,13 @@ export const OutboundRawMessage = S.suspend(() =>
   identifier: "OutboundRawMessage",
 }) as any as S.Schema<OutboundRawMessage>;
 export interface OutboundEmailContent {
-  MessageSourceType: string;
+  MessageSourceType: OutboundMessageSourceType;
   TemplatedMessageConfig?: TemplatedMessageConfig;
   RawMessage?: OutboundRawMessage;
 }
 export const OutboundEmailContent = S.suspend(() =>
   S.Struct({
-    MessageSourceType: S.String,
+    MessageSourceType: OutboundMessageSourceType,
     TemplatedMessageConfig: S.optional(TemplatedMessageConfig),
     RawMessage: S.optional(OutboundRawMessage),
   }),
@@ -6127,18 +7080,33 @@ export const StartScreenSharingResponse = S.suspend(() =>
 ).annotations({
   identifier: "StartScreenSharingResponse",
 }) as any as S.Schema<StartScreenSharingResponse>;
+export type ReferenceStatus =
+  | "AVAILABLE"
+  | "DELETED"
+  | "APPROVED"
+  | "REJECTED"
+  | "PROCESSING"
+  | "FAILED";
+export const ReferenceStatus = S.Literal(
+  "AVAILABLE",
+  "DELETED",
+  "APPROVED",
+  "REJECTED",
+  "PROCESSING",
+  "FAILED",
+);
 export interface Reference {
   Value?: string;
-  Type: string;
-  Status?: string;
+  Type: ReferenceType;
+  Status?: ReferenceStatus;
   Arn?: string;
   StatusReason?: string;
 }
 export const Reference = S.suspend(() =>
   S.Struct({
     Value: S.optional(S.String),
-    Type: S.String,
-    Status: S.optional(S.String),
+    Type: ReferenceType,
+    Status: S.optional(ReferenceStatus),
     Arn: S.optional(S.String),
     StatusReason: S.optional(S.String),
   }),
@@ -6147,9 +7115,9 @@ export type ContactReferences = { [key: string]: Reference };
 export const ContactReferences = S.Record({ key: S.String, value: Reference });
 export interface SegmentAttributeValue {
   ValueString?: string;
-  ValueMap?: SegmentAttributeValueMap;
+  ValueMap?: { [key: string]: SegmentAttributeValue };
   ValueInteger?: number;
-  ValueList?: SegmentAttributeValueList;
+  ValueList?: SegmentAttributeValue[];
   ValueArn?: string;
 }
 export const SegmentAttributeValue = S.suspend(() =>
@@ -6182,16 +7150,16 @@ export interface StartTaskContactRequest {
   InstanceId: string;
   PreviousContactId?: string;
   ContactFlowId?: string;
-  Attributes?: Attributes;
-  Name: string | Redacted.Redacted<string>;
-  References?: ContactReferences;
-  Description?: string | Redacted.Redacted<string>;
+  Attributes?: { [key: string]: string };
+  Name: string | redacted.Redacted<string>;
+  References?: { [key: string]: Reference };
+  Description?: string | redacted.Redacted<string>;
   ClientToken?: string;
   ScheduledTime?: Date;
   TaskTemplateId?: string;
   QuickConnectId?: string;
   RelatedContactId?: string;
-  SegmentAttributes?: SegmentAttributes;
+  SegmentAttributes?: { [key: string]: SegmentAttributeValue };
 }
 export const StartTaskContactRequest = S.suspend(() =>
   S.Struct({
@@ -6252,14 +7220,14 @@ export interface StopContactRecordingRequest {
   InstanceId: string;
   ContactId: string;
   InitialContactId: string;
-  ContactRecordingType?: string;
+  ContactRecordingType?: ContactRecordingType;
 }
 export const StopContactRecordingRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String,
     ContactId: S.String,
     InitialContactId: S.String,
-    ContactRecordingType: S.optional(S.String),
+    ContactRecordingType: S.optional(ContactRecordingType),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/contact/stop-recording" }),
@@ -6312,14 +7280,14 @@ export interface SuspendContactRecordingRequest {
   InstanceId: string;
   ContactId: string;
   InitialContactId: string;
-  ContactRecordingType?: string;
+  ContactRecordingType?: ContactRecordingType;
 }
 export const SuspendContactRecordingRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String,
     ContactId: S.String,
     InitialContactId: S.String,
-    ContactRecordingType: S.optional(S.String),
+    ContactRecordingType: S.optional(ContactRecordingType),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/contact/suspend-recording" }),
@@ -6341,7 +7309,7 @@ export const SuspendContactRecordingResponse = S.suspend(() =>
 }) as any as S.Schema<SuspendContactRecordingResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -6396,7 +7364,7 @@ export const TransferContactRequest = S.suspend(() =>
 export interface UntagContactRequest {
   ContactId: string;
   InstanceId: string;
-  TagKeys: ContactTagKeys;
+  TagKeys: string[];
 }
 export const UntagContactRequest = S.suspend(() =>
   S.Struct({
@@ -6425,7 +7393,7 @@ export const UntagContactResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagContactResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -6453,7 +7421,7 @@ export interface UpdateAgentStatusRequest {
   AgentStatusId: string;
   Name?: string;
   Description?: string;
-  State?: string;
+  State?: AgentStatusState;
   DisplayOrder?: number;
   ResetOrderNumber?: boolean;
 }
@@ -6463,7 +7431,7 @@ export const UpdateAgentStatusRequest = S.suspend(() =>
     AgentStatusId: S.String.pipe(T.HttpLabel("AgentStatusId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(AgentStatusState),
     DisplayOrder: S.optional(S.Number),
     ResetOrderNumber: S.optional(S.Boolean),
   }).pipe(
@@ -6493,8 +7461,8 @@ export interface UpdateAuthenticationProfileRequest {
   InstanceId: string;
   Name?: string;
   Description?: string;
-  AllowedIps?: IpCidrList;
-  BlockedIps?: IpCidrList;
+  AllowedIps?: string[];
+  BlockedIps?: string[];
   PeriodicSessionDuration?: number;
   SessionInactivityDuration?: number;
   SessionInactivityHandlingEnabled?: boolean;
@@ -6537,7 +7505,7 @@ export const UpdateAuthenticationProfileResponse = S.suspend(() =>
 export interface UpdateContactAttributesRequest {
   InitialContactId: string;
   InstanceId: string;
-  Attributes: Attributes;
+  Attributes: { [key: string]: string };
 }
 export const UpdateContactAttributesRequest = S.suspend(() =>
   S.Struct({
@@ -6568,7 +7536,7 @@ export const EvaluationAnswerDataStringValueList = S.Array(S.String);
 export type EvaluationAnswerData =
   | { StringValue: string }
   | { NumericValue: number }
-  | { StringValues: EvaluationAnswerDataStringValueList }
+  | { StringValues: string[] }
   | { DateTimeValue: string }
   | { NotApplicable: boolean };
 export const EvaluationAnswerData = S.Union(
@@ -6579,7 +7547,7 @@ export const EvaluationAnswerData = S.Union(
   S.Struct({ NotApplicable: S.Boolean }),
 );
 export interface EvaluationAnswerInput {
-  Value?: (typeof EvaluationAnswerData)["Type"];
+  Value?: EvaluationAnswerData;
 }
 export const EvaluationAnswerInput = S.suspend(() =>
   S.Struct({ Value: S.optional(EvaluationAnswerData) }),
@@ -6613,9 +7581,9 @@ export const EvaluatorUserUnion = S.Union(
 export interface UpdateContactEvaluationRequest {
   InstanceId: string;
   EvaluationId: string;
-  Answers?: EvaluationAnswersInputMap;
-  Notes?: EvaluationNotesMap;
-  UpdatedBy?: (typeof EvaluatorUserUnion)["Type"];
+  Answers?: { [key: string]: EvaluationAnswerInput };
+  Notes?: { [key: string]: EvaluationNote };
+  UpdatedBy?: EvaluatorUserUnion;
 }
 export const UpdateContactEvaluationRequest = S.suspend(() =>
   S.Struct({
@@ -6677,7 +7645,7 @@ export interface UpdateContactFlowMetadataRequest {
   ContactFlowId: string;
   Name?: string;
   Description?: string;
-  ContactFlowState?: string;
+  ContactFlowState?: ContactFlowState;
 }
 export const UpdateContactFlowMetadataRequest = S.suspend(() =>
   S.Struct({
@@ -6685,7 +7653,7 @@ export const UpdateContactFlowMetadataRequest = S.suspend(() =>
     ContactFlowId: S.String.pipe(T.HttpLabel("ContactFlowId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    ContactFlowState: S.optional(S.String),
+    ContactFlowState: S.optional(ContactFlowState),
   }).pipe(
     T.all(
       T.Http({
@@ -6785,7 +7753,7 @@ export interface UpdateContactFlowModuleMetadataRequest {
   ContactFlowModuleId: string;
   Name?: string;
   Description?: string;
-  State?: string;
+  State?: ContactFlowModuleState;
 }
 export const UpdateContactFlowModuleMetadataRequest = S.suspend(() =>
   S.Struct({
@@ -6793,7 +7761,7 @@ export const UpdateContactFlowModuleMetadataRequest = S.suspend(() =>
     ContactFlowModuleId: S.String.pipe(T.HttpLabel("ContactFlowModuleId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(ContactFlowModuleState),
   }).pipe(
     T.all(
       T.Http({
@@ -6883,7 +7851,7 @@ export type ValidationEnumValues = string[];
 export const ValidationEnumValues = S.Array(S.String);
 export interface ValidationEnum {
   Strict?: boolean;
-  Values?: ValidationEnumValues;
+  Values?: string[];
 }
 export const ValidationEnum = S.suspend(() =>
   S.Struct({
@@ -6926,7 +7894,7 @@ export interface UpdateDataTableAttributeRequest {
   DataTableId: string;
   AttributeName: string;
   Name: string;
-  ValueType: string;
+  ValueType: DataTableAttributeValueType;
   Description?: string;
   Primary?: boolean;
   Validation?: Validation;
@@ -6937,7 +7905,7 @@ export const UpdateDataTableAttributeRequest = S.suspend(() =>
     DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     AttributeName: S.String.pipe(T.HttpLabel("AttributeName")),
     Name: S.String,
-    ValueType: S.String,
+    ValueType: DataTableAttributeValueType,
     Description: S.optional(S.String),
     Primary: S.optional(S.Boolean),
     Validation: S.optional(Validation),
@@ -6962,7 +7930,7 @@ export interface UpdateDataTableMetadataRequest {
   DataTableId: string;
   Name: string;
   Description?: string;
-  ValueLockLevel: string;
+  ValueLockLevel: DataTableLockLevel;
   TimeZone: string;
 }
 export const UpdateDataTableMetadataRequest = S.suspend(() =>
@@ -6971,7 +7939,7 @@ export const UpdateDataTableMetadataRequest = S.suspend(() =>
     DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     Name: S.String,
     Description: S.optional(S.String),
-    ValueLockLevel: S.String,
+    ValueLockLevel: DataTableLockLevel,
     TimeZone: S.String,
   }).pipe(
     T.all(
@@ -6992,8 +7960,8 @@ export const UpdateDataTableMetadataRequest = S.suspend(() =>
 export interface UpdateEmailAddressMetadataRequest {
   InstanceId: string;
   EmailAddressId: string;
-  Description?: string | Redacted.Redacted<string>;
-  DisplayName?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
+  DisplayName?: string | redacted.Redacted<string>;
   ClientToken?: string;
 }
 export const UpdateEmailAddressMetadataRequest = S.suspend(() =>
@@ -7025,12 +7993,22 @@ export const EvaluationFormItemsList = S.Array(
     identifier: "EvaluationFormItem",
   }),
 ) as any as S.Schema<EvaluationFormItemsList>;
+export type EvaluationFormScoringMode = "QUESTION_ONLY" | "SECTION_ONLY";
+export const EvaluationFormScoringMode = S.Literal(
+  "QUESTION_ONLY",
+  "SECTION_ONLY",
+);
+export type EvaluationFormScoringStatus = "ENABLED" | "DISABLED";
+export const EvaluationFormScoringStatus = S.Literal("ENABLED", "DISABLED");
 export interface EvaluationFormScoringStrategy {
-  Mode: string;
-  Status: string;
+  Mode: EvaluationFormScoringMode;
+  Status: EvaluationFormScoringStatus;
 }
 export const EvaluationFormScoringStrategy = S.suspend(() =>
-  S.Struct({ Mode: S.String, Status: S.String }),
+  S.Struct({
+    Mode: EvaluationFormScoringMode,
+    Status: EvaluationFormScoringStatus,
+  }),
 ).annotations({
   identifier: "EvaluationFormScoringStrategy",
 }) as any as S.Schema<EvaluationFormScoringStrategy>;
@@ -7042,19 +8020,36 @@ export const EvaluationFormAutoEvaluationConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "EvaluationFormAutoEvaluationConfiguration",
 }) as any as S.Schema<EvaluationFormAutoEvaluationConfiguration>;
+export type ContactInteractionType = "AGENT" | "AUTOMATED";
+export const ContactInteractionType = S.Literal("AGENT", "AUTOMATED");
 export interface EvaluationFormTargetConfiguration {
-  ContactInteractionType: string;
+  ContactInteractionType: ContactInteractionType;
 }
 export const EvaluationFormTargetConfiguration = S.suspend(() =>
-  S.Struct({ ContactInteractionType: S.String }),
+  S.Struct({ ContactInteractionType: ContactInteractionType }),
 ).annotations({
   identifier: "EvaluationFormTargetConfiguration",
 }) as any as S.Schema<EvaluationFormTargetConfiguration>;
+export type EvaluationFormLanguageCode =
+  | "de-DE"
+  | "en-US"
+  | "es-ES"
+  | "fr-FR"
+  | "it-IT"
+  | "pt-BR";
+export const EvaluationFormLanguageCode = S.Literal(
+  "de-DE",
+  "en-US",
+  "es-ES",
+  "fr-FR",
+  "it-IT",
+  "pt-BR",
+);
 export interface EvaluationFormLanguageConfiguration {
-  FormLanguage?: string;
+  FormLanguage?: EvaluationFormLanguageCode;
 }
 export const EvaluationFormLanguageConfiguration = S.suspend(() =>
-  S.Struct({ FormLanguage: S.optional(S.String) }),
+  S.Struct({ FormLanguage: S.optional(EvaluationFormLanguageCode) }),
 ).annotations({
   identifier: "EvaluationFormLanguageConfiguration",
 }) as any as S.Schema<EvaluationFormLanguageConfiguration>;
@@ -7065,7 +8060,7 @@ export interface UpdateEvaluationFormRequest {
   CreateNewVersion?: boolean;
   Title: string;
   Description?: string;
-  Items: EvaluationFormItemsList;
+  Items: EvaluationFormItem[];
   ScoringStrategy?: EvaluationFormScoringStrategy;
   AutoEvaluationConfiguration?: EvaluationFormAutoEvaluationConfiguration;
   AsDraft?: boolean;
@@ -7106,6 +8101,23 @@ export const UpdateEvaluationFormRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateEvaluationFormRequest",
 }) as any as S.Schema<UpdateEvaluationFormRequest>;
+export type HoursOfOperationDays =
+  | "SUNDAY"
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY";
+export const HoursOfOperationDays = S.Literal(
+  "SUNDAY",
+  "MONDAY",
+  "TUESDAY",
+  "WEDNESDAY",
+  "THURSDAY",
+  "FRIDAY",
+  "SATURDAY",
+);
 export interface HoursOfOperationTimeSlice {
   Hours: number;
   Minutes: number;
@@ -7116,13 +8128,13 @@ export const HoursOfOperationTimeSlice = S.suspend(() =>
   identifier: "HoursOfOperationTimeSlice",
 }) as any as S.Schema<HoursOfOperationTimeSlice>;
 export interface HoursOfOperationConfig {
-  Day: string;
+  Day: HoursOfOperationDays;
   StartTime: HoursOfOperationTimeSlice;
   EndTime: HoursOfOperationTimeSlice;
 }
 export const HoursOfOperationConfig = S.suspend(() =>
   S.Struct({
-    Day: S.String,
+    Day: HoursOfOperationDays,
     StartTime: HoursOfOperationTimeSlice,
     EndTime: HoursOfOperationTimeSlice,
   }),
@@ -7137,7 +8149,7 @@ export interface UpdateHoursOfOperationRequest {
   Name?: string;
   Description?: string;
   TimeZone?: string;
-  Config?: HoursOfOperationConfigList;
+  Config?: HoursOfOperationConfig[];
 }
 export const UpdateHoursOfOperationRequest = S.suspend(() =>
   S.Struct({
@@ -7169,6 +8181,23 @@ export const UpdateHoursOfOperationResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateHoursOfOperationResponse",
 }) as any as S.Schema<UpdateHoursOfOperationResponse>;
+export type OverrideDays =
+  | "SUNDAY"
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY";
+export const OverrideDays = S.Literal(
+  "SUNDAY",
+  "MONDAY",
+  "TUESDAY",
+  "WEDNESDAY",
+  "THURSDAY",
+  "FRIDAY",
+  "SATURDAY",
+);
 export interface OverrideTimeSlice {
   Hours: number;
   Minutes: number;
@@ -7179,13 +8208,13 @@ export const OverrideTimeSlice = S.suspend(() =>
   identifier: "OverrideTimeSlice",
 }) as any as S.Schema<OverrideTimeSlice>;
 export interface HoursOfOperationOverrideConfig {
-  Day?: string;
+  Day?: OverrideDays;
   StartTime?: OverrideTimeSlice;
   EndTime?: OverrideTimeSlice;
 }
 export const HoursOfOperationOverrideConfig = S.suspend(() =>
   S.Struct({
-    Day: S.optional(S.String),
+    Day: S.optional(OverrideDays),
     StartTime: S.optional(OverrideTimeSlice),
     EndTime: S.optional(OverrideTimeSlice),
   }),
@@ -7203,7 +8232,7 @@ export interface UpdateHoursOfOperationOverrideRequest {
   HoursOfOperationOverrideId: string;
   Name?: string;
   Description?: string;
-  Config?: HoursOfOperationOverrideConfigList;
+  Config?: HoursOfOperationOverrideConfig[];
   EffectiveFrom?: string;
   EffectiveTill?: string;
 }
@@ -7243,14 +8272,14 @@ export const UpdateHoursOfOperationOverrideResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateHoursOfOperationOverrideResponse>;
 export interface UpdateInstanceAttributeRequest {
   InstanceId: string;
-  AttributeType: string;
+  AttributeType: InstanceAttributeType;
   Value: string;
   ClientToken?: string;
 }
 export const UpdateInstanceAttributeRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
-    AttributeType: S.String.pipe(T.HttpLabel("AttributeType")),
+    AttributeType: InstanceAttributeType.pipe(T.HttpLabel("AttributeType")),
     Value: S.String,
     ClientToken: S.optional(S.String),
   }).pipe(
@@ -7275,12 +8304,25 @@ export const UpdateInstanceAttributeResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateInstanceAttributeResponse",
 }) as any as S.Schema<UpdateInstanceAttributeResponse>;
+export type StorageType =
+  | "S3"
+  | "KINESIS_VIDEO_STREAM"
+  | "KINESIS_STREAM"
+  | "KINESIS_FIREHOSE";
+export const StorageType = S.Literal(
+  "S3",
+  "KINESIS_VIDEO_STREAM",
+  "KINESIS_STREAM",
+  "KINESIS_FIREHOSE",
+);
+export type EncryptionType = "KMS";
+export const EncryptionType = S.Literal("KMS");
 export interface EncryptionConfig {
-  EncryptionType: string;
+  EncryptionType: EncryptionType;
   KeyId: string;
 }
 export const EncryptionConfig = S.suspend(() =>
-  S.Struct({ EncryptionType: S.String, KeyId: S.String }),
+  S.Struct({ EncryptionType: EncryptionType, KeyId: S.String }),
 ).annotations({
   identifier: "EncryptionConfig",
 }) as any as S.Schema<EncryptionConfig>;
@@ -7328,7 +8370,7 @@ export const KinesisFirehoseConfig = S.suspend(() =>
 }) as any as S.Schema<KinesisFirehoseConfig>;
 export interface InstanceStorageConfig {
   AssociationId?: string;
-  StorageType: string;
+  StorageType: StorageType;
   S3Config?: S3Config;
   KinesisVideoStreamConfig?: KinesisVideoStreamConfig;
   KinesisStreamConfig?: KinesisStreamConfig;
@@ -7337,7 +8379,7 @@ export interface InstanceStorageConfig {
 export const InstanceStorageConfig = S.suspend(() =>
   S.Struct({
     AssociationId: S.optional(S.String),
-    StorageType: S.String,
+    StorageType: StorageType,
     S3Config: S.optional(S3Config),
     KinesisVideoStreamConfig: S.optional(KinesisVideoStreamConfig),
     KinesisStreamConfig: S.optional(KinesisStreamConfig),
@@ -7349,7 +8391,7 @@ export const InstanceStorageConfig = S.suspend(() =>
 export interface UpdateInstanceStorageConfigRequest {
   InstanceId: string;
   AssociationId: string;
-  ResourceType: string;
+  ResourceType: InstanceStorageResourceType;
   StorageConfig: InstanceStorageConfig;
   ClientToken?: string;
 }
@@ -7357,7 +8399,7 @@ export const UpdateInstanceStorageConfigRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     AssociationId: S.String.pipe(T.HttpLabel("AssociationId")),
-    ResourceType: S.String.pipe(T.HttpQuery("resourceType")),
+    ResourceType: InstanceStorageResourceType.pipe(T.HttpQuery("resourceType")),
     StorageConfig: InstanceStorageConfig,
     ClientToken: S.optional(S.String),
   }).pipe(
@@ -7385,9 +8427,9 @@ export const UpdateInstanceStorageConfigResponse = S.suspend(() =>
 export interface UpdateParticipantAuthenticationRequest {
   State: string;
   InstanceId: string;
-  Code?: string | Redacted.Redacted<string>;
-  Error?: string | Redacted.Redacted<string>;
-  ErrorDescription?: string | Redacted.Redacted<string>;
+  Code?: string | redacted.Redacted<string>;
+  Error?: string | redacted.Redacted<string>;
+  ErrorDescription?: string | redacted.Redacted<string>;
 }
 export const UpdateParticipantAuthenticationRequest = S.suspend(() =>
   S.Struct({
@@ -7474,9 +8516,7 @@ export const UpdatePhoneNumberMetadataResponse = S.suspend(() =>
 }) as any as S.Schema<UpdatePhoneNumberMetadataResponse>;
 export type PredefinedAttributeStringValuesList = string[];
 export const PredefinedAttributeStringValuesList = S.Array(S.String);
-export type PredefinedAttributeValues = {
-  StringList: PredefinedAttributeStringValuesList;
-};
+export type PredefinedAttributeValues = { StringList: string[] };
 export const PredefinedAttributeValues = S.Union(
   S.Struct({ StringList: PredefinedAttributeStringValuesList }),
 );
@@ -7491,8 +8531,8 @@ export const InputPredefinedAttributeConfiguration = S.suspend(() =>
 export interface UpdatePredefinedAttributeRequest {
   InstanceId: string;
   Name: string;
-  Values?: (typeof PredefinedAttributeValues)["Type"];
-  Purposes?: PredefinedAttributePurposeNameList;
+  Values?: PredefinedAttributeValues;
+  Purposes?: string[];
   AttributeConfiguration?: InputPredefinedAttributeConfiguration;
 }
 export const UpdatePredefinedAttributeRequest = S.suspend(() =>
@@ -7735,13 +8775,13 @@ export const UpdateQueueOutboundEmailConfigResponse = S.suspend(() =>
 export interface UpdateQueueStatusRequest {
   InstanceId: string;
   QueueId: string;
-  Status: string;
+  Status: QueueStatus;
 }
 export const UpdateQueueStatusRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     QueueId: S.String.pipe(T.HttpLabel("QueueId")),
-    Status: S.String,
+    Status: QueueStatus,
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/queues/{InstanceId}/{QueueId}/status" }),
@@ -7796,7 +8836,7 @@ export const FlowQuickConnectConfig = S.suspend(() =>
   identifier: "FlowQuickConnectConfig",
 }) as any as S.Schema<FlowQuickConnectConfig>;
 export interface QuickConnectConfig {
-  QuickConnectType: string;
+  QuickConnectType: QuickConnectType;
   UserConfig?: UserQuickConnectConfig;
   QueueConfig?: QueueQuickConnectConfig;
   PhoneConfig?: PhoneNumberQuickConnectConfig;
@@ -7804,7 +8844,7 @@ export interface QuickConnectConfig {
 }
 export const QuickConnectConfig = S.suspend(() =>
   S.Struct({
-    QuickConnectType: S.String,
+    QuickConnectType: QuickConnectType,
     UserConfig: S.optional(UserQuickConnectConfig),
     QueueConfig: S.optional(QueueQuickConnectConfig),
     PhoneConfig: S.optional(PhoneNumberQuickConnectConfig),
@@ -7882,13 +8922,13 @@ export const UpdateQuickConnectNameResponse = S.suspend(() =>
 export interface UpdateRoutingProfileAgentAvailabilityTimerRequest {
   InstanceId: string;
   RoutingProfileId: string;
-  AgentAvailabilityTimer: string;
+  AgentAvailabilityTimer: AgentAvailabilityTimer;
 }
 export const UpdateRoutingProfileAgentAvailabilityTimerRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     RoutingProfileId: S.String.pipe(T.HttpLabel("RoutingProfileId")),
-    AgentAvailabilityTimer: S.String,
+    AgentAvailabilityTimer: AgentAvailabilityTimer,
   }).pipe(
     T.all(
       T.Http({
@@ -7911,22 +8951,27 @@ export const UpdateRoutingProfileAgentAvailabilityTimerResponse = S.suspend(
 ).annotations({
   identifier: "UpdateRoutingProfileAgentAvailabilityTimerResponse",
 }) as any as S.Schema<UpdateRoutingProfileAgentAvailabilityTimerResponse>;
+export type BehaviorType = "ROUTE_CURRENT_CHANNEL_ONLY" | "ROUTE_ANY_CHANNEL";
+export const BehaviorType = S.Literal(
+  "ROUTE_CURRENT_CHANNEL_ONLY",
+  "ROUTE_ANY_CHANNEL",
+);
 export interface CrossChannelBehavior {
-  BehaviorType: string;
+  BehaviorType: BehaviorType;
 }
 export const CrossChannelBehavior = S.suspend(() =>
-  S.Struct({ BehaviorType: S.String }),
+  S.Struct({ BehaviorType: BehaviorType }),
 ).annotations({
   identifier: "CrossChannelBehavior",
 }) as any as S.Schema<CrossChannelBehavior>;
 export interface MediaConcurrency {
-  Channel: string;
+  Channel: Channel;
   Concurrency: number;
   CrossChannelBehavior?: CrossChannelBehavior;
 }
 export const MediaConcurrency = S.suspend(() =>
   S.Struct({
-    Channel: S.String,
+    Channel: Channel,
     Concurrency: S.Number,
     CrossChannelBehavior: S.optional(CrossChannelBehavior),
   }),
@@ -7938,7 +8983,7 @@ export const MediaConcurrencies = S.Array(MediaConcurrency);
 export interface UpdateRoutingProfileConcurrencyRequest {
   InstanceId: string;
   RoutingProfileId: string;
-  MediaConcurrencies: MediaConcurrencies;
+  MediaConcurrencies: MediaConcurrency[];
 }
 export const UpdateRoutingProfileConcurrencyRequest = S.suspend(() =>
   S.Struct({
@@ -8035,10 +9080,10 @@ export const UpdateRoutingProfileNameResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateRoutingProfileNameResponse>;
 export interface RoutingProfileQueueReference {
   QueueId: string;
-  Channel: string;
+  Channel: Channel;
 }
 export const RoutingProfileQueueReference = S.suspend(() =>
-  S.Struct({ QueueId: S.String, Channel: S.String }),
+  S.Struct({ QueueId: S.String, Channel: Channel }),
 ).annotations({
   identifier: "RoutingProfileQueueReference",
 }) as any as S.Schema<RoutingProfileQueueReference>;
@@ -8061,7 +9106,7 @@ export const RoutingProfileQueueConfigList = S.Array(RoutingProfileQueueConfig);
 export interface UpdateRoutingProfileQueuesRequest {
   InstanceId: string;
   RoutingProfileId: string;
-  QueueConfigs: RoutingProfileQueueConfigList;
+  QueueConfigs: RoutingProfileQueueConfig[];
 }
 export const UpdateRoutingProfileQueuesRequest = S.suspend(() =>
   S.Struct({
@@ -8090,11 +9135,32 @@ export const UpdateRoutingProfileQueuesResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateRoutingProfileQueuesResponse",
 }) as any as S.Schema<UpdateRoutingProfileQueuesResponse>;
+export type ActionType =
+  | "CREATE_TASK"
+  | "ASSIGN_CONTACT_CATEGORY"
+  | "GENERATE_EVENTBRIDGE_EVENT"
+  | "SEND_NOTIFICATION"
+  | "CREATE_CASE"
+  | "UPDATE_CASE"
+  | "ASSIGN_SLA"
+  | "END_ASSOCIATED_TASKS"
+  | "SUBMIT_AUTO_EVALUATION";
+export const ActionType = S.Literal(
+  "CREATE_TASK",
+  "ASSIGN_CONTACT_CATEGORY",
+  "GENERATE_EVENTBRIDGE_EVENT",
+  "SEND_NOTIFICATION",
+  "CREATE_CASE",
+  "UPDATE_CASE",
+  "ASSIGN_SLA",
+  "END_ASSOCIATED_TASKS",
+  "SUBMIT_AUTO_EVALUATION",
+);
 export interface TaskActionDefinition {
   Name: string;
   Description?: string;
   ContactFlowId: string;
-  References?: ContactReferences;
+  References?: { [key: string]: Reference };
 }
 export const TaskActionDefinition = S.suspend(() =>
   S.Struct({
@@ -8120,13 +9186,17 @@ export const AssignContactCategoryActionDefinition = S.suspend(() =>
 ).annotations({
   identifier: "AssignContactCategoryActionDefinition",
 }) as any as S.Schema<AssignContactCategoryActionDefinition>;
+export type NotificationDeliveryType = "EMAIL";
+export const NotificationDeliveryType = S.Literal("EMAIL");
+export type NotificationContentType = "PLAIN_TEXT";
+export const NotificationContentType = S.Literal("PLAIN_TEXT");
 export type UserTagMap = { [key: string]: string };
 export const UserTagMap = S.Record({ key: S.String, value: S.String });
 export type UserIdList = string[];
 export const UserIdList = S.Array(S.String);
 export interface NotificationRecipientType {
-  UserTags?: UserTagMap;
-  UserIds?: UserIdList;
+  UserTags?: { [key: string]: string };
+  UserIds?: string[];
 }
 export const NotificationRecipientType = S.suspend(() =>
   S.Struct({
@@ -8137,19 +9207,19 @@ export const NotificationRecipientType = S.suspend(() =>
   identifier: "NotificationRecipientType",
 }) as any as S.Schema<NotificationRecipientType>;
 export interface SendNotificationActionDefinition {
-  DeliveryMethod: string;
+  DeliveryMethod: NotificationDeliveryType;
   Subject?: string;
   Content: string;
-  ContentType: string;
+  ContentType: NotificationContentType;
   Recipient: NotificationRecipientType;
   Exclusion?: NotificationRecipientType;
 }
 export const SendNotificationActionDefinition = S.suspend(() =>
   S.Struct({
-    DeliveryMethod: S.String,
+    DeliveryMethod: NotificationDeliveryType,
     Subject: S.optional(S.String),
     Content: S.String,
-    ContentType: S.String,
+    ContentType: NotificationContentType,
     Recipient: NotificationRecipientType,
     Exclusion: S.optional(NotificationRecipientType),
   }),
@@ -8186,7 +9256,7 @@ export const FieldValue = S.suspend(() =>
 export type FieldValues = FieldValue[];
 export const FieldValues = S.Array(FieldValue);
 export interface CreateCaseActionDefinition {
-  Fields: FieldValues;
+  Fields: FieldValue[];
   TemplateId: string;
 }
 export const CreateCaseActionDefinition = S.suspend(() =>
@@ -8195,26 +9265,30 @@ export const CreateCaseActionDefinition = S.suspend(() =>
   identifier: "CreateCaseActionDefinition",
 }) as any as S.Schema<CreateCaseActionDefinition>;
 export interface UpdateCaseActionDefinition {
-  Fields: FieldValues;
+  Fields: FieldValue[];
 }
 export const UpdateCaseActionDefinition = S.suspend(() =>
   S.Struct({ Fields: FieldValues }),
 ).annotations({
   identifier: "UpdateCaseActionDefinition",
 }) as any as S.Schema<UpdateCaseActionDefinition>;
+export type SlaAssignmentType = "CASES";
+export const SlaAssignmentType = S.Literal("CASES");
+export type SlaType = "CaseField";
+export const SlaType = S.Literal("CaseField");
 export type SlaFieldValueUnionList = FieldValueUnion[];
 export const SlaFieldValueUnionList = S.Array(FieldValueUnion);
 export interface CaseSlaConfiguration {
   Name: string;
-  Type: string;
+  Type: SlaType;
   FieldId?: string;
-  TargetFieldValues?: SlaFieldValueUnionList;
+  TargetFieldValues?: FieldValueUnion[];
   TargetSlaMinutes: number;
 }
 export const CaseSlaConfiguration = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Type: S.String,
+    Type: SlaType,
     FieldId: S.optional(S.String),
     TargetFieldValues: S.optional(SlaFieldValueUnionList),
     TargetSlaMinutes: S.Number,
@@ -8223,12 +9297,12 @@ export const CaseSlaConfiguration = S.suspend(() =>
   identifier: "CaseSlaConfiguration",
 }) as any as S.Schema<CaseSlaConfiguration>;
 export interface AssignSlaActionDefinition {
-  SlaAssignmentType: string;
+  SlaAssignmentType: SlaAssignmentType;
   CaseSlaConfiguration?: CaseSlaConfiguration;
 }
 export const AssignSlaActionDefinition = S.suspend(() =>
   S.Struct({
-    SlaAssignmentType: S.String,
+    SlaAssignmentType: SlaAssignmentType,
     CaseSlaConfiguration: S.optional(CaseSlaConfiguration),
   }),
 ).annotations({
@@ -8249,7 +9323,7 @@ export const SubmitAutoEvaluationActionDefinition = S.suspend(() =>
   identifier: "SubmitAutoEvaluationActionDefinition",
 }) as any as S.Schema<SubmitAutoEvaluationActionDefinition>;
 export interface RuleAction {
-  ActionType: string;
+  ActionType: ActionType;
   TaskAction?: TaskActionDefinition;
   EventBridgeAction?: EventBridgeActionDefinition;
   AssignContactCategoryAction?: AssignContactCategoryActionDefinition;
@@ -8262,7 +9336,7 @@ export interface RuleAction {
 }
 export const RuleAction = S.suspend(() =>
   S.Struct({
-    ActionType: S.String,
+    ActionType: ActionType,
     TaskAction: S.optional(TaskActionDefinition),
     EventBridgeAction: S.optional(EventBridgeActionDefinition),
     AssignContactCategoryAction: S.optional(
@@ -8285,8 +9359,8 @@ export interface UpdateRuleRequest {
   InstanceId: string;
   Name: string;
   Function: string;
-  Actions: RuleActions;
-  PublishStatus: string;
+  Actions: RuleAction[];
+  PublishStatus: RulePublishStatus;
 }
 export const UpdateRuleRequest = S.suspend(() =>
   S.Struct({
@@ -8295,7 +9369,7 @@ export const UpdateRuleRequest = S.suspend(() =>
     Name: S.String,
     Function: S.String,
     Actions: RuleActions,
-    PublishStatus: S.String,
+    PublishStatus: RulePublishStatus,
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/rules/{InstanceId}/{RuleId}" }),
@@ -8320,39 +9394,48 @@ export const AllowedAccessControlTags = S.Record({
 });
 export type ApplicationPermissions = string[];
 export const ApplicationPermissions = S.Array(S.String);
+export type ApplicationType = "MCP" | "THIRD_PARTY_APPLICATION";
+export const ApplicationType = S.Literal("MCP", "THIRD_PARTY_APPLICATION");
 export interface Application {
   Namespace?: string;
-  ApplicationPermissions?: ApplicationPermissions;
-  Type?: string;
+  ApplicationPermissions?: string[];
+  Type?: ApplicationType;
 }
 export const Application = S.suspend(() =>
   S.Struct({
     Namespace: S.optional(S.String),
     ApplicationPermissions: S.optional(ApplicationPermissions),
-    Type: S.optional(S.String),
+    Type: S.optional(ApplicationType),
   }),
 ).annotations({ identifier: "Application" }) as any as S.Schema<Application>;
 export type Applications = Application[];
 export const Applications = S.Array(Application);
+export type FlowModuleType = "MCP";
+export const FlowModuleType = S.Literal("MCP");
 export interface FlowModule {
-  Type?: string;
+  Type?: FlowModuleType;
   FlowModuleId?: string;
 }
 export const FlowModule = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String), FlowModuleId: S.optional(S.String) }),
+  S.Struct({
+    Type: S.optional(FlowModuleType),
+    FlowModuleId: S.optional(S.String),
+  }),
 ).annotations({ identifier: "FlowModule" }) as any as S.Schema<FlowModule>;
 export type AllowedFlowModules = FlowModule[];
 export const AllowedFlowModules = S.Array(FlowModule);
+export type AccessType = "ALLOW";
+export const AccessType = S.Literal("ALLOW");
 export type PrimaryValueList = string[];
 export const PrimaryValueList = S.Array(S.String);
 export interface PrimaryAttributeValue {
-  AccessType?: string;
+  AccessType?: AccessType;
   AttributeName?: string;
-  Values?: PrimaryValueList;
+  Values?: string[];
 }
 export const PrimaryAttributeValue = S.suspend(() =>
   S.Struct({
-    AccessType: S.optional(S.String),
+    AccessType: S.optional(AccessType),
     AttributeName: S.optional(S.String),
     Values: S.optional(PrimaryValueList),
   }),
@@ -8362,7 +9445,7 @@ export const PrimaryAttributeValue = S.suspend(() =>
 export type PrimaryAttributeValuesSet = PrimaryAttributeValue[];
 export const PrimaryAttributeValuesSet = S.Array(PrimaryAttributeValue);
 export interface PrimaryAttributeAccessControlConfigurationItem {
-  PrimaryAttributeValues?: PrimaryAttributeValuesSet;
+  PrimaryAttributeValues?: PrimaryAttributeValue[];
 }
 export const PrimaryAttributeAccessControlConfigurationItem = S.suspend(() =>
   S.Struct({ PrimaryAttributeValues: S.optional(PrimaryAttributeValuesSet) }),
@@ -8395,15 +9478,15 @@ export const GranularAccessControlConfiguration = S.suspend(() =>
 }) as any as S.Schema<GranularAccessControlConfiguration>;
 export interface UpdateSecurityProfileRequest {
   Description?: string;
-  Permissions?: PermissionsList;
+  Permissions?: string[];
   SecurityProfileId: string;
   InstanceId: string;
-  AllowedAccessControlTags?: AllowedAccessControlTags;
-  TagRestrictedResources?: TagRestrictedResourceList;
-  Applications?: Applications;
-  HierarchyRestrictedResources?: HierarchyRestrictedResourceList;
+  AllowedAccessControlTags?: { [key: string]: string };
+  TagRestrictedResources?: string[];
+  Applications?: Application[];
+  HierarchyRestrictedResources?: string[];
   AllowedAccessControlHierarchyGroupId?: string;
-  AllowedFlowModules?: AllowedFlowModules;
+  AllowedFlowModules?: FlowModule[];
   GranularAccessControlConfiguration?: GranularAccessControlConfiguration;
 }
 export const UpdateSecurityProfileRequest = S.suspend(() =>
@@ -8482,9 +9565,9 @@ export const InvisibleFieldInfo = S.suspend(() =>
 export type InvisibleTaskTemplateFields = InvisibleFieldInfo[];
 export const InvisibleTaskTemplateFields = S.Array(InvisibleFieldInfo);
 export interface TaskTemplateConstraints {
-  RequiredFields?: RequiredTaskTemplateFields;
-  ReadOnlyFields?: ReadOnlyTaskTemplateFields;
-  InvisibleFields?: InvisibleTaskTemplateFields;
+  RequiredFields?: RequiredFieldInfo[];
+  ReadOnlyFields?: ReadOnlyFieldInfo[];
+  InvisibleFields?: InvisibleFieldInfo[];
 }
 export const TaskTemplateConstraints = S.suspend(() =>
   S.Struct({
@@ -8512,7 +9595,7 @@ export const TaskTemplateDefaultFieldValueList = S.Array(
   TaskTemplateDefaultFieldValue,
 );
 export interface TaskTemplateDefaults {
-  DefaultFieldValues?: TaskTemplateDefaultFieldValueList;
+  DefaultFieldValues?: TaskTemplateDefaultFieldValue[];
 }
 export const TaskTemplateDefaults = S.suspend(() =>
   S.Struct({
@@ -8521,19 +9604,50 @@ export const TaskTemplateDefaults = S.suspend(() =>
 ).annotations({
   identifier: "TaskTemplateDefaults",
 }) as any as S.Schema<TaskTemplateDefaults>;
+export type TaskTemplateFieldType =
+  | "NAME"
+  | "DESCRIPTION"
+  | "SCHEDULED_TIME"
+  | "QUICK_CONNECT"
+  | "URL"
+  | "NUMBER"
+  | "TEXT"
+  | "TEXT_AREA"
+  | "DATE_TIME"
+  | "BOOLEAN"
+  | "SINGLE_SELECT"
+  | "EMAIL"
+  | "SELF_ASSIGN"
+  | "EXPIRY_DURATION";
+export const TaskTemplateFieldType = S.Literal(
+  "NAME",
+  "DESCRIPTION",
+  "SCHEDULED_TIME",
+  "QUICK_CONNECT",
+  "URL",
+  "NUMBER",
+  "TEXT",
+  "TEXT_AREA",
+  "DATE_TIME",
+  "BOOLEAN",
+  "SINGLE_SELECT",
+  "EMAIL",
+  "SELF_ASSIGN",
+  "EXPIRY_DURATION",
+);
 export type SingleSelectOptions = string[];
 export const SingleSelectOptions = S.Array(S.String);
 export interface TaskTemplateField {
   Id: TaskTemplateFieldIdentifier;
   Description?: string;
-  Type?: string;
-  SingleSelectOptions?: SingleSelectOptions;
+  Type?: TaskTemplateFieldType;
+  SingleSelectOptions?: string[];
 }
 export const TaskTemplateField = S.suspend(() =>
   S.Struct({
     Id: TaskTemplateFieldIdentifier,
     Description: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(TaskTemplateFieldType),
     SingleSelectOptions: S.optional(SingleSelectOptions),
   }),
 ).annotations({
@@ -8550,8 +9664,8 @@ export interface UpdateTaskTemplateRequest {
   SelfAssignFlowId?: string;
   Constraints?: TaskTemplateConstraints;
   Defaults?: TaskTemplateDefaults;
-  Status?: string;
-  Fields?: TaskTemplateFields;
+  Status?: TaskTemplateStatus;
+  Fields?: TaskTemplateField[];
 }
 export const UpdateTaskTemplateRequest = S.suspend(() =>
   S.Struct({
@@ -8563,7 +9677,7 @@ export const UpdateTaskTemplateRequest = S.suspend(() =>
     SelfAssignFlowId: S.optional(S.String),
     Constraints: S.optional(TaskTemplateConstraints),
     Defaults: S.optional(TaskTemplateDefaults),
-    Status: S.optional(S.String),
+    Status: S.optional(TaskTemplateStatus),
     Fields: S.optional(TaskTemplateFields),
   }).pipe(
     T.all(
@@ -8643,10 +9757,10 @@ export const UpdateUserHierarchyGroupNameResponse = S.suspend(() =>
   identifier: "UpdateUserHierarchyGroupNameResponse",
 }) as any as S.Schema<UpdateUserHierarchyGroupNameResponse>;
 export interface UserIdentityInfo {
-  FirstName?: string | Redacted.Redacted<string>;
-  LastName?: string | Redacted.Redacted<string>;
-  Email?: string | Redacted.Redacted<string>;
-  SecondaryEmail?: string | Redacted.Redacted<string>;
+  FirstName?: string | redacted.Redacted<string>;
+  LastName?: string | redacted.Redacted<string>;
+  Email?: string | redacted.Redacted<string>;
+  SecondaryEmail?: string | redacted.Redacted<string>;
   Mobile?: string;
 }
 export const UserIdentityInfo = S.suspend(() =>
@@ -8692,8 +9806,10 @@ export const UpdateUserIdentityInfoResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateUserIdentityInfoResponse",
 }) as any as S.Schema<UpdateUserIdentityInfoResponse>;
+export type PhoneType = "SOFT_PHONE" | "DESK_PHONE";
+export const PhoneType = S.Literal("SOFT_PHONE", "DESK_PHONE");
 export interface UserPhoneConfig {
-  PhoneType: string;
+  PhoneType: PhoneType;
   AutoAccept?: boolean;
   AfterContactWorkTimeLimit?: number;
   DeskPhoneNumber?: string;
@@ -8701,7 +9817,7 @@ export interface UserPhoneConfig {
 }
 export const UserPhoneConfig = S.suspend(() =>
   S.Struct({
-    PhoneType: S.String,
+    PhoneType: PhoneType,
     AutoAccept: S.optional(S.Boolean),
     AfterContactWorkTimeLimit: S.optional(S.Number),
     DeskPhoneNumber: S.optional(S.String),
@@ -8761,7 +9877,7 @@ export const UserProficiencyList = S.Array(UserProficiency);
 export interface UpdateUserProficienciesRequest {
   InstanceId: string;
   UserId: string;
-  UserProficiencies: UserProficiencyList;
+  UserProficiencies: UserProficiency[];
 }
 export const UpdateUserProficienciesRequest = S.suspend(() =>
   S.Struct({
@@ -8823,7 +9939,7 @@ export const UpdateUserRoutingProfileResponse = S.suspend(() =>
   identifier: "UpdateUserRoutingProfileResponse",
 }) as any as S.Schema<UpdateUserRoutingProfileResponse>;
 export interface UpdateUserSecurityProfilesRequest {
-  SecurityProfileIds: SecurityProfileIds;
+  SecurityProfileIds: string[];
   UserId: string;
   InstanceId: string;
 }
@@ -8854,11 +9970,11 @@ export const UpdateUserSecurityProfilesResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateUserSecurityProfilesResponse",
 }) as any as S.Schema<UpdateUserSecurityProfilesResponse>;
-export type ViewActions = string | Redacted.Redacted<string>[];
+export type ViewActions = string | redacted.Redacted<string>[];
 export const ViewActions = S.Array(SensitiveString);
 export interface ViewInputContent {
   Template?: string;
-  Actions?: ViewActions;
+  Actions?: string | redacted.Redacted<string>[];
 }
 export const ViewInputContent = S.suspend(() =>
   S.Struct({
@@ -8871,14 +9987,14 @@ export const ViewInputContent = S.suspend(() =>
 export interface UpdateViewContentRequest {
   InstanceId: string;
   ViewId: string;
-  Status: string;
+  Status: ViewStatus;
   Content: ViewInputContent;
 }
 export const UpdateViewContentRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ViewId: S.String.pipe(T.HttpLabel("ViewId")),
-    Status: S.String,
+    Status: ViewStatus,
     Content: ViewInputContent,
   }).pipe(
     T.all(
@@ -8896,7 +10012,7 @@ export const UpdateViewContentRequest = S.suspend(() =>
 export interface UpdateViewMetadataRequest {
   InstanceId: string;
   ViewId: string;
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
   Description?: string;
 }
 export const UpdateViewMetadataRequest = S.suspend(() =>
@@ -9097,11 +10213,26 @@ export const WorkspaceThemeImages = S.suspend(() =>
 ).annotations({
   identifier: "WorkspaceThemeImages",
 }) as any as S.Schema<WorkspaceThemeImages>;
+export type WorkspaceFontFamily =
+  | "Arial"
+  | "Courier New"
+  | "Georgia"
+  | "Times New Roman"
+  | "Trebuchet"
+  | "Verdana";
+export const WorkspaceFontFamily = S.Literal(
+  "Arial",
+  "Courier New",
+  "Georgia",
+  "Times New Roman",
+  "Trebuchet",
+  "Verdana",
+);
 export interface FontFamily {
-  Default?: string;
+  Default?: WorkspaceFontFamily;
 }
 export const FontFamily = S.suspend(() =>
-  S.Struct({ Default: S.optional(S.String) }),
+  S.Struct({ Default: S.optional(WorkspaceFontFamily) }),
 ).annotations({ identifier: "FontFamily" }) as any as S.Schema<FontFamily>;
 export interface WorkspaceThemeTypography {
   FontFamily?: FontFamily;
@@ -9172,13 +10303,13 @@ export const UpdateWorkspaceThemeResponse = S.suspend(() =>
 export interface UpdateWorkspaceVisibilityRequest {
   InstanceId: string;
   WorkspaceId: string;
-  Visibility: string;
+  Visibility: Visibility;
 }
 export const UpdateWorkspaceVisibilityRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
-    Visibility: S.String,
+    Visibility: Visibility,
   }).pipe(
     T.all(
       T.Http({
@@ -9201,12 +10332,27 @@ export const UpdateWorkspaceVisibilityResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateWorkspaceVisibilityResponse",
 }) as any as S.Schema<UpdateWorkspaceVisibilityResponse>;
+export type ParticipantRole =
+  | "AGENT"
+  | "CUSTOMER"
+  | "SYSTEM"
+  | "CUSTOM_BOT"
+  | "SUPERVISOR";
+export const ParticipantRole = S.Literal(
+  "AGENT",
+  "CUSTOMER",
+  "SYSTEM",
+  "CUSTOM_BOT",
+  "SUPERVISOR",
+);
 export type AttributeNameList = string[];
 export const AttributeNameList = S.Array(S.String);
+export type ContactMetricName = "POSITION_IN_QUEUE";
+export const ContactMetricName = S.Literal("POSITION_IN_QUEUE");
 export type Queues = string[];
 export const Queues = S.Array(S.String);
-export type Channels = string[];
-export const Channels = S.Array(S.String);
+export type Channels = Channel[];
+export const Channels = S.Array(Channel);
 export type RoutingProfiles = string[];
 export const RoutingProfiles = S.Array(S.String);
 export type RoutingExpressions = string[];
@@ -9217,10 +10363,113 @@ export type Subtypes = string[];
 export const Subtypes = S.Array(S.String);
 export type ValidationTestTypes = string[];
 export const ValidationTestTypes = S.Array(S.String);
+export type CurrentMetricName =
+  | "AGENTS_ONLINE"
+  | "AGENTS_AVAILABLE"
+  | "AGENTS_ON_CALL"
+  | "AGENTS_NON_PRODUCTIVE"
+  | "AGENTS_AFTER_CONTACT_WORK"
+  | "AGENTS_ERROR"
+  | "AGENTS_STAFFED"
+  | "CONTACTS_IN_QUEUE"
+  | "OLDEST_CONTACT_AGE"
+  | "CONTACTS_SCHEDULED"
+  | "AGENTS_ON_CONTACT"
+  | "SLOTS_ACTIVE"
+  | "SLOTS_AVAILABLE";
+export const CurrentMetricName = S.Literal(
+  "AGENTS_ONLINE",
+  "AGENTS_AVAILABLE",
+  "AGENTS_ON_CALL",
+  "AGENTS_NON_PRODUCTIVE",
+  "AGENTS_AFTER_CONTACT_WORK",
+  "AGENTS_ERROR",
+  "AGENTS_STAFFED",
+  "CONTACTS_IN_QUEUE",
+  "OLDEST_CONTACT_AGE",
+  "CONTACTS_SCHEDULED",
+  "AGENTS_ON_CONTACT",
+  "SLOTS_ACTIVE",
+  "SLOTS_AVAILABLE",
+);
+export type Unit = "SECONDS" | "COUNT" | "PERCENT";
+export const Unit = S.Literal("SECONDS", "COUNT", "PERCENT");
+export type SortOrder = "ASCENDING" | "DESCENDING";
+export const SortOrder = S.Literal("ASCENDING", "DESCENDING");
 export type AgentsMinOneMaxHundred = string[];
 export const AgentsMinOneMaxHundred = S.Array(S.String);
 export type UserDataHierarchyGroups = string[];
 export const UserDataHierarchyGroups = S.Array(S.String);
+export type HistoricalMetricName =
+  | "CONTACTS_QUEUED"
+  | "CONTACTS_HANDLED"
+  | "CONTACTS_ABANDONED"
+  | "CONTACTS_CONSULTED"
+  | "CONTACTS_AGENT_HUNG_UP_FIRST"
+  | "CONTACTS_HANDLED_INCOMING"
+  | "CONTACTS_HANDLED_OUTBOUND"
+  | "CONTACTS_HOLD_ABANDONS"
+  | "CONTACTS_TRANSFERRED_IN"
+  | "CONTACTS_TRANSFERRED_OUT"
+  | "CONTACTS_TRANSFERRED_IN_FROM_QUEUE"
+  | "CONTACTS_TRANSFERRED_OUT_FROM_QUEUE"
+  | "CONTACTS_MISSED"
+  | "CALLBACK_CONTACTS_HANDLED"
+  | "API_CONTACTS_HANDLED"
+  | "OCCUPANCY"
+  | "HANDLE_TIME"
+  | "AFTER_CONTACT_WORK_TIME"
+  | "QUEUED_TIME"
+  | "ABANDON_TIME"
+  | "QUEUE_ANSWER_TIME"
+  | "HOLD_TIME"
+  | "INTERACTION_TIME"
+  | "INTERACTION_AND_HOLD_TIME"
+  | "SERVICE_LEVEL";
+export const HistoricalMetricName = S.Literal(
+  "CONTACTS_QUEUED",
+  "CONTACTS_HANDLED",
+  "CONTACTS_ABANDONED",
+  "CONTACTS_CONSULTED",
+  "CONTACTS_AGENT_HUNG_UP_FIRST",
+  "CONTACTS_HANDLED_INCOMING",
+  "CONTACTS_HANDLED_OUTBOUND",
+  "CONTACTS_HOLD_ABANDONS",
+  "CONTACTS_TRANSFERRED_IN",
+  "CONTACTS_TRANSFERRED_OUT",
+  "CONTACTS_TRANSFERRED_IN_FROM_QUEUE",
+  "CONTACTS_TRANSFERRED_OUT_FROM_QUEUE",
+  "CONTACTS_MISSED",
+  "CALLBACK_CONTACTS_HANDLED",
+  "API_CONTACTS_HANDLED",
+  "OCCUPANCY",
+  "HANDLE_TIME",
+  "AFTER_CONTACT_WORK_TIME",
+  "QUEUED_TIME",
+  "ABANDON_TIME",
+  "QUEUE_ANSWER_TIME",
+  "HOLD_TIME",
+  "INTERACTION_TIME",
+  "INTERACTION_AND_HOLD_TIME",
+  "SERVICE_LEVEL",
+);
+export type Statistic = "SUM" | "MAX" | "AVG";
+export const Statistic = S.Literal("SUM", "MAX", "AVG");
+export type IntervalPeriod =
+  | "FIFTEEN_MIN"
+  | "THIRTY_MIN"
+  | "HOUR"
+  | "DAY"
+  | "WEEK"
+  | "TOTAL";
+export const IntervalPeriod = S.Literal(
+  "FIFTEEN_MIN",
+  "THIRTY_MIN",
+  "HOUR",
+  "DAY",
+  "WEEK",
+  "TOTAL",
+);
 export type FilterValueList = string[];
 export const FilterValueList = S.Array(S.String);
 export type AgentStatusSearchConditionList = AgentStatusSearchCriteria[];
@@ -9243,22 +10492,54 @@ export const ContactFlowModuleSearchConditionList = S.Array(
       ContactFlowModuleSearchCriteria,
   ).annotations({ identifier: "ContactFlowModuleSearchCriteria" }),
 ) as any as S.Schema<ContactFlowModuleSearchConditionList>;
+export type ContactFlowModuleStatus = "PUBLISHED" | "SAVED";
+export const ContactFlowModuleStatus = S.Literal("PUBLISHED", "SAVED");
 export type ContactFlowSearchConditionList = ContactFlowSearchCriteria[];
 export const ContactFlowSearchConditionList = S.Array(
   S.suspend(
     (): S.Schema<ContactFlowSearchCriteria, any> => ContactFlowSearchCriteria,
   ).annotations({ identifier: "ContactFlowSearchCriteria" }),
 ) as any as S.Schema<ContactFlowSearchConditionList>;
+export type SearchContactsTimeRangeType =
+  | "INITIATION_TIMESTAMP"
+  | "SCHEDULED_TIMESTAMP"
+  | "CONNECTED_TO_AGENT_TIMESTAMP"
+  | "DISCONNECT_TIMESTAMP"
+  | "ENQUEUE_TIMESTAMP";
+export const SearchContactsTimeRangeType = S.Literal(
+  "INITIATION_TIMESTAMP",
+  "SCHEDULED_TIMESTAMP",
+  "CONNECTED_TO_AGENT_TIMESTAMP",
+  "DISCONNECT_TIMESTAMP",
+  "ENQUEUE_TIMESTAMP",
+);
 export type AgentResourceIdList = string[];
 export const AgentResourceIdList = S.Array(S.String);
-export type ChannelList = string[];
-export const ChannelList = S.Array(S.String);
-export type InitiationMethodList = string[];
-export const InitiationMethodList = S.Array(S.String);
+export type ChannelList = Channel[];
+export const ChannelList = S.Array(Channel);
+export type InitiationMethodList = ContactInitiationMethod[];
+export const InitiationMethodList = S.Array(ContactInitiationMethod);
 export type QueueIdList = string[];
 export const QueueIdList = S.Array(S.String);
 export type ActiveRegionList = string[];
 export const ActiveRegionList = S.Array(S.String);
+export type SortableFieldName =
+  | "INITIATION_TIMESTAMP"
+  | "SCHEDULED_TIMESTAMP"
+  | "CONNECTED_TO_AGENT_TIMESTAMP"
+  | "DISCONNECT_TIMESTAMP"
+  | "INITIATION_METHOD"
+  | "CHANNEL"
+  | "EXPIRY_TIMESTAMP";
+export const SortableFieldName = S.Literal(
+  "INITIATION_TIMESTAMP",
+  "SCHEDULED_TIMESTAMP",
+  "CONNECTED_TO_AGENT_TIMESTAMP",
+  "DISCONNECT_TIMESTAMP",
+  "INITIATION_METHOD",
+  "CHANNEL",
+  "EXPIRY_TIMESTAMP",
+);
 export type DataTableSearchConditionList = DataTableSearchCriteria[];
 export const DataTableSearchConditionList = S.Array(
   S.suspend(
@@ -9314,6 +10595,8 @@ export const QueueSearchConditionList = S.Array(
     (): S.Schema<QueueSearchCriteria, any> => QueueSearchCriteria,
   ).annotations({ identifier: "QueueSearchCriteria" }),
 ) as any as S.Schema<QueueSearchConditionList>;
+export type SearchableQueueType = "STANDARD";
+export const SearchableQueueType = S.Literal("STANDARD");
 export type QuickConnectSearchConditionList = QuickConnectSearchCriteria[];
 export const QuickConnectSearchConditionList = S.Array(
   S.suspend(
@@ -9369,6 +10652,31 @@ export const WorkspaceSearchConditionList = S.Array(
     (): S.Schema<WorkspaceSearchCriteria, any> => WorkspaceSearchCriteria,
   ).annotations({ identifier: "WorkspaceSearchCriteria" }),
 ) as any as S.Schema<WorkspaceSearchConditionList>;
+export type ChatEventType = "DISCONNECT" | "MESSAGE" | "EVENT";
+export const ChatEventType = S.Literal("DISCONNECT", "MESSAGE", "EVENT");
+export type ResponseMode = "INCREMENTAL" | "COMPLETE";
+export const ResponseMode = S.Literal("INCREMENTAL", "COMPLETE");
+export type VoiceRecordingTrack = "FROM_AGENT" | "TO_AGENT" | "ALL";
+export const VoiceRecordingTrack = S.Literal("FROM_AGENT", "TO_AGENT", "ALL");
+export type IvrRecordingTrack = "ALL";
+export const IvrRecordingTrack = S.Literal("ALL");
+export type InboundMessageSourceType = "RAW";
+export const InboundMessageSourceType = S.Literal("RAW");
+export type EndpointType =
+  | "TELEPHONE_NUMBER"
+  | "VOIP"
+  | "CONTACT_FLOW"
+  | "CONNECT_PHONENUMBER_ARN"
+  | "EMAIL_ADDRESS";
+export const EndpointType = S.Literal(
+  "TELEPHONE_NUMBER",
+  "VOIP",
+  "CONTACT_FLOW",
+  "CONNECT_PHONENUMBER_ARN",
+  "EMAIL_ADDRESS",
+);
+export type OutboundStrategyType = "AGENT_FIRST";
+export const OutboundStrategyType = S.Literal("AGENT_FIRST");
 export interface RoutingProfileManualAssignmentQueueConfig {
   QueueReference: RoutingProfileQueueReference;
 }
@@ -9383,7 +10691,7 @@ export const RoutingProfileManualAssignmentQueueConfigList = S.Array(
   RoutingProfileManualAssignmentQueueConfig,
 );
 export interface DataTableDeleteValueIdentifier {
-  PrimaryValues?: PrimaryValuesSet;
+  PrimaryValues?: PrimaryValue[];
   AttributeName: string;
   LockVersion: DataTableLockVersion;
 }
@@ -9402,7 +10710,7 @@ export const DataTableDeleteValueIdentifierList = S.Array(
   DataTableDeleteValueIdentifier,
 );
 export interface DataTableValueIdentifier {
-  PrimaryValues?: PrimaryValuesSet;
+  PrimaryValues?: PrimaryValue[];
   AttributeName: string;
 }
 export const DataTableValueIdentifier = S.suspend(() =>
@@ -9431,25 +10739,25 @@ export const ExternalInvocationConfiguration = S.suspend(() =>
 }) as any as S.Schema<ExternalInvocationConfiguration>;
 export interface ContactConfiguration {
   ContactId: string;
-  ParticipantRole?: string;
+  ParticipantRole?: ParticipantRole;
   IncludeRawMessage?: boolean;
 }
 export const ContactConfiguration = S.suspend(() =>
   S.Struct({
     ContactId: S.String,
-    ParticipantRole: S.optional(S.String),
+    ParticipantRole: S.optional(ParticipantRole),
     IncludeRawMessage: S.optional(S.Boolean),
   }),
 ).annotations({
   identifier: "ContactConfiguration",
 }) as any as S.Schema<ContactConfiguration>;
 export interface RuleTriggerEventSource {
-  EventSourceName: string;
+  EventSourceName: EventSourceName;
   IntegrationAssociationId?: string;
 }
 export const RuleTriggerEventSource = S.suspend(() =>
   S.Struct({
-    EventSourceName: S.String,
+    EventSourceName: EventSourceName,
     IntegrationAssociationId: S.optional(S.String),
   }),
 ).annotations({
@@ -9475,8 +10783,8 @@ export const UserProficiencyDisassociateList = S.Array(
   UserProficiencyDisassociate,
 );
 export interface DataTableValueEvaluationSet {
-  PrimaryValues?: PrimaryValuesSet;
-  AttributeNames: AttributeNameList;
+  PrimaryValues?: PrimaryValue[];
+  AttributeNames: string[];
 }
 export const DataTableValueEvaluationSet = S.suspend(() =>
   S.Struct({
@@ -9490,24 +10798,31 @@ export type DataTableValueEvaluationSetList = DataTableValueEvaluationSet[];
 export const DataTableValueEvaluationSetList = S.Array(
   DataTableValueEvaluationSet,
 );
+export type FileStatusType = "APPROVED" | "REJECTED" | "PROCESSING" | "FAILED";
+export const FileStatusType = S.Literal(
+  "APPROVED",
+  "REJECTED",
+  "PROCESSING",
+  "FAILED",
+);
 export interface ContactMetricInfo {
-  Name: string;
+  Name: ContactMetricName;
 }
 export const ContactMetricInfo = S.suspend(() =>
-  S.Struct({ Name: S.String }),
+  S.Struct({ Name: ContactMetricName }),
 ).annotations({
   identifier: "ContactMetricInfo",
 }) as any as S.Schema<ContactMetricInfo>;
 export type ContactMetrics = ContactMetricInfo[];
 export const ContactMetrics = S.Array(ContactMetricInfo);
 export interface Filters {
-  Queues?: Queues;
-  Channels?: Channels;
-  RoutingProfiles?: RoutingProfiles;
-  RoutingStepExpressions?: RoutingExpressions;
-  AgentStatuses?: AgentStatuses;
-  Subtypes?: Subtypes;
-  ValidationTestTypes?: ValidationTestTypes;
+  Queues?: string[];
+  Channels?: Channel[];
+  RoutingProfiles?: string[];
+  RoutingStepExpressions?: string[];
+  AgentStatuses?: string[];
+  Subtypes?: string[];
+  ValidationTestTypes?: string[];
 }
 export const Filters = S.suspend(() =>
   S.Struct({
@@ -9521,15 +10836,15 @@ export const Filters = S.suspend(() =>
   }),
 ).annotations({ identifier: "Filters" }) as any as S.Schema<Filters>;
 export interface CurrentMetric {
-  Name?: string;
+  Name?: CurrentMetricName;
   MetricId?: string;
-  Unit?: string;
+  Unit?: Unit;
 }
 export const CurrentMetric = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String),
+    Name: S.optional(CurrentMetricName),
     MetricId: S.optional(S.String),
-    Unit: S.optional(S.String),
+    Unit: S.optional(Unit),
   }),
 ).annotations({
   identifier: "CurrentMetric",
@@ -9537,13 +10852,13 @@ export const CurrentMetric = S.suspend(() =>
 export type CurrentMetrics = CurrentMetric[];
 export const CurrentMetrics = S.Array(CurrentMetric);
 export interface CurrentMetricSortCriteria {
-  SortByMetric?: string;
-  SortOrder?: string;
+  SortByMetric?: CurrentMetricName;
+  SortOrder?: SortOrder;
 }
 export const CurrentMetricSortCriteria = S.suspend(() =>
   S.Struct({
-    SortByMetric: S.optional(S.String),
-    SortOrder: S.optional(S.String),
+    SortByMetric: S.optional(CurrentMetricName),
+    SortOrder: S.optional(SortOrder),
   }),
 ).annotations({
   identifier: "CurrentMetricSortCriteria",
@@ -9554,12 +10869,12 @@ export const CurrentMetricSortCriteriaMaxOne = S.Array(
 );
 export interface IntervalDetails {
   TimeZone?: string;
-  IntervalPeriod?: string;
+  IntervalPeriod?: IntervalPeriod;
 }
 export const IntervalDetails = S.suspend(() =>
   S.Struct({
     TimeZone: S.optional(S.String),
-    IntervalPeriod: S.optional(S.String),
+    IntervalPeriod: S.optional(IntervalPeriod),
   }),
 ).annotations({
   identifier: "IntervalDetails",
@@ -9569,7 +10884,7 @@ export const OriginsList = S.Array(S.String);
 export interface DataTableAttribute {
   AttributeId?: string;
   Name: string;
-  ValueType: string;
+  ValueType: DataTableAttributeValueType;
   Description?: string;
   DataTableId?: string;
   DataTableArn?: string;
@@ -9584,7 +10899,7 @@ export const DataTableAttribute = S.suspend(() =>
   S.Struct({
     AttributeId: S.optional(S.String),
     Name: S.String,
-    ValueType: S.String,
+    ValueType: DataTableAttributeValueType,
     Description: S.optional(S.String),
     DataTableId: S.optional(S.String),
     DataTableArn: S.optional(S.String),
@@ -9610,7 +10925,7 @@ export interface HoursOfOperationOverride {
   HoursOfOperationArn?: string;
   Name?: string;
   Description?: string;
-  Config?: HoursOfOperationOverrideConfigList;
+  Config?: HoursOfOperationOverrideConfig[];
   EffectiveFrom?: string;
   EffectiveTill?: string;
 }
@@ -9631,12 +10946,12 @@ export const HoursOfOperationOverride = S.suspend(() =>
 export type HoursOfOperationOverrideList = HoursOfOperationOverride[];
 export const HoursOfOperationOverrideList = S.Array(HoursOfOperationOverride);
 export interface Attribute {
-  AttributeType?: string;
+  AttributeType?: InstanceAttributeType;
   Value?: string;
 }
 export const Attribute = S.suspend(() =>
   S.Struct({
-    AttributeType: S.optional(S.String),
+    AttributeType: S.optional(InstanceAttributeType),
     Value: S.optional(S.String),
   }),
 ).annotations({ identifier: "Attribute" }) as any as S.Schema<Attribute>;
@@ -9648,6 +10963,20 @@ export type FunctionArnsList = string[];
 export const FunctionArnsList = S.Array(S.String);
 export type LexBotsList = LexBot[];
 export const LexBotsList = S.Array(LexBot);
+export type RealTimeContactAnalysisSupportedChannel = "VOICE" | "CHAT";
+export const RealTimeContactAnalysisSupportedChannel = S.Literal(
+  "VOICE",
+  "CHAT",
+);
+export type RealTimeContactAnalysisStatus =
+  | "IN_PROGRESS"
+  | "FAILED"
+  | "COMPLETED";
+export const RealTimeContactAnalysisStatus = S.Literal(
+  "IN_PROGRESS",
+  "FAILED",
+  "COMPLETED",
+);
 export interface TagCondition {
   TagKey?: string;
   TagValue?: string;
@@ -9658,7 +10987,7 @@ export const TagCondition = S.suspend(() =>
 export type TagAndConditionList = TagCondition[];
 export const TagAndConditionList = S.Array(TagCondition);
 export interface CommonAttributeAndCondition {
-  TagConditions?: TagAndConditionList;
+  TagConditions?: TagCondition[];
 }
 export const CommonAttributeAndCondition = S.suspend(() =>
   S.Struct({ TagConditions: S.optional(TagAndConditionList) }),
@@ -9670,7 +10999,7 @@ export const CommonAttributeOrConditionList = S.Array(
   CommonAttributeAndCondition,
 );
 export interface ControlPlaneAttributeFilter {
-  OrConditions?: CommonAttributeOrConditionList;
+  OrConditions?: CommonAttributeAndCondition[];
   AndCondition?: CommonAttributeAndCondition;
   TagCondition?: TagCondition;
 }
@@ -9691,26 +11020,32 @@ export const EvaluationSearchFilter = S.suspend(() =>
 ).annotations({
   identifier: "EvaluationSearchFilter",
 }) as any as S.Schema<EvaluationSearchFilter>;
+export type StringComparisonType = "STARTS_WITH" | "CONTAINS" | "EXACT";
+export const StringComparisonType = S.Literal(
+  "STARTS_WITH",
+  "CONTAINS",
+  "EXACT",
+);
 export interface StringCondition {
   FieldName?: string;
   Value?: string;
-  ComparisonType?: string;
+  ComparisonType?: StringComparisonType;
 }
 export const StringCondition = S.suspend(() =>
   S.Struct({
     FieldName: S.optional(S.String),
     Value: S.optional(S.String),
-    ComparisonType: S.optional(S.String),
+    ComparisonType: S.optional(StringComparisonType),
   }),
 ).annotations({
   identifier: "StringCondition",
 }) as any as S.Schema<StringCondition>;
 export interface ContactFlowModuleSearchCriteria {
-  OrConditions?: ContactFlowModuleSearchConditionList;
-  AndConditions?: ContactFlowModuleSearchConditionList;
+  OrConditions?: ContactFlowModuleSearchCriteria[];
+  AndConditions?: ContactFlowModuleSearchCriteria[];
   StringCondition?: StringCondition;
-  StateCondition?: string;
-  StatusCondition?: string;
+  StateCondition?: ContactFlowModuleState;
+  StatusCondition?: ContactFlowModuleStatus;
 }
 export const ContactFlowModuleSearchCriteria = S.suspend(() =>
   S.Struct({
@@ -9725,19 +11060,19 @@ export const ContactFlowModuleSearchCriteria = S.suspend(() =>
       }),
     ),
     StringCondition: S.optional(StringCondition),
-    StateCondition: S.optional(S.String),
-    StatusCondition: S.optional(S.String),
+    StateCondition: S.optional(ContactFlowModuleState),
+    StatusCondition: S.optional(ContactFlowModuleStatus),
   }),
 ).annotations({
   identifier: "ContactFlowModuleSearchCriteria",
 }) as any as S.Schema<ContactFlowModuleSearchCriteria>;
 export interface ContactFlowSearchCriteria {
-  OrConditions?: ContactFlowSearchConditionList;
-  AndConditions?: ContactFlowSearchConditionList;
+  OrConditions?: ContactFlowSearchCriteria[];
+  AndConditions?: ContactFlowSearchCriteria[];
   StringCondition?: StringCondition;
-  TypeCondition?: string;
-  StateCondition?: string;
-  StatusCondition?: string;
+  TypeCondition?: ContactFlowType;
+  StateCondition?: ContactFlowState;
+  StatusCondition?: ContactFlowStatus;
 }
 export const ContactFlowSearchCriteria = S.suspend(() =>
   S.Struct({
@@ -9752,21 +11087,21 @@ export const ContactFlowSearchCriteria = S.suspend(() =>
       }),
     ),
     StringCondition: S.optional(StringCondition),
-    TypeCondition: S.optional(S.String),
-    StateCondition: S.optional(S.String),
-    StatusCondition: S.optional(S.String),
+    TypeCondition: S.optional(ContactFlowType),
+    StateCondition: S.optional(ContactFlowState),
+    StatusCondition: S.optional(ContactFlowStatus),
   }),
 ).annotations({
   identifier: "ContactFlowSearchCriteria",
 }) as any as S.Schema<ContactFlowSearchCriteria>;
 export interface SearchContactsTimeRange {
-  Type: string;
+  Type: SearchContactsTimeRangeType;
   StartTime: Date;
   EndTime: Date;
 }
 export const SearchContactsTimeRange = S.suspend(() =>
   S.Struct({
-    Type: S.String,
+    Type: SearchContactsTimeRangeType,
     StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
@@ -9774,11 +11109,11 @@ export const SearchContactsTimeRange = S.suspend(() =>
   identifier: "SearchContactsTimeRange",
 }) as any as S.Schema<SearchContactsTimeRange>;
 export interface Sort {
-  FieldName: string;
-  Order: string;
+  FieldName: SortableFieldName;
+  Order: SortOrder;
 }
 export const Sort = S.suspend(() =>
-  S.Struct({ FieldName: S.String, Order: S.String }),
+  S.Struct({ FieldName: SortableFieldName, Order: SortOrder }),
 ).annotations({ identifier: "Sort" }) as any as S.Schema<Sort>;
 export interface DataTableSearchFilter {
   AttributeFilter?: ControlPlaneAttributeFilter;
@@ -9789,8 +11124,8 @@ export const DataTableSearchFilter = S.suspend(() =>
   identifier: "DataTableSearchFilter",
 }) as any as S.Schema<DataTableSearchFilter>;
 export interface DataTableSearchCriteria {
-  OrConditions?: DataTableSearchConditionList;
-  AndConditions?: DataTableSearchConditionList;
+  OrConditions?: DataTableSearchCriteria[];
+  AndConditions?: DataTableSearchCriteria[];
   StringCondition?: StringCondition;
 }
 export const DataTableSearchCriteria = S.suspend(() =>
@@ -9811,8 +11146,8 @@ export const DataTableSearchCriteria = S.suspend(() =>
   identifier: "DataTableSearchCriteria",
 }) as any as S.Schema<DataTableSearchCriteria>;
 export interface EmailAddressSearchCriteria {
-  OrConditions?: EmailAddressSearchConditionList;
-  AndConditions?: EmailAddressSearchConditionList;
+  OrConditions?: EmailAddressSearchCriteria[];
+  AndConditions?: EmailAddressSearchCriteria[];
   StringCondition?: StringCondition;
 }
 export const EmailAddressSearchCriteria = S.suspend(() =>
@@ -9832,11 +11167,11 @@ export const EmailAddressSearchCriteria = S.suspend(() =>
 ).annotations({
   identifier: "EmailAddressSearchCriteria",
 }) as any as S.Schema<EmailAddressSearchCriteria>;
-export type TagOrConditionList = TagAndConditionList[];
+export type TagOrConditionList = TagCondition[][];
 export const TagOrConditionList = S.Array(TagAndConditionList);
 export interface ControlPlaneTagFilter {
-  OrConditions?: TagOrConditionList;
-  AndConditions?: TagAndConditionList;
+  OrConditions?: TagCondition[][];
+  AndConditions?: TagCondition[];
   TagCondition?: TagCondition;
 }
 export const ControlPlaneTagFilter = S.suspend(() =>
@@ -9856,53 +11191,87 @@ export const EmailAddressSearchFilter = S.suspend(() =>
 ).annotations({
   identifier: "EmailAddressSearchFilter",
 }) as any as S.Schema<EmailAddressSearchFilter>;
+export type NumberComparisonType =
+  | "GREATER_OR_EQUAL"
+  | "GREATER"
+  | "LESSER_OR_EQUAL"
+  | "LESSER"
+  | "EQUAL"
+  | "NOT_EQUAL"
+  | "RANGE";
+export const NumberComparisonType = S.Literal(
+  "GREATER_OR_EQUAL",
+  "GREATER",
+  "LESSER_OR_EQUAL",
+  "LESSER",
+  "EQUAL",
+  "NOT_EQUAL",
+  "RANGE",
+);
 export interface NumberCondition {
   FieldName?: string;
   MinValue?: number;
   MaxValue?: number;
-  ComparisonType?: string;
+  ComparisonType?: NumberComparisonType;
 }
 export const NumberCondition = S.suspend(() =>
   S.Struct({
     FieldName: S.optional(S.String),
     MinValue: S.optional(S.Number),
     MaxValue: S.optional(S.Number),
-    ComparisonType: S.optional(S.String),
+    ComparisonType: S.optional(NumberComparisonType),
   }),
 ).annotations({
   identifier: "NumberCondition",
 }) as any as S.Schema<NumberCondition>;
+export type BooleanComparisonType = "IS_TRUE" | "IS_FALSE";
+export const BooleanComparisonType = S.Literal("IS_TRUE", "IS_FALSE");
 export interface BooleanCondition {
   FieldName?: string;
-  ComparisonType?: string;
+  ComparisonType?: BooleanComparisonType;
 }
 export const BooleanCondition = S.suspend(() =>
   S.Struct({
     FieldName: S.optional(S.String),
-    ComparisonType: S.optional(S.String),
+    ComparisonType: S.optional(BooleanComparisonType),
   }),
 ).annotations({
   identifier: "BooleanCondition",
 }) as any as S.Schema<BooleanCondition>;
+export type DateTimeComparisonType =
+  | "GREATER_THAN"
+  | "LESS_THAN"
+  | "GREATER_THAN_OR_EQUAL_TO"
+  | "LESS_THAN_OR_EQUAL_TO"
+  | "EQUAL_TO"
+  | "RANGE";
+export const DateTimeComparisonType = S.Literal(
+  "GREATER_THAN",
+  "LESS_THAN",
+  "GREATER_THAN_OR_EQUAL_TO",
+  "LESS_THAN_OR_EQUAL_TO",
+  "EQUAL_TO",
+  "RANGE",
+);
 export interface DateTimeCondition {
   FieldName?: string;
   MinValue?: string;
   MaxValue?: string;
-  ComparisonType?: string;
+  ComparisonType?: DateTimeComparisonType;
 }
 export const DateTimeCondition = S.suspend(() =>
   S.Struct({
     FieldName: S.optional(S.String),
     MinValue: S.optional(S.String),
     MaxValue: S.optional(S.String),
-    ComparisonType: S.optional(S.String),
+    ComparisonType: S.optional(DateTimeComparisonType),
   }),
 ).annotations({
   identifier: "DateTimeCondition",
 }) as any as S.Schema<DateTimeCondition>;
 export interface EvaluationFormSearchCriteria {
-  OrConditions?: EvaluationFormSearchConditionList;
-  AndConditions?: EvaluationFormSearchConditionList;
+  OrConditions?: EvaluationFormSearchCriteria[];
+  AndConditions?: EvaluationFormSearchCriteria[];
   StringCondition?: StringCondition;
   NumberCondition?: NumberCondition;
   BooleanCondition?: BooleanCondition;
@@ -9945,8 +11314,8 @@ export const HoursOfOperationSearchFilter = S.suspend(() =>
   identifier: "HoursOfOperationSearchFilter",
 }) as any as S.Schema<HoursOfOperationSearchFilter>;
 export interface HoursOfOperationSearchCriteria {
-  OrConditions?: HoursOfOperationSearchConditionList;
-  AndConditions?: HoursOfOperationSearchConditionList;
+  OrConditions?: HoursOfOperationSearchCriteria[];
+  AndConditions?: HoursOfOperationSearchCriteria[];
   StringCondition?: StringCondition;
 }
 export const HoursOfOperationSearchCriteria = S.suspend(() =>
@@ -9967,8 +11336,8 @@ export const HoursOfOperationSearchCriteria = S.suspend(() =>
   identifier: "HoursOfOperationSearchCriteria",
 }) as any as S.Schema<HoursOfOperationSearchCriteria>;
 export interface PredefinedAttributeSearchCriteria {
-  OrConditions?: PredefinedAttributeSearchConditionList;
-  AndConditions?: PredefinedAttributeSearchConditionList;
+  OrConditions?: PredefinedAttributeSearchCriteria[];
+  AndConditions?: PredefinedAttributeSearchCriteria[];
   StringCondition?: StringCondition;
 }
 export const PredefinedAttributeSearchCriteria = S.suspend(() =>
@@ -9997,8 +11366,8 @@ export const PromptSearchFilter = S.suspend(() =>
   identifier: "PromptSearchFilter",
 }) as any as S.Schema<PromptSearchFilter>;
 export interface PromptSearchCriteria {
-  OrConditions?: PromptSearchConditionList;
-  AndConditions?: PromptSearchConditionList;
+  OrConditions?: PromptSearchCriteria[];
+  AndConditions?: PromptSearchCriteria[];
   StringCondition?: StringCondition;
 }
 export const PromptSearchCriteria = S.suspend(() =>
@@ -10027,10 +11396,10 @@ export const QueueSearchFilter = S.suspend(() =>
   identifier: "QueueSearchFilter",
 }) as any as S.Schema<QueueSearchFilter>;
 export interface QueueSearchCriteria {
-  OrConditions?: QueueSearchConditionList;
-  AndConditions?: QueueSearchConditionList;
+  OrConditions?: QueueSearchCriteria[];
+  AndConditions?: QueueSearchCriteria[];
   StringCondition?: StringCondition;
-  QueueTypeCondition?: string;
+  QueueTypeCondition?: SearchableQueueType;
 }
 export const QueueSearchCriteria = S.suspend(() =>
   S.Struct({
@@ -10045,7 +11414,7 @@ export const QueueSearchCriteria = S.suspend(() =>
       }),
     ),
     StringCondition: S.optional(StringCondition),
-    QueueTypeCondition: S.optional(S.String),
+    QueueTypeCondition: S.optional(SearchableQueueType),
   }),
 ).annotations({
   identifier: "QueueSearchCriteria",
@@ -10059,8 +11428,8 @@ export const QuickConnectSearchFilter = S.suspend(() =>
   identifier: "QuickConnectSearchFilter",
 }) as any as S.Schema<QuickConnectSearchFilter>;
 export interface QuickConnectSearchCriteria {
-  OrConditions?: QuickConnectSearchConditionList;
-  AndConditions?: QuickConnectSearchConditionList;
+  OrConditions?: QuickConnectSearchCriteria[];
+  AndConditions?: QuickConnectSearchCriteria[];
   StringCondition?: StringCondition;
 }
 export const QuickConnectSearchCriteria = S.suspend(() =>
@@ -10089,8 +11458,8 @@ export const RoutingProfileSearchFilter = S.suspend(() =>
   identifier: "RoutingProfileSearchFilter",
 }) as any as S.Schema<RoutingProfileSearchFilter>;
 export interface RoutingProfileSearchCriteria {
-  OrConditions?: RoutingProfileSearchConditionList;
-  AndConditions?: RoutingProfileSearchConditionList;
+  OrConditions?: RoutingProfileSearchCriteria[];
+  AndConditions?: RoutingProfileSearchCriteria[];
   StringCondition?: StringCondition;
 }
 export const RoutingProfileSearchCriteria = S.suspend(() =>
@@ -10111,8 +11480,8 @@ export const RoutingProfileSearchCriteria = S.suspend(() =>
   identifier: "RoutingProfileSearchCriteria",
 }) as any as S.Schema<RoutingProfileSearchCriteria>;
 export interface SecurityProfileSearchCriteria {
-  OrConditions?: SecurityProfileSearchConditionList;
-  AndConditions?: SecurityProfileSearchConditionList;
+  OrConditions?: SecurityProfileSearchCriteria[];
+  AndConditions?: SecurityProfileSearchCriteria[];
   StringCondition?: StringCondition;
 }
 export const SecurityProfileSearchCriteria = S.suspend(() =>
@@ -10149,8 +11518,8 @@ export const UserHierarchyGroupSearchFilter = S.suspend(() =>
   identifier: "UserHierarchyGroupSearchFilter",
 }) as any as S.Schema<UserHierarchyGroupSearchFilter>;
 export interface UserHierarchyGroupSearchCriteria {
-  OrConditions?: UserHierarchyGroupSearchConditionList;
-  AndConditions?: UserHierarchyGroupSearchConditionList;
+  OrConditions?: UserHierarchyGroupSearchCriteria[];
+  AndConditions?: UserHierarchyGroupSearchCriteria[];
   StringCondition?: StringCondition;
 }
 export const UserHierarchyGroupSearchCriteria = S.suspend(() =>
@@ -10179,11 +11548,11 @@ export const ViewSearchFilter = S.suspend(() =>
   identifier: "ViewSearchFilter",
 }) as any as S.Schema<ViewSearchFilter>;
 export interface ViewSearchCriteria {
-  OrConditions?: ViewSearchConditionList;
-  AndConditions?: ViewSearchConditionList;
+  OrConditions?: ViewSearchCriteria[];
+  AndConditions?: ViewSearchCriteria[];
   StringCondition?: StringCondition;
-  ViewTypeCondition?: string;
-  ViewStatusCondition?: string;
+  ViewTypeCondition?: ViewType;
+  ViewStatusCondition?: ViewStatus;
 }
 export const ViewSearchCriteria = S.suspend(() =>
   S.Struct({
@@ -10198,8 +11567,8 @@ export const ViewSearchCriteria = S.suspend(() =>
       }),
     ),
     StringCondition: S.optional(StringCondition),
-    ViewTypeCondition: S.optional(S.String),
-    ViewStatusCondition: S.optional(S.String),
+    ViewTypeCondition: S.optional(ViewType),
+    ViewStatusCondition: S.optional(ViewStatus),
   }),
 ).annotations({
   identifier: "ViewSearchCriteria",
@@ -10213,8 +11582,8 @@ export const WorkspaceAssociationSearchFilter = S.suspend(() =>
   identifier: "WorkspaceAssociationSearchFilter",
 }) as any as S.Schema<WorkspaceAssociationSearchFilter>;
 export interface WorkspaceAssociationSearchCriteria {
-  OrConditions?: WorkspaceAssociationSearchConditionList;
-  AndConditions?: WorkspaceAssociationSearchConditionList;
+  OrConditions?: WorkspaceAssociationSearchCriteria[];
+  AndConditions?: WorkspaceAssociationSearchCriteria[];
   StringCondition?: StringCondition;
 }
 export const WorkspaceAssociationSearchCriteria = S.suspend(() =>
@@ -10243,8 +11612,8 @@ export const WorkspaceSearchFilter = S.suspend(() =>
   identifier: "WorkspaceSearchFilter",
 }) as any as S.Schema<WorkspaceSearchFilter>;
 export interface WorkspaceSearchCriteria {
-  OrConditions?: WorkspaceSearchConditionList;
-  AndConditions?: WorkspaceSearchConditionList;
+  OrConditions?: WorkspaceSearchCriteria[];
+  AndConditions?: WorkspaceSearchCriteria[];
   StringCondition?: StringCondition;
 }
 export const WorkspaceSearchCriteria = S.suspend(() =>
@@ -10265,13 +11634,13 @@ export const WorkspaceSearchCriteria = S.suspend(() =>
   identifier: "WorkspaceSearchCriteria",
 }) as any as S.Schema<WorkspaceSearchCriteria>;
 export interface ChatEvent {
-  Type: string;
+  Type: ChatEventType;
   ContentType?: string;
   Content?: string;
 }
 export const ChatEvent = S.suspend(() =>
   S.Struct({
-    Type: S.String,
+    Type: ChatEventType,
     ContentType: S.optional(S.String),
     Content: S.optional(S.String),
   }),
@@ -10293,9 +11662,9 @@ export const ChatStreamingConfiguration = S.suspend(() =>
   identifier: "ChatStreamingConfiguration",
 }) as any as S.Schema<ChatStreamingConfiguration>;
 export interface NewSessionDetails {
-  SupportedMessagingContentTypes?: SupportedMessagingContentTypes;
+  SupportedMessagingContentTypes?: string[];
   ParticipantDetails?: ParticipantDetails;
-  Attributes?: Attributes;
+  Attributes?: { [key: string]: string };
   StreamingConfiguration?: ChatStreamingConfiguration;
 }
 export const NewSessionDetails = S.suspend(() =>
@@ -10328,10 +11697,10 @@ export const CreatedByInfo = S.Union(
   S.Struct({ AWSIdentityArn: S.String }),
 );
 export interface ParticipantConfiguration {
-  ResponseMode?: string;
+  ResponseMode?: ResponseMode;
 }
 export const ParticipantConfiguration = S.suspend(() =>
-  S.Struct({ ResponseMode: S.optional(S.String) }),
+  S.Struct({ ResponseMode: S.optional(ResponseMode) }),
 ).annotations({
   identifier: "ParticipantConfiguration",
 }) as any as S.Schema<ParticipantConfiguration>;
@@ -10343,12 +11712,12 @@ export const ChatMessage = S.suspend(() =>
   S.Struct({ ContentType: S.String, Content: S.String }),
 ).annotations({ identifier: "ChatMessage" }) as any as S.Schema<ChatMessage>;
 export interface PersistentChat {
-  RehydrationType?: string;
+  RehydrationType?: RehydrationType;
   SourceContactId?: string;
 }
 export const PersistentChat = S.suspend(() =>
   S.Struct({
-    RehydrationType: S.optional(S.String),
+    RehydrationType: S.optional(RehydrationType),
     SourceContactId: S.optional(S.String),
   }),
 ).annotations({
@@ -10363,20 +11732,20 @@ export const AutoEvaluationConfiguration = S.suspend(() =>
   identifier: "AutoEvaluationConfiguration",
 }) as any as S.Schema<AutoEvaluationConfiguration>;
 export interface VoiceRecordingConfiguration {
-  VoiceRecordingTrack?: string;
-  IvrRecordingTrack?: string;
+  VoiceRecordingTrack?: VoiceRecordingTrack;
+  IvrRecordingTrack?: IvrRecordingTrack;
 }
 export const VoiceRecordingConfiguration = S.suspend(() =>
   S.Struct({
-    VoiceRecordingTrack: S.optional(S.String),
-    IvrRecordingTrack: S.optional(S.String),
+    VoiceRecordingTrack: S.optional(VoiceRecordingTrack),
+    IvrRecordingTrack: S.optional(IvrRecordingTrack),
   }),
 ).annotations({
   identifier: "VoiceRecordingConfiguration",
 }) as any as S.Schema<VoiceRecordingConfiguration>;
 export interface InboundAdditionalRecipients {
-  ToAddresses?: EmailAddressRecipientList;
-  CcAddresses?: EmailAddressRecipientList;
+  ToAddresses?: EmailAddressInfo[];
+  CcAddresses?: EmailAddressInfo[];
 }
 export const InboundAdditionalRecipients = S.suspend(() =>
   S.Struct({
@@ -10398,11 +11767,11 @@ export const EmailAttachment = S.suspend(() =>
 export type EmailAttachments = EmailAttachment[];
 export const EmailAttachments = S.Array(EmailAttachment);
 export interface Endpoint {
-  Type?: string;
+  Type?: EndpointType;
   Address?: string;
 }
 export const Endpoint = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String), Address: S.optional(S.String) }),
+  S.Struct({ Type: S.optional(EndpointType), Address: S.optional(S.String) }),
 ).annotations({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
 export interface AnswerMachineDetectionConfig {
   EnableAnswerMachineDetection?: boolean;
@@ -10416,12 +11785,19 @@ export const AnswerMachineDetectionConfig = S.suspend(() =>
 ).annotations({
   identifier: "AnswerMachineDetectionConfig",
 }) as any as S.Schema<AnswerMachineDetectionConfig>;
+export type VideoCapability = "SEND";
+export const VideoCapability = S.Literal("SEND");
+export type ScreenShareCapability = "SEND";
+export const ScreenShareCapability = S.Literal("SEND");
 export interface ParticipantCapabilities {
-  Video?: string;
-  ScreenShare?: string;
+  Video?: VideoCapability;
+  ScreenShare?: ScreenShareCapability;
 }
 export const ParticipantCapabilities = S.suspend(() =>
-  S.Struct({ Video: S.optional(S.String), ScreenShare: S.optional(S.String) }),
+  S.Struct({
+    Video: S.optional(VideoCapability),
+    ScreenShare: S.optional(ScreenShareCapability),
+  }),
 ).annotations({
   identifier: "ParticipantCapabilities",
 }) as any as S.Schema<ParticipantCapabilities>;
@@ -10465,7 +11841,7 @@ export const Distribution = S.suspend(() =>
 export type DistributionList = Distribution[];
 export const DistributionList = S.Array(Distribution);
 export interface AgentConfig {
-  Distributions: DistributionList;
+  Distributions: Distribution[];
 }
 export const AgentConfig = S.suspend(() =>
   S.Struct({ Distributions: DistributionList }),
@@ -10476,14 +11852,98 @@ export const SegmentAttributeValueList = S.Array(
     (): S.Schema<SegmentAttributeValue, any> => SegmentAttributeValue,
   ).annotations({ identifier: "SegmentAttributeValue" }),
 ) as any as S.Schema<SegmentAttributeValueList>;
-export type ContactStates = string[];
-export const ContactStates = S.Array(S.String);
+export type EvaluationFormQuestionType =
+  | "TEXT"
+  | "SINGLESELECT"
+  | "NUMERIC"
+  | "MULTISELECT"
+  | "DATETIME";
+export const EvaluationFormQuestionType = S.Literal(
+  "TEXT",
+  "SINGLESELECT",
+  "NUMERIC",
+  "MULTISELECT",
+  "DATETIME",
+);
+export type ContactState =
+  | "INCOMING"
+  | "PENDING"
+  | "CONNECTING"
+  | "CONNECTED"
+  | "CONNECTED_ONHOLD"
+  | "MISSED"
+  | "ERROR"
+  | "ENDED"
+  | "REJECTED";
+export const ContactState = S.Literal(
+  "INCOMING",
+  "PENDING",
+  "CONNECTING",
+  "CONNECTED",
+  "CONNECTED_ONHOLD",
+  "MISSED",
+  "ERROR",
+  "ENDED",
+  "REJECTED",
+);
+export type ContactStates = ContactState[];
+export const ContactStates = S.Array(ContactState);
+export type Comparison = "LT";
+export const Comparison = S.Literal("LT");
+export type FilterV2StringConditionComparisonOperator = "NOT_EXISTS";
+export const FilterV2StringConditionComparisonOperator =
+  S.Literal("NOT_EXISTS");
 export type MetricFilterValueList = string[];
 export const MetricFilterValueList = S.Array(S.String);
-export type SearchTextList = string | Redacted.Redacted<string>[];
+export type DecimalComparisonType =
+  | "GREATER_OR_EQUAL"
+  | "GREATER"
+  | "LESSER_OR_EQUAL"
+  | "LESSER"
+  | "EQUAL"
+  | "NOT_EQUAL"
+  | "RANGE";
+export const DecimalComparisonType = S.Literal(
+  "GREATER_OR_EQUAL",
+  "GREATER",
+  "LESSER_OR_EQUAL",
+  "LESSER",
+  "EQUAL",
+  "NOT_EQUAL",
+  "RANGE",
+);
+export type SearchTextList = string | redacted.Redacted<string>[];
 export const SearchTextList = S.Array(SensitiveString);
+export type SearchContactsMatchType =
+  | "MATCH_ALL"
+  | "MATCH_ANY"
+  | "MATCH_EXACT"
+  | "MATCH_NONE";
+export const SearchContactsMatchType = S.Literal(
+  "MATCH_ALL",
+  "MATCH_ANY",
+  "MATCH_EXACT",
+  "MATCH_NONE",
+);
 export type HierarchyGroupIdList = string[];
 export const HierarchyGroupIdList = S.Array(S.String);
+export type DateComparisonType =
+  | "GREATER_THAN"
+  | "LESS_THAN"
+  | "GREATER_THAN_OR_EQUAL_TO"
+  | "LESS_THAN_OR_EQUAL_TO"
+  | "EQUAL_TO";
+export const DateComparisonType = S.Literal(
+  "GREATER_THAN",
+  "LESS_THAN",
+  "GREATER_THAN_OR_EQUAL_TO",
+  "LESS_THAN_OR_EQUAL_TO",
+  "EQUAL_TO",
+);
+export type TargetListType = "PROFICIENCIES";
+export const TargetListType = S.Literal("PROFICIENCIES");
+export type HierarchyGroupMatchType = "EXACT" | "WITH_CHILD_GROUPS";
+export const HierarchyGroupMatchType = S.Literal("EXACT", "WITH_CHILD_GROUPS");
 export interface ActivateEvaluationFormResponse {
   EvaluationFormId: string;
   EvaluationFormArn: string;
@@ -10580,8 +12040,8 @@ export const AssociateEmailAddressAliasResponse = S.suspend(() =>
 export interface AssociateRoutingProfileQueuesRequest {
   InstanceId: string;
   RoutingProfileId: string;
-  QueueConfigs?: RoutingProfileQueueConfigList;
-  ManualAssignmentQueueConfigs?: RoutingProfileManualAssignmentQueueConfigList;
+  QueueConfigs?: RoutingProfileQueueConfig[];
+  ManualAssignmentQueueConfigs?: RoutingProfileManualAssignmentQueueConfig[];
 }
 export const AssociateRoutingProfileQueuesRequest = S.suspend(() =>
   S.Struct({
@@ -10623,15 +12083,15 @@ export const AssociateSecurityKeyResponse = S.suspend(() =>
 }) as any as S.Schema<AssociateSecurityKeyResponse>;
 export interface AssociateSecurityProfilesRequest {
   InstanceId: string;
-  SecurityProfiles: SecurityProfiles;
-  EntityType: string;
+  SecurityProfiles: SecurityProfileItem[];
+  EntityType: EntityType;
   EntityArn: string;
 }
 export const AssociateSecurityProfilesRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     SecurityProfiles: SecurityProfiles,
-    EntityType: S.String,
+    EntityType: EntityType,
     EntityArn: S.String,
   }).pipe(
     T.all(
@@ -10658,7 +12118,7 @@ export const AssociateSecurityProfilesResponse = S.suspend(() =>
 export interface AssociateUserProficienciesRequest {
   InstanceId: string;
   UserId: string;
-  UserProficiencies: UserProficiencyList;
+  UserProficiencies: UserProficiency[];
 }
 export const AssociateUserProficienciesRequest = S.suspend(() =>
   S.Struct({
@@ -10690,7 +12150,7 @@ export const AssociateUserProficienciesResponse = S.suspend(() =>
 export interface BatchCreateDataTableValueRequest {
   InstanceId: string;
   DataTableId: string;
-  Values: DataTableValueList;
+  Values: DataTableValue[];
 }
 export const BatchCreateDataTableValueRequest = S.suspend(() =>
   S.Struct({
@@ -10716,7 +12176,7 @@ export const BatchCreateDataTableValueRequest = S.suspend(() =>
 export interface BatchDeleteDataTableValueRequest {
   InstanceId: string;
   DataTableId: string;
-  Values: DataTableDeleteValueIdentifierList;
+  Values: DataTableDeleteValueIdentifier[];
 }
 export const BatchDeleteDataTableValueRequest = S.suspend(() =>
   S.Struct({
@@ -10742,7 +12202,7 @@ export const BatchDeleteDataTableValueRequest = S.suspend(() =>
 export interface BatchDescribeDataTableValueRequest {
   InstanceId: string;
   DataTableId: string;
-  Values: DataTableValueIdentifierList;
+  Values: DataTableValueIdentifier[];
 }
 export const BatchDescribeDataTableValueRequest = S.suspend(() =>
   S.Struct({
@@ -10778,8 +12238,8 @@ export const ErrorResult = S.suspend(() =>
 export type ErrorResults = ErrorResult[];
 export const ErrorResults = S.Array(ErrorResult);
 export interface BatchDisassociateAnalyticsDataSetResponse {
-  Deleted?: DataSetIds;
-  Errors?: ErrorResults;
+  Deleted?: string[];
+  Errors?: ErrorResult[];
 }
 export const BatchDisassociateAnalyticsDataSetResponse = S.suspend(() =>
   S.Struct({
@@ -10794,7 +12254,7 @@ export interface ClaimPhoneNumberRequest {
   InstanceId?: string;
   PhoneNumber: string;
   PhoneNumberDescription?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   ClientToken?: string;
 }
 export const ClaimPhoneNumberRequest = S.suspend(() =>
@@ -10849,7 +12309,7 @@ export interface CreateContactFlowModuleRequest {
   Name: string;
   Description?: string;
   Content: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   ClientToken?: string;
   Settings?: string;
   ExternalInvocationConfiguration?: ExternalInvocationConfiguration;
@@ -10969,8 +12429,8 @@ export const CreatePersistentContactAssociationResponse = S.suspend(() =>
 export interface CreatePredefinedAttributeRequest {
   InstanceId: string;
   Name: string;
-  Values?: (typeof PredefinedAttributeValues)["Type"];
-  Purposes?: PredefinedAttributePurposeNameList;
+  Values?: PredefinedAttributeValues;
+  Purposes?: string[];
   AttributeConfiguration?: InputPredefinedAttributeConfiguration;
 }
 export const CreatePredefinedAttributeRequest = S.suspend(() =>
@@ -11013,7 +12473,7 @@ export interface CreatePushNotificationRegistrationRequest {
   ClientToken?: string;
   PinpointAppArn: string;
   DeviceToken: string;
-  DeviceType: string;
+  DeviceType: DeviceType;
   ContactConfiguration: ContactConfiguration;
 }
 export const CreatePushNotificationRegistrationRequest = S.suspend(() =>
@@ -11022,7 +12482,7 @@ export const CreatePushNotificationRegistrationRequest = S.suspend(() =>
     ClientToken: S.optional(S.String),
     PinpointAppArn: S.String,
     DeviceToken: S.String,
-    DeviceType: S.String,
+    DeviceType: DeviceType,
     ContactConfiguration: ContactConfiguration,
   }).pipe(
     T.all(
@@ -11048,8 +12508,8 @@ export interface CreateQueueRequest {
   OutboundEmailConfig?: OutboundEmailConfig;
   HoursOfOperationId: string;
   MaxContacts?: number;
-  QuickConnectIds?: QuickConnectsList;
-  Tags?: TagMap;
+  QuickConnectIds?: string[];
+  Tags?: { [key: string]: string };
 }
 export const CreateQueueRequest = S.suspend(() =>
   S.Struct({
@@ -11098,15 +12558,15 @@ export const CreateUseCaseResponse = S.suspend(() =>
 }) as any as S.Schema<CreateUseCaseResponse>;
 export interface CreateUserRequest {
   Username: string;
-  Password?: string | Redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
   IdentityInfo?: UserIdentityInfo;
   PhoneConfig: UserPhoneConfig;
   DirectoryUserId?: string;
-  SecurityProfileIds: SecurityProfileIds;
+  SecurityProfileIds: string[];
   RoutingProfileId: string;
   HierarchyGroupId?: string;
   InstanceId: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateUserRequest = S.suspend(() =>
   S.Struct({
@@ -11148,17 +12608,17 @@ export const CreateUserHierarchyGroupResponse = S.suspend(() =>
 export interface CreateViewRequest {
   InstanceId: string;
   ClientToken?: string;
-  Status: string;
+  Status: ViewStatus;
   Content: ViewInputContent;
   Description?: string;
-  Name: string | Redacted.Redacted<string>;
-  Tags?: TagMap;
+  Name: string | redacted.Redacted<string>;
+  Tags?: { [key: string]: string };
 }
 export const CreateViewRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ClientToken: S.optional(S.String),
-    Status: S.String,
+    Status: ViewStatus,
     Content: ViewInputContent,
     Description: S.optional(S.String),
     Name: SensitiveString,
@@ -11179,13 +12639,13 @@ export const CreateViewRequest = S.suspend(() =>
 export interface CreateVocabularyResponse {
   VocabularyArn: string;
   VocabularyId: string;
-  State: string;
+  State: VocabularyState;
 }
 export const CreateVocabularyResponse = S.suspend(() =>
   S.Struct({
     VocabularyArn: S.String,
     VocabularyId: S.String,
-    State: S.String,
+    State: VocabularyState,
   }),
 ).annotations({
   identifier: "CreateVocabularyResponse",
@@ -11215,13 +12675,13 @@ export const DeleteDataTableAttributeResponse = S.suspend(() =>
 export interface DeleteVocabularyResponse {
   VocabularyArn: string;
   VocabularyId: string;
-  State: string;
+  State: VocabularyState;
 }
 export const DeleteVocabularyResponse = S.suspend(() =>
   S.Struct({
     VocabularyArn: S.String,
     VocabularyId: S.String,
-    State: S.String,
+    State: VocabularyState,
   }),
 ).annotations({
   identifier: "DeleteVocabularyResponse",
@@ -11229,13 +12689,13 @@ export const DeleteVocabularyResponse = S.suspend(() =>
 export interface DescribeEmailAddressResponse {
   EmailAddressId?: string;
   EmailAddressArn?: string;
-  EmailAddress?: string | Redacted.Redacted<string>;
-  DisplayName?: string | Redacted.Redacted<string>;
-  Description?: string | Redacted.Redacted<string>;
+  EmailAddress?: string | redacted.Redacted<string>;
+  DisplayName?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   CreateTimestamp?: string;
   ModifiedTimestamp?: string;
-  AliasConfigurations?: AliasConfigurationList;
-  Tags?: TagMap;
+  AliasConfigurations?: AliasConfiguration[];
+  Tags?: { [key: string]: string };
 }
 export const DescribeEmailAddressResponse = S.suspend(() =>
   S.Struct({
@@ -11261,9 +12721,9 @@ export const DescribeInstanceStorageConfigResponse = S.suspend(() =>
   identifier: "DescribeInstanceStorageConfigResponse",
 }) as any as S.Schema<DescribeInstanceStorageConfigResponse>;
 export interface ViewContent {
-  InputSchema?: string | Redacted.Redacted<string>;
+  InputSchema?: string | redacted.Redacted<string>;
   Template?: string;
-  Actions?: ViewActions;
+  Actions?: string | redacted.Redacted<string>[];
 }
 export const ViewContent = S.suspend(() =>
   S.Struct({
@@ -11275,14 +12735,14 @@ export const ViewContent = S.suspend(() =>
 export interface View {
   Id?: string;
   Arn?: string;
-  Name?: string | Redacted.Redacted<string>;
-  Status?: string;
-  Type?: string;
+  Name?: string | redacted.Redacted<string>;
+  Status?: ViewStatus;
+  Type?: ViewType;
   Description?: string;
   Version?: number;
   VersionDescription?: string;
   Content?: ViewContent;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   CreatedTime?: Date;
   LastModifiedTime?: Date;
   ViewContentSha256?: string;
@@ -11292,8 +12752,8 @@ export const View = S.suspend(() =>
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
     Name: S.optional(SensitiveString),
-    Status: S.optional(S.String),
-    Type: S.optional(S.String),
+    Status: S.optional(ViewStatus),
+    Type: S.optional(ViewType),
     Description: S.optional(S.String),
     Version: S.optional(S.Number),
     VersionDescription: S.optional(S.String),
@@ -11317,8 +12777,8 @@ export const DescribeViewResponse = S.suspend(() =>
 export interface DisassociateRoutingProfileQueuesRequest {
   InstanceId: string;
   RoutingProfileId: string;
-  QueueReferences?: RoutingProfileQueueReferenceList;
-  ManualAssignmentQueueReferences?: RoutingProfileQueueReferenceList;
+  QueueReferences?: RoutingProfileQueueReference[];
+  ManualAssignmentQueueReferences?: RoutingProfileQueueReference[];
 }
 export const DisassociateRoutingProfileQueuesRequest = S.suspend(() =>
   S.Struct({
@@ -11353,7 +12813,7 @@ export const DisassociateRoutingProfileQueuesResponse = S.suspend(() =>
 export interface DisassociateUserProficienciesRequest {
   InstanceId: string;
   UserId: string;
-  UserProficiencies: UserProficiencyDisassociateList;
+  UserProficiencies: UserProficiencyDisassociate[];
 }
 export const DisassociateUserProficienciesRequest = S.suspend(() =>
   S.Struct({
@@ -11414,8 +12874,8 @@ export const FailedBatchAssociationSummaryList = S.Array(
   FailedBatchAssociationSummary,
 );
 export interface DisassociateWorkspaceResponse {
-  SuccessfulList?: SuccessfulBatchAssociationSummaryList;
-  FailedList?: FailedBatchAssociationSummaryList;
+  SuccessfulList?: SuccessfulBatchAssociationSummary[];
+  FailedList?: FailedBatchAssociationSummary[];
 }
 export const DisassociateWorkspaceResponse = S.suspend(() =>
   S.Struct({
@@ -11428,7 +12888,7 @@ export const DisassociateWorkspaceResponse = S.suspend(() =>
 export interface EvaluateDataTableValuesRequest {
   InstanceId: string;
   DataTableId: string;
-  Values: DataTableValueEvaluationSetList;
+  Values: DataTableValueEvaluationSet[];
   TimeZone?: string;
   NextToken?: string;
   MaxResults?: number;
@@ -11458,7 +12918,7 @@ export const EvaluateDataTableValuesRequest = S.suspend(() =>
   identifier: "EvaluateDataTableValuesRequest",
 }) as any as S.Schema<EvaluateDataTableValuesRequest>;
 export interface GetContactAttributesResponse {
-  Attributes?: Attributes;
+  Attributes?: { [key: string]: string };
 }
 export const GetContactAttributesResponse = S.suspend(() =>
   S.Struct({ Attributes: S.optional(Attributes) }),
@@ -11468,7 +12928,7 @@ export const GetContactAttributesResponse = S.suspend(() =>
 export interface GetContactMetricsRequest {
   InstanceId: string;
   ContactId: string;
-  Metrics: ContactMetrics;
+  Metrics: ContactMetricInfo[];
 }
 export const GetContactMetricsRequest = S.suspend(() =>
   S.Struct({
@@ -11491,11 +12951,11 @@ export const GetContactMetricsRequest = S.suspend(() =>
 export interface GetCurrentMetricDataRequest {
   InstanceId: string;
   Filters: Filters;
-  Groupings?: Groupings;
-  CurrentMetrics: CurrentMetrics;
+  Groupings?: Grouping[];
+  CurrentMetrics: CurrentMetric[];
   NextToken?: string;
   MaxResults?: number;
-  SortCriteria?: CurrentMetricSortCriteriaMaxOne;
+  SortCriteria?: CurrentMetricSortCriteria[];
 }
 export const GetCurrentMetricDataRequest = S.suspend(() =>
   S.Struct({
@@ -11522,13 +12982,13 @@ export const GetCurrentMetricDataRequest = S.suspend(() =>
 export interface GetFlowAssociationResponse {
   ResourceId?: string;
   FlowId?: string;
-  ResourceType?: string;
+  ResourceType?: FlowAssociationResourceType;
 }
 export const GetFlowAssociationResponse = S.suspend(() =>
   S.Struct({
     ResourceId: S.optional(S.String),
     FlowId: S.optional(S.String),
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(FlowAssociationResourceType),
   }),
 ).annotations({
   identifier: "GetFlowAssociationResponse",
@@ -11559,11 +13019,11 @@ export interface GetTaskTemplateResponse {
   SelfAssignFlowId?: string;
   Constraints?: TaskTemplateConstraints;
   Defaults?: TaskTemplateDefaults;
-  Fields?: TaskTemplateFields;
-  Status?: string;
+  Fields?: TaskTemplateField[];
+  Status?: TaskTemplateStatus;
   LastModifiedTime?: Date;
   CreatedTime?: Date;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const GetTaskTemplateResponse = S.suspend(() =>
   S.Struct({
@@ -11577,7 +13037,7 @@ export const GetTaskTemplateResponse = S.suspend(() =>
     Constraints: S.optional(TaskTemplateConstraints),
     Defaults: S.optional(TaskTemplateDefaults),
     Fields: S.optional(TaskTemplateFields),
-    Status: S.optional(S.String),
+    Status: S.optional(TaskTemplateStatus),
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -11588,7 +13048,7 @@ export const GetTaskTemplateResponse = S.suspend(() =>
   identifier: "GetTaskTemplateResponse",
 }) as any as S.Schema<GetTaskTemplateResponse>;
 export interface TelephonyConfig {
-  Distributions: DistributionList;
+  Distributions: Distribution[];
 }
 export const TelephonyConfig = S.suspend(() =>
   S.Struct({ Distributions: DistributionList }),
@@ -11607,7 +13067,7 @@ export const SignInDistribution = S.suspend(() =>
 export type SignInDistributionList = SignInDistribution[];
 export const SignInDistributionList = S.Array(SignInDistribution);
 export interface SignInConfig {
-  Distributions: SignInDistributionList;
+  Distributions: SignInDistribution[];
 }
 export const SignInConfig = S.suspend(() =>
   S.Struct({ Distributions: SignInDistributionList }),
@@ -11665,7 +13125,7 @@ export const AnalyticsDataAssociationResults = S.Array(
   AnalyticsDataAssociationResult,
 );
 export interface ListAnalyticsDataAssociationsResponse {
-  Results?: AnalyticsDataAssociationResults;
+  Results?: AnalyticsDataAssociationResult[];
   NextToken?: string;
 }
 export const ListAnalyticsDataAssociationsResponse = S.suspend(() =>
@@ -11677,7 +13137,7 @@ export const ListAnalyticsDataAssociationsResponse = S.suspend(() =>
   identifier: "ListAnalyticsDataAssociationsResponse",
 }) as any as S.Schema<ListAnalyticsDataAssociationsResponse>;
 export interface ListApprovedOriginsResponse {
-  Origins?: OriginsList;
+  Origins?: string[];
   NextToken?: string;
 }
 export const ListApprovedOriginsResponse = S.suspend(() =>
@@ -11690,7 +13150,7 @@ export const ListApprovedOriginsResponse = S.suspend(() =>
 }) as any as S.Schema<ListApprovedOriginsResponse>;
 export interface ListDataTableAttributesResponse {
   NextToken?: string;
-  Attributes: AttributeList;
+  Attributes: DataTableAttribute[];
 }
 export const ListDataTableAttributesResponse = S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), Attributes: AttributeList }),
@@ -11700,8 +13160,8 @@ export const ListDataTableAttributesResponse = S.suspend(() =>
 export interface ListDataTablePrimaryValuesRequest {
   InstanceId: string;
   DataTableId: string;
-  RecordIds?: RecordIds;
-  PrimaryAttributeValues?: PrimaryAttributeValueFilters;
+  RecordIds?: string[];
+  PrimaryAttributeValues?: PrimaryAttributeValueFilter[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -11730,7 +13190,7 @@ export const ListDataTablePrimaryValuesRequest = S.suspend(() =>
   identifier: "ListDataTablePrimaryValuesRequest",
 }) as any as S.Schema<ListDataTablePrimaryValuesRequest>;
 export interface ListEntitySecurityProfilesResponse {
-  SecurityProfiles?: SecurityProfiles100;
+  SecurityProfiles?: SecurityProfileItem[];
   NextToken?: string;
 }
 export const ListEntitySecurityProfilesResponse = S.suspend(() =>
@@ -11744,13 +13204,13 @@ export const ListEntitySecurityProfilesResponse = S.suspend(() =>
 export interface FlowAssociationSummary {
   ResourceId?: string;
   FlowId?: string;
-  ResourceType?: string;
+  ResourceType?: ListFlowAssociationResourceType;
 }
 export const FlowAssociationSummary = S.suspend(() =>
   S.Struct({
     ResourceId: S.optional(S.String),
     FlowId: S.optional(S.String),
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(ListFlowAssociationResourceType),
   }),
 ).annotations({
   identifier: "FlowAssociationSummary",
@@ -11758,7 +13218,7 @@ export const FlowAssociationSummary = S.suspend(() =>
 export type FlowAssociationSummaryList = FlowAssociationSummary[];
 export const FlowAssociationSummaryList = S.Array(FlowAssociationSummary);
 export interface ListFlowAssociationsResponse {
-  FlowAssociationSummaryList?: FlowAssociationSummaryList;
+  FlowAssociationSummaryList?: FlowAssociationSummary[];
   NextToken?: string;
 }
 export const ListFlowAssociationsResponse = S.suspend(() =>
@@ -11771,7 +13231,7 @@ export const ListFlowAssociationsResponse = S.suspend(() =>
 }) as any as S.Schema<ListFlowAssociationsResponse>;
 export interface ListHoursOfOperationOverridesResponse {
   NextToken?: string;
-  HoursOfOperationOverrideList?: HoursOfOperationOverrideList;
+  HoursOfOperationOverrideList?: HoursOfOperationOverride[];
   LastModifiedRegion?: string;
   LastModifiedTime?: Date;
 }
@@ -11788,7 +13248,7 @@ export const ListHoursOfOperationOverridesResponse = S.suspend(() =>
   identifier: "ListHoursOfOperationOverridesResponse",
 }) as any as S.Schema<ListHoursOfOperationOverridesResponse>;
 export interface ListInstanceAttributesResponse {
-  Attributes?: AttributesList;
+  Attributes?: Attribute[];
   NextToken?: string;
 }
 export const ListInstanceAttributesResponse = S.suspend(() =>
@@ -11800,7 +13260,7 @@ export const ListInstanceAttributesResponse = S.suspend(() =>
   identifier: "ListInstanceAttributesResponse",
 }) as any as S.Schema<ListInstanceAttributesResponse>;
 export interface ListInstanceStorageConfigsResponse {
-  StorageConfigs?: InstanceStorageConfigs;
+  StorageConfigs?: InstanceStorageConfig[];
   NextToken?: string;
 }
 export const ListInstanceStorageConfigsResponse = S.suspend(() =>
@@ -11812,7 +13272,7 @@ export const ListInstanceStorageConfigsResponse = S.suspend(() =>
   identifier: "ListInstanceStorageConfigsResponse",
 }) as any as S.Schema<ListInstanceStorageConfigsResponse>;
 export interface ListLambdaFunctionsResponse {
-  LambdaFunctions?: FunctionArnsList;
+  LambdaFunctions?: string[];
   NextToken?: string;
 }
 export const ListLambdaFunctionsResponse = S.suspend(() =>
@@ -11824,7 +13284,7 @@ export const ListLambdaFunctionsResponse = S.suspend(() =>
   identifier: "ListLambdaFunctionsResponse",
 }) as any as S.Schema<ListLambdaFunctionsResponse>;
 export interface ListLexBotsResponse {
-  LexBots?: LexBotsList;
+  LexBots?: LexBot[];
   NextToken?: string;
 }
 export const ListLexBotsResponse = S.suspend(() =>
@@ -11839,7 +13299,7 @@ export interface QuickConnectSummary {
   Id?: string;
   Arn?: string;
   Name?: string;
-  QuickConnectType?: string;
+  QuickConnectType?: QuickConnectType;
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
 }
@@ -11848,7 +13308,7 @@ export const QuickConnectSummary = S.suspend(() =>
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
     Name: S.optional(S.String),
-    QuickConnectType: S.optional(S.String),
+    QuickConnectType: S.optional(QuickConnectType),
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -11860,7 +13320,7 @@ export const QuickConnectSummary = S.suspend(() =>
 export type QuickConnectSummaryList = QuickConnectSummary[];
 export const QuickConnectSummaryList = S.Array(QuickConnectSummary);
 export interface ListQuickConnectsResponse {
-  QuickConnectSummaryList?: QuickConnectSummaryList;
+  QuickConnectSummaryList?: QuickConnectSummary[];
   NextToken?: string;
 }
 export const ListQuickConnectsResponse = S.suspend(() =>
@@ -11872,7 +13332,7 @@ export const ListQuickConnectsResponse = S.suspend(() =>
   identifier: "ListQuickConnectsResponse",
 }) as any as S.Schema<ListQuickConnectsResponse>;
 export interface ListSecurityProfileApplicationsResponse {
-  Applications?: Applications;
+  Applications?: Application[];
   NextToken?: string;
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
@@ -11890,7 +13350,7 @@ export const ListSecurityProfileApplicationsResponse = S.suspend(() =>
   identifier: "ListSecurityProfileApplicationsResponse",
 }) as any as S.Schema<ListSecurityProfileApplicationsResponse>;
 export interface ListSecurityProfileFlowModulesResponse {
-  AllowedFlowModules?: AllowedFlowModules;
+  AllowedFlowModules?: FlowModule[];
   NextToken?: string;
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
@@ -11908,7 +13368,7 @@ export const ListSecurityProfileFlowModulesResponse = S.suspend(() =>
   identifier: "ListSecurityProfileFlowModulesResponse",
 }) as any as S.Schema<ListSecurityProfileFlowModulesResponse>;
 export interface ListSecurityProfilePermissionsResponse {
-  Permissions?: PermissionsList;
+  Permissions?: string[];
   NextToken?: string;
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
@@ -11926,7 +13386,7 @@ export const ListSecurityProfilePermissionsResponse = S.suspend(() =>
   identifier: "ListSecurityProfilePermissionsResponse",
 }) as any as S.Schema<ListSecurityProfilePermissionsResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -11935,7 +13395,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListUserProficienciesResponse {
   NextToken?: string;
-  UserProficiencyList?: UserProficiencyList;
+  UserProficiencyList?: UserProficiency[];
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
 }
@@ -12381,10 +13841,10 @@ export interface StartAttachedFileUploadRequest {
   FileName: string;
   FileSizeInBytes: number;
   UrlExpiryInSeconds?: number;
-  FileUseCaseType: string;
+  FileUseCaseType: FileUseCaseType;
   AssociatedResourceArn: string;
-  CreatedBy?: (typeof CreatedByInfo)["Type"];
-  Tags?: TagMap;
+  CreatedBy?: CreatedByInfo;
+  Tags?: { [key: string]: string };
 }
 export const StartAttachedFileUploadRequest = S.suspend(() =>
   S.Struct({
@@ -12393,7 +13853,7 @@ export const StartAttachedFileUploadRequest = S.suspend(() =>
     FileName: S.String,
     FileSizeInBytes: S.Number,
     UrlExpiryInSeconds: S.optional(S.Number),
-    FileUseCaseType: S.String,
+    FileUseCaseType: FileUseCaseType,
     AssociatedResourceArn: S.String.pipe(T.HttpQuery("associatedResourceArn")),
     CreatedBy: S.optional(CreatedByInfo),
     Tags: S.optional(TagMap),
@@ -12413,18 +13873,18 @@ export const StartAttachedFileUploadRequest = S.suspend(() =>
 export interface StartChatContactRequest {
   InstanceId: string;
   ContactFlowId: string;
-  Attributes?: Attributes;
+  Attributes?: { [key: string]: string };
   ParticipantDetails: ParticipantDetails;
   ParticipantConfiguration?: ParticipantConfiguration;
   InitialMessage?: ChatMessage;
   ClientToken?: string;
   ChatDurationInMinutes?: number;
-  SupportedMessagingContentTypes?: SupportedMessagingContentTypes;
+  SupportedMessagingContentTypes?: string[];
   PersistentChat?: PersistentChat;
   RelatedContactId?: string;
-  SegmentAttributes?: SegmentAttributes;
-  CustomerId?: string | Redacted.Redacted<string>;
-  DisconnectOnCustomerExit?: DisconnectOnCustomerExit;
+  SegmentAttributes?: { [key: string]: SegmentAttributeValue };
+  CustomerId?: string | redacted.Redacted<string>;
+  DisconnectOnCustomerExit?: DisconnectOnCustomerExitParticipantType[];
 }
 export const StartChatContactRequest = S.suspend(() =>
   S.Struct({
@@ -12461,7 +13921,7 @@ export interface StartContactEvaluationRequest {
   EvaluationFormId: string;
   AutoEvaluationConfiguration?: AutoEvaluationConfiguration;
   ClientToken?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const StartContactEvaluationRequest = S.suspend(() =>
   S.Struct({
@@ -12557,15 +14017,15 @@ export const StartTaskContactResponse = S.suspend(() =>
   identifier: "StartTaskContactResponse",
 }) as any as S.Schema<StartTaskContactResponse>;
 export interface StartWebRTCContactRequest {
-  Attributes?: Attributes;
+  Attributes?: { [key: string]: string };
   ClientToken?: string;
   ContactFlowId: string;
   InstanceId: string;
   AllowedCapabilities?: AllowedCapabilities;
   ParticipantDetails: ParticipantDetails;
   RelatedContactId?: string;
-  References?: ContactReferences;
-  Description?: string | Redacted.Redacted<string>;
+  References?: { [key: string]: Reference };
+  Description?: string | redacted.Redacted<string>;
 }
 export const StartWebRTCContactRequest = S.suspend(() =>
   S.Struct({
@@ -12621,7 +14081,7 @@ export const StopContactResponse = S.suspend(() => S.Struct({})).annotations({
 export interface TagContactRequest {
   ContactId: string;
   InstanceId: string;
-  Tags: ContactTagMap;
+  Tags: { [key: string]: string };
 }
 export const TagContactRequest = S.suspend(() =>
   S.Struct({
@@ -12660,10 +14120,10 @@ export const TransferContactResponse = S.suspend(() =>
 export interface UpdateContactRequest {
   InstanceId: string;
   ContactId: string;
-  Name?: string | Redacted.Redacted<string>;
-  Description?: string | Redacted.Redacted<string>;
-  References?: ContactReferences;
-  SegmentAttributes?: SegmentAttributes;
+  Name?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
+  References?: { [key: string]: Reference };
+  SegmentAttributes?: { [key: string]: SegmentAttributeValue };
   QueueInfo?: QueueInfoInput;
   UserInfo?: UserInfo;
   CustomerEndpoint?: Endpoint;
@@ -12727,8 +14187,8 @@ export const UpdateDataTableMetadataResponse = S.suspend(() =>
 export interface UpdateDataTablePrimaryValuesRequest {
   InstanceId: string;
   DataTableId: string;
-  PrimaryValues: PrimaryValuesSet;
-  NewPrimaryValues: PrimaryValuesSet;
+  PrimaryValues: PrimaryValue[];
+  NewPrimaryValues: PrimaryValue[];
   LockVersion: DataTableLockVersion;
 }
 export const UpdateDataTablePrimaryValuesRequest = S.suspend(() =>
@@ -12811,8 +14271,8 @@ export interface UpdateTaskTemplateResponse {
   SelfAssignFlowId?: string;
   Constraints?: TaskTemplateConstraints;
   Defaults?: TaskTemplateDefaults;
-  Fields?: TaskTemplateFields;
-  Status?: string;
+  Fields?: TaskTemplateField[];
+  Status?: TaskTemplateStatus;
   LastModifiedTime?: Date;
   CreatedTime?: Date;
 }
@@ -12828,7 +14288,7 @@ export const UpdateTaskTemplateResponse = S.suspend(() =>
     Constraints: S.optional(TaskTemplateConstraints),
     Defaults: S.optional(TaskTemplateDefaults),
     Fields: S.optional(TaskTemplateFields),
-    Status: S.optional(S.String),
+    Status: S.optional(TaskTemplateStatus),
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -12855,7 +14315,7 @@ export interface EvaluationFormSection {
   Title: string;
   RefId: string;
   Instructions?: string;
-  Items: EvaluationFormItemsList;
+  Items: EvaluationFormItem[];
   Weight?: number;
 }
 export const EvaluationFormSection = S.suspend(() =>
@@ -12871,10 +14331,71 @@ export const EvaluationFormSection = S.suspend(() =>
 ).annotations({
   identifier: "EvaluationFormSection",
 }) as any as S.Schema<EvaluationFormSection>;
+export type AnsweringMachineDetectionStatus =
+  | "ANSWERED"
+  | "UNDETECTED"
+  | "ERROR"
+  | "HUMAN_ANSWERED"
+  | "SIT_TONE_DETECTED"
+  | "SIT_TONE_BUSY"
+  | "SIT_TONE_INVALID_NUMBER"
+  | "FAX_MACHINE_DETECTED"
+  | "VOICEMAIL_BEEP"
+  | "VOICEMAIL_NO_BEEP"
+  | "AMD_UNRESOLVED"
+  | "AMD_UNANSWERED"
+  | "AMD_ERROR"
+  | "AMD_NOT_APPLICABLE";
+export const AnsweringMachineDetectionStatus = S.Literal(
+  "ANSWERED",
+  "UNDETECTED",
+  "ERROR",
+  "HUMAN_ANSWERED",
+  "SIT_TONE_DETECTED",
+  "SIT_TONE_BUSY",
+  "SIT_TONE_INVALID_NUMBER",
+  "FAX_MACHINE_DETECTED",
+  "VOICEMAIL_BEEP",
+  "VOICEMAIL_NO_BEEP",
+  "AMD_UNRESOLVED",
+  "AMD_UNANSWERED",
+  "AMD_ERROR",
+  "AMD_NOT_APPLICABLE",
+);
+export type EvaluationStatus = "DRAFT" | "SUBMITTED";
+export const EvaluationStatus = S.Literal("DRAFT", "SUBMITTED");
+export type EvaluationType = "STANDARD" | "CALIBRATION";
+export const EvaluationType = S.Literal("STANDARD", "CALIBRATION");
+export type EvaluationFormVersionStatus = "DRAFT" | "ACTIVE";
+export const EvaluationFormVersionStatus = S.Literal("DRAFT", "ACTIVE");
+export type InstanceStatus =
+  | "CREATION_IN_PROGRESS"
+  | "ACTIVE"
+  | "CREATION_FAILED";
+export const InstanceStatus = S.Literal(
+  "CREATION_IN_PROGRESS",
+  "ACTIVE",
+  "CREATION_FAILED",
+);
 export type AssociatedQueueIdList = string[];
 export const AssociatedQueueIdList = S.Array(S.String);
+export type TrafficDistributionGroupStatus =
+  | "CREATION_IN_PROGRESS"
+  | "ACTIVE"
+  | "CREATION_FAILED"
+  | "PENDING_DELETION"
+  | "DELETION_FAILED"
+  | "UPDATE_IN_PROGRESS";
+export const TrafficDistributionGroupStatus = S.Literal(
+  "CREATION_IN_PROGRESS",
+  "ACTIVE",
+  "CREATION_FAILED",
+  "PENDING_DELETION",
+  "DELETION_FAILED",
+  "UPDATE_IN_PROGRESS",
+);
 export interface ContactFilter {
-  ContactStates?: ContactStates;
+  ContactStates?: ContactState[];
 }
 export const ContactFilter = S.suspend(() =>
   S.Struct({ ContactStates: S.optional(ContactStates) }),
@@ -12882,20 +14403,22 @@ export const ContactFilter = S.suspend(() =>
   identifier: "ContactFilter",
 }) as any as S.Schema<ContactFilter>;
 export interface Threshold {
-  Comparison?: string;
+  Comparison?: Comparison;
   ThresholdValue?: number;
 }
 export const Threshold = S.suspend(() =>
   S.Struct({
-    Comparison: S.optional(S.String),
+    Comparison: S.optional(Comparison),
     ThresholdValue: S.optional(S.Number),
   }),
 ).annotations({ identifier: "Threshold" }) as any as S.Schema<Threshold>;
 export interface FilterV2StringCondition {
-  Comparison?: string;
+  Comparison?: FilterV2StringConditionComparisonOperator;
 }
 export const FilterV2StringCondition = S.suspend(() =>
-  S.Struct({ Comparison: S.optional(S.String) }),
+  S.Struct({
+    Comparison: S.optional(FilterV2StringConditionComparisonOperator),
+  }),
 ).annotations({
   identifier: "FilterV2StringCondition",
 }) as any as S.Schema<FilterV2StringCondition>;
@@ -12913,7 +14436,7 @@ export type ThresholdCollections = ThresholdV2[];
 export const ThresholdCollections = S.Array(ThresholdV2);
 export interface MetricFilterV2 {
   MetricFilterKey?: string;
-  MetricFilterValues?: MetricFilterValueList;
+  MetricFilterValues?: string[];
   Negate?: boolean;
 }
 export const MetricFilterV2 = S.suspend(() =>
@@ -12927,35 +14450,41 @@ export const MetricFilterV2 = S.suspend(() =>
 }) as any as S.Schema<MetricFilterV2>;
 export type MetricFiltersV2List = MetricFilterV2[];
 export const MetricFiltersV2List = S.Array(MetricFilterV2);
+export type AutoEvaluationStatus = "IN_PROGRESS" | "FAILED" | "SUCCEEDED";
+export const AutoEvaluationStatus = S.Literal(
+  "IN_PROGRESS",
+  "FAILED",
+  "SUCCEEDED",
+);
 export interface DecimalCondition {
   FieldName?: string;
   MinValue?: number;
   MaxValue?: number;
-  ComparisonType?: string;
+  ComparisonType?: DecimalComparisonType;
 }
 export const DecimalCondition = S.suspend(() =>
   S.Struct({
     FieldName: S.optional(S.String),
     MinValue: S.optional(S.Number),
     MaxValue: S.optional(S.Number),
-    ComparisonType: S.optional(S.String),
+    ComparisonType: S.optional(DecimalComparisonType),
   }),
 ).annotations({
   identifier: "DecimalCondition",
 }) as any as S.Schema<DecimalCondition>;
 export interface NameCriteria {
-  SearchText: SearchTextList;
-  MatchType: string;
+  SearchText: string | redacted.Redacted<string>[];
+  MatchType: SearchContactsMatchType;
 }
 export const NameCriteria = S.suspend(() =>
-  S.Struct({ SearchText: SearchTextList, MatchType: S.String }),
+  S.Struct({ SearchText: SearchTextList, MatchType: SearchContactsMatchType }),
 ).annotations({ identifier: "NameCriteria" }) as any as S.Schema<NameCriteria>;
 export interface AgentHierarchyGroups {
-  L1Ids?: HierarchyGroupIdList;
-  L2Ids?: HierarchyGroupIdList;
-  L3Ids?: HierarchyGroupIdList;
-  L4Ids?: HierarchyGroupIdList;
-  L5Ids?: HierarchyGroupIdList;
+  L1Ids?: string[];
+  L2Ids?: string[];
+  L3Ids?: string[];
+  L4Ids?: string[];
+  L5Ids?: string[];
 }
 export const AgentHierarchyGroups = S.suspend(() =>
   S.Struct({
@@ -12971,13 +14500,13 @@ export const AgentHierarchyGroups = S.suspend(() =>
 export interface DateCondition {
   FieldName?: string;
   Value?: string;
-  ComparisonType?: string;
+  ComparisonType?: DateComparisonType;
 }
 export const DateCondition = S.suspend(() =>
   S.Struct({
     FieldName: S.optional(S.String),
     Value: S.optional(S.String),
-    ComparisonType: S.optional(S.String),
+    ComparisonType: S.optional(DateComparisonType),
   }),
 ).annotations({
   identifier: "DateCondition",
@@ -12985,27 +14514,27 @@ export const DateCondition = S.suspend(() =>
 export interface TagSearchCondition {
   tagKey?: string;
   tagValue?: string;
-  tagKeyComparisonType?: string;
-  tagValueComparisonType?: string;
+  tagKeyComparisonType?: StringComparisonType;
+  tagValueComparisonType?: StringComparisonType;
 }
 export const TagSearchCondition = S.suspend(() =>
   S.Struct({
     tagKey: S.optional(S.String),
     tagValue: S.optional(S.String),
-    tagKeyComparisonType: S.optional(S.String),
-    tagValueComparisonType: S.optional(S.String),
+    tagKeyComparisonType: S.optional(StringComparisonType),
+    tagValueComparisonType: S.optional(StringComparisonType),
   }),
 ).annotations({
   identifier: "TagSearchCondition",
 }) as any as S.Schema<TagSearchCondition>;
 export interface HierarchyGroupCondition {
   Value?: string;
-  HierarchyGroupMatchType?: string;
+  HierarchyGroupMatchType?: HierarchyGroupMatchType;
 }
 export const HierarchyGroupCondition = S.suspend(() =>
   S.Struct({
     Value: S.optional(S.String),
-    HierarchyGroupMatchType: S.optional(S.String),
+    HierarchyGroupMatchType: S.optional(HierarchyGroupMatchType),
   }),
 ).annotations({
   identifier: "HierarchyGroupCondition",
@@ -13018,31 +14547,53 @@ export const HierarchyLevelUpdate = S.suspend(() =>
 ).annotations({
   identifier: "HierarchyLevelUpdate",
 }) as any as S.Schema<HierarchyLevelUpdate>;
+export type EvaluationFormItemEnablementAction = "DISABLE" | "ENABLE";
+export const EvaluationFormItemEnablementAction = S.Literal(
+  "DISABLE",
+  "ENABLE",
+);
 export type SearchableContactAttributeValueList =
   | string
-  | Redacted.Redacted<string>[];
+  | redacted.Redacted<string>[];
 export const SearchableContactAttributeValueList = S.Array(SensitiveString);
 export type SearchableSegmentAttributeValueList =
   | string
-  | Redacted.Redacted<string>[];
+  | redacted.Redacted<string>[];
 export const SearchableSegmentAttributeValueList = S.Array(SensitiveString);
+export type EmailHeaderType =
+  | "REFERENCES"
+  | "MESSAGE_ID"
+  | "IN_REPLY_TO"
+  | "X_SES_SPAM_VERDICT"
+  | "X_SES_VIRUS_VERDICT";
+export const EmailHeaderType = S.Literal(
+  "REFERENCES",
+  "MESSAGE_ID",
+  "IN_REPLY_TO",
+  "X_SES_SPAM_VERDICT",
+  "X_SES_VIRUS_VERDICT",
+);
 export type Expressions = Expression[];
 export const Expressions = S.Array(
   S.suspend((): S.Schema<Expression, any> => Expression).annotations({
     identifier: "Expression",
   }),
 ) as any as S.Schema<Expressions>;
+export type TimerEligibleParticipantRoles = "CUSTOMER" | "AGENT";
+export const TimerEligibleParticipantRoles = S.Literal("CUSTOMER", "AGENT");
+export type ParticipantTimerType = "IDLE" | "DISCONNECT_NONCUSTOMER";
+export const ParticipantTimerType = S.Literal("IDLE", "DISCONNECT_NONCUSTOMER");
 export interface AttachedFile {
   CreationTime: string;
   FileArn: string;
   FileId: string;
   FileName: string;
   FileSizeInBytes: number;
-  FileStatus: string;
-  CreatedBy?: (typeof CreatedByInfo)["Type"];
-  FileUseCaseType?: string;
+  FileStatus: FileStatusType;
+  CreatedBy?: CreatedByInfo;
+  FileUseCaseType?: FileUseCaseType;
   AssociatedResourceArn?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const AttachedFile = S.suspend(() =>
   S.Struct({
@@ -13051,9 +14602,9 @@ export const AttachedFile = S.suspend(() =>
     FileId: S.String,
     FileName: S.String,
     FileSizeInBytes: S.Number,
-    FileStatus: S.String,
+    FileStatus: FileStatusType,
     CreatedBy: S.optional(CreatedByInfo),
-    FileUseCaseType: S.optional(S.String),
+    FileUseCaseType: S.optional(FileUseCaseType),
     AssociatedResourceArn: S.optional(S.String),
     Tags: S.optional(TagMap),
   }),
@@ -13084,11 +14635,13 @@ export const PostAcceptTimeoutConfig = S.suspend(() =>
 ).annotations({
   identifier: "PostAcceptTimeoutConfig",
 }) as any as S.Schema<PostAcceptTimeoutConfig>;
-export type AllowedUserActions = string[];
-export const AllowedUserActions = S.Array(S.String);
+export type AllowedUserAction = "CALL" | "DISCARD";
+export const AllowedUserAction = S.Literal("CALL", "DISCARD");
+export type AllowedUserActions = AllowedUserAction[];
+export const AllowedUserActions = S.Array(AllowedUserAction);
 export interface Preview {
   PostAcceptTimeoutConfig: PostAcceptTimeoutConfig;
-  AllowedUserActions: AllowedUserActions;
+  AllowedUserActions: AllowedUserAction[];
 }
 export const Preview = S.suspend(() =>
   S.Struct({
@@ -13111,11 +14664,14 @@ export const OutboundStrategyConfig = S.suspend(() =>
   identifier: "OutboundStrategyConfig",
 }) as any as S.Schema<OutboundStrategyConfig>;
 export interface OutboundStrategy {
-  Type: string;
+  Type: OutboundStrategyType;
   Config?: OutboundStrategyConfig;
 }
 export const OutboundStrategy = S.suspend(() =>
-  S.Struct({ Type: S.String, Config: S.optional(OutboundStrategyConfig) }),
+  S.Struct({
+    Type: OutboundStrategyType,
+    Config: S.optional(OutboundStrategyConfig),
+  }),
 ).annotations({
   identifier: "OutboundStrategy",
 }) as any as S.Schema<OutboundStrategy>;
@@ -13124,7 +14680,7 @@ export interface ContactDataRequest {
   CustomerEndpoint?: Endpoint;
   RequestIdentifier?: string;
   QueueId?: string;
-  Attributes?: Attributes;
+  Attributes?: { [key: string]: string };
   Campaign?: Campaign;
   OutboundStrategy?: OutboundStrategy;
 }
@@ -13144,7 +14700,7 @@ export const ContactDataRequest = S.suspend(() =>
 export type ContactDataRequestList = ContactDataRequest[];
 export const ContactDataRequestList = S.Array(ContactDataRequest);
 export interface BatchUpdateDataTableValueSuccessResult {
-  PrimaryValues: PrimaryValuesSet;
+  PrimaryValues: PrimaryValue[];
   AttributeName: string;
   LockVersion: DataTableLockVersion;
 }
@@ -13163,7 +14719,7 @@ export const BatchUpdateDataTableValueSuccessResultList = S.Array(
   BatchUpdateDataTableValueSuccessResult,
 );
 export interface BatchUpdateDataTableValueFailureResult {
-  PrimaryValues: PrimaryValuesSet;
+  PrimaryValues: PrimaryValue[];
   AttributeName: string;
   Message: string;
 }
@@ -13182,13 +14738,13 @@ export const BatchUpdateDataTableValueFailureResultList = S.Array(
   BatchUpdateDataTableValueFailureResult,
 );
 export interface ParticipantDetailsToAdd {
-  ParticipantRole?: string;
+  ParticipantRole?: ParticipantRole;
   DisplayName?: string;
   ParticipantCapabilities?: ParticipantCapabilities;
 }
 export const ParticipantDetailsToAdd = S.suspend(() =>
   S.Struct({
-    ParticipantRole: S.optional(S.String),
+    ParticipantRole: S.optional(ParticipantRole),
     DisplayName: S.optional(S.String),
     ParticipantCapabilities: S.optional(ParticipantCapabilities),
   }),
@@ -13200,10 +14756,10 @@ export interface AgentStatus {
   AgentStatusId?: string;
   Name?: string;
   Description?: string;
-  Type?: string;
+  Type?: AgentStatusType;
   DisplayOrder?: number;
-  State?: string;
-  Tags?: TagMap;
+  State?: AgentStatusState;
+  Tags?: { [key: string]: string };
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
 }
@@ -13213,9 +14769,9 @@ export const AgentStatus = S.suspend(() =>
     AgentStatusId: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(AgentStatusType),
     DisplayOrder: S.optional(S.Number),
-    State: S.optional(S.String),
+    State: S.optional(AgentStatusState),
     Tags: S.optional(TagMap),
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -13228,8 +14784,8 @@ export interface AuthenticationProfile {
   Arn?: string;
   Name?: string;
   Description?: string;
-  AllowedIps?: IpCidrList;
-  BlockedIps?: IpCidrList;
+  AllowedIps?: string[];
+  BlockedIps?: string[];
   IsDefault?: boolean;
   CreatedTime?: Date;
   LastModifiedTime?: Date;
@@ -13267,7 +14823,7 @@ export interface EvaluationFormContent {
   EvaluationFormArn: string;
   Title: string;
   Description?: string;
-  Items: EvaluationFormItemsList;
+  Items: EvaluationFormItem[];
   ScoringStrategy?: EvaluationFormScoringStrategy;
   AutoEvaluationConfiguration?: EvaluationFormAutoEvaluationConfiguration;
   TargetConfiguration?: EvaluationFormTargetConfiguration;
@@ -13295,12 +14851,12 @@ export interface ContactFlow {
   Arn?: string;
   Id?: string;
   Name?: string;
-  Type?: string;
-  State?: string;
-  Status?: string;
+  Type?: ContactFlowType;
+  State?: ContactFlowState;
+  Status?: ContactFlowStatus;
   Description?: string;
   Content?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   FlowContentSha256?: string;
   Version?: number;
   VersionDescription?: string;
@@ -13312,9 +14868,9 @@ export const ContactFlow = S.suspend(() =>
     Arn: S.optional(S.String),
     Id: S.optional(S.String),
     Name: S.optional(S.String),
-    Type: S.optional(S.String),
-    State: S.optional(S.String),
-    Status: S.optional(S.String),
+    Type: S.optional(ContactFlowType),
+    State: S.optional(ContactFlowState),
+    Status: S.optional(ContactFlowStatus),
     Description: S.optional(S.String),
     Content: S.optional(S.String),
     Tags: S.optional(TagMap),
@@ -13333,9 +14889,9 @@ export interface ContactFlowModule {
   Name?: string;
   Content?: string;
   Description?: string;
-  State?: string;
-  Status?: string;
-  Tags?: TagMap;
+  State?: ContactFlowModuleState;
+  Status?: ContactFlowModuleStatus;
+  Tags?: { [key: string]: string };
   FlowModuleContentSha256?: string;
   Version?: number;
   VersionDescription?: string;
@@ -13349,8 +14905,8 @@ export const ContactFlowModule = S.suspend(() =>
     Name: S.optional(S.String),
     Content: S.optional(S.String),
     Description: S.optional(S.String),
-    State: S.optional(S.String),
-    Status: S.optional(S.String),
+    State: S.optional(ContactFlowModuleState),
+    Status: S.optional(ContactFlowModuleStatus),
     Tags: S.optional(TagMap),
     FlowModuleContentSha256: S.optional(S.String),
     Version: S.optional(S.Number),
@@ -13395,15 +14951,15 @@ export interface DataTable {
   Arn: string;
   TimeZone: string;
   Description?: string;
-  ValueLockLevel?: string;
+  ValueLockLevel?: DataTableLockLevel;
   LockVersion?: DataTableLockVersion;
   Version?: string;
   VersionDescription?: string;
-  Status?: string;
+  Status?: DataTableStatus;
   CreatedTime?: Date;
   LastModifiedTime: Date;
   LastModifiedRegion?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const DataTable = S.suspend(() =>
   S.Struct({
@@ -13412,11 +14968,11 @@ export const DataTable = S.suspend(() =>
     Arn: S.String,
     TimeZone: S.String,
     Description: S.optional(S.String),
-    ValueLockLevel: S.optional(S.String),
+    ValueLockLevel: S.optional(DataTableLockLevel),
     LockVersion: S.optional(DataTableLockVersion),
     Version: S.optional(S.String),
     VersionDescription: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(DataTableStatus),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     LastModifiedRegion: S.optional(S.String),
@@ -13430,15 +14986,15 @@ export interface EvaluationForm {
   EvaluationFormArn: string;
   Title: string;
   Description?: string;
-  Status: string;
-  Items: EvaluationFormItemsList;
+  Status: EvaluationFormVersionStatus;
+  Items: EvaluationFormItem[];
   ScoringStrategy?: EvaluationFormScoringStrategy;
   CreatedTime: Date;
   CreatedBy: string;
   LastModifiedTime: Date;
   LastModifiedBy: string;
   AutoEvaluationConfiguration?: EvaluationFormAutoEvaluationConfiguration;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   TargetConfiguration?: EvaluationFormTargetConfiguration;
   LanguageConfiguration?: EvaluationFormLanguageConfiguration;
 }
@@ -13450,7 +15006,7 @@ export const EvaluationForm = S.suspend(() =>
     EvaluationFormArn: S.String,
     Title: S.String,
     Description: S.optional(S.String),
-    Status: S.String,
+    Status: EvaluationFormVersionStatus,
     Items: EvaluationFormItemsList,
     ScoringStrategy: S.optional(EvaluationFormScoringStrategy),
     CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -13473,8 +15029,8 @@ export interface HoursOfOperation {
   Name?: string;
   Description?: string;
   TimeZone?: string;
-  Config?: HoursOfOperationConfigList;
-  Tags?: TagMap;
+  Config?: HoursOfOperationConfig[];
+  Tags?: { [key: string]: string };
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
 }
@@ -13500,7 +15056,7 @@ export interface Prompt {
   PromptId?: string;
   Name?: string;
   Description?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
 }
@@ -13526,8 +15082,8 @@ export interface Queue {
   OutboundEmailConfig?: OutboundEmailConfig;
   HoursOfOperationId?: string;
   MaxContacts?: number;
-  Status?: string;
-  Tags?: TagMap;
+  Status?: QueueStatus;
+  Tags?: { [key: string]: string };
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
 }
@@ -13541,7 +15097,7 @@ export const Queue = S.suspend(() =>
     OutboundEmailConfig: S.optional(OutboundEmailConfig),
     HoursOfOperationId: S.optional(S.String),
     MaxContacts: S.optional(S.Number),
-    Status: S.optional(S.String),
+    Status: S.optional(QueueStatus),
     Tags: S.optional(TagMap),
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -13555,7 +15111,7 @@ export interface QuickConnect {
   Name?: string;
   Description?: string;
   QuickConnectConfig?: QuickConnectConfig;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
 }
@@ -13579,18 +15135,18 @@ export interface RoutingProfile {
   RoutingProfileArn?: string;
   RoutingProfileId?: string;
   Description?: string;
-  MediaConcurrencies?: MediaConcurrencies;
+  MediaConcurrencies?: MediaConcurrency[];
   DefaultOutboundQueueId?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   NumberOfAssociatedQueues?: number;
   NumberOfAssociatedManualAssignmentQueues?: number;
   NumberOfAssociatedUsers?: number;
-  AgentAvailabilityTimer?: string;
+  AgentAvailabilityTimer?: AgentAvailabilityTimer;
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
   IsDefault?: boolean;
-  AssociatedQueueIds?: AssociatedQueueIdList;
-  AssociatedManualAssignmentQueueIds?: AssociatedQueueIdList;
+  AssociatedQueueIds?: string[];
+  AssociatedManualAssignmentQueueIds?: string[];
 }
 export const RoutingProfile = S.suspend(() =>
   S.Struct({
@@ -13605,7 +15161,7 @@ export const RoutingProfile = S.suspend(() =>
     NumberOfAssociatedQueues: S.optional(S.Number),
     NumberOfAssociatedManualAssignmentQueues: S.optional(S.Number),
     NumberOfAssociatedUsers: S.optional(S.Number),
-    AgentAvailabilityTimer: S.optional(S.String),
+    AgentAvailabilityTimer: S.optional(AgentAvailabilityTimer),
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -13623,12 +15179,12 @@ export interface Rule {
   RuleArn: string;
   TriggerEventSource: RuleTriggerEventSource;
   Function: string;
-  Actions: RuleActions;
-  PublishStatus: string;
+  Actions: RuleAction[];
+  PublishStatus: RulePublishStatus;
   CreatedTime: Date;
   LastUpdatedTime: Date;
   LastUpdatedBy: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const Rule = S.suspend(() =>
   S.Struct({
@@ -13638,7 +15194,7 @@ export const Rule = S.suspend(() =>
     TriggerEventSource: RuleTriggerEventSource,
     Function: S.String,
     Actions: RuleActions,
-    PublishStatus: S.String,
+    PublishStatus: RulePublishStatus,
     CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     LastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     LastUpdatedBy: S.String,
@@ -13651,12 +15207,12 @@ export interface SecurityProfile {
   Arn?: string;
   SecurityProfileName?: string;
   Description?: string;
-  Tags?: TagMap;
-  AllowedAccessControlTags?: AllowedAccessControlTags;
-  TagRestrictedResources?: TagRestrictedResourceList;
+  Tags?: { [key: string]: string };
+  AllowedAccessControlTags?: { [key: string]: string };
+  TagRestrictedResources?: string[];
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
-  HierarchyRestrictedResources?: HierarchyRestrictedResourceList;
+  HierarchyRestrictedResources?: string[];
   AllowedAccessControlHierarchyGroupId?: string;
   GranularAccessControlConfiguration?: GranularAccessControlConfiguration;
 }
@@ -13689,8 +15245,8 @@ export interface TrafficDistributionGroup {
   Name?: string;
   Description?: string;
   InstanceArn?: string;
-  Status?: string;
-  Tags?: TagMap;
+  Status?: TrafficDistributionGroupStatus;
+  Tags?: { [key: string]: string };
   IsDefault?: boolean;
 }
 export const TrafficDistributionGroup = S.suspend(() =>
@@ -13700,7 +15256,7 @@ export const TrafficDistributionGroup = S.suspend(() =>
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     InstanceArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(TrafficDistributionGroupStatus),
     Tags: S.optional(TagMap),
     IsDefault: S.optional(S.Boolean),
   }),
@@ -13714,10 +15270,10 @@ export interface User {
   IdentityInfo?: UserIdentityInfo;
   PhoneConfig?: UserPhoneConfig;
   DirectoryUserId?: string;
-  SecurityProfileIds?: SecurityProfileIds;
+  SecurityProfileIds?: string[];
   RoutingProfileId?: string;
   HierarchyGroupId?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
 }
@@ -13743,20 +15299,20 @@ export interface Vocabulary {
   Name: string;
   Id: string;
   Arn: string;
-  LanguageCode: string;
-  State: string;
+  LanguageCode: VocabularyLanguageCode;
+  State: VocabularyState;
   LastModifiedTime: Date;
   FailureReason?: string;
   Content?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const Vocabulary = S.suspend(() =>
   S.Struct({
     Name: S.String,
     Id: S.String,
     Arn: S.String,
-    LanguageCode: S.String,
-    State: S.String,
+    LanguageCode: VocabularyLanguageCode,
+    State: VocabularyState,
     LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     FailureReason: S.optional(S.String),
     Content: S.optional(S.String),
@@ -13764,7 +15320,7 @@ export const Vocabulary = S.suspend(() =>
   }),
 ).annotations({ identifier: "Vocabulary" }) as any as S.Schema<Vocabulary>;
 export interface Workspace {
-  Visibility?: string;
+  Visibility?: Visibility;
   Id: string;
   Name: string;
   Arn: string;
@@ -13773,11 +15329,11 @@ export interface Workspace {
   Title?: string;
   LastModifiedTime: Date;
   LastModifiedRegion?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const Workspace = S.suspend(() =>
   S.Struct({
-    Visibility: S.optional(S.String),
+    Visibility: S.optional(Visibility),
     Id: S.String,
     Name: S.String,
     Arn: S.String,
@@ -13799,11 +15355,11 @@ export const DownloadUrlMetadata = S.suspend(() =>
   identifier: "DownloadUrlMetadata",
 }) as any as S.Schema<DownloadUrlMetadata>;
 export interface UserDataFilters {
-  Queues?: Queues;
+  Queues?: string[];
   ContactFilter?: ContactFilter;
-  RoutingProfiles?: RoutingProfiles;
-  Agents?: AgentsMinOneMaxHundred;
-  UserHierarchyGroups?: UserDataHierarchyGroups;
+  RoutingProfiles?: string[];
+  Agents?: string[];
+  UserHierarchyGroups?: string[];
 }
 export const UserDataFilters = S.suspend(() =>
   S.Struct({
@@ -13817,9 +15373,9 @@ export const UserDataFilters = S.suspend(() =>
   identifier: "UserDataFilters",
 }) as any as S.Schema<UserDataFilters>;
 export interface Credentials {
-  AccessToken?: string | Redacted.Redacted<string>;
+  AccessToken?: string | redacted.Redacted<string>;
   AccessTokenExpiration?: Date;
-  RefreshToken?: string | Redacted.Redacted<string>;
+  RefreshToken?: string | redacted.Redacted<string>;
   RefreshTokenExpiration?: Date;
 }
 export const Credentials = S.suspend(() =>
@@ -13835,17 +15391,17 @@ export const Credentials = S.suspend(() =>
   }),
 ).annotations({ identifier: "Credentials" }) as any as S.Schema<Credentials>;
 export interface HistoricalMetric {
-  Name?: string;
+  Name?: HistoricalMetricName;
   Threshold?: Threshold;
-  Statistic?: string;
-  Unit?: string;
+  Statistic?: Statistic;
+  Unit?: Unit;
 }
 export const HistoricalMetric = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String),
+    Name: S.optional(HistoricalMetricName),
     Threshold: S.optional(Threshold),
-    Statistic: S.optional(S.String),
-    Unit: S.optional(S.String),
+    Statistic: S.optional(Statistic),
+    Unit: S.optional(Unit),
   }),
 ).annotations({
   identifier: "HistoricalMetric",
@@ -13854,7 +15410,7 @@ export type HistoricalMetrics = HistoricalMetric[];
 export const HistoricalMetrics = S.Array(HistoricalMetric);
 export interface FilterV2 {
   FilterKey?: string;
-  FilterValues?: FilterValueList;
+  FilterValues?: string[];
   StringCondition?: FilterV2StringCondition;
 }
 export const FilterV2 = S.suspend(() =>
@@ -13868,9 +15424,9 @@ export type FiltersV2List = FilterV2[];
 export const FiltersV2List = S.Array(FilterV2);
 export interface MetricV2 {
   Name?: string;
-  Threshold?: ThresholdCollections;
+  Threshold?: ThresholdV2[];
   MetricId?: string;
-  MetricFilters?: MetricFiltersV2List;
+  MetricFilters?: MetricFilterV2[];
 }
 export const MetricV2 = S.suspend(() =>
   S.Struct({
@@ -13886,7 +15442,7 @@ export interface AgentStatusSummary {
   Id?: string;
   Arn?: string;
   Name?: string;
-  Type?: string;
+  Type?: AgentStatusType;
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
 }
@@ -13895,7 +15451,7 @@ export const AgentStatusSummary = S.suspend(() =>
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
     Name: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(AgentStatusType),
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -13928,8 +15484,8 @@ export interface AssociatedContactSummary {
   InitialContactId?: string;
   PreviousContactId?: string;
   RelatedContactId?: string;
-  InitiationMethod?: string;
-  Channel?: string;
+  InitiationMethod?: ContactInitiationMethod;
+  Channel?: Channel;
 }
 export const AssociatedContactSummary = S.suspend(() =>
   S.Struct({
@@ -13944,8 +15500,8 @@ export const AssociatedContactSummary = S.suspend(() =>
     InitialContactId: S.optional(S.String),
     PreviousContactId: S.optional(S.String),
     RelatedContactId: S.optional(S.String),
-    InitiationMethod: S.optional(S.String),
-    Channel: S.optional(S.String),
+    InitiationMethod: S.optional(ContactInitiationMethod),
+    Channel: S.optional(Channel),
   }),
 ).annotations({
   identifier: "AssociatedContactSummary",
@@ -14017,14 +15573,14 @@ export interface ContactFlowModuleSummary {
   Id?: string;
   Arn?: string;
   Name?: string;
-  State?: string;
+  State?: ContactFlowModuleState;
 }
 export const ContactFlowModuleSummary = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
     Name: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(ContactFlowModuleState),
   }),
 ).annotations({
   identifier: "ContactFlowModuleSummary",
@@ -14054,18 +15610,18 @@ export interface ContactFlowSummary {
   Id?: string;
   Arn?: string;
   Name?: string;
-  ContactFlowType?: string;
-  ContactFlowState?: string;
-  ContactFlowStatus?: string;
+  ContactFlowType?: ContactFlowType;
+  ContactFlowState?: ContactFlowState;
+  ContactFlowStatus?: ContactFlowStatus;
 }
 export const ContactFlowSummary = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
     Name: S.optional(S.String),
-    ContactFlowType: S.optional(S.String),
-    ContactFlowState: S.optional(S.String),
-    ContactFlowStatus: S.optional(S.String),
+    ContactFlowType: S.optional(ContactFlowType),
+    ContactFlowState: S.optional(ContactFlowState),
+    ContactFlowStatus: S.optional(ContactFlowStatus),
   }),
 ).annotations({
   identifier: "ContactFlowSummary",
@@ -14112,14 +15668,14 @@ export type DataTableSummaryList = DataTableSummary[];
 export const DataTableSummaryList = S.Array(DataTableSummary);
 export interface DefaultVocabulary {
   InstanceId: string;
-  LanguageCode: string;
+  LanguageCode: VocabularyLanguageCode;
   VocabularyId: string;
   VocabularyName: string;
 }
 export const DefaultVocabulary = S.suspend(() =>
   S.Struct({
     InstanceId: S.String,
-    LanguageCode: S.String,
+    LanguageCode: VocabularyLanguageCode,
     VocabularyId: S.String,
     VocabularyName: S.String,
   }),
@@ -14167,7 +15723,7 @@ export interface EvaluationFormVersionSummary {
   EvaluationFormId: string;
   EvaluationFormVersion: number;
   Locked: boolean;
-  Status: string;
+  Status: EvaluationFormVersionStatus;
   CreatedTime: Date;
   CreatedBy: string;
   LastModifiedTime: Date;
@@ -14179,7 +15735,7 @@ export const EvaluationFormVersionSummary = S.suspend(() =>
     EvaluationFormId: S.String,
     EvaluationFormVersion: S.Number,
     Locked: S.Boolean,
-    Status: S.String,
+    Status: EvaluationFormVersionStatus,
     CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     CreatedBy: S.String,
     LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -14217,11 +15773,11 @@ export const HoursOfOperationSummaryList = S.Array(HoursOfOperationSummary);
 export interface InstanceSummary {
   Id?: string;
   Arn?: string;
-  IdentityManagementType?: string;
-  InstanceAlias?: string | Redacted.Redacted<string>;
+  IdentityManagementType?: DirectoryType;
+  InstanceAlias?: string | redacted.Redacted<string>;
   CreatedTime?: Date;
   ServiceRole?: string;
-  InstanceStatus?: string;
+  InstanceStatus?: InstanceStatus;
   InboundCallsEnabled?: boolean;
   OutboundCallsEnabled?: boolean;
   InstanceAccessUrl?: string;
@@ -14230,11 +15786,11 @@ export const InstanceSummary = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
-    IdentityManagementType: S.optional(S.String),
+    IdentityManagementType: S.optional(DirectoryType),
     InstanceAlias: S.optional(SensitiveString),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ServiceRole: S.optional(S.String),
-    InstanceStatus: S.optional(S.String),
+    InstanceStatus: S.optional(InstanceStatus),
     InboundCallsEnabled: S.optional(S.Boolean),
     OutboundCallsEnabled: S.optional(S.Boolean),
     InstanceAccessUrl: S.optional(S.String),
@@ -14248,22 +15804,22 @@ export interface IntegrationAssociationSummary {
   IntegrationAssociationId?: string;
   IntegrationAssociationArn?: string;
   InstanceId?: string;
-  IntegrationType?: string;
+  IntegrationType?: IntegrationType;
   IntegrationArn?: string;
   SourceApplicationUrl?: string;
   SourceApplicationName?: string;
-  SourceType?: string;
+  SourceType?: SourceType;
 }
 export const IntegrationAssociationSummary = S.suspend(() =>
   S.Struct({
     IntegrationAssociationId: S.optional(S.String),
     IntegrationAssociationArn: S.optional(S.String),
     InstanceId: S.optional(S.String),
-    IntegrationType: S.optional(S.String),
+    IntegrationType: S.optional(IntegrationType),
     IntegrationArn: S.optional(S.String),
     SourceApplicationUrl: S.optional(S.String),
     SourceApplicationName: S.optional(S.String),
-    SourceType: S.optional(S.String),
+    SourceType: S.optional(SourceType),
   }),
 ).annotations({
   identifier: "IntegrationAssociationSummary",
@@ -14276,16 +15832,16 @@ export interface PhoneNumberSummary {
   Id?: string;
   Arn?: string;
   PhoneNumber?: string;
-  PhoneNumberType?: string;
-  PhoneNumberCountryCode?: string;
+  PhoneNumberType?: PhoneNumberType;
+  PhoneNumberCountryCode?: PhoneNumberCountryCode;
 }
 export const PhoneNumberSummary = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
     PhoneNumber: S.optional(S.String),
-    PhoneNumberType: S.optional(S.String),
-    PhoneNumberCountryCode: S.optional(S.String),
+    PhoneNumberType: S.optional(PhoneNumberType),
+    PhoneNumberCountryCode: S.optional(PhoneNumberCountryCode),
   }),
 ).annotations({
   identifier: "PhoneNumberSummary",
@@ -14296,8 +15852,8 @@ export interface ListPhoneNumbersSummary {
   PhoneNumberId?: string;
   PhoneNumberArn?: string;
   PhoneNumber?: string;
-  PhoneNumberCountryCode?: string;
-  PhoneNumberType?: string;
+  PhoneNumberCountryCode?: PhoneNumberCountryCode;
+  PhoneNumberType?: PhoneNumberType;
   TargetArn?: string;
   InstanceId?: string;
   PhoneNumberDescription?: string;
@@ -14308,8 +15864,8 @@ export const ListPhoneNumbersSummary = S.suspend(() =>
     PhoneNumberId: S.optional(S.String),
     PhoneNumberArn: S.optional(S.String),
     PhoneNumber: S.optional(S.String),
-    PhoneNumberCountryCode: S.optional(S.String),
-    PhoneNumberType: S.optional(S.String),
+    PhoneNumberCountryCode: S.optional(PhoneNumberCountryCode),
+    PhoneNumberType: S.optional(PhoneNumberType),
     TargetArn: S.optional(S.String),
     InstanceId: S.optional(S.String),
     PhoneNumberDescription: S.optional(S.String),
@@ -14366,7 +15922,7 @@ export interface QueueSummary {
   Id?: string;
   Arn?: string;
   Name?: string;
-  QueueType?: string;
+  QueueType?: QueueType;
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
 }
@@ -14375,7 +15931,7 @@ export const QueueSummary = S.suspend(() =>
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
     Name: S.optional(S.String),
-    QueueType: S.optional(S.String),
+    QueueType: S.optional(QueueType),
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -14388,14 +15944,14 @@ export interface RoutingProfileManualAssignmentQueueConfigSummary {
   QueueId: string;
   QueueArn: string;
   QueueName: string;
-  Channel: string;
+  Channel: Channel;
 }
 export const RoutingProfileManualAssignmentQueueConfigSummary = S.suspend(() =>
   S.Struct({
     QueueId: S.String,
     QueueArn: S.String,
     QueueName: S.String,
-    Channel: S.String,
+    Channel: Channel,
   }),
 ).annotations({
   identifier: "RoutingProfileManualAssignmentQueueConfigSummary",
@@ -14411,7 +15967,7 @@ export interface RoutingProfileQueueConfigSummary {
   QueueName: string;
   Priority: number;
   Delay: number;
-  Channel: string;
+  Channel: Channel;
 }
 export const RoutingProfileQueueConfigSummary = S.suspend(() =>
   S.Struct({
@@ -14420,7 +15976,7 @@ export const RoutingProfileQueueConfigSummary = S.suspend(() =>
     QueueName: S.String,
     Priority: S.Number,
     Delay: S.Number,
-    Channel: S.String,
+    Channel: Channel,
   }),
 ).annotations({
   identifier: "RoutingProfileQueueConfigSummary",
@@ -14493,7 +16049,7 @@ export interface TaskTemplateMetadata {
   Arn?: string;
   Name?: string;
   Description?: string;
-  Status?: string;
+  Status?: TaskTemplateStatus;
   LastModifiedTime?: Date;
   CreatedTime?: Date;
 }
@@ -14503,7 +16059,7 @@ export const TaskTemplateMetadata = S.suspend(() =>
     Arn: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(TaskTemplateStatus),
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -14519,7 +16075,7 @@ export interface TrafficDistributionGroupSummary {
   Arn?: string;
   Name?: string;
   InstanceArn?: string;
-  Status?: string;
+  Status?: TrafficDistributionGroupStatus;
   IsDefault?: boolean;
 }
 export const TrafficDistributionGroupSummary = S.suspend(() =>
@@ -14528,7 +16084,7 @@ export const TrafficDistributionGroupSummary = S.suspend(() =>
     Arn: S.optional(S.String),
     Name: S.optional(S.String),
     InstanceArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(TrafficDistributionGroupStatus),
     IsDefault: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -14555,13 +16111,13 @@ export const TrafficDistributionGroupUserSummaryList = S.Array(
 export interface UseCase {
   UseCaseId?: string;
   UseCaseArn?: string;
-  UseCaseType?: string;
+  UseCaseType?: UseCaseType;
 }
 export const UseCase = S.suspend(() =>
   S.Struct({
     UseCaseId: S.optional(S.String),
     UseCaseArn: S.optional(S.String),
-    UseCaseType: S.optional(S.String),
+    UseCaseType: S.optional(UseCaseType),
   }),
 ).annotations({ identifier: "UseCase" }) as any as S.Schema<UseCase>;
 export type UseCaseSummaryList = UseCase[];
@@ -14611,9 +16167,9 @@ export const UserSummaryList = S.Array(UserSummary);
 export interface ViewSummary {
   Id?: string;
   Arn?: string;
-  Name?: string | Redacted.Redacted<string>;
-  Type?: string;
-  Status?: string;
+  Name?: string | redacted.Redacted<string>;
+  Type?: ViewType;
+  Status?: ViewStatus;
   Description?: string;
 }
 export const ViewSummary = S.suspend(() =>
@@ -14621,8 +16177,8 @@ export const ViewSummary = S.suspend(() =>
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
     Name: S.optional(SensitiveString),
-    Type: S.optional(S.String),
-    Status: S.optional(S.String),
+    Type: S.optional(ViewType),
+    Status: S.optional(ViewStatus),
     Description: S.optional(S.String),
   }),
 ).annotations({ identifier: "ViewSummary" }) as any as S.Schema<ViewSummary>;
@@ -14632,8 +16188,8 @@ export interface ViewVersionSummary {
   Id?: string;
   Arn?: string;
   Description?: string;
-  Name?: string | Redacted.Redacted<string>;
-  Type?: string;
+  Name?: string | redacted.Redacted<string>;
+  Type?: ViewType;
   Version?: number;
   VersionDescription?: string;
 }
@@ -14643,7 +16199,7 @@ export const ViewVersionSummary = S.suspend(() =>
     Arn: S.optional(S.String),
     Description: S.optional(S.String),
     Name: S.optional(SensitiveString),
-    Type: S.optional(S.String),
+    Type: S.optional(ViewType),
     Version: S.optional(S.Number),
     VersionDescription: S.optional(S.String),
   }),
@@ -14653,11 +16209,11 @@ export const ViewVersionSummary = S.suspend(() =>
 export type ViewVersionSummaryList = ViewVersionSummary[];
 export const ViewVersionSummaryList = S.Array(ViewVersionSummary);
 export interface MediaItem {
-  Type?: string;
+  Type?: MediaType;
   Source?: string;
 }
 export const MediaItem = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String), Source: S.optional(S.String) }),
+  S.Struct({ Type: S.optional(MediaType), Source: S.optional(S.String) }),
 ).annotations({ identifier: "MediaItem" }) as any as S.Schema<MediaItem>;
 export type MediaList = MediaItem[];
 export const MediaList = S.Array(MediaItem);
@@ -14702,8 +16258,8 @@ export const WorkspaceSummary = S.suspend(() =>
 export type WorkspaceSummaryList = WorkspaceSummary[];
 export const WorkspaceSummaryList = S.Array(WorkspaceSummary);
 export interface AgentStatusSearchCriteria {
-  OrConditions?: AgentStatusSearchConditionList;
-  AndConditions?: AgentStatusSearchConditionList;
+  OrConditions?: AgentStatusSearchCriteria[];
+  AndConditions?: AgentStatusSearchCriteria[];
   StringCondition?: StringCondition;
 }
 export const AgentStatusSearchCriteria = S.suspend(() =>
@@ -14725,14 +16281,14 @@ export const AgentStatusSearchCriteria = S.suspend(() =>
 }) as any as S.Schema<AgentStatusSearchCriteria>;
 export interface AvailableNumberSummary {
   PhoneNumber?: string;
-  PhoneNumberCountryCode?: string;
-  PhoneNumberType?: string;
+  PhoneNumberCountryCode?: PhoneNumberCountryCode;
+  PhoneNumberType?: PhoneNumberType;
 }
 export const AvailableNumberSummary = S.suspend(() =>
   S.Struct({
     PhoneNumber: S.optional(S.String),
-    PhoneNumberCountryCode: S.optional(S.String),
-    PhoneNumberType: S.optional(S.String),
+    PhoneNumberCountryCode: S.optional(PhoneNumberCountryCode),
+    PhoneNumberType: S.optional(PhoneNumberType),
   }),
 ).annotations({
   identifier: "AvailableNumberSummary",
@@ -14740,8 +16296,8 @@ export const AvailableNumberSummary = S.suspend(() =>
 export type AvailableNumbersList = AvailableNumberSummary[];
 export const AvailableNumbersList = S.Array(AvailableNumberSummary);
 export interface EvaluationSearchCriteria {
-  OrConditions?: EvaluationSearchConditionList;
-  AndConditions?: EvaluationSearchConditionList;
+  OrConditions?: EvaluationSearchCriteria[];
+  AndConditions?: EvaluationSearchCriteria[];
   StringCondition?: StringCondition;
   NumberCondition?: NumberCondition;
   BooleanCondition?: BooleanCondition;
@@ -14780,8 +16336,8 @@ export const ContactFlowModuleSearchFilter = S.suspend(() =>
 export type DataTableList = DataTable[];
 export const DataTableList = S.Array(DataTable);
 export interface HoursOfOperationOverrideSearchCriteria {
-  OrConditions?: HoursOfOperationOverrideSearchConditionList;
-  AndConditions?: HoursOfOperationOverrideSearchConditionList;
+  OrConditions?: HoursOfOperationOverrideSearchCriteria[];
+  AndConditions?: HoursOfOperationOverrideSearchCriteria[];
   StringCondition?: StringCondition;
   DateCondition?: DateCondition;
 }
@@ -14819,8 +16375,8 @@ export const PredefinedAttributeConfiguration = S.suspend(() =>
 }) as any as S.Schema<PredefinedAttributeConfiguration>;
 export interface PredefinedAttribute {
   Name?: string;
-  Values?: (typeof PredefinedAttributeValues)["Type"];
-  Purposes?: PredefinedAttributePurposeNameList;
+  Values?: PredefinedAttributeValues;
+  Purposes?: string[];
   AttributeConfiguration?: PredefinedAttributeConfiguration;
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
@@ -14882,7 +16438,7 @@ export interface HierarchyGroup {
   Name?: string;
   LevelId?: string;
   HierarchyPath?: HierarchyPath;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
 }
@@ -14910,8 +16466,8 @@ export interface VocabularySummary {
   Name: string;
   Id: string;
   Arn: string;
-  LanguageCode: string;
-  State: string;
+  LanguageCode: VocabularyLanguageCode;
+  State: VocabularyState;
   LastModifiedTime: Date;
   FailureReason?: string;
 }
@@ -14920,8 +16476,8 @@ export const VocabularySummary = S.suspend(() =>
     Name: S.String,
     Id: S.String,
     Arn: S.String,
-    LanguageCode: S.String,
-    State: S.String,
+    LanguageCode: VocabularyLanguageCode,
+    State: VocabularyState,
     LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     FailureReason: S.optional(S.String),
   }),
@@ -14955,16 +16511,91 @@ export const SegmentAttributeValueMap = S.Record({
     (): S.Schema<SegmentAttributeValue, any> => SegmentAttributeValue,
   ).annotations({ identifier: "SegmentAttributeValue" }),
 }) as any as S.Schema<SegmentAttributeValueMap>;
+export type MediaStreamType = "AUDIO" | "VIDEO";
+export const MediaStreamType = S.Literal("AUDIO", "VIDEO");
+export type ParticipantType =
+  | "ALL"
+  | "MANAGER"
+  | "AGENT"
+  | "CUSTOMER"
+  | "THIRDPARTY";
+export const ParticipantType = S.Literal(
+  "ALL",
+  "MANAGER",
+  "AGENT",
+  "CUSTOMER",
+  "THIRDPARTY",
+);
+export type RecordingStatus = "AVAILABLE" | "DELETED";
+export const RecordingStatus = S.Literal("AVAILABLE", "DELETED");
+export type NextContactType = "QUICK_CONNECT";
+export const NextContactType = S.Literal("QUICK_CONNECT");
+export type InstanceReplicationStatus =
+  | "INSTANCE_REPLICATION_COMPLETE"
+  | "INSTANCE_REPLICATION_IN_PROGRESS"
+  | "INSTANCE_REPLICATION_FAILED"
+  | "INSTANCE_REPLICA_DELETING"
+  | "INSTANCE_REPLICATION_DELETION_FAILED"
+  | "RESOURCE_REPLICATION_NOT_STARTED";
+export const InstanceReplicationStatus = S.Literal(
+  "INSTANCE_REPLICATION_COMPLETE",
+  "INSTANCE_REPLICATION_IN_PROGRESS",
+  "INSTANCE_REPLICATION_FAILED",
+  "INSTANCE_REPLICA_DELETING",
+  "INSTANCE_REPLICATION_DELETION_FAILED",
+  "RESOURCE_REPLICATION_NOT_STARTED",
+);
+export type PhoneNumberWorkflowStatus = "CLAIMED" | "IN_PROGRESS" | "FAILED";
+export const PhoneNumberWorkflowStatus = S.Literal(
+  "CLAIMED",
+  "IN_PROGRESS",
+  "FAILED",
+);
+export type ContactParticipantRole = "AGENT" | "SYSTEM" | "CUSTOM_BOT";
+export const ContactParticipantRole = S.Literal(
+  "AGENT",
+  "SYSTEM",
+  "CUSTOM_BOT",
+);
+export type RealTimeContactAnalysisSentimentLabel =
+  | "POSITIVE"
+  | "NEGATIVE"
+  | "NEUTRAL";
+export const RealTimeContactAnalysisSentimentLabel = S.Literal(
+  "POSITIVE",
+  "NEGATIVE",
+  "NEUTRAL",
+);
+export type RealTimeContactAnalysisPostContactSummaryStatus =
+  | "FAILED"
+  | "COMPLETED";
+export const RealTimeContactAnalysisPostContactSummaryStatus = S.Literal(
+  "FAILED",
+  "COMPLETED",
+);
+export type RealTimeContactAnalysisPostContactSummaryFailureCode =
+  | "QUOTA_EXCEEDED"
+  | "INSUFFICIENT_CONVERSATION_CONTENT"
+  | "FAILED_SAFETY_GUIDELINES"
+  | "INVALID_ANALYSIS_CONFIGURATION"
+  | "INTERNAL_ERROR";
+export const RealTimeContactAnalysisPostContactSummaryFailureCode = S.Literal(
+  "QUOTA_EXCEEDED",
+  "INSUFFICIENT_CONVERSATION_CONTENT",
+  "FAILED_SAFETY_GUIDELINES",
+  "INVALID_ANALYSIS_CONFIGURATION",
+  "INTERNAL_ERROR",
+);
 export interface ContactFlowTypeCondition {
-  ContactFlowType?: string;
+  ContactFlowType?: ContactFlowType;
 }
 export const ContactFlowTypeCondition = S.suspend(() =>
-  S.Struct({ ContactFlowType: S.optional(S.String) }),
+  S.Struct({ ContactFlowType: S.optional(ContactFlowType) }),
 ).annotations({
   identifier: "ContactFlowTypeCondition",
 }) as any as S.Schema<ContactFlowTypeCondition>;
 export interface ContactFlowAttributeAndCondition {
-  TagConditions?: TagAndConditionList;
+  TagConditions?: TagCondition[];
   ContactFlowTypeCondition?: ContactFlowTypeCondition;
 }
 export const ContactFlowAttributeAndCondition = S.suspend(() =>
@@ -14981,8 +16612,8 @@ export const ContactFlowAttributeOrConditionList = S.Array(
   ContactFlowAttributeAndCondition,
 );
 export interface SearchableContactAttributesCriteria {
-  Key: string | Redacted.Redacted<string>;
-  Values: SearchableContactAttributeValueList;
+  Key: string | redacted.Redacted<string>;
+  Values: string | redacted.Redacted<string>[];
 }
 export const SearchableContactAttributesCriteria = S.suspend(() =>
   S.Struct({
@@ -14998,8 +16629,8 @@ export const SearchableContactAttributesCriteriaList = S.Array(
   SearchableContactAttributesCriteria,
 );
 export interface SearchableSegmentAttributesCriteria {
-  Key: string | Redacted.Redacted<string>;
-  Values: SearchableSegmentAttributeValueList;
+  Key: string | redacted.Redacted<string>;
+  Values: string | redacted.Redacted<string>[];
 }
 export const SearchableSegmentAttributesCriteria = S.suspend(() =>
   S.Struct({
@@ -15015,7 +16646,7 @@ export const SearchableSegmentAttributesCriteriaList = S.Array(
   SearchableSegmentAttributesCriteria,
 );
 export interface AttributeAndCondition {
-  TagConditions?: TagAndConditionList;
+  TagConditions?: TagCondition[];
   HierarchyGroupCondition?: HierarchyGroupCondition;
 }
 export const AttributeAndCondition = S.suspend(() =>
@@ -15040,8 +16671,10 @@ export const Condition = S.suspend(() =>
 ).annotations({ identifier: "Condition" }) as any as S.Schema<Condition>;
 export type Conditions = Condition[];
 export const Conditions = S.Array(Condition);
-export type EmailHeaders = { [key: string]: string };
-export const EmailHeaders = S.Record({ key: S.String, value: S.String });
+export type EmailHeaders = { [key in EmailHeaderType]?: string };
+export const EmailHeaders = S.partial(
+  S.Record({ key: EmailHeaderType, value: S.String }),
+);
 export interface RoutingCriteriaInputStepExpiry {
   DurationInSeconds?: number;
 }
@@ -15051,8 +16684,8 @@ export const RoutingCriteriaInputStepExpiry = S.suspend(() =>
   identifier: "RoutingCriteriaInputStepExpiry",
 }) as any as S.Schema<RoutingCriteriaInputStepExpiry>;
 export interface AssociateWorkspaceResponse {
-  SuccessfulList?: SuccessfulBatchAssociationSummaryList;
-  FailedList?: FailedBatchAssociationSummaryList;
+  SuccessfulList?: SuccessfulBatchAssociationSummary[];
+  FailedList?: FailedBatchAssociationSummary[];
 }
 export const AssociateWorkspaceResponse = S.suspend(() =>
   S.Struct({
@@ -15063,8 +16696,8 @@ export const AssociateWorkspaceResponse = S.suspend(() =>
   identifier: "AssociateWorkspaceResponse",
 }) as any as S.Schema<AssociateWorkspaceResponse>;
 export interface BatchAssociateAnalyticsDataSetResponse {
-  Created?: AnalyticsDataAssociationResults;
-  Errors?: ErrorResults;
+  Created?: AnalyticsDataAssociationResult[];
+  Errors?: ErrorResult[];
 }
 export const BatchAssociateAnalyticsDataSetResponse = S.suspend(() =>
   S.Struct({
@@ -15075,8 +16708,8 @@ export const BatchAssociateAnalyticsDataSetResponse = S.suspend(() =>
   identifier: "BatchAssociateAnalyticsDataSetResponse",
 }) as any as S.Schema<BatchAssociateAnalyticsDataSetResponse>;
 export interface BatchGetAttachedFileMetadataResponse {
-  Files?: AttachedFilesList;
-  Errors?: AttachedFileErrorsList;
+  Files?: AttachedFile[];
+  Errors?: AttachedFileError[];
 }
 export const BatchGetAttachedFileMetadataResponse = S.suspend(() =>
   S.Struct({
@@ -15087,7 +16720,7 @@ export const BatchGetAttachedFileMetadataResponse = S.suspend(() =>
   identifier: "BatchGetAttachedFileMetadataResponse",
 }) as any as S.Schema<BatchGetAttachedFileMetadataResponse>;
 export interface BatchGetFlowAssociationResponse {
-  FlowAssociationSummaryList?: FlowAssociationSummaryList;
+  FlowAssociationSummaryList?: FlowAssociationSummary[];
 }
 export const BatchGetFlowAssociationResponse = S.suspend(() =>
   S.Struct({
@@ -15099,7 +16732,7 @@ export const BatchGetFlowAssociationResponse = S.suspend(() =>
 export interface BatchPutContactRequest {
   ClientToken?: string;
   InstanceId: string;
-  ContactDataRequestList: ContactDataRequestList;
+  ContactDataRequestList: ContactDataRequest[];
 }
 export const BatchPutContactRequest = S.suspend(() =>
   S.Struct({
@@ -15120,8 +16753,8 @@ export const BatchPutContactRequest = S.suspend(() =>
   identifier: "BatchPutContactRequest",
 }) as any as S.Schema<BatchPutContactRequest>;
 export interface BatchUpdateDataTableValueResponse {
-  Successful: BatchUpdateDataTableValueSuccessResultList;
-  Failed: BatchUpdateDataTableValueFailureResultList;
+  Successful: BatchUpdateDataTableValueSuccessResult[];
+  Failed: BatchUpdateDataTableValueFailureResult[];
 }
 export const BatchUpdateDataTableValueResponse = S.suspend(() =>
   S.Struct({
@@ -15156,7 +16789,7 @@ export interface CreateDataTableAttributeRequest {
   InstanceId: string;
   DataTableId: string;
   Name: string;
-  ValueType: string;
+  ValueType: DataTableAttributeValueType;
   Description?: string;
   Primary?: boolean;
   Validation?: Validation;
@@ -15166,7 +16799,7 @@ export const CreateDataTableAttributeRequest = S.suspend(() =>
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     Name: S.String,
-    ValueType: S.String,
+    ValueType: DataTableAttributeValueType,
     Description: S.optional(S.String),
     Primary: S.optional(S.Boolean),
     Validation: S.optional(Validation),
@@ -15186,13 +16819,29 @@ export const CreateDataTableAttributeRequest = S.suspend(() =>
 ).annotations({
   identifier: "CreateDataTableAttributeRequest",
 }) as any as S.Schema<CreateDataTableAttributeRequest>;
+export type EvaluationFormSingleSelectQuestionDisplayMode =
+  | "DROPDOWN"
+  | "RADIO";
+export const EvaluationFormSingleSelectQuestionDisplayMode = S.Literal(
+  "DROPDOWN",
+  "RADIO",
+);
+export type EvaluationFormMultiSelectQuestionDisplayMode =
+  | "DROPDOWN"
+  | "CHECKBOX";
+export const EvaluationFormMultiSelectQuestionDisplayMode = S.Literal(
+  "DROPDOWN",
+  "CHECKBOX",
+);
+export type EvaluationFormItemEnablementOperator = "OR" | "AND";
+export const EvaluationFormItemEnablementOperator = S.Literal("OR", "AND");
 export interface CreateHoursOfOperationRequest {
   InstanceId: string;
   Name: string;
   Description?: string;
   TimeZone: string;
-  Config: HoursOfOperationConfigList;
-  Tags?: TagMap;
+  Config: HoursOfOperationConfig[];
+  Tags?: { [key: string]: string };
 }
 export const CreateHoursOfOperationRequest = S.suspend(() =>
   S.Struct({
@@ -15220,7 +16869,7 @@ export interface CreateHoursOfOperationOverrideRequest {
   HoursOfOperationId: string;
   Name: string;
   Description?: string;
-  Config: HoursOfOperationOverrideConfigList;
+  Config: HoursOfOperationOverrideConfig[];
   EffectiveFrom: string;
   EffectiveTill: string;
 }
@@ -15296,7 +16945,7 @@ export interface CreateQuickConnectRequest {
   Name: string;
   Description?: string;
   QuickConnectConfig: QuickConnectConfig;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateQuickConnectRequest = S.suspend(() =>
   S.Struct({
@@ -15323,11 +16972,11 @@ export interface CreateRoutingProfileRequest {
   Name: string;
   Description: string;
   DefaultOutboundQueueId: string;
-  QueueConfigs?: RoutingProfileQueueConfigList;
-  ManualAssignmentQueueConfigs?: RoutingProfileManualAssignmentQueueConfigList;
-  MediaConcurrencies: MediaConcurrencies;
-  Tags?: TagMap;
-  AgentAvailabilityTimer?: string;
+  QueueConfigs?: RoutingProfileQueueConfig[];
+  ManualAssignmentQueueConfigs?: RoutingProfileManualAssignmentQueueConfig[];
+  MediaConcurrencies: MediaConcurrency[];
+  Tags?: { [key: string]: string };
+  AgentAvailabilityTimer?: AgentAvailabilityTimer;
 }
 export const CreateRoutingProfileRequest = S.suspend(() =>
   S.Struct({
@@ -15341,7 +16990,7 @@ export const CreateRoutingProfileRequest = S.suspend(() =>
     ),
     MediaConcurrencies: MediaConcurrencies,
     Tags: S.optional(TagMap),
-    AgentAvailabilityTimer: S.optional(S.String),
+    AgentAvailabilityTimer: S.optional(AgentAvailabilityTimer),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/routing-profiles/{InstanceId}" }),
@@ -15363,8 +17012,8 @@ export interface CreateTaskTemplateRequest {
   SelfAssignFlowId?: string;
   Constraints?: TaskTemplateConstraints;
   Defaults?: TaskTemplateDefaults;
-  Status?: string;
-  Fields: TaskTemplateFields;
+  Status?: TaskTemplateStatus;
+  Fields: TaskTemplateField[];
   ClientToken?: string;
 }
 export const CreateTaskTemplateRequest = S.suspend(() =>
@@ -15376,7 +17025,7 @@ export const CreateTaskTemplateRequest = S.suspend(() =>
     SelfAssignFlowId: S.optional(S.String),
     Constraints: S.optional(TaskTemplateConstraints),
     Defaults: S.optional(TaskTemplateDefaults),
-    Status: S.optional(S.String),
+    Status: S.optional(TaskTemplateStatus),
     Fields: TaskTemplateFields,
     ClientToken: S.optional(S.String),
   }).pipe(
@@ -15581,25 +17230,25 @@ export interface GetAttachedFileResponse {
   FileArn?: string;
   FileId?: string;
   CreationTime?: string;
-  FileStatus?: string;
+  FileStatus?: FileStatusType;
   FileName?: string;
   FileSizeInBytes: number;
   AssociatedResourceArn?: string;
-  FileUseCaseType?: string;
-  CreatedBy?: (typeof CreatedByInfo)["Type"];
+  FileUseCaseType?: FileUseCaseType;
+  CreatedBy?: CreatedByInfo;
   DownloadUrlMetadata?: DownloadUrlMetadata;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const GetAttachedFileResponse = S.suspend(() =>
   S.Struct({
     FileArn: S.optional(S.String),
     FileId: S.optional(S.String),
     CreationTime: S.optional(S.String),
-    FileStatus: S.optional(S.String),
+    FileStatus: S.optional(FileStatusType),
     FileName: S.optional(S.String),
     FileSizeInBytes: S.Number,
     AssociatedResourceArn: S.optional(S.String),
-    FileUseCaseType: S.optional(S.String),
+    FileUseCaseType: S.optional(FileUseCaseType),
     CreatedBy: S.optional(CreatedByInfo),
     DownloadUrlMetadata: S.optional(DownloadUrlMetadata),
     Tags: S.optional(TagMap),
@@ -15653,8 +17302,8 @@ export interface GetMetricDataRequest {
   StartTime: Date;
   EndTime: Date;
   Filters: Filters;
-  Groupings?: Groupings;
-  HistoricalMetrics: HistoricalMetrics;
+  Groupings?: Grouping[];
+  HistoricalMetrics: HistoricalMetric[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -15686,9 +17335,9 @@ export interface GetMetricDataV2Request {
   StartTime: Date;
   EndTime: Date;
   Interval?: IntervalDetails;
-  Filters: FiltersV2List;
-  Groupings?: GroupingsV2;
-  Metrics: MetricsV2;
+  Filters: FilterV2[];
+  Groupings?: string[];
+  Metrics: MetricV2[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -15718,7 +17367,7 @@ export const GetMetricDataV2Request = S.suspend(() =>
 }) as any as S.Schema<GetMetricDataV2Request>;
 export interface ListAgentStatusResponse {
   NextToken?: string;
-  AgentStatusSummaryList?: AgentStatusSummaryList;
+  AgentStatusSummaryList?: AgentStatusSummary[];
 }
 export const ListAgentStatusResponse = S.suspend(() =>
   S.Struct({
@@ -15729,7 +17378,7 @@ export const ListAgentStatusResponse = S.suspend(() =>
   identifier: "ListAgentStatusResponse",
 }) as any as S.Schema<ListAgentStatusResponse>;
 export interface ListAnalyticsDataLakeDataSetsResponse {
-  Results?: AnalyticsDataSetsResults;
+  Results?: AnalyticsDataSetsResult[];
   NextToken?: string;
 }
 export const ListAnalyticsDataLakeDataSetsResponse = S.suspend(() =>
@@ -15741,7 +17390,7 @@ export const ListAnalyticsDataLakeDataSetsResponse = S.suspend(() =>
   identifier: "ListAnalyticsDataLakeDataSetsResponse",
 }) as any as S.Schema<ListAnalyticsDataLakeDataSetsResponse>;
 export interface ListAssociatedContactsResponse {
-  ContactSummaryList?: AssociatedContactSummaryList;
+  ContactSummaryList?: AssociatedContactSummary[];
   NextToken?: string;
 }
 export const ListAssociatedContactsResponse = S.suspend(() =>
@@ -15753,7 +17402,7 @@ export const ListAssociatedContactsResponse = S.suspend(() =>
   identifier: "ListAssociatedContactsResponse",
 }) as any as S.Schema<ListAssociatedContactsResponse>;
 export interface ListAuthenticationProfilesResponse {
-  AuthenticationProfileSummaryList?: AuthenticationProfileSummaryList;
+  AuthenticationProfileSummaryList?: AuthenticationProfileSummary[];
   NextToken?: string;
 }
 export const ListAuthenticationProfilesResponse = S.suspend(() =>
@@ -15767,7 +17416,7 @@ export const ListAuthenticationProfilesResponse = S.suspend(() =>
   identifier: "ListAuthenticationProfilesResponse",
 }) as any as S.Schema<ListAuthenticationProfilesResponse>;
 export interface ListBotsResponse {
-  LexBots?: LexBotConfigList;
+  LexBots?: LexBotConfig[];
   NextToken?: string;
 }
 export const ListBotsResponse = S.suspend(() =>
@@ -15779,7 +17428,7 @@ export const ListBotsResponse = S.suspend(() =>
   identifier: "ListBotsResponse",
 }) as any as S.Schema<ListBotsResponse>;
 export interface ListContactFlowModuleAliasesResponse {
-  ContactFlowModuleAliasSummaryList?: ContactFlowModuleAliasSummaryList;
+  ContactFlowModuleAliasSummaryList?: ContactFlowModuleAliasSummary[];
   NextToken?: string;
 }
 export const ListContactFlowModuleAliasesResponse = S.suspend(() =>
@@ -15793,7 +17442,7 @@ export const ListContactFlowModuleAliasesResponse = S.suspend(() =>
   identifier: "ListContactFlowModuleAliasesResponse",
 }) as any as S.Schema<ListContactFlowModuleAliasesResponse>;
 export interface ListContactFlowModulesResponse {
-  ContactFlowModulesSummaryList?: ContactFlowModulesSummaryList;
+  ContactFlowModulesSummaryList?: ContactFlowModuleSummary[];
   NextToken?: string;
 }
 export const ListContactFlowModulesResponse = S.suspend(() =>
@@ -15805,7 +17454,7 @@ export const ListContactFlowModulesResponse = S.suspend(() =>
   identifier: "ListContactFlowModulesResponse",
 }) as any as S.Schema<ListContactFlowModulesResponse>;
 export interface ListContactFlowModuleVersionsResponse {
-  ContactFlowModuleVersionSummaryList?: ContactFlowModuleVersionSummaryList;
+  ContactFlowModuleVersionSummaryList?: ContactFlowModuleVersionSummary[];
   NextToken?: string;
 }
 export const ListContactFlowModuleVersionsResponse = S.suspend(() =>
@@ -15819,7 +17468,7 @@ export const ListContactFlowModuleVersionsResponse = S.suspend(() =>
   identifier: "ListContactFlowModuleVersionsResponse",
 }) as any as S.Schema<ListContactFlowModuleVersionsResponse>;
 export interface ListContactFlowsResponse {
-  ContactFlowSummaryList?: ContactFlowSummaryList;
+  ContactFlowSummaryList?: ContactFlowSummary[];
   NextToken?: string;
 }
 export const ListContactFlowsResponse = S.suspend(() =>
@@ -15831,7 +17480,7 @@ export const ListContactFlowsResponse = S.suspend(() =>
   identifier: "ListContactFlowsResponse",
 }) as any as S.Schema<ListContactFlowsResponse>;
 export interface ListContactFlowVersionsResponse {
-  ContactFlowVersionSummaryList?: ContactFlowVersionSummaryList;
+  ContactFlowVersionSummaryList?: ContactFlowVersionSummary[];
   NextToken?: string;
 }
 export const ListContactFlowVersionsResponse = S.suspend(() =>
@@ -15844,7 +17493,7 @@ export const ListContactFlowVersionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListContactFlowVersionsResponse>;
 export interface ListDataTablesResponse {
   NextToken?: string;
-  DataTableSummaryList: DataTableSummaryList;
+  DataTableSummaryList: DataTableSummary[];
 }
 export const ListDataTablesResponse = S.suspend(() =>
   S.Struct({
@@ -15855,7 +17504,7 @@ export const ListDataTablesResponse = S.suspend(() =>
   identifier: "ListDataTablesResponse",
 }) as any as S.Schema<ListDataTablesResponse>;
 export interface ListDefaultVocabulariesResponse {
-  DefaultVocabularyList: DefaultVocabularyList;
+  DefaultVocabularyList: DefaultVocabulary[];
   NextToken?: string;
 }
 export const ListDefaultVocabulariesResponse = S.suspend(() =>
@@ -15867,7 +17516,7 @@ export const ListDefaultVocabulariesResponse = S.suspend(() =>
   identifier: "ListDefaultVocabulariesResponse",
 }) as any as S.Schema<ListDefaultVocabulariesResponse>;
 export interface ListEvaluationFormsResponse {
-  EvaluationFormSummaryList: EvaluationFormSummaryList;
+  EvaluationFormSummaryList: EvaluationFormSummary[];
   NextToken?: string;
 }
 export const ListEvaluationFormsResponse = S.suspend(() =>
@@ -15879,7 +17528,7 @@ export const ListEvaluationFormsResponse = S.suspend(() =>
   identifier: "ListEvaluationFormsResponse",
 }) as any as S.Schema<ListEvaluationFormsResponse>;
 export interface ListEvaluationFormVersionsResponse {
-  EvaluationFormVersionSummaryList: EvaluationFormVersionSummaryList;
+  EvaluationFormVersionSummaryList: EvaluationFormVersionSummary[];
   NextToken?: string;
 }
 export const ListEvaluationFormVersionsResponse = S.suspend(() =>
@@ -15891,7 +17540,7 @@ export const ListEvaluationFormVersionsResponse = S.suspend(() =>
   identifier: "ListEvaluationFormVersionsResponse",
 }) as any as S.Schema<ListEvaluationFormVersionsResponse>;
 export interface ListHoursOfOperationsResponse {
-  HoursOfOperationSummaryList?: HoursOfOperationSummaryList;
+  HoursOfOperationSummaryList?: HoursOfOperationSummary[];
   NextToken?: string;
 }
 export const ListHoursOfOperationsResponse = S.suspend(() =>
@@ -15903,7 +17552,7 @@ export const ListHoursOfOperationsResponse = S.suspend(() =>
   identifier: "ListHoursOfOperationsResponse",
 }) as any as S.Schema<ListHoursOfOperationsResponse>;
 export interface ListInstancesResponse {
-  InstanceSummaryList?: InstanceSummaryList;
+  InstanceSummaryList?: InstanceSummary[];
   NextToken?: string;
 }
 export const ListInstancesResponse = S.suspend(() =>
@@ -15915,7 +17564,7 @@ export const ListInstancesResponse = S.suspend(() =>
   identifier: "ListInstancesResponse",
 }) as any as S.Schema<ListInstancesResponse>;
 export interface ListIntegrationAssociationsResponse {
-  IntegrationAssociationSummaryList?: IntegrationAssociationSummaryList;
+  IntegrationAssociationSummaryList?: IntegrationAssociationSummary[];
   NextToken?: string;
 }
 export const ListIntegrationAssociationsResponse = S.suspend(() =>
@@ -15929,7 +17578,7 @@ export const ListIntegrationAssociationsResponse = S.suspend(() =>
   identifier: "ListIntegrationAssociationsResponse",
 }) as any as S.Schema<ListIntegrationAssociationsResponse>;
 export interface ListPhoneNumbersResponse {
-  PhoneNumberSummaryList?: PhoneNumberSummaryList;
+  PhoneNumberSummaryList?: PhoneNumberSummary[];
   NextToken?: string;
 }
 export const ListPhoneNumbersResponse = S.suspend(() =>
@@ -15942,7 +17591,7 @@ export const ListPhoneNumbersResponse = S.suspend(() =>
 }) as any as S.Schema<ListPhoneNumbersResponse>;
 export interface ListPhoneNumbersV2Response {
   NextToken?: string;
-  ListPhoneNumbersSummaryList?: ListPhoneNumbersSummaryList;
+  ListPhoneNumbersSummaryList?: ListPhoneNumbersSummary[];
 }
 export const ListPhoneNumbersV2Response = S.suspend(() =>
   S.Struct({
@@ -15954,7 +17603,7 @@ export const ListPhoneNumbersV2Response = S.suspend(() =>
 }) as any as S.Schema<ListPhoneNumbersV2Response>;
 export interface ListPredefinedAttributesResponse {
   NextToken?: string;
-  PredefinedAttributeSummaryList?: PredefinedAttributeSummaryList;
+  PredefinedAttributeSummaryList?: PredefinedAttributeSummary[];
 }
 export const ListPredefinedAttributesResponse = S.suspend(() =>
   S.Struct({
@@ -15965,7 +17614,7 @@ export const ListPredefinedAttributesResponse = S.suspend(() =>
   identifier: "ListPredefinedAttributesResponse",
 }) as any as S.Schema<ListPredefinedAttributesResponse>;
 export interface ListPromptsResponse {
-  PromptSummaryList?: PromptSummaryList;
+  PromptSummaryList?: PromptSummary[];
   NextToken?: string;
 }
 export const ListPromptsResponse = S.suspend(() =>
@@ -15978,7 +17627,7 @@ export const ListPromptsResponse = S.suspend(() =>
 }) as any as S.Schema<ListPromptsResponse>;
 export interface ListQueueQuickConnectsResponse {
   NextToken?: string;
-  QuickConnectSummaryList?: QuickConnectSummaryList;
+  QuickConnectSummaryList?: QuickConnectSummary[];
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
 }
@@ -15995,7 +17644,7 @@ export const ListQueueQuickConnectsResponse = S.suspend(() =>
   identifier: "ListQueueQuickConnectsResponse",
 }) as any as S.Schema<ListQueueQuickConnectsResponse>;
 export interface ListQueuesResponse {
-  QueueSummaryList?: QueueSummaryList;
+  QueueSummaryList?: QueueSummary[];
   NextToken?: string;
 }
 export const ListQueuesResponse = S.suspend(() =>
@@ -16008,7 +17657,7 @@ export const ListQueuesResponse = S.suspend(() =>
 }) as any as S.Schema<ListQueuesResponse>;
 export interface ListRoutingProfileManualAssignmentQueuesResponse {
   NextToken?: string;
-  RoutingProfileManualAssignmentQueueConfigSummaryList?: RoutingProfileManualAssignmentQueueConfigSummaryList;
+  RoutingProfileManualAssignmentQueueConfigSummaryList?: RoutingProfileManualAssignmentQueueConfigSummary[];
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
 }
@@ -16028,7 +17677,7 @@ export const ListRoutingProfileManualAssignmentQueuesResponse = S.suspend(() =>
 }) as any as S.Schema<ListRoutingProfileManualAssignmentQueuesResponse>;
 export interface ListRoutingProfileQueuesResponse {
   NextToken?: string;
-  RoutingProfileQueueConfigSummaryList?: RoutingProfileQueueConfigSummaryList;
+  RoutingProfileQueueConfigSummaryList?: RoutingProfileQueueConfigSummary[];
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
 }
@@ -16047,7 +17696,7 @@ export const ListRoutingProfileQueuesResponse = S.suspend(() =>
   identifier: "ListRoutingProfileQueuesResponse",
 }) as any as S.Schema<ListRoutingProfileQueuesResponse>;
 export interface ListRoutingProfilesResponse {
-  RoutingProfileSummaryList?: RoutingProfileSummaryList;
+  RoutingProfileSummaryList?: RoutingProfileSummary[];
   NextToken?: string;
 }
 export const ListRoutingProfilesResponse = S.suspend(() =>
@@ -16059,7 +17708,7 @@ export const ListRoutingProfilesResponse = S.suspend(() =>
   identifier: "ListRoutingProfilesResponse",
 }) as any as S.Schema<ListRoutingProfilesResponse>;
 export interface ListSecurityKeysResponse {
-  SecurityKeys?: SecurityKeysList;
+  SecurityKeys?: SecurityKey[];
   NextToken?: string;
 }
 export const ListSecurityKeysResponse = S.suspend(() =>
@@ -16071,7 +17720,7 @@ export const ListSecurityKeysResponse = S.suspend(() =>
   identifier: "ListSecurityKeysResponse",
 }) as any as S.Schema<ListSecurityKeysResponse>;
 export interface ListSecurityProfilesResponse {
-  SecurityProfileSummaryList?: SecurityProfileSummaryList;
+  SecurityProfileSummaryList?: SecurityProfileSummary[];
   NextToken?: string;
 }
 export const ListSecurityProfilesResponse = S.suspend(() =>
@@ -16083,7 +17732,7 @@ export const ListSecurityProfilesResponse = S.suspend(() =>
   identifier: "ListSecurityProfilesResponse",
 }) as any as S.Schema<ListSecurityProfilesResponse>;
 export interface ListTaskTemplatesResponse {
-  TaskTemplates?: TaskTemplateList;
+  TaskTemplates?: TaskTemplateMetadata[];
   NextToken?: string;
 }
 export const ListTaskTemplatesResponse = S.suspend(() =>
@@ -16096,7 +17745,7 @@ export const ListTaskTemplatesResponse = S.suspend(() =>
 }) as any as S.Schema<ListTaskTemplatesResponse>;
 export interface ListTrafficDistributionGroupsResponse {
   NextToken?: string;
-  TrafficDistributionGroupSummaryList?: TrafficDistributionGroupSummaryList;
+  TrafficDistributionGroupSummaryList?: TrafficDistributionGroupSummary[];
 }
 export const ListTrafficDistributionGroupsResponse = S.suspend(() =>
   S.Struct({
@@ -16110,7 +17759,7 @@ export const ListTrafficDistributionGroupsResponse = S.suspend(() =>
 }) as any as S.Schema<ListTrafficDistributionGroupsResponse>;
 export interface ListTrafficDistributionGroupUsersResponse {
   NextToken?: string;
-  TrafficDistributionGroupUserSummaryList?: TrafficDistributionGroupUserSummaryList;
+  TrafficDistributionGroupUserSummaryList?: TrafficDistributionGroupUserSummary[];
 }
 export const ListTrafficDistributionGroupUsersResponse = S.suspend(() =>
   S.Struct({
@@ -16123,7 +17772,7 @@ export const ListTrafficDistributionGroupUsersResponse = S.suspend(() =>
   identifier: "ListTrafficDistributionGroupUsersResponse",
 }) as any as S.Schema<ListTrafficDistributionGroupUsersResponse>;
 export interface ListUseCasesResponse {
-  UseCaseSummaryList?: UseCaseSummaryList;
+  UseCaseSummaryList?: UseCase[];
   NextToken?: string;
 }
 export const ListUseCasesResponse = S.suspend(() =>
@@ -16135,7 +17784,7 @@ export const ListUseCasesResponse = S.suspend(() =>
   identifier: "ListUseCasesResponse",
 }) as any as S.Schema<ListUseCasesResponse>;
 export interface ListUserHierarchyGroupsResponse {
-  UserHierarchyGroupSummaryList?: HierarchyGroupSummaryList;
+  UserHierarchyGroupSummaryList?: HierarchyGroupSummary[];
   NextToken?: string;
 }
 export const ListUserHierarchyGroupsResponse = S.suspend(() =>
@@ -16147,7 +17796,7 @@ export const ListUserHierarchyGroupsResponse = S.suspend(() =>
   identifier: "ListUserHierarchyGroupsResponse",
 }) as any as S.Schema<ListUserHierarchyGroupsResponse>;
 export interface ListUsersResponse {
-  UserSummaryList?: UserSummaryList;
+  UserSummaryList?: UserSummary[];
   NextToken?: string;
 }
 export const ListUsersResponse = S.suspend(() =>
@@ -16159,7 +17808,7 @@ export const ListUsersResponse = S.suspend(() =>
   identifier: "ListUsersResponse",
 }) as any as S.Schema<ListUsersResponse>;
 export interface ListViewsResponse {
-  ViewsSummaryList?: ViewsSummaryList;
+  ViewsSummaryList?: ViewSummary[];
   NextToken?: string;
 }
 export const ListViewsResponse = S.suspend(() =>
@@ -16171,7 +17820,7 @@ export const ListViewsResponse = S.suspend(() =>
   identifier: "ListViewsResponse",
 }) as any as S.Schema<ListViewsResponse>;
 export interface ListViewVersionsResponse {
-  ViewVersionSummaryList?: ViewVersionSummaryList;
+  ViewVersionSummaryList?: ViewVersionSummary[];
   NextToken?: string;
 }
 export const ListViewVersionsResponse = S.suspend(() =>
@@ -16183,7 +17832,7 @@ export const ListViewVersionsResponse = S.suspend(() =>
   identifier: "ListViewVersionsResponse",
 }) as any as S.Schema<ListViewVersionsResponse>;
 export interface ListWorkspaceMediaResponse {
-  Media?: MediaList;
+  Media?: MediaItem[];
 }
 export const ListWorkspaceMediaResponse = S.suspend(() =>
   S.Struct({ Media: S.optional(MediaList) }),
@@ -16192,7 +17841,7 @@ export const ListWorkspaceMediaResponse = S.suspend(() =>
 }) as any as S.Schema<ListWorkspaceMediaResponse>;
 export interface ListWorkspacePagesResponse {
   NextToken?: string;
-  WorkspacePageList: WorkspacePageList;
+  WorkspacePageList: WorkspacePage[];
 }
 export const ListWorkspacePagesResponse = S.suspend(() =>
   S.Struct({
@@ -16204,7 +17853,7 @@ export const ListWorkspacePagesResponse = S.suspend(() =>
 }) as any as S.Schema<ListWorkspacePagesResponse>;
 export interface ListWorkspacesResponse {
   NextToken?: string;
-  WorkspaceSummaryList: WorkspaceSummaryList;
+  WorkspaceSummaryList: WorkspaceSummary[];
 }
 export const ListWorkspacesResponse = S.suspend(() =>
   S.Struct({
@@ -16216,7 +17865,7 @@ export const ListWorkspacesResponse = S.suspend(() =>
 }) as any as S.Schema<ListWorkspacesResponse>;
 export interface SearchAvailablePhoneNumbersResponse {
   NextToken?: string;
-  AvailableNumbersList?: AvailableNumbersList;
+  AvailableNumbersList?: AvailableNumberSummary[];
 }
 export const SearchAvailablePhoneNumbersResponse = S.suspend(() =>
   S.Struct({
@@ -16280,8 +17929,10 @@ export const SearchContactFlowModulesRequest = S.suspend(() =>
 ).annotations({
   identifier: "SearchContactFlowModulesRequest",
 }) as any as S.Schema<SearchContactFlowModulesRequest>;
+export type SearchContactsTimeRangeConditionType = "NOT_EXISTS";
+export const SearchContactsTimeRangeConditionType = S.Literal("NOT_EXISTS");
 export interface SearchDataTablesResponse {
-  DataTables?: DataTableList;
+  DataTables?: DataTable[];
   NextToken?: string;
   ApproximateTotalCount?: number;
 }
@@ -16322,7 +17973,7 @@ export const SearchHoursOfOperationOverridesRequest = S.suspend(() =>
   identifier: "SearchHoursOfOperationOverridesRequest",
 }) as any as S.Schema<SearchHoursOfOperationOverridesRequest>;
 export interface SearchHoursOfOperationsResponse {
-  HoursOfOperations?: HoursOfOperationList;
+  HoursOfOperations?: HoursOfOperation[];
   NextToken?: string;
   ApproximateTotalCount?: number;
 }
@@ -16336,7 +17987,7 @@ export const SearchHoursOfOperationsResponse = S.suspend(() =>
   identifier: "SearchHoursOfOperationsResponse",
 }) as any as S.Schema<SearchHoursOfOperationsResponse>;
 export interface SearchPredefinedAttributesResponse {
-  PredefinedAttributes?: PredefinedAttributeSearchSummaryList;
+  PredefinedAttributes?: PredefinedAttribute[];
   NextToken?: string;
   ApproximateTotalCount?: number;
 }
@@ -16350,7 +18001,7 @@ export const SearchPredefinedAttributesResponse = S.suspend(() =>
   identifier: "SearchPredefinedAttributesResponse",
 }) as any as S.Schema<SearchPredefinedAttributesResponse>;
 export interface SearchPromptsResponse {
-  Prompts?: PromptList;
+  Prompts?: Prompt[];
   NextToken?: string;
   ApproximateTotalCount?: number;
 }
@@ -16364,7 +18015,7 @@ export const SearchPromptsResponse = S.suspend(() =>
   identifier: "SearchPromptsResponse",
 }) as any as S.Schema<SearchPromptsResponse>;
 export interface SearchQueuesResponse {
-  Queues?: QueueSearchSummaryList;
+  Queues?: Queue[];
   NextToken?: string;
   ApproximateTotalCount?: number;
 }
@@ -16378,7 +18029,7 @@ export const SearchQueuesResponse = S.suspend(() =>
   identifier: "SearchQueuesResponse",
 }) as any as S.Schema<SearchQueuesResponse>;
 export interface SearchQuickConnectsResponse {
-  QuickConnects?: QuickConnectSearchSummaryList;
+  QuickConnects?: QuickConnect[];
   NextToken?: string;
   ApproximateTotalCount?: number;
 }
@@ -16393,7 +18044,7 @@ export const SearchQuickConnectsResponse = S.suspend(() =>
 }) as any as S.Schema<SearchQuickConnectsResponse>;
 export interface SearchResourceTagsRequest {
   InstanceId: string;
-  ResourceTypes?: ResourceTypeList;
+  ResourceTypes?: string[];
   NextToken?: string;
   MaxResults?: number;
   SearchCriteria?: ResourceTagsSearchCriteria;
@@ -16419,7 +18070,7 @@ export const SearchResourceTagsRequest = S.suspend(() =>
   identifier: "SearchResourceTagsRequest",
 }) as any as S.Schema<SearchResourceTagsRequest>;
 export interface SearchRoutingProfilesResponse {
-  RoutingProfiles?: RoutingProfileList;
+  RoutingProfiles?: RoutingProfile[];
   NextToken?: string;
   ApproximateTotalCount?: number;
 }
@@ -16433,7 +18084,7 @@ export const SearchRoutingProfilesResponse = S.suspend(() =>
   identifier: "SearchRoutingProfilesResponse",
 }) as any as S.Schema<SearchRoutingProfilesResponse>;
 export interface SearchUserHierarchyGroupsResponse {
-  UserHierarchyGroups?: UserHierarchyGroupList;
+  UserHierarchyGroups?: HierarchyGroup[];
   NextToken?: string;
   ApproximateTotalCount?: number;
 }
@@ -16447,7 +18098,7 @@ export const SearchUserHierarchyGroupsResponse = S.suspend(() =>
   identifier: "SearchUserHierarchyGroupsResponse",
 }) as any as S.Schema<SearchUserHierarchyGroupsResponse>;
 export interface SearchViewsResponse {
-  Views?: ViewSearchSummaryList;
+  Views?: View[];
   NextToken?: string;
   ApproximateTotalCount?: number;
 }
@@ -16461,7 +18112,7 @@ export const SearchViewsResponse = S.suspend(() =>
   identifier: "SearchViewsResponse",
 }) as any as S.Schema<SearchViewsResponse>;
 export interface SearchVocabulariesResponse {
-  VocabularySummaryList?: VocabularySummaryList;
+  VocabularySummaryList?: VocabularySummary[];
   NextToken?: string;
 }
 export const SearchVocabulariesResponse = S.suspend(() =>
@@ -16490,7 +18141,7 @@ export interface SendOutboundEmailRequest {
   DestinationEmailAddress: EmailAddressInfo;
   AdditionalRecipients?: OutboundAdditionalRecipients;
   EmailMessage: OutboundEmailContent;
-  TrafficType: string;
+  TrafficType: TrafficType;
   SourceCampaign?: SourceCampaign;
   ClientToken?: string;
 }
@@ -16501,7 +18152,7 @@ export const SendOutboundEmailRequest = S.suspend(() =>
     DestinationEmailAddress: EmailAddressInfo,
     AdditionalRecipients: S.optional(OutboundAdditionalRecipients),
     EmailMessage: OutboundEmailContent,
-    TrafficType: S.String,
+    TrafficType: TrafficType,
     SourceCampaign: S.optional(SourceCampaign),
     ClientToken: S.optional(S.String),
   }).pipe(
@@ -16560,15 +18211,15 @@ export interface StartOutboundChatContactRequest {
   SourceEndpoint: Endpoint;
   DestinationEndpoint: Endpoint;
   InstanceId: string;
-  SegmentAttributes: SegmentAttributes;
-  Attributes?: Attributes;
+  SegmentAttributes: { [key: string]: SegmentAttributeValue };
+  Attributes?: { [key: string]: string };
   ContactFlowId: string;
   ChatDurationInMinutes?: number;
   ParticipantDetails?: ParticipantDetails;
   InitialSystemMessage?: ChatMessage;
   InitialTemplatedSystemMessage?: TemplatedMessageConfig;
   RelatedContactId?: string;
-  SupportedMessagingContentTypes?: SupportedMessagingContentTypes;
+  SupportedMessagingContentTypes?: string[];
   ClientToken?: string;
 }
 export const StartOutboundChatContactRequest = S.suspend(() =>
@@ -16607,6 +18258,8 @@ export const UpdateDataTablePrimaryValuesResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateDataTablePrimaryValuesResponse",
 }) as any as S.Schema<UpdateDataTablePrimaryValuesResponse>;
+export type ParticipantTimerAction = "Unset";
+export const ParticipantTimerAction = S.Literal("Unset");
 export interface UpdateTrafficDistributionRequest {
   Id: string;
   TelephonyConfig?: TelephonyConfig;
@@ -16665,6 +18318,15 @@ export const UpdateUserHierarchyStructureResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateUserHierarchyStructureResponse",
 }) as any as S.Schema<UpdateUserHierarchyStructureResponse>;
+export type AttachedFileInvalidRequestExceptionReason =
+  | "INVALID_FILE_SIZE"
+  | "INVALID_FILE_TYPE"
+  | "INVALID_FILE_NAME";
+export const AttachedFileInvalidRequestExceptionReason = S.Literal(
+  "INVALID_FILE_SIZE",
+  "INVALID_FILE_TYPE",
+  "INVALID_FILE_NAME",
+);
 export interface QueueInfo {
   Id?: string;
   EnqueueTimestamp?: Date;
@@ -16678,13 +18340,13 @@ export const QueueInfo = S.suspend(() =>
   }),
 ).annotations({ identifier: "QueueInfo" }) as any as S.Schema<QueueInfo>;
 export interface EndpointInfo {
-  Type?: string;
+  Type?: EndpointType;
   Address?: string;
   DisplayName?: string;
 }
 export const EndpointInfo = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String),
+    Type: S.optional(EndpointType),
     Address: S.optional(S.String),
     DisplayName: S.optional(S.String),
   }),
@@ -16736,29 +18398,29 @@ export const DisconnectDetails = S.suspend(() =>
   identifier: "DisconnectDetails",
 }) as any as S.Schema<DisconnectDetails>;
 export interface RecordingInfo {
-  StorageType?: string;
+  StorageType?: StorageType;
   Location?: string;
-  MediaStreamType?: string;
-  ParticipantType?: string;
+  MediaStreamType?: MediaStreamType;
+  ParticipantType?: ParticipantType;
   FragmentStartNumber?: string;
   FragmentStopNumber?: string;
   StartTimestamp?: Date;
   StopTimestamp?: Date;
-  Status?: string;
+  Status?: RecordingStatus;
   DeletionReason?: string;
   UnprocessedTranscriptLocation?: string;
 }
 export const RecordingInfo = S.suspend(() =>
   S.Struct({
-    StorageType: S.optional(S.String),
+    StorageType: S.optional(StorageType),
     Location: S.optional(S.String),
-    MediaStreamType: S.optional(S.String),
-    ParticipantType: S.optional(S.String),
+    MediaStreamType: S.optional(MediaStreamType),
+    ParticipantType: S.optional(ParticipantType),
     FragmentStartNumber: S.optional(S.String),
     FragmentStopNumber: S.optional(S.String),
     StartTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     StopTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
+    Status: S.optional(RecordingStatus),
     DeletionReason: S.optional(S.String),
     UnprocessedTranscriptLocation: S.optional(S.String),
   }),
@@ -16830,13 +18492,13 @@ export const InstanceStatusReason = S.suspend(() =>
 }) as any as S.Schema<InstanceStatusReason>;
 export interface ReplicationStatusSummary {
   Region?: string;
-  ReplicationStatus?: string;
+  ReplicationStatus?: InstanceReplicationStatus;
   ReplicationStatusReason?: string;
 }
 export const ReplicationStatusSummary = S.suspend(() =>
   S.Struct({
     Region: S.optional(S.String),
-    ReplicationStatus: S.optional(S.String),
+    ReplicationStatus: S.optional(InstanceReplicationStatus),
     ReplicationStatusReason: S.optional(S.String),
   }),
 ).annotations({
@@ -16845,11 +18507,14 @@ export const ReplicationStatusSummary = S.suspend(() =>
 export type ReplicationStatusSummaryList = ReplicationStatusSummary[];
 export const ReplicationStatusSummaryList = S.Array(ReplicationStatusSummary);
 export interface PhoneNumberStatus {
-  Status?: string;
+  Status?: PhoneNumberWorkflowStatus;
   Message?: string;
 }
 export const PhoneNumberStatus = S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String), Message: S.optional(S.String) }),
+  S.Struct({
+    Status: S.optional(PhoneNumberWorkflowStatus),
+    Message: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "PhoneNumberStatus",
 }) as any as S.Schema<PhoneNumberStatus>;
@@ -16904,12 +18569,12 @@ export const EvaluationAcknowledgementSummary = S.suspend(() =>
   identifier: "EvaluationAcknowledgementSummary",
 }) as any as S.Schema<EvaluationAcknowledgementSummary>;
 export interface EvaluationContactParticipant {
-  ContactParticipantRole?: string;
+  ContactParticipantRole?: ContactParticipantRole;
   ContactParticipantId?: string;
 }
 export const EvaluationContactParticipant = S.suspend(() =>
   S.Struct({
-    ContactParticipantRole: S.optional(S.String),
+    ContactParticipantRole: S.optional(ContactParticipantRole),
     ContactParticipantId: S.optional(S.String),
   }),
 ).annotations({
@@ -16925,14 +18590,14 @@ export const UrlReference = S.suspend(() =>
 export interface AttachmentReference {
   Name?: string;
   Value?: string;
-  Status?: string;
+  Status?: ReferenceStatus;
   Arn?: string;
 }
 export const AttachmentReference = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     Value: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ReferenceStatus),
     Arn: S.optional(S.String),
   }),
 ).annotations({
@@ -17006,16 +18671,16 @@ export const RealTimeContactAnalysisTimeData = S.Union(
 export interface RealTimeContactAnalysisSegmentEvent {
   Id: string;
   ParticipantId?: string;
-  ParticipantRole?: string;
+  ParticipantRole?: ParticipantRole;
   DisplayName?: string;
   EventType: string;
-  Time: (typeof RealTimeContactAnalysisTimeData)["Type"];
+  Time: RealTimeContactAnalysisTimeData;
 }
 export const RealTimeContactAnalysisSegmentEvent = S.suspend(() =>
   S.Struct({
     Id: S.String,
     ParticipantId: S.optional(S.String),
-    ParticipantRole: S.optional(S.String),
+    ParticipantRole: S.optional(ParticipantRole),
     DisplayName: S.optional(S.String),
     EventType: S.String,
     Time: RealTimeContactAnalysisTimeData,
@@ -17025,30 +18690,32 @@ export const RealTimeContactAnalysisSegmentEvent = S.suspend(() =>
 }) as any as S.Schema<RealTimeContactAnalysisSegmentEvent>;
 export interface RealTimeContactAnalysisSegmentPostContactSummary {
   Content?: string;
-  Status: string;
-  FailureCode?: string;
+  Status: RealTimeContactAnalysisPostContactSummaryStatus;
+  FailureCode?: RealTimeContactAnalysisPostContactSummaryFailureCode;
 }
 export const RealTimeContactAnalysisSegmentPostContactSummary = S.suspend(() =>
   S.Struct({
     Content: S.optional(S.String),
-    Status: S.String,
-    FailureCode: S.optional(S.String),
+    Status: RealTimeContactAnalysisPostContactSummaryStatus,
+    FailureCode: S.optional(
+      RealTimeContactAnalysisPostContactSummaryFailureCode,
+    ),
   }),
 ).annotations({
   identifier: "RealTimeContactAnalysisSegmentPostContactSummary",
 }) as any as S.Schema<RealTimeContactAnalysisSegmentPostContactSummary>;
 export interface ActionSummary {
-  ActionType: string;
+  ActionType: ActionType;
 }
 export const ActionSummary = S.suspend(() =>
-  S.Struct({ ActionType: S.String }),
+  S.Struct({ ActionType: ActionType }),
 ).annotations({
   identifier: "ActionSummary",
 }) as any as S.Schema<ActionSummary>;
 export type ActionSummaries = ActionSummary[];
 export const ActionSummaries = S.Array(ActionSummary);
 export interface ContactFlowAttributeFilter {
-  OrConditions?: ContactFlowAttributeOrConditionList;
+  OrConditions?: ContactFlowAttributeAndCondition[];
   AndCondition?: ContactFlowAttributeAndCondition;
   TagCondition?: TagCondition;
   ContactFlowTypeCondition?: ContactFlowTypeCondition;
@@ -17064,31 +18731,31 @@ export const ContactFlowAttributeFilter = S.suspend(() =>
   identifier: "ContactFlowAttributeFilter",
 }) as any as S.Schema<ContactFlowAttributeFilter>;
 export interface SearchableContactAttributes {
-  Criteria: SearchableContactAttributesCriteriaList;
-  MatchType?: string;
+  Criteria: SearchableContactAttributesCriteria[];
+  MatchType?: SearchContactsMatchType;
 }
 export const SearchableContactAttributes = S.suspend(() =>
   S.Struct({
     Criteria: SearchableContactAttributesCriteriaList,
-    MatchType: S.optional(S.String),
+    MatchType: S.optional(SearchContactsMatchType),
   }),
 ).annotations({
   identifier: "SearchableContactAttributes",
 }) as any as S.Schema<SearchableContactAttributes>;
 export interface SearchableSegmentAttributes {
-  Criteria: SearchableSegmentAttributesCriteriaList;
-  MatchType?: string;
+  Criteria: SearchableSegmentAttributesCriteria[];
+  MatchType?: SearchContactsMatchType;
 }
 export const SearchableSegmentAttributes = S.suspend(() =>
   S.Struct({
     Criteria: SearchableSegmentAttributesCriteriaList,
-    MatchType: S.optional(S.String),
+    MatchType: S.optional(SearchContactsMatchType),
   }),
 ).annotations({
   identifier: "SearchableSegmentAttributes",
 }) as any as S.Schema<SearchableSegmentAttributes>;
 export interface ControlPlaneUserAttributeFilter {
-  OrConditions?: AttributeOrConditionList;
+  OrConditions?: AttributeAndCondition[];
   AndCondition?: AttributeAndCondition;
   TagCondition?: TagCondition;
   HierarchyGroupCondition?: HierarchyGroupCondition;
@@ -17104,22 +18771,22 @@ export const ControlPlaneUserAttributeFilter = S.suspend(() =>
   identifier: "ControlPlaneUserAttributeFilter",
 }) as any as S.Schema<ControlPlaneUserAttributeFilter>;
 export interface ListCondition {
-  TargetListType?: string;
-  Conditions?: Conditions;
+  TargetListType?: TargetListType;
+  Conditions?: Condition[];
 }
 export const ListCondition = S.suspend(() =>
   S.Struct({
-    TargetListType: S.optional(S.String),
+    TargetListType: S.optional(TargetListType),
     Conditions: S.optional(Conditions),
   }),
 ).annotations({
   identifier: "ListCondition",
 }) as any as S.Schema<ListCondition>;
 export interface InboundRawMessage {
-  Subject: string | Redacted.Redacted<string>;
-  Body: string | Redacted.Redacted<string>;
+  Subject: string | redacted.Redacted<string>;
+  Body: string | redacted.Redacted<string>;
   ContentType: string;
-  Headers?: EmailHeaders;
+  Headers?: { [key: string]: string };
 }
 export const InboundRawMessage = S.suspend(() =>
   S.Struct({
@@ -17131,16 +18798,44 @@ export const InboundRawMessage = S.suspend(() =>
 ).annotations({
   identifier: "InboundRawMessage",
 }) as any as S.Schema<InboundRawMessage>;
+export type ParticipantState =
+  | "INITIAL"
+  | "CONNECTED"
+  | "DISCONNECTED"
+  | "MISSED";
+export const ParticipantState = S.Literal(
+  "INITIAL",
+  "CONNECTED",
+  "DISCONNECTED",
+  "MISSED",
+);
+export type AiUseCase = "AgentAssistance" | "SelfService";
+export const AiUseCase = S.Literal("AgentAssistance", "SelfService");
+export type RoutingCriteriaStepStatus =
+  | "ACTIVE"
+  | "INACTIVE"
+  | "JOINED"
+  | "EXPIRED";
+export const RoutingCriteriaStepStatus = S.Literal(
+  "ACTIVE",
+  "INACTIVE",
+  "JOINED",
+  "EXPIRED",
+);
+export type Status = "COMPLETE" | "IN_PROGRESS" | "DELETED";
+export const Status = S.Literal("COMPLETE", "IN_PROGRESS", "DELETED");
+export type ArtifactStatus = "APPROVED" | "REJECTED" | "IN_PROGRESS";
+export const ArtifactStatus = S.Literal("APPROVED", "REJECTED", "IN_PROGRESS");
 export interface TranscriptCriteria {
-  ParticipantRole: string;
-  SearchText: SearchTextList;
-  MatchType: string;
+  ParticipantRole: ParticipantRole;
+  SearchText: string | redacted.Redacted<string>[];
+  MatchType: SearchContactsMatchType;
 }
 export const TranscriptCriteria = S.suspend(() =>
   S.Struct({
-    ParticipantRole: S.String,
+    ParticipantRole: ParticipantRole,
     SearchText: SearchTextList,
-    MatchType: S.String,
+    MatchType: SearchContactsMatchType,
   }),
 ).annotations({
   identifier: "TranscriptCriteria",
@@ -17148,41 +18843,47 @@ export const TranscriptCriteria = S.suspend(() =>
 export type TranscriptCriteriaList = TranscriptCriteria[];
 export const TranscriptCriteriaList = S.Array(TranscriptCriteria);
 export interface SearchableAgentCriteriaStep {
-  AgentIds?: AgentResourceIdList;
-  MatchType?: string;
+  AgentIds?: string[];
+  MatchType?: SearchContactsMatchType;
 }
 export const SearchableAgentCriteriaStep = S.suspend(() =>
   S.Struct({
     AgentIds: S.optional(AgentResourceIdList),
-    MatchType: S.optional(S.String),
+    MatchType: S.optional(SearchContactsMatchType),
   }),
 ).annotations({
   identifier: "SearchableAgentCriteriaStep",
 }) as any as S.Schema<SearchableAgentCriteriaStep>;
 export interface SearchContactsTimestampCondition {
-  Type: string;
-  ConditionType: string;
+  Type: SearchContactsTimeRangeType;
+  ConditionType: SearchContactsTimeRangeConditionType;
 }
 export const SearchContactsTimestampCondition = S.suspend(() =>
-  S.Struct({ Type: S.String, ConditionType: S.String }),
+  S.Struct({
+    Type: SearchContactsTimeRangeType,
+    ConditionType: SearchContactsTimeRangeConditionType,
+  }),
 ).annotations({
   identifier: "SearchContactsTimestampCondition",
 }) as any as S.Schema<SearchContactsTimestampCondition>;
 export type ParticipantTimerValue =
-  | { ParticipantTimerAction: string }
+  | { ParticipantTimerAction: ParticipantTimerAction }
   | { ParticipantTimerDurationInMinutes: number };
 export const ParticipantTimerValue = S.Union(
-  S.Struct({ ParticipantTimerAction: S.String }),
+  S.Struct({ ParticipantTimerAction: ParticipantTimerAction }),
   S.Struct({ ParticipantTimerDurationInMinutes: S.Number }),
 );
 export type InvalidRequestExceptionReason = {
-  AttachedFileInvalidRequestExceptionReason: string;
+  AttachedFileInvalidRequestExceptionReason: AttachedFileInvalidRequestExceptionReason;
 };
 export const InvalidRequestExceptionReason = S.Union(
-  S.Struct({ AttachedFileInvalidRequestExceptionReason: S.String }),
+  S.Struct({
+    AttachedFileInvalidRequestExceptionReason:
+      AttachedFileInvalidRequestExceptionReason,
+  }),
 );
 export interface BatchCreateDataTableValueSuccessResult {
-  PrimaryValues: PrimaryValuesSet;
+  PrimaryValues: PrimaryValue[];
   AttributeName: string;
   RecordId: string;
   LockVersion: DataTableLockVersion;
@@ -17203,7 +18904,7 @@ export const BatchCreateDataTableValueSuccessResultList = S.Array(
   BatchCreateDataTableValueSuccessResult,
 );
 export interface BatchCreateDataTableValueFailureResult {
-  PrimaryValues: PrimaryValuesSet;
+  PrimaryValues: PrimaryValue[];
   AttributeName: string;
   Message: string;
 }
@@ -17222,7 +18923,7 @@ export const BatchCreateDataTableValueFailureResultList = S.Array(
   BatchCreateDataTableValueFailureResult,
 );
 export interface BatchDeleteDataTableValueSuccessResult {
-  PrimaryValues: PrimaryValuesSet;
+  PrimaryValues: PrimaryValue[];
   AttributeName: string;
   LockVersion: DataTableLockVersion;
 }
@@ -17241,7 +18942,7 @@ export const BatchDeleteDataTableValueSuccessResultList = S.Array(
   BatchDeleteDataTableValueSuccessResult,
 );
 export interface BatchDeleteDataTableValueFailureResult {
-  PrimaryValues: PrimaryValuesSet;
+  PrimaryValues: PrimaryValue[];
   AttributeName: string;
   Message: string;
 }
@@ -17262,7 +18963,7 @@ export const BatchDeleteDataTableValueFailureResultList = S.Array(
 export interface BatchDescribeDataTableValueSuccessResult {
   RecordId: string;
   AttributeId: string;
-  PrimaryValues: PrimaryValuesResponseSet;
+  PrimaryValues: PrimaryValueResponse[];
   AttributeName: string;
   Value?: string;
   LockVersion: DataTableLockVersion;
@@ -17291,7 +18992,7 @@ export const BatchDescribeDataTableValueSuccessResultList = S.Array(
   BatchDescribeDataTableValueSuccessResult,
 );
 export interface BatchDescribeDataTableValueFailureResult {
-  PrimaryValues: PrimaryValuesSet;
+  PrimaryValues: PrimaryValue[];
   AttributeName: string;
   Message: string;
 }
@@ -17314,26 +19015,26 @@ export const ReferenceIdList = S.Array(S.String);
 export interface Instance {
   Id?: string;
   Arn?: string;
-  IdentityManagementType?: string;
-  InstanceAlias?: string | Redacted.Redacted<string>;
+  IdentityManagementType?: DirectoryType;
+  InstanceAlias?: string | redacted.Redacted<string>;
   CreatedTime?: Date;
   ServiceRole?: string;
-  InstanceStatus?: string;
+  InstanceStatus?: InstanceStatus;
   StatusReason?: InstanceStatusReason;
   InboundCallsEnabled?: boolean;
   OutboundCallsEnabled?: boolean;
   InstanceAccessUrl?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const Instance = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
-    IdentityManagementType: S.optional(S.String),
+    IdentityManagementType: S.optional(DirectoryType),
     InstanceAlias: S.optional(SensitiveString),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ServiceRole: S.optional(S.String),
-    InstanceStatus: S.optional(S.String),
+    InstanceStatus: S.optional(InstanceStatus),
     StatusReason: S.optional(InstanceStatusReason),
     InboundCallsEnabled: S.optional(S.Boolean),
     OutboundCallsEnabled: S.optional(S.Boolean),
@@ -17342,7 +19043,7 @@ export const Instance = S.suspend(() =>
   }),
 ).annotations({ identifier: "Instance" }) as any as S.Schema<Instance>;
 export interface ReplicationConfiguration {
-  ReplicationStatusSummaryList?: ReplicationStatusSummaryList;
+  ReplicationStatusSummaryList?: ReplicationStatusSummary[];
   SourceRegion?: string;
   GlobalSignInEndpoint?: string;
 }
@@ -17359,12 +19060,12 @@ export interface ClaimedPhoneNumberSummary {
   PhoneNumberId?: string;
   PhoneNumberArn?: string;
   PhoneNumber?: string;
-  PhoneNumberCountryCode?: string;
-  PhoneNumberType?: string;
+  PhoneNumberCountryCode?: PhoneNumberCountryCode;
+  PhoneNumberType?: PhoneNumberType;
   PhoneNumberDescription?: string;
   TargetArn?: string;
   InstanceId?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   PhoneNumberStatus?: PhoneNumberStatus;
   SourcePhoneNumberArn?: string;
 }
@@ -17373,8 +19074,8 @@ export const ClaimedPhoneNumberSummary = S.suspend(() =>
     PhoneNumberId: S.optional(S.String),
     PhoneNumberArn: S.optional(S.String),
     PhoneNumber: S.optional(S.String),
-    PhoneNumberCountryCode: S.optional(S.String),
-    PhoneNumberType: S.optional(S.String),
+    PhoneNumberCountryCode: S.optional(PhoneNumberCountryCode),
+    PhoneNumberType: S.optional(PhoneNumberType),
     PhoneNumberDescription: S.optional(S.String),
     TargetArn: S.optional(S.String),
     InstanceId: S.optional(S.String),
@@ -17405,9 +19106,9 @@ export const HierarchyStructure = S.suspend(() =>
 }) as any as S.Schema<HierarchyStructure>;
 export interface DataTableEvaluatedValue {
   RecordId: string;
-  PrimaryValues: PrimaryValuesSet;
+  PrimaryValues: PrimaryValue[];
   AttributeName: string;
-  ValueType: string;
+  ValueType: DataTableAttributeValueType;
   Found: boolean;
   Error: boolean;
   EvaluatedValue: string;
@@ -17417,7 +19118,7 @@ export const DataTableEvaluatedValue = S.suspend(() =>
     RecordId: S.String,
     PrimaryValues: PrimaryValuesSet,
     AttributeName: S.String,
-    ValueType: S.String,
+    ValueType: DataTableAttributeValueType,
     Found: S.Boolean,
     Error: S.Boolean,
     EvaluatedValue: S.String,
@@ -17429,7 +19130,7 @@ export type DataTableEvaluatedValueList = DataTableEvaluatedValue[];
 export const DataTableEvaluatedValueList = S.Array(DataTableEvaluatedValue);
 export interface EffectiveHoursOfOperations {
   Date?: string;
-  OperationalHours?: OperationalHours;
+  OperationalHours?: OperationalHour[];
 }
 export const EffectiveHoursOfOperations = S.suspend(() =>
   S.Struct({
@@ -17449,13 +19150,13 @@ export interface EvaluationSummary {
   EvaluationFormTitle: string;
   EvaluationFormId: string;
   CalibrationSessionId?: string;
-  Status: string;
+  Status: EvaluationStatus;
   AutoEvaluationEnabled?: boolean;
-  AutoEvaluationStatus?: string;
+  AutoEvaluationStatus?: AutoEvaluationStatus;
   EvaluatorArn: string;
   Score?: EvaluationScore;
   Acknowledgement?: EvaluationAcknowledgementSummary;
-  EvaluationType?: string;
+  EvaluationType?: EvaluationType;
   CreatedTime: Date;
   LastModifiedTime: Date;
   ContactParticipant?: EvaluationContactParticipant;
@@ -17467,13 +19168,13 @@ export const EvaluationSummary = S.suspend(() =>
     EvaluationFormTitle: S.String,
     EvaluationFormId: S.String,
     CalibrationSessionId: S.optional(S.String),
-    Status: S.String,
+    Status: EvaluationStatus,
     AutoEvaluationEnabled: S.optional(S.Boolean),
-    AutoEvaluationStatus: S.optional(S.String),
+    AutoEvaluationStatus: S.optional(AutoEvaluationStatus),
     EvaluatorArn: S.String,
     Score: S.optional(EvaluationScore),
     Acknowledgement: S.optional(EvaluationAcknowledgementSummary),
-    EvaluationType: S.optional(S.String),
+    EvaluationType: S.optional(EvaluationType),
     CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ContactParticipant: S.optional(EvaluationContactParticipant),
@@ -17502,11 +19203,11 @@ export const ReferenceSummary = S.Union(
   S.Struct({ Date: DateReference }),
   S.Struct({ Email: EmailReference }),
 );
-export type ReferenceSummaryList = (typeof ReferenceSummary)["Type"][];
+export type ReferenceSummaryList = ReferenceSummary[];
 export const ReferenceSummaryList = S.Array(ReferenceSummary);
 export interface RecordPrimaryValue {
   RecordId?: string;
-  PrimaryValues?: PrimaryValuesResponseSet;
+  PrimaryValues?: PrimaryValueResponse[];
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
 }
@@ -17527,9 +19228,9 @@ export const PrimaryValuesList = S.Array(RecordPrimaryValue);
 export interface DataTableValueSummary {
   RecordId?: string;
   AttributeId?: string;
-  PrimaryValues: PrimaryValuesResponseSet;
+  PrimaryValues: PrimaryValueResponse[];
   AttributeName: string;
-  ValueType: string;
+  ValueType: DataTableAttributeValueType;
   Value: string;
   LockVersion?: DataTableLockVersion;
   LastModifiedTime?: Date;
@@ -17541,7 +19242,7 @@ export const DataTableValueSummary = S.suspend(() =>
     AttributeId: S.optional(S.String),
     PrimaryValues: PrimaryValuesResponseSet,
     AttributeName: S.String,
-    ValueType: S.String,
+    ValueType: DataTableAttributeValueType,
     Value: S.String,
     LockVersion: S.optional(DataTableLockVersion),
     LastModifiedTime: S.optional(
@@ -17558,9 +19259,9 @@ export interface RuleSummary {
   Name: string;
   RuleId: string;
   RuleArn: string;
-  EventSourceName: string;
-  PublishStatus: string;
-  ActionSummaries: ActionSummaries;
+  EventSourceName: EventSourceName;
+  PublishStatus: RulePublishStatus;
+  ActionSummaries: ActionSummary[];
   CreatedTime: Date;
   LastUpdatedTime: Date;
 }
@@ -17569,8 +19270,8 @@ export const RuleSummary = S.suspend(() =>
     Name: S.String,
     RuleId: S.String,
     RuleArn: S.String,
-    EventSourceName: S.String,
-    PublishStatus: S.String,
+    EventSourceName: EventSourceName,
+    PublishStatus: RulePublishStatus,
     ActionSummaries: ActionSummaries,
     CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     LastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -17603,10 +19304,10 @@ export const ContactFlowSearchFilter = S.suspend(() =>
 export interface EmailAddressMetadata {
   EmailAddressId?: string;
   EmailAddressArn?: string;
-  EmailAddress?: string | Redacted.Redacted<string>;
-  Description?: string | Redacted.Redacted<string>;
-  DisplayName?: string | Redacted.Redacted<string>;
-  AliasConfigurations?: AliasConfigurationList;
+  EmailAddress?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
+  DisplayName?: string | redacted.Redacted<string>;
+  AliasConfigurations?: AliasConfiguration[];
 }
 export const EmailAddressMetadata = S.suspend(() =>
   S.Struct({
@@ -17626,7 +19327,7 @@ export interface EvaluationFormSearchSummary {
   EvaluationFormId: string;
   EvaluationFormArn: string;
   Title: string;
-  Status: string;
+  Status: EvaluationFormVersionStatus;
   Description?: string;
   CreatedTime: Date;
   CreatedBy: string;
@@ -17637,16 +19338,16 @@ export interface EvaluationFormSearchSummary {
   LatestVersion: number;
   ActiveVersion?: number;
   AutoEvaluationEnabled?: boolean;
-  EvaluationFormLanguage?: string;
-  ContactInteractionType?: string;
-  Tags?: TagMap;
+  EvaluationFormLanguage?: EvaluationFormLanguageCode;
+  ContactInteractionType?: ContactInteractionType;
+  Tags?: { [key: string]: string };
 }
 export const EvaluationFormSearchSummary = S.suspend(() =>
   S.Struct({
     EvaluationFormId: S.String,
     EvaluationFormArn: S.String,
     Title: S.String,
-    Status: S.String,
+    Status: EvaluationFormVersionStatus,
     Description: S.optional(S.String),
     CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     CreatedBy: S.String,
@@ -17659,8 +19360,8 @@ export const EvaluationFormSearchSummary = S.suspend(() =>
     LatestVersion: S.Number,
     ActiveVersion: S.optional(S.Number),
     AutoEvaluationEnabled: S.optional(S.Boolean),
-    EvaluationFormLanguage: S.optional(S.String),
-    ContactInteractionType: S.optional(S.String),
+    EvaluationFormLanguage: S.optional(EvaluationFormLanguageCode),
+    ContactInteractionType: S.optional(ContactInteractionType),
     Tags: S.optional(TagMap),
   }),
 ).annotations({
@@ -17676,7 +19377,7 @@ export interface SecurityProfileSearchSummary {
   Arn?: string;
   SecurityProfileName?: string;
   Description?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const SecurityProfileSearchSummary = S.suspend(() =>
   S.Struct({
@@ -17707,8 +19408,8 @@ export const UserSearchFilter = S.suspend(() =>
   identifier: "UserSearchFilter",
 }) as any as S.Schema<UserSearchFilter>;
 export interface UserSearchCriteria {
-  OrConditions?: UserSearchConditionList;
-  AndConditions?: UserSearchConditionList;
+  OrConditions?: UserSearchCriteria[];
+  AndConditions?: UserSearchCriteria[];
   StringCondition?: StringCondition;
   ListCondition?: ListCondition;
   HierarchyGroupCondition?: HierarchyGroupCondition;
@@ -17760,18 +19461,18 @@ export const WorkspaceAssociationSearchSummaryList = S.Array(
 export interface WorkspaceSearchSummary {
   Id?: string;
   Name?: string;
-  Visibility?: string;
+  Visibility?: Visibility;
   Description?: string;
   Title?: string;
   Arn?: string;
   CreatedAt?: Date;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const WorkspaceSearchSummary = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Name: S.optional(S.String),
-    Visibility: S.optional(S.String),
+    Visibility: S.optional(Visibility),
     Description: S.optional(S.String),
     Title: S.optional(S.String),
     Arn: S.optional(S.String),
@@ -17784,12 +19485,12 @@ export const WorkspaceSearchSummary = S.suspend(() =>
 export type WorkspaceSearchSummaryList = WorkspaceSearchSummary[];
 export const WorkspaceSearchSummaryList = S.Array(WorkspaceSearchSummary);
 export interface InboundEmailContent {
-  MessageSourceType: string;
+  MessageSourceType: InboundMessageSourceType;
   RawMessage?: InboundRawMessage;
 }
 export const InboundEmailContent = S.suspend(() =>
   S.Struct({
-    MessageSourceType: S.String,
+    MessageSourceType: InboundMessageSourceType,
     RawMessage: S.optional(InboundRawMessage),
   }),
 ).annotations({
@@ -17805,14 +19506,33 @@ export const ProblemDetail = S.suspend(() =>
 }) as any as S.Schema<ProblemDetail>;
 export type Problems = ProblemDetail[];
 export const Problems = S.Array(ProblemDetail);
+export type ResourceType =
+  | "CONTACT"
+  | "CONTACT_FLOW"
+  | "INSTANCE"
+  | "PARTICIPANT"
+  | "HIERARCHY_LEVEL"
+  | "HIERARCHY_GROUP"
+  | "USER"
+  | "PHONE_NUMBER";
+export const ResourceType = S.Literal(
+  "CONTACT",
+  "CONTACT_FLOW",
+  "INSTANCE",
+  "PARTICIPANT",
+  "HIERARCHY_LEVEL",
+  "HIERARCHY_GROUP",
+  "USER",
+  "PHONE_NUMBER",
+);
 export interface StateTransition {
-  State?: string;
+  State?: ParticipantState;
   StateStartTimestamp?: Date;
   StateEndTimestamp?: Date;
 }
 export const StateTransition = S.suspend(() =>
   S.Struct({
-    State: S.optional(S.String),
+    State: S.optional(ParticipantState),
     StateStartTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -17826,13 +19546,13 @@ export const StateTransition = S.suspend(() =>
 export type StateTransitions = StateTransition[];
 export const StateTransitions = S.Array(StateTransition);
 export interface AiAgentInfo {
-  AiUseCase?: string;
+  AiUseCase?: AiUseCase;
   AiAgentVersionId?: string;
   AiAgentEscalated?: boolean;
 }
 export const AiAgentInfo = S.suspend(() =>
   S.Struct({
-    AiUseCase: S.optional(S.String),
+    AiUseCase: S.optional(AiUseCase),
     AiAgentVersionId: S.optional(S.String),
     AiAgentEscalated: S.optional(S.Boolean),
   }),
@@ -17843,7 +19563,7 @@ export type PotentialAudioQualityIssues = string[];
 export const PotentialAudioQualityIssues = S.Array(S.String);
 export interface AudioQualityMetricsInfo {
   QualityScore?: number;
-  PotentialQualityIssues?: PotentialAudioQualityIssues;
+  PotentialQualityIssues?: string[];
 }
 export const AudioQualityMetricsInfo = S.suspend(() =>
   S.Struct({
@@ -17889,7 +19609,7 @@ export const ChatContactMetrics = S.suspend(() =>
 }) as any as S.Schema<ChatContactMetrics>;
 export interface ParticipantMetrics {
   ParticipantId?: string;
-  ParticipantType?: string;
+  ParticipantType?: ParticipantType;
   ConversationAbandon?: boolean;
   MessagesSent?: number;
   NumResponses?: number;
@@ -17901,7 +19621,7 @@ export interface ParticipantMetrics {
 export const ParticipantMetrics = S.suspend(() =>
   S.Struct({
     ParticipantId: S.optional(S.String),
-    ParticipantType: S.optional(S.String),
+    ParticipantType: S.optional(ParticipantType),
     ConversationAbandon: S.optional(S.Boolean),
     MessagesSent: S.optional(S.Number),
     NumResponses: S.optional(S.Number),
@@ -17932,7 +19652,7 @@ export const EmailRecipientsList = S.Array(EmailRecipient);
 export interface ContactEvaluation {
   FormId?: string;
   EvaluationArn?: string;
-  Status?: string;
+  Status?: Status;
   StartTimestamp?: Date;
   EndTimestamp?: Date;
   DeleteTimestamp?: Date;
@@ -17942,7 +19662,7 @@ export const ContactEvaluation = S.suspend(() =>
   S.Struct({
     FormId: S.optional(S.String),
     EvaluationArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(Status),
     StartTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DeleteTimestamp: S.optional(
@@ -17955,12 +19675,12 @@ export const ContactEvaluation = S.suspend(() =>
 }) as any as S.Schema<ContactEvaluation>;
 export interface AutoEvaluationDetails {
   AutoEvaluationEnabled: boolean;
-  AutoEvaluationStatus?: string;
+  AutoEvaluationStatus?: AutoEvaluationStatus;
 }
 export const AutoEvaluationDetails = S.suspend(() =>
   S.Struct({
     AutoEvaluationEnabled: S.Boolean,
-    AutoEvaluationStatus: S.optional(S.String),
+    AutoEvaluationStatus: S.optional(AutoEvaluationStatus),
   }),
 ).annotations({
   identifier: "AutoEvaluationDetails",
@@ -17983,14 +19703,14 @@ export interface RealTimeContactAnalysisAttachment {
   AttachmentName: string;
   ContentType?: string;
   AttachmentId: string;
-  Status?: string;
+  Status?: ArtifactStatus;
 }
 export const RealTimeContactAnalysisAttachment = S.suspend(() =>
   S.Struct({
     AttachmentName: S.String,
     ContentType: S.optional(S.String),
     AttachmentId: S.String,
-    Status: S.optional(S.String),
+    Status: S.optional(ArtifactStatus),
   }),
 ).annotations({
   identifier: "RealTimeContactAnalysisAttachment",
@@ -18001,13 +19721,13 @@ export const RealTimeContactAnalysisAttachments = S.Array(
   RealTimeContactAnalysisAttachment,
 );
 export interface Transcript {
-  Criteria: TranscriptCriteriaList;
-  MatchType?: string;
+  Criteria: TranscriptCriteria[];
+  MatchType?: SearchContactsMatchType;
 }
 export const Transcript = S.suspend(() =>
   S.Struct({
     Criteria: TranscriptCriteriaList,
-    MatchType: S.optional(S.String),
+    MatchType: S.optional(SearchContactsMatchType),
   }),
 ).annotations({ identifier: "Transcript" }) as any as S.Schema<Transcript>;
 export interface SearchableRoutingCriteriaStep {
@@ -18040,14 +19760,14 @@ export const SearchContactsAdditionalTimeRangeCriteriaList = S.Array(
   SearchContactsAdditionalTimeRangeCriteria,
 );
 export interface ParticipantTimerConfiguration {
-  ParticipantRole: string;
-  TimerType: string;
-  TimerValue: (typeof ParticipantTimerValue)["Type"];
+  ParticipantRole: TimerEligibleParticipantRoles;
+  TimerType: ParticipantTimerType;
+  TimerValue: ParticipantTimerValue;
 }
 export const ParticipantTimerConfiguration = S.suspend(() =>
   S.Struct({
-    ParticipantRole: S.String,
-    TimerType: S.String,
+    ParticipantRole: TimerEligibleParticipantRoles,
+    TimerType: ParticipantTimerType,
     TimerValue: ParticipantTimerValue,
   }),
 ).annotations({
@@ -18059,14 +19779,14 @@ export const ParticipantTimerConfigList = S.Array(
 );
 export interface AssociateInstanceStorageConfigRequest {
   InstanceId: string;
-  ResourceType: string;
+  ResourceType: InstanceStorageResourceType;
   StorageConfig: InstanceStorageConfig;
   ClientToken?: string;
 }
 export const AssociateInstanceStorageConfigRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
-    ResourceType: S.String,
+    ResourceType: InstanceStorageResourceType,
     StorageConfig: InstanceStorageConfig,
     ClientToken: S.optional(S.String),
   }).pipe(
@@ -18083,8 +19803,8 @@ export const AssociateInstanceStorageConfigRequest = S.suspend(() =>
   identifier: "AssociateInstanceStorageConfigRequest",
 }) as any as S.Schema<AssociateInstanceStorageConfigRequest>;
 export interface BatchCreateDataTableValueResponse {
-  Successful: BatchCreateDataTableValueSuccessResultList;
-  Failed: BatchCreateDataTableValueFailureResultList;
+  Successful: BatchCreateDataTableValueSuccessResult[];
+  Failed: BatchCreateDataTableValueFailureResult[];
 }
 export const BatchCreateDataTableValueResponse = S.suspend(() =>
   S.Struct({
@@ -18095,8 +19815,8 @@ export const BatchCreateDataTableValueResponse = S.suspend(() =>
   identifier: "BatchCreateDataTableValueResponse",
 }) as any as S.Schema<BatchCreateDataTableValueResponse>;
 export interface BatchDeleteDataTableValueResponse {
-  Successful: BatchDeleteDataTableValueSuccessResultList;
-  Failed: BatchDeleteDataTableValueFailureResultList;
+  Successful: BatchDeleteDataTableValueSuccessResult[];
+  Failed: BatchDeleteDataTableValueFailureResult[];
 }
 export const BatchDeleteDataTableValueResponse = S.suspend(() =>
   S.Struct({
@@ -18107,8 +19827,8 @@ export const BatchDeleteDataTableValueResponse = S.suspend(() =>
   identifier: "BatchDeleteDataTableValueResponse",
 }) as any as S.Schema<BatchDeleteDataTableValueResponse>;
 export interface BatchDescribeDataTableValueResponse {
-  Successful: BatchDescribeDataTableValueSuccessResultList;
-  Failed: BatchDescribeDataTableValueFailureResultList;
+  Successful: BatchDescribeDataTableValueSuccessResult[];
+  Failed: BatchDescribeDataTableValueFailureResult[];
 }
 export const BatchDescribeDataTableValueResponse = S.suspend(() =>
   S.Struct({
@@ -18122,16 +19842,16 @@ export interface CreateContactRequest {
   InstanceId: string;
   ClientToken?: string;
   RelatedContactId?: string;
-  Attributes?: Attributes;
-  References?: ContactReferences;
-  Channel: string;
-  InitiationMethod: string;
+  Attributes?: { [key: string]: string };
+  References?: { [key: string]: Reference };
+  Channel: Channel;
+  InitiationMethod: ContactInitiationMethod;
   ExpiryDurationInMinutes?: number;
   UserInfo?: UserInfo;
-  InitiateAs?: string;
-  Name?: string | Redacted.Redacted<string>;
-  Description?: string | Redacted.Redacted<string>;
-  SegmentAttributes?: SegmentAttributes;
+  InitiateAs?: InitiateAs;
+  Name?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
+  SegmentAttributes?: { [key: string]: SegmentAttributeValue };
   PreviousContactId?: string;
 }
 export const CreateContactRequest = S.suspend(() =>
@@ -18141,11 +19861,11 @@ export const CreateContactRequest = S.suspend(() =>
     RelatedContactId: S.optional(S.String),
     Attributes: S.optional(Attributes),
     References: S.optional(ContactReferences),
-    Channel: S.String,
-    InitiationMethod: S.String,
+    Channel: Channel,
+    InitiationMethod: ContactInitiationMethod,
     ExpiryDurationInMinutes: S.optional(S.Number),
     UserInfo: S.optional(UserInfo),
-    InitiateAs: S.optional(S.String),
+    InitiateAs: S.optional(InitiateAs),
     Name: S.optional(SensitiveString),
     Description: S.optional(SensitiveString),
     SegmentAttributes: S.optional(SegmentAttributes),
@@ -18208,11 +19928,18 @@ export type EvaluationFormSingleSelectQuestionOptionList =
 export const EvaluationFormSingleSelectQuestionOptionList = S.Array(
   EvaluationFormSingleSelectQuestionOption,
 );
+export type EvaluationFormQuestionAutomationAnswerSourceType =
+  | "CONTACT_LENS_DATA"
+  | "GEN_AI";
+export const EvaluationFormQuestionAutomationAnswerSourceType = S.Literal(
+  "CONTACT_LENS_DATA",
+  "GEN_AI",
+);
 export interface EvaluationFormQuestionAutomationAnswerSource {
-  SourceType: string;
+  SourceType: EvaluationFormQuestionAutomationAnswerSourceType;
 }
 export const EvaluationFormQuestionAutomationAnswerSource = S.suspend(() =>
-  S.Struct({ SourceType: S.String }),
+  S.Struct({ SourceType: EvaluationFormQuestionAutomationAnswerSourceType }),
 ).annotations({
   identifier: "EvaluationFormQuestionAutomationAnswerSource",
 }) as any as S.Schema<EvaluationFormQuestionAutomationAnswerSource>;
@@ -18301,6 +20028,22 @@ export const CreateViewVersionResponse = S.suspend(() =>
 ).annotations({
   identifier: "CreateViewVersionResponse",
 }) as any as S.Schema<CreateViewVersionResponse>;
+export type EvaluationSuggestedAnswerStatus =
+  | "IN_PROGRESS"
+  | "FAILED"
+  | "SUCCEEDED";
+export const EvaluationSuggestedAnswerStatus = S.Literal(
+  "IN_PROGRESS",
+  "FAILED",
+  "SUCCEEDED",
+);
+export type EvaluationQuestionAnswerAnalysisType =
+  | "CONTACT_LENS_DATA"
+  | "GEN_AI";
+export const EvaluationQuestionAnswerAnalysisType = S.Literal(
+  "CONTACT_LENS_DATA",
+  "GEN_AI",
+);
 export interface DescribeInstanceResponse {
   Instance?: Instance;
   ReplicationConfiguration?: ReplicationConfiguration;
@@ -18348,7 +20091,7 @@ export const DescribeUserHierarchyStructureResponse = S.suspend(() =>
   identifier: "DescribeUserHierarchyStructureResponse",
 }) as any as S.Schema<DescribeUserHierarchyStructureResponse>;
 export interface EvaluateDataTableValuesResponse {
-  Values: DataTableEvaluatedValueList;
+  Values: DataTableEvaluatedValue[];
   NextToken?: string;
 }
 export const EvaluateDataTableValuesResponse = S.suspend(() =>
@@ -18360,7 +20103,7 @@ export const EvaluateDataTableValuesResponse = S.suspend(() =>
   identifier: "EvaluateDataTableValuesResponse",
 }) as any as S.Schema<EvaluateDataTableValuesResponse>;
 export interface GetEffectiveHoursOfOperationsResponse {
-  EffectiveHoursOfOperationList?: EffectiveHoursOfOperationList;
+  EffectiveHoursOfOperationList?: EffectiveHoursOfOperations[];
   TimeZone?: string;
 }
 export const GetEffectiveHoursOfOperationsResponse = S.suspend(() =>
@@ -18372,7 +20115,7 @@ export const GetEffectiveHoursOfOperationsResponse = S.suspend(() =>
   identifier: "GetEffectiveHoursOfOperationsResponse",
 }) as any as S.Schema<GetEffectiveHoursOfOperationsResponse>;
 export interface ListContactEvaluationsResponse {
-  EvaluationSummaryList: EvaluationSummaryList;
+  EvaluationSummaryList: EvaluationSummary[];
   NextToken?: string;
 }
 export const ListContactEvaluationsResponse = S.suspend(() =>
@@ -18384,7 +20127,7 @@ export const ListContactEvaluationsResponse = S.suspend(() =>
   identifier: "ListContactEvaluationsResponse",
 }) as any as S.Schema<ListContactEvaluationsResponse>;
 export interface ListContactReferencesResponse {
-  ReferenceSummaryList?: ReferenceSummaryList;
+  ReferenceSummaryList?: ReferenceSummary[];
   NextToken?: string;
 }
 export const ListContactReferencesResponse = S.suspend(() =>
@@ -18397,7 +20140,7 @@ export const ListContactReferencesResponse = S.suspend(() =>
 }) as any as S.Schema<ListContactReferencesResponse>;
 export interface ListDataTablePrimaryValuesResponse {
   NextToken?: string;
-  PrimaryValuesList: PrimaryValuesList;
+  PrimaryValuesList: RecordPrimaryValue[];
 }
 export const ListDataTablePrimaryValuesResponse = S.suspend(() =>
   S.Struct({
@@ -18409,7 +20152,7 @@ export const ListDataTablePrimaryValuesResponse = S.suspend(() =>
 }) as any as S.Schema<ListDataTablePrimaryValuesResponse>;
 export interface ListDataTableValuesResponse {
   NextToken?: string;
-  Values: DataTableValueSummaryList;
+  Values: DataTableValueSummary[];
 }
 export const ListDataTableValuesResponse = S.suspend(() =>
   S.Struct({
@@ -18420,7 +20163,7 @@ export const ListDataTableValuesResponse = S.suspend(() =>
   identifier: "ListDataTableValuesResponse",
 }) as any as S.Schema<ListDataTableValuesResponse>;
 export interface ListRulesResponse {
-  RuleSummaryList: RuleSummaryList;
+  RuleSummaryList: RuleSummary[];
   NextToken?: string;
 }
 export const ListRulesResponse = S.suspend(() =>
@@ -18459,7 +20202,7 @@ export const SearchAgentStatusesRequest = S.suspend(() =>
   identifier: "SearchAgentStatusesRequest",
 }) as any as S.Schema<SearchAgentStatusesRequest>;
 export interface SearchContactFlowModulesResponse {
-  ContactFlowModules?: ContactFlowModuleSearchSummaryList;
+  ContactFlowModules?: ContactFlowModule[];
   NextToken?: string;
   ApproximateTotalCount?: number;
 }
@@ -18501,7 +20244,7 @@ export const SearchContactFlowsRequest = S.suspend(() =>
 }) as any as S.Schema<SearchContactFlowsRequest>;
 export interface SearchEmailAddressesResponse {
   NextToken?: string;
-  EmailAddresses?: EmailAddressList;
+  EmailAddresses?: EmailAddressMetadata[];
   ApproximateTotalCount?: number;
 }
 export const SearchEmailAddressesResponse = S.suspend(() =>
@@ -18514,7 +20257,7 @@ export const SearchEmailAddressesResponse = S.suspend(() =>
   identifier: "SearchEmailAddressesResponse",
 }) as any as S.Schema<SearchEmailAddressesResponse>;
 export interface SearchEvaluationFormsResponse {
-  EvaluationFormSearchSummaryList?: EvaluationFormSearchSummaryList;
+  EvaluationFormSearchSummaryList?: EvaluationFormSearchSummary[];
   NextToken?: string;
   ApproximateTotalCount?: number;
 }
@@ -18530,7 +20273,7 @@ export const SearchEvaluationFormsResponse = S.suspend(() =>
   identifier: "SearchEvaluationFormsResponse",
 }) as any as S.Schema<SearchEvaluationFormsResponse>;
 export interface SearchHoursOfOperationOverridesResponse {
-  HoursOfOperationOverrides?: HoursOfOperationOverrideList;
+  HoursOfOperationOverrides?: HoursOfOperationOverride[];
   NextToken?: string;
   ApproximateTotalCount?: number;
 }
@@ -18544,7 +20287,7 @@ export const SearchHoursOfOperationOverridesResponse = S.suspend(() =>
   identifier: "SearchHoursOfOperationOverridesResponse",
 }) as any as S.Schema<SearchHoursOfOperationOverridesResponse>;
 export interface SearchSecurityProfilesResponse {
-  SecurityProfiles?: SecurityProfilesSearchSummaryList;
+  SecurityProfiles?: SecurityProfileSearchSummary[];
   NextToken?: string;
   ApproximateTotalCount?: number;
 }
@@ -18586,7 +20329,7 @@ export const SearchUsersRequest = S.suspend(() =>
 }) as any as S.Schema<SearchUsersRequest>;
 export interface SearchWorkspaceAssociationsResponse {
   NextToken?: string;
-  WorkspaceAssociations?: WorkspaceAssociationSearchSummaryList;
+  WorkspaceAssociations?: WorkspaceAssociationSearchSummary[];
   ApproximateTotalCount?: number;
 }
 export const SearchWorkspaceAssociationsResponse = S.suspend(() =>
@@ -18600,7 +20343,7 @@ export const SearchWorkspaceAssociationsResponse = S.suspend(() =>
 }) as any as S.Schema<SearchWorkspaceAssociationsResponse>;
 export interface SearchWorkspacesResponse {
   NextToken?: string;
-  Workspaces?: WorkspaceSearchSummaryList;
+  Workspaces?: WorkspaceSearchSummary[];
   ApproximateTotalCount?: number;
 }
 export const SearchWorkspacesResponse = S.suspend(() =>
@@ -18615,17 +20358,17 @@ export const SearchWorkspacesResponse = S.suspend(() =>
 export interface StartEmailContactRequest {
   InstanceId: string;
   FromEmailAddress: EmailAddressInfo;
-  DestinationEmailAddress: string | Redacted.Redacted<string>;
-  Description?: string | Redacted.Redacted<string>;
-  References?: ContactReferences;
-  Name?: string | Redacted.Redacted<string>;
+  DestinationEmailAddress: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
+  References?: { [key: string]: Reference };
+  Name?: string | redacted.Redacted<string>;
   EmailMessage: InboundEmailContent;
   AdditionalRecipients?: InboundAdditionalRecipients;
-  Attachments?: EmailAttachments;
+  Attachments?: EmailAttachment[];
   ContactFlowId?: string;
   RelatedContactId?: string;
-  Attributes?: Attributes;
-  SegmentAttributes?: SegmentAttributes;
+  Attributes?: { [key: string]: string };
+  SegmentAttributes?: { [key: string]: SegmentAttributeValue };
   ClientToken?: string;
 }
 export const StartEmailContactRequest = S.suspend(() =>
@@ -18668,9 +20411,9 @@ export const StartOutboundChatContactResponse = S.suspend(() =>
 export interface SubmitContactEvaluationRequest {
   InstanceId: string;
   EvaluationId: string;
-  Answers?: EvaluationAnswersInputMap;
-  Notes?: EvaluationNotesMap;
-  SubmittedBy?: (typeof EvaluatorUserUnion)["Type"];
+  Answers?: { [key: string]: EvaluationAnswerInput };
+  Notes?: { [key: string]: EvaluationNote };
+  SubmittedBy?: EvaluatorUserUnion;
 }
 export const SubmitContactEvaluationRequest = S.suspend(() =>
   S.Struct({
@@ -18705,9 +20448,74 @@ export const Range = S.suspend(() =>
     MaxProficiencyLevel: S.optional(S.Number),
   }),
 ).annotations({ identifier: "Range" }) as any as S.Schema<Range>;
+export type FailureReasonCode =
+  | "INVALID_ATTRIBUTE_KEY"
+  | "INVALID_CUSTOMER_ENDPOINT"
+  | "INVALID_SYSTEM_ENDPOINT"
+  | "INVALID_QUEUE"
+  | "INVALID_OUTBOUND_STRATEGY"
+  | "MISSING_CAMPAIGN"
+  | "MISSING_CUSTOMER_ENDPOINT"
+  | "MISSING_QUEUE_ID_AND_SYSTEM_ENDPOINT"
+  | "REQUEST_THROTTLED"
+  | "IDEMPOTENCY_EXCEPTION"
+  | "INTERNAL_ERROR";
+export const FailureReasonCode = S.Literal(
+  "INVALID_ATTRIBUTE_KEY",
+  "INVALID_CUSTOMER_ENDPOINT",
+  "INVALID_SYSTEM_ENDPOINT",
+  "INVALID_QUEUE",
+  "INVALID_OUTBOUND_STRATEGY",
+  "MISSING_CAMPAIGN",
+  "MISSING_CUSTOMER_ENDPOINT",
+  "MISSING_QUEUE_ID_AND_SYSTEM_ENDPOINT",
+  "REQUEST_THROTTLED",
+  "IDEMPOTENCY_EXCEPTION",
+  "INTERNAL_ERROR",
+);
+export type NumericQuestionPropertyAutomationLabel =
+  | "OVERALL_CUSTOMER_SENTIMENT_SCORE"
+  | "OVERALL_AGENT_SENTIMENT_SCORE"
+  | "CUSTOMER_SENTIMENT_SCORE_WITHOUT_AGENT"
+  | "CUSTOMER_SENTIMENT_SCORE_WITH_AGENT"
+  | "NON_TALK_TIME"
+  | "NON_TALK_TIME_PERCENTAGE"
+  | "NUMBER_OF_INTERRUPTIONS"
+  | "CONTACT_DURATION"
+  | "AGENT_INTERACTION_DURATION"
+  | "CUSTOMER_HOLD_TIME"
+  | "LONGEST_HOLD_DURATION"
+  | "NUMBER_OF_HOLDS"
+  | "AGENT_INTERACTION_AND_HOLD_DURATION";
+export const NumericQuestionPropertyAutomationLabel = S.Literal(
+  "OVERALL_CUSTOMER_SENTIMENT_SCORE",
+  "OVERALL_AGENT_SENTIMENT_SCORE",
+  "CUSTOMER_SENTIMENT_SCORE_WITHOUT_AGENT",
+  "CUSTOMER_SENTIMENT_SCORE_WITH_AGENT",
+  "NON_TALK_TIME",
+  "NON_TALK_TIME_PERCENTAGE",
+  "NUMBER_OF_INTERRUPTIONS",
+  "CONTACT_DURATION",
+  "AGENT_INTERACTION_DURATION",
+  "CUSTOMER_HOLD_TIME",
+  "LONGEST_HOLD_DURATION",
+  "NUMBER_OF_HOLDS",
+  "AGENT_INTERACTION_AND_HOLD_DURATION",
+);
+export type EvaluationFormItemSourceValuesComparator =
+  | "IN"
+  | "NOT_IN"
+  | "ALL_IN"
+  | "EXACT";
+export const EvaluationFormItemSourceValuesComparator = S.Literal(
+  "IN",
+  "NOT_IN",
+  "ALL_IN",
+  "EXACT",
+);
 export interface WisdomInfo {
   SessionArn?: string;
-  AiAgents?: AiAgents;
+  AiAgents?: AiAgentInfo[];
 }
 export const WisdomInfo = S.suspend(() =>
   S.Struct({
@@ -18728,8 +20536,8 @@ export const ChatMetrics = S.suspend(() =>
   }),
 ).annotations({ identifier: "ChatMetrics" }) as any as S.Schema<ChatMetrics>;
 export interface AdditionalEmailRecipients {
-  ToList?: EmailRecipientsList;
-  CcList?: EmailRecipientsList;
+  ToList?: EmailRecipient[];
+  CcList?: EmailRecipient[];
 }
 export const AdditionalEmailRecipients = S.suspend(() =>
   S.Struct({
@@ -18786,16 +20594,16 @@ export const CurrentMetricDataCollections = S.Array(CurrentMetricData);
 export interface RealTimeContactAnalysisSegmentAttachments {
   Id: string;
   ParticipantId: string;
-  ParticipantRole: string;
+  ParticipantRole: ParticipantRole;
   DisplayName?: string;
-  Attachments: RealTimeContactAnalysisAttachments;
-  Time: (typeof RealTimeContactAnalysisTimeData)["Type"];
+  Attachments: RealTimeContactAnalysisAttachment[];
+  Time: RealTimeContactAnalysisTimeData;
 }
 export const RealTimeContactAnalysisSegmentAttachments = S.suspend(() =>
   S.Struct({
     Id: S.String,
     ParticipantId: S.String,
-    ParticipantRole: S.String,
+    ParticipantRole: ParticipantRole,
     DisplayName: S.optional(S.String),
     Attachments: RealTimeContactAnalysisAttachments,
     Time: RealTimeContactAnalysisTimeData,
@@ -18812,7 +20620,7 @@ export const ContactAnalysis = S.suspend(() =>
   identifier: "ContactAnalysis",
 }) as any as S.Schema<ContactAnalysis>;
 export interface SearchableRoutingCriteria {
-  Steps?: SearchableRoutingCriteriaStepList;
+  Steps?: SearchableRoutingCriteriaStep[];
 }
 export const SearchableRoutingCriteria = S.suspend(() =>
   S.Struct({ Steps: S.optional(SearchableRoutingCriteriaStepList) }),
@@ -18820,13 +20628,13 @@ export const SearchableRoutingCriteria = S.suspend(() =>
   identifier: "SearchableRoutingCriteria",
 }) as any as S.Schema<SearchableRoutingCriteria>;
 export interface SearchContactsAdditionalTimeRange {
-  Criteria: SearchContactsAdditionalTimeRangeCriteriaList;
-  MatchType: string;
+  Criteria: SearchContactsAdditionalTimeRangeCriteria[];
+  MatchType: SearchContactsMatchType;
 }
 export const SearchContactsAdditionalTimeRange = S.suspend(() =>
   S.Struct({
     Criteria: SearchContactsAdditionalTimeRangeCriteriaList,
-    MatchType: S.String,
+    MatchType: SearchContactsMatchType,
   }),
 ).annotations({
   identifier: "SearchContactsAdditionalTimeRange",
@@ -18838,7 +20646,7 @@ export const UrlMetadataSignedHeaders = S.Record({
 });
 export interface Attendee {
   AttendeeId?: string;
-  JoinToken?: string | Redacted.Redacted<string>;
+  JoinToken?: string | redacted.Redacted<string>;
 }
 export const Attendee = S.suspend(() =>
   S.Struct({
@@ -18849,13 +20657,28 @@ export const Attendee = S.suspend(() =>
 export type AgentIds = string[];
 export const AgentIds = S.Array(S.String);
 export interface ChatParticipantRoleConfig {
-  ParticipantTimerConfigList: ParticipantTimerConfigList;
+  ParticipantTimerConfigList: ParticipantTimerConfiguration[];
 }
 export const ChatParticipantRoleConfig = S.suspend(() =>
   S.Struct({ ParticipantTimerConfigList: ParticipantTimerConfigList }),
 ).annotations({
   identifier: "ChatParticipantRoleConfig",
 }) as any as S.Schema<ChatParticipantRoleConfig>;
+export type PropertyValidationExceptionReason =
+  | "INVALID_FORMAT"
+  | "UNIQUE_CONSTRAINT_VIOLATED"
+  | "REFERENCED_RESOURCE_NOT_FOUND"
+  | "RESOURCE_NAME_ALREADY_EXISTS"
+  | "REQUIRED_PROPERTY_MISSING"
+  | "NOT_SUPPORTED";
+export const PropertyValidationExceptionReason = S.Literal(
+  "INVALID_FORMAT",
+  "UNIQUE_CONSTRAINT_VIOLATED",
+  "REFERENCED_RESOURCE_NOT_FOUND",
+  "RESOURCE_NAME_ALREADY_EXISTS",
+  "REQUIRED_PROPERTY_MISSING",
+  "NOT_SUPPORTED",
+);
 export interface EvaluationFormTextQuestionProperties {
   Automation?: EvaluationFormTextQuestionAutomation;
 }
@@ -18889,7 +20712,7 @@ export interface QuickConnectContactData {
   InitiationTimestamp?: Date;
   QuickConnectId?: string;
   QuickConnectName?: string;
-  QuickConnectType?: string;
+  QuickConnectType?: QuickConnectType;
 }
 export const QuickConnectContactData = S.suspend(() =>
   S.Struct({
@@ -18899,7 +20722,7 @@ export const QuickConnectContactData = S.suspend(() =>
     ),
     QuickConnectId: S.optional(S.String),
     QuickConnectName: S.optional(S.String),
-    QuickConnectType: S.optional(S.String),
+    QuickConnectType: S.optional(QuickConnectType),
   }),
 ).annotations({
   identifier: "QuickConnectContactData",
@@ -18953,13 +20776,13 @@ export type SuccessfulRequestList = SuccessfulRequest[];
 export const SuccessfulRequestList = S.Array(SuccessfulRequest);
 export interface FailedRequest {
   RequestIdentifier?: string;
-  FailureReasonCode?: string;
+  FailureReasonCode?: FailureReasonCode;
   FailureReasonMessage?: string;
 }
 export const FailedRequest = S.suspend(() =>
   S.Struct({
     RequestIdentifier: S.optional(S.String),
-    FailureReasonCode: S.optional(S.String),
+    FailureReasonCode: S.optional(FailureReasonCode),
     FailureReasonMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -18968,10 +20791,10 @@ export const FailedRequest = S.suspend(() =>
 export type FailedRequestList = FailedRequest[];
 export const FailedRequestList = S.Array(FailedRequest);
 export interface NumericQuestionPropertyValueAutomation {
-  Label: string;
+  Label: NumericQuestionPropertyAutomationLabel;
 }
 export const NumericQuestionPropertyValueAutomation = S.suspend(() =>
-  S.Struct({ Label: S.String }),
+  S.Struct({ Label: NumericQuestionPropertyAutomationLabel }),
 ).annotations({
   identifier: "NumericQuestionPropertyValueAutomation",
 }) as any as S.Schema<NumericQuestionPropertyValueAutomation>;
@@ -18987,12 +20810,14 @@ export const ParticipantTokenCredentials = S.suspend(() =>
 ).annotations({
   identifier: "ParticipantTokenCredentials",
 }) as any as S.Schema<ParticipantTokenCredentials>;
+export type EvaluationTranscriptType = "RAW" | "REDACTED";
+export const EvaluationTranscriptType = S.Literal("RAW", "REDACTED");
 export interface ContactMetricResult {
-  Name: string;
-  Value: (typeof ContactMetricValue)["Type"];
+  Name: ContactMetricName;
+  Value: ContactMetricValue;
 }
 export const ContactMetricResult = S.suspend(() =>
-  S.Struct({ Name: S.String, Value: ContactMetricValue }),
+  S.Struct({ Name: ContactMetricName, Value: ContactMetricValue }),
 ).annotations({
   identifier: "ContactMetricResult",
 }) as any as S.Schema<ContactMetricResult>;
@@ -19004,17 +20829,17 @@ export type ContactFlowSearchSummaryList = ContactFlow[];
 export const ContactFlowSearchSummaryList = S.Array(ContactFlow);
 export interface SearchCriteria {
   Name?: NameCriteria;
-  AgentIds?: AgentResourceIdList;
+  AgentIds?: string[];
   AgentHierarchyGroups?: AgentHierarchyGroups;
-  Channels?: ChannelList;
+  Channels?: Channel[];
   ContactAnalysis?: ContactAnalysis;
-  InitiationMethods?: InitiationMethodList;
-  QueueIds?: QueueIdList;
+  InitiationMethods?: ContactInitiationMethod[];
+  QueueIds?: string[];
   RoutingCriteria?: SearchableRoutingCriteria;
   AdditionalTimeRange?: SearchContactsAdditionalTimeRange;
   SearchableContactAttributes?: SearchableContactAttributes;
   SearchableSegmentAttributes?: SearchableSegmentAttributes;
-  ActiveRegions?: ActiveRegionList;
+  ActiveRegions?: string[];
 }
 export const SearchCriteria = S.suspend(() =>
   S.Struct({
@@ -19046,7 +20871,7 @@ export const TagsList = S.Array(TagSet);
 export interface UploadUrlMetadata {
   Url?: string;
   UrlExpiry?: string;
-  HeadersToInclude?: UrlMetadataSignedHeaders;
+  HeadersToInclude?: { [key: string]: string };
 }
 export const UploadUrlMetadata = S.suspend(() =>
   S.Struct({
@@ -19058,7 +20883,7 @@ export const UploadUrlMetadata = S.suspend(() =>
   identifier: "UploadUrlMetadata",
 }) as any as S.Schema<UploadUrlMetadata>;
 export interface AgentsCriteria {
-  AgentIds?: AgentIds;
+  AgentIds?: string[];
 }
 export const AgentsCriteria = S.suspend(() =>
   S.Struct({ AgentIds: S.optional(AgentIds) }),
@@ -19073,11 +20898,15 @@ export const UpdateParticipantRoleConfigChannelInfo = S.Union(
 );
 export interface PropertyValidationExceptionProperty {
   PropertyPath: string;
-  Reason: string;
+  Reason: PropertyValidationExceptionReason;
   Message: string;
 }
 export const PropertyValidationExceptionProperty = S.suspend(() =>
-  S.Struct({ PropertyPath: S.String, Reason: S.String, Message: S.String }),
+  S.Struct({
+    PropertyPath: S.String,
+    Reason: PropertyValidationExceptionReason,
+    Message: S.String,
+  }),
 ).annotations({
   identifier: "PropertyValidationExceptionProperty",
 }) as any as S.Schema<PropertyValidationExceptionProperty>;
@@ -19086,6 +20915,26 @@ export type PropertyValidationExceptionPropertyList =
 export const PropertyValidationExceptionPropertyList = S.Array(
   PropertyValidationExceptionProperty,
 );
+export type SingleSelectQuestionRuleCategoryAutomationCondition =
+  | "PRESENT"
+  | "NOT_PRESENT";
+export const SingleSelectQuestionRuleCategoryAutomationCondition = S.Literal(
+  "PRESENT",
+  "NOT_PRESENT",
+);
+export type MultiSelectQuestionRuleCategoryAutomationCondition =
+  | "PRESENT"
+  | "NOT_PRESENT";
+export const MultiSelectQuestionRuleCategoryAutomationCondition = S.Literal(
+  "PRESENT",
+  "NOT_PRESENT",
+);
+export type EvaluationFormItemEnablementSourceType = "QUESTION_REF_ID";
+export const EvaluationFormItemEnablementSourceType =
+  S.Literal("QUESTION_REF_ID");
+export type EvaluationFormItemEnablementSourceValueType = "OPTION_REF_ID";
+export const EvaluationFormItemEnablementSourceValueType =
+  S.Literal("OPTION_REF_ID");
 export interface HierarchyGroups {
   Level1?: AgentHierarchyGroup;
   Level2?: AgentHierarchyGroup;
@@ -19134,8 +20983,8 @@ export const AttributeCondition = S.suspend(() =>
 }) as any as S.Schema<AttributeCondition>;
 export interface Expression {
   AttributeCondition?: AttributeCondition;
-  AndExpression?: Expressions;
-  OrExpression?: Expressions;
+  AndExpression?: Expression[];
+  OrExpression?: Expression[];
   NotAttributeCondition?: AttributeCondition;
 }
 export const Expression = S.suspend(() =>
@@ -19153,13 +21002,13 @@ export const Expression = S.suspend(() =>
 export interface Step {
   Expiry?: Expiry;
   Expression?: Expression;
-  Status?: string;
+  Status?: RoutingCriteriaStepStatus;
 }
 export const Step = S.suspend(() =>
   S.Struct({
     Expiry: S.optional(Expiry),
     Expression: S.optional(Expression),
-    Status: S.optional(S.String),
+    Status: S.optional(RoutingCriteriaStepStatus),
   }),
 ).annotations({ identifier: "Step" }) as any as S.Schema<Step>;
 export type Steps = Step[];
@@ -19206,7 +21055,7 @@ export const AgentStatusIdentifier = S.suspend(() =>
   identifier: "AgentStatusIdentifier",
 }) as any as S.Schema<AgentStatusIdentifier>;
 export interface RealTimeContactAnalysisTranscriptItemRedaction {
-  CharacterOffsets?: RealTimeContactAnalysisCharacterIntervals;
+  CharacterOffsets?: RealTimeContactAnalysisCharacterInterval[];
 }
 export const RealTimeContactAnalysisTranscriptItemRedaction = S.suspend(() =>
   S.Struct({
@@ -19216,7 +21065,7 @@ export const RealTimeContactAnalysisTranscriptItemRedaction = S.suspend(() =>
   identifier: "RealTimeContactAnalysisTranscriptItemRedaction",
 }) as any as S.Schema<RealTimeContactAnalysisTranscriptItemRedaction>;
 export interface RealTimeContactAnalysisIssueDetected {
-  TranscriptItems: RealTimeContactAnalysisTranscriptItemsWithContent;
+  TranscriptItems: RealTimeContactAnalysisTranscriptItemWithContent[];
 }
 export const RealTimeContactAnalysisIssueDetected = S.suspend(() =>
   S.Struct({
@@ -19257,8 +21106,8 @@ export const AssociateInstanceStorageConfigResponse = S.suspend(() =>
   identifier: "AssociateInstanceStorageConfigResponse",
 }) as any as S.Schema<AssociateInstanceStorageConfigResponse>;
 export interface BatchPutContactResponse {
-  SuccessfulRequestList?: SuccessfulRequestList;
-  FailedRequestList?: FailedRequestList;
+  SuccessfulRequestList?: SuccessfulRequest[];
+  FailedRequestList?: FailedRequest[];
 }
 export const BatchPutContactResponse = S.suspend(() =>
   S.Struct({
@@ -19327,8 +21176,8 @@ export interface CreateRuleRequest {
   Name: string;
   TriggerEventSource: RuleTriggerEventSource;
   Function: string;
-  Actions: RuleActions;
-  PublishStatus: string;
+  Actions: RuleAction[];
+  PublishStatus: RulePublishStatus;
   ClientToken?: string;
 }
 export const CreateRuleRequest = S.suspend(() =>
@@ -19338,7 +21187,7 @@ export const CreateRuleRequest = S.suspend(() =>
     TriggerEventSource: RuleTriggerEventSource,
     Function: S.String,
     Actions: RuleActions,
-    PublishStatus: S.String,
+    PublishStatus: RulePublishStatus,
     ClientToken: S.optional(S.String),
   }).pipe(
     T.all(
@@ -19356,15 +21205,15 @@ export const CreateRuleRequest = S.suspend(() =>
 export interface CreateSecurityProfileRequest {
   SecurityProfileName: string;
   Description?: string;
-  Permissions?: PermissionsList;
+  Permissions?: string[];
   InstanceId: string;
-  Tags?: TagMap;
-  AllowedAccessControlTags?: AllowedAccessControlTags;
-  TagRestrictedResources?: TagRestrictedResourceList;
-  Applications?: Applications;
-  HierarchyRestrictedResources?: HierarchyRestrictedResourceList;
+  Tags?: { [key: string]: string };
+  AllowedAccessControlTags?: { [key: string]: string };
+  TagRestrictedResources?: string[];
+  Applications?: Application[];
+  HierarchyRestrictedResources?: string[];
   AllowedAccessControlHierarchyGroupId?: string;
-  AllowedFlowModules?: AllowedFlowModules;
+  AllowedFlowModules?: FlowModule[];
   GranularAccessControlConfiguration?: GranularAccessControlConfiguration;
 }
 export const CreateSecurityProfileRequest = S.suspend(() =>
@@ -19402,7 +21251,7 @@ export interface CreateWorkspaceRequest {
   Description?: string;
   Theme?: WorkspaceTheme;
   Title?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateWorkspaceRequest = S.suspend(() =>
   S.Struct({
@@ -19426,15 +21275,15 @@ export const CreateWorkspaceRequest = S.suspend(() =>
   identifier: "CreateWorkspaceRequest",
 }) as any as S.Schema<CreateWorkspaceRequest>;
 export interface EvaluationQuestionInputDetails {
-  TranscriptType?: string;
+  TranscriptType?: EvaluationTranscriptType;
 }
 export const EvaluationQuestionInputDetails = S.suspend(() =>
-  S.Struct({ TranscriptType: S.optional(S.String) }),
+  S.Struct({ TranscriptType: S.optional(EvaluationTranscriptType) }),
 ).annotations({
   identifier: "EvaluationQuestionInputDetails",
 }) as any as S.Schema<EvaluationQuestionInputDetails>;
 export interface GetContactMetricsResponse {
-  MetricResults?: ContactMetricResults;
+  MetricResults?: ContactMetricResult[];
   Id?: string;
   Arn?: string;
 }
@@ -19448,7 +21297,7 @@ export const GetContactMetricsResponse = S.suspend(() =>
   identifier: "GetContactMetricsResponse",
 }) as any as S.Schema<GetContactMetricsResponse>;
 export interface SearchAgentStatusesResponse {
-  AgentStatuses?: AgentStatusList;
+  AgentStatuses?: AgentStatus[];
   NextToken?: string;
   ApproximateTotalCount?: number;
 }
@@ -19462,7 +21311,7 @@ export const SearchAgentStatusesResponse = S.suspend(() =>
   identifier: "SearchAgentStatusesResponse",
 }) as any as S.Schema<SearchAgentStatusesResponse>;
 export interface SearchContactFlowsResponse {
-  ContactFlows?: ContactFlowSearchSummaryList;
+  ContactFlows?: ContactFlow[];
   NextToken?: string;
   ApproximateTotalCount?: number;
 }
@@ -19505,7 +21354,7 @@ export const SearchContactsRequest = S.suspend(() =>
   identifier: "SearchContactsRequest",
 }) as any as S.Schema<SearchContactsRequest>;
 export interface SearchResourceTagsResponse {
-  Tags?: TagsList;
+  Tags?: TagSet[];
   NextToken?: string;
 }
 export const SearchResourceTagsResponse = S.suspend(() =>
@@ -19517,8 +21366,8 @@ export interface StartAttachedFileUploadResponse {
   FileArn?: string;
   FileId?: string;
   CreationTime?: string;
-  FileStatus?: string;
-  CreatedBy?: (typeof CreatedByInfo)["Type"];
+  FileStatus?: FileStatusType;
+  CreatedBy?: CreatedByInfo;
   UploadUrlMetadata?: UploadUrlMetadata;
 }
 export const StartAttachedFileUploadResponse = S.suspend(() =>
@@ -19526,7 +21375,7 @@ export const StartAttachedFileUploadResponse = S.suspend(() =>
     FileArn: S.optional(S.String),
     FileId: S.optional(S.String),
     CreationTime: S.optional(S.String),
-    FileStatus: S.optional(S.String),
+    FileStatus: S.optional(FileStatusType),
     CreatedBy: S.optional(CreatedByInfo),
     UploadUrlMetadata: S.optional(UploadUrlMetadata),
   }),
@@ -19541,6 +21390,8 @@ export const StartEmailContactResponse = S.suspend(() =>
 ).annotations({
   identifier: "StartEmailContactResponse",
 }) as any as S.Schema<StartEmailContactResponse>;
+export type MeetingFeatureStatus = "AVAILABLE" | "UNAVAILABLE";
+export const MeetingFeatureStatus = S.Literal("AVAILABLE", "UNAVAILABLE");
 export interface SubmitContactEvaluationResponse {
   EvaluationId: string;
   EvaluationArn: string;
@@ -19553,7 +21404,7 @@ export const SubmitContactEvaluationResponse = S.suspend(() =>
 export interface UpdateParticipantRoleConfigRequest {
   InstanceId: string;
   ContactId: string;
-  ChannelConfiguration: (typeof UpdateParticipantRoleConfigChannelInfo)["Type"];
+  ChannelConfiguration: UpdateParticipantRoleConfigChannelInfo;
 }
 export const UpdateParticipantRoleConfigRequest = S.suspend(() =>
   S.Struct({
@@ -19582,45 +21433,62 @@ export const UpdateParticipantRoleConfigResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateParticipantRoleConfigResponse",
 }) as any as S.Schema<UpdateParticipantRoleConfigResponse>;
+export type AttachedFileServiceQuotaExceededExceptionReason =
+  | "TOTAL_FILE_SIZE_EXCEEDED"
+  | "TOTAL_FILE_COUNT_EXCEEDED";
+export const AttachedFileServiceQuotaExceededExceptionReason = S.Literal(
+  "TOTAL_FILE_SIZE_EXCEEDED",
+  "TOTAL_FILE_COUNT_EXCEEDED",
+);
 export interface SingleSelectQuestionRuleCategoryAutomation {
   Category: string;
-  Condition: string;
+  Condition: SingleSelectQuestionRuleCategoryAutomationCondition;
   OptionRefId: string;
 }
 export const SingleSelectQuestionRuleCategoryAutomation = S.suspend(() =>
-  S.Struct({ Category: S.String, Condition: S.String, OptionRefId: S.String }),
+  S.Struct({
+    Category: S.String,
+    Condition: SingleSelectQuestionRuleCategoryAutomationCondition,
+    OptionRefId: S.String,
+  }),
 ).annotations({
   identifier: "SingleSelectQuestionRuleCategoryAutomation",
 }) as any as S.Schema<SingleSelectQuestionRuleCategoryAutomation>;
 export interface MultiSelectQuestionRuleCategoryAutomation {
   Category: string;
-  Condition: string;
-  OptionRefIds: ReferenceIdList;
+  Condition: MultiSelectQuestionRuleCategoryAutomationCondition;
+  OptionRefIds: string[];
 }
 export const MultiSelectQuestionRuleCategoryAutomation = S.suspend(() =>
   S.Struct({
     Category: S.String,
-    Condition: S.String,
+    Condition: MultiSelectQuestionRuleCategoryAutomationCondition,
     OptionRefIds: ReferenceIdList,
   }),
 ).annotations({
   identifier: "MultiSelectQuestionRuleCategoryAutomation",
 }) as any as S.Schema<MultiSelectQuestionRuleCategoryAutomation>;
 export interface EvaluationFormItemEnablementSource {
-  Type: string;
+  Type: EvaluationFormItemEnablementSourceType;
   RefId?: string;
 }
 export const EvaluationFormItemEnablementSource = S.suspend(() =>
-  S.Struct({ Type: S.String, RefId: S.optional(S.String) }),
+  S.Struct({
+    Type: EvaluationFormItemEnablementSourceType,
+    RefId: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "EvaluationFormItemEnablementSource",
 }) as any as S.Schema<EvaluationFormItemEnablementSource>;
 export interface EvaluationFormItemEnablementSourceValue {
-  Type: string;
+  Type: EvaluationFormItemEnablementSourceValueType;
   RefId?: string;
 }
 export const EvaluationFormItemEnablementSourceValue = S.suspend(() =>
-  S.Struct({ Type: S.String, RefId: S.optional(S.String) }),
+  S.Struct({
+    Type: EvaluationFormItemEnablementSourceValueType,
+    RefId: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "EvaluationFormItemEnablementSourceValue",
 }) as any as S.Schema<EvaluationFormItemEnablementSourceValue>;
@@ -19642,7 +21510,7 @@ export interface AgentInfo {
   AfterContactWorkStartTimestamp?: Date;
   AfterContactWorkEndTimestamp?: Date;
   AgentInitiatedHoldDuration?: number;
-  StateTransitions?: StateTransitions;
+  StateTransitions?: StateTransition[];
 }
 export const AgentInfo = S.suspend(() =>
   S.Struct({
@@ -19672,7 +21540,7 @@ export const AgentInfo = S.suspend(() =>
   }),
 ).annotations({ identifier: "AgentInfo" }) as any as S.Schema<AgentInfo>;
 export interface RoutingCriteria {
-  Steps?: Steps;
+  Steps?: Step[];
   ActivationTimestamp?: Date;
   Index?: number;
 }
@@ -19700,12 +21568,12 @@ export const QualityMetrics = S.suspend(() =>
   identifier: "QualityMetrics",
 }) as any as S.Schema<QualityMetrics>;
 export interface NextContactEntry {
-  Type?: string;
-  NextContactMetadata?: (typeof NextContactMetadata)["Type"];
+  Type?: NextContactType;
+  NextContactMetadata?: NextContactMetadata;
 }
 export const NextContactEntry = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String),
+    Type: S.optional(NextContactType),
     NextContactMetadata: S.optional(NextContactMetadata),
   }),
 ).annotations({
@@ -19715,7 +21583,7 @@ export type NextContacts = NextContactEntry[];
 export const NextContacts = S.Array(NextContactEntry);
 export interface Dimensions {
   Queue?: QueueReference;
-  Channel?: string;
+  Channel?: Channel;
   RoutingProfile?: RoutingProfileReference;
   RoutingStepExpression?: string;
   AgentStatus?: AgentStatusIdentifier;
@@ -19725,7 +21593,7 @@ export interface Dimensions {
 export const Dimensions = S.suspend(() =>
   S.Struct({
     Queue: S.optional(QueueReference),
-    Channel: S.optional(S.String),
+    Channel: S.optional(Channel),
     RoutingProfile: S.optional(RoutingProfileReference),
     RoutingStepExpression: S.optional(S.String),
     AgentStatus: S.optional(AgentStatusIdentifier),
@@ -19758,13 +21626,15 @@ export const AgentStatusReference = S.suspend(() =>
 ).annotations({
   identifier: "AgentStatusReference",
 }) as any as S.Schema<AgentStatusReference>;
-export type ChannelToCountMap = { [key: string]: number };
-export const ChannelToCountMap = S.Record({ key: S.String, value: S.Number });
+export type ChannelToCountMap = { [key in Channel]?: number };
+export const ChannelToCountMap = S.partial(
+  S.Record({ key: Channel, value: S.Number }),
+);
 export interface AgentContactReference {
   ContactId?: string;
-  Channel?: string;
-  InitiationMethod?: string;
-  AgentContactState?: string;
+  Channel?: Channel;
+  InitiationMethod?: ContactInitiationMethod;
+  AgentContactState?: ContactState;
   StateStartTimestamp?: Date;
   ConnectedToAgentTimestamp?: Date;
   Queue?: QueueReference;
@@ -19772,9 +21642,9 @@ export interface AgentContactReference {
 export const AgentContactReference = S.suspend(() =>
   S.Struct({
     ContactId: S.optional(S.String),
-    Channel: S.optional(S.String),
-    InitiationMethod: S.optional(S.String),
-    AgentContactState: S.optional(S.String),
+    Channel: S.optional(Channel),
+    InitiationMethod: S.optional(ContactInitiationMethod),
+    AgentContactState: S.optional(ContactState),
     StateStartTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -19805,13 +21675,13 @@ export const HistoricalMetricDataCollections = S.Array(HistoricalMetricData);
 export type DimensionsV2Map = { [key: string]: string };
 export const DimensionsV2Map = S.Record({ key: S.String, value: S.String });
 export interface MetricInterval {
-  Interval?: string;
+  Interval?: IntervalPeriod;
   StartTime?: Date;
   EndTime?: Date;
 }
 export const MetricInterval = S.suspend(() =>
   S.Struct({
-    Interval: S.optional(S.String),
+    Interval: S.optional(IntervalPeriod),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -19830,31 +21700,31 @@ export const MetricDataCollectionsV2 = S.Array(MetricDataV2);
 export interface RealTimeContactAnalysisSegmentTranscript {
   Id: string;
   ParticipantId: string;
-  ParticipantRole: string;
+  ParticipantRole: ParticipantRole;
   DisplayName?: string;
   Content: string;
   ContentType?: string;
-  Time: (typeof RealTimeContactAnalysisTimeData)["Type"];
+  Time: RealTimeContactAnalysisTimeData;
   Redaction?: RealTimeContactAnalysisTranscriptItemRedaction;
-  Sentiment?: string;
+  Sentiment?: RealTimeContactAnalysisSentimentLabel;
 }
 export const RealTimeContactAnalysisSegmentTranscript = S.suspend(() =>
   S.Struct({
     Id: S.String,
     ParticipantId: S.String,
-    ParticipantRole: S.String,
+    ParticipantRole: ParticipantRole,
     DisplayName: S.optional(S.String),
     Content: S.String,
     ContentType: S.optional(S.String),
     Time: RealTimeContactAnalysisTimeData,
     Redaction: S.optional(RealTimeContactAnalysisTranscriptItemRedaction),
-    Sentiment: S.optional(S.String),
+    Sentiment: S.optional(RealTimeContactAnalysisSentimentLabel),
   }),
 ).annotations({
   identifier: "RealTimeContactAnalysisSegmentTranscript",
 }) as any as S.Schema<RealTimeContactAnalysisSegmentTranscript>;
 export interface RealTimeContactAnalysisSegmentIssues {
-  IssuesDetected: RealTimeContactAnalysisIssuesDetected;
+  IssuesDetected: RealTimeContactAnalysisIssueDetected[];
 }
 export const RealTimeContactAnalysisSegmentIssues = S.suspend(() =>
   S.Struct({ IssuesDetected: RealTimeContactAnalysisIssuesDetected }),
@@ -19870,13 +21740,13 @@ export interface EvaluationSearchMetadata {
   ScoreAutomaticFail?: boolean;
   ScoreNotApplicable?: boolean;
   AutoEvaluationEnabled?: boolean;
-  AutoEvaluationStatus?: string;
+  AutoEvaluationStatus?: AutoEvaluationStatus;
   AcknowledgedTime?: Date;
   AcknowledgedBy?: string;
   AcknowledgerComment?: string;
   SamplingJobId?: string;
   ReviewId?: string;
-  ContactParticipantRole?: string;
+  ContactParticipantRole?: ContactParticipantRole;
   ContactParticipantId?: string;
 }
 export const EvaluationSearchMetadata = S.suspend(() =>
@@ -19889,7 +21759,7 @@ export const EvaluationSearchMetadata = S.suspend(() =>
     ScoreAutomaticFail: S.optional(S.Boolean),
     ScoreNotApplicable: S.optional(S.Boolean),
     AutoEvaluationEnabled: S.optional(S.Boolean),
-    AutoEvaluationStatus: S.optional(S.String),
+    AutoEvaluationStatus: S.optional(AutoEvaluationStatus),
     AcknowledgedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -19897,7 +21767,7 @@ export const EvaluationSearchMetadata = S.suspend(() =>
     AcknowledgerComment: S.optional(S.String),
     SamplingJobId: S.optional(S.String),
     ReviewId: S.optional(S.String),
-    ContactParticipantRole: S.optional(S.String),
+    ContactParticipantRole: S.optional(ContactParticipantRole),
     ContactParticipantId: S.optional(S.String),
   }),
 ).annotations({
@@ -19906,8 +21776,8 @@ export const EvaluationSearchMetadata = S.suspend(() =>
 export interface EvaluationFormNumericQuestionProperties {
   MinValue: number;
   MaxValue: number;
-  Options?: EvaluationFormNumericQuestionOptionList;
-  Automation?: (typeof EvaluationFormNumericQuestionAutomation)["Type"];
+  Options?: EvaluationFormNumericQuestionOption[];
+  Automation?: EvaluationFormNumericQuestionAutomation;
 }
 export const EvaluationFormNumericQuestionProperties = S.suspend(() =>
   S.Struct({
@@ -19920,18 +21790,21 @@ export const EvaluationFormNumericQuestionProperties = S.suspend(() =>
   identifier: "EvaluationFormNumericQuestionProperties",
 }) as any as S.Schema<EvaluationFormNumericQuestionProperties>;
 export interface AudioFeatures {
-  EchoReduction?: string;
+  EchoReduction?: MeetingFeatureStatus;
 }
 export const AudioFeatures = S.suspend(() =>
-  S.Struct({ EchoReduction: S.optional(S.String) }),
+  S.Struct({ EchoReduction: S.optional(MeetingFeatureStatus) }),
 ).annotations({
   identifier: "AudioFeatures",
 }) as any as S.Schema<AudioFeatures>;
 export type ServiceQuotaExceededExceptionReason = {
-  AttachedFileServiceQuotaExceededExceptionReason: string;
+  AttachedFileServiceQuotaExceededExceptionReason: AttachedFileServiceQuotaExceededExceptionReason;
 };
 export const ServiceQuotaExceededExceptionReason = S.Union(
-  S.Struct({ AttachedFileServiceQuotaExceededExceptionReason: S.String }),
+  S.Struct({
+    AttachedFileServiceQuotaExceededExceptionReason:
+      AttachedFileServiceQuotaExceededExceptionReason,
+  }),
 );
 export type EvaluationFormSingleSelectQuestionAutomationOption = {
   RuleCategory: SingleSelectQuestionRuleCategoryAutomation;
@@ -19940,7 +21813,7 @@ export const EvaluationFormSingleSelectQuestionAutomationOption = S.Union(
   S.Struct({ RuleCategory: SingleSelectQuestionRuleCategoryAutomation }),
 );
 export type EvaluationFormSingleSelectQuestionAutomationOptionList =
-  (typeof EvaluationFormSingleSelectQuestionAutomationOption)["Type"][];
+  EvaluationFormSingleSelectQuestionAutomationOption[];
 export const EvaluationFormSingleSelectQuestionAutomationOptionList = S.Array(
   EvaluationFormSingleSelectQuestionAutomationOption,
 );
@@ -19951,20 +21824,20 @@ export const EvaluationFormMultiSelectQuestionAutomationOption = S.Union(
   S.Struct({ RuleCategory: MultiSelectQuestionRuleCategoryAutomation }),
 );
 export type EvaluationFormMultiSelectQuestionAutomationOptionList =
-  (typeof EvaluationFormMultiSelectQuestionAutomationOption)["Type"][];
+  EvaluationFormMultiSelectQuestionAutomationOption[];
 export const EvaluationFormMultiSelectQuestionAutomationOptionList = S.Array(
   EvaluationFormMultiSelectQuestionAutomationOption,
 );
 export interface EvaluationFormItemEnablementExpression {
   Source: EvaluationFormItemEnablementSource;
-  Values: EvaluationFormItemEnablementSourceValueList;
-  Comparator: string;
+  Values: EvaluationFormItemEnablementSourceValue[];
+  Comparator: EvaluationFormItemSourceValuesComparator;
 }
 export const EvaluationFormItemEnablementExpression = S.suspend(() =>
   S.Struct({
     Source: EvaluationFormItemEnablementSource,
     Values: EvaluationFormItemEnablementSourceValueList,
-    Comparator: S.String,
+    Comparator: EvaluationFormItemSourceValuesComparator,
   }),
 ).annotations({
   identifier: "EvaluationFormItemEnablementExpression",
@@ -19975,10 +21848,10 @@ export interface Contact {
   InitialContactId?: string;
   PreviousContactId?: string;
   ContactAssociationId?: string;
-  InitiationMethod?: string;
-  Name?: string | Redacted.Redacted<string>;
-  Description?: string | Redacted.Redacted<string>;
-  Channel?: string;
+  InitiationMethod?: ContactInitiationMethod;
+  Name?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
+  Channel?: Channel;
   QueueInfo?: QueueInfo;
   AgentInfo?: AgentInfo;
   InitiationTimestamp?: Date;
@@ -19997,26 +21870,26 @@ export interface Contact {
   SystemEndpoint?: EndpointInfo;
   QueueTimeAdjustmentSeconds?: number;
   QueuePriority?: number;
-  Tags?: ContactTagMap;
+  Tags?: { [key: string]: string };
   ConnectedToSystemTimestamp?: Date;
   RoutingCriteria?: RoutingCriteria;
   Customer?: Customer;
   Campaign?: Campaign;
-  AnsweringMachineDetectionStatus?: string;
+  AnsweringMachineDetectionStatus?: AnsweringMachineDetectionStatus;
   CustomerVoiceActivity?: CustomerVoiceActivity;
   QualityMetrics?: QualityMetrics;
   ChatMetrics?: ChatMetrics;
   DisconnectDetails?: DisconnectDetails;
   AdditionalEmailRecipients?: AdditionalEmailRecipients;
-  SegmentAttributes?: SegmentAttributes;
-  Recordings?: Recordings;
+  SegmentAttributes?: { [key: string]: SegmentAttributeValue };
+  Recordings?: RecordingInfo[];
   DisconnectReason?: string;
-  ContactEvaluations?: ContactEvaluations;
+  ContactEvaluations?: { [key: string]: ContactEvaluation };
   TaskTemplateInfo?: TaskTemplateInfoV2;
   ContactDetails?: ContactDetails;
   OutboundStrategy?: OutboundStrategy;
-  Attributes?: Attributes;
-  NextContacts?: NextContacts;
+  Attributes?: { [key: string]: string };
+  NextContacts?: NextContactEntry[];
   GlobalResiliencyMetadata?: GlobalResiliencyMetadata;
 }
 export const Contact = S.suspend(() =>
@@ -20026,10 +21899,10 @@ export const Contact = S.suspend(() =>
     InitialContactId: S.optional(S.String),
     PreviousContactId: S.optional(S.String),
     ContactAssociationId: S.optional(S.String),
-    InitiationMethod: S.optional(S.String),
+    InitiationMethod: S.optional(ContactInitiationMethod),
     Name: S.optional(SensitiveString),
     Description: S.optional(SensitiveString),
-    Channel: S.optional(S.String),
+    Channel: S.optional(Channel),
     QueueInfo: S.optional(QueueInfo),
     AgentInfo: S.optional(AgentInfo),
     InitiationTimestamp: S.optional(
@@ -20069,7 +21942,9 @@ export const Contact = S.suspend(() =>
     RoutingCriteria: S.optional(RoutingCriteria),
     Customer: S.optional(Customer),
     Campaign: S.optional(Campaign),
-    AnsweringMachineDetectionStatus: S.optional(S.String),
+    AnsweringMachineDetectionStatus: S.optional(
+      AnsweringMachineDetectionStatus,
+    ),
     CustomerVoiceActivity: S.optional(CustomerVoiceActivity),
     QualityMetrics: S.optional(QualityMetrics),
     ChatMetrics: S.optional(ChatMetrics),
@@ -20089,7 +21964,7 @@ export const Contact = S.suspend(() =>
 ).annotations({ identifier: "Contact" }) as any as S.Schema<Contact>;
 export interface CurrentMetricResult {
   Dimensions?: Dimensions;
-  Collections?: CurrentMetricDataCollections;
+  Collections?: CurrentMetricData[];
 }
 export const CurrentMetricResult = S.suspend(() =>
   S.Struct({
@@ -20103,7 +21978,7 @@ export type CurrentMetricResults = CurrentMetricResult[];
 export const CurrentMetricResults = S.Array(CurrentMetricResult);
 export interface HistoricalMetricResult {
   Dimensions?: Dimensions;
-  Collections?: HistoricalMetricDataCollections;
+  Collections?: HistoricalMetricData[];
 }
 export const HistoricalMetricResult = S.suspend(() =>
   S.Struct({
@@ -20116,9 +21991,9 @@ export const HistoricalMetricResult = S.suspend(() =>
 export type HistoricalMetricResults = HistoricalMetricResult[];
 export const HistoricalMetricResults = S.Array(HistoricalMetricResult);
 export interface MetricResultV2 {
-  Dimensions?: DimensionsV2Map;
+  Dimensions?: { [key: string]: string };
   MetricInterval?: MetricInterval;
-  Collections?: MetricDataCollectionsV2;
+  Collections?: MetricDataV2[];
 }
 export const MetricResultV2 = S.suspend(() =>
   S.Struct({
@@ -20155,11 +22030,11 @@ export interface EvaluationSearchSummary {
   EvaluationFormVersion: number;
   EvaluationFormTitle?: string;
   Metadata: EvaluationSearchMetadata;
-  Status: string;
-  EvaluationType?: string;
+  Status: EvaluationStatus;
+  EvaluationType?: EvaluationType;
   CreatedTime: Date;
   LastModifiedTime: Date;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const EvaluationSearchSummary = S.suspend(() =>
   S.Struct({
@@ -20169,8 +22044,8 @@ export const EvaluationSearchSummary = S.suspend(() =>
     EvaluationFormVersion: S.Number,
     EvaluationFormTitle: S.optional(S.String),
     Metadata: EvaluationSearchMetadata,
-    Status: S.String,
-    EvaluationType: S.optional(S.String),
+    Status: EvaluationStatus,
+    EvaluationType: S.optional(EvaluationType),
     CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     Tags: S.optional(TagMap),
@@ -20180,6 +22055,11 @@ export const EvaluationSearchSummary = S.suspend(() =>
 }) as any as S.Schema<EvaluationSearchSummary>;
 export type EvaluationSearchSummaryList = EvaluationSearchSummary[];
 export const EvaluationSearchSummaryList = S.Array(EvaluationSearchSummary);
+export type QuestionRuleCategoryAutomationCondition = "PRESENT" | "NOT_PRESENT";
+export const QuestionRuleCategoryAutomationCondition = S.Literal(
+  "PRESENT",
+  "NOT_PRESENT",
+);
 export interface HierarchyGroupSummaryReference {
   Id?: string;
   Arn?: string;
@@ -20198,7 +22078,7 @@ export const MeetingFeaturesConfiguration = S.suspend(() =>
   identifier: "MeetingFeaturesConfiguration",
 }) as any as S.Schema<MeetingFeaturesConfiguration>;
 export interface EvaluationFormSingleSelectQuestionAutomation {
-  Options?: EvaluationFormSingleSelectQuestionAutomationOptionList;
+  Options?: EvaluationFormSingleSelectQuestionAutomationOption[];
   DefaultOptionRefId?: string;
   AnswerSource?: EvaluationFormQuestionAutomationAnswerSource;
 }
@@ -20212,8 +22092,8 @@ export const EvaluationFormSingleSelectQuestionAutomation = S.suspend(() =>
   identifier: "EvaluationFormSingleSelectQuestionAutomation",
 }) as any as S.Schema<EvaluationFormSingleSelectQuestionAutomation>;
 export interface EvaluationFormMultiSelectQuestionAutomation {
-  Options?: EvaluationFormMultiSelectQuestionAutomationOptionList;
-  DefaultOptionRefIds?: ReferenceIdList;
+  Options?: EvaluationFormMultiSelectQuestionAutomationOption[];
+  DefaultOptionRefIds?: string[];
   AnswerSource?: EvaluationFormQuestionAutomationAnswerSource;
 }
 export const EvaluationFormMultiSelectQuestionAutomation = S.suspend(() =>
@@ -20284,7 +22164,7 @@ export const DescribeContactResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeContactResponse>;
 export interface GetCurrentMetricDataResponse {
   NextToken?: string;
-  MetricResults?: CurrentMetricResults;
+  MetricResults?: CurrentMetricResult[];
   DataSnapshotTime?: Date;
   ApproximateTotalCount?: number;
 }
@@ -20302,7 +22182,7 @@ export const GetCurrentMetricDataResponse = S.suspend(() =>
 }) as any as S.Schema<GetCurrentMetricDataResponse>;
 export interface GetMetricDataResponse {
   NextToken?: string;
-  MetricResults?: HistoricalMetricResults;
+  MetricResults?: HistoricalMetricResult[];
 }
 export const GetMetricDataResponse = S.suspend(() =>
   S.Struct({
@@ -20314,7 +22194,7 @@ export const GetMetricDataResponse = S.suspend(() =>
 }) as any as S.Schema<GetMetricDataResponse>;
 export interface GetMetricDataV2Response {
   NextToken?: string;
-  MetricResults?: MetricResultsV2;
+  MetricResults?: MetricResultV2[];
 }
 export const GetMetricDataV2Response = S.suspend(() =>
   S.Struct({
@@ -20325,7 +22205,7 @@ export const GetMetricDataV2Response = S.suspend(() =>
   identifier: "GetMetricDataV2Response",
 }) as any as S.Schema<GetMetricDataV2Response>;
 export interface RealTimeContactAnalysisPointOfInterest {
-  TranscriptItems?: RealTimeContactAnalysisTranscriptItemsWithCharacterOffsets;
+  TranscriptItems?: RealTimeContactAnalysisTranscriptItemWithCharacterOffsets[];
 }
 export const RealTimeContactAnalysisPointOfInterest = S.suspend(() =>
   S.Struct({
@@ -20342,7 +22222,7 @@ export const RealTimeContactAnalysisPointsOfInterest = S.Array(
   RealTimeContactAnalysisPointOfInterest,
 );
 export interface SearchContactEvaluationsResponse {
-  EvaluationSearchSummaryList?: EvaluationSearchSummaryList;
+  EvaluationSearchSummaryList?: EvaluationSearchSummary[];
   NextToken?: string;
   ApproximateTotalCount?: number;
 }
@@ -20356,9 +22236,9 @@ export const SearchContactEvaluationsResponse = S.suspend(() =>
   identifier: "SearchContactEvaluationsResponse",
 }) as any as S.Schema<SearchContactEvaluationsResponse>;
 export interface StartOutboundVoiceContactRequest {
-  Name?: string | Redacted.Redacted<string>;
-  Description?: string | Redacted.Redacted<string>;
-  References?: ContactReferences;
+  Name?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
+  References?: { [key: string]: Reference };
   RelatedContactId?: string;
   DestinationPhoneNumber: string;
   ContactFlowId: string;
@@ -20366,10 +22246,10 @@ export interface StartOutboundVoiceContactRequest {
   ClientToken?: string;
   SourcePhoneNumber?: string;
   QueueId?: string;
-  Attributes?: Attributes;
+  Attributes?: { [key: string]: string };
   AnswerMachineDetectionConfig?: AnswerMachineDetectionConfig;
   CampaignId?: string;
-  TrafficType?: string;
+  TrafficType?: TrafficType;
   OutboundStrategy?: OutboundStrategy;
   RingTimeoutInSeconds?: number;
 }
@@ -20388,7 +22268,7 @@ export const StartOutboundVoiceContactRequest = S.suspend(() =>
     Attributes: S.optional(Attributes),
     AnswerMachineDetectionConfig: S.optional(AnswerMachineDetectionConfig),
     CampaignId: S.optional(S.String),
-    TrafficType: S.optional(S.String),
+    TrafficType: S.optional(TrafficType),
     OutboundStrategy: S.optional(OutboundStrategy),
     RingTimeoutInSeconds: S.optional(S.Number),
   }).pipe(
@@ -20433,13 +22313,13 @@ export const EvaluationTranscriptPointsOfInterest = S.Array(
 );
 export interface EvaluationAutomationRuleCategory {
   Category: string;
-  Condition: string;
-  PointsOfInterest?: EvaluationTranscriptPointsOfInterest;
+  Condition: QuestionRuleCategoryAutomationCondition;
+  PointsOfInterest?: EvaluationTranscriptPointOfInterest[];
 }
 export const EvaluationAutomationRuleCategory = S.suspend(() =>
   S.Struct({
     Category: S.String,
-    Condition: S.String,
+    Condition: QuestionRuleCategoryAutomationCondition,
     PointsOfInterest: S.optional(EvaluationTranscriptPointsOfInterest),
   }),
 ).annotations({
@@ -20469,8 +22349,8 @@ export const HierarchyPathReference = S.suspend(() =>
   identifier: "HierarchyPathReference",
 }) as any as S.Schema<HierarchyPathReference>;
 export interface UserIdentityInfoLite {
-  FirstName?: string | Redacted.Redacted<string>;
-  LastName?: string | Redacted.Redacted<string>;
+  FirstName?: string | redacted.Redacted<string>;
+  LastName?: string | redacted.Redacted<string>;
 }
 export const UserIdentityInfoLite = S.suspend(() =>
   S.Struct({
@@ -20509,36 +22389,36 @@ export const RoutingCriteriaInputStep = S.suspend(() =>
 export type RoutingCriteriaInputSteps = RoutingCriteriaInputStep[];
 export const RoutingCriteriaInputSteps = S.Array(RoutingCriteriaInputStep);
 export interface EvaluationFormSingleSelectQuestionProperties {
-  Options: EvaluationFormSingleSelectQuestionOptionList;
-  DisplayAs?: string;
+  Options: EvaluationFormSingleSelectQuestionOption[];
+  DisplayAs?: EvaluationFormSingleSelectQuestionDisplayMode;
   Automation?: EvaluationFormSingleSelectQuestionAutomation;
 }
 export const EvaluationFormSingleSelectQuestionProperties = S.suspend(() =>
   S.Struct({
     Options: EvaluationFormSingleSelectQuestionOptionList,
-    DisplayAs: S.optional(S.String),
+    DisplayAs: S.optional(EvaluationFormSingleSelectQuestionDisplayMode),
     Automation: S.optional(EvaluationFormSingleSelectQuestionAutomation),
   }),
 ).annotations({
   identifier: "EvaluationFormSingleSelectQuestionProperties",
 }) as any as S.Schema<EvaluationFormSingleSelectQuestionProperties>;
 export interface EvaluationFormMultiSelectQuestionProperties {
-  Options: EvaluationFormMultiSelectQuestionOptionList;
-  DisplayAs?: string;
+  Options: EvaluationFormMultiSelectQuestionOption[];
+  DisplayAs?: EvaluationFormMultiSelectQuestionDisplayMode;
   Automation?: EvaluationFormMultiSelectQuestionAutomation;
 }
 export const EvaluationFormMultiSelectQuestionProperties = S.suspend(() =>
   S.Struct({
     Options: EvaluationFormMultiSelectQuestionOptionList,
-    DisplayAs: S.optional(S.String),
+    DisplayAs: S.optional(EvaluationFormMultiSelectQuestionDisplayMode),
     Automation: S.optional(EvaluationFormMultiSelectQuestionAutomation),
   }),
 ).annotations({
   identifier: "EvaluationFormMultiSelectQuestionProperties",
 }) as any as S.Schema<EvaluationFormMultiSelectQuestionProperties>;
 export interface EvaluationFormItemEnablementCondition {
-  Operands: EvaluationFormItemEnablementConditionOperandList;
-  Operator?: string;
+  Operands: EvaluationFormItemEnablementConditionOperand[];
+  Operator?: EvaluationFormItemEnablementOperator;
 }
 export const EvaluationFormItemEnablementCondition = S.suspend(() =>
   S.Struct({
@@ -20547,13 +22427,13 @@ export const EvaluationFormItemEnablementCondition = S.suspend(() =>
     ).annotations({
       identifier: "EvaluationFormItemEnablementConditionOperandList",
     }),
-    Operator: S.optional(S.String),
+    Operator: S.optional(EvaluationFormItemEnablementOperator),
   }),
 ).annotations({
   identifier: "EvaluationFormItemEnablementCondition",
 }) as any as S.Schema<EvaluationFormItemEnablementCondition>;
 export interface RealTimeContactAnalysisCategoryDetails {
-  PointsOfInterest: RealTimeContactAnalysisPointsOfInterest;
+  PointsOfInterest: RealTimeContactAnalysisPointOfInterest[];
 }
 export const RealTimeContactAnalysisCategoryDetails = S.suspend(() =>
   S.Struct({ PointsOfInterest: RealTimeContactAnalysisPointsOfInterest }),
@@ -20561,7 +22441,7 @@ export const RealTimeContactAnalysisCategoryDetails = S.suspend(() =>
   identifier: "RealTimeContactAnalysisCategoryDetails",
 }) as any as S.Schema<RealTimeContactAnalysisCategoryDetails>;
 export interface EvaluationContactLensAnswerAnalysisDetails {
-  MatchedRuleCategories?: EvaluationAutomationRuleCategoryList;
+  MatchedRuleCategories?: EvaluationAutomationRuleCategory[];
 }
 export const EvaluationContactLensAnswerAnalysisDetails = S.suspend(() =>
   S.Struct({
@@ -20575,10 +22455,10 @@ export interface UserData {
   RoutingProfile?: RoutingProfileReference;
   HierarchyPath?: HierarchyPathReference;
   Status?: AgentStatusReference;
-  AvailableSlotsByChannel?: ChannelToCountMap;
-  MaxSlotsByChannel?: ChannelToCountMap;
-  ActiveSlotsByChannel?: ChannelToCountMap;
-  Contacts?: AgentContactReferenceList;
+  AvailableSlotsByChannel?: { [key: string]: number };
+  MaxSlotsByChannel?: { [key: string]: number };
+  ActiveSlotsByChannel?: { [key: string]: number };
+  Contacts?: AgentContactReference[];
   NextStatus?: string;
 }
 export const UserData = S.suspend(() =>
@@ -20604,8 +22484,8 @@ export interface UserSearchSummary {
   IdentityInfo?: UserIdentityInfoLite;
   PhoneConfig?: UserPhoneConfig;
   RoutingProfileId?: string;
-  SecurityProfileIds?: SecurityProfileIds;
-  Tags?: TagMap;
+  SecurityProfileIds?: string[];
+  Tags?: { [key: string]: string };
   Username?: string;
 }
 export const UserSearchSummary = S.suspend(() =>
@@ -20636,7 +22516,7 @@ export const ConnectionData = S.suspend(() =>
   identifier: "ConnectionData",
 }) as any as S.Schema<ConnectionData>;
 export interface RoutingCriteriaInput {
-  Steps?: RoutingCriteriaInputSteps;
+  Steps?: RoutingCriteriaInputStep[];
 }
 export const RoutingCriteriaInput = S.suspend(() =>
   S.Struct({ Steps: S.optional(RoutingCriteriaInputSteps) }),
@@ -20656,14 +22536,14 @@ export const EvaluationFormQuestionTypeProperties = S.Union(
 );
 export interface EvaluationFormItemEnablementConfiguration {
   Condition: EvaluationFormItemEnablementCondition;
-  Action: string;
-  DefaultAction?: string;
+  Action: EvaluationFormItemEnablementAction;
+  DefaultAction?: EvaluationFormItemEnablementAction;
 }
 export const EvaluationFormItemEnablementConfiguration = S.suspend(() =>
   S.Struct({
     Condition: EvaluationFormItemEnablementCondition,
-    Action: S.String,
-    DefaultAction: S.optional(S.String),
+    Action: EvaluationFormItemEnablementAction,
+    DefaultAction: S.optional(EvaluationFormItemEnablementAction),
   }),
 ).annotations({
   identifier: "EvaluationFormItemEnablementConfiguration",
@@ -20677,7 +22557,7 @@ export const RealTimeContactAnalysisMatchedDetails = S.Record({
 });
 export interface GetCurrentUserDataResponse {
   NextToken?: string;
-  UserDataList?: UserDataList;
+  UserDataList?: UserData[];
   ApproximateTotalCount?: number;
 }
 export const GetCurrentUserDataResponse = S.suspend(() =>
@@ -20690,7 +22570,7 @@ export const GetCurrentUserDataResponse = S.suspend(() =>
   identifier: "GetCurrentUserDataResponse",
 }) as any as S.Schema<GetCurrentUserDataResponse>;
 export interface SearchUsersResponse {
-  Users?: UserSearchSummaryList;
+  Users?: UserSearchSummary[];
   NextToken?: string;
   ApproximateTotalCount?: number;
 }
@@ -20768,8 +22648,8 @@ export interface EvaluationFormQuestion {
   Instructions?: string;
   RefId: string;
   NotApplicableEnabled?: boolean;
-  QuestionType: string;
-  QuestionTypeProperties?: (typeof EvaluationFormQuestionTypeProperties)["Type"];
+  QuestionType: EvaluationFormQuestionType;
+  QuestionTypeProperties?: EvaluationFormQuestionTypeProperties;
   Enablement?: EvaluationFormItemEnablementConfiguration;
   Weight?: number;
 }
@@ -20779,7 +22659,7 @@ export const EvaluationFormQuestion = S.suspend(() =>
     Instructions: S.optional(S.String),
     RefId: S.String,
     NotApplicableEnabled: S.optional(S.Boolean),
-    QuestionType: S.String,
+    QuestionType: EvaluationFormQuestionType,
     QuestionTypeProperties: S.optional(EvaluationFormQuestionTypeProperties),
     Enablement: S.optional(EvaluationFormItemEnablementConfiguration),
     Weight: S.optional(S.Number),
@@ -20788,7 +22668,7 @@ export const EvaluationFormQuestion = S.suspend(() =>
   identifier: "EvaluationFormQuestion",
 }) as any as S.Schema<EvaluationFormQuestion>;
 export interface RealTimeContactAnalysisSegmentCategories {
-  MatchedDetails: RealTimeContactAnalysisMatchedDetails;
+  MatchedDetails: { [key: string]: RealTimeContactAnalysisCategoryDetails };
 }
 export const RealTimeContactAnalysisSegmentCategories = S.suspend(() =>
   S.Struct({ MatchedDetails: RealTimeContactAnalysisMatchedDetails }),
@@ -20836,7 +22716,7 @@ export const EvaluationFormItem = S.Union(
 ) as any as S.Schema<EvaluationFormItem>;
 export interface EvaluationGenAIAnswerAnalysisDetails {
   Justification?: string;
-  PointsOfInterest?: EvaluationTranscriptPointsOfInterest;
+  PointsOfInterest?: EvaluationTranscriptPointOfInterest[];
 }
 export const EvaluationGenAIAnswerAnalysisDetails = S.suspend(() =>
   S.Struct({
@@ -20863,14 +22743,13 @@ export const RealtimeContactAnalysisSegment = S.Union(
     PostContactSummary: RealTimeContactAnalysisSegmentPostContactSummary,
   }),
 );
-export type RealtimeContactAnalysisSegments =
-  (typeof RealtimeContactAnalysisSegment)["Type"][];
+export type RealtimeContactAnalysisSegments = RealtimeContactAnalysisSegment[];
 export const RealtimeContactAnalysisSegments = S.Array(
   RealtimeContactAnalysisSegment,
 );
 export interface ContactSearchSummarySegmentAttributeValue {
   ValueString?: string;
-  ValueMap?: SegmentAttributeValueMap;
+  ValueMap?: { [key: string]: SegmentAttributeValue };
 }
 export const ContactSearchSummarySegmentAttributeValue = S.suspend(() =>
   S.Struct({
@@ -20884,12 +22763,12 @@ export interface CreateEvaluationFormRequest {
   InstanceId: string;
   Title: string;
   Description?: string;
-  Items: EvaluationFormItemsList;
+  Items: EvaluationFormItem[];
   ScoringStrategy?: EvaluationFormScoringStrategy;
   AutoEvaluationConfiguration?: EvaluationFormAutoEvaluationConfiguration;
   ClientToken?: string;
   AsDraft?: boolean;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   TargetConfiguration?: EvaluationFormTargetConfiguration;
   LanguageConfiguration?: EvaluationFormLanguageConfiguration;
 }
@@ -20929,15 +22808,15 @@ export const EvaluationQuestionAnswerAnalysisDetails = S.Union(
   S.Struct({ ContactLens: EvaluationContactLensAnswerAnalysisDetails }),
 );
 export interface ListRealtimeContactAnalysisSegmentsV2Response {
-  Channel: string;
-  Status: string;
-  Segments: RealtimeContactAnalysisSegments;
+  Channel: RealTimeContactAnalysisSupportedChannel;
+  Status: RealTimeContactAnalysisStatus;
+  Segments: RealtimeContactAnalysisSegment[];
   NextToken?: string;
 }
 export const ListRealtimeContactAnalysisSegmentsV2Response = S.suspend(() =>
   S.Struct({
-    Channel: S.String,
-    Status: S.String,
+    Channel: RealTimeContactAnalysisSupportedChannel,
+    Status: RealTimeContactAnalysisStatus,
     Segments: RealtimeContactAnalysisSegments,
     NextToken: S.optional(S.String),
   }),
@@ -20952,18 +22831,18 @@ export const ContactSearchSummarySegmentAttributes = S.Record({
   value: ContactSearchSummarySegmentAttributeValue,
 });
 export interface EvaluationSuggestedAnswer {
-  Value?: (typeof EvaluationAnswerData)["Type"];
-  Status: string;
+  Value?: EvaluationAnswerData;
+  Status: EvaluationSuggestedAnswerStatus;
   Input?: EvaluationQuestionInputDetails;
-  AnalysisType: string;
-  AnalysisDetails?: (typeof EvaluationQuestionAnswerAnalysisDetails)["Type"];
+  AnalysisType: EvaluationQuestionAnswerAnalysisType;
+  AnalysisDetails?: EvaluationQuestionAnswerAnalysisDetails;
 }
 export const EvaluationSuggestedAnswer = S.suspend(() =>
   S.Struct({
     Value: S.optional(EvaluationAnswerData),
-    Status: S.String,
+    Status: EvaluationSuggestedAnswerStatus,
     Input: S.optional(EvaluationQuestionInputDetails),
-    AnalysisType: S.String,
+    AnalysisType: EvaluationQuestionAnswerAnalysisType,
     AnalysisDetails: S.optional(EvaluationQuestionAnswerAnalysisDetails),
   }),
 ).annotations({
@@ -20978,15 +22857,17 @@ export interface ContactSearchSummary {
   Id?: string;
   InitialContactId?: string;
   PreviousContactId?: string;
-  InitiationMethod?: string;
-  Channel?: string;
+  InitiationMethod?: ContactInitiationMethod;
+  Channel?: Channel;
   QueueInfo?: ContactSearchSummaryQueueInfo;
   AgentInfo?: ContactSearchSummaryAgentInfo;
   InitiationTimestamp?: Date;
   DisconnectTimestamp?: Date;
   ScheduledTimestamp?: Date;
-  SegmentAttributes?: ContactSearchSummarySegmentAttributes;
-  Name?: string | Redacted.Redacted<string>;
+  SegmentAttributes?: {
+    [key: string]: ContactSearchSummarySegmentAttributeValue;
+  };
+  Name?: string | redacted.Redacted<string>;
   RoutingCriteria?: RoutingCriteria;
   GlobalResiliencyMetadata?: GlobalResiliencyMetadata;
 }
@@ -20996,8 +22877,8 @@ export const ContactSearchSummary = S.suspend(() =>
     Id: S.optional(S.String),
     InitialContactId: S.optional(S.String),
     PreviousContactId: S.optional(S.String),
-    InitiationMethod: S.optional(S.String),
-    Channel: S.optional(S.String),
+    InitiationMethod: S.optional(ContactInitiationMethod),
+    Channel: S.optional(Channel),
     QueueInfo: S.optional(ContactSearchSummaryQueueInfo),
     AgentInfo: S.optional(ContactSearchSummaryAgentInfo),
     InitiationTimestamp: S.optional(
@@ -21020,9 +22901,9 @@ export const ContactSearchSummary = S.suspend(() =>
 export type Contacts = ContactSearchSummary[];
 export const Contacts = S.Array(ContactSearchSummary);
 export interface EvaluationAnswerOutput {
-  Value?: (typeof EvaluationAnswerData)["Type"];
-  SystemSuggestedValue?: (typeof EvaluationAnswerData)["Type"];
-  SuggestedAnswers?: EvaluationSuggestedAnswersList;
+  Value?: EvaluationAnswerData;
+  SystemSuggestedValue?: EvaluationAnswerData;
+  SuggestedAnswers?: EvaluationSuggestedAnswer[];
 }
 export const EvaluationAnswerOutput = S.suspend(() =>
   S.Struct({
@@ -21043,7 +22924,7 @@ export const CreateEvaluationFormResponse = S.suspend(() =>
   identifier: "CreateEvaluationFormResponse",
 }) as any as S.Schema<CreateEvaluationFormResponse>;
 export interface SearchContactsResponse {
-  Contacts: Contacts;
+  Contacts: ContactSearchSummary[];
   NextToken?: string;
   TotalCount?: number;
 }
@@ -21067,14 +22948,14 @@ export interface Evaluation {
   EvaluationId: string;
   EvaluationArn: string;
   Metadata: EvaluationMetadata;
-  Answers: EvaluationAnswersOutputMap;
-  Notes: EvaluationNotesMap;
-  Status: string;
-  Scores?: EvaluationScoresMap;
+  Answers: { [key: string]: EvaluationAnswerOutput };
+  Notes: { [key: string]: EvaluationNote };
+  Status: EvaluationStatus;
+  Scores?: { [key: string]: EvaluationScore };
   CreatedTime: Date;
   LastModifiedTime: Date;
-  EvaluationType?: string;
-  Tags?: TagMap;
+  EvaluationType?: EvaluationType;
+  Tags?: { [key: string]: string };
 }
 export const Evaluation = S.suspend(() =>
   S.Struct({
@@ -21083,11 +22964,11 @@ export const Evaluation = S.suspend(() =>
     Metadata: EvaluationMetadata,
     Answers: EvaluationAnswersOutputMap,
     Notes: EvaluationNotesMap,
-    Status: S.String,
+    Status: EvaluationStatus,
     Scores: S.optional(EvaluationScoresMap),
     CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    EvaluationType: S.optional(S.String),
+    EvaluationType: S.optional(EvaluationType),
     Tags: S.optional(TagMap),
   }),
 ).annotations({ identifier: "Evaluation" }) as any as S.Schema<Evaluation>;
@@ -21176,7 +23057,7 @@ export class ResourceInUseException extends S.TaggedError<ResourceInUseException
   "ResourceInUseException",
   {
     Message: S.optional(S.String),
-    ResourceType: S.optional(S.String),
+    ResourceType: S.optional(ResourceType),
     ResourceId: S.optional(S.String),
   },
 ).pipe(C.withConflictError) {}
@@ -21248,7 +23129,7 @@ export class OutboundContactNotPermittedException extends S.TaggedError<Outbound
  */
 export const describeInstance: (
   input: DescribeInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeInstanceResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -21272,7 +23153,7 @@ export const describeInstance: (
 export const searchAvailablePhoneNumbers: {
   (
     input: SearchAvailablePhoneNumbersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchAvailablePhoneNumbersResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -21283,7 +23164,7 @@ export const searchAvailablePhoneNumbers: {
   >;
   pages: (
     input: SearchAvailablePhoneNumbersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchAvailablePhoneNumbersResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -21294,7 +23175,7 @@ export const searchAvailablePhoneNumbers: {
   >;
   items: (
     input: SearchAvailablePhoneNumbersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AvailableNumberSummary,
     | AccessDeniedException
     | InternalServiceException
@@ -21325,7 +23206,7 @@ export const searchAvailablePhoneNumbers: {
 export const searchContactFlowModules: {
   (
     input: SearchContactFlowModulesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchContactFlowModulesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -21337,7 +23218,7 @@ export const searchContactFlowModules: {
   >;
   pages: (
     input: SearchContactFlowModulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchContactFlowModulesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -21349,7 +23230,7 @@ export const searchContactFlowModules: {
   >;
   items: (
     input: SearchContactFlowModulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ContactFlowModule,
     | InternalServiceException
     | InvalidParameterException
@@ -21381,7 +23262,7 @@ export const searchContactFlowModules: {
  */
 export const searchEmailAddresses: (
   input: SearchEmailAddressesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SearchEmailAddressesResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -21426,7 +23307,7 @@ export const searchEmailAddresses: (
  */
 export const searchEvaluationForms: (
   input: SearchEvaluationFormsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SearchEvaluationFormsResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -21452,7 +23333,7 @@ export const searchEvaluationForms: (
 export const searchHoursOfOperationOverrides: {
   (
     input: SearchHoursOfOperationOverridesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchHoursOfOperationOverridesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -21464,7 +23345,7 @@ export const searchHoursOfOperationOverrides: {
   >;
   pages: (
     input: SearchHoursOfOperationOverridesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchHoursOfOperationOverridesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -21476,7 +23357,7 @@ export const searchHoursOfOperationOverrides: {
   >;
   items: (
     input: SearchHoursOfOperationOverridesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     HoursOfOperationOverride,
     | InternalServiceException
     | InvalidParameterException
@@ -21513,7 +23394,7 @@ export const searchHoursOfOperationOverrides: {
 export const searchSecurityProfiles: {
   (
     input: SearchSecurityProfilesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchSecurityProfilesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -21525,7 +23406,7 @@ export const searchSecurityProfiles: {
   >;
   pages: (
     input: SearchSecurityProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchSecurityProfilesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -21537,7 +23418,7 @@ export const searchSecurityProfiles: {
   >;
   items: (
     input: SearchSecurityProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SecurityProfileSearchSummary,
     | InternalServiceException
     | InvalidParameterException
@@ -21570,7 +23451,7 @@ export const searchSecurityProfiles: {
 export const searchWorkspaceAssociations: {
   (
     input: SearchWorkspaceAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchWorkspaceAssociationsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -21583,7 +23464,7 @@ export const searchWorkspaceAssociations: {
   >;
   pages: (
     input: SearchWorkspaceAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchWorkspaceAssociationsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -21596,7 +23477,7 @@ export const searchWorkspaceAssociations: {
   >;
   items: (
     input: SearchWorkspaceAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkspaceAssociationSearchSummary,
     | AccessDeniedException
     | InternalServiceException
@@ -21631,7 +23512,7 @@ export const searchWorkspaceAssociations: {
 export const searchWorkspaces: {
   (
     input: SearchWorkspacesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchWorkspacesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -21644,7 +23525,7 @@ export const searchWorkspaces: {
   >;
   pages: (
     input: SearchWorkspacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchWorkspacesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -21657,7 +23538,7 @@ export const searchWorkspaces: {
   >;
   items: (
     input: SearchWorkspacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkspaceSearchSummary,
     | AccessDeniedException
     | InternalServiceException
@@ -21698,7 +23579,7 @@ export const searchWorkspaces: {
  */
 export const updateContactFlowContent: (
   input: UpdateContactFlowContentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateContactFlowContentResponse,
   | InternalServiceException
   | InvalidContactFlowException
@@ -21725,7 +23606,7 @@ export const updateContactFlowContent: (
  */
 export const getContactAttributes: (
   input: GetContactAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContactAttributesResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -21746,7 +23627,7 @@ export const getContactAttributes: (
  */
 export const getTrafficDistribution: (
   input: GetTrafficDistributionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTrafficDistributionResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -21778,7 +23659,7 @@ export const getTrafficDistribution: (
  */
 export const deleteInstance: (
   input: DeleteInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteInstanceResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -21800,7 +23681,7 @@ export const deleteInstance: (
  */
 export const deleteIntegrationAssociation: (
   input: DeleteIntegrationAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIntegrationAssociationResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -21823,7 +23704,7 @@ export const deleteIntegrationAssociation: (
  */
 export const deleteUseCase: (
   input: DeleteUseCaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUseCaseResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -21848,7 +23729,7 @@ export const deleteUseCase: (
  */
 export const disassociateBot: (
   input: DisassociateBotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateBotResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -21872,7 +23753,7 @@ export const disassociateBot: (
  */
 export const associateDefaultVocabulary: (
   input: AssociateDefaultVocabularyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateDefaultVocabularyResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -21898,7 +23779,7 @@ export const associateDefaultVocabulary: (
  */
 export const associateTrafficDistributionGroupUser: (
   input: AssociateTrafficDistributionGroupUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateTrafficDistributionGroupUserResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -21926,7 +23807,7 @@ export const associateTrafficDistributionGroupUser: (
  */
 export const completeAttachedFileUpload: (
   input: CompleteAttachedFileUploadRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CompleteAttachedFileUploadResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -21954,7 +23835,7 @@ export const completeAttachedFileUpload: (
  */
 export const deleteAttachedFile: (
   input: DeleteAttachedFileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAttachedFileResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -21979,7 +23860,7 @@ export const deleteAttachedFile: (
  */
 export const deleteRule: (
   input: DeleteRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRuleResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -22005,7 +23886,7 @@ export const deleteRule: (
  */
 export const disassociateTrafficDistributionGroupUser: (
   input: DisassociateTrafficDistributionGroupUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateTrafficDistributionGroupUserResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -22035,7 +23916,7 @@ export const disassociateTrafficDistributionGroupUser: (
  */
 export const updateRule: (
   input: UpdateRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRuleResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -22062,7 +23943,7 @@ export const updateRule: (
  */
 export const createIntegrationAssociation: (
   input: CreateIntegrationAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateIntegrationAssociationResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -22087,7 +23968,7 @@ export const createIntegrationAssociation: (
  */
 export const createUseCase: (
   input: CreateUseCaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUseCaseResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -22163,7 +24044,7 @@ export const createUseCase: (
  */
 export const associateEmailAddressAlias: (
   input: AssociateEmailAddressAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateEmailAddressAliasResponse,
   | AccessDeniedException
   | IdempotencyException
@@ -22195,7 +24076,7 @@ export const associateEmailAddressAlias: (
  */
 export const associateWorkspace: (
   input: AssociateWorkspaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateWorkspaceResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -22225,7 +24106,7 @@ export const associateWorkspace: (
  */
 export const batchAssociateAnalyticsDataSet: (
   input: BatchAssociateAnalyticsDataSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchAssociateAnalyticsDataSetResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -22251,7 +24132,7 @@ export const batchAssociateAnalyticsDataSet: (
  */
 export const batchGetAttachedFileMetadata: (
   input: BatchGetAttachedFileMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetAttachedFileMetadataResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -22276,7 +24157,7 @@ export const batchGetAttachedFileMetadata: (
  */
 export const batchGetFlowAssociation: (
   input: BatchGetFlowAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetFlowAssociationResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -22303,7 +24184,7 @@ export const batchGetFlowAssociation: (
  */
 export const describeAgentStatus: (
   input: DescribeAgentStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAgentStatusResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -22331,7 +24212,7 @@ export const describeAgentStatus: (
  */
 export const describeAuthenticationProfile: (
   input: DescribeAuthenticationProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAuthenticationProfileResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -22360,7 +24241,7 @@ export const describeAuthenticationProfile: (
  */
 export const describeContactFlowModule: (
   input: DescribeContactFlowModuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeContactFlowModuleResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -22388,7 +24269,7 @@ export const describeContactFlowModule: (
  */
 export const describeContactFlowModuleAlias: (
   input: DescribeContactFlowModuleAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeContactFlowModuleAliasResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -22417,7 +24298,7 @@ export const describeContactFlowModuleAlias: (
  */
 export const describeDataTable: (
   input: DescribeDataTableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDataTableResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -22445,7 +24326,7 @@ export const describeDataTable: (
  */
 export const describeDataTableAttribute: (
   input: DescribeDataTableAttributeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDataTableAttributeResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -22472,7 +24353,7 @@ export const describeDataTableAttribute: (
  */
 export const describeHoursOfOperation: (
   input: DescribeHoursOfOperationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeHoursOfOperationResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -22497,7 +24378,7 @@ export const describeHoursOfOperation: (
  */
 export const describeHoursOfOperationOverride: (
   input: DescribeHoursOfOperationOverrideRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeHoursOfOperationOverrideResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -22524,7 +24405,7 @@ export const describeHoursOfOperationOverride: (
  */
 export const describeInstanceAttribute: (
   input: DescribeInstanceAttributeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeInstanceAttributeResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -22549,7 +24430,7 @@ export const describeInstanceAttribute: (
  */
 export const describePrompt: (
   input: DescribePromptRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePromptResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -22574,7 +24455,7 @@ export const describePrompt: (
  */
 export const describeQueue: (
   input: DescribeQueueRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeQueueResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -22599,7 +24480,7 @@ export const describeQueue: (
  */
 export const describeQuickConnect: (
   input: DescribeQuickConnectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeQuickConnectResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -22628,7 +24509,7 @@ export const describeQuickConnect: (
  */
 export const describeRoutingProfile: (
   input: DescribeRoutingProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRoutingProfileResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -22653,7 +24534,7 @@ export const describeRoutingProfile: (
  */
 export const describeRule: (
   input: DescribeRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRuleResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -22682,7 +24563,7 @@ export const describeRule: (
  */
 export const describeSecurityProfile: (
   input: DescribeSecurityProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSecurityProfileResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -22707,7 +24588,7 @@ export const describeSecurityProfile: (
  */
 export const describeTrafficDistributionGroup: (
   input: DescribeTrafficDistributionGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeTrafficDistributionGroupResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -22734,7 +24615,7 @@ export const describeTrafficDistributionGroup: (
  */
 export const describeUser: (
   input: DescribeUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeUserResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -22759,7 +24640,7 @@ export const describeUser: (
  */
 export const describeVocabulary: (
   input: DescribeVocabularyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeVocabularyResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -22784,7 +24665,7 @@ export const describeVocabulary: (
  */
 export const describeWorkspace: (
   input: DescribeWorkspaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeWorkspaceResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -22812,7 +24693,7 @@ export const describeWorkspace: (
  */
 export const getAttachedFile: (
   input: GetAttachedFileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAttachedFileResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -22838,7 +24719,7 @@ export const getAttachedFile: (
 export const listAgentStatuses: {
   (
     input: ListAgentStatusRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAgentStatusResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -22850,7 +24731,7 @@ export const listAgentStatuses: {
   >;
   pages: (
     input: ListAgentStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAgentStatusResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -22862,7 +24743,7 @@ export const listAgentStatuses: {
   >;
   items: (
     input: ListAgentStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AgentStatusSummary,
     | InternalServiceException
     | InvalidParameterException
@@ -22894,7 +24775,7 @@ export const listAgentStatuses: {
  */
 export const listAnalyticsDataLakeDataSets: (
   input: ListAnalyticsDataLakeDataSetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListAnalyticsDataLakeDataSetsResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -22919,7 +24800,7 @@ export const listAnalyticsDataLakeDataSets: (
  */
 export const listAssociatedContacts: (
   input: ListAssociatedContactsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListAssociatedContactsResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -22949,7 +24830,7 @@ export const listAssociatedContacts: (
 export const listAuthenticationProfiles: {
   (
     input: ListAuthenticationProfilesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAuthenticationProfilesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -22961,7 +24842,7 @@ export const listAuthenticationProfiles: {
   >;
   pages: (
     input: ListAuthenticationProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAuthenticationProfilesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -22973,7 +24854,7 @@ export const listAuthenticationProfiles: {
   >;
   items: (
     input: ListAuthenticationProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AuthenticationProfileSummary,
     | InternalServiceException
     | InvalidParameterException
@@ -23010,7 +24891,7 @@ export const listAuthenticationProfiles: {
 export const listBots: {
   (
     input: ListBotsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBotsResponse,
     | InternalServiceException
     | InvalidRequestException
@@ -23021,7 +24902,7 @@ export const listBots: {
   >;
   pages: (
     input: ListBotsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBotsResponse,
     | InternalServiceException
     | InvalidRequestException
@@ -23032,7 +24913,7 @@ export const listBots: {
   >;
   items: (
     input: ListBotsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LexBotConfig,
     | InternalServiceException
     | InvalidRequestException
@@ -23064,7 +24945,7 @@ export const listBots: {
 export const listContactFlowModuleAliases: {
   (
     input: ListContactFlowModuleAliasesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListContactFlowModuleAliasesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -23077,7 +24958,7 @@ export const listContactFlowModuleAliases: {
   >;
   pages: (
     input: ListContactFlowModuleAliasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListContactFlowModuleAliasesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -23090,7 +24971,7 @@ export const listContactFlowModuleAliases: {
   >;
   items: (
     input: ListContactFlowModuleAliasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ContactFlowModuleAliasSummary,
     | AccessDeniedException
     | InternalServiceException
@@ -23125,7 +25006,7 @@ export const listContactFlowModuleAliases: {
 export const listContactFlowModules: {
   (
     input: ListContactFlowModulesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListContactFlowModulesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -23138,7 +25019,7 @@ export const listContactFlowModules: {
   >;
   pages: (
     input: ListContactFlowModulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListContactFlowModulesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -23151,7 +25032,7 @@ export const listContactFlowModules: {
   >;
   items: (
     input: ListContactFlowModulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ContactFlowModuleSummary,
     | AccessDeniedException
     | InternalServiceException
@@ -23186,7 +25067,7 @@ export const listContactFlowModules: {
 export const listContactFlowModuleVersions: {
   (
     input: ListContactFlowModuleVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListContactFlowModuleVersionsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -23199,7 +25080,7 @@ export const listContactFlowModuleVersions: {
   >;
   pages: (
     input: ListContactFlowModuleVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListContactFlowModuleVersionsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -23212,7 +25093,7 @@ export const listContactFlowModuleVersions: {
   >;
   items: (
     input: ListContactFlowModuleVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ContactFlowModuleVersionSummary,
     | AccessDeniedException
     | InternalServiceException
@@ -23253,7 +25134,7 @@ export const listContactFlowModuleVersions: {
 export const listContactFlows: {
   (
     input: ListContactFlowsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListContactFlowsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -23265,7 +25146,7 @@ export const listContactFlows: {
   >;
   pages: (
     input: ListContactFlowsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListContactFlowsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -23277,7 +25158,7 @@ export const listContactFlows: {
   >;
   items: (
     input: ListContactFlowsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ContactFlowSummary,
     | InternalServiceException
     | InvalidParameterException
@@ -23310,7 +25191,7 @@ export const listContactFlows: {
 export const listContactFlowVersions: {
   (
     input: ListContactFlowVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListContactFlowVersionsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -23323,7 +25204,7 @@ export const listContactFlowVersions: {
   >;
   pages: (
     input: ListContactFlowVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListContactFlowVersionsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -23336,7 +25217,7 @@ export const listContactFlowVersions: {
   >;
   items: (
     input: ListContactFlowVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ContactFlowVersionSummary,
     | AccessDeniedException
     | InternalServiceException
@@ -23372,7 +25253,7 @@ export const listContactFlowVersions: {
 export const listDataTables: {
   (
     input: ListDataTablesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataTablesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -23385,7 +25266,7 @@ export const listDataTables: {
   >;
   pages: (
     input: ListDataTablesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataTablesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -23398,7 +25279,7 @@ export const listDataTables: {
   >;
   items: (
     input: ListDataTablesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataTableSummary,
     | AccessDeniedException
     | InternalServiceException
@@ -23433,7 +25314,7 @@ export const listDataTables: {
 export const listDefaultVocabularies: {
   (
     input: ListDefaultVocabulariesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDefaultVocabulariesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -23444,7 +25325,7 @@ export const listDefaultVocabularies: {
   >;
   pages: (
     input: ListDefaultVocabulariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDefaultVocabulariesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -23455,7 +25336,7 @@ export const listDefaultVocabularies: {
   >;
   items: (
     input: ListDefaultVocabulariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DefaultVocabulary,
     | AccessDeniedException
     | InternalServiceException
@@ -23489,7 +25370,7 @@ export const listDefaultVocabularies: {
 export const listHoursOfOperations: {
   (
     input: ListHoursOfOperationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListHoursOfOperationsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -23501,7 +25382,7 @@ export const listHoursOfOperations: {
   >;
   pages: (
     input: ListHoursOfOperationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListHoursOfOperationsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -23513,7 +25394,7 @@ export const listHoursOfOperations: {
   >;
   items: (
     input: ListHoursOfOperationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     HoursOfOperationSummary,
     | InternalServiceException
     | InvalidParameterException
@@ -23550,21 +25431,21 @@ export const listHoursOfOperations: {
 export const listInstances: {
   (
     input: ListInstancesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInstancesResponse,
     InternalServiceException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInstancesResponse,
     InternalServiceException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     InstanceSummary,
     InternalServiceException | InvalidRequestException | CommonErrors,
     Creds | Region | HttpClient.HttpClient
@@ -23586,7 +25467,7 @@ export const listInstances: {
 export const listIntegrationAssociations: {
   (
     input: ListIntegrationAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListIntegrationAssociationsResponse,
     | InternalServiceException
     | InvalidRequestException
@@ -23597,7 +25478,7 @@ export const listIntegrationAssociations: {
   >;
   pages: (
     input: ListIntegrationAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListIntegrationAssociationsResponse,
     | InternalServiceException
     | InvalidRequestException
@@ -23608,7 +25489,7 @@ export const listIntegrationAssociations: {
   >;
   items: (
     input: ListIntegrationAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     IntegrationAssociationSummary,
     | InternalServiceException
     | InvalidRequestException
@@ -23650,7 +25531,7 @@ export const listIntegrationAssociations: {
 export const listPhoneNumbers: {
   (
     input: ListPhoneNumbersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPhoneNumbersResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -23662,7 +25543,7 @@ export const listPhoneNumbers: {
   >;
   pages: (
     input: ListPhoneNumbersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPhoneNumbersResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -23674,7 +25555,7 @@ export const listPhoneNumbers: {
   >;
   items: (
     input: ListPhoneNumbersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PhoneNumberSummary,
     | InternalServiceException
     | InvalidParameterException
@@ -23720,7 +25601,7 @@ export const listPhoneNumbers: {
 export const listPredefinedAttributes: {
   (
     input: ListPredefinedAttributesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPredefinedAttributesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -23732,7 +25613,7 @@ export const listPredefinedAttributes: {
   >;
   pages: (
     input: ListPredefinedAttributesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPredefinedAttributesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -23744,7 +25625,7 @@ export const listPredefinedAttributes: {
   >;
   items: (
     input: ListPredefinedAttributesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PredefinedAttributeSummary,
     | InternalServiceException
     | InvalidParameterException
@@ -23777,7 +25658,7 @@ export const listPredefinedAttributes: {
 export const listPrompts: {
   (
     input: ListPromptsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPromptsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -23789,7 +25670,7 @@ export const listPrompts: {
   >;
   pages: (
     input: ListPromptsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPromptsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -23801,7 +25682,7 @@ export const listPrompts: {
   >;
   items: (
     input: ListPromptsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PromptSummary,
     | InternalServiceException
     | InvalidParameterException
@@ -23834,7 +25715,7 @@ export const listPrompts: {
 export const listQueueQuickConnects: {
   (
     input: ListQueueQuickConnectsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListQueueQuickConnectsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -23846,7 +25727,7 @@ export const listQueueQuickConnects: {
   >;
   pages: (
     input: ListQueueQuickConnectsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListQueueQuickConnectsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -23858,7 +25739,7 @@ export const listQueueQuickConnects: {
   >;
   items: (
     input: ListQueueQuickConnectsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     QuickConnectSummary,
     | InternalServiceException
     | InvalidParameterException
@@ -23898,7 +25779,7 @@ export const listQueueQuickConnects: {
 export const listQueues: {
   (
     input: ListQueuesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListQueuesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -23910,7 +25791,7 @@ export const listQueues: {
   >;
   pages: (
     input: ListQueuesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListQueuesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -23922,7 +25803,7 @@ export const listQueues: {
   >;
   items: (
     input: ListQueuesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     QueueSummary,
     | InternalServiceException
     | InvalidParameterException
@@ -23972,7 +25853,7 @@ export const listQueues: {
 export const listRoutingProfileManualAssignmentQueues: {
   (
     input: ListRoutingProfileManualAssignmentQueuesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRoutingProfileManualAssignmentQueuesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -23984,7 +25865,7 @@ export const listRoutingProfileManualAssignmentQueues: {
   >;
   pages: (
     input: ListRoutingProfileManualAssignmentQueuesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRoutingProfileManualAssignmentQueuesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -23996,7 +25877,7 @@ export const listRoutingProfileManualAssignmentQueues: {
   >;
   items: (
     input: ListRoutingProfileManualAssignmentQueuesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RoutingProfileManualAssignmentQueueConfigSummary,
     | InternalServiceException
     | InvalidParameterException
@@ -24029,7 +25910,7 @@ export const listRoutingProfileManualAssignmentQueues: {
 export const listRoutingProfileQueues: {
   (
     input: ListRoutingProfileQueuesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRoutingProfileQueuesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -24041,7 +25922,7 @@ export const listRoutingProfileQueues: {
   >;
   pages: (
     input: ListRoutingProfileQueuesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRoutingProfileQueuesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -24053,7 +25934,7 @@ export const listRoutingProfileQueues: {
   >;
   items: (
     input: ListRoutingProfileQueuesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RoutingProfileQueueConfigSummary,
     | InternalServiceException
     | InvalidParameterException
@@ -24088,7 +25969,7 @@ export const listRoutingProfileQueues: {
 export const listRoutingProfiles: {
   (
     input: ListRoutingProfilesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRoutingProfilesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -24100,7 +25981,7 @@ export const listRoutingProfiles: {
   >;
   pages: (
     input: ListRoutingProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRoutingProfilesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -24112,7 +25993,7 @@ export const listRoutingProfiles: {
   >;
   items: (
     input: ListRoutingProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RoutingProfileSummary,
     | InternalServiceException
     | InvalidParameterException
@@ -24147,7 +26028,7 @@ export const listRoutingProfiles: {
 export const listSecurityKeys: {
   (
     input: ListSecurityKeysRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSecurityKeysResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -24159,7 +26040,7 @@ export const listSecurityKeys: {
   >;
   pages: (
     input: ListSecurityKeysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSecurityKeysResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -24171,7 +26052,7 @@ export const listSecurityKeys: {
   >;
   items: (
     input: ListSecurityKeysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SecurityKey,
     | InternalServiceException
     | InvalidParameterException
@@ -24208,7 +26089,7 @@ export const listSecurityKeys: {
 export const listSecurityProfiles: {
   (
     input: ListSecurityProfilesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSecurityProfilesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -24220,7 +26101,7 @@ export const listSecurityProfiles: {
   >;
   pages: (
     input: ListSecurityProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSecurityProfilesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -24232,7 +26113,7 @@ export const listSecurityProfiles: {
   >;
   items: (
     input: ListSecurityProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SecurityProfileSummary,
     | InternalServiceException
     | InvalidParameterException
@@ -24265,7 +26146,7 @@ export const listSecurityProfiles: {
 export const listTaskTemplates: {
   (
     input: ListTaskTemplatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTaskTemplatesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -24277,7 +26158,7 @@ export const listTaskTemplates: {
   >;
   pages: (
     input: ListTaskTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTaskTemplatesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -24289,7 +26170,7 @@ export const listTaskTemplates: {
   >;
   items: (
     input: ListTaskTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TaskTemplateMetadata,
     | InternalServiceException
     | InvalidParameterException
@@ -24322,7 +26203,7 @@ export const listTaskTemplates: {
 export const listTrafficDistributionGroups: {
   (
     input: ListTrafficDistributionGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTrafficDistributionGroupsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -24333,7 +26214,7 @@ export const listTrafficDistributionGroups: {
   >;
   pages: (
     input: ListTrafficDistributionGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTrafficDistributionGroupsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -24344,7 +26225,7 @@ export const listTrafficDistributionGroups: {
   >;
   items: (
     input: ListTrafficDistributionGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TrafficDistributionGroupSummary,
     | AccessDeniedException
     | InternalServiceException
@@ -24375,7 +26256,7 @@ export const listTrafficDistributionGroups: {
 export const listTrafficDistributionGroupUsers: {
   (
     input: ListTrafficDistributionGroupUsersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTrafficDistributionGroupUsersResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -24387,7 +26268,7 @@ export const listTrafficDistributionGroupUsers: {
   >;
   pages: (
     input: ListTrafficDistributionGroupUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTrafficDistributionGroupUsersResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -24399,7 +26280,7 @@ export const listTrafficDistributionGroupUsers: {
   >;
   items: (
     input: ListTrafficDistributionGroupUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TrafficDistributionGroupUserSummary,
     | AccessDeniedException
     | InternalServiceException
@@ -24432,7 +26313,7 @@ export const listTrafficDistributionGroupUsers: {
 export const listUseCases: {
   (
     input: ListUseCasesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUseCasesResponse,
     | InternalServiceException
     | InvalidRequestException
@@ -24443,7 +26324,7 @@ export const listUseCases: {
   >;
   pages: (
     input: ListUseCasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUseCasesResponse,
     | InternalServiceException
     | InvalidRequestException
@@ -24454,7 +26335,7 @@ export const listUseCases: {
   >;
   items: (
     input: ListUseCasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     UseCase,
     | InternalServiceException
     | InvalidRequestException
@@ -24487,7 +26368,7 @@ export const listUseCases: {
 export const listUserHierarchyGroups: {
   (
     input: ListUserHierarchyGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUserHierarchyGroupsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -24499,7 +26380,7 @@ export const listUserHierarchyGroups: {
   >;
   pages: (
     input: ListUserHierarchyGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUserHierarchyGroupsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -24511,7 +26392,7 @@ export const listUserHierarchyGroups: {
   >;
   items: (
     input: ListUserHierarchyGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     HierarchyGroupSummary,
     | InternalServiceException
     | InvalidParameterException
@@ -24544,7 +26425,7 @@ export const listUserHierarchyGroups: {
 export const listUsers: {
   (
     input: ListUsersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUsersResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -24556,7 +26437,7 @@ export const listUsers: {
   >;
   pages: (
     input: ListUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUsersResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -24568,7 +26449,7 @@ export const listUsers: {
   >;
   items: (
     input: ListUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     UserSummary,
     | InternalServiceException
     | InvalidParameterException
@@ -24600,7 +26481,7 @@ export const listUsers: {
  */
 export const listWorkspaceMedia: (
   input: ListWorkspaceMediaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListWorkspaceMediaResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -24628,7 +26509,7 @@ export const listWorkspaceMedia: (
 export const listWorkspacePages: {
   (
     input: ListWorkspacePagesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkspacePagesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -24641,7 +26522,7 @@ export const listWorkspacePages: {
   >;
   pages: (
     input: ListWorkspacePagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkspacePagesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -24654,7 +26535,7 @@ export const listWorkspacePages: {
   >;
   items: (
     input: ListWorkspacePagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkspacePage,
     | AccessDeniedException
     | InternalServiceException
@@ -24689,7 +26570,7 @@ export const listWorkspacePages: {
 export const listWorkspaces: {
   (
     input: ListWorkspacesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkspacesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -24702,7 +26583,7 @@ export const listWorkspaces: {
   >;
   pages: (
     input: ListWorkspacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkspacesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -24715,7 +26596,7 @@ export const listWorkspaces: {
   >;
   items: (
     input: ListWorkspacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkspaceSummary,
     | AccessDeniedException
     | InternalServiceException
@@ -24752,7 +26633,7 @@ export const listWorkspaces: {
 export const searchDataTables: {
   (
     input: SearchDataTablesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchDataTablesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -24764,7 +26645,7 @@ export const searchDataTables: {
   >;
   pages: (
     input: SearchDataTablesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchDataTablesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -24776,7 +26657,7 @@ export const searchDataTables: {
   >;
   items: (
     input: SearchDataTablesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataTable,
     | InternalServiceException
     | InvalidParameterException
@@ -24809,7 +26690,7 @@ export const searchDataTables: {
 export const searchHoursOfOperations: {
   (
     input: SearchHoursOfOperationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchHoursOfOperationsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -24821,7 +26702,7 @@ export const searchHoursOfOperations: {
   >;
   pages: (
     input: SearchHoursOfOperationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchHoursOfOperationsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -24833,7 +26714,7 @@ export const searchHoursOfOperations: {
   >;
   items: (
     input: SearchHoursOfOperationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     HoursOfOperation,
     | InternalServiceException
     | InvalidParameterException
@@ -24879,7 +26760,7 @@ export const searchHoursOfOperations: {
 export const searchPredefinedAttributes: {
   (
     input: SearchPredefinedAttributesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchPredefinedAttributesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -24891,7 +26772,7 @@ export const searchPredefinedAttributes: {
   >;
   pages: (
     input: SearchPredefinedAttributesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchPredefinedAttributesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -24903,7 +26784,7 @@ export const searchPredefinedAttributes: {
   >;
   items: (
     input: SearchPredefinedAttributesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PredefinedAttribute,
     | InternalServiceException
     | InvalidParameterException
@@ -24936,7 +26817,7 @@ export const searchPredefinedAttributes: {
 export const searchPrompts: {
   (
     input: SearchPromptsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchPromptsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -24948,7 +26829,7 @@ export const searchPrompts: {
   >;
   pages: (
     input: SearchPromptsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchPromptsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -24960,7 +26841,7 @@ export const searchPrompts: {
   >;
   items: (
     input: SearchPromptsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Prompt,
     | InternalServiceException
     | InvalidParameterException
@@ -24993,7 +26874,7 @@ export const searchPrompts: {
 export const searchQueues: {
   (
     input: SearchQueuesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchQueuesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -25005,7 +26886,7 @@ export const searchQueues: {
   >;
   pages: (
     input: SearchQueuesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchQueuesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -25017,7 +26898,7 @@ export const searchQueues: {
   >;
   items: (
     input: SearchQueuesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Queue,
     | InternalServiceException
     | InvalidParameterException
@@ -25050,7 +26931,7 @@ export const searchQueues: {
 export const searchQuickConnects: {
   (
     input: SearchQuickConnectsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchQuickConnectsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -25062,7 +26943,7 @@ export const searchQuickConnects: {
   >;
   pages: (
     input: SearchQuickConnectsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchQuickConnectsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -25074,7 +26955,7 @@ export const searchQuickConnects: {
   >;
   items: (
     input: SearchQuickConnectsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     QuickConnect,
     | InternalServiceException
     | InvalidParameterException
@@ -25110,7 +26991,7 @@ export const searchQuickConnects: {
 export const searchRoutingProfiles: {
   (
     input: SearchRoutingProfilesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchRoutingProfilesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -25122,7 +27003,7 @@ export const searchRoutingProfiles: {
   >;
   pages: (
     input: SearchRoutingProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchRoutingProfilesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -25134,7 +27015,7 @@ export const searchRoutingProfiles: {
   >;
   items: (
     input: SearchRoutingProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RoutingProfile,
     | InternalServiceException
     | InvalidParameterException
@@ -25170,7 +27051,7 @@ export const searchRoutingProfiles: {
 export const searchUserHierarchyGroups: {
   (
     input: SearchUserHierarchyGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchUserHierarchyGroupsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -25182,7 +27063,7 @@ export const searchUserHierarchyGroups: {
   >;
   pages: (
     input: SearchUserHierarchyGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchUserHierarchyGroupsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -25194,7 +27075,7 @@ export const searchUserHierarchyGroups: {
   >;
   items: (
     input: SearchUserHierarchyGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     HierarchyGroup,
     | InternalServiceException
     | InvalidParameterException
@@ -25227,7 +27108,7 @@ export const searchUserHierarchyGroups: {
 export const searchViews: {
   (
     input: SearchViewsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchViewsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -25240,7 +27121,7 @@ export const searchViews: {
   >;
   pages: (
     input: SearchViewsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchViewsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -25253,7 +27134,7 @@ export const searchViews: {
   >;
   items: (
     input: SearchViewsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     View,
     | AccessDeniedException
     | InternalServiceException
@@ -25289,7 +27170,7 @@ export const searchViews: {
 export const searchVocabularies: {
   (
     input: SearchVocabulariesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchVocabulariesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -25300,7 +27181,7 @@ export const searchVocabularies: {
   >;
   pages: (
     input: SearchVocabulariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchVocabulariesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -25311,7 +27192,7 @@ export const searchVocabularies: {
   >;
   items: (
     input: SearchVocabulariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     VocabularySummary,
     | AccessDeniedException
     | InternalServiceException
@@ -25353,7 +27234,7 @@ export const searchVocabularies: {
  */
 export const sendChatIntegrationEvent: (
   input: SendChatIntegrationEventRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendChatIntegrationEventResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -25393,7 +27274,7 @@ export const sendChatIntegrationEvent: (
  */
 export const startContactRecording: (
   input: StartContactRecordingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartContactRecordingResponse,
   | InternalServiceException
   | InvalidActiveRegionException
@@ -25431,7 +27312,7 @@ export const startContactRecording: (
  */
 export const stopContact: (
   input: StopContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopContactResponse,
   | ContactNotFoundException
   | InternalServiceException
@@ -25460,7 +27341,7 @@ export const stopContact: (
  */
 export const updateDataTablePrimaryValues: (
   input: UpdateDataTablePrimaryValuesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDataTablePrimaryValuesResponse,
   | AccessDeniedException
   | ConflictException
@@ -25504,7 +27385,7 @@ export const updateDataTablePrimaryValues: (
  */
 export const updateTrafficDistribution: (
   input: UpdateTrafficDistributionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTrafficDistributionResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -25560,7 +27441,7 @@ export const updateTrafficDistribution: (
  */
 export const associateContactWithUser: (
   input: AssociateContactWithUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateContactWithUserResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -25587,7 +27468,7 @@ export const associateContactWithUser: (
  */
 export const associateRoutingProfileQueues: (
   input: AssociateRoutingProfileQueuesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateRoutingProfileQueuesResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -25612,7 +27493,7 @@ export const associateRoutingProfileQueues: (
  */
 export const associateUserProficiencies: (
   input: AssociateUserProficienciesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateUserProficienciesResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -25638,7 +27519,7 @@ export const associateUserProficiencies: (
  */
 export const batchDisassociateAnalyticsDataSet: (
   input: BatchDisassociateAnalyticsDataSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDisassociateAnalyticsDataSetResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -25665,7 +27546,7 @@ export const batchDisassociateAnalyticsDataSet: (
  */
 export const createPersistentContactAssociation: (
   input: CreatePersistentContactAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePersistentContactAssociationResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -25692,7 +27573,7 @@ export const createPersistentContactAssociation: (
  */
 export const describeEmailAddress: (
   input: DescribeEmailAddressRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEmailAddressResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -25722,7 +27603,7 @@ export const describeEmailAddress: (
  */
 export const describeInstanceStorageConfig: (
   input: DescribeInstanceStorageConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeInstanceStorageConfigResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -25750,7 +27631,7 @@ export const describeInstanceStorageConfig: (
  */
 export const disassociateRoutingProfileQueues: (
   input: DisassociateRoutingProfileQueuesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateRoutingProfileQueuesResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -25775,7 +27656,7 @@ export const disassociateRoutingProfileQueues: (
  */
 export const disassociateUserProficiencies: (
   input: DisassociateUserProficienciesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateUserProficienciesResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -25800,7 +27681,7 @@ export const disassociateUserProficiencies: (
  */
 export const disassociateWorkspace: (
   input: DisassociateWorkspaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateWorkspaceResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -25827,7 +27708,7 @@ export const disassociateWorkspace: (
  */
 export const getFlowAssociation: (
   input: GetFlowAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFlowAssociationResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -25854,7 +27735,7 @@ export const getFlowAssociation: (
  */
 export const getPromptFile: (
   input: GetPromptFileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPromptFileResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -25879,7 +27760,7 @@ export const getPromptFile: (
  */
 export const getTaskTemplate: (
   input: GetTaskTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTaskTemplateResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -25904,7 +27785,7 @@ export const getTaskTemplate: (
  */
 export const listAnalyticsDataAssociations: (
   input: ListAnalyticsDataAssociationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListAnalyticsDataAssociationsResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -25932,7 +27813,7 @@ export const listAnalyticsDataAssociations: (
 export const listApprovedOrigins: {
   (
     input: ListApprovedOriginsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApprovedOriginsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -25944,7 +27825,7 @@ export const listApprovedOrigins: {
   >;
   pages: (
     input: ListApprovedOriginsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApprovedOriginsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -25956,7 +27837,7 @@ export const listApprovedOrigins: {
   >;
   items: (
     input: ListApprovedOriginsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Origin,
     | InternalServiceException
     | InvalidParameterException
@@ -25991,7 +27872,7 @@ export const listApprovedOrigins: {
 export const listDataTableAttributes: {
   (
     input: ListDataTableAttributesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataTableAttributesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -26004,7 +27885,7 @@ export const listDataTableAttributes: {
   >;
   pages: (
     input: ListDataTableAttributesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataTableAttributesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -26017,7 +27898,7 @@ export const listDataTableAttributes: {
   >;
   items: (
     input: ListDataTableAttributesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataTableAttribute,
     | AccessDeniedException
     | InternalServiceException
@@ -26052,7 +27933,7 @@ export const listDataTableAttributes: {
 export const listEntitySecurityProfiles: {
   (
     input: ListEntitySecurityProfilesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEntitySecurityProfilesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -26064,7 +27945,7 @@ export const listEntitySecurityProfiles: {
   >;
   pages: (
     input: ListEntitySecurityProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEntitySecurityProfilesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -26076,7 +27957,7 @@ export const listEntitySecurityProfiles: {
   >;
   items: (
     input: ListEntitySecurityProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SecurityProfileItem,
     | InternalServiceException
     | InvalidParameterException
@@ -26109,7 +27990,7 @@ export const listEntitySecurityProfiles: {
 export const listFlowAssociations: {
   (
     input: ListFlowAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFlowAssociationsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -26122,7 +28003,7 @@ export const listFlowAssociations: {
   >;
   pages: (
     input: ListFlowAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFlowAssociationsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -26135,7 +28016,7 @@ export const listFlowAssociations: {
   >;
   items: (
     input: ListFlowAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FlowAssociationSummary,
     | AccessDeniedException
     | InternalServiceException
@@ -26170,7 +28051,7 @@ export const listFlowAssociations: {
 export const listHoursOfOperationOverrides: {
   (
     input: ListHoursOfOperationOverridesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListHoursOfOperationOverridesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -26182,7 +28063,7 @@ export const listHoursOfOperationOverrides: {
   >;
   pages: (
     input: ListHoursOfOperationOverridesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListHoursOfOperationOverridesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -26194,7 +28075,7 @@ export const listHoursOfOperationOverrides: {
   >;
   items: (
     input: ListHoursOfOperationOverridesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     HoursOfOperationOverride,
     | InternalServiceException
     | InvalidParameterException
@@ -26229,7 +28110,7 @@ export const listHoursOfOperationOverrides: {
 export const listInstanceAttributes: {
   (
     input: ListInstanceAttributesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInstanceAttributesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -26241,7 +28122,7 @@ export const listInstanceAttributes: {
   >;
   pages: (
     input: ListInstanceAttributesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInstanceAttributesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -26253,7 +28134,7 @@ export const listInstanceAttributes: {
   >;
   items: (
     input: ListInstanceAttributesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Attribute,
     | InternalServiceException
     | InvalidParameterException
@@ -26288,7 +28169,7 @@ export const listInstanceAttributes: {
 export const listInstanceStorageConfigs: {
   (
     input: ListInstanceStorageConfigsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInstanceStorageConfigsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -26300,7 +28181,7 @@ export const listInstanceStorageConfigs: {
   >;
   pages: (
     input: ListInstanceStorageConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInstanceStorageConfigsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -26312,7 +28193,7 @@ export const listInstanceStorageConfigs: {
   >;
   items: (
     input: ListInstanceStorageConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     InstanceStorageConfig,
     | InternalServiceException
     | InvalidParameterException
@@ -26348,7 +28229,7 @@ export const listInstanceStorageConfigs: {
 export const listLambdaFunctions: {
   (
     input: ListLambdaFunctionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLambdaFunctionsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -26360,7 +28241,7 @@ export const listLambdaFunctions: {
   >;
   pages: (
     input: ListLambdaFunctionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLambdaFunctionsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -26372,7 +28253,7 @@ export const listLambdaFunctions: {
   >;
   items: (
     input: ListLambdaFunctionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FunctionArn,
     | InternalServiceException
     | InvalidParameterException
@@ -26408,7 +28289,7 @@ export const listLambdaFunctions: {
 export const listLexBots: {
   (
     input: ListLexBotsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLexBotsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -26420,7 +28301,7 @@ export const listLexBots: {
   >;
   pages: (
     input: ListLexBotsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLexBotsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -26432,7 +28313,7 @@ export const listLexBots: {
   >;
   items: (
     input: ListLexBotsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LexBot,
     | InternalServiceException
     | InvalidParameterException
@@ -26465,7 +28346,7 @@ export const listLexBots: {
 export const listQuickConnects: {
   (
     input: ListQuickConnectsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListQuickConnectsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -26477,7 +28358,7 @@ export const listQuickConnects: {
   >;
   pages: (
     input: ListQuickConnectsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListQuickConnectsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -26489,7 +28370,7 @@ export const listQuickConnects: {
   >;
   items: (
     input: ListQuickConnectsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     QuickConnectSummary,
     | InternalServiceException
     | InvalidParameterException
@@ -26522,7 +28403,7 @@ export const listQuickConnects: {
 export const listSecurityProfileApplications: {
   (
     input: ListSecurityProfileApplicationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSecurityProfileApplicationsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -26534,7 +28415,7 @@ export const listSecurityProfileApplications: {
   >;
   pages: (
     input: ListSecurityProfileApplicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSecurityProfileApplicationsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -26546,7 +28427,7 @@ export const listSecurityProfileApplications: {
   >;
   items: (
     input: ListSecurityProfileApplicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Application,
     | InternalServiceException
     | InvalidParameterException
@@ -26579,7 +28460,7 @@ export const listSecurityProfileApplications: {
 export const listSecurityProfileFlowModules: {
   (
     input: ListSecurityProfileFlowModulesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSecurityProfileFlowModulesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -26591,7 +28472,7 @@ export const listSecurityProfileFlowModules: {
   >;
   pages: (
     input: ListSecurityProfileFlowModulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSecurityProfileFlowModulesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -26603,7 +28484,7 @@ export const listSecurityProfileFlowModules: {
   >;
   items: (
     input: ListSecurityProfileFlowModulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FlowModule,
     | InternalServiceException
     | InvalidParameterException
@@ -26640,7 +28521,7 @@ export const listSecurityProfileFlowModules: {
 export const listSecurityProfilePermissions: {
   (
     input: ListSecurityProfilePermissionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSecurityProfilePermissionsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -26652,7 +28533,7 @@ export const listSecurityProfilePermissions: {
   >;
   pages: (
     input: ListSecurityProfilePermissionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSecurityProfilePermissionsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -26664,7 +28545,7 @@ export const listSecurityProfilePermissions: {
   >;
   items: (
     input: ListSecurityProfilePermissionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SecurityProfilePermission,
     | InternalServiceException
     | InvalidParameterException
@@ -26699,7 +28580,7 @@ export const listSecurityProfilePermissions: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -26725,7 +28606,7 @@ export const listTagsForResource: (
 export const listUserProficiencies: {
   (
     input: ListUserProficienciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUserProficienciesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -26737,7 +28618,7 @@ export const listUserProficiencies: {
   >;
   pages: (
     input: ListUserProficienciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUserProficienciesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -26749,7 +28630,7 @@ export const listUserProficiencies: {
   >;
   items: (
     input: ListUserProficienciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     UserProficiency,
     | InternalServiceException
     | InvalidParameterException
@@ -26781,7 +28662,7 @@ export const listUserProficiencies: {
  */
 export const updateHoursOfOperationOverride: (
   input: UpdateHoursOfOperationOverrideRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateHoursOfOperationOverrideResponse,
   | ConditionalOperationFailedException
   | DuplicateResourceException
@@ -26810,7 +28691,7 @@ export const updateHoursOfOperationOverride: (
  */
 export const updatePrompt: (
   input: UpdatePromptRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePromptResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -26835,7 +28716,7 @@ export const updatePrompt: (
  */
 export const deleteHoursOfOperation: (
   input: DeleteHoursOfOperationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteHoursOfOperationResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -26860,7 +28741,7 @@ export const deleteHoursOfOperation: (
  */
 export const deleteHoursOfOperationOverride: (
   input: DeleteHoursOfOperationOverrideRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteHoursOfOperationOverrideResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -26885,7 +28766,7 @@ export const deleteHoursOfOperationOverride: (
  */
 export const deletePrompt: (
   input: DeletePromptRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePromptResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -26920,7 +28801,7 @@ export const deletePrompt: (
  */
 export const deleteQuickConnect: (
   input: DeleteQuickConnectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteQuickConnectResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -26945,7 +28826,7 @@ export const deleteQuickConnect: (
  */
 export const deleteTaskTemplate: (
   input: DeleteTaskTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTaskTemplateResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -26983,7 +28864,7 @@ export const deleteTaskTemplate: (
  */
 export const deleteUser: (
   input: DeleteUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUserResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27008,7 +28889,7 @@ export const deleteUser: (
  */
 export const deleteWorkspaceMedia: (
   input: DeleteWorkspaceMediaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkspaceMediaResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27033,7 +28914,7 @@ export const deleteWorkspaceMedia: (
  */
 export const disassociateAnalyticsDataSet: (
   input: DisassociateAnalyticsDataSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateAnalyticsDataSetResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27060,7 +28941,7 @@ export const disassociateAnalyticsDataSet: (
  */
 export const disassociateApprovedOrigin: (
   input: DisassociateApprovedOriginRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateApprovedOriginResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27087,7 +28968,7 @@ export const disassociateApprovedOrigin: (
  */
 export const disassociateInstanceStorageConfig: (
   input: DisassociateInstanceStorageConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateInstanceStorageConfigResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27114,7 +28995,7 @@ export const disassociateInstanceStorageConfig: (
  */
 export const disassociateLambdaFunction: (
   input: DisassociateLambdaFunctionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateLambdaFunctionResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27141,7 +29022,7 @@ export const disassociateLambdaFunction: (
  */
 export const disassociateLexBot: (
   input: DisassociateLexBotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateLexBotResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27166,7 +29047,7 @@ export const disassociateLexBot: (
  */
 export const disassociateQueueQuickConnects: (
   input: DisassociateQueueQuickConnectsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateQueueQuickConnectsResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27193,7 +29074,7 @@ export const disassociateQueueQuickConnects: (
  */
 export const disassociateSecurityKey: (
   input: DisassociateSecurityKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateSecurityKeyResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27218,7 +29099,7 @@ export const disassociateSecurityKey: (
  */
 export const importWorkspaceMedia: (
   input: ImportWorkspaceMediaRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ImportWorkspaceMediaResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27244,7 +29125,7 @@ export const importWorkspaceMedia: (
  */
 export const stopContactStreaming: (
   input: StopContactStreamingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopContactStreamingResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27273,7 +29154,7 @@ export const stopContactStreaming: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27298,7 +29179,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27326,7 +29207,7 @@ export const untagResource: (
  */
 export const updateAuthenticationProfile: (
   input: UpdateAuthenticationProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAuthenticationProfileResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27353,7 +29234,7 @@ export const updateAuthenticationProfile: (
  */
 export const updateInstanceAttribute: (
   input: UpdateInstanceAttributeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateInstanceAttributeResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27380,7 +29261,7 @@ export const updateInstanceAttribute: (
  */
 export const updateInstanceStorageConfig: (
   input: UpdateInstanceStorageConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateInstanceStorageConfigResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27423,7 +29304,7 @@ export const updateInstanceStorageConfig: (
  */
 export const updatePredefinedAttribute: (
   input: UpdatePredefinedAttributeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePredefinedAttributeResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27448,7 +29329,7 @@ export const updatePredefinedAttribute: (
  */
 export const updateQueueHoursOfOperation: (
   input: UpdateQueueHoursOfOperationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateQueueHoursOfOperationResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27473,7 +29354,7 @@ export const updateQueueHoursOfOperation: (
  */
 export const updateQueueMaxContacts: (
   input: UpdateQueueMaxContactsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateQueueMaxContactsResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27512,7 +29393,7 @@ export const updateQueueMaxContacts: (
  */
 export const updateQueueOutboundCallerConfig: (
   input: UpdateQueueOutboundCallerConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateQueueOutboundCallerConfigResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27537,7 +29418,7 @@ export const updateQueueOutboundCallerConfig: (
  */
 export const updateQueueStatus: (
   input: UpdateQueueStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateQueueStatusResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27562,7 +29443,7 @@ export const updateQueueStatus: (
  */
 export const updateQuickConnectConfig: (
   input: UpdateQuickConnectConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateQuickConnectConfigResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27587,7 +29468,7 @@ export const updateQuickConnectConfig: (
  */
 export const updateQuickConnectName: (
   input: UpdateQuickConnectNameRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateQuickConnectNameResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27613,7 +29494,7 @@ export const updateQuickConnectName: (
  */
 export const updateRoutingProfileAgentAvailabilityTimer: (
   input: UpdateRoutingProfileAgentAvailabilityTimerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRoutingProfileAgentAvailabilityTimerResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27638,7 +29519,7 @@ export const updateRoutingProfileAgentAvailabilityTimer: (
  */
 export const updateRoutingProfileConcurrency: (
   input: UpdateRoutingProfileConcurrencyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRoutingProfileConcurrencyResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27663,7 +29544,7 @@ export const updateRoutingProfileConcurrency: (
  */
 export const updateRoutingProfileDefaultOutboundQueue: (
   input: UpdateRoutingProfileDefaultOutboundQueueRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRoutingProfileDefaultOutboundQueueResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27688,7 +29569,7 @@ export const updateRoutingProfileDefaultOutboundQueue: (
  */
 export const updateRoutingProfileQueues: (
   input: UpdateRoutingProfileQueuesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRoutingProfileQueuesResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27717,7 +29598,7 @@ export const updateRoutingProfileQueues: (
  */
 export const updateSecurityProfile: (
   input: UpdateSecurityProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSecurityProfileResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27742,7 +29623,7 @@ export const updateSecurityProfile: (
  */
 export const updateUserHierarchy: (
   input: UpdateUserHierarchyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserHierarchyResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27773,7 +29654,7 @@ export const updateUserHierarchy: (
  */
 export const updateUserIdentityInfo: (
   input: UpdateUserIdentityInfoRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserIdentityInfoResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27798,7 +29679,7 @@ export const updateUserIdentityInfo: (
  */
 export const updateUserPhoneConfig: (
   input: UpdateUserPhoneConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserPhoneConfigResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27823,7 +29704,7 @@ export const updateUserPhoneConfig: (
  */
 export const updateUserProficiencies: (
   input: UpdateUserProficienciesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserProficienciesResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27848,7 +29729,7 @@ export const updateUserProficiencies: (
  */
 export const updateUserRoutingProfile: (
   input: UpdateUserRoutingProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserRoutingProfileResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27873,7 +29754,7 @@ export const updateUserRoutingProfile: (
  */
 export const updateUserSecurityProfiles: (
   input: UpdateUserSecurityProfilesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserSecurityProfilesResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27899,7 +29780,7 @@ export const updateUserSecurityProfiles: (
  */
 export const associateAnalyticsDataSet: (
   input: AssociateAnalyticsDataSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateAnalyticsDataSetResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27924,7 +29805,7 @@ export const associateAnalyticsDataSet: (
  */
 export const associateFlow: (
   input: AssociateFlowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateFlowResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -27951,7 +29832,7 @@ export const associateFlow: (
  */
 export const deleteContactFlow: (
   input: DeleteContactFlowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteContactFlowResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -27978,7 +29859,7 @@ export const deleteContactFlow: (
  */
 export const deleteContactFlowModule: (
   input: DeleteContactFlowModuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteContactFlowModuleResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28006,7 +29887,7 @@ export const deleteContactFlowModule: (
  */
 export const deleteContactFlowModuleAlias: (
   input: DeleteContactFlowModuleAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteContactFlowModuleAliasResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28033,7 +29914,7 @@ export const deleteContactFlowModuleAlias: (
  */
 export const deleteContactFlowModuleVersion: (
   input: DeleteContactFlowModuleVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteContactFlowModuleVersionResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28060,7 +29941,7 @@ export const deleteContactFlowModuleVersion: (
  */
 export const deleteContactFlowVersion: (
   input: DeleteContactFlowVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteContactFlowVersionResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28087,7 +29968,7 @@ export const deleteContactFlowVersion: (
  */
 export const deleteEmailAddress: (
   input: DeleteEmailAddressRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEmailAddressResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28116,7 +29997,7 @@ export const deleteEmailAddress: (
  */
 export const deleteWorkspace: (
   input: DeleteWorkspaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkspaceResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28144,7 +30025,7 @@ export const deleteWorkspace: (
  */
 export const deleteWorkspacePage: (
   input: DeleteWorkspacePageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkspacePageResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28226,7 +30107,7 @@ export const deleteWorkspacePage: (
  */
 export const disassociateEmailAddressAlias: (
   input: DisassociateEmailAddressAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateEmailAddressAliasResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28255,7 +30136,7 @@ export const disassociateEmailAddressAlias: (
  */
 export const disassociateFlow: (
   input: DisassociateFlowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateFlowResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28282,7 +30163,7 @@ export const disassociateFlow: (
  */
 export const disassociateSecurityProfiles: (
   input: DisassociateSecurityProfilesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateSecurityProfilesResponse,
   | AccessDeniedException
   | ConditionalOperationFailedException
@@ -28313,7 +30194,7 @@ export const disassociateSecurityProfiles: (
  */
 export const dismissUserContact: (
   input: DismissUserContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DismissUserContactResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28344,7 +30225,7 @@ export const dismissUserContact: (
  */
 export const putUserStatus: (
   input: PutUserStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutUserStatusResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28372,7 +30253,7 @@ export const putUserStatus: (
  */
 export const startScreenSharing: (
   input: StartScreenSharingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartScreenSharingResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28399,7 +30280,7 @@ export const startScreenSharing: (
  */
 export const updateContactFlowModuleAlias: (
   input: UpdateContactFlowModuleAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateContactFlowModuleAliasResponse,
   | AccessDeniedException
   | ConditionalOperationFailedException
@@ -28430,7 +30311,7 @@ export const updateContactFlowModuleAlias: (
  */
 export const updateContactFlowModuleMetadata: (
   input: UpdateContactFlowModuleMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateContactFlowModuleMetadataResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -28459,7 +30340,7 @@ export const updateContactFlowModuleMetadata: (
  */
 export const updateQueueOutboundEmailConfig: (
   input: UpdateQueueOutboundEmailConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateQueueOutboundEmailConfigResponse,
   | AccessDeniedException
   | ConditionalOperationFailedException
@@ -28488,7 +30369,7 @@ export const updateQueueOutboundEmailConfig: (
  */
 export const updateWorkspaceMetadata: (
   input: UpdateWorkspaceMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkspaceMetadataResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -28517,7 +30398,7 @@ export const updateWorkspaceMetadata: (
  */
 export const updateWorkspacePage: (
   input: UpdateWorkspacePageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkspacePageResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -28548,7 +30429,7 @@ export const updateWorkspacePage: (
  */
 export const updateWorkspaceTheme: (
   input: UpdateWorkspaceThemeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkspaceThemeResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28576,7 +30457,7 @@ export const updateWorkspaceTheme: (
  */
 export const updateWorkspaceVisibility: (
   input: UpdateWorkspaceVisibilityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkspaceVisibilityResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28603,7 +30484,7 @@ export const updateWorkspaceVisibility: (
  */
 export const updateContactFlowMetadata: (
   input: UpdateContactFlowMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateContactFlowMetadataResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -28633,7 +30514,7 @@ export const updateContactFlowMetadata: (
  */
 export const updateContactFlowName: (
   input: UpdateContactFlowNameRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateContactFlowNameResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -28660,7 +30541,7 @@ export const updateContactFlowName: (
  */
 export const updateHoursOfOperation: (
   input: UpdateHoursOfOperationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateHoursOfOperationResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -28687,7 +30568,7 @@ export const updateHoursOfOperation: (
  */
 export const updateQueueName: (
   input: UpdateQueueNameRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateQueueNameResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -28714,7 +30595,7 @@ export const updateQueueName: (
  */
 export const updateRoutingProfileName: (
   input: UpdateRoutingProfileNameRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRoutingProfileNameResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -28741,7 +30622,7 @@ export const updateRoutingProfileName: (
  */
 export const updateUserHierarchyGroupName: (
   input: UpdateUserHierarchyGroupNameRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserHierarchyGroupNameResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -28768,7 +30649,7 @@ export const updateUserHierarchyGroupName: (
  */
 export const associateSecurityProfiles: (
   input: AssociateSecurityProfilesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateSecurityProfilesResponse,
   | AccessDeniedException
   | ConditionalOperationFailedException
@@ -28801,7 +30682,7 @@ export const associateSecurityProfiles: (
  */
 export const updateContactFlowModuleContent: (
   input: UpdateContactFlowModuleContentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateContactFlowModuleContentResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28829,7 +30710,7 @@ export const updateContactFlowModuleContent: (
  */
 export const updateEmailAddressMetadata: (
   input: UpdateEmailAddressMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEmailAddressMetadataResponse,
   | AccessDeniedException
   | IdempotencyException
@@ -28858,7 +30739,7 @@ export const updateEmailAddressMetadata: (
  */
 export const deleteDataTableAttribute: (
   input: DeleteDataTableAttributeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDataTableAttributeResponse,
   | AccessDeniedException
   | ConflictException
@@ -28892,7 +30773,7 @@ export const deleteDataTableAttribute: (
  */
 export const updateContact: (
   input: UpdateContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateContactResponse,
   | AccessDeniedException
   | ConflictException
@@ -28925,7 +30806,7 @@ export const updateContact: (
  */
 export const updateDataTableMetadata: (
   input: UpdateDataTableMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDataTableMetadataResponse,
   | AccessDeniedException
   | ConflictException
@@ -28960,7 +30841,7 @@ export const updateDataTableMetadata: (
  */
 export const deleteDataTable: (
   input: DeleteDataTableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDataTableResponse,
   | AccessDeniedException
   | ConflictException
@@ -28989,7 +30870,7 @@ export const deleteDataTable: (
  */
 export const resumeContact: (
   input: ResumeContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResumeContactResponse,
   | AccessDeniedException
   | ConflictException
@@ -29028,7 +30909,7 @@ export const resumeContact: (
  */
 export const updateParticipantAuthentication: (
   input: UpdateParticipantAuthenticationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateParticipantAuthenticationResponse,
   | AccessDeniedException
   | ConflictException
@@ -29057,7 +30938,7 @@ export const updateParticipantAuthentication: (
  */
 export const batchUpdateDataTableValue: (
   input: BatchUpdateDataTableValueRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchUpdateDataTableValueResponse,
   | AccessDeniedException
   | ConflictException
@@ -29087,7 +30968,7 @@ export const batchUpdateDataTableValue: (
  */
 export const tagContact: (
   input: TagContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagContactResponse,
   | InternalServiceException
   | InvalidActiveRegionException
@@ -29118,7 +30999,7 @@ export const tagContact: (
  */
 export const resumeContactRecording: (
   input: ResumeContactRecordingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResumeContactRecordingResponse,
   | InternalServiceException
   | InvalidActiveRegionException
@@ -29146,7 +31027,7 @@ export const resumeContactRecording: (
  */
 export const stopContactRecording: (
   input: StopContactRecordingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopContactRecordingResponse,
   | InternalServiceException
   | InvalidActiveRegionException
@@ -29177,7 +31058,7 @@ export const stopContactRecording: (
  */
 export const suspendContactRecording: (
   input: SuspendContactRecordingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SuspendContactRecordingResponse,
   | InternalServiceException
   | InvalidActiveRegionException
@@ -29201,7 +31082,7 @@ export const suspendContactRecording: (
  */
 export const untagContact: (
   input: UntagContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagContactResponse,
   | InternalServiceException
   | InvalidActiveRegionException
@@ -29238,7 +31119,7 @@ export const untagContact: (
  */
 export const updateContactAttributes: (
   input: UpdateContactAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateContactAttributesResponse,
   | InternalServiceException
   | InvalidActiveRegionException
@@ -29269,7 +31150,7 @@ export const updateContactAttributes: (
  */
 export const updatePhoneNumber: (
   input: UpdatePhoneNumberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePhoneNumberResponse,
   | AccessDeniedException
   | IdempotencyException
@@ -29299,7 +31180,7 @@ export const updatePhoneNumber: (
  */
 export const describeEvaluationForm: (
   input: DescribeEvaluationFormRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEvaluationFormResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -29323,7 +31204,7 @@ export const describeEvaluationForm: (
 export const listEvaluationForms: {
   (
     input: ListEvaluationFormsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEvaluationFormsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -29334,7 +31215,7 @@ export const listEvaluationForms: {
   >;
   pages: (
     input: ListEvaluationFormsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEvaluationFormsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -29345,7 +31226,7 @@ export const listEvaluationForms: {
   >;
   items: (
     input: ListEvaluationFormsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EvaluationFormSummary,
     | InternalServiceException
     | InvalidParameterException
@@ -29376,7 +31257,7 @@ export const listEvaluationForms: {
 export const listEvaluationFormVersions: {
   (
     input: ListEvaluationFormVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEvaluationFormVersionsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -29387,7 +31268,7 @@ export const listEvaluationFormVersions: {
   >;
   pages: (
     input: ListEvaluationFormVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEvaluationFormVersionsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -29398,7 +31279,7 @@ export const listEvaluationFormVersions: {
   >;
   items: (
     input: ListEvaluationFormVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EvaluationFormVersionSummary,
     | InternalServiceException
     | InvalidParameterException
@@ -29439,7 +31320,7 @@ export const listEvaluationFormVersions: {
 export const listPhoneNumbersV2: {
   (
     input: ListPhoneNumbersV2Request,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPhoneNumbersV2Response,
     | AccessDeniedException
     | InternalServiceException
@@ -29451,7 +31332,7 @@ export const listPhoneNumbersV2: {
   >;
   pages: (
     input: ListPhoneNumbersV2Request,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPhoneNumbersV2Response,
     | AccessDeniedException
     | InternalServiceException
@@ -29463,7 +31344,7 @@ export const listPhoneNumbersV2: {
   >;
   items: (
     input: ListPhoneNumbersV2Request,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPhoneNumbersSummary,
     | AccessDeniedException
     | InternalServiceException
@@ -29502,7 +31383,7 @@ export const listPhoneNumbersV2: {
  */
 export const associatePhoneNumberContactFlow: (
   input: AssociatePhoneNumberContactFlowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociatePhoneNumberContactFlowResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -29527,7 +31408,7 @@ export const associatePhoneNumberContactFlow: (
  */
 export const deletePushNotificationRegistration: (
   input: DeletePushNotificationRegistrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePushNotificationRegistrationResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -29558,7 +31439,7 @@ export const deletePushNotificationRegistration: (
  */
 export const disassociatePhoneNumberContactFlow: (
   input: DisassociatePhoneNumberContactFlowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociatePhoneNumberContactFlowResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -29599,7 +31480,7 @@ export const disassociatePhoneNumberContactFlow: (
  */
 export const importPhoneNumber: (
   input: ImportPhoneNumberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ImportPhoneNumberResponse,
   | AccessDeniedException
   | IdempotencyException
@@ -29628,7 +31509,7 @@ export const importPhoneNumber: (
  */
 export const batchDeleteDataTableValue: (
   input: BatchDeleteDataTableValueRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDeleteDataTableValueResponse,
   | AccessDeniedException
   | ConflictException
@@ -29659,7 +31540,7 @@ export const batchDeleteDataTableValue: (
  */
 export const batchDescribeDataTableValue: (
   input: BatchDescribeDataTableValueRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDescribeDataTableValueResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -29712,7 +31593,7 @@ export const batchDescribeDataTableValue: (
  */
 export const claimPhoneNumber: (
   input: ClaimPhoneNumberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ClaimPhoneNumberResponse,
   | AccessDeniedException
   | IdempotencyException
@@ -29753,7 +31634,7 @@ export const claimPhoneNumber: (
  */
 export const describeContactFlow: (
   input: DescribeContactFlowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeContactFlowResponse,
   | ContactFlowNotPublishedException
   | InternalServiceException
@@ -29786,7 +31667,7 @@ export const describeContactFlow: (
  */
 export const describePhoneNumber: (
   input: DescribePhoneNumberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePhoneNumberResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -29824,7 +31705,7 @@ export const describePhoneNumber: (
  */
 export const describePredefinedAttribute: (
   input: DescribePredefinedAttributeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePredefinedAttributeResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -29849,7 +31730,7 @@ export const describePredefinedAttribute: (
  */
 export const describeUserHierarchyGroup: (
   input: DescribeUserHierarchyGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeUserHierarchyGroupResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -29874,7 +31755,7 @@ export const describeUserHierarchyGroup: (
  */
 export const describeUserHierarchyStructure: (
   input: DescribeUserHierarchyStructureRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeUserHierarchyStructureResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -29904,7 +31785,7 @@ export const describeUserHierarchyStructure: (
 export const evaluateDataTableValues: {
   (
     input: EvaluateDataTableValuesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     EvaluateDataTableValuesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -29917,7 +31798,7 @@ export const evaluateDataTableValues: {
   >;
   pages: (
     input: EvaluateDataTableValuesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EvaluateDataTableValuesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -29930,7 +31811,7 @@ export const evaluateDataTableValues: {
   >;
   items: (
     input: EvaluateDataTableValuesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServiceException
@@ -29963,7 +31844,7 @@ export const evaluateDataTableValues: {
  */
 export const getEffectiveHoursOfOperations: (
   input: GetEffectiveHoursOfOperationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEffectiveHoursOfOperationsResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -29989,7 +31870,7 @@ export const getEffectiveHoursOfOperations: (
 export const listContactEvaluations: {
   (
     input: ListContactEvaluationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListContactEvaluationsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -30000,7 +31881,7 @@ export const listContactEvaluations: {
   >;
   pages: (
     input: ListContactEvaluationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListContactEvaluationsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -30011,7 +31892,7 @@ export const listContactEvaluations: {
   >;
   items: (
     input: ListContactEvaluationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EvaluationSummary,
     | InternalServiceException
     | InvalidParameterException
@@ -30045,7 +31926,7 @@ export const listContactEvaluations: {
 export const listContactReferences: {
   (
     input: ListContactReferencesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListContactReferencesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -30057,7 +31938,7 @@ export const listContactReferences: {
   >;
   pages: (
     input: ListContactReferencesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListContactReferencesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -30069,7 +31950,7 @@ export const listContactReferences: {
   >;
   items: (
     input: ListContactReferencesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReferenceSummary,
     | InternalServiceException
     | InvalidParameterException
@@ -30102,7 +31983,7 @@ export const listContactReferences: {
 export const listDataTablePrimaryValues: {
   (
     input: ListDataTablePrimaryValuesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataTablePrimaryValuesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -30115,7 +31996,7 @@ export const listDataTablePrimaryValues: {
   >;
   pages: (
     input: ListDataTablePrimaryValuesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataTablePrimaryValuesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -30128,7 +32009,7 @@ export const listDataTablePrimaryValues: {
   >;
   items: (
     input: ListDataTablePrimaryValuesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RecordPrimaryValue,
     | AccessDeniedException
     | InternalServiceException
@@ -30164,7 +32045,7 @@ export const listDataTablePrimaryValues: {
 export const listDataTableValues: {
   (
     input: ListDataTableValuesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataTableValuesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -30177,7 +32058,7 @@ export const listDataTableValues: {
   >;
   pages: (
     input: ListDataTableValuesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataTableValuesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -30190,7 +32071,7 @@ export const listDataTableValues: {
   >;
   items: (
     input: ListDataTableValuesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataTableValueSummary,
     | AccessDeniedException
     | InternalServiceException
@@ -30225,7 +32106,7 @@ export const listDataTableValues: {
 export const listRules: {
   (
     input: ListRulesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRulesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -30237,7 +32118,7 @@ export const listRules: {
   >;
   pages: (
     input: ListRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRulesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -30249,7 +32130,7 @@ export const listRules: {
   >;
   items: (
     input: ListRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RuleSummary,
     | AccessDeniedException
     | InternalServiceException
@@ -30282,7 +32163,7 @@ export const listRules: {
  */
 export const deactivateEvaluationForm: (
   input: DeactivateEvaluationFormRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeactivateEvaluationFormResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -30309,7 +32190,7 @@ export const deactivateEvaluationForm: (
  */
 export const updateContactEvaluation: (
   input: UpdateContactEvaluationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateContactEvaluationResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -30334,7 +32215,7 @@ export const updateContactEvaluation: (
  */
 export const deleteContactEvaluation: (
   input: DeleteContactEvaluationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteContactEvaluationResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -30363,7 +32244,7 @@ export const deleteContactEvaluation: (
  */
 export const deleteEvaluationForm: (
   input: DeleteEvaluationFormRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEvaluationFormResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -30389,7 +32270,7 @@ export const deleteEvaluationForm: (
  */
 export const activateEvaluationForm: (
   input: ActivateEvaluationFormRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ActivateEvaluationFormResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -30437,7 +32318,7 @@ export const activateEvaluationForm: (
  */
 export const releasePhoneNumber: (
   input: ReleasePhoneNumberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ReleasePhoneNumberResponse,
   | AccessDeniedException
   | IdempotencyException
@@ -30466,7 +32347,7 @@ export const releasePhoneNumber: (
  */
 export const deleteVocabulary: (
   input: DeleteVocabularyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVocabularyResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -30496,7 +32377,7 @@ export const deleteVocabulary: (
  */
 export const deleteTrafficDistributionGroup: (
   input: DeleteTrafficDistributionGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTrafficDistributionGroupResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -30521,7 +32402,7 @@ export const deleteTrafficDistributionGroup: (
  */
 export const updateUserHierarchyStructure: (
   input: UpdateUserHierarchyStructureRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserHierarchyStructureResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -30548,7 +32429,7 @@ export const updateUserHierarchyStructure: (
  */
 export const deletePredefinedAttribute: (
   input: DeletePredefinedAttributeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePredefinedAttributeResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -30575,7 +32456,7 @@ export const deletePredefinedAttribute: (
  */
 export const deleteQueue: (
   input: DeleteQueueRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteQueueResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -30602,7 +32483,7 @@ export const deleteQueue: (
  */
 export const deleteRoutingProfile: (
   input: DeleteRoutingProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRoutingProfileResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -30630,7 +32511,7 @@ export const deleteRoutingProfile: (
  */
 export const deleteUserHierarchyGroup: (
   input: DeleteUserHierarchyGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUserHierarchyGroupResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -30657,7 +32538,7 @@ export const deleteUserHierarchyGroup: (
  */
 export const deleteSecurityProfile: (
   input: DeleteSecurityProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSecurityProfileResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -30688,7 +32569,7 @@ export const deleteSecurityProfile: (
  */
 export const updatePhoneNumberMetadata: (
   input: UpdatePhoneNumberMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePhoneNumberMetadataResponse,
   | AccessDeniedException
   | IdempotencyException
@@ -30727,7 +32608,7 @@ export const updatePhoneNumberMetadata: (
  */
 export const associateInstanceStorageConfig: (
   input: AssociateInstanceStorageConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateInstanceStorageConfigResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -30760,7 +32641,7 @@ export const associateInstanceStorageConfig: (
  */
 export const batchPutContact: (
   input: BatchPutContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchPutContactResponse,
   | AccessDeniedException
   | IdempotencyException
@@ -30808,7 +32689,7 @@ export const batchPutContact: (
  */
 export const getContactMetrics: (
   input: GetContactMetricsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContactMetricsResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -30836,7 +32717,7 @@ export const getContactMetrics: (
 export const searchAgentStatuses: {
   (
     input: SearchAgentStatusesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchAgentStatusesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -30848,7 +32729,7 @@ export const searchAgentStatuses: {
   >;
   pages: (
     input: SearchAgentStatusesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchAgentStatusesResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -30860,7 +32741,7 @@ export const searchAgentStatuses: {
   >;
   items: (
     input: SearchAgentStatusesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AgentStatus,
     | InternalServiceException
     | InvalidParameterException
@@ -30893,7 +32774,7 @@ export const searchAgentStatuses: {
 export const searchContactFlows: {
   (
     input: SearchContactFlowsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchContactFlowsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -30905,7 +32786,7 @@ export const searchContactFlows: {
   >;
   pages: (
     input: SearchContactFlowsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchContactFlowsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -30917,7 +32798,7 @@ export const searchContactFlows: {
   >;
   items: (
     input: SearchContactFlowsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ContactFlow,
     | InternalServiceException
     | InvalidParameterException
@@ -30954,7 +32835,7 @@ export const searchContactFlows: {
  */
 export const submitContactEvaluation: (
   input: SubmitContactEvaluationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SubmitContactEvaluationResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -30991,7 +32872,7 @@ export const submitContactEvaluation: (
  */
 export const updateParticipantRoleConfig: (
   input: UpdateParticipantRoleConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateParticipantRoleConfigResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -31026,7 +32907,7 @@ export const updateParticipantRoleConfig: (
  */
 export const getFederationToken: (
   input: GetFederationTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFederationTokenResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -31056,7 +32937,7 @@ export const getFederationToken: (
 export const listViews: {
   (
     input: ListViewsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListViewsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -31069,7 +32950,7 @@ export const listViews: {
   >;
   pages: (
     input: ListViewsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListViewsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -31082,7 +32963,7 @@ export const listViews: {
   >;
   items: (
     input: ListViewsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ViewSummary,
     | AccessDeniedException
     | InternalServiceException
@@ -31116,7 +32997,7 @@ export const listViews: {
  */
 export const createHoursOfOperation: (
   input: CreateHoursOfOperationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateHoursOfOperationResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -31145,7 +33026,7 @@ export const createHoursOfOperation: (
  */
 export const createHoursOfOperationOverride: (
   input: CreateHoursOfOperationOverrideRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateHoursOfOperationOverrideResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -31174,7 +33055,7 @@ export const createHoursOfOperationOverride: (
  */
 export const createQuickConnect: (
   input: CreateQuickConnectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateQuickConnectResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -31203,7 +33084,7 @@ export const createQuickConnect: (
  */
 export const createRoutingProfile: (
   input: CreateRoutingProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRoutingProfileResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -31254,7 +33135,7 @@ export const createRoutingProfile: (
  */
 export const startOutboundChatContact: (
   input: StartOutboundChatContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartOutboundChatContactResponse,
   | AccessDeniedException
   | ConflictException
@@ -31297,7 +33178,7 @@ export const startOutboundChatContact: (
  */
 export const createQueue: (
   input: CreateQueueRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateQueueResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -31333,7 +33214,7 @@ export const createQueue: (
  */
 export const createUser: (
   input: CreateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUserResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -31384,7 +33265,7 @@ export const createUser: (
  */
 export const startChatContact: (
   input: StartChatContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartChatContactResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -31419,7 +33300,7 @@ export const startChatContact: (
  */
 export const startContactStreaming: (
   input: StartContactStreamingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartContactStreamingResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -31445,7 +33326,7 @@ export const startContactStreaming: (
  */
 export const createContactFlowModuleVersion: (
   input: CreateContactFlowModuleVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateContactFlowModuleVersionResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -31477,7 +33358,7 @@ export const createContactFlowModuleVersion: (
  */
 export const createContactFlowVersion: (
   input: CreateContactFlowVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateContactFlowVersionResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -31506,7 +33387,7 @@ export const createContactFlowVersion: (
  */
 export const updateAgentStatus: (
   input: UpdateAgentStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAgentStatusResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -31535,7 +33416,7 @@ export const updateAgentStatus: (
  */
 export const associateQueueQuickConnects: (
   input: AssociateQueueQuickConnectsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateQueueQuickConnectsResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -31562,7 +33443,7 @@ export const associateQueueQuickConnects: (
  */
 export const updateContactSchedule: (
   input: UpdateContactScheduleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateContactScheduleResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -31589,7 +33470,7 @@ export const updateContactSchedule: (
  */
 export const stopContactMediaProcessing: (
   input: StopContactMediaProcessingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopContactMediaProcessingResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -31616,7 +33497,7 @@ export const stopContactMediaProcessing: (
  */
 export const createAgentStatus: (
   input: CreateAgentStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAgentStatusResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -31645,7 +33526,7 @@ export const createAgentStatus: (
  */
 export const createContactFlowModuleAlias: (
   input: CreateContactFlowModuleAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateContactFlowModuleAliasResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -31694,7 +33575,7 @@ export const createContactFlowModuleAlias: (
  */
 export const createPredefinedAttribute: (
   input: CreatePredefinedAttributeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePredefinedAttributeResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -31725,7 +33606,7 @@ export const createPredefinedAttribute: (
  */
 export const createPrompt: (
   input: CreatePromptRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePromptResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -31752,7 +33633,7 @@ export const createPrompt: (
  */
 export const createUserHierarchyGroup: (
   input: CreateUserHierarchyGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUserHierarchyGroupResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -31781,7 +33662,7 @@ export const createUserHierarchyGroup: (
  */
 export const pauseContact: (
   input: PauseContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PauseContactResponse,
   | AccessDeniedException
   | ConflictException
@@ -31812,7 +33693,7 @@ export const pauseContact: (
  */
 export const createContactFlowModule: (
   input: CreateContactFlowModuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateContactFlowModuleResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -31850,7 +33731,7 @@ export const createContactFlowModule: (
  */
 export const createContactFlow: (
   input: CreateContactFlowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateContactFlowResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -31884,7 +33765,7 @@ export const createContactFlow: (
 export const listViewVersions: {
   (
     input: ListViewVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListViewVersionsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -31897,7 +33778,7 @@ export const listViewVersions: {
   >;
   pages: (
     input: ListViewVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListViewVersionsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -31910,7 +33791,7 @@ export const listViewVersions: {
   >;
   items: (
     input: ListViewVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ViewVersionSummary,
     | AccessDeniedException
     | InternalServiceException
@@ -31953,7 +33834,7 @@ export const listViewVersions: {
  */
 export const describeView: (
   input: DescribeViewRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeViewResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -31985,7 +33866,7 @@ export const describeView: (
  */
 export const updateViewContent: (
   input: UpdateViewContentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateViewContentResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -32014,7 +33895,7 @@ export const updateViewContent: (
  */
 export const deleteView: (
   input: DeleteViewRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteViewResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -32043,7 +33924,7 @@ export const deleteView: (
  */
 export const deleteViewVersion: (
   input: DeleteViewVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteViewVersionResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -32073,7 +33954,7 @@ export const deleteViewVersion: (
  */
 export const updateViewMetadata: (
   input: UpdateViewMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateViewMetadataResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -32107,7 +33988,7 @@ export const updateViewMetadata: (
  */
 export const createDataTableAttribute: (
   input: CreateDataTableAttributeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataTableAttributeResponse,
   | AccessDeniedException
   | ConflictException
@@ -32143,7 +34024,7 @@ export const createDataTableAttribute: (
  */
 export const createRule: (
   input: CreateRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRuleResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -32176,7 +34057,7 @@ export const createRule: (
  */
 export const createSecurityProfile: (
   input: CreateSecurityProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSecurityProfileResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -32206,7 +34087,7 @@ export const createSecurityProfile: (
  */
 export const createWorkspace: (
   input: CreateWorkspaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkspaceResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -32266,7 +34147,7 @@ export const createWorkspace: (
  */
 export const describeContact: (
   input: DescribeContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeContactResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -32315,7 +34196,7 @@ export const describeContact: (
 export const getCurrentMetricData: {
   (
     input: GetCurrentMetricDataRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetCurrentMetricDataResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -32327,7 +34208,7 @@ export const getCurrentMetricData: {
   >;
   pages: (
     input: GetCurrentMetricDataRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetCurrentMetricDataResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -32339,7 +34220,7 @@ export const getCurrentMetricData: {
   >;
   items: (
     input: GetCurrentMetricDataRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServiceException
     | InvalidParameterException
@@ -32379,7 +34260,7 @@ export const getCurrentMetricData: {
 export const getMetricData: {
   (
     input: GetMetricDataRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetMetricDataResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -32391,7 +34272,7 @@ export const getMetricData: {
   >;
   pages: (
     input: GetMetricDataRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetMetricDataResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -32403,7 +34284,7 @@ export const getMetricData: {
   >;
   items: (
     input: GetMetricDataRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServiceException
     | InvalidParameterException
@@ -32466,7 +34347,7 @@ export const getMetricData: {
 export const getMetricDataV2: {
   (
     input: GetMetricDataV2Request,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetMetricDataV2Response,
     | InternalServiceException
     | InvalidParameterException
@@ -32478,7 +34359,7 @@ export const getMetricDataV2: {
   >;
   pages: (
     input: GetMetricDataV2Request,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetMetricDataV2Response,
     | InternalServiceException
     | InvalidParameterException
@@ -32490,7 +34371,7 @@ export const getMetricDataV2: {
   >;
   items: (
     input: GetMetricDataV2Request,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServiceException
     | InvalidParameterException
@@ -32538,7 +34419,7 @@ export const getMetricDataV2: {
  */
 export const searchContactEvaluations: (
   input: SearchContactEvaluationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SearchContactEvaluationsResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -32564,7 +34445,7 @@ export const searchContactEvaluations: (
 export const searchResourceTags: {
   (
     input: SearchResourceTagsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchResourceTagsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -32577,7 +34458,7 @@ export const searchResourceTags: {
   >;
   pages: (
     input: SearchResourceTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchResourceTagsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -32590,7 +34471,7 @@ export const searchResourceTags: {
   >;
   items: (
     input: SearchResourceTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TagSet,
     | InternalServiceException
     | InvalidParameterException
@@ -32628,7 +34509,7 @@ export const searchResourceTags: {
  */
 export const startContactEvaluation: (
   input: StartContactEvaluationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartContactEvaluationResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -32666,7 +34547,7 @@ export const startContactEvaluation: (
  */
 export const createInstance: (
   input: CreateInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateInstanceResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -32693,7 +34574,7 @@ export const createInstance: (
  */
 export const createVocabulary: (
   input: CreateVocabularyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVocabularyResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -32724,7 +34605,7 @@ export const createVocabulary: (
  */
 export const associateApprovedOrigin: (
   input: AssociateApprovedOriginRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateApprovedOriginResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -32755,7 +34636,7 @@ export const associateApprovedOrigin: (
  */
 export const createDataTable: (
   input: CreateDataTableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataTableResponse,
   | AccessDeniedException
   | ConflictException
@@ -32792,7 +34673,7 @@ export const createDataTable: (
  */
 export const sendOutboundEmail: (
   input: SendOutboundEmailRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendOutboundEmailResponse,
   | AccessDeniedException
   | IdempotencyException
@@ -32823,7 +34704,7 @@ export const sendOutboundEmail: (
  */
 export const associateSecurityKey: (
   input: AssociateSecurityKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateSecurityKeyResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -32884,7 +34765,7 @@ export const associateSecurityKey: (
  */
 export const startTaskContact: (
   input: StartTaskContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartTaskContactResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -32913,7 +34794,7 @@ export const startTaskContact: (
  */
 export const associateLambdaFunction: (
   input: AssociateLambdaFunctionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateLambdaFunctionResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -32945,7 +34826,7 @@ export const associateLambdaFunction: (
  */
 export const associateLexBot: (
   input: AssociateLexBotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateLexBotResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -32975,7 +34856,7 @@ export const associateLexBot: (
  */
 export const monitorContact: (
   input: MonitorContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   MonitorContactResponse,
   | AccessDeniedException
   | IdempotencyException
@@ -33005,7 +34886,7 @@ export const monitorContact: (
  */
 export const startOutboundEmailContact: (
   input: StartOutboundEmailContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartOutboundEmailContactResponse,
   | AccessDeniedException
   | IdempotencyException
@@ -33051,7 +34932,7 @@ export const startOutboundEmailContact: (
  */
 export const transferContact: (
   input: TransferContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TransferContactResponse,
   | AccessDeniedException
   | IdempotencyException
@@ -33082,7 +34963,7 @@ export const transferContact: (
  */
 export const createEmailAddress: (
   input: CreateEmailAddressRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEmailAddressResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -33118,7 +34999,7 @@ export const createEmailAddress: (
  */
 export const createPushNotificationRegistration: (
   input: CreatePushNotificationRegistrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePushNotificationRegistrationResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -33150,7 +35031,7 @@ export const createPushNotificationRegistration: (
  */
 export const batchCreateDataTableValue: (
   input: BatchCreateDataTableValueRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchCreateDataTableValueResponse,
   | AccessDeniedException
   | ConflictException
@@ -33187,7 +35068,7 @@ export const batchCreateDataTableValue: (
  */
 export const updateEvaluationForm: (
   input: UpdateEvaluationFormRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEvaluationFormResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -33219,7 +35100,7 @@ export const updateEvaluationForm: (
  */
 export const createViewVersion: (
   input: CreateViewVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateViewVersionResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -33257,7 +35138,7 @@ export const createViewVersion: (
  */
 export const createView: (
   input: CreateViewRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateViewResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -33293,7 +35174,7 @@ export const createView: (
  */
 export const associateBot: (
   input: AssociateBotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateBotResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -33337,7 +35218,7 @@ export const associateBot: (
  */
 export const createContact: (
   input: CreateContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateContactResponse,
   | AccessDeniedException
   | ConflictException
@@ -33372,7 +35253,7 @@ export const createContact: (
  */
 export const createParticipant: (
   input: CreateParticipantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateParticipantResponse,
   | ConflictException
   | InternalServiceException
@@ -33401,7 +35282,7 @@ export const createParticipant: (
  */
 export const startAttachedFileUpload: (
   input: StartAttachedFileUploadRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartAttachedFileUploadResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -33429,7 +35310,7 @@ export const startAttachedFileUpload: (
  */
 export const startEmailContact: (
   input: StartEmailContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartEmailContactResponse,
   | AccessDeniedException
   | IdempotencyException
@@ -33459,7 +35340,7 @@ export const startEmailContact: (
  */
 export const updateTaskTemplate: (
   input: UpdateTaskTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTaskTemplateResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -33496,7 +35377,7 @@ export const updateTaskTemplate: (
  */
 export const createTrafficDistributionGroup: (
   input: CreateTrafficDistributionGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTrafficDistributionGroupResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -33527,7 +35408,7 @@ export const createTrafficDistributionGroup: (
  */
 export const createWorkspacePage: (
   input: CreateWorkspacePageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkspacePageResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -33563,7 +35444,7 @@ export const createWorkspacePage: (
  */
 export const startContactMediaProcessing: (
   input: StartContactMediaProcessingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartContactMediaProcessingResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -33595,7 +35476,7 @@ export const startContactMediaProcessing: (
  */
 export const updateDataTableAttribute: (
   input: UpdateDataTableAttributeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDataTableAttributeResponse,
   | AccessDeniedException
   | ConflictException
@@ -33628,7 +35509,7 @@ export const updateDataTableAttribute: (
  */
 export const createTaskTemplate: (
   input: CreateTaskTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTaskTemplateResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -33659,7 +35540,7 @@ export const createTaskTemplate: (
  */
 export const replicateInstance: (
   input: ReplicateInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ReplicateInstanceResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -33691,7 +35572,7 @@ export const replicateInstance: (
 export const getCurrentUserData: {
   (
     input: GetCurrentUserDataRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetCurrentUserDataResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -33703,7 +35584,7 @@ export const getCurrentUserData: {
   >;
   pages: (
     input: GetCurrentUserDataRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetCurrentUserDataResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -33715,7 +35596,7 @@ export const getCurrentUserData: {
   >;
   items: (
     input: GetCurrentUserDataRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServiceException
     | InvalidParameterException
@@ -33749,7 +35630,7 @@ export const getCurrentUserData: {
 export const searchUsers: {
   (
     input: SearchUsersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchUsersResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -33761,7 +35642,7 @@ export const searchUsers: {
   >;
   pages: (
     input: SearchUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchUsersResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -33773,7 +35654,7 @@ export const searchUsers: {
   >;
   items: (
     input: SearchUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     UserSearchSummary,
     | InternalServiceException
     | InvalidParameterException
@@ -33807,7 +35688,7 @@ export const searchUsers: {
  */
 export const startWebRTCContact: (
   input: StartWebRTCContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartWebRTCContactResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -33840,7 +35721,7 @@ export const startWebRTCContact: (
  */
 export const updateContactRoutingData: (
   input: UpdateContactRoutingDataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateContactRoutingDataResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -33871,7 +35752,7 @@ export const updateContactRoutingData: (
  */
 export const createEvaluationForm: (
   input: CreateEvaluationFormRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEvaluationFormResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -33903,7 +35784,7 @@ export const createEvaluationForm: (
 export const listRealtimeContactAnalysisSegmentsV2: {
   (
     input: ListRealtimeContactAnalysisSegmentsV2Request,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRealtimeContactAnalysisSegmentsV2Response,
     | AccessDeniedException
     | InternalServiceException
@@ -33916,7 +35797,7 @@ export const listRealtimeContactAnalysisSegmentsV2: {
   >;
   pages: (
     input: ListRealtimeContactAnalysisSegmentsV2Request,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRealtimeContactAnalysisSegmentsV2Response,
     | AccessDeniedException
     | InternalServiceException
@@ -33929,7 +35810,7 @@ export const listRealtimeContactAnalysisSegmentsV2: {
   >;
   items: (
     input: ListRealtimeContactAnalysisSegmentsV2Request,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServiceException
@@ -33963,7 +35844,7 @@ export const listRealtimeContactAnalysisSegmentsV2: {
 export const searchContacts: {
   (
     input: SearchContactsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchContactsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -33975,7 +35856,7 @@ export const searchContacts: {
   >;
   pages: (
     input: SearchContactsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchContactsResponse,
     | InternalServiceException
     | InvalidParameterException
@@ -33987,7 +35868,7 @@ export const searchContacts: {
   >;
   items: (
     input: SearchContactsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ContactSearchSummary,
     | InternalServiceException
     | InvalidParameterException
@@ -34038,7 +35919,7 @@ export const searchContacts: {
  */
 export const startOutboundVoiceContact: (
   input: StartOutboundVoiceContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartOutboundVoiceContactResponse,
   | DestinationNotAllowedException
   | InternalServiceException
@@ -34067,7 +35948,7 @@ export const startOutboundVoiceContact: (
  */
 export const describeContactEvaluation: (
   input: DescribeContactEvaluationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeContactEvaluationResponse,
   | InternalServiceException
   | InvalidParameterException

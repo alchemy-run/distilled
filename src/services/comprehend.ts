@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -87,7 +87,7 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Newtypes
-export type CustomerInputString = string | Redacted.Redacted<string>;
+export type CustomerInputString = string | redacted.Redacted<string>;
 export type DocumentClassifierEndpointArn = string;
 export type ComprehendFlywheelArn = string;
 export type ComprehendArnName = string;
@@ -124,21 +124,58 @@ export type MaskCharacter = string;
 export type AttributeNamesListItem = string;
 export type EntityTypeName = string;
 export type LabelListItem = string;
-export type Integer = number;
-export type Float = number;
 export type AnyLengthString = string;
 export type NumberOfDocuments = number;
-export type Double = number;
 
 //# Schemas
-export type CustomerInputStringList = string | Redacted.Redacted<string>[];
+export type CustomerInputStringList = string | redacted.Redacted<string>[];
 export const CustomerInputStringList = S.Array(SensitiveString);
+export type LanguageCode =
+  | "en"
+  | "es"
+  | "fr"
+  | "de"
+  | "it"
+  | "pt"
+  | "ar"
+  | "hi"
+  | "ja"
+  | "ko"
+  | "zh"
+  | "zh-TW";
+export const LanguageCode = S.Literal(
+  "en",
+  "es",
+  "fr",
+  "de",
+  "it",
+  "pt",
+  "ar",
+  "hi",
+  "ja",
+  "ko",
+  "zh",
+  "zh-TW",
+);
+export type SyntaxLanguageCode = "en" | "es" | "fr" | "de" | "it" | "pt";
+export const SyntaxLanguageCode = S.Literal("en", "es", "fr", "de", "it", "pt");
+export type DatasetType = "TRAIN" | "TEST";
+export const DatasetType = S.Literal("TRAIN", "TEST");
+export type DocumentClassifierMode = "MULTI_CLASS" | "MULTI_LABEL";
+export const DocumentClassifierMode = S.Literal("MULTI_CLASS", "MULTI_LABEL");
+export type ModelType = "DOCUMENT_CLASSIFIER" | "ENTITY_RECOGNIZER";
+export const ModelType = S.Literal("DOCUMENT_CLASSIFIER", "ENTITY_RECOGNIZER");
 export type TargetEventTypes = string[];
 export const TargetEventTypes = S.Array(S.String);
+export type PiiEntitiesDetectionMode = "ONLY_REDACTION" | "ONLY_OFFSETS";
+export const PiiEntitiesDetectionMode = S.Literal(
+  "ONLY_REDACTION",
+  "ONLY_OFFSETS",
+);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface BatchDetectDominantLanguageRequest {
-  TextList: CustomerInputStringList;
+  TextList: string | redacted.Redacted<string>[];
 }
 export const BatchDetectDominantLanguageRequest = S.suspend(() =>
   S.Struct({ TextList: CustomerInputStringList }).pipe(
@@ -148,55 +185,70 @@ export const BatchDetectDominantLanguageRequest = S.suspend(() =>
   identifier: "BatchDetectDominantLanguageRequest",
 }) as any as S.Schema<BatchDetectDominantLanguageRequest>;
 export interface BatchDetectEntitiesRequest {
-  TextList: CustomerInputStringList;
-  LanguageCode: string;
+  TextList: string | redacted.Redacted<string>[];
+  LanguageCode: LanguageCode;
 }
 export const BatchDetectEntitiesRequest = S.suspend(() =>
-  S.Struct({ TextList: CustomerInputStringList, LanguageCode: S.String }).pipe(
+  S.Struct({
+    TextList: CustomerInputStringList,
+    LanguageCode: LanguageCode,
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "BatchDetectEntitiesRequest",
 }) as any as S.Schema<BatchDetectEntitiesRequest>;
 export interface BatchDetectKeyPhrasesRequest {
-  TextList: CustomerInputStringList;
-  LanguageCode: string;
+  TextList: string | redacted.Redacted<string>[];
+  LanguageCode: LanguageCode;
 }
 export const BatchDetectKeyPhrasesRequest = S.suspend(() =>
-  S.Struct({ TextList: CustomerInputStringList, LanguageCode: S.String }).pipe(
+  S.Struct({
+    TextList: CustomerInputStringList,
+    LanguageCode: LanguageCode,
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "BatchDetectKeyPhrasesRequest",
 }) as any as S.Schema<BatchDetectKeyPhrasesRequest>;
 export interface BatchDetectSentimentRequest {
-  TextList: CustomerInputStringList;
-  LanguageCode: string;
+  TextList: string | redacted.Redacted<string>[];
+  LanguageCode: LanguageCode;
 }
 export const BatchDetectSentimentRequest = S.suspend(() =>
-  S.Struct({ TextList: CustomerInputStringList, LanguageCode: S.String }).pipe(
+  S.Struct({
+    TextList: CustomerInputStringList,
+    LanguageCode: LanguageCode,
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "BatchDetectSentimentRequest",
 }) as any as S.Schema<BatchDetectSentimentRequest>;
 export interface BatchDetectSyntaxRequest {
-  TextList: CustomerInputStringList;
-  LanguageCode: string;
+  TextList: string | redacted.Redacted<string>[];
+  LanguageCode: SyntaxLanguageCode;
 }
 export const BatchDetectSyntaxRequest = S.suspend(() =>
-  S.Struct({ TextList: CustomerInputStringList, LanguageCode: S.String }).pipe(
+  S.Struct({
+    TextList: CustomerInputStringList,
+    LanguageCode: SyntaxLanguageCode,
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "BatchDetectSyntaxRequest",
 }) as any as S.Schema<BatchDetectSyntaxRequest>;
 export interface BatchDetectTargetedSentimentRequest {
-  TextList: CustomerInputStringList;
-  LanguageCode: string;
+  TextList: string | redacted.Redacted<string>[];
+  LanguageCode: LanguageCode;
 }
 export const BatchDetectTargetedSentimentRequest = S.suspend(() =>
-  S.Struct({ TextList: CustomerInputStringList, LanguageCode: S.String }).pipe(
+  S.Struct({
+    TextList: CustomerInputStringList,
+    LanguageCode: LanguageCode,
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -204,10 +256,10 @@ export const BatchDetectTargetedSentimentRequest = S.suspend(() =>
 }) as any as S.Schema<BatchDetectTargetedSentimentRequest>;
 export interface ContainsPiiEntitiesRequest {
   Text: string;
-  LanguageCode: string;
+  LanguageCode: LanguageCode;
 }
 export const ContainsPiiEntitiesRequest = S.suspend(() =>
-  S.Struct({ Text: S.String, LanguageCode: S.String }).pipe(
+  S.Struct({ Text: S.String, LanguageCode: LanguageCode }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -227,7 +279,7 @@ export interface CreateEndpointRequest {
   ModelArn?: string;
   DesiredInferenceUnits: number;
   ClientRequestToken?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   DataAccessRoleArn?: string;
   FlywheelArn?: string;
 }
@@ -488,7 +540,7 @@ export const DescribeTopicsDetectionJobRequest = S.suspend(() =>
   identifier: "DescribeTopicsDetectionJobRequest",
 }) as any as S.Schema<DescribeTopicsDetectionJobRequest>;
 export interface DetectDominantLanguageRequest {
-  Text: string | Redacted.Redacted<string>;
+  Text: string | redacted.Redacted<string>;
 }
 export const DetectDominantLanguageRequest = S.suspend(() =>
   S.Struct({ Text: SensitiveString }).pipe(
@@ -497,25 +549,39 @@ export const DetectDominantLanguageRequest = S.suspend(() =>
 ).annotations({
   identifier: "DetectDominantLanguageRequest",
 }) as any as S.Schema<DetectDominantLanguageRequest>;
-export type ListOfDocumentReadFeatureTypes = string[];
-export const ListOfDocumentReadFeatureTypes = S.Array(S.String);
+export type DocumentReadAction =
+  | "TEXTRACT_DETECT_DOCUMENT_TEXT"
+  | "TEXTRACT_ANALYZE_DOCUMENT";
+export const DocumentReadAction = S.Literal(
+  "TEXTRACT_DETECT_DOCUMENT_TEXT",
+  "TEXTRACT_ANALYZE_DOCUMENT",
+);
+export type DocumentReadMode = "SERVICE_DEFAULT" | "FORCE_DOCUMENT_READ_ACTION";
+export const DocumentReadMode = S.Literal(
+  "SERVICE_DEFAULT",
+  "FORCE_DOCUMENT_READ_ACTION",
+);
+export type DocumentReadFeatureTypes = "TABLES" | "FORMS";
+export const DocumentReadFeatureTypes = S.Literal("TABLES", "FORMS");
+export type ListOfDocumentReadFeatureTypes = DocumentReadFeatureTypes[];
+export const ListOfDocumentReadFeatureTypes = S.Array(DocumentReadFeatureTypes);
 export interface DocumentReaderConfig {
-  DocumentReadAction: string;
-  DocumentReadMode?: string;
-  FeatureTypes?: ListOfDocumentReadFeatureTypes;
+  DocumentReadAction: DocumentReadAction;
+  DocumentReadMode?: DocumentReadMode;
+  FeatureTypes?: DocumentReadFeatureTypes[];
 }
 export const DocumentReaderConfig = S.suspend(() =>
   S.Struct({
-    DocumentReadAction: S.String,
-    DocumentReadMode: S.optional(S.String),
+    DocumentReadAction: DocumentReadAction,
+    DocumentReadMode: S.optional(DocumentReadMode),
     FeatureTypes: S.optional(ListOfDocumentReadFeatureTypes),
   }),
 ).annotations({
   identifier: "DocumentReaderConfig",
 }) as any as S.Schema<DocumentReaderConfig>;
 export interface DetectEntitiesRequest {
-  Text?: string | Redacted.Redacted<string>;
-  LanguageCode?: string;
+  Text?: string | redacted.Redacted<string>;
+  LanguageCode?: LanguageCode;
   EndpointArn?: string;
   Bytes?: Uint8Array;
   DocumentReaderConfig?: DocumentReaderConfig;
@@ -523,7 +589,7 @@ export interface DetectEntitiesRequest {
 export const DetectEntitiesRequest = S.suspend(() =>
   S.Struct({
     Text: S.optional(SensitiveString),
-    LanguageCode: S.optional(S.String),
+    LanguageCode: S.optional(LanguageCode),
     EndpointArn: S.optional(S.String),
     Bytes: S.optional(T.Blob),
     DocumentReaderConfig: S.optional(DocumentReaderConfig),
@@ -534,11 +600,11 @@ export const DetectEntitiesRequest = S.suspend(() =>
   identifier: "DetectEntitiesRequest",
 }) as any as S.Schema<DetectEntitiesRequest>;
 export interface DetectKeyPhrasesRequest {
-  Text: string | Redacted.Redacted<string>;
-  LanguageCode: string;
+  Text: string | redacted.Redacted<string>;
+  LanguageCode: LanguageCode;
 }
 export const DetectKeyPhrasesRequest = S.suspend(() =>
-  S.Struct({ Text: SensitiveString, LanguageCode: S.String }).pipe(
+  S.Struct({ Text: SensitiveString, LanguageCode: LanguageCode }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -546,43 +612,43 @@ export const DetectKeyPhrasesRequest = S.suspend(() =>
 }) as any as S.Schema<DetectKeyPhrasesRequest>;
 export interface DetectPiiEntitiesRequest {
   Text: string;
-  LanguageCode: string;
+  LanguageCode: LanguageCode;
 }
 export const DetectPiiEntitiesRequest = S.suspend(() =>
-  S.Struct({ Text: S.String, LanguageCode: S.String }).pipe(
+  S.Struct({ Text: S.String, LanguageCode: LanguageCode }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "DetectPiiEntitiesRequest",
 }) as any as S.Schema<DetectPiiEntitiesRequest>;
 export interface DetectSentimentRequest {
-  Text: string | Redacted.Redacted<string>;
-  LanguageCode: string;
+  Text: string | redacted.Redacted<string>;
+  LanguageCode: LanguageCode;
 }
 export const DetectSentimentRequest = S.suspend(() =>
-  S.Struct({ Text: SensitiveString, LanguageCode: S.String }).pipe(
+  S.Struct({ Text: SensitiveString, LanguageCode: LanguageCode }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "DetectSentimentRequest",
 }) as any as S.Schema<DetectSentimentRequest>;
 export interface DetectSyntaxRequest {
-  Text: string | Redacted.Redacted<string>;
-  LanguageCode: string;
+  Text: string | redacted.Redacted<string>;
+  LanguageCode: SyntaxLanguageCode;
 }
 export const DetectSyntaxRequest = S.suspend(() =>
-  S.Struct({ Text: SensitiveString, LanguageCode: S.String }).pipe(
+  S.Struct({ Text: SensitiveString, LanguageCode: SyntaxLanguageCode }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "DetectSyntaxRequest",
 }) as any as S.Schema<DetectSyntaxRequest>;
 export interface DetectTargetedSentimentRequest {
-  Text: string | Redacted.Redacted<string>;
-  LanguageCode: string;
+  Text: string | redacted.Redacted<string>;
+  LanguageCode: LanguageCode;
 }
 export const DetectTargetedSentimentRequest = S.suspend(() =>
-  S.Struct({ Text: SensitiveString, LanguageCode: S.String }).pipe(
+  S.Struct({ Text: SensitiveString, LanguageCode: LanguageCode }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -594,7 +660,7 @@ export interface ImportModelRequest {
   VersionName?: string;
   ModelKmsKeyId?: string;
   DataAccessRoleArn?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ImportModelRequest = S.suspend(() =>
   S.Struct({
@@ -664,15 +730,17 @@ export const PutResourcePolicyRequest = S.suspend(() =>
 ).annotations({
   identifier: "PutResourcePolicyRequest",
 }) as any as S.Schema<PutResourcePolicyRequest>;
+export type InputFormat = "ONE_DOC_PER_FILE" | "ONE_DOC_PER_LINE";
+export const InputFormat = S.Literal("ONE_DOC_PER_FILE", "ONE_DOC_PER_LINE");
 export interface InputDataConfig {
   S3Uri: string;
-  InputFormat?: string;
+  InputFormat?: InputFormat;
   DocumentReaderConfig?: DocumentReaderConfig;
 }
 export const InputDataConfig = S.suspend(() =>
   S.Struct({
     S3Uri: S.String,
-    InputFormat: S.optional(S.String),
+    InputFormat: S.optional(InputFormat),
     DocumentReaderConfig: S.optional(DocumentReaderConfig),
   }),
 ).annotations({
@@ -692,8 +760,8 @@ export const SecurityGroupIds = S.Array(S.String);
 export type Subnets = string[];
 export const Subnets = S.Array(S.String);
 export interface VpcConfig {
-  SecurityGroupIds: SecurityGroupIds;
-  Subnets: Subnets;
+  SecurityGroupIds: string[];
+  Subnets: string[];
 }
 export const VpcConfig = S.suspend(() =>
   S.Struct({ SecurityGroupIds: SecurityGroupIds, Subnets: Subnets }),
@@ -706,7 +774,7 @@ export interface StartDominantLanguageDetectionJobRequest {
   ClientRequestToken?: string;
   VolumeKmsKeyId?: string;
   VpcConfig?: VpcConfig;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const StartDominantLanguageDetectionJobRequest = S.suspend(() =>
   S.Struct({
@@ -730,11 +798,11 @@ export interface StartEntitiesDetectionJobRequest {
   DataAccessRoleArn: string;
   JobName?: string;
   EntityRecognizerArn?: string;
-  LanguageCode: string;
+  LanguageCode: LanguageCode;
   ClientRequestToken?: string;
   VolumeKmsKeyId?: string;
   VpcConfig?: VpcConfig;
-  Tags?: TagList;
+  Tags?: Tag[];
   FlywheelArn?: string;
 }
 export const StartEntitiesDetectionJobRequest = S.suspend(() =>
@@ -744,7 +812,7 @@ export const StartEntitiesDetectionJobRequest = S.suspend(() =>
     DataAccessRoleArn: S.String,
     JobName: S.optional(S.String),
     EntityRecognizerArn: S.optional(S.String),
-    LanguageCode: S.String,
+    LanguageCode: LanguageCode,
     ClientRequestToken: S.optional(S.String),
     VolumeKmsKeyId: S.optional(S.String),
     VpcConfig: S.optional(VpcConfig),
@@ -761,10 +829,10 @@ export interface StartEventsDetectionJobRequest {
   OutputDataConfig: OutputDataConfig;
   DataAccessRoleArn: string;
   JobName?: string;
-  LanguageCode: string;
+  LanguageCode: LanguageCode;
   ClientRequestToken?: string;
-  TargetEventTypes: TargetEventTypes;
-  Tags?: TagList;
+  TargetEventTypes: string[];
+  Tags?: Tag[];
 }
 export const StartEventsDetectionJobRequest = S.suspend(() =>
   S.Struct({
@@ -772,7 +840,7 @@ export const StartEventsDetectionJobRequest = S.suspend(() =>
     OutputDataConfig: OutputDataConfig,
     DataAccessRoleArn: S.String,
     JobName: S.optional(S.String),
-    LanguageCode: S.String,
+    LanguageCode: LanguageCode,
     ClientRequestToken: S.optional(S.String),
     TargetEventTypes: TargetEventTypes,
     Tags: S.optional(TagList),
@@ -801,11 +869,11 @@ export interface StartKeyPhrasesDetectionJobRequest {
   OutputDataConfig: OutputDataConfig;
   DataAccessRoleArn: string;
   JobName?: string;
-  LanguageCode: string;
+  LanguageCode: LanguageCode;
   ClientRequestToken?: string;
   VolumeKmsKeyId?: string;
   VpcConfig?: VpcConfig;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const StartKeyPhrasesDetectionJobRequest = S.suspend(() =>
   S.Struct({
@@ -813,7 +881,7 @@ export const StartKeyPhrasesDetectionJobRequest = S.suspend(() =>
     OutputDataConfig: OutputDataConfig,
     DataAccessRoleArn: S.String,
     JobName: S.optional(S.String),
-    LanguageCode: S.String,
+    LanguageCode: LanguageCode,
     ClientRequestToken: S.optional(S.String),
     VolumeKmsKeyId: S.optional(S.String),
     VpcConfig: S.optional(VpcConfig),
@@ -829,11 +897,11 @@ export interface StartSentimentDetectionJobRequest {
   OutputDataConfig: OutputDataConfig;
   DataAccessRoleArn: string;
   JobName?: string;
-  LanguageCode: string;
+  LanguageCode: LanguageCode;
   ClientRequestToken?: string;
   VolumeKmsKeyId?: string;
   VpcConfig?: VpcConfig;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const StartSentimentDetectionJobRequest = S.suspend(() =>
   S.Struct({
@@ -841,7 +909,7 @@ export const StartSentimentDetectionJobRequest = S.suspend(() =>
     OutputDataConfig: OutputDataConfig,
     DataAccessRoleArn: S.String,
     JobName: S.optional(S.String),
-    LanguageCode: S.String,
+    LanguageCode: LanguageCode,
     ClientRequestToken: S.optional(S.String),
     VolumeKmsKeyId: S.optional(S.String),
     VpcConfig: S.optional(VpcConfig),
@@ -857,11 +925,11 @@ export interface StartTargetedSentimentDetectionJobRequest {
   OutputDataConfig: OutputDataConfig;
   DataAccessRoleArn: string;
   JobName?: string;
-  LanguageCode: string;
+  LanguageCode: LanguageCode;
   ClientRequestToken?: string;
   VolumeKmsKeyId?: string;
   VpcConfig?: VpcConfig;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const StartTargetedSentimentDetectionJobRequest = S.suspend(() =>
   S.Struct({
@@ -869,7 +937,7 @@ export const StartTargetedSentimentDetectionJobRequest = S.suspend(() =>
     OutputDataConfig: OutputDataConfig,
     DataAccessRoleArn: S.String,
     JobName: S.optional(S.String),
-    LanguageCode: S.String,
+    LanguageCode: LanguageCode,
     ClientRequestToken: S.optional(S.String),
     VolumeKmsKeyId: S.optional(S.String),
     VpcConfig: S.optional(VpcConfig),
@@ -889,7 +957,7 @@ export interface StartTopicsDetectionJobRequest {
   ClientRequestToken?: string;
   VolumeKmsKeyId?: string;
   VpcConfig?: VpcConfig;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const StartTopicsDetectionJobRequest = S.suspend(() =>
   S.Struct({
@@ -1012,7 +1080,7 @@ export const StopTrainingEntityRecognizerResponse = S.suspend(() =>
 }) as any as S.Schema<StopTrainingEntityRecognizerResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
@@ -1027,7 +1095,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
@@ -1060,24 +1128,59 @@ export const UpdateEndpointRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateEndpointRequest",
 }) as any as S.Schema<UpdateEndpointRequest>;
+export type DatasetDataFormat = "COMPREHEND_CSV" | "AUGMENTED_MANIFEST";
+export const DatasetDataFormat = S.Literal(
+  "COMPREHEND_CSV",
+  "AUGMENTED_MANIFEST",
+);
+export type DocumentClassifierDataFormat =
+  | "COMPREHEND_CSV"
+  | "AUGMENTED_MANIFEST";
+export const DocumentClassifierDataFormat = S.Literal(
+  "COMPREHEND_CSV",
+  "AUGMENTED_MANIFEST",
+);
+export type DocumentClassifierDocumentTypeFormat =
+  | "PLAIN_TEXT_DOCUMENT"
+  | "SEMI_STRUCTURED_DOCUMENT";
+export const DocumentClassifierDocumentTypeFormat = S.Literal(
+  "PLAIN_TEXT_DOCUMENT",
+  "SEMI_STRUCTURED_DOCUMENT",
+);
+export type EntityRecognizerDataFormat =
+  | "COMPREHEND_CSV"
+  | "AUGMENTED_MANIFEST";
+export const EntityRecognizerDataFormat = S.Literal(
+  "COMPREHEND_CSV",
+  "AUGMENTED_MANIFEST",
+);
+export type Split = "TRAIN" | "TEST";
+export const Split = S.Literal("TRAIN", "TEST");
 export type AttributeNamesList = string[];
 export const AttributeNamesList = S.Array(S.String);
+export type AugmentedManifestsDocumentTypeFormat =
+  | "PLAIN_TEXT_DOCUMENT"
+  | "SEMI_STRUCTURED_DOCUMENT";
+export const AugmentedManifestsDocumentTypeFormat = S.Literal(
+  "PLAIN_TEXT_DOCUMENT",
+  "SEMI_STRUCTURED_DOCUMENT",
+);
 export interface AugmentedManifestsListItem {
   S3Uri: string;
-  Split?: string;
-  AttributeNames: AttributeNamesList;
+  Split?: Split;
+  AttributeNames: string[];
   AnnotationDataS3Uri?: string;
   SourceDocumentsS3Uri?: string;
-  DocumentType?: string;
+  DocumentType?: AugmentedManifestsDocumentTypeFormat;
 }
 export const AugmentedManifestsListItem = S.suspend(() =>
   S.Struct({
     S3Uri: S.String,
-    Split: S.optional(S.String),
+    Split: S.optional(Split),
     AttributeNames: AttributeNamesList,
     AnnotationDataS3Uri: S.optional(S.String),
     SourceDocumentsS3Uri: S.optional(S.String),
-    DocumentType: S.optional(S.String),
+    DocumentType: S.optional(AugmentedManifestsDocumentTypeFormat),
   }),
 ).annotations({
   identifier: "AugmentedManifestsListItem",
@@ -1087,8 +1190,154 @@ export type EntityRecognizerAugmentedManifestsList =
 export const EntityRecognizerAugmentedManifestsList = S.Array(
   AugmentedManifestsListItem,
 );
-export type ListOfPiiEntityTypes = string[];
-export const ListOfPiiEntityTypes = S.Array(S.String);
+export type DatasetStatus = "CREATING" | "COMPLETED" | "FAILED";
+export const DatasetStatus = S.Literal("CREATING", "COMPLETED", "FAILED");
+export type JobStatus =
+  | "SUBMITTED"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "FAILED"
+  | "STOP_REQUESTED"
+  | "STOPPED";
+export const JobStatus = S.Literal(
+  "SUBMITTED",
+  "IN_PROGRESS",
+  "COMPLETED",
+  "FAILED",
+  "STOP_REQUESTED",
+  "STOPPED",
+);
+export type ModelStatus =
+  | "SUBMITTED"
+  | "TRAINING"
+  | "DELETING"
+  | "STOP_REQUESTED"
+  | "STOPPED"
+  | "IN_ERROR"
+  | "TRAINED"
+  | "TRAINED_WITH_WARNING";
+export const ModelStatus = S.Literal(
+  "SUBMITTED",
+  "TRAINING",
+  "DELETING",
+  "STOP_REQUESTED",
+  "STOPPED",
+  "IN_ERROR",
+  "TRAINED",
+  "TRAINED_WITH_WARNING",
+);
+export type EndpointStatus =
+  | "CREATING"
+  | "DELETING"
+  | "FAILED"
+  | "IN_SERVICE"
+  | "UPDATING";
+export const EndpointStatus = S.Literal(
+  "CREATING",
+  "DELETING",
+  "FAILED",
+  "IN_SERVICE",
+  "UPDATING",
+);
+export type FlywheelStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "UPDATING"
+  | "DELETING"
+  | "FAILED";
+export const FlywheelStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "UPDATING",
+  "DELETING",
+  "FAILED",
+);
+export type PiiEntityType =
+  | "BANK_ACCOUNT_NUMBER"
+  | "BANK_ROUTING"
+  | "CREDIT_DEBIT_NUMBER"
+  | "CREDIT_DEBIT_CVV"
+  | "CREDIT_DEBIT_EXPIRY"
+  | "PIN"
+  | "EMAIL"
+  | "ADDRESS"
+  | "NAME"
+  | "PHONE"
+  | "SSN"
+  | "DATE_TIME"
+  | "PASSPORT_NUMBER"
+  | "DRIVER_ID"
+  | "URL"
+  | "AGE"
+  | "USERNAME"
+  | "PASSWORD"
+  | "AWS_ACCESS_KEY"
+  | "AWS_SECRET_KEY"
+  | "IP_ADDRESS"
+  | "MAC_ADDRESS"
+  | "ALL"
+  | "LICENSE_PLATE"
+  | "VEHICLE_IDENTIFICATION_NUMBER"
+  | "UK_NATIONAL_INSURANCE_NUMBER"
+  | "CA_SOCIAL_INSURANCE_NUMBER"
+  | "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER"
+  | "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER"
+  | "IN_PERMANENT_ACCOUNT_NUMBER"
+  | "IN_NREGA"
+  | "INTERNATIONAL_BANK_ACCOUNT_NUMBER"
+  | "SWIFT_CODE"
+  | "UK_NATIONAL_HEALTH_SERVICE_NUMBER"
+  | "CA_HEALTH_NUMBER"
+  | "IN_AADHAAR"
+  | "IN_VOTER_NUMBER";
+export const PiiEntityType = S.Literal(
+  "BANK_ACCOUNT_NUMBER",
+  "BANK_ROUTING",
+  "CREDIT_DEBIT_NUMBER",
+  "CREDIT_DEBIT_CVV",
+  "CREDIT_DEBIT_EXPIRY",
+  "PIN",
+  "EMAIL",
+  "ADDRESS",
+  "NAME",
+  "PHONE",
+  "SSN",
+  "DATE_TIME",
+  "PASSPORT_NUMBER",
+  "DRIVER_ID",
+  "URL",
+  "AGE",
+  "USERNAME",
+  "PASSWORD",
+  "AWS_ACCESS_KEY",
+  "AWS_SECRET_KEY",
+  "IP_ADDRESS",
+  "MAC_ADDRESS",
+  "ALL",
+  "LICENSE_PLATE",
+  "VEHICLE_IDENTIFICATION_NUMBER",
+  "UK_NATIONAL_INSURANCE_NUMBER",
+  "CA_SOCIAL_INSURANCE_NUMBER",
+  "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER",
+  "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER",
+  "IN_PERMANENT_ACCOUNT_NUMBER",
+  "IN_NREGA",
+  "INTERNATIONAL_BANK_ACCOUNT_NUMBER",
+  "SWIFT_CODE",
+  "UK_NATIONAL_HEALTH_SERVICE_NUMBER",
+  "CA_HEALTH_NUMBER",
+  "IN_AADHAAR",
+  "IN_VOTER_NUMBER",
+);
+export type ListOfPiiEntityTypes = PiiEntityType[];
+export const ListOfPiiEntityTypes = S.Array(PiiEntityType);
+export type PiiEntitiesDetectionMaskMode =
+  | "MASK"
+  | "REPLACE_WITH_PII_ENTITY_TYPE";
+export const PiiEntitiesDetectionMaskMode = S.Literal(
+  "MASK",
+  "REPLACE_WITH_PII_ENTITY_TYPE",
+);
 export interface DocumentClassifierOutputDataConfig {
   S3Uri?: string;
   KmsKeyId?: string;
@@ -1119,8 +1368,15 @@ export const DataSecurityConfig = S.suspend(() =>
 ).annotations({
   identifier: "DataSecurityConfig",
 }) as any as S.Schema<DataSecurityConfig>;
+export type SentimentType = "POSITIVE" | "NEGATIVE" | "NEUTRAL" | "MIXED";
+export const SentimentType = S.Literal(
+  "POSITIVE",
+  "NEGATIVE",
+  "NEUTRAL",
+  "MIXED",
+);
 export interface TextSegment {
-  Text: string | Redacted.Redacted<string>;
+  Text: string | redacted.Redacted<string>;
 }
 export const TextSegment = S.suspend(() =>
   S.Struct({ Text: SensitiveString }),
@@ -1128,15 +1384,15 @@ export const TextSegment = S.suspend(() =>
 export type ListOfTextSegments = TextSegment[];
 export const ListOfTextSegments = S.Array(TextSegment);
 export interface DatasetFilter {
-  Status?: string;
-  DatasetType?: string;
+  Status?: DatasetStatus;
+  DatasetType?: DatasetType;
   CreationTimeAfter?: Date;
   CreationTimeBefore?: Date;
 }
 export const DatasetFilter = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
-    DatasetType: S.optional(S.String),
+    Status: S.optional(DatasetStatus),
+    DatasetType: S.optional(DatasetType),
     CreationTimeAfter: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1149,14 +1405,14 @@ export const DatasetFilter = S.suspend(() =>
 }) as any as S.Schema<DatasetFilter>;
 export interface DocumentClassificationJobFilter {
   JobName?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   SubmitTimeBefore?: Date;
   SubmitTimeAfter?: Date;
 }
 export const DocumentClassificationJobFilter = S.suspend(() =>
   S.Struct({
     JobName: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     SubmitTimeBefore: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1168,14 +1424,14 @@ export const DocumentClassificationJobFilter = S.suspend(() =>
   identifier: "DocumentClassificationJobFilter",
 }) as any as S.Schema<DocumentClassificationJobFilter>;
 export interface DocumentClassifierFilter {
-  Status?: string;
+  Status?: ModelStatus;
   DocumentClassifierName?: string;
   SubmitTimeBefore?: Date;
   SubmitTimeAfter?: Date;
 }
 export const DocumentClassifierFilter = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(ModelStatus),
     DocumentClassifierName: S.optional(S.String),
     SubmitTimeBefore: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1189,14 +1445,14 @@ export const DocumentClassifierFilter = S.suspend(() =>
 }) as any as S.Schema<DocumentClassifierFilter>;
 export interface DominantLanguageDetectionJobFilter {
   JobName?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   SubmitTimeBefore?: Date;
   SubmitTimeAfter?: Date;
 }
 export const DominantLanguageDetectionJobFilter = S.suspend(() =>
   S.Struct({
     JobName: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     SubmitTimeBefore: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1209,14 +1465,14 @@ export const DominantLanguageDetectionJobFilter = S.suspend(() =>
 }) as any as S.Schema<DominantLanguageDetectionJobFilter>;
 export interface EndpointFilter {
   ModelArn?: string;
-  Status?: string;
+  Status?: EndpointStatus;
   CreationTimeBefore?: Date;
   CreationTimeAfter?: Date;
 }
 export const EndpointFilter = S.suspend(() =>
   S.Struct({
     ModelArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(EndpointStatus),
     CreationTimeBefore: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1229,14 +1485,14 @@ export const EndpointFilter = S.suspend(() =>
 }) as any as S.Schema<EndpointFilter>;
 export interface EntitiesDetectionJobFilter {
   JobName?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   SubmitTimeBefore?: Date;
   SubmitTimeAfter?: Date;
 }
 export const EntitiesDetectionJobFilter = S.suspend(() =>
   S.Struct({
     JobName: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     SubmitTimeBefore: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1248,14 +1504,14 @@ export const EntitiesDetectionJobFilter = S.suspend(() =>
   identifier: "EntitiesDetectionJobFilter",
 }) as any as S.Schema<EntitiesDetectionJobFilter>;
 export interface EntityRecognizerFilter {
-  Status?: string;
+  Status?: ModelStatus;
   RecognizerName?: string;
   SubmitTimeBefore?: Date;
   SubmitTimeAfter?: Date;
 }
 export const EntityRecognizerFilter = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(ModelStatus),
     RecognizerName: S.optional(S.String),
     SubmitTimeBefore: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1269,14 +1525,14 @@ export const EntityRecognizerFilter = S.suspend(() =>
 }) as any as S.Schema<EntityRecognizerFilter>;
 export interface EventsDetectionJobFilter {
   JobName?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   SubmitTimeBefore?: Date;
   SubmitTimeAfter?: Date;
 }
 export const EventsDetectionJobFilter = S.suspend(() =>
   S.Struct({
     JobName: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     SubmitTimeBefore: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1304,13 +1560,13 @@ export const FlywheelIterationFilter = S.suspend(() =>
   identifier: "FlywheelIterationFilter",
 }) as any as S.Schema<FlywheelIterationFilter>;
 export interface FlywheelFilter {
-  Status?: string;
+  Status?: FlywheelStatus;
   CreationTimeAfter?: Date;
   CreationTimeBefore?: Date;
 }
 export const FlywheelFilter = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(FlywheelStatus),
     CreationTimeAfter: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1323,14 +1579,14 @@ export const FlywheelFilter = S.suspend(() =>
 }) as any as S.Schema<FlywheelFilter>;
 export interface KeyPhrasesDetectionJobFilter {
   JobName?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   SubmitTimeBefore?: Date;
   SubmitTimeAfter?: Date;
 }
 export const KeyPhrasesDetectionJobFilter = S.suspend(() =>
   S.Struct({
     JobName: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     SubmitTimeBefore: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1343,14 +1599,14 @@ export const KeyPhrasesDetectionJobFilter = S.suspend(() =>
 }) as any as S.Schema<KeyPhrasesDetectionJobFilter>;
 export interface PiiEntitiesDetectionJobFilter {
   JobName?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   SubmitTimeBefore?: Date;
   SubmitTimeAfter?: Date;
 }
 export const PiiEntitiesDetectionJobFilter = S.suspend(() =>
   S.Struct({
     JobName: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     SubmitTimeBefore: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1363,14 +1619,14 @@ export const PiiEntitiesDetectionJobFilter = S.suspend(() =>
 }) as any as S.Schema<PiiEntitiesDetectionJobFilter>;
 export interface SentimentDetectionJobFilter {
   JobName?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   SubmitTimeBefore?: Date;
   SubmitTimeAfter?: Date;
 }
 export const SentimentDetectionJobFilter = S.suspend(() =>
   S.Struct({
     JobName: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     SubmitTimeBefore: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1383,14 +1639,14 @@ export const SentimentDetectionJobFilter = S.suspend(() =>
 }) as any as S.Schema<SentimentDetectionJobFilter>;
 export interface TargetedSentimentDetectionJobFilter {
   JobName?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   SubmitTimeBefore?: Date;
   SubmitTimeAfter?: Date;
 }
 export const TargetedSentimentDetectionJobFilter = S.suspend(() =>
   S.Struct({
     JobName: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     SubmitTimeBefore: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1403,14 +1659,14 @@ export const TargetedSentimentDetectionJobFilter = S.suspend(() =>
 }) as any as S.Schema<TargetedSentimentDetectionJobFilter>;
 export interface TopicsDetectionJobFilter {
   JobName?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   SubmitTimeBefore?: Date;
   SubmitTimeAfter?: Date;
 }
 export const TopicsDetectionJobFilter = S.suspend(() =>
   S.Struct({
     JobName: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     SubmitTimeBefore: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1422,14 +1678,14 @@ export const TopicsDetectionJobFilter = S.suspend(() =>
   identifier: "TopicsDetectionJobFilter",
 }) as any as S.Schema<TopicsDetectionJobFilter>;
 export interface RedactionConfig {
-  PiiEntityTypes?: ListOfPiiEntityTypes;
-  MaskMode?: string;
+  PiiEntityTypes?: PiiEntityType[];
+  MaskMode?: PiiEntitiesDetectionMaskMode;
   MaskCharacter?: string;
 }
 export const RedactionConfig = S.suspend(() =>
   S.Struct({
     PiiEntityTypes: S.optional(ListOfPiiEntityTypes),
-    MaskMode: S.optional(S.String),
+    MaskMode: S.optional(PiiEntitiesDetectionMaskMode),
     MaskCharacter: S.optional(S.String),
   }),
 ).annotations({
@@ -1452,7 +1708,7 @@ export const UpdateDataSecurityConfig = S.suspend(() =>
 export type LabelsList = string[];
 export const LabelsList = S.Array(S.String);
 export interface ClassifyDocumentRequest {
-  Text?: string | Redacted.Redacted<string>;
+  Text?: string | redacted.Redacted<string>;
   EndpointArn: string;
   Bytes?: Uint8Array;
   DocumentReaderConfig?: DocumentReaderConfig;
@@ -1500,11 +1756,14 @@ export const DescribeResourcePolicyResponse = S.suspend(() =>
   identifier: "DescribeResourcePolicyResponse",
 }) as any as S.Schema<DescribeResourcePolicyResponse>;
 export interface DetectToxicContentRequest {
-  TextSegments: ListOfTextSegments;
-  LanguageCode: string;
+  TextSegments: TextSegment[];
+  LanguageCode: LanguageCode;
 }
 export const DetectToxicContentRequest = S.suspend(() =>
-  S.Struct({ TextSegments: ListOfTextSegments, LanguageCode: S.String }).pipe(
+  S.Struct({
+    TextSegments: ListOfTextSegments,
+    LanguageCode: LanguageCode,
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -1732,7 +1991,7 @@ export const ListSentimentDetectionJobsRequest = S.suspend(() =>
 }) as any as S.Schema<ListSentimentDetectionJobsRequest>;
 export interface ListTagsForResourceResponse {
   ResourceArn?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ ResourceArn: S.optional(S.String), Tags: S.optional(TagList) }),
@@ -1788,7 +2047,7 @@ export interface StartDocumentClassificationJobRequest {
   ClientRequestToken?: string;
   VolumeKmsKeyId?: string;
   VpcConfig?: VpcConfig;
-  Tags?: TagList;
+  Tags?: Tag[];
   FlywheelArn?: string;
 }
 export const StartDocumentClassificationJobRequest = S.suspend(() =>
@@ -1812,13 +2071,13 @@ export const StartDocumentClassificationJobRequest = S.suspend(() =>
 export interface StartDominantLanguageDetectionJobResponse {
   JobId?: string;
   JobArn?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
 }
 export const StartDominantLanguageDetectionJobResponse = S.suspend(() =>
   S.Struct({
     JobId: S.optional(S.String),
     JobArn: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
   }),
 ).annotations({
   identifier: "StartDominantLanguageDetectionJobResponse",
@@ -1826,14 +2085,14 @@ export const StartDominantLanguageDetectionJobResponse = S.suspend(() =>
 export interface StartEntitiesDetectionJobResponse {
   JobId?: string;
   JobArn?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   EntityRecognizerArn?: string;
 }
 export const StartEntitiesDetectionJobResponse = S.suspend(() =>
   S.Struct({
     JobId: S.optional(S.String),
     JobArn: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     EntityRecognizerArn: S.optional(S.String),
   }),
 ).annotations({
@@ -1842,13 +2101,13 @@ export const StartEntitiesDetectionJobResponse = S.suspend(() =>
 export interface StartEventsDetectionJobResponse {
   JobId?: string;
   JobArn?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
 }
 export const StartEventsDetectionJobResponse = S.suspend(() =>
   S.Struct({
     JobId: S.optional(S.String),
     JobArn: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
   }),
 ).annotations({
   identifier: "StartEventsDetectionJobResponse",
@@ -1868,13 +2127,13 @@ export const StartFlywheelIterationResponse = S.suspend(() =>
 export interface StartKeyPhrasesDetectionJobResponse {
   JobId?: string;
   JobArn?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
 }
 export const StartKeyPhrasesDetectionJobResponse = S.suspend(() =>
   S.Struct({
     JobId: S.optional(S.String),
     JobArn: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
   }),
 ).annotations({
   identifier: "StartKeyPhrasesDetectionJobResponse",
@@ -1882,23 +2141,23 @@ export const StartKeyPhrasesDetectionJobResponse = S.suspend(() =>
 export interface StartPiiEntitiesDetectionJobRequest {
   InputDataConfig: InputDataConfig;
   OutputDataConfig: OutputDataConfig;
-  Mode: string;
+  Mode: PiiEntitiesDetectionMode;
   RedactionConfig?: RedactionConfig;
   DataAccessRoleArn: string;
   JobName?: string;
-  LanguageCode: string;
+  LanguageCode: LanguageCode;
   ClientRequestToken?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const StartPiiEntitiesDetectionJobRequest = S.suspend(() =>
   S.Struct({
     InputDataConfig: InputDataConfig,
     OutputDataConfig: OutputDataConfig,
-    Mode: S.String,
+    Mode: PiiEntitiesDetectionMode,
     RedactionConfig: S.optional(RedactionConfig),
     DataAccessRoleArn: S.String,
     JobName: S.optional(S.String),
-    LanguageCode: S.String,
+    LanguageCode: LanguageCode,
     ClientRequestToken: S.optional(S.String),
     Tags: S.optional(TagList),
   }).pipe(
@@ -1910,13 +2169,13 @@ export const StartPiiEntitiesDetectionJobRequest = S.suspend(() =>
 export interface StartSentimentDetectionJobResponse {
   JobId?: string;
   JobArn?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
 }
 export const StartSentimentDetectionJobResponse = S.suspend(() =>
   S.Struct({
     JobId: S.optional(S.String),
     JobArn: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
   }),
 ).annotations({
   identifier: "StartSentimentDetectionJobResponse",
@@ -1924,13 +2183,13 @@ export const StartSentimentDetectionJobResponse = S.suspend(() =>
 export interface StartTargetedSentimentDetectionJobResponse {
   JobId?: string;
   JobArn?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
 }
 export const StartTargetedSentimentDetectionJobResponse = S.suspend(() =>
   S.Struct({
     JobId: S.optional(S.String),
     JobArn: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
   }),
 ).annotations({
   identifier: "StartTargetedSentimentDetectionJobResponse",
@@ -1938,77 +2197,77 @@ export const StartTargetedSentimentDetectionJobResponse = S.suspend(() =>
 export interface StartTopicsDetectionJobResponse {
   JobId?: string;
   JobArn?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
 }
 export const StartTopicsDetectionJobResponse = S.suspend(() =>
   S.Struct({
     JobId: S.optional(S.String),
     JobArn: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
   }),
 ).annotations({
   identifier: "StartTopicsDetectionJobResponse",
 }) as any as S.Schema<StartTopicsDetectionJobResponse>;
 export interface StopDominantLanguageDetectionJobResponse {
   JobId?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
 }
 export const StopDominantLanguageDetectionJobResponse = S.suspend(() =>
-  S.Struct({ JobId: S.optional(S.String), JobStatus: S.optional(S.String) }),
+  S.Struct({ JobId: S.optional(S.String), JobStatus: S.optional(JobStatus) }),
 ).annotations({
   identifier: "StopDominantLanguageDetectionJobResponse",
 }) as any as S.Schema<StopDominantLanguageDetectionJobResponse>;
 export interface StopEntitiesDetectionJobResponse {
   JobId?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
 }
 export const StopEntitiesDetectionJobResponse = S.suspend(() =>
-  S.Struct({ JobId: S.optional(S.String), JobStatus: S.optional(S.String) }),
+  S.Struct({ JobId: S.optional(S.String), JobStatus: S.optional(JobStatus) }),
 ).annotations({
   identifier: "StopEntitiesDetectionJobResponse",
 }) as any as S.Schema<StopEntitiesDetectionJobResponse>;
 export interface StopEventsDetectionJobResponse {
   JobId?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
 }
 export const StopEventsDetectionJobResponse = S.suspend(() =>
-  S.Struct({ JobId: S.optional(S.String), JobStatus: S.optional(S.String) }),
+  S.Struct({ JobId: S.optional(S.String), JobStatus: S.optional(JobStatus) }),
 ).annotations({
   identifier: "StopEventsDetectionJobResponse",
 }) as any as S.Schema<StopEventsDetectionJobResponse>;
 export interface StopKeyPhrasesDetectionJobResponse {
   JobId?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
 }
 export const StopKeyPhrasesDetectionJobResponse = S.suspend(() =>
-  S.Struct({ JobId: S.optional(S.String), JobStatus: S.optional(S.String) }),
+  S.Struct({ JobId: S.optional(S.String), JobStatus: S.optional(JobStatus) }),
 ).annotations({
   identifier: "StopKeyPhrasesDetectionJobResponse",
 }) as any as S.Schema<StopKeyPhrasesDetectionJobResponse>;
 export interface StopPiiEntitiesDetectionJobResponse {
   JobId?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
 }
 export const StopPiiEntitiesDetectionJobResponse = S.suspend(() =>
-  S.Struct({ JobId: S.optional(S.String), JobStatus: S.optional(S.String) }),
+  S.Struct({ JobId: S.optional(S.String), JobStatus: S.optional(JobStatus) }),
 ).annotations({
   identifier: "StopPiiEntitiesDetectionJobResponse",
 }) as any as S.Schema<StopPiiEntitiesDetectionJobResponse>;
 export interface StopSentimentDetectionJobResponse {
   JobId?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
 }
 export const StopSentimentDetectionJobResponse = S.suspend(() =>
-  S.Struct({ JobId: S.optional(S.String), JobStatus: S.optional(S.String) }),
+  S.Struct({ JobId: S.optional(S.String), JobStatus: S.optional(JobStatus) }),
 ).annotations({
   identifier: "StopSentimentDetectionJobResponse",
 }) as any as S.Schema<StopSentimentDetectionJobResponse>;
 export interface StopTargetedSentimentDetectionJobResponse {
   JobId?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
 }
 export const StopTargetedSentimentDetectionJobResponse = S.suspend(() =>
-  S.Struct({ JobId: S.optional(S.String), JobStatus: S.optional(S.String) }),
+  S.Struct({ JobId: S.optional(S.String), JobStatus: S.optional(JobStatus) }),
 ).annotations({
   identifier: "StopTargetedSentimentDetectionJobResponse",
 }) as any as S.Schema<StopTargetedSentimentDetectionJobResponse>;
@@ -2039,11 +2298,11 @@ export const UpdateFlywheelRequest = S.suspend(() =>
   identifier: "UpdateFlywheelRequest",
 }) as any as S.Schema<UpdateFlywheelRequest>;
 export interface DatasetAugmentedManifestsListItem {
-  AttributeNames: AttributeNamesList;
+  AttributeNames: string[];
   S3Uri: string;
   AnnotationDataS3Uri?: string;
   SourceDocumentsS3Uri?: string;
-  DocumentType?: string;
+  DocumentType?: AugmentedManifestsDocumentTypeFormat;
 }
 export const DatasetAugmentedManifestsListItem = S.suspend(() =>
   S.Struct({
@@ -2051,7 +2310,7 @@ export const DatasetAugmentedManifestsListItem = S.suspend(() =>
     S3Uri: S.String,
     AnnotationDataS3Uri: S.optional(S.String),
     SourceDocumentsS3Uri: S.optional(S.String),
-    DocumentType: S.optional(S.String),
+    DocumentType: S.optional(AugmentedManifestsDocumentTypeFormat),
   }),
 ).annotations({
   identifier: "DatasetAugmentedManifestsListItem",
@@ -2096,13 +2355,13 @@ export const EntityTypesList = S.Array(EntityTypesListItem);
 export interface EntityRecognizerDocuments {
   S3Uri: string;
   TestS3Uri?: string;
-  InputFormat?: string;
+  InputFormat?: InputFormat;
 }
 export const EntityRecognizerDocuments = S.suspend(() =>
   S.Struct({
     S3Uri: S.String,
     TestS3Uri: S.optional(S.String),
-    InputFormat: S.optional(S.String),
+    InputFormat: S.optional(InputFormat),
   }),
 ).annotations({
   identifier: "EntityRecognizerDocuments",
@@ -2125,22 +2384,90 @@ export const EntityRecognizerEntityList = S.suspend(() =>
   identifier: "EntityRecognizerEntityList",
 }) as any as S.Schema<EntityRecognizerEntityList>;
 export interface DocumentClassificationConfig {
-  Mode: string;
-  Labels?: LabelsList;
+  Mode: DocumentClassifierMode;
+  Labels?: string[];
 }
 export const DocumentClassificationConfig = S.suspend(() =>
-  S.Struct({ Mode: S.String, Labels: S.optional(LabelsList) }),
+  S.Struct({ Mode: DocumentClassifierMode, Labels: S.optional(LabelsList) }),
 ).annotations({
   identifier: "DocumentClassificationConfig",
 }) as any as S.Schema<DocumentClassificationConfig>;
 export interface EntityRecognitionConfig {
-  EntityTypes: EntityTypesList;
+  EntityTypes: EntityTypesListItem[];
 }
 export const EntityRecognitionConfig = S.suspend(() =>
   S.Struct({ EntityTypes: EntityTypesList }),
 ).annotations({
   identifier: "EntityRecognitionConfig",
 }) as any as S.Schema<EntityRecognitionConfig>;
+export type FlywheelIterationStatus =
+  | "TRAINING"
+  | "EVALUATING"
+  | "COMPLETED"
+  | "FAILED"
+  | "STOP_REQUESTED"
+  | "STOPPED";
+export const FlywheelIterationStatus = S.Literal(
+  "TRAINING",
+  "EVALUATING",
+  "COMPLETED",
+  "FAILED",
+  "STOP_REQUESTED",
+  "STOPPED",
+);
+export type EntityType =
+  | "PERSON"
+  | "LOCATION"
+  | "ORGANIZATION"
+  | "COMMERCIAL_ITEM"
+  | "EVENT"
+  | "DATE"
+  | "QUANTITY"
+  | "TITLE"
+  | "OTHER";
+export const EntityType = S.Literal(
+  "PERSON",
+  "LOCATION",
+  "ORGANIZATION",
+  "COMMERCIAL_ITEM",
+  "EVENT",
+  "DATE",
+  "QUANTITY",
+  "TITLE",
+  "OTHER",
+);
+export type DocumentType =
+  | "NATIVE_PDF"
+  | "SCANNED_PDF"
+  | "MS_WORD"
+  | "IMAGE"
+  | "PLAIN_TEXT"
+  | "TEXTRACT_DETECT_DOCUMENT_TEXT_JSON"
+  | "TEXTRACT_ANALYZE_DOCUMENT_JSON";
+export const DocumentType = S.Literal(
+  "NATIVE_PDF",
+  "SCANNED_PDF",
+  "MS_WORD",
+  "IMAGE",
+  "PLAIN_TEXT",
+  "TEXTRACT_DETECT_DOCUMENT_TEXT_JSON",
+  "TEXTRACT_ANALYZE_DOCUMENT_JSON",
+);
+export type BlockType = "LINE" | "WORD";
+export const BlockType = S.Literal("LINE", "WORD");
+export type PageBasedErrorCode =
+  | "TEXTRACT_BAD_PAGE"
+  | "TEXTRACT_PROVISIONED_THROUGHPUT_EXCEEDED"
+  | "PAGE_CHARACTERS_EXCEEDED"
+  | "PAGE_SIZE_EXCEEDED"
+  | "INTERNAL_SERVER_ERROR";
+export const PageBasedErrorCode = S.Literal(
+  "TEXTRACT_BAD_PAGE",
+  "TEXTRACT_PROVISIONED_THROUGHPUT_EXCEEDED",
+  "PAGE_CHARACTERS_EXCEEDED",
+  "PAGE_SIZE_EXCEEDED",
+  "INTERNAL_SERVER_ERROR",
+);
 export type ListOfDescriptiveMentionIndices = number[];
 export const ListOfDescriptiveMentionIndices = S.Array(S.Number);
 export interface DominantLanguage {
@@ -2156,7 +2483,7 @@ export type ListOfDominantLanguages = DominantLanguage[];
 export const ListOfDominantLanguages = S.Array(DominantLanguage);
 export interface BatchDetectDominantLanguageItemResult {
   Index?: number;
-  Languages?: ListOfDominantLanguages;
+  Languages?: DominantLanguage[];
 }
 export const BatchDetectDominantLanguageItemResult = S.suspend(() =>
   S.Struct({
@@ -2205,7 +2532,7 @@ export interface BlockReference {
   BlockId?: string;
   BeginOffset?: number;
   EndOffset?: number;
-  ChildBlocks?: ListOfChildBlocks;
+  ChildBlocks?: ChildBlock[];
 }
 export const BlockReference = S.suspend(() =>
   S.Struct({
@@ -2221,16 +2548,16 @@ export type ListOfBlockReferences = BlockReference[];
 export const ListOfBlockReferences = S.Array(BlockReference);
 export interface Entity {
   Score?: number;
-  Type?: string;
+  Type?: EntityType;
   Text?: string;
   BeginOffset?: number;
   EndOffset?: number;
-  BlockReferences?: ListOfBlockReferences;
+  BlockReferences?: BlockReference[];
 }
 export const Entity = S.suspend(() =>
   S.Struct({
     Score: S.optional(S.Number),
-    Type: S.optional(S.String),
+    Type: S.optional(EntityType),
     Text: S.optional(S.String),
     BeginOffset: S.optional(S.Number),
     EndOffset: S.optional(S.Number),
@@ -2241,7 +2568,7 @@ export type ListOfEntities = Entity[];
 export const ListOfEntities = S.Array(Entity);
 export interface BatchDetectEntitiesItemResult {
   Index?: number;
-  Entities?: ListOfEntities;
+  Entities?: Entity[];
 }
 export const BatchDetectEntitiesItemResult = S.suspend(() =>
   S.Struct({
@@ -2273,7 +2600,7 @@ export type ListOfKeyPhrases = KeyPhrase[];
 export const ListOfKeyPhrases = S.Array(KeyPhrase);
 export interface BatchDetectKeyPhrasesItemResult {
   Index?: number;
-  KeyPhrases?: ListOfKeyPhrases;
+  KeyPhrases?: KeyPhrase[];
 }
 export const BatchDetectKeyPhrasesItemResult = S.suspend(() =>
   S.Struct({
@@ -2305,13 +2632,13 @@ export const SentimentScore = S.suspend(() =>
 }) as any as S.Schema<SentimentScore>;
 export interface BatchDetectSentimentItemResult {
   Index?: number;
-  Sentiment?: string;
+  Sentiment?: SentimentType;
   SentimentScore?: SentimentScore;
 }
 export const BatchDetectSentimentItemResult = S.suspend(() =>
   S.Struct({
     Index: S.optional(S.Number),
-    Sentiment: S.optional(S.String),
+    Sentiment: S.optional(SentimentType),
     SentimentScore: S.optional(SentimentScore),
   }),
 ).annotations({
@@ -2321,12 +2648,54 @@ export type ListOfDetectSentimentResult = BatchDetectSentimentItemResult[];
 export const ListOfDetectSentimentResult = S.Array(
   BatchDetectSentimentItemResult,
 );
+export type PartOfSpeechTagType =
+  | "ADJ"
+  | "ADP"
+  | "ADV"
+  | "AUX"
+  | "CONJ"
+  | "CCONJ"
+  | "DET"
+  | "INTJ"
+  | "NOUN"
+  | "NUM"
+  | "O"
+  | "PART"
+  | "PRON"
+  | "PROPN"
+  | "PUNCT"
+  | "SCONJ"
+  | "SYM"
+  | "VERB";
+export const PartOfSpeechTagType = S.Literal(
+  "ADJ",
+  "ADP",
+  "ADV",
+  "AUX",
+  "CONJ",
+  "CCONJ",
+  "DET",
+  "INTJ",
+  "NOUN",
+  "NUM",
+  "O",
+  "PART",
+  "PRON",
+  "PROPN",
+  "PUNCT",
+  "SCONJ",
+  "SYM",
+  "VERB",
+);
 export interface PartOfSpeechTag {
-  Tag?: string;
+  Tag?: PartOfSpeechTagType;
   Score?: number;
 }
 export const PartOfSpeechTag = S.suspend(() =>
-  S.Struct({ Tag: S.optional(S.String), Score: S.optional(S.Number) }),
+  S.Struct({
+    Tag: S.optional(PartOfSpeechTagType),
+    Score: S.optional(S.Number),
+  }),
 ).annotations({
   identifier: "PartOfSpeechTag",
 }) as any as S.Schema<PartOfSpeechTag>;
@@ -2350,7 +2719,7 @@ export type ListOfSyntaxTokens = SyntaxToken[];
 export const ListOfSyntaxTokens = S.Array(SyntaxToken);
 export interface BatchDetectSyntaxItemResult {
   Index?: number;
-  SyntaxTokens?: ListOfSyntaxTokens;
+  SyntaxTokens?: SyntaxToken[];
 }
 export const BatchDetectSyntaxItemResult = S.suspend(() =>
   S.Struct({
@@ -2362,13 +2731,50 @@ export const BatchDetectSyntaxItemResult = S.suspend(() =>
 }) as any as S.Schema<BatchDetectSyntaxItemResult>;
 export type ListOfDetectSyntaxResult = BatchDetectSyntaxItemResult[];
 export const ListOfDetectSyntaxResult = S.Array(BatchDetectSyntaxItemResult);
+export type TargetedSentimentEntityType =
+  | "PERSON"
+  | "LOCATION"
+  | "ORGANIZATION"
+  | "FACILITY"
+  | "BRAND"
+  | "COMMERCIAL_ITEM"
+  | "MOVIE"
+  | "MUSIC"
+  | "BOOK"
+  | "SOFTWARE"
+  | "GAME"
+  | "PERSONAL_TITLE"
+  | "EVENT"
+  | "DATE"
+  | "QUANTITY"
+  | "ATTRIBUTE"
+  | "OTHER";
+export const TargetedSentimentEntityType = S.Literal(
+  "PERSON",
+  "LOCATION",
+  "ORGANIZATION",
+  "FACILITY",
+  "BRAND",
+  "COMMERCIAL_ITEM",
+  "MOVIE",
+  "MUSIC",
+  "BOOK",
+  "SOFTWARE",
+  "GAME",
+  "PERSONAL_TITLE",
+  "EVENT",
+  "DATE",
+  "QUANTITY",
+  "ATTRIBUTE",
+  "OTHER",
+);
 export interface MentionSentiment {
-  Sentiment?: string;
+  Sentiment?: SentimentType;
   SentimentScore?: SentimentScore;
 }
 export const MentionSentiment = S.suspend(() =>
   S.Struct({
-    Sentiment: S.optional(S.String),
+    Sentiment: S.optional(SentimentType),
     SentimentScore: S.optional(SentimentScore),
   }),
 ).annotations({
@@ -2378,7 +2784,7 @@ export interface TargetedSentimentMention {
   Score?: number;
   GroupScore?: number;
   Text?: string;
-  Type?: string;
+  Type?: TargetedSentimentEntityType;
   MentionSentiment?: MentionSentiment;
   BeginOffset?: number;
   EndOffset?: number;
@@ -2388,7 +2794,7 @@ export const TargetedSentimentMention = S.suspend(() =>
     Score: S.optional(S.Number),
     GroupScore: S.optional(S.Number),
     Text: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(TargetedSentimentEntityType),
     MentionSentiment: S.optional(MentionSentiment),
     BeginOffset: S.optional(S.Number),
     EndOffset: S.optional(S.Number),
@@ -2399,8 +2805,8 @@ export const TargetedSentimentMention = S.suspend(() =>
 export type ListOfMentions = TargetedSentimentMention[];
 export const ListOfMentions = S.Array(TargetedSentimentMention);
 export interface TargetedSentimentEntity {
-  DescriptiveMentionIndex?: ListOfDescriptiveMentionIndices;
-  Mentions?: ListOfMentions;
+  DescriptiveMentionIndex?: number[];
+  Mentions?: TargetedSentimentMention[];
 }
 export const TargetedSentimentEntity = S.suspend(() =>
   S.Struct({
@@ -2414,7 +2820,7 @@ export type ListOfTargetedSentimentEntities = TargetedSentimentEntity[];
 export const ListOfTargetedSentimentEntities = S.Array(TargetedSentimentEntity);
 export interface BatchDetectTargetedSentimentItemResult {
   Index?: number;
-  Entities?: ListOfTargetedSentimentEntities;
+  Entities?: TargetedSentimentEntity[];
 }
 export const BatchDetectTargetedSentimentItemResult = S.suspend(() =>
   S.Struct({
@@ -2430,32 +2836,32 @@ export const ListOfDetectTargetedSentimentResult = S.Array(
   BatchDetectTargetedSentimentItemResult,
 );
 export interface EntityLabel {
-  Name?: string;
+  Name?: PiiEntityType;
   Score?: number;
 }
 export const EntityLabel = S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Score: S.optional(S.Number) }),
+  S.Struct({ Name: S.optional(PiiEntityType), Score: S.optional(S.Number) }),
 ).annotations({ identifier: "EntityLabel" }) as any as S.Schema<EntityLabel>;
 export type ListOfEntityLabels = EntityLabel[];
 export const ListOfEntityLabels = S.Array(EntityLabel);
 export interface DocumentClassifierInputDataConfig {
-  DataFormat?: string;
+  DataFormat?: DocumentClassifierDataFormat;
   S3Uri?: string;
   TestS3Uri?: string;
   LabelDelimiter?: string;
-  AugmentedManifests?: DocumentClassifierAugmentedManifestsList;
-  DocumentType?: string;
+  AugmentedManifests?: AugmentedManifestsListItem[];
+  DocumentType?: DocumentClassifierDocumentTypeFormat;
   Documents?: DocumentClassifierDocuments;
   DocumentReaderConfig?: DocumentReaderConfig;
 }
 export const DocumentClassifierInputDataConfig = S.suspend(() =>
   S.Struct({
-    DataFormat: S.optional(S.String),
+    DataFormat: S.optional(DocumentClassifierDataFormat),
     S3Uri: S.optional(S.String),
     TestS3Uri: S.optional(S.String),
     LabelDelimiter: S.optional(S.String),
     AugmentedManifests: S.optional(DocumentClassifierAugmentedManifestsList),
-    DocumentType: S.optional(S.String),
+    DocumentType: S.optional(DocumentClassifierDocumentTypeFormat),
     Documents: S.optional(DocumentClassifierDocuments),
     DocumentReaderConfig: S.optional(DocumentReaderConfig),
   }),
@@ -2463,16 +2869,16 @@ export const DocumentClassifierInputDataConfig = S.suspend(() =>
   identifier: "DocumentClassifierInputDataConfig",
 }) as any as S.Schema<DocumentClassifierInputDataConfig>;
 export interface EntityRecognizerInputDataConfig {
-  DataFormat?: string;
-  EntityTypes: EntityTypesList;
+  DataFormat?: EntityRecognizerDataFormat;
+  EntityTypes: EntityTypesListItem[];
   Documents?: EntityRecognizerDocuments;
   Annotations?: EntityRecognizerAnnotations;
   EntityList?: EntityRecognizerEntityList;
-  AugmentedManifests?: EntityRecognizerAugmentedManifestsList;
+  AugmentedManifests?: AugmentedManifestsListItem[];
 }
 export const EntityRecognizerInputDataConfig = S.suspend(() =>
   S.Struct({
-    DataFormat: S.optional(S.String),
+    DataFormat: S.optional(EntityRecognizerDataFormat),
     EntityTypes: EntityTypesList,
     Documents: S.optional(EntityRecognizerDocuments),
     Annotations: S.optional(EntityRecognizerAnnotations),
@@ -2483,24 +2889,26 @@ export const EntityRecognizerInputDataConfig = S.suspend(() =>
   identifier: "EntityRecognizerInputDataConfig",
 }) as any as S.Schema<EntityRecognizerInputDataConfig>;
 export interface TaskConfig {
-  LanguageCode: string;
+  LanguageCode: LanguageCode;
   DocumentClassificationConfig?: DocumentClassificationConfig;
   EntityRecognitionConfig?: EntityRecognitionConfig;
 }
 export const TaskConfig = S.suspend(() =>
   S.Struct({
-    LanguageCode: S.String,
+    LanguageCode: LanguageCode,
     DocumentClassificationConfig: S.optional(DocumentClassificationConfig),
     EntityRecognitionConfig: S.optional(EntityRecognitionConfig),
   }),
 ).annotations({ identifier: "TaskConfig" }) as any as S.Schema<TaskConfig>;
+export type InvalidRequestReason = "INVALID_DOCUMENT";
+export const InvalidRequestReason = S.Literal("INVALID_DOCUMENT");
 export interface DatasetProperties {
   DatasetArn?: string;
   DatasetName?: string;
-  DatasetType?: string;
+  DatasetType?: DatasetType;
   DatasetS3Uri?: string;
   Description?: string;
-  Status?: string;
+  Status?: DatasetStatus;
   Message?: string;
   NumberOfDocuments?: number;
   CreationTime?: Date;
@@ -2510,10 +2918,10 @@ export const DatasetProperties = S.suspend(() =>
   S.Struct({
     DatasetArn: S.optional(S.String),
     DatasetName: S.optional(S.String),
-    DatasetType: S.optional(S.String),
+    DatasetType: S.optional(DatasetType),
     DatasetS3Uri: S.optional(S.String),
     Description: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(DatasetStatus),
     Message: S.optional(S.String),
     NumberOfDocuments: S.optional(S.Number),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2526,7 +2934,7 @@ export interface DocumentClassificationJobProperties {
   JobId?: string;
   JobArn?: string;
   JobName?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   Message?: string;
   SubmitTime?: Date;
   EndTime?: Date;
@@ -2543,7 +2951,7 @@ export const DocumentClassificationJobProperties = S.suspend(() =>
     JobId: S.optional(S.String),
     JobArn: S.optional(S.String),
     JobName: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     Message: S.optional(S.String),
     SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2562,7 +2970,7 @@ export interface DominantLanguageDetectionJobProperties {
   JobId?: string;
   JobArn?: string;
   JobName?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   Message?: string;
   SubmitTime?: Date;
   EndTime?: Date;
@@ -2577,7 +2985,7 @@ export const DominantLanguageDetectionJobProperties = S.suspend(() =>
     JobId: S.optional(S.String),
     JobArn: S.optional(S.String),
     JobName: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     Message: S.optional(S.String),
     SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2592,7 +3000,7 @@ export const DominantLanguageDetectionJobProperties = S.suspend(() =>
 }) as any as S.Schema<DominantLanguageDetectionJobProperties>;
 export interface EndpointProperties {
   EndpointArn?: string;
-  Status?: string;
+  Status?: EndpointStatus;
   Message?: string;
   ModelArn?: string;
   DesiredModelArn?: string;
@@ -2607,7 +3015,7 @@ export interface EndpointProperties {
 export const EndpointProperties = S.suspend(() =>
   S.Struct({
     EndpointArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(EndpointStatus),
     Message: S.optional(S.String),
     ModelArn: S.optional(S.String),
     DesiredModelArn: S.optional(S.String),
@@ -2628,14 +3036,14 @@ export interface EntitiesDetectionJobProperties {
   JobId?: string;
   JobArn?: string;
   JobName?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   Message?: string;
   SubmitTime?: Date;
   EndTime?: Date;
   EntityRecognizerArn?: string;
   InputDataConfig?: InputDataConfig;
   OutputDataConfig?: OutputDataConfig;
-  LanguageCode?: string;
+  LanguageCode?: LanguageCode;
   DataAccessRoleArn?: string;
   VolumeKmsKeyId?: string;
   VpcConfig?: VpcConfig;
@@ -2646,14 +3054,14 @@ export const EntitiesDetectionJobProperties = S.suspend(() =>
     JobId: S.optional(S.String),
     JobArn: S.optional(S.String),
     JobName: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     Message: S.optional(S.String),
     SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EntityRecognizerArn: S.optional(S.String),
     InputDataConfig: S.optional(InputDataConfig),
     OutputDataConfig: S.optional(OutputDataConfig),
-    LanguageCode: S.optional(S.String),
+    LanguageCode: S.optional(LanguageCode),
     DataAccessRoleArn: S.optional(S.String),
     VolumeKmsKeyId: S.optional(S.String),
     VpcConfig: S.optional(VpcConfig),
@@ -2666,28 +3074,28 @@ export interface EventsDetectionJobProperties {
   JobId?: string;
   JobArn?: string;
   JobName?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   Message?: string;
   SubmitTime?: Date;
   EndTime?: Date;
   InputDataConfig?: InputDataConfig;
   OutputDataConfig?: OutputDataConfig;
-  LanguageCode?: string;
+  LanguageCode?: LanguageCode;
   DataAccessRoleArn?: string;
-  TargetEventTypes?: TargetEventTypes;
+  TargetEventTypes?: string[];
 }
 export const EventsDetectionJobProperties = S.suspend(() =>
   S.Struct({
     JobId: S.optional(S.String),
     JobArn: S.optional(S.String),
     JobName: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     Message: S.optional(S.String),
     SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     InputDataConfig: S.optional(InputDataConfig),
     OutputDataConfig: S.optional(OutputDataConfig),
-    LanguageCode: S.optional(S.String),
+    LanguageCode: S.optional(LanguageCode),
     DataAccessRoleArn: S.optional(S.String),
     TargetEventTypes: S.optional(TargetEventTypes),
   }),
@@ -2701,8 +3109,8 @@ export interface FlywheelProperties {
   TaskConfig?: TaskConfig;
   DataLakeS3Uri?: string;
   DataSecurityConfig?: DataSecurityConfig;
-  Status?: string;
-  ModelType?: string;
+  Status?: FlywheelStatus;
+  ModelType?: ModelType;
   Message?: string;
   CreationTime?: Date;
   LastModifiedTime?: Date;
@@ -2716,8 +3124,8 @@ export const FlywheelProperties = S.suspend(() =>
     TaskConfig: S.optional(TaskConfig),
     DataLakeS3Uri: S.optional(S.String),
     DataSecurityConfig: S.optional(DataSecurityConfig),
-    Status: S.optional(S.String),
-    ModelType: S.optional(S.String),
+    Status: S.optional(FlywheelStatus),
+    ModelType: S.optional(ModelType),
     Message: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedTime: S.optional(
@@ -2732,13 +3140,13 @@ export interface KeyPhrasesDetectionJobProperties {
   JobId?: string;
   JobArn?: string;
   JobName?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   Message?: string;
   SubmitTime?: Date;
   EndTime?: Date;
   InputDataConfig?: InputDataConfig;
   OutputDataConfig?: OutputDataConfig;
-  LanguageCode?: string;
+  LanguageCode?: LanguageCode;
   DataAccessRoleArn?: string;
   VolumeKmsKeyId?: string;
   VpcConfig?: VpcConfig;
@@ -2748,13 +3156,13 @@ export const KeyPhrasesDetectionJobProperties = S.suspend(() =>
     JobId: S.optional(S.String),
     JobArn: S.optional(S.String),
     JobName: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     Message: S.optional(S.String),
     SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     InputDataConfig: S.optional(InputDataConfig),
     OutputDataConfig: S.optional(OutputDataConfig),
-    LanguageCode: S.optional(S.String),
+    LanguageCode: S.optional(LanguageCode),
     DataAccessRoleArn: S.optional(S.String),
     VolumeKmsKeyId: S.optional(S.String),
     VpcConfig: S.optional(VpcConfig),
@@ -2766,13 +3174,13 @@ export interface SentimentDetectionJobProperties {
   JobId?: string;
   JobArn?: string;
   JobName?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   Message?: string;
   SubmitTime?: Date;
   EndTime?: Date;
   InputDataConfig?: InputDataConfig;
   OutputDataConfig?: OutputDataConfig;
-  LanguageCode?: string;
+  LanguageCode?: LanguageCode;
   DataAccessRoleArn?: string;
   VolumeKmsKeyId?: string;
   VpcConfig?: VpcConfig;
@@ -2782,13 +3190,13 @@ export const SentimentDetectionJobProperties = S.suspend(() =>
     JobId: S.optional(S.String),
     JobArn: S.optional(S.String),
     JobName: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     Message: S.optional(S.String),
     SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     InputDataConfig: S.optional(InputDataConfig),
     OutputDataConfig: S.optional(OutputDataConfig),
-    LanguageCode: S.optional(S.String),
+    LanguageCode: S.optional(LanguageCode),
     DataAccessRoleArn: S.optional(S.String),
     VolumeKmsKeyId: S.optional(S.String),
     VpcConfig: S.optional(VpcConfig),
@@ -2800,13 +3208,13 @@ export interface TargetedSentimentDetectionJobProperties {
   JobId?: string;
   JobArn?: string;
   JobName?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   Message?: string;
   SubmitTime?: Date;
   EndTime?: Date;
   InputDataConfig?: InputDataConfig;
   OutputDataConfig?: OutputDataConfig;
-  LanguageCode?: string;
+  LanguageCode?: LanguageCode;
   DataAccessRoleArn?: string;
   VolumeKmsKeyId?: string;
   VpcConfig?: VpcConfig;
@@ -2816,13 +3224,13 @@ export const TargetedSentimentDetectionJobProperties = S.suspend(() =>
     JobId: S.optional(S.String),
     JobArn: S.optional(S.String),
     JobName: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     Message: S.optional(S.String),
     SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     InputDataConfig: S.optional(InputDataConfig),
     OutputDataConfig: S.optional(OutputDataConfig),
-    LanguageCode: S.optional(S.String),
+    LanguageCode: S.optional(LanguageCode),
     DataAccessRoleArn: S.optional(S.String),
     VolumeKmsKeyId: S.optional(S.String),
     VpcConfig: S.optional(VpcConfig),
@@ -2834,7 +3242,7 @@ export interface TopicsDetectionJobProperties {
   JobId?: string;
   JobArn?: string;
   JobName?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   Message?: string;
   SubmitTime?: Date;
   EndTime?: Date;
@@ -2850,7 +3258,7 @@ export const TopicsDetectionJobProperties = S.suspend(() =>
     JobId: S.optional(S.String),
     JobArn: S.optional(S.String),
     JobName: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     Message: S.optional(S.String),
     SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2866,10 +3274,10 @@ export const TopicsDetectionJobProperties = S.suspend(() =>
 }) as any as S.Schema<TopicsDetectionJobProperties>;
 export interface DocumentTypeListItem {
   Page?: number;
-  Type?: string;
+  Type?: DocumentType;
 }
 export const DocumentTypeListItem = S.suspend(() =>
-  S.Struct({ Page: S.optional(S.Number), Type: S.optional(S.String) }),
+  S.Struct({ Page: S.optional(S.Number), Type: S.optional(DocumentType) }),
 ).annotations({
   identifier: "DocumentTypeListItem",
 }) as any as S.Schema<DocumentTypeListItem>;
@@ -2877,13 +3285,13 @@ export type ListOfDocumentType = DocumentTypeListItem[];
 export const ListOfDocumentType = S.Array(DocumentTypeListItem);
 export interface ErrorsListItem {
   Page?: number;
-  ErrorCode?: string;
+  ErrorCode?: PageBasedErrorCode;
   ErrorMessage?: string;
 }
 export const ErrorsListItem = S.suspend(() =>
   S.Struct({
     Page: S.optional(S.Number),
-    ErrorCode: S.optional(S.String),
+    ErrorCode: S.optional(PageBasedErrorCode),
     ErrorMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -2893,14 +3301,14 @@ export type ListOfErrors = ErrorsListItem[];
 export const ListOfErrors = S.Array(ErrorsListItem);
 export interface PiiEntity {
   Score?: number;
-  Type?: string;
+  Type?: PiiEntityType;
   BeginOffset?: number;
   EndOffset?: number;
 }
 export const PiiEntity = S.suspend(() =>
   S.Struct({
     Score: S.optional(S.Number),
-    Type: S.optional(S.String),
+    Type: S.optional(PiiEntityType),
     BeginOffset: S.optional(S.Number),
     EndOffset: S.optional(S.Number),
   }),
@@ -2956,8 +3364,8 @@ export const ClassifierMetadata = S.suspend(() =>
 }) as any as S.Schema<ClassifierMetadata>;
 export interface DocumentClassifierProperties {
   DocumentClassifierArn?: string;
-  LanguageCode?: string;
-  Status?: string;
+  LanguageCode?: LanguageCode;
+  Status?: ModelStatus;
   Message?: string;
   SubmitTime?: Date;
   EndTime?: Date;
@@ -2969,7 +3377,7 @@ export interface DocumentClassifierProperties {
   DataAccessRoleArn?: string;
   VolumeKmsKeyId?: string;
   VpcConfig?: VpcConfig;
-  Mode?: string;
+  Mode?: DocumentClassifierMode;
   ModelKmsKeyId?: string;
   VersionName?: string;
   SourceModelArn?: string;
@@ -2978,8 +3386,8 @@ export interface DocumentClassifierProperties {
 export const DocumentClassifierProperties = S.suspend(() =>
   S.Struct({
     DocumentClassifierArn: S.optional(S.String),
-    LanguageCode: S.optional(S.String),
-    Status: S.optional(S.String),
+    LanguageCode: S.optional(LanguageCode),
+    Status: S.optional(ModelStatus),
     Message: S.optional(S.String),
     SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2995,7 +3403,7 @@ export const DocumentClassifierProperties = S.suspend(() =>
     DataAccessRoleArn: S.optional(S.String),
     VolumeKmsKeyId: S.optional(S.String),
     VpcConfig: S.optional(VpcConfig),
-    Mode: S.optional(S.String),
+    Mode: S.optional(DocumentClassifierMode),
     ModelKmsKeyId: S.optional(S.String),
     VersionName: S.optional(S.String),
     SourceModelArn: S.optional(S.String),
@@ -3013,7 +3421,7 @@ export interface DocumentClassifierSummary {
   NumberOfVersions?: number;
   LatestVersionCreatedAt?: Date;
   LatestVersionName?: string;
-  LatestVersionStatus?: string;
+  LatestVersionStatus?: ModelStatus;
 }
 export const DocumentClassifierSummary = S.suspend(() =>
   S.Struct({
@@ -3023,7 +3431,7 @@ export const DocumentClassifierSummary = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     LatestVersionName: S.optional(S.String),
-    LatestVersionStatus: S.optional(S.String),
+    LatestVersionStatus: S.optional(ModelStatus),
   }),
 ).annotations({
   identifier: "DocumentClassifierSummary",
@@ -3095,7 +3503,7 @@ export interface EntityRecognizerMetadata {
   NumberOfTrainedDocuments?: number;
   NumberOfTestDocuments?: number;
   EvaluationMetrics?: EntityRecognizerEvaluationMetrics;
-  EntityTypes?: EntityRecognizerMetadataEntityTypesList;
+  EntityTypes?: EntityRecognizerMetadataEntityTypesListItem[];
 }
 export const EntityRecognizerMetadata = S.suspend(() =>
   S.Struct({
@@ -3117,8 +3525,8 @@ export const EntityRecognizerOutputDataConfig = S.suspend(() =>
 }) as any as S.Schema<EntityRecognizerOutputDataConfig>;
 export interface EntityRecognizerProperties {
   EntityRecognizerArn?: string;
-  LanguageCode?: string;
-  Status?: string;
+  LanguageCode?: LanguageCode;
+  Status?: ModelStatus;
   Message?: string;
   SubmitTime?: Date;
   EndTime?: Date;
@@ -3138,8 +3546,8 @@ export interface EntityRecognizerProperties {
 export const EntityRecognizerProperties = S.suspend(() =>
   S.Struct({
     EntityRecognizerArn: S.optional(S.String),
-    LanguageCode: S.optional(S.String),
-    Status: S.optional(S.String),
+    LanguageCode: S.optional(LanguageCode),
+    Status: S.optional(ModelStatus),
     Message: S.optional(S.String),
     SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -3172,7 +3580,7 @@ export interface EntityRecognizerSummary {
   NumberOfVersions?: number;
   LatestVersionCreatedAt?: Date;
   LatestVersionName?: string;
-  LatestVersionStatus?: string;
+  LatestVersionStatus?: ModelStatus;
 }
 export const EntityRecognizerSummary = S.suspend(() =>
   S.Struct({
@@ -3182,7 +3590,7 @@ export const EntityRecognizerSummary = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     LatestVersionName: S.optional(S.String),
-    LatestVersionStatus: S.optional(S.String),
+    LatestVersionStatus: S.optional(ModelStatus),
   }),
 ).annotations({
   identifier: "EntityRecognizerSummary",
@@ -3214,7 +3622,7 @@ export interface FlywheelIterationProperties {
   FlywheelIterationId?: string;
   CreationTime?: Date;
   EndTime?: Date;
-  Status?: string;
+  Status?: FlywheelIterationStatus;
   Message?: string;
   EvaluatedModelArn?: string;
   EvaluatedModelMetrics?: FlywheelModelEvaluationMetrics;
@@ -3228,7 +3636,7 @@ export const FlywheelIterationProperties = S.suspend(() =>
     FlywheelIterationId: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
+    Status: S.optional(FlywheelIterationStatus),
     Message: S.optional(S.String),
     EvaluatedModelArn: S.optional(S.String),
     EvaluatedModelMetrics: S.optional(FlywheelModelEvaluationMetrics),
@@ -3261,32 +3669,32 @@ export interface PiiEntitiesDetectionJobProperties {
   JobId?: string;
   JobArn?: string;
   JobName?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   Message?: string;
   SubmitTime?: Date;
   EndTime?: Date;
   InputDataConfig?: InputDataConfig;
   OutputDataConfig?: PiiOutputDataConfig;
   RedactionConfig?: RedactionConfig;
-  LanguageCode?: string;
+  LanguageCode?: LanguageCode;
   DataAccessRoleArn?: string;
-  Mode?: string;
+  Mode?: PiiEntitiesDetectionMode;
 }
 export const PiiEntitiesDetectionJobProperties = S.suspend(() =>
   S.Struct({
     JobId: S.optional(S.String),
     JobArn: S.optional(S.String),
     JobName: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     Message: S.optional(S.String),
     SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     InputDataConfig: S.optional(InputDataConfig),
     OutputDataConfig: S.optional(PiiOutputDataConfig),
     RedactionConfig: S.optional(RedactionConfig),
-    LanguageCode: S.optional(S.String),
+    LanguageCode: S.optional(LanguageCode),
     DataAccessRoleArn: S.optional(S.String),
-    Mode: S.optional(S.String),
+    Mode: S.optional(PiiEntitiesDetectionMode),
   }),
 ).annotations({
   identifier: "PiiEntitiesDetectionJobProperties",
@@ -3320,10 +3728,10 @@ export const DatasetEntityRecognizerAnnotations = S.suspend(() =>
 }) as any as S.Schema<DatasetEntityRecognizerAnnotations>;
 export interface DatasetEntityRecognizerDocuments {
   S3Uri: string;
-  InputFormat?: string;
+  InputFormat?: InputFormat;
 }
 export const DatasetEntityRecognizerDocuments = S.suspend(() =>
-  S.Struct({ S3Uri: S.String, InputFormat: S.optional(S.String) }),
+  S.Struct({ S3Uri: S.String, InputFormat: S.optional(InputFormat) }),
 ).annotations({
   identifier: "DatasetEntityRecognizerDocuments",
 }) as any as S.Schema<DatasetEntityRecognizerDocuments>;
@@ -3337,9 +3745,11 @@ export const DatasetEntityRecognizerEntityList = S.suspend(() =>
 }) as any as S.Schema<DatasetEntityRecognizerEntityList>;
 export type StringList = string[];
 export const StringList = S.Array(S.String);
+export type RelationshipType = "CHILD";
+export const RelationshipType = S.Literal("CHILD");
 export interface BatchDetectDominantLanguageResponse {
-  ResultList: ListOfDetectDominantLanguageResult;
-  ErrorList: BatchItemErrorList;
+  ResultList: BatchDetectDominantLanguageItemResult[];
+  ErrorList: BatchItemError[];
 }
 export const BatchDetectDominantLanguageResponse = S.suspend(() =>
   S.Struct({
@@ -3350,8 +3760,8 @@ export const BatchDetectDominantLanguageResponse = S.suspend(() =>
   identifier: "BatchDetectDominantLanguageResponse",
 }) as any as S.Schema<BatchDetectDominantLanguageResponse>;
 export interface BatchDetectEntitiesResponse {
-  ResultList: ListOfDetectEntitiesResult;
-  ErrorList: BatchItemErrorList;
+  ResultList: BatchDetectEntitiesItemResult[];
+  ErrorList: BatchItemError[];
 }
 export const BatchDetectEntitiesResponse = S.suspend(() =>
   S.Struct({
@@ -3362,8 +3772,8 @@ export const BatchDetectEntitiesResponse = S.suspend(() =>
   identifier: "BatchDetectEntitiesResponse",
 }) as any as S.Schema<BatchDetectEntitiesResponse>;
 export interface BatchDetectKeyPhrasesResponse {
-  ResultList: ListOfDetectKeyPhrasesResult;
-  ErrorList: BatchItemErrorList;
+  ResultList: BatchDetectKeyPhrasesItemResult[];
+  ErrorList: BatchItemError[];
 }
 export const BatchDetectKeyPhrasesResponse = S.suspend(() =>
   S.Struct({
@@ -3374,8 +3784,8 @@ export const BatchDetectKeyPhrasesResponse = S.suspend(() =>
   identifier: "BatchDetectKeyPhrasesResponse",
 }) as any as S.Schema<BatchDetectKeyPhrasesResponse>;
 export interface BatchDetectSentimentResponse {
-  ResultList: ListOfDetectSentimentResult;
-  ErrorList: BatchItemErrorList;
+  ResultList: BatchDetectSentimentItemResult[];
+  ErrorList: BatchItemError[];
 }
 export const BatchDetectSentimentResponse = S.suspend(() =>
   S.Struct({
@@ -3386,8 +3796,8 @@ export const BatchDetectSentimentResponse = S.suspend(() =>
   identifier: "BatchDetectSentimentResponse",
 }) as any as S.Schema<BatchDetectSentimentResponse>;
 export interface BatchDetectSyntaxResponse {
-  ResultList: ListOfDetectSyntaxResult;
-  ErrorList: BatchItemErrorList;
+  ResultList: BatchDetectSyntaxItemResult[];
+  ErrorList: BatchItemError[];
 }
 export const BatchDetectSyntaxResponse = S.suspend(() =>
   S.Struct({
@@ -3398,8 +3808,8 @@ export const BatchDetectSyntaxResponse = S.suspend(() =>
   identifier: "BatchDetectSyntaxResponse",
 }) as any as S.Schema<BatchDetectSyntaxResponse>;
 export interface BatchDetectTargetedSentimentResponse {
-  ResultList: ListOfDetectTargetedSentimentResult;
-  ErrorList: BatchItemErrorList;
+  ResultList: BatchDetectTargetedSentimentItemResult[];
+  ErrorList: BatchItemError[];
 }
 export const BatchDetectTargetedSentimentResponse = S.suspend(() =>
   S.Struct({
@@ -3410,7 +3820,7 @@ export const BatchDetectTargetedSentimentResponse = S.suspend(() =>
   identifier: "BatchDetectTargetedSentimentResponse",
 }) as any as S.Schema<BatchDetectTargetedSentimentResponse>;
 export interface ContainsPiiEntitiesResponse {
-  Labels?: ListOfEntityLabels;
+  Labels?: EntityLabel[];
 }
 export const ContainsPiiEntitiesResponse = S.suspend(() =>
   S.Struct({ Labels: S.optional(ListOfEntityLabels) }),
@@ -3421,14 +3831,14 @@ export interface CreateDocumentClassifierRequest {
   DocumentClassifierName: string;
   VersionName?: string;
   DataAccessRoleArn: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   InputDataConfig: DocumentClassifierInputDataConfig;
   OutputDataConfig?: DocumentClassifierOutputDataConfig;
   ClientRequestToken?: string;
-  LanguageCode: string;
+  LanguageCode: LanguageCode;
   VolumeKmsKeyId?: string;
   VpcConfig?: VpcConfig;
-  Mode?: string;
+  Mode?: DocumentClassifierMode;
   ModelKmsKeyId?: string;
   ModelPolicy?: string;
 }
@@ -3441,10 +3851,10 @@ export const CreateDocumentClassifierRequest = S.suspend(() =>
     InputDataConfig: DocumentClassifierInputDataConfig,
     OutputDataConfig: S.optional(DocumentClassifierOutputDataConfig),
     ClientRequestToken: S.optional(S.String),
-    LanguageCode: S.String,
+    LanguageCode: LanguageCode,
     VolumeKmsKeyId: S.optional(S.String),
     VpcConfig: S.optional(VpcConfig),
-    Mode: S.optional(S.String),
+    Mode: S.optional(DocumentClassifierMode),
     ModelKmsKeyId: S.optional(S.String),
     ModelPolicy: S.optional(S.String),
   }).pipe(
@@ -3457,10 +3867,10 @@ export interface CreateEntityRecognizerRequest {
   RecognizerName: string;
   VersionName?: string;
   DataAccessRoleArn: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   InputDataConfig: EntityRecognizerInputDataConfig;
   ClientRequestToken?: string;
-  LanguageCode: string;
+  LanguageCode: LanguageCode;
   VolumeKmsKeyId?: string;
   VpcConfig?: VpcConfig;
   ModelKmsKeyId?: string;
@@ -3474,7 +3884,7 @@ export const CreateEntityRecognizerRequest = S.suspend(() =>
     Tags: S.optional(TagList),
     InputDataConfig: EntityRecognizerInputDataConfig,
     ClientRequestToken: S.optional(S.String),
-    LanguageCode: S.String,
+    LanguageCode: LanguageCode,
     VolumeKmsKeyId: S.optional(S.String),
     VpcConfig: S.optional(VpcConfig),
     ModelKmsKeyId: S.optional(S.String),
@@ -3490,11 +3900,11 @@ export interface CreateFlywheelRequest {
   ActiveModelArn?: string;
   DataAccessRoleArn: string;
   TaskConfig?: TaskConfig;
-  ModelType?: string;
+  ModelType?: ModelType;
   DataLakeS3Uri: string;
   DataSecurityConfig?: DataSecurityConfig;
   ClientRequestToken?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateFlywheelRequest = S.suspend(() =>
   S.Struct({
@@ -3502,7 +3912,7 @@ export const CreateFlywheelRequest = S.suspend(() =>
     ActiveModelArn: S.optional(S.String),
     DataAccessRoleArn: S.String,
     TaskConfig: S.optional(TaskConfig),
-    ModelType: S.optional(S.String),
+    ModelType: S.optional(ModelType),
     DataLakeS3Uri: S.String,
     DataSecurityConfig: S.optional(DataSecurityConfig),
     ClientRequestToken: S.optional(S.String),
@@ -3628,7 +4038,7 @@ export const DescribeTopicsDetectionJobResponse = S.suspend(() =>
   identifier: "DescribeTopicsDetectionJobResponse",
 }) as any as S.Schema<DescribeTopicsDetectionJobResponse>;
 export interface DetectDominantLanguageResponse {
-  Languages?: ListOfDominantLanguages;
+  Languages?: DominantLanguage[];
 }
 export const DetectDominantLanguageResponse = S.suspend(() =>
   S.Struct({ Languages: S.optional(ListOfDominantLanguages) }),
@@ -3636,7 +4046,7 @@ export const DetectDominantLanguageResponse = S.suspend(() =>
   identifier: "DetectDominantLanguageResponse",
 }) as any as S.Schema<DetectDominantLanguageResponse>;
 export interface DetectKeyPhrasesResponse {
-  KeyPhrases?: ListOfKeyPhrases;
+  KeyPhrases?: KeyPhrase[];
 }
 export const DetectKeyPhrasesResponse = S.suspend(() =>
   S.Struct({ KeyPhrases: S.optional(ListOfKeyPhrases) }),
@@ -3644,7 +4054,7 @@ export const DetectKeyPhrasesResponse = S.suspend(() =>
   identifier: "DetectKeyPhrasesResponse",
 }) as any as S.Schema<DetectKeyPhrasesResponse>;
 export interface DetectPiiEntitiesResponse {
-  Entities?: ListOfPiiEntities;
+  Entities?: PiiEntity[];
 }
 export const DetectPiiEntitiesResponse = S.suspend(() =>
   S.Struct({ Entities: S.optional(ListOfPiiEntities) }),
@@ -3652,19 +4062,19 @@ export const DetectPiiEntitiesResponse = S.suspend(() =>
   identifier: "DetectPiiEntitiesResponse",
 }) as any as S.Schema<DetectPiiEntitiesResponse>;
 export interface DetectSentimentResponse {
-  Sentiment?: string;
+  Sentiment?: SentimentType;
   SentimentScore?: SentimentScore;
 }
 export const DetectSentimentResponse = S.suspend(() =>
   S.Struct({
-    Sentiment: S.optional(S.String),
+    Sentiment: S.optional(SentimentType),
     SentimentScore: S.optional(SentimentScore),
   }),
 ).annotations({
   identifier: "DetectSentimentResponse",
 }) as any as S.Schema<DetectSentimentResponse>;
 export interface ListDatasetsResponse {
-  DatasetPropertiesList?: DatasetPropertiesList;
+  DatasetPropertiesList?: DatasetProperties[];
   NextToken?: string;
 }
 export const ListDatasetsResponse = S.suspend(() =>
@@ -3676,7 +4086,7 @@ export const ListDatasetsResponse = S.suspend(() =>
   identifier: "ListDatasetsResponse",
 }) as any as S.Schema<ListDatasetsResponse>;
 export interface ListDocumentClassificationJobsResponse {
-  DocumentClassificationJobPropertiesList?: DocumentClassificationJobPropertiesList;
+  DocumentClassificationJobPropertiesList?: DocumentClassificationJobProperties[];
   NextToken?: string;
 }
 export const ListDocumentClassificationJobsResponse = S.suspend(() =>
@@ -3690,7 +4100,7 @@ export const ListDocumentClassificationJobsResponse = S.suspend(() =>
   identifier: "ListDocumentClassificationJobsResponse",
 }) as any as S.Schema<ListDocumentClassificationJobsResponse>;
 export interface ListDocumentClassifiersResponse {
-  DocumentClassifierPropertiesList?: DocumentClassifierPropertiesList;
+  DocumentClassifierPropertiesList?: DocumentClassifierProperties[];
   NextToken?: string;
 }
 export const ListDocumentClassifiersResponse = S.suspend(() =>
@@ -3704,7 +4114,7 @@ export const ListDocumentClassifiersResponse = S.suspend(() =>
   identifier: "ListDocumentClassifiersResponse",
 }) as any as S.Schema<ListDocumentClassifiersResponse>;
 export interface ListDocumentClassifierSummariesResponse {
-  DocumentClassifierSummariesList?: DocumentClassifierSummariesList;
+  DocumentClassifierSummariesList?: DocumentClassifierSummary[];
   NextToken?: string;
 }
 export const ListDocumentClassifierSummariesResponse = S.suspend(() =>
@@ -3718,7 +4128,7 @@ export const ListDocumentClassifierSummariesResponse = S.suspend(() =>
   identifier: "ListDocumentClassifierSummariesResponse",
 }) as any as S.Schema<ListDocumentClassifierSummariesResponse>;
 export interface ListDominantLanguageDetectionJobsResponse {
-  DominantLanguageDetectionJobPropertiesList?: DominantLanguageDetectionJobPropertiesList;
+  DominantLanguageDetectionJobPropertiesList?: DominantLanguageDetectionJobProperties[];
   NextToken?: string;
 }
 export const ListDominantLanguageDetectionJobsResponse = S.suspend(() =>
@@ -3732,7 +4142,7 @@ export const ListDominantLanguageDetectionJobsResponse = S.suspend(() =>
   identifier: "ListDominantLanguageDetectionJobsResponse",
 }) as any as S.Schema<ListDominantLanguageDetectionJobsResponse>;
 export interface ListEndpointsResponse {
-  EndpointPropertiesList?: EndpointPropertiesList;
+  EndpointPropertiesList?: EndpointProperties[];
   NextToken?: string;
 }
 export const ListEndpointsResponse = S.suspend(() =>
@@ -3744,7 +4154,7 @@ export const ListEndpointsResponse = S.suspend(() =>
   identifier: "ListEndpointsResponse",
 }) as any as S.Schema<ListEndpointsResponse>;
 export interface ListEntitiesDetectionJobsResponse {
-  EntitiesDetectionJobPropertiesList?: EntitiesDetectionJobPropertiesList;
+  EntitiesDetectionJobPropertiesList?: EntitiesDetectionJobProperties[];
   NextToken?: string;
 }
 export const ListEntitiesDetectionJobsResponse = S.suspend(() =>
@@ -3758,7 +4168,7 @@ export const ListEntitiesDetectionJobsResponse = S.suspend(() =>
   identifier: "ListEntitiesDetectionJobsResponse",
 }) as any as S.Schema<ListEntitiesDetectionJobsResponse>;
 export interface ListEntityRecognizersResponse {
-  EntityRecognizerPropertiesList?: EntityRecognizerPropertiesList;
+  EntityRecognizerPropertiesList?: EntityRecognizerProperties[];
   NextToken?: string;
 }
 export const ListEntityRecognizersResponse = S.suspend(() =>
@@ -3770,7 +4180,7 @@ export const ListEntityRecognizersResponse = S.suspend(() =>
   identifier: "ListEntityRecognizersResponse",
 }) as any as S.Schema<ListEntityRecognizersResponse>;
 export interface ListEntityRecognizerSummariesResponse {
-  EntityRecognizerSummariesList?: EntityRecognizerSummariesList;
+  EntityRecognizerSummariesList?: EntityRecognizerSummary[];
   NextToken?: string;
 }
 export const ListEntityRecognizerSummariesResponse = S.suspend(() =>
@@ -3782,7 +4192,7 @@ export const ListEntityRecognizerSummariesResponse = S.suspend(() =>
   identifier: "ListEntityRecognizerSummariesResponse",
 }) as any as S.Schema<ListEntityRecognizerSummariesResponse>;
 export interface ListEventsDetectionJobsResponse {
-  EventsDetectionJobPropertiesList?: EventsDetectionJobPropertiesList;
+  EventsDetectionJobPropertiesList?: EventsDetectionJobProperties[];
   NextToken?: string;
 }
 export const ListEventsDetectionJobsResponse = S.suspend(() =>
@@ -3796,7 +4206,7 @@ export const ListEventsDetectionJobsResponse = S.suspend(() =>
   identifier: "ListEventsDetectionJobsResponse",
 }) as any as S.Schema<ListEventsDetectionJobsResponse>;
 export interface ListFlywheelIterationHistoryResponse {
-  FlywheelIterationPropertiesList?: FlywheelIterationPropertiesList;
+  FlywheelIterationPropertiesList?: FlywheelIterationProperties[];
   NextToken?: string;
 }
 export const ListFlywheelIterationHistoryResponse = S.suspend(() =>
@@ -3810,7 +4220,7 @@ export const ListFlywheelIterationHistoryResponse = S.suspend(() =>
   identifier: "ListFlywheelIterationHistoryResponse",
 }) as any as S.Schema<ListFlywheelIterationHistoryResponse>;
 export interface ListKeyPhrasesDetectionJobsResponse {
-  KeyPhrasesDetectionJobPropertiesList?: KeyPhrasesDetectionJobPropertiesList;
+  KeyPhrasesDetectionJobPropertiesList?: KeyPhrasesDetectionJobProperties[];
   NextToken?: string;
 }
 export const ListKeyPhrasesDetectionJobsResponse = S.suspend(() =>
@@ -3824,7 +4234,7 @@ export const ListKeyPhrasesDetectionJobsResponse = S.suspend(() =>
   identifier: "ListKeyPhrasesDetectionJobsResponse",
 }) as any as S.Schema<ListKeyPhrasesDetectionJobsResponse>;
 export interface ListPiiEntitiesDetectionJobsResponse {
-  PiiEntitiesDetectionJobPropertiesList?: PiiEntitiesDetectionJobPropertiesList;
+  PiiEntitiesDetectionJobPropertiesList?: PiiEntitiesDetectionJobProperties[];
   NextToken?: string;
 }
 export const ListPiiEntitiesDetectionJobsResponse = S.suspend(() =>
@@ -3838,7 +4248,7 @@ export const ListPiiEntitiesDetectionJobsResponse = S.suspend(() =>
   identifier: "ListPiiEntitiesDetectionJobsResponse",
 }) as any as S.Schema<ListPiiEntitiesDetectionJobsResponse>;
 export interface ListSentimentDetectionJobsResponse {
-  SentimentDetectionJobPropertiesList?: SentimentDetectionJobPropertiesList;
+  SentimentDetectionJobPropertiesList?: SentimentDetectionJobProperties[];
   NextToken?: string;
 }
 export const ListSentimentDetectionJobsResponse = S.suspend(() =>
@@ -3852,7 +4262,7 @@ export const ListSentimentDetectionJobsResponse = S.suspend(() =>
   identifier: "ListSentimentDetectionJobsResponse",
 }) as any as S.Schema<ListSentimentDetectionJobsResponse>;
 export interface ListTargetedSentimentDetectionJobsResponse {
-  TargetedSentimentDetectionJobPropertiesList?: TargetedSentimentDetectionJobPropertiesList;
+  TargetedSentimentDetectionJobPropertiesList?: TargetedSentimentDetectionJobProperties[];
   NextToken?: string;
 }
 export const ListTargetedSentimentDetectionJobsResponse = S.suspend(() =>
@@ -3866,7 +4276,7 @@ export const ListTargetedSentimentDetectionJobsResponse = S.suspend(() =>
   identifier: "ListTargetedSentimentDetectionJobsResponse",
 }) as any as S.Schema<ListTargetedSentimentDetectionJobsResponse>;
 export interface ListTopicsDetectionJobsResponse {
-  TopicsDetectionJobPropertiesList?: TopicsDetectionJobPropertiesList;
+  TopicsDetectionJobPropertiesList?: TopicsDetectionJobProperties[];
   NextToken?: string;
 }
 export const ListTopicsDetectionJobsResponse = S.suspend(() =>
@@ -3882,14 +4292,14 @@ export const ListTopicsDetectionJobsResponse = S.suspend(() =>
 export interface StartDocumentClassificationJobResponse {
   JobId?: string;
   JobArn?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
   DocumentClassifierArn?: string;
 }
 export const StartDocumentClassificationJobResponse = S.suspend(() =>
   S.Struct({
     JobId: S.optional(S.String),
     JobArn: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
     DocumentClassifierArn: S.optional(S.String),
   }),
 ).annotations({
@@ -3898,13 +4308,13 @@ export const StartDocumentClassificationJobResponse = S.suspend(() =>
 export interface StartPiiEntitiesDetectionJobResponse {
   JobId?: string;
   JobArn?: string;
-  JobStatus?: string;
+  JobStatus?: JobStatus;
 }
 export const StartPiiEntitiesDetectionJobResponse = S.suspend(() =>
   S.Struct({
     JobId: S.optional(S.String),
     JobArn: S.optional(S.String),
-    JobStatus: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
   }),
 ).annotations({
   identifier: "StartPiiEntitiesDetectionJobResponse",
@@ -3917,6 +4327,13 @@ export const UpdateFlywheelResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateFlywheelResponse",
 }) as any as S.Schema<UpdateFlywheelResponse>;
+export type PageBasedWarningCode =
+  | "INFERENCING_PLAINTEXT_WITH_NATIVE_TRAINED_MODEL"
+  | "INFERENCING_NATIVE_DOCUMENT_WITH_PLAINTEXT_TRAINED_MODEL";
+export const PageBasedWarningCode = S.Literal(
+  "INFERENCING_PLAINTEXT_WITH_NATIVE_TRAINED_MODEL",
+  "INFERENCING_NATIVE_DOCUMENT_WITH_PLAINTEXT_TRAINED_MODEL",
+);
 export interface DatasetEntityRecognizerInputDataConfig {
   Annotations?: DatasetEntityRecognizerAnnotations;
   Documents: DatasetEntityRecognizerDocuments;
@@ -3931,6 +4348,17 @@ export const DatasetEntityRecognizerInputDataConfig = S.suspend(() =>
 ).annotations({
   identifier: "DatasetEntityRecognizerInputDataConfig",
 }) as any as S.Schema<DatasetEntityRecognizerInputDataConfig>;
+export type InvalidRequestDetailReason =
+  | "DOCUMENT_SIZE_EXCEEDED"
+  | "UNSUPPORTED_DOC_TYPE"
+  | "PAGE_LIMIT_EXCEEDED"
+  | "TEXTRACT_ACCESS_DENIED";
+export const InvalidRequestDetailReason = S.Literal(
+  "DOCUMENT_SIZE_EXCEEDED",
+  "UNSUPPORTED_DOC_TYPE",
+  "PAGE_LIMIT_EXCEEDED",
+  "TEXTRACT_ACCESS_DENIED",
+);
 export interface ExtractedCharactersListItem {
   Page?: number;
   Count?: number;
@@ -3943,11 +4371,11 @@ export const ExtractedCharactersListItem = S.suspend(() =>
 export type ListOfExtractedCharacters = ExtractedCharactersListItem[];
 export const ListOfExtractedCharacters = S.Array(ExtractedCharactersListItem);
 export interface RelationshipsListItem {
-  Ids?: StringList;
-  Type?: string;
+  Ids?: string[];
+  Type?: RelationshipType;
 }
 export const RelationshipsListItem = S.suspend(() =>
-  S.Struct({ Ids: S.optional(StringList), Type: S.optional(S.String) }),
+  S.Struct({ Ids: S.optional(StringList), Type: S.optional(RelationshipType) }),
 ).annotations({
   identifier: "RelationshipsListItem",
 }) as any as S.Schema<RelationshipsListItem>;
@@ -3987,13 +4415,13 @@ export type ListOfLabels = DocumentLabel[];
 export const ListOfLabels = S.Array(DocumentLabel);
 export interface WarningsListItem {
   Page?: number;
-  WarnCode?: string;
+  WarnCode?: PageBasedWarningCode;
   WarnMessage?: string;
 }
 export const WarningsListItem = S.suspend(() =>
   S.Struct({
     Page: S.optional(S.Number),
-    WarnCode: S.optional(S.String),
+    WarnCode: S.optional(PageBasedWarningCode),
     WarnMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -4002,15 +4430,15 @@ export const WarningsListItem = S.suspend(() =>
 export type ListOfWarnings = WarningsListItem[];
 export const ListOfWarnings = S.Array(WarningsListItem);
 export interface DatasetInputDataConfig {
-  AugmentedManifests?: DatasetAugmentedManifestsList;
-  DataFormat?: string;
+  AugmentedManifests?: DatasetAugmentedManifestsListItem[];
+  DataFormat?: DatasetDataFormat;
   DocumentClassifierInputDataConfig?: DatasetDocumentClassifierInputDataConfig;
   EntityRecognizerInputDataConfig?: DatasetEntityRecognizerInputDataConfig;
 }
 export const DatasetInputDataConfig = S.suspend(() =>
   S.Struct({
     AugmentedManifests: S.optional(DatasetAugmentedManifestsList),
-    DataFormat: S.optional(S.String),
+    DataFormat: S.optional(DatasetDataFormat),
     DocumentClassifierInputDataConfig: S.optional(
       DatasetDocumentClassifierInputDataConfig,
     ),
@@ -4022,16 +4450,16 @@ export const DatasetInputDataConfig = S.suspend(() =>
   identifier: "DatasetInputDataConfig",
 }) as any as S.Schema<DatasetInputDataConfig>;
 export interface InvalidRequestDetail {
-  Reason?: string;
+  Reason?: InvalidRequestDetailReason;
 }
 export const InvalidRequestDetail = S.suspend(() =>
-  S.Struct({ Reason: S.optional(S.String) }),
+  S.Struct({ Reason: S.optional(InvalidRequestDetailReason) }),
 ).annotations({
   identifier: "InvalidRequestDetail",
 }) as any as S.Schema<InvalidRequestDetail>;
 export interface DocumentMetadata {
   Pages?: number;
-  ExtractedCharacters?: ListOfExtractedCharacters;
+  ExtractedCharacters?: ExtractedCharactersListItem[];
 }
 export const DocumentMetadata = S.suspend(() =>
   S.Struct({
@@ -4045,8 +4473,8 @@ export interface FlywheelSummary {
   FlywheelArn?: string;
   ActiveModelArn?: string;
   DataLakeS3Uri?: string;
-  Status?: string;
-  ModelType?: string;
+  Status?: FlywheelStatus;
+  ModelType?: ModelType;
   Message?: string;
   CreationTime?: Date;
   LastModifiedTime?: Date;
@@ -4057,8 +4485,8 @@ export const FlywheelSummary = S.suspend(() =>
     FlywheelArn: S.optional(S.String),
     ActiveModelArn: S.optional(S.String),
     DataLakeS3Uri: S.optional(S.String),
-    Status: S.optional(S.String),
-    ModelType: S.optional(S.String),
+    Status: S.optional(FlywheelStatus),
+    ModelType: S.optional(ModelType),
     Message: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedTime: S.optional(
@@ -4094,13 +4522,30 @@ export const Point = S.suspend(() =>
 ).annotations({ identifier: "Point" }) as any as S.Schema<Point>;
 export type Polygon = Point[];
 export const Polygon = S.Array(Point);
+export type ToxicContentType =
+  | "GRAPHIC"
+  | "HARASSMENT_OR_ABUSE"
+  | "HATE_SPEECH"
+  | "INSULT"
+  | "PROFANITY"
+  | "SEXUAL"
+  | "VIOLENCE_OR_THREAT";
+export const ToxicContentType = S.Literal(
+  "GRAPHIC",
+  "HARASSMENT_OR_ABUSE",
+  "HATE_SPEECH",
+  "INSULT",
+  "PROFANITY",
+  "SEXUAL",
+  "VIOLENCE_OR_THREAT",
+);
 export interface ClassifyDocumentResponse {
-  Classes?: ListOfClasses;
-  Labels?: ListOfLabels;
+  Classes?: DocumentClass[];
+  Labels?: DocumentLabel[];
   DocumentMetadata?: DocumentMetadata;
-  DocumentType?: ListOfDocumentType;
-  Errors?: ListOfErrors;
-  Warnings?: ListOfWarnings;
+  DocumentType?: DocumentTypeListItem[];
+  Errors?: ErrorsListItem[];
+  Warnings?: WarningsListItem[];
 }
 export const ClassifyDocumentResponse = S.suspend(() =>
   S.Struct({
@@ -4117,17 +4562,17 @@ export const ClassifyDocumentResponse = S.suspend(() =>
 export interface CreateDatasetRequest {
   FlywheelArn: string;
   DatasetName: string;
-  DatasetType?: string;
+  DatasetType?: DatasetType;
   Description?: string;
   InputDataConfig: DatasetInputDataConfig;
   ClientRequestToken?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateDatasetRequest = S.suspend(() =>
   S.Struct({
     FlywheelArn: S.String,
     DatasetName: S.String,
-    DatasetType: S.optional(S.String),
+    DatasetType: S.optional(DatasetType),
     Description: S.optional(S.String),
     InputDataConfig: DatasetInputDataConfig,
     ClientRequestToken: S.optional(S.String),
@@ -4189,7 +4634,7 @@ export const DescribePiiEntitiesDetectionJobResponse = S.suspend(() =>
   identifier: "DescribePiiEntitiesDetectionJobResponse",
 }) as any as S.Schema<DescribePiiEntitiesDetectionJobResponse>;
 export interface DetectSyntaxResponse {
-  SyntaxTokens?: ListOfSyntaxTokens;
+  SyntaxTokens?: SyntaxToken[];
 }
 export const DetectSyntaxResponse = S.suspend(() =>
   S.Struct({ SyntaxTokens: S.optional(ListOfSyntaxTokens) }),
@@ -4197,7 +4642,7 @@ export const DetectSyntaxResponse = S.suspend(() =>
   identifier: "DetectSyntaxResponse",
 }) as any as S.Schema<DetectSyntaxResponse>;
 export interface ListFlywheelsResponse {
-  FlywheelSummaryList?: FlywheelSummaryList;
+  FlywheelSummaryList?: FlywheelSummary[];
   NextToken?: string;
 }
 export const ListFlywheelsResponse = S.suspend(() =>
@@ -4210,7 +4655,7 @@ export const ListFlywheelsResponse = S.suspend(() =>
 }) as any as S.Schema<ListFlywheelsResponse>;
 export interface Geometry {
   BoundingBox?: BoundingBox;
-  Polygon?: Polygon;
+  Polygon?: Point[];
 }
 export const Geometry = S.suspend(() =>
   S.Struct({
@@ -4219,26 +4664,26 @@ export const Geometry = S.suspend(() =>
   }),
 ).annotations({ identifier: "Geometry" }) as any as S.Schema<Geometry>;
 export interface ToxicContent {
-  Name?: string;
+  Name?: ToxicContentType;
   Score?: number;
 }
 export const ToxicContent = S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Score: S.optional(S.Number) }),
+  S.Struct({ Name: S.optional(ToxicContentType), Score: S.optional(S.Number) }),
 ).annotations({ identifier: "ToxicContent" }) as any as S.Schema<ToxicContent>;
 export type ListOfToxicContent = ToxicContent[];
 export const ListOfToxicContent = S.Array(ToxicContent);
 export interface Block {
   Id?: string;
-  BlockType?: string;
+  BlockType?: BlockType;
   Text?: string;
   Page?: number;
   Geometry?: Geometry;
-  Relationships?: ListOfRelationships;
+  Relationships?: RelationshipsListItem[];
 }
 export const Block = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
-    BlockType: S.optional(S.String),
+    BlockType: S.optional(BlockType),
     Text: S.optional(S.String),
     Page: S.optional(S.Number),
     Geometry: S.optional(Geometry),
@@ -4248,7 +4693,7 @@ export const Block = S.suspend(() =>
 export type ListOfBlocks = Block[];
 export const ListOfBlocks = S.Array(Block);
 export interface ToxicLabels {
-  Labels?: ListOfToxicContent;
+  Labels?: ToxicContent[];
   Toxicity?: number;
 }
 export const ToxicLabels = S.suspend(() =>
@@ -4278,11 +4723,11 @@ export const DescribeDocumentClassifierResponse = S.suspend(() =>
   identifier: "DescribeDocumentClassifierResponse",
 }) as any as S.Schema<DescribeDocumentClassifierResponse>;
 export interface DetectEntitiesResponse {
-  Entities?: ListOfEntities;
+  Entities?: Entity[];
   DocumentMetadata?: DocumentMetadata;
-  DocumentType?: ListOfDocumentType;
-  Blocks?: ListOfBlocks;
-  Errors?: ListOfErrors;
+  DocumentType?: DocumentTypeListItem[];
+  Blocks?: Block[];
+  Errors?: ErrorsListItem[];
 }
 export const DetectEntitiesResponse = S.suspend(() =>
   S.Struct({
@@ -4296,7 +4741,7 @@ export const DetectEntitiesResponse = S.suspend(() =>
   identifier: "DetectEntitiesResponse",
 }) as any as S.Schema<DetectEntitiesResponse>;
 export interface DetectTargetedSentimentResponse {
-  Entities?: ListOfTargetedSentimentEntities;
+  Entities?: TargetedSentimentEntity[];
 }
 export const DetectTargetedSentimentResponse = S.suspend(() =>
   S.Struct({ Entities: S.optional(ListOfTargetedSentimentEntities) }),
@@ -4304,7 +4749,7 @@ export const DetectTargetedSentimentResponse = S.suspend(() =>
   identifier: "DetectTargetedSentimentResponse",
 }) as any as S.Schema<DetectTargetedSentimentResponse>;
 export interface DetectToxicContentResponse {
-  ResultList?: ListOfToxicLabels;
+  ResultList?: ToxicLabels[];
 }
 export const DetectToxicContentResponse = S.suspend(() =>
   S.Struct({ ResultList: S.optional(ListOfToxicLabels) }),
@@ -4339,7 +4784,7 @@ export class InvalidRequestException extends S.TaggedError<InvalidRequestExcepti
   "InvalidRequestException",
   {
     Message: S.optional(S.String),
-    Reason: S.optional(S.String),
+    Reason: S.optional(InvalidRequestReason),
     Detail: S.optional(InvalidRequestDetail),
   },
 ).pipe(C.withBadRequestError) {}
@@ -4399,7 +4844,7 @@ export class TooManyTagKeysException extends S.TaggedError<TooManyTagKeysExcepti
 export const listFlywheels: {
   (
     input: ListFlywheelsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFlywheelsResponse,
     | InternalServerException
     | InvalidFilterException
@@ -4410,7 +4855,7 @@ export const listFlywheels: {
   >;
   pages: (
     input: ListFlywheelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFlywheelsResponse,
     | InternalServerException
     | InvalidFilterException
@@ -4421,7 +4866,7 @@ export const listFlywheels: {
   >;
   items: (
     input: ListFlywheelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | InvalidFilterException
@@ -4470,7 +4915,7 @@ export const listFlywheels: {
  */
 export const classifyDocument: (
   input: ClassifyDocumentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ClassifyDocumentResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4495,7 +4940,7 @@ export const classifyDocument: (
  */
 export const startFlywheelIteration: (
   input: StartFlywheelIterationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartFlywheelIterationResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4522,7 +4967,7 @@ export const startFlywheelIteration: (
  */
 export const deleteEndpoint: (
   input: DeleteEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEndpointResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4555,7 +5000,7 @@ export const deleteEndpoint: (
  */
 export const deleteEntityRecognizer: (
   input: DeleteEntityRecognizerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEntityRecognizerResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4586,7 +5031,7 @@ export const deleteEntityRecognizer: (
  */
 export const deleteFlywheel: (
   input: DeleteFlywheelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFlywheelResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4615,7 +5060,7 @@ export const deleteFlywheel: (
 export const listDatasets: {
   (
     input: ListDatasetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDatasetsResponse,
     | InternalServerException
     | InvalidFilterException
@@ -4627,7 +5072,7 @@ export const listDatasets: {
   >;
   pages: (
     input: ListDatasetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDatasetsResponse,
     | InternalServerException
     | InvalidFilterException
@@ -4639,7 +5084,7 @@ export const listDatasets: {
   >;
   items: (
     input: ListDatasetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | InvalidFilterException
@@ -4671,7 +5116,7 @@ export const listDatasets: {
  */
 export const describeResourcePolicy: (
   input: DescribeResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeResourcePolicyResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4692,7 +5137,7 @@ export const describeResourcePolicy: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4715,7 +5160,7 @@ export const listTagsForResource: (
  */
 export const putResourcePolicy: (
   input: PutResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourcePolicyResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4736,7 +5181,7 @@ export const putResourcePolicy: (
  */
 export const deleteResourcePolicy: (
   input: DeleteResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourcePolicyResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4763,7 +5208,7 @@ export const deleteResourcePolicy: (
  */
 export const stopTrainingDocumentClassifier: (
   input: StopTrainingDocumentClassifierRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopTrainingDocumentClassifierResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4792,7 +5237,7 @@ export const stopTrainingDocumentClassifier: (
  */
 export const stopTrainingEntityRecognizer: (
   input: StopTrainingEntityRecognizerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopTrainingEntityRecognizerResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4817,7 +5262,7 @@ export const stopTrainingEntityRecognizer: (
  */
 export const describeDataset: (
   input: DescribeDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDatasetResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4842,7 +5287,7 @@ export const describeDataset: (
  */
 export const describeEndpoint: (
   input: DescribeEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEndpointResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4866,7 +5311,7 @@ export const describeEndpoint: (
  */
 export const describeFlywheel: (
   input: DescribeFlywheelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeFlywheelResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4892,7 +5337,7 @@ export const describeFlywheel: (
 export const listFlywheelIterationHistory: {
   (
     input: ListFlywheelIterationHistoryRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFlywheelIterationHistoryResponse,
     | InternalServerException
     | InvalidFilterException
@@ -4904,7 +5349,7 @@ export const listFlywheelIterationHistory: {
   >;
   pages: (
     input: ListFlywheelIterationHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFlywheelIterationHistoryResponse,
     | InternalServerException
     | InvalidFilterException
@@ -4916,7 +5361,7 @@ export const listFlywheelIterationHistory: {
   >;
   items: (
     input: ListFlywheelIterationHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | InvalidFilterException
@@ -4955,7 +5400,7 @@ export const listFlywheelIterationHistory: {
  */
 export const deleteDocumentClassifier: (
   input: DeleteDocumentClassifierRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDocumentClassifierResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4982,7 +5427,7 @@ export const deleteDocumentClassifier: (
  */
 export const describeDocumentClassifier: (
   input: DescribeDocumentClassifierRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDocumentClassifierResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5017,7 +5462,7 @@ export const describeDocumentClassifier: (
  */
 export const stopDominantLanguageDetectionJob: (
   input: StopDominantLanguageDetectionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopDominantLanguageDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5050,7 +5495,7 @@ export const stopDominantLanguageDetectionJob: (
  */
 export const stopEntitiesDetectionJob: (
   input: StopEntitiesDetectionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopEntitiesDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5071,7 +5516,7 @@ export const stopEntitiesDetectionJob: (
  */
 export const stopEventsDetectionJob: (
   input: StopEventsDetectionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopEventsDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5104,7 +5549,7 @@ export const stopEventsDetectionJob: (
  */
 export const stopKeyPhrasesDetectionJob: (
   input: StopKeyPhrasesDetectionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopKeyPhrasesDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5125,7 +5570,7 @@ export const stopKeyPhrasesDetectionJob: (
  */
 export const stopPiiEntitiesDetectionJob: (
   input: StopPiiEntitiesDetectionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopPiiEntitiesDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5158,7 +5603,7 @@ export const stopPiiEntitiesDetectionJob: (
  */
 export const stopSentimentDetectionJob: (
   input: StopSentimentDetectionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopSentimentDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5191,7 +5636,7 @@ export const stopSentimentDetectionJob: (
  */
 export const stopTargetedSentimentDetectionJob: (
   input: StopTargetedSentimentDetectionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopTargetedSentimentDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5213,7 +5658,7 @@ export const stopTargetedSentimentDetectionJob: (
  */
 export const describeDocumentClassificationJob: (
   input: DescribeDocumentClassificationJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDocumentClassificationJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5237,7 +5682,7 @@ export const describeDocumentClassificationJob: (
  */
 export const describeDominantLanguageDetectionJob: (
   input: DescribeDominantLanguageDetectionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDominantLanguageDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5261,7 +5706,7 @@ export const describeDominantLanguageDetectionJob: (
  */
 export const describeEntitiesDetectionJob: (
   input: DescribeEntitiesDetectionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEntitiesDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5284,7 +5729,7 @@ export const describeEntitiesDetectionJob: (
  */
 export const describeEventsDetectionJob: (
   input: DescribeEventsDetectionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEventsDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5308,7 +5753,7 @@ export const describeEventsDetectionJob: (
  */
 export const describeKeyPhrasesDetectionJob: (
   input: DescribeKeyPhrasesDetectionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeKeyPhrasesDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5332,7 +5777,7 @@ export const describeKeyPhrasesDetectionJob: (
  */
 export const describeSentimentDetectionJob: (
   input: DescribeSentimentDetectionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSentimentDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5356,7 +5801,7 @@ export const describeSentimentDetectionJob: (
  */
 export const describeTargetedSentimentDetectionJob: (
   input: DescribeTargetedSentimentDetectionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeTargetedSentimentDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5380,7 +5825,7 @@ export const describeTargetedSentimentDetectionJob: (
  */
 export const describeTopicsDetectionJob: (
   input: DescribeTopicsDetectionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeTopicsDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5404,7 +5849,7 @@ export const describeTopicsDetectionJob: (
  */
 export const detectDominantLanguage: (
   input: DetectDominantLanguageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetectDominantLanguageResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5426,7 +5871,7 @@ export const detectDominantLanguage: (
  */
 export const batchDetectDominantLanguage: (
   input: BatchDetectDominantLanguageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDetectDominantLanguageResponse,
   | BatchSizeLimitExceededException
   | InternalServerException
@@ -5450,7 +5895,7 @@ export const batchDetectDominantLanguage: (
 export const listDocumentClassifierSummaries: {
   (
     input: ListDocumentClassifierSummariesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDocumentClassifierSummariesResponse,
     | InternalServerException
     | InvalidRequestException
@@ -5460,7 +5905,7 @@ export const listDocumentClassifierSummaries: {
   >;
   pages: (
     input: ListDocumentClassifierSummariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDocumentClassifierSummariesResponse,
     | InternalServerException
     | InvalidRequestException
@@ -5470,7 +5915,7 @@ export const listDocumentClassifierSummaries: {
   >;
   items: (
     input: ListDocumentClassifierSummariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | InvalidRequestException
@@ -5499,7 +5944,7 @@ export const listDocumentClassifierSummaries: {
 export const listEndpoints: {
   (
     input: ListEndpointsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEndpointsResponse,
     | InternalServerException
     | InvalidRequestException
@@ -5509,7 +5954,7 @@ export const listEndpoints: {
   >;
   pages: (
     input: ListEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEndpointsResponse,
     | InternalServerException
     | InvalidRequestException
@@ -5519,7 +5964,7 @@ export const listEndpoints: {
   >;
   items: (
     input: ListEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EndpointProperties,
     | InternalServerException
     | InvalidRequestException
@@ -5548,7 +5993,7 @@ export const listEndpoints: {
 export const listEntityRecognizerSummaries: {
   (
     input: ListEntityRecognizerSummariesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEntityRecognizerSummariesResponse,
     | InternalServerException
     | InvalidRequestException
@@ -5558,7 +6003,7 @@ export const listEntityRecognizerSummaries: {
   >;
   pages: (
     input: ListEntityRecognizerSummariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEntityRecognizerSummariesResponse,
     | InternalServerException
     | InvalidRequestException
@@ -5568,7 +6013,7 @@ export const listEntityRecognizerSummaries: {
   >;
   items: (
     input: ListEntityRecognizerSummariesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | InvalidRequestException
@@ -5596,7 +6041,7 @@ export const listEntityRecognizerSummaries: {
 export const listDocumentClassificationJobs: {
   (
     input: ListDocumentClassificationJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDocumentClassificationJobsResponse,
     | InternalServerException
     | InvalidFilterException
@@ -5607,7 +6052,7 @@ export const listDocumentClassificationJobs: {
   >;
   pages: (
     input: ListDocumentClassificationJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDocumentClassificationJobsResponse,
     | InternalServerException
     | InvalidFilterException
@@ -5618,7 +6063,7 @@ export const listDocumentClassificationJobs: {
   >;
   items: (
     input: ListDocumentClassificationJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | InvalidFilterException
@@ -5648,7 +6093,7 @@ export const listDocumentClassificationJobs: {
 export const listDocumentClassifiers: {
   (
     input: ListDocumentClassifiersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDocumentClassifiersResponse,
     | InternalServerException
     | InvalidFilterException
@@ -5659,7 +6104,7 @@ export const listDocumentClassifiers: {
   >;
   pages: (
     input: ListDocumentClassifiersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDocumentClassifiersResponse,
     | InternalServerException
     | InvalidFilterException
@@ -5670,7 +6115,7 @@ export const listDocumentClassifiers: {
   >;
   items: (
     input: ListDocumentClassifiersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | InvalidFilterException
@@ -5700,7 +6145,7 @@ export const listDocumentClassifiers: {
 export const listDominantLanguageDetectionJobs: {
   (
     input: ListDominantLanguageDetectionJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDominantLanguageDetectionJobsResponse,
     | InternalServerException
     | InvalidFilterException
@@ -5711,7 +6156,7 @@ export const listDominantLanguageDetectionJobs: {
   >;
   pages: (
     input: ListDominantLanguageDetectionJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDominantLanguageDetectionJobsResponse,
     | InternalServerException
     | InvalidFilterException
@@ -5722,7 +6167,7 @@ export const listDominantLanguageDetectionJobs: {
   >;
   items: (
     input: ListDominantLanguageDetectionJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | InvalidFilterException
@@ -5752,7 +6197,7 @@ export const listDominantLanguageDetectionJobs: {
 export const listEntitiesDetectionJobs: {
   (
     input: ListEntitiesDetectionJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEntitiesDetectionJobsResponse,
     | InternalServerException
     | InvalidFilterException
@@ -5763,7 +6208,7 @@ export const listEntitiesDetectionJobs: {
   >;
   pages: (
     input: ListEntitiesDetectionJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEntitiesDetectionJobsResponse,
     | InternalServerException
     | InvalidFilterException
@@ -5774,7 +6219,7 @@ export const listEntitiesDetectionJobs: {
   >;
   items: (
     input: ListEntitiesDetectionJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | InvalidFilterException
@@ -5810,7 +6255,7 @@ export const listEntitiesDetectionJobs: {
 export const listEntityRecognizers: {
   (
     input: ListEntityRecognizersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEntityRecognizersResponse,
     | InternalServerException
     | InvalidFilterException
@@ -5821,7 +6266,7 @@ export const listEntityRecognizers: {
   >;
   pages: (
     input: ListEntityRecognizersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEntityRecognizersResponse,
     | InternalServerException
     | InvalidFilterException
@@ -5832,7 +6277,7 @@ export const listEntityRecognizers: {
   >;
   items: (
     input: ListEntityRecognizersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | InvalidFilterException
@@ -5862,7 +6307,7 @@ export const listEntityRecognizers: {
 export const listEventsDetectionJobs: {
   (
     input: ListEventsDetectionJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEventsDetectionJobsResponse,
     | InternalServerException
     | InvalidFilterException
@@ -5873,7 +6318,7 @@ export const listEventsDetectionJobs: {
   >;
   pages: (
     input: ListEventsDetectionJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEventsDetectionJobsResponse,
     | InternalServerException
     | InvalidFilterException
@@ -5884,7 +6329,7 @@ export const listEventsDetectionJobs: {
   >;
   items: (
     input: ListEventsDetectionJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | InvalidFilterException
@@ -5914,7 +6359,7 @@ export const listEventsDetectionJobs: {
 export const listKeyPhrasesDetectionJobs: {
   (
     input: ListKeyPhrasesDetectionJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListKeyPhrasesDetectionJobsResponse,
     | InternalServerException
     | InvalidFilterException
@@ -5925,7 +6370,7 @@ export const listKeyPhrasesDetectionJobs: {
   >;
   pages: (
     input: ListKeyPhrasesDetectionJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListKeyPhrasesDetectionJobsResponse,
     | InternalServerException
     | InvalidFilterException
@@ -5936,7 +6381,7 @@ export const listKeyPhrasesDetectionJobs: {
   >;
   items: (
     input: ListKeyPhrasesDetectionJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | InvalidFilterException
@@ -5966,7 +6411,7 @@ export const listKeyPhrasesDetectionJobs: {
 export const listPiiEntitiesDetectionJobs: {
   (
     input: ListPiiEntitiesDetectionJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPiiEntitiesDetectionJobsResponse,
     | InternalServerException
     | InvalidFilterException
@@ -5977,7 +6422,7 @@ export const listPiiEntitiesDetectionJobs: {
   >;
   pages: (
     input: ListPiiEntitiesDetectionJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPiiEntitiesDetectionJobsResponse,
     | InternalServerException
     | InvalidFilterException
@@ -5988,7 +6433,7 @@ export const listPiiEntitiesDetectionJobs: {
   >;
   items: (
     input: ListPiiEntitiesDetectionJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PiiEntitiesDetectionJobProperties,
     | InternalServerException
     | InvalidFilterException
@@ -6019,7 +6464,7 @@ export const listPiiEntitiesDetectionJobs: {
 export const listSentimentDetectionJobs: {
   (
     input: ListSentimentDetectionJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSentimentDetectionJobsResponse,
     | InternalServerException
     | InvalidFilterException
@@ -6030,7 +6475,7 @@ export const listSentimentDetectionJobs: {
   >;
   pages: (
     input: ListSentimentDetectionJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSentimentDetectionJobsResponse,
     | InternalServerException
     | InvalidFilterException
@@ -6041,7 +6486,7 @@ export const listSentimentDetectionJobs: {
   >;
   items: (
     input: ListSentimentDetectionJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | InvalidFilterException
@@ -6071,7 +6516,7 @@ export const listSentimentDetectionJobs: {
 export const listTargetedSentimentDetectionJobs: {
   (
     input: ListTargetedSentimentDetectionJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTargetedSentimentDetectionJobsResponse,
     | InternalServerException
     | InvalidFilterException
@@ -6082,7 +6527,7 @@ export const listTargetedSentimentDetectionJobs: {
   >;
   pages: (
     input: ListTargetedSentimentDetectionJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTargetedSentimentDetectionJobsResponse,
     | InternalServerException
     | InvalidFilterException
@@ -6093,7 +6538,7 @@ export const listTargetedSentimentDetectionJobs: {
   >;
   items: (
     input: ListTargetedSentimentDetectionJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | InvalidFilterException
@@ -6123,7 +6568,7 @@ export const listTargetedSentimentDetectionJobs: {
 export const listTopicsDetectionJobs: {
   (
     input: ListTopicsDetectionJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTopicsDetectionJobsResponse,
     | InternalServerException
     | InvalidFilterException
@@ -6134,7 +6579,7 @@ export const listTopicsDetectionJobs: {
   >;
   pages: (
     input: ListTopicsDetectionJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTopicsDetectionJobsResponse,
     | InternalServerException
     | InvalidFilterException
@@ -6145,7 +6590,7 @@ export const listTopicsDetectionJobs: {
   >;
   items: (
     input: ListTopicsDetectionJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | InvalidFilterException
@@ -6176,7 +6621,7 @@ export const listTopicsDetectionJobs: {
  */
 export const describeFlywheelIteration: (
   input: DescribeFlywheelIterationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeFlywheelIterationResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6200,7 +6645,7 @@ export const describeFlywheelIteration: (
  */
 export const describePiiEntitiesDetectionJob: (
   input: DescribePiiEntitiesDetectionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePiiEntitiesDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6223,7 +6668,7 @@ export const describePiiEntitiesDetectionJob: (
  */
 export const updateFlywheel: (
   input: UpdateFlywheelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFlywheelResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6249,7 +6694,7 @@ export const updateFlywheel: (
  */
 export const describeEntityRecognizer: (
   input: DescribeEntityRecognizerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEntityRecognizerResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6274,7 +6719,7 @@ export const describeEntityRecognizer: (
  */
 export const detectSyntax: (
   input: DetectSyntaxRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetectSyntaxResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6299,7 +6744,7 @@ export const detectSyntax: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | ConcurrentModificationException
   | InternalServerException
@@ -6324,7 +6769,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | ConcurrentModificationException
   | InternalServerException
@@ -6351,7 +6796,7 @@ export const untagResource: (
  */
 export const detectTargetedSentiment: (
   input: DetectTargetedSentimentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetectTargetedSentimentResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6376,7 +6821,7 @@ export const detectTargetedSentiment: (
  */
 export const detectToxicContent: (
   input: DetectToxicContentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetectToxicContentResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6401,7 +6846,7 @@ export const detectToxicContent: (
  */
 export const batchDetectEntities: (
   input: BatchDetectEntitiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDetectEntitiesResponse,
   | BatchSizeLimitExceededException
   | InternalServerException
@@ -6426,7 +6871,7 @@ export const batchDetectEntities: (
  */
 export const batchDetectKeyPhrases: (
   input: BatchDetectKeyPhrasesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDetectKeyPhrasesResponse,
   | BatchSizeLimitExceededException
   | InternalServerException
@@ -6453,7 +6898,7 @@ export const batchDetectKeyPhrases: (
  */
 export const batchDetectSentiment: (
   input: BatchDetectSentimentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDetectSentimentResponse,
   | BatchSizeLimitExceededException
   | InternalServerException
@@ -6480,7 +6925,7 @@ export const batchDetectSentiment: (
  */
 export const batchDetectSyntax: (
   input: BatchDetectSyntaxRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDetectSyntaxResponse,
   | BatchSizeLimitExceededException
   | InternalServerException
@@ -6508,7 +6953,7 @@ export const batchDetectSyntax: (
  */
 export const batchDetectTargetedSentiment: (
   input: BatchDetectTargetedSentimentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDetectTargetedSentimentResponse,
   | BatchSizeLimitExceededException
   | InternalServerException
@@ -6535,7 +6980,7 @@ export const batchDetectTargetedSentiment: (
  */
 export const containsPiiEntities: (
   input: ContainsPiiEntitiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ContainsPiiEntitiesResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6558,7 +7003,7 @@ export const containsPiiEntities: (
  */
 export const detectKeyPhrases: (
   input: DetectKeyPhrasesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetectKeyPhrasesResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6582,7 +7027,7 @@ export const detectKeyPhrases: (
  */
 export const detectPiiEntities: (
   input: DetectPiiEntitiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetectPiiEntitiesResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6606,7 +7051,7 @@ export const detectPiiEntities: (
  */
 export const detectSentiment: (
   input: DetectSentimentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetectSentimentResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6646,7 +7091,7 @@ export const detectSentiment: (
  */
 export const detectEntities: (
   input: DetectEntitiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetectEntitiesResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6672,7 +7117,7 @@ export const detectEntities: (
  */
 export const updateEndpoint: (
   input: UpdateEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEndpointResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6703,7 +7148,7 @@ export const updateEndpoint: (
  */
 export const createEndpoint: (
   input: CreateEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEndpointResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6736,7 +7181,7 @@ export const createEndpoint: (
  */
 export const createDataset: (
   input: CreateDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDatasetResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6769,7 +7214,7 @@ export const createDataset: (
  */
 export const createDocumentClassifier: (
   input: CreateDocumentClassifierRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDocumentClassifierResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6802,7 +7247,7 @@ export const createDocumentClassifier: (
  */
 export const createEntityRecognizer: (
   input: CreateEntityRecognizerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEntityRecognizerResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6847,7 +7292,7 @@ export const createEntityRecognizer: (
  */
 export const createFlywheel: (
   input: CreateFlywheelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFlywheelResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6884,7 +7329,7 @@ export const createFlywheel: (
  */
 export const startDominantLanguageDetectionJob: (
   input: StartDominantLanguageDetectionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartDominantLanguageDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6916,7 +7361,7 @@ export const startDominantLanguageDetectionJob: (
  */
 export const startEntitiesDetectionJob: (
   input: StartEntitiesDetectionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartEntitiesDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6947,7 +7392,7 @@ export const startEntitiesDetectionJob: (
  */
 export const startEventsDetectionJob: (
   input: StartEventsDetectionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartEventsDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6976,7 +7421,7 @@ export const startEventsDetectionJob: (
  */
 export const startKeyPhrasesDetectionJob: (
   input: StartKeyPhrasesDetectionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartKeyPhrasesDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -7005,7 +7450,7 @@ export const startKeyPhrasesDetectionJob: (
  */
 export const startSentimentDetectionJob: (
   input: StartSentimentDetectionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartSentimentDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -7034,7 +7479,7 @@ export const startSentimentDetectionJob: (
  */
 export const startTargetedSentimentDetectionJob: (
   input: StartTargetedSentimentDetectionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartTargetedSentimentDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -7062,7 +7507,7 @@ export const startTargetedSentimentDetectionJob: (
  */
 export const startTopicsDetectionJob: (
   input: StartTopicsDetectionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartTopicsDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -7091,7 +7536,7 @@ export const startTopicsDetectionJob: (
  */
 export const startDocumentClassificationJob: (
   input: StartDocumentClassificationJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartDocumentClassificationJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -7122,7 +7567,7 @@ export const startDocumentClassificationJob: (
  */
 export const startPiiEntitiesDetectionJob: (
   input: StartPiiEntitiesDetectionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartPiiEntitiesDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -7156,7 +7601,7 @@ export const startPiiEntitiesDetectionJob: (
  */
 export const importModel: (
   input: ImportModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ImportModelResponse,
   | InternalServerException
   | InvalidRequestException

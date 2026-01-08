@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -156,14 +156,14 @@ export type EcrRescanDuration = string;
 export type EcrPullDateRescanDuration = string;
 export type EcrPullDateRescanMode = string;
 export type Ec2ScanMode = string;
-export type AuthorizationUrl = string | Redacted.Redacted<string>;
+export type AuthorizationUrl = string | redacted.Redacted<string>;
 export type ExternalReportStatus = string;
 export type ReportingErrorCode = string;
 export type ErrorMessage = string;
 export type TargetResourceTagsKey = string;
 export type TargetResourceTagsValue = string;
-export type InstanceUrl = string | Redacted.Redacted<string>;
-export type GitLabAccessToken = string | Redacted.Redacted<string>;
+export type InstanceUrl = string | redacted.Redacted<string>;
+export type GitLabAccessToken = string | redacted.Redacted<string>;
 export type FrequencyExpression = string;
 export type MapComparison = string;
 export type Port = number;
@@ -193,8 +193,8 @@ export type CheckCount = number;
 export type Vendor = string;
 export type Product = string;
 export type PlatformVersion = string;
-export type GitLabAuthCode = string | Redacted.Redacted<string>;
-export type GitHubAuthCode = string | Redacted.Redacted<string>;
+export type GitLabAuthCode = string | redacted.Redacted<string>;
+export type GitHubAuthCode = string | redacted.Redacted<string>;
 export type GitHubInstallationId = string;
 export type Status = string;
 export type ErrorCode = string;
@@ -352,14 +352,74 @@ export type FindingArnList = string[];
 export const FindingArnList = S.Array(S.String);
 export type MeteringAccountIdList = string[];
 export const MeteringAccountIdList = S.Array(S.String);
+export type CisSecurityLevel = "LEVEL_1" | "LEVEL_2";
+export const CisSecurityLevel = S.Literal("LEVEL_1", "LEVEL_2");
+export type IntegrationType = "GITLAB_SELF_MANAGED" | "GITHUB";
+export const IntegrationType = S.Literal("GITLAB_SELF_MANAGED", "GITHUB");
+export type ConfigurationLevel = "ORGANIZATION" | "ACCOUNT";
+export const ConfigurationLevel = S.Literal("ORGANIZATION", "ACCOUNT");
 export type DisableResourceTypeList = string[];
 export const DisableResourceTypeList = S.Array(S.String);
 export type EnableResourceTypeList = string[];
 export const EnableResourceTypeList = S.Array(S.String);
 export type ReportTargetAccounts = string[];
 export const ReportTargetAccounts = S.Array(S.String);
+export type CisReportFormat = "PDF" | "CSV";
+export const CisReportFormat = S.Literal("PDF", "CSV");
+export type CisScanResultDetailsSortBy = "CHECK_ID" | "STATUS";
+export const CisScanResultDetailsSortBy = S.Literal("CHECK_ID", "STATUS");
+export type CisSortOrder = "ASC" | "DESC";
+export const CisSortOrder = S.Literal("ASC", "DESC");
 export type PathList = string[];
 export const PathList = S.Array(S.String);
+export type CisScanConfigurationsSortBy =
+  | "SCAN_NAME"
+  | "SCAN_CONFIGURATION_ARN";
+export const CisScanConfigurationsSortBy = S.Literal(
+  "SCAN_NAME",
+  "SCAN_CONFIGURATION_ARN",
+);
+export type CisScanResultsAggregatedByChecksSortBy =
+  | "CHECK_ID"
+  | "TITLE"
+  | "PLATFORM"
+  | "FAILED_COUNTS"
+  | "SECURITY_LEVEL";
+export const CisScanResultsAggregatedByChecksSortBy = S.Literal(
+  "CHECK_ID",
+  "TITLE",
+  "PLATFORM",
+  "FAILED_COUNTS",
+  "SECURITY_LEVEL",
+);
+export type CisScanResultsAggregatedByTargetResourceSortBy =
+  | "RESOURCE_ID"
+  | "FAILED_COUNTS"
+  | "ACCOUNT_ID"
+  | "PLATFORM"
+  | "TARGET_STATUS"
+  | "TARGET_STATUS_REASON";
+export const CisScanResultsAggregatedByTargetResourceSortBy = S.Literal(
+  "RESOURCE_ID",
+  "FAILED_COUNTS",
+  "ACCOUNT_ID",
+  "PLATFORM",
+  "TARGET_STATUS",
+  "TARGET_STATUS_REASON",
+);
+export type ListCisScansDetailLevel = "ORGANIZATION" | "MEMBER";
+export const ListCisScansDetailLevel = S.Literal("ORGANIZATION", "MEMBER");
+export type ListCisScansSortBy =
+  | "STATUS"
+  | "SCHEDULED_BY"
+  | "SCAN_START_DATE"
+  | "FAILED_CHECKS";
+export const ListCisScansSortBy = S.Literal(
+  "STATUS",
+  "SCHEDULED_BY",
+  "SCAN_START_DATE",
+  "FAILED_CHECKS",
+);
 export type FilterArnList = string[];
 export const FilterArnList = S.Array(S.String);
 export type UsageAccountIdList = string[];
@@ -384,7 +444,7 @@ export const AssociateMemberRequest = S.suspend(() =>
   identifier: "AssociateMemberRequest",
 }) as any as S.Schema<AssociateMemberRequest>;
 export interface BatchGetAccountStatusRequest {
-  accountIds?: AccountIdSet;
+  accountIds?: string[];
 }
 export const BatchGetAccountStatusRequest = S.suspend(() =>
   S.Struct({ accountIds: S.optional(AccountIdSet) }).pipe(
@@ -401,7 +461,7 @@ export const BatchGetAccountStatusRequest = S.suspend(() =>
   identifier: "BatchGetAccountStatusRequest",
 }) as any as S.Schema<BatchGetAccountStatusRequest>;
 export interface BatchGetCodeSnippetRequest {
-  findingArns: FindingArns;
+  findingArns: string[];
 }
 export const BatchGetCodeSnippetRequest = S.suspend(() =>
   S.Struct({ findingArns: FindingArns }).pipe(
@@ -418,7 +478,7 @@ export const BatchGetCodeSnippetRequest = S.suspend(() =>
   identifier: "BatchGetCodeSnippetRequest",
 }) as any as S.Schema<BatchGetCodeSnippetRequest>;
 export interface BatchGetFindingDetailsRequest {
-  findingArns: FindingArnList;
+  findingArns: string[];
 }
 export const BatchGetFindingDetailsRequest = S.suspend(() =>
   S.Struct({ findingArns: FindingArnList }).pipe(
@@ -435,7 +495,7 @@ export const BatchGetFindingDetailsRequest = S.suspend(() =>
   identifier: "BatchGetFindingDetailsRequest",
 }) as any as S.Schema<BatchGetFindingDetailsRequest>;
 export interface BatchGetFreeTrialInfoRequest {
-  accountIds: MeteringAccountIdList;
+  accountIds: string[];
 }
 export const BatchGetFreeTrialInfoRequest = S.suspend(() =>
   S.Struct({ accountIds: MeteringAccountIdList }).pipe(
@@ -452,7 +512,7 @@ export const BatchGetFreeTrialInfoRequest = S.suspend(() =>
   identifier: "BatchGetFreeTrialInfoRequest",
 }) as any as S.Schema<BatchGetFreeTrialInfoRequest>;
 export interface BatchGetMemberEc2DeepInspectionStatusRequest {
-  accountIds?: AccountIdSet;
+  accountIds?: string[];
 }
 export const BatchGetMemberEc2DeepInspectionStatusRequest = S.suspend(() =>
   S.Struct({ accountIds: S.optional(AccountIdSet) }).pipe(
@@ -577,8 +637,8 @@ export const DeleteFilterRequest = S.suspend(() =>
   identifier: "DeleteFilterRequest",
 }) as any as S.Schema<DeleteFilterRequest>;
 export interface DisableRequest {
-  accountIds?: AccountIdSet;
-  resourceTypes?: DisableResourceTypeList;
+  accountIds?: string[];
+  resourceTypes?: string[];
 }
 export const DisableRequest = S.suspend(() =>
   S.Struct({
@@ -632,8 +692,8 @@ export const DisassociateMemberRequest = S.suspend(() =>
   identifier: "DisassociateMemberRequest",
 }) as any as S.Schema<DisassociateMemberRequest>;
 export interface EnableRequest {
-  accountIds?: AccountIdSet;
-  resourceTypes: EnableResourceTypeList;
+  accountIds?: string[];
+  resourceTypes: string[];
   clientToken?: string;
 }
 export const EnableRequest = S.suspend(() =>
@@ -677,14 +737,14 @@ export const EnableDelegatedAdminAccountRequest = S.suspend(() =>
 }) as any as S.Schema<EnableDelegatedAdminAccountRequest>;
 export interface GetCisScanReportRequest {
   scanArn: string;
-  targetAccounts?: ReportTargetAccounts;
-  reportFormat?: string;
+  targetAccounts?: string[];
+  reportFormat?: CisReportFormat;
 }
 export const GetCisScanReportRequest = S.suspend(() =>
   S.Struct({
     scanArn: S.String,
     targetAccounts: S.optional(ReportTargetAccounts),
-    reportFormat: S.optional(S.String),
+    reportFormat: S.optional(CisReportFormat),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/cis/scan/report/get" }),
@@ -702,7 +762,7 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface GetCodeSecurityIntegrationRequest {
   integrationArn: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const GetCodeSecurityIntegrationRequest = S.suspend(() =>
   S.Struct({ integrationArn: S.String, tags: S.optional(TagMap) }).pipe(
@@ -736,8 +796,8 @@ export const GetCodeSecurityScanConfigurationRequest = S.suspend(() =>
   identifier: "GetCodeSecurityScanConfigurationRequest",
 }) as any as S.Schema<GetCodeSecurityScanConfigurationRequest>;
 export interface GetEc2DeepInspectionConfigurationResponse {
-  packagePaths?: PathList;
-  orgPackagePaths?: PathList;
+  packagePaths?: string[];
+  orgPackagePaths?: string[];
   status?: string;
   errorMessage?: string;
 }
@@ -971,27 +1031,27 @@ export const CoverageNumberFilter = S.suspend(() =>
 export type CoverageNumberFilterList = CoverageNumberFilter[];
 export const CoverageNumberFilterList = S.Array(CoverageNumberFilter);
 export interface CoverageFilterCriteria {
-  scanStatusCode?: CoverageStringFilterList;
-  scanStatusReason?: CoverageStringFilterList;
-  accountId?: CoverageStringFilterList;
-  resourceId?: CoverageStringFilterList;
-  resourceType?: CoverageStringFilterList;
-  scanType?: CoverageStringFilterList;
-  ecrRepositoryName?: CoverageStringFilterList;
-  ecrImageTags?: CoverageStringFilterList;
-  ec2InstanceTags?: CoverageMapFilterList;
-  lambdaFunctionName?: CoverageStringFilterList;
-  lambdaFunctionTags?: CoverageMapFilterList;
-  lambdaFunctionRuntime?: CoverageStringFilterList;
-  lastScannedAt?: CoverageDateFilterList;
-  scanMode?: CoverageStringFilterList;
-  imagePulledAt?: CoverageDateFilterList;
-  ecrImageLastInUseAt?: CoverageDateFilterList;
-  ecrImageInUseCount?: CoverageNumberFilterList;
-  codeRepositoryProjectName?: CoverageStringFilterList;
-  codeRepositoryProviderType?: CoverageStringFilterList;
-  codeRepositoryProviderTypeVisibility?: CoverageStringFilterList;
-  lastScannedCommitId?: CoverageStringFilterList;
+  scanStatusCode?: CoverageStringFilter[];
+  scanStatusReason?: CoverageStringFilter[];
+  accountId?: CoverageStringFilter[];
+  resourceId?: CoverageStringFilter[];
+  resourceType?: CoverageStringFilter[];
+  scanType?: CoverageStringFilter[];
+  ecrRepositoryName?: CoverageStringFilter[];
+  ecrImageTags?: CoverageStringFilter[];
+  ec2InstanceTags?: CoverageMapFilter[];
+  lambdaFunctionName?: CoverageStringFilter[];
+  lambdaFunctionTags?: CoverageMapFilter[];
+  lambdaFunctionRuntime?: CoverageStringFilter[];
+  lastScannedAt?: CoverageDateFilter[];
+  scanMode?: CoverageStringFilter[];
+  imagePulledAt?: CoverageDateFilter[];
+  ecrImageLastInUseAt?: CoverageDateFilter[];
+  ecrImageInUseCount?: CoverageNumberFilter[];
+  codeRepositoryProjectName?: CoverageStringFilter[];
+  codeRepositoryProviderType?: CoverageStringFilter[];
+  codeRepositoryProviderTypeVisibility?: CoverageStringFilter[];
+  lastScannedCommitId?: CoverageStringFilter[];
 }
 export const CoverageFilterCriteria = S.suspend(() =>
   S.Struct({
@@ -1065,7 +1125,7 @@ export const ListDelegatedAdminAccountsRequest = S.suspend(() =>
   identifier: "ListDelegatedAdminAccountsRequest",
 }) as any as S.Schema<ListDelegatedAdminAccountsRequest>;
 export interface ListFiltersRequest {
-  arns?: FilterArnList;
+  arns?: string[];
   action?: string;
   nextToken?: string;
   maxResults?: number;
@@ -1132,7 +1192,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 export interface ListUsageTotalsRequest {
   maxResults?: number;
   nextToken?: string;
-  accountIds?: UsageAccountIdList;
+  accountIds?: string[];
 }
 export const ListUsageTotalsRequest = S.suspend(() =>
   S.Struct({
@@ -1204,7 +1264,7 @@ export type CodeSecurityResource = { projectId: string };
 export const CodeSecurityResource = S.Union(S.Struct({ projectId: S.String }));
 export interface StartCodeSecurityScanRequest {
   clientToken?: string;
-  resource: (typeof CodeSecurityResource)["Type"];
+  resource: CodeSecurityResource;
 }
 export const StartCodeSecurityScanRequest = S.suspend(() =>
   S.Struct({
@@ -1225,7 +1285,7 @@ export const StartCodeSecurityScanRequest = S.suspend(() =>
 }) as any as S.Schema<StartCodeSecurityScanRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1250,7 +1310,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1273,34 +1333,43 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
+export type PeriodicScanFrequency = "WEEKLY" | "MONTHLY" | "NEVER";
+export const PeriodicScanFrequency = S.Literal("WEEKLY", "MONTHLY", "NEVER");
 export interface PeriodicScanConfiguration {
-  frequency?: string;
+  frequency?: PeriodicScanFrequency;
   frequencyExpression?: string;
 }
 export const PeriodicScanConfiguration = S.suspend(() =>
   S.Struct({
-    frequency: S.optional(S.String),
+    frequency: S.optional(PeriodicScanFrequency),
     frequencyExpression: S.optional(S.String),
   }),
 ).annotations({
   identifier: "PeriodicScanConfiguration",
 }) as any as S.Schema<PeriodicScanConfiguration>;
-export type ContinuousIntegrationScanSupportedEvents = string[];
-export const ContinuousIntegrationScanSupportedEvents = S.Array(S.String);
+export type ContinuousIntegrationScanEvent = "PULL_REQUEST" | "PUSH";
+export const ContinuousIntegrationScanEvent = S.Literal("PULL_REQUEST", "PUSH");
+export type ContinuousIntegrationScanSupportedEvents =
+  ContinuousIntegrationScanEvent[];
+export const ContinuousIntegrationScanSupportedEvents = S.Array(
+  ContinuousIntegrationScanEvent,
+);
 export interface ContinuousIntegrationScanConfiguration {
-  supportedEvents: ContinuousIntegrationScanSupportedEvents;
+  supportedEvents: ContinuousIntegrationScanEvent[];
 }
 export const ContinuousIntegrationScanConfiguration = S.suspend(() =>
   S.Struct({ supportedEvents: ContinuousIntegrationScanSupportedEvents }),
 ).annotations({
   identifier: "ContinuousIntegrationScanConfiguration",
 }) as any as S.Schema<ContinuousIntegrationScanConfiguration>;
-export type RuleSetCategories = string[];
-export const RuleSetCategories = S.Array(S.String);
+export type RuleSetCategory = "SAST" | "IAC" | "SCA";
+export const RuleSetCategory = S.Literal("SAST", "IAC", "SCA");
+export type RuleSetCategories = RuleSetCategory[];
+export const RuleSetCategories = S.Array(RuleSetCategory);
 export interface CodeSecurityScanConfiguration {
   periodicScanConfiguration?: PeriodicScanConfiguration;
   continuousIntegrationScanConfiguration?: ContinuousIntegrationScanConfiguration;
-  ruleSetCategories: RuleSetCategories;
+  ruleSetCategories: RuleSetCategory[];
 }
 export const CodeSecurityScanConfiguration = S.suspend(() =>
   S.Struct({
@@ -1339,7 +1408,7 @@ export const UpdateCodeSecurityScanConfigurationRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateCodeSecurityScanConfigurationRequest>;
 export interface UpdateEc2DeepInspectionConfigurationRequest {
   activateDeepInspection?: boolean;
-  packagePaths?: PathList;
+  packagePaths?: string[];
 }
 export const UpdateEc2DeepInspectionConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -1475,52 +1544,52 @@ export const PackageFilter = S.suspend(() =>
 export type PackageFilterList = PackageFilter[];
 export const PackageFilterList = S.Array(PackageFilter);
 export interface FilterCriteria {
-  findingArn?: StringFilterList;
-  awsAccountId?: StringFilterList;
-  findingType?: StringFilterList;
-  severity?: StringFilterList;
-  firstObservedAt?: DateFilterList;
-  lastObservedAt?: DateFilterList;
-  updatedAt?: DateFilterList;
-  findingStatus?: StringFilterList;
-  title?: StringFilterList;
-  inspectorScore?: NumberFilterList;
-  resourceType?: StringFilterList;
-  resourceId?: StringFilterList;
-  resourceTags?: MapFilterList;
-  ec2InstanceImageId?: StringFilterList;
-  ec2InstanceVpcId?: StringFilterList;
-  ec2InstanceSubnetId?: StringFilterList;
-  ecrImagePushedAt?: DateFilterList;
-  ecrImageArchitecture?: StringFilterList;
-  ecrImageRegistry?: StringFilterList;
-  ecrImageRepositoryName?: StringFilterList;
-  ecrImageTags?: StringFilterList;
-  ecrImageHash?: StringFilterList;
-  ecrImageLastInUseAt?: DateFilterList;
-  ecrImageInUseCount?: NumberFilterList;
-  portRange?: PortRangeFilterList;
-  networkProtocol?: StringFilterList;
-  componentId?: StringFilterList;
-  componentType?: StringFilterList;
-  vulnerabilityId?: StringFilterList;
-  vulnerabilitySource?: StringFilterList;
-  vendorSeverity?: StringFilterList;
-  vulnerablePackages?: PackageFilterList;
-  relatedVulnerabilities?: StringFilterList;
-  fixAvailable?: StringFilterList;
-  lambdaFunctionName?: StringFilterList;
-  lambdaFunctionLayers?: StringFilterList;
-  lambdaFunctionRuntime?: StringFilterList;
-  lambdaFunctionLastModifiedAt?: DateFilterList;
-  lambdaFunctionExecutionRoleArn?: StringFilterList;
-  exploitAvailable?: StringFilterList;
-  codeVulnerabilityDetectorName?: StringFilterList;
-  codeVulnerabilityDetectorTags?: StringFilterList;
-  codeVulnerabilityFilePath?: StringFilterList;
-  epssScore?: NumberFilterList;
-  codeRepositoryProjectName?: StringFilterList;
-  codeRepositoryProviderType?: StringFilterList;
+  findingArn?: StringFilter[];
+  awsAccountId?: StringFilter[];
+  findingType?: StringFilter[];
+  severity?: StringFilter[];
+  firstObservedAt?: DateFilter[];
+  lastObservedAt?: DateFilter[];
+  updatedAt?: DateFilter[];
+  findingStatus?: StringFilter[];
+  title?: StringFilter[];
+  inspectorScore?: NumberFilter[];
+  resourceType?: StringFilter[];
+  resourceId?: StringFilter[];
+  resourceTags?: MapFilter[];
+  ec2InstanceImageId?: StringFilter[];
+  ec2InstanceVpcId?: StringFilter[];
+  ec2InstanceSubnetId?: StringFilter[];
+  ecrImagePushedAt?: DateFilter[];
+  ecrImageArchitecture?: StringFilter[];
+  ecrImageRegistry?: StringFilter[];
+  ecrImageRepositoryName?: StringFilter[];
+  ecrImageTags?: StringFilter[];
+  ecrImageHash?: StringFilter[];
+  ecrImageLastInUseAt?: DateFilter[];
+  ecrImageInUseCount?: NumberFilter[];
+  portRange?: PortRangeFilter[];
+  networkProtocol?: StringFilter[];
+  componentId?: StringFilter[];
+  componentType?: StringFilter[];
+  vulnerabilityId?: StringFilter[];
+  vulnerabilitySource?: StringFilter[];
+  vendorSeverity?: StringFilter[];
+  vulnerablePackages?: PackageFilter[];
+  relatedVulnerabilities?: StringFilter[];
+  fixAvailable?: StringFilter[];
+  lambdaFunctionName?: StringFilter[];
+  lambdaFunctionLayers?: StringFilter[];
+  lambdaFunctionRuntime?: StringFilter[];
+  lambdaFunctionLastModifiedAt?: DateFilter[];
+  lambdaFunctionExecutionRoleArn?: StringFilter[];
+  exploitAvailable?: StringFilter[];
+  codeVulnerabilityDetectorName?: StringFilter[];
+  codeVulnerabilityDetectorTags?: StringFilter[];
+  codeVulnerabilityFilePath?: StringFilter[];
+  epssScore?: NumberFilter[];
+  codeRepositoryProjectName?: StringFilter[];
+  codeRepositoryProviderType?: StringFilter[];
 }
 export const FilterCriteria = S.suspend(() =>
   S.Struct({
@@ -1637,7 +1706,7 @@ export const UpdateOrganizationConfigurationRequest = S.suspend(() =>
   identifier: "UpdateOrganizationConfigurationRequest",
 }) as any as S.Schema<UpdateOrganizationConfigurationRequest>;
 export interface UpdateOrgEc2DeepInspectionConfigurationRequest {
-  orgPackagePaths: PathList;
+  orgPackagePaths: string[];
 }
 export const UpdateOrgEc2DeepInspectionConfigurationRequest = S.suspend(() =>
   S.Struct({ orgPackagePaths: PathList }).pipe(
@@ -1668,12 +1737,16 @@ export const OneTimeSchedule = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<OneTimeSchedule>;
 export type TargetAccountList = string[];
 export const TargetAccountList = S.Array(S.String);
+export type ProjectSelectionScope = "ALL";
+export const ProjectSelectionScope = S.Literal("ALL");
+export type CisStringComparison = "EQUALS" | "PREFIX" | "NOT_EQUALS";
+export const CisStringComparison = S.Literal("EQUALS", "PREFIX", "NOT_EQUALS");
 export interface CisStringFilter {
-  comparison: string;
+  comparison: CisStringComparison;
   value: string;
 }
 export const CisStringFilter = S.suspend(() =>
-  S.Struct({ comparison: S.String, value: S.String }),
+  S.Struct({ comparison: CisStringComparison, value: S.String }),
 ).annotations({
   identifier: "CisStringFilter",
 }) as any as S.Schema<CisStringFilter>;
@@ -1699,9 +1772,37 @@ export type CisScheduledByFilterList = CisStringFilter[];
 export const CisScheduledByFilterList = S.Array(CisStringFilter);
 export type VulnIdList = string[];
 export const VulnIdList = S.Array(S.String);
+export type CisRuleStatus =
+  | "FAILED"
+  | "PASSED"
+  | "NOT_EVALUATED"
+  | "INFORMATIONAL"
+  | "UNKNOWN"
+  | "NOT_APPLICABLE"
+  | "ERROR";
+export const CisRuleStatus = S.Literal(
+  "FAILED",
+  "PASSED",
+  "NOT_EVALUATED",
+  "INFORMATIONAL",
+  "UNKNOWN",
+  "NOT_APPLICABLE",
+  "ERROR",
+);
+export type StopCisSessionStatus =
+  | "SUCCESS"
+  | "FAILED"
+  | "INTERRUPTED"
+  | "UNSUPPORTED_OS";
+export const StopCisSessionStatus = S.Literal(
+  "SUCCESS",
+  "FAILED",
+  "INTERRUPTED",
+  "UNSUPPORTED_OS",
+);
 export interface AssociateConfigurationRequest {
   scanConfigurationArn: string;
-  resource: (typeof CodeSecurityResource)["Type"];
+  resource: CodeSecurityResource;
 }
 export const AssociateConfigurationRequest = S.suspend(() =>
   S.Struct({ scanConfigurationArn: S.String, resource: CodeSecurityResource }),
@@ -1714,7 +1815,7 @@ export const AssociateConfigurationRequestList = S.Array(
 );
 export interface DisassociateConfigurationRequest {
   scanConfigurationArn: string;
-  resource: (typeof CodeSecurityResource)["Type"];
+  resource: CodeSecurityResource;
 }
 export const DisassociateConfigurationRequest = S.suspend(() =>
   S.Struct({ scanConfigurationArn: S.String, resource: CodeSecurityResource }),
@@ -1743,10 +1844,10 @@ export const MemberAccountEc2DeepInspectionStatusList = S.Array(
 export type CisTagMap = { [key: string]: string };
 export const CisTagMap = S.Record({ key: S.String, value: S.String });
 export interface ScopeSettings {
-  projectSelectionScope?: string;
+  projectSelectionScope?: ProjectSelectionScope;
 }
 export const ScopeSettings = S.suspend(() =>
-  S.Struct({ projectSelectionScope: S.optional(S.String) }),
+  S.Struct({ projectSelectionScope: S.optional(ProjectSelectionScope) }),
 ).annotations({
   identifier: "ScopeSettings",
 }) as any as S.Schema<ScopeSettings>;
@@ -1762,6 +1863,8 @@ export const Destination = S.suspend(() =>
     kmsKeyArn: S.String,
   }),
 ).annotations({ identifier: "Destination" }) as any as S.Schema<Destination>;
+export type CisReportStatus = "SUCCEEDED" | "FAILED" | "IN_PROGRESS";
+export const CisReportStatus = S.Literal("SUCCEEDED", "FAILED", "IN_PROGRESS");
 export interface ClusterForImageFilterCriteria {
   resourceId: string;
 }
@@ -1770,6 +1873,19 @@ export const ClusterForImageFilterCriteria = S.suspend(() =>
 ).annotations({
   identifier: "ClusterForImageFilterCriteria",
 }) as any as S.Schema<ClusterForImageFilterCriteria>;
+export type IntegrationStatus =
+  | "PENDING"
+  | "IN_PROGRESS"
+  | "ACTIVE"
+  | "INACTIVE"
+  | "DISABLING";
+export const IntegrationStatus = S.Literal(
+  "PENDING",
+  "IN_PROGRESS",
+  "ACTIVE",
+  "INACTIVE",
+  "DISABLING",
+);
 export interface DelegatedAdmin {
   accountId?: string;
   relationshipStatus?: string;
@@ -1806,7 +1922,7 @@ export const Member = S.suspend(() =>
 export type MemberList = Member[];
 export const MemberList = S.Array(Member);
 export interface SearchVulnerabilitiesFilterCriteria {
-  vulnerabilityIds: VulnIdList;
+  vulnerabilityIds: string[];
 }
 export const SearchVulnerabilitiesFilterCriteria = S.suspend(() =>
   S.Struct({ vulnerabilityIds: VulnIdList }),
@@ -1815,11 +1931,11 @@ export const SearchVulnerabilitiesFilterCriteria = S.suspend(() =>
 }) as any as S.Schema<SearchVulnerabilitiesFilterCriteria>;
 export interface CisSessionMessage {
   ruleId: string;
-  status: string;
+  status: CisRuleStatus;
   cisRuleDetails: Uint8Array;
 }
 export const CisSessionMessage = S.suspend(() =>
-  S.Struct({ ruleId: S.String, status: S.String, cisRuleDetails: T.Blob }),
+  S.Struct({ ruleId: S.String, status: CisRuleStatus, cisRuleDetails: T.Blob }),
 ).annotations({
   identifier: "CisSessionMessage",
 }) as any as S.Schema<CisSessionMessage>;
@@ -1833,16 +1949,27 @@ export const StartCisSessionMessage = S.suspend(() =>
 ).annotations({
   identifier: "StartCisSessionMessage",
 }) as any as S.Schema<StartCisSessionMessage>;
+export type CodeScanStatus =
+  | "IN_PROGRESS"
+  | "SUCCESSFUL"
+  | "FAILED"
+  | "SKIPPED";
+export const CodeScanStatus = S.Literal(
+  "IN_PROGRESS",
+  "SUCCESSFUL",
+  "FAILED",
+  "SKIPPED",
+);
 export type TagValueList = string[];
 export const TagValueList = S.Array(S.String);
-export type TargetResourceTags = { [key: string]: TagValueList };
+export type TargetResourceTags = { [key: string]: string[] };
 export const TargetResourceTags = S.Record({
   key: S.String,
   value: TagValueList,
 });
 export interface UpdateCisTargets {
-  accountIds?: TargetAccountList;
-  targetResourceTags?: TargetResourceTags;
+  accountIds?: string[];
+  targetResourceTags?: { [key: string]: string[] };
 }
 export const UpdateCisTargets = S.suspend(() =>
   S.Struct({
@@ -1874,8 +2001,48 @@ export const Ec2Configuration = S.suspend(() =>
 ).annotations({
   identifier: "Ec2Configuration",
 }) as any as S.Schema<Ec2Configuration>;
-export type DaysList = string[];
-export const DaysList = S.Array(S.String);
+export type Day = "SUN" | "MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT";
+export const Day = S.Literal("SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT");
+export type DaysList = Day[];
+export const DaysList = S.Array(Day);
+export type CisFindingStatusComparison = "EQUALS";
+export const CisFindingStatusComparison = S.Literal("EQUALS");
+export type CisFindingStatus = "PASSED" | "FAILED" | "SKIPPED";
+export const CisFindingStatus = S.Literal("PASSED", "FAILED", "SKIPPED");
+export type CisSecurityLevelComparison = "EQUALS";
+export const CisSecurityLevelComparison = S.Literal("EQUALS");
+export type TagComparison = "EQUALS";
+export const TagComparison = S.Literal("EQUALS");
+export type CisResultStatusComparison = "EQUALS";
+export const CisResultStatusComparison = S.Literal("EQUALS");
+export type CisResultStatus = "PASSED" | "FAILED" | "SKIPPED";
+export const CisResultStatus = S.Literal("PASSED", "FAILED", "SKIPPED");
+export type CisTargetStatusComparison = "EQUALS";
+export const CisTargetStatusComparison = S.Literal("EQUALS");
+export type CisTargetStatus = "TIMED_OUT" | "CANCELLED" | "COMPLETED";
+export const CisTargetStatus = S.Literal("TIMED_OUT", "CANCELLED", "COMPLETED");
+export type CisTargetStatusReason =
+  | "SCAN_IN_PROGRESS"
+  | "UNSUPPORTED_OS"
+  | "SSM_UNMANAGED";
+export const CisTargetStatusReason = S.Literal(
+  "SCAN_IN_PROGRESS",
+  "UNSUPPORTED_OS",
+  "SSM_UNMANAGED",
+);
+export type CisScanStatusComparison = "EQUALS";
+export const CisScanStatusComparison = S.Literal("EQUALS");
+export type CisScanStatus =
+  | "FAILED"
+  | "COMPLETED"
+  | "CANCELLED"
+  | "IN_PROGRESS";
+export const CisScanStatus = S.Literal(
+  "FAILED",
+  "COMPLETED",
+  "CANCELLED",
+  "IN_PROGRESS",
+);
 export interface AssociateMemberResponse {
   accountId: string;
 }
@@ -1885,7 +2052,7 @@ export const AssociateMemberResponse = S.suspend(() =>
   identifier: "AssociateMemberResponse",
 }) as any as S.Schema<AssociateMemberResponse>;
 export interface BatchAssociateCodeSecurityScanConfigurationRequest {
-  associateConfigurationRequests: AssociateConfigurationRequestList;
+  associateConfigurationRequests: AssociateConfigurationRequest[];
 }
 export const BatchAssociateCodeSecurityScanConfigurationRequest = S.suspend(
   () =>
@@ -1908,7 +2075,7 @@ export const BatchAssociateCodeSecurityScanConfigurationRequest = S.suspend(
   identifier: "BatchAssociateCodeSecurityScanConfigurationRequest",
 }) as any as S.Schema<BatchAssociateCodeSecurityScanConfigurationRequest>;
 export interface BatchDisassociateCodeSecurityScanConfigurationRequest {
-  disassociateConfigurationRequests: DisassociateConfigurationRequestList;
+  disassociateConfigurationRequests: DisassociateConfigurationRequest[];
 }
 export const BatchDisassociateCodeSecurityScanConfigurationRequest = S.suspend(
   () =>
@@ -1931,7 +2098,7 @@ export const BatchDisassociateCodeSecurityScanConfigurationRequest = S.suspend(
   identifier: "BatchDisassociateCodeSecurityScanConfigurationRequest",
 }) as any as S.Schema<BatchDisassociateCodeSecurityScanConfigurationRequest>;
 export interface BatchUpdateMemberEc2DeepInspectionStatusRequest {
-  accountIds: MemberAccountEc2DeepInspectionStatusList;
+  accountIds: MemberAccountEc2DeepInspectionStatus[];
 }
 export const BatchUpdateMemberEc2DeepInspectionStatusRequest = S.suspend(() =>
   S.Struct({ accountIds: MemberAccountEc2DeepInspectionStatusList }).pipe(
@@ -2102,8 +2269,8 @@ export const FailedAccount = S.suspend(() =>
 export type FailedAccountList = FailedAccount[];
 export const FailedAccountList = S.Array(FailedAccount);
 export interface EnableResponse {
-  accounts: AccountList;
-  failedAccounts?: FailedAccountList;
+  accounts: Account[];
+  failedAccounts?: FailedAccount[];
 }
 export const EnableResponse = S.suspend(() =>
   S.Struct({
@@ -2123,10 +2290,10 @@ export const EnableDelegatedAdminAccountResponse = S.suspend(() =>
 }) as any as S.Schema<EnableDelegatedAdminAccountResponse>;
 export interface GetCisScanReportResponse {
   url?: string;
-  status?: string;
+  status?: CisReportStatus;
 }
 export const GetCisScanReportResponse = S.suspend(() =>
-  S.Struct({ url: S.optional(S.String), status: S.optional(S.String) }),
+  S.Struct({ url: S.optional(S.String), status: S.optional(CisReportStatus) }),
 ).annotations({
   identifier: "GetCisScanReportResponse",
 }) as any as S.Schema<GetCisScanReportResponse>;
@@ -2156,20 +2323,20 @@ export const GetClustersForImageRequest = S.suspend(() =>
 export interface GetCodeSecurityIntegrationResponse {
   integrationArn: string;
   name: string;
-  type: string;
-  status: string;
+  type: IntegrationType;
+  status: IntegrationStatus;
   statusReason: string;
   createdOn: Date;
   lastUpdateOn: Date;
-  tags?: TagMap;
-  authorizationUrl?: string | Redacted.Redacted<string>;
+  tags?: { [key: string]: string };
+  authorizationUrl?: string | redacted.Redacted<string>;
 }
 export const GetCodeSecurityIntegrationResponse = S.suspend(() =>
   S.Struct({
     integrationArn: S.String,
     name: S.String,
-    type: S.String,
-    status: S.String,
+    type: IntegrationType,
+    status: IntegrationStatus,
     statusReason: S.String,
     createdOn: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastUpdateOn: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -2180,7 +2347,7 @@ export const GetCodeSecurityIntegrationResponse = S.suspend(() =>
   identifier: "GetCodeSecurityIntegrationResponse",
 }) as any as S.Schema<GetCodeSecurityIntegrationResponse>;
 export interface GetCodeSecurityScanRequest {
-  resource: (typeof CodeSecurityResource)["Type"];
+  resource: CodeSecurityResource;
   scanId: string;
 }
 export const GetCodeSecurityScanRequest = S.suspend(() =>
@@ -2201,18 +2368,18 @@ export interface GetCodeSecurityScanConfigurationResponse {
   scanConfigurationArn?: string;
   name?: string;
   configuration?: CodeSecurityScanConfiguration;
-  level?: string;
+  level?: ConfigurationLevel;
   scopeSettings?: ScopeSettings;
   createdAt?: Date;
   lastUpdatedAt?: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const GetCodeSecurityScanConfigurationResponse = S.suspend(() =>
   S.Struct({
     scanConfigurationArn: S.optional(S.String),
     name: S.optional(S.String),
     configuration: S.optional(CodeSecurityScanConfiguration),
-    level: S.optional(S.String),
+    level: S.optional(ConfigurationLevel),
     scopeSettings: S.optional(ScopeSettings),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2285,14 +2452,14 @@ export const ResourceMapFilter = S.suspend(() =>
 export type ResourceMapFilterList = ResourceMapFilter[];
 export const ResourceMapFilterList = S.Array(ResourceMapFilter);
 export interface ResourceFilterCriteria {
-  accountId?: ResourceStringFilterList;
-  resourceId?: ResourceStringFilterList;
-  resourceType?: ResourceStringFilterList;
-  ecrRepositoryName?: ResourceStringFilterList;
-  lambdaFunctionName?: ResourceStringFilterList;
-  ecrImageTags?: ResourceStringFilterList;
-  ec2InstanceTags?: ResourceMapFilterList;
-  lambdaFunctionTags?: ResourceMapFilterList;
+  accountId?: ResourceStringFilter[];
+  resourceId?: ResourceStringFilter[];
+  resourceType?: ResourceStringFilter[];
+  ecrRepositoryName?: ResourceStringFilter[];
+  lambdaFunctionName?: ResourceStringFilter[];
+  ecrImageTags?: ResourceStringFilter[];
+  ec2InstanceTags?: ResourceMapFilter[];
+  lambdaFunctionTags?: ResourceMapFilter[];
 }
 export const ResourceFilterCriteria = S.suspend(() =>
   S.Struct({
@@ -2356,7 +2523,7 @@ export const ListFindingsRequest = S.suspend(() =>
   identifier: "ListFindingsRequest",
 }) as any as S.Schema<ListFindingsRequest>;
 export interface ListMembersResponse {
-  members?: MemberList;
+  members?: Member[];
   nextToken?: string;
 }
 export const ListMembersResponse = S.suspend(() =>
@@ -2368,7 +2535,7 @@ export const ListMembersResponse = S.suspend(() =>
   identifier: "ListMembersResponse",
 }) as any as S.Schema<ListMembersResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -2399,7 +2566,7 @@ export const SearchVulnerabilitiesRequest = S.suspend(() =>
 export interface SendCisSessionTelemetryRequest {
   scanJobId: string;
   sessionToken: string;
-  messages: CisSessionMessages;
+  messages: CisSessionMessage[];
 }
 export const SendCisSessionTelemetryRequest = S.suspend(() =>
   S.Struct({
@@ -2451,10 +2618,13 @@ export const StartCisSessionResponse = S.suspend(() =>
 }) as any as S.Schema<StartCisSessionResponse>;
 export interface StartCodeSecurityScanResponse {
   scanId?: string;
-  status?: string;
+  status?: CodeScanStatus;
 }
 export const StartCodeSecurityScanResponse = S.suspend(() =>
-  S.Struct({ scanId: S.optional(S.String), status: S.optional(S.String) }),
+  S.Struct({
+    scanId: S.optional(S.String),
+    status: S.optional(CodeScanStatus),
+  }),
 ).annotations({
   identifier: "StartCodeSecurityScanResponse",
 }) as any as S.Schema<StartCodeSecurityScanResponse>;
@@ -2475,7 +2645,7 @@ export const DailySchedule = S.suspend(() =>
 }) as any as S.Schema<DailySchedule>;
 export interface WeeklySchedule {
   startTime: Time;
-  days: DaysList;
+  days: Day[];
 }
 export const WeeklySchedule = S.suspend(() =>
   S.Struct({ startTime: Time, days: DaysList }),
@@ -2484,10 +2654,10 @@ export const WeeklySchedule = S.suspend(() =>
 }) as any as S.Schema<WeeklySchedule>;
 export interface MonthlySchedule {
   startTime: Time;
-  day: string;
+  day: Day;
 }
 export const MonthlySchedule = S.suspend(() =>
-  S.Struct({ startTime: Time, day: S.String }),
+  S.Struct({ startTime: Time, day: Day }),
 ).annotations({
   identifier: "MonthlySchedule",
 }) as any as S.Schema<MonthlySchedule>;
@@ -2505,15 +2675,15 @@ export const Schedule = S.Union(
 export interface UpdateCisScanConfigurationRequest {
   scanConfigurationArn: string;
   scanName?: string;
-  securityLevel?: string;
-  schedule?: (typeof Schedule)["Type"];
+  securityLevel?: CisSecurityLevel;
+  schedule?: Schedule;
   targets?: UpdateCisTargets;
 }
 export const UpdateCisScanConfigurationRequest = S.suspend(() =>
   S.Struct({
     scanConfigurationArn: S.String,
     scanName: S.optional(S.String),
-    securityLevel: S.optional(S.String),
+    securityLevel: S.optional(CisSecurityLevel),
     schedule: S.optional(Schedule),
     targets: S.optional(UpdateCisTargets),
   }).pipe(
@@ -2565,8 +2735,8 @@ export const UpdateConfigurationResponse = S.suspend(() =>
   identifier: "UpdateConfigurationResponse",
 }) as any as S.Schema<UpdateConfigurationResponse>;
 export interface UpdateEc2DeepInspectionConfigurationResponse {
-  packagePaths?: PathList;
-  orgPackagePaths?: PathList;
+  packagePaths?: string[];
+  orgPackagePaths?: string[];
   status?: string;
   errorMessage?: string;
 }
@@ -2605,8 +2775,8 @@ export const VulnerabilityReferenceUrls = S.Array(S.String);
 export type Cwes = string[];
 export const Cwes = S.Array(S.String);
 export interface CreateGitLabSelfManagedIntegrationDetail {
-  instanceUrl: string | Redacted.Redacted<string>;
-  accessToken: string | Redacted.Redacted<string>;
+  instanceUrl: string | redacted.Redacted<string>;
+  accessToken: string | redacted.Redacted<string>;
 }
 export const CreateGitLabSelfManagedIntegrationDetail = S.suspend(() =>
   S.Struct({ instanceUrl: SensitiveString, accessToken: SensitiveString }),
@@ -2614,11 +2784,11 @@ export const CreateGitLabSelfManagedIntegrationDetail = S.suspend(() =>
   identifier: "CreateGitLabSelfManagedIntegrationDetail",
 }) as any as S.Schema<CreateGitLabSelfManagedIntegrationDetail>;
 export interface CisFindingStatusFilter {
-  comparison: string;
-  value: string;
+  comparison: CisFindingStatusComparison;
+  value: CisFindingStatus;
 }
 export const CisFindingStatusFilter = S.suspend(() =>
-  S.Struct({ comparison: S.String, value: S.String }),
+  S.Struct({ comparison: CisFindingStatusComparison, value: CisFindingStatus }),
 ).annotations({
   identifier: "CisFindingStatusFilter",
 }) as any as S.Schema<CisFindingStatusFilter>;
@@ -2627,11 +2797,11 @@ export const CisFindingStatusFilterList = S.Array(CisFindingStatusFilter);
 export type CheckIdFilterList = CisStringFilter[];
 export const CheckIdFilterList = S.Array(CisStringFilter);
 export interface CisSecurityLevelFilter {
-  comparison: string;
-  value: string;
+  comparison: CisSecurityLevelComparison;
+  value: CisSecurityLevel;
 }
 export const CisSecurityLevelFilter = S.suspend(() =>
-  S.Struct({ comparison: S.String, value: S.String }),
+  S.Struct({ comparison: CisSecurityLevelComparison, value: CisSecurityLevel }),
 ).annotations({
   identifier: "CisSecurityLevelFilter",
 }) as any as S.Schema<CisSecurityLevelFilter>;
@@ -2668,12 +2838,12 @@ export const Ec2ScanModeState = S.suspend(() =>
   identifier: "Ec2ScanModeState",
 }) as any as S.Schema<Ec2ScanModeState>;
 export interface TagFilter {
-  comparison: string;
+  comparison: TagComparison;
   key: string;
   value: string;
 }
 export const TagFilter = S.suspend(() =>
-  S.Struct({ comparison: S.String, key: S.String, value: S.String }),
+  S.Struct({ comparison: TagComparison, key: S.String, value: S.String }),
 ).annotations({ identifier: "TagFilter" }) as any as S.Schema<TagFilter>;
 export type ResourceTagFilterList = TagFilter[];
 export const ResourceTagFilterList = S.Array(TagFilter);
@@ -2692,33 +2862,36 @@ export const CisNumberFilter = S.suspend(() =>
 export type CisNumberFilterList = CisNumberFilter[];
 export const CisNumberFilterList = S.Array(CisNumberFilter);
 export interface CisResultStatusFilter {
-  comparison: string;
-  value: string;
+  comparison: CisResultStatusComparison;
+  value: CisResultStatus;
 }
 export const CisResultStatusFilter = S.suspend(() =>
-  S.Struct({ comparison: S.String, value: S.String }),
+  S.Struct({ comparison: CisResultStatusComparison, value: CisResultStatus }),
 ).annotations({
   identifier: "CisResultStatusFilter",
 }) as any as S.Schema<CisResultStatusFilter>;
 export type CisResultStatusFilterList = CisResultStatusFilter[];
 export const CisResultStatusFilterList = S.Array(CisResultStatusFilter);
 export interface CisTargetStatusFilter {
-  comparison: string;
-  value: string;
+  comparison: CisTargetStatusComparison;
+  value: CisTargetStatus;
 }
 export const CisTargetStatusFilter = S.suspend(() =>
-  S.Struct({ comparison: S.String, value: S.String }),
+  S.Struct({ comparison: CisTargetStatusComparison, value: CisTargetStatus }),
 ).annotations({
   identifier: "CisTargetStatusFilter",
 }) as any as S.Schema<CisTargetStatusFilter>;
 export type TargetStatusFilterList = CisTargetStatusFilter[];
 export const TargetStatusFilterList = S.Array(CisTargetStatusFilter);
 export interface CisTargetStatusReasonFilter {
-  comparison: string;
-  value: string;
+  comparison: CisTargetStatusComparison;
+  value: CisTargetStatusReason;
 }
 export const CisTargetStatusReasonFilter = S.suspend(() =>
-  S.Struct({ comparison: S.String, value: S.String }),
+  S.Struct({
+    comparison: CisTargetStatusComparison,
+    value: CisTargetStatusReason,
+  }),
 ).annotations({
   identifier: "CisTargetStatusReasonFilter",
 }) as any as S.Schema<CisTargetStatusReasonFilter>;
@@ -2727,11 +2900,11 @@ export const TargetStatusReasonFilterList = S.Array(
   CisTargetStatusReasonFilter,
 );
 export interface CisScanStatusFilter {
-  comparison: string;
-  value: string;
+  comparison: CisScanStatusComparison;
+  value: CisScanStatus;
 }
 export const CisScanStatusFilter = S.suspend(() =>
-  S.Struct({ comparison: S.String, value: S.String }),
+  S.Struct({ comparison: CisScanStatusComparison, value: CisScanStatus }),
 ).annotations({
   identifier: "CisScanStatusFilter",
 }) as any as S.Schema<CisScanStatusFilter>;
@@ -2772,7 +2945,7 @@ export const AccountAggregation = S.suspend(() =>
   identifier: "AccountAggregation",
 }) as any as S.Schema<AccountAggregation>;
 export interface AmiAggregation {
-  amis?: StringFilterList;
+  amis?: StringFilter[];
   sortOrder?: string;
   sortBy?: string;
 }
@@ -2786,15 +2959,15 @@ export const AmiAggregation = S.suspend(() =>
   identifier: "AmiAggregation",
 }) as any as S.Schema<AmiAggregation>;
 export interface AwsEcrContainerAggregation {
-  resourceIds?: StringFilterList;
-  imageShas?: StringFilterList;
-  repositories?: StringFilterList;
-  architectures?: StringFilterList;
-  imageTags?: StringFilterList;
+  resourceIds?: StringFilter[];
+  imageShas?: StringFilter[];
+  repositories?: StringFilter[];
+  architectures?: StringFilter[];
+  imageTags?: StringFilter[];
   sortOrder?: string;
   sortBy?: string;
-  lastInUseAt?: DateFilterList;
-  inUseCount?: NumberFilterList;
+  lastInUseAt?: DateFilter[];
+  inUseCount?: NumberFilter[];
 }
 export const AwsEcrContainerAggregation = S.suspend(() =>
   S.Struct({
@@ -2812,10 +2985,10 @@ export const AwsEcrContainerAggregation = S.suspend(() =>
   identifier: "AwsEcrContainerAggregation",
 }) as any as S.Schema<AwsEcrContainerAggregation>;
 export interface Ec2InstanceAggregation {
-  amis?: StringFilterList;
-  operatingSystems?: StringFilterList;
-  instanceIds?: StringFilterList;
-  instanceTags?: MapFilterList;
+  amis?: StringFilter[];
+  operatingSystems?: StringFilter[];
+  instanceIds?: StringFilter[];
+  instanceTags?: MapFilter[];
   sortOrder?: string;
   sortBy?: string;
 }
@@ -2848,9 +3021,9 @@ export const FindingTypeAggregation = S.suspend(() =>
   identifier: "FindingTypeAggregation",
 }) as any as S.Schema<FindingTypeAggregation>;
 export interface ImageLayerAggregation {
-  repositories?: StringFilterList;
-  resourceIds?: StringFilterList;
-  layerHashes?: StringFilterList;
+  repositories?: StringFilter[];
+  resourceIds?: StringFilter[];
+  layerHashes?: StringFilter[];
   sortOrder?: string;
   sortBy?: string;
 }
@@ -2866,7 +3039,7 @@ export const ImageLayerAggregation = S.suspend(() =>
   identifier: "ImageLayerAggregation",
 }) as any as S.Schema<ImageLayerAggregation>;
 export interface PackageAggregation {
-  packageNames?: StringFilterList;
+  packageNames?: StringFilter[];
   sortOrder?: string;
   sortBy?: string;
 }
@@ -2880,7 +3053,7 @@ export const PackageAggregation = S.suspend(() =>
   identifier: "PackageAggregation",
 }) as any as S.Schema<PackageAggregation>;
 export interface RepositoryAggregation {
-  repositories?: StringFilterList;
+  repositories?: StringFilter[];
   sortOrder?: string;
   sortBy?: string;
 }
@@ -2894,8 +3067,8 @@ export const RepositoryAggregation = S.suspend(() =>
   identifier: "RepositoryAggregation",
 }) as any as S.Schema<RepositoryAggregation>;
 export interface TitleAggregation {
-  titles?: StringFilterList;
-  vulnerabilityIds?: StringFilterList;
+  titles?: StringFilter[];
+  vulnerabilityIds?: StringFilter[];
   resourceType?: string;
   sortOrder?: string;
   sortBy?: string;
@@ -2914,9 +3087,9 @@ export const TitleAggregation = S.suspend(() =>
   identifier: "TitleAggregation",
 }) as any as S.Schema<TitleAggregation>;
 export interface LambdaLayerAggregation {
-  functionNames?: StringFilterList;
-  resourceIds?: StringFilterList;
-  layerArns?: StringFilterList;
+  functionNames?: StringFilter[];
+  resourceIds?: StringFilter[];
+  layerArns?: StringFilter[];
   sortOrder?: string;
   sortBy?: string;
 }
@@ -2932,10 +3105,10 @@ export const LambdaLayerAggregation = S.suspend(() =>
   identifier: "LambdaLayerAggregation",
 }) as any as S.Schema<LambdaLayerAggregation>;
 export interface LambdaFunctionAggregation {
-  resourceIds?: StringFilterList;
-  functionNames?: StringFilterList;
-  runtimes?: StringFilterList;
-  functionTags?: MapFilterList;
+  resourceIds?: StringFilter[];
+  functionNames?: StringFilter[];
+  runtimes?: StringFilter[];
+  functionTags?: MapFilter[];
   sortOrder?: string;
   sortBy?: string;
 }
@@ -2952,11 +3125,11 @@ export const LambdaFunctionAggregation = S.suspend(() =>
   identifier: "LambdaFunctionAggregation",
 }) as any as S.Schema<LambdaFunctionAggregation>;
 export interface CodeRepositoryAggregation {
-  projectNames?: StringFilterList;
-  providerTypes?: StringFilterList;
+  projectNames?: StringFilter[];
+  providerTypes?: StringFilter[];
   sortOrder?: string;
   sortBy?: string;
-  resourceIds?: StringFilterList;
+  resourceIds?: StringFilter[];
 }
 export const CodeRepositoryAggregation = S.suspend(() =>
   S.Struct({
@@ -3008,7 +3181,7 @@ export const ComputePlatform = S.suspend(() =>
   identifier: "ComputePlatform",
 }) as any as S.Schema<ComputePlatform>;
 export interface UpdateGitLabSelfManagedIntegrationDetail {
-  authCode: string | Redacted.Redacted<string>;
+  authCode: string | redacted.Redacted<string>;
 }
 export const UpdateGitLabSelfManagedIntegrationDetail = S.suspend(() =>
   S.Struct({ authCode: SensitiveString }),
@@ -3016,7 +3189,7 @@ export const UpdateGitLabSelfManagedIntegrationDetail = S.suspend(() =>
   identifier: "UpdateGitLabSelfManagedIntegrationDetail",
 }) as any as S.Schema<UpdateGitLabSelfManagedIntegrationDetail>;
 export interface UpdateGitHubIntegrationDetail {
-  code: string | Redacted.Redacted<string>;
+  code: string | redacted.Redacted<string>;
   installationId: string;
 }
 export const UpdateGitHubIntegrationDetail = S.suspend(() =>
@@ -3107,8 +3280,8 @@ export const FailedMemberAccountEc2DeepInspectionStatusStateList = S.Array(
   FailedMemberAccountEc2DeepInspectionStatusState,
 );
 export interface CreateCisTargets {
-  accountIds: TargetAccountList;
-  targetResourceTags: TargetResourceTags;
+  accountIds: string[];
+  targetResourceTags: { [key: string]: string[] };
 }
 export const CreateCisTargets = S.suspend(() =>
   S.Struct({
@@ -3125,11 +3298,11 @@ export const CreateIntegrationDetail = S.Union(
   S.Struct({ gitlabSelfManaged: CreateGitLabSelfManagedIntegrationDetail }),
 );
 export interface CisScanResultDetailsFilterCriteria {
-  findingStatusFilters?: CisFindingStatusFilterList;
-  checkIdFilters?: CheckIdFilterList;
-  titleFilters?: TitleFilterList;
-  securityLevelFilters?: CisSecurityLevelFilterList;
-  findingArnFilters?: CisFindingArnFilterList;
+  findingStatusFilters?: CisFindingStatusFilter[];
+  checkIdFilters?: CisStringFilter[];
+  titleFilters?: CisStringFilter[];
+  securityLevelFilters?: CisSecurityLevelFilter[];
+  findingArnFilters?: CisStringFilter[];
 }
 export const CisScanResultDetailsFilterCriteria = S.suspend(() =>
   S.Struct({
@@ -3168,9 +3341,9 @@ export const Permission = S.suspend(() =>
 export type Permissions = Permission[];
 export const Permissions = S.Array(Permission);
 export interface ListCisScanConfigurationsFilterCriteria {
-  scanNameFilters?: CisScanNameFilterList;
-  targetResourceTagFilters?: ResourceTagFilterList;
-  scanConfigurationArnFilters?: CisScanConfigurationArnFilterList;
+  scanNameFilters?: CisStringFilter[];
+  targetResourceTagFilters?: TagFilter[];
+  scanConfigurationArnFilters?: CisStringFilter[];
 }
 export const ListCisScanConfigurationsFilterCriteria = S.suspend(() =>
   S.Struct({
@@ -3182,12 +3355,12 @@ export const ListCisScanConfigurationsFilterCriteria = S.suspend(() =>
   identifier: "ListCisScanConfigurationsFilterCriteria",
 }) as any as S.Schema<ListCisScanConfigurationsFilterCriteria>;
 export interface CisScanResultsAggregatedByChecksFilterCriteria {
-  accountIdFilters?: OneAccountIdFilterList;
-  checkIdFilters?: CheckIdFilterList;
-  titleFilters?: TitleFilterList;
-  platformFilters?: PlatformFilterList;
-  failedResourcesFilters?: CisNumberFilterList;
-  securityLevelFilters?: CisSecurityLevelFilterList;
+  accountIdFilters?: CisStringFilter[];
+  checkIdFilters?: CisStringFilter[];
+  titleFilters?: CisStringFilter[];
+  platformFilters?: CisStringFilter[];
+  failedResourcesFilters?: CisNumberFilter[];
+  securityLevelFilters?: CisSecurityLevelFilter[];
 }
 export const CisScanResultsAggregatedByChecksFilterCriteria = S.suspend(() =>
   S.Struct({
@@ -3202,15 +3375,15 @@ export const CisScanResultsAggregatedByChecksFilterCriteria = S.suspend(() =>
   identifier: "CisScanResultsAggregatedByChecksFilterCriteria",
 }) as any as S.Schema<CisScanResultsAggregatedByChecksFilterCriteria>;
 export interface CisScanResultsAggregatedByTargetResourceFilterCriteria {
-  accountIdFilters?: AccountIdFilterList;
-  statusFilters?: CisResultStatusFilterList;
-  checkIdFilters?: CheckIdFilterList;
-  targetResourceIdFilters?: ResourceIdFilterList;
-  targetResourceTagFilters?: ResourceTagFilterList;
-  platformFilters?: PlatformFilterList;
-  targetStatusFilters?: TargetStatusFilterList;
-  targetStatusReasonFilters?: TargetStatusReasonFilterList;
-  failedChecksFilters?: CisNumberFilterList;
+  accountIdFilters?: CisStringFilter[];
+  statusFilters?: CisResultStatusFilter[];
+  checkIdFilters?: CisStringFilter[];
+  targetResourceIdFilters?: CisStringFilter[];
+  targetResourceTagFilters?: TagFilter[];
+  platformFilters?: CisStringFilter[];
+  targetStatusFilters?: CisTargetStatusFilter[];
+  targetStatusReasonFilters?: CisTargetStatusReasonFilter[];
+  failedChecksFilters?: CisNumberFilter[];
 }
 export const CisScanResultsAggregatedByTargetResourceFilterCriteria = S.suspend(
   () =>
@@ -3229,16 +3402,16 @@ export const CisScanResultsAggregatedByTargetResourceFilterCriteria = S.suspend(
   identifier: "CisScanResultsAggregatedByTargetResourceFilterCriteria",
 }) as any as S.Schema<CisScanResultsAggregatedByTargetResourceFilterCriteria>;
 export interface ListCisScansFilterCriteria {
-  scanNameFilters?: CisScanNameFilterList;
-  targetResourceTagFilters?: ResourceTagFilterList;
-  targetResourceIdFilters?: ResourceIdFilterList;
-  scanStatusFilters?: CisScanStatusFilterList;
-  scanAtFilters?: CisScanDateFilterList;
-  scanConfigurationArnFilters?: CisScanConfigurationArnFilterList;
-  scanArnFilters?: CisScanArnFilterList;
-  scheduledByFilters?: CisScheduledByFilterList;
-  failedChecksFilters?: CisNumberFilterList;
-  targetAccountIdFilters?: AccountIdFilterList;
+  scanNameFilters?: CisStringFilter[];
+  targetResourceTagFilters?: TagFilter[];
+  targetResourceIdFilters?: CisStringFilter[];
+  scanStatusFilters?: CisScanStatusFilter[];
+  scanAtFilters?: CisDateFilter[];
+  scanConfigurationArnFilters?: CisStringFilter[];
+  scanArnFilters?: CisStringFilter[];
+  scheduledByFilters?: CisStringFilter[];
+  failedChecksFilters?: CisNumberFilter[];
+  targetAccountIdFilters?: CisStringFilter[];
 }
 export const ListCisScansFilterCriteria = S.suspend(() =>
   S.Struct({
@@ -3259,19 +3432,19 @@ export const ListCisScansFilterCriteria = S.suspend(() =>
 export interface CodeSecurityIntegrationSummary {
   integrationArn: string;
   name: string;
-  type: string;
-  status: string;
+  type: IntegrationType;
+  status: IntegrationStatus;
   statusReason: string;
   createdOn: Date;
   lastUpdateOn: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CodeSecurityIntegrationSummary = S.suspend(() =>
   S.Struct({
     integrationArn: S.String,
     name: S.String,
-    type: S.String,
-    status: S.String,
+    type: IntegrationType,
+    status: IntegrationStatus,
     statusReason: S.String,
     createdOn: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastUpdateOn: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -3283,7 +3456,7 @@ export const CodeSecurityIntegrationSummary = S.suspend(() =>
 export type IntegrationSummaries = CodeSecurityIntegrationSummary[];
 export const IntegrationSummaries = S.Array(CodeSecurityIntegrationSummary);
 export interface CodeSecurityScanConfigurationAssociationSummary {
-  resource?: (typeof CodeSecurityResource)["Type"];
+  resource?: CodeSecurityResource;
 }
 export const CodeSecurityScanConfigurationAssociationSummary = S.suspend(() =>
   S.Struct({ resource: S.optional(CodeSecurityResource) }),
@@ -3299,19 +3472,19 @@ export interface CodeSecurityScanConfigurationSummary {
   scanConfigurationArn: string;
   name: string;
   ownerAccountId: string;
-  periodicScanFrequency?: string;
+  periodicScanFrequency?: PeriodicScanFrequency;
   frequencyExpression?: string;
-  continuousIntegrationScanSupportedEvents?: ContinuousIntegrationScanSupportedEvents;
-  ruleSetCategories: RuleSetCategories;
+  continuousIntegrationScanSupportedEvents?: ContinuousIntegrationScanEvent[];
+  ruleSetCategories: RuleSetCategory[];
   scopeSettings?: ScopeSettings;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CodeSecurityScanConfigurationSummary = S.suspend(() =>
   S.Struct({
     scanConfigurationArn: S.String,
     name: S.String,
     ownerAccountId: S.String,
-    periodicScanFrequency: S.optional(S.String),
+    periodicScanFrequency: S.optional(PeriodicScanFrequency),
     frequencyExpression: S.optional(S.String),
     continuousIntegrationScanSupportedEvents: S.optional(
       ContinuousIntegrationScanSupportedEvents,
@@ -3358,7 +3531,7 @@ export interface Filter {
   updatedAt: Date;
   description?: string;
   reason?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const Filter = S.suspend(() =>
   S.Struct({
@@ -3404,7 +3577,7 @@ export const AggregationRequest = S.Union(
   S.Struct({ codeRepositoryAggregation: CodeRepositoryAggregation }),
 );
 export interface StopCisSessionMessage {
-  status: string;
+  status: StopCisSessionStatus;
   reason?: string;
   progress: StopCisMessageProgress;
   computePlatform?: ComputePlatform;
@@ -3413,7 +3586,7 @@ export interface StopCisSessionMessage {
 }
 export const StopCisSessionMessage = S.suspend(() =>
   S.Struct({
-    status: S.String,
+    status: StopCisSessionStatus,
     reason: S.optional(S.String),
     progress: StopCisMessageProgress,
     computePlatform: S.optional(ComputePlatform),
@@ -3430,17 +3603,32 @@ export const UpdateIntegrationDetails = S.Union(
   S.Struct({ gitlabSelfManaged: UpdateGitLabSelfManagedIntegrationDetail }),
   S.Struct({ github: UpdateGitHubIntegrationDetail }),
 );
+export type AssociationResultStatusCode =
+  | "INTERNAL_ERROR"
+  | "ACCESS_DENIED"
+  | "SCAN_CONFIGURATION_NOT_FOUND"
+  | "INVALID_INPUT"
+  | "RESOURCE_NOT_FOUND"
+  | "QUOTA_EXCEEDED";
+export const AssociationResultStatusCode = S.Literal(
+  "INTERNAL_ERROR",
+  "ACCESS_DENIED",
+  "SCAN_CONFIGURATION_NOT_FOUND",
+  "INVALID_INPUT",
+  "RESOURCE_NOT_FOUND",
+  "QUOTA_EXCEEDED",
+);
 export interface FailedAssociationResult {
   scanConfigurationArn?: string;
-  resource?: (typeof CodeSecurityResource)["Type"];
-  statusCode?: string;
+  resource?: CodeSecurityResource;
+  statusCode?: AssociationResultStatusCode;
   statusMessage?: string;
 }
 export const FailedAssociationResult = S.suspend(() =>
   S.Struct({
     scanConfigurationArn: S.optional(S.String),
     resource: S.optional(CodeSecurityResource),
-    statusCode: S.optional(S.String),
+    statusCode: S.optional(AssociationResultStatusCode),
     statusMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -3450,7 +3638,7 @@ export type FailedAssociationResultList = FailedAssociationResult[];
 export const FailedAssociationResultList = S.Array(FailedAssociationResult);
 export interface SuccessfulAssociationResult {
   scanConfigurationArn?: string;
-  resource?: (typeof CodeSecurityResource)["Type"];
+  resource?: CodeSecurityResource;
 }
 export const SuccessfulAssociationResult = S.suspend(() =>
   S.Struct({
@@ -3465,8 +3653,8 @@ export const SuccessfulAssociationResultList = S.Array(
   SuccessfulAssociationResult,
 );
 export interface BatchDisassociateCodeSecurityScanConfigurationResponse {
-  failedAssociations?: FailedAssociationResultList;
-  successfulAssociations?: SuccessfulAssociationResultList;
+  failedAssociations?: FailedAssociationResult[];
+  successfulAssociations?: SuccessfulAssociationResult[];
 }
 export const BatchDisassociateCodeSecurityScanConfigurationResponse = S.suspend(
   () =>
@@ -3478,8 +3666,8 @@ export const BatchDisassociateCodeSecurityScanConfigurationResponse = S.suspend(
   identifier: "BatchDisassociateCodeSecurityScanConfigurationResponse",
 }) as any as S.Schema<BatchDisassociateCodeSecurityScanConfigurationResponse>;
 export interface BatchGetMemberEc2DeepInspectionStatusResponse {
-  accountIds?: MemberAccountEc2DeepInspectionStatusStateList;
-  failedAccountIds?: FailedMemberAccountEc2DeepInspectionStatusStateList;
+  accountIds?: MemberAccountEc2DeepInspectionStatusState[];
+  failedAccountIds?: FailedMemberAccountEc2DeepInspectionStatusState[];
 }
 export const BatchGetMemberEc2DeepInspectionStatusResponse = S.suspend(() =>
   S.Struct({
@@ -3492,8 +3680,8 @@ export const BatchGetMemberEc2DeepInspectionStatusResponse = S.suspend(() =>
   identifier: "BatchGetMemberEc2DeepInspectionStatusResponse",
 }) as any as S.Schema<BatchGetMemberEc2DeepInspectionStatusResponse>;
 export interface BatchUpdateMemberEc2DeepInspectionStatusResponse {
-  accountIds?: MemberAccountEc2DeepInspectionStatusStateList;
-  failedAccountIds?: FailedMemberAccountEc2DeepInspectionStatusStateList;
+  accountIds?: MemberAccountEc2DeepInspectionStatusState[];
+  failedAccountIds?: FailedMemberAccountEc2DeepInspectionStatusState[];
 }
 export const BatchUpdateMemberEc2DeepInspectionStatusResponse = S.suspend(() =>
   S.Struct({
@@ -3507,14 +3695,14 @@ export const BatchUpdateMemberEc2DeepInspectionStatusResponse = S.suspend(() =>
 }) as any as S.Schema<BatchUpdateMemberEc2DeepInspectionStatusResponse>;
 export interface CreateCodeSecurityIntegrationRequest {
   name: string;
-  type: string;
-  details?: (typeof CreateIntegrationDetail)["Type"];
-  tags?: TagMap;
+  type: IntegrationType;
+  details?: CreateIntegrationDetail;
+  tags?: { [key: string]: string };
 }
 export const CreateCodeSecurityIntegrationRequest = S.suspend(() =>
   S.Struct({
     name: S.String,
-    type: S.String,
+    type: IntegrationType,
     details: S.optional(CreateIntegrationDetail),
     tags: S.optional(TagMap),
   }).pipe(
@@ -3532,15 +3720,15 @@ export const CreateCodeSecurityIntegrationRequest = S.suspend(() =>
 }) as any as S.Schema<CreateCodeSecurityIntegrationRequest>;
 export interface CreateCodeSecurityScanConfigurationRequest {
   name: string;
-  level: string;
+  level: ConfigurationLevel;
   configuration: CodeSecurityScanConfiguration;
   scopeSettings?: ScopeSettings;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateCodeSecurityScanConfigurationRequest = S.suspend(() =>
   S.Struct({
     name: S.String,
-    level: S.String,
+    level: ConfigurationLevel,
     configuration: CodeSecurityScanConfiguration,
     scopeSettings: S.optional(ScopeSettings),
     tags: S.optional(TagMap),
@@ -3565,7 +3753,7 @@ export interface CreateFilterRequest {
   description?: string;
   filterCriteria: FilterCriteria;
   name: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   reason?: string;
 }
 export const CreateFilterRequest = S.suspend(() =>
@@ -3621,8 +3809,8 @@ export const CreateSbomExportRequest = S.suspend(() =>
   identifier: "CreateSbomExportRequest",
 }) as any as S.Schema<CreateSbomExportRequest>;
 export interface DisableResponse {
-  accounts: AccountList;
-  failedAccounts?: FailedAccountList;
+  accounts: Account[];
+  failedAccounts?: FailedAccount[];
 }
 export const DisableResponse = S.suspend(() =>
   S.Struct({
@@ -3637,8 +3825,8 @@ export interface GetCisScanResultDetailsRequest {
   targetResourceId: string;
   accountId: string;
   filterCriteria?: CisScanResultDetailsFilterCriteria;
-  sortBy?: string;
-  sortOrder?: string;
+  sortBy?: CisScanResultDetailsSortBy;
+  sortOrder?: CisSortOrder;
   nextToken?: string;
   maxResults?: number;
 }
@@ -3648,8 +3836,8 @@ export const GetCisScanResultDetailsRequest = S.suspend(() =>
     targetResourceId: S.String,
     accountId: S.String,
     filterCriteria: S.optional(CisScanResultDetailsFilterCriteria),
-    sortBy: S.optional(S.String),
-    sortOrder: S.optional(S.String),
+    sortBy: S.optional(CisScanResultDetailsSortBy),
+    sortOrder: S.optional(CisSortOrder),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
   }).pipe(
@@ -3667,9 +3855,9 @@ export const GetCisScanResultDetailsRequest = S.suspend(() =>
 }) as any as S.Schema<GetCisScanResultDetailsRequest>;
 export interface GetCodeSecurityScanResponse {
   scanId?: string;
-  resource?: (typeof CodeSecurityResource)["Type"];
+  resource?: CodeSecurityResource;
   accountId?: string;
-  status?: string;
+  status?: CodeScanStatus;
   statusReason?: string;
   createdAt?: Date;
   updatedAt?: Date;
@@ -3680,7 +3868,7 @@ export const GetCodeSecurityScanResponse = S.suspend(() =>
     scanId: S.optional(S.String),
     resource: S.optional(CodeSecurityResource),
     accountId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(CodeScanStatus),
     statusReason: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -3710,7 +3898,7 @@ export const GetMemberResponse = S.suspend(() =>
   identifier: "GetMemberResponse",
 }) as any as S.Schema<GetMemberResponse>;
 export interface ListAccountPermissionsResponse {
-  permissions: Permissions;
+  permissions: Permission[];
   nextToken?: string;
 }
 export const ListAccountPermissionsResponse = S.suspend(() =>
@@ -3720,16 +3908,16 @@ export const ListAccountPermissionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListAccountPermissionsResponse>;
 export interface ListCisScanConfigurationsRequest {
   filterCriteria?: ListCisScanConfigurationsFilterCriteria;
-  sortBy?: string;
-  sortOrder?: string;
+  sortBy?: CisScanConfigurationsSortBy;
+  sortOrder?: CisSortOrder;
   nextToken?: string;
   maxResults?: number;
 }
 export const ListCisScanConfigurationsRequest = S.suspend(() =>
   S.Struct({
     filterCriteria: S.optional(ListCisScanConfigurationsFilterCriteria),
-    sortBy: S.optional(S.String),
-    sortOrder: S.optional(S.String),
+    sortBy: S.optional(CisScanConfigurationsSortBy),
+    sortOrder: S.optional(CisSortOrder),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
   }).pipe(
@@ -3748,8 +3936,8 @@ export const ListCisScanConfigurationsRequest = S.suspend(() =>
 export interface ListCisScanResultsAggregatedByChecksRequest {
   scanArn: string;
   filterCriteria?: CisScanResultsAggregatedByChecksFilterCriteria;
-  sortBy?: string;
-  sortOrder?: string;
+  sortBy?: CisScanResultsAggregatedByChecksSortBy;
+  sortOrder?: CisSortOrder;
   nextToken?: string;
   maxResults?: number;
 }
@@ -3757,8 +3945,8 @@ export const ListCisScanResultsAggregatedByChecksRequest = S.suspend(() =>
   S.Struct({
     scanArn: S.String,
     filterCriteria: S.optional(CisScanResultsAggregatedByChecksFilterCriteria),
-    sortBy: S.optional(S.String),
-    sortOrder: S.optional(S.String),
+    sortBy: S.optional(CisScanResultsAggregatedByChecksSortBy),
+    sortOrder: S.optional(CisSortOrder),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
   }).pipe(
@@ -3777,8 +3965,8 @@ export const ListCisScanResultsAggregatedByChecksRequest = S.suspend(() =>
 export interface ListCisScanResultsAggregatedByTargetResourceRequest {
   scanArn: string;
   filterCriteria?: CisScanResultsAggregatedByTargetResourceFilterCriteria;
-  sortBy?: string;
-  sortOrder?: string;
+  sortBy?: CisScanResultsAggregatedByTargetResourceSortBy;
+  sortOrder?: CisSortOrder;
   nextToken?: string;
   maxResults?: number;
 }
@@ -3789,8 +3977,8 @@ export const ListCisScanResultsAggregatedByTargetResourceRequest = S.suspend(
       filterCriteria: S.optional(
         CisScanResultsAggregatedByTargetResourceFilterCriteria,
       ),
-      sortBy: S.optional(S.String),
-      sortOrder: S.optional(S.String),
+      sortBy: S.optional(CisScanResultsAggregatedByTargetResourceSortBy),
+      sortOrder: S.optional(CisSortOrder),
       nextToken: S.optional(S.String),
       maxResults: S.optional(S.Number),
     }).pipe(
@@ -3808,18 +3996,18 @@ export const ListCisScanResultsAggregatedByTargetResourceRequest = S.suspend(
 }) as any as S.Schema<ListCisScanResultsAggregatedByTargetResourceRequest>;
 export interface ListCisScansRequest {
   filterCriteria?: ListCisScansFilterCriteria;
-  detailLevel?: string;
-  sortBy?: string;
-  sortOrder?: string;
+  detailLevel?: ListCisScansDetailLevel;
+  sortBy?: ListCisScansSortBy;
+  sortOrder?: CisSortOrder;
   nextToken?: string;
   maxResults?: number;
 }
 export const ListCisScansRequest = S.suspend(() =>
   S.Struct({
     filterCriteria: S.optional(ListCisScansFilterCriteria),
-    detailLevel: S.optional(S.String),
-    sortBy: S.optional(S.String),
-    sortOrder: S.optional(S.String),
+    detailLevel: S.optional(ListCisScansDetailLevel),
+    sortBy: S.optional(ListCisScansSortBy),
+    sortOrder: S.optional(CisSortOrder),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
   }).pipe(
@@ -3836,7 +4024,7 @@ export const ListCisScansRequest = S.suspend(() =>
   identifier: "ListCisScansRequest",
 }) as any as S.Schema<ListCisScansRequest>;
 export interface ListCodeSecurityIntegrationsResponse {
-  integrations?: IntegrationSummaries;
+  integrations?: CodeSecurityIntegrationSummary[];
   nextToken?: string;
 }
 export const ListCodeSecurityIntegrationsResponse = S.suspend(() =>
@@ -3848,7 +4036,7 @@ export const ListCodeSecurityIntegrationsResponse = S.suspend(() =>
   identifier: "ListCodeSecurityIntegrationsResponse",
 }) as any as S.Schema<ListCodeSecurityIntegrationsResponse>;
 export interface ListCodeSecurityScanConfigurationAssociationsResponse {
-  associations?: CodeSecurityScanConfigurationAssociationSummaries;
+  associations?: CodeSecurityScanConfigurationAssociationSummary[];
   nextToken?: string;
 }
 export const ListCodeSecurityScanConfigurationAssociationsResponse = S.suspend(
@@ -3863,7 +4051,7 @@ export const ListCodeSecurityScanConfigurationAssociationsResponse = S.suspend(
   identifier: "ListCodeSecurityScanConfigurationAssociationsResponse",
 }) as any as S.Schema<ListCodeSecurityScanConfigurationAssociationsResponse>;
 export interface ListCodeSecurityScanConfigurationsResponse {
-  configurations?: CodeSecurityScanConfigurationSummaries;
+  configurations?: CodeSecurityScanConfigurationSummary[];
   nextToken?: string;
 }
 export const ListCodeSecurityScanConfigurationsResponse = S.suspend(() =>
@@ -3898,7 +4086,7 @@ export const ListCoverageRequest = S.suspend(() =>
   identifier: "ListCoverageRequest",
 }) as any as S.Schema<ListCoverageRequest>;
 export interface ListCoverageStatisticsResponse {
-  countsByGroup?: CountsList;
+  countsByGroup?: Counts[];
   totalCounts: number;
   nextToken?: string;
 }
@@ -3912,7 +4100,7 @@ export const ListCoverageStatisticsResponse = S.suspend(() =>
   identifier: "ListCoverageStatisticsResponse",
 }) as any as S.Schema<ListCoverageStatisticsResponse>;
 export interface ListDelegatedAdminAccountsResponse {
-  delegatedAdminAccounts?: DelegatedAdminAccountList;
+  delegatedAdminAccounts?: DelegatedAdminAccount[];
   nextToken?: string;
 }
 export const ListDelegatedAdminAccountsResponse = S.suspend(() =>
@@ -3924,7 +4112,7 @@ export const ListDelegatedAdminAccountsResponse = S.suspend(() =>
   identifier: "ListDelegatedAdminAccountsResponse",
 }) as any as S.Schema<ListDelegatedAdminAccountsResponse>;
 export interface ListFiltersResponse {
-  filters: FilterList;
+  filters: Filter[];
   nextToken?: string;
 }
 export const ListFiltersResponse = S.suspend(() =>
@@ -3936,8 +4124,8 @@ export interface ListFindingAggregationsRequest {
   aggregationType: string;
   nextToken?: string;
   maxResults?: number;
-  accountIds?: StringFilterList;
-  aggregationRequest?: (typeof AggregationRequest)["Type"];
+  accountIds?: StringFilter[];
+  aggregationRequest?: AggregationRequest;
 }
 export const ListFindingAggregationsRequest = S.suspend(() =>
   S.Struct({
@@ -3996,7 +4184,7 @@ export const UpdateCisScanConfigurationResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateCisScanConfigurationResponse>;
 export interface UpdateCodeSecurityIntegrationRequest {
   integrationArn: string;
-  details: (typeof UpdateIntegrationDetails)["Type"];
+  details: UpdateIntegrationDetails;
 }
 export const UpdateCodeSecurityIntegrationRequest = S.suspend(() =>
   S.Struct({
@@ -4149,8 +4337,8 @@ export interface CodeSnippetResult {
   findingArn?: string;
   startLine?: number;
   endLine?: number;
-  codeSnippet?: CodeLineList;
-  suggestedFixes?: SuggestedFixes;
+  codeSnippet?: CodeLine[];
+  suggestedFixes?: SuggestedFix[];
 }
 export const CodeSnippetResult = S.suspend(() =>
   S.Struct({
@@ -4169,12 +4357,12 @@ export interface FindingDetail {
   findingArn?: string;
   cisaData?: CisaData;
   riskScore?: number;
-  evidences?: EvidenceList;
-  ttps?: Ttps;
-  tools?: Tools;
+  evidences?: Evidence[];
+  ttps?: string[];
+  tools?: string[];
   exploitObserved?: ExploitObserved;
-  referenceUrls?: VulnerabilityReferenceUrls;
-  cwes?: Cwes;
+  referenceUrls?: string[];
+  cwes?: string[];
   epssScore?: number;
 }
 export const FindingDetail = S.suspend(() =>
@@ -4197,7 +4385,7 @@ export type FindingDetails = FindingDetail[];
 export const FindingDetails = S.Array(FindingDetail);
 export interface FreeTrialAccountInfo {
   accountId: string;
-  freeTrialInfo: FreeTrialInfoList;
+  freeTrialInfo: FreeTrialInfo[];
 }
 export const FreeTrialAccountInfo = S.suspend(() =>
   S.Struct({ accountId: S.String, freeTrialInfo: FreeTrialInfoList }),
@@ -4208,7 +4396,7 @@ export type FreeTrialAccountInfoList = FreeTrialAccountInfo[];
 export const FreeTrialAccountInfoList = S.Array(FreeTrialAccountInfo);
 export interface UsageTotal {
   accountId?: string;
-  usage?: UsageList;
+  usage?: Usage[];
 }
 export const UsageTotal = S.suspend(() =>
   S.Struct({ accountId: S.optional(S.String), usage: S.optional(UsageList) }),
@@ -4228,8 +4416,8 @@ export const CweList = S.Array(S.String);
 export type Targets = string[];
 export const Targets = S.Array(S.String);
 export interface BatchAssociateCodeSecurityScanConfigurationResponse {
-  failedAssociations?: FailedAssociationResultList;
-  successfulAssociations?: SuccessfulAssociationResultList;
+  failedAssociations?: FailedAssociationResult[];
+  successfulAssociations?: SuccessfulAssociationResult[];
 }
 export const BatchAssociateCodeSecurityScanConfigurationResponse = S.suspend(
   () =>
@@ -4241,8 +4429,8 @@ export const BatchAssociateCodeSecurityScanConfigurationResponse = S.suspend(
   identifier: "BatchAssociateCodeSecurityScanConfigurationResponse",
 }) as any as S.Schema<BatchAssociateCodeSecurityScanConfigurationResponse>;
 export interface BatchGetAccountStatusResponse {
-  accounts: AccountStateList;
-  failedAccounts?: FailedAccountList;
+  accounts: AccountState[];
+  failedAccounts?: FailedAccount[];
 }
 export const BatchGetAccountStatusResponse = S.suspend(() =>
   S.Struct({
@@ -4253,8 +4441,8 @@ export const BatchGetAccountStatusResponse = S.suspend(() =>
   identifier: "BatchGetAccountStatusResponse",
 }) as any as S.Schema<BatchGetAccountStatusResponse>;
 export interface BatchGetCodeSnippetResponse {
-  codeSnippetResults?: CodeSnippetResultList;
-  errors?: CodeSnippetErrorList;
+  codeSnippetResults?: CodeSnippetResult[];
+  errors?: CodeSnippetError[];
 }
 export const BatchGetCodeSnippetResponse = S.suspend(() =>
   S.Struct({
@@ -4265,8 +4453,8 @@ export const BatchGetCodeSnippetResponse = S.suspend(() =>
   identifier: "BatchGetCodeSnippetResponse",
 }) as any as S.Schema<BatchGetCodeSnippetResponse>;
 export interface BatchGetFindingDetailsResponse {
-  findingDetails?: FindingDetails;
-  errors?: FindingDetailsErrorList;
+  findingDetails?: FindingDetail[];
+  errors?: FindingDetailsError[];
 }
 export const BatchGetFindingDetailsResponse = S.suspend(() =>
   S.Struct({
@@ -4277,8 +4465,8 @@ export const BatchGetFindingDetailsResponse = S.suspend(() =>
   identifier: "BatchGetFindingDetailsResponse",
 }) as any as S.Schema<BatchGetFindingDetailsResponse>;
 export interface BatchGetFreeTrialInfoResponse {
-  accounts: FreeTrialAccountInfoList;
-  failedAccounts: FreeTrialInfoErrorList;
+  accounts: FreeTrialAccountInfo[];
+  failedAccounts: FreeTrialInfoError[];
 }
 export const BatchGetFreeTrialInfoResponse = S.suspend(() =>
   S.Struct({
@@ -4290,15 +4478,15 @@ export const BatchGetFreeTrialInfoResponse = S.suspend(() =>
 }) as any as S.Schema<BatchGetFreeTrialInfoResponse>;
 export interface CreateCisScanConfigurationRequest {
   scanName: string;
-  securityLevel: string;
-  schedule: (typeof Schedule)["Type"];
+  securityLevel: CisSecurityLevel;
+  schedule: Schedule;
   targets: CreateCisTargets;
-  tags?: CisTagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateCisScanConfigurationRequest = S.suspend(() =>
   S.Struct({
     scanName: S.String,
-    securityLevel: S.String,
+    securityLevel: CisSecurityLevel,
     schedule: Schedule,
     targets: CreateCisTargets,
     tags: S.optional(CisTagMap),
@@ -4317,13 +4505,13 @@ export const CreateCisScanConfigurationRequest = S.suspend(() =>
 }) as any as S.Schema<CreateCisScanConfigurationRequest>;
 export interface CreateCodeSecurityIntegrationResponse {
   integrationArn: string;
-  status: string;
-  authorizationUrl?: string | Redacted.Redacted<string>;
+  status: IntegrationStatus;
+  authorizationUrl?: string | redacted.Redacted<string>;
 }
 export const CreateCodeSecurityIntegrationResponse = S.suspend(() =>
   S.Struct({
     integrationArn: S.String,
-    status: S.String,
+    status: IntegrationStatus,
     authorizationUrl: S.optional(SensitiveString),
   }),
 ).annotations({
@@ -4355,7 +4543,7 @@ export const CreateSbomExportResponse = S.suspend(() =>
 }) as any as S.Schema<CreateSbomExportResponse>;
 export interface ListUsageTotalsResponse {
   nextToken?: string;
-  totals?: UsageTotalList;
+  totals?: UsageTotal[];
 }
 export const ListUsageTotalsResponse = S.suspend(() =>
   S.Struct({
@@ -4367,10 +4555,10 @@ export const ListUsageTotalsResponse = S.suspend(() =>
 }) as any as S.Schema<ListUsageTotalsResponse>;
 export interface UpdateCodeSecurityIntegrationResponse {
   integrationArn: string;
-  status: string;
+  status: IntegrationStatus;
 }
 export const UpdateCodeSecurityIntegrationResponse = S.suspend(() =>
-  S.Struct({ integrationArn: S.String, status: S.String }),
+  S.Struct({ integrationArn: S.String, status: IntegrationStatus }),
 ).annotations({
   identifier: "UpdateCodeSecurityIntegrationResponse",
 }) as any as S.Schema<UpdateCodeSecurityIntegrationResponse>;
@@ -4395,8 +4583,8 @@ export const EpssDetails = S.suspend(() =>
 export interface AtigData {
   firstSeen?: Date;
   lastSeen?: Date;
-  targets?: Targets;
-  ttps?: Ttps;
+  targets?: string[];
+  ttps?: string[];
 }
 export const AtigData = S.suspend(() =>
   S.Struct({
@@ -4447,13 +4635,13 @@ export interface CisScanResultDetails {
   accountId?: string;
   targetResourceId?: string;
   platform?: string;
-  status?: string;
+  status?: CisFindingStatus;
   statusReason?: string;
   checkId?: string;
   title?: string;
   checkDescription?: string;
   remediation?: string;
-  level?: string;
+  level?: CisSecurityLevel;
   findingArn?: string;
 }
 export const CisScanResultDetails = S.suspend(() =>
@@ -4462,13 +4650,13 @@ export const CisScanResultDetails = S.suspend(() =>
     accountId: S.optional(S.String),
     targetResourceId: S.optional(S.String),
     platform: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(CisFindingStatus),
     statusReason: S.optional(S.String),
     checkId: S.optional(S.String),
     title: S.optional(S.String),
     checkDescription: S.optional(S.String),
     remediation: S.optional(S.String),
-    level: S.optional(S.String),
+    level: S.optional(CisSecurityLevel),
     findingArn: S.optional(S.String),
   }),
 ).annotations({
@@ -4492,11 +4680,11 @@ export interface CisTargetResourceAggregation {
   scanArn: string;
   targetResourceId?: string;
   accountId?: string;
-  targetResourceTags?: TargetResourceTags;
+  targetResourceTags?: { [key: string]: string[] };
   statusCounts?: StatusCounts;
   platform?: string;
-  targetStatus?: string;
-  targetStatusReason?: string;
+  targetStatus?: CisTargetStatus;
+  targetStatusReason?: CisTargetStatusReason;
 }
 export const CisTargetResourceAggregation = S.suspend(() =>
   S.Struct({
@@ -4506,8 +4694,8 @@ export const CisTargetResourceAggregation = S.suspend(() =>
     targetResourceTags: S.optional(TargetResourceTags),
     statusCounts: S.optional(StatusCounts),
     platform: S.optional(S.String),
-    targetStatus: S.optional(S.String),
-    targetStatusReason: S.optional(S.String),
+    targetStatus: S.optional(CisTargetStatus),
+    targetStatusReason: S.optional(CisTargetStatusReason),
   }),
 ).annotations({
   identifier: "CisTargetResourceAggregation",
@@ -4519,8 +4707,8 @@ export const CisTargetResourceAggregationList = S.Array(
 export type CisAccountIdList = string[];
 export const CisAccountIdList = S.Array(S.String);
 export interface CisTargets {
-  accountIds?: CisAccountIdList;
-  targetResourceTags?: TargetResourceTags;
+  accountIds?: string[];
+  targetResourceTags?: { [key: string]: string[] };
 }
 export const CisTargets = S.suspend(() =>
   S.Struct({
@@ -4531,34 +4719,34 @@ export const CisTargets = S.suspend(() =>
 export interface CisScan {
   scanArn: string;
   scanConfigurationArn: string;
-  status?: string;
+  status?: CisScanStatus;
   scanName?: string;
   scanDate?: Date;
   failedChecks?: number;
   totalChecks?: number;
   targets?: CisTargets;
   scheduledBy?: string;
-  securityLevel?: string;
+  securityLevel?: CisSecurityLevel;
 }
 export const CisScan = S.suspend(() =>
   S.Struct({
     scanArn: S.String,
     scanConfigurationArn: S.String,
-    status: S.optional(S.String),
+    status: S.optional(CisScanStatus),
     scanName: S.optional(S.String),
     scanDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     failedChecks: S.optional(S.Number),
     totalChecks: S.optional(S.Number),
     targets: S.optional(CisTargets),
     scheduledBy: S.optional(S.String),
-    securityLevel: S.optional(S.String),
+    securityLevel: S.optional(CisSecurityLevel),
   }),
 ).annotations({ identifier: "CisScan" }) as any as S.Schema<CisScan>;
 export type CisScanList = CisScan[];
 export const CisScanList = S.Array(CisScan);
 export interface Vulnerability {
   id: string;
-  cwes?: Cwes;
+  cwes?: string[];
   cisaData?: CisaData;
   source?: string;
   description?: string;
@@ -4566,14 +4754,14 @@ export interface Vulnerability {
   vendorSeverity?: string;
   cvss4?: Cvss4;
   cvss3?: Cvss3;
-  relatedVulnerabilities?: RelatedVulnerabilities;
+  relatedVulnerabilities?: string[];
   cvss2?: Cvss2;
   vendorCreatedAt?: Date;
   vendorUpdatedAt?: Date;
   sourceUrl?: string;
-  referenceUrls?: VulnerabilityReferenceUrls;
+  referenceUrls?: string[];
   exploitObserved?: ExploitObserved;
-  detectionPlatforms?: DetectionPlatforms;
+  detectionPlatforms?: string[];
   epss?: Epss;
 }
 export const Vulnerability = S.suspend(() =>
@@ -4706,7 +4894,7 @@ export const CreateCisScanConfigurationResponse = S.suspend(() =>
   identifier: "CreateCisScanConfigurationResponse",
 }) as any as S.Schema<CreateCisScanConfigurationResponse>;
 export interface GetCisScanResultDetailsResponse {
-  scanResultDetails?: CisScanResultDetailsList;
+  scanResultDetails?: CisScanResultDetails[];
   nextToken?: string;
 }
 export const GetCisScanResultDetailsResponse = S.suspend(() =>
@@ -4718,7 +4906,7 @@ export const GetCisScanResultDetailsResponse = S.suspend(() =>
   identifier: "GetCisScanResultDetailsResponse",
 }) as any as S.Schema<GetCisScanResultDetailsResponse>;
 export interface ListCisScanResultsAggregatedByTargetResourceResponse {
-  targetResourceAggregations?: CisTargetResourceAggregationList;
+  targetResourceAggregations?: CisTargetResourceAggregation[];
   nextToken?: string;
 }
 export const ListCisScanResultsAggregatedByTargetResourceResponse = S.suspend(
@@ -4731,7 +4919,7 @@ export const ListCisScanResultsAggregatedByTargetResourceResponse = S.suspend(
   identifier: "ListCisScanResultsAggregatedByTargetResourceResponse",
 }) as any as S.Schema<ListCisScanResultsAggregatedByTargetResourceResponse>;
 export interface ListCisScansResponse {
-  scans?: CisScanList;
+  scans?: CisScan[];
   nextToken?: string;
 }
 export const ListCisScansResponse = S.suspend(() =>
@@ -4750,7 +4938,7 @@ export const LayerList = S.Array(S.String);
 export type ArchitectureList = string[];
 export const ArchitectureList = S.Array(S.String);
 export interface SearchVulnerabilitiesResponse {
-  vulnerabilities: Vulnerabilities;
+  vulnerabilities: Vulnerability[];
   nextToken?: string;
 }
 export const SearchVulnerabilitiesResponse = S.suspend(() =>
@@ -4805,7 +4993,7 @@ export interface AwsEcrContainerAggregationResponse {
   imageSha?: string;
   repository?: string;
   architecture?: string;
-  imageTags?: StringList;
+  imageTags?: string[];
   accountId?: string;
   severityCounts?: SeverityCounts;
   lastInUseAt?: Date;
@@ -4830,7 +5018,7 @@ export interface Ec2InstanceAggregationResponse {
   instanceId: string;
   ami?: string;
   operatingSystem?: string;
-  instanceTags?: TagMap;
+  instanceTags?: { [key: string]: string };
   accountId?: string;
   severityCounts?: SeverityCounts;
   networkFindings?: number;
@@ -4950,7 +5138,7 @@ export interface LambdaFunctionAggregationResponse {
   resourceId: string;
   functionName?: string;
   runtime?: string;
-  lambdaTags?: TagMap;
+  lambdaTags?: { [key: string]: string };
   accountId?: string;
   severityCounts?: SeverityCounts;
   lastModifiedAt?: Date;
@@ -4998,15 +5186,15 @@ export const Remediation = S.suspend(() =>
 ).annotations({ identifier: "Remediation" }) as any as S.Schema<Remediation>;
 export interface PackageVulnerabilityDetails {
   vulnerabilityId: string;
-  vulnerablePackages?: VulnerablePackageList;
+  vulnerablePackages?: VulnerablePackage[];
   source: string;
-  cvss?: CvssScoreList;
-  relatedVulnerabilities?: VulnerabilityIdList;
+  cvss?: CvssScore[];
+  relatedVulnerabilities?: string[];
   sourceUrl?: string;
   vendorSeverity?: string;
   vendorCreatedAt?: Date;
   vendorUpdatedAt?: Date;
-  referenceUrls?: NonEmptyStringList;
+  referenceUrls?: string[];
 }
 export const PackageVulnerabilityDetails = S.suspend(() =>
   S.Struct({
@@ -5030,13 +5218,13 @@ export const PackageVulnerabilityDetails = S.suspend(() =>
 }) as any as S.Schema<PackageVulnerabilityDetails>;
 export interface CodeVulnerabilityDetails {
   filePath: CodeFilePath;
-  detectorTags?: DetectorTagList;
-  referenceUrls?: ReferenceUrls;
+  detectorTags?: string[];
+  referenceUrls?: string[];
   ruleId?: string;
   sourceLambdaLayerArn?: string;
   detectorId: string;
   detectorName: string;
-  cwes: CweList;
+  cwes: string[];
 }
 export const CodeVulnerabilityDetails = S.suspend(() =>
   S.Struct({
@@ -5068,8 +5256,8 @@ export const LambdaLayerList = S.Array(S.String);
 export interface AwsEc2InstanceDetails {
   type?: string;
   imageId?: string;
-  ipV4Addresses?: IpV4AddressList;
-  ipV6Addresses?: IpV6AddressList;
+  ipV4Addresses?: string[];
+  ipV6Addresses?: string[];
   keyName?: string;
   iamInstanceProfileArn?: string;
   vpcId?: string;
@@ -5095,7 +5283,7 @@ export const AwsEc2InstanceDetails = S.suspend(() =>
 }) as any as S.Schema<AwsEc2InstanceDetails>;
 export interface AwsEcrContainerImageDetails {
   repositoryName: string;
-  imageTags?: ImageTagList;
+  imageTags?: string[];
   pushedAt?: Date;
   author?: string;
   architecture?: string;
@@ -5164,17 +5352,17 @@ export interface CisScanConfiguration {
   scanConfigurationArn: string;
   ownerId?: string;
   scanName?: string;
-  securityLevel?: string;
-  schedule?: (typeof Schedule)["Type"];
+  securityLevel?: CisSecurityLevel;
+  schedule?: Schedule;
   targets?: CisTargets;
-  tags?: CisTagMap;
+  tags?: { [key: string]: string };
 }
 export const CisScanConfiguration = S.suspend(() =>
   S.Struct({
     scanConfigurationArn: S.String,
     ownerId: S.optional(S.String),
     scanName: S.optional(S.String),
-    securityLevel: S.optional(S.String),
+    securityLevel: S.optional(CisSecurityLevel),
     schedule: S.optional(Schedule),
     targets: S.optional(CisTargets),
     tags: S.optional(CisTagMap),
@@ -5189,7 +5377,7 @@ export interface CisCheckAggregation {
   checkId?: string;
   title?: string;
   checkDescription?: string;
-  level?: string;
+  level?: CisSecurityLevel;
   accountId?: string;
   statusCounts?: StatusCounts;
   platform?: string;
@@ -5200,7 +5388,7 @@ export const CisCheckAggregation = S.suspend(() =>
     checkId: S.optional(S.String),
     title: S.optional(S.String),
     checkDescription: S.optional(S.String),
-    level: S.optional(S.String),
+    level: S.optional(CisSecurityLevel),
     accountId: S.optional(S.String),
     statusCounts: S.optional(StatusCounts),
     platform: S.optional(S.String),
@@ -5224,7 +5412,7 @@ export const EcrRepositoryMetadata = S.suspend(() =>
   identifier: "EcrRepositoryMetadata",
 }) as any as S.Schema<EcrRepositoryMetadata>;
 export interface EcrContainerImageMetadata {
-  tags?: TagList;
+  tags?: string[];
   imagePulledAt?: Date;
   lastInUseAt?: Date;
   inUseCount?: number;
@@ -5240,7 +5428,7 @@ export const EcrContainerImageMetadata = S.suspend(() =>
   identifier: "EcrContainerImageMetadata",
 }) as any as S.Schema<EcrContainerImageMetadata>;
 export interface Ec2Metadata {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   amiId?: string;
   platform?: string;
 }
@@ -5252,8 +5440,8 @@ export const Ec2Metadata = S.suspend(() =>
   }),
 ).annotations({ identifier: "Ec2Metadata" }) as any as S.Schema<Ec2Metadata>;
 export interface LambdaFunctionMetadata {
-  functionTags?: TagMap;
-  layers?: LambdaLayerList;
+  functionTags?: { [key: string]: string };
+  layers?: string[];
   functionName?: string;
   runtime?: string;
 }
@@ -5273,7 +5461,7 @@ export interface CvssScoreDetails {
   version: string;
   score: number;
   scoringVector: string;
-  adjustments?: CvssScoreAdjustmentList;
+  adjustments?: CvssScoreAdjustment[];
 }
 export const CvssScoreDetails = S.suspend(() =>
   S.Struct({
@@ -5288,7 +5476,7 @@ export const CvssScoreDetails = S.suspend(() =>
   identifier: "CvssScoreDetails",
 }) as any as S.Schema<CvssScoreDetails>;
 export interface NetworkPath {
-  steps?: StepList;
+  steps?: Step[];
 }
 export const NetworkPath = S.suspend(() =>
   S.Struct({ steps: S.optional(StepList) }),
@@ -5305,7 +5493,7 @@ export const AwsEksWorkloadInfo = S.suspend(() =>
 export type AwsEksWorkloadInfoList = AwsEksWorkloadInfo[];
 export const AwsEksWorkloadInfoList = S.Array(AwsEksWorkloadInfo);
 export interface ListCisScanConfigurationsResponse {
-  scanConfigurations?: CisScanConfigurationList;
+  scanConfigurations?: CisScanConfiguration[];
   nextToken?: string;
 }
 export const ListCisScanConfigurationsResponse = S.suspend(() =>
@@ -5317,7 +5505,7 @@ export const ListCisScanConfigurationsResponse = S.suspend(() =>
   identifier: "ListCisScanConfigurationsResponse",
 }) as any as S.Schema<ListCisScanConfigurationsResponse>;
 export interface ListCisScanResultsAggregatedByChecksResponse {
-  checkAggregations?: CisCheckAggregationList;
+  checkAggregations?: CisCheckAggregation[];
   nextToken?: string;
 }
 export const ListCisScanResultsAggregatedByChecksResponse = S.suspend(() =>
@@ -5329,8 +5517,8 @@ export const ListCisScanResultsAggregatedByChecksResponse = S.suspend(() =>
   identifier: "ListCisScanResultsAggregatedByChecksResponse",
 }) as any as S.Schema<ListCisScanResultsAggregatedByChecksResponse>;
 export interface LambdaVpcConfig {
-  subnetIds?: SubnetIdList;
-  securityGroupIds?: SecurityGroupIdList;
+  subnetIds?: string[];
+  securityGroupIds?: string[];
   vpcId?: string;
 }
 export const LambdaVpcConfig = S.suspend(() =>
@@ -5382,7 +5570,7 @@ export const NetworkReachabilityDetails = S.suspend(() =>
 }) as any as S.Schema<NetworkReachabilityDetails>;
 export interface AwsEksMetadataDetails {
   namespace?: string;
-  workloadInfoList?: AwsEksWorkloadInfoList;
+  workloadInfoList?: AwsEksWorkloadInfo[];
 }
 export const AwsEksMetadataDetails = S.suspend(() =>
   S.Struct({
@@ -5412,10 +5600,10 @@ export interface AwsLambdaFunctionDetails {
   codeSha256: string;
   version: string;
   executionRoleArn: string;
-  layers?: LayerList;
+  layers?: string[];
   vpcConfig?: LambdaVpcConfig;
   packageType?: string;
-  architectures?: ArchitectureList;
+  architectures?: string[];
   lastModifiedAt?: Date;
 }
 export const AwsLambdaFunctionDetails = S.suspend(() =>
@@ -5461,7 +5649,7 @@ export const AggregationResponse = S.Union(
   S.Struct({ lambdaFunctionAggregation: LambdaFunctionAggregationResponse }),
   S.Struct({ codeRepositoryAggregation: CodeRepositoryAggregationResponse }),
 );
-export type AggregationResponseList = (typeof AggregationResponse)["Type"][];
+export type AggregationResponseList = AggregationResponse[];
 export const AggregationResponseList = S.Array(AggregationResponse);
 export type ClusterMetadata =
   | { awsEcsMetadataDetails: AwsEcsMetadataDetails }
@@ -5488,7 +5676,7 @@ export const ResourceDetails = S.suspend(() =>
 }) as any as S.Schema<ResourceDetails>;
 export interface ProjectPeriodicScanConfiguration {
   frequencyExpression?: string;
-  ruleSetCategories?: RuleSetCategories;
+  ruleSetCategories?: RuleSetCategory[];
 }
 export const ProjectPeriodicScanConfiguration = S.suspend(() =>
   S.Struct({
@@ -5504,12 +5692,12 @@ export const ProjectPeriodicScanConfigurationList = S.Array(
   ProjectPeriodicScanConfiguration,
 );
 export interface ProjectContinuousIntegrationScanConfiguration {
-  supportedEvent?: string;
-  ruleSetCategories?: RuleSetCategories;
+  supportedEvent?: ContinuousIntegrationScanEvent;
+  ruleSetCategories?: RuleSetCategory[];
 }
 export const ProjectContinuousIntegrationScanConfiguration = S.suspend(() =>
   S.Struct({
-    supportedEvent: S.optional(S.String),
+    supportedEvent: S.optional(ContinuousIntegrationScanEvent),
     ruleSetCategories: S.optional(RuleSetCategories),
   }),
 ).annotations({
@@ -5522,7 +5710,7 @@ export const ProjectContinuousIntegrationScanConfigurationList = S.Array(
 );
 export interface ListFindingAggregationsResponse {
   aggregationType: string;
-  responses?: AggregationResponseList;
+  responses?: AggregationResponse[];
   nextToken?: string;
 }
 export const ListFindingAggregationsResponse = S.suspend(() =>
@@ -5538,7 +5726,7 @@ export interface ClusterDetails {
   lastInUse: Date;
   runningUnitCount?: number;
   stoppedUnitCount?: number;
-  clusterMetadata: (typeof ClusterMetadata)["Type"];
+  clusterMetadata: ClusterMetadata;
 }
 export const ClusterDetails = S.suspend(() =>
   S.Struct({
@@ -5557,7 +5745,7 @@ export interface Resource {
   id: string;
   partition?: string;
   region?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   details?: ResourceDetails;
 }
 export const Resource = S.suspend(() =>
@@ -5573,8 +5761,8 @@ export const Resource = S.suspend(() =>
 export type ResourceList = Resource[];
 export const ResourceList = S.Array(Resource);
 export interface ProjectCodeSecurityScanConfiguration {
-  periodicScanConfigurations?: ProjectPeriodicScanConfigurationList;
-  continuousIntegrationScanConfigurations?: ProjectContinuousIntegrationScanConfigurationList;
+  periodicScanConfigurations?: ProjectPeriodicScanConfiguration[];
+  continuousIntegrationScanConfigurations?: ProjectContinuousIntegrationScanConfiguration[];
 }
 export const ProjectCodeSecurityScanConfiguration = S.suspend(() =>
   S.Struct({
@@ -5590,7 +5778,7 @@ export const ProjectCodeSecurityScanConfiguration = S.suspend(() =>
 }) as any as S.Schema<ProjectCodeSecurityScanConfiguration>;
 export interface ClusterInformation {
   clusterArn: string;
-  clusterDetails?: ClusterDetailsList;
+  clusterDetails?: ClusterDetails[];
 }
 export const ClusterInformation = S.suspend(() =>
   S.Struct({
@@ -5614,7 +5802,7 @@ export interface Finding {
   lastObservedAt: Date;
   updatedAt?: Date;
   status: string;
-  resources: ResourceList;
+  resources: Resource[];
   inspectorScore?: number;
   inspectorScoreDetails?: InspectorScoreDetails;
   networkReachabilityDetails?: NetworkReachabilityDetails;
@@ -5675,7 +5863,7 @@ export const CodeRepositoryMetadata = S.suspend(() =>
   identifier: "CodeRepositoryMetadata",
 }) as any as S.Schema<CodeRepositoryMetadata>;
 export interface GetClustersForImageResponse {
-  cluster: ClusterInformationList;
+  cluster: ClusterInformation[];
   nextToken?: string;
 }
 export const GetClustersForImageResponse = S.suspend(() =>
@@ -5688,7 +5876,7 @@ export const GetClustersForImageResponse = S.suspend(() =>
 }) as any as S.Schema<GetClustersForImageResponse>;
 export interface ListFindingsResponse {
   nextToken?: string;
-  findings?: FindingList;
+  findings?: Finding[];
 }
 export const ListFindingsResponse = S.suspend(() =>
   S.Struct({
@@ -5744,7 +5932,7 @@ export type CoveredResources = CoveredResource[];
 export const CoveredResources = S.Array(CoveredResource);
 export interface ListCoverageResponse {
   nextToken?: string;
-  coveredResources?: CoveredResources;
+  coveredResources?: CoveredResource[];
 }
 export const ListCoverageResponse = S.suspend(() =>
   S.Struct({
@@ -5808,7 +5996,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const getEc2DeepInspectionConfiguration: (
   input: GetEc2DeepInspectionConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEc2DeepInspectionConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5831,7 +6019,7 @@ export const getEc2DeepInspectionConfiguration: (
  */
 export const getConfiguration: (
   input: GetConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConfigurationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -5854,7 +6042,7 @@ export const getConfiguration: (
  */
 export const updateConfiguration: (
   input: UpdateConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5880,7 +6068,7 @@ export const updateConfiguration: (
  */
 export const associateMember: (
   input: AssociateMemberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateMemberResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5907,7 +6095,7 @@ export const associateMember: (
  */
 export const startCisSession: (
   input: StartCisSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartCisSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -5932,7 +6120,7 @@ export const startCisSession: (
  */
 export const startCodeSecurityScan: (
   input: StartCodeSecurityScanRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartCodeSecurityScanResponse,
   | AccessDeniedException
   | ConflictException
@@ -5959,7 +6147,7 @@ export const startCodeSecurityScan: (
  */
 export const updateCodeSecurityScanConfiguration: (
   input: UpdateCodeSecurityScanConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCodeSecurityScanConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5988,7 +6176,7 @@ export const updateCodeSecurityScanConfiguration: (
  */
 export const sendCisSessionHealth: (
   input: SendCisSessionHealthRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendCisSessionHealthResponse,
   | AccessDeniedException
   | ConflictException
@@ -6013,7 +6201,7 @@ export const sendCisSessionHealth: (
  */
 export const disableDelegatedAdminAccount: (
   input: DisableDelegatedAdminAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisableDelegatedAdminAccountResponse,
   | AccessDeniedException
   | ConflictException
@@ -6040,7 +6228,7 @@ export const disableDelegatedAdminAccount: (
  */
 export const enableDelegatedAdminAccount: (
   input: EnableDelegatedAdminAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableDelegatedAdminAccountResponse,
   | AccessDeniedException
   | ConflictException
@@ -6068,7 +6256,7 @@ export const enableDelegatedAdminAccount: (
  */
 export const batchDisassociateCodeSecurityScanConfiguration: (
   input: BatchDisassociateCodeSecurityScanConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDisassociateCodeSecurityScanConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6095,7 +6283,7 @@ export const batchDisassociateCodeSecurityScanConfiguration: (
  */
 export const getCodeSecurityScan: (
   input: GetCodeSecurityScanRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCodeSecurityScanResponse,
   | AccessDeniedException
   | ConflictException
@@ -6122,7 +6310,7 @@ export const getCodeSecurityScan: (
  */
 export const updateFilter: (
   input: UpdateFilterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFilterResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6148,7 +6336,7 @@ export const updateFilter: (
  */
 export const resetEncryptionKey: (
   input: ResetEncryptionKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResetEncryptionKeyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6174,7 +6362,7 @@ export const resetEncryptionKey: (
  */
 export const updateEncryptionKey: (
   input: UpdateEncryptionKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEncryptionKeyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6199,7 +6387,7 @@ export const updateEncryptionKey: (
  */
 export const cancelFindingsReport: (
   input: CancelFindingsReportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelFindingsReportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6224,7 +6412,7 @@ export const cancelFindingsReport: (
  */
 export const cancelSbomExport: (
   input: CancelSbomExportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelSbomExportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6249,7 +6437,7 @@ export const cancelSbomExport: (
  */
 export const deleteCisScanConfiguration: (
   input: DeleteCisScanConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCisScanConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6274,7 +6462,7 @@ export const deleteCisScanConfiguration: (
  */
 export const deleteCodeSecurityIntegration: (
   input: DeleteCodeSecurityIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCodeSecurityIntegrationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6299,7 +6487,7 @@ export const deleteCodeSecurityIntegration: (
  */
 export const deleteCodeSecurityScanConfiguration: (
   input: DeleteCodeSecurityScanConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCodeSecurityScanConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6324,7 +6512,7 @@ export const deleteCodeSecurityScanConfiguration: (
  */
 export const deleteFilter: (
   input: DeleteFilterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFilterResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6349,7 +6537,7 @@ export const deleteFilter: (
  */
 export const enable: (
   input: EnableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6374,7 +6562,7 @@ export const enable: (
  */
 export const getCisScanReport: (
   input: GetCisScanReportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCisScanReportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6399,7 +6587,7 @@ export const getCisScanReport: (
  */
 export const getCodeSecurityIntegration: (
   input: GetCodeSecurityIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCodeSecurityIntegrationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6424,7 +6612,7 @@ export const getCodeSecurityIntegration: (
  */
 export const getCodeSecurityScanConfiguration: (
   input: GetCodeSecurityScanConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCodeSecurityScanConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6450,7 +6638,7 @@ export const getCodeSecurityScanConfiguration: (
  */
 export const getDelegatedAdminAccount: (
   input: GetDelegatedAdminAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDelegatedAdminAccountResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6475,7 +6663,7 @@ export const getDelegatedAdminAccount: (
  */
 export const getEncryptionKey: (
   input: GetEncryptionKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEncryptionKeyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6500,7 +6688,7 @@ export const getEncryptionKey: (
  */
 export const getFindingsReportStatus: (
   input: GetFindingsReportStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFindingsReportStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6525,7 +6713,7 @@ export const getFindingsReportStatus: (
  */
 export const getSbomExport: (
   input: GetSbomExportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSbomExportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6550,7 +6738,7 @@ export const getSbomExport: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -6573,7 +6761,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | BadRequestException
   | InternalServerException
@@ -6600,7 +6788,7 @@ export const tagResource: (
  */
 export const createFindingsReport: (
   input: CreateFindingsReportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFindingsReportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6626,7 +6814,7 @@ export const createFindingsReport: (
  */
 export const disable: (
   input: DisableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisableResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6651,7 +6839,7 @@ export const disable: (
  */
 export const getMember: (
   input: GetMemberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMemberResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6677,7 +6865,7 @@ export const getMember: (
  */
 export const listCodeSecurityScanConfigurationAssociations: (
   input: ListCodeSecurityScanConfigurationAssociationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListCodeSecurityScanConfigurationAssociationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6702,7 +6890,7 @@ export const listCodeSecurityScanConfigurationAssociations: (
  */
 export const listCodeSecurityScanConfigurations: (
   input: ListCodeSecurityScanConfigurationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListCodeSecurityScanConfigurationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6727,7 +6915,7 @@ export const listCodeSecurityScanConfigurations: (
  */
 export const updateEc2DeepInspectionConfiguration: (
   input: UpdateEc2DeepInspectionConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEc2DeepInspectionConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6750,7 +6938,7 @@ export const updateEc2DeepInspectionConfiguration: (
  */
 export const updateOrganizationConfiguration: (
   input: UpdateOrganizationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateOrganizationConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6774,7 +6962,7 @@ export const updateOrganizationConfiguration: (
  */
 export const updateOrgEc2DeepInspectionConfiguration: (
   input: UpdateOrgEc2DeepInspectionConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateOrgEc2DeepInspectionConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6797,7 +6985,7 @@ export const updateOrgEc2DeepInspectionConfiguration: (
  */
 export const describeOrganizationConfiguration: (
   input: DescribeOrganizationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeOrganizationConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6820,7 +7008,7 @@ export const describeOrganizationConfiguration: (
  */
 export const disassociateMember: (
   input: DisassociateMemberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateMemberResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6845,7 +7033,7 @@ export const disassociateMember: (
 export const listMembers: {
   (
     input: ListMembersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMembersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6856,7 +7044,7 @@ export const listMembers: {
   >;
   pages: (
     input: ListMembersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMembersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6867,7 +7055,7 @@ export const listMembers: {
   >;
   items: (
     input: ListMembersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Member,
     | AccessDeniedException
     | InternalServerException
@@ -6899,7 +7087,7 @@ export const listMembers: {
  */
 export const batchGetMemberEc2DeepInspectionStatus: (
   input: BatchGetMemberEc2DeepInspectionStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetMemberEc2DeepInspectionStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6924,7 +7112,7 @@ export const batchGetMemberEc2DeepInspectionStatus: (
  */
 export const batchUpdateMemberEc2DeepInspectionStatus: (
   input: BatchUpdateMemberEc2DeepInspectionStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchUpdateMemberEc2DeepInspectionStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6949,7 +7137,7 @@ export const batchUpdateMemberEc2DeepInspectionStatus: (
 export const listAccountPermissions: {
   (
     input: ListAccountPermissionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccountPermissionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6960,7 +7148,7 @@ export const listAccountPermissions: {
   >;
   pages: (
     input: ListAccountPermissionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccountPermissionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -6971,7 +7159,7 @@ export const listAccountPermissions: {
   >;
   items: (
     input: ListAccountPermissionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Permission,
     | AccessDeniedException
     | InternalServerException
@@ -7001,7 +7189,7 @@ export const listAccountPermissions: {
  */
 export const listCodeSecurityIntegrations: (
   input: ListCodeSecurityIntegrationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListCodeSecurityIntegrationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7025,7 +7213,7 @@ export const listCodeSecurityIntegrations: (
 export const listCoverageStatistics: {
   (
     input: ListCoverageStatisticsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCoverageStatisticsResponse,
     | InternalServerException
     | ThrottlingException
@@ -7035,7 +7223,7 @@ export const listCoverageStatistics: {
   >;
   pages: (
     input: ListCoverageStatisticsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCoverageStatisticsResponse,
     | InternalServerException
     | ThrottlingException
@@ -7045,7 +7233,7 @@ export const listCoverageStatistics: {
   >;
   items: (
     input: ListCoverageStatisticsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Counts,
     | InternalServerException
     | ThrottlingException
@@ -7069,7 +7257,7 @@ export const listCoverageStatistics: {
 export const listDelegatedAdminAccounts: {
   (
     input: ListDelegatedAdminAccountsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDelegatedAdminAccountsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7080,7 +7268,7 @@ export const listDelegatedAdminAccounts: {
   >;
   pages: (
     input: ListDelegatedAdminAccountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDelegatedAdminAccountsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7091,7 +7279,7 @@ export const listDelegatedAdminAccounts: {
   >;
   items: (
     input: ListDelegatedAdminAccountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DelegatedAdminAccount,
     | AccessDeniedException
     | InternalServerException
@@ -7122,7 +7310,7 @@ export const listDelegatedAdminAccounts: {
 export const listFilters: {
   (
     input: ListFiltersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFiltersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7133,7 +7321,7 @@ export const listFilters: {
   >;
   pages: (
     input: ListFiltersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFiltersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7144,7 +7332,7 @@ export const listFilters: {
   >;
   items: (
     input: ListFiltersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Filter,
     | AccessDeniedException
     | InternalServerException
@@ -7176,7 +7364,7 @@ export const listFilters: {
  */
 export const sendCisSessionTelemetry: (
   input: SendCisSessionTelemetryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendCisSessionTelemetryResponse,
   | AccessDeniedException
   | ConflictException
@@ -7203,7 +7391,7 @@ export const sendCisSessionTelemetry: (
  */
 export const stopCisSession: (
   input: StopCisSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopCisSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -7228,7 +7416,7 @@ export const stopCisSession: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -7251,7 +7439,7 @@ export const untagResource: (
  */
 export const updateCisScanConfiguration: (
   input: UpdateCisScanConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCisScanConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7277,7 +7465,7 @@ export const updateCisScanConfiguration: (
  */
 export const batchAssociateCodeSecurityScanConfiguration: (
   input: BatchAssociateCodeSecurityScanConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchAssociateCodeSecurityScanConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -7304,7 +7492,7 @@ export const batchAssociateCodeSecurityScanConfiguration: (
  */
 export const batchGetAccountStatus: (
   input: BatchGetAccountStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetAccountStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7330,7 +7518,7 @@ export const batchGetAccountStatus: (
  */
 export const batchGetCodeSnippet: (
   input: BatchGetCodeSnippetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetCodeSnippetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7353,7 +7541,7 @@ export const batchGetCodeSnippet: (
  */
 export const batchGetFindingDetails: (
   input: BatchGetFindingDetailsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetFindingDetailsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7376,7 +7564,7 @@ export const batchGetFindingDetails: (
  */
 export const batchGetFreeTrialInfo: (
   input: BatchGetFreeTrialInfoRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetFreeTrialInfoResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7404,7 +7592,7 @@ export const batchGetFreeTrialInfo: (
  */
 export const createCodeSecurityIntegration: (
   input: CreateCodeSecurityIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCodeSecurityIntegrationResponse,
   | AccessDeniedException
   | ConflictException
@@ -7431,7 +7619,7 @@ export const createCodeSecurityIntegration: (
  */
 export const createCodeSecurityScanConfiguration: (
   input: CreateCodeSecurityScanConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCodeSecurityScanConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -7459,7 +7647,7 @@ export const createCodeSecurityScanConfiguration: (
  */
 export const createFilter: (
   input: CreateFilterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFilterResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7486,7 +7674,7 @@ export const createFilter: (
  */
 export const createSbomExport: (
   input: CreateSbomExportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSbomExportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7512,7 +7700,7 @@ export const createSbomExport: (
 export const listUsageTotals: {
   (
     input: ListUsageTotalsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUsageTotalsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7523,7 +7711,7 @@ export const listUsageTotals: {
   >;
   pages: (
     input: ListUsageTotalsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUsageTotalsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7534,7 +7722,7 @@ export const listUsageTotals: {
   >;
   items: (
     input: ListUsageTotalsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     UsageTotal,
     | AccessDeniedException
     | InternalServerException
@@ -7569,7 +7757,7 @@ export const listUsageTotals: {
  */
 export const updateCodeSecurityIntegration: (
   input: UpdateCodeSecurityIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCodeSecurityIntegrationResponse,
   | AccessDeniedException
   | ConflictException
@@ -7596,7 +7784,7 @@ export const updateCodeSecurityIntegration: (
  */
 export const createCisScanConfiguration: (
   input: CreateCisScanConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCisScanConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7620,7 +7808,7 @@ export const createCisScanConfiguration: (
 export const getCisScanResultDetails: {
   (
     input: GetCisScanResultDetailsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetCisScanResultDetailsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7631,7 +7819,7 @@ export const getCisScanResultDetails: {
   >;
   pages: (
     input: GetCisScanResultDetailsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetCisScanResultDetailsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7642,7 +7830,7 @@ export const getCisScanResultDetails: {
   >;
   items: (
     input: GetCisScanResultDetailsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CisScanResultDetails,
     | AccessDeniedException
     | InternalServerException
@@ -7673,7 +7861,7 @@ export const getCisScanResultDetails: {
 export const listCisScanResultsAggregatedByTargetResource: {
   (
     input: ListCisScanResultsAggregatedByTargetResourceRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCisScanResultsAggregatedByTargetResourceResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7684,7 +7872,7 @@ export const listCisScanResultsAggregatedByTargetResource: {
   >;
   pages: (
     input: ListCisScanResultsAggregatedByTargetResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCisScanResultsAggregatedByTargetResourceResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7695,7 +7883,7 @@ export const listCisScanResultsAggregatedByTargetResource: {
   >;
   items: (
     input: ListCisScanResultsAggregatedByTargetResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CisTargetResourceAggregation,
     | AccessDeniedException
     | InternalServerException
@@ -7726,7 +7914,7 @@ export const listCisScanResultsAggregatedByTargetResource: {
 export const listCisScans: {
   (
     input: ListCisScansRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCisScansResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7737,7 +7925,7 @@ export const listCisScans: {
   >;
   pages: (
     input: ListCisScansRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCisScansResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7748,7 +7936,7 @@ export const listCisScans: {
   >;
   items: (
     input: ListCisScansRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CisScan,
     | AccessDeniedException
     | InternalServerException
@@ -7779,7 +7967,7 @@ export const listCisScans: {
 export const searchVulnerabilities: {
   (
     input: SearchVulnerabilitiesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchVulnerabilitiesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7790,7 +7978,7 @@ export const searchVulnerabilities: {
   >;
   pages: (
     input: SearchVulnerabilitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchVulnerabilitiesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7801,7 +7989,7 @@ export const searchVulnerabilities: {
   >;
   items: (
     input: SearchVulnerabilitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Vulnerability,
     | AccessDeniedException
     | InternalServerException
@@ -7831,7 +8019,7 @@ export const searchVulnerabilities: {
 export const listCisScanConfigurations: {
   (
     input: ListCisScanConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCisScanConfigurationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7842,7 +8030,7 @@ export const listCisScanConfigurations: {
   >;
   pages: (
     input: ListCisScanConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCisScanConfigurationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7853,7 +8041,7 @@ export const listCisScanConfigurations: {
   >;
   items: (
     input: ListCisScanConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CisScanConfiguration,
     | AccessDeniedException
     | InternalServerException
@@ -7884,7 +8072,7 @@ export const listCisScanConfigurations: {
 export const listCisScanResultsAggregatedByChecks: {
   (
     input: ListCisScanResultsAggregatedByChecksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCisScanResultsAggregatedByChecksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7895,7 +8083,7 @@ export const listCisScanResultsAggregatedByChecks: {
   >;
   pages: (
     input: ListCisScanResultsAggregatedByChecksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCisScanResultsAggregatedByChecksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7906,7 +8094,7 @@ export const listCisScanResultsAggregatedByChecks: {
   >;
   items: (
     input: ListCisScanResultsAggregatedByChecksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CisCheckAggregation,
     | AccessDeniedException
     | InternalServerException
@@ -7937,7 +8125,7 @@ export const listCisScanResultsAggregatedByChecks: {
 export const listFindingAggregations: {
   (
     input: ListFindingAggregationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFindingAggregationsResponse,
     | InternalServerException
     | ThrottlingException
@@ -7947,7 +8135,7 @@ export const listFindingAggregations: {
   >;
   pages: (
     input: ListFindingAggregationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFindingAggregationsResponse,
     | InternalServerException
     | ThrottlingException
@@ -7957,7 +8145,7 @@ export const listFindingAggregations: {
   >;
   items: (
     input: ListFindingAggregationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AggregationResponse,
     | InternalServerException
     | ThrottlingException
@@ -7982,7 +8170,7 @@ export const listFindingAggregations: {
 export const getClustersForImage: {
   (
     input: GetClustersForImageRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetClustersForImageResponse,
     | AccessDeniedException
     | InternalServerException
@@ -7993,7 +8181,7 @@ export const getClustersForImage: {
   >;
   pages: (
     input: GetClustersForImageRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetClustersForImageResponse,
     | AccessDeniedException
     | InternalServerException
@@ -8004,7 +8192,7 @@ export const getClustersForImage: {
   >;
   items: (
     input: GetClustersForImageRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ClusterInformation,
     | AccessDeniedException
     | InternalServerException
@@ -8035,7 +8223,7 @@ export const getClustersForImage: {
 export const listFindings: {
   (
     input: ListFindingsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFindingsResponse,
     | InternalServerException
     | ThrottlingException
@@ -8045,7 +8233,7 @@ export const listFindings: {
   >;
   pages: (
     input: ListFindingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFindingsResponse,
     | InternalServerException
     | ThrottlingException
@@ -8055,7 +8243,7 @@ export const listFindings: {
   >;
   items: (
     input: ListFindingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Finding,
     | InternalServerException
     | ThrottlingException
@@ -8080,7 +8268,7 @@ export const listFindings: {
 export const listCoverage: {
   (
     input: ListCoverageRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCoverageResponse,
     | InternalServerException
     | ThrottlingException
@@ -8090,7 +8278,7 @@ export const listCoverage: {
   >;
   pages: (
     input: ListCoverageRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCoverageResponse,
     | InternalServerException
     | ThrottlingException
@@ -8100,7 +8288,7 @@ export const listCoverage: {
   >;
   items: (
     input: ListCoverageRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CoveredResource,
     | InternalServerException
     | ThrottlingException

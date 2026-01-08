@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -85,7 +85,6 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Newtypes
-export type Integer = number;
 export type IntegerOptional = number;
 export type ExceptionMessage = string;
 export type AwsQueryErrorMessage = string;
@@ -95,12 +94,22 @@ export type AvailabilityZoneList = string[];
 export const AvailabilityZoneList = S.Array(S.String);
 export type SecurityGroupIdentifierList = string[];
 export const SecurityGroupIdentifierList = S.Array(S.String);
+export type ClusterEndpointEncryptionType = "NONE" | "TLS";
+export const ClusterEndpointEncryptionType = S.Literal("NONE", "TLS");
+export type NetworkType = "ipv4" | "ipv6" | "dual_stack";
+export const NetworkType = S.Literal("ipv4", "ipv6", "dual_stack");
 export type SubnetIdentifierList = string[];
 export const SubnetIdentifierList = S.Array(S.String);
 export type NodeIdentifierList = string[];
 export const NodeIdentifierList = S.Array(S.String);
 export type ClusterNameList = string[];
 export const ClusterNameList = S.Array(S.String);
+export type SourceType = "CLUSTER" | "PARAMETER_GROUP" | "SUBNET_GROUP";
+export const SourceType = S.Literal(
+  "CLUSTER",
+  "PARAMETER_GROUP",
+  "SUBNET_GROUP",
+);
 export type ParameterGroupNameList = string[];
 export const ParameterGroupNameList = S.Array(S.String);
 export type SubnetGroupNameList = string[];
@@ -132,7 +141,7 @@ export const CreateParameterGroupRequest = S.suspend(() =>
 export interface CreateSubnetGroupRequest {
   SubnetGroupName: string;
   Description?: string;
-  SubnetIds: SubnetIdentifierList;
+  SubnetIds: string[];
 }
 export const CreateSubnetGroupRequest = S.suspend(() =>
   S.Struct({
@@ -156,8 +165,8 @@ export const CreateSubnetGroupRequest = S.suspend(() =>
 export interface DecreaseReplicationFactorRequest {
   ClusterName: string;
   NewReplicationFactor: number;
-  AvailabilityZones?: AvailabilityZoneList;
-  NodeIdsToRemove?: NodeIdentifierList;
+  AvailabilityZones?: string[];
+  NodeIdsToRemove?: string[];
 }
 export const DecreaseReplicationFactorRequest = S.suspend(() =>
   S.Struct({
@@ -234,7 +243,7 @@ export const DeleteSubnetGroupRequest = S.suspend(() =>
   identifier: "DeleteSubnetGroupRequest",
 }) as any as S.Schema<DeleteSubnetGroupRequest>;
 export interface DescribeClustersRequest {
-  ClusterNames?: ClusterNameList;
+  ClusterNames?: string[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -281,7 +290,7 @@ export const DescribeDefaultParametersRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeDefaultParametersRequest>;
 export interface DescribeEventsRequest {
   SourceName?: string;
-  SourceType?: string;
+  SourceType?: SourceType;
   StartTime?: Date;
   EndTime?: Date;
   Duration?: number;
@@ -291,7 +300,7 @@ export interface DescribeEventsRequest {
 export const DescribeEventsRequest = S.suspend(() =>
   S.Struct({
     SourceName: S.optional(S.String),
-    SourceType: S.optional(S.String),
+    SourceType: S.optional(SourceType),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Duration: S.optional(S.Number),
@@ -312,7 +321,7 @@ export const DescribeEventsRequest = S.suspend(() =>
   identifier: "DescribeEventsRequest",
 }) as any as S.Schema<DescribeEventsRequest>;
 export interface DescribeParameterGroupsRequest {
-  ParameterGroupNames?: ParameterGroupNameList;
+  ParameterGroupNames?: string[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -362,7 +371,7 @@ export const DescribeParametersRequest = S.suspend(() =>
   identifier: "DescribeParametersRequest",
 }) as any as S.Schema<DescribeParametersRequest>;
 export interface DescribeSubnetGroupsRequest {
-  SubnetGroupNames?: SubnetGroupNameList;
+  SubnetGroupNames?: string[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -388,7 +397,7 @@ export const DescribeSubnetGroupsRequest = S.suspend(() =>
 export interface IncreaseReplicationFactorRequest {
   ClusterName: string;
   NewReplicationFactor: number;
-  AvailabilityZones?: AvailabilityZoneList;
+  AvailabilityZones?: string[];
 }
 export const IncreaseReplicationFactorRequest = S.suspend(() =>
   S.Struct({
@@ -458,7 +467,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagResourceRequest {
   ResourceName: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceName: S.String, Tags: TagList }).pipe(
@@ -477,7 +486,7 @@ export const TagResourceRequest = S.suspend(() =>
 }) as any as S.Schema<TagResourceRequest>;
 export interface UntagResourceRequest {
   ResourceName: string;
-  TagKeys: KeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceName: S.String, TagKeys: KeyList }).pipe(
@@ -501,7 +510,7 @@ export interface UpdateClusterRequest {
   NotificationTopicArn?: string;
   NotificationTopicStatus?: string;
   ParameterGroupName?: string;
-  SecurityGroupIds?: SecurityGroupIdentifierList;
+  SecurityGroupIds?: string[];
 }
 export const UpdateClusterRequest = S.suspend(() =>
   S.Struct({
@@ -529,7 +538,7 @@ export const UpdateClusterRequest = S.suspend(() =>
 export interface UpdateSubnetGroupRequest {
   SubnetGroupName: string;
   Description?: string;
-  SubnetIds?: SubnetIdentifierList;
+  SubnetIds?: string[];
 }
 export const UpdateSubnetGroupRequest = S.suspend(() =>
   S.Struct({
@@ -619,7 +628,7 @@ export const SecurityGroupMembershipList = S.Array(SecurityGroupMembership);
 export interface ParameterGroupStatus {
   ParameterGroupName?: string;
   ParameterApplyStatus?: string;
-  NodeIdsToReboot?: NodeIdentifierList;
+  NodeIdsToReboot?: string[];
 }
 export const ParameterGroupStatus = S.suspend(() =>
   S.Struct({
@@ -630,11 +639,18 @@ export const ParameterGroupStatus = S.suspend(() =>
 ).annotations({
   identifier: "ParameterGroupStatus",
 }) as any as S.Schema<ParameterGroupStatus>;
+export type SSEStatus = "ENABLING" | "ENABLED" | "DISABLING" | "DISABLED";
+export const SSEStatus = S.Literal(
+  "ENABLING",
+  "ENABLED",
+  "DISABLING",
+  "DISABLED",
+);
 export interface SSEDescription {
-  Status?: string;
+  Status?: SSEStatus;
 }
 export const SSEDescription = S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String) }),
+  S.Struct({ Status: S.optional(SSEStatus) }),
 ).annotations({
   identifier: "SSEDescription",
 }) as any as S.Schema<SSEDescription>;
@@ -647,17 +663,17 @@ export interface Cluster {
   NodeType?: string;
   Status?: string;
   ClusterDiscoveryEndpoint?: Endpoint;
-  NodeIdsToRemove?: NodeIdentifierList;
-  Nodes?: NodeList;
+  NodeIdsToRemove?: string[];
+  Nodes?: Node[];
   PreferredMaintenanceWindow?: string;
   NotificationConfiguration?: NotificationConfiguration;
   SubnetGroup?: string;
-  SecurityGroups?: SecurityGroupMembershipList;
+  SecurityGroups?: SecurityGroupMembership[];
   IamRoleArn?: string;
   ParameterGroup?: ParameterGroupStatus;
   SSEDescription?: SSEDescription;
-  ClusterEndpointEncryptionType?: string;
-  NetworkType?: string;
+  ClusterEndpointEncryptionType?: ClusterEndpointEncryptionType;
+  NetworkType?: NetworkType;
 }
 export const Cluster = S.suspend(() =>
   S.Struct({
@@ -678,8 +694,8 @@ export const Cluster = S.suspend(() =>
     IamRoleArn: S.optional(S.String),
     ParameterGroup: S.optional(ParameterGroupStatus),
     SSEDescription: S.optional(SSEDescription),
-    ClusterEndpointEncryptionType: S.optional(S.String),
-    NetworkType: S.optional(S.String),
+    ClusterEndpointEncryptionType: S.optional(ClusterEndpointEncryptionType),
+    NetworkType: S.optional(NetworkType),
   }),
 ).annotations({ identifier: "Cluster" }) as any as S.Schema<Cluster>;
 export type ClusterList = Cluster[];
@@ -698,12 +714,12 @@ export const ParameterGroup = S.suspend(() =>
 }) as any as S.Schema<ParameterGroup>;
 export type ParameterGroupList = ParameterGroup[];
 export const ParameterGroupList = S.Array(ParameterGroup);
-export type NetworkTypeList = string[];
-export const NetworkTypeList = S.Array(S.String);
+export type NetworkTypeList = NetworkType[];
+export const NetworkTypeList = S.Array(NetworkType);
 export interface Subnet {
   SubnetIdentifier?: string;
   SubnetAvailabilityZone?: string;
-  SupportedNetworkTypes?: NetworkTypeList;
+  SupportedNetworkTypes?: NetworkType[];
 }
 export const Subnet = S.suspend(() =>
   S.Struct({
@@ -718,8 +734,8 @@ export interface SubnetGroup {
   SubnetGroupName?: string;
   Description?: string;
   VpcId?: string;
-  Subnets?: SubnetList;
-  SupportedNetworkTypes?: NetworkTypeList;
+  Subnets?: Subnet[];
+  SupportedNetworkTypes?: NetworkType[];
 }
 export const SubnetGroup = S.suspend(() =>
   S.Struct({
@@ -751,17 +767,17 @@ export interface CreateClusterRequest {
   NodeType: string;
   Description?: string;
   ReplicationFactor: number;
-  AvailabilityZones?: AvailabilityZoneList;
+  AvailabilityZones?: string[];
   SubnetGroupName?: string;
-  SecurityGroupIds?: SecurityGroupIdentifierList;
+  SecurityGroupIds?: string[];
   PreferredMaintenanceWindow?: string;
   NotificationTopicArn?: string;
   IamRoleArn: string;
   ParameterGroupName?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   SSESpecification?: SSESpecification;
-  ClusterEndpointEncryptionType?: string;
-  NetworkType?: string;
+  ClusterEndpointEncryptionType?: ClusterEndpointEncryptionType;
+  NetworkType?: NetworkType;
 }
 export const CreateClusterRequest = S.suspend(() =>
   S.Struct({
@@ -778,8 +794,8 @@ export const CreateClusterRequest = S.suspend(() =>
     ParameterGroupName: S.optional(S.String),
     Tags: S.optional(TagList),
     SSESpecification: S.optional(SSESpecification),
-    ClusterEndpointEncryptionType: S.optional(S.String),
-    NetworkType: S.optional(S.String),
+    ClusterEndpointEncryptionType: S.optional(ClusterEndpointEncryptionType),
+    NetworkType: S.optional(NetworkType),
   }).pipe(
     T.all(
       ns,
@@ -820,7 +836,7 @@ export const DeleteSubnetGroupResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteSubnetGroupResponse>;
 export interface DescribeClustersResponse {
   NextToken?: string;
-  Clusters?: ClusterList;
+  Clusters?: Cluster[];
 }
 export const DescribeClustersResponse = S.suspend(() =>
   S.Struct({
@@ -832,7 +848,7 @@ export const DescribeClustersResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeClustersResponse>;
 export interface DescribeParameterGroupsResponse {
   NextToken?: string;
-  ParameterGroups?: ParameterGroupList;
+  ParameterGroups?: ParameterGroup[];
 }
 export const DescribeParameterGroupsResponse = S.suspend(() =>
   S.Struct({
@@ -842,6 +858,8 @@ export const DescribeParameterGroupsResponse = S.suspend(() =>
 ).annotations({
   identifier: "DescribeParameterGroupsResponse",
 }) as any as S.Schema<DescribeParameterGroupsResponse>;
+export type ParameterType = "DEFAULT" | "NODE_TYPE_SPECIFIC";
+export const ParameterType = S.Literal("DEFAULT", "NODE_TYPE_SPECIFIC");
 export interface NodeTypeSpecificValue {
   NodeType?: string;
   Value?: string;
@@ -853,37 +871,41 @@ export const NodeTypeSpecificValue = S.suspend(() =>
 }) as any as S.Schema<NodeTypeSpecificValue>;
 export type NodeTypeSpecificValueList = NodeTypeSpecificValue[];
 export const NodeTypeSpecificValueList = S.Array(NodeTypeSpecificValue);
+export type IsModifiable = "TRUE" | "FALSE" | "CONDITIONAL";
+export const IsModifiable = S.Literal("TRUE", "FALSE", "CONDITIONAL");
+export type ChangeType = "IMMEDIATE" | "REQUIRES_REBOOT";
+export const ChangeType = S.Literal("IMMEDIATE", "REQUIRES_REBOOT");
 export interface Parameter {
   ParameterName?: string;
-  ParameterType?: string;
+  ParameterType?: ParameterType;
   ParameterValue?: string;
-  NodeTypeSpecificValues?: NodeTypeSpecificValueList;
+  NodeTypeSpecificValues?: NodeTypeSpecificValue[];
   Description?: string;
   Source?: string;
   DataType?: string;
   AllowedValues?: string;
-  IsModifiable?: string;
-  ChangeType?: string;
+  IsModifiable?: IsModifiable;
+  ChangeType?: ChangeType;
 }
 export const Parameter = S.suspend(() =>
   S.Struct({
     ParameterName: S.optional(S.String),
-    ParameterType: S.optional(S.String),
+    ParameterType: S.optional(ParameterType),
     ParameterValue: S.optional(S.String),
     NodeTypeSpecificValues: S.optional(NodeTypeSpecificValueList),
     Description: S.optional(S.String),
     Source: S.optional(S.String),
     DataType: S.optional(S.String),
     AllowedValues: S.optional(S.String),
-    IsModifiable: S.optional(S.String),
-    ChangeType: S.optional(S.String),
+    IsModifiable: S.optional(IsModifiable),
+    ChangeType: S.optional(ChangeType),
   }),
 ).annotations({ identifier: "Parameter" }) as any as S.Schema<Parameter>;
 export type ParameterList = Parameter[];
 export const ParameterList = S.Array(Parameter);
 export interface DescribeParametersResponse {
   NextToken?: string;
-  Parameters?: ParameterList;
+  Parameters?: Parameter[];
 }
 export const DescribeParametersResponse = S.suspend(() =>
   S.Struct({
@@ -895,7 +917,7 @@ export const DescribeParametersResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeParametersResponse>;
 export interface DescribeSubnetGroupsResponse {
   NextToken?: string;
-  SubnetGroups?: SubnetGroupList;
+  SubnetGroups?: SubnetGroup[];
 }
 export const DescribeSubnetGroupsResponse = S.suspend(() =>
   S.Struct({
@@ -914,7 +936,7 @@ export const IncreaseReplicationFactorResponse = S.suspend(() =>
   identifier: "IncreaseReplicationFactorResponse",
 }) as any as S.Schema<IncreaseReplicationFactorResponse>;
 export interface ListTagsResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
   NextToken?: string;
 }
 export const ListTagsResponse = S.suspend(() =>
@@ -933,7 +955,7 @@ export const RebootNodeResponse = S.suspend(() =>
   identifier: "RebootNodeResponse",
 }) as any as S.Schema<RebootNodeResponse>;
 export interface TagResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const TagResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
@@ -941,7 +963,7 @@ export const TagResourceResponse = S.suspend(() =>
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const UntagResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
@@ -958,7 +980,7 @@ export const UpdateClusterResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateClusterResponse>;
 export interface UpdateParameterGroupRequest {
   ParameterGroupName: string;
-  ParameterNameValues: ParameterNameValueList;
+  ParameterNameValues: ParameterNameValue[];
 }
 export const UpdateParameterGroupRequest = S.suspend(() =>
   S.Struct({
@@ -988,14 +1010,14 @@ export const UpdateSubnetGroupResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateSubnetGroupResponse>;
 export interface Event {
   SourceName?: string;
-  SourceType?: string;
+  SourceType?: SourceType;
   Message?: string;
   Date?: Date;
 }
 export const Event = S.suspend(() =>
   S.Struct({
     SourceName: S.optional(S.String),
-    SourceType: S.optional(S.String),
+    SourceType: S.optional(SourceType),
     Message: S.optional(S.String),
     Date: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -1020,7 +1042,7 @@ export const CreateParameterGroupResponse = S.suspend(() =>
 }) as any as S.Schema<CreateParameterGroupResponse>;
 export interface DescribeEventsResponse {
   NextToken?: string;
-  Events?: EventList;
+  Events?: Event[];
 }
 export const DescribeEventsResponse = S.suspend(() =>
   S.Struct({
@@ -1056,7 +1078,7 @@ export const DecreaseReplicationFactorResponse = S.suspend(() =>
 }) as any as S.Schema<DecreaseReplicationFactorResponse>;
 export interface DescribeDefaultParametersResponse {
   NextToken?: string;
-  Parameters?: ParameterList;
+  Parameters?: Parameter[];
 }
 export const DescribeDefaultParametersResponse = S.suspend(() =>
   S.Struct({
@@ -1253,7 +1275,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  */
 export const describeEvents: (
   input: DescribeEventsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEventsResponse,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -1275,7 +1297,7 @@ export const describeEvents: (
  */
 export const listTags: (
   input: ListTagsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsResponse,
   | ClusterNotFoundFault
   | InvalidARNFault
@@ -1318,7 +1340,7 @@ export const listTags: (
  */
 export const describeClusters: (
   input: DescribeClustersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeClustersResponse,
   | ClusterNotFoundFault
   | InvalidParameterCombinationException
@@ -1345,7 +1367,7 @@ export const describeClusters: (
  */
 export const deleteCluster: (
   input: DeleteClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteClusterResponse,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -1371,7 +1393,7 @@ export const deleteCluster: (
  */
 export const describeDefaultParameters: (
   input: DescribeDefaultParametersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDefaultParametersResponse,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -1393,7 +1415,7 @@ export const describeDefaultParameters: (
  */
 export const describeSubnetGroups: (
   input: DescribeSubnetGroupsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSubnetGroupsResponse,
   ServiceLinkedRoleNotFoundFault | SubnetGroupNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1410,7 +1432,7 @@ export const describeSubnetGroups: (
  */
 export const deleteSubnetGroup: (
   input: DeleteSubnetGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSubnetGroupResponse,
   | ServiceLinkedRoleNotFoundFault
   | SubnetGroupInUseFault
@@ -1436,7 +1458,7 @@ export const deleteSubnetGroup: (
  */
 export const rebootNode: (
   input: RebootNodeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RebootNodeResponse,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -1465,7 +1487,7 @@ export const rebootNode: (
  */
 export const updateCluster: (
   input: UpdateClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateClusterResponse,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -1496,7 +1518,7 @@ export const updateCluster: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | ClusterNotFoundFault
   | InvalidARNFault
@@ -1526,7 +1548,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | ClusterNotFoundFault
   | InvalidARNFault
@@ -1559,7 +1581,7 @@ export const untagResource: (
  */
 export const decreaseReplicationFactor: (
   input: DecreaseReplicationFactorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DecreaseReplicationFactorResponse,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -1587,7 +1609,7 @@ export const decreaseReplicationFactor: (
  */
 export const updateParameterGroup: (
   input: UpdateParameterGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateParameterGroupResponse,
   | InvalidParameterCombinationException
   | InvalidParameterGroupStateFault
@@ -1613,7 +1635,7 @@ export const updateParameterGroup: (
  */
 export const describeParameterGroups: (
   input: DescribeParameterGroupsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeParameterGroupsResponse,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -1636,7 +1658,7 @@ export const describeParameterGroups: (
  */
 export const describeParameters: (
   input: DescribeParametersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeParametersResponse,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -1660,7 +1682,7 @@ export const describeParameters: (
  */
 export const deleteParameterGroup: (
   input: DeleteParameterGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteParameterGroupResponse,
   | InvalidParameterCombinationException
   | InvalidParameterGroupStateFault
@@ -1686,7 +1708,7 @@ export const deleteParameterGroup: (
  */
 export const createParameterGroup: (
   input: CreateParameterGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateParameterGroupResponse,
   | InvalidParameterCombinationException
   | InvalidParameterGroupStateFault
@@ -1713,7 +1735,7 @@ export const createParameterGroup: (
  */
 export const updateSubnetGroup: (
   input: UpdateSubnetGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSubnetGroupResponse,
   | InvalidSubnet
   | ServiceLinkedRoleNotFoundFault
@@ -1740,7 +1762,7 @@ export const updateSubnetGroup: (
  */
 export const increaseReplicationFactor: (
   input: IncreaseReplicationFactorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   IncreaseReplicationFactorResponse,
   | ClusterNotFoundFault
   | InsufficientClusterCapacityFault
@@ -1773,7 +1795,7 @@ export const increaseReplicationFactor: (
  */
 export const createSubnetGroup: (
   input: CreateSubnetGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSubnetGroupResponse,
   | InvalidSubnet
   | ServiceLinkedRoleNotFoundFault
@@ -1800,7 +1822,7 @@ export const createSubnetGroup: (
  */
 export const createCluster: (
   input: CreateClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateClusterResponse,
   | ClusterAlreadyExistsFault
   | ClusterQuotaForCustomerExceededFault

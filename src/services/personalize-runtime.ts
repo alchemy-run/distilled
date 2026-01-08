@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -92,9 +92,9 @@ export type UserID = string;
 export type NumResults = number;
 export type ItemID = string;
 export type FilterAttributeName = string;
-export type FilterAttributeValue = string | Redacted.Redacted<string>;
+export type FilterAttributeValue = string | redacted.Redacted<string>;
 export type AttributeName = string;
-export type AttributeValue = string | Redacted.Redacted<string>;
+export type AttributeValue = string | redacted.Redacted<string>;
 export type DatasetType = string;
 export type ColumnName = string;
 export type Name = string;
@@ -112,12 +112,12 @@ export const InputList = S.Array(S.String);
 export type ColumnNamesList = string[];
 export const ColumnNamesList = S.Array(S.String);
 export type FilterValues = {
-  [key: string]: string | Redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string>;
 };
 export const FilterValues = S.Record({ key: S.String, value: SensitiveString });
-export type Context = { [key: string]: string | Redacted.Redacted<string> };
+export type Context = { [key: string]: string | redacted.Redacted<string> };
 export const Context = S.Record({ key: S.String, value: SensitiveString });
-export type MetadataColumns = { [key: string]: ColumnNamesList };
+export type MetadataColumns = { [key: string]: string[] };
 export const MetadataColumns = S.Record({
   key: S.String,
   value: ColumnNamesList,
@@ -126,7 +126,7 @@ export interface Promotion {
   name?: string;
   percentPromotedItems?: number;
   filterArn?: string;
-  filterValues?: FilterValues;
+  filterValues?: { [key: string]: string | redacted.Redacted<string> };
 }
 export const Promotion = S.suspend(() =>
   S.Struct({
@@ -143,7 +143,7 @@ export interface GetActionRecommendationsRequest {
   userId?: string;
   numResults?: number;
   filterArn?: string;
-  filterValues?: FilterValues;
+  filterValues?: { [key: string]: string | redacted.Redacted<string> };
 }
 export const GetActionRecommendationsRequest = S.suspend(() =>
   S.Struct({
@@ -167,12 +167,12 @@ export const GetActionRecommendationsRequest = S.suspend(() =>
 }) as any as S.Schema<GetActionRecommendationsRequest>;
 export interface GetPersonalizedRankingRequest {
   campaignArn: string;
-  inputList: InputList;
+  inputList: string[];
   userId: string;
-  context?: Context;
+  context?: { [key: string]: string | redacted.Redacted<string> };
   filterArn?: string;
-  filterValues?: FilterValues;
-  metadataColumns?: MetadataColumns;
+  filterValues?: { [key: string]: string | redacted.Redacted<string> };
+  metadataColumns?: { [key: string]: string[] };
 }
 export const GetPersonalizedRankingRequest = S.suspend(() =>
   S.Struct({
@@ -201,12 +201,12 @@ export interface GetRecommendationsRequest {
   itemId?: string;
   userId?: string;
   numResults?: number;
-  context?: Context;
+  context?: { [key: string]: string | redacted.Redacted<string> };
   filterArn?: string;
-  filterValues?: FilterValues;
+  filterValues?: { [key: string]: string | redacted.Redacted<string> };
   recommenderArn?: string;
-  promotions?: PromotionList;
-  metadataColumns?: MetadataColumns;
+  promotions?: Promotion[];
+  metadataColumns?: { [key: string]: string[] };
 }
 export const GetRecommendationsRequest = S.suspend(() =>
   S.Struct({
@@ -241,8 +241,8 @@ export interface PredictedItem {
   itemId?: string;
   score?: number;
   promotionName?: string;
-  metadata?: Metadata;
-  reason?: ReasonList;
+  metadata?: { [key: string]: string };
+  reason?: string[];
 }
 export const PredictedItem = S.suspend(() =>
   S.Struct({
@@ -258,7 +258,7 @@ export const PredictedItem = S.suspend(() =>
 export type ItemList = PredictedItem[];
 export const ItemList = S.Array(PredictedItem);
 export interface GetRecommendationsResponse {
-  itemList?: ItemList;
+  itemList?: PredictedItem[];
   recommendationId?: string;
 }
 export const GetRecommendationsResponse = S.suspend(() =>
@@ -281,7 +281,7 @@ export const PredictedAction = S.suspend(() =>
 export type ActionList = PredictedAction[];
 export const ActionList = S.Array(PredictedAction);
 export interface GetActionRecommendationsResponse {
-  actionList?: ActionList;
+  actionList?: PredictedAction[];
   recommendationId?: string;
 }
 export const GetActionRecommendationsResponse = S.suspend(() =>
@@ -293,7 +293,7 @@ export const GetActionRecommendationsResponse = S.suspend(() =>
   identifier: "GetActionRecommendationsResponse",
 }) as any as S.Schema<GetActionRecommendationsResponse>;
 export interface GetPersonalizedRankingResponse {
-  personalizedRanking?: ItemList;
+  personalizedRanking?: PredictedItem[];
   recommendationId?: string;
 }
 export const GetPersonalizedRankingResponse = S.suspend(() =>
@@ -332,7 +332,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
  */
 export const getRecommendations: (
   input: GetRecommendationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRecommendationsResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -351,7 +351,7 @@ export const getRecommendations: (
  */
 export const getActionRecommendations: (
   input: GetActionRecommendationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetActionRecommendationsResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -369,7 +369,7 @@ export const getActionRecommendations: (
  */
 export const getPersonalizedRanking: (
   input: GetPersonalizedRankingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPersonalizedRankingResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

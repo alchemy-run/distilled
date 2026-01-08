@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -144,14 +144,11 @@ export type OperatorTargetListMember = string;
 export type QueryParameterKey = string;
 export type QueryParameterValue = string;
 export type ErrorMessage = string;
-export type Double = number;
 export type RefreshScheduleFrequencyValue = number;
 export type ViewPropertiesKey = string;
 export type ViewPropertiesValue = string;
 export type SelectorField = string;
 export type OperatorValue = string;
-export type Long = number;
-export type Integer = number;
 export type PartitionKeyName = string;
 export type PartitionKeyType = string;
 export type QueryResultKey = string;
@@ -162,12 +159,62 @@ export type SampleQuerySQL = string;
 export type SampleQueryRelevance = number;
 
 //# Schemas
+export type BillingMode =
+  | "EXTENDABLE_RETENTION_PRICING"
+  | "FIXED_RETENTION_PRICING";
+export const BillingMode = S.Literal(
+  "EXTENDABLE_RETENTION_PRICING",
+  "FIXED_RETENTION_PRICING",
+);
 export type TrailNameList = string[];
 export const TrailNameList = S.Array(S.String);
 export type EventDataStoreList = string[];
 export const EventDataStoreList = S.Array(S.String);
+export type DashboardType = "MANAGED" | "CUSTOM";
+export const DashboardType = S.Literal("MANAGED", "CUSTOM");
+export type ImportStatus =
+  | "INITIALIZING"
+  | "IN_PROGRESS"
+  | "FAILED"
+  | "STOPPED"
+  | "COMPLETED";
+export const ImportStatus = S.Literal(
+  "INITIALIZING",
+  "IN_PROGRESS",
+  "FAILED",
+  "STOPPED",
+  "COMPLETED",
+);
+export type ListInsightsDataType = "InsightsEvents";
+export const ListInsightsDataType = S.Literal("InsightsEvents");
+export type InsightType = "ApiCallRateInsight" | "ApiErrorRateInsight";
+export const InsightType = S.Literal(
+  "ApiCallRateInsight",
+  "ApiErrorRateInsight",
+);
+export type InsightsMetricDataType = "FillWithZeros" | "NonZeroData";
+export const InsightsMetricDataType = S.Literal("FillWithZeros", "NonZeroData");
+export type QueryStatus =
+  | "QUEUED"
+  | "RUNNING"
+  | "FINISHED"
+  | "FAILED"
+  | "CANCELLED"
+  | "TIMED_OUT";
+export const QueryStatus = S.Literal(
+  "QUEUED",
+  "RUNNING",
+  "FINISHED",
+  "FAILED",
+  "CANCELLED",
+  "TIMED_OUT",
+);
 export type ResourceIdList = string[];
 export const ResourceIdList = S.Array(S.String);
+export type EventCategory = "insight";
+export const EventCategory = S.Literal("insight");
+export type MaxEventSize = "Standard" | "Large";
+export const MaxEventSize = S.Literal("Standard", "Large");
 export type ImportDestinations = string[];
 export const ImportDestinations = S.Array(S.String);
 export type QueryParameters = string[];
@@ -217,7 +264,7 @@ export interface CreateTrailRequest {
   CloudWatchLogsRoleArn?: string;
   KmsKeyId?: string;
   IsOrganizationTrail?: boolean;
-  TagsList?: TagsList;
+  TagsList?: Tag[];
 }
 export const CreateTrailRequest = S.suspend(() =>
   S.Struct({
@@ -420,7 +467,7 @@ export const DescribeQueryRequest = S.suspend(() =>
   identifier: "DescribeQueryRequest",
 }) as any as S.Schema<DescribeQueryRequest>;
 export interface DescribeTrailsRequest {
-  trailNameList?: TrailNameList;
+  trailNameList?: string[];
   includeShadowTrails?: boolean;
 }
 export const DescribeTrailsRequest = S.suspend(() =>
@@ -479,7 +526,7 @@ export const EnableFederationRequest = S.suspend(() =>
   identifier: "EnableFederationRequest",
 }) as any as S.Schema<EnableFederationRequest>;
 export interface GenerateQueryRequest {
-  EventDataStores: EventDataStoreList;
+  EventDataStores: string[];
   Prompt: string;
 }
 export const GenerateQueryRequest = S.suspend(() =>
@@ -737,14 +784,14 @@ export const ListChannelsRequest = S.suspend(() =>
 }) as any as S.Schema<ListChannelsRequest>;
 export interface ListDashboardsRequest {
   NamePrefix?: string;
-  Type?: string;
+  Type?: DashboardType;
   NextToken?: string;
   MaxResults?: number;
 }
 export const ListDashboardsRequest = S.suspend(() =>
   S.Struct({
     NamePrefix: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(DashboardType),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
@@ -810,14 +857,14 @@ export const ListImportFailuresRequest = S.suspend(() =>
 export interface ListImportsRequest {
   MaxResults?: number;
   Destination?: string;
-  ImportStatus?: string;
+  ImportStatus?: ImportStatus;
   NextToken?: string;
 }
 export const ListImportsRequest = S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number),
     Destination: S.optional(S.String),
-    ImportStatus: S.optional(S.String),
+    ImportStatus: S.optional(ImportStatus),
     NextToken: S.optional(S.String),
   }).pipe(
     T.all(
@@ -837,12 +884,12 @@ export interface ListInsightsMetricDataRequest {
   TrailName?: string;
   EventSource: string;
   EventName: string;
-  InsightType: string;
+  InsightType: InsightType;
   ErrorCode?: string;
   StartTime?: Date;
   EndTime?: Date;
   Period?: number;
-  DataType?: string;
+  DataType?: InsightsMetricDataType;
   MaxResults?: number;
   NextToken?: string;
 }
@@ -851,12 +898,12 @@ export const ListInsightsMetricDataRequest = S.suspend(() =>
     TrailName: S.optional(S.String),
     EventSource: S.String,
     EventName: S.String,
-    InsightType: S.String,
+    InsightType: InsightType,
     ErrorCode: S.optional(S.String),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Period: S.optional(S.Number),
-    DataType: S.optional(S.String),
+    DataType: S.optional(InsightsMetricDataType),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -903,7 +950,7 @@ export interface ListQueriesRequest {
   MaxResults?: number;
   StartTime?: Date;
   EndTime?: Date;
-  QueryStatus?: string;
+  QueryStatus?: QueryStatus;
 }
 export const ListQueriesRequest = S.suspend(() =>
   S.Struct({
@@ -912,7 +959,7 @@ export const ListQueriesRequest = S.suspend(() =>
     MaxResults: S.optional(S.Number),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    QueryStatus: S.optional(S.String),
+    QueryStatus: S.optional(QueryStatus),
   }).pipe(
     T.all(
       ns,
@@ -928,7 +975,7 @@ export const ListQueriesRequest = S.suspend(() =>
   identifier: "ListQueriesRequest",
 }) as any as S.Schema<ListQueriesRequest>;
 export interface ListTagsRequest {
-  ResourceIdList: ResourceIdList;
+  ResourceIdList: string[];
   NextToken?: string;
 }
 export const ListTagsRequest = S.suspend(() =>
@@ -1012,7 +1059,7 @@ export const RegisterOrganizationDelegatedAdminResponse = S.suspend(() =>
 }) as any as S.Schema<RegisterOrganizationDelegatedAdminResponse>;
 export interface RemoveTagsRequest {
   ResourceId: string;
-  TagsList: TagsList;
+  TagsList: Tag[];
 }
 export const RemoveTagsRequest = S.suspend(() =>
   S.Struct({ ResourceId: S.String, TagsList: TagsList }).pipe(
@@ -1129,7 +1176,7 @@ export interface StartQueryRequest {
   QueryStatement?: string;
   DeliveryS3Uri?: string;
   QueryAlias?: string;
-  QueryParameters?: QueryParameters;
+  QueryParameters?: string[];
   EventDataStoreOwnerAccountId?: string;
 }
 export const StartQueryRequest = S.suspend(() =>
@@ -1219,18 +1266,20 @@ export const StopLoggingResponse = S.suspend(() =>
 ).annotations({
   identifier: "StopLoggingResponse",
 }) as any as S.Schema<StopLoggingResponse>;
+export type DestinationType = "EVENT_DATA_STORE" | "AWS_SERVICE";
+export const DestinationType = S.Literal("EVENT_DATA_STORE", "AWS_SERVICE");
 export interface Destination {
-  Type: string;
+  Type: DestinationType;
   Location: string;
 }
 export const Destination = S.suspend(() =>
-  S.Struct({ Type: S.String, Location: S.String }),
+  S.Struct({ Type: DestinationType, Location: S.String }),
 ).annotations({ identifier: "Destination" }) as any as S.Schema<Destination>;
 export type Destinations = Destination[];
 export const Destinations = S.Array(Destination);
 export interface UpdateChannelRequest {
   Channel: string;
-  Destinations?: Destinations;
+  Destinations?: Destination[];
   Name?: string;
 }
 export const UpdateChannelRequest = S.suspend(() =>
@@ -1256,8 +1305,8 @@ export type ViewPropertiesMap = { [key: string]: string };
 export const ViewPropertiesMap = S.Record({ key: S.String, value: S.String });
 export interface RequestWidget {
   QueryStatement: string;
-  QueryParameters?: QueryParameters;
-  ViewProperties: ViewPropertiesMap;
+  QueryParameters?: string[];
+  ViewProperties: { [key: string]: string };
 }
 export const RequestWidget = S.suspend(() =>
   S.Struct({
@@ -1270,24 +1319,31 @@ export const RequestWidget = S.suspend(() =>
 }) as any as S.Schema<RequestWidget>;
 export type RequestWidgetList = RequestWidget[];
 export const RequestWidgetList = S.Array(RequestWidget);
+export type RefreshScheduleFrequencyUnit = "HOURS" | "DAYS";
+export const RefreshScheduleFrequencyUnit = S.Literal("HOURS", "DAYS");
 export interface RefreshScheduleFrequency {
-  Unit?: string;
+  Unit?: RefreshScheduleFrequencyUnit;
   Value?: number;
 }
 export const RefreshScheduleFrequency = S.suspend(() =>
-  S.Struct({ Unit: S.optional(S.String), Value: S.optional(S.Number) }),
+  S.Struct({
+    Unit: S.optional(RefreshScheduleFrequencyUnit),
+    Value: S.optional(S.Number),
+  }),
 ).annotations({
   identifier: "RefreshScheduleFrequency",
 }) as any as S.Schema<RefreshScheduleFrequency>;
+export type RefreshScheduleStatus = "ENABLED" | "DISABLED";
+export const RefreshScheduleStatus = S.Literal("ENABLED", "DISABLED");
 export interface RefreshSchedule {
   Frequency?: RefreshScheduleFrequency;
-  Status?: string;
+  Status?: RefreshScheduleStatus;
   TimeOfDay?: string;
 }
 export const RefreshSchedule = S.suspend(() =>
   S.Struct({
     Frequency: S.optional(RefreshScheduleFrequency),
-    Status: S.optional(S.String),
+    Status: S.optional(RefreshScheduleStatus),
     TimeOfDay: S.optional(S.String),
   }),
 ).annotations({
@@ -1295,7 +1351,7 @@ export const RefreshSchedule = S.suspend(() =>
 }) as any as S.Schema<RefreshSchedule>;
 export interface UpdateDashboardRequest {
   DashboardId: string;
-  Widgets?: RequestWidgetList;
+  Widgets?: RequestWidget[];
   RefreshSchedule?: RefreshSchedule;
   TerminationProtectionEnabled?: boolean;
 }
@@ -1323,12 +1379,12 @@ export type Operator = string[];
 export const Operator = S.Array(S.String);
 export interface AdvancedFieldSelector {
   Field: string;
-  Equals?: Operator;
-  StartsWith?: Operator;
-  EndsWith?: Operator;
-  NotEquals?: Operator;
-  NotStartsWith?: Operator;
-  NotEndsWith?: Operator;
+  Equals?: string[];
+  StartsWith?: string[];
+  EndsWith?: string[];
+  NotEquals?: string[];
+  NotStartsWith?: string[];
+  NotEndsWith?: string[];
 }
 export const AdvancedFieldSelector = S.suspend(() =>
   S.Struct({
@@ -1347,7 +1403,7 @@ export type AdvancedFieldSelectors = AdvancedFieldSelector[];
 export const AdvancedFieldSelectors = S.Array(AdvancedFieldSelector);
 export interface AdvancedEventSelector {
   Name?: string;
-  FieldSelectors: AdvancedFieldSelectors;
+  FieldSelectors: AdvancedFieldSelector[];
 }
 export const AdvancedEventSelector = S.suspend(() =>
   S.Struct({
@@ -1362,13 +1418,13 @@ export const AdvancedEventSelectors = S.Array(AdvancedEventSelector);
 export interface UpdateEventDataStoreRequest {
   EventDataStore: string;
   Name?: string;
-  AdvancedEventSelectors?: AdvancedEventSelectors;
+  AdvancedEventSelectors?: AdvancedEventSelector[];
   MultiRegionEnabled?: boolean;
   OrganizationEnabled?: boolean;
   RetentionPeriod?: number;
   TerminationProtectionEnabled?: boolean;
   KmsKeyId?: string;
-  BillingMode?: string;
+  BillingMode?: BillingMode;
 }
 export const UpdateEventDataStoreRequest = S.suspend(() =>
   S.Struct({
@@ -1380,7 +1436,7 @@ export const UpdateEventDataStoreRequest = S.suspend(() =>
     RetentionPeriod: S.optional(S.Number),
     TerminationProtectionEnabled: S.optional(S.Boolean),
     KmsKeyId: S.optional(S.String),
-    BillingMode: S.optional(S.String),
+    BillingMode: S.optional(BillingMode),
   }).pipe(
     T.all(
       ns,
@@ -1435,19 +1491,122 @@ export const UpdateTrailRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateTrailRequest",
 }) as any as S.Schema<UpdateTrailRequest>;
+export type ListInsightsDataDimensionKey =
+  | "EventId"
+  | "EventName"
+  | "EventSource";
+export const ListInsightsDataDimensionKey = S.Literal(
+  "EventId",
+  "EventName",
+  "EventSource",
+);
+export type LookupAttributeKey =
+  | "EventId"
+  | "EventName"
+  | "ReadOnly"
+  | "Username"
+  | "ResourceType"
+  | "ResourceName"
+  | "EventSource"
+  | "AccessKeyId";
+export const LookupAttributeKey = S.Literal(
+  "EventId",
+  "EventName",
+  "ReadOnly",
+  "Username",
+  "ResourceType",
+  "ResourceName",
+  "EventSource",
+  "AccessKeyId",
+);
+export type Type = "TagContext" | "RequestContext";
+export const Type = S.Literal("TagContext", "RequestContext");
 export type OperatorTargetList = string[];
 export const OperatorTargetList = S.Array(S.String);
-export type Templates = string[];
-export const Templates = S.Array(S.String);
+export type Template = "API_ACTIVITY" | "RESOURCE_ACCESS" | "USER_ACTIONS";
+export const Template = S.Literal(
+  "API_ACTIVITY",
+  "RESOURCE_ACCESS",
+  "USER_ACTIONS",
+);
+export type Templates = Template[];
+export const Templates = S.Array(Template);
+export type EventCategoryAggregation = "Data";
+export const EventCategoryAggregation = S.Literal("Data");
+export type ReadWriteType = "ReadOnly" | "WriteOnly" | "All";
+export const ReadWriteType = S.Literal("ReadOnly", "WriteOnly", "All");
 export type ExcludeManagementEventSources = string[];
 export const ExcludeManagementEventSources = S.Array(S.String);
-export type SourceEventCategories = string[];
-export const SourceEventCategories = S.Array(S.String);
-export type ListInsightsDataDimensions = { [key: string]: string };
-export const ListInsightsDataDimensions = S.Record({
-  key: S.String,
-  value: S.String,
-});
+export type SourceEventCategory = "Management" | "Data";
+export const SourceEventCategory = S.Literal("Management", "Data");
+export type SourceEventCategories = SourceEventCategory[];
+export const SourceEventCategories = S.Array(SourceEventCategory);
+export type DeliveryStatus =
+  | "SUCCESS"
+  | "FAILED"
+  | "FAILED_SIGNING_FILE"
+  | "PENDING"
+  | "RESOURCE_NOT_FOUND"
+  | "ACCESS_DENIED"
+  | "ACCESS_DENIED_SIGNING_FILE"
+  | "CANCELLED"
+  | "UNKNOWN";
+export const DeliveryStatus = S.Literal(
+  "SUCCESS",
+  "FAILED",
+  "FAILED_SIGNING_FILE",
+  "PENDING",
+  "RESOURCE_NOT_FOUND",
+  "ACCESS_DENIED",
+  "ACCESS_DENIED_SIGNING_FILE",
+  "CANCELLED",
+  "UNKNOWN",
+);
+export type FederationStatus =
+  | "ENABLING"
+  | "ENABLED"
+  | "DISABLING"
+  | "DISABLED";
+export const FederationStatus = S.Literal(
+  "ENABLING",
+  "ENABLED",
+  "DISABLING",
+  "DISABLED",
+);
+export type DashboardStatus =
+  | "CREATING"
+  | "CREATED"
+  | "UPDATING"
+  | "UPDATED"
+  | "DELETING";
+export const DashboardStatus = S.Literal(
+  "CREATING",
+  "CREATED",
+  "UPDATING",
+  "UPDATED",
+  "DELETING",
+);
+export type EventDataStoreStatus =
+  | "CREATED"
+  | "ENABLED"
+  | "PENDING_DELETION"
+  | "STARTING_INGESTION"
+  | "STOPPING_INGESTION"
+  | "STOPPED_INGESTION";
+export const EventDataStoreStatus = S.Literal(
+  "CREATED",
+  "ENABLED",
+  "PENDING_DELETION",
+  "STARTING_INGESTION",
+  "STOPPING_INGESTION",
+  "STOPPED_INGESTION",
+);
+export type ListInsightsDataDimensions = {
+  [key in ListInsightsDataDimensionKey]?: string;
+};
+export const ListInsightsDataDimensions = S.partial(
+  S.Record({ key: ListInsightsDataDimensionKey, value: S.String }),
+);
 export type Timestamps = Date[];
 export const Timestamps = S.Array(
   S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1455,45 +1614,45 @@ export const Timestamps = S.Array(
 export type InsightsMetricValues = number[];
 export const InsightsMetricValues = S.Array(S.Number);
 export interface LookupAttribute {
-  AttributeKey: string;
+  AttributeKey: LookupAttributeKey;
   AttributeValue: string;
 }
 export const LookupAttribute = S.suspend(() =>
-  S.Struct({ AttributeKey: S.String, AttributeValue: S.String }),
+  S.Struct({ AttributeKey: LookupAttributeKey, AttributeValue: S.String }),
 ).annotations({
   identifier: "LookupAttribute",
 }) as any as S.Schema<LookupAttribute>;
 export type LookupAttributesList = LookupAttribute[];
 export const LookupAttributesList = S.Array(LookupAttribute);
 export interface ContextKeySelector {
-  Type: string;
-  Equals: OperatorTargetList;
+  Type: Type;
+  Equals: string[];
 }
 export const ContextKeySelector = S.suspend(() =>
-  S.Struct({ Type: S.String, Equals: OperatorTargetList }),
+  S.Struct({ Type: Type, Equals: OperatorTargetList }),
 ).annotations({
   identifier: "ContextKeySelector",
 }) as any as S.Schema<ContextKeySelector>;
 export type ContextKeySelectors = ContextKeySelector[];
 export const ContextKeySelectors = S.Array(ContextKeySelector);
 export interface AggregationConfiguration {
-  Templates: Templates;
-  EventCategory: string;
+  Templates: Template[];
+  EventCategory: EventCategoryAggregation;
 }
 export const AggregationConfiguration = S.suspend(() =>
-  S.Struct({ Templates: Templates, EventCategory: S.String }),
+  S.Struct({ Templates: Templates, EventCategory: EventCategoryAggregation }),
 ).annotations({
   identifier: "AggregationConfiguration",
 }) as any as S.Schema<AggregationConfiguration>;
 export type AggregationConfigurations = AggregationConfiguration[];
 export const AggregationConfigurations = S.Array(AggregationConfiguration);
 export interface InsightSelector {
-  InsightType?: string;
-  EventCategories?: SourceEventCategories;
+  InsightType?: InsightType;
+  EventCategories?: SourceEventCategory[];
 }
 export const InsightSelector = S.suspend(() =>
   S.Struct({
-    InsightType: S.optional(S.String),
+    InsightType: S.optional(InsightType),
     EventCategories: S.optional(SourceEventCategories),
   }),
 ).annotations({
@@ -1510,7 +1669,7 @@ export type DataResourceValues = string[];
 export const DataResourceValues = S.Array(S.String);
 export interface AddTagsRequest {
   ResourceId: string;
-  TagsList: TagsList;
+  TagsList: Tag[];
 }
 export const AddTagsRequest = S.suspend(() =>
   S.Struct({ ResourceId: S.String, TagsList: TagsList }).pipe(
@@ -1535,13 +1694,13 @@ export const AddTagsResponse = S.suspend(() =>
 }) as any as S.Schema<AddTagsResponse>;
 export interface CancelQueryResponse {
   QueryId: string;
-  QueryStatus: string;
+  QueryStatus: QueryStatus;
   EventDataStoreOwnerAccountId?: string;
 }
 export const CancelQueryResponse = S.suspend(() =>
   S.Struct({
     QueryId: S.String,
-    QueryStatus: S.String,
+    QueryStatus: QueryStatus,
     EventDataStoreOwnerAccountId: S.optional(S.String),
   }).pipe(ns),
 ).annotations({
@@ -1550,8 +1709,8 @@ export const CancelQueryResponse = S.suspend(() =>
 export interface CreateChannelRequest {
   Name: string;
   Source: string;
-  Destinations: Destinations;
-  Tags?: TagsList;
+  Destinations: Destination[];
+  Tags?: Tag[];
 }
 export const CreateChannelRequest = S.suspend(() =>
   S.Struct({
@@ -1609,25 +1768,25 @@ export const CreateTrailResponse = S.suspend(() =>
 }) as any as S.Schema<CreateTrailResponse>;
 export interface DisableFederationResponse {
   EventDataStoreArn?: string;
-  FederationStatus?: string;
+  FederationStatus?: FederationStatus;
 }
 export const DisableFederationResponse = S.suspend(() =>
   S.Struct({
     EventDataStoreArn: S.optional(S.String),
-    FederationStatus: S.optional(S.String),
+    FederationStatus: S.optional(FederationStatus),
   }).pipe(ns),
 ).annotations({
   identifier: "DisableFederationResponse",
 }) as any as S.Schema<DisableFederationResponse>;
 export interface EnableFederationResponse {
   EventDataStoreArn?: string;
-  FederationStatus?: string;
+  FederationStatus?: FederationStatus;
   FederationRoleArn?: string;
 }
 export const EnableFederationResponse = S.suspend(() =>
   S.Struct({
     EventDataStoreArn: S.optional(S.String),
-    FederationStatus: S.optional(S.String),
+    FederationStatus: S.optional(FederationStatus),
     FederationRoleArn: S.optional(S.String),
   }).pipe(ns),
 ).annotations({
@@ -1650,15 +1809,15 @@ export const GenerateQueryResponse = S.suspend(() =>
 export interface GetEventConfigurationResponse {
   TrailARN?: string;
   EventDataStoreArn?: string;
-  MaxEventSize?: string;
-  ContextKeySelectors?: ContextKeySelectors;
-  AggregationConfigurations?: AggregationConfigurations;
+  MaxEventSize?: MaxEventSize;
+  ContextKeySelectors?: ContextKeySelector[];
+  AggregationConfigurations?: AggregationConfiguration[];
 }
 export const GetEventConfigurationResponse = S.suspend(() =>
   S.Struct({
     TrailARN: S.optional(S.String),
     EventDataStoreArn: S.optional(S.String),
-    MaxEventSize: S.optional(S.String),
+    MaxEventSize: S.optional(MaxEventSize),
     ContextKeySelectors: S.optional(ContextKeySelectors),
     AggregationConfigurations: S.optional(AggregationConfigurations),
   }).pipe(ns),
@@ -1667,7 +1826,7 @@ export const GetEventConfigurationResponse = S.suspend(() =>
 }) as any as S.Schema<GetEventConfigurationResponse>;
 export interface DataResource {
   Type?: string;
-  Values?: DataResourceValues;
+  Values?: string[];
 }
 export const DataResource = S.suspend(() =>
   S.Struct({
@@ -1678,14 +1837,14 @@ export const DataResource = S.suspend(() =>
 export type DataResources = DataResource[];
 export const DataResources = S.Array(DataResource);
 export interface EventSelector {
-  ReadWriteType?: string;
+  ReadWriteType?: ReadWriteType;
   IncludeManagementEvents?: boolean;
-  DataResources?: DataResources;
-  ExcludeManagementEventSources?: ExcludeManagementEventSources;
+  DataResources?: DataResource[];
+  ExcludeManagementEventSources?: string[];
 }
 export const EventSelector = S.suspend(() =>
   S.Struct({
-    ReadWriteType: S.optional(S.String),
+    ReadWriteType: S.optional(ReadWriteType),
     IncludeManagementEvents: S.optional(S.Boolean),
     DataResources: S.optional(DataResources),
     ExcludeManagementEventSources: S.optional(ExcludeManagementEventSources),
@@ -1697,8 +1856,8 @@ export type EventSelectors = EventSelector[];
 export const EventSelectors = S.Array(EventSelector);
 export interface GetEventSelectorsResponse {
   TrailARN?: string;
-  EventSelectors?: EventSelectors;
-  AdvancedEventSelectors?: AdvancedEventSelectors;
+  EventSelectors?: EventSelector[];
+  AdvancedEventSelectors?: AdvancedEventSelector[];
 }
 export const GetEventSelectorsResponse = S.suspend(() =>
   S.Struct({
@@ -1711,7 +1870,7 @@ export const GetEventSelectorsResponse = S.suspend(() =>
 }) as any as S.Schema<GetEventSelectorsResponse>;
 export interface GetInsightSelectorsResponse {
   TrailARN?: string;
-  InsightSelectors?: InsightSelectors;
+  InsightSelectors?: InsightSelector[];
   EventDataStoreArn?: string;
   InsightsDestination?: string;
 }
@@ -1841,8 +2000,8 @@ export const GetTrailStatusResponse = S.suspend(() =>
 }) as any as S.Schema<GetTrailStatusResponse>;
 export interface ListInsightsDataRequest {
   InsightSource: string;
-  DataType: string;
-  Dimensions?: ListInsightsDataDimensions;
+  DataType: ListInsightsDataType;
+  Dimensions?: { [key: string]: string };
   StartTime?: Date;
   EndTime?: Date;
   MaxResults?: number;
@@ -1851,7 +2010,7 @@ export interface ListInsightsDataRequest {
 export const ListInsightsDataRequest = S.suspend(() =>
   S.Struct({
     InsightSource: S.String,
-    DataType: S.String,
+    DataType: ListInsightsDataType,
     Dimensions: S.optional(ListInsightsDataDimensions),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1875,10 +2034,10 @@ export interface ListInsightsMetricDataResponse {
   TrailARN?: string;
   EventSource?: string;
   EventName?: string;
-  InsightType?: string;
+  InsightType?: InsightType;
   ErrorCode?: string;
-  Timestamps?: Timestamps;
-  Values?: InsightsMetricValues;
+  Timestamps?: Date[];
+  Values?: number[];
   NextToken?: string;
 }
 export const ListInsightsMetricDataResponse = S.suspend(() =>
@@ -1886,7 +2045,7 @@ export const ListInsightsMetricDataResponse = S.suspend(() =>
     TrailARN: S.optional(S.String),
     EventSource: S.optional(S.String),
     EventName: S.optional(S.String),
-    InsightType: S.optional(S.String),
+    InsightType: S.optional(InsightType),
     ErrorCode: S.optional(S.String),
     Timestamps: S.optional(Timestamps),
     Values: S.optional(InsightsMetricValues),
@@ -1896,10 +2055,10 @@ export const ListInsightsMetricDataResponse = S.suspend(() =>
   identifier: "ListInsightsMetricDataResponse",
 }) as any as S.Schema<ListInsightsMetricDataResponse>;
 export interface LookupEventsRequest {
-  LookupAttributes?: LookupAttributesList;
+  LookupAttributes?: LookupAttribute[];
   StartTime?: Date;
   EndTime?: Date;
-  EventCategory?: string;
+  EventCategory?: EventCategory;
   MaxResults?: number;
   NextToken?: string;
 }
@@ -1908,7 +2067,7 @@ export const LookupEventsRequest = S.suspend(() =>
     LookupAttributes: S.optional(LookupAttributesList),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EventCategory: S.optional(S.String),
+    EventCategory: S.optional(EventCategory),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -1928,15 +2087,15 @@ export const LookupEventsRequest = S.suspend(() =>
 export interface PutEventConfigurationRequest {
   TrailName?: string;
   EventDataStore?: string;
-  MaxEventSize?: string;
-  ContextKeySelectors?: ContextKeySelectors;
-  AggregationConfigurations?: AggregationConfigurations;
+  MaxEventSize?: MaxEventSize;
+  ContextKeySelectors?: ContextKeySelector[];
+  AggregationConfigurations?: AggregationConfiguration[];
 }
 export const PutEventConfigurationRequest = S.suspend(() =>
   S.Struct({
     TrailName: S.optional(S.String),
     EventDataStore: S.optional(S.String),
-    MaxEventSize: S.optional(S.String),
+    MaxEventSize: S.optional(MaxEventSize),
     ContextKeySelectors: S.optional(ContextKeySelectors),
     AggregationConfigurations: S.optional(AggregationConfigurations),
   }).pipe(
@@ -1955,7 +2114,7 @@ export const PutEventConfigurationRequest = S.suspend(() =>
 }) as any as S.Schema<PutEventConfigurationRequest>;
 export interface PutInsightSelectorsRequest {
   TrailName?: string;
-  InsightSelectors: InsightSelectors;
+  InsightSelectors: InsightSelector[];
   EventDataStore?: string;
   InsightsDestination?: string;
 }
@@ -1996,8 +2155,8 @@ export const PutResourcePolicyResponse = S.suspend(() =>
 export interface RestoreEventDataStoreResponse {
   EventDataStoreArn?: string;
   Name?: string;
-  Status?: string;
-  AdvancedEventSelectors?: AdvancedEventSelectors;
+  Status?: EventDataStoreStatus;
+  AdvancedEventSelectors?: AdvancedEventSelector[];
   MultiRegionEnabled?: boolean;
   OrganizationEnabled?: boolean;
   RetentionPeriod?: number;
@@ -2005,13 +2164,13 @@ export interface RestoreEventDataStoreResponse {
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
   KmsKeyId?: string;
-  BillingMode?: string;
+  BillingMode?: BillingMode;
 }
 export const RestoreEventDataStoreResponse = S.suspend(() =>
   S.Struct({
     EventDataStoreArn: S.optional(S.String),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(EventDataStoreStatus),
     AdvancedEventSelectors: S.optional(AdvancedEventSelectors),
     MultiRegionEnabled: S.optional(S.Boolean),
     OrganizationEnabled: S.optional(S.Boolean),
@@ -2024,14 +2183,14 @@ export const RestoreEventDataStoreResponse = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     KmsKeyId: S.optional(S.String),
-    BillingMode: S.optional(S.String),
+    BillingMode: S.optional(BillingMode),
   }).pipe(ns),
 ).annotations({
   identifier: "RestoreEventDataStoreResponse",
 }) as any as S.Schema<RestoreEventDataStoreResponse>;
 export interface StartDashboardRefreshRequest {
   DashboardId: string;
-  QueryParameterValues?: QueryParameterValues;
+  QueryParameterValues?: { [key: string]: string };
 }
 export const StartDashboardRefreshRequest = S.suspend(() =>
   S.Struct({
@@ -2104,8 +2263,8 @@ export const ImportStatistics = S.suspend(() =>
 export interface StopImportResponse {
   ImportId?: string;
   ImportSource?: ImportSource;
-  Destinations?: ImportDestinations;
-  ImportStatus?: string;
+  Destinations?: string[];
+  ImportStatus?: ImportStatus;
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
   StartEventTime?: Date;
@@ -2117,7 +2276,7 @@ export const StopImportResponse = S.suspend(() =>
     ImportId: S.optional(S.String),
     ImportSource: S.optional(ImportSource),
     Destinations: S.optional(ImportDestinations),
-    ImportStatus: S.optional(S.String),
+    ImportStatus: S.optional(ImportStatus),
     CreatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -2135,7 +2294,7 @@ export interface UpdateChannelResponse {
   ChannelArn?: string;
   Name?: string;
   Source?: string;
-  Destinations?: Destinations;
+  Destinations?: Destination[];
 }
 export const UpdateChannelResponse = S.suspend(() =>
   S.Struct({
@@ -2150,8 +2309,8 @@ export const UpdateChannelResponse = S.suspend(() =>
 export interface Widget {
   QueryAlias?: string;
   QueryStatement?: string;
-  QueryParameters?: QueryParameters;
-  ViewProperties?: ViewPropertiesMap;
+  QueryParameters?: string[];
+  ViewProperties?: { [key: string]: string };
 }
 export const Widget = S.suspend(() =>
   S.Struct({
@@ -2166,8 +2325,8 @@ export const WidgetList = S.Array(Widget);
 export interface UpdateDashboardResponse {
   DashboardArn?: string;
   Name?: string;
-  Type?: string;
-  Widgets?: WidgetList;
+  Type?: DashboardType;
+  Widgets?: Widget[];
   RefreshSchedule?: RefreshSchedule;
   TerminationProtectionEnabled?: boolean;
   CreatedTimestamp?: Date;
@@ -2177,7 +2336,7 @@ export const UpdateDashboardResponse = S.suspend(() =>
   S.Struct({
     DashboardArn: S.optional(S.String),
     Name: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(DashboardType),
     Widgets: S.optional(WidgetList),
     RefreshSchedule: S.optional(RefreshSchedule),
     TerminationProtectionEnabled: S.optional(S.Boolean),
@@ -2194,8 +2353,8 @@ export const UpdateDashboardResponse = S.suspend(() =>
 export interface UpdateEventDataStoreResponse {
   EventDataStoreArn?: string;
   Name?: string;
-  Status?: string;
-  AdvancedEventSelectors?: AdvancedEventSelectors;
+  Status?: EventDataStoreStatus;
+  AdvancedEventSelectors?: AdvancedEventSelector[];
   MultiRegionEnabled?: boolean;
   OrganizationEnabled?: boolean;
   RetentionPeriod?: number;
@@ -2203,15 +2362,15 @@ export interface UpdateEventDataStoreResponse {
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
   KmsKeyId?: string;
-  BillingMode?: string;
-  FederationStatus?: string;
+  BillingMode?: BillingMode;
+  FederationStatus?: FederationStatus;
   FederationRoleArn?: string;
 }
 export const UpdateEventDataStoreResponse = S.suspend(() =>
   S.Struct({
     EventDataStoreArn: S.optional(S.String),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(EventDataStoreStatus),
     AdvancedEventSelectors: S.optional(AdvancedEventSelectors),
     MultiRegionEnabled: S.optional(S.Boolean),
     OrganizationEnabled: S.optional(S.Boolean),
@@ -2224,8 +2383,8 @@ export const UpdateEventDataStoreResponse = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     KmsKeyId: S.optional(S.String),
-    BillingMode: S.optional(S.String),
-    FederationStatus: S.optional(S.String),
+    BillingMode: S.optional(BillingMode),
+    FederationStatus: S.optional(FederationStatus),
     FederationRoleArn: S.optional(S.String),
   }).pipe(ns),
 ).annotations({
@@ -2265,6 +2424,8 @@ export const UpdateTrailResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateTrailResponse",
 }) as any as S.Schema<UpdateTrailResponse>;
+export type ImportFailureStatus = "FAILED" | "RETRY" | "SUCCEEDED";
+export const ImportFailureStatus = S.Literal("FAILED", "RETRY", "SUCCEEDED");
 export interface QueryStatisticsForDescribeQuery {
   EventsMatched?: number;
   EventsScanned?: number;
@@ -2287,7 +2448,7 @@ export type TrailList = Trail[];
 export const TrailList = S.Array(Trail);
 export interface SourceConfig {
   ApplyToAllRegions?: boolean;
-  AdvancedEventSelectors?: AdvancedEventSelectors;
+  AdvancedEventSelectors?: AdvancedEventSelector[];
 }
 export const SourceConfig = S.suspend(() =>
   S.Struct({
@@ -2342,9 +2503,9 @@ export const QueryStatistics = S.suspend(() =>
 }) as any as S.Schema<QueryStatistics>;
 export type QueryResultColumn = { [key: string]: string };
 export const QueryResultColumn = S.Record({ key: S.String, value: S.String });
-export type QueryResultRow = QueryResultColumn[];
+export type QueryResultRow = { [key: string]: string }[];
 export const QueryResultRow = S.Array(QueryResultColumn);
-export type QueryResultRows = QueryResultRow[];
+export type QueryResultRows = { [key: string]: string }[][];
 export const QueryResultRows = S.Array(QueryResultRow);
 export interface Channel {
   ChannelArn?: string;
@@ -2357,10 +2518,13 @@ export type Channels = Channel[];
 export const Channels = S.Array(Channel);
 export interface DashboardDetail {
   DashboardArn?: string;
-  Type?: string;
+  Type?: DashboardType;
 }
 export const DashboardDetail = S.suspend(() =>
-  S.Struct({ DashboardArn: S.optional(S.String), Type: S.optional(S.String) }),
+  S.Struct({
+    DashboardArn: S.optional(S.String),
+    Type: S.optional(DashboardType),
+  }),
 ).annotations({
   identifier: "DashboardDetail",
 }) as any as S.Schema<DashboardDetail>;
@@ -2370,8 +2534,8 @@ export interface EventDataStore {
   EventDataStoreArn?: string;
   Name?: string;
   TerminationProtectionEnabled?: boolean;
-  Status?: string;
-  AdvancedEventSelectors?: AdvancedEventSelectors;
+  Status?: EventDataStoreStatus;
+  AdvancedEventSelectors?: AdvancedEventSelector[];
   MultiRegionEnabled?: boolean;
   OrganizationEnabled?: boolean;
   RetentionPeriod?: number;
@@ -2383,7 +2547,7 @@ export const EventDataStore = S.suspend(() =>
     EventDataStoreArn: S.optional(S.String),
     Name: S.optional(S.String),
     TerminationProtectionEnabled: S.optional(S.Boolean),
-    Status: S.optional(S.String),
+    Status: S.optional(EventDataStoreStatus),
     AdvancedEventSelectors: S.optional(AdvancedEventSelectors),
     MultiRegionEnabled: S.optional(S.Boolean),
     OrganizationEnabled: S.optional(S.Boolean),
@@ -2402,7 +2566,7 @@ export type EventDataStores = EventDataStore[];
 export const EventDataStores = S.Array(EventDataStore);
 export interface ImportFailureListItem {
   Location?: string;
-  Status?: string;
+  Status?: ImportFailureStatus;
   ErrorType?: string;
   ErrorMessage?: string;
   LastUpdatedTime?: Date;
@@ -2410,7 +2574,7 @@ export interface ImportFailureListItem {
 export const ImportFailureListItem = S.suspend(() =>
   S.Struct({
     Location: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ImportFailureStatus),
     ErrorType: S.optional(S.String),
     ErrorMessage: S.optional(S.String),
     LastUpdatedTime: S.optional(
@@ -2424,15 +2588,15 @@ export type ImportFailureList = ImportFailureListItem[];
 export const ImportFailureList = S.Array(ImportFailureListItem);
 export interface ImportsListItem {
   ImportId?: string;
-  ImportStatus?: string;
-  Destinations?: ImportDestinations;
+  ImportStatus?: ImportStatus;
+  Destinations?: string[];
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
 }
 export const ImportsListItem = S.suspend(() =>
   S.Struct({
     ImportId: S.optional(S.String),
-    ImportStatus: S.optional(S.String),
+    ImportStatus: S.optional(ImportStatus),
     Destinations: S.optional(ImportDestinations),
     CreatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -2468,13 +2632,13 @@ export type PublicKeyList = PublicKey[];
 export const PublicKeyList = S.Array(PublicKey);
 export interface Query {
   QueryId?: string;
-  QueryStatus?: string;
+  QueryStatus?: QueryStatus;
   CreationTime?: Date;
 }
 export const Query = S.suspend(() =>
   S.Struct({
     QueryId: S.optional(S.String),
-    QueryStatus: S.optional(S.String),
+    QueryStatus: S.optional(QueryStatus),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({ identifier: "Query" }) as any as S.Schema<Query>;
@@ -2482,7 +2646,7 @@ export type Queries = Query[];
 export const Queries = S.Array(Query);
 export interface ResourceTag {
   ResourceId?: string;
-  TagsList?: TagsList;
+  TagsList?: Tag[];
 }
 export const ResourceTag = S.suspend(() =>
   S.Struct({
@@ -2531,8 +2695,8 @@ export interface CreateChannelResponse {
   ChannelArn?: string;
   Name?: string;
   Source?: string;
-  Destinations?: Destinations;
-  Tags?: TagsList;
+  Destinations?: Destination[];
+  Tags?: Tag[];
 }
 export const CreateChannelResponse = S.suspend(() =>
   S.Struct({
@@ -2548,9 +2712,9 @@ export const CreateChannelResponse = S.suspend(() =>
 export interface CreateDashboardRequest {
   Name: string;
   RefreshSchedule?: RefreshSchedule;
-  TagsList?: TagsList;
+  TagsList?: Tag[];
   TerminationProtectionEnabled?: boolean;
-  Widgets?: RequestWidgetList;
+  Widgets?: RequestWidget[];
 }
 export const CreateDashboardRequest = S.suspend(() =>
   S.Struct({
@@ -2575,15 +2739,15 @@ export const CreateDashboardRequest = S.suspend(() =>
 }) as any as S.Schema<CreateDashboardRequest>;
 export interface CreateEventDataStoreRequest {
   Name: string;
-  AdvancedEventSelectors?: AdvancedEventSelectors;
+  AdvancedEventSelectors?: AdvancedEventSelector[];
   MultiRegionEnabled?: boolean;
   OrganizationEnabled?: boolean;
   RetentionPeriod?: number;
   TerminationProtectionEnabled?: boolean;
-  TagsList?: TagsList;
+  TagsList?: Tag[];
   KmsKeyId?: string;
   StartIngestion?: boolean;
-  BillingMode?: string;
+  BillingMode?: BillingMode;
 }
 export const CreateEventDataStoreRequest = S.suspend(() =>
   S.Struct({
@@ -2596,7 +2760,7 @@ export const CreateEventDataStoreRequest = S.suspend(() =>
     TagsList: S.optional(TagsList),
     KmsKeyId: S.optional(S.String),
     StartIngestion: S.optional(S.Boolean),
-    BillingMode: S.optional(S.String),
+    BillingMode: S.optional(BillingMode),
   }).pipe(
     T.all(
       ns,
@@ -2614,11 +2778,11 @@ export const CreateEventDataStoreRequest = S.suspend(() =>
 export interface DescribeQueryResponse {
   QueryId?: string;
   QueryString?: string;
-  QueryStatus?: string;
+  QueryStatus?: QueryStatus;
   QueryStatistics?: QueryStatisticsForDescribeQuery;
   ErrorMessage?: string;
   DeliveryS3Uri?: string;
-  DeliveryStatus?: string;
+  DeliveryStatus?: DeliveryStatus;
   Prompt?: string;
   EventDataStoreOwnerAccountId?: string;
 }
@@ -2626,11 +2790,11 @@ export const DescribeQueryResponse = S.suspend(() =>
   S.Struct({
     QueryId: S.optional(S.String),
     QueryString: S.optional(S.String),
-    QueryStatus: S.optional(S.String),
+    QueryStatus: S.optional(QueryStatus),
     QueryStatistics: S.optional(QueryStatisticsForDescribeQuery),
     ErrorMessage: S.optional(S.String),
     DeliveryS3Uri: S.optional(S.String),
-    DeliveryStatus: S.optional(S.String),
+    DeliveryStatus: S.optional(DeliveryStatus),
     Prompt: S.optional(S.String),
     EventDataStoreOwnerAccountId: S.optional(S.String),
   }).pipe(ns),
@@ -2638,7 +2802,7 @@ export const DescribeQueryResponse = S.suspend(() =>
   identifier: "DescribeQueryResponse",
 }) as any as S.Schema<DescribeQueryResponse>;
 export interface DescribeTrailsResponse {
-  trailList?: TrailList;
+  trailList?: Trail[];
 }
 export const DescribeTrailsResponse = S.suspend(() =>
   S.Struct({ trailList: S.optional(TrailList) }).pipe(ns),
@@ -2650,7 +2814,7 @@ export interface GetChannelResponse {
   Name?: string;
   Source?: string;
   SourceConfig?: SourceConfig;
-  Destinations?: Destinations;
+  Destinations?: Destination[];
   IngestionStatus?: IngestionStatus;
 }
 export const GetChannelResponse = S.suspend(() =>
@@ -2667,9 +2831,9 @@ export const GetChannelResponse = S.suspend(() =>
 }) as any as S.Schema<GetChannelResponse>;
 export interface GetDashboardResponse {
   DashboardArn?: string;
-  Type?: string;
-  Status?: string;
-  Widgets?: WidgetList;
+  Type?: DashboardType;
+  Status?: DashboardStatus;
+  Widgets?: Widget[];
   RefreshSchedule?: RefreshSchedule;
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
@@ -2680,8 +2844,8 @@ export interface GetDashboardResponse {
 export const GetDashboardResponse = S.suspend(() =>
   S.Struct({
     DashboardArn: S.optional(S.String),
-    Type: S.optional(S.String),
-    Status: S.optional(S.String),
+    Type: S.optional(DashboardType),
+    Status: S.optional(DashboardStatus),
     Widgets: S.optional(WidgetList),
     RefreshSchedule: S.optional(RefreshSchedule),
     CreatedTimestamp: S.optional(
@@ -2700,8 +2864,8 @@ export const GetDashboardResponse = S.suspend(() =>
 export interface GetEventDataStoreResponse {
   EventDataStoreArn?: string;
   Name?: string;
-  Status?: string;
-  AdvancedEventSelectors?: AdvancedEventSelectors;
+  Status?: EventDataStoreStatus;
+  AdvancedEventSelectors?: AdvancedEventSelector[];
   MultiRegionEnabled?: boolean;
   OrganizationEnabled?: boolean;
   RetentionPeriod?: number;
@@ -2709,16 +2873,16 @@ export interface GetEventDataStoreResponse {
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
   KmsKeyId?: string;
-  BillingMode?: string;
-  FederationStatus?: string;
+  BillingMode?: BillingMode;
+  FederationStatus?: FederationStatus;
   FederationRoleArn?: string;
-  PartitionKeys?: PartitionKeyList;
+  PartitionKeys?: PartitionKey[];
 }
 export const GetEventDataStoreResponse = S.suspend(() =>
   S.Struct({
     EventDataStoreArn: S.optional(S.String),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(EventDataStoreStatus),
     AdvancedEventSelectors: S.optional(AdvancedEventSelectors),
     MultiRegionEnabled: S.optional(S.Boolean),
     OrganizationEnabled: S.optional(S.Boolean),
@@ -2731,8 +2895,8 @@ export const GetEventDataStoreResponse = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     KmsKeyId: S.optional(S.String),
-    BillingMode: S.optional(S.String),
-    FederationStatus: S.optional(S.String),
+    BillingMode: S.optional(BillingMode),
+    FederationStatus: S.optional(FederationStatus),
     FederationRoleArn: S.optional(S.String),
     PartitionKeys: S.optional(PartitionKeyList),
   }).pipe(ns),
@@ -2741,11 +2905,11 @@ export const GetEventDataStoreResponse = S.suspend(() =>
 }) as any as S.Schema<GetEventDataStoreResponse>;
 export interface GetImportResponse {
   ImportId?: string;
-  Destinations?: ImportDestinations;
+  Destinations?: string[];
   ImportSource?: ImportSource;
   StartEventTime?: Date;
   EndEventTime?: Date;
-  ImportStatus?: string;
+  ImportStatus?: ImportStatus;
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
   ImportStatistics?: ImportStatistics;
@@ -2757,7 +2921,7 @@ export const GetImportResponse = S.suspend(() =>
     ImportSource: S.optional(ImportSource),
     StartEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ImportStatus: S.optional(S.String),
+    ImportStatus: S.optional(ImportStatus),
     CreatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -2770,15 +2934,15 @@ export const GetImportResponse = S.suspend(() =>
   identifier: "GetImportResponse",
 }) as any as S.Schema<GetImportResponse>;
 export interface GetQueryResultsResponse {
-  QueryStatus?: string;
+  QueryStatus?: QueryStatus;
   QueryStatistics?: QueryStatistics;
-  QueryResultRows?: QueryResultRows;
+  QueryResultRows?: { [key: string]: string }[][];
   NextToken?: string;
   ErrorMessage?: string;
 }
 export const GetQueryResultsResponse = S.suspend(() =>
   S.Struct({
-    QueryStatus: S.optional(S.String),
+    QueryStatus: S.optional(QueryStatus),
     QueryStatistics: S.optional(QueryStatistics),
     QueryResultRows: S.optional(QueryResultRows),
     NextToken: S.optional(S.String),
@@ -2788,7 +2952,7 @@ export const GetQueryResultsResponse = S.suspend(() =>
   identifier: "GetQueryResultsResponse",
 }) as any as S.Schema<GetQueryResultsResponse>;
 export interface ListChannelsResponse {
-  Channels?: Channels;
+  Channels?: Channel[];
   NextToken?: string;
 }
 export const ListChannelsResponse = S.suspend(() =>
@@ -2800,7 +2964,7 @@ export const ListChannelsResponse = S.suspend(() =>
   identifier: "ListChannelsResponse",
 }) as any as S.Schema<ListChannelsResponse>;
 export interface ListDashboardsResponse {
-  Dashboards?: Dashboards;
+  Dashboards?: DashboardDetail[];
   NextToken?: string;
 }
 export const ListDashboardsResponse = S.suspend(() =>
@@ -2812,7 +2976,7 @@ export const ListDashboardsResponse = S.suspend(() =>
   identifier: "ListDashboardsResponse",
 }) as any as S.Schema<ListDashboardsResponse>;
 export interface ListEventDataStoresResponse {
-  EventDataStores?: EventDataStores;
+  EventDataStores?: EventDataStore[];
   NextToken?: string;
 }
 export const ListEventDataStoresResponse = S.suspend(() =>
@@ -2824,7 +2988,7 @@ export const ListEventDataStoresResponse = S.suspend(() =>
   identifier: "ListEventDataStoresResponse",
 }) as any as S.Schema<ListEventDataStoresResponse>;
 export interface ListImportFailuresResponse {
-  Failures?: ImportFailureList;
+  Failures?: ImportFailureListItem[];
   NextToken?: string;
 }
 export const ListImportFailuresResponse = S.suspend(() =>
@@ -2836,7 +3000,7 @@ export const ListImportFailuresResponse = S.suspend(() =>
   identifier: "ListImportFailuresResponse",
 }) as any as S.Schema<ListImportFailuresResponse>;
 export interface ListImportsResponse {
-  Imports?: ImportsList;
+  Imports?: ImportsListItem[];
   NextToken?: string;
 }
 export const ListImportsResponse = S.suspend(() =>
@@ -2848,7 +3012,7 @@ export const ListImportsResponse = S.suspend(() =>
   identifier: "ListImportsResponse",
 }) as any as S.Schema<ListImportsResponse>;
 export interface ListPublicKeysResponse {
-  PublicKeyList?: PublicKeyList;
+  PublicKeyList?: PublicKey[];
   NextToken?: string;
 }
 export const ListPublicKeysResponse = S.suspend(() =>
@@ -2860,7 +3024,7 @@ export const ListPublicKeysResponse = S.suspend(() =>
   identifier: "ListPublicKeysResponse",
 }) as any as S.Schema<ListPublicKeysResponse>;
 export interface ListQueriesResponse {
-  Queries?: Queries;
+  Queries?: Query[];
   NextToken?: string;
 }
 export const ListQueriesResponse = S.suspend(() =>
@@ -2872,7 +3036,7 @@ export const ListQueriesResponse = S.suspend(() =>
   identifier: "ListQueriesResponse",
 }) as any as S.Schema<ListQueriesResponse>;
 export interface ListTagsResponse {
-  ResourceTagList?: ResourceTagList;
+  ResourceTagList?: ResourceTag[];
   NextToken?: string;
 }
 export const ListTagsResponse = S.suspend(() =>
@@ -2884,7 +3048,7 @@ export const ListTagsResponse = S.suspend(() =>
   identifier: "ListTagsResponse",
 }) as any as S.Schema<ListTagsResponse>;
 export interface ListTrailsResponse {
-  Trails?: Trails;
+  Trails?: TrailInfo[];
   NextToken?: string;
 }
 export const ListTrailsResponse = S.suspend(() =>
@@ -2915,7 +3079,7 @@ export interface Event {
   EventTime?: Date;
   EventSource?: string;
   Username?: string;
-  Resources?: ResourceList;
+  Resources?: Resource[];
   CloudTrailEvent?: string;
 }
 export const Event = S.suspend(() =>
@@ -2934,7 +3098,7 @@ export const Event = S.suspend(() =>
 export type EventsList = Event[];
 export const EventsList = S.Array(Event);
 export interface LookupEventsResponse {
-  Events?: EventsList;
+  Events?: Event[];
   NextToken?: string;
 }
 export const LookupEventsResponse = S.suspend(() =>
@@ -2948,15 +3112,15 @@ export const LookupEventsResponse = S.suspend(() =>
 export interface PutEventConfigurationResponse {
   TrailARN?: string;
   EventDataStoreArn?: string;
-  MaxEventSize?: string;
-  ContextKeySelectors?: ContextKeySelectors;
-  AggregationConfigurations?: AggregationConfigurations;
+  MaxEventSize?: MaxEventSize;
+  ContextKeySelectors?: ContextKeySelector[];
+  AggregationConfigurations?: AggregationConfiguration[];
 }
 export const PutEventConfigurationResponse = S.suspend(() =>
   S.Struct({
     TrailARN: S.optional(S.String),
     EventDataStoreArn: S.optional(S.String),
-    MaxEventSize: S.optional(S.String),
+    MaxEventSize: S.optional(MaxEventSize),
     ContextKeySelectors: S.optional(ContextKeySelectors),
     AggregationConfigurations: S.optional(AggregationConfigurations),
   }).pipe(ns),
@@ -2965,8 +3129,8 @@ export const PutEventConfigurationResponse = S.suspend(() =>
 }) as any as S.Schema<PutEventConfigurationResponse>;
 export interface PutEventSelectorsRequest {
   TrailName: string;
-  EventSelectors?: EventSelectors;
-  AdvancedEventSelectors?: AdvancedEventSelectors;
+  EventSelectors?: EventSelector[];
+  AdvancedEventSelectors?: AdvancedEventSelector[];
 }
 export const PutEventSelectorsRequest = S.suspend(() =>
   S.Struct({
@@ -2989,7 +3153,7 @@ export const PutEventSelectorsRequest = S.suspend(() =>
 }) as any as S.Schema<PutEventSelectorsRequest>;
 export interface PutInsightSelectorsResponse {
   TrailARN?: string;
-  InsightSelectors?: InsightSelectors;
+  InsightSelectors?: InsightSelector[];
   EventDataStoreArn?: string;
   InsightsDestination?: string;
 }
@@ -3004,7 +3168,7 @@ export const PutInsightSelectorsResponse = S.suspend(() =>
   identifier: "PutInsightSelectorsResponse",
 }) as any as S.Schema<PutInsightSelectorsResponse>;
 export interface SearchSampleQueriesResponse {
-  SearchResults?: SearchSampleQueriesSearchResults;
+  SearchResults?: SearchSampleQueriesSearchResult[];
   NextToken?: string;
 }
 export const SearchSampleQueriesResponse = S.suspend(() =>
@@ -3024,7 +3188,7 @@ export const StartDashboardRefreshResponse = S.suspend(() =>
   identifier: "StartDashboardRefreshResponse",
 }) as any as S.Schema<StartDashboardRefreshResponse>;
 export interface StartImportRequest {
-  Destinations?: ImportDestinations;
+  Destinations?: string[];
   ImportSource?: ImportSource;
   StartEventTime?: Date;
   EndEventTime?: Date;
@@ -3054,9 +3218,9 @@ export const StartImportRequest = S.suspend(() =>
 export interface CreateDashboardResponse {
   DashboardArn?: string;
   Name?: string;
-  Type?: string;
-  Widgets?: WidgetList;
-  TagsList?: TagsList;
+  Type?: DashboardType;
+  Widgets?: Widget[];
+  TagsList?: Tag[];
   RefreshSchedule?: RefreshSchedule;
   TerminationProtectionEnabled?: boolean;
 }
@@ -3064,7 +3228,7 @@ export const CreateDashboardResponse = S.suspend(() =>
   S.Struct({
     DashboardArn: S.optional(S.String),
     Name: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(DashboardType),
     Widgets: S.optional(WidgetList),
     TagsList: S.optional(TagsList),
     RefreshSchedule: S.optional(RefreshSchedule),
@@ -3076,23 +3240,23 @@ export const CreateDashboardResponse = S.suspend(() =>
 export interface CreateEventDataStoreResponse {
   EventDataStoreArn?: string;
   Name?: string;
-  Status?: string;
-  AdvancedEventSelectors?: AdvancedEventSelectors;
+  Status?: EventDataStoreStatus;
+  AdvancedEventSelectors?: AdvancedEventSelector[];
   MultiRegionEnabled?: boolean;
   OrganizationEnabled?: boolean;
   RetentionPeriod?: number;
   TerminationProtectionEnabled?: boolean;
-  TagsList?: TagsList;
+  TagsList?: Tag[];
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
   KmsKeyId?: string;
-  BillingMode?: string;
+  BillingMode?: BillingMode;
 }
 export const CreateEventDataStoreResponse = S.suspend(() =>
   S.Struct({
     EventDataStoreArn: S.optional(S.String),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(EventDataStoreStatus),
     AdvancedEventSelectors: S.optional(AdvancedEventSelectors),
     MultiRegionEnabled: S.optional(S.Boolean),
     OrganizationEnabled: S.optional(S.Boolean),
@@ -3106,15 +3270,15 @@ export const CreateEventDataStoreResponse = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     KmsKeyId: S.optional(S.String),
-    BillingMode: S.optional(S.String),
+    BillingMode: S.optional(BillingMode),
   }).pipe(ns),
 ).annotations({
   identifier: "CreateEventDataStoreResponse",
 }) as any as S.Schema<CreateEventDataStoreResponse>;
 export interface PutEventSelectorsResponse {
   TrailARN?: string;
-  EventSelectors?: EventSelectors;
-  AdvancedEventSelectors?: AdvancedEventSelectors;
+  EventSelectors?: EventSelector[];
+  AdvancedEventSelectors?: AdvancedEventSelector[];
 }
 export const PutEventSelectorsResponse = S.suspend(() =>
   S.Struct({
@@ -3127,11 +3291,11 @@ export const PutEventSelectorsResponse = S.suspend(() =>
 }) as any as S.Schema<PutEventSelectorsResponse>;
 export interface StartImportResponse {
   ImportId?: string;
-  Destinations?: ImportDestinations;
+  Destinations?: string[];
   ImportSource?: ImportSource;
   StartEventTime?: Date;
   EndEventTime?: Date;
-  ImportStatus?: string;
+  ImportStatus?: ImportStatus;
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
 }
@@ -3142,7 +3306,7 @@ export const StartImportResponse = S.suspend(() =>
     ImportSource: S.optional(ImportSource),
     StartEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ImportStatus: S.optional(S.String),
+    ImportStatus: S.optional(ImportStatus),
     CreatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -3154,7 +3318,7 @@ export const StartImportResponse = S.suspend(() =>
   identifier: "StartImportResponse",
 }) as any as S.Schema<StartImportResponse>;
 export interface ListInsightsDataResponse {
-  Events?: EventsList;
+  Events?: Event[];
   NextToken?: string;
 }
 export const ListInsightsDataResponse = S.suspend(() =>
@@ -3679,7 +3843,7 @@ export class TrailAlreadyExistsException extends S.TaggedError<TrailAlreadyExist
  */
 export const deleteDashboard: (
   input: DeleteDashboardRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDashboardResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -3701,7 +3865,7 @@ export const deleteDashboard: (
 export const listChannels: {
   (
     input: ListChannelsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListChannelsResponse,
     | InvalidNextTokenException
     | OperationNotPermittedException
@@ -3711,7 +3875,7 @@ export const listChannels: {
   >;
   pages: (
     input: ListChannelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListChannelsResponse,
     | InvalidNextTokenException
     | OperationNotPermittedException
@@ -3721,7 +3885,7 @@ export const listChannels: {
   >;
   items: (
     input: ListChannelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidNextTokenException
     | OperationNotPermittedException
@@ -3750,7 +3914,7 @@ export const listChannels: {
 export const listEventDataStores: {
   (
     input: ListEventDataStoresRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEventDataStoresResponse,
     | InvalidMaxResultsException
     | InvalidNextTokenException
@@ -3762,7 +3926,7 @@ export const listEventDataStores: {
   >;
   pages: (
     input: ListEventDataStoresRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEventDataStoresResponse,
     | InvalidMaxResultsException
     | InvalidNextTokenException
@@ -3774,7 +3938,7 @@ export const listEventDataStores: {
   >;
   items: (
     input: ListEventDataStoresRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidMaxResultsException
     | InvalidNextTokenException
@@ -3805,7 +3969,7 @@ export const listEventDataStores: {
  */
 export const getDashboard: (
   input: GetDashboardRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDashboardResponse,
   ResourceNotFoundException | UnsupportedOperationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3819,7 +3983,7 @@ export const getDashboard: (
  */
 export const listDashboards: (
   input: ListDashboardsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDashboardsResponse,
   UnsupportedOperationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3853,7 +4017,7 @@ export const listDashboards: (
 export const listInsightsMetricData: {
   (
     input: ListInsightsMetricDataRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInsightsMetricDataResponse,
     | InvalidParameterException
     | InvalidTrailNameException
@@ -3864,7 +4028,7 @@ export const listInsightsMetricData: {
   >;
   pages: (
     input: ListInsightsMetricDataRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInsightsMetricDataResponse,
     | InvalidParameterException
     | InvalidTrailNameException
@@ -3875,7 +4039,7 @@ export const listInsightsMetricData: {
   >;
   items: (
     input: ListInsightsMetricDataRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidParameterException
     | InvalidTrailNameException
@@ -3905,7 +4069,7 @@ export const listInsightsMetricData: {
 export const listTrails: {
   (
     input: ListTrailsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTrailsResponse,
     | OperationNotPermittedException
     | UnsupportedOperationException
@@ -3914,7 +4078,7 @@ export const listTrails: {
   >;
   pages: (
     input: ListTrailsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTrailsResponse,
     | OperationNotPermittedException
     | UnsupportedOperationException
@@ -3923,7 +4087,7 @@ export const listTrails: {
   >;
   items: (
     input: ListTrailsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TrailInfo,
     | OperationNotPermittedException
     | UnsupportedOperationException
@@ -3946,7 +4110,7 @@ export const listTrails: {
  */
 export const searchSampleQueries: (
   input: SearchSampleQueriesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SearchSampleQueriesResponse,
   | InvalidParameterException
   | OperationNotPermittedException
@@ -3967,7 +4131,7 @@ export const searchSampleQueries: (
  */
 export const stopImport: (
   input: StopImportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopImportResponse,
   | ImportNotFoundException
   | InvalidParameterException
@@ -3990,7 +4154,7 @@ export const stopImport: (
  */
 export const deleteChannel: (
   input: DeleteChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteChannelResponse,
   | ChannelARNInvalidException
   | ChannelNotFoundException
@@ -4013,7 +4177,7 @@ export const deleteChannel: (
  */
 export const getChannel: (
   input: GetChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetChannelResponse,
   | ChannelARNInvalidException
   | ChannelNotFoundException
@@ -4036,7 +4200,7 @@ export const getChannel: (
  */
 export const getImport: (
   input: GetImportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetImportResponse,
   | ImportNotFoundException
   | InvalidParameterException
@@ -4074,7 +4238,7 @@ export const getImport: (
  */
 export const generateQuery: (
   input: GenerateQueryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GenerateQueryResponse,
   | EventDataStoreARNInvalidException
   | EventDataStoreNotFoundException
@@ -4105,7 +4269,7 @@ export const generateQuery: (
  */
 export const getTrail: (
   input: GetTrailRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTrailResponse,
   | CloudTrailARNInvalidException
   | InvalidTrailNameException
@@ -4131,7 +4295,7 @@ export const getTrail: (
  */
 export const describeTrails: (
   input: DescribeTrailsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeTrailsResponse,
   | CloudTrailARNInvalidException
   | InvalidTrailNameException
@@ -4157,7 +4321,7 @@ export const describeTrails: (
  */
 export const getEventDataStore: (
   input: GetEventDataStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEventDataStoreResponse,
   | EventDataStoreARNInvalidException
   | EventDataStoreNotFoundException
@@ -4185,7 +4349,7 @@ export const getEventDataStore: (
 export const listImportFailures: {
   (
     input: ListImportFailuresRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListImportFailuresResponse,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -4196,7 +4360,7 @@ export const listImportFailures: {
   >;
   pages: (
     input: ListImportFailuresRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListImportFailuresResponse,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -4207,7 +4371,7 @@ export const listImportFailures: {
   >;
   items: (
     input: ListImportFailuresRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ImportFailureListItem,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -4239,7 +4403,7 @@ export const listImportFailures: {
 export const listImports: {
   (
     input: ListImportsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListImportsResponse,
     | EventDataStoreARNInvalidException
     | InvalidNextTokenException
@@ -4251,7 +4415,7 @@ export const listImports: {
   >;
   pages: (
     input: ListImportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListImportsResponse,
     | EventDataStoreARNInvalidException
     | InvalidNextTokenException
@@ -4263,7 +4427,7 @@ export const listImports: {
   >;
   items: (
     input: ListImportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ImportsListItem,
     | EventDataStoreARNInvalidException
     | InvalidNextTokenException
@@ -4295,7 +4459,7 @@ export const listImports: {
  */
 export const updateChannel: (
   input: UpdateChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateChannelResponse,
   | ChannelAlreadyExistsException
   | ChannelARNInvalidException
@@ -4334,7 +4498,7 @@ export const updateChannel: (
  */
 export const getTrailStatus: (
   input: GetTrailStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTrailStatusResponse,
   | CloudTrailARNInvalidException
   | InvalidTrailNameException
@@ -4380,7 +4544,7 @@ export const getTrailStatus: (
  */
 export const getEventSelectors: (
   input: GetEventSelectorsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEventSelectorsResponse,
   | CloudTrailARNInvalidException
   | InvalidTrailNameException
@@ -4416,7 +4580,7 @@ export const getEventSelectors: (
  */
 export const getInsightSelectors: (
   input: GetInsightSelectorsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInsightSelectorsResponse,
   | CloudTrailARNInvalidException
   | InsightNotEnabledException
@@ -4467,7 +4631,7 @@ export const getInsightSelectors: (
 export const listInsightsData: {
   (
     input: ListInsightsDataRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInsightsDataResponse,
     | InvalidParameterException
     | OperationNotPermittedException
@@ -4477,7 +4641,7 @@ export const listInsightsData: {
   >;
   pages: (
     input: ListInsightsDataRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInsightsDataResponse,
     | InvalidParameterException
     | OperationNotPermittedException
@@ -4487,7 +4651,7 @@ export const listInsightsData: {
   >;
   items: (
     input: ListInsightsDataRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Event,
     | InvalidParameterException
     | OperationNotPermittedException
@@ -4523,7 +4687,7 @@ export const listInsightsData: {
 export const listPublicKeys: {
   (
     input: ListPublicKeysRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPublicKeysResponse,
     | InvalidTimeRangeException
     | InvalidTokenException
@@ -4534,7 +4698,7 @@ export const listPublicKeys: {
   >;
   pages: (
     input: ListPublicKeysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPublicKeysResponse,
     | InvalidTimeRangeException
     | InvalidTokenException
@@ -4545,7 +4709,7 @@ export const listPublicKeys: {
   >;
   items: (
     input: ListPublicKeysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PublicKey,
     | InvalidTimeRangeException
     | InvalidTokenException
@@ -4612,7 +4776,7 @@ export const listPublicKeys: {
 export const lookupEvents: {
   (
     input: LookupEventsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     LookupEventsResponse,
     | InvalidEventCategoryException
     | InvalidLookupAttributesException
@@ -4626,7 +4790,7 @@ export const lookupEvents: {
   >;
   pages: (
     input: LookupEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LookupEventsResponse,
     | InvalidEventCategoryException
     | InvalidLookupAttributesException
@@ -4640,7 +4804,7 @@ export const lookupEvents: {
   >;
   items: (
     input: LookupEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Event,
     | InvalidEventCategoryException
     | InvalidLookupAttributesException
@@ -4679,7 +4843,7 @@ export const lookupEvents: {
  */
 export const startLogging: (
   input: StartLoggingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartLoggingResponse,
   | CloudTrailARNInvalidException
   | ConflictException
@@ -4723,7 +4887,7 @@ export const startLogging: (
  */
 export const describeQuery: (
   input: DescribeQueryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeQueryResponse,
   | EventDataStoreARNInvalidException
   | EventDataStoreNotFoundException
@@ -4754,7 +4918,7 @@ export const describeQuery: (
  */
 export const putEventConfiguration: (
   input: PutEventConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutEventConfigurationResponse,
   | CloudTrailARNInvalidException
   | ConflictException
@@ -4810,7 +4974,7 @@ export const putEventConfiguration: (
  */
 export const startDashboardRefresh: (
   input: StartDashboardRefreshRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartDashboardRefreshResponse,
   | EventDataStoreNotFoundException
   | InactiveEventDataStoreException
@@ -4851,7 +5015,7 @@ export const startDashboardRefresh: (
  */
 export const createDashboard: (
   input: CreateDashboardRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDashboardResponse,
   | ConflictException
   | EventDataStoreNotFoundException
@@ -4882,7 +5046,7 @@ export const createDashboard: (
  */
 export const getEventConfiguration: (
   input: GetEventConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEventConfigurationResponse,
   | CloudTrailARNInvalidException
   | EventDataStoreARNInvalidException
@@ -4922,7 +5086,7 @@ export const getEventConfiguration: (
  */
 export const startEventDataStoreIngestion: (
   input: StartEventDataStoreIngestionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartEventDataStoreIngestionResponse,
   | ConflictException
   | EventDataStoreARNInvalidException
@@ -4960,7 +5124,7 @@ export const startEventDataStoreIngestion: (
  */
 export const stopEventDataStoreIngestion: (
   input: StopEventDataStoreIngestionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopEventDataStoreIngestionResponse,
   | ConflictException
   | EventDataStoreARNInvalidException
@@ -5003,7 +5167,7 @@ export const stopEventDataStoreIngestion: (
  */
 export const stopLogging: (
   input: StopLoggingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopLoggingResponse,
   | CloudTrailARNInvalidException
   | ConflictException
@@ -5052,7 +5216,7 @@ export const stopLogging: (
  */
 export const deleteTrail: (
   input: DeleteTrailRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTrailResponse,
   | CloudTrailARNInvalidException
   | ConflictException
@@ -5144,7 +5308,7 @@ export const deleteTrail: (
  */
 export const putEventSelectors: (
   input: PutEventSelectorsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutEventSelectorsResponse,
   | CloudTrailARNInvalidException
   | ConflictException
@@ -5185,7 +5349,7 @@ export const putEventSelectors: (
 export const getQueryResults: {
   (
     input: GetQueryResultsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetQueryResultsResponse,
     | EventDataStoreARNInvalidException
     | EventDataStoreNotFoundException
@@ -5203,7 +5367,7 @@ export const getQueryResults: {
   >;
   pages: (
     input: GetQueryResultsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetQueryResultsResponse,
     | EventDataStoreARNInvalidException
     | EventDataStoreNotFoundException
@@ -5221,7 +5385,7 @@ export const getQueryResults: {
   >;
   items: (
     input: GetQueryResultsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EventDataStoreARNInvalidException
     | EventDataStoreNotFoundException
@@ -5265,7 +5429,7 @@ export const getQueryResults: {
  */
 export const cancelQuery: (
   input: CancelQueryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelQueryResponse,
   | ConflictException
   | EventDataStoreARNInvalidException
@@ -5307,7 +5471,7 @@ export const cancelQuery: (
  */
 export const updateDashboard: (
   input: UpdateDashboardRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDashboardResponse,
   | ConflictException
   | EventDataStoreNotFoundException
@@ -5349,7 +5513,7 @@ export const updateDashboard: (
  */
 export const deleteEventDataStore: (
   input: DeleteEventDataStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEventDataStoreResponse,
   | ChannelExistsForEDSException
   | ConflictException
@@ -5392,7 +5556,7 @@ export const deleteEventDataStore: (
  */
 export const getResourcePolicy: (
   input: GetResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourcePolicyResponse,
   | OperationNotPermittedException
   | ResourceARNNotValidException
@@ -5421,7 +5585,7 @@ export const getResourcePolicy: (
  */
 export const putResourcePolicy: (
   input: PutResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourcePolicyResponse,
   | ConflictException
   | OperationNotPermittedException
@@ -5450,7 +5614,7 @@ export const putResourcePolicy: (
  */
 export const deleteResourcePolicy: (
   input: DeleteResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourcePolicyResponse,
   | ConflictException
   | OperationNotPermittedException
@@ -5480,7 +5644,7 @@ export const deleteResourcePolicy: (
 export const listTags: {
   (
     input: ListTagsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTagsResponse,
     | ChannelARNInvalidException
     | CloudTrailARNInvalidException
@@ -5499,7 +5663,7 @@ export const listTags: {
   >;
   pages: (
     input: ListTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTagsResponse,
     | ChannelARNInvalidException
     | CloudTrailARNInvalidException
@@ -5518,7 +5682,7 @@ export const listTags: {
   >;
   items: (
     input: ListTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResourceTag,
     | ChannelARNInvalidException
     | CloudTrailARNInvalidException
@@ -5563,7 +5727,7 @@ export const listTags: {
  */
 export const removeTags: (
   input: RemoveTagsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveTagsResponse,
   | ChannelARNInvalidException
   | ChannelNotFoundException
@@ -5609,7 +5773,7 @@ export const removeTags: (
  */
 export const deregisterOrganizationDelegatedAdmin: (
   input: DeregisterOrganizationDelegatedAdminRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterOrganizationDelegatedAdminResponse,
   | AccountNotFoundException
   | AccountNotRegisteredException
@@ -5653,7 +5817,7 @@ export const deregisterOrganizationDelegatedAdmin: (
 export const listQueries: {
   (
     input: ListQueriesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListQueriesResponse,
     | EventDataStoreARNInvalidException
     | EventDataStoreNotFoundException
@@ -5671,7 +5835,7 @@ export const listQueries: {
   >;
   pages: (
     input: ListQueriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListQueriesResponse,
     | EventDataStoreARNInvalidException
     | EventDataStoreNotFoundException
@@ -5689,7 +5853,7 @@ export const listQueries: {
   >;
   items: (
     input: ListQueriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EventDataStoreARNInvalidException
     | EventDataStoreNotFoundException
@@ -5749,7 +5913,7 @@ export const listQueries: {
  */
 export const startImport: (
   input: StartImportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartImportResponse,
   | AccountHasOngoingImportException
   | EventDataStoreARNInvalidException
@@ -5799,7 +5963,7 @@ export const startImport: (
  */
 export const enableFederation: (
   input: EnableFederationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableFederationResponse,
   | AccessDeniedException
   | CloudTrailAccessNotEnabledException
@@ -5848,7 +6012,7 @@ export const enableFederation: (
  */
 export const disableFederation: (
   input: DisableFederationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisableFederationResponse,
   | AccessDeniedException
   | CloudTrailAccessNotEnabledException
@@ -5894,7 +6058,7 @@ export const disableFederation: (
  */
 export const restoreEventDataStore: (
   input: RestoreEventDataStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RestoreEventDataStoreResponse,
   | CloudTrailAccessNotEnabledException
   | EventDataStoreARNInvalidException
@@ -5935,7 +6099,7 @@ export const restoreEventDataStore: (
  */
 export const registerOrganizationDelegatedAdmin: (
   input: RegisterOrganizationDelegatedAdminRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterOrganizationDelegatedAdminResponse,
   | AccountNotFoundException
   | AccountRegisteredException
@@ -5980,7 +6144,7 @@ export const registerOrganizationDelegatedAdmin: (
  */
 export const createChannel: (
   input: CreateChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateChannelResponse,
   | ChannelAlreadyExistsException
   | ChannelMaxLimitExceededException
@@ -6025,7 +6189,7 @@ export const createChannel: (
  */
 export const addTags: (
   input: AddTagsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddTagsResponse,
   | ChannelARNInvalidException
   | ChannelNotFoundException
@@ -6098,7 +6262,7 @@ export const addTags: (
  */
 export const putInsightSelectors: (
   input: PutInsightSelectorsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutInsightSelectorsResponse,
   | CloudTrailARNInvalidException
   | InsufficientEncryptionPolicyException
@@ -6151,7 +6315,7 @@ export const putInsightSelectors: (
  */
 export const startQuery: (
   input: StartQueryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartQueryResponse,
   | EventDataStoreARNInvalidException
   | EventDataStoreNotFoundException
@@ -6194,7 +6358,7 @@ export const startQuery: (
  */
 export const createEventDataStore: (
   input: CreateEventDataStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEventDataStoreResponse,
   | CloudTrailAccessNotEnabledException
   | ConflictException
@@ -6258,7 +6422,7 @@ export const createEventDataStore: (
  */
 export const updateEventDataStore: (
   input: UpdateEventDataStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEventDataStoreResponse,
   | CloudTrailAccessNotEnabledException
   | ConflictException
@@ -6322,7 +6486,7 @@ export const updateEventDataStore: (
  */
 export const updateTrail: (
   input: UpdateTrailRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTrailResponse,
   | CloudTrailAccessNotEnabledException
   | CloudTrailARNInvalidException
@@ -6403,7 +6567,7 @@ export const updateTrail: (
  */
 export const createTrail: (
   input: CreateTrailRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTrailResponse,
   | CloudTrailAccessNotEnabledException
   | CloudTrailInvalidClientTokenIdException

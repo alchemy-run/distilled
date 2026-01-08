@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -90,7 +90,6 @@ export type GroupId = string;
 export type DocumentTitle = string;
 export type DocumentBody = string;
 export type Tokens = string;
-export type Float = number;
 export type ErrorMessage = string;
 export type RescoreExecutionPlanArn = string;
 export type RescoreId = string;
@@ -180,7 +179,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagResourceRequest {
   ResourceARN: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
@@ -195,7 +194,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceARN: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
@@ -251,13 +250,26 @@ export type TitleTokensList = string[];
 export const TitleTokensList = S.Array(S.String);
 export type BodyTokensList = string[];
 export const BodyTokensList = S.Array(S.String);
+export type RescoreExecutionPlanStatus =
+  | "CREATING"
+  | "UPDATING"
+  | "ACTIVE"
+  | "DELETING"
+  | "FAILED";
+export const RescoreExecutionPlanStatus = S.Literal(
+  "CREATING",
+  "UPDATING",
+  "ACTIVE",
+  "DELETING",
+  "FAILED",
+);
 export interface Document {
   Id: string;
   GroupId?: string;
   Title?: string;
   Body?: string;
-  TokenizedTitle?: TitleTokensList;
-  TokenizedBody?: BodyTokensList;
+  TokenizedTitle?: string[];
+  TokenizedBody?: string[];
   OriginalScore: number;
 }
 export const Document = S.suspend(() =>
@@ -277,7 +289,7 @@ export interface CreateRescoreExecutionPlanRequest {
   Name: string;
   Description?: string;
   CapacityUnits?: CapacityUnitsConfiguration;
-  Tags?: TagList;
+  Tags?: Tag[];
   ClientToken?: string;
 }
 export const CreateRescoreExecutionPlanRequest = S.suspend(() =>
@@ -308,7 +320,7 @@ export interface DescribeRescoreExecutionPlanResponse {
   CapacityUnits?: CapacityUnitsConfiguration;
   CreatedAt?: Date;
   UpdatedAt?: Date;
-  Status?: string;
+  Status?: RescoreExecutionPlanStatus;
   ErrorMessage?: string;
 }
 export const DescribeRescoreExecutionPlanResponse = S.suspend(() =>
@@ -320,14 +332,14 @@ export const DescribeRescoreExecutionPlanResponse = S.suspend(() =>
     CapacityUnits: S.optional(CapacityUnitsConfiguration),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
+    Status: S.optional(RescoreExecutionPlanStatus),
     ErrorMessage: S.optional(S.String),
   }),
 ).annotations({
   identifier: "DescribeRescoreExecutionPlanResponse",
 }) as any as S.Schema<DescribeRescoreExecutionPlanResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }),
@@ -337,7 +349,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 export interface RescoreRequest {
   RescoreExecutionPlanId: string;
   SearchQuery: string;
-  Documents: DocumentList;
+  Documents: Document[];
 }
 export const RescoreRequest = S.suspend(() =>
   S.Struct({
@@ -367,7 +379,7 @@ export interface RescoreExecutionPlanSummary {
   Id?: string;
   CreatedAt?: Date;
   UpdatedAt?: Date;
-  Status?: string;
+  Status?: RescoreExecutionPlanStatus;
 }
 export const RescoreExecutionPlanSummary = S.suspend(() =>
   S.Struct({
@@ -375,7 +387,7 @@ export const RescoreExecutionPlanSummary = S.suspend(() =>
     Id: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
+    Status: S.optional(RescoreExecutionPlanStatus),
   }),
 ).annotations({
   identifier: "RescoreExecutionPlanSummary",
@@ -394,7 +406,7 @@ export const CreateRescoreExecutionPlanResponse = S.suspend(() =>
   identifier: "CreateRescoreExecutionPlanResponse",
 }) as any as S.Schema<CreateRescoreExecutionPlanResponse>;
 export interface ListRescoreExecutionPlansResponse {
-  SummaryItems?: RescoreExecutionPlanSummaryList;
+  SummaryItems?: RescoreExecutionPlanSummary[];
   NextToken?: string;
 }
 export const ListRescoreExecutionPlansResponse = S.suspend(() =>
@@ -418,7 +430,7 @@ export type RescoreResultItemList = RescoreResultItem[];
 export const RescoreResultItemList = S.Array(RescoreResultItem);
 export interface RescoreResult {
   RescoreId?: string;
-  ResultItems?: RescoreResultItemList;
+  ResultItems?: RescoreResultItem[];
 }
 export const RescoreResult = S.suspend(() =>
   S.Struct({
@@ -472,7 +484,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listRescoreExecutionPlans: {
   (
     input: ListRescoreExecutionPlansRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRescoreExecutionPlansResponse,
     | AccessDeniedException
     | InternalServerException
@@ -483,7 +495,7 @@ export const listRescoreExecutionPlans: {
   >;
   pages: (
     input: ListRescoreExecutionPlansRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRescoreExecutionPlansResponse,
     | AccessDeniedException
     | InternalServerException
@@ -494,7 +506,7 @@ export const listRescoreExecutionPlans: {
   >;
   items: (
     input: ListRescoreExecutionPlansRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -526,7 +538,7 @@ export const listRescoreExecutionPlans: {
  */
 export const rescore: (
   input: RescoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RescoreResult,
   | AccessDeniedException
   | ConflictException
@@ -563,7 +575,7 @@ export const rescore: (
  */
 export const createRescoreExecutionPlan: (
   input: CreateRescoreExecutionPlanRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRescoreExecutionPlanResponse,
   | AccessDeniedException
   | ConflictException
@@ -592,7 +604,7 @@ export const createRescoreExecutionPlan: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -622,7 +634,7 @@ export const listTagsForResource: (
  */
 export const updateRescoreExecutionPlan: (
   input: UpdateRescoreExecutionPlanRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRescoreExecutionPlanResponse,
   | AccessDeniedException
   | ConflictException
@@ -653,7 +665,7 @@ export const updateRescoreExecutionPlan: (
  */
 export const deleteRescoreExecutionPlan: (
   input: DeleteRescoreExecutionPlanRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRescoreExecutionPlanResponse,
   | AccessDeniedException
   | ConflictException
@@ -682,7 +694,7 @@ export const deleteRescoreExecutionPlan: (
  */
 export const describeRescoreExecutionPlan: (
   input: DescribeRescoreExecutionPlanRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRescoreExecutionPlanResponse,
   | AccessDeniedException
   | InternalServerException
@@ -711,7 +723,7 @@ export const describeRescoreExecutionPlan: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -739,7 +751,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException

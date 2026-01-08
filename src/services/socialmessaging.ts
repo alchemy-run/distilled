@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -97,7 +97,7 @@ export type MetaTemplateCategory = string;
 export type WhatsAppPhoneNumberId = string;
 export type WhatsAppMediaId = string;
 export type MetaTemplateLanguage = string;
-export type AssociateInProgressToken = string | Redacted.Redacted<string>;
+export type AssociateInProgressToken = string | redacted.Redacted<string>;
 export type EventDestinationArn = string;
 export type RoleArn = string;
 export type ErrorMessage = string;
@@ -107,7 +107,7 @@ export type PhoneNumber = string;
 export type OtpType = string;
 export type CodeExpirationMinutes = number;
 export type WhatsAppPhoneNumber = string;
-export type TwoFactorPin = string | Redacted.Redacted<string>;
+export type TwoFactorPin = string | redacted.Redacted<string>;
 export type IsoCountryCode = string;
 export type WhatsAppBusinessAccountId = string;
 export type MetaTemplateStatus = string;
@@ -243,7 +243,7 @@ export const ListWhatsAppMessageTemplatesInput = S.suspend(() =>
 }) as any as S.Schema<ListWhatsAppMessageTemplatesInput>;
 export interface UntagResourceInput {
   resourceArn: string;
-  tagKeys: StringList;
+  tagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: StringList }).pipe(
@@ -395,7 +395,7 @@ export type Headers = { [key: string]: string };
 export const Headers = S.Record({ key: S.String, value: S.String });
 export interface S3PresignedUrl {
   url: string;
-  headers: Headers;
+  headers: { [key: string]: string };
 }
 export const S3PresignedUrl = S.suspend(() =>
   S.Struct({ url: S.String, headers: Headers }),
@@ -434,7 +434,7 @@ export const PostWhatsAppMessageMediaInput = S.suspend(() =>
 }) as any as S.Schema<PostWhatsAppMessageMediaInput>;
 export interface SendWhatsAppMessageInput {
   originationPhoneNumberId: string;
-  message: Uint8Array | Redacted.Redacted<Uint8Array>;
+  message: Uint8Array | redacted.Redacted<Uint8Array>;
   metaApiVersion: string;
 }
 export const SendWhatsAppMessageInput = S.suspend(() =>
@@ -531,7 +531,7 @@ export const GetWhatsAppMessageTemplateOutput = S.suspend(() =>
 }) as any as S.Schema<GetWhatsAppMessageTemplateOutput>;
 export interface ListTagsForResourceOutput {
   statusCode?: number;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ statusCode: S.optional(S.Number), tags: S.optional(TagList) }),
@@ -542,7 +542,7 @@ export interface ListWhatsAppTemplateLibraryInput {
   nextToken?: string;
   maxResults?: number;
   id: string;
-  filters?: Filter;
+  filters?: { [key: string]: string };
 }
 export const ListWhatsAppTemplateLibraryInput = S.suspend(() =>
   S.Struct({
@@ -565,7 +565,7 @@ export const ListWhatsAppTemplateLibraryInput = S.suspend(() =>
 }) as any as S.Schema<ListWhatsAppTemplateLibraryInput>;
 export interface TagResourceInput {
   resourceArn: string;
-  tags: TagList;
+  tags: Tag[];
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
@@ -591,7 +591,7 @@ export const UntagResourceOutput = S.suspend(() =>
 }) as any as S.Schema<UntagResourceOutput>;
 export interface PutWhatsAppBusinessAccountEventDestinationsInput {
   id: string;
-  eventDestinations: WhatsAppBusinessAccountEventDestinations;
+  eventDestinations: WhatsAppBusinessAccountEventDestination[];
 }
 export const PutWhatsAppBusinessAccountEventDestinationsInput = S.suspend(() =>
   S.Struct({
@@ -660,9 +660,9 @@ export const LibraryTemplateBodyInputs = S.suspend(() =>
 }) as any as S.Schema<LibraryTemplateBodyInputs>;
 export interface WabaPhoneNumberSetupFinalization {
   id: string;
-  twoFactorPin: string | Redacted.Redacted<string>;
+  twoFactorPin: string | redacted.Redacted<string>;
   dataLocalizationRegion?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const WabaPhoneNumberSetupFinalization = S.suspend(() =>
   S.Struct({
@@ -681,8 +681,8 @@ export const WabaPhoneNumberSetupFinalizationList = S.Array(
 );
 export interface WabaSetupFinalization {
   id?: string;
-  eventDestinations?: WhatsAppBusinessAccountEventDestinations;
-  tags?: TagList;
+  eventDestinations?: WhatsAppBusinessAccountEventDestination[];
+  tags?: Tag[];
 }
 export const WabaSetupFinalization = S.suspend(() =>
   S.Struct({
@@ -693,6 +693,8 @@ export const WabaSetupFinalization = S.suspend(() =>
 ).annotations({
   identifier: "WabaSetupFinalization",
 }) as any as S.Schema<WabaSetupFinalization>;
+export type RegistrationStatus = "COMPLETE" | "INCOMPLETE";
+export const RegistrationStatus = S.Literal("COMPLETE", "INCOMPLETE");
 export interface TemplateSummary {
   templateName?: string;
   metaTemplateId?: string;
@@ -716,8 +718,8 @@ export const TemplateSummary = S.suspend(() =>
 export type TemplateSummaryList = TemplateSummary[];
 export const TemplateSummaryList = S.Array(TemplateSummary);
 export interface WhatsAppSetupFinalization {
-  associateInProgressToken: string | Redacted.Redacted<string>;
-  phoneNumbers: WabaPhoneNumberSetupFinalizationList;
+  associateInProgressToken: string | redacted.Redacted<string>;
+  phoneNumbers: WabaPhoneNumberSetupFinalization[];
   phoneNumberParent?: string;
   waba?: WabaSetupFinalization;
 }
@@ -735,17 +737,17 @@ export interface LinkedWhatsAppBusinessAccountSummary {
   arn: string;
   id: string;
   wabaId: string;
-  registrationStatus: string;
+  registrationStatus: RegistrationStatus;
   linkDate: Date;
   wabaName: string;
-  eventDestinations: WhatsAppBusinessAccountEventDestinations;
+  eventDestinations: WhatsAppBusinessAccountEventDestination[];
 }
 export const LinkedWhatsAppBusinessAccountSummary = S.suspend(() =>
   S.Struct({
     arn: S.String,
     id: S.String,
     wabaId: S.String,
-    registrationStatus: S.String,
+    registrationStatus: RegistrationStatus,
     linkDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     wabaName: S.String,
     eventDestinations: WhatsAppBusinessAccountEventDestinations,
@@ -789,7 +791,7 @@ export const MetaUrlWithSuffixExample = S.Record({
 });
 export type SupportedApp = { [key: string]: string };
 export const SupportedApp = S.Record({ key: S.String, value: S.String });
-export type SupportedApps = SupportedApp[];
+export type SupportedApps = { [key: string]: string }[];
 export const SupportedApps = S.Array(SupportedApp);
 export interface CreateWhatsAppMessageTemplateMediaOutput {
   metaHeaderHandle?: string;
@@ -800,7 +802,7 @@ export const CreateWhatsAppMessageTemplateMediaOutput = S.suspend(() =>
   identifier: "CreateWhatsAppMessageTemplateMediaOutput",
 }) as any as S.Schema<CreateWhatsAppMessageTemplateMediaOutput>;
 export interface ListWhatsAppMessageTemplatesOutput {
-  templates?: TemplateSummaryList;
+  templates?: TemplateSummary[];
   nextToken?: string;
 }
 export const ListWhatsAppMessageTemplatesOutput = S.suspend(() =>
@@ -841,7 +843,7 @@ export const AssociateWhatsAppBusinessAccountInput = S.suspend(() =>
   identifier: "AssociateWhatsAppBusinessAccountInput",
 }) as any as S.Schema<AssociateWhatsAppBusinessAccountInput>;
 export interface ListLinkedWhatsAppBusinessAccountsOutput {
-  linkedAccounts?: LinkedWhatsAppBusinessAccountSummaryList;
+  linkedAccounts?: LinkedWhatsAppBusinessAccountSummary[];
   nextToken?: string;
 }
 export const ListLinkedWhatsAppBusinessAccountsOutput = S.suspend(() =>
@@ -894,10 +896,10 @@ export const GetWhatsAppMessageMediaInput = S.suspend(() =>
 export interface LibraryTemplateButtonInput {
   type?: string;
   phoneNumber?: string;
-  url?: MetaUrlWithSuffixExample;
+  url?: { [key: string]: string };
   otpType?: string;
   zeroTapTermsAccepted?: boolean;
-  supportedApps?: SupportedApps;
+  supportedApps?: { [key: string]: string }[];
 }
 export const LibraryTemplateButtonInput = S.suspend(() =>
   S.Struct({
@@ -950,7 +952,7 @@ export interface MetaLibraryTemplate {
   libraryTemplateName: string;
   templateCategory: string;
   templateLanguage: string;
-  libraryTemplateButtonInputs?: MetaLibraryTemplateButtonInputs;
+  libraryTemplateButtonInputs?: LibraryTemplateButtonInput[];
   libraryTemplateBodyInputs?: LibraryTemplateBodyInputs;
 }
 export const MetaLibraryTemplate = S.suspend(() =>
@@ -969,18 +971,18 @@ export interface LinkedWhatsAppBusinessAccount {
   arn: string;
   id: string;
   wabaId: string;
-  registrationStatus: string;
+  registrationStatus: RegistrationStatus;
   linkDate: Date;
   wabaName: string;
-  eventDestinations: WhatsAppBusinessAccountEventDestinations;
-  phoneNumbers: WhatsAppPhoneNumberSummaryList;
+  eventDestinations: WhatsAppBusinessAccountEventDestination[];
+  phoneNumbers: WhatsAppPhoneNumberSummary[];
 }
 export const LinkedWhatsAppBusinessAccount = S.suspend(() =>
   S.Struct({
     arn: S.String,
     id: S.String,
     wabaId: S.String,
-    registrationStatus: S.String,
+    registrationStatus: RegistrationStatus,
     linkDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     wabaName: S.String,
     eventDestinations: WhatsAppBusinessAccountEventDestinations,
@@ -1031,7 +1033,7 @@ export interface LibraryTemplateButtonList {
   url?: string;
   otpType?: string;
   zeroTapTermsAccepted?: boolean;
-  supportedApps?: SupportedApps;
+  supportedApps?: { [key: string]: string }[];
 }
 export const LibraryTemplateButtonList = S.suspend(() =>
   S.Struct({
@@ -1054,10 +1056,10 @@ export interface MetaLibraryTemplateDefinition {
   templateCategory?: string;
   templateTopic?: string;
   templateUseCase?: string;
-  templateIndustry?: MetaIndustries;
+  templateIndustry?: string[];
   templateHeader?: string;
   templateBody?: string;
-  templateButtons?: MetaLibraryTemplateButtonList;
+  templateButtons?: LibraryTemplateButtonList[];
   templateId?: string;
 }
 export const MetaLibraryTemplateDefinition = S.suspend(() =>
@@ -1093,7 +1095,7 @@ export const CreateWhatsAppMessageTemplateFromLibraryOutput = S.suspend(() =>
   identifier: "CreateWhatsAppMessageTemplateFromLibraryOutput",
 }) as any as S.Schema<CreateWhatsAppMessageTemplateFromLibraryOutput>;
 export interface ListWhatsAppTemplateLibraryOutput {
-  metaLibraryTemplates?: MetaLibraryTemplatesList;
+  metaLibraryTemplates?: MetaLibraryTemplateDefinition[];
   nextToken?: string;
 }
 export const ListWhatsAppTemplateLibraryOutput = S.suspend(() =>
@@ -1108,14 +1110,14 @@ export type WhatsAppPhoneNumberDetailList = WhatsAppPhoneNumberDetail[];
 export const WhatsAppPhoneNumberDetailList = S.Array(WhatsAppPhoneNumberDetail);
 export interface LinkedWhatsAppBusinessAccountIdMetaData {
   accountName?: string;
-  registrationStatus?: string;
-  unregisteredWhatsAppPhoneNumbers?: WhatsAppPhoneNumberDetailList;
+  registrationStatus?: RegistrationStatus;
+  unregisteredWhatsAppPhoneNumbers?: WhatsAppPhoneNumberDetail[];
   wabaId?: string;
 }
 export const LinkedWhatsAppBusinessAccountIdMetaData = S.suspend(() =>
   S.Struct({
     accountName: S.optional(S.String),
-    registrationStatus: S.optional(S.String),
+    registrationStatus: S.optional(RegistrationStatus),
     unregisteredWhatsAppPhoneNumbers: S.optional(WhatsAppPhoneNumberDetailList),
     wabaId: S.optional(S.String),
   }),
@@ -1130,8 +1132,10 @@ export const LinkedAccountWithIncompleteSetup = S.Record({
   value: LinkedWhatsAppBusinessAccountIdMetaData,
 });
 export interface WhatsAppSignupCallbackResult {
-  associateInProgressToken?: string | Redacted.Redacted<string>;
-  linkedAccountsWithIncompleteSetup?: LinkedAccountWithIncompleteSetup;
+  associateInProgressToken?: string | redacted.Redacted<string>;
+  linkedAccountsWithIncompleteSetup?: {
+    [key: string]: LinkedWhatsAppBusinessAccountIdMetaData;
+  };
 }
 export const WhatsAppSignupCallbackResult = S.suspend(() =>
   S.Struct({
@@ -1195,7 +1199,7 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   | InternalServiceException
   | InvalidParametersException
@@ -1216,7 +1220,7 @@ export const listTagsForResource: (
  */
 export const getWhatsAppMessageTemplate: (
   input: GetWhatsAppMessageTemplateInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetWhatsAppMessageTemplateOutput,
   | DependencyException
   | InternalServiceException
@@ -1245,7 +1249,7 @@ export const getWhatsAppMessageTemplate: (
  */
 export const sendWhatsAppMessage: (
   input: SendWhatsAppMessageInput,
-) => Effect.Effect<
+) => effect.Effect<
   SendWhatsAppMessageOutput,
   | DependencyException
   | InternalServiceException
@@ -1270,7 +1274,7 @@ export const sendWhatsAppMessage: (
  */
 export const updateWhatsAppMessageTemplate: (
   input: UpdateWhatsAppMessageTemplateInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWhatsAppMessageTemplateOutput,
   | DependencyException
   | InternalServiceException
@@ -1295,7 +1299,7 @@ export const updateWhatsAppMessageTemplate: (
  */
 export const createWhatsAppMessageTemplate: (
   input: CreateWhatsAppMessageTemplateInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWhatsAppMessageTemplateOutput,
   | DependencyException
   | InternalServiceException
@@ -1320,7 +1324,7 @@ export const createWhatsAppMessageTemplate: (
  */
 export const createWhatsAppMessageTemplateMedia: (
   input: CreateWhatsAppMessageTemplateMediaInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWhatsAppMessageTemplateMediaOutput,
   | DependencyException
   | InternalServiceException
@@ -1349,7 +1353,7 @@ export const createWhatsAppMessageTemplateMedia: (
  */
 export const postWhatsAppMessageMedia: (
   input: PostWhatsAppMessageMediaInput,
-) => Effect.Effect<
+) => effect.Effect<
   PostWhatsAppMessageMediaOutput,
   | AccessDeniedByMetaException
   | DependencyException
@@ -1376,7 +1380,7 @@ export const postWhatsAppMessageMedia: (
  */
 export const deleteWhatsAppMessageTemplate: (
   input: DeleteWhatsAppMessageTemplateInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWhatsAppMessageTemplateOutput,
   | DependencyException
   | InternalServiceException
@@ -1402,7 +1406,7 @@ export const deleteWhatsAppMessageTemplate: (
 export const listWhatsAppMessageTemplates: {
   (
     input: ListWhatsAppMessageTemplatesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWhatsAppMessageTemplatesOutput,
     | DependencyException
     | InternalServiceException
@@ -1414,7 +1418,7 @@ export const listWhatsAppMessageTemplates: {
   >;
   pages: (
     input: ListWhatsAppMessageTemplatesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWhatsAppMessageTemplatesOutput,
     | DependencyException
     | InternalServiceException
@@ -1426,7 +1430,7 @@ export const listWhatsAppMessageTemplates: {
   >;
   items: (
     input: ListWhatsAppMessageTemplatesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TemplateSummary,
     | DependencyException
     | InternalServiceException
@@ -1459,7 +1463,7 @@ export const listWhatsAppMessageTemplates: {
 export const listLinkedWhatsAppBusinessAccounts: {
   (
     input: ListLinkedWhatsAppBusinessAccountsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLinkedWhatsAppBusinessAccountsOutput,
     | InternalServiceException
     | InvalidParametersException
@@ -1470,7 +1474,7 @@ export const listLinkedWhatsAppBusinessAccounts: {
   >;
   pages: (
     input: ListLinkedWhatsAppBusinessAccountsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLinkedWhatsAppBusinessAccountsOutput,
     | InternalServiceException
     | InvalidParametersException
@@ -1481,7 +1485,7 @@ export const listLinkedWhatsAppBusinessAccounts: {
   >;
   items: (
     input: ListLinkedWhatsAppBusinessAccountsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LinkedWhatsAppBusinessAccountSummary,
     | InternalServiceException
     | InvalidParametersException
@@ -1512,7 +1516,7 @@ export const listLinkedWhatsAppBusinessAccounts: {
  */
 export const getLinkedWhatsAppBusinessAccountPhoneNumber: (
   input: GetLinkedWhatsAppBusinessAccountPhoneNumberInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetLinkedWhatsAppBusinessAccountPhoneNumberOutput,
   | DependencyException
   | InternalServiceException
@@ -1537,7 +1541,7 @@ export const getLinkedWhatsAppBusinessAccountPhoneNumber: (
  */
 export const deleteWhatsAppMessageMedia: (
   input: DeleteWhatsAppMessageMediaInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWhatsAppMessageMediaOutput,
   | AccessDeniedByMetaException
   | DependencyException
@@ -1564,7 +1568,7 @@ export const deleteWhatsAppMessageMedia: (
  */
 export const getLinkedWhatsAppBusinessAccount: (
   input: GetLinkedWhatsAppBusinessAccountInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetLinkedWhatsAppBusinessAccountOutput,
   | DependencyException
   | InternalServiceException
@@ -1593,7 +1597,7 @@ export const getLinkedWhatsAppBusinessAccount: (
  */
 export const getWhatsAppMessageMedia: (
   input: GetWhatsAppMessageMediaInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetWhatsAppMessageMediaOutput,
   | AccessDeniedByMetaException
   | DependencyException
@@ -1620,7 +1624,7 @@ export const getWhatsAppMessageMedia: (
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   | InternalServiceException
   | InvalidParametersException
@@ -1641,7 +1645,7 @@ export const untagResource: (
  */
 export const putWhatsAppBusinessAccountEventDestinations: (
   input: PutWhatsAppBusinessAccountEventDestinationsInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutWhatsAppBusinessAccountEventDestinationsOutput,
   | InternalServiceException
   | InvalidParametersException
@@ -1663,7 +1667,7 @@ export const putWhatsAppBusinessAccountEventDestinations: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   | InternalServiceException
   | InvalidParametersException
@@ -1684,7 +1688,7 @@ export const tagResource: (
  */
 export const disassociateWhatsAppBusinessAccount: (
   input: DisassociateWhatsAppBusinessAccountInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateWhatsAppBusinessAccountOutput,
   | DependencyException
   | InvalidParametersException
@@ -1707,7 +1711,7 @@ export const disassociateWhatsAppBusinessAccount: (
  */
 export const createWhatsAppMessageTemplateFromLibrary: (
   input: CreateWhatsAppMessageTemplateFromLibraryInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWhatsAppMessageTemplateFromLibraryOutput,
   | DependencyException
   | InternalServiceException
@@ -1733,7 +1737,7 @@ export const createWhatsAppMessageTemplateFromLibrary: (
 export const listWhatsAppTemplateLibrary: {
   (
     input: ListWhatsAppTemplateLibraryInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWhatsAppTemplateLibraryOutput,
     | DependencyException
     | InternalServiceException
@@ -1745,7 +1749,7 @@ export const listWhatsAppTemplateLibrary: {
   >;
   pages: (
     input: ListWhatsAppTemplateLibraryInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWhatsAppTemplateLibraryOutput,
     | DependencyException
     | InternalServiceException
@@ -1757,7 +1761,7 @@ export const listWhatsAppTemplateLibrary: {
   >;
   items: (
     input: ListWhatsAppTemplateLibraryInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MetaLibraryTemplateDefinition,
     | DependencyException
     | InternalServiceException
@@ -1789,7 +1793,7 @@ export const listWhatsAppTemplateLibrary: {
  */
 export const associateWhatsAppBusinessAccount: (
   input: AssociateWhatsAppBusinessAccountInput,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateWhatsAppBusinessAccountOutput,
   | DependencyException
   | InvalidParametersException

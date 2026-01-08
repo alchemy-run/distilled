@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -335,16 +335,25 @@ export type AvailabilityZoneIdsLimit1 = string[];
 export const AvailabilityZoneIdsLimit1 = S.Array(S.String);
 export type SubnetIdsLimit1 = string[];
 export const SubnetIdsLimit1 = S.Array(S.String);
+export type RetryStrategy = "retry-with-group-configuration" | "none";
+export const RetryStrategy = S.Literal(
+  "retry-with-group-configuration",
+  "none",
+);
+export type WarmPoolState = "Stopped" | "Running" | "Hibernated";
+export const WarmPoolState = S.Literal("Stopped", "Running", "Hibernated");
 export type ProcessNames = string[];
 export const ProcessNames = S.Array(S.String);
+export type RefreshStrategy = "Rolling" | "ReplaceRootVolume";
+export const RefreshStrategy = S.Literal("Rolling", "ReplaceRootVolume");
 export interface AttachInstancesQuery {
-  InstanceIds?: InstanceIds;
-  AutoScalingGroupName: string;
+  InstanceIds?: string[];
+  AutoScalingGroupName?: string;
 }
 export const AttachInstancesQuery = S.suspend(() =>
   S.Struct({
     InstanceIds: S.optional(InstanceIds),
-    AutoScalingGroupName: S.String,
+    AutoScalingGroupName: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -366,13 +375,13 @@ export const AttachInstancesResponse = S.suspend(() =>
   identifier: "AttachInstancesResponse",
 }) as any as S.Schema<AttachInstancesResponse>;
 export interface AttachLoadBalancersType {
-  AutoScalingGroupName: string;
-  LoadBalancerNames: LoadBalancerNames;
+  AutoScalingGroupName?: string;
+  LoadBalancerNames?: string[];
 }
 export const AttachLoadBalancersType = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
-    LoadBalancerNames: LoadBalancerNames,
+    AutoScalingGroupName: S.optional(S.String),
+    LoadBalancerNames: S.optional(LoadBalancerNames),
   }).pipe(
     T.all(
       ns,
@@ -394,13 +403,13 @@ export const AttachLoadBalancersResultType = S.suspend(() =>
   identifier: "AttachLoadBalancersResultType",
 }) as any as S.Schema<AttachLoadBalancersResultType>;
 export interface AttachLoadBalancerTargetGroupsType {
-  AutoScalingGroupName: string;
-  TargetGroupARNs: TargetGroupARNs;
+  AutoScalingGroupName?: string;
+  TargetGroupARNs?: string[];
 }
 export const AttachLoadBalancerTargetGroupsType = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
-    TargetGroupARNs: TargetGroupARNs,
+    AutoScalingGroupName: S.optional(S.String),
+    TargetGroupARNs: S.optional(TargetGroupARNs),
   }).pipe(
     T.all(
       ns,
@@ -422,13 +431,13 @@ export const AttachLoadBalancerTargetGroupsResultType = S.suspend(() =>
   identifier: "AttachLoadBalancerTargetGroupsResultType",
 }) as any as S.Schema<AttachLoadBalancerTargetGroupsResultType>;
 export interface BatchDeleteScheduledActionType {
-  AutoScalingGroupName: string;
-  ScheduledActionNames: ScheduledActionNames;
+  AutoScalingGroupName?: string;
+  ScheduledActionNames?: string[];
 }
 export const BatchDeleteScheduledActionType = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
-    ScheduledActionNames: ScheduledActionNames,
+    AutoScalingGroupName: S.optional(S.String),
+    ScheduledActionNames: S.optional(ScheduledActionNames),
   }).pipe(
     T.all(
       ns,
@@ -444,12 +453,12 @@ export const BatchDeleteScheduledActionType = S.suspend(() =>
   identifier: "BatchDeleteScheduledActionType",
 }) as any as S.Schema<BatchDeleteScheduledActionType>;
 export interface CancelInstanceRefreshType {
-  AutoScalingGroupName: string;
+  AutoScalingGroupName?: string;
   WaitForTransitioningInstances?: boolean;
 }
 export const CancelInstanceRefreshType = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
+    AutoScalingGroupName: S.optional(S.String),
     WaitForTransitioningInstances: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -466,18 +475,18 @@ export const CancelInstanceRefreshType = S.suspend(() =>
   identifier: "CancelInstanceRefreshType",
 }) as any as S.Schema<CancelInstanceRefreshType>;
 export interface CompleteLifecycleActionType {
-  LifecycleHookName: string;
-  AutoScalingGroupName: string;
+  LifecycleHookName?: string;
+  AutoScalingGroupName?: string;
   LifecycleActionToken?: string;
-  LifecycleActionResult: string;
+  LifecycleActionResult?: string;
   InstanceId?: string;
 }
 export const CompleteLifecycleActionType = S.suspend(() =>
   S.Struct({
-    LifecycleHookName: S.String,
-    AutoScalingGroupName: S.String,
+    LifecycleHookName: S.optional(S.String),
+    AutoScalingGroupName: S.optional(S.String),
     LifecycleActionToken: S.optional(S.String),
-    LifecycleActionResult: S.String,
+    LifecycleActionResult: S.optional(S.String),
     InstanceId: S.optional(S.String),
   }).pipe(
     T.all(
@@ -502,7 +511,7 @@ export const CompleteLifecycleActionAnswer = S.suspend(() =>
 export interface Tag {
   ResourceId?: string;
   ResourceType?: string;
-  Key: string;
+  Key?: string;
   Value?: string;
   PropagateAtLaunch?: boolean;
 }
@@ -510,7 +519,7 @@ export const Tag = S.suspend(() =>
   S.Struct({
     ResourceId: S.optional(S.String),
     ResourceType: S.optional(S.String),
-    Key: S.String,
+    Key: S.optional(S.String),
     Value: S.optional(S.String),
     PropagateAtLaunch: S.optional(S.Boolean),
   }),
@@ -518,10 +527,10 @@ export const Tag = S.suspend(() =>
 export type Tags = Tag[];
 export const Tags = S.Array(Tag);
 export interface CreateOrUpdateTagsType {
-  Tags: Tags;
+  Tags?: Tag[];
 }
 export const CreateOrUpdateTagsType = S.suspend(() =>
-  S.Struct({ Tags: Tags }).pipe(
+  S.Struct({ Tags: S.optional(Tags) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -542,12 +551,12 @@ export const CreateOrUpdateTagsResponse = S.suspend(() =>
   identifier: "CreateOrUpdateTagsResponse",
 }) as any as S.Schema<CreateOrUpdateTagsResponse>;
 export interface DeleteAutoScalingGroupType {
-  AutoScalingGroupName: string;
+  AutoScalingGroupName?: string;
   ForceDelete?: boolean;
 }
 export const DeleteAutoScalingGroupType = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
+    AutoScalingGroupName: S.optional(S.String),
     ForceDelete: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -570,10 +579,10 @@ export const DeleteAutoScalingGroupResponse = S.suspend(() =>
   identifier: "DeleteAutoScalingGroupResponse",
 }) as any as S.Schema<DeleteAutoScalingGroupResponse>;
 export interface LaunchConfigurationNameType {
-  LaunchConfigurationName: string;
+  LaunchConfigurationName?: string;
 }
 export const LaunchConfigurationNameType = S.suspend(() =>
-  S.Struct({ LaunchConfigurationName: S.String }).pipe(
+  S.Struct({ LaunchConfigurationName: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -594,13 +603,13 @@ export const DeleteLaunchConfigurationResponse = S.suspend(() =>
   identifier: "DeleteLaunchConfigurationResponse",
 }) as any as S.Schema<DeleteLaunchConfigurationResponse>;
 export interface DeleteLifecycleHookType {
-  LifecycleHookName: string;
-  AutoScalingGroupName: string;
+  LifecycleHookName?: string;
+  AutoScalingGroupName?: string;
 }
 export const DeleteLifecycleHookType = S.suspend(() =>
   S.Struct({
-    LifecycleHookName: S.String,
-    AutoScalingGroupName: S.String,
+    LifecycleHookName: S.optional(S.String),
+    AutoScalingGroupName: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -622,11 +631,14 @@ export const DeleteLifecycleHookAnswer = S.suspend(() =>
   identifier: "DeleteLifecycleHookAnswer",
 }) as any as S.Schema<DeleteLifecycleHookAnswer>;
 export interface DeleteNotificationConfigurationType {
-  AutoScalingGroupName: string;
-  TopicARN: string;
+  AutoScalingGroupName?: string;
+  TopicARN?: string;
 }
 export const DeleteNotificationConfigurationType = S.suspend(() =>
-  S.Struct({ AutoScalingGroupName: S.String, TopicARN: S.String }).pipe(
+  S.Struct({
+    AutoScalingGroupName: S.optional(S.String),
+    TopicARN: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -648,12 +660,12 @@ export const DeleteNotificationConfigurationResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteNotificationConfigurationResponse>;
 export interface DeletePolicyType {
   AutoScalingGroupName?: string;
-  PolicyName: string;
+  PolicyName?: string;
 }
 export const DeletePolicyType = S.suspend(() =>
   S.Struct({
     AutoScalingGroupName: S.optional(S.String),
-    PolicyName: S.String,
+    PolicyName: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -675,13 +687,13 @@ export const DeletePolicyResponse = S.suspend(() =>
   identifier: "DeletePolicyResponse",
 }) as any as S.Schema<DeletePolicyResponse>;
 export interface DeleteScheduledActionType {
-  AutoScalingGroupName: string;
-  ScheduledActionName: string;
+  AutoScalingGroupName?: string;
+  ScheduledActionName?: string;
 }
 export const DeleteScheduledActionType = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
-    ScheduledActionName: S.String,
+    AutoScalingGroupName: S.optional(S.String),
+    ScheduledActionName: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -703,10 +715,10 @@ export const DeleteScheduledActionResponse = S.suspend(() =>
   identifier: "DeleteScheduledActionResponse",
 }) as any as S.Schema<DeleteScheduledActionResponse>;
 export interface DeleteTagsType {
-  Tags: Tags;
+  Tags?: Tag[];
 }
 export const DeleteTagsType = S.suspend(() =>
-  S.Struct({ Tags: Tags }).pipe(
+  S.Struct({ Tags: S.optional(Tags) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -727,12 +739,12 @@ export const DeleteTagsResponse = S.suspend(() =>
   identifier: "DeleteTagsResponse",
 }) as any as S.Schema<DeleteTagsResponse>;
 export interface DeleteWarmPoolType {
-  AutoScalingGroupName: string;
+  AutoScalingGroupName?: string;
   ForceDelete?: boolean;
 }
 export const DeleteWarmPoolType = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
+    AutoScalingGroupName: S.optional(S.String),
     ForceDelete: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -771,7 +783,7 @@ export const DescribeAccountLimitsAnswer = S.suspend(() =>
   identifier: "DescribeAccountLimitsAnswer",
 }) as any as S.Schema<DescribeAccountLimitsAnswer>;
 export interface DescribeAutoScalingInstancesType {
-  InstanceIds?: InstanceIds;
+  InstanceIds?: string[];
   MaxRecords?: number;
   NextToken?: string;
 }
@@ -795,7 +807,7 @@ export const DescribeAutoScalingInstancesType = S.suspend(() =>
   identifier: "DescribeAutoScalingInstancesType",
 }) as any as S.Schema<DescribeAutoScalingInstancesType>;
 export interface DescribeAutoScalingNotificationTypesAnswer {
-  AutoScalingNotificationTypes?: AutoScalingNotificationTypes;
+  AutoScalingNotificationTypes?: string[];
 }
 export const DescribeAutoScalingNotificationTypesAnswer = S.suspend(() =>
   S.Struct({
@@ -805,14 +817,14 @@ export const DescribeAutoScalingNotificationTypesAnswer = S.suspend(() =>
   identifier: "DescribeAutoScalingNotificationTypesAnswer",
 }) as any as S.Schema<DescribeAutoScalingNotificationTypesAnswer>;
 export interface DescribeInstanceRefreshesType {
-  AutoScalingGroupName: string;
-  InstanceRefreshIds?: InstanceRefreshIds;
+  AutoScalingGroupName?: string;
+  InstanceRefreshIds?: string[];
   NextToken?: string;
   MaxRecords?: number;
 }
 export const DescribeInstanceRefreshesType = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
+    AutoScalingGroupName: S.optional(S.String),
     InstanceRefreshIds: S.optional(InstanceRefreshIds),
     NextToken: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
@@ -831,7 +843,7 @@ export const DescribeInstanceRefreshesType = S.suspend(() =>
   identifier: "DescribeInstanceRefreshesType",
 }) as any as S.Schema<DescribeInstanceRefreshesType>;
 export interface LaunchConfigurationNamesType {
-  LaunchConfigurationNames?: LaunchConfigurationNames;
+  LaunchConfigurationNames?: string[];
   NextToken?: string;
   MaxRecords?: number;
 }
@@ -855,12 +867,12 @@ export const LaunchConfigurationNamesType = S.suspend(() =>
   identifier: "LaunchConfigurationNamesType",
 }) as any as S.Schema<LaunchConfigurationNamesType>;
 export interface DescribeLifecycleHooksType {
-  AutoScalingGroupName: string;
-  LifecycleHookNames?: LifecycleHookNames;
+  AutoScalingGroupName?: string;
+  LifecycleHookNames?: string[];
 }
 export const DescribeLifecycleHooksType = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
+    AutoScalingGroupName: S.optional(S.String),
     LifecycleHookNames: S.optional(LifecycleHookNames),
   }).pipe(
     T.all(
@@ -877,7 +889,7 @@ export const DescribeLifecycleHooksType = S.suspend(() =>
   identifier: "DescribeLifecycleHooksType",
 }) as any as S.Schema<DescribeLifecycleHooksType>;
 export interface DescribeLifecycleHookTypesAnswer {
-  LifecycleHookTypes?: AutoScalingNotificationTypes;
+  LifecycleHookTypes?: string[];
 }
 export const DescribeLifecycleHookTypesAnswer = S.suspend(() =>
   S.Struct({
@@ -887,13 +899,13 @@ export const DescribeLifecycleHookTypesAnswer = S.suspend(() =>
   identifier: "DescribeLifecycleHookTypesAnswer",
 }) as any as S.Schema<DescribeLifecycleHookTypesAnswer>;
 export interface DescribeLoadBalancersRequest {
-  AutoScalingGroupName: string;
+  AutoScalingGroupName?: string;
   NextToken?: string;
   MaxRecords?: number;
 }
 export const DescribeLoadBalancersRequest = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
+    AutoScalingGroupName: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
   }).pipe(
@@ -911,13 +923,13 @@ export const DescribeLoadBalancersRequest = S.suspend(() =>
   identifier: "DescribeLoadBalancersRequest",
 }) as any as S.Schema<DescribeLoadBalancersRequest>;
 export interface DescribeLoadBalancerTargetGroupsRequest {
-  AutoScalingGroupName: string;
+  AutoScalingGroupName?: string;
   NextToken?: string;
   MaxRecords?: number;
 }
 export const DescribeLoadBalancerTargetGroupsRequest = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
+    AutoScalingGroupName: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
   }).pipe(
@@ -935,7 +947,7 @@ export const DescribeLoadBalancerTargetGroupsRequest = S.suspend(() =>
   identifier: "DescribeLoadBalancerTargetGroupsRequest",
 }) as any as S.Schema<DescribeLoadBalancerTargetGroupsRequest>;
 export interface DescribeNotificationConfigurationsType {
-  AutoScalingGroupNames?: AutoScalingGroupNames;
+  AutoScalingGroupNames?: string[];
   NextToken?: string;
   MaxRecords?: number;
 }
@@ -960,8 +972,8 @@ export const DescribeNotificationConfigurationsType = S.suspend(() =>
 }) as any as S.Schema<DescribeNotificationConfigurationsType>;
 export interface DescribePoliciesType {
   AutoScalingGroupName?: string;
-  PolicyNames?: PolicyNames;
-  PolicyTypes?: PolicyTypes;
+  PolicyNames?: string[];
+  PolicyTypes?: string[];
   NextToken?: string;
   MaxRecords?: number;
 }
@@ -987,7 +999,7 @@ export const DescribePoliciesType = S.suspend(() =>
   identifier: "DescribePoliciesType",
 }) as any as S.Schema<DescribePoliciesType>;
 export interface DescribeScalingActivitiesType {
-  ActivityIds?: ActivityIds;
+  ActivityIds?: string[];
   AutoScalingGroupName?: string;
   IncludeDeletedGroups?: boolean;
   MaxRecords?: number;
@@ -1016,7 +1028,7 @@ export const DescribeScalingActivitiesType = S.suspend(() =>
 }) as any as S.Schema<DescribeScalingActivitiesType>;
 export interface DescribeScheduledActionsType {
   AutoScalingGroupName?: string;
-  ScheduledActionNames?: ScheduledActionNames;
+  ScheduledActionNames?: string[];
   StartTime?: Date;
   EndTime?: Date;
   NextToken?: string;
@@ -1048,7 +1060,7 @@ export type Values = string[];
 export const Values = S.Array(S.String);
 export interface Filter {
   Name?: string;
-  Values?: Values;
+  Values?: string[];
 }
 export const Filter = S.suspend(() =>
   S.Struct({ Name: S.optional(S.String), Values: S.optional(Values) }),
@@ -1056,7 +1068,7 @@ export const Filter = S.suspend(() =>
 export type Filters = Filter[];
 export const Filters = S.Array(Filter);
 export interface DescribeTagsType {
-  Filters?: Filters;
+  Filters?: Filter[];
   NextToken?: string;
   MaxRecords?: number;
 }
@@ -1080,7 +1092,7 @@ export const DescribeTagsType = S.suspend(() =>
   identifier: "DescribeTagsType",
 }) as any as S.Schema<DescribeTagsType>;
 export interface DescribeTerminationPolicyTypesAnswer {
-  TerminationPolicyTypes?: TerminationPolicies;
+  TerminationPolicyTypes?: string[];
 }
 export const DescribeTerminationPolicyTypesAnswer = S.suspend(() =>
   S.Struct({ TerminationPolicyTypes: S.optional(TerminationPolicies) }).pipe(
@@ -1090,14 +1102,14 @@ export const DescribeTerminationPolicyTypesAnswer = S.suspend(() =>
   identifier: "DescribeTerminationPolicyTypesAnswer",
 }) as any as S.Schema<DescribeTerminationPolicyTypesAnswer>;
 export interface DescribeTrafficSourcesRequest {
-  AutoScalingGroupName: string;
+  AutoScalingGroupName?: string;
   TrafficSourceType?: string;
   NextToken?: string;
   MaxRecords?: number;
 }
 export const DescribeTrafficSourcesRequest = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
+    AutoScalingGroupName: S.optional(S.String),
     TrafficSourceType: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
@@ -1116,13 +1128,13 @@ export const DescribeTrafficSourcesRequest = S.suspend(() =>
   identifier: "DescribeTrafficSourcesRequest",
 }) as any as S.Schema<DescribeTrafficSourcesRequest>;
 export interface DescribeWarmPoolType {
-  AutoScalingGroupName: string;
+  AutoScalingGroupName?: string;
   MaxRecords?: number;
   NextToken?: string;
 }
 export const DescribeWarmPoolType = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
+    AutoScalingGroupName: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -1140,15 +1152,15 @@ export const DescribeWarmPoolType = S.suspend(() =>
   identifier: "DescribeWarmPoolType",
 }) as any as S.Schema<DescribeWarmPoolType>;
 export interface DetachInstancesQuery {
-  InstanceIds?: InstanceIds;
-  AutoScalingGroupName: string;
-  ShouldDecrementDesiredCapacity: boolean;
+  InstanceIds?: string[];
+  AutoScalingGroupName?: string;
+  ShouldDecrementDesiredCapacity?: boolean;
 }
 export const DetachInstancesQuery = S.suspend(() =>
   S.Struct({
     InstanceIds: S.optional(InstanceIds),
-    AutoScalingGroupName: S.String,
-    ShouldDecrementDesiredCapacity: S.Boolean,
+    AutoScalingGroupName: S.optional(S.String),
+    ShouldDecrementDesiredCapacity: S.optional(S.Boolean),
   }).pipe(
     T.all(
       ns,
@@ -1164,13 +1176,13 @@ export const DetachInstancesQuery = S.suspend(() =>
   identifier: "DetachInstancesQuery",
 }) as any as S.Schema<DetachInstancesQuery>;
 export interface DetachLoadBalancersType {
-  AutoScalingGroupName: string;
-  LoadBalancerNames: LoadBalancerNames;
+  AutoScalingGroupName?: string;
+  LoadBalancerNames?: string[];
 }
 export const DetachLoadBalancersType = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
-    LoadBalancerNames: LoadBalancerNames,
+    AutoScalingGroupName: S.optional(S.String),
+    LoadBalancerNames: S.optional(LoadBalancerNames),
   }).pipe(
     T.all(
       ns,
@@ -1192,13 +1204,13 @@ export const DetachLoadBalancersResultType = S.suspend(() =>
   identifier: "DetachLoadBalancersResultType",
 }) as any as S.Schema<DetachLoadBalancersResultType>;
 export interface DetachLoadBalancerTargetGroupsType {
-  AutoScalingGroupName: string;
-  TargetGroupARNs: TargetGroupARNs;
+  AutoScalingGroupName?: string;
+  TargetGroupARNs?: string[];
 }
 export const DetachLoadBalancerTargetGroupsType = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
-    TargetGroupARNs: TargetGroupARNs,
+    AutoScalingGroupName: S.optional(S.String),
+    TargetGroupARNs: S.optional(TargetGroupARNs),
   }).pipe(
     T.all(
       ns,
@@ -1220,24 +1232,24 @@ export const DetachLoadBalancerTargetGroupsResultType = S.suspend(() =>
   identifier: "DetachLoadBalancerTargetGroupsResultType",
 }) as any as S.Schema<DetachLoadBalancerTargetGroupsResultType>;
 export interface TrafficSourceIdentifier {
-  Identifier: string;
+  Identifier?: string;
   Type?: string;
 }
 export const TrafficSourceIdentifier = S.suspend(() =>
-  S.Struct({ Identifier: S.String, Type: S.optional(S.String) }),
+  S.Struct({ Identifier: S.optional(S.String), Type: S.optional(S.String) }),
 ).annotations({
   identifier: "TrafficSourceIdentifier",
 }) as any as S.Schema<TrafficSourceIdentifier>;
 export type TrafficSources = TrafficSourceIdentifier[];
 export const TrafficSources = S.Array(TrafficSourceIdentifier);
 export interface DetachTrafficSourcesType {
-  AutoScalingGroupName: string;
-  TrafficSources: TrafficSources;
+  AutoScalingGroupName?: string;
+  TrafficSources?: TrafficSourceIdentifier[];
 }
 export const DetachTrafficSourcesType = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
-    TrafficSources: TrafficSources,
+    AutoScalingGroupName: S.optional(S.String),
+    TrafficSources: S.optional(TrafficSources),
   }).pipe(
     T.all(
       ns,
@@ -1259,12 +1271,12 @@ export const DetachTrafficSourcesResultType = S.suspend(() =>
   identifier: "DetachTrafficSourcesResultType",
 }) as any as S.Schema<DetachTrafficSourcesResultType>;
 export interface DisableMetricsCollectionQuery {
-  AutoScalingGroupName: string;
-  Metrics?: Metrics;
+  AutoScalingGroupName?: string;
+  Metrics?: string[];
 }
 export const DisableMetricsCollectionQuery = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
+    AutoScalingGroupName: S.optional(S.String),
     Metrics: S.optional(Metrics),
   }).pipe(
     T.all(
@@ -1287,15 +1299,15 @@ export const DisableMetricsCollectionResponse = S.suspend(() =>
   identifier: "DisableMetricsCollectionResponse",
 }) as any as S.Schema<DisableMetricsCollectionResponse>;
 export interface EnableMetricsCollectionQuery {
-  AutoScalingGroupName: string;
-  Metrics?: Metrics;
-  Granularity: string;
+  AutoScalingGroupName?: string;
+  Metrics?: string[];
+  Granularity?: string;
 }
 export const EnableMetricsCollectionQuery = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
+    AutoScalingGroupName: S.optional(S.String),
     Metrics: S.optional(Metrics),
-    Granularity: S.String,
+    Granularity: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -1317,15 +1329,15 @@ export const EnableMetricsCollectionResponse = S.suspend(() =>
   identifier: "EnableMetricsCollectionResponse",
 }) as any as S.Schema<EnableMetricsCollectionResponse>;
 export interface EnterStandbyQuery {
-  InstanceIds?: InstanceIds;
-  AutoScalingGroupName: string;
-  ShouldDecrementDesiredCapacity: boolean;
+  InstanceIds?: string[];
+  AutoScalingGroupName?: string;
+  ShouldDecrementDesiredCapacity?: boolean;
 }
 export const EnterStandbyQuery = S.suspend(() =>
   S.Struct({
     InstanceIds: S.optional(InstanceIds),
-    AutoScalingGroupName: S.String,
-    ShouldDecrementDesiredCapacity: S.Boolean,
+    AutoScalingGroupName: S.optional(S.String),
+    ShouldDecrementDesiredCapacity: S.optional(S.Boolean),
   }).pipe(
     T.all(
       ns,
@@ -1342,7 +1354,7 @@ export const EnterStandbyQuery = S.suspend(() =>
 }) as any as S.Schema<EnterStandbyQuery>;
 export interface ExecutePolicyType {
   AutoScalingGroupName?: string;
-  PolicyName: string;
+  PolicyName?: string;
   HonorCooldown?: boolean;
   MetricValue?: number;
   BreachThreshold?: number;
@@ -1350,7 +1362,7 @@ export interface ExecutePolicyType {
 export const ExecutePolicyType = S.suspend(() =>
   S.Struct({
     AutoScalingGroupName: S.optional(S.String),
-    PolicyName: S.String,
+    PolicyName: S.optional(S.String),
     HonorCooldown: S.optional(S.Boolean),
     MetricValue: S.optional(S.Number),
     BreachThreshold: S.optional(S.Number),
@@ -1375,13 +1387,13 @@ export const ExecutePolicyResponse = S.suspend(() =>
   identifier: "ExecutePolicyResponse",
 }) as any as S.Schema<ExecutePolicyResponse>;
 export interface ExitStandbyQuery {
-  InstanceIds?: InstanceIds;
-  AutoScalingGroupName: string;
+  InstanceIds?: string[];
+  AutoScalingGroupName?: string;
 }
 export const ExitStandbyQuery = S.suspend(() =>
   S.Struct({
     InstanceIds: S.optional(InstanceIds),
-    AutoScalingGroupName: S.String,
+    AutoScalingGroupName: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -1397,17 +1409,17 @@ export const ExitStandbyQuery = S.suspend(() =>
   identifier: "ExitStandbyQuery",
 }) as any as S.Schema<ExitStandbyQuery>;
 export interface GetPredictiveScalingForecastType {
-  AutoScalingGroupName: string;
-  PolicyName: string;
-  StartTime: Date;
-  EndTime: Date;
+  AutoScalingGroupName?: string;
+  PolicyName?: string;
+  StartTime?: Date;
+  EndTime?: Date;
 }
 export const GetPredictiveScalingForecastType = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
-    PolicyName: S.String,
-    StartTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    EndTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    AutoScalingGroupName: S.optional(S.String),
+    PolicyName: S.optional(S.String),
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }).pipe(
     T.all(
       ns,
@@ -1423,23 +1435,23 @@ export const GetPredictiveScalingForecastType = S.suspend(() =>
   identifier: "GetPredictiveScalingForecastType",
 }) as any as S.Schema<GetPredictiveScalingForecastType>;
 export interface LaunchInstancesRequest {
-  AutoScalingGroupName: string;
-  RequestedCapacity: number;
-  ClientToken: string;
-  AvailabilityZones?: AvailabilityZonesLimit1;
-  AvailabilityZoneIds?: AvailabilityZoneIdsLimit1;
-  SubnetIds?: SubnetIdsLimit1;
-  RetryStrategy?: string;
+  AutoScalingGroupName?: string;
+  RequestedCapacity?: number;
+  ClientToken?: string;
+  AvailabilityZones?: string[];
+  AvailabilityZoneIds?: string[];
+  SubnetIds?: string[];
+  RetryStrategy?: RetryStrategy;
 }
 export const LaunchInstancesRequest = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
-    RequestedCapacity: S.Number,
-    ClientToken: S.String,
+    AutoScalingGroupName: S.optional(S.String),
+    RequestedCapacity: S.optional(S.Number),
+    ClientToken: S.optional(S.String),
     AvailabilityZones: S.optional(AvailabilityZonesLimit1),
     AvailabilityZoneIds: S.optional(AvailabilityZoneIdsLimit1),
     SubnetIds: S.optional(SubnetIdsLimit1),
-    RetryStrategy: S.optional(S.String),
+    RetryStrategy: S.optional(RetryStrategy),
   }).pipe(
     T.all(
       ns,
@@ -1455,8 +1467,8 @@ export const LaunchInstancesRequest = S.suspend(() =>
   identifier: "LaunchInstancesRequest",
 }) as any as S.Schema<LaunchInstancesRequest>;
 export interface PutLifecycleHookType {
-  LifecycleHookName: string;
-  AutoScalingGroupName: string;
+  LifecycleHookName?: string;
+  AutoScalingGroupName?: string;
   LifecycleTransition?: string;
   RoleARN?: string;
   NotificationTargetARN?: string;
@@ -1466,8 +1478,8 @@ export interface PutLifecycleHookType {
 }
 export const PutLifecycleHookType = S.suspend(() =>
   S.Struct({
-    LifecycleHookName: S.String,
-    AutoScalingGroupName: S.String,
+    LifecycleHookName: S.optional(S.String),
+    AutoScalingGroupName: S.optional(S.String),
     LifecycleTransition: S.optional(S.String),
     RoleARN: S.optional(S.String),
     NotificationTargetARN: S.optional(S.String),
@@ -1495,15 +1507,15 @@ export const PutLifecycleHookAnswer = S.suspend(() =>
   identifier: "PutLifecycleHookAnswer",
 }) as any as S.Schema<PutLifecycleHookAnswer>;
 export interface PutNotificationConfigurationType {
-  AutoScalingGroupName: string;
-  TopicARN: string;
-  NotificationTypes: AutoScalingNotificationTypes;
+  AutoScalingGroupName?: string;
+  TopicARN?: string;
+  NotificationTypes?: string[];
 }
 export const PutNotificationConfigurationType = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
-    TopicARN: S.String,
-    NotificationTypes: AutoScalingNotificationTypes,
+    AutoScalingGroupName: S.optional(S.String),
+    TopicARN: S.optional(S.String),
+    NotificationTypes: S.optional(AutoScalingNotificationTypes),
   }).pipe(
     T.all(
       ns,
@@ -1525,8 +1537,8 @@ export const PutNotificationConfigurationResponse = S.suspend(() =>
   identifier: "PutNotificationConfigurationResponse",
 }) as any as S.Schema<PutNotificationConfigurationResponse>;
 export interface PutScheduledUpdateGroupActionType {
-  AutoScalingGroupName: string;
-  ScheduledActionName: string;
+  AutoScalingGroupName?: string;
+  ScheduledActionName?: string;
   Time?: Date;
   StartTime?: Date;
   EndTime?: Date;
@@ -1538,8 +1550,8 @@ export interface PutScheduledUpdateGroupActionType {
 }
 export const PutScheduledUpdateGroupActionType = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
-    ScheduledActionName: S.String,
+    AutoScalingGroupName: S.optional(S.String),
+    ScheduledActionName: S.optional(S.String),
     Time: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -1569,15 +1581,15 @@ export const PutScheduledUpdateGroupActionResponse = S.suspend(() =>
   identifier: "PutScheduledUpdateGroupActionResponse",
 }) as any as S.Schema<PutScheduledUpdateGroupActionResponse>;
 export interface RecordLifecycleActionHeartbeatType {
-  LifecycleHookName: string;
-  AutoScalingGroupName: string;
+  LifecycleHookName?: string;
+  AutoScalingGroupName?: string;
   LifecycleActionToken?: string;
   InstanceId?: string;
 }
 export const RecordLifecycleActionHeartbeatType = S.suspend(() =>
   S.Struct({
-    LifecycleHookName: S.String,
-    AutoScalingGroupName: S.String,
+    LifecycleHookName: S.optional(S.String),
+    AutoScalingGroupName: S.optional(S.String),
     LifecycleActionToken: S.optional(S.String),
     InstanceId: S.optional(S.String),
   }).pipe(
@@ -1601,12 +1613,12 @@ export const RecordLifecycleActionHeartbeatAnswer = S.suspend(() =>
   identifier: "RecordLifecycleActionHeartbeatAnswer",
 }) as any as S.Schema<RecordLifecycleActionHeartbeatAnswer>;
 export interface ScalingProcessQuery {
-  AutoScalingGroupName: string;
-  ScalingProcesses?: ProcessNames;
+  AutoScalingGroupName?: string;
+  ScalingProcesses?: string[];
 }
 export const ScalingProcessQuery = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
+    AutoScalingGroupName: S.optional(S.String),
     ScalingProcesses: S.optional(ProcessNames),
   }).pipe(
     T.all(
@@ -1629,10 +1641,10 @@ export const ResumeProcessesResponse = S.suspend(() =>
   identifier: "ResumeProcessesResponse",
 }) as any as S.Schema<ResumeProcessesResponse>;
 export interface RollbackInstanceRefreshType {
-  AutoScalingGroupName: string;
+  AutoScalingGroupName?: string;
 }
 export const RollbackInstanceRefreshType = S.suspend(() =>
-  S.Struct({ AutoScalingGroupName: S.String }).pipe(
+  S.Struct({ AutoScalingGroupName: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1647,14 +1659,14 @@ export const RollbackInstanceRefreshType = S.suspend(() =>
   identifier: "RollbackInstanceRefreshType",
 }) as any as S.Schema<RollbackInstanceRefreshType>;
 export interface SetDesiredCapacityType {
-  AutoScalingGroupName: string;
-  DesiredCapacity: number;
+  AutoScalingGroupName?: string;
+  DesiredCapacity?: number;
   HonorCooldown?: boolean;
 }
 export const SetDesiredCapacityType = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
-    DesiredCapacity: S.Number,
+    AutoScalingGroupName: S.optional(S.String),
+    DesiredCapacity: S.optional(S.Number),
     HonorCooldown: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -1677,14 +1689,14 @@ export const SetDesiredCapacityResponse = S.suspend(() =>
   identifier: "SetDesiredCapacityResponse",
 }) as any as S.Schema<SetDesiredCapacityResponse>;
 export interface SetInstanceHealthQuery {
-  InstanceId: string;
-  HealthStatus: string;
+  InstanceId?: string;
+  HealthStatus?: string;
   ShouldRespectGracePeriod?: boolean;
 }
 export const SetInstanceHealthQuery = S.suspend(() =>
   S.Struct({
-    InstanceId: S.String,
-    HealthStatus: S.String,
+    InstanceId: S.optional(S.String),
+    HealthStatus: S.optional(S.String),
     ShouldRespectGracePeriod: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -1707,15 +1719,15 @@ export const SetInstanceHealthResponse = S.suspend(() =>
   identifier: "SetInstanceHealthResponse",
 }) as any as S.Schema<SetInstanceHealthResponse>;
 export interface SetInstanceProtectionQuery {
-  InstanceIds: InstanceIds;
-  AutoScalingGroupName: string;
-  ProtectedFromScaleIn: boolean;
+  InstanceIds?: string[];
+  AutoScalingGroupName?: string;
+  ProtectedFromScaleIn?: boolean;
 }
 export const SetInstanceProtectionQuery = S.suspend(() =>
   S.Struct({
-    InstanceIds: InstanceIds,
-    AutoScalingGroupName: S.String,
-    ProtectedFromScaleIn: S.Boolean,
+    InstanceIds: S.optional(InstanceIds),
+    AutoScalingGroupName: S.optional(S.String),
+    ProtectedFromScaleIn: S.optional(S.Boolean),
   }).pipe(
     T.all(
       ns,
@@ -1737,13 +1749,13 @@ export const SetInstanceProtectionAnswer = S.suspend(() =>
   identifier: "SetInstanceProtectionAnswer",
 }) as any as S.Schema<SetInstanceProtectionAnswer>;
 export interface TerminateInstanceInAutoScalingGroupType {
-  InstanceId: string;
-  ShouldDecrementDesiredCapacity: boolean;
+  InstanceId?: string;
+  ShouldDecrementDesiredCapacity?: boolean;
 }
 export const TerminateInstanceInAutoScalingGroupType = S.suspend(() =>
   S.Struct({
-    InstanceId: S.String,
-    ShouldDecrementDesiredCapacity: S.Boolean,
+    InstanceId: S.optional(S.String),
+    ShouldDecrementDesiredCapacity: S.optional(S.Boolean),
   }).pipe(
     T.all(
       ns,
@@ -1773,25 +1785,32 @@ export const LaunchTemplateSpecification = S.suspend(() =>
   identifier: "LaunchTemplateSpecification",
 }) as any as S.Schema<LaunchTemplateSpecification>;
 export interface VCpuCountRequest {
-  Min: number;
+  Min?: number;
   Max?: number;
 }
 export const VCpuCountRequest = S.suspend(() =>
-  S.Struct({ Min: S.Number, Max: S.optional(S.Number) }),
+  S.Struct({ Min: S.optional(S.Number), Max: S.optional(S.Number) }),
 ).annotations({
   identifier: "VCpuCountRequest",
 }) as any as S.Schema<VCpuCountRequest>;
 export interface MemoryMiBRequest {
-  Min: number;
+  Min?: number;
   Max?: number;
 }
 export const MemoryMiBRequest = S.suspend(() =>
-  S.Struct({ Min: S.Number, Max: S.optional(S.Number) }),
+  S.Struct({ Min: S.optional(S.Number), Max: S.optional(S.Number) }),
 ).annotations({
   identifier: "MemoryMiBRequest",
 }) as any as S.Schema<MemoryMiBRequest>;
-export type CpuManufacturers = string[];
-export const CpuManufacturers = S.Array(S.String);
+export type CpuManufacturer = "intel" | "amd" | "amazon-web-services" | "apple";
+export const CpuManufacturer = S.Literal(
+  "intel",
+  "amd",
+  "amazon-web-services",
+  "apple",
+);
+export type CpuManufacturers = CpuManufacturer[];
+export const CpuManufacturers = S.Array(CpuManufacturer);
 export interface MemoryGiBPerVCpuRequest {
   Min?: number;
   Max?: number;
@@ -1803,8 +1822,18 @@ export const MemoryGiBPerVCpuRequest = S.suspend(() =>
 }) as any as S.Schema<MemoryGiBPerVCpuRequest>;
 export type ExcludedInstanceTypes = string[];
 export const ExcludedInstanceTypes = S.Array(S.String);
-export type InstanceGenerations = string[];
-export const InstanceGenerations = S.Array(S.String);
+export type InstanceGeneration = "current" | "previous";
+export const InstanceGeneration = S.Literal("current", "previous");
+export type InstanceGenerations = InstanceGeneration[];
+export const InstanceGenerations = S.Array(InstanceGeneration);
+export type BareMetal = "included" | "excluded" | "required";
+export const BareMetal = S.Literal("included", "excluded", "required");
+export type BurstablePerformance = "included" | "excluded" | "required";
+export const BurstablePerformance = S.Literal(
+  "included",
+  "excluded",
+  "required",
+);
 export interface NetworkInterfaceCountRequest {
   Min?: number;
   Max?: number;
@@ -1814,8 +1843,12 @@ export const NetworkInterfaceCountRequest = S.suspend(() =>
 ).annotations({
   identifier: "NetworkInterfaceCountRequest",
 }) as any as S.Schema<NetworkInterfaceCountRequest>;
-export type LocalStorageTypes = string[];
-export const LocalStorageTypes = S.Array(S.String);
+export type LocalStorage = "included" | "excluded" | "required";
+export const LocalStorage = S.Literal("included", "excluded", "required");
+export type LocalStorageType = "hdd" | "ssd";
+export const LocalStorageType = S.Literal("hdd", "ssd");
+export type LocalStorageTypes = LocalStorageType[];
+export const LocalStorageTypes = S.Array(LocalStorageType);
 export interface TotalLocalStorageGBRequest {
   Min?: number;
   Max?: number;
@@ -1834,8 +1867,10 @@ export const BaselineEbsBandwidthMbpsRequest = S.suspend(() =>
 ).annotations({
   identifier: "BaselineEbsBandwidthMbpsRequest",
 }) as any as S.Schema<BaselineEbsBandwidthMbpsRequest>;
-export type AcceleratorTypes = string[];
-export const AcceleratorTypes = S.Array(S.String);
+export type AcceleratorType = "gpu" | "fpga" | "inference";
+export const AcceleratorType = S.Literal("gpu", "fpga", "inference");
+export type AcceleratorTypes = AcceleratorType[];
+export const AcceleratorTypes = S.Array(AcceleratorType);
 export interface AcceleratorCountRequest {
   Min?: number;
   Max?: number;
@@ -1845,10 +1880,38 @@ export const AcceleratorCountRequest = S.suspend(() =>
 ).annotations({
   identifier: "AcceleratorCountRequest",
 }) as any as S.Schema<AcceleratorCountRequest>;
-export type AcceleratorManufacturers = string[];
-export const AcceleratorManufacturers = S.Array(S.String);
-export type AcceleratorNames = string[];
-export const AcceleratorNames = S.Array(S.String);
+export type AcceleratorManufacturer =
+  | "nvidia"
+  | "amd"
+  | "amazon-web-services"
+  | "xilinx";
+export const AcceleratorManufacturer = S.Literal(
+  "nvidia",
+  "amd",
+  "amazon-web-services",
+  "xilinx",
+);
+export type AcceleratorManufacturers = AcceleratorManufacturer[];
+export const AcceleratorManufacturers = S.Array(AcceleratorManufacturer);
+export type AcceleratorName =
+  | "a100"
+  | "v100"
+  | "k80"
+  | "t4"
+  | "m60"
+  | "radeon-pro-v520"
+  | "vu9p";
+export const AcceleratorName = S.Literal(
+  "a100",
+  "v100",
+  "k80",
+  "t4",
+  "m60",
+  "radeon-pro-v520",
+  "vu9p",
+);
+export type AcceleratorNames = AcceleratorName[];
+export const AcceleratorNames = S.Array(AcceleratorName);
 export interface AcceleratorTotalMemoryMiBRequest {
   Min?: number;
   Max?: number;
@@ -1885,7 +1948,7 @@ export const PerformanceFactorReferenceSetRequest = S.Array(
   }),
 );
 export interface CpuPerformanceFactorRequest {
-  References?: PerformanceFactorReferenceSetRequest;
+  References?: PerformanceFactorReferenceRequest[];
 }
 export const CpuPerformanceFactorRequest = S.suspend(() =>
   S.Struct({
@@ -1905,36 +1968,36 @@ export const BaselinePerformanceFactorsRequest = S.suspend(() =>
   identifier: "BaselinePerformanceFactorsRequest",
 }) as any as S.Schema<BaselinePerformanceFactorsRequest>;
 export interface InstanceRequirements {
-  VCpuCount: VCpuCountRequest;
-  MemoryMiB: MemoryMiBRequest;
-  CpuManufacturers?: CpuManufacturers;
+  VCpuCount?: VCpuCountRequest;
+  MemoryMiB?: MemoryMiBRequest;
+  CpuManufacturers?: CpuManufacturer[];
   MemoryGiBPerVCpu?: MemoryGiBPerVCpuRequest;
-  ExcludedInstanceTypes?: ExcludedInstanceTypes;
-  InstanceGenerations?: InstanceGenerations;
+  ExcludedInstanceTypes?: string[];
+  InstanceGenerations?: InstanceGeneration[];
   SpotMaxPricePercentageOverLowestPrice?: number;
   MaxSpotPriceAsPercentageOfOptimalOnDemandPrice?: number;
   OnDemandMaxPricePercentageOverLowestPrice?: number;
-  BareMetal?: string;
-  BurstablePerformance?: string;
+  BareMetal?: BareMetal;
+  BurstablePerformance?: BurstablePerformance;
   RequireHibernateSupport?: boolean;
   NetworkInterfaceCount?: NetworkInterfaceCountRequest;
-  LocalStorage?: string;
-  LocalStorageTypes?: LocalStorageTypes;
+  LocalStorage?: LocalStorage;
+  LocalStorageTypes?: LocalStorageType[];
   TotalLocalStorageGB?: TotalLocalStorageGBRequest;
   BaselineEbsBandwidthMbps?: BaselineEbsBandwidthMbpsRequest;
-  AcceleratorTypes?: AcceleratorTypes;
+  AcceleratorTypes?: AcceleratorType[];
   AcceleratorCount?: AcceleratorCountRequest;
-  AcceleratorManufacturers?: AcceleratorManufacturers;
-  AcceleratorNames?: AcceleratorNames;
+  AcceleratorManufacturers?: AcceleratorManufacturer[];
+  AcceleratorNames?: AcceleratorName[];
   AcceleratorTotalMemoryMiB?: AcceleratorTotalMemoryMiBRequest;
   NetworkBandwidthGbps?: NetworkBandwidthGbpsRequest;
-  AllowedInstanceTypes?: AllowedInstanceTypes;
+  AllowedInstanceTypes?: string[];
   BaselinePerformanceFactors?: BaselinePerformanceFactorsRequest;
 }
 export const InstanceRequirements = S.suspend(() =>
   S.Struct({
-    VCpuCount: VCpuCountRequest,
-    MemoryMiB: MemoryMiBRequest,
+    VCpuCount: S.optional(VCpuCountRequest),
+    MemoryMiB: S.optional(MemoryMiBRequest),
     CpuManufacturers: S.optional(CpuManufacturers),
     MemoryGiBPerVCpu: S.optional(MemoryGiBPerVCpuRequest),
     ExcludedInstanceTypes: S.optional(ExcludedInstanceTypes),
@@ -1942,11 +2005,11 @@ export const InstanceRequirements = S.suspend(() =>
     SpotMaxPricePercentageOverLowestPrice: S.optional(S.Number),
     MaxSpotPriceAsPercentageOfOptimalOnDemandPrice: S.optional(S.Number),
     OnDemandMaxPricePercentageOverLowestPrice: S.optional(S.Number),
-    BareMetal: S.optional(S.String),
-    BurstablePerformance: S.optional(S.String),
+    BareMetal: S.optional(BareMetal),
+    BurstablePerformance: S.optional(BurstablePerformance),
     RequireHibernateSupport: S.optional(S.Boolean),
     NetworkInterfaceCount: S.optional(NetworkInterfaceCountRequest),
-    LocalStorage: S.optional(S.String),
+    LocalStorage: S.optional(LocalStorage),
     LocalStorageTypes: S.optional(LocalStorageTypes),
     TotalLocalStorageGB: S.optional(TotalLocalStorageGBRequest),
     BaselineEbsBandwidthMbps: S.optional(BaselineEbsBandwidthMbpsRequest),
@@ -1984,7 +2047,7 @@ export type Overrides = LaunchTemplateOverrides[];
 export const Overrides = S.Array(LaunchTemplateOverrides);
 export interface LaunchTemplate {
   LaunchTemplateSpecification?: LaunchTemplateSpecification;
-  Overrides?: Overrides;
+  Overrides?: LaunchTemplateOverrides[];
 }
 export const LaunchTemplate = S.suspend(() =>
   S.Struct({
@@ -2038,33 +2101,62 @@ export const InstanceMaintenancePolicy = S.suspend(() =>
 ).annotations({
   identifier: "InstanceMaintenancePolicy",
 }) as any as S.Schema<InstanceMaintenancePolicy>;
+export type CapacityDistributionStrategy =
+  | "balanced-only"
+  | "balanced-best-effort";
+export const CapacityDistributionStrategy = S.Literal(
+  "balanced-only",
+  "balanced-best-effort",
+);
 export interface AvailabilityZoneDistribution {
-  CapacityDistributionStrategy?: string;
+  CapacityDistributionStrategy?: CapacityDistributionStrategy;
 }
 export const AvailabilityZoneDistribution = S.suspend(() =>
-  S.Struct({ CapacityDistributionStrategy: S.optional(S.String) }),
+  S.Struct({
+    CapacityDistributionStrategy: S.optional(CapacityDistributionStrategy),
+  }),
 ).annotations({
   identifier: "AvailabilityZoneDistribution",
 }) as any as S.Schema<AvailabilityZoneDistribution>;
+export type ImpairedZoneHealthCheckBehavior =
+  | "ReplaceUnhealthy"
+  | "IgnoreUnhealthy";
+export const ImpairedZoneHealthCheckBehavior = S.Literal(
+  "ReplaceUnhealthy",
+  "IgnoreUnhealthy",
+);
 export interface AvailabilityZoneImpairmentPolicy {
   ZonalShiftEnabled?: boolean;
-  ImpairedZoneHealthCheckBehavior?: string;
+  ImpairedZoneHealthCheckBehavior?: ImpairedZoneHealthCheckBehavior;
 }
 export const AvailabilityZoneImpairmentPolicy = S.suspend(() =>
   S.Struct({
     ZonalShiftEnabled: S.optional(S.Boolean),
-    ImpairedZoneHealthCheckBehavior: S.optional(S.String),
+    ImpairedZoneHealthCheckBehavior: S.optional(
+      ImpairedZoneHealthCheckBehavior,
+    ),
   }),
 ).annotations({
   identifier: "AvailabilityZoneImpairmentPolicy",
 }) as any as S.Schema<AvailabilityZoneImpairmentPolicy>;
+export type CapacityReservationPreference =
+  | "capacity-reservations-only"
+  | "capacity-reservations-first"
+  | "none"
+  | "default";
+export const CapacityReservationPreference = S.Literal(
+  "capacity-reservations-only",
+  "capacity-reservations-first",
+  "none",
+  "default",
+);
 export type CapacityReservationIds = string[];
 export const CapacityReservationIds = S.Array(S.String);
 export type CapacityReservationResourceGroupArns = string[];
 export const CapacityReservationResourceGroupArns = S.Array(S.String);
 export interface CapacityReservationTarget {
-  CapacityReservationIds?: CapacityReservationIds;
-  CapacityReservationResourceGroupArns?: CapacityReservationResourceGroupArns;
+  CapacityReservationIds?: string[];
+  CapacityReservationResourceGroupArns?: string[];
 }
 export const CapacityReservationTarget = S.suspend(() =>
   S.Struct({
@@ -2077,22 +2169,24 @@ export const CapacityReservationTarget = S.suspend(() =>
   identifier: "CapacityReservationTarget",
 }) as any as S.Schema<CapacityReservationTarget>;
 export interface CapacityReservationSpecification {
-  CapacityReservationPreference?: string;
+  CapacityReservationPreference?: CapacityReservationPreference;
   CapacityReservationTarget?: CapacityReservationTarget;
 }
 export const CapacityReservationSpecification = S.suspend(() =>
   S.Struct({
-    CapacityReservationPreference: S.optional(S.String),
+    CapacityReservationPreference: S.optional(CapacityReservationPreference),
     CapacityReservationTarget: S.optional(CapacityReservationTarget),
   }),
 ).annotations({
   identifier: "CapacityReservationSpecification",
 }) as any as S.Schema<CapacityReservationSpecification>;
+export type RetentionAction = "retain" | "terminate";
+export const RetentionAction = S.Literal("retain", "terminate");
 export interface RetentionTriggers {
-  TerminateHookAbandon?: string;
+  TerminateHookAbandon?: RetentionAction;
 }
 export const RetentionTriggers = S.suspend(() =>
-  S.Struct({ TerminateHookAbandon: S.optional(S.String) }),
+  S.Struct({ TerminateHookAbandon: S.optional(RetentionAction) }),
 ).annotations({
   identifier: "RetentionTriggers",
 }) as any as S.Schema<RetentionTriggers>;
@@ -2105,7 +2199,7 @@ export const InstanceLifecyclePolicy = S.suspend(() =>
   identifier: "InstanceLifecyclePolicy",
 }) as any as S.Schema<InstanceLifecyclePolicy>;
 export interface UpdateAutoScalingGroupType {
-  AutoScalingGroupName: string;
+  AutoScalingGroupName?: string;
   LaunchConfigurationName?: string;
   LaunchTemplate?: LaunchTemplateSpecification;
   MixedInstancesPolicy?: MixedInstancesPolicy;
@@ -2113,12 +2207,12 @@ export interface UpdateAutoScalingGroupType {
   MaxSize?: number;
   DesiredCapacity?: number;
   DefaultCooldown?: number;
-  AvailabilityZones?: AvailabilityZones;
+  AvailabilityZones?: string[];
   HealthCheckType?: string;
   HealthCheckGracePeriod?: number;
   PlacementGroup?: string;
   VPCZoneIdentifier?: string;
-  TerminationPolicies?: TerminationPolicies;
+  TerminationPolicies?: string[];
   NewInstancesProtectedFromScaleIn?: boolean;
   ServiceLinkedRoleARN?: string;
   MaxInstanceLifetime?: number;
@@ -2135,7 +2229,7 @@ export interface UpdateAutoScalingGroupType {
 }
 export const UpdateAutoScalingGroupType = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
+    AutoScalingGroupName: S.optional(S.String),
     LaunchConfigurationName: S.optional(S.String),
     LaunchTemplate: S.optional(LaunchTemplateSpecification),
     MixedInstancesPolicy: S.optional(MixedInstancesPolicy),
@@ -2186,10 +2280,33 @@ export const UpdateAutoScalingGroupResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateAutoScalingGroupResponse",
 }) as any as S.Schema<UpdateAutoScalingGroupResponse>;
+export type InstanceMetadataHttpTokensState = "optional" | "required";
+export const InstanceMetadataHttpTokensState = S.Literal(
+  "optional",
+  "required",
+);
+export type InstanceMetadataEndpointState = "disabled" | "enabled";
+export const InstanceMetadataEndpointState = S.Literal("disabled", "enabled");
+export type PredictiveScalingMode = "ForecastAndScale" | "ForecastOnly";
+export const PredictiveScalingMode = S.Literal(
+  "ForecastAndScale",
+  "ForecastOnly",
+);
+export type PredictiveScalingMaxCapacityBreachBehavior =
+  | "HonorMaxCapacity"
+  | "IncreaseMaxCapacity";
+export const PredictiveScalingMaxCapacityBreachBehavior = S.Literal(
+  "HonorMaxCapacity",
+  "IncreaseMaxCapacity",
+);
 export type CheckpointPercentages = number[];
 export const CheckpointPercentages = S.Array(S.Number);
+export type ScaleInProtectedInstances = "Refresh" | "Ignore" | "Wait";
+export const ScaleInProtectedInstances = S.Literal("Refresh", "Ignore", "Wait");
+export type StandbyInstances = "Terminate" | "Ignore" | "Wait";
+export const StandbyInstances = S.Literal("Terminate", "Ignore", "Wait");
 export interface ScheduledUpdateGroupActionRequest {
-  ScheduledActionName: string;
+  ScheduledActionName?: string;
   StartTime?: Date;
   EndTime?: Date;
   Recurrence?: string;
@@ -2200,7 +2317,7 @@ export interface ScheduledUpdateGroupActionRequest {
 }
 export const ScheduledUpdateGroupActionRequest = S.suspend(() =>
   S.Struct({
-    ScheduledActionName: S.String,
+    ScheduledActionName: S.optional(S.String),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     Recurrence: S.optional(S.String),
@@ -2218,8 +2335,8 @@ export const ScheduledUpdateGroupActionRequests = S.Array(
   ScheduledUpdateGroupActionRequest,
 );
 export interface LifecycleHookSpecification {
-  LifecycleHookName: string;
-  LifecycleTransition: string;
+  LifecycleHookName?: string;
+  LifecycleTransition?: string;
   NotificationMetadata?: string;
   HeartbeatTimeout?: number;
   DefaultResult?: string;
@@ -2228,8 +2345,8 @@ export interface LifecycleHookSpecification {
 }
 export const LifecycleHookSpecification = S.suspend(() =>
   S.Struct({
-    LifecycleHookName: S.String,
-    LifecycleTransition: S.String,
+    LifecycleHookName: S.optional(S.String),
+    LifecycleTransition: S.optional(S.String),
     NotificationMetadata: S.optional(S.String),
     HeartbeatTimeout: S.optional(S.Number),
     DefaultResult: S.optional(S.String),
@@ -2250,15 +2367,15 @@ export const InstanceMonitoring = S.suspend(() =>
   identifier: "InstanceMonitoring",
 }) as any as S.Schema<InstanceMonitoring>;
 export interface InstanceMetadataOptions {
-  HttpTokens?: string;
+  HttpTokens?: InstanceMetadataHttpTokensState;
   HttpPutResponseHopLimit?: number;
-  HttpEndpoint?: string;
+  HttpEndpoint?: InstanceMetadataEndpointState;
 }
 export const InstanceMetadataOptions = S.suspend(() =>
   S.Struct({
-    HttpTokens: S.optional(S.String),
+    HttpTokens: S.optional(InstanceMetadataHttpTokensState),
     HttpPutResponseHopLimit: S.optional(S.Number),
-    HttpEndpoint: S.optional(S.String),
+    HttpEndpoint: S.optional(InstanceMetadataEndpointState),
   }),
 ).annotations({
   identifier: "InstanceMetadataOptions",
@@ -2294,23 +2411,23 @@ export const MetricGranularityType = S.suspend(() =>
 export type MetricGranularityTypes = MetricGranularityType[];
 export const MetricGranularityTypes = S.Array(MetricGranularityType);
 export interface ProcessType {
-  ProcessName: string;
+  ProcessName?: string;
 }
 export const ProcessType = S.suspend(() =>
-  S.Struct({ ProcessName: S.String }),
+  S.Struct({ ProcessName: S.optional(S.String) }),
 ).annotations({ identifier: "ProcessType" }) as any as S.Schema<ProcessType>;
 export type Processes = ProcessType[];
 export const Processes = S.Array(ProcessType);
 export interface StepAdjustment {
   MetricIntervalLowerBound?: number;
   MetricIntervalUpperBound?: number;
-  ScalingAdjustment: number;
+  ScalingAdjustment?: number;
 }
 export const StepAdjustment = S.suspend(() =>
   S.Struct({
     MetricIntervalLowerBound: S.optional(S.Number),
     MetricIntervalUpperBound: S.optional(S.Number),
-    ScalingAdjustment: S.Number,
+    ScalingAdjustment: S.optional(S.Number),
   }),
 ).annotations({
   identifier: "StepAdjustment",
@@ -2337,17 +2454,41 @@ export const DesiredConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "DesiredConfiguration",
 }) as any as S.Schema<DesiredConfiguration>;
+export type MetricType =
+  | "ASGAverageCPUUtilization"
+  | "ASGAverageNetworkIn"
+  | "ASGAverageNetworkOut"
+  | "ALBRequestCountPerTarget";
+export const MetricType = S.Literal(
+  "ASGAverageCPUUtilization",
+  "ASGAverageNetworkIn",
+  "ASGAverageNetworkOut",
+  "ALBRequestCountPerTarget",
+);
+export type MetricStatistic =
+  | "Average"
+  | "Minimum"
+  | "Maximum"
+  | "SampleCount"
+  | "Sum";
+export const MetricStatistic = S.Literal(
+  "Average",
+  "Minimum",
+  "Maximum",
+  "SampleCount",
+  "Sum",
+);
 export type AlarmList = string[];
 export const AlarmList = S.Array(S.String);
 export interface AttachTrafficSourcesType {
-  AutoScalingGroupName: string;
-  TrafficSources: TrafficSources;
+  AutoScalingGroupName?: string;
+  TrafficSources?: TrafficSourceIdentifier[];
   SkipZonalShiftValidation?: boolean;
 }
 export const AttachTrafficSourcesType = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
-    TrafficSources: TrafficSources,
+    AutoScalingGroupName: S.optional(S.String),
+    TrafficSources: S.optional(TrafficSources),
     SkipZonalShiftValidation: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -2370,13 +2511,13 @@ export const AttachTrafficSourcesResultType = S.suspend(() =>
   identifier: "AttachTrafficSourcesResultType",
 }) as any as S.Schema<AttachTrafficSourcesResultType>;
 export interface BatchPutScheduledUpdateGroupActionType {
-  AutoScalingGroupName: string;
-  ScheduledUpdateGroupActions: ScheduledUpdateGroupActionRequests;
+  AutoScalingGroupName?: string;
+  ScheduledUpdateGroupActions?: ScheduledUpdateGroupActionRequest[];
 }
 export const BatchPutScheduledUpdateGroupActionType = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
-    ScheduledUpdateGroupActions: ScheduledUpdateGroupActionRequests,
+    AutoScalingGroupName: S.optional(S.String),
+    ScheduledUpdateGroupActions: S.optional(ScheduledUpdateGroupActionRequests),
   }).pipe(
     T.all(
       ns,
@@ -2400,7 +2541,7 @@ export const CancelInstanceRefreshAnswer = S.suspend(() =>
   identifier: "CancelInstanceRefreshAnswer",
 }) as any as S.Schema<CancelInstanceRefreshAnswer>;
 export interface DescribeAdjustmentTypesAnswer {
-  AdjustmentTypes?: AdjustmentTypes;
+  AdjustmentTypes?: AdjustmentType[];
 }
 export const DescribeAdjustmentTypesAnswer = S.suspend(() =>
   S.Struct({ AdjustmentTypes: S.optional(AdjustmentTypes) }).pipe(ns),
@@ -2408,11 +2549,11 @@ export const DescribeAdjustmentTypesAnswer = S.suspend(() =>
   identifier: "DescribeAdjustmentTypesAnswer",
 }) as any as S.Schema<DescribeAdjustmentTypesAnswer>;
 export interface AutoScalingGroupNamesType {
-  AutoScalingGroupNames?: AutoScalingGroupNames;
+  AutoScalingGroupNames?: string[];
   IncludeInstances?: boolean;
   NextToken?: string;
   MaxRecords?: number;
-  Filters?: Filters;
+  Filters?: Filter[];
 }
 export const AutoScalingGroupNamesType = S.suspend(() =>
   S.Struct({
@@ -2436,8 +2577,8 @@ export const AutoScalingGroupNamesType = S.suspend(() =>
   identifier: "AutoScalingGroupNamesType",
 }) as any as S.Schema<AutoScalingGroupNamesType>;
 export interface DescribeMetricCollectionTypesAnswer {
-  Metrics?: MetricCollectionTypes;
-  Granularities?: MetricGranularityTypes;
+  Metrics?: MetricCollectionType[];
+  Granularities?: MetricGranularityType[];
 }
 export const DescribeMetricCollectionTypesAnswer = S.suspend(() =>
   S.Struct({
@@ -2448,21 +2589,56 @@ export const DescribeMetricCollectionTypesAnswer = S.suspend(() =>
   identifier: "DescribeMetricCollectionTypesAnswer",
 }) as any as S.Schema<DescribeMetricCollectionTypesAnswer>;
 export interface ProcessesType {
-  Processes?: Processes;
+  Processes?: ProcessType[];
 }
 export const ProcessesType = S.suspend(() =>
   S.Struct({ Processes: S.optional(Processes) }).pipe(ns),
 ).annotations({
   identifier: "ProcessesType",
 }) as any as S.Schema<ProcessesType>;
+export type ScalingActivityStatusCode =
+  | "PendingSpotBidPlacement"
+  | "WaitingForSpotInstanceRequestId"
+  | "WaitingForSpotInstanceId"
+  | "WaitingForInstanceId"
+  | "PreInService"
+  | "InProgress"
+  | "WaitingForELBConnectionDraining"
+  | "MidLifecycleAction"
+  | "WaitingForInstanceWarmup"
+  | "Successful"
+  | "Failed"
+  | "Cancelled"
+  | "WaitingForConnectionDraining"
+  | "WaitingForInPlaceUpdateToStart"
+  | "WaitingForInPlaceUpdateToFinalize"
+  | "InPlaceUpdateInProgress";
+export const ScalingActivityStatusCode = S.Literal(
+  "PendingSpotBidPlacement",
+  "WaitingForSpotInstanceRequestId",
+  "WaitingForSpotInstanceId",
+  "WaitingForInstanceId",
+  "PreInService",
+  "InProgress",
+  "WaitingForELBConnectionDraining",
+  "MidLifecycleAction",
+  "WaitingForInstanceWarmup",
+  "Successful",
+  "Failed",
+  "Cancelled",
+  "WaitingForConnectionDraining",
+  "WaitingForInPlaceUpdateToStart",
+  "WaitingForInPlaceUpdateToFinalize",
+  "InPlaceUpdateInProgress",
+);
 export interface Activity {
-  ActivityId: string;
-  AutoScalingGroupName: string;
+  ActivityId?: string;
+  AutoScalingGroupName?: string;
   Description?: string;
-  Cause: string;
-  StartTime: Date;
+  Cause?: string;
+  StartTime?: Date;
   EndTime?: Date;
-  StatusCode: string;
+  StatusCode?: ScalingActivityStatusCode;
   StatusMessage?: string;
   Progress?: number;
   Details?: string;
@@ -2471,13 +2647,13 @@ export interface Activity {
 }
 export const Activity = S.suspend(() =>
   S.Struct({
-    ActivityId: S.String,
-    AutoScalingGroupName: S.String,
+    ActivityId: S.optional(S.String),
+    AutoScalingGroupName: S.optional(S.String),
     Description: S.optional(S.String),
-    Cause: S.String,
-    StartTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    Cause: S.optional(S.String),
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    StatusCode: S.String,
+    StatusCode: S.optional(ScalingActivityStatusCode),
     StatusMessage: S.optional(S.String),
     Progress: S.optional(S.Number),
     Details: S.optional(S.String),
@@ -2488,7 +2664,7 @@ export const Activity = S.suspend(() =>
 export type Activities = Activity[];
 export const Activities = S.Array(Activity);
 export interface DetachInstancesAnswer {
-  Activities?: Activities;
+  Activities?: Activity[];
 }
 export const DetachInstancesAnswer = S.suspend(() =>
   S.Struct({ Activities: S.optional(Activities) }).pipe(ns),
@@ -2496,7 +2672,7 @@ export const DetachInstancesAnswer = S.suspend(() =>
   identifier: "DetachInstancesAnswer",
 }) as any as S.Schema<DetachInstancesAnswer>;
 export interface EnterStandbyAnswer {
-  Activities?: Activities;
+  Activities?: Activity[];
 }
 export const EnterStandbyAnswer = S.suspend(() =>
   S.Struct({ Activities: S.optional(Activities) }).pipe(ns),
@@ -2504,7 +2680,7 @@ export const EnterStandbyAnswer = S.suspend(() =>
   identifier: "EnterStandbyAnswer",
 }) as any as S.Schema<EnterStandbyAnswer>;
 export interface ExitStandbyAnswer {
-  Activities?: Activities;
+  Activities?: Activity[];
 }
 export const ExitStandbyAnswer = S.suspend(() =>
   S.Struct({ Activities: S.optional(Activities) }).pipe(ns),
@@ -2512,18 +2688,18 @@ export const ExitStandbyAnswer = S.suspend(() =>
   identifier: "ExitStandbyAnswer",
 }) as any as S.Schema<ExitStandbyAnswer>;
 export interface PutWarmPoolType {
-  AutoScalingGroupName: string;
+  AutoScalingGroupName?: string;
   MaxGroupPreparedCapacity?: number;
   MinSize?: number;
-  PoolState?: string;
+  PoolState?: WarmPoolState;
   InstanceReusePolicy?: InstanceReusePolicy;
 }
 export const PutWarmPoolType = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
+    AutoScalingGroupName: S.optional(S.String),
     MaxGroupPreparedCapacity: S.optional(S.Number),
     MinSize: S.optional(S.Number),
-    PoolState: S.optional(S.String),
+    PoolState: S.optional(WarmPoolState),
     InstanceReusePolicy: S.optional(InstanceReusePolicy),
   }).pipe(
     T.all(
@@ -2579,6 +2755,80 @@ export const Ebs = S.suspend(() =>
     Throughput: S.optional(S.Number),
   }),
 ).annotations({ identifier: "Ebs" }) as any as S.Schema<Ebs>;
+export type InstanceRefreshStatus =
+  | "Pending"
+  | "InProgress"
+  | "Successful"
+  | "Failed"
+  | "Cancelling"
+  | "Cancelled"
+  | "RollbackInProgress"
+  | "RollbackFailed"
+  | "RollbackSuccessful"
+  | "Baking";
+export const InstanceRefreshStatus = S.Literal(
+  "Pending",
+  "InProgress",
+  "Successful",
+  "Failed",
+  "Cancelling",
+  "Cancelled",
+  "RollbackInProgress",
+  "RollbackFailed",
+  "RollbackSuccessful",
+  "Baking",
+);
+export type WarmPoolStatus = "PendingDelete";
+export const WarmPoolStatus = S.Literal("PendingDelete");
+export type LifecycleState =
+  | "Pending"
+  | "Pending:Wait"
+  | "Pending:Proceed"
+  | "Quarantined"
+  | "InService"
+  | "Terminating"
+  | "Terminating:Wait"
+  | "Terminating:Proceed"
+  | "Terminated"
+  | "Detaching"
+  | "Detached"
+  | "EnteringStandby"
+  | "Standby"
+  | "Warmed:Pending"
+  | "Warmed:Pending:Wait"
+  | "Warmed:Pending:Proceed"
+  | "Warmed:Terminating"
+  | "Warmed:Terminating:Wait"
+  | "Warmed:Terminating:Proceed"
+  | "Warmed:Terminated"
+  | "Warmed:Stopped"
+  | "Warmed:Running"
+  | "Warmed:Hibernated";
+export const LifecycleState = S.Literal(
+  "Pending",
+  "Pending:Wait",
+  "Pending:Proceed",
+  "Quarantined",
+  "InService",
+  "Terminating",
+  "Terminating:Wait",
+  "Terminating:Proceed",
+  "Terminated",
+  "Detaching",
+  "Detached",
+  "EnteringStandby",
+  "Standby",
+  "Warmed:Pending",
+  "Warmed:Pending:Wait",
+  "Warmed:Pending:Proceed",
+  "Warmed:Terminating",
+  "Warmed:Terminating:Wait",
+  "Warmed:Terminating:Proceed",
+  "Warmed:Terminated",
+  "Warmed:Stopped",
+  "Warmed:Running",
+  "Warmed:Hibernated",
+);
 export type PredictiveScalingForecastTimestamps = Date[];
 export const PredictiveScalingForecastTimestamps = S.Array(
   S.Date.pipe(T.TimestampFormat("date-time")),
@@ -2586,33 +2836,66 @@ export const PredictiveScalingForecastTimestamps = S.Array(
 export type PredictiveScalingForecastValues = number[];
 export const PredictiveScalingForecastValues = S.Array(S.Number);
 export interface PredefinedMetricSpecification {
-  PredefinedMetricType: string;
+  PredefinedMetricType?: MetricType;
   ResourceLabel?: string;
 }
 export const PredefinedMetricSpecification = S.suspend(() =>
   S.Struct({
-    PredefinedMetricType: S.String,
+    PredefinedMetricType: S.optional(MetricType),
     ResourceLabel: S.optional(S.String),
   }),
 ).annotations({
   identifier: "PredefinedMetricSpecification",
 }) as any as S.Schema<PredefinedMetricSpecification>;
 export interface AlarmSpecification {
-  Alarms?: AlarmList;
+  Alarms?: string[];
 }
 export const AlarmSpecification = S.suspend(() =>
   S.Struct({ Alarms: S.optional(AlarmList) }),
 ).annotations({
   identifier: "AlarmSpecification",
 }) as any as S.Schema<AlarmSpecification>;
+export type PredefinedMetricPairType =
+  | "ASGCPUUtilization"
+  | "ASGNetworkIn"
+  | "ASGNetworkOut"
+  | "ALBRequestCount";
+export const PredefinedMetricPairType = S.Literal(
+  "ASGCPUUtilization",
+  "ASGNetworkIn",
+  "ASGNetworkOut",
+  "ALBRequestCount",
+);
+export type PredefinedScalingMetricType =
+  | "ASGAverageCPUUtilization"
+  | "ASGAverageNetworkIn"
+  | "ASGAverageNetworkOut"
+  | "ALBRequestCountPerTarget";
+export const PredefinedScalingMetricType = S.Literal(
+  "ASGAverageCPUUtilization",
+  "ASGAverageNetworkIn",
+  "ASGAverageNetworkOut",
+  "ALBRequestCountPerTarget",
+);
+export type PredefinedLoadMetricType =
+  | "ASGTotalCPUUtilization"
+  | "ASGTotalNetworkIn"
+  | "ASGTotalNetworkOut"
+  | "ALBTargetGroupRequestCount";
+export const PredefinedLoadMetricType = S.Literal(
+  "ASGTotalCPUUtilization",
+  "ASGTotalNetworkIn",
+  "ASGTotalNetworkOut",
+  "ALBTargetGroupRequestCount",
+);
 export interface FailedScheduledUpdateGroupActionRequest {
-  ScheduledActionName: string;
+  ScheduledActionName?: string;
   ErrorCode?: string;
   ErrorMessage?: string;
 }
 export const FailedScheduledUpdateGroupActionRequest = S.suspend(() =>
   S.Struct({
-    ScheduledActionName: S.String,
+    ScheduledActionName: S.optional(S.String),
     ErrorCode: S.optional(S.String),
     ErrorMessage: S.optional(S.String),
   }),
@@ -2626,14 +2909,14 @@ export const FailedScheduledUpdateGroupActionRequests = S.Array(
 );
 export interface BlockDeviceMapping {
   VirtualName?: string;
-  DeviceName: string;
+  DeviceName?: string;
   Ebs?: Ebs;
   NoDevice?: boolean;
 }
 export const BlockDeviceMapping = S.suspend(() =>
   S.Struct({
     VirtualName: S.optional(S.String),
-    DeviceName: S.String,
+    DeviceName: S.optional(S.String),
     Ebs: S.optional(Ebs),
     NoDevice: S.optional(S.Boolean),
   }),
@@ -2643,30 +2926,30 @@ export const BlockDeviceMapping = S.suspend(() =>
 export type BlockDeviceMappings = BlockDeviceMapping[];
 export const BlockDeviceMappings = S.Array(BlockDeviceMapping);
 export interface AutoScalingInstanceDetails {
-  InstanceId: string;
+  InstanceId?: string;
   InstanceType?: string;
-  AutoScalingGroupName: string;
-  AvailabilityZone: string;
-  LifecycleState: string;
-  HealthStatus: string;
+  AutoScalingGroupName?: string;
+  AvailabilityZone?: string;
+  LifecycleState?: string;
+  HealthStatus?: string;
   LaunchConfigurationName?: string;
   LaunchTemplate?: LaunchTemplateSpecification;
   ImageId?: string;
-  ProtectedFromScaleIn: boolean;
+  ProtectedFromScaleIn?: boolean;
   WeightedCapacity?: string;
 }
 export const AutoScalingInstanceDetails = S.suspend(() =>
   S.Struct({
-    InstanceId: S.String,
+    InstanceId: S.optional(S.String),
     InstanceType: S.optional(S.String),
-    AutoScalingGroupName: S.String,
-    AvailabilityZone: S.String,
-    LifecycleState: S.String,
-    HealthStatus: S.String,
+    AutoScalingGroupName: S.optional(S.String),
+    AvailabilityZone: S.optional(S.String),
+    LifecycleState: S.optional(S.String),
+    HealthStatus: S.optional(S.String),
     LaunchConfigurationName: S.optional(S.String),
     LaunchTemplate: S.optional(LaunchTemplateSpecification),
     ImageId: S.optional(S.String),
-    ProtectedFromScaleIn: S.Boolean,
+    ProtectedFromScaleIn: S.optional(S.Boolean),
     WeightedCapacity: S.optional(S.String),
   }),
 ).annotations({
@@ -2675,22 +2958,22 @@ export const AutoScalingInstanceDetails = S.suspend(() =>
 export type AutoScalingInstances = AutoScalingInstanceDetails[];
 export const AutoScalingInstances = S.Array(AutoScalingInstanceDetails);
 export interface LaunchConfiguration {
-  LaunchConfigurationName: string;
+  LaunchConfigurationName?: string;
   LaunchConfigurationARN?: string;
-  ImageId: string;
+  ImageId?: string;
   KeyName?: string;
-  SecurityGroups?: SecurityGroups;
+  SecurityGroups?: string[];
   ClassicLinkVPCId?: string;
-  ClassicLinkVPCSecurityGroups?: ClassicLinkVPCSecurityGroups;
+  ClassicLinkVPCSecurityGroups?: string[];
   UserData?: string;
-  InstanceType: string;
+  InstanceType?: string;
   KernelId?: string;
   RamdiskId?: string;
-  BlockDeviceMappings?: BlockDeviceMappings;
+  BlockDeviceMappings?: BlockDeviceMapping[];
   InstanceMonitoring?: InstanceMonitoring;
   SpotPrice?: string;
   IamInstanceProfile?: string;
-  CreatedTime: Date;
+  CreatedTime?: Date;
   EbsOptimized?: boolean;
   AssociatePublicIpAddress?: boolean;
   PlacementTenancy?: string;
@@ -2698,22 +2981,22 @@ export interface LaunchConfiguration {
 }
 export const LaunchConfiguration = S.suspend(() =>
   S.Struct({
-    LaunchConfigurationName: S.String,
+    LaunchConfigurationName: S.optional(S.String),
     LaunchConfigurationARN: S.optional(S.String),
-    ImageId: S.String,
+    ImageId: S.optional(S.String),
     KeyName: S.optional(S.String),
     SecurityGroups: S.optional(SecurityGroups),
     ClassicLinkVPCId: S.optional(S.String),
     ClassicLinkVPCSecurityGroups: S.optional(ClassicLinkVPCSecurityGroups),
     UserData: S.optional(S.String),
-    InstanceType: S.String,
+    InstanceType: S.optional(S.String),
     KernelId: S.optional(S.String),
     RamdiskId: S.optional(S.String),
     BlockDeviceMappings: S.optional(BlockDeviceMappings),
     InstanceMonitoring: S.optional(InstanceMonitoring),
     SpotPrice: S.optional(S.String),
     IamInstanceProfile: S.optional(S.String),
-    CreatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     EbsOptimized: S.optional(S.Boolean),
     AssociatePublicIpAddress: S.optional(S.Boolean),
     PlacementTenancy: S.optional(S.String),
@@ -2871,118 +3154,122 @@ export const TrafficSourceStates = S.Array(TrafficSourceState);
 export interface WarmPoolConfiguration {
   MaxGroupPreparedCapacity?: number;
   MinSize?: number;
-  PoolState?: string;
-  Status?: string;
+  PoolState?: WarmPoolState;
+  Status?: WarmPoolStatus;
   InstanceReusePolicy?: InstanceReusePolicy;
 }
 export const WarmPoolConfiguration = S.suspend(() =>
   S.Struct({
     MaxGroupPreparedCapacity: S.optional(S.Number),
     MinSize: S.optional(S.Number),
-    PoolState: S.optional(S.String),
-    Status: S.optional(S.String),
+    PoolState: S.optional(WarmPoolState),
+    Status: S.optional(WarmPoolStatus),
     InstanceReusePolicy: S.optional(InstanceReusePolicy),
   }),
 ).annotations({
   identifier: "WarmPoolConfiguration",
 }) as any as S.Schema<WarmPoolConfiguration>;
 export interface Instance {
-  InstanceId: string;
+  InstanceId?: string;
   InstanceType?: string;
-  AvailabilityZone: string;
-  LifecycleState: string;
-  HealthStatus: string;
+  AvailabilityZone?: string;
+  LifecycleState?: LifecycleState;
+  HealthStatus?: string;
   LaunchConfigurationName?: string;
   LaunchTemplate?: LaunchTemplateSpecification;
   ImageId?: string;
-  ProtectedFromScaleIn: boolean;
+  ProtectedFromScaleIn?: boolean;
   WeightedCapacity?: string;
 }
 export const Instance = S.suspend(() =>
   S.Struct({
-    InstanceId: S.String,
+    InstanceId: S.optional(S.String),
     InstanceType: S.optional(S.String),
-    AvailabilityZone: S.String,
-    LifecycleState: S.String,
-    HealthStatus: S.String,
+    AvailabilityZone: S.optional(S.String),
+    LifecycleState: S.optional(LifecycleState),
+    HealthStatus: S.optional(S.String),
     LaunchConfigurationName: S.optional(S.String),
     LaunchTemplate: S.optional(LaunchTemplateSpecification),
     ImageId: S.optional(S.String),
-    ProtectedFromScaleIn: S.Boolean,
+    ProtectedFromScaleIn: S.optional(S.Boolean),
     WeightedCapacity: S.optional(S.String),
   }),
 ).annotations({ identifier: "Instance" }) as any as S.Schema<Instance>;
 export type Instances = Instance[];
 export const Instances = S.Array(Instance);
 export interface PredictiveScalingPredefinedMetricPair {
-  PredefinedMetricType: string;
+  PredefinedMetricType?: PredefinedMetricPairType;
   ResourceLabel?: string;
 }
 export const PredictiveScalingPredefinedMetricPair = S.suspend(() =>
   S.Struct({
-    PredefinedMetricType: S.String,
+    PredefinedMetricType: S.optional(PredefinedMetricPairType),
     ResourceLabel: S.optional(S.String),
   }),
 ).annotations({
   identifier: "PredictiveScalingPredefinedMetricPair",
 }) as any as S.Schema<PredictiveScalingPredefinedMetricPair>;
 export interface PredictiveScalingPredefinedScalingMetric {
-  PredefinedMetricType: string;
+  PredefinedMetricType?: PredefinedScalingMetricType;
   ResourceLabel?: string;
 }
 export const PredictiveScalingPredefinedScalingMetric = S.suspend(() =>
   S.Struct({
-    PredefinedMetricType: S.String,
+    PredefinedMetricType: S.optional(PredefinedScalingMetricType),
     ResourceLabel: S.optional(S.String),
   }),
 ).annotations({
   identifier: "PredictiveScalingPredefinedScalingMetric",
 }) as any as S.Schema<PredictiveScalingPredefinedScalingMetric>;
 export interface PredictiveScalingPredefinedLoadMetric {
-  PredefinedMetricType: string;
+  PredefinedMetricType?: PredefinedLoadMetricType;
   ResourceLabel?: string;
 }
 export const PredictiveScalingPredefinedLoadMetric = S.suspend(() =>
   S.Struct({
-    PredefinedMetricType: S.String,
+    PredefinedMetricType: S.optional(PredefinedLoadMetricType),
     ResourceLabel: S.optional(S.String),
   }),
 ).annotations({
   identifier: "PredictiveScalingPredefinedLoadMetric",
 }) as any as S.Schema<PredictiveScalingPredefinedLoadMetric>;
 export interface MetricDimension {
-  Name: string;
-  Value: string;
+  Name?: string;
+  Value?: string;
 }
 export const MetricDimension = S.suspend(() =>
-  S.Struct({ Name: S.String, Value: S.String }),
+  S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
 ).annotations({
   identifier: "MetricDimension",
 }) as any as S.Schema<MetricDimension>;
 export type MetricDimensions = MetricDimension[];
 export const MetricDimensions = S.Array(MetricDimension);
 export interface Metric {
-  Namespace: string;
-  MetricName: string;
-  Dimensions?: MetricDimensions;
+  Namespace?: string;
+  MetricName?: string;
+  Dimensions?: MetricDimension[];
 }
 export const Metric = S.suspend(() =>
   S.Struct({
-    Namespace: S.String,
-    MetricName: S.String,
+    Namespace: S.optional(S.String),
+    MetricName: S.optional(S.String),
     Dimensions: S.optional(MetricDimensions),
   }),
 ).annotations({ identifier: "Metric" }) as any as S.Schema<Metric>;
 export interface MetricStat {
-  Metric: Metric;
-  Stat: string;
+  Metric?: Metric;
+  Stat?: string;
   Unit?: string;
 }
 export const MetricStat = S.suspend(() =>
-  S.Struct({ Metric: Metric, Stat: S.String, Unit: S.optional(S.String) }),
+  S.Struct({
+    Metric: S.optional(Metric),
+    Stat: S.optional(S.String),
+    Unit: S.optional(S.String),
+  }),
 ).annotations({ identifier: "MetricStat" }) as any as S.Schema<MetricStat>;
 export interface MetricDataQuery {
-  Id: string;
+  Id?: string;
   Expression?: string;
   MetricStat?: MetricStat;
   Label?: string;
@@ -2990,7 +3277,7 @@ export interface MetricDataQuery {
 }
 export const MetricDataQuery = S.suspend(() =>
   S.Struct({
-    Id: S.String,
+    Id: S.optional(S.String),
     Expression: S.optional(S.String),
     MetricStat: S.optional(MetricStat),
     Label: S.optional(S.String),
@@ -3002,31 +3289,31 @@ export const MetricDataQuery = S.suspend(() =>
 export type MetricDataQueries = MetricDataQuery[];
 export const MetricDataQueries = S.Array(MetricDataQuery);
 export interface PredictiveScalingCustomizedScalingMetric {
-  MetricDataQueries: MetricDataQueries;
+  MetricDataQueries?: MetricDataQuery[];
 }
 export const PredictiveScalingCustomizedScalingMetric = S.suspend(() =>
-  S.Struct({ MetricDataQueries: MetricDataQueries }),
+  S.Struct({ MetricDataQueries: S.optional(MetricDataQueries) }),
 ).annotations({
   identifier: "PredictiveScalingCustomizedScalingMetric",
 }) as any as S.Schema<PredictiveScalingCustomizedScalingMetric>;
 export interface PredictiveScalingCustomizedLoadMetric {
-  MetricDataQueries: MetricDataQueries;
+  MetricDataQueries?: MetricDataQuery[];
 }
 export const PredictiveScalingCustomizedLoadMetric = S.suspend(() =>
-  S.Struct({ MetricDataQueries: MetricDataQueries }),
+  S.Struct({ MetricDataQueries: S.optional(MetricDataQueries) }),
 ).annotations({
   identifier: "PredictiveScalingCustomizedLoadMetric",
 }) as any as S.Schema<PredictiveScalingCustomizedLoadMetric>;
 export interface PredictiveScalingCustomizedCapacityMetric {
-  MetricDataQueries: MetricDataQueries;
+  MetricDataQueries?: MetricDataQuery[];
 }
 export const PredictiveScalingCustomizedCapacityMetric = S.suspend(() =>
-  S.Struct({ MetricDataQueries: MetricDataQueries }),
+  S.Struct({ MetricDataQueries: S.optional(MetricDataQueries) }),
 ).annotations({
   identifier: "PredictiveScalingCustomizedCapacityMetric",
 }) as any as S.Schema<PredictiveScalingCustomizedCapacityMetric>;
 export interface PredictiveScalingMetricSpecification {
-  TargetValue: number;
+  TargetValue?: number;
   PredefinedMetricPairSpecification?: PredictiveScalingPredefinedMetricPair;
   PredefinedScalingMetricSpecification?: PredictiveScalingPredefinedScalingMetric;
   PredefinedLoadMetricSpecification?: PredictiveScalingPredefinedLoadMetric;
@@ -3036,7 +3323,7 @@ export interface PredictiveScalingMetricSpecification {
 }
 export const PredictiveScalingMetricSpecification = S.suspend(() =>
   S.Struct({
-    TargetValue: S.Number,
+    TargetValue: S.optional(S.Number),
     PredefinedMetricPairSpecification: S.optional(
       PredictiveScalingPredefinedMetricPair,
     ),
@@ -3060,27 +3347,27 @@ export const PredictiveScalingMetricSpecification = S.suspend(() =>
   identifier: "PredictiveScalingMetricSpecification",
 }) as any as S.Schema<PredictiveScalingMetricSpecification>;
 export interface LoadForecast {
-  Timestamps: PredictiveScalingForecastTimestamps;
-  Values: PredictiveScalingForecastValues;
-  MetricSpecification: PredictiveScalingMetricSpecification;
+  Timestamps?: Date[];
+  Values?: number[];
+  MetricSpecification?: PredictiveScalingMetricSpecification;
 }
 export const LoadForecast = S.suspend(() =>
   S.Struct({
-    Timestamps: PredictiveScalingForecastTimestamps,
-    Values: PredictiveScalingForecastValues,
-    MetricSpecification: PredictiveScalingMetricSpecification,
+    Timestamps: S.optional(PredictiveScalingForecastTimestamps),
+    Values: S.optional(PredictiveScalingForecastValues),
+    MetricSpecification: S.optional(PredictiveScalingMetricSpecification),
   }),
 ).annotations({ identifier: "LoadForecast" }) as any as S.Schema<LoadForecast>;
 export type LoadForecasts = LoadForecast[];
 export const LoadForecasts = S.Array(LoadForecast);
 export interface CapacityForecast {
-  Timestamps: PredictiveScalingForecastTimestamps;
-  Values: PredictiveScalingForecastValues;
+  Timestamps?: Date[];
+  Values?: number[];
 }
 export const CapacityForecast = S.suspend(() =>
   S.Struct({
-    Timestamps: PredictiveScalingForecastTimestamps,
-    Values: PredictiveScalingForecastValues,
+    Timestamps: S.optional(PredictiveScalingForecastTimestamps),
+    Values: S.optional(PredictiveScalingForecastValues),
   }),
 ).annotations({
   identifier: "CapacityForecast",
@@ -3091,7 +3378,7 @@ export interface InstanceCollection {
   SubnetId?: string;
   AvailabilityZone?: string;
   AvailabilityZoneId?: string;
-  InstanceIds?: InstanceIds;
+  InstanceIds?: string[];
 }
 export const InstanceCollection = S.suspend(() =>
   S.Struct({
@@ -3134,12 +3421,12 @@ export const LaunchInstancesErrors = S.Array(LaunchInstancesError);
 export interface RefreshPreferences {
   MinHealthyPercentage?: number;
   InstanceWarmup?: number;
-  CheckpointPercentages?: CheckpointPercentages;
+  CheckpointPercentages?: number[];
   CheckpointDelay?: number;
   SkipMatching?: boolean;
   AutoRollback?: boolean;
-  ScaleInProtectedInstances?: string;
-  StandbyInstances?: string;
+  ScaleInProtectedInstances?: ScaleInProtectedInstances;
+  StandbyInstances?: StandbyInstances;
   AlarmSpecification?: AlarmSpecification;
   MaxHealthyPercentage?: number;
   BakeTime?: number;
@@ -3152,8 +3439,8 @@ export const RefreshPreferences = S.suspend(() =>
     CheckpointDelay: S.optional(S.Number),
     SkipMatching: S.optional(S.Boolean),
     AutoRollback: S.optional(S.Boolean),
-    ScaleInProtectedInstances: S.optional(S.String),
-    StandbyInstances: S.optional(S.String),
+    ScaleInProtectedInstances: S.optional(ScaleInProtectedInstances),
+    StandbyInstances: S.optional(StandbyInstances),
     AlarmSpecification: S.optional(AlarmSpecification),
     MaxHealthyPercentage: S.optional(S.Number),
     BakeTime: S.optional(S.Number),
@@ -3162,7 +3449,7 @@ export const RefreshPreferences = S.suspend(() =>
   identifier: "RefreshPreferences",
 }) as any as S.Schema<RefreshPreferences>;
 export interface BatchDeleteScheduledActionAnswer {
-  FailedScheduledActions?: FailedScheduledUpdateGroupActionRequests;
+  FailedScheduledActions?: FailedScheduledUpdateGroupActionRequest[];
 }
 export const BatchDeleteScheduledActionAnswer = S.suspend(() =>
   S.Struct({
@@ -3174,7 +3461,7 @@ export const BatchDeleteScheduledActionAnswer = S.suspend(() =>
   identifier: "BatchDeleteScheduledActionAnswer",
 }) as any as S.Schema<BatchDeleteScheduledActionAnswer>;
 export interface BatchPutScheduledUpdateGroupActionAnswer {
-  FailedScheduledUpdateGroupActions?: FailedScheduledUpdateGroupActionRequests;
+  FailedScheduledUpdateGroupActions?: FailedScheduledUpdateGroupActionRequest[];
 }
 export const BatchPutScheduledUpdateGroupActionAnswer = S.suspend(() =>
   S.Struct({
@@ -3186,18 +3473,18 @@ export const BatchPutScheduledUpdateGroupActionAnswer = S.suspend(() =>
   identifier: "BatchPutScheduledUpdateGroupActionAnswer",
 }) as any as S.Schema<BatchPutScheduledUpdateGroupActionAnswer>;
 export interface CreateLaunchConfigurationType {
-  LaunchConfigurationName: string;
+  LaunchConfigurationName?: string;
   ImageId?: string;
   KeyName?: string;
-  SecurityGroups?: SecurityGroups;
+  SecurityGroups?: string[];
   ClassicLinkVPCId?: string;
-  ClassicLinkVPCSecurityGroups?: ClassicLinkVPCSecurityGroups;
+  ClassicLinkVPCSecurityGroups?: string[];
   UserData?: string;
   InstanceId?: string;
   InstanceType?: string;
   KernelId?: string;
   RamdiskId?: string;
-  BlockDeviceMappings?: BlockDeviceMappings;
+  BlockDeviceMappings?: BlockDeviceMapping[];
   InstanceMonitoring?: InstanceMonitoring;
   SpotPrice?: string;
   IamInstanceProfile?: string;
@@ -3208,7 +3495,7 @@ export interface CreateLaunchConfigurationType {
 }
 export const CreateLaunchConfigurationType = S.suspend(() =>
   S.Struct({
-    LaunchConfigurationName: S.String,
+    LaunchConfigurationName: S.optional(S.String),
     ImageId: S.optional(S.String),
     KeyName: S.optional(S.String),
     SecurityGroups: S.optional(SecurityGroups),
@@ -3248,7 +3535,7 @@ export const CreateLaunchConfigurationResponse = S.suspend(() =>
   identifier: "CreateLaunchConfigurationResponse",
 }) as any as S.Schema<CreateLaunchConfigurationResponse>;
 export interface AutoScalingInstancesType {
-  AutoScalingInstances?: AutoScalingInstances;
+  AutoScalingInstances?: AutoScalingInstanceDetails[];
   NextToken?: string;
 }
 export const AutoScalingInstancesType = S.suspend(() =>
@@ -3260,19 +3547,19 @@ export const AutoScalingInstancesType = S.suspend(() =>
   identifier: "AutoScalingInstancesType",
 }) as any as S.Schema<AutoScalingInstancesType>;
 export interface LaunchConfigurationsType {
-  LaunchConfigurations: LaunchConfigurations;
+  LaunchConfigurations?: LaunchConfiguration[];
   NextToken?: string;
 }
 export const LaunchConfigurationsType = S.suspend(() =>
   S.Struct({
-    LaunchConfigurations: LaunchConfigurations,
+    LaunchConfigurations: S.optional(LaunchConfigurations),
     NextToken: S.optional(S.String),
   }).pipe(ns),
 ).annotations({
   identifier: "LaunchConfigurationsType",
 }) as any as S.Schema<LaunchConfigurationsType>;
 export interface DescribeLifecycleHooksAnswer {
-  LifecycleHooks?: LifecycleHooks;
+  LifecycleHooks?: LifecycleHook[];
 }
 export const DescribeLifecycleHooksAnswer = S.suspend(() =>
   S.Struct({ LifecycleHooks: S.optional(LifecycleHooks) }).pipe(ns),
@@ -3280,7 +3567,7 @@ export const DescribeLifecycleHooksAnswer = S.suspend(() =>
   identifier: "DescribeLifecycleHooksAnswer",
 }) as any as S.Schema<DescribeLifecycleHooksAnswer>;
 export interface DescribeLoadBalancersResponse {
-  LoadBalancers?: LoadBalancerStates;
+  LoadBalancers?: LoadBalancerState[];
   NextToken?: string;
 }
 export const DescribeLoadBalancersResponse = S.suspend(() =>
@@ -3292,7 +3579,7 @@ export const DescribeLoadBalancersResponse = S.suspend(() =>
   identifier: "DescribeLoadBalancersResponse",
 }) as any as S.Schema<DescribeLoadBalancersResponse>;
 export interface DescribeLoadBalancerTargetGroupsResponse {
-  LoadBalancerTargetGroups?: LoadBalancerTargetGroupStates;
+  LoadBalancerTargetGroups?: LoadBalancerTargetGroupState[];
   NextToken?: string;
 }
 export const DescribeLoadBalancerTargetGroupsResponse = S.suspend(() =>
@@ -3304,30 +3591,31 @@ export const DescribeLoadBalancerTargetGroupsResponse = S.suspend(() =>
   identifier: "DescribeLoadBalancerTargetGroupsResponse",
 }) as any as S.Schema<DescribeLoadBalancerTargetGroupsResponse>;
 export interface DescribeNotificationConfigurationsAnswer {
-  NotificationConfigurations: NotificationConfigurations;
+  NotificationConfigurations?: NotificationConfiguration[];
   NextToken?: string;
 }
 export const DescribeNotificationConfigurationsAnswer = S.suspend(() =>
   S.Struct({
-    NotificationConfigurations: NotificationConfigurations,
+    NotificationConfigurations: S.optional(NotificationConfigurations),
     NextToken: S.optional(S.String),
   }).pipe(ns),
 ).annotations({
   identifier: "DescribeNotificationConfigurationsAnswer",
 }) as any as S.Schema<DescribeNotificationConfigurationsAnswer>;
 export interface ActivitiesType {
-  Activities: Activities;
+  Activities?: Activity[];
   NextToken?: string;
 }
 export const ActivitiesType = S.suspend(() =>
-  S.Struct({ Activities: Activities, NextToken: S.optional(S.String) }).pipe(
-    ns,
-  ),
+  S.Struct({
+    Activities: S.optional(Activities),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
 ).annotations({
   identifier: "ActivitiesType",
 }) as any as S.Schema<ActivitiesType>;
 export interface ScheduledActionsType {
-  ScheduledUpdateGroupActions?: ScheduledUpdateGroupActions;
+  ScheduledUpdateGroupActions?: ScheduledUpdateGroupAction[];
   NextToken?: string;
 }
 export const ScheduledActionsType = S.suspend(() =>
@@ -3339,7 +3627,7 @@ export const ScheduledActionsType = S.suspend(() =>
   identifier: "ScheduledActionsType",
 }) as any as S.Schema<ScheduledActionsType>;
 export interface TagsType {
-  Tags?: TagDescriptionList;
+  Tags?: TagDescription[];
   NextToken?: string;
 }
 export const TagsType = S.suspend(() =>
@@ -3349,7 +3637,7 @@ export const TagsType = S.suspend(() =>
   }).pipe(ns),
 ).annotations({ identifier: "TagsType" }) as any as S.Schema<TagsType>;
 export interface DescribeTrafficSourcesResponse {
-  TrafficSources?: TrafficSourceStates;
+  TrafficSources?: TrafficSourceState[];
   NextToken?: string;
 }
 export const DescribeTrafficSourcesResponse = S.suspend(() =>
@@ -3362,7 +3650,7 @@ export const DescribeTrafficSourcesResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeTrafficSourcesResponse>;
 export interface DescribeWarmPoolAnswer {
   WarmPoolConfiguration?: WarmPoolConfiguration;
-  Instances?: Instances;
+  Instances?: Instance[];
   NextToken?: string;
 }
 export const DescribeWarmPoolAnswer = S.suspend(() =>
@@ -3375,15 +3663,15 @@ export const DescribeWarmPoolAnswer = S.suspend(() =>
   identifier: "DescribeWarmPoolAnswer",
 }) as any as S.Schema<DescribeWarmPoolAnswer>;
 export interface GetPredictiveScalingForecastAnswer {
-  LoadForecast: LoadForecasts;
-  CapacityForecast: CapacityForecast;
-  UpdateTime: Date;
+  LoadForecast?: LoadForecast[];
+  CapacityForecast?: CapacityForecast;
+  UpdateTime?: Date;
 }
 export const GetPredictiveScalingForecastAnswer = S.suspend(() =>
   S.Struct({
-    LoadForecast: LoadForecasts,
-    CapacityForecast: CapacityForecast,
-    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    LoadForecast: S.optional(LoadForecasts),
+    CapacityForecast: S.optional(CapacityForecast),
+    UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }).pipe(ns),
 ).annotations({
   identifier: "GetPredictiveScalingForecastAnswer",
@@ -3391,8 +3679,8 @@ export const GetPredictiveScalingForecastAnswer = S.suspend(() =>
 export interface LaunchInstancesResult {
   AutoScalingGroupName?: string;
   ClientToken?: string;
-  Instances?: InstanceCollections;
-  Errors?: LaunchInstancesErrors;
+  Instances?: InstanceCollection[];
+  Errors?: LaunchInstancesError[];
 }
 export const LaunchInstancesResult = S.suspend(() =>
   S.Struct({
@@ -3405,15 +3693,15 @@ export const LaunchInstancesResult = S.suspend(() =>
   identifier: "LaunchInstancesResult",
 }) as any as S.Schema<LaunchInstancesResult>;
 export interface StartInstanceRefreshType {
-  AutoScalingGroupName: string;
-  Strategy?: string;
+  AutoScalingGroupName?: string;
+  Strategy?: RefreshStrategy;
   DesiredConfiguration?: DesiredConfiguration;
   Preferences?: RefreshPreferences;
 }
 export const StartInstanceRefreshType = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
-    Strategy: S.optional(S.String),
+    AutoScalingGroupName: S.optional(S.String),
+    Strategy: S.optional(RefreshStrategy),
     DesiredConfiguration: S.optional(DesiredConfiguration),
     Preferences: S.optional(RefreshPreferences),
   }).pipe(
@@ -3494,15 +3782,15 @@ export const Alarm = S.suspend(() =>
 export type Alarms = Alarm[];
 export const Alarms = S.Array(Alarm);
 export interface TargetTrackingMetricStat {
-  Metric: Metric;
-  Stat: string;
+  Metric?: Metric;
+  Stat?: string;
   Unit?: string;
   Period?: number;
 }
 export const TargetTrackingMetricStat = S.suspend(() =>
   S.Struct({
-    Metric: Metric,
-    Stat: S.String,
+    Metric: S.optional(Metric),
+    Stat: S.optional(S.String),
     Unit: S.optional(S.String),
     Period: S.optional(S.Number),
   }),
@@ -3510,7 +3798,7 @@ export const TargetTrackingMetricStat = S.suspend(() =>
   identifier: "TargetTrackingMetricStat",
 }) as any as S.Schema<TargetTrackingMetricStat>;
 export interface TargetTrackingMetricDataQuery {
-  Id: string;
+  Id?: string;
   Expression?: string;
   MetricStat?: TargetTrackingMetricStat;
   Label?: string;
@@ -3519,7 +3807,7 @@ export interface TargetTrackingMetricDataQuery {
 }
 export const TargetTrackingMetricDataQuery = S.suspend(() =>
   S.Struct({
-    Id: S.String,
+    Id: S.optional(S.String),
     Expression: S.optional(S.String),
     MetricStat: S.optional(TargetTrackingMetricStat),
     Label: S.optional(S.String),
@@ -3536,18 +3824,18 @@ export const TargetTrackingMetricDataQueries = S.Array(
 export interface CustomizedMetricSpecification {
   MetricName?: string;
   Namespace?: string;
-  Dimensions?: MetricDimensions;
-  Statistic?: string;
+  Dimensions?: MetricDimension[];
+  Statistic?: MetricStatistic;
   Unit?: string;
   Period?: number;
-  Metrics?: TargetTrackingMetricDataQueries;
+  Metrics?: TargetTrackingMetricDataQuery[];
 }
 export const CustomizedMetricSpecification = S.suspend(() =>
   S.Struct({
     MetricName: S.optional(S.String),
     Namespace: S.optional(S.String),
     Dimensions: S.optional(MetricDimensions),
-    Statistic: S.optional(S.String),
+    Statistic: S.optional(MetricStatistic),
     Unit: S.optional(S.String),
     Period: S.optional(S.Number),
     Metrics: S.optional(TargetTrackingMetricDataQueries),
@@ -3558,14 +3846,14 @@ export const CustomizedMetricSpecification = S.suspend(() =>
 export interface TargetTrackingConfiguration {
   PredefinedMetricSpecification?: PredefinedMetricSpecification;
   CustomizedMetricSpecification?: CustomizedMetricSpecification;
-  TargetValue: number;
+  TargetValue?: number;
   DisableScaleIn?: boolean;
 }
 export const TargetTrackingConfiguration = S.suspend(() =>
   S.Struct({
     PredefinedMetricSpecification: S.optional(PredefinedMetricSpecification),
     CustomizedMetricSpecification: S.optional(CustomizedMetricSpecification),
-    TargetValue: S.Number,
+    TargetValue: S.optional(S.Number),
     DisableScaleIn: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -3577,18 +3865,20 @@ export const PredictiveScalingMetricSpecifications = S.Array(
   PredictiveScalingMetricSpecification,
 );
 export interface PredictiveScalingConfiguration {
-  MetricSpecifications: PredictiveScalingMetricSpecifications;
-  Mode?: string;
+  MetricSpecifications?: PredictiveScalingMetricSpecification[];
+  Mode?: PredictiveScalingMode;
   SchedulingBufferTime?: number;
-  MaxCapacityBreachBehavior?: string;
+  MaxCapacityBreachBehavior?: PredictiveScalingMaxCapacityBreachBehavior;
   MaxCapacityBuffer?: number;
 }
 export const PredictiveScalingConfiguration = S.suspend(() =>
   S.Struct({
-    MetricSpecifications: PredictiveScalingMetricSpecifications,
-    Mode: S.optional(S.String),
+    MetricSpecifications: S.optional(PredictiveScalingMetricSpecifications),
+    Mode: S.optional(PredictiveScalingMode),
     SchedulingBufferTime: S.optional(S.Number),
-    MaxCapacityBreachBehavior: S.optional(S.String),
+    MaxCapacityBreachBehavior: S.optional(
+      PredictiveScalingMaxCapacityBreachBehavior,
+    ),
     MaxCapacityBuffer: S.optional(S.Number),
   }),
 ).annotations({
@@ -3604,10 +3894,10 @@ export interface ScalingPolicy {
   MinAdjustmentMagnitude?: number;
   ScalingAdjustment?: number;
   Cooldown?: number;
-  StepAdjustments?: StepAdjustments;
+  StepAdjustments?: StepAdjustment[];
   MetricAggregationType?: string;
   EstimatedInstanceWarmup?: number;
-  Alarms?: Alarms;
+  Alarms?: Alarm[];
   TargetTrackingConfiguration?: TargetTrackingConfiguration;
   Enabled?: boolean;
   PredictiveScalingConfiguration?: PredictiveScalingConfiguration;
@@ -3637,7 +3927,7 @@ export const ScalingPolicy = S.suspend(() =>
 export type ScalingPolicies = ScalingPolicy[];
 export const ScalingPolicies = S.Array(ScalingPolicy);
 export interface PoliciesType {
-  ScalingPolicies?: ScalingPolicies;
+  ScalingPolicies?: ScalingPolicy[];
   NextToken?: string;
 }
 export const PoliciesType = S.suspend(() =>
@@ -3680,30 +3970,30 @@ export const EnabledMetric = S.suspend(() =>
 export type EnabledMetrics = EnabledMetric[];
 export const EnabledMetrics = S.Array(EnabledMetric);
 export interface AutoScalingGroup {
-  AutoScalingGroupName: string;
+  AutoScalingGroupName?: string;
   AutoScalingGroupARN?: string;
   LaunchConfigurationName?: string;
   LaunchTemplate?: LaunchTemplateSpecification;
   MixedInstancesPolicy?: MixedInstancesPolicy;
-  MinSize: number;
-  MaxSize: number;
-  DesiredCapacity: number;
+  MinSize?: number;
+  MaxSize?: number;
+  DesiredCapacity?: number;
   PredictedCapacity?: number;
-  DefaultCooldown: number;
-  AvailabilityZones: AvailabilityZones;
-  LoadBalancerNames?: LoadBalancerNames;
-  TargetGroupARNs?: TargetGroupARNs;
-  HealthCheckType: string;
+  DefaultCooldown?: number;
+  AvailabilityZones?: string[];
+  LoadBalancerNames?: string[];
+  TargetGroupARNs?: string[];
+  HealthCheckType?: string;
   HealthCheckGracePeriod?: number;
-  Instances?: Instances;
-  CreatedTime: Date;
-  SuspendedProcesses?: SuspendedProcesses;
+  Instances?: Instance[];
+  CreatedTime?: Date;
+  SuspendedProcesses?: SuspendedProcess[];
   PlacementGroup?: string;
   VPCZoneIdentifier?: string;
-  EnabledMetrics?: EnabledMetrics;
+  EnabledMetrics?: EnabledMetric[];
   Status?: string;
-  Tags?: TagDescriptionList;
-  TerminationPolicies?: TerminationPolicies;
+  Tags?: TagDescription[];
+  TerminationPolicies?: string[];
   NewInstancesProtectedFromScaleIn?: boolean;
   ServiceLinkedRoleARN?: string;
   MaxInstanceLifetime?: number;
@@ -3713,7 +4003,7 @@ export interface AutoScalingGroup {
   Context?: string;
   DesiredCapacityType?: string;
   DefaultInstanceWarmup?: number;
-  TrafficSources?: TrafficSources;
+  TrafficSources?: TrafficSourceIdentifier[];
   InstanceMaintenancePolicy?: InstanceMaintenancePolicy;
   AvailabilityZoneDistribution?: AvailabilityZoneDistribution;
   AvailabilityZoneImpairmentPolicy?: AvailabilityZoneImpairmentPolicy;
@@ -3722,23 +4012,23 @@ export interface AutoScalingGroup {
 }
 export const AutoScalingGroup = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
+    AutoScalingGroupName: S.optional(S.String),
     AutoScalingGroupARN: S.optional(S.String),
     LaunchConfigurationName: S.optional(S.String),
     LaunchTemplate: S.optional(LaunchTemplateSpecification),
     MixedInstancesPolicy: S.optional(MixedInstancesPolicy),
-    MinSize: S.Number,
-    MaxSize: S.Number,
-    DesiredCapacity: S.Number,
+    MinSize: S.optional(S.Number),
+    MaxSize: S.optional(S.Number),
+    DesiredCapacity: S.optional(S.Number),
     PredictedCapacity: S.optional(S.Number),
-    DefaultCooldown: S.Number,
-    AvailabilityZones: AvailabilityZones,
+    DefaultCooldown: S.optional(S.Number),
+    AvailabilityZones: S.optional(AvailabilityZones),
     LoadBalancerNames: S.optional(LoadBalancerNames),
     TargetGroupARNs: S.optional(TargetGroupARNs),
-    HealthCheckType: S.String,
+    HealthCheckType: S.optional(S.String),
     HealthCheckGracePeriod: S.optional(S.Number),
     Instances: S.optional(Instances),
-    CreatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     SuspendedProcesses: S.optional(SuspendedProcesses),
     PlacementGroup: S.optional(S.String),
     VPCZoneIdentifier: S.optional(S.String),
@@ -3774,7 +4064,7 @@ export const AutoScalingGroups = S.Array(AutoScalingGroup);
 export interface InstanceRefresh {
   InstanceRefreshId?: string;
   AutoScalingGroupName?: string;
-  Status?: string;
+  Status?: InstanceRefreshStatus;
   StatusReason?: string;
   StartTime?: Date;
   EndTime?: Date;
@@ -3784,13 +4074,13 @@ export interface InstanceRefresh {
   Preferences?: RefreshPreferences;
   DesiredConfiguration?: DesiredConfiguration;
   RollbackDetails?: RollbackDetails;
-  Strategy?: string;
+  Strategy?: RefreshStrategy;
 }
 export const InstanceRefresh = S.suspend(() =>
   S.Struct({
     InstanceRefreshId: S.optional(S.String),
     AutoScalingGroupName: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(InstanceRefreshStatus),
     StatusReason: S.optional(S.String),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -3800,7 +4090,7 @@ export const InstanceRefresh = S.suspend(() =>
     Preferences: S.optional(RefreshPreferences),
     DesiredConfiguration: S.optional(DesiredConfiguration),
     RollbackDetails: S.optional(RollbackDetails),
-    Strategy: S.optional(S.String),
+    Strategy: S.optional(RefreshStrategy),
   }),
 ).annotations({
   identifier: "InstanceRefresh",
@@ -3808,19 +4098,19 @@ export const InstanceRefresh = S.suspend(() =>
 export type InstanceRefreshes = InstanceRefresh[];
 export const InstanceRefreshes = S.Array(InstanceRefresh);
 export interface AutoScalingGroupsType {
-  AutoScalingGroups: AutoScalingGroups;
+  AutoScalingGroups?: AutoScalingGroup[];
   NextToken?: string;
 }
 export const AutoScalingGroupsType = S.suspend(() =>
   S.Struct({
-    AutoScalingGroups: AutoScalingGroups,
+    AutoScalingGroups: S.optional(AutoScalingGroups),
     NextToken: S.optional(S.String),
   }).pipe(ns),
 ).annotations({
   identifier: "AutoScalingGroupsType",
 }) as any as S.Schema<AutoScalingGroupsType>;
 export interface DescribeInstanceRefreshesAnswer {
-  InstanceRefreshes?: InstanceRefreshes;
+  InstanceRefreshes?: InstanceRefresh[];
   NextToken?: string;
 }
 export const DescribeInstanceRefreshesAnswer = S.suspend(() =>
@@ -3832,8 +4122,8 @@ export const DescribeInstanceRefreshesAnswer = S.suspend(() =>
   identifier: "DescribeInstanceRefreshesAnswer",
 }) as any as S.Schema<DescribeInstanceRefreshesAnswer>;
 export interface PutScalingPolicyType {
-  AutoScalingGroupName: string;
-  PolicyName: string;
+  AutoScalingGroupName?: string;
+  PolicyName?: string;
   PolicyType?: string;
   AdjustmentType?: string;
   MinAdjustmentStep?: number;
@@ -3841,7 +4131,7 @@ export interface PutScalingPolicyType {
   ScalingAdjustment?: number;
   Cooldown?: number;
   MetricAggregationType?: string;
-  StepAdjustments?: StepAdjustments;
+  StepAdjustments?: StepAdjustment[];
   EstimatedInstanceWarmup?: number;
   TargetTrackingConfiguration?: TargetTrackingConfiguration;
   Enabled?: boolean;
@@ -3849,8 +4139,8 @@ export interface PutScalingPolicyType {
 }
 export const PutScalingPolicyType = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
-    PolicyName: S.String,
+    AutoScalingGroupName: S.optional(S.String),
+    PolicyName: S.optional(S.String),
     PolicyType: S.optional(S.String),
     AdjustmentType: S.optional(S.String),
     MinAdjustmentStep: S.optional(S.Number),
@@ -3879,7 +4169,7 @@ export const PutScalingPolicyType = S.suspend(() =>
 }) as any as S.Schema<PutScalingPolicyType>;
 export interface PolicyARNType {
   PolicyARN?: string;
-  Alarms?: Alarms;
+  Alarms?: Alarm[];
 }
 export const PolicyARNType = S.suspend(() =>
   S.Struct({
@@ -3890,33 +4180,33 @@ export const PolicyARNType = S.suspend(() =>
   identifier: "PolicyARNType",
 }) as any as S.Schema<PolicyARNType>;
 export interface CreateAutoScalingGroupType {
-  AutoScalingGroupName: string;
+  AutoScalingGroupName?: string;
   LaunchConfigurationName?: string;
   LaunchTemplate?: LaunchTemplateSpecification;
   MixedInstancesPolicy?: MixedInstancesPolicy;
   InstanceId?: string;
-  MinSize: number;
-  MaxSize: number;
+  MinSize?: number;
+  MaxSize?: number;
   DesiredCapacity?: number;
   DefaultCooldown?: number;
-  AvailabilityZones?: AvailabilityZones;
-  LoadBalancerNames?: LoadBalancerNames;
-  TargetGroupARNs?: TargetGroupARNs;
+  AvailabilityZones?: string[];
+  LoadBalancerNames?: string[];
+  TargetGroupARNs?: string[];
   HealthCheckType?: string;
   HealthCheckGracePeriod?: number;
   PlacementGroup?: string;
   VPCZoneIdentifier?: string;
-  TerminationPolicies?: TerminationPolicies;
+  TerminationPolicies?: string[];
   NewInstancesProtectedFromScaleIn?: boolean;
   CapacityRebalance?: boolean;
-  LifecycleHookSpecificationList?: LifecycleHookSpecifications;
-  Tags?: Tags;
+  LifecycleHookSpecificationList?: LifecycleHookSpecification[];
+  Tags?: Tag[];
   ServiceLinkedRoleARN?: string;
   MaxInstanceLifetime?: number;
   Context?: string;
   DesiredCapacityType?: string;
   DefaultInstanceWarmup?: number;
-  TrafficSources?: TrafficSources;
+  TrafficSources?: TrafficSourceIdentifier[];
   InstanceMaintenancePolicy?: InstanceMaintenancePolicy;
   AvailabilityZoneDistribution?: AvailabilityZoneDistribution;
   AvailabilityZoneImpairmentPolicy?: AvailabilityZoneImpairmentPolicy;
@@ -3926,13 +4216,13 @@ export interface CreateAutoScalingGroupType {
 }
 export const CreateAutoScalingGroupType = S.suspend(() =>
   S.Struct({
-    AutoScalingGroupName: S.String,
+    AutoScalingGroupName: S.optional(S.String),
     LaunchConfigurationName: S.optional(S.String),
     LaunchTemplate: S.optional(LaunchTemplateSpecification),
     MixedInstancesPolicy: S.optional(MixedInstancesPolicy),
     InstanceId: S.optional(S.String),
-    MinSize: S.Number,
-    MaxSize: S.Number,
+    MinSize: S.optional(S.Number),
+    MaxSize: S.optional(S.Number),
     DesiredCapacity: S.optional(S.Number),
     DefaultCooldown: S.optional(S.Number),
     AvailabilityZones: S.optional(AvailabilityZones),
@@ -4085,7 +4375,7 @@ export class IrreversibleInstanceRefreshFault extends S.TaggedError<Irreversible
  */
 export const completeLifecycleAction: (
   input: CompleteLifecycleActionType,
-) => Effect.Effect<
+) => effect.Effect<
   CompleteLifecycleActionAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4103,7 +4393,7 @@ export const completeLifecycleAction: (
  */
 export const deleteLifecycleHook: (
   input: DeleteLifecycleHookType,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLifecycleHookAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4117,7 +4407,7 @@ export const deleteLifecycleHook: (
  */
 export const deleteNotificationConfiguration: (
   input: DeleteNotificationConfigurationType,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteNotificationConfigurationResponse,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4131,7 +4421,7 @@ export const deleteNotificationConfiguration: (
  */
 export const deleteScheduledAction: (
   input: DeleteScheduledActionType,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteScheduledActionResponse,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4150,7 +4440,7 @@ export const deleteScheduledAction: (
  */
 export const describeAccountLimits: (
   input: DescribeAccountLimitsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAccountLimitsAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4164,7 +4454,7 @@ export const describeAccountLimits: (
  */
 export const describeAutoScalingNotificationTypes: (
   input: DescribeAutoScalingNotificationTypesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAutoScalingNotificationTypesAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4184,7 +4474,7 @@ export const describeAutoScalingNotificationTypes: (
  */
 export const describeLifecycleHookTypes: (
   input: DescribeLifecycleHookTypesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeLifecycleHookTypesAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4202,7 +4492,7 @@ export const describeLifecycleHookTypes: (
  */
 export const describeTerminationPolicyTypes: (
   input: DescribeTerminationPolicyTypesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeTerminationPolicyTypesAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4231,7 +4521,7 @@ export const describeTerminationPolicyTypes: (
  */
 export const detachLoadBalancers: (
   input: DetachLoadBalancersType,
-) => Effect.Effect<
+) => effect.Effect<
   DetachLoadBalancersResultType,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4262,7 +4552,7 @@ export const detachLoadBalancers: (
  */
 export const detachLoadBalancerTargetGroups: (
   input: DetachLoadBalancerTargetGroupsType,
-) => Effect.Effect<
+) => effect.Effect<
   DetachLoadBalancerTargetGroupsResultType,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4282,7 +4572,7 @@ export const detachLoadBalancerTargetGroups: (
  */
 export const detachTrafficSources: (
   input: DetachTrafficSourcesType,
-) => Effect.Effect<
+) => effect.Effect<
   DetachTrafficSourcesResultType,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4296,7 +4586,7 @@ export const detachTrafficSources: (
  */
 export const disableMetricsCollection: (
   input: DisableMetricsCollectionQuery,
-) => Effect.Effect<
+) => effect.Effect<
   DisableMetricsCollectionResponse,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4316,7 +4606,7 @@ export const disableMetricsCollection: (
  */
 export const enableMetricsCollection: (
   input: EnableMetricsCollectionQuery,
-) => Effect.Effect<
+) => effect.Effect<
   EnableMetricsCollectionResponse,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4359,7 +4649,7 @@ export const enableMetricsCollection: (
  */
 export const recordLifecycleActionHeartbeat: (
   input: RecordLifecycleActionHeartbeatType,
-) => Effect.Effect<
+) => effect.Effect<
   RecordLifecycleActionHeartbeatAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4377,7 +4667,7 @@ export const recordLifecycleActionHeartbeat: (
  */
 export const setInstanceHealth: (
   input: SetInstanceHealthQuery,
-) => Effect.Effect<
+) => effect.Effect<
   SetInstanceHealthResponse,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4400,7 +4690,7 @@ export const setInstanceHealth: (
  */
 export const describeAdjustmentTypes: (
   input: DescribeAdjustmentTypesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAdjustmentTypesAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4414,7 +4704,7 @@ export const describeAdjustmentTypes: (
  */
 export const describeMetricCollectionTypes: (
   input: DescribeMetricCollectionTypesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeMetricCollectionTypesAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4429,7 +4719,7 @@ export const describeMetricCollectionTypes: (
  */
 export const describeScalingProcessTypes: (
   input: DescribeScalingProcessTypesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ProcessesType,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4456,7 +4746,7 @@ export const describeScalingProcessTypes: (
  */
 export const detachInstances: (
   input: DetachInstancesQuery,
-) => Effect.Effect<
+) => effect.Effect<
   DetachInstancesAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4482,7 +4772,7 @@ export const detachInstances: (
  */
 export const enterStandby: (
   input: EnterStandbyQuery,
-) => Effect.Effect<
+) => effect.Effect<
   EnterStandbyAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4503,7 +4793,7 @@ export const enterStandby: (
  */
 export const exitStandby: (
   input: ExitStandbyQuery,
-) => Effect.Effect<
+) => effect.Effect<
   ExitStandbyAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4529,7 +4819,7 @@ export const exitStandby: (
  */
 export const putWarmPool: (
   input: PutWarmPoolType,
-) => Effect.Effect<
+) => effect.Effect<
   PutWarmPoolAnswer,
   | InstanceRefreshInProgressFault
   | LimitExceededFault
@@ -4558,7 +4848,7 @@ export const putWarmPool: (
  */
 export const suspendProcesses: (
   input: ScalingProcessQuery,
-) => Effect.Effect<
+) => effect.Effect<
   SuspendProcessesResponse,
   ResourceContentionFault | ResourceInUseFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4583,7 +4873,7 @@ export const suspendProcesses: (
  */
 export const putScheduledUpdateGroupAction: (
   input: PutScheduledUpdateGroupActionType,
-) => Effect.Effect<
+) => effect.Effect<
   PutScheduledUpdateGroupActionResponse,
   | AlreadyExistsFault
   | LimitExceededFault
@@ -4638,7 +4928,7 @@ export const putScheduledUpdateGroupAction: (
  */
 export const putLifecycleHook: (
   input: PutLifecycleHookType,
-) => Effect.Effect<
+) => effect.Effect<
   PutLifecycleHookAnswer,
   LimitExceededFault | ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4660,7 +4950,7 @@ export const putLifecycleHook: (
  */
 export const setInstanceProtection: (
   input: SetInstanceProtectionQuery,
-) => Effect.Effect<
+) => effect.Effect<
   SetInstanceProtectionAnswer,
   LimitExceededFault | ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4680,7 +4970,7 @@ export const setInstanceProtection: (
  */
 export const createOrUpdateTags: (
   input: CreateOrUpdateTagsType,
-) => Effect.Effect<
+) => effect.Effect<
   CreateOrUpdateTagsResponse,
   | AlreadyExistsFault
   | LimitExceededFault
@@ -4715,7 +5005,7 @@ export const createOrUpdateTags: (
  */
 export const attachInstances: (
   input: AttachInstancesQuery,
-) => Effect.Effect<
+) => effect.Effect<
   AttachInstancesResponse,
   ResourceContentionFault | ServiceLinkedRoleFailure | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4750,7 +5040,7 @@ export const attachInstances: (
  */
 export const deleteAutoScalingGroup: (
   input: DeleteAutoScalingGroupType,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAutoScalingGroupResponse,
   | ResourceContentionFault
   | ResourceInUseFault
@@ -4774,7 +5064,7 @@ export const deleteAutoScalingGroup: (
  */
 export const deleteLaunchConfiguration: (
   input: LaunchConfigurationNameType,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLaunchConfigurationResponse,
   ResourceContentionFault | ResourceInUseFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4788,7 +5078,7 @@ export const deleteLaunchConfiguration: (
  */
 export const deleteTags: (
   input: DeleteTagsType,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTagsResponse,
   ResourceContentionFault | ResourceInUseFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4806,7 +5096,7 @@ export const deleteTags: (
  */
 export const resumeProcesses: (
   input: ScalingProcessQuery,
-) => Effect.Effect<
+) => effect.Effect<
   ResumeProcessesResponse,
   ResourceContentionFault | ResourceInUseFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4823,7 +5113,7 @@ export const resumeProcesses: (
  */
 export const deleteWarmPool: (
   input: DeleteWarmPoolType,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWarmPoolAnswer,
   | LimitExceededFault
   | ResourceContentionFault
@@ -4847,7 +5137,7 @@ export const deleteWarmPool: (
  */
 export const executePolicy: (
   input: ExecutePolicyType,
-) => Effect.Effect<
+) => effect.Effect<
   ExecutePolicyResponse,
   ResourceContentionFault | ScalingActivityInProgressFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4868,7 +5158,7 @@ export const executePolicy: (
  */
 export const setDesiredCapacity: (
   input: SetDesiredCapacityType,
-) => Effect.Effect<
+) => effect.Effect<
   SetDesiredCapacityResponse,
   ResourceContentionFault | ScalingActivityInProgressFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4897,7 +5187,7 @@ export const setDesiredCapacity: (
  */
 export const terminateInstanceInAutoScalingGroup: (
   input: TerminateInstanceInAutoScalingGroupType,
-) => Effect.Effect<
+) => effect.Effect<
   ActivityType,
   ResourceContentionFault | ScalingActivityInProgressFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4918,7 +5208,7 @@ export const terminateInstanceInAutoScalingGroup: (
  */
 export const deletePolicy: (
   input: DeletePolicyType,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePolicyResponse,
   ResourceContentionFault | ServiceLinkedRoleFailure | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4951,7 +5241,7 @@ export const deletePolicy: (
  */
 export const attachLoadBalancers: (
   input: AttachLoadBalancersType,
-) => Effect.Effect<
+) => effect.Effect<
   AttachLoadBalancersResultType,
   | InstanceRefreshInProgressFault
   | ResourceContentionFault
@@ -4992,7 +5282,7 @@ export const attachLoadBalancers: (
  */
 export const attachTrafficSources: (
   input: AttachTrafficSourcesType,
-) => Effect.Effect<
+) => effect.Effect<
   AttachTrafficSourcesResultType,
   | InstanceRefreshInProgressFault
   | ResourceContentionFault
@@ -5053,7 +5343,7 @@ export const attachTrafficSources: (
  */
 export const updateAutoScalingGroup: (
   input: UpdateAutoScalingGroupType,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAutoScalingGroupResponse,
   | ResourceContentionFault
   | ScalingActivityInProgressFault
@@ -5102,7 +5392,7 @@ export const updateAutoScalingGroup: (
  */
 export const attachLoadBalancerTargetGroups: (
   input: AttachLoadBalancerTargetGroupsType,
-) => Effect.Effect<
+) => effect.Effect<
   AttachLoadBalancerTargetGroupsResultType,
   | InstanceRefreshInProgressFault
   | ResourceContentionFault
@@ -5134,7 +5424,7 @@ export const attachLoadBalancerTargetGroups: (
  */
 export const putNotificationConfiguration: (
   input: PutNotificationConfigurationType,
-) => Effect.Effect<
+) => effect.Effect<
   PutNotificationConfigurationResponse,
   | LimitExceededFault
   | ResourceContentionFault
@@ -5155,7 +5445,7 @@ export const putNotificationConfiguration: (
  */
 export const batchDeleteScheduledAction: (
   input: BatchDeleteScheduledActionType,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDeleteScheduledActionAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5169,7 +5459,7 @@ export const batchDeleteScheduledAction: (
  */
 export const batchPutScheduledUpdateGroupAction: (
   input: BatchPutScheduledUpdateGroupActionType,
-) => Effect.Effect<
+) => effect.Effect<
   BatchPutScheduledUpdateGroupActionAnswer,
   | AlreadyExistsFault
   | LimitExceededFault
@@ -5195,7 +5485,7 @@ export const batchPutScheduledUpdateGroupAction: (
  */
 export const cancelInstanceRefresh: (
   input: CancelInstanceRefreshType,
-) => Effect.Effect<
+) => effect.Effect<
   CancelInstanceRefreshAnswer,
   | ActiveInstanceRefreshNotFoundFault
   | LimitExceededFault
@@ -5229,7 +5519,7 @@ export const cancelInstanceRefresh: (
  */
 export const createLaunchConfiguration: (
   input: CreateLaunchConfigurationType,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLaunchConfigurationResponse,
   | AlreadyExistsFault
   | LimitExceededFault
@@ -5246,7 +5536,7 @@ export const createLaunchConfiguration: (
  */
 export const describeLifecycleHooks: (
   input: DescribeLifecycleHooksType,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeLifecycleHooksAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5271,7 +5561,7 @@ export const describeLifecycleHooks: (
  */
 export const getPredictiveScalingForecast: (
   input: GetPredictiveScalingForecastType,
-) => Effect.Effect<
+) => effect.Effect<
   GetPredictiveScalingForecastAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5286,21 +5576,21 @@ export const getPredictiveScalingForecast: (
 export const describeAutoScalingInstances: {
   (
     input: DescribeAutoScalingInstancesType,
-  ): Effect.Effect<
+  ): effect.Effect<
     AutoScalingInstancesType,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeAutoScalingInstancesType,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AutoScalingInstancesType,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAutoScalingInstancesType,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AutoScalingInstanceDetails,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -5322,7 +5612,7 @@ export const describeAutoScalingInstances: {
 export const describePolicies: {
   (
     input: DescribePoliciesType,
-  ): Effect.Effect<
+  ): effect.Effect<
     PoliciesType,
     | InvalidNextToken
     | ResourceContentionFault
@@ -5332,7 +5622,7 @@ export const describePolicies: {
   >;
   pages: (
     input: DescribePoliciesType,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PoliciesType,
     | InvalidNextToken
     | ResourceContentionFault
@@ -5342,7 +5632,7 @@ export const describePolicies: {
   >;
   items: (
     input: DescribePoliciesType,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ScalingPolicy,
     | InvalidNextToken
     | ResourceContentionFault
@@ -5367,7 +5657,7 @@ export const describePolicies: {
  */
 export const launchInstances: (
   input: LaunchInstancesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   LaunchInstancesResult,
   IdempotentParameterMismatchError | ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5407,7 +5697,7 @@ export const launchInstances: (
  */
 export const startInstanceRefresh: (
   input: StartInstanceRefreshType,
-) => Effect.Effect<
+) => effect.Effect<
   StartInstanceRefreshAnswer,
   | InstanceRefreshInProgressFault
   | LimitExceededFault
@@ -5449,7 +5739,7 @@ export const startInstanceRefresh: (
  */
 export const rollbackInstanceRefresh: (
   input: RollbackInstanceRefreshType,
-) => Effect.Effect<
+) => effect.Effect<
   RollbackInstanceRefreshAnswer,
   | ActiveInstanceRefreshNotFoundFault
   | IrreversibleInstanceRefreshFault
@@ -5473,21 +5763,21 @@ export const rollbackInstanceRefresh: (
 export const describeLaunchConfigurations: {
   (
     input: LaunchConfigurationNamesType,
-  ): Effect.Effect<
+  ): effect.Effect<
     LaunchConfigurationsType,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: LaunchConfigurationNamesType,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LaunchConfigurationsType,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: LaunchConfigurationNamesType,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LaunchConfiguration,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -5542,21 +5832,21 @@ export const describeLaunchConfigurations: {
 export const describeLoadBalancers: {
   (
     input: DescribeLoadBalancersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeLoadBalancersResponse,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeLoadBalancersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeLoadBalancersResponse,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeLoadBalancersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -5610,21 +5900,21 @@ export const describeLoadBalancers: {
 export const describeLoadBalancerTargetGroups: {
   (
     input: DescribeLoadBalancerTargetGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeLoadBalancerTargetGroupsResponse,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeLoadBalancerTargetGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeLoadBalancerTargetGroupsResponse,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeLoadBalancerTargetGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -5646,21 +5936,21 @@ export const describeLoadBalancerTargetGroups: {
 export const describeNotificationConfigurations: {
   (
     input: DescribeNotificationConfigurationsType,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeNotificationConfigurationsAnswer,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeNotificationConfigurationsType,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeNotificationConfigurationsAnswer,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeNotificationConfigurationsType,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NotificationConfiguration,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -5692,21 +5982,21 @@ export const describeNotificationConfigurations: {
 export const describeScalingActivities: {
   (
     input: DescribeScalingActivitiesType,
-  ): Effect.Effect<
+  ): effect.Effect<
     ActivitiesType,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeScalingActivitiesType,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ActivitiesType,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeScalingActivitiesType,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Activity,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -5732,21 +6022,21 @@ export const describeScalingActivities: {
 export const describeScheduledActions: {
   (
     input: DescribeScheduledActionsType,
-  ): Effect.Effect<
+  ): effect.Effect<
     ScheduledActionsType,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeScheduledActionsType,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ScheduledActionsType,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeScheduledActionsType,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ScheduledUpdateGroupAction,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -5779,21 +6069,21 @@ export const describeScheduledActions: {
 export const describeTags: {
   (
     input: DescribeTagsType,
-  ): Effect.Effect<
+  ): effect.Effect<
     TagsType,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeTagsType,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TagsType,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeTagsType,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TagDescription,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -5821,21 +6111,21 @@ export const describeTags: {
 export const describeTrafficSources: {
   (
     input: DescribeTrafficSourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeTrafficSourcesResponse,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeTrafficSourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeTrafficSourcesResponse,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeTrafficSourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -5859,7 +6149,7 @@ export const describeTrafficSources: {
 export const describeWarmPool: {
   (
     input: DescribeWarmPoolType,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeWarmPoolAnswer,
     | InvalidNextToken
     | LimitExceededFault
@@ -5869,7 +6159,7 @@ export const describeWarmPool: {
   >;
   pages: (
     input: DescribeWarmPoolType,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeWarmPoolAnswer,
     | InvalidNextToken
     | LimitExceededFault
@@ -5879,7 +6169,7 @@ export const describeWarmPool: {
   >;
   items: (
     input: DescribeWarmPoolType,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Instance,
     | InvalidNextToken
     | LimitExceededFault
@@ -5913,21 +6203,21 @@ export const describeWarmPool: {
 export const describeAutoScalingGroups: {
   (
     input: AutoScalingGroupNamesType,
-  ): Effect.Effect<
+  ): effect.Effect<
     AutoScalingGroupsType,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: AutoScalingGroupNamesType,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AutoScalingGroupsType,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: AutoScalingGroupNamesType,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AutoScalingGroup,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -5961,21 +6251,21 @@ export const describeAutoScalingGroups: {
 export const describeInstanceRefreshes: {
   (
     input: DescribeInstanceRefreshesType,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeInstanceRefreshesAnswer,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeInstanceRefreshesType,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeInstanceRefreshesAnswer,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeInstanceRefreshesType,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidNextToken | ResourceContentionFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -6008,7 +6298,7 @@ export const describeInstanceRefreshes: {
  */
 export const putScalingPolicy: (
   input: PutScalingPolicyType,
-) => Effect.Effect<
+) => effect.Effect<
   PolicyARNType,
   | LimitExceededFault
   | ResourceContentionFault
@@ -6045,7 +6335,7 @@ export const putScalingPolicy: (
  */
 export const createAutoScalingGroup: (
   input: CreateAutoScalingGroupType,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAutoScalingGroupResponse,
   | AlreadyExistsFault
   | LimitExceededFault

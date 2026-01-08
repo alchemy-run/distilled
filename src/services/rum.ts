@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -148,7 +148,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -236,7 +236,7 @@ export interface BatchDeleteRumMetricDefinitionsRequest {
   AppMonitorName: string;
   Destination: string;
   DestinationArn?: string;
-  MetricDefinitionIds: MetricDefinitionIds;
+  MetricDefinitionIds: string[];
 }
 export const BatchDeleteRumMetricDefinitionsRequest = S.suspend(() =>
   S.Struct({
@@ -296,13 +296,13 @@ export type Telemetries = string[];
 export const Telemetries = S.Array(S.String);
 export interface AppMonitorConfiguration {
   IdentityPoolId?: string;
-  ExcludedPages?: Pages;
-  IncludedPages?: Pages;
-  FavoritePages?: FavoritePages;
+  ExcludedPages?: string[];
+  IncludedPages?: string[];
+  FavoritePages?: string[];
   SessionSampleRate?: number;
   GuestRoleArn?: string;
   AllowCookies?: boolean;
-  Telemetries?: Telemetries;
+  Telemetries?: string[];
   EnableXRay?: boolean;
 }
 export const AppMonitorConfiguration = S.suspend(() =>
@@ -346,8 +346,8 @@ export const DeobfuscationConfiguration = S.suspend(() =>
 export interface CreateAppMonitorRequest {
   Name: string;
   Domain?: string;
-  DomainList?: AppMonitorDomainList;
-  Tags?: TagMap;
+  DomainList?: string[];
+  Tags?: { [key: string]: string };
   AppMonitorConfiguration?: AppMonitorConfiguration;
   CwLogEnabled?: boolean;
   CustomEvents?: CustomEvents;
@@ -539,7 +539,7 @@ export interface MetricDefinitionRequest {
   Name: string;
   ValueKey?: string;
   UnitLabel?: string;
-  DimensionKeys?: DimensionKeysMap;
+  DimensionKeys?: { [key: string]: string };
   EventPattern?: string;
   Namespace?: string;
 }
@@ -638,7 +638,7 @@ export const TimeRange = S.suspend(() =>
 ).annotations({ identifier: "TimeRange" }) as any as S.Schema<TimeRange>;
 export interface QueryFilter {
   Name?: string;
-  Values?: QueryFilterValueList;
+  Values?: string[];
 }
 export const QueryFilter = S.suspend(() =>
   S.Struct({
@@ -650,7 +650,7 @@ export type QueryFilters = QueryFilter[];
 export const QueryFilters = S.Array(QueryFilter);
 export interface ListTagsForResourceResponse {
   ResourceArn: string;
-  Tags: TagMap;
+  Tags: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagMap }),
@@ -662,7 +662,7 @@ export interface PutRumEventsRequest {
   BatchId: string;
   AppMonitorDetails: AppMonitorDetails;
   UserDetails: UserDetails;
-  RumEvents: RumEventList;
+  RumEvents: RumEvent[];
   Alias?: string;
 }
 export const PutRumEventsRequest = S.suspend(() =>
@@ -692,7 +692,7 @@ export const PutRumEventsResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<PutRumEventsResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagMap;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -734,7 +734,7 @@ export const DeleteResourcePolicyResponse = S.suspend(() =>
 export interface GetAppMonitorDataRequest {
   Name: string;
   TimeRange: TimeRange;
-  Filters?: QueryFilters;
+  Filters?: QueryFilter[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -830,7 +830,7 @@ export interface MetricDefinition {
   Name: string;
   ValueKey?: string;
   UnitLabel?: string;
-  DimensionKeys?: DimensionKeysMap;
+  DimensionKeys?: { [key: string]: string };
   EventPattern?: string;
   Namespace?: string;
 }
@@ -870,7 +870,7 @@ export const MetricDestinationSummaryList = S.Array(MetricDestinationSummary);
 export interface UpdateAppMonitorRequest {
   Name: string;
   Domain?: string;
-  DomainList?: AppMonitorDomainList;
+  DomainList?: string[];
   AppMonitorConfiguration?: AppMonitorConfiguration;
   CwLogEnabled?: boolean;
   CustomEvents?: CustomEvents;
@@ -906,7 +906,7 @@ export const UpdateAppMonitorResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateAppMonitorResponse>;
 export interface ListAppMonitorsResponse {
   NextToken?: string;
-  AppMonitorSummaries?: AppMonitorSummaryList;
+  AppMonitorSummaries?: AppMonitorSummary[];
 }
 export const ListAppMonitorsResponse = S.suspend(() =>
   S.Struct({
@@ -920,7 +920,7 @@ export interface BatchCreateRumMetricDefinitionsRequest {
   AppMonitorName: string;
   Destination: string;
   DestinationArn?: string;
-  MetricDefinitions: MetricDefinitionsRequest;
+  MetricDefinitions: MetricDefinitionRequest[];
 }
 export const BatchCreateRumMetricDefinitionsRequest = S.suspend(() =>
   S.Struct({
@@ -942,8 +942,8 @@ export const BatchCreateRumMetricDefinitionsRequest = S.suspend(() =>
   identifier: "BatchCreateRumMetricDefinitionsRequest",
 }) as any as S.Schema<BatchCreateRumMetricDefinitionsRequest>;
 export interface BatchDeleteRumMetricDefinitionsResponse {
-  Errors: BatchDeleteRumMetricDefinitionsErrors;
-  MetricDefinitionIds?: MetricDefinitionIds;
+  Errors: BatchDeleteRumMetricDefinitionsError[];
+  MetricDefinitionIds?: string[];
 }
 export const BatchDeleteRumMetricDefinitionsResponse = S.suspend(() =>
   S.Struct({
@@ -954,7 +954,7 @@ export const BatchDeleteRumMetricDefinitionsResponse = S.suspend(() =>
   identifier: "BatchDeleteRumMetricDefinitionsResponse",
 }) as any as S.Schema<BatchDeleteRumMetricDefinitionsResponse>;
 export interface BatchGetRumMetricDefinitionsResponse {
-  MetricDefinitions?: MetricDefinitions;
+  MetricDefinitions?: MetricDefinition[];
   NextToken?: string;
 }
 export const BatchGetRumMetricDefinitionsResponse = S.suspend(() =>
@@ -966,7 +966,7 @@ export const BatchGetRumMetricDefinitionsResponse = S.suspend(() =>
   identifier: "BatchGetRumMetricDefinitionsResponse",
 }) as any as S.Schema<BatchGetRumMetricDefinitionsResponse>;
 export interface GetAppMonitorDataResponse {
-  Events?: EventDataList;
+  Events?: string[];
   NextToken?: string;
 }
 export const GetAppMonitorDataResponse = S.suspend(() =>
@@ -978,7 +978,7 @@ export const GetAppMonitorDataResponse = S.suspend(() =>
   identifier: "GetAppMonitorDataResponse",
 }) as any as S.Schema<GetAppMonitorDataResponse>;
 export interface ListRumMetricsDestinationsResponse {
-  Destinations?: MetricDestinationSummaryList;
+  Destinations?: MetricDestinationSummary[];
   NextToken?: string;
 }
 export const ListRumMetricsDestinationsResponse = S.suspend(() =>
@@ -1008,11 +1008,11 @@ export const DataStorage = S.suspend(() =>
 export interface AppMonitor {
   Name?: string;
   Domain?: string;
-  DomainList?: AppMonitorDomainList;
+  DomainList?: string[];
   Id?: string;
   Created?: string;
   LastModified?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   State?: string;
   AppMonitorConfiguration?: AppMonitorConfiguration;
   DataStorage?: DataStorage;
@@ -1065,8 +1065,8 @@ export const GetAppMonitorResponse = S.suspend(() =>
   identifier: "GetAppMonitorResponse",
 }) as any as S.Schema<GetAppMonitorResponse>;
 export interface BatchCreateRumMetricDefinitionsResponse {
-  Errors: BatchCreateRumMetricDefinitionsErrors;
-  MetricDefinitions?: MetricDefinitions;
+  Errors: BatchCreateRumMetricDefinitionsError[];
+  MetricDefinitions?: MetricDefinition[];
 }
 export const BatchCreateRumMetricDefinitionsResponse = S.suspend(() =>
   S.Struct({
@@ -1147,7 +1147,7 @@ export class PolicySizeLimitExceededException extends S.TaggedError<PolicySizeLi
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1168,7 +1168,7 @@ export const untagResource: (
  */
 export const deleteAppMonitor: (
   input: DeleteAppMonitorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAppMonitorResponse,
   | AccessDeniedException
   | ConflictException
@@ -1196,7 +1196,7 @@ export const deleteAppMonitor: (
 export const batchGetRumMetricDefinitions: {
   (
     input: BatchGetRumMetricDefinitionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     BatchGetRumMetricDefinitionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1207,7 +1207,7 @@ export const batchGetRumMetricDefinitions: {
   >;
   pages: (
     input: BatchGetRumMetricDefinitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BatchGetRumMetricDefinitionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1218,7 +1218,7 @@ export const batchGetRumMetricDefinitions: {
   >;
   items: (
     input: BatchGetRumMetricDefinitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MetricDefinition,
     | AccessDeniedException
     | InternalServerException
@@ -1251,7 +1251,7 @@ export const batchGetRumMetricDefinitions: {
 export const listRumMetricsDestinations: {
   (
     input: ListRumMetricsDestinationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRumMetricsDestinationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1262,7 +1262,7 @@ export const listRumMetricsDestinations: {
   >;
   pages: (
     input: ListRumMetricsDestinationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRumMetricsDestinationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1273,7 +1273,7 @@ export const listRumMetricsDestinations: {
   >;
   items: (
     input: ListRumMetricsDestinationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MetricDestinationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1303,7 +1303,7 @@ export const listRumMetricsDestinations: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1334,7 +1334,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1359,7 +1359,7 @@ export const tagResource: (
  */
 export const createAppMonitor: (
   input: CreateAppMonitorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAppMonitorResponse,
   | AccessDeniedException
   | ConflictException
@@ -1388,7 +1388,7 @@ export const createAppMonitor: (
  */
 export const getResourcePolicy: (
   input: GetResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourcePolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -1418,7 +1418,7 @@ export const getResourcePolicy: (
 export const listAppMonitors: {
   (
     input: ListAppMonitorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAppMonitorsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1429,7 +1429,7 @@ export const listAppMonitors: {
   >;
   pages: (
     input: ListAppMonitorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAppMonitorsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1440,7 +1440,7 @@ export const listAppMonitors: {
   >;
   items: (
     input: ListAppMonitorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AppMonitorSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1474,7 +1474,7 @@ export const listAppMonitors: {
  */
 export const batchDeleteRumMetricDefinitions: (
   input: BatchDeleteRumMetricDefinitionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDeleteRumMetricDefinitionsResponse,
   | AccessDeniedException
   | ConflictException
@@ -1502,7 +1502,7 @@ export const batchDeleteRumMetricDefinitions: (
 export const getAppMonitorData: {
   (
     input: GetAppMonitorDataRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetAppMonitorDataResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1514,7 +1514,7 @@ export const getAppMonitorData: {
   >;
   pages: (
     input: GetAppMonitorDataRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetAppMonitorDataResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1526,7 +1526,7 @@ export const getAppMonitorData: {
   >;
   items: (
     input: GetAppMonitorDataRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EventData,
     | AccessDeniedException
     | InternalServerException
@@ -1560,7 +1560,7 @@ export const getAppMonitorData: {
  */
 export const putRumEvents: (
   input: PutRumEventsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutRumEventsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1585,7 +1585,7 @@ export const putRumEvents: (
  */
 export const deleteRumMetricsDestination: (
   input: DeleteRumMetricsDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRumMetricsDestinationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1614,7 +1614,7 @@ export const deleteRumMetricsDestination: (
  */
 export const putRumMetricsDestination: (
   input: PutRumMetricsDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutRumMetricsDestinationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1647,7 +1647,7 @@ export const putRumMetricsDestination: (
  */
 export const updateAppMonitor: (
   input: UpdateAppMonitorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAppMonitorResponse,
   | AccessDeniedException
   | ConflictException
@@ -1674,7 +1674,7 @@ export const updateAppMonitor: (
  */
 export const updateRumMetricDefinition: (
   input: UpdateRumMetricDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRumMetricDefinitionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1703,7 +1703,7 @@ export const updateRumMetricDefinition: (
  */
 export const deleteResourcePolicy: (
   input: DeleteResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourcePolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -1734,7 +1734,7 @@ export const deleteResourcePolicy: (
  */
 export const getAppMonitor: (
   input: GetAppMonitorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAppMonitorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1779,7 +1779,7 @@ export const getAppMonitor: (
  */
 export const batchCreateRumMetricDefinitions: (
   input: BatchCreateRumMetricDefinitionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchCreateRumMetricDefinitionsResponse,
   | AccessDeniedException
   | ConflictException
@@ -1808,7 +1808,7 @@ export const batchCreateRumMetricDefinitions: (
  */
 export const putResourcePolicy: (
   input: PutResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourcePolicyResponse,
   | AccessDeniedException
   | ConflictException

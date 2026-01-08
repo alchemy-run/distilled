@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -90,46 +90,48 @@ const rules = T.EndpointResolver((p, _) => {
 export type AmazonResourceName = string;
 export type TagKey = string;
 export type IdempotencyToken = string;
-export type PolicyStoreDescription = string | Redacted.Redacted<string>;
+export type PolicyStoreDescription = string | redacted.Redacted<string>;
 export type PolicyStoreId = string;
 export type NextToken = string;
 export type MaxResults = number;
-export type Token = string | Redacted.Redacted<string>;
-export type PrincipalEntityType = string | Redacted.Redacted<string>;
+export type Token = string | redacted.Redacted<string>;
+export type PrincipalEntityType = string | redacted.Redacted<string>;
 export type IdentitySourceId = string;
 export type ListIdentitySourcesMaxResults = number;
 export type PolicyId = string;
-export type PolicyTemplateDescription = string | Redacted.Redacted<string>;
-export type PolicyStatement = string | Redacted.Redacted<string>;
+export type PolicyTemplateDescription = string | redacted.Redacted<string>;
+export type PolicyStatement = string | redacted.Redacted<string>;
 export type PolicyTemplateId = string;
 export type TagValue = string;
-export type CedarJson = string | Redacted.Redacted<string>;
-export type EntityType = string | Redacted.Redacted<string>;
-export type EntityId = string | Redacted.Redacted<string>;
-export type ActionType = string | Redacted.Redacted<string>;
-export type ActionId = string | Redacted.Redacted<string>;
-export type SchemaJson = string | Redacted.Redacted<string>;
+export type CedarJson = string | redacted.Redacted<string>;
+export type EntityType = string | redacted.Redacted<string>;
+export type EntityId = string | redacted.Redacted<string>;
+export type ActionType = string | redacted.Redacted<string>;
+export type ActionId = string | redacted.Redacted<string>;
+export type SchemaJson = string | redacted.Redacted<string>;
 export type ResourceArn = string;
-export type Namespace = string | Redacted.Redacted<string>;
+export type Namespace = string | redacted.Redacted<string>;
 export type UserPoolArn = string;
-export type ClientId = string | Redacted.Redacted<string>;
+export type ClientId = string | redacted.Redacted<string>;
 export type Issuer = string;
-export type EntityIdPrefix = string | Redacted.Redacted<string>;
-export type StaticPolicyDescription = string | Redacted.Redacted<string>;
+export type EntityIdPrefix = string | redacted.Redacted<string>;
+export type StaticPolicyDescription = string | redacted.Redacted<string>;
 export type DiscoveryUrl = string;
 export type LongAttribute = number;
-export type StringAttribute = string | Redacted.Redacted<string>;
-export type IpAddr = string | Redacted.Redacted<string>;
-export type Decimal = string | Redacted.Redacted<string>;
-export type DatetimeAttribute = string | Redacted.Redacted<string>;
-export type Duration = string | Redacted.Redacted<string>;
-export type GroupEntityType = string | Redacted.Redacted<string>;
-export type Claim = string | Redacted.Redacted<string>;
+export type StringAttribute = string | redacted.Redacted<string>;
+export type IpAddr = string | redacted.Redacted<string>;
+export type Decimal = string | redacted.Redacted<string>;
+export type DatetimeAttribute = string | redacted.Redacted<string>;
+export type Duration = string | redacted.Redacted<string>;
+export type GroupEntityType = string | redacted.Redacted<string>;
+export type Claim = string | redacted.Redacted<string>;
 export type Audience = string;
 
 //# Schemas
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type DeletionProtection = "ENABLED" | "DISABLED";
+export const DeletionProtection = S.Literal("ENABLED", "DISABLED");
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
@@ -142,7 +144,7 @@ export const ListTagsForResourceInput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceInput>;
 export interface UntagResourceInput {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
@@ -166,25 +168,27 @@ export const GetPolicyStoreInput = S.suspend(() =>
 ).annotations({
   identifier: "GetPolicyStoreInput",
 }) as any as S.Schema<GetPolicyStoreInput>;
+export type ValidationMode = "OFF" | "STRICT";
+export const ValidationMode = S.Literal("OFF", "STRICT");
 export interface ValidationSettings {
-  mode: string;
+  mode: ValidationMode;
 }
 export const ValidationSettings = S.suspend(() =>
-  S.Struct({ mode: S.String }),
+  S.Struct({ mode: ValidationMode }),
 ).annotations({
   identifier: "ValidationSettings",
 }) as any as S.Schema<ValidationSettings>;
 export interface UpdatePolicyStoreInput {
   policyStoreId: string;
   validationSettings: ValidationSettings;
-  deletionProtection?: string;
-  description?: string | Redacted.Redacted<string>;
+  deletionProtection?: DeletionProtection;
+  description?: string | redacted.Redacted<string>;
 }
 export const UpdatePolicyStoreInput = S.suspend(() =>
   S.Struct({
     policyStoreId: S.String,
     validationSettings: ValidationSettings,
-    deletionProtection: S.optional(S.String),
+    deletionProtection: S.optional(DeletionProtection),
     description: S.optional(SensitiveString),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -233,8 +237,8 @@ export const GetSchemaInput = S.suspend(() =>
   identifier: "GetSchemaInput",
 }) as any as S.Schema<GetSchemaInput>;
 export interface ActionIdentifier {
-  actionType: string | Redacted.Redacted<string>;
-  actionId: string | Redacted.Redacted<string>;
+  actionType: string | redacted.Redacted<string>;
+  actionId: string | redacted.Redacted<string>;
 }
 export const ActionIdentifier = S.suspend(() =>
   S.Struct({ actionType: SensitiveString, actionId: SensitiveString }),
@@ -242,8 +246,8 @@ export const ActionIdentifier = S.suspend(() =>
   identifier: "ActionIdentifier",
 }) as any as S.Schema<ActionIdentifier>;
 export interface EntityIdentifier {
-  entityType: string | Redacted.Redacted<string>;
-  entityId: string | Redacted.Redacted<string>;
+  entityType: string | redacted.Redacted<string>;
+  entityId: string | redacted.Redacted<string>;
 }
 export const EntityIdentifier = S.suspend(() =>
   S.Struct({ entityType: SensitiveString, entityId: SensitiveString }),
@@ -254,13 +258,13 @@ export type AttributeValue =
   | { boolean: boolean }
   | { entityIdentifier: EntityIdentifier }
   | { long: number }
-  | { string: string | Redacted.Redacted<string> }
-  | { set: SetAttribute }
-  | { record: RecordAttribute }
-  | { ipaddr: string | Redacted.Redacted<string> }
-  | { decimal: string | Redacted.Redacted<string> }
-  | { datetime: string | Redacted.Redacted<string> }
-  | { duration: string | Redacted.Redacted<string> };
+  | { string: string | redacted.Redacted<string> }
+  | { set: AttributeValue[] }
+  | { record: { [key: string]: AttributeValue } }
+  | { ipaddr: string | redacted.Redacted<string> }
+  | { decimal: string | redacted.Redacted<string> }
+  | { datetime: string | redacted.Redacted<string> }
+  | { duration: string | redacted.Redacted<string> };
 export const AttributeValue = S.Union(
   S.Struct({ boolean: S.Boolean }),
   S.Struct({ entityIdentifier: EntityIdentifier }),
@@ -289,8 +293,8 @@ export const ContextMap = S.Record({
   }),
 });
 export type ContextDefinition =
-  | { contextMap: ContextMap }
-  | { cedarJson: string | Redacted.Redacted<string> };
+  | { contextMap: { [key: string]: AttributeValue } }
+  | { cedarJson: string | redacted.Redacted<string> };
 export const ContextDefinition = S.Union(
   S.Struct({ contextMap: ContextMap }),
   S.Struct({ cedarJson: SensitiveString }),
@@ -308,13 +312,13 @@ export type CedarTagValue =
   | { boolean: boolean }
   | { entityIdentifier: EntityIdentifier }
   | { long: number }
-  | { string: string | Redacted.Redacted<string> }
-  | { set: CedarTagSetAttribute }
-  | { record: CedarTagRecordAttribute }
-  | { ipaddr: string | Redacted.Redacted<string> }
-  | { decimal: string | Redacted.Redacted<string> }
-  | { datetime: string | Redacted.Redacted<string> }
-  | { duration: string | Redacted.Redacted<string> };
+  | { string: string | redacted.Redacted<string> }
+  | { set: CedarTagValue[] }
+  | { record: { [key: string]: CedarTagValue } }
+  | { ipaddr: string | redacted.Redacted<string> }
+  | { decimal: string | redacted.Redacted<string> }
+  | { datetime: string | redacted.Redacted<string> }
+  | { duration: string | redacted.Redacted<string> };
 export const CedarTagValue = S.Union(
   S.Struct({ boolean: S.Boolean }),
   S.Struct({ entityIdentifier: EntityIdentifier }),
@@ -344,9 +348,9 @@ export const EntityCedarTags = S.Record({
 });
 export interface EntityItem {
   identifier: EntityIdentifier;
-  attributes?: EntityAttributes;
-  parents?: ParentList;
-  tags?: EntityCedarTags;
+  attributes?: { [key: string]: AttributeValue };
+  parents?: EntityIdentifier[];
+  tags?: { [key: string]: CedarTagValue };
 }
 export const EntityItem = S.suspend(() =>
   S.Struct({
@@ -359,20 +363,20 @@ export const EntityItem = S.suspend(() =>
 export type EntityList = EntityItem[];
 export const EntityList = S.Array(EntityItem);
 export type EntitiesDefinition =
-  | { entityList: EntityList }
-  | { cedarJson: string | Redacted.Redacted<string> };
+  | { entityList: EntityItem[] }
+  | { cedarJson: string | redacted.Redacted<string> };
 export const EntitiesDefinition = S.Union(
   S.Struct({ entityList: EntityList }),
   S.Struct({ cedarJson: SensitiveString }),
 );
 export interface IsAuthorizedWithTokenInput {
   policyStoreId: string;
-  identityToken?: string | Redacted.Redacted<string>;
-  accessToken?: string | Redacted.Redacted<string>;
+  identityToken?: string | redacted.Redacted<string>;
+  accessToken?: string | redacted.Redacted<string>;
   action?: ActionIdentifier;
   resource?: EntityIdentifier;
-  context?: (typeof ContextDefinition)["Type"];
-  entities?: (typeof EntitiesDefinition)["Type"];
+  context?: ContextDefinition;
+  entities?: EntitiesDefinition;
 }
 export const IsAuthorizedWithTokenInput = S.suspend(() =>
   S.Struct({
@@ -446,8 +450,8 @@ export const DeletePolicyOutput = S.suspend(() => S.Struct({})).annotations({
 export interface CreatePolicyTemplateInput {
   clientToken?: string;
   policyStoreId: string;
-  description?: string | Redacted.Redacted<string>;
-  statement: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  statement: string | redacted.Redacted<string>;
 }
 export const CreatePolicyTemplateInput = S.suspend(() =>
   S.Struct({
@@ -475,8 +479,8 @@ export const GetPolicyTemplateInput = S.suspend(() =>
 export interface UpdatePolicyTemplateInput {
   policyStoreId: string;
   policyTemplateId: string;
-  description?: string | Redacted.Redacted<string>;
-  statement: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  statement: string | redacted.Redacted<string>;
 }
 export const UpdatePolicyTemplateInput = S.suspend(() =>
   S.Struct({
@@ -523,13 +527,17 @@ export const ListPolicyTemplatesInput = S.suspend(() =>
 ).annotations({
   identifier: "ListPolicyTemplatesInput",
 }) as any as S.Schema<ListPolicyTemplatesInput>;
+export type PolicyType = "STATIC" | "TEMPLATE_LINKED";
+export const PolicyType = S.Literal("STATIC", "TEMPLATE_LINKED");
 export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
+export type CedarVersion = "CEDAR_2" | "CEDAR_4";
+export const CedarVersion = S.Literal("CEDAR_2", "CEDAR_4");
 export interface BatchIsAuthorizedInputItem {
   principal?: EntityIdentifier;
   action?: ActionIdentifier;
   resource?: EntityIdentifier;
-  context?: (typeof ContextDefinition)["Type"];
+  context?: ContextDefinition;
 }
 export const BatchIsAuthorizedInputItem = S.suspend(() =>
   S.Struct({
@@ -546,7 +554,7 @@ export const BatchIsAuthorizedInputList = S.Array(BatchIsAuthorizedInputItem);
 export interface BatchIsAuthorizedWithTokenInputItem {
   action?: ActionIdentifier;
   resource?: EntityIdentifier;
-  context?: (typeof ContextDefinition)["Type"];
+  context?: ContextDefinition;
 }
 export const BatchIsAuthorizedWithTokenInputItem = S.suspend(() =>
   S.Struct({
@@ -562,10 +570,12 @@ export type BatchIsAuthorizedWithTokenInputList =
 export const BatchIsAuthorizedWithTokenInputList = S.Array(
   BatchIsAuthorizedWithTokenInputItem,
 );
-export type NamespaceList = string | Redacted.Redacted<string>[];
+export type NamespaceList = string | redacted.Redacted<string>[];
 export const NamespaceList = S.Array(SensitiveString);
+export type Decision = "ALLOW" | "DENY";
+export const Decision = S.Literal("ALLOW", "DENY");
 export type SchemaDefinition = {
-  cedarJson: string | Redacted.Redacted<string>;
+  cedarJson: string | redacted.Redacted<string>;
 };
 export const SchemaDefinition = S.Union(
   S.Struct({ cedarJson: SensitiveString }),
@@ -582,7 +592,7 @@ export const BatchGetPolicyInputItem = S.suspend(() =>
 export type BatchGetPolicyInputList = BatchGetPolicyInputItem[];
 export const BatchGetPolicyInputList = S.Array(BatchGetPolicyInputItem);
 export interface IdentitySourceFilter {
-  principalEntityType?: string | Redacted.Redacted<string>;
+  principalEntityType?: string | redacted.Redacted<string>;
 }
 export const IdentitySourceFilter = S.suspend(() =>
   S.Struct({ principalEntityType: S.optional(SensitiveString) }),
@@ -593,10 +603,12 @@ export type IdentitySourceFilters = IdentitySourceFilter[];
 export const IdentitySourceFilters = S.Array(IdentitySourceFilter);
 export type ActionIdentifierList = ActionIdentifier[];
 export const ActionIdentifierList = S.Array(ActionIdentifier);
-export type ClientIds = string | Redacted.Redacted<string>[];
+export type PolicyEffect = "Permit" | "Forbid";
+export const PolicyEffect = S.Literal("Permit", "Forbid");
+export type ClientIds = string | redacted.Redacted<string>[];
 export const ClientIds = S.Array(SensitiveString);
 export interface ListTagsForResourceOutput {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -605,7 +617,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagMap }).pipe(
@@ -621,16 +633,16 @@ export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
 export interface CreatePolicyStoreInput {
   clientToken?: string;
   validationSettings: ValidationSettings;
-  description?: string | Redacted.Redacted<string>;
-  deletionProtection?: string;
-  tags?: TagMap;
+  description?: string | redacted.Redacted<string>;
+  deletionProtection?: DeletionProtection;
+  tags?: { [key: string]: string };
 }
 export const CreatePolicyStoreInput = S.suspend(() =>
   S.Struct({
     clientToken: S.optional(S.String),
     validationSettings: ValidationSettings,
     description: S.optional(SensitiveString),
-    deletionProtection: S.optional(S.String),
+    deletionProtection: S.optional(DeletionProtection),
     tags: S.optional(TagMap),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -644,10 +656,10 @@ export interface GetPolicyStoreOutput {
   validationSettings: ValidationSettings;
   createdDate: Date;
   lastUpdatedDate: Date;
-  description?: string | Redacted.Redacted<string>;
-  deletionProtection?: string;
-  cedarVersion?: string;
-  tags?: TagMap;
+  description?: string | redacted.Redacted<string>;
+  deletionProtection?: DeletionProtection;
+  cedarVersion?: CedarVersion;
+  tags?: { [key: string]: string };
 }
 export const GetPolicyStoreOutput = S.suspend(() =>
   S.Struct({
@@ -657,8 +669,8 @@ export const GetPolicyStoreOutput = S.suspend(() =>
     createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
     lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
     description: S.optional(SensitiveString),
-    deletionProtection: S.optional(S.String),
-    cedarVersion: S.optional(S.String),
+    deletionProtection: S.optional(DeletionProtection),
+    cedarVersion: S.optional(CedarVersion),
     tags: S.optional(TagMap),
   }),
 ).annotations({
@@ -682,10 +694,10 @@ export const UpdatePolicyStoreOutput = S.suspend(() =>
 }) as any as S.Schema<UpdatePolicyStoreOutput>;
 export interface BatchIsAuthorizedWithTokenInput {
   policyStoreId: string;
-  identityToken?: string | Redacted.Redacted<string>;
-  accessToken?: string | Redacted.Redacted<string>;
-  entities?: (typeof EntitiesDefinition)["Type"];
-  requests: BatchIsAuthorizedWithTokenInputList;
+  identityToken?: string | redacted.Redacted<string>;
+  accessToken?: string | redacted.Redacted<string>;
+  entities?: EntitiesDefinition;
+  requests: BatchIsAuthorizedWithTokenInputItem[];
 }
 export const BatchIsAuthorizedWithTokenInput = S.suspend(() =>
   S.Struct({
@@ -702,10 +714,10 @@ export const BatchIsAuthorizedWithTokenInput = S.suspend(() =>
 }) as any as S.Schema<BatchIsAuthorizedWithTokenInput>;
 export interface GetSchemaOutput {
   policyStoreId: string;
-  schema: string | Redacted.Redacted<string>;
+  schema: string | redacted.Redacted<string>;
   createdDate: Date;
   lastUpdatedDate: Date;
-  namespaces?: NamespaceList;
+  namespaces?: string | redacted.Redacted<string>[];
 }
 export const GetSchemaOutput = S.suspend(() =>
   S.Struct({
@@ -720,7 +732,7 @@ export const GetSchemaOutput = S.suspend(() =>
 }) as any as S.Schema<GetSchemaOutput>;
 export interface PutSchemaInput {
   policyStoreId: string;
-  definition: (typeof SchemaDefinition)["Type"];
+  definition: SchemaDefinition;
 }
 export const PutSchemaInput = S.suspend(() =>
   S.Struct({ policyStoreId: S.String, definition: SchemaDefinition }).pipe(
@@ -730,7 +742,7 @@ export const PutSchemaInput = S.suspend(() =>
   identifier: "PutSchemaInput",
 }) as any as S.Schema<PutSchemaInput>;
 export interface BatchGetPolicyInput {
-  requests: BatchGetPolicyInputList;
+  requests: BatchGetPolicyInputItem[];
 }
 export const BatchGetPolicyInput = S.suspend(() =>
   S.Struct({ requests: BatchGetPolicyInputList }).pipe(
@@ -743,7 +755,7 @@ export interface ListIdentitySourcesInput {
   policyStoreId: string;
   nextToken?: string;
   maxResults?: number;
-  filters?: IdentitySourceFilters;
+  filters?: IdentitySourceFilter[];
 }
 export const ListIdentitySourcesInput = S.suspend(() =>
   S.Struct({
@@ -776,8 +788,8 @@ export const CreatePolicyTemplateOutput = S.suspend(() =>
 export interface GetPolicyTemplateOutput {
   policyStoreId: string;
   policyTemplateId: string;
-  description?: string | Redacted.Redacted<string>;
-  statement: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  statement: string | redacted.Redacted<string>;
   createdDate: Date;
   lastUpdatedDate: Date;
 }
@@ -809,9 +821,24 @@ export const UpdatePolicyTemplateOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdatePolicyTemplateOutput",
 }) as any as S.Schema<UpdatePolicyTemplateOutput>;
+export type OpenIdIssuer = "COGNITO";
+export const OpenIdIssuer = S.Literal("COGNITO");
+export type ResourceType =
+  | "IDENTITY_SOURCE"
+  | "POLICY_STORE"
+  | "POLICY"
+  | "POLICY_TEMPLATE"
+  | "SCHEMA";
+export const ResourceType = S.Literal(
+  "IDENTITY_SOURCE",
+  "POLICY_STORE",
+  "POLICY",
+  "POLICY_TEMPLATE",
+  "SCHEMA",
+);
 export interface StaticPolicyDefinition {
-  description?: string | Redacted.Redacted<string>;
-  statement: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  statement: string | redacted.Redacted<string>;
 }
 export const StaticPolicyDefinition = S.suspend(() =>
   S.Struct({
@@ -836,8 +863,8 @@ export const TemplateLinkedPolicyDefinition = S.suspend(() =>
   identifier: "TemplateLinkedPolicyDefinition",
 }) as any as S.Schema<TemplateLinkedPolicyDefinition>;
 export interface UpdateStaticPolicyDefinition {
-  description?: string | Redacted.Redacted<string>;
-  statement: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  statement: string | redacted.Redacted<string>;
 }
 export const UpdateStaticPolicyDefinition = S.suspend(() =>
   S.Struct({
@@ -863,7 +890,7 @@ export interface PolicyStoreItem {
   arn: string;
   createdDate: Date;
   lastUpdatedDate?: Date;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
 }
 export const PolicyStoreItem = S.suspend(() =>
   S.Struct({
@@ -899,27 +926,27 @@ export const EvaluationErrorItem = S.suspend(() =>
 export type EvaluationErrorList = EvaluationErrorItem[];
 export const EvaluationErrorList = S.Array(EvaluationErrorItem);
 export interface IdentitySourceDetails {
-  clientIds?: ClientIds;
+  clientIds?: string | redacted.Redacted<string>[];
   userPoolArn?: string;
   discoveryUrl?: string;
-  openIdIssuer?: string;
+  openIdIssuer?: OpenIdIssuer;
 }
 export const IdentitySourceDetails = S.suspend(() =>
   S.Struct({
     clientIds: S.optional(ClientIds),
     userPoolArn: S.optional(S.String),
     discoveryUrl: S.optional(S.String),
-    openIdIssuer: S.optional(S.String),
+    openIdIssuer: S.optional(OpenIdIssuer),
   }),
 ).annotations({
   identifier: "IdentitySourceDetails",
 }) as any as S.Schema<IdentitySourceDetails>;
 export interface ResourceConflict {
   resourceId: string;
-  resourceType: string;
+  resourceType: ResourceType;
 }
 export const ResourceConflict = S.suspend(() =>
-  S.Struct({ resourceId: S.String, resourceType: S.String }),
+  S.Struct({ resourceId: S.String, resourceType: ResourceType }),
 ).annotations({
   identifier: "ResourceConflict",
 }) as any as S.Schema<ResourceConflict>;
@@ -937,23 +964,23 @@ export const UpdatePolicyDefinition = S.Union(
   S.Struct({ static: UpdateStaticPolicyDefinition }),
 );
 export interface PolicyFilter {
-  principal?: (typeof EntityReference)["Type"];
-  resource?: (typeof EntityReference)["Type"];
-  policyType?: string;
+  principal?: EntityReference;
+  resource?: EntityReference;
+  policyType?: PolicyType;
   policyTemplateId?: string;
 }
 export const PolicyFilter = S.suspend(() =>
   S.Struct({
     principal: S.optional(EntityReference),
     resource: S.optional(EntityReference),
-    policyType: S.optional(S.String),
+    policyType: S.optional(PolicyType),
     policyTemplateId: S.optional(S.String),
   }),
 ).annotations({ identifier: "PolicyFilter" }) as any as S.Schema<PolicyFilter>;
 export interface PolicyTemplateItem {
   policyStoreId: string;
   policyTemplateId: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   createdDate: Date;
   lastUpdatedDate: Date;
 }
@@ -971,7 +998,7 @@ export const PolicyTemplateItem = S.suspend(() =>
 export type PolicyTemplatesList = PolicyTemplateItem[];
 export const PolicyTemplatesList = S.Array(PolicyTemplateItem);
 export interface CognitoGroupConfiguration {
-  groupEntityType: string | Redacted.Redacted<string>;
+  groupEntityType: string | redacted.Redacted<string>;
 }
 export const CognitoGroupConfiguration = S.suspend(() =>
   S.Struct({ groupEntityType: SensitiveString }),
@@ -979,8 +1006,8 @@ export const CognitoGroupConfiguration = S.suspend(() =>
   identifier: "CognitoGroupConfiguration",
 }) as any as S.Schema<CognitoGroupConfiguration>;
 export interface OpenIdConnectGroupConfiguration {
-  groupClaim: string | Redacted.Redacted<string>;
-  groupEntityType: string | Redacted.Redacted<string>;
+  groupClaim: string | redacted.Redacted<string>;
+  groupEntityType: string | redacted.Redacted<string>;
 }
 export const OpenIdConnectGroupConfiguration = S.suspend(() =>
   S.Struct({ groupClaim: SensitiveString, groupEntityType: SensitiveString }),
@@ -988,7 +1015,7 @@ export const OpenIdConnectGroupConfiguration = S.suspend(() =>
   identifier: "OpenIdConnectGroupConfiguration",
 }) as any as S.Schema<OpenIdConnectGroupConfiguration>;
 export interface UpdateCognitoGroupConfiguration {
-  groupEntityType: string | Redacted.Redacted<string>;
+  groupEntityType: string | redacted.Redacted<string>;
 }
 export const UpdateCognitoGroupConfiguration = S.suspend(() =>
   S.Struct({ groupEntityType: SensitiveString }),
@@ -996,8 +1023,8 @@ export const UpdateCognitoGroupConfiguration = S.suspend(() =>
   identifier: "UpdateCognitoGroupConfiguration",
 }) as any as S.Schema<UpdateCognitoGroupConfiguration>;
 export interface UpdateOpenIdConnectGroupConfiguration {
-  groupClaim: string | Redacted.Redacted<string>;
-  groupEntityType: string | Redacted.Redacted<string>;
+  groupClaim: string | redacted.Redacted<string>;
+  groupEntityType: string | redacted.Redacted<string>;
 }
 export const UpdateOpenIdConnectGroupConfiguration = S.suspend(() =>
   S.Struct({ groupClaim: SensitiveString, groupEntityType: SensitiveString }),
@@ -1022,7 +1049,7 @@ export const CreatePolicyStoreOutput = S.suspend(() =>
 }) as any as S.Schema<CreatePolicyStoreOutput>;
 export interface ListPolicyStoresOutput {
   nextToken?: string;
-  policyStores: PolicyStoreList;
+  policyStores: PolicyStoreItem[];
 }
 export const ListPolicyStoresOutput = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), policyStores: PolicyStoreList }),
@@ -1034,14 +1061,14 @@ export const CedarTagSetAttribute = S.Array(
   S.suspend(() => CedarTagValue).annotations({ identifier: "CedarTagValue" }),
 ) as any as S.Schema<CedarTagSetAttribute>;
 export interface IsAuthorizedWithTokenOutput {
-  decision: string;
-  determiningPolicies: DeterminingPolicyList;
-  errors: EvaluationErrorList;
+  decision: Decision;
+  determiningPolicies: DeterminingPolicyItem[];
+  errors: EvaluationErrorItem[];
   principal?: EntityIdentifier;
 }
 export const IsAuthorizedWithTokenOutput = S.suspend(() =>
   S.Struct({
-    decision: S.String,
+    decision: Decision,
     determiningPolicies: DeterminingPolicyList,
     errors: EvaluationErrorList,
     principal: S.optional(EntityIdentifier),
@@ -1051,7 +1078,7 @@ export const IsAuthorizedWithTokenOutput = S.suspend(() =>
 }) as any as S.Schema<IsAuthorizedWithTokenOutput>;
 export interface PutSchemaOutput {
   policyStoreId: string;
-  namespaces: NamespaceList;
+  namespaces: string | redacted.Redacted<string>[];
   createdDate: Date;
   lastUpdatedDate: Date;
 }
@@ -1070,7 +1097,7 @@ export const Audiences = S.Array(S.String);
 export interface CreatePolicyInput {
   clientToken?: string;
   policyStoreId: string;
-  definition: (typeof PolicyDefinition)["Type"];
+  definition: PolicyDefinition;
 }
 export const CreatePolicyInput = S.suspend(() =>
   S.Struct({
@@ -1086,7 +1113,7 @@ export const CreatePolicyInput = S.suspend(() =>
 export interface UpdatePolicyInput {
   policyStoreId: string;
   policyId: string;
-  definition: (typeof UpdatePolicyDefinition)["Type"];
+  definition: UpdatePolicyDefinition;
 }
 export const UpdatePolicyInput = S.suspend(() =>
   S.Struct({
@@ -1119,7 +1146,7 @@ export const ListPoliciesInput = S.suspend(() =>
 }) as any as S.Schema<ListPoliciesInput>;
 export interface ListPolicyTemplatesOutput {
   nextToken?: string;
-  policyTemplates: PolicyTemplatesList;
+  policyTemplates: PolicyTemplateItem[];
 }
 export const ListPolicyTemplatesOutput = S.suspend(() =>
   S.Struct({
@@ -1129,9 +1156,16 @@ export const ListPolicyTemplatesOutput = S.suspend(() =>
 ).annotations({
   identifier: "ListPolicyTemplatesOutput",
 }) as any as S.Schema<ListPolicyTemplatesOutput>;
+export type BatchGetPolicyErrorCode =
+  | "POLICY_STORE_NOT_FOUND"
+  | "POLICY_NOT_FOUND";
+export const BatchGetPolicyErrorCode = S.Literal(
+  "POLICY_STORE_NOT_FOUND",
+  "POLICY_NOT_FOUND",
+);
 export interface CognitoUserPoolConfiguration {
   userPoolArn: string;
-  clientIds?: ClientIds;
+  clientIds?: string | redacted.Redacted<string>[];
   groupConfiguration?: CognitoGroupConfiguration;
 }
 export const CognitoUserPoolConfiguration = S.suspend(() =>
@@ -1145,7 +1179,7 @@ export const CognitoUserPoolConfiguration = S.suspend(() =>
 }) as any as S.Schema<CognitoUserPoolConfiguration>;
 export interface UpdateCognitoUserPoolConfiguration {
   userPoolArn: string;
-  clientIds?: ClientIds;
+  clientIds?: string | redacted.Redacted<string>[];
   groupConfiguration?: UpdateCognitoGroupConfiguration;
 }
 export const UpdateCognitoUserPoolConfiguration = S.suspend(() =>
@@ -1158,8 +1192,8 @@ export const UpdateCognitoUserPoolConfiguration = S.suspend(() =>
   identifier: "UpdateCognitoUserPoolConfiguration",
 }) as any as S.Schema<UpdateCognitoUserPoolConfiguration>;
 export interface StaticPolicyDefinitionDetail {
-  description?: string | Redacted.Redacted<string>;
-  statement: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  statement: string | redacted.Redacted<string>;
 }
 export const StaticPolicyDefinitionDetail = S.suspend(() =>
   S.Struct({
@@ -1191,8 +1225,8 @@ export const RecordAttribute = S.Record({
   }),
 }) as any as S.Schema<RecordAttribute>;
 export interface OpenIdConnectAccessTokenConfiguration {
-  principalIdClaim?: string | Redacted.Redacted<string>;
-  audiences?: Audiences;
+  principalIdClaim?: string | redacted.Redacted<string>;
+  audiences?: string[];
 }
 export const OpenIdConnectAccessTokenConfiguration = S.suspend(() =>
   S.Struct({
@@ -1203,8 +1237,8 @@ export const OpenIdConnectAccessTokenConfiguration = S.suspend(() =>
   identifier: "OpenIdConnectAccessTokenConfiguration",
 }) as any as S.Schema<OpenIdConnectAccessTokenConfiguration>;
 export interface OpenIdConnectIdentityTokenConfiguration {
-  principalIdClaim?: string | Redacted.Redacted<string>;
-  clientIds?: ClientIds;
+  principalIdClaim?: string | redacted.Redacted<string>;
+  clientIds?: string | redacted.Redacted<string>[];
 }
 export const OpenIdConnectIdentityTokenConfiguration = S.suspend(() =>
   S.Struct({
@@ -1215,8 +1249,8 @@ export const OpenIdConnectIdentityTokenConfiguration = S.suspend(() =>
   identifier: "OpenIdConnectIdentityTokenConfiguration",
 }) as any as S.Schema<OpenIdConnectIdentityTokenConfiguration>;
 export interface UpdateOpenIdConnectAccessTokenConfiguration {
-  principalIdClaim?: string | Redacted.Redacted<string>;
-  audiences?: Audiences;
+  principalIdClaim?: string | redacted.Redacted<string>;
+  audiences?: string[];
 }
 export const UpdateOpenIdConnectAccessTokenConfiguration = S.suspend(() =>
   S.Struct({
@@ -1227,8 +1261,8 @@ export const UpdateOpenIdConnectAccessTokenConfiguration = S.suspend(() =>
   identifier: "UpdateOpenIdConnectAccessTokenConfiguration",
 }) as any as S.Schema<UpdateOpenIdConnectAccessTokenConfiguration>;
 export interface UpdateOpenIdConnectIdentityTokenConfiguration {
-  principalIdClaim?: string | Redacted.Redacted<string>;
-  clientIds?: ClientIds;
+  principalIdClaim?: string | redacted.Redacted<string>;
+  clientIds?: string | redacted.Redacted<string>[];
 }
 export const UpdateOpenIdConnectIdentityTokenConfiguration = S.suspend(() =>
   S.Struct({
@@ -1240,14 +1274,14 @@ export const UpdateOpenIdConnectIdentityTokenConfiguration = S.suspend(() =>
 }) as any as S.Schema<UpdateOpenIdConnectIdentityTokenConfiguration>;
 export interface BatchIsAuthorizedWithTokenOutputItem {
   request: BatchIsAuthorizedWithTokenInputItem;
-  decision: string;
-  determiningPolicies: DeterminingPolicyList;
-  errors: EvaluationErrorList;
+  decision: Decision;
+  determiningPolicies: DeterminingPolicyItem[];
+  errors: EvaluationErrorItem[];
 }
 export const BatchIsAuthorizedWithTokenOutputItem = S.suspend(() =>
   S.Struct({
     request: BatchIsAuthorizedWithTokenInputItem,
-    decision: S.String,
+    decision: Decision,
     determiningPolicies: DeterminingPolicyList,
     errors: EvaluationErrorList,
   }),
@@ -1269,8 +1303,8 @@ export const PolicyDefinitionDetail = S.Union(
 export interface BatchGetPolicyOutputItem {
   policyStoreId: string;
   policyId: string;
-  policyType: string;
-  definition: (typeof PolicyDefinitionDetail)["Type"];
+  policyType: PolicyType;
+  definition: PolicyDefinitionDetail;
   createdDate: Date;
   lastUpdatedDate: Date;
 }
@@ -1278,7 +1312,7 @@ export const BatchGetPolicyOutputItem = S.suspend(() =>
   S.Struct({
     policyStoreId: S.String,
     policyId: S.String,
-    policyType: S.String,
+    policyType: PolicyType,
     definition: PolicyDefinitionDetail,
     createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
     lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -1289,14 +1323,14 @@ export const BatchGetPolicyOutputItem = S.suspend(() =>
 export type BatchGetPolicyOutputList = BatchGetPolicyOutputItem[];
 export const BatchGetPolicyOutputList = S.Array(BatchGetPolicyOutputItem);
 export interface BatchGetPolicyErrorItem {
-  code: string;
+  code: BatchGetPolicyErrorCode;
   policyStoreId: string;
   policyId: string;
   message: string;
 }
 export const BatchGetPolicyErrorItem = S.suspend(() =>
   S.Struct({
-    code: S.String,
+    code: BatchGetPolicyErrorCode,
     policyStoreId: S.String,
     policyId: S.String,
     message: S.String,
@@ -1314,7 +1348,7 @@ export const OpenIdConnectTokenSelection = S.Union(
   S.Struct({ identityTokenOnly: OpenIdConnectIdentityTokenConfiguration }),
 );
 export interface CognitoGroupConfigurationDetail {
-  groupEntityType?: string | Redacted.Redacted<string>;
+  groupEntityType?: string | redacted.Redacted<string>;
 }
 export const CognitoGroupConfigurationDetail = S.suspend(() =>
   S.Struct({ groupEntityType: S.optional(SensitiveString) }),
@@ -1322,8 +1356,8 @@ export const CognitoGroupConfigurationDetail = S.suspend(() =>
   identifier: "CognitoGroupConfigurationDetail",
 }) as any as S.Schema<CognitoGroupConfigurationDetail>;
 export interface OpenIdConnectGroupConfigurationDetail {
-  groupClaim: string | Redacted.Redacted<string>;
-  groupEntityType: string | Redacted.Redacted<string>;
+  groupClaim: string | redacted.Redacted<string>;
+  groupEntityType: string | redacted.Redacted<string>;
 }
 export const OpenIdConnectGroupConfigurationDetail = S.suspend(() =>
   S.Struct({ groupClaim: SensitiveString, groupEntityType: SensitiveString }),
@@ -1348,7 +1382,7 @@ export const CedarTagRecordAttribute = S.Record({
 }) as any as S.Schema<CedarTagRecordAttribute>;
 export interface BatchIsAuthorizedWithTokenOutput {
   principal?: EntityIdentifier;
-  results: BatchIsAuthorizedWithTokenOutputList;
+  results: BatchIsAuthorizedWithTokenOutputItem[];
 }
 export const BatchIsAuthorizedWithTokenOutput = S.suspend(() =>
   S.Struct({
@@ -1359,8 +1393,8 @@ export const BatchIsAuthorizedWithTokenOutput = S.suspend(() =>
   identifier: "BatchIsAuthorizedWithTokenOutput",
 }) as any as S.Schema<BatchIsAuthorizedWithTokenOutput>;
 export interface BatchGetPolicyOutput {
-  results: BatchGetPolicyOutputList;
-  errors: BatchGetPolicyErrorList;
+  results: BatchGetPolicyOutputItem[];
+  errors: BatchGetPolicyErrorItem[];
 }
 export const BatchGetPolicyOutput = S.suspend(() =>
   S.Struct({
@@ -1373,25 +1407,25 @@ export const BatchGetPolicyOutput = S.suspend(() =>
 export interface CreatePolicyOutput {
   policyStoreId: string;
   policyId: string;
-  policyType: string;
+  policyType: PolicyType;
   principal?: EntityIdentifier;
   resource?: EntityIdentifier;
-  actions?: ActionIdentifierList;
+  actions?: ActionIdentifier[];
   createdDate: Date;
   lastUpdatedDate: Date;
-  effect?: string;
+  effect?: PolicyEffect;
 }
 export const CreatePolicyOutput = S.suspend(() =>
   S.Struct({
     policyStoreId: S.String,
     policyId: S.String,
-    policyType: S.String,
+    policyType: PolicyType,
     principal: S.optional(EntityIdentifier),
     resource: S.optional(EntityIdentifier),
     actions: S.optional(ActionIdentifierList),
     createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
     lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    effect: S.optional(S.String),
+    effect: S.optional(PolicyEffect),
   }),
 ).annotations({
   identifier: "CreatePolicyOutput",
@@ -1399,27 +1433,27 @@ export const CreatePolicyOutput = S.suspend(() =>
 export interface GetPolicyOutput {
   policyStoreId: string;
   policyId: string;
-  policyType: string;
+  policyType: PolicyType;
   principal?: EntityIdentifier;
   resource?: EntityIdentifier;
-  actions?: ActionIdentifierList;
-  definition: (typeof PolicyDefinitionDetail)["Type"];
+  actions?: ActionIdentifier[];
+  definition: PolicyDefinitionDetail;
   createdDate: Date;
   lastUpdatedDate: Date;
-  effect?: string;
+  effect?: PolicyEffect;
 }
 export const GetPolicyOutput = S.suspend(() =>
   S.Struct({
     policyStoreId: S.String,
     policyId: S.String,
-    policyType: S.String,
+    policyType: PolicyType,
     principal: S.optional(EntityIdentifier),
     resource: S.optional(EntityIdentifier),
     actions: S.optional(ActionIdentifierList),
     definition: PolicyDefinitionDetail,
     createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
     lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    effect: S.optional(S.String),
+    effect: S.optional(PolicyEffect),
   }),
 ).annotations({
   identifier: "GetPolicyOutput",
@@ -1427,34 +1461,34 @@ export const GetPolicyOutput = S.suspend(() =>
 export interface UpdatePolicyOutput {
   policyStoreId: string;
   policyId: string;
-  policyType: string;
+  policyType: PolicyType;
   principal?: EntityIdentifier;
   resource?: EntityIdentifier;
-  actions?: ActionIdentifierList;
+  actions?: ActionIdentifier[];
   createdDate: Date;
   lastUpdatedDate: Date;
-  effect?: string;
+  effect?: PolicyEffect;
 }
 export const UpdatePolicyOutput = S.suspend(() =>
   S.Struct({
     policyStoreId: S.String,
     policyId: S.String,
-    policyType: S.String,
+    policyType: PolicyType,
     principal: S.optional(EntityIdentifier),
     resource: S.optional(EntityIdentifier),
     actions: S.optional(ActionIdentifierList),
     createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
     lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    effect: S.optional(S.String),
+    effect: S.optional(PolicyEffect),
   }),
 ).annotations({
   identifier: "UpdatePolicyOutput",
 }) as any as S.Schema<UpdatePolicyOutput>;
 export interface OpenIdConnectConfiguration {
   issuer: string;
-  entityIdPrefix?: string | Redacted.Redacted<string>;
+  entityIdPrefix?: string | redacted.Redacted<string>;
   groupConfiguration?: OpenIdConnectGroupConfiguration;
-  tokenSelection: (typeof OpenIdConnectTokenSelection)["Type"];
+  tokenSelection: OpenIdConnectTokenSelection;
 }
 export const OpenIdConnectConfiguration = S.suspend(() =>
   S.Struct({
@@ -1468,7 +1502,7 @@ export const OpenIdConnectConfiguration = S.suspend(() =>
 }) as any as S.Schema<OpenIdConnectConfiguration>;
 export interface CognitoUserPoolConfigurationDetail {
   userPoolArn: string;
-  clientIds: ClientIds;
+  clientIds: string | redacted.Redacted<string>[];
   issuer: string;
   groupConfiguration?: CognitoGroupConfigurationDetail;
 }
@@ -1484,9 +1518,9 @@ export const CognitoUserPoolConfigurationDetail = S.suspend(() =>
 }) as any as S.Schema<CognitoUserPoolConfigurationDetail>;
 export interface UpdateOpenIdConnectConfiguration {
   issuer: string;
-  entityIdPrefix?: string | Redacted.Redacted<string>;
+  entityIdPrefix?: string | redacted.Redacted<string>;
   groupConfiguration?: UpdateOpenIdConnectGroupConfiguration;
-  tokenSelection: (typeof UpdateOpenIdConnectTokenSelection)["Type"];
+  tokenSelection: UpdateOpenIdConnectTokenSelection;
 }
 export const UpdateOpenIdConnectConfiguration = S.suspend(() =>
   S.Struct({
@@ -1499,24 +1533,24 @@ export const UpdateOpenIdConnectConfiguration = S.suspend(() =>
   identifier: "UpdateOpenIdConnectConfiguration",
 }) as any as S.Schema<UpdateOpenIdConnectConfiguration>;
 export interface IdentitySourceItemDetails {
-  clientIds?: ClientIds;
+  clientIds?: string | redacted.Redacted<string>[];
   userPoolArn?: string;
   discoveryUrl?: string;
-  openIdIssuer?: string;
+  openIdIssuer?: OpenIdIssuer;
 }
 export const IdentitySourceItemDetails = S.suspend(() =>
   S.Struct({
     clientIds: S.optional(ClientIds),
     userPoolArn: S.optional(S.String),
     discoveryUrl: S.optional(S.String),
-    openIdIssuer: S.optional(S.String),
+    openIdIssuer: S.optional(OpenIdIssuer),
   }),
 ).annotations({
   identifier: "IdentitySourceItemDetails",
 }) as any as S.Schema<IdentitySourceItemDetails>;
 export interface OpenIdConnectAccessTokenConfigurationDetail {
-  principalIdClaim?: string | Redacted.Redacted<string>;
-  audiences?: Audiences;
+  principalIdClaim?: string | redacted.Redacted<string>;
+  audiences?: string[];
 }
 export const OpenIdConnectAccessTokenConfigurationDetail = S.suspend(() =>
   S.Struct({
@@ -1527,8 +1561,8 @@ export const OpenIdConnectAccessTokenConfigurationDetail = S.suspend(() =>
   identifier: "OpenIdConnectAccessTokenConfigurationDetail",
 }) as any as S.Schema<OpenIdConnectAccessTokenConfigurationDetail>;
 export interface OpenIdConnectIdentityTokenConfigurationDetail {
-  principalIdClaim?: string | Redacted.Redacted<string>;
-  clientIds?: ClientIds;
+  principalIdClaim?: string | redacted.Redacted<string>;
+  clientIds?: string | redacted.Redacted<string>[];
 }
 export const OpenIdConnectIdentityTokenConfigurationDetail = S.suspend(() =>
   S.Struct({
@@ -1568,8 +1602,8 @@ export interface IsAuthorizedInput {
   principal?: EntityIdentifier;
   action?: ActionIdentifier;
   resource?: EntityIdentifier;
-  context?: (typeof ContextDefinition)["Type"];
-  entities?: (typeof EntitiesDefinition)["Type"];
+  context?: ContextDefinition;
+  entities?: EntitiesDefinition;
 }
 export const IsAuthorizedInput = S.suspend(() =>
   S.Struct({
@@ -1588,8 +1622,8 @@ export const IsAuthorizedInput = S.suspend(() =>
 export interface CreateIdentitySourceInput {
   clientToken?: string;
   policyStoreId: string;
-  configuration: (typeof Configuration)["Type"];
-  principalEntityType?: string | Redacted.Redacted<string>;
+  configuration: Configuration;
+  principalEntityType?: string | redacted.Redacted<string>;
 }
 export const CreateIdentitySourceInput = S.suspend(() =>
   S.Struct({
@@ -1606,8 +1640,8 @@ export const CreateIdentitySourceInput = S.suspend(() =>
 export interface UpdateIdentitySourceInput {
   policyStoreId: string;
   identitySourceId: string;
-  updateConfiguration: (typeof UpdateConfiguration)["Type"];
-  principalEntityType?: string | Redacted.Redacted<string>;
+  updateConfiguration: UpdateConfiguration;
+  principalEntityType?: string | redacted.Redacted<string>;
 }
 export const UpdateIdentitySourceInput = S.suspend(() =>
   S.Struct({
@@ -1623,9 +1657,9 @@ export const UpdateIdentitySourceInput = S.suspend(() =>
 }) as any as S.Schema<UpdateIdentitySourceInput>;
 export interface OpenIdConnectConfigurationDetail {
   issuer: string;
-  entityIdPrefix?: string | Redacted.Redacted<string>;
+  entityIdPrefix?: string | redacted.Redacted<string>;
   groupConfiguration?: OpenIdConnectGroupConfigurationDetail;
-  tokenSelection: (typeof OpenIdConnectTokenSelectionDetail)["Type"];
+  tokenSelection: OpenIdConnectTokenSelectionDetail;
 }
 export const OpenIdConnectConfigurationDetail = S.suspend(() =>
   S.Struct({
@@ -1638,7 +1672,7 @@ export const OpenIdConnectConfigurationDetail = S.suspend(() =>
   identifier: "OpenIdConnectConfigurationDetail",
 }) as any as S.Schema<OpenIdConnectConfigurationDetail>;
 export interface CognitoGroupConfigurationItem {
-  groupEntityType?: string | Redacted.Redacted<string>;
+  groupEntityType?: string | redacted.Redacted<string>;
 }
 export const CognitoGroupConfigurationItem = S.suspend(() =>
   S.Struct({ groupEntityType: S.optional(SensitiveString) }),
@@ -1646,8 +1680,8 @@ export const CognitoGroupConfigurationItem = S.suspend(() =>
   identifier: "CognitoGroupConfigurationItem",
 }) as any as S.Schema<CognitoGroupConfigurationItem>;
 export interface OpenIdConnectGroupConfigurationItem {
-  groupClaim: string | Redacted.Redacted<string>;
-  groupEntityType: string | Redacted.Redacted<string>;
+  groupClaim: string | redacted.Redacted<string>;
+  groupEntityType: string | redacted.Redacted<string>;
 }
 export const OpenIdConnectGroupConfigurationItem = S.suspend(() =>
   S.Struct({ groupClaim: SensitiveString, groupEntityType: SensitiveString }),
@@ -1665,7 +1699,7 @@ export const ConfigurationDetail = S.Union(
 );
 export interface CognitoUserPoolConfigurationItem {
   userPoolArn: string;
-  clientIds: ClientIds;
+  clientIds: string | redacted.Redacted<string>[];
   issuer: string;
   groupConfiguration?: CognitoGroupConfigurationItem;
 }
@@ -1680,7 +1714,7 @@ export const CognitoUserPoolConfigurationItem = S.suspend(() =>
   identifier: "CognitoUserPoolConfigurationItem",
 }) as any as S.Schema<CognitoUserPoolConfigurationItem>;
 export interface StaticPolicyDefinitionItem {
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
 }
 export const StaticPolicyDefinitionItem = S.suspend(() =>
   S.Struct({ description: S.optional(SensitiveString) }),
@@ -1703,8 +1737,8 @@ export const TemplateLinkedPolicyDefinitionItem = S.suspend(() =>
 }) as any as S.Schema<TemplateLinkedPolicyDefinitionItem>;
 export interface BatchIsAuthorizedInput {
   policyStoreId: string;
-  entities?: (typeof EntitiesDefinition)["Type"];
-  requests: BatchIsAuthorizedInputList;
+  entities?: EntitiesDefinition;
+  requests: BatchIsAuthorizedInputItem[];
 }
 export const BatchIsAuthorizedInput = S.suspend(() =>
   S.Struct({
@@ -1718,13 +1752,13 @@ export const BatchIsAuthorizedInput = S.suspend(() =>
   identifier: "BatchIsAuthorizedInput",
 }) as any as S.Schema<BatchIsAuthorizedInput>;
 export interface IsAuthorizedOutput {
-  decision: string;
-  determiningPolicies: DeterminingPolicyList;
-  errors: EvaluationErrorList;
+  decision: Decision;
+  determiningPolicies: DeterminingPolicyItem[];
+  errors: EvaluationErrorItem[];
 }
 export const IsAuthorizedOutput = S.suspend(() =>
   S.Struct({
-    decision: S.String,
+    decision: Decision,
     determiningPolicies: DeterminingPolicyList,
     errors: EvaluationErrorList,
   }),
@@ -1753,8 +1787,8 @@ export interface GetIdentitySourceOutput {
   identitySourceId: string;
   lastUpdatedDate: Date;
   policyStoreId: string;
-  principalEntityType: string | Redacted.Redacted<string>;
-  configuration?: (typeof ConfigurationDetail)["Type"];
+  principalEntityType: string | redacted.Redacted<string>;
+  configuration?: ConfigurationDetail;
 }
 export const GetIdentitySourceOutput = S.suspend(() =>
   S.Struct({
@@ -1786,8 +1820,8 @@ export const UpdateIdentitySourceOutput = S.suspend(() =>
   identifier: "UpdateIdentitySourceOutput",
 }) as any as S.Schema<UpdateIdentitySourceOutput>;
 export interface OpenIdConnectAccessTokenConfigurationItem {
-  principalIdClaim?: string | Redacted.Redacted<string>;
-  audiences?: Audiences;
+  principalIdClaim?: string | redacted.Redacted<string>;
+  audiences?: string[];
 }
 export const OpenIdConnectAccessTokenConfigurationItem = S.suspend(() =>
   S.Struct({
@@ -1798,8 +1832,8 @@ export const OpenIdConnectAccessTokenConfigurationItem = S.suspend(() =>
   identifier: "OpenIdConnectAccessTokenConfigurationItem",
 }) as any as S.Schema<OpenIdConnectAccessTokenConfigurationItem>;
 export interface OpenIdConnectIdentityTokenConfigurationItem {
-  principalIdClaim?: string | Redacted.Redacted<string>;
-  clientIds?: ClientIds;
+  principalIdClaim?: string | redacted.Redacted<string>;
+  clientIds?: string | redacted.Redacted<string>[];
 }
 export const OpenIdConnectIdentityTokenConfigurationItem = S.suspend(() =>
   S.Struct({
@@ -1826,36 +1860,36 @@ export const OpenIdConnectTokenSelectionItem = S.Union(
 export interface PolicyItem {
   policyStoreId: string;
   policyId: string;
-  policyType: string;
+  policyType: PolicyType;
   principal?: EntityIdentifier;
   resource?: EntityIdentifier;
-  actions?: ActionIdentifierList;
-  definition: (typeof PolicyDefinitionItem)["Type"];
+  actions?: ActionIdentifier[];
+  definition: PolicyDefinitionItem;
   createdDate: Date;
   lastUpdatedDate: Date;
-  effect?: string;
+  effect?: PolicyEffect;
 }
 export const PolicyItem = S.suspend(() =>
   S.Struct({
     policyStoreId: S.String,
     policyId: S.String,
-    policyType: S.String,
+    policyType: PolicyType,
     principal: S.optional(EntityIdentifier),
     resource: S.optional(EntityIdentifier),
     actions: S.optional(ActionIdentifierList),
     definition: PolicyDefinitionItem,
     createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
     lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    effect: S.optional(S.String),
+    effect: S.optional(PolicyEffect),
   }),
 ).annotations({ identifier: "PolicyItem" }) as any as S.Schema<PolicyItem>;
 export type PolicyList = PolicyItem[];
 export const PolicyList = S.Array(PolicyItem);
 export interface OpenIdConnectConfigurationItem {
   issuer: string;
-  entityIdPrefix?: string | Redacted.Redacted<string>;
+  entityIdPrefix?: string | redacted.Redacted<string>;
   groupConfiguration?: OpenIdConnectGroupConfigurationItem;
-  tokenSelection: (typeof OpenIdConnectTokenSelectionItem)["Type"];
+  tokenSelection: OpenIdConnectTokenSelectionItem;
 }
 export const OpenIdConnectConfigurationItem = S.suspend(() =>
   S.Struct({
@@ -1869,7 +1903,7 @@ export const OpenIdConnectConfigurationItem = S.suspend(() =>
 }) as any as S.Schema<OpenIdConnectConfigurationItem>;
 export interface ListPoliciesOutput {
   nextToken?: string;
-  policies: PolicyList;
+  policies: PolicyItem[];
 }
 export const ListPoliciesOutput = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), policies: PolicyList }),
@@ -1885,14 +1919,14 @@ export const ConfigurationItem = S.Union(
 );
 export interface BatchIsAuthorizedOutputItem {
   request: BatchIsAuthorizedInputItem;
-  decision: string;
-  determiningPolicies: DeterminingPolicyList;
-  errors: EvaluationErrorList;
+  decision: Decision;
+  determiningPolicies: DeterminingPolicyItem[];
+  errors: EvaluationErrorItem[];
 }
 export const BatchIsAuthorizedOutputItem = S.suspend(() =>
   S.Struct({
     request: BatchIsAuthorizedInputItem,
-    decision: S.String,
+    decision: Decision,
     determiningPolicies: DeterminingPolicyList,
     errors: EvaluationErrorList,
   }),
@@ -1907,8 +1941,8 @@ export interface IdentitySourceItem {
   identitySourceId: string;
   lastUpdatedDate: Date;
   policyStoreId: string;
-  principalEntityType: string | Redacted.Redacted<string>;
-  configuration?: (typeof ConfigurationItem)["Type"];
+  principalEntityType: string | redacted.Redacted<string>;
+  configuration?: ConfigurationItem;
 }
 export const IdentitySourceItem = S.suspend(() =>
   S.Struct({
@@ -1926,7 +1960,7 @@ export const IdentitySourceItem = S.suspend(() =>
 export type IdentitySources = IdentitySourceItem[];
 export const IdentitySources = S.Array(IdentitySourceItem);
 export interface BatchIsAuthorizedOutput {
-  results: BatchIsAuthorizedOutputList;
+  results: BatchIsAuthorizedOutputItem[];
 }
 export const BatchIsAuthorizedOutput = S.suspend(() =>
   S.Struct({ results: BatchIsAuthorizedOutputList }),
@@ -1935,7 +1969,7 @@ export const BatchIsAuthorizedOutput = S.suspend(() =>
 }) as any as S.Schema<BatchIsAuthorizedOutput>;
 export interface ListIdentitySourcesOutput {
   nextToken?: string;
-  identitySources: IdentitySources;
+  identitySources: IdentitySourceItem[];
 }
 export const ListIdentitySourcesOutput = S.suspend(() =>
   S.Struct({
@@ -1962,7 +1996,7 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
 ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  { message: S.String, resourceId: S.String, resourceType: S.String },
+  { message: S.String, resourceId: S.String, resourceType: ResourceType },
 ).pipe(C.withBadRequestError) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
@@ -1982,7 +2016,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
   {
     message: S.String,
     resourceId: S.optional(S.String),
-    resourceType: S.String,
+    resourceType: ResourceType,
     serviceCode: S.optional(S.String),
     quotaCode: S.optional(S.String),
   },
@@ -2000,7 +2034,7 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
  */
 export const deletePolicyStore: (
   input: DeletePolicyStoreInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePolicyStoreOutput,
   InvalidStateException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2014,7 +2048,7 @@ export const deletePolicyStore: (
  */
 export const getPolicyStore: (
   input: GetPolicyStoreInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetPolicyStoreOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2029,21 +2063,21 @@ export const getPolicyStore: (
 export const listPolicyStores: {
   (
     input: ListPolicyStoresInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPolicyStoresOutput,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListPolicyStoresInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPolicyStoresOutput,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPolicyStoresInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PolicyStoreItem,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2068,7 +2102,7 @@ export const listPolicyStores: {
  */
 export const isAuthorizedWithToken: (
   input: IsAuthorizedWithTokenInput,
-) => Effect.Effect<
+) => effect.Effect<
   IsAuthorizedWithTokenOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2082,7 +2116,7 @@ export const isAuthorizedWithToken: (
  */
 export const deleteIdentitySource: (
   input: DeleteIdentitySourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIdentitySourceOutput,
   ConflictException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2097,21 +2131,21 @@ export const deleteIdentitySource: (
 export const listPolicyTemplates: {
   (
     input: ListPolicyTemplatesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPolicyTemplatesOutput,
     ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListPolicyTemplatesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPolicyTemplatesOutput,
     ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPolicyTemplatesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PolicyTemplateItem,
     ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2132,7 +2166,7 @@ export const listPolicyTemplates: {
  */
 export const getSchema: (
   input: GetSchemaInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSchemaOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2146,7 +2180,7 @@ export const getSchema: (
  */
 export const getPolicyTemplate: (
   input: GetPolicyTemplateInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetPolicyTemplateOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2162,7 +2196,7 @@ export const getPolicyTemplate: (
  */
 export const deletePolicy: (
   input: DeletePolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePolicyOutput,
   ConflictException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2178,7 +2212,7 @@ export const deletePolicy: (
  */
 export const deletePolicyTemplate: (
   input: DeletePolicyTemplateInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePolicyTemplateOutput,
   ConflictException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2194,7 +2228,7 @@ export const deletePolicyTemplate: (
  */
 export const updatePolicyStore: (
   input: UpdatePolicyStoreInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePolicyStoreOutput,
   ConflictException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2212,7 +2246,7 @@ export const updatePolicyStore: (
  */
 export const updatePolicyTemplate: (
   input: UpdatePolicyTemplateInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePolicyTemplateOutput,
   ConflictException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2232,7 +2266,7 @@ export const updatePolicyTemplate: (
  */
 export const batchIsAuthorizedWithToken: (
   input: BatchIsAuthorizedWithTokenInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchIsAuthorizedWithTokenOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2248,7 +2282,7 @@ export const batchIsAuthorizedWithToken: (
  */
 export const batchGetPolicy: (
   input: BatchGetPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetPolicyOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2262,7 +2296,7 @@ export const batchGetPolicy: (
  */
 export const getPolicy: (
   input: GetPolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetPolicyOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2276,7 +2310,7 @@ export const getPolicy: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2301,7 +2335,7 @@ export const listTagsForResource: (
  */
 export const createPolicyTemplate: (
   input: CreatePolicyTemplateInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePolicyTemplateOutput,
   | ConflictException
   | ResourceNotFoundException
@@ -2322,7 +2356,7 @@ export const createPolicyTemplate: (
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2349,7 +2383,7 @@ export const untagResource: (
  */
 export const createPolicyStore: (
   input: CreatePolicyStoreInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePolicyStoreOutput,
   ConflictException | ServiceQuotaExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2365,7 +2399,7 @@ export const createPolicyStore: (
  */
 export const putSchema: (
   input: PutSchemaInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutSchemaOutput,
   | ConflictException
   | ResourceNotFoundException
@@ -2394,7 +2428,7 @@ export const putSchema: (
  */
 export const createPolicy: (
   input: CreatePolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePolicyOutput,
   | ConflictException
   | ResourceNotFoundException
@@ -2437,7 +2471,7 @@ export const createPolicy: (
  */
 export const updatePolicy: (
   input: UpdatePolicyInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePolicyOutput,
   | ConflictException
   | ResourceNotFoundException
@@ -2464,7 +2498,7 @@ export const updatePolicy: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2489,7 +2523,7 @@ export const tagResource: (
  */
 export const isAuthorized: (
   input: IsAuthorizedInput,
-) => Effect.Effect<
+) => effect.Effect<
   IsAuthorizedOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2515,7 +2549,7 @@ export const isAuthorized: (
  */
 export const createIdentitySource: (
   input: CreateIdentitySourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateIdentitySourceOutput,
   | ConflictException
   | ResourceNotFoundException
@@ -2536,7 +2570,7 @@ export const createIdentitySource: (
  */
 export const getIdentitySource: (
   input: GetIdentitySourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetIdentitySourceOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2552,7 +2586,7 @@ export const getIdentitySource: (
  */
 export const updateIdentitySource: (
   input: UpdateIdentitySourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateIdentitySourceOutput,
   ConflictException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2567,21 +2601,21 @@ export const updateIdentitySource: (
 export const listPolicies: {
   (
     input: ListPoliciesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPoliciesOutput,
     ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListPoliciesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPoliciesOutput,
     ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPoliciesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PolicyItem,
     ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2608,7 +2642,7 @@ export const listPolicies: {
  */
 export const batchIsAuthorized: (
   input: BatchIsAuthorizedInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchIsAuthorizedOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2623,21 +2657,21 @@ export const batchIsAuthorized: (
 export const listIdentitySources: {
   (
     input: ListIdentitySourcesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListIdentitySourcesOutput,
     ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListIdentitySourcesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListIdentitySourcesOutput,
     ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIdentitySourcesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     IdentitySourceItem,
     ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient

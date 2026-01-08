@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -91,11 +91,9 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Newtypes
-export type Integer = number;
 export type EntityId = string;
 export type CustomerId = string;
 export type IdempotencyToken = string;
-export type Long = number;
 export type CurrencyAmount = string;
 export type PaginationToken = string;
 export type ResultSize = number;
@@ -120,12 +118,49 @@ export const GetAccountBalanceRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetAccountBalanceRequest",
 }) as any as S.Schema<GetAccountBalanceRequest>;
-export type AssignmentStatusList = string[];
-export const AssignmentStatusList = S.Array(S.String);
-export type ReviewPolicyLevelList = string[];
-export const ReviewPolicyLevelList = S.Array(S.String);
+export type QualificationTypeStatus = "Active" | "Inactive";
+export const QualificationTypeStatus = S.Literal("Active", "Inactive");
+export type AssignmentStatus = "Submitted" | "Approved" | "Rejected";
+export const AssignmentStatus = S.Literal("Submitted", "Approved", "Rejected");
+export type AssignmentStatusList = AssignmentStatus[];
+export const AssignmentStatusList = S.Array(AssignmentStatus);
+export type ReviewableHITStatus = "Reviewable" | "Reviewing";
+export const ReviewableHITStatus = S.Literal("Reviewable", "Reviewing");
+export type ReviewPolicyLevel = "Assignment" | "HIT";
+export const ReviewPolicyLevel = S.Literal("Assignment", "HIT");
+export type ReviewPolicyLevelList = ReviewPolicyLevel[];
+export const ReviewPolicyLevelList = S.Array(ReviewPolicyLevel);
+export type QualificationStatus = "Granted" | "Revoked";
+export const QualificationStatus = S.Literal("Granted", "Revoked");
 export type CustomerIdList = string[];
 export const CustomerIdList = S.Array(S.String);
+export type EventType =
+  | "AssignmentAccepted"
+  | "AssignmentAbandoned"
+  | "AssignmentReturned"
+  | "AssignmentSubmitted"
+  | "AssignmentRejected"
+  | "AssignmentApproved"
+  | "HITCreated"
+  | "HITExpired"
+  | "HITReviewable"
+  | "HITExtended"
+  | "HITDisposed"
+  | "Ping";
+export const EventType = S.Literal(
+  "AssignmentAccepted",
+  "AssignmentAbandoned",
+  "AssignmentReturned",
+  "AssignmentSubmitted",
+  "AssignmentRejected",
+  "AssignmentApproved",
+  "HITCreated",
+  "HITExpired",
+  "HITReviewable",
+  "HITExtended",
+  "HITDisposed",
+  "Ping",
+);
 export interface AcceptQualificationRequestRequest {
   QualificationRequestId: string;
   IntegerValue?: number;
@@ -246,6 +281,29 @@ export const CreateAdditionalAssignmentsForHITResponse = S.suspend(() =>
 ).annotations({
   identifier: "CreateAdditionalAssignmentsForHITResponse",
 }) as any as S.Schema<CreateAdditionalAssignmentsForHITResponse>;
+export type Comparator =
+  | "LessThan"
+  | "LessThanOrEqualTo"
+  | "GreaterThan"
+  | "GreaterThanOrEqualTo"
+  | "EqualTo"
+  | "NotEqualTo"
+  | "Exists"
+  | "DoesNotExist"
+  | "In"
+  | "NotIn";
+export const Comparator = S.Literal(
+  "LessThan",
+  "LessThanOrEqualTo",
+  "GreaterThan",
+  "GreaterThanOrEqualTo",
+  "EqualTo",
+  "NotEqualTo",
+  "Exists",
+  "DoesNotExist",
+  "In",
+  "NotIn",
+);
 export type IntegerList = number[];
 export const IntegerList = S.Array(S.Number);
 export interface Locale {
@@ -257,22 +315,31 @@ export const Locale = S.suspend(() =>
 ).annotations({ identifier: "Locale" }) as any as S.Schema<Locale>;
 export type LocaleList = Locale[];
 export const LocaleList = S.Array(Locale);
+export type HITAccessActions =
+  | "Accept"
+  | "PreviewAndAccept"
+  | "DiscoverPreviewAndAccept";
+export const HITAccessActions = S.Literal(
+  "Accept",
+  "PreviewAndAccept",
+  "DiscoverPreviewAndAccept",
+);
 export interface QualificationRequirement {
   QualificationTypeId: string;
-  Comparator: string;
-  IntegerValues?: IntegerList;
-  LocaleValues?: LocaleList;
+  Comparator: Comparator;
+  IntegerValues?: number[];
+  LocaleValues?: Locale[];
   RequiredToPreview?: boolean;
-  ActionsGuarded?: string;
+  ActionsGuarded?: HITAccessActions;
 }
 export const QualificationRequirement = S.suspend(() =>
   S.Struct({
     QualificationTypeId: S.String,
-    Comparator: S.String,
+    Comparator: Comparator,
     IntegerValues: S.optional(IntegerList),
     LocaleValues: S.optional(LocaleList),
     RequiredToPreview: S.optional(S.Boolean),
-    ActionsGuarded: S.optional(S.String),
+    ActionsGuarded: S.optional(HITAccessActions),
   }),
 ).annotations({
   identifier: "QualificationRequirement",
@@ -286,7 +353,7 @@ export interface CreateHITTypeRequest {
   Title: string;
   Keywords?: string;
   Description: string;
-  QualificationRequirements?: QualificationRequirementList;
+  QualificationRequirements?: QualificationRequirement[];
 }
 export const CreateHITTypeRequest = S.suspend(() =>
   S.Struct({
@@ -315,7 +382,7 @@ export type StringList = string[];
 export const StringList = S.Array(S.String);
 export interface ParameterMapEntry {
   Key?: string;
-  Values?: StringList;
+  Values?: string[];
 }
 export const ParameterMapEntry = S.suspend(() =>
   S.Struct({ Key: S.optional(S.String), Values: S.optional(StringList) }),
@@ -326,8 +393,8 @@ export type ParameterMapEntryList = ParameterMapEntry[];
 export const ParameterMapEntryList = S.Array(ParameterMapEntry);
 export interface PolicyParameter {
   Key?: string;
-  Values?: StringList;
-  MapEntries?: ParameterMapEntryList;
+  Values?: string[];
+  MapEntries?: ParameterMapEntry[];
 }
 export const PolicyParameter = S.suspend(() =>
   S.Struct({
@@ -342,7 +409,7 @@ export type PolicyParameterList = PolicyParameter[];
 export const PolicyParameterList = S.Array(PolicyParameter);
 export interface ReviewPolicy {
   PolicyName: string;
-  Parameters?: PolicyParameterList;
+  Parameters?: PolicyParameter[];
 }
 export const ReviewPolicy = S.suspend(() =>
   S.Struct({
@@ -371,7 +438,7 @@ export interface CreateHITWithHITTypeRequest {
   AssignmentReviewPolicy?: ReviewPolicy;
   HITReviewPolicy?: ReviewPolicy;
   HITLayoutId?: string;
-  HITLayoutParameters?: HITLayoutParameterList;
+  HITLayoutParameters?: HITLayoutParameter[];
 }
 export const CreateHITWithHITTypeRequest = S.suspend(() =>
   S.Struct({
@@ -403,7 +470,7 @@ export interface CreateQualificationTypeRequest {
   Name: string;
   Keywords?: string;
   Description: string;
-  QualificationTypeStatus: string;
+  QualificationTypeStatus: QualificationTypeStatus;
   RetryDelayInSeconds?: number;
   Test?: string;
   AnswerKey?: string;
@@ -416,7 +483,7 @@ export const CreateQualificationTypeRequest = S.suspend(() =>
     Name: S.String,
     Keywords: S.optional(S.String),
     Description: S.String,
-    QualificationTypeStatus: S.String,
+    QualificationTypeStatus: QualificationTypeStatus,
     RetryDelayInSeconds: S.optional(S.Number),
     Test: S.optional(S.String),
     AnswerKey: S.optional(S.String),
@@ -673,7 +740,7 @@ export interface ListAssignmentsForHITRequest {
   HITId: string;
   NextToken?: string;
   MaxResults?: number;
-  AssignmentStatuses?: AssignmentStatusList;
+  AssignmentStatuses?: AssignmentStatus[];
 }
 export const ListAssignmentsForHITRequest = S.suspend(() =>
   S.Struct({
@@ -821,14 +888,14 @@ export const ListQualificationTypesRequest = S.suspend(() =>
 }) as any as S.Schema<ListQualificationTypesRequest>;
 export interface ListReviewableHITsRequest {
   HITTypeId?: string;
-  Status?: string;
+  Status?: ReviewableHITStatus;
   NextToken?: string;
   MaxResults?: number;
 }
 export const ListReviewableHITsRequest = S.suspend(() =>
   S.Struct({
     HITTypeId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ReviewableHITStatus),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
@@ -847,7 +914,7 @@ export const ListReviewableHITsRequest = S.suspend(() =>
 }) as any as S.Schema<ListReviewableHITsRequest>;
 export interface ListReviewPolicyResultsForHITRequest {
   HITId: string;
-  PolicyLevels?: ReviewPolicyLevelList;
+  PolicyLevels?: ReviewPolicyLevel[];
   RetrieveActions?: boolean;
   RetrieveResults?: boolean;
   NextToken?: string;
@@ -899,14 +966,14 @@ export const ListWorkerBlocksRequest = S.suspend(() =>
 }) as any as S.Schema<ListWorkerBlocksRequest>;
 export interface ListWorkersWithQualificationTypeRequest {
   QualificationTypeId: string;
-  Status?: string;
+  Status?: QualificationStatus;
   NextToken?: string;
   MaxResults?: number;
 }
 export const ListWorkersWithQualificationTypeRequest = S.suspend(() =>
   S.Struct({
     QualificationTypeId: S.String,
-    Status: S.optional(S.String),
+    Status: S.optional(QualificationStatus),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
@@ -926,7 +993,7 @@ export const ListWorkersWithQualificationTypeRequest = S.suspend(() =>
 export interface NotifyWorkersRequest {
   Subject: string;
   MessageText: string;
-  WorkerIds: CustomerIdList;
+  WorkerIds: string[];
 }
 export const NotifyWorkersRequest = S.suspend(() =>
   S.Struct({
@@ -1112,18 +1179,20 @@ export const UpdateHITTypeOfHITResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateHITTypeOfHITResponse",
 }) as any as S.Schema<UpdateHITTypeOfHITResponse>;
-export type EventTypeList = string[];
-export const EventTypeList = S.Array(S.String);
+export type NotificationTransport = "Email" | "SQS" | "SNS";
+export const NotificationTransport = S.Literal("Email", "SQS", "SNS");
+export type EventTypeList = EventType[];
+export const EventTypeList = S.Array(EventType);
 export interface NotificationSpecification {
   Destination: string;
-  Transport: string;
+  Transport: NotificationTransport;
   Version: string;
-  EventTypes: EventTypeList;
+  EventTypes: EventType[];
 }
 export const NotificationSpecification = S.suspend(() =>
   S.Struct({
     Destination: S.String,
-    Transport: S.String,
+    Transport: NotificationTransport,
     Version: S.String,
     EventTypes: EventTypeList,
   }),
@@ -1163,7 +1232,7 @@ export const UpdateNotificationSettingsResponse = S.suspend(() =>
 export interface UpdateQualificationTypeRequest {
   QualificationTypeId: string;
   Description?: string;
-  QualificationTypeStatus?: string;
+  QualificationTypeStatus?: QualificationTypeStatus;
   Test?: string;
   AnswerKey?: string;
   TestDurationInSeconds?: number;
@@ -1175,7 +1244,7 @@ export const UpdateQualificationTypeRequest = S.suspend(() =>
   S.Struct({
     QualificationTypeId: S.String,
     Description: S.optional(S.String),
-    QualificationTypeStatus: S.optional(S.String),
+    QualificationTypeStatus: S.optional(QualificationTypeStatus),
     Test: S.optional(S.String),
     AnswerKey: S.optional(S.String),
     TestDurationInSeconds: S.optional(S.Number),
@@ -1200,7 +1269,7 @@ export interface Assignment {
   AssignmentId?: string;
   WorkerId?: string;
   HITId?: string;
-  AssignmentStatus?: string;
+  AssignmentStatus?: AssignmentStatus;
   AutoApprovalTime?: Date;
   AcceptTime?: Date;
   SubmitTime?: Date;
@@ -1215,7 +1284,7 @@ export const Assignment = S.suspend(() =>
     AssignmentId: S.optional(S.String),
     WorkerId: S.optional(S.String),
     HITId: S.optional(S.String),
-    AssignmentStatus: S.optional(S.String),
+    AssignmentStatus: S.optional(AssignmentStatus),
     AutoApprovalTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1230,6 +1299,30 @@ export const Assignment = S.suspend(() =>
 ).annotations({ identifier: "Assignment" }) as any as S.Schema<Assignment>;
 export type AssignmentList = Assignment[];
 export const AssignmentList = S.Array(Assignment);
+export type HITStatus =
+  | "Assignable"
+  | "Unassignable"
+  | "Reviewable"
+  | "Reviewing"
+  | "Disposed";
+export const HITStatus = S.Literal(
+  "Assignable",
+  "Unassignable",
+  "Reviewable",
+  "Reviewing",
+  "Disposed",
+);
+export type HITReviewStatus =
+  | "NotReviewed"
+  | "MarkedForReview"
+  | "ReviewedAppropriate"
+  | "ReviewedInappropriate";
+export const HITReviewStatus = S.Literal(
+  "NotReviewed",
+  "MarkedForReview",
+  "ReviewedAppropriate",
+  "ReviewedInappropriate",
+);
 export interface HIT {
   HITId?: string;
   HITTypeId?: string;
@@ -1240,15 +1333,15 @@ export interface HIT {
   Description?: string;
   Question?: string;
   Keywords?: string;
-  HITStatus?: string;
+  HITStatus?: HITStatus;
   MaxAssignments?: number;
   Reward?: string;
   AutoApprovalDelayInSeconds?: number;
   Expiration?: Date;
   AssignmentDurationInSeconds?: number;
   RequesterAnnotation?: string;
-  QualificationRequirements?: QualificationRequirementList;
-  HITReviewStatus?: string;
+  QualificationRequirements?: QualificationRequirement[];
+  HITReviewStatus?: HITReviewStatus;
   NumberOfAssignmentsPending?: number;
   NumberOfAssignmentsAvailable?: number;
   NumberOfAssignmentsCompleted?: number;
@@ -1264,7 +1357,7 @@ export const HIT = S.suspend(() =>
     Description: S.optional(S.String),
     Question: S.optional(S.String),
     Keywords: S.optional(S.String),
-    HITStatus: S.optional(S.String),
+    HITStatus: S.optional(HITStatus),
     MaxAssignments: S.optional(S.Number),
     Reward: S.optional(S.String),
     AutoApprovalDelayInSeconds: S.optional(S.Number),
@@ -1272,7 +1365,7 @@ export const HIT = S.suspend(() =>
     AssignmentDurationInSeconds: S.optional(S.Number),
     RequesterAnnotation: S.optional(S.String),
     QualificationRequirements: S.optional(QualificationRequirementList),
-    HITReviewStatus: S.optional(S.String),
+    HITReviewStatus: S.optional(HITReviewStatus),
     NumberOfAssignmentsPending: S.optional(S.Number),
     NumberOfAssignmentsAvailable: S.optional(S.Number),
     NumberOfAssignmentsCompleted: S.optional(S.Number),
@@ -1286,7 +1379,7 @@ export interface QualificationType {
   Name?: string;
   Description?: string;
   Keywords?: string;
-  QualificationTypeStatus?: string;
+  QualificationTypeStatus?: QualificationTypeStatus;
   Test?: string;
   TestDurationInSeconds?: number;
   AnswerKey?: string;
@@ -1302,7 +1395,7 @@ export const QualificationType = S.suspend(() =>
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     Keywords: S.optional(S.String),
-    QualificationTypeStatus: S.optional(S.String),
+    QualificationTypeStatus: S.optional(QualificationTypeStatus),
     Test: S.optional(S.String),
     TestDurationInSeconds: S.optional(S.Number),
     AnswerKey: S.optional(S.String),
@@ -1322,7 +1415,7 @@ export interface Qualification {
   GrantTime?: Date;
   IntegerValue?: number;
   LocaleValue?: Locale;
-  Status?: string;
+  Status?: QualificationStatus;
 }
 export const Qualification = S.suspend(() =>
   S.Struct({
@@ -1331,7 +1424,7 @@ export const Qualification = S.suspend(() =>
     GrantTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     IntegerValue: S.optional(S.Number),
     LocaleValue: S.optional(Locale),
-    Status: S.optional(S.String),
+    Status: S.optional(QualificationStatus),
   }),
 ).annotations({
   identifier: "Qualification",
@@ -1373,7 +1466,7 @@ export const GetQualificationTypeResponse = S.suspend(() =>
 export interface ListAssignmentsForHITResponse {
   NextToken?: string;
   NumResults?: number;
-  Assignments?: AssignmentList;
+  Assignments?: Assignment[];
 }
 export const ListAssignmentsForHITResponse = S.suspend(() =>
   S.Struct({
@@ -1387,7 +1480,7 @@ export const ListAssignmentsForHITResponse = S.suspend(() =>
 export interface ListHITsResponse {
   NextToken?: string;
   NumResults?: number;
-  HITs?: HITList;
+  HITs?: HIT[];
 }
 export const ListHITsResponse = S.suspend(() =>
   S.Struct({
@@ -1401,7 +1494,7 @@ export const ListHITsResponse = S.suspend(() =>
 export interface ListHITsForQualificationTypeResponse {
   NextToken?: string;
   NumResults?: number;
-  HITs?: HITList;
+  HITs?: HIT[];
 }
 export const ListHITsForQualificationTypeResponse = S.suspend(() =>
   S.Struct({
@@ -1415,7 +1508,7 @@ export const ListHITsForQualificationTypeResponse = S.suspend(() =>
 export interface ListQualificationTypesResponse {
   NumResults?: number;
   NextToken?: string;
-  QualificationTypes?: QualificationTypeList;
+  QualificationTypes?: QualificationType[];
 }
 export const ListQualificationTypesResponse = S.suspend(() =>
   S.Struct({
@@ -1429,7 +1522,7 @@ export const ListQualificationTypesResponse = S.suspend(() =>
 export interface ListReviewableHITsResponse {
   NextToken?: string;
   NumResults?: number;
-  HITs?: HITList;
+  HITs?: HIT[];
 }
 export const ListReviewableHITsResponse = S.suspend(() =>
   S.Struct({
@@ -1443,7 +1536,7 @@ export const ListReviewableHITsResponse = S.suspend(() =>
 export interface ListWorkersWithQualificationTypeResponse {
   NextToken?: string;
   NumResults?: number;
-  Qualifications?: QualificationList;
+  Qualifications?: Qualification[];
 }
 export const ListWorkersWithQualificationTypeResponse = S.suspend(() =>
   S.Struct({
@@ -1456,12 +1549,12 @@ export const ListWorkersWithQualificationTypeResponse = S.suspend(() =>
 }) as any as S.Schema<ListWorkersWithQualificationTypeResponse>;
 export interface SendTestEventNotificationRequest {
   Notification: NotificationSpecification;
-  TestEventType: string;
+  TestEventType: EventType;
 }
 export const SendTestEventNotificationRequest = S.suspend(() =>
   S.Struct({
     Notification: NotificationSpecification,
-    TestEventType: S.String,
+    TestEventType: EventType,
   }).pipe(
     T.all(
       ns,
@@ -1490,6 +1583,8 @@ export const UpdateQualificationTypeResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateQualificationTypeResponse",
 }) as any as S.Schema<UpdateQualificationTypeResponse>;
+export type NotifyWorkersFailureCode = "SoftFailure" | "HardFailure";
+export const NotifyWorkersFailureCode = S.Literal("SoftFailure", "HardFailure");
 export interface BonusPayment {
   WorkerId?: string;
   BonusAmount?: string;
@@ -1540,13 +1635,13 @@ export const WorkerBlock = S.suspend(() =>
 export type WorkerBlockList = WorkerBlock[];
 export const WorkerBlockList = S.Array(WorkerBlock);
 export interface NotifyWorkersFailureStatus {
-  NotifyWorkersFailureCode?: string;
+  NotifyWorkersFailureCode?: NotifyWorkersFailureCode;
   NotifyWorkersFailureMessage?: string;
   WorkerId?: string;
 }
 export const NotifyWorkersFailureStatus = S.suspend(() =>
   S.Struct({
-    NotifyWorkersFailureCode: S.optional(S.String),
+    NotifyWorkersFailureCode: S.optional(NotifyWorkersFailureCode),
     NotifyWorkersFailureMessage: S.optional(S.String),
     WorkerId: S.optional(S.String),
   }),
@@ -1556,6 +1651,17 @@ export const NotifyWorkersFailureStatus = S.suspend(() =>
 export type NotifyWorkersFailureStatusList = NotifyWorkersFailureStatus[];
 export const NotifyWorkersFailureStatusList = S.Array(
   NotifyWorkersFailureStatus,
+);
+export type ReviewActionStatus =
+  | "Intended"
+  | "Succeeded"
+  | "Failed"
+  | "Cancelled";
+export const ReviewActionStatus = S.Literal(
+  "Intended",
+  "Succeeded",
+  "Failed",
+  "Cancelled",
 );
 export interface CreateHITWithHITTypeResponse {
   HIT?: HIT;
@@ -1595,7 +1701,7 @@ export const GetQualificationScoreResponse = S.suspend(() =>
 export interface ListBonusPaymentsResponse {
   NumResults?: number;
   NextToken?: string;
-  BonusPayments?: BonusPaymentList;
+  BonusPayments?: BonusPayment[];
 }
 export const ListBonusPaymentsResponse = S.suspend(() =>
   S.Struct({
@@ -1609,7 +1715,7 @@ export const ListBonusPaymentsResponse = S.suspend(() =>
 export interface ListQualificationRequestsResponse {
   NumResults?: number;
   NextToken?: string;
-  QualificationRequests?: QualificationRequestList;
+  QualificationRequests?: QualificationRequest[];
 }
 export const ListQualificationRequestsResponse = S.suspend(() =>
   S.Struct({
@@ -1623,7 +1729,7 @@ export const ListQualificationRequestsResponse = S.suspend(() =>
 export interface ListWorkerBlocksResponse {
   NextToken?: string;
   NumResults?: number;
-  WorkerBlocks?: WorkerBlockList;
+  WorkerBlocks?: WorkerBlock[];
 }
 export const ListWorkerBlocksResponse = S.suspend(() =>
   S.Struct({
@@ -1635,7 +1741,7 @@ export const ListWorkerBlocksResponse = S.suspend(() =>
   identifier: "ListWorkerBlocksResponse",
 }) as any as S.Schema<ListWorkerBlocksResponse>;
 export interface NotifyWorkersResponse {
-  NotifyWorkersFailureStatuses?: NotifyWorkersFailureStatusList;
+  NotifyWorkersFailureStatuses?: NotifyWorkersFailureStatus[];
 }
 export const NotifyWorkersResponse = S.suspend(() =>
   S.Struct({
@@ -1671,7 +1777,7 @@ export interface ReviewActionDetail {
   ActionName?: string;
   TargetId?: string;
   TargetType?: string;
-  Status?: string;
+  Status?: ReviewActionStatus;
   CompleteTime?: Date;
   Result?: string;
   ErrorCode?: string;
@@ -1682,7 +1788,7 @@ export const ReviewActionDetail = S.suspend(() =>
     ActionName: S.optional(S.String),
     TargetId: S.optional(S.String),
     TargetType: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ReviewActionStatus),
     CompleteTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Result: S.optional(S.String),
     ErrorCode: S.optional(S.String),
@@ -1693,8 +1799,8 @@ export const ReviewActionDetail = S.suspend(() =>
 export type ReviewActionDetailList = ReviewActionDetail[];
 export const ReviewActionDetailList = S.Array(ReviewActionDetail);
 export interface ReviewReport {
-  ReviewResults?: ReviewResultDetailList;
-  ReviewActions?: ReviewActionDetailList;
+  ReviewResults?: ReviewResultDetail[];
+  ReviewActions?: ReviewActionDetail[];
 }
 export const ReviewReport = S.suspend(() =>
   S.Struct({
@@ -1713,12 +1819,12 @@ export interface CreateHITRequest {
   Description: string;
   Question?: string;
   RequesterAnnotation?: string;
-  QualificationRequirements?: QualificationRequirementList;
+  QualificationRequirements?: QualificationRequirement[];
   UniqueRequestToken?: string;
   AssignmentReviewPolicy?: ReviewPolicy;
   HITReviewPolicy?: ReviewPolicy;
   HITLayoutId?: string;
-  HITLayoutParameters?: HITLayoutParameterList;
+  HITLayoutParameters?: HITLayoutParameter[];
 }
 export const CreateHITRequest = S.suspend(() =>
   S.Struct({
@@ -1804,7 +1910,7 @@ export class ServiceFault extends S.TaggedError<ServiceFault>()(
  */
 export const acceptQualificationRequest: (
   input: AcceptQualificationRequestRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AcceptQualificationRequestResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1829,7 +1935,7 @@ export const acceptQualificationRequest: (
  */
 export const createHITWithHITType: (
   input: CreateHITWithHITTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateHITWithHITTypeResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1847,7 +1953,7 @@ export const createHITWithHITType: (
  */
 export const createQualificationType: (
   input: CreateQualificationTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateQualificationTypeResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1861,7 +1967,7 @@ export const createQualificationType: (
  */
 export const getAssignment: (
   input: GetAssignmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAssignmentResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1886,7 +1992,7 @@ export const getAssignment: (
  */
 export const getQualificationScore: (
   input: GetQualificationScoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetQualificationScoreResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1904,21 +2010,21 @@ export const getQualificationScore: (
 export const listBonusPayments: {
   (
     input: ListBonusPaymentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBonusPaymentsResponse,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListBonusPaymentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBonusPaymentsResponse,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListBonusPaymentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1944,21 +2050,21 @@ export const listBonusPayments: {
 export const listQualificationRequests: {
   (
     input: ListQualificationRequestsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListQualificationRequestsResponse,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListQualificationRequestsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListQualificationRequestsResponse,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListQualificationRequestsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1979,21 +2085,21 @@ export const listQualificationRequests: {
 export const listWorkerBlocks: {
   (
     input: ListWorkerBlocksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkerBlocksResponse,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListWorkerBlocksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkerBlocksResponse,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkerBlocksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2020,7 +2126,7 @@ export const listWorkerBlocks: {
  */
 export const notifyWorkers: (
   input: NotifyWorkersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   NotifyWorkersResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2037,7 +2143,7 @@ export const notifyWorkers: (
  */
 export const createHITType: (
   input: CreateHITTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateHITTypeResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2065,7 +2171,7 @@ export const createHITType: (
  */
 export const getFileUploadURL: (
   input: GetFileUploadURLRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFileUploadURLResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2079,7 +2185,7 @@ export const getFileUploadURL: (
  */
 export const getHIT: (
   input: GetHITRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetHITResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2093,7 +2199,7 @@ export const getHIT: (
  */
 export const getQualificationType: (
   input: GetQualificationTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetQualificationTypeResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2132,21 +2238,21 @@ export const getQualificationType: (
 export const listAssignmentsForHIT: {
   (
     input: ListAssignmentsForHITRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAssignmentsForHITResponse,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListAssignmentsForHITRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAssignmentsForHITResponse,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssignmentsForHITRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2171,21 +2277,21 @@ export const listAssignmentsForHIT: {
 export const listHITs: {
   (
     input: ListHITsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListHITsResponse,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListHITsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListHITsResponse,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListHITsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2209,21 +2315,21 @@ export const listHITs: {
 export const listHITsForQualificationType: {
   (
     input: ListHITsForQualificationTypeRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListHITsForQualificationTypeResponse,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListHITsForQualificationTypeRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListHITsForQualificationTypeResponse,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListHITsForQualificationTypeRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2247,21 +2353,21 @@ export const listHITsForQualificationType: {
 export const listQualificationTypes: {
   (
     input: ListQualificationTypesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListQualificationTypesResponse,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListQualificationTypesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListQualificationTypesResponse,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListQualificationTypesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2283,21 +2389,21 @@ export const listQualificationTypes: {
 export const listReviewableHITs: {
   (
     input: ListReviewableHITsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReviewableHITsResponse,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListReviewableHITsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReviewableHITsResponse,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListReviewableHITsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2319,21 +2425,21 @@ export const listReviewableHITs: {
 export const listWorkersWithQualificationType: {
   (
     input: ListWorkersWithQualificationTypeRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkersWithQualificationTypeResponse,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListWorkersWithQualificationTypeRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkersWithQualificationTypeResponse,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkersWithQualificationTypeRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2357,7 +2463,7 @@ export const listWorkersWithQualificationType: {
  */
 export const sendTestEventNotification: (
   input: SendTestEventNotificationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendTestEventNotificationResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2407,7 +2513,7 @@ export const sendTestEventNotification: (
  */
 export const updateQualificationType: (
   input: UpdateQualificationTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateQualificationTypeResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2437,7 +2543,7 @@ export const updateQualificationType: (
  */
 export const approveAssignment: (
   input: ApproveAssignmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ApproveAssignmentResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2463,7 +2569,7 @@ export const approveAssignment: (
  */
 export const associateQualificationWithWorker: (
   input: AssociateQualificationWithWorkerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateQualificationWithWorkerResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2490,7 +2596,7 @@ export const associateQualificationWithWorker: (
  */
 export const createAdditionalAssignmentsForHIT: (
   input: CreateAdditionalAssignmentsForHITRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAdditionalAssignmentsForHITResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2504,7 +2610,7 @@ export const createAdditionalAssignmentsForHIT: (
  */
 export const createWorkerBlock: (
   input: CreateWorkerBlockRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkerBlockResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2534,7 +2640,7 @@ export const createWorkerBlock: (
  */
 export const deleteHIT: (
   input: DeleteHITRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteHITResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2564,7 +2670,7 @@ export const deleteHIT: (
  */
 export const deleteQualificationType: (
   input: DeleteQualificationTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteQualificationTypeResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2578,7 +2684,7 @@ export const deleteQualificationType: (
  */
 export const deleteWorkerBlock: (
   input: DeleteWorkerBlockRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkerBlockResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2596,7 +2702,7 @@ export const deleteWorkerBlock: (
  */
 export const disassociateQualificationFromWorker: (
   input: DisassociateQualificationFromWorkerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateQualificationFromWorkerResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2612,7 +2718,7 @@ export const disassociateQualificationFromWorker: (
  */
 export const getAccountBalance: (
   input: GetAccountBalanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccountBalanceResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2634,7 +2740,7 @@ export const getAccountBalance: (
  */
 export const rejectAssignment: (
   input: RejectAssignmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RejectAssignmentResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2653,7 +2759,7 @@ export const rejectAssignment: (
  */
 export const rejectQualificationRequest: (
   input: RejectQualificationRequestRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RejectQualificationRequestResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2678,7 +2784,7 @@ export const rejectQualificationRequest: (
  */
 export const sendBonus: (
   input: SendBonusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendBonusResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2693,7 +2799,7 @@ export const sendBonus: (
  */
 export const updateExpirationForHIT: (
   input: UpdateExpirationForHITRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateExpirationForHITResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2709,7 +2815,7 @@ export const updateExpirationForHIT: (
  */
 export const updateHITReviewStatus: (
   input: UpdateHITReviewStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateHITReviewStatusResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2728,7 +2834,7 @@ export const updateHITReviewStatus: (
  */
 export const updateHITTypeOfHIT: (
   input: UpdateHITTypeOfHITRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateHITTypeOfHITResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2751,7 +2857,7 @@ export const updateHITTypeOfHIT: (
  */
 export const updateNotificationSettings: (
   input: UpdateNotificationSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateNotificationSettingsResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2770,21 +2876,21 @@ export const updateNotificationSettings: (
 export const listReviewPolicyResultsForHIT: {
   (
     input: ListReviewPolicyResultsForHITRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReviewPolicyResultsForHITResponse,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListReviewPolicyResultsForHITRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReviewPolicyResultsForHITResponse,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListReviewPolicyResultsForHITRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     RequestError | ServiceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2817,7 +2923,7 @@ export const listReviewPolicyResultsForHIT: {
  */
 export const createHIT: (
   input: CreateHITRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateHITResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

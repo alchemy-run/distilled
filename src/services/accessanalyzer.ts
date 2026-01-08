@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -93,7 +93,7 @@ const rules = T.EndpointResolver((p, _) => {
 export type AnalyzerArn = string;
 export type Name = string;
 export type JobId = string;
-export type AccessCheckPolicyDocument = string | Redacted.Redacted<string>;
+export type AccessCheckPolicyDocument = string | redacted.Redacted<string>;
 export type AccessCheckPolicyType = string;
 export type AccessCheckResourceType = string;
 export type AccessPreviewId = string;
@@ -233,8 +233,8 @@ export const CancelPolicyGenerationResponse = S.suspend(() =>
   identifier: "CancelPolicyGenerationResponse",
 }) as any as S.Schema<CancelPolicyGenerationResponse>;
 export interface CheckNoNewAccessRequest {
-  newPolicyDocument: string | Redacted.Redacted<string>;
-  existingPolicyDocument: string | Redacted.Redacted<string>;
+  newPolicyDocument: string | redacted.Redacted<string>;
+  existingPolicyDocument: string | redacted.Redacted<string>;
   policyType: string;
 }
 export const CheckNoNewAccessRequest = S.suspend(() =>
@@ -256,7 +256,7 @@ export const CheckNoNewAccessRequest = S.suspend(() =>
   identifier: "CheckNoNewAccessRequest",
 }) as any as S.Schema<CheckNoNewAccessRequest>;
 export interface CheckNoPublicAccessRequest {
-  policyDocument: string | Redacted.Redacted<string>;
+  policyDocument: string | redacted.Redacted<string>;
   resourceType: string;
 }
 export const CheckNoPublicAccessRequest = S.suspend(() =>
@@ -508,9 +508,9 @@ export const ListAnalyzedResourcesRequest = S.suspend(() =>
 export type ValueList = string[];
 export const ValueList = S.Array(S.String);
 export interface Criterion {
-  eq?: ValueList;
-  neq?: ValueList;
-  contains?: ValueList;
+  eq?: string[];
+  neq?: string[];
+  contains?: string[];
   exists?: boolean;
 }
 export const Criterion = S.suspend(() =>
@@ -535,7 +535,7 @@ export const SortCriteria = S.suspend(() =>
 ).annotations({ identifier: "SortCriteria" }) as any as S.Schema<SortCriteria>;
 export interface ListFindingsV2Request {
   analyzerArn: string;
-  filter?: FilterCriteriaMap;
+  filter?: { [key: string]: Criterion };
   maxResults?: number;
   nextToken?: string;
   sort?: SortCriteria;
@@ -631,7 +631,7 @@ export const StartResourceScanResponse = S.suspend(() =>
 }) as any as S.Schema<StartResourceScanResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeys;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -657,7 +657,7 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 export interface UpdateFindingsRequest {
   analyzerArn: string;
   status: string;
-  ids?: FindingIdList;
+  ids?: string[];
   resourceArn?: string;
   clientToken?: string;
 }
@@ -735,11 +735,11 @@ export type AccountIdsList = string[];
 export const AccountIdsList = S.Array(S.String);
 export type TagsMap = { [key: string]: string };
 export const TagsMap = S.Record({ key: S.String, value: S.String });
-export type TagsList = TagsMap[];
+export type TagsList = { [key: string]: string }[];
 export const TagsList = S.Array(TagsMap);
 export interface AnalysisRuleCriteria {
-  accountIds?: AccountIdsList;
-  resourceTags?: TagsList;
+  accountIds?: string[];
+  resourceTags?: { [key: string]: string }[];
 }
 export const AnalysisRuleCriteria = S.suspend(() =>
   S.Struct({
@@ -752,7 +752,7 @@ export const AnalysisRuleCriteria = S.suspend(() =>
 export type AnalysisRuleCriteriaList = AnalysisRuleCriteria[];
 export const AnalysisRuleCriteriaList = S.Array(AnalysisRuleCriteria);
 export interface AnalysisRule {
-  exclusions?: AnalysisRuleCriteriaList;
+  exclusions?: AnalysisRuleCriteria[];
 }
 export const AnalysisRule = S.suspend(() =>
   S.Struct({ exclusions: S.optional(AnalysisRuleCriteriaList) }),
@@ -774,9 +774,9 @@ export const ResourceTypeList = S.Array(S.String);
 export type ResourceArnsList = string[];
 export const ResourceArnsList = S.Array(S.String);
 export interface InternalAccessAnalysisRuleCriteria {
-  accountIds?: AccountIdsList;
-  resourceTypes?: ResourceTypeList;
-  resourceArns?: ResourceArnsList;
+  accountIds?: string[];
+  resourceTypes?: string[];
+  resourceArns?: string[];
 }
 export const InternalAccessAnalysisRuleCriteria = S.suspend(() =>
   S.Struct({
@@ -793,7 +793,7 @@ export const InternalAccessAnalysisRuleCriteriaList = S.Array(
   InternalAccessAnalysisRuleCriteria,
 );
 export interface InternalAccessAnalysisRule {
-  inclusions?: InternalAccessAnalysisRuleCriteriaList;
+  inclusions?: InternalAccessAnalysisRuleCriteria[];
 }
 export const InternalAccessAnalysisRule = S.suspend(() =>
   S.Struct({ inclusions: S.optional(InternalAccessAnalysisRuleCriteriaList) }),
@@ -817,7 +817,7 @@ export const AnalyzerConfiguration = S.Union(
 );
 export interface UpdateAnalyzerRequest {
   analyzerName: string;
-  configuration?: (typeof AnalyzerConfiguration)["Type"];
+  configuration?: AnalyzerConfiguration;
 }
 export const UpdateAnalyzerRequest = S.suspend(() =>
   S.Struct({
@@ -887,7 +887,7 @@ export const ListAnalyzersRequest = S.suspend(() =>
 export interface CreateArchiveRuleRequest {
   analyzerName: string;
   ruleName: string;
-  filter: FilterCriteriaMap;
+  filter: { [key: string]: Criterion };
   clientToken?: string;
 }
 export const CreateArchiveRuleRequest = S.suspend(() =>
@@ -942,7 +942,7 @@ export const GetArchiveRuleRequest = S.suspend(() =>
 export interface UpdateArchiveRuleRequest {
   analyzerName: string;
   ruleName: string;
-  filter: FilterCriteriaMap;
+  filter: { [key: string]: Criterion };
   clientToken?: string;
 }
 export const UpdateArchiveRuleRequest = S.suspend(() =>
@@ -1033,8 +1033,8 @@ export const ActionsList = S.Array(S.String);
 export type ResourcesList = string[];
 export const ResourcesList = S.Array(S.String);
 export interface Access {
-  actions?: ActionsList;
-  resources?: ResourcesList;
+  actions?: string[];
+  resources?: string[];
 }
 export const Access = S.suspend(() =>
   S.Struct({
@@ -1054,7 +1054,7 @@ export const PolicyGenerationDetails = S.suspend(() =>
 }) as any as S.Schema<PolicyGenerationDetails>;
 export interface InlineArchiveRule {
   ruleName: string;
-  filter: FilterCriteriaMap;
+  filter: { [key: string]: Criterion };
 }
 export const InlineArchiveRule = S.suspend(() =>
   S.Struct({ ruleName: S.String, filter: FilterCriteriaMap }),
@@ -1076,10 +1076,10 @@ export interface AnalyzerSummary {
   createdAt: Date;
   lastResourceAnalyzed?: string;
   lastResourceAnalyzedAt?: Date;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   status: string;
   statusReason?: StatusReason;
-  configuration?: (typeof AnalyzerConfiguration)["Type"];
+  configuration?: AnalyzerConfiguration;
 }
 export const AnalyzerSummary = S.suspend(() =>
   S.Struct({
@@ -1103,7 +1103,7 @@ export type AnalyzersList = AnalyzerSummary[];
 export const AnalyzersList = S.Array(AnalyzerSummary);
 export interface ArchiveRuleSummary {
   ruleName: string;
-  filter: FilterCriteriaMap;
+  filter: { [key: string]: Criterion };
   createdAt: Date;
   updatedAt: Date;
 }
@@ -1122,8 +1122,8 @@ export const ArchiveRulesList = S.Array(ArchiveRuleSummary);
 export type RegionList = string[];
 export const RegionList = S.Array(S.String);
 export interface CheckAccessNotGrantedRequest {
-  policyDocument: string | Redacted.Redacted<string>;
-  access: AccessList;
+  policyDocument: string | redacted.Redacted<string>;
+  access: Access[];
   policyType: string;
 }
 export const CheckAccessNotGrantedRequest = S.suspend(() =>
@@ -1163,7 +1163,7 @@ export const ReasonSummaryList = S.Array(ReasonSummary);
 export interface CheckNoPublicAccessResponse {
   result?: string;
   message?: string;
-  reasons?: ReasonSummaryList;
+  reasons?: ReasonSummary[];
 }
 export const CheckNoPublicAccessResponse = S.suspend(() =>
   S.Struct({
@@ -1176,7 +1176,7 @@ export const CheckNoPublicAccessResponse = S.suspend(() =>
 }) as any as S.Schema<CheckNoPublicAccessResponse>;
 export interface ListFindingsRequest {
   analyzerArn: string;
-  filter?: FilterCriteriaMap;
+  filter?: { [key: string]: Criterion };
   sort?: SortCriteria;
   nextToken?: string;
   maxResults?: number;
@@ -1202,7 +1202,7 @@ export const ListFindingsRequest = S.suspend(() =>
   identifier: "ListFindingsRequest",
 }) as any as S.Schema<ListFindingsRequest>;
 export interface ListTagsForResourceResponse {
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagsMap) }),
@@ -1211,7 +1211,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagsMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1235,7 +1235,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface UpdateAnalyzerResponse {
-  configuration?: (typeof AnalyzerConfiguration)["Type"];
+  configuration?: AnalyzerConfiguration;
 }
 export const UpdateAnalyzerResponse = S.suspend(() =>
   S.Struct({ configuration: S.optional(AnalyzerConfiguration) }),
@@ -1243,7 +1243,7 @@ export const UpdateAnalyzerResponse = S.suspend(() =>
   identifier: "UpdateAnalyzerResponse",
 }) as any as S.Schema<UpdateAnalyzerResponse>;
 export interface ListAnalyzersResponse {
-  analyzers: AnalyzersList;
+  analyzers: AnalyzerSummary[];
   nextToken?: string;
 }
 export const ListAnalyzersResponse = S.suspend(() =>
@@ -1252,7 +1252,7 @@ export const ListAnalyzersResponse = S.suspend(() =>
   identifier: "ListAnalyzersResponse",
 }) as any as S.Schema<ListAnalyzersResponse>;
 export interface ListArchiveRulesResponse {
-  archiveRules: ArchiveRulesList;
+  archiveRules: ArchiveRuleSummary[];
   nextToken?: string;
 }
 export const ListArchiveRulesResponse = S.suspend(() =>
@@ -1266,7 +1266,7 @@ export type SharedViaList = string[];
 export const SharedViaList = S.Array(S.String);
 export interface Trail {
   cloudTrailArn: string;
-  regions?: RegionList;
+  regions?: string[];
   allRegions?: boolean;
 }
 export const Trail = S.suspend(() =>
@@ -1289,8 +1289,8 @@ export interface AnalyzedResource {
   analyzedAt: Date;
   updatedAt: Date;
   isPublic: boolean;
-  actions?: ActionList;
-  sharedVia?: SharedViaList;
+  actions?: string[];
+  sharedVia?: string[];
   status?: string;
   resourceOwnerAccount: string;
   error?: string;
@@ -1416,7 +1416,7 @@ export const PolicyGeneration = S.suspend(() =>
 export type PolicyGenerationList = PolicyGeneration[];
 export const PolicyGenerationList = S.Array(PolicyGeneration);
 export interface CloudTrailDetails {
-  trails: TrailList;
+  trails: Trail[];
   accessRole: string;
   startTime: Date;
   endTime?: Date;
@@ -1432,8 +1432,8 @@ export const CloudTrailDetails = S.suspend(() =>
   identifier: "CloudTrailDetails",
 }) as any as S.Schema<CloudTrailDetails>;
 export interface EbsSnapshotConfiguration {
-  userIds?: EbsUserIdList;
-  groups?: EbsGroupList;
+  userIds?: string[];
+  groups?: string[];
   kmsKeyId?: string;
 }
 export const EbsSnapshotConfiguration = S.suspend(() =>
@@ -1516,7 +1516,7 @@ export const DynamodbTableConfiguration = S.suspend(() =>
 export interface CheckAccessNotGrantedResponse {
   result?: string;
   message?: string;
-  reasons?: ReasonSummaryList;
+  reasons?: ReasonSummary[];
 }
 export const CheckAccessNotGrantedResponse = S.suspend(() =>
   S.Struct({
@@ -1530,7 +1530,7 @@ export const CheckAccessNotGrantedResponse = S.suspend(() =>
 export interface CheckNoNewAccessResponse {
   result?: string;
   message?: string;
-  reasons?: ReasonSummaryList;
+  reasons?: ReasonSummary[];
 }
 export const CheckNoNewAccessResponse = S.suspend(() =>
   S.Struct({
@@ -1554,7 +1554,7 @@ export const GetAnalyzedResourceResponse = S.suspend(() =>
 export interface ListAccessPreviewFindingsRequest {
   accessPreviewId: string;
   analyzerArn: string;
-  filter?: FilterCriteriaMap;
+  filter?: { [key: string]: Criterion };
   nextToken?: string;
   maxResults?: number;
 }
@@ -1579,7 +1579,7 @@ export const ListAccessPreviewFindingsRequest = S.suspend(() =>
   identifier: "ListAccessPreviewFindingsRequest",
 }) as any as S.Schema<ListAccessPreviewFindingsRequest>;
 export interface ListAccessPreviewsResponse {
-  accessPreviews: AccessPreviewsList;
+  accessPreviews: AccessPreviewSummary[];
   nextToken?: string;
 }
 export const ListAccessPreviewsResponse = S.suspend(() =>
@@ -1591,7 +1591,7 @@ export const ListAccessPreviewsResponse = S.suspend(() =>
   identifier: "ListAccessPreviewsResponse",
 }) as any as S.Schema<ListAccessPreviewsResponse>;
 export interface ListAnalyzedResourcesResponse {
-  analyzedResources: AnalyzedResourcesList;
+  analyzedResources: AnalyzedResourceSummary[];
   nextToken?: string;
 }
 export const ListAnalyzedResourcesResponse = S.suspend(() =>
@@ -1603,7 +1603,7 @@ export const ListAnalyzedResourcesResponse = S.suspend(() =>
   identifier: "ListAnalyzedResourcesResponse",
 }) as any as S.Schema<ListAnalyzedResourcesResponse>;
 export interface ListFindingsV2Response {
-  findings: FindingsListV2;
+  findings: FindingSummaryV2[];
   nextToken?: string;
 }
 export const ListFindingsV2Response = S.suspend(() =>
@@ -1612,7 +1612,7 @@ export const ListFindingsV2Response = S.suspend(() =>
   identifier: "ListFindingsV2Response",
 }) as any as S.Schema<ListFindingsV2Response>;
 export interface ListPolicyGenerationsResponse {
-  policyGenerations: PolicyGenerationList;
+  policyGenerations: PolicyGeneration[];
   nextToken?: string;
 }
 export const ListPolicyGenerationsResponse = S.suspend(() =>
@@ -1698,13 +1698,13 @@ export const FindingSource = S.suspend(() =>
 export type FindingSourceList = FindingSource[];
 export const FindingSourceList = S.Array(FindingSource);
 export interface InternalAccessDetails {
-  action?: ActionList;
-  condition?: ConditionKeyMap;
-  principal?: PrincipalMap;
+  action?: string[];
+  condition?: { [key: string]: string };
+  principal?: { [key: string]: string };
   principalOwnerAccount?: string;
   accessType?: string;
   principalType?: string;
-  sources?: FindingSourceList;
+  sources?: FindingSource[];
   resourceControlPolicyRestriction?: string;
   serviceControlPolicyRestriction?: string;
 }
@@ -1724,11 +1724,11 @@ export const InternalAccessDetails = S.suspend(() =>
   identifier: "InternalAccessDetails",
 }) as any as S.Schema<InternalAccessDetails>;
 export interface ExternalAccessDetails {
-  action?: ActionList;
-  condition: ConditionKeyMap;
+  action?: string[];
+  condition: { [key: string]: string };
   isPublic?: boolean;
-  principal?: PrincipalMap;
-  sources?: FindingSourceList;
+  principal?: { [key: string]: string };
+  sources?: FindingSource[];
   resourceControlPolicyRestriction?: string;
 }
 export const ExternalAccessDetails = S.suspend(() =>
@@ -1810,8 +1810,8 @@ export const RdsDbSnapshotAccountIdsList = S.Array(S.String);
 export type KmsConstraintsMap = { [key: string]: string };
 export const KmsConstraintsMap = S.Record({ key: S.String, value: S.String });
 export interface KmsGrantConstraints {
-  encryptionContextEquals?: KmsConstraintsMap;
-  encryptionContextSubset?: KmsConstraintsMap;
+  encryptionContextEquals?: { [key: string]: string };
+  encryptionContextSubset?: { [key: string]: string };
 }
 export const KmsGrantConstraints = S.suspend(() =>
   S.Struct({
@@ -1822,7 +1822,7 @@ export const KmsGrantConstraints = S.suspend(() =>
   identifier: "KmsGrantConstraints",
 }) as any as S.Schema<KmsGrantConstraints>;
 export interface KmsGrantConfiguration {
-  operations: KmsGrantOperationsList;
+  operations: string[];
   granteePrincipal: string;
   retiringPrincipal?: string;
   constraints?: KmsGrantConstraints;
@@ -1842,8 +1842,8 @@ export const KmsGrantConfiguration = S.suspend(() =>
 export type KmsGrantConfigurationsList = KmsGrantConfiguration[];
 export const KmsGrantConfigurationsList = S.Array(KmsGrantConfiguration);
 export interface KmsKeyConfiguration {
-  keyPolicies?: KmsKeyPoliciesMap;
-  grants?: KmsGrantConfigurationsList;
+  keyPolicies?: { [key: string]: string };
+  grants?: KmsGrantConfiguration[];
 }
 export const KmsKeyConfiguration = S.suspend(() =>
   S.Struct({
@@ -1853,21 +1853,19 @@ export const KmsKeyConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "KmsKeyConfiguration",
 }) as any as S.Schema<KmsKeyConfiguration>;
-export type RdsDbClusterSnapshotAttributeValue = {
-  accountIds: RdsDbClusterSnapshotAccountIdsList;
-};
+export type RdsDbClusterSnapshotAttributeValue = { accountIds: string[] };
 export const RdsDbClusterSnapshotAttributeValue = S.Union(
   S.Struct({ accountIds: RdsDbClusterSnapshotAccountIdsList }),
 );
 export type RdsDbClusterSnapshotAttributesMap = {
-  [key: string]: (typeof RdsDbClusterSnapshotAttributeValue)["Type"];
+  [key: string]: RdsDbClusterSnapshotAttributeValue;
 };
 export const RdsDbClusterSnapshotAttributesMap = S.Record({
   key: S.String,
   value: RdsDbClusterSnapshotAttributeValue,
 });
 export interface RdsDbClusterSnapshotConfiguration {
-  attributes?: RdsDbClusterSnapshotAttributesMap;
+  attributes?: { [key: string]: RdsDbClusterSnapshotAttributeValue };
   kmsKeyId?: string;
 }
 export const RdsDbClusterSnapshotConfiguration = S.suspend(() =>
@@ -1878,21 +1876,19 @@ export const RdsDbClusterSnapshotConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "RdsDbClusterSnapshotConfiguration",
 }) as any as S.Schema<RdsDbClusterSnapshotConfiguration>;
-export type RdsDbSnapshotAttributeValue = {
-  accountIds: RdsDbSnapshotAccountIdsList;
-};
+export type RdsDbSnapshotAttributeValue = { accountIds: string[] };
 export const RdsDbSnapshotAttributeValue = S.Union(
   S.Struct({ accountIds: RdsDbSnapshotAccountIdsList }),
 );
 export type RdsDbSnapshotAttributesMap = {
-  [key: string]: (typeof RdsDbSnapshotAttributeValue)["Type"];
+  [key: string]: RdsDbSnapshotAttributeValue;
 };
 export const RdsDbSnapshotAttributesMap = S.Record({
   key: S.String,
   value: RdsDbSnapshotAttributeValue,
 });
 export interface RdsDbSnapshotConfiguration {
-  attributes?: RdsDbSnapshotAttributesMap;
+  attributes?: { [key: string]: RdsDbSnapshotAttributeValue };
   kmsKeyId?: string;
 }
 export const RdsDbSnapshotConfiguration = S.suspend(() =>
@@ -1910,7 +1906,7 @@ export const AclGrantee = S.Union(
 );
 export interface S3BucketAclGrantConfiguration {
   permission: string;
-  grantee: (typeof AclGrantee)["Type"];
+  grantee: AclGrantee;
 }
 export const S3BucketAclGrantConfiguration = S.suspend(() =>
   S.Struct({ permission: S.String, grantee: AclGrantee }),
@@ -1944,7 +1940,7 @@ export const NetworkOriginConfiguration = S.Union(
 export interface S3AccessPointConfiguration {
   accessPointPolicy?: string;
   publicAccessBlock?: S3PublicAccessBlockConfiguration;
-  networkOrigin?: (typeof NetworkOriginConfiguration)["Type"];
+  networkOrigin?: NetworkOriginConfiguration;
 }
 export const S3AccessPointConfiguration = S.suspend(() =>
   S.Struct({
@@ -1964,9 +1960,9 @@ export const S3AccessPointConfigurationsMap = S.Record({
 });
 export interface S3BucketConfiguration {
   bucketPolicy?: string;
-  bucketAclGrants?: S3BucketAclGrantConfigurationsList;
+  bucketAclGrants?: S3BucketAclGrantConfiguration[];
   bucketPublicAccessBlock?: S3PublicAccessBlockConfiguration;
-  accessPoints?: S3AccessPointConfigurationsMap;
+  accessPoints?: { [key: string]: S3AccessPointConfiguration };
 }
 export const S3BucketConfiguration = S.suspend(() =>
   S.Struct({
@@ -1980,7 +1976,7 @@ export const S3BucketConfiguration = S.suspend(() =>
 }) as any as S.Schema<S3BucketConfiguration>;
 export interface S3ExpressDirectoryAccessPointConfiguration {
   accessPointPolicy?: string;
-  networkOrigin?: (typeof NetworkOriginConfiguration)["Type"];
+  networkOrigin?: NetworkOriginConfiguration;
 }
 export const S3ExpressDirectoryAccessPointConfiguration = S.suspend(() =>
   S.Struct({
@@ -1999,7 +1995,7 @@ export const S3ExpressDirectoryAccessPointConfigurationsMap = S.Record({
 });
 export interface S3ExpressDirectoryBucketConfiguration {
   bucketPolicy?: string;
-  accessPoints?: S3ExpressDirectoryAccessPointConfigurationsMap;
+  accessPoints?: { [key: string]: S3ExpressDirectoryAccessPointConfiguration };
 }
 export const S3ExpressDirectoryBucketConfiguration = S.suspend(() =>
   S.Struct({
@@ -2040,9 +2036,7 @@ export const Configuration = S.Union(
   S.Struct({ dynamodbStream: DynamodbStreamConfiguration }),
   S.Struct({ dynamodbTable: DynamodbTableConfiguration }),
 );
-export type ConfigurationsMap = {
-  [key: string]: (typeof Configuration)["Type"];
-};
+export type ConfigurationsMap = { [key: string]: Configuration };
 export const ConfigurationsMap = S.Record({
   key: S.String,
   value: Configuration,
@@ -2050,7 +2044,7 @@ export const ConfigurationsMap = S.Record({
 export interface AccessPreview {
   id: string;
   analyzerArn: string;
-  configurations: ConfigurationsMap;
+  configurations: { [key: string]: Configuration };
   createdAt: Date;
   status: string;
   statusReason?: AccessPreviewStatusReason;
@@ -2075,7 +2069,7 @@ export const RecommendedStep = S.Union(
     unusedPermissionsRecommendedStep: UnusedPermissionsRecommendedStep,
   }),
 );
-export type RecommendedStepList = (typeof RecommendedStep)["Type"][];
+export type RecommendedStepList = RecommendedStep[];
 export const RecommendedStepList = S.Array(RecommendedStep);
 export interface JobDetails {
   jobId: string;
@@ -2095,19 +2089,19 @@ export const JobDetails = S.suspend(() =>
 ).annotations({ identifier: "JobDetails" }) as any as S.Schema<JobDetails>;
 export interface FindingSummary {
   id: string;
-  principal?: PrincipalMap;
-  action?: ActionList;
+  principal?: { [key: string]: string };
+  action?: string[];
   resource?: string;
   isPublic?: boolean;
   resourceType: string;
-  condition: ConditionKeyMap;
+  condition: { [key: string]: string };
   createdAt: Date;
   analyzedAt: Date;
   updatedAt: Date;
   status: string;
   resourceOwnerAccount: string;
   error?: string;
-  sources?: FindingSourceList;
+  sources?: FindingSource[];
   resourceControlPolicyRestriction?: string;
 }
 export const FindingSummary = S.suspend(() =>
@@ -2175,7 +2169,7 @@ export interface GetFindingRecommendationResponse {
   nextToken?: string;
   error?: RecommendationError;
   resourceArn: string;
-  recommendedSteps?: RecommendedStepList;
+  recommendedSteps?: RecommendedStep[];
   recommendationType: string;
   status: string;
 }
@@ -2194,7 +2188,7 @@ export const GetFindingRecommendationResponse = S.suspend(() =>
   identifier: "GetFindingRecommendationResponse",
 }) as any as S.Schema<GetFindingRecommendationResponse>;
 export interface ListFindingsResponse {
-  findings: FindingsList;
+  findings: FindingSummary[];
   nextToken?: string;
 }
 export const ListFindingsResponse = S.suspend(() =>
@@ -2219,7 +2213,7 @@ export const GetAnalyzerResponse = S.suspend(() =>
   identifier: "GetAnalyzerResponse",
 }) as any as S.Schema<GetAnalyzerResponse>;
 export interface UnusedPermissionDetails {
-  actions?: UnusedActionList;
+  actions?: UnusedAction[];
   serviceNamespace: string;
   lastAccessed?: Date;
 }
@@ -2267,7 +2261,7 @@ export const FindingAggregationAccountDetailsMap = S.Record({
 });
 export interface TrailProperties {
   cloudTrailArn: string;
-  regions?: RegionList;
+  regions?: string[];
   allRegions?: boolean;
 }
 export const TrailProperties = S.suspend(() =>
@@ -2298,19 +2292,19 @@ export const Position = S.suspend(() =>
 ).annotations({ identifier: "Position" }) as any as S.Schema<Position>;
 export interface Finding {
   id: string;
-  principal?: PrincipalMap;
-  action?: ActionList;
+  principal?: { [key: string]: string };
+  action?: string[];
   resource?: string;
   isPublic?: boolean;
   resourceType: string;
-  condition: ConditionKeyMap;
+  condition: { [key: string]: string };
   createdAt: Date;
   analyzedAt: Date;
   updatedAt: Date;
   status: string;
   resourceOwnerAccount: string;
   error?: string;
-  sources?: FindingSourceList;
+  sources?: FindingSource[];
   resourceControlPolicyRestriction?: string;
 }
 export const Finding = S.suspend(() =>
@@ -2347,15 +2341,15 @@ export const FindingDetails = S.Union(
   S.Struct({ unusedIamRoleDetails: UnusedIamRoleDetails }),
   S.Struct({ unusedIamUserPasswordDetails: UnusedIamUserPasswordDetails }),
 );
-export type FindingDetailsList = (typeof FindingDetails)["Type"][];
+export type FindingDetailsList = FindingDetails[];
 export const FindingDetailsList = S.Array(FindingDetails);
 export interface AccessPreviewFinding {
   id: string;
   existingFindingId?: string;
   existingFindingStatus?: string;
-  principal?: PrincipalMap;
-  action?: ActionList;
-  condition?: ConditionKeyMap;
+  principal?: { [key: string]: string };
+  action?: string[];
+  condition?: { [key: string]: string };
   resource?: string;
   isPublic?: boolean;
   resourceType: string;
@@ -2364,7 +2358,7 @@ export interface AccessPreviewFinding {
   status: string;
   resourceOwnerAccount: string;
   error?: string;
-  sources?: FindingSourceList;
+  sources?: FindingSource[];
   resourceControlPolicyRestriction?: string;
 }
 export const AccessPreviewFinding = S.suspend(() =>
@@ -2406,7 +2400,7 @@ export const InternalAccessResourceTypeStatisticsMap = S.Record({
 export interface FindingAggregationAccountDetails {
   account?: string;
   numberOfActiveFindings?: number;
-  details?: FindingAggregationAccountDetailsMap;
+  details?: { [key: string]: number };
 }
 export const FindingAggregationAccountDetails = S.suspend(() =>
   S.Struct({
@@ -2420,7 +2414,7 @@ export const FindingAggregationAccountDetails = S.suspend(() =>
 export type AccountAggregations = FindingAggregationAccountDetails[];
 export const AccountAggregations = S.Array(FindingAggregationAccountDetails);
 export interface CloudTrailProperties {
-  trailProperties: TrailPropertiesList;
+  trailProperties: TrailProperties[];
   startTime: Date;
   endTime: Date;
 }
@@ -2444,7 +2438,7 @@ export const PathElement = S.Union(
   S.Struct({ substring: Substring }),
   S.Struct({ value: S.String }),
 );
-export type PathElementList = (typeof PathElement)["Type"][];
+export type PathElementList = PathElement[];
 export const PathElementList = S.Array(PathElement);
 export interface Span {
   start: Position;
@@ -2472,7 +2466,7 @@ export interface GetFindingV2Response {
   resourceOwnerAccount: string;
   status: string;
   updatedAt: Date;
-  findingDetails: FindingDetailsList;
+  findingDetails: FindingDetails[];
   findingType?: string;
 }
 export const GetFindingV2Response = S.suspend(() =>
@@ -2494,7 +2488,7 @@ export const GetFindingV2Response = S.suspend(() =>
   identifier: "GetFindingV2Response",
 }) as any as S.Schema<GetFindingV2Response>;
 export interface ListAccessPreviewFindingsResponse {
-  findings: AccessPreviewFindingsList;
+  findings: AccessPreviewFinding[];
   nextToken?: string;
 }
 export const ListAccessPreviewFindingsResponse = S.suspend(() =>
@@ -2508,10 +2502,10 @@ export const ListAccessPreviewFindingsResponse = S.suspend(() =>
 export interface CreateAnalyzerRequest {
   analyzerName: string;
   type: string;
-  archiveRules?: InlineArchiveRulesList;
-  tags?: TagsMap;
+  archiveRules?: InlineArchiveRule[];
+  tags?: { [key: string]: string };
   clientToken?: string;
-  configuration?: (typeof AnalyzerConfiguration)["Type"];
+  configuration?: AnalyzerConfiguration;
 }
 export const CreateAnalyzerRequest = S.suspend(() =>
   S.Struct({
@@ -2535,7 +2529,7 @@ export const CreateAnalyzerRequest = S.suspend(() =>
   identifier: "CreateAnalyzerRequest",
 }) as any as S.Schema<CreateAnalyzerRequest>;
 export interface ExternalAccessFindingsStatistics {
-  resourceTypeStatistics?: ResourceTypeStatisticsMap;
+  resourceTypeStatistics?: { [key: string]: ResourceTypeDetails };
   totalActiveFindings?: number;
   totalArchivedFindings?: number;
   totalResolvedFindings?: number;
@@ -2551,7 +2545,7 @@ export const ExternalAccessFindingsStatistics = S.suspend(() =>
   identifier: "ExternalAccessFindingsStatistics",
 }) as any as S.Schema<ExternalAccessFindingsStatistics>;
 export interface InternalAccessFindingsStatistics {
-  resourceTypeStatistics?: InternalAccessResourceTypeStatisticsMap;
+  resourceTypeStatistics?: { [key: string]: InternalAccessResourceTypeDetails };
   totalActiveFindings?: number;
   totalArchivedFindings?: number;
   totalResolvedFindings?: number;
@@ -2567,8 +2561,8 @@ export const InternalAccessFindingsStatistics = S.suspend(() =>
   identifier: "InternalAccessFindingsStatistics",
 }) as any as S.Schema<InternalAccessFindingsStatistics>;
 export interface UnusedAccessFindingsStatistics {
-  unusedAccessTypeStatistics?: UnusedAccessTypeStatisticsList;
-  topAccounts?: AccountAggregations;
+  unusedAccessTypeStatistics?: UnusedAccessTypeStatistics[];
+  topAccounts?: FindingAggregationAccountDetails[];
   totalActiveFindings?: number;
   totalArchivedFindings?: number;
   totalResolvedFindings?: number;
@@ -2599,7 +2593,7 @@ export const GeneratedPolicyProperties = S.suspend(() =>
   identifier: "GeneratedPolicyProperties",
 }) as any as S.Schema<GeneratedPolicyProperties>;
 export interface Location {
-  path: PathElementList;
+  path: PathElement[];
   span: Span;
 }
 export const Location = S.suspend(() =>
@@ -2620,11 +2614,11 @@ export const FindingsStatistics = S.Union(
   }),
   S.Struct({ unusedAccessFindingsStatistics: UnusedAccessFindingsStatistics }),
 );
-export type FindingsStatisticsList = (typeof FindingsStatistics)["Type"][];
+export type FindingsStatisticsList = FindingsStatistics[];
 export const FindingsStatisticsList = S.Array(FindingsStatistics);
 export interface GeneratedPolicyResult {
   properties: GeneratedPolicyProperties;
-  generatedPolicies?: GeneratedPolicyList;
+  generatedPolicies?: GeneratedPolicy[];
 }
 export const GeneratedPolicyResult = S.suspend(() =>
   S.Struct({
@@ -2650,7 +2644,7 @@ export interface ValidatePolicyFinding {
   findingType: string;
   issueCode: string;
   learnMoreLink: string;
-  locations: LocationList;
+  locations: Location[];
 }
 export const ValidatePolicyFinding = S.suspend(() =>
   S.Struct({
@@ -2666,7 +2660,7 @@ export const ValidatePolicyFinding = S.suspend(() =>
 export type ValidatePolicyFindingList = ValidatePolicyFinding[];
 export const ValidatePolicyFindingList = S.Array(ValidatePolicyFinding);
 export interface GetFindingsStatisticsResponse {
-  findingsStatistics?: FindingsStatisticsList;
+  findingsStatistics?: FindingsStatistics[];
   lastUpdatedAt?: Date;
 }
 export const GetFindingsStatisticsResponse = S.suspend(() =>
@@ -2690,7 +2684,7 @@ export const GetGeneratedPolicyResponse = S.suspend(() =>
   identifier: "GetGeneratedPolicyResponse",
 }) as any as S.Schema<GetGeneratedPolicyResponse>;
 export interface ValidatePolicyResponse {
-  findings: ValidatePolicyFindingList;
+  findings: ValidatePolicyFinding[];
   nextToken?: string;
 }
 export const ValidatePolicyResponse = S.suspend(() =>
@@ -2711,7 +2705,7 @@ export const CreateAnalyzerResponse = S.suspend(() =>
 }) as any as S.Schema<CreateAnalyzerResponse>;
 export interface CreateAccessPreviewRequest {
   analyzerArn: string;
-  configurations: ConfigurationsMap;
+  configurations: { [key: string]: Configuration };
   clientToken?: string;
 }
 export const CreateAccessPreviewRequest = S.suspend(() =>
@@ -2799,7 +2793,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listPolicyGenerations: {
   (
     input: ListPolicyGenerationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPolicyGenerationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2810,7 +2804,7 @@ export const listPolicyGenerations: {
   >;
   pages: (
     input: ListPolicyGenerationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPolicyGenerationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2821,7 +2815,7 @@ export const listPolicyGenerations: {
   >;
   items: (
     input: ListPolicyGenerationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PolicyGeneration,
     | AccessDeniedException
     | InternalServerException
@@ -2852,7 +2846,7 @@ export const listPolicyGenerations: {
 export const validatePolicy: {
   (
     input: ValidatePolicyRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ValidatePolicyResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2863,7 +2857,7 @@ export const validatePolicy: {
   >;
   pages: (
     input: ValidatePolicyRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ValidatePolicyResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2874,7 +2868,7 @@ export const validatePolicy: {
   >;
   items: (
     input: ValidatePolicyRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ValidatePolicyFinding,
     | AccessDeniedException
     | InternalServerException
@@ -2904,7 +2898,7 @@ export const validatePolicy: {
  */
 export const createAnalyzer: (
   input: CreateAnalyzerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAnalyzerResponse,
   | AccessDeniedException
   | ConflictException
@@ -2931,7 +2925,7 @@ export const createAnalyzer: (
  */
 export const getAnalyzer: (
   input: GetAnalyzerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAnalyzerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2958,7 +2952,7 @@ export const getAnalyzer: (
  */
 export const getAnalyzedResource: (
   input: GetAnalyzedResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAnalyzedResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2984,7 +2978,7 @@ export const getAnalyzedResource: (
 export const listAccessPreviews: {
   (
     input: ListAccessPreviewsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccessPreviewsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2996,7 +2990,7 @@ export const listAccessPreviews: {
   >;
   pages: (
     input: ListAccessPreviewsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccessPreviewsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3008,7 +3002,7 @@ export const listAccessPreviews: {
   >;
   items: (
     input: ListAccessPreviewsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AccessPreviewSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3041,7 +3035,7 @@ export const listAccessPreviews: {
 export const listAnalyzedResources: {
   (
     input: ListAnalyzedResourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAnalyzedResourcesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3053,7 +3047,7 @@ export const listAnalyzedResources: {
   >;
   pages: (
     input: ListAnalyzedResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAnalyzedResourcesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3065,7 +3059,7 @@ export const listAnalyzedResources: {
   >;
   items: (
     input: ListAnalyzedResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AnalyzedResourceSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3100,7 +3094,7 @@ export const listAnalyzedResources: {
 export const listFindingsV2: {
   (
     input: ListFindingsV2Request,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFindingsV2Response,
     | AccessDeniedException
     | InternalServerException
@@ -3112,7 +3106,7 @@ export const listFindingsV2: {
   >;
   pages: (
     input: ListFindingsV2Request,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFindingsV2Response,
     | AccessDeniedException
     | InternalServerException
@@ -3124,7 +3118,7 @@ export const listFindingsV2: {
   >;
   items: (
     input: ListFindingsV2Request,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FindingSummaryV2,
     | AccessDeniedException
     | InternalServerException
@@ -3158,7 +3152,7 @@ export const listFindingsV2: {
  */
 export const updateAnalyzer: (
   input: UpdateAnalyzerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAnalyzerResponse,
   | AccessDeniedException
   | ConflictException
@@ -3187,7 +3181,7 @@ export const updateAnalyzer: (
  */
 export const getArchiveRule: (
   input: GetArchiveRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetArchiveRuleResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3212,7 +3206,7 @@ export const getArchiveRule: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3237,7 +3231,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3264,7 +3258,7 @@ export const tagResource: (
  */
 export const startResourceScan: (
   input: StartResourceScanRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartResourceScanResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3289,7 +3283,7 @@ export const startResourceScan: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3314,7 +3308,7 @@ export const untagResource: (
  */
 export const updateFindings: (
   input: UpdateFindingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFindingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3339,7 +3333,7 @@ export const updateFindings: (
  */
 export const deleteAnalyzer: (
   input: DeleteAnalyzerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAnalyzerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3364,7 +3358,7 @@ export const deleteAnalyzer: (
  */
 export const updateArchiveRule: (
   input: UpdateArchiveRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateArchiveRuleResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3389,7 +3383,7 @@ export const updateArchiveRule: (
  */
 export const deleteArchiveRule: (
   input: DeleteArchiveRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteArchiveRuleResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3415,7 +3409,7 @@ export const deleteArchiveRule: (
 export const listAnalyzers: {
   (
     input: ListAnalyzersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAnalyzersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3426,7 +3420,7 @@ export const listAnalyzers: {
   >;
   pages: (
     input: ListAnalyzersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAnalyzersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3437,7 +3431,7 @@ export const listAnalyzers: {
   >;
   items: (
     input: ListAnalyzersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AnalyzerSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3468,7 +3462,7 @@ export const listAnalyzers: {
 export const listArchiveRules: {
   (
     input: ListArchiveRulesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListArchiveRulesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3479,7 +3473,7 @@ export const listArchiveRules: {
   >;
   pages: (
     input: ListArchiveRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListArchiveRulesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3490,7 +3484,7 @@ export const listArchiveRules: {
   >;
   items: (
     input: ListArchiveRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ArchiveRuleSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3520,7 +3514,7 @@ export const listArchiveRules: {
  */
 export const cancelPolicyGeneration: (
   input: CancelPolicyGenerationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelPolicyGenerationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3543,7 +3537,7 @@ export const cancelPolicyGeneration: (
  */
 export const generateFindingRecommendation: (
   input: GenerateFindingRecommendationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GenerateFindingRecommendationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3566,7 +3560,7 @@ export const generateFindingRecommendation: (
  */
 export const applyArchiveRule: (
   input: ApplyArchiveRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ApplyArchiveRuleResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3591,7 +3585,7 @@ export const applyArchiveRule: (
  */
 export const getAccessPreview: (
   input: GetAccessPreviewRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccessPreviewResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3617,7 +3611,7 @@ export const getAccessPreview: (
 export const getFindingRecommendation: {
   (
     input: GetFindingRecommendationRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetFindingRecommendationResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3629,7 +3623,7 @@ export const getFindingRecommendation: {
   >;
   pages: (
     input: GetFindingRecommendationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetFindingRecommendationResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3641,7 +3635,7 @@ export const getFindingRecommendation: {
   >;
   items: (
     input: GetFindingRecommendationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RecommendedStep,
     | AccessDeniedException
     | InternalServerException
@@ -3678,7 +3672,7 @@ export const getFindingRecommendation: {
 export const listFindings: {
   (
     input: ListFindingsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFindingsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3690,7 +3684,7 @@ export const listFindings: {
   >;
   pages: (
     input: ListFindingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFindingsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3702,7 +3696,7 @@ export const listFindings: {
   >;
   items: (
     input: ListFindingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FindingSummary,
     | AccessDeniedException
     | InternalServerException
@@ -3736,7 +3730,7 @@ export const listFindings: {
  */
 export const getFinding: (
   input: GetFindingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFindingResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3762,7 +3756,7 @@ export const getFinding: (
 export const getFindingV2: {
   (
     input: GetFindingV2Request,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetFindingV2Response,
     | AccessDeniedException
     | InternalServerException
@@ -3774,7 +3768,7 @@ export const getFindingV2: {
   >;
   pages: (
     input: GetFindingV2Request,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetFindingV2Response,
     | AccessDeniedException
     | InternalServerException
@@ -3786,7 +3780,7 @@ export const getFindingV2: {
   >;
   items: (
     input: GetFindingV2Request,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FindingDetails,
     | AccessDeniedException
     | InternalServerException
@@ -3819,7 +3813,7 @@ export const getFindingV2: {
 export const listAccessPreviewFindings: {
   (
     input: ListAccessPreviewFindingsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccessPreviewFindingsResponse,
     | AccessDeniedException
     | ConflictException
@@ -3832,7 +3826,7 @@ export const listAccessPreviewFindings: {
   >;
   pages: (
     input: ListAccessPreviewFindingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccessPreviewFindingsResponse,
     | AccessDeniedException
     | ConflictException
@@ -3845,7 +3839,7 @@ export const listAccessPreviewFindings: {
   >;
   items: (
     input: ListAccessPreviewFindingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AccessPreviewFinding,
     | AccessDeniedException
     | ConflictException
@@ -3879,7 +3873,7 @@ export const listAccessPreviewFindings: {
  */
 export const startPolicyGeneration: (
   input: StartPolicyGenerationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartPolicyGenerationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3908,7 +3902,7 @@ export const startPolicyGeneration: (
  */
 export const checkNoNewAccess: (
   input: CheckNoNewAccessRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CheckNoNewAccessResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3937,7 +3931,7 @@ export const checkNoNewAccess: (
  */
 export const createArchiveRule: (
   input: CreateArchiveRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateArchiveRuleResponse,
   | AccessDeniedException
   | ConflictException
@@ -3966,7 +3960,7 @@ export const createArchiveRule: (
  */
 export const checkNoPublicAccess: (
   input: CheckNoPublicAccessRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CheckNoPublicAccessResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3993,7 +3987,7 @@ export const checkNoPublicAccess: (
  */
 export const checkAccessNotGranted: (
   input: CheckAccessNotGrantedRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CheckAccessNotGrantedResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4020,7 +4014,7 @@ export const checkAccessNotGranted: (
  */
 export const getFindingsStatistics: (
   input: GetFindingsStatisticsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFindingsStatisticsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4045,7 +4039,7 @@ export const getFindingsStatistics: (
  */
 export const getGeneratedPolicy: (
   input: GetGeneratedPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetGeneratedPolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4068,7 +4062,7 @@ export const getGeneratedPolicy: (
  */
 export const createAccessPreview: (
   input: CreateAccessPreviewRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAccessPreviewResponse,
   | AccessDeniedException
   | ConflictException

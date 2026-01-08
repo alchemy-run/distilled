@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -153,7 +153,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -198,15 +198,15 @@ export const StringMap = S.Record({ key: S.String, value: S.String });
 export type StepInput =
   | { integerValue: number }
   | { stringValue: string }
-  | { listOfStringsValue: StringList }
-  | { mapOfStringValue: StringMap };
+  | { listOfStringsValue: string[] }
+  | { mapOfStringValue: { [key: string]: string } };
 export const StepInput = S.Union(
   S.Struct({ integerValue: S.Number }),
   S.Struct({ stringValue: S.String }),
   S.Struct({ listOfStringsValue: StringList }),
   S.Struct({ mapOfStringValue: StringMap }),
 );
-export type StepInputParameters = { [key: string]: (typeof StepInput)["Type"] };
+export type StepInputParameters = { [key: string]: StepInput };
 export const StepInputParameters = S.Record({
   key: S.String,
   value: StepInput,
@@ -215,8 +215,8 @@ export interface UpdateMigrationWorkflowRequest {
   id: string;
   name?: string;
   description?: string;
-  inputParameters?: StepInputParameters;
-  stepTargets?: StringList;
+  inputParameters?: { [key: string]: StepInput };
+  stepTargets?: string[];
 }
 export const UpdateMigrationWorkflowRequest = S.suspend(() =>
   S.Struct({
@@ -583,7 +583,7 @@ export const MaxStringList = S.Array(S.String);
 export type WorkflowStepOutputUnion =
   | { integerValue: number }
   | { stringValue: string }
-  | { listOfStringValue: MaxStringList };
+  | { listOfStringValue: string[] };
 export const WorkflowStepOutputUnion = S.Union(
   S.Struct({ integerValue: S.Number }),
   S.Struct({ stringValue: S.String }),
@@ -593,7 +593,7 @@ export interface WorkflowStepOutput {
   name?: string;
   dataType?: string;
   required?: boolean;
-  value?: (typeof WorkflowStepOutputUnion)["Type"];
+  value?: WorkflowStepOutputUnion;
 }
 export const WorkflowStepOutput = S.suspend(() =>
   S.Struct({
@@ -615,10 +615,10 @@ export interface UpdateWorkflowStepRequest {
   description?: string;
   stepActionType?: string;
   workflowStepAutomationConfiguration?: WorkflowStepAutomationConfiguration;
-  stepTarget?: StringList;
-  outputs?: WorkflowStepOutputList;
-  previous?: StringList;
-  next?: StringList;
+  stepTarget?: string[];
+  outputs?: WorkflowStepOutput[];
+  previous?: string[];
+  next?: string[];
   status?: string;
 }
 export const UpdateWorkflowStepRequest = S.suspend(() =>
@@ -734,8 +734,8 @@ export interface CreateWorkflowStepGroupRequest {
   workflowId: string;
   name: string;
   description?: string;
-  next?: StringList;
-  previous?: StringList;
+  next?: string[];
+  previous?: string[];
 }
 export const CreateWorkflowStepGroupRequest = S.suspend(() =>
   S.Struct({
@@ -783,8 +783,8 @@ export interface UpdateWorkflowStepGroupRequest {
   id: string;
   name?: string;
   description?: string;
-  next?: StringList;
-  previous?: StringList;
+  next?: string[];
+  previous?: string[];
 }
 export const UpdateWorkflowStepGroupRequest = S.suspend(() =>
   S.Struct({
@@ -862,7 +862,7 @@ export const TagMap = S.Record({ key: S.String, value: S.String });
 export type TemplateSource = { workflowId: string };
 export const TemplateSource = S.Union(S.Struct({ workflowId: S.String }));
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -871,7 +871,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -901,12 +901,12 @@ export interface UpdateMigrationWorkflowResponse {
   description?: string;
   templateId?: string;
   adsApplicationConfigurationId?: string;
-  workflowInputs?: StepInputParameters;
-  stepTargets?: StringList;
+  workflowInputs?: { [key: string]: StepInput };
+  stepTargets?: string[];
   status?: string;
   creationTime?: Date;
   lastModifiedTime?: Date;
-  tags?: StringMap;
+  tags?: { [key: string]: string };
 }
 export const UpdateMigrationWorkflowResponse = S.suspend(() =>
   S.Struct({
@@ -981,9 +981,9 @@ export const StopMigrationWorkflowResponse = S.suspend(() =>
 export interface CreateTemplateRequest {
   templateName: string;
   templateDescription?: string;
-  templateSource: (typeof TemplateSource)["Type"];
+  templateSource: TemplateSource;
   clientToken?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateTemplateRequest = S.suspend(() =>
   S.Struct({
@@ -1008,7 +1008,7 @@ export const CreateTemplateRequest = S.suspend(() =>
 export interface UpdateTemplateResponse {
   templateId?: string;
   templateArn?: string;
-  tags?: StringMap;
+  tags?: { [key: string]: string };
 }
 export const UpdateTemplateResponse = S.suspend(() =>
   S.Struct({
@@ -1036,9 +1036,9 @@ export interface GetTemplateStepGroupResponse {
   status?: string;
   creationTime?: Date;
   lastModifiedTime?: Date;
-  tools?: ToolsList;
-  previous?: StringList;
-  next?: StringList;
+  tools?: Tool[];
+  previous?: string[];
+  next?: string[];
 }
 export const GetTemplateStepGroupResponse = S.suspend(() =>
   S.Struct({
@@ -1067,10 +1067,10 @@ export interface GetWorkflowStepResponse {
   stepActionType?: string;
   owner?: string;
   workflowStepAutomationConfiguration?: WorkflowStepAutomationConfiguration;
-  stepTarget?: StringList;
-  outputs?: WorkflowStepOutputList;
-  previous?: StringList;
-  next?: StringList;
+  stepTarget?: string[];
+  outputs?: WorkflowStepOutput[];
+  previous?: string[];
+  next?: string[];
   status?: string;
   statusMessage?: string;
   scriptOutputLocation?: string;
@@ -1147,9 +1147,9 @@ export interface CreateWorkflowStepGroupResponse {
   name?: string;
   id?: string;
   description?: string;
-  tools?: ToolsList;
-  next?: StringList;
-  previous?: StringList;
+  tools?: Tool[];
+  next?: string[];
+  previous?: string[];
   creationTime?: Date;
 }
 export const CreateWorkflowStepGroupResponse = S.suspend(() =>
@@ -1176,9 +1176,9 @@ export interface GetWorkflowStepGroupResponse {
   creationTime?: Date;
   lastModifiedTime?: Date;
   endTime?: Date;
-  tools?: ToolsList;
-  previous?: StringList;
-  next?: StringList;
+  tools?: Tool[];
+  previous?: string[];
+  next?: string[];
 }
 export const GetWorkflowStepGroupResponse = S.suspend(() =>
   S.Struct({
@@ -1205,9 +1205,9 @@ export interface UpdateWorkflowStepGroupResponse {
   name?: string;
   id?: string;
   description?: string;
-  tools?: ToolsList;
-  next?: StringList;
-  previous?: StringList;
+  tools?: Tool[];
+  next?: string[];
+  previous?: string[];
   lastModifiedTime?: Date;
 }
 export const UpdateWorkflowStepGroupResponse = S.suspend(() =>
@@ -1352,8 +1352,8 @@ export interface TemplateStepSummary {
   stepActionType?: string;
   targetType?: string;
   owner?: string;
-  previous?: StringList;
-  next?: StringList;
+  previous?: string[];
+  next?: string[];
 }
 export const TemplateStepSummary = S.suspend(() =>
   S.Struct({
@@ -1375,8 +1375,8 @@ export const TemplateStepSummaryList = S.Array(TemplateStepSummary);
 export interface TemplateStepGroupSummary {
   id?: string;
   name?: string;
-  previous?: StringList;
-  next?: StringList;
+  previous?: string[];
+  next?: string[];
 }
 export const TemplateStepGroupSummary = S.suspend(() =>
   S.Struct({
@@ -1395,8 +1395,8 @@ export interface WorkflowStepSummary {
   name?: string;
   stepActionType?: string;
   owner?: string;
-  previous?: StringList;
-  next?: StringList;
+  previous?: string[];
+  next?: string[];
   status?: string;
   statusMessage?: string;
   noOfSrvCompleted?: number;
@@ -1431,8 +1431,8 @@ export interface WorkflowStepGroupSummary {
   name?: string;
   owner?: string;
   status?: string;
-  previous?: StringList;
-  next?: StringList;
+  previous?: string[];
+  next?: string[];
 }
 export const WorkflowStepGroupSummary = S.suspend(() =>
   S.Struct({
@@ -1453,9 +1453,9 @@ export interface CreateMigrationWorkflowRequest {
   description?: string;
   templateId: string;
   applicationConfigurationId?: string;
-  inputParameters: StepInputParameters;
-  stepTargets?: StringList;
-  tags?: StringMap;
+  inputParameters: { [key: string]: StepInput };
+  stepTargets?: string[];
+  tags?: { [key: string]: string };
 }
 export const CreateMigrationWorkflowRequest = S.suspend(() =>
   S.Struct({
@@ -1494,11 +1494,11 @@ export interface GetMigrationWorkflowResponse {
   lastStopTime?: Date;
   lastModifiedTime?: Date;
   endTime?: Date;
-  tools?: ToolsList;
+  tools?: Tool[];
   totalSteps?: number;
   completedSteps?: number;
-  workflowInputs?: StepInputParameters;
-  tags?: StringMap;
+  workflowInputs?: { [key: string]: StepInput };
+  tags?: { [key: string]: string };
   workflowBucket?: string;
 }
 export const GetMigrationWorkflowResponse = S.suspend(() =>
@@ -1531,7 +1531,7 @@ export const GetMigrationWorkflowResponse = S.suspend(() =>
 }) as any as S.Schema<GetMigrationWorkflowResponse>;
 export interface ListMigrationWorkflowsResponse {
   nextToken?: string;
-  migrationWorkflowSummary: MigrationWorkflowSummaryList;
+  migrationWorkflowSummary: MigrationWorkflowSummary[];
 }
 export const ListMigrationWorkflowsResponse = S.suspend(() =>
   S.Struct({
@@ -1544,7 +1544,7 @@ export const ListMigrationWorkflowsResponse = S.suspend(() =>
 export interface CreateTemplateResponse {
   templateId?: string;
   templateArn?: string;
-  tags?: StringMap;
+  tags?: { [key: string]: string };
 }
 export const CreateTemplateResponse = S.suspend(() =>
   S.Struct({
@@ -1560,14 +1560,14 @@ export interface GetMigrationWorkflowTemplateResponse {
   templateArn?: string;
   name?: string;
   description?: string;
-  inputs?: TemplateInputList;
-  tools?: ToolsList;
+  inputs?: TemplateInput[];
+  tools?: Tool[];
   creationTime?: Date;
   owner?: string;
   status?: string;
   statusMessage?: string;
   templateClass?: string;
-  tags?: StringMap;
+  tags?: { [key: string]: string };
 }
 export const GetMigrationWorkflowTemplateResponse = S.suspend(() =>
   S.Struct({
@@ -1589,7 +1589,7 @@ export const GetMigrationWorkflowTemplateResponse = S.suspend(() =>
 }) as any as S.Schema<GetMigrationWorkflowTemplateResponse>;
 export interface ListMigrationWorkflowTemplatesResponse {
   nextToken?: string;
-  templateSummary: TemplateSummaryList;
+  templateSummary: TemplateSummary[];
 }
 export const ListMigrationWorkflowTemplatesResponse = S.suspend(() =>
   S.Struct({
@@ -1601,7 +1601,7 @@ export const ListMigrationWorkflowTemplatesResponse = S.suspend(() =>
 }) as any as S.Schema<ListMigrationWorkflowTemplatesResponse>;
 export interface ListPluginsResponse {
   nextToken?: string;
-  plugins?: PluginSummaries;
+  plugins?: PluginSummary[];
 }
 export const ListPluginsResponse = S.suspend(() =>
   S.Struct({
@@ -1619,9 +1619,9 @@ export interface GetTemplateStepResponse {
   description?: string;
   stepActionType?: string;
   creationTime?: string;
-  previous?: StringList;
-  next?: StringList;
-  outputs?: StepOutputList;
+  previous?: string[];
+  next?: string[];
+  outputs?: StepOutput[];
   stepAutomationConfiguration?: StepAutomationConfiguration;
 }
 export const GetTemplateStepResponse = S.suspend(() =>
@@ -1643,7 +1643,7 @@ export const GetTemplateStepResponse = S.suspend(() =>
 }) as any as S.Schema<GetTemplateStepResponse>;
 export interface ListTemplateStepsResponse {
   nextToken?: string;
-  templateStepSummaryList?: TemplateStepSummaryList;
+  templateStepSummaryList?: TemplateStepSummary[];
 }
 export const ListTemplateStepsResponse = S.suspend(() =>
   S.Struct({
@@ -1655,7 +1655,7 @@ export const ListTemplateStepsResponse = S.suspend(() =>
 }) as any as S.Schema<ListTemplateStepsResponse>;
 export interface ListTemplateStepGroupsResponse {
   nextToken?: string;
-  templateStepGroupSummary: TemplateStepGroupSummaryList;
+  templateStepGroupSummary: TemplateStepGroupSummary[];
 }
 export const ListTemplateStepGroupsResponse = S.suspend(() =>
   S.Struct({
@@ -1672,10 +1672,10 @@ export interface CreateWorkflowStepRequest {
   stepActionType: string;
   description?: string;
   workflowStepAutomationConfiguration?: WorkflowStepAutomationConfiguration;
-  stepTarget?: StringList;
-  outputs?: WorkflowStepOutputList;
-  previous?: StringList;
-  next?: StringList;
+  stepTarget?: string[];
+  outputs?: WorkflowStepOutput[];
+  previous?: string[];
+  next?: string[];
 }
 export const CreateWorkflowStepRequest = S.suspend(() =>
   S.Struct({
@@ -1706,7 +1706,7 @@ export const CreateWorkflowStepRequest = S.suspend(() =>
 }) as any as S.Schema<CreateWorkflowStepRequest>;
 export interface ListWorkflowStepsResponse {
   nextToken?: string;
-  workflowStepsSummary: WorkflowStepsSummaryList;
+  workflowStepsSummary: WorkflowStepSummary[];
 }
 export const ListWorkflowStepsResponse = S.suspend(() =>
   S.Struct({
@@ -1718,7 +1718,7 @@ export const ListWorkflowStepsResponse = S.suspend(() =>
 }) as any as S.Schema<ListWorkflowStepsResponse>;
 export interface ListWorkflowStepGroupsResponse {
   nextToken?: string;
-  workflowStepGroupsSummary: WorkflowStepGroupsSummaryList;
+  workflowStepGroupsSummary: WorkflowStepGroupSummary[];
 }
 export const ListWorkflowStepGroupsResponse = S.suspend(() =>
   S.Struct({
@@ -1735,11 +1735,11 @@ export interface CreateMigrationWorkflowResponse {
   description?: string;
   templateId?: string;
   adsApplicationConfigurationId?: string;
-  workflowInputs?: StepInputParameters;
-  stepTargets?: StringList;
+  workflowInputs?: { [key: string]: StepInput };
+  stepTargets?: string[];
   status?: string;
   creationTime?: Date;
-  tags?: StringMap;
+  tags?: { [key: string]: string };
 }
 export const CreateMigrationWorkflowResponse = S.suspend(() =>
   S.Struct({
@@ -1810,7 +1810,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1825,7 +1825,7 @@ export const untagResource: (
 export const listPlugins: {
   (
     input: ListPluginsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPluginsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1835,7 +1835,7 @@ export const listPlugins: {
   >;
   pages: (
     input: ListPluginsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPluginsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1845,7 +1845,7 @@ export const listPlugins: {
   >;
   items: (
     input: ListPluginsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PluginSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1869,7 +1869,7 @@ export const listPlugins: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1883,7 +1883,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1897,7 +1897,7 @@ export const tagResource: (
  */
 export const deleteTemplate: (
   input: DeleteTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTemplateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1922,7 +1922,7 @@ export const deleteTemplate: (
  */
 export const createWorkflowStep: (
   input: CreateWorkflowStepRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkflowStepResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1946,7 +1946,7 @@ export const createWorkflowStep: (
 export const listTemplates: {
   (
     input: ListMigrationWorkflowTemplatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMigrationWorkflowTemplatesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1956,7 +1956,7 @@ export const listTemplates: {
   >;
   pages: (
     input: ListMigrationWorkflowTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMigrationWorkflowTemplatesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1966,7 +1966,7 @@ export const listTemplates: {
   >;
   items: (
     input: ListMigrationWorkflowTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TemplateSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1990,7 +1990,7 @@ export const listTemplates: {
  */
 export const getTemplateStep: (
   input: GetTemplateStepRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTemplateStepResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2016,7 +2016,7 @@ export const getTemplateStep: (
 export const listTemplateSteps: {
   (
     input: ListTemplateStepsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTemplateStepsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2028,7 +2028,7 @@ export const listTemplateSteps: {
   >;
   pages: (
     input: ListTemplateStepsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTemplateStepsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2040,7 +2040,7 @@ export const listTemplateSteps: {
   >;
   items: (
     input: ListTemplateStepsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TemplateStepSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2073,7 +2073,7 @@ export const listTemplateSteps: {
 export const listTemplateStepGroups: {
   (
     input: ListTemplateStepGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTemplateStepGroupsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2084,7 +2084,7 @@ export const listTemplateStepGroups: {
   >;
   pages: (
     input: ListTemplateStepGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTemplateStepGroupsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2095,7 +2095,7 @@ export const listTemplateStepGroups: {
   >;
   items: (
     input: ListTemplateStepGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TemplateStepGroupSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2126,7 +2126,7 @@ export const listTemplateStepGroups: {
 export const listWorkflowSteps: {
   (
     input: ListWorkflowStepsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkflowStepsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2137,7 +2137,7 @@ export const listWorkflowSteps: {
   >;
   pages: (
     input: ListWorkflowStepsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkflowStepsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2148,7 +2148,7 @@ export const listWorkflowSteps: {
   >;
   items: (
     input: ListWorkflowStepsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkflowStepSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2179,7 +2179,7 @@ export const listWorkflowSteps: {
 export const listWorkflowStepGroups: {
   (
     input: ListWorkflowStepGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkflowStepGroupsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2191,7 +2191,7 @@ export const listWorkflowStepGroups: {
   >;
   pages: (
     input: ListWorkflowStepGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkflowStepGroupsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2203,7 +2203,7 @@ export const listWorkflowStepGroups: {
   >;
   items: (
     input: ListWorkflowStepGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkflowStepGroupSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2235,7 +2235,7 @@ export const listWorkflowStepGroups: {
  */
 export const getTemplateStepGroup: (
   input: GetTemplateStepGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTemplateStepGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2260,7 +2260,7 @@ export const getTemplateStepGroup: (
  */
 export const getWorkflowStep: (
   input: GetWorkflowStepRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkflowStepResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2283,7 +2283,7 @@ export const getWorkflowStep: (
  */
 export const updateWorkflowStep: (
   input: UpdateWorkflowStepRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkflowStepResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2306,7 +2306,7 @@ export const updateWorkflowStep: (
  */
 export const retryWorkflowStep: (
   input: RetryWorkflowStepRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RetryWorkflowStepResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2329,7 +2329,7 @@ export const retryWorkflowStep: (
  */
 export const createWorkflowStepGroup: (
   input: CreateWorkflowStepGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkflowStepGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2352,7 +2352,7 @@ export const createWorkflowStepGroup: (
  */
 export const getWorkflowStepGroup: (
   input: GetWorkflowStepGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkflowStepGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2377,7 +2377,7 @@ export const getWorkflowStepGroup: (
  */
 export const updateWorkflowStepGroup: (
   input: UpdateWorkflowStepGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkflowStepGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2403,7 +2403,7 @@ export const updateWorkflowStepGroup: (
  */
 export const deleteWorkflowStep: (
   input: DeleteWorkflowStepRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkflowStepResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2428,7 +2428,7 @@ export const deleteWorkflowStep: (
  */
 export const deleteWorkflowStepGroup: (
   input: DeleteWorkflowStepGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkflowStepGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2453,7 +2453,7 @@ export const deleteWorkflowStepGroup: (
  */
 export const updateWorkflow: (
   input: UpdateMigrationWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMigrationWorkflowResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2479,7 +2479,7 @@ export const updateWorkflow: (
  */
 export const deleteWorkflow: (
   input: DeleteMigrationWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMigrationWorkflowResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2504,7 +2504,7 @@ export const deleteWorkflow: (
  */
 export const startWorkflow: (
   input: StartMigrationWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartMigrationWorkflowResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2529,7 +2529,7 @@ export const startWorkflow: (
  */
 export const stopWorkflow: (
   input: StopMigrationWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopMigrationWorkflowResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2554,7 +2554,7 @@ export const stopWorkflow: (
  */
 export const updateTemplate: (
   input: UpdateTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTemplateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2579,7 +2579,7 @@ export const updateTemplate: (
  */
 export const getWorkflow: (
   input: GetMigrationWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMigrationWorkflowResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2605,7 +2605,7 @@ export const getWorkflow: (
 export const listWorkflows: {
   (
     input: ListMigrationWorkflowsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMigrationWorkflowsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2617,7 +2617,7 @@ export const listWorkflows: {
   >;
   pages: (
     input: ListMigrationWorkflowsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMigrationWorkflowsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2629,7 +2629,7 @@ export const listWorkflows: {
   >;
   items: (
     input: ListMigrationWorkflowsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MigrationWorkflowSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2661,7 +2661,7 @@ export const listWorkflows: {
  */
 export const getTemplate: (
   input: GetMigrationWorkflowTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMigrationWorkflowTemplateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2684,7 +2684,7 @@ export const getTemplate: (
  */
 export const createWorkflow: (
   input: CreateMigrationWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMigrationWorkflowResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2707,7 +2707,7 @@ export const createWorkflow: (
  */
 export const createTemplate: (
   input: CreateTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTemplateResponse,
   | AccessDeniedException
   | ConflictException

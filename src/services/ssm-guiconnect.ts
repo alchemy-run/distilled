@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -128,7 +128,7 @@ export const S3Bucket = S.suspend(() =>
 export type S3Buckets = S3Bucket[];
 export const S3Buckets = S.Array(S3Bucket);
 export interface RecordingDestinations {
-  S3Buckets: S3Buckets;
+  S3Buckets: S3Bucket[];
 }
 export const RecordingDestinations = S.suspend(() =>
   S.Struct({ S3Buckets: S3Buckets }),
@@ -237,7 +237,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const deleteConnectionRecordingPreferences: (
   input: DeleteConnectionRecordingPreferencesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConnectionRecordingPreferencesResponse,
   | AccessDeniedException
   | ConflictException
@@ -266,7 +266,7 @@ export const deleteConnectionRecordingPreferences: (
  */
 export const updateConnectionRecordingPreferences: (
   input: UpdateConnectionRecordingPreferencesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConnectionRecordingPreferencesResponse,
   | AccessDeniedException
   | ConflictException
@@ -295,7 +295,7 @@ export const updateConnectionRecordingPreferences: (
  */
 export const getConnectionRecordingPreferences: (
   input: GetConnectionRecordingPreferencesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConnectionRecordingPreferencesResponse,
   | AccessDeniedException
   | ConflictException

@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -100,37 +100,37 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Newtypes
-export type AccountName = string | Redacted.Redacted<string>;
+export type AccountName = string | redacted.Redacted<string>;
 export type AccountId = string;
-export type Name = string | Redacted.Redacted<string>;
-export type Title = string | Redacted.Redacted<string>;
-export type EmailAddress = string | Redacted.Redacted<string>;
-export type PhoneNumber = string | Redacted.Redacted<string>;
+export type Name = string | redacted.Redacted<string>;
+export type Title = string | redacted.Redacted<string>;
+export type EmailAddress = string | redacted.Redacted<string>;
+export type PhoneNumber = string | redacted.Redacted<string>;
 export type AlternateContactType = string;
-export type PrimaryEmailAddress = string | Redacted.Redacted<string>;
-export type Otp = string | Redacted.Redacted<string>;
+export type PrimaryEmailAddress = string | redacted.Redacted<string>;
+export type Otp = string | redacted.Redacted<string>;
 export type RegionName = string;
 export type RegionOptStatus = string;
-export type FullName = string | Redacted.Redacted<string>;
-export type AddressLine = string | Redacted.Redacted<string>;
-export type City = string | Redacted.Redacted<string>;
-export type StateOrRegion = string | Redacted.Redacted<string>;
-export type DistrictOrCounty = string | Redacted.Redacted<string>;
-export type PostalCode = string | Redacted.Redacted<string>;
-export type CountryCode = string | Redacted.Redacted<string>;
-export type ContactInformationPhoneNumber = string | Redacted.Redacted<string>;
-export type CompanyName = string | Redacted.Redacted<string>;
-export type WebsiteUrl = string | Redacted.Redacted<string>;
+export type FullName = string | redacted.Redacted<string>;
+export type AddressLine = string | redacted.Redacted<string>;
+export type City = string | redacted.Redacted<string>;
+export type StateOrRegion = string | redacted.Redacted<string>;
+export type DistrictOrCounty = string | redacted.Redacted<string>;
+export type PostalCode = string | redacted.Redacted<string>;
+export type CountryCode = string | redacted.Redacted<string>;
+export type ContactInformationPhoneNumber = string | redacted.Redacted<string>;
+export type CompanyName = string | redacted.Redacted<string>;
+export type WebsiteUrl = string | redacted.Redacted<string>;
 export type AwsAccountState = string;
 export type PrimaryEmailUpdateStatus = string;
-export type SensitiveString = string | Redacted.Redacted<string>;
+export type SensitiveString = string | redacted.Redacted<string>;
 export type ValidationExceptionReason = string;
 
 //# Schemas
 export type RegionOptStatusList = string[];
 export const RegionOptStatusList = S.Array(S.String);
 export interface PutAccountNameRequest {
-  AccountName: string | Redacted.Redacted<string>;
+  AccountName: string | redacted.Redacted<string>;
   AccountId?: string;
 }
 export const PutAccountNameRequest = S.suspend(() =>
@@ -172,10 +172,10 @@ export const GetAccountInformationRequest = S.suspend(() =>
   identifier: "GetAccountInformationRequest",
 }) as any as S.Schema<GetAccountInformationRequest>;
 export interface PutAlternateContactRequest {
-  Name: string | Redacted.Redacted<string>;
-  Title: string | Redacted.Redacted<string>;
-  EmailAddress: string | Redacted.Redacted<string>;
-  PhoneNumber: string | Redacted.Redacted<string>;
+  Name: string | redacted.Redacted<string>;
+  Title: string | redacted.Redacted<string>;
+  EmailAddress: string | redacted.Redacted<string>;
+  PhoneNumber: string | redacted.Redacted<string>;
   AlternateContactType: string;
   AccountId?: string;
 }
@@ -290,8 +290,8 @@ export const GetContactInformationRequest = S.suspend(() =>
 }) as any as S.Schema<GetContactInformationRequest>;
 export interface AcceptPrimaryEmailUpdateRequest {
   AccountId: string;
-  PrimaryEmail: string | Redacted.Redacted<string>;
-  Otp: string | Redacted.Redacted<string>;
+  PrimaryEmail: string | redacted.Redacted<string>;
+  Otp: string | redacted.Redacted<string>;
 }
 export const AcceptPrimaryEmailUpdateRequest = S.suspend(() =>
   S.Struct({
@@ -330,7 +330,7 @@ export const GetPrimaryEmailRequest = S.suspend(() =>
 }) as any as S.Schema<GetPrimaryEmailRequest>;
 export interface StartPrimaryEmailUpdateRequest {
   AccountId: string;
-  PrimaryEmail: string | Redacted.Redacted<string>;
+  PrimaryEmail: string | redacted.Redacted<string>;
 }
 export const StartPrimaryEmailUpdateRequest = S.suspend(() =>
   S.Struct({ AccountId: S.String, PrimaryEmail: SensitiveString }).pipe(
@@ -412,7 +412,7 @@ export interface ListRegionsRequest {
   AccountId?: string;
   MaxResults?: number;
   NextToken?: string;
-  RegionOptStatusContains?: RegionOptStatusList;
+  RegionOptStatusContains?: string[];
 }
 export const ListRegionsRequest = S.suspend(() =>
   S.Struct({
@@ -434,18 +434,18 @@ export const ListRegionsRequest = S.suspend(() =>
   identifier: "ListRegionsRequest",
 }) as any as S.Schema<ListRegionsRequest>;
 export interface ContactInformation {
-  FullName: string | Redacted.Redacted<string>;
-  AddressLine1: string | Redacted.Redacted<string>;
-  AddressLine2?: string | Redacted.Redacted<string>;
-  AddressLine3?: string | Redacted.Redacted<string>;
-  City: string | Redacted.Redacted<string>;
-  StateOrRegion?: string | Redacted.Redacted<string>;
-  DistrictOrCounty?: string | Redacted.Redacted<string>;
-  PostalCode: string | Redacted.Redacted<string>;
-  CountryCode: string | Redacted.Redacted<string>;
-  PhoneNumber: string | Redacted.Redacted<string>;
-  CompanyName?: string | Redacted.Redacted<string>;
-  WebsiteUrl?: string | Redacted.Redacted<string>;
+  FullName: string | redacted.Redacted<string>;
+  AddressLine1: string | redacted.Redacted<string>;
+  AddressLine2?: string | redacted.Redacted<string>;
+  AddressLine3?: string | redacted.Redacted<string>;
+  City: string | redacted.Redacted<string>;
+  StateOrRegion?: string | redacted.Redacted<string>;
+  DistrictOrCounty?: string | redacted.Redacted<string>;
+  PostalCode: string | redacted.Redacted<string>;
+  CountryCode: string | redacted.Redacted<string>;
+  PhoneNumber: string | redacted.Redacted<string>;
+  CompanyName?: string | redacted.Redacted<string>;
+  WebsiteUrl?: string | redacted.Redacted<string>;
 }
 export const ContactInformation = S.suspend(() =>
   S.Struct({
@@ -467,7 +467,7 @@ export const ContactInformation = S.suspend(() =>
 }) as any as S.Schema<ContactInformation>;
 export interface GetAccountInformationResponse {
   AccountId?: string;
-  AccountName?: string | Redacted.Redacted<string>;
+  AccountName?: string | redacted.Redacted<string>;
   AccountCreatedDate?: Date;
 }
 export const GetAccountInformationResponse = S.suspend(() =>
@@ -532,7 +532,7 @@ export const AcceptPrimaryEmailUpdateResponse = S.suspend(() =>
   identifier: "AcceptPrimaryEmailUpdateResponse",
 }) as any as S.Schema<AcceptPrimaryEmailUpdateResponse>;
 export interface GetPrimaryEmailResponse {
-  PrimaryEmail?: string | Redacted.Redacted<string>;
+  PrimaryEmail?: string | redacted.Redacted<string>;
 }
 export const GetPrimaryEmailResponse = S.suspend(() =>
   S.Struct({ PrimaryEmail: S.optional(SensitiveString) }),
@@ -560,10 +560,10 @@ export const GetRegionOptStatusResponse = S.suspend(() =>
   identifier: "GetRegionOptStatusResponse",
 }) as any as S.Schema<GetRegionOptStatusResponse>;
 export interface AlternateContact {
-  Name?: string | Redacted.Redacted<string>;
-  Title?: string | Redacted.Redacted<string>;
-  EmailAddress?: string | Redacted.Redacted<string>;
-  PhoneNumber?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
+  Title?: string | redacted.Redacted<string>;
+  EmailAddress?: string | redacted.Redacted<string>;
+  PhoneNumber?: string | redacted.Redacted<string>;
   AlternateContactType?: string;
 }
 export const AlternateContact = S.suspend(() =>
@@ -599,7 +599,7 @@ export const GetAlternateContactResponse = S.suspend(() =>
 }) as any as S.Schema<GetAlternateContactResponse>;
 export interface ListRegionsResponse {
   NextToken?: string;
-  Regions?: RegionOptList;
+  Regions?: Region[];
 }
 export const ListRegionsResponse = S.suspend(() =>
   S.Struct({
@@ -611,7 +611,7 @@ export const ListRegionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListRegionsResponse>;
 export interface ValidationExceptionField {
   name: string;
-  message: string | Redacted.Redacted<string>;
+  message: string | redacted.Redacted<string>;
 }
 export const ValidationExceptionField = S.suspend(() =>
   S.Struct({ name: S.String, message: SensitiveString }),
@@ -681,7 +681,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const putAccountName: (
   input: PutAccountNameRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAccountNameResponse,
   | AccessDeniedException
   | InternalServerException
@@ -708,7 +708,7 @@ export const putAccountName: (
  */
 export const getAlternateContact: (
   input: GetAlternateContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAlternateContactResponse,
   | AccessDeniedException
   | InternalServerException
@@ -734,7 +734,7 @@ export const getAlternateContact: (
 export const listRegions: {
   (
     input: ListRegionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRegionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -745,7 +745,7 @@ export const listRegions: {
   >;
   pages: (
     input: ListRegionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRegionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -756,7 +756,7 @@ export const listRegions: {
   >;
   items: (
     input: ListRegionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Region,
     | AccessDeniedException
     | InternalServerException
@@ -786,7 +786,7 @@ export const listRegions: {
  */
 export const getAccountInformation: (
   input: GetAccountInformationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccountInformationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -811,7 +811,7 @@ export const getAccountInformation: (
  */
 export const putContactInformation: (
   input: PutContactInformationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutContactInformationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -834,7 +834,7 @@ export const putContactInformation: (
  */
 export const getRegionOptStatus: (
   input: GetRegionOptStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRegionOptStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -861,7 +861,7 @@ export const getRegionOptStatus: (
  */
 export const putAlternateContact: (
   input: PutAlternateContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAlternateContactResponse,
   | AccessDeniedException
   | InternalServerException
@@ -886,7 +886,7 @@ export const putAlternateContact: (
  */
 export const disableRegion: (
   input: DisableRegionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisableRegionResponse,
   | AccessDeniedException
   | ConflictException
@@ -911,7 +911,7 @@ export const disableRegion: (
  */
 export const enableRegion: (
   input: EnableRegionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableRegionResponse,
   | AccessDeniedException
   | ConflictException
@@ -936,7 +936,7 @@ export const enableRegion: (
  */
 export const acceptPrimaryEmailUpdate: (
   input: AcceptPrimaryEmailUpdateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AcceptPrimaryEmailUpdateResponse,
   | AccessDeniedException
   | ConflictException
@@ -965,7 +965,7 @@ export const acceptPrimaryEmailUpdate: (
  */
 export const getContactInformation: (
   input: GetContactInformationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContactInformationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -990,7 +990,7 @@ export const getContactInformation: (
  */
 export const getPrimaryEmail: (
   input: GetPrimaryEmailRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPrimaryEmailResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1019,7 +1019,7 @@ export const getPrimaryEmail: (
  */
 export const deleteAlternateContact: (
   input: DeleteAlternateContactRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAlternateContactResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1044,7 +1044,7 @@ export const deleteAlternateContact: (
  */
 export const startPrimaryEmailUpdate: (
   input: StartPrimaryEmailUpdateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartPrimaryEmailUpdateResponse,
   | AccessDeniedException
   | ConflictException
@@ -1071,7 +1071,7 @@ export const startPrimaryEmailUpdate: (
  */
 export const getGovCloudAccountInformation: (
   input: GetGovCloudAccountInformationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetGovCloudAccountInformationResponse,
   | AccessDeniedException
   | InternalServerException

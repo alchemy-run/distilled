@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -192,8 +192,10 @@ export type OcsfEventClassList = string[];
 export const OcsfEventClassList = S.Array(S.String);
 export type AccountList = string[];
 export const AccountList = S.Array(S.String);
-export type AccessTypeList = string[];
-export const AccessTypeList = S.Array(S.String);
+export type AccessType = "LAKEFORMATION" | "S3";
+export const AccessType = S.Literal("LAKEFORMATION", "S3");
+export type AccessTypeList = AccessType[];
+export const AccessTypeList = S.Array(AccessType);
 export interface CreateDataLakeExceptionSubscriptionRequest {
   subscriptionProtocol: string;
   notificationEndpoint: string;
@@ -238,7 +240,7 @@ export const GetDataLakeExceptionSubscriptionResponse = S.suspend(() =>
   identifier: "GetDataLakeExceptionSubscriptionResponse",
 }) as any as S.Schema<GetDataLakeExceptionSubscriptionResponse>;
 export interface ListDataLakeExceptionsRequest {
-  regions?: RegionList;
+  regions?: string[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -302,7 +304,7 @@ export const RegisterDataLakeDelegatedAdministratorResponse = S.suspend(() =>
 }) as any as S.Schema<RegisterDataLakeDelegatedAdministratorResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -354,17 +356,36 @@ export const UpdateDataLakeExceptionSubscriptionResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateDataLakeExceptionSubscriptionResponse",
 }) as any as S.Schema<UpdateDataLakeExceptionSubscriptionResponse>;
+export type AwsLogSourceName =
+  | "ROUTE53"
+  | "VPC_FLOW"
+  | "SH_FINDINGS"
+  | "CLOUD_TRAIL_MGMT"
+  | "LAMBDA_EXECUTION"
+  | "S3_DATA"
+  | "EKS_AUDIT"
+  | "WAF";
+export const AwsLogSourceName = S.Literal(
+  "ROUTE53",
+  "VPC_FLOW",
+  "SH_FINDINGS",
+  "CLOUD_TRAIL_MGMT",
+  "LAMBDA_EXECUTION",
+  "S3_DATA",
+  "EKS_AUDIT",
+  "WAF",
+);
 export interface AwsLogSourceConfiguration {
-  accounts?: AccountList;
-  regions: RegionList;
-  sourceName: string;
+  accounts?: string[];
+  regions: string[];
+  sourceName: AwsLogSourceName;
   sourceVersion?: string;
 }
 export const AwsLogSourceConfiguration = S.suspend(() =>
   S.Struct({
     accounts: S.optional(AccountList),
     regions: RegionList,
-    sourceName: S.String,
+    sourceName: AwsLogSourceName,
     sourceVersion: S.optional(S.String),
   }),
 ).annotations({
@@ -373,7 +394,7 @@ export const AwsLogSourceConfiguration = S.suspend(() =>
 export type AwsLogSourceConfigurationList = AwsLogSourceConfiguration[];
 export const AwsLogSourceConfigurationList = S.Array(AwsLogSourceConfiguration);
 export interface DeleteAwsLogSourceRequest {
-  sources: AwsLogSourceConfigurationList;
+  sources: AwsLogSourceConfiguration[];
 }
 export const DeleteAwsLogSourceRequest = S.suspend(() =>
   S.Struct({ sources: AwsLogSourceConfigurationList }).pipe(
@@ -420,7 +441,7 @@ export const DeleteCustomLogSourceResponse = S.suspend(() =>
   identifier: "DeleteCustomLogSourceResponse",
 }) as any as S.Schema<DeleteCustomLogSourceResponse>;
 export interface DeleteDataLakeRequest {
-  regions: RegionList;
+  regions: string[];
 }
 export const DeleteDataLakeRequest = S.suspend(() =>
   S.Struct({ regions: RegionList }).pipe(
@@ -441,12 +462,12 @@ export const DeleteDataLakeResponse = S.suspend(() => S.Struct({})).annotations(
   { identifier: "DeleteDataLakeResponse" },
 ) as any as S.Schema<DeleteDataLakeResponse>;
 export interface AwsLogSourceResource {
-  sourceName?: string;
+  sourceName?: AwsLogSourceName;
   sourceVersion?: string;
 }
 export const AwsLogSourceResource = S.suspend(() =>
   S.Struct({
-    sourceName: S.optional(S.String),
+    sourceName: S.optional(AwsLogSourceName),
     sourceVersion: S.optional(S.String),
   }),
 ).annotations({
@@ -456,7 +477,7 @@ export type AwsLogSourceResourceList = AwsLogSourceResource[];
 export const AwsLogSourceResourceList = S.Array(AwsLogSourceResource);
 export interface DataLakeAutoEnableNewAccountConfiguration {
   region: string;
-  sources: AwsLogSourceResourceList;
+  sources: AwsLogSourceResource[];
 }
 export const DataLakeAutoEnableNewAccountConfiguration = S.suspend(() =>
   S.Struct({ region: S.String, sources: AwsLogSourceResourceList }),
@@ -469,7 +490,7 @@ export const DataLakeAutoEnableNewAccountConfigurationList = S.Array(
   DataLakeAutoEnableNewAccountConfiguration,
 );
 export interface DeleteDataLakeOrganizationConfigurationRequest {
-  autoEnableNewAccount?: DataLakeAutoEnableNewAccountConfigurationList;
+  autoEnableNewAccount?: DataLakeAutoEnableNewAccountConfiguration[];
 }
 export const DeleteDataLakeOrganizationConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -499,7 +520,7 @@ export const DeleteDataLakeOrganizationConfigurationResponse = S.suspend(() =>
   identifier: "DeleteDataLakeOrganizationConfigurationResponse",
 }) as any as S.Schema<DeleteDataLakeOrganizationConfigurationResponse>;
 export interface GetDataLakeOrganizationConfigurationResponse {
-  autoEnableNewAccount?: DataLakeAutoEnableNewAccountConfigurationList;
+  autoEnableNewAccount?: DataLakeAutoEnableNewAccountConfiguration[];
 }
 export const GetDataLakeOrganizationConfigurationResponse = S.suspend(() =>
   S.Struct({
@@ -511,7 +532,7 @@ export const GetDataLakeOrganizationConfigurationResponse = S.suspend(() =>
   identifier: "GetDataLakeOrganizationConfigurationResponse",
 }) as any as S.Schema<GetDataLakeOrganizationConfigurationResponse>;
 export interface GetDataLakeSourcesRequest {
-  accounts?: AccountList;
+  accounts?: string[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -534,7 +555,7 @@ export const GetDataLakeSourcesRequest = S.suspend(() =>
   identifier: "GetDataLakeSourcesRequest",
 }) as any as S.Schema<GetDataLakeSourcesRequest>;
 export interface ListDataLakesRequest {
-  regions?: RegionList;
+  regions?: string[];
 }
 export const ListDataLakesRequest = S.suspend(() =>
   S.Struct({
@@ -583,7 +604,7 @@ export const DataLakeLifecycleTransitionList = S.Array(
 );
 export interface DataLakeLifecycleConfiguration {
   expiration?: DataLakeLifecycleExpiration;
-  transitions?: DataLakeLifecycleTransitionList;
+  transitions?: DataLakeLifecycleTransition[];
 }
 export const DataLakeLifecycleConfiguration = S.suspend(() =>
   S.Struct({
@@ -594,7 +615,7 @@ export const DataLakeLifecycleConfiguration = S.suspend(() =>
   identifier: "DataLakeLifecycleConfiguration",
 }) as any as S.Schema<DataLakeLifecycleConfiguration>;
 export interface DataLakeReplicationConfiguration {
-  regions?: RegionList;
+  regions?: string[];
   roleArn?: string;
 }
 export const DataLakeReplicationConfiguration = S.suspend(() =>
@@ -621,7 +642,7 @@ export const DataLakeConfiguration = S.suspend(() =>
 export type DataLakeConfigurationList = DataLakeConfiguration[];
 export const DataLakeConfigurationList = S.Array(DataLakeConfiguration);
 export interface UpdateDataLakeRequest {
-  configurations: DataLakeConfigurationList;
+  configurations: DataLakeConfiguration[];
   metaStoreManagerRoleArn?: string;
 }
 export const UpdateDataLakeRequest = S.suspend(() =>
@@ -711,14 +732,14 @@ export const LogSourceResource = S.Union(
   S.Struct({ awsLogSource: AwsLogSourceResource }),
   S.Struct({ customLogSource: CustomLogSourceResource }),
 );
-export type LogSourceResourceList = (typeof LogSourceResource)["Type"][];
+export type LogSourceResourceList = LogSourceResource[];
 export const LogSourceResourceList = S.Array(LogSourceResource);
 export interface UpdateSubscriberRequest {
   subscriberId: string;
   subscriberIdentity?: AwsIdentity;
   subscriberName?: string;
   subscriberDescription?: string;
-  sources?: LogSourceResourceList;
+  sources?: LogSourceResource[];
 }
 export const UpdateSubscriberRequest = S.suspend(() =>
   S.Struct({
@@ -816,11 +837,13 @@ export const SqsNotificationConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "SqsNotificationConfiguration",
 }) as any as S.Schema<SqsNotificationConfiguration>;
+export type HttpMethod = "POST" | "PUT";
+export const HttpMethod = S.Literal("POST", "PUT");
 export interface HttpsNotificationConfiguration {
   endpoint: string;
   authorizationApiKeyName?: string;
   authorizationApiKeyValue?: string;
-  httpMethod?: string;
+  httpMethod?: HttpMethod;
   targetRoleArn: string;
 }
 export const HttpsNotificationConfiguration = S.suspend(() =>
@@ -828,7 +851,7 @@ export const HttpsNotificationConfiguration = S.suspend(() =>
     endpoint: S.String,
     authorizationApiKeyName: S.optional(S.String),
     authorizationApiKeyValue: S.optional(S.String),
-    httpMethod: S.optional(S.String),
+    httpMethod: S.optional(HttpMethod),
     targetRoleArn: S.String,
   }),
 ).annotations({
@@ -843,7 +866,7 @@ export const NotificationConfiguration = S.Union(
 );
 export interface UpdateSubscriberNotificationRequest {
   subscriberId: string;
-  configuration: (typeof NotificationConfiguration)["Type"];
+  configuration: NotificationConfiguration;
 }
 export const UpdateSubscriberNotificationRequest = S.suspend(() =>
   S.Struct({
@@ -874,18 +897,25 @@ export const Tag = S.suspend(() =>
 ).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);
+export type SubscriberStatus = "ACTIVE" | "DEACTIVATED" | "PENDING" | "READY";
+export const SubscriberStatus = S.Literal(
+  "ACTIVE",
+  "DEACTIVATED",
+  "PENDING",
+  "READY",
+);
 export interface SubscriberResource {
   subscriberId: string;
   subscriberArn: string;
   subscriberIdentity: AwsIdentity;
   subscriberName: string;
   subscriberDescription?: string;
-  sources: LogSourceResourceList;
-  accessTypes?: AccessTypeList;
+  sources: LogSourceResource[];
+  accessTypes?: AccessType[];
   roleArn?: string;
   s3BucketArn?: string;
   subscriberEndpoint?: string;
-  subscriberStatus?: string;
+  subscriberStatus?: SubscriberStatus;
   resourceShareArn?: string;
   resourceShareName?: string;
   createdAt?: Date;
@@ -903,7 +933,7 @@ export const SubscriberResource = S.suspend(() =>
     roleArn: S.optional(S.String),
     s3BucketArn: S.optional(S.String),
     subscriberEndpoint: S.optional(S.String),
-    subscriberStatus: S.optional(S.String),
+    subscriberStatus: S.optional(SubscriberStatus),
     resourceShareArn: S.optional(S.String),
     resourceShareName: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -915,7 +945,7 @@ export const SubscriberResource = S.suspend(() =>
 export type SubscriberResourceList = SubscriberResource[];
 export const SubscriberResourceList = S.Array(SubscriberResource);
 export interface ListTagsForResourceResponse {
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagList) }),
@@ -924,7 +954,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagList;
+  tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -948,7 +978,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface CreateAwsLogSourceRequest {
-  sources: AwsLogSourceConfigurationList;
+  sources: AwsLogSourceConfiguration[];
 }
 export const CreateAwsLogSourceRequest = S.suspend(() =>
   S.Struct({ sources: AwsLogSourceConfigurationList }).pipe(
@@ -965,13 +995,20 @@ export const CreateAwsLogSourceRequest = S.suspend(() =>
   identifier: "CreateAwsLogSourceRequest",
 }) as any as S.Schema<CreateAwsLogSourceRequest>;
 export interface DeleteAwsLogSourceResponse {
-  failed?: AccountList;
+  failed?: string[];
 }
 export const DeleteAwsLogSourceResponse = S.suspend(() =>
   S.Struct({ failed: S.optional(AccountList) }),
 ).annotations({
   identifier: "DeleteAwsLogSourceResponse",
 }) as any as S.Schema<DeleteAwsLogSourceResponse>;
+export type DataLakeStatus = "INITIALIZED" | "PENDING" | "COMPLETED" | "FAILED";
+export const DataLakeStatus = S.Literal(
+  "INITIALIZED",
+  "PENDING",
+  "COMPLETED",
+  "FAILED",
+);
 export interface DataLakeUpdateException {
   reason?: string;
   code?: string;
@@ -983,13 +1020,13 @@ export const DataLakeUpdateException = S.suspend(() =>
 }) as any as S.Schema<DataLakeUpdateException>;
 export interface DataLakeUpdateStatus {
   requestId?: string;
-  status?: string;
+  status?: DataLakeStatus;
   exception?: DataLakeUpdateException;
 }
 export const DataLakeUpdateStatus = S.suspend(() =>
   S.Struct({
     requestId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(DataLakeStatus),
     exception: S.optional(DataLakeUpdateException),
   }),
 ).annotations({
@@ -1002,7 +1039,7 @@ export interface DataLakeResource {
   encryptionConfiguration?: DataLakeEncryptionConfiguration;
   lifecycleConfiguration?: DataLakeLifecycleConfiguration;
   replicationConfiguration?: DataLakeReplicationConfiguration;
-  createStatus?: string;
+  createStatus?: DataLakeStatus;
   updateStatus?: DataLakeUpdateStatus;
 }
 export const DataLakeResource = S.suspend(() =>
@@ -1013,7 +1050,7 @@ export const DataLakeResource = S.suspend(() =>
     encryptionConfiguration: S.optional(DataLakeEncryptionConfiguration),
     lifecycleConfiguration: S.optional(DataLakeLifecycleConfiguration),
     replicationConfiguration: S.optional(DataLakeReplicationConfiguration),
-    createStatus: S.optional(S.String),
+    createStatus: S.optional(DataLakeStatus),
     updateStatus: S.optional(DataLakeUpdateStatus),
   }),
 ).annotations({
@@ -1022,7 +1059,7 @@ export const DataLakeResource = S.suspend(() =>
 export type DataLakeResourceList = DataLakeResource[];
 export const DataLakeResourceList = S.Array(DataLakeResource);
 export interface UpdateDataLakeResponse {
-  dataLakes?: DataLakeResourceList;
+  dataLakes?: DataLakeResource[];
 }
 export const UpdateDataLakeResponse = S.suspend(() =>
   S.Struct({ dataLakes: S.optional(DataLakeResourceList) }),
@@ -1033,9 +1070,9 @@ export interface CreateSubscriberRequest {
   subscriberIdentity: AwsIdentity;
   subscriberName: string;
   subscriberDescription?: string;
-  sources: LogSourceResourceList;
-  accessTypes?: AccessTypeList;
-  tags?: TagList;
+  sources: LogSourceResource[];
+  accessTypes?: AccessType[];
+  tags?: Tag[];
 }
 export const CreateSubscriberRequest = S.suspend(() =>
   S.Struct({
@@ -1067,7 +1104,7 @@ export const UpdateSubscriberResponse = S.suspend(() =>
   identifier: "UpdateSubscriberResponse",
 }) as any as S.Schema<UpdateSubscriberResponse>;
 export interface ListSubscribersResponse {
-  subscribers?: SubscriberResourceList;
+  subscribers?: SubscriberResource[];
   nextToken?: string;
 }
 export const ListSubscribersResponse = S.suspend(() =>
@@ -1124,8 +1161,17 @@ export const CustomLogSourceConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "CustomLogSourceConfiguration",
 }) as any as S.Schema<CustomLogSourceConfiguration>;
+export type SourceCollectionStatus =
+  | "COLLECTING"
+  | "MISCONFIGURED"
+  | "NOT_COLLECTING";
+export const SourceCollectionStatus = S.Literal(
+  "COLLECTING",
+  "MISCONFIGURED",
+  "NOT_COLLECTING",
+);
 export interface ListDataLakeExceptionsResponse {
-  exceptions?: DataLakeExceptionList;
+  exceptions?: DataLakeException[];
   nextToken?: string;
 }
 export const ListDataLakeExceptionsResponse = S.suspend(() =>
@@ -1137,7 +1183,7 @@ export const ListDataLakeExceptionsResponse = S.suspend(() =>
   identifier: "ListDataLakeExceptionsResponse",
 }) as any as S.Schema<ListDataLakeExceptionsResponse>;
 export interface CreateAwsLogSourceResponse {
-  failed?: AccountList;
+  failed?: string[];
 }
 export const CreateAwsLogSourceResponse = S.suspend(() =>
   S.Struct({ failed: S.optional(AccountList) }),
@@ -1147,7 +1193,7 @@ export const CreateAwsLogSourceResponse = S.suspend(() =>
 export interface CreateCustomLogSourceRequest {
   sourceName: string;
   sourceVersion?: string;
-  eventClasses?: OcsfEventClassList;
+  eventClasses?: string[];
   configuration: CustomLogSourceConfiguration;
 }
 export const CreateCustomLogSourceRequest = S.suspend(() =>
@@ -1170,7 +1216,7 @@ export const CreateCustomLogSourceRequest = S.suspend(() =>
   identifier: "CreateCustomLogSourceRequest",
 }) as any as S.Schema<CreateCustomLogSourceRequest>;
 export interface CreateDataLakeOrganizationConfigurationRequest {
-  autoEnableNewAccount?: DataLakeAutoEnableNewAccountConfigurationList;
+  autoEnableNewAccount?: DataLakeAutoEnableNewAccountConfiguration[];
 }
 export const CreateDataLakeOrganizationConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -1217,7 +1263,7 @@ export const GetSubscriberResponse = S.suspend(() =>
 }) as any as S.Schema<GetSubscriberResponse>;
 export interface CreateSubscriberNotificationRequest {
   subscriberId: string;
-  configuration: (typeof NotificationConfiguration)["Type"];
+  configuration: NotificationConfiguration;
 }
 export const CreateSubscriberNotificationRequest = S.suspend(() =>
   S.Struct({
@@ -1241,10 +1287,13 @@ export const CreateSubscriberNotificationRequest = S.suspend(() =>
 }) as any as S.Schema<CreateSubscriberNotificationRequest>;
 export interface DataLakeSourceStatus {
   resource?: string;
-  status?: string;
+  status?: SourceCollectionStatus;
 }
 export const DataLakeSourceStatus = S.suspend(() =>
-  S.Struct({ resource: S.optional(S.String), status: S.optional(S.String) }),
+  S.Struct({
+    resource: S.optional(S.String),
+    status: S.optional(SourceCollectionStatus),
+  }),
 ).annotations({
   identifier: "DataLakeSourceStatus",
 }) as any as S.Schema<DataLakeSourceStatus>;
@@ -1253,8 +1302,8 @@ export const DataLakeSourceStatusList = S.Array(DataLakeSourceStatus);
 export interface DataLakeSource {
   account?: string;
   sourceName?: string;
-  eventClasses?: OcsfEventClassList;
-  sourceStatuses?: DataLakeSourceStatusList;
+  eventClasses?: string[];
+  sourceStatuses?: DataLakeSourceStatus[];
 }
 export const DataLakeSource = S.suspend(() =>
   S.Struct({
@@ -1277,9 +1326,9 @@ export const CreateCustomLogSourceResponse = S.suspend(() =>
   identifier: "CreateCustomLogSourceResponse",
 }) as any as S.Schema<CreateCustomLogSourceResponse>;
 export interface CreateDataLakeRequest {
-  configurations: DataLakeConfigurationList;
+  configurations: DataLakeConfiguration[];
   metaStoreManagerRoleArn: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateDataLakeRequest = S.suspend(() =>
   S.Struct({
@@ -1301,7 +1350,7 @@ export const CreateDataLakeRequest = S.suspend(() =>
 }) as any as S.Schema<CreateDataLakeRequest>;
 export interface GetDataLakeSourcesResponse {
   dataLakeArn?: string;
-  dataLakeSources?: DataLakeSourceList;
+  dataLakeSources?: DataLakeSource[];
   nextToken?: string;
 }
 export const GetDataLakeSourcesResponse = S.suspend(() =>
@@ -1314,9 +1363,9 @@ export const GetDataLakeSourcesResponse = S.suspend(() =>
   identifier: "GetDataLakeSourcesResponse",
 }) as any as S.Schema<GetDataLakeSourcesResponse>;
 export interface ListLogSourcesRequest {
-  accounts?: AccountList;
-  regions?: RegionList;
-  sources?: LogSourceResourceList;
+  accounts?: string[];
+  regions?: string[];
+  sources?: LogSourceResource[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -1349,7 +1398,7 @@ export const CreateSubscriberNotificationResponse = S.suspend(() =>
   identifier: "CreateSubscriberNotificationResponse",
 }) as any as S.Schema<CreateSubscriberNotificationResponse>;
 export interface CreateDataLakeResponse {
-  dataLakes?: DataLakeResourceList;
+  dataLakes?: DataLakeResource[];
 }
 export const CreateDataLakeResponse = S.suspend(() =>
   S.Struct({ dataLakes: S.optional(DataLakeResourceList) }),
@@ -1357,7 +1406,7 @@ export const CreateDataLakeResponse = S.suspend(() =>
   identifier: "CreateDataLakeResponse",
 }) as any as S.Schema<CreateDataLakeResponse>;
 export interface ListDataLakesResponse {
-  dataLakes?: DataLakeResourceList;
+  dataLakes?: DataLakeResource[];
 }
 export const ListDataLakesResponse = S.suspend(() =>
   S.Struct({ dataLakes: S.optional(DataLakeResourceList) }),
@@ -1367,7 +1416,7 @@ export const ListDataLakesResponse = S.suspend(() =>
 export interface LogSource {
   account?: string;
   region?: string;
-  sources?: LogSourceResourceList;
+  sources?: LogSourceResource[];
 }
 export const LogSource = S.suspend(() =>
   S.Struct({
@@ -1379,7 +1428,7 @@ export const LogSource = S.suspend(() =>
 export type LogSourceList = LogSource[];
 export const LogSourceList = S.Array(LogSource);
 export interface ListLogSourcesResponse {
-  sources?: LogSourceList;
+  sources?: LogSource[];
   nextToken?: string;
 }
 export const ListLogSourcesResponse = S.suspend(() =>
@@ -1439,7 +1488,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
  */
 export const deleteDataLakeExceptionSubscription: (
   input: DeleteDataLakeExceptionSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDataLakeExceptionSubscriptionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1467,7 +1516,7 @@ export const deleteDataLakeExceptionSubscription: (
 export const listLogSources: {
   (
     input: ListLogSourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLogSourcesResponse,
     | AccessDeniedException
     | BadRequestException
@@ -1480,7 +1529,7 @@ export const listLogSources: {
   >;
   pages: (
     input: ListLogSourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLogSourcesResponse,
     | AccessDeniedException
     | BadRequestException
@@ -1493,7 +1542,7 @@ export const listLogSources: {
   >;
   items: (
     input: ListLogSourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LogSource,
     | AccessDeniedException
     | BadRequestException
@@ -1541,7 +1590,7 @@ export const listLogSources: {
  */
 export const createDataLake: (
   input: CreateDataLakeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataLakeResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1569,7 +1618,7 @@ export const createDataLake: (
  */
 export const listDataLakes: (
   input: ListDataLakesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDataLakesResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1602,7 +1651,7 @@ export const listDataLakes: (
  */
 export const createCustomLogSource: (
   input: CreateCustomLogSourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCustomLogSourceResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1631,7 +1680,7 @@ export const createCustomLogSource: (
 export const getDataLakeSources: {
   (
     input: GetDataLakeSourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetDataLakeSourcesResponse,
     | AccessDeniedException
     | BadRequestException
@@ -1644,7 +1693,7 @@ export const getDataLakeSources: {
   >;
   pages: (
     input: GetDataLakeSourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetDataLakeSourcesResponse,
     | AccessDeniedException
     | BadRequestException
@@ -1657,7 +1706,7 @@ export const getDataLakeSources: {
   >;
   items: (
     input: GetDataLakeSourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataLakeSource,
     | AccessDeniedException
     | BadRequestException
@@ -1693,7 +1742,7 @@ export const getDataLakeSources: {
  */
 export const createSubscriberNotification: (
   input: CreateSubscriberNotificationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSubscriberNotificationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1722,7 +1771,7 @@ export const createSubscriberNotification: (
 export const listDataLakeExceptions: {
   (
     input: ListDataLakeExceptionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataLakeExceptionsResponse,
     | AccessDeniedException
     | BadRequestException
@@ -1735,7 +1784,7 @@ export const listDataLakeExceptions: {
   >;
   pages: (
     input: ListDataLakeExceptionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataLakeExceptionsResponse,
     | AccessDeniedException
     | BadRequestException
@@ -1748,7 +1797,7 @@ export const listDataLakeExceptions: {
   >;
   items: (
     input: ListDataLakeExceptionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataLakeException,
     | AccessDeniedException
     | BadRequestException
@@ -1789,7 +1838,7 @@ export const listDataLakeExceptions: {
  */
 export const createAwsLogSource: (
   input: CreateAwsLogSourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAwsLogSourceResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1820,7 +1869,7 @@ export const createAwsLogSource: (
  */
 export const createDataLakeOrganizationConfiguration: (
   input: CreateDataLakeOrganizationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataLakeOrganizationConfigurationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1848,7 +1897,7 @@ export const createDataLakeOrganizationConfiguration: (
  */
 export const createSubscriber: (
   input: CreateSubscriberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSubscriberResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1876,7 +1925,7 @@ export const createSubscriber: (
  */
 export const getSubscriber: (
   input: GetSubscriberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSubscriberResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1904,7 +1953,7 @@ export const getSubscriber: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1938,7 +1987,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1972,7 +2021,7 @@ export const tagResource: (
  */
 export const deleteAwsLogSource: (
   input: DeleteAwsLogSourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAwsLogSourceResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2011,7 +2060,7 @@ export const deleteAwsLogSource: (
  */
 export const updateDataLake: (
   input: UpdateDataLakeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDataLakeResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2039,7 +2088,7 @@ export const updateDataLake: (
  */
 export const updateSubscriber: (
   input: UpdateSubscriberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSubscriberResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2068,7 +2117,7 @@ export const updateSubscriber: (
 export const listSubscribers: {
   (
     input: ListSubscribersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSubscribersResponse,
     | AccessDeniedException
     | BadRequestException
@@ -2081,7 +2130,7 @@ export const listSubscribers: {
   >;
   pages: (
     input: ListSubscribersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSubscribersResponse,
     | AccessDeniedException
     | BadRequestException
@@ -2094,7 +2143,7 @@ export const listSubscribers: {
   >;
   items: (
     input: ListSubscribersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SubscriberResource,
     | AccessDeniedException
     | BadRequestException
@@ -2129,7 +2178,7 @@ export const listSubscribers: {
  */
 export const updateSubscriberNotification: (
   input: UpdateSubscriberNotificationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSubscriberNotificationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2156,7 +2205,7 @@ export const updateSubscriberNotification: (
  */
 export const getDataLakeExceptionSubscription: (
   input: GetDataLakeExceptionSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataLakeExceptionSubscriptionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2185,7 +2234,7 @@ export const getDataLakeExceptionSubscription: (
  */
 export const registerDataLakeDelegatedAdministrator: (
   input: RegisterDataLakeDelegatedAdministratorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterDataLakeDelegatedAdministratorResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2213,7 +2262,7 @@ export const registerDataLakeDelegatedAdministrator: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2241,7 +2290,7 @@ export const untagResource: (
  */
 export const updateDataLakeExceptionSubscription: (
   input: UpdateDataLakeExceptionSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDataLakeExceptionSubscriptionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2269,7 +2318,7 @@ export const updateDataLakeExceptionSubscription: (
  */
 export const deleteCustomLogSource: (
   input: DeleteCustomLogSourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCustomLogSourceResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2304,7 +2353,7 @@ export const deleteCustomLogSource: (
  */
 export const deleteDataLake: (
   input: DeleteDataLakeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDataLakeResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2333,7 +2382,7 @@ export const deleteDataLake: (
  */
 export const deleteDataLakeOrganizationConfiguration: (
   input: DeleteDataLakeOrganizationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDataLakeOrganizationConfigurationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2362,7 +2411,7 @@ export const deleteDataLakeOrganizationConfiguration: (
  */
 export const getDataLakeOrganizationConfiguration: (
   input: GetDataLakeOrganizationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataLakeOrganizationConfigurationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2392,7 +2441,7 @@ export const getDataLakeOrganizationConfiguration: (
  */
 export const deleteSubscriber: (
   input: DeleteSubscriberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSubscriberResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2420,7 +2469,7 @@ export const deleteSubscriber: (
  */
 export const deleteSubscriberNotification: (
   input: DeleteSubscriberNotificationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSubscriberNotificationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2449,7 +2498,7 @@ export const deleteSubscriberNotification: (
  */
 export const deregisterDataLakeDelegatedAdministrator: (
   input: DeregisterDataLakeDelegatedAdministratorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterDataLakeDelegatedAdministratorResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2477,7 +2526,7 @@ export const deregisterDataLakeDelegatedAdministrator: (
  */
 export const createDataLakeExceptionSubscription: (
   input: CreateDataLakeExceptionSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataLakeExceptionSubscriptionResponse,
   | AccessDeniedException
   | BadRequestException

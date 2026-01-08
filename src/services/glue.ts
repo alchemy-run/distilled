@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -108,7 +108,6 @@ export type CrawlerSecurityConfiguration = string;
 export type DataQualityRulesetString = string;
 export type RoleArn = string;
 export type GlueVersionString = string;
-export type NullableInteger = number;
 export type IdentityCenterInstanceArn = string;
 export type IdentityCenterScope = string;
 export type String128 = string;
@@ -119,7 +118,6 @@ export type UriString = string;
 export type RoleString = string;
 export type MaxRetries = number;
 export type Timeout = number;
-export type NullableDouble = number;
 export type MaintenanceWindow = string;
 export type SchemaRegistryNameString = string;
 export type OrchestrationRoleArn = string;
@@ -188,7 +186,6 @@ export type NotifyDelayAfter = number;
 export type NodeId = string;
 export type CodeGenIdentifier = string;
 export type CodeGenNodeType = string;
-export type Integer = number;
 export type CodeGenArgName = string;
 export type OrchestrationArgumentsValue = string;
 export type NonNegativeInteger = number;
@@ -256,10 +253,10 @@ export type NonNegativeDouble = number;
 export type LongValueString = string;
 export type DataQualityRuleResultDescription =
   | string
-  | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
 export type DataQualityObservationDescription =
   | string
-  | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
 export type JsonValue = string;
 export type AttemptCount = number;
 export type OrchestrationMessageString = string;
@@ -270,7 +267,6 @@ export type DisplayName = string;
 export type Vendor = string;
 export type UrlString = string;
 export type StatisticNameString = string;
-export type Double = number;
 export type EntityLabel = string;
 export type EntityDescription = string;
 export type Category = string;
@@ -279,7 +275,7 @@ export type ColumnValuesString = string;
 export type DataLakePrincipalString = string;
 export type TokenUrl = string;
 export type Username = string;
-export type Password = string | Redacted.Redacted<string>;
+export type Password = string | redacted.Redacted<string>;
 export type CredentialKey = string;
 export type CredentialValue = string;
 export type NodeName = string;
@@ -300,7 +296,6 @@ export type DQDLString = string;
 export type BoxedLong = number;
 export type ConfigValueString = string;
 export type NonNegativeLong = number;
-export type Long = number;
 export type IntegrationErrorMessage = string;
 export type ScalaCode = string;
 export type LogGroup = string;
@@ -314,14 +309,14 @@ export type UserManagedClientApplicationClientId = string;
 export type AWSManagedClientApplicationReference = string;
 export type TokenUrlParameterKey = string;
 export type TokenUrlParameterValue = string;
-export type AuthorizationCode = string | Redacted.Redacted<string>;
+export type AuthorizationCode = string | redacted.Redacted<string>;
 export type RedirectUri = string;
 export type UserManagedClientApplicationClientSecret =
   | string
-  | Redacted.Redacted<string>;
-export type AccessToken = string | Redacted.Redacted<string>;
-export type RefreshToken = string | Redacted.Redacted<string>;
-export type JwtToken = string | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
+export type AccessToken = string | redacted.Redacted<string>;
+export type RefreshToken = string | redacted.Redacted<string>;
+export type JwtToken = string | redacted.Redacted<string>;
 export type BoxedNonNegativeLong = number;
 export type PollingTime = number;
 export type PositiveLong = number;
@@ -389,7 +384,7 @@ export const JobNameList = S.Array(S.String);
 export type ValueStringList = string[];
 export const ValueStringList = S.Array(S.String);
 export interface PartitionValueList {
-  Values: ValueStringList;
+  Values: string[];
 }
 export const PartitionValueList = S.suspend(() =>
   S.Struct({ Values: ValueStringList }),
@@ -404,6 +399,8 @@ export type WorkflowNames = string[];
 export const WorkflowNames = S.Array(S.String);
 export type BatchStopJobRunJobRunIdList = string[];
 export const BatchStopJobRunJobRunIdList = S.Array(S.String);
+export type DataFormat = "AVRO" | "JSON" | "PROTOBUF";
+export const DataFormat = S.Literal("AVRO", "JSON", "PROTOBUF");
 export type ColumnNameList = string[];
 export const ColumnNameList = S.Array(S.String);
 export type ClassifierNameList = string[];
@@ -414,12 +411,54 @@ export type StringList = string[];
 export const StringList = S.Array(S.String);
 export type PublicKeysList = string[];
 export const PublicKeysList = S.Array(S.String);
+export type WorkerType =
+  | "Standard"
+  | "G.1X"
+  | "G.2X"
+  | "G.025X"
+  | "G.4X"
+  | "G.8X"
+  | "Z.2X";
+export const WorkerType = S.Literal(
+  "Standard",
+  "G.1X",
+  "G.2X",
+  "G.025X",
+  "G.4X",
+  "G.8X",
+  "Z.2X",
+);
 export type IdentityCenterScopesList = string[];
 export const IdentityCenterScopesList = S.Array(S.String);
+export type JobMode = "SCRIPT" | "VISUAL" | "NOTEBOOK";
+export const JobMode = S.Literal("SCRIPT", "VISUAL", "NOTEBOOK");
+export type ExecutionClass = "FLEX" | "STANDARD";
+export const ExecutionClass = S.Literal("FLEX", "STANDARD");
+export type Compatibility =
+  | "NONE"
+  | "DISABLED"
+  | "BACKWARD"
+  | "BACKWARD_ALL"
+  | "FORWARD"
+  | "FORWARD_ALL"
+  | "FULL"
+  | "FULL_ALL";
+export const Compatibility = S.Literal(
+  "NONE",
+  "DISABLED",
+  "BACKWARD",
+  "BACKWARD_ALL",
+  "FORWARD",
+  "FORWARD_ALL",
+  "FULL",
+  "FULL_ALL",
+);
+export type Language = "PYTHON" | "SCALA";
+export const Language = S.Literal("PYTHON", "SCALA");
 export type KeyList = string[];
 export const KeyList = S.Array(S.String);
 export interface PartitionIndex {
-  Keys: KeyList;
+  Keys: string[];
   IndexName: string;
 }
 export const PartitionIndex = S.suspend(() =>
@@ -429,10 +468,32 @@ export const PartitionIndex = S.suspend(() =>
 }) as any as S.Schema<PartitionIndex>;
 export type PartitionIndexList = PartitionIndex[];
 export const PartitionIndexList = S.Array(PartitionIndex);
+export type TableOptimizerType =
+  | "compaction"
+  | "retention"
+  | "orphan_file_deletion";
+export const TableOptimizerType = S.Literal(
+  "compaction",
+  "retention",
+  "orphan_file_deletion",
+);
+export type TriggerType = "SCHEDULED" | "CONDITIONAL" | "ON_DEMAND" | "EVENT";
+export const TriggerType = S.Literal(
+  "SCHEDULED",
+  "CONDITIONAL",
+  "ON_DEMAND",
+  "EVENT",
+);
 export type GetColumnNamesList = string[];
 export const GetColumnNamesList = S.Array(S.String);
-export type DatabaseAttributesList = string[];
-export const DatabaseAttributesList = S.Array(S.String);
+export type ComputeEnvironment = "SPARK" | "ATHENA" | "PYTHON";
+export const ComputeEnvironment = S.Literal("SPARK", "ATHENA", "PYTHON");
+export type ResourceShareType = "FOREIGN" | "ALL" | "FEDERATED";
+export const ResourceShareType = S.Literal("FOREIGN", "ALL", "FEDERATED");
+export type DatabaseAttributes = "NAME" | "TARGET_DATABASE";
+export const DatabaseAttributes = S.Literal("NAME", "TARGET_DATABASE");
+export type DatabaseAttributesList = DatabaseAttributes[];
+export const DatabaseAttributesList = S.Array(DatabaseAttributes);
 export type SelectedFields = string[];
 export const SelectedFields = S.Array(S.String);
 export type OrchestrationStringList = string[];
@@ -446,12 +507,63 @@ export const CatalogEntry = S.suspend(() =>
 ).annotations({ identifier: "CatalogEntry" }) as any as S.Schema<CatalogEntry>;
 export type CatalogEntries = CatalogEntry[];
 export const CatalogEntries = S.Array(CatalogEntry);
-export type TableAttributesList = string[];
-export const TableAttributesList = S.Array(S.String);
-export type PermissionTypeList = string[];
-export const PermissionTypeList = S.Array(S.String);
-export type PermissionList = string[];
-export const PermissionList = S.Array(S.String);
+export type SchemaDiffType = "SYNTAX_DIFF";
+export const SchemaDiffType = S.Literal("SYNTAX_DIFF");
+export type TableAttributes = "NAME" | "TABLE_TYPE";
+export const TableAttributes = S.Literal("NAME", "TABLE_TYPE");
+export type TableAttributesList = TableAttributes[];
+export const TableAttributesList = S.Array(TableAttributes);
+export type PermissionType =
+  | "COLUMN_PERMISSION"
+  | "CELL_FILTER_PERMISSION"
+  | "NESTED_PERMISSION"
+  | "NESTED_CELL_PERMISSION";
+export const PermissionType = S.Literal(
+  "COLUMN_PERMISSION",
+  "CELL_FILTER_PERMISSION",
+  "NESTED_PERMISSION",
+  "NESTED_CELL_PERMISSION",
+);
+export type PermissionTypeList = PermissionType[];
+export const PermissionTypeList = S.Array(PermissionType);
+export type Permission =
+  | "ALL"
+  | "SELECT"
+  | "ALTER"
+  | "DROP"
+  | "DELETE"
+  | "INSERT"
+  | "CREATE_DATABASE"
+  | "CREATE_TABLE"
+  | "DATA_LOCATION_ACCESS";
+export const Permission = S.Literal(
+  "ALL",
+  "SELECT",
+  "ALTER",
+  "DROP",
+  "DELETE",
+  "INSERT",
+  "CREATE_DATABASE",
+  "CREATE_TABLE",
+  "DATA_LOCATION_ACCESS",
+);
+export type PermissionList = Permission[];
+export const PermissionList = S.Array(Permission);
+export type FunctionType =
+  | "REGULAR_FUNCTION"
+  | "AGGREGATE_FUNCTION"
+  | "STORED_PROCEDURE";
+export const FunctionType = S.Literal(
+  "REGULAR_FUNCTION",
+  "AGGREGATE_FUNCTION",
+  "STORED_PROCEDURE",
+);
+export type InclusionAnnotationValue = "INCLUDE" | "EXCLUDE";
+export const InclusionAnnotationValue = S.Literal("INCLUDE", "EXCLUDE");
+export type ExistCondition = "MUST_EXIST" | "NOT_EXIST" | "NONE";
+export const ExistCondition = S.Literal("MUST_EXIST", "NOT_EXIST", "NONE");
+export type EnableHybridValues = "TRUE" | "FALSE";
+export const EnableHybridValues = S.Literal("TRUE", "FALSE");
 export interface MetadataKeyValuePair {
   MetadataKey?: string;
   MetadataValue?: string;
@@ -472,11 +584,36 @@ export type RulesetNames = string[];
 export const RulesetNames = S.Array(S.String);
 export type TagKeysList = string[];
 export const TagKeysList = S.Array(S.String);
+export type SourceControlProvider =
+  | "GITHUB"
+  | "GITLAB"
+  | "BITBUCKET"
+  | "AWS_CODE_COMMIT";
+export const SourceControlProvider = S.Literal(
+  "GITHUB",
+  "GITLAB",
+  "BITBUCKET",
+  "AWS_CODE_COMMIT",
+);
+export type SourceControlAuthStrategy =
+  | "PERSONAL_ACCESS_TOKEN"
+  | "AWS_SECRETS_MANAGER";
+export const SourceControlAuthStrategy = S.Literal(
+  "PERSONAL_ACCESS_TOKEN",
+  "AWS_SECRETS_MANAGER",
+);
 export type BoundedPartitionValueList = string[];
 export const BoundedPartitionValueList = S.Array(S.String);
+export type ViewUpdateAction = "ADD" | "REPLACE" | "ADD_OR_REPLACE" | "DROP";
+export const ViewUpdateAction = S.Literal(
+  "ADD",
+  "REPLACE",
+  "ADD_OR_REPLACE",
+  "DROP",
+);
 export interface BatchDeleteConnectionRequest {
   CatalogId?: string;
-  ConnectionNameList: DeleteConnectionNameList;
+  ConnectionNameList: string[];
 }
 export const BatchDeleteConnectionRequest = S.suspend(() =>
   S.Struct({
@@ -491,7 +628,7 @@ export const BatchDeleteConnectionRequest = S.suspend(() =>
 export interface BatchDeleteTableRequest {
   CatalogId?: string;
   DatabaseName: string;
-  TablesToDelete: BatchDeleteTableNameList;
+  TablesToDelete: string[];
   TransactionId?: string;
 }
 export const BatchDeleteTableRequest = S.suspend(() =>
@@ -510,7 +647,7 @@ export interface BatchDeleteTableVersionRequest {
   CatalogId?: string;
   DatabaseName: string;
   TableName: string;
-  VersionIds: BatchDeleteTableVersionList;
+  VersionIds: string[];
 }
 export const BatchDeleteTableVersionRequest = S.suspend(() =>
   S.Struct({
@@ -525,7 +662,7 @@ export const BatchDeleteTableVersionRequest = S.suspend(() =>
   identifier: "BatchDeleteTableVersionRequest",
 }) as any as S.Schema<BatchDeleteTableVersionRequest>;
 export interface BatchGetBlueprintsRequest {
-  Names: BatchGetBlueprintNames;
+  Names: string[];
   IncludeBlueprint?: boolean;
   IncludeParameterSpec?: boolean;
 }
@@ -541,7 +678,7 @@ export const BatchGetBlueprintsRequest = S.suspend(() =>
   identifier: "BatchGetBlueprintsRequest",
 }) as any as S.Schema<BatchGetBlueprintsRequest>;
 export interface BatchGetCrawlersRequest {
-  CrawlerNames: CrawlerNameList;
+  CrawlerNames: string[];
 }
 export const BatchGetCrawlersRequest = S.suspend(() =>
   S.Struct({ CrawlerNames: CrawlerNameList }).pipe(
@@ -551,7 +688,7 @@ export const BatchGetCrawlersRequest = S.suspend(() =>
   identifier: "BatchGetCrawlersRequest",
 }) as any as S.Schema<BatchGetCrawlersRequest>;
 export interface BatchGetCustomEntityTypesRequest {
-  Names: CustomEntityTypeNames;
+  Names: string[];
 }
 export const BatchGetCustomEntityTypesRequest = S.suspend(() =>
   S.Struct({ Names: CustomEntityTypeNames }).pipe(
@@ -561,7 +698,7 @@ export const BatchGetCustomEntityTypesRequest = S.suspend(() =>
   identifier: "BatchGetCustomEntityTypesRequest",
 }) as any as S.Schema<BatchGetCustomEntityTypesRequest>;
 export interface BatchGetDataQualityResultRequest {
-  ResultIds: DataQualityResultIds;
+  ResultIds: string[];
 }
 export const BatchGetDataQualityResultRequest = S.suspend(() =>
   S.Struct({ ResultIds: DataQualityResultIds }).pipe(
@@ -571,7 +708,7 @@ export const BatchGetDataQualityResultRequest = S.suspend(() =>
   identifier: "BatchGetDataQualityResultRequest",
 }) as any as S.Schema<BatchGetDataQualityResultRequest>;
 export interface BatchGetDevEndpointsRequest {
-  DevEndpointNames: DevEndpointNames;
+  DevEndpointNames: string[];
 }
 export const BatchGetDevEndpointsRequest = S.suspend(() =>
   S.Struct({ DevEndpointNames: DevEndpointNames }).pipe(
@@ -581,7 +718,7 @@ export const BatchGetDevEndpointsRequest = S.suspend(() =>
   identifier: "BatchGetDevEndpointsRequest",
 }) as any as S.Schema<BatchGetDevEndpointsRequest>;
 export interface BatchGetJobsRequest {
-  JobNames: JobNameList;
+  JobNames: string[];
 }
 export const BatchGetJobsRequest = S.suspend(() =>
   S.Struct({ JobNames: JobNameList }).pipe(
@@ -594,7 +731,7 @@ export interface BatchGetPartitionRequest {
   CatalogId?: string;
   DatabaseName: string;
   TableName: string;
-  PartitionsToGet: BatchGetPartitionValueList;
+  PartitionsToGet: PartitionValueList[];
 }
 export const BatchGetPartitionRequest = S.suspend(() =>
   S.Struct({
@@ -609,7 +746,7 @@ export const BatchGetPartitionRequest = S.suspend(() =>
   identifier: "BatchGetPartitionRequest",
 }) as any as S.Schema<BatchGetPartitionRequest>;
 export interface BatchGetTriggersRequest {
-  TriggerNames: TriggerNameList;
+  TriggerNames: string[];
 }
 export const BatchGetTriggersRequest = S.suspend(() =>
   S.Struct({ TriggerNames: TriggerNameList }).pipe(
@@ -619,7 +756,7 @@ export const BatchGetTriggersRequest = S.suspend(() =>
   identifier: "BatchGetTriggersRequest",
 }) as any as S.Schema<BatchGetTriggersRequest>;
 export interface BatchGetWorkflowsRequest {
-  Names: WorkflowNames;
+  Names: string[];
   IncludeGraph?: boolean;
 }
 export const BatchGetWorkflowsRequest = S.suspend(() =>
@@ -631,7 +768,7 @@ export const BatchGetWorkflowsRequest = S.suspend(() =>
 }) as any as S.Schema<BatchGetWorkflowsRequest>;
 export interface BatchStopJobRunRequest {
   JobName: string;
-  JobRunIds: BatchStopJobRunJobRunIdList;
+  JobRunIds: string[];
 }
 export const BatchStopJobRunRequest = S.suspend(() =>
   S.Struct({ JobName: S.String, JobRunIds: BatchStopJobRunJobRunIdList }).pipe(
@@ -706,11 +843,11 @@ export const CancelStatementResponse = S.suspend(() =>
   identifier: "CancelStatementResponse",
 }) as any as S.Schema<CancelStatementResponse>;
 export interface CheckSchemaVersionValidityInput {
-  DataFormat: string;
+  DataFormat: DataFormat;
   SchemaDefinition: string;
 }
 export const CheckSchemaVersionValidityInput = S.suspend(() =>
-  S.Struct({ DataFormat: S.String, SchemaDefinition: S.String }).pipe(
+  S.Struct({ DataFormat: DataFormat, SchemaDefinition: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -723,11 +860,11 @@ export interface CreateColumnStatisticsTaskSettingsRequest {
   TableName: string;
   Role: string;
   Schedule?: string;
-  ColumnNameList?: ColumnNameList;
+  ColumnNameList?: string[];
   SampleSize?: number;
   CatalogID?: string;
   SecurityConfiguration?: string;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateColumnStatisticsTaskSettingsRequest = S.suspend(() =>
   S.Struct({
@@ -755,8 +892,8 @@ export const CreateColumnStatisticsTaskSettingsResponse = S.suspend(() =>
 export interface CreateCustomEntityTypeRequest {
   Name: string;
   RegexString: string;
-  ContextWords?: ContextWords;
-  Tags?: TagsMap;
+  ContextWords?: string[];
+  Tags?: { [key: string]: string };
 }
 export const CreateCustomEntityTypeRequest = S.suspend(() =>
   S.Struct({
@@ -772,7 +909,7 @@ export const CreateCustomEntityTypeRequest = S.suspend(() =>
 }) as any as S.Schema<CreateCustomEntityTypeRequest>;
 export interface CreateGlueIdentityCenterConfigurationRequest {
   InstanceArn: string;
-  Scopes?: IdentityCenterScopesList;
+  Scopes?: string[];
   UserBackgroundSessionsEnabled?: boolean;
 }
 export const CreateGlueIdentityCenterConfigurationRequest = S.suspend(() =>
@@ -792,7 +929,7 @@ export interface Column {
   Name: string;
   Type?: string;
   Comment?: string;
-  Parameters?: ParametersMap;
+  Parameters?: { [key: string]: string };
 }
 export const Column = S.suspend(() =>
   S.Struct({
@@ -809,7 +946,7 @@ export const LocationStringList = S.Array(S.String);
 export interface SerDeInfo {
   Name?: string;
   SerializationLibrary?: string;
-  Parameters?: ParametersMap;
+  Parameters?: { [key: string]: string };
 }
 export const SerDeInfo = S.suspend(() =>
   S.Struct({
@@ -834,9 +971,9 @@ export const ColumnValueStringList = S.Array(S.String);
 export type LocationMap = { [key: string]: string };
 export const LocationMap = S.Record({ key: S.String, value: S.String });
 export interface SkewedInfo {
-  SkewedColumnNames?: NameStringList;
-  SkewedColumnValues?: ColumnValueStringList;
-  SkewedColumnValueLocationMaps?: LocationMap;
+  SkewedColumnNames?: string[];
+  SkewedColumnValues?: string[];
+  SkewedColumnValueLocationMaps?: { [key: string]: string };
 }
 export const SkewedInfo = S.suspend(() =>
   S.Struct({
@@ -872,17 +1009,17 @@ export const SchemaReference = S.suspend(() =>
   identifier: "SchemaReference",
 }) as any as S.Schema<SchemaReference>;
 export interface StorageDescriptor {
-  Columns?: ColumnList;
+  Columns?: Column[];
   Location?: string;
-  AdditionalLocations?: LocationStringList;
+  AdditionalLocations?: string[];
   InputFormat?: string;
   OutputFormat?: string;
   Compressed?: boolean;
   NumberOfBuckets?: number;
   SerdeInfo?: SerDeInfo;
-  BucketColumns?: NameStringList;
-  SortColumns?: OrderList;
-  Parameters?: ParametersMap;
+  BucketColumns?: string[];
+  SortColumns?: Order[];
+  Parameters?: { [key: string]: string };
   SkewedInfo?: SkewedInfo;
   StoredAsSubDirectories?: boolean;
   SchemaReference?: SchemaReference;
@@ -908,10 +1045,10 @@ export const StorageDescriptor = S.suspend(() =>
   identifier: "StorageDescriptor",
 }) as any as S.Schema<StorageDescriptor>;
 export interface PartitionInput {
-  Values?: ValueStringList;
+  Values?: string[];
   LastAccessTime?: Date;
   StorageDescriptor?: StorageDescriptor;
-  Parameters?: ParametersMap;
+  Parameters?: { [key: string]: string };
   LastAnalyzedTime?: Date;
 }
 export const PartitionInput = S.suspend(() =>
@@ -954,7 +1091,7 @@ export const CreatePartitionResponse = S.suspend(() =>
 export interface CreateRegistryInput {
   RegistryName: string;
   Description?: string;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateRegistryInput = S.suspend(() =>
   S.Struct({
@@ -1011,7 +1148,7 @@ export interface DeleteColumnStatisticsForPartitionRequest {
   CatalogId?: string;
   DatabaseName: string;
   TableName: string;
-  PartitionValues: ValueStringList;
+  PartitionValues: string[];
   ColumnName: string;
 }
 export const DeleteColumnStatisticsForPartitionRequest = S.suspend(() =>
@@ -1229,7 +1366,7 @@ export interface DeletePartitionRequest {
   CatalogId?: string;
   DatabaseName: string;
   TableName: string;
-  PartitionValues: ValueStringList;
+  PartitionValues: string[];
 }
 export const DeletePartitionRequest = S.suspend(() =>
   S.Struct({
@@ -1377,14 +1514,14 @@ export interface DeleteTableOptimizerRequest {
   CatalogId: string;
   DatabaseName: string;
   TableName: string;
-  Type: string;
+  Type: TableOptimizerType;
 }
 export const DeleteTableOptimizerRequest = S.suspend(() =>
   S.Struct({
     CatalogId: S.String,
     DatabaseName: S.String,
     TableName: S.String,
-    Type: S.String,
+    Type: TableOptimizerType,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -1638,8 +1775,8 @@ export interface GetColumnStatisticsForPartitionRequest {
   CatalogId?: string;
   DatabaseName: string;
   TableName: string;
-  PartitionValues: ValueStringList;
-  ColumnNames: GetColumnNamesList;
+  PartitionValues: string[];
+  ColumnNames: string[];
 }
 export const GetColumnStatisticsForPartitionRequest = S.suspend(() =>
   S.Struct({
@@ -1658,7 +1795,7 @@ export interface GetColumnStatisticsForTableRequest {
   CatalogId?: string;
   DatabaseName: string;
   TableName: string;
-  ColumnNames: GetColumnNamesList;
+  ColumnNames: string[];
 }
 export const GetColumnStatisticsForTableRequest = S.suspend(() =>
   S.Struct({
@@ -1715,14 +1852,14 @@ export interface GetConnectionRequest {
   CatalogId?: string;
   Name: string;
   HidePassword?: boolean;
-  ApplyOverrideForComputeEnvironment?: string;
+  ApplyOverrideForComputeEnvironment?: ComputeEnvironment;
 }
 export const GetConnectionRequest = S.suspend(() =>
   S.Struct({
     CatalogId: S.optional(S.String),
     Name: S.String,
     HidePassword: S.optional(S.Boolean),
-    ApplyOverrideForComputeEnvironment: S.optional(S.String),
+    ApplyOverrideForComputeEnvironment: S.optional(ComputeEnvironment),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -1740,7 +1877,7 @@ export const GetCrawlerRequest = S.suspend(() =>
   identifier: "GetCrawlerRequest",
 }) as any as S.Schema<GetCrawlerRequest>;
 export interface GetCrawlerMetricsRequest {
-  CrawlerNameList?: CrawlerNameList;
+  CrawlerNameList?: string[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -1794,15 +1931,15 @@ export interface GetDatabasesRequest {
   CatalogId?: string;
   NextToken?: string;
   MaxResults?: number;
-  ResourceShareType?: string;
-  AttributesToGet?: DatabaseAttributesList;
+  ResourceShareType?: ResourceShareType;
+  AttributesToGet?: DatabaseAttributes[];
 }
 export const GetDatabasesRequest = S.suspend(() =>
   S.Struct({
     CatalogId: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-    ResourceShareType: S.optional(S.String),
+    ResourceShareType: S.optional(ResourceShareType),
     AttributesToGet: S.optional(DatabaseAttributesList),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -1919,7 +2056,7 @@ export const GetDevEndpointsRequest = S.suspend(() =>
 export interface GetGlueIdentityCenterConfigurationResponse {
   ApplicationArn?: string;
   InstanceArn?: string;
-  Scopes?: OrchestrationStringList;
+  Scopes?: string[];
   UserBackgroundSessionsEnabled?: boolean;
 }
 export const GetGlueIdentityCenterConfigurationResponse = S.suspend(() =>
@@ -2045,7 +2182,7 @@ export interface GetPartitionRequest {
   CatalogId?: string;
   DatabaseName: string;
   TableName: string;
-  PartitionValues: ValueStringList;
+  PartitionValues: string[];
 }
 export const GetPartitionRequest = S.suspend(() =>
   S.Struct({
@@ -2148,14 +2285,14 @@ export interface GetSchemaVersionsDiffInput {
   SchemaId: SchemaId;
   FirstSchemaVersionNumber: SchemaVersionNumber;
   SecondSchemaVersionNumber: SchemaVersionNumber;
-  SchemaDiffType: string;
+  SchemaDiffType: SchemaDiffType;
 }
 export const GetSchemaVersionsDiffInput = S.suspend(() =>
   S.Struct({
     SchemaId: SchemaId,
     FirstSchemaVersionNumber: SchemaVersionNumber,
     SecondSchemaVersionNumber: SchemaVersionNumber,
-    SchemaDiffType: S.String,
+    SchemaDiffType: SchemaDiffType,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -2217,14 +2354,14 @@ export interface GetTableOptimizerRequest {
   CatalogId: string;
   DatabaseName: string;
   TableName: string;
-  Type: string;
+  Type: TableOptimizerType;
 }
 export const GetTableOptimizerRequest = S.suspend(() =>
   S.Struct({
     CatalogId: S.String,
     DatabaseName: S.String,
     TableName: S.String,
-    Type: S.String,
+    Type: TableOptimizerType,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -2235,7 +2372,7 @@ export type AuditColumnNamesList = string[];
 export const AuditColumnNamesList = S.Array(S.String);
 export interface AuditContext {
   AdditionalAuditContext?: string;
-  RequestedColumns?: AuditColumnNamesList;
+  RequestedColumns?: string[];
   AllColumnsRequested?: boolean;
 }
 export const AuditContext = S.suspend(() =>
@@ -2255,7 +2392,7 @@ export interface GetTablesRequest {
   QueryAsOfTime?: Date;
   AuditContext?: AuditContext;
   IncludeStatusDetails?: boolean;
-  AttributesToGet?: TableAttributesList;
+  AttributesToGet?: TableAttributes[];
 }
 export const GetTablesRequest = S.suspend(() =>
   S.Struct({
@@ -2366,7 +2503,7 @@ export interface QuerySessionContext {
   QueryStartTime?: Date;
   ClusterId?: string;
   QueryAuthorizationId?: string;
-  AdditionalContext?: AdditionalContextMap;
+  AdditionalContext?: { [key: string]: string };
 }
 export const QuerySessionContext = S.suspend(() =>
   S.Struct({
@@ -2386,7 +2523,7 @@ export interface GetUnfilteredPartitionsMetadataRequest {
   TableName: string;
   Expression?: string;
   AuditContext?: AuditContext;
-  SupportedPermissionTypes: PermissionTypeList;
+  SupportedPermissionTypes: PermissionType[];
   NextToken?: string;
   Segment?: Segment;
   MaxResults?: number;
@@ -2441,7 +2578,7 @@ export interface GetUserDefinedFunctionsRequest {
   CatalogId?: string;
   DatabaseName?: string;
   Pattern: string;
-  FunctionType?: string;
+  FunctionType?: FunctionType;
   NextToken?: string;
   MaxResults?: number;
 }
@@ -2450,7 +2587,7 @@ export const GetUserDefinedFunctionsRequest = S.suspend(() =>
     CatalogId: S.optional(S.String),
     DatabaseName: S.optional(S.String),
     Pattern: S.String,
-    FunctionType: S.optional(S.String),
+    FunctionType: S.optional(FunctionType),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
@@ -2534,7 +2671,7 @@ export const ImportCatalogToGlueResponse = S.suspend(() =>
 export interface ListBlueprintsRequest {
   NextToken?: string;
   MaxResults?: number;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const ListBlueprintsRequest = S.suspend(() =>
   S.Struct({
@@ -2578,7 +2715,7 @@ export const ListConnectionTypesRequest = S.suspend(() =>
 export interface ListCrawlersRequest {
   MaxResults?: number;
   NextToken?: string;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const ListCrawlersRequest = S.suspend(() =>
   S.Struct({
@@ -2594,7 +2731,7 @@ export const ListCrawlersRequest = S.suspend(() =>
 export interface ListCustomEntityTypesRequest {
   NextToken?: string;
   MaxResults?: number;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const ListCustomEntityTypesRequest = S.suspend(() =>
   S.Struct({
@@ -2642,7 +2779,7 @@ export const ListDataQualityStatisticsRequest = S.suspend(() =>
 export interface ListDevEndpointsRequest {
   NextToken?: string;
   MaxResults?: number;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const ListDevEndpointsRequest = S.suspend(() =>
   S.Struct({
@@ -2678,7 +2815,7 @@ export const ListEntitiesRequest = S.suspend(() =>
 export interface ListJobsRequest {
   NextToken?: string;
   MaxResults?: number;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const ListJobsRequest = S.suspend(() =>
   S.Struct({
@@ -2691,6 +2828,10 @@ export const ListJobsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListJobsRequest",
 }) as any as S.Schema<ListJobsRequest>;
+export type TransformType = "FIND_MATCHES";
+export const TransformType = S.Literal("FIND_MATCHES");
+export type TransformStatusType = "NOT_READY" | "READY" | "DELETING";
+export const TransformStatusType = S.Literal("NOT_READY", "READY", "DELETING");
 export interface SchemaColumn {
   Name?: string;
   DataType?: string;
@@ -2702,20 +2843,20 @@ export type TransformSchema = SchemaColumn[];
 export const TransformSchema = S.Array(SchemaColumn);
 export interface TransformFilterCriteria {
   Name?: string;
-  TransformType?: string;
-  Status?: string;
+  TransformType?: TransformType;
+  Status?: TransformStatusType;
   GlueVersion?: string;
   CreatedBefore?: Date;
   CreatedAfter?: Date;
   LastModifiedBefore?: Date;
   LastModifiedAfter?: Date;
-  Schema?: TransformSchema;
+  Schema?: SchemaColumn[];
 }
 export const TransformFilterCriteria = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    TransformType: S.optional(S.String),
-    Status: S.optional(S.String),
+    TransformType: S.optional(TransformType),
+    Status: S.optional(TransformStatusType),
     GlueVersion: S.optional(S.String),
     CreatedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2730,12 +2871,30 @@ export const TransformFilterCriteria = S.suspend(() =>
 ).annotations({
   identifier: "TransformFilterCriteria",
 }) as any as S.Schema<TransformFilterCriteria>;
+export type TransformSortColumnType =
+  | "NAME"
+  | "TRANSFORM_TYPE"
+  | "STATUS"
+  | "CREATED"
+  | "LAST_MODIFIED";
+export const TransformSortColumnType = S.Literal(
+  "NAME",
+  "TRANSFORM_TYPE",
+  "STATUS",
+  "CREATED",
+  "LAST_MODIFIED",
+);
+export type SortDirectionType = "DESCENDING" | "ASCENDING";
+export const SortDirectionType = S.Literal("DESCENDING", "ASCENDING");
 export interface TransformSortCriteria {
-  Column: string;
-  SortDirection: string;
+  Column: TransformSortColumnType;
+  SortDirection: SortDirectionType;
 }
 export const TransformSortCriteria = S.suspend(() =>
-  S.Struct({ Column: S.String, SortDirection: S.String }),
+  S.Struct({
+    Column: TransformSortColumnType,
+    SortDirection: SortDirectionType,
+  }),
 ).annotations({
   identifier: "TransformSortCriteria",
 }) as any as S.Schema<TransformSortCriteria>;
@@ -2744,7 +2903,7 @@ export interface ListMLTransformsRequest {
   MaxResults?: number;
   Filter?: TransformFilterCriteria;
   Sort?: TransformSortCriteria;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const ListMLTransformsRequest = S.suspend(() =>
   S.Struct({
@@ -2808,7 +2967,7 @@ export const ListSchemaVersionsInput = S.suspend(() =>
 export interface ListSessionsRequest {
   NextToken?: string;
   MaxResults?: number;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
   RequestOrigin?: string;
 }
 export const ListSessionsRequest = S.suspend(() =>
@@ -2843,7 +3002,7 @@ export interface ListTableOptimizerRunsRequest {
   CatalogId: string;
   DatabaseName: string;
   TableName: string;
-  Type: string;
+  Type: TableOptimizerType;
   MaxResults?: number;
   NextToken?: string;
 }
@@ -2852,7 +3011,7 @@ export const ListTableOptimizerRunsRequest = S.suspend(() =>
     CatalogId: S.String,
     DatabaseName: S.String,
     TableName: S.String,
-    Type: S.String,
+    Type: TableOptimizerType,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -2865,7 +3024,7 @@ export interface ListTriggersRequest {
   NextToken?: string;
   DependentJobName?: string;
   MaxResults?: number;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const ListTriggersRequest = S.suspend(() =>
   S.Struct({
@@ -2914,7 +3073,7 @@ export const IntegrationSourcePropertiesMap = S.Record({
 });
 export interface IntegrationConfig {
   RefreshInterval?: string;
-  SourceProperties?: IntegrationSourcePropertiesMap;
+  SourceProperties?: { [key: string]: string };
   ContinuousSync?: boolean;
 }
 export const IntegrationConfig = S.suspend(() =>
@@ -2948,10 +3107,13 @@ export const ModifyIntegrationRequest = S.suspend(() =>
 }) as any as S.Schema<ModifyIntegrationRequest>;
 export interface PutDataQualityProfileAnnotationRequest {
   ProfileId: string;
-  InclusionAnnotation: string;
+  InclusionAnnotation: InclusionAnnotationValue;
 }
 export const PutDataQualityProfileAnnotationRequest = S.suspend(() =>
-  S.Struct({ ProfileId: S.String, InclusionAnnotation: S.String }).pipe(
+  S.Struct({
+    ProfileId: S.String,
+    InclusionAnnotation: InclusionAnnotationValue,
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -2967,16 +3129,16 @@ export interface PutResourcePolicyRequest {
   PolicyInJson: string;
   ResourceArn?: string;
   PolicyHashCondition?: string;
-  PolicyExistsCondition?: string;
-  EnableHybrid?: string;
+  PolicyExistsCondition?: ExistCondition;
+  EnableHybrid?: EnableHybridValues;
 }
 export const PutResourcePolicyRequest = S.suspend(() =>
   S.Struct({
     PolicyInJson: S.String,
     ResourceArn: S.optional(S.String),
     PolicyHashCondition: S.optional(S.String),
-    PolicyExistsCondition: S.optional(S.String),
-    EnableHybrid: S.optional(S.String),
+    PolicyExistsCondition: S.optional(ExistCondition),
+    EnableHybrid: S.optional(EnableHybridValues),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -2991,7 +3153,7 @@ export const WorkflowRunProperties = S.Record({
 export interface PutWorkflowRunPropertiesRequest {
   Name: string;
   RunId: string;
-  RunProperties: WorkflowRunProperties;
+  RunProperties: { [key: string]: string };
 }
 export const PutWorkflowRunPropertiesRequest = S.suspend(() =>
   S.Struct({
@@ -3014,7 +3176,7 @@ export interface QuerySchemaVersionMetadataInput {
   SchemaId?: SchemaId;
   SchemaVersionNumber?: SchemaVersionNumber;
   SchemaVersionId?: string;
-  MetadataList?: MetadataList;
+  MetadataList?: MetadataKeyValuePair[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -3075,7 +3237,7 @@ export const ResetJobBookmarkRequest = S.suspend(() =>
 export interface ResumeWorkflowRunRequest {
   Name: string;
   RunId: string;
-  NodeIds: NodeIdList;
+  NodeIds: string[];
 }
 export const ResumeWorkflowRunRequest = S.suspend(() =>
   S.Struct({ Name: S.String, RunId: S.String, NodeIds: NodeIdList }).pipe(
@@ -3119,7 +3281,7 @@ export const StartBlueprintRunRequest = S.suspend(() =>
 export interface StartColumnStatisticsTaskRunRequest {
   DatabaseName: string;
   TableName: string;
-  ColumnNameList?: ColumnNameList;
+  ColumnNameList?: string[];
   Role: string;
   SampleSize?: number;
   CatalogID?: string;
@@ -3228,15 +3390,15 @@ export interface StartJobRunRequest {
   JobName: string;
   JobRunQueuingEnabled?: boolean;
   JobRunId?: string;
-  Arguments?: GenericMap;
+  Arguments?: { [key: string]: string };
   AllocatedCapacity?: number;
   Timeout?: number;
   MaxCapacity?: number;
   SecurityConfiguration?: string;
   NotificationProperty?: NotificationProperty;
-  WorkerType?: string;
+  WorkerType?: WorkerType;
   NumberOfWorkers?: number;
-  ExecutionClass?: string;
+  ExecutionClass?: ExecutionClass;
   ExecutionRoleSessionPolicy?: string;
 }
 export const StartJobRunRequest = S.suspend(() =>
@@ -3250,9 +3412,9 @@ export const StartJobRunRequest = S.suspend(() =>
     MaxCapacity: S.optional(S.Number),
     SecurityConfiguration: S.optional(S.String),
     NotificationProperty: S.optional(NotificationProperty),
-    WorkerType: S.optional(S.String),
+    WorkerType: S.optional(WorkerType),
     NumberOfWorkers: S.optional(S.Number),
-    ExecutionClass: S.optional(S.String),
+    ExecutionClass: S.optional(ExecutionClass),
     ExecutionRoleSessionPolicy: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -3293,7 +3455,7 @@ export const StartTriggerRequest = S.suspend(() =>
 }) as any as S.Schema<StartTriggerRequest>;
 export interface StartWorkflowRunRequest {
   Name: string;
-  RunProperties?: WorkflowRunProperties;
+  RunProperties?: { [key: string]: string };
 }
 export const StartWorkflowRunRequest = S.suspend(() =>
   S.Struct({
@@ -3409,7 +3571,7 @@ export const StopWorkflowRunResponse = S.suspend(() =>
 }) as any as S.Schema<StopWorkflowRunResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  TagsToAdd: TagsMap;
+  TagsToAdd: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagsToAdd: TagsMap }).pipe(
@@ -3424,7 +3586,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagsToRemove: TagKeysList;
+  TagsToRemove: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagsToRemove: TagKeysList }).pipe(
@@ -3493,9 +3655,9 @@ export const DataLakeAccessProperties = S.suspend(() =>
 }) as any as S.Schema<DataLakeAccessProperties>;
 export interface IcebergOptimizationProperties {
   RoleArn?: string;
-  Compaction?: ParametersMap;
-  Retention?: ParametersMap;
-  OrphanFileDeletion?: ParametersMap;
+  Compaction?: { [key: string]: string };
+  Retention?: { [key: string]: string };
+  OrphanFileDeletion?: { [key: string]: string };
 }
 export const IcebergOptimizationProperties = S.suspend(() =>
   S.Struct({
@@ -3510,7 +3672,7 @@ export const IcebergOptimizationProperties = S.suspend(() =>
 export interface CatalogProperties {
   DataLakeAccessProperties?: DataLakeAccessProperties;
   IcebergOptimizationProperties?: IcebergOptimizationProperties;
-  CustomProperties?: ParametersMap;
+  CustomProperties?: { [key: string]: string };
 }
 export const CatalogProperties = S.suspend(() =>
   S.Struct({
@@ -3531,7 +3693,7 @@ export const DataLakePrincipal = S.suspend(() =>
 }) as any as S.Schema<DataLakePrincipal>;
 export interface PrincipalPermissions {
   Principal?: DataLakePrincipal;
-  Permissions?: PermissionList;
+  Permissions?: Permission[];
 }
 export const PrincipalPermissions = S.suspend(() =>
   S.Struct({
@@ -3543,15 +3705,17 @@ export const PrincipalPermissions = S.suspend(() =>
 }) as any as S.Schema<PrincipalPermissions>;
 export type PrincipalPermissionsList = PrincipalPermissions[];
 export const PrincipalPermissionsList = S.Array(PrincipalPermissions);
+export type AllowFullTableExternalDataAccessEnum = "True" | "False";
+export const AllowFullTableExternalDataAccessEnum = S.Literal("True", "False");
 export interface CatalogInput {
   Description?: string;
   FederatedCatalog?: FederatedCatalog;
-  Parameters?: ParametersMap;
+  Parameters?: { [key: string]: string };
   TargetRedshiftCatalog?: TargetRedshiftCatalog;
   CatalogProperties?: CatalogProperties;
-  CreateTableDefaultPermissions?: PrincipalPermissionsList;
-  CreateDatabaseDefaultPermissions?: PrincipalPermissionsList;
-  AllowFullTableExternalDataAccess?: string;
+  CreateTableDefaultPermissions?: PrincipalPermissions[];
+  CreateDatabaseDefaultPermissions?: PrincipalPermissions[];
+  AllowFullTableExternalDataAccess?: AllowFullTableExternalDataAccessEnum;
 }
 export const CatalogInput = S.suspend(() =>
   S.Struct({
@@ -3562,7 +3726,9 @@ export const CatalogInput = S.suspend(() =>
     CatalogProperties: S.optional(CatalogProperties),
     CreateTableDefaultPermissions: S.optional(PrincipalPermissionsList),
     CreateDatabaseDefaultPermissions: S.optional(PrincipalPermissionsList),
-    AllowFullTableExternalDataAccess: S.optional(S.String),
+    AllowFullTableExternalDataAccess: S.optional(
+      AllowFullTableExternalDataAccessEnum,
+    ),
   }),
 ).annotations({ identifier: "CatalogInput" }) as any as S.Schema<CatalogInput>;
 export interface UpdateCatalogRequest {
@@ -3580,6 +3746,23 @@ export interface UpdateCatalogResponse {}
 export const UpdateCatalogResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UpdateCatalogResponse",
 }) as any as S.Schema<UpdateCatalogResponse>;
+export type ColumnStatisticsType =
+  | "BOOLEAN"
+  | "DATE"
+  | "DECIMAL"
+  | "DOUBLE"
+  | "LONG"
+  | "STRING"
+  | "BINARY";
+export const ColumnStatisticsType = S.Literal(
+  "BOOLEAN",
+  "DATE",
+  "DECIMAL",
+  "DOUBLE",
+  "LONG",
+  "STRING",
+  "BINARY",
+);
 export interface BooleanColumnStatisticsData {
   NumberOfTrues: number;
   NumberOfFalses: number;
@@ -3698,7 +3881,7 @@ export const BinaryColumnStatisticsData = S.suspend(() =>
   identifier: "BinaryColumnStatisticsData",
 }) as any as S.Schema<BinaryColumnStatisticsData>;
 export interface ColumnStatisticsData {
-  Type: string;
+  Type: ColumnStatisticsType;
   BooleanColumnStatisticsData?: BooleanColumnStatisticsData;
   DateColumnStatisticsData?: DateColumnStatisticsData;
   DecimalColumnStatisticsData?: DecimalColumnStatisticsData;
@@ -3709,7 +3892,7 @@ export interface ColumnStatisticsData {
 }
 export const ColumnStatisticsData = S.suspend(() =>
   S.Struct({
-    Type: S.String,
+    Type: ColumnStatisticsType,
     BooleanColumnStatisticsData: S.optional(BooleanColumnStatisticsData),
     DateColumnStatisticsData: S.optional(DateColumnStatisticsData),
     DecimalColumnStatisticsData: S.optional(DecimalColumnStatisticsData),
@@ -3743,7 +3926,7 @@ export interface UpdateColumnStatisticsForTableRequest {
   CatalogId?: string;
   DatabaseName: string;
   TableName: string;
-  ColumnStatisticsList: UpdateColumnStatisticsList;
+  ColumnStatisticsList: ColumnStatistics[];
 }
 export const UpdateColumnStatisticsForTableRequest = S.suspend(() =>
   S.Struct({
@@ -3762,7 +3945,7 @@ export interface UpdateColumnStatisticsTaskSettingsRequest {
   TableName: string;
   Role?: string;
   Schedule?: string;
-  ColumnNameList?: ColumnNameList;
+  ColumnNameList?: string[];
   SampleSize?: number;
   CatalogID?: string;
   SecurityConfiguration?: string;
@@ -3789,20 +3972,307 @@ export const UpdateColumnStatisticsTaskSettingsResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateColumnStatisticsTaskSettingsResponse",
 }) as any as S.Schema<UpdateColumnStatisticsTaskSettingsResponse>;
+export type ConnectionType =
+  | "JDBC"
+  | "SFTP"
+  | "MONGODB"
+  | "KAFKA"
+  | "NETWORK"
+  | "MARKETPLACE"
+  | "CUSTOM"
+  | "SALESFORCE"
+  | "VIEW_VALIDATION_REDSHIFT"
+  | "VIEW_VALIDATION_ATHENA"
+  | "GOOGLEADS"
+  | "GOOGLESHEETS"
+  | "GOOGLEANALYTICS4"
+  | "SERVICENOW"
+  | "MARKETO"
+  | "SAPODATA"
+  | "ZENDESK"
+  | "JIRACLOUD"
+  | "NETSUITEERP"
+  | "HUBSPOT"
+  | "FACEBOOKADS"
+  | "INSTAGRAMADS"
+  | "ZOHOCRM"
+  | "SALESFORCEPARDOT"
+  | "SALESFORCEMARKETINGCLOUD"
+  | "ADOBEANALYTICS"
+  | "SLACK"
+  | "LINKEDIN"
+  | "MIXPANEL"
+  | "ASANA"
+  | "STRIPE"
+  | "SMARTSHEET"
+  | "DATADOG"
+  | "WOOCOMMERCE"
+  | "INTERCOM"
+  | "SNAPCHATADS"
+  | "PAYPAL"
+  | "QUICKBOOKS"
+  | "FACEBOOKPAGEINSIGHTS"
+  | "FRESHDESK"
+  | "TWILIO"
+  | "DOCUSIGNMONITOR"
+  | "FRESHSALES"
+  | "ZOOM"
+  | "GOOGLESEARCHCONSOLE"
+  | "SALESFORCECOMMERCECLOUD"
+  | "SAPCONCUR"
+  | "DYNATRACE"
+  | "MICROSOFTDYNAMIC365FINANCEANDOPS"
+  | "MICROSOFTTEAMS"
+  | "BLACKBAUDRAISEREDGENXT"
+  | "MAILCHIMP"
+  | "GITLAB"
+  | "PENDO"
+  | "PRODUCTBOARD"
+  | "CIRCLECI"
+  | "PIPEDIVE"
+  | "SENDGRID"
+  | "AZURECOSMOS"
+  | "AZURESQL"
+  | "BIGQUERY"
+  | "BLACKBAUD"
+  | "CLOUDERAHIVE"
+  | "CLOUDERAIMPALA"
+  | "CLOUDWATCH"
+  | "CLOUDWATCHMETRICS"
+  | "CMDB"
+  | "DATALAKEGEN2"
+  | "DB2"
+  | "DB2AS400"
+  | "DOCUMENTDB"
+  | "DOMO"
+  | "DYNAMODB"
+  | "GOOGLECLOUDSTORAGE"
+  | "HBASE"
+  | "KUSTOMER"
+  | "MICROSOFTDYNAMICS365CRM"
+  | "MONDAY"
+  | "MYSQL"
+  | "OKTA"
+  | "OPENSEARCH"
+  | "ORACLE"
+  | "PIPEDRIVE"
+  | "POSTGRESQL"
+  | "SAPHANA"
+  | "SQLSERVER"
+  | "SYNAPSE"
+  | "TERADATA"
+  | "TERADATANOS"
+  | "TIMESTREAM"
+  | "TPCDS"
+  | "VERTICA";
+export const ConnectionType = S.Literal(
+  "JDBC",
+  "SFTP",
+  "MONGODB",
+  "KAFKA",
+  "NETWORK",
+  "MARKETPLACE",
+  "CUSTOM",
+  "SALESFORCE",
+  "VIEW_VALIDATION_REDSHIFT",
+  "VIEW_VALIDATION_ATHENA",
+  "GOOGLEADS",
+  "GOOGLESHEETS",
+  "GOOGLEANALYTICS4",
+  "SERVICENOW",
+  "MARKETO",
+  "SAPODATA",
+  "ZENDESK",
+  "JIRACLOUD",
+  "NETSUITEERP",
+  "HUBSPOT",
+  "FACEBOOKADS",
+  "INSTAGRAMADS",
+  "ZOHOCRM",
+  "SALESFORCEPARDOT",
+  "SALESFORCEMARKETINGCLOUD",
+  "ADOBEANALYTICS",
+  "SLACK",
+  "LINKEDIN",
+  "MIXPANEL",
+  "ASANA",
+  "STRIPE",
+  "SMARTSHEET",
+  "DATADOG",
+  "WOOCOMMERCE",
+  "INTERCOM",
+  "SNAPCHATADS",
+  "PAYPAL",
+  "QUICKBOOKS",
+  "FACEBOOKPAGEINSIGHTS",
+  "FRESHDESK",
+  "TWILIO",
+  "DOCUSIGNMONITOR",
+  "FRESHSALES",
+  "ZOOM",
+  "GOOGLESEARCHCONSOLE",
+  "SALESFORCECOMMERCECLOUD",
+  "SAPCONCUR",
+  "DYNATRACE",
+  "MICROSOFTDYNAMIC365FINANCEANDOPS",
+  "MICROSOFTTEAMS",
+  "BLACKBAUDRAISEREDGENXT",
+  "MAILCHIMP",
+  "GITLAB",
+  "PENDO",
+  "PRODUCTBOARD",
+  "CIRCLECI",
+  "PIPEDIVE",
+  "SENDGRID",
+  "AZURECOSMOS",
+  "AZURESQL",
+  "BIGQUERY",
+  "BLACKBAUD",
+  "CLOUDERAHIVE",
+  "CLOUDERAIMPALA",
+  "CLOUDWATCH",
+  "CLOUDWATCHMETRICS",
+  "CMDB",
+  "DATALAKEGEN2",
+  "DB2",
+  "DB2AS400",
+  "DOCUMENTDB",
+  "DOMO",
+  "DYNAMODB",
+  "GOOGLECLOUDSTORAGE",
+  "HBASE",
+  "KUSTOMER",
+  "MICROSOFTDYNAMICS365CRM",
+  "MONDAY",
+  "MYSQL",
+  "OKTA",
+  "OPENSEARCH",
+  "ORACLE",
+  "PIPEDRIVE",
+  "POSTGRESQL",
+  "SAPHANA",
+  "SQLSERVER",
+  "SYNAPSE",
+  "TERADATA",
+  "TERADATANOS",
+  "TIMESTREAM",
+  "TPCDS",
+  "VERTICA",
+);
 export type MatchCriteria = string[];
 export const MatchCriteria = S.Array(S.String);
-export type ConnectionProperties = { [key: string]: string };
-export const ConnectionProperties = S.Record({
-  key: S.String,
-  value: S.String,
-});
+export type ConnectionPropertyKey =
+  | "HOST"
+  | "PORT"
+  | "USERNAME"
+  | "PASSWORD"
+  | "ENCRYPTED_PASSWORD"
+  | "JDBC_DRIVER_JAR_URI"
+  | "JDBC_DRIVER_CLASS_NAME"
+  | "JDBC_ENGINE"
+  | "JDBC_ENGINE_VERSION"
+  | "CONFIG_FILES"
+  | "INSTANCE_ID"
+  | "JDBC_CONNECTION_URL"
+  | "JDBC_ENFORCE_SSL"
+  | "CUSTOM_JDBC_CERT"
+  | "SKIP_CUSTOM_JDBC_CERT_VALIDATION"
+  | "CUSTOM_JDBC_CERT_STRING"
+  | "CONNECTION_URL"
+  | "KAFKA_BOOTSTRAP_SERVERS"
+  | "KAFKA_SSL_ENABLED"
+  | "KAFKA_CUSTOM_CERT"
+  | "KAFKA_SKIP_CUSTOM_CERT_VALIDATION"
+  | "KAFKA_CLIENT_KEYSTORE"
+  | "KAFKA_CLIENT_KEYSTORE_PASSWORD"
+  | "KAFKA_CLIENT_KEY_PASSWORD"
+  | "ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD"
+  | "ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD"
+  | "KAFKA_SASL_MECHANISM"
+  | "KAFKA_SASL_PLAIN_USERNAME"
+  | "KAFKA_SASL_PLAIN_PASSWORD"
+  | "ENCRYPTED_KAFKA_SASL_PLAIN_PASSWORD"
+  | "KAFKA_SASL_SCRAM_USERNAME"
+  | "KAFKA_SASL_SCRAM_PASSWORD"
+  | "KAFKA_SASL_SCRAM_SECRETS_ARN"
+  | "ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD"
+  | "KAFKA_SASL_GSSAPI_KEYTAB"
+  | "KAFKA_SASL_GSSAPI_KRB5_CONF"
+  | "KAFKA_SASL_GSSAPI_SERVICE"
+  | "KAFKA_SASL_GSSAPI_PRINCIPAL"
+  | "SECRET_ID"
+  | "CONNECTOR_URL"
+  | "CONNECTOR_TYPE"
+  | "CONNECTOR_CLASS_NAME"
+  | "ENDPOINT"
+  | "ENDPOINT_TYPE"
+  | "ROLE_ARN"
+  | "REGION"
+  | "WORKGROUP_NAME"
+  | "CLUSTER_IDENTIFIER"
+  | "DATABASE";
+export const ConnectionPropertyKey = S.Literal(
+  "HOST",
+  "PORT",
+  "USERNAME",
+  "PASSWORD",
+  "ENCRYPTED_PASSWORD",
+  "JDBC_DRIVER_JAR_URI",
+  "JDBC_DRIVER_CLASS_NAME",
+  "JDBC_ENGINE",
+  "JDBC_ENGINE_VERSION",
+  "CONFIG_FILES",
+  "INSTANCE_ID",
+  "JDBC_CONNECTION_URL",
+  "JDBC_ENFORCE_SSL",
+  "CUSTOM_JDBC_CERT",
+  "SKIP_CUSTOM_JDBC_CERT_VALIDATION",
+  "CUSTOM_JDBC_CERT_STRING",
+  "CONNECTION_URL",
+  "KAFKA_BOOTSTRAP_SERVERS",
+  "KAFKA_SSL_ENABLED",
+  "KAFKA_CUSTOM_CERT",
+  "KAFKA_SKIP_CUSTOM_CERT_VALIDATION",
+  "KAFKA_CLIENT_KEYSTORE",
+  "KAFKA_CLIENT_KEYSTORE_PASSWORD",
+  "KAFKA_CLIENT_KEY_PASSWORD",
+  "ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD",
+  "ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD",
+  "KAFKA_SASL_MECHANISM",
+  "KAFKA_SASL_PLAIN_USERNAME",
+  "KAFKA_SASL_PLAIN_PASSWORD",
+  "ENCRYPTED_KAFKA_SASL_PLAIN_PASSWORD",
+  "KAFKA_SASL_SCRAM_USERNAME",
+  "KAFKA_SASL_SCRAM_PASSWORD",
+  "KAFKA_SASL_SCRAM_SECRETS_ARN",
+  "ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD",
+  "KAFKA_SASL_GSSAPI_KEYTAB",
+  "KAFKA_SASL_GSSAPI_KRB5_CONF",
+  "KAFKA_SASL_GSSAPI_SERVICE",
+  "KAFKA_SASL_GSSAPI_PRINCIPAL",
+  "SECRET_ID",
+  "CONNECTOR_URL",
+  "CONNECTOR_TYPE",
+  "CONNECTOR_CLASS_NAME",
+  "ENDPOINT",
+  "ENDPOINT_TYPE",
+  "ROLE_ARN",
+  "REGION",
+  "WORKGROUP_NAME",
+  "CLUSTER_IDENTIFIER",
+  "DATABASE",
+);
+export type ConnectionProperties = { [key in ConnectionPropertyKey]?: string };
+export const ConnectionProperties = S.partial(
+  S.Record({ key: ConnectionPropertyKey, value: S.String }),
+);
 export type PropertyMap = { [key: string]: string };
 export const PropertyMap = S.Record({ key: S.String, value: S.String });
 export type SecurityGroupIdList = string[];
 export const SecurityGroupIdList = S.Array(S.String);
 export interface PhysicalConnectionRequirements {
   SubnetId?: string;
-  SecurityGroupIdList?: SecurityGroupIdList;
+  SecurityGroupIdList?: string[];
   AvailabilityZone?: string;
 }
 export const PhysicalConnectionRequirements = S.suspend(() =>
@@ -3814,6 +4284,17 @@ export const PhysicalConnectionRequirements = S.suspend(() =>
 ).annotations({
   identifier: "PhysicalConnectionRequirements",
 }) as any as S.Schema<PhysicalConnectionRequirements>;
+export type AuthenticationType = "BASIC" | "OAUTH2" | "CUSTOM" | "IAM";
+export const AuthenticationType = S.Literal("BASIC", "OAUTH2", "CUSTOM", "IAM");
+export type OAuth2GrantType =
+  | "AUTHORIZATION_CODE"
+  | "CLIENT_CREDENTIALS"
+  | "JWT_BEARER";
+export const OAuth2GrantType = S.Literal(
+  "AUTHORIZATION_CODE",
+  "CLIENT_CREDENTIALS",
+  "JWT_BEARER",
+);
 export interface OAuth2ClientApplication {
   UserManagedClientApplicationClientId?: string;
   AWSManagedClientApplicationReference?: string;
@@ -3832,7 +4313,7 @@ export const TokenUrlParametersMap = S.Record({
   value: S.String,
 });
 export interface AuthorizationCodeProperties {
-  AuthorizationCode?: string | Redacted.Redacted<string>;
+  AuthorizationCode?: string | redacted.Redacted<string>;
   RedirectUri?: string;
 }
 export const AuthorizationCodeProperties = S.suspend(() =>
@@ -3844,10 +4325,10 @@ export const AuthorizationCodeProperties = S.suspend(() =>
   identifier: "AuthorizationCodeProperties",
 }) as any as S.Schema<AuthorizationCodeProperties>;
 export interface OAuth2Credentials {
-  UserManagedClientApplicationClientSecret?: string | Redacted.Redacted<string>;
-  AccessToken?: string | Redacted.Redacted<string>;
-  RefreshToken?: string | Redacted.Redacted<string>;
-  JwtToken?: string | Redacted.Redacted<string>;
+  UserManagedClientApplicationClientSecret?: string | redacted.Redacted<string>;
+  AccessToken?: string | redacted.Redacted<string>;
+  RefreshToken?: string | redacted.Redacted<string>;
+  JwtToken?: string | redacted.Redacted<string>;
 }
 export const OAuth2Credentials = S.suspend(() =>
   S.Struct({
@@ -3860,16 +4341,16 @@ export const OAuth2Credentials = S.suspend(() =>
   identifier: "OAuth2Credentials",
 }) as any as S.Schema<OAuth2Credentials>;
 export interface OAuth2PropertiesInput {
-  OAuth2GrantType?: string;
+  OAuth2GrantType?: OAuth2GrantType;
   OAuth2ClientApplication?: OAuth2ClientApplication;
   TokenUrl?: string;
-  TokenUrlParametersMap?: TokenUrlParametersMap;
+  TokenUrlParametersMap?: { [key: string]: string };
   AuthorizationCodeProperties?: AuthorizationCodeProperties;
   OAuth2Credentials?: OAuth2Credentials;
 }
 export const OAuth2PropertiesInput = S.suspend(() =>
   S.Struct({
-    OAuth2GrantType: S.optional(S.String),
+    OAuth2GrantType: S.optional(OAuth2GrantType),
     OAuth2ClientApplication: S.optional(OAuth2ClientApplication),
     TokenUrl: S.optional(S.String),
     TokenUrlParametersMap: S.optional(TokenUrlParametersMap),
@@ -3881,7 +4362,7 @@ export const OAuth2PropertiesInput = S.suspend(() =>
 }) as any as S.Schema<OAuth2PropertiesInput>;
 export interface BasicAuthenticationCredentials {
   Username?: string;
-  Password?: string | Redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
 }
 export const BasicAuthenticationCredentials = S.suspend(() =>
   S.Struct({
@@ -3894,16 +4375,16 @@ export const BasicAuthenticationCredentials = S.suspend(() =>
 export type CredentialMap = { [key: string]: string };
 export const CredentialMap = S.Record({ key: S.String, value: S.String });
 export interface AuthenticationConfigurationInput {
-  AuthenticationType?: string;
+  AuthenticationType?: AuthenticationType;
   OAuth2Properties?: OAuth2PropertiesInput;
   SecretArn?: string;
   KmsKeyArn?: string;
   BasicAuthenticationCredentials?: BasicAuthenticationCredentials;
-  CustomAuthenticationCredentials?: CredentialMap;
+  CustomAuthenticationCredentials?: { [key: string]: string };
 }
 export const AuthenticationConfigurationInput = S.suspend(() =>
   S.Struct({
-    AuthenticationType: S.optional(S.String),
+    AuthenticationType: S.optional(AuthenticationType),
     OAuth2Properties: S.optional(OAuth2PropertiesInput),
     SecretArn: S.optional(S.String),
     KmsKeyArn: S.optional(S.String),
@@ -3913,27 +4394,27 @@ export const AuthenticationConfigurationInput = S.suspend(() =>
 ).annotations({
   identifier: "AuthenticationConfigurationInput",
 }) as any as S.Schema<AuthenticationConfigurationInput>;
-export type ComputeEnvironmentList = string[];
-export const ComputeEnvironmentList = S.Array(S.String);
+export type ComputeEnvironmentList = ComputeEnvironment[];
+export const ComputeEnvironmentList = S.Array(ComputeEnvironment);
 export interface ConnectionInput {
   Name: string;
   Description?: string;
-  ConnectionType: string;
-  MatchCriteria?: MatchCriteria;
-  ConnectionProperties: ConnectionProperties;
-  SparkProperties?: PropertyMap;
-  AthenaProperties?: PropertyMap;
-  PythonProperties?: PropertyMap;
+  ConnectionType: ConnectionType;
+  MatchCriteria?: string[];
+  ConnectionProperties: { [key: string]: string };
+  SparkProperties?: { [key: string]: string };
+  AthenaProperties?: { [key: string]: string };
+  PythonProperties?: { [key: string]: string };
   PhysicalConnectionRequirements?: PhysicalConnectionRequirements;
   AuthenticationConfiguration?: AuthenticationConfigurationInput;
   ValidateCredentials?: boolean;
-  ValidateForComputeEnvironments?: ComputeEnvironmentList;
+  ValidateForComputeEnvironments?: ComputeEnvironment[];
 }
 export const ConnectionInput = S.suspend(() =>
   S.Struct({
     Name: S.String,
     Description: S.optional(S.String),
-    ConnectionType: S.String,
+    ConnectionType: ConnectionType,
     MatchCriteria: S.optional(MatchCriteria),
     ConnectionProperties: ConnectionProperties,
     SparkProperties: S.optional(PropertyMap),
@@ -3973,7 +4454,7 @@ export type PathList = string[];
 export const PathList = S.Array(S.String);
 export interface S3Target {
   Path?: string;
-  Exclusions?: PathList;
+  Exclusions?: string[];
   ConnectionName?: string;
   SampleSize?: number;
   EventQueueArn?: string;
@@ -3991,13 +4472,15 @@ export const S3Target = S.suspend(() =>
 ).annotations({ identifier: "S3Target" }) as any as S.Schema<S3Target>;
 export type S3TargetList = S3Target[];
 export const S3TargetList = S.Array(S3Target);
-export type EnableAdditionalMetadata = string[];
-export const EnableAdditionalMetadata = S.Array(S.String);
+export type JdbcMetadataEntry = "COMMENTS" | "RAWTYPES";
+export const JdbcMetadataEntry = S.Literal("COMMENTS", "RAWTYPES");
+export type EnableAdditionalMetadata = JdbcMetadataEntry[];
+export const EnableAdditionalMetadata = S.Array(JdbcMetadataEntry);
 export interface JdbcTarget {
   ConnectionName?: string;
   Path?: string;
-  Exclusions?: PathList;
-  EnableAdditionalMetadata?: EnableAdditionalMetadata;
+  Exclusions?: string[];
+  EnableAdditionalMetadata?: JdbcMetadataEntry[];
 }
 export const JdbcTarget = S.suspend(() =>
   S.Struct({
@@ -4045,7 +4528,7 @@ export type CatalogTablesList = string[];
 export const CatalogTablesList = S.Array(S.String);
 export interface CatalogTarget {
   DatabaseName: string;
-  Tables: CatalogTablesList;
+  Tables: string[];
   ConnectionName?: string;
   EventQueueArn?: string;
   DlqEventQueueArn?: string;
@@ -4064,7 +4547,7 @@ export const CatalogTarget = S.suspend(() =>
 export type CatalogTargetList = CatalogTarget[];
 export const CatalogTargetList = S.Array(CatalogTarget);
 export interface DeltaTarget {
-  DeltaTables?: PathList;
+  DeltaTables?: string[];
   ConnectionName?: string;
   WriteManifest?: boolean;
   CreateNativeDeltaTable?: boolean;
@@ -4080,9 +4563,9 @@ export const DeltaTarget = S.suspend(() =>
 export type DeltaTargetList = DeltaTarget[];
 export const DeltaTargetList = S.Array(DeltaTarget);
 export interface IcebergTarget {
-  Paths?: PathList;
+  Paths?: string[];
   ConnectionName?: string;
-  Exclusions?: PathList;
+  Exclusions?: string[];
   MaximumTraversalDepth?: number;
 }
 export const IcebergTarget = S.suspend(() =>
@@ -4098,9 +4581,9 @@ export const IcebergTarget = S.suspend(() =>
 export type IcebergTargetList = IcebergTarget[];
 export const IcebergTargetList = S.Array(IcebergTarget);
 export interface HudiTarget {
-  Paths?: PathList;
+  Paths?: string[];
   ConnectionName?: string;
-  Exclusions?: PathList;
+  Exclusions?: string[];
   MaximumTraversalDepth?: number;
 }
 export const HudiTarget = S.suspend(() =>
@@ -4114,14 +4597,14 @@ export const HudiTarget = S.suspend(() =>
 export type HudiTargetList = HudiTarget[];
 export const HudiTargetList = S.Array(HudiTarget);
 export interface CrawlerTargets {
-  S3Targets?: S3TargetList;
-  JdbcTargets?: JdbcTargetList;
-  MongoDBTargets?: MongoDBTargetList;
-  DynamoDBTargets?: DynamoDBTargetList;
-  CatalogTargets?: CatalogTargetList;
-  DeltaTargets?: DeltaTargetList;
-  IcebergTargets?: IcebergTargetList;
-  HudiTargets?: HudiTargetList;
+  S3Targets?: S3Target[];
+  JdbcTargets?: JdbcTarget[];
+  MongoDBTargets?: MongoDBTarget[];
+  DynamoDBTargets?: DynamoDBTarget[];
+  CatalogTargets?: CatalogTarget[];
+  DeltaTargets?: DeltaTarget[];
+  IcebergTargets?: IcebergTarget[];
+  HudiTargets?: HudiTarget[];
 }
 export const CrawlerTargets = S.suspend(() =>
   S.Struct({
@@ -4137,31 +4620,53 @@ export const CrawlerTargets = S.suspend(() =>
 ).annotations({
   identifier: "CrawlerTargets",
 }) as any as S.Schema<CrawlerTargets>;
+export type UpdateBehavior = "LOG" | "UPDATE_IN_DATABASE";
+export const UpdateBehavior = S.Literal("LOG", "UPDATE_IN_DATABASE");
+export type DeleteBehavior =
+  | "LOG"
+  | "DELETE_FROM_DATABASE"
+  | "DEPRECATE_IN_DATABASE";
+export const DeleteBehavior = S.Literal(
+  "LOG",
+  "DELETE_FROM_DATABASE",
+  "DEPRECATE_IN_DATABASE",
+);
 export interface SchemaChangePolicy {
-  UpdateBehavior?: string;
-  DeleteBehavior?: string;
+  UpdateBehavior?: UpdateBehavior;
+  DeleteBehavior?: DeleteBehavior;
 }
 export const SchemaChangePolicy = S.suspend(() =>
   S.Struct({
-    UpdateBehavior: S.optional(S.String),
-    DeleteBehavior: S.optional(S.String),
+    UpdateBehavior: S.optional(UpdateBehavior),
+    DeleteBehavior: S.optional(DeleteBehavior),
   }),
 ).annotations({
   identifier: "SchemaChangePolicy",
 }) as any as S.Schema<SchemaChangePolicy>;
+export type RecrawlBehavior =
+  | "CRAWL_EVERYTHING"
+  | "CRAWL_NEW_FOLDERS_ONLY"
+  | "CRAWL_EVENT_MODE";
+export const RecrawlBehavior = S.Literal(
+  "CRAWL_EVERYTHING",
+  "CRAWL_NEW_FOLDERS_ONLY",
+  "CRAWL_EVENT_MODE",
+);
 export interface RecrawlPolicy {
-  RecrawlBehavior?: string;
+  RecrawlBehavior?: RecrawlBehavior;
 }
 export const RecrawlPolicy = S.suspend(() =>
-  S.Struct({ RecrawlBehavior: S.optional(S.String) }),
+  S.Struct({ RecrawlBehavior: S.optional(RecrawlBehavior) }),
 ).annotations({
   identifier: "RecrawlPolicy",
 }) as any as S.Schema<RecrawlPolicy>;
+export type CrawlerLineageSettings = "ENABLE" | "DISABLE";
+export const CrawlerLineageSettings = S.Literal("ENABLE", "DISABLE");
 export interface LineageConfiguration {
-  CrawlerLineageSettings?: string;
+  CrawlerLineageSettings?: CrawlerLineageSettings;
 }
 export const LineageConfiguration = S.suspend(() =>
-  S.Struct({ CrawlerLineageSettings: S.optional(S.String) }),
+  S.Struct({ CrawlerLineageSettings: S.optional(CrawlerLineageSettings) }),
 ).annotations({
   identifier: "LineageConfiguration",
 }) as any as S.Schema<LineageConfiguration>;
@@ -4184,7 +4689,7 @@ export interface UpdateCrawlerRequest {
   Description?: string;
   Targets?: CrawlerTargets;
   Schedule?: string;
-  Classifiers?: ClassifierNameList;
+  Classifiers?: string[];
   TablePrefix?: string;
   SchemaChangePolicy?: SchemaChangePolicy;
   RecrawlPolicy?: RecrawlPolicy;
@@ -4268,8 +4773,8 @@ export interface DatabaseInput {
   Name: string;
   Description?: string;
   LocationUri?: string;
-  Parameters?: ParametersMap;
-  CreateTableDefaultPermissions?: PrincipalPermissionsList;
+  Parameters?: { [key: string]: string };
+  CreateTableDefaultPermissions?: PrincipalPermissions[];
   TargetDatabase?: DatabaseIdentifier;
   FederatedDatabase?: FederatedDatabase;
 }
@@ -4323,7 +4828,7 @@ export const UpdateDataQualityRulesetRequest = S.suspend(() =>
   identifier: "UpdateDataQualityRulesetRequest",
 }) as any as S.Schema<UpdateDataQualityRulesetRequest>;
 export interface UpdateGlueIdentityCenterConfigurationRequest {
-  Scopes?: IdentityCenterScopesList;
+  Scopes?: string[];
   UserBackgroundSessionsEnabled?: boolean;
 }
 export const UpdateGlueIdentityCenterConfigurationRequest = S.suspend(() =>
@@ -4387,9 +4892,9 @@ export const SourceTableFieldsList = S.Array(S.String);
 export type PrimaryKeyList = string[];
 export const PrimaryKeyList = S.Array(S.String);
 export interface SourceTableConfig {
-  Fields?: SourceTableFieldsList;
+  Fields?: string[];
   FilterPredicate?: string;
-  PrimaryKey?: PrimaryKeyList;
+  PrimaryKey?: string[];
   RecordUpdateField?: string;
 }
 export const SourceTableConfig = S.suspend(() =>
@@ -4402,6 +4907,8 @@ export const SourceTableConfig = S.suspend(() =>
 ).annotations({
   identifier: "SourceTableConfig",
 }) as any as S.Schema<SourceTableConfig>;
+export type UnnestSpec = "TOPLEVEL" | "FULL" | "NOUNNEST";
+export const UnnestSpec = S.Literal("TOPLEVEL", "FULL", "NOUNNEST");
 export interface IntegrationPartition {
   FieldName?: string;
   FunctionSpec?: string;
@@ -4419,13 +4926,13 @@ export const IntegrationPartition = S.suspend(() =>
 export type IntegrationPartitionSpecList = IntegrationPartition[];
 export const IntegrationPartitionSpecList = S.Array(IntegrationPartition);
 export interface TargetTableConfig {
-  UnnestSpec?: string;
-  PartitionSpec?: IntegrationPartitionSpecList;
+  UnnestSpec?: UnnestSpec;
+  PartitionSpec?: IntegrationPartition[];
   TargetTableName?: string;
 }
 export const TargetTableConfig = S.suspend(() =>
   S.Struct({
-    UnnestSpec: S.optional(S.String),
+    UnnestSpec: S.optional(UnnestSpec),
     PartitionSpec: S.optional(IntegrationPartitionSpecList),
     TargetTableName: S.optional(S.String),
   }),
@@ -4458,25 +4965,25 @@ export const UpdateIntegrationTablePropertiesResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateIntegrationTablePropertiesResponse>;
 export interface UpdateJobFromSourceControlRequest {
   JobName?: string;
-  Provider?: string;
+  Provider?: SourceControlProvider;
   RepositoryName?: string;
   RepositoryOwner?: string;
   BranchName?: string;
   Folder?: string;
   CommitId?: string;
-  AuthStrategy?: string;
+  AuthStrategy?: SourceControlAuthStrategy;
   AuthToken?: string;
 }
 export const UpdateJobFromSourceControlRequest = S.suspend(() =>
   S.Struct({
     JobName: S.optional(S.String),
-    Provider: S.optional(S.String),
+    Provider: S.optional(SourceControlProvider),
     RepositoryName: S.optional(S.String),
     RepositoryOwner: S.optional(S.String),
     BranchName: S.optional(S.String),
     Folder: S.optional(S.String),
     CommitId: S.optional(S.String),
-    AuthStrategy: S.optional(S.String),
+    AuthStrategy: S.optional(SourceControlAuthStrategy),
     AuthToken: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -4501,12 +5008,12 @@ export const FindMatchesParameters = S.suspend(() =>
   identifier: "FindMatchesParameters",
 }) as any as S.Schema<FindMatchesParameters>;
 export interface TransformParameters {
-  TransformType: string;
+  TransformType: TransformType;
   FindMatchesParameters?: FindMatchesParameters;
 }
 export const TransformParameters = S.suspend(() =>
   S.Struct({
-    TransformType: S.String,
+    TransformType: TransformType,
     FindMatchesParameters: S.optional(FindMatchesParameters),
   }),
 ).annotations({
@@ -4520,7 +5027,7 @@ export interface UpdateMLTransformRequest {
   Role?: string;
   GlueVersion?: string;
   MaxCapacity?: number;
-  WorkerType?: string;
+  WorkerType?: WorkerType;
   NumberOfWorkers?: number;
   Timeout?: number;
   MaxRetries?: number;
@@ -4534,7 +5041,7 @@ export const UpdateMLTransformRequest = S.suspend(() =>
     Role: S.optional(S.String),
     GlueVersion: S.optional(S.String),
     MaxCapacity: S.optional(S.Number),
-    WorkerType: S.optional(S.String),
+    WorkerType: S.optional(WorkerType),
     NumberOfWorkers: S.optional(S.Number),
     Timeout: S.optional(S.Number),
     MaxRetries: S.optional(S.Number),
@@ -4548,7 +5055,7 @@ export interface UpdatePartitionRequest {
   CatalogId?: string;
   DatabaseName: string;
   TableName: string;
-  PartitionValueList: BoundedPartitionValueList;
+  PartitionValueList: string[];
   PartitionInput: PartitionInput;
 }
 export const UpdatePartitionRequest = S.suspend(() =>
@@ -4584,14 +5091,14 @@ export const UpdateRegistryInput = S.suspend(() =>
 export interface UpdateSchemaInput {
   SchemaId: SchemaId;
   SchemaVersionNumber?: SchemaVersionNumber;
-  Compatibility?: string;
+  Compatibility?: Compatibility;
   Description?: string;
 }
 export const UpdateSchemaInput = S.suspend(() =>
   S.Struct({
     SchemaId: SchemaId,
     SchemaVersionNumber: S.optional(SchemaVersionNumber),
-    Compatibility: S.optional(S.String),
+    Compatibility: S.optional(Compatibility),
     Description: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -4601,25 +5108,25 @@ export const UpdateSchemaInput = S.suspend(() =>
 }) as any as S.Schema<UpdateSchemaInput>;
 export interface UpdateSourceControlFromJobRequest {
   JobName?: string;
-  Provider?: string;
+  Provider?: SourceControlProvider;
   RepositoryName?: string;
   RepositoryOwner?: string;
   BranchName?: string;
   Folder?: string;
   CommitId?: string;
-  AuthStrategy?: string;
+  AuthStrategy?: SourceControlAuthStrategy;
   AuthToken?: string;
 }
 export const UpdateSourceControlFromJobRequest = S.suspend(() =>
   S.Struct({
     JobName: S.optional(S.String),
-    Provider: S.optional(S.String),
+    Provider: S.optional(SourceControlProvider),
     RepositoryName: S.optional(S.String),
     RepositoryOwner: S.optional(S.String),
     BranchName: S.optional(S.String),
     Folder: S.optional(S.String),
     CommitId: S.optional(S.String),
-    AuthStrategy: S.optional(S.String),
+    AuthStrategy: S.optional(SourceControlAuthStrategy),
     AuthToken: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -4631,14 +5138,16 @@ export type TableOptimizerVpcConfiguration = { glueConnectionName: string };
 export const TableOptimizerVpcConfiguration = S.Union(
   S.Struct({ glueConnectionName: S.String }),
 );
+export type CompactionStrategy = "binpack" | "sort" | "z-order";
+export const CompactionStrategy = S.Literal("binpack", "sort", "z-order");
 export interface IcebergCompactionConfiguration {
-  strategy?: string;
+  strategy?: CompactionStrategy;
   minInputFiles?: number;
   deleteFileThreshold?: number;
 }
 export const IcebergCompactionConfiguration = S.suspend(() =>
   S.Struct({
-    strategy: S.optional(S.String),
+    strategy: S.optional(CompactionStrategy),
     minInputFiles: S.optional(S.Number),
     deleteFileThreshold: S.optional(S.Number),
   }),
@@ -4706,7 +5215,7 @@ export const OrphanFileDeletionConfiguration = S.suspend(() =>
 export interface TableOptimizerConfiguration {
   roleArn?: string;
   enabled?: boolean;
-  vpcConfiguration?: (typeof TableOptimizerVpcConfiguration)["Type"];
+  vpcConfiguration?: TableOptimizerVpcConfiguration;
   compactionConfiguration?: CompactionConfiguration;
   retentionConfiguration?: RetentionConfiguration;
   orphanFileDeletionConfiguration?: OrphanFileDeletionConfiguration;
@@ -4729,7 +5238,7 @@ export interface UpdateTableOptimizerRequest {
   CatalogId: string;
   DatabaseName: string;
   TableName: string;
-  Type: string;
+  Type: TableOptimizerType;
   TableOptimizerConfiguration: TableOptimizerConfiguration;
 }
 export const UpdateTableOptimizerRequest = S.suspend(() =>
@@ -4737,7 +5246,7 @@ export const UpdateTableOptimizerRequest = S.suspend(() =>
     CatalogId: S.String,
     DatabaseName: S.String,
     TableName: S.String,
-    Type: S.String,
+    Type: TableOptimizerType,
     TableOptimizerConfiguration: TableOptimizerConfiguration,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -4755,7 +5264,7 @@ export type AllowedValuesStringList = string[];
 export const AllowedValuesStringList = S.Array(S.String);
 export interface ConfigurationObject {
   DefaultValue?: string;
-  AllowedValues?: AllowedValuesStringList;
+  AllowedValues?: string[];
   MinValue?: string;
   MaxValue?: string;
 }
@@ -4775,8 +5284,8 @@ export const ConfigurationMap = S.Record({
   value: ConfigurationObject,
 });
 export interface ProfileConfiguration {
-  SessionConfiguration?: ConfigurationMap;
-  JobConfiguration?: ConfigurationMap;
+  SessionConfiguration?: { [key: string]: ConfigurationObject };
+  JobConfiguration?: { [key: string]: ConfigurationObject };
 }
 export const ProfileConfiguration = S.suspend(() =>
   S.Struct({
@@ -4802,12 +5311,19 @@ export const UpdateUsageProfileRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateUsageProfileRequest",
 }) as any as S.Schema<UpdateUsageProfileRequest>;
+export type PrincipalType = "USER" | "ROLE" | "GROUP";
+export const PrincipalType = S.Literal("USER", "ROLE", "GROUP");
+export type ResourceType = "JAR" | "FILE" | "ARCHIVE";
+export const ResourceType = S.Literal("JAR", "FILE", "ARCHIVE");
 export interface ResourceUri {
-  ResourceType?: string;
+  ResourceType?: ResourceType;
   Uri?: string;
 }
 export const ResourceUri = S.suspend(() =>
-  S.Struct({ ResourceType: S.optional(S.String), Uri: S.optional(S.String) }),
+  S.Struct({
+    ResourceType: S.optional(ResourceType),
+    Uri: S.optional(S.String),
+  }),
 ).annotations({ identifier: "ResourceUri" }) as any as S.Schema<ResourceUri>;
 export type ResourceUriList = ResourceUri[];
 export const ResourceUriList = S.Array(ResourceUri);
@@ -4815,17 +5331,17 @@ export interface UserDefinedFunctionInput {
   FunctionName?: string;
   ClassName?: string;
   OwnerName?: string;
-  FunctionType?: string;
-  OwnerType?: string;
-  ResourceUris?: ResourceUriList;
+  FunctionType?: FunctionType;
+  OwnerType?: PrincipalType;
+  ResourceUris?: ResourceUri[];
 }
 export const UserDefinedFunctionInput = S.suspend(() =>
   S.Struct({
     FunctionName: S.optional(S.String),
     ClassName: S.optional(S.String),
     OwnerName: S.optional(S.String),
-    FunctionType: S.optional(S.String),
-    OwnerType: S.optional(S.String),
+    FunctionType: S.optional(FunctionType),
+    OwnerType: S.optional(PrincipalType),
     ResourceUris: S.optional(ResourceUriList),
   }),
 ).annotations({
@@ -4858,7 +5374,7 @@ export const UpdateUserDefinedFunctionResponse = S.suspend(() =>
 export interface UpdateWorkflowRequest {
   Name: string;
   Description?: string;
-  DefaultRunProperties?: WorkflowRunProperties;
+  DefaultRunProperties?: { [key: string]: string };
   MaxConcurrentRuns?: number;
 }
 export const UpdateWorkflowRequest = S.suspend(() =>
@@ -4873,16 +5389,96 @@ export const UpdateWorkflowRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateWorkflowRequest",
 }) as any as S.Schema<UpdateWorkflowRequest>;
+export type CsvHeaderOption = "UNKNOWN" | "PRESENT" | "ABSENT";
+export const CsvHeaderOption = S.Literal("UNKNOWN", "PRESENT", "ABSENT");
 export type CsvHeader = string[];
 export const CsvHeader = S.Array(S.String);
 export type CustomDatatypes = string[];
 export const CustomDatatypes = S.Array(S.String);
+export type CsvSerdeOption = "OpenCSVSerDe" | "LazySimpleSerDe" | "None";
+export const CsvSerdeOption = S.Literal(
+  "OpenCSVSerDe",
+  "LazySimpleSerDe",
+  "None",
+);
 export type ConnectionStringList = string[];
 export const ConnectionStringList = S.Array(S.String);
+export type Logical = "AND" | "ANY";
+export const Logical = S.Literal("AND", "ANY");
 export type IntegrationFilterValues = string[];
 export const IntegrationFilterValues = S.Array(S.String);
+export type TaskType =
+  | "EVALUATION"
+  | "LABELING_SET_GENERATION"
+  | "IMPORT_LABELS"
+  | "EXPORT_LABELS"
+  | "FIND_MATCHES";
+export const TaskType = S.Literal(
+  "EVALUATION",
+  "LABELING_SET_GENERATION",
+  "IMPORT_LABELS",
+  "EXPORT_LABELS",
+  "FIND_MATCHES",
+);
+export type TaskStatusType =
+  | "STARTING"
+  | "RUNNING"
+  | "STOPPING"
+  | "STOPPED"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "TIMEOUT";
+export const TaskStatusType = S.Literal(
+  "STARTING",
+  "RUNNING",
+  "STOPPING",
+  "STOPPED",
+  "SUCCEEDED",
+  "FAILED",
+  "TIMEOUT",
+);
+export type TaskRunSortColumnType = "TASK_RUN_TYPE" | "STATUS" | "STARTED";
+export const TaskRunSortColumnType = S.Literal(
+  "TASK_RUN_TYPE",
+  "STATUS",
+  "STARTED",
+);
+export type ViewDialect = "REDSHIFT" | "ATHENA" | "SPARK";
+export const ViewDialect = S.Literal("REDSHIFT", "ATHENA", "SPARK");
+export type FieldName =
+  | "CRAWL_ID"
+  | "STATE"
+  | "START_TIME"
+  | "END_TIME"
+  | "DPU_HOUR";
+export const FieldName = S.Literal(
+  "CRAWL_ID",
+  "STATE",
+  "START_TIME",
+  "END_TIME",
+  "DPU_HOUR",
+);
+export type FilterOperator = "GT" | "GE" | "LT" | "LE" | "EQ" | "NE";
+export const FilterOperator = S.Literal("GT", "GE", "LT", "LE", "EQ", "NE");
 export type IntegrationResourcePropertyFilterValues = string[];
 export const IntegrationResourcePropertyFilterValues = S.Array(S.String);
+export type Comparator =
+  | "EQUALS"
+  | "GREATER_THAN"
+  | "LESS_THAN"
+  | "GREATER_THAN_EQUALS"
+  | "LESS_THAN_EQUALS";
+export const Comparator = S.Literal(
+  "EQUALS",
+  "GREATER_THAN",
+  "LESS_THAN",
+  "GREATER_THAN_EQUALS",
+  "LESS_THAN_EQUALS",
+);
+export type Sort = "ASC" | "DESC";
+export const Sort = S.Literal("ASC", "DESC");
+export type DQCompositeRuleEvaluationMethod = "COLUMN" | "ROW";
+export const DQCompositeRuleEvaluationMethod = S.Literal("COLUMN", "ROW");
 export type BatchDeletePartitionValueList = PartitionValueList[];
 export const BatchDeletePartitionValueList = S.Array(PartitionValueList);
 export type BlueprintNames = string[];
@@ -4891,14 +5487,14 @@ export interface BatchGetTableOptimizerEntry {
   catalogId?: string;
   databaseName?: string;
   tableName?: string;
-  type?: string;
+  type?: TableOptimizerType;
 }
 export const BatchGetTableOptimizerEntry = S.suspend(() =>
   S.Struct({
     catalogId: S.optional(S.String),
     databaseName: S.optional(S.String),
     tableName: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(TableOptimizerType),
   }),
 ).annotations({
   identifier: "BatchGetTableOptimizerEntry",
@@ -4910,13 +5506,13 @@ export const BatchGetTableOptimizerEntries = S.Array(
 export interface DatapointInclusionAnnotation {
   ProfileId?: string;
   StatisticId?: string;
-  InclusionAnnotation?: string;
+  InclusionAnnotation?: InclusionAnnotationValue;
 }
 export const DatapointInclusionAnnotation = S.suspend(() =>
   S.Struct({
     ProfileId: S.optional(S.String),
     StatisticId: S.optional(S.String),
-    InclusionAnnotation: S.optional(S.String),
+    InclusionAnnotation: S.optional(InclusionAnnotationValue),
   }),
 ).annotations({
   identifier: "DatapointInclusionAnnotation",
@@ -4924,7 +5520,7 @@ export const DatapointInclusionAnnotation = S.suspend(() =>
 export type InclusionAnnotationList = DatapointInclusionAnnotation[];
 export const InclusionAnnotationList = S.Array(DatapointInclusionAnnotation);
 export interface BatchUpdatePartitionRequestEntry {
-  PartitionValueList: BoundedPartitionValueList;
+  PartitionValueList: string[];
   PartitionInput: PartitionInput;
 }
 export const BatchUpdatePartitionRequestEntry = S.suspend(() =>
@@ -4983,26 +5579,26 @@ export interface CreateCsvClassifierRequest {
   Name: string;
   Delimiter?: string;
   QuoteSymbol?: string;
-  ContainsHeader?: string;
-  Header?: CsvHeader;
+  ContainsHeader?: CsvHeaderOption;
+  Header?: string[];
   DisableValueTrimming?: boolean;
   AllowSingleColumn?: boolean;
   CustomDatatypeConfigured?: boolean;
-  CustomDatatypes?: CustomDatatypes;
-  Serde?: string;
+  CustomDatatypes?: string[];
+  Serde?: CsvSerdeOption;
 }
 export const CreateCsvClassifierRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
     Delimiter: S.optional(S.String),
     QuoteSymbol: S.optional(S.String),
-    ContainsHeader: S.optional(S.String),
+    ContainsHeader: S.optional(CsvHeaderOption),
     Header: S.optional(CsvHeader),
     DisableValueTrimming: S.optional(S.Boolean),
     AllowSingleColumn: S.optional(S.Boolean),
     CustomDatatypeConfigured: S.optional(S.Boolean),
     CustomDatatypes: S.optional(CustomDatatypes),
-    Serde: S.optional(S.String),
+    Serde: S.optional(CsvSerdeOption),
   }),
 ).annotations({
   identifier: "CreateCsvClassifierRequest",
@@ -5062,7 +5658,7 @@ export const JobCommand = S.suspend(() =>
   }),
 ).annotations({ identifier: "JobCommand" }) as any as S.Schema<JobCommand>;
 export interface ConnectionsList {
-  Connections?: ConnectionStringList;
+  Connections?: string[];
 }
 export const ConnectionsList = S.suspend(() =>
   S.Struct({ Connections: S.optional(ConnectionStringList) }),
@@ -5070,24 +5666,24 @@ export const ConnectionsList = S.suspend(() =>
   identifier: "ConnectionsList",
 }) as any as S.Schema<ConnectionsList>;
 export interface SourceControlDetails {
-  Provider?: string;
+  Provider?: SourceControlProvider;
   Repository?: string;
   Owner?: string;
   Branch?: string;
   Folder?: string;
   LastCommitId?: string;
-  AuthStrategy?: string;
+  AuthStrategy?: SourceControlAuthStrategy;
   AuthToken?: string;
 }
 export const SourceControlDetails = S.suspend(() =>
   S.Struct({
-    Provider: S.optional(S.String),
+    Provider: S.optional(SourceControlProvider),
     Repository: S.optional(S.String),
     Owner: S.optional(S.String),
     Branch: S.optional(S.String),
     Folder: S.optional(S.String),
     LastCommitId: S.optional(S.String),
-    AuthStrategy: S.optional(S.String),
+    AuthStrategy: S.optional(SourceControlAuthStrategy),
     AuthToken: S.optional(S.String),
   }),
 ).annotations({
@@ -5123,7 +5719,7 @@ export const OrchestrationArgumentsMap = S.Record({
 });
 export interface Action {
   JobName?: string;
-  Arguments?: GenericMap;
+  Arguments?: { [key: string]: string };
   Timeout?: number;
   SecurityConfiguration?: string;
   NotificationProperty?: NotificationProperty;
@@ -5150,9 +5746,28 @@ export const EventBatchingCondition = S.suspend(() =>
 ).annotations({
   identifier: "EventBatchingCondition",
 }) as any as S.Schema<EventBatchingCondition>;
+export type IntegrationStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "MODIFYING"
+  | "FAILED"
+  | "DELETING"
+  | "SYNCING"
+  | "NEEDS_ATTENTION";
+export const IntegrationStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "MODIFYING",
+  "FAILED",
+  "DELETING",
+  "SYNCING",
+  "NEEDS_ATTENTION",
+);
+export type RegistryStatus = "AVAILABLE" | "DELETING";
+export const RegistryStatus = S.Literal("AVAILABLE", "DELETING");
 export interface IntegrationFilter {
   Name?: string;
-  Values?: IntegrationFilterValues;
+  Values?: string[];
 }
 export const IntegrationFilter = S.suspend(() =>
   S.Struct({
@@ -5164,11 +5779,22 @@ export const IntegrationFilter = S.suspend(() =>
 }) as any as S.Schema<IntegrationFilter>;
 export type IntegrationFilterList = IntegrationFilter[];
 export const IntegrationFilterList = S.Array(IntegrationFilter);
+export type BlueprintRunState =
+  | "RUNNING"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "ROLLING_BACK";
+export const BlueprintRunState = S.Literal(
+  "RUNNING",
+  "SUCCEEDED",
+  "FAILED",
+  "ROLLING_BACK",
+);
 export interface BlueprintRun {
   BlueprintName?: string;
   RunId?: string;
   WorkflowName?: string;
-  State?: string;
+  State?: BlueprintRunState;
   StartedOn?: Date;
   CompletedOn?: Date;
   ErrorMessage?: string;
@@ -5181,7 +5807,7 @@ export const BlueprintRun = S.suspend(() =>
     BlueprintName: S.optional(S.String),
     RunId: S.optional(S.String),
     WorkflowName: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(BlueprintRunState),
     StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ErrorMessage: S.optional(S.String),
@@ -5218,9 +5844,9 @@ export const DataLakeAccessPropertiesOutput = S.suspend(() =>
 }) as any as S.Schema<DataLakeAccessPropertiesOutput>;
 export interface IcebergOptimizationPropertiesOutput {
   RoleArn?: string;
-  Compaction?: ParametersMap;
-  Retention?: ParametersMap;
-  OrphanFileDeletion?: ParametersMap;
+  Compaction?: { [key: string]: string };
+  Retention?: { [key: string]: string };
+  OrphanFileDeletion?: { [key: string]: string };
   LastUpdatedTime?: Date;
 }
 export const IcebergOptimizationPropertiesOutput = S.suspend(() =>
@@ -5239,7 +5865,7 @@ export const IcebergOptimizationPropertiesOutput = S.suspend(() =>
 export interface CatalogPropertiesOutput {
   DataLakeAccessProperties?: DataLakeAccessPropertiesOutput;
   IcebergOptimizationProperties?: IcebergOptimizationPropertiesOutput;
-  CustomProperties?: ParametersMap;
+  CustomProperties?: { [key: string]: string };
 }
 export const CatalogPropertiesOutput = S.suspend(() =>
   S.Struct({
@@ -5257,15 +5883,15 @@ export interface Catalog {
   Name: string;
   ResourceArn?: string;
   Description?: string;
-  Parameters?: ParametersMap;
+  Parameters?: { [key: string]: string };
   CreateTime?: Date;
   UpdateTime?: Date;
   TargetRedshiftCatalog?: TargetRedshiftCatalog;
   FederatedCatalog?: FederatedCatalog;
   CatalogProperties?: CatalogPropertiesOutput;
-  CreateTableDefaultPermissions?: PrincipalPermissionsList;
-  CreateDatabaseDefaultPermissions?: PrincipalPermissionsList;
-  AllowFullTableExternalDataAccess?: string;
+  CreateTableDefaultPermissions?: PrincipalPermissions[];
+  CreateDatabaseDefaultPermissions?: PrincipalPermissions[];
+  AllowFullTableExternalDataAccess?: AllowFullTableExternalDataAccessEnum;
 }
 export const Catalog = S.suspend(() =>
   S.Struct({
@@ -5281,7 +5907,9 @@ export const Catalog = S.suspend(() =>
     CatalogProperties: S.optional(CatalogPropertiesOutput),
     CreateTableDefaultPermissions: S.optional(PrincipalPermissionsList),
     CreateDatabaseDefaultPermissions: S.optional(PrincipalPermissionsList),
-    AllowFullTableExternalDataAccess: S.optional(S.String),
+    AllowFullTableExternalDataAccess: S.optional(
+      AllowFullTableExternalDataAccessEnum,
+    ),
   }),
 ).annotations({ identifier: "Catalog" }) as any as S.Schema<Catalog>;
 export type CatalogList = Catalog[];
@@ -5353,13 +5981,13 @@ export interface CsvClassifier {
   Version?: number;
   Delimiter?: string;
   QuoteSymbol?: string;
-  ContainsHeader?: string;
-  Header?: CsvHeader;
+  ContainsHeader?: CsvHeaderOption;
+  Header?: string[];
   DisableValueTrimming?: boolean;
   AllowSingleColumn?: boolean;
   CustomDatatypeConfigured?: boolean;
-  CustomDatatypes?: CustomDatatypes;
-  Serde?: string;
+  CustomDatatypes?: string[];
+  Serde?: CsvSerdeOption;
 }
 export const CsvClassifier = S.suspend(() =>
   S.Struct({
@@ -5369,13 +5997,13 @@ export const CsvClassifier = S.suspend(() =>
     Version: S.optional(S.Number),
     Delimiter: S.optional(S.String),
     QuoteSymbol: S.optional(S.String),
-    ContainsHeader: S.optional(S.String),
+    ContainsHeader: S.optional(CsvHeaderOption),
     Header: S.optional(CsvHeader),
     DisableValueTrimming: S.optional(S.Boolean),
     AllowSingleColumn: S.optional(S.Boolean),
     CustomDatatypeConfigured: S.optional(S.Boolean),
     CustomDatatypes: S.optional(CustomDatatypes),
-    Serde: S.optional(S.String),
+    Serde: S.optional(CsvSerdeOption),
   }),
 ).annotations({
   identifier: "CsvClassifier",
@@ -5398,20 +6026,35 @@ export type ClassifierList = Classifier[];
 export const ClassifierList = S.Array(Classifier);
 export type ColumnStatisticsList = ColumnStatistics[];
 export const ColumnStatisticsList = S.Array(ColumnStatistics);
+export type ComputationType = "FULL" | "INCREMENTAL";
+export const ComputationType = S.Literal("FULL", "INCREMENTAL");
+export type ColumnStatisticsState =
+  | "STARTING"
+  | "RUNNING"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "STOPPED";
+export const ColumnStatisticsState = S.Literal(
+  "STARTING",
+  "RUNNING",
+  "SUCCEEDED",
+  "FAILED",
+  "STOPPED",
+);
 export interface ColumnStatisticsTaskRun {
   CustomerId?: string;
   ColumnStatisticsTaskRunId?: string;
   DatabaseName?: string;
   TableName?: string;
-  ColumnNameList?: ColumnNameList;
+  ColumnNameList?: string[];
   CatalogID?: string;
   Role?: string;
   SampleSize?: number;
   SecurityConfiguration?: string;
   NumberOfWorkers?: number;
   WorkerType?: string;
-  ComputationType?: string;
-  Status?: string;
+  ComputationType?: ComputationType;
+  Status?: ColumnStatisticsState;
   CreationTime?: Date;
   LastUpdated?: Date;
   StartTime?: Date;
@@ -5432,8 +6075,8 @@ export const ColumnStatisticsTaskRun = S.suspend(() =>
     SecurityConfiguration: S.optional(S.String),
     NumberOfWorkers: S.optional(S.Number),
     WorkerType: S.optional(S.String),
-    ComputationType: S.optional(S.String),
-    Status: S.optional(S.String),
+    ComputationType: S.optional(ComputationType),
+    Status: S.optional(ColumnStatisticsState),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -5447,14 +6090,14 @@ export const ColumnStatisticsTaskRun = S.suspend(() =>
 export type ColumnStatisticsTaskRunsList = ColumnStatisticsTaskRun[];
 export const ColumnStatisticsTaskRunsList = S.Array(ColumnStatisticsTaskRun);
 export interface GetConnectionsFilter {
-  MatchCriteria?: MatchCriteria;
-  ConnectionType?: string;
+  MatchCriteria?: string[];
+  ConnectionType?: ConnectionType;
   ConnectionSchemaVersion?: number;
 }
 export const GetConnectionsFilter = S.suspend(() =>
   S.Struct({
     MatchCriteria: S.optional(MatchCriteria),
-    ConnectionType: S.optional(S.String),
+    ConnectionType: S.optional(ConnectionType),
     ConnectionSchemaVersion: S.optional(S.Number),
   }),
 ).annotations({
@@ -5464,9 +6107,9 @@ export interface Database {
   Name: string;
   Description?: string;
   LocationUri?: string;
-  Parameters?: ParametersMap;
+  Parameters?: { [key: string]: string };
   CreateTime?: Date;
-  CreateTableDefaultPermissions?: PrincipalPermissionsList;
+  CreateTableDefaultPermissions?: PrincipalPermissions[];
   TargetDatabase?: DatabaseIdentifier;
   CatalogId?: string;
   FederatedDatabase?: FederatedDatabase;
@@ -5486,10 +6129,39 @@ export const Database = S.suspend(() =>
 ).annotations({ identifier: "Database" }) as any as S.Schema<Database>;
 export type DatabaseList = Database[];
 export const DatabaseList = S.Array(Database);
+export type DataQualityModelStatus = "RUNNING" | "SUCCEEDED" | "FAILED";
+export const DataQualityModelStatus = S.Literal(
+  "RUNNING",
+  "SUCCEEDED",
+  "FAILED",
+);
 export type DataQualityResultIdList = string[];
 export const DataQualityResultIdList = S.Array(S.String);
 export type ConnectionOptions = { [key: string]: string };
 export const ConnectionOptions = S.Record({ key: S.String, value: S.String });
+export type JobRunState =
+  | "STARTING"
+  | "RUNNING"
+  | "STOPPING"
+  | "STOPPED"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "TIMEOUT"
+  | "ERROR"
+  | "WAITING"
+  | "EXPIRED";
+export const JobRunState = S.Literal(
+  "STARTING",
+  "RUNNING",
+  "STOPPING",
+  "STOPPED",
+  "SUCCEEDED",
+  "FAILED",
+  "TIMEOUT",
+  "ERROR",
+  "WAITING",
+  "EXPIRED",
+);
 export interface Predecessor {
   JobName?: string;
   RunId?: string;
@@ -5505,27 +6177,27 @@ export interface JobRun {
   PreviousRunId?: string;
   TriggerName?: string;
   JobName?: string;
-  JobMode?: string;
+  JobMode?: JobMode;
   JobRunQueuingEnabled?: boolean;
   StartedOn?: Date;
   LastModifiedOn?: Date;
   CompletedOn?: Date;
-  JobRunState?: string;
-  Arguments?: GenericMap;
+  JobRunState?: JobRunState;
+  Arguments?: { [key: string]: string };
   ErrorMessage?: string;
-  PredecessorRuns?: PredecessorList;
+  PredecessorRuns?: Predecessor[];
   AllocatedCapacity?: number;
   ExecutionTime?: number;
   Timeout?: number;
   MaxCapacity?: number;
-  WorkerType?: string;
+  WorkerType?: WorkerType;
   NumberOfWorkers?: number;
   SecurityConfiguration?: string;
   LogGroupName?: string;
   NotificationProperty?: NotificationProperty;
   GlueVersion?: string;
   DPUSeconds?: number;
-  ExecutionClass?: string;
+  ExecutionClass?: ExecutionClass;
   MaintenanceWindow?: string;
   ProfileName?: string;
   StateDetail?: string;
@@ -5538,12 +6210,12 @@ export const JobRun = S.suspend(() =>
     PreviousRunId: S.optional(S.String),
     TriggerName: S.optional(S.String),
     JobName: S.optional(S.String),
-    JobMode: S.optional(S.String),
+    JobMode: S.optional(JobMode),
     JobRunQueuingEnabled: S.optional(S.Boolean),
     StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    JobRunState: S.optional(S.String),
+    JobRunState: S.optional(JobRunState),
     Arguments: S.optional(GenericMap),
     ErrorMessage: S.optional(S.String),
     PredecessorRuns: S.optional(PredecessorList),
@@ -5551,14 +6223,14 @@ export const JobRun = S.suspend(() =>
     ExecutionTime: S.optional(S.Number),
     Timeout: S.optional(S.Number),
     MaxCapacity: S.optional(S.Number),
-    WorkerType: S.optional(S.String),
+    WorkerType: S.optional(WorkerType),
     NumberOfWorkers: S.optional(S.Number),
     SecurityConfiguration: S.optional(S.String),
     LogGroupName: S.optional(S.String),
     NotificationProperty: S.optional(NotificationProperty),
     GlueVersion: S.optional(S.String),
     DPUSeconds: S.optional(S.Number),
-    ExecutionClass: S.optional(S.String),
+    ExecutionClass: S.optional(ExecutionClass),
     MaintenanceWindow: S.optional(S.String),
     ProfileName: S.optional(S.String),
     StateDetail: S.optional(S.String),
@@ -5580,9 +6252,9 @@ export const CodeGenNodeArg = S.suspend(() =>
 export type CodeGenNodeArgs = CodeGenNodeArg[];
 export const CodeGenNodeArgs = S.Array(CodeGenNodeArg);
 export interface Location {
-  Jdbc?: CodeGenNodeArgs;
-  S3?: CodeGenNodeArgs;
-  DynamoDB?: CodeGenNodeArgs;
+  Jdbc?: CodeGenNodeArg[];
+  S3?: CodeGenNodeArg[];
+  DynamoDB?: CodeGenNodeArg[];
 }
 export const Location = S.suspend(() =>
   S.Struct({
@@ -5592,15 +6264,15 @@ export const Location = S.suspend(() =>
   }),
 ).annotations({ identifier: "Location" }) as any as S.Schema<Location>;
 export interface TaskRunFilterCriteria {
-  TaskRunType?: string;
-  Status?: string;
+  TaskRunType?: TaskType;
+  Status?: TaskStatusType;
   StartedBefore?: Date;
   StartedAfter?: Date;
 }
 export const TaskRunFilterCriteria = S.suspend(() =>
   S.Struct({
-    TaskRunType: S.optional(S.String),
-    Status: S.optional(S.String),
+    TaskRunType: S.optional(TaskType),
+    Status: S.optional(TaskStatusType),
     StartedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     StartedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -5608,11 +6280,11 @@ export const TaskRunFilterCriteria = S.suspend(() =>
   identifier: "TaskRunFilterCriteria",
 }) as any as S.Schema<TaskRunFilterCriteria>;
 export interface TaskRunSortCriteria {
-  Column: string;
-  SortDirection: string;
+  Column: TaskRunSortColumnType;
+  SortDirection: SortDirectionType;
 }
 export const TaskRunSortCriteria = S.suspend(() =>
-  S.Struct({ Column: S.String, SortDirection: S.String }),
+  S.Struct({ Column: TaskRunSortColumnType, SortDirection: SortDirectionType }),
 ).annotations({
   identifier: "TaskRunSortCriteria",
 }) as any as S.Schema<TaskRunSortCriteria>;
@@ -5641,56 +6313,77 @@ export const AdditionalPlanOptionsMap = S.Record({
   key: S.String,
   value: S.String,
 });
+export type SchemaStatus = "AVAILABLE" | "PENDING" | "DELETING";
+export const SchemaStatus = S.Literal("AVAILABLE", "PENDING", "DELETING");
+export type SchemaVersionStatus =
+  | "AVAILABLE"
+  | "PENDING"
+  | "FAILURE"
+  | "DELETING";
+export const SchemaVersionStatus = S.Literal(
+  "AVAILABLE",
+  "PENDING",
+  "FAILURE",
+  "DELETING",
+);
+export type S3EncryptionMode = "DISABLED" | "SSE-KMS" | "SSE-S3";
+export const S3EncryptionMode = S.Literal("DISABLED", "SSE-KMS", "SSE-S3");
 export interface S3Encryption {
-  S3EncryptionMode?: string;
+  S3EncryptionMode?: S3EncryptionMode;
   KmsKeyArn?: string;
 }
 export const S3Encryption = S.suspend(() =>
   S.Struct({
-    S3EncryptionMode: S.optional(S.String),
+    S3EncryptionMode: S.optional(S3EncryptionMode),
     KmsKeyArn: S.optional(S.String),
   }),
 ).annotations({ identifier: "S3Encryption" }) as any as S.Schema<S3Encryption>;
 export type S3EncryptionList = S3Encryption[];
 export const S3EncryptionList = S.Array(S3Encryption);
+export type CloudWatchEncryptionMode = "DISABLED" | "SSE-KMS";
+export const CloudWatchEncryptionMode = S.Literal("DISABLED", "SSE-KMS");
 export interface CloudWatchEncryption {
-  CloudWatchEncryptionMode?: string;
+  CloudWatchEncryptionMode?: CloudWatchEncryptionMode;
   KmsKeyArn?: string;
 }
 export const CloudWatchEncryption = S.suspend(() =>
   S.Struct({
-    CloudWatchEncryptionMode: S.optional(S.String),
+    CloudWatchEncryptionMode: S.optional(CloudWatchEncryptionMode),
     KmsKeyArn: S.optional(S.String),
   }),
 ).annotations({
   identifier: "CloudWatchEncryption",
 }) as any as S.Schema<CloudWatchEncryption>;
+export type JobBookmarksEncryptionMode = "DISABLED" | "CSE-KMS";
+export const JobBookmarksEncryptionMode = S.Literal("DISABLED", "CSE-KMS");
 export interface JobBookmarksEncryption {
-  JobBookmarksEncryptionMode?: string;
+  JobBookmarksEncryptionMode?: JobBookmarksEncryptionMode;
   KmsKeyArn?: string;
 }
 export const JobBookmarksEncryption = S.suspend(() =>
   S.Struct({
-    JobBookmarksEncryptionMode: S.optional(S.String),
+    JobBookmarksEncryptionMode: S.optional(JobBookmarksEncryptionMode),
     KmsKeyArn: S.optional(S.String),
   }),
 ).annotations({
   identifier: "JobBookmarksEncryption",
 }) as any as S.Schema<JobBookmarksEncryption>;
+export type DataQualityEncryptionMode = "DISABLED" | "SSE-KMS";
+export const DataQualityEncryptionMode = S.Literal("DISABLED", "SSE-KMS");
 export interface DataQualityEncryption {
-  DataQualityEncryptionMode?: string;
+  DataQualityEncryptionMode?: DataQualityEncryptionMode;
   KmsKeyArn?: string;
 }
 export const DataQualityEncryption = S.suspend(() =>
   S.Struct({
-    DataQualityEncryptionMode: S.optional(S.String),
+    DataQualityEncryptionMode: S.optional(DataQualityEncryptionMode),
     KmsKeyArn: S.optional(S.String),
   }),
 ).annotations({
   identifier: "DataQualityEncryption",
 }) as any as S.Schema<DataQualityEncryption>;
 export interface EncryptionConfiguration {
-  S3Encryption?: S3EncryptionList;
+  S3Encryption?: S3Encryption[];
   CloudWatchEncryption?: CloudWatchEncryption;
   JobBookmarksEncryption?: JobBookmarksEncryption;
   DataQualityEncryption?: DataQualityEncryption;
@@ -5755,12 +6448,14 @@ export const FederatedTable = S.suspend(() =>
 ).annotations({
   identifier: "FederatedTable",
 }) as any as S.Schema<FederatedTable>;
+export type LastRefreshType = "FULL" | "INCREMENTAL";
+export const LastRefreshType = S.Literal("FULL", "INCREMENTAL");
 export type ViewSubObjectsList = string[];
 export const ViewSubObjectsList = S.Array(S.String);
 export type ViewSubObjectVersionIdsList = number[];
 export const ViewSubObjectVersionIdsList = S.Array(S.Number);
 export interface ViewRepresentation {
-  Dialect?: string;
+  Dialect?: ViewDialect;
   DialectVersion?: string;
   ViewOriginalText?: string;
   ViewExpandedText?: string;
@@ -5769,7 +6464,7 @@ export interface ViewRepresentation {
 }
 export const ViewRepresentation = S.suspend(() =>
   S.Struct({
-    Dialect: S.optional(S.String),
+    Dialect: S.optional(ViewDialect),
     DialectVersion: S.optional(S.String),
     ViewOriginalText: S.optional(S.String),
     ViewExpandedText: S.optional(S.String),
@@ -5787,10 +6482,10 @@ export interface ViewDefinition {
   ViewVersionId?: number;
   ViewVersionToken?: string;
   RefreshSeconds?: number;
-  LastRefreshType?: string;
-  SubObjects?: ViewSubObjectsList;
-  SubObjectVersionIds?: ViewSubObjectVersionIdsList;
-  Representations?: ViewRepresentationList;
+  LastRefreshType?: LastRefreshType;
+  SubObjects?: string[];
+  SubObjectVersionIds?: number[];
+  Representations?: ViewRepresentation[];
 }
 export const ViewDefinition = S.suspend(() =>
   S.Struct({
@@ -5799,7 +6494,7 @@ export const ViewDefinition = S.suspend(() =>
     ViewVersionId: S.optional(S.Number),
     ViewVersionToken: S.optional(S.String),
     RefreshSeconds: S.optional(S.Number),
-    LastRefreshType: S.optional(S.String),
+    LastRefreshType: S.optional(LastRefreshType),
     SubObjects: S.optional(ViewSubObjectsList),
     SubObjectVersionIds: S.optional(ViewSubObjectVersionIdsList),
     Representations: S.optional(ViewRepresentationList),
@@ -5818,11 +6513,11 @@ export interface Table {
   LastAnalyzedTime?: Date;
   Retention?: number;
   StorageDescriptor?: StorageDescriptor;
-  PartitionKeys?: ColumnList;
+  PartitionKeys?: Column[];
   ViewOriginalText?: string;
   ViewExpandedText?: string;
   TableType?: string;
-  Parameters?: ParametersMap;
+  Parameters?: { [key: string]: string };
   CreatedBy?: string;
   IsRegisteredWithLakeFormation?: boolean;
   TargetTable?: TableIdentifier;
@@ -5879,12 +6574,12 @@ export const TableVersion = S.suspend(() =>
 export type GetTableVersionsList = TableVersion[];
 export const GetTableVersionsList = S.Array(TableVersion);
 export interface SupportedDialect {
-  Dialect?: string;
+  Dialect?: ViewDialect;
   DialectVersion?: string;
 }
 export const SupportedDialect = S.suspend(() =>
   S.Struct({
-    Dialect: S.optional(S.String),
+    Dialect: S.optional(ViewDialect),
     DialectVersion: S.optional(S.String),
   }),
 ).annotations({
@@ -5895,10 +6590,10 @@ export interface UserDefinedFunction {
   DatabaseName?: string;
   ClassName?: string;
   OwnerName?: string;
-  FunctionType?: string;
-  OwnerType?: string;
+  FunctionType?: FunctionType;
+  OwnerType?: PrincipalType;
   CreateTime?: Date;
-  ResourceUris?: ResourceUriList;
+  ResourceUris?: ResourceUri[];
   CatalogId?: string;
 }
 export const UserDefinedFunction = S.suspend(() =>
@@ -5907,8 +6602,8 @@ export const UserDefinedFunction = S.suspend(() =>
     DatabaseName: S.optional(S.String),
     ClassName: S.optional(S.String),
     OwnerName: S.optional(S.String),
-    FunctionType: S.optional(S.String),
-    OwnerType: S.optional(S.String),
+    FunctionType: S.optional(FunctionType),
+    OwnerType: S.optional(PrincipalType),
     CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ResourceUris: S.optional(ResourceUriList),
     CatalogId: S.optional(S.String),
@@ -5918,6 +6613,19 @@ export const UserDefinedFunction = S.suspend(() =>
 }) as any as S.Schema<UserDefinedFunction>;
 export type UserDefinedFunctionList = UserDefinedFunction[];
 export const UserDefinedFunctionList = S.Array(UserDefinedFunction);
+export type WorkflowRunStatus =
+  | "RUNNING"
+  | "COMPLETED"
+  | "STOPPING"
+  | "STOPPED"
+  | "ERROR";
+export const WorkflowRunStatus = S.Literal(
+  "RUNNING",
+  "COMPLETED",
+  "STOPPING",
+  "STOPPED",
+  "ERROR",
+);
 export interface WorkflowRunStatistics {
   TotalActions?: number;
   TimeoutActions?: number;
@@ -5942,31 +6650,69 @@ export const WorkflowRunStatistics = S.suspend(() =>
 ).annotations({
   identifier: "WorkflowRunStatistics",
 }) as any as S.Schema<WorkflowRunStatistics>;
+export type NodeType = "CRAWLER" | "JOB" | "TRIGGER";
+export const NodeType = S.Literal("CRAWLER", "JOB", "TRIGGER");
+export type TriggerState =
+  | "CREATING"
+  | "CREATED"
+  | "ACTIVATING"
+  | "ACTIVATED"
+  | "DEACTIVATING"
+  | "DEACTIVATED"
+  | "DELETING"
+  | "UPDATING";
+export const TriggerState = S.Literal(
+  "CREATING",
+  "CREATED",
+  "ACTIVATING",
+  "ACTIVATED",
+  "DEACTIVATING",
+  "DEACTIVATED",
+  "DELETING",
+  "UPDATING",
+);
+export type LogicalOperator = "EQUALS";
+export const LogicalOperator = S.Literal("EQUALS");
+export type CrawlState =
+  | "RUNNING"
+  | "CANCELLING"
+  | "CANCELLED"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "ERROR";
+export const CrawlState = S.Literal(
+  "RUNNING",
+  "CANCELLING",
+  "CANCELLED",
+  "SUCCEEDED",
+  "FAILED",
+  "ERROR",
+);
 export interface Condition {
-  LogicalOperator?: string;
+  LogicalOperator?: LogicalOperator;
   JobName?: string;
-  State?: string;
+  State?: JobRunState;
   CrawlerName?: string;
-  CrawlState?: string;
+  CrawlState?: CrawlState;
 }
 export const Condition = S.suspend(() =>
   S.Struct({
-    LogicalOperator: S.optional(S.String),
+    LogicalOperator: S.optional(LogicalOperator),
     JobName: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(JobRunState),
     CrawlerName: S.optional(S.String),
-    CrawlState: S.optional(S.String),
+    CrawlState: S.optional(CrawlState),
   }),
 ).annotations({ identifier: "Condition" }) as any as S.Schema<Condition>;
 export type ConditionList = Condition[];
 export const ConditionList = S.Array(Condition);
 export interface Predicate {
-  Logical?: string;
-  Conditions?: ConditionList;
+  Logical?: Logical;
+  Conditions?: Condition[];
 }
 export const Predicate = S.suspend(() =>
   S.Struct({
-    Logical: S.optional(S.String),
+    Logical: S.optional(Logical),
     Conditions: S.optional(ConditionList),
   }),
 ).annotations({ identifier: "Predicate" }) as any as S.Schema<Predicate>;
@@ -5974,11 +6720,11 @@ export interface Trigger {
   Name?: string;
   WorkflowName?: string;
   Id?: string;
-  Type?: string;
-  State?: string;
+  Type?: TriggerType;
+  State?: TriggerState;
   Description?: string;
   Schedule?: string;
-  Actions?: ActionList;
+  Actions?: Action[];
   Predicate?: Predicate;
   EventBatchingCondition?: EventBatchingCondition;
 }
@@ -5987,8 +6733,8 @@ export const Trigger = S.suspend(() =>
     Name: S.optional(S.String),
     WorkflowName: S.optional(S.String),
     Id: S.optional(S.String),
-    Type: S.optional(S.String),
-    State: S.optional(S.String),
+    Type: S.optional(TriggerType),
+    State: S.optional(TriggerState),
     Description: S.optional(S.String),
     Schedule: S.optional(S.String),
     Actions: S.optional(ActionList),
@@ -6005,7 +6751,7 @@ export const TriggerNodeDetails = S.suspend(() =>
   identifier: "TriggerNodeDetails",
 }) as any as S.Schema<TriggerNodeDetails>;
 export interface JobNodeDetails {
-  JobRuns?: JobRunList;
+  JobRuns?: JobRun[];
 }
 export const JobNodeDetails = S.suspend(() =>
   S.Struct({ JobRuns: S.optional(JobRunList) }),
@@ -6013,7 +6759,7 @@ export const JobNodeDetails = S.suspend(() =>
   identifier: "JobNodeDetails",
 }) as any as S.Schema<JobNodeDetails>;
 export interface Crawl {
-  State?: string;
+  State?: CrawlState;
   StartedOn?: Date;
   CompletedOn?: Date;
   ErrorMessage?: string;
@@ -6022,7 +6768,7 @@ export interface Crawl {
 }
 export const Crawl = S.suspend(() =>
   S.Struct({
-    State: S.optional(S.String),
+    State: S.optional(CrawlState),
     StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ErrorMessage: S.optional(S.String),
@@ -6033,7 +6779,7 @@ export const Crawl = S.suspend(() =>
 export type CrawlList = Crawl[];
 export const CrawlList = S.Array(Crawl);
 export interface CrawlerNodeDetails {
-  Crawls?: CrawlList;
+  Crawls?: Crawl[];
 }
 export const CrawlerNodeDetails = S.suspend(() =>
   S.Struct({ Crawls: S.optional(CrawlList) }),
@@ -6041,7 +6787,7 @@ export const CrawlerNodeDetails = S.suspend(() =>
   identifier: "CrawlerNodeDetails",
 }) as any as S.Schema<CrawlerNodeDetails>;
 export interface Node {
-  Type?: string;
+  Type?: NodeType;
   Name?: string;
   UniqueId?: string;
   TriggerDetails?: TriggerNodeDetails;
@@ -6050,7 +6796,7 @@ export interface Node {
 }
 export const Node = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String),
+    Type: S.optional(NodeType),
     Name: S.optional(S.String),
     UniqueId: S.optional(S.String),
     TriggerDetails: S.optional(TriggerNodeDetails),
@@ -6073,8 +6819,8 @@ export const Edge = S.suspend(() =>
 export type EdgeList = Edge[];
 export const EdgeList = S.Array(Edge);
 export interface WorkflowGraph {
-  Nodes?: NodeList;
-  Edges?: EdgeList;
+  Nodes?: Node[];
+  Edges?: Edge[];
 }
 export const WorkflowGraph = S.suspend(() =>
   S.Struct({ Nodes: S.optional(NodeList), Edges: S.optional(EdgeList) }),
@@ -6097,10 +6843,10 @@ export interface WorkflowRun {
   Name?: string;
   WorkflowRunId?: string;
   PreviousRunId?: string;
-  WorkflowRunProperties?: WorkflowRunProperties;
+  WorkflowRunProperties?: { [key: string]: string };
   StartedOn?: Date;
   CompletedOn?: Date;
-  Status?: string;
+  Status?: WorkflowRunStatus;
   ErrorMessage?: string;
   Statistics?: WorkflowRunStatistics;
   Graph?: WorkflowGraph;
@@ -6114,7 +6860,7 @@ export const WorkflowRun = S.suspend(() =>
     WorkflowRunProperties: S.optional(WorkflowRunProperties),
     StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
+    Status: S.optional(WorkflowRunStatus),
     ErrorMessage: S.optional(S.String),
     Statistics: S.optional(WorkflowRunStatistics),
     Graph: S.optional(WorkflowGraph),
@@ -6126,14 +6872,14 @@ export const WorkflowRuns = S.Array(WorkflowRun);
 export type ColumnStatisticsTaskRunIdList = string[];
 export const ColumnStatisticsTaskRunIdList = S.Array(S.String);
 export interface CrawlsFilter {
-  FieldName?: string;
-  FilterOperator?: string;
+  FieldName?: FieldName;
+  FilterOperator?: FilterOperator;
   FieldValue?: string;
 }
 export const CrawlsFilter = S.suspend(() =>
   S.Struct({
-    FieldName: S.optional(S.String),
-    FilterOperator: S.optional(S.String),
+    FieldName: S.optional(FieldName),
+    FilterOperator: S.optional(FilterOperator),
     FieldValue: S.optional(S.String),
   }),
 ).annotations({ identifier: "CrawlsFilter" }) as any as S.Schema<CrawlsFilter>;
@@ -6149,7 +6895,7 @@ export interface GlueTable {
   TableName: string;
   CatalogId?: string;
   ConnectionName?: string;
-  AdditionalOptions?: GlueTableAdditionalOptions;
+  AdditionalOptions?: { [key: string]: string };
 }
 export const GlueTable = S.suspend(() =>
   S.Struct({
@@ -6165,7 +6911,7 @@ export interface DataQualityGlueTable {
   TableName: string;
   CatalogId?: string;
   ConnectionName?: string;
-  AdditionalOptions?: GlueTableAdditionalOptions;
+  AdditionalOptions?: { [key: string]: string };
   PreProcessingQuery?: string;
 }
 export const DataQualityGlueTable = S.suspend(() =>
@@ -6266,7 +7012,7 @@ export type DevEndpointNameList = string[];
 export const DevEndpointNameList = S.Array(S.String);
 export interface IntegrationResourcePropertyFilter {
   Name?: string;
-  Values?: IntegrationResourcePropertyFilterValues;
+  Values?: string[];
 }
 export const IntegrationResourcePropertyFilter = S.suspend(() =>
   S.Struct({
@@ -6285,22 +7031,37 @@ export type TransformIdList = string[];
 export const TransformIdList = S.Array(S.String);
 export type SessionIdList = string[];
 export const SessionIdList = S.Array(S.String);
+export type SessionStatus =
+  | "PROVISIONING"
+  | "READY"
+  | "FAILED"
+  | "TIMEOUT"
+  | "STOPPING"
+  | "STOPPED";
+export const SessionStatus = S.Literal(
+  "PROVISIONING",
+  "READY",
+  "FAILED",
+  "TIMEOUT",
+  "STOPPING",
+  "STOPPED",
+);
 export interface Session {
   Id?: string;
   CreatedOn?: Date;
-  Status?: string;
+  Status?: SessionStatus;
   ErrorMessage?: string;
   Description?: string;
   Role?: string;
   Command?: SessionCommand;
-  DefaultArguments?: OrchestrationArgumentsMap;
+  DefaultArguments?: { [key: string]: string };
   Connections?: ConnectionsList;
   Progress?: number;
   MaxCapacity?: number;
   SecurityConfiguration?: string;
   GlueVersion?: string;
   NumberOfWorkers?: number;
-  WorkerType?: string;
+  WorkerType?: WorkerType;
   CompletedOn?: Date;
   ExecutionTime?: number;
   DPUSeconds?: number;
@@ -6311,7 +7072,7 @@ export const Session = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     CreatedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
+    Status: S.optional(SessionStatus),
     ErrorMessage: S.optional(S.String),
     Description: S.optional(S.String),
     Role: S.optional(S.String),
@@ -6323,7 +7084,7 @@ export const Session = S.suspend(() =>
     SecurityConfiguration: S.optional(S.String),
     GlueVersion: S.optional(S.String),
     NumberOfWorkers: S.optional(S.Number),
-    WorkerType: S.optional(S.String),
+    WorkerType: S.optional(WorkerType),
     CompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ExecutionTime: S.optional(S.Number),
     DPUSeconds: S.optional(S.Number),
@@ -6333,6 +7094,21 @@ export const Session = S.suspend(() =>
 ).annotations({ identifier: "Session" }) as any as S.Schema<Session>;
 export type SessionList = Session[];
 export const SessionList = S.Array(Session);
+export type StatementState =
+  | "WAITING"
+  | "RUNNING"
+  | "AVAILABLE"
+  | "CANCELLING"
+  | "CANCELLED"
+  | "ERROR";
+export const StatementState = S.Literal(
+  "WAITING",
+  "RUNNING",
+  "AVAILABLE",
+  "CANCELLING",
+  "CANCELLED",
+  "ERROR",
+);
 export interface StatementOutputData {
   TextPlain?: string;
 }
@@ -6344,16 +7120,16 @@ export const StatementOutputData = S.suspend(() =>
 export interface StatementOutput {
   Data?: StatementOutputData;
   ExecutionCount?: number;
-  Status?: string;
+  Status?: StatementState;
   ErrorName?: string;
   ErrorValue?: string;
-  Traceback?: OrchestrationStringList;
+  Traceback?: string[];
 }
 export const StatementOutput = S.suspend(() =>
   S.Struct({
     Data: S.optional(StatementOutputData),
     ExecutionCount: S.optional(S.Number),
-    Status: S.optional(S.String),
+    Status: S.optional(StatementState),
     ErrorName: S.optional(S.String),
     ErrorValue: S.optional(S.String),
     Traceback: S.optional(OrchestrationStringList),
@@ -6364,7 +7140,7 @@ export const StatementOutput = S.suspend(() =>
 export interface Statement {
   Id?: number;
   Code?: string;
-  State?: string;
+  State?: StatementState;
   Output?: StatementOutput;
   Progress?: number;
   StartedOn?: number;
@@ -6374,7 +7150,7 @@ export const Statement = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.Number),
     Code: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(StatementState),
     Output: S.optional(StatementOutput),
     Progress: S.optional(S.Number),
     StartedOn: S.optional(S.Number),
@@ -6386,13 +7162,13 @@ export const StatementList = S.Array(Statement);
 export interface PropertyPredicate {
   Key?: string;
   Value?: string;
-  Comparator?: string;
+  Comparator?: Comparator;
 }
 export const PropertyPredicate = S.suspend(() =>
   S.Struct({
     Key: S.optional(S.String),
     Value: S.optional(S.String),
-    Comparator: S.optional(S.String),
+    Comparator: S.optional(Comparator),
   }),
 ).annotations({
   identifier: "PropertyPredicate",
@@ -6401,10 +7177,10 @@ export type SearchPropertyPredicates = PropertyPredicate[];
 export const SearchPropertyPredicates = S.Array(PropertyPredicate);
 export interface SortCriterion {
   FieldName?: string;
-  Sort?: string;
+  Sort?: Sort;
 }
 export const SortCriterion = S.suspend(() =>
-  S.Struct({ FieldName: S.optional(S.String), Sort: S.optional(S.String) }),
+  S.Struct({ FieldName: S.optional(S.String), Sort: S.optional(Sort) }),
 ).annotations({
   identifier: "SortCriterion",
 }) as any as S.Schema<SortCriterion>;
@@ -6413,13 +7189,13 @@ export const SortCriteria = S.Array(SortCriterion);
 export interface DataQualityEvaluationRunAdditionalRunOptions {
   CloudWatchMetricsEnabled?: boolean;
   ResultsS3Prefix?: string;
-  CompositeRuleEvaluationMethod?: string;
+  CompositeRuleEvaluationMethod?: DQCompositeRuleEvaluationMethod;
 }
 export const DataQualityEvaluationRunAdditionalRunOptions = S.suspend(() =>
   S.Struct({
     CloudWatchMetricsEnabled: S.optional(S.Boolean),
     ResultsS3Prefix: S.optional(S.String),
-    CompositeRuleEvaluationMethod: S.optional(S.String),
+    CompositeRuleEvaluationMethod: S.optional(DQCompositeRuleEvaluationMethod),
   }),
 ).annotations({
   identifier: "DataQualityEvaluationRunAdditionalRunOptions",
@@ -6427,13 +7203,13 @@ export const DataQualityEvaluationRunAdditionalRunOptions = S.suspend(() =>
 export type DataSourceMap = { [key: string]: DataSource };
 export const DataSourceMap = S.Record({ key: S.String, value: DataSource });
 export interface TestConnectionInput {
-  ConnectionType: string;
-  ConnectionProperties: ConnectionProperties;
+  ConnectionType: ConnectionType;
+  ConnectionProperties: { [key: string]: string };
   AuthenticationConfiguration?: AuthenticationConfigurationInput;
 }
 export const TestConnectionInput = S.suspend(() =>
   S.Struct({
-    ConnectionType: S.String,
+    ConnectionType: ConnectionType,
     ConnectionProperties: ConnectionProperties,
     AuthenticationConfiguration: S.optional(AuthenticationConfigurationInput),
   }),
@@ -6483,26 +7259,26 @@ export interface UpdateCsvClassifierRequest {
   Name: string;
   Delimiter?: string;
   QuoteSymbol?: string;
-  ContainsHeader?: string;
-  Header?: CsvHeader;
+  ContainsHeader?: CsvHeaderOption;
+  Header?: string[];
   DisableValueTrimming?: boolean;
   AllowSingleColumn?: boolean;
   CustomDatatypeConfigured?: boolean;
-  CustomDatatypes?: CustomDatatypes;
-  Serde?: string;
+  CustomDatatypes?: string[];
+  Serde?: CsvSerdeOption;
 }
 export const UpdateCsvClassifierRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
     Delimiter: S.optional(S.String),
     QuoteSymbol: S.optional(S.String),
-    ContainsHeader: S.optional(S.String),
+    ContainsHeader: S.optional(CsvHeaderOption),
     Header: S.optional(CsvHeader),
     DisableValueTrimming: S.optional(S.Boolean),
     AllowSingleColumn: S.optional(S.Boolean),
     CustomDatatypeConfigured: S.optional(S.Boolean),
     CustomDatatypes: S.optional(CustomDatatypes),
-    Serde: S.optional(S.String),
+    Serde: S.optional(CsvSerdeOption),
   }),
 ).annotations({
   identifier: "UpdateCsvClassifierRequest",
@@ -6536,7 +7312,7 @@ export const GlueStudioSchemaColumn = S.suspend(() =>
 export type GlueStudioSchemaColumnList = GlueStudioSchemaColumn[];
 export const GlueStudioSchemaColumnList = S.Array(GlueStudioSchemaColumn);
 export interface GlueSchema {
-  Columns?: GlueStudioSchemaColumnList;
+  Columns?: GlueStudioSchemaColumn[];
 }
 export const GlueSchema = S.suspend(() =>
   S.Struct({ Columns: S.optional(GlueStudioSchemaColumnList) }),
@@ -6550,7 +7326,7 @@ export interface AthenaConnectorSource {
   ConnectionType: string;
   ConnectionTable?: string;
   SchemaName: string;
-  OutputSchemas?: GlueSchemas;
+  OutputSchemas?: GlueSchema[];
 }
 export const AthenaConnectorSource = S.suspend(() =>
   S.Struct({
@@ -6567,17 +7343,123 @@ export const AthenaConnectorSource = S.suspend(() =>
 }) as any as S.Schema<AthenaConnectorSource>;
 export type EnclosedInStringProperties = string[];
 export const EnclosedInStringProperties = S.Array(S.String);
-export type JDBCDataTypeMapping = { [key: string]: string };
-export const JDBCDataTypeMapping = S.Record({ key: S.String, value: S.String });
+export type JDBCDataType =
+  | "ARRAY"
+  | "BIGINT"
+  | "BINARY"
+  | "BIT"
+  | "BLOB"
+  | "BOOLEAN"
+  | "CHAR"
+  | "CLOB"
+  | "DATALINK"
+  | "DATE"
+  | "DECIMAL"
+  | "DISTINCT"
+  | "DOUBLE"
+  | "FLOAT"
+  | "INTEGER"
+  | "JAVA_OBJECT"
+  | "LONGNVARCHAR"
+  | "LONGVARBINARY"
+  | "LONGVARCHAR"
+  | "NCHAR"
+  | "NCLOB"
+  | "NULL"
+  | "NUMERIC"
+  | "NVARCHAR"
+  | "OTHER"
+  | "REAL"
+  | "REF"
+  | "REF_CURSOR"
+  | "ROWID"
+  | "SMALLINT"
+  | "SQLXML"
+  | "STRUCT"
+  | "TIME"
+  | "TIME_WITH_TIMEZONE"
+  | "TIMESTAMP"
+  | "TIMESTAMP_WITH_TIMEZONE"
+  | "TINYINT"
+  | "VARBINARY"
+  | "VARCHAR";
+export const JDBCDataType = S.Literal(
+  "ARRAY",
+  "BIGINT",
+  "BINARY",
+  "BIT",
+  "BLOB",
+  "BOOLEAN",
+  "CHAR",
+  "CLOB",
+  "DATALINK",
+  "DATE",
+  "DECIMAL",
+  "DISTINCT",
+  "DOUBLE",
+  "FLOAT",
+  "INTEGER",
+  "JAVA_OBJECT",
+  "LONGNVARCHAR",
+  "LONGVARBINARY",
+  "LONGVARCHAR",
+  "NCHAR",
+  "NCLOB",
+  "NULL",
+  "NUMERIC",
+  "NVARCHAR",
+  "OTHER",
+  "REAL",
+  "REF",
+  "REF_CURSOR",
+  "ROWID",
+  "SMALLINT",
+  "SQLXML",
+  "STRUCT",
+  "TIME",
+  "TIME_WITH_TIMEZONE",
+  "TIMESTAMP",
+  "TIMESTAMP_WITH_TIMEZONE",
+  "TINYINT",
+  "VARBINARY",
+  "VARCHAR",
+);
+export type GlueRecordType =
+  | "DATE"
+  | "STRING"
+  | "TIMESTAMP"
+  | "INT"
+  | "FLOAT"
+  | "LONG"
+  | "BIGDECIMAL"
+  | "BYTE"
+  | "SHORT"
+  | "DOUBLE";
+export const GlueRecordType = S.Literal(
+  "DATE",
+  "STRING",
+  "TIMESTAMP",
+  "INT",
+  "FLOAT",
+  "LONG",
+  "BIGDECIMAL",
+  "BYTE",
+  "SHORT",
+  "DOUBLE",
+);
+export type JDBCDataTypeMapping = { [key in JDBCDataType]?: GlueRecordType };
+export const JDBCDataTypeMapping = S.partial(
+  S.Record({ key: JDBCDataType, value: GlueRecordType }),
+);
 export interface JDBCConnectorOptions {
   FilterPredicate?: string;
   PartitionColumn?: string;
   LowerBound?: number;
   UpperBound?: number;
   NumPartitions?: number;
-  JobBookmarkKeys?: EnclosedInStringProperties;
+  JobBookmarkKeys?: string[];
   JobBookmarkKeysSortOrder?: string;
-  DataTypeMapping?: JDBCDataTypeMapping;
+  DataTypeMapping?: { [key: string]: GlueRecordType };
 }
 export const JDBCConnectorOptions = S.suspend(() =>
   S.Struct({
@@ -6601,7 +7483,7 @@ export interface JDBCConnectorSource {
   AdditionalOptions?: JDBCConnectorOptions;
   ConnectionTable?: string;
   Query?: string;
-  OutputSchemas?: GlueSchemas;
+  OutputSchemas?: GlueSchema[];
 }
 export const JDBCConnectorSource = S.suspend(() =>
   S.Struct({
@@ -6624,8 +7506,8 @@ export interface SparkConnectorSource {
   ConnectionName: string;
   ConnectorName: string;
   ConnectionType: string;
-  AdditionalOptions?: AdditionalOptions;
-  OutputSchemas?: GlueSchemas;
+  AdditionalOptions?: { [key: string]: string };
+  OutputSchemas?: GlueSchema[];
 }
 export const SparkConnectorSource = S.suspend(() =>
   S.Struct({
@@ -6644,7 +7526,7 @@ export interface CatalogSource {
   Database: string;
   Table: string;
   PartitionPredicate?: string;
-  OutputSchemas?: GlueSchemas;
+  OutputSchemas?: GlueSchema[];
 }
 export const CatalogSource = S.suspend(() =>
   S.Struct({
@@ -6705,6 +7587,8 @@ export const S3CatalogSource = S.suspend(() =>
 ).annotations({
   identifier: "S3CatalogSource",
 }) as any as S.Schema<S3CatalogSource>;
+export type CompressionType = "gzip" | "bzip2";
+export const CompressionType = S.Literal("gzip", "bzip2");
 export interface S3DirectSourceAdditionalOptions {
   BoundedSize?: number;
   BoundedFiles?: number;
@@ -6721,32 +7605,47 @@ export const S3DirectSourceAdditionalOptions = S.suspend(() =>
 ).annotations({
   identifier: "S3DirectSourceAdditionalOptions",
 }) as any as S.Schema<S3DirectSourceAdditionalOptions>;
+export type Separator = "comma" | "ctrla" | "pipe" | "semicolon" | "tab";
+export const Separator = S.Literal(
+  "comma",
+  "ctrla",
+  "pipe",
+  "semicolon",
+  "tab",
+);
+export type QuoteChar = "quote" | "quillemet" | "single_quote" | "disabled";
+export const QuoteChar = S.Literal(
+  "quote",
+  "quillemet",
+  "single_quote",
+  "disabled",
+);
 export interface S3CsvSource {
   Name: string;
-  Paths: EnclosedInStringProperties;
-  CompressionType?: string;
-  Exclusions?: EnclosedInStringProperties;
+  Paths: string[];
+  CompressionType?: CompressionType;
+  Exclusions?: string[];
   GroupSize?: string;
   GroupFiles?: string;
   Recurse?: boolean;
   MaxBand?: number;
   MaxFilesInBand?: number;
   AdditionalOptions?: S3DirectSourceAdditionalOptions;
-  Separator: string;
+  Separator: Separator;
   Escaper?: string;
-  QuoteChar: string;
+  QuoteChar: QuoteChar;
   Multiline?: boolean;
   WithHeader?: boolean;
   WriteHeader?: boolean;
   SkipFirst?: boolean;
   OptimizePerformance?: boolean;
-  OutputSchemas?: GlueSchemas;
+  OutputSchemas?: GlueSchema[];
 }
 export const S3CsvSource = S.suspend(() =>
   S.Struct({
     Name: S.String,
     Paths: EnclosedInStringProperties,
-    CompressionType: S.optional(S.String),
+    CompressionType: S.optional(CompressionType),
     Exclusions: S.optional(EnclosedInStringProperties),
     GroupSize: S.optional(S.String),
     GroupFiles: S.optional(S.String),
@@ -6754,9 +7653,9 @@ export const S3CsvSource = S.suspend(() =>
     MaxBand: S.optional(S.Number),
     MaxFilesInBand: S.optional(S.Number),
     AdditionalOptions: S.optional(S3DirectSourceAdditionalOptions),
-    Separator: S.String,
+    Separator: Separator,
     Escaper: S.optional(S.String),
-    QuoteChar: S.String,
+    QuoteChar: QuoteChar,
     Multiline: S.optional(S.Boolean),
     WithHeader: S.optional(S.Boolean),
     WriteHeader: S.optional(S.Boolean),
@@ -6767,9 +7666,9 @@ export const S3CsvSource = S.suspend(() =>
 ).annotations({ identifier: "S3CsvSource" }) as any as S.Schema<S3CsvSource>;
 export interface S3JsonSource {
   Name: string;
-  Paths: EnclosedInStringProperties;
-  CompressionType?: string;
-  Exclusions?: EnclosedInStringProperties;
+  Paths: string[];
+  CompressionType?: CompressionType;
+  Exclusions?: string[];
   GroupSize?: string;
   GroupFiles?: string;
   Recurse?: boolean;
@@ -6778,13 +7677,13 @@ export interface S3JsonSource {
   AdditionalOptions?: S3DirectSourceAdditionalOptions;
   JsonPath?: string;
   Multiline?: boolean;
-  OutputSchemas?: GlueSchemas;
+  OutputSchemas?: GlueSchema[];
 }
 export const S3JsonSource = S.suspend(() =>
   S.Struct({
     Name: S.String,
     Paths: EnclosedInStringProperties,
-    CompressionType: S.optional(S.String),
+    CompressionType: S.optional(CompressionType),
     Exclusions: S.optional(EnclosedInStringProperties),
     GroupSize: S.optional(S.String),
     GroupFiles: S.optional(S.String),
@@ -6797,24 +7696,41 @@ export const S3JsonSource = S.suspend(() =>
     OutputSchemas: S.optional(GlueSchemas),
   }),
 ).annotations({ identifier: "S3JsonSource" }) as any as S.Schema<S3JsonSource>;
+export type ParquetCompressionType =
+  | "snappy"
+  | "lzo"
+  | "gzip"
+  | "brotli"
+  | "lz4"
+  | "uncompressed"
+  | "none";
+export const ParquetCompressionType = S.Literal(
+  "snappy",
+  "lzo",
+  "gzip",
+  "brotli",
+  "lz4",
+  "uncompressed",
+  "none",
+);
 export interface S3ParquetSource {
   Name: string;
-  Paths: EnclosedInStringProperties;
-  CompressionType?: string;
-  Exclusions?: EnclosedInStringProperties;
+  Paths: string[];
+  CompressionType?: ParquetCompressionType;
+  Exclusions?: string[];
   GroupSize?: string;
   GroupFiles?: string;
   Recurse?: boolean;
   MaxBand?: number;
   MaxFilesInBand?: number;
   AdditionalOptions?: S3DirectSourceAdditionalOptions;
-  OutputSchemas?: GlueSchemas;
+  OutputSchemas?: GlueSchema[];
 }
 export const S3ParquetSource = S.suspend(() =>
   S.Struct({
     Name: S.String,
     Paths: EnclosedInStringProperties,
-    CompressionType: S.optional(S.String),
+    CompressionType: S.optional(ParquetCompressionType),
     Exclusions: S.optional(EnclosedInStringProperties),
     GroupSize: S.optional(S.String),
     GroupFiles: S.optional(S.String),
@@ -6871,13 +7787,13 @@ export type OneInput = string[];
 export const OneInput = S.Array(S.String);
 export interface JDBCConnectorTarget {
   Name: string;
-  Inputs: OneInput;
+  Inputs: string[];
   ConnectionName: string;
   ConnectionTable: string;
   ConnectorName: string;
   ConnectionType: string;
-  AdditionalOptions?: AdditionalOptions;
-  OutputSchemas?: GlueSchemas;
+  AdditionalOptions?: { [key: string]: string };
+  OutputSchemas?: GlueSchema[];
 }
 export const JDBCConnectorTarget = S.suspend(() =>
   S.Struct({
@@ -6895,12 +7811,12 @@ export const JDBCConnectorTarget = S.suspend(() =>
 }) as any as S.Schema<JDBCConnectorTarget>;
 export interface SparkConnectorTarget {
   Name: string;
-  Inputs: OneInput;
+  Inputs: string[];
   ConnectionName: string;
   ConnectorName: string;
   ConnectionType: string;
-  AdditionalOptions?: AdditionalOptions;
-  OutputSchemas?: GlueSchemas;
+  AdditionalOptions?: { [key: string]: string };
+  OutputSchemas?: GlueSchema[];
 }
 export const SparkConnectorTarget = S.suspend(() =>
   S.Struct({
@@ -6915,12 +7831,12 @@ export const SparkConnectorTarget = S.suspend(() =>
 ).annotations({
   identifier: "SparkConnectorTarget",
 }) as any as S.Schema<SparkConnectorTarget>;
-export type GlueStudioPathList = EnclosedInStringProperties[];
+export type GlueStudioPathList = string[][];
 export const GlueStudioPathList = S.Array(EnclosedInStringProperties);
 export interface BasicCatalogTarget {
   Name: string;
-  Inputs: OneInput;
-  PartitionKeys?: GlueStudioPathList;
+  Inputs: string[];
+  PartitionKeys?: string[][];
   Database: string;
   Table: string;
 }
@@ -6940,7 +7856,7 @@ export const EnclosedInStringPropertiesMinOne = S.Array(S.String);
 export interface UpsertRedshiftTargetOptions {
   TableLocation?: string;
   ConnectionName?: string;
-  UpsertKeys?: EnclosedInStringPropertiesMinOne;
+  UpsertKeys?: string[];
 }
 export const UpsertRedshiftTargetOptions = S.suspend(() =>
   S.Struct({
@@ -6953,7 +7869,7 @@ export const UpsertRedshiftTargetOptions = S.suspend(() =>
 }) as any as S.Schema<UpsertRedshiftTargetOptions>;
 export interface RedshiftTarget {
   Name: string;
-  Inputs: OneInput;
+  Inputs: string[];
   Database: string;
   Table: string;
   RedshiftTmpDir?: string;
@@ -6973,14 +7889,16 @@ export const RedshiftTarget = S.suspend(() =>
 ).annotations({
   identifier: "RedshiftTarget",
 }) as any as S.Schema<RedshiftTarget>;
+export type UpdateCatalogBehavior = "UPDATE_IN_DATABASE" | "LOG";
+export const UpdateCatalogBehavior = S.Literal("UPDATE_IN_DATABASE", "LOG");
 export interface CatalogSchemaChangePolicy {
   EnableUpdateCatalog?: boolean;
-  UpdateBehavior?: string;
+  UpdateBehavior?: UpdateCatalogBehavior;
 }
 export const CatalogSchemaChangePolicy = S.suspend(() =>
   S.Struct({
     EnableUpdateCatalog: S.optional(S.Boolean),
-    UpdateBehavior: S.optional(S.String),
+    UpdateBehavior: S.optional(UpdateCatalogBehavior),
   }),
 ).annotations({
   identifier: "CatalogSchemaChangePolicy",
@@ -6999,8 +7917,8 @@ export const AutoDataQuality = S.suspend(() =>
 }) as any as S.Schema<AutoDataQuality>;
 export interface S3CatalogTarget {
   Name: string;
-  Inputs: OneInput;
-  PartitionKeys?: GlueStudioPathList;
+  Inputs: string[];
+  PartitionKeys?: string[][];
   Table: string;
   Database: string;
   SchemaChangePolicy?: CatalogSchemaChangePolicy;
@@ -7021,14 +7939,14 @@ export const S3CatalogTarget = S.suspend(() =>
 }) as any as S.Schema<S3CatalogTarget>;
 export interface DirectSchemaChangePolicy {
   EnableUpdateCatalog?: boolean;
-  UpdateBehavior?: string;
+  UpdateBehavior?: UpdateCatalogBehavior;
   Table?: string;
   Database?: string;
 }
 export const DirectSchemaChangePolicy = S.suspend(() =>
   S.Struct({
     EnableUpdateCatalog: S.optional(S.Boolean),
-    UpdateBehavior: S.optional(S.String),
+    UpdateBehavior: S.optional(UpdateCatalogBehavior),
     Table: S.optional(S.String),
     Database: S.optional(S.String),
   }),
@@ -7037,10 +7955,10 @@ export const DirectSchemaChangePolicy = S.suspend(() =>
 }) as any as S.Schema<DirectSchemaChangePolicy>;
 export interface S3GlueParquetTarget {
   Name: string;
-  Inputs: OneInput;
-  PartitionKeys?: GlueStudioPathList;
+  Inputs: string[];
+  PartitionKeys?: string[][];
   Path: string;
-  Compression?: string;
+  Compression?: ParquetCompressionType;
   NumberTargetPartitions?: string;
   SchemaChangePolicy?: DirectSchemaChangePolicy;
   AutoDataQuality?: AutoDataQuality;
@@ -7051,7 +7969,7 @@ export const S3GlueParquetTarget = S.suspend(() =>
     Inputs: OneInput,
     PartitionKeys: S.optional(GlueStudioPathList),
     Path: S.String,
-    Compression: S.optional(S.String),
+    Compression: S.optional(ParquetCompressionType),
     NumberTargetPartitions: S.optional(S.String),
     SchemaChangePolicy: S.optional(DirectSchemaChangePolicy),
     AutoDataQuality: S.optional(AutoDataQuality),
@@ -7059,17 +7977,40 @@ export const S3GlueParquetTarget = S.suspend(() =>
 ).annotations({
   identifier: "S3GlueParquetTarget",
 }) as any as S.Schema<S3GlueParquetTarget>;
+export type TargetFormat =
+  | "json"
+  | "csv"
+  | "avro"
+  | "orc"
+  | "parquet"
+  | "hudi"
+  | "delta"
+  | "iceberg"
+  | "hyper"
+  | "xml";
+export const TargetFormat = S.Literal(
+  "json",
+  "csv",
+  "avro",
+  "orc",
+  "parquet",
+  "hudi",
+  "delta",
+  "iceberg",
+  "hyper",
+  "xml",
+);
 export interface S3DirectTarget {
   Name: string;
-  Inputs: OneInput;
-  PartitionKeys?: GlueStudioPathList;
+  Inputs: string[];
+  PartitionKeys?: string[][];
   Path: string;
   Compression?: string;
   NumberTargetPartitions?: string;
-  Format: string;
+  Format: TargetFormat;
   SchemaChangePolicy?: DirectSchemaChangePolicy;
   AutoDataQuality?: AutoDataQuality;
-  OutputSchemas?: GlueSchemas;
+  OutputSchemas?: GlueSchema[];
 }
 export const S3DirectTarget = S.suspend(() =>
   S.Struct({
@@ -7079,7 +8020,7 @@ export const S3DirectTarget = S.suspend(() =>
     Path: S.String,
     Compression: S.optional(S.String),
     NumberTargetPartitions: S.optional(S.String),
-    Format: S.String,
+    Format: TargetFormat,
     SchemaChangePolicy: S.optional(DirectSchemaChangePolicy),
     AutoDataQuality: S.optional(AutoDataQuality),
     OutputSchemas: S.optional(GlueSchemas),
@@ -7095,33 +8036,33 @@ export const Mappings = S.Array(
 ) as any as S.Schema<Mappings>;
 export interface ApplyMapping {
   Name: string;
-  Inputs: OneInput;
-  Mapping: Mappings;
+  Inputs: string[];
+  Mapping: Mapping[];
 }
 export const ApplyMapping = S.suspend(() =>
   S.Struct({ Name: S.String, Inputs: OneInput, Mapping: Mappings }),
 ).annotations({ identifier: "ApplyMapping" }) as any as S.Schema<ApplyMapping>;
 export interface SelectFields {
   Name: string;
-  Inputs: OneInput;
-  Paths: GlueStudioPathList;
+  Inputs: string[];
+  Paths: string[][];
 }
 export const SelectFields = S.suspend(() =>
   S.Struct({ Name: S.String, Inputs: OneInput, Paths: GlueStudioPathList }),
 ).annotations({ identifier: "SelectFields" }) as any as S.Schema<SelectFields>;
 export interface DropFields {
   Name: string;
-  Inputs: OneInput;
-  Paths: GlueStudioPathList;
+  Inputs: string[];
+  Paths: string[][];
 }
 export const DropFields = S.suspend(() =>
   S.Struct({ Name: S.String, Inputs: OneInput, Paths: GlueStudioPathList }),
 ).annotations({ identifier: "DropFields" }) as any as S.Schema<DropFields>;
 export interface RenameField {
   Name: string;
-  Inputs: OneInput;
-  SourcePath: EnclosedInStringProperties;
-  TargetPath: EnclosedInStringProperties;
+  Inputs: string[];
+  SourcePath: string[];
+  TargetPath: string[];
 }
 export const RenameField = S.suspend(() =>
   S.Struct({
@@ -7133,7 +8074,7 @@ export const RenameField = S.suspend(() =>
 ).annotations({ identifier: "RenameField" }) as any as S.Schema<RenameField>;
 export interface Spigot {
   Name: string;
-  Inputs: OneInput;
+  Inputs: string[];
   Path: string;
   Topk?: number;
   Prob?: number;
@@ -7149,9 +8090,24 @@ export const Spigot = S.suspend(() =>
 ).annotations({ identifier: "Spigot" }) as any as S.Schema<Spigot>;
 export type TwoInputs = string[];
 export const TwoInputs = S.Array(S.String);
+export type JoinType =
+  | "equijoin"
+  | "left"
+  | "right"
+  | "outer"
+  | "leftsemi"
+  | "leftanti";
+export const JoinType = S.Literal(
+  "equijoin",
+  "left",
+  "right",
+  "outer",
+  "leftsemi",
+  "leftanti",
+);
 export interface JoinColumn {
   From: string;
-  Keys: GlueStudioPathList;
+  Keys: string[][];
 }
 export const JoinColumn = S.suspend(() =>
   S.Struct({ From: S.String, Keys: GlueStudioPathList }),
@@ -7160,29 +8116,29 @@ export type JoinColumns = JoinColumn[];
 export const JoinColumns = S.Array(JoinColumn);
 export interface Join {
   Name: string;
-  Inputs: TwoInputs;
-  JoinType: string;
-  Columns: JoinColumns;
+  Inputs: string[];
+  JoinType: JoinType;
+  Columns: JoinColumn[];
 }
 export const Join = S.suspend(() =>
   S.Struct({
     Name: S.String,
     Inputs: TwoInputs,
-    JoinType: S.String,
+    JoinType: JoinType,
     Columns: JoinColumns,
   }),
 ).annotations({ identifier: "Join" }) as any as S.Schema<Join>;
 export interface SplitFields {
   Name: string;
-  Inputs: OneInput;
-  Paths: GlueStudioPathList;
+  Inputs: string[];
+  Paths: string[][];
 }
 export const SplitFields = S.suspend(() =>
   S.Struct({ Name: S.String, Inputs: OneInput, Paths: GlueStudioPathList }),
 ).annotations({ identifier: "SplitFields" }) as any as S.Schema<SplitFields>;
 export interface SelectFromCollection {
   Name: string;
-  Inputs: OneInput;
+  Inputs: string[];
   Index: number;
 }
 export const SelectFromCollection = S.suspend(() =>
@@ -7192,7 +8148,7 @@ export const SelectFromCollection = S.suspend(() =>
 }) as any as S.Schema<SelectFromCollection>;
 export interface FillMissingValues {
   Name: string;
-  Inputs: OneInput;
+  Inputs: string[];
   ImputedPath: string;
   FilledPath?: string;
 }
@@ -7206,23 +8162,44 @@ export const FillMissingValues = S.suspend(() =>
 ).annotations({
   identifier: "FillMissingValues",
 }) as any as S.Schema<FillMissingValues>;
+export type FilterLogicalOperator = "AND" | "OR";
+export const FilterLogicalOperator = S.Literal("AND", "OR");
+export type FilterOperation =
+  | "EQ"
+  | "LT"
+  | "GT"
+  | "LTE"
+  | "GTE"
+  | "REGEX"
+  | "ISNULL";
+export const FilterOperation = S.Literal(
+  "EQ",
+  "LT",
+  "GT",
+  "LTE",
+  "GTE",
+  "REGEX",
+  "ISNULL",
+);
+export type FilterValueType = "COLUMNEXTRACTED" | "CONSTANT";
+export const FilterValueType = S.Literal("COLUMNEXTRACTED", "CONSTANT");
 export interface FilterValue {
-  Type: string;
-  Value: EnclosedInStringProperties;
+  Type: FilterValueType;
+  Value: string[];
 }
 export const FilterValue = S.suspend(() =>
-  S.Struct({ Type: S.String, Value: EnclosedInStringProperties }),
+  S.Struct({ Type: FilterValueType, Value: EnclosedInStringProperties }),
 ).annotations({ identifier: "FilterValue" }) as any as S.Schema<FilterValue>;
 export type FilterValues = FilterValue[];
 export const FilterValues = S.Array(FilterValue);
 export interface FilterExpression {
-  Operation: string;
+  Operation: FilterOperation;
   Negated?: boolean;
-  Values: FilterValues;
+  Values: FilterValue[];
 }
 export const FilterExpression = S.suspend(() =>
   S.Struct({
-    Operation: S.String,
+    Operation: FilterOperation,
     Negated: S.optional(S.Boolean),
     Values: FilterValues,
   }),
@@ -7233,15 +8210,15 @@ export type FilterExpressions = FilterExpression[];
 export const FilterExpressions = S.Array(FilterExpression);
 export interface Filter {
   Name: string;
-  Inputs: OneInput;
-  LogicalOperator: string;
-  Filters: FilterExpressions;
+  Inputs: string[];
+  LogicalOperator: FilterLogicalOperator;
+  Filters: FilterExpression[];
 }
 export const Filter = S.suspend(() =>
   S.Struct({
     Name: S.String,
     Inputs: OneInput,
-    LogicalOperator: S.String,
+    LogicalOperator: FilterLogicalOperator,
     Filters: FilterExpressions,
   }),
 ).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
@@ -7249,10 +8226,10 @@ export type ManyInputs = string[];
 export const ManyInputs = S.Array(S.String);
 export interface CustomCode {
   Name: string;
-  Inputs: ManyInputs;
+  Inputs: string[];
   Code: string;
   ClassName: string;
-  OutputSchemas?: GlueSchemas;
+  OutputSchemas?: GlueSchema[];
 }
 export const CustomCode = S.suspend(() =>
   S.Struct({
@@ -7274,10 +8251,10 @@ export type SqlAliases = SqlAlias[];
 export const SqlAliases = S.Array(SqlAlias);
 export interface SparkSQL {
   Name: string;
-  Inputs: ManyInputs;
+  Inputs: string[];
   SqlQuery: string;
-  SqlAliases: SqlAliases;
-  OutputSchemas?: GlueSchemas;
+  SqlAliases: SqlAlias[];
+  OutputSchemas?: GlueSchema[];
 }
 export const SparkSQL = S.suspend(() =>
   S.Struct({
@@ -7288,12 +8265,23 @@ export const SparkSQL = S.suspend(() =>
     OutputSchemas: S.optional(GlueSchemas),
   }),
 ).annotations({ identifier: "SparkSQL" }) as any as S.Schema<SparkSQL>;
+export type StartingPosition =
+  | "latest"
+  | "trim_horizon"
+  | "earliest"
+  | "timestamp";
+export const StartingPosition = S.Literal(
+  "latest",
+  "trim_horizon",
+  "earliest",
+  "timestamp",
+);
 export interface KinesisStreamingSourceOptions {
   EndpointUrl?: string;
   StreamName?: string;
   Classification?: string;
   Delimiter?: string;
-  StartingPosition?: string;
+  StartingPosition?: StartingPosition;
   MaxFetchTimeInMs?: number;
   MaxFetchRecordsPerShard?: number;
   MaxRecordPerRead?: number;
@@ -7318,7 +8306,7 @@ export const KinesisStreamingSourceOptions = S.suspend(() =>
     StreamName: S.optional(S.String),
     Classification: S.optional(S.String),
     Delimiter: S.optional(S.String),
-    StartingPosition: S.optional(S.String),
+    StartingPosition: S.optional(StartingPosition),
     MaxFetchTimeInMs: S.optional(S.Number),
     MaxFetchRecordsPerShard: S.optional(S.Number),
     MaxRecordPerRead: S.optional(S.Number),
@@ -7512,9 +8500,9 @@ export type NullValueFields = NullValueField[];
 export const NullValueFields = S.Array(NullValueField);
 export interface DropNullFields {
   Name: string;
-  Inputs: OneInput;
+  Inputs: string[];
   NullCheckBoxList?: NullCheckBoxList;
-  NullTextList?: NullValueFields;
+  NullTextList?: NullValueField[];
 }
 export const DropNullFields = S.suspend(() =>
   S.Struct({
@@ -7528,9 +8516,9 @@ export const DropNullFields = S.suspend(() =>
 }) as any as S.Schema<DropNullFields>;
 export interface Merge {
   Name: string;
-  Inputs: TwoInputs;
+  Inputs: string[];
   Source: string;
-  PrimaryKeys: GlueStudioPathList;
+  PrimaryKeys: string[][];
 }
 export const Merge = S.suspend(() =>
   S.Struct({
@@ -7540,19 +8528,38 @@ export const Merge = S.suspend(() =>
     PrimaryKeys: GlueStudioPathList,
   }),
 ).annotations({ identifier: "Merge" }) as any as S.Schema<Merge>;
+export type UnionType = "ALL" | "DISTINCT";
+export const UnionType = S.Literal("ALL", "DISTINCT");
 export interface Union {
   Name: string;
-  Inputs: TwoInputs;
-  UnionType: string;
+  Inputs: string[];
+  UnionType: UnionType;
 }
 export const Union = S.suspend(() =>
-  S.Struct({ Name: S.String, Inputs: TwoInputs, UnionType: S.String }),
+  S.Struct({ Name: S.String, Inputs: TwoInputs, UnionType: UnionType }),
 ).annotations({ identifier: "Union" }) as any as S.Schema<Union>;
+export type PiiType =
+  | "RowAudit"
+  | "RowHashing"
+  | "RowMasking"
+  | "RowPartialMasking"
+  | "ColumnAudit"
+  | "ColumnHashing"
+  | "ColumnMasking";
+export const PiiType = S.Literal(
+  "RowAudit",
+  "RowHashing",
+  "RowMasking",
+  "RowPartialMasking",
+  "ColumnAudit",
+  "ColumnHashing",
+  "ColumnMasking",
+);
 export interface PIIDetection {
   Name: string;
-  Inputs: OneInput;
-  PiiType: string;
-  EntityTypesToDetect: EnclosedInStringProperties;
+  Inputs: string[];
+  PiiType: PiiType;
+  EntityTypesToDetect: string[];
   OutputColumnName?: string;
   SampleFraction?: number;
   ThresholdFraction?: number;
@@ -7569,7 +8576,7 @@ export const PIIDetection = S.suspend(() =>
   S.Struct({
     Name: S.String,
     Inputs: OneInput,
-    PiiType: S.String,
+    PiiType: PiiType,
     EntityTypesToDetect: EnclosedInStringProperties,
     OutputColumnName: S.optional(S.String),
     SampleFraction: S.optional(S.Number),
@@ -7584,12 +8591,45 @@ export const PIIDetection = S.suspend(() =>
     DetectionSensitivity: S.optional(S.String),
   }),
 ).annotations({ identifier: "PIIDetection" }) as any as S.Schema<PIIDetection>;
+export type AggFunction =
+  | "avg"
+  | "countDistinct"
+  | "count"
+  | "first"
+  | "last"
+  | "kurtosis"
+  | "max"
+  | "min"
+  | "skewness"
+  | "stddev_samp"
+  | "stddev_pop"
+  | "sum"
+  | "sumDistinct"
+  | "var_samp"
+  | "var_pop";
+export const AggFunction = S.Literal(
+  "avg",
+  "countDistinct",
+  "count",
+  "first",
+  "last",
+  "kurtosis",
+  "max",
+  "min",
+  "skewness",
+  "stddev_samp",
+  "stddev_pop",
+  "sum",
+  "sumDistinct",
+  "var_samp",
+  "var_pop",
+);
 export interface AggregateOperation {
-  Column: EnclosedInStringProperties;
-  AggFunc: string;
+  Column: string[];
+  AggFunc: AggFunction;
 }
 export const AggregateOperation = S.suspend(() =>
-  S.Struct({ Column: EnclosedInStringProperties, AggFunc: S.String }),
+  S.Struct({ Column: EnclosedInStringProperties, AggFunc: AggFunction }),
 ).annotations({
   identifier: "AggregateOperation",
 }) as any as S.Schema<AggregateOperation>;
@@ -7597,9 +8637,9 @@ export type AggregateOperations = AggregateOperation[];
 export const AggregateOperations = S.Array(AggregateOperation);
 export interface Aggregate {
   Name: string;
-  Inputs: OneInput;
-  Groups: GlueStudioPathList;
-  Aggs: AggregateOperations;
+  Inputs: string[];
+  Groups: string[][];
+  Aggs: AggregateOperation[];
 }
 export const Aggregate = S.suspend(() =>
   S.Struct({
@@ -7611,12 +8651,12 @@ export const Aggregate = S.suspend(() =>
 ).annotations({ identifier: "Aggregate" }) as any as S.Schema<Aggregate>;
 export type LimitedStringList = string[];
 export const LimitedStringList = S.Array(S.String);
-export type LimitedPathList = LimitedStringList[];
+export type LimitedPathList = string[][];
 export const LimitedPathList = S.Array(LimitedStringList);
 export interface DropDuplicates {
   Name: string;
-  Inputs: OneInput;
-  Columns?: LimitedPathList;
+  Inputs: string[];
+  Columns?: string[][];
 }
 export const DropDuplicates = S.suspend(() =>
   S.Struct({
@@ -7629,8 +8669,8 @@ export const DropDuplicates = S.suspend(() =>
 }) as any as S.Schema<DropDuplicates>;
 export interface GovernedCatalogTarget {
   Name: string;
-  Inputs: OneInput;
-  PartitionKeys?: GlueStudioPathList;
+  Inputs: string[];
+  PartitionKeys?: string[][];
   Table: string;
   Database: string;
   SchemaChangePolicy?: CatalogSchemaChangePolicy;
@@ -7707,7 +8747,7 @@ export const PostgreSQLCatalogSource = S.suspend(() =>
 }) as any as S.Schema<PostgreSQLCatalogSource>;
 export interface MicrosoftSQLServerCatalogTarget {
   Name: string;
-  Inputs: OneInput;
+  Inputs: string[];
   Database: string;
   Table: string;
 }
@@ -7723,7 +8763,7 @@ export const MicrosoftSQLServerCatalogTarget = S.suspend(() =>
 }) as any as S.Schema<MicrosoftSQLServerCatalogTarget>;
 export interface MySQLCatalogTarget {
   Name: string;
-  Inputs: OneInput;
+  Inputs: string[];
   Database: string;
   Table: string;
 }
@@ -7739,7 +8779,7 @@ export const MySQLCatalogTarget = S.suspend(() =>
 }) as any as S.Schema<MySQLCatalogTarget>;
 export interface OracleSQLCatalogTarget {
   Name: string;
-  Inputs: OneInput;
+  Inputs: string[];
   Database: string;
   Table: string;
 }
@@ -7755,7 +8795,7 @@ export const OracleSQLCatalogTarget = S.suspend(() =>
 }) as any as S.Schema<OracleSQLCatalogTarget>;
 export interface PostgreSQLCatalogTarget {
   Name: string;
-  Inputs: OneInput;
+  Inputs: string[];
   Database: string;
   Table: string;
 }
@@ -7771,22 +8811,22 @@ export const PostgreSQLCatalogTarget = S.suspend(() =>
 }) as any as S.Schema<PostgreSQLCatalogTarget>;
 export interface GroupFilters {
   GroupName: string;
-  Filters: FilterExpressions;
-  LogicalOperator: string;
+  Filters: FilterExpression[];
+  LogicalOperator: FilterLogicalOperator;
 }
 export const GroupFilters = S.suspend(() =>
   S.Struct({
     GroupName: S.String,
     Filters: FilterExpressions,
-    LogicalOperator: S.String,
+    LogicalOperator: FilterLogicalOperator,
   }),
 ).annotations({ identifier: "GroupFilters" }) as any as S.Schema<GroupFilters>;
 export type GroupFiltersList = GroupFilters[];
 export const GroupFiltersList = S.Array(GroupFilters);
 export interface Route {
   Name: string;
-  Inputs: OneInput;
-  GroupFiltersList: GroupFiltersList;
+  Inputs: string[];
+  GroupFiltersList: GroupFilters[];
 }
 export const Route = S.suspend(() =>
   S.Struct({
@@ -7795,23 +8835,40 @@ export const Route = S.suspend(() =>
     GroupFiltersList: GroupFiltersList,
   }),
 ).annotations({ identifier: "Route" }) as any as S.Schema<Route>;
+export type ParamType =
+  | "str"
+  | "int"
+  | "float"
+  | "complex"
+  | "bool"
+  | "list"
+  | "null";
+export const ParamType = S.Literal(
+  "str",
+  "int",
+  "float",
+  "complex",
+  "bool",
+  "list",
+  "null",
+);
 export interface TransformConfigParameter {
   Name: string;
-  Type: string;
+  Type: ParamType;
   ValidationRule?: string;
   ValidationMessage?: string;
-  Value?: EnclosedInStringProperties;
-  ListType?: string;
+  Value?: string[];
+  ListType?: ParamType;
   IsOptional?: boolean;
 }
 export const TransformConfigParameter = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Type: S.String,
+    Type: ParamType,
     ValidationRule: S.optional(S.String),
     ValidationMessage: S.optional(S.String),
     Value: S.optional(EnclosedInStringProperties),
-    ListType: S.optional(S.String),
+    ListType: S.optional(ParamType),
     IsOptional: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -7822,12 +8879,12 @@ export const TransformConfigParameterList = S.Array(TransformConfigParameter);
 export interface DynamicTransform {
   Name: string;
   TransformName: string;
-  Inputs: OneInput;
-  Parameters?: TransformConfigParameterList;
+  Inputs: string[];
+  Parameters?: TransformConfigParameter[];
   FunctionName: string;
   Path: string;
   Version?: string;
-  OutputSchemas?: GlueSchemas;
+  OutputSchemas?: GlueSchema[];
 }
 export const DynamicTransform = S.suspend(() =>
   S.Struct({
@@ -7843,6 +8900,8 @@ export const DynamicTransform = S.suspend(() =>
 ).annotations({
   identifier: "DynamicTransform",
 }) as any as S.Schema<DynamicTransform>;
+export type DQTransformOutput = "PrimaryInput" | "EvaluationResults";
+export const DQTransformOutput = S.Literal("PrimaryInput", "EvaluationResults");
 export interface DQResultsPublishingOptions {
   EvaluationContext?: string;
   ResultsS3Prefix?: string;
@@ -7859,19 +8918,21 @@ export const DQResultsPublishingOptions = S.suspend(() =>
 ).annotations({
   identifier: "DQResultsPublishingOptions",
 }) as any as S.Schema<DQResultsPublishingOptions>;
+export type DQStopJobOnFailureTiming = "Immediate" | "AfterDataLoad";
+export const DQStopJobOnFailureTiming = S.Literal("Immediate", "AfterDataLoad");
 export interface DQStopJobOnFailureOptions {
-  StopJobOnFailureTiming?: string;
+  StopJobOnFailureTiming?: DQStopJobOnFailureTiming;
 }
 export const DQStopJobOnFailureOptions = S.suspend(() =>
-  S.Struct({ StopJobOnFailureTiming: S.optional(S.String) }),
+  S.Struct({ StopJobOnFailureTiming: S.optional(DQStopJobOnFailureTiming) }),
 ).annotations({
   identifier: "DQStopJobOnFailureOptions",
 }) as any as S.Schema<DQStopJobOnFailureOptions>;
 export interface EvaluateDataQuality {
   Name: string;
-  Inputs: OneInput;
+  Inputs: string[];
   Ruleset: string;
-  Output?: string;
+  Output?: DQTransformOutput;
   PublishingOptions?: DQResultsPublishingOptions;
   StopJobOnFailureOptions?: DQStopJobOnFailureOptions;
 }
@@ -7880,7 +8941,7 @@ export const EvaluateDataQuality = S.suspend(() =>
     Name: S.String,
     Inputs: OneInput,
     Ruleset: S.String,
-    Output: S.optional(S.String),
+    Output: S.optional(DQTransformOutput),
     PublishingOptions: S.optional(DQResultsPublishingOptions),
     StopJobOnFailureOptions: S.optional(DQStopJobOnFailureOptions),
   }),
@@ -7891,8 +8952,8 @@ export interface S3CatalogHudiSource {
   Name: string;
   Database: string;
   Table: string;
-  AdditionalHudiOptions?: AdditionalOptions;
-  OutputSchemas?: GlueSchemas;
+  AdditionalHudiOptions?: { [key: string]: string };
+  OutputSchemas?: GlueSchema[];
 }
 export const S3CatalogHudiSource = S.suspend(() =>
   S.Struct({
@@ -7909,8 +8970,8 @@ export interface CatalogHudiSource {
   Name: string;
   Database: string;
   Table: string;
-  AdditionalHudiOptions?: AdditionalOptions;
-  OutputSchemas?: GlueSchemas;
+  AdditionalHudiOptions?: { [key: string]: string };
+  OutputSchemas?: GlueSchema[];
 }
 export const CatalogHudiSource = S.suspend(() =>
   S.Struct({
@@ -7925,10 +8986,10 @@ export const CatalogHudiSource = S.suspend(() =>
 }) as any as S.Schema<CatalogHudiSource>;
 export interface S3HudiSource {
   Name: string;
-  Paths: EnclosedInStringProperties;
-  AdditionalHudiOptions?: AdditionalOptions;
+  Paths: string[];
+  AdditionalHudiOptions?: { [key: string]: string };
   AdditionalOptions?: S3DirectSourceAdditionalOptions;
-  OutputSchemas?: GlueSchemas;
+  OutputSchemas?: GlueSchema[];
 }
 export const S3HudiSource = S.suspend(() =>
   S.Struct({
@@ -7941,14 +9002,14 @@ export const S3HudiSource = S.suspend(() =>
 ).annotations({ identifier: "S3HudiSource" }) as any as S.Schema<S3HudiSource>;
 export interface S3HudiCatalogTarget {
   Name: string;
-  Inputs: OneInput;
-  PartitionKeys?: GlueStudioPathList;
+  Inputs: string[];
+  PartitionKeys?: string[][];
   Table: string;
   Database: string;
-  AdditionalOptions: AdditionalOptions;
+  AdditionalOptions: { [key: string]: string };
   SchemaChangePolicy?: CatalogSchemaChangePolicy;
   AutoDataQuality?: AutoDataQuality;
-  OutputSchemas?: GlueSchemas;
+  OutputSchemas?: GlueSchema[];
 }
 export const S3HudiCatalogTarget = S.suspend(() =>
   S.Struct({
@@ -7965,15 +9026,26 @@ export const S3HudiCatalogTarget = S.suspend(() =>
 ).annotations({
   identifier: "S3HudiCatalogTarget",
 }) as any as S.Schema<S3HudiCatalogTarget>;
+export type HudiTargetCompressionType =
+  | "gzip"
+  | "lzo"
+  | "uncompressed"
+  | "snappy";
+export const HudiTargetCompressionType = S.Literal(
+  "gzip",
+  "lzo",
+  "uncompressed",
+  "snappy",
+);
 export interface S3HudiDirectTarget {
   Name: string;
-  Inputs: OneInput;
+  Inputs: string[];
   Path: string;
-  Compression: string;
+  Compression: HudiTargetCompressionType;
   NumberTargetPartitions?: string;
-  PartitionKeys?: GlueStudioPathList;
-  Format: string;
-  AdditionalOptions: AdditionalOptions;
+  PartitionKeys?: string[][];
+  Format: TargetFormat;
+  AdditionalOptions: { [key: string]: string };
   SchemaChangePolicy?: DirectSchemaChangePolicy;
   AutoDataQuality?: AutoDataQuality;
 }
@@ -7982,10 +9054,10 @@ export const S3HudiDirectTarget = S.suspend(() =>
     Name: S.String,
     Inputs: OneInput,
     Path: S.String,
-    Compression: S.String,
+    Compression: HudiTargetCompressionType,
     NumberTargetPartitions: S.optional(S.String),
     PartitionKeys: S.optional(GlueStudioPathList),
-    Format: S.String,
+    Format: TargetFormat,
     AdditionalOptions: AdditionalOptions,
     SchemaChangePolicy: S.optional(DirectSchemaChangePolicy),
     AutoDataQuality: S.optional(AutoDataQuality),
@@ -7993,14 +9065,27 @@ export const S3HudiDirectTarget = S.suspend(() =>
 ).annotations({
   identifier: "S3HudiDirectTarget",
 }) as any as S.Schema<S3HudiDirectTarget>;
+export type JDBCConnectionType =
+  | "sqlserver"
+  | "mysql"
+  | "oracle"
+  | "postgresql"
+  | "redshift";
+export const JDBCConnectionType = S.Literal(
+  "sqlserver",
+  "mysql",
+  "oracle",
+  "postgresql",
+  "redshift",
+);
 export interface DirectJDBCSource {
   Name: string;
   Database: string;
   Table: string;
   ConnectionName: string;
-  ConnectionType: string;
+  ConnectionType: JDBCConnectionType;
   RedshiftTmpDir?: string;
-  OutputSchemas?: GlueSchemas;
+  OutputSchemas?: GlueSchema[];
 }
 export const DirectJDBCSource = S.suspend(() =>
   S.Struct({
@@ -8008,7 +9093,7 @@ export const DirectJDBCSource = S.suspend(() =>
     Database: S.String,
     Table: S.String,
     ConnectionName: S.String,
-    ConnectionType: S.String,
+    ConnectionType: JDBCConnectionType,
     RedshiftTmpDir: S.optional(S.String),
     OutputSchemas: S.optional(GlueSchemas),
   }),
@@ -8019,8 +9104,8 @@ export interface S3CatalogDeltaSource {
   Name: string;
   Database: string;
   Table: string;
-  AdditionalDeltaOptions?: AdditionalOptions;
-  OutputSchemas?: GlueSchemas;
+  AdditionalDeltaOptions?: { [key: string]: string };
+  OutputSchemas?: GlueSchema[];
 }
 export const S3CatalogDeltaSource = S.suspend(() =>
   S.Struct({
@@ -8037,8 +9122,8 @@ export interface CatalogDeltaSource {
   Name: string;
   Database: string;
   Table: string;
-  AdditionalDeltaOptions?: AdditionalOptions;
-  OutputSchemas?: GlueSchemas;
+  AdditionalDeltaOptions?: { [key: string]: string };
+  OutputSchemas?: GlueSchema[];
 }
 export const CatalogDeltaSource = S.suspend(() =>
   S.Struct({
@@ -8053,10 +9138,10 @@ export const CatalogDeltaSource = S.suspend(() =>
 }) as any as S.Schema<CatalogDeltaSource>;
 export interface S3DeltaSource {
   Name: string;
-  Paths: EnclosedInStringProperties;
-  AdditionalDeltaOptions?: AdditionalOptions;
+  Paths: string[];
+  AdditionalDeltaOptions?: { [key: string]: string };
   AdditionalOptions?: S3DirectSourceAdditionalOptions;
-  OutputSchemas?: GlueSchemas;
+  OutputSchemas?: GlueSchema[];
 }
 export const S3DeltaSource = S.suspend(() =>
   S.Struct({
@@ -8071,14 +9156,14 @@ export const S3DeltaSource = S.suspend(() =>
 }) as any as S.Schema<S3DeltaSource>;
 export interface S3DeltaCatalogTarget {
   Name: string;
-  Inputs: OneInput;
-  PartitionKeys?: GlueStudioPathList;
+  Inputs: string[];
+  PartitionKeys?: string[][];
   Table: string;
   Database: string;
-  AdditionalOptions?: AdditionalOptions;
+  AdditionalOptions?: { [key: string]: string };
   SchemaChangePolicy?: CatalogSchemaChangePolicy;
   AutoDataQuality?: AutoDataQuality;
-  OutputSchemas?: GlueSchemas;
+  OutputSchemas?: GlueSchema[];
 }
 export const S3DeltaCatalogTarget = S.suspend(() =>
   S.Struct({
@@ -8095,15 +9180,17 @@ export const S3DeltaCatalogTarget = S.suspend(() =>
 ).annotations({
   identifier: "S3DeltaCatalogTarget",
 }) as any as S.Schema<S3DeltaCatalogTarget>;
+export type DeltaTargetCompressionType = "uncompressed" | "snappy";
+export const DeltaTargetCompressionType = S.Literal("uncompressed", "snappy");
 export interface S3DeltaDirectTarget {
   Name: string;
-  Inputs: OneInput;
-  PartitionKeys?: GlueStudioPathList;
+  Inputs: string[];
+  PartitionKeys?: string[][];
   Path: string;
-  Compression: string;
+  Compression: DeltaTargetCompressionType;
   NumberTargetPartitions?: string;
-  Format: string;
-  AdditionalOptions?: AdditionalOptions;
+  Format: TargetFormat;
+  AdditionalOptions?: { [key: string]: string };
   SchemaChangePolicy?: DirectSchemaChangePolicy;
   AutoDataQuality?: AutoDataQuality;
 }
@@ -8113,9 +9200,9 @@ export const S3DeltaDirectTarget = S.suspend(() =>
     Inputs: OneInput,
     PartitionKeys: S.optional(GlueStudioPathList),
     Path: S.String,
-    Compression: S.String,
+    Compression: DeltaTargetCompressionType,
     NumberTargetPartitions: S.optional(S.String),
-    Format: S.String,
+    Format: TargetFormat,
     AdditionalOptions: S.optional(AdditionalOptions),
     SchemaChangePolicy: S.optional(DirectSchemaChangePolicy),
     AutoDataQuality: S.optional(AutoDataQuality),
@@ -8162,7 +9249,7 @@ export interface AmazonRedshiftNodeData {
   CatalogRedshiftTable?: string;
   TempDir?: string;
   IamRole?: Option;
-  AdvancedOptions?: AmazonRedshiftAdvancedOptions;
+  AdvancedOptions?: AmazonRedshiftAdvancedOption[];
   SampleQuery?: string;
   PreAction?: string;
   PostAction?: string;
@@ -8174,9 +9261,9 @@ export interface AmazonRedshiftNodeData {
   MergeWhenNotMatched?: string;
   MergeClause?: string;
   CrawlerConnection?: string;
-  TableSchema?: OptionList;
+  TableSchema?: Option[];
   StagingTable?: string;
-  SelectedColumns?: OptionList;
+  SelectedColumns?: Option[];
 }
 export const AmazonRedshiftNodeData = S.suspend(() =>
   S.Struct({
@@ -8225,7 +9312,7 @@ export const AmazonRedshiftSource = S.suspend(() =>
 export interface AmazonRedshiftTarget {
   Name?: string;
   Data?: AmazonRedshiftNodeData;
-  Inputs?: OneInput;
+  Inputs?: string[];
 }
 export const AmazonRedshiftTarget = S.suspend(() =>
   S.Struct({
@@ -8238,15 +9325,26 @@ export const AmazonRedshiftTarget = S.suspend(() =>
 }) as any as S.Schema<AmazonRedshiftTarget>;
 export type DQDLAliases = { [key: string]: string };
 export const DQDLAliases = S.Record({ key: S.String, value: S.String });
-export type DQAdditionalOptions = { [key: string]: string };
-export const DQAdditionalOptions = S.Record({ key: S.String, value: S.String });
+export type AdditionalOptionKeys =
+  | "performanceTuning.caching"
+  | "observations.scope"
+  | "compositeRuleEvaluation.method";
+export const AdditionalOptionKeys = S.Literal(
+  "performanceTuning.caching",
+  "observations.scope",
+  "compositeRuleEvaluation.method",
+);
+export type DQAdditionalOptions = { [key in AdditionalOptionKeys]?: string };
+export const DQAdditionalOptions = S.partial(
+  S.Record({ key: AdditionalOptionKeys, value: S.String }),
+);
 export interface EvaluateDataQualityMultiFrame {
   Name: string;
-  Inputs: ManyInputs;
-  AdditionalDataSources?: DQDLAliases;
+  Inputs: string[];
+  AdditionalDataSources?: { [key: string]: string };
   Ruleset: string;
   PublishingOptions?: DQResultsPublishingOptions;
-  AdditionalOptions?: DQAdditionalOptions;
+  AdditionalOptions?: { [key: string]: string };
   StopJobOnFailureOptions?: DQStopJobOnFailureOptions;
 }
 export const EvaluateDataQualityMultiFrame = S.suspend(() =>
@@ -8275,7 +9373,7 @@ export type ParameterMap = { [key: string]: string };
 export const ParameterMap = S.Record({ key: S.String, value: S.String });
 export interface RecipeAction {
   Operation: string;
-  Parameters?: ParameterMap;
+  Parameters?: { [key: string]: string };
 }
 export const RecipeAction = S.suspend(() =>
   S.Struct({ Operation: S.String, Parameters: S.optional(ParameterMap) }),
@@ -8298,7 +9396,7 @@ export type ConditionExpressionList = ConditionExpression[];
 export const ConditionExpressionList = S.Array(ConditionExpression);
 export interface RecipeStep {
   Action: RecipeAction;
-  ConditionExpressions?: ConditionExpressionList;
+  ConditionExpressions?: ConditionExpression[];
 }
 export const RecipeStep = S.suspend(() =>
   S.Struct({
@@ -8310,9 +9408,9 @@ export type RecipeSteps = RecipeStep[];
 export const RecipeSteps = S.Array(RecipeStep);
 export interface Recipe {
   Name: string;
-  Inputs: OneInput;
+  Inputs: string[];
   RecipeReference?: RecipeReference;
-  RecipeSteps?: RecipeSteps;
+  RecipeSteps?: RecipeStep[];
 }
 export const Recipe = S.suspend(() =>
   S.Struct({
@@ -8330,7 +9428,7 @@ export interface SnowflakeNodeData {
   Database?: string;
   TempDir?: string;
   IamRole?: Option;
-  AdditionalOptions?: AdditionalOptions;
+  AdditionalOptions?: { [key: string]: string };
   SampleQuery?: string;
   PreAction?: string;
   PostAction?: string;
@@ -8341,9 +9439,9 @@ export interface SnowflakeNodeData {
   MergeWhenNotMatched?: string;
   MergeClause?: string;
   StagingTable?: string;
-  SelectedColumns?: OptionList;
+  SelectedColumns?: Option[];
   AutoPushdown?: boolean;
-  TableSchema?: OptionList;
+  TableSchema?: Option[];
 }
 export const SnowflakeNodeData = S.suspend(() =>
   S.Struct({
@@ -8375,7 +9473,7 @@ export const SnowflakeNodeData = S.suspend(() =>
 export interface SnowflakeSource {
   Name: string;
   Data: SnowflakeNodeData;
-  OutputSchemas?: GlueSchemas;
+  OutputSchemas?: GlueSchema[];
 }
 export const SnowflakeSource = S.suspend(() =>
   S.Struct({
@@ -8389,7 +9487,7 @@ export const SnowflakeSource = S.suspend(() =>
 export interface SnowflakeTarget {
   Name: string;
   Data: SnowflakeNodeData;
-  Inputs?: OneInput;
+  Inputs?: string[];
 }
 export const SnowflakeTarget = S.suspend(() =>
   S.Struct({
@@ -8405,8 +9503,8 @@ export const ConnectorOptions = S.Record({ key: S.String, value: S.String });
 export interface ConnectorDataSource {
   Name: string;
   ConnectionType: string;
-  Data: ConnectorOptions;
-  OutputSchemas?: GlueSchemas;
+  Data: { [key: string]: string };
+  OutputSchemas?: GlueSchema[];
 }
 export const ConnectorDataSource = S.suspend(() =>
   S.Struct({
@@ -8421,8 +9519,8 @@ export const ConnectorDataSource = S.suspend(() =>
 export interface ConnectorDataTarget {
   Name: string;
   ConnectionType: string;
-  Data: ConnectorOptions;
-  Inputs?: OneInput;
+  Data: { [key: string]: string };
+  Inputs?: string[];
 }
 export const ConnectorDataTarget = S.suspend(() =>
   S.Struct({
@@ -8438,8 +9536,8 @@ export interface S3CatalogIcebergSource {
   Name: string;
   Database: string;
   Table: string;
-  AdditionalIcebergOptions?: AdditionalOptions;
-  OutputSchemas?: GlueSchemas;
+  AdditionalIcebergOptions?: { [key: string]: string };
+  OutputSchemas?: GlueSchema[];
 }
 export const S3CatalogIcebergSource = S.suspend(() =>
   S.Struct({
@@ -8456,8 +9554,8 @@ export interface CatalogIcebergSource {
   Name: string;
   Database: string;
   Table: string;
-  AdditionalIcebergOptions?: AdditionalOptions;
-  OutputSchemas?: GlueSchemas;
+  AdditionalIcebergOptions?: { [key: string]: string };
+  OutputSchemas?: GlueSchema[];
 }
 export const CatalogIcebergSource = S.suspend(() =>
   S.Struct({
@@ -8472,11 +9570,11 @@ export const CatalogIcebergSource = S.suspend(() =>
 }) as any as S.Schema<CatalogIcebergSource>;
 export interface S3IcebergCatalogTarget {
   Name: string;
-  Inputs: OneInput;
-  PartitionKeys?: GlueStudioPathList;
+  Inputs: string[];
+  PartitionKeys?: string[][];
   Table: string;
   Database: string;
-  AdditionalOptions?: AdditionalOptions;
+  AdditionalOptions?: { [key: string]: string };
   SchemaChangePolicy?: CatalogSchemaChangePolicy;
   AutoDataQuality?: AutoDataQuality;
 }
@@ -8494,18 +9592,29 @@ export const S3IcebergCatalogTarget = S.suspend(() =>
 ).annotations({
   identifier: "S3IcebergCatalogTarget",
 }) as any as S.Schema<S3IcebergCatalogTarget>;
+export type IcebergTargetCompressionType =
+  | "gzip"
+  | "lzo"
+  | "uncompressed"
+  | "snappy";
+export const IcebergTargetCompressionType = S.Literal(
+  "gzip",
+  "lzo",
+  "uncompressed",
+  "snappy",
+);
 export interface S3IcebergDirectTarget {
   Name: string;
-  Inputs: OneInput;
-  PartitionKeys?: GlueStudioPathList;
+  Inputs: string[];
+  PartitionKeys?: string[][];
   Path: string;
-  Format: string;
-  AdditionalOptions?: AdditionalOptions;
+  Format: TargetFormat;
+  AdditionalOptions?: { [key: string]: string };
   SchemaChangePolicy?: DirectSchemaChangePolicy;
   AutoDataQuality?: AutoDataQuality;
-  Compression: string;
+  Compression: IcebergTargetCompressionType;
   NumberTargetPartitions?: string;
-  OutputSchemas?: GlueSchemas;
+  OutputSchemas?: GlueSchema[];
 }
 export const S3IcebergDirectTarget = S.suspend(() =>
   S.Struct({
@@ -8513,11 +9622,11 @@ export const S3IcebergDirectTarget = S.suspend(() =>
     Inputs: OneInput,
     PartitionKeys: S.optional(GlueStudioPathList),
     Path: S.String,
-    Format: S.String,
+    Format: TargetFormat,
     AdditionalOptions: S.optional(AdditionalOptions),
     SchemaChangePolicy: S.optional(DirectSchemaChangePolicy),
     AutoDataQuality: S.optional(AutoDataQuality),
-    Compression: S.String,
+    Compression: IcebergTargetCompressionType,
     NumberTargetPartitions: S.optional(S.String),
     OutputSchemas: S.optional(GlueSchemas),
   }),
@@ -8526,9 +9635,9 @@ export const S3IcebergDirectTarget = S.suspend(() =>
 }) as any as S.Schema<S3IcebergDirectTarget>;
 export interface S3ExcelSource {
   Name: string;
-  Paths: EnclosedInStringProperties;
-  CompressionType?: string;
-  Exclusions?: EnclosedInStringProperties;
+  Paths: string[];
+  CompressionType?: ParquetCompressionType;
+  Exclusions?: string[];
   GroupSize?: string;
   GroupFiles?: string;
   Recurse?: boolean;
@@ -8537,13 +9646,13 @@ export interface S3ExcelSource {
   AdditionalOptions?: S3DirectSourceAdditionalOptions;
   NumberRows?: number;
   SkipFooter?: number;
-  OutputSchemas?: GlueSchemas;
+  OutputSchemas?: GlueSchema[];
 }
 export const S3ExcelSource = S.suspend(() =>
   S.Struct({
     Name: S.String,
     Paths: EnclosedInStringProperties,
-    CompressionType: S.optional(S.String),
+    CompressionType: S.optional(ParquetCompressionType),
     Exclusions: S.optional(EnclosedInStringProperties),
     GroupSize: S.optional(S.String),
     GroupFiles: S.optional(S.String),
@@ -8558,25 +9667,27 @@ export const S3ExcelSource = S.suspend(() =>
 ).annotations({
   identifier: "S3ExcelSource",
 }) as any as S.Schema<S3ExcelSource>;
+export type HyperTargetCompressionType = "uncompressed";
+export const HyperTargetCompressionType = S.Literal("uncompressed");
 export interface S3HyperDirectTarget {
   Name: string;
-  Inputs: OneInput;
-  Format?: string;
-  PartitionKeys?: GlueStudioPathList;
+  Inputs: string[];
+  Format?: TargetFormat;
+  PartitionKeys?: string[][];
   Path: string;
-  Compression?: string;
+  Compression?: HyperTargetCompressionType;
   SchemaChangePolicy?: DirectSchemaChangePolicy;
   AutoDataQuality?: AutoDataQuality;
-  OutputSchemas?: GlueSchemas;
+  OutputSchemas?: GlueSchema[];
 }
 export const S3HyperDirectTarget = S.suspend(() =>
   S.Struct({
     Name: S.String,
     Inputs: OneInput,
-    Format: S.optional(S.String),
+    Format: S.optional(TargetFormat),
     PartitionKeys: S.optional(GlueStudioPathList),
     Path: S.String,
-    Compression: S.optional(S.String),
+    Compression: S.optional(HyperTargetCompressionType),
     SchemaChangePolicy: S.optional(DirectSchemaChangePolicy),
     AutoDataQuality: S.optional(AutoDataQuality),
     OutputSchemas: S.optional(GlueSchemas),
@@ -8584,8 +9695,10 @@ export const S3HyperDirectTarget = S.suspend(() =>
 ).annotations({
   identifier: "S3HyperDirectTarget",
 }) as any as S.Schema<S3HyperDirectTarget>;
+export type DdbExportType = "ddb" | "s3";
+export const DdbExportType = S.Literal("ddb", "s3");
 export interface DDBELTConnectionOptions {
-  DynamodbExport?: string;
+  DynamodbExport?: DdbExportType;
   DynamodbUnnestDDBJson?: boolean;
   DynamodbTableArn: string;
   DynamodbS3Bucket?: string;
@@ -8595,7 +9708,7 @@ export interface DDBELTConnectionOptions {
 }
 export const DDBELTConnectionOptions = S.suspend(() =>
   S.Struct({
-    DynamodbExport: S.optional(S.String),
+    DynamodbExport: S.optional(DdbExportType),
     DynamodbUnnestDDBJson: S.optional(S.Boolean),
     DynamodbTableArn: S.String,
     DynamodbS3Bucket: S.optional(S.String),
@@ -8609,7 +9722,7 @@ export const DDBELTConnectionOptions = S.suspend(() =>
 export interface DynamoDBELTConnectorSource {
   Name: string;
   ConnectionOptions?: DDBELTConnectionOptions;
-  OutputSchemas?: GlueSchemas;
+  OutputSchemas?: GlueSchema[];
 }
 export const DynamoDBELTConnectorSource = S.suspend(() =>
   S.Struct({
@@ -8798,33 +9911,33 @@ export const CodeGenConfigurationNodes = S.Record({
   value: CodeGenConfigurationNode,
 });
 export interface JobUpdate {
-  JobMode?: string;
+  JobMode?: JobMode;
   JobRunQueuingEnabled?: boolean;
   Description?: string;
   LogUri?: string;
   Role?: string;
   ExecutionProperty?: ExecutionProperty;
   Command?: JobCommand;
-  DefaultArguments?: GenericMap;
-  NonOverridableArguments?: GenericMap;
+  DefaultArguments?: { [key: string]: string };
+  NonOverridableArguments?: { [key: string]: string };
   Connections?: ConnectionsList;
   MaxRetries?: number;
   AllocatedCapacity?: number;
   Timeout?: number;
   MaxCapacity?: number;
-  WorkerType?: string;
+  WorkerType?: WorkerType;
   NumberOfWorkers?: number;
   SecurityConfiguration?: string;
   NotificationProperty?: NotificationProperty;
   GlueVersion?: string;
-  CodeGenConfigurationNodes?: CodeGenConfigurationNodes;
-  ExecutionClass?: string;
+  CodeGenConfigurationNodes?: { [key: string]: CodeGenConfigurationNode };
+  ExecutionClass?: ExecutionClass;
   SourceControlDetails?: SourceControlDetails;
   MaintenanceWindow?: string;
 }
 export const JobUpdate = S.suspend(() =>
   S.Struct({
-    JobMode: S.optional(S.String),
+    JobMode: S.optional(JobMode),
     JobRunQueuingEnabled: S.optional(S.Boolean),
     Description: S.optional(S.String),
     LogUri: S.optional(S.String),
@@ -8838,13 +9951,13 @@ export const JobUpdate = S.suspend(() =>
     AllocatedCapacity: S.optional(S.Number),
     Timeout: S.optional(S.Number),
     MaxCapacity: S.optional(S.Number),
-    WorkerType: S.optional(S.String),
+    WorkerType: S.optional(WorkerType),
     NumberOfWorkers: S.optional(S.Number),
     SecurityConfiguration: S.optional(S.String),
     NotificationProperty: S.optional(NotificationProperty),
     GlueVersion: S.optional(S.String),
     CodeGenConfigurationNodes: S.optional(CodeGenConfigurationNodes),
-    ExecutionClass: S.optional(S.String),
+    ExecutionClass: S.optional(ExecutionClass),
     SourceControlDetails: S.optional(SourceControlDetails),
     MaintenanceWindow: S.optional(S.String),
   }),
@@ -8853,7 +9966,7 @@ export interface TriggerUpdate {
   Name?: string;
   Description?: string;
   Schedule?: string;
-  Actions?: ActionList;
+  Actions?: Action[];
   Predicate?: Predicate;
   EventBatchingCondition?: EventBatchingCondition;
 }
@@ -8869,11 +9982,24 @@ export const TriggerUpdate = S.suspend(() =>
 ).annotations({
   identifier: "TriggerUpdate",
 }) as any as S.Schema<TriggerUpdate>;
+export type MLUserDataEncryptionModeString = "DISABLED" | "SSE-KMS";
+export const MLUserDataEncryptionModeString = S.Literal("DISABLED", "SSE-KMS");
+export type MetadataOperation = "CREATE";
+export const MetadataOperation = S.Literal("CREATE");
+export type CatalogEncryptionMode =
+  | "DISABLED"
+  | "SSE-KMS"
+  | "SSE-KMS-WITH-SERVICE-ROLE";
+export const CatalogEncryptionMode = S.Literal(
+  "DISABLED",
+  "SSE-KMS",
+  "SSE-KMS-WITH-SERVICE-ROLE",
+);
 export interface BatchDeletePartitionRequest {
   CatalogId?: string;
   DatabaseName: string;
   TableName: string;
-  PartitionsToDelete: BatchDeletePartitionValueList;
+  PartitionsToDelete: PartitionValueList[];
 }
 export const BatchDeletePartitionRequest = S.suspend(() =>
   S.Struct({
@@ -8888,7 +10014,7 @@ export const BatchDeletePartitionRequest = S.suspend(() =>
   identifier: "BatchDeletePartitionRequest",
 }) as any as S.Schema<BatchDeletePartitionRequest>;
 export interface BatchGetTableOptimizerRequest {
-  Entries: BatchGetTableOptimizerEntries;
+  Entries: BatchGetTableOptimizerEntry[];
 }
 export const BatchGetTableOptimizerRequest = S.suspend(() =>
   S.Struct({ Entries: BatchGetTableOptimizerEntries }).pipe(
@@ -8898,7 +10024,7 @@ export const BatchGetTableOptimizerRequest = S.suspend(() =>
   identifier: "BatchGetTableOptimizerRequest",
 }) as any as S.Schema<BatchGetTableOptimizerRequest>;
 export interface BatchPutDataQualityStatisticAnnotationRequest {
-  InclusionAnnotations: InclusionAnnotationList;
+  InclusionAnnotations: DatapointInclusionAnnotation[];
   ClientToken?: string;
 }
 export const BatchPutDataQualityStatisticAnnotationRequest = S.suspend(() =>
@@ -8915,7 +10041,7 @@ export interface BatchUpdatePartitionRequest {
   CatalogId?: string;
   DatabaseName: string;
   TableName: string;
-  Entries: BatchUpdatePartitionRequestEntryList;
+  Entries: BatchUpdatePartitionRequestEntry[];
 }
 export const BatchUpdatePartitionRequest = S.suspend(() =>
   S.Struct({
@@ -8932,13 +10058,13 @@ export const BatchUpdatePartitionRequest = S.suspend(() =>
 export interface CancelMLTaskRunResponse {
   TransformId?: string;
   TaskRunId?: string;
-  Status?: string;
+  Status?: TaskStatusType;
 }
 export const CancelMLTaskRunResponse = S.suspend(() =>
   S.Struct({
     TransformId: S.optional(S.String),
     TaskRunId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(TaskStatusType),
   }),
 ).annotations({
   identifier: "CancelMLTaskRunResponse",
@@ -8956,7 +10082,7 @@ export interface CreateBlueprintRequest {
   Name: string;
   Description?: string;
   BlueprintLocation: string;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateBlueprintRequest = S.suspend(() =>
   S.Struct({
@@ -9006,7 +10132,7 @@ export interface CreateDataQualityRulesetRequest {
   Name: string;
   Description?: string;
   Ruleset: string;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
   TargetTable?: DataQualityTargetTable;
   DataQualitySecurityConfiguration?: string;
   ClientToken?: string;
@@ -9029,19 +10155,19 @@ export const CreateDataQualityRulesetRequest = S.suspend(() =>
 export interface CreateDevEndpointRequest {
   EndpointName: string;
   RoleArn: string;
-  SecurityGroupIds?: StringList;
+  SecurityGroupIds?: string[];
   SubnetId?: string;
   PublicKey?: string;
-  PublicKeys?: PublicKeysList;
+  PublicKeys?: string[];
   NumberOfNodes?: number;
-  WorkerType?: string;
+  WorkerType?: WorkerType;
   GlueVersion?: string;
   NumberOfWorkers?: number;
   ExtraPythonLibsS3Path?: string;
   ExtraJarsS3Path?: string;
   SecurityConfiguration?: string;
-  Tags?: TagsMap;
-  Arguments?: MapValue;
+  Tags?: { [key: string]: string };
+  Arguments?: { [key: string]: string };
 }
 export const CreateDevEndpointRequest = S.suspend(() =>
   S.Struct({
@@ -9052,7 +10178,7 @@ export const CreateDevEndpointRequest = S.suspend(() =>
     PublicKey: S.optional(S.String),
     PublicKeys: S.optional(PublicKeysList),
     NumberOfNodes: S.optional(S.Number),
-    WorkerType: S.optional(S.String),
+    WorkerType: S.optional(WorkerType),
     GlueVersion: S.optional(S.String),
     NumberOfWorkers: S.optional(S.Number),
     ExtraPythonLibsS3Path: S.optional(S.String),
@@ -9078,7 +10204,7 @@ export interface CreateIntegrationResourcePropertyRequest {
   ResourceArn: string;
   SourceProcessingProperties?: SourceProcessingProperties;
   TargetProcessingProperties?: TargetProcessingProperties;
-  Tags?: IntegrationTagsList;
+  Tags?: Tag[];
 }
 export const CreateIntegrationResourcePropertyRequest = S.suspend(() =>
   S.Struct({
@@ -9120,7 +10246,7 @@ export interface CreateRegistryResponse {
   RegistryArn?: string;
   RegistryName?: string;
   Description?: string;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateRegistryResponse = S.suspend(() =>
   S.Struct({
@@ -9135,18 +10261,18 @@ export const CreateRegistryResponse = S.suspend(() =>
 export interface CreateSchemaInput {
   RegistryId?: RegistryId;
   SchemaName: string;
-  DataFormat: string;
-  Compatibility?: string;
+  DataFormat: DataFormat;
+  Compatibility?: Compatibility;
   Description?: string;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
   SchemaDefinition?: string;
 }
 export const CreateSchemaInput = S.suspend(() =>
   S.Struct({
     RegistryId: S.optional(RegistryId),
     SchemaName: S.String,
-    DataFormat: S.String,
-    Compatibility: S.optional(S.String),
+    DataFormat: DataFormat,
+    Compatibility: S.optional(Compatibility),
     Description: S.optional(S.String),
     Tags: S.optional(TagsMap),
     SchemaDefinition: S.optional(S.String),
@@ -9163,14 +10289,14 @@ export interface CreateSessionRequest {
   Command: SessionCommand;
   Timeout?: number;
   IdleTimeout?: number;
-  DefaultArguments?: OrchestrationArgumentsMap;
+  DefaultArguments?: { [key: string]: string };
   Connections?: ConnectionsList;
   MaxCapacity?: number;
   NumberOfWorkers?: number;
-  WorkerType?: string;
+  WorkerType?: WorkerType;
   SecurityConfiguration?: string;
   GlueVersion?: string;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
   RequestOrigin?: string;
 }
 export const CreateSessionRequest = S.suspend(() =>
@@ -9185,7 +10311,7 @@ export const CreateSessionRequest = S.suspend(() =>
     Connections: S.optional(ConnectionsList),
     MaxCapacity: S.optional(S.Number),
     NumberOfWorkers: S.optional(S.Number),
-    WorkerType: S.optional(S.String),
+    WorkerType: S.optional(WorkerType),
     SecurityConfiguration: S.optional(S.String),
     GlueVersion: S.optional(S.String),
     Tags: S.optional(TagsMap),
@@ -9199,8 +10325,8 @@ export const CreateSessionRequest = S.suspend(() =>
 export interface CreateWorkflowRequest {
   Name: string;
   Description?: string;
-  DefaultRunProperties?: WorkflowRunProperties;
-  Tags?: TagsMap;
+  DefaultRunProperties?: { [key: string]: string };
+  Tags?: { [key: string]: string };
   MaxConcurrentRuns?: number;
 }
 export const CreateWorkflowRequest = S.suspend(() =>
@@ -9251,13 +10377,13 @@ export const DeleteMLTransformResponse = S.suspend(() =>
 export interface DeleteRegistryResponse {
   RegistryName?: string;
   RegistryArn?: string;
-  Status?: string;
+  Status?: RegistryStatus;
 }
 export const DeleteRegistryResponse = S.suspend(() =>
   S.Struct({
     RegistryName: S.optional(S.String),
     RegistryArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(RegistryStatus),
   }),
 ).annotations({
   identifier: "DeleteRegistryResponse",
@@ -9300,7 +10426,7 @@ export interface DescribeIntegrationsRequest {
   IntegrationIdentifier?: string;
   Marker?: string;
   MaxRecords?: number;
-  Filters?: IntegrationFilterList;
+  Filters?: IntegrationFilter[];
 }
 export const DescribeIntegrationsRequest = S.suspend(() =>
   S.Struct({
@@ -9314,6 +10440,13 @@ export const DescribeIntegrationsRequest = S.suspend(() =>
 ).annotations({
   identifier: "DescribeIntegrationsRequest",
 }) as any as S.Schema<DescribeIntegrationsRequest>;
+export type BlueprintStatus = "CREATING" | "ACTIVE" | "UPDATING" | "FAILED";
+export const BlueprintStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "UPDATING",
+  "FAILED",
+);
 export interface LastActiveDefinition {
   Description?: string;
   LastModifiedOn?: Date;
@@ -9340,7 +10473,7 @@ export interface Blueprint {
   ParameterSpec?: string;
   BlueprintLocation?: string;
   BlueprintServiceLocation?: string;
-  Status?: string;
+  Status?: BlueprintStatus;
   ErrorMessage?: string;
   LastActiveDefinition?: LastActiveDefinition;
 }
@@ -9353,7 +10486,7 @@ export const Blueprint = S.suspend(() =>
     ParameterSpec: S.optional(S.String),
     BlueprintLocation: S.optional(S.String),
     BlueprintServiceLocation: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(BlueprintStatus),
     ErrorMessage: S.optional(S.String),
     LastActiveDefinition: S.optional(LastActiveDefinition),
   }),
@@ -9367,7 +10500,7 @@ export const GetBlueprintResponse = S.suspend(() =>
   identifier: "GetBlueprintResponse",
 }) as any as S.Schema<GetBlueprintResponse>;
 export interface GetBlueprintRunsResponse {
-  BlueprintRuns?: BlueprintRuns;
+  BlueprintRuns?: BlueprintRun[];
   NextToken?: string;
 }
 export const GetBlueprintRunsResponse = S.suspend(() =>
@@ -9379,7 +10512,7 @@ export const GetBlueprintRunsResponse = S.suspend(() =>
   identifier: "GetBlueprintRunsResponse",
 }) as any as S.Schema<GetBlueprintRunsResponse>;
 export interface GetCatalogsResponse {
-  CatalogList: CatalogList;
+  CatalogList: Catalog[];
   NextToken?: string;
 }
 export const GetCatalogsResponse = S.suspend(() =>
@@ -9388,7 +10521,7 @@ export const GetCatalogsResponse = S.suspend(() =>
   identifier: "GetCatalogsResponse",
 }) as any as S.Schema<GetCatalogsResponse>;
 export interface GetClassifiersResponse {
-  Classifiers?: ClassifierList;
+  Classifiers?: Classifier[];
   NextToken?: string;
 }
 export const GetClassifiersResponse = S.suspend(() =>
@@ -9422,8 +10555,8 @@ export const ColumnError = S.suspend(() =>
 export type ColumnErrors = ColumnError[];
 export const ColumnErrors = S.Array(ColumnError);
 export interface GetColumnStatisticsForTableResponse {
-  ColumnStatisticsList?: ColumnStatisticsList;
-  Errors?: ColumnErrors;
+  ColumnStatisticsList?: ColumnStatistics[];
+  Errors?: ColumnError[];
 }
 export const GetColumnStatisticsForTableResponse = S.suspend(() =>
   S.Struct({
@@ -9434,7 +10567,7 @@ export const GetColumnStatisticsForTableResponse = S.suspend(() =>
   identifier: "GetColumnStatisticsForTableResponse",
 }) as any as S.Schema<GetColumnStatisticsForTableResponse>;
 export interface GetColumnStatisticsTaskRunsResponse {
-  ColumnStatisticsTaskRuns?: ColumnStatisticsTaskRunsList;
+  ColumnStatisticsTaskRuns?: ColumnStatisticsTaskRun[];
   NextToken?: string;
 }
 export const GetColumnStatisticsTaskRunsResponse = S.suspend(() =>
@@ -9465,18 +10598,28 @@ export const GetConnectionsRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetConnectionsRequest",
 }) as any as S.Schema<GetConnectionsRequest>;
+export type CrawlerState = "READY" | "RUNNING" | "STOPPING";
+export const CrawlerState = S.Literal("READY", "RUNNING", "STOPPING");
+export type ScheduleState = "SCHEDULED" | "NOT_SCHEDULED" | "TRANSITIONING";
+export const ScheduleState = S.Literal(
+  "SCHEDULED",
+  "NOT_SCHEDULED",
+  "TRANSITIONING",
+);
 export interface Schedule {
   ScheduleExpression?: string;
-  State?: string;
+  State?: ScheduleState;
 }
 export const Schedule = S.suspend(() =>
   S.Struct({
     ScheduleExpression: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(ScheduleState),
   }),
 ).annotations({ identifier: "Schedule" }) as any as S.Schema<Schedule>;
+export type LastCrawlStatus = "SUCCEEDED" | "CANCELLED" | "FAILED";
+export const LastCrawlStatus = S.Literal("SUCCEEDED", "CANCELLED", "FAILED");
 export interface LastCrawlInfo {
-  Status?: string;
+  Status?: LastCrawlStatus;
   ErrorMessage?: string;
   LogGroup?: string;
   LogStream?: string;
@@ -9485,7 +10628,7 @@ export interface LastCrawlInfo {
 }
 export const LastCrawlInfo = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(LastCrawlStatus),
     ErrorMessage: S.optional(S.String),
     LogGroup: S.optional(S.String),
     LogStream: S.optional(S.String),
@@ -9501,11 +10644,11 @@ export interface Crawler {
   Targets?: CrawlerTargets;
   DatabaseName?: string;
   Description?: string;
-  Classifiers?: ClassifierNameList;
+  Classifiers?: string[];
   RecrawlPolicy?: RecrawlPolicy;
   SchemaChangePolicy?: SchemaChangePolicy;
   LineageConfiguration?: LineageConfiguration;
-  State?: string;
+  State?: CrawlerState;
   TablePrefix?: string;
   Schedule?: Schedule;
   CrawlElapsedTime?: number;
@@ -9528,7 +10671,7 @@ export const Crawler = S.suspend(() =>
     RecrawlPolicy: S.optional(RecrawlPolicy),
     SchemaChangePolicy: S.optional(SchemaChangePolicy),
     LineageConfiguration: S.optional(LineageConfiguration),
-    State: S.optional(S.String),
+    State: S.optional(CrawlerState),
     TablePrefix: S.optional(S.String),
     Schedule: S.optional(Schedule),
     CrawlElapsedTime: S.optional(S.Number),
@@ -9552,7 +10695,7 @@ export const GetCrawlerResponse = S.suspend(() =>
 export type CrawlerList = Crawler[];
 export const CrawlerList = S.Array(Crawler);
 export interface GetCrawlersResponse {
-  Crawlers?: CrawlerList;
+  Crawlers?: Crawler[];
   NextToken?: string;
 }
 export const GetCrawlersResponse = S.suspend(() =>
@@ -9566,7 +10709,7 @@ export const GetCrawlersResponse = S.suspend(() =>
 export interface GetCustomEntityTypeResponse {
   Name?: string;
   RegexString?: string;
-  ContextWords?: ContextWords;
+  ContextWords?: string[];
 }
 export const GetCustomEntityTypeResponse = S.suspend(() =>
   S.Struct({
@@ -9578,7 +10721,7 @@ export const GetCustomEntityTypeResponse = S.suspend(() =>
   identifier: "GetCustomEntityTypeResponse",
 }) as any as S.Schema<GetCustomEntityTypeResponse>;
 export interface GetDatabasesResponse {
-  DatabaseList: DatabaseList;
+  DatabaseList: Database[];
   NextToken?: string;
 }
 export const GetDatabasesResponse = S.suspend(() =>
@@ -9587,13 +10730,13 @@ export const GetDatabasesResponse = S.suspend(() =>
   identifier: "GetDatabasesResponse",
 }) as any as S.Schema<GetDatabasesResponse>;
 export interface EncryptionAtRest {
-  CatalogEncryptionMode: string;
+  CatalogEncryptionMode: CatalogEncryptionMode;
   SseAwsKmsKeyId?: string;
   CatalogEncryptionServiceRole?: string;
 }
 export const EncryptionAtRest = S.suspend(() =>
   S.Struct({
-    CatalogEncryptionMode: S.String,
+    CatalogEncryptionMode: CatalogEncryptionMode,
     SseAwsKmsKeyId: S.optional(S.String),
     CatalogEncryptionServiceRole: S.optional(S.String),
   }),
@@ -9637,7 +10780,7 @@ export const GetDataCatalogEncryptionSettingsResponse = S.suspend(() =>
 export interface CodeGenNode {
   Id: string;
   NodeType: string;
-  Args: CodeGenNodeArgs;
+  Args: CodeGenNodeArg[];
   LineNumber?: number;
 }
 export const CodeGenNode = S.suspend(() =>
@@ -9651,8 +10794,8 @@ export const CodeGenNode = S.suspend(() =>
 export type DagNodes = CodeGenNode[];
 export const DagNodes = S.Array(CodeGenNode);
 export interface GetDataflowGraphResponse {
-  DagNodes?: DagNodes;
-  DagEdges?: DagEdges;
+  DagNodes?: CodeGenNode[];
+  DagEdges?: CodeGenEdge[];
 }
 export const GetDataflowGraphResponse = S.suspend(() =>
   S.Struct({ DagNodes: S.optional(DagNodes), DagEdges: S.optional(DagEdges) }),
@@ -9660,14 +10803,14 @@ export const GetDataflowGraphResponse = S.suspend(() =>
   identifier: "GetDataflowGraphResponse",
 }) as any as S.Schema<GetDataflowGraphResponse>;
 export interface GetDataQualityModelResponse {
-  Status?: string;
+  Status?: DataQualityModelStatus;
   StartedOn?: Date;
   CompletedOn?: Date;
   FailureReason?: string;
 }
 export const GetDataQualityModelResponse = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(DataQualityModelStatus),
     StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     FailureReason: S.optional(S.String),
@@ -9681,7 +10824,7 @@ export interface GetDataQualityRuleRecommendationRunResponse {
   Role?: string;
   NumberOfWorkers?: number;
   Timeout?: number;
-  Status?: string;
+  Status?: TaskStatusType;
   ErrorString?: string;
   StartedOn?: Date;
   LastModifiedOn?: Date;
@@ -9698,7 +10841,7 @@ export const GetDataQualityRuleRecommendationRunResponse = S.suspend(() =>
     Role: S.optional(S.String),
     NumberOfWorkers: S.optional(S.Number),
     Timeout: S.optional(S.Number),
-    Status: S.optional(S.String),
+    Status: S.optional(TaskStatusType),
     ErrorString: S.optional(S.String),
     StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -9742,15 +10885,15 @@ export interface GetDataQualityRulesetEvaluationRunResponse {
   NumberOfWorkers?: number;
   Timeout?: number;
   AdditionalRunOptions?: DataQualityEvaluationRunAdditionalRunOptions;
-  Status?: string;
+  Status?: TaskStatusType;
   ErrorString?: string;
   StartedOn?: Date;
   LastModifiedOn?: Date;
   CompletedOn?: Date;
   ExecutionTime?: number;
-  RulesetNames?: RulesetNames;
-  ResultIds?: DataQualityResultIdList;
-  AdditionalDataSources?: DataSourceMap;
+  RulesetNames?: string[];
+  ResultIds?: string[];
+  AdditionalDataSources?: { [key: string]: DataSource };
 }
 export const GetDataQualityRulesetEvaluationRunResponse = S.suspend(() =>
   S.Struct({
@@ -9762,7 +10905,7 @@ export const GetDataQualityRulesetEvaluationRunResponse = S.suspend(() =>
     AdditionalRunOptions: S.optional(
       DataQualityEvaluationRunAdditionalRunOptions,
     ),
-    Status: S.optional(S.String),
+    Status: S.optional(TaskStatusType),
     ErrorString: S.optional(S.String),
     StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -9778,14 +10921,14 @@ export const GetDataQualityRulesetEvaluationRunResponse = S.suspend(() =>
 export interface DevEndpoint {
   EndpointName?: string;
   RoleArn?: string;
-  SecurityGroupIds?: StringList;
+  SecurityGroupIds?: string[];
   SubnetId?: string;
   YarnEndpointAddress?: string;
   PrivateAddress?: string;
   ZeppelinRemoteSparkInterpreterPort?: number;
   PublicAddress?: string;
   Status?: string;
-  WorkerType?: string;
+  WorkerType?: WorkerType;
   GlueVersion?: string;
   NumberOfWorkers?: number;
   NumberOfNodes?: number;
@@ -9798,9 +10941,9 @@ export interface DevEndpoint {
   CreatedTimestamp?: Date;
   LastModifiedTimestamp?: Date;
   PublicKey?: string;
-  PublicKeys?: PublicKeysList;
+  PublicKeys?: string[];
   SecurityConfiguration?: string;
-  Arguments?: MapValue;
+  Arguments?: { [key: string]: string };
 }
 export const DevEndpoint = S.suspend(() =>
   S.Struct({
@@ -9813,7 +10956,7 @@ export const DevEndpoint = S.suspend(() =>
     ZeppelinRemoteSparkInterpreterPort: S.optional(S.Number),
     PublicAddress: S.optional(S.String),
     Status: S.optional(S.String),
-    WorkerType: S.optional(S.String),
+    WorkerType: S.optional(WorkerType),
     GlueVersion: S.optional(S.String),
     NumberOfWorkers: S.optional(S.Number),
     NumberOfNodes: S.optional(S.Number),
@@ -9846,7 +10989,7 @@ export const GetDevEndpointResponse = S.suspend(() =>
 export type DevEndpointList = DevEndpoint[];
 export const DevEndpointList = S.Array(DevEndpoint);
 export interface GetDevEndpointsResponse {
-  DevEndpoints?: DevEndpointList;
+  DevEndpoints?: DevEndpoint[];
   NextToken?: string;
 }
 export const GetDevEndpointsResponse = S.suspend(() =>
@@ -9863,11 +11006,11 @@ export interface GetEntityRecordsRequest {
   EntityName: string;
   NextToken?: string;
   DataStoreApiVersion?: string;
-  ConnectionOptions?: ConnectionOptions;
+  ConnectionOptions?: { [key: string]: string };
   FilterPredicate?: string;
   Limit: number;
   OrderBy?: string;
-  SelectedFields?: SelectedFields;
+  SelectedFields?: string[];
 }
 export const GetEntityRecordsRequest = S.suspend(() =>
   S.Struct({
@@ -9921,7 +11064,7 @@ export const GetIntegrationTablePropertiesResponse = S.suspend(() =>
 }) as any as S.Schema<GetIntegrationTablePropertiesResponse>;
 export interface Job {
   Name?: string;
-  JobMode?: string;
+  JobMode?: JobMode;
   JobRunQueuingEnabled?: boolean;
   Description?: string;
   LogUri?: string;
@@ -9930,20 +11073,20 @@ export interface Job {
   LastModifiedOn?: Date;
   ExecutionProperty?: ExecutionProperty;
   Command?: JobCommand;
-  DefaultArguments?: GenericMap;
-  NonOverridableArguments?: GenericMap;
+  DefaultArguments?: { [key: string]: string };
+  NonOverridableArguments?: { [key: string]: string };
   Connections?: ConnectionsList;
   MaxRetries?: number;
   AllocatedCapacity?: number;
   Timeout?: number;
   MaxCapacity?: number;
-  WorkerType?: string;
+  WorkerType?: WorkerType;
   NumberOfWorkers?: number;
   SecurityConfiguration?: string;
   NotificationProperty?: NotificationProperty;
   GlueVersion?: string;
-  CodeGenConfigurationNodes?: CodeGenConfigurationNodes;
-  ExecutionClass?: string;
+  CodeGenConfigurationNodes?: { [key: string]: CodeGenConfigurationNode };
+  ExecutionClass?: ExecutionClass;
   SourceControlDetails?: SourceControlDetails;
   MaintenanceWindow?: string;
   ProfileName?: string;
@@ -9951,7 +11094,7 @@ export interface Job {
 export const Job = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    JobMode: S.optional(S.String),
+    JobMode: S.optional(JobMode),
     JobRunQueuingEnabled: S.optional(S.Boolean),
     Description: S.optional(S.String),
     LogUri: S.optional(S.String),
@@ -9967,13 +11110,13 @@ export const Job = S.suspend(() =>
     AllocatedCapacity: S.optional(S.Number),
     Timeout: S.optional(S.Number),
     MaxCapacity: S.optional(S.Number),
-    WorkerType: S.optional(S.String),
+    WorkerType: S.optional(WorkerType),
     NumberOfWorkers: S.optional(S.Number),
     SecurityConfiguration: S.optional(S.String),
     NotificationProperty: S.optional(NotificationProperty),
     GlueVersion: S.optional(S.String),
     CodeGenConfigurationNodes: S.optional(CodeGenConfigurationNodes),
-    ExecutionClass: S.optional(S.String),
+    ExecutionClass: S.optional(ExecutionClass),
     SourceControlDetails: S.optional(SourceControlDetails),
     MaintenanceWindow: S.optional(S.String),
     ProfileName: S.optional(S.String),
@@ -9988,7 +11131,7 @@ export const GetJobResponse = S.suspend(() =>
   identifier: "GetJobResponse",
 }) as any as S.Schema<GetJobResponse>;
 export interface GetJobRunsResponse {
-  JobRuns?: JobRunList;
+  JobRuns?: JobRun[];
   NextToken?: string;
 }
 export const GetJobRunsResponse = S.suspend(() =>
@@ -10002,7 +11145,7 @@ export const GetJobRunsResponse = S.suspend(() =>
 export type JobList = Job[];
 export const JobList = S.Array(Job);
 export interface GetJobsResponse {
-  Jobs?: JobList;
+  Jobs?: Job[];
   NextToken?: string;
 }
 export const GetJobsResponse = S.suspend(() =>
@@ -10012,7 +11155,7 @@ export const GetJobsResponse = S.suspend(() =>
 }) as any as S.Schema<GetJobsResponse>;
 export interface GetMappingRequest {
   Source: CatalogEntry;
-  Sinks?: CatalogEntries;
+  Sinks?: CatalogEntry[];
   Location?: Location;
 }
 export const GetMappingRequest = S.suspend(() =>
@@ -10047,13 +11190,13 @@ export const GetMLTaskRunsRequest = S.suspend(() =>
   identifier: "GetMLTaskRunsRequest",
 }) as any as S.Schema<GetMLTaskRunsRequest>;
 export interface Partition {
-  Values?: ValueStringList;
+  Values?: string[];
   DatabaseName?: string;
   TableName?: string;
   CreationTime?: Date;
   LastAccessTime?: Date;
   StorageDescriptor?: StorageDescriptor;
-  Parameters?: ParametersMap;
+  Parameters?: { [key: string]: string };
   LastAnalyzedTime?: Date;
   CatalogId?: string;
 }
@@ -10111,12 +11254,12 @@ export const GetPartitionsRequest = S.suspend(() =>
   identifier: "GetPartitionsRequest",
 }) as any as S.Schema<GetPartitionsRequest>;
 export interface GetPlanRequest {
-  Mapping: MappingList;
+  Mapping: MappingEntry[];
   Source: CatalogEntry;
-  Sinks?: CatalogEntries;
+  Sinks?: CatalogEntry[];
   Location?: Location;
-  Language?: string;
-  AdditionalPlanOptionsMap?: AdditionalPlanOptionsMap;
+  Language?: Language;
+  AdditionalPlanOptionsMap?: { [key: string]: string };
 }
 export const GetPlanRequest = S.suspend(() =>
   S.Struct({
@@ -10124,7 +11267,7 @@ export const GetPlanRequest = S.suspend(() =>
     Source: CatalogEntry,
     Sinks: S.optional(CatalogEntries),
     Location: S.optional(Location),
-    Language: S.optional(S.String),
+    Language: S.optional(Language),
     AdditionalPlanOptionsMap: S.optional(AdditionalPlanOptionsMap),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -10136,7 +11279,7 @@ export interface GetRegistryResponse {
   RegistryName?: string;
   RegistryArn?: string;
   Description?: string;
-  Status?: string;
+  Status?: RegistryStatus;
   CreatedTime?: string;
   UpdatedTime?: string;
 }
@@ -10145,7 +11288,7 @@ export const GetRegistryResponse = S.suspend(() =>
     RegistryName: S.optional(S.String),
     RegistryArn: S.optional(S.String),
     Description: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(RegistryStatus),
     CreatedTime: S.optional(S.String),
     UpdatedTime: S.optional(S.String),
   }),
@@ -10174,12 +11317,12 @@ export interface GetSchemaResponse {
   SchemaName?: string;
   SchemaArn?: string;
   Description?: string;
-  DataFormat?: string;
-  Compatibility?: string;
+  DataFormat?: DataFormat;
+  Compatibility?: Compatibility;
   SchemaCheckpoint?: number;
   LatestSchemaVersion?: number;
   NextSchemaVersion?: number;
-  SchemaStatus?: string;
+  SchemaStatus?: SchemaStatus;
   CreatedTime?: string;
   UpdatedTime?: string;
 }
@@ -10190,12 +11333,12 @@ export const GetSchemaResponse = S.suspend(() =>
     SchemaName: S.optional(S.String),
     SchemaArn: S.optional(S.String),
     Description: S.optional(S.String),
-    DataFormat: S.optional(S.String),
-    Compatibility: S.optional(S.String),
+    DataFormat: S.optional(DataFormat),
+    Compatibility: S.optional(Compatibility),
     SchemaCheckpoint: S.optional(S.Number),
     LatestSchemaVersion: S.optional(S.Number),
     NextSchemaVersion: S.optional(S.Number),
-    SchemaStatus: S.optional(S.String),
+    SchemaStatus: S.optional(SchemaStatus),
     CreatedTime: S.optional(S.String),
     UpdatedTime: S.optional(S.String),
   }),
@@ -10205,16 +11348,16 @@ export const GetSchemaResponse = S.suspend(() =>
 export interface GetSchemaByDefinitionResponse {
   SchemaVersionId?: string;
   SchemaArn?: string;
-  DataFormat?: string;
-  Status?: string;
+  DataFormat?: DataFormat;
+  Status?: SchemaVersionStatus;
   CreatedTime?: string;
 }
 export const GetSchemaByDefinitionResponse = S.suspend(() =>
   S.Struct({
     SchemaVersionId: S.optional(S.String),
     SchemaArn: S.optional(S.String),
-    DataFormat: S.optional(S.String),
-    Status: S.optional(S.String),
+    DataFormat: S.optional(DataFormat),
+    Status: S.optional(SchemaVersionStatus),
     CreatedTime: S.optional(S.String),
   }),
 ).annotations({
@@ -10245,7 +11388,7 @@ export const GetSchemaVersionsDiffResponse = S.suspend(() =>
   identifier: "GetSchemaVersionsDiffResponse",
 }) as any as S.Schema<GetSchemaVersionsDiffResponse>;
 export interface GetSecurityConfigurationsResponse {
-  SecurityConfigurations?: SecurityConfigurationList;
+  SecurityConfigurations?: SecurityConfiguration[];
   NextToken?: string;
 }
 export const GetSecurityConfigurationsResponse = S.suspend(() =>
@@ -10281,7 +11424,7 @@ export const GetTableRequest = S.suspend(() =>
   identifier: "GetTableRequest",
 }) as any as S.Schema<GetTableRequest>;
 export interface GetTableVersionsResponse {
-  TableVersions?: GetTableVersionsList;
+  TableVersions?: TableVersion[];
   NextToken?: string;
 }
 export const GetTableVersionsResponse = S.suspend(() =>
@@ -10293,7 +11436,7 @@ export const GetTableVersionsResponse = S.suspend(() =>
   identifier: "GetTableVersionsResponse",
 }) as any as S.Schema<GetTableVersionsResponse>;
 export interface GetTagsResponse {
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const GetTagsResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagsMap) }),
@@ -10311,7 +11454,7 @@ export const GetTriggerResponse = S.suspend(() =>
 export type TriggerList = Trigger[];
 export const TriggerList = S.Array(Trigger);
 export interface GetTriggersResponse {
-  Triggers?: TriggerList;
+  Triggers?: Trigger[];
   NextToken?: string;
 }
 export const GetTriggersResponse = S.suspend(() =>
@@ -10328,11 +11471,11 @@ export interface GetUnfilteredTableMetadataRequest {
   DatabaseName: string;
   Name: string;
   AuditContext?: AuditContext;
-  SupportedPermissionTypes: PermissionTypeList;
+  SupportedPermissionTypes: PermissionType[];
   ParentResourceArn?: string;
   RootResourceArn?: string;
   SupportedDialect?: SupportedDialect;
-  Permissions?: PermissionList;
+  Permissions?: Permission[];
   QuerySessionContext?: QuerySessionContext;
 }
 export const GetUnfilteredTableMetadataRequest = S.suspend(() =>
@@ -10373,7 +11516,7 @@ export const GetUsageProfileResponse = S.suspend(() =>
   identifier: "GetUsageProfileResponse",
 }) as any as S.Schema<GetUsageProfileResponse>;
 export interface GetUserDefinedFunctionsResponse {
-  UserDefinedFunctions?: UserDefinedFunctionList;
+  UserDefinedFunctions?: UserDefinedFunction[];
   NextToken?: string;
 }
 export const GetUserDefinedFunctionsResponse = S.suspend(() =>
@@ -10399,7 +11542,7 @@ export const BlueprintDetails = S.suspend(() =>
 export interface Workflow {
   Name?: string;
   Description?: string;
-  DefaultRunProperties?: WorkflowRunProperties;
+  DefaultRunProperties?: { [key: string]: string };
   CreatedOn?: Date;
   LastModifiedOn?: Date;
   LastRun?: WorkflowRun;
@@ -10429,7 +11572,7 @@ export const GetWorkflowResponse = S.suspend(() =>
   identifier: "GetWorkflowResponse",
 }) as any as S.Schema<GetWorkflowResponse>;
 export interface GetWorkflowRunPropertiesResponse {
-  RunProperties?: WorkflowRunProperties;
+  RunProperties?: { [key: string]: string };
 }
 export const GetWorkflowRunPropertiesResponse = S.suspend(() =>
   S.Struct({ RunProperties: S.optional(WorkflowRunProperties) }),
@@ -10437,7 +11580,7 @@ export const GetWorkflowRunPropertiesResponse = S.suspend(() =>
   identifier: "GetWorkflowRunPropertiesResponse",
 }) as any as S.Schema<GetWorkflowRunPropertiesResponse>;
 export interface GetWorkflowRunsResponse {
-  Runs?: WorkflowRuns;
+  Runs?: WorkflowRun[];
   NextToken?: string;
 }
 export const GetWorkflowRunsResponse = S.suspend(() =>
@@ -10446,7 +11589,7 @@ export const GetWorkflowRunsResponse = S.suspend(() =>
   identifier: "GetWorkflowRunsResponse",
 }) as any as S.Schema<GetWorkflowRunsResponse>;
 export interface ListBlueprintsResponse {
-  Blueprints?: BlueprintNames;
+  Blueprints?: string[];
   NextToken?: string;
 }
 export const ListBlueprintsResponse = S.suspend(() =>
@@ -10458,7 +11601,7 @@ export const ListBlueprintsResponse = S.suspend(() =>
   identifier: "ListBlueprintsResponse",
 }) as any as S.Schema<ListBlueprintsResponse>;
 export interface ListColumnStatisticsTaskRunsResponse {
-  ColumnStatisticsTaskRunIds?: ColumnStatisticsTaskRunIdList;
+  ColumnStatisticsTaskRunIds?: string[];
   NextToken?: string;
 }
 export const ListColumnStatisticsTaskRunsResponse = S.suspend(() =>
@@ -10470,7 +11613,7 @@ export const ListColumnStatisticsTaskRunsResponse = S.suspend(() =>
   identifier: "ListColumnStatisticsTaskRunsResponse",
 }) as any as S.Schema<ListColumnStatisticsTaskRunsResponse>;
 export interface ListCrawlersResponse {
-  CrawlerNames?: CrawlerNameList;
+  CrawlerNames?: string[];
   NextToken?: string;
 }
 export const ListCrawlersResponse = S.suspend(() =>
@@ -10484,7 +11627,7 @@ export const ListCrawlersResponse = S.suspend(() =>
 export interface ListCrawlsRequest {
   CrawlerName: string;
   MaxResults?: number;
-  Filters?: CrawlsFilterList;
+  Filters?: CrawlsFilter[];
   NextToken?: string;
 }
 export const ListCrawlsRequest = S.suspend(() =>
@@ -10502,7 +11645,7 @@ export const ListCrawlsRequest = S.suspend(() =>
 export interface CustomEntityType {
   Name: string;
   RegexString: string;
-  ContextWords?: ContextWords;
+  ContextWords?: string[];
 }
 export const CustomEntityType = S.suspend(() =>
   S.Struct({
@@ -10516,7 +11659,7 @@ export const CustomEntityType = S.suspend(() =>
 export type CustomEntityTypes = CustomEntityType[];
 export const CustomEntityTypes = S.Array(CustomEntityType);
 export interface ListCustomEntityTypesResponse {
-  CustomEntityTypes?: CustomEntityTypes;
+  CustomEntityTypes?: CustomEntityType[];
   NextToken?: string;
 }
 export const ListCustomEntityTypesResponse = S.suspend(() =>
@@ -10579,7 +11722,7 @@ export interface ListDataQualityRulesetsRequest {
   NextToken?: string;
   MaxResults?: number;
   Filter?: DataQualityRulesetFilterCriteria;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const ListDataQualityRulesetsRequest = S.suspend(() =>
   S.Struct({
@@ -10614,7 +11757,7 @@ export const ListDataQualityStatisticAnnotationsRequest = S.suspend(() =>
   identifier: "ListDataQualityStatisticAnnotationsRequest",
 }) as any as S.Schema<ListDataQualityStatisticAnnotationsRequest>;
 export interface ListDevEndpointsResponse {
-  DevEndpointNames?: DevEndpointNameList;
+  DevEndpointNames?: string[];
   NextToken?: string;
 }
 export const ListDevEndpointsResponse = S.suspend(() =>
@@ -10627,7 +11770,7 @@ export const ListDevEndpointsResponse = S.suspend(() =>
 }) as any as S.Schema<ListDevEndpointsResponse>;
 export interface ListIntegrationResourcePropertiesRequest {
   Marker?: string;
-  Filters?: IntegrationResourcePropertyFilterList;
+  Filters?: IntegrationResourcePropertyFilter[];
   MaxRecords?: number;
 }
 export const ListIntegrationResourcePropertiesRequest = S.suspend(() =>
@@ -10642,7 +11785,7 @@ export const ListIntegrationResourcePropertiesRequest = S.suspend(() =>
   identifier: "ListIntegrationResourcePropertiesRequest",
 }) as any as S.Schema<ListIntegrationResourcePropertiesRequest>;
 export interface ListJobsResponse {
-  JobNames?: JobNameList;
+  JobNames?: string[];
   NextToken?: string;
 }
 export const ListJobsResponse = S.suspend(() =>
@@ -10654,7 +11797,7 @@ export const ListJobsResponse = S.suspend(() =>
   identifier: "ListJobsResponse",
 }) as any as S.Schema<ListJobsResponse>;
 export interface ListMLTransformsResponse {
-  TransformIds: TransformIdList;
+  TransformIds: string[];
   NextToken?: string;
 }
 export const ListMLTransformsResponse = S.suspend(() =>
@@ -10663,8 +11806,8 @@ export const ListMLTransformsResponse = S.suspend(() =>
   identifier: "ListMLTransformsResponse",
 }) as any as S.Schema<ListMLTransformsResponse>;
 export interface ListSessionsResponse {
-  Ids?: SessionIdList;
-  Sessions?: SessionList;
+  Ids?: string[];
+  Sessions?: Session[];
   NextToken?: string;
 }
 export const ListSessionsResponse = S.suspend(() =>
@@ -10677,7 +11820,7 @@ export const ListSessionsResponse = S.suspend(() =>
   identifier: "ListSessionsResponse",
 }) as any as S.Schema<ListSessionsResponse>;
 export interface ListStatementsResponse {
-  Statements?: StatementList;
+  Statements?: Statement[];
   NextToken?: string;
 }
 export const ListStatementsResponse = S.suspend(() =>
@@ -10689,7 +11832,7 @@ export const ListStatementsResponse = S.suspend(() =>
   identifier: "ListStatementsResponse",
 }) as any as S.Schema<ListStatementsResponse>;
 export interface ListTriggersResponse {
-  TriggerNames?: TriggerNameList;
+  TriggerNames?: string[];
   NextToken?: string;
 }
 export const ListTriggersResponse = S.suspend(() =>
@@ -10701,7 +11844,7 @@ export const ListTriggersResponse = S.suspend(() =>
   identifier: "ListTriggersResponse",
 }) as any as S.Schema<ListTriggersResponse>;
 export interface ListWorkflowsResponse {
-  Workflows?: WorkflowNames;
+  Workflows?: string[];
   NextToken?: string;
 }
 export const ListWorkflowsResponse = S.suspend(() =>
@@ -10733,11 +11876,11 @@ export interface ModifyIntegrationResponse {
   Description?: string;
   IntegrationArn: string;
   KmsKeyId?: string;
-  AdditionalEncryptionContext?: IntegrationAdditionalEncryptionContextMap;
-  Tags?: IntegrationTagsList;
-  Status: string;
+  AdditionalEncryptionContext?: { [key: string]: string };
+  Tags?: Tag[];
+  Status: IntegrationStatus;
   CreateTime: Date;
-  Errors?: IntegrationErrorList;
+  Errors?: IntegrationError[];
   DataFilter?: string;
   IntegrationConfig?: IntegrationConfig;
 }
@@ -10753,7 +11896,7 @@ export const ModifyIntegrationResponse = S.suspend(() =>
       IntegrationAdditionalEncryptionContextMap,
     ),
     Tags: S.optional(IntegrationTagsList),
-    Status: S.String,
+    Status: IntegrationStatus,
     CreateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     Errors: S.optional(IntegrationErrorList),
     DataFilter: S.optional(S.String),
@@ -10791,13 +11934,13 @@ export const PutSchemaVersionMetadataInput = S.suspend(() =>
 export interface RegisterSchemaVersionResponse {
   SchemaVersionId?: string;
   VersionNumber?: number;
-  Status?: string;
+  Status?: SchemaVersionStatus;
 }
 export const RegisterSchemaVersionResponse = S.suspend(() =>
   S.Struct({
     SchemaVersionId: S.optional(S.String),
     VersionNumber: S.optional(S.Number),
-    Status: S.optional(S.String),
+    Status: S.optional(SchemaVersionStatus),
   }),
 ).annotations({
   identifier: "RegisterSchemaVersionResponse",
@@ -10858,7 +12001,7 @@ export const ResetJobBookmarkResponse = S.suspend(() =>
 }) as any as S.Schema<ResetJobBookmarkResponse>;
 export interface ResumeWorkflowRunResponse {
   RunId?: string;
-  NodeIds?: NodeIdList;
+  NodeIds?: string[];
 }
 export const ResumeWorkflowRunResponse = S.suspend(() =>
   S.Struct({ RunId: S.optional(S.String), NodeIds: S.optional(NodeIdList) }),
@@ -10876,11 +12019,11 @@ export const RunStatementResponse = S.suspend(() =>
 export interface SearchTablesRequest {
   CatalogId?: string;
   NextToken?: string;
-  Filters?: SearchPropertyPredicates;
+  Filters?: PropertyPredicate[];
   SearchText?: string;
-  SortCriteria?: SortCriteria;
+  SortCriteria?: SortCriterion[];
   MaxResults?: number;
-  ResourceShareType?: string;
+  ResourceShareType?: ResourceShareType;
   IncludeStatusDetails?: boolean;
 }
 export const SearchTablesRequest = S.suspend(() =>
@@ -10891,7 +12034,7 @@ export const SearchTablesRequest = S.suspend(() =>
     SearchText: S.optional(S.String),
     SortCriteria: S.optional(SortCriteria),
     MaxResults: S.optional(S.Number),
-    ResourceShareType: S.optional(S.String),
+    ResourceShareType: S.optional(ResourceShareType),
     IncludeStatusDetails: S.optional(S.Boolean),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -10922,8 +12065,8 @@ export interface StartDataQualityRulesetEvaluationRunRequest {
   Timeout?: number;
   ClientToken?: string;
   AdditionalRunOptions?: DataQualityEvaluationRunAdditionalRunOptions;
-  RulesetNames: RulesetNames;
-  AdditionalDataSources?: DataSourceMap;
+  RulesetNames: string[];
+  AdditionalDataSources?: { [key: string]: DataSource };
 }
 export const StartDataQualityRulesetEvaluationRunRequest = S.suspend(() =>
   S.Struct({
@@ -11084,12 +12227,12 @@ export const UpdateDataQualityRulesetResponse = S.suspend(() =>
 export interface UpdateDevEndpointRequest {
   EndpointName: string;
   PublicKey?: string;
-  AddPublicKeys?: PublicKeysList;
-  DeletePublicKeys?: PublicKeysList;
+  AddPublicKeys?: string[];
+  DeletePublicKeys?: string[];
   CustomLibraries?: DevEndpointCustomLibraries;
   UpdateEtlLibraries?: boolean;
-  DeleteArguments?: StringList;
-  AddArguments?: MapValue;
+  DeleteArguments?: string[];
+  AddArguments?: { [key: string]: string };
 }
 export const UpdateDevEndpointRequest = S.suspend(() =>
   S.Struct({
@@ -11218,29 +12361,125 @@ export const UpdateWorkflowResponse = S.suspend(() =>
   identifier: "UpdateWorkflowResponse",
 }) as any as S.Schema<UpdateWorkflowResponse>;
 export interface MLUserDataEncryption {
-  MlUserDataEncryptionMode: string;
+  MlUserDataEncryptionMode: MLUserDataEncryptionModeString;
   KmsKeyId?: string;
 }
 export const MLUserDataEncryption = S.suspend(() =>
   S.Struct({
-    MlUserDataEncryptionMode: S.String,
+    MlUserDataEncryptionMode: MLUserDataEncryptionModeString,
     KmsKeyId: S.optional(S.String),
   }),
 ).annotations({
   identifier: "MLUserDataEncryption",
 }) as any as S.Schema<MLUserDataEncryption>;
-export type AuthenticationTypes = string[];
-export const AuthenticationTypes = S.Array(S.String);
-export type DataOperations = string[];
-export const DataOperations = S.Array(S.String);
-export type ComputeEnvironments = string[];
-export const ComputeEnvironments = S.Array(S.String);
+export type AuthenticationTypes = AuthenticationType[];
+export const AuthenticationTypes = S.Array(AuthenticationType);
+export type DataOperation = "READ" | "WRITE";
+export const DataOperation = S.Literal("READ", "WRITE");
+export type DataOperations = DataOperation[];
+export const DataOperations = S.Array(DataOperation);
+export type ComputeEnvironments = ComputeEnvironment[];
+export const ComputeEnvironments = S.Array(ComputeEnvironment);
+export type FieldDataType =
+  | "INT"
+  | "SMALLINT"
+  | "BIGINT"
+  | "FLOAT"
+  | "LONG"
+  | "DATE"
+  | "BOOLEAN"
+  | "MAP"
+  | "ARRAY"
+  | "STRING"
+  | "TIMESTAMP"
+  | "DECIMAL"
+  | "BYTE"
+  | "SHORT"
+  | "DOUBLE"
+  | "STRUCT";
+export const FieldDataType = S.Literal(
+  "INT",
+  "SMALLINT",
+  "BIGINT",
+  "FLOAT",
+  "LONG",
+  "DATE",
+  "BOOLEAN",
+  "MAP",
+  "ARRAY",
+  "STRING",
+  "TIMESTAMP",
+  "DECIMAL",
+  "BYTE",
+  "SHORT",
+  "DOUBLE",
+  "STRUCT",
+);
 export type ListOfString = string[];
 export const ListOfString = S.Array(S.String);
-export type FieldFilterOperatorsList = string[];
-export const FieldFilterOperatorsList = S.Array(S.String);
+export type FieldFilterOperator =
+  | "LESS_THAN"
+  | "GREATER_THAN"
+  | "BETWEEN"
+  | "EQUAL_TO"
+  | "NOT_EQUAL_TO"
+  | "GREATER_THAN_OR_EQUAL_TO"
+  | "LESS_THAN_OR_EQUAL_TO"
+  | "CONTAINS"
+  | "ORDER_BY";
+export const FieldFilterOperator = S.Literal(
+  "LESS_THAN",
+  "GREATER_THAN",
+  "BETWEEN",
+  "EQUAL_TO",
+  "NOT_EQUAL_TO",
+  "GREATER_THAN_OR_EQUAL_TO",
+  "LESS_THAN_OR_EQUAL_TO",
+  "CONTAINS",
+  "ORDER_BY",
+);
+export type FieldFilterOperatorsList = FieldFilterOperator[];
+export const FieldFilterOperatorsList = S.Array(FieldFilterOperator);
+export type ScheduleType = "CRON" | "AUTO";
+export const ScheduleType = S.Literal("CRON", "AUTO");
+export type SettingSource = "CATALOG" | "TABLE";
+export const SettingSource = S.Literal("CATALOG", "TABLE");
+export type ConnectionStatus = "READY" | "IN_PROGRESS" | "FAILED";
+export const ConnectionStatus = S.Literal("READY", "IN_PROGRESS", "FAILED");
+export type DataQualityRuleResultStatus = "PASS" | "FAIL" | "ERROR";
+export const DataQualityRuleResultStatus = S.Literal("PASS", "FAIL", "ERROR");
+export type PartitionIndexStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "DELETING"
+  | "FAILED";
+export const PartitionIndexStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "DELETING",
+  "FAILED",
+);
+export type ConfigurationSource = "catalog" | "table";
+export const ConfigurationSource = S.Literal("catalog", "table");
+export type StatisticEvaluationLevel = "Dataset" | "Column" | "Multicolumn";
+export const StatisticEvaluationLevel = S.Literal(
+  "Dataset",
+  "Column",
+  "Multicolumn",
+);
 export type ReferenceDatasetsList = string[];
 export const ReferenceDatasetsList = S.Array(S.String);
+export type TableOptimizerEventType =
+  | "starting"
+  | "completed"
+  | "failed"
+  | "in_progress";
+export const TableOptimizerEventType = S.Literal(
+  "starting",
+  "completed",
+  "failed",
+  "in_progress",
+);
 export interface TableError {
   TableName?: string;
   ErrorDetail?: ErrorDetail;
@@ -11277,20 +12516,20 @@ export type Labels = { [key: string]: string };
 export const Labels = S.Record({ key: S.String, value: S.String });
 export interface DataQualityRuleResult {
   Name?: string;
-  Description?: string | Redacted.Redacted<string>;
-  EvaluationMessage?: string | Redacted.Redacted<string>;
-  Result?: string;
-  EvaluatedMetrics?: EvaluatedMetricsMap;
-  EvaluatedRule?: string | Redacted.Redacted<string>;
-  RuleMetrics?: RuleMetricsMap;
-  Labels?: Labels;
+  Description?: string | redacted.Redacted<string>;
+  EvaluationMessage?: string | redacted.Redacted<string>;
+  Result?: DataQualityRuleResultStatus;
+  EvaluatedMetrics?: { [key: string]: number };
+  EvaluatedRule?: string | redacted.Redacted<string>;
+  RuleMetrics?: { [key: string]: number };
+  Labels?: { [key: string]: string };
 }
 export const DataQualityRuleResult = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     Description: S.optional(SensitiveString),
     EvaluationMessage: S.optional(SensitiveString),
-    Result: S.optional(S.String),
+    Result: S.optional(DataQualityRuleResultStatus),
     EvaluatedMetrics: S.optional(EvaluatedMetricsMap),
     EvaluatedRule: S.optional(SensitiveString),
     RuleMetrics: S.optional(RuleMetricsMap),
@@ -11303,9 +12542,9 @@ export type DataQualityRuleResults = DataQualityRuleResult[];
 export const DataQualityRuleResults = S.Array(DataQualityRuleResult);
 export interface DataQualityAnalyzerResult {
   Name?: string;
-  Description?: string | Redacted.Redacted<string>;
-  EvaluationMessage?: string | Redacted.Redacted<string>;
-  EvaluatedMetrics?: EvaluatedMetricsMap;
+  Description?: string | redacted.Redacted<string>;
+  EvaluationMessage?: string | redacted.Redacted<string>;
+  EvaluatedMetrics?: { [key: string]: number };
 }
 export const DataQualityAnalyzerResult = S.suspend(() =>
   S.Struct({
@@ -11341,7 +12580,7 @@ export interface MetricBasedObservation {
   MetricName?: string;
   StatisticId?: string;
   MetricValues?: DataQualityMetricValues;
-  NewRules?: NewRules;
+  NewRules?: string[];
 }
 export const MetricBasedObservation = S.suspend(() =>
   S.Struct({
@@ -11354,7 +12593,7 @@ export const MetricBasedObservation = S.suspend(() =>
   identifier: "MetricBasedObservation",
 }) as any as S.Schema<MetricBasedObservation>;
 export interface DataQualityObservation {
-  Description?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   MetricBasedObservation?: MetricBasedObservation;
 }
 export const DataQualityObservation = S.suspend(() =>
@@ -11399,9 +12638,9 @@ export interface DataQualityResult {
   JobName?: string;
   JobRunId?: string;
   RulesetEvaluationRunId?: string;
-  RuleResults?: DataQualityRuleResults;
-  AnalyzerResults?: DataQualityAnalyzerResults;
-  Observations?: DataQualityObservations;
+  RuleResults?: DataQualityRuleResult[];
+  AnalyzerResults?: DataQualityAnalyzerResult[];
+  Observations?: DataQualityObservation[];
   AggregatedMetrics?: DataQualityAggregatedMetrics;
 }
 export const DataQualityResult = S.suspend(() =>
@@ -11473,10 +12712,33 @@ export const TransformEncryption = S.suspend(() =>
 ).annotations({
   identifier: "TransformEncryption",
 }) as any as S.Schema<TransformEncryption>;
+export type FederationSourceErrorCode =
+  | "AccessDeniedException"
+  | "EntityNotFoundException"
+  | "InvalidCredentialsException"
+  | "InvalidInputException"
+  | "InvalidResponseException"
+  | "OperationTimeoutException"
+  | "OperationNotSupportedException"
+  | "InternalServiceException"
+  | "PartialFailureException"
+  | "ThrottlingException";
+export const FederationSourceErrorCode = S.Literal(
+  "AccessDeniedException",
+  "EntityNotFoundException",
+  "InvalidCredentialsException",
+  "InvalidInputException",
+  "InvalidResponseException",
+  "OperationTimeoutException",
+  "OperationNotSupportedException",
+  "InternalServiceException",
+  "PartialFailureException",
+  "ThrottlingException",
+);
 export interface Capabilities {
-  SupportedAuthenticationTypes: AuthenticationTypes;
-  SupportedDataOperations: DataOperations;
-  SupportedComputeEnvironments: ComputeEnvironments;
+  SupportedAuthenticationTypes: AuthenticationType[];
+  SupportedDataOperations: DataOperation[];
+  SupportedComputeEnvironments: ComputeEnvironment[];
 }
 export const Capabilities = S.suspend(() =>
   S.Struct({
@@ -11485,8 +12747,21 @@ export const Capabilities = S.suspend(() =>
     SupportedComputeEnvironments: ComputeEnvironments,
   }),
 ).annotations({ identifier: "Capabilities" }) as any as S.Schema<Capabilities>;
-export type PropertyTypes = string[];
-export const PropertyTypes = S.Array(S.String);
+export type PropertyType =
+  | "USER_INPUT"
+  | "SECRET"
+  | "READ_ONLY"
+  | "UNUSED"
+  | "SECRET_OR_USER_INPUT";
+export const PropertyType = S.Literal(
+  "USER_INPUT",
+  "SECRET",
+  "READ_ONLY",
+  "UNUSED",
+  "SECRET_OR_USER_INPUT",
+);
+export type PropertyTypes = PropertyType[];
+export const PropertyTypes = S.Array(PropertyType);
 export interface AllowedValue {
   Description?: string;
   Value: string;
@@ -11501,9 +12776,9 @@ export interface Property {
   Description: string;
   Required: boolean;
   DefaultValue?: string;
-  PropertyTypes: PropertyTypes;
-  AllowedValues?: AllowedValues;
-  DataOperationScopes?: DataOperations;
+  PropertyTypes: PropertyType[];
+  AllowedValues?: AllowedValue[];
+  DataOperationScopes?: DataOperation[];
 }
 export const Property = S.suspend(() =>
   S.Struct({
@@ -11521,9 +12796,9 @@ export const PropertiesMap = S.Record({ key: S.String, value: Property });
 export interface AuthConfiguration {
   AuthenticationType: Property;
   SecretArn?: Property;
-  OAuth2Properties?: PropertiesMap;
-  BasicAuthenticationProperties?: PropertiesMap;
-  CustomAuthenticationProperties?: PropertiesMap;
+  OAuth2Properties?: { [key: string]: Property };
+  BasicAuthenticationProperties?: { [key: string]: Property };
+  CustomAuthenticationProperties?: { [key: string]: Property };
 }
 export const AuthConfiguration = S.suspend(() =>
   S.Struct({
@@ -11540,17 +12815,17 @@ export interface InboundIntegration {
   SourceArn: string;
   TargetArn: string;
   IntegrationArn: string;
-  Status: string;
+  Status: IntegrationStatus;
   CreateTime: Date;
   IntegrationConfig?: IntegrationConfig;
-  Errors?: IntegrationErrorList;
+  Errors?: IntegrationError[];
 }
 export const InboundIntegration = S.suspend(() =>
   S.Struct({
     SourceArn: S.String,
     TargetArn: S.String,
     IntegrationArn: S.String,
-    Status: S.String,
+    Status: IntegrationStatus,
     CreateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     IntegrationConfig: S.optional(IntegrationConfig),
     Errors: S.optional(IntegrationErrorList),
@@ -11575,14 +12850,14 @@ export const CatalogImportStatus = S.suspend(() =>
   identifier: "CatalogImportStatus",
 }) as any as S.Schema<CatalogImportStatus>;
 export interface OAuth2Properties {
-  OAuth2GrantType?: string;
+  OAuth2GrantType?: OAuth2GrantType;
   OAuth2ClientApplication?: OAuth2ClientApplication;
   TokenUrl?: string;
-  TokenUrlParametersMap?: TokenUrlParametersMap;
+  TokenUrlParametersMap?: { [key: string]: string };
 }
 export const OAuth2Properties = S.suspend(() =>
   S.Struct({
-    OAuth2GrantType: S.optional(S.String),
+    OAuth2GrantType: S.optional(OAuth2GrantType),
     OAuth2ClientApplication: S.optional(OAuth2ClientApplication),
     TokenUrl: S.optional(S.String),
     TokenUrlParametersMap: S.optional(TokenUrlParametersMap),
@@ -11591,14 +12866,14 @@ export const OAuth2Properties = S.suspend(() =>
   identifier: "OAuth2Properties",
 }) as any as S.Schema<OAuth2Properties>;
 export interface AuthenticationConfiguration {
-  AuthenticationType?: string;
+  AuthenticationType?: AuthenticationType;
   SecretArn?: string;
   KmsKeyArn?: string;
   OAuth2Properties?: OAuth2Properties;
 }
 export const AuthenticationConfiguration = S.suspend(() =>
   S.Struct({
-    AuthenticationType: S.optional(S.String),
+    AuthenticationType: S.optional(AuthenticationType),
     SecretArn: S.optional(S.String),
     KmsKeyArn: S.optional(S.String),
     OAuth2Properties: S.optional(OAuth2Properties),
@@ -11609,28 +12884,28 @@ export const AuthenticationConfiguration = S.suspend(() =>
 export interface Connection {
   Name?: string;
   Description?: string;
-  ConnectionType?: string;
-  MatchCriteria?: MatchCriteria;
-  ConnectionProperties?: ConnectionProperties;
-  SparkProperties?: PropertyMap;
-  AthenaProperties?: PropertyMap;
-  PythonProperties?: PropertyMap;
+  ConnectionType?: ConnectionType;
+  MatchCriteria?: string[];
+  ConnectionProperties?: { [key: string]: string };
+  SparkProperties?: { [key: string]: string };
+  AthenaProperties?: { [key: string]: string };
+  PythonProperties?: { [key: string]: string };
   PhysicalConnectionRequirements?: PhysicalConnectionRequirements;
   CreationTime?: Date;
   LastUpdatedTime?: Date;
   LastUpdatedBy?: string;
-  Status?: string;
+  Status?: ConnectionStatus;
   StatusReason?: string;
   LastConnectionValidationTime?: Date;
   AuthenticationConfiguration?: AuthenticationConfiguration;
   ConnectionSchemaVersion?: number;
-  CompatibleComputeEnvironments?: ComputeEnvironmentList;
+  CompatibleComputeEnvironments?: ComputeEnvironment[];
 }
 export const Connection = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    ConnectionType: S.optional(S.String),
+    ConnectionType: S.optional(ConnectionType),
     MatchCriteria: S.optional(MatchCriteria),
     ConnectionProperties: S.optional(ConnectionProperties),
     SparkProperties: S.optional(PropertyMap),
@@ -11642,7 +12917,7 @@ export const Connection = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     LastUpdatedBy: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ConnectionStatus),
     StatusReason: S.optional(S.String),
     LastConnectionValidationTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -11686,7 +12961,7 @@ export interface StatisticModelResult {
   PredictedValue?: number;
   ActualValue?: number;
   Date?: Date;
-  InclusionAnnotation?: string;
+  InclusionAnnotation?: InclusionAnnotationValue;
 }
 export const StatisticModelResult = S.suspend(() =>
   S.Struct({
@@ -11695,7 +12970,7 @@ export const StatisticModelResult = S.suspend(() =>
     PredictedValue: S.optional(S.Number),
     ActualValue: S.optional(S.Number),
     Date: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    InclusionAnnotation: S.optional(S.String),
+    InclusionAnnotation: S.optional(InclusionAnnotationValue),
   }),
 ).annotations({
   identifier: "StatisticModelResult",
@@ -11813,25 +13088,25 @@ export const OrphanFileDeletionMetrics = S.suspend(() =>
   identifier: "OrphanFileDeletionMetrics",
 }) as any as S.Schema<OrphanFileDeletionMetrics>;
 export interface TableOptimizerRun {
-  eventType?: string;
+  eventType?: TableOptimizerEventType;
   startTimestamp?: Date;
   endTimestamp?: Date;
   metrics?: RunMetrics;
   error?: string;
   compactionMetrics?: CompactionMetrics;
-  compactionStrategy?: string;
+  compactionStrategy?: CompactionStrategy;
   retentionMetrics?: RetentionMetrics;
   orphanFileDeletionMetrics?: OrphanFileDeletionMetrics;
 }
 export const TableOptimizerRun = S.suspend(() =>
   S.Struct({
-    eventType: S.optional(S.String),
+    eventType: S.optional(TableOptimizerEventType),
     startTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     metrics: S.optional(RunMetrics),
     error: S.optional(S.String),
     compactionMetrics: S.optional(CompactionMetrics),
-    compactionStrategy: S.optional(S.String),
+    compactionStrategy: S.optional(CompactionStrategy),
     retentionMetrics: S.optional(RetentionMetrics),
     orphanFileDeletionMetrics: S.optional(OrphanFileDeletionMetrics),
   }),
@@ -11839,24 +13114,24 @@ export const TableOptimizerRun = S.suspend(() =>
   identifier: "TableOptimizerRun",
 }) as any as S.Schema<TableOptimizerRun>;
 export interface TableOptimizer {
-  type?: string;
+  type?: TableOptimizerType;
   configuration?: TableOptimizerConfiguration;
   lastRun?: TableOptimizerRun;
-  configurationSource?: string;
+  configurationSource?: ConfigurationSource;
 }
 export const TableOptimizer = S.suspend(() =>
   S.Struct({
-    type: S.optional(S.String),
+    type: S.optional(TableOptimizerType),
     configuration: S.optional(TableOptimizerConfiguration),
     lastRun: S.optional(TableOptimizerRun),
-    configurationSource: S.optional(S.String),
+    configurationSource: S.optional(ConfigurationSource),
   }),
 ).annotations({
   identifier: "TableOptimizer",
 }) as any as S.Schema<TableOptimizer>;
 export interface UnfilteredPartition {
   Partition?: Partition;
-  AuthorizedColumns?: NameStringList;
+  AuthorizedColumns?: string[];
   IsRegisteredWithLakeFormation?: boolean;
 }
 export const UnfilteredPartition = S.suspend(() =>
@@ -11878,7 +13153,7 @@ export interface Entity {
   IsParentEntity?: boolean;
   Description?: string;
   Category?: string;
-  CustomProperties?: CustomProperties;
+  CustomProperties?: { [key: string]: string };
 }
 export const Entity = S.suspend(() =>
   S.Struct({
@@ -11896,7 +13171,7 @@ export interface RegistryListItem {
   RegistryName?: string;
   RegistryArn?: string;
   Description?: string;
-  Status?: string;
+  Status?: RegistryStatus;
   CreatedTime?: string;
   UpdatedTime?: string;
 }
@@ -11905,7 +13180,7 @@ export const RegistryListItem = S.suspend(() =>
     RegistryName: S.optional(S.String),
     RegistryArn: S.optional(S.String),
     Description: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(RegistryStatus),
     CreatedTime: S.optional(S.String),
     UpdatedTime: S.optional(S.String),
   }),
@@ -11919,7 +13194,7 @@ export interface SchemaListItem {
   SchemaName?: string;
   SchemaArn?: string;
   Description?: string;
-  SchemaStatus?: string;
+  SchemaStatus?: SchemaStatus;
   CreatedTime?: string;
   UpdatedTime?: string;
 }
@@ -11929,7 +13204,7 @@ export const SchemaListItem = S.suspend(() =>
     SchemaName: S.optional(S.String),
     SchemaArn: S.optional(S.String),
     Description: S.optional(S.String),
-    SchemaStatus: S.optional(S.String),
+    SchemaStatus: S.optional(SchemaStatus),
     CreatedTime: S.optional(S.String),
     UpdatedTime: S.optional(S.String),
   }),
@@ -11942,7 +13217,7 @@ export interface SchemaVersionListItem {
   SchemaArn?: string;
   SchemaVersionId?: string;
   VersionNumber?: number;
-  Status?: string;
+  Status?: SchemaVersionStatus;
   CreatedTime?: string;
 }
 export const SchemaVersionListItem = S.suspend(() =>
@@ -11950,7 +13225,7 @@ export const SchemaVersionListItem = S.suspend(() =>
     SchemaArn: S.optional(S.String),
     SchemaVersionId: S.optional(S.String),
     VersionNumber: S.optional(S.Number),
-    Status: S.optional(S.String),
+    Status: S.optional(SchemaVersionStatus),
     CreatedTime: S.optional(S.String),
   }),
 ).annotations({
@@ -11991,7 +13266,7 @@ export const ColumnStatisticsError = S.suspend(() =>
 export type ColumnStatisticsErrors = ColumnStatisticsError[];
 export const ColumnStatisticsErrors = S.Array(ColumnStatisticsError);
 export interface ViewRepresentationInput {
-  Dialect?: string;
+  Dialect?: ViewDialect;
   DialectVersion?: string;
   ViewOriginalText?: string;
   ValidationConnection?: string;
@@ -11999,7 +13274,7 @@ export interface ViewRepresentationInput {
 }
 export const ViewRepresentationInput = S.suspend(() =>
   S.Struct({
-    Dialect: S.optional(S.String),
+    Dialect: S.optional(ViewDialect),
     DialectVersion: S.optional(S.String),
     ViewOriginalText: S.optional(S.String),
     ValidationConnection: S.optional(S.String),
@@ -12010,10 +13285,40 @@ export const ViewRepresentationInput = S.suspend(() =>
 }) as any as S.Schema<ViewRepresentationInput>;
 export type ViewRepresentationInputList = ViewRepresentationInput[];
 export const ViewRepresentationInputList = S.Array(ViewRepresentationInput);
+export type ExecutionStatus = "FAILED" | "STARTED";
+export const ExecutionStatus = S.Literal("FAILED", "STARTED");
+export type BackfillErrorCode =
+  | "ENCRYPTED_PARTITION_ERROR"
+  | "INTERNAL_ERROR"
+  | "INVALID_PARTITION_TYPE_DATA_ERROR"
+  | "MISSING_PARTITION_VALUE_ERROR"
+  | "UNSUPPORTED_PARTITION_CHARACTER_ERROR";
+export const BackfillErrorCode = S.Literal(
+  "ENCRYPTED_PARTITION_ERROR",
+  "INTERNAL_ERROR",
+  "INVALID_PARTITION_TYPE_DATA_ERROR",
+  "MISSING_PARTITION_VALUE_ERROR",
+  "UNSUPPORTED_PARTITION_CHARACTER_ERROR",
+);
 export type BackfillErroredPartitionsList = PartitionValueList[];
 export const BackfillErroredPartitionsList = S.Array(PartitionValueList);
+export type ResourceAction = "UPDATE" | "CREATE";
+export const ResourceAction = S.Literal("UPDATE", "CREATE");
+export type ResourceState =
+  | "QUEUED"
+  | "IN_PROGRESS"
+  | "SUCCESS"
+  | "STOPPED"
+  | "FAILED";
+export const ResourceState = S.Literal(
+  "QUEUED",
+  "IN_PROGRESS",
+  "SUCCESS",
+  "STOPPED",
+  "FAILED",
+);
 export interface BatchDeleteTableResponse {
-  Errors?: TableErrors;
+  Errors?: TableError[];
 }
 export const BatchDeleteTableResponse = S.suspend(() =>
   S.Struct({ Errors: S.optional(TableErrors) }),
@@ -12021,7 +13326,7 @@ export const BatchDeleteTableResponse = S.suspend(() =>
   identifier: "BatchDeleteTableResponse",
 }) as any as S.Schema<BatchDeleteTableResponse>;
 export interface BatchDeleteTableVersionResponse {
-  Errors?: TableVersionErrors;
+  Errors?: TableVersionError[];
 }
 export const BatchDeleteTableVersionResponse = S.suspend(() =>
   S.Struct({ Errors: S.optional(TableVersionErrors) }),
@@ -12029,8 +13334,8 @@ export const BatchDeleteTableVersionResponse = S.suspend(() =>
   identifier: "BatchDeleteTableVersionResponse",
 }) as any as S.Schema<BatchDeleteTableVersionResponse>;
 export interface BatchGetCustomEntityTypesResponse {
-  CustomEntityTypes?: CustomEntityTypes;
-  CustomEntityTypesNotFound?: CustomEntityTypeNames;
+  CustomEntityTypes?: CustomEntityType[];
+  CustomEntityTypesNotFound?: string[];
 }
 export const BatchGetCustomEntityTypesResponse = S.suspend(() =>
   S.Struct({
@@ -12041,8 +13346,8 @@ export const BatchGetCustomEntityTypesResponse = S.suspend(() =>
   identifier: "BatchGetCustomEntityTypesResponse",
 }) as any as S.Schema<BatchGetCustomEntityTypesResponse>;
 export interface BatchGetDataQualityResultResponse {
-  Results: DataQualityResultsList;
-  ResultsNotFound?: DataQualityResultIds;
+  Results: DataQualityResult[];
+  ResultsNotFound?: string[];
 }
 export const BatchGetDataQualityResultResponse = S.suspend(() =>
   S.Struct({
@@ -12053,8 +13358,8 @@ export const BatchGetDataQualityResultResponse = S.suspend(() =>
   identifier: "BatchGetDataQualityResultResponse",
 }) as any as S.Schema<BatchGetDataQualityResultResponse>;
 export interface BatchGetDevEndpointsResponse {
-  DevEndpoints?: DevEndpointList;
-  DevEndpointsNotFound?: DevEndpointNames;
+  DevEndpoints?: DevEndpoint[];
+  DevEndpointsNotFound?: string[];
 }
 export const BatchGetDevEndpointsResponse = S.suspend(() =>
   S.Struct({
@@ -12065,8 +13370,8 @@ export const BatchGetDevEndpointsResponse = S.suspend(() =>
   identifier: "BatchGetDevEndpointsResponse",
 }) as any as S.Schema<BatchGetDevEndpointsResponse>;
 export interface BatchGetJobsResponse {
-  Jobs?: JobList;
-  JobsNotFound?: JobNameList;
+  Jobs?: Job[];
+  JobsNotFound?: string[];
 }
 export const BatchGetJobsResponse = S.suspend(() =>
   S.Struct({
@@ -12077,8 +13382,8 @@ export const BatchGetJobsResponse = S.suspend(() =>
   identifier: "BatchGetJobsResponse",
 }) as any as S.Schema<BatchGetJobsResponse>;
 export interface BatchGetPartitionResponse {
-  Partitions?: PartitionList;
-  UnprocessedKeys?: BatchGetPartitionValueList;
+  Partitions?: Partition[];
+  UnprocessedKeys?: PartitionValueList[];
 }
 export const BatchGetPartitionResponse = S.suspend(() =>
   S.Struct({
@@ -12089,8 +13394,8 @@ export const BatchGetPartitionResponse = S.suspend(() =>
   identifier: "BatchGetPartitionResponse",
 }) as any as S.Schema<BatchGetPartitionResponse>;
 export interface BatchGetTriggersResponse {
-  Triggers?: TriggerList;
-  TriggersNotFound?: TriggerNameList;
+  Triggers?: Trigger[];
+  TriggersNotFound?: string[];
 }
 export const BatchGetTriggersResponse = S.suspend(() =>
   S.Struct({
@@ -12101,8 +13406,8 @@ export const BatchGetTriggersResponse = S.suspend(() =>
   identifier: "BatchGetTriggersResponse",
 }) as any as S.Schema<BatchGetTriggersResponse>;
 export interface BatchStopJobRunResponse {
-  SuccessfulSubmissions?: BatchStopJobRunSuccessfulSubmissionList;
-  Errors?: BatchStopJobRunErrorList;
+  SuccessfulSubmissions?: BatchStopJobRunSuccessfulSubmission[];
+  Errors?: BatchStopJobRunError[];
 }
 export const BatchStopJobRunResponse = S.suspend(() =>
   S.Struct({
@@ -12127,7 +13432,7 @@ export interface CreateCrawlerRequest {
   Description?: string;
   Targets: CrawlerTargets;
   Schedule?: string;
-  Classifiers?: ClassifierNameList;
+  Classifiers?: string[];
   TablePrefix?: string;
   SchemaChangePolicy?: SchemaChangePolicy;
   RecrawlPolicy?: RecrawlPolicy;
@@ -12135,7 +13440,7 @@ export interface CreateCrawlerRequest {
   LakeFormationConfiguration?: LakeFormationConfiguration;
   Configuration?: string;
   CrawlerSecurityConfiguration?: string;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateCrawlerRequest = S.suspend(() =>
   S.Struct({
@@ -12167,7 +13472,7 @@ export const CreateCrawlerResponse = S.suspend(() => S.Struct({})).annotations({
 export interface CreateDatabaseRequest {
   CatalogId?: string;
   DatabaseInput: DatabaseInput;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateDatabaseRequest = S.suspend(() =>
   S.Struct({
@@ -12195,13 +13500,13 @@ export const CreateDataQualityRulesetResponse = S.suspend(() =>
 export interface CreateDevEndpointResponse {
   EndpointName?: string;
   Status?: string;
-  SecurityGroupIds?: StringList;
+  SecurityGroupIds?: string[];
   SubnetId?: string;
   RoleArn?: string;
   YarnEndpointAddress?: string;
   ZeppelinRemoteSparkInterpreterPort?: number;
   NumberOfNodes?: number;
-  WorkerType?: string;
+  WorkerType?: WorkerType;
   GlueVersion?: string;
   NumberOfWorkers?: number;
   AvailabilityZone?: string;
@@ -12211,7 +13516,7 @@ export interface CreateDevEndpointResponse {
   FailureReason?: string;
   SecurityConfiguration?: string;
   CreatedTimestamp?: Date;
-  Arguments?: MapValue;
+  Arguments?: { [key: string]: string };
 }
 export const CreateDevEndpointResponse = S.suspend(() =>
   S.Struct({
@@ -12223,7 +13528,7 @@ export const CreateDevEndpointResponse = S.suspend(() =>
     YarnEndpointAddress: S.optional(S.String),
     ZeppelinRemoteSparkInterpreterPort: S.optional(S.Number),
     NumberOfNodes: S.optional(S.Number),
-    WorkerType: S.optional(S.String),
+    WorkerType: S.optional(WorkerType),
     GlueVersion: S.optional(S.String),
     NumberOfWorkers: S.optional(S.Number),
     AvailabilityZone: S.optional(S.String),
@@ -12247,8 +13552,8 @@ export interface CreateIntegrationRequest {
   Description?: string;
   DataFilter?: string;
   KmsKeyId?: string;
-  AdditionalEncryptionContext?: IntegrationAdditionalEncryptionContextMap;
-  Tags?: IntegrationTagsList;
+  AdditionalEncryptionContext?: { [key: string]: string };
+  Tags?: Tag[];
   IntegrationConfig?: IntegrationConfig;
 }
 export const CreateIntegrationRequest = S.suspend(() =>
@@ -12313,16 +13618,16 @@ export const CreateIntegrationTablePropertiesResponse = S.suspend(() =>
 export interface CreateMLTransformRequest {
   Name: string;
   Description?: string;
-  InputRecordTables: GlueTables;
+  InputRecordTables: GlueTable[];
   Parameters: TransformParameters;
   Role: string;
   GlueVersion?: string;
   MaxCapacity?: number;
-  WorkerType?: string;
+  WorkerType?: WorkerType;
   NumberOfWorkers?: number;
   Timeout?: number;
   MaxRetries?: number;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
   TransformEncryption?: TransformEncryption;
 }
 export const CreateMLTransformRequest = S.suspend(() =>
@@ -12334,7 +13639,7 @@ export const CreateMLTransformRequest = S.suspend(() =>
     Role: S.String,
     GlueVersion: S.optional(S.String),
     MaxCapacity: S.optional(S.Number),
-    WorkerType: S.optional(S.String),
+    WorkerType: S.optional(WorkerType),
     NumberOfWorkers: S.optional(S.Number),
     Timeout: S.optional(S.Number),
     MaxRetries: S.optional(S.Number),
@@ -12352,15 +13657,15 @@ export interface CreateSchemaResponse {
   SchemaName?: string;
   SchemaArn?: string;
   Description?: string;
-  DataFormat?: string;
-  Compatibility?: string;
+  DataFormat?: DataFormat;
+  Compatibility?: Compatibility;
   SchemaCheckpoint?: number;
   LatestSchemaVersion?: number;
   NextSchemaVersion?: number;
-  SchemaStatus?: string;
-  Tags?: TagsMap;
+  SchemaStatus?: SchemaStatus;
+  Tags?: { [key: string]: string };
   SchemaVersionId?: string;
-  SchemaVersionStatus?: string;
+  SchemaVersionStatus?: SchemaVersionStatus;
 }
 export const CreateSchemaResponse = S.suspend(() =>
   S.Struct({
@@ -12369,29 +13674,29 @@ export const CreateSchemaResponse = S.suspend(() =>
     SchemaName: S.optional(S.String),
     SchemaArn: S.optional(S.String),
     Description: S.optional(S.String),
-    DataFormat: S.optional(S.String),
-    Compatibility: S.optional(S.String),
+    DataFormat: S.optional(DataFormat),
+    Compatibility: S.optional(Compatibility),
     SchemaCheckpoint: S.optional(S.Number),
     LatestSchemaVersion: S.optional(S.Number),
     NextSchemaVersion: S.optional(S.Number),
-    SchemaStatus: S.optional(S.String),
+    SchemaStatus: S.optional(SchemaStatus),
     Tags: S.optional(TagsMap),
     SchemaVersionId: S.optional(S.String),
-    SchemaVersionStatus: S.optional(S.String),
+    SchemaVersionStatus: S.optional(SchemaVersionStatus),
   }),
 ).annotations({
   identifier: "CreateSchemaResponse",
 }) as any as S.Schema<CreateSchemaResponse>;
 export interface CreateScriptRequest {
-  DagNodes?: DagNodes;
-  DagEdges?: DagEdges;
-  Language?: string;
+  DagNodes?: CodeGenNode[];
+  DagEdges?: CodeGenEdge[];
+  Language?: Language;
 }
 export const CreateScriptRequest = S.suspend(() =>
   S.Struct({
     DagNodes: S.optional(DagNodes),
     DagEdges: S.optional(DagEdges),
-    Language: S.optional(S.String),
+    Language: S.optional(Language),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -12422,23 +13727,25 @@ export const CreateSessionResponse = S.suspend(() =>
 }) as any as S.Schema<CreateSessionResponse>;
 export type IntegerList = number[];
 export const IntegerList = S.Array(S.Number);
+export type IcebergStructTypeEnum = "struct";
+export const IcebergStructTypeEnum = S.Literal("struct");
 export interface CreateTriggerRequest {
   Name: string;
   WorkflowName?: string;
-  Type: string;
+  Type: TriggerType;
   Schedule?: string;
   Predicate?: Predicate;
-  Actions: ActionList;
+  Actions: Action[];
   Description?: string;
   StartOnCreation?: boolean;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
   EventBatchingCondition?: EventBatchingCondition;
 }
 export const CreateTriggerRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
     WorkflowName: S.optional(S.String),
-    Type: S.String,
+    Type: TriggerType,
     Schedule: S.optional(S.String),
     Predicate: S.optional(Predicate),
     Actions: ActionList,
@@ -12489,11 +13796,11 @@ export interface DeleteIntegrationResponse {
   Description?: string;
   IntegrationArn: string;
   KmsKeyId?: string;
-  AdditionalEncryptionContext?: IntegrationAdditionalEncryptionContextMap;
-  Tags?: IntegrationTagsList;
-  Status: string;
+  AdditionalEncryptionContext?: { [key: string]: string };
+  Tags?: Tag[];
+  Status: IntegrationStatus;
   CreateTime: Date;
-  Errors?: IntegrationErrorList;
+  Errors?: IntegrationError[];
   DataFilter?: string;
 }
 export const DeleteIntegrationResponse = S.suspend(() =>
@@ -12508,7 +13815,7 @@ export const DeleteIntegrationResponse = S.suspend(() =>
       IntegrationAdditionalEncryptionContextMap,
     ),
     Tags: S.optional(IntegrationTagsList),
-    Status: S.String,
+    Status: IntegrationStatus,
     CreateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     Errors: S.optional(IntegrationErrorList),
     DataFilter: S.optional(S.String),
@@ -12519,19 +13826,19 @@ export const DeleteIntegrationResponse = S.suspend(() =>
 export interface DeleteSchemaResponse {
   SchemaArn?: string;
   SchemaName?: string;
-  Status?: string;
+  Status?: SchemaStatus;
 }
 export const DeleteSchemaResponse = S.suspend(() =>
   S.Struct({
     SchemaArn: S.optional(S.String),
     SchemaName: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(SchemaStatus),
   }),
 ).annotations({
   identifier: "DeleteSchemaResponse",
 }) as any as S.Schema<DeleteSchemaResponse>;
 export interface DescribeInboundIntegrationsResponse {
-  InboundIntegrations?: InboundIntegrationsList;
+  InboundIntegrations?: InboundIntegration[];
   Marker?: string;
 }
 export const DescribeInboundIntegrationsResponse = S.suspend(() =>
@@ -12559,8 +13866,8 @@ export const GetCatalogImportStatusResponse = S.suspend(() =>
   identifier: "GetCatalogImportStatusResponse",
 }) as any as S.Schema<GetCatalogImportStatusResponse>;
 export interface GetColumnStatisticsForPartitionResponse {
-  ColumnStatisticsList?: ColumnStatisticsList;
-  Errors?: ColumnErrors;
+  ColumnStatisticsList?: ColumnStatistics[];
+  Errors?: ColumnError[];
 }
 export const GetColumnStatisticsForPartitionResponse = S.suspend(() =>
   S.Struct({
@@ -12579,7 +13886,7 @@ export const GetColumnStatisticsTaskRunResponse = S.suspend(() =>
   identifier: "GetColumnStatisticsTaskRunResponse",
 }) as any as S.Schema<GetColumnStatisticsTaskRunResponse>;
 export interface GetConnectionsResponse {
-  ConnectionList?: ConnectionList;
+  ConnectionList?: Connection[];
   NextToken?: string;
 }
 export const GetConnectionsResponse = S.suspend(() =>
@@ -12591,7 +13898,7 @@ export const GetConnectionsResponse = S.suspend(() =>
   identifier: "GetConnectionsResponse",
 }) as any as S.Schema<GetConnectionsResponse>;
 export interface GetCrawlerMetricsResponse {
-  CrawlerMetricsList?: CrawlerMetricsList;
+  CrawlerMetricsList?: CrawlerMetrics[];
   NextToken?: string;
 }
 export const GetCrawlerMetricsResponse = S.suspend(() =>
@@ -12612,7 +13919,7 @@ export const GetDatabaseResponse = S.suspend(() =>
 }) as any as S.Schema<GetDatabaseResponse>;
 export interface GetDataQualityModelResultResponse {
   CompletedOn?: Date;
-  Model?: StatisticModelResults;
+  Model?: StatisticModelResult[];
 }
 export const GetDataQualityModelResultResponse = S.suspend(() =>
   S.Struct({
@@ -12623,7 +13930,7 @@ export const GetDataQualityModelResultResponse = S.suspend(() =>
   identifier: "GetDataQualityModelResultResponse",
 }) as any as S.Schema<GetDataQualityModelResultResponse>;
 export interface GetEntityRecordsResponse {
-  Records?: Records;
+  Records?: any[];
   NextToken?: string;
 }
 export const GetEntityRecordsResponse = S.suspend(() =>
@@ -12640,7 +13947,7 @@ export const GetJobBookmarkResponse = S.suspend(() =>
   identifier: "GetJobBookmarkResponse",
 }) as any as S.Schema<GetJobBookmarkResponse>;
 export interface GetMappingResponse {
-  Mapping: MappingList;
+  Mapping: MappingEntry[];
 }
 export const GetMappingResponse = S.suspend(() =>
   S.Struct({ Mapping: MappingList }),
@@ -12666,7 +13973,7 @@ export const GetMLTransformsRequest = S.suspend(() =>
   identifier: "GetMLTransformsRequest",
 }) as any as S.Schema<GetMLTransformsRequest>;
 export interface GetPartitionsResponse {
-  Partitions?: PartitionList;
+  Partitions?: Partition[];
   NextToken?: string;
 }
 export const GetPartitionsResponse = S.suspend(() =>
@@ -12690,7 +13997,7 @@ export const GetPlanResponse = S.suspend(() =>
   identifier: "GetPlanResponse",
 }) as any as S.Schema<GetPlanResponse>;
 export interface GetResourcePoliciesResponse {
-  GetResourcePoliciesResponseList?: GetResourcePoliciesResponseList;
+  GetResourcePoliciesResponseList?: GluePolicy[];
   NextToken?: string;
 }
 export const GetResourcePoliciesResponse = S.suspend(() =>
@@ -12706,20 +14013,20 @@ export const GetResourcePoliciesResponse = S.suspend(() =>
 export interface GetSchemaVersionResponse {
   SchemaVersionId?: string;
   SchemaDefinition?: string;
-  DataFormat?: string;
+  DataFormat?: DataFormat;
   SchemaArn?: string;
   VersionNumber?: number;
-  Status?: string;
+  Status?: SchemaVersionStatus;
   CreatedTime?: string;
 }
 export const GetSchemaVersionResponse = S.suspend(() =>
   S.Struct({
     SchemaVersionId: S.optional(S.String),
     SchemaDefinition: S.optional(S.String),
-    DataFormat: S.optional(S.String),
+    DataFormat: S.optional(DataFormat),
     SchemaArn: S.optional(S.String),
     VersionNumber: S.optional(S.Number),
-    Status: S.optional(S.String),
+    Status: S.optional(SchemaVersionStatus),
     CreatedTime: S.optional(S.String),
   }),
 ).annotations({
@@ -12778,9 +14085,9 @@ export interface GetUnfilteredPartitionMetadataRequest {
   CatalogId: string;
   DatabaseName: string;
   TableName: string;
-  PartitionValues: ValueStringList;
+  PartitionValues: string[];
   AuditContext?: AuditContext;
-  SupportedPermissionTypes: PermissionTypeList;
+  SupportedPermissionTypes: PermissionType[];
   QuerySessionContext?: QuerySessionContext;
 }
 export const GetUnfilteredPartitionMetadataRequest = S.suspend(() =>
@@ -12800,7 +14107,7 @@ export const GetUnfilteredPartitionMetadataRequest = S.suspend(() =>
   identifier: "GetUnfilteredPartitionMetadataRequest",
 }) as any as S.Schema<GetUnfilteredPartitionMetadataRequest>;
 export interface GetUnfilteredPartitionsMetadataResponse {
-  UnfilteredPartitions?: UnfilteredPartitionList;
+  UnfilteredPartitions?: UnfilteredPartition[];
   NextToken?: string;
 }
 export const GetUnfilteredPartitionsMetadataResponse = S.suspend(() =>
@@ -12820,7 +14127,7 @@ export const GetUserDefinedFunctionResponse = S.suspend(() =>
   identifier: "GetUserDefinedFunctionResponse",
 }) as any as S.Schema<GetUserDefinedFunctionResponse>;
 export interface ListEntitiesResponse {
-  Entities?: EntityList;
+  Entities?: Entity[];
   NextToken?: string;
 }
 export const ListEntitiesResponse = S.suspend(() =>
@@ -12832,7 +14139,7 @@ export const ListEntitiesResponse = S.suspend(() =>
   identifier: "ListEntitiesResponse",
 }) as any as S.Schema<ListEntitiesResponse>;
 export interface ListRegistriesResponse {
-  Registries?: RegistryListDefinition;
+  Registries?: RegistryListItem[];
   NextToken?: string;
 }
 export const ListRegistriesResponse = S.suspend(() =>
@@ -12844,7 +14151,7 @@ export const ListRegistriesResponse = S.suspend(() =>
   identifier: "ListRegistriesResponse",
 }) as any as S.Schema<ListRegistriesResponse>;
 export interface ListSchemasResponse {
-  Schemas?: SchemaListDefinition;
+  Schemas?: SchemaListItem[];
   NextToken?: string;
 }
 export const ListSchemasResponse = S.suspend(() =>
@@ -12856,7 +14163,7 @@ export const ListSchemasResponse = S.suspend(() =>
   identifier: "ListSchemasResponse",
 }) as any as S.Schema<ListSchemasResponse>;
 export interface ListSchemaVersionsResponse {
-  Schemas?: SchemaVersionList;
+  Schemas?: SchemaVersionListItem[];
   NextToken?: string;
 }
 export const ListSchemaVersionsResponse = S.suspend(() =>
@@ -12868,7 +14175,7 @@ export const ListSchemaVersionsResponse = S.suspend(() =>
   identifier: "ListSchemaVersionsResponse",
 }) as any as S.Schema<ListSchemaVersionsResponse>;
 export interface ListUsageProfilesResponse {
-  Profiles?: UsageProfileDefinitionList;
+  Profiles?: UsageProfileDefinition[];
   NextToken?: string;
 }
 export const ListUsageProfilesResponse = S.suspend(() =>
@@ -12931,7 +14238,7 @@ export const TableList = S.Array(
 );
 export interface SearchTablesResponse {
   NextToken?: string;
-  TableList?: TableList;
+  TableList?: Table[];
 }
 export const SearchTablesResponse = S.suspend(() =>
   S.Struct({
@@ -12974,7 +14281,7 @@ export const StartDataQualityRulesetEvaluationRunResponse = S.suspend(() =>
   identifier: "StartDataQualityRulesetEvaluationRunResponse",
 }) as any as S.Schema<StartDataQualityRulesetEvaluationRunResponse>;
 export interface UpdateColumnStatisticsForTableResponse {
-  Errors?: ColumnStatisticsErrors;
+  Errors?: ColumnStatisticsError[];
 }
 export const UpdateColumnStatisticsForTableResponse = S.suspend(() =>
   S.Struct({ Errors: S.optional(ColumnStatisticsErrors) }),
@@ -12989,6 +14296,31 @@ export const UpdateJobResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateJobResponse",
 }) as any as S.Schema<UpdateJobResponse>;
+export type IcebergUpdateAction =
+  | "add-schema"
+  | "set-current-schema"
+  | "add-spec"
+  | "set-default-spec"
+  | "add-sort-order"
+  | "set-default-sort-order"
+  | "set-location"
+  | "set-properties"
+  | "remove-properties"
+  | "add-encryption-key"
+  | "remove-encryption-key";
+export const IcebergUpdateAction = S.Literal(
+  "add-schema",
+  "set-current-schema",
+  "add-spec",
+  "set-default-spec",
+  "add-sort-order",
+  "set-default-sort-order",
+  "set-location",
+  "set-properties",
+  "remove-properties",
+  "add-encryption-key",
+  "remove-encryption-key",
+);
 export interface UpdateTriggerResponse {
   Trigger?: Trigger;
 }
@@ -13000,13 +14332,13 @@ export const UpdateTriggerResponse = S.suspend(() =>
 export interface ViewDefinitionInput {
   IsProtected?: boolean;
   Definer?: string;
-  Representations?: ViewRepresentationInputList;
+  Representations?: ViewRepresentationInput[];
   ViewVersionId?: number;
   ViewVersionToken?: string;
   RefreshSeconds?: number;
-  LastRefreshType?: string;
-  SubObjects?: ViewSubObjectsList;
-  SubObjectVersionIds?: ViewSubObjectVersionIdsList;
+  LastRefreshType?: LastRefreshType;
+  SubObjects?: string[];
+  SubObjectVersionIds?: number[];
 }
 export const ViewDefinitionInput = S.suspend(() =>
   S.Struct({
@@ -13016,7 +14348,7 @@ export const ViewDefinitionInput = S.suspend(() =>
     ViewVersionId: S.optional(S.Number),
     ViewVersionToken: S.optional(S.String),
     RefreshSeconds: S.optional(S.Number),
-    LastRefreshType: S.optional(S.String),
+    LastRefreshType: S.optional(LastRefreshType),
     SubObjects: S.optional(ViewSubObjectsList),
     SubObjectVersionIds: S.optional(ViewSubObjectVersionIdsList),
   }),
@@ -13034,14 +14366,14 @@ export const ErrorDetails = S.suspend(() =>
   }),
 ).annotations({ identifier: "ErrorDetails" }) as any as S.Schema<ErrorDetails>;
 export interface ExecutionAttempt {
-  Status?: string;
+  Status?: ExecutionStatus;
   ColumnStatisticsTaskRunId?: string;
   ExecutionTimestamp?: Date;
   ErrorMessage?: string;
 }
 export const ExecutionAttempt = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(ExecutionStatus),
     ColumnStatisticsTaskRunId: S.optional(S.String),
     ExecutionTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -13105,12 +14437,12 @@ export const KeySchemaElement = S.suspend(() =>
 export type KeySchemaElementList = KeySchemaElement[];
 export const KeySchemaElementList = S.Array(KeySchemaElement);
 export interface BackfillError {
-  Code?: string;
-  Partitions?: BackfillErroredPartitionsList;
+  Code?: BackfillErrorCode;
+  Partitions?: PartitionValueList[];
 }
 export const BackfillError = S.suspend(() =>
   S.Struct({
-    Code: S.optional(S.String),
+    Code: S.optional(BackfillErrorCode),
     Partitions: S.optional(BackfillErroredPartitionsList),
   }),
 ).annotations({
@@ -13136,6 +14468,17 @@ export const ConnectionTypeVariant = S.suspend(() =>
 }) as any as S.Schema<ConnectionTypeVariant>;
 export type ConnectionTypeVariantList = ConnectionTypeVariant[];
 export const ConnectionTypeVariantList = S.Array(ConnectionTypeVariant);
+export type CrawlerHistoryState =
+  | "RUNNING"
+  | "COMPLETED"
+  | "FAILED"
+  | "STOPPED";
+export const CrawlerHistoryState = S.Literal(
+  "RUNNING",
+  "COMPLETED",
+  "FAILED",
+  "STOPPED",
+);
 export interface RunIdentifier {
   RunId?: string;
   JobRunId?: string;
@@ -13151,12 +14494,12 @@ export const StatisticPropertiesMap = S.Record({
   value: S.String,
 });
 export interface TimestampedInclusionAnnotation {
-  Value?: string;
+  Value?: InclusionAnnotationValue;
   LastModifiedOn?: Date;
 }
 export const TimestampedInclusionAnnotation = S.suspend(() =>
   S.Struct({
-    Value: S.optional(S.String),
+    Value: S.optional(InclusionAnnotationValue),
     LastModifiedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({
@@ -13164,11 +14507,11 @@ export const TimestampedInclusionAnnotation = S.suspend(() =>
 }) as any as S.Schema<TimestampedInclusionAnnotation>;
 export interface Mapping {
   ToKey?: string;
-  FromPath?: EnclosedInStringProperties;
+  FromPath?: string[];
   FromType?: string;
   ToType?: string;
   Dropped?: boolean;
-  Children?: Mappings;
+  Children?: Mapping[];
 }
 export const Mapping = S.suspend(() =>
   S.Struct({
@@ -13187,7 +14530,7 @@ export const StringToStringMap = S.Record({ key: S.String, value: S.String });
 export type ErrorByName = { [key: string]: ErrorDetail };
 export const ErrorByName = S.Record({ key: S.String, value: ErrorDetail });
 export interface PartitionError {
-  PartitionValues?: ValueStringList;
+  PartitionValues?: string[];
   ErrorDetail?: ErrorDetail;
 }
 export const PartitionError = S.suspend(() =>
@@ -13225,7 +14568,7 @@ export interface BatchGetTableOptimizerError {
   catalogId?: string;
   databaseName?: string;
   tableName?: string;
-  type?: string;
+  type?: TableOptimizerType;
 }
 export const BatchGetTableOptimizerError = S.suspend(() =>
   S.Struct({
@@ -13233,7 +14576,7 @@ export const BatchGetTableOptimizerError = S.suspend(() =>
     catalogId: S.optional(S.String),
     databaseName: S.optional(S.String),
     tableName: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(TableOptimizerType),
   }),
 ).annotations({
   identifier: "BatchGetTableOptimizerError",
@@ -13259,7 +14602,7 @@ export const AnnotationError = S.suspend(() =>
 export type AnnotationErrorList = AnnotationError[];
 export const AnnotationErrorList = S.Array(AnnotationError);
 export interface BatchUpdatePartitionFailureEntry {
-  PartitionValueList?: BoundedPartitionValueList;
+  PartitionValueList?: string[];
   ErrorDetail?: ErrorDetail;
 }
 export const BatchUpdatePartitionFailureEntry = S.suspend(() =>
@@ -13283,11 +14626,11 @@ export interface TableInput {
   LastAnalyzedTime?: Date;
   Retention?: number;
   StorageDescriptor?: StorageDescriptor;
-  PartitionKeys?: ColumnList;
+  PartitionKeys?: Column[];
   ViewOriginalText?: string;
   ViewExpandedText?: string;
   TableType?: string;
-  Parameters?: ParametersMap;
+  Parameters?: { [key: string]: string };
   TargetTable?: TableIdentifier;
   ViewDefinition?: ViewDefinitionInput;
 }
@@ -13311,6 +14654,10 @@ export const TableInput = S.suspend(() =>
     ViewDefinition: S.optional(ViewDefinitionInput),
   }),
 ).annotations({ identifier: "TableInput" }) as any as S.Schema<TableInput>;
+export type IcebergSortDirection = "asc" | "desc";
+export const IcebergSortDirection = S.Literal("asc", "desc");
+export type IcebergNullOrder = "nulls-first" | "nulls-last";
+export const IcebergNullOrder = S.Literal("nulls-first", "nulls-last");
 export interface SchemaVersionErrorItem {
   VersionNumber?: number;
   ErrorDetails?: ErrorDetails;
@@ -13329,7 +14676,7 @@ export interface Field {
   FieldName?: string;
   Label?: string;
   Description?: string;
-  FieldType?: string;
+  FieldType?: FieldDataType;
   IsPrimaryKey?: boolean;
   IsNullable?: boolean;
   IsRetrievable?: boolean;
@@ -13339,18 +14686,18 @@ export interface Field {
   IsUpdateable?: boolean;
   IsUpsertable?: boolean;
   IsDefaultOnCreate?: boolean;
-  SupportedValues?: ListOfString;
-  SupportedFilterOperators?: FieldFilterOperatorsList;
+  SupportedValues?: string[];
+  SupportedFilterOperators?: FieldFilterOperator[];
   ParentField?: string;
   NativeDataType?: string;
-  CustomProperties?: CustomProperties;
+  CustomProperties?: { [key: string]: string };
 }
 export const Field = S.suspend(() =>
   S.Struct({
     FieldName: S.optional(S.String),
     Label: S.optional(S.String),
     Description: S.optional(S.String),
-    FieldType: S.optional(S.String),
+    FieldType: S.optional(FieldDataType),
     IsPrimaryKey: S.optional(S.Boolean),
     IsNullable: S.optional(S.Boolean),
     IsRetrievable: S.optional(S.Boolean),
@@ -13376,12 +14723,12 @@ export interface Integration {
   IntegrationName: string;
   IntegrationArn: string;
   KmsKeyId?: string;
-  AdditionalEncryptionContext?: IntegrationAdditionalEncryptionContextMap;
-  Tags?: IntegrationTagsList;
-  Status: string;
+  AdditionalEncryptionContext?: { [key: string]: string };
+  Tags?: Tag[];
+  Status: IntegrationStatus;
   CreateTime: Date;
   IntegrationConfig?: IntegrationConfig;
-  Errors?: IntegrationErrorList;
+  Errors?: IntegrationError[];
   DataFilter?: string;
 }
 export const Integration = S.suspend(() =>
@@ -13396,7 +14743,7 @@ export const Integration = S.suspend(() =>
       IntegrationAdditionalEncryptionContextMap,
     ),
     Tags: S.optional(IntegrationTagsList),
-    Status: S.String,
+    Status: IntegrationStatus,
     CreateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     IntegrationConfig: S.optional(IntegrationConfig),
     Errors: S.optional(IntegrationErrorList),
@@ -13409,13 +14756,13 @@ export interface ColumnStatisticsTaskSettings {
   DatabaseName?: string;
   TableName?: string;
   Schedule?: Schedule;
-  ColumnNameList?: ColumnNameList;
+  ColumnNameList?: string[];
   CatalogID?: string;
   Role?: string;
   SampleSize?: number;
   SecurityConfiguration?: string;
-  ScheduleType?: string;
-  SettingSource?: string;
+  ScheduleType?: ScheduleType;
+  SettingSource?: SettingSource;
   LastExecutionAttempt?: ExecutionAttempt;
 }
 export const ColumnStatisticsTaskSettings = S.suspend(() =>
@@ -13428,15 +14775,15 @@ export const ColumnStatisticsTaskSettings = S.suspend(() =>
     Role: S.optional(S.String),
     SampleSize: S.optional(S.Number),
     SecurityConfiguration: S.optional(S.String),
-    ScheduleType: S.optional(S.String),
-    SettingSource: S.optional(S.String),
+    ScheduleType: S.optional(ScheduleType),
+    SettingSource: S.optional(SettingSource),
     LastExecutionAttempt: S.optional(ExecutionAttempt),
   }),
 ).annotations({
   identifier: "ColumnStatisticsTaskSettings",
 }) as any as S.Schema<ColumnStatisticsTaskSettings>;
 export interface TaskRunProperties {
-  TaskType?: string;
+  TaskType?: TaskType;
   ImportLabelsTaskRunProperties?: ImportLabelsTaskRunProperties;
   ExportLabelsTaskRunProperties?: ExportLabelsTaskRunProperties;
   LabelingSetGenerationTaskRunProperties?: LabelingSetGenerationTaskRunProperties;
@@ -13444,7 +14791,7 @@ export interface TaskRunProperties {
 }
 export const TaskRunProperties = S.suspend(() =>
   S.Struct({
-    TaskType: S.optional(S.String),
+    TaskType: S.optional(TaskType),
     ImportLabelsTaskRunProperties: S.optional(ImportLabelsTaskRunProperties),
     ExportLabelsTaskRunProperties: S.optional(ExportLabelsTaskRunProperties),
     LabelingSetGenerationTaskRunProperties: S.optional(
@@ -13458,7 +14805,7 @@ export const TaskRunProperties = S.suspend(() =>
 export interface TaskRun {
   TransformId?: string;
   TaskRunId?: string;
-  Status?: string;
+  Status?: TaskStatusType;
   LogGroupName?: string;
   Properties?: TaskRunProperties;
   ErrorString?: string;
@@ -13471,7 +14818,7 @@ export const TaskRun = S.suspend(() =>
   S.Struct({
     TransformId: S.optional(S.String),
     TaskRunId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(TaskStatusType),
     LogGroupName: S.optional(S.String),
     Properties: S.optional(TaskRunProperties),
     ErrorString: S.optional(S.String),
@@ -13485,15 +14832,15 @@ export type TaskRunList = TaskRun[];
 export const TaskRunList = S.Array(TaskRun);
 export interface PartitionIndexDescriptor {
   IndexName: string;
-  Keys: KeySchemaElementList;
-  IndexStatus: string;
-  BackfillErrors?: BackfillErrors;
+  Keys: KeySchemaElement[];
+  IndexStatus: PartitionIndexStatus;
+  BackfillErrors?: BackfillError[];
 }
 export const PartitionIndexDescriptor = S.suspend(() =>
   S.Struct({
     IndexName: S.String,
     Keys: KeySchemaElementList,
-    IndexStatus: S.String,
+    IndexStatus: PartitionIndexStatus,
     BackfillErrors: S.optional(BackfillErrors),
   }),
 ).annotations({
@@ -13516,18 +14863,18 @@ export const ColumnRowFilter = S.suspend(() =>
 export type ColumnRowFilterList = ColumnRowFilter[];
 export const ColumnRowFilterList = S.Array(ColumnRowFilter);
 export interface ConnectionTypeBrief {
-  ConnectionType?: string;
+  ConnectionType?: ConnectionType;
   DisplayName?: string;
   Vendor?: string;
   Description?: string;
-  Categories?: ListOfString;
+  Categories?: string[];
   Capabilities?: Capabilities;
   LogoUrl?: string;
-  ConnectionTypeVariants?: ConnectionTypeVariantList;
+  ConnectionTypeVariants?: ConnectionTypeVariant[];
 }
 export const ConnectionTypeBrief = S.suspend(() =>
   S.Struct({
-    ConnectionType: S.optional(S.String),
+    ConnectionType: S.optional(ConnectionType),
     DisplayName: S.optional(S.String),
     Vendor: S.optional(S.String),
     Description: S.optional(S.String),
@@ -13543,7 +14890,7 @@ export type ConnectionTypeList = ConnectionTypeBrief[];
 export const ConnectionTypeList = S.Array(ConnectionTypeBrief);
 export interface CrawlerHistory {
   CrawlId?: string;
-  State?: string;
+  State?: CrawlerHistoryState;
   StartTime?: Date;
   EndTime?: Date;
   Summary?: string;
@@ -13556,7 +14903,7 @@ export interface CrawlerHistory {
 export const CrawlerHistory = S.suspend(() =>
   S.Struct({
     CrawlId: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(CrawlerHistoryState),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Summary: S.optional(S.String),
@@ -13595,14 +14942,14 @@ export const DataQualityResultDescriptionList = S.Array(
 );
 export interface DataQualityRuleRecommendationRunDescription {
   RunId?: string;
-  Status?: string;
+  Status?: TaskStatusType;
   StartedOn?: Date;
   DataSource?: DataSource;
 }
 export const DataQualityRuleRecommendationRunDescription = S.suspend(() =>
   S.Struct({
     RunId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(TaskStatusType),
     StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DataSource: S.optional(DataSource),
   }),
@@ -13616,14 +14963,14 @@ export const DataQualityRuleRecommendationRunList = S.Array(
 );
 export interface DataQualityRulesetEvaluationRunDescription {
   RunId?: string;
-  Status?: string;
+  Status?: TaskStatusType;
   StartedOn?: Date;
   DataSource?: DataSource;
 }
 export const DataQualityRulesetEvaluationRunDescription = S.suspend(() =>
   S.Struct({
     RunId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(TaskStatusType),
     StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DataSource: S.optional(DataSource),
   }),
@@ -13685,10 +15032,10 @@ export interface StatisticSummary {
   RunIdentifier?: RunIdentifier;
   StatisticName?: string;
   DoubleValue?: number;
-  EvaluationLevel?: string;
-  ColumnsReferenced?: ColumnNameList;
-  ReferencedDatasets?: ReferenceDatasetsList;
-  StatisticProperties?: StatisticPropertiesMap;
+  EvaluationLevel?: StatisticEvaluationLevel;
+  ColumnsReferenced?: string[];
+  ReferencedDatasets?: string[];
+  StatisticProperties?: { [key: string]: string };
   RecordedOn?: Date;
   InclusionAnnotation?: TimestampedInclusionAnnotation;
 }
@@ -13699,7 +15046,7 @@ export const StatisticSummary = S.suspend(() =>
     RunIdentifier: S.optional(RunIdentifier),
     StatisticName: S.optional(S.String),
     DoubleValue: S.optional(S.Number),
-    EvaluationLevel: S.optional(S.String),
+    EvaluationLevel: S.optional(StatisticEvaluationLevel),
     ColumnsReferenced: S.optional(ColumnNameList),
     ReferencedDatasets: S.optional(ReferenceDatasetsList),
     StatisticProperties: S.optional(StatisticPropertiesMap),
@@ -13781,8 +15128,8 @@ export const OtherMetadataValueListItem = S.suspend(() =>
 export type OtherMetadataValueList = OtherMetadataValueListItem[];
 export const OtherMetadataValueList = S.Array(OtherMetadataValueListItem);
 export interface BatchDeleteConnectionResponse {
-  Succeeded?: NameStringList;
-  Errors?: ErrorByName;
+  Succeeded?: string[];
+  Errors?: { [key: string]: ErrorDetail };
 }
 export const BatchDeleteConnectionResponse = S.suspend(() =>
   S.Struct({
@@ -13793,7 +15140,7 @@ export const BatchDeleteConnectionResponse = S.suspend(() =>
   identifier: "BatchDeleteConnectionResponse",
 }) as any as S.Schema<BatchDeleteConnectionResponse>;
 export interface BatchDeletePartitionResponse {
-  Errors?: PartitionErrors;
+  Errors?: PartitionError[];
 }
 export const BatchDeletePartitionResponse = S.suspend(() =>
   S.Struct({ Errors: S.optional(PartitionErrors) }),
@@ -13801,8 +15148,8 @@ export const BatchDeletePartitionResponse = S.suspend(() =>
   identifier: "BatchDeletePartitionResponse",
 }) as any as S.Schema<BatchDeletePartitionResponse>;
 export interface BatchGetBlueprintsResponse {
-  Blueprints?: Blueprints;
-  MissingBlueprints?: BlueprintNames;
+  Blueprints?: Blueprint[];
+  MissingBlueprints?: string[];
 }
 export const BatchGetBlueprintsResponse = S.suspend(() =>
   S.Struct({
@@ -13813,8 +15160,8 @@ export const BatchGetBlueprintsResponse = S.suspend(() =>
   identifier: "BatchGetBlueprintsResponse",
 }) as any as S.Schema<BatchGetBlueprintsResponse>;
 export interface BatchGetCrawlersResponse {
-  Crawlers?: CrawlerList;
-  CrawlersNotFound?: CrawlerNameList;
+  Crawlers?: Crawler[];
+  CrawlersNotFound?: string[];
 }
 export const BatchGetCrawlersResponse = S.suspend(() =>
   S.Struct({
@@ -13825,8 +15172,8 @@ export const BatchGetCrawlersResponse = S.suspend(() =>
   identifier: "BatchGetCrawlersResponse",
 }) as any as S.Schema<BatchGetCrawlersResponse>;
 export interface BatchGetTableOptimizerResponse {
-  TableOptimizers?: BatchTableOptimizers;
-  Failures?: BatchGetTableOptimizerErrors;
+  TableOptimizers?: BatchTableOptimizer[];
+  Failures?: BatchGetTableOptimizerError[];
 }
 export const BatchGetTableOptimizerResponse = S.suspend(() =>
   S.Struct({
@@ -13837,7 +15184,7 @@ export const BatchGetTableOptimizerResponse = S.suspend(() =>
   identifier: "BatchGetTableOptimizerResponse",
 }) as any as S.Schema<BatchGetTableOptimizerResponse>;
 export interface BatchPutDataQualityStatisticAnnotationResponse {
-  FailedInclusionAnnotations?: AnnotationErrorList;
+  FailedInclusionAnnotations?: AnnotationError[];
 }
 export const BatchPutDataQualityStatisticAnnotationResponse = S.suspend(() =>
   S.Struct({ FailedInclusionAnnotations: S.optional(AnnotationErrorList) }),
@@ -13845,7 +15192,7 @@ export const BatchPutDataQualityStatisticAnnotationResponse = S.suspend(() =>
   identifier: "BatchPutDataQualityStatisticAnnotationResponse",
 }) as any as S.Schema<BatchPutDataQualityStatisticAnnotationResponse>;
 export interface BatchUpdatePartitionResponse {
-  Errors?: BatchUpdatePartitionFailureList;
+  Errors?: BatchUpdatePartitionFailureEntry[];
 }
 export const BatchUpdatePartitionResponse = S.suspend(() =>
   S.Struct({ Errors: S.optional(BatchUpdatePartitionFailureList) }),
@@ -13855,7 +15202,7 @@ export const BatchUpdatePartitionResponse = S.suspend(() =>
 export interface CreateCatalogRequest {
   Name: string;
   CatalogInput: CatalogInput;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateCatalogRequest = S.suspend(() =>
   S.Struct({
@@ -13879,11 +15226,11 @@ export interface CreateIntegrationResponse {
   Description?: string;
   IntegrationArn: string;
   KmsKeyId?: string;
-  AdditionalEncryptionContext?: IntegrationAdditionalEncryptionContextMap;
-  Tags?: IntegrationTagsList;
-  Status: string;
+  AdditionalEncryptionContext?: { [key: string]: string };
+  Tags?: Tag[];
+  Status: IntegrationStatus;
   CreateTime: Date;
-  Errors?: IntegrationErrorList;
+  Errors?: IntegrationError[];
   DataFilter?: string;
   IntegrationConfig?: IntegrationConfig;
 }
@@ -13899,7 +15246,7 @@ export const CreateIntegrationResponse = S.suspend(() =>
       IntegrationAdditionalEncryptionContextMap,
     ),
     Tags: S.optional(IntegrationTagsList),
-    Status: S.String,
+    Status: IntegrationStatus,
     CreateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     Errors: S.optional(IntegrationErrorList),
     DataFilter: S.optional(S.String),
@@ -13987,15 +15334,15 @@ export const IcebergPartitionSpecFieldList = S.Array(IcebergPartitionField);
 export interface IcebergSortField {
   SourceId: number;
   Transform: string;
-  Direction: string;
-  NullOrder: string;
+  Direction: IcebergSortDirection;
+  NullOrder: IcebergNullOrder;
 }
 export const IcebergSortField = S.suspend(() =>
   S.Struct({
     SourceId: S.Number,
     Transform: S.String,
-    Direction: S.String,
-    NullOrder: S.String,
+    Direction: IcebergSortDirection,
+    NullOrder: IcebergNullOrder,
   }),
 ).annotations({
   identifier: "IcebergSortField",
@@ -14006,7 +15353,7 @@ export interface CreateTableOptimizerRequest {
   CatalogId: string;
   DatabaseName: string;
   TableName: string;
-  Type: string;
+  Type: TableOptimizerType;
   TableOptimizerConfiguration: TableOptimizerConfiguration;
 }
 export const CreateTableOptimizerRequest = S.suspend(() =>
@@ -14014,7 +15361,7 @@ export const CreateTableOptimizerRequest = S.suspend(() =>
     CatalogId: S.String,
     DatabaseName: S.String,
     TableName: S.String,
-    Type: S.String,
+    Type: TableOptimizerType,
     TableOptimizerConfiguration: TableOptimizerConfiguration,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -14040,7 +15387,7 @@ export interface CreateUsageProfileRequest {
   Name: string;
   Description?: string;
   Configuration: ProfileConfiguration;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateUsageProfileRequest = S.suspend(() =>
   S.Struct({
@@ -14055,7 +15402,7 @@ export const CreateUsageProfileRequest = S.suspend(() =>
   identifier: "CreateUsageProfileRequest",
 }) as any as S.Schema<CreateUsageProfileRequest>;
 export interface DeleteSchemaVersionsResponse {
-  SchemaVersionErrors?: SchemaVersionErrorList;
+  SchemaVersionErrors?: SchemaVersionErrorItem[];
 }
 export const DeleteSchemaVersionsResponse = S.suspend(() =>
   S.Struct({ SchemaVersionErrors: S.optional(SchemaVersionErrorList) }),
@@ -14063,7 +15410,7 @@ export const DeleteSchemaVersionsResponse = S.suspend(() =>
   identifier: "DeleteSchemaVersionsResponse",
 }) as any as S.Schema<DeleteSchemaVersionsResponse>;
 export interface DescribeEntityResponse {
-  Fields?: FieldsList;
+  Fields?: Field[];
   NextToken?: string;
 }
 export const DescribeEntityResponse = S.suspend(() =>
@@ -14072,7 +15419,7 @@ export const DescribeEntityResponse = S.suspend(() =>
   identifier: "DescribeEntityResponse",
 }) as any as S.Schema<DescribeEntityResponse>;
 export interface DescribeIntegrationsResponse {
-  Integrations?: IntegrationsList;
+  Integrations?: Integration[];
   Marker?: string;
 }
 export const DescribeIntegrationsResponse = S.suspend(() =>
@@ -14112,7 +15459,7 @@ export const GetJobRunResponse = S.suspend(() =>
 export interface GetMLTaskRunResponse {
   TransformId?: string;
   TaskRunId?: string;
-  Status?: string;
+  Status?: TaskStatusType;
   LogGroupName?: string;
   Properties?: TaskRunProperties;
   ErrorString?: string;
@@ -14125,7 +15472,7 @@ export const GetMLTaskRunResponse = S.suspend(() =>
   S.Struct({
     TransformId: S.optional(S.String),
     TaskRunId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(TaskStatusType),
     LogGroupName: S.optional(S.String),
     Properties: S.optional(TaskRunProperties),
     ErrorString: S.optional(S.String),
@@ -14138,7 +15485,7 @@ export const GetMLTaskRunResponse = S.suspend(() =>
   identifier: "GetMLTaskRunResponse",
 }) as any as S.Schema<GetMLTaskRunResponse>;
 export interface GetMLTaskRunsResponse {
-  TaskRuns?: TaskRunList;
+  TaskRuns?: TaskRun[];
   NextToken?: string;
 }
 export const GetMLTaskRunsResponse = S.suspend(() =>
@@ -14150,7 +15497,7 @@ export const GetMLTaskRunsResponse = S.suspend(() =>
   identifier: "GetMLTaskRunsResponse",
 }) as any as S.Schema<GetMLTaskRunsResponse>;
 export interface GetPartitionIndexesResponse {
-  PartitionIndexDescriptorList?: PartitionIndexDescriptorList;
+  PartitionIndexDescriptorList?: PartitionIndexDescriptor[];
   NextToken?: string;
 }
 export const GetPartitionIndexesResponse = S.suspend(() =>
@@ -14163,7 +15510,7 @@ export const GetPartitionIndexesResponse = S.suspend(() =>
 }) as any as S.Schema<GetPartitionIndexesResponse>;
 export interface GetUnfilteredPartitionMetadataResponse {
   Partition?: Partition;
-  AuthorizedColumns?: NameStringList;
+  AuthorizedColumns?: string[];
   IsRegisteredWithLakeFormation?: boolean;
 }
 export const GetUnfilteredPartitionMetadataResponse = S.suspend(() =>
@@ -14177,15 +15524,15 @@ export const GetUnfilteredPartitionMetadataResponse = S.suspend(() =>
 }) as any as S.Schema<GetUnfilteredPartitionMetadataResponse>;
 export interface GetUnfilteredTableMetadataResponse {
   Table?: Table;
-  AuthorizedColumns?: NameStringList;
+  AuthorizedColumns?: string[];
   IsRegisteredWithLakeFormation?: boolean;
-  CellFilters?: ColumnRowFilterList;
+  CellFilters?: ColumnRowFilter[];
   QueryAuthorizationId?: string;
   IsMultiDialectView?: boolean;
   IsMaterializedView?: boolean;
   ResourceArn?: string;
   IsProtected?: boolean;
-  Permissions?: PermissionList;
+  Permissions?: Permission[];
   RowFilter?: string;
 }
 export const GetUnfilteredTableMetadataResponse = S.suspend(() =>
@@ -14214,7 +15561,7 @@ export const GetWorkflowRunResponse = S.suspend(() =>
   identifier: "GetWorkflowRunResponse",
 }) as any as S.Schema<GetWorkflowRunResponse>;
 export interface ListConnectionTypesResponse {
-  ConnectionTypes?: ConnectionTypeList;
+  ConnectionTypes?: ConnectionTypeBrief[];
   NextToken?: string;
 }
 export const ListConnectionTypesResponse = S.suspend(() =>
@@ -14226,7 +15573,7 @@ export const ListConnectionTypesResponse = S.suspend(() =>
   identifier: "ListConnectionTypesResponse",
 }) as any as S.Schema<ListConnectionTypesResponse>;
 export interface ListCrawlsResponse {
-  Crawls?: CrawlerHistoryList;
+  Crawls?: CrawlerHistory[];
   NextToken?: string;
 }
 export const ListCrawlsResponse = S.suspend(() =>
@@ -14238,7 +15585,7 @@ export const ListCrawlsResponse = S.suspend(() =>
   identifier: "ListCrawlsResponse",
 }) as any as S.Schema<ListCrawlsResponse>;
 export interface ListDataQualityResultsResponse {
-  Results: DataQualityResultDescriptionList;
+  Results: DataQualityResultDescription[];
   NextToken?: string;
 }
 export const ListDataQualityResultsResponse = S.suspend(() =>
@@ -14250,7 +15597,7 @@ export const ListDataQualityResultsResponse = S.suspend(() =>
   identifier: "ListDataQualityResultsResponse",
 }) as any as S.Schema<ListDataQualityResultsResponse>;
 export interface ListDataQualityRuleRecommendationRunsResponse {
-  Runs?: DataQualityRuleRecommendationRunList;
+  Runs?: DataQualityRuleRecommendationRunDescription[];
   NextToken?: string;
 }
 export const ListDataQualityRuleRecommendationRunsResponse = S.suspend(() =>
@@ -14262,7 +15609,7 @@ export const ListDataQualityRuleRecommendationRunsResponse = S.suspend(() =>
   identifier: "ListDataQualityRuleRecommendationRunsResponse",
 }) as any as S.Schema<ListDataQualityRuleRecommendationRunsResponse>;
 export interface ListDataQualityRulesetEvaluationRunsResponse {
-  Runs?: DataQualityRulesetEvaluationRunList;
+  Runs?: DataQualityRulesetEvaluationRunDescription[];
   NextToken?: string;
 }
 export const ListDataQualityRulesetEvaluationRunsResponse = S.suspend(() =>
@@ -14274,7 +15621,7 @@ export const ListDataQualityRulesetEvaluationRunsResponse = S.suspend(() =>
   identifier: "ListDataQualityRulesetEvaluationRunsResponse",
 }) as any as S.Schema<ListDataQualityRulesetEvaluationRunsResponse>;
 export interface ListDataQualityRulesetsResponse {
-  Rulesets?: DataQualityRulesetList;
+  Rulesets?: DataQualityRulesetListDetails[];
   NextToken?: string;
 }
 export const ListDataQualityRulesetsResponse = S.suspend(() =>
@@ -14286,7 +15633,7 @@ export const ListDataQualityRulesetsResponse = S.suspend(() =>
   identifier: "ListDataQualityRulesetsResponse",
 }) as any as S.Schema<ListDataQualityRulesetsResponse>;
 export interface ListDataQualityStatisticAnnotationsResponse {
-  Annotations?: AnnotationList;
+  Annotations?: StatisticAnnotation[];
   NextToken?: string;
 }
 export const ListDataQualityStatisticAnnotationsResponse = S.suspend(() =>
@@ -14298,7 +15645,7 @@ export const ListDataQualityStatisticAnnotationsResponse = S.suspend(() =>
   identifier: "ListDataQualityStatisticAnnotationsResponse",
 }) as any as S.Schema<ListDataQualityStatisticAnnotationsResponse>;
 export interface ListDataQualityStatisticsResponse {
-  Statistics?: StatisticSummaryList;
+  Statistics?: StatisticSummary[];
   NextToken?: string;
 }
 export const ListDataQualityStatisticsResponse = S.suspend(() =>
@@ -14310,7 +15657,7 @@ export const ListDataQualityStatisticsResponse = S.suspend(() =>
   identifier: "ListDataQualityStatisticsResponse",
 }) as any as S.Schema<ListDataQualityStatisticsResponse>;
 export interface ListIntegrationResourcePropertiesResponse {
-  IntegrationResourcePropertyList?: IntegrationResourcePropertyList;
+  IntegrationResourcePropertyList?: IntegrationResourceProperty[];
   Marker?: string;
 }
 export const ListIntegrationResourcePropertiesResponse = S.suspend(() =>
@@ -14335,7 +15682,7 @@ export interface IcebergEncryptedKey {
   KeyId: string;
   EncryptedKeyMetadata: string;
   EncryptedById?: string;
-  Properties?: StringToStringMap;
+  Properties?: { [key: string]: string };
 }
 export const IcebergEncryptedKey = S.suspend(() =>
   S.Struct({
@@ -14350,19 +15697,19 @@ export const IcebergEncryptedKey = S.suspend(() =>
 export interface ComputeEnvironmentConfiguration {
   Name: string;
   Description: string;
-  ComputeEnvironment: string;
-  SupportedAuthenticationTypes: AuthenticationTypes;
-  ConnectionOptions: PropertiesMap;
-  ConnectionPropertyNameOverrides: PropertyNameOverrides;
-  ConnectionOptionNameOverrides: PropertyNameOverrides;
-  ConnectionPropertiesRequiredOverrides: ListOfString;
+  ComputeEnvironment: ComputeEnvironment;
+  SupportedAuthenticationTypes: AuthenticationType[];
+  ConnectionOptions: { [key: string]: Property };
+  ConnectionPropertyNameOverrides: { [key: string]: string };
+  ConnectionOptionNameOverrides: { [key: string]: string };
+  ConnectionPropertiesRequiredOverrides: string[];
   PhysicalConnectionPropertiesRequired?: boolean;
 }
 export const ComputeEnvironmentConfiguration = S.suspend(() =>
   S.Struct({
     Name: S.String,
     Description: S.String,
-    ComputeEnvironment: S.String,
+    ComputeEnvironment: ComputeEnvironment,
     SupportedAuthenticationTypes: AuthenticationTypes,
     ConnectionOptions: PropertiesMap,
     ConnectionPropertyNameOverrides: PropertyNameOverrides,
@@ -14379,7 +15726,7 @@ export interface FindMatchesMetrics {
   Recall?: number;
   F1?: number;
   ConfusionMatrix?: ConfusionMatrix;
-  ColumnImportances?: ColumnImportanceList;
+  ColumnImportances?: ColumnImportance[];
 }
 export const FindMatchesMetrics = S.suspend(() =>
   S.Struct({
@@ -14396,7 +15743,7 @@ export const FindMatchesMetrics = S.suspend(() =>
 export interface MetadataInfo {
   MetadataValue?: string;
   CreatedTime?: string;
-  OtherMetadataValueList?: OtherMetadataValueList;
+  OtherMetadataValueList?: OtherMetadataValueListItem[];
 }
 export const MetadataInfo = S.suspend(() =>
   S.Struct({
@@ -14407,22 +15754,22 @@ export const MetadataInfo = S.suspend(() =>
 ).annotations({ identifier: "MetadataInfo" }) as any as S.Schema<MetadataInfo>;
 export interface IcebergSchema {
   SchemaId?: number;
-  IdentifierFieldIds?: IntegerList;
-  Type?: string;
-  Fields: IcebergStructFieldList;
+  IdentifierFieldIds?: number[];
+  Type?: IcebergStructTypeEnum;
+  Fields: IcebergStructField[];
 }
 export const IcebergSchema = S.suspend(() =>
   S.Struct({
     SchemaId: S.optional(S.Number),
     IdentifierFieldIds: S.optional(IntegerList),
-    Type: S.optional(S.String),
+    Type: S.optional(IcebergStructTypeEnum),
     Fields: IcebergStructFieldList,
   }),
 ).annotations({
   identifier: "IcebergSchema",
 }) as any as S.Schema<IcebergSchema>;
 export interface IcebergPartitionSpec {
-  Fields: IcebergPartitionSpecFieldList;
+  Fields: IcebergPartitionField[];
   SpecId?: number;
 }
 export const IcebergPartitionSpec = S.suspend(() =>
@@ -14435,7 +15782,7 @@ export const IcebergPartitionSpec = S.suspend(() =>
 }) as any as S.Schema<IcebergPartitionSpec>;
 export interface IcebergSortOrder {
   OrderId: number;
-  Fields: IcebergSortOrderFieldList;
+  Fields: IcebergSortField[];
 }
 export const IcebergSortOrder = S.suspend(() =>
   S.Struct({ OrderId: S.Number, Fields: IcebergSortOrderFieldList }),
@@ -14443,20 +15790,20 @@ export const IcebergSortOrder = S.suspend(() =>
   identifier: "IcebergSortOrder",
 }) as any as S.Schema<IcebergSortOrder>;
 export interface ViewValidation {
-  Dialect?: string;
+  Dialect?: ViewDialect;
   DialectVersion?: string;
   ViewValidationText?: string;
   UpdateTime?: Date;
-  State?: string;
+  State?: ResourceState;
   Error?: ErrorDetail;
 }
 export const ViewValidation = S.suspend(() =>
   S.Struct({
-    Dialect: S.optional(S.String),
+    Dialect: S.optional(ViewDialect),
     DialectVersion: S.optional(S.String),
     ViewValidationText: S.optional(S.String),
     UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    State: S.optional(S.String),
+    State: S.optional(ResourceState),
     Error: S.optional(ErrorDetail),
   }),
 ).annotations({
@@ -14469,8 +15816,8 @@ export interface IcebergTableUpdate {
   PartitionSpec?: IcebergPartitionSpec;
   SortOrder?: IcebergSortOrder;
   Location: string;
-  Properties?: StringToStringMap;
-  Action?: string;
+  Properties?: { [key: string]: string };
+  Action?: IcebergUpdateAction;
   EncryptionKey?: IcebergEncryptedKey;
   KeyId?: string;
 }
@@ -14481,7 +15828,7 @@ export const IcebergTableUpdate = S.suspend(() =>
     SortOrder: S.optional(IcebergSortOrder),
     Location: S.String,
     Properties: S.optional(StringToStringMap),
-    Action: S.optional(S.String),
+    Action: S.optional(IcebergUpdateAction),
     EncryptionKey: S.optional(IcebergEncryptedKey),
     KeyId: S.optional(S.String),
   }),
@@ -14500,12 +15847,12 @@ export const ComputeEnvironmentConfigurationMap = S.Record({
   value: ComputeEnvironmentConfiguration,
 });
 export interface EvaluationMetrics {
-  TransformType: string;
+  TransformType: TransformType;
   FindMatchesMetrics?: FindMatchesMetrics;
 }
 export const EvaluationMetrics = S.suspend(() =>
   S.Struct({
-    TransformType: S.String,
+    TransformType: TransformType,
     FindMatchesMetrics: S.optional(FindMatchesMetrics),
   }),
 ).annotations({
@@ -14515,18 +15862,18 @@ export interface MLTransform {
   TransformId?: string;
   Name?: string;
   Description?: string;
-  Status?: string;
+  Status?: TransformStatusType;
   CreatedOn?: Date;
   LastModifiedOn?: Date;
-  InputRecordTables?: GlueTables;
+  InputRecordTables?: GlueTable[];
   Parameters?: TransformParameters;
   EvaluationMetrics?: EvaluationMetrics;
   LabelCount?: number;
-  Schema?: TransformSchema;
+  Schema?: SchemaColumn[];
   Role?: string;
   GlueVersion?: string;
   MaxCapacity?: number;
-  WorkerType?: string;
+  WorkerType?: WorkerType;
   NumberOfWorkers?: number;
   Timeout?: number;
   MaxRetries?: number;
@@ -14537,7 +15884,7 @@ export const MLTransform = S.suspend(() =>
     TransformId: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(TransformStatusType),
     CreatedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     InputRecordTables: S.optional(GlueTables),
@@ -14548,7 +15895,7 @@ export const MLTransform = S.suspend(() =>
     Role: S.optional(S.String),
     GlueVersion: S.optional(S.String),
     MaxCapacity: S.optional(S.Number),
-    WorkerType: S.optional(S.String),
+    WorkerType: S.optional(WorkerType),
     NumberOfWorkers: S.optional(S.Number),
     Timeout: S.optional(S.Number),
     MaxRetries: S.optional(S.Number),
@@ -14566,7 +15913,7 @@ export interface CreateIcebergTableInput {
   Schema: IcebergSchema;
   PartitionSpec?: IcebergPartitionSpec;
   WriteOrder?: IcebergSortOrder;
-  Properties?: StringToStringMap;
+  Properties?: { [key: string]: string };
 }
 export const CreateIcebergTableInput = S.suspend(() =>
   S.Struct({
@@ -14581,7 +15928,7 @@ export const CreateIcebergTableInput = S.suspend(() =>
 }) as any as S.Schema<CreateIcebergTableInput>;
 export interface StatusDetails {
   RequestedChange?: Table;
-  ViewValidations?: ViewValidationList;
+  ViewValidations?: ViewValidation[];
 }
 export const StatusDetails = S.suspend(() =>
   S.Struct({
@@ -14596,7 +15943,7 @@ export const StatusDetails = S.suspend(() =>
   identifier: "StatusDetails",
 }) as any as S.Schema<StatusDetails>;
 export interface UpdateIcebergTableInput {
-  Updates: IcebergTableUpdateList;
+  Updates: IcebergTableUpdate[];
 }
 export const UpdateIcebergTableInput = S.suspend(() =>
   S.Struct({ Updates: IcebergTableUpdateList }),
@@ -14607,7 +15954,7 @@ export interface BatchCreatePartitionRequest {
   CatalogId?: string;
   DatabaseName: string;
   TableName: string;
-  PartitionInputList: PartitionInputList;
+  PartitionInputList: PartitionInput[];
 }
 export const BatchCreatePartitionRequest = S.suspend(() =>
   S.Struct({
@@ -14624,7 +15971,7 @@ export const BatchCreatePartitionRequest = S.suspend(() =>
 export interface CreateConnectionRequest {
   CatalogId?: string;
   ConnectionInput: ConnectionInput;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateConnectionRequest = S.suspend(() =>
   S.Struct({
@@ -14649,14 +15996,16 @@ export interface DescribeConnectionTypeResponse {
   ConnectionType?: string;
   Description?: string;
   Capabilities?: Capabilities;
-  ConnectionProperties?: PropertiesMap;
-  ConnectionOptions?: PropertiesMap;
+  ConnectionProperties?: { [key: string]: Property };
+  ConnectionOptions?: { [key: string]: Property };
   AuthenticationConfiguration?: AuthConfiguration;
-  ComputeEnvironmentConfigurations?: ComputeEnvironmentConfigurationMap;
-  PhysicalConnectionRequirements?: PropertiesMap;
-  AthenaConnectionProperties?: PropertiesMap;
-  PythonConnectionProperties?: PropertiesMap;
-  SparkConnectionProperties?: PropertiesMap;
+  ComputeEnvironmentConfigurations?: {
+    [key: string]: ComputeEnvironmentConfiguration;
+  };
+  PhysicalConnectionRequirements?: { [key: string]: Property };
+  AthenaConnectionProperties?: { [key: string]: Property };
+  PythonConnectionProperties?: { [key: string]: Property };
+  SparkConnectionProperties?: { [key: string]: Property };
 }
 export const DescribeConnectionTypeResponse = S.suspend(() =>
   S.Struct({
@@ -14705,9 +16054,9 @@ export interface GetDataQualityResultResponse {
   JobName?: string;
   JobRunId?: string;
   RulesetEvaluationRunId?: string;
-  RuleResults?: DataQualityRuleResults;
-  AnalyzerResults?: DataQualityAnalyzerResults;
-  Observations?: DataQualityObservations;
+  RuleResults?: DataQualityRuleResult[];
+  AnalyzerResults?: DataQualityAnalyzerResult[];
+  Observations?: DataQualityObservation[];
   AggregatedMetrics?: DataQualityAggregatedMetrics;
 }
 export const GetDataQualityResultResponse = S.suspend(() =>
@@ -14735,18 +16084,18 @@ export interface GetMLTransformResponse {
   TransformId?: string;
   Name?: string;
   Description?: string;
-  Status?: string;
+  Status?: TransformStatusType;
   CreatedOn?: Date;
   LastModifiedOn?: Date;
-  InputRecordTables?: GlueTables;
+  InputRecordTables?: GlueTable[];
   Parameters?: TransformParameters;
   EvaluationMetrics?: EvaluationMetrics;
   LabelCount?: number;
-  Schema?: TransformSchema;
+  Schema?: SchemaColumn[];
   Role?: string;
   GlueVersion?: string;
   MaxCapacity?: number;
-  WorkerType?: string;
+  WorkerType?: WorkerType;
   NumberOfWorkers?: number;
   Timeout?: number;
   MaxRetries?: number;
@@ -14757,7 +16106,7 @@ export const GetMLTransformResponse = S.suspend(() =>
     TransformId: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(TransformStatusType),
     CreatedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     InputRecordTables: S.optional(GlueTables),
@@ -14768,7 +16117,7 @@ export const GetMLTransformResponse = S.suspend(() =>
     Role: S.optional(S.String),
     GlueVersion: S.optional(S.String),
     MaxCapacity: S.optional(S.Number),
-    WorkerType: S.optional(S.String),
+    WorkerType: S.optional(WorkerType),
     NumberOfWorkers: S.optional(S.Number),
     Timeout: S.optional(S.Number),
     MaxRetries: S.optional(S.Number),
@@ -14778,7 +16127,7 @@ export const GetMLTransformResponse = S.suspend(() =>
   identifier: "GetMLTransformResponse",
 }) as any as S.Schema<GetMLTransformResponse>;
 export interface GetMLTransformsResponse {
-  Transforms: TransformList;
+  Transforms: MLTransform[];
   NextToken?: string;
 }
 export const GetMLTransformsResponse = S.suspend(() =>
@@ -14799,7 +16148,7 @@ export interface ListTableOptimizerRunsResponse {
   DatabaseName?: string;
   TableName?: string;
   NextToken?: string;
-  TableOptimizerRuns?: TableOptimizerRuns;
+  TableOptimizerRuns?: TableOptimizerRun[];
 }
 export const ListTableOptimizerRunsResponse = S.suspend(() =>
   S.Struct({
@@ -14813,7 +16162,7 @@ export const ListTableOptimizerRunsResponse = S.suspend(() =>
   identifier: "ListTableOptimizerRunsResponse",
 }) as any as S.Schema<ListTableOptimizerRunsResponse>;
 export interface QuerySchemaVersionMetadataResponse {
-  MetadataInfoMap?: MetadataInfoMap;
+  MetadataInfoMap?: { [key: string]: MetadataInfo };
   SchemaVersionId?: string;
   NextToken?: string;
 }
@@ -14830,8 +16179,8 @@ export interface UpdateColumnStatisticsForPartitionRequest {
   CatalogId?: string;
   DatabaseName: string;
   TableName: string;
-  PartitionValues: ValueStringList;
-  ColumnStatisticsList: UpdateColumnStatisticsList;
+  PartitionValues: string[];
+  ColumnStatisticsList: ColumnStatistics[];
 }
 export const UpdateColumnStatisticsForPartitionRequest = S.suspend(() =>
   S.Struct({
@@ -14847,13 +16196,13 @@ export const UpdateColumnStatisticsForPartitionRequest = S.suspend(() =>
   identifier: "UpdateColumnStatisticsForPartitionRequest",
 }) as any as S.Schema<UpdateColumnStatisticsForPartitionRequest>;
 export interface IcebergInput {
-  MetadataOperation: string;
+  MetadataOperation: MetadataOperation;
   Version?: string;
   CreateIcebergTableInput?: CreateIcebergTableInput;
 }
 export const IcebergInput = S.suspend(() =>
   S.Struct({
-    MetadataOperation: S.String,
+    MetadataOperation: MetadataOperation,
     Version: S.optional(S.String),
     CreateIcebergTableInput: S.optional(CreateIcebergTableInput),
   }),
@@ -14863,8 +16212,8 @@ export interface TableStatus {
   UpdatedBy?: string;
   RequestTime?: Date;
   UpdateTime?: Date;
-  Action?: string;
-  State?: string;
+  Action?: ResourceAction;
+  State?: ResourceState;
   Error?: ErrorDetail;
   Details?: StatusDetails;
 }
@@ -14874,8 +16223,8 @@ export const TableStatus = S.suspend(() =>
     UpdatedBy: S.optional(S.String),
     RequestTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Action: S.optional(S.String),
-    State: S.optional(S.String),
+    Action: S.optional(ResourceAction),
+    State: S.optional(ResourceState),
     Error: S.optional(ErrorDetail),
     Details: S.optional(
       S.suspend((): S.Schema<StatusDetails, any> => StatusDetails).annotations({
@@ -14909,7 +16258,7 @@ export const UpdateOpenTableFormatInput = S.suspend(() =>
   identifier: "UpdateOpenTableFormatInput",
 }) as any as S.Schema<UpdateOpenTableFormatInput>;
 export interface BatchCreatePartitionResponse {
-  Errors?: PartitionErrors;
+  Errors?: PartitionError[];
 }
 export const BatchCreatePartitionResponse = S.suspend(() =>
   S.Struct({ Errors: S.optional(PartitionErrors) }),
@@ -14917,10 +16266,10 @@ export const BatchCreatePartitionResponse = S.suspend(() =>
   identifier: "BatchCreatePartitionResponse",
 }) as any as S.Schema<BatchCreatePartitionResponse>;
 export interface CreateConnectionResponse {
-  CreateConnectionStatus?: string;
+  CreateConnectionStatus?: ConnectionStatus;
 }
 export const CreateConnectionResponse = S.suspend(() =>
-  S.Struct({ CreateConnectionStatus: S.optional(S.String) }),
+  S.Struct({ CreateConnectionStatus: S.optional(ConnectionStatus) }),
 ).annotations({
   identifier: "CreateConnectionResponse",
 }) as any as S.Schema<CreateConnectionResponse>;
@@ -14929,7 +16278,7 @@ export interface CreateTableRequest {
   DatabaseName: string;
   Name?: string;
   TableInput?: TableInput;
-  PartitionIndexes?: PartitionIndexList;
+  PartitionIndexes?: PartitionIndex[];
   TransactionId?: string;
   OpenTableFormatInput?: OpenTableFormatInput;
 }
@@ -14953,7 +16302,7 @@ export const CreateTableResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "CreateTableResponse",
 }) as any as S.Schema<CreateTableResponse>;
 export interface GetTablesResponse {
-  TableList?: TableList;
+  TableList?: Table[];
   NextToken?: string;
 }
 export const GetTablesResponse = S.suspend(() =>
@@ -14965,7 +16314,7 @@ export const GetTablesResponse = S.suspend(() =>
   identifier: "GetTablesResponse",
 }) as any as S.Schema<GetTablesResponse>;
 export interface UpdateColumnStatisticsForPartitionResponse {
-  Errors?: ColumnStatisticsErrors;
+  Errors?: ColumnStatisticsError[];
 }
 export const UpdateColumnStatisticsForPartitionResponse = S.suspend(() =>
   S.Struct({ Errors: S.optional(ColumnStatisticsErrors) }),
@@ -14980,7 +16329,7 @@ export interface UpdateTableRequest {
   SkipArchive?: boolean;
   TransactionId?: string;
   VersionId?: string;
-  ViewUpdateAction?: string;
+  ViewUpdateAction?: ViewUpdateAction;
   Force?: boolean;
   UpdateOpenTableFormatInput?: UpdateOpenTableFormatInput;
 }
@@ -14993,7 +16342,7 @@ export const UpdateTableRequest = S.suspend(() =>
     SkipArchive: S.optional(S.Boolean),
     TransactionId: S.optional(S.String),
     VersionId: S.optional(S.String),
-    ViewUpdateAction: S.optional(S.String),
+    ViewUpdateAction: S.optional(ViewUpdateAction),
     Force: S.optional(S.Boolean),
     UpdateOpenTableFormatInput: S.optional(UpdateOpenTableFormatInput),
   }).pipe(
@@ -15009,8 +16358,8 @@ export const UpdateTableResponse = S.suspend(() => S.Struct({})).annotations({
 export type Workflows = Workflow[];
 export const Workflows = S.Array(Workflow);
 export interface BatchGetWorkflowsResponse {
-  Workflows?: Workflows;
-  MissingWorkflows?: WorkflowNames;
+  Workflows?: Workflow[];
+  MissingWorkflows?: string[];
 }
 export const BatchGetWorkflowsResponse = S.suspend(() =>
   S.Struct({
@@ -15022,35 +16371,35 @@ export const BatchGetWorkflowsResponse = S.suspend(() =>
 }) as any as S.Schema<BatchGetWorkflowsResponse>;
 export interface CreateJobRequest {
   Name: string;
-  JobMode?: string;
+  JobMode?: JobMode;
   JobRunQueuingEnabled?: boolean;
   Description?: string;
   LogUri?: string;
   Role: string;
   ExecutionProperty?: ExecutionProperty;
   Command: JobCommand;
-  DefaultArguments?: GenericMap;
-  NonOverridableArguments?: GenericMap;
+  DefaultArguments?: { [key: string]: string };
+  NonOverridableArguments?: { [key: string]: string };
   Connections?: ConnectionsList;
   MaxRetries?: number;
   AllocatedCapacity?: number;
   Timeout?: number;
   MaxCapacity?: number;
   SecurityConfiguration?: string;
-  Tags?: TagsMap;
+  Tags?: { [key: string]: string };
   NotificationProperty?: NotificationProperty;
   GlueVersion?: string;
   NumberOfWorkers?: number;
-  WorkerType?: string;
-  CodeGenConfigurationNodes?: CodeGenConfigurationNodes;
-  ExecutionClass?: string;
+  WorkerType?: WorkerType;
+  CodeGenConfigurationNodes?: { [key: string]: CodeGenConfigurationNode };
+  ExecutionClass?: ExecutionClass;
   SourceControlDetails?: SourceControlDetails;
   MaintenanceWindow?: string;
 }
 export const CreateJobRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    JobMode: S.optional(S.String),
+    JobMode: S.optional(JobMode),
     JobRunQueuingEnabled: S.optional(S.Boolean),
     Description: S.optional(S.String),
     LogUri: S.optional(S.String),
@@ -15069,9 +16418,9 @@ export const CreateJobRequest = S.suspend(() =>
     NotificationProperty: S.optional(NotificationProperty),
     GlueVersion: S.optional(S.String),
     NumberOfWorkers: S.optional(S.Number),
-    WorkerType: S.optional(S.String),
+    WorkerType: S.optional(WorkerType),
     CodeGenConfigurationNodes: S.optional(CodeGenConfigurationNodes),
-    ExecutionClass: S.optional(S.String),
+    ExecutionClass: S.optional(ExecutionClass),
     SourceControlDetails: S.optional(SourceControlDetails),
     MaintenanceWindow: S.optional(S.String),
   }).pipe(
@@ -15144,7 +16493,7 @@ export class OperationTimeoutException extends S.TaggedError<OperationTimeoutExc
 export class FederationSourceException extends S.TaggedError<FederationSourceException>()(
   "FederationSourceException",
   {
-    FederationSourceErrorCode: S.optional(S.String),
+    FederationSourceErrorCode: S.optional(FederationSourceErrorCode),
     Message: S.optional(S.String),
   },
 ) {}
@@ -15289,7 +16638,7 @@ export class KMSKeyNotAccessibleFault extends S.TaggedError<KMSKeyNotAccessibleF
  */
 export const deleteRegistry: (
   input: DeleteRegistryInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRegistryResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -15312,7 +16661,7 @@ export const deleteRegistry: (
  */
 export const deleteSchema: (
   input: DeleteSchemaInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSchemaResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -15335,7 +16684,7 @@ export const deleteSchema: (
  */
 export const deleteSession: (
   input: DeleteSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSessionResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -15362,7 +16711,7 @@ export const deleteSession: (
  */
 export const getBlueprintRun: (
   input: GetBlueprintRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBlueprintRunResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -15383,7 +16732,7 @@ export const getBlueprintRun: (
  */
 export const getCatalogImportStatus: (
   input: GetCatalogImportStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCatalogImportStatusResponse,
   InternalServiceException | OperationTimeoutException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -15399,7 +16748,7 @@ export const getCatalogImportStatus: (
  */
 export const getColumnStatisticsForPartition: (
   input: GetColumnStatisticsForPartitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetColumnStatisticsForPartitionResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -15424,7 +16773,7 @@ export const getColumnStatisticsForPartition: (
  */
 export const getColumnStatisticsTaskRun: (
   input: GetColumnStatisticsTaskRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetColumnStatisticsTaskRunResponse,
   | EntityNotFoundException
   | InvalidInputException
@@ -15446,7 +16795,7 @@ export const getColumnStatisticsTaskRun: (
 export const getConnections: {
   (
     input: GetConnectionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetConnectionsResponse,
     | EntityNotFoundException
     | GlueEncryptionException
@@ -15457,7 +16806,7 @@ export const getConnections: {
   >;
   pages: (
     input: GetConnectionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetConnectionsResponse,
     | EntityNotFoundException
     | GlueEncryptionException
@@ -15468,7 +16817,7 @@ export const getConnections: {
   >;
   items: (
     input: GetConnectionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EntityNotFoundException
     | GlueEncryptionException
@@ -15498,21 +16847,21 @@ export const getConnections: {
 export const getCrawlerMetrics: {
   (
     input: GetCrawlerMetricsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetCrawlerMetricsResponse,
     OperationTimeoutException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: GetCrawlerMetricsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetCrawlerMetricsResponse,
     OperationTimeoutException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetCrawlerMetricsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     OperationTimeoutException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -15532,7 +16881,7 @@ export const getCrawlerMetrics: {
  */
 export const getDataQualityModelResult: (
   input: GetDataQualityModelResultRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataQualityModelResultResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -15555,7 +16904,7 @@ export const getDataQualityModelResult: (
  */
 export const getMapping: (
   input: GetMappingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMappingResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -15578,7 +16927,7 @@ export const getMapping: (
  */
 export const getPlan: (
   input: GetPlanRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPlanResponse,
   | InternalServiceException
   | InvalidInputException
@@ -15606,7 +16955,7 @@ export const getPlan: (
 export const getResourcePolicies: {
   (
     input: GetResourcePoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetResourcePoliciesResponse,
     | GlueEncryptionException
     | InternalServiceException
@@ -15617,7 +16966,7 @@ export const getResourcePolicies: {
   >;
   pages: (
     input: GetResourcePoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetResourcePoliciesResponse,
     | GlueEncryptionException
     | InternalServiceException
@@ -15628,7 +16977,7 @@ export const getResourcePolicies: {
   >;
   items: (
     input: GetResourcePoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GluePolicy,
     | GlueEncryptionException
     | InternalServiceException
@@ -15658,7 +17007,7 @@ export const getResourcePolicies: {
  */
 export const getSchemaVersion: (
   input: GetSchemaVersionInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSchemaVersionResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -15681,7 +17030,7 @@ export const getSchemaVersion: (
  */
 export const getSecurityConfiguration: (
   input: GetSecurityConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSecurityConfigurationResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -15704,7 +17053,7 @@ export const getSecurityConfiguration: (
  */
 export const getSession: (
   input: GetSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSessionResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -15729,7 +17078,7 @@ export const getSession: (
  */
 export const getTableVersion: (
   input: GetTableVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTableVersionResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -15754,7 +17103,7 @@ export const getTableVersion: (
  */
 export const getUserDefinedFunction: (
   input: GetUserDefinedFunctionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUserDefinedFunctionResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -15780,7 +17129,7 @@ export const getUserDefinedFunction: (
 export const listRegistries: {
   (
     input: ListRegistriesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRegistriesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -15790,7 +17139,7 @@ export const listRegistries: {
   >;
   pages: (
     input: ListRegistriesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRegistriesResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -15800,7 +17149,7 @@ export const listRegistries: {
   >;
   items: (
     input: ListRegistriesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RegistryListItem,
     | AccessDeniedException
     | InternalServiceException
@@ -15831,7 +17180,7 @@ export const listRegistries: {
 export const listSchemas: {
   (
     input: ListSchemasInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSchemasResponse,
     | AccessDeniedException
     | EntityNotFoundException
@@ -15842,7 +17191,7 @@ export const listSchemas: {
   >;
   pages: (
     input: ListSchemasInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSchemasResponse,
     | AccessDeniedException
     | EntityNotFoundException
@@ -15853,7 +17202,7 @@ export const listSchemas: {
   >;
   items: (
     input: ListSchemasInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SchemaListItem,
     | AccessDeniedException
     | EntityNotFoundException
@@ -15884,7 +17233,7 @@ export const listSchemas: {
 export const listSchemaVersions: {
   (
     input: ListSchemaVersionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSchemaVersionsResponse,
     | AccessDeniedException
     | EntityNotFoundException
@@ -15895,7 +17244,7 @@ export const listSchemaVersions: {
   >;
   pages: (
     input: ListSchemaVersionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSchemaVersionsResponse,
     | AccessDeniedException
     | EntityNotFoundException
@@ -15906,7 +17255,7 @@ export const listSchemaVersions: {
   >;
   items: (
     input: ListSchemaVersionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SchemaVersionListItem,
     | AccessDeniedException
     | EntityNotFoundException
@@ -15937,7 +17286,7 @@ export const listSchemaVersions: {
  */
 export const putDataCatalogEncryptionSettings: (
   input: PutDataCatalogEncryptionSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutDataCatalogEncryptionSettingsResponse,
   | InternalServiceException
   | InvalidInputException
@@ -15961,7 +17310,7 @@ export const putDataCatalogEncryptionSettings: (
 export const searchTables: {
   (
     input: SearchTablesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchTablesResponse,
     | InternalServiceException
     | InvalidInputException
@@ -15971,7 +17320,7 @@ export const searchTables: {
   >;
   pages: (
     input: SearchTablesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchTablesResponse,
     | InternalServiceException
     | InvalidInputException
@@ -15981,7 +17330,7 @@ export const searchTables: {
   >;
   items: (
     input: SearchTablesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServiceException
     | InvalidInputException
@@ -16008,7 +17357,7 @@ export const searchTables: {
  */
 export const startDataQualityRulesetEvaluationRun: (
   input: StartDataQualityRulesetEvaluationRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartDataQualityRulesetEvaluationRunResponse,
   | ConflictException
   | EntityNotFoundException
@@ -16033,7 +17382,7 @@ export const startDataQualityRulesetEvaluationRun: (
  */
 export const stopColumnStatisticsTaskRun: (
   input: StopColumnStatisticsTaskRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopColumnStatisticsTaskRunResponse,
   | ColumnStatisticsTaskNotRunningException
   | ColumnStatisticsTaskStoppingException
@@ -16056,7 +17405,7 @@ export const stopColumnStatisticsTaskRun: (
  */
 export const stopCrawler: (
   input: StopCrawlerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopCrawlerResponse,
   | CrawlerNotRunningException
   | CrawlerStoppingException
@@ -16081,7 +17430,7 @@ export const stopCrawler: (
  */
 export const updateColumnStatisticsForTable: (
   input: UpdateColumnStatisticsForTableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateColumnStatisticsForTableResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -16106,7 +17455,7 @@ export const updateColumnStatisticsForTable: (
  */
 export const updateJob: (
   input: UpdateJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateJobResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -16133,7 +17482,7 @@ export const updateJob: (
  */
 export const updateTrigger: (
   input: UpdateTriggerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTriggerResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -16158,7 +17507,7 @@ export const updateTrigger: (
  */
 export const stopWorkflowRun: (
   input: StopWorkflowRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopWorkflowRunResponse,
   | EntityNotFoundException
   | IllegalWorkflowStateException
@@ -16183,7 +17532,7 @@ export const stopWorkflowRun: (
  */
 export const deletePartitionIndex: (
   input: DeletePartitionIndexRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePartitionIndexResponse,
   | ConflictException
   | EntityNotFoundException
@@ -16212,7 +17561,7 @@ export const deletePartitionIndex: (
  */
 export const getColumnStatisticsForTable: (
   input: GetColumnStatisticsForTableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetColumnStatisticsForTableResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -16239,7 +17588,7 @@ export const getColumnStatisticsForTable: (
 export const getTableVersions: {
   (
     input: GetTableVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetTableVersionsResponse,
     | EntityNotFoundException
     | GlueEncryptionException
@@ -16251,7 +17600,7 @@ export const getTableVersions: {
   >;
   pages: (
     input: GetTableVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetTableVersionsResponse,
     | EntityNotFoundException
     | GlueEncryptionException
@@ -16263,7 +17612,7 @@ export const getTableVersions: {
   >;
   items: (
     input: GetTableVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EntityNotFoundException
     | GlueEncryptionException
@@ -16295,7 +17644,7 @@ export const getTableVersions: {
 export const getUserDefinedFunctions: {
   (
     input: GetUserDefinedFunctionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetUserDefinedFunctionsResponse,
     | EntityNotFoundException
     | GlueEncryptionException
@@ -16307,7 +17656,7 @@ export const getUserDefinedFunctions: {
   >;
   pages: (
     input: GetUserDefinedFunctionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetUserDefinedFunctionsResponse,
     | EntityNotFoundException
     | GlueEncryptionException
@@ -16319,7 +17668,7 @@ export const getUserDefinedFunctions: {
   >;
   items: (
     input: GetUserDefinedFunctionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EntityNotFoundException
     | GlueEncryptionException
@@ -16352,7 +17701,7 @@ export const getUserDefinedFunctions: {
  */
 export const deleteColumnStatisticsForPartition: (
   input: DeleteColumnStatisticsForPartitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteColumnStatisticsForPartitionResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -16379,7 +17728,7 @@ export const deleteColumnStatisticsForPartition: (
  */
 export const deleteColumnStatisticsForTable: (
   input: DeleteColumnStatisticsForTableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteColumnStatisticsForTableResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -16404,7 +17753,7 @@ export const deleteColumnStatisticsForTable: (
  */
 export const updateConnection: (
   input: UpdateConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConnectionResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -16427,7 +17776,7 @@ export const updateConnection: (
  */
 export const updatePartition: (
   input: UpdatePartitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePartitionResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -16452,7 +17801,7 @@ export const updatePartition: (
  */
 export const updateUserDefinedFunction: (
   input: UpdateUserDefinedFunctionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserDefinedFunctionResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -16478,21 +17827,21 @@ export const updateUserDefinedFunction: (
 export const getClassifiers: {
   (
     input: GetClassifiersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetClassifiersResponse,
     OperationTimeoutException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: GetClassifiersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetClassifiersResponse,
     OperationTimeoutException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetClassifiersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     OperationTimeoutException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -16513,21 +17862,21 @@ export const getClassifiers: {
 export const getColumnStatisticsTaskRuns: {
   (
     input: GetColumnStatisticsTaskRunsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetColumnStatisticsTaskRunsResponse,
     OperationTimeoutException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: GetColumnStatisticsTaskRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetColumnStatisticsTaskRunsResponse,
     OperationTimeoutException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetColumnStatisticsTaskRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     OperationTimeoutException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -16547,7 +17896,7 @@ export const getColumnStatisticsTaskRuns: {
  */
 export const getCrawler: (
   input: GetCrawlerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCrawlerResponse,
   EntityNotFoundException | OperationTimeoutException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -16563,21 +17912,21 @@ export const getCrawler: (
 export const getCrawlers: {
   (
     input: GetCrawlersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetCrawlersResponse,
     OperationTimeoutException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: GetCrawlersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetCrawlersResponse,
     OperationTimeoutException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: GetCrawlersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     OperationTimeoutException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -16598,21 +17947,21 @@ export const getCrawlers: {
 export const listColumnStatisticsTaskRuns: {
   (
     input: ListColumnStatisticsTaskRunsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListColumnStatisticsTaskRunsResponse,
     OperationTimeoutException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListColumnStatisticsTaskRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListColumnStatisticsTaskRunsResponse,
     OperationTimeoutException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListColumnStatisticsTaskRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     OperationTimeoutException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -16639,21 +17988,21 @@ export const listColumnStatisticsTaskRuns: {
 export const listCrawlers: {
   (
     input: ListCrawlersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCrawlersResponse,
     OperationTimeoutException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListCrawlersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCrawlersResponse,
     OperationTimeoutException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCrawlersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     OperationTimeoutException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -16673,7 +18022,7 @@ export const listCrawlers: {
  */
 export const deleteClassifier: (
   input: DeleteClassifierRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteClassifierResponse,
   EntityNotFoundException | OperationTimeoutException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -16687,7 +18036,7 @@ export const deleteClassifier: (
  */
 export const deleteConnection: (
   input: DeleteConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConnectionResponse,
   EntityNotFoundException | OperationTimeoutException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -16703,7 +18052,7 @@ export const deleteConnection: (
  */
 export const startCrawler: (
   input: StartCrawlerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartCrawlerResponse,
   | CrawlerRunningException
   | EntityNotFoundException
@@ -16724,7 +18073,7 @@ export const startCrawler: (
  */
 export const importCatalogToGlue: (
   input: ImportCatalogToGlueRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ImportCatalogToGlueResponse,
   InternalServiceException | OperationTimeoutException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -16738,7 +18087,7 @@ export const importCatalogToGlue: (
  */
 export const updateCatalog: (
   input: UpdateCatalogRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCatalogResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -16773,7 +18122,7 @@ export const updateCatalog: (
  */
 export const deleteCatalog: (
   input: DeleteCatalogRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCatalogResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -16804,7 +18153,7 @@ export const deleteCatalog: (
  */
 export const deleteWorkflow: (
   input: DeleteWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkflowResponse,
   | ConcurrentModificationException
   | InternalServiceException
@@ -16827,7 +18176,7 @@ export const deleteWorkflow: (
  */
 export const getBlueprint: (
   input: GetBlueprintRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBlueprintResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -16851,7 +18200,7 @@ export const getBlueprint: (
 export const getBlueprintRuns: {
   (
     input: GetBlueprintRunsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetBlueprintRunsResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -16862,7 +18211,7 @@ export const getBlueprintRuns: {
   >;
   pages: (
     input: GetBlueprintRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetBlueprintRunsResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -16873,7 +18222,7 @@ export const getBlueprintRuns: {
   >;
   items: (
     input: GetBlueprintRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EntityNotFoundException
     | InternalServiceException
@@ -16902,7 +18251,7 @@ export const getBlueprintRuns: {
  */
 export const getCustomEntityType: (
   input: GetCustomEntityTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCustomEntityTypeResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -16927,7 +18276,7 @@ export const getCustomEntityType: (
  */
 export const getDataCatalogEncryptionSettings: (
   input: GetDataCatalogEncryptionSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataCatalogEncryptionSettingsResponse,
   | InternalServiceException
   | InvalidInputException
@@ -16948,7 +18297,7 @@ export const getDataCatalogEncryptionSettings: (
  */
 export const getDataflowGraph: (
   input: GetDataflowGraphRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataflowGraphResponse,
   | InternalServiceException
   | InvalidInputException
@@ -16969,7 +18318,7 @@ export const getDataflowGraph: (
  */
 export const getDataQualityModel: (
   input: GetDataQualityModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataQualityModelResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -16992,7 +18341,7 @@ export const getDataQualityModel: (
  */
 export const getDataQualityRuleRecommendationRun: (
   input: GetDataQualityRuleRecommendationRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataQualityRuleRecommendationRunResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -17015,7 +18364,7 @@ export const getDataQualityRuleRecommendationRun: (
  */
 export const getDataQualityRuleset: (
   input: GetDataQualityRulesetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataQualityRulesetResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -17038,7 +18387,7 @@ export const getDataQualityRuleset: (
  */
 export const getDataQualityRulesetEvaluationRun: (
   input: GetDataQualityRulesetEvaluationRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataQualityRulesetEvaluationRunResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -17065,7 +18414,7 @@ export const getDataQualityRulesetEvaluationRun: (
  */
 export const getDevEndpoint: (
   input: GetDevEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDevEndpointResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -17093,7 +18442,7 @@ export const getDevEndpoint: (
 export const getDevEndpoints: {
   (
     input: GetDevEndpointsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetDevEndpointsResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -17104,7 +18453,7 @@ export const getDevEndpoints: {
   >;
   pages: (
     input: GetDevEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetDevEndpointsResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -17115,7 +18464,7 @@ export const getDevEndpoints: {
   >;
   items: (
     input: GetDevEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EntityNotFoundException
     | InternalServiceException
@@ -17144,7 +18493,7 @@ export const getDevEndpoints: {
  */
 export const getJob: (
   input: GetJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetJobResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -17170,7 +18519,7 @@ export const getJob: (
 export const getJobRuns: {
   (
     input: GetJobRunsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetJobRunsResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -17181,7 +18530,7 @@ export const getJobRuns: {
   >;
   pages: (
     input: GetJobRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetJobRunsResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -17192,7 +18541,7 @@ export const getJobRuns: {
   >;
   items: (
     input: GetJobRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     JobRun,
     | EntityNotFoundException
     | InternalServiceException
@@ -17223,7 +18572,7 @@ export const getJobRuns: {
 export const getJobs: {
   (
     input: GetJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetJobsResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -17234,7 +18583,7 @@ export const getJobs: {
   >;
   pages: (
     input: GetJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetJobsResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -17245,7 +18594,7 @@ export const getJobs: {
   >;
   items: (
     input: GetJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Job,
     | EntityNotFoundException
     | InternalServiceException
@@ -17275,7 +18624,7 @@ export const getJobs: {
  */
 export const getRegistry: (
   input: GetRegistryInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetRegistryResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -17298,7 +18647,7 @@ export const getRegistry: (
  */
 export const getResourcePolicy: (
   input: GetResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourcePolicyResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -17321,7 +18670,7 @@ export const getResourcePolicy: (
  */
 export const getSchema: (
   input: GetSchemaInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSchemaResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -17344,7 +18693,7 @@ export const getSchema: (
  */
 export const getSchemaByDefinition: (
   input: GetSchemaByDefinitionInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSchemaByDefinitionResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -17369,7 +18718,7 @@ export const getSchemaByDefinition: (
  */
 export const getSchemaVersionsDiff: (
   input: GetSchemaVersionsDiffInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSchemaVersionsDiffResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -17393,7 +18742,7 @@ export const getSchemaVersionsDiff: (
 export const getSecurityConfigurations: {
   (
     input: GetSecurityConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetSecurityConfigurationsResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -17404,7 +18753,7 @@ export const getSecurityConfigurations: {
   >;
   pages: (
     input: GetSecurityConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetSecurityConfigurationsResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -17415,7 +18764,7 @@ export const getSecurityConfigurations: {
   >;
   items: (
     input: GetSecurityConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SecurityConfiguration,
     | EntityNotFoundException
     | InternalServiceException
@@ -17445,7 +18794,7 @@ export const getSecurityConfigurations: {
  */
 export const getTags: (
   input: GetTagsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTagsResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -17468,7 +18817,7 @@ export const getTags: (
  */
 export const getTrigger: (
   input: GetTriggerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTriggerResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -17492,7 +18841,7 @@ export const getTrigger: (
 export const getTriggers: {
   (
     input: GetTriggersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetTriggersResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -17503,7 +18852,7 @@ export const getTriggers: {
   >;
   pages: (
     input: GetTriggersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetTriggersResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -17514,7 +18863,7 @@ export const getTriggers: {
   >;
   items: (
     input: GetTriggersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Trigger,
     | EntityNotFoundException
     | InternalServiceException
@@ -17544,7 +18893,7 @@ export const getTriggers: {
  */
 export const getWorkflow: (
   input: GetWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkflowResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -17567,7 +18916,7 @@ export const getWorkflow: (
  */
 export const getWorkflowRunProperties: (
   input: GetWorkflowRunPropertiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkflowRunPropertiesResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -17591,7 +18940,7 @@ export const getWorkflowRunProperties: (
 export const getWorkflowRuns: {
   (
     input: GetWorkflowRunsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetWorkflowRunsResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -17602,7 +18951,7 @@ export const getWorkflowRuns: {
   >;
   pages: (
     input: GetWorkflowRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetWorkflowRunsResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -17613,7 +18962,7 @@ export const getWorkflowRuns: {
   >;
   items: (
     input: GetWorkflowRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkflowRun,
     | EntityNotFoundException
     | InternalServiceException
@@ -17644,7 +18993,7 @@ export const getWorkflowRuns: {
 export const listBlueprints: {
   (
     input: ListBlueprintsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBlueprintsResponse,
     | InternalServiceException
     | InvalidInputException
@@ -17654,7 +19003,7 @@ export const listBlueprints: {
   >;
   pages: (
     input: ListBlueprintsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBlueprintsResponse,
     | InternalServiceException
     | InvalidInputException
@@ -17664,7 +19013,7 @@ export const listBlueprints: {
   >;
   items: (
     input: ListBlueprintsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OrchestrationNameString,
     | InternalServiceException
     | InvalidInputException
@@ -17693,7 +19042,7 @@ export const listBlueprints: {
 export const listCustomEntityTypes: {
   (
     input: ListCustomEntityTypesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCustomEntityTypesResponse,
     | InternalServiceException
     | InvalidInputException
@@ -17703,7 +19052,7 @@ export const listCustomEntityTypes: {
   >;
   pages: (
     input: ListCustomEntityTypesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCustomEntityTypesResponse,
     | InternalServiceException
     | InvalidInputException
@@ -17713,7 +19062,7 @@ export const listCustomEntityTypes: {
   >;
   items: (
     input: ListCustomEntityTypesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServiceException
     | InvalidInputException
@@ -17747,7 +19096,7 @@ export const listCustomEntityTypes: {
 export const listDevEndpoints: {
   (
     input: ListDevEndpointsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDevEndpointsResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -17758,7 +19107,7 @@ export const listDevEndpoints: {
   >;
   pages: (
     input: ListDevEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDevEndpointsResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -17769,7 +19118,7 @@ export const listDevEndpoints: {
   >;
   items: (
     input: ListDevEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EntityNotFoundException
     | InternalServiceException
@@ -17803,7 +19152,7 @@ export const listDevEndpoints: {
 export const listJobs: {
   (
     input: ListJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListJobsResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -17814,7 +19163,7 @@ export const listJobs: {
   >;
   pages: (
     input: ListJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListJobsResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -17825,7 +19174,7 @@ export const listJobs: {
   >;
   items: (
     input: ListJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NameString,
     | EntityNotFoundException
     | InternalServiceException
@@ -17859,7 +19208,7 @@ export const listJobs: {
 export const listMLTransforms: {
   (
     input: ListMLTransformsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMLTransformsResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -17870,7 +19219,7 @@ export const listMLTransforms: {
   >;
   pages: (
     input: ListMLTransformsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMLTransformsResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -17881,7 +19230,7 @@ export const listMLTransforms: {
   >;
   items: (
     input: ListMLTransformsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EntityNotFoundException
     | InternalServiceException
@@ -17911,7 +19260,7 @@ export const listMLTransforms: {
 export const listSessions: {
   (
     input: ListSessionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSessionsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -17922,7 +19271,7 @@ export const listSessions: {
   >;
   pages: (
     input: ListSessionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSessionsResponse,
     | AccessDeniedException
     | InternalServiceException
@@ -17933,7 +19282,7 @@ export const listSessions: {
   >;
   items: (
     input: ListSessionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServiceException
@@ -17967,7 +19316,7 @@ export const listSessions: {
 export const listTriggers: {
   (
     input: ListTriggersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTriggersResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -17978,7 +19327,7 @@ export const listTriggers: {
   >;
   pages: (
     input: ListTriggersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTriggersResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -17989,7 +19338,7 @@ export const listTriggers: {
   >;
   items: (
     input: ListTriggersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NameString,
     | EntityNotFoundException
     | InternalServiceException
@@ -18020,7 +19369,7 @@ export const listTriggers: {
 export const listWorkflows: {
   (
     input: ListWorkflowsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkflowsResponse,
     | InternalServiceException
     | InvalidInputException
@@ -18030,7 +19379,7 @@ export const listWorkflows: {
   >;
   pages: (
     input: ListWorkflowsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkflowsResponse,
     | InternalServiceException
     | InvalidInputException
@@ -18040,7 +19389,7 @@ export const listWorkflows: {
   >;
   items: (
     input: ListWorkflowsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NameString,
     | InternalServiceException
     | InvalidInputException
@@ -18068,7 +19417,7 @@ export const listWorkflows: {
  */
 export const putResourcePolicy: (
   input: PutResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourcePolicyResponse,
   | ConditionCheckFailureException
   | EntityNotFoundException
@@ -18093,7 +19442,7 @@ export const putResourcePolicy: (
  */
 export const removeSchemaVersionMetadata: (
   input: RemoveSchemaVersionMetadataInput,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveSchemaVersionMetadataResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -18122,7 +19471,7 @@ export const removeSchemaVersionMetadata: (
  */
 export const resetJobBookmark: (
   input: ResetJobBookmarkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResetJobBookmarkResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -18153,7 +19502,7 @@ export const resetJobBookmark: (
  */
 export const startExportLabelsTaskRun: (
   input: StartExportLabelsTaskRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartExportLabelsTaskRunResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -18176,7 +19525,7 @@ export const startExportLabelsTaskRun: (
  */
 export const stopTrigger: (
   input: StopTriggerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopTriggerResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -18205,7 +19554,7 @@ export const stopTrigger: (
  */
 export const updateMLTransform: (
   input: UpdateMLTransformRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMLTransformResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -18230,7 +19579,7 @@ export const updateMLTransform: (
  */
 export const updateRegistry: (
   input: UpdateRegistryInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRegistryResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -18261,7 +19610,7 @@ export const updateRegistry: (
  */
 export const updateSchema: (
   input: UpdateSchemaInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSchemaResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -18286,7 +19635,7 @@ export const updateSchema: (
  */
 export const updateWorkflow: (
   input: UpdateWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkflowResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -18311,7 +19660,7 @@ export const updateWorkflow: (
  */
 export const cancelDataQualityRulesetEvaluationRun: (
   input: CancelDataQualityRulesetEvaluationRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelDataQualityRulesetEvaluationRunResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -18334,7 +19683,7 @@ export const cancelDataQualityRulesetEvaluationRun: (
  */
 export const deleteColumnStatisticsTaskSettings: (
   input: DeleteColumnStatisticsTaskSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteColumnStatisticsTaskSettingsResponse,
   | EntityNotFoundException
   | InvalidInputException
@@ -18355,7 +19704,7 @@ export const deleteColumnStatisticsTaskSettings: (
  */
 export const deleteDataQualityRuleset: (
   input: DeleteDataQualityRulesetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDataQualityRulesetResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -18378,7 +19727,7 @@ export const deleteDataQualityRuleset: (
  */
 export const deleteDevEndpoint: (
   input: DeleteDevEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDevEndpointResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -18401,7 +19750,7 @@ export const deleteDevEndpoint: (
  */
 export const deletePartition: (
   input: DeletePartitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePartitionResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -18424,7 +19773,7 @@ export const deletePartition: (
  */
 export const deleteSecurityConfiguration: (
   input: DeleteSecurityConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSecurityConfigurationResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -18447,7 +19796,7 @@ export const deleteSecurityConfiguration: (
  */
 export const deleteTableVersion: (
   input: DeleteTableVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTableVersionResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -18470,7 +19819,7 @@ export const deleteTableVersion: (
  */
 export const deleteUserDefinedFunction: (
   input: DeleteUserDefinedFunctionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUserDefinedFunctionResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -18493,7 +19842,7 @@ export const deleteUserDefinedFunction: (
  */
 export const putDataQualityProfileAnnotation: (
   input: PutDataQualityProfileAnnotationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutDataQualityProfileAnnotationResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -18514,7 +19863,7 @@ export const putDataQualityProfileAnnotation: (
  */
 export const startColumnStatisticsTaskRunSchedule: (
   input: StartColumnStatisticsTaskRunScheduleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartColumnStatisticsTaskRunScheduleResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -18537,7 +19886,7 @@ export const startColumnStatisticsTaskRunSchedule: (
  */
 export const stopColumnStatisticsTaskRunSchedule: (
   input: StopColumnStatisticsTaskRunScheduleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopColumnStatisticsTaskRunScheduleResponse,
   | EntityNotFoundException
   | InvalidInputException
@@ -18560,7 +19909,7 @@ export const stopColumnStatisticsTaskRunSchedule: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -18583,7 +19932,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -18608,7 +19957,7 @@ export const untagResource: (
  */
 export const createClassifier: (
   input: CreateClassifierRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateClassifierResponse,
   | AlreadyExistsException
   | InvalidInputException
@@ -18630,7 +19979,7 @@ export const createClassifier: (
  */
 export const createGlueIdentityCenterConfiguration: (
   input: CreateGlueIdentityCenterConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGlueIdentityCenterConfigurationResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -18658,7 +20007,7 @@ export const createGlueIdentityCenterConfiguration: (
  */
 export const deleteGlueIdentityCenterConfiguration: (
   input: DeleteGlueIdentityCenterConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGlueIdentityCenterConfigurationResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -18686,7 +20035,7 @@ export const deleteGlueIdentityCenterConfiguration: (
  */
 export const getGlueIdentityCenterConfiguration: (
   input: GetGlueIdentityCenterConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetGlueIdentityCenterConfigurationResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -18713,7 +20062,7 @@ export const getGlueIdentityCenterConfiguration: (
  */
 export const updateGlueIdentityCenterConfiguration: (
   input: UpdateGlueIdentityCenterConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGlueIdentityCenterConfigurationResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -18740,7 +20089,7 @@ export const updateGlueIdentityCenterConfiguration: (
  */
 export const cancelDataQualityRuleRecommendationRun: (
   input: CancelDataQualityRuleRecommendationRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelDataQualityRuleRecommendationRunResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -18765,7 +20114,7 @@ export const cancelDataQualityRuleRecommendationRun: (
  */
 export const cancelMLTaskRun: (
   input: CancelMLTaskRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelMLTaskRunResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -18788,7 +20137,7 @@ export const cancelMLTaskRun: (
  */
 export const checkSchemaVersionValidity: (
   input: CheckSchemaVersionValidityInput,
-) => Effect.Effect<
+) => effect.Effect<
   CheckSchemaVersionValidityResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -18809,7 +20158,7 @@ export const checkSchemaVersionValidity: (
  */
 export const deleteBlueprint: (
   input: DeleteBlueprintRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBlueprintResponse,
   | InternalServiceException
   | InvalidInputException
@@ -18830,7 +20179,7 @@ export const deleteBlueprint: (
  */
 export const deleteCustomEntityType: (
   input: DeleteCustomEntityTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCustomEntityTypeResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -18856,7 +20205,7 @@ export const deleteCustomEntityType: (
  */
 export const deleteJob: (
   input: DeleteJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteJobResponse,
   | InternalServiceException
   | InvalidInputException
@@ -18882,7 +20231,7 @@ export const deleteJob: (
  */
 export const deleteMLTransform: (
   input: DeleteMLTransformRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMLTransformResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -18905,7 +20254,7 @@ export const deleteMLTransform: (
  */
 export const deleteResourcePolicy: (
   input: DeleteResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourcePolicyResponse,
   | ConditionCheckFailureException
   | EntityNotFoundException
@@ -18931,7 +20280,7 @@ export const deleteResourcePolicy: (
  */
 export const deleteTrigger: (
   input: DeleteTriggerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTriggerResponse,
   | ConcurrentModificationException
   | InternalServiceException
@@ -18954,7 +20303,7 @@ export const deleteTrigger: (
  */
 export const batchDeleteTableVersion: (
   input: BatchDeleteTableVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDeleteTableVersionResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -18977,7 +20326,7 @@ export const batchDeleteTableVersion: (
  */
 export const batchGetCustomEntityTypes: (
   input: BatchGetCustomEntityTypesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetCustomEntityTypesResponse,
   | InternalServiceException
   | InvalidInputException
@@ -18998,7 +20347,7 @@ export const batchGetCustomEntityTypes: (
  */
 export const batchGetDataQualityResult: (
   input: BatchGetDataQualityResultRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetDataQualityResultResponse,
   | InternalServiceException
   | InvalidInputException
@@ -19022,7 +20371,7 @@ export const batchGetDataQualityResult: (
  */
 export const batchGetDevEndpoints: (
   input: BatchGetDevEndpointsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetDevEndpointsResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -19045,7 +20394,7 @@ export const batchGetDevEndpoints: (
  */
 export const batchGetJobs: (
   input: BatchGetJobsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetJobsResponse,
   | InternalServiceException
   | InvalidInputException
@@ -19066,7 +20415,7 @@ export const batchGetJobs: (
  */
 export const batchGetTriggers: (
   input: BatchGetTriggersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetTriggersResponse,
   | InternalServiceException
   | InvalidInputException
@@ -19087,7 +20436,7 @@ export const batchGetTriggers: (
  */
 export const batchStopJobRun: (
   input: BatchStopJobRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchStopJobRunResponse,
   | InternalServiceException
   | InvalidInputException
@@ -19108,7 +20457,7 @@ export const batchStopJobRun: (
  */
 export const listStatements: (
   input: ListStatementsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListStatementsResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -19135,7 +20484,7 @@ export const listStatements: (
  */
 export const stopSession: (
   input: StopSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopSessionResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -19162,7 +20511,7 @@ export const stopSession: (
  */
 export const cancelStatement: (
   input: CancelStatementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelStatementResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -19205,7 +20554,7 @@ export const cancelStatement: (
  */
 export const startMLLabelingSetGenerationTaskRun: (
   input: StartMLLabelingSetGenerationTaskRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartMLLabelingSetGenerationTaskRunResponse,
   | ConcurrentRunsExceededException
   | EntityNotFoundException
@@ -19230,7 +20579,7 @@ export const startMLLabelingSetGenerationTaskRun: (
  */
 export const updateBlueprint: (
   input: UpdateBlueprintRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateBlueprintResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -19257,7 +20606,7 @@ export const updateBlueprint: (
  */
 export const resumeWorkflowRun: (
   input: ResumeWorkflowRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResumeWorkflowRunResponse,
   | ConcurrentRunsExceededException
   | EntityNotFoundException
@@ -19284,7 +20633,7 @@ export const resumeWorkflowRun: (
  */
 export const batchDeleteConnection: (
   input: BatchDeleteConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDeleteConnectionResponse,
   InternalServiceException | OperationTimeoutException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -19298,7 +20647,7 @@ export const batchDeleteConnection: (
  */
 export const batchDeletePartition: (
   input: BatchDeletePartitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDeletePartitionResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -19321,7 +20670,7 @@ export const batchDeletePartition: (
  */
 export const batchGetBlueprints: (
   input: BatchGetBlueprintsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetBlueprintsResponse,
   | InternalServiceException
   | InvalidInputException
@@ -19342,7 +20691,7 @@ export const batchGetBlueprints: (
  */
 export const batchGetCrawlers: (
   input: BatchGetCrawlersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetCrawlersResponse,
   InvalidInputException | OperationTimeoutException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -19356,7 +20705,7 @@ export const batchGetCrawlers: (
  */
 export const batchUpdatePartition: (
   input: BatchUpdatePartitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchUpdatePartitionResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -19381,7 +20730,7 @@ export const batchUpdatePartition: (
  */
 export const createScript: (
   input: CreateScriptRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateScriptResponse,
   | InternalServiceException
   | InvalidInputException
@@ -19403,7 +20752,7 @@ export const createScript: (
  */
 export const deleteCrawler: (
   input: DeleteCrawlerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCrawlerResponse,
   | CrawlerRunningException
   | EntityNotFoundException
@@ -19438,7 +20787,7 @@ export const deleteCrawler: (
  */
 export const deleteDatabase: (
   input: DeleteDatabaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDatabaseResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -19473,7 +20822,7 @@ export const deleteDatabase: (
  */
 export const deleteSchemaVersions: (
   input: DeleteSchemaVersionsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSchemaVersionsResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -19496,7 +20845,7 @@ export const deleteSchemaVersions: (
  */
 export const getClassifier: (
   input: GetClassifierRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetClassifierResponse,
   EntityNotFoundException | OperationTimeoutException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -19510,7 +20859,7 @@ export const getClassifier: (
  */
 export const getColumnStatisticsTaskSettings: (
   input: GetColumnStatisticsTaskSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetColumnStatisticsTaskSettingsResponse,
   | EntityNotFoundException
   | InvalidInputException
@@ -19535,7 +20884,7 @@ export const getColumnStatisticsTaskSettings: (
  */
 export const getEntityRecords: (
   input: GetEntityRecordsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEntityRecordsResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -19564,7 +20913,7 @@ export const getEntityRecords: (
  */
 export const getIntegrationResourceProperty: (
   input: GetIntegrationResourcePropertyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIntegrationResourcePropertyResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -19593,7 +20942,7 @@ export const getIntegrationResourceProperty: (
  */
 export const getJobRun: (
   input: GetJobRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetJobRunResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -19620,7 +20969,7 @@ export const getJobRun: (
  */
 export const getMLTaskRun: (
   input: GetMLTaskRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMLTaskRunResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -19650,7 +20999,7 @@ export const getMLTaskRun: (
 export const getMLTaskRuns: {
   (
     input: GetMLTaskRunsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetMLTaskRunsResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -19661,7 +21010,7 @@ export const getMLTaskRuns: {
   >;
   pages: (
     input: GetMLTaskRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetMLTaskRunsResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -19672,7 +21021,7 @@ export const getMLTaskRuns: {
   >;
   items: (
     input: GetMLTaskRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EntityNotFoundException
     | InternalServiceException
@@ -19702,7 +21051,7 @@ export const getMLTaskRuns: {
 export const getPartitionIndexes: {
   (
     input: GetPartitionIndexesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetPartitionIndexesResponse,
     | ConflictException
     | EntityNotFoundException
@@ -19714,7 +21063,7 @@ export const getPartitionIndexes: {
   >;
   pages: (
     input: GetPartitionIndexesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetPartitionIndexesResponse,
     | ConflictException
     | EntityNotFoundException
@@ -19726,7 +21075,7 @@ export const getPartitionIndexes: {
   >;
   items: (
     input: GetPartitionIndexesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PartitionIndexDescriptor,
     | ConflictException
     | EntityNotFoundException
@@ -19757,7 +21106,7 @@ export const getPartitionIndexes: {
  */
 export const getTableOptimizer: (
   input: GetTableOptimizerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTableOptimizerResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -19782,7 +21131,7 @@ export const getTableOptimizer: (
  */
 export const getWorkflowRun: (
   input: GetWorkflowRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkflowRunResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -19806,21 +21155,21 @@ export const getWorkflowRun: (
 export const listConnectionTypes: {
   (
     input: ListConnectionTypesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConnectionTypesResponse,
     AccessDeniedException | InternalServiceException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListConnectionTypesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConnectionTypesResponse,
     AccessDeniedException | InternalServiceException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConnectionTypesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConnectionTypeBrief,
     AccessDeniedException | InternalServiceException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -19851,7 +21200,7 @@ export const listConnectionTypes: {
  */
 export const listCrawls: (
   input: ListCrawlsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListCrawlsResponse,
   | EntityNotFoundException
   | InvalidInputException
@@ -19873,7 +21222,7 @@ export const listCrawls: (
 export const listDataQualityResults: {
   (
     input: ListDataQualityResultsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataQualityResultsResponse,
     | InternalServiceException
     | InvalidInputException
@@ -19883,7 +21232,7 @@ export const listDataQualityResults: {
   >;
   pages: (
     input: ListDataQualityResultsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataQualityResultsResponse,
     | InternalServiceException
     | InvalidInputException
@@ -19893,7 +21242,7 @@ export const listDataQualityResults: {
   >;
   items: (
     input: ListDataQualityResultsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServiceException
     | InvalidInputException
@@ -19921,7 +21270,7 @@ export const listDataQualityResults: {
 export const listDataQualityRuleRecommendationRuns: {
   (
     input: ListDataQualityRuleRecommendationRunsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataQualityRuleRecommendationRunsResponse,
     | InternalServiceException
     | InvalidInputException
@@ -19931,7 +21280,7 @@ export const listDataQualityRuleRecommendationRuns: {
   >;
   pages: (
     input: ListDataQualityRuleRecommendationRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataQualityRuleRecommendationRunsResponse,
     | InternalServiceException
     | InvalidInputException
@@ -19941,7 +21290,7 @@ export const listDataQualityRuleRecommendationRuns: {
   >;
   items: (
     input: ListDataQualityRuleRecommendationRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServiceException
     | InvalidInputException
@@ -19969,7 +21318,7 @@ export const listDataQualityRuleRecommendationRuns: {
 export const listDataQualityRulesetEvaluationRuns: {
   (
     input: ListDataQualityRulesetEvaluationRunsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataQualityRulesetEvaluationRunsResponse,
     | InternalServiceException
     | InvalidInputException
@@ -19979,7 +21328,7 @@ export const listDataQualityRulesetEvaluationRuns: {
   >;
   pages: (
     input: ListDataQualityRulesetEvaluationRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataQualityRulesetEvaluationRunsResponse,
     | InternalServiceException
     | InvalidInputException
@@ -19989,7 +21338,7 @@ export const listDataQualityRulesetEvaluationRuns: {
   >;
   items: (
     input: ListDataQualityRulesetEvaluationRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServiceException
     | InvalidInputException
@@ -20017,7 +21366,7 @@ export const listDataQualityRulesetEvaluationRuns: {
 export const listDataQualityRulesets: {
   (
     input: ListDataQualityRulesetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataQualityRulesetsResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -20028,7 +21377,7 @@ export const listDataQualityRulesets: {
   >;
   pages: (
     input: ListDataQualityRulesetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataQualityRulesetsResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -20039,7 +21388,7 @@ export const listDataQualityRulesets: {
   >;
   items: (
     input: ListDataQualityRulesetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EntityNotFoundException
     | InternalServiceException
@@ -20068,7 +21417,7 @@ export const listDataQualityRulesets: {
  */
 export const listDataQualityStatisticAnnotations: (
   input: ListDataQualityStatisticAnnotationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDataQualityStatisticAnnotationsResponse,
   InternalServiceException | InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -20082,7 +21431,7 @@ export const listDataQualityStatisticAnnotations: (
  */
 export const listDataQualityStatistics: (
   input: ListDataQualityStatisticsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDataQualityStatisticsResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -20103,7 +21452,7 @@ export const listDataQualityStatistics: (
  */
 export const listIntegrationResourceProperties: (
   input: ListIntegrationResourcePropertiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListIntegrationResourcePropertiesResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -20133,7 +21482,7 @@ export const listIntegrationResourceProperties: (
 export const listUsageProfiles: {
   (
     input: ListUsageProfilesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUsageProfilesResponse,
     | InternalServiceException
     | InvalidInputException
@@ -20144,7 +21493,7 @@ export const listUsageProfiles: {
   >;
   pages: (
     input: ListUsageProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUsageProfilesResponse,
     | InternalServiceException
     | InvalidInputException
@@ -20155,7 +21504,7 @@ export const listUsageProfiles: {
   >;
   items: (
     input: ListUsageProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     UsageProfileDefinition,
     | InternalServiceException
     | InvalidInputException
@@ -20185,7 +21534,7 @@ export const listUsageProfiles: {
  */
 export const putSchemaVersionMetadata: (
   input: PutSchemaVersionMetadataInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutSchemaVersionMetadataResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -20212,7 +21561,7 @@ export const putSchemaVersionMetadata: (
  */
 export const startDataQualityRuleRecommendationRun: (
   input: StartDataQualityRuleRecommendationRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartDataQualityRuleRecommendationRunResponse,
   | ConflictException
   | InternalServiceException
@@ -20237,7 +21586,7 @@ export const startDataQualityRuleRecommendationRun: (
  */
 export const startCrawlerSchedule: (
   input: StartCrawlerScheduleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartCrawlerScheduleResponse,
   | EntityNotFoundException
   | NoScheduleException
@@ -20262,7 +21611,7 @@ export const startCrawlerSchedule: (
  */
 export const createCatalog: (
   input: CreateCatalogRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCatalogResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -20309,7 +21658,7 @@ export const createCatalog: (
  */
 export const batchDeleteTable: (
   input: BatchDeleteTableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDeleteTableResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -20338,7 +21687,7 @@ export const batchDeleteTable: (
  */
 export const stopCrawlerSchedule: (
   input: StopCrawlerScheduleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopCrawlerScheduleResponse,
   | EntityNotFoundException
   | OperationTimeoutException
@@ -20361,7 +21710,7 @@ export const stopCrawlerSchedule: (
  */
 export const getDatabase: (
   input: GetDatabaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDatabaseResponse,
   | EntityNotFoundException
   | FederationSourceException
@@ -20391,7 +21740,7 @@ export const getDatabase: (
  */
 export const getTable: (
   input: GetTableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTableResponse,
   | EntityNotFoundException
   | FederationSourceException
@@ -20422,7 +21771,7 @@ export const getTable: (
  */
 export const getCatalogs: (
   input: GetCatalogsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCatalogsResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -20454,7 +21803,7 @@ export const getCatalogs: (
 export const getDatabases: {
   (
     input: GetDatabasesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetDatabasesResponse,
     | EntityNotFoundException
     | FederationSourceException
@@ -20468,7 +21817,7 @@ export const getDatabases: {
   >;
   pages: (
     input: GetDatabasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetDatabasesResponse,
     | EntityNotFoundException
     | FederationSourceException
@@ -20482,7 +21831,7 @@ export const getDatabases: {
   >;
   items: (
     input: GetDatabasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EntityNotFoundException
     | FederationSourceException
@@ -20517,7 +21866,7 @@ export const getDatabases: {
  */
 export const getPartition: (
   input: GetPartitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPartitionResponse,
   | EntityNotFoundException
   | FederationSourceException
@@ -20546,7 +21895,7 @@ export const getPartition: (
  */
 export const updateDatabase: (
   input: UpdateDatabaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDatabaseResponse,
   | AlreadyExistsException
   | ConcurrentModificationException
@@ -20589,7 +21938,7 @@ export const updateDatabase: (
  */
 export const deleteTable: (
   input: DeleteTableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTableResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -20620,7 +21969,7 @@ export const deleteTable: (
  */
 export const createDatabase: (
   input: CreateDatabaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDatabaseResponse,
   | AlreadyExistsException
   | ConcurrentModificationException
@@ -20657,7 +22006,7 @@ export const createDatabase: (
  */
 export const updateClassifier: (
   input: UpdateClassifierRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateClassifierResponse,
   | EntityNotFoundException
   | InvalidInputException
@@ -20688,7 +22037,7 @@ export const updateClassifier: (
  */
 export const getJobBookmark: (
   input: GetJobBookmarkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetJobBookmarkResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -20714,7 +22063,7 @@ export const getJobBookmark: (
 export const listEntities: {
   (
     input: ListEntitiesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEntitiesResponse,
     | AccessDeniedException
     | EntityNotFoundException
@@ -20728,7 +22077,7 @@ export const listEntities: {
   >;
   pages: (
     input: ListEntitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEntitiesResponse,
     | AccessDeniedException
     | EntityNotFoundException
@@ -20742,7 +22091,7 @@ export const listEntities: {
   >;
   items: (
     input: ListEntitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Entity,
     | AccessDeniedException
     | EntityNotFoundException
@@ -20777,7 +22126,7 @@ export const listEntities: {
  */
 export const updateDevEndpoint: (
   input: UpdateDevEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDevEndpointResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -20804,7 +22153,7 @@ export const updateDevEndpoint: (
  */
 export const updateJobFromSourceControl: (
   input: UpdateJobFromSourceControlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateJobFromSourceControlResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -20835,7 +22184,7 @@ export const updateJobFromSourceControl: (
  */
 export const updateSourceControlFromJob: (
   input: UpdateSourceControlFromJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSourceControlFromJobResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -20867,7 +22216,7 @@ export const updateSourceControlFromJob: (
 export const describeEntity: {
   (
     input: DescribeEntityRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeEntityResponse,
     | AccessDeniedException
     | EntityNotFoundException
@@ -20881,7 +22230,7 @@ export const describeEntity: {
   >;
   pages: (
     input: DescribeEntityRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeEntityResponse,
     | AccessDeniedException
     | EntityNotFoundException
@@ -20895,7 +22244,7 @@ export const describeEntity: {
   >;
   items: (
     input: DescribeEntityRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Field,
     | AccessDeniedException
     | EntityNotFoundException
@@ -20930,7 +22279,7 @@ export const describeEntity: {
  */
 export const describeIntegrations: (
   input: DescribeIntegrationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeIntegrationsResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -20959,7 +22308,7 @@ export const describeIntegrations: (
  */
 export const getIntegrationTableProperties: (
   input: GetIntegrationTablePropertiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIntegrationTablePropertiesResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -20988,7 +22337,7 @@ export const getIntegrationTableProperties: (
  */
 export const updateIntegrationResourceProperty: (
   input: UpdateIntegrationResourcePropertyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateIntegrationResourcePropertyResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -21017,7 +22366,7 @@ export const updateIntegrationResourceProperty: (
  */
 export const deleteIntegrationResourceProperty: (
   input: DeleteIntegrationResourcePropertyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIntegrationResourcePropertyResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -21046,7 +22395,7 @@ export const deleteIntegrationResourceProperty: (
  */
 export const deleteIntegrationTableProperties: (
   input: DeleteIntegrationTablePropertiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIntegrationTablePropertiesResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -21077,7 +22426,7 @@ export const deleteIntegrationTableProperties: (
  */
 export const updateIntegrationTableProperties: (
   input: UpdateIntegrationTablePropertiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateIntegrationTablePropertiesResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -21106,7 +22455,7 @@ export const updateIntegrationTableProperties: (
  */
 export const createIntegrationResourceProperty: (
   input: CreateIntegrationResourcePropertyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateIntegrationResourcePropertyResponse,
   | AccessDeniedException
   | ConflictException
@@ -21137,7 +22486,7 @@ export const createIntegrationResourceProperty: (
  */
 export const createIntegrationTableProperties: (
   input: CreateIntegrationTablePropertiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateIntegrationTablePropertiesResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -21166,7 +22515,7 @@ export const createIntegrationTableProperties: (
  */
 export const deleteTableOptimizer: (
   input: DeleteTableOptimizerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTableOptimizerResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -21191,7 +22540,7 @@ export const deleteTableOptimizer: (
  */
 export const updateTableOptimizer: (
   input: UpdateTableOptimizerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTableOptimizerResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -21220,7 +22569,7 @@ export const updateTableOptimizer: (
  */
 export const batchGetTableOptimizer: (
   input: BatchGetTableOptimizerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetTableOptimizerResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -21245,7 +22594,7 @@ export const batchGetTableOptimizer: (
  */
 export const createTableOptimizer: (
   input: CreateTableOptimizerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTableOptimizerResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -21274,7 +22623,7 @@ export const createTableOptimizer: (
  */
 export const deleteUsageProfile: (
   input: DeleteUsageProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUsageProfileResponse,
   | InternalServiceException
   | InvalidInputException
@@ -21297,7 +22646,7 @@ export const deleteUsageProfile: (
  */
 export const getUsageProfile: (
   input: GetUsageProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUsageProfileResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -21322,7 +22671,7 @@ export const getUsageProfile: (
  */
 export const updateUsageProfile: (
   input: UpdateUsageProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUsageProfileResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -21349,7 +22698,7 @@ export const updateUsageProfile: (
  */
 export const startBlueprintRun: (
   input: StartBlueprintRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartBlueprintRunResponse,
   | EntityNotFoundException
   | IllegalBlueprintStateException
@@ -21376,7 +22725,7 @@ export const startBlueprintRun: (
  */
 export const startColumnStatisticsTaskRun: (
   input: StartColumnStatisticsTaskRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartColumnStatisticsTaskRunResponse,
   | AccessDeniedException
   | ColumnStatisticsTaskRunningException
@@ -21403,7 +22752,7 @@ export const startColumnStatisticsTaskRun: (
  */
 export const updateDataQualityRuleset: (
   input: UpdateDataQualityRulesetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDataQualityRulesetResponse,
   | AlreadyExistsException
   | EntityNotFoundException
@@ -21432,7 +22781,7 @@ export const updateDataQualityRuleset: (
  */
 export const createPartitionIndex: (
   input: CreatePartitionIndexRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePartitionIndexResponse,
   | AlreadyExistsException
   | EntityNotFoundException
@@ -21465,7 +22814,7 @@ export const createPartitionIndex: (
  */
 export const testConnection: (
   input: TestConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TestConnectionResponse,
   | AccessDeniedException
   | ConflictException
@@ -21502,7 +22851,7 @@ export const testConnection: (
  */
 export const registerSchemaVersion: (
   input: RegisterSchemaVersionInput,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterSchemaVersionResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -21553,7 +22902,7 @@ export const registerSchemaVersion: (
  */
 export const startImportLabelsTaskRun: (
   input: StartImportLabelsTaskRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartImportLabelsTaskRunResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -21578,7 +22927,7 @@ export const startImportLabelsTaskRun: (
  */
 export const putWorkflowRunProperties: (
   input: PutWorkflowRunPropertiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutWorkflowRunPropertiesResponse,
   | AlreadyExistsException
   | ConcurrentModificationException
@@ -21607,7 +22956,7 @@ export const putWorkflowRunProperties: (
  */
 export const createRegistry: (
   input: CreateRegistryInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRegistryResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -21634,7 +22983,7 @@ export const createRegistry: (
  */
 export const createBlueprint: (
   input: CreateBlueprintRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBlueprintResponse,
   | AlreadyExistsException
   | InternalServiceException
@@ -21661,7 +23010,7 @@ export const createBlueprint: (
  */
 export const createCrawler: (
   input: CreateCrawlerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCrawlerResponse,
   | AlreadyExistsException
   | InvalidInputException
@@ -21686,7 +23035,7 @@ export const createCrawler: (
  */
 export const createDataQualityRuleset: (
   input: CreateDataQualityRulesetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataQualityRulesetResponse,
   | AlreadyExistsException
   | InternalServiceException
@@ -21711,7 +23060,7 @@ export const createDataQualityRuleset: (
  */
 export const createPartition: (
   input: CreatePartitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePartitionResponse,
   | AlreadyExistsException
   | EntityNotFoundException
@@ -21744,7 +23093,7 @@ export const createPartition: (
  */
 export const createSchema: (
   input: CreateSchemaInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSchemaResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -21773,7 +23122,7 @@ export const createSchema: (
  */
 export const createUserDefinedFunction: (
   input: CreateUserDefinedFunctionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUserDefinedFunctionResponse,
   | AlreadyExistsException
   | EntityNotFoundException
@@ -21802,7 +23151,7 @@ export const createUserDefinedFunction: (
  */
 export const createWorkflow: (
   input: CreateWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkflowResponse,
   | AlreadyExistsException
   | ConcurrentModificationException
@@ -21829,7 +23178,7 @@ export const createWorkflow: (
  */
 export const runStatement: (
   input: RunStatementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RunStatementResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -21860,7 +23209,7 @@ export const runStatement: (
  */
 export const startJobRun: (
   input: StartJobRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartJobRunResponse,
   | ConcurrentRunsExceededException
   | EntityNotFoundException
@@ -21889,7 +23238,7 @@ export const startJobRun: (
  */
 export const startTrigger: (
   input: StartTriggerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartTriggerResponse,
   | ConcurrentRunsExceededException
   | EntityNotFoundException
@@ -21916,7 +23265,7 @@ export const startTrigger: (
  */
 export const startWorkflowRun: (
   input: StartWorkflowRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartWorkflowRunResponse,
   | ConcurrentRunsExceededException
   | EntityNotFoundException
@@ -21943,7 +23292,7 @@ export const startWorkflowRun: (
  */
 export const createColumnStatisticsTaskSettings: (
   input: CreateColumnStatisticsTaskSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateColumnStatisticsTaskSettingsResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -21974,7 +23323,7 @@ export const createColumnStatisticsTaskSettings: (
  */
 export const createCustomEntityType: (
   input: CreateCustomEntityTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCustomEntityTypeResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -22003,7 +23352,7 @@ export const createCustomEntityType: (
  */
 export const createDevEndpoint: (
   input: CreateDevEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDevEndpointResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -22034,7 +23383,7 @@ export const createDevEndpoint: (
  */
 export const createSession: (
   input: CreateSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSessionResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -22067,7 +23416,7 @@ export const createSession: (
  */
 export const batchPutDataQualityStatisticAnnotation: (
   input: BatchPutDataQualityStatisticAnnotationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchPutDataQualityStatisticAnnotationResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -22102,7 +23451,7 @@ export const batchPutDataQualityStatisticAnnotation: (
  */
 export const createMLTransform: (
   input: CreateMLTransformRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMLTransformResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -22131,7 +23480,7 @@ export const createMLTransform: (
  */
 export const createSecurityConfiguration: (
   input: CreateSecurityConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSecurityConfigurationResponse,
   | AlreadyExistsException
   | InternalServiceException
@@ -22158,7 +23507,7 @@ export const createSecurityConfiguration: (
  */
 export const createTrigger: (
   input: CreateTriggerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTriggerResponse,
   | AlreadyExistsException
   | ConcurrentModificationException
@@ -22196,7 +23545,7 @@ export const createTrigger: (
  */
 export const startMLEvaluationTaskRun: (
   input: StartMLEvaluationTaskRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartMLEvaluationTaskRunResponse,
   | ConcurrentRunsExceededException
   | EntityNotFoundException
@@ -22223,7 +23572,7 @@ export const startMLEvaluationTaskRun: (
  */
 export const updateColumnStatisticsTaskSettings: (
   input: UpdateColumnStatisticsTaskSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateColumnStatisticsTaskSettingsResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -22250,7 +23599,7 @@ export const updateColumnStatisticsTaskSettings: (
  */
 export const updateCrawler: (
   input: UpdateCrawlerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCrawlerResponse,
   | CrawlerRunningException
   | EntityNotFoundException
@@ -22275,7 +23624,7 @@ export const updateCrawler: (
  */
 export const updateCrawlerSchedule: (
   input: UpdateCrawlerScheduleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCrawlerScheduleResponse,
   | EntityNotFoundException
   | InvalidInputException
@@ -22300,7 +23649,7 @@ export const updateCrawlerSchedule: (
  */
 export const createUsageProfile: (
   input: CreateUsageProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUsageProfileResponse,
   | AlreadyExistsException
   | InternalServiceException
@@ -22327,7 +23676,7 @@ export const createUsageProfile: (
  */
 export const describeConnectionType: (
   input: DescribeConnectionTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeConnectionTypeResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -22350,7 +23699,7 @@ export const describeConnectionType: (
  */
 export const getCatalog: (
   input: GetCatalogRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCatalogResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -22381,7 +23730,7 @@ export const getCatalog: (
  */
 export const getConnection: (
   input: GetConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConnectionResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -22404,7 +23753,7 @@ export const getConnection: (
  */
 export const getDataQualityResult: (
   input: GetDataQualityResultRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataQualityResultResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -22431,7 +23780,7 @@ export const getDataQualityResult: (
  */
 export const getMLTransform: (
   input: GetMLTransformRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMLTransformResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -22459,7 +23808,7 @@ export const getMLTransform: (
 export const getMLTransforms: {
   (
     input: GetMLTransformsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetMLTransformsResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -22470,7 +23819,7 @@ export const getMLTransforms: {
   >;
   pages: (
     input: GetMLTransformsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetMLTransformsResponse,
     | EntityNotFoundException
     | InternalServiceException
@@ -22481,7 +23830,7 @@ export const getMLTransforms: {
   >;
   items: (
     input: GetMLTransformsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EntityNotFoundException
     | InternalServiceException
@@ -22510,7 +23859,7 @@ export const getMLTransforms: {
  */
 export const getStatement: (
   input: GetStatementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetStatementResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -22540,7 +23889,7 @@ export const getStatement: (
  */
 export const getUnfilteredPartitionMetadata: (
   input: GetUnfilteredPartitionMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUnfilteredPartitionMetadataResponse,
   | EntityNotFoundException
   | FederationSourceException
@@ -22572,7 +23921,7 @@ export const getUnfilteredPartitionMetadata: (
 export const listTableOptimizerRuns: {
   (
     input: ListTableOptimizerRunsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTableOptimizerRunsResponse,
     | AccessDeniedException
     | EntityNotFoundException
@@ -22585,7 +23934,7 @@ export const listTableOptimizerRuns: {
   >;
   pages: (
     input: ListTableOptimizerRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTableOptimizerRunsResponse,
     | AccessDeniedException
     | EntityNotFoundException
@@ -22598,7 +23947,7 @@ export const listTableOptimizerRuns: {
   >;
   items: (
     input: ListTableOptimizerRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TableOptimizerRun,
     | AccessDeniedException
     | EntityNotFoundException
@@ -22632,7 +23981,7 @@ export const listTableOptimizerRuns: {
  */
 export const querySchemaVersionMetadata: (
   input: QuerySchemaVersionMetadataInput,
-) => Effect.Effect<
+) => effect.Effect<
   QuerySchemaVersionMetadataResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -22654,7 +24003,7 @@ export const querySchemaVersionMetadata: (
 export const getPartitions: {
   (
     input: GetPartitionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetPartitionsResponse,
     | EntityNotFoundException
     | FederationSourceException
@@ -22670,7 +24019,7 @@ export const getPartitions: {
   >;
   pages: (
     input: GetPartitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetPartitionsResponse,
     | EntityNotFoundException
     | FederationSourceException
@@ -22686,7 +24035,7 @@ export const getPartitions: {
   >;
   items: (
     input: GetPartitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EntityNotFoundException
     | FederationSourceException
@@ -22725,7 +24074,7 @@ export const getPartitions: {
  */
 export const modifyIntegration: (
   input: ModifyIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyIntegrationResponse,
   | AccessDeniedException
   | ConflictException
@@ -22764,7 +24113,7 @@ export const modifyIntegration: (
  */
 export const getUnfilteredTableMetadata: (
   input: GetUnfilteredTableMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUnfilteredTableMetadataResponse,
   | EntityNotFoundException
   | FederationSourceException
@@ -22799,7 +24148,7 @@ export const getUnfilteredTableMetadata: (
 export const getUnfilteredPartitionsMetadata: {
   (
     input: GetUnfilteredPartitionsMetadataRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetUnfilteredPartitionsMetadataResponse,
     | EntityNotFoundException
     | FederationSourceException
@@ -22814,7 +24163,7 @@ export const getUnfilteredPartitionsMetadata: {
   >;
   pages: (
     input: GetUnfilteredPartitionsMetadataRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetUnfilteredPartitionsMetadataResponse,
     | EntityNotFoundException
     | FederationSourceException
@@ -22829,7 +24178,7 @@ export const getUnfilteredPartitionsMetadata: {
   >;
   items: (
     input: GetUnfilteredPartitionsMetadataRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EntityNotFoundException
     | FederationSourceException
@@ -22866,7 +24215,7 @@ export const getUnfilteredPartitionsMetadata: {
  */
 export const describeInboundIntegrations: (
   input: DescribeInboundIntegrationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeInboundIntegrationsResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -22899,7 +24248,7 @@ export const describeInboundIntegrations: (
  */
 export const batchGetPartition: (
   input: BatchGetPartitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetPartitionResponse,
   | EntityNotFoundException
   | FederationSourceException
@@ -22930,7 +24279,7 @@ export const batchGetPartition: (
  */
 export const deleteIntegration: (
   input: DeleteIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIntegrationResponse,
   | AccessDeniedException
   | ConflictException
@@ -22967,7 +24316,7 @@ export const deleteIntegration: (
  */
 export const batchCreatePartition: (
   input: BatchCreatePartitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchCreatePartitionResponse,
   | AlreadyExistsException
   | EntityNotFoundException
@@ -22998,7 +24347,7 @@ export const batchCreatePartition: (
  */
 export const createConnection: (
   input: CreateConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConnectionResponse,
   | AlreadyExistsException
   | GlueEncryptionException
@@ -23023,7 +24372,7 @@ export const createConnection: (
  */
 export const createIntegration: (
   input: CreateIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateIntegrationResponse,
   | AccessDeniedException
   | ConflictException
@@ -23062,7 +24411,7 @@ export const createIntegration: (
  */
 export const createTable: (
   input: CreateTableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTableResponse,
   | AlreadyExistsException
   | ConcurrentModificationException
@@ -23101,7 +24450,7 @@ export const createTable: (
 export const getTables: {
   (
     input: GetTablesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetTablesResponse,
     | EntityNotFoundException
     | FederationSourceException
@@ -23115,7 +24464,7 @@ export const getTables: {
   >;
   pages: (
     input: GetTablesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetTablesResponse,
     | EntityNotFoundException
     | FederationSourceException
@@ -23129,7 +24478,7 @@ export const getTables: {
   >;
   items: (
     input: GetTablesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EntityNotFoundException
     | FederationSourceException
@@ -23166,7 +24515,7 @@ export const getTables: {
  */
 export const updateColumnStatisticsForPartition: (
   input: UpdateColumnStatisticsForPartitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateColumnStatisticsForPartitionResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -23191,7 +24540,7 @@ export const updateColumnStatisticsForPartition: (
  */
 export const updateTable: (
   input: UpdateTableRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTableResponse,
   | AlreadyExistsException
   | ConcurrentModificationException
@@ -23228,7 +24577,7 @@ export const updateTable: (
  */
 export const batchGetWorkflows: (
   input: BatchGetWorkflowsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetWorkflowsResponse,
   | InternalServiceException
   | InvalidInputException
@@ -23249,7 +24598,7 @@ export const batchGetWorkflows: (
  */
 export const createJob: (
   input: CreateJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateJobResponse,
   | AlreadyExistsException
   | ConcurrentModificationException

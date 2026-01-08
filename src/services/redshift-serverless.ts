@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -100,8 +100,8 @@ export type VpcSecurityGroupId = string;
 export type OwnerAccount = string;
 export type SourceArn = string;
 export type NamespaceName = string;
-export type DbUser = string | Redacted.Redacted<string>;
-export type DbPassword = string | Redacted.Redacted<string>;
+export type DbUser = string | redacted.Redacted<string>;
+export type DbPassword = string | redacted.Redacted<string>;
 export type IamRoleArn = string;
 export type LogExport = string;
 export type KmsKeyId = string;
@@ -229,7 +229,7 @@ export const GetCustomDomainAssociationRequest = S.suspend(() =>
   identifier: "GetCustomDomainAssociationRequest",
 }) as any as S.Schema<GetCustomDomainAssociationRequest>;
 export interface GetIdentityCenterAuthTokenRequest {
-  workgroupNames: WorkgroupNameList;
+  workgroupNames: string[];
 }
 export const GetIdentityCenterAuthTokenRequest = S.suspend(() =>
   S.Struct({ workgroupNames: WorkgroupNameList }).pipe(
@@ -313,7 +313,7 @@ export const PutResourcePolicyRequest = S.suspend(() =>
 }) as any as S.Schema<PutResourcePolicyRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
@@ -344,9 +344,9 @@ export const UpdateCustomDomainAssociationRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateCustomDomainAssociationRequest>;
 export interface CreateEndpointAccessRequest {
   endpointName: string;
-  subnetIds: SubnetIdList;
+  subnetIds: string[];
   workgroupName: string;
-  vpcSecurityGroupIds?: VpcSecurityGroupIdList;
+  vpcSecurityGroupIds?: string[];
   ownerAccount?: string;
 }
 export const CreateEndpointAccessRequest = S.suspend(() =>
@@ -404,7 +404,7 @@ export const ListEndpointAccessRequest = S.suspend(() =>
 }) as any as S.Schema<ListEndpointAccessRequest>;
 export interface UpdateEndpointAccessRequest {
   endpointName: string;
-  vpcSecurityGroupIds?: VpcSecurityGroupIdList;
+  vpcSecurityGroupIds?: string[];
 }
 export const UpdateEndpointAccessRequest = S.suspend(() =>
   S.Struct({
@@ -443,14 +443,14 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface CreateNamespaceRequest {
   namespaceName: string;
-  adminUsername?: string | Redacted.Redacted<string>;
-  adminUserPassword?: string | Redacted.Redacted<string>;
+  adminUsername?: string | redacted.Redacted<string>;
+  adminUserPassword?: string | redacted.Redacted<string>;
   dbName?: string;
   kmsKeyId?: string;
   defaultIamRoleArn?: string;
-  iamRoles?: IamRoleArnList;
-  logExports?: LogExportList;
-  tags?: TagList;
+  iamRoles?: string[];
+  logExports?: string[];
+  tags?: Tag[];
   manageAdminPassword?: boolean;
   adminPasswordSecretKmsKeyId?: string;
   redshiftIdcApplicationArn?: string;
@@ -487,12 +487,12 @@ export const GetNamespaceRequest = S.suspend(() =>
 }) as any as S.Schema<GetNamespaceRequest>;
 export interface UpdateNamespaceRequest {
   namespaceName: string;
-  adminUserPassword?: string | Redacted.Redacted<string>;
-  adminUsername?: string | Redacted.Redacted<string>;
+  adminUserPassword?: string | redacted.Redacted<string>;
+  adminUsername?: string | redacted.Redacted<string>;
   kmsKeyId?: string;
   defaultIamRoleArn?: string;
-  iamRoles?: IamRoleArnList;
-  logExports?: LogExportList;
+  iamRoles?: string[];
+  logExports?: string[];
   manageAdminPassword?: boolean;
   adminPasswordSecretKmsKeyId?: string;
 }
@@ -569,7 +569,7 @@ export interface ConvertRecoveryPointToSnapshotRequest {
   recoveryPointId: string;
   snapshotName: string;
   retentionPeriod?: number;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const ConvertRecoveryPointToSnapshotRequest = S.suspend(() =>
   S.Struct({
@@ -765,7 +765,7 @@ export interface CreateSnapshotScheduleActionParameters {
   namespaceName: string;
   snapshotNamePrefix: string;
   retentionPeriod?: number;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateSnapshotScheduleActionParameters = S.suspend(() =>
   S.Struct({
@@ -790,8 +790,8 @@ export const Schedule = S.Union(
 );
 export interface UpdateScheduledActionRequest {
   scheduledActionName: string;
-  targetAction?: (typeof TargetAction)["Type"];
-  schedule?: (typeof Schedule)["Type"];
+  targetAction?: TargetAction;
+  schedule?: Schedule;
   roleArn?: string;
   enabled?: boolean;
   scheduledActionDescription?: string;
@@ -818,7 +818,7 @@ export interface CreateSnapshotRequest {
   namespaceName: string;
   snapshotName: string;
   retentionPeriod?: number;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateSnapshotRequest = S.suspend(() =>
   S.Struct({
@@ -1147,10 +1147,10 @@ export interface UpdateWorkgroupRequest {
   workgroupName: string;
   baseCapacity?: number;
   enhancedVpcRouting?: boolean;
-  configParameters?: ConfigParameterList;
+  configParameters?: ConfigParameter[];
   publiclyAccessible?: boolean;
-  subnetIds?: SubnetIdList;
-  securityGroupIds?: SecurityGroupIdList;
+  subnetIds?: string[];
+  securityGroupIds?: string[];
   port?: number;
   maxCapacity?: number;
   ipAddressType?: string;
@@ -1218,7 +1218,7 @@ export const UpdateTargetsList = S.Array(UpdateTarget);
 export interface ServerlessTrack {
   trackName?: string;
   workgroupVersion?: string;
-  updateTargets?: UpdateTargetsList;
+  updateTargets?: UpdateTarget[];
 }
 export const ServerlessTrack = S.suspend(() =>
   S.Struct({
@@ -1270,7 +1270,7 @@ export const NetworkInterfaceList = S.Array(NetworkInterface);
 export interface VpcEndpoint {
   vpcEndpointId?: string;
   vpcId?: string;
-  networkInterfaces?: NetworkInterfaceList;
+  networkInterfaces?: NetworkInterface[];
 }
 export const VpcEndpoint = S.suspend(() =>
   S.Struct({
@@ -1286,8 +1286,8 @@ export interface EndpointAccess {
   endpointCreateTime?: Date;
   port?: number;
   address?: string;
-  subnetIds?: SubnetIdList;
-  vpcSecurityGroups?: VpcSecurityGroupMembershipList;
+  subnetIds?: string[];
+  vpcSecurityGroups?: VpcSecurityGroupMembership[];
   vpcEndpoint?: VpcEndpoint;
   endpointArn?: string;
 }
@@ -1313,12 +1313,12 @@ export interface Namespace {
   namespaceArn?: string;
   namespaceId?: string;
   namespaceName?: string;
-  adminUsername?: string | Redacted.Redacted<string>;
+  adminUsername?: string | redacted.Redacted<string>;
   dbName?: string;
   kmsKeyId?: string;
   defaultIamRoleArn?: string;
-  iamRoles?: IamRoleArnList;
-  logExports?: LogExportList;
+  iamRoles?: string[];
+  logExports?: string[];
   status?: string;
   creationDate?: Date;
   adminPasswordSecretArn?: string;
@@ -1458,8 +1458,8 @@ export interface Snapshot {
   snapshotRemainingDays?: number;
   snapshotRetentionStartTime?: Date;
   snapshotArn?: string;
-  accountsWithRestoreAccess?: AccountIdList;
-  accountsWithProvisionedRestoreAccess?: AccountIdList;
+  accountsWithRestoreAccess?: string[];
+  accountsWithProvisionedRestoreAccess?: string[];
   adminPasswordSecretArn?: string;
   adminPasswordSecretKmsKeyId?: string;
 }
@@ -1562,7 +1562,7 @@ export const VpcEndpointList = S.Array(VpcEndpoint);
 export interface Endpoint {
   address?: string;
   port?: number;
-  vpcEndpoints?: VpcEndpointList;
+  vpcEndpoints?: VpcEndpoint[];
 }
 export const Endpoint = S.suspend(() =>
   S.Struct({
@@ -1580,9 +1580,9 @@ export interface Workgroup {
   namespaceName?: string;
   baseCapacity?: number;
   enhancedVpcRouting?: boolean;
-  configParameters?: ConfigParameterList;
-  securityGroupIds?: SecurityGroupIdList;
-  subnetIds?: SubnetIdList;
+  configParameters?: ConfigParameter[];
+  securityGroupIds?: string[];
+  subnetIds?: string[];
   status?: string;
   endpoint?: Endpoint;
   publiclyAccessible?: boolean;
@@ -1594,7 +1594,7 @@ export interface Workgroup {
   workgroupVersion?: string;
   patchVersion?: string;
   maxCapacity?: number;
-  crossAccountVpcs?: VpcIds;
+  crossAccountVpcs?: string[];
   ipAddressType?: string;
   pricePerformanceTarget?: PerformanceTarget;
   trackName?: string;
@@ -1652,8 +1652,8 @@ export const CreateCustomDomainAssociationResponse = S.suspend(() =>
   identifier: "CreateCustomDomainAssociationResponse",
 }) as any as S.Schema<CreateCustomDomainAssociationResponse>;
 export interface GetCredentialsResponse {
-  dbUser?: string | Redacted.Redacted<string>;
-  dbPassword?: string | Redacted.Redacted<string>;
+  dbUser?: string | redacted.Redacted<string>;
+  dbPassword?: string | redacted.Redacted<string>;
   expiration?: Date;
   nextRefreshTime?: Date;
 }
@@ -1702,7 +1702,7 @@ export const GetIdentityCenterAuthTokenResponse = S.suspend(() =>
   identifier: "GetIdentityCenterAuthTokenResponse",
 }) as any as S.Schema<GetIdentityCenterAuthTokenResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagList) }),
@@ -1710,7 +1710,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListTracksResponse {
-  tracks?: TrackList;
+  tracks?: ServerlessTrack[];
   nextToken?: string;
 }
 export const ListTracksResponse = S.suspend(() =>
@@ -1737,7 +1737,7 @@ export const PutResourcePolicyResponse = S.suspend(() =>
 }) as any as S.Schema<PutResourcePolicyResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagList;
+  tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
@@ -1786,7 +1786,7 @@ export const GetEndpointAccessResponse = S.suspend(() =>
 }) as any as S.Schema<GetEndpointAccessResponse>;
 export interface ListEndpointAccessResponse {
   nextToken?: string;
-  endpoints: EndpointAccessList;
+  endpoints: EndpointAccess[];
 }
 export const ListEndpointAccessResponse = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), endpoints: EndpointAccessList }),
@@ -1827,7 +1827,7 @@ export const DeleteNamespaceResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteNamespaceResponse>;
 export interface ListNamespacesResponse {
   nextToken?: string;
-  namespaces: NamespaceList;
+  namespaces: Namespace[];
 }
 export const ListNamespacesResponse = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), namespaces: NamespaceList }),
@@ -1851,7 +1851,7 @@ export const UpdateLakehouseConfigurationResponse = S.suspend(() =>
   identifier: "UpdateLakehouseConfigurationResponse",
 }) as any as S.Schema<UpdateLakehouseConfigurationResponse>;
 export interface ListRecoveryPointsResponse {
-  recoveryPoints?: RecoveryPointList;
+  recoveryPoints?: RecoveryPoint[];
   nextToken?: string;
 }
 export const ListRecoveryPointsResponse = S.suspend(() =>
@@ -1883,7 +1883,7 @@ export const GetReservationResponse = S.suspend(() =>
   identifier: "GetReservationResponse",
 }) as any as S.Schema<GetReservationResponse>;
 export interface ListReservationOfferingsResponse {
-  reservationOfferingsList: ReservationOfferingsList;
+  reservationOfferingsList: ReservationOffering[];
   nextToken?: string;
 }
 export const ListReservationOfferingsResponse = S.suspend(() =>
@@ -1895,7 +1895,7 @@ export const ListReservationOfferingsResponse = S.suspend(() =>
   identifier: "ListReservationOfferingsResponse",
 }) as any as S.Schema<ListReservationOfferingsResponse>;
 export interface ListReservationsResponse {
-  reservationsList: ReservationsList;
+  reservationsList: Reservation[];
   nextToken?: string;
 }
 export const ListReservationsResponse = S.suspend(() =>
@@ -1912,14 +1912,14 @@ export const NextInvocationsList = S.Array(
 );
 export interface ScheduledActionResponse {
   scheduledActionName?: string;
-  schedule?: (typeof Schedule)["Type"];
+  schedule?: Schedule;
   scheduledActionDescription?: string;
-  nextInvocations?: NextInvocationsList;
+  nextInvocations?: Date[];
   roleArn?: string;
   state?: string;
   startTime?: Date;
   endTime?: Date;
-  targetAction?: (typeof TargetAction)["Type"];
+  targetAction?: TargetAction;
   namespaceName?: string;
   scheduledActionUuid?: string;
 }
@@ -1998,7 +1998,7 @@ export const GetTableRestoreStatusResponse = S.suspend(() =>
 }) as any as S.Schema<GetTableRestoreStatusResponse>;
 export interface ListSnapshotCopyConfigurationsResponse {
   nextToken?: string;
-  snapshotCopyConfigurations: SnapshotCopyConfigurations;
+  snapshotCopyConfigurations: SnapshotCopyConfiguration[];
 }
 export const ListSnapshotCopyConfigurationsResponse = S.suspend(() =>
   S.Struct({
@@ -2010,7 +2010,7 @@ export const ListSnapshotCopyConfigurationsResponse = S.suspend(() =>
 }) as any as S.Schema<ListSnapshotCopyConfigurationsResponse>;
 export interface ListSnapshotsResponse {
   nextToken?: string;
-  snapshots?: SnapshotList;
+  snapshots?: Snapshot[];
 }
 export const ListSnapshotsResponse = S.suspend(() =>
   S.Struct({
@@ -2022,7 +2022,7 @@ export const ListSnapshotsResponse = S.suspend(() =>
 }) as any as S.Schema<ListSnapshotsResponse>;
 export interface ListTableRestoreStatusResponse {
   nextToken?: string;
-  tableRestoreStatuses?: TableRestoreStatusList;
+  tableRestoreStatuses?: TableRestoreStatus[];
 }
 export const ListTableRestoreStatusResponse = S.suspend(() =>
   S.Struct({
@@ -2087,7 +2087,7 @@ export const GetUsageLimitResponse = S.suspend(() =>
   identifier: "GetUsageLimitResponse",
 }) as any as S.Schema<GetUsageLimitResponse>;
 export interface ListUsageLimitsResponse {
-  usageLimits?: UsageLimits;
+  usageLimits?: UsageLimit[];
   nextToken?: string;
 }
 export const ListUsageLimitsResponse = S.suspend(() =>
@@ -2111,11 +2111,11 @@ export interface CreateWorkgroupRequest {
   namespaceName: string;
   baseCapacity?: number;
   enhancedVpcRouting?: boolean;
-  configParameters?: ConfigParameterList;
-  securityGroupIds?: SecurityGroupIdList;
-  subnetIds?: SubnetIdList;
+  configParameters?: ConfigParameter[];
+  securityGroupIds?: string[];
+  subnetIds?: string[];
   publiclyAccessible?: boolean;
-  tags?: TagList;
+  tags?: Tag[];
   port?: number;
   maxCapacity?: number;
   pricePerformanceTarget?: PerformanceTarget;
@@ -2162,13 +2162,26 @@ export const DeleteWorkgroupResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteWorkgroupResponse>;
 export interface ListWorkgroupsResponse {
   nextToken?: string;
-  workgroups: WorkgroupList;
+  workgroups: Workgroup[];
 }
 export const ListWorkgroupsResponse = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), workgroups: WorkgroupList }),
 ).annotations({
   identifier: "ListWorkgroupsResponse",
 }) as any as S.Schema<ListWorkgroupsResponse>;
+export type ManagedWorkgroupStatus =
+  | "CREATING"
+  | "DELETING"
+  | "MODIFYING"
+  | "AVAILABLE"
+  | "NOT_AVAILABLE";
+export const ManagedWorkgroupStatus = S.Literal(
+  "CREATING",
+  "DELETING",
+  "MODIFYING",
+  "AVAILABLE",
+  "NOT_AVAILABLE",
+);
 export interface Association {
   customDomainCertificateArn?: string;
   customDomainCertificateExpiryTime?: Date;
@@ -2191,7 +2204,7 @@ export interface ManagedWorkgroupListItem {
   managedWorkgroupName?: string;
   managedWorkgroupId?: string;
   sourceArn?: string;
-  status?: string;
+  status?: ManagedWorkgroupStatus;
   creationDate?: Date;
 }
 export const ManagedWorkgroupListItem = S.suspend(() =>
@@ -2199,7 +2212,7 @@ export const ManagedWorkgroupListItem = S.suspend(() =>
     managedWorkgroupName: S.optional(S.String),
     managedWorkgroupId: S.optional(S.String),
     sourceArn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ManagedWorkgroupStatus),
     creationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotations({
@@ -2231,7 +2244,7 @@ export const GetResourcePolicyResponse = S.suspend(() =>
 }) as any as S.Schema<GetResourcePolicyResponse>;
 export interface ListCustomDomainAssociationsResponse {
   nextToken?: string;
-  associations?: AssociationList;
+  associations?: Association[];
 }
 export const ListCustomDomainAssociationsResponse = S.suspend(() =>
   S.Struct({
@@ -2243,7 +2256,7 @@ export const ListCustomDomainAssociationsResponse = S.suspend(() =>
 }) as any as S.Schema<ListCustomDomainAssociationsResponse>;
 export interface ListManagedWorkgroupsResponse {
   nextToken?: string;
-  managedWorkgroups?: ManagedWorkgroups;
+  managedWorkgroups?: ManagedWorkgroupListItem[];
 }
 export const ListManagedWorkgroupsResponse = S.suspend(() =>
   S.Struct({
@@ -2303,8 +2316,8 @@ export const GetReservationOfferingResponse = S.suspend(() =>
 }) as any as S.Schema<GetReservationOfferingResponse>;
 export interface CreateScheduledActionRequest {
   scheduledActionName: string;
-  targetAction: (typeof TargetAction)["Type"];
-  schedule: (typeof Schedule)["Type"];
+  targetAction: TargetAction;
+  schedule: Schedule;
   roleArn: string;
   namespaceName: string;
   enabled?: boolean;
@@ -2339,7 +2352,7 @@ export const DeleteScheduledActionResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteScheduledActionResponse>;
 export interface ListScheduledActionsResponse {
   nextToken?: string;
-  scheduledActions?: ScheduledActionsList;
+  scheduledActions?: ScheduledActionAssociation[];
 }
 export const ListScheduledActionsResponse = S.suspend(() =>
   S.Struct({
@@ -2466,21 +2479,21 @@ export class Ipv6CidrBlockNotFoundException extends S.TaggedError<Ipv6CidrBlockN
 export const listManagedWorkgroups: {
   (
     input: ListManagedWorkgroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListManagedWorkgroupsResponse,
     AccessDeniedException | InternalServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListManagedWorkgroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListManagedWorkgroupsResponse,
     AccessDeniedException | InternalServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListManagedWorkgroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ManagedWorkgroupListItem,
     AccessDeniedException | InternalServerException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2502,21 +2515,21 @@ export const listManagedWorkgroups: {
 export const listNamespaces: {
   (
     input: ListNamespacesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListNamespacesResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListNamespacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListNamespacesResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListNamespacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Namespace,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2537,7 +2550,7 @@ export const listNamespaces: {
  */
 export const getRecoveryPoint: (
   input: GetRecoveryPointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRecoveryPointResponse,
   | ConflictException
   | InternalServerException
@@ -2560,7 +2573,7 @@ export const getRecoveryPoint: (
  */
 export const restoreTableFromRecoveryPoint: (
   input: RestoreTableFromRecoveryPointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RestoreTableFromRecoveryPointResponse,
   | ConflictException
   | InternalServerException
@@ -2584,7 +2597,7 @@ export const restoreTableFromRecoveryPoint: (
 export const listReservationOfferings: {
   (
     input: ListReservationOfferingsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReservationOfferingsResponse,
     | InternalServerException
     | ThrottlingException
@@ -2594,7 +2607,7 @@ export const listReservationOfferings: {
   >;
   pages: (
     input: ListReservationOfferingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReservationOfferingsResponse,
     | InternalServerException
     | ThrottlingException
@@ -2604,7 +2617,7 @@ export const listReservationOfferings: {
   >;
   items: (
     input: ListReservationOfferingsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReservationOffering,
     | InternalServerException
     | ThrottlingException
@@ -2628,7 +2641,7 @@ export const listReservationOfferings: {
  */
 export const deleteScheduledAction: (
   input: DeleteScheduledActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteScheduledActionResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2650,7 +2663,7 @@ export const deleteScheduledAction: (
 export const listScheduledActions: {
   (
     input: ListScheduledActionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListScheduledActionsResponse,
     | InternalServerException
     | InvalidPaginationException
@@ -2661,7 +2674,7 @@ export const listScheduledActions: {
   >;
   pages: (
     input: ListScheduledActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListScheduledActionsResponse,
     | InternalServerException
     | InvalidPaginationException
@@ -2672,7 +2685,7 @@ export const listScheduledActions: {
   >;
   items: (
     input: ListScheduledActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ScheduledActionAssociation,
     | InternalServerException
     | InvalidPaginationException
@@ -2702,7 +2715,7 @@ export const listScheduledActions: {
  */
 export const getCustomDomainAssociation: (
   input: GetCustomDomainAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCustomDomainAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2729,7 +2742,7 @@ export const getCustomDomainAssociation: (
  */
 export const updateCustomDomainAssociation: (
   input: UpdateCustomDomainAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCustomDomainAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2756,7 +2769,7 @@ export const updateCustomDomainAssociation: (
  */
 export const deleteEndpointAccess: (
   input: DeleteEndpointAccessRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEndpointAccessResponse,
   | ConflictException
   | InternalServerException
@@ -2779,7 +2792,7 @@ export const deleteEndpointAccess: (
  */
 export const getEndpointAccess: (
   input: GetEndpointAccessRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEndpointAccessResponse,
   | ConflictException
   | InternalServerException
@@ -2803,7 +2816,7 @@ export const getEndpointAccess: (
 export const listEndpointAccess: {
   (
     input: ListEndpointAccessRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEndpointAccessResponse,
     | ConflictException
     | InternalServerException
@@ -2814,7 +2827,7 @@ export const listEndpointAccess: {
   >;
   pages: (
     input: ListEndpointAccessRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEndpointAccessResponse,
     | ConflictException
     | InternalServerException
@@ -2825,7 +2838,7 @@ export const listEndpointAccess: {
   >;
   items: (
     input: ListEndpointAccessRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EndpointAccess,
     | ConflictException
     | InternalServerException
@@ -2855,7 +2868,7 @@ export const listEndpointAccess: {
  */
 export const updateEndpointAccess: (
   input: UpdateEndpointAccessRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEndpointAccessResponse,
   | AccessDeniedException
   | ConflictException
@@ -2880,7 +2893,7 @@ export const updateEndpointAccess: (
  */
 export const updateNamespace: (
   input: UpdateNamespaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateNamespaceResponse,
   | ConflictException
   | InternalServerException
@@ -2903,7 +2916,7 @@ export const updateNamespace: (
  */
 export const deleteNamespace: (
   input: DeleteNamespaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteNamespaceResponse,
   | ConflictException
   | InternalServerException
@@ -2926,7 +2939,7 @@ export const deleteNamespace: (
  */
 export const restoreFromRecoveryPoint: (
   input: RestoreFromRecoveryPointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RestoreFromRecoveryPointResponse,
   | ConflictException
   | InternalServerException
@@ -2949,7 +2962,7 @@ export const restoreFromRecoveryPoint: (
  */
 export const updateScheduledAction: (
   input: UpdateScheduledActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateScheduledActionResponse,
   | ConflictException
   | InternalServerException
@@ -2972,7 +2985,7 @@ export const updateScheduledAction: (
  */
 export const deleteSnapshot: (
   input: DeleteSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSnapshotResponse,
   | ConflictException
   | InternalServerException
@@ -2995,7 +3008,7 @@ export const deleteSnapshot: (
  */
 export const deleteSnapshotCopyConfiguration: (
   input: DeleteSnapshotCopyConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSnapshotCopyConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3021,7 +3034,7 @@ export const deleteSnapshotCopyConfiguration: (
 export const listSnapshotCopyConfigurations: {
   (
     input: ListSnapshotCopyConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSnapshotCopyConfigurationsResponse,
     | ConflictException
     | InternalServerException
@@ -3033,7 +3046,7 @@ export const listSnapshotCopyConfigurations: {
   >;
   pages: (
     input: ListSnapshotCopyConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSnapshotCopyConfigurationsResponse,
     | ConflictException
     | InternalServerException
@@ -3045,7 +3058,7 @@ export const listSnapshotCopyConfigurations: {
   >;
   items: (
     input: ListSnapshotCopyConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SnapshotCopyConfiguration,
     | ConflictException
     | InternalServerException
@@ -3077,7 +3090,7 @@ export const listSnapshotCopyConfigurations: {
  */
 export const restoreTableFromSnapshot: (
   input: RestoreTableFromSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RestoreTableFromSnapshotResponse,
   | ConflictException
   | InternalServerException
@@ -3100,7 +3113,7 @@ export const restoreTableFromSnapshot: (
  */
 export const updateSnapshot: (
   input: UpdateSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSnapshotResponse,
   | ConflictException
   | InternalServerException
@@ -3123,7 +3136,7 @@ export const updateSnapshot: (
  */
 export const updateSnapshotCopyConfiguration: (
   input: UpdateSnapshotCopyConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSnapshotCopyConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3148,7 +3161,7 @@ export const updateSnapshotCopyConfiguration: (
  */
 export const deleteUsageLimit: (
   input: DeleteUsageLimitRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUsageLimitResponse,
   | ConflictException
   | InternalServerException
@@ -3171,7 +3184,7 @@ export const deleteUsageLimit: (
  */
 export const getUsageLimit: (
   input: GetUsageLimitRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUsageLimitResponse,
   | ConflictException
   | InternalServerException
@@ -3195,7 +3208,7 @@ export const getUsageLimit: (
 export const listUsageLimits: {
   (
     input: ListUsageLimitsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUsageLimitsResponse,
     | ConflictException
     | InternalServerException
@@ -3207,7 +3220,7 @@ export const listUsageLimits: {
   >;
   pages: (
     input: ListUsageLimitsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUsageLimitsResponse,
     | ConflictException
     | InternalServerException
@@ -3219,7 +3232,7 @@ export const listUsageLimits: {
   >;
   items: (
     input: ListUsageLimitsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     UsageLimit,
     | ConflictException
     | InternalServerException
@@ -3251,7 +3264,7 @@ export const listUsageLimits: {
  */
 export const updateUsageLimit: (
   input: UpdateUsageLimitRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUsageLimitResponse,
   | ConflictException
   | InternalServerException
@@ -3274,7 +3287,7 @@ export const updateUsageLimit: (
  */
 export const deleteWorkgroup: (
   input: DeleteWorkgroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkgroupResponse,
   | ConflictException
   | InternalServerException
@@ -3297,7 +3310,7 @@ export const deleteWorkgroup: (
  */
 export const createCustomDomainAssociation: (
   input: CreateCustomDomainAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCustomDomainAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3330,7 +3343,7 @@ export const createCustomDomainAssociation: (
  */
 export const getCredentials: (
   input: GetCredentialsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCredentialsResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3351,7 +3364,7 @@ export const getCredentials: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3374,7 +3387,7 @@ export const listTagsForResource: (
  */
 export const getNamespace: (
   input: GetNamespaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetNamespaceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3395,7 +3408,7 @@ export const getNamespace: (
  */
 export const getReservation: (
   input: GetReservationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetReservationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3418,7 +3431,7 @@ export const getReservation: (
  */
 export const getScheduledAction: (
   input: GetScheduledActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetScheduledActionResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3439,7 +3452,7 @@ export const getScheduledAction: (
  */
 export const getSnapshot: (
   input: GetSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSnapshotResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3460,7 +3473,7 @@ export const getSnapshot: (
  */
 export const getTableRestoreStatus: (
   input: GetTableRestoreStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTableRestoreStatusResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3475,7 +3488,7 @@ export const getTableRestoreStatus: (
 export const listSnapshots: {
   (
     input: ListSnapshotsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSnapshotsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -3485,7 +3498,7 @@ export const listSnapshots: {
   >;
   pages: (
     input: ListSnapshotsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSnapshotsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -3495,7 +3508,7 @@ export const listSnapshots: {
   >;
   items: (
     input: ListSnapshotsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Snapshot,
     | InternalServerException
     | ResourceNotFoundException
@@ -3523,7 +3536,7 @@ export const listSnapshots: {
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3546,7 +3559,7 @@ export const untagResource: (
  */
 export const deleteCustomDomainAssociation: (
   input: DeleteCustomDomainAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCustomDomainAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3574,7 +3587,7 @@ export const deleteCustomDomainAssociation: (
 export const listTableRestoreStatus: {
   (
     input: ListTableRestoreStatusRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTableRestoreStatusResponse,
     | InvalidPaginationException
     | ResourceNotFoundException
@@ -3584,7 +3597,7 @@ export const listTableRestoreStatus: {
   >;
   pages: (
     input: ListTableRestoreStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTableRestoreStatusResponse,
     | InvalidPaginationException
     | ResourceNotFoundException
@@ -3594,7 +3607,7 @@ export const listTableRestoreStatus: {
   >;
   items: (
     input: ListTableRestoreStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TableRestoreStatus,
     | InvalidPaginationException
     | ResourceNotFoundException
@@ -3623,7 +3636,7 @@ export const listTableRestoreStatus: {
 export const listCustomDomainAssociations: {
   (
     input: ListCustomDomainAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCustomDomainAssociationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3635,7 +3648,7 @@ export const listCustomDomainAssociations: {
   >;
   pages: (
     input: ListCustomDomainAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCustomDomainAssociationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3647,7 +3660,7 @@ export const listCustomDomainAssociations: {
   >;
   items: (
     input: ListCustomDomainAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Association,
     | AccessDeniedException
     | InternalServerException
@@ -3680,21 +3693,21 @@ export const listCustomDomainAssociations: {
 export const listRecoveryPoints: {
   (
     input: ListRecoveryPointsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRecoveryPointsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListRecoveryPointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRecoveryPointsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRecoveryPointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RecoveryPoint,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3716,21 +3729,21 @@ export const listRecoveryPoints: {
 export const listWorkgroups: {
   (
     input: ListWorkgroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkgroupsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListWorkgroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkgroupsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWorkgroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Workgroup,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3751,7 +3764,7 @@ export const listWorkgroups: {
  */
 export const deleteResourcePolicy: (
   input: DeleteResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourcePolicyResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3772,7 +3785,7 @@ export const deleteResourcePolicy: (
  */
 export const getResourcePolicy: (
   input: GetResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourcePolicyResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3794,7 +3807,7 @@ export const getResourcePolicy: (
 export const listReservations: {
   (
     input: ListReservationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReservationsResponse,
     | InternalServerException
     | ThrottlingException
@@ -3804,7 +3817,7 @@ export const listReservations: {
   >;
   pages: (
     input: ListReservationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReservationsResponse,
     | InternalServerException
     | ThrottlingException
@@ -3814,7 +3827,7 @@ export const listReservations: {
   >;
   items: (
     input: ListReservationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Reservation,
     | InternalServerException
     | ThrottlingException
@@ -3839,7 +3852,7 @@ export const listReservations: {
 export const listTracks: {
   (
     input: ListTracksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTracksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3851,7 +3864,7 @@ export const listTracks: {
   >;
   pages: (
     input: ListTracksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTracksResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3863,7 +3876,7 @@ export const listTracks: {
   >;
   items: (
     input: ListTracksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServerlessTrack,
     | AccessDeniedException
     | InternalServerException
@@ -3895,7 +3908,7 @@ export const listTracks: {
  */
 export const getReservationOffering: (
   input: GetReservationOfferingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetReservationOfferingResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3918,7 +3931,7 @@ export const getReservationOffering: (
  */
 export const createNamespace: (
   input: CreateNamespaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateNamespaceResponse,
   | ConflictException
   | InternalServerException
@@ -3941,7 +3954,7 @@ export const createNamespace: (
  */
 export const convertRecoveryPointToSnapshot: (
   input: ConvertRecoveryPointToSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ConvertRecoveryPointToSnapshotResponse,
   | ConflictException
   | InternalServerException
@@ -3968,7 +3981,7 @@ export const convertRecoveryPointToSnapshot: (
  */
 export const createScheduledAction: (
   input: CreateScheduledActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateScheduledActionResponse,
   | ConflictException
   | InternalServerException
@@ -3991,7 +4004,7 @@ export const createScheduledAction: (
  */
 export const getWorkgroup: (
   input: GetWorkgroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkgroupResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -4016,7 +4029,7 @@ export const getWorkgroup: (
  */
 export const getIdentityCenterAuthToken: (
   input: GetIdentityCenterAuthTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIdentityCenterAuthTokenResponse,
   | AccessDeniedException
   | ConflictException
@@ -4045,7 +4058,7 @@ export const getIdentityCenterAuthToken: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -4070,7 +4083,7 @@ export const tagResource: (
  */
 export const createReservation: (
   input: CreateReservationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateReservationResponse,
   | ConflictException
   | InternalServerException
@@ -4099,7 +4112,7 @@ export const createReservation: (
  */
 export const createSnapshotCopyConfiguration: (
   input: CreateSnapshotCopyConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSnapshotCopyConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4126,7 +4139,7 @@ export const createSnapshotCopyConfiguration: (
  */
 export const createUsageLimit: (
   input: CreateUsageLimitRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUsageLimitResponse,
   | ConflictException
   | InternalServerException
@@ -4151,7 +4164,7 @@ export const createUsageLimit: (
  */
 export const putResourcePolicy: (
   input: PutResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourcePolicyResponse,
   | ConflictException
   | InternalServerException
@@ -4176,7 +4189,7 @@ export const putResourcePolicy: (
  */
 export const createSnapshot: (
   input: CreateSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSnapshotResponse,
   | ConflictException
   | InternalServerException
@@ -4203,7 +4216,7 @@ export const createSnapshot: (
  */
 export const restoreFromSnapshot: (
   input: RestoreFromSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RestoreFromSnapshotResponse,
   | ConflictException
   | InternalServerException
@@ -4228,7 +4241,7 @@ export const restoreFromSnapshot: (
  */
 export const updateLakehouseConfiguration: (
   input: UpdateLakehouseConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLakehouseConfigurationResponse,
   | ConflictException
   | DryRunException
@@ -4253,7 +4266,7 @@ export const updateLakehouseConfiguration: (
  */
 export const getTrack: (
   input: GetTrackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTrackResponse,
   | AccessDeniedException
   | ConflictException
@@ -4282,7 +4295,7 @@ export const getTrack: (
  */
 export const createEndpointAccess: (
   input: CreateEndpointAccessRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEndpointAccessResponse,
   | AccessDeniedException
   | ConflictException
@@ -4319,7 +4332,7 @@ export const createEndpointAccess: (
  */
 export const createWorkgroup: (
   input: CreateWorkgroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkgroupResponse,
   | ConflictException
   | InsufficientCapacityException
@@ -4358,7 +4371,7 @@ export const createWorkgroup: (
  */
 export const updateWorkgroup: (
   input: UpdateWorkgroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkgroupResponse,
   | ConflictException
   | InsufficientCapacityException

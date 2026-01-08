@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -129,6 +129,25 @@ export type SyncBlockerContextKey = string;
 export type SyncBlockerContextValue = string;
 
 //# Schemas
+export type ProviderType =
+  | "Bitbucket"
+  | "GitHub"
+  | "GitHubEnterpriseServer"
+  | "GitLab"
+  | "GitLabSelfManaged";
+export const ProviderType = S.Literal(
+  "Bitbucket",
+  "GitHub",
+  "GitHubEnterpriseServer",
+  "GitLab",
+  "GitLabSelfManaged",
+);
+export type SyncConfigurationType = "CFN_STACK_SYNC";
+export const SyncConfigurationType = S.Literal("CFN_STACK_SYNC");
+export type PublishDeploymentStatus = "ENABLED" | "DISABLED";
+export const PublishDeploymentStatus = S.Literal("ENABLED", "DISABLED");
+export type TriggerResourceUpdateOn = "ANY_CHANGE" | "FILE_CHANGE";
+export const TriggerResourceUpdateOn = S.Literal("ANY_CHANGE", "FILE_CHANGE");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface Tag {
@@ -145,7 +164,7 @@ export interface CreateRepositoryLinkInput {
   OwnerId: string;
   RepositoryName: string;
   EncryptionKeyArn?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateRepositoryLinkInput = S.suspend(() =>
   S.Struct({
@@ -166,9 +185,9 @@ export interface CreateSyncConfigurationInput {
   RepositoryLinkId: string;
   ResourceName: string;
   RoleArn: string;
-  SyncType: string;
-  PublishDeploymentStatus?: string;
-  TriggerResourceUpdateOn?: string;
+  SyncType: SyncConfigurationType;
+  PublishDeploymentStatus?: PublishDeploymentStatus;
+  TriggerResourceUpdateOn?: TriggerResourceUpdateOn;
 }
 export const CreateSyncConfigurationInput = S.suspend(() =>
   S.Struct({
@@ -177,9 +196,9 @@ export const CreateSyncConfigurationInput = S.suspend(() =>
     RepositoryLinkId: S.String,
     ResourceName: S.String,
     RoleArn: S.String,
-    SyncType: S.String,
-    PublishDeploymentStatus: S.optional(S.String),
-    TriggerResourceUpdateOn: S.optional(S.String),
+    SyncType: SyncConfigurationType,
+    PublishDeploymentStatus: S.optional(PublishDeploymentStatus),
+    TriggerResourceUpdateOn: S.optional(TriggerResourceUpdateOn),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -231,11 +250,11 @@ export const DeleteRepositoryLinkOutput = S.suspend(() =>
   identifier: "DeleteRepositoryLinkOutput",
 }) as any as S.Schema<DeleteRepositoryLinkOutput>;
 export interface DeleteSyncConfigurationInput {
-  SyncType: string;
+  SyncType: SyncConfigurationType;
   ResourceName: string;
 }
 export const DeleteSyncConfigurationInput = S.suspend(() =>
-  S.Struct({ SyncType: S.String, ResourceName: S.String }).pipe(
+  S.Struct({ SyncType: SyncConfigurationType, ResourceName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -278,13 +297,13 @@ export const GetRepositoryLinkInput = S.suspend(() =>
 export interface GetRepositorySyncStatusInput {
   Branch: string;
   RepositoryLinkId: string;
-  SyncType: string;
+  SyncType: SyncConfigurationType;
 }
 export const GetRepositorySyncStatusInput = S.suspend(() =>
   S.Struct({
     Branch: S.String,
     RepositoryLinkId: S.String,
-    SyncType: S.String,
+    SyncType: SyncConfigurationType,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -293,46 +312,46 @@ export const GetRepositorySyncStatusInput = S.suspend(() =>
 }) as any as S.Schema<GetRepositorySyncStatusInput>;
 export interface GetResourceSyncStatusInput {
   ResourceName: string;
-  SyncType: string;
+  SyncType: SyncConfigurationType;
 }
 export const GetResourceSyncStatusInput = S.suspend(() =>
-  S.Struct({ ResourceName: S.String, SyncType: S.String }).pipe(
+  S.Struct({ ResourceName: S.String, SyncType: SyncConfigurationType }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "GetResourceSyncStatusInput",
 }) as any as S.Schema<GetResourceSyncStatusInput>;
 export interface GetSyncBlockerSummaryInput {
-  SyncType: string;
+  SyncType: SyncConfigurationType;
   ResourceName: string;
 }
 export const GetSyncBlockerSummaryInput = S.suspend(() =>
-  S.Struct({ SyncType: S.String, ResourceName: S.String }).pipe(
+  S.Struct({ SyncType: SyncConfigurationType, ResourceName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "GetSyncBlockerSummaryInput",
 }) as any as S.Schema<GetSyncBlockerSummaryInput>;
 export interface GetSyncConfigurationInput {
-  SyncType: string;
+  SyncType: SyncConfigurationType;
   ResourceName: string;
 }
 export const GetSyncConfigurationInput = S.suspend(() =>
-  S.Struct({ SyncType: S.String, ResourceName: S.String }).pipe(
+  S.Struct({ SyncType: SyncConfigurationType, ResourceName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "GetSyncConfigurationInput",
 }) as any as S.Schema<GetSyncConfigurationInput>;
 export interface ListConnectionsInput {
-  ProviderTypeFilter?: string;
+  ProviderTypeFilter?: ProviderType;
   HostArnFilter?: string;
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListConnectionsInput = S.suspend(() =>
   S.Struct({
-    ProviderTypeFilter: S.optional(S.String),
+    ProviderTypeFilter: S.optional(ProviderType),
     HostArnFilter: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
@@ -372,10 +391,13 @@ export const ListRepositoryLinksInput = S.suspend(() =>
 }) as any as S.Schema<ListRepositoryLinksInput>;
 export interface ListRepositorySyncDefinitionsInput {
   RepositoryLinkId: string;
-  SyncType: string;
+  SyncType: SyncConfigurationType;
 }
 export const ListRepositorySyncDefinitionsInput = S.suspend(() =>
-  S.Struct({ RepositoryLinkId: S.String, SyncType: S.String }).pipe(
+  S.Struct({
+    RepositoryLinkId: S.String,
+    SyncType: SyncConfigurationType,
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -385,14 +407,14 @@ export interface ListSyncConfigurationsInput {
   MaxResults?: number;
   NextToken?: string;
   RepositoryLinkId: string;
-  SyncType: string;
+  SyncType: SyncConfigurationType;
 }
 export const ListSyncConfigurationsInput = S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     RepositoryLinkId: S.String,
-    SyncType: S.String,
+    SyncType: SyncConfigurationType,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -411,7 +433,7 @@ export const ListTagsForResourceInput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceInput>;
 export interface TagResourceInput {
   ResourceArn: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
@@ -426,7 +448,7 @@ export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceOutput>;
 export interface UntagResourceInput {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
@@ -445,8 +467,8 @@ export type SecurityGroupIds = string[];
 export const SecurityGroupIds = S.Array(S.String);
 export interface VpcConfiguration {
   VpcId: string;
-  SubnetIds: SubnetIds;
-  SecurityGroupIds: SecurityGroupIds;
+  SubnetIds: string[];
+  SecurityGroupIds: string[];
   TlsCertificate?: string;
 }
 export const VpcConfiguration = S.suspend(() =>
@@ -497,14 +519,14 @@ export const UpdateRepositoryLinkInput = S.suspend(() =>
 }) as any as S.Schema<UpdateRepositoryLinkInput>;
 export interface UpdateSyncBlockerInput {
   Id: string;
-  SyncType: string;
+  SyncType: SyncConfigurationType;
   ResourceName: string;
   ResolvedReason: string;
 }
 export const UpdateSyncBlockerInput = S.suspend(() =>
   S.Struct({
     Id: S.String,
-    SyncType: S.String,
+    SyncType: SyncConfigurationType,
     ResourceName: S.String,
     ResolvedReason: S.String,
   }).pipe(
@@ -519,9 +541,9 @@ export interface UpdateSyncConfigurationInput {
   RepositoryLinkId?: string;
   ResourceName: string;
   RoleArn?: string;
-  SyncType: string;
-  PublishDeploymentStatus?: string;
-  TriggerResourceUpdateOn?: string;
+  SyncType: SyncConfigurationType;
+  PublishDeploymentStatus?: PublishDeploymentStatus;
+  TriggerResourceUpdateOn?: TriggerResourceUpdateOn;
 }
 export const UpdateSyncConfigurationInput = S.suspend(() =>
   S.Struct({
@@ -530,30 +552,32 @@ export const UpdateSyncConfigurationInput = S.suspend(() =>
     RepositoryLinkId: S.optional(S.String),
     ResourceName: S.String,
     RoleArn: S.optional(S.String),
-    SyncType: S.String,
-    PublishDeploymentStatus: S.optional(S.String),
-    TriggerResourceUpdateOn: S.optional(S.String),
+    SyncType: SyncConfigurationType,
+    PublishDeploymentStatus: S.optional(PublishDeploymentStatus),
+    TriggerResourceUpdateOn: S.optional(TriggerResourceUpdateOn),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "UpdateSyncConfigurationInput",
 }) as any as S.Schema<UpdateSyncConfigurationInput>;
+export type ConnectionStatus = "PENDING" | "AVAILABLE" | "ERROR";
+export const ConnectionStatus = S.Literal("PENDING", "AVAILABLE", "ERROR");
 export interface Connection {
   ConnectionName?: string;
   ConnectionArn?: string;
-  ProviderType?: string;
+  ProviderType?: ProviderType;
   OwnerAccountId?: string;
-  ConnectionStatus?: string;
+  ConnectionStatus?: ConnectionStatus;
   HostArn?: string;
 }
 export const Connection = S.suspend(() =>
   S.Struct({
     ConnectionName: S.optional(S.String),
     ConnectionArn: S.optional(S.String),
-    ProviderType: S.optional(S.String),
+    ProviderType: S.optional(ProviderType),
     OwnerAccountId: S.optional(S.String),
-    ConnectionStatus: S.optional(S.String),
+    ConnectionStatus: S.optional(ConnectionStatus),
     HostArn: S.optional(S.String),
   }),
 ).annotations({ identifier: "Connection" }) as any as S.Schema<Connection>;
@@ -563,7 +587,7 @@ export interface RepositoryLinkInfo {
   ConnectionArn: string;
   EncryptionKeyArn?: string;
   OwnerId: string;
-  ProviderType: string;
+  ProviderType: ProviderType;
   RepositoryLinkArn: string;
   RepositoryLinkId: string;
   RepositoryName: string;
@@ -573,7 +597,7 @@ export const RepositoryLinkInfo = S.suspend(() =>
     ConnectionArn: S.String,
     EncryptionKeyArn: S.optional(S.String),
     OwnerId: S.String,
-    ProviderType: S.String,
+    ProviderType: ProviderType,
     RepositoryLinkArn: S.String,
     RepositoryLinkId: S.String,
     RepositoryName: S.String,
@@ -587,28 +611,28 @@ export interface SyncConfiguration {
   Branch: string;
   ConfigFile?: string;
   OwnerId: string;
-  ProviderType: string;
+  ProviderType: ProviderType;
   RepositoryLinkId: string;
   RepositoryName: string;
   ResourceName: string;
   RoleArn: string;
-  SyncType: string;
-  PublishDeploymentStatus?: string;
-  TriggerResourceUpdateOn?: string;
+  SyncType: SyncConfigurationType;
+  PublishDeploymentStatus?: PublishDeploymentStatus;
+  TriggerResourceUpdateOn?: TriggerResourceUpdateOn;
 }
 export const SyncConfiguration = S.suspend(() =>
   S.Struct({
     Branch: S.String,
     ConfigFile: S.optional(S.String),
     OwnerId: S.String,
-    ProviderType: S.String,
+    ProviderType: ProviderType,
     RepositoryLinkId: S.String,
     RepositoryName: S.String,
     ResourceName: S.String,
     RoleArn: S.String,
-    SyncType: S.String,
-    PublishDeploymentStatus: S.optional(S.String),
-    TriggerResourceUpdateOn: S.optional(S.String),
+    SyncType: SyncConfigurationType,
+    PublishDeploymentStatus: S.optional(PublishDeploymentStatus),
+    TriggerResourceUpdateOn: S.optional(TriggerResourceUpdateOn),
   }),
 ).annotations({
   identifier: "SyncConfiguration",
@@ -616,14 +640,14 @@ export const SyncConfiguration = S.suspend(() =>
 export type SyncConfigurationList = SyncConfiguration[];
 export const SyncConfigurationList = S.Array(SyncConfiguration);
 export interface CreateConnectionInput {
-  ProviderType?: string;
+  ProviderType?: ProviderType;
   ConnectionName: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   HostArn?: string;
 }
 export const CreateConnectionInput = S.suspend(() =>
   S.Struct({
-    ProviderType: S.optional(S.String),
+    ProviderType: S.optional(ProviderType),
     ConnectionName: S.String,
     Tags: S.optional(TagList),
     HostArn: S.optional(S.String),
@@ -635,15 +659,15 @@ export const CreateConnectionInput = S.suspend(() =>
 }) as any as S.Schema<CreateConnectionInput>;
 export interface CreateHostInput {
   Name: string;
-  ProviderType: string;
+  ProviderType: ProviderType;
   ProviderEndpoint: string;
   VpcConfiguration?: VpcConfiguration;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateHostInput = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    ProviderType: S.String,
+    ProviderType: ProviderType,
     ProviderEndpoint: S.String,
     VpcConfiguration: S.optional(VpcConfiguration),
     Tags: S.optional(TagList),
@@ -656,7 +680,7 @@ export const CreateHostInput = S.suspend(() =>
 export interface GetHostOutput {
   Name?: string;
   Status?: string;
-  ProviderType?: string;
+  ProviderType?: ProviderType;
   ProviderEndpoint?: string;
   VpcConfiguration?: VpcConfiguration;
 }
@@ -664,7 +688,7 @@ export const GetHostOutput = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     Status: S.optional(S.String),
-    ProviderType: S.optional(S.String),
+    ProviderType: S.optional(ProviderType),
     ProviderEndpoint: S.optional(S.String),
     VpcConfiguration: S.optional(VpcConfiguration),
   }),
@@ -688,7 +712,7 @@ export const GetSyncConfigurationOutput = S.suspend(() =>
   identifier: "GetSyncConfigurationOutput",
 }) as any as S.Schema<GetSyncConfigurationOutput>;
 export interface ListConnectionsOutput {
-  Connections?: ConnectionList;
+  Connections?: Connection[];
   NextToken?: string;
 }
 export const ListConnectionsOutput = S.suspend(() =>
@@ -700,7 +724,7 @@ export const ListConnectionsOutput = S.suspend(() =>
   identifier: "ListConnectionsOutput",
 }) as any as S.Schema<ListConnectionsOutput>;
 export interface ListRepositoryLinksOutput {
-  RepositoryLinks: RepositoryLinkList;
+  RepositoryLinks: RepositoryLinkInfo[];
   NextToken?: string;
 }
 export const ListRepositoryLinksOutput = S.suspend(() =>
@@ -712,7 +736,7 @@ export const ListRepositoryLinksOutput = S.suspend(() =>
   identifier: "ListRepositoryLinksOutput",
 }) as any as S.Schema<ListRepositoryLinksOutput>;
 export interface ListSyncConfigurationsOutput {
-  SyncConfigurations: SyncConfigurationList;
+  SyncConfigurations: SyncConfiguration[];
   NextToken?: string;
 }
 export const ListSyncConfigurationsOutput = S.suspend(() =>
@@ -724,7 +748,7 @@ export const ListSyncConfigurationsOutput = S.suspend(() =>
   identifier: "ListSyncConfigurationsOutput",
 }) as any as S.Schema<ListSyncConfigurationsOutput>;
 export interface ListTagsForResourceOutput {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }),
@@ -747,6 +771,34 @@ export const UpdateSyncConfigurationOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateSyncConfigurationOutput",
 }) as any as S.Schema<UpdateSyncConfigurationOutput>;
+export type RepositorySyncStatus =
+  | "FAILED"
+  | "INITIATED"
+  | "IN_PROGRESS"
+  | "SUCCEEDED"
+  | "QUEUED";
+export const RepositorySyncStatus = S.Literal(
+  "FAILED",
+  "INITIATED",
+  "IN_PROGRESS",
+  "SUCCEEDED",
+  "QUEUED",
+);
+export type ResourceSyncStatus =
+  | "FAILED"
+  | "INITIATED"
+  | "IN_PROGRESS"
+  | "SUCCEEDED";
+export const ResourceSyncStatus = S.Literal(
+  "FAILED",
+  "INITIATED",
+  "IN_PROGRESS",
+  "SUCCEEDED",
+);
+export type BlockerType = "AUTOMATED";
+export const BlockerType = S.Literal("AUTOMATED");
+export type BlockerStatus = "ACTIVE" | "RESOLVED";
+export const BlockerStatus = S.Literal("ACTIVE", "RESOLVED");
 export interface SyncBlockerContext {
   Key: string;
   Value: string;
@@ -760,19 +812,19 @@ export type SyncBlockerContextList = SyncBlockerContext[];
 export const SyncBlockerContextList = S.Array(SyncBlockerContext);
 export interface SyncBlocker {
   Id: string;
-  Type: string;
-  Status: string;
+  Type: BlockerType;
+  Status: BlockerStatus;
   CreatedReason: string;
   CreatedAt: Date;
-  Contexts?: SyncBlockerContextList;
+  Contexts?: SyncBlockerContext[];
   ResolvedReason?: string;
   ResolvedAt?: Date;
 }
 export const SyncBlocker = S.suspend(() =>
   S.Struct({
     Id: S.String,
-    Type: S.String,
-    Status: S.String,
+    Type: BlockerType,
+    Status: BlockerStatus,
     CreatedReason: S.String,
     CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     Contexts: S.optional(SyncBlockerContextList),
@@ -787,7 +839,7 @@ export interface Revision {
   Directory: string;
   OwnerId: string;
   RepositoryName: string;
-  ProviderType: string;
+  ProviderType: ProviderType;
   Sha: string;
 }
 export const Revision = S.suspend(() =>
@@ -796,14 +848,14 @@ export const Revision = S.suspend(() =>
     Directory: S.String,
     OwnerId: S.String,
     RepositoryName: S.String,
-    ProviderType: S.String,
+    ProviderType: ProviderType,
     Sha: S.String,
   }),
 ).annotations({ identifier: "Revision" }) as any as S.Schema<Revision>;
 export interface SyncBlockerSummary {
   ResourceName: string;
   ParentResourceName?: string;
-  LatestBlockers?: LatestSyncBlockerList;
+  LatestBlockers?: SyncBlocker[];
 }
 export const SyncBlockerSummary = S.suspend(() =>
   S.Struct({
@@ -817,7 +869,7 @@ export const SyncBlockerSummary = S.suspend(() =>
 export interface Host {
   Name?: string;
   HostArn?: string;
-  ProviderType?: string;
+  ProviderType?: ProviderType;
   ProviderEndpoint?: string;
   VpcConfiguration?: VpcConfiguration;
   Status?: string;
@@ -827,7 +879,7 @@ export const Host = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     HostArn: S.optional(S.String),
-    ProviderType: S.optional(S.String),
+    ProviderType: S.optional(ProviderType),
     ProviderEndpoint: S.optional(S.String),
     VpcConfiguration: S.optional(VpcConfiguration),
     Status: S.optional(S.String),
@@ -856,7 +908,7 @@ export type RepositorySyncDefinitionList = RepositorySyncDefinition[];
 export const RepositorySyncDefinitionList = S.Array(RepositorySyncDefinition);
 export interface CreateConnectionOutput {
   ConnectionArn: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateConnectionOutput = S.suspend(() =>
   S.Struct({ ConnectionArn: S.String, Tags: S.optional(TagList) }),
@@ -865,7 +917,7 @@ export const CreateConnectionOutput = S.suspend(() =>
 }) as any as S.Schema<CreateConnectionOutput>;
 export interface CreateHostOutput {
   HostArn?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateHostOutput = S.suspend(() =>
   S.Struct({ HostArn: S.optional(S.String), Tags: S.optional(TagList) }),
@@ -905,7 +957,7 @@ export const GetSyncBlockerSummaryOutput = S.suspend(() =>
   identifier: "GetSyncBlockerSummaryOutput",
 }) as any as S.Schema<GetSyncBlockerSummaryOutput>;
 export interface ListHostsOutput {
-  Hosts?: HostList;
+  Hosts?: Host[];
   NextToken?: string;
 }
 export const ListHostsOutput = S.suspend(() =>
@@ -914,7 +966,7 @@ export const ListHostsOutput = S.suspend(() =>
   identifier: "ListHostsOutput",
 }) as any as S.Schema<ListHostsOutput>;
 export interface ListRepositorySyncDefinitionsOutput {
-  RepositorySyncDefinitions: RepositorySyncDefinitionList;
+  RepositorySyncDefinitions: RepositorySyncDefinition[];
   NextToken?: string;
 }
 export const ListRepositorySyncDefinitionsOutput = S.suspend(() =>
@@ -963,23 +1015,23 @@ export type ResourceSyncEventList = ResourceSyncEvent[];
 export const ResourceSyncEventList = S.Array(ResourceSyncEvent);
 export interface RepositorySyncAttempt {
   StartedAt: Date;
-  Status: string;
-  Events: RepositorySyncEventList;
+  Status: RepositorySyncStatus;
+  Events: RepositorySyncEvent[];
 }
 export const RepositorySyncAttempt = S.suspend(() =>
   S.Struct({
     StartedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Status: S.String,
+    Status: RepositorySyncStatus,
     Events: RepositorySyncEventList,
   }),
 ).annotations({
   identifier: "RepositorySyncAttempt",
 }) as any as S.Schema<RepositorySyncAttempt>;
 export interface ResourceSyncAttempt {
-  Events: ResourceSyncEventList;
+  Events: ResourceSyncEvent[];
   InitialRevision: Revision;
   StartedAt: Date;
-  Status: string;
+  Status: ResourceSyncStatus;
   TargetRevision: Revision;
   Target: string;
 }
@@ -988,7 +1040,7 @@ export const ResourceSyncAttempt = S.suspend(() =>
     Events: ResourceSyncEventList,
     InitialRevision: Revision,
     StartedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Status: S.String,
+    Status: ResourceSyncStatus,
     TargetRevision: Revision,
     Target: S.String,
   }),
@@ -1108,7 +1160,7 @@ export class UpdateOutOfSyncException extends S.TaggedError<UpdateOutOfSyncExcep
  */
 export const deleteConnection: (
   input: DeleteConnectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConnectionOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1123,21 +1175,21 @@ export const deleteConnection: (
 export const listConnections: {
   (
     input: ListConnectionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConnectionsOutput,
     ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListConnectionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConnectionsOutput,
     ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConnectionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     ResourceNotFoundException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1157,7 +1209,7 @@ export const listConnections: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1172,7 +1224,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   LimitExceededException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1186,7 +1238,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1206,7 +1258,7 @@ export const untagResource: (
  */
 export const createHost: (
   input: CreateHostInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateHostOutput,
   LimitExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1221,7 +1273,7 @@ export const createHost: (
  */
 export const getHost: (
   input: GetHostInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetHostOutput,
   ResourceNotFoundException | ResourceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1236,21 +1288,21 @@ export const getHost: (
 export const listHosts: {
   (
     input: ListHostsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListHostsOutput,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListHostsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListHostsOutput,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListHostsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1272,7 +1324,7 @@ export const listHosts: {
  */
 export const deleteHost: (
   input: DeleteHostInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteHostOutput,
   ResourceNotFoundException | ResourceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1288,7 +1340,7 @@ export const deleteHost: (
  */
 export const createConnection: (
   input: CreateConnectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConnectionOutput,
   | LimitExceededException
   | ResourceNotFoundException
@@ -1309,7 +1361,7 @@ export const createConnection: (
  */
 export const getConnection: (
   input: GetConnectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetConnectionOutput,
   ResourceNotFoundException | ResourceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1323,7 +1375,7 @@ export const getConnection: (
  */
 export const updateHost: (
   input: UpdateHostInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateHostOutput,
   | ConflictException
   | ResourceNotFoundException
@@ -1346,7 +1398,7 @@ export const updateHost: (
  */
 export const getSyncConfiguration: (
   input: GetSyncConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSyncConfigurationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1371,7 +1423,7 @@ export const getSyncConfiguration: (
  */
 export const createRepositoryLink: (
   input: CreateRepositoryLinkInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRepositoryLinkOutput,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -1400,7 +1452,7 @@ export const createRepositoryLink: (
  */
 export const listRepositorySyncDefinitions: (
   input: ListRepositorySyncDefinitionsInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListRepositorySyncDefinitionsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1426,7 +1478,7 @@ export const listRepositorySyncDefinitions: (
  */
 export const getRepositoryLink: (
   input: GetRepositoryLinkInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetRepositoryLinkOutput,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -1454,7 +1506,7 @@ export const getRepositoryLink: (
 export const listRepositoryLinks: {
   (
     input: ListRepositoryLinksInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRepositoryLinksOutput,
     | AccessDeniedException
     | ConcurrentModificationException
@@ -1467,7 +1519,7 @@ export const listRepositoryLinks: {
   >;
   pages: (
     input: ListRepositoryLinksInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRepositoryLinksOutput,
     | AccessDeniedException
     | ConcurrentModificationException
@@ -1480,7 +1532,7 @@ export const listRepositoryLinks: {
   >;
   items: (
     input: ListRepositoryLinksInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | ConcurrentModificationException
@@ -1513,7 +1565,7 @@ export const listRepositoryLinks: {
  */
 export const deleteSyncConfiguration: (
   input: DeleteSyncConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSyncConfigurationOutput,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -1541,7 +1593,7 @@ export const deleteSyncConfiguration: (
 export const listSyncConfigurations: {
   (
     input: ListSyncConfigurationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSyncConfigurationsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1553,7 +1605,7 @@ export const listSyncConfigurations: {
   >;
   pages: (
     input: ListSyncConfigurationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSyncConfigurationsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1565,7 +1617,7 @@ export const listSyncConfigurations: {
   >;
   items: (
     input: ListSyncConfigurationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -1596,7 +1648,7 @@ export const listSyncConfigurations: {
  */
 export const getSyncBlockerSummary: (
   input: GetSyncBlockerSummaryInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSyncBlockerSummaryOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1622,7 +1674,7 @@ export const getSyncBlockerSummary: (
  */
 export const getRepositorySyncStatus: (
   input: GetRepositorySyncStatusInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetRepositorySyncStatusOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1648,7 +1700,7 @@ export const getRepositorySyncStatus: (
  */
 export const getResourceSyncStatus: (
   input: GetResourceSyncStatusInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourceSyncStatusOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1675,7 +1727,7 @@ export const getResourceSyncStatus: (
  */
 export const createSyncConfiguration: (
   input: CreateSyncConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSyncConfigurationOutput,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -1704,7 +1756,7 @@ export const createSyncConfiguration: (
  */
 export const updateSyncBlocker: (
   input: UpdateSyncBlockerInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSyncBlockerOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1733,7 +1785,7 @@ export const updateSyncBlocker: (
  */
 export const deleteRepositoryLink: (
   input: DeleteRepositoryLinkInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRepositoryLinkOutput,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -1766,7 +1818,7 @@ export const deleteRepositoryLink: (
  */
 export const updateRepositoryLink: (
   input: UpdateRepositoryLinkInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRepositoryLinkOutput,
   | AccessDeniedException
   | ConditionalCheckFailedException
@@ -1795,7 +1847,7 @@ export const updateRepositoryLink: (
  */
 export const updateSyncConfiguration: (
   input: UpdateSyncConfigurationInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSyncConfigurationOutput,
   | AccessDeniedException
   | ConcurrentModificationException

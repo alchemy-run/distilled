@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -104,10 +104,17 @@ export type Suggester = string;
 export type SuggestionsSize = number;
 export type Adds = number;
 export type Deletes = number;
-export type Long = number;
-export type Double = number;
 
 //# Schemas
+export type QueryParser = "simple" | "structured" | "lucene" | "dismax";
+export const QueryParser = S.Literal(
+  "simple",
+  "structured",
+  "lucene",
+  "dismax",
+);
+export type ContentType = "application/json" | "application/xml";
+export const ContentType = S.Literal("application/json", "application/xml");
 export interface SearchRequest {
   cursor?: string;
   expr?: string;
@@ -117,7 +124,7 @@ export interface SearchRequest {
   partial?: boolean;
   query: string;
   queryOptions?: string;
-  queryParser?: string;
+  queryParser?: QueryParser;
   return?: string;
   size?: number;
   sort?: string;
@@ -134,7 +141,7 @@ export const SearchRequest = S.suspend(() =>
     partial: S.optional(S.Boolean).pipe(T.HttpQuery("partial")),
     query: S.String.pipe(T.HttpQuery("q")),
     queryOptions: S.optional(S.String).pipe(T.HttpQuery("q.options")),
-    queryParser: S.optional(S.String).pipe(T.HttpQuery("q.parser")),
+    queryParser: S.optional(QueryParser).pipe(T.HttpQuery("q.parser")),
     return: S.optional(S.String).pipe(T.HttpQuery("return")),
     size: S.optional(S.Number).pipe(T.HttpQuery("size")),
     sort: S.optional(S.String).pipe(T.HttpQuery("sort")),
@@ -186,12 +193,12 @@ export const SuggestRequest = S.suspend(() =>
 }) as any as S.Schema<SuggestRequest>;
 export interface UploadDocumentsRequest {
   documents: T.StreamingInputBody;
-  contentType: string;
+  contentType: ContentType;
 }
 export const UploadDocumentsRequest = S.suspend(() =>
   S.Struct({
     documents: T.StreamingInput.pipe(T.HttpPayload()),
-    contentType: S.String.pipe(T.HttpHeader("Content-Type")),
+    contentType: ContentType.pipe(T.HttpHeader("Content-Type")),
   }).pipe(
     T.all(
       ns,
@@ -236,7 +243,7 @@ export interface UploadDocumentsResponse {
   status?: string;
   adds?: number;
   deletes?: number;
-  warnings?: DocumentServiceWarnings;
+  warnings?: DocumentServiceWarning[];
 }
 export const UploadDocumentsResponse = S.suspend(() =>
   S.Struct({
@@ -293,7 +300,7 @@ export const Stats = S.Record({ key: S.String, value: FieldStats });
 export interface SuggestModel {
   query?: string;
   found?: number;
-  suggestions?: Suggestions;
+  suggestions?: SuggestionMatch[];
 }
 export const SuggestModel = S.suspend(() =>
   S.Struct({
@@ -302,7 +309,7 @@ export const SuggestModel = S.suspend(() =>
     suggestions: S.optional(Suggestions),
   }),
 ).annotations({ identifier: "SuggestModel" }) as any as S.Schema<SuggestModel>;
-export type Fields = { [key: string]: FieldValue };
+export type Fields = { [key: string]: string[] };
 export const Fields = S.Record({ key: S.String, value: FieldValue });
 export type Exprs = { [key: string]: string };
 export const Exprs = S.Record({ key: S.String, value: S.String });
@@ -331,9 +338,9 @@ export const SuggestResponse = S.suspend(() =>
 }) as any as S.Schema<SuggestResponse>;
 export interface Hit {
   id?: string;
-  fields?: Fields;
-  exprs?: Exprs;
-  highlights?: Highlights;
+  fields?: { [key: string]: string[] };
+  exprs?: { [key: string]: string };
+  highlights?: { [key: string]: string };
 }
 export const Hit = S.suspend(() =>
   S.Struct({
@@ -346,7 +353,7 @@ export const Hit = S.suspend(() =>
 export type HitList = Hit[];
 export const HitList = S.Array(Hit);
 export interface BucketInfo {
-  buckets?: BucketList;
+  buckets?: Bucket[];
 }
 export const BucketInfo = S.suspend(() =>
   S.Struct({ buckets: S.optional(BucketList) }),
@@ -355,7 +362,7 @@ export interface Hits {
   found?: number;
   start?: number;
   cursor?: string;
-  hit?: HitList;
+  hit?: Hit[];
 }
 export const Hits = S.suspend(() =>
   S.Struct({
@@ -370,8 +377,8 @@ export const Facets = S.Record({ key: S.String, value: BucketInfo });
 export interface SearchResponse {
   status?: SearchStatus;
   hits?: Hits;
-  facets?: Facets;
-  stats?: Stats;
+  facets?: { [key: string]: BucketInfo };
+  stats?: { [key: string]: FieldStats };
 }
 export const SearchResponse = S.suspend(() =>
   S.Struct({
@@ -405,7 +412,7 @@ export class SearchException extends S.TaggedError<SearchException>()(
  */
 export const uploadDocuments: (
   input: UploadDocumentsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UploadDocumentsResponse,
   DocumentServiceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -423,7 +430,7 @@ export const uploadDocuments: (
  */
 export const suggest: (
   input: SuggestRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SuggestResponse,
   SearchException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -449,7 +456,7 @@ export const suggest: (
  */
 export const search: (
   input: SearchRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SearchResponse,
   SearchException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

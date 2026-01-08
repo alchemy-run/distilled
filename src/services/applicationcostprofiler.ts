@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -89,7 +89,6 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type ReportId = string;
 export type Token = string;
-export type Integer = number;
 export type ReportDescription = string;
 export type S3Bucket = string;
 export type S3Key = string;
@@ -98,6 +97,10 @@ export type ErrorMessage = string;
 export type ImportId = string;
 
 //# Schemas
+export type ReportFrequency = "MONTHLY" | "DAILY" | "ALL";
+export const ReportFrequency = S.Literal("MONTHLY", "DAILY", "ALL");
+export type Format = "CSV" | "PARQUET";
+export const Format = S.Literal("CSV", "PARQUET");
 export interface DeleteReportDefinitionRequest {
   reportId: string;
 }
@@ -163,16 +166,16 @@ export const S3Location = S.suspend(() =>
 export interface UpdateReportDefinitionRequest {
   reportId: string;
   reportDescription: string;
-  reportFrequency: string;
-  format: string;
+  reportFrequency: ReportFrequency;
+  format: Format;
   destinationS3Location: S3Location;
 }
 export const UpdateReportDefinitionRequest = S.suspend(() =>
   S.Struct({
     reportId: S.String.pipe(T.HttpLabel("reportId")),
     reportDescription: S.String,
-    reportFrequency: S.String,
-    format: S.String,
+    reportFrequency: ReportFrequency,
+    format: Format,
     destinationS3Location: S3Location,
   }).pipe(
     T.all(
@@ -187,13 +190,28 @@ export const UpdateReportDefinitionRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateReportDefinitionRequest",
 }) as any as S.Schema<UpdateReportDefinitionRequest>;
+export type S3BucketRegion =
+  | "ap-east-1"
+  | "me-south-1"
+  | "eu-south-1"
+  | "af-south-1";
+export const S3BucketRegion = S.Literal(
+  "ap-east-1",
+  "me-south-1",
+  "eu-south-1",
+  "af-south-1",
+);
 export interface SourceS3Location {
   bucket: string;
   key: string;
-  region?: string;
+  region?: S3BucketRegion;
 }
 export const SourceS3Location = S.suspend(() =>
-  S.Struct({ bucket: S.String, key: S.String, region: S.optional(S.String) }),
+  S.Struct({
+    bucket: S.String,
+    key: S.String,
+    region: S.optional(S3BucketRegion),
+  }),
 ).annotations({
   identifier: "SourceS3Location",
 }) as any as S.Schema<SourceS3Location>;
@@ -208,8 +226,8 @@ export const DeleteReportDefinitionResult = S.suspend(() =>
 export interface GetReportDefinitionResult {
   reportId: string;
   reportDescription: string;
-  reportFrequency: string;
-  format: string;
+  reportFrequency: ReportFrequency;
+  format: Format;
   destinationS3Location: S3Location;
   createdAt: Date;
   lastUpdated: Date;
@@ -218,8 +236,8 @@ export const GetReportDefinitionResult = S.suspend(() =>
   S.Struct({
     reportId: S.String,
     reportDescription: S.String,
-    reportFrequency: S.String,
-    format: S.String,
+    reportFrequency: ReportFrequency,
+    format: Format,
     destinationS3Location: S3Location,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastUpdated: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -247,16 +265,16 @@ export const ImportApplicationUsageRequest = S.suspend(() =>
 export interface PutReportDefinitionRequest {
   reportId: string;
   reportDescription: string;
-  reportFrequency: string;
-  format: string;
+  reportFrequency: ReportFrequency;
+  format: Format;
   destinationS3Location: S3Location;
 }
 export const PutReportDefinitionRequest = S.suspend(() =>
   S.Struct({
     reportId: S.String,
     reportDescription: S.String,
-    reportFrequency: S.String,
-    format: S.String,
+    reportFrequency: ReportFrequency,
+    format: Format,
     destinationS3Location: S3Location,
   }).pipe(
     T.all(
@@ -282,8 +300,8 @@ export const UpdateReportDefinitionResult = S.suspend(() =>
 export interface ReportDefinition {
   reportId?: string;
   reportDescription?: string;
-  reportFrequency?: string;
-  format?: string;
+  reportFrequency?: ReportFrequency;
+  format?: Format;
   destinationS3Location?: S3Location;
   createdAt?: Date;
   lastUpdatedAt?: Date;
@@ -292,8 +310,8 @@ export const ReportDefinition = S.suspend(() =>
   S.Struct({
     reportId: S.optional(S.String),
     reportDescription: S.optional(S.String),
-    reportFrequency: S.optional(S.String),
-    format: S.optional(S.String),
+    reportFrequency: S.optional(ReportFrequency),
+    format: S.optional(Format),
     destinationS3Location: S.optional(S3Location),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -312,7 +330,7 @@ export const ImportApplicationUsageResult = S.suspend(() =>
   identifier: "ImportApplicationUsageResult",
 }) as any as S.Schema<ImportApplicationUsageResult>;
 export interface ListReportDefinitionsResult {
-  reportDefinitions?: ReportDefinitionList;
+  reportDefinitions?: ReportDefinition[];
   nextToken?: string;
 }
 export const ListReportDefinitionsResult = S.suspend(() =>
@@ -361,7 +379,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const deleteReportDefinition: (
   input: DeleteReportDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteReportDefinitionResult,
   | AccessDeniedException
   | InternalServerException
@@ -384,7 +402,7 @@ export const deleteReportDefinition: (
  */
 export const putReportDefinition: (
   input: PutReportDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutReportDefinitionResult,
   | AccessDeniedException
   | InternalServerException
@@ -413,7 +431,7 @@ export const putReportDefinition: (
  */
 export const importApplicationUsage: (
   input: ImportApplicationUsageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ImportApplicationUsageResult,
   | AccessDeniedException
   | InternalServerException
@@ -439,7 +457,7 @@ export const importApplicationUsage: (
 export const listReportDefinitions: {
   (
     input: ListReportDefinitionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReportDefinitionsResult,
     | AccessDeniedException
     | InternalServerException
@@ -450,7 +468,7 @@ export const listReportDefinitions: {
   >;
   pages: (
     input: ListReportDefinitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReportDefinitionsResult,
     | AccessDeniedException
     | InternalServerException
@@ -461,7 +479,7 @@ export const listReportDefinitions: {
   >;
   items: (
     input: ListReportDefinitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReportDefinition,
     | AccessDeniedException
     | InternalServerException
@@ -491,7 +509,7 @@ export const listReportDefinitions: {
  */
 export const getReportDefinition: (
   input: GetReportDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetReportDefinitionResult,
   | AccessDeniedException
   | InternalServerException
@@ -514,7 +532,7 @@ export const getReportDefinition: (
  */
 export const updateReportDefinition: (
   input: UpdateReportDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateReportDefinitionResult,
   | AccessDeniedException
   | InternalServerException

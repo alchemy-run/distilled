@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -90,7 +90,6 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Newtypes
-export type Integer = number;
 export type PermissionName = string;
 export type Policy = string;
 export type MaxResults = number;
@@ -121,15 +120,71 @@ export type SourceArnOrAccountList = string[];
 export const SourceArnOrAccountList = S.Array(S.String.pipe(T.XmlName("item")));
 export type PermissionArnList = string[];
 export const PermissionArnList = S.Array(S.String.pipe(T.XmlName("item")));
+export type ResourceShareAssociationType = "PRINCIPAL" | "RESOURCE";
+export const ResourceShareAssociationType = S.Literal("PRINCIPAL", "RESOURCE");
 export type ResourceShareArnList = string[];
 export const ResourceShareArnList = S.Array(S.String.pipe(T.XmlName("item")));
+export type ResourceShareAssociationStatus =
+  | "ASSOCIATING"
+  | "ASSOCIATED"
+  | "FAILED"
+  | "DISASSOCIATING"
+  | "DISASSOCIATED";
+export const ResourceShareAssociationStatus = S.Literal(
+  "ASSOCIATING",
+  "ASSOCIATED",
+  "FAILED",
+  "DISASSOCIATING",
+  "DISASSOCIATED",
+);
 export type ResourceShareInvitationArnList = string[];
 export const ResourceShareInvitationArnList = S.Array(
   S.String.pipe(T.XmlName("item")),
 );
+export type ResourceShareStatus =
+  | "PENDING"
+  | "ACTIVE"
+  | "FAILED"
+  | "DELETING"
+  | "DELETED";
+export const ResourceShareStatus = S.Literal(
+  "PENDING",
+  "ACTIVE",
+  "FAILED",
+  "DELETING",
+  "DELETED",
+);
+export type ResourceOwner = "SELF" | "OTHER-ACCOUNTS";
+export const ResourceOwner = S.Literal("SELF", "OTHER-ACCOUNTS");
+export type ResourceRegionScopeFilter = "ALL" | "REGIONAL" | "GLOBAL";
+export const ResourceRegionScopeFilter = S.Literal("ALL", "REGIONAL", "GLOBAL");
+export type PermissionFeatureSet =
+  | "CREATED_FROM_POLICY"
+  | "PROMOTING_TO_STANDARD"
+  | "STANDARD";
+export const PermissionFeatureSet = S.Literal(
+  "CREATED_FROM_POLICY",
+  "PROMOTING_TO_STANDARD",
+  "STANDARD",
+);
+export type PermissionTypeFilter = "ALL" | "AWS_MANAGED" | "CUSTOMER_MANAGED";
+export const PermissionTypeFilter = S.Literal(
+  "ALL",
+  "AWS_MANAGED",
+  "CUSTOMER_MANAGED",
+);
 export type ReplacePermissionAssociationsWorkIdList = string[];
 export const ReplacePermissionAssociationsWorkIdList = S.Array(
   S.String.pipe(T.XmlName("item")),
+);
+export type ReplacePermissionAssociationsWorkStatus =
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "FAILED";
+export const ReplacePermissionAssociationsWorkStatus = S.Literal(
+  "IN_PROGRESS",
+  "COMPLETED",
+  "FAILED",
 );
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
@@ -156,10 +211,10 @@ export const AcceptResourceShareInvitationRequest = S.suspend(() =>
 }) as any as S.Schema<AcceptResourceShareInvitationRequest>;
 export interface AssociateResourceShareRequest {
   resourceShareArn: string;
-  resourceArns?: ResourceArnList;
-  principals?: PrincipalArnOrIdList;
+  resourceArns?: string[];
+  principals?: string[];
   clientToken?: string;
-  sources?: SourceArnOrAccountList;
+  sources?: string[];
 }
 export const AssociateResourceShareRequest = S.suspend(() =>
   S.Struct({
@@ -242,13 +297,13 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface CreateResourceShareRequest {
   name: string;
-  resourceArns?: ResourceArnList;
-  principals?: PrincipalArnOrIdList;
-  tags?: TagList;
+  resourceArns?: string[];
+  principals?: string[];
+  tags?: Tag[];
   allowExternalPrincipals?: boolean;
   clientToken?: string;
-  permissionArns?: PermissionArnList;
-  sources?: SourceArnOrAccountList;
+  permissionArns?: string[];
+  sources?: string[];
 }
 export const CreateResourceShareRequest = S.suspend(() =>
   S.Struct({
@@ -340,10 +395,10 @@ export const DeleteResourceShareRequest = S.suspend(() =>
 }) as any as S.Schema<DeleteResourceShareRequest>;
 export interface DisassociateResourceShareRequest {
   resourceShareArn: string;
-  resourceArns?: ResourceArnList;
-  principals?: PrincipalArnOrIdList;
+  resourceArns?: string[];
+  principals?: string[];
   clientToken?: string;
-  sources?: SourceArnOrAccountList;
+  sources?: string[];
 }
 export const DisassociateResourceShareRequest = S.suspend(() =>
   S.Struct({
@@ -418,7 +473,7 @@ export const GetPermissionRequest = S.suspend(() =>
   identifier: "GetPermissionRequest",
 }) as any as S.Schema<GetPermissionRequest>;
 export interface GetResourcePoliciesRequest {
-  resourceArns: ResourceArnList;
+  resourceArns: string[];
   principal?: string;
   nextToken?: string;
   maxResults?: number;
@@ -443,21 +498,21 @@ export const GetResourcePoliciesRequest = S.suspend(() =>
   identifier: "GetResourcePoliciesRequest",
 }) as any as S.Schema<GetResourcePoliciesRequest>;
 export interface GetResourceShareAssociationsRequest {
-  associationType: string;
-  resourceShareArns?: ResourceShareArnList;
+  associationType: ResourceShareAssociationType;
+  resourceShareArns?: string[];
   resourceArn?: string;
   principal?: string;
-  associationStatus?: string;
+  associationStatus?: ResourceShareAssociationStatus;
   nextToken?: string;
   maxResults?: number;
 }
 export const GetResourceShareAssociationsRequest = S.suspend(() =>
   S.Struct({
-    associationType: S.String,
+    associationType: ResourceShareAssociationType,
     resourceShareArns: S.optional(ResourceShareArnList),
     resourceArn: S.optional(S.String),
     principal: S.optional(S.String),
-    associationStatus: S.optional(S.String),
+    associationStatus: S.optional(ResourceShareAssociationStatus),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
   }).pipe(
@@ -474,8 +529,8 @@ export const GetResourceShareAssociationsRequest = S.suspend(() =>
   identifier: "GetResourceShareAssociationsRequest",
 }) as any as S.Schema<GetResourceShareAssociationsRequest>;
 export interface GetResourceShareInvitationsRequest {
-  resourceShareInvitationArns?: ResourceShareInvitationArnList;
-  resourceShareArns?: ResourceShareArnList;
+  resourceShareInvitationArns?: string[];
+  resourceShareArns?: string[];
   nextToken?: string;
   maxResults?: number;
 }
@@ -502,14 +557,14 @@ export interface ListPendingInvitationResourcesRequest {
   resourceShareInvitationArn: string;
   nextToken?: string;
   maxResults?: number;
-  resourceRegionScope?: string;
+  resourceRegionScope?: ResourceRegionScopeFilter;
 }
 export const ListPendingInvitationResourcesRequest = S.suspend(() =>
   S.Struct({
     resourceShareInvitationArn: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-    resourceRegionScope: S.optional(S.String),
+    resourceRegionScope: S.optional(ResourceRegionScopeFilter),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/listpendinginvitationresources" }),
@@ -526,9 +581,9 @@ export const ListPendingInvitationResourcesRequest = S.suspend(() =>
 export interface ListPermissionAssociationsRequest {
   permissionArn?: string;
   permissionVersion?: number;
-  associationStatus?: string;
+  associationStatus?: ResourceShareAssociationStatus;
   resourceType?: string;
-  featureSet?: string;
+  featureSet?: PermissionFeatureSet;
   defaultVersion?: boolean;
   nextToken?: string;
   maxResults?: number;
@@ -537,9 +592,9 @@ export const ListPermissionAssociationsRequest = S.suspend(() =>
   S.Struct({
     permissionArn: S.optional(S.String),
     permissionVersion: S.optional(S.Number),
-    associationStatus: S.optional(S.String),
+    associationStatus: S.optional(ResourceShareAssociationStatus),
     resourceType: S.optional(S.String),
-    featureSet: S.optional(S.String),
+    featureSet: S.optional(PermissionFeatureSet),
     defaultVersion: S.optional(S.Boolean),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
@@ -560,14 +615,14 @@ export interface ListPermissionsRequest {
   resourceType?: string;
   nextToken?: string;
   maxResults?: number;
-  permissionType?: string;
+  permissionType?: PermissionTypeFilter;
 }
 export const ListPermissionsRequest = S.suspend(() =>
   S.Struct({
     resourceType: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-    permissionType: S.optional(S.String),
+    permissionType: S.optional(PermissionTypeFilter),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/listpermissions" }),
@@ -605,17 +660,17 @@ export const ListPermissionVersionsRequest = S.suspend(() =>
   identifier: "ListPermissionVersionsRequest",
 }) as any as S.Schema<ListPermissionVersionsRequest>;
 export interface ListPrincipalsRequest {
-  resourceOwner: string;
+  resourceOwner: ResourceOwner;
   resourceArn?: string;
-  principals?: PrincipalArnOrIdList;
+  principals?: string[];
   resourceType?: string;
-  resourceShareArns?: ResourceShareArnList;
+  resourceShareArns?: string[];
   nextToken?: string;
   maxResults?: number;
 }
 export const ListPrincipalsRequest = S.suspend(() =>
   S.Struct({
-    resourceOwner: S.String,
+    resourceOwner: ResourceOwner,
     resourceArn: S.optional(S.String),
     principals: S.optional(PrincipalArnOrIdList),
     resourceType: S.optional(S.String),
@@ -636,15 +691,15 @@ export const ListPrincipalsRequest = S.suspend(() =>
   identifier: "ListPrincipalsRequest",
 }) as any as S.Schema<ListPrincipalsRequest>;
 export interface ListReplacePermissionAssociationsWorkRequest {
-  workIds?: ReplacePermissionAssociationsWorkIdList;
-  status?: string;
+  workIds?: string[];
+  status?: ReplacePermissionAssociationsWorkStatus;
   nextToken?: string;
   maxResults?: number;
 }
 export const ListReplacePermissionAssociationsWorkRequest = S.suspend(() =>
   S.Struct({
     workIds: S.optional(ReplacePermissionAssociationsWorkIdList),
-    status: S.optional(S.String),
+    status: S.optional(ReplacePermissionAssociationsWorkStatus),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
   }).pipe(
@@ -661,25 +716,25 @@ export const ListReplacePermissionAssociationsWorkRequest = S.suspend(() =>
   identifier: "ListReplacePermissionAssociationsWorkRequest",
 }) as any as S.Schema<ListReplacePermissionAssociationsWorkRequest>;
 export interface ListResourcesRequest {
-  resourceOwner: string;
+  resourceOwner: ResourceOwner;
   principal?: string;
   resourceType?: string;
-  resourceArns?: ResourceArnList;
-  resourceShareArns?: ResourceShareArnList;
+  resourceArns?: string[];
+  resourceShareArns?: string[];
   nextToken?: string;
   maxResults?: number;
-  resourceRegionScope?: string;
+  resourceRegionScope?: ResourceRegionScopeFilter;
 }
 export const ListResourcesRequest = S.suspend(() =>
   S.Struct({
-    resourceOwner: S.String,
+    resourceOwner: ResourceOwner,
     principal: S.optional(S.String),
     resourceType: S.optional(S.String),
     resourceArns: S.optional(ResourceArnList),
     resourceShareArns: S.optional(ResourceShareArnList),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-    resourceRegionScope: S.optional(S.String),
+    resourceRegionScope: S.optional(ResourceRegionScopeFilter),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/listresources" }),
@@ -719,13 +774,13 @@ export const ListResourceSharePermissionsRequest = S.suspend(() =>
 export interface ListResourceTypesRequest {
   nextToken?: string;
   maxResults?: number;
-  resourceRegionScope?: string;
+  resourceRegionScope?: ResourceRegionScopeFilter;
 }
 export const ListResourceTypesRequest = S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-    resourceRegionScope: S.optional(S.String),
+    resourceRegionScope: S.optional(ResourceRegionScopeFilter),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/listresourcetypes" }),
@@ -852,7 +907,7 @@ export const SetDefaultPermissionVersionRequest = S.suspend(() =>
 }) as any as S.Schema<SetDefaultPermissionVersionRequest>;
 export interface TagResourceRequest {
   resourceShareArn?: string;
-  tags: TagList;
+  tags: Tag[];
   resourceArn?: string;
 }
 export const TagResourceRequest = S.suspend(() =>
@@ -879,7 +934,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceShareArn?: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
   resourceArn?: string;
 }
 export const UntagResourceRequest = S.suspend(() =>
@@ -931,14 +986,36 @@ export const UpdateResourceShareRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateResourceShareRequest>;
 export type TagValueList = string[];
 export const TagValueList = S.Array(S.String);
+export type PermissionStatus =
+  | "ATTACHABLE"
+  | "UNATTACHABLE"
+  | "DELETING"
+  | "DELETED";
+export const PermissionStatus = S.Literal(
+  "ATTACHABLE",
+  "UNATTACHABLE",
+  "DELETING",
+  "DELETED",
+);
 export type PolicyList = string[];
 export const PolicyList = S.Array(S.String.pipe(T.XmlName("item")));
+export type ResourceShareInvitationStatus =
+  | "PENDING"
+  | "ACCEPTED"
+  | "REJECTED"
+  | "EXPIRED";
+export const ResourceShareInvitationStatus = S.Literal(
+  "PENDING",
+  "ACCEPTED",
+  "REJECTED",
+  "EXPIRED",
+);
 export interface ResourceShareAssociation {
   resourceShareArn?: string;
   resourceShareName?: string;
   associatedEntity?: string;
-  associationType?: string;
-  status?: string;
+  associationType?: ResourceShareAssociationType;
+  status?: ResourceShareAssociationStatus;
   statusMessage?: string;
   creationTime?: Date;
   lastUpdatedTime?: Date;
@@ -949,8 +1026,8 @@ export const ResourceShareAssociation = S.suspend(() =>
     resourceShareArn: S.optional(S.String),
     resourceShareName: S.optional(S.String),
     associatedEntity: S.optional(S.String),
-    associationType: S.optional(S.String),
-    status: S.optional(S.String),
+    associationType: S.optional(ResourceShareAssociationType),
+    status: S.optional(ResourceShareAssociationStatus),
     statusMessage: S.optional(S.String),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdatedTime: S.optional(
@@ -974,8 +1051,8 @@ export interface ResourceShareInvitation {
   senderAccountId?: string;
   receiverAccountId?: string;
   invitationTimestamp?: Date;
-  status?: string;
-  resourceShareAssociations?: ResourceShareAssociationList;
+  status?: ResourceShareInvitationStatus;
+  resourceShareAssociations?: ResourceShareAssociation[];
   receiverArn?: string;
 }
 export const ResourceShareInvitation = S.suspend(() =>
@@ -988,7 +1065,7 @@ export const ResourceShareInvitation = S.suspend(() =>
     invitationTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    status: S.optional(S.String),
+    status: S.optional(ResourceShareInvitationStatus),
     resourceShareAssociations: S.optional(ResourceShareAssociationList),
     receiverArn: S.optional(S.String),
   }),
@@ -1003,7 +1080,7 @@ export const ResourceShareInvitationList = S.Array(
 );
 export interface TagFilter {
   tagKey?: string;
-  tagValues?: TagValueList;
+  tagValues?: string[];
 }
 export const TagFilter = S.suspend(() =>
   S.Struct({
@@ -1030,7 +1107,7 @@ export interface CreatePermissionRequest {
   resourceType: string;
   policyTemplate: string;
   clientToken?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreatePermissionRequest = S.suspend(() =>
   S.Struct({
@@ -1055,13 +1132,13 @@ export const CreatePermissionRequest = S.suspend(() =>
 export interface DeletePermissionResponse {
   returnValue?: boolean;
   clientToken?: string;
-  permissionStatus?: string;
+  permissionStatus?: PermissionStatus;
 }
 export const DeletePermissionResponse = S.suspend(() =>
   S.Struct({
     returnValue: S.optional(S.Boolean).pipe(T.XmlName("return")),
     clientToken: S.optional(S.String),
-    permissionStatus: S.optional(S.String),
+    permissionStatus: S.optional(PermissionStatus),
   }),
 ).annotations({
   identifier: "DeletePermissionResponse",
@@ -1069,13 +1146,13 @@ export const DeletePermissionResponse = S.suspend(() =>
 export interface DeletePermissionVersionResponse {
   returnValue?: boolean;
   clientToken?: string;
-  permissionStatus?: string;
+  permissionStatus?: PermissionStatus;
 }
 export const DeletePermissionVersionResponse = S.suspend(() =>
   S.Struct({
     returnValue: S.optional(S.Boolean).pipe(T.XmlName("return")),
     clientToken: S.optional(S.String),
-    permissionStatus: S.optional(S.String),
+    permissionStatus: S.optional(PermissionStatus),
   }),
 ).annotations({
   identifier: "DeletePermissionVersionResponse",
@@ -1093,7 +1170,7 @@ export const DeleteResourceShareResponse = S.suspend(() =>
   identifier: "DeleteResourceShareResponse",
 }) as any as S.Schema<DeleteResourceShareResponse>;
 export interface DisassociateResourceShareResponse {
-  resourceShareAssociations?: ResourceShareAssociationList;
+  resourceShareAssociations?: ResourceShareAssociation[];
   clientToken?: string;
 }
 export const DisassociateResourceShareResponse = S.suspend(() =>
@@ -1116,6 +1193,8 @@ export const DisassociateResourceSharePermissionResponse = S.suspend(() =>
 ).annotations({
   identifier: "DisassociateResourceSharePermissionResponse",
 }) as any as S.Schema<DisassociateResourceSharePermissionResponse>;
+export type PermissionType = "CUSTOMER_MANAGED" | "AWS_MANAGED";
+export const PermissionType = S.Literal("CUSTOMER_MANAGED", "AWS_MANAGED");
 export interface ResourceSharePermissionDetail {
   arn?: string;
   version?: string;
@@ -1126,10 +1205,10 @@ export interface ResourceSharePermissionDetail {
   creationTime?: Date;
   lastUpdatedTime?: Date;
   isResourceTypeDefault?: boolean;
-  permissionType?: string;
-  featureSet?: string;
-  status?: string;
-  tags?: TagList;
+  permissionType?: PermissionType;
+  featureSet?: PermissionFeatureSet;
+  status?: PermissionStatus;
+  tags?: Tag[];
 }
 export const ResourceSharePermissionDetail = S.suspend(() =>
   S.Struct({
@@ -1144,9 +1223,9 @@ export const ResourceSharePermissionDetail = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     isResourceTypeDefault: S.optional(S.Boolean),
-    permissionType: S.optional(S.String),
-    featureSet: S.optional(S.String),
-    status: S.optional(S.String),
+    permissionType: S.optional(PermissionType),
+    featureSet: S.optional(PermissionFeatureSet),
+    status: S.optional(PermissionStatus),
     tags: S.optional(TagList),
   }),
 ).annotations({
@@ -1161,7 +1240,7 @@ export const GetPermissionResponse = S.suspend(() =>
   identifier: "GetPermissionResponse",
 }) as any as S.Schema<GetPermissionResponse>;
 export interface GetResourcePoliciesResponse {
-  policies?: PolicyList;
+  policies?: string[];
   nextToken?: string;
 }
 export const GetResourcePoliciesResponse = S.suspend(() =>
@@ -1173,7 +1252,7 @@ export const GetResourcePoliciesResponse = S.suspend(() =>
   identifier: "GetResourcePoliciesResponse",
 }) as any as S.Schema<GetResourcePoliciesResponse>;
 export interface GetResourceShareAssociationsResponse {
-  resourceShareAssociations?: ResourceShareAssociationList;
+  resourceShareAssociations?: ResourceShareAssociation[];
   nextToken?: string;
 }
 export const GetResourceShareAssociationsResponse = S.suspend(() =>
@@ -1185,7 +1264,7 @@ export const GetResourceShareAssociationsResponse = S.suspend(() =>
   identifier: "GetResourceShareAssociationsResponse",
 }) as any as S.Schema<GetResourceShareAssociationsResponse>;
 export interface GetResourceShareInvitationsResponse {
-  resourceShareInvitations?: ResourceShareInvitationList;
+  resourceShareInvitations?: ResourceShareInvitation[];
   nextToken?: string;
 }
 export const GetResourceShareInvitationsResponse = S.suspend(() =>
@@ -1197,11 +1276,11 @@ export const GetResourceShareInvitationsResponse = S.suspend(() =>
   identifier: "GetResourceShareInvitationsResponse",
 }) as any as S.Schema<GetResourceShareInvitationsResponse>;
 export interface GetResourceSharesRequest {
-  resourceShareArns?: ResourceShareArnList;
-  resourceShareStatus?: string;
-  resourceOwner: string;
+  resourceShareArns?: string[];
+  resourceShareStatus?: ResourceShareStatus;
+  resourceOwner: ResourceOwner;
   name?: string;
-  tagFilters?: TagFilters;
+  tagFilters?: TagFilter[];
   nextToken?: string;
   maxResults?: number;
   permissionArn?: string;
@@ -1210,8 +1289,8 @@ export interface GetResourceSharesRequest {
 export const GetResourceSharesRequest = S.suspend(() =>
   S.Struct({
     resourceShareArns: S.optional(ResourceShareArnList),
-    resourceShareStatus: S.optional(S.String),
-    resourceOwner: S.String,
+    resourceShareStatus: S.optional(ResourceShareStatus),
+    resourceOwner: ResourceOwner,
     name: S.optional(S.String),
     tagFilters: S.optional(TagFilters),
     nextToken: S.optional(S.String),
@@ -1241,9 +1320,9 @@ export interface ResourceSharePermissionSummary {
   creationTime?: Date;
   lastUpdatedTime?: Date;
   isResourceTypeDefault?: boolean;
-  permissionType?: string;
-  featureSet?: string;
-  tags?: TagList;
+  permissionType?: PermissionType;
+  featureSet?: PermissionFeatureSet;
+  tags?: Tag[];
 }
 export const ResourceSharePermissionSummary = S.suspend(() =>
   S.Struct({
@@ -1258,8 +1337,8 @@ export const ResourceSharePermissionSummary = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     isResourceTypeDefault: S.optional(S.Boolean),
-    permissionType: S.optional(S.String),
-    featureSet: S.optional(S.String),
+    permissionType: S.optional(PermissionType),
+    featureSet: S.optional(PermissionFeatureSet),
     tags: S.optional(TagList),
   }),
 ).annotations({
@@ -1272,7 +1351,7 @@ export const ResourceSharePermissionList = S.Array(
   }),
 );
 export interface ListPermissionVersionsResponse {
-  permissions?: ResourceSharePermissionList;
+  permissions?: ResourceSharePermissionSummary[];
   nextToken?: string;
 }
 export const ListPermissionVersionsResponse = S.suspend(() =>
@@ -1283,16 +1362,31 @@ export const ListPermissionVersionsResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListPermissionVersionsResponse",
 }) as any as S.Schema<ListPermissionVersionsResponse>;
+export type ResourceStatus =
+  | "AVAILABLE"
+  | "ZONAL_RESOURCE_INACCESSIBLE"
+  | "LIMIT_EXCEEDED"
+  | "UNAVAILABLE"
+  | "PENDING";
+export const ResourceStatus = S.Literal(
+  "AVAILABLE",
+  "ZONAL_RESOURCE_INACCESSIBLE",
+  "LIMIT_EXCEEDED",
+  "UNAVAILABLE",
+  "PENDING",
+);
+export type ResourceRegionScope = "REGIONAL" | "GLOBAL";
+export const ResourceRegionScope = S.Literal("REGIONAL", "GLOBAL");
 export interface Resource {
   arn?: string;
   type?: string;
   resourceShareArn?: string;
   resourceGroupArn?: string;
-  status?: string;
+  status?: ResourceStatus;
   statusMessage?: string;
   creationTime?: Date;
   lastUpdatedTime?: Date;
-  resourceRegionScope?: string;
+  resourceRegionScope?: ResourceRegionScope;
 }
 export const Resource = S.suspend(() =>
   S.Struct({
@@ -1300,13 +1394,13 @@ export const Resource = S.suspend(() =>
     type: S.optional(S.String),
     resourceShareArn: S.optional(S.String),
     resourceGroupArn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ResourceStatus),
     statusMessage: S.optional(S.String),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdatedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    resourceRegionScope: S.optional(S.String),
+    resourceRegionScope: S.optional(ResourceRegionScope),
   }),
 ).annotations({ identifier: "Resource" }) as any as S.Schema<Resource>;
 export type ResourceList = Resource[];
@@ -1314,7 +1408,7 @@ export const ResourceList = S.Array(
   Resource.pipe(T.XmlName("item")).annotations({ identifier: "Resource" }),
 );
 export interface ListResourcesResponse {
-  resources?: ResourceList;
+  resources?: Resource[];
   nextToken?: string;
 }
 export const ListResourcesResponse = S.suspend(() =>
@@ -1326,7 +1420,7 @@ export const ListResourcesResponse = S.suspend(() =>
   identifier: "ListResourcesResponse",
 }) as any as S.Schema<ListResourcesResponse>;
 export interface ListResourceSharePermissionsResponse {
-  permissions?: ResourceSharePermissionList;
+  permissions?: ResourceSharePermissionSummary[];
   nextToken?: string;
 }
 export const ListResourceSharePermissionsResponse = S.suspend(() =>
@@ -1375,7 +1469,7 @@ export interface ReplacePermissionAssociationsWork {
   fromPermissionVersion?: string;
   toPermissionArn?: string;
   toPermissionVersion?: string;
-  status?: string;
+  status?: ReplacePermissionAssociationsWorkStatus;
   statusMessage?: string;
   creationTime?: Date;
   lastUpdatedTime?: Date;
@@ -1387,7 +1481,7 @@ export const ReplacePermissionAssociationsWork = S.suspend(() =>
     fromPermissionVersion: S.optional(S.String),
     toPermissionArn: S.optional(S.String),
     toPermissionVersion: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(ReplacePermissionAssociationsWorkStatus),
     statusMessage: S.optional(S.String),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdatedTime: S.optional(
@@ -1423,17 +1517,26 @@ export const SetDefaultPermissionVersionResponse = S.suspend(() =>
 ).annotations({
   identifier: "SetDefaultPermissionVersionResponse",
 }) as any as S.Schema<SetDefaultPermissionVersionResponse>;
+export type ResourceShareFeatureSet =
+  | "CREATED_FROM_POLICY"
+  | "PROMOTING_TO_STANDARD"
+  | "STANDARD";
+export const ResourceShareFeatureSet = S.Literal(
+  "CREATED_FROM_POLICY",
+  "PROMOTING_TO_STANDARD",
+  "STANDARD",
+);
 export interface ResourceShare {
   resourceShareArn?: string;
   name?: string;
   owningAccountId?: string;
   allowExternalPrincipals?: boolean;
-  status?: string;
+  status?: ResourceShareStatus;
   statusMessage?: string;
-  tags?: TagList;
+  tags?: Tag[];
   creationTime?: Date;
   lastUpdatedTime?: Date;
-  featureSet?: string;
+  featureSet?: ResourceShareFeatureSet;
 }
 export const ResourceShare = S.suspend(() =>
   S.Struct({
@@ -1441,14 +1544,14 @@ export const ResourceShare = S.suspend(() =>
     name: S.optional(S.String),
     owningAccountId: S.optional(S.String),
     allowExternalPrincipals: S.optional(S.Boolean),
-    status: S.optional(S.String),
+    status: S.optional(ResourceShareStatus),
     statusMessage: S.optional(S.String),
     tags: S.optional(TagList),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdatedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    featureSet: S.optional(S.String),
+    featureSet: S.optional(ResourceShareFeatureSet),
   }),
 ).annotations({
   identifier: "ResourceShare",
@@ -1477,7 +1580,7 @@ export interface AssociatedPermission {
   defaultVersion?: boolean;
   resourceType?: string;
   status?: string;
-  featureSet?: string;
+  featureSet?: PermissionFeatureSet;
   lastUpdatedTime?: Date;
   resourceShareArn?: string;
 }
@@ -1488,7 +1591,7 @@ export const AssociatedPermission = S.suspend(() =>
     defaultVersion: S.optional(S.Boolean),
     resourceType: S.optional(S.String),
     status: S.optional(S.String),
-    featureSet: S.optional(S.String),
+    featureSet: S.optional(PermissionFeatureSet),
     lastUpdatedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1535,13 +1638,13 @@ export const ReplacePermissionAssociationsWorkList = S.Array(
 export interface ServiceNameAndResourceType {
   resourceType?: string;
   serviceName?: string;
-  resourceRegionScope?: string;
+  resourceRegionScope?: ResourceRegionScope;
 }
 export const ServiceNameAndResourceType = S.suspend(() =>
   S.Struct({
     resourceType: S.optional(S.String),
     serviceName: S.optional(S.String),
-    resourceRegionScope: S.optional(S.String),
+    resourceRegionScope: S.optional(ResourceRegionScope),
   }),
 ).annotations({
   identifier: "ServiceNameAndResourceType",
@@ -1565,7 +1668,7 @@ export const AcceptResourceShareInvitationResponse = S.suspend(() =>
   identifier: "AcceptResourceShareInvitationResponse",
 }) as any as S.Schema<AcceptResourceShareInvitationResponse>;
 export interface AssociateResourceShareResponse {
-  resourceShareAssociations?: ResourceShareAssociationList;
+  resourceShareAssociations?: ResourceShareAssociation[];
   clientToken?: string;
 }
 export const AssociateResourceShareResponse = S.suspend(() =>
@@ -1613,7 +1716,7 @@ export const CreateResourceShareResponse = S.suspend(() =>
   identifier: "CreateResourceShareResponse",
 }) as any as S.Schema<CreateResourceShareResponse>;
 export interface GetResourceSharesResponse {
-  resourceShares?: ResourceShareList;
+  resourceShares?: ResourceShare[];
   nextToken?: string;
 }
 export const GetResourceSharesResponse = S.suspend(() =>
@@ -1625,7 +1728,7 @@ export const GetResourceSharesResponse = S.suspend(() =>
   identifier: "GetResourceSharesResponse",
 }) as any as S.Schema<GetResourceSharesResponse>;
 export interface ListPendingInvitationResourcesResponse {
-  resources?: ResourceList;
+  resources?: Resource[];
   nextToken?: string;
 }
 export const ListPendingInvitationResourcesResponse = S.suspend(() =>
@@ -1637,7 +1740,7 @@ export const ListPendingInvitationResourcesResponse = S.suspend(() =>
   identifier: "ListPendingInvitationResourcesResponse",
 }) as any as S.Schema<ListPendingInvitationResourcesResponse>;
 export interface ListPermissionAssociationsResponse {
-  permissions?: AssociatedPermissionList;
+  permissions?: AssociatedPermission[];
   nextToken?: string;
 }
 export const ListPermissionAssociationsResponse = S.suspend(() =>
@@ -1649,7 +1752,7 @@ export const ListPermissionAssociationsResponse = S.suspend(() =>
   identifier: "ListPermissionAssociationsResponse",
 }) as any as S.Schema<ListPermissionAssociationsResponse>;
 export interface ListPermissionsResponse {
-  permissions?: ResourceSharePermissionList;
+  permissions?: ResourceSharePermissionSummary[];
   nextToken?: string;
 }
 export const ListPermissionsResponse = S.suspend(() =>
@@ -1661,7 +1764,7 @@ export const ListPermissionsResponse = S.suspend(() =>
   identifier: "ListPermissionsResponse",
 }) as any as S.Schema<ListPermissionsResponse>;
 export interface ListPrincipalsResponse {
-  principals?: PrincipalList;
+  principals?: Principal[];
   nextToken?: string;
 }
 export const ListPrincipalsResponse = S.suspend(() =>
@@ -1673,7 +1776,7 @@ export const ListPrincipalsResponse = S.suspend(() =>
   identifier: "ListPrincipalsResponse",
 }) as any as S.Schema<ListPrincipalsResponse>;
 export interface ListReplacePermissionAssociationsWorkResponse {
-  replacePermissionAssociationsWorks?: ReplacePermissionAssociationsWorkList;
+  replacePermissionAssociationsWorks?: ReplacePermissionAssociationsWork[];
   nextToken?: string;
 }
 export const ListReplacePermissionAssociationsWorkResponse = S.suspend(() =>
@@ -1687,7 +1790,7 @@ export const ListReplacePermissionAssociationsWorkResponse = S.suspend(() =>
   identifier: "ListReplacePermissionAssociationsWorkResponse",
 }) as any as S.Schema<ListReplacePermissionAssociationsWorkResponse>;
 export interface ListResourceTypesResponse {
-  resourceTypes?: ServiceNameAndResourceTypeList;
+  resourceTypes?: ServiceNameAndResourceType[];
   nextToken?: string;
 }
 export const ListResourceTypesResponse = S.suspend(() =>
@@ -1902,7 +2005,7 @@ export class PermissionLimitExceededException extends S.TaggedError<PermissionLi
  */
 export const enableSharingWithAwsOrganization: (
   input: EnableSharingWithAwsOrganizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableSharingWithAwsOrganizationResponse,
   | OperationNotPermittedException
   | ServerInternalException
@@ -1925,7 +2028,7 @@ export const enableSharingWithAwsOrganization: (
 export const listPermissions: {
   (
     input: ListPermissionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPermissionsResponse,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -1937,7 +2040,7 @@ export const listPermissions: {
   >;
   pages: (
     input: ListPermissionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPermissionsResponse,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -1949,7 +2052,7 @@ export const listPermissions: {
   >;
   items: (
     input: ListPermissionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -1982,7 +2085,7 @@ export const listPermissions: {
 export const listReplacePermissionAssociationsWork: {
   (
     input: ListReplacePermissionAssociationsWorkRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReplacePermissionAssociationsWorkResponse,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -1993,7 +2096,7 @@ export const listReplacePermissionAssociationsWork: {
   >;
   pages: (
     input: ListReplacePermissionAssociationsWorkRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReplacePermissionAssociationsWorkResponse,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2004,7 +2107,7 @@ export const listReplacePermissionAssociationsWork: {
   >;
   items: (
     input: ListReplacePermissionAssociationsWorkRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2034,7 +2137,7 @@ export const listReplacePermissionAssociationsWork: {
 export const listResourceTypes: {
   (
     input: ListResourceTypesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResourceTypesResponse,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2045,7 +2148,7 @@ export const listResourceTypes: {
   >;
   pages: (
     input: ListResourceTypesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResourceTypesResponse,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2056,7 +2159,7 @@ export const listResourceTypes: {
   >;
   items: (
     input: ListResourceTypesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2088,7 +2191,7 @@ export const listResourceTypes: {
 export const listPermissionAssociations: {
   (
     input: ListPermissionAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPermissionAssociationsResponse,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2100,7 +2203,7 @@ export const listPermissionAssociations: {
   >;
   pages: (
     input: ListPermissionAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPermissionAssociationsResponse,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2112,7 +2215,7 @@ export const listPermissionAssociations: {
   >;
   items: (
     input: ListPermissionAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2145,7 +2248,7 @@ export const listPermissionAssociations: {
 export const getResourcePolicies: {
   (
     input: GetResourcePoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetResourcePoliciesResponse,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2158,7 +2261,7 @@ export const getResourcePolicies: {
   >;
   pages: (
     input: GetResourcePoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetResourcePoliciesResponse,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2171,7 +2274,7 @@ export const getResourcePolicies: {
   >;
   items: (
     input: GetResourcePoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2204,7 +2307,7 @@ export const getResourcePolicies: {
  */
 export const updateResourceShare: (
   input: UpdateResourceShareRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateResourceShareResponse,
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
@@ -2241,7 +2344,7 @@ export const updateResourceShare: (
  */
 export const deletePermissionVersion: (
   input: DeletePermissionVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePermissionVersionResponse,
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
@@ -2287,7 +2390,7 @@ export const deletePermissionVersion: (
  */
 export const replacePermissionAssociations: (
   input: ReplacePermissionAssociationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ReplacePermissionAssociationsResponse,
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
@@ -2320,7 +2423,7 @@ export const replacePermissionAssociations: (
  */
 export const setDefaultPermissionVersion: (
   input: SetDefaultPermissionVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetDefaultPermissionVersionResponse,
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
@@ -2351,7 +2454,7 @@ export const setDefaultPermissionVersion: (
 export const getResourceShareAssociations: {
   (
     input: GetResourceShareAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetResourceShareAssociationsResponse,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2365,7 +2468,7 @@ export const getResourceShareAssociations: {
   >;
   pages: (
     input: GetResourceShareAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetResourceShareAssociationsResponse,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2379,7 +2482,7 @@ export const getResourceShareAssociations: {
   >;
   items: (
     input: GetResourceShareAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2415,7 +2518,7 @@ export const getResourceShareAssociations: {
 export const listPermissionVersions: {
   (
     input: ListPermissionVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPermissionVersionsResponse,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2429,7 +2532,7 @@ export const listPermissionVersions: {
   >;
   pages: (
     input: ListPermissionVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPermissionVersionsResponse,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2443,7 +2546,7 @@ export const listPermissionVersions: {
   >;
   items: (
     input: ListPermissionVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2479,7 +2582,7 @@ export const listPermissionVersions: {
 export const listResourceSharePermissions: {
   (
     input: ListResourceSharePermissionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResourceSharePermissionsResponse,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2493,7 +2596,7 @@ export const listResourceSharePermissions: {
   >;
   pages: (
     input: ListResourceSharePermissionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResourceSharePermissionsResponse,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2507,7 +2610,7 @@ export const listResourceSharePermissions: {
   >;
   items: (
     input: ListResourceSharePermissionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2542,7 +2645,7 @@ export const listResourceSharePermissions: {
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InvalidParameterException
   | MalformedArnException
@@ -2567,7 +2670,7 @@ export const untagResource: (
  */
 export const getPermission: (
   input: GetPermissionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPermissionResponse,
   | InvalidParameterException
   | MalformedArnException
@@ -2597,7 +2700,7 @@ export const getPermission: (
  */
 export const associateResourceSharePermission: (
   input: AssociateResourceSharePermissionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateResourceSharePermissionResponse,
   | InvalidClientTokenException
   | InvalidParameterException
@@ -2628,7 +2731,7 @@ export const associateResourceSharePermission: (
  */
 export const deletePermission: (
   input: DeletePermissionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePermissionResponse,
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
@@ -2658,7 +2761,7 @@ export const deletePermission: (
 export const getResourceShares: {
   (
     input: GetResourceSharesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetResourceSharesResponse,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2671,7 +2774,7 @@ export const getResourceShares: {
   >;
   pages: (
     input: GetResourceSharesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetResourceSharesResponse,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2684,7 +2787,7 @@ export const getResourceShares: {
   >;
   items: (
     input: GetResourceSharesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2719,7 +2822,7 @@ export const getResourceShares: {
 export const listPrincipals: {
   (
     input: ListPrincipalsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPrincipalsResponse,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2732,7 +2835,7 @@ export const listPrincipals: {
   >;
   pages: (
     input: ListPrincipalsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPrincipalsResponse,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2745,7 +2848,7 @@ export const listPrincipals: {
   >;
   items: (
     input: ListPrincipalsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2780,7 +2883,7 @@ export const listPrincipals: {
  */
 export const disassociateResourceSharePermission: (
   input: DisassociateResourceSharePermissionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateResourceSharePermissionResponse,
   | InvalidClientTokenException
   | InvalidParameterException
@@ -2814,7 +2917,7 @@ export const disassociateResourceSharePermission: (
  */
 export const deleteResourceShare: (
   input: DeleteResourceShareRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourceShareResponse,
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
@@ -2849,7 +2952,7 @@ export const deleteResourceShare: (
 export const listResources: {
   (
     input: ListResourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResourcesResponse,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2863,7 +2966,7 @@ export const listResources: {
   >;
   pages: (
     input: ListResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResourcesResponse,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2877,7 +2980,7 @@ export const listResources: {
   >;
   items: (
     input: ListResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -2913,7 +3016,7 @@ export const listResources: {
 export const getResourceShareInvitations: {
   (
     input: GetResourceShareInvitationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetResourceShareInvitationsResponse,
     | InvalidMaxResultsException
     | InvalidNextTokenException
@@ -2928,7 +3031,7 @@ export const getResourceShareInvitations: {
   >;
   pages: (
     input: GetResourceShareInvitationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetResourceShareInvitationsResponse,
     | InvalidMaxResultsException
     | InvalidNextTokenException
@@ -2943,7 +3046,7 @@ export const getResourceShareInvitations: {
   >;
   items: (
     input: GetResourceShareInvitationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidMaxResultsException
     | InvalidNextTokenException
@@ -3006,7 +3109,7 @@ export const getResourceShareInvitations: {
  */
 export const promotePermissionCreatedFromPolicy: (
   input: PromotePermissionCreatedFromPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PromotePermissionCreatedFromPolicyResponse,
   | InvalidParameterException
   | MalformedArnException
@@ -3036,7 +3139,7 @@ export const promotePermissionCreatedFromPolicy: (
  */
 export const disassociateResourceShare: (
   input: DisassociateResourceShareRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateResourceShareResponse,
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
@@ -3073,7 +3176,7 @@ export const disassociateResourceShare: (
  */
 export const associateResourceShare: (
   input: AssociateResourceShareRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateResourceShareResponse,
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
@@ -3113,7 +3216,7 @@ export const associateResourceShare: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InvalidParameterException
   | MalformedArnException
@@ -3144,7 +3247,7 @@ export const tagResource: (
  */
 export const rejectResourceShareInvitation: (
   input: RejectResourceShareInvitationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RejectResourceShareInvitationResponse,
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
@@ -3185,7 +3288,7 @@ export const rejectResourceShareInvitation: (
  */
 export const createResourceShare: (
   input: CreateResourceShareRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateResourceShareResponse,
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
@@ -3226,7 +3329,7 @@ export const createResourceShare: (
  */
 export const acceptResourceShareInvitation: (
   input: AcceptResourceShareInvitationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AcceptResourceShareInvitationResponse,
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
@@ -3264,7 +3367,7 @@ export const acceptResourceShareInvitation: (
 export const listPendingInvitationResources: {
   (
     input: ListPendingInvitationResourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPendingInvitationResourcesResponse,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -3280,7 +3383,7 @@ export const listPendingInvitationResources: {
   >;
   pages: (
     input: ListPendingInvitationResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPendingInvitationResourcesResponse,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -3296,7 +3399,7 @@ export const listPendingInvitationResources: {
   >;
   items: (
     input: ListPendingInvitationResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidNextTokenException
     | InvalidParameterException
@@ -3348,7 +3451,7 @@ export const listPendingInvitationResources: {
  */
 export const promoteResourceShareCreatedFromPolicy: (
   input: PromoteResourceShareCreatedFromPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PromoteResourceShareCreatedFromPolicyResponse,
   | InvalidParameterException
   | InvalidStateTransitionException
@@ -3389,7 +3492,7 @@ export const promoteResourceShareCreatedFromPolicy: (
  */
 export const createPermissionVersion: (
   input: CreatePermissionVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePermissionVersionResponse,
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
@@ -3425,7 +3528,7 @@ export const createPermissionVersion: (
  */
 export const createPermission: (
   input: CreatePermissionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePermissionResponse,
   | IdempotentParameterMismatchException
   | InvalidClientTokenException

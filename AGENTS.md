@@ -56,6 +56,7 @@ bun generate --sdk s3                    # Generate service client
 bun vitest run ./test/services/s3.test.ts # Run live AWS test
 bun vitest run ./test/protocols/         # Run protocol unit tests
 bun find:errors "explore S3 errors"      # Discover undocumented errors
+bun tsgo -b                              # Check the typescript types
 ```
 
 ## KEY FILES
@@ -101,3 +102,4 @@ console.log(Object.entries(model.shapes).filter(([_,s]) => s.type === 'operation
 - `smithy/docs/source-2.0/` — Smithy specification
 - `aws-models/models/` — AWS Smithy model definitions
 - `aws-sdk-js-v3/` — Reference implementation
+- `smithy-typescript/` — TypeScript code generator for Smithy (trait handling reference)

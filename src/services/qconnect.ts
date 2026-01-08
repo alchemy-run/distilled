@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -101,17 +101,17 @@ export type RecommendationType = string;
 export type RecommendationId = string;
 export type Uuid = string;
 export type TargetType = string;
-export type QueryText = string | Redacted.Redacted<string>;
+export type QueryText = string | redacted.Redacted<string>;
 export type KnowledgeBaseSearchType = string;
 export type AIAgentType = string;
 export type NonEmptyString = string;
-export type NonEmptySensitiveString = string | Redacted.Redacted<string>;
+export type NonEmptySensitiveString = string | redacted.Redacted<string>;
 export type VisibilityStatus = string;
 export type UuidOrArnOrEitherWithQualifier = string;
 export type Origin = string;
 export type Version = number;
-export type AIGuardrailBlockedMessaging = string | Redacted.Redacted<string>;
-export type AIGuardrailDescription = string | Redacted.Redacted<string>;
+export type AIGuardrailBlockedMessaging = string | redacted.Redacted<string>;
+export type AIGuardrailDescription = string | redacted.Redacted<string>;
 export type AIPromptType = string;
 export type AIPromptTemplateType = string;
 export type AIPromptModelIdentifier = string;
@@ -132,23 +132,23 @@ export type ContentAssociationType = string;
 export type ChannelSubtype = string;
 export type LanguageCode = string;
 export type ContentDisposition = string;
-export type AttachmentFileName = string | Redacted.Redacted<string>;
-export type NonEmptyUnlimitedString = string | Redacted.Redacted<string>;
+export type AttachmentFileName = string | redacted.Redacted<string>;
+export type NonEmptyUnlimitedString = string | redacted.Redacted<string>;
 export type MessageTemplateContentSha256 = string;
 export type QuickResponseName = string;
 export type QuickResponseType = string;
 export type QuickResponseDescription = string;
 export type ShortCutKey = string;
-export type Channel = string | Redacted.Redacted<string>;
+export type Channel = string | redacted.Redacted<string>;
 export type TagValue = string;
 export type UuidWithQualifier = string;
 export type ContactAttributeKey = string;
 export type ContactAttributeValue = string;
 export type ExternalSource = string;
-export type GroupingCriteria = string | Redacted.Redacted<string>;
-export type GroupingValue = string | Redacted.Redacted<string>;
-export type QuickResponseContent = string | Redacted.Redacted<string>;
-export type Url = string | Redacted.Redacted<string>;
+export type GroupingCriteria = string | redacted.Redacted<string>;
+export type GroupingValue = string | redacted.Redacted<string>;
+export type QuickResponseContent = string | redacted.Redacted<string>;
+export type Url = string | redacted.Redacted<string>;
 export type ArnWithQualifier = string;
 export type MessageTemplateAttributeKey = string;
 export type Relevance = string;
@@ -157,32 +157,32 @@ export type QueryConditionComparisonOperator = string;
 export type CaseArn = string;
 export type FilterField = string;
 export type FilterOperator = string;
-export type GuardrailTopicName = string | Redacted.Redacted<string>;
-export type GuardrailTopicDefinition = string | Redacted.Redacted<string>;
-export type GuardrailTopicExample = string | Redacted.Redacted<string>;
-export type GuardrailTopicType = string | Redacted.Redacted<string>;
-export type GuardrailContentFilterType = string | Redacted.Redacted<string>;
-export type GuardrailFilterStrength = string | Redacted.Redacted<string>;
-export type GuardrailWordText = string | Redacted.Redacted<string>;
-export type GuardrailManagedWordsType = string | Redacted.Redacted<string>;
-export type GuardrailPiiEntityType = string | Redacted.Redacted<string>;
+export type GuardrailTopicName = string | redacted.Redacted<string>;
+export type GuardrailTopicDefinition = string | redacted.Redacted<string>;
+export type GuardrailTopicExample = string | redacted.Redacted<string>;
+export type GuardrailTopicType = string | redacted.Redacted<string>;
+export type GuardrailContentFilterType = string | redacted.Redacted<string>;
+export type GuardrailFilterStrength = string | redacted.Redacted<string>;
+export type GuardrailWordText = string | redacted.Redacted<string>;
+export type GuardrailManagedWordsType = string | redacted.Redacted<string>;
+export type GuardrailPiiEntityType = string | redacted.Redacted<string>;
 export type GuardrailSensitiveInformationAction =
   | string
-  | Redacted.Redacted<string>;
-export type GuardrailRegexName = string | Redacted.Redacted<string>;
-export type GuardrailRegexDescription = string | Redacted.Redacted<string>;
-export type GuardrailRegexPattern = string | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
+export type GuardrailRegexName = string | redacted.Redacted<string>;
+export type GuardrailRegexDescription = string | redacted.Redacted<string>;
+export type GuardrailRegexPattern = string | redacted.Redacted<string>;
 export type GuardrailContextualGroundingFilterType =
   | string
-  | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
 export type GuardrailContextualGroundingFilterThreshold = number;
-export type TextAIPrompt = string | Redacted.Redacted<string>;
+export type TextAIPrompt = string | redacted.Redacted<string>;
 export type Probability = number;
 export type TopK = number;
 export type MaxTokensToSample = number;
 export type BedrockKnowledgeBaseArn = string;
 export type AccessRoleArn = string;
-export type SensitiveString = string | Redacted.Redacted<string>;
+export type SensitiveString = string | redacted.Redacted<string>;
 export type ChunkingStrategy = string;
 export type ParsingStrategy = string;
 export type MessageTemplateQueryValue = string;
@@ -199,7 +199,7 @@ export type WhatsAppMessageTemplateContentData = string;
 export type WhatsAppBusinessAccountId = string;
 export type WhatsAppMessageTemplateId = string;
 export type WhatsAppMessageTemplateComponent = string;
-export type MessageTemplateAttributeValue = string | Redacted.Redacted<string>;
+export type MessageTemplateAttributeValue = string | redacted.Redacted<string>;
 export type AssistantStatus = string;
 export type RelevanceScore = number;
 export type RelevanceLevel = string;
@@ -221,11 +221,11 @@ export type QuickResponseStatus = string;
 export type FilterAttributeKey = string;
 export type AIAgentAssociationConfigurationType = string;
 export type ToolType = string;
-export type UrlFilterPattern = string | Redacted.Redacted<string>;
+export type UrlFilterPattern = string | redacted.Redacted<string>;
 export type WebScopeType = string;
 export type BedrockModelArnForParsing = string;
 export type EmailHeaderKey = string;
-export type EmailHeaderValue = string | Redacted.Redacted<string>;
+export type EmailHeaderValue = string | redacted.Redacted<string>;
 export type PushMessageAction = string;
 export type AssistantCapabilityType = string;
 export type WhatsAppMessageTemplateName = string;
@@ -246,7 +246,7 @@ export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export type RecommendationIdList = string[];
 export const RecommendationIdList = S.Array(S.String);
-export type Channels = string | Redacted.Redacted<string>[];
+export type Channels = string | redacted.Redacted<string>[];
 export const Channels = S.Array(SensitiveString);
 export interface ListTagsForResourceRequest {
   resourceArn: string;
@@ -267,7 +267,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -388,7 +388,7 @@ export const GetRecommendationsRequest = S.suspend(() =>
 export interface NotifyRecommendationsReceivedRequest {
   assistantId: string;
   sessionId: string;
-  recommendationIds: RecommendationIdList;
+  recommendationIds: string[];
 }
 export const NotifyRecommendationsReceivedRequest = S.suspend(() =>
   S.Struct({
@@ -479,25 +479,25 @@ export const TagCondition = S.suspend(() =>
 export type AndConditions = TagCondition[];
 export const AndConditions = S.Array(TagCondition);
 export type OrCondition =
-  | { andConditions: AndConditions }
+  | { andConditions: TagCondition[] }
   | { tagCondition: TagCondition };
 export const OrCondition = S.Union(
   S.Struct({ andConditions: AndConditions }),
   S.Struct({ tagCondition: TagCondition }),
 );
-export type OrConditions = (typeof OrCondition)["Type"][];
+export type OrConditions = OrCondition[];
 export const OrConditions = S.Array(OrCondition);
 export type TagFilter =
   | { tagCondition: TagCondition }
-  | { andConditions: AndConditions }
-  | { orConditions: OrConditions };
+  | { andConditions: TagCondition[] }
+  | { orConditions: OrCondition[] };
 export const TagFilter = S.Union(
   S.Struct({ tagCondition: TagCondition }),
   S.Struct({ andConditions: AndConditions }),
   S.Struct({ orConditions: OrConditions }),
 );
 export interface KnowledgeBaseAssociationConfigurationData {
-  contentTagFilter?: (typeof TagFilter)["Type"];
+  contentTagFilter?: TagFilter;
   maxResults?: number;
   overrideKnowledgeBaseSearchType?: string;
 }
@@ -522,7 +522,7 @@ export const AssociationConfigurationData = S.Union(
 export interface AssociationConfiguration {
   associationId?: string;
   associationType?: string;
-  associationConfigurationData?: (typeof AssociationConfigurationData)["Type"];
+  associationConfigurationData?: AssociationConfigurationData;
 }
 export const AssociationConfiguration = S.suspend(() =>
   S.Struct({
@@ -538,7 +538,7 @@ export const AssociationConfigurationList = S.Array(AssociationConfiguration);
 export interface ManualSearchAIAgentConfiguration {
   answerGenerationAIPromptId?: string;
   answerGenerationAIGuardrailId?: string;
-  associationConfigurations?: AssociationConfigurationList;
+  associationConfigurations?: AssociationConfiguration[];
   locale?: string;
 }
 export const ManualSearchAIAgentConfiguration = S.suspend(() =>
@@ -551,16 +551,16 @@ export const ManualSearchAIAgentConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ManualSearchAIAgentConfiguration",
 }) as any as S.Schema<ManualSearchAIAgentConfiguration>;
-export type SuggestedMessagesList = string | Redacted.Redacted<string>[];
+export type SuggestedMessagesList = string | redacted.Redacted<string>[];
 export const SuggestedMessagesList = S.Array(SensitiveString);
 export interface AnswerRecommendationAIAgentConfiguration {
   intentLabelingGenerationAIPromptId?: string;
   queryReformulationAIPromptId?: string;
   answerGenerationAIPromptId?: string;
   answerGenerationAIGuardrailId?: string;
-  associationConfigurations?: AssociationConfigurationList;
+  associationConfigurations?: AssociationConfiguration[];
   locale?: string;
-  suggestedMessages?: SuggestedMessagesList;
+  suggestedMessages?: string | redacted.Redacted<string>[];
 }
 export const AnswerRecommendationAIAgentConfiguration = S.suspend(() =>
   S.Struct({
@@ -579,7 +579,7 @@ export interface SelfServiceAIAgentConfiguration {
   selfServicePreProcessingAIPromptId?: string;
   selfServiceAnswerGenerationAIPromptId?: string;
   selfServiceAIGuardrailId?: string;
-  associationConfigurations?: AssociationConfigurationList;
+  associationConfigurations?: AssociationConfiguration[];
 }
 export const SelfServiceAIAgentConfiguration = S.suspend(() =>
   S.Struct({
@@ -595,7 +595,7 @@ export interface EmailResponseAIAgentConfiguration {
   emailResponseAIPromptId?: string;
   emailQueryReformulationAIPromptId?: string;
   locale?: string;
-  associationConfigurations?: AssociationConfigurationList;
+  associationConfigurations?: AssociationConfiguration[];
 }
 export const EmailResponseAIAgentConfiguration = S.suspend(() =>
   S.Struct({
@@ -623,7 +623,7 @@ export interface EmailGenerativeAnswerAIAgentConfiguration {
   emailGenerativeAnswerAIPromptId?: string;
   emailQueryReformulationAIPromptId?: string;
   locale?: string;
-  associationConfigurations?: AssociationConfigurationList;
+  associationConfigurations?: AssociationConfiguration[];
 }
 export const EmailGenerativeAnswerAIAgentConfiguration = S.suspend(() =>
   S.Struct({
@@ -639,7 +639,7 @@ export type ToolExampleList = string[];
 export const ToolExampleList = S.Array(S.String);
 export interface ToolInstruction {
   instruction?: string;
-  examples?: ToolExampleList;
+  examples?: string[];
 }
 export const ToolInstruction = S.suspend(() =>
   S.Struct({
@@ -651,7 +651,7 @@ export const ToolInstruction = S.suspend(() =>
 }) as any as S.Schema<ToolInstruction>;
 export interface ToolOverrideConstantInputValue {
   type: string;
-  value: string | Redacted.Redacted<string>;
+  value: string | redacted.Redacted<string>;
 }
 export const ToolOverrideConstantInputValue = S.suspend(() =>
   S.Struct({ type: S.String, value: SensitiveString }),
@@ -666,7 +666,7 @@ export const ToolOverrideInputValueConfiguration = S.Union(
 );
 export interface ToolOverrideInputValue {
   jsonPath: string;
-  value: (typeof ToolOverrideInputValueConfiguration)["Type"];
+  value: ToolOverrideInputValueConfiguration;
 }
 export const ToolOverrideInputValue = S.suspend(() =>
   S.Struct({ jsonPath: S.String, value: ToolOverrideInputValueConfiguration }),
@@ -726,8 +726,8 @@ export interface ToolConfiguration {
   toolId?: string;
   description?: string;
   instruction?: ToolInstruction;
-  overrideInputValues?: ToolOverrideInputValueList;
-  outputFilters?: ToolOutputFilterList;
+  overrideInputValues?: ToolOverrideInputValue[];
+  outputFilters?: ToolOutputFilter[];
   inputSchema?: any;
   outputSchema?: any;
   annotations?: Annotation;
@@ -756,7 +756,7 @@ export const ToolConfigurationList = S.Array(ToolConfiguration);
 export interface OrchestrationAIAgentConfiguration {
   orchestrationAIPromptId: string;
   orchestrationAIGuardrailId?: string;
-  toolConfigurations?: ToolConfigurationList;
+  toolConfigurations?: ToolConfiguration[];
   connectInstanceArn?: string;
   locale?: string;
 }
@@ -850,7 +850,7 @@ export interface UpdateAIAgentRequest {
   assistantId: string;
   aiAgentId: string;
   visibilityStatus: string;
-  configuration?: (typeof AIAgentConfiguration)["Type"];
+  configuration?: AIAgentConfiguration;
   description?: string;
 }
 export const UpdateAIAgentRequest = S.suspend(() =>
@@ -1044,13 +1044,13 @@ export const GetAIGuardrailRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetAIGuardrailRequest",
 }) as any as S.Schema<GetAIGuardrailRequest>;
-export type GuardrailTopicExamples = string | Redacted.Redacted<string>[];
+export type GuardrailTopicExamples = string | redacted.Redacted<string>[];
 export const GuardrailTopicExamples = S.Array(SensitiveString);
 export interface GuardrailTopicConfig {
-  name: string | Redacted.Redacted<string>;
-  definition: string | Redacted.Redacted<string>;
-  examples?: GuardrailTopicExamples;
-  type: string | Redacted.Redacted<string>;
+  name: string | redacted.Redacted<string>;
+  definition: string | redacted.Redacted<string>;
+  examples?: string | redacted.Redacted<string>[];
+  type: string | redacted.Redacted<string>;
 }
 export const GuardrailTopicConfig = S.suspend(() =>
   S.Struct({
@@ -1065,7 +1065,7 @@ export const GuardrailTopicConfig = S.suspend(() =>
 export type GuardrailTopicsConfig = GuardrailTopicConfig[];
 export const GuardrailTopicsConfig = S.Array(GuardrailTopicConfig);
 export interface AIGuardrailTopicPolicyConfig {
-  topicsConfig: GuardrailTopicsConfig;
+  topicsConfig: GuardrailTopicConfig[];
 }
 export const AIGuardrailTopicPolicyConfig = S.suspend(() =>
   S.Struct({ topicsConfig: GuardrailTopicsConfig }),
@@ -1073,9 +1073,9 @@ export const AIGuardrailTopicPolicyConfig = S.suspend(() =>
   identifier: "AIGuardrailTopicPolicyConfig",
 }) as any as S.Schema<AIGuardrailTopicPolicyConfig>;
 export interface GuardrailContentFilterConfig {
-  type: string | Redacted.Redacted<string>;
-  inputStrength: string | Redacted.Redacted<string>;
-  outputStrength: string | Redacted.Redacted<string>;
+  type: string | redacted.Redacted<string>;
+  inputStrength: string | redacted.Redacted<string>;
+  outputStrength: string | redacted.Redacted<string>;
 }
 export const GuardrailContentFilterConfig = S.suspend(() =>
   S.Struct({
@@ -1091,7 +1091,7 @@ export const GuardrailContentFiltersConfig = S.Array(
   GuardrailContentFilterConfig,
 );
 export interface AIGuardrailContentPolicyConfig {
-  filtersConfig: GuardrailContentFiltersConfig;
+  filtersConfig: GuardrailContentFilterConfig[];
 }
 export const AIGuardrailContentPolicyConfig = S.suspend(() =>
   S.Struct({ filtersConfig: GuardrailContentFiltersConfig }),
@@ -1099,7 +1099,7 @@ export const AIGuardrailContentPolicyConfig = S.suspend(() =>
   identifier: "AIGuardrailContentPolicyConfig",
 }) as any as S.Schema<AIGuardrailContentPolicyConfig>;
 export interface GuardrailWordConfig {
-  text: string | Redacted.Redacted<string>;
+  text: string | redacted.Redacted<string>;
 }
 export const GuardrailWordConfig = S.suspend(() =>
   S.Struct({ text: SensitiveString }),
@@ -1109,7 +1109,7 @@ export const GuardrailWordConfig = S.suspend(() =>
 export type GuardrailWordsConfig = GuardrailWordConfig[];
 export const GuardrailWordsConfig = S.Array(GuardrailWordConfig);
 export interface GuardrailManagedWordsConfig {
-  type: string | Redacted.Redacted<string>;
+  type: string | redacted.Redacted<string>;
 }
 export const GuardrailManagedWordsConfig = S.suspend(() =>
   S.Struct({ type: SensitiveString }),
@@ -1121,8 +1121,8 @@ export const GuardrailManagedWordListsConfig = S.Array(
   GuardrailManagedWordsConfig,
 );
 export interface AIGuardrailWordPolicyConfig {
-  wordsConfig?: GuardrailWordsConfig;
-  managedWordListsConfig?: GuardrailManagedWordListsConfig;
+  wordsConfig?: GuardrailWordConfig[];
+  managedWordListsConfig?: GuardrailManagedWordsConfig[];
 }
 export const AIGuardrailWordPolicyConfig = S.suspend(() =>
   S.Struct({
@@ -1133,8 +1133,8 @@ export const AIGuardrailWordPolicyConfig = S.suspend(() =>
   identifier: "AIGuardrailWordPolicyConfig",
 }) as any as S.Schema<AIGuardrailWordPolicyConfig>;
 export interface GuardrailPiiEntityConfig {
-  type: string | Redacted.Redacted<string>;
-  action: string | Redacted.Redacted<string>;
+  type: string | redacted.Redacted<string>;
+  action: string | redacted.Redacted<string>;
 }
 export const GuardrailPiiEntityConfig = S.suspend(() =>
   S.Struct({ type: SensitiveString, action: SensitiveString }),
@@ -1144,10 +1144,10 @@ export const GuardrailPiiEntityConfig = S.suspend(() =>
 export type GuardrailPiiEntitiesConfig = GuardrailPiiEntityConfig[];
 export const GuardrailPiiEntitiesConfig = S.Array(GuardrailPiiEntityConfig);
 export interface GuardrailRegexConfig {
-  name: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
-  pattern: string | Redacted.Redacted<string>;
-  action: string | Redacted.Redacted<string>;
+  name: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  pattern: string | redacted.Redacted<string>;
+  action: string | redacted.Redacted<string>;
 }
 export const GuardrailRegexConfig = S.suspend(() =>
   S.Struct({
@@ -1162,8 +1162,8 @@ export const GuardrailRegexConfig = S.suspend(() =>
 export type GuardrailRegexesConfig = GuardrailRegexConfig[];
 export const GuardrailRegexesConfig = S.Array(GuardrailRegexConfig);
 export interface AIGuardrailSensitiveInformationPolicyConfig {
-  piiEntitiesConfig?: GuardrailPiiEntitiesConfig;
-  regexesConfig?: GuardrailRegexesConfig;
+  piiEntitiesConfig?: GuardrailPiiEntityConfig[];
+  regexesConfig?: GuardrailRegexConfig[];
 }
 export const AIGuardrailSensitiveInformationPolicyConfig = S.suspend(() =>
   S.Struct({
@@ -1174,7 +1174,7 @@ export const AIGuardrailSensitiveInformationPolicyConfig = S.suspend(() =>
   identifier: "AIGuardrailSensitiveInformationPolicyConfig",
 }) as any as S.Schema<AIGuardrailSensitiveInformationPolicyConfig>;
 export interface GuardrailContextualGroundingFilterConfig {
-  type: string | Redacted.Redacted<string>;
+  type: string | redacted.Redacted<string>;
   threshold: number;
 }
 export const GuardrailContextualGroundingFilterConfig = S.suspend(() =>
@@ -1188,7 +1188,7 @@ export const GuardrailContextualGroundingFiltersConfig = S.Array(
   GuardrailContextualGroundingFilterConfig,
 );
 export interface AIGuardrailContextualGroundingPolicyConfig {
-  filtersConfig: GuardrailContextualGroundingFiltersConfig;
+  filtersConfig: GuardrailContextualGroundingFilterConfig[];
 }
 export const AIGuardrailContextualGroundingPolicyConfig = S.suspend(() =>
   S.Struct({ filtersConfig: GuardrailContextualGroundingFiltersConfig }),
@@ -1200,9 +1200,9 @@ export interface UpdateAIGuardrailRequest {
   assistantId: string;
   aiGuardrailId: string;
   visibilityStatus: string;
-  blockedInputMessaging: string | Redacted.Redacted<string>;
-  blockedOutputsMessaging: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  blockedInputMessaging: string | redacted.Redacted<string>;
+  blockedOutputsMessaging: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   topicPolicyConfig?: AIGuardrailTopicPolicyConfig;
   contentPolicyConfig?: AIGuardrailContentPolicyConfig;
   wordPolicyConfig?: AIGuardrailWordPolicyConfig;
@@ -1409,7 +1409,7 @@ export const GetAIPromptRequest = S.suspend(() =>
   identifier: "GetAIPromptRequest",
 }) as any as S.Schema<GetAIPromptRequest>;
 export interface TextFullAIPromptEditTemplateConfiguration {
-  text: string | Redacted.Redacted<string>;
+  text: string | redacted.Redacted<string>;
 }
 export const TextFullAIPromptEditTemplateConfiguration = S.suspend(() =>
   S.Struct({ text: SensitiveString }),
@@ -1454,10 +1454,10 @@ export interface UpdateAIPromptRequest {
   assistantId: string;
   aiPromptId: string;
   visibilityStatus: string;
-  templateConfiguration?: (typeof AIPromptTemplateConfiguration)["Type"];
+  templateConfiguration?: AIPromptTemplateConfiguration;
   description?: string;
   modelId?: string;
-  inferenceConfiguration?: (typeof AIPromptInferenceConfiguration)["Type"];
+  inferenceConfiguration?: AIPromptInferenceConfiguration;
 }
 export const UpdateAIPromptRequest = S.suspend(() =>
   S.Struct({
@@ -1765,9 +1765,9 @@ export interface UpdateSessionRequest {
   assistantId: string;
   sessionId: string;
   description?: string;
-  tagFilter?: (typeof TagFilter)["Type"];
-  aiAgentConfiguration?: AIAgentConfigurationMap;
-  orchestratorConfigurationList?: OrchestratorConfigurationList;
+  tagFilter?: TagFilter;
+  aiAgentConfiguration?: { [key: string]: AIAgentConfigurationData };
+  orchestratorConfigurationList?: OrchestratorConfigurationEntry[];
   removeOrchestratorConfigurationList?: boolean;
 }
 export const UpdateSessionRequest = S.suspend(() =>
@@ -2063,7 +2063,7 @@ export const Filter = S.suspend(() =>
 export type FilterList = Filter[];
 export const FilterList = S.Array(Filter);
 export interface SearchExpression {
-  filters: FilterList;
+  filters: Filter[];
 }
 export const SearchExpression = S.suspend(() =>
   S.Struct({ filters: FilterList }),
@@ -2157,10 +2157,10 @@ export interface CreateContentRequest {
   name: string;
   title?: string;
   overrideLinkOutUri?: string;
-  metadata?: ContentMetadata;
+  metadata?: { [key: string]: string };
   uploadId: string;
   clientToken?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateContentRequest = S.suspend(() =>
   S.Struct({
@@ -2219,7 +2219,7 @@ export interface UpdateContentRequest {
   title?: string;
   overrideLinkOutUri?: string;
   removeOverrideLinkOutUri?: boolean;
-  metadata?: ContentMetadata;
+  metadata?: { [key: string]: string };
   uploadId?: string;
 }
 export const UpdateContentRequest = S.suspend(() =>
@@ -2437,14 +2437,14 @@ export const GetMessageTemplateRequest = S.suspend(() =>
   identifier: "GetMessageTemplateRequest",
 }) as any as S.Schema<GetMessageTemplateRequest>;
 export type MessageTemplateBodyContentProvider = {
-  content: string | Redacted.Redacted<string>;
+  content: string | redacted.Redacted<string>;
 };
 export const MessageTemplateBodyContentProvider = S.Union(
   S.Struct({ content: SensitiveString }),
 );
 export interface EmailMessageTemplateContentBody {
-  plainText?: (typeof MessageTemplateBodyContentProvider)["Type"];
-  html?: (typeof MessageTemplateBodyContentProvider)["Type"];
+  plainText?: MessageTemplateBodyContentProvider;
+  html?: MessageTemplateBodyContentProvider;
 }
 export const EmailMessageTemplateContentBody = S.suspend(() =>
   S.Struct({
@@ -2456,7 +2456,7 @@ export const EmailMessageTemplateContentBody = S.suspend(() =>
 }) as any as S.Schema<EmailMessageTemplateContentBody>;
 export interface EmailHeader {
   name?: string;
-  value?: string | Redacted.Redacted<string>;
+  value?: string | redacted.Redacted<string>;
 }
 export const EmailHeader = S.suspend(() =>
   S.Struct({ name: S.optional(S.String), value: S.optional(SensitiveString) }),
@@ -2464,9 +2464,9 @@ export const EmailHeader = S.suspend(() =>
 export type EmailHeaders = EmailHeader[];
 export const EmailHeaders = S.Array(EmailHeader);
 export interface EmailMessageTemplateContent {
-  subject?: string | Redacted.Redacted<string>;
+  subject?: string | redacted.Redacted<string>;
   body?: EmailMessageTemplateContentBody;
-  headers?: EmailHeaders;
+  headers?: EmailHeader[];
 }
 export const EmailMessageTemplateContent = S.suspend(() =>
   S.Struct({
@@ -2478,7 +2478,7 @@ export const EmailMessageTemplateContent = S.suspend(() =>
   identifier: "EmailMessageTemplateContent",
 }) as any as S.Schema<EmailMessageTemplateContent>;
 export interface SMSMessageTemplateContentBody {
-  plainText?: (typeof MessageTemplateBodyContentProvider)["Type"];
+  plainText?: MessageTemplateBodyContentProvider;
 }
 export const SMSMessageTemplateContentBody = S.suspend(() =>
   S.Struct({ plainText: S.optional(MessageTemplateBodyContentProvider) }),
@@ -2502,15 +2502,15 @@ export const WhatsAppMessageTemplateContent = S.suspend(() =>
   identifier: "WhatsAppMessageTemplateContent",
 }) as any as S.Schema<WhatsAppMessageTemplateContent>;
 export interface PushADMMessageTemplateContent {
-  title?: string | Redacted.Redacted<string>;
-  body?: (typeof MessageTemplateBodyContentProvider)["Type"];
+  title?: string | redacted.Redacted<string>;
+  body?: MessageTemplateBodyContentProvider;
   action?: string;
-  sound?: string | Redacted.Redacted<string>;
-  url?: string | Redacted.Redacted<string>;
-  imageUrl?: string | Redacted.Redacted<string>;
-  imageIconUrl?: string | Redacted.Redacted<string>;
-  smallImageIconUrl?: string | Redacted.Redacted<string>;
-  rawContent?: (typeof MessageTemplateBodyContentProvider)["Type"];
+  sound?: string | redacted.Redacted<string>;
+  url?: string | redacted.Redacted<string>;
+  imageUrl?: string | redacted.Redacted<string>;
+  imageIconUrl?: string | redacted.Redacted<string>;
+  smallImageIconUrl?: string | redacted.Redacted<string>;
+  rawContent?: MessageTemplateBodyContentProvider;
 }
 export const PushADMMessageTemplateContent = S.suspend(() =>
   S.Struct({
@@ -2528,13 +2528,13 @@ export const PushADMMessageTemplateContent = S.suspend(() =>
   identifier: "PushADMMessageTemplateContent",
 }) as any as S.Schema<PushADMMessageTemplateContent>;
 export interface PushAPNSMessageTemplateContent {
-  title?: string | Redacted.Redacted<string>;
-  body?: (typeof MessageTemplateBodyContentProvider)["Type"];
+  title?: string | redacted.Redacted<string>;
+  body?: MessageTemplateBodyContentProvider;
   action?: string;
-  sound?: string | Redacted.Redacted<string>;
-  url?: string | Redacted.Redacted<string>;
-  mediaUrl?: string | Redacted.Redacted<string>;
-  rawContent?: (typeof MessageTemplateBodyContentProvider)["Type"];
+  sound?: string | redacted.Redacted<string>;
+  url?: string | redacted.Redacted<string>;
+  mediaUrl?: string | redacted.Redacted<string>;
+  rawContent?: MessageTemplateBodyContentProvider;
 }
 export const PushAPNSMessageTemplateContent = S.suspend(() =>
   S.Struct({
@@ -2550,15 +2550,15 @@ export const PushAPNSMessageTemplateContent = S.suspend(() =>
   identifier: "PushAPNSMessageTemplateContent",
 }) as any as S.Schema<PushAPNSMessageTemplateContent>;
 export interface PushFCMMessageTemplateContent {
-  title?: string | Redacted.Redacted<string>;
-  body?: (typeof MessageTemplateBodyContentProvider)["Type"];
+  title?: string | redacted.Redacted<string>;
+  body?: MessageTemplateBodyContentProvider;
   action?: string;
-  sound?: string | Redacted.Redacted<string>;
-  url?: string | Redacted.Redacted<string>;
-  imageUrl?: string | Redacted.Redacted<string>;
-  imageIconUrl?: string | Redacted.Redacted<string>;
-  smallImageIconUrl?: string | Redacted.Redacted<string>;
-  rawContent?: (typeof MessageTemplateBodyContentProvider)["Type"];
+  sound?: string | redacted.Redacted<string>;
+  url?: string | redacted.Redacted<string>;
+  imageUrl?: string | redacted.Redacted<string>;
+  imageIconUrl?: string | redacted.Redacted<string>;
+  smallImageIconUrl?: string | redacted.Redacted<string>;
+  rawContent?: MessageTemplateBodyContentProvider;
 }
 export const PushFCMMessageTemplateContent = S.suspend(() =>
   S.Struct({
@@ -2576,15 +2576,15 @@ export const PushFCMMessageTemplateContent = S.suspend(() =>
   identifier: "PushFCMMessageTemplateContent",
 }) as any as S.Schema<PushFCMMessageTemplateContent>;
 export interface PushBaiduMessageTemplateContent {
-  title?: string | Redacted.Redacted<string>;
-  body?: (typeof MessageTemplateBodyContentProvider)["Type"];
+  title?: string | redacted.Redacted<string>;
+  body?: MessageTemplateBodyContentProvider;
   action?: string;
-  sound?: string | Redacted.Redacted<string>;
-  url?: string | Redacted.Redacted<string>;
-  imageUrl?: string | Redacted.Redacted<string>;
-  imageIconUrl?: string | Redacted.Redacted<string>;
-  smallImageIconUrl?: string | Redacted.Redacted<string>;
-  rawContent?: (typeof MessageTemplateBodyContentProvider)["Type"];
+  sound?: string | redacted.Redacted<string>;
+  url?: string | redacted.Redacted<string>;
+  imageUrl?: string | redacted.Redacted<string>;
+  imageIconUrl?: string | redacted.Redacted<string>;
+  smallImageIconUrl?: string | redacted.Redacted<string>;
+  rawContent?: MessageTemplateBodyContentProvider;
 }
 export const PushBaiduMessageTemplateContent = S.suspend(() =>
   S.Struct({
@@ -2633,7 +2633,7 @@ export const WhatsAppMessageTemplateComponents = S.Array(S.String);
 export interface WhatsAppMessageTemplateSourceConfiguration {
   businessAccountId: string;
   templateId: string;
-  components?: WhatsAppMessageTemplateComponents;
+  components?: string[];
 }
 export const WhatsAppMessageTemplateSourceConfiguration = S.suspend(() =>
   S.Struct({
@@ -2651,7 +2651,7 @@ export const MessageTemplateSourceConfiguration = S.Union(
   S.Struct({ whatsApp: WhatsAppMessageTemplateSourceConfiguration }),
 );
 export interface SystemEndpointAttributes {
-  address?: string | Redacted.Redacted<string>;
+  address?: string | redacted.Redacted<string>;
 }
 export const SystemEndpointAttributes = S.suspend(() =>
   S.Struct({ address: S.optional(SensitiveString) }),
@@ -2659,7 +2659,7 @@ export const SystemEndpointAttributes = S.suspend(() =>
   identifier: "SystemEndpointAttributes",
 }) as any as S.Schema<SystemEndpointAttributes>;
 export interface SystemAttributes {
-  name?: string | Redacted.Redacted<string>;
+  name?: string | redacted.Redacted<string>;
   customerEndpoint?: SystemEndpointAttributes;
   systemEndpoint?: SystemEndpointAttributes;
 }
@@ -2673,8 +2673,8 @@ export const SystemAttributes = S.suspend(() =>
   identifier: "SystemAttributes",
 }) as any as S.Schema<SystemAttributes>;
 export interface AgentAttributes {
-  firstName?: string | Redacted.Redacted<string>;
-  lastName?: string | Redacted.Redacted<string>;
+  firstName?: string | redacted.Redacted<string>;
+  lastName?: string | redacted.Redacted<string>;
 }
 export const AgentAttributes = S.suspend(() =>
   S.Struct({
@@ -2685,71 +2685,71 @@ export const AgentAttributes = S.suspend(() =>
   identifier: "AgentAttributes",
 }) as any as S.Schema<AgentAttributes>;
 export type CustomAttributes = {
-  [key: string]: string | Redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string>;
 };
 export const CustomAttributes = S.Record({
   key: S.String,
   value: SensitiveString,
 });
 export interface CustomerProfileAttributes {
-  profileId?: string | Redacted.Redacted<string>;
-  profileARN?: string | Redacted.Redacted<string>;
-  firstName?: string | Redacted.Redacted<string>;
-  middleName?: string | Redacted.Redacted<string>;
-  lastName?: string | Redacted.Redacted<string>;
-  accountNumber?: string | Redacted.Redacted<string>;
-  emailAddress?: string | Redacted.Redacted<string>;
-  phoneNumber?: string | Redacted.Redacted<string>;
-  additionalInformation?: string | Redacted.Redacted<string>;
-  partyType?: string | Redacted.Redacted<string>;
-  businessName?: string | Redacted.Redacted<string>;
-  birthDate?: string | Redacted.Redacted<string>;
-  gender?: string | Redacted.Redacted<string>;
-  mobilePhoneNumber?: string | Redacted.Redacted<string>;
-  homePhoneNumber?: string | Redacted.Redacted<string>;
-  businessPhoneNumber?: string | Redacted.Redacted<string>;
-  businessEmailAddress?: string | Redacted.Redacted<string>;
-  address1?: string | Redacted.Redacted<string>;
-  address2?: string | Redacted.Redacted<string>;
-  address3?: string | Redacted.Redacted<string>;
-  address4?: string | Redacted.Redacted<string>;
-  city?: string | Redacted.Redacted<string>;
-  county?: string | Redacted.Redacted<string>;
-  country?: string | Redacted.Redacted<string>;
-  postalCode?: string | Redacted.Redacted<string>;
-  province?: string | Redacted.Redacted<string>;
-  state?: string | Redacted.Redacted<string>;
-  shippingAddress1?: string | Redacted.Redacted<string>;
-  shippingAddress2?: string | Redacted.Redacted<string>;
-  shippingAddress3?: string | Redacted.Redacted<string>;
-  shippingAddress4?: string | Redacted.Redacted<string>;
-  shippingCity?: string | Redacted.Redacted<string>;
-  shippingCounty?: string | Redacted.Redacted<string>;
-  shippingCountry?: string | Redacted.Redacted<string>;
-  shippingPostalCode?: string | Redacted.Redacted<string>;
-  shippingProvince?: string | Redacted.Redacted<string>;
-  shippingState?: string | Redacted.Redacted<string>;
-  mailingAddress1?: string | Redacted.Redacted<string>;
-  mailingAddress2?: string | Redacted.Redacted<string>;
-  mailingAddress3?: string | Redacted.Redacted<string>;
-  mailingAddress4?: string | Redacted.Redacted<string>;
-  mailingCity?: string | Redacted.Redacted<string>;
-  mailingCounty?: string | Redacted.Redacted<string>;
-  mailingCountry?: string | Redacted.Redacted<string>;
-  mailingPostalCode?: string | Redacted.Redacted<string>;
-  mailingProvince?: string | Redacted.Redacted<string>;
-  mailingState?: string | Redacted.Redacted<string>;
-  billingAddress1?: string | Redacted.Redacted<string>;
-  billingAddress2?: string | Redacted.Redacted<string>;
-  billingAddress3?: string | Redacted.Redacted<string>;
-  billingAddress4?: string | Redacted.Redacted<string>;
-  billingCity?: string | Redacted.Redacted<string>;
-  billingCounty?: string | Redacted.Redacted<string>;
-  billingCountry?: string | Redacted.Redacted<string>;
-  billingPostalCode?: string | Redacted.Redacted<string>;
-  billingProvince?: string | Redacted.Redacted<string>;
-  billingState?: string | Redacted.Redacted<string>;
-  custom?: CustomAttributes;
+  profileId?: string | redacted.Redacted<string>;
+  profileARN?: string | redacted.Redacted<string>;
+  firstName?: string | redacted.Redacted<string>;
+  middleName?: string | redacted.Redacted<string>;
+  lastName?: string | redacted.Redacted<string>;
+  accountNumber?: string | redacted.Redacted<string>;
+  emailAddress?: string | redacted.Redacted<string>;
+  phoneNumber?: string | redacted.Redacted<string>;
+  additionalInformation?: string | redacted.Redacted<string>;
+  partyType?: string | redacted.Redacted<string>;
+  businessName?: string | redacted.Redacted<string>;
+  birthDate?: string | redacted.Redacted<string>;
+  gender?: string | redacted.Redacted<string>;
+  mobilePhoneNumber?: string | redacted.Redacted<string>;
+  homePhoneNumber?: string | redacted.Redacted<string>;
+  businessPhoneNumber?: string | redacted.Redacted<string>;
+  businessEmailAddress?: string | redacted.Redacted<string>;
+  address1?: string | redacted.Redacted<string>;
+  address2?: string | redacted.Redacted<string>;
+  address3?: string | redacted.Redacted<string>;
+  address4?: string | redacted.Redacted<string>;
+  city?: string | redacted.Redacted<string>;
+  county?: string | redacted.Redacted<string>;
+  country?: string | redacted.Redacted<string>;
+  postalCode?: string | redacted.Redacted<string>;
+  province?: string | redacted.Redacted<string>;
+  state?: string | redacted.Redacted<string>;
+  shippingAddress1?: string | redacted.Redacted<string>;
+  shippingAddress2?: string | redacted.Redacted<string>;
+  shippingAddress3?: string | redacted.Redacted<string>;
+  shippingAddress4?: string | redacted.Redacted<string>;
+  shippingCity?: string | redacted.Redacted<string>;
+  shippingCounty?: string | redacted.Redacted<string>;
+  shippingCountry?: string | redacted.Redacted<string>;
+  shippingPostalCode?: string | redacted.Redacted<string>;
+  shippingProvince?: string | redacted.Redacted<string>;
+  shippingState?: string | redacted.Redacted<string>;
+  mailingAddress1?: string | redacted.Redacted<string>;
+  mailingAddress2?: string | redacted.Redacted<string>;
+  mailingAddress3?: string | redacted.Redacted<string>;
+  mailingAddress4?: string | redacted.Redacted<string>;
+  mailingCity?: string | redacted.Redacted<string>;
+  mailingCounty?: string | redacted.Redacted<string>;
+  mailingCountry?: string | redacted.Redacted<string>;
+  mailingPostalCode?: string | redacted.Redacted<string>;
+  mailingProvince?: string | redacted.Redacted<string>;
+  mailingState?: string | redacted.Redacted<string>;
+  billingAddress1?: string | redacted.Redacted<string>;
+  billingAddress2?: string | redacted.Redacted<string>;
+  billingAddress3?: string | redacted.Redacted<string>;
+  billingAddress4?: string | redacted.Redacted<string>;
+  billingCity?: string | redacted.Redacted<string>;
+  billingCounty?: string | redacted.Redacted<string>;
+  billingCountry?: string | redacted.Redacted<string>;
+  billingPostalCode?: string | redacted.Redacted<string>;
+  billingProvince?: string | redacted.Redacted<string>;
+  billingState?: string | redacted.Redacted<string>;
+  custom?: { [key: string]: string | redacted.Redacted<string> };
 }
 export const CustomerProfileAttributes = S.suspend(() =>
   S.Struct({
@@ -2819,7 +2819,7 @@ export interface MessageTemplateAttributes {
   systemAttributes?: SystemAttributes;
   agentAttributes?: AgentAttributes;
   customerProfileAttributes?: CustomerProfileAttributes;
-  customAttributes?: CustomAttributes;
+  customAttributes?: { [key: string]: string | redacted.Redacted<string> };
 }
 export const MessageTemplateAttributes = S.suspend(() =>
   S.Struct({
@@ -2834,9 +2834,9 @@ export const MessageTemplateAttributes = S.suspend(() =>
 export interface UpdateMessageTemplateRequest {
   knowledgeBaseId: string;
   messageTemplateId: string;
-  content?: (typeof MessageTemplateContentProvider)["Type"];
+  content?: MessageTemplateContentProvider;
   language?: string;
-  sourceConfiguration?: (typeof MessageTemplateSourceConfiguration)["Type"];
+  sourceConfiguration?: MessageTemplateSourceConfiguration;
   defaultAttributes?: MessageTemplateAttributes;
 }
 export const UpdateMessageTemplateRequest = S.suspend(() =>
@@ -2949,8 +2949,8 @@ export interface CreateMessageTemplateAttachmentRequest {
   knowledgeBaseId: string;
   messageTemplateId: string;
   contentDisposition: string;
-  name: string | Redacted.Redacted<string>;
-  body: string | Redacted.Redacted<string>;
+  name: string | redacted.Redacted<string>;
+  body: string | redacted.Redacted<string>;
   clientToken?: string;
 }
 export const CreateMessageTemplateAttachmentRequest = S.suspend(() =>
@@ -3115,11 +3115,11 @@ export const RenderMessageTemplateRequest = S.suspend(() =>
 ).annotations({
   identifier: "RenderMessageTemplateRequest",
 }) as any as S.Schema<RenderMessageTemplateRequest>;
-export type GroupingValues = string | Redacted.Redacted<string>[];
+export type GroupingValues = string | redacted.Redacted<string>[];
 export const GroupingValues = S.Array(SensitiveString);
 export interface GroupingConfiguration {
-  criteria?: string | Redacted.Redacted<string>;
-  values?: GroupingValues;
+  criteria?: string | redacted.Redacted<string>;
+  values?: string | redacted.Redacted<string>[];
 }
 export const GroupingConfiguration = S.suspend(() =>
   S.Struct({
@@ -3184,7 +3184,7 @@ export const GetQuickResponseRequest = S.suspend(() =>
   identifier: "GetQuickResponseRequest",
 }) as any as S.Schema<GetQuickResponseRequest>;
 export type QuickResponseDataProvider = {
-  content: string | Redacted.Redacted<string>;
+  content: string | redacted.Redacted<string>;
 };
 export const QuickResponseDataProvider = S.Union(
   S.Struct({ content: SensitiveString }),
@@ -3193,7 +3193,7 @@ export interface UpdateQuickResponseRequest {
   knowledgeBaseId: string;
   quickResponseId: string;
   name?: string;
-  content?: (typeof QuickResponseDataProvider)["Type"];
+  content?: QuickResponseDataProvider;
   contentType?: string;
   groupingConfiguration?: GroupingConfiguration;
   removeGroupingConfiguration?: boolean;
@@ -3202,7 +3202,7 @@ export interface UpdateQuickResponseRequest {
   shortcutKey?: string;
   removeShortcutKey?: boolean;
   isActive?: boolean;
-  channels?: Channels;
+  channels?: string | redacted.Redacted<string>[];
   language?: string;
 }
 export const UpdateQuickResponseRequest = S.suspend(() =>
@@ -3313,10 +3313,10 @@ export const CitationSpan = S.suspend(() =>
 ).annotations({ identifier: "CitationSpan" }) as any as S.Schema<CitationSpan>;
 export interface Citation {
   contentId?: string;
-  title?: string | Redacted.Redacted<string>;
+  title?: string | redacted.Redacted<string>;
   knowledgeBaseId?: string;
   citationSpan: CitationSpan;
-  sourceURL?: string | Redacted.Redacted<string>;
+  sourceURL?: string | redacted.Redacted<string>;
   referenceType: string;
 }
 export const Citation = S.suspend(() =>
@@ -3340,8 +3340,8 @@ export const AIGuardrailAssessment = S.suspend(() =>
   identifier: "AIGuardrailAssessment",
 }) as any as S.Schema<AIGuardrailAssessment>;
 export interface TextMessage {
-  value?: string | Redacted.Redacted<string>;
-  citations?: Citations;
+  value?: string | redacted.Redacted<string>;
+  citations?: Citation[];
   aiGuardrailAssessment?: AIGuardrailAssessment;
 }
 export const TextMessage = S.suspend(() =>
@@ -3375,7 +3375,7 @@ export const MessageData = S.Union(
   S.Struct({ toolUseResult: ToolUseResultData }),
 );
 export interface MessageOutput {
-  value: (typeof MessageData)["Type"];
+  value: MessageData;
   messageId: string;
   participant: string;
   timestamp: Date;
@@ -3420,9 +3420,9 @@ export type MessageTemplateAttributeKeyList = string[];
 export const MessageTemplateAttributeKeyList = S.Array(S.String);
 export interface MessageTemplateAttachment {
   contentDisposition: string;
-  name: string | Redacted.Redacted<string>;
+  name: string | redacted.Redacted<string>;
   uploadedTime: Date;
-  url: string | Redacted.Redacted<string>;
+  url: string | redacted.Redacted<string>;
   urlExpiry: Date;
   attachmentId: string;
 }
@@ -3459,7 +3459,7 @@ export const QuickResponseQueryValueList = S.Array(S.String);
 export type QuickResponseFilterValueList = string[];
 export const QuickResponseFilterValueList = S.Array(S.String);
 export interface ListTagsForResourceResponse {
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -3468,7 +3468,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: Tags;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -3496,7 +3496,7 @@ export interface CreateAssistantRequest {
   name: string;
   type: string;
   description?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
 }
 export const CreateAssistantRequest = S.suspend(() =>
@@ -3526,7 +3526,7 @@ export interface UpdateAssistantAIAgentRequest {
   assistantId: string;
   aiAgentType: string;
   configuration: AIAgentConfigurationData;
-  orchestratorConfigurationList?: OrchestratorConfigurationList;
+  orchestratorConfigurationList?: OrchestratorConfigurationEntry[];
 }
 export const UpdateAssistantAIAgentRequest = S.suspend(() =>
   S.Struct({
@@ -3557,11 +3557,11 @@ export interface AIAgentData {
   aiAgentArn: string;
   name: string;
   type: string;
-  configuration: (typeof AIAgentConfiguration)["Type"];
+  configuration: AIAgentConfiguration;
   modifiedTime?: Date;
   description?: string;
   visibilityStatus: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   origin?: string;
   status?: string;
 }
@@ -3609,15 +3609,15 @@ export interface AIGuardrailData {
   aiGuardrailId: string;
   name: string;
   visibilityStatus: string;
-  blockedInputMessaging: string | Redacted.Redacted<string>;
-  blockedOutputsMessaging: string | Redacted.Redacted<string>;
-  description?: string | Redacted.Redacted<string>;
+  blockedInputMessaging: string | redacted.Redacted<string>;
+  blockedOutputsMessaging: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   topicPolicyConfig?: AIGuardrailTopicPolicyConfig;
   contentPolicyConfig?: AIGuardrailContentPolicyConfig;
   wordPolicyConfig?: AIGuardrailWordPolicyConfig;
   sensitiveInformationPolicyConfig?: AIGuardrailSensitiveInformationPolicyConfig;
   contextualGroundingPolicyConfig?: AIGuardrailContextualGroundingPolicyConfig;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   status?: string;
   modifiedTime?: Date;
 }
@@ -3678,12 +3678,12 @@ export interface AIPromptData {
   templateType: string;
   modelId: string;
   apiFormat: string;
-  templateConfiguration: (typeof AIPromptTemplateConfiguration)["Type"];
-  inferenceConfiguration?: (typeof AIPromptInferenceConfiguration)["Type"];
+  templateConfiguration: AIPromptTemplateConfiguration;
+  inferenceConfiguration?: AIPromptInferenceConfiguration;
   modifiedTime?: Date;
   description?: string;
   visibilityStatus: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   origin?: string;
   status?: string;
 }
@@ -3741,12 +3741,12 @@ export interface SessionData {
   sessionId: string;
   name: string;
   description?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   integrationConfiguration?: SessionIntegrationConfiguration;
-  tagFilter?: (typeof TagFilter)["Type"];
-  aiAgentConfiguration?: AIAgentConfigurationMap;
+  tagFilter?: TagFilter;
+  aiAgentConfiguration?: { [key: string]: AIAgentConfigurationData };
   origin?: string;
-  orchestratorConfigurationList?: OrchestratorConfigurationList;
+  orchestratorConfigurationList?: OrchestratorConfigurationEntry[];
 }
 export const SessionData = S.suspend(() =>
   S.Struct({
@@ -3771,7 +3771,7 @@ export const UpdateSessionResponse = S.suspend(() =>
   identifier: "UpdateSessionResponse",
 }) as any as S.Schema<UpdateSessionResponse>;
 export interface ListMessagesResponse {
-  messages: MessageList;
+  messages: MessageOutput[];
   nextToken?: string;
 }
 export const ListMessagesResponse = S.suspend(() =>
@@ -3802,7 +3802,7 @@ export const HierarchicalChunkingLevelConfigurations = S.Array(
   HierarchicalChunkingLevelConfiguration,
 );
 export interface HierarchicalChunkingConfiguration {
-  levelConfigurations: HierarchicalChunkingLevelConfigurations;
+  levelConfigurations: HierarchicalChunkingLevelConfiguration[];
   overlapTokens: number;
 }
 export const HierarchicalChunkingConfiguration = S.suspend(() =>
@@ -3890,7 +3890,7 @@ export const VectorIngestionConfiguration = S.suspend(() =>
 }) as any as S.Schema<VectorIngestionConfiguration>;
 export interface AppIntegrationsConfiguration {
   appIntegrationArn: string;
-  objectFields?: ObjectFieldsList;
+  objectFields?: string[];
 }
 export const AppIntegrationsConfiguration = S.suspend(() =>
   S.Struct({
@@ -3909,7 +3909,7 @@ export const SeedUrl = S.suspend(() =>
 export type SeedUrls = SeedUrl[];
 export const SeedUrls = S.Array(SeedUrl);
 export interface UrlConfiguration {
-  seedUrls?: SeedUrls;
+  seedUrls?: SeedUrl[];
 }
 export const UrlConfiguration = S.suspend(() =>
   S.Struct({ seedUrls: S.optional(SeedUrls) }),
@@ -3924,13 +3924,13 @@ export const WebCrawlerLimits = S.suspend(() =>
 ).annotations({
   identifier: "WebCrawlerLimits",
 }) as any as S.Schema<WebCrawlerLimits>;
-export type UrlFilterList = string | Redacted.Redacted<string>[];
+export type UrlFilterList = string | redacted.Redacted<string>[];
 export const UrlFilterList = S.Array(SensitiveString);
 export interface WebCrawlerConfiguration {
   urlConfiguration: UrlConfiguration;
   crawlerLimits?: WebCrawlerLimits;
-  inclusionFilters?: UrlFilterList;
-  exclusionFilters?: UrlFilterList;
+  inclusionFilters?: string | redacted.Redacted<string>[];
+  exclusionFilters?: string | redacted.Redacted<string>[];
   scope?: string;
 }
 export const WebCrawlerConfiguration = S.suspend(() =>
@@ -3952,7 +3952,7 @@ export const ManagedSourceConfiguration = S.Union(
 );
 export type SourceConfiguration =
   | { appIntegrations: AppIntegrationsConfiguration }
-  | { managedSourceConfiguration: (typeof ManagedSourceConfiguration)["Type"] };
+  | { managedSourceConfiguration: ManagedSourceConfiguration };
 export const SourceConfiguration = S.Union(
   S.Struct({ appIntegrations: AppIntegrationsConfiguration }),
   S.Struct({ managedSourceConfiguration: ManagedSourceConfiguration }),
@@ -3967,13 +3967,13 @@ export interface KnowledgeBaseData {
   status: string;
   lastContentModificationTime?: Date;
   vectorIngestionConfiguration?: VectorIngestionConfiguration;
-  sourceConfiguration?: (typeof SourceConfiguration)["Type"];
+  sourceConfiguration?: SourceConfiguration;
   renderingConfiguration?: RenderingConfiguration;
   serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
   description?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   ingestionStatus?: string;
-  ingestionFailureReasons?: FailureReason;
+  ingestionFailureReasons?: string[];
 }
 export const KnowledgeBaseData = S.suspend(() =>
   S.Struct({
@@ -4017,10 +4017,10 @@ export interface ContentData {
   title: string;
   contentType: string;
   status: string;
-  metadata: ContentMetadata;
-  tags?: Tags;
+  metadata: { [key: string]: string };
+  tags?: { [key: string]: string };
   linkOutUri?: string;
-  url: string | Redacted.Redacted<string>;
+  url: string | redacted.Redacted<string>;
   urlExpiry: Date;
 }
 export const ContentData = S.suspend(() =>
@@ -4067,8 +4067,8 @@ export interface ContentSummary {
   title: string;
   contentType: string;
   status: string;
-  metadata: ContentMetadata;
-  tags?: Tags;
+  metadata: { [key: string]: string };
+  tags?: { [key: string]: string };
 }
 export const ContentSummary = S.suspend(() =>
   S.Struct({
@@ -4090,7 +4090,7 @@ export const ContentSummary = S.suspend(() =>
 export type ContentSummaryList = ContentSummary[];
 export const ContentSummaryList = S.Array(ContentSummary);
 export interface ListContentsResponse {
-  contentSummaries: ContentSummaryList;
+  contentSummaries: ContentSummary[];
   nextToken?: string;
 }
 export const ListContentsResponse = S.suspend(() =>
@@ -4128,9 +4128,9 @@ export interface WhatsAppMessageTemplateSourceConfigurationSummary {
   templateId: string;
   name?: string;
   language?: string;
-  components?: WhatsAppMessageTemplateComponents;
+  components?: string[];
   status?: string;
-  statusReason?: string | Redacted.Redacted<string>;
+  statusReason?: string | redacted.Redacted<string>;
 }
 export const WhatsAppMessageTemplateSourceConfigurationSummary = S.suspend(() =>
   S.Struct({
@@ -4159,23 +4159,23 @@ export interface ExtendedMessageTemplateData {
   knowledgeBaseArn: string;
   knowledgeBaseId: string;
   name: string;
-  channel?: string | Redacted.Redacted<string>;
+  channel?: string | redacted.Redacted<string>;
   channelSubtype: string;
   createdTime: Date;
   lastModifiedTime: Date;
   lastModifiedBy: string;
-  content?: (typeof MessageTemplateContentProvider)["Type"];
+  content?: MessageTemplateContentProvider;
   description?: string;
   language?: string;
-  sourceConfigurationSummary?: (typeof MessageTemplateSourceConfigurationSummary)["Type"];
+  sourceConfigurationSummary?: MessageTemplateSourceConfigurationSummary;
   groupingConfiguration?: GroupingConfiguration;
   defaultAttributes?: MessageTemplateAttributes;
-  attributeTypes?: MessageTemplateAttributeTypeList;
-  attachments?: MessageTemplateAttachmentList;
+  attributeTypes?: string[];
+  attachments?: MessageTemplateAttachment[];
   isActive?: boolean;
   versionNumber?: number;
   messageTemplateContentSha256: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const ExtendedMessageTemplateData = S.suspend(() =>
   S.Struct({
@@ -4235,20 +4235,20 @@ export interface MessageTemplateData {
   knowledgeBaseArn: string;
   knowledgeBaseId: string;
   name: string;
-  channel?: string | Redacted.Redacted<string>;
+  channel?: string | redacted.Redacted<string>;
   channelSubtype: string;
   createdTime: Date;
   lastModifiedTime: Date;
   lastModifiedBy: string;
-  content?: (typeof MessageTemplateContentProvider)["Type"];
+  content?: MessageTemplateContentProvider;
   description?: string;
   language?: string;
-  sourceConfigurationSummary?: (typeof MessageTemplateSourceConfigurationSummary)["Type"];
+  sourceConfigurationSummary?: MessageTemplateSourceConfigurationSummary;
   groupingConfiguration?: GroupingConfiguration;
   defaultAttributes?: MessageTemplateAttributes;
-  attributeTypes?: MessageTemplateAttributeTypeList;
+  attributeTypes?: string[];
   messageTemplateContentSha256: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const MessageTemplateData = S.suspend(() =>
   S.Struct({
@@ -4288,16 +4288,16 @@ export const UpdateMessageTemplateMetadataResponse = S.suspend(() =>
 export interface CreateQuickResponseRequest {
   knowledgeBaseId: string;
   name: string;
-  content: (typeof QuickResponseDataProvider)["Type"];
+  content: QuickResponseDataProvider;
   contentType?: string;
   groupingConfiguration?: GroupingConfiguration;
   description?: string;
   shortcutKey?: string;
   isActive?: boolean;
-  channels?: Channels;
+  channels?: string | redacted.Redacted<string>[];
   language?: string;
   clientToken?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateQuickResponseRequest = S.suspend(() =>
   S.Struct({
@@ -4330,14 +4330,14 @@ export const CreateQuickResponseRequest = S.suspend(() =>
   identifier: "CreateQuickResponseRequest",
 }) as any as S.Schema<CreateQuickResponseRequest>;
 export type QuickResponseContentProvider = {
-  content: string | Redacted.Redacted<string>;
+  content: string | redacted.Redacted<string>;
 };
 export const QuickResponseContentProvider = S.Union(
   S.Struct({ content: SensitiveString }),
 );
 export interface QuickResponseContents {
-  plainText?: (typeof QuickResponseContentProvider)["Type"];
-  markdown?: (typeof QuickResponseContentProvider)["Type"];
+  plainText?: QuickResponseContentProvider;
+  markdown?: QuickResponseContentProvider;
 }
 export const QuickResponseContents = S.suspend(() =>
   S.Struct({
@@ -4363,9 +4363,9 @@ export interface QuickResponseData {
   shortcutKey?: string;
   lastModifiedBy?: string;
   isActive?: boolean;
-  channels?: Channels;
+  channels?: string | redacted.Redacted<string>[];
   language?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const QuickResponseData = S.suspend(() =>
   S.Struct({
@@ -4418,7 +4418,7 @@ export const QueryConditionItem = S.suspend(() =>
   identifier: "QueryConditionItem",
 }) as any as S.Schema<QueryConditionItem>;
 export interface QueryTextInputData {
-  text: string | Redacted.Redacted<string>;
+  text: string | redacted.Redacted<string>;
 }
 export const QueryTextInputData = S.suspend(() =>
   S.Struct({ text: SensitiveString }),
@@ -4441,9 +4441,7 @@ export const CaseSummarizationInputData = S.suspend(() =>
 ).annotations({
   identifier: "CaseSummarizationInputData",
 }) as any as S.Schema<CaseSummarizationInputData>;
-export type KnowledgeSource = {
-  assistantAssociationIds: AssistantAssociationIdList;
-};
+export type KnowledgeSource = { assistantAssociationIds: string[] };
 export const KnowledgeSource = S.Union(
   S.Struct({ assistantAssociationIds: AssistantAssociationIdList }),
 );
@@ -4458,8 +4456,8 @@ export const ExternalBedrockKnowledgeBaseConfig = S.suspend(() =>
 }) as any as S.Schema<ExternalBedrockKnowledgeBaseConfig>;
 export interface SelfServiceConversationHistory {
   turnNumber?: number;
-  inputTranscript?: string | Redacted.Redacted<string>;
-  botResponse?: string | Redacted.Redacted<string>;
+  inputTranscript?: string | redacted.Redacted<string>;
+  botResponse?: string | redacted.Redacted<string>;
   timestamp?: Date;
 }
 export const SelfServiceConversationHistory = S.suspend(() =>
@@ -4478,14 +4476,14 @@ export const SelfServiceConversationHistoryList = S.Array(
   SelfServiceConversationHistory,
 );
 export type RuntimeSessionDataValue = {
-  stringValue: string | Redacted.Redacted<string>;
+  stringValue: string | redacted.Redacted<string>;
 };
 export const RuntimeSessionDataValue = S.Union(
   S.Struct({ stringValue: SensitiveString }),
 );
 export interface MessageTemplateQueryField {
   name: string;
-  values: MessageTemplateQueryValueList;
+  values: string[];
   operator: string;
   allowFuzziness?: boolean;
   priority?: string;
@@ -4505,7 +4503,7 @@ export type MessageTemplateQueryFieldList = MessageTemplateQueryField[];
 export const MessageTemplateQueryFieldList = S.Array(MessageTemplateQueryField);
 export interface MessageTemplateFilterField {
   name: string;
-  values?: MessageTemplateFilterValueList;
+  values?: string[];
   operator: string;
   includeNoExistence?: boolean;
 }
@@ -4534,7 +4532,7 @@ export const MessageTemplateOrderField = S.suspend(() =>
 }) as any as S.Schema<MessageTemplateOrderField>;
 export interface QuickResponseQueryField {
   name: string;
-  values: QuickResponseQueryValueList;
+  values: string[];
   operator: string;
   allowFuzziness?: boolean;
   priority?: string;
@@ -4554,7 +4552,7 @@ export type QuickResponseQueryFieldList = QuickResponseQueryField[];
 export const QuickResponseQueryFieldList = S.Array(QuickResponseQueryField);
 export interface QuickResponseFilterField {
   name: string;
-  values?: QuickResponseFilterValueList;
+  values?: string[];
   operator: string;
   includeNoExistence?: boolean;
 }
@@ -4610,12 +4608,12 @@ export interface AssistantSummary {
   type: string;
   status: string;
   description?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
   integrationConfiguration?: AssistantIntegrationConfiguration;
   capabilityConfiguration?: AssistantCapabilityConfiguration;
-  aiAgentConfiguration?: AIAgentConfigurationMap;
-  orchestratorConfigurationList?: OrchestratorConfigurationList;
+  aiAgentConfiguration?: { [key: string]: AIAgentConfigurationData };
+  orchestratorConfigurationList?: OrchestratorConfigurationEntry[];
 }
 export const AssistantSummary = S.suspend(() =>
   S.Struct({
@@ -4664,7 +4662,7 @@ export const ContentFeedbackData = S.Union(
 );
 export type QueryCondition = { single: QueryConditionItem };
 export const QueryCondition = S.Union(S.Struct({ single: QueryConditionItem }));
-export type QueryConditionExpression = (typeof QueryCondition)["Type"][];
+export type QueryConditionExpression = QueryCondition[];
 export const QueryConditionExpression = S.Array(QueryCondition);
 export type QueryInputData =
   | { queryTextInputData: QueryTextInputData }
@@ -4684,11 +4682,11 @@ export interface AIAgentSummary {
   aiAgentArn: string;
   modifiedTime?: Date;
   visibilityStatus: string;
-  configuration?: (typeof AIAgentConfiguration)["Type"];
+  configuration?: AIAgentConfiguration;
   origin?: string;
   description?: string;
   status?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const AIAgentSummary = S.suspend(() =>
   S.Struct({
@@ -4733,9 +4731,9 @@ export interface AIGuardrailSummary {
   aiGuardrailArn: string;
   modifiedTime?: Date;
   visibilityStatus: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   status?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const AIGuardrailSummary = S.suspend(() =>
   S.Struct({
@@ -4786,7 +4784,7 @@ export interface AIPromptSummary {
   origin?: string;
   description?: string;
   status?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const AIPromptSummary = S.suspend(() =>
   S.Struct({
@@ -4861,8 +4859,8 @@ export interface AssistantAssociationSummary {
   assistantId: string;
   assistantArn: string;
   associationType: string;
-  associationData: (typeof AssistantAssociationOutputData)["Type"];
-  tags?: Tags;
+  associationData: AssistantAssociationOutputData;
+  tags?: { [key: string]: string };
 }
 export const AssistantAssociationSummary = S.suspend(() =>
   S.Struct({
@@ -4891,7 +4889,7 @@ export const ConversationState = S.suspend(() =>
   identifier: "ConversationState",
 }) as any as S.Schema<ConversationState>;
 export interface ConversationContext {
-  selfServiceConversationHistory: SelfServiceConversationHistoryList;
+  selfServiceConversationHistory: SelfServiceConversationHistory[];
 }
 export const ConversationContext = S.suspend(() =>
   S.Struct({
@@ -4901,8 +4899,8 @@ export const ConversationContext = S.suspend(() =>
   identifier: "ConversationContext",
 }) as any as S.Schema<ConversationContext>;
 export interface RuntimeSessionData {
-  key: string | Redacted.Redacted<string>;
-  value: (typeof RuntimeSessionDataValue)["Type"];
+  key: string | redacted.Redacted<string>;
+  value: RuntimeSessionDataValue;
 }
 export const RuntimeSessionData = S.suspend(() =>
   S.Struct({ key: SensitiveString, value: RuntimeSessionDataValue }),
@@ -4917,12 +4915,12 @@ export interface KnowledgeBaseSummary {
   name: string;
   knowledgeBaseType: string;
   status: string;
-  sourceConfiguration?: (typeof SourceConfiguration)["Type"];
+  sourceConfiguration?: SourceConfiguration;
   vectorIngestionConfiguration?: VectorIngestionConfiguration;
   renderingConfiguration?: RenderingConfiguration;
   serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
   description?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const KnowledgeBaseSummary = S.suspend(() =>
   S.Struct({
@@ -4959,7 +4957,7 @@ export const Configuration = S.Union(
 );
 export interface ExternalSourceConfiguration {
   source: string;
-  configuration: (typeof Configuration)["Type"];
+  configuration: Configuration;
 }
 export const ExternalSourceConfiguration = S.suspend(() =>
   S.Struct({ source: S.String, configuration: Configuration }),
@@ -4973,12 +4971,12 @@ export interface ImportJobData {
   knowledgeBaseArn: string;
   importJobType: string;
   status: string;
-  url: string | Redacted.Redacted<string>;
-  failedRecordReport?: string | Redacted.Redacted<string>;
+  url: string | redacted.Redacted<string>;
+  failedRecordReport?: string | redacted.Redacted<string>;
   urlExpiry: Date;
   createdTime: Date;
   lastModifiedTime: Date;
-  metadata?: ContentMetadata;
+  metadata?: { [key: string]: string };
   externalSourceConfiguration?: ExternalSourceConfiguration;
 }
 export const ImportJobData = S.suspend(() =>
@@ -5009,7 +5007,7 @@ export interface ImportJobSummary {
   status: string;
   createdTime: Date;
   lastModifiedTime: Date;
-  metadata?: ContentMetadata;
+  metadata?: { [key: string]: string };
   externalSourceConfiguration?: ExternalSourceConfiguration;
 }
 export const ImportJobSummary = S.suspend(() =>
@@ -5031,8 +5029,8 @@ export const ImportJobSummary = S.suspend(() =>
 export type ImportJobList = ImportJobSummary[];
 export const ImportJobList = S.Array(ImportJobSummary);
 export interface MessageTemplateSearchExpression {
-  queries?: MessageTemplateQueryFieldList;
-  filters?: MessageTemplateFilterFieldList;
+  queries?: MessageTemplateQueryField[];
+  filters?: MessageTemplateFilterField[];
   orderOnField?: MessageTemplateOrderField;
 }
 export const MessageTemplateSearchExpression = S.suspend(() =>
@@ -5045,8 +5043,8 @@ export const MessageTemplateSearchExpression = S.suspend(() =>
   identifier: "MessageTemplateSearchExpression",
 }) as any as S.Schema<MessageTemplateSearchExpression>;
 export interface QuickResponseSearchExpression {
-  queries?: QuickResponseQueryFieldList;
-  filters?: QuickResponseFilterFieldList;
+  queries?: QuickResponseQueryField[];
+  filters?: QuickResponseFilterField[];
   orderOnField?: QuickResponseOrderField;
 }
 export const QuickResponseSearchExpression = S.suspend(() =>
@@ -5076,8 +5074,8 @@ export interface ContentAssociationData {
   contentAssociationId: string;
   contentAssociationArn: string;
   associationType: string;
-  associationData: (typeof ContentAssociationContents)["Type"];
-  tags?: Tags;
+  associationData: ContentAssociationContents;
+  tags?: { [key: string]: string };
 }
 export const ContentAssociationData = S.suspend(() =>
   S.Struct({
@@ -5102,8 +5100,8 @@ export interface ContentAssociationSummary {
   contentAssociationId: string;
   contentAssociationArn: string;
   associationType: string;
-  associationData: (typeof ContentAssociationContents)["Type"];
-  tags?: Tags;
+  associationData: ContentAssociationContents;
+  tags?: { [key: string]: string };
 }
 export const ContentAssociationSummary = S.suspend(() =>
   S.Struct({
@@ -5128,15 +5126,15 @@ export interface MessageTemplateSummary {
   knowledgeBaseArn: string;
   knowledgeBaseId: string;
   name: string;
-  channel?: string | Redacted.Redacted<string>;
+  channel?: string | redacted.Redacted<string>;
   channelSubtype: string;
   createdTime: Date;
   lastModifiedTime: Date;
   lastModifiedBy: string;
-  sourceConfiguration?: (typeof MessageTemplateSourceConfiguration)["Type"];
+  sourceConfiguration?: MessageTemplateSourceConfiguration;
   activeVersionNumber?: number;
   description?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const MessageTemplateSummary = S.suspend(() =>
   S.Struct({
@@ -5166,7 +5164,7 @@ export interface MessageTemplateVersionSummary {
   knowledgeBaseArn: string;
   knowledgeBaseId: string;
   name: string;
-  channel?: string | Redacted.Redacted<string>;
+  channel?: string | redacted.Redacted<string>;
   channelSubtype: string;
   isActive: boolean;
   versionNumber: number;
@@ -5203,8 +5201,8 @@ export interface QuickResponseSummary {
   description?: string;
   lastModifiedBy?: string;
   isActive?: boolean;
-  channels?: Channels;
-  tags?: Tags;
+  channels?: string | redacted.Redacted<string>[];
+  tags?: { [key: string]: string };
 }
 export const QuickResponseSummary = S.suspend(() =>
   S.Struct({
@@ -5246,12 +5244,12 @@ export interface AssistantData {
   type: string;
   status: string;
   description?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
   integrationConfiguration?: AssistantIntegrationConfiguration;
   capabilityConfiguration?: AssistantCapabilityConfiguration;
-  aiAgentConfiguration?: AIAgentConfigurationMap;
-  orchestratorConfigurationList?: OrchestratorConfigurationList;
+  aiAgentConfiguration?: { [key: string]: AIAgentConfigurationData };
+  orchestratorConfigurationList?: OrchestratorConfigurationEntry[];
 }
 export const AssistantData = S.suspend(() =>
   S.Struct({
@@ -5282,7 +5280,7 @@ export const CreateAssistantResponse = S.suspend(() =>
   identifier: "CreateAssistantResponse",
 }) as any as S.Schema<CreateAssistantResponse>;
 export interface ListAssistantsResponse {
-  assistantSummaries: AssistantList;
+  assistantSummaries: AssistantSummary[];
   nextToken?: string;
 }
 export const ListAssistantsResponse = S.suspend(() =>
@@ -5294,8 +5292,8 @@ export const ListAssistantsResponse = S.suspend(() =>
   identifier: "ListAssistantsResponse",
 }) as any as S.Schema<ListAssistantsResponse>;
 export interface NotifyRecommendationsReceivedResponse {
-  recommendationIds?: RecommendationIdList;
-  errors?: NotifyRecommendationsReceivedErrorList;
+  recommendationIds?: string[];
+  errors?: NotifyRecommendationsReceivedError[];
 }
 export const NotifyRecommendationsReceivedResponse = S.suspend(() =>
   S.Struct({
@@ -5309,7 +5307,7 @@ export interface PutFeedbackRequest {
   assistantId: string;
   targetId: string;
   targetType: string;
-  contentFeedback: (typeof ContentFeedbackData)["Type"];
+  contentFeedback: ContentFeedbackData;
 }
 export const PutFeedbackRequest = S.suspend(() =>
   S.Struct({
@@ -5332,12 +5330,12 @@ export const PutFeedbackRequest = S.suspend(() =>
 }) as any as S.Schema<PutFeedbackRequest>;
 export interface QueryAssistantRequest {
   assistantId: string;
-  queryText?: string | Redacted.Redacted<string>;
+  queryText?: string | redacted.Redacted<string>;
   nextToken?: string;
   maxResults?: number;
   sessionId?: string;
-  queryCondition?: QueryConditionExpression;
-  queryInputData?: (typeof QueryInputData)["Type"];
+  queryCondition?: QueryCondition[];
+  queryInputData?: QueryInputData;
   overrideKnowledgeBaseSearchType?: string;
 }
 export const QueryAssistantRequest = S.suspend(() =>
@@ -5412,7 +5410,7 @@ export const GetAIAgentResponse = S.suspend(() =>
   identifier: "GetAIAgentResponse",
 }) as any as S.Schema<GetAIAgentResponse>;
 export interface ListAIAgentsResponse {
-  aiAgentSummaries: AIAgentSummaryList;
+  aiAgentSummaries: AIAgentSummary[];
   nextToken?: string;
 }
 export const ListAIAgentsResponse = S.suspend(() =>
@@ -5424,7 +5422,7 @@ export const ListAIAgentsResponse = S.suspend(() =>
   identifier: "ListAIAgentsResponse",
 }) as any as S.Schema<ListAIAgentsResponse>;
 export interface ListAIAgentVersionsResponse {
-  aiAgentVersionSummaries: AIAgentVersionSummariesList;
+  aiAgentVersionSummaries: AIAgentVersionSummary[];
   nextToken?: string;
 }
 export const ListAIAgentVersionsResponse = S.suspend(() =>
@@ -5439,16 +5437,16 @@ export interface CreateAIGuardrailRequest {
   clientToken?: string;
   assistantId: string;
   name: string;
-  blockedInputMessaging: string | Redacted.Redacted<string>;
-  blockedOutputsMessaging: string | Redacted.Redacted<string>;
+  blockedInputMessaging: string | redacted.Redacted<string>;
+  blockedOutputsMessaging: string | redacted.Redacted<string>;
   visibilityStatus: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   topicPolicyConfig?: AIGuardrailTopicPolicyConfig;
   contentPolicyConfig?: AIGuardrailContentPolicyConfig;
   wordPolicyConfig?: AIGuardrailWordPolicyConfig;
   sensitiveInformationPolicyConfig?: AIGuardrailSensitiveInformationPolicyConfig;
   contextualGroundingPolicyConfig?: AIGuardrailContextualGroundingPolicyConfig;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateAIGuardrailRequest = S.suspend(() =>
   S.Struct({
@@ -5495,7 +5493,7 @@ export const GetAIGuardrailResponse = S.suspend(() =>
   identifier: "GetAIGuardrailResponse",
 }) as any as S.Schema<GetAIGuardrailResponse>;
 export interface ListAIGuardrailsResponse {
-  aiGuardrailSummaries: AIGuardrailSummariesList;
+  aiGuardrailSummaries: AIGuardrailSummary[];
   nextToken?: string;
 }
 export const ListAIGuardrailsResponse = S.suspend(() =>
@@ -5507,7 +5505,7 @@ export const ListAIGuardrailsResponse = S.suspend(() =>
   identifier: "ListAIGuardrailsResponse",
 }) as any as S.Schema<ListAIGuardrailsResponse>;
 export interface ListAIGuardrailVersionsResponse {
-  aiGuardrailVersionSummaries: AIGuardrailVersionSummariesList;
+  aiGuardrailVersionSummaries: AIGuardrailVersionSummary[];
   nextToken?: string;
 }
 export const ListAIGuardrailVersionsResponse = S.suspend(() =>
@@ -5523,14 +5521,14 @@ export interface CreateAIPromptRequest {
   assistantId: string;
   name: string;
   type: string;
-  templateConfiguration: (typeof AIPromptTemplateConfiguration)["Type"];
+  templateConfiguration: AIPromptTemplateConfiguration;
   visibilityStatus: string;
   templateType: string;
   modelId: string;
   apiFormat: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   description?: string;
-  inferenceConfiguration?: (typeof AIPromptInferenceConfiguration)["Type"];
+  inferenceConfiguration?: AIPromptInferenceConfiguration;
 }
 export const CreateAIPromptRequest = S.suspend(() =>
   S.Struct({
@@ -5572,7 +5570,7 @@ export const GetAIPromptResponse = S.suspend(() =>
   identifier: "GetAIPromptResponse",
 }) as any as S.Schema<GetAIPromptResponse>;
 export interface ListAIPromptsResponse {
-  aiPromptSummaries: AIPromptSummaryList;
+  aiPromptSummaries: AIPromptSummary[];
   nextToken?: string;
 }
 export const ListAIPromptsResponse = S.suspend(() =>
@@ -5584,7 +5582,7 @@ export const ListAIPromptsResponse = S.suspend(() =>
   identifier: "ListAIPromptsResponse",
 }) as any as S.Schema<ListAIPromptsResponse>;
 export interface ListAIPromptVersionsResponse {
-  aiPromptVersionSummaries: AIPromptVersionSummariesList;
+  aiPromptVersionSummaries: AIPromptVersionSummary[];
   nextToken?: string;
 }
 export const ListAIPromptVersionsResponse = S.suspend(() =>
@@ -5598,9 +5596,9 @@ export const ListAIPromptVersionsResponse = S.suspend(() =>
 export interface CreateAssistantAssociationRequest {
   assistantId: string;
   associationType: string;
-  association: (typeof AssistantAssociationInputData)["Type"];
+  association: AssistantAssociationInputData;
   clientToken?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateAssistantAssociationRequest = S.suspend(() =>
   S.Struct({
@@ -5623,7 +5621,7 @@ export const CreateAssistantAssociationRequest = S.suspend(() =>
   identifier: "CreateAssistantAssociationRequest",
 }) as any as S.Schema<CreateAssistantAssociationRequest>;
 export interface ListAssistantAssociationsResponse {
-  assistantAssociationSummaries: AssistantAssociationSummaryList;
+  assistantAssociationSummaries: AssistantAssociationSummary[];
   nextToken?: string;
 }
 export const ListAssistantAssociationsResponse = S.suspend(() =>
@@ -5639,11 +5637,11 @@ export interface CreateSessionRequest {
   assistantId: string;
   name: string;
   description?: string;
-  tags?: Tags;
-  tagFilter?: (typeof TagFilter)["Type"];
-  aiAgentConfiguration?: AIAgentConfigurationMap;
+  tags?: { [key: string]: string };
+  tagFilter?: TagFilter;
+  aiAgentConfiguration?: { [key: string]: AIAgentConfigurationData };
   contactArn?: string;
-  orchestratorConfigurationList?: OrchestratorConfigurationList;
+  orchestratorConfigurationList?: OrchestratorConfigurationEntry[];
   removeOrchestratorConfigurationList?: boolean;
 }
 export const CreateSessionRequest = S.suspend(() =>
@@ -5677,7 +5675,7 @@ export interface GetNextMessageResponse {
   requestMessageId: string;
   conversationState: ConversationState;
   nextMessageToken?: string;
-  conversationSessionData?: RuntimeSessionDataList;
+  conversationSessionData?: RuntimeSessionData[];
   chunkedResponseTerminated?: boolean;
 }
 export const GetNextMessageResponse = S.suspend(() =>
@@ -5697,7 +5695,7 @@ export interface UpdateSessionDataRequest {
   assistantId: string;
   sessionId: string;
   namespace?: string;
-  data: RuntimeSessionDataList;
+  data: RuntimeSessionData[];
 }
 export const UpdateSessionDataRequest = S.suspend(() =>
   S.Struct({
@@ -5730,7 +5728,7 @@ export const GetKnowledgeBaseResponse = S.suspend(() =>
   identifier: "GetKnowledgeBaseResponse",
 }) as any as S.Schema<GetKnowledgeBaseResponse>;
 export interface ListKnowledgeBasesResponse {
-  knowledgeBaseSummaries: KnowledgeBaseList;
+  knowledgeBaseSummaries: KnowledgeBaseSummary[];
   nextToken?: string;
 }
 export const ListKnowledgeBasesResponse = S.suspend(() =>
@@ -5750,7 +5748,7 @@ export const GetImportJobResponse = S.suspend(() =>
   identifier: "GetImportJobResponse",
 }) as any as S.Schema<GetImportJobResponse>;
 export interface ListImportJobsResponse {
-  importJobSummaries: ImportJobList;
+  importJobSummaries: ImportJobSummary[];
   nextToken?: string;
 }
 export const ListImportJobsResponse = S.suspend(() =>
@@ -5762,7 +5760,7 @@ export const ListImportJobsResponse = S.suspend(() =>
   identifier: "ListImportJobsResponse",
 }) as any as S.Schema<ListImportJobsResponse>;
 export interface SearchContentResponse {
-  contentSummaries: ContentSummaryList;
+  contentSummaries: ContentSummary[];
   nextToken?: string;
 }
 export const SearchContentResponse = S.suspend(() =>
@@ -5806,7 +5804,7 @@ export interface SearchQuickResponsesRequest {
   searchExpression: QuickResponseSearchExpression;
   nextToken?: string;
   maxResults?: number;
-  attributes?: ContactAttributes;
+  attributes?: { [key: string]: string };
 }
 export const SearchQuickResponsesRequest = S.suspend(() =>
   S.Struct({
@@ -5833,9 +5831,9 @@ export const SearchQuickResponsesRequest = S.suspend(() =>
 }) as any as S.Schema<SearchQuickResponsesRequest>;
 export interface StartContentUploadResponse {
   uploadId: string;
-  url: string | Redacted.Redacted<string>;
+  url: string | redacted.Redacted<string>;
   urlExpiry: Date;
-  headersToInclude: Headers;
+  headersToInclude: { [key: string]: string };
 }
 export const StartContentUploadResponse = S.suspend(() =>
   S.Struct({
@@ -5860,8 +5858,8 @@ export interface CreateContentAssociationRequest {
   knowledgeBaseId: string;
   contentId: string;
   associationType: string;
-  association: (typeof ContentAssociationContents)["Type"];
-  tags?: Tags;
+  association: ContentAssociationContents;
+  tags?: { [key: string]: string };
 }
 export const CreateContentAssociationRequest = S.suspend(() =>
   S.Struct({
@@ -5896,7 +5894,7 @@ export const GetContentAssociationResponse = S.suspend(() =>
   identifier: "GetContentAssociationResponse",
 }) as any as S.Schema<GetContentAssociationResponse>;
 export interface ListContentAssociationsResponse {
-  contentAssociationSummaries: ContentAssociationSummaryList;
+  contentAssociationSummaries: ContentAssociationSummary[];
   nextToken?: string;
 }
 export const ListContentAssociationsResponse = S.suspend(() =>
@@ -5924,7 +5922,7 @@ export const UpdateMessageTemplateResponse = S.suspend(() =>
   identifier: "UpdateMessageTemplateResponse",
 }) as any as S.Schema<UpdateMessageTemplateResponse>;
 export interface ListMessageTemplatesResponse {
-  messageTemplateSummaries: MessageTemplateSummaryList;
+  messageTemplateSummaries: MessageTemplateSummary[];
   nextToken?: string;
 }
 export const ListMessageTemplatesResponse = S.suspend(() =>
@@ -5944,7 +5942,7 @@ export const CreateMessageTemplateAttachmentResponse = S.suspend(() =>
   identifier: "CreateMessageTemplateAttachmentResponse",
 }) as any as S.Schema<CreateMessageTemplateAttachmentResponse>;
 export interface ListMessageTemplateVersionsResponse {
-  messageTemplateVersionSummaries: MessageTemplateVersionSummaryList;
+  messageTemplateVersionSummaries: MessageTemplateVersionSummary[];
   nextToken?: string;
 }
 export const ListMessageTemplateVersionsResponse = S.suspend(() =>
@@ -5964,7 +5962,7 @@ export const CreateQuickResponseResponse = S.suspend(() =>
   identifier: "CreateQuickResponseResponse",
 }) as any as S.Schema<CreateQuickResponseResponse>;
 export interface ListQuickResponsesResponse {
-  quickResponseSummaries: QuickResponseSummaryList;
+  quickResponseSummaries: QuickResponseSummary[];
   nextToken?: string;
 }
 export const ListQuickResponsesResponse = S.suspend(() =>
@@ -5976,7 +5974,7 @@ export const ListQuickResponsesResponse = S.suspend(() =>
   identifier: "ListQuickResponsesResponse",
 }) as any as S.Schema<ListQuickResponsesResponse>;
 export type RetrievalFilterConfiguration =
-  | { andAll: RetrievalFilterList }
+  | { andAll: RetrievalFilterConfiguration[] }
   | { equals: FilterAttribute }
   | { greaterThan: FilterAttribute }
   | { greaterThanOrEquals: FilterAttribute }
@@ -5986,7 +5984,7 @@ export type RetrievalFilterConfiguration =
   | { listContains: FilterAttribute }
   | { notEquals: FilterAttribute }
   | { notIn: FilterAttribute }
-  | { orAll: RetrievalFilterList }
+  | { orAll: RetrievalFilterConfiguration[] }
   | { startsWith: FilterAttribute }
   | { stringContains: FilterAttribute };
 export const RetrievalFilterConfiguration = S.Union(
@@ -6013,7 +6011,7 @@ export const RetrievalFilterConfiguration = S.Union(
   S.Struct({ stringContains: FilterAttribute }),
 ) as any as S.Schema<RetrievalFilterConfiguration>;
 export interface RetrievalConfiguration {
-  knowledgeSource: (typeof KnowledgeSource)["Type"];
+  knowledgeSource: KnowledgeSource;
   filter?: RetrievalFilterConfiguration;
   numberOfResults?: number;
   overrideKnowledgeBaseSearchType?: string;
@@ -6049,7 +6047,7 @@ export const ContentReference = S.suspend(() =>
   identifier: "ContentReference",
 }) as any as S.Schema<ContentReference>;
 export interface QueryRecommendationTriggerData {
-  text?: string | Redacted.Redacted<string>;
+  text?: string | redacted.Redacted<string>;
 }
 export const QueryRecommendationTriggerData = S.suspend(() =>
   S.Struct({ text: S.optional(SensitiveString) }),
@@ -6066,7 +6064,7 @@ export interface SpanMessage {
   messageId: string;
   participant: string;
   timestamp: Date;
-  values: SpanMessageValueList;
+  values: SpanMessageValue[];
 }
 export const SpanMessage = S.suspend(() =>
   S.Struct({
@@ -6097,7 +6095,7 @@ export interface PutFeedbackResponse {
   assistantArn: string;
   targetId: string;
   targetType: string;
-  contentFeedback: (typeof ContentFeedbackData)["Type"];
+  contentFeedback: ContentFeedbackData;
 }
 export const PutFeedbackResponse = S.suspend(() =>
   S.Struct({
@@ -6113,7 +6111,7 @@ export const PutFeedbackResponse = S.suspend(() =>
 export interface RetrieveRequest {
   assistantId: string;
   retrievalConfiguration: RetrievalConfiguration;
-  retrievalQuery: string | Redacted.Redacted<string>;
+  retrievalQuery: string | redacted.Redacted<string>;
 }
 export const RetrieveRequest = S.suspend(() =>
   S.Struct({
@@ -6155,8 +6153,8 @@ export interface AssistantAssociationData {
   assistantId: string;
   assistantArn: string;
   associationType: string;
-  associationData: (typeof AssistantAssociationOutputData)["Type"];
-  tags?: Tags;
+  associationData: AssistantAssociationOutputData;
+  tags?: { [key: string]: string };
 }
 export const AssistantAssociationData = S.suspend(() =>
   S.Struct({
@@ -6199,7 +6197,7 @@ export interface UpdateSessionDataResponse {
   sessionArn: string;
   sessionId: string;
   namespace: string;
-  data: RuntimeSessionDataList;
+  data: RuntimeSessionData[];
 }
 export const UpdateSessionDataResponse = S.suspend(() =>
   S.Struct({
@@ -6216,7 +6214,7 @@ export interface StartImportJobRequest {
   importJobType: string;
   uploadId: string;
   clientToken?: string;
-  metadata?: ContentMetadata;
+  metadata?: { [key: string]: string };
   externalSourceConfiguration?: ExternalSourceConfiguration;
 }
 export const StartImportJobRequest = S.suspend(() =>
@@ -6252,10 +6250,10 @@ export const CreateContentAssociationResponse = S.suspend(() =>
   identifier: "CreateContentAssociationResponse",
 }) as any as S.Schema<CreateContentAssociationResponse>;
 export interface RenderMessageTemplateResponse {
-  content?: (typeof MessageTemplateContentProvider)["Type"];
-  sourceConfigurationSummary?: (typeof MessageTemplateSourceConfigurationSummary)["Type"];
-  attributesNotInterpolated?: MessageTemplateAttributeKeyList;
-  attachments?: MessageTemplateAttachmentList;
+  content?: MessageTemplateContentProvider;
+  sourceConfigurationSummary?: MessageTemplateSourceConfigurationSummary;
+  attributesNotInterpolated?: string[];
+  attachments?: MessageTemplateAttachment[];
 }
 export const RenderMessageTemplateResponse = S.suspend(() =>
   S.Struct({
@@ -6321,8 +6319,8 @@ export const RankingData = S.suspend(() =>
   }),
 ).annotations({ identifier: "RankingData" }) as any as S.Schema<RankingData>;
 export interface GenerativeDataDetails {
-  completion: string | Redacted.Redacted<string>;
-  references: DataSummaryList;
+  completion: string | redacted.Redacted<string>;
+  references: DataSummary[];
   rankingData: RankingData;
 }
 export const GenerativeDataDetails = S.suspend(() =>
@@ -6337,7 +6335,7 @@ export const GenerativeDataDetails = S.suspend(() =>
   identifier: "GenerativeDataDetails",
 }) as any as S.Schema<GenerativeDataDetails>;
 export interface IntentDetectedDataDetails {
-  intent: string | Redacted.Redacted<string>;
+  intent: string | redacted.Redacted<string>;
   intentId: string;
   relevanceLevel?: string;
 }
@@ -6351,8 +6349,8 @@ export const IntentDetectedDataDetails = S.suspend(() =>
   identifier: "IntentDetectedDataDetails",
 }) as any as S.Schema<IntentDetectedDataDetails>;
 export interface DocumentText {
-  text?: string | Redacted.Redacted<string>;
-  highlights?: Highlights;
+  text?: string | redacted.Redacted<string>;
+  highlights?: Highlight[];
 }
 export const DocumentText = S.suspend(() =>
   S.Struct({
@@ -6389,8 +6387,8 @@ export const SourceContentDataDetails = S.suspend(() =>
   identifier: "SourceContentDataDetails",
 }) as any as S.Schema<SourceContentDataDetails>;
 export interface GenerativeChunkDataDetails {
-  completion?: string | Redacted.Redacted<string>;
-  references?: DataSummaryList;
+  completion?: string | redacted.Redacted<string>;
+  references?: DataSummary[];
   nextChunkToken?: string;
 }
 export const GenerativeChunkDataDetails = S.suspend(() =>
@@ -6407,7 +6405,7 @@ export const GenerativeChunkDataDetails = S.suspend(() =>
   identifier: "GenerativeChunkDataDetails",
 }) as any as S.Schema<GenerativeChunkDataDetails>;
 export interface EmailResponseChunkDataDetails {
-  completion?: string | Redacted.Redacted<string>;
+  completion?: string | redacted.Redacted<string>;
   nextChunkToken?: string;
 }
 export const EmailResponseChunkDataDetails = S.suspend(() =>
@@ -6419,7 +6417,7 @@ export const EmailResponseChunkDataDetails = S.suspend(() =>
   identifier: "EmailResponseChunkDataDetails",
 }) as any as S.Schema<EmailResponseChunkDataDetails>;
 export interface EmailOverviewChunkDataDetails {
-  completion?: string | Redacted.Redacted<string>;
+  completion?: string | redacted.Redacted<string>;
   nextChunkToken?: string;
 }
 export const EmailOverviewChunkDataDetails = S.suspend(() =>
@@ -6431,8 +6429,8 @@ export const EmailOverviewChunkDataDetails = S.suspend(() =>
   identifier: "EmailOverviewChunkDataDetails",
 }) as any as S.Schema<EmailOverviewChunkDataDetails>;
 export interface EmailGenerativeAnswerChunkDataDetails {
-  completion?: string | Redacted.Redacted<string>;
-  references?: DataSummaryList;
+  completion?: string | redacted.Redacted<string>;
+  references?: DataSummary[];
   nextChunkToken?: string;
 }
 export const EmailGenerativeAnswerChunkDataDetails = S.suspend(() =>
@@ -6461,7 +6459,7 @@ export const CaseSummarizationChunkDataDetails = S.suspend(() =>
   identifier: "CaseSummarizationChunkDataDetails",
 }) as any as S.Schema<CaseSummarizationChunkDataDetails>;
 export interface SuggestedMessageDataDetails {
-  messageText: string | Redacted.Redacted<string>;
+  messageText: string | redacted.Redacted<string>;
 }
 export const SuggestedMessageDataDetails = S.suspend(() =>
   S.Struct({ messageText: SensitiveString }),
@@ -6469,7 +6467,7 @@ export const SuggestedMessageDataDetails = S.suspend(() =>
   identifier: "SuggestedMessageDataDetails",
 }) as any as S.Schema<SuggestedMessageDataDetails>;
 export interface NotesDataDetails {
-  completion?: string | Redacted.Redacted<string>;
+  completion?: string | redacted.Redacted<string>;
 }
 export const NotesDataDetails = S.suspend(() =>
   S.Struct({ completion: S.optional(SensitiveString) }),
@@ -6477,7 +6475,7 @@ export const NotesDataDetails = S.suspend(() =>
   identifier: "NotesDataDetails",
 }) as any as S.Schema<NotesDataDetails>;
 export interface NotesChunkDataDetails {
-  completion?: string | Redacted.Redacted<string>;
+  completion?: string | redacted.Redacted<string>;
   nextChunkToken?: string;
 }
 export const NotesChunkDataDetails = S.suspend(() =>
@@ -6500,7 +6498,7 @@ export const SpanToolUseValue = S.suspend(() =>
 }) as any as S.Schema<SpanToolUseValue>;
 export interface SpanToolResultValue {
   toolUseId: string;
-  values: SpanMessageValueList;
+  values: SpanMessageValue[];
   error?: string;
 }
 export const SpanToolResultValue = S.suspend(() =>
@@ -6518,8 +6516,8 @@ export interface RecommendationTrigger {
   id: string;
   type: string;
   source: string;
-  data: (typeof RecommendationTriggerData)["Type"];
-  recommendationIds: RecommendationIdList;
+  data: RecommendationTriggerData;
+  recommendationIds: string[];
 }
 export const RecommendationTrigger = S.suspend(() =>
   S.Struct({
@@ -6556,7 +6554,7 @@ export const DataReference = S.Union(
   S.Struct({ suggestedMessageReference: SuggestedMessageReference }),
 );
 export interface DataSummary {
-  reference: (typeof DataReference)["Type"];
+  reference: DataReference;
   details: DataDetails;
 }
 export const DataSummary = S.suspend(() =>
@@ -6609,7 +6607,7 @@ export interface MessageTemplateSearchResultData {
   knowledgeBaseArn: string;
   knowledgeBaseId: string;
   name: string;
-  channel?: string | Redacted.Redacted<string>;
+  channel?: string | redacted.Redacted<string>;
   channelSubtype: string;
   createdTime: Date;
   lastModifiedTime: Date;
@@ -6617,10 +6615,10 @@ export interface MessageTemplateSearchResultData {
   isActive?: boolean;
   versionNumber?: number;
   description?: string;
-  sourceConfigurationSummary?: (typeof MessageTemplateSourceConfigurationSummary)["Type"];
+  sourceConfigurationSummary?: MessageTemplateSourceConfigurationSummary;
   groupingConfiguration?: GroupingConfiguration;
   language?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const MessageTemplateSearchResultData = S.suspend(() =>
   S.Struct({
@@ -6668,11 +6666,11 @@ export interface QuickResponseSearchResultData {
   groupingConfiguration?: GroupingConfiguration;
   shortcutKey?: string;
   lastModifiedBy?: string;
-  channels?: Channels;
+  channels?: string | redacted.Redacted<string>[];
   language?: string;
-  attributesNotInterpolated?: ContactAttributeKeys;
-  attributesInterpolated?: ContactAttributeKeys;
-  tags?: Tags;
+  attributesNotInterpolated?: string[];
+  attributesInterpolated?: string[];
+  tags?: { [key: string]: string };
 }
 export const QuickResponseSearchResultData = S.suspend(() =>
   S.Struct({
@@ -6705,7 +6703,7 @@ export const QuickResponseSearchResultsList = S.Array(
   QuickResponseSearchResultData,
 );
 export interface QueryAssistantResponse {
-  results: QueryResultsList;
+  results: ResultData[];
   nextToken?: string;
 }
 export const QueryAssistantResponse = S.suspend(() =>
@@ -6714,7 +6712,7 @@ export const QueryAssistantResponse = S.suspend(() =>
   identifier: "QueryAssistantResponse",
 }) as any as S.Schema<QueryAssistantResponse>;
 export interface SearchSessionsResponse {
-  sessionSummaries: SessionSummaries;
+  sessionSummaries: SessionSummary[];
   nextToken?: string;
 }
 export const SearchSessionsResponse = S.suspend(() =>
@@ -6735,7 +6733,7 @@ export const GetAssistantAssociationResponse = S.suspend(() =>
 }) as any as S.Schema<GetAssistantAssociationResponse>;
 export interface SpanCitation {
   contentId?: string;
-  title?: string | Redacted.Redacted<string>;
+  title?: string | redacted.Redacted<string>;
   knowledgeBaseId?: string;
   knowledgeBaseArn?: string;
 }
@@ -6750,7 +6748,7 @@ export const SpanCitation = S.suspend(() =>
 export type SpanCitationList = SpanCitation[];
 export const SpanCitationList = S.Array(SpanCitation);
 export interface SearchMessageTemplatesResponse {
-  results: MessageTemplateSearchResultsList;
+  results: MessageTemplateSearchResultData[];
   nextToken?: string;
 }
 export const SearchMessageTemplatesResponse = S.suspend(() =>
@@ -6762,7 +6760,7 @@ export const SearchMessageTemplatesResponse = S.suspend(() =>
   identifier: "SearchMessageTemplatesResponse",
 }) as any as S.Schema<SearchMessageTemplatesResponse>;
 export interface SearchQuickResponsesResponse {
-  results: QuickResponseSearchResultsList;
+  results: QuickResponseSearchResultData[];
   nextToken?: string;
 }
 export const SearchQuickResponsesResponse = S.suspend(() =>
@@ -6784,15 +6782,15 @@ export const StartImportJobResponse = S.suspend(() =>
 export interface CreateMessageTemplateRequest {
   knowledgeBaseId: string;
   name?: string;
-  content?: (typeof MessageTemplateContentProvider)["Type"];
+  content?: MessageTemplateContentProvider;
   description?: string;
   channelSubtype: string;
   language?: string;
-  sourceConfiguration?: (typeof MessageTemplateSourceConfiguration)["Type"];
+  sourceConfiguration?: MessageTemplateSourceConfiguration;
   defaultAttributes?: MessageTemplateAttributes;
   groupingConfiguration?: GroupingConfiguration;
   clientToken?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateMessageTemplateRequest = S.suspend(() =>
   S.Struct({
@@ -6841,8 +6839,8 @@ export const ContentDataDetails = S.suspend(() =>
   identifier: "ContentDataDetails",
 }) as any as S.Schema<ContentDataDetails>;
 export interface SpanTextValue {
-  value: string | Redacted.Redacted<string>;
-  citations?: SpanCitationList;
+  value: string | redacted.Redacted<string>;
+  citations?: SpanCitation[];
   aiGuardrailAssessment?: AIGuardrailAssessment;
 }
 export const SpanTextValue = S.suspend(() =>
@@ -6856,9 +6854,9 @@ export const SpanTextValue = S.suspend(() =>
 }) as any as S.Schema<SpanTextValue>;
 export interface RetrieveResult {
   associationId: string;
-  sourceId: string | Redacted.Redacted<string>;
+  sourceId: string | redacted.Redacted<string>;
   referenceType: string;
-  contentText: string | Redacted.Redacted<string>;
+  contentText: string | redacted.Redacted<string>;
 }
 export const RetrieveResult = S.suspend(() =>
   S.Struct({
@@ -6873,7 +6871,7 @@ export const RetrieveResult = S.suspend(() =>
 export type RetrieveResultList = RetrieveResult[];
 export const RetrieveResultList = S.Array(RetrieveResult);
 export interface MessageInput {
-  value: (typeof MessageData)["Type"];
+  value: MessageData;
 }
 export const MessageInput = S.suspend(() =>
   S.Struct({ value: MessageData }),
@@ -6933,7 +6931,7 @@ export const SpanMessageValue = S.Union(
   }),
 ) as any as S.Schema<SpanMessageValue>;
 export interface RetrieveResponse {
-  results: RetrieveResultList;
+  results: RetrieveResult[];
 }
 export const RetrieveResponse = S.suspend(() =>
   S.Struct({ results: RetrieveResultList }),
@@ -6950,7 +6948,7 @@ export interface SendMessageRequest {
   configuration?: MessageConfiguration;
   clientToken?: string;
   orchestratorUseCase?: string;
-  metadata?: MessageMetadata;
+  metadata?: { [key: string]: string };
 }
 export const SendMessageRequest = S.suspend(() =>
   S.Struct({
@@ -6984,12 +6982,12 @@ export interface CreateKnowledgeBaseRequest {
   clientToken?: string;
   name: string;
   knowledgeBaseType: string;
-  sourceConfiguration?: (typeof SourceConfiguration)["Type"];
+  sourceConfiguration?: SourceConfiguration;
   renderingConfiguration?: RenderingConfiguration;
   vectorIngestionConfiguration?: VectorIngestionConfiguration;
   serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
   description?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateKnowledgeBaseRequest = S.suspend(() =>
   S.Struct({
@@ -7046,15 +7044,15 @@ export interface SpanAttributes {
   temperature?: number;
   topP?: number;
   responseModel?: string;
-  responseFinishReasons?: SpanFinishReasonList;
+  responseFinishReasons?: string[];
   usageInputTokens?: number;
   usageOutputTokens?: number;
   usageTotalTokens?: number;
   cacheReadInputTokens?: number;
   cacheWriteInputTokens?: number;
-  inputMessages?: SpanMessageList;
-  outputMessages?: SpanMessageList;
-  systemInstructions?: SpanMessageValueList;
+  inputMessages?: SpanMessage[];
+  outputMessages?: SpanMessage[];
+  systemInstructions?: SpanMessageValue[];
   promptArn?: string;
   promptId?: string;
   promptType?: string;
@@ -7154,8 +7152,8 @@ export const Span = S.suspend(() =>
 export type SpanList = Span[];
 export const SpanList = S.Array(Span);
 export interface GetRecommendationsResponse {
-  recommendations: RecommendationList;
-  triggers?: RecommendationTriggerList;
+  recommendations: RecommendationData[];
+  triggers?: RecommendationTrigger[];
 }
 export const GetRecommendationsResponse = S.suspend(() =>
   S.Struct({
@@ -7170,9 +7168,9 @@ export interface CreateAIAgentRequest {
   assistantId: string;
   name: string;
   type: string;
-  configuration: (typeof AIAgentConfiguration)["Type"];
+  configuration: AIAgentConfiguration;
   visibilityStatus: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   description?: string;
 }
 export const CreateAIAgentRequest = S.suspend(() =>
@@ -7199,7 +7197,7 @@ export const CreateAIAgentRequest = S.suspend(() =>
   identifier: "CreateAIAgentRequest",
 }) as any as S.Schema<CreateAIAgentRequest>;
 export interface ListSpansResponse {
-  spans: SpanList;
+  spans: Span[];
   nextToken?: string;
 }
 export const ListSpansResponse = S.suspend(() =>
@@ -7296,7 +7294,7 @@ export class RequestTimeoutException extends S.TaggedError<RequestTimeoutExcepti
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7310,7 +7308,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7325,7 +7323,7 @@ export const listTagsForResource: (
 export const listMessages: {
   (
     input: ListMessagesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMessagesResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -7335,7 +7333,7 @@ export const listMessages: {
   >;
   pages: (
     input: ListMessagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMessagesResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -7345,7 +7343,7 @@ export const listMessages: {
   >;
   items: (
     input: ListMessagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MessageOutput,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -7373,7 +7371,7 @@ export const listMessages: {
  */
 export const getKnowledgeBase: (
   input: GetKnowledgeBaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetKnowledgeBaseResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -7397,21 +7395,21 @@ export const getKnowledgeBase: (
 export const listKnowledgeBases: {
   (
     input: ListKnowledgeBasesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListKnowledgeBasesResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListKnowledgeBasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListKnowledgeBasesResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListKnowledgeBasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     KnowledgeBaseSummary,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -7432,7 +7430,7 @@ export const listKnowledgeBases: {
  */
 export const getImportJob: (
   input: GetImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetImportJobResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -7454,21 +7452,21 @@ export const getImportJob: (
 export const listImportJobs: {
   (
     input: ListImportJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListImportJobsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListImportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListImportJobsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListImportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ImportJobSummary,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -7490,7 +7488,7 @@ export const listImportJobs: {
 export const searchContent: {
   (
     input: SearchContentRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchContentResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -7501,7 +7499,7 @@ export const searchContent: {
   >;
   pages: (
     input: SearchContentRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchContentResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -7512,7 +7510,7 @@ export const searchContent: {
   >;
   items: (
     input: SearchContentRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ContentSummary,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -7542,7 +7540,7 @@ export const searchContent: {
  */
 export const startContentUpload: (
   input: StartContentUploadRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartContentUploadResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -7565,7 +7563,7 @@ export const startContentUpload: (
  */
 export const updateContent: (
   input: UpdateContentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateContentResponse,
   | AccessDeniedException
   | PreconditionFailedException
@@ -7592,7 +7590,7 @@ export const updateContent: (
  */
 export const getContentAssociation: (
   input: GetContentAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContentAssociationResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -7618,7 +7616,7 @@ export const getContentAssociation: (
 export const listContentAssociations: {
   (
     input: ListContentAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListContentAssociationsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -7629,7 +7627,7 @@ export const listContentAssociations: {
   >;
   pages: (
     input: ListContentAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListContentAssociationsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -7640,7 +7638,7 @@ export const listContentAssociations: {
   >;
   items: (
     input: ListContentAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ContentAssociationSummary,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -7671,7 +7669,7 @@ export const listContentAssociations: {
 export const listQuickResponses: {
   (
     input: ListQuickResponsesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListQuickResponsesResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -7681,7 +7679,7 @@ export const listQuickResponses: {
   >;
   pages: (
     input: ListQuickResponsesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListQuickResponsesResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -7691,7 +7689,7 @@ export const listQuickResponses: {
   >;
   items: (
     input: ListQuickResponsesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     QuickResponseSummary,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -7719,7 +7717,7 @@ export const listQuickResponses: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   ResourceNotFoundException | TooManyTagsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7733,7 +7731,7 @@ export const tagResource: (
  */
 export const removeAssistantAIAgent: (
   input: RemoveAssistantAIAgentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveAssistantAIAgentResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -7756,7 +7754,7 @@ export const removeAssistantAIAgent: (
  */
 export const updateSession: (
   input: UpdateSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSessionResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -7779,7 +7777,7 @@ export const updateSession: (
  */
 export const getContent: (
   input: GetContentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContentResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -7802,7 +7800,7 @@ export const getContent: (
  */
 export const getContentSummary: (
   input: GetContentSummaryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContentSummaryResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -7825,7 +7823,7 @@ export const getContentSummary: (
  */
 export const deleteAssistantAssociation: (
   input: DeleteAssistantAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAssistantAssociationResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -7850,7 +7848,7 @@ export const deleteAssistantAssociation: (
  */
 export const deleteContentAssociation: (
   input: DeleteContentAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteContentAssociationResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -7873,7 +7871,7 @@ export const deleteContentAssociation: (
  */
 export const deleteQuickResponse: (
   input: DeleteQuickResponseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteQuickResponseResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -7896,7 +7894,7 @@ export const deleteQuickResponse: (
  */
 export const updateAIGuardrail: (
   input: UpdateAIGuardrailRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAIGuardrailResponse,
   | AccessDeniedException
   | ConflictException
@@ -7923,7 +7921,7 @@ export const updateAIGuardrail: (
  */
 export const updateAIPrompt: (
   input: UpdateAIPromptRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAIPromptResponse,
   | AccessDeniedException
   | ConflictException
@@ -7950,7 +7948,7 @@ export const updateAIPrompt: (
  */
 export const activateMessageTemplate: (
   input: ActivateMessageTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ActivateMessageTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -7975,7 +7973,7 @@ export const activateMessageTemplate: (
  */
 export const deactivateMessageTemplate: (
   input: DeactivateMessageTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeactivateMessageTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -8000,7 +7998,7 @@ export const deactivateMessageTemplate: (
  */
 export const updateMessageTemplateMetadata: (
   input: UpdateMessageTemplateMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMessageTemplateMetadataResponse,
   | AccessDeniedException
   | ConflictException
@@ -8025,7 +8023,7 @@ export const updateMessageTemplateMetadata: (
  */
 export const updateQuickResponse: (
   input: UpdateQuickResponseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateQuickResponseResponse,
   | AccessDeniedException
   | ConflictException
@@ -8052,7 +8050,7 @@ export const updateQuickResponse: (
  */
 export const deleteAIAgentVersion: (
   input: DeleteAIAgentVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAIAgentVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -8079,7 +8077,7 @@ export const deleteAIAgentVersion: (
  */
 export const deleteAIGuardrail: (
   input: DeleteAIGuardrailRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAIGuardrailResponse,
   | AccessDeniedException
   | ConflictException
@@ -8106,7 +8104,7 @@ export const deleteAIGuardrail: (
  */
 export const deleteAIGuardrailVersion: (
   input: DeleteAIGuardrailVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAIGuardrailVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -8133,7 +8131,7 @@ export const deleteAIGuardrailVersion: (
  */
 export const deleteAIPromptVersion: (
   input: DeleteAIPromptVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAIPromptVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -8162,7 +8160,7 @@ export const deleteAIPromptVersion: (
  */
 export const deleteKnowledgeBase: (
   input: DeleteKnowledgeBaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteKnowledgeBaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -8187,7 +8185,7 @@ export const deleteKnowledgeBase: (
  */
 export const deleteImportJob: (
   input: DeleteImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteImportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -8212,7 +8210,7 @@ export const deleteImportJob: (
  */
 export const deleteContent: (
   input: DeleteContentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteContentResponse,
   | AccessDeniedException
   | ConflictException
@@ -8237,7 +8235,7 @@ export const deleteContent: (
  */
 export const deleteMessageTemplate: (
   input: DeleteMessageTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMessageTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -8262,7 +8260,7 @@ export const deleteMessageTemplate: (
  */
 export const deleteMessageTemplateAttachment: (
   input: DeleteMessageTemplateAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMessageTemplateAttachmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -8287,7 +8285,7 @@ export const deleteMessageTemplateAttachment: (
  */
 export const updateKnowledgeBaseTemplateUri: (
   input: UpdateKnowledgeBaseTemplateUriRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateKnowledgeBaseTemplateUriResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -8309,7 +8307,7 @@ export const updateKnowledgeBaseTemplateUri: (
 export const listContents: {
   (
     input: ListContentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListContentsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -8319,7 +8317,7 @@ export const listContents: {
   >;
   pages: (
     input: ListContentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListContentsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -8329,7 +8327,7 @@ export const listContents: {
   >;
   items: (
     input: ListContentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ContentSummary,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -8357,7 +8355,7 @@ export const listContents: {
  */
 export const removeKnowledgeBaseTemplateUri: (
   input: RemoveKnowledgeBaseTemplateUriRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveKnowledgeBaseTemplateUriResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -8378,7 +8376,7 @@ export const removeKnowledgeBaseTemplateUri: (
  */
 export const deleteAssistant: (
   input: DeleteAssistantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAssistantResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -8402,7 +8400,7 @@ export const deleteAssistant: (
 export const listAssistants: {
   (
     input: ListAssistantsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAssistantsResponse,
     | AccessDeniedException
     | UnauthorizedException
@@ -8412,7 +8410,7 @@ export const listAssistants: {
   >;
   pages: (
     input: ListAssistantsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAssistantsResponse,
     | AccessDeniedException
     | UnauthorizedException
@@ -8422,7 +8420,7 @@ export const listAssistants: {
   >;
   items: (
     input: ListAssistantsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AssistantSummary,
     | AccessDeniedException
     | UnauthorizedException
@@ -8446,7 +8444,7 @@ export const listAssistants: {
  */
 export const notifyRecommendationsReceived: (
   input: NotifyRecommendationsReceivedRequest,
-) => Effect.Effect<
+) => effect.Effect<
   NotifyRecommendationsReceivedResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -8468,7 +8466,7 @@ export const notifyRecommendationsReceived: (
 export const listAssistantAssociations: {
   (
     input: ListAssistantAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAssistantAssociationsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -8478,7 +8476,7 @@ export const listAssistantAssociations: {
   >;
   pages: (
     input: ListAssistantAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAssistantAssociationsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -8488,7 +8486,7 @@ export const listAssistantAssociations: {
   >;
   items: (
     input: ListAssistantAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AssistantAssociationSummary,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -8516,7 +8514,7 @@ export const listAssistantAssociations: {
  */
 export const deleteAIAgent: (
   input: DeleteAIAgentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAIAgentResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -8541,7 +8539,7 @@ export const deleteAIAgent: (
  */
 export const deleteAIPrompt: (
   input: DeleteAIPromptRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAIPromptResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -8566,7 +8564,7 @@ export const deleteAIPrompt: (
  */
 export const updateAssistantAIAgent: (
   input: UpdateAssistantAIAgentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAssistantAIAgentResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -8589,7 +8587,7 @@ export const updateAssistantAIAgent: (
  */
 export const getAIAgent: (
   input: GetAIAgentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAIAgentResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -8614,7 +8612,7 @@ export const getAIAgent: (
  */
 export const updateAIAgent: (
   input: UpdateAIAgentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAIAgentResponse,
   | AccessDeniedException
   | ConflictException
@@ -8642,7 +8640,7 @@ export const updateAIAgent: (
 export const listAIAgents: {
   (
     input: ListAIAgentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAIAgentsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -8654,7 +8652,7 @@ export const listAIAgents: {
   >;
   pages: (
     input: ListAIAgentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAIAgentsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -8666,7 +8664,7 @@ export const listAIAgents: {
   >;
   items: (
     input: ListAIAgentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AIAgentSummary,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -8699,7 +8697,7 @@ export const listAIAgents: {
 export const listAIAgentVersions: {
   (
     input: ListAIAgentVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAIAgentVersionsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -8711,7 +8709,7 @@ export const listAIAgentVersions: {
   >;
   pages: (
     input: ListAIAgentVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAIAgentVersionsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -8723,7 +8721,7 @@ export const listAIAgentVersions: {
   >;
   items: (
     input: ListAIAgentVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AIAgentVersionSummary,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -8755,7 +8753,7 @@ export const listAIAgentVersions: {
  */
 export const getAIGuardrail: (
   input: GetAIGuardrailRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAIGuardrailResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -8781,7 +8779,7 @@ export const getAIGuardrail: (
 export const listAIGuardrails: {
   (
     input: ListAIGuardrailsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAIGuardrailsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -8793,7 +8791,7 @@ export const listAIGuardrails: {
   >;
   pages: (
     input: ListAIGuardrailsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAIGuardrailsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -8805,7 +8803,7 @@ export const listAIGuardrails: {
   >;
   items: (
     input: ListAIGuardrailsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AIGuardrailSummary,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -8838,7 +8836,7 @@ export const listAIGuardrails: {
 export const listAIGuardrailVersions: {
   (
     input: ListAIGuardrailVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAIGuardrailVersionsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -8850,7 +8848,7 @@ export const listAIGuardrailVersions: {
   >;
   pages: (
     input: ListAIGuardrailVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAIGuardrailVersionsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -8862,7 +8860,7 @@ export const listAIGuardrailVersions: {
   >;
   items: (
     input: ListAIGuardrailVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AIGuardrailVersionSummary,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -8894,7 +8892,7 @@ export const listAIGuardrailVersions: {
  */
 export const getAIPrompt: (
   input: GetAIPromptRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAIPromptResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -8920,7 +8918,7 @@ export const getAIPrompt: (
 export const listAIPrompts: {
   (
     input: ListAIPromptsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAIPromptsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -8932,7 +8930,7 @@ export const listAIPrompts: {
   >;
   pages: (
     input: ListAIPromptsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAIPromptsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -8944,7 +8942,7 @@ export const listAIPrompts: {
   >;
   items: (
     input: ListAIPromptsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AIPromptSummary,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -8977,7 +8975,7 @@ export const listAIPrompts: {
 export const listAIPromptVersions: {
   (
     input: ListAIPromptVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAIPromptVersionsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -8989,7 +8987,7 @@ export const listAIPromptVersions: {
   >;
   pages: (
     input: ListAIPromptVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAIPromptVersionsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -9001,7 +8999,7 @@ export const listAIPromptVersions: {
   >;
   items: (
     input: ListAIPromptVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AIPromptVersionSummary,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -9033,7 +9031,7 @@ export const listAIPromptVersions: {
  */
 export const getMessageTemplate: (
   input: GetMessageTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMessageTemplateResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -9058,7 +9056,7 @@ export const getMessageTemplate: (
  */
 export const updateMessageTemplate: (
   input: UpdateMessageTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMessageTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -9084,7 +9082,7 @@ export const updateMessageTemplate: (
 export const listMessageTemplates: {
   (
     input: ListMessageTemplatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMessageTemplatesResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -9095,7 +9093,7 @@ export const listMessageTemplates: {
   >;
   pages: (
     input: ListMessageTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMessageTemplatesResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -9106,7 +9104,7 @@ export const listMessageTemplates: {
   >;
   items: (
     input: ListMessageTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MessageTemplateSummary,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -9137,7 +9135,7 @@ export const listMessageTemplates: {
 export const listMessageTemplateVersions: {
   (
     input: ListMessageTemplateVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMessageTemplateVersionsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -9148,7 +9146,7 @@ export const listMessageTemplateVersions: {
   >;
   pages: (
     input: ListMessageTemplateVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMessageTemplateVersionsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -9159,7 +9157,7 @@ export const listMessageTemplateVersions: {
   >;
   items: (
     input: ListMessageTemplateVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MessageTemplateVersionSummary,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -9189,7 +9187,7 @@ export const listMessageTemplateVersions: {
  */
 export const getAssistant: (
   input: GetAssistantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAssistantResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -9212,7 +9210,7 @@ export const getAssistant: (
  */
 export const putFeedback: (
   input: PutFeedbackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutFeedbackResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -9233,7 +9231,7 @@ export const putFeedback: (
  */
 export const getSession: (
   input: GetSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSessionResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -9256,7 +9254,7 @@ export const getSession: (
  */
 export const getNextMessage: (
   input: GetNextMessageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetNextMessageResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -9279,7 +9277,7 @@ export const getNextMessage: (
  */
 export const updateSessionData: (
   input: UpdateSessionDataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSessionDataResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -9302,7 +9300,7 @@ export const updateSessionData: (
  */
 export const createContent: (
   input: CreateContentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateContentResponse,
   | AccessDeniedException
   | ConflictException
@@ -9339,7 +9337,7 @@ export const createContent: (
  */
 export const createContentAssociation: (
   input: CreateContentAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateContentAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -9368,7 +9366,7 @@ export const createContentAssociation: (
  */
 export const renderMessageTemplate: (
   input: RenderMessageTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RenderMessageTemplateResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -9391,7 +9389,7 @@ export const renderMessageTemplate: (
  */
 export const createMessageTemplateAttachment: (
   input: CreateMessageTemplateAttachmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMessageTemplateAttachmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -9420,7 +9418,7 @@ export const createMessageTemplateAttachment: (
  */
 export const createQuickResponse: (
   input: CreateQuickResponseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateQuickResponseResponse,
   | AccessDeniedException
   | ConflictException
@@ -9447,7 +9445,7 @@ export const createQuickResponse: (
  */
 export const createAIAgentVersion: (
   input: CreateAIAgentVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAIAgentVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -9476,7 +9474,7 @@ export const createAIAgentVersion: (
  */
 export const createAIGuardrailVersion: (
   input: CreateAIGuardrailVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAIGuardrailVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -9505,7 +9503,7 @@ export const createAIGuardrailVersion: (
  */
 export const createAIPromptVersion: (
   input: CreateAIPromptVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAIPromptVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -9534,7 +9532,7 @@ export const createAIPromptVersion: (
  */
 export const createMessageTemplateVersion: (
   input: CreateMessageTemplateVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMessageTemplateVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -9561,7 +9559,7 @@ export const createMessageTemplateVersion: (
  */
 export const createAssistant: (
   input: CreateAssistantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAssistantResponse,
   | AccessDeniedException
   | ConflictException
@@ -9586,7 +9584,7 @@ export const createAssistant: (
  */
 export const createAIGuardrail: (
   input: CreateAIGuardrailRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAIGuardrailResponse,
   | AccessDeniedException
   | ConflictException
@@ -9615,7 +9613,7 @@ export const createAIGuardrail: (
  */
 export const createAIPrompt: (
   input: CreateAIPromptRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAIPromptResponse,
   | AccessDeniedException
   | ConflictException
@@ -9644,7 +9642,7 @@ export const createAIPrompt: (
  */
 export const createAssistantAssociation: (
   input: CreateAssistantAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAssistantAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -9670,7 +9668,7 @@ export const createAssistantAssociation: (
 export const searchSessions: {
   (
     input: SearchSessionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchSessionsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -9681,7 +9679,7 @@ export const searchSessions: {
   >;
   pages: (
     input: SearchSessionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchSessionsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -9692,7 +9690,7 @@ export const searchSessions: {
   >;
   items: (
     input: SearchSessionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SessionSummary,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -9722,7 +9720,7 @@ export const searchSessions: {
  */
 export const getAssistantAssociation: (
   input: GetAssistantAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAssistantAssociationResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -9745,7 +9743,7 @@ export const getAssistantAssociation: (
  */
 export const createSession: (
   input: CreateSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -9773,7 +9771,7 @@ export const createSession: (
 export const searchMessageTemplates: {
   (
     input: SearchMessageTemplatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchMessageTemplatesResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -9785,7 +9783,7 @@ export const searchMessageTemplates: {
   >;
   pages: (
     input: SearchMessageTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchMessageTemplatesResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -9797,7 +9795,7 @@ export const searchMessageTemplates: {
   >;
   items: (
     input: SearchMessageTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MessageTemplateSearchResultData,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -9831,7 +9829,7 @@ export const searchMessageTemplates: {
  */
 export const startImportJob: (
   input: StartImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartImportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -9858,7 +9856,7 @@ export const startImportJob: (
  */
 export const getQuickResponse: (
   input: GetQuickResponseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetQuickResponseResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -9884,7 +9882,7 @@ export const getQuickResponse: (
 export const queryAssistant: {
   (
     input: QueryAssistantRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     QueryAssistantResponse,
     | AccessDeniedException
     | RequestTimeoutException
@@ -9895,7 +9893,7 @@ export const queryAssistant: {
   >;
   pages: (
     input: QueryAssistantRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     QueryAssistantResponse,
     | AccessDeniedException
     | RequestTimeoutException
@@ -9906,7 +9904,7 @@ export const queryAssistant: {
   >;
   items: (
     input: QueryAssistantRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResultData,
     | AccessDeniedException
     | RequestTimeoutException
@@ -9936,7 +9934,7 @@ export const queryAssistant: {
  */
 export const retrieve: (
   input: RetrieveRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RetrieveResponse,
   | AccessDeniedException
   | ConflictException
@@ -9967,7 +9965,7 @@ export const retrieve: (
  */
 export const createMessageTemplate: (
   input: CreateMessageTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMessageTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -9995,7 +9993,7 @@ export const createMessageTemplate: (
 export const searchQuickResponses: {
   (
     input: SearchQuickResponsesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchQuickResponsesResponse,
     | AccessDeniedException
     | RequestTimeoutException
@@ -10007,7 +10005,7 @@ export const searchQuickResponses: {
   >;
   pages: (
     input: SearchQuickResponsesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchQuickResponsesResponse,
     | AccessDeniedException
     | RequestTimeoutException
@@ -10019,7 +10017,7 @@ export const searchQuickResponses: {
   >;
   items: (
     input: SearchQuickResponsesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     QuickResponseSearchResultData,
     | AccessDeniedException
     | RequestTimeoutException
@@ -10053,7 +10051,7 @@ export const searchQuickResponses: {
  */
 export const getRecommendations: (
   input: GetRecommendationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRecommendationsResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -10075,7 +10073,7 @@ export const getRecommendations: (
 export const listSpans: {
   (
     input: ListSpansRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSpansResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -10085,7 +10083,7 @@ export const listSpans: {
   >;
   pages: (
     input: ListSpansRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSpansResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -10095,7 +10093,7 @@ export const listSpans: {
   >;
   items: (
     input: ListSpansRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Span,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -10123,7 +10121,7 @@ export const listSpans: {
  */
 export const sendMessage: (
   input: SendMessageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendMessageResponse,
   | AccessDeniedException
   | ConflictException
@@ -10166,7 +10164,7 @@ export const sendMessage: (
  */
 export const createKnowledgeBase: (
   input: CreateKnowledgeBaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateKnowledgeBaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -10191,7 +10189,7 @@ export const createKnowledgeBase: (
  */
 export const createAIAgent: (
   input: CreateAIAgentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAIAgentResponse,
   | AccessDeniedException
   | ConflictException

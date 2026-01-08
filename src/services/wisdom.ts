@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -97,7 +97,7 @@ export type UuidOrArn = string;
 export type NextToken = string;
 export type MaxResults = number;
 export type WaitTimeSeconds = number;
-export type QueryText = string | Redacted.Redacted<string>;
+export type QueryText = string | redacted.Redacted<string>;
 export type AssociationType = string;
 export type NonEmptyString = string;
 export type KnowledgeBaseType = string;
@@ -112,16 +112,16 @@ export type QuickResponseName = string;
 export type QuickResponseType = string;
 export type QuickResponseDescription = string;
 export type ShortCutKey = string;
-export type Channel = string | Redacted.Redacted<string>;
+export type Channel = string | redacted.Redacted<string>;
 export type LanguageCode = string;
 export type TagValue = string;
 export type ContactAttributeKey = string;
 export type ContactAttributeValue = string;
 export type ExternalSource = string;
-export type QuickResponseContent = string | Redacted.Redacted<string>;
-export type GroupingCriteria = string | Redacted.Redacted<string>;
-export type GroupingValue = string | Redacted.Redacted<string>;
-export type Url = string | Redacted.Redacted<string>;
+export type QuickResponseContent = string | redacted.Redacted<string>;
+export type GroupingCriteria = string | redacted.Redacted<string>;
+export type GroupingValue = string | redacted.Redacted<string>;
+export type Url = string | redacted.Redacted<string>;
 export type FilterField = string;
 export type FilterOperator = string;
 export type GenericArn = string;
@@ -142,7 +142,7 @@ export type KnowledgeBaseStatus = string;
 export type ImportJobStatus = string;
 export type ContentStatus = string;
 export type QuickResponseStatus = string;
-export type SensitiveString = string | Redacted.Redacted<string>;
+export type SensitiveString = string | redacted.Redacted<string>;
 export type HighlightOffset = number;
 
 //# Schemas
@@ -150,7 +150,7 @@ export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export type RecommendationIdList = string[];
 export const RecommendationIdList = S.Array(S.String);
-export type Channels = string | Redacted.Redacted<string>[];
+export type Channels = string | redacted.Redacted<string>[];
 export const Channels = S.Array(SensitiveString);
 export interface ListTagsForResourceRequest {
   resourceArn: string;
@@ -171,7 +171,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -286,7 +286,7 @@ export const GetRecommendationsRequest = S.suspend(() =>
 export interface NotifyRecommendationsReceivedRequest {
   assistantId: string;
   sessionId: string;
-  recommendationIds: RecommendationIdList;
+  recommendationIds: string[];
 }
 export const NotifyRecommendationsReceivedRequest = S.suspend(() =>
   S.Struct({
@@ -311,7 +311,7 @@ export const NotifyRecommendationsReceivedRequest = S.suspend(() =>
 }) as any as S.Schema<NotifyRecommendationsReceivedRequest>;
 export interface QueryAssistantRequest {
   assistantId: string;
-  queryText: string | Redacted.Redacted<string>;
+  queryText: string | redacted.Redacted<string>;
   nextToken?: string;
   maxResults?: number;
 }
@@ -422,7 +422,7 @@ export interface CreateSessionRequest {
   assistantId: string;
   name: string;
   description?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateSessionRequest = S.suspend(() =>
   S.Struct({
@@ -652,7 +652,7 @@ export const Filter = S.suspend(() =>
 export type FilterList = Filter[];
 export const FilterList = S.Array(Filter);
 export interface SearchExpression {
-  filters: FilterList;
+  filters: Filter[];
 }
 export const SearchExpression = S.suspend(() =>
   S.Struct({ filters: FilterList }),
@@ -744,10 +744,10 @@ export interface CreateContentRequest {
   name: string;
   title?: string;
   overrideLinkOutUri?: string;
-  metadata?: ContentMetadata;
+  metadata?: { [key: string]: string };
   uploadId: string;
   clientToken?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateContentRequest = S.suspend(() =>
   S.Struct({
@@ -806,7 +806,7 @@ export interface UpdateContentRequest {
   title?: string;
   overrideLinkOutUri?: string;
   removeOverrideLinkOutUri?: boolean;
-  metadata?: ContentMetadata;
+  metadata?: { [key: string]: string };
   uploadId?: string;
 }
 export const UpdateContentRequest = S.suspend(() =>
@@ -938,16 +938,16 @@ export const GetQuickResponseRequest = S.suspend(() =>
   identifier: "GetQuickResponseRequest",
 }) as any as S.Schema<GetQuickResponseRequest>;
 export type QuickResponseDataProvider = {
-  content: string | Redacted.Redacted<string>;
+  content: string | redacted.Redacted<string>;
 };
 export const QuickResponseDataProvider = S.Union(
   S.Struct({ content: SensitiveString }),
 );
-export type GroupingValues = string | Redacted.Redacted<string>[];
+export type GroupingValues = string | redacted.Redacted<string>[];
 export const GroupingValues = S.Array(SensitiveString);
 export interface GroupingConfiguration {
-  criteria?: string | Redacted.Redacted<string>;
-  values?: GroupingValues;
+  criteria?: string | redacted.Redacted<string>;
+  values?: string | redacted.Redacted<string>[];
 }
 export const GroupingConfiguration = S.suspend(() =>
   S.Struct({
@@ -961,7 +961,7 @@ export interface UpdateQuickResponseRequest {
   knowledgeBaseId: string;
   quickResponseId: string;
   name?: string;
-  content?: (typeof QuickResponseDataProvider)["Type"];
+  content?: QuickResponseDataProvider;
   contentType?: string;
   groupingConfiguration?: GroupingConfiguration;
   removeGroupingConfiguration?: boolean;
@@ -970,7 +970,7 @@ export interface UpdateQuickResponseRequest {
   shortcutKey?: string;
   removeShortcutKey?: boolean;
   isActive?: boolean;
-  channels?: Channels;
+  channels?: string | redacted.Redacted<string>[];
   language?: string;
 }
 export const UpdateQuickResponseRequest = S.suspend(() =>
@@ -1090,7 +1090,7 @@ export const QuickResponseQueryValueList = S.Array(S.String);
 export type QuickResponseFilterValueList = string[];
 export const QuickResponseFilterValueList = S.Array(S.String);
 export interface ListTagsForResourceResponse {
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -1099,7 +1099,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: Tags;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1127,7 +1127,7 @@ export interface CreateAssistantRequest {
   name: string;
   type: string;
   description?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
 }
 export const CreateAssistantRequest = S.suspend(() =>
@@ -1156,9 +1156,9 @@ export const CreateAssistantRequest = S.suspend(() =>
 export interface CreateAssistantAssociationRequest {
   assistantId: string;
   associationType: string;
-  association: (typeof AssistantAssociationInputData)["Type"];
+  association: AssistantAssociationInputData;
   clientToken?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateAssistantAssociationRequest = S.suspend(() =>
   S.Struct({
@@ -1193,7 +1193,7 @@ export interface SessionData {
   sessionId: string;
   name: string;
   description?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   integrationConfiguration?: SessionIntegrationConfiguration;
 }
 export const SessionData = S.suspend(() =>
@@ -1216,7 +1216,7 @@ export const GetSessionResponse = S.suspend(() =>
 }) as any as S.Schema<GetSessionResponse>;
 export interface AppIntegrationsConfiguration {
   appIntegrationArn: string;
-  objectFields?: ObjectFieldsList;
+  objectFields?: string[];
 }
 export const AppIntegrationsConfiguration = S.suspend(() =>
   S.Struct({
@@ -1239,11 +1239,11 @@ export interface KnowledgeBaseData {
   knowledgeBaseType: string;
   status: string;
   lastContentModificationTime?: Date;
-  sourceConfiguration?: (typeof SourceConfiguration)["Type"];
+  sourceConfiguration?: SourceConfiguration;
   renderingConfiguration?: RenderingConfiguration;
   serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
   description?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const KnowledgeBaseData = S.suspend(() =>
   S.Struct({
@@ -1284,10 +1284,10 @@ export interface ContentData {
   title: string;
   contentType: string;
   status: string;
-  metadata: ContentMetadata;
-  tags?: Tags;
+  metadata: { [key: string]: string };
+  tags?: { [key: string]: string };
   linkOutUri?: string;
-  url: string | Redacted.Redacted<string>;
+  url: string | redacted.Redacted<string>;
   urlExpiry: Date;
 }
 export const ContentData = S.suspend(() =>
@@ -1334,8 +1334,8 @@ export interface ContentSummary {
   title: string;
   contentType: string;
   status: string;
-  metadata: ContentMetadata;
-  tags?: Tags;
+  metadata: { [key: string]: string };
+  tags?: { [key: string]: string };
 }
 export const ContentSummary = S.suspend(() =>
   S.Struct({
@@ -1357,7 +1357,7 @@ export const ContentSummary = S.suspend(() =>
 export type ContentSummaryList = ContentSummary[];
 export const ContentSummaryList = S.Array(ContentSummary);
 export interface ListContentsResponse {
-  contentSummaries: ContentSummaryList;
+  contentSummaries: ContentSummary[];
   nextToken?: string;
 }
 export const ListContentsResponse = S.suspend(() =>
@@ -1379,16 +1379,16 @@ export const GetContentSummaryResponse = S.suspend(() =>
 export interface CreateQuickResponseRequest {
   knowledgeBaseId: string;
   name: string;
-  content: (typeof QuickResponseDataProvider)["Type"];
+  content: QuickResponseDataProvider;
   contentType?: string;
   groupingConfiguration?: GroupingConfiguration;
   description?: string;
   shortcutKey?: string;
   isActive?: boolean;
-  channels?: Channels;
+  channels?: string | redacted.Redacted<string>[];
   language?: string;
   clientToken?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateQuickResponseRequest = S.suspend(() =>
   S.Struct({
@@ -1421,14 +1421,14 @@ export const CreateQuickResponseRequest = S.suspend(() =>
   identifier: "CreateQuickResponseRequest",
 }) as any as S.Schema<CreateQuickResponseRequest>;
 export type QuickResponseContentProvider = {
-  content: string | Redacted.Redacted<string>;
+  content: string | redacted.Redacted<string>;
 };
 export const QuickResponseContentProvider = S.Union(
   S.Struct({ content: SensitiveString }),
 );
 export interface QuickResponseContents {
-  plainText?: (typeof QuickResponseContentProvider)["Type"];
-  markdown?: (typeof QuickResponseContentProvider)["Type"];
+  plainText?: QuickResponseContentProvider;
+  markdown?: QuickResponseContentProvider;
 }
 export const QuickResponseContents = S.suspend(() =>
   S.Struct({
@@ -1454,9 +1454,9 @@ export interface QuickResponseData {
   shortcutKey?: string;
   lastModifiedBy?: string;
   isActive?: boolean;
-  channels?: Channels;
+  channels?: string | redacted.Redacted<string>[];
   language?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const QuickResponseData = S.suspend(() =>
   S.Struct({
@@ -1492,7 +1492,7 @@ export const UpdateQuickResponseResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateQuickResponseResponse>;
 export interface QuickResponseQueryField {
   name: string;
-  values: QuickResponseQueryValueList;
+  values: string[];
   operator: string;
   allowFuzziness?: boolean;
   priority?: string;
@@ -1512,7 +1512,7 @@ export type QuickResponseQueryFieldList = QuickResponseQueryField[];
 export const QuickResponseQueryFieldList = S.Array(QuickResponseQueryField);
 export interface QuickResponseFilterField {
   name: string;
-  values?: QuickResponseFilterValueList;
+  values?: string[];
   operator: string;
   includeNoExistence?: boolean;
 }
@@ -1552,7 +1552,7 @@ export interface AssistantSummary {
   type: string;
   status: string;
   description?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
   integrationConfiguration?: AssistantIntegrationConfiguration;
 }
@@ -1621,8 +1621,8 @@ export const Highlight = S.suspend(() =>
 export type Highlights = Highlight[];
 export const Highlights = S.Array(Highlight);
 export interface DocumentText {
-  text?: string | Redacted.Redacted<string>;
-  highlights?: Highlights;
+  text?: string | redacted.Redacted<string>;
+  highlights?: Highlight[];
 }
 export const DocumentText = S.suspend(() =>
   S.Struct({
@@ -1680,8 +1680,8 @@ export interface AssistantAssociationSummary {
   assistantId: string;
   assistantArn: string;
   associationType: string;
-  associationData: (typeof AssistantAssociationOutputData)["Type"];
-  tags?: Tags;
+  associationData: AssistantAssociationOutputData;
+  tags?: { [key: string]: string };
 }
 export const AssistantAssociationSummary = S.suspend(() =>
   S.Struct({
@@ -1706,11 +1706,11 @@ export interface KnowledgeBaseSummary {
   name: string;
   knowledgeBaseType: string;
   status: string;
-  sourceConfiguration?: (typeof SourceConfiguration)["Type"];
+  sourceConfiguration?: SourceConfiguration;
   renderingConfiguration?: RenderingConfiguration;
   serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
   description?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const KnowledgeBaseSummary = S.suspend(() =>
   S.Struct({
@@ -1746,7 +1746,7 @@ export const Configuration = S.Union(
 );
 export interface ExternalSourceConfiguration {
   source: string;
-  configuration: (typeof Configuration)["Type"];
+  configuration: Configuration;
 }
 export const ExternalSourceConfiguration = S.suspend(() =>
   S.Struct({ source: S.String, configuration: Configuration }),
@@ -1760,12 +1760,12 @@ export interface ImportJobData {
   knowledgeBaseArn: string;
   importJobType: string;
   status: string;
-  url: string | Redacted.Redacted<string>;
-  failedRecordReport?: string | Redacted.Redacted<string>;
+  url: string | redacted.Redacted<string>;
+  failedRecordReport?: string | redacted.Redacted<string>;
   urlExpiry: Date;
   createdTime: Date;
   lastModifiedTime: Date;
-  metadata?: ContentMetadata;
+  metadata?: { [key: string]: string };
   externalSourceConfiguration?: ExternalSourceConfiguration;
 }
 export const ImportJobData = S.suspend(() =>
@@ -1796,7 +1796,7 @@ export interface ImportJobSummary {
   status: string;
   createdTime: Date;
   lastModifiedTime: Date;
-  metadata?: ContentMetadata;
+  metadata?: { [key: string]: string };
   externalSourceConfiguration?: ExternalSourceConfiguration;
 }
 export const ImportJobSummary = S.suspend(() =>
@@ -1818,8 +1818,8 @@ export const ImportJobSummary = S.suspend(() =>
 export type ImportJobList = ImportJobSummary[];
 export const ImportJobList = S.Array(ImportJobSummary);
 export interface QuickResponseSearchExpression {
-  queries?: QuickResponseQueryFieldList;
-  filters?: QuickResponseFilterFieldList;
+  queries?: QuickResponseQueryField[];
+  filters?: QuickResponseFilterField[];
   orderOnField?: QuickResponseOrderField;
 }
 export const QuickResponseSearchExpression = S.suspend(() =>
@@ -1846,8 +1846,8 @@ export interface QuickResponseSummary {
   description?: string;
   lastModifiedBy?: string;
   isActive?: boolean;
-  channels?: Channels;
-  tags?: Tags;
+  channels?: string | redacted.Redacted<string>[];
+  tags?: { [key: string]: string };
 }
 export const QuickResponseSummary = S.suspend(() =>
   S.Struct({
@@ -1878,7 +1878,7 @@ export interface AssistantData {
   type: string;
   status: string;
   description?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
   integrationConfiguration?: AssistantIntegrationConfiguration;
 }
@@ -1908,7 +1908,7 @@ export const CreateAssistantResponse = S.suspend(() =>
   identifier: "CreateAssistantResponse",
 }) as any as S.Schema<CreateAssistantResponse>;
 export interface ListAssistantsResponse {
-  assistantSummaries: AssistantList;
+  assistantSummaries: AssistantSummary[];
   nextToken?: string;
 }
 export const ListAssistantsResponse = S.suspend(() =>
@@ -1920,8 +1920,8 @@ export const ListAssistantsResponse = S.suspend(() =>
   identifier: "ListAssistantsResponse",
 }) as any as S.Schema<ListAssistantsResponse>;
 export interface NotifyRecommendationsReceivedResponse {
-  recommendationIds?: RecommendationIdList;
-  errors?: NotifyRecommendationsReceivedErrorList;
+  recommendationIds?: string[];
+  errors?: NotifyRecommendationsReceivedError[];
 }
 export const NotifyRecommendationsReceivedResponse = S.suspend(() =>
   S.Struct({
@@ -1932,7 +1932,7 @@ export const NotifyRecommendationsReceivedResponse = S.suspend(() =>
   identifier: "NotifyRecommendationsReceivedResponse",
 }) as any as S.Schema<NotifyRecommendationsReceivedResponse>;
 export interface QueryAssistantResponse {
-  results: QueryResultsList;
+  results: ResultData[];
   nextToken?: string;
 }
 export const QueryAssistantResponse = S.suspend(() =>
@@ -1974,8 +1974,8 @@ export interface AssistantAssociationData {
   assistantId: string;
   assistantArn: string;
   associationType: string;
-  associationData: (typeof AssistantAssociationOutputData)["Type"];
-  tags?: Tags;
+  associationData: AssistantAssociationOutputData;
+  tags?: { [key: string]: string };
 }
 export const AssistantAssociationData = S.suspend(() =>
   S.Struct({
@@ -1999,7 +1999,7 @@ export const CreateAssistantAssociationResponse = S.suspend(() =>
   identifier: "CreateAssistantAssociationResponse",
 }) as any as S.Schema<CreateAssistantAssociationResponse>;
 export interface ListAssistantAssociationsResponse {
-  assistantAssociationSummaries: AssistantAssociationSummaryList;
+  assistantAssociationSummaries: AssistantAssociationSummary[];
   nextToken?: string;
 }
 export const ListAssistantAssociationsResponse = S.suspend(() =>
@@ -2014,11 +2014,11 @@ export interface CreateKnowledgeBaseRequest {
   clientToken?: string;
   name: string;
   knowledgeBaseType: string;
-  sourceConfiguration?: (typeof SourceConfiguration)["Type"];
+  sourceConfiguration?: SourceConfiguration;
   renderingConfiguration?: RenderingConfiguration;
   serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
   description?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateKnowledgeBaseRequest = S.suspend(() =>
   S.Struct({
@@ -2054,7 +2054,7 @@ export const GetKnowledgeBaseResponse = S.suspend(() =>
   identifier: "GetKnowledgeBaseResponse",
 }) as any as S.Schema<GetKnowledgeBaseResponse>;
 export interface ListKnowledgeBasesResponse {
-  knowledgeBaseSummaries: KnowledgeBaseList;
+  knowledgeBaseSummaries: KnowledgeBaseSummary[];
   nextToken?: string;
 }
 export const ListKnowledgeBasesResponse = S.suspend(() =>
@@ -2074,7 +2074,7 @@ export const GetImportJobResponse = S.suspend(() =>
   identifier: "GetImportJobResponse",
 }) as any as S.Schema<GetImportJobResponse>;
 export interface ListImportJobsResponse {
-  importJobSummaries: ImportJobList;
+  importJobSummaries: ImportJobSummary[];
   nextToken?: string;
 }
 export const ListImportJobsResponse = S.suspend(() =>
@@ -2086,7 +2086,7 @@ export const ListImportJobsResponse = S.suspend(() =>
   identifier: "ListImportJobsResponse",
 }) as any as S.Schema<ListImportJobsResponse>;
 export interface SearchContentResponse {
-  contentSummaries: ContentSummaryList;
+  contentSummaries: ContentSummary[];
   nextToken?: string;
 }
 export const SearchContentResponse = S.suspend(() =>
@@ -2102,7 +2102,7 @@ export interface SearchQuickResponsesRequest {
   searchExpression: QuickResponseSearchExpression;
   nextToken?: string;
   maxResults?: number;
-  attributes?: ContactAttributes;
+  attributes?: { [key: string]: string };
 }
 export const SearchQuickResponsesRequest = S.suspend(() =>
   S.Struct({
@@ -2129,9 +2129,9 @@ export const SearchQuickResponsesRequest = S.suspend(() =>
 }) as any as S.Schema<SearchQuickResponsesRequest>;
 export interface StartContentUploadResponse {
   uploadId: string;
-  url: string | Redacted.Redacted<string>;
+  url: string | redacted.Redacted<string>;
   urlExpiry: Date;
-  headersToInclude: Headers;
+  headersToInclude: { [key: string]: string };
 }
 export const StartContentUploadResponse = S.suspend(() =>
   S.Struct({
@@ -2160,7 +2160,7 @@ export const CreateQuickResponseResponse = S.suspend(() =>
   identifier: "CreateQuickResponseResponse",
 }) as any as S.Schema<CreateQuickResponseResponse>;
 export interface ListQuickResponsesResponse {
-  quickResponseSummaries: QuickResponseSummaryList;
+  quickResponseSummaries: QuickResponseSummary[];
   nextToken?: string;
 }
 export const ListQuickResponsesResponse = S.suspend(() =>
@@ -2172,7 +2172,7 @@ export const ListQuickResponsesResponse = S.suspend(() =>
   identifier: "ListQuickResponsesResponse",
 }) as any as S.Schema<ListQuickResponsesResponse>;
 export interface QueryRecommendationTriggerData {
-  text?: string | Redacted.Redacted<string>;
+  text?: string | redacted.Redacted<string>;
 }
 export const QueryRecommendationTriggerData = S.suspend(() =>
   S.Struct({ text: S.optional(SensitiveString) }),
@@ -2208,7 +2208,7 @@ export interface StartImportJobRequest {
   importJobType: string;
   uploadId: string;
   clientToken?: string;
-  metadata?: ContentMetadata;
+  metadata?: { [key: string]: string };
   externalSourceConfiguration?: ExternalSourceConfiguration;
 }
 export const StartImportJobRequest = S.suspend(() =>
@@ -2247,8 +2247,8 @@ export interface RecommendationTrigger {
   id: string;
   type: string;
   source: string;
-  data: (typeof RecommendationTriggerData)["Type"];
-  recommendationIds: RecommendationIdList;
+  data: RecommendationTriggerData;
+  recommendationIds: string[];
 }
 export const RecommendationTrigger = S.suspend(() =>
   S.Struct({
@@ -2297,11 +2297,11 @@ export interface QuickResponseSearchResultData {
   groupingConfiguration?: GroupingConfiguration;
   shortcutKey?: string;
   lastModifiedBy?: string;
-  channels?: Channels;
+  channels?: string | redacted.Redacted<string>[];
   language?: string;
-  attributesNotInterpolated?: ContactAttributeKeys;
-  attributesInterpolated?: ContactAttributeKeys;
-  tags?: Tags;
+  attributesNotInterpolated?: string[];
+  attributesInterpolated?: string[];
+  tags?: { [key: string]: string };
 }
 export const QuickResponseSearchResultData = S.suspend(() =>
   S.Struct({
@@ -2334,7 +2334,7 @@ export const QuickResponseSearchResultsList = S.Array(
   QuickResponseSearchResultData,
 );
 export interface SearchSessionsResponse {
-  sessionSummaries: SessionSummaries;
+  sessionSummaries: SessionSummary[];
   nextToken?: string;
 }
 export const SearchSessionsResponse = S.suspend(() =>
@@ -2354,7 +2354,7 @@ export const GetAssistantAssociationResponse = S.suspend(() =>
   identifier: "GetAssistantAssociationResponse",
 }) as any as S.Schema<GetAssistantAssociationResponse>;
 export interface SearchQuickResponsesResponse {
-  results: QuickResponseSearchResultsList;
+  results: QuickResponseSearchResultData[];
   nextToken?: string;
 }
 export const SearchQuickResponsesResponse = S.suspend(() =>
@@ -2402,8 +2402,8 @@ export const RecommendationData = S.suspend(() =>
 export type RecommendationList = RecommendationData[];
 export const RecommendationList = S.Array(RecommendationData);
 export interface GetRecommendationsResponse {
-  recommendations: RecommendationList;
-  triggers?: RecommendationTriggerList;
+  recommendations: RecommendationData[];
+  triggers?: RecommendationTrigger[];
 }
 export const GetRecommendationsResponse = S.suspend(() =>
   S.Struct({
@@ -2455,7 +2455,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2469,7 +2469,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2483,7 +2483,7 @@ export const listTagsForResource: (
  */
 export const deleteAssistant: (
   input: DeleteAssistantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAssistantResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2505,21 +2505,21 @@ export const deleteAssistant: (
 export const listAssistants: {
   (
     input: ListAssistantsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAssistantsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListAssistantsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAssistantsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssistantsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AssistantSummary,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2542,7 +2542,7 @@ export const listAssistants: {
  */
 export const notifyRecommendationsReceived: (
   input: NotifyRecommendationsReceivedRequest,
-) => Effect.Effect<
+) => effect.Effect<
   NotifyRecommendationsReceivedResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2564,7 +2564,7 @@ export const notifyRecommendationsReceived: (
 export const listAssistantAssociations: {
   (
     input: ListAssistantAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAssistantAssociationsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2574,7 +2574,7 @@ export const listAssistantAssociations: {
   >;
   pages: (
     input: ListAssistantAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAssistantAssociationsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2584,7 +2584,7 @@ export const listAssistantAssociations: {
   >;
   items: (
     input: ListAssistantAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AssistantAssociationSummary,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2612,7 +2612,7 @@ export const listAssistantAssociations: {
  */
 export const getKnowledgeBase: (
   input: GetKnowledgeBaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetKnowledgeBaseResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2634,21 +2634,21 @@ export const getKnowledgeBase: (
 export const listKnowledgeBases: {
   (
     input: ListKnowledgeBasesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListKnowledgeBasesResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListKnowledgeBasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListKnowledgeBasesResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListKnowledgeBasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     KnowledgeBaseSummary,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2669,7 +2669,7 @@ export const listKnowledgeBases: {
  */
 export const getImportJob: (
   input: GetImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetImportJobResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2691,21 +2691,21 @@ export const getImportJob: (
 export const listImportJobs: {
   (
     input: ListImportJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListImportJobsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListImportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListImportJobsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListImportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ImportJobSummary,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2728,7 +2728,7 @@ export const listImportJobs: {
 export const searchContent: {
   (
     input: SearchContentRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchContentResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2738,7 +2738,7 @@ export const searchContent: {
   >;
   pages: (
     input: SearchContentRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchContentResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2748,7 +2748,7 @@ export const searchContent: {
   >;
   items: (
     input: SearchContentRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ContentSummary,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2779,7 +2779,7 @@ export const searchContent: {
  */
 export const startContentUpload: (
   input: StartContentUploadRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartContentUploadResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2800,7 +2800,7 @@ export const startContentUpload: (
  */
 export const updateContent: (
   input: UpdateContentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateContentResponse,
   | AccessDeniedException
   | PreconditionFailedException
@@ -2823,7 +2823,7 @@ export const updateContent: (
  */
 export const updateQuickResponse: (
   input: UpdateQuickResponseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateQuickResponseResponse,
   | AccessDeniedException
   | ConflictException
@@ -2849,7 +2849,7 @@ export const updateQuickResponse: (
 export const listQuickResponses: {
   (
     input: ListQuickResponsesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListQuickResponsesResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2859,7 +2859,7 @@ export const listQuickResponses: {
   >;
   pages: (
     input: ListQuickResponsesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListQuickResponsesResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2869,7 +2869,7 @@ export const listQuickResponses: {
   >;
   items: (
     input: ListQuickResponsesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     QuickResponseSummary,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2897,7 +2897,7 @@ export const listQuickResponses: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   ResourceNotFoundException | TooManyTagsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2911,7 +2911,7 @@ export const tagResource: (
  */
 export const getSession: (
   input: GetSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSessionResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2936,7 +2936,7 @@ export const getSession: (
  */
 export const updateKnowledgeBaseTemplateUri: (
   input: UpdateKnowledgeBaseTemplateUriRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateKnowledgeBaseTemplateUriResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2957,7 +2957,7 @@ export const updateKnowledgeBaseTemplateUri: (
  */
 export const getContent: (
   input: GetContentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContentResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2979,7 +2979,7 @@ export const getContent: (
 export const listContents: {
   (
     input: ListContentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListContentsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2989,7 +2989,7 @@ export const listContents: {
   >;
   pages: (
     input: ListContentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListContentsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2999,7 +2999,7 @@ export const listContents: {
   >;
   items: (
     input: ListContentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ContentSummary,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -3027,7 +3027,7 @@ export const listContents: {
  */
 export const getContentSummary: (
   input: GetContentSummaryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContentSummaryResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3048,7 +3048,7 @@ export const getContentSummary: (
  */
 export const deleteAssistantAssociation: (
   input: DeleteAssistantAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAssistantAssociationResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3069,7 +3069,7 @@ export const deleteAssistantAssociation: (
  */
 export const removeKnowledgeBaseTemplateUri: (
   input: RemoveKnowledgeBaseTemplateUriRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveKnowledgeBaseTemplateUriResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3090,7 +3090,7 @@ export const removeKnowledgeBaseTemplateUri: (
  */
 export const deleteContent: (
   input: DeleteContentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteContentResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3111,7 +3111,7 @@ export const deleteContent: (
  */
 export const deleteQuickResponse: (
   input: DeleteQuickResponseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteQuickResponseResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3139,7 +3139,7 @@ export const deleteQuickResponse: (
  */
 export const deleteKnowledgeBase: (
   input: DeleteKnowledgeBaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteKnowledgeBaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -3162,7 +3162,7 @@ export const deleteKnowledgeBase: (
  */
 export const deleteImportJob: (
   input: DeleteImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteImportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -3185,7 +3185,7 @@ export const deleteImportJob: (
  */
 export const getAssistant: (
   input: GetAssistantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAssistantResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3208,7 +3208,7 @@ export const getAssistant: (
 export const queryAssistant: {
   (
     input: QueryAssistantRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     QueryAssistantResponse,
     | AccessDeniedException
     | RequestTimeoutException
@@ -3219,7 +3219,7 @@ export const queryAssistant: {
   >;
   pages: (
     input: QueryAssistantRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     QueryAssistantResponse,
     | AccessDeniedException
     | RequestTimeoutException
@@ -3230,7 +3230,7 @@ export const queryAssistant: {
   >;
   items: (
     input: QueryAssistantRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResultData,
     | AccessDeniedException
     | RequestTimeoutException
@@ -3262,7 +3262,7 @@ export const queryAssistant: {
  */
 export const createSession: (
   input: CreateSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSessionResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -3279,7 +3279,7 @@ export const createSession: (
  */
 export const createAssistant: (
   input: CreateAssistantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAssistantResponse,
   | AccessDeniedException
   | ConflictException
@@ -3304,7 +3304,7 @@ export const createAssistant: (
  */
 export const createAssistantAssociation: (
   input: CreateAssistantAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAssistantAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3330,7 +3330,7 @@ export const createAssistantAssociation: (
  */
 export const createContent: (
   input: CreateContentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateContentResponse,
   | AccessDeniedException
   | ConflictException
@@ -3355,7 +3355,7 @@ export const createContent: (
  */
 export const createQuickResponse: (
   input: CreateQuickResponseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateQuickResponseResponse,
   | AccessDeniedException
   | ConflictException
@@ -3397,7 +3397,7 @@ export const createQuickResponse: (
  */
 export const createKnowledgeBase: (
   input: CreateKnowledgeBaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateKnowledgeBaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -3421,7 +3421,7 @@ export const createKnowledgeBase: (
 export const searchSessions: {
   (
     input: SearchSessionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchSessionsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -3431,7 +3431,7 @@ export const searchSessions: {
   >;
   pages: (
     input: SearchSessionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchSessionsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -3441,7 +3441,7 @@ export const searchSessions: {
   >;
   items: (
     input: SearchSessionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SessionSummary,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -3469,7 +3469,7 @@ export const searchSessions: {
  */
 export const getAssistantAssociation: (
   input: GetAssistantAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAssistantAssociationResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3491,7 +3491,7 @@ export const getAssistantAssociation: (
 export const searchQuickResponses: {
   (
     input: SearchQuickResponsesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchQuickResponsesResponse,
     | AccessDeniedException
     | RequestTimeoutException
@@ -3502,7 +3502,7 @@ export const searchQuickResponses: {
   >;
   pages: (
     input: SearchQuickResponsesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchQuickResponsesResponse,
     | AccessDeniedException
     | RequestTimeoutException
@@ -3513,7 +3513,7 @@ export const searchQuickResponses: {
   >;
   items: (
     input: SearchQuickResponsesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     QuickResponseSearchResultData,
     | AccessDeniedException
     | RequestTimeoutException
@@ -3546,7 +3546,7 @@ export const searchQuickResponses: {
  */
 export const startImportJob: (
   input: StartImportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartImportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -3571,7 +3571,7 @@ export const startImportJob: (
  */
 export const getQuickResponse: (
   input: GetQuickResponseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetQuickResponseResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3595,7 +3595,7 @@ export const getQuickResponse: (
  */
 export const getRecommendations: (
   input: GetRecommendationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRecommendationsResponse,
   | AccessDeniedException
   | ResourceNotFoundException

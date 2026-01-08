@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -96,6 +96,8 @@ export type FailureReason = string;
 export type HumanLoopArn = string;
 
 //# Schemas
+export type SortOrder = "Ascending" | "Descending";
+export const SortOrder = S.Literal("Ascending", "Descending");
 export interface DeleteHumanLoopRequest {
   HumanLoopName: string;
 }
@@ -139,8 +141,8 @@ export const DescribeHumanLoopRequest = S.suspend(() =>
 export interface ListHumanLoopsRequest {
   CreationTimeAfter?: Date;
   CreationTimeBefore?: Date;
-  FlowDefinitionArn: string;
-  SortOrder?: string;
+  FlowDefinitionArn?: string;
+  SortOrder?: SortOrder;
   NextToken?: string;
   MaxResults?: number;
 }
@@ -152,8 +154,10 @@ export const ListHumanLoopsRequest = S.suspend(() =>
     CreationTimeBefore: S.optional(
       S.Date.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.HttpQuery("CreationTimeBefore")),
-    FlowDefinitionArn: S.String.pipe(T.HttpQuery("FlowDefinitionArn")),
-    SortOrder: S.optional(S.String).pipe(T.HttpQuery("SortOrder")),
+    FlowDefinitionArn: S.optional(S.String).pipe(
+      T.HttpQuery("FlowDefinitionArn"),
+    ),
+    SortOrder: S.optional(SortOrder).pipe(T.HttpQuery("SortOrder")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
   }).pipe(
@@ -170,10 +174,10 @@ export const ListHumanLoopsRequest = S.suspend(() =>
   identifier: "ListHumanLoopsRequest",
 }) as any as S.Schema<ListHumanLoopsRequest>;
 export interface StopHumanLoopRequest {
-  HumanLoopName: string;
+  HumanLoopName?: string;
 }
 export const StopHumanLoopRequest = S.suspend(() =>
-  S.Struct({ HumanLoopName: S.String }).pipe(
+  S.Struct({ HumanLoopName: S.optional(S.String) }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/human-loops/stop" }),
       svc,
@@ -190,35 +194,55 @@ export interface StopHumanLoopResponse {}
 export const StopHumanLoopResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "StopHumanLoopResponse",
 }) as any as S.Schema<StopHumanLoopResponse>;
-export type ContentClassifiers = string[];
-export const ContentClassifiers = S.Array(S.String);
+export type ContentClassifier =
+  | "FreeOfPersonallyIdentifiableInformation"
+  | "FreeOfAdultContent";
+export const ContentClassifier = S.Literal(
+  "FreeOfPersonallyIdentifiableInformation",
+  "FreeOfAdultContent",
+);
+export type ContentClassifiers = ContentClassifier[];
+export const ContentClassifiers = S.Array(ContentClassifier);
+export type HumanLoopStatus =
+  | "InProgress"
+  | "Failed"
+  | "Completed"
+  | "Stopped"
+  | "Stopping";
+export const HumanLoopStatus = S.Literal(
+  "InProgress",
+  "Failed",
+  "Completed",
+  "Stopped",
+  "Stopping",
+);
 export interface HumanLoopInput {
-  InputContent: string;
+  InputContent?: string;
 }
 export const HumanLoopInput = S.suspend(() =>
-  S.Struct({ InputContent: S.String }),
+  S.Struct({ InputContent: S.optional(S.String) }),
 ).annotations({
   identifier: "HumanLoopInput",
 }) as any as S.Schema<HumanLoopInput>;
 export interface HumanLoopDataAttributes {
-  ContentClassifiers: ContentClassifiers;
+  ContentClassifiers?: ContentClassifier[];
 }
 export const HumanLoopDataAttributes = S.suspend(() =>
-  S.Struct({ ContentClassifiers: ContentClassifiers }),
+  S.Struct({ ContentClassifiers: S.optional(ContentClassifiers) }),
 ).annotations({
   identifier: "HumanLoopDataAttributes",
 }) as any as S.Schema<HumanLoopDataAttributes>;
 export interface StartHumanLoopRequest {
-  HumanLoopName: string;
-  FlowDefinitionArn: string;
-  HumanLoopInput: HumanLoopInput;
+  HumanLoopName?: string;
+  FlowDefinitionArn?: string;
+  HumanLoopInput?: HumanLoopInput;
   DataAttributes?: HumanLoopDataAttributes;
 }
 export const StartHumanLoopRequest = S.suspend(() =>
   S.Struct({
-    HumanLoopName: S.String,
-    FlowDefinitionArn: S.String,
-    HumanLoopInput: HumanLoopInput,
+    HumanLoopName: S.optional(S.String),
+    FlowDefinitionArn: S.optional(S.String),
+    HumanLoopInput: S.optional(HumanLoopInput),
     DataAttributes: S.optional(HumanLoopDataAttributes),
   }).pipe(
     T.all(
@@ -234,16 +258,16 @@ export const StartHumanLoopRequest = S.suspend(() =>
   identifier: "StartHumanLoopRequest",
 }) as any as S.Schema<StartHumanLoopRequest>;
 export interface HumanLoopOutput {
-  OutputS3Uri: string;
+  OutputS3Uri?: string;
 }
 export const HumanLoopOutput = S.suspend(() =>
-  S.Struct({ OutputS3Uri: S.String }),
+  S.Struct({ OutputS3Uri: S.optional(S.String) }),
 ).annotations({
   identifier: "HumanLoopOutput",
 }) as any as S.Schema<HumanLoopOutput>;
 export interface HumanLoopSummary {
   HumanLoopName?: string;
-  HumanLoopStatus?: string;
+  HumanLoopStatus?: HumanLoopStatus;
   CreationTime?: Date;
   FailureReason?: string;
   FlowDefinitionArn?: string;
@@ -251,7 +275,7 @@ export interface HumanLoopSummary {
 export const HumanLoopSummary = S.suspend(() =>
   S.Struct({
     HumanLoopName: S.optional(S.String),
-    HumanLoopStatus: S.optional(S.String),
+    HumanLoopStatus: S.optional(HumanLoopStatus),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     FailureReason: S.optional(S.String),
     FlowDefinitionArn: S.optional(S.String),
@@ -262,36 +286,36 @@ export const HumanLoopSummary = S.suspend(() =>
 export type HumanLoopSummaries = HumanLoopSummary[];
 export const HumanLoopSummaries = S.Array(HumanLoopSummary);
 export interface DescribeHumanLoopResponse {
-  CreationTime: Date;
+  CreationTime?: Date;
   FailureReason?: string;
   FailureCode?: string;
-  HumanLoopStatus: string;
-  HumanLoopName: string;
-  HumanLoopArn: string;
-  FlowDefinitionArn: string;
+  HumanLoopStatus?: HumanLoopStatus;
+  HumanLoopName?: string;
+  HumanLoopArn?: string;
+  FlowDefinitionArn?: string;
   HumanLoopOutput?: HumanLoopOutput;
 }
 export const DescribeHumanLoopResponse = S.suspend(() =>
   S.Struct({
-    CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     FailureReason: S.optional(S.String),
     FailureCode: S.optional(S.String),
-    HumanLoopStatus: S.String,
-    HumanLoopName: S.String,
-    HumanLoopArn: S.String,
-    FlowDefinitionArn: S.String,
+    HumanLoopStatus: S.optional(HumanLoopStatus),
+    HumanLoopName: S.optional(S.String),
+    HumanLoopArn: S.optional(S.String),
+    FlowDefinitionArn: S.optional(S.String),
     HumanLoopOutput: S.optional(HumanLoopOutput),
   }),
 ).annotations({
   identifier: "DescribeHumanLoopResponse",
 }) as any as S.Schema<DescribeHumanLoopResponse>;
 export interface ListHumanLoopsResponse {
-  HumanLoopSummaries: HumanLoopSummaries;
+  HumanLoopSummaries?: HumanLoopSummary[];
   NextToken?: string;
 }
 export const ListHumanLoopsResponse = S.suspend(() =>
   S.Struct({
-    HumanLoopSummaries: HumanLoopSummaries,
+    HumanLoopSummaries: S.optional(HumanLoopSummaries),
     NextToken: S.optional(S.String),
   }),
 ).annotations({
@@ -341,7 +365,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  */
 export const deleteHumanLoop: (
   input: DeleteHumanLoopRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteHumanLoopResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -364,7 +388,7 @@ export const deleteHumanLoop: (
  */
 export const startHumanLoop: (
   input: StartHumanLoopRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartHumanLoopResponse,
   | ConflictException
   | InternalServerException
@@ -390,7 +414,7 @@ export const startHumanLoop: (
  */
 export const describeHumanLoop: (
   input: DescribeHumanLoopRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeHumanLoopResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -414,7 +438,7 @@ export const describeHumanLoop: (
 export const listHumanLoops: {
   (
     input: ListHumanLoopsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListHumanLoopsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -425,7 +449,7 @@ export const listHumanLoops: {
   >;
   pages: (
     input: ListHumanLoopsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListHumanLoopsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -436,7 +460,7 @@ export const listHumanLoops: {
   >;
   items: (
     input: ListHumanLoopsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     HumanLoopSummary,
     | InternalServerException
     | ResourceNotFoundException
@@ -466,7 +490,7 @@ export const listHumanLoops: {
  */
 export const stopHumanLoop: (
   input: StopHumanLoopRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopHumanLoopResponse,
   | InternalServerException
   | ResourceNotFoundException

@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -151,12 +151,35 @@ export type ExportFilterOutputDataType = string;
 export type ExportFilterSourcePropertyName = string;
 
 //# Schemas
+export type QueryLanguage = "OPEN_CYPHER";
+export const QueryLanguage = S.Literal("OPEN_CYPHER");
+export type PlanCacheType = "ENABLED" | "DISABLED" | "AUTO";
+export const PlanCacheType = S.Literal("ENABLED", "DISABLED", "AUTO");
+export type ExplainMode = "STATIC" | "DETAILS";
+export const ExplainMode = S.Literal("STATIC", "DETAILS");
+export type GraphSummaryMode = "BASIC" | "DETAILED";
+export const GraphSummaryMode = S.Literal("BASIC", "DETAILED");
+export type QueryStateInput = "ALL" | "RUNNING" | "WAITING" | "CANCELLING";
+export const QueryStateInput = S.Literal(
+  "ALL",
+  "RUNNING",
+  "WAITING",
+  "CANCELLING",
+);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export type SubnetIds = string[];
 export const SubnetIds = S.Array(S.String);
 export type SecurityGroupIds = string[];
 export const SecurityGroupIds = S.Array(S.String);
+export type Format = "CSV" | "OPEN_CYPHER" | "PARQUET" | "NTRIPLES";
+export const Format = S.Literal("CSV", "OPEN_CYPHER", "PARQUET", "NTRIPLES");
+export type ParquetType = "COLUMNAR";
+export const ParquetType = S.Literal("COLUMNAR");
+export type BlankNodeHandling = "convertToIri";
+export const BlankNodeHandling = S.Literal("convertToIri");
+export type ExportFormat = "PARQUET" | "CSV";
+export const ExportFormat = S.Literal("PARQUET", "CSV");
 export interface CancelQueryInput {
   graphIdentifier: string;
   queryId: string;
@@ -188,7 +211,7 @@ export const CancelQueryResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<CancelQueryResponse>;
 export interface GetGraphSummaryInput {
   graphIdentifier: string;
-  mode?: string;
+  mode?: GraphSummaryMode;
 }
 export const GetGraphSummaryInput = S.suspend(() =>
   S.Struct({
@@ -196,7 +219,7 @@ export const GetGraphSummaryInput = S.suspend(() =>
       T.HttpHeader("graphIdentifier"),
       T.HostLabel(),
     ),
-    mode: S.optional(S.String).pipe(T.HttpQuery("mode")),
+    mode: S.optional(GraphSummaryMode).pipe(T.HttpQuery("mode")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/summary" }),
@@ -239,7 +262,7 @@ export const GetQueryInput = S.suspend(() =>
 export interface ListQueriesInput {
   graphIdentifier: string;
   maxResults: number;
-  state?: string;
+  state?: QueryStateInput;
 }
 export const ListQueriesInput = S.suspend(() =>
   S.Struct({
@@ -248,7 +271,7 @@ export const ListQueriesInput = S.suspend(() =>
       T.HostLabel(),
     ),
     maxResults: S.Number.pipe(T.HttpQuery("maxResults")),
-    state: S.optional(S.String).pipe(T.HttpQuery("state")),
+    state: S.optional(QueryStateInput).pipe(T.HttpQuery("state")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/queries" }),
@@ -283,7 +306,7 @@ export const ListTagsForResourceInput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceInput>;
 export interface UntagResourceInput {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({
@@ -400,7 +423,7 @@ export interface RestoreGraphFromSnapshotInput {
   graphName: string;
   provisionedMemory?: number;
   deletionProtection?: boolean;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   replicaCount?: number;
   publicConnectivity?: boolean;
 }
@@ -499,8 +522,8 @@ export const UpdateGraphInput = S.suspend(() =>
 export interface CreatePrivateGraphEndpointInput {
   graphIdentifier: string;
   vpcId?: string;
-  subnetIds?: SubnetIds;
-  vpcSecurityGroupIds?: SecurityGroupIds;
+  subnetIds?: string[];
+  vpcSecurityGroupIds?: string[];
 }
 export const CreatePrivateGraphEndpointInput = S.suspend(() =>
   S.Struct({
@@ -599,7 +622,7 @@ export const ListPrivateGraphEndpointsInput = S.suspend(() =>
 export interface CreateGraphSnapshotInput {
   graphIdentifier: string;
   snapshotName: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateGraphSnapshotInput = S.suspend(() =>
   S.Struct({
@@ -831,12 +854,12 @@ export const ImportOptions = S.Union(
   S.Struct({ neptune: NeptuneImportOptions }),
 );
 export interface StartImportTaskInput {
-  importOptions?: (typeof ImportOptions)["Type"];
+  importOptions?: ImportOptions;
   failOnError?: boolean;
   source: string;
-  format?: string;
-  parquetType?: string;
-  blankNodeHandling?: string;
+  format?: Format;
+  parquetType?: ParquetType;
+  blankNodeHandling?: BlankNodeHandling;
   graphIdentifier: string;
   roleArn: string;
 }
@@ -845,9 +868,9 @@ export const StartImportTaskInput = S.suspend(() =>
     importOptions: S.optional(ImportOptions),
     failOnError: S.optional(S.Boolean),
     source: S.String,
-    format: S.optional(S.String),
-    parquetType: S.optional(S.String),
-    blankNodeHandling: S.optional(S.String),
+    format: S.optional(Format),
+    parquetType: S.optional(ParquetType),
+    blankNodeHandling: S.optional(BlankNodeHandling),
     graphIdentifier: S.String.pipe(T.HttpLabel("graphIdentifier")),
     roleArn: S.String,
   }).pipe(
@@ -866,6 +889,8 @@ export const StartImportTaskInput = S.suspend(() =>
 }) as any as S.Schema<StartImportTaskInput>;
 export type DocumentValuedMap = { [key: string]: any };
 export const DocumentValuedMap = S.Record({ key: S.String, value: S.Any });
+export type QueryState = "RUNNING" | "WAITING" | "CANCELLING";
+export const QueryState = S.Literal("RUNNING", "WAITING", "CANCELLING");
 export interface VectorSearchConfiguration {
   dimension: number;
 }
@@ -874,13 +899,98 @@ export const VectorSearchConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "VectorSearchConfiguration",
 }) as any as S.Schema<VectorSearchConfiguration>;
+export type GraphStatus =
+  | "CREATING"
+  | "AVAILABLE"
+  | "DELETING"
+  | "RESETTING"
+  | "UPDATING"
+  | "SNAPSHOTTING"
+  | "FAILED"
+  | "IMPORTING"
+  | "STARTING"
+  | "STOPPING"
+  | "STOPPED";
+export const GraphStatus = S.Literal(
+  "CREATING",
+  "AVAILABLE",
+  "DELETING",
+  "RESETTING",
+  "UPDATING",
+  "SNAPSHOTTING",
+  "FAILED",
+  "IMPORTING",
+  "STARTING",
+  "STOPPING",
+  "STOPPED",
+);
+export type PrivateGraphEndpointStatus =
+  | "CREATING"
+  | "AVAILABLE"
+  | "DELETING"
+  | "FAILED";
+export const PrivateGraphEndpointStatus = S.Literal(
+  "CREATING",
+  "AVAILABLE",
+  "DELETING",
+  "FAILED",
+);
+export type SnapshotStatus = "CREATING" | "AVAILABLE" | "DELETING" | "FAILED";
+export const SnapshotStatus = S.Literal(
+  "CREATING",
+  "AVAILABLE",
+  "DELETING",
+  "FAILED",
+);
+export type ExportTaskStatus =
+  | "INITIALIZING"
+  | "EXPORTING"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "CANCELLING"
+  | "CANCELLED"
+  | "DELETED";
+export const ExportTaskStatus = S.Literal(
+  "INITIALIZING",
+  "EXPORTING",
+  "SUCCEEDED",
+  "FAILED",
+  "CANCELLING",
+  "CANCELLED",
+  "DELETED",
+);
+export type ImportTaskStatus =
+  | "INITIALIZING"
+  | "EXPORTING"
+  | "ANALYZING_DATA"
+  | "IMPORTING"
+  | "REPROVISIONING"
+  | "ROLLING_BACK"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "CANCELLING"
+  | "CANCELLED"
+  | "DELETED";
+export const ImportTaskStatus = S.Literal(
+  "INITIALIZING",
+  "EXPORTING",
+  "ANALYZING_DATA",
+  "IMPORTING",
+  "REPROVISIONING",
+  "ROLLING_BACK",
+  "SUCCEEDED",
+  "FAILED",
+  "CANCELLING",
+  "CANCELLED",
+  "DELETED",
+);
 export interface ExecuteQueryInput {
   graphIdentifier: string;
   queryString: string;
-  language: string;
-  parameters?: DocumentValuedMap;
-  planCache?: string;
-  explainMode?: string;
+  language: QueryLanguage;
+  parameters?: { [key: string]: any };
+  planCache?: PlanCacheType;
+  explainMode?: ExplainMode;
   queryTimeoutMilliseconds?: number;
 }
 export const ExecuteQueryInput = S.suspend(() =>
@@ -890,10 +1000,10 @@ export const ExecuteQueryInput = S.suspend(() =>
       T.HostLabel(),
     ),
     queryString: S.String.pipe(T.JsonName("query")),
-    language: S.String,
+    language: QueryLanguage,
     parameters: S.optional(DocumentValuedMap),
-    planCache: S.optional(S.String),
-    explainMode: S.optional(S.String).pipe(T.JsonName("explain")),
+    planCache: S.optional(PlanCacheType),
+    explainMode: S.optional(ExplainMode).pipe(T.JsonName("explain")),
     queryTimeoutMilliseconds: S.optional(S.Number),
   }).pipe(
     T.all(
@@ -914,7 +1024,7 @@ export interface GetQueryOutput {
   queryString?: string;
   waited?: number;
   elapsed?: number;
-  state?: string;
+  state?: QueryState;
 }
 export const GetQueryOutput = S.suspend(() =>
   S.Struct({
@@ -922,13 +1032,13 @@ export const GetQueryOutput = S.suspend(() =>
     queryString: S.optional(S.String),
     waited: S.optional(S.Number),
     elapsed: S.optional(S.Number),
-    state: S.optional(S.String),
+    state: S.optional(QueryState),
   }),
 ).annotations({
   identifier: "GetQueryOutput",
 }) as any as S.Schema<GetQueryOutput>;
 export interface ListTagsForResourceOutput {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -937,7 +1047,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -963,7 +1073,7 @@ export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceOutput>;
 export interface CreateGraphInput {
   graphName: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   publicConnectivity?: boolean;
   kmsKeyIdentifier?: string;
   vectorSearchConfiguration?: VectorSearchConfiguration;
@@ -999,7 +1109,7 @@ export interface DeleteGraphOutput {
   id: string;
   name: string;
   arn: string;
-  status?: string;
+  status?: GraphStatus;
   statusReason?: string;
   createTime?: Date;
   provisionedMemory?: number;
@@ -1017,7 +1127,7 @@ export const DeleteGraphOutput = S.suspend(() =>
     id: S.String,
     name: S.String,
     arn: S.String,
-    status: S.optional(S.String),
+    status: S.optional(GraphStatus),
     statusReason: S.optional(S.String),
     createTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     provisionedMemory: S.optional(S.Number),
@@ -1037,7 +1147,7 @@ export interface GetGraphOutput {
   id: string;
   name: string;
   arn: string;
-  status?: string;
+  status?: GraphStatus;
   statusReason?: string;
   createTime?: Date;
   provisionedMemory?: number;
@@ -1055,7 +1165,7 @@ export const GetGraphOutput = S.suspend(() =>
     id: S.String,
     name: S.String,
     arn: S.String,
-    status: S.optional(S.String),
+    status: S.optional(GraphStatus),
     statusReason: S.optional(S.String),
     createTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     provisionedMemory: S.optional(S.Number),
@@ -1075,7 +1185,7 @@ export interface ResetGraphOutput {
   id: string;
   name: string;
   arn: string;
-  status?: string;
+  status?: GraphStatus;
   statusReason?: string;
   createTime?: Date;
   provisionedMemory?: number;
@@ -1093,7 +1203,7 @@ export const ResetGraphOutput = S.suspend(() =>
     id: S.String,
     name: S.String,
     arn: S.String,
-    status: S.optional(S.String),
+    status: S.optional(GraphStatus),
     statusReason: S.optional(S.String),
     createTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     provisionedMemory: S.optional(S.Number),
@@ -1113,7 +1223,7 @@ export interface RestoreGraphFromSnapshotOutput {
   id: string;
   name: string;
   arn: string;
-  status?: string;
+  status?: GraphStatus;
   statusReason?: string;
   createTime?: Date;
   provisionedMemory?: number;
@@ -1131,7 +1241,7 @@ export const RestoreGraphFromSnapshotOutput = S.suspend(() =>
     id: S.String,
     name: S.String,
     arn: S.String,
-    status: S.optional(S.String),
+    status: S.optional(GraphStatus),
     statusReason: S.optional(S.String),
     createTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     provisionedMemory: S.optional(S.Number),
@@ -1151,7 +1261,7 @@ export interface StartGraphOutput {
   id: string;
   name: string;
   arn: string;
-  status?: string;
+  status?: GraphStatus;
   statusReason?: string;
   createTime?: Date;
   provisionedMemory?: number;
@@ -1169,7 +1279,7 @@ export const StartGraphOutput = S.suspend(() =>
     id: S.String,
     name: S.String,
     arn: S.String,
-    status: S.optional(S.String),
+    status: S.optional(GraphStatus),
     statusReason: S.optional(S.String),
     createTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     provisionedMemory: S.optional(S.Number),
@@ -1189,7 +1299,7 @@ export interface StopGraphOutput {
   id: string;
   name: string;
   arn: string;
-  status?: string;
+  status?: GraphStatus;
   statusReason?: string;
   createTime?: Date;
   provisionedMemory?: number;
@@ -1207,7 +1317,7 @@ export const StopGraphOutput = S.suspend(() =>
     id: S.String,
     name: S.String,
     arn: S.String,
-    status: S.optional(S.String),
+    status: S.optional(GraphStatus),
     statusReason: S.optional(S.String),
     createTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     provisionedMemory: S.optional(S.Number),
@@ -1227,7 +1337,7 @@ export interface UpdateGraphOutput {
   id: string;
   name: string;
   arn: string;
-  status?: string;
+  status?: GraphStatus;
   statusReason?: string;
   createTime?: Date;
   provisionedMemory?: number;
@@ -1245,7 +1355,7 @@ export const UpdateGraphOutput = S.suspend(() =>
     id: S.String,
     name: S.String,
     arn: S.String,
-    status: S.optional(S.String),
+    status: S.optional(GraphStatus),
     statusReason: S.optional(S.String),
     createTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     provisionedMemory: S.optional(S.Number),
@@ -1263,15 +1373,15 @@ export const UpdateGraphOutput = S.suspend(() =>
 }) as any as S.Schema<UpdateGraphOutput>;
 export interface CreatePrivateGraphEndpointOutput {
   vpcId: string;
-  subnetIds: SubnetIds;
-  status: string;
+  subnetIds: string[];
+  status: PrivateGraphEndpointStatus;
   vpcEndpointId?: string;
 }
 export const CreatePrivateGraphEndpointOutput = S.suspend(() =>
   S.Struct({
     vpcId: S.String,
     subnetIds: SubnetIds,
-    status: S.String,
+    status: PrivateGraphEndpointStatus,
     vpcEndpointId: S.optional(S.String),
   }),
 ).annotations({
@@ -1279,15 +1389,15 @@ export const CreatePrivateGraphEndpointOutput = S.suspend(() =>
 }) as any as S.Schema<CreatePrivateGraphEndpointOutput>;
 export interface DeletePrivateGraphEndpointOutput {
   vpcId: string;
-  subnetIds: SubnetIds;
-  status: string;
+  subnetIds: string[];
+  status: PrivateGraphEndpointStatus;
   vpcEndpointId?: string;
 }
 export const DeletePrivateGraphEndpointOutput = S.suspend(() =>
   S.Struct({
     vpcId: S.String,
     subnetIds: SubnetIds,
-    status: S.String,
+    status: PrivateGraphEndpointStatus,
     vpcEndpointId: S.optional(S.String),
   }),
 ).annotations({
@@ -1295,15 +1405,15 @@ export const DeletePrivateGraphEndpointOutput = S.suspend(() =>
 }) as any as S.Schema<DeletePrivateGraphEndpointOutput>;
 export interface GetPrivateGraphEndpointOutput {
   vpcId: string;
-  subnetIds: SubnetIds;
-  status: string;
+  subnetIds: string[];
+  status: PrivateGraphEndpointStatus;
   vpcEndpointId?: string;
 }
 export const GetPrivateGraphEndpointOutput = S.suspend(() =>
   S.Struct({
     vpcId: S.String,
     subnetIds: SubnetIds,
-    status: S.String,
+    status: PrivateGraphEndpointStatus,
     vpcEndpointId: S.optional(S.String),
   }),
 ).annotations({
@@ -1315,7 +1425,7 @@ export interface CreateGraphSnapshotOutput {
   arn: string;
   sourceGraphId?: string;
   snapshotCreateTime?: Date;
-  status?: string;
+  status?: SnapshotStatus;
   kmsKeyIdentifier?: string;
 }
 export const CreateGraphSnapshotOutput = S.suspend(() =>
@@ -1327,7 +1437,7 @@ export const CreateGraphSnapshotOutput = S.suspend(() =>
     snapshotCreateTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    status: S.optional(S.String),
+    status: S.optional(SnapshotStatus),
     kmsKeyIdentifier: S.optional(S.String),
   }),
 ).annotations({
@@ -1339,7 +1449,7 @@ export interface DeleteGraphSnapshotOutput {
   arn: string;
   sourceGraphId?: string;
   snapshotCreateTime?: Date;
-  status?: string;
+  status?: SnapshotStatus;
   kmsKeyIdentifier?: string;
 }
 export const DeleteGraphSnapshotOutput = S.suspend(() =>
@@ -1351,7 +1461,7 @@ export const DeleteGraphSnapshotOutput = S.suspend(() =>
     snapshotCreateTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    status: S.optional(S.String),
+    status: S.optional(SnapshotStatus),
     kmsKeyIdentifier: S.optional(S.String),
   }),
 ).annotations({
@@ -1363,7 +1473,7 @@ export interface GetGraphSnapshotOutput {
   arn: string;
   sourceGraphId?: string;
   snapshotCreateTime?: Date;
-  status?: string;
+  status?: SnapshotStatus;
   kmsKeyIdentifier?: string;
 }
 export const GetGraphSnapshotOutput = S.suspend(() =>
@@ -1375,7 +1485,7 @@ export const GetGraphSnapshotOutput = S.suspend(() =>
     snapshotCreateTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    status: S.optional(S.String),
+    status: S.optional(SnapshotStatus),
     kmsKeyIdentifier: S.optional(S.String),
   }),
 ).annotations({
@@ -1385,11 +1495,11 @@ export interface CancelExportTaskOutput {
   graphId: string;
   roleArn: string;
   taskId: string;
-  status: string;
-  format: string;
+  status: ExportTaskStatus;
+  format: ExportFormat;
   destination: string;
   kmsKeyIdentifier: string;
-  parquetType?: string;
+  parquetType?: ParquetType;
   statusReason?: string;
 }
 export const CancelExportTaskOutput = S.suspend(() =>
@@ -1397,11 +1507,11 @@ export const CancelExportTaskOutput = S.suspend(() =>
     graphId: S.String,
     roleArn: S.String,
     taskId: S.String,
-    status: S.String,
-    format: S.String,
+    status: ExportTaskStatus,
+    format: ExportFormat,
     destination: S.String,
     kmsKeyIdentifier: S.String,
-    parquetType: S.optional(S.String),
+    parquetType: S.optional(ParquetType),
     statusReason: S.optional(S.String),
   }),
 ).annotations({
@@ -1411,20 +1521,20 @@ export interface CancelImportTaskOutput {
   graphId?: string;
   taskId: string;
   source: string;
-  format?: string;
-  parquetType?: string;
+  format?: Format;
+  parquetType?: ParquetType;
   roleArn: string;
-  status: string;
+  status: ImportTaskStatus;
 }
 export const CancelImportTaskOutput = S.suspend(() =>
   S.Struct({
     graphId: S.optional(S.String),
     taskId: S.String,
     source: S.String,
-    format: S.optional(S.String),
-    parquetType: S.optional(S.String),
+    format: S.optional(Format),
+    parquetType: S.optional(ParquetType),
     roleArn: S.String,
-    status: S.String,
+    status: ImportTaskStatus,
   }),
 ).annotations({
   identifier: "CancelImportTaskOutput",
@@ -1433,21 +1543,21 @@ export interface StartImportTaskOutput {
   graphId?: string;
   taskId: string;
   source: string;
-  format?: string;
-  parquetType?: string;
+  format?: Format;
+  parquetType?: ParquetType;
   roleArn: string;
-  status: string;
-  importOptions?: (typeof ImportOptions)["Type"];
+  status: ImportTaskStatus;
+  importOptions?: ImportOptions;
 }
 export const StartImportTaskOutput = S.suspend(() =>
   S.Struct({
     graphId: S.optional(S.String),
     taskId: S.String,
     source: S.String,
-    format: S.optional(S.String),
-    parquetType: S.optional(S.String),
+    format: S.optional(Format),
+    parquetType: S.optional(ParquetType),
     roleArn: S.String,
-    status: S.String,
+    status: ImportTaskStatus,
     importOptions: S.optional(ImportOptions),
   }),
 ).annotations({
@@ -1462,7 +1572,7 @@ export interface QuerySummary {
   queryString?: string;
   waited?: number;
   elapsed?: number;
-  state?: string;
+  state?: QueryState;
 }
 export const QuerySummary = S.suspend(() =>
   S.Struct({
@@ -1470,16 +1580,18 @@ export const QuerySummary = S.suspend(() =>
     queryString: S.optional(S.String),
     waited: S.optional(S.Number),
     elapsed: S.optional(S.Number),
-    state: S.optional(S.String),
+    state: S.optional(QueryState),
   }),
 ).annotations({ identifier: "QuerySummary" }) as any as S.Schema<QuerySummary>;
 export type QuerySummaryList = QuerySummary[];
 export const QuerySummaryList = S.Array(QuerySummary);
+export type ConflictExceptionReason = "CONCURRENT_MODIFICATION";
+export const ConflictExceptionReason = S.Literal("CONCURRENT_MODIFICATION");
 export interface GraphSummary {
   id: string;
   name: string;
   arn: string;
-  status?: string;
+  status?: GraphStatus;
   provisionedMemory?: number;
   publicConnectivity?: boolean;
   endpoint?: string;
@@ -1492,7 +1604,7 @@ export const GraphSummary = S.suspend(() =>
     id: S.String,
     name: S.String,
     arn: S.String,
-    status: S.optional(S.String),
+    status: S.optional(GraphStatus),
     provisionedMemory: S.optional(S.Number),
     publicConnectivity: S.optional(S.Boolean),
     endpoint: S.optional(S.String),
@@ -1505,15 +1617,15 @@ export type GraphSummaryList = GraphSummary[];
 export const GraphSummaryList = S.Array(GraphSummary);
 export interface PrivateGraphEndpointSummary {
   vpcId: string;
-  subnetIds: SubnetIds;
-  status: string;
+  subnetIds: string[];
+  status: PrivateGraphEndpointStatus;
   vpcEndpointId?: string;
 }
 export const PrivateGraphEndpointSummary = S.suspend(() =>
   S.Struct({
     vpcId: S.String,
     subnetIds: SubnetIds,
-    status: S.String,
+    status: PrivateGraphEndpointStatus,
     vpcEndpointId: S.optional(S.String),
   }),
 ).annotations({
@@ -1529,7 +1641,7 @@ export interface GraphSnapshotSummary {
   arn: string;
   sourceGraphId?: string;
   snapshotCreateTime?: Date;
-  status?: string;
+  status?: SnapshotStatus;
   kmsKeyIdentifier?: string;
 }
 export const GraphSnapshotSummary = S.suspend(() =>
@@ -1541,7 +1653,7 @@ export const GraphSnapshotSummary = S.suspend(() =>
     snapshotCreateTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    status: S.optional(S.String),
+    status: S.optional(SnapshotStatus),
     kmsKeyIdentifier: S.optional(S.String),
   }),
 ).annotations({
@@ -1595,11 +1707,11 @@ export interface ExportTaskSummary {
   graphId: string;
   roleArn: string;
   taskId: string;
-  status: string;
-  format: string;
+  status: ExportTaskStatus;
+  format: ExportFormat;
   destination: string;
   kmsKeyIdentifier: string;
-  parquetType?: string;
+  parquetType?: ParquetType;
   statusReason?: string;
 }
 export const ExportTaskSummary = S.suspend(() =>
@@ -1607,11 +1719,11 @@ export const ExportTaskSummary = S.suspend(() =>
     graphId: S.String,
     roleArn: S.String,
     taskId: S.String,
-    status: S.String,
-    format: S.String,
+    status: ExportTaskStatus,
+    format: ExportFormat,
     destination: S.String,
     kmsKeyIdentifier: S.String,
-    parquetType: S.optional(S.String),
+    parquetType: S.optional(ParquetType),
     statusReason: S.optional(S.String),
   }),
 ).annotations({
@@ -1623,20 +1735,20 @@ export interface ImportTaskSummary {
   graphId?: string;
   taskId: string;
   source: string;
-  format?: string;
-  parquetType?: string;
+  format?: Format;
+  parquetType?: ParquetType;
   roleArn: string;
-  status: string;
+  status: ImportTaskStatus;
 }
 export const ImportTaskSummary = S.suspend(() =>
   S.Struct({
     graphId: S.optional(S.String),
     taskId: S.String,
     source: S.String,
-    format: S.optional(S.String),
-    parquetType: S.optional(S.String),
+    format: S.optional(Format),
+    parquetType: S.optional(ParquetType),
     roleArn: S.String,
-    status: S.String,
+    status: ImportTaskStatus,
   }),
 ).annotations({
   identifier: "ImportTaskSummary",
@@ -1658,7 +1770,7 @@ export const ExecuteQueryOutput = S.suspend(() =>
   identifier: "ExecuteQueryOutput",
 }) as any as S.Schema<ExecuteQueryOutput>;
 export interface ListQueriesOutput {
-  queries: QuerySummaryList;
+  queries: QuerySummary[];
 }
 export const ListQueriesOutput = S.suspend(() =>
   S.Struct({ queries: QuerySummaryList }),
@@ -1669,7 +1781,7 @@ export interface CreateGraphOutput {
   id: string;
   name: string;
   arn: string;
-  status?: string;
+  status?: GraphStatus;
   statusReason?: string;
   createTime?: Date;
   provisionedMemory?: number;
@@ -1687,7 +1799,7 @@ export const CreateGraphOutput = S.suspend(() =>
     id: S.String,
     name: S.String,
     arn: S.String,
-    status: S.optional(S.String),
+    status: S.optional(GraphStatus),
     statusReason: S.optional(S.String),
     createTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     provisionedMemory: S.optional(S.Number),
@@ -1704,7 +1816,7 @@ export const CreateGraphOutput = S.suspend(() =>
   identifier: "CreateGraphOutput",
 }) as any as S.Schema<CreateGraphOutput>;
 export interface ListGraphsOutput {
-  graphs: GraphSummaryList;
+  graphs: GraphSummary[];
   nextToken?: string;
 }
 export const ListGraphsOutput = S.suspend(() =>
@@ -1713,7 +1825,7 @@ export const ListGraphsOutput = S.suspend(() =>
   identifier: "ListGraphsOutput",
 }) as any as S.Schema<ListGraphsOutput>;
 export interface ListPrivateGraphEndpointsOutput {
-  privateGraphEndpoints: PrivateGraphEndpointSummaryList;
+  privateGraphEndpoints: PrivateGraphEndpointSummary[];
   nextToken?: string;
 }
 export const ListPrivateGraphEndpointsOutput = S.suspend(() =>
@@ -1725,7 +1837,7 @@ export const ListPrivateGraphEndpointsOutput = S.suspend(() =>
   identifier: "ListPrivateGraphEndpointsOutput",
 }) as any as S.Schema<ListPrivateGraphEndpointsOutput>;
 export interface ListGraphSnapshotsOutput {
-  graphSnapshots: GraphSnapshotSummaryList;
+  graphSnapshots: GraphSnapshotSummary[];
   nextToken?: string;
 }
 export const ListGraphSnapshotsOutput = S.suspend(() =>
@@ -1738,20 +1850,20 @@ export const ListGraphSnapshotsOutput = S.suspend(() =>
 }) as any as S.Schema<ListGraphSnapshotsOutput>;
 export interface CreateGraphUsingImportTaskInput {
   graphName: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   publicConnectivity?: boolean;
   kmsKeyIdentifier?: string;
   vectorSearchConfiguration?: VectorSearchConfiguration;
   replicaCount?: number;
   deletionProtection?: boolean;
-  importOptions?: (typeof ImportOptions)["Type"];
+  importOptions?: ImportOptions;
   maxProvisionedMemory?: number;
   minProvisionedMemory?: number;
   failOnError?: boolean;
   source: string;
-  format?: string;
-  parquetType?: string;
-  blankNodeHandling?: string;
+  format?: Format;
+  parquetType?: ParquetType;
+  blankNodeHandling?: BlankNodeHandling;
   roleArn: string;
 }
 export const CreateGraphUsingImportTaskInput = S.suspend(() =>
@@ -1768,9 +1880,9 @@ export const CreateGraphUsingImportTaskInput = S.suspend(() =>
     minProvisionedMemory: S.optional(S.Number),
     failOnError: S.optional(S.Boolean),
     source: S.String,
-    format: S.optional(S.String),
-    parquetType: S.optional(S.String),
-    blankNodeHandling: S.optional(S.String),
+    format: S.optional(Format),
+    parquetType: S.optional(ParquetType),
+    blankNodeHandling: S.optional(BlankNodeHandling),
     roleArn: S.String,
   }).pipe(
     T.all(
@@ -1786,16 +1898,18 @@ export const CreateGraphUsingImportTaskInput = S.suspend(() =>
 ).annotations({
   identifier: "CreateGraphUsingImportTaskInput",
 }) as any as S.Schema<CreateGraphUsingImportTaskInput>;
+export type MultiValueHandlingType = "TO_LIST" | "PICK_FIRST";
+export const MultiValueHandlingType = S.Literal("TO_LIST", "PICK_FIRST");
 export interface ExportFilterPropertyAttributes {
   outputType?: string;
   sourcePropertyName?: string;
-  multiValueHandling?: string;
+  multiValueHandling?: MultiValueHandlingType;
 }
 export const ExportFilterPropertyAttributes = S.suspend(() =>
   S.Struct({
     outputType: S.optional(S.String),
     sourcePropertyName: S.optional(S.String),
-    multiValueHandling: S.optional(S.String),
+    multiValueHandling: S.optional(MultiValueHandlingType),
   }),
 ).annotations({
   identifier: "ExportFilterPropertyAttributes",
@@ -1808,7 +1922,7 @@ export const ExportFilterPropertyMap = S.Record({
   value: ExportFilterPropertyAttributes,
 });
 export interface ExportFilterElement {
-  properties?: ExportFilterPropertyMap;
+  properties?: { [key: string]: ExportFilterPropertyAttributes };
 }
 export const ExportFilterElement = S.suspend(() =>
   S.Struct({ properties: S.optional(ExportFilterPropertyMap) }),
@@ -1821,8 +1935,8 @@ export const ExportFilterPerLabelMap = S.Record({
   value: ExportFilterElement,
 });
 export interface ExportFilter {
-  vertexFilter?: ExportFilterPerLabelMap;
-  edgeFilter?: ExportFilterPerLabelMap;
+  vertexFilter?: { [key: string]: ExportFilterElement };
+  edgeFilter?: { [key: string]: ExportFilterElement };
 }
 export const ExportFilter = S.suspend(() =>
   S.Struct({
@@ -1834,11 +1948,11 @@ export interface GetExportTaskOutput {
   graphId: string;
   roleArn: string;
   taskId: string;
-  status: string;
-  format: string;
+  status: ExportTaskStatus;
+  format: ExportFormat;
   destination: string;
   kmsKeyIdentifier: string;
-  parquetType?: string;
+  parquetType?: ParquetType;
   statusReason?: string;
   exportTaskDetails?: ExportTaskDetails;
   exportFilter?: ExportFilter;
@@ -1848,11 +1962,11 @@ export const GetExportTaskOutput = S.suspend(() =>
     graphId: S.String,
     roleArn: S.String,
     taskId: S.String,
-    status: S.String,
-    format: S.String,
+    status: ExportTaskStatus,
+    format: ExportFormat,
     destination: S.String,
     kmsKeyIdentifier: S.String,
-    parquetType: S.optional(S.String),
+    parquetType: S.optional(ParquetType),
     statusReason: S.optional(S.String),
     exportTaskDetails: S.optional(ExportTaskDetails),
     exportFilter: S.optional(ExportFilter),
@@ -1864,11 +1978,11 @@ export interface GetImportTaskOutput {
   graphId?: string;
   taskId: string;
   source: string;
-  format?: string;
-  parquetType?: string;
+  format?: Format;
+  parquetType?: ParquetType;
   roleArn: string;
-  status: string;
-  importOptions?: (typeof ImportOptions)["Type"];
+  status: ImportTaskStatus;
+  importOptions?: ImportOptions;
   importTaskDetails?: ImportTaskDetails;
   attemptNumber?: number;
   statusReason?: string;
@@ -1878,10 +1992,10 @@ export const GetImportTaskOutput = S.suspend(() =>
     graphId: S.optional(S.String),
     taskId: S.String,
     source: S.String,
-    format: S.optional(S.String),
-    parquetType: S.optional(S.String),
+    format: S.optional(Format),
+    parquetType: S.optional(ParquetType),
     roleArn: S.String,
-    status: S.String,
+    status: ImportTaskStatus,
     importOptions: S.optional(ImportOptions),
     importTaskDetails: S.optional(ImportTaskDetails),
     attemptNumber: S.optional(S.Number),
@@ -1891,7 +2005,7 @@ export const GetImportTaskOutput = S.suspend(() =>
   identifier: "GetImportTaskOutput",
 }) as any as S.Schema<GetImportTaskOutput>;
 export interface ListExportTasksOutput {
-  tasks: ExportTaskSummaryList;
+  tasks: ExportTaskSummary[];
   nextToken?: string;
 }
 export const ListExportTasksOutput = S.suspend(() =>
@@ -1900,7 +2014,7 @@ export const ListExportTasksOutput = S.suspend(() =>
   identifier: "ListExportTasksOutput",
 }) as any as S.Schema<ListExportTasksOutput>;
 export interface ListImportTasksOutput {
-  tasks: ImportTaskSummaryList;
+  tasks: ImportTaskSummary[];
   nextToken?: string;
 }
 export const ListImportTasksOutput = S.suspend(() =>
@@ -1910,12 +2024,12 @@ export const ListImportTasksOutput = S.suspend(() =>
 }) as any as S.Schema<ListImportTasksOutput>;
 export type LongValuedMap = { [key: string]: number };
 export const LongValuedMap = S.Record({ key: S.String, value: S.Number });
-export type LongValuedMapList = LongValuedMap[];
+export type LongValuedMapList = { [key: string]: number }[];
 export const LongValuedMapList = S.Array(LongValuedMap);
 export interface NodeStructure {
   count?: number;
-  nodeProperties?: NodeProperties;
-  distinctOutgoingEdgeLabels?: OutgoingEdgeLabels;
+  nodeProperties?: string[];
+  distinctOutgoingEdgeLabels?: string[];
 }
 export const NodeStructure = S.suspend(() =>
   S.Struct({
@@ -1930,7 +2044,7 @@ export type NodeStructures = NodeStructure[];
 export const NodeStructures = S.Array(NodeStructure);
 export interface EdgeStructure {
   count?: number;
-  edgeProperties?: EdgeProperties;
+  edgeProperties?: string[];
 }
 export const EdgeStructure = S.suspend(() =>
   S.Struct({
@@ -1947,16 +2061,16 @@ export interface GraphDataSummary {
   numEdges?: number;
   numNodeLabels?: number;
   numEdgeLabels?: number;
-  nodeLabels?: NodeLabels;
-  edgeLabels?: EdgeLabels;
+  nodeLabels?: string[];
+  edgeLabels?: string[];
   numNodeProperties?: number;
   numEdgeProperties?: number;
-  nodeProperties?: LongValuedMapList;
-  edgeProperties?: LongValuedMapList;
+  nodeProperties?: { [key: string]: number }[];
+  edgeProperties?: { [key: string]: number }[];
   totalNodePropertyValues?: number;
   totalEdgePropertyValues?: number;
-  nodeStructures?: NodeStructures;
-  edgeStructures?: EdgeStructures;
+  nodeStructures?: NodeStructure[];
+  edgeStructures?: EdgeStructure[];
 }
 export const GraphDataSummary = S.suspend(() =>
   S.Struct({
@@ -1998,44 +2112,74 @@ export interface CreateGraphUsingImportTaskOutput {
   graphId?: string;
   taskId: string;
   source: string;
-  format?: string;
-  parquetType?: string;
+  format?: Format;
+  parquetType?: ParquetType;
   roleArn: string;
-  status: string;
-  importOptions?: (typeof ImportOptions)["Type"];
+  status: ImportTaskStatus;
+  importOptions?: ImportOptions;
 }
 export const CreateGraphUsingImportTaskOutput = S.suspend(() =>
   S.Struct({
     graphId: S.optional(S.String),
     taskId: S.String,
     source: S.String,
-    format: S.optional(S.String),
-    parquetType: S.optional(S.String),
+    format: S.optional(Format),
+    parquetType: S.optional(ParquetType),
     roleArn: S.String,
-    status: S.String,
+    status: ImportTaskStatus,
     importOptions: S.optional(ImportOptions),
   }),
 ).annotations({
   identifier: "CreateGraphUsingImportTaskOutput",
 }) as any as S.Schema<CreateGraphUsingImportTaskOutput>;
+export type ValidationExceptionReason =
+  | "CONSTRAINT_VIOLATION"
+  | "ILLEGAL_ARGUMENT"
+  | "MALFORMED_QUERY"
+  | "QUERY_CANCELLED"
+  | "QUERY_TOO_LARGE"
+  | "UNSUPPORTED_OPERATION"
+  | "BAD_REQUEST";
+export const ValidationExceptionReason = S.Literal(
+  "CONSTRAINT_VIOLATION",
+  "ILLEGAL_ARGUMENT",
+  "MALFORMED_QUERY",
+  "QUERY_CANCELLED",
+  "QUERY_TOO_LARGE",
+  "UNSUPPORTED_OPERATION",
+  "BAD_REQUEST",
+);
+export type UnprocessableExceptionReason =
+  | "QUERY_TIMEOUT"
+  | "INTERNAL_LIMIT_EXCEEDED"
+  | "MEMORY_LIMIT_EXCEEDED"
+  | "STORAGE_LIMIT_EXCEEDED"
+  | "PARTITION_FULL";
+export const UnprocessableExceptionReason = S.Literal(
+  "QUERY_TIMEOUT",
+  "INTERNAL_LIMIT_EXCEEDED",
+  "MEMORY_LIMIT_EXCEEDED",
+  "STORAGE_LIMIT_EXCEEDED",
+  "PARTITION_FULL",
+);
 export interface StartExportTaskInput {
   graphIdentifier: string;
   roleArn: string;
-  format: string;
+  format: ExportFormat;
   destination: string;
   kmsKeyIdentifier: string;
-  parquetType?: string;
+  parquetType?: ParquetType;
   exportFilter?: ExportFilter;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const StartExportTaskInput = S.suspend(() =>
   S.Struct({
     graphIdentifier: S.String,
     roleArn: S.String,
-    format: S.String,
+    format: ExportFormat,
     destination: S.String,
     kmsKeyIdentifier: S.String,
-    parquetType: S.optional(S.String),
+    parquetType: S.optional(ParquetType),
     exportFilter: S.optional(ExportFilter),
     tags: S.optional(TagMap),
   }).pipe(
@@ -2056,11 +2200,11 @@ export interface StartExportTaskOutput {
   graphId: string;
   roleArn: string;
   taskId: string;
-  status: string;
-  format: string;
+  status: ExportTaskStatus;
+  format: ExportFormat;
   destination: string;
   kmsKeyIdentifier: string;
-  parquetType?: string;
+  parquetType?: ParquetType;
   statusReason?: string;
   exportFilter?: ExportFilter;
 }
@@ -2069,11 +2213,11 @@ export const StartExportTaskOutput = S.suspend(() =>
     graphId: S.String,
     roleArn: S.String,
     taskId: S.String,
-    status: S.String,
-    format: S.String,
+    status: ExportTaskStatus,
+    format: ExportFormat,
     destination: S.String,
     kmsKeyIdentifier: S.String,
-    parquetType: S.optional(S.String),
+    parquetType: S.optional(ParquetType),
     statusReason: S.optional(S.String),
     exportFilter: S.optional(ExportFilter),
   }),
@@ -2097,7 +2241,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 ).pipe(C.withBadRequestError) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  { message: S.String, reason: S.optional(S.String) },
+  { message: S.String, reason: S.optional(ConflictExceptionReason) },
 ).pipe(C.withConflictError) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
@@ -2116,11 +2260,11 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 ).pipe(C.withQuotaError) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  { message: S.String, reason: S.optional(S.String) },
+  { message: S.String, reason: S.optional(ValidationExceptionReason) },
 ).pipe(C.withBadRequestError) {}
 export class UnprocessableException extends S.TaggedError<UnprocessableException>()(
   "UnprocessableException",
-  { message: S.String, reason: S.String },
+  { message: S.String, reason: UnprocessableExceptionReason },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
@@ -2130,7 +2274,7 @@ export class UnprocessableException extends S.TaggedError<UnprocessableException
 export const listGraphs: {
   (
     input: ListGraphsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGraphsOutput,
     | InternalServerException
     | ResourceNotFoundException
@@ -2140,7 +2284,7 @@ export const listGraphs: {
   >;
   pages: (
     input: ListGraphsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGraphsOutput,
     | InternalServerException
     | ResourceNotFoundException
@@ -2150,7 +2294,7 @@ export const listGraphs: {
   >;
   items: (
     input: ListGraphsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GraphSummary,
     | InternalServerException
     | ResourceNotFoundException
@@ -2178,7 +2322,7 @@ export const listGraphs: {
  */
 export const listQueries: (
   input: ListQueriesInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListQueriesOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2209,7 +2353,7 @@ export const listQueries: (
  */
 export const executeQuery: (
   input: ExecuteQueryInput,
-) => Effect.Effect<
+) => effect.Effect<
   ExecuteQueryOutput,
   | AccessDeniedException
   | ConflictException
@@ -2236,7 +2380,7 @@ export const executeQuery: (
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -2259,7 +2403,7 @@ export const untagResource: (
  */
 export const deleteGraph: (
   input: DeleteGraphInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGraphOutput,
   | ConflictException
   | InternalServerException
@@ -2285,7 +2429,7 @@ export const deleteGraph: (
 export const listPrivateGraphEndpoints: {
   (
     input: ListPrivateGraphEndpointsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPrivateGraphEndpointsOutput,
     | InternalServerException
     | ResourceNotFoundException
@@ -2296,7 +2440,7 @@ export const listPrivateGraphEndpoints: {
   >;
   pages: (
     input: ListPrivateGraphEndpointsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPrivateGraphEndpointsOutput,
     | InternalServerException
     | ResourceNotFoundException
@@ -2307,7 +2451,7 @@ export const listPrivateGraphEndpoints: {
   >;
   items: (
     input: ListPrivateGraphEndpointsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PrivateGraphEndpointSummary,
     | InternalServerException
     | ResourceNotFoundException
@@ -2338,7 +2482,7 @@ export const listPrivateGraphEndpoints: {
 export const listGraphSnapshots: {
   (
     input: ListGraphSnapshotsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGraphSnapshotsOutput,
     | InternalServerException
     | ResourceNotFoundException
@@ -2349,7 +2493,7 @@ export const listGraphSnapshots: {
   >;
   pages: (
     input: ListGraphSnapshotsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGraphSnapshotsOutput,
     | InternalServerException
     | ResourceNotFoundException
@@ -2360,7 +2504,7 @@ export const listGraphSnapshots: {
   >;
   items: (
     input: ListGraphSnapshotsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GraphSnapshotSummary,
     | InternalServerException
     | ResourceNotFoundException
@@ -2390,7 +2534,7 @@ export const listGraphSnapshots: {
  */
 export const getExportTask: (
   input: GetExportTaskInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetExportTaskOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -2413,7 +2557,7 @@ export const getExportTask: (
  */
 export const getImportTask: (
   input: GetImportTaskInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetImportTaskOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -2437,7 +2581,7 @@ export const getImportTask: (
 export const listExportTasks: {
   (
     input: ListExportTasksInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListExportTasksOutput,
     | InternalServerException
     | ResourceNotFoundException
@@ -2448,7 +2592,7 @@ export const listExportTasks: {
   >;
   pages: (
     input: ListExportTasksInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListExportTasksOutput,
     | InternalServerException
     | ResourceNotFoundException
@@ -2459,7 +2603,7 @@ export const listExportTasks: {
   >;
   items: (
     input: ListExportTasksInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExportTaskSummary,
     | InternalServerException
     | ResourceNotFoundException
@@ -2490,7 +2634,7 @@ export const listExportTasks: {
 export const listImportTasks: {
   (
     input: ListImportTasksInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListImportTasksOutput,
     | InternalServerException
     | ResourceNotFoundException
@@ -2501,7 +2645,7 @@ export const listImportTasks: {
   >;
   pages: (
     input: ListImportTasksInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListImportTasksOutput,
     | InternalServerException
     | ResourceNotFoundException
@@ -2512,7 +2656,7 @@ export const listImportTasks: {
   >;
   items: (
     input: ListImportTasksInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ImportTaskSummary,
     | InternalServerException
     | ResourceNotFoundException
@@ -2542,7 +2686,7 @@ export const listImportTasks: {
  */
 export const getGraph: (
   input: GetGraphInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetGraphOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -2565,7 +2709,7 @@ export const getGraph: (
  */
 export const getPrivateGraphEndpoint: (
   input: GetPrivateGraphEndpointInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetPrivateGraphEndpointOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -2588,7 +2732,7 @@ export const getPrivateGraphEndpoint: (
  */
 export const getGraphSnapshot: (
   input: GetGraphSnapshotInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetGraphSnapshotOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -2611,7 +2755,7 @@ export const getGraphSnapshot: (
  */
 export const cancelQuery: (
   input: CancelQueryInput,
-) => Effect.Effect<
+) => effect.Effect<
   CancelQueryResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2638,7 +2782,7 @@ export const cancelQuery: (
  */
 export const getQuery: (
   input: GetQueryInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetQueryOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2663,7 +2807,7 @@ export const getQuery: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -2686,7 +2830,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -2709,7 +2853,7 @@ export const tagResource: (
  */
 export const resetGraph: (
   input: ResetGraphInput,
-) => Effect.Effect<
+) => effect.Effect<
   ResetGraphOutput,
   | ConflictException
   | InternalServerException
@@ -2734,7 +2878,7 @@ export const resetGraph: (
  */
 export const startGraph: (
   input: StartGraphInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartGraphOutput,
   | ConflictException
   | InternalServerException
@@ -2759,7 +2903,7 @@ export const startGraph: (
  */
 export const stopGraph: (
   input: StopGraphInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopGraphOutput,
   | ConflictException
   | InternalServerException
@@ -2784,7 +2928,7 @@ export const stopGraph: (
  */
 export const updateGraph: (
   input: UpdateGraphInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGraphOutput,
   | ConflictException
   | InternalServerException
@@ -2809,7 +2953,7 @@ export const updateGraph: (
  */
 export const deletePrivateGraphEndpoint: (
   input: DeletePrivateGraphEndpointInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePrivateGraphEndpointOutput,
   | ConflictException
   | InternalServerException
@@ -2834,7 +2978,7 @@ export const deletePrivateGraphEndpoint: (
  */
 export const deleteGraphSnapshot: (
   input: DeleteGraphSnapshotInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGraphSnapshotOutput,
   | ConflictException
   | InternalServerException
@@ -2859,7 +3003,7 @@ export const deleteGraphSnapshot: (
  */
 export const cancelExportTask: (
   input: CancelExportTaskInput,
-) => Effect.Effect<
+) => effect.Effect<
   CancelExportTaskOutput,
   | ConflictException
   | InternalServerException
@@ -2884,7 +3028,7 @@ export const cancelExportTask: (
  */
 export const cancelImportTask: (
   input: CancelImportTaskInput,
-) => Effect.Effect<
+) => effect.Effect<
   CancelImportTaskOutput,
   | ConflictException
   | InternalServerException
@@ -2909,7 +3053,7 @@ export const cancelImportTask: (
  */
 export const startImportTask: (
   input: StartImportTaskInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartImportTaskOutput,
   | ConflictException
   | InternalServerException
@@ -2934,7 +3078,7 @@ export const startImportTask: (
  */
 export const getGraphSummary: (
   input: GetGraphSummaryInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetGraphSummaryOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2959,7 +3103,7 @@ export const getGraphSummary: (
  */
 export const restoreGraphFromSnapshot: (
   input: RestoreGraphFromSnapshotInput,
-) => Effect.Effect<
+) => effect.Effect<
   RestoreGraphFromSnapshotOutput,
   | ConflictException
   | InternalServerException
@@ -2988,7 +3132,7 @@ export const restoreGraphFromSnapshot: (
  */
 export const createPrivateGraphEndpoint: (
   input: CreatePrivateGraphEndpointInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePrivateGraphEndpointOutput,
   | ConflictException
   | InternalServerException
@@ -3015,7 +3159,7 @@ export const createPrivateGraphEndpoint: (
  */
 export const createGraphSnapshot: (
   input: CreateGraphSnapshotInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGraphSnapshotOutput,
   | ConflictException
   | InternalServerException
@@ -3042,7 +3186,7 @@ export const createGraphSnapshot: (
  */
 export const createGraph: (
   input: CreateGraphInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGraphOutput,
   | ConflictException
   | InternalServerException
@@ -3069,7 +3213,7 @@ export const createGraph: (
  */
 export const createGraphUsingImportTask: (
   input: CreateGraphUsingImportTaskInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGraphUsingImportTaskOutput,
   | ConflictException
   | InternalServerException
@@ -3094,7 +3238,7 @@ export const createGraphUsingImportTask: (
  */
 export const startExportTask: (
   input: StartExportTaskInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartExportTaskOutput,
   | ConflictException
   | InternalServerException

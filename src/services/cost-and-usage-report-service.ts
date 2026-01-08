@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -147,7 +147,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagResourceRequest {
   ReportName: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ReportName: S.String, Tags: TagList }).pipe(
@@ -162,7 +162,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ReportName: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ReportName: S.String, TagKeys: TagKeyList }).pipe(
@@ -175,48 +175,135 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type SchemaElementList = string[];
-export const SchemaElementList = S.Array(S.String);
-export type AdditionalArtifactList = string[];
-export const AdditionalArtifactList = S.Array(S.String);
+export type TimeUnit = "HOURLY" | "DAILY" | "MONTHLY";
+export const TimeUnit = S.Literal("HOURLY", "DAILY", "MONTHLY");
+export type ReportFormat = "textORcsv" | "Parquet";
+export const ReportFormat = S.Literal("textORcsv", "Parquet");
+export type CompressionFormat = "ZIP" | "GZIP" | "Parquet";
+export const CompressionFormat = S.Literal("ZIP", "GZIP", "Parquet");
+export type SchemaElement =
+  | "RESOURCES"
+  | "SPLIT_COST_ALLOCATION_DATA"
+  | "MANUAL_DISCOUNT_COMPATIBILITY";
+export const SchemaElement = S.Literal(
+  "RESOURCES",
+  "SPLIT_COST_ALLOCATION_DATA",
+  "MANUAL_DISCOUNT_COMPATIBILITY",
+);
+export type SchemaElementList = SchemaElement[];
+export const SchemaElementList = S.Array(SchemaElement);
+export type AWSRegion =
+  | "af-south-1"
+  | "ap-east-1"
+  | "ap-south-1"
+  | "ap-south-2"
+  | "ap-southeast-1"
+  | "ap-southeast-2"
+  | "ap-southeast-3"
+  | "ap-northeast-1"
+  | "ap-northeast-2"
+  | "ap-northeast-3"
+  | "ca-central-1"
+  | "eu-central-1"
+  | "eu-central-2"
+  | "eu-west-1"
+  | "eu-west-2"
+  | "eu-west-3"
+  | "eu-north-1"
+  | "eu-south-1"
+  | "eu-south-2"
+  | "me-central-1"
+  | "me-south-1"
+  | "sa-east-1"
+  | "us-east-1"
+  | "us-east-2"
+  | "us-west-1"
+  | "us-west-2"
+  | "cn-north-1"
+  | "cn-northwest-1";
+export const AWSRegion = S.Literal(
+  "af-south-1",
+  "ap-east-1",
+  "ap-south-1",
+  "ap-south-2",
+  "ap-southeast-1",
+  "ap-southeast-2",
+  "ap-southeast-3",
+  "ap-northeast-1",
+  "ap-northeast-2",
+  "ap-northeast-3",
+  "ca-central-1",
+  "eu-central-1",
+  "eu-central-2",
+  "eu-west-1",
+  "eu-west-2",
+  "eu-west-3",
+  "eu-north-1",
+  "eu-south-1",
+  "eu-south-2",
+  "me-central-1",
+  "me-south-1",
+  "sa-east-1",
+  "us-east-1",
+  "us-east-2",
+  "us-west-1",
+  "us-west-2",
+  "cn-north-1",
+  "cn-northwest-1",
+);
+export type AdditionalArtifact = "REDSHIFT" | "QUICKSIGHT" | "ATHENA";
+export const AdditionalArtifact = S.Literal("REDSHIFT", "QUICKSIGHT", "ATHENA");
+export type AdditionalArtifactList = AdditionalArtifact[];
+export const AdditionalArtifactList = S.Array(AdditionalArtifact);
+export type ReportVersioning = "CREATE_NEW_REPORT" | "OVERWRITE_REPORT";
+export const ReportVersioning = S.Literal(
+  "CREATE_NEW_REPORT",
+  "OVERWRITE_REPORT",
+);
+export type LastStatus = "SUCCESS" | "ERROR_PERMISSIONS" | "ERROR_NO_BUCKET";
+export const LastStatus = S.Literal(
+  "SUCCESS",
+  "ERROR_PERMISSIONS",
+  "ERROR_NO_BUCKET",
+);
 export interface ReportStatus {
   lastDelivery?: string;
-  lastStatus?: string;
+  lastStatus?: LastStatus;
 }
 export const ReportStatus = S.suspend(() =>
   S.Struct({
     lastDelivery: S.optional(S.String),
-    lastStatus: S.optional(S.String),
+    lastStatus: S.optional(LastStatus),
   }),
 ).annotations({ identifier: "ReportStatus" }) as any as S.Schema<ReportStatus>;
 export interface ReportDefinition {
   ReportName: string;
-  TimeUnit: string;
-  Format: string;
-  Compression: string;
-  AdditionalSchemaElements: SchemaElementList;
+  TimeUnit: TimeUnit;
+  Format: ReportFormat;
+  Compression: CompressionFormat;
+  AdditionalSchemaElements: SchemaElement[];
   S3Bucket: string;
   S3Prefix: string;
-  S3Region: string;
-  AdditionalArtifacts?: AdditionalArtifactList;
+  S3Region: AWSRegion;
+  AdditionalArtifacts?: AdditionalArtifact[];
   RefreshClosedReports?: boolean;
-  ReportVersioning?: string;
+  ReportVersioning?: ReportVersioning;
   BillingViewArn?: string;
   ReportStatus?: ReportStatus;
 }
 export const ReportDefinition = S.suspend(() =>
   S.Struct({
     ReportName: S.String,
-    TimeUnit: S.String,
-    Format: S.String,
-    Compression: S.String,
+    TimeUnit: TimeUnit,
+    Format: ReportFormat,
+    Compression: CompressionFormat,
     AdditionalSchemaElements: SchemaElementList,
     S3Bucket: S.String,
     S3Prefix: S.String,
-    S3Region: S.String,
+    S3Region: AWSRegion,
     AdditionalArtifacts: S.optional(AdditionalArtifactList),
     RefreshClosedReports: S.optional(S.Boolean),
-    ReportVersioning: S.optional(S.String),
+    ReportVersioning: S.optional(ReportVersioning),
     BillingViewArn: S.optional(S.String),
     ReportStatus: S.optional(ReportStatus),
   }),
@@ -234,7 +321,7 @@ export const DeleteReportDefinitionResponse = S.suspend(() =>
   identifier: "DeleteReportDefinitionResponse",
 }) as any as S.Schema<DeleteReportDefinitionResponse>;
 export interface DescribeReportDefinitionsResponse {
-  ReportDefinitions?: ReportDefinitionList;
+  ReportDefinitions?: ReportDefinition[];
   NextToken?: string;
 }
 export const DescribeReportDefinitionsResponse = S.suspend(() =>
@@ -246,7 +333,7 @@ export const DescribeReportDefinitionsResponse = S.suspend(() =>
   identifier: "DescribeReportDefinitionsResponse",
 }) as any as S.Schema<DescribeReportDefinitionsResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }),
@@ -255,7 +342,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface PutReportDefinitionRequest {
   ReportDefinition: ReportDefinition;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const PutReportDefinitionRequest = S.suspend(() =>
   S.Struct({
@@ -320,21 +407,21 @@ export class ReportLimitReachedException extends S.TaggedError<ReportLimitReache
 export const describeReportDefinitions: {
   (
     input: DescribeReportDefinitionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeReportDefinitionsResponse,
     InternalErrorException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeReportDefinitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeReportDefinitionsResponse,
     InternalErrorException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReportDefinitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalErrorException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -355,7 +442,7 @@ export const describeReportDefinitions: {
  */
 export const deleteReportDefinition: (
   input: DeleteReportDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteReportDefinitionResponse,
   InternalErrorException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -369,7 +456,7 @@ export const deleteReportDefinition: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalErrorException
   | ResourceNotFoundException
@@ -390,7 +477,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalErrorException
   | ResourceNotFoundException
@@ -411,7 +498,7 @@ export const listTagsForResource: (
  */
 export const modifyReportDefinition: (
   input: ModifyReportDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyReportDefinitionResponse,
   InternalErrorException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -425,7 +512,7 @@ export const modifyReportDefinition: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalErrorException
   | ResourceNotFoundException
@@ -446,7 +533,7 @@ export const tagResource: (
  */
 export const putReportDefinition: (
   input: PutReportDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutReportDefinitionResponse,
   | DuplicateReportNameException
   | InternalErrorException

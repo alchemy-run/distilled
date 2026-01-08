@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -92,19 +92,19 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type ResourceIdentifier = string;
 export type ChatConfigurationArn = string;
-export type ChimeWebhookDescription = string | Redacted.Redacted<string>;
-export type ChimeWebhookUrl = string | Redacted.Redacted<string>;
+export type ChimeWebhookDescription = string | redacted.Redacted<string>;
+export type ChimeWebhookUrl = string | redacted.Redacted<string>;
 export type Arn = string;
 export type ConfigurationName = string;
 export type CustomerCwLogLevel = string;
 export type TeamsChannelId = string;
-export type TeamsChannelName = string | Redacted.Redacted<string>;
+export type TeamsChannelName = string | redacted.Redacted<string>;
 export type UUID = string;
-export type TeamName = string | Redacted.Redacted<string>;
+export type TeamName = string | redacted.Redacted<string>;
 export type GuardrailPolicyArn = string;
 export type SlackTeamId = string;
 export type SlackChannelId = string;
-export type SlackChannelDisplayName = string | Redacted.Redacted<string>;
+export type SlackChannelDisplayName = string | redacted.Redacted<string>;
 export type SlackUserId = string;
 export type MaxResults = number;
 export type PaginationToken = string;
@@ -183,17 +183,17 @@ export type Tags = Tag[];
 export const Tags = S.Array(Tag);
 export interface CreateTeamsChannelConfigurationRequest {
   ChannelId: string;
-  ChannelName?: string | Redacted.Redacted<string>;
+  ChannelName?: string | redacted.Redacted<string>;
   TeamId: string;
-  TeamName?: string | Redacted.Redacted<string>;
+  TeamName?: string | redacted.Redacted<string>;
   TenantId: string;
-  SnsTopicArns?: SnsTopicArnList;
+  SnsTopicArns?: string[];
   IamRoleArn: string;
   ConfigurationName: string;
   LoggingLevel?: string;
-  GuardrailPolicyArns?: GuardrailPolicyArnList;
+  GuardrailPolicyArns?: string[];
   UserAuthorizationRequired?: boolean;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreateTeamsChannelConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -226,14 +226,14 @@ export const CreateTeamsChannelConfigurationRequest = S.suspend(() =>
 export interface CreateSlackChannelConfigurationRequest {
   SlackTeamId: string;
   SlackChannelId: string;
-  SlackChannelName?: string | Redacted.Redacted<string>;
-  SnsTopicArns?: SnsTopicArnList;
+  SlackChannelName?: string | redacted.Redacted<string>;
+  SnsTopicArns?: string[];
   IamRoleArn: string;
   ConfigurationName: string;
   LoggingLevel?: string;
-  GuardrailPolicyArns?: GuardrailPolicyArnList;
+  GuardrailPolicyArns?: string[];
   UserAuthorizationRequired?: boolean;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreateSlackChannelConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -687,7 +687,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface TagResourceRequest {
   ResourceARN: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
@@ -712,7 +712,7 @@ export const TagResourceResponse = S.suspend(() =>
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceARN: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
@@ -759,9 +759,9 @@ export const UpdateAccountPreferencesRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateAccountPreferencesRequest>;
 export interface UpdateChimeWebhookConfigurationRequest {
   ChatConfigurationArn: string;
-  WebhookDescription?: string | Redacted.Redacted<string>;
-  WebhookUrl?: string | Redacted.Redacted<string>;
-  SnsTopicArns?: SnsTopicArnList;
+  WebhookDescription?: string | redacted.Redacted<string>;
+  WebhookUrl?: string | redacted.Redacted<string>;
+  SnsTopicArns?: string[];
   IamRoleArn?: string;
   LoggingLevel?: string;
 }
@@ -790,11 +790,11 @@ export const UpdateChimeWebhookConfigurationRequest = S.suspend(() =>
 export interface UpdateTeamsChannelConfigurationRequest {
   ChatConfigurationArn: string;
   ChannelId: string;
-  ChannelName?: string | Redacted.Redacted<string>;
-  SnsTopicArns?: SnsTopicArnList;
+  ChannelName?: string | redacted.Redacted<string>;
+  SnsTopicArns?: string[];
   IamRoleArn?: string;
   LoggingLevel?: string;
-  GuardrailPolicyArns?: GuardrailPolicyArnList;
+  GuardrailPolicyArns?: string[];
   UserAuthorizationRequired?: boolean;
 }
 export const UpdateTeamsChannelConfigurationRequest = S.suspend(() =>
@@ -824,11 +824,11 @@ export const UpdateTeamsChannelConfigurationRequest = S.suspend(() =>
 export interface UpdateSlackChannelConfigurationRequest {
   ChatConfigurationArn: string;
   SlackChannelId: string;
-  SlackChannelName?: string | Redacted.Redacted<string>;
-  SnsTopicArns?: SnsTopicArnList;
+  SlackChannelName?: string | redacted.Redacted<string>;
+  SnsTopicArns?: string[];
   IamRoleArn?: string;
   LoggingLevel?: string;
-  GuardrailPolicyArns?: GuardrailPolicyArnList;
+  GuardrailPolicyArns?: string[];
   UserAuthorizationRequired?: boolean;
 }
 export const UpdateSlackChannelConfigurationRequest = S.suspend(() =>
@@ -881,14 +881,19 @@ export const CustomActionDefinition = S.suspend(() =>
 ).annotations({
   identifier: "CustomActionDefinition",
 }) as any as S.Schema<CustomActionDefinition>;
+export type CustomActionAttachmentCriteriaOperator = "HAS_VALUE" | "EQUALS";
+export const CustomActionAttachmentCriteriaOperator = S.Literal(
+  "HAS_VALUE",
+  "EQUALS",
+);
 export interface CustomActionAttachmentCriteria {
-  Operator: string;
+  Operator: CustomActionAttachmentCriteriaOperator;
   VariableName: string;
   Value?: string;
 }
 export const CustomActionAttachmentCriteria = S.suspend(() =>
   S.Struct({
-    Operator: S.String,
+    Operator: CustomActionAttachmentCriteriaOperator,
     VariableName: S.String,
     Value: S.optional(S.String),
   }),
@@ -908,8 +913,8 @@ export const CustomActionAttachmentVariables = S.Record({
 export interface CustomActionAttachment {
   NotificationType?: string;
   ButtonText?: string;
-  Criteria?: CustomActionAttachmentCriteriaList;
-  Variables?: CustomActionAttachmentVariables;
+  Criteria?: CustomActionAttachmentCriteria[];
+  Variables?: { [key: string]: string };
 }
 export const CustomActionAttachment = S.suspend(() =>
   S.Struct({
@@ -927,7 +932,7 @@ export interface UpdateCustomActionRequest {
   CustomActionArn: string;
   Definition: CustomActionDefinition;
   AliasName?: string;
-  Attachments?: CustomActionAttachmentList;
+  Attachments?: CustomActionAttachment[];
 }
 export const UpdateCustomActionRequest = S.suspend(() =>
   S.Struct({
@@ -999,15 +1004,15 @@ export interface SlackChannelConfiguration {
   SlackTeamName: string;
   SlackTeamId: string;
   SlackChannelId: string;
-  SlackChannelName: string | Redacted.Redacted<string>;
+  SlackChannelName: string | redacted.Redacted<string>;
   ChatConfigurationArn: string;
   IamRoleArn: string;
-  SnsTopicArns: SnsTopicArnList;
+  SnsTopicArns: string[];
   ConfigurationName?: string;
   LoggingLevel?: string;
-  GuardrailPolicyArns?: GuardrailPolicyArnList;
+  GuardrailPolicyArns?: string[];
   UserAuthorizationRequired?: boolean;
-  Tags?: Tags;
+  Tags?: Tag[];
   State?: string;
   StateReason?: string;
 }
@@ -1047,18 +1052,18 @@ export const AccountPreferences = S.suspend(() =>
 }) as any as S.Schema<AccountPreferences>;
 export interface TeamsChannelConfiguration {
   ChannelId: string;
-  ChannelName?: string | Redacted.Redacted<string>;
+  ChannelName?: string | redacted.Redacted<string>;
   TeamId: string;
-  TeamName?: string | Redacted.Redacted<string>;
+  TeamName?: string | redacted.Redacted<string>;
   TenantId: string;
   ChatConfigurationArn: string;
   IamRoleArn: string;
-  SnsTopicArns: SnsTopicArnList;
+  SnsTopicArns: string[];
   ConfigurationName?: string;
   LoggingLevel?: string;
-  GuardrailPolicyArns?: GuardrailPolicyArnList;
+  GuardrailPolicyArns?: string[];
   UserAuthorizationRequired?: boolean;
-  Tags?: Tags;
+  Tags?: Tag[];
   State?: string;
   StateReason?: string;
 }
@@ -1088,13 +1093,13 @@ export const TeamChannelConfigurationsList = S.Array(TeamsChannelConfiguration);
 export type CustomActionArnList = string[];
 export const CustomActionArnList = S.Array(S.String);
 export interface CreateChimeWebhookConfigurationRequest {
-  WebhookDescription: string | Redacted.Redacted<string>;
-  WebhookUrl: string | Redacted.Redacted<string>;
-  SnsTopicArns: SnsTopicArnList;
+  WebhookDescription: string | redacted.Redacted<string>;
+  WebhookUrl: string | redacted.Redacted<string>;
+  SnsTopicArns: string[];
   IamRoleArn: string;
   ConfigurationName: string;
   LoggingLevel?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreateChimeWebhookConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -1121,7 +1126,7 @@ export const CreateChimeWebhookConfigurationRequest = S.suspend(() =>
 }) as any as S.Schema<CreateChimeWebhookConfigurationRequest>;
 export interface DescribeSlackChannelConfigurationsResult {
   NextToken?: string;
-  SlackChannelConfigurations?: SlackChannelConfigurationList;
+  SlackChannelConfigurations?: SlackChannelConfiguration[];
 }
 export const DescribeSlackChannelConfigurationsResult = S.suspend(() =>
   S.Struct({
@@ -1151,7 +1156,7 @@ export const GetTeamsChannelConfigurationResult = S.suspend(() =>
 }) as any as S.Schema<GetTeamsChannelConfigurationResult>;
 export interface ListTeamsChannelConfigurationsResult {
   NextToken?: string;
-  TeamChannelConfigurations?: TeamChannelConfigurationsList;
+  TeamChannelConfigurations?: TeamsChannelConfiguration[];
 }
 export const ListTeamsChannelConfigurationsResult = S.suspend(() =>
   S.Struct({
@@ -1162,7 +1167,7 @@ export const ListTeamsChannelConfigurationsResult = S.suspend(() =>
   identifier: "ListTeamsChannelConfigurationsResult",
 }) as any as S.Schema<ListTeamsChannelConfigurationsResult>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
@@ -1178,13 +1183,13 @@ export const UpdateAccountPreferencesResult = S.suspend(() =>
   identifier: "UpdateAccountPreferencesResult",
 }) as any as S.Schema<UpdateAccountPreferencesResult>;
 export interface ChimeWebhookConfiguration {
-  WebhookDescription: string | Redacted.Redacted<string>;
+  WebhookDescription: string | redacted.Redacted<string>;
   ChatConfigurationArn: string;
   IamRoleArn: string;
-  SnsTopicArns: SnsTopicArnList;
+  SnsTopicArns: string[];
   ConfigurationName?: string;
   LoggingLevel?: string;
-  Tags?: Tags;
+  Tags?: Tag[];
   State?: string;
   StateReason?: string;
 }
@@ -1242,7 +1247,7 @@ export const UpdateCustomActionResult = S.suspend(() =>
   identifier: "UpdateCustomActionResult",
 }) as any as S.Schema<UpdateCustomActionResult>;
 export interface ListCustomActionsResult {
-  CustomActions: CustomActionArnList;
+  CustomActions: string[];
   NextToken?: string;
 }
 export const ListCustomActionsResult = S.suspend(() =>
@@ -1351,7 +1356,7 @@ export interface CustomAction {
   CustomActionArn: string;
   Definition: CustomActionDefinition;
   AliasName?: string;
-  Attachments?: CustomActionAttachmentList;
+  Attachments?: CustomActionAttachment[];
   ActionName?: string;
 }
 export const CustomAction = S.suspend(() =>
@@ -1395,7 +1400,7 @@ export const CreateSlackChannelConfigurationResult = S.suspend(() =>
 }) as any as S.Schema<CreateSlackChannelConfigurationResult>;
 export interface DescribeChimeWebhookConfigurationsResult {
   NextToken?: string;
-  WebhookConfigurations?: ChimeWebhookConfigurationList;
+  WebhookConfigurations?: ChimeWebhookConfiguration[];
 }
 export const DescribeChimeWebhookConfigurationsResult = S.suspend(() =>
   S.Struct({
@@ -1406,7 +1411,7 @@ export const DescribeChimeWebhookConfigurationsResult = S.suspend(() =>
   identifier: "DescribeChimeWebhookConfigurationsResult",
 }) as any as S.Schema<DescribeChimeWebhookConfigurationsResult>;
 export interface DescribeSlackUserIdentitiesResult {
-  SlackUserIdentities?: SlackUserIdentitiesList;
+  SlackUserIdentities?: SlackUserIdentity[];
   NextToken?: string;
 }
 export const DescribeSlackUserIdentitiesResult = S.suspend(() =>
@@ -1418,7 +1423,7 @@ export const DescribeSlackUserIdentitiesResult = S.suspend(() =>
   identifier: "DescribeSlackUserIdentitiesResult",
 }) as any as S.Schema<DescribeSlackUserIdentitiesResult>;
 export interface DescribeSlackWorkspacesResult {
-  SlackWorkspaces?: SlackWorkspacesList;
+  SlackWorkspaces?: SlackWorkspace[];
   NextToken?: string;
 }
 export const DescribeSlackWorkspacesResult = S.suspend(() =>
@@ -1430,7 +1435,7 @@ export const DescribeSlackWorkspacesResult = S.suspend(() =>
   identifier: "DescribeSlackWorkspacesResult",
 }) as any as S.Schema<DescribeSlackWorkspacesResult>;
 export interface ListAssociationsResult {
-  Associations: AssociationList;
+  Associations: AssociationListing[];
   NextToken?: string;
 }
 export const ListAssociationsResult = S.suspend(() =>
@@ -1442,7 +1447,7 @@ export const ListAssociationsResult = S.suspend(() =>
   identifier: "ListAssociationsResult",
 }) as any as S.Schema<ListAssociationsResult>;
 export interface ListMicrosoftTeamsConfiguredTeamsResult {
-  ConfiguredTeams?: ConfiguredTeamsList;
+  ConfiguredTeams?: ConfiguredTeam[];
   NextToken?: string;
 }
 export const ListMicrosoftTeamsConfiguredTeamsResult = S.suspend(() =>
@@ -1454,7 +1459,7 @@ export const ListMicrosoftTeamsConfiguredTeamsResult = S.suspend(() =>
   identifier: "ListMicrosoftTeamsConfiguredTeamsResult",
 }) as any as S.Schema<ListMicrosoftTeamsConfiguredTeamsResult>;
 export interface ListMicrosoftTeamsUserIdentitiesResult {
-  TeamsUserIdentities?: TeamsUserIdentitiesList;
+  TeamsUserIdentities?: TeamsUserIdentity[];
   NextToken?: string;
 }
 export const ListMicrosoftTeamsUserIdentitiesResult = S.suspend(() =>
@@ -1468,8 +1473,8 @@ export const ListMicrosoftTeamsUserIdentitiesResult = S.suspend(() =>
 export interface CreateCustomActionRequest {
   Definition: CustomActionDefinition;
   AliasName?: string;
-  Attachments?: CustomActionAttachmentList;
-  Tags?: TagList;
+  Attachments?: CustomActionAttachment[];
+  Tags?: Tag[];
   ClientToken?: string;
   ActionName: string;
 }
@@ -1649,7 +1654,7 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
 export const describeSlackChannelConfigurations: {
   (
     input: DescribeSlackChannelConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeSlackChannelConfigurationsResult,
     | DescribeSlackChannelConfigurationsException
     | InvalidParameterException
@@ -1659,7 +1664,7 @@ export const describeSlackChannelConfigurations: {
   >;
   pages: (
     input: DescribeSlackChannelConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeSlackChannelConfigurationsResult,
     | DescribeSlackChannelConfigurationsException
     | InvalidParameterException
@@ -1669,7 +1674,7 @@ export const describeSlackChannelConfigurations: {
   >;
   items: (
     input: DescribeSlackChannelConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SlackChannelConfiguration,
     | DescribeSlackChannelConfigurationsException
     | InvalidParameterException
@@ -1697,7 +1702,7 @@ export const describeSlackChannelConfigurations: {
  */
 export const getAccountPreferences: (
   input: GetAccountPreferencesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccountPreferencesResult,
   GetAccountPreferencesException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1711,7 +1716,7 @@ export const getAccountPreferences: (
  */
 export const getMicrosoftTeamsChannelConfiguration: (
   input: GetTeamsChannelConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTeamsChannelConfigurationResult,
   | GetTeamsChannelConfigurationException
   | InvalidParameterException
@@ -1733,21 +1738,21 @@ export const getMicrosoftTeamsChannelConfiguration: (
 export const listAssociations: {
   (
     input: ListAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAssociationsResult,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAssociationsResult,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AssociationListing,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1768,7 +1773,7 @@ export const listAssociations: {
  */
 export const deleteMicrosoftTeamsChannelConfiguration: (
   input: DeleteTeamsChannelConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTeamsChannelConfigurationResult,
   | DeleteTeamsChannelConfigurationException
   | InvalidParameterException
@@ -1791,7 +1796,7 @@ export const deleteMicrosoftTeamsChannelConfiguration: (
  */
 export const deleteMicrosoftTeamsConfiguredTeam: (
   input: DeleteTeamsConfiguredTeamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTeamsConfiguredTeamResult,
   DeleteTeamsConfiguredTeamException | InvalidParameterException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1805,7 +1810,7 @@ export const deleteMicrosoftTeamsConfiguredTeam: (
  */
 export const deleteMicrosoftTeamsUserIdentity: (
   input: DeleteMicrosoftTeamsUserIdentityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMicrosoftTeamsUserIdentityResult,
   | DeleteMicrosoftTeamsUserIdentityException
   | InvalidParameterException
@@ -1826,7 +1831,7 @@ export const deleteMicrosoftTeamsUserIdentity: (
  */
 export const deleteSlackChannelConfiguration: (
   input: DeleteSlackChannelConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSlackChannelConfigurationResult,
   | DeleteSlackChannelConfigurationException
   | InvalidParameterException
@@ -1849,7 +1854,7 @@ export const deleteSlackChannelConfiguration: (
  */
 export const deleteSlackUserIdentity: (
   input: DeleteSlackUserIdentityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSlackUserIdentityResult,
   | DeleteSlackUserIdentityException
   | InvalidParameterException
@@ -1870,7 +1875,7 @@ export const deleteSlackUserIdentity: (
  */
 export const deleteSlackWorkspaceAuthorization: (
   input: DeleteSlackWorkspaceAuthorizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSlackWorkspaceAuthorizationResult,
   | DeleteSlackWorkspaceAuthorizationFault
   | InvalidParameterException
@@ -1886,7 +1891,7 @@ export const deleteSlackWorkspaceAuthorization: (
  */
 export const deleteChimeWebhookConfiguration: (
   input: DeleteChimeWebhookConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteChimeWebhookConfigurationResult,
   | DeleteChimeWebhookConfigurationException
   | InvalidParameterException
@@ -1909,7 +1914,7 @@ export const deleteChimeWebhookConfiguration: (
  */
 export const associateToConfiguration: (
   input: AssociateToConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateToConfigurationResult,
   | InternalServiceError
   | InvalidRequestException
@@ -1931,7 +1936,7 @@ export const associateToConfiguration: (
 export const describeChimeWebhookConfigurations: {
   (
     input: DescribeChimeWebhookConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeChimeWebhookConfigurationsResult,
     | DescribeChimeWebhookConfigurationsException
     | InvalidParameterException
@@ -1941,7 +1946,7 @@ export const describeChimeWebhookConfigurations: {
   >;
   pages: (
     input: DescribeChimeWebhookConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeChimeWebhookConfigurationsResult,
     | DescribeChimeWebhookConfigurationsException
     | InvalidParameterException
@@ -1951,7 +1956,7 @@ export const describeChimeWebhookConfigurations: {
   >;
   items: (
     input: DescribeChimeWebhookConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ChimeWebhookConfiguration,
     | DescribeChimeWebhookConfigurationsException
     | InvalidParameterException
@@ -1980,7 +1985,7 @@ export const describeChimeWebhookConfigurations: {
 export const describeSlackUserIdentities: {
   (
     input: DescribeSlackUserIdentitiesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeSlackUserIdentitiesResult,
     | DescribeSlackUserIdentitiesException
     | InvalidParameterException
@@ -1990,7 +1995,7 @@ export const describeSlackUserIdentities: {
   >;
   pages: (
     input: DescribeSlackUserIdentitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeSlackUserIdentitiesResult,
     | DescribeSlackUserIdentitiesException
     | InvalidParameterException
@@ -2000,7 +2005,7 @@ export const describeSlackUserIdentities: {
   >;
   items: (
     input: DescribeSlackUserIdentitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SlackUserIdentity,
     | DescribeSlackUserIdentitiesException
     | InvalidParameterException
@@ -2029,7 +2034,7 @@ export const describeSlackUserIdentities: {
 export const describeSlackWorkspaces: {
   (
     input: DescribeSlackWorkspacesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeSlackWorkspacesResult,
     | DescribeSlackWorkspacesException
     | InvalidParameterException
@@ -2039,7 +2044,7 @@ export const describeSlackWorkspaces: {
   >;
   pages: (
     input: DescribeSlackWorkspacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeSlackWorkspacesResult,
     | DescribeSlackWorkspacesException
     | InvalidParameterException
@@ -2049,7 +2054,7 @@ export const describeSlackWorkspaces: {
   >;
   items: (
     input: DescribeSlackWorkspacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SlackWorkspace,
     | DescribeSlackWorkspacesException
     | InvalidParameterException
@@ -2078,7 +2083,7 @@ export const describeSlackWorkspaces: {
 export const listMicrosoftTeamsConfiguredTeams: {
   (
     input: ListMicrosoftTeamsConfiguredTeamsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMicrosoftTeamsConfiguredTeamsResult,
     | InvalidParameterException
     | InvalidRequestException
@@ -2088,7 +2093,7 @@ export const listMicrosoftTeamsConfiguredTeams: {
   >;
   pages: (
     input: ListMicrosoftTeamsConfiguredTeamsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMicrosoftTeamsConfiguredTeamsResult,
     | InvalidParameterException
     | InvalidRequestException
@@ -2098,7 +2103,7 @@ export const listMicrosoftTeamsConfiguredTeams: {
   >;
   items: (
     input: ListMicrosoftTeamsConfiguredTeamsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConfiguredTeam,
     | InvalidParameterException
     | InvalidRequestException
@@ -2127,7 +2132,7 @@ export const listMicrosoftTeamsConfiguredTeams: {
 export const listMicrosoftTeamsUserIdentities: {
   (
     input: ListMicrosoftTeamsUserIdentitiesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMicrosoftTeamsUserIdentitiesResult,
     | InvalidParameterException
     | InvalidRequestException
@@ -2137,7 +2142,7 @@ export const listMicrosoftTeamsUserIdentities: {
   >;
   pages: (
     input: ListMicrosoftTeamsUserIdentitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMicrosoftTeamsUserIdentitiesResult,
     | InvalidParameterException
     | InvalidRequestException
@@ -2147,7 +2152,7 @@ export const listMicrosoftTeamsUserIdentities: {
   >;
   items: (
     input: ListMicrosoftTeamsUserIdentitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TeamsUserIdentity,
     | InvalidParameterException
     | InvalidRequestException
@@ -2175,7 +2180,7 @@ export const listMicrosoftTeamsUserIdentities: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServiceError
   | ResourceNotFoundException
@@ -2196,7 +2201,7 @@ export const listTagsForResource: (
  */
 export const getCustomAction: (
   input: GetCustomActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCustomActionResult,
   | InternalServiceError
   | InvalidRequestException
@@ -2219,7 +2224,7 @@ export const getCustomAction: (
  */
 export const updateCustomAction: (
   input: UpdateCustomActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCustomActionResult,
   | InternalServiceError
   | InvalidRequestException
@@ -2243,7 +2248,7 @@ export const updateCustomAction: (
 export const listCustomActions: {
   (
     input: ListCustomActionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCustomActionsResult,
     | InternalServiceError
     | InvalidRequestException
@@ -2253,7 +2258,7 @@ export const listCustomActions: {
   >;
   pages: (
     input: ListCustomActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCustomActionsResult,
     | InternalServiceError
     | InvalidRequestException
@@ -2263,7 +2268,7 @@ export const listCustomActions: {
   >;
   items: (
     input: ListCustomActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CustomActionArn,
     | InternalServiceError
     | InvalidRequestException
@@ -2291,7 +2296,7 @@ export const listCustomActions: {
  */
 export const disassociateFromConfiguration: (
   input: DisassociateFromConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateFromConfigurationResult,
   | InternalServiceError
   | InvalidRequestException
@@ -2312,7 +2317,7 @@ export const disassociateFromConfiguration: (
  */
 export const deleteCustomAction: (
   input: DeleteCustomActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCustomActionResult,
   | InternalServiceError
   | InvalidRequestException
@@ -2336,7 +2341,7 @@ export const deleteCustomAction: (
 export const listMicrosoftTeamsChannelConfigurations: {
   (
     input: ListTeamsChannelConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTeamsChannelConfigurationsResult,
     | InvalidParameterException
     | InvalidRequestException
@@ -2346,7 +2351,7 @@ export const listMicrosoftTeamsChannelConfigurations: {
   >;
   pages: (
     input: ListTeamsChannelConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTeamsChannelConfigurationsResult,
     | InvalidParameterException
     | InvalidRequestException
@@ -2356,7 +2361,7 @@ export const listMicrosoftTeamsChannelConfigurations: {
   >;
   items: (
     input: ListTeamsChannelConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TeamsChannelConfiguration,
     | InvalidParameterException
     | InvalidRequestException
@@ -2384,7 +2389,7 @@ export const listMicrosoftTeamsChannelConfigurations: {
  */
 export const updateAccountPreferences: (
   input: UpdateAccountPreferencesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAccountPreferencesResult,
   | InvalidParameterException
   | InvalidRequestException
@@ -2405,7 +2410,7 @@ export const updateAccountPreferences: (
  */
 export const updateChimeWebhookConfiguration: (
   input: UpdateChimeWebhookConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateChimeWebhookConfigurationResult,
   | InvalidParameterException
   | InvalidRequestException
@@ -2428,7 +2433,7 @@ export const updateChimeWebhookConfiguration: (
  */
 export const updateMicrosoftTeamsChannelConfiguration: (
   input: UpdateTeamsChannelConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTeamsChannelConfigurationResult,
   | InvalidParameterException
   | InvalidRequestException
@@ -2451,7 +2456,7 @@ export const updateMicrosoftTeamsChannelConfiguration: (
  */
 export const updateSlackChannelConfiguration: (
   input: UpdateSlackChannelConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSlackChannelConfigurationResult,
   | InvalidParameterException
   | InvalidRequestException
@@ -2474,7 +2479,7 @@ export const updateSlackChannelConfiguration: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServiceError
   | ResourceNotFoundException
@@ -2495,7 +2500,7 @@ export const untagResource: (
  */
 export const createCustomAction: (
   input: CreateCustomActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCustomActionResult,
   | ConflictException
   | InternalServiceError
@@ -2520,7 +2525,7 @@ export const createCustomAction: (
  */
 export const createMicrosoftTeamsChannelConfiguration: (
   input: CreateTeamsChannelConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTeamsChannelConfigurationResult,
   | ConflictException
   | CreateTeamsChannelConfigurationException
@@ -2545,7 +2550,7 @@ export const createMicrosoftTeamsChannelConfiguration: (
  */
 export const createSlackChannelConfiguration: (
   input: CreateSlackChannelConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSlackChannelConfigurationResult,
   | ConflictException
   | CreateSlackChannelConfigurationException
@@ -2570,7 +2575,7 @@ export const createSlackChannelConfiguration: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServiceError
   | ResourceNotFoundException
@@ -2593,7 +2598,7 @@ export const tagResource: (
  */
 export const createChimeWebhookConfiguration: (
   input: CreateChimeWebhookConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateChimeWebhookConfigurationResult,
   | ConflictException
   | CreateChimeWebhookConfigurationException

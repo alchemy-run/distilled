@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -106,15 +106,15 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Newtypes
-export type E164PhoneNumber = string | Redacted.Redacted<string>;
+export type E164PhoneNumber = string | redacted.Redacted<string>;
 export type NonEmptyString = string;
 export type AccountName = string;
-export type SensitiveString = string | Redacted.Redacted<string>;
+export type SensitiveString = string | redacted.Redacted<string>;
 export type GuidString = string;
-export type JoinTokenString = string | Redacted.Redacted<string>;
-export type ClientRequestToken = string | Redacted.Redacted<string>;
-export type EmailAddress = string | Redacted.Redacted<string>;
-export type CallingName = string | Redacted.Redacted<string>;
+export type JoinTokenString = string | redacted.Redacted<string>;
+export type ClientRequestToken = string | redacted.Redacted<string>;
+export type EmailAddress = string | redacted.Redacted<string>;
+export type CallingName = string | redacted.Redacted<string>;
 export type ProfileServiceMaxResults = number;
 export type ResultMax = number;
 export type Alpha2CountryCode = string;
@@ -143,14 +143,63 @@ export type NonEmptyStringList = string[];
 export const NonEmptyStringList = S.Array(S.String);
 export type UserIdList = string[];
 export const UserIdList = S.Array(S.String);
-export type E164PhoneNumberList = string | Redacted.Redacted<string>[];
+export type PhoneNumberProductType =
+  | "BusinessCalling"
+  | "VoiceConnector"
+  | "SipMediaApplicationDialIn";
+export const PhoneNumberProductType = S.Literal(
+  "BusinessCalling",
+  "VoiceConnector",
+  "SipMediaApplicationDialIn",
+);
+export type E164PhoneNumberList = string | redacted.Redacted<string>[];
 export const E164PhoneNumberList = S.Array(SensitiveString);
-export type UserEmailList = string | Redacted.Redacted<string>[];
+export type RoomMembershipRole = "Administrator" | "Member";
+export const RoomMembershipRole = S.Literal("Administrator", "Member");
+export type UserType = "PrivateUser" | "SharedDevice";
+export const UserType = S.Literal("PrivateUser", "SharedDevice");
+export type UserEmailList = string | redacted.Redacted<string>[];
 export const UserEmailList = S.Array(SensitiveString);
+export type PhoneNumberStatus =
+  | "AcquireInProgress"
+  | "AcquireFailed"
+  | "Unassigned"
+  | "Assigned"
+  | "ReleaseInProgress"
+  | "DeleteInProgress"
+  | "ReleaseFailed"
+  | "DeleteFailed";
+export const PhoneNumberStatus = S.Literal(
+  "AcquireInProgress",
+  "AcquireFailed",
+  "Unassigned",
+  "Assigned",
+  "ReleaseInProgress",
+  "DeleteInProgress",
+  "ReleaseFailed",
+  "DeleteFailed",
+);
+export type PhoneNumberAssociationName =
+  | "AccountId"
+  | "UserId"
+  | "VoiceConnectorId"
+  | "VoiceConnectorGroupId"
+  | "SipRuleId";
+export const PhoneNumberAssociationName = S.Literal(
+  "AccountId",
+  "UserId",
+  "VoiceConnectorId",
+  "VoiceConnectorGroupId",
+  "SipRuleId",
+);
+export type PhoneNumberType = "Local" | "TollFree";
+export const PhoneNumberType = S.Literal("Local", "TollFree");
+export type License = "Basic" | "Plus" | "Pro" | "ProTrial";
+export const License = S.Literal("Basic", "Plus", "Pro", "ProTrial");
 export interface AssociatePhoneNumberWithUserRequest {
   AccountId: string;
   UserId: string;
-  E164PhoneNumber: string | Redacted.Redacted<string>;
+  E164PhoneNumber: string | redacted.Redacted<string>;
 }
 export const AssociatePhoneNumberWithUserRequest = S.suspend(() =>
   S.Struct({
@@ -180,7 +229,7 @@ export const AssociatePhoneNumberWithUserResponse = S.suspend(() =>
   identifier: "AssociatePhoneNumberWithUserResponse",
 }) as any as S.Schema<AssociatePhoneNumberWithUserResponse>;
 export interface BatchDeletePhoneNumberRequest {
-  PhoneNumberIds: NonEmptyStringList;
+  PhoneNumberIds: string[];
 }
 export const BatchDeletePhoneNumberRequest = S.suspend(() =>
   S.Struct({ PhoneNumberIds: NonEmptyStringList }).pipe(
@@ -198,7 +247,7 @@ export const BatchDeletePhoneNumberRequest = S.suspend(() =>
 }) as any as S.Schema<BatchDeletePhoneNumberRequest>;
 export interface BatchSuspendUserRequest {
   AccountId: string;
-  UserIdList: UserIdList;
+  UserIdList: string[];
 }
 export const BatchSuspendUserRequest = S.suspend(() =>
   S.Struct({
@@ -222,7 +271,7 @@ export const BatchSuspendUserRequest = S.suspend(() =>
 }) as any as S.Schema<BatchSuspendUserRequest>;
 export interface BatchUnsuspendUserRequest {
   AccountId: string;
-  UserIdList: UserIdList;
+  UserIdList: string[];
 }
 export const BatchUnsuspendUserRequest = S.suspend(() =>
   S.Struct({
@@ -263,7 +312,7 @@ export const CreateAccountRequest = S.suspend(() =>
 }) as any as S.Schema<CreateAccountRequest>;
 export interface CreateBotRequest {
   AccountId: string;
-  DisplayName: string | Redacted.Redacted<string>;
+  DisplayName: string | redacted.Redacted<string>;
   Domain?: string;
 }
 export const CreateBotRequest = S.suspend(() =>
@@ -286,9 +335,9 @@ export const CreateBotRequest = S.suspend(() =>
 }) as any as S.Schema<CreateBotRequest>;
 export interface CreateMeetingDialOutRequest {
   MeetingId: string;
-  FromPhoneNumber: string | Redacted.Redacted<string>;
-  ToPhoneNumber: string | Redacted.Redacted<string>;
-  JoinToken: string | Redacted.Redacted<string>;
+  FromPhoneNumber: string | redacted.Redacted<string>;
+  ToPhoneNumber: string | redacted.Redacted<string>;
+  JoinToken: string | redacted.Redacted<string>;
 }
 export const CreateMeetingDialOutRequest = S.suspend(() =>
   S.Struct({
@@ -310,12 +359,12 @@ export const CreateMeetingDialOutRequest = S.suspend(() =>
   identifier: "CreateMeetingDialOutRequest",
 }) as any as S.Schema<CreateMeetingDialOutRequest>;
 export interface CreatePhoneNumberOrderRequest {
-  ProductType: string;
-  E164PhoneNumbers: E164PhoneNumberList;
+  ProductType: PhoneNumberProductType;
+  E164PhoneNumbers: string | redacted.Redacted<string>[];
 }
 export const CreatePhoneNumberOrderRequest = S.suspend(() =>
   S.Struct({
-    ProductType: S.String,
+    ProductType: PhoneNumberProductType,
     E164PhoneNumbers: E164PhoneNumberList,
   }).pipe(
     T.all(
@@ -332,8 +381,8 @@ export const CreatePhoneNumberOrderRequest = S.suspend(() =>
 }) as any as S.Schema<CreatePhoneNumberOrderRequest>;
 export interface CreateRoomRequest {
   AccountId: string;
-  Name: string | Redacted.Redacted<string>;
-  ClientRequestToken?: string | Redacted.Redacted<string>;
+  Name: string | redacted.Redacted<string>;
+  ClientRequestToken?: string | redacted.Redacted<string>;
 }
 export const CreateRoomRequest = S.suspend(() =>
   S.Struct({
@@ -357,14 +406,14 @@ export interface CreateRoomMembershipRequest {
   AccountId: string;
   RoomId: string;
   MemberId: string;
-  Role?: string;
+  Role?: RoomMembershipRole;
 }
 export const CreateRoomMembershipRequest = S.suspend(() =>
   S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     RoomId: S.String.pipe(T.HttpLabel("RoomId")),
     MemberId: S.String,
-    Role: S.optional(S.String),
+    Role: S.optional(RoomMembershipRole),
   }).pipe(
     T.all(
       T.Http({
@@ -384,15 +433,15 @@ export const CreateRoomMembershipRequest = S.suspend(() =>
 export interface CreateUserRequest {
   AccountId: string;
   Username?: string;
-  Email?: string | Redacted.Redacted<string>;
-  UserType?: string;
+  Email?: string | redacted.Redacted<string>;
+  UserType?: UserType;
 }
 export const CreateUserRequest = S.suspend(() =>
   S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     Username: S.optional(S.String),
     Email: S.optional(SensitiveString),
-    UserType: S.optional(S.String),
+    UserType: S.optional(UserType),
   }).pipe(
     T.all(
       T.Http({
@@ -572,7 +621,7 @@ export const DisassociatePhoneNumberFromUserResponse = S.suspend(() =>
 }) as any as S.Schema<DisassociatePhoneNumberFromUserResponse>;
 export interface DisassociateSigninDelegateGroupsFromAccountRequest {
   AccountId: string;
-  GroupNames: NonEmptyStringList;
+  GroupNames: string[];
 }
 export const DisassociateSigninDelegateGroupsFromAccountRequest = S.suspend(
   () =>
@@ -720,7 +769,7 @@ export const GetPhoneNumberOrderRequest = S.suspend(() =>
   identifier: "GetPhoneNumberOrderRequest",
 }) as any as S.Schema<GetPhoneNumberOrderRequest>;
 export interface GetPhoneNumberSettingsResponse {
-  CallingName?: string | Redacted.Redacted<string>;
+  CallingName?: string | redacted.Redacted<string>;
   CallingNameUpdatedTimestamp?: Date;
 }
 export const GetPhoneNumberSettingsResponse = S.suspend(() =>
@@ -821,14 +870,14 @@ export const GetUserSettingsRequest = S.suspend(() =>
 }) as any as S.Schema<GetUserSettingsRequest>;
 export interface InviteUsersRequest {
   AccountId: string;
-  UserEmailList: UserEmailList;
-  UserType?: string;
+  UserEmailList: string | redacted.Redacted<string>[];
+  UserType?: UserType;
 }
 export const InviteUsersRequest = S.suspend(() =>
   S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     UserEmailList: UserEmailList,
-    UserType: S.optional(S.String),
+    UserType: S.optional(UserType),
   }).pipe(
     T.all(
       T.Http({
@@ -847,7 +896,7 @@ export const InviteUsersRequest = S.suspend(() =>
 }) as any as S.Schema<InviteUsersRequest>;
 export interface ListAccountsRequest {
   Name?: string;
-  UserEmail?: string | Redacted.Redacted<string>;
+  UserEmail?: string | redacted.Redacted<string>;
   NextToken?: string;
   MaxResults?: number;
 }
@@ -915,18 +964,22 @@ export const ListPhoneNumberOrdersRequest = S.suspend(() =>
   identifier: "ListPhoneNumberOrdersRequest",
 }) as any as S.Schema<ListPhoneNumberOrdersRequest>;
 export interface ListPhoneNumbersRequest {
-  Status?: string;
-  ProductType?: string;
-  FilterName?: string;
+  Status?: PhoneNumberStatus;
+  ProductType?: PhoneNumberProductType;
+  FilterName?: PhoneNumberAssociationName;
   FilterValue?: string;
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListPhoneNumbersRequest = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String).pipe(T.HttpQuery("status")),
-    ProductType: S.optional(S.String).pipe(T.HttpQuery("product-type")),
-    FilterName: S.optional(S.String).pipe(T.HttpQuery("filter-name")),
+    Status: S.optional(PhoneNumberStatus).pipe(T.HttpQuery("status")),
+    ProductType: S.optional(PhoneNumberProductType).pipe(
+      T.HttpQuery("product-type"),
+    ),
+    FilterName: S.optional(PhoneNumberAssociationName).pipe(
+      T.HttpQuery("filter-name"),
+    ),
     FilterValue: S.optional(S.String).pipe(T.HttpQuery("filter-value")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
@@ -997,10 +1050,12 @@ export const ListRoomsRequest = S.suspend(() =>
   identifier: "ListRoomsRequest",
 }) as any as S.Schema<ListRoomsRequest>;
 export interface ListSupportedPhoneNumberCountriesRequest {
-  ProductType: string;
+  ProductType: PhoneNumberProductType;
 }
 export const ListSupportedPhoneNumberCountriesRequest = S.suspend(() =>
-  S.Struct({ ProductType: S.String.pipe(T.HttpQuery("product-type")) }).pipe(
+  S.Struct({
+    ProductType: PhoneNumberProductType.pipe(T.HttpQuery("product-type")),
+  }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/phone-number-countries" }),
       svc,
@@ -1015,8 +1070,8 @@ export const ListSupportedPhoneNumberCountriesRequest = S.suspend(() =>
 }) as any as S.Schema<ListSupportedPhoneNumberCountriesRequest>;
 export interface ListUsersRequest {
   AccountId: string;
-  UserEmail?: string | Redacted.Redacted<string>;
-  UserType?: string;
+  UserEmail?: string | redacted.Redacted<string>;
+  UserType?: UserType;
   MaxResults?: number;
   NextToken?: string;
 }
@@ -1024,7 +1079,7 @@ export const ListUsersRequest = S.suspend(() =>
   S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     UserEmail: S.optional(SensitiveString).pipe(T.HttpQuery("user-email")),
-    UserType: S.optional(S.String).pipe(T.HttpQuery("user-type")),
+    UserType: S.optional(UserType).pipe(T.HttpQuery("user-type")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
   }).pipe(
@@ -1071,8 +1126,8 @@ export const LogoutUserResponse = S.suspend(() => S.Struct({})).annotations({
 export interface PutEventsConfigurationRequest {
   AccountId: string;
   BotId: string;
-  OutboundEventsHTTPSEndpoint?: string | Redacted.Redacted<string>;
-  LambdaFunctionArn?: string | Redacted.Redacted<string>;
+  OutboundEventsHTTPSEndpoint?: string | redacted.Redacted<string>;
+  LambdaFunctionArn?: string | redacted.Redacted<string>;
 }
 export const PutEventsConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -1234,7 +1289,7 @@ export interface SearchAvailablePhoneNumbersRequest {
   Country?: string;
   State?: string;
   TollFreePrefix?: string;
-  PhoneNumberType?: string;
+  PhoneNumberType?: PhoneNumberType;
   MaxResults?: number;
   NextToken?: string;
 }
@@ -1245,7 +1300,7 @@ export const SearchAvailablePhoneNumbersRequest = S.suspend(() =>
     Country: S.optional(S.String).pipe(T.HttpQuery("country")),
     State: S.optional(S.String).pipe(T.HttpQuery("state")),
     TollFreePrefix: S.optional(S.String).pipe(T.HttpQuery("toll-free-prefix")),
-    PhoneNumberType: S.optional(S.String).pipe(
+    PhoneNumberType: S.optional(PhoneNumberType).pipe(
       T.HttpQuery("phone-number-type"),
     ),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
@@ -1266,13 +1321,13 @@ export const SearchAvailablePhoneNumbersRequest = S.suspend(() =>
 export interface UpdateAccountRequest {
   AccountId: string;
   Name?: string;
-  DefaultLicense?: string;
+  DefaultLicense?: License;
 }
 export const UpdateAccountRequest = S.suspend(() =>
   S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     Name: S.optional(S.String),
-    DefaultLicense: S.optional(S.String),
+    DefaultLicense: S.optional(License),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/accounts/{AccountId}" }),
@@ -1354,13 +1409,13 @@ export const UpdateGlobalSettingsResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateGlobalSettingsResponse>;
 export interface UpdatePhoneNumberRequest {
   PhoneNumberId: string;
-  ProductType?: string;
-  CallingName?: string | Redacted.Redacted<string>;
+  ProductType?: PhoneNumberProductType;
+  CallingName?: string | redacted.Redacted<string>;
 }
 export const UpdatePhoneNumberRequest = S.suspend(() =>
   S.Struct({
     PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")),
-    ProductType: S.optional(S.String),
+    ProductType: S.optional(PhoneNumberProductType),
     CallingName: S.optional(SensitiveString),
   }).pipe(
     T.all(
@@ -1376,7 +1431,7 @@ export const UpdatePhoneNumberRequest = S.suspend(() =>
   identifier: "UpdatePhoneNumberRequest",
 }) as any as S.Schema<UpdatePhoneNumberRequest>;
 export interface UpdatePhoneNumberSettingsRequest {
-  CallingName: string | Redacted.Redacted<string>;
+  CallingName: string | redacted.Redacted<string>;
 }
 export const UpdatePhoneNumberSettingsRequest = S.suspend(() =>
   S.Struct({ CallingName: SensitiveString }).pipe(
@@ -1401,7 +1456,7 @@ export const UpdatePhoneNumberSettingsResponse = S.suspend(() =>
 export interface UpdateRoomRequest {
   AccountId: string;
   RoomId: string;
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
 }
 export const UpdateRoomRequest = S.suspend(() =>
   S.Struct({
@@ -1425,14 +1480,14 @@ export interface UpdateRoomMembershipRequest {
   AccountId: string;
   RoomId: string;
   MemberId: string;
-  Role?: string;
+  Role?: RoomMembershipRole;
 }
 export const UpdateRoomMembershipRequest = S.suspend(() =>
   S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     RoomId: S.String.pipe(T.HttpLabel("RoomId")),
     MemberId: S.String.pipe(T.HttpLabel("MemberId")),
-    Role: S.optional(S.String),
+    Role: S.optional(RoomMembershipRole),
   }).pipe(
     T.all(
       T.Http({
@@ -1449,6 +1504,39 @@ export const UpdateRoomMembershipRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateRoomMembershipRequest",
 }) as any as S.Schema<UpdateRoomMembershipRequest>;
+export type ErrorCode =
+  | "BadRequest"
+  | "Conflict"
+  | "Forbidden"
+  | "NotFound"
+  | "PreconditionFailed"
+  | "ResourceLimitExceeded"
+  | "ServiceFailure"
+  | "AccessDenied"
+  | "ServiceUnavailable"
+  | "Throttled"
+  | "Throttling"
+  | "Unauthorized"
+  | "Unprocessable"
+  | "VoiceConnectorGroupAssociationsExist"
+  | "PhoneNumberAssociationsExist";
+export const ErrorCode = S.Literal(
+  "BadRequest",
+  "Conflict",
+  "Forbidden",
+  "NotFound",
+  "PreconditionFailed",
+  "ResourceLimitExceeded",
+  "ServiceFailure",
+  "AccessDenied",
+  "ServiceUnavailable",
+  "Throttled",
+  "Throttling",
+  "Unauthorized",
+  "Unprocessable",
+  "VoiceConnectorGroupAssociationsExist",
+  "PhoneNumberAssociationsExist",
+);
 export interface SigninDelegateGroup {
   GroupName?: string;
 }
@@ -1461,10 +1549,13 @@ export type SigninDelegateGroupList = SigninDelegateGroup[];
 export const SigninDelegateGroupList = S.Array(SigninDelegateGroup);
 export interface MembershipItem {
   MemberId?: string;
-  Role?: string;
+  Role?: RoomMembershipRole;
 }
 export const MembershipItem = S.suspend(() =>
-  S.Struct({ MemberId: S.optional(S.String), Role: S.optional(S.String) }),
+  S.Struct({
+    MemberId: S.optional(S.String),
+    Role: S.optional(RoomMembershipRole),
+  }),
 ).annotations({
   identifier: "MembershipItem",
 }) as any as S.Schema<MembershipItem>;
@@ -1472,13 +1563,13 @@ export type MembershipItemList = MembershipItem[];
 export const MembershipItemList = S.Array(MembershipItem);
 export interface UpdatePhoneNumberRequestItem {
   PhoneNumberId: string;
-  ProductType?: string;
-  CallingName?: string | Redacted.Redacted<string>;
+  ProductType?: PhoneNumberProductType;
+  CallingName?: string | redacted.Redacted<string>;
 }
 export const UpdatePhoneNumberRequestItem = S.suspend(() =>
   S.Struct({
     PhoneNumberId: S.String,
-    ProductType: S.optional(S.String),
+    ProductType: S.optional(PhoneNumberProductType),
     CallingName: S.optional(SensitiveString),
   }),
 ).annotations({
@@ -1490,7 +1581,7 @@ export const UpdatePhoneNumberRequestItemList = S.Array(
 );
 export interface AlexaForBusinessMetadata {
   IsAlexaForBusinessEnabled?: boolean;
-  AlexaForBusinessRoomArn?: string | Redacted.Redacted<string>;
+  AlexaForBusinessRoomArn?: string | redacted.Redacted<string>;
 }
 export const AlexaForBusinessMetadata = S.suspend(() =>
   S.Struct({
@@ -1502,15 +1593,15 @@ export const AlexaForBusinessMetadata = S.suspend(() =>
 }) as any as S.Schema<AlexaForBusinessMetadata>;
 export interface UpdateUserRequestItem {
   UserId: string;
-  LicenseType?: string;
-  UserType?: string;
+  LicenseType?: License;
+  UserType?: UserType;
   AlexaForBusinessMetadata?: AlexaForBusinessMetadata;
 }
 export const UpdateUserRequestItem = S.suspend(() =>
   S.Struct({
     UserId: S.String,
-    LicenseType: S.optional(S.String),
-    UserType: S.optional(S.String),
+    LicenseType: S.optional(License),
+    UserType: S.optional(UserType),
     AlexaForBusinessMetadata: S.optional(AlexaForBusinessMetadata),
   }),
 ).annotations({
@@ -1518,51 +1609,66 @@ export const UpdateUserRequestItem = S.suspend(() =>
 }) as any as S.Schema<UpdateUserRequestItem>;
 export type UpdateUserRequestItemList = UpdateUserRequestItem[];
 export const UpdateUserRequestItemList = S.Array(UpdateUserRequestItem);
-export type LicenseList = string[];
-export const LicenseList = S.Array(S.String);
+export type AccountType =
+  | "Team"
+  | "EnterpriseDirectory"
+  | "EnterpriseLWA"
+  | "EnterpriseOIDC";
+export const AccountType = S.Literal(
+  "Team",
+  "EnterpriseDirectory",
+  "EnterpriseLWA",
+  "EnterpriseOIDC",
+);
+export type LicenseList = License[];
+export const LicenseList = S.Array(License);
+export type AccountStatus = "Suspended" | "Active";
+export const AccountStatus = S.Literal("Suspended", "Active");
 export interface Account {
   AwsAccountId: string;
   AccountId: string;
   Name: string;
-  AccountType?: string;
+  AccountType?: AccountType;
   CreatedTimestamp?: Date;
-  DefaultLicense?: string;
-  SupportedLicenses?: LicenseList;
-  AccountStatus?: string;
-  SigninDelegateGroups?: SigninDelegateGroupList;
+  DefaultLicense?: License;
+  SupportedLicenses?: License[];
+  AccountStatus?: AccountStatus;
+  SigninDelegateGroups?: SigninDelegateGroup[];
 }
 export const Account = S.suspend(() =>
   S.Struct({
     AwsAccountId: S.String,
     AccountId: S.String,
     Name: S.String,
-    AccountType: S.optional(S.String),
+    AccountType: S.optional(AccountType),
     CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    DefaultLicense: S.optional(S.String),
+    DefaultLicense: S.optional(License),
     SupportedLicenses: S.optional(LicenseList),
-    AccountStatus: S.optional(S.String),
+    AccountStatus: S.optional(AccountStatus),
     SigninDelegateGroups: S.optional(SigninDelegateGroupList),
   }),
 ).annotations({ identifier: "Account" }) as any as S.Schema<Account>;
 export type AccountList = Account[];
 export const AccountList = S.Array(Account);
+export type BotType = "ChatBot";
+export const BotType = S.Literal("ChatBot");
 export interface Bot {
   BotId?: string;
   UserId?: string;
-  DisplayName?: string | Redacted.Redacted<string>;
-  BotType?: string;
+  DisplayName?: string | redacted.Redacted<string>;
+  BotType?: BotType;
   Disabled?: boolean;
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
-  BotEmail?: string | Redacted.Redacted<string>;
-  SecurityToken?: string | Redacted.Redacted<string>;
+  BotEmail?: string | redacted.Redacted<string>;
+  SecurityToken?: string | redacted.Redacted<string>;
 }
 export const Bot = S.suspend(() =>
   S.Struct({
     BotId: S.optional(S.String),
     UserId: S.optional(S.String),
     DisplayName: S.optional(SensitiveString),
-    BotType: S.optional(S.String),
+    BotType: S.optional(BotType),
     Disabled: S.optional(S.Boolean),
     CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -1572,14 +1678,31 @@ export const Bot = S.suspend(() =>
 ).annotations({ identifier: "Bot" }) as any as S.Schema<Bot>;
 export type BotList = Bot[];
 export const BotList = S.Array(Bot);
+export type PhoneNumberOrderStatus =
+  | "Processing"
+  | "Successful"
+  | "Failed"
+  | "Partial";
+export const PhoneNumberOrderStatus = S.Literal(
+  "Processing",
+  "Successful",
+  "Failed",
+  "Partial",
+);
+export type OrderedPhoneNumberStatus = "Processing" | "Acquired" | "Failed";
+export const OrderedPhoneNumberStatus = S.Literal(
+  "Processing",
+  "Acquired",
+  "Failed",
+);
 export interface OrderedPhoneNumber {
-  E164PhoneNumber?: string | Redacted.Redacted<string>;
-  Status?: string;
+  E164PhoneNumber?: string | redacted.Redacted<string>;
+  Status?: OrderedPhoneNumberStatus;
 }
 export const OrderedPhoneNumber = S.suspend(() =>
   S.Struct({
     E164PhoneNumber: S.optional(SensitiveString),
-    Status: S.optional(S.String),
+    Status: S.optional(OrderedPhoneNumberStatus),
   }),
 ).annotations({
   identifier: "OrderedPhoneNumber",
@@ -1588,17 +1711,17 @@ export type OrderedPhoneNumberList = OrderedPhoneNumber[];
 export const OrderedPhoneNumberList = S.Array(OrderedPhoneNumber);
 export interface PhoneNumberOrder {
   PhoneNumberOrderId?: string;
-  ProductType?: string;
-  Status?: string;
-  OrderedPhoneNumbers?: OrderedPhoneNumberList;
+  ProductType?: PhoneNumberProductType;
+  Status?: PhoneNumberOrderStatus;
+  OrderedPhoneNumbers?: OrderedPhoneNumber[];
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
 }
 export const PhoneNumberOrder = S.suspend(() =>
   S.Struct({
     PhoneNumberOrderId: S.optional(S.String),
-    ProductType: S.optional(S.String),
-    Status: S.optional(S.String),
+    ProductType: S.optional(PhoneNumberProductType),
+    Status: S.optional(PhoneNumberOrderStatus),
     OrderedPhoneNumbers: S.optional(OrderedPhoneNumberList),
     CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -1630,13 +1753,13 @@ export const PhoneNumberCapabilities = S.suspend(() =>
 }) as any as S.Schema<PhoneNumberCapabilities>;
 export interface PhoneNumberAssociation {
   Value?: string;
-  Name?: string;
+  Name?: PhoneNumberAssociationName;
   AssociatedTimestamp?: Date;
 }
 export const PhoneNumberAssociation = S.suspend(() =>
   S.Struct({
     Value: S.optional(S.String),
-    Name: S.optional(S.String),
+    Name: S.optional(PhoneNumberAssociationName),
     AssociatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("date-time")),
     ),
@@ -1646,17 +1769,28 @@ export const PhoneNumberAssociation = S.suspend(() =>
 }) as any as S.Schema<PhoneNumberAssociation>;
 export type PhoneNumberAssociationList = PhoneNumberAssociation[];
 export const PhoneNumberAssociationList = S.Array(PhoneNumberAssociation);
+export type CallingNameStatus =
+  | "Unassigned"
+  | "UpdateInProgress"
+  | "UpdateSucceeded"
+  | "UpdateFailed";
+export const CallingNameStatus = S.Literal(
+  "Unassigned",
+  "UpdateInProgress",
+  "UpdateSucceeded",
+  "UpdateFailed",
+);
 export interface PhoneNumber {
   PhoneNumberId?: string;
-  E164PhoneNumber?: string | Redacted.Redacted<string>;
+  E164PhoneNumber?: string | redacted.Redacted<string>;
   Country?: string;
-  Type?: string;
-  ProductType?: string;
-  Status?: string;
+  Type?: PhoneNumberType;
+  ProductType?: PhoneNumberProductType;
+  Status?: PhoneNumberStatus;
   Capabilities?: PhoneNumberCapabilities;
-  Associations?: PhoneNumberAssociationList;
-  CallingName?: string | Redacted.Redacted<string>;
-  CallingNameStatus?: string;
+  Associations?: PhoneNumberAssociation[];
+  CallingName?: string | redacted.Redacted<string>;
+  CallingNameStatus?: CallingNameStatus;
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
   DeletionTimestamp?: Date;
@@ -1666,13 +1800,13 @@ export const PhoneNumber = S.suspend(() =>
     PhoneNumberId: S.optional(S.String),
     E164PhoneNumber: S.optional(SensitiveString),
     Country: S.optional(S.String),
-    Type: S.optional(S.String),
-    ProductType: S.optional(S.String),
-    Status: S.optional(S.String),
+    Type: S.optional(PhoneNumberType),
+    ProductType: S.optional(PhoneNumberProductType),
+    Status: S.optional(PhoneNumberStatus),
     Capabilities: S.optional(PhoneNumberCapabilities),
     Associations: S.optional(PhoneNumberAssociationList),
     CallingName: S.optional(SensitiveString),
-    CallingNameStatus: S.optional(S.String),
+    CallingNameStatus: S.optional(CallingNameStatus),
     CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     DeletionTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -1680,17 +1814,19 @@ export const PhoneNumber = S.suspend(() =>
 ).annotations({ identifier: "PhoneNumber" }) as any as S.Schema<PhoneNumber>;
 export type PhoneNumberList = PhoneNumber[];
 export const PhoneNumberList = S.Array(PhoneNumber);
+export type MemberType = "User" | "Bot" | "Webhook";
+export const MemberType = S.Literal("User", "Bot", "Webhook");
 export interface Member {
   MemberId?: string;
-  MemberType?: string;
-  Email?: string | Redacted.Redacted<string>;
-  FullName?: string | Redacted.Redacted<string>;
+  MemberType?: MemberType;
+  Email?: string | redacted.Redacted<string>;
+  FullName?: string | redacted.Redacted<string>;
   AccountId?: string;
 }
 export const Member = S.suspend(() =>
   S.Struct({
     MemberId: S.optional(S.String),
-    MemberType: S.optional(S.String),
+    MemberType: S.optional(MemberType),
     Email: S.optional(SensitiveString),
     FullName: S.optional(SensitiveString),
     AccountId: S.optional(S.String),
@@ -1699,7 +1835,7 @@ export const Member = S.suspend(() =>
 export interface RoomMembership {
   RoomId?: string;
   Member?: Member;
-  Role?: string;
+  Role?: RoomMembershipRole;
   InvitedBy?: string;
   UpdatedTimestamp?: Date;
 }
@@ -1707,7 +1843,7 @@ export const RoomMembership = S.suspend(() =>
   S.Struct({
     RoomId: S.optional(S.String),
     Member: S.optional(Member),
-    Role: S.optional(S.String),
+    Role: S.optional(RoomMembershipRole),
     InvitedBy: S.optional(S.String),
     UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
@@ -1718,7 +1854,7 @@ export type RoomMembershipList = RoomMembership[];
 export const RoomMembershipList = S.Array(RoomMembership);
 export interface Room {
   RoomId?: string;
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
   AccountId?: string;
   CreatedBy?: string;
   CreatedTimestamp?: Date;
@@ -1736,16 +1872,24 @@ export const Room = S.suspend(() =>
 ).annotations({ identifier: "Room" }) as any as S.Schema<Room>;
 export type RoomList = Room[];
 export const RoomList = S.Array(Room);
+export type RegistrationStatus = "Unregistered" | "Registered" | "Suspended";
+export const RegistrationStatus = S.Literal(
+  "Unregistered",
+  "Registered",
+  "Suspended",
+);
+export type InviteStatus = "Pending" | "Accepted" | "Failed";
+export const InviteStatus = S.Literal("Pending", "Accepted", "Failed");
 export interface User {
   UserId: string;
   AccountId?: string;
-  PrimaryEmail?: string | Redacted.Redacted<string>;
-  PrimaryProvisionedNumber?: string | Redacted.Redacted<string>;
-  DisplayName?: string | Redacted.Redacted<string>;
-  LicenseType?: string;
-  UserType?: string;
-  UserRegistrationStatus?: string;
-  UserInvitationStatus?: string;
+  PrimaryEmail?: string | redacted.Redacted<string>;
+  PrimaryProvisionedNumber?: string | redacted.Redacted<string>;
+  DisplayName?: string | redacted.Redacted<string>;
+  LicenseType?: License;
+  UserType?: UserType;
+  UserRegistrationStatus?: RegistrationStatus;
+  UserInvitationStatus?: InviteStatus;
   RegisteredOn?: Date;
   InvitedOn?: Date;
   AlexaForBusinessMetadata?: AlexaForBusinessMetadata;
@@ -1758,10 +1902,10 @@ export const User = S.suspend(() =>
     PrimaryEmail: S.optional(SensitiveString),
     PrimaryProvisionedNumber: S.optional(SensitiveString),
     DisplayName: S.optional(SensitiveString),
-    LicenseType: S.optional(S.String),
-    UserType: S.optional(S.String),
-    UserRegistrationStatus: S.optional(S.String),
-    UserInvitationStatus: S.optional(S.String),
+    LicenseType: S.optional(License),
+    UserType: S.optional(UserType),
+    UserRegistrationStatus: S.optional(RegistrationStatus),
+    UserInvitationStatus: S.optional(InviteStatus),
     RegisteredOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     InvitedOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     AlexaForBusinessMetadata: S.optional(AlexaForBusinessMetadata),
@@ -1784,7 +1928,7 @@ export const AccountSettings = S.suspend(() =>
 }) as any as S.Schema<AccountSettings>;
 export interface AssociateSigninDelegateGroupsWithAccountRequest {
   AccountId: string;
-  SigninDelegateGroups: SigninDelegateGroupList;
+  SigninDelegateGroups: SigninDelegateGroup[];
 }
 export const AssociateSigninDelegateGroupsWithAccountRequest = S.suspend(() =>
   S.Struct({
@@ -1815,7 +1959,7 @@ export const AssociateSigninDelegateGroupsWithAccountResponse = S.suspend(() =>
 export interface BatchCreateRoomMembershipRequest {
   AccountId: string;
   RoomId: string;
-  MembershipItemList: MembershipItemList;
+  MembershipItemList: MembershipItem[];
 }
 export const BatchCreateRoomMembershipRequest = S.suspend(() =>
   S.Struct({
@@ -1840,20 +1984,20 @@ export const BatchCreateRoomMembershipRequest = S.suspend(() =>
 }) as any as S.Schema<BatchCreateRoomMembershipRequest>;
 export interface UserError {
   UserId?: string;
-  ErrorCode?: string;
+  ErrorCode?: ErrorCode;
   ErrorMessage?: string;
 }
 export const UserError = S.suspend(() =>
   S.Struct({
     UserId: S.optional(S.String),
-    ErrorCode: S.optional(S.String),
+    ErrorCode: S.optional(ErrorCode),
     ErrorMessage: S.optional(S.String),
   }),
 ).annotations({ identifier: "UserError" }) as any as S.Schema<UserError>;
 export type UserErrorList = UserError[];
 export const UserErrorList = S.Array(UserError);
 export interface BatchUnsuspendUserResponse {
-  UserErrors?: UserErrorList;
+  UserErrors?: UserError[];
 }
 export const BatchUnsuspendUserResponse = S.suspend(() =>
   S.Struct({ UserErrors: S.optional(UserErrorList) }),
@@ -1861,7 +2005,7 @@ export const BatchUnsuspendUserResponse = S.suspend(() =>
   identifier: "BatchUnsuspendUserResponse",
 }) as any as S.Schema<BatchUnsuspendUserResponse>;
 export interface BatchUpdatePhoneNumberRequest {
-  UpdatePhoneNumberRequestItems: UpdatePhoneNumberRequestItemList;
+  UpdatePhoneNumberRequestItems: UpdatePhoneNumberRequestItem[];
 }
 export const BatchUpdatePhoneNumberRequest = S.suspend(() =>
   S.Struct({
@@ -1881,7 +2025,7 @@ export const BatchUpdatePhoneNumberRequest = S.suspend(() =>
 }) as any as S.Schema<BatchUpdatePhoneNumberRequest>;
 export interface BatchUpdateUserRequest {
   AccountId: string;
-  UpdateUserRequestItems: UpdateUserRequestItemList;
+  UpdateUserRequestItems: UpdateUserRequestItem[];
 }
 export const BatchUpdateUserRequest = S.suspend(() =>
   S.Struct({
@@ -2039,7 +2183,7 @@ export const GetUserSettingsResponse = S.suspend(() =>
   identifier: "GetUserSettingsResponse",
 }) as any as S.Schema<GetUserSettingsResponse>;
 export interface ListAccountsResponse {
-  Accounts?: AccountList;
+  Accounts?: Account[];
   NextToken?: string;
 }
 export const ListAccountsResponse = S.suspend(() =>
@@ -2051,7 +2195,7 @@ export const ListAccountsResponse = S.suspend(() =>
   identifier: "ListAccountsResponse",
 }) as any as S.Schema<ListAccountsResponse>;
 export interface ListBotsResponse {
-  Bots?: BotList;
+  Bots?: Bot[];
   NextToken?: string;
 }
 export const ListBotsResponse = S.suspend(() =>
@@ -2060,7 +2204,7 @@ export const ListBotsResponse = S.suspend(() =>
   identifier: "ListBotsResponse",
 }) as any as S.Schema<ListBotsResponse>;
 export interface ListPhoneNumberOrdersResponse {
-  PhoneNumberOrders?: PhoneNumberOrderList;
+  PhoneNumberOrders?: PhoneNumberOrder[];
   NextToken?: string;
 }
 export const ListPhoneNumberOrdersResponse = S.suspend(() =>
@@ -2072,7 +2216,7 @@ export const ListPhoneNumberOrdersResponse = S.suspend(() =>
   identifier: "ListPhoneNumberOrdersResponse",
 }) as any as S.Schema<ListPhoneNumberOrdersResponse>;
 export interface ListPhoneNumbersResponse {
-  PhoneNumbers?: PhoneNumberList;
+  PhoneNumbers?: PhoneNumber[];
   NextToken?: string;
 }
 export const ListPhoneNumbersResponse = S.suspend(() =>
@@ -2084,7 +2228,7 @@ export const ListPhoneNumbersResponse = S.suspend(() =>
   identifier: "ListPhoneNumbersResponse",
 }) as any as S.Schema<ListPhoneNumbersResponse>;
 export interface ListRoomMembershipsResponse {
-  RoomMemberships?: RoomMembershipList;
+  RoomMemberships?: RoomMembership[];
   NextToken?: string;
 }
 export const ListRoomMembershipsResponse = S.suspend(() =>
@@ -2096,7 +2240,7 @@ export const ListRoomMembershipsResponse = S.suspend(() =>
   identifier: "ListRoomMembershipsResponse",
 }) as any as S.Schema<ListRoomMembershipsResponse>;
 export interface ListRoomsResponse {
-  Rooms?: RoomList;
+  Rooms?: Room[];
   NextToken?: string;
 }
 export const ListRoomsResponse = S.suspend(() =>
@@ -2105,7 +2249,7 @@ export const ListRoomsResponse = S.suspend(() =>
   identifier: "ListRoomsResponse",
 }) as any as S.Schema<ListRoomsResponse>;
 export interface ListUsersResponse {
-  Users?: UserList;
+  Users?: User[];
   NextToken?: string;
 }
 export const ListUsersResponse = S.suspend(() =>
@@ -2115,8 +2259,8 @@ export const ListUsersResponse = S.suspend(() =>
 }) as any as S.Schema<ListUsersResponse>;
 export interface EventsConfiguration {
   BotId?: string;
-  OutboundEventsHTTPSEndpoint?: string | Redacted.Redacted<string>;
-  LambdaFunctionArn?: string | Redacted.Redacted<string>;
+  OutboundEventsHTTPSEndpoint?: string | redacted.Redacted<string>;
+  LambdaFunctionArn?: string | redacted.Redacted<string>;
 }
 export const EventsConfiguration = S.suspend(() =>
   S.Struct({
@@ -2160,7 +2304,7 @@ export const RestorePhoneNumberResponse = S.suspend(() =>
   identifier: "RestorePhoneNumberResponse",
 }) as any as S.Schema<RestorePhoneNumberResponse>;
 export interface SearchAvailablePhoneNumbersResponse {
-  E164PhoneNumbers?: E164PhoneNumberList;
+  E164PhoneNumbers?: string | redacted.Redacted<string>[];
   NextToken?: string;
 }
 export const SearchAvailablePhoneNumbersResponse = S.suspend(() =>
@@ -2241,16 +2385,16 @@ export const UpdateRoomMembershipResponse = S.suspend(() =>
 export interface UpdateUserRequest {
   AccountId: string;
   UserId: string;
-  LicenseType?: string;
-  UserType?: string;
+  LicenseType?: License;
+  UserType?: UserType;
   AlexaForBusinessMetadata?: AlexaForBusinessMetadata;
 }
 export const UpdateUserRequest = S.suspend(() =>
   S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     UserId: S.String.pipe(T.HttpLabel("UserId")),
-    LicenseType: S.optional(S.String),
-    UserType: S.optional(S.String),
+    LicenseType: S.optional(License),
+    UserType: S.optional(UserType),
     AlexaForBusinessMetadata: S.optional(AlexaForBusinessMetadata),
   }).pipe(
     T.all(
@@ -2265,17 +2409,19 @@ export const UpdateUserRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateUserRequest",
 }) as any as S.Schema<UpdateUserRequest>;
-export type PhoneNumberTypeList = string[];
-export const PhoneNumberTypeList = S.Array(S.String);
+export type EmailStatus = "NotSent" | "Sent" | "Failed";
+export const EmailStatus = S.Literal("NotSent", "Sent", "Failed");
+export type PhoneNumberTypeList = PhoneNumberType[];
+export const PhoneNumberTypeList = S.Array(PhoneNumberType);
 export interface PhoneNumberError {
   PhoneNumberId?: string;
-  ErrorCode?: string;
+  ErrorCode?: ErrorCode;
   ErrorMessage?: string;
 }
 export const PhoneNumberError = S.suspend(() =>
   S.Struct({
     PhoneNumberId: S.optional(S.String),
-    ErrorCode: S.optional(S.String),
+    ErrorCode: S.optional(ErrorCode),
     ErrorMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -2285,23 +2431,23 @@ export type PhoneNumberErrorList = PhoneNumberError[];
 export const PhoneNumberErrorList = S.Array(PhoneNumberError);
 export interface Invite {
   InviteId?: string;
-  Status?: string;
-  EmailAddress?: string | Redacted.Redacted<string>;
-  EmailStatus?: string;
+  Status?: InviteStatus;
+  EmailAddress?: string | redacted.Redacted<string>;
+  EmailStatus?: EmailStatus;
 }
 export const Invite = S.suspend(() =>
   S.Struct({
     InviteId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(InviteStatus),
     EmailAddress: S.optional(SensitiveString),
-    EmailStatus: S.optional(S.String),
+    EmailStatus: S.optional(EmailStatus),
   }),
 ).annotations({ identifier: "Invite" }) as any as S.Schema<Invite>;
 export type InviteList = Invite[];
 export const InviteList = S.Array(Invite);
 export interface PhoneNumberCountry {
   CountryCode?: string;
-  SupportedPhoneNumberTypes?: PhoneNumberTypeList;
+  SupportedPhoneNumberTypes?: PhoneNumberType[];
 }
 export const PhoneNumberCountry = S.suspend(() =>
   S.Struct({
@@ -2314,7 +2460,7 @@ export const PhoneNumberCountry = S.suspend(() =>
 export type PhoneNumberCountriesList = PhoneNumberCountry[];
 export const PhoneNumberCountriesList = S.Array(PhoneNumberCountry);
 export interface BatchDeletePhoneNumberResponse {
-  PhoneNumberErrors?: PhoneNumberErrorList;
+  PhoneNumberErrors?: PhoneNumberError[];
 }
 export const BatchDeletePhoneNumberResponse = S.suspend(() =>
   S.Struct({ PhoneNumberErrors: S.optional(PhoneNumberErrorList) }),
@@ -2322,7 +2468,7 @@ export const BatchDeletePhoneNumberResponse = S.suspend(() =>
   identifier: "BatchDeletePhoneNumberResponse",
 }) as any as S.Schema<BatchDeletePhoneNumberResponse>;
 export interface BatchSuspendUserResponse {
-  UserErrors?: UserErrorList;
+  UserErrors?: UserError[];
 }
 export const BatchSuspendUserResponse = S.suspend(() =>
   S.Struct({ UserErrors: S.optional(UserErrorList) }),
@@ -2330,7 +2476,7 @@ export const BatchSuspendUserResponse = S.suspend(() =>
   identifier: "BatchSuspendUserResponse",
 }) as any as S.Schema<BatchSuspendUserResponse>;
 export interface BatchUpdatePhoneNumberResponse {
-  PhoneNumberErrors?: PhoneNumberErrorList;
+  PhoneNumberErrors?: PhoneNumberError[];
 }
 export const BatchUpdatePhoneNumberResponse = S.suspend(() =>
   S.Struct({ PhoneNumberErrors: S.optional(PhoneNumberErrorList) }),
@@ -2338,7 +2484,7 @@ export const BatchUpdatePhoneNumberResponse = S.suspend(() =>
   identifier: "BatchUpdatePhoneNumberResponse",
 }) as any as S.Schema<BatchUpdatePhoneNumberResponse>;
 export interface BatchUpdateUserResponse {
-  UserErrors?: UserErrorList;
+  UserErrors?: UserError[];
 }
 export const BatchUpdateUserResponse = S.suspend(() =>
   S.Struct({ UserErrors: S.optional(UserErrorList) }),
@@ -2386,7 +2532,7 @@ export const GetEventsConfigurationResponse = S.suspend(() =>
   identifier: "GetEventsConfigurationResponse",
 }) as any as S.Schema<GetEventsConfigurationResponse>;
 export interface InviteUsersResponse {
-  Invites?: InviteList;
+  Invites?: Invite[];
 }
 export const InviteUsersResponse = S.suspend(() =>
   S.Struct({ Invites: S.optional(InviteList) }),
@@ -2394,7 +2540,7 @@ export const InviteUsersResponse = S.suspend(() =>
   identifier: "InviteUsersResponse",
 }) as any as S.Schema<InviteUsersResponse>;
 export interface ListSupportedPhoneNumberCountriesResponse {
-  PhoneNumberCountries?: PhoneNumberCountriesList;
+  PhoneNumberCountries?: PhoneNumberCountry[];
 }
 export const ListSupportedPhoneNumberCountriesResponse = S.suspend(() =>
   S.Struct({ PhoneNumberCountries: S.optional(PhoneNumberCountriesList) }),
@@ -2467,20 +2613,20 @@ export const UpdateUserSettingsResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateUserSettingsResponse>;
 export interface MemberError {
   MemberId?: string;
-  ErrorCode?: string;
+  ErrorCode?: ErrorCode;
   ErrorMessage?: string;
 }
 export const MemberError = S.suspend(() =>
   S.Struct({
     MemberId: S.optional(S.String),
-    ErrorCode: S.optional(S.String),
+    ErrorCode: S.optional(ErrorCode),
     ErrorMessage: S.optional(S.String),
   }),
 ).annotations({ identifier: "MemberError" }) as any as S.Schema<MemberError>;
 export type MemberErrorList = MemberError[];
 export const MemberErrorList = S.Array(MemberError);
 export interface BatchCreateRoomMembershipResponse {
-  Errors?: MemberErrorList;
+  Errors?: MemberError[];
 }
 export const BatchCreateRoomMembershipResponse = S.suspend(() =>
   S.Struct({ Errors: S.optional(MemberErrorList) }),
@@ -2529,47 +2675,47 @@ export const PutRetentionSettingsResponse = S.suspend(() =>
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
   "ForbiddenException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withConflictError) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class ServiceFailureException extends S.TaggedError<ServiceFailureException>()(
   "ServiceFailureException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
 export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitExceededException>()(
   "ResourceLimitExceededException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
 export class ThrottledClientException extends S.TaggedError<ThrottledClientException>()(
   "ThrottledClientException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withThrottlingError) {}
 export class UnauthorizedClientException extends S.TaggedError<UnauthorizedClientException>()(
   "UnauthorizedClientException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
 export class UnprocessableEntityException extends S.TaggedError<UnprocessableEntityException>()(
   "UnprocessableEntityException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
@@ -2578,7 +2724,7 @@ export class UnprocessableEntityException extends S.TaggedError<UnprocessableEnt
  */
 export const deleteEventsConfiguration: (
   input: DeleteEventsConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEventsConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -2615,7 +2761,7 @@ export const deleteEventsConfiguration: (
  */
 export const putRetentionSettings: (
   input: PutRetentionSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutRetentionSettingsResponse,
   | BadRequestException
   | ConflictException
@@ -2648,7 +2794,7 @@ export const putRetentionSettings: (
  */
 export const inviteUsers: (
   input: InviteUsersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   InviteUsersResponse,
   | BadRequestException
   | ForbiddenException
@@ -2681,7 +2827,7 @@ export const inviteUsers: (
  */
 export const updateAccountSettings: (
   input: UpdateAccountSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAccountSettingsResponse,
   | BadRequestException
   | ConflictException
@@ -2712,7 +2858,7 @@ export const updateAccountSettings: (
  */
 export const updateUser: (
   input: UpdateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserResponse,
   | BadRequestException
   | ForbiddenException
@@ -2741,7 +2887,7 @@ export const updateUser: (
  */
 export const updateUserSettings: (
   input: UpdateUserSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -2771,7 +2917,7 @@ export const updateUserSettings: (
  */
 export const getAccount: (
   input: GetAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccountResponse,
   | BadRequestException
   | ForbiddenException
@@ -2802,7 +2948,7 @@ export const getAccount: (
  */
 export const getAccountSettings: (
   input: GetAccountSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccountSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -2831,7 +2977,7 @@ export const getAccountSettings: (
  */
 export const getBot: (
   input: GetBotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBotResponse,
   | BadRequestException
   | ForbiddenException
@@ -2861,7 +3007,7 @@ export const getBot: (
  */
 export const getPhoneNumberOrder: (
   input: GetPhoneNumberOrderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPhoneNumberOrderResponse,
   | BadRequestException
   | ForbiddenException
@@ -2891,7 +3037,7 @@ export const getPhoneNumberOrder: (
  */
 export const getRetentionSettings: (
   input: GetRetentionSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRetentionSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -2920,7 +3066,7 @@ export const getRetentionSettings: (
  */
 export const getRoom: (
   input: GetRoomRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRoomResponse,
   | BadRequestException
   | ForbiddenException
@@ -2952,7 +3098,7 @@ export const getRoom: (
  */
 export const getUser: (
   input: GetUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUserResponse,
   | BadRequestException
   | ForbiddenException
@@ -2981,7 +3127,7 @@ export const getUser: (
  */
 export const getUserSettings: (
   input: GetUserSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUserSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -3013,7 +3159,7 @@ export const getUserSettings: (
 export const listAccounts: {
   (
     input: ListAccountsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccountsResponse,
     | BadRequestException
     | ForbiddenException
@@ -3027,7 +3173,7 @@ export const listAccounts: {
   >;
   pages: (
     input: ListAccountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccountsResponse,
     | BadRequestException
     | ForbiddenException
@@ -3041,7 +3187,7 @@ export const listAccounts: {
   >;
   items: (
     input: ListAccountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -3077,7 +3223,7 @@ export const listAccounts: {
 export const listBots: {
   (
     input: ListBotsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBotsResponse,
     | BadRequestException
     | ForbiddenException
@@ -3091,7 +3237,7 @@ export const listBots: {
   >;
   pages: (
     input: ListBotsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBotsResponse,
     | BadRequestException
     | ForbiddenException
@@ -3105,7 +3251,7 @@ export const listBots: {
   >;
   items: (
     input: ListBotsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -3141,7 +3287,7 @@ export const listBots: {
 export const listPhoneNumbers: {
   (
     input: ListPhoneNumbersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPhoneNumbersResponse,
     | BadRequestException
     | ForbiddenException
@@ -3155,7 +3301,7 @@ export const listPhoneNumbers: {
   >;
   pages: (
     input: ListPhoneNumbersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPhoneNumbersResponse,
     | BadRequestException
     | ForbiddenException
@@ -3169,7 +3315,7 @@ export const listPhoneNumbers: {
   >;
   items: (
     input: ListPhoneNumbersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -3206,7 +3352,7 @@ export const listPhoneNumbers: {
 export const listRoomMemberships: {
   (
     input: ListRoomMembershipsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRoomMembershipsResponse,
     | BadRequestException
     | ForbiddenException
@@ -3220,7 +3366,7 @@ export const listRoomMemberships: {
   >;
   pages: (
     input: ListRoomMembershipsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRoomMembershipsResponse,
     | BadRequestException
     | ForbiddenException
@@ -3234,7 +3380,7 @@ export const listRoomMemberships: {
   >;
   items: (
     input: ListRoomMembershipsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -3270,7 +3416,7 @@ export const listRoomMemberships: {
 export const listRooms: {
   (
     input: ListRoomsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRoomsResponse,
     | BadRequestException
     | ForbiddenException
@@ -3284,7 +3430,7 @@ export const listRooms: {
   >;
   pages: (
     input: ListRoomsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRoomsResponse,
     | BadRequestException
     | ForbiddenException
@@ -3298,7 +3444,7 @@ export const listRooms: {
   >;
   items: (
     input: ListRoomsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -3335,7 +3481,7 @@ export const listRooms: {
 export const listUsers: {
   (
     input: ListUsersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUsersResponse,
     | BadRequestException
     | ForbiddenException
@@ -3349,7 +3495,7 @@ export const listUsers: {
   >;
   pages: (
     input: ListUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUsersResponse,
     | BadRequestException
     | ForbiddenException
@@ -3363,7 +3509,7 @@ export const listUsers: {
   >;
   items: (
     input: ListUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -3398,7 +3544,7 @@ export const listUsers: {
  */
 export const regenerateSecurityToken: (
   input: RegenerateSecurityTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegenerateSecurityTokenResponse,
   | BadRequestException
   | ForbiddenException
@@ -3428,7 +3574,7 @@ export const regenerateSecurityToken: (
  */
 export const resetPersonalPIN: (
   input: ResetPersonalPINRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResetPersonalPINResponse,
   | BadRequestException
   | ForbiddenException
@@ -3458,7 +3604,7 @@ export const resetPersonalPIN: (
  */
 export const restorePhoneNumber: (
   input: RestorePhoneNumberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RestorePhoneNumberResponse,
   | BadRequestException
   | ForbiddenException
@@ -3489,7 +3635,7 @@ export const restorePhoneNumber: (
  */
 export const updateAccount: (
   input: UpdateAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAccountResponse,
   | BadRequestException
   | ForbiddenException
@@ -3518,7 +3664,7 @@ export const updateAccount: (
  */
 export const updateBot: (
   input: UpdateBotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateBotResponse,
   | BadRequestException
   | ForbiddenException
@@ -3547,7 +3693,7 @@ export const updateBot: (
  */
 export const updateRoom: (
   input: UpdateRoomRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRoomResponse,
   | BadRequestException
   | ForbiddenException
@@ -3579,7 +3725,7 @@ export const updateRoom: (
  */
 export const updateRoomMembership: (
   input: UpdateRoomMembershipRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRoomMembershipResponse,
   | BadRequestException
   | ForbiddenException
@@ -3614,7 +3760,7 @@ export const updateRoomMembership: (
  */
 export const deletePhoneNumber: (
   input: DeletePhoneNumberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePhoneNumberResponse,
   | BadRequestException
   | ForbiddenException
@@ -3643,7 +3789,7 @@ export const deletePhoneNumber: (
  */
 export const deleteRoom: (
   input: DeleteRoomRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRoomResponse,
   | BadRequestException
   | ForbiddenException
@@ -3672,7 +3818,7 @@ export const deleteRoom: (
  */
 export const deleteRoomMembership: (
   input: DeleteRoomMembershipRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRoomMembershipResponse,
   | BadRequestException
   | ForbiddenException
@@ -3701,7 +3847,7 @@ export const deleteRoomMembership: (
  */
 export const disassociatePhoneNumberFromUser: (
   input: DisassociatePhoneNumberFromUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociatePhoneNumberFromUserResponse,
   | BadRequestException
   | ForbiddenException
@@ -3730,7 +3876,7 @@ export const disassociatePhoneNumberFromUser: (
  */
 export const disassociateSigninDelegateGroupsFromAccount: (
   input: DisassociateSigninDelegateGroupsFromAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateSigninDelegateGroupsFromAccountResponse,
   | BadRequestException
   | ForbiddenException
@@ -3759,7 +3905,7 @@ export const disassociateSigninDelegateGroupsFromAccount: (
  */
 export const logoutUser: (
   input: LogoutUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   LogoutUserResponse,
   | BadRequestException
   | ForbiddenException
@@ -3788,7 +3934,7 @@ export const logoutUser: (
  */
 export const redactConversationMessage: (
   input: RedactConversationMessageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RedactConversationMessageResponse,
   | BadRequestException
   | ForbiddenException
@@ -3817,7 +3963,7 @@ export const redactConversationMessage: (
  */
 export const redactRoomMessage: (
   input: RedactRoomMessageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RedactRoomMessageResponse,
   | BadRequestException
   | ForbiddenException
@@ -3846,7 +3992,7 @@ export const redactRoomMessage: (
  */
 export const associatePhoneNumberWithUser: (
   input: AssociatePhoneNumberWithUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociatePhoneNumberWithUserResponse,
   | AccessDeniedException
   | BadRequestException
@@ -3877,7 +4023,7 @@ export const associatePhoneNumberWithUser: (
  */
 export const associateSigninDelegateGroupsWithAccount: (
   input: AssociateSigninDelegateGroupsWithAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateSigninDelegateGroupsWithAccountResponse,
   | BadRequestException
   | ForbiddenException
@@ -3915,7 +4061,7 @@ export const associateSigninDelegateGroupsWithAccount: (
  */
 export const batchUnsuspendUser: (
   input: BatchUnsuspendUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchUnsuspendUserResponse,
   | BadRequestException
   | ForbiddenException
@@ -3948,7 +4094,7 @@ export const batchUnsuspendUser: (
  */
 export const batchDeletePhoneNumber: (
   input: BatchDeletePhoneNumberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDeletePhoneNumberResponse,
   | BadRequestException
   | ForbiddenException
@@ -3991,7 +4137,7 @@ export const batchDeletePhoneNumber: (
  */
 export const batchSuspendUser: (
   input: BatchSuspendUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchSuspendUserResponse,
   | BadRequestException
   | ForbiddenException
@@ -4024,7 +4170,7 @@ export const batchSuspendUser: (
  */
 export const batchUpdatePhoneNumber: (
   input: BatchUpdatePhoneNumberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchUpdatePhoneNumberResponse,
   | BadRequestException
   | ForbiddenException
@@ -4053,7 +4199,7 @@ export const batchUpdatePhoneNumber: (
  */
 export const batchUpdateUser: (
   input: BatchUpdateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchUpdateUserResponse,
   | BadRequestException
   | ForbiddenException
@@ -4085,7 +4231,7 @@ export const batchUpdateUser: (
  */
 export const createAccount: (
   input: CreateAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAccountResponse,
   | BadRequestException
   | ForbiddenException
@@ -4114,7 +4260,7 @@ export const createAccount: (
  */
 export const createBot: (
   input: CreateBotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBotResponse,
   | BadRequestException
   | ForbiddenException
@@ -4145,7 +4291,7 @@ export const createBot: (
  */
 export const createRoom: (
   input: CreateRoomRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRoomResponse,
   | BadRequestException
   | ForbiddenException
@@ -4180,7 +4326,7 @@ export const createRoom: (
  */
 export const updatePhoneNumber: (
   input: UpdatePhoneNumberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePhoneNumberResponse,
   | BadRequestException
   | ConflictException
@@ -4211,7 +4357,7 @@ export const updatePhoneNumber: (
  */
 export const createUser: (
   input: CreateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUserResponse,
   | BadRequestException
   | ConflictException
@@ -4243,7 +4389,7 @@ export const createUser: (
  */
 export const batchCreateRoomMembership: (
   input: BatchCreateRoomMembershipRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchCreateRoomMembershipResponse,
   | BadRequestException
   | ForbiddenException
@@ -4272,7 +4418,7 @@ export const batchCreateRoomMembership: (
  */
 export const createRoomMembership: (
   input: CreateRoomMembershipRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRoomMembershipResponse,
   | BadRequestException
   | ConflictException
@@ -4306,7 +4452,7 @@ export const createRoomMembership: (
  */
 export const getGlobalSettings: (
   input: GetGlobalSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetGlobalSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -4334,7 +4480,7 @@ export const getGlobalSettings: (
 export const listPhoneNumberOrders: {
   (
     input: ListPhoneNumberOrdersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPhoneNumberOrdersResponse,
     | BadRequestException
     | ForbiddenException
@@ -4347,7 +4493,7 @@ export const listPhoneNumberOrders: {
   >;
   pages: (
     input: ListPhoneNumberOrdersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPhoneNumberOrdersResponse,
     | BadRequestException
     | ForbiddenException
@@ -4360,7 +4506,7 @@ export const listPhoneNumberOrders: {
   >;
   items: (
     input: ListPhoneNumberOrdersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -4398,7 +4544,7 @@ export const listPhoneNumberOrders: {
 export const searchAvailablePhoneNumbers: {
   (
     input: SearchAvailablePhoneNumbersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchAvailablePhoneNumbersResponse,
     | AccessDeniedException
     | BadRequestException
@@ -4412,7 +4558,7 @@ export const searchAvailablePhoneNumbers: {
   >;
   pages: (
     input: SearchAvailablePhoneNumbersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchAvailablePhoneNumbersResponse,
     | AccessDeniedException
     | BadRequestException
@@ -4426,7 +4572,7 @@ export const searchAvailablePhoneNumbers: {
   >;
   items: (
     input: SearchAvailablePhoneNumbersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | BadRequestException
@@ -4461,7 +4607,7 @@ export const searchAvailablePhoneNumbers: {
  */
 export const getPhoneNumberSettings: (
   input: GetPhoneNumberSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPhoneNumberSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -4488,7 +4634,7 @@ export const getPhoneNumberSettings: (
  */
 export const updateGlobalSettings: (
   input: UpdateGlobalSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGlobalSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -4517,7 +4663,7 @@ export const updateGlobalSettings: (
  */
 export const updatePhoneNumberSettings: (
   input: UpdatePhoneNumberSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePhoneNumberSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -4544,7 +4690,7 @@ export const updatePhoneNumberSettings: (
  */
 export const getPhoneNumber: (
   input: GetPhoneNumberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPhoneNumberResponse,
   | BadRequestException
   | ForbiddenException
@@ -4579,7 +4725,7 @@ export const getPhoneNumber: (
  */
 export const createMeetingDialOut: (
   input: CreateMeetingDialOutRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMeetingDialOutResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4611,7 +4757,7 @@ export const createMeetingDialOut: (
  */
 export const createPhoneNumberOrder: (
   input: CreatePhoneNumberOrderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePhoneNumberOrderResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4642,7 +4788,7 @@ export const createPhoneNumberOrder: (
  */
 export const getEventsConfiguration: (
   input: GetEventsConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEventsConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -4673,7 +4819,7 @@ export const getEventsConfiguration: (
  */
 export const putEventsConfiguration: (
   input: PutEventsConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutEventsConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -4702,7 +4848,7 @@ export const putEventsConfiguration: (
  */
 export const listSupportedPhoneNumberCountries: (
   input: ListSupportedPhoneNumberCountriesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListSupportedPhoneNumberCountriesResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4744,7 +4890,7 @@ export const listSupportedPhoneNumberCountries: (
  */
 export const deleteAccount: (
   input: DeleteAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccountResponse,
   | BadRequestException
   | ForbiddenException

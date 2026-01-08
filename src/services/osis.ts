@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -106,7 +106,6 @@ export type TagValue = string;
 export type ErrorMessage = string;
 export type LogGroup = string;
 export type CidrBlock = string;
-export type Integer = number;
 export type AwsAccountId = string;
 
 //# Schemas
@@ -416,7 +415,7 @@ export const PutResourcePolicyRequest = S.suspend(() =>
 }) as any as S.Schema<PutResourcePolicyRequest>;
 export interface RevokePipelineEndpointConnectionsRequest {
   PipelineArn: string;
-  EndpointIds: PipelineEndpointIdsList;
+  EndpointIds: string[];
 }
 export const RevokePipelineEndpointConnectionsRequest = S.suspend(() =>
   S.Struct({
@@ -492,7 +491,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagResourceRequest {
   Arn: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ Arn: S.String.pipe(T.HttpQuery("arn")), Tags: TagList }).pipe(
@@ -517,7 +516,7 @@ export const TagResourceResponse = S.suspend(() =>
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   Arn: string;
-  TagKeys: StringList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -638,9 +637,11 @@ export type SubnetIds = string[];
 export const SubnetIds = S.Array(S.String);
 export type SecurityGroupIds = string[];
 export const SecurityGroupIds = S.Array(S.String);
+export type VpcEndpointManagement = "CUSTOMER" | "SERVICE";
+export const VpcEndpointManagement = S.Literal("CUSTOMER", "SERVICE");
 export interface PipelineEndpointVpcOptions {
-  SubnetIds?: SubnetIds;
-  SecurityGroupIds?: SecurityGroupIds;
+  SubnetIds?: string[];
+  SecurityGroupIds?: string[];
 }
 export const PipelineEndpointVpcOptions = S.suspend(() =>
   S.Struct({
@@ -708,7 +709,7 @@ export const GetResourcePolicyResponse = S.suspend(() =>
   identifier: "GetResourcePolicyResponse",
 }) as any as S.Schema<GetResourcePolicyResponse>;
 export interface ListPipelineBlueprintsResponse {
-  Blueprints?: PipelineBlueprintsSummaryList;
+  Blueprints?: PipelineBlueprintSummary[];
 }
 export const ListPipelineBlueprintsResponse = S.suspend(() =>
   S.Struct({ Blueprints: S.optional(PipelineBlueprintsSummaryList) }).pipe(ns),
@@ -716,7 +717,7 @@ export const ListPipelineBlueprintsResponse = S.suspend(() =>
   identifier: "ListPipelineBlueprintsResponse",
 }) as any as S.Schema<ListPipelineBlueprintsResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
@@ -743,6 +744,29 @@ export const RevokePipelineEndpointConnectionsResponse = S.suspend(() =>
 ).annotations({
   identifier: "RevokePipelineEndpointConnectionsResponse",
 }) as any as S.Schema<RevokePipelineEndpointConnectionsResponse>;
+export type PipelineStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "UPDATING"
+  | "DELETING"
+  | "CREATE_FAILED"
+  | "UPDATE_FAILED"
+  | "STARTING"
+  | "START_FAILED"
+  | "STOPPING"
+  | "STOPPED";
+export const PipelineStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "UPDATING",
+  "DELETING",
+  "CREATE_FAILED",
+  "UPDATE_FAILED",
+  "STARTING",
+  "START_FAILED",
+  "STOPPING",
+  "STOPPED",
+);
 export interface PipelineStatusReason {
   Description?: string;
 }
@@ -763,17 +787,17 @@ export const VpcAttachmentOptions = S.suspend(() =>
   identifier: "VpcAttachmentOptions",
 }) as any as S.Schema<VpcAttachmentOptions>;
 export interface VpcOptions {
-  SubnetIds: SubnetIds;
-  SecurityGroupIds?: SecurityGroupIds;
+  SubnetIds: string[];
+  SecurityGroupIds?: string[];
   VpcAttachmentOptions?: VpcAttachmentOptions;
-  VpcEndpointManagement?: string;
+  VpcEndpointManagement?: VpcEndpointManagement;
 }
 export const VpcOptions = S.suspend(() =>
   S.Struct({
     SubnetIds: SubnetIds,
     SecurityGroupIds: S.optional(SecurityGroupIds),
     VpcAttachmentOptions: S.optional(VpcAttachmentOptions),
-    VpcEndpointManagement: S.optional(S.String),
+    VpcEndpointManagement: S.optional(VpcEndpointManagement),
   }),
 ).annotations({ identifier: "VpcOptions" }) as any as S.Schema<VpcOptions>;
 export interface VpcEndpoint {
@@ -790,13 +814,15 @@ export const VpcEndpoint = S.suspend(() =>
 ).annotations({ identifier: "VpcEndpoint" }) as any as S.Schema<VpcEndpoint>;
 export type VpcEndpointsList = VpcEndpoint[];
 export const VpcEndpointsList = S.Array(VpcEndpoint);
+export type VpcEndpointServiceName = "OPENSEARCH_SERVERLESS";
+export const VpcEndpointServiceName = S.Literal("OPENSEARCH_SERVERLESS");
 export interface ServiceVpcEndpoint {
-  ServiceName?: string;
+  ServiceName?: VpcEndpointServiceName;
   VpcEndpointId?: string;
 }
 export const ServiceVpcEndpoint = S.suspend(() =>
   S.Struct({
-    ServiceName: S.optional(S.String),
+    ServiceName: S.optional(VpcEndpointServiceName),
     VpcEndpointId: S.optional(S.String),
   }),
 ).annotations({
@@ -823,20 +849,20 @@ export interface Pipeline {
   PipelineArn?: string;
   MinUnits?: number;
   MaxUnits?: number;
-  Status?: string;
+  Status?: PipelineStatus;
   StatusReason?: PipelineStatusReason;
   PipelineConfigurationBody?: string;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  IngestEndpointUrls?: IngestEndpointUrlsList;
+  IngestEndpointUrls?: string[];
   LogPublishingOptions?: LogPublishingOptions;
-  VpcEndpoints?: VpcEndpointsList;
+  VpcEndpoints?: VpcEndpoint[];
   BufferOptions?: BufferOptions;
   EncryptionAtRestOptions?: EncryptionAtRestOptions;
   VpcEndpointService?: string;
-  ServiceVpcEndpoints?: ServiceVpcEndpointsList;
-  Destinations?: PipelineDestinationList;
-  Tags?: TagList;
+  ServiceVpcEndpoints?: ServiceVpcEndpoint[];
+  Destinations?: PipelineDestination[];
+  Tags?: Tag[];
   PipelineRoleArn?: string;
 }
 export const Pipeline = S.suspend(() =>
@@ -845,7 +871,7 @@ export const Pipeline = S.suspend(() =>
     PipelineArn: S.optional(S.String),
     MinUnits: S.optional(S.Number),
     MaxUnits: S.optional(S.Number),
-    Status: S.optional(S.String),
+    Status: S.optional(PipelineStatus),
     StatusReason: S.optional(PipelineStatusReason),
     PipelineConfigurationBody: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -886,6 +912,32 @@ export const UpdatePipelineResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdatePipelineResponse",
 }) as any as S.Schema<UpdatePipelineResponse>;
+export type ChangeProgressStatuses =
+  | "PENDING"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "FAILED";
+export const ChangeProgressStatuses = S.Literal(
+  "PENDING",
+  "IN_PROGRESS",
+  "COMPLETED",
+  "FAILED",
+);
+export type PipelineEndpointStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "CREATE_FAILED"
+  | "DELETING"
+  | "REVOKING"
+  | "REVOKED";
+export const PipelineEndpointStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "CREATE_FAILED",
+  "DELETING",
+  "REVOKING",
+  "REVOKED",
+);
 export interface PipelineBlueprint {
   BlueprintName?: string;
   PipelineConfigurationBody?: string;
@@ -909,14 +961,14 @@ export const PipelineBlueprint = S.suspend(() =>
 export interface PipelineEndpointConnection {
   PipelineArn?: string;
   EndpointId?: string;
-  Status?: string;
+  Status?: PipelineEndpointStatus;
   VpcEndpointOwner?: string;
 }
 export const PipelineEndpointConnection = S.suspend(() =>
   S.Struct({
     PipelineArn: S.optional(S.String),
     EndpointId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(PipelineEndpointStatus),
     VpcEndpointOwner: S.optional(S.String),
   }),
 ).annotations({
@@ -930,7 +982,7 @@ export const PipelineEndpointConnectionsSummaryList = S.Array(
 export interface PipelineEndpoint {
   PipelineArn?: string;
   EndpointId?: string;
-  Status?: string;
+  Status?: PipelineEndpointStatus;
   VpcId?: string;
   VpcOptions?: PipelineEndpointVpcOptions;
   IngestEndpointUrl?: string;
@@ -939,7 +991,7 @@ export const PipelineEndpoint = S.suspend(() =>
   S.Struct({
     PipelineArn: S.optional(S.String),
     EndpointId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(PipelineEndpointStatus),
     VpcId: S.optional(S.String),
     VpcOptions: S.optional(PipelineEndpointVpcOptions),
     IngestEndpointUrl: S.optional(S.String),
@@ -950,7 +1002,7 @@ export const PipelineEndpoint = S.suspend(() =>
 export type PipelineEndpointsSummaryList = PipelineEndpoint[];
 export const PipelineEndpointsSummaryList = S.Array(PipelineEndpoint);
 export interface PipelineSummary {
-  Status?: string;
+  Status?: PipelineStatus;
   StatusReason?: PipelineStatusReason;
   PipelineName?: string;
   PipelineArn?: string;
@@ -958,12 +1010,12 @@ export interface PipelineSummary {
   MaxUnits?: number;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  Destinations?: PipelineDestinationList;
-  Tags?: TagList;
+  Destinations?: PipelineDestination[];
+  Tags?: Tag[];
 }
 export const PipelineSummary = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(PipelineStatus),
     StatusReason: S.optional(PipelineStatusReason),
     PipelineName: S.optional(S.String),
     PipelineArn: S.optional(S.String),
@@ -989,6 +1041,17 @@ export const ValidationMessage = S.suspend(() =>
 }) as any as S.Schema<ValidationMessage>;
 export type ValidationMessageList = ValidationMessage[];
 export const ValidationMessageList = S.Array(ValidationMessage);
+export type ChangeProgressStageStatuses =
+  | "PENDING"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "FAILED";
+export const ChangeProgressStageStatuses = S.Literal(
+  "PENDING",
+  "IN_PROGRESS",
+  "COMPLETED",
+  "FAILED",
+);
 export interface CreatePipelineRequest {
   PipelineName: string;
   MinUnits: number;
@@ -998,7 +1061,7 @@ export interface CreatePipelineRequest {
   VpcOptions?: VpcOptions;
   BufferOptions?: BufferOptions;
   EncryptionAtRestOptions?: EncryptionAtRestOptions;
-  Tags?: TagList;
+  Tags?: Tag[];
   PipelineRoleArn?: string;
 }
 export const CreatePipelineRequest = S.suspend(() =>
@@ -1030,14 +1093,14 @@ export const CreatePipelineRequest = S.suspend(() =>
 export interface CreatePipelineEndpointResponse {
   PipelineArn?: string;
   EndpointId?: string;
-  Status?: string;
+  Status?: PipelineEndpointStatus;
   VpcId?: string;
 }
 export const CreatePipelineEndpointResponse = S.suspend(() =>
   S.Struct({
     PipelineArn: S.optional(S.String),
     EndpointId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(PipelineEndpointStatus),
     VpcId: S.optional(S.String),
   }).pipe(ns),
 ).annotations({
@@ -1057,7 +1120,7 @@ export const GetPipelineBlueprintResponse = S.suspend(() =>
 }) as any as S.Schema<GetPipelineBlueprintResponse>;
 export interface ListPipelineEndpointConnectionsResponse {
   NextToken?: string;
-  PipelineEndpointConnections?: PipelineEndpointConnectionsSummaryList;
+  PipelineEndpointConnections?: PipelineEndpointConnection[];
 }
 export const ListPipelineEndpointConnectionsResponse = S.suspend(() =>
   S.Struct({
@@ -1071,7 +1134,7 @@ export const ListPipelineEndpointConnectionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListPipelineEndpointConnectionsResponse>;
 export interface ListPipelineEndpointsResponse {
   NextToken?: string;
-  PipelineEndpoints?: PipelineEndpointsSummaryList;
+  PipelineEndpoints?: PipelineEndpoint[];
 }
 export const ListPipelineEndpointsResponse = S.suspend(() =>
   S.Struct({
@@ -1083,7 +1146,7 @@ export const ListPipelineEndpointsResponse = S.suspend(() =>
 }) as any as S.Schema<ListPipelineEndpointsResponse>;
 export interface ListPipelinesResponse {
   NextToken?: string;
-  Pipelines?: PipelineSummaryList;
+  Pipelines?: PipelineSummary[];
 }
 export const ListPipelinesResponse = S.suspend(() =>
   S.Struct({
@@ -1095,7 +1158,7 @@ export const ListPipelinesResponse = S.suspend(() =>
 }) as any as S.Schema<ListPipelinesResponse>;
 export interface ValidatePipelineResponse {
   isValid?: boolean;
-  Errors?: ValidationMessageList;
+  Errors?: ValidationMessage[];
 }
 export const ValidatePipelineResponse = S.suspend(() =>
   S.Struct({
@@ -1107,14 +1170,14 @@ export const ValidatePipelineResponse = S.suspend(() =>
 }) as any as S.Schema<ValidatePipelineResponse>;
 export interface ChangeProgressStage {
   Name?: string;
-  Status?: string;
+  Status?: ChangeProgressStageStatuses;
   Description?: string;
   LastUpdatedAt?: Date;
 }
 export const ChangeProgressStage = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ChangeProgressStageStatuses),
     Description: S.optional(S.String),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -1125,14 +1188,14 @@ export type ChangeProgressStageList = ChangeProgressStage[];
 export const ChangeProgressStageList = S.Array(ChangeProgressStage);
 export interface ChangeProgressStatus {
   StartTime?: Date;
-  Status?: string;
+  Status?: ChangeProgressStatuses;
   TotalNumberOfStages?: number;
-  ChangeProgressStages?: ChangeProgressStageList;
+  ChangeProgressStages?: ChangeProgressStage[];
 }
 export const ChangeProgressStatus = S.suspend(() =>
   S.Struct({
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
+    Status: S.optional(ChangeProgressStatuses),
     TotalNumberOfStages: S.optional(S.Number),
     ChangeProgressStages: S.optional(ChangeProgressStageList),
   }),
@@ -1158,7 +1221,7 @@ export const GetPipelineResponse = S.suspend(() =>
   identifier: "GetPipelineResponse",
 }) as any as S.Schema<GetPipelineResponse>;
 export interface GetPipelineChangeProgressResponse {
-  ChangeProgressStatuses?: ChangeProgressStatusList;
+  ChangeProgressStatuses?: ChangeProgressStatus[];
 }
 export const GetPipelineChangeProgressResponse = S.suspend(() =>
   S.Struct({
@@ -1214,7 +1277,7 @@ export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlread
  */
 export const validatePipeline: (
   input: ValidatePipelineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ValidatePipelineResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1237,7 +1300,7 @@ export const validatePipeline: (
  */
 export const startPipeline: (
   input: StartPipelineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartPipelineResponse,
   | AccessDeniedException
   | ConflictException
@@ -1265,7 +1328,7 @@ export const startPipeline: (
 export const listPipelineEndpointConnections: {
   (
     input: ListPipelineEndpointConnectionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPipelineEndpointConnectionsResponse,
     | AccessDeniedException
     | DisabledOperationException
@@ -1277,7 +1340,7 @@ export const listPipelineEndpointConnections: {
   >;
   pages: (
     input: ListPipelineEndpointConnectionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPipelineEndpointConnectionsResponse,
     | AccessDeniedException
     | DisabledOperationException
@@ -1289,7 +1352,7 @@ export const listPipelineEndpointConnections: {
   >;
   items: (
     input: ListPipelineEndpointConnectionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PipelineEndpointConnection,
     | AccessDeniedException
     | DisabledOperationException
@@ -1322,7 +1385,7 @@ export const listPipelineEndpointConnections: {
 export const listPipelineEndpoints: {
   (
     input: ListPipelineEndpointsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPipelineEndpointsResponse,
     | AccessDeniedException
     | DisabledOperationException
@@ -1334,7 +1397,7 @@ export const listPipelineEndpoints: {
   >;
   pages: (
     input: ListPipelineEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPipelineEndpointsResponse,
     | AccessDeniedException
     | DisabledOperationException
@@ -1346,7 +1409,7 @@ export const listPipelineEndpoints: {
   >;
   items: (
     input: ListPipelineEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PipelineEndpoint,
     | AccessDeniedException
     | DisabledOperationException
@@ -1379,7 +1442,7 @@ export const listPipelineEndpoints: {
  */
 export const putResourcePolicy: (
   input: PutResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourcePolicyResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1406,7 +1469,7 @@ export const putResourcePolicy: (
  */
 export const revokePipelineEndpointConnections: (
   input: RevokePipelineEndpointConnectionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RevokePipelineEndpointConnectionsResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1431,7 +1494,7 @@ export const revokePipelineEndpointConnections: (
  */
 export const deleteResourcePolicy: (
   input: DeleteResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourcePolicyResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1459,7 +1522,7 @@ export const deleteResourcePolicy: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1487,7 +1550,7 @@ export const tagResource: (
  */
 export const createPipelineEndpoint: (
   input: CreatePipelineEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePipelineEndpointResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1516,7 +1579,7 @@ export const createPipelineEndpoint: (
  */
 export const listPipelineBlueprints: (
   input: ListPipelineBlueprintsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListPipelineBlueprintsResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1541,7 +1604,7 @@ export const listPipelineBlueprints: (
  */
 export const deletePipelineEndpoint: (
   input: DeletePipelineEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePipelineEndpointResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1567,7 +1630,7 @@ export const deletePipelineEndpoint: (
 export const listPipelines: {
   (
     input: ListPipelinesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPipelinesResponse,
     | AccessDeniedException
     | DisabledOperationException
@@ -1579,7 +1642,7 @@ export const listPipelines: {
   >;
   pages: (
     input: ListPipelinesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPipelinesResponse,
     | AccessDeniedException
     | DisabledOperationException
@@ -1591,7 +1654,7 @@ export const listPipelines: {
   >;
   items: (
     input: ListPipelinesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | DisabledOperationException
@@ -1623,7 +1686,7 @@ export const listPipelines: {
  */
 export const stopPipeline: (
   input: StopPipelineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopPipelineResponse,
   | AccessDeniedException
   | ConflictException
@@ -1651,7 +1714,7 @@ export const stopPipeline: (
  */
 export const updatePipeline: (
   input: UpdatePipelineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePipelineResponse,
   | AccessDeniedException
   | ConflictException
@@ -1679,7 +1742,7 @@ export const updatePipeline: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1705,7 +1768,7 @@ export const listTagsForResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1731,7 +1794,7 @@ export const untagResource: (
  */
 export const deletePipeline: (
   input: DeletePipelineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePipelineResponse,
   | AccessDeniedException
   | ConflictException
@@ -1761,7 +1824,7 @@ export const deletePipeline: (
  */
 export const getPipelineBlueprint: (
   input: GetPipelineBlueprintRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPipelineBlueprintResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1786,7 +1849,7 @@ export const getPipelineBlueprint: (
  */
 export const getPipeline: (
   input: GetPipelineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPipelineResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1815,7 +1878,7 @@ export const getPipeline: (
  */
 export const getPipelineChangeProgress: (
   input: GetPipelineChangeProgressRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPipelineChangeProgressResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1840,7 +1903,7 @@ export const getPipelineChangeProgress: (
  */
 export const getResourcePolicy: (
   input: GetResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourcePolicyResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1868,7 +1931,7 @@ export const getResourcePolicy: (
  */
 export const createPipeline: (
   input: CreatePipelineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePipelineResponse,
   | AccessDeniedException
   | DisabledOperationException

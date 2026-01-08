@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -93,7 +93,7 @@ export type ExecutionRoleArn = string;
 export type EarthObservationJobArn = string;
 export type EarthObservationJobStatus = string;
 export type SortOrder = string;
-export type NextToken = string | Redacted.Redacted<string>;
+export type NextToken = string | redacted.Redacted<string>;
 export type TargetOptions = string;
 export type OutputType = string;
 export type DataCollectionArn = string;
@@ -144,7 +144,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -211,7 +211,7 @@ export interface ListEarthObservationJobInput {
   StatusEquals?: string;
   SortOrder?: string;
   SortBy?: string;
-  NextToken?: string | Redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string>;
   MaxResults?: number;
 }
 export const ListEarthObservationJobInput = S.suspend(() =>
@@ -238,7 +238,7 @@ export interface GetTileInput {
   x: number;
   y: number;
   z: number;
-  ImageAssets: StringListInput;
+  ImageAssets: string[];
   Target: string;
   Arn: string;
   ImageMask?: boolean;
@@ -316,7 +316,7 @@ export const GetRasterDataCollectionInput = S.suspend(() =>
   identifier: "GetRasterDataCollectionInput",
 }) as any as S.Schema<GetRasterDataCollectionInput>;
 export interface ListRasterDataCollectionsInput {
-  NextToken?: string | Redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string>;
   MaxResults?: number;
 }
 export const ListRasterDataCollectionsInput = S.suspend(() =>
@@ -380,7 +380,7 @@ export interface ListVectorEnrichmentJobInput {
   StatusEquals?: string;
   SortOrder?: string;
   SortBy?: string;
-  NextToken?: string | Redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string>;
   MaxResults?: number;
 }
 export const ListVectorEnrichmentJobInput = S.suspend(() =>
@@ -447,7 +447,7 @@ export const TemporalStatisticsListInput = S.Array(S.String);
 export type ZonalStatisticsListInput = string[];
 export const ZonalStatisticsListInput = S.Array(S.String);
 export interface ListTagsForResourceResponse {
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }),
@@ -456,7 +456,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: Tags;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -501,22 +501,22 @@ export const TimeRangeFilterInput = S.suspend(() =>
 }) as any as S.Schema<TimeRangeFilterInput>;
 export type Position = number[];
 export const Position = S.Array(S.Number);
-export type LinearRing = Position[];
+export type LinearRing = number[][];
 export const LinearRing = S.Array(Position);
-export type LinearRings = LinearRing[];
+export type LinearRings = number[][][];
 export const LinearRings = S.Array(LinearRing);
 export interface PolygonGeometryInput {
-  Coordinates: LinearRings;
+  Coordinates: number[][][];
 }
 export const PolygonGeometryInput = S.suspend(() =>
   S.Struct({ Coordinates: LinearRings }),
 ).annotations({
   identifier: "PolygonGeometryInput",
 }) as any as S.Schema<PolygonGeometryInput>;
-export type LinearRingsList = LinearRings[];
+export type LinearRingsList = number[][][][];
 export const LinearRingsList = S.Array(LinearRings);
 export interface MultiPolygonGeometryInput {
-  Coordinates: LinearRingsList;
+  Coordinates: number[][][][];
 }
 export const MultiPolygonGeometryInput = S.suspend(() =>
   S.Struct({ Coordinates: LinearRingsList }),
@@ -530,9 +530,7 @@ export const AreaOfInterestGeometry = S.Union(
   S.Struct({ PolygonGeometry: PolygonGeometryInput }),
   S.Struct({ MultiPolygonGeometry: MultiPolygonGeometryInput }),
 );
-export type AreaOfInterest = {
-  AreaOfInterestGeometry: (typeof AreaOfInterestGeometry)["Type"];
-};
+export type AreaOfInterest = { AreaOfInterestGeometry: AreaOfInterestGeometry };
 export const AreaOfInterest = S.Union(
   S.Struct({ AreaOfInterestGeometry: AreaOfInterestGeometry }),
 );
@@ -606,7 +604,7 @@ export const Property = S.Union(
   S.Struct({ LandsatCloudCoverLand: LandsatCloudCoverLandInput }),
 );
 export interface PropertyFilter {
-  Property: (typeof Property)["Type"];
+  Property: Property;
 }
 export const PropertyFilter = S.suspend(() =>
   S.Struct({ Property: Property }),
@@ -616,7 +614,7 @@ export const PropertyFilter = S.suspend(() =>
 export type PropertyFiltersList = PropertyFilter[];
 export const PropertyFiltersList = S.Array(PropertyFilter);
 export interface PropertyFilters {
-  Properties?: PropertyFiltersList;
+  Properties?: PropertyFilter[];
   LogicalOperator?: string;
 }
 export const PropertyFilters = S.suspend(() =>
@@ -630,7 +628,7 @@ export const PropertyFilters = S.suspend(() =>
 export interface RasterDataCollectionQueryInput {
   RasterDataCollectionArn: string;
   TimeRangeFilter: TimeRangeFilterInput;
-  AreaOfInterest?: (typeof AreaOfInterest)["Type"];
+  AreaOfInterest?: AreaOfInterest;
   PropertyFilters?: PropertyFilters;
 }
 export const RasterDataCollectionQueryInput = S.suspend(() =>
@@ -645,8 +643,8 @@ export const RasterDataCollectionQueryInput = S.suspend(() =>
 }) as any as S.Schema<RasterDataCollectionQueryInput>;
 export interface TemporalStatisticsConfigInput {
   GroupBy?: string;
-  Statistics: TemporalStatisticsListInput;
-  TargetBands?: StringListInput;
+  Statistics: string[];
+  TargetBands?: string[];
 }
 export const TemporalStatisticsConfigInput = S.suspend(() =>
   S.Struct({
@@ -660,7 +658,7 @@ export const TemporalStatisticsConfigInput = S.suspend(() =>
 export interface CloudRemovalConfigInput {
   AlgorithmName?: string;
   InterpolationValue?: string;
-  TargetBands?: StringListInput;
+  TargetBands?: string[];
 }
 export const CloudRemovalConfigInput = S.suspend(() =>
   S.Struct({
@@ -673,8 +671,8 @@ export const CloudRemovalConfigInput = S.suspend(() =>
 }) as any as S.Schema<CloudRemovalConfigInput>;
 export interface ZonalStatisticsConfigInput {
   ZoneS3Path: string;
-  Statistics: ZonalStatisticsListInput;
-  TargetBands?: StringListInput;
+  Statistics: string[];
+  TargetBands?: string[];
   ZoneS3PathKmsKeyId?: string;
 }
 export const ZonalStatisticsConfigInput = S.suspend(() =>
@@ -689,7 +687,7 @@ export const ZonalStatisticsConfigInput = S.suspend(() =>
 }) as any as S.Schema<ZonalStatisticsConfigInput>;
 export interface GeoMosaicConfigInput {
   AlgorithmName?: string;
-  TargetBands?: StringListInput;
+  TargetBands?: string[];
 }
 export const GeoMosaicConfigInput = S.suspend(() =>
   S.Struct({
@@ -785,7 +783,7 @@ export interface ListEarthObservationJobOutputConfig {
   DurationInSeconds: number;
   Status: string;
   OperationType: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const ListEarthObservationJobOutputConfig = S.suspend(() =>
   S.Struct({
@@ -834,8 +832,8 @@ export interface RasterDataCollectionMetadata {
   Type: string;
   Description: string;
   DescriptionPageUrl?: string;
-  SupportedFilters: FilterList;
-  Tags?: Tags;
+  SupportedFilters: Filter[];
+  Tags?: { [key: string]: string };
 }
 export const RasterDataCollectionMetadata = S.suspend(() =>
   S.Struct({
@@ -854,7 +852,7 @@ export type DataCollectionsList = RasterDataCollectionMetadata[];
 export const DataCollectionsList = S.Array(RasterDataCollectionMetadata);
 export interface VectorEnrichmentJobInputConfig {
   DocumentType: string;
-  DataSourceConfig: (typeof VectorEnrichmentJobDataSourceConfigInput)["Type"];
+  DataSourceConfig: VectorEnrichmentJobDataSourceConfigInput;
 }
 export const VectorEnrichmentJobInputConfig = S.suspend(() =>
   S.Struct({
@@ -899,7 +897,7 @@ export interface ListVectorEnrichmentJobOutputConfig {
   CreationTime: Date;
   DurationInSeconds: number;
   Status: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const ListVectorEnrichmentJobOutputConfig = S.suspend(() =>
   S.Struct({
@@ -946,8 +944,8 @@ export const OutputResolutionStackInput = S.suspend(() =>
   identifier: "OutputResolutionStackInput",
 }) as any as S.Schema<OutputResolutionStackInput>;
 export interface ListEarthObservationJobOutput {
-  EarthObservationJobSummaries: EarthObservationJobList;
-  NextToken?: string | Redacted.Redacted<string>;
+  EarthObservationJobSummaries: ListEarthObservationJobOutputConfig[];
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListEarthObservationJobOutput = S.suspend(() =>
   S.Struct({
@@ -990,9 +988,9 @@ export interface GetRasterDataCollectionOutput {
   Type: string;
   Description: string;
   DescriptionPageUrl: string;
-  SupportedFilters: FilterList;
-  ImageSourceBands: ImageSourceBandList;
-  Tags?: Tags;
+  SupportedFilters: Filter[];
+  ImageSourceBands: string[];
+  Tags?: { [key: string]: string };
 }
 export const GetRasterDataCollectionOutput = S.suspend(() =>
   S.Struct({
@@ -1009,8 +1007,8 @@ export const GetRasterDataCollectionOutput = S.suspend(() =>
   identifier: "GetRasterDataCollectionOutput",
 }) as any as S.Schema<GetRasterDataCollectionOutput>;
 export interface ListRasterDataCollectionsOutput {
-  RasterDataCollectionSummaries: DataCollectionsList;
-  NextToken?: string | Redacted.Redacted<string>;
+  RasterDataCollectionSummaries: RasterDataCollectionMetadata[];
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListRasterDataCollectionsOutput = S.suspend(() =>
   S.Struct({
@@ -1025,9 +1023,9 @@ export interface StartVectorEnrichmentJobInput {
   ClientToken?: string;
   KmsKeyId?: string;
   InputConfig: VectorEnrichmentJobInputConfig;
-  JobConfig: (typeof VectorEnrichmentJobConfig)["Type"];
+  JobConfig: VectorEnrichmentJobConfig;
   ExecutionRoleArn: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const StartVectorEnrichmentJobInput = S.suspend(() =>
   S.Struct({
@@ -1060,12 +1058,12 @@ export interface GetVectorEnrichmentJobOutput {
   Status: string;
   KmsKeyId?: string;
   InputConfig: VectorEnrichmentJobInputConfig;
-  JobConfig: (typeof VectorEnrichmentJobConfig)["Type"];
+  JobConfig: VectorEnrichmentJobConfig;
   ExecutionRoleArn: string;
   ErrorDetails?: VectorEnrichmentJobErrorDetails;
   ExportStatus?: string;
   ExportErrorDetails?: VectorEnrichmentJobExportErrorDetails;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const GetVectorEnrichmentJobOutput = S.suspend(() =>
   S.Struct({
@@ -1088,8 +1086,8 @@ export const GetVectorEnrichmentJobOutput = S.suspend(() =>
   identifier: "GetVectorEnrichmentJobOutput",
 }) as any as S.Schema<GetVectorEnrichmentJobOutput>;
 export interface ListVectorEnrichmentJobOutput {
-  VectorEnrichmentJobSummaries: VectorEnrichmentJobList;
-  NextToken?: string | Redacted.Redacted<string>;
+  VectorEnrichmentJobSummaries: ListVectorEnrichmentJobOutputConfig[];
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListVectorEnrichmentJobOutput = S.suspend(() =>
   S.Struct({
@@ -1126,7 +1124,7 @@ export const ExportVectorEnrichmentJobInput = S.suspend(() =>
 }) as any as S.Schema<ExportVectorEnrichmentJobInput>;
 export interface StackConfigInput {
   OutputResolution?: OutputResolutionStackInput;
-  TargetBands?: StringListInput;
+  TargetBands?: string[];
 }
 export const StackConfigInput = S.suspend(() =>
   S.Struct({
@@ -1172,7 +1170,7 @@ export const ExportErrorDetails = S.suspend(() =>
   identifier: "ExportErrorDetails",
 }) as any as S.Schema<ExportErrorDetails>;
 export interface CustomIndicesInput {
-  Operations?: OperationsListInput;
+  Operations?: Operation[];
 }
 export const CustomIndicesInput = S.suspend(() =>
   S.Struct({ Operations: S.optional(OperationsListInput) }),
@@ -1228,9 +1226,9 @@ export interface StartVectorEnrichmentJobOutput {
   Status: string;
   KmsKeyId?: string;
   InputConfig: VectorEnrichmentJobInputConfig;
-  JobConfig: (typeof VectorEnrichmentJobConfig)["Type"];
+  JobConfig: VectorEnrichmentJobConfig;
   ExecutionRoleArn: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const StartVectorEnrichmentJobOutput = S.suspend(() =>
   S.Struct({
@@ -1268,7 +1266,7 @@ export const ExportVectorEnrichmentJobOutput = S.suspend(() =>
   identifier: "ExportVectorEnrichmentJobOutput",
 }) as any as S.Schema<ExportVectorEnrichmentJobOutput>;
 export interface BandMathConfigInput {
-  PredefinedIndices?: StringListInput;
+  PredefinedIndices?: string[];
   CustomIndices?: CustomIndicesInput;
 }
 export const BandMathConfigInput = S.suspend(() =>
@@ -1282,7 +1280,7 @@ export const BandMathConfigInput = S.suspend(() =>
 export interface ResamplingConfigInput {
   OutputResolution: OutputResolutionResamplingInput;
   AlgorithmName?: string;
-  TargetBands?: StringListInput;
+  TargetBands?: string[];
 }
 export const ResamplingConfigInput = S.suspend(() =>
   S.Struct({
@@ -1297,7 +1295,7 @@ export interface RasterDataCollectionQueryOutput {
   RasterDataCollectionArn: string;
   RasterDataCollectionName: string;
   TimeRangeFilter: TimeRangeFilterOutput;
-  AreaOfInterest?: (typeof AreaOfInterest)["Type"];
+  AreaOfInterest?: AreaOfInterest;
   PropertyFilters?: PropertyFilters;
 }
 export const RasterDataCollectionQueryOutput = S.suspend(() =>
@@ -1349,9 +1347,9 @@ export interface StartEarthObservationJobInput {
   ClientToken?: string;
   KmsKeyId?: string;
   InputConfig: InputConfigInput;
-  JobConfig: (typeof JobConfigInput)["Type"];
+  JobConfig: JobConfigInput;
   ExecutionRoleArn: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const StartEarthObservationJobInput = S.suspend(() =>
   S.Struct({
@@ -1383,13 +1381,13 @@ export interface GetEarthObservationJobOutput {
   Status: string;
   KmsKeyId?: string;
   InputConfig: InputConfigOutput;
-  JobConfig: (typeof JobConfigInput)["Type"];
-  OutputBands?: EarthObservationJobOutputBands;
+  JobConfig: JobConfigInput;
+  OutputBands?: OutputBand[];
   ExecutionRoleArn?: string;
   ErrorDetails?: EarthObservationJobErrorDetails;
   ExportStatus?: string;
   ExportErrorDetails?: ExportErrorDetails;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const GetEarthObservationJobOutput = S.suspend(() =>
   S.Struct({
@@ -1413,9 +1411,9 @@ export const GetEarthObservationJobOutput = S.suspend(() =>
 }) as any as S.Schema<GetEarthObservationJobOutput>;
 export interface RasterDataCollectionQueryWithBandFilterInput {
   TimeRangeFilter: TimeRangeFilterInput;
-  AreaOfInterest?: (typeof AreaOfInterest)["Type"];
+  AreaOfInterest?: AreaOfInterest;
   PropertyFilters?: PropertyFilters;
-  BandFilter?: StringListInput;
+  BandFilter?: string[];
 }
 export const RasterDataCollectionQueryWithBandFilterInput = S.suspend(() =>
   S.Struct({
@@ -1435,9 +1433,9 @@ export interface StartEarthObservationJobOutput {
   Status: string;
   KmsKeyId?: string;
   InputConfig?: InputConfigOutput;
-  JobConfig: (typeof JobConfigInput)["Type"];
+  JobConfig: JobConfigInput;
   ExecutionRoleArn: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const StartEarthObservationJobOutput = S.suspend(() =>
   S.Struct({
@@ -1458,7 +1456,7 @@ export const StartEarthObservationJobOutput = S.suspend(() =>
 export interface SearchRasterDataCollectionInput {
   Arn: string;
   RasterDataCollectionQuery: RasterDataCollectionQueryWithBandFilterInput;
-  NextToken?: string | Redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const SearchRasterDataCollectionInput = S.suspend(() =>
   S.Struct({
@@ -1480,7 +1478,7 @@ export const SearchRasterDataCollectionInput = S.suspend(() =>
 }) as any as S.Schema<SearchRasterDataCollectionInput>;
 export interface Geometry {
   Type: string;
-  Coordinates: LinearRings;
+  Coordinates: number[][][];
 }
 export const Geometry = S.suspend(() =>
   S.Struct({ Type: S.String, Coordinates: LinearRings }),
@@ -1514,7 +1512,7 @@ export const AssetsMap = S.Record({ key: S.String, value: AssetValue });
 export interface ItemSource {
   Id: string;
   Geometry: Geometry;
-  Assets?: AssetsMap;
+  Assets?: { [key: string]: AssetValue };
   DateTime: Date;
   Properties?: Properties;
 }
@@ -1531,8 +1529,8 @@ export type ItemSourceList = ItemSource[];
 export const ItemSourceList = S.Array(ItemSource);
 export interface SearchRasterDataCollectionOutput {
   ApproximateResultCount: number;
-  NextToken?: string | Redacted.Redacted<string>;
-  Items?: ItemSourceList;
+  NextToken?: string | redacted.Redacted<string>;
+  Items?: ItemSource[];
 }
 export const SearchRasterDataCollectionOutput = S.suspend(() =>
   S.Struct({
@@ -1580,7 +1578,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1605,7 +1603,7 @@ export const untagResource: (
  */
 export const startEarthObservationJob: (
   input: StartEarthObservationJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartEarthObservationJobOutput,
   | AccessDeniedException
   | ConflictException
@@ -1634,7 +1632,7 @@ export const startEarthObservationJob: (
  */
 export const getEarthObservationJob: (
   input: GetEarthObservationJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetEarthObservationJobOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1659,7 +1657,7 @@ export const getEarthObservationJob: (
  */
 export const exportEarthObservationJob: (
   input: ExportEarthObservationJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   ExportEarthObservationJobOutput,
   | AccessDeniedException
   | ConflictException
@@ -1689,7 +1687,7 @@ export const exportEarthObservationJob: (
 export const listEarthObservationJobs: {
   (
     input: ListEarthObservationJobInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEarthObservationJobOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1701,7 +1699,7 @@ export const listEarthObservationJobs: {
   >;
   pages: (
     input: ListEarthObservationJobInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEarthObservationJobOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1713,7 +1711,7 @@ export const listEarthObservationJobs: {
   >;
   items: (
     input: ListEarthObservationJobInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEarthObservationJobOutputConfig,
     | AccessDeniedException
     | InternalServerException
@@ -1744,7 +1742,7 @@ export const listEarthObservationJobs: {
  */
 export const getRasterDataCollection: (
   input: GetRasterDataCollectionInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetRasterDataCollectionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1770,7 +1768,7 @@ export const getRasterDataCollection: (
 export const listRasterDataCollections: {
   (
     input: ListRasterDataCollectionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRasterDataCollectionsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1782,7 +1780,7 @@ export const listRasterDataCollections: {
   >;
   pages: (
     input: ListRasterDataCollectionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRasterDataCollectionsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1794,7 +1792,7 @@ export const listRasterDataCollections: {
   >;
   items: (
     input: ListRasterDataCollectionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RasterDataCollectionMetadata,
     | AccessDeniedException
     | InternalServerException
@@ -1825,7 +1823,7 @@ export const listRasterDataCollections: {
  */
 export const getVectorEnrichmentJob: (
   input: GetVectorEnrichmentJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetVectorEnrichmentJobOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1851,7 +1849,7 @@ export const getVectorEnrichmentJob: (
 export const listVectorEnrichmentJobs: {
   (
     input: ListVectorEnrichmentJobInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVectorEnrichmentJobOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1863,7 +1861,7 @@ export const listVectorEnrichmentJobs: {
   >;
   pages: (
     input: ListVectorEnrichmentJobInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVectorEnrichmentJobOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1875,7 +1873,7 @@ export const listVectorEnrichmentJobs: {
   >;
   items: (
     input: ListVectorEnrichmentJobInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVectorEnrichmentJobOutputConfig,
     | AccessDeniedException
     | InternalServerException
@@ -1906,7 +1904,7 @@ export const listVectorEnrichmentJobs: {
  */
 export const deleteEarthObservationJob: (
   input: DeleteEarthObservationJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEarthObservationJobOutput,
   | AccessDeniedException
   | ConflictException
@@ -1933,7 +1931,7 @@ export const deleteEarthObservationJob: (
  */
 export const getTile: (
   input: GetTileInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetTileOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1958,7 +1956,7 @@ export const getTile: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1983,7 +1981,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2008,7 +2006,7 @@ export const tagResource: (
  */
 export const stopEarthObservationJob: (
   input: StopEarthObservationJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopEarthObservationJobOutput,
   | AccessDeniedException
   | ConflictException
@@ -2035,7 +2033,7 @@ export const stopEarthObservationJob: (
  */
 export const deleteVectorEnrichmentJob: (
   input: DeleteVectorEnrichmentJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVectorEnrichmentJobOutput,
   | AccessDeniedException
   | ConflictException
@@ -2062,7 +2060,7 @@ export const deleteVectorEnrichmentJob: (
  */
 export const stopVectorEnrichmentJob: (
   input: StopVectorEnrichmentJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopVectorEnrichmentJobOutput,
   | AccessDeniedException
   | ConflictException
@@ -2089,7 +2087,7 @@ export const stopVectorEnrichmentJob: (
  */
 export const startVectorEnrichmentJob: (
   input: StartVectorEnrichmentJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartVectorEnrichmentJobOutput,
   | AccessDeniedException
   | ConflictException
@@ -2118,7 +2116,7 @@ export const startVectorEnrichmentJob: (
  */
 export const exportVectorEnrichmentJob: (
   input: ExportVectorEnrichmentJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   ExportVectorEnrichmentJobOutput,
   | AccessDeniedException
   | ConflictException
@@ -2148,7 +2146,7 @@ export const exportVectorEnrichmentJob: (
 export const searchRasterDataCollection: {
   (
     input: SearchRasterDataCollectionInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchRasterDataCollectionOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2160,7 +2158,7 @@ export const searchRasterDataCollection: {
   >;
   pages: (
     input: SearchRasterDataCollectionInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchRasterDataCollectionOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2172,7 +2170,7 @@ export const searchRasterDataCollection: {
   >;
   items: (
     input: SearchRasterDataCollectionInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException

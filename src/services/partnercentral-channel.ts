@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -128,20 +128,83 @@ export type AssociatedResourceId = string;
 //# Schemas
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export type HandshakeStatusList = string[];
-export const HandshakeStatusList = S.Array(S.String);
+export type HandshakeType =
+  | "START_SERVICE_PERIOD"
+  | "REVOKE_SERVICE_PERIOD"
+  | "PROGRAM_MANAGEMENT_ACCOUNT";
+export const HandshakeType = S.Literal(
+  "START_SERVICE_PERIOD",
+  "REVOKE_SERVICE_PERIOD",
+  "PROGRAM_MANAGEMENT_ACCOUNT",
+);
+export type ParticipantType = "SENDER" | "RECEIVER";
+export const ParticipantType = S.Literal("SENDER", "RECEIVER");
+export type HandshakeStatus =
+  | "PENDING"
+  | "ACCEPTED"
+  | "REJECTED"
+  | "CANCELED"
+  | "EXPIRED";
+export const HandshakeStatus = S.Literal(
+  "PENDING",
+  "ACCEPTED",
+  "REJECTED",
+  "CANCELED",
+  "EXPIRED",
+);
+export type HandshakeStatusList = HandshakeStatus[];
+export const HandshakeStatusList = S.Array(HandshakeStatus);
 export type AssociatedResourceIdentifierList = string[];
 export const AssociatedResourceIdentifierList = S.Array(S.String);
+export type Program =
+  | "SOLUTION_PROVIDER"
+  | "DISTRIBUTION"
+  | "DISTRIBUTION_SELLER";
+export const Program = S.Literal(
+  "SOLUTION_PROVIDER",
+  "DISTRIBUTION",
+  "DISTRIBUTION_SELLER",
+);
 export type ProgramManagementAccountDisplayNameList = string[];
 export const ProgramManagementAccountDisplayNameList = S.Array(S.String);
-export type ProgramList = string[];
-export const ProgramList = S.Array(S.String);
+export type ProgramList = Program[];
+export const ProgramList = S.Array(Program);
 export type AccountIdList = string[];
 export const AccountIdList = S.Array(S.String);
-export type ProgramManagementAccountStatusList = string[];
-export const ProgramManagementAccountStatusList = S.Array(S.String);
-export type AssociationTypeList = string[];
-export const AssociationTypeList = S.Array(S.String);
+export type ProgramManagementAccountStatus = "PENDING" | "ACTIVE" | "INACTIVE";
+export const ProgramManagementAccountStatus = S.Literal(
+  "PENDING",
+  "ACTIVE",
+  "INACTIVE",
+);
+export type ProgramManagementAccountStatusList =
+  ProgramManagementAccountStatus[];
+export const ProgramManagementAccountStatusList = S.Array(
+  ProgramManagementAccountStatus,
+);
+export type AssociationType = "DOWNSTREAM_SELLER" | "END_CUSTOMER" | "INTERNAL";
+export const AssociationType = S.Literal(
+  "DOWNSTREAM_SELLER",
+  "END_CUSTOMER",
+  "INTERNAL",
+);
+export type ResaleAccountModel =
+  | "DISTRIBUTOR"
+  | "END_CUSTOMER"
+  | "SOLUTION_PROVIDER";
+export const ResaleAccountModel = S.Literal(
+  "DISTRIBUTOR",
+  "END_CUSTOMER",
+  "SOLUTION_PROVIDER",
+);
+export type Sector = "COMMERCIAL" | "GOVERNMENT" | "GOVERNMENT_EXCEPTION";
+export const Sector = S.Literal(
+  "COMMERCIAL",
+  "GOVERNMENT",
+  "GOVERNMENT_EXCEPTION",
+);
+export type AssociationTypeList = AssociationType[];
+export const AssociationTypeList = S.Array(AssociationType);
 export type RelationshipDisplayNameList = string[];
 export const RelationshipDisplayNameList = S.Array(S.String);
 export type ProgramManagementAccountIdentifierList = string[];
@@ -165,7 +228,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
@@ -250,16 +313,16 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface CreateProgramManagementAccountRequest {
   catalog: string;
-  program: string;
+  program: Program;
   displayName: string;
   accountId: string;
   clientToken?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateProgramManagementAccountRequest = S.suspend(() =>
   S.Struct({
     catalog: S.String,
-    program: S.String,
+    program: Program,
     displayName: S.String,
     accountId: S.String,
     clientToken: S.optional(S.String),
@@ -354,37 +417,44 @@ export const GetRelationshipRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetRelationshipRequest",
 }) as any as S.Schema<GetRelationshipRequest>;
+export type Coverage = "ENTIRE_ORGANIZATION" | "MANAGEMENT_ACCOUNT_ONLY";
+export const Coverage = S.Literal(
+  "ENTIRE_ORGANIZATION",
+  "MANAGEMENT_ACCOUNT_ONLY",
+);
 export interface ResoldBusiness {
-  coverage: string;
+  coverage: Coverage;
 }
 export const ResoldBusiness = S.suspend(() =>
-  S.Struct({ coverage: S.String }),
+  S.Struct({ coverage: Coverage }),
 ).annotations({
   identifier: "ResoldBusiness",
 }) as any as S.Schema<ResoldBusiness>;
 export interface ResoldEnterprise {
-  coverage: string;
+  coverage: Coverage;
   tamLocation: string;
   chargeAccountId?: string;
 }
 export const ResoldEnterprise = S.suspend(() =>
   S.Struct({
-    coverage: S.String,
+    coverage: Coverage,
     tamLocation: S.String,
     chargeAccountId: S.optional(S.String),
   }),
 ).annotations({
   identifier: "ResoldEnterprise",
 }) as any as S.Schema<ResoldEnterprise>;
+export type Provider = "DISTRIBUTOR" | "DISTRIBUTION_SELLER";
+export const Provider = S.Literal("DISTRIBUTOR", "DISTRIBUTION_SELLER");
 export interface PartnerLedSupport {
-  coverage: string;
-  provider?: string;
+  coverage: Coverage;
+  provider?: Provider;
   tamLocation: string;
 }
 export const PartnerLedSupport = S.suspend(() =>
   S.Struct({
-    coverage: S.String,
-    provider: S.optional(S.String),
+    coverage: Coverage,
+    provider: S.optional(Provider),
     tamLocation: S.String,
   }),
 ).annotations({
@@ -405,7 +475,7 @@ export interface UpdateRelationshipRequest {
   programManagementAccountIdentifier: string;
   revision?: string;
   displayName?: string;
-  requestedSupportPlan?: (typeof SupportPlan)["Type"];
+  requestedSupportPlan?: SupportPlan;
 }
 export const UpdateRelationshipRequest = S.suspend(() =>
   S.Struct({
@@ -459,28 +529,50 @@ export const DeleteRelationshipResponse = S.suspend(() =>
 ).annotations({
   identifier: "DeleteRelationshipResponse",
 }) as any as S.Schema<DeleteRelationshipResponse>;
+export type SortOrder = "Ascending" | "Descending";
+export const SortOrder = S.Literal("Ascending", "Descending");
+export type ListProgramManagementAccountsSortName = "UpdatedAt";
+export const ListProgramManagementAccountsSortName = S.Literal("UpdatedAt");
+export type ListRelationshipsSortName = "UpdatedAt";
+export const ListRelationshipsSortName = S.Literal("UpdatedAt");
 export interface ListProgramManagementAccountsSortBase {
-  sortOrder: string;
-  sortBy: string;
+  sortOrder: SortOrder;
+  sortBy: ListProgramManagementAccountsSortName;
 }
 export const ListProgramManagementAccountsSortBase = S.suspend(() =>
-  S.Struct({ sortOrder: S.String, sortBy: S.String }),
+  S.Struct({
+    sortOrder: SortOrder,
+    sortBy: ListProgramManagementAccountsSortName,
+  }),
 ).annotations({
   identifier: "ListProgramManagementAccountsSortBase",
 }) as any as S.Schema<ListProgramManagementAccountsSortBase>;
 export interface ListRelationshipsSortBase {
-  sortOrder: string;
-  sortBy: string;
+  sortOrder: SortOrder;
+  sortBy: ListRelationshipsSortName;
 }
 export const ListRelationshipsSortBase = S.suspend(() =>
-  S.Struct({ sortOrder: S.String, sortBy: S.String }),
+  S.Struct({ sortOrder: SortOrder, sortBy: ListRelationshipsSortName }),
 ).annotations({
   identifier: "ListRelationshipsSortBase",
 }) as any as S.Schema<ListRelationshipsSortBase>;
-export type ServicePeriodTypeList = string[];
-export const ServicePeriodTypeList = S.Array(S.String);
+export type ServicePeriodType =
+  | "MINIMUM_NOTICE_PERIOD"
+  | "FIXED_COMMITMENT_PERIOD";
+export const ServicePeriodType = S.Literal(
+  "MINIMUM_NOTICE_PERIOD",
+  "FIXED_COMMITMENT_PERIOD",
+);
+export type ServicePeriodTypeList = ServicePeriodType[];
+export const ServicePeriodTypeList = S.Array(ServicePeriodType);
+export type StartServicePeriodTypeSortName = "UpdatedAt";
+export const StartServicePeriodTypeSortName = S.Literal("UpdatedAt");
+export type RevokeServicePeriodTypeSortName = "UpdatedAt";
+export const RevokeServicePeriodTypeSortName = S.Literal("UpdatedAt");
+export type ProgramManagementAccountTypeSortName = "UpdatedAt";
+export const ProgramManagementAccountTypeSortName = S.Literal("UpdatedAt");
 export interface ListTagsForResourceResponse {
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagList) }),
@@ -489,7 +581,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagList;
+  tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
@@ -512,10 +604,10 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 export interface ListProgramManagementAccountsRequest {
   catalog: string;
   maxResults?: number;
-  displayNames?: ProgramManagementAccountDisplayNameList;
-  programs?: ProgramList;
-  accountIds?: AccountIdList;
-  statuses?: ProgramManagementAccountStatusList;
+  displayNames?: string[];
+  programs?: Program[];
+  accountIds?: string[];
+  statuses?: ProgramManagementAccountStatus[];
   sort?: ListProgramManagementAccountsSortBase;
   nextToken?: string;
 }
@@ -545,10 +637,10 @@ export const ListProgramManagementAccountsRequest = S.suspend(() =>
 export interface ListRelationshipsRequest {
   catalog: string;
   maxResults?: number;
-  associatedAccountIds?: AccountIdList;
-  associationTypes?: AssociationTypeList;
-  displayNames?: RelationshipDisplayNameList;
-  programManagementAccountIdentifiers?: ProgramManagementAccountIdentifierList;
+  associatedAccountIds?: string[];
+  associationTypes?: AssociationType[];
+  displayNames?: string[];
+  programManagementAccountIdentifiers?: string[];
   sort?: ListRelationshipsSortBase;
   nextToken?: string;
 }
@@ -580,7 +672,7 @@ export const ListRelationshipsRequest = S.suspend(() =>
 export interface StartServicePeriodPayload {
   programManagementAccountIdentifier: string;
   note?: string;
-  servicePeriodType: string;
+  servicePeriodType: ServicePeriodType;
   minimumNoticeDays?: string;
   endDate?: Date;
 }
@@ -588,7 +680,7 @@ export const StartServicePeriodPayload = S.suspend(() =>
   S.Struct({
     programManagementAccountIdentifier: S.String,
     note: S.optional(S.String),
-    servicePeriodType: S.String,
+    servicePeriodType: ServicePeriodType,
     minimumNoticeDays: S.optional(S.String),
     endDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
@@ -608,7 +700,7 @@ export const RevokeServicePeriodPayload = S.suspend(() =>
   identifier: "RevokeServicePeriodPayload",
 }) as any as S.Schema<RevokeServicePeriodPayload>;
 export interface StartServicePeriodTypeFilters {
-  servicePeriodTypes?: ServicePeriodTypeList;
+  servicePeriodTypes?: ServicePeriodType[];
 }
 export const StartServicePeriodTypeFilters = S.suspend(() =>
   S.Struct({ servicePeriodTypes: S.optional(ServicePeriodTypeList) }),
@@ -616,7 +708,7 @@ export const StartServicePeriodTypeFilters = S.suspend(() =>
   identifier: "StartServicePeriodTypeFilters",
 }) as any as S.Schema<StartServicePeriodTypeFilters>;
 export interface RevokeServicePeriodTypeFilters {
-  servicePeriodTypes?: ServicePeriodTypeList;
+  servicePeriodTypes?: ServicePeriodType[];
 }
 export const RevokeServicePeriodTypeFilters = S.suspend(() =>
   S.Struct({ servicePeriodTypes: S.optional(ServicePeriodTypeList) }),
@@ -624,7 +716,7 @@ export const RevokeServicePeriodTypeFilters = S.suspend(() =>
   identifier: "RevokeServicePeriodTypeFilters",
 }) as any as S.Schema<RevokeServicePeriodTypeFilters>;
 export interface ProgramManagementAccountTypeFilters {
-  programs?: ProgramList;
+  programs?: Program[];
 }
 export const ProgramManagementAccountTypeFilters = S.suspend(() =>
   S.Struct({ programs: S.optional(ProgramList) }),
@@ -632,29 +724,32 @@ export const ProgramManagementAccountTypeFilters = S.suspend(() =>
   identifier: "ProgramManagementAccountTypeFilters",
 }) as any as S.Schema<ProgramManagementAccountTypeFilters>;
 export interface StartServicePeriodTypeSort {
-  sortOrder: string;
-  sortBy: string;
+  sortOrder: SortOrder;
+  sortBy: StartServicePeriodTypeSortName;
 }
 export const StartServicePeriodTypeSort = S.suspend(() =>
-  S.Struct({ sortOrder: S.String, sortBy: S.String }),
+  S.Struct({ sortOrder: SortOrder, sortBy: StartServicePeriodTypeSortName }),
 ).annotations({
   identifier: "StartServicePeriodTypeSort",
 }) as any as S.Schema<StartServicePeriodTypeSort>;
 export interface RevokeServicePeriodTypeSort {
-  sortOrder: string;
-  sortBy: string;
+  sortOrder: SortOrder;
+  sortBy: RevokeServicePeriodTypeSortName;
 }
 export const RevokeServicePeriodTypeSort = S.suspend(() =>
-  S.Struct({ sortOrder: S.String, sortBy: S.String }),
+  S.Struct({ sortOrder: SortOrder, sortBy: RevokeServicePeriodTypeSortName }),
 ).annotations({
   identifier: "RevokeServicePeriodTypeSort",
 }) as any as S.Schema<RevokeServicePeriodTypeSort>;
 export interface ProgramManagementAccountTypeSort {
-  sortOrder: string;
-  sortBy: string;
+  sortOrder: SortOrder;
+  sortBy: ProgramManagementAccountTypeSortName;
 }
 export const ProgramManagementAccountTypeSort = S.suspend(() =>
-  S.Struct({ sortOrder: S.String, sortBy: S.String }),
+  S.Struct({
+    sortOrder: SortOrder,
+    sortBy: ProgramManagementAccountTypeSortName,
+  }),
 ).annotations({
   identifier: "ProgramManagementAccountTypeSort",
 }) as any as S.Schema<ProgramManagementAccountTypeSort>;
@@ -692,13 +787,13 @@ export const ListChannelHandshakesTypeSort = S.Union(
 export interface AcceptChannelHandshakeDetail {
   id?: string;
   arn?: string;
-  status?: string;
+  status?: HandshakeStatus;
 }
 export const AcceptChannelHandshakeDetail = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     arn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(HandshakeStatus),
   }),
 ).annotations({
   identifier: "AcceptChannelHandshakeDetail",
@@ -706,13 +801,13 @@ export const AcceptChannelHandshakeDetail = S.suspend(() =>
 export interface CancelChannelHandshakeDetail {
   id?: string;
   arn?: string;
-  status?: string;
+  status?: HandshakeStatus;
 }
 export const CancelChannelHandshakeDetail = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     arn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(HandshakeStatus),
   }),
 ).annotations({
   identifier: "CancelChannelHandshakeDetail",
@@ -720,13 +815,13 @@ export const CancelChannelHandshakeDetail = S.suspend(() =>
 export interface RejectChannelHandshakeDetail {
   id?: string;
   arn?: string;
-  status?: string;
+  status?: HandshakeStatus;
 }
 export const RejectChannelHandshakeDetail = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     arn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(HandshakeStatus),
   }),
 ).annotations({
   identifier: "RejectChannelHandshakeDetail",
@@ -761,12 +856,12 @@ export interface RelationshipDetail {
   id?: string;
   revision?: string;
   catalog?: string;
-  associationType?: string;
+  associationType?: AssociationType;
   programManagementAccountId?: string;
   associatedAccountId?: string;
   displayName?: string;
-  resaleAccountModel?: string;
-  sector?: string;
+  resaleAccountModel?: ResaleAccountModel;
+  sector?: Sector;
   createdAt?: Date;
   updatedAt?: Date;
   startDate?: Date;
@@ -777,12 +872,12 @@ export const RelationshipDetail = S.suspend(() =>
     id: S.optional(S.String),
     revision: S.optional(S.String),
     catalog: S.optional(S.String),
-    associationType: S.optional(S.String),
+    associationType: S.optional(AssociationType),
     programManagementAccountId: S.optional(S.String),
     associatedAccountId: S.optional(S.String),
     displayName: S.optional(S.String),
-    resaleAccountModel: S.optional(S.String),
-    sector: S.optional(S.String),
+    resaleAccountModel: S.optional(ResaleAccountModel),
+    sector: S.optional(Sector),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     startDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -807,16 +902,16 @@ export const UpdateRelationshipDetail = S.suspend(() =>
   identifier: "UpdateRelationshipDetail",
 }) as any as S.Schema<UpdateRelationshipDetail>;
 export interface CreateChannelHandshakeRequest {
-  handshakeType: string;
+  handshakeType: HandshakeType;
   catalog: string;
   associatedResourceIdentifier: string;
-  payload?: (typeof ChannelHandshakePayload)["Type"];
+  payload?: ChannelHandshakePayload;
   clientToken?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateChannelHandshakeRequest = S.suspend(() =>
   S.Struct({
-    handshakeType: S.String,
+    handshakeType: HandshakeType,
     catalog: S.String,
     associatedResourceIdentifier: S.String,
     payload: S.optional(ChannelHandshakePayload),
@@ -836,21 +931,21 @@ export const CreateChannelHandshakeRequest = S.suspend(() =>
   identifier: "CreateChannelHandshakeRequest",
 }) as any as S.Schema<CreateChannelHandshakeRequest>;
 export interface ListChannelHandshakesRequest {
-  handshakeType: string;
+  handshakeType: HandshakeType;
   catalog: string;
-  participantType: string;
+  participantType: ParticipantType;
   maxResults?: number;
-  statuses?: HandshakeStatusList;
-  associatedResourceIdentifiers?: AssociatedResourceIdentifierList;
-  handshakeTypeFilters?: (typeof ListChannelHandshakesTypeFilters)["Type"];
-  handshakeTypeSort?: (typeof ListChannelHandshakesTypeSort)["Type"];
+  statuses?: HandshakeStatus[];
+  associatedResourceIdentifiers?: string[];
+  handshakeTypeFilters?: ListChannelHandshakesTypeFilters;
+  handshakeTypeSort?: ListChannelHandshakesTypeSort;
   nextToken?: string;
 }
 export const ListChannelHandshakesRequest = S.suspend(() =>
   S.Struct({
-    handshakeType: S.String,
+    handshakeType: HandshakeType,
     catalog: S.String,
-    participantType: S.String,
+    participantType: ParticipantType,
     maxResults: S.optional(S.Number),
     statuses: S.optional(HandshakeStatusList),
     associatedResourceIdentifiers: S.optional(AssociatedResourceIdentifierList),
@@ -926,25 +1021,25 @@ export const UpdateProgramManagementAccountResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateProgramManagementAccountResponse>;
 export interface CreateRelationshipRequest {
   catalog: string;
-  associationType: string;
+  associationType: AssociationType;
   programManagementAccountIdentifier: string;
   associatedAccountId: string;
   displayName: string;
-  resaleAccountModel?: string;
-  sector: string;
+  resaleAccountModel?: ResaleAccountModel;
+  sector: Sector;
   clientToken?: string;
-  tags?: TagList;
-  requestedSupportPlan?: (typeof SupportPlan)["Type"];
+  tags?: Tag[];
+  requestedSupportPlan?: SupportPlan;
 }
 export const CreateRelationshipRequest = S.suspend(() =>
   S.Struct({
     catalog: S.String,
-    associationType: S.String,
+    associationType: AssociationType,
     programManagementAccountIdentifier: S.String,
     associatedAccountId: S.String,
     displayName: S.String,
-    resaleAccountModel: S.optional(S.String),
-    sector: S.String,
+    resaleAccountModel: S.optional(ResaleAccountModel),
+    sector: Sector,
     clientToken: S.optional(S.String),
     tags: S.optional(TagList),
     requestedSupportPlan: S.optional(SupportPlan),
@@ -981,28 +1076,28 @@ export interface ProgramManagementAccountSummary {
   id?: string;
   revision?: string;
   catalog?: string;
-  program?: string;
+  program?: Program;
   displayName?: string;
   accountId?: string;
   arn?: string;
   createdAt?: Date;
   updatedAt?: Date;
   startDate?: Date;
-  status?: string;
+  status?: ProgramManagementAccountStatus;
 }
 export const ProgramManagementAccountSummary = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     revision: S.optional(S.String),
     catalog: S.optional(S.String),
-    program: S.optional(S.String),
+    program: S.optional(Program),
     displayName: S.optional(S.String),
     accountId: S.optional(S.String),
     arn: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     startDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    status: S.optional(S.String),
+    status: S.optional(ProgramManagementAccountStatus),
   }),
 ).annotations({
   identifier: "ProgramManagementAccountSummary",
@@ -1017,11 +1112,11 @@ export interface RelationshipSummary {
   id?: string;
   revision?: string;
   catalog?: string;
-  associationType?: string;
+  associationType?: AssociationType;
   programManagementAccountId?: string;
   associatedAccountId?: string;
   displayName?: string;
-  sector?: string;
+  sector?: Sector;
   createdAt?: Date;
   updatedAt?: Date;
   startDate?: Date;
@@ -1032,11 +1127,11 @@ export const RelationshipSummary = S.suspend(() =>
     id: S.optional(S.String),
     revision: S.optional(S.String),
     catalog: S.optional(S.String),
-    associationType: S.optional(S.String),
+    associationType: S.optional(AssociationType),
     programManagementAccountId: S.optional(S.String),
     associatedAccountId: S.optional(S.String),
     displayName: S.optional(S.String),
-    sector: S.optional(S.String),
+    sector: S.optional(Sector),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     startDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -1047,7 +1142,7 @@ export const RelationshipSummary = S.suspend(() =>
 export type RelationshipSummaries = RelationshipSummary[];
 export const RelationshipSummaries = S.Array(RelationshipSummary);
 export interface ListProgramManagementAccountsResponse {
-  items?: ProgramManagementAccountSummaries;
+  items?: ProgramManagementAccountSummary[];
   nextToken?: string;
 }
 export const ListProgramManagementAccountsResponse = S.suspend(() =>
@@ -1059,7 +1154,7 @@ export const ListProgramManagementAccountsResponse = S.suspend(() =>
   identifier: "ListProgramManagementAccountsResponse",
 }) as any as S.Schema<ListProgramManagementAccountsResponse>;
 export interface ListRelationshipsResponse {
-  items?: RelationshipSummaries;
+  items?: RelationshipSummary[];
   nextToken?: string;
 }
 export const ListRelationshipsResponse = S.suspend(() =>
@@ -1106,9 +1201,16 @@ export const CreateRelationshipResponse = S.suspend(() =>
 ).annotations({
   identifier: "CreateRelationshipResponse",
 }) as any as S.Schema<CreateRelationshipResponse>;
+export type ValidationExceptionReason =
+  | "REQUEST_VALIDATION_FAILED"
+  | "BUSINESS_VALIDATION_FAILED";
+export const ValidationExceptionReason = S.Literal(
+  "REQUEST_VALIDATION_FAILED",
+  "BUSINESS_VALIDATION_FAILED",
+);
 export interface StartServicePeriodHandshakeDetail {
   note?: string;
-  servicePeriodType?: string;
+  servicePeriodType?: ServicePeriodType;
   minimumNoticeDays?: string;
   startDate?: Date;
   endDate?: Date;
@@ -1116,7 +1218,7 @@ export interface StartServicePeriodHandshakeDetail {
 export const StartServicePeriodHandshakeDetail = S.suspend(() =>
   S.Struct({
     note: S.optional(S.String),
-    servicePeriodType: S.optional(S.String),
+    servicePeriodType: S.optional(ServicePeriodType),
     minimumNoticeDays: S.optional(S.String),
     startDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     endDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -1126,7 +1228,7 @@ export const StartServicePeriodHandshakeDetail = S.suspend(() =>
 }) as any as S.Schema<StartServicePeriodHandshakeDetail>;
 export interface RevokeServicePeriodHandshakeDetail {
   note?: string;
-  servicePeriodType?: string;
+  servicePeriodType?: ServicePeriodType;
   minimumNoticeDays?: string;
   startDate?: Date;
   endDate?: Date;
@@ -1134,7 +1236,7 @@ export interface RevokeServicePeriodHandshakeDetail {
 export const RevokeServicePeriodHandshakeDetail = S.suspend(() =>
   S.Struct({
     note: S.optional(S.String),
-    servicePeriodType: S.optional(S.String),
+    servicePeriodType: S.optional(ServicePeriodType),
     minimumNoticeDays: S.optional(S.String),
     startDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     endDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -1143,10 +1245,10 @@ export const RevokeServicePeriodHandshakeDetail = S.suspend(() =>
   identifier: "RevokeServicePeriodHandshakeDetail",
 }) as any as S.Schema<RevokeServicePeriodHandshakeDetail>;
 export interface ProgramManagementAccountHandshakeDetail {
-  program?: string;
+  program?: Program;
 }
 export const ProgramManagementAccountHandshakeDetail = S.suspend(() =>
-  S.Struct({ program: S.optional(S.String) }),
+  S.Struct({ program: S.optional(Program) }),
 ).annotations({
   identifier: "ProgramManagementAccountHandshakeDetail",
 }) as any as S.Schema<ProgramManagementAccountHandshakeDetail>;
@@ -1172,23 +1274,23 @@ export interface ChannelHandshakeSummary {
   id?: string;
   arn?: string;
   catalog?: string;
-  handshakeType?: string;
+  handshakeType?: HandshakeType;
   ownerAccountId?: string;
   senderAccountId?: string;
   senderDisplayName?: string;
   receiverAccountId?: string;
   associatedResourceId?: string;
-  detail?: (typeof HandshakeDetail)["Type"];
+  detail?: HandshakeDetail;
   createdAt?: Date;
   updatedAt?: Date;
-  status?: string;
+  status?: HandshakeStatus;
 }
 export const ChannelHandshakeSummary = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     arn: S.optional(S.String),
     catalog: S.optional(S.String),
-    handshakeType: S.optional(S.String),
+    handshakeType: S.optional(HandshakeType),
     ownerAccountId: S.optional(S.String),
     senderAccountId: S.optional(S.String),
     senderDisplayName: S.optional(S.String),
@@ -1197,7 +1299,7 @@ export const ChannelHandshakeSummary = S.suspend(() =>
     detail: S.optional(HandshakeDetail),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    status: S.optional(S.String),
+    status: S.optional(HandshakeStatus),
   }),
 ).annotations({
   identifier: "ChannelHandshakeSummary",
@@ -1217,7 +1319,7 @@ export const ValidationExceptionField = S.suspend(() =>
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export interface ListChannelHandshakesResponse {
-  items?: ChannelHandshakeSummaries;
+  items?: ChannelHandshakeSummary[];
   nextToken?: string;
 }
 export const ListChannelHandshakesResponse = S.suspend(() =>
@@ -1274,7 +1376,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     message: S.String,
-    reason: S.String,
+    reason: ValidationExceptionReason,
     fieldList: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
@@ -1285,7 +1387,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1310,7 +1412,7 @@ export const listTagsForResource: (
  */
 export const createProgramManagementAccount: (
   input: CreateProgramManagementAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProgramManagementAccountResponse,
   | AccessDeniedException
   | ConflictException
@@ -1339,7 +1441,7 @@ export const createProgramManagementAccount: (
  */
 export const deleteProgramManagementAccount: (
   input: DeleteProgramManagementAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProgramManagementAccountResponse,
   | AccessDeniedException
   | ConflictException
@@ -1366,7 +1468,7 @@ export const deleteProgramManagementAccount: (
  */
 export const deleteRelationship: (
   input: DeleteRelationshipRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRelationshipResponse,
   | AccessDeniedException
   | ConflictException
@@ -1393,7 +1495,7 @@ export const deleteRelationship: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1420,7 +1522,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1447,7 +1549,7 @@ export const untagResource: (
  */
 export const acceptChannelHandshake: (
   input: AcceptChannelHandshakeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AcceptChannelHandshakeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1472,7 +1574,7 @@ export const acceptChannelHandshake: (
  */
 export const cancelChannelHandshake: (
   input: CancelChannelHandshakeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelChannelHandshakeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1497,7 +1599,7 @@ export const cancelChannelHandshake: (
  */
 export const rejectChannelHandshake: (
   input: RejectChannelHandshakeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RejectChannelHandshakeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1522,7 +1624,7 @@ export const rejectChannelHandshake: (
  */
 export const updateProgramManagementAccount: (
   input: UpdateProgramManagementAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProgramManagementAccountResponse,
   | AccessDeniedException
   | ConflictException
@@ -1549,7 +1651,7 @@ export const updateProgramManagementAccount: (
  */
 export const getRelationship: (
   input: GetRelationshipRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRelationshipResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1574,7 +1676,7 @@ export const getRelationship: (
  */
 export const updateRelationship: (
   input: UpdateRelationshipRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRelationshipResponse,
   | AccessDeniedException
   | ConflictException
@@ -1602,7 +1704,7 @@ export const updateRelationship: (
 export const listProgramManagementAccounts: {
   (
     input: ListProgramManagementAccountsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProgramManagementAccountsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1614,7 +1716,7 @@ export const listProgramManagementAccounts: {
   >;
   pages: (
     input: ListProgramManagementAccountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProgramManagementAccountsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1626,7 +1728,7 @@ export const listProgramManagementAccounts: {
   >;
   items: (
     input: ListProgramManagementAccountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProgramManagementAccountSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1659,7 +1761,7 @@ export const listProgramManagementAccounts: {
 export const listRelationships: {
   (
     input: ListRelationshipsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRelationshipsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1671,7 +1773,7 @@ export const listRelationships: {
   >;
   pages: (
     input: ListRelationshipsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRelationshipsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1683,7 +1785,7 @@ export const listRelationships: {
   >;
   items: (
     input: ListRelationshipsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RelationshipSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1715,7 +1817,7 @@ export const listRelationships: {
  */
 export const createChannelHandshake: (
   input: CreateChannelHandshakeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateChannelHandshakeResponse,
   | AccessDeniedException
   | ConflictException
@@ -1744,7 +1846,7 @@ export const createChannelHandshake: (
  */
 export const createRelationship: (
   input: CreateRelationshipRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRelationshipResponse,
   | AccessDeniedException
   | ConflictException
@@ -1774,7 +1876,7 @@ export const createRelationship: (
 export const listChannelHandshakes: {
   (
     input: ListChannelHandshakesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListChannelHandshakesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1786,7 +1888,7 @@ export const listChannelHandshakes: {
   >;
   pages: (
     input: ListChannelHandshakesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListChannelHandshakesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1798,7 +1900,7 @@ export const listChannelHandshakes: {
   >;
   items: (
     input: ListChannelHandshakesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ChannelHandshakeSummary,
     | AccessDeniedException
     | InternalServerException

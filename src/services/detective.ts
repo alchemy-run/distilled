@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -125,7 +125,7 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type GraphArn = string;
 export type AccountId = string;
-export type EmailMessage = string | Redacted.Redacted<string>;
+export type EmailMessage = string | redacted.Redacted<string>;
 export type ErrorMessage = string;
 export type ErrorCodeReason = string;
 export type InvestigationId = string;
@@ -136,7 +136,7 @@ export type MaxResults = number;
 export type EntityArn = string;
 export type TagKey = string;
 export type TagValue = string;
-export type EmailAddress = string | Redacted.Redacted<string>;
+export type EmailAddress = string | redacted.Redacted<string>;
 export type Value = string;
 export type UnprocessedReason = string;
 export type ByteValue = number;
@@ -177,10 +177,49 @@ export type GraphArnList = string[];
 export const GraphArnList = S.Array(S.String);
 export type AccountIdList = string[];
 export const AccountIdList = S.Array(S.String);
+export type ErrorCode =
+  | "INVALID_GRAPH_ARN"
+  | "INVALID_REQUEST_BODY"
+  | "INTERNAL_ERROR";
+export const ErrorCode = S.Literal(
+  "INVALID_GRAPH_ARN",
+  "INVALID_REQUEST_BODY",
+  "INTERNAL_ERROR",
+);
+export type IndicatorType =
+  | "TTP_OBSERVED"
+  | "IMPOSSIBLE_TRAVEL"
+  | "FLAGGED_IP_ADDRESS"
+  | "NEW_GEOLOCATION"
+  | "NEW_ASO"
+  | "NEW_USER_AGENT"
+  | "RELATED_FINDING"
+  | "RELATED_FINDING_GROUP";
+export const IndicatorType = S.Literal(
+  "TTP_OBSERVED",
+  "IMPOSSIBLE_TRAVEL",
+  "FLAGGED_IP_ADDRESS",
+  "NEW_GEOLOCATION",
+  "NEW_ASO",
+  "NEW_USER_AGENT",
+  "RELATED_FINDING",
+  "RELATED_FINDING_GROUP",
+);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export type DatasourcePackageList = string[];
-export const DatasourcePackageList = S.Array(S.String);
+export type DatasourcePackage =
+  | "DETECTIVE_CORE"
+  | "EKS_AUDIT"
+  | "ASFF_SECURITYHUB_FINDING";
+export const DatasourcePackage = S.Literal(
+  "DETECTIVE_CORE",
+  "EKS_AUDIT",
+  "ASFF_SECURITYHUB_FINDING",
+);
+export type DatasourcePackageList = DatasourcePackage[];
+export const DatasourcePackageList = S.Array(DatasourcePackage);
+export type State = "ACTIVE" | "ARCHIVED";
+export const State = S.Literal("ACTIVE", "ARCHIVED");
 export interface AcceptInvitationRequest {
   GraphArn: string;
 }
@@ -206,7 +245,7 @@ export const AcceptInvitationResponse = S.suspend(() =>
 }) as any as S.Schema<AcceptInvitationResponse>;
 export interface BatchGetGraphMemberDatasourcesRequest {
   GraphArn: string;
-  AccountIds: AccountIdExtendedList;
+  AccountIds: string[];
 }
 export const BatchGetGraphMemberDatasourcesRequest = S.suspend(() =>
   S.Struct({ GraphArn: S.String, AccountIds: AccountIdExtendedList }).pipe(
@@ -223,7 +262,7 @@ export const BatchGetGraphMemberDatasourcesRequest = S.suspend(() =>
   identifier: "BatchGetGraphMemberDatasourcesRequest",
 }) as any as S.Schema<BatchGetGraphMemberDatasourcesRequest>;
 export interface BatchGetMembershipDatasourcesRequest {
-  GraphArns: GraphArnList;
+  GraphArns: string[];
 }
 export const BatchGetMembershipDatasourcesRequest = S.suspend(() =>
   S.Struct({ GraphArns: GraphArnList }).pipe(
@@ -262,7 +301,7 @@ export const DeleteGraphResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<DeleteGraphResponse>;
 export interface DeleteMembersRequest {
   GraphArn: string;
-  AccountIds: AccountIdList;
+  AccountIds: string[];
 }
 export const DeleteMembersRequest = S.suspend(() =>
   S.Struct({ GraphArn: S.String, AccountIds: AccountIdList }).pipe(
@@ -364,7 +403,7 @@ export const GetInvestigationRequest = S.suspend(() =>
 }) as any as S.Schema<GetInvestigationRequest>;
 export interface GetMembersRequest {
   GraphArn: string;
-  AccountIds: AccountIdList;
+  AccountIds: string[];
 }
 export const GetMembersRequest = S.suspend(() =>
   S.Struct({ GraphArn: S.String, AccountIds: AccountIdList }).pipe(
@@ -427,7 +466,7 @@ export const ListGraphsRequest = S.suspend(() =>
 export interface ListIndicatorsRequest {
   GraphArn: string;
   InvestigationId: string;
-  IndicatorType?: string;
+  IndicatorType?: IndicatorType;
   NextToken?: string;
   MaxResults?: number;
 }
@@ -435,7 +474,7 @@ export const ListIndicatorsRequest = S.suspend(() =>
   S.Struct({
     GraphArn: S.String,
     InvestigationId: S.String,
-    IndicatorType: S.optional(S.String),
+    IndicatorType: S.optional(IndicatorType),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
@@ -609,7 +648,7 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagMap;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -634,7 +673,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -659,7 +698,7 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateDatasourcePackagesRequest {
   GraphArn: string;
-  DatasourcePackages: DatasourcePackageList;
+  DatasourcePackages: DatasourcePackage[];
 }
 export const UpdateDatasourcePackagesRequest = S.suspend(() =>
   S.Struct({
@@ -687,13 +726,13 @@ export const UpdateDatasourcePackagesResponse = S.suspend(() =>
 export interface UpdateInvestigationStateRequest {
   GraphArn: string;
   InvestigationId: string;
-  State: string;
+  State: State;
 }
 export const UpdateInvestigationStateRequest = S.suspend(() =>
   S.Struct({
     GraphArn: S.String,
     InvestigationId: S.String,
-    State: S.String,
+    State: State,
   }).pipe(
     T.all(
       T.Http({
@@ -740,24 +779,40 @@ export const UpdateOrganizationConfigurationResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateOrganizationConfigurationResponse",
 }) as any as S.Schema<UpdateOrganizationConfigurationResponse>;
+export type Field = "SEVERITY" | "STATUS" | "CREATED_TIME";
+export const Field = S.Literal("SEVERITY", "STATUS", "CREATED_TIME");
+export type SortOrder = "ASC" | "DESC";
+export const SortOrder = S.Literal("ASC", "DESC");
 export interface Account {
   AccountId: string;
-  EmailAddress: string | Redacted.Redacted<string>;
+  EmailAddress: string | redacted.Redacted<string>;
 }
 export const Account = S.suspend(() =>
   S.Struct({ AccountId: S.String, EmailAddress: SensitiveString }),
 ).annotations({ identifier: "Account" }) as any as S.Schema<Account>;
 export type AccountList = Account[];
 export const AccountList = S.Array(Account);
+export type EntityType = "IAM_ROLE" | "IAM_USER";
+export const EntityType = S.Literal("IAM_ROLE", "IAM_USER");
+export type Status = "RUNNING" | "FAILED" | "SUCCESSFUL";
+export const Status = S.Literal("RUNNING", "FAILED", "SUCCESSFUL");
+export type Severity = "INFORMATIONAL" | "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
+export const Severity = S.Literal(
+  "INFORMATIONAL",
+  "LOW",
+  "MEDIUM",
+  "HIGH",
+  "CRITICAL",
+);
 export interface SortCriteria {
-  Field?: string;
-  SortOrder?: string;
+  Field?: Field;
+  SortOrder?: SortOrder;
 }
 export const SortCriteria = S.suspend(() =>
-  S.Struct({ Field: S.optional(S.String), SortOrder: S.optional(S.String) }),
+  S.Struct({ Field: S.optional(Field), SortOrder: S.optional(SortOrder) }),
 ).annotations({ identifier: "SortCriteria" }) as any as S.Schema<SortCriteria>;
 export interface CreateGraphRequest {
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateGraphRequest = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }).pipe(
@@ -775,9 +830,9 @@ export const CreateGraphRequest = S.suspend(() =>
 }) as any as S.Schema<CreateGraphRequest>;
 export interface CreateMembersRequest {
   GraphArn: string;
-  Message?: string | Redacted.Redacted<string>;
+  Message?: string | redacted.Redacted<string>;
   DisableEmailNotification?: boolean;
-  Accounts: AccountList;
+  Accounts: Account[];
 }
 export const CreateMembersRequest = S.suspend(() =>
   S.Struct({
@@ -810,8 +865,8 @@ export const UnprocessedAccount = S.suspend(() =>
 export type UnprocessedAccountList = UnprocessedAccount[];
 export const UnprocessedAccountList = S.Array(UnprocessedAccount);
 export interface DeleteMembersResponse {
-  AccountIds?: AccountIdList;
-  UnprocessedAccounts?: UnprocessedAccountList;
+  AccountIds?: string[];
+  UnprocessedAccounts?: UnprocessedAccount[];
 }
 export const DeleteMembersResponse = S.suspend(() =>
   S.Struct({
@@ -833,30 +888,50 @@ export interface GetInvestigationResponse {
   GraphArn?: string;
   InvestigationId?: string;
   EntityArn?: string;
-  EntityType?: string;
+  EntityType?: EntityType;
   CreatedTime?: Date;
   ScopeStartTime?: Date;
   ScopeEndTime?: Date;
-  Status?: string;
-  Severity?: string;
-  State?: string;
+  Status?: Status;
+  Severity?: Severity;
+  State?: State;
 }
 export const GetInvestigationResponse = S.suspend(() =>
   S.Struct({
     GraphArn: S.optional(S.String),
     InvestigationId: S.optional(S.String),
     EntityArn: S.optional(S.String),
-    EntityType: S.optional(S.String),
+    EntityType: S.optional(EntityType),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     ScopeStartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     ScopeEndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    Status: S.optional(S.String),
-    Severity: S.optional(S.String),
-    State: S.optional(S.String),
+    Status: S.optional(Status),
+    Severity: S.optional(Severity),
+    State: S.optional(State),
   }),
 ).annotations({
   identifier: "GetInvestigationResponse",
 }) as any as S.Schema<GetInvestigationResponse>;
+export type MemberStatus =
+  | "INVITED"
+  | "VERIFICATION_IN_PROGRESS"
+  | "VERIFICATION_FAILED"
+  | "ENABLED"
+  | "ACCEPTED_BUT_DISABLED";
+export const MemberStatus = S.Literal(
+  "INVITED",
+  "VERIFICATION_IN_PROGRESS",
+  "VERIFICATION_FAILED",
+  "ENABLED",
+  "ACCEPTED_BUT_DISABLED",
+);
+export type MemberDisabledReason = "VOLUME_TOO_HIGH" | "VOLUME_UNKNOWN";
+export const MemberDisabledReason = S.Literal(
+  "VOLUME_TOO_HIGH",
+  "VOLUME_UNKNOWN",
+);
+export type InvitationType = "INVITATION" | "ORGANIZATION";
+export const InvitationType = S.Literal("INVITATION", "ORGANIZATION");
 export interface DatasourcePackageUsageInfo {
   VolumeUsageInBytes?: number;
   VolumeUsageUpdateTime?: Date;
@@ -872,34 +947,44 @@ export const DatasourcePackageUsageInfo = S.suspend(() =>
   identifier: "DatasourcePackageUsageInfo",
 }) as any as S.Schema<DatasourcePackageUsageInfo>;
 export type VolumeUsageByDatasourcePackage = {
-  [key: string]: DatasourcePackageUsageInfo;
+  [key in DatasourcePackage]?: DatasourcePackageUsageInfo;
 };
-export const VolumeUsageByDatasourcePackage = S.Record({
-  key: S.String,
-  value: DatasourcePackageUsageInfo,
-});
-export type DatasourcePackageIngestStates = { [key: string]: string };
-export const DatasourcePackageIngestStates = S.Record({
-  key: S.String,
-  value: S.String,
-});
+export const VolumeUsageByDatasourcePackage = S.partial(
+  S.Record({ key: DatasourcePackage, value: DatasourcePackageUsageInfo }),
+);
+export type DatasourcePackageIngestState = "STARTED" | "STOPPED" | "DISABLED";
+export const DatasourcePackageIngestState = S.Literal(
+  "STARTED",
+  "STOPPED",
+  "DISABLED",
+);
+export type DatasourcePackageIngestStates = {
+  [key in DatasourcePackage]?: DatasourcePackageIngestState;
+};
+export const DatasourcePackageIngestStates = S.partial(
+  S.Record({ key: DatasourcePackage, value: DatasourcePackageIngestState }),
+);
 export interface MemberDetail {
   AccountId?: string;
-  EmailAddress?: string | Redacted.Redacted<string>;
+  EmailAddress?: string | redacted.Redacted<string>;
   GraphArn?: string;
   MasterId?: string;
   AdministratorId?: string;
-  Status?: string;
-  DisabledReason?: string;
+  Status?: MemberStatus;
+  DisabledReason?: MemberDisabledReason;
   InvitedTime?: Date;
   UpdatedTime?: Date;
   VolumeUsageInBytes?: number;
   VolumeUsageUpdatedTime?: Date;
   PercentOfGraphUtilization?: number;
   PercentOfGraphUtilizationUpdatedTime?: Date;
-  InvitationType?: string;
-  VolumeUsageByDatasourcePackage?: VolumeUsageByDatasourcePackage;
-  DatasourcePackageIngestStates?: DatasourcePackageIngestStates;
+  InvitationType?: InvitationType;
+  VolumeUsageByDatasourcePackage?: {
+    [key: string]: DatasourcePackageUsageInfo;
+  };
+  DatasourcePackageIngestStates?: {
+    [key: string]: DatasourcePackageIngestState;
+  };
 }
 export const MemberDetail = S.suspend(() =>
   S.Struct({
@@ -908,8 +993,8 @@ export const MemberDetail = S.suspend(() =>
     GraphArn: S.optional(S.String),
     MasterId: S.optional(S.String),
     AdministratorId: S.optional(S.String),
-    Status: S.optional(S.String),
-    DisabledReason: S.optional(S.String),
+    Status: S.optional(MemberStatus),
+    DisabledReason: S.optional(MemberDisabledReason),
     InvitedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     UpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     VolumeUsageInBytes: S.optional(S.Number),
@@ -920,7 +1005,7 @@ export const MemberDetail = S.suspend(() =>
     PercentOfGraphUtilizationUpdatedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("date-time")),
     ),
-    InvitationType: S.optional(S.String),
+    InvitationType: S.optional(InvitationType),
     VolumeUsageByDatasourcePackage: S.optional(VolumeUsageByDatasourcePackage),
     DatasourcePackageIngestStates: S.optional(DatasourcePackageIngestStates),
   }),
@@ -928,7 +1013,7 @@ export const MemberDetail = S.suspend(() =>
 export type MemberDetailList = MemberDetail[];
 export const MemberDetailList = S.Array(MemberDetail);
 export interface ListInvitationsResponse {
-  Invitations?: MemberDetailList;
+  Invitations?: MemberDetail[];
   NextToken?: string;
 }
 export const ListInvitationsResponse = S.suspend(() =>
@@ -940,7 +1025,7 @@ export const ListInvitationsResponse = S.suspend(() =>
   identifier: "ListInvitationsResponse",
 }) as any as S.Schema<ListInvitationsResponse>;
 export interface ListMembersResponse {
-  MemberDetails?: MemberDetailList;
+  MemberDetails?: MemberDetail[];
   NextToken?: string;
 }
 export const ListMembersResponse = S.suspend(() =>
@@ -952,7 +1037,7 @@ export const ListMembersResponse = S.suspend(() =>
   identifier: "ListMembersResponse",
 }) as any as S.Schema<ListMembersResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -1051,23 +1136,26 @@ export const TimestampForCollection = S.suspend(() =>
   identifier: "TimestampForCollection",
 }) as any as S.Schema<TimestampForCollection>;
 export type LastIngestStateChangeDates = {
-  [key: string]: TimestampForCollection;
+  [key in DatasourcePackageIngestState]?: TimestampForCollection;
 };
-export const LastIngestStateChangeDates = S.Record({
-  key: S.String,
-  value: TimestampForCollection,
-});
+export const LastIngestStateChangeDates = S.partial(
+  S.Record({
+    key: DatasourcePackageIngestState,
+    value: TimestampForCollection,
+  }),
+);
 export type DatasourcePackageIngestHistory = {
-  [key: string]: LastIngestStateChangeDates;
+  [key in DatasourcePackage]?: { [key: string]: TimestampForCollection };
 };
-export const DatasourcePackageIngestHistory = S.Record({
-  key: S.String,
-  value: LastIngestStateChangeDates,
-});
+export const DatasourcePackageIngestHistory = S.partial(
+  S.Record({ key: DatasourcePackage, value: LastIngestStateChangeDates }),
+);
 export interface MembershipDatasources {
   AccountId?: string;
   GraphArn?: string;
-  DatasourcePackageIngestHistory?: DatasourcePackageIngestHistory;
+  DatasourcePackageIngestHistory?: {
+    [key: string]: { [key: string]: TimestampForCollection };
+  };
 }
 export const MembershipDatasources = S.suspend(() =>
   S.Struct({
@@ -1081,8 +1169,8 @@ export const MembershipDatasources = S.suspend(() =>
 export type MembershipDatasourcesList = MembershipDatasources[];
 export const MembershipDatasourcesList = S.Array(MembershipDatasources);
 export interface BatchGetMembershipDatasourcesResponse {
-  MembershipDatasources?: MembershipDatasourcesList;
-  UnprocessedGraphs?: UnprocessedGraphList;
+  MembershipDatasources?: MembershipDatasources[];
+  UnprocessedGraphs?: UnprocessedGraph[];
 }
 export const BatchGetMembershipDatasourcesResponse = S.suspend(() =>
   S.Struct({
@@ -1101,8 +1189,8 @@ export const CreateGraphResponse = S.suspend(() =>
   identifier: "CreateGraphResponse",
 }) as any as S.Schema<CreateGraphResponse>;
 export interface CreateMembersResponse {
-  Members?: MemberDetailList;
-  UnprocessedAccounts?: UnprocessedAccountList;
+  Members?: MemberDetail[];
+  UnprocessedAccounts?: UnprocessedAccount[];
 }
 export const CreateMembersResponse = S.suspend(() =>
   S.Struct({
@@ -1113,7 +1201,7 @@ export const CreateMembersResponse = S.suspend(() =>
   identifier: "CreateMembersResponse",
 }) as any as S.Schema<CreateMembersResponse>;
 export interface ListGraphsResponse {
-  GraphList?: GraphList;
+  GraphList?: Graph[];
   NextToken?: string;
 }
 export const ListGraphsResponse = S.suspend(() =>
@@ -1152,7 +1240,7 @@ export const ListInvestigationsRequest = S.suspend(() =>
   identifier: "ListInvestigationsRequest",
 }) as any as S.Schema<ListInvestigationsRequest>;
 export interface ListOrganizationAdminAccountsResponse {
-  Administrators?: AdministratorList;
+  Administrators?: Administrator[];
   NextToken?: string;
 }
 export const ListOrganizationAdminAccountsResponse = S.suspend(() =>
@@ -1164,26 +1252,27 @@ export const ListOrganizationAdminAccountsResponse = S.suspend(() =>
   identifier: "ListOrganizationAdminAccountsResponse",
 }) as any as S.Schema<ListOrganizationAdminAccountsResponse>;
 export interface DatasourcePackageIngestDetail {
-  DatasourcePackageIngestState?: string;
-  LastIngestStateChange?: LastIngestStateChangeDates;
+  DatasourcePackageIngestState?: DatasourcePackageIngestState;
+  LastIngestStateChange?: { [key: string]: TimestampForCollection };
 }
 export const DatasourcePackageIngestDetail = S.suspend(() =>
   S.Struct({
-    DatasourcePackageIngestState: S.optional(S.String),
+    DatasourcePackageIngestState: S.optional(DatasourcePackageIngestState),
     LastIngestStateChange: S.optional(LastIngestStateChangeDates),
   }),
 ).annotations({
   identifier: "DatasourcePackageIngestDetail",
 }) as any as S.Schema<DatasourcePackageIngestDetail>;
+export type Reason = "AWS_THREAT_INTELLIGENCE";
+export const Reason = S.Literal("AWS_THREAT_INTELLIGENCE");
 export type ResourceList = string[];
 export const ResourceList = S.Array(S.String);
 export type DatasourcePackageIngestDetails = {
-  [key: string]: DatasourcePackageIngestDetail;
+  [key in DatasourcePackage]?: DatasourcePackageIngestDetail;
 };
-export const DatasourcePackageIngestDetails = S.Record({
-  key: S.String,
-  value: DatasourcePackageIngestDetail,
-});
+export const DatasourcePackageIngestDetails = S.partial(
+  S.Record({ key: DatasourcePackage, value: DatasourcePackageIngestDetail }),
+);
 export interface TTPsObservedDetail {
   Tactic?: string;
   Technique?: string;
@@ -1226,10 +1315,10 @@ export const ImpossibleTravelDetail = S.suspend(() =>
 }) as any as S.Schema<ImpossibleTravelDetail>;
 export interface FlaggedIpAddressDetail {
   IpAddress?: string;
-  Reason?: string;
+  Reason?: Reason;
 }
 export const FlaggedIpAddressDetail = S.suspend(() =>
-  S.Struct({ IpAddress: S.optional(S.String), Reason: S.optional(S.String) }),
+  S.Struct({ IpAddress: S.optional(S.String), Reason: S.optional(Reason) }),
 ).annotations({
   identifier: "FlaggedIpAddressDetail",
 }) as any as S.Schema<FlaggedIpAddressDetail>;
@@ -1292,7 +1381,7 @@ export const RelatedFindingGroupDetail = S.suspend(() =>
   identifier: "RelatedFindingGroupDetail",
 }) as any as S.Schema<RelatedFindingGroupDetail>;
 export interface ListDatasourcePackagesResponse {
-  DatasourcePackages?: DatasourcePackageIngestDetails;
+  DatasourcePackages?: { [key: string]: DatasourcePackageIngestDetail };
   NextToken?: string;
 }
 export const ListDatasourcePackagesResponse = S.suspend(() =>
@@ -1328,12 +1417,12 @@ export const IndicatorDetail = S.suspend(() =>
   identifier: "IndicatorDetail",
 }) as any as S.Schema<IndicatorDetail>;
 export interface Indicator {
-  IndicatorType?: string;
+  IndicatorType?: IndicatorType;
   IndicatorDetail?: IndicatorDetail;
 }
 export const Indicator = S.suspend(() =>
   S.Struct({
-    IndicatorType: S.optional(S.String),
+    IndicatorType: S.optional(IndicatorType),
     IndicatorDetail: S.optional(IndicatorDetail),
   }),
 ).annotations({ identifier: "Indicator" }) as any as S.Schema<Indicator>;
@@ -1341,22 +1430,22 @@ export type Indicators = Indicator[];
 export const Indicators = S.Array(Indicator);
 export interface InvestigationDetail {
   InvestigationId?: string;
-  Severity?: string;
-  Status?: string;
-  State?: string;
+  Severity?: Severity;
+  Status?: Status;
+  State?: State;
   CreatedTime?: Date;
   EntityArn?: string;
-  EntityType?: string;
+  EntityType?: EntityType;
 }
 export const InvestigationDetail = S.suspend(() =>
   S.Struct({
     InvestigationId: S.optional(S.String),
-    Severity: S.optional(S.String),
-    Status: S.optional(S.String),
-    State: S.optional(S.String),
+    Severity: S.optional(Severity),
+    Status: S.optional(Status),
+    State: S.optional(State),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     EntityArn: S.optional(S.String),
-    EntityType: S.optional(S.String),
+    EntityType: S.optional(EntityType),
   }),
 ).annotations({
   identifier: "InvestigationDetail",
@@ -1364,8 +1453,8 @@ export const InvestigationDetail = S.suspend(() =>
 export type InvestigationDetails = InvestigationDetail[];
 export const InvestigationDetails = S.Array(InvestigationDetail);
 export interface GetMembersResponse {
-  MemberDetails?: MemberDetailList;
-  UnprocessedAccounts?: UnprocessedAccountList;
+  MemberDetails?: MemberDetail[];
+  UnprocessedAccounts?: UnprocessedAccount[];
 }
 export const GetMembersResponse = S.suspend(() =>
   S.Struct({
@@ -1379,7 +1468,7 @@ export interface ListIndicatorsResponse {
   GraphArn?: string;
   InvestigationId?: string;
   NextToken?: string;
-  Indicators?: Indicators;
+  Indicators?: Indicator[];
 }
 export const ListIndicatorsResponse = S.suspend(() =>
   S.Struct({
@@ -1392,7 +1481,7 @@ export const ListIndicatorsResponse = S.suspend(() =>
   identifier: "ListIndicatorsResponse",
 }) as any as S.Schema<ListIndicatorsResponse>;
 export interface ListInvestigationsResponse {
-  InvestigationDetails?: InvestigationDetails;
+  InvestigationDetails?: InvestigationDetail[];
   NextToken?: string;
 }
 export const ListInvestigationsResponse = S.suspend(() =>
@@ -1404,8 +1493,8 @@ export const ListInvestigationsResponse = S.suspend(() =>
   identifier: "ListInvestigationsResponse",
 }) as any as S.Schema<ListInvestigationsResponse>;
 export interface BatchGetGraphMemberDatasourcesResponse {
-  MemberDatasources?: MembershipDatasourcesList;
-  UnprocessedAccounts?: UnprocessedAccountList;
+  MemberDatasources?: MembershipDatasources[];
+  UnprocessedAccounts?: UnprocessedAccount[];
 }
 export const BatchGetGraphMemberDatasourcesResponse = S.suspend(() =>
   S.Struct({
@@ -1421,9 +1510,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
   "AccessDeniedException",
   {
     Message: S.optional(S.String),
-    ErrorCode: S.optional(S.String),
+    ErrorCode: S.optional(ErrorCode),
     ErrorCodeReason: S.optional(S.String),
-    SubErrorCode: S.optional(S.String),
+    SubErrorCode: S.optional(ErrorCode),
     SubErrorCodeReason: S.optional(S.String),
   },
 ).pipe(C.withAuthError) {}
@@ -1447,7 +1536,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     Message: S.optional(S.String),
-    ErrorCode: S.optional(S.String),
+    ErrorCode: S.optional(ErrorCode),
     ErrorCodeReason: S.optional(S.String),
   },
 ).pipe(C.withBadRequestError) {}
@@ -1470,7 +1559,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export const listInvitations: {
   (
     input: ListInvitationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInvitationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1480,7 +1569,7 @@ export const listInvitations: {
   >;
   pages: (
     input: ListInvitationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInvitationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1490,7 +1579,7 @@ export const listInvitations: {
   >;
   items: (
     input: ListInvitationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -1515,7 +1604,7 @@ export const listInvitations: {
 export const listOrganizationAdminAccounts: {
   (
     input: ListOrganizationAdminAccountsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOrganizationAdminAccountsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1526,7 +1615,7 @@ export const listOrganizationAdminAccounts: {
   >;
   pages: (
     input: ListOrganizationAdminAccountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOrganizationAdminAccountsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1537,7 +1626,7 @@ export const listOrganizationAdminAccounts: {
   >;
   items: (
     input: ListOrganizationAdminAccountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -1581,7 +1670,7 @@ export const listOrganizationAdminAccounts: {
  */
 export const enableOrganizationAdminAccount: (
   input: EnableOrganizationAdminAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableOrganizationAdminAccountResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1606,7 +1695,7 @@ export const enableOrganizationAdminAccount: (
  */
 export const updateOrganizationConfiguration: (
   input: UpdateOrganizationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateOrganizationConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1633,7 +1722,7 @@ export const updateOrganizationConfiguration: (
  */
 export const describeOrganizationConfiguration: (
   input: DescribeOrganizationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeOrganizationConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1656,7 +1745,7 @@ export const describeOrganizationConfiguration: (
  */
 export const getInvestigation: (
   input: GetInvestigationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInvestigationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1689,7 +1778,7 @@ export const getInvestigation: (
 export const listMembers: {
   (
     input: ListMembersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMembersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1700,7 +1789,7 @@ export const listMembers: {
   >;
   pages: (
     input: ListMembersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMembersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1711,7 +1800,7 @@ export const listMembers: {
   >;
   items: (
     input: ListMembersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -1740,7 +1829,7 @@ export const listMembers: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1763,7 +1852,7 @@ export const listTagsForResource: (
  */
 export const startInvestigation: (
   input: StartInvestigationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartInvestigationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1788,7 +1877,7 @@ export const startInvestigation: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1811,7 +1900,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1834,7 +1923,7 @@ export const untagResource: (
  */
 export const updateInvestigationState: (
   input: UpdateInvestigationStateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateInvestigationStateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1863,7 +1952,7 @@ export const updateInvestigationState: (
  */
 export const deleteGraph: (
   input: DeleteGraphRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGraphResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1892,7 +1981,7 @@ export const deleteGraph: (
  */
 export const rejectInvitation: (
   input: RejectInvitationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RejectInvitationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1922,7 +2011,7 @@ export const rejectInvitation: (
  */
 export const acceptInvitation: (
   input: AcceptInvitationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AcceptInvitationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1962,7 +2051,7 @@ export const acceptInvitation: (
  */
 export const deleteMembers: (
   input: DeleteMembersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMembersResponse,
   | AccessDeniedException
   | ConflictException
@@ -1987,7 +2076,7 @@ export const deleteMembers: (
  */
 export const batchGetMembershipDatasources: (
   input: BatchGetMembershipDatasourcesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetMembershipDatasourcesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2018,7 +2107,7 @@ export const batchGetMembershipDatasources: (
  */
 export const disableOrganizationAdminAccount: (
   input: DisableOrganizationAdminAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisableOrganizationAdminAccountResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2047,7 +2136,7 @@ export const disableOrganizationAdminAccount: (
  */
 export const disassociateMembership: (
   input: DisassociateMembershipRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateMembershipResponse,
   | AccessDeniedException
   | ConflictException
@@ -2077,7 +2166,7 @@ export const disassociateMembership: (
 export const listGraphs: {
   (
     input: ListGraphsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGraphsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2087,7 +2176,7 @@ export const listGraphs: {
   >;
   pages: (
     input: ListGraphsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGraphsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2097,7 +2186,7 @@ export const listGraphs: {
   >;
   items: (
     input: ListGraphsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -2131,7 +2220,7 @@ export const listGraphs: {
  */
 export const createGraph: (
   input: CreateGraphRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGraphResponse,
   | AccessDeniedException
   | ConflictException
@@ -2155,7 +2244,7 @@ export const createGraph: (
 export const listDatasourcePackages: {
   (
     input: ListDatasourcePackagesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDatasourcePackagesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2166,7 +2255,7 @@ export const listDatasourcePackages: {
   >;
   pages: (
     input: ListDatasourcePackagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDatasourcePackagesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2177,7 +2266,7 @@ export const listDatasourcePackages: {
   >;
   items: (
     input: ListDatasourcePackagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -2206,7 +2295,7 @@ export const listDatasourcePackages: {
  */
 export const updateDatasourcePackages: (
   input: UpdateDatasourcePackagesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDatasourcePackagesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2240,7 +2329,7 @@ export const updateDatasourcePackages: (
  */
 export const startMonitoringMember: (
   input: StartMonitoringMemberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartMonitoringMemberResponse,
   | AccessDeniedException
   | ConflictException
@@ -2297,7 +2386,7 @@ export const startMonitoringMember: (
  */
 export const createMembers: (
   input: CreateMembersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMembersResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2323,7 +2412,7 @@ export const createMembers: (
  */
 export const getMembers: (
   input: GetMembersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMembersResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2346,7 +2435,7 @@ export const getMembers: (
  */
 export const listIndicators: (
   input: ListIndicatorsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListIndicatorsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2376,7 +2465,7 @@ export const listIndicators: (
  */
 export const listInvestigations: (
   input: ListInvestigationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListInvestigationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2401,7 +2490,7 @@ export const listInvestigations: (
  */
 export const batchGetGraphMemberDatasources: (
   input: BatchGetGraphMemberDatasourcesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetGraphMemberDatasourcesResponse,
   | AccessDeniedException
   | InternalServerException

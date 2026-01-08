@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -134,10 +134,14 @@ export type ResponseTopic = string;
 export type CorrelationData = string;
 export type MessageExpiry = number;
 export type errorMessage = string;
-export type Timestamp = number;
 export type PayloadSize = number;
 
 //# Schemas
+export type PayloadFormatIndicator = "UNSPECIFIED_BYTES" | "UTF8_DATA";
+export const PayloadFormatIndicator = S.Literal(
+  "UNSPECIFIED_BYTES",
+  "UTF8_DATA",
+);
 export interface DeleteConnectionRequest {
   clientId: string;
   cleanSession?: boolean;
@@ -281,7 +285,7 @@ export interface PublishRequest {
   retain?: boolean;
   payload?: T.StreamingInputBody;
   userProperties?: string;
-  payloadFormatIndicator?: string;
+  payloadFormatIndicator?: PayloadFormatIndicator;
   contentType?: string;
   responseTopic?: string;
   correlationData?: string;
@@ -296,7 +300,7 @@ export const PublishRequest = S.suspend(() =>
     userProperties: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-mqtt5-user-properties"),
     ),
-    payloadFormatIndicator: S.optional(S.String).pipe(
+    payloadFormatIndicator: S.optional(PayloadFormatIndicator).pipe(
       T.HttpHeader("x-amz-mqtt5-payload-format-indicator"),
     ),
     contentType: S.optional(S.String).pipe(T.HttpQuery("contentType")),
@@ -382,7 +386,7 @@ export const GetThingShadowResponse = S.suspend(() =>
   identifier: "GetThingShadowResponse",
 }) as any as S.Schema<GetThingShadowResponse>;
 export interface ListNamedShadowsForThingResponse {
-  results?: NamedShadowList;
+  results?: string[];
   nextToken?: string;
   timestamp?: number;
 }
@@ -422,7 +426,7 @@ export const RetainedMessageSummary = S.suspend(() =>
 export type RetainedMessageList = RetainedMessageSummary[];
 export const RetainedMessageList = S.Array(RetainedMessageSummary);
 export interface ListRetainedMessagesResponse {
-  retainedTopics?: RetainedMessageList;
+  retainedTopics?: RetainedMessageSummary[];
   nextToken?: string;
 }
 export const ListRetainedMessagesResponse = S.suspend(() =>
@@ -486,7 +490,7 @@ export class UnsupportedDocumentEncodingException extends S.TaggedError<Unsuppor
  */
 export const deleteConnection: (
   input: DeleteConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConnectionResponse,
   | ForbiddenException
   | InternalFailureException
@@ -520,7 +524,7 @@ export const deleteConnection: (
  */
 export const publish: (
   input: PublishRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PublishResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -554,7 +558,7 @@ export const publish: (
  */
 export const getRetainedMessage: (
   input: GetRetainedMessageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRetainedMessageResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -585,7 +589,7 @@ export const getRetainedMessage: (
  */
 export const listNamedShadowsForThing: (
   input: ListNamedShadowsForThingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListNamedShadowsForThingResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -628,7 +632,7 @@ export const listNamedShadowsForThing: (
 export const listRetainedMessages: {
   (
     input: ListRetainedMessagesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRetainedMessagesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -641,7 +645,7 @@ export const listRetainedMessages: {
   >;
   pages: (
     input: ListRetainedMessagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRetainedMessagesResponse,
     | InternalFailureException
     | InvalidRequestException
@@ -654,7 +658,7 @@ export const listRetainedMessages: {
   >;
   items: (
     input: ListRetainedMessagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RetainedMessageSummary,
     | InternalFailureException
     | InvalidRequestException
@@ -692,7 +696,7 @@ export const listRetainedMessages: {
  */
 export const deleteThingShadow: (
   input: DeleteThingShadowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteThingShadowResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -728,7 +732,7 @@ export const deleteThingShadow: (
  */
 export const getThingShadow: (
   input: GetThingShadowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetThingShadowResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -764,7 +768,7 @@ export const getThingShadow: (
  */
 export const updateThingShadow: (
   input: UpdateThingShadowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateThingShadowResponse,
   | ConflictException
   | InternalFailureException

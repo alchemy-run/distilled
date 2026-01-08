@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -168,7 +168,7 @@ export const TagKeyList = S.Array(S.String);
 export interface BatchCheckLayerAvailabilityRequest {
   registryId?: string;
   repositoryName: string;
-  layerDigests: BatchedOperationLayerDigestList;
+  layerDigests: string[];
 }
 export const BatchCheckLayerAvailabilityRequest = S.suspend(() =>
   S.Struct({
@@ -193,7 +193,7 @@ export interface CompleteLayerUploadRequest {
   registryId?: string;
   repositoryName: string;
   uploadId: string;
-  layerDigests: LayerDigestList;
+  layerDigests: string[];
 }
 export const CompleteLayerUploadRequest = S.suspend(() =>
   S.Struct({
@@ -275,7 +275,7 @@ export const ImageIdentifierList = S.Array(ImageIdentifier);
 export interface DescribeImagesRequest {
   registryId?: string;
   repositoryName: string;
-  imageIds?: ImageIdentifierList;
+  imageIds?: ImageIdentifier[];
   nextToken?: string;
   maxResults?: number;
 }
@@ -350,7 +350,7 @@ export const DescribeRegistriesRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeRegistriesRequest>;
 export interface DescribeRepositoriesRequest {
   registryId?: string;
-  repositoryNames?: RepositoryNameList;
+  repositoryNames?: string[];
   nextToken?: string;
   maxResults?: number;
 }
@@ -503,8 +503,8 @@ export type OperatingSystemList = string[];
 export const OperatingSystemList = S.Array(S.String);
 export interface RepositoryCatalogDataInput {
   description?: string;
-  architectures?: ArchitectureList;
-  operatingSystems?: OperatingSystemList;
+  architectures?: string[];
+  operatingSystems?: string[];
   logoImageBlob?: Uint8Array;
   aboutText?: string;
   usageText?: string;
@@ -582,7 +582,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagList;
+  tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
@@ -607,7 +607,7 @@ export const TagResourceResponse = S.suspend(() =>
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
@@ -701,7 +701,7 @@ export const RegistryCatalogData = S.suspend(() =>
 export interface BatchDeleteImageRequest {
   registryId?: string;
   repositoryName: string;
-  imageIds: ImageIdentifierList;
+  imageIds: ImageIdentifier[];
 }
 export const BatchDeleteImageRequest = S.suspend(() =>
   S.Struct({
@@ -741,7 +741,7 @@ export const CompleteLayerUploadResponse = S.suspend(() =>
 export interface CreateRepositoryRequest {
   repositoryName: string;
   catalogData?: RepositoryCatalogDataInput;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateRepositoryRequest = S.suspend(() =>
   S.Struct({
@@ -777,7 +777,7 @@ export const DeleteRepositoryPolicyResponse = S.suspend(() =>
   identifier: "DeleteRepositoryPolicyResponse",
 }) as any as S.Schema<DeleteRepositoryPolicyResponse>;
 export interface DescribeRepositoriesResponse {
-  repositories?: RepositoryList;
+  repositories?: Repository[];
   nextToken?: string;
 }
 export const DescribeRepositoriesResponse = S.suspend(() =>
@@ -831,7 +831,7 @@ export const InitiateLayerUploadResponse = S.suspend(() =>
   identifier: "InitiateLayerUploadResponse",
 }) as any as S.Schema<InitiateLayerUploadResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagList) }).pipe(ns),
@@ -848,8 +848,8 @@ export const PutRegistryCatalogDataResponse = S.suspend(() =>
 }) as any as S.Schema<PutRegistryCatalogDataResponse>;
 export interface RepositoryCatalogData {
   description?: string;
-  architectures?: ArchitectureList;
-  operatingSystems?: OperatingSystemList;
+  architectures?: string[];
+  operatingSystems?: string[];
   logoUrl?: string;
   aboutText?: string;
   usageText?: string;
@@ -906,18 +906,25 @@ export const UploadLayerPartResponse = S.suspend(() =>
 ).annotations({
   identifier: "UploadLayerPartResponse",
 }) as any as S.Schema<UploadLayerPartResponse>;
+export type LayerAvailability = "AVAILABLE" | "UNAVAILABLE";
+export const LayerAvailability = S.Literal("AVAILABLE", "UNAVAILABLE");
+export type LayerFailureCode = "InvalidLayerDigest" | "MissingLayerDigest";
+export const LayerFailureCode = S.Literal(
+  "InvalidLayerDigest",
+  "MissingLayerDigest",
+);
 export type ImageTagList = string[];
 export const ImageTagList = S.Array(S.String);
 export interface Layer {
   layerDigest?: string;
-  layerAvailability?: string;
+  layerAvailability?: LayerAvailability;
   layerSize?: number;
   mediaType?: string;
 }
 export const Layer = S.suspend(() =>
   S.Struct({
     layerDigest: S.optional(S.String),
-    layerAvailability: S.optional(S.String),
+    layerAvailability: S.optional(LayerAvailability),
     layerSize: S.optional(S.Number),
     mediaType: S.optional(S.String),
   }),
@@ -926,13 +933,13 @@ export type LayerList = Layer[];
 export const LayerList = S.Array(Layer);
 export interface LayerFailure {
   layerDigest?: string;
-  failureCode?: string;
+  failureCode?: LayerFailureCode;
   failureReason?: string;
 }
 export const LayerFailure = S.suspend(() =>
   S.Struct({
     layerDigest: S.optional(S.String),
-    failureCode: S.optional(S.String),
+    failureCode: S.optional(LayerFailureCode),
     failureReason: S.optional(S.String),
   }),
 ).annotations({ identifier: "LayerFailure" }) as any as S.Schema<LayerFailure>;
@@ -942,7 +949,7 @@ export interface ImageDetail {
   registryId?: string;
   repositoryName?: string;
   imageDigest?: string;
-  imageTags?: ImageTagList;
+  imageTags?: string[];
   imageSizeInBytes?: number;
   imagePushedAt?: Date;
   imageManifestMediaType?: string;
@@ -978,9 +985,11 @@ export const Image = S.suspend(() =>
     imageManifestMediaType: S.optional(S.String),
   }),
 ).annotations({ identifier: "Image" }) as any as S.Schema<Image>;
+export type RegistryAliasStatus = "ACTIVE" | "PENDING" | "REJECTED";
+export const RegistryAliasStatus = S.Literal("ACTIVE", "PENDING", "REJECTED");
 export interface BatchCheckLayerAvailabilityResponse {
-  layers?: LayerList;
-  failures?: LayerFailureList;
+  layers?: Layer[];
+  failures?: LayerFailure[];
 }
 export const BatchCheckLayerAvailabilityResponse = S.suspend(() =>
   S.Struct({
@@ -1011,7 +1020,7 @@ export const DeleteRepositoryResponse = S.suspend(() =>
   identifier: "DeleteRepositoryResponse",
 }) as any as S.Schema<DeleteRepositoryResponse>;
 export interface DescribeImagesResponse {
-  imageDetails?: ImageDetailList;
+  imageDetails?: ImageDetail[];
   nextToken?: string;
 }
 export const DescribeImagesResponse = S.suspend(() =>
@@ -1038,6 +1047,23 @@ export const PutImageResponse = S.suspend(() =>
 ).annotations({
   identifier: "PutImageResponse",
 }) as any as S.Schema<PutImageResponse>;
+export type ImageFailureCode =
+  | "InvalidImageDigest"
+  | "InvalidImageTag"
+  | "ImageTagDoesNotMatchDigest"
+  | "ImageNotFound"
+  | "MissingDigestAndTag"
+  | "ImageReferencedByManifestList"
+  | "KmsError";
+export const ImageFailureCode = S.Literal(
+  "InvalidImageDigest",
+  "InvalidImageTag",
+  "ImageTagDoesNotMatchDigest",
+  "ImageNotFound",
+  "MissingDigestAndTag",
+  "ImageReferencedByManifestList",
+  "KmsError",
+);
 export interface ReferencedImageDetail {
   imageDigest?: string;
   imageSizeInBytes?: number;
@@ -1058,14 +1084,14 @@ export const ReferencedImageDetail = S.suspend(() =>
 }) as any as S.Schema<ReferencedImageDetail>;
 export interface RegistryAlias {
   name: string;
-  status: string;
+  status: RegistryAliasStatus;
   primaryRegistryAlias: boolean;
   defaultRegistryAlias: boolean;
 }
 export const RegistryAlias = S.suspend(() =>
   S.Struct({
     name: S.String,
-    status: S.String,
+    status: RegistryAliasStatus,
     primaryRegistryAlias: S.Boolean,
     defaultRegistryAlias: S.Boolean,
   }),
@@ -1076,13 +1102,13 @@ export type RegistryAliasList = RegistryAlias[];
 export const RegistryAliasList = S.Array(RegistryAlias);
 export interface ImageFailure {
   imageId?: ImageIdentifier;
-  failureCode?: string;
+  failureCode?: ImageFailureCode;
   failureReason?: string;
 }
 export const ImageFailure = S.suspend(() =>
   S.Struct({
     imageId: S.optional(ImageIdentifier),
-    failureCode: S.optional(S.String),
+    failureCode: S.optional(ImageFailureCode),
     failureReason: S.optional(S.String),
   }),
 ).annotations({ identifier: "ImageFailure" }) as any as S.Schema<ImageFailure>;
@@ -1109,7 +1135,7 @@ export interface Registry {
   registryArn: string;
   registryUri: string;
   verified: boolean;
-  aliases: RegistryAliasList;
+  aliases: RegistryAlias[];
 }
 export const Registry = S.suspend(() =>
   S.Struct({
@@ -1123,8 +1149,8 @@ export const Registry = S.suspend(() =>
 export type RegistryList = Registry[];
 export const RegistryList = S.Array(Registry);
 export interface BatchDeleteImageResponse {
-  imageIds?: ImageIdentifierList;
-  failures?: ImageFailureList;
+  imageIds?: ImageIdentifier[];
+  failures?: ImageFailure[];
 }
 export const BatchDeleteImageResponse = S.suspend(() =>
   S.Struct({
@@ -1135,7 +1161,7 @@ export const BatchDeleteImageResponse = S.suspend(() =>
   identifier: "BatchDeleteImageResponse",
 }) as any as S.Schema<BatchDeleteImageResponse>;
 export interface DescribeImageTagsResponse {
-  imageTagDetails?: ImageTagDetailList;
+  imageTagDetails?: ImageTagDetail[];
   nextToken?: string;
 }
 export const DescribeImageTagsResponse = S.suspend(() =>
@@ -1147,7 +1173,7 @@ export const DescribeImageTagsResponse = S.suspend(() =>
   identifier: "DescribeImageTagsResponse",
 }) as any as S.Schema<DescribeImageTagsResponse>;
 export interface DescribeRegistriesResponse {
-  registries: RegistryList;
+  registries: Registry[];
   nextToken?: string;
 }
 export const DescribeRegistriesResponse = S.suspend(() =>
@@ -1268,7 +1294,7 @@ export class ReferencedImagesNotFoundException extends S.TaggedError<ReferencedI
  */
 export const getRegistryCatalogData: (
   input: GetRegistryCatalogDataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRegistryCatalogDataResponse,
   ServerException | UnsupportedCommandException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1283,7 +1309,7 @@ export const getRegistryCatalogData: (
  */
 export const getRepositoryCatalogData: (
   input: GetRepositoryCatalogDataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRepositoryCatalogDataResponse,
   | InvalidParameterException
   | RepositoryCatalogDataNotFoundException
@@ -1312,7 +1338,7 @@ export const getRepositoryCatalogData: (
  */
 export const getAuthorizationToken: (
   input: GetAuthorizationTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAuthorizationTokenResponse,
   | InvalidParameterException
   | ServerException
@@ -1333,7 +1359,7 @@ export const getAuthorizationToken: (
  */
 export const putRegistryCatalogData: (
   input: PutRegistryCatalogDataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutRegistryCatalogDataResponse,
   | InvalidParameterException
   | ServerException
@@ -1360,7 +1386,7 @@ export const putRegistryCatalogData: (
  */
 export const initiateLayerUpload: (
   input: InitiateLayerUploadRequest,
-) => Effect.Effect<
+) => effect.Effect<
   InitiateLayerUploadResponse,
   | InvalidParameterException
   | RegistryNotFoundException
@@ -1386,7 +1412,7 @@ export const initiateLayerUpload: (
 export const describeRepositories: {
   (
     input: DescribeRepositoriesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeRepositoriesResponse,
     | InvalidParameterException
     | RepositoryNotFoundException
@@ -1397,7 +1423,7 @@ export const describeRepositories: {
   >;
   pages: (
     input: DescribeRepositoriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeRepositoriesResponse,
     | InvalidParameterException
     | RepositoryNotFoundException
@@ -1408,7 +1434,7 @@ export const describeRepositories: {
   >;
   items: (
     input: DescribeRepositoriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Repository,
     | InvalidParameterException
     | RepositoryNotFoundException
@@ -1438,7 +1464,7 @@ export const describeRepositories: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InvalidParameterException
   | RepositoryNotFoundException
@@ -1461,7 +1487,7 @@ export const listTagsForResource: (
  */
 export const putRepositoryCatalogData: (
   input: PutRepositoryCatalogDataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutRepositoryCatalogDataResponse,
   | InvalidParameterException
   | RepositoryNotFoundException
@@ -1486,7 +1512,7 @@ export const putRepositoryCatalogData: (
  */
 export const setRepositoryPolicy: (
   input: SetRepositoryPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetRepositoryPolicyResponse,
   | InvalidParameterException
   | RepositoryNotFoundException
@@ -1514,7 +1540,7 @@ export const setRepositoryPolicy: (
  */
 export const batchCheckLayerAvailability: (
   input: BatchCheckLayerAvailabilityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchCheckLayerAvailabilityResponse,
   | InvalidParameterException
   | RegistryNotFoundException
@@ -1547,7 +1573,7 @@ export const batchCheckLayerAvailability: (
  */
 export const batchDeleteImage: (
   input: BatchDeleteImageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDeleteImageResponse,
   | InvalidParameterException
   | RepositoryNotFoundException
@@ -1572,7 +1598,7 @@ export const batchDeleteImage: (
  */
 export const deleteRepository: (
   input: DeleteRepositoryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRepositoryResponse,
   | InvalidParameterException
   | RepositoryNotEmptyException
@@ -1604,7 +1630,7 @@ export const deleteRepository: (
 export const describeImages: {
   (
     input: DescribeImagesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeImagesResponse,
     | ImageNotFoundException
     | InvalidParameterException
@@ -1616,7 +1642,7 @@ export const describeImages: {
   >;
   pages: (
     input: DescribeImagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeImagesResponse,
     | ImageNotFoundException
     | InvalidParameterException
@@ -1628,7 +1654,7 @@ export const describeImages: {
   >;
   items: (
     input: DescribeImagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ImageDetail,
     | ImageNotFoundException
     | InvalidParameterException
@@ -1661,7 +1687,7 @@ export const describeImages: {
 export const describeImageTags: {
   (
     input: DescribeImageTagsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeImageTagsResponse,
     | InvalidParameterException
     | RepositoryNotFoundException
@@ -1672,7 +1698,7 @@ export const describeImageTags: {
   >;
   pages: (
     input: DescribeImageTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeImageTagsResponse,
     | InvalidParameterException
     | RepositoryNotFoundException
@@ -1683,7 +1709,7 @@ export const describeImageTags: {
   >;
   items: (
     input: DescribeImageTagsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ImageTagDetail,
     | InvalidParameterException
     | RepositoryNotFoundException
@@ -1714,7 +1740,7 @@ export const describeImageTags: {
 export const describeRegistries: {
   (
     input: DescribeRegistriesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeRegistriesResponse,
     | InvalidParameterException
     | ServerException
@@ -1724,7 +1750,7 @@ export const describeRegistries: {
   >;
   pages: (
     input: DescribeRegistriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeRegistriesResponse,
     | InvalidParameterException
     | ServerException
@@ -1734,7 +1760,7 @@ export const describeRegistries: {
   >;
   items: (
     input: DescribeRegistriesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Registry,
     | InvalidParameterException
     | ServerException
@@ -1762,7 +1788,7 @@ export const describeRegistries: {
  */
 export const deleteRepositoryPolicy: (
   input: DeleteRepositoryPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRepositoryPolicyResponse,
   | InvalidParameterException
   | RepositoryNotFoundException
@@ -1787,7 +1813,7 @@ export const deleteRepositoryPolicy: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InvalidParameterException
   | InvalidTagParameterException
@@ -1814,7 +1840,7 @@ export const untagResource: (
  */
 export const getRepositoryPolicy: (
   input: GetRepositoryPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRepositoryPolicyResponse,
   | InvalidParameterException
   | RepositoryNotFoundException
@@ -1842,7 +1868,7 @@ export const getRepositoryPolicy: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InvalidParameterException
   | InvalidTagParameterException
@@ -1875,7 +1901,7 @@ export const tagResource: (
  */
 export const uploadLayerPart: (
   input: UploadLayerPartRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UploadLayerPartResponse,
   | InvalidLayerPartException
   | InvalidParameterException
@@ -1907,7 +1933,7 @@ export const uploadLayerPart: (
  */
 export const createRepository: (
   input: CreateRepositoryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRepositoryResponse,
   | InvalidParameterException
   | InvalidTagParameterException
@@ -1943,7 +1969,7 @@ export const createRepository: (
  */
 export const completeLayerUpload: (
   input: CompleteLayerUploadRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CompleteLayerUploadResponse,
   | EmptyUploadException
   | InvalidLayerException
@@ -1984,7 +2010,7 @@ export const completeLayerUpload: (
  */
 export const putImage: (
   input: PutImageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutImageResponse,
   | ImageAlreadyExistsException
   | ImageDigestDoesNotMatchException

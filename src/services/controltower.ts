@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -108,8 +108,10 @@ export type ParentIdentifier = string;
 export type RegionName = string;
 
 //# Schemas
-export type RemediationTypes = string[];
-export const RemediationTypes = S.Array(S.String);
+export type RemediationType = "INHERITANCE_DRIFT";
+export const RemediationType = S.Literal("INHERITANCE_DRIFT");
+export type RemediationTypes = RemediationType[];
+export const RemediationTypes = S.Array(RemediationType);
 export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
 export interface DisableControlInput {
@@ -237,7 +239,7 @@ export type EnabledBaselineParameters = EnabledBaselineParameter[];
 export const EnabledBaselineParameters = S.Array(EnabledBaselineParameter);
 export interface UpdateEnabledBaselineInput {
   baselineVersion: string;
-  parameters?: EnabledBaselineParameters;
+  parameters?: EnabledBaselineParameter[];
   enabledBaselineIdentifier: string;
 }
 export const UpdateEnabledBaselineInput = S.suspend(() =>
@@ -321,7 +323,7 @@ export const EnabledControlParameter = S.suspend(() =>
 export type EnabledControlParameters = EnabledControlParameter[];
 export const EnabledControlParameters = S.Array(EnabledControlParameter);
 export interface UpdateEnabledControlInput {
-  parameters: EnabledControlParameters;
+  parameters: EnabledControlParameter[];
   enabledControlIdentifier: string;
 }
 export const UpdateEnabledControlInput = S.suspend(() =>
@@ -379,8 +381,8 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface CreateLandingZoneInput {
   version: string;
-  remediationTypes?: RemediationTypes;
-  tags?: TagMap;
+  remediationTypes?: RemediationType[];
+  tags?: { [key: string]: string };
   manifest?: any;
 }
 export const CreateLandingZoneInput = S.suspend(() =>
@@ -421,7 +423,7 @@ export const GetLandingZoneInput = S.suspend(() =>
 }) as any as S.Schema<GetLandingZoneInput>;
 export interface UpdateLandingZoneInput {
   version: string;
-  remediationTypes?: RemediationTypes;
+  remediationTypes?: RemediationType[];
   landingZoneIdentifier: string;
   manifest?: any;
 }
@@ -518,7 +520,7 @@ export const ListTagsForResourceInput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceInput>;
 export interface TagResourceInput {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -543,7 +545,7 @@ export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceOutput>;
 export interface UntagResourceInput {
   resourceArn: string;
-  tagKeys: TagKeys;
+  tagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({
@@ -572,36 +574,81 @@ export type TargetIdentifiers = string[];
 export const TargetIdentifiers = S.Array(S.String);
 export type EnabledControlIdentifiers = string[];
 export const EnabledControlIdentifiers = S.Array(S.String);
-export type ControlOperationStatuses = string[];
-export const ControlOperationStatuses = S.Array(S.String);
-export type ControlOperationTypes = string[];
-export const ControlOperationTypes = S.Array(S.String);
+export type ControlOperationStatus = "SUCCEEDED" | "FAILED" | "IN_PROGRESS";
+export const ControlOperationStatus = S.Literal(
+  "SUCCEEDED",
+  "FAILED",
+  "IN_PROGRESS",
+);
+export type ControlOperationStatuses = ControlOperationStatus[];
+export const ControlOperationStatuses = S.Array(ControlOperationStatus);
+export type ControlOperationType =
+  | "ENABLE_CONTROL"
+  | "DISABLE_CONTROL"
+  | "UPDATE_ENABLED_CONTROL"
+  | "RESET_ENABLED_CONTROL";
+export const ControlOperationType = S.Literal(
+  "ENABLE_CONTROL",
+  "DISABLE_CONTROL",
+  "UPDATE_ENABLED_CONTROL",
+  "RESET_ENABLED_CONTROL",
+);
+export type ControlOperationTypes = ControlOperationType[];
+export const ControlOperationTypes = S.Array(ControlOperationType);
 export type EnabledBaselineTargetIdentifiers = string[];
 export const EnabledBaselineTargetIdentifiers = S.Array(S.String);
 export type EnabledBaselineBaselineIdentifiers = string[];
 export const EnabledBaselineBaselineIdentifiers = S.Array(S.String);
 export type EnabledBaselineParentIdentifiers = string[];
 export const EnabledBaselineParentIdentifiers = S.Array(S.String);
-export type EnabledBaselineEnablementStatuses = string[];
-export const EnabledBaselineEnablementStatuses = S.Array(S.String);
-export type EnabledBaselineDriftStatuses = string[];
-export const EnabledBaselineDriftStatuses = S.Array(S.String);
-export type EnablementStatuses = string[];
-export const EnablementStatuses = S.Array(S.String);
-export type DriftStatuses = string[];
-export const DriftStatuses = S.Array(S.String);
+export type EnablementStatus = "SUCCEEDED" | "FAILED" | "UNDER_CHANGE";
+export const EnablementStatus = S.Literal(
+  "SUCCEEDED",
+  "FAILED",
+  "UNDER_CHANGE",
+);
+export type EnabledBaselineEnablementStatuses = EnablementStatus[];
+export const EnabledBaselineEnablementStatuses = S.Array(EnablementStatus);
+export type EnabledBaselineDriftStatus = "IN_SYNC" | "DRIFTED";
+export const EnabledBaselineDriftStatus = S.Literal("IN_SYNC", "DRIFTED");
+export type EnabledBaselineDriftStatuses = EnabledBaselineDriftStatus[];
+export const EnabledBaselineDriftStatuses = S.Array(EnabledBaselineDriftStatus);
+export type EnablementStatuses = EnablementStatus[];
+export const EnablementStatuses = S.Array(EnablementStatus);
+export type DriftStatus = "DRIFTED" | "IN_SYNC" | "NOT_CHECKING" | "UNKNOWN";
+export const DriftStatus = S.Literal(
+  "DRIFTED",
+  "IN_SYNC",
+  "NOT_CHECKING",
+  "UNKNOWN",
+);
+export type DriftStatuses = DriftStatus[];
+export const DriftStatuses = S.Array(DriftStatus);
 export type ParentIdentifiers = string[];
 export const ParentIdentifiers = S.Array(S.String);
-export type LandingZoneOperationTypes = string[];
-export const LandingZoneOperationTypes = S.Array(S.String);
-export type LandingZoneOperationStatuses = string[];
-export const LandingZoneOperationStatuses = S.Array(S.String);
+export type LandingZoneOperationType = "DELETE" | "CREATE" | "UPDATE" | "RESET";
+export const LandingZoneOperationType = S.Literal(
+  "DELETE",
+  "CREATE",
+  "UPDATE",
+  "RESET",
+);
+export type LandingZoneOperationTypes = LandingZoneOperationType[];
+export const LandingZoneOperationTypes = S.Array(LandingZoneOperationType);
+export type LandingZoneOperationStatus = "SUCCEEDED" | "FAILED" | "IN_PROGRESS";
+export const LandingZoneOperationStatus = S.Literal(
+  "SUCCEEDED",
+  "FAILED",
+  "IN_PROGRESS",
+);
+export type LandingZoneOperationStatuses = LandingZoneOperationStatus[];
+export const LandingZoneOperationStatuses = S.Array(LandingZoneOperationStatus);
 export interface ControlOperationFilter {
-  controlIdentifiers?: ControlIdentifiers;
-  targetIdentifiers?: TargetIdentifiers;
-  enabledControlIdentifiers?: EnabledControlIdentifiers;
-  statuses?: ControlOperationStatuses;
-  controlOperationTypes?: ControlOperationTypes;
+  controlIdentifiers?: string[];
+  targetIdentifiers?: string[];
+  enabledControlIdentifiers?: string[];
+  statuses?: ControlOperationStatus[];
+  controlOperationTypes?: ControlOperationType[];
 }
 export const ControlOperationFilter = S.suspend(() =>
   S.Struct({
@@ -615,11 +662,11 @@ export const ControlOperationFilter = S.suspend(() =>
   identifier: "ControlOperationFilter",
 }) as any as S.Schema<ControlOperationFilter>;
 export interface EnabledBaselineFilter {
-  targetIdentifiers?: EnabledBaselineTargetIdentifiers;
-  baselineIdentifiers?: EnabledBaselineBaselineIdentifiers;
-  parentIdentifiers?: EnabledBaselineParentIdentifiers;
-  statuses?: EnabledBaselineEnablementStatuses;
-  inheritanceDriftStatuses?: EnabledBaselineDriftStatuses;
+  targetIdentifiers?: string[];
+  baselineIdentifiers?: string[];
+  parentIdentifiers?: string[];
+  statuses?: EnablementStatus[];
+  inheritanceDriftStatuses?: EnabledBaselineDriftStatus[];
 }
 export const EnabledBaselineFilter = S.suspend(() =>
   S.Struct({
@@ -633,12 +680,12 @@ export const EnabledBaselineFilter = S.suspend(() =>
   identifier: "EnabledBaselineFilter",
 }) as any as S.Schema<EnabledBaselineFilter>;
 export interface EnabledControlFilter {
-  controlIdentifiers?: ControlIdentifiers;
-  statuses?: EnablementStatuses;
-  driftStatuses?: DriftStatuses;
-  parentIdentifiers?: ParentIdentifiers;
-  inheritanceDriftStatuses?: DriftStatuses;
-  resourceDriftStatuses?: DriftStatuses;
+  controlIdentifiers?: string[];
+  statuses?: EnablementStatus[];
+  driftStatuses?: DriftStatus[];
+  parentIdentifiers?: string[];
+  inheritanceDriftStatuses?: DriftStatus[];
+  resourceDriftStatuses?: DriftStatus[];
 }
 export const EnabledControlFilter = S.suspend(() =>
   S.Struct({
@@ -653,8 +700,8 @@ export const EnabledControlFilter = S.suspend(() =>
   identifier: "EnabledControlFilter",
 }) as any as S.Schema<EnabledControlFilter>;
 export interface LandingZoneOperationFilter {
-  types?: LandingZoneOperationTypes;
-  statuses?: LandingZoneOperationStatuses;
+  types?: LandingZoneOperationType[];
+  statuses?: LandingZoneOperationStatus[];
 }
 export const LandingZoneOperationFilter = S.suspend(() =>
   S.Struct({
@@ -711,10 +758,10 @@ export const ListControlOperationsInput = S.suspend(() =>
 }) as any as S.Schema<ListControlOperationsInput>;
 export interface EnableBaselineInput {
   baselineVersion: string;
-  parameters?: EnabledBaselineParameters;
+  parameters?: EnabledBaselineParameter[];
   baselineIdentifier: string;
   targetIdentifier: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const EnableBaselineInput = S.suspend(() =>
   S.Struct({
@@ -788,8 +835,8 @@ export const ResetEnabledBaselineOutput = S.suspend(() =>
 export interface EnableControlInput {
   controlIdentifier: string;
   targetIdentifier: string;
-  tags?: TagMap;
-  parameters?: EnabledControlParameters;
+  tags?: { [key: string]: string };
+  parameters?: EnabledControlParameter[];
 }
 export const EnableControlInput = S.suspend(() =>
   S.Struct({
@@ -910,17 +957,36 @@ export const ResetLandingZoneOutput = S.suspend(() =>
   identifier: "ResetLandingZoneOutput",
 }) as any as S.Schema<ResetLandingZoneOutput>;
 export interface ListTagsForResourceOutput {
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: TagMap }),
 ).annotations({
   identifier: "ListTagsForResourceOutput",
 }) as any as S.Schema<ListTagsForResourceOutput>;
+export type BaselineOperationType =
+  | "ENABLE_BASELINE"
+  | "DISABLE_BASELINE"
+  | "UPDATE_ENABLED_BASELINE"
+  | "RESET_ENABLED_BASELINE";
+export const BaselineOperationType = S.Literal(
+  "ENABLE_BASELINE",
+  "DISABLE_BASELINE",
+  "UPDATE_ENABLED_BASELINE",
+  "RESET_ENABLED_BASELINE",
+);
+export type BaselineOperationStatus = "SUCCEEDED" | "FAILED" | "IN_PROGRESS";
+export const BaselineOperationStatus = S.Literal(
+  "SUCCEEDED",
+  "FAILED",
+  "IN_PROGRESS",
+);
+export type LandingZoneStatus = "ACTIVE" | "PROCESSING" | "FAILED";
+export const LandingZoneStatus = S.Literal("ACTIVE", "PROCESSING", "FAILED");
 export interface BaselineOperation {
   operationIdentifier?: string;
-  operationType?: string;
-  status?: string;
+  operationType?: BaselineOperationType;
+  status?: BaselineOperationStatus;
   startTime?: Date;
   endTime?: Date;
   statusMessage?: string;
@@ -928,8 +994,8 @@ export interface BaselineOperation {
 export const BaselineOperation = S.suspend(() =>
   S.Struct({
     operationIdentifier: S.optional(S.String),
-    operationType: S.optional(S.String),
-    status: S.optional(S.String),
+    operationType: S.optional(BaselineOperationType),
+    status: S.optional(BaselineOperationStatus),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     statusMessage: S.optional(S.String),
@@ -954,10 +1020,10 @@ export const BaselineSummary = S.suspend(() =>
 export type Baselines = BaselineSummary[];
 export const Baselines = S.Array(BaselineSummary);
 export interface ControlOperation {
-  operationType?: string;
+  operationType?: ControlOperationType;
   startTime?: Date;
   endTime?: Date;
-  status?: string;
+  status?: ControlOperationStatus;
   statusMessage?: string;
   operationIdentifier?: string;
   controlIdentifier?: string;
@@ -966,10 +1032,10 @@ export interface ControlOperation {
 }
 export const ControlOperation = S.suspend(() =>
   S.Struct({
-    operationType: S.optional(S.String),
+    operationType: S.optional(ControlOperationType),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    status: S.optional(S.String),
+    status: S.optional(ControlOperationStatus),
     statusMessage: S.optional(S.String),
     operationIdentifier: S.optional(S.String),
     controlIdentifier: S.optional(S.String),
@@ -980,18 +1046,18 @@ export const ControlOperation = S.suspend(() =>
   identifier: "ControlOperation",
 }) as any as S.Schema<ControlOperation>;
 export interface LandingZoneOperationDetail {
-  operationType?: string;
+  operationType?: LandingZoneOperationType;
   operationIdentifier?: string;
-  status?: string;
+  status?: LandingZoneOperationStatus;
   startTime?: Date;
   endTime?: Date;
   statusMessage?: string;
 }
 export const LandingZoneOperationDetail = S.suspend(() =>
   S.Struct({
-    operationType: S.optional(S.String),
+    operationType: S.optional(LandingZoneOperationType),
     operationIdentifier: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(LandingZoneOperationStatus),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     statusMessage: S.optional(S.String),
@@ -1009,6 +1075,8 @@ export const LandingZoneSummary = S.suspend(() =>
 }) as any as S.Schema<LandingZoneSummary>;
 export type LandingZoneSummaries = LandingZoneSummary[];
 export const LandingZoneSummaries = S.Array(LandingZoneSummary);
+export type LandingZoneDriftStatus = "DRIFTED" | "IN_SYNC";
+export const LandingZoneDriftStatus = S.Literal("DRIFTED", "IN_SYNC");
 export interface GetBaselineOperationOutput {
   baselineOperation: BaselineOperation;
 }
@@ -1018,7 +1086,7 @@ export const GetBaselineOperationOutput = S.suspend(() =>
   identifier: "GetBaselineOperationOutput",
 }) as any as S.Schema<GetBaselineOperationOutput>;
 export interface ListBaselinesOutput {
-  baselines: Baselines;
+  baselines: BaselineSummary[];
   nextToken?: string;
 }
 export const ListBaselinesOutput = S.suspend(() =>
@@ -1061,7 +1129,7 @@ export const GetLandingZoneOperationOutput = S.suspend(() =>
   identifier: "GetLandingZoneOperationOutput",
 }) as any as S.Schema<GetLandingZoneOperationOutput>;
 export interface ListLandingZonesOutput {
-  landingZones: LandingZoneSummaries;
+  landingZones: LandingZoneSummary[];
   nextToken?: string;
 }
 export const ListLandingZonesOutput = S.suspend(() =>
@@ -1073,12 +1141,12 @@ export const ListLandingZonesOutput = S.suspend(() =>
   identifier: "ListLandingZonesOutput",
 }) as any as S.Schema<ListLandingZonesOutput>;
 export interface EnablementStatusSummary {
-  status?: string;
+  status?: EnablementStatus;
   lastOperationIdentifier?: string;
 }
 export const EnablementStatusSummary = S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String),
+    status: S.optional(EnablementStatus),
     lastOperationIdentifier: S.optional(S.String),
   }),
 ).annotations({
@@ -1120,18 +1188,18 @@ export const EnabledControlParameterSummaries = S.Array(
   EnabledControlParameterSummary,
 );
 export interface LandingZoneDriftStatusSummary {
-  status?: string;
+  status?: LandingZoneDriftStatus;
 }
 export const LandingZoneDriftStatusSummary = S.suspend(() =>
-  S.Struct({ status: S.optional(S.String) }),
+  S.Struct({ status: S.optional(LandingZoneDriftStatus) }),
 ).annotations({
   identifier: "LandingZoneDriftStatusSummary",
 }) as any as S.Schema<LandingZoneDriftStatusSummary>;
 export interface ControlOperationSummary {
-  operationType?: string;
+  operationType?: ControlOperationType;
   startTime?: Date;
   endTime?: Date;
-  status?: string;
+  status?: ControlOperationStatus;
   statusMessage?: string;
   operationIdentifier?: string;
   controlIdentifier?: string;
@@ -1140,10 +1208,10 @@ export interface ControlOperationSummary {
 }
 export const ControlOperationSummary = S.suspend(() =>
   S.Struct({
-    operationType: S.optional(S.String),
+    operationType: S.optional(ControlOperationType),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    status: S.optional(S.String),
+    status: S.optional(ControlOperationStatus),
     statusMessage: S.optional(S.String),
     operationIdentifier: S.optional(S.String),
     controlIdentifier: S.optional(S.String),
@@ -1156,10 +1224,10 @@ export const ControlOperationSummary = S.suspend(() =>
 export type ControlOperations = ControlOperationSummary[];
 export const ControlOperations = S.Array(ControlOperationSummary);
 export interface EnabledBaselineInheritanceDrift {
-  status?: string;
+  status?: EnabledBaselineDriftStatus;
 }
 export const EnabledBaselineInheritanceDrift = S.suspend(() =>
-  S.Struct({ status: S.optional(S.String) }),
+  S.Struct({ status: S.optional(EnabledBaselineDriftStatus) }),
 ).annotations({
   identifier: "EnabledBaselineInheritanceDrift",
 }) as any as S.Schema<EnabledBaselineInheritanceDrift>;
@@ -1204,18 +1272,18 @@ export const EnabledBaselineSummary = S.suspend(() =>
 export type EnabledBaselines = EnabledBaselineSummary[];
 export const EnabledBaselines = S.Array(EnabledBaselineSummary);
 export interface EnabledControlInheritanceDrift {
-  status?: string;
+  status?: DriftStatus;
 }
 export const EnabledControlInheritanceDrift = S.suspend(() =>
-  S.Struct({ status: S.optional(S.String) }),
+  S.Struct({ status: S.optional(DriftStatus) }),
 ).annotations({
   identifier: "EnabledControlInheritanceDrift",
 }) as any as S.Schema<EnabledControlInheritanceDrift>;
 export interface EnabledControlResourceDrift {
-  status?: string;
+  status?: DriftStatus;
 }
 export const EnabledControlResourceDrift = S.suspend(() =>
-  S.Struct({ status: S.optional(S.String) }),
+  S.Struct({ status: S.optional(DriftStatus) }),
 ).annotations({
   identifier: "EnabledControlResourceDrift",
 }) as any as S.Schema<EnabledControlResourceDrift>;
@@ -1232,12 +1300,12 @@ export const EnabledControlDriftTypes = S.suspend(() =>
   identifier: "EnabledControlDriftTypes",
 }) as any as S.Schema<EnabledControlDriftTypes>;
 export interface DriftStatusSummary {
-  driftStatus?: string;
+  driftStatus?: DriftStatus;
   types?: EnabledControlDriftTypes;
 }
 export const DriftStatusSummary = S.suspend(() =>
   S.Struct({
-    driftStatus: S.optional(S.String),
+    driftStatus: S.optional(DriftStatus),
     types: S.optional(EnabledControlDriftTypes),
   }),
 ).annotations({
@@ -1266,15 +1334,15 @@ export const EnabledControlSummary = S.suspend(() =>
 export type EnabledControls = EnabledControlSummary[];
 export const EnabledControls = S.Array(EnabledControlSummary);
 export interface LandingZoneOperationSummary {
-  operationType?: string;
+  operationType?: LandingZoneOperationType;
   operationIdentifier?: string;
-  status?: string;
+  status?: LandingZoneOperationStatus;
 }
 export const LandingZoneOperationSummary = S.suspend(() =>
   S.Struct({
-    operationType: S.optional(S.String),
+    operationType: S.optional(LandingZoneOperationType),
     operationIdentifier: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(LandingZoneOperationStatus),
   }),
 ).annotations({
   identifier: "LandingZoneOperationSummary",
@@ -1283,9 +1351,9 @@ export type LandingZoneOperations = LandingZoneOperationSummary[];
 export const LandingZoneOperations = S.Array(LandingZoneOperationSummary);
 export interface LandingZoneDetail {
   version: string;
-  remediationTypes?: RemediationTypes;
+  remediationTypes?: RemediationType[];
   arn?: string;
-  status?: string;
+  status?: LandingZoneStatus;
   latestAvailableVersion?: string;
   driftStatus?: LandingZoneDriftStatusSummary;
   manifest: any;
@@ -1295,7 +1363,7 @@ export const LandingZoneDetail = S.suspend(() =>
     version: S.String,
     remediationTypes: S.optional(RemediationTypes),
     arn: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(LandingZoneStatus),
     latestAvailableVersion: S.optional(S.String),
     driftStatus: S.optional(LandingZoneDriftStatusSummary),
     manifest: S.Any,
@@ -1304,7 +1372,7 @@ export const LandingZoneDetail = S.suspend(() =>
   identifier: "LandingZoneDetail",
 }) as any as S.Schema<LandingZoneDetail>;
 export interface ListControlOperationsOutput {
-  controlOperations: ControlOperations;
+  controlOperations: ControlOperationSummary[];
   nextToken?: string;
 }
 export const ListControlOperationsOutput = S.suspend(() =>
@@ -1316,7 +1384,7 @@ export const ListControlOperationsOutput = S.suspend(() =>
   identifier: "ListControlOperationsOutput",
 }) as any as S.Schema<ListControlOperationsOutput>;
 export interface ListEnabledBaselinesOutput {
-  enabledBaselines: EnabledBaselines;
+  enabledBaselines: EnabledBaselineSummary[];
   nextToken?: string;
 }
 export const ListEnabledBaselinesOutput = S.suspend(() =>
@@ -1328,7 +1396,7 @@ export const ListEnabledBaselinesOutput = S.suspend(() =>
   identifier: "ListEnabledBaselinesOutput",
 }) as any as S.Schema<ListEnabledBaselinesOutput>;
 export interface ListEnabledControlsOutput {
-  enabledControls: EnabledControls;
+  enabledControls: EnabledControlSummary[];
   nextToken?: string;
 }
 export const ListEnabledControlsOutput = S.suspend(() =>
@@ -1340,7 +1408,7 @@ export const ListEnabledControlsOutput = S.suspend(() =>
   identifier: "ListEnabledControlsOutput",
 }) as any as S.Schema<ListEnabledControlsOutput>;
 export interface ListLandingZoneOperationsOutput {
-  landingZoneOperations: LandingZoneOperations;
+  landingZoneOperations: LandingZoneOperationSummary[];
   nextToken?: string;
 }
 export const ListLandingZoneOperationsOutput = S.suspend(() =>
@@ -1367,7 +1435,7 @@ export interface EnabledBaselineDetails {
   targetIdentifier: string;
   parentIdentifier?: string;
   statusSummary: EnablementStatusSummary;
-  parameters?: EnabledBaselineParameterSummaries;
+  parameters?: EnabledBaselineParameterSummary[];
 }
 export const EnabledBaselineDetails = S.suspend(() =>
   S.Struct({
@@ -1390,8 +1458,8 @@ export interface EnabledControlDetails {
   statusSummary?: EnablementStatusSummary;
   driftStatusSummary?: DriftStatusSummary;
   parentIdentifier?: string;
-  targetRegions?: TargetRegions;
-  parameters?: EnabledControlParameterSummaries;
+  targetRegions?: Region[];
+  parameters?: EnabledControlParameterSummary[];
 }
 export const EnabledControlDetails = S.suspend(() =>
   S.Struct({
@@ -1467,7 +1535,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -1488,7 +1556,7 @@ export const tagResource: (
  */
 export const createLandingZone: (
   input: CreateLandingZoneInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLandingZoneOutput,
   | AccessDeniedException
   | ConflictException
@@ -1513,7 +1581,7 @@ export const createLandingZone: (
  */
 export const updateLandingZone: (
   input: UpdateLandingZoneInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLandingZoneOutput,
   | AccessDeniedException
   | ConflictException
@@ -1542,7 +1610,7 @@ export const updateLandingZone: (
  */
 export const deleteLandingZone: (
   input: DeleteLandingZoneInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLandingZoneOutput,
   | AccessDeniedException
   | ConflictException
@@ -1569,7 +1637,7 @@ export const deleteLandingZone: (
  */
 export const resetLandingZone: (
   input: ResetLandingZoneInput,
-) => Effect.Effect<
+) => effect.Effect<
   ResetLandingZoneOutput,
   | AccessDeniedException
   | ConflictException
@@ -1599,7 +1667,7 @@ export const resetLandingZone: (
 export const listLandingZones: {
   (
     input: ListLandingZonesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLandingZonesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1610,7 +1678,7 @@ export const listLandingZones: {
   >;
   pages: (
     input: ListLandingZonesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLandingZonesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1621,7 +1689,7 @@ export const listLandingZones: {
   >;
   items: (
     input: ListLandingZonesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LandingZoneSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1651,7 +1719,7 @@ export const listLandingZones: {
  */
 export const getBaseline: (
   input: GetBaselineInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetBaselineOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1676,7 +1744,7 @@ export const getBaseline: (
  */
 export const getBaselineOperation: (
   input: GetBaselineOperationInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetBaselineOperationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1701,7 +1769,7 @@ export const getBaselineOperation: (
  */
 export const getControlOperation: (
   input: GetControlOperationInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetControlOperationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1726,7 +1794,7 @@ export const getControlOperation: (
  */
 export const getLandingZoneOperation: (
   input: GetLandingZoneOperationInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetLandingZoneOperationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1751,7 +1819,7 @@ export const getLandingZoneOperation: (
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -1772,7 +1840,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -1794,7 +1862,7 @@ export const listTagsForResource: (
 export const listBaselines: {
   (
     input: ListBaselinesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBaselinesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1805,7 +1873,7 @@ export const listBaselines: {
   >;
   pages: (
     input: ListBaselinesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBaselinesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1816,7 +1884,7 @@ export const listBaselines: {
   >;
   items: (
     input: ListBaselinesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BaselineSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1847,7 +1915,7 @@ export const listBaselines: {
 export const listControlOperations: {
   (
     input: ListControlOperationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListControlOperationsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1858,7 +1926,7 @@ export const listControlOperations: {
   >;
   pages: (
     input: ListControlOperationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListControlOperationsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1869,7 +1937,7 @@ export const listControlOperations: {
   >;
   items: (
     input: ListControlOperationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ControlOperationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1900,7 +1968,7 @@ export const listControlOperations: {
 export const listEnabledBaselines: {
   (
     input: ListEnabledBaselinesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEnabledBaselinesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1911,7 +1979,7 @@ export const listEnabledBaselines: {
   >;
   pages: (
     input: ListEnabledBaselinesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEnabledBaselinesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1922,7 +1990,7 @@ export const listEnabledBaselines: {
   >;
   items: (
     input: ListEnabledBaselinesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EnabledBaselineSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1953,7 +2021,7 @@ export const listEnabledBaselines: {
 export const listEnabledControls: {
   (
     input: ListEnabledControlsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEnabledControlsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1965,7 +2033,7 @@ export const listEnabledControls: {
   >;
   pages: (
     input: ListEnabledControlsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEnabledControlsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1977,7 +2045,7 @@ export const listEnabledControls: {
   >;
   items: (
     input: ListEnabledControlsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EnabledControlSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2010,7 +2078,7 @@ export const listEnabledControls: {
 export const listLandingZoneOperations: {
   (
     input: ListLandingZoneOperationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLandingZoneOperationsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2021,7 +2089,7 @@ export const listLandingZoneOperations: {
   >;
   pages: (
     input: ListLandingZoneOperationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLandingZoneOperationsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2032,7 +2100,7 @@ export const listLandingZoneOperations: {
   >;
   items: (
     input: ListLandingZoneOperationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LandingZoneOperationSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2062,7 +2130,7 @@ export const listLandingZoneOperations: {
  */
 export const getLandingZone: (
   input: GetLandingZoneInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetLandingZoneOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2087,7 +2155,7 @@ export const getLandingZone: (
  */
 export const disableControl: (
   input: DisableControlInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisableControlOutput,
   | AccessDeniedException
   | ConflictException
@@ -2116,7 +2184,7 @@ export const disableControl: (
  */
 export const enableBaseline: (
   input: EnableBaselineInput,
-) => Effect.Effect<
+) => effect.Effect<
   EnableBaselineOutput,
   | AccessDeniedException
   | ConflictException
@@ -2145,7 +2213,7 @@ export const enableBaseline: (
  */
 export const enableControl: (
   input: EnableControlInput,
-) => Effect.Effect<
+) => effect.Effect<
   EnableControlOutput,
   | AccessDeniedException
   | ConflictException
@@ -2174,7 +2242,7 @@ export const enableControl: (
  */
 export const updateEnabledBaseline: (
   input: UpdateEnabledBaselineInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEnabledBaselineOutput,
   | AccessDeniedException
   | ConflictException
@@ -2203,7 +2271,7 @@ export const updateEnabledBaseline: (
  */
 export const disableBaseline: (
   input: DisableBaselineInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisableBaselineOutput,
   | AccessDeniedException
   | ConflictException
@@ -2232,7 +2300,7 @@ export const disableBaseline: (
  */
 export const resetEnabledBaseline: (
   input: ResetEnabledBaselineInput,
-) => Effect.Effect<
+) => effect.Effect<
   ResetEnabledBaselineOutput,
   | AccessDeniedException
   | ConflictException
@@ -2267,7 +2335,7 @@ export const resetEnabledBaseline: (
  */
 export const updateEnabledControl: (
   input: UpdateEnabledControlInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEnabledControlOutput,
   | AccessDeniedException
   | ConflictException
@@ -2296,7 +2364,7 @@ export const updateEnabledControl: (
  */
 export const resetEnabledControl: (
   input: ResetEnabledControlInput,
-) => Effect.Effect<
+) => effect.Effect<
   ResetEnabledControlOutput,
   | AccessDeniedException
   | ConflictException
@@ -2325,7 +2393,7 @@ export const resetEnabledControl: (
  */
 export const getEnabledBaseline: (
   input: GetEnabledBaselineInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetEnabledBaselineOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2350,7 +2418,7 @@ export const getEnabledBaseline: (
  */
 export const getEnabledControl: (
   input: GetEnabledControlInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetEnabledControlOutput,
   | AccessDeniedException
   | InternalServerException

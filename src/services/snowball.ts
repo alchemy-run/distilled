@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -95,10 +95,9 @@ export type RoleARN = string;
 export type InitialClusterSize = number;
 export type LongTermPricingId = string;
 export type ListLimit = number;
-export type Integer = number;
 export type SnsTopicARN = string;
-export type PhoneNumber = string | Redacted.Redacted<string>;
-export type Email = string | Redacted.Redacted<string>;
+export type PhoneNumber = string | redacted.Redacted<string>;
+export type Email = string | redacted.Redacted<string>;
 export type DevicePickupId = string;
 export type ResourceARN = string;
 export type AmiId = string;
@@ -107,7 +106,6 @@ export type S3StorageLimit = number;
 export type ServiceSize = number;
 export type NodeFaultTolerance = number;
 export type GSTIN = string;
-export type Long = number;
 
 //# Schemas
 export interface GetSnowballUsageRequest {}
@@ -118,8 +116,86 @@ export const GetSnowballUsageRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetSnowballUsageRequest",
 }) as any as S.Schema<GetSnowballUsageRequest>;
+export type JobType = "IMPORT" | "EXPORT" | "LOCAL_USE";
+export const JobType = S.Literal("IMPORT", "EXPORT", "LOCAL_USE");
+export type SnowballType =
+  | "STANDARD"
+  | "EDGE"
+  | "EDGE_C"
+  | "EDGE_CG"
+  | "EDGE_S"
+  | "SNC1_HDD"
+  | "SNC1_SSD"
+  | "V3_5C"
+  | "V3_5S"
+  | "RACK_5U_C";
+export const SnowballType = S.Literal(
+  "STANDARD",
+  "EDGE",
+  "EDGE_C",
+  "EDGE_CG",
+  "EDGE_S",
+  "SNC1_HDD",
+  "SNC1_SSD",
+  "V3_5C",
+  "V3_5S",
+  "RACK_5U_C",
+);
+export type ShippingOption = "SECOND_DAY" | "NEXT_DAY" | "EXPRESS" | "STANDARD";
+export const ShippingOption = S.Literal(
+  "SECOND_DAY",
+  "NEXT_DAY",
+  "EXPRESS",
+  "STANDARD",
+);
+export type RemoteManagement =
+  | "INSTALLED_ONLY"
+  | "INSTALLED_AUTOSTART"
+  | "NOT_INSTALLED";
+export const RemoteManagement = S.Literal(
+  "INSTALLED_ONLY",
+  "INSTALLED_AUTOSTART",
+  "NOT_INSTALLED",
+);
 export type LongTermPricingIdList = string[];
 export const LongTermPricingIdList = S.Array(S.String);
+export type SnowballCapacity =
+  | "T50"
+  | "T80"
+  | "T100"
+  | "T42"
+  | "T98"
+  | "T8"
+  | "T14"
+  | "T32"
+  | "NoPreference"
+  | "T240"
+  | "T13";
+export const SnowballCapacity = S.Literal(
+  "T50",
+  "T80",
+  "T100",
+  "T42",
+  "T98",
+  "T8",
+  "T14",
+  "T32",
+  "NoPreference",
+  "T240",
+  "T13",
+);
+export type ImpactLevel = "IL2" | "IL4" | "IL5" | "IL6" | "IL99";
+export const ImpactLevel = S.Literal("IL2", "IL4", "IL5", "IL6", "IL99");
+export type LongTermPricingType = "OneYear" | "ThreeYear" | "OneMonth";
+export const LongTermPricingType = S.Literal(
+  "OneYear",
+  "ThreeYear",
+  "OneMonth",
+);
+export type ServiceName = "KUBERNETES" | "EKS_ANYWHERE";
+export const ServiceName = S.Literal("KUBERNETES", "EKS_ANYWHERE");
+export type ShipmentState = "RECEIVED" | "RETURNED";
+export const ShipmentState = S.Literal("RECEIVED", "RETURNED");
 export interface CancelClusterRequest {
   ClusterId: string;
 }
@@ -149,15 +225,15 @@ export const CancelJobResult = S.suspend(() => S.Struct({})).annotations({
   identifier: "CancelJobResult",
 }) as any as S.Schema<CancelJobResult>;
 export interface CreateLongTermPricingRequest {
-  LongTermPricingType: string;
+  LongTermPricingType: LongTermPricingType;
   IsLongTermPricingAutoRenew?: boolean;
-  SnowballType: string;
+  SnowballType: SnowballType;
 }
 export const CreateLongTermPricingRequest = S.suspend(() =>
   S.Struct({
-    LongTermPricingType: S.String,
+    LongTermPricingType: LongTermPricingType,
     IsLongTermPricingAutoRenew: S.optional(S.Boolean),
-    SnowballType: S.String,
+    SnowballType: SnowballType,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -166,10 +242,13 @@ export const CreateLongTermPricingRequest = S.suspend(() =>
 }) as any as S.Schema<CreateLongTermPricingRequest>;
 export interface CreateReturnShippingLabelRequest {
   JobId: string;
-  ShippingOption?: string;
+  ShippingOption?: ShippingOption;
 }
 export const CreateReturnShippingLabelRequest = S.suspend(() =>
-  S.Struct({ JobId: S.String, ShippingOption: S.optional(S.String) }).pipe(
+  S.Struct({
+    JobId: S.String,
+    ShippingOption: S.optional(ShippingOption),
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -367,14 +446,23 @@ export const KeyRange = S.suspend(() =>
     EndMarker: S.optional(S.String),
   }),
 ).annotations({ identifier: "KeyRange" }) as any as S.Schema<KeyRange>;
+export type DeviceServiceName =
+  | "NFS_ON_DEVICE_SERVICE"
+  | "S3_ON_DEVICE_SERVICE";
+export const DeviceServiceName = S.Literal(
+  "NFS_ON_DEVICE_SERVICE",
+  "S3_ON_DEVICE_SERVICE",
+);
+export type TransferOption = "IMPORT" | "EXPORT" | "LOCAL_USE";
+export const TransferOption = S.Literal("IMPORT", "EXPORT", "LOCAL_USE");
 export interface TargetOnDeviceService {
-  ServiceName?: string;
-  TransferOption?: string;
+  ServiceName?: DeviceServiceName;
+  TransferOption?: TransferOption;
 }
 export const TargetOnDeviceService = S.suspend(() =>
   S.Struct({
-    ServiceName: S.optional(S.String),
-    TransferOption: S.optional(S.String),
+    ServiceName: S.optional(DeviceServiceName),
+    TransferOption: S.optional(TransferOption),
   }),
 ).annotations({
   identifier: "TargetOnDeviceService",
@@ -384,7 +472,7 @@ export const TargetOnDeviceServiceList = S.Array(TargetOnDeviceService);
 export interface S3Resource {
   BucketArn?: string;
   KeyRange?: KeyRange;
-  TargetOnDeviceServices?: TargetOnDeviceServiceList;
+  TargetOnDeviceServices?: TargetOnDeviceService[];
 }
 export const S3Resource = S.suspend(() =>
   S.Struct({
@@ -407,7 +495,7 @@ export type EventTriggerDefinitionList = EventTriggerDefinition[];
 export const EventTriggerDefinitionList = S.Array(EventTriggerDefinition);
 export interface LambdaResource {
   LambdaArn?: string;
-  EventTriggers?: EventTriggerDefinitionList;
+  EventTriggers?: EventTriggerDefinition[];
 }
 export const LambdaResource = S.suspend(() =>
   S.Struct({
@@ -431,9 +519,9 @@ export const Ec2AmiResource = S.suspend(() =>
 export type Ec2AmiResourceList = Ec2AmiResource[];
 export const Ec2AmiResourceList = S.Array(Ec2AmiResource);
 export interface JobResource {
-  S3Resources?: S3ResourceList;
-  LambdaResources?: LambdaResourceList;
-  Ec2AmiResources?: Ec2AmiResourceList;
+  S3Resources?: S3Resource[];
+  LambdaResources?: LambdaResource[];
+  Ec2AmiResources?: Ec2AmiResource[];
 }
 export const JobResource = S.suspend(() =>
   S.Struct({
@@ -442,26 +530,28 @@ export const JobResource = S.suspend(() =>
     Ec2AmiResources: S.optional(Ec2AmiResourceList),
   }),
 ).annotations({ identifier: "JobResource" }) as any as S.Schema<JobResource>;
+export type StorageUnit = "TB";
+export const StorageUnit = S.Literal("TB");
 export interface NFSOnDeviceServiceConfiguration {
   StorageLimit?: number;
-  StorageUnit?: string;
+  StorageUnit?: StorageUnit;
 }
 export const NFSOnDeviceServiceConfiguration = S.suspend(() =>
   S.Struct({
     StorageLimit: S.optional(S.Number),
-    StorageUnit: S.optional(S.String),
+    StorageUnit: S.optional(StorageUnit),
   }),
 ).annotations({
   identifier: "NFSOnDeviceServiceConfiguration",
 }) as any as S.Schema<NFSOnDeviceServiceConfiguration>;
 export interface TGWOnDeviceServiceConfiguration {
   StorageLimit?: number;
-  StorageUnit?: string;
+  StorageUnit?: StorageUnit;
 }
 export const TGWOnDeviceServiceConfiguration = S.suspend(() =>
   S.Struct({
     StorageLimit: S.optional(S.Number),
-    StorageUnit: S.optional(S.String),
+    StorageUnit: S.optional(StorageUnit),
   }),
 ).annotations({
   identifier: "TGWOnDeviceServiceConfiguration",
@@ -480,14 +570,14 @@ export const EKSOnDeviceServiceConfiguration = S.suspend(() =>
 }) as any as S.Schema<EKSOnDeviceServiceConfiguration>;
 export interface S3OnDeviceServiceConfiguration {
   StorageLimit?: number;
-  StorageUnit?: string;
+  StorageUnit?: StorageUnit;
   ServiceSize?: number;
   FaultTolerance?: number;
 }
 export const S3OnDeviceServiceConfiguration = S.suspend(() =>
   S.Struct({
     StorageLimit: S.optional(S.Number),
-    StorageUnit: S.optional(S.String),
+    StorageUnit: S.optional(StorageUnit),
     ServiceSize: S.optional(S.Number),
     FaultTolerance: S.optional(S.Number),
   }),
@@ -510,11 +600,40 @@ export const OnDeviceServiceConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "OnDeviceServiceConfiguration",
 }) as any as S.Schema<OnDeviceServiceConfiguration>;
-export type JobStateList = string[];
-export const JobStateList = S.Array(S.String);
+export type JobState =
+  | "New"
+  | "PreparingAppliance"
+  | "PreparingShipment"
+  | "InTransitToCustomer"
+  | "WithCustomer"
+  | "InTransitToAWS"
+  | "WithAWSSortingFacility"
+  | "WithAWS"
+  | "InProgress"
+  | "Complete"
+  | "Cancelled"
+  | "Listing"
+  | "Pending";
+export const JobState = S.Literal(
+  "New",
+  "PreparingAppliance",
+  "PreparingShipment",
+  "InTransitToCustomer",
+  "WithCustomer",
+  "InTransitToAWS",
+  "WithAWSSortingFacility",
+  "WithAWS",
+  "InProgress",
+  "Complete",
+  "Cancelled",
+  "Listing",
+  "Pending",
+);
+export type JobStateList = JobState[];
+export const JobStateList = S.Array(JobState);
 export interface Notification {
   SnsTopicARN?: string;
-  JobStatesToNotify?: JobStateList;
+  JobStatesToNotify?: JobState[];
   NotifyAll?: boolean;
   DevicePickupSnsTopicARN?: string;
 }
@@ -533,7 +652,7 @@ export interface UpdateClusterRequest {
   Resources?: JobResource;
   OnDeviceServiceConfiguration?: OnDeviceServiceConfiguration;
   AddressId?: string;
-  ShippingOption?: string;
+  ShippingOption?: ShippingOption;
   Notification?: Notification;
   ForwardingAddressId?: string;
 }
@@ -545,7 +664,7 @@ export const UpdateClusterRequest = S.suspend(() =>
     Resources: S.optional(JobResource),
     OnDeviceServiceConfiguration: S.optional(OnDeviceServiceConfiguration),
     AddressId: S.optional(S.String),
-    ShippingOption: S.optional(S.String),
+    ShippingOption: S.optional(ShippingOption),
     Notification: S.optional(Notification),
     ForwardingAddressId: S.optional(S.String),
   }).pipe(
@@ -560,8 +679,8 @@ export const UpdateClusterResult = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UpdateClusterResult>;
 export interface PickupDetails {
   Name?: string;
-  PhoneNumber?: string | Redacted.Redacted<string>;
-  Email?: string | Redacted.Redacted<string>;
+  PhoneNumber?: string | redacted.Redacted<string>;
+  Email?: string | redacted.Redacted<string>;
   IdentificationNumber?: string;
   IdentificationExpirationDate?: Date;
   IdentificationIssuingOrg?: string;
@@ -589,9 +708,9 @@ export interface UpdateJobRequest {
   Resources?: JobResource;
   OnDeviceServiceConfiguration?: OnDeviceServiceConfiguration;
   AddressId?: string;
-  ShippingOption?: string;
+  ShippingOption?: ShippingOption;
   Description?: string;
-  SnowballCapacityPreference?: string;
+  SnowballCapacityPreference?: SnowballCapacity;
   ForwardingAddressId?: string;
   PickupDetails?: PickupDetails;
 }
@@ -603,9 +722,9 @@ export const UpdateJobRequest = S.suspend(() =>
     Resources: S.optional(JobResource),
     OnDeviceServiceConfiguration: S.optional(OnDeviceServiceConfiguration),
     AddressId: S.optional(S.String),
-    ShippingOption: S.optional(S.String),
+    ShippingOption: S.optional(ShippingOption),
     Description: S.optional(S.String),
-    SnowballCapacityPreference: S.optional(S.String),
+    SnowballCapacityPreference: S.optional(SnowballCapacity),
     ForwardingAddressId: S.optional(S.String),
     PickupDetails: S.optional(PickupDetails),
   }).pipe(
@@ -620,10 +739,10 @@ export const UpdateJobResult = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UpdateJobResult>;
 export interface UpdateJobShipmentStateRequest {
   JobId: string;
-  ShipmentState: string;
+  ShipmentState: ShipmentState;
 }
 export const UpdateJobShipmentStateRequest = S.suspend(() =>
-  S.Struct({ JobId: S.String, ShipmentState: S.String }).pipe(
+  S.Struct({ JobId: S.String, ShipmentState: ShipmentState }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -657,6 +776,8 @@ export const UpdateLongTermPricingResult = S.suspend(() =>
 ).annotations({
   identifier: "UpdateLongTermPricingResult",
 }) as any as S.Schema<UpdateLongTermPricingResult>;
+export type AddressType = "CUST_PICKUP" | "AWS_SHIP";
+export const AddressType = S.Literal("CUST_PICKUP", "AWS_SHIP");
 export interface Address {
   AddressId?: string;
   Name?: string;
@@ -672,7 +793,7 @@ export interface Address {
   PostalCode?: string;
   PhoneNumber?: string;
   IsRestricted?: boolean;
-  Type?: string;
+  Type?: AddressType;
 }
 export const Address = S.suspend(() =>
   S.Struct({
@@ -690,9 +811,20 @@ export const Address = S.suspend(() =>
     PostalCode: S.optional(S.String),
     PhoneNumber: S.optional(S.String),
     IsRestricted: S.optional(S.Boolean),
-    Type: S.optional(S.String),
+    Type: S.optional(AddressType),
   }),
 ).annotations({ identifier: "Address" }) as any as S.Schema<Address>;
+export type ShippingLabelStatus =
+  | "InProgress"
+  | "TimedOut"
+  | "Succeeded"
+  | "Failed";
+export const ShippingLabelStatus = S.Literal(
+  "InProgress",
+  "TimedOut",
+  "Succeeded",
+  "Failed",
+);
 export type AddressList = Address[];
 export const AddressList = S.Array(Address);
 export interface Shipment {
@@ -706,13 +838,13 @@ export const Shipment = S.suspend(() =>
   }),
 ).annotations({ identifier: "Shipment" }) as any as S.Schema<Shipment>;
 export interface ShippingDetails {
-  ShippingOption?: string;
+  ShippingOption?: ShippingOption;
   InboundShipment?: Shipment;
   OutboundShipment?: Shipment;
 }
 export const ShippingDetails = S.suspend(() =>
   S.Struct({
-    ShippingOption: S.optional(S.String),
+    ShippingOption: S.optional(ShippingOption),
     InboundShipment: S.optional(Shipment),
     OutboundShipment: S.optional(Shipment),
   }),
@@ -787,9 +919,9 @@ export const DeviceConfiguration = S.suspend(() =>
 }) as any as S.Schema<DeviceConfiguration>;
 export interface JobMetadata {
   JobId?: string;
-  JobState?: string;
-  JobType?: string;
-  SnowballType?: string;
+  JobState?: JobState;
+  JobType?: JobType;
+  SnowballType?: SnowballType;
   CreationDate?: Date;
   Resources?: JobResource;
   Description?: string;
@@ -797,7 +929,7 @@ export interface JobMetadata {
   RoleARN?: string;
   AddressId?: string;
   ShippingDetails?: ShippingDetails;
-  SnowballCapacityPreference?: string;
+  SnowballCapacityPreference?: SnowballCapacity;
   Notification?: Notification;
   DataTransferProgress?: DataTransfer;
   JobLogInfo?: JobLogs;
@@ -805,19 +937,19 @@ export interface JobMetadata {
   ForwardingAddressId?: string;
   TaxDocuments?: TaxDocuments;
   DeviceConfiguration?: DeviceConfiguration;
-  RemoteManagement?: string;
+  RemoteManagement?: RemoteManagement;
   LongTermPricingId?: string;
   OnDeviceServiceConfiguration?: OnDeviceServiceConfiguration;
-  ImpactLevel?: string;
+  ImpactLevel?: ImpactLevel;
   PickupDetails?: PickupDetails;
   SnowballId?: string;
 }
 export const JobMetadata = S.suspend(() =>
   S.Struct({
     JobId: S.optional(S.String),
-    JobState: S.optional(S.String),
-    JobType: S.optional(S.String),
-    SnowballType: S.optional(S.String),
+    JobState: S.optional(JobState),
+    JobType: S.optional(JobType),
+    SnowballType: S.optional(SnowballType),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Resources: S.optional(JobResource),
     Description: S.optional(S.String),
@@ -825,7 +957,7 @@ export const JobMetadata = S.suspend(() =>
     RoleARN: S.optional(S.String),
     AddressId: S.optional(S.String),
     ShippingDetails: S.optional(ShippingDetails),
-    SnowballCapacityPreference: S.optional(S.String),
+    SnowballCapacityPreference: S.optional(SnowballCapacity),
     Notification: S.optional(Notification),
     DataTransferProgress: S.optional(DataTransfer),
     JobLogInfo: S.optional(JobLogs),
@@ -833,10 +965,10 @@ export const JobMetadata = S.suspend(() =>
     ForwardingAddressId: S.optional(S.String),
     TaxDocuments: S.optional(TaxDocuments),
     DeviceConfiguration: S.optional(DeviceConfiguration),
-    RemoteManagement: S.optional(S.String),
+    RemoteManagement: S.optional(RemoteManagement),
     LongTermPricingId: S.optional(S.String),
     OnDeviceServiceConfiguration: S.optional(OnDeviceServiceConfiguration),
-    ImpactLevel: S.optional(S.String),
+    ImpactLevel: S.optional(ImpactLevel),
     PickupDetails: S.optional(PickupDetails),
     SnowballId: S.optional(S.String),
   }),
@@ -862,10 +994,10 @@ export const CreateLongTermPricingResult = S.suspend(() =>
   identifier: "CreateLongTermPricingResult",
 }) as any as S.Schema<CreateLongTermPricingResult>;
 export interface CreateReturnShippingLabelResult {
-  Status?: string;
+  Status?: ShippingLabelStatus;
 }
 export const CreateReturnShippingLabelResult = S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String) }),
+  S.Struct({ Status: S.optional(ShippingLabelStatus) }),
 ).annotations({
   identifier: "CreateReturnShippingLabelResult",
 }) as any as S.Schema<CreateReturnShippingLabelResult>;
@@ -878,7 +1010,7 @@ export const DescribeAddressResult = S.suspend(() =>
   identifier: "DescribeAddressResult",
 }) as any as S.Schema<DescribeAddressResult>;
 export interface DescribeAddressesResult {
-  Addresses?: AddressList;
+  Addresses?: Address[];
   NextToken?: string;
 }
 export const DescribeAddressesResult = S.suspend(() =>
@@ -890,13 +1022,13 @@ export const DescribeAddressesResult = S.suspend(() =>
   identifier: "DescribeAddressesResult",
 }) as any as S.Schema<DescribeAddressesResult>;
 export interface DescribeReturnShippingLabelResult {
-  Status?: string;
+  Status?: ShippingLabelStatus;
   ExpirationDate?: Date;
   ReturnShippingLabelURI?: string;
 }
 export const DescribeReturnShippingLabelResult = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(ShippingLabelStatus),
     ExpirationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ReturnShippingLabelURI: S.optional(S.String),
   }),
@@ -929,20 +1061,20 @@ export const GetSoftwareUpdatesResult = S.suspend(() =>
 }) as any as S.Schema<GetSoftwareUpdatesResult>;
 export interface JobListEntry {
   JobId?: string;
-  JobState?: string;
+  JobState?: JobState;
   IsMaster?: boolean;
-  JobType?: string;
-  SnowballType?: string;
+  JobType?: JobType;
+  SnowballType?: SnowballType;
   CreationDate?: Date;
   Description?: string;
 }
 export const JobListEntry = S.suspend(() =>
   S.Struct({
     JobId: S.optional(S.String),
-    JobState: S.optional(S.String),
+    JobState: S.optional(JobState),
     IsMaster: S.optional(S.Boolean),
-    JobType: S.optional(S.String),
-    SnowballType: S.optional(S.String),
+    JobType: S.optional(JobType),
+    SnowballType: S.optional(SnowballType),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Description: S.optional(S.String),
   }),
@@ -950,7 +1082,7 @@ export const JobListEntry = S.suspend(() =>
 export type JobListEntryList = JobListEntry[];
 export const JobListEntryList = S.Array(JobListEntry);
 export interface ListJobsResult {
-  JobListEntries?: JobListEntryList;
+  JobListEntries?: JobListEntry[];
   NextToken?: string;
 }
 export const ListJobsResult = S.suspend(() =>
@@ -962,7 +1094,7 @@ export const ListJobsResult = S.suspend(() =>
   identifier: "ListJobsResult",
 }) as any as S.Schema<ListJobsResult>;
 export interface ListPickupLocationsResult {
-  Addresses?: AddressList;
+  Addresses?: Address[];
   NextToken?: string;
 }
 export const ListPickupLocationsResult = S.suspend(() =>
@@ -973,6 +1105,19 @@ export const ListPickupLocationsResult = S.suspend(() =>
 ).annotations({
   identifier: "ListPickupLocationsResult",
 }) as any as S.Schema<ListPickupLocationsResult>;
+export type ClusterState =
+  | "AwaitingQuorum"
+  | "Pending"
+  | "InUse"
+  | "Complete"
+  | "Cancelled";
+export const ClusterState = S.Literal(
+  "AwaitingQuorum",
+  "Pending",
+  "InUse",
+  "Complete",
+  "Cancelled",
+);
 export type LongTermPricingAssociatedJobIdList = string[];
 export const LongTermPricingAssociatedJobIdList = S.Array(S.String);
 export interface ServiceVersion {
@@ -988,13 +1133,13 @@ export interface ClusterMetadata {
   Description?: string;
   KmsKeyARN?: string;
   RoleARN?: string;
-  ClusterState?: string;
-  JobType?: string;
-  SnowballType?: string;
+  ClusterState?: ClusterState;
+  JobType?: JobType;
+  SnowballType?: SnowballType;
   CreationDate?: Date;
   Resources?: JobResource;
   AddressId?: string;
-  ShippingOption?: string;
+  ShippingOption?: ShippingOption;
   Notification?: Notification;
   ForwardingAddressId?: string;
   TaxDocuments?: TaxDocuments;
@@ -1006,13 +1151,13 @@ export const ClusterMetadata = S.suspend(() =>
     Description: S.optional(S.String),
     KmsKeyARN: S.optional(S.String),
     RoleARN: S.optional(S.String),
-    ClusterState: S.optional(S.String),
-    JobType: S.optional(S.String),
-    SnowballType: S.optional(S.String),
+    ClusterState: S.optional(ClusterState),
+    JobType: S.optional(JobType),
+    SnowballType: S.optional(SnowballType),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Resources: S.optional(JobResource),
     AddressId: S.optional(S.String),
-    ShippingOption: S.optional(S.String),
+    ShippingOption: S.optional(ShippingOption),
     Notification: S.optional(Notification),
     ForwardingAddressId: S.optional(S.String),
     TaxDocuments: S.optional(TaxDocuments),
@@ -1023,14 +1168,14 @@ export const ClusterMetadata = S.suspend(() =>
 }) as any as S.Schema<ClusterMetadata>;
 export interface ClusterListEntry {
   ClusterId?: string;
-  ClusterState?: string;
+  ClusterState?: ClusterState;
   CreationDate?: Date;
   Description?: string;
 }
 export const ClusterListEntry = S.suspend(() =>
   S.Struct({
     ClusterId: S.optional(S.String),
-    ClusterState: S.optional(S.String),
+    ClusterState: S.optional(ClusterState),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Description: S.optional(S.String),
   }),
@@ -1054,13 +1199,13 @@ export interface LongTermPricingListEntry {
   LongTermPricingId?: string;
   LongTermPricingEndDate?: Date;
   LongTermPricingStartDate?: Date;
-  LongTermPricingType?: string;
+  LongTermPricingType?: LongTermPricingType;
   CurrentActiveJob?: string;
   ReplacementJob?: string;
   IsLongTermPricingAutoRenew?: boolean;
   LongTermPricingStatus?: string;
-  SnowballType?: string;
-  JobIds?: LongTermPricingAssociatedJobIdList;
+  SnowballType?: SnowballType;
+  JobIds?: string[];
 }
 export const LongTermPricingListEntry = S.suspend(() =>
   S.Struct({
@@ -1071,12 +1216,12 @@ export const LongTermPricingListEntry = S.suspend(() =>
     LongTermPricingStartDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    LongTermPricingType: S.optional(S.String),
+    LongTermPricingType: S.optional(LongTermPricingType),
     CurrentActiveJob: S.optional(S.String),
     ReplacementJob: S.optional(S.String),
     IsLongTermPricingAutoRenew: S.optional(S.Boolean),
     LongTermPricingStatus: S.optional(S.String),
-    SnowballType: S.optional(S.String),
+    SnowballType: S.optional(SnowballType),
     JobIds: S.optional(LongTermPricingAssociatedJobIdList),
   }),
 ).annotations({
@@ -1085,12 +1230,12 @@ export const LongTermPricingListEntry = S.suspend(() =>
 export type LongTermPricingEntryList = LongTermPricingListEntry[];
 export const LongTermPricingEntryList = S.Array(LongTermPricingListEntry);
 export interface DependentService {
-  ServiceName?: string;
+  ServiceName?: ServiceName;
   ServiceVersion?: ServiceVersion;
 }
 export const DependentService = S.suspend(() =>
   S.Struct({
-    ServiceName: S.optional(S.String),
+    ServiceName: S.optional(ServiceName),
     ServiceVersion: S.optional(ServiceVersion),
   }),
 ).annotations({
@@ -1115,7 +1260,7 @@ export const DescribeClusterResult = S.suspend(() =>
   identifier: "DescribeClusterResult",
 }) as any as S.Schema<DescribeClusterResult>;
 export interface ListClusterJobsResult {
-  JobListEntries?: JobListEntryList;
+  JobListEntries?: JobListEntry[];
   NextToken?: string;
 }
 export const ListClusterJobsResult = S.suspend(() =>
@@ -1127,7 +1272,7 @@ export const ListClusterJobsResult = S.suspend(() =>
   identifier: "ListClusterJobsResult",
 }) as any as S.Schema<ListClusterJobsResult>;
 export interface ListClustersResult {
-  ClusterListEntries?: ClusterListEntryList;
+  ClusterListEntries?: ClusterListEntry[];
   NextToken?: string;
 }
 export const ListClustersResult = S.suspend(() =>
@@ -1139,7 +1284,7 @@ export const ListClustersResult = S.suspend(() =>
   identifier: "ListClustersResult",
 }) as any as S.Schema<ListClustersResult>;
 export interface ListCompatibleImagesResult {
-  CompatibleImages?: CompatibleImageList;
+  CompatibleImages?: CompatibleImage[];
   NextToken?: string;
 }
 export const ListCompatibleImagesResult = S.suspend(() =>
@@ -1151,7 +1296,7 @@ export const ListCompatibleImagesResult = S.suspend(() =>
   identifier: "ListCompatibleImagesResult",
 }) as any as S.Schema<ListCompatibleImagesResult>;
 export interface ListLongTermPricingResult {
-  LongTermPricingEntries?: LongTermPricingEntryList;
+  LongTermPricingEntries?: LongTermPricingListEntry[];
   NextToken?: string;
 }
 export const ListLongTermPricingResult = S.suspend(() =>
@@ -1163,14 +1308,14 @@ export const ListLongTermPricingResult = S.suspend(() =>
   identifier: "ListLongTermPricingResult",
 }) as any as S.Schema<ListLongTermPricingResult>;
 export interface ListServiceVersionsRequest {
-  ServiceName: string;
-  DependentServices?: DependentServiceList;
+  ServiceName: ServiceName;
+  DependentServices?: DependentService[];
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListServiceVersionsRequest = S.suspend(() =>
   S.Struct({
-    ServiceName: S.String,
+    ServiceName: ServiceName,
     DependentServices: S.optional(DependentServiceList),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
@@ -1183,43 +1328,43 @@ export const ListServiceVersionsRequest = S.suspend(() =>
 export type ServiceVersionList = ServiceVersion[];
 export const ServiceVersionList = S.Array(ServiceVersion);
 export interface CreateClusterRequest {
-  JobType: string;
+  JobType: JobType;
   Resources?: JobResource;
   OnDeviceServiceConfiguration?: OnDeviceServiceConfiguration;
   Description?: string;
   AddressId: string;
   KmsKeyARN?: string;
   RoleARN?: string;
-  SnowballType: string;
-  ShippingOption: string;
+  SnowballType: SnowballType;
+  ShippingOption: ShippingOption;
   Notification?: Notification;
   ForwardingAddressId?: string;
   TaxDocuments?: TaxDocuments;
-  RemoteManagement?: string;
+  RemoteManagement?: RemoteManagement;
   InitialClusterSize?: number;
   ForceCreateJobs?: boolean;
-  LongTermPricingIds?: LongTermPricingIdList;
-  SnowballCapacityPreference?: string;
+  LongTermPricingIds?: string[];
+  SnowballCapacityPreference?: SnowballCapacity;
 }
 export const CreateClusterRequest = S.suspend(() =>
   S.Struct({
-    JobType: S.String,
+    JobType: JobType,
     Resources: S.optional(JobResource),
     OnDeviceServiceConfiguration: S.optional(OnDeviceServiceConfiguration),
     Description: S.optional(S.String),
     AddressId: S.String,
     KmsKeyARN: S.optional(S.String),
     RoleARN: S.optional(S.String),
-    SnowballType: S.String,
-    ShippingOption: S.String,
+    SnowballType: SnowballType,
+    ShippingOption: ShippingOption,
     Notification: S.optional(Notification),
     ForwardingAddressId: S.optional(S.String),
     TaxDocuments: S.optional(TaxDocuments),
-    RemoteManagement: S.optional(S.String),
+    RemoteManagement: S.optional(RemoteManagement),
     InitialClusterSize: S.optional(S.Number),
     ForceCreateJobs: S.optional(S.Boolean),
     LongTermPricingIds: S.optional(LongTermPricingIdList),
-    SnowballCapacityPreference: S.optional(S.String),
+    SnowballCapacityPreference: S.optional(SnowballCapacity),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -1227,46 +1372,46 @@ export const CreateClusterRequest = S.suspend(() =>
   identifier: "CreateClusterRequest",
 }) as any as S.Schema<CreateClusterRequest>;
 export interface CreateJobRequest {
-  JobType?: string;
+  JobType?: JobType;
   Resources?: JobResource;
   OnDeviceServiceConfiguration?: OnDeviceServiceConfiguration;
   Description?: string;
   AddressId?: string;
   KmsKeyARN?: string;
   RoleARN?: string;
-  SnowballCapacityPreference?: string;
-  ShippingOption?: string;
+  SnowballCapacityPreference?: SnowballCapacity;
+  ShippingOption?: ShippingOption;
   Notification?: Notification;
   ClusterId?: string;
-  SnowballType?: string;
+  SnowballType?: SnowballType;
   ForwardingAddressId?: string;
   TaxDocuments?: TaxDocuments;
   DeviceConfiguration?: DeviceConfiguration;
-  RemoteManagement?: string;
+  RemoteManagement?: RemoteManagement;
   LongTermPricingId?: string;
-  ImpactLevel?: string;
+  ImpactLevel?: ImpactLevel;
   PickupDetails?: PickupDetails;
 }
 export const CreateJobRequest = S.suspend(() =>
   S.Struct({
-    JobType: S.optional(S.String),
+    JobType: S.optional(JobType),
     Resources: S.optional(JobResource),
     OnDeviceServiceConfiguration: S.optional(OnDeviceServiceConfiguration),
     Description: S.optional(S.String),
     AddressId: S.optional(S.String),
     KmsKeyARN: S.optional(S.String),
     RoleARN: S.optional(S.String),
-    SnowballCapacityPreference: S.optional(S.String),
-    ShippingOption: S.optional(S.String),
+    SnowballCapacityPreference: S.optional(SnowballCapacity),
+    ShippingOption: S.optional(ShippingOption),
     Notification: S.optional(Notification),
     ClusterId: S.optional(S.String),
-    SnowballType: S.optional(S.String),
+    SnowballType: S.optional(SnowballType),
     ForwardingAddressId: S.optional(S.String),
     TaxDocuments: S.optional(TaxDocuments),
     DeviceConfiguration: S.optional(DeviceConfiguration),
-    RemoteManagement: S.optional(S.String),
+    RemoteManagement: S.optional(RemoteManagement),
     LongTermPricingId: S.optional(S.String),
-    ImpactLevel: S.optional(S.String),
+    ImpactLevel: S.optional(ImpactLevel),
     PickupDetails: S.optional(PickupDetails),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -1275,15 +1420,15 @@ export const CreateJobRequest = S.suspend(() =>
   identifier: "CreateJobRequest",
 }) as any as S.Schema<CreateJobRequest>;
 export interface ListServiceVersionsResult {
-  ServiceVersions: ServiceVersionList;
-  ServiceName: string;
-  DependentServices?: DependentServiceList;
+  ServiceVersions: ServiceVersion[];
+  ServiceName: ServiceName;
+  DependentServices?: DependentService[];
   NextToken?: string;
 }
 export const ListServiceVersionsResult = S.suspend(() =>
   S.Struct({
     ServiceVersions: ServiceVersionList,
-    ServiceName: S.String,
+    ServiceName: ServiceName,
     DependentServices: S.optional(DependentServiceList),
     NextToken: S.optional(S.String),
   }),
@@ -1292,7 +1437,7 @@ export const ListServiceVersionsResult = S.suspend(() =>
 }) as any as S.Schema<ListServiceVersionsResult>;
 export interface CreateClusterResult {
   ClusterId?: string;
-  JobListEntries?: JobListEntryList;
+  JobListEntries?: JobListEntry[];
 }
 export const CreateClusterResult = S.suspend(() =>
   S.Struct({
@@ -1312,7 +1457,7 @@ export const CreateJobResult = S.suspend(() =>
 }) as any as S.Schema<CreateJobResult>;
 export interface DescribeJobResult {
   JobMetadata?: JobMetadata;
-  SubJobMetadata?: JobMetadataList;
+  SubJobMetadata?: JobMetadata[];
 }
 export const DescribeJobResult = S.suspend(() =>
   S.Struct({
@@ -1379,7 +1524,7 @@ export class UnsupportedAddressException extends S.TaggedError<UnsupportedAddres
  */
 export const getSnowballUsage: (
   input: GetSnowballUsageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSnowballUsageResult,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1393,7 +1538,7 @@ export const getSnowballUsage: (
  */
 export const updateLongTermPricing: (
   input: UpdateLongTermPricingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLongTermPricingResult,
   InvalidResourceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1407,7 +1552,7 @@ export const updateLongTermPricing: (
  */
 export const updateJobShipmentState: (
   input: UpdateJobShipmentStateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateJobShipmentStateResult,
   InvalidJobStateException | InvalidResourceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1422,7 +1567,7 @@ export const updateJobShipmentState: (
  */
 export const createLongTermPricing: (
   input: CreateLongTermPricingRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLongTermPricingResult,
   InvalidResourceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1437,7 +1582,7 @@ export const createLongTermPricing: (
  */
 export const describeAddress: (
   input: DescribeAddressRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAddressResult,
   InvalidResourceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1469,7 +1614,7 @@ export const describeAddress: (
  */
 export const getJobManifest: (
   input: GetJobManifestRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetJobManifestResult,
   InvalidJobStateException | InvalidResourceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1497,7 +1642,7 @@ export const getJobManifest: (
  */
 export const getJobUnlockCode: (
   input: GetJobUnlockCodeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetJobUnlockCodeResult,
   InvalidJobStateException | InvalidResourceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1512,7 +1657,7 @@ export const getJobUnlockCode: (
  */
 export const getSoftwareUpdates: (
   input: GetSoftwareUpdatesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSoftwareUpdatesResult,
   InvalidJobStateException | InvalidResourceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1527,21 +1672,21 @@ export const getSoftwareUpdates: (
 export const listPickupLocations: {
   (
     input: ListPickupLocationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPickupLocationsResult,
     InvalidResourceException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListPickupLocationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPickupLocationsResult,
     InvalidResourceException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPickupLocationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidResourceException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1564,21 +1709,21 @@ export const listPickupLocations: {
 export const describeAddresses: {
   (
     input: DescribeAddressesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeAddressesResult,
     InvalidNextTokenException | InvalidResourceException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeAddressesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeAddressesResult,
     InvalidNextTokenException | InvalidResourceException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeAddressesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Address,
     InvalidNextTokenException | InvalidResourceException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1600,7 +1745,7 @@ export const describeAddresses: {
  */
 export const describeCluster: (
   input: DescribeClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeClusterResult,
   InvalidResourceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1617,21 +1762,21 @@ export const describeCluster: (
 export const listClusterJobs: {
   (
     input: ListClusterJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListClusterJobsResult,
     InvalidNextTokenException | InvalidResourceException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListClusterJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListClusterJobsResult,
     InvalidNextTokenException | InvalidResourceException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListClusterJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     JobListEntry,
     InvalidNextTokenException | InvalidResourceException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1655,21 +1800,21 @@ export const listClusterJobs: {
 export const listClusters: {
   (
     input: ListClustersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListClustersResult,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListClustersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListClustersResult,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListClustersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ClusterListEntry,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1694,21 +1839,21 @@ export const listClusters: {
 export const listCompatibleImages: {
   (
     input: ListCompatibleImagesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCompatibleImagesResult,
     Ec2RequestFailedException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListCompatibleImagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCompatibleImagesResult,
     Ec2RequestFailedException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCompatibleImagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CompatibleImage,
     Ec2RequestFailedException | InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1730,21 +1875,21 @@ export const listCompatibleImages: {
 export const listLongTermPricing: {
   (
     input: ListLongTermPricingRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLongTermPricingResult,
     InvalidNextTokenException | InvalidResourceException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListLongTermPricingRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLongTermPricingResult,
     InvalidNextTokenException | InvalidResourceException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLongTermPricingRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LongTermPricingListEntry,
     InvalidNextTokenException | InvalidResourceException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1768,7 +1913,7 @@ export const listLongTermPricing: {
  */
 export const cancelJob: (
   input: CancelJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelJobResult,
   | InvalidJobStateException
   | InvalidResourceException
@@ -1789,7 +1934,7 @@ export const cancelJob: (
  */
 export const describeReturnShippingLabel: (
   input: DescribeReturnShippingLabelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeReturnShippingLabelResult,
   | ConflictException
   | InvalidJobStateException
@@ -1815,21 +1960,21 @@ export const describeReturnShippingLabel: (
 export const listJobs: {
   (
     input: ListJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListJobsResult,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListJobsResult,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     JobListEntry,
     InvalidNextTokenException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1852,7 +1997,7 @@ export const listJobs: {
  */
 export const updateJob: (
   input: UpdateJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateJobResult,
   | ClusterLimitExceededException
   | Ec2RequestFailedException
@@ -1881,7 +2026,7 @@ export const updateJob: (
  */
 export const cancelCluster: (
   input: CancelClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelClusterResult,
   | InvalidJobStateException
   | InvalidResourceException
@@ -1905,7 +2050,7 @@ export const cancelCluster: (
  */
 export const updateCluster: (
   input: UpdateClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateClusterResult,
   | Ec2RequestFailedException
   | InvalidInputCombinationException
@@ -1931,7 +2076,7 @@ export const updateCluster: (
  */
 export const listServiceVersions: (
   input: ListServiceVersionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListServiceVersionsResult,
   InvalidNextTokenException | InvalidResourceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1945,7 +2090,7 @@ export const listServiceVersions: (
  */
 export const createReturnShippingLabel: (
   input: CreateReturnShippingLabelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateReturnShippingLabelResult,
   | ConflictException
   | InvalidInputCombinationException
@@ -1973,7 +2118,7 @@ export const createReturnShippingLabel: (
  */
 export const createAddress: (
   input: CreateAddressRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAddressResult,
   InvalidAddressException | UnsupportedAddressException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1988,7 +2133,7 @@ export const createAddress: (
  */
 export const createCluster: (
   input: CreateClusterRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateClusterResult,
   | Ec2RequestFailedException
   | InvalidInputCombinationException
@@ -2090,7 +2235,7 @@ export const createCluster: (
  */
 export const createJob: (
   input: CreateJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateJobResult,
   | ClusterLimitExceededException
   | Ec2RequestFailedException
@@ -2116,7 +2261,7 @@ export const createJob: (
  */
 export const describeJob: (
   input: DescribeJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeJobResult,
   InvalidResourceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -173,7 +173,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface UsageAllocation {
   AllocatedUsageQuantity: number;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const UsageAllocation = S.suspend(() =>
   S.Struct({ AllocatedUsageQuantity: S.Number, Tags: S.optional(TagList) }),
@@ -187,7 +187,7 @@ export interface UsageRecord {
   CustomerIdentifier?: string;
   Dimension: string;
   Quantity?: number;
-  UsageAllocations?: UsageAllocations;
+  UsageAllocations?: UsageAllocation[];
   CustomerAWSAccountId?: string;
 }
 export const UsageRecord = S.suspend(() =>
@@ -203,7 +203,7 @@ export const UsageRecord = S.suspend(() =>
 export type UsageRecordList = UsageRecord[];
 export const UsageRecordList = S.Array(UsageRecord);
 export interface BatchMeterUsageRequest {
-  UsageRecords: UsageRecordList;
+  UsageRecords: UsageRecord[];
   ProductCode: string;
 }
 export const BatchMeterUsageRequest = S.suspend(() =>
@@ -247,7 +247,7 @@ export interface MeterUsageRequest {
   UsageDimension: string;
   UsageQuantity?: number;
   DryRun?: boolean;
-  UsageAllocations?: UsageAllocations;
+  UsageAllocations?: UsageAllocation[];
   ClientToken?: string;
 }
 export const MeterUsageRequest = S.suspend(() =>
@@ -265,16 +265,25 @@ export const MeterUsageRequest = S.suspend(() =>
 ).annotations({
   identifier: "MeterUsageRequest",
 }) as any as S.Schema<MeterUsageRequest>;
+export type UsageRecordResultStatus =
+  | "Success"
+  | "CustomerNotSubscribed"
+  | "DuplicateRecord";
+export const UsageRecordResultStatus = S.Literal(
+  "Success",
+  "CustomerNotSubscribed",
+  "DuplicateRecord",
+);
 export interface UsageRecordResult {
   UsageRecord?: UsageRecord;
   MeteringRecordId?: string;
-  Status?: string;
+  Status?: UsageRecordResultStatus;
 }
 export const UsageRecordResult = S.suspend(() =>
   S.Struct({
     UsageRecord: S.optional(UsageRecord),
     MeteringRecordId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(UsageRecordResultStatus),
   }),
 ).annotations({
   identifier: "UsageRecordResult",
@@ -282,8 +291,8 @@ export const UsageRecordResult = S.suspend(() =>
 export type UsageRecordResultList = UsageRecordResult[];
 export const UsageRecordResultList = S.Array(UsageRecordResult);
 export interface BatchMeterUsageResult {
-  Results?: UsageRecordResultList;
-  UnprocessedRecords?: UsageRecordList;
+  Results?: UsageRecordResult[];
+  UnprocessedRecords?: UsageRecord[];
 }
 export const BatchMeterUsageResult = S.suspend(() =>
   S.Struct({
@@ -397,7 +406,7 @@ export class TimestampOutOfBoundsException extends S.TaggedError<TimestampOutOfB
  */
 export const resolveCustomer: (
   input: ResolveCustomerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResolveCustomerResult,
   | DisabledApiException
   | ExpiredTokenException
@@ -460,7 +469,7 @@ export const resolveCustomer: (
  */
 export const registerUsage: (
   input: RegisterUsageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterUsageResult,
   | CustomerNotEntitledException
   | DisabledApiException
@@ -521,7 +530,7 @@ export const registerUsage: (
  */
 export const batchMeterUsage: (
   input: BatchMeterUsageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchMeterUsageResult,
   | DisabledApiException
   | InternalServiceErrorException
@@ -574,7 +583,7 @@ export const batchMeterUsage: (
  */
 export const meterUsage: (
   input: MeterUsageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   MeterUsageResult,
   | CustomerNotEntitledException
   | DuplicateRequestException

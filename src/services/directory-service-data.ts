@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -96,23 +96,38 @@ export type MemberName = string;
 export type Realm = string;
 export type ClientToken = string;
 export type UserName = string;
-export type EmailAddress = string | Redacted.Redacted<string>;
-export type GivenName = string | Redacted.Redacted<string>;
-export type Surname = string | Redacted.Redacted<string>;
+export type EmailAddress = string | redacted.Redacted<string>;
+export type GivenName = string | redacted.Redacted<string>;
+export type Surname = string | redacted.Redacted<string>;
 export type LdapDisplayName = string;
-export type NextToken = string | Redacted.Redacted<string>;
+export type NextToken = string | redacted.Redacted<string>;
 export type MaxResults = number;
-export type SearchString = string | Redacted.Redacted<string>;
+export type SearchString = string | redacted.Redacted<string>;
 export type ExceptionMessage = string;
 export type SID = string;
-export type DistinguishedName = string | Redacted.Redacted<string>;
-export type UserPrincipalName = string | Redacted.Redacted<string>;
-export type StringAttributeValue = string | Redacted.Redacted<string>;
+export type DistinguishedName = string | redacted.Redacted<string>;
+export type UserPrincipalName = string | redacted.Redacted<string>;
+export type StringAttributeValue = string | redacted.Redacted<string>;
 export type NumberAttributeValue = number;
 
 //# Schemas
+export type GroupType = "Distribution" | "Security";
+export const GroupType = S.Literal("Distribution", "Security");
+export type GroupScope =
+  | "DomainLocal"
+  | "Global"
+  | "Universal"
+  | "BuiltinLocal";
+export const GroupScope = S.Literal(
+  "DomainLocal",
+  "Global",
+  "Universal",
+  "BuiltinLocal",
+);
 export type LdapDisplayNameList = string[];
 export const LdapDisplayNameList = S.Array(S.String);
+export type UpdateType = "ADD" | "REPLACE" | "REMOVE";
+export const UpdateType = S.Literal("ADD", "REPLACE", "REMOVE");
 export interface AddGroupMemberRequest {
   DirectoryId: string;
   GroupName: string;
@@ -147,28 +162,28 @@ export const AddGroupMemberResult = S.suspend(() =>
 ).annotations({
   identifier: "AddGroupMemberResult",
 }) as any as S.Schema<AddGroupMemberResult>;
-export type StringSetAttributeValue = string | Redacted.Redacted<string>[];
+export type StringSetAttributeValue = string | redacted.Redacted<string>[];
 export const StringSetAttributeValue = S.Array(SensitiveString);
 export type AttributeValue =
-  | { S: string | Redacted.Redacted<string> }
+  | { S: string | redacted.Redacted<string> }
   | { N: number }
   | { BOOL: boolean }
-  | { SS: StringSetAttributeValue };
+  | { SS: string | redacted.Redacted<string>[] };
 export const AttributeValue = S.Union(
   S.Struct({ S: SensitiveString }),
   S.Struct({ N: S.Number }),
   S.Struct({ BOOL: S.Boolean }),
   S.Struct({ SS: StringSetAttributeValue }),
 );
-export type Attributes = { [key: string]: (typeof AttributeValue)["Type"] };
+export type Attributes = { [key: string]: AttributeValue };
 export const Attributes = S.Record({ key: S.String, value: AttributeValue });
 export interface CreateUserRequest {
   DirectoryId: string;
   SAMAccountName: string;
-  EmailAddress?: string | Redacted.Redacted<string>;
-  GivenName?: string | Redacted.Redacted<string>;
-  Surname?: string | Redacted.Redacted<string>;
-  OtherAttributes?: Attributes;
+  EmailAddress?: string | redacted.Redacted<string>;
+  GivenName?: string | redacted.Redacted<string>;
+  Surname?: string | redacted.Redacted<string>;
+  OtherAttributes?: { [key: string]: AttributeValue };
   ClientToken?: string;
 }
 export const CreateUserRequest = S.suspend(() =>
@@ -258,7 +273,7 @@ export interface DescribeGroupRequest {
   DirectoryId: string;
   Realm?: string;
   SAMAccountName: string;
-  OtherAttributes?: LdapDisplayNameList;
+  OtherAttributes?: string[];
 }
 export const DescribeGroupRequest = S.suspend(() =>
   S.Struct({
@@ -283,7 +298,7 @@ export const DescribeGroupRequest = S.suspend(() =>
 export interface DescribeUserRequest {
   DirectoryId: string;
   SAMAccountName: string;
-  OtherAttributes?: LdapDisplayNameList;
+  OtherAttributes?: string[];
   Realm?: string;
 }
 export const DescribeUserRequest = S.suspend(() =>
@@ -341,7 +356,7 @@ export interface ListGroupMembersRequest {
   Realm?: string;
   MemberRealm?: string;
   SAMAccountName: string;
-  NextToken?: string | Redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string>;
   MaxResults?: number;
 }
 export const ListGroupMembersRequest = S.suspend(() =>
@@ -369,7 +384,7 @@ export const ListGroupMembersRequest = S.suspend(() =>
 export interface ListGroupsRequest {
   DirectoryId: string;
   Realm?: string;
-  NextToken?: string | Redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string>;
   MaxResults?: number;
 }
 export const ListGroupsRequest = S.suspend(() =>
@@ -397,7 +412,7 @@ export interface ListGroupsForMemberRequest {
   Realm?: string;
   MemberRealm?: string;
   SAMAccountName: string;
-  NextToken?: string | Redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string>;
   MaxResults?: number;
 }
 export const ListGroupsForMemberRequest = S.suspend(() =>
@@ -425,7 +440,7 @@ export const ListGroupsForMemberRequest = S.suspend(() =>
 export interface ListUsersRequest {
   DirectoryId: string;
   Realm?: string;
-  NextToken?: string | Redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string>;
   MaxResults?: number;
 }
 export const ListUsersRequest = S.suspend(() =>
@@ -484,10 +499,10 @@ export const RemoveGroupMemberResult = S.suspend(() =>
 }) as any as S.Schema<RemoveGroupMemberResult>;
 export interface SearchGroupsRequest {
   DirectoryId: string;
-  SearchString: string | Redacted.Redacted<string>;
-  SearchAttributes: LdapDisplayNameList;
+  SearchString: string | redacted.Redacted<string>;
+  SearchAttributes: string[];
   Realm?: string;
-  NextToken?: string | Redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string>;
   MaxResults?: number;
 }
 export const SearchGroupsRequest = S.suspend(() =>
@@ -515,9 +530,9 @@ export const SearchGroupsRequest = S.suspend(() =>
 export interface SearchUsersRequest {
   DirectoryId: string;
   Realm?: string;
-  SearchString: string | Redacted.Redacted<string>;
-  SearchAttributes: LdapDisplayNameList;
-  NextToken?: string | Redacted.Redacted<string>;
+  SearchString: string | redacted.Redacted<string>;
+  SearchAttributes: string[];
+  NextToken?: string | redacted.Redacted<string>;
   MaxResults?: number;
 }
 export const SearchUsersRequest = S.suspend(() =>
@@ -545,20 +560,20 @@ export const SearchUsersRequest = S.suspend(() =>
 export interface UpdateGroupRequest {
   DirectoryId: string;
   SAMAccountName: string;
-  GroupType?: string;
-  GroupScope?: string;
-  OtherAttributes?: Attributes;
-  UpdateType?: string;
+  GroupType?: GroupType;
+  GroupScope?: GroupScope;
+  OtherAttributes?: { [key: string]: AttributeValue };
+  UpdateType?: UpdateType;
   ClientToken?: string;
 }
 export const UpdateGroupRequest = S.suspend(() =>
   S.Struct({
     DirectoryId: S.String.pipe(T.HttpQuery("DirectoryId")),
     SAMAccountName: S.String,
-    GroupType: S.optional(S.String),
-    GroupScope: S.optional(S.String),
+    GroupType: S.optional(GroupType),
+    GroupScope: S.optional(GroupScope),
     OtherAttributes: S.optional(Attributes),
-    UpdateType: S.optional(S.String),
+    UpdateType: S.optional(UpdateType),
     ClientToken: S.optional(S.String),
   }).pipe(
     T.all(
@@ -583,11 +598,11 @@ export const UpdateGroupResult = S.suspend(() =>
 export interface UpdateUserRequest {
   DirectoryId: string;
   SAMAccountName: string;
-  EmailAddress?: string | Redacted.Redacted<string>;
-  GivenName?: string | Redacted.Redacted<string>;
-  Surname?: string | Redacted.Redacted<string>;
-  OtherAttributes?: Attributes;
-  UpdateType?: string;
+  EmailAddress?: string | redacted.Redacted<string>;
+  GivenName?: string | redacted.Redacted<string>;
+  Surname?: string | redacted.Redacted<string>;
+  OtherAttributes?: { [key: string]: AttributeValue };
+  UpdateType?: UpdateType;
   ClientToken?: string;
 }
 export const UpdateUserRequest = S.suspend(() =>
@@ -598,7 +613,7 @@ export const UpdateUserRequest = S.suspend(() =>
     GivenName: S.optional(SensitiveString),
     Surname: S.optional(SensitiveString),
     OtherAttributes: S.optional(Attributes),
-    UpdateType: S.optional(S.String),
+    UpdateType: S.optional(UpdateType),
     ClientToken: S.optional(S.String),
   }).pipe(
     T.all(
@@ -620,6 +635,15 @@ export const UpdateUserResult = S.suspend(() =>
 ).annotations({
   identifier: "UpdateUserResult",
 }) as any as S.Schema<UpdateUserResult>;
+export type AccessDeniedReason =
+  | "IAM_AUTH"
+  | "DIRECTORY_AUTH"
+  | "DATA_DISABLED";
+export const AccessDeniedReason = S.Literal(
+  "IAM_AUTH",
+  "DIRECTORY_AUTH",
+  "DATA_DISABLED",
+);
 export interface CreateUserResult {
   DirectoryId?: string;
   SID?: string;
@@ -639,10 +663,10 @@ export interface DescribeGroupResult {
   Realm?: string;
   SID?: string;
   SAMAccountName?: string;
-  DistinguishedName?: string | Redacted.Redacted<string>;
-  GroupType?: string;
-  GroupScope?: string;
-  OtherAttributes?: Attributes;
+  DistinguishedName?: string | redacted.Redacted<string>;
+  GroupType?: GroupType;
+  GroupScope?: GroupScope;
+  OtherAttributes?: { [key: string]: AttributeValue };
 }
 export const DescribeGroupResult = S.suspend(() =>
   S.Struct({
@@ -651,8 +675,8 @@ export const DescribeGroupResult = S.suspend(() =>
     SID: S.optional(S.String),
     SAMAccountName: S.optional(S.String),
     DistinguishedName: S.optional(SensitiveString),
-    GroupType: S.optional(S.String),
-    GroupScope: S.optional(S.String),
+    GroupType: S.optional(GroupType),
+    GroupScope: S.optional(GroupScope),
     OtherAttributes: S.optional(Attributes),
   }).pipe(ns),
 ).annotations({
@@ -663,13 +687,13 @@ export interface DescribeUserResult {
   Realm?: string;
   SID?: string;
   SAMAccountName?: string;
-  DistinguishedName?: string | Redacted.Redacted<string>;
-  UserPrincipalName?: string | Redacted.Redacted<string>;
-  EmailAddress?: string | Redacted.Redacted<string>;
-  GivenName?: string | Redacted.Redacted<string>;
-  Surname?: string | Redacted.Redacted<string>;
+  DistinguishedName?: string | redacted.Redacted<string>;
+  UserPrincipalName?: string | redacted.Redacted<string>;
+  EmailAddress?: string | redacted.Redacted<string>;
+  GivenName?: string | redacted.Redacted<string>;
+  Surname?: string | redacted.Redacted<string>;
   Enabled?: boolean;
-  OtherAttributes?: Attributes;
+  OtherAttributes?: { [key: string]: AttributeValue };
 }
 export const DescribeUserResult = S.suspend(() =>
   S.Struct({
@@ -691,15 +715,15 @@ export const DescribeUserResult = S.suspend(() =>
 export interface GroupSummary {
   SID: string;
   SAMAccountName: string;
-  GroupType: string;
-  GroupScope: string;
+  GroupType: GroupType;
+  GroupScope: GroupScope;
 }
 export const GroupSummary = S.suspend(() =>
   S.Struct({
     SID: S.String,
     SAMAccountName: S.String,
-    GroupType: S.String,
-    GroupScope: S.String,
+    GroupType: GroupType,
+    GroupScope: GroupScope,
   }),
 ).annotations({ identifier: "GroupSummary" }) as any as S.Schema<GroupSummary>;
 export type GroupSummaryList = GroupSummary[];
@@ -708,8 +732,8 @@ export interface ListGroupsForMemberResult {
   DirectoryId?: string;
   Realm?: string;
   MemberRealm?: string;
-  Groups?: GroupSummaryList;
-  NextToken?: string | Redacted.Redacted<string>;
+  Groups?: GroupSummary[];
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListGroupsForMemberResult = S.suspend(() =>
   S.Struct({
@@ -722,21 +746,36 @@ export const ListGroupsForMemberResult = S.suspend(() =>
 ).annotations({
   identifier: "ListGroupsForMemberResult",
 }) as any as S.Schema<ListGroupsForMemberResult>;
+export type MemberType = "USER" | "GROUP" | "COMPUTER";
+export const MemberType = S.Literal("USER", "GROUP", "COMPUTER");
+export type DirectoryUnavailableReason =
+  | "INVALID_DIRECTORY_STATE"
+  | "DIRECTORY_TIMEOUT"
+  | "DIRECTORY_RESOURCES_EXCEEDED"
+  | "NO_DISK_SPACE"
+  | "TRUST_AUTH_FAILURE";
+export const DirectoryUnavailableReason = S.Literal(
+  "INVALID_DIRECTORY_STATE",
+  "DIRECTORY_TIMEOUT",
+  "DIRECTORY_RESOURCES_EXCEEDED",
+  "NO_DISK_SPACE",
+  "TRUST_AUTH_FAILURE",
+);
 export interface Member {
   SID: string;
   SAMAccountName: string;
-  MemberType: string;
+  MemberType: MemberType;
 }
 export const Member = S.suspend(() =>
-  S.Struct({ SID: S.String, SAMAccountName: S.String, MemberType: S.String }),
+  S.Struct({ SID: S.String, SAMAccountName: S.String, MemberType: MemberType }),
 ).annotations({ identifier: "Member" }) as any as S.Schema<Member>;
 export type MemberList = Member[];
 export const MemberList = S.Array(Member);
 export interface UserSummary {
   SID: string;
   SAMAccountName: string;
-  GivenName?: string | Redacted.Redacted<string>;
-  Surname?: string | Redacted.Redacted<string>;
+  GivenName?: string | redacted.Redacted<string>;
+  Surname?: string | redacted.Redacted<string>;
   Enabled: boolean;
 }
 export const UserSummary = S.suspend(() =>
@@ -753,18 +792,18 @@ export const UserSummaryList = S.Array(UserSummary);
 export interface Group {
   SID?: string;
   SAMAccountName: string;
-  DistinguishedName?: string | Redacted.Redacted<string>;
-  GroupType?: string;
-  GroupScope?: string;
-  OtherAttributes?: Attributes;
+  DistinguishedName?: string | redacted.Redacted<string>;
+  GroupType?: GroupType;
+  GroupScope?: GroupScope;
+  OtherAttributes?: { [key: string]: AttributeValue };
 }
 export const Group = S.suspend(() =>
   S.Struct({
     SID: S.optional(S.String),
     SAMAccountName: S.String,
     DistinguishedName: S.optional(SensitiveString),
-    GroupType: S.optional(S.String),
-    GroupScope: S.optional(S.String),
+    GroupType: S.optional(GroupType),
+    GroupScope: S.optional(GroupScope),
     OtherAttributes: S.optional(Attributes),
   }),
 ).annotations({ identifier: "Group" }) as any as S.Schema<Group>;
@@ -773,13 +812,13 @@ export const GroupList = S.Array(Group);
 export interface User {
   SID?: string;
   SAMAccountName: string;
-  DistinguishedName?: string | Redacted.Redacted<string>;
-  UserPrincipalName?: string | Redacted.Redacted<string>;
-  EmailAddress?: string | Redacted.Redacted<string>;
-  GivenName?: string | Redacted.Redacted<string>;
-  Surname?: string | Redacted.Redacted<string>;
+  DistinguishedName?: string | redacted.Redacted<string>;
+  UserPrincipalName?: string | redacted.Redacted<string>;
+  EmailAddress?: string | redacted.Redacted<string>;
+  GivenName?: string | redacted.Redacted<string>;
+  Surname?: string | redacted.Redacted<string>;
   Enabled?: boolean;
-  OtherAttributes?: Attributes;
+  OtherAttributes?: { [key: string]: AttributeValue };
 }
 export const User = S.suspend(() =>
   S.Struct({
@@ -799,17 +838,17 @@ export const UserList = S.Array(User);
 export interface CreateGroupRequest {
   DirectoryId: string;
   SAMAccountName: string;
-  GroupType?: string;
-  GroupScope?: string;
-  OtherAttributes?: Attributes;
+  GroupType?: GroupType;
+  GroupScope?: GroupScope;
+  OtherAttributes?: { [key: string]: AttributeValue };
   ClientToken?: string;
 }
 export const CreateGroupRequest = S.suspend(() =>
   S.Struct({
     DirectoryId: S.String.pipe(T.HttpQuery("DirectoryId")),
     SAMAccountName: S.String,
-    GroupType: S.optional(S.String),
-    GroupScope: S.optional(S.String),
+    GroupType: S.optional(GroupType),
+    GroupScope: S.optional(GroupScope),
     OtherAttributes: S.optional(Attributes),
     ClientToken: S.optional(S.String),
   }).pipe(
@@ -830,8 +869,8 @@ export interface ListGroupMembersResult {
   DirectoryId?: string;
   Realm?: string;
   MemberRealm?: string;
-  Members?: MemberList;
-  NextToken?: string | Redacted.Redacted<string>;
+  Members?: Member[];
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListGroupMembersResult = S.suspend(() =>
   S.Struct({
@@ -847,8 +886,8 @@ export const ListGroupMembersResult = S.suspend(() =>
 export interface ListGroupsResult {
   DirectoryId?: string;
   Realm?: string;
-  Groups?: GroupSummaryList;
-  NextToken?: string | Redacted.Redacted<string>;
+  Groups?: GroupSummary[];
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListGroupsResult = S.suspend(() =>
   S.Struct({
@@ -863,8 +902,8 @@ export const ListGroupsResult = S.suspend(() =>
 export interface ListUsersResult {
   DirectoryId?: string;
   Realm?: string;
-  Users?: UserSummaryList;
-  NextToken?: string | Redacted.Redacted<string>;
+  Users?: UserSummary[];
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const ListUsersResult = S.suspend(() =>
   S.Struct({
@@ -879,8 +918,8 @@ export const ListUsersResult = S.suspend(() =>
 export interface SearchGroupsResult {
   DirectoryId?: string;
   Realm?: string;
-  Groups?: GroupList;
-  NextToken?: string | Redacted.Redacted<string>;
+  Groups?: Group[];
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const SearchGroupsResult = S.suspend(() =>
   S.Struct({
@@ -895,8 +934,8 @@ export const SearchGroupsResult = S.suspend(() =>
 export interface SearchUsersResult {
   DirectoryId?: string;
   Realm?: string;
-  Users?: UserList;
-  NextToken?: string | Redacted.Redacted<string>;
+  Users?: User[];
+  NextToken?: string | redacted.Redacted<string>;
 }
 export const SearchUsersResult = S.suspend(() =>
   S.Struct({
@@ -922,11 +961,44 @@ export const CreateGroupResult = S.suspend(() =>
 ).annotations({
   identifier: "CreateGroupResult",
 }) as any as S.Schema<CreateGroupResult>;
+export type ValidationExceptionReason =
+  | "INVALID_REALM"
+  | "INVALID_DIRECTORY_TYPE"
+  | "INVALID_SECONDARY_REGION"
+  | "INVALID_NEXT_TOKEN"
+  | "INVALID_ATTRIBUTE_VALUE"
+  | "INVALID_ATTRIBUTE_NAME"
+  | "INVALID_ATTRIBUTE_FOR_USER"
+  | "INVALID_ATTRIBUTE_FOR_GROUP"
+  | "INVALID_ATTRIBUTE_FOR_SEARCH"
+  | "INVALID_ATTRIBUTE_FOR_MODIFY"
+  | "DUPLICATE_ATTRIBUTE"
+  | "MISSING_ATTRIBUTE"
+  | "ATTRIBUTE_EXISTS"
+  | "LDAP_SIZE_LIMIT_EXCEEDED"
+  | "LDAP_UNSUPPORTED_OPERATION";
+export const ValidationExceptionReason = S.Literal(
+  "INVALID_REALM",
+  "INVALID_DIRECTORY_TYPE",
+  "INVALID_SECONDARY_REGION",
+  "INVALID_NEXT_TOKEN",
+  "INVALID_ATTRIBUTE_VALUE",
+  "INVALID_ATTRIBUTE_NAME",
+  "INVALID_ATTRIBUTE_FOR_USER",
+  "INVALID_ATTRIBUTE_FOR_GROUP",
+  "INVALID_ATTRIBUTE_FOR_SEARCH",
+  "INVALID_ATTRIBUTE_FOR_MODIFY",
+  "DUPLICATE_ATTRIBUTE",
+  "MISSING_ATTRIBUTE",
+  "ATTRIBUTE_EXISTS",
+  "LDAP_SIZE_LIMIT_EXCEEDED",
+  "LDAP_UNSUPPORTED_OPERATION",
+);
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+  { Message: S.optional(S.String), Reason: S.optional(AccessDeniedReason) },
 ).pipe(C.withAuthError) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
@@ -934,7 +1006,10 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 ).pipe(C.withConflictError) {}
 export class DirectoryUnavailableException extends S.TaggedError<DirectoryUnavailableException>()(
   "DirectoryUnavailableException",
-  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+  {
+    Message: S.optional(S.String),
+    Reason: S.optional(DirectoryUnavailableReason),
+  },
   T.Retryable(),
 ).pipe(C.withBadRequestError, C.withRetryableError) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
@@ -956,7 +1031,10 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
 ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+  {
+    Message: S.optional(S.String),
+    Reason: S.optional(ValidationExceptionReason),
+  },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
@@ -974,7 +1052,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listGroups: {
   (
     input: ListGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGroupsResult,
     | AccessDeniedException
     | DirectoryUnavailableException
@@ -986,7 +1064,7 @@ export const listGroups: {
   >;
   pages: (
     input: ListGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGroupsResult,
     | AccessDeniedException
     | DirectoryUnavailableException
@@ -998,7 +1076,7 @@ export const listGroups: {
   >;
   items: (
     input: ListGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GroupSummary,
     | AccessDeniedException
     | DirectoryUnavailableException
@@ -1039,7 +1117,7 @@ export const listGroups: {
 export const listGroupMembers: {
   (
     input: ListGroupMembersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGroupMembersResult,
     | AccessDeniedException
     | DirectoryUnavailableException
@@ -1052,7 +1130,7 @@ export const listGroupMembers: {
   >;
   pages: (
     input: ListGroupMembersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGroupMembersResult,
     | AccessDeniedException
     | DirectoryUnavailableException
@@ -1065,7 +1143,7 @@ export const listGroupMembers: {
   >;
   items: (
     input: ListGroupMembersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Member,
     | AccessDeniedException
     | DirectoryUnavailableException
@@ -1099,7 +1177,7 @@ export const listGroupMembers: {
  */
 export const deleteGroup: (
   input: DeleteGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGroupResult,
   | AccessDeniedException
   | ConflictException
@@ -1128,7 +1206,7 @@ export const deleteGroup: (
  */
 export const deleteUser: (
   input: DeleteUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUserResult,
   | AccessDeniedException
   | ConflictException
@@ -1159,7 +1237,7 @@ export const deleteUser: (
  */
 export const disableUser: (
   input: DisableUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisableUserResult,
   | AccessDeniedException
   | ConflictException
@@ -1188,7 +1266,7 @@ export const disableUser: (
  */
 export const removeGroupMember: (
   input: RemoveGroupMemberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveGroupMemberResult,
   | AccessDeniedException
   | ConflictException
@@ -1217,7 +1295,7 @@ export const removeGroupMember: (
  */
 export const updateGroup: (
   input: UpdateGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGroupResult,
   | AccessDeniedException
   | ConflictException
@@ -1246,7 +1324,7 @@ export const updateGroup: (
  */
 export const updateUser: (
   input: UpdateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateUserResult,
   | AccessDeniedException
   | ConflictException
@@ -1275,7 +1353,7 @@ export const updateUser: (
  */
 export const describeUser: (
   input: DescribeUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeUserResult,
   | AccessDeniedException
   | DirectoryUnavailableException
@@ -1311,7 +1389,7 @@ export const describeUser: (
 export const listGroupsForMember: {
   (
     input: ListGroupsForMemberRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListGroupsForMemberResult,
     | AccessDeniedException
     | DirectoryUnavailableException
@@ -1324,7 +1402,7 @@ export const listGroupsForMember: {
   >;
   pages: (
     input: ListGroupsForMemberRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListGroupsForMemberResult,
     | AccessDeniedException
     | DirectoryUnavailableException
@@ -1337,7 +1415,7 @@ export const listGroupsForMember: {
   >;
   items: (
     input: ListGroupsForMemberRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GroupSummary,
     | AccessDeniedException
     | DirectoryUnavailableException
@@ -1371,7 +1449,7 @@ export const listGroupsForMember: {
  */
 export const addGroupMember: (
   input: AddGroupMemberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddGroupMemberResult,
   | AccessDeniedException
   | ConflictException
@@ -1409,7 +1487,7 @@ export const addGroupMember: (
 export const listUsers: {
   (
     input: ListUsersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUsersResult,
     | AccessDeniedException
     | DirectoryUnavailableException
@@ -1421,7 +1499,7 @@ export const listUsers: {
   >;
   pages: (
     input: ListUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUsersResult,
     | AccessDeniedException
     | DirectoryUnavailableException
@@ -1433,7 +1511,7 @@ export const listUsers: {
   >;
   items: (
     input: ListUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     UserSummary,
     | AccessDeniedException
     | DirectoryUnavailableException
@@ -1476,7 +1554,7 @@ export const listUsers: {
 export const searchGroups: {
   (
     input: SearchGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchGroupsResult,
     | AccessDeniedException
     | DirectoryUnavailableException
@@ -1488,7 +1566,7 @@ export const searchGroups: {
   >;
   pages: (
     input: SearchGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchGroupsResult,
     | AccessDeniedException
     | DirectoryUnavailableException
@@ -1500,7 +1578,7 @@ export const searchGroups: {
   >;
   items: (
     input: SearchGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Group,
     | AccessDeniedException
     | DirectoryUnavailableException
@@ -1543,7 +1621,7 @@ export const searchGroups: {
 export const searchUsers: {
   (
     input: SearchUsersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchUsersResult,
     | AccessDeniedException
     | DirectoryUnavailableException
@@ -1555,7 +1633,7 @@ export const searchUsers: {
   >;
   pages: (
     input: SearchUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchUsersResult,
     | AccessDeniedException
     | DirectoryUnavailableException
@@ -1567,7 +1645,7 @@ export const searchUsers: {
   >;
   items: (
     input: SearchUsersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     User,
     | AccessDeniedException
     | DirectoryUnavailableException
@@ -1599,7 +1677,7 @@ export const searchUsers: {
  */
 export const createUser: (
   input: CreateUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUserResult,
   | AccessDeniedException
   | ConflictException
@@ -1626,7 +1704,7 @@ export const createUser: (
  */
 export const createGroup: (
   input: CreateGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGroupResult,
   | AccessDeniedException
   | ConflictException
@@ -1653,7 +1731,7 @@ export const createGroup: (
  */
 export const describeGroup: (
   input: DescribeGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeGroupResult,
   | AccessDeniedException
   | DirectoryUnavailableException

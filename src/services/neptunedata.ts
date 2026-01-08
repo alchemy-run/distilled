@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -130,6 +130,131 @@ export const GetSparqlStatisticsRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetSparqlStatisticsRequest",
 }) as any as S.Schema<GetSparqlStatisticsRequest>;
+export type Action = "initiateDatabaseReset" | "performDatabaseReset";
+export const Action = S.Literal(
+  "initiateDatabaseReset",
+  "performDatabaseReset",
+);
+export type OpenCypherExplainMode = "static" | "dynamic" | "details";
+export const OpenCypherExplainMode = S.Literal("static", "dynamic", "details");
+export type IteratorType =
+  | "AT_SEQUENCE_NUMBER"
+  | "AFTER_SEQUENCE_NUMBER"
+  | "TRIM_HORIZON"
+  | "LATEST";
+export const IteratorType = S.Literal(
+  "AT_SEQUENCE_NUMBER",
+  "AFTER_SEQUENCE_NUMBER",
+  "TRIM_HORIZON",
+  "LATEST",
+);
+export type Encoding = "gzip";
+export const Encoding = S.Literal("gzip");
+export type GraphSummaryType = "basic" | "detailed";
+export const GraphSummaryType = S.Literal("basic", "detailed");
+export type StatisticsAutoGenerationMode =
+  | "disableAutoCompute"
+  | "enableAutoCompute"
+  | "refresh";
+export const StatisticsAutoGenerationMode = S.Literal(
+  "disableAutoCompute",
+  "enableAutoCompute",
+  "refresh",
+);
+export type Format =
+  | "csv"
+  | "opencypher"
+  | "ntriples"
+  | "nquads"
+  | "rdfxml"
+  | "turtle";
+export const Format = S.Literal(
+  "csv",
+  "opencypher",
+  "ntriples",
+  "nquads",
+  "rdfxml",
+  "turtle",
+);
+export type S3BucketRegion =
+  | "us-east-1"
+  | "us-east-2"
+  | "us-west-1"
+  | "us-west-2"
+  | "ca-central-1"
+  | "sa-east-1"
+  | "eu-north-1"
+  | "eu-west-1"
+  | "eu-west-2"
+  | "eu-west-3"
+  | "eu-central-1"
+  | "me-south-1"
+  | "af-south-1"
+  | "ap-east-1"
+  | "ap-northeast-1"
+  | "ap-northeast-2"
+  | "ap-southeast-1"
+  | "ap-southeast-2"
+  | "ap-south-1"
+  | "cn-north-1"
+  | "cn-northwest-1"
+  | "us-gov-west-1"
+  | "us-gov-east-1"
+  | "ca-west-1"
+  | "eu-south-2"
+  | "il-central-1"
+  | "me-central-1"
+  | "ap-northeast-3"
+  | "ap-southeast-3"
+  | "ap-southeast-4"
+  | "ap-southeast-5"
+  | "ap-southeast-7"
+  | "mx-central-1"
+  | "ap-east-2"
+  | "ap-south-2"
+  | "eu-central-2";
+export const S3BucketRegion = S.Literal(
+  "us-east-1",
+  "us-east-2",
+  "us-west-1",
+  "us-west-2",
+  "ca-central-1",
+  "sa-east-1",
+  "eu-north-1",
+  "eu-west-1",
+  "eu-west-2",
+  "eu-west-3",
+  "eu-central-1",
+  "me-south-1",
+  "af-south-1",
+  "ap-east-1",
+  "ap-northeast-1",
+  "ap-northeast-2",
+  "ap-southeast-1",
+  "ap-southeast-2",
+  "ap-south-1",
+  "cn-north-1",
+  "cn-northwest-1",
+  "us-gov-west-1",
+  "us-gov-east-1",
+  "ca-west-1",
+  "eu-south-2",
+  "il-central-1",
+  "me-central-1",
+  "ap-northeast-3",
+  "ap-southeast-3",
+  "ap-southeast-4",
+  "ap-southeast-5",
+  "ap-southeast-7",
+  "mx-central-1",
+  "ap-east-2",
+  "ap-south-2",
+  "eu-central-2",
+);
+export type Mode = "RESUME" | "NEW" | "AUTO";
+export const Mode = S.Literal("RESUME", "NEW", "AUTO");
+export type Parallelism = "LOW" | "MEDIUM" | "HIGH" | "OVERSUBSCRIBE";
+export const Parallelism = S.Literal("LOW", "MEDIUM", "HIGH", "OVERSUBSCRIBE");
 export type StringList = string[];
 export const StringList = S.Array(S.String);
 export interface CancelGremlinQueryInput {
@@ -349,11 +474,11 @@ export const DeleteSparqlStatisticsOutput = S.suspend(() =>
   identifier: "DeleteSparqlStatisticsOutput",
 }) as any as S.Schema<DeleteSparqlStatisticsOutput>;
 export interface ExecuteFastResetInput {
-  action: string;
+  action: Action;
   token?: string;
 }
 export const ExecuteFastResetInput = S.suspend(() =>
-  S.Struct({ action: S.String, token: S.optional(S.String) }).pipe(
+  S.Struct({ action: Action, token: S.optional(S.String) }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/system" }),
       svc,
@@ -434,13 +559,13 @@ export const ExecuteGremlinQueryInput = S.suspend(() =>
 export interface ExecuteOpenCypherExplainQueryInput {
   openCypherQuery: string;
   parameters?: string;
-  explainMode: string;
+  explainMode: OpenCypherExplainMode;
 }
 export const ExecuteOpenCypherExplainQueryInput = S.suspend(() =>
   S.Struct({
     openCypherQuery: S.String.pipe(T.JsonName("query")),
     parameters: S.optional(S.String),
-    explainMode: S.String.pipe(T.JsonName("explain")),
+    explainMode: OpenCypherExplainMode.pipe(T.JsonName("explain")),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/opencypher/explain" }),
@@ -630,18 +755,18 @@ export const GetOpenCypherQueryStatusInput = S.suspend(() =>
 }) as any as S.Schema<GetOpenCypherQueryStatusInput>;
 export interface GetPropertygraphStreamInput {
   limit?: number;
-  iteratorType?: string;
+  iteratorType?: IteratorType;
   commitNum?: number;
   opNum?: number;
-  encoding?: string;
+  encoding?: Encoding;
 }
 export const GetPropertygraphStreamInput = S.suspend(() =>
   S.Struct({
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-    iteratorType: S.optional(S.String).pipe(T.HttpQuery("iteratorType")),
+    iteratorType: S.optional(IteratorType).pipe(T.HttpQuery("iteratorType")),
     commitNum: S.optional(S.Number).pipe(T.HttpQuery("commitNum")),
     opNum: S.optional(S.Number).pipe(T.HttpQuery("opNum")),
-    encoding: S.optional(S.String).pipe(T.HttpHeader("Accept-Encoding")),
+    encoding: S.optional(Encoding).pipe(T.HttpHeader("Accept-Encoding")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/propertygraph/stream" }),
@@ -656,10 +781,12 @@ export const GetPropertygraphStreamInput = S.suspend(() =>
   identifier: "GetPropertygraphStreamInput",
 }) as any as S.Schema<GetPropertygraphStreamInput>;
 export interface GetPropertygraphSummaryInput {
-  mode?: string;
+  mode?: GraphSummaryType;
 }
 export const GetPropertygraphSummaryInput = S.suspend(() =>
-  S.Struct({ mode: S.optional(S.String).pipe(T.HttpQuery("mode")) }).pipe(
+  S.Struct({
+    mode: S.optional(GraphSummaryType).pipe(T.HttpQuery("mode")),
+  }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/propertygraph/statistics/summary" }),
       svc,
@@ -673,10 +800,12 @@ export const GetPropertygraphSummaryInput = S.suspend(() =>
   identifier: "GetPropertygraphSummaryInput",
 }) as any as S.Schema<GetPropertygraphSummaryInput>;
 export interface GetRDFGraphSummaryInput {
-  mode?: string;
+  mode?: GraphSummaryType;
 }
 export const GetRDFGraphSummaryInput = S.suspend(() =>
-  S.Struct({ mode: S.optional(S.String).pipe(T.HttpQuery("mode")) }).pipe(
+  S.Struct({
+    mode: S.optional(GraphSummaryType).pipe(T.HttpQuery("mode")),
+  }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/rdf/statistics/summary" }),
       svc,
@@ -732,18 +861,18 @@ export const GetSparqlStatisticsOutput = S.suspend(() =>
 }) as any as S.Schema<GetSparqlStatisticsOutput>;
 export interface GetSparqlStreamInput {
   limit?: number;
-  iteratorType?: string;
+  iteratorType?: IteratorType;
   commitNum?: number;
   opNum?: number;
-  encoding?: string;
+  encoding?: Encoding;
 }
 export const GetSparqlStreamInput = S.suspend(() =>
   S.Struct({
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-    iteratorType: S.optional(S.String).pipe(T.HttpQuery("iteratorType")),
+    iteratorType: S.optional(IteratorType).pipe(T.HttpQuery("iteratorType")),
     commitNum: S.optional(S.Number).pipe(T.HttpQuery("commitNum")),
     opNum: S.optional(S.Number).pipe(T.HttpQuery("opNum")),
-    encoding: S.optional(S.String).pipe(T.HttpHeader("Accept-Encoding")),
+    encoding: S.optional(Encoding).pipe(T.HttpHeader("Accept-Encoding")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/sparql/stream" }),
@@ -911,10 +1040,10 @@ export const ListOpenCypherQueriesInput = S.suspend(() =>
   identifier: "ListOpenCypherQueriesInput",
 }) as any as S.Schema<ListOpenCypherQueriesInput>;
 export interface ManagePropertygraphStatisticsInput {
-  mode?: string;
+  mode?: StatisticsAutoGenerationMode;
 }
 export const ManagePropertygraphStatisticsInput = S.suspend(() =>
-  S.Struct({ mode: S.optional(S.String) }).pipe(
+  S.Struct({ mode: S.optional(StatisticsAutoGenerationMode) }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/propertygraph/statistics" }),
       svc,
@@ -928,10 +1057,10 @@ export const ManagePropertygraphStatisticsInput = S.suspend(() =>
   identifier: "ManagePropertygraphStatisticsInput",
 }) as any as S.Schema<ManagePropertygraphStatisticsInput>;
 export interface ManageSparqlStatisticsInput {
-  mode?: string;
+  mode?: StatisticsAutoGenerationMode;
 }
 export const ManageSparqlStatisticsInput = S.suspend(() =>
-  S.Struct({ mode: S.optional(S.String) }).pipe(
+  S.Struct({ mode: S.optional(StatisticsAutoGenerationMode) }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/sparql/statistics" }),
       svc,
@@ -948,27 +1077,27 @@ export type StringValuedMap = { [key: string]: string };
 export const StringValuedMap = S.Record({ key: S.String, value: S.String });
 export interface StartLoaderJobInput {
   source: string;
-  format: string;
-  s3BucketRegion: string;
+  format: Format;
+  s3BucketRegion: S3BucketRegion;
   iamRoleArn: string;
-  mode?: string;
+  mode?: Mode;
   failOnError?: boolean;
-  parallelism?: string;
-  parserConfiguration?: StringValuedMap;
+  parallelism?: Parallelism;
+  parserConfiguration?: { [key: string]: string };
   updateSingleCardinalityProperties?: boolean;
   queueRequest?: boolean;
-  dependencies?: StringList;
+  dependencies?: string[];
   userProvidedEdgeIds?: boolean;
 }
 export const StartLoaderJobInput = S.suspend(() =>
   S.Struct({
     source: S.String,
-    format: S.String,
-    s3BucketRegion: S.String.pipe(T.JsonName("region")),
+    format: Format,
+    s3BucketRegion: S3BucketRegion.pipe(T.JsonName("region")),
     iamRoleArn: S.String,
-    mode: S.optional(S.String),
+    mode: S.optional(Mode),
     failOnError: S.optional(S.Boolean),
-    parallelism: S.optional(S.String),
+    parallelism: S.optional(Parallelism),
     parserConfiguration: S.optional(StringValuedMap),
     updateSingleCardinalityProperties: S.optional(S.Boolean),
     queueRequest: S.optional(S.Boolean),
@@ -999,8 +1128,8 @@ export interface StartMLDataProcessingJobInput {
   processingTimeOutInSeconds?: number;
   modelType?: string;
   configFileName?: string;
-  subnets?: StringList;
-  securityGroupIds?: StringList;
+  subnets?: string[];
+  securityGroupIds?: string[];
   volumeEncryptionKMSKey?: string;
   s3OutputEncryptionKMSKey?: string;
 }
@@ -1241,11 +1370,11 @@ export interface GetEngineStatusOutput {
   gremlin?: QueryLanguageVersion;
   sparql?: QueryLanguageVersion;
   opencypher?: QueryLanguageVersion;
-  labMode?: StringValuedMap;
+  labMode?: { [key: string]: string };
   rollingBackTrxCount?: number;
   rollingBackTrxEarliestStartTime?: string;
-  features?: DocumentValuedMap;
-  settings?: StringValuedMap;
+  features?: { [key: string]: any };
+  settings?: { [key: string]: string };
 }
 export const GetEngineStatusOutput = S.suspend(() =>
   S.Struct({
@@ -1301,7 +1430,7 @@ export interface GetMLModelTrainingJobOutput {
   processingJob?: MlResourceDefinition;
   hpoJob?: MlResourceDefinition;
   modelTransformJob?: MlResourceDefinition;
-  mlModels?: MlModels;
+  mlModels?: MlConfigDefinition[];
 }
 export const GetMLModelTrainingJobOutput = S.suspend(() =>
   S.Struct({
@@ -1320,7 +1449,7 @@ export interface GetMLModelTransformJobOutput {
   id?: string;
   baseProcessingJob?: MlResourceDefinition;
   remoteModelTransformJob?: MlResourceDefinition;
-  models?: Models;
+  models?: MlConfigDefinition[];
 }
 export const GetMLModelTransformJobOutput = S.suspend(() =>
   S.Struct({
@@ -1348,7 +1477,7 @@ export const GetOpenCypherQueryStatusOutput = S.suspend(() =>
   identifier: "GetOpenCypherQueryStatusOutput",
 }) as any as S.Schema<GetOpenCypherQueryStatusOutput>;
 export interface ListMLDataProcessingJobsOutput {
-  ids?: StringList;
+  ids?: string[];
 }
 export const ListMLDataProcessingJobsOutput = S.suspend(() =>
   S.Struct({ ids: S.optional(StringList) }),
@@ -1356,7 +1485,7 @@ export const ListMLDataProcessingJobsOutput = S.suspend(() =>
   identifier: "ListMLDataProcessingJobsOutput",
 }) as any as S.Schema<ListMLDataProcessingJobsOutput>;
 export interface ListMLEndpointsOutput {
-  ids?: StringList;
+  ids?: string[];
 }
 export const ListMLEndpointsOutput = S.suspend(() =>
   S.Struct({ ids: S.optional(StringList) }),
@@ -1364,7 +1493,7 @@ export const ListMLEndpointsOutput = S.suspend(() =>
   identifier: "ListMLEndpointsOutput",
 }) as any as S.Schema<ListMLEndpointsOutput>;
 export interface ListMLModelTrainingJobsOutput {
-  ids?: StringList;
+  ids?: string[];
 }
 export const ListMLModelTrainingJobsOutput = S.suspend(() =>
   S.Struct({ ids: S.optional(StringList) }),
@@ -1372,7 +1501,7 @@ export const ListMLModelTrainingJobsOutput = S.suspend(() =>
   identifier: "ListMLModelTrainingJobsOutput",
 }) as any as S.Schema<ListMLModelTrainingJobsOutput>;
 export interface ListMLModelTransformJobsOutput {
-  ids?: StringList;
+  ids?: string[];
 }
 export const ListMLModelTransformJobsOutput = S.suspend(() =>
   S.Struct({ ids: S.optional(StringList) }),
@@ -1382,7 +1511,7 @@ export const ListMLModelTransformJobsOutput = S.suspend(() =>
 export interface ListOpenCypherQueriesOutput {
   acceptedQueryCount?: number;
   runningQueryCount?: number;
-  queries?: OpenCypherQueries;
+  queries?: GremlinQueryStatus[];
 }
 export const ListOpenCypherQueriesOutput = S.suspend(() =>
   S.Struct({
@@ -1412,7 +1541,7 @@ export const ManageSparqlStatisticsOutput = S.suspend(() =>
 }) as any as S.Schema<ManageSparqlStatisticsOutput>;
 export interface StartLoaderJobOutput {
   status: string;
-  payload: StringValuedMap;
+  payload: { [key: string]: string };
 }
 export const StartLoaderJobOutput = S.suspend(() =>
   S.Struct({ status: S.String, payload: StringValuedMap }),
@@ -1446,8 +1575,8 @@ export interface StartMLModelTrainingJobInput {
   trainingTimeOutInSeconds?: number;
   maxHPONumberOfTrainingJobs?: number;
   maxHPOParallelTrainingJobs?: number;
-  subnets?: StringList;
-  securityGroupIds?: StringList;
+  subnets?: string[];
+  securityGroupIds?: string[];
   volumeEncryptionKMSKey?: string;
   s3OutputEncryptionKMSKey?: string;
   enableManagedSpotTraining?: boolean;
@@ -1497,8 +1626,8 @@ export interface StartMLModelTransformJobInput {
   customModelTransformParameters?: CustomModelTransformParameters;
   baseProcessingInstanceType?: string;
   baseProcessingInstanceVolumeSizeInGB?: number;
-  subnets?: StringList;
-  securityGroupIds?: StringList;
+  subnets?: string[];
+  securityGroupIds?: string[];
   volumeEncryptionKMSKey?: string;
   s3OutputEncryptionKMSKey?: string;
 }
@@ -1556,7 +1685,7 @@ export const GremlinQueryStatusAttributes = S.suspend(() =>
 export type GremlinQueries = GremlinQueryStatus[];
 export const GremlinQueries = S.Array(GremlinQueryStatus);
 export interface LoaderIdResult {
-  loadIds?: StringList;
+  loadIds?: string[];
 }
 export const LoaderIdResult = S.suspend(() =>
   S.Struct({ loadIds: S.optional(StringList) }),
@@ -1650,7 +1779,7 @@ export const GetPropertygraphStatisticsOutput = S.suspend(() =>
 export interface ListGremlinQueriesOutput {
   acceptedQueryCount?: number;
   runningQueryCount?: number;
-  queries?: GremlinQueries;
+  queries?: GremlinQueryStatus[];
 }
 export const ListGremlinQueriesOutput = S.suspend(() =>
   S.Struct({
@@ -1743,7 +1872,7 @@ export type Predicates = string[];
 export const Predicates = S.Array(S.String);
 export interface PropertygraphRecord {
   commitTimestampInMillis: number;
-  eventId: StringValuedMap;
+  eventId: { [key: string]: string };
   data: PropertygraphData;
   op: string;
   isLastOp?: boolean;
@@ -1763,7 +1892,7 @@ export type PropertygraphRecordsList = PropertygraphRecord[];
 export const PropertygraphRecordsList = S.Array(PropertygraphRecord);
 export interface SparqlRecord {
   commitTimestampInMillis: number;
-  eventId: StringValuedMap;
+  eventId: { [key: string]: string };
   data: SparqlData;
   op: string;
   isLastOp?: boolean;
@@ -1781,12 +1910,12 @@ export type SparqlRecordsList = SparqlRecord[];
 export const SparqlRecordsList = S.Array(SparqlRecord);
 export type LongValuedMap = { [key: string]: number };
 export const LongValuedMap = S.Record({ key: S.String, value: S.Number });
-export type LongValuedMapList = LongValuedMap[];
+export type LongValuedMapList = { [key: string]: number }[];
 export const LongValuedMapList = S.Array(LongValuedMap);
 export interface NodeStructure {
   count?: number;
-  nodeProperties?: NodeProperties;
-  distinctOutgoingEdgeLabels?: OutgoingEdgeLabels;
+  nodeProperties?: string[];
+  distinctOutgoingEdgeLabels?: string[];
 }
 export const NodeStructure = S.suspend(() =>
   S.Struct({
@@ -1801,7 +1930,7 @@ export type NodeStructures = NodeStructure[];
 export const NodeStructures = S.Array(NodeStructure);
 export interface EdgeStructure {
   count?: number;
-  edgeProperties?: EdgeProperties;
+  edgeProperties?: string[];
 }
 export const EdgeStructure = S.suspend(() =>
   S.Struct({
@@ -1815,7 +1944,7 @@ export type EdgeStructures = EdgeStructure[];
 export const EdgeStructures = S.Array(EdgeStructure);
 export interface SubjectStructure {
   count?: number;
-  predicates?: Predicates;
+  predicates?: string[];
 }
 export const SubjectStructure = S.suspend(() =>
   S.Struct({ count: S.optional(S.Number), predicates: S.optional(Predicates) }),
@@ -1825,10 +1954,10 @@ export const SubjectStructure = S.suspend(() =>
 export type SubjectStructures = SubjectStructure[];
 export const SubjectStructures = S.Array(SubjectStructure);
 export interface GetPropertygraphStreamOutput {
-  lastEventId: StringValuedMap;
+  lastEventId: { [key: string]: string };
   lastTrxTimestampInMillis: number;
   format: string;
-  records: PropertygraphRecordsList;
+  records: PropertygraphRecord[];
   totalRecords: number;
 }
 export const GetPropertygraphStreamOutput = S.suspend(() =>
@@ -1843,10 +1972,10 @@ export const GetPropertygraphStreamOutput = S.suspend(() =>
   identifier: "GetPropertygraphStreamOutput",
 }) as any as S.Schema<GetPropertygraphStreamOutput>;
 export interface GetSparqlStreamOutput {
-  lastEventId: StringValuedMap;
+  lastEventId: { [key: string]: string };
   lastTrxTimestampInMillis: number;
   format: string;
-  records: SparqlRecordsList;
+  records: SparqlRecord[];
   totalRecords: number;
 }
 export const GetSparqlStreamOutput = S.suspend(() =>
@@ -1865,16 +1994,16 @@ export interface PropertygraphSummary {
   numEdges?: number;
   numNodeLabels?: number;
   numEdgeLabels?: number;
-  nodeLabels?: NodeLabels;
-  edgeLabels?: EdgeLabels;
+  nodeLabels?: string[];
+  edgeLabels?: string[];
   numNodeProperties?: number;
   numEdgeProperties?: number;
-  nodeProperties?: LongValuedMapList;
-  edgeProperties?: LongValuedMapList;
+  nodeProperties?: { [key: string]: number }[];
+  edgeProperties?: { [key: string]: number }[];
   totalNodePropertyValues?: number;
   totalEdgePropertyValues?: number;
-  nodeStructures?: NodeStructures;
-  edgeStructures?: EdgeStructures;
+  nodeStructures?: NodeStructure[];
+  edgeStructures?: EdgeStructure[];
 }
 export const PropertygraphSummary = S.suspend(() =>
   S.Struct({
@@ -1901,9 +2030,9 @@ export interface RDFGraphSummary {
   numDistinctPredicates?: number;
   numQuads?: number;
   numClasses?: number;
-  classes?: Classes;
-  predicates?: LongValuedMapList;
-  subjectStructures?: SubjectStructures;
+  classes?: string[];
+  predicates?: { [key: string]: number }[];
+  subjectStructures?: SubjectStructure[];
 }
 export const RDFGraphSummary = S.suspend(() =>
   S.Struct({
@@ -2132,7 +2261,7 @@ export class QueryTooLargeException extends S.TaggedError<QueryTooLargeException
  */
 export const getEngineStatus: (
   input: GetEngineStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEngineStatusOutput,
   | ClientTimeoutException
   | ConstraintViolationException
@@ -2165,7 +2294,7 @@ export const getEngineStatus: (
  */
 export const getMLDataProcessingJob: (
   input: GetMLDataProcessingJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetMLDataProcessingJobOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -2204,7 +2333,7 @@ export const getMLDataProcessingJob: (
  */
 export const listLoaderJobs: (
   input: ListLoaderJobsInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListLoaderJobsOutput,
   | BadRequestException
   | BulkLoadIdNotFoundException
@@ -2245,7 +2374,7 @@ export const listLoaderJobs: (
  */
 export const cancelLoaderJob: (
   input: CancelLoaderJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   CancelLoaderJobOutput,
   | BadRequestException
   | BulkLoadIdNotFoundException
@@ -2290,7 +2419,7 @@ export const cancelLoaderJob: (
  */
 export const getLoaderJobStatus: (
   input: GetLoaderJobStatusInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetLoaderJobStatusOutput,
   | BadRequestException
   | BulkLoadIdNotFoundException
@@ -2333,7 +2462,7 @@ export const getLoaderJobStatus: (
  */
 export const startLoaderJob: (
   input: StartLoaderJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartLoaderJobOutput,
   | BadRequestException
   | BulkLoadIdNotFoundException
@@ -2378,7 +2507,7 @@ export const startLoaderJob: (
  */
 export const getMLEndpoint: (
   input: GetMLEndpointInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetMLEndpointOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -2417,7 +2546,7 @@ export const getMLEndpoint: (
  */
 export const startMLModelTrainingJob: (
   input: StartMLModelTrainingJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartMLModelTrainingJobOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -2456,7 +2585,7 @@ export const startMLModelTrainingJob: (
  */
 export const startMLModelTransformJob: (
   input: StartMLModelTransformJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartMLModelTransformJobOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -2495,7 +2624,7 @@ export const startMLModelTransformJob: (
  */
 export const cancelMLDataProcessingJob: (
   input: CancelMLDataProcessingJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   CancelMLDataProcessingJobOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -2534,7 +2663,7 @@ export const cancelMLDataProcessingJob: (
  */
 export const cancelMLModelTrainingJob: (
   input: CancelMLModelTrainingJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   CancelMLModelTrainingJobOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -2573,7 +2702,7 @@ export const cancelMLModelTrainingJob: (
  */
 export const cancelMLModelTransformJob: (
   input: CancelMLModelTransformJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   CancelMLModelTransformJobOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -2612,7 +2741,7 @@ export const cancelMLModelTransformJob: (
  */
 export const createMLEndpoint: (
   input: CreateMLEndpointInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMLEndpointOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -2651,7 +2780,7 @@ export const createMLEndpoint: (
  */
 export const deleteMLEndpoint: (
   input: DeleteMLEndpointInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMLEndpointOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -2690,7 +2819,7 @@ export const deleteMLEndpoint: (
  */
 export const getMLModelTrainingJob: (
   input: GetMLModelTrainingJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetMLModelTrainingJobOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -2729,7 +2858,7 @@ export const getMLModelTrainingJob: (
  */
 export const getMLModelTransformJob: (
   input: GetMLModelTransformJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetMLModelTransformJobOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -2768,7 +2897,7 @@ export const getMLModelTransformJob: (
  */
 export const listMLDataProcessingJobs: (
   input: ListMLDataProcessingJobsInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListMLDataProcessingJobsOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -2807,7 +2936,7 @@ export const listMLDataProcessingJobs: (
  */
 export const listMLEndpoints: (
   input: ListMLEndpointsInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListMLEndpointsOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -2846,7 +2975,7 @@ export const listMLEndpoints: (
  */
 export const listMLModelTrainingJobs: (
   input: ListMLModelTrainingJobsInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListMLModelTrainingJobsOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -2885,7 +3014,7 @@ export const listMLModelTrainingJobs: (
  */
 export const listMLModelTransformJobs: (
   input: ListMLModelTransformJobsInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListMLModelTransformJobsOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -2924,7 +3053,7 @@ export const listMLModelTransformJobs: (
  */
 export const startMLDataProcessingJob: (
   input: StartMLDataProcessingJobInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartMLDataProcessingJobOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -2979,7 +3108,7 @@ export const startMLDataProcessingJob: (
  */
 export const getPropertygraphStream: (
   input: GetPropertygraphStreamInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetPropertygraphStreamOutput,
   | ClientTimeoutException
   | ConstraintViolationException
@@ -3022,7 +3151,7 @@ export const getPropertygraphStream: (
  */
 export const executeFastReset: (
   input: ExecuteFastResetInput,
-) => Effect.Effect<
+) => effect.Effect<
   ExecuteFastResetOutput,
   | AccessDeniedException
   | ClientTimeoutException
@@ -3067,7 +3196,7 @@ export const executeFastReset: (
  */
 export const listGremlinQueries: (
   input: ListGremlinQueriesInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListGremlinQueriesOutput,
   | AccessDeniedException
   | BadRequestException
@@ -3124,7 +3253,7 @@ export const listGremlinQueries: (
  */
 export const getSparqlStream: (
   input: GetSparqlStreamInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSparqlStreamOutput,
   | ClientTimeoutException
   | ConstraintViolationException
@@ -3165,7 +3294,7 @@ export const getSparqlStream: (
  */
 export const getPropertygraphSummary: (
   input: GetPropertygraphSummaryInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetPropertygraphSummaryOutput,
   | AccessDeniedException
   | BadRequestException
@@ -3208,7 +3337,7 @@ export const getPropertygraphSummary: (
  */
 export const cancelGremlinQuery: (
   input: CancelGremlinQueryInput,
-) => Effect.Effect<
+) => effect.Effect<
   CancelGremlinQueryOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -3253,7 +3382,7 @@ export const cancelGremlinQuery: (
  */
 export const cancelOpenCypherQuery: (
   input: CancelOpenCypherQueryInput,
-) => Effect.Effect<
+) => effect.Effect<
   CancelOpenCypherQueryOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -3302,7 +3431,7 @@ export const cancelOpenCypherQuery: (
  */
 export const getOpenCypherQueryStatus: (
   input: GetOpenCypherQueryStatusInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetOpenCypherQueryStatusOutput,
   | AccessDeniedException
   | BadRequestException
@@ -3355,7 +3484,7 @@ export const getOpenCypherQueryStatus: (
  */
 export const listOpenCypherQueries: (
   input: ListOpenCypherQueriesInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListOpenCypherQueriesOutput,
   | AccessDeniedException
   | BadRequestException
@@ -3408,7 +3537,7 @@ export const listOpenCypherQueries: (
  */
 export const getGremlinQueryStatus: (
   input: GetGremlinQueryStatusInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetGremlinQueryStatusOutput,
   | AccessDeniedException
   | BadRequestException
@@ -3457,7 +3586,7 @@ export const getGremlinQueryStatus: (
  */
 export const getRDFGraphSummary: (
   input: GetRDFGraphSummaryInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetRDFGraphSummaryOutput,
   | AccessDeniedException
   | BadRequestException
@@ -3500,7 +3629,7 @@ export const getRDFGraphSummary: (
  */
 export const getPropertygraphStatistics: (
   input: GetPropertygraphStatisticsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPropertygraphStatisticsOutput,
   | AccessDeniedException
   | BadRequestException
@@ -3543,7 +3672,7 @@ export const getPropertygraphStatistics: (
  */
 export const managePropertygraphStatistics: (
   input: ManagePropertygraphStatisticsInput,
-) => Effect.Effect<
+) => effect.Effect<
   ManagePropertygraphStatisticsOutput,
   | AccessDeniedException
   | BadRequestException
@@ -3586,7 +3715,7 @@ export const managePropertygraphStatistics: (
  */
 export const deleteSparqlStatistics: (
   input: DeleteSparqlStatisticsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSparqlStatisticsOutput,
   | AccessDeniedException
   | BadRequestException
@@ -3629,7 +3758,7 @@ export const deleteSparqlStatistics: (
  */
 export const manageSparqlStatistics: (
   input: ManageSparqlStatisticsInput,
-) => Effect.Effect<
+) => effect.Effect<
   ManageSparqlStatisticsOutput,
   | AccessDeniedException
   | BadRequestException
@@ -3670,7 +3799,7 @@ export const manageSparqlStatistics: (
  */
 export const getSparqlStatistics: (
   input: GetSparqlStatisticsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSparqlStatisticsOutput,
   | AccessDeniedException
   | BadRequestException
@@ -3713,7 +3842,7 @@ export const getSparqlStatistics: (
  */
 export const deletePropertygraphStatistics: (
   input: DeletePropertygraphStatisticsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePropertygraphStatisticsOutput,
   | AccessDeniedException
   | BadRequestException
@@ -3768,7 +3897,7 @@ export const deletePropertygraphStatistics: (
  */
 export const executeGremlinExplainQuery: (
   input: ExecuteGremlinExplainQueryInput,
-) => Effect.Effect<
+) => effect.Effect<
   ExecuteGremlinExplainQueryOutput,
   | BadRequestException
   | CancelledByUserException
@@ -3827,7 +3956,7 @@ export const executeGremlinExplainQuery: (
  */
 export const executeGremlinProfileQuery: (
   input: ExecuteGremlinProfileQueryInput,
-) => Effect.Effect<
+) => effect.Effect<
   ExecuteGremlinProfileQueryOutput,
   | BadRequestException
   | CancelledByUserException
@@ -3892,7 +4021,7 @@ export const executeGremlinProfileQuery: (
  */
 export const executeGremlinQuery: (
   input: ExecuteGremlinQueryInput,
-) => Effect.Effect<
+) => effect.Effect<
   ExecuteGremlinQueryOutput,
   | BadRequestException
   | CancelledByUserException
@@ -3961,7 +4090,7 @@ export const executeGremlinQuery: (
  */
 export const executeOpenCypherQuery: (
   input: ExecuteOpenCypherQueryInput,
-) => Effect.Effect<
+) => effect.Effect<
   ExecuteOpenCypherQueryOutput,
   | BadRequestException
   | CancelledByUserException
@@ -4022,7 +4151,7 @@ export const executeOpenCypherQuery: (
  */
 export const executeOpenCypherExplainQuery: (
   input: ExecuteOpenCypherExplainQueryInput,
-) => Effect.Effect<
+) => effect.Effect<
   ExecuteOpenCypherExplainQueryOutput,
   | BadRequestException
   | CancelledByUserException

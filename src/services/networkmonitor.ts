@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -104,6 +104,23 @@ export type VpcId = string;
 //# Schemas
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type ProbeState =
+  | "PENDING"
+  | "ACTIVE"
+  | "INACTIVE"
+  | "ERROR"
+  | "DELETING"
+  | "DELETED";
+export const ProbeState = S.Literal(
+  "PENDING",
+  "ACTIVE",
+  "INACTIVE",
+  "ERROR",
+  "DELETING",
+  "DELETED",
+);
+export type Protocol = "TCP" | "ICMP";
+export const Protocol = S.Literal("TCP", "ICMP");
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
@@ -123,7 +140,7 @@ export const ListTagsForResourceInput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceInput>;
 export interface UntagResourceInput {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({
@@ -255,20 +272,20 @@ export const GetProbeInput = S.suspend(() =>
 export interface UpdateProbeInput {
   monitorName: string;
   probeId: string;
-  state?: string;
+  state?: ProbeState;
   destination?: string;
   destinationPort?: number;
-  protocol?: string;
+  protocol?: Protocol;
   packetSize?: number;
 }
 export const UpdateProbeInput = S.suspend(() =>
   S.Struct({
     monitorName: S.String.pipe(T.HttpLabel("monitorName")),
     probeId: S.String.pipe(T.HttpLabel("probeId")),
-    state: S.optional(S.String),
+    state: S.optional(ProbeState),
     destination: S.optional(S.String),
     destinationPort: S.optional(S.Number),
-    protocol: S.optional(S.String),
+    protocol: S.optional(Protocol),
     packetSize: S.optional(S.Number),
   }).pipe(
     T.all(
@@ -320,16 +337,16 @@ export interface CreateMonitorProbeInput {
   sourceArn: string;
   destination: string;
   destinationPort?: number;
-  protocol: string;
+  protocol: Protocol;
   packetSize?: number;
-  probeTags?: TagMap;
+  probeTags?: { [key: string]: string };
 }
 export const CreateMonitorProbeInput = S.suspend(() =>
   S.Struct({
     sourceArn: S.String,
     destination: S.String,
     destinationPort: S.optional(S.Number),
-    protocol: S.String,
+    protocol: Protocol,
     packetSize: S.optional(S.Number),
     probeTags: S.optional(TagMap),
   }),
@@ -338,26 +355,41 @@ export const CreateMonitorProbeInput = S.suspend(() =>
 }) as any as S.Schema<CreateMonitorProbeInput>;
 export type CreateMonitorProbeInputList = CreateMonitorProbeInput[];
 export const CreateMonitorProbeInputList = S.Array(CreateMonitorProbeInput);
+export type MonitorState =
+  | "PENDING"
+  | "ACTIVE"
+  | "INACTIVE"
+  | "ERROR"
+  | "DELETING";
+export const MonitorState = S.Literal(
+  "PENDING",
+  "ACTIVE",
+  "INACTIVE",
+  "ERROR",
+  "DELETING",
+);
 export interface ProbeInput {
   sourceArn: string;
   destination: string;
   destinationPort?: number;
-  protocol: string;
+  protocol: Protocol;
   packetSize?: number;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ProbeInput = S.suspend(() =>
   S.Struct({
     sourceArn: S.String,
     destination: S.String,
     destinationPort: S.optional(S.Number),
-    protocol: S.String,
+    protocol: Protocol,
     packetSize: S.optional(S.Number),
     tags: S.optional(TagMap),
   }),
 ).annotations({ identifier: "ProbeInput" }) as any as S.Schema<ProbeInput>;
+export type AddressFamily = "IPV4" | "IPV6";
+export const AddressFamily = S.Literal("IPV4", "IPV6");
 export interface ListTagsForResourceOutput {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -366,7 +398,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -391,10 +423,10 @@ export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceOutput>;
 export interface CreateMonitorInput {
   monitorName: string;
-  probes?: CreateMonitorProbeInputList;
+  probes?: CreateMonitorProbeInput[];
   aggregationPeriod?: number;
   clientToken?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateMonitorInput = S.suspend(() =>
   S.Struct({
@@ -419,15 +451,15 @@ export const CreateMonitorInput = S.suspend(() =>
 export interface UpdateMonitorOutput {
   monitorArn: string;
   monitorName: string;
-  state: string;
+  state: MonitorState;
   aggregationPeriod?: number;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const UpdateMonitorOutput = S.suspend(() =>
   S.Struct({
     monitorArn: S.String,
     monitorName: S.String,
-    state: S.String,
+    state: MonitorState,
     aggregationPeriod: S.optional(S.Number),
     tags: S.optional(TagMap),
   }),
@@ -438,7 +470,7 @@ export interface CreateProbeInput {
   monitorName: string;
   probe: ProbeInput;
   clientToken?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateProbeInput = S.suspend(() =>
   S.Struct({
@@ -465,14 +497,14 @@ export interface GetProbeOutput {
   sourceArn: string;
   destination: string;
   destinationPort?: number;
-  protocol: string;
+  protocol: Protocol;
   packetSize?: number;
-  addressFamily?: string;
+  addressFamily?: AddressFamily;
   vpcId?: string;
-  state?: string;
+  state?: ProbeState;
   createdAt?: Date;
   modifiedAt?: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const GetProbeOutput = S.suspend(() =>
   S.Struct({
@@ -481,11 +513,11 @@ export const GetProbeOutput = S.suspend(() =>
     sourceArn: S.String,
     destination: S.String,
     destinationPort: S.optional(S.Number),
-    protocol: S.String,
+    protocol: Protocol,
     packetSize: S.optional(S.Number),
-    addressFamily: S.optional(S.String),
+    addressFamily: S.optional(AddressFamily),
     vpcId: S.optional(S.String),
-    state: S.optional(S.String),
+    state: S.optional(ProbeState),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     tags: S.optional(TagMap),
@@ -499,14 +531,14 @@ export interface UpdateProbeOutput {
   sourceArn: string;
   destination: string;
   destinationPort?: number;
-  protocol: string;
+  protocol: Protocol;
   packetSize?: number;
-  addressFamily?: string;
+  addressFamily?: AddressFamily;
   vpcId?: string;
-  state?: string;
+  state?: ProbeState;
   createdAt?: Date;
   modifiedAt?: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const UpdateProbeOutput = S.suspend(() =>
   S.Struct({
@@ -515,11 +547,11 @@ export const UpdateProbeOutput = S.suspend(() =>
     sourceArn: S.String,
     destination: S.String,
     destinationPort: S.optional(S.Number),
-    protocol: S.String,
+    protocol: Protocol,
     packetSize: S.optional(S.Number),
-    addressFamily: S.optional(S.String),
+    addressFamily: S.optional(AddressFamily),
     vpcId: S.optional(S.String),
-    state: S.optional(S.String),
+    state: S.optional(ProbeState),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     tags: S.optional(TagMap),
@@ -533,14 +565,14 @@ export interface Probe {
   sourceArn: string;
   destination: string;
   destinationPort?: number;
-  protocol: string;
+  protocol: Protocol;
   packetSize?: number;
-  addressFamily?: string;
+  addressFamily?: AddressFamily;
   vpcId?: string;
-  state?: string;
+  state?: ProbeState;
   createdAt?: Date;
   modifiedAt?: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const Probe = S.suspend(() =>
   S.Struct({
@@ -549,11 +581,11 @@ export const Probe = S.suspend(() =>
     sourceArn: S.String,
     destination: S.String,
     destinationPort: S.optional(S.Number),
-    protocol: S.String,
+    protocol: Protocol,
     packetSize: S.optional(S.Number),
-    addressFamily: S.optional(S.String),
+    addressFamily: S.optional(AddressFamily),
     vpcId: S.optional(S.String),
-    state: S.optional(S.String),
+    state: S.optional(ProbeState),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     tags: S.optional(TagMap),
@@ -564,15 +596,15 @@ export const ProbeList = S.Array(Probe);
 export interface MonitorSummary {
   monitorArn: string;
   monitorName: string;
-  state: string;
+  state: MonitorState;
   aggregationPeriod?: number;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const MonitorSummary = S.suspend(() =>
   S.Struct({
     monitorArn: S.String,
     monitorName: S.String,
-    state: S.String,
+    state: MonitorState,
     aggregationPeriod: S.optional(S.Number),
     tags: S.optional(TagMap),
   }),
@@ -584,15 +616,15 @@ export const MonitorList = S.Array(MonitorSummary);
 export interface CreateMonitorOutput {
   monitorArn: string;
   monitorName: string;
-  state: string;
+  state: MonitorState;
   aggregationPeriod?: number;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateMonitorOutput = S.suspend(() =>
   S.Struct({
     monitorArn: S.String,
     monitorName: S.String,
-    state: S.String,
+    state: MonitorState,
     aggregationPeriod: S.optional(S.Number),
     tags: S.optional(TagMap),
   }),
@@ -602,10 +634,10 @@ export const CreateMonitorOutput = S.suspend(() =>
 export interface GetMonitorOutput {
   monitorArn: string;
   monitorName: string;
-  state: string;
+  state: MonitorState;
   aggregationPeriod: number;
-  tags?: TagMap;
-  probes?: ProbeList;
+  tags?: { [key: string]: string };
+  probes?: Probe[];
   createdAt: Date;
   modifiedAt: Date;
 }
@@ -613,7 +645,7 @@ export const GetMonitorOutput = S.suspend(() =>
   S.Struct({
     monitorArn: S.String,
     monitorName: S.String,
-    state: S.String,
+    state: MonitorState,
     aggregationPeriod: S.Number,
     tags: S.optional(TagMap),
     probes: S.optional(ProbeList),
@@ -624,7 +656,7 @@ export const GetMonitorOutput = S.suspend(() =>
   identifier: "GetMonitorOutput",
 }) as any as S.Schema<GetMonitorOutput>;
 export interface ListMonitorsOutput {
-  monitors: MonitorList;
+  monitors: MonitorSummary[];
   nextToken?: string;
 }
 export const ListMonitorsOutput = S.suspend(() =>
@@ -638,14 +670,14 @@ export interface CreateProbeOutput {
   sourceArn: string;
   destination: string;
   destinationPort?: number;
-  protocol: string;
+  protocol: Protocol;
   packetSize?: number;
-  addressFamily?: string;
+  addressFamily?: AddressFamily;
   vpcId?: string;
-  state?: string;
+  state?: ProbeState;
   createdAt?: Date;
   modifiedAt?: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateProbeOutput = S.suspend(() =>
   S.Struct({
@@ -654,11 +686,11 @@ export const CreateProbeOutput = S.suspend(() =>
     sourceArn: S.String,
     destination: S.String,
     destinationPort: S.optional(S.Number),
-    protocol: S.String,
+    protocol: Protocol,
     packetSize: S.optional(S.Number),
-    addressFamily: S.optional(S.String),
+    addressFamily: S.optional(AddressFamily),
     vpcId: S.optional(S.String),
-    state: S.optional(S.String),
+    state: S.optional(ProbeState),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     tags: S.optional(TagMap),
@@ -706,7 +738,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listMonitors: {
   (
     input: ListMonitorsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMonitorsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -717,7 +749,7 @@ export const listMonitors: {
   >;
   pages: (
     input: ListMonitorsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMonitorsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -728,7 +760,7 @@ export const listMonitors: {
   >;
   items: (
     input: ListMonitorsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MonitorSummary,
     | AccessDeniedException
     | InternalServerException
@@ -778,7 +810,7 @@ export const listMonitors: {
  */
 export const createMonitor: (
   input: CreateMonitorInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMonitorOutput,
   | AccessDeniedException
   | ConflictException
@@ -809,7 +841,7 @@ export const createMonitor: (
  */
 export const createProbe: (
   input: CreateProbeInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProbeOutput,
   | AccessDeniedException
   | InternalServerException
@@ -836,7 +868,7 @@ export const createProbe: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -863,7 +895,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -893,7 +925,7 @@ export const tagResource: (
  */
 export const getProbe: (
   input: GetProbeInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetProbeOutput,
   | AccessDeniedException
   | InternalServerException
@@ -938,7 +970,7 @@ export const getProbe: (
  */
 export const updateProbe: (
   input: UpdateProbeInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProbeOutput,
   | AccessDeniedException
   | InternalServerException
@@ -968,7 +1000,7 @@ export const updateProbe: (
  */
 export const deleteMonitor: (
   input: DeleteMonitorInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMonitorOutput,
   | AccessDeniedException
   | InternalServerException
@@ -999,7 +1031,7 @@ export const deleteMonitor: (
  */
 export const deleteProbe: (
   input: DeleteProbeInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProbeOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1026,7 +1058,7 @@ export const deleteProbe: (
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -1056,7 +1088,7 @@ export const untagResource: (
  */
 export const getMonitor: (
   input: GetMonitorInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetMonitorOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1084,7 +1116,7 @@ export const getMonitor: (
  */
 export const updateMonitor: (
   input: UpdateMonitorInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMonitorOutput,
   | AccessDeniedException
   | InternalServerException

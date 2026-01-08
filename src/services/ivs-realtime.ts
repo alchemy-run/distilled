@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -145,7 +145,7 @@ export type PipWidth = number;
 export type PipHeight = number;
 export type ChannelArn = string;
 export type CompositionState = string;
-export type StreamKey = string | Redacted.Redacted<string>;
+export type StreamKey = string | redacted.Redacted<string>;
 export type ParticipantClientAttribute = string;
 export type ParticipantRecordingS3BucketName = string;
 export type ParticipantRecordingS3Prefix = string;
@@ -158,9 +158,11 @@ export type RecordingConfigurationFormat = string;
 export type DestinationState = string;
 export type StageEndpoint = string;
 export type CompositionRecordingTargetSegmentDurationSeconds = number;
-export type ParticipantTokenString = string | Redacted.Redacted<string>;
+export type ParticipantTokenString = string | redacted.Redacted<string>;
 
 //# Schemas
+export type IngestProtocol = "RTMP" | "RTMPS";
+export const IngestProtocol = S.Literal("RTMP", "RTMPS");
 export type ParticipantTokenCapabilities = string[];
 export const ParticipantTokenCapabilities = S.Array(S.String);
 export type TagKeyList = string[];
@@ -456,7 +458,7 @@ export const Tags = S.Record({ key: S.String, value: S.String });
 export interface ImportPublicKeyRequest {
   publicKeyMaterial: string;
   name?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const ImportPublicKeyRequest = S.suspend(() =>
   S.Struct({
@@ -745,7 +747,7 @@ export interface StartParticipantReplicationRequest {
   destinationStageArn: string;
   participantId: string;
   reconnectWindowSeconds?: number;
-  attributes?: ParticipantAttributes;
+  attributes?: { [key: string]: string };
 }
 export const StartParticipantReplicationRequest = S.suspend(() =>
   S.Struct({
@@ -815,7 +817,7 @@ export const StopParticipantReplicationRequest = S.suspend(() =>
 }) as any as S.Schema<StopParticipantReplicationRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: Tags;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -840,7 +842,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -881,20 +883,35 @@ export const UpdateIngestConfigurationRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateIngestConfigurationRequest",
 }) as any as S.Schema<UpdateIngestConfigurationRequest>;
-export type ParticipantRecordingMediaTypeList = string[];
-export const ParticipantRecordingMediaTypeList = S.Array(S.String);
-export type ThumbnailStorageTypeList = string[];
-export const ThumbnailStorageTypeList = S.Array(S.String);
+export type ParticipantRecordingMediaType =
+  | "AUDIO_VIDEO"
+  | "AUDIO_ONLY"
+  | "NONE";
+export const ParticipantRecordingMediaType = S.Literal(
+  "AUDIO_VIDEO",
+  "AUDIO_ONLY",
+  "NONE",
+);
+export type ParticipantRecordingMediaTypeList = ParticipantRecordingMediaType[];
+export const ParticipantRecordingMediaTypeList = S.Array(
+  ParticipantRecordingMediaType,
+);
+export type ThumbnailStorageType = "SEQUENTIAL" | "LATEST";
+export const ThumbnailStorageType = S.Literal("SEQUENTIAL", "LATEST");
+export type ThumbnailStorageTypeList = ThumbnailStorageType[];
+export const ThumbnailStorageTypeList = S.Array(ThumbnailStorageType);
+export type ThumbnailRecordingMode = "INTERVAL" | "DISABLED";
+export const ThumbnailRecordingMode = S.Literal("INTERVAL", "DISABLED");
 export interface ParticipantThumbnailConfiguration {
   targetIntervalSeconds?: number;
-  storage?: ThumbnailStorageTypeList;
-  recordingMode?: string;
+  storage?: ThumbnailStorageType[];
+  recordingMode?: ThumbnailRecordingMode;
 }
 export const ParticipantThumbnailConfiguration = S.suspend(() =>
   S.Struct({
     targetIntervalSeconds: S.optional(S.Number),
     storage: S.optional(ThumbnailStorageTypeList),
-    recordingMode: S.optional(S.String),
+    recordingMode: S.optional(ThumbnailRecordingMode),
   }),
 ).annotations({
   identifier: "ParticipantThumbnailConfiguration",
@@ -909,7 +926,7 @@ export const ParticipantRecordingHlsConfiguration = S.suspend(() =>
 }) as any as S.Schema<ParticipantRecordingHlsConfiguration>;
 export interface AutoParticipantRecordingConfiguration {
   storageConfigurationArn: string;
-  mediaTypes?: ParticipantRecordingMediaTypeList;
+  mediaTypes?: ParticipantRecordingMediaType[];
   thumbnailConfiguration?: ParticipantThumbnailConfiguration;
   recordingReconnectWindowSeconds?: number;
   hlsConfiguration?: ParticipantRecordingHlsConfiguration;
@@ -974,8 +991,8 @@ export const ParticipantTokenAttributes = S.Record({
 export interface ParticipantTokenConfiguration {
   duration?: number;
   userId?: string;
-  attributes?: ParticipantTokenAttributes;
-  capabilities?: ParticipantTokenCapabilities;
+  attributes?: { [key: string]: string };
+  capabilities?: string[];
 }
 export const ParticipantTokenConfiguration = S.suspend(() =>
   S.Struct({
@@ -999,12 +1016,34 @@ export const S3StorageConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "S3StorageConfiguration",
 }) as any as S.Schema<S3StorageConfiguration>;
+export type VideoAspectRatio = "AUTO" | "VIDEO" | "SQUARE" | "PORTRAIT";
+export const VideoAspectRatio = S.Literal(
+  "AUTO",
+  "VIDEO",
+  "SQUARE",
+  "PORTRAIT",
+);
+export type VideoFillMode = "FILL" | "COVER" | "CONTAIN";
+export const VideoFillMode = S.Literal("FILL", "COVER", "CONTAIN");
+export type PipBehavior = "STATIC" | "DYNAMIC";
+export const PipBehavior = S.Literal("STATIC", "DYNAMIC");
+export type PipPosition =
+  | "TOP_LEFT"
+  | "TOP_RIGHT"
+  | "BOTTOM_LEFT"
+  | "BOTTOM_RIGHT";
+export const PipPosition = S.Literal(
+  "TOP_LEFT",
+  "TOP_RIGHT",
+  "BOTTOM_LEFT",
+  "BOTTOM_RIGHT",
+);
 export type EncoderConfigurationArnList = string[];
 export const EncoderConfigurationArnList = S.Array(S.String);
 export interface CreateEncoderConfigurationRequest {
   name?: string;
   video?: Video;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateEncoderConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -1028,10 +1067,10 @@ export interface CreateIngestConfigurationRequest {
   name?: string;
   stageArn?: string;
   userId?: string;
-  attributes?: ParticipantAttributes;
-  ingestProtocol: string;
+  attributes?: { [key: string]: string };
+  ingestProtocol: IngestProtocol;
   insecureIngest?: boolean;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateIngestConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -1039,7 +1078,7 @@ export const CreateIngestConfigurationRequest = S.suspend(() =>
     stageArn: S.optional(S.String),
     userId: S.optional(S.String),
     attributes: S.optional(ParticipantAttributes),
-    ingestProtocol: S.String,
+    ingestProtocol: IngestProtocol,
     insecureIngest: S.optional(S.Boolean),
     tags: S.optional(Tags),
   }).pipe(
@@ -1059,8 +1098,8 @@ export interface CreateParticipantTokenRequest {
   stageArn: string;
   duration?: number;
   userId?: string;
-  attributes?: ParticipantTokenAttributes;
-  capabilities?: ParticipantTokenCapabilities;
+  attributes?: { [key: string]: string };
+  capabilities?: string[];
 }
 export const CreateParticipantTokenRequest = S.suspend(() =>
   S.Struct({
@@ -1085,7 +1124,7 @@ export const CreateParticipantTokenRequest = S.suspend(() =>
 export interface CreateStorageConfigurationRequest {
   name?: string;
   s3: S3StorageConfiguration;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateStorageConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -1110,7 +1149,7 @@ export interface PublicKey {
   name?: string;
   publicKeyMaterial?: string;
   fingerprint?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const PublicKey = S.suspend(() =>
   S.Struct({
@@ -1130,7 +1169,7 @@ export const ImportPublicKeyResponse = S.suspend(() =>
   identifier: "ImportPublicKeyResponse",
 }) as any as S.Schema<ImportPublicKeyResponse>;
 export interface ListTagsForResourceResponse {
-  tags: Tags;
+  tags: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: Tags }),
@@ -1204,20 +1243,20 @@ export const StopParticipantReplicationResponse = S.suspend(() =>
 export interface IngestConfiguration {
   name?: string;
   arn: string;
-  ingestProtocol: string;
-  streamKey: string | Redacted.Redacted<string>;
+  ingestProtocol: IngestProtocol;
+  streamKey: string | redacted.Redacted<string>;
   stageArn: string;
   participantId: string;
   state: string;
   userId?: string;
-  attributes?: ParticipantAttributes;
-  tags?: Tags;
+  attributes?: { [key: string]: string };
+  tags?: { [key: string]: string };
 }
 export const IngestConfiguration = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     arn: S.String,
-    ingestProtocol: S.String,
+    ingestProtocol: IngestProtocol,
     streamKey: SensitiveString,
     stageArn: S.String,
     participantId: S.String,
@@ -1257,7 +1296,7 @@ export interface Stage {
   arn: string;
   name?: string;
   activeSessionId?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   autoParticipantRecordingConfiguration?: AutoParticipantRecordingConfiguration;
   endpoints?: StageEndpoints;
 }
@@ -1281,11 +1320,49 @@ export const UpdateStageResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateStageResponse",
 }) as any as S.Schema<UpdateStageResponse>;
+export type ParticipantProtocol = "UNKNOWN" | "WHIP" | "RTMP" | "RTMPS";
+export const ParticipantProtocol = S.Literal(
+  "UNKNOWN",
+  "WHIP",
+  "RTMP",
+  "RTMPS",
+);
+export type EventErrorCode =
+  | "INSUFFICIENT_CAPABILITIES"
+  | "QUOTA_EXCEEDED"
+  | "PUBLISHER_NOT_FOUND"
+  | "BITRATE_EXCEEDED"
+  | "RESOLUTION_EXCEEDED"
+  | "STREAM_DURATION_EXCEEDED"
+  | "INVALID_AUDIO_CODEC"
+  | "INVALID_VIDEO_CODEC"
+  | "INVALID_PROTOCOL"
+  | "INVALID_STREAM_KEY"
+  | "REUSE_OF_STREAM_KEY"
+  | "B_FRAME_PRESENT"
+  | "INVALID_INPUT"
+  | "INTERNAL_SERVER_EXCEPTION";
+export const EventErrorCode = S.Literal(
+  "INSUFFICIENT_CAPABILITIES",
+  "QUOTA_EXCEEDED",
+  "PUBLISHER_NOT_FOUND",
+  "BITRATE_EXCEEDED",
+  "RESOLUTION_EXCEEDED",
+  "STREAM_DURATION_EXCEEDED",
+  "INVALID_AUDIO_CODEC",
+  "INVALID_VIDEO_CODEC",
+  "INVALID_PROTOCOL",
+  "INVALID_STREAM_KEY",
+  "REUSE_OF_STREAM_KEY",
+  "B_FRAME_PRESENT",
+  "INVALID_INPUT",
+  "INTERNAL_SERVER_EXCEPTION",
+);
 export interface GridConfiguration {
   featuredParticipantAttribute?: string;
   omitStoppedVideo?: boolean;
-  videoAspectRatio?: string;
-  videoFillMode?: string;
+  videoAspectRatio?: VideoAspectRatio;
+  videoFillMode?: VideoFillMode;
   gridGap?: number;
   participantOrderAttribute?: string;
 }
@@ -1293,8 +1370,8 @@ export const GridConfiguration = S.suspend(() =>
   S.Struct({
     featuredParticipantAttribute: S.optional(S.String),
     omitStoppedVideo: S.optional(S.Boolean),
-    videoAspectRatio: S.optional(S.String),
-    videoFillMode: S.optional(S.String),
+    videoAspectRatio: S.optional(VideoAspectRatio),
+    videoFillMode: S.optional(VideoFillMode),
     gridGap: S.optional(S.Number),
     participantOrderAttribute: S.optional(S.String),
   }),
@@ -1304,12 +1381,12 @@ export const GridConfiguration = S.suspend(() =>
 export interface PipConfiguration {
   featuredParticipantAttribute?: string;
   omitStoppedVideo?: boolean;
-  videoFillMode?: string;
+  videoFillMode?: VideoFillMode;
   gridGap?: number;
   pipParticipantAttribute?: string;
-  pipBehavior?: string;
+  pipBehavior?: PipBehavior;
   pipOffset?: number;
-  pipPosition?: string;
+  pipPosition?: PipPosition;
   pipWidth?: number;
   pipHeight?: number;
   participantOrderAttribute?: string;
@@ -1318,12 +1395,12 @@ export const PipConfiguration = S.suspend(() =>
   S.Struct({
     featuredParticipantAttribute: S.optional(S.String),
     omitStoppedVideo: S.optional(S.Boolean),
-    videoFillMode: S.optional(S.String),
+    videoFillMode: S.optional(VideoFillMode),
     gridGap: S.optional(S.Number),
     pipParticipantAttribute: S.optional(S.String),
-    pipBehavior: S.optional(S.String),
+    pipBehavior: S.optional(PipBehavior),
     pipOffset: S.optional(S.Number),
-    pipPosition: S.optional(S.String),
+    pipPosition: S.optional(PipPosition),
     pipWidth: S.optional(S.Number),
     pipHeight: S.optional(S.Number),
     participantOrderAttribute: S.optional(S.String),
@@ -1347,7 +1424,7 @@ export interface EncoderConfiguration {
   arn: string;
   name?: string;
   video?: Video;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const EncoderConfiguration = S.suspend(() =>
   S.Struct({
@@ -1364,7 +1441,7 @@ export interface Participant {
   userId?: string;
   state?: string;
   firstJoinTime?: Date;
-  attributes?: ParticipantAttributes;
+  attributes?: { [key: string]: string };
   published?: boolean;
   ispName?: string;
   osName?: string;
@@ -1375,7 +1452,7 @@ export interface Participant {
   recordingS3BucketName?: string;
   recordingS3Prefix?: string;
   recordingState?: string;
-  protocol?: string;
+  protocol?: ParticipantProtocol;
   replicationType?: string;
   replicationState?: string;
   sourceStageArn?: string;
@@ -1398,7 +1475,7 @@ export const Participant = S.suspend(() =>
     recordingS3BucketName: S.optional(S.String),
     recordingS3Prefix: S.optional(S.String),
     recordingState: S.optional(S.String),
-    protocol: S.optional(S.String),
+    protocol: S.optional(ParticipantProtocol),
     replicationType: S.optional(S.String),
     replicationState: S.optional(S.String),
     sourceStageArn: S.optional(S.String),
@@ -1421,7 +1498,7 @@ export interface StorageConfiguration {
   arn: string;
   name?: string;
   s3?: S3StorageConfiguration;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const StorageConfiguration = S.suspend(() =>
   S.Struct({
@@ -1436,7 +1513,7 @@ export const StorageConfiguration = S.suspend(() =>
 export interface EncoderConfigurationSummary {
   arn: string;
   name?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const EncoderConfigurationSummary = S.suspend(() =>
   S.Struct({
@@ -1454,7 +1531,7 @@ export const EncoderConfigurationSummaryList = S.Array(
 export interface IngestConfigurationSummary {
   name?: string;
   arn: string;
-  ingestProtocol: string;
+  ingestProtocol: IngestProtocol;
   stageArn: string;
   participantId: string;
   state: string;
@@ -1464,7 +1541,7 @@ export const IngestConfigurationSummary = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     arn: S.String,
-    ingestProtocol: S.String,
+    ingestProtocol: IngestProtocol,
     stageArn: S.String,
     participantId: S.String,
     state: S.String,
@@ -1530,7 +1607,7 @@ export const ParticipantList = S.Array(ParticipantSummary);
 export interface PublicKeySummary {
   arn?: string;
   name?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const PublicKeySummary = S.suspend(() =>
   S.Struct({
@@ -1547,7 +1624,7 @@ export interface StageSummary {
   arn: string;
   name?: string;
   activeSessionId?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const StageSummary = S.suspend(() =>
   S.Struct({
@@ -1579,7 +1656,7 @@ export interface StorageConfigurationSummary {
   arn: string;
   name?: string;
   s3?: S3StorageConfiguration;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const StorageConfigurationSummary = S.suspend(() =>
   S.Struct({
@@ -1609,7 +1686,7 @@ export const LayoutConfiguration = S.suspend(() =>
 }) as any as S.Schema<LayoutConfiguration>;
 export interface CompositionThumbnailConfiguration {
   targetIntervalSeconds?: number;
-  storage?: ThumbnailStorageTypeList;
+  storage?: ThumbnailStorageType[];
 }
 export const CompositionThumbnailConfiguration = S.suspend(() =>
   S.Struct({
@@ -1642,8 +1719,8 @@ export const CreateIngestConfigurationResponse = S.suspend(() =>
 }) as any as S.Schema<CreateIngestConfigurationResponse>;
 export interface CreateStageRequest {
   name?: string;
-  participantTokenConfigurations?: ParticipantTokenConfigurations;
-  tags?: Tags;
+  participantTokenConfigurations?: ParticipantTokenConfiguration[];
+  tags?: { [key: string]: string };
   autoParticipantRecordingConfiguration?: AutoParticipantRecordingConfiguration;
 }
 export const CreateStageRequest = S.suspend(() =>
@@ -1724,7 +1801,7 @@ export const GetStorageConfigurationResponse = S.suspend(() =>
   identifier: "GetStorageConfigurationResponse",
 }) as any as S.Schema<GetStorageConfigurationResponse>;
 export interface ListEncoderConfigurationsResponse {
-  encoderConfigurations: EncoderConfigurationSummaryList;
+  encoderConfigurations: EncoderConfigurationSummary[];
   nextToken?: string;
 }
 export const ListEncoderConfigurationsResponse = S.suspend(() =>
@@ -1736,7 +1813,7 @@ export const ListEncoderConfigurationsResponse = S.suspend(() =>
   identifier: "ListEncoderConfigurationsResponse",
 }) as any as S.Schema<ListEncoderConfigurationsResponse>;
 export interface ListIngestConfigurationsResponse {
-  ingestConfigurations: IngestConfigurationList;
+  ingestConfigurations: IngestConfigurationSummary[];
   nextToken?: string;
 }
 export const ListIngestConfigurationsResponse = S.suspend(() =>
@@ -1748,7 +1825,7 @@ export const ListIngestConfigurationsResponse = S.suspend(() =>
   identifier: "ListIngestConfigurationsResponse",
 }) as any as S.Schema<ListIngestConfigurationsResponse>;
 export interface ListParticipantReplicasResponse {
-  replicas: ParticipantReplicaList;
+  replicas: ParticipantReplica[];
   nextToken?: string;
 }
 export const ListParticipantReplicasResponse = S.suspend(() =>
@@ -1760,7 +1837,7 @@ export const ListParticipantReplicasResponse = S.suspend(() =>
   identifier: "ListParticipantReplicasResponse",
 }) as any as S.Schema<ListParticipantReplicasResponse>;
 export interface ListParticipantsResponse {
-  participants: ParticipantList;
+  participants: ParticipantSummary[];
   nextToken?: string;
 }
 export const ListParticipantsResponse = S.suspend(() =>
@@ -1769,7 +1846,7 @@ export const ListParticipantsResponse = S.suspend(() =>
   identifier: "ListParticipantsResponse",
 }) as any as S.Schema<ListParticipantsResponse>;
 export interface ListPublicKeysResponse {
-  publicKeys: PublicKeyList;
+  publicKeys: PublicKeySummary[];
   nextToken?: string;
 }
 export const ListPublicKeysResponse = S.suspend(() =>
@@ -1778,7 +1855,7 @@ export const ListPublicKeysResponse = S.suspend(() =>
   identifier: "ListPublicKeysResponse",
 }) as any as S.Schema<ListPublicKeysResponse>;
 export interface ListStagesResponse {
-  stages: StageSummaryList;
+  stages: StageSummary[];
   nextToken?: string;
 }
 export const ListStagesResponse = S.suspend(() =>
@@ -1787,7 +1864,7 @@ export const ListStagesResponse = S.suspend(() =>
   identifier: "ListStagesResponse",
 }) as any as S.Schema<ListStagesResponse>;
 export interface ListStageSessionsResponse {
-  stageSessions: StageSessionList;
+  stageSessions: StageSessionSummary[];
   nextToken?: string;
 }
 export const ListStageSessionsResponse = S.suspend(() =>
@@ -1799,7 +1876,7 @@ export const ListStageSessionsResponse = S.suspend(() =>
   identifier: "ListStageSessionsResponse",
 }) as any as S.Schema<ListStageSessionsResponse>;
 export interface ListStorageConfigurationsResponse {
-  storageConfigurations: StorageConfigurationSummaryList;
+  storageConfigurations: StorageConfigurationSummary[];
   nextToken?: string;
 }
 export const ListStorageConfigurationsResponse = S.suspend(() =>
@@ -1829,8 +1906,8 @@ export const DestinationSummary = S.suspend(() =>
 export type DestinationSummaryList = DestinationSummary[];
 export const DestinationSummaryList = S.Array(DestinationSummary);
 export interface ExchangedParticipantToken {
-  capabilities?: ParticipantTokenCapabilities;
-  attributes?: ParticipantTokenAttributes;
+  capabilities?: string[];
+  attributes?: { [key: string]: string };
   userId?: string;
   expirationTime?: Date;
 }
@@ -1854,11 +1931,11 @@ export const CompositionRecordingHlsConfiguration = S.suspend(() =>
 }) as any as S.Schema<CompositionRecordingHlsConfiguration>;
 export interface ParticipantToken {
   participantId?: string;
-  token?: string | Redacted.Redacted<string>;
+  token?: string | redacted.Redacted<string>;
   userId?: string;
-  attributes?: ParticipantTokenAttributes;
+  attributes?: { [key: string]: string };
   duration?: number;
-  capabilities?: ParticipantTokenCapabilities;
+  capabilities?: string[];
   expirationTime?: Date;
 }
 export const ParticipantToken = S.suspend(() =>
@@ -1879,9 +1956,9 @@ export const ParticipantTokenList = S.Array(ParticipantToken);
 export interface CompositionSummary {
   arn: string;
   stageArn: string;
-  destinations: DestinationSummaryList;
+  destinations: DestinationSummary[];
   state: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   startTime?: Date;
   endTime?: Date;
 }
@@ -1905,7 +1982,7 @@ export interface Event {
   participantId?: string;
   eventTime?: Date;
   remoteParticipantId?: string;
-  errorCode?: string;
+  errorCode?: EventErrorCode;
   destinationStageArn?: string;
   destinationSessionId?: string;
   replica?: boolean;
@@ -1918,7 +1995,7 @@ export const Event = S.suspend(() =>
     participantId: S.optional(S.String),
     eventTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     remoteParticipantId: S.optional(S.String),
-    errorCode: S.optional(S.String),
+    errorCode: S.optional(EventErrorCode),
     destinationStageArn: S.optional(S.String),
     destinationSessionId: S.optional(S.String),
     replica: S.optional(S.Boolean),
@@ -1950,7 +2027,7 @@ export const CreateParticipantTokenResponse = S.suspend(() =>
 }) as any as S.Schema<CreateParticipantTokenResponse>;
 export interface CreateStageResponse {
   stage?: Stage;
-  participantTokens?: ParticipantTokenList;
+  participantTokens?: ParticipantToken[];
 }
 export const CreateStageResponse = S.suspend(() =>
   S.Struct({
@@ -1969,7 +2046,7 @@ export const GetStageResponse = S.suspend(() =>
   identifier: "GetStageResponse",
 }) as any as S.Schema<GetStageResponse>;
 export interface ListCompositionsResponse {
-  compositions: CompositionSummaryList;
+  compositions: CompositionSummary[];
   nextToken?: string;
 }
 export const ListCompositionsResponse = S.suspend(() =>
@@ -1981,7 +2058,7 @@ export const ListCompositionsResponse = S.suspend(() =>
   identifier: "ListCompositionsResponse",
 }) as any as S.Schema<ListCompositionsResponse>;
 export interface ListParticipantEventsResponse {
-  events: EventList;
+  events: Event[];
   nextToken?: string;
 }
 export const ListParticipantEventsResponse = S.suspend(() =>
@@ -1991,9 +2068,9 @@ export const ListParticipantEventsResponse = S.suspend(() =>
 }) as any as S.Schema<ListParticipantEventsResponse>;
 export interface S3DestinationConfiguration {
   storageConfigurationArn: string;
-  encoderConfigurationArns: EncoderConfigurationArnList;
+  encoderConfigurationArns: string[];
   recordingConfiguration?: RecordingConfiguration;
-  thumbnailConfigurations?: CompositionThumbnailConfigurationList;
+  thumbnailConfigurations?: CompositionThumbnailConfiguration[];
 }
 export const S3DestinationConfiguration = S.suspend(() =>
   S.Struct({
@@ -2039,8 +2116,8 @@ export interface StartCompositionRequest {
   stageArn: string;
   idempotencyToken?: string;
   layout?: LayoutConfiguration;
-  destinations: DestinationConfigurationList;
-  tags?: Tags;
+  destinations: DestinationConfiguration[];
+  tags?: { [key: string]: string };
 }
 export const StartCompositionRequest = S.suspend(() =>
   S.Struct({
@@ -2087,8 +2164,8 @@ export interface Composition {
   stageArn: string;
   state: string;
   layout: LayoutConfiguration;
-  destinations: DestinationList;
-  tags?: Tags;
+  destinations: Destination[];
+  tags?: { [key: string]: string };
   startTime?: Date;
   endTime?: Date;
 }
@@ -2298,21 +2375,21 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listIngestConfigurations: {
   (
     input: ListIngestConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListIngestConfigurationsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListIngestConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListIngestConfigurationsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListIngestConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     IngestConfigurationSummary,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2335,21 +2412,21 @@ export const listIngestConfigurations: {
 export const listParticipantEvents: {
   (
     input: ListParticipantEventsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListParticipantEventsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListParticipantEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListParticipantEventsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListParticipantEventsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2371,7 +2448,7 @@ export const listParticipantEvents: {
 export const listStorageConfigurations: {
   (
     input: ListStorageConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStorageConfigurationsResponse,
     | AccessDeniedException
     | ConflictException
@@ -2383,7 +2460,7 @@ export const listStorageConfigurations: {
   >;
   pages: (
     input: ListStorageConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStorageConfigurationsResponse,
     | AccessDeniedException
     | ConflictException
@@ -2395,7 +2472,7 @@ export const listStorageConfigurations: {
   >;
   items: (
     input: ListStorageConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | ConflictException
@@ -2426,7 +2503,7 @@ export const listStorageConfigurations: {
  */
 export const importPublicKey: (
   input: ImportPublicKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ImportPublicKeyResponse,
   | AccessDeniedException
   | ConflictException
@@ -2451,7 +2528,7 @@ export const importPublicKey: (
  */
 export const startParticipantReplication: (
   input: StartParticipantReplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartParticipantReplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2480,7 +2557,7 @@ export const startParticipantReplication: (
  */
 export const updateStage: (
   input: UpdateStageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateStageResponse,
   | AccessDeniedException
   | ConflictException
@@ -2511,7 +2588,7 @@ export const updateStage: (
  */
 export const deleteStorageConfiguration: (
   input: DeleteStorageConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteStorageConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2539,7 +2616,7 @@ export const deleteStorageConfiguration: (
  */
 export const stopComposition: (
   input: StopCompositionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopCompositionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2566,7 +2643,7 @@ export const stopComposition: (
  */
 export const createEncoderConfiguration: (
   input: CreateEncoderConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEncoderConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2597,7 +2674,7 @@ export const createEncoderConfiguration: (
  */
 export const createStorageConfiguration: (
   input: CreateStorageConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateStorageConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2627,7 +2704,7 @@ export const createStorageConfiguration: (
  */
 export const deleteEncoderConfiguration: (
   input: DeleteEncoderConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEncoderConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2654,7 +2731,7 @@ export const deleteEncoderConfiguration: (
  */
 export const getEncoderConfiguration: (
   input: GetEncoderConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEncoderConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2681,7 +2758,7 @@ export const getEncoderConfiguration: (
  */
 export const getStorageConfiguration: (
   input: GetStorageConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetStorageConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2708,7 +2785,7 @@ export const getStorageConfiguration: (
  */
 export const createIngestConfiguration: (
   input: CreateIngestConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateIngestConfigurationResponse,
   | AccessDeniedException
   | PendingVerification
@@ -2736,7 +2813,7 @@ export const createIngestConfiguration: (
  */
 export const createParticipantToken: (
   input: CreateParticipantTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateParticipantTokenResponse,
   | AccessDeniedException
   | PendingVerification
@@ -2761,7 +2838,7 @@ export const createParticipantToken: (
  */
 export const createStage: (
   input: CreateStageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateStageResponse,
   | AccessDeniedException
   | PendingVerification
@@ -2786,7 +2863,7 @@ export const createStage: (
 export const listCompositions: {
   (
     input: ListCompositionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCompositionsResponse,
     | AccessDeniedException
     | ConflictException
@@ -2798,7 +2875,7 @@ export const listCompositions: {
   >;
   pages: (
     input: ListCompositionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCompositionsResponse,
     | AccessDeniedException
     | ConflictException
@@ -2810,7 +2887,7 @@ export const listCompositions: {
   >;
   items: (
     input: ListCompositionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | ConflictException
@@ -2842,21 +2919,21 @@ export const listCompositions: {
 export const listParticipantReplicas: {
   (
     input: ListParticipantReplicasRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListParticipantReplicasResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListParticipantReplicasRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListParticipantReplicasResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListParticipantReplicasRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ParticipantReplica,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2878,21 +2955,21 @@ export const listParticipantReplicas: {
 export const listParticipants: {
   (
     input: ListParticipantsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListParticipantsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListParticipantsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListParticipantsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListParticipantsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2913,21 +2990,21 @@ export const listParticipants: {
 export const listPublicKeys: {
   (
     input: ListPublicKeysRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPublicKeysResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListPublicKeysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPublicKeysResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPublicKeysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PublicKeySummary,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2950,7 +3027,7 @@ export const listPublicKeys: {
 export const listStages: {
   (
     input: ListStagesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStagesResponse,
     | AccessDeniedException
     | ConflictException
@@ -2960,7 +3037,7 @@ export const listStages: {
   >;
   pages: (
     input: ListStagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStagesResponse,
     | AccessDeniedException
     | ConflictException
@@ -2970,7 +3047,7 @@ export const listStages: {
   >;
   items: (
     input: ListStagesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | ConflictException
@@ -2994,21 +3071,21 @@ export const listStages: {
 export const listStageSessions: {
   (
     input: ListStageSessionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStageSessionsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListStageSessionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStageSessionsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStageSessionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3028,7 +3105,7 @@ export const listStageSessions: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3051,7 +3128,7 @@ export const tagResource: (
  */
 export const disconnectParticipant: (
   input: DisconnectParticipantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisconnectParticipantResponse,
   | AccessDeniedException
   | PendingVerification
@@ -3074,7 +3151,7 @@ export const disconnectParticipant: (
  */
 export const updateIngestConfiguration: (
   input: UpdateIngestConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateIngestConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3099,7 +3176,7 @@ export const updateIngestConfiguration: (
  */
 export const deleteIngestConfiguration: (
   input: DeleteIngestConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIngestConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3125,7 +3202,7 @@ export const deleteIngestConfiguration: (
  */
 export const deletePublicKey: (
   input: DeletePublicKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePublicKeyResponse,
   | AccessDeniedException
   | ConflictException
@@ -3152,7 +3229,7 @@ export const deletePublicKey: (
  */
 export const deleteStage: (
   input: DeleteStageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteStageResponse,
   | AccessDeniedException
   | ConflictException
@@ -3177,7 +3254,7 @@ export const deleteStage: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3198,7 +3275,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3219,7 +3296,7 @@ export const listTagsForResource: (
  */
 export const stopParticipantReplication: (
   input: StopParticipantReplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopParticipantReplicationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3242,7 +3319,7 @@ export const stopParticipantReplication: (
  */
 export const getIngestConfiguration: (
   input: GetIngestConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIngestConfigurationResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3263,7 +3340,7 @@ export const getIngestConfiguration: (
  */
 export const getParticipant: (
   input: GetParticipantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetParticipantResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3284,7 +3361,7 @@ export const getParticipant: (
  */
 export const getPublicKey: (
   input: GetPublicKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPublicKeyResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3305,7 +3382,7 @@ export const getPublicKey: (
  */
 export const getStageSession: (
   input: GetStageSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetStageSessionResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3326,7 +3403,7 @@ export const getStageSession: (
  */
 export const getStage: (
   input: GetStageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetStageResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3349,7 +3426,7 @@ export const getStage: (
 export const listEncoderConfigurations: {
   (
     input: ListEncoderConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEncoderConfigurationsResponse,
     | AccessDeniedException
     | ConflictException
@@ -3361,7 +3438,7 @@ export const listEncoderConfigurations: {
   >;
   pages: (
     input: ListEncoderConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEncoderConfigurationsResponse,
     | AccessDeniedException
     | ConflictException
@@ -3373,7 +3450,7 @@ export const listEncoderConfigurations: {
   >;
   items: (
     input: ListEncoderConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | ConflictException
@@ -3404,7 +3481,7 @@ export const listEncoderConfigurations: {
  */
 export const getComposition: (
   input: GetCompositionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCompositionResponse,
   | AccessDeniedException
   | ConflictException
@@ -3448,7 +3525,7 @@ export const getComposition: (
  */
 export const startComposition: (
   input: StartCompositionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartCompositionResponse,
   | AccessDeniedException
   | ConflictException

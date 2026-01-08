@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -92,18 +92,18 @@ export type name = string;
 export type string1To255 = string;
 export type typeName = string;
 export type displayName = string;
-export type sensitiveText = string | Redacted.Redacted<string>;
+export type sensitiveText = string | redacted.Redacted<string>;
 export type expirationDaysInteger = number;
 export type encryptionKey = string;
 export type sqsQueueUrl = string;
-export type sensitiveString1To2000000 = string | Redacted.Redacted<string>;
+export type sensitiveString1To2000000 = string | redacted.Redacted<string>;
 export type RoleArn = string;
-export type sensitiveString1To255 = string | Redacted.Redacted<string>;
-export type sensitiveString1To1000 = string | Redacted.Redacted<string>;
-export type sensitiveString1To4000 = string | Redacted.Redacted<string>;
-export type sensitiveString1To50000 = string | Redacted.Redacted<string>;
+export type sensitiveString1To255 = string | redacted.Redacted<string>;
+export type sensitiveString1To1000 = string | redacted.Redacted<string>;
+export type sensitiveString1To4000 = string | redacted.Redacted<string>;
+export type sensitiveString1To50000 = string | redacted.Redacted<string>;
 export type text = string;
-export type stringifiedJson = string | Redacted.Redacted<string>;
+export type stringifiedJson = string | redacted.Redacted<string>;
 export type Double0To1 = number;
 export type token = string;
 export type maxSize100 = number;
@@ -114,11 +114,11 @@ export type ListRecommenderRecipesRequestMaxResultsInteger = number;
 export type ListRecommendersRequestMaxResultsInteger = number;
 export type MaxSize500 = number;
 export type TagArn = string;
-export type sensitiveString1To10000 = string | Redacted.Redacted<string>;
+export type sensitiveString1To10000 = string | redacted.Redacted<string>;
 export type minSize1 = number;
 export type TagKey = string;
-export type sensitiveString0To1000 = string | Redacted.Redacted<string>;
-export type sensitiveString0To255 = string | Redacted.Redacted<string>;
+export type sensitiveString0To1000 = string | redacted.Redacted<string>;
+export type sensitiveString0To255 = string | redacted.Redacted<string>;
 export type ObjectCount = number;
 export type TagValue = string;
 export type MaxAllowedRuleLevelForMerging = number;
@@ -139,7 +139,6 @@ export type minSize0 = number;
 export type SegmentDefinitionArn = string;
 export type StatusCode = number;
 export type RuleLevel = number;
-export type Double = number;
 export type Start = number;
 export type End = number;
 export type attributeName = string;
@@ -176,20 +175,108 @@ export type BatchGetCalculatedAttributeForProfileIdList = string[];
 export const BatchGetCalculatedAttributeForProfileIdList = S.Array(S.String);
 export type BatchGetProfileIdList = string[];
 export const BatchGetProfileIdList = S.Array(S.String);
-export type Objects = string | Redacted.Redacted<string>[];
+export type Statistic =
+  | "FIRST_OCCURRENCE"
+  | "LAST_OCCURRENCE"
+  | "COUNT"
+  | "SUM"
+  | "MINIMUM"
+  | "MAXIMUM"
+  | "AVERAGE"
+  | "MAX_OCCURRENCE";
+export const Statistic = S.Literal(
+  "FIRST_OCCURRENCE",
+  "LAST_OCCURRENCE",
+  "COUNT",
+  "SUM",
+  "MINIMUM",
+  "MAXIMUM",
+  "AVERAGE",
+  "MAX_OCCURRENCE",
+);
+export type LayoutType = "PROFILE_EXPLORER";
+export const LayoutType = S.Literal("PROFILE_EXPLORER");
+export type WorkflowType = "APPFLOW_INTEGRATION";
+export const WorkflowType = S.Literal("APPFLOW_INTEGRATION");
+export type PartyType = "INDIVIDUAL" | "BUSINESS" | "OTHER";
+export const PartyType = S.Literal("INDIVIDUAL", "BUSINESS", "OTHER");
+export type Gender = "MALE" | "FEMALE" | "UNSPECIFIED";
+export const Gender = S.Literal("MALE", "FEMALE", "UNSPECIFIED");
+export type ProfileType = "ACCOUNT_PROFILE" | "PROFILE";
+export const ProfileType = S.Literal("ACCOUNT_PROFILE", "PROFILE");
+export type RecommenderRecipeName =
+  | "recommended-for-you"
+  | "similar-items"
+  | "frequently-paired-items"
+  | "popular-items"
+  | "trending-now";
+export const RecommenderRecipeName = S.Literal(
+  "recommended-for-you",
+  "similar-items",
+  "frequently-paired-items",
+  "popular-items",
+  "trending-now",
+);
+export type DataFormat = "CSV" | "JSONL" | "ORC";
+export const DataFormat = S.Literal("CSV", "JSONL", "ORC");
+export type Objects = string | redacted.Redacted<string>[];
 export const Objects = S.Array(SensitiveString);
 export type ProfileIds = string[];
 export const ProfileIds = S.Array(S.String);
+export type MatchType = "RULE_BASED_MATCHING" | "ML_BASED_MATCHING";
+export const MatchType = S.Literal("RULE_BASED_MATCHING", "ML_BASED_MATCHING");
+export type ActionType =
+  | "ADDED_PROFILE_KEY"
+  | "DELETED_PROFILE_KEY"
+  | "CREATED"
+  | "UPDATED"
+  | "INGESTED"
+  | "DELETED_BY_CUSTOMER"
+  | "EXPIRED"
+  | "MERGED"
+  | "DELETED_BY_MERGE";
+export const ActionType = S.Literal(
+  "ADDED_PROFILE_KEY",
+  "DELETED_PROFILE_KEY",
+  "CREATED",
+  "UPDATED",
+  "INGESTED",
+  "DELETED_BY_CUSTOMER",
+  "EXPIRED",
+  "MERGED",
+  "DELETED_BY_MERGE",
+);
+export type Status =
+  | "NOT_STARTED"
+  | "IN_PROGRESS"
+  | "COMPLETE"
+  | "FAILED"
+  | "SPLIT"
+  | "RETRY"
+  | "CANCELLED";
+export const Status = S.Literal(
+  "NOT_STARTED",
+  "IN_PROGRESS",
+  "COMPLETE",
+  "FAILED",
+  "SPLIT",
+  "RETRY",
+  "CANCELLED",
+);
 export type ProfileIdToBeMergedList = string[];
 export const ProfileIdToBeMergedList = S.Array(S.String);
 export type EventTriggerNames = string[];
 export const EventTriggerNames = S.Array(S.String);
+export type Scope = "PROFILE" | "DOMAIN";
+export const Scope = S.Literal("PROFILE", "DOMAIN");
+export type logicalOperator = "AND" | "OR";
+export const logicalOperator = S.Literal("AND", "OR");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface AddProfileKeyRequest {
   ProfileId: string;
   KeyName: string;
-  Values: requestValueList;
+  Values: string[];
   DomainName: string;
 }
 export const AddProfileKeyRequest = S.suspend(() =>
@@ -213,7 +300,7 @@ export const AddProfileKeyRequest = S.suspend(() =>
 }) as any as S.Schema<AddProfileKeyRequest>;
 export interface BatchGetProfileRequest {
   DomainName: string;
-  ProfileIds: BatchGetProfileIdList;
+  ProfileIds: string[];
 }
 export const BatchGetProfileRequest = S.suspend(() =>
   S.Struct({
@@ -240,12 +327,12 @@ export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface CreateDomainLayoutRequest {
   DomainName: string;
   LayoutDefinitionName: string;
-  Description: string | Redacted.Redacted<string>;
+  Description: string | redacted.Redacted<string>;
   DisplayName: string;
   IsDefault?: boolean;
-  LayoutType: string;
-  Layout: string | Redacted.Redacted<string>;
-  Tags?: TagMap;
+  LayoutType: LayoutType;
+  Layout: string | redacted.Redacted<string>;
+  Tags?: { [key: string]: string };
 }
 export const CreateDomainLayoutRequest = S.suspend(() =>
   S.Struct({
@@ -254,7 +341,7 @@ export const CreateDomainLayoutRequest = S.suspend(() =>
     Description: SensitiveString,
     DisplayName: S.String,
     IsDefault: S.optional(S.Boolean),
-    LayoutType: S.String,
+    LayoutType: LayoutType,
     Layout: SensitiveString,
     Tags: S.optional(TagMap),
   }).pipe(
@@ -277,7 +364,7 @@ export interface CreateEventStreamRequest {
   DomainName: string;
   Uri: string;
   EventStreamName: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateEventStreamRequest = S.suspend(() =>
   S.Struct({
@@ -304,7 +391,7 @@ export const CreateEventStreamRequest = S.suspend(() =>
 export interface CreateSegmentSnapshotRequest {
   DomainName: string;
   SegmentDefinitionName: string;
-  DataFormat: string;
+  DataFormat: DataFormat;
   EncryptionKey?: string;
   RoleArn?: string;
   DestinationUri?: string;
@@ -313,7 +400,7 @@ export const CreateSegmentSnapshotRequest = S.suspend(() =>
   S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     SegmentDefinitionName: S.String.pipe(T.HttpLabel("SegmentDefinitionName")),
-    DataFormat: S.String,
+    DataFormat: DataFormat,
     EncryptionKey: S.optional(S.String),
     RoleArn: S.optional(S.String),
     DestinationUri: S.optional(S.String),
@@ -538,7 +625,7 @@ export const DeleteProfileRequest = S.suspend(() =>
 export interface DeleteProfileKeyRequest {
   ProfileId: string;
   KeyName: string;
-  Values: requestValueList;
+  Values: string[];
   DomainName: string;
 }
 export const DeleteProfileKeyRequest = S.suspend(() =>
@@ -698,7 +785,7 @@ export const DeleteWorkflowResponse = S.suspend(() => S.Struct({})).annotations(
   { identifier: "DeleteWorkflowResponse" },
 ) as any as S.Schema<DeleteWorkflowResponse>;
 export interface DetectProfileObjectTypeRequest {
-  Objects: Objects;
+  Objects: string | redacted.Redacted<string>[];
   DomainName: string;
 }
 export const DetectProfileObjectTypeRequest = S.suspend(() =>
@@ -1128,7 +1215,7 @@ export const GetSegmentEstimateRequest = S.suspend(() =>
 export interface GetSegmentMembershipRequest {
   DomainName: string;
   SegmentDefinitionName: string;
-  ProfileIds: ProfileIds;
+  ProfileIds: string[];
 }
 export const GetSegmentMembershipRequest = S.suspend(() =>
   S.Struct({
@@ -1181,7 +1268,7 @@ export interface GetSimilarProfilesRequest {
   NextToken?: string;
   MaxResults?: number;
   DomainName: string;
-  MatchType: string;
+  MatchType: MatchType;
   SearchKey: string;
   SearchValue: string;
 }
@@ -1190,7 +1277,7 @@ export const GetSimilarProfilesRequest = S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    MatchType: S.String,
+    MatchType: MatchType,
     SearchKey: S.String,
     SearchValue: S.String,
   }).pipe(
@@ -1640,7 +1727,7 @@ export interface ListProfileHistoryRecordsRequest {
   ObjectTypeName?: string;
   NextToken?: string;
   MaxResults?: number;
-  ActionType?: string;
+  ActionType?: ActionType;
   PerformedBy?: string;
 }
 export const ListProfileHistoryRecordsRequest = S.suspend(() =>
@@ -1650,7 +1737,7 @@ export const ListProfileHistoryRecordsRequest = S.suspend(() =>
     ObjectTypeName: S.optional(S.String),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    ActionType: S.optional(S.String),
+    ActionType: S.optional(ActionType),
     PerformedBy: S.optional(S.String),
   }).pipe(
     T.all(
@@ -1850,8 +1937,8 @@ export const ListUploadJobsRequest = S.suspend(() =>
 }) as any as S.Schema<ListUploadJobsRequest>;
 export interface ListWorkflowsRequest {
   DomainName: string;
-  WorkflowType?: string;
-  Status?: string;
+  WorkflowType?: WorkflowType;
+  Status?: Status;
   QueryStartDate?: Date;
   QueryEndDate?: Date;
   NextToken?: string;
@@ -1860,8 +1947,8 @@ export interface ListWorkflowsRequest {
 export const ListWorkflowsRequest = S.suspend(() =>
   S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    WorkflowType: S.optional(S.String),
-    Status: S.optional(S.String),
+    WorkflowType: S.optional(WorkflowType),
+    Status: S.optional(Status),
     QueryStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     QueryEndDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
@@ -1881,7 +1968,7 @@ export const ListWorkflowsRequest = S.suspend(() =>
 }) as any as S.Schema<ListWorkflowsRequest>;
 export interface PutProfileObjectRequest {
   ObjectTypeName: string;
-  Object: string | Redacted.Redacted<string>;
+  Object: string | redacted.Redacted<string>;
   DomainName: string;
 }
 export const PutProfileObjectRequest = S.suspend(() =>
@@ -2020,7 +2107,7 @@ export const StopUploadJobResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<StopUploadJobResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -2045,7 +2132,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -2068,6 +2155,8 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
+export type Unit = "DAYS";
+export const Unit = S.Literal("DAYS");
 export interface ValueRange {
   Start: number;
   End: number;
@@ -2077,7 +2166,7 @@ export const ValueRange = S.suspend(() =>
 ).annotations({ identifier: "ValueRange" }) as any as S.Schema<ValueRange>;
 export interface Range {
   Value?: number;
-  Unit?: string;
+  Unit?: Unit;
   ValueRange?: ValueRange;
   TimestampSource?: string;
   TimestampFormat?: string;
@@ -2085,18 +2174,29 @@ export interface Range {
 export const Range = S.suspend(() =>
   S.Struct({
     Value: S.optional(S.Number),
-    Unit: S.optional(S.String),
+    Unit: S.optional(Unit),
     ValueRange: S.optional(ValueRange),
     TimestampSource: S.optional(S.String),
     TimestampFormat: S.optional(S.String),
   }),
 ).annotations({ identifier: "Range" }) as any as S.Schema<Range>;
+export type Operator =
+  | "EQUAL_TO"
+  | "GREATER_THAN"
+  | "LESS_THAN"
+  | "NOT_EQUAL_TO";
+export const Operator = S.Literal(
+  "EQUAL_TO",
+  "GREATER_THAN",
+  "LESS_THAN",
+  "NOT_EQUAL_TO",
+);
 export interface Threshold {
   Value: string;
-  Operator: string;
+  Operator: Operator;
 }
 export const Threshold = S.suspend(() =>
-  S.Struct({ Value: S.String, Operator: S.String }),
+  S.Struct({ Value: S.String, Operator: Operator }),
 ).annotations({ identifier: "Threshold" }) as any as S.Schema<Threshold>;
 export interface Conditions {
   Range?: Range;
@@ -2114,7 +2214,7 @@ export interface UpdateCalculatedAttributeDefinitionRequest {
   DomainName: string;
   CalculatedAttributeName: string;
   DisplayName?: string;
-  Description?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   Conditions?: Conditions;
 }
 export const UpdateCalculatedAttributeDefinitionRequest = S.suspend(() =>
@@ -2142,32 +2242,51 @@ export const UpdateCalculatedAttributeDefinitionRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateCalculatedAttributeDefinitionRequest",
 }) as any as S.Schema<UpdateCalculatedAttributeDefinitionRequest>;
+export type JobScheduleDayOfTheWeek =
+  | "SUNDAY"
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY";
+export const JobScheduleDayOfTheWeek = S.Literal(
+  "SUNDAY",
+  "MONDAY",
+  "TUESDAY",
+  "WEDNESDAY",
+  "THURSDAY",
+  "FRIDAY",
+  "SATURDAY",
+);
 export interface JobSchedule {
-  DayOfTheWeek: string;
+  DayOfTheWeek: JobScheduleDayOfTheWeek;
   Time: string;
 }
 export const JobSchedule = S.suspend(() =>
-  S.Struct({ DayOfTheWeek: S.String, Time: S.String }),
+  S.Struct({ DayOfTheWeek: JobScheduleDayOfTheWeek, Time: S.String }),
 ).annotations({ identifier: "JobSchedule" }) as any as S.Schema<JobSchedule>;
 export type MatchingAttributes = string[];
 export const MatchingAttributes = S.Array(S.String);
-export type MatchingAttributesList = MatchingAttributes[];
+export type MatchingAttributesList = string[][];
 export const MatchingAttributesList = S.Array(MatchingAttributes);
 export interface Consolidation {
-  MatchingAttributesList: MatchingAttributesList;
+  MatchingAttributesList: string[][];
 }
 export const Consolidation = S.suspend(() =>
   S.Struct({ MatchingAttributesList: MatchingAttributesList }),
 ).annotations({
   identifier: "Consolidation",
 }) as any as S.Schema<Consolidation>;
+export type ConflictResolvingModel = "RECENCY" | "SOURCE";
+export const ConflictResolvingModel = S.Literal("RECENCY", "SOURCE");
 export interface ConflictResolution {
-  ConflictResolvingModel: string;
+  ConflictResolvingModel: ConflictResolvingModel;
   SourceName?: string;
 }
 export const ConflictResolution = S.suspend(() =>
   S.Struct({
-    ConflictResolvingModel: S.String,
+    ConflictResolvingModel: ConflictResolvingModel,
     SourceName: S.optional(S.String),
   }),
 ).annotations({
@@ -2223,13 +2342,15 @@ export const MatchingRequest = S.suspend(() =>
 export type MatchingRuleAttributeList = string[];
 export const MatchingRuleAttributeList = S.Array(S.String);
 export interface MatchingRule {
-  Rule: MatchingRuleAttributeList;
+  Rule: string[];
 }
 export const MatchingRule = S.suspend(() =>
   S.Struct({ Rule: MatchingRuleAttributeList }),
 ).annotations({ identifier: "MatchingRule" }) as any as S.Schema<MatchingRule>;
 export type MatchingRules = MatchingRule[];
 export const MatchingRules = S.Array(MatchingRule);
+export type AttributeMatchingModel = "ONE_TO_ONE" | "MANY_TO_MANY";
+export const AttributeMatchingModel = S.Literal("ONE_TO_ONE", "MANY_TO_MANY");
 export type AddressList = string[];
 export const AddressList = S.Array(S.String);
 export type PhoneNumberList = string[];
@@ -2237,14 +2358,14 @@ export const PhoneNumberList = S.Array(S.String);
 export type EmailList = string[];
 export const EmailList = S.Array(S.String);
 export interface AttributeTypesSelector {
-  AttributeMatchingModel: string;
-  Address?: AddressList;
-  PhoneNumber?: PhoneNumberList;
-  EmailAddress?: EmailList;
+  AttributeMatchingModel: AttributeMatchingModel;
+  Address?: string[];
+  PhoneNumber?: string[];
+  EmailAddress?: string[];
 }
 export const AttributeTypesSelector = S.suspend(() =>
   S.Struct({
-    AttributeMatchingModel: S.String,
+    AttributeMatchingModel: AttributeMatchingModel,
     Address: S.optional(AddressList),
     PhoneNumber: S.optional(PhoneNumberList),
     EmailAddress: S.optional(EmailList),
@@ -2254,7 +2375,7 @@ export const AttributeTypesSelector = S.suspend(() =>
 }) as any as S.Schema<AttributeTypesSelector>;
 export interface RuleBasedMatchingRequest {
   Enabled: boolean;
-  MatchingRules?: MatchingRules;
+  MatchingRules?: MatchingRule[];
   MaxAllowedRuleLevelForMerging?: number;
   MaxAllowedRuleLevelForMatching?: number;
   AttributeTypesSelector?: AttributeTypesSelector;
@@ -2290,7 +2411,7 @@ export interface UpdateDomainRequest {
   Matching?: MatchingRequest;
   RuleBasedMatching?: RuleBasedMatchingRequest;
   DataStore?: DataStoreRequest;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const UpdateDomainRequest = S.suspend(() =>
   S.Struct({
@@ -2318,11 +2439,11 @@ export const UpdateDomainRequest = S.suspend(() =>
 export interface UpdateDomainLayoutRequest {
   DomainName: string;
   LayoutDefinitionName: string;
-  Description?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   DisplayName?: string;
   IsDefault?: boolean;
-  LayoutType?: string;
-  Layout?: string | Redacted.Redacted<string>;
+  LayoutType?: LayoutType;
+  Layout?: string | redacted.Redacted<string>;
 }
 export const UpdateDomainLayoutRequest = S.suspend(() =>
   S.Struct({
@@ -2331,7 +2452,7 @@ export const UpdateDomainLayoutRequest = S.suspend(() =>
     Description: S.optional(SensitiveString),
     DisplayName: S.optional(S.String),
     IsDefault: S.optional(S.Boolean),
-    LayoutType: S.optional(S.String),
+    LayoutType: S.optional(LayoutType),
     Layout: S.optional(SensitiveString),
   }).pipe(
     T.all(
@@ -2349,19 +2470,52 @@ export const UpdateDomainLayoutRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateDomainLayoutRequest",
 }) as any as S.Schema<UpdateDomainLayoutRequest>;
+export type ComparisonOperator =
+  | "INCLUSIVE"
+  | "EXCLUSIVE"
+  | "CONTAINS"
+  | "BEGINS_WITH"
+  | "ENDS_WITH"
+  | "GREATER_THAN"
+  | "LESS_THAN"
+  | "GREATER_THAN_OR_EQUAL"
+  | "LESS_THAN_OR_EQUAL"
+  | "EQUAL"
+  | "BEFORE"
+  | "AFTER"
+  | "ON"
+  | "BETWEEN"
+  | "NOT_BETWEEN";
+export const ComparisonOperator = S.Literal(
+  "INCLUSIVE",
+  "EXCLUSIVE",
+  "CONTAINS",
+  "BEGINS_WITH",
+  "ENDS_WITH",
+  "GREATER_THAN",
+  "LESS_THAN",
+  "GREATER_THAN_OR_EQUAL",
+  "LESS_THAN_OR_EQUAL",
+  "EQUAL",
+  "BEFORE",
+  "AFTER",
+  "ON",
+  "BETWEEN",
+  "NOT_BETWEEN",
+);
 export type EventTriggerValues = string[];
 export const EventTriggerValues = S.Array(S.String);
 export interface ObjectAttribute {
   Source?: string;
   FieldName?: string;
-  ComparisonOperator: string;
-  Values: EventTriggerValues;
+  ComparisonOperator: ComparisonOperator;
+  Values: string[];
 }
 export const ObjectAttribute = S.suspend(() =>
   S.Struct({
     Source: S.optional(S.String),
     FieldName: S.optional(S.String),
-    ComparisonOperator: S.String,
+    ComparisonOperator: ComparisonOperator,
     Values: EventTriggerValues,
   }),
 ).annotations({
@@ -2370,7 +2524,7 @@ export const ObjectAttribute = S.suspend(() =>
 export type ObjectAttributes = ObjectAttribute[];
 export const ObjectAttributes = S.Array(ObjectAttribute);
 export interface EventTriggerDimension {
-  ObjectAttributes: ObjectAttributes;
+  ObjectAttributes: ObjectAttribute[];
 }
 export const EventTriggerDimension = S.suspend(() =>
   S.Struct({ ObjectAttributes: ObjectAttributes }),
@@ -2379,29 +2533,33 @@ export const EventTriggerDimension = S.suspend(() =>
 }) as any as S.Schema<EventTriggerDimension>;
 export type EventTriggerDimensions = EventTriggerDimension[];
 export const EventTriggerDimensions = S.Array(EventTriggerDimension);
+export type EventTriggerLogicalOperator = "ANY" | "ALL" | "NONE";
+export const EventTriggerLogicalOperator = S.Literal("ANY", "ALL", "NONE");
 export interface EventTriggerCondition {
-  EventTriggerDimensions: EventTriggerDimensions;
-  LogicalOperator: string;
+  EventTriggerDimensions: EventTriggerDimension[];
+  LogicalOperator: EventTriggerLogicalOperator;
 }
 export const EventTriggerCondition = S.suspend(() =>
   S.Struct({
     EventTriggerDimensions: EventTriggerDimensions,
-    LogicalOperator: S.String,
+    LogicalOperator: EventTriggerLogicalOperator,
   }),
 ).annotations({
   identifier: "EventTriggerCondition",
 }) as any as S.Schema<EventTriggerCondition>;
 export type EventTriggerConditions = EventTriggerCondition[];
 export const EventTriggerConditions = S.Array(EventTriggerCondition);
+export type PeriodUnit = "HOURS" | "DAYS" | "WEEKS" | "MONTHS";
+export const PeriodUnit = S.Literal("HOURS", "DAYS", "WEEKS", "MONTHS");
 export interface Period {
-  Unit: string;
+  Unit: PeriodUnit;
   Value: number;
   MaxInvocationsPerProfile?: number;
   Unlimited?: boolean;
 }
 export const Period = S.suspend(() =>
   S.Struct({
-    Unit: S.String,
+    Unit: PeriodUnit,
     Value: S.Number,
     MaxInvocationsPerProfile: S.optional(S.Number),
     Unlimited: S.optional(S.Boolean),
@@ -2411,7 +2569,7 @@ export type Periods = Period[];
 export const Periods = S.Array(Period);
 export interface EventTriggerLimits {
   EventExpiration?: number;
-  Periods?: Periods;
+  Periods?: Period[];
 }
 export const EventTriggerLimits = S.suspend(() =>
   S.Struct({
@@ -2425,8 +2583,8 @@ export interface UpdateEventTriggerRequest {
   DomainName: string;
   EventTriggerName: string;
   ObjectTypeName?: string;
-  Description?: string | Redacted.Redacted<string>;
-  EventTriggerConditions?: EventTriggerConditions;
+  Description?: string | redacted.Redacted<string>;
+  EventTriggerConditions?: EventTriggerCondition[];
   SegmentFilter?: string;
   EventTriggerLimits?: EventTriggerLimits;
 }
@@ -2467,7 +2625,7 @@ export const EventParameters = S.suspend(() =>
 export type EventParametersList = EventParameters[];
 export const EventParametersList = S.Array(EventParameters);
 export interface EventsConfig {
-  EventParametersList: EventParametersList;
+  EventParametersList: EventParameters[];
 }
 export const EventsConfig = S.suspend(() =>
   S.Struct({ EventParametersList: EventParametersList }),
@@ -2487,7 +2645,7 @@ export const RecommenderConfig = S.suspend(() =>
 export interface UpdateRecommenderRequest {
   DomainName: string;
   RecommenderName: string;
-  Description?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   RecommenderConfig?: RecommenderConfig;
 }
 export const UpdateRecommenderRequest = S.suspend(() =>
@@ -2512,24 +2670,45 @@ export const UpdateRecommenderRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateRecommenderRequest",
 }) as any as S.Schema<UpdateRecommenderRequest>;
+export type Include = "ALL" | "ANY" | "NONE";
+export const Include = S.Literal("ALL", "ANY", "NONE");
+export type ContactType =
+  | "PhoneNumber"
+  | "MobilePhoneNumber"
+  | "HomePhoneNumber"
+  | "BusinessPhoneNumber"
+  | "EmailAddress"
+  | "PersonalEmailAddress"
+  | "BusinessEmailAddress";
+export const ContactType = S.Literal(
+  "PhoneNumber",
+  "MobilePhoneNumber",
+  "HomePhoneNumber",
+  "BusinessPhoneNumber",
+  "EmailAddress",
+  "PersonalEmailAddress",
+  "BusinessEmailAddress",
+);
 export interface ContactPreference {
   KeyName?: string;
   KeyValue?: string;
   ProfileId?: string;
-  ContactType?: string;
+  ContactType?: ContactType;
 }
 export const ContactPreference = S.suspend(() =>
   S.Struct({
     KeyName: S.optional(S.String),
     KeyValue: S.optional(S.String),
     ProfileId: S.optional(S.String),
-    ContactType: S.optional(S.String),
+    ContactType: S.optional(ContactType),
   }),
 ).annotations({
   identifier: "ContactPreference",
 }) as any as S.Schema<ContactPreference>;
 export type EmailPreferenceList = ContactPreference[];
 export const EmailPreferenceList = S.Array(ContactPreference);
+export type IncludeOptions = "ALL" | "ANY" | "NONE";
+export const IncludeOptions = S.Literal("ALL", "ANY", "NONE");
 export interface Address {
   Address1?: string;
   Address2?: string;
@@ -2558,15 +2737,28 @@ export const Address = S.suspend(() =>
 ).annotations({ identifier: "Address" }) as any as S.Schema<Address>;
 export type Attributes = { [key: string]: string };
 export const Attributes = S.Record({ key: S.String, value: S.String });
+export type StringDimensionType =
+  | "INCLUSIVE"
+  | "EXCLUSIVE"
+  | "CONTAINS"
+  | "BEGINS_WITH"
+  | "ENDS_WITH";
+export const StringDimensionType = S.Literal(
+  "INCLUSIVE",
+  "EXCLUSIVE",
+  "CONTAINS",
+  "BEGINS_WITH",
+  "ENDS_WITH",
+);
 export type Values = string[];
 export const Values = S.Array(S.String);
 export interface ProfileDimension {
-  DimensionType: string;
-  Values: Values;
+  DimensionType: StringDimensionType;
+  Values: string[];
 }
 export const ProfileDimension = S.suspend(() =>
   S.Struct({
-    DimensionType: S.String.pipe(T.JsonName("DimensionType")),
+    DimensionType: StringDimensionType.pipe(T.JsonName("DimensionType")),
     Values: Values.pipe(T.JsonName("Values")),
   }),
 ).annotations({
@@ -2575,26 +2767,39 @@ export const ProfileDimension = S.suspend(() =>
 export type ExtraLengthValues = string[];
 export const ExtraLengthValues = S.Array(S.String);
 export interface ExtraLengthValueProfileDimension {
-  DimensionType: string;
-  Values: ExtraLengthValues;
+  DimensionType: StringDimensionType;
+  Values: string[];
 }
 export const ExtraLengthValueProfileDimension = S.suspend(() =>
   S.Struct({
-    DimensionType: S.String.pipe(T.JsonName("DimensionType")),
+    DimensionType: StringDimensionType.pipe(T.JsonName("DimensionType")),
     Values: ExtraLengthValues.pipe(T.JsonName("Values")),
   }),
 ).annotations({
   identifier: "ExtraLengthValueProfileDimension",
 }) as any as S.Schema<ExtraLengthValueProfileDimension>;
+export type DateDimensionType =
+  | "BEFORE"
+  | "AFTER"
+  | "BETWEEN"
+  | "NOT_BETWEEN"
+  | "ON";
+export const DateDimensionType = S.Literal(
+  "BEFORE",
+  "AFTER",
+  "BETWEEN",
+  "NOT_BETWEEN",
+  "ON",
+);
 export type DateValues = string[];
 export const DateValues = S.Array(S.String);
 export interface DateDimension {
-  DimensionType: string;
-  Values: DateValues;
+  DimensionType: DateDimensionType;
+  Values: string[];
 }
 export const DateDimension = S.suspend(() =>
   S.Struct({
-    DimensionType: S.String.pipe(T.JsonName("DimensionType")),
+    DimensionType: DateDimensionType.pipe(T.JsonName("DimensionType")),
     Values: DateValues.pipe(T.JsonName("Values")),
   }),
 ).annotations({
@@ -2632,13 +2837,46 @@ export const AddressDimension = S.suspend(() =>
 ).annotations({
   identifier: "AddressDimension",
 }) as any as S.Schema<AddressDimension>;
+export type AttributeDimensionType =
+  | "INCLUSIVE"
+  | "EXCLUSIVE"
+  | "CONTAINS"
+  | "BEGINS_WITH"
+  | "ENDS_WITH"
+  | "BEFORE"
+  | "AFTER"
+  | "BETWEEN"
+  | "NOT_BETWEEN"
+  | "ON"
+  | "GREATER_THAN"
+  | "LESS_THAN"
+  | "GREATER_THAN_OR_EQUAL"
+  | "LESS_THAN_OR_EQUAL"
+  | "EQUAL";
+export const AttributeDimensionType = S.Literal(
+  "INCLUSIVE",
+  "EXCLUSIVE",
+  "CONTAINS",
+  "BEGINS_WITH",
+  "ENDS_WITH",
+  "BEFORE",
+  "AFTER",
+  "BETWEEN",
+  "NOT_BETWEEN",
+  "ON",
+  "GREATER_THAN",
+  "LESS_THAN",
+  "GREATER_THAN_OR_EQUAL",
+  "LESS_THAN_OR_EQUAL",
+  "EQUAL",
+);
 export interface AttributeDimension {
-  DimensionType: string;
-  Values: Values;
+  DimensionType: AttributeDimensionType;
+  Values: string[];
 }
 export const AttributeDimension = S.suspend(() =>
   S.Struct({
-    DimensionType: S.String.pipe(T.JsonName("DimensionType")),
+    DimensionType: AttributeDimensionType.pipe(T.JsonName("DimensionType")),
     Values: Values.pipe(T.JsonName("Values")),
   }),
 ).annotations({
@@ -2649,15 +2887,17 @@ export const CustomAttributes = S.Record({
   key: S.String,
   value: AttributeDimension,
 });
-export type ProfileTypeValues = string[];
-export const ProfileTypeValues = S.Array(S.String);
+export type ProfileTypeDimensionType = "INCLUSIVE" | "EXCLUSIVE";
+export const ProfileTypeDimensionType = S.Literal("INCLUSIVE", "EXCLUSIVE");
+export type ProfileTypeValues = ProfileType[];
+export const ProfileTypeValues = S.Array(ProfileType);
 export interface ProfileTypeDimension {
-  DimensionType: string;
-  Values: ProfileTypeValues;
+  DimensionType: ProfileTypeDimensionType;
+  Values: ProfileType[];
 }
 export const ProfileTypeDimension = S.suspend(() =>
   S.Struct({
-    DimensionType: S.String.pipe(T.JsonName("DimensionType")),
+    DimensionType: ProfileTypeDimensionType.pipe(T.JsonName("DimensionType")),
     Values: ProfileTypeValues.pipe(T.JsonName("Values")),
   }),
 ).annotations({
@@ -2684,7 +2924,7 @@ export interface ProfileAttributes {
   ShippingAddress?: AddressDimension;
   MailingAddress?: AddressDimension;
   BillingAddress?: AddressDimension;
-  Attributes?: CustomAttributes;
+  Attributes?: { [key: string]: AttributeDimension };
   ProfileType?: ProfileTypeDimension;
 }
 export const ProfileAttributes = S.suspend(() =>
@@ -2757,13 +2997,15 @@ export const ProfileAttributes = S.suspend(() =>
 ).annotations({
   identifier: "ProfileAttributes",
 }) as any as S.Schema<ProfileAttributes>;
+export type RangeUnit = "DAYS";
+export const RangeUnit = S.Literal("DAYS");
 export interface RangeOverride {
   Start: number;
   End?: number;
-  Unit: string;
+  Unit: RangeUnit;
 }
 export const RangeOverride = S.suspend(() =>
-  S.Struct({ Start: S.Number, End: S.optional(S.Number), Unit: S.String }),
+  S.Struct({ Start: S.Number, End: S.optional(S.Number), Unit: RangeUnit }),
 ).annotations({
   identifier: "RangeOverride",
 }) as any as S.Schema<RangeOverride>;
@@ -2776,13 +3018,13 @@ export const ConditionOverrides = S.suspend(() =>
   identifier: "ConditionOverrides",
 }) as any as S.Schema<ConditionOverrides>;
 export interface CalculatedAttributeDimension {
-  DimensionType: string;
-  Values: Values;
+  DimensionType: AttributeDimensionType;
+  Values: string[];
   ConditionOverrides?: ConditionOverrides;
 }
 export const CalculatedAttributeDimension = S.suspend(() =>
   S.Struct({
-    DimensionType: S.String.pipe(T.JsonName("DimensionType")),
+    DimensionType: AttributeDimensionType.pipe(T.JsonName("DimensionType")),
     Values: Values.pipe(T.JsonName("Values")),
     ConditionOverrides: S.optional(ConditionOverrides)
       .pipe(T.JsonName("ConditionOverrides"))
@@ -2800,7 +3042,7 @@ export const CalculatedCustomAttributes = S.Record({
 });
 export type Dimension =
   | { ProfileAttributes: ProfileAttributes }
-  | { CalculatedAttributes: CalculatedCustomAttributes };
+  | { CalculatedAttributes: { [key: string]: CalculatedAttributeDimension } };
 export const Dimension = S.Union(
   S.Struct({
     ProfileAttributes: ProfileAttributes.pipe(
@@ -2813,7 +3055,7 @@ export const Dimension = S.Union(
     ),
   }),
 );
-export type DimensionList = (typeof Dimension)["Type"][];
+export type DimensionList = Dimension[];
 export const DimensionList = S.Array(Dimension);
 export interface SourceSegment {
   SegmentDefinitionName?: string;
@@ -2830,10 +3072,10 @@ export const SourceSegment = S.suspend(() =>
 export type SourceSegmentList = SourceSegment[];
 export const SourceSegmentList = S.Array(SourceSegment);
 export interface Group {
-  Dimensions?: DimensionList;
-  SourceSegments?: SourceSegmentList;
-  SourceType?: string;
-  Type?: string;
+  Dimensions?: Dimension[];
+  SourceSegments?: SourceSegment[];
+  SourceType?: IncludeOptions;
+  Type?: IncludeOptions;
 }
 export const Group = S.suspend(() =>
   S.Struct({
@@ -2841,31 +3083,107 @@ export const Group = S.suspend(() =>
     SourceSegments: S.optional(SourceSegmentList).pipe(
       T.JsonName("SourceSegments"),
     ),
-    SourceType: S.optional(S.String).pipe(T.JsonName("SourceType")),
-    Type: S.optional(S.String).pipe(T.JsonName("Type")),
+    SourceType: S.optional(IncludeOptions).pipe(T.JsonName("SourceType")),
+    Type: S.optional(IncludeOptions).pipe(T.JsonName("Type")),
   }),
 ).annotations({ identifier: "Group" }) as any as S.Schema<Group>;
 export type SegmentGroupList = Group[];
 export const SegmentGroupList = S.Array(Group);
 export interface SegmentGroupStructure {
-  Groups?: SegmentGroupList;
-  Include?: string;
+  Groups?: Group[];
+  Include?: IncludeOptions;
 }
 export const SegmentGroupStructure = S.suspend(() =>
   S.Struct({
     Groups: S.optional(SegmentGroupList),
-    Include: S.optional(S.String),
+    Include: S.optional(IncludeOptions),
   }),
 ).annotations({
   identifier: "SegmentGroupStructure",
 }) as any as S.Schema<SegmentGroupStructure>;
+export type ReadinessStatus =
+  | "PREPARING"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "FAILED";
+export const ReadinessStatus = S.Literal(
+  "PREPARING",
+  "IN_PROGRESS",
+  "COMPLETED",
+  "FAILED",
+);
+export type EventStreamState = "RUNNING" | "STOPPED";
+export const EventStreamState = S.Literal("RUNNING", "STOPPED");
+export type IdentityResolutionJobStatus =
+  | "PENDING"
+  | "PREPROCESSING"
+  | "FIND_MATCHING"
+  | "MERGING"
+  | "COMPLETED"
+  | "PARTIAL_SUCCESS"
+  | "FAILED";
+export const IdentityResolutionJobStatus = S.Literal(
+  "PENDING",
+  "PREPROCESSING",
+  "FIND_MATCHING",
+  "MERGING",
+  "COMPLETED",
+  "PARTIAL_SUCCESS",
+  "FAILED",
+);
 export type RecommenderContext = { [key: string]: string };
 export const RecommenderContext = S.Record({ key: S.String, value: S.String });
+export type RecommenderStatus =
+  | "PENDING"
+  | "IN_PROGRESS"
+  | "ACTIVE"
+  | "FAILED"
+  | "STOPPING"
+  | "INACTIVE"
+  | "STARTING"
+  | "DELETING";
+export const RecommenderStatus = S.Literal(
+  "PENDING",
+  "IN_PROGRESS",
+  "ACTIVE",
+  "FAILED",
+  "STOPPING",
+  "INACTIVE",
+  "STARTING",
+  "DELETING",
+);
+export type SegmentType = "CLASSIC" | "ENHANCED";
+export const SegmentType = S.Literal("CLASSIC", "ENHANCED");
+export type EstimateStatus = "RUNNING" | "SUCCEEDED" | "FAILED";
+export const EstimateStatus = S.Literal("RUNNING", "SUCCEEDED", "FAILED");
+export type SegmentSnapshotStatus = "COMPLETED" | "IN_PROGRESS" | "FAILED";
+export const SegmentSnapshotStatus = S.Literal(
+  "COMPLETED",
+  "IN_PROGRESS",
+  "FAILED",
+);
 export type ProfileIdList = string[];
 export const ProfileIdList = S.Array(S.String);
+export type UploadJobStatus =
+  | "CREATED"
+  | "IN_PROGRESS"
+  | "PARTIALLY_SUCCEEDED"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "STOPPED";
+export const UploadJobStatus = S.Literal(
+  "CREATED",
+  "IN_PROGRESS",
+  "PARTIALLY_SUCCEEDED",
+  "SUCCEEDED",
+  "FAILED",
+  "STOPPED",
+);
+export type StatusReason = "VALIDATION_FAILURE" | "INTERNAL_FAILURE";
+export const StatusReason = S.Literal("VALIDATION_FAILURE", "INTERNAL_FAILURE");
 export interface ObjectFilter {
   KeyName: string;
-  Values: requestValueList;
+  Values: string[];
 }
 export const ObjectFilter = S.suspend(() =>
   S.Struct({ KeyName: S.String, Values: requestValueList }),
@@ -2876,7 +3194,7 @@ export type ObjectTypeNames = { [key: string]: string };
 export const ObjectTypeNames = S.Record({ key: S.String, value: S.String });
 export interface AdditionalSearchKey {
   KeyName: string;
-  Values: requestValueList;
+  Values: string[];
 }
 export const AdditionalSearchKey = S.suspend(() =>
   S.Struct({ KeyName: S.String, Values: requestValueList }),
@@ -2915,15 +3233,105 @@ export const UpdateAddress = S.suspend(() =>
 }) as any as S.Schema<UpdateAddress>;
 export type UpdateAttributes = { [key: string]: string };
 export const UpdateAttributes = S.Record({ key: S.String, value: S.String });
+export type Type = "ALL" | "ANY" | "NONE";
+export const Type = S.Literal("ALL", "ANY", "NONE");
+export type FieldContentType =
+  | "STRING"
+  | "NUMBER"
+  | "PHONE_NUMBER"
+  | "EMAIL_ADDRESS"
+  | "NAME";
+export const FieldContentType = S.Literal(
+  "STRING",
+  "NUMBER",
+  "PHONE_NUMBER",
+  "EMAIL_ADDRESS",
+  "NAME",
+);
+export type ContentType = "STRING" | "NUMBER";
+export const ContentType = S.Literal("STRING", "NUMBER");
+export type FeatureType = "TEXTUAL" | "CATEGORICAL";
+export const FeatureType = S.Literal("TEXTUAL", "CATEGORICAL");
+export type SourceConnectorType =
+  | "Salesforce"
+  | "Marketo"
+  | "Zendesk"
+  | "Servicenow"
+  | "S3";
+export const SourceConnectorType = S.Literal(
+  "Salesforce",
+  "Marketo",
+  "Zendesk",
+  "Servicenow",
+  "S3",
+);
 export type SourceFields = string[];
 export const SourceFields = S.Array(S.String);
-export type StandardIdentifierList = string[];
-export const StandardIdentifierList = S.Array(S.String);
+export type TaskType =
+  | "Arithmetic"
+  | "Filter"
+  | "Map"
+  | "Mask"
+  | "Merge"
+  | "Truncate"
+  | "Validate";
+export const TaskType = S.Literal(
+  "Arithmetic",
+  "Filter",
+  "Map",
+  "Mask",
+  "Merge",
+  "Truncate",
+  "Validate",
+);
+export type TriggerType = "Scheduled" | "Event" | "OnDemand";
+export const TriggerType = S.Literal("Scheduled", "Event", "OnDemand");
+export type StandardIdentifier =
+  | "PROFILE"
+  | "ASSET"
+  | "CASE"
+  | "ORDER"
+  | "COMMUNICATION_RECORD"
+  | "AIR_PREFERENCE"
+  | "HOTEL_PREFERENCE"
+  | "AIR_BOOKING"
+  | "AIR_SEGMENT"
+  | "HOTEL_RESERVATION"
+  | "HOTEL_STAY_REVENUE"
+  | "LOYALTY"
+  | "LOYALTY_TRANSACTION"
+  | "LOYALTY_PROMOTION"
+  | "UNIQUE"
+  | "SECONDARY"
+  | "LOOKUP_ONLY"
+  | "NEW_ONLY";
+export const StandardIdentifier = S.Literal(
+  "PROFILE",
+  "ASSET",
+  "CASE",
+  "ORDER",
+  "COMMUNICATION_RECORD",
+  "AIR_PREFERENCE",
+  "HOTEL_PREFERENCE",
+  "AIR_BOOKING",
+  "AIR_SEGMENT",
+  "HOTEL_RESERVATION",
+  "HOTEL_STAY_REVENUE",
+  "LOYALTY",
+  "LOYALTY_TRANSACTION",
+  "LOYALTY_PROMOTION",
+  "UNIQUE",
+  "SECONDARY",
+  "LOOKUP_ONLY",
+  "NEW_ONLY",
+);
+export type StandardIdentifierList = StandardIdentifier[];
+export const StandardIdentifierList = S.Array(StandardIdentifier);
 export type FieldNameList = string[];
 export const FieldNameList = S.Array(S.String);
 export interface AddProfileKeyResponse {
   KeyName?: string;
-  Values?: requestValueList;
+  Values?: string[];
 }
 export const AddProfileKeyResponse = S.suspend(() =>
   S.Struct({
@@ -2935,13 +3343,13 @@ export const AddProfileKeyResponse = S.suspend(() =>
 }) as any as S.Schema<AddProfileKeyResponse>;
 export interface CreateDomainLayoutResponse {
   LayoutDefinitionName: string;
-  Description: string | Redacted.Redacted<string>;
+  Description: string | redacted.Redacted<string>;
   DisplayName: string;
   IsDefault?: boolean;
-  LayoutType: string;
-  Layout: string | Redacted.Redacted<string>;
+  LayoutType: LayoutType;
+  Layout: string | redacted.Redacted<string>;
   Version: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   CreatedAt: Date;
   LastUpdatedAt?: Date;
 }
@@ -2951,7 +3359,7 @@ export const CreateDomainLayoutResponse = S.suspend(() =>
     Description: SensitiveString,
     DisplayName: S.String,
     IsDefault: S.optional(S.Boolean),
-    LayoutType: S.String,
+    LayoutType: LayoutType,
     Layout: SensitiveString,
     Version: S.String,
     Tags: S.optional(TagMap),
@@ -2963,7 +3371,7 @@ export const CreateDomainLayoutResponse = S.suspend(() =>
 }) as any as S.Schema<CreateDomainLayoutResponse>;
 export interface CreateEventStreamResponse {
   EventStreamArn: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateEventStreamResponse = S.suspend(() =>
   S.Struct({ EventStreamArn: S.String, Tags: S.optional(TagMap) }),
@@ -2973,7 +3381,7 @@ export const CreateEventStreamResponse = S.suspend(() =>
 export interface CreateSegmentEstimateRequest {
   DomainName: string;
   SegmentQuery?: SegmentGroupStructure;
-  SegmentSqlQuery?: string | Redacted.Redacted<string>;
+  SegmentSqlQuery?: string | redacted.Redacted<string>;
 }
 export const CreateSegmentEstimateRequest = S.suspend(() =>
   S.Struct({
@@ -3126,15 +3534,15 @@ export const GetCalculatedAttributeForProfileResponse = S.suspend(() =>
 }) as any as S.Schema<GetCalculatedAttributeForProfileResponse>;
 export interface GetDomainLayoutResponse {
   LayoutDefinitionName: string;
-  Description: string | Redacted.Redacted<string>;
+  Description: string | redacted.Redacted<string>;
   DisplayName: string;
   IsDefault?: boolean;
-  LayoutType: string;
-  Layout: string | Redacted.Redacted<string>;
+  LayoutType: LayoutType;
+  Layout: string | redacted.Redacted<string>;
   Version: string;
   CreatedAt: Date;
   LastUpdatedAt: Date;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const GetDomainLayoutResponse = S.suspend(() =>
   S.Struct({
@@ -3142,7 +3550,7 @@ export const GetDomainLayoutResponse = S.suspend(() =>
     Description: SensitiveString,
     DisplayName: S.String,
     IsDefault: S.optional(S.Boolean),
-    LayoutType: S.String,
+    LayoutType: LayoutType,
     Layout: SensitiveString,
     Version: S.String,
     CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -3155,15 +3563,15 @@ export const GetDomainLayoutResponse = S.suspend(() =>
 export interface DomainObjectTypeField {
   Source: string;
   Target: string;
-  ContentType?: string;
-  FeatureType?: string;
+  ContentType?: ContentType;
+  FeatureType?: FeatureType;
 }
 export const DomainObjectTypeField = S.suspend(() =>
   S.Struct({
     Source: S.String,
     Target: S.String,
-    ContentType: S.optional(S.String),
-    FeatureType: S.optional(S.String),
+    ContentType: S.optional(ContentType),
+    FeatureType: S.optional(FeatureType),
   }),
 ).annotations({
   identifier: "DomainObjectTypeField",
@@ -3175,12 +3583,12 @@ export const DomainObjectTypeFields = S.Record({
 });
 export interface GetDomainObjectTypeResponse {
   ObjectTypeName: string;
-  Description?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   EncryptionKey?: string;
-  Fields?: DomainObjectTypeFields;
+  Fields?: { [key: string]: DomainObjectTypeField };
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const GetDomainObjectTypeResponse = S.suspend(() =>
   S.Struct({
@@ -3198,13 +3606,13 @@ export const GetDomainObjectTypeResponse = S.suspend(() =>
 export interface GetEventTriggerResponse {
   EventTriggerName?: string;
   ObjectTypeName?: string;
-  Description?: string | Redacted.Redacted<string>;
-  EventTriggerConditions?: EventTriggerConditions;
+  Description?: string | redacted.Redacted<string>;
+  EventTriggerConditions?: EventTriggerCondition[];
   SegmentFilter?: string;
   EventTriggerLimits?: EventTriggerLimits;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const GetEventTriggerResponse = S.suspend(() =>
   S.Struct({
@@ -3227,13 +3635,13 @@ export interface GetIntegrationResponse {
   ObjectTypeName?: string;
   CreatedAt: Date;
   LastUpdatedAt: Date;
-  Tags?: TagMap;
-  ObjectTypeNames?: ObjectTypeNames;
+  Tags?: { [key: string]: string };
+  ObjectTypeNames?: { [key: string]: string };
   WorkflowId?: string;
   IsUnstructured?: boolean;
   RoleArn?: string;
-  EventTriggerNames?: EventTriggerNames;
-  Scope?: string;
+  EventTriggerNames?: string[];
+  Scope?: Scope;
 }
 export const GetIntegrationResponse = S.suspend(() =>
   S.Struct({
@@ -3248,7 +3656,7 @@ export const GetIntegrationResponse = S.suspend(() =>
     IsUnstructured: S.optional(S.Boolean),
     RoleArn: S.optional(S.String),
     EventTriggerNames: S.optional(EventTriggerNames),
-    Scope: S.optional(S.String),
+    Scope: S.optional(Scope),
   }),
 ).annotations({
   identifier: "GetIntegrationResponse",
@@ -3258,9 +3666,9 @@ export interface GetProfileHistoryRecordResponse {
   ObjectTypeName: string;
   CreatedAt: Date;
   LastUpdatedAt?: Date;
-  ActionType: string;
+  ActionType: ActionType;
   ProfileObjectUniqueKey?: string;
-  Content?: string | Redacted.Redacted<string>;
+  Content?: string | redacted.Redacted<string>;
   PerformedBy?: string;
 }
 export const GetProfileHistoryRecordResponse = S.suspend(() =>
@@ -3269,7 +3677,7 @@ export const GetProfileHistoryRecordResponse = S.suspend(() =>
     ObjectTypeName: S.String,
     CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ActionType: S.String,
+    ActionType: ActionType,
     ProfileObjectUniqueKey: S.optional(S.String),
     Content: S.optional(SensitiveString),
     PerformedBy: S.optional(S.String),
@@ -3280,13 +3688,13 @@ export const GetProfileHistoryRecordResponse = S.suspend(() =>
 export interface ObjectTypeField {
   Source?: string;
   Target?: string;
-  ContentType?: string;
+  ContentType?: FieldContentType;
 }
 export const ObjectTypeField = S.suspend(() =>
   S.Struct({
     Source: S.optional(S.String),
     Target: S.optional(S.String),
-    ContentType: S.optional(S.String),
+    ContentType: S.optional(FieldContentType),
   }),
 ).annotations({
   identifier: "ObjectTypeField",
@@ -3294,8 +3702,8 @@ export const ObjectTypeField = S.suspend(() =>
 export type FieldMap = { [key: string]: ObjectTypeField };
 export const FieldMap = S.Record({ key: S.String, value: ObjectTypeField });
 export interface ObjectTypeKey {
-  StandardIdentifiers?: StandardIdentifierList;
-  FieldNames?: FieldNameList;
+  StandardIdentifiers?: StandardIdentifier[];
+  FieldNames?: string[];
 }
 export const ObjectTypeKey = S.suspend(() =>
   S.Struct({
@@ -3307,11 +3715,11 @@ export const ObjectTypeKey = S.suspend(() =>
 }) as any as S.Schema<ObjectTypeKey>;
 export type ObjectTypeKeyList = ObjectTypeKey[];
 export const ObjectTypeKeyList = S.Array(ObjectTypeKey);
-export type KeyMap = { [key: string]: ObjectTypeKeyList };
+export type KeyMap = { [key: string]: ObjectTypeKey[] };
 export const KeyMap = S.Record({ key: S.String, value: ObjectTypeKeyList });
 export interface GetProfileObjectTypeResponse {
   ObjectTypeName: string;
-  Description: string | Redacted.Redacted<string>;
+  Description: string | redacted.Redacted<string>;
   TemplateId?: string;
   ExpirationDays?: number;
   EncryptionKey?: string;
@@ -3319,11 +3727,11 @@ export interface GetProfileObjectTypeResponse {
   SourceLastUpdatedTimestampFormat?: string;
   MaxAvailableProfileObjectCount?: number;
   MaxProfileObjectCount?: number;
-  Fields?: FieldMap;
-  Keys?: KeyMap;
+  Fields?: { [key: string]: ObjectTypeField };
+  Keys?: { [key: string]: ObjectTypeKey[] };
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const GetProfileObjectTypeResponse = S.suspend(() =>
   S.Struct({
@@ -3351,8 +3759,8 @@ export interface GetProfileObjectTypeTemplateResponse {
   SourceObject?: string;
   AllowProfileCreation?: boolean;
   SourceLastUpdatedTimestampFormat?: string;
-  Fields?: FieldMap;
-  Keys?: KeyMap;
+  Fields?: { [key: string]: ObjectTypeField };
+  Keys?: { [key: string]: ObjectTypeKey[] };
 }
 export const GetProfileObjectTypeTemplateResponse = S.suspend(() =>
   S.Struct({
@@ -3371,7 +3779,7 @@ export interface GetProfileRecommendationsRequest {
   DomainName: string;
   ProfileId: string;
   RecommenderName: string;
-  Context?: RecommenderContext;
+  Context?: { [key: string]: string };
   MaxResults?: number;
 }
 export const GetProfileRecommendationsRequest = S.suspend(() =>
@@ -3398,25 +3806,25 @@ export const GetProfileRecommendationsRequest = S.suspend(() =>
   identifier: "GetProfileRecommendationsRequest",
 }) as any as S.Schema<GetProfileRecommendationsRequest>;
 export interface SegmentGroup {
-  Groups?: SegmentGroupList;
-  Include?: string;
+  Groups?: Group[];
+  Include?: IncludeOptions;
 }
 export const SegmentGroup = S.suspend(() =>
   S.Struct({
     Groups: S.optional(SegmentGroupList).pipe(T.JsonName("Groups")),
-    Include: S.optional(S.String).pipe(T.JsonName("Include")),
+    Include: S.optional(IncludeOptions).pipe(T.JsonName("Include")),
   }),
 ).annotations({ identifier: "SegmentGroup" }) as any as S.Schema<SegmentGroup>;
 export interface GetSegmentDefinitionResponse {
   SegmentDefinitionName?: string;
   DisplayName?: string;
-  Description?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   SegmentGroups?: SegmentGroup;
   SegmentDefinitionArn: string;
   CreatedAt?: Date;
-  Tags?: TagMap;
-  SegmentSqlQuery?: string | Redacted.Redacted<string>;
-  SegmentType?: string;
+  Tags?: { [key: string]: string };
+  SegmentSqlQuery?: string | redacted.Redacted<string>;
+  SegmentType?: SegmentType;
 }
 export const GetSegmentDefinitionResponse = S.suspend(() =>
   S.Struct({
@@ -3436,7 +3844,7 @@ export const GetSegmentDefinitionResponse = S.suspend(() =>
     SegmentSqlQuery: S.optional(SensitiveString).pipe(
       T.JsonName("SegmentSqlQuery"),
     ),
-    SegmentType: S.optional(S.String).pipe(T.JsonName("SegmentType")),
+    SegmentType: S.optional(SegmentType).pipe(T.JsonName("SegmentType")),
   }),
 ).annotations({
   identifier: "GetSegmentDefinitionResponse",
@@ -3444,7 +3852,7 @@ export const GetSegmentDefinitionResponse = S.suspend(() =>
 export interface GetSegmentEstimateResponse {
   DomainName?: string;
   EstimateId?: string;
-  Status?: string;
+  Status?: EstimateStatus;
   Estimate?: string;
   Message?: string;
   StatusCode?: number;
@@ -3453,7 +3861,7 @@ export const GetSegmentEstimateResponse = S.suspend(() =>
   S.Struct({
     DomainName: S.optional(S.String),
     EstimateId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(EstimateStatus),
     Estimate: S.optional(S.String),
     Message: S.optional(S.String),
     StatusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
@@ -3463,9 +3871,9 @@ export const GetSegmentEstimateResponse = S.suspend(() =>
 }) as any as S.Schema<GetSegmentEstimateResponse>;
 export interface GetSegmentSnapshotResponse {
   SnapshotId: string;
-  Status: string;
+  Status: SegmentSnapshotStatus;
   StatusMessage?: string;
-  DataFormat: string;
+  DataFormat: DataFormat;
   EncryptionKey?: string;
   RoleArn?: string;
   DestinationUri?: string;
@@ -3473,9 +3881,9 @@ export interface GetSegmentSnapshotResponse {
 export const GetSegmentSnapshotResponse = S.suspend(() =>
   S.Struct({
     SnapshotId: S.String,
-    Status: S.String,
+    Status: SegmentSnapshotStatus,
     StatusMessage: S.optional(S.String),
-    DataFormat: S.String,
+    DataFormat: DataFormat,
     EncryptionKey: S.optional(S.String),
     RoleArn: S.optional(S.String),
     DestinationUri: S.optional(S.String),
@@ -3484,9 +3892,9 @@ export const GetSegmentSnapshotResponse = S.suspend(() =>
   identifier: "GetSegmentSnapshotResponse",
 }) as any as S.Schema<GetSegmentSnapshotResponse>;
 export interface GetSimilarProfilesResponse {
-  ProfileIds?: ProfileIdList;
+  ProfileIds?: string[];
   MatchId?: string;
-  MatchType?: string;
+  MatchType?: MatchType;
   RuleLevel?: number;
   ConfidenceScore?: number;
   NextToken?: string;
@@ -3495,7 +3903,7 @@ export const GetSimilarProfilesResponse = S.suspend(() =>
   S.Struct({
     ProfileIds: S.optional(ProfileIdList),
     MatchId: S.optional(S.String),
-    MatchType: S.optional(S.String),
+    MatchType: S.optional(MatchType),
     RuleLevel: S.optional(S.Number),
     ConfidenceScore: S.optional(S.Number),
     NextToken: S.optional(S.String),
@@ -3525,13 +3933,13 @@ export interface ListIntegrationItem {
   ObjectTypeName?: string;
   CreatedAt: Date;
   LastUpdatedAt: Date;
-  Tags?: TagMap;
-  ObjectTypeNames?: ObjectTypeNames;
+  Tags?: { [key: string]: string };
+  ObjectTypeNames?: { [key: string]: string };
   WorkflowId?: string;
   IsUnstructured?: boolean;
   RoleArn?: string;
-  EventTriggerNames?: EventTriggerNames;
-  Scope?: string;
+  EventTriggerNames?: string[];
+  Scope?: Scope;
 }
 export const ListIntegrationItem = S.suspend(() =>
   S.Struct({
@@ -3546,7 +3954,7 @@ export const ListIntegrationItem = S.suspend(() =>
     IsUnstructured: S.optional(S.Boolean),
     RoleArn: S.optional(S.String),
     EventTriggerNames: S.optional(EventTriggerNames),
-    Scope: S.optional(S.String),
+    Scope: S.optional(Scope),
   }),
 ).annotations({
   identifier: "ListIntegrationItem",
@@ -3554,7 +3962,7 @@ export const ListIntegrationItem = S.suspend(() =>
 export type IntegrationList = ListIntegrationItem[];
 export const IntegrationList = S.Array(ListIntegrationItem);
 export interface ListIntegrationsResponse {
-  Items?: IntegrationList;
+  Items?: ListIntegrationItem[];
   NextToken?: string;
 }
 export const ListIntegrationsResponse = S.suspend(() =>
@@ -3595,7 +4003,7 @@ export const ListProfileObjectsRequest = S.suspend(() =>
   identifier: "ListProfileObjectsRequest",
 }) as any as S.Schema<ListProfileObjectsRequest>;
 export interface ListRuleBasedMatchesResponse {
-  MatchIds?: MatchIdList;
+  MatchIds?: string[];
   NextToken?: string;
 }
 export const ListRuleBasedMatchesResponse = S.suspend(() =>
@@ -3607,7 +4015,7 @@ export const ListRuleBasedMatchesResponse = S.suspend(() =>
   identifier: "ListRuleBasedMatchesResponse",
 }) as any as S.Schema<ListRuleBasedMatchesResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -3627,9 +4035,9 @@ export interface SearchProfilesRequest {
   MaxResults?: number;
   DomainName: string;
   KeyName: string;
-  Values: requestValueList;
-  AdditionalSearchKeys?: additionalSearchKeysList;
-  LogicalOperator?: string;
+  Values: string[];
+  AdditionalSearchKeys?: AdditionalSearchKey[];
+  LogicalOperator?: logicalOperator;
 }
 export const SearchProfilesRequest = S.suspend(() =>
   S.Struct({
@@ -3639,7 +4047,7 @@ export const SearchProfilesRequest = S.suspend(() =>
     KeyName: S.String,
     Values: requestValueList,
     AdditionalSearchKeys: S.optional(additionalSearchKeysList),
-    LogicalOperator: S.optional(S.String),
+    LogicalOperator: S.optional(logicalOperator),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/domains/{DomainName}/profiles/search" }),
@@ -3664,7 +4072,7 @@ export const AttributeItem = S.suspend(() =>
 export type AttributeList = AttributeItem[];
 export const AttributeList = S.Array(AttributeItem);
 export interface AttributeDetails {
-  Attributes: AttributeList;
+  Attributes: AttributeItem[];
   Expression: string;
 }
 export const AttributeDetails = S.suspend(() =>
@@ -3685,16 +4093,16 @@ export const Readiness = S.suspend(() =>
 export interface UpdateCalculatedAttributeDefinitionResponse {
   CalculatedAttributeName?: string;
   DisplayName?: string;
-  Description?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  Statistic?: string;
+  Statistic?: Statistic;
   Conditions?: Conditions;
   AttributeDetails?: AttributeDetails;
   UseHistoricalData?: boolean;
-  Status?: string;
+  Status?: ReadinessStatus;
   Readiness?: Readiness;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const UpdateCalculatedAttributeDefinitionResponse = S.suspend(() =>
   S.Struct({
@@ -3703,11 +4111,11 @@ export const UpdateCalculatedAttributeDefinitionResponse = S.suspend(() =>
     Description: S.optional(SensitiveString),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Statistic: S.optional(S.String),
+    Statistic: S.optional(Statistic),
     Conditions: S.optional(Conditions),
     AttributeDetails: S.optional(AttributeDetails),
     UseHistoricalData: S.optional(S.Boolean),
-    Status: S.optional(S.String),
+    Status: S.optional(ReadinessStatus),
     Readiness: S.optional(Readiness),
     Tags: S.optional(TagMap),
   }),
@@ -3730,10 +4138,16 @@ export const MatchingResponse = S.suspend(() =>
 ).annotations({
   identifier: "MatchingResponse",
 }) as any as S.Schema<MatchingResponse>;
+export type RuleBasedMatchingStatus = "PENDING" | "IN_PROGRESS" | "ACTIVE";
+export const RuleBasedMatchingStatus = S.Literal(
+  "PENDING",
+  "IN_PROGRESS",
+  "ACTIVE",
+);
 export interface RuleBasedMatchingResponse {
   Enabled?: boolean;
-  MatchingRules?: MatchingRules;
-  Status?: string;
+  MatchingRules?: MatchingRule[];
+  Status?: RuleBasedMatchingStatus;
   MaxAllowedRuleLevelForMerging?: number;
   MaxAllowedRuleLevelForMatching?: number;
   AttributeTypesSelector?: AttributeTypesSelector;
@@ -3744,7 +4158,7 @@ export const RuleBasedMatchingResponse = S.suspend(() =>
   S.Struct({
     Enabled: S.optional(S.Boolean),
     MatchingRules: S.optional(MatchingRules),
-    Status: S.optional(S.String),
+    Status: S.optional(RuleBasedMatchingStatus),
     MaxAllowedRuleLevelForMerging: S.optional(S.Number),
     MaxAllowedRuleLevelForMatching: S.optional(S.Number),
     AttributeTypesSelector: S.optional(AttributeTypesSelector),
@@ -3776,7 +4190,7 @@ export interface UpdateDomainResponse {
   DataStore?: DataStoreResponse;
   CreatedAt: Date;
   LastUpdatedAt: Date;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const UpdateDomainResponse = S.suspend(() =>
   S.Struct({
@@ -3796,15 +4210,15 @@ export const UpdateDomainResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateDomainResponse>;
 export interface UpdateDomainLayoutResponse {
   LayoutDefinitionName?: string;
-  Description?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   DisplayName?: string;
   IsDefault?: boolean;
-  LayoutType?: string;
-  Layout?: string | Redacted.Redacted<string>;
+  LayoutType?: LayoutType;
+  Layout?: string | redacted.Redacted<string>;
   Version?: string;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const UpdateDomainLayoutResponse = S.suspend(() =>
   S.Struct({
@@ -3812,7 +4226,7 @@ export const UpdateDomainLayoutResponse = S.suspend(() =>
     Description: S.optional(SensitiveString),
     DisplayName: S.optional(S.String),
     IsDefault: S.optional(S.Boolean),
-    LayoutType: S.optional(S.String),
+    LayoutType: S.optional(LayoutType),
     Layout: S.optional(SensitiveString),
     Version: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -3825,13 +4239,13 @@ export const UpdateDomainLayoutResponse = S.suspend(() =>
 export interface UpdateEventTriggerResponse {
   EventTriggerName?: string;
   ObjectTypeName?: string;
-  Description?: string | Redacted.Redacted<string>;
-  EventTriggerConditions?: EventTriggerConditions;
+  Description?: string | redacted.Redacted<string>;
+  EventTriggerConditions?: EventTriggerCondition[];
   SegmentFilter?: string;
   EventTriggerLimits?: EventTriggerLimits;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const UpdateEventTriggerResponse = S.suspend(() =>
   S.Struct({
@@ -3851,8 +4265,8 @@ export const UpdateEventTriggerResponse = S.suspend(() =>
 export type PhonePreferenceList = ContactPreference[];
 export const PhonePreferenceList = S.Array(ContactPreference);
 export interface EngagementPreferences {
-  Phone?: PhonePreferenceList;
-  Email?: EmailPreferenceList;
+  Phone?: ContactPreference[];
+  Email?: ContactPreference[];
 }
 export const EngagementPreferences = S.suspend(() =>
   S.Struct({
@@ -3865,30 +4279,30 @@ export const EngagementPreferences = S.suspend(() =>
 export interface UpdateProfileRequest {
   DomainName: string;
   ProfileId: string;
-  AdditionalInformation?: string | Redacted.Redacted<string>;
-  AccountNumber?: string | Redacted.Redacted<string>;
-  PartyType?: string;
-  BusinessName?: string | Redacted.Redacted<string>;
-  FirstName?: string | Redacted.Redacted<string>;
-  MiddleName?: string | Redacted.Redacted<string>;
-  LastName?: string | Redacted.Redacted<string>;
-  BirthDate?: string | Redacted.Redacted<string>;
-  Gender?: string;
-  PhoneNumber?: string | Redacted.Redacted<string>;
-  MobilePhoneNumber?: string | Redacted.Redacted<string>;
-  HomePhoneNumber?: string | Redacted.Redacted<string>;
-  BusinessPhoneNumber?: string | Redacted.Redacted<string>;
-  EmailAddress?: string | Redacted.Redacted<string>;
-  PersonalEmailAddress?: string | Redacted.Redacted<string>;
-  BusinessEmailAddress?: string | Redacted.Redacted<string>;
+  AdditionalInformation?: string | redacted.Redacted<string>;
+  AccountNumber?: string | redacted.Redacted<string>;
+  PartyType?: PartyType;
+  BusinessName?: string | redacted.Redacted<string>;
+  FirstName?: string | redacted.Redacted<string>;
+  MiddleName?: string | redacted.Redacted<string>;
+  LastName?: string | redacted.Redacted<string>;
+  BirthDate?: string | redacted.Redacted<string>;
+  Gender?: Gender;
+  PhoneNumber?: string | redacted.Redacted<string>;
+  MobilePhoneNumber?: string | redacted.Redacted<string>;
+  HomePhoneNumber?: string | redacted.Redacted<string>;
+  BusinessPhoneNumber?: string | redacted.Redacted<string>;
+  EmailAddress?: string | redacted.Redacted<string>;
+  PersonalEmailAddress?: string | redacted.Redacted<string>;
+  BusinessEmailAddress?: string | redacted.Redacted<string>;
   Address?: UpdateAddress;
   ShippingAddress?: UpdateAddress;
   MailingAddress?: UpdateAddress;
   BillingAddress?: UpdateAddress;
-  Attributes?: UpdateAttributes;
-  PartyTypeString?: string | Redacted.Redacted<string>;
-  GenderString?: string | Redacted.Redacted<string>;
-  ProfileType?: string;
+  Attributes?: { [key: string]: string };
+  PartyTypeString?: string | redacted.Redacted<string>;
+  GenderString?: string | redacted.Redacted<string>;
+  ProfileType?: ProfileType;
   EngagementPreferences?: EngagementPreferences;
 }
 export const UpdateProfileRequest = S.suspend(() =>
@@ -3897,13 +4311,13 @@ export const UpdateProfileRequest = S.suspend(() =>
     ProfileId: S.String,
     AdditionalInformation: S.optional(SensitiveString),
     AccountNumber: S.optional(SensitiveString),
-    PartyType: S.optional(S.String),
+    PartyType: S.optional(PartyType),
     BusinessName: S.optional(SensitiveString),
     FirstName: S.optional(SensitiveString),
     MiddleName: S.optional(SensitiveString),
     LastName: S.optional(SensitiveString),
     BirthDate: S.optional(SensitiveString),
-    Gender: S.optional(S.String),
+    Gender: S.optional(Gender),
     PhoneNumber: S.optional(SensitiveString),
     MobilePhoneNumber: S.optional(SensitiveString),
     HomePhoneNumber: S.optional(SensitiveString),
@@ -3918,7 +4332,7 @@ export const UpdateProfileRequest = S.suspend(() =>
     Attributes: S.optional(UpdateAttributes),
     PartyTypeString: S.optional(SensitiveString),
     GenderString: S.optional(SensitiveString),
-    ProfileType: S.optional(S.String),
+    ProfileType: S.optional(ProfileType),
     EngagementPreferences: S.optional(EngagementPreferences),
   }).pipe(
     T.all(
@@ -3941,11 +4355,245 @@ export const UpdateRecommenderResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateRecommenderResponse",
 }) as any as S.Schema<UpdateRecommenderResponse>;
+export type EventStreamDestinationStatus = "HEALTHY" | "UNHEALTHY";
+export const EventStreamDestinationStatus = S.Literal("HEALTHY", "UNHEALTHY");
+export type QueryResult = "PRESENT" | "ABSENT";
+export const QueryResult = S.Literal("PRESENT", "ABSENT");
 export type AttributeSourceIdMap = { [key: string]: string };
 export const AttributeSourceIdMap = S.Record({
   key: S.String,
   value: S.String,
 });
+export type MarketoConnectorOperator =
+  | "PROJECTION"
+  | "LESS_THAN"
+  | "GREATER_THAN"
+  | "BETWEEN"
+  | "ADDITION"
+  | "MULTIPLICATION"
+  | "DIVISION"
+  | "SUBTRACTION"
+  | "MASK_ALL"
+  | "MASK_FIRST_N"
+  | "MASK_LAST_N"
+  | "VALIDATE_NON_NULL"
+  | "VALIDATE_NON_ZERO"
+  | "VALIDATE_NON_NEGATIVE"
+  | "VALIDATE_NUMERIC"
+  | "NO_OP";
+export const MarketoConnectorOperator = S.Literal(
+  "PROJECTION",
+  "LESS_THAN",
+  "GREATER_THAN",
+  "BETWEEN",
+  "ADDITION",
+  "MULTIPLICATION",
+  "DIVISION",
+  "SUBTRACTION",
+  "MASK_ALL",
+  "MASK_FIRST_N",
+  "MASK_LAST_N",
+  "VALIDATE_NON_NULL",
+  "VALIDATE_NON_ZERO",
+  "VALIDATE_NON_NEGATIVE",
+  "VALIDATE_NUMERIC",
+  "NO_OP",
+);
+export type S3ConnectorOperator =
+  | "PROJECTION"
+  | "LESS_THAN"
+  | "GREATER_THAN"
+  | "BETWEEN"
+  | "LESS_THAN_OR_EQUAL_TO"
+  | "GREATER_THAN_OR_EQUAL_TO"
+  | "EQUAL_TO"
+  | "NOT_EQUAL_TO"
+  | "ADDITION"
+  | "MULTIPLICATION"
+  | "DIVISION"
+  | "SUBTRACTION"
+  | "MASK_ALL"
+  | "MASK_FIRST_N"
+  | "MASK_LAST_N"
+  | "VALIDATE_NON_NULL"
+  | "VALIDATE_NON_ZERO"
+  | "VALIDATE_NON_NEGATIVE"
+  | "VALIDATE_NUMERIC"
+  | "NO_OP";
+export const S3ConnectorOperator = S.Literal(
+  "PROJECTION",
+  "LESS_THAN",
+  "GREATER_THAN",
+  "BETWEEN",
+  "LESS_THAN_OR_EQUAL_TO",
+  "GREATER_THAN_OR_EQUAL_TO",
+  "EQUAL_TO",
+  "NOT_EQUAL_TO",
+  "ADDITION",
+  "MULTIPLICATION",
+  "DIVISION",
+  "SUBTRACTION",
+  "MASK_ALL",
+  "MASK_FIRST_N",
+  "MASK_LAST_N",
+  "VALIDATE_NON_NULL",
+  "VALIDATE_NON_ZERO",
+  "VALIDATE_NON_NEGATIVE",
+  "VALIDATE_NUMERIC",
+  "NO_OP",
+);
+export type SalesforceConnectorOperator =
+  | "PROJECTION"
+  | "LESS_THAN"
+  | "CONTAINS"
+  | "GREATER_THAN"
+  | "BETWEEN"
+  | "LESS_THAN_OR_EQUAL_TO"
+  | "GREATER_THAN_OR_EQUAL_TO"
+  | "EQUAL_TO"
+  | "NOT_EQUAL_TO"
+  | "ADDITION"
+  | "MULTIPLICATION"
+  | "DIVISION"
+  | "SUBTRACTION"
+  | "MASK_ALL"
+  | "MASK_FIRST_N"
+  | "MASK_LAST_N"
+  | "VALIDATE_NON_NULL"
+  | "VALIDATE_NON_ZERO"
+  | "VALIDATE_NON_NEGATIVE"
+  | "VALIDATE_NUMERIC"
+  | "NO_OP";
+export const SalesforceConnectorOperator = S.Literal(
+  "PROJECTION",
+  "LESS_THAN",
+  "CONTAINS",
+  "GREATER_THAN",
+  "BETWEEN",
+  "LESS_THAN_OR_EQUAL_TO",
+  "GREATER_THAN_OR_EQUAL_TO",
+  "EQUAL_TO",
+  "NOT_EQUAL_TO",
+  "ADDITION",
+  "MULTIPLICATION",
+  "DIVISION",
+  "SUBTRACTION",
+  "MASK_ALL",
+  "MASK_FIRST_N",
+  "MASK_LAST_N",
+  "VALIDATE_NON_NULL",
+  "VALIDATE_NON_ZERO",
+  "VALIDATE_NON_NEGATIVE",
+  "VALIDATE_NUMERIC",
+  "NO_OP",
+);
+export type ServiceNowConnectorOperator =
+  | "PROJECTION"
+  | "CONTAINS"
+  | "LESS_THAN"
+  | "GREATER_THAN"
+  | "BETWEEN"
+  | "LESS_THAN_OR_EQUAL_TO"
+  | "GREATER_THAN_OR_EQUAL_TO"
+  | "EQUAL_TO"
+  | "NOT_EQUAL_TO"
+  | "ADDITION"
+  | "MULTIPLICATION"
+  | "DIVISION"
+  | "SUBTRACTION"
+  | "MASK_ALL"
+  | "MASK_FIRST_N"
+  | "MASK_LAST_N"
+  | "VALIDATE_NON_NULL"
+  | "VALIDATE_NON_ZERO"
+  | "VALIDATE_NON_NEGATIVE"
+  | "VALIDATE_NUMERIC"
+  | "NO_OP";
+export const ServiceNowConnectorOperator = S.Literal(
+  "PROJECTION",
+  "CONTAINS",
+  "LESS_THAN",
+  "GREATER_THAN",
+  "BETWEEN",
+  "LESS_THAN_OR_EQUAL_TO",
+  "GREATER_THAN_OR_EQUAL_TO",
+  "EQUAL_TO",
+  "NOT_EQUAL_TO",
+  "ADDITION",
+  "MULTIPLICATION",
+  "DIVISION",
+  "SUBTRACTION",
+  "MASK_ALL",
+  "MASK_FIRST_N",
+  "MASK_LAST_N",
+  "VALIDATE_NON_NULL",
+  "VALIDATE_NON_ZERO",
+  "VALIDATE_NON_NEGATIVE",
+  "VALIDATE_NUMERIC",
+  "NO_OP",
+);
+export type ZendeskConnectorOperator =
+  | "PROJECTION"
+  | "GREATER_THAN"
+  | "ADDITION"
+  | "MULTIPLICATION"
+  | "DIVISION"
+  | "SUBTRACTION"
+  | "MASK_ALL"
+  | "MASK_FIRST_N"
+  | "MASK_LAST_N"
+  | "VALIDATE_NON_NULL"
+  | "VALIDATE_NON_ZERO"
+  | "VALIDATE_NON_NEGATIVE"
+  | "VALIDATE_NUMERIC"
+  | "NO_OP";
+export const ZendeskConnectorOperator = S.Literal(
+  "PROJECTION",
+  "GREATER_THAN",
+  "ADDITION",
+  "MULTIPLICATION",
+  "DIVISION",
+  "SUBTRACTION",
+  "MASK_ALL",
+  "MASK_FIRST_N",
+  "MASK_LAST_N",
+  "VALIDATE_NON_NULL",
+  "VALIDATE_NON_ZERO",
+  "VALIDATE_NON_NEGATIVE",
+  "VALIDATE_NUMERIC",
+  "NO_OP",
+);
+export type OperatorPropertiesKeys =
+  | "VALUE"
+  | "VALUES"
+  | "DATA_TYPE"
+  | "UPPER_BOUND"
+  | "LOWER_BOUND"
+  | "SOURCE_DATA_TYPE"
+  | "DESTINATION_DATA_TYPE"
+  | "VALIDATION_ACTION"
+  | "MASK_VALUE"
+  | "MASK_LENGTH"
+  | "TRUNCATE_LENGTH"
+  | "MATH_OPERATION_FIELDS_ORDER"
+  | "CONCAT_FORMAT"
+  | "SUBFIELD_CATEGORY_MAP";
+export const OperatorPropertiesKeys = S.Literal(
+  "VALUE",
+  "VALUES",
+  "DATA_TYPE",
+  "UPPER_BOUND",
+  "LOWER_BOUND",
+  "SOURCE_DATA_TYPE",
+  "DESTINATION_DATA_TYPE",
+  "VALIDATION_ACTION",
+  "MASK_VALUE",
+  "MASK_LENGTH",
+  "TRUNCATE_LENGTH",
+  "MATH_OPERATION_FIELDS_ORDER",
+  "CONCAT_FORMAT",
+  "SUBFIELD_CATEGORY_MAP",
+);
 export interface BatchGetProfileError {
   Code: string;
   Message: string;
@@ -3960,8 +4608,8 @@ export type BatchGetProfileErrorList = BatchGetProfileError[];
 export const BatchGetProfileErrorList = S.Array(BatchGetProfileError);
 export interface DetectedProfileObjectType {
   SourceLastUpdatedTimestampFormat?: string;
-  Fields?: FieldMap;
-  Keys?: KeyMap;
+  Fields?: { [key: string]: ObjectTypeField };
+  Keys?: { [key: string]: ObjectTypeKey[] };
 }
 export const DetectedProfileObjectType = S.suspend(() =>
   S.Struct({
@@ -3990,14 +4638,14 @@ export const DomainStats = S.suspend(() =>
 ).annotations({ identifier: "DomainStats" }) as any as S.Schema<DomainStats>;
 export interface EventStreamDestinationDetails {
   Uri: string;
-  Status: string;
+  Status: EventStreamDestinationStatus;
   UnhealthySince?: Date;
   Message?: string;
 }
 export const EventStreamDestinationDetails = S.suspend(() =>
   S.Struct({
     Uri: S.String,
-    Status: S.String,
+    Status: EventStreamDestinationStatus,
     UnhealthySince: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Message: S.optional(S.String),
   }),
@@ -4018,7 +4666,7 @@ export const JobStats = S.suspend(() =>
 ).annotations({ identifier: "JobStats" }) as any as S.Schema<JobStats>;
 export interface MatchItem {
   MatchId?: string;
-  ProfileIds?: ProfileIdList;
+  ProfileIds?: string[];
   ConfidenceScore?: number;
 }
 export const MatchItem = S.suspend(() =>
@@ -4032,7 +4680,7 @@ export type MatchesList = MatchItem[];
 export const MatchesList = S.Array(MatchItem);
 export interface RecommenderUpdate {
   RecommenderConfig?: RecommenderConfig;
-  Status?: string;
+  Status?: RecommenderStatus;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
   FailureReason?: string;
@@ -4040,7 +4688,7 @@ export interface RecommenderUpdate {
 export const RecommenderUpdate = S.suspend(() =>
   S.Struct({
     RecommenderConfig: S.optional(RecommenderConfig),
-    Status: S.optional(S.String),
+    Status: S.optional(RecommenderStatus),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     FailureReason: S.optional(S.String),
@@ -4050,7 +4698,7 @@ export const RecommenderUpdate = S.suspend(() =>
 }) as any as S.Schema<RecommenderUpdate>;
 export interface FoundByKeyValue {
   KeyName?: string;
-  Values?: requestValueList;
+  Values?: string[];
 }
 export const FoundByKeyValue = S.suspend(() =>
   S.Struct({
@@ -4064,31 +4712,31 @@ export type foundByList = FoundByKeyValue[];
 export const foundByList = S.Array(FoundByKeyValue);
 export interface Profile {
   ProfileId?: string;
-  AccountNumber?: string | Redacted.Redacted<string>;
-  AdditionalInformation?: string | Redacted.Redacted<string>;
-  PartyType?: string;
-  BusinessName?: string | Redacted.Redacted<string>;
-  FirstName?: string | Redacted.Redacted<string>;
-  MiddleName?: string | Redacted.Redacted<string>;
-  LastName?: string | Redacted.Redacted<string>;
-  BirthDate?: string | Redacted.Redacted<string>;
-  Gender?: string;
-  PhoneNumber?: string | Redacted.Redacted<string>;
-  MobilePhoneNumber?: string | Redacted.Redacted<string>;
-  HomePhoneNumber?: string | Redacted.Redacted<string>;
-  BusinessPhoneNumber?: string | Redacted.Redacted<string>;
-  EmailAddress?: string | Redacted.Redacted<string>;
-  PersonalEmailAddress?: string | Redacted.Redacted<string>;
-  BusinessEmailAddress?: string | Redacted.Redacted<string>;
+  AccountNumber?: string | redacted.Redacted<string>;
+  AdditionalInformation?: string | redacted.Redacted<string>;
+  PartyType?: PartyType;
+  BusinessName?: string | redacted.Redacted<string>;
+  FirstName?: string | redacted.Redacted<string>;
+  MiddleName?: string | redacted.Redacted<string>;
+  LastName?: string | redacted.Redacted<string>;
+  BirthDate?: string | redacted.Redacted<string>;
+  Gender?: Gender;
+  PhoneNumber?: string | redacted.Redacted<string>;
+  MobilePhoneNumber?: string | redacted.Redacted<string>;
+  HomePhoneNumber?: string | redacted.Redacted<string>;
+  BusinessPhoneNumber?: string | redacted.Redacted<string>;
+  EmailAddress?: string | redacted.Redacted<string>;
+  PersonalEmailAddress?: string | redacted.Redacted<string>;
+  BusinessEmailAddress?: string | redacted.Redacted<string>;
   Address?: Address;
   ShippingAddress?: Address;
   MailingAddress?: Address;
   BillingAddress?: Address;
-  Attributes?: Attributes;
-  FoundByItems?: foundByList;
-  PartyTypeString?: string | Redacted.Redacted<string>;
-  GenderString?: string | Redacted.Redacted<string>;
-  ProfileType?: string;
+  Attributes?: { [key: string]: string };
+  FoundByItems?: FoundByKeyValue[];
+  PartyTypeString?: string | redacted.Redacted<string>;
+  GenderString?: string | redacted.Redacted<string>;
+  ProfileType?: ProfileType;
   EngagementPreferences?: EngagementPreferences;
 }
 export const Profile = S.suspend(() =>
@@ -4096,13 +4744,13 @@ export const Profile = S.suspend(() =>
     ProfileId: S.optional(S.String),
     AccountNumber: S.optional(SensitiveString),
     AdditionalInformation: S.optional(SensitiveString),
-    PartyType: S.optional(S.String),
+    PartyType: S.optional(PartyType),
     BusinessName: S.optional(SensitiveString),
     FirstName: S.optional(SensitiveString),
     MiddleName: S.optional(SensitiveString),
     LastName: S.optional(SensitiveString),
     BirthDate: S.optional(SensitiveString),
-    Gender: S.optional(S.String),
+    Gender: S.optional(Gender),
     PhoneNumber: S.optional(SensitiveString),
     MobilePhoneNumber: S.optional(SensitiveString),
     HomePhoneNumber: S.optional(SensitiveString),
@@ -4118,19 +4766,19 @@ export const Profile = S.suspend(() =>
     FoundByItems: S.optional(foundByList),
     PartyTypeString: S.optional(SensitiveString),
     GenderString: S.optional(SensitiveString),
-    ProfileType: S.optional(S.String),
+    ProfileType: S.optional(ProfileType),
     EngagementPreferences: S.optional(EngagementPreferences),
   }),
 ).annotations({ identifier: "Profile" }) as any as S.Schema<Profile>;
 export interface ProfileQueryResult {
   ProfileId: string;
-  QueryResult: string;
+  QueryResult: QueryResult;
   Profile?: Profile;
 }
 export const ProfileQueryResult = S.suspend(() =>
   S.Struct({
     ProfileId: S.String.pipe(T.JsonName("ProfileId")),
-    QueryResult: S.String.pipe(T.JsonName("QueryResult")),
+    QueryResult: QueryResult.pipe(T.JsonName("QueryResult")),
     Profile: S.optional(Profile)
       .pipe(T.JsonName("Profile"))
       .annotations({ identifier: "Profile" }),
@@ -4173,12 +4821,12 @@ export const ResultsSummary = S.suspend(() =>
 export interface ListCalculatedAttributeDefinitionItem {
   CalculatedAttributeName?: string;
   DisplayName?: string;
-  Description?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
   UseHistoricalData?: boolean;
-  Status?: string;
-  Tags?: TagMap;
+  Status?: ReadinessStatus;
+  Tags?: { [key: string]: string };
 }
 export const ListCalculatedAttributeDefinitionItem = S.suspend(() =>
   S.Struct({
@@ -4188,7 +4836,7 @@ export const ListCalculatedAttributeDefinitionItem = S.suspend(() =>
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UseHistoricalData: S.optional(S.Boolean),
-    Status: S.optional(S.String),
+    Status: S.optional(ReadinessStatus),
     Tags: S.optional(TagMap),
   }),
 ).annotations({
@@ -4226,11 +4874,11 @@ export const CalculatedAttributesForProfileList = S.Array(
 );
 export interface LayoutItem {
   LayoutDefinitionName: string;
-  Description: string | Redacted.Redacted<string>;
+  Description: string | redacted.Redacted<string>;
   DisplayName: string;
   IsDefault?: boolean;
-  LayoutType: string;
-  Tags?: TagMap;
+  LayoutType: LayoutType;
+  Tags?: { [key: string]: string };
   CreatedAt: Date;
   LastUpdatedAt: Date;
 }
@@ -4240,7 +4888,7 @@ export const LayoutItem = S.suspend(() =>
     Description: SensitiveString,
     DisplayName: S.String,
     IsDefault: S.optional(S.Boolean),
-    LayoutType: S.String,
+    LayoutType: LayoutType,
     Tags: S.optional(TagMap),
     CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -4250,10 +4898,10 @@ export type LayoutList = LayoutItem[];
 export const LayoutList = S.Array(LayoutItem);
 export interface DomainObjectTypesListItem {
   ObjectTypeName: string;
-  Description?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const DomainObjectTypesListItem = S.suspend(() =>
   S.Struct({
@@ -4272,7 +4920,7 @@ export interface ListDomainItem {
   DomainName: string;
   CreatedAt: Date;
   LastUpdatedAt: Date;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const ListDomainItem = S.suspend(() =>
   S.Struct({
@@ -4292,7 +4940,7 @@ export interface EventTriggerSummaryItem {
   Description?: string;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const EventTriggerSummaryItem = S.suspend(() =>
   S.Struct({
@@ -4331,7 +4979,7 @@ export const ExportingLocation = S.suspend(() =>
 export interface IdentityResolutionJob {
   DomainName?: string;
   JobId?: string;
-  Status?: string;
+  Status?: IdentityResolutionJobStatus;
   JobStartTime?: Date;
   JobEndTime?: Date;
   JobStats?: JobStats;
@@ -4342,7 +4990,7 @@ export const IdentityResolutionJob = S.suspend(() =>
   S.Struct({
     DomainName: S.optional(S.String),
     JobId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(IdentityResolutionJobStatus),
     JobStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     JobEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     JobStats: S.optional(JobStats),
@@ -4371,7 +5019,7 @@ export const ListObjectTypeAttributesList = S.Array(
   ListObjectTypeAttributeItem,
 );
 export interface ListObjectTypeAttributeValuesItem {
-  Value: string | Redacted.Redacted<string>;
+  Value: string | redacted.Redacted<string>;
   LastUpdatedAt: Date;
 }
 export const ListObjectTypeAttributeValuesItem = S.suspend(() =>
@@ -4402,7 +5050,7 @@ export interface ProfileHistoryRecord {
   ObjectTypeName: string;
   CreatedAt: Date;
   LastUpdatedAt?: Date;
-  ActionType: string;
+  ActionType: ActionType;
   ProfileObjectUniqueKey?: string;
   PerformedBy?: string;
 }
@@ -4412,7 +5060,7 @@ export const ProfileHistoryRecord = S.suspend(() =>
     ObjectTypeName: S.String,
     CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ActionType: S.String,
+    ActionType: ActionType,
     ProfileObjectUniqueKey: S.optional(S.String),
     PerformedBy: S.optional(S.String),
   }),
@@ -4428,7 +5076,7 @@ export interface ListProfileObjectTypeItem {
   LastUpdatedAt?: Date;
   MaxProfileObjectCount?: number;
   MaxAvailableProfileObjectCount?: number;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const ListProfileObjectTypeItem = S.suspend(() =>
   S.Struct({
@@ -4464,11 +5112,14 @@ export const ProfileObjectTypeTemplateList = S.Array(
   ListProfileObjectTypeTemplateItem,
 );
 export interface RecommenderRecipe {
-  name?: string;
+  name?: RecommenderRecipeName;
   description?: string;
 }
 export const RecommenderRecipe = S.suspend(() =>
-  S.Struct({ name: S.optional(S.String), description: S.optional(S.String) }),
+  S.Struct({
+    name: S.optional(RecommenderRecipeName),
+    description: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "RecommenderRecipe",
 }) as any as S.Schema<RecommenderRecipe>;
@@ -4476,24 +5127,24 @@ export type RecommenderRecipesList = RecommenderRecipe[];
 export const RecommenderRecipesList = S.Array(RecommenderRecipe);
 export interface RecommenderSummary {
   RecommenderName?: string;
-  RecipeName?: string;
+  RecipeName?: RecommenderRecipeName;
   RecommenderConfig?: RecommenderConfig;
   CreatedAt?: Date;
-  Description?: string | Redacted.Redacted<string>;
-  Status?: string;
+  Description?: string | redacted.Redacted<string>;
+  Status?: RecommenderStatus;
   LastUpdatedAt?: Date;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   FailureReason?: string;
   LatestRecommenderUpdate?: RecommenderUpdate;
 }
 export const RecommenderSummary = S.suspend(() =>
   S.Struct({
     RecommenderName: S.optional(S.String),
-    RecipeName: S.optional(S.String),
+    RecipeName: S.optional(RecommenderRecipeName),
     RecommenderConfig: S.optional(RecommenderConfig),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Description: S.optional(SensitiveString),
-    Status: S.optional(S.String),
+    Status: S.optional(RecommenderStatus),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Tags: S.optional(TagMap),
     FailureReason: S.optional(S.String),
@@ -4507,11 +5158,11 @@ export const RecommenderSummaryList = S.Array(RecommenderSummary);
 export interface SegmentDefinitionItem {
   SegmentDefinitionName?: string;
   DisplayName?: string;
-  Description?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   SegmentDefinitionArn?: string;
   CreatedAt?: Date;
-  Tags?: TagMap;
-  SegmentType?: string;
+  Tags?: { [key: string]: string };
+  SegmentType?: SegmentType;
 }
 export const SegmentDefinitionItem = S.suspend(() =>
   S.Struct({
@@ -4527,7 +5178,7 @@ export const SegmentDefinitionItem = S.suspend(() =>
       T.JsonName("CreatedAt"),
     ),
     Tags: S.optional(TagMap).pipe(T.JsonName("Tags")),
-    SegmentType: S.optional(S.String).pipe(T.JsonName("SegmentType")),
+    SegmentType: S.optional(SegmentType).pipe(T.JsonName("SegmentType")),
   }),
 ).annotations({
   identifier: "SegmentDefinitionItem",
@@ -4537,8 +5188,8 @@ export const SegmentDefinitionsList = S.Array(SegmentDefinitionItem);
 export interface UploadJobItem {
   JobId?: string;
   DisplayName?: string;
-  Status?: string;
-  StatusReason?: string;
+  Status?: UploadJobStatus;
+  StatusReason?: StatusReason;
   CreatedAt?: Date;
   CompletedAt?: Date;
   DataExpiry?: number;
@@ -4547,8 +5198,8 @@ export const UploadJobItem = S.suspend(() =>
   S.Struct({
     JobId: S.optional(S.String).pipe(T.JsonName("JobId")),
     DisplayName: S.optional(S.String).pipe(T.JsonName("DisplayName")),
-    Status: S.optional(S.String).pipe(T.JsonName("Status")),
-    StatusReason: S.optional(S.String).pipe(T.JsonName("StatusReason")),
+    Status: S.optional(UploadJobStatus).pipe(T.JsonName("Status")),
+    StatusReason: S.optional(StatusReason).pipe(T.JsonName("StatusReason")),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
       T.JsonName("CreatedAt"),
     ),
@@ -4563,18 +5214,18 @@ export const UploadJobItem = S.suspend(() =>
 export type UploadJobsList = UploadJobItem[];
 export const UploadJobsList = S.Array(UploadJobItem);
 export interface ListWorkflowsItem {
-  WorkflowType: string;
+  WorkflowType: WorkflowType;
   WorkflowId: string;
-  Status: string;
+  Status: Status;
   StatusDescription: string;
   CreatedAt: Date;
   LastUpdatedAt: Date;
 }
 export const ListWorkflowsItem = S.suspend(() =>
   S.Struct({
-    WorkflowType: S.String,
+    WorkflowType: WorkflowType,
     WorkflowId: S.String,
-    Status: S.String,
+    Status: Status,
     StatusDescription: S.String,
     CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -4605,7 +5256,7 @@ export interface FieldSourceProfileIds {
   ShippingAddress?: string;
   MailingAddress?: string;
   BillingAddress?: string;
-  Attributes?: AttributeSourceIdMap;
+  Attributes?: { [key: string]: string };
   ProfileType?: string;
   EngagementPreferences?: string;
 }
@@ -4650,6 +5301,21 @@ export const Batch = S.suspend(() =>
 ).annotations({ identifier: "Batch" }) as any as S.Schema<Batch>;
 export type Batches = Batch[];
 export const Batches = S.Array(Batch);
+export type TrainingMetricName =
+  | "hit"
+  | "coverage"
+  | "recall"
+  | "popularity"
+  | "freshness"
+  | "similarity";
+export const TrainingMetricName = S.Literal(
+  "hit",
+  "coverage",
+  "recall",
+  "popularity",
+  "freshness",
+  "similarity",
+);
 export interface IncrementalPullConfig {
   DatetimeTypeFieldName?: string;
 }
@@ -4659,29 +5325,31 @@ export const IncrementalPullConfig = S.suspend(() =>
   identifier: "IncrementalPullConfig",
 }) as any as S.Schema<IncrementalPullConfig>;
 export interface ConnectorOperator {
-  Marketo?: string;
-  S3?: string;
-  Salesforce?: string;
-  ServiceNow?: string;
-  Zendesk?: string;
+  Marketo?: MarketoConnectorOperator;
+  S3?: S3ConnectorOperator;
+  Salesforce?: SalesforceConnectorOperator;
+  ServiceNow?: ServiceNowConnectorOperator;
+  Zendesk?: ZendeskConnectorOperator;
 }
 export const ConnectorOperator = S.suspend(() =>
   S.Struct({
-    Marketo: S.optional(S.String),
-    S3: S.optional(S.String),
-    Salesforce: S.optional(S.String),
-    ServiceNow: S.optional(S.String),
-    Zendesk: S.optional(S.String),
+    Marketo: S.optional(MarketoConnectorOperator),
+    S3: S.optional(S3ConnectorOperator),
+    Salesforce: S.optional(SalesforceConnectorOperator),
+    ServiceNow: S.optional(ServiceNowConnectorOperator),
+    Zendesk: S.optional(ZendeskConnectorOperator),
   }),
 ).annotations({
   identifier: "ConnectorOperator",
 }) as any as S.Schema<ConnectorOperator>;
-export type TaskPropertiesMap = { [key: string]: string };
-export const TaskPropertiesMap = S.Record({ key: S.String, value: S.String });
+export type TaskPropertiesMap = { [key in OperatorPropertiesKeys]?: string };
+export const TaskPropertiesMap = S.partial(
+  S.Record({ key: OperatorPropertiesKeys, value: S.String }),
+);
 export interface BatchGetCalculatedAttributeForProfileRequest {
   CalculatedAttributeName: string;
   DomainName: string;
-  ProfileIds: BatchGetCalculatedAttributeForProfileIdList;
+  ProfileIds: string[];
   ConditionOverrides?: ConditionOverrides;
 }
 export const BatchGetCalculatedAttributeForProfileRequest = S.suspend(() =>
@@ -4710,30 +5378,30 @@ export const BatchGetCalculatedAttributeForProfileRequest = S.suspend(() =>
 }) as any as S.Schema<BatchGetCalculatedAttributeForProfileRequest>;
 export interface CreateProfileRequest {
   DomainName: string;
-  AccountNumber?: string | Redacted.Redacted<string>;
-  AdditionalInformation?: string | Redacted.Redacted<string>;
-  PartyType?: string;
-  BusinessName?: string | Redacted.Redacted<string>;
-  FirstName?: string | Redacted.Redacted<string>;
-  MiddleName?: string | Redacted.Redacted<string>;
-  LastName?: string | Redacted.Redacted<string>;
-  BirthDate?: string | Redacted.Redacted<string>;
-  Gender?: string;
-  PhoneNumber?: string | Redacted.Redacted<string>;
-  MobilePhoneNumber?: string | Redacted.Redacted<string>;
-  HomePhoneNumber?: string | Redacted.Redacted<string>;
-  BusinessPhoneNumber?: string | Redacted.Redacted<string>;
-  EmailAddress?: string | Redacted.Redacted<string>;
-  PersonalEmailAddress?: string | Redacted.Redacted<string>;
-  BusinessEmailAddress?: string | Redacted.Redacted<string>;
+  AccountNumber?: string | redacted.Redacted<string>;
+  AdditionalInformation?: string | redacted.Redacted<string>;
+  PartyType?: PartyType;
+  BusinessName?: string | redacted.Redacted<string>;
+  FirstName?: string | redacted.Redacted<string>;
+  MiddleName?: string | redacted.Redacted<string>;
+  LastName?: string | redacted.Redacted<string>;
+  BirthDate?: string | redacted.Redacted<string>;
+  Gender?: Gender;
+  PhoneNumber?: string | redacted.Redacted<string>;
+  MobilePhoneNumber?: string | redacted.Redacted<string>;
+  HomePhoneNumber?: string | redacted.Redacted<string>;
+  BusinessPhoneNumber?: string | redacted.Redacted<string>;
+  EmailAddress?: string | redacted.Redacted<string>;
+  PersonalEmailAddress?: string | redacted.Redacted<string>;
+  BusinessEmailAddress?: string | redacted.Redacted<string>;
   Address?: Address;
   ShippingAddress?: Address;
   MailingAddress?: Address;
   BillingAddress?: Address;
-  Attributes?: Attributes;
-  PartyTypeString?: string | Redacted.Redacted<string>;
-  GenderString?: string | Redacted.Redacted<string>;
-  ProfileType?: string;
+  Attributes?: { [key: string]: string };
+  PartyTypeString?: string | redacted.Redacted<string>;
+  GenderString?: string | redacted.Redacted<string>;
+  ProfileType?: ProfileType;
   EngagementPreferences?: EngagementPreferences;
 }
 export const CreateProfileRequest = S.suspend(() =>
@@ -4741,13 +5409,13 @@ export const CreateProfileRequest = S.suspend(() =>
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     AccountNumber: S.optional(SensitiveString),
     AdditionalInformation: S.optional(SensitiveString),
-    PartyType: S.optional(S.String),
+    PartyType: S.optional(PartyType),
     BusinessName: S.optional(SensitiveString),
     FirstName: S.optional(SensitiveString),
     MiddleName: S.optional(SensitiveString),
     LastName: S.optional(SensitiveString),
     BirthDate: S.optional(SensitiveString),
-    Gender: S.optional(S.String),
+    Gender: S.optional(Gender),
     PhoneNumber: S.optional(SensitiveString),
     MobilePhoneNumber: S.optional(SensitiveString),
     HomePhoneNumber: S.optional(SensitiveString),
@@ -4762,7 +5430,7 @@ export const CreateProfileRequest = S.suspend(() =>
     Attributes: S.optional(Attributes),
     PartyTypeString: S.optional(SensitiveString),
     GenderString: S.optional(SensitiveString),
-    ProfileType: S.optional(S.String),
+    ProfileType: S.optional(ProfileType),
     EngagementPreferences: S.optional(EngagementPreferences),
   }).pipe(
     T.all(
@@ -4794,7 +5462,7 @@ export const CreateSegmentEstimateResponse = S.suspend(() =>
 export interface CreateUploadJobRequest {
   DomainName: string;
   DisplayName: string;
-  Fields: FieldMap;
+  Fields: { [key: string]: ObjectTypeField };
   UniqueKey: string;
   DataExpiry?: number;
 }
@@ -4819,7 +5487,7 @@ export const CreateUploadJobRequest = S.suspend(() =>
   identifier: "CreateUploadJobRequest",
 }) as any as S.Schema<CreateUploadJobRequest>;
 export interface DetectProfileObjectTypeResponse {
-  DetectedProfileObjectTypes?: DetectedProfileObjectTypes;
+  DetectedProfileObjectTypes?: DetectedProfileObjectType[];
 }
 export const DetectProfileObjectTypeResponse = S.suspend(() =>
   S.Struct({
@@ -4844,14 +5512,47 @@ export const GetAutoMergingPreviewResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetAutoMergingPreviewResponse",
 }) as any as S.Schema<GetAutoMergingPreviewResponse>;
+export type FilterDimensionType =
+  | "INCLUSIVE"
+  | "EXCLUSIVE"
+  | "CONTAINS"
+  | "BEGINS_WITH"
+  | "ENDS_WITH"
+  | "BEFORE"
+  | "AFTER"
+  | "BETWEEN"
+  | "NOT_BETWEEN"
+  | "ON"
+  | "GREATER_THAN"
+  | "LESS_THAN"
+  | "GREATER_THAN_OR_EQUAL"
+  | "LESS_THAN_OR_EQUAL"
+  | "EQUAL";
+export const FilterDimensionType = S.Literal(
+  "INCLUSIVE",
+  "EXCLUSIVE",
+  "CONTAINS",
+  "BEGINS_WITH",
+  "ENDS_WITH",
+  "BEFORE",
+  "AFTER",
+  "BETWEEN",
+  "NOT_BETWEEN",
+  "ON",
+  "GREATER_THAN",
+  "LESS_THAN",
+  "GREATER_THAN_OR_EQUAL",
+  "LESS_THAN_OR_EQUAL",
+  "EQUAL",
+);
 export type ValueList = string[];
 export const ValueList = S.Array(S.String);
 export interface FilterAttributeDimension {
-  DimensionType: string;
-  Values: ValueList;
+  DimensionType: FilterDimensionType;
+  Values: string[];
 }
 export const FilterAttributeDimension = S.suspend(() =>
-  S.Struct({ DimensionType: S.String, Values: ValueList }),
+  S.Struct({ DimensionType: FilterDimensionType, Values: ValueList }),
 ).annotations({
   identifier: "FilterAttributeDimension",
 }) as any as S.Schema<FilterAttributeDimension>;
@@ -4861,7 +5562,7 @@ export const AttributeMap = S.Record({
   value: FilterAttributeDimension,
 });
 export interface FilterDimension {
-  Attributes: AttributeMap;
+  Attributes: { [key: string]: FilterAttributeDimension };
 }
 export const FilterDimension = S.suspend(() =>
   S.Struct({ Attributes: AttributeMap }),
@@ -4871,35 +5572,35 @@ export const FilterDimension = S.suspend(() =>
 export type FilterDimensionList = FilterDimension[];
 export const FilterDimensionList = S.Array(FilterDimension);
 export interface FilterGroup {
-  Type: string;
-  Dimensions: FilterDimensionList;
+  Type: Type;
+  Dimensions: FilterDimension[];
 }
 export const FilterGroup = S.suspend(() =>
-  S.Struct({ Type: S.String, Dimensions: FilterDimensionList }),
+  S.Struct({ Type: Type, Dimensions: FilterDimensionList }),
 ).annotations({ identifier: "FilterGroup" }) as any as S.Schema<FilterGroup>;
 export type GroupList = FilterGroup[];
 export const GroupList = S.Array(FilterGroup);
 export interface Filter {
-  Include: string;
-  Groups: GroupList;
+  Include: Include;
+  Groups: FilterGroup[];
 }
 export const Filter = S.suspend(() =>
-  S.Struct({ Include: S.String, Groups: GroupList }),
+  S.Struct({ Include: Include, Groups: GroupList }),
 ).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export interface GetCalculatedAttributeDefinitionResponse {
   CalculatedAttributeName?: string;
   DisplayName?: string;
-  Description?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  Statistic?: string;
+  Statistic?: Statistic;
   Filter?: Filter;
   Conditions?: Conditions;
   AttributeDetails?: AttributeDetails;
   UseHistoricalData?: boolean;
-  Status?: string;
+  Status?: ReadinessStatus;
   Readiness?: Readiness;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const GetCalculatedAttributeDefinitionResponse = S.suspend(() =>
   S.Struct({
@@ -4908,12 +5609,12 @@ export const GetCalculatedAttributeDefinitionResponse = S.suspend(() =>
     Description: S.optional(SensitiveString),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Statistic: S.optional(S.String),
+    Statistic: S.optional(Statistic),
     Filter: S.optional(Filter),
     Conditions: S.optional(Conditions),
     AttributeDetails: S.optional(AttributeDetails),
     UseHistoricalData: S.optional(S.Boolean),
-    Status: S.optional(S.String),
+    Status: S.optional(ReadinessStatus),
     Readiness: S.optional(Readiness),
     Tags: S.optional(TagMap),
   }),
@@ -4931,7 +5632,7 @@ export interface GetDomainResponse {
   DataStore?: DataStoreResponse;
   CreatedAt: Date;
   LastUpdatedAt: Date;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const GetDomainResponse = S.suspend(() =>
   S.Struct({
@@ -4954,17 +5655,17 @@ export interface GetEventStreamResponse {
   DomainName: string;
   EventStreamArn: string;
   CreatedAt: Date;
-  State: string;
+  State: EventStreamState;
   StoppedSince?: Date;
   DestinationDetails: EventStreamDestinationDetails;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const GetEventStreamResponse = S.suspend(() =>
   S.Struct({
     DomainName: S.String,
     EventStreamArn: S.String,
     CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    State: S.String,
+    State: EventStreamState,
     StoppedSince: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DestinationDetails: EventStreamDestinationDetails,
     Tags: S.optional(TagMap),
@@ -4976,7 +5677,7 @@ export interface GetMatchesResponse {
   NextToken?: string;
   MatchGenerationDate?: Date;
   PotentialMatches?: number;
-  Matches?: MatchesList;
+  Matches?: MatchItem[];
 }
 export const GetMatchesResponse = S.suspend(() =>
   S.Struct({
@@ -4992,8 +5693,8 @@ export const GetMatchesResponse = S.suspend(() =>
 }) as any as S.Schema<GetMatchesResponse>;
 export interface GetSegmentMembershipResponse {
   SegmentDefinitionName?: string;
-  Profiles?: Profiles;
-  Failures?: Failures;
+  Profiles?: ProfileQueryResult[];
+  Failures?: ProfileQueryFailures[];
   LastComputedAt?: Date;
 }
 export const GetSegmentMembershipResponse = S.suspend(() =>
@@ -5013,11 +5714,11 @@ export const GetSegmentMembershipResponse = S.suspend(() =>
 export interface GetUploadJobResponse {
   JobId?: string;
   DisplayName?: string;
-  Status?: string;
-  StatusReason?: string;
+  Status?: UploadJobStatus;
+  StatusReason?: StatusReason;
   CreatedAt?: Date;
   CompletedAt?: Date;
-  Fields?: FieldMap;
+  Fields?: { [key: string]: ObjectTypeField };
   UniqueKey?: string;
   ResultsSummary?: ResultsSummary;
   DataExpiry?: number;
@@ -5026,8 +5727,8 @@ export const GetUploadJobResponse = S.suspend(() =>
   S.Struct({
     JobId: S.optional(S.String).pipe(T.JsonName("JobId")),
     DisplayName: S.optional(S.String).pipe(T.JsonName("DisplayName")),
-    Status: S.optional(S.String).pipe(T.JsonName("Status")),
-    StatusReason: S.optional(S.String).pipe(T.JsonName("StatusReason")),
+    Status: S.optional(UploadJobStatus).pipe(T.JsonName("Status")),
+    StatusReason: S.optional(StatusReason).pipe(T.JsonName("StatusReason")),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
       T.JsonName("CreatedAt"),
     ),
@@ -5045,7 +5746,7 @@ export const GetUploadJobResponse = S.suspend(() =>
   identifier: "GetUploadJobResponse",
 }) as any as S.Schema<GetUploadJobResponse>;
 export interface ListAccountIntegrationsResponse {
-  Items?: IntegrationList;
+  Items?: ListIntegrationItem[];
   NextToken?: string;
 }
 export const ListAccountIntegrationsResponse = S.suspend(() =>
@@ -5057,7 +5758,7 @@ export const ListAccountIntegrationsResponse = S.suspend(() =>
   identifier: "ListAccountIntegrationsResponse",
 }) as any as S.Schema<ListAccountIntegrationsResponse>;
 export interface ListCalculatedAttributeDefinitionsResponse {
-  Items?: CalculatedAttributeDefinitionsList;
+  Items?: ListCalculatedAttributeDefinitionItem[];
   NextToken?: string;
 }
 export const ListCalculatedAttributeDefinitionsResponse = S.suspend(() =>
@@ -5069,7 +5770,7 @@ export const ListCalculatedAttributeDefinitionsResponse = S.suspend(() =>
   identifier: "ListCalculatedAttributeDefinitionsResponse",
 }) as any as S.Schema<ListCalculatedAttributeDefinitionsResponse>;
 export interface ListCalculatedAttributesForProfileResponse {
-  Items?: CalculatedAttributesForProfileList;
+  Items?: ListCalculatedAttributeForProfileItem[];
   NextToken?: string;
 }
 export const ListCalculatedAttributesForProfileResponse = S.suspend(() =>
@@ -5081,7 +5782,7 @@ export const ListCalculatedAttributesForProfileResponse = S.suspend(() =>
   identifier: "ListCalculatedAttributesForProfileResponse",
 }) as any as S.Schema<ListCalculatedAttributesForProfileResponse>;
 export interface ListDomainLayoutsResponse {
-  Items?: LayoutList;
+  Items?: LayoutItem[];
   NextToken?: string;
 }
 export const ListDomainLayoutsResponse = S.suspend(() =>
@@ -5090,7 +5791,7 @@ export const ListDomainLayoutsResponse = S.suspend(() =>
   identifier: "ListDomainLayoutsResponse",
 }) as any as S.Schema<ListDomainLayoutsResponse>;
 export interface ListDomainObjectTypesResponse {
-  Items?: DomainObjectTypesList;
+  Items?: DomainObjectTypesListItem[];
   NextToken?: string;
 }
 export const ListDomainObjectTypesResponse = S.suspend(() =>
@@ -5102,7 +5803,7 @@ export const ListDomainObjectTypesResponse = S.suspend(() =>
   identifier: "ListDomainObjectTypesResponse",
 }) as any as S.Schema<ListDomainObjectTypesResponse>;
 export interface ListDomainsResponse {
-  Items?: DomainList;
+  Items?: ListDomainItem[];
   NextToken?: string;
 }
 export const ListDomainsResponse = S.suspend(() =>
@@ -5111,7 +5812,7 @@ export const ListDomainsResponse = S.suspend(() =>
   identifier: "ListDomainsResponse",
 }) as any as S.Schema<ListDomainsResponse>;
 export interface ListEventTriggersResponse {
-  Items?: EventTriggerSummaryList;
+  Items?: EventTriggerSummaryItem[];
   NextToken?: string;
 }
 export const ListEventTriggersResponse = S.suspend(() =>
@@ -5123,7 +5824,7 @@ export const ListEventTriggersResponse = S.suspend(() =>
   identifier: "ListEventTriggersResponse",
 }) as any as S.Schema<ListEventTriggersResponse>;
 export interface ListIdentityResolutionJobsResponse {
-  IdentityResolutionJobsList?: IdentityResolutionJobsList;
+  IdentityResolutionJobsList?: IdentityResolutionJob[];
   NextToken?: string;
 }
 export const ListIdentityResolutionJobsResponse = S.suspend(() =>
@@ -5135,7 +5836,7 @@ export const ListIdentityResolutionJobsResponse = S.suspend(() =>
   identifier: "ListIdentityResolutionJobsResponse",
 }) as any as S.Schema<ListIdentityResolutionJobsResponse>;
 export interface ListObjectTypeAttributesResponse {
-  Items?: ListObjectTypeAttributesList;
+  Items?: ListObjectTypeAttributeItem[];
   NextToken?: string;
 }
 export const ListObjectTypeAttributesResponse = S.suspend(() =>
@@ -5147,7 +5848,7 @@ export const ListObjectTypeAttributesResponse = S.suspend(() =>
   identifier: "ListObjectTypeAttributesResponse",
 }) as any as S.Schema<ListObjectTypeAttributesResponse>;
 export interface ListObjectTypeAttributeValuesResponse {
-  Items?: ListObjectTypeAttributeValuesList;
+  Items?: ListObjectTypeAttributeValuesItem[];
   NextToken?: string;
 }
 export const ListObjectTypeAttributeValuesResponse = S.suspend(() =>
@@ -5161,7 +5862,7 @@ export const ListObjectTypeAttributeValuesResponse = S.suspend(() =>
 export interface ProfileAttributeValuesResponse {
   DomainName?: string;
   AttributeName?: string;
-  Items?: AttributeValueItemList;
+  Items?: AttributeValueItem[];
   StatusCode?: number;
 }
 export const ProfileAttributeValuesResponse = S.suspend(() =>
@@ -5175,7 +5876,7 @@ export const ProfileAttributeValuesResponse = S.suspend(() =>
   identifier: "ProfileAttributeValuesResponse",
 }) as any as S.Schema<ProfileAttributeValuesResponse>;
 export interface ListProfileHistoryRecordsResponse {
-  ProfileHistoryRecords?: ProfileHistoryRecords;
+  ProfileHistoryRecords?: ProfileHistoryRecord[];
   NextToken?: string;
 }
 export const ListProfileHistoryRecordsResponse = S.suspend(() =>
@@ -5187,7 +5888,7 @@ export const ListProfileHistoryRecordsResponse = S.suspend(() =>
   identifier: "ListProfileHistoryRecordsResponse",
 }) as any as S.Schema<ListProfileHistoryRecordsResponse>;
 export interface ListProfileObjectTypesResponse {
-  Items?: ProfileObjectTypeList;
+  Items?: ListProfileObjectTypeItem[];
   NextToken?: string;
 }
 export const ListProfileObjectTypesResponse = S.suspend(() =>
@@ -5199,7 +5900,7 @@ export const ListProfileObjectTypesResponse = S.suspend(() =>
   identifier: "ListProfileObjectTypesResponse",
 }) as any as S.Schema<ListProfileObjectTypesResponse>;
 export interface ListProfileObjectTypeTemplatesResponse {
-  Items?: ProfileObjectTypeTemplateList;
+  Items?: ListProfileObjectTypeTemplateItem[];
   NextToken?: string;
 }
 export const ListProfileObjectTypeTemplatesResponse = S.suspend(() =>
@@ -5212,7 +5913,7 @@ export const ListProfileObjectTypeTemplatesResponse = S.suspend(() =>
 }) as any as S.Schema<ListProfileObjectTypeTemplatesResponse>;
 export interface ListRecommenderRecipesResponse {
   NextToken?: string;
-  RecommenderRecipes?: RecommenderRecipesList;
+  RecommenderRecipes?: RecommenderRecipe[];
 }
 export const ListRecommenderRecipesResponse = S.suspend(() =>
   S.Struct({
@@ -5224,7 +5925,7 @@ export const ListRecommenderRecipesResponse = S.suspend(() =>
 }) as any as S.Schema<ListRecommenderRecipesResponse>;
 export interface ListRecommendersResponse {
   NextToken?: string;
-  Recommenders?: RecommenderSummaryList;
+  Recommenders?: RecommenderSummary[];
 }
 export const ListRecommendersResponse = S.suspend(() =>
   S.Struct({
@@ -5236,7 +5937,7 @@ export const ListRecommendersResponse = S.suspend(() =>
 }) as any as S.Schema<ListRecommendersResponse>;
 export interface ListSegmentDefinitionsResponse {
   NextToken?: string;
-  Items?: SegmentDefinitionsList;
+  Items?: SegmentDefinitionItem[];
 }
 export const ListSegmentDefinitionsResponse = S.suspend(() =>
   S.Struct({
@@ -5248,7 +5949,7 @@ export const ListSegmentDefinitionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListSegmentDefinitionsResponse>;
 export interface ListUploadJobsResponse {
   NextToken?: string;
-  Items?: UploadJobsList;
+  Items?: UploadJobItem[];
 }
 export const ListUploadJobsResponse = S.suspend(() =>
   S.Struct({
@@ -5259,7 +5960,7 @@ export const ListUploadJobsResponse = S.suspend(() =>
   identifier: "ListUploadJobsResponse",
 }) as any as S.Schema<ListUploadJobsResponse>;
 export interface ListWorkflowsResponse {
-  Items?: WorkflowList;
+  Items?: ListWorkflowsItem[];
   NextToken?: string;
 }
 export const ListWorkflowsResponse = S.suspend(() =>
@@ -5273,7 +5974,7 @@ export const ListWorkflowsResponse = S.suspend(() =>
 export interface MergeProfilesRequest {
   DomainName: string;
   MainProfileId: string;
-  ProfileIdsToBeMerged: ProfileIdToBeMergedList;
+  ProfileIdsToBeMerged: string[];
   FieldSourceProfileIds?: FieldSourceProfileIds;
 }
 export const MergeProfilesRequest = S.suspend(() =>
@@ -5301,10 +6002,10 @@ export const MergeProfilesRequest = S.suspend(() =>
 export interface PutDomainObjectTypeRequest {
   DomainName: string;
   ObjectTypeName: string;
-  Description?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   EncryptionKey?: string;
-  Fields: DomainObjectTypeFields;
-  Tags?: TagMap;
+  Fields: { [key: string]: DomainObjectTypeField };
+  Tags?: { [key: string]: string };
 }
 export const PutDomainObjectTypeRequest = S.suspend(() =>
   S.Struct({
@@ -5330,19 +6031,21 @@ export const PutDomainObjectTypeRequest = S.suspend(() =>
 ).annotations({
   identifier: "PutDomainObjectTypeRequest",
 }) as any as S.Schema<PutDomainObjectTypeRequest>;
+export type DataPullMode = "Incremental" | "Complete";
+export const DataPullMode = S.Literal("Incremental", "Complete");
 export interface PutProfileObjectTypeRequest {
   DomainName: string;
   ObjectTypeName: string;
-  Description: string | Redacted.Redacted<string>;
+  Description: string | redacted.Redacted<string>;
   TemplateId?: string;
   ExpirationDays?: number;
   EncryptionKey?: string;
   AllowProfileCreation?: boolean;
   SourceLastUpdatedTimestampFormat?: string;
   MaxProfileObjectCount?: number;
-  Fields?: FieldMap;
-  Keys?: KeyMap;
-  Tags?: TagMap;
+  Fields?: { [key: string]: ObjectTypeField };
+  Keys?: { [key: string]: ObjectTypeKey[] };
+  Tags?: { [key: string]: string };
 }
 export const PutProfileObjectTypeRequest = S.suspend(() =>
   S.Struct({
@@ -5377,7 +6080,7 @@ export const PutProfileObjectTypeRequest = S.suspend(() =>
 export type ProfileList = Profile[];
 export const ProfileList = S.Array(Profile);
 export interface SearchProfilesResponse {
-  Items?: ProfileList;
+  Items?: Profile[];
   NextToken?: string;
 }
 export const SearchProfilesResponse = S.suspend(() =>
@@ -5460,14 +6163,14 @@ export const SourceConnectorProperties = S.suspend(() =>
 }) as any as S.Schema<SourceConnectorProperties>;
 export interface SourceFlowConfig {
   ConnectorProfileName?: string;
-  ConnectorType: string;
+  ConnectorType: SourceConnectorType;
   IncrementalPullConfig?: IncrementalPullConfig;
   SourceConnectorProperties: SourceConnectorProperties;
 }
 export const SourceFlowConfig = S.suspend(() =>
   S.Struct({
     ConnectorProfileName: S.optional(S.String),
-    ConnectorType: S.String,
+    ConnectorType: SourceConnectorType,
     IncrementalPullConfig: S.optional(IncrementalPullConfig),
     SourceConnectorProperties: SourceConnectorProperties,
   }),
@@ -5477,9 +6180,9 @@ export const SourceFlowConfig = S.suspend(() =>
 export interface Task {
   ConnectorOperator?: ConnectorOperator;
   DestinationField?: string;
-  SourceFields: SourceFields;
-  TaskProperties?: TaskPropertiesMap;
-  TaskType: string;
+  SourceFields: string[];
+  TaskProperties?: { [key: string]: string };
+  TaskType: TaskType;
 }
 export const Task = S.suspend(() =>
   S.Struct({
@@ -5487,14 +6190,14 @@ export const Task = S.suspend(() =>
     DestinationField: S.optional(S.String),
     SourceFields: SourceFields,
     TaskProperties: S.optional(TaskPropertiesMap),
-    TaskType: S.String,
+    TaskType: TaskType,
   }),
 ).annotations({ identifier: "Task" }) as any as S.Schema<Task>;
 export type Tasks = Task[];
 export const Tasks = S.Array(Task);
 export interface ScheduledTriggerProperties {
   ScheduleExpression: string;
-  DataPullMode?: string;
+  DataPullMode?: DataPullMode;
   ScheduleStartTime?: Date;
   ScheduleEndTime?: Date;
   Timezone?: string;
@@ -5504,7 +6207,7 @@ export interface ScheduledTriggerProperties {
 export const ScheduledTriggerProperties = S.suspend(() =>
   S.Struct({
     ScheduleExpression: S.String,
-    DataPullMode: S.optional(S.String),
+    DataPullMode: S.optional(DataPullMode),
     ScheduleStartTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -5529,12 +6232,12 @@ export const TriggerProperties = S.suspend(() =>
   identifier: "TriggerProperties",
 }) as any as S.Schema<TriggerProperties>;
 export interface TriggerConfig {
-  TriggerType: string;
+  TriggerType: TriggerType;
   TriggerProperties?: TriggerProperties;
 }
 export const TriggerConfig = S.suspend(() =>
   S.Struct({
-    TriggerType: S.String,
+    TriggerType: TriggerType,
     TriggerProperties: S.optional(TriggerProperties),
   }),
 ).annotations({
@@ -5545,7 +6248,7 @@ export interface FlowDefinition {
   FlowName: string;
   KmsArn: string;
   SourceFlowConfig: SourceFlowConfig;
-  Tasks: Tasks;
+  Tasks: Task[];
   TriggerConfig: TriggerConfig;
 }
 export const FlowDefinition = S.suspend(() =>
@@ -5562,7 +6265,7 @@ export const FlowDefinition = S.suspend(() =>
 }) as any as S.Schema<FlowDefinition>;
 export interface AppflowIntegration {
   FlowDefinition: FlowDefinition;
-  Batches?: Batches;
+  Batches?: Batch[];
 }
 export const AppflowIntegration = S.suspend(() =>
   S.Struct({ FlowDefinition: FlowDefinition, Batches: S.optional(Batches) }),
@@ -5587,16 +6290,18 @@ export const GetObjectTypeAttributeStatisticsPercentiles = S.suspend(() =>
 ).annotations({
   identifier: "GetObjectTypeAttributeStatisticsPercentiles",
 }) as any as S.Schema<GetObjectTypeAttributeStatisticsPercentiles>;
-export type Metrics = { [key: string]: number };
-export const Metrics = S.Record({ key: S.String, value: S.Number });
+export type Metrics = { [key in TrainingMetricName]?: number };
+export const Metrics = S.partial(
+  S.Record({ key: TrainingMetricName, value: S.Number }),
+);
 export interface AppflowIntegrationWorkflowAttributes {
-  SourceConnectorType: string;
+  SourceConnectorType: SourceConnectorType;
   ConnectorProfileName: string;
   RoleArn?: string;
 }
 export const AppflowIntegrationWorkflowAttributes = S.suspend(() =>
   S.Struct({
-    SourceConnectorType: S.String,
+    SourceConnectorType: SourceConnectorType,
     ConnectorProfileName: S.String,
     RoleArn: S.optional(S.String),
   }),
@@ -5619,7 +6324,7 @@ export const AppflowIntegrationWorkflowMetrics = S.suspend(() =>
 }) as any as S.Schema<AppflowIntegrationWorkflowMetrics>;
 export interface AppflowIntegrationWorkflowStep {
   FlowName: string;
-  Status: string;
+  Status: Status;
   ExecutionMessage: string;
   RecordsProcessed: number;
   BatchRecordsStartTime: string;
@@ -5630,7 +6335,7 @@ export interface AppflowIntegrationWorkflowStep {
 export const AppflowIntegrationWorkflowStep = S.suspend(() =>
   S.Struct({
     FlowName: S.String,
-    Status: S.String,
+    Status: Status,
     ExecutionMessage: S.String,
     RecordsProcessed: S.Number,
     BatchRecordsStartTime: S.String,
@@ -5643,13 +6348,13 @@ export const AppflowIntegrationWorkflowStep = S.suspend(() =>
 }) as any as S.Schema<AppflowIntegrationWorkflowStep>;
 export interface DestinationSummary {
   Uri: string;
-  Status: string;
+  Status: EventStreamDestinationStatus;
   UnhealthySince?: Date;
 }
 export const DestinationSummary = S.suspend(() =>
   S.Struct({
     Uri: S.String,
-    Status: S.String,
+    Status: EventStreamDestinationStatus,
     UnhealthySince: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({
@@ -5683,7 +6388,7 @@ export const GetObjectTypeAttributeStatisticsStats = S.suspend(() =>
 }) as any as S.Schema<GetObjectTypeAttributeStatisticsStats>;
 export interface TrainingMetrics {
   Time?: Date;
-  Metrics?: Metrics;
+  Metrics?: { [key: string]: number };
 }
 export const TrainingMetrics = S.suspend(() =>
   S.Struct({
@@ -5729,17 +6434,17 @@ export interface EventStreamSummary {
   DomainName: string;
   EventStreamName: string;
   EventStreamArn: string;
-  State: string;
+  State: EventStreamState;
   StoppedSince?: Date;
   DestinationSummary?: DestinationSummary;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const EventStreamSummary = S.suspend(() =>
   S.Struct({
     DomainName: S.String,
     EventStreamName: S.String,
     EventStreamArn: S.String,
-    State: S.String,
+    State: EventStreamState,
     StoppedSince: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DestinationSummary: S.optional(DestinationSummary),
     Tags: S.optional(TagMap),
@@ -5752,7 +6457,7 @@ export const EventStreamSummaryList = S.Array(EventStreamSummary);
 export interface ListProfileObjectsItem {
   ObjectTypeName?: string;
   ProfileObjectUniqueKey?: string;
-  Object?: string | Redacted.Redacted<string>;
+  Object?: string | redacted.Redacted<string>;
 }
 export const ListProfileObjectsItem = S.suspend(() =>
   S.Struct({
@@ -5766,8 +6471,8 @@ export const ListProfileObjectsItem = S.suspend(() =>
 export type ProfileObjectList = ListProfileObjectsItem[];
 export const ProfileObjectList = S.Array(ListProfileObjectsItem);
 export interface BatchGetProfileResponse {
-  Errors?: BatchGetProfileErrorList;
-  Profiles?: ProfileList;
+  Errors?: BatchGetProfileError[];
+  Profiles?: Profile[];
 }
 export const BatchGetProfileResponse = S.suspend(() =>
   S.Struct({
@@ -5785,7 +6490,7 @@ export interface CreateDomainRequest {
   Matching?: MatchingRequest;
   RuleBasedMatching?: RuleBasedMatchingRequest;
   DataStore?: DataStoreRequest;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateDomainRequest = S.suspend(() =>
   S.Struct({
@@ -5814,11 +6519,11 @@ export interface CreateEventTriggerRequest {
   DomainName: string;
   EventTriggerName: string;
   ObjectTypeName: string;
-  Description?: string | Redacted.Redacted<string>;
-  EventTriggerConditions: EventTriggerConditions;
+  Description?: string | redacted.Redacted<string>;
+  EventTriggerConditions: EventTriggerCondition[];
   SegmentFilter?: string;
   EventTriggerLimits?: EventTriggerLimits;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateEventTriggerRequest = S.suspend(() =>
   S.Struct({
@@ -5848,16 +6553,16 @@ export const CreateEventTriggerRequest = S.suspend(() =>
 }) as any as S.Schema<CreateEventTriggerRequest>;
 export interface CreateIntegrationWorkflowRequest {
   DomainName: string;
-  WorkflowType: string;
+  WorkflowType: WorkflowType;
   IntegrationConfig: IntegrationConfig;
   ObjectTypeName: string;
   RoleArn: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateIntegrationWorkflowRequest = S.suspend(() =>
   S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    WorkflowType: S.String,
+    WorkflowType: WorkflowType,
     IntegrationConfig: IntegrationConfig,
     ObjectTypeName: S.String,
     RoleArn: S.String,
@@ -5889,16 +6594,16 @@ export const CreateProfileResponse = S.suspend(() =>
 export interface CreateRecommenderRequest {
   DomainName: string;
   RecommenderName: string;
-  RecommenderRecipeName: string;
+  RecommenderRecipeName: RecommenderRecipeName;
   RecommenderConfig?: RecommenderConfig;
-  Description?: string | Redacted.Redacted<string>;
-  Tags?: TagMap;
+  Description?: string | redacted.Redacted<string>;
+  Tags?: { [key: string]: string };
 }
 export const CreateRecommenderRequest = S.suspend(() =>
   S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     RecommenderName: S.String.pipe(T.HttpLabel("RecommenderName")),
-    RecommenderRecipeName: S.String,
+    RecommenderRecipeName: RecommenderRecipeName,
     RecommenderConfig: S.optional(RecommenderConfig),
     Description: S.optional(SensitiveString),
     Tags: S.optional(TagMap),
@@ -5929,7 +6634,7 @@ export const CreateUploadJobResponse = S.suspend(() =>
 export interface GetIdentityResolutionJobResponse {
   DomainName?: string;
   JobId?: string;
-  Status?: string;
+  Status?: IdentityResolutionJobStatus;
   Message?: string;
   JobStartTime?: Date;
   JobEndTime?: Date;
@@ -5943,7 +6648,7 @@ export const GetIdentityResolutionJobResponse = S.suspend(() =>
   S.Struct({
     DomainName: S.optional(S.String),
     JobId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(IdentityResolutionJobStatus),
     Message: S.optional(S.String),
     JobStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     JobEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -5972,24 +6677,24 @@ export const GetObjectTypeAttributeStatisticsResponse = S.suspend(() =>
 }) as any as S.Schema<GetObjectTypeAttributeStatisticsResponse>;
 export interface GetRecommenderResponse {
   RecommenderName: string;
-  RecommenderRecipeName: string;
+  RecommenderRecipeName: RecommenderRecipeName;
   RecommenderConfig?: RecommenderConfig;
-  Description?: string | Redacted.Redacted<string>;
-  Status?: string;
+  Description?: string | redacted.Redacted<string>;
+  Status?: RecommenderStatus;
   LastUpdatedAt?: Date;
   CreatedAt?: Date;
   FailureReason?: string;
   LatestRecommenderUpdate?: RecommenderUpdate;
-  TrainingMetrics?: TrainingMetricsList;
-  Tags?: TagMap;
+  TrainingMetrics?: TrainingMetrics[];
+  Tags?: { [key: string]: string };
 }
 export const GetRecommenderResponse = S.suspend(() =>
   S.Struct({
     RecommenderName: S.String,
-    RecommenderRecipeName: S.String,
+    RecommenderRecipeName: RecommenderRecipeName,
     RecommenderConfig: S.optional(RecommenderConfig),
     Description: S.optional(SensitiveString),
-    Status: S.optional(S.String),
+    Status: S.optional(RecommenderStatus),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     FailureReason: S.optional(S.String),
@@ -6002,8 +6707,8 @@ export const GetRecommenderResponse = S.suspend(() =>
 }) as any as S.Schema<GetRecommenderResponse>;
 export interface GetWorkflowResponse {
   WorkflowId?: string;
-  WorkflowType?: string;
-  Status?: string;
+  WorkflowType?: WorkflowType;
+  Status?: Status;
   ErrorDescription?: string;
   StartDate?: Date;
   LastUpdatedAt?: Date;
@@ -6013,8 +6718,8 @@ export interface GetWorkflowResponse {
 export const GetWorkflowResponse = S.suspend(() =>
   S.Struct({
     WorkflowId: S.optional(S.String),
-    WorkflowType: S.optional(S.String),
-    Status: S.optional(S.String),
+    WorkflowType: S.optional(WorkflowType),
+    Status: S.optional(Status),
     ErrorDescription: S.optional(S.String),
     StartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -6026,14 +6731,14 @@ export const GetWorkflowResponse = S.suspend(() =>
 }) as any as S.Schema<GetWorkflowResponse>;
 export interface GetWorkflowStepsResponse {
   WorkflowId?: string;
-  WorkflowType?: string;
-  Items?: WorkflowStepsList;
+  WorkflowType?: WorkflowType;
+  Items?: WorkflowStepItem[];
   NextToken?: string;
 }
 export const GetWorkflowStepsResponse = S.suspend(() =>
   S.Struct({
     WorkflowId: S.optional(S.String),
-    WorkflowType: S.optional(S.String),
+    WorkflowType: S.optional(WorkflowType),
     Items: S.optional(WorkflowStepsList),
     NextToken: S.optional(S.String),
   }),
@@ -6041,7 +6746,7 @@ export const GetWorkflowStepsResponse = S.suspend(() =>
   identifier: "GetWorkflowStepsResponse",
 }) as any as S.Schema<GetWorkflowStepsResponse>;
 export interface ListEventStreamsResponse {
-  Items?: EventStreamSummaryList;
+  Items?: EventStreamSummary[];
   NextToken?: string;
 }
 export const ListEventStreamsResponse = S.suspend(() =>
@@ -6053,7 +6758,7 @@ export const ListEventStreamsResponse = S.suspend(() =>
   identifier: "ListEventStreamsResponse",
 }) as any as S.Schema<ListEventStreamsResponse>;
 export interface ListProfileObjectsResponse {
-  Items?: ProfileObjectList;
+  Items?: ListProfileObjectsItem[];
   NextToken?: string;
 }
 export const ListProfileObjectsResponse = S.suspend(() =>
@@ -6074,12 +6779,12 @@ export const MergeProfilesResponse = S.suspend(() =>
 }) as any as S.Schema<MergeProfilesResponse>;
 export interface PutDomainObjectTypeResponse {
   ObjectTypeName?: string;
-  Description?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   EncryptionKey?: string;
-  Fields?: DomainObjectTypeFields;
+  Fields?: { [key: string]: DomainObjectTypeField };
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const PutDomainObjectTypeResponse = S.suspend(() =>
   S.Struct({
@@ -6096,7 +6801,7 @@ export const PutDomainObjectTypeResponse = S.suspend(() =>
 }) as any as S.Schema<PutDomainObjectTypeResponse>;
 export interface PutProfileObjectTypeResponse {
   ObjectTypeName: string;
-  Description: string | Redacted.Redacted<string>;
+  Description: string | redacted.Redacted<string>;
   TemplateId?: string;
   ExpirationDays?: number;
   EncryptionKey?: string;
@@ -6104,11 +6809,11 @@ export interface PutProfileObjectTypeResponse {
   SourceLastUpdatedTimestampFormat?: string;
   MaxProfileObjectCount?: number;
   MaxAvailableProfileObjectCount?: number;
-  Fields?: FieldMap;
-  Keys?: KeyMap;
+  Fields?: { [key: string]: ObjectTypeField };
+  Keys?: { [key: string]: ObjectTypeKey[] };
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const PutProfileObjectTypeResponse = S.suspend(() =>
   S.Struct({
@@ -6131,19 +6836,19 @@ export const PutProfileObjectTypeResponse = S.suspend(() =>
   identifier: "PutProfileObjectTypeResponse",
 }) as any as S.Schema<PutProfileObjectTypeResponse>;
 export interface CatalogItem {
-  Id?: string | Redacted.Redacted<string>;
-  Name?: string | Redacted.Redacted<string>;
-  Code?: string | Redacted.Redacted<string>;
-  Type?: string | Redacted.Redacted<string>;
-  Category?: string | Redacted.Redacted<string>;
-  Description?: string | Redacted.Redacted<string>;
-  AdditionalInformation?: string | Redacted.Redacted<string>;
-  ImageLink?: string | Redacted.Redacted<string>;
-  Link?: string | Redacted.Redacted<string>;
+  Id?: string | redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
+  Code?: string | redacted.Redacted<string>;
+  Type?: string | redacted.Redacted<string>;
+  Category?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
+  AdditionalInformation?: string | redacted.Redacted<string>;
+  ImageLink?: string | redacted.Redacted<string>;
+  Link?: string | redacted.Redacted<string>;
   CreatedAt?: Date;
   UpdatedAt?: Date;
-  Price?: string | Redacted.Redacted<string>;
-  Attributes?: Attributes;
+  Price?: string | redacted.Redacted<string>;
+  Attributes?: { [key: string]: string };
 }
 export const CatalogItem = S.suspend(() =>
   S.Struct({
@@ -6216,8 +6921,8 @@ export const Recommendation = S.suspend(() =>
 export type Recommendations = Recommendation[];
 export const Recommendations = S.Array(Recommendation);
 export interface BatchGetCalculatedAttributeForProfileResponse {
-  Errors?: BatchGetCalculatedAttributeForProfileErrorList;
-  CalculatedAttributeValues?: CalculatedAttributeValueList;
+  Errors?: BatchGetCalculatedAttributeForProfileError[];
+  CalculatedAttributeValues?: CalculatedAttributeValue[];
   ConditionOverrides?: ConditionOverrides;
 }
 export const BatchGetCalculatedAttributeForProfileResponse = S.suspend(() =>
@@ -6239,7 +6944,7 @@ export interface CreateDomainResponse {
   DataStore?: DataStoreResponse;
   CreatedAt: Date;
   LastUpdatedAt: Date;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateDomainResponse = S.suspend(() =>
   S.Struct({
@@ -6260,13 +6965,13 @@ export const CreateDomainResponse = S.suspend(() =>
 export interface CreateEventTriggerResponse {
   EventTriggerName?: string;
   ObjectTypeName?: string;
-  Description?: string | Redacted.Redacted<string>;
-  EventTriggerConditions?: EventTriggerConditions;
+  Description?: string | redacted.Redacted<string>;
+  EventTriggerConditions?: EventTriggerCondition[];
   SegmentFilter?: string;
   EventTriggerLimits?: EventTriggerLimits;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateEventTriggerResponse = S.suspend(() =>
   S.Struct({
@@ -6294,7 +6999,7 @@ export const CreateIntegrationWorkflowResponse = S.suspend(() =>
 }) as any as S.Schema<CreateIntegrationWorkflowResponse>;
 export interface CreateRecommenderResponse {
   RecommenderArn: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateRecommenderResponse = S.suspend(() =>
   S.Struct({ RecommenderArn: S.String, Tags: S.optional(TagMap) }),
@@ -6302,7 +7007,7 @@ export const CreateRecommenderResponse = S.suspend(() =>
   identifier: "CreateRecommenderResponse",
 }) as any as S.Schema<CreateRecommenderResponse>;
 export interface GetProfileRecommendationsResponse {
-  Recommendations?: Recommendations;
+  Recommendations?: Recommendation[];
 }
 export const GetProfileRecommendationsResponse = S.suspend(() =>
   S.Struct({ Recommendations: S.optional(Recommendations) }),
@@ -6313,12 +7018,12 @@ export interface PutIntegrationRequest {
   DomainName: string;
   Uri?: string;
   ObjectTypeName?: string;
-  ObjectTypeNames?: ObjectTypeNames;
-  Tags?: TagMap;
+  ObjectTypeNames?: { [key: string]: string };
+  Tags?: { [key: string]: string };
   FlowDefinition?: FlowDefinition;
   RoleArn?: string;
-  EventTriggerNames?: EventTriggerNames;
-  Scope?: string;
+  EventTriggerNames?: string[];
+  Scope?: Scope;
 }
 export const PutIntegrationRequest = S.suspend(() =>
   S.Struct({
@@ -6330,7 +7035,7 @@ export const PutIntegrationRequest = S.suspend(() =>
     FlowDefinition: S.optional(FlowDefinition),
     RoleArn: S.optional(S.String),
     EventTriggerNames: S.optional(EventTriggerNames),
-    Scope: S.optional(S.String),
+    Scope: S.optional(Scope),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/domains/{DomainName}/integrations" }),
@@ -6348,13 +7053,13 @@ export interface CreateCalculatedAttributeDefinitionRequest {
   DomainName: string;
   CalculatedAttributeName: string;
   DisplayName?: string;
-  Description?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   AttributeDetails: AttributeDetails;
   Conditions?: Conditions;
   Filter?: Filter;
-  Statistic: string;
+  Statistic: Statistic;
   UseHistoricalData?: boolean;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateCalculatedAttributeDefinitionRequest = S.suspend(() =>
   S.Struct({
@@ -6367,7 +7072,7 @@ export const CreateCalculatedAttributeDefinitionRequest = S.suspend(() =>
     AttributeDetails: AttributeDetails,
     Conditions: S.optional(Conditions),
     Filter: S.optional(Filter),
-    Statistic: S.String,
+    Statistic: Statistic,
     UseHistoricalData: S.optional(S.Boolean),
     Tags: S.optional(TagMap),
   }).pipe(
@@ -6392,13 +7097,13 @@ export interface PutIntegrationResponse {
   ObjectTypeName?: string;
   CreatedAt: Date;
   LastUpdatedAt: Date;
-  Tags?: TagMap;
-  ObjectTypeNames?: ObjectTypeNames;
+  Tags?: { [key: string]: string };
+  ObjectTypeNames?: { [key: string]: string };
   WorkflowId?: string;
   IsUnstructured?: boolean;
   RoleArn?: string;
-  EventTriggerNames?: EventTriggerNames;
-  Scope?: string;
+  EventTriggerNames?: string[];
+  Scope?: Scope;
 }
 export const PutIntegrationResponse = S.suspend(() =>
   S.Struct({
@@ -6413,7 +7118,7 @@ export const PutIntegrationResponse = S.suspend(() =>
     IsUnstructured: S.optional(S.Boolean),
     RoleArn: S.optional(S.String),
     EventTriggerNames: S.optional(EventTriggerNames),
-    Scope: S.optional(S.String),
+    Scope: S.optional(Scope),
   }),
 ).annotations({
   identifier: "PutIntegrationResponse",
@@ -6421,17 +7126,17 @@ export const PutIntegrationResponse = S.suspend(() =>
 export interface CreateCalculatedAttributeDefinitionResponse {
   CalculatedAttributeName?: string;
   DisplayName?: string;
-  Description?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   AttributeDetails?: AttributeDetails;
   Conditions?: Conditions;
   Filter?: Filter;
-  Statistic?: string;
+  Statistic?: Statistic;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
   UseHistoricalData?: boolean;
-  Status?: string;
+  Status?: ReadinessStatus;
   Readiness?: Readiness;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateCalculatedAttributeDefinitionResponse = S.suspend(() =>
   S.Struct({
@@ -6441,11 +7146,11 @@ export const CreateCalculatedAttributeDefinitionResponse = S.suspend(() =>
     AttributeDetails: S.optional(AttributeDetails),
     Conditions: S.optional(Conditions),
     Filter: S.optional(Filter),
-    Statistic: S.optional(S.String),
+    Statistic: S.optional(Statistic),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UseHistoricalData: S.optional(S.Boolean),
-    Status: S.optional(S.String),
+    Status: S.optional(ReadinessStatus),
     Readiness: S.optional(Readiness),
     Tags: S.optional(TagMap),
   }),
@@ -6456,10 +7161,10 @@ export interface CreateSegmentDefinitionRequest {
   DomainName: string;
   SegmentDefinitionName: string;
   DisplayName: string;
-  Description?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   SegmentGroups?: SegmentGroup;
-  SegmentSqlQuery?: string | Redacted.Redacted<string>;
-  Tags?: TagMap;
+  SegmentSqlQuery?: string | redacted.Redacted<string>;
+  Tags?: { [key: string]: string };
 }
 export const CreateSegmentDefinitionRequest = S.suspend(() =>
   S.Struct({
@@ -6489,10 +7194,10 @@ export const CreateSegmentDefinitionRequest = S.suspend(() =>
 export interface CreateSegmentDefinitionResponse {
   SegmentDefinitionName: string;
   DisplayName?: string;
-  Description?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   CreatedAt?: Date;
   SegmentDefinitionArn?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateSegmentDefinitionResponse = S.suspend(() =>
   S.Struct({
@@ -6553,7 +7258,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | BadRequestException
   | InternalServerException
@@ -6575,7 +7280,7 @@ export const tagResource: (
 export const listRecommenderRecipes: {
   (
     input: ListRecommenderRecipesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRecommenderRecipesResponse,
     | AccessDeniedException
     | BadRequestException
@@ -6586,7 +7291,7 @@ export const listRecommenderRecipes: {
   >;
   pages: (
     input: ListRecommenderRecipesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRecommenderRecipesResponse,
     | AccessDeniedException
     | BadRequestException
@@ -6597,7 +7302,7 @@ export const listRecommenderRecipes: {
   >;
   items: (
     input: ListRecommenderRecipesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RecommenderRecipe,
     | AccessDeniedException
     | BadRequestException
@@ -6632,7 +7337,7 @@ export const listRecommenderRecipes: {
  */
 export const updateProfile: (
   input: UpdateProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProfileResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6659,7 +7364,7 @@ export const updateProfile: (
  */
 export const updateCalculatedAttributeDefinition: (
   input: UpdateCalculatedAttributeDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCalculatedAttributeDefinitionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6696,7 +7401,7 @@ export const updateCalculatedAttributeDefinition: (
  */
 export const updateDomain: (
   input: UpdateDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDomainResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6722,7 +7427,7 @@ export const updateDomain: (
  */
 export const updateDomainLayout: (
   input: UpdateDomainLayoutRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDomainLayoutResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6747,7 +7452,7 @@ export const updateDomainLayout: (
  */
 export const updateEventTrigger: (
   input: UpdateEventTriggerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEventTriggerResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6772,7 +7477,7 @@ export const updateEventTrigger: (
  */
 export const updateRecommender: (
   input: UpdateRecommenderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRecommenderResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6797,7 +7502,7 @@ export const updateRecommender: (
  */
 export const deleteDomainObjectType: (
   input: DeleteDomainObjectTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDomainObjectTypeResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6822,7 +7527,7 @@ export const deleteDomainObjectType: (
  */
 export const deleteEventStream: (
   input: DeleteEventStreamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEventStreamResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6847,7 +7552,7 @@ export const deleteEventStream: (
  */
 export const deleteRecommender: (
   input: DeleteRecommenderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRecommenderResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6873,7 +7578,7 @@ export const deleteRecommender: (
  */
 export const deleteWorkflow: (
   input: DeleteWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkflowResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6898,7 +7603,7 @@ export const deleteWorkflow: (
  */
 export const startRecommender: (
   input: StartRecommenderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartRecommenderResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6923,7 +7628,7 @@ export const startRecommender: (
  */
 export const startUploadJob: (
   input: StartUploadJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartUploadJobResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6948,7 +7653,7 @@ export const startUploadJob: (
  */
 export const stopRecommender: (
   input: StopRecommenderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopRecommenderResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6973,7 +7678,7 @@ export const stopRecommender: (
  */
 export const stopUploadJob: (
   input: StopUploadJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopUploadJobResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7002,7 +7707,7 @@ export const stopUploadJob: (
  */
 export const addProfileKey: (
   input: AddProfileKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddProfileKeyResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7028,7 +7733,7 @@ export const addProfileKey: (
  */
 export const createDomainLayout: (
   input: CreateDomainLayoutRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDomainLayoutResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7057,7 +7762,7 @@ export const createDomainLayout: (
  */
 export const createEventStream: (
   input: CreateEventStreamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEventStreamResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7082,7 +7787,7 @@ export const createEventStream: (
  */
 export const createSegmentSnapshot: (
   input: CreateSegmentSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSegmentSnapshotResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7108,7 +7813,7 @@ export const createSegmentSnapshot: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | BadRequestException
   | InternalServerException
@@ -7132,7 +7837,7 @@ export const untagResource: (
  */
 export const deleteCalculatedAttributeDefinition: (
   input: DeleteCalculatedAttributeDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCalculatedAttributeDefinitionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7158,7 +7863,7 @@ export const deleteCalculatedAttributeDefinition: (
  */
 export const deleteDomain: (
   input: DeleteDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDomainResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7184,7 +7889,7 @@ export const deleteDomain: (
  */
 export const deleteDomainLayout: (
   input: DeleteDomainLayoutRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDomainLayoutResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7211,7 +7916,7 @@ export const deleteDomainLayout: (
  */
 export const deleteEventTrigger: (
   input: DeleteEventTriggerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEventTriggerResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7236,7 +7941,7 @@ export const deleteEventTrigger: (
  */
 export const deleteIntegration: (
   input: DeleteIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIntegrationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7261,7 +7966,7 @@ export const deleteIntegration: (
  */
 export const deleteProfile: (
   input: DeleteProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProfileResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7286,7 +7991,7 @@ export const deleteProfile: (
  */
 export const deleteProfileKey: (
   input: DeleteProfileKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProfileKeyResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7311,7 +8016,7 @@ export const deleteProfileKey: (
  */
 export const deleteProfileObject: (
   input: DeleteProfileObjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProfileObjectResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7339,7 +8044,7 @@ export const deleteProfileObject: (
  */
 export const deleteProfileObjectType: (
   input: DeleteProfileObjectTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProfileObjectTypeResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7364,7 +8069,7 @@ export const deleteProfileObjectType: (
  */
 export const deleteSegmentDefinition: (
   input: DeleteSegmentDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSegmentDefinitionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7389,7 +8094,7 @@ export const deleteSegmentDefinition: (
  */
 export const getCalculatedAttributeForProfile: (
   input: GetCalculatedAttributeForProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCalculatedAttributeForProfileResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7415,7 +8120,7 @@ export const getCalculatedAttributeForProfile: (
  */
 export const getDomainLayout: (
   input: GetDomainLayoutRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDomainLayoutResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7440,7 +8145,7 @@ export const getDomainLayout: (
  */
 export const getDomainObjectType: (
   input: GetDomainObjectTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDomainObjectTypeResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7465,7 +8170,7 @@ export const getDomainObjectType: (
  */
 export const getEventTrigger: (
   input: GetEventTriggerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEventTriggerResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7490,7 +8195,7 @@ export const getEventTrigger: (
  */
 export const getIntegration: (
   input: GetIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIntegrationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7515,7 +8220,7 @@ export const getIntegration: (
  */
 export const getProfileHistoryRecord: (
   input: GetProfileHistoryRecordRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetProfileHistoryRecordResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7540,7 +8245,7 @@ export const getProfileHistoryRecord: (
  */
 export const getProfileObjectType: (
   input: GetProfileObjectTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetProfileObjectTypeResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7570,7 +8275,7 @@ export const getProfileObjectType: (
  */
 export const getProfileObjectTypeTemplate: (
   input: GetProfileObjectTypeTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetProfileObjectTypeTemplateResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7595,7 +8300,7 @@ export const getProfileObjectTypeTemplate: (
  */
 export const getSegmentDefinition: (
   input: GetSegmentDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSegmentDefinitionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7620,7 +8325,7 @@ export const getSegmentDefinition: (
  */
 export const getSegmentEstimate: (
   input: GetSegmentEstimateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSegmentEstimateResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7645,7 +8350,7 @@ export const getSegmentEstimate: (
  */
 export const getSegmentSnapshot: (
   input: GetSegmentSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSegmentSnapshotResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7674,7 +8379,7 @@ export const getSegmentSnapshot: (
 export const getSimilarProfiles: {
   (
     input: GetSimilarProfilesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetSimilarProfilesResponse,
     | AccessDeniedException
     | BadRequestException
@@ -7686,7 +8391,7 @@ export const getSimilarProfiles: {
   >;
   pages: (
     input: GetSimilarProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetSimilarProfilesResponse,
     | AccessDeniedException
     | BadRequestException
@@ -7698,7 +8403,7 @@ export const getSimilarProfiles: {
   >;
   items: (
     input: GetSimilarProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     uuid,
     | AccessDeniedException
     | BadRequestException
@@ -7731,7 +8436,7 @@ export const getSimilarProfiles: {
  */
 export const getUploadJobPath: (
   input: GetUploadJobPathRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUploadJobPathResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7756,7 +8461,7 @@ export const getUploadJobPath: (
  */
 export const listIntegrations: (
   input: ListIntegrationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListIntegrationsResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7782,7 +8487,7 @@ export const listIntegrations: (
 export const listRuleBasedMatches: {
   (
     input: ListRuleBasedMatchesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRuleBasedMatchesResponse,
     | AccessDeniedException
     | BadRequestException
@@ -7794,7 +8499,7 @@ export const listRuleBasedMatches: {
   >;
   pages: (
     input: ListRuleBasedMatchesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRuleBasedMatchesResponse,
     | AccessDeniedException
     | BadRequestException
@@ -7806,7 +8511,7 @@ export const listRuleBasedMatches: {
   >;
   items: (
     input: ListRuleBasedMatchesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     string1To255,
     | AccessDeniedException
     | BadRequestException
@@ -7839,7 +8544,7 @@ export const listRuleBasedMatches: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | BadRequestException
   | InternalServerException
@@ -7872,7 +8577,7 @@ export const listTagsForResource: (
  */
 export const putProfileObject: (
   input: PutProfileObjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutProfileObjectResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7897,7 +8602,7 @@ export const putProfileObject: (
  */
 export const createSegmentEstimate: (
   input: CreateSegmentEstimateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSegmentEstimateResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7922,7 +8627,7 @@ export const createSegmentEstimate: (
  */
 export const detectProfileObjectType: (
   input: DetectProfileObjectTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetectProfileObjectTypeResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7959,7 +8664,7 @@ export const detectProfileObjectType: (
  */
 export const getAutoMergingPreview: (
   input: GetAutoMergingPreviewRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAutoMergingPreviewResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7985,7 +8690,7 @@ export const getAutoMergingPreview: (
  */
 export const getCalculatedAttributeDefinition: (
   input: GetCalculatedAttributeDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCalculatedAttributeDefinitionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8010,7 +8715,7 @@ export const getCalculatedAttributeDefinition: (
  */
 export const getDomain: (
   input: GetDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDomainResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8035,7 +8740,7 @@ export const getDomain: (
  */
 export const getEventStream: (
   input: GetEventStreamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEventStreamResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8097,7 +8802,7 @@ export const getEventStream: (
  */
 export const getMatches: (
   input: GetMatchesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMatchesResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8122,7 +8827,7 @@ export const getMatches: (
  */
 export const getSegmentMembership: (
   input: GetSegmentMembershipRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSegmentMembershipResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8147,7 +8852,7 @@ export const getSegmentMembership: (
  */
 export const getUploadJob: (
   input: GetUploadJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetUploadJobResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8172,7 +8877,7 @@ export const getUploadJob: (
  */
 export const listAccountIntegrations: (
   input: ListAccountIntegrationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListAccountIntegrationsResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8197,7 +8902,7 @@ export const listAccountIntegrations: (
  */
 export const listCalculatedAttributeDefinitions: (
   input: ListCalculatedAttributeDefinitionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListCalculatedAttributeDefinitionsResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8222,7 +8927,7 @@ export const listCalculatedAttributeDefinitions: (
  */
 export const listCalculatedAttributesForProfile: (
   input: ListCalculatedAttributesForProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListCalculatedAttributesForProfileResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8249,7 +8954,7 @@ export const listCalculatedAttributesForProfile: (
 export const listDomainLayouts: {
   (
     input: ListDomainLayoutsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDomainLayoutsResponse,
     | AccessDeniedException
     | BadRequestException
@@ -8261,7 +8966,7 @@ export const listDomainLayouts: {
   >;
   pages: (
     input: ListDomainLayoutsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDomainLayoutsResponse,
     | AccessDeniedException
     | BadRequestException
@@ -8273,7 +8978,7 @@ export const listDomainLayouts: {
   >;
   items: (
     input: ListDomainLayoutsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LayoutItem,
     | AccessDeniedException
     | BadRequestException
@@ -8306,7 +9011,7 @@ export const listDomainLayouts: {
 export const listDomainObjectTypes: {
   (
     input: ListDomainObjectTypesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDomainObjectTypesResponse,
     | AccessDeniedException
     | BadRequestException
@@ -8318,7 +9023,7 @@ export const listDomainObjectTypes: {
   >;
   pages: (
     input: ListDomainObjectTypesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDomainObjectTypesResponse,
     | AccessDeniedException
     | BadRequestException
@@ -8330,7 +9035,7 @@ export const listDomainObjectTypes: {
   >;
   items: (
     input: ListDomainObjectTypesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DomainObjectTypesListItem,
     | AccessDeniedException
     | BadRequestException
@@ -8362,7 +9067,7 @@ export const listDomainObjectTypes: {
  */
 export const listDomains: (
   input: ListDomainsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDomainsResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8388,7 +9093,7 @@ export const listDomains: (
 export const listEventTriggers: {
   (
     input: ListEventTriggersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEventTriggersResponse,
     | AccessDeniedException
     | BadRequestException
@@ -8400,7 +9105,7 @@ export const listEventTriggers: {
   >;
   pages: (
     input: ListEventTriggersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEventTriggersResponse,
     | AccessDeniedException
     | BadRequestException
@@ -8412,7 +9117,7 @@ export const listEventTriggers: {
   >;
   items: (
     input: ListEventTriggersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EventTriggerSummaryItem,
     | AccessDeniedException
     | BadRequestException
@@ -8445,7 +9150,7 @@ export const listEventTriggers: {
  */
 export const listIdentityResolutionJobs: (
   input: ListIdentityResolutionJobsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListIdentityResolutionJobsResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8471,7 +9176,7 @@ export const listIdentityResolutionJobs: (
 export const listObjectTypeAttributes: {
   (
     input: ListObjectTypeAttributesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListObjectTypeAttributesResponse,
     | AccessDeniedException
     | BadRequestException
@@ -8483,7 +9188,7 @@ export const listObjectTypeAttributes: {
   >;
   pages: (
     input: ListObjectTypeAttributesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListObjectTypeAttributesResponse,
     | AccessDeniedException
     | BadRequestException
@@ -8495,7 +9200,7 @@ export const listObjectTypeAttributes: {
   >;
   items: (
     input: ListObjectTypeAttributesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListObjectTypeAttributeItem,
     | AccessDeniedException
     | BadRequestException
@@ -8527,7 +9232,7 @@ export const listObjectTypeAttributes: {
  */
 export const listObjectTypeAttributeValues: (
   input: ListObjectTypeAttributeValuesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListObjectTypeAttributeValuesResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8552,7 +9257,7 @@ export const listObjectTypeAttributeValues: (
  */
 export const listProfileAttributeValues: (
   input: ProfileAttributeValuesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ProfileAttributeValuesResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8577,7 +9282,7 @@ export const listProfileAttributeValues: (
  */
 export const listProfileHistoryRecords: (
   input: ListProfileHistoryRecordsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListProfileHistoryRecordsResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8602,7 +9307,7 @@ export const listProfileHistoryRecords: (
  */
 export const listProfileObjectTypes: (
   input: ListProfileObjectTypesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListProfileObjectTypesResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8627,7 +9332,7 @@ export const listProfileObjectTypes: (
  */
 export const listProfileObjectTypeTemplates: (
   input: ListProfileObjectTypeTemplatesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListProfileObjectTypeTemplatesResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8653,7 +9358,7 @@ export const listProfileObjectTypeTemplates: (
 export const listRecommenders: {
   (
     input: ListRecommendersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRecommendersResponse,
     | AccessDeniedException
     | BadRequestException
@@ -8665,7 +9370,7 @@ export const listRecommenders: {
   >;
   pages: (
     input: ListRecommendersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRecommendersResponse,
     | AccessDeniedException
     | BadRequestException
@@ -8677,7 +9382,7 @@ export const listRecommenders: {
   >;
   items: (
     input: ListRecommendersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RecommenderSummary,
     | AccessDeniedException
     | BadRequestException
@@ -8710,7 +9415,7 @@ export const listRecommenders: {
 export const listSegmentDefinitions: {
   (
     input: ListSegmentDefinitionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSegmentDefinitionsResponse,
     | AccessDeniedException
     | BadRequestException
@@ -8722,7 +9427,7 @@ export const listSegmentDefinitions: {
   >;
   pages: (
     input: ListSegmentDefinitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSegmentDefinitionsResponse,
     | AccessDeniedException
     | BadRequestException
@@ -8734,7 +9439,7 @@ export const listSegmentDefinitions: {
   >;
   items: (
     input: ListSegmentDefinitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SegmentDefinitionItem,
     | AccessDeniedException
     | BadRequestException
@@ -8767,7 +9472,7 @@ export const listSegmentDefinitions: {
 export const listUploadJobs: {
   (
     input: ListUploadJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListUploadJobsResponse,
     | AccessDeniedException
     | BadRequestException
@@ -8779,7 +9484,7 @@ export const listUploadJobs: {
   >;
   pages: (
     input: ListUploadJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListUploadJobsResponse,
     | AccessDeniedException
     | BadRequestException
@@ -8791,7 +9496,7 @@ export const listUploadJobs: {
   >;
   items: (
     input: ListUploadJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     UploadJobItem,
     | AccessDeniedException
     | BadRequestException
@@ -8823,7 +9528,7 @@ export const listUploadJobs: {
  */
 export const listWorkflows: (
   input: ListWorkflowsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListWorkflowsResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8854,7 +9559,7 @@ export const listWorkflows: (
  */
 export const searchProfiles: (
   input: SearchProfilesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SearchProfilesResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8879,7 +9584,7 @@ export const searchProfiles: (
  */
 export const batchGetProfile: (
   input: BatchGetProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetProfileResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8907,7 +9612,7 @@ export const batchGetProfile: (
  */
 export const createProfile: (
   input: CreateProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProfileResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8933,7 +9638,7 @@ export const createProfile: (
  */
 export const createUploadJob: (
   input: CreateUploadJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUploadJobResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8961,7 +9666,7 @@ export const createUploadJob: (
  */
 export const getIdentityResolutionJob: (
   input: GetIdentityResolutionJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIdentityResolutionJobResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8992,7 +9697,7 @@ export const getIdentityResolutionJob: (
  */
 export const getObjectTypeAttributeStatistics: (
   input: GetObjectTypeAttributeStatisticsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetObjectTypeAttributeStatisticsResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9017,7 +9722,7 @@ export const getObjectTypeAttributeStatistics: (
  */
 export const getRecommender: (
   input: GetRecommenderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRecommenderResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9042,7 +9747,7 @@ export const getRecommender: (
  */
 export const getWorkflow: (
   input: GetWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkflowResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9067,7 +9772,7 @@ export const getWorkflow: (
  */
 export const getWorkflowSteps: (
   input: GetWorkflowStepsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkflowStepsResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9093,7 +9798,7 @@ export const getWorkflowSteps: (
 export const listEventStreams: {
   (
     input: ListEventStreamsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEventStreamsResponse,
     | AccessDeniedException
     | BadRequestException
@@ -9105,7 +9810,7 @@ export const listEventStreams: {
   >;
   pages: (
     input: ListEventStreamsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEventStreamsResponse,
     | AccessDeniedException
     | BadRequestException
@@ -9117,7 +9822,7 @@ export const listEventStreams: {
   >;
   items: (
     input: ListEventStreamsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EventStreamSummary,
     | AccessDeniedException
     | BadRequestException
@@ -9149,7 +9854,7 @@ export const listEventStreams: {
  */
 export const listProfileObjects: (
   input: ListProfileObjectsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListProfileObjectsResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9202,7 +9907,7 @@ export const listProfileObjects: (
  */
 export const mergeProfiles: (
   input: MergeProfilesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   MergeProfilesResponse,
   | BadRequestException
   | InternalServerException
@@ -9225,7 +9930,7 @@ export const mergeProfiles: (
  */
 export const putDomainObjectType: (
   input: PutDomainObjectTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutDomainObjectTypeResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9253,7 +9958,7 @@ export const putDomainObjectType: (
  */
 export const putProfileObjectType: (
   input: PutProfileObjectTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutProfileObjectTypeResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9278,7 +9983,7 @@ export const putProfileObjectType: (
  */
 export const batchGetCalculatedAttributeForProfile: (
   input: BatchGetCalculatedAttributeForProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetCalculatedAttributeForProfileResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9322,7 +10027,7 @@ export const batchGetCalculatedAttributeForProfile: (
  */
 export const createDomain: (
   input: CreateDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDomainResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9351,7 +10056,7 @@ export const createDomain: (
  */
 export const createEventTrigger: (
   input: CreateEventTriggerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEventTriggerResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9377,7 +10082,7 @@ export const createEventTrigger: (
  */
 export const createIntegrationWorkflow: (
   input: CreateIntegrationWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateIntegrationWorkflowResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9402,7 +10107,7 @@ export const createIntegrationWorkflow: (
  */
 export const createRecommender: (
   input: CreateRecommenderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRecommenderResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9427,7 +10132,7 @@ export const createRecommender: (
  */
 export const getProfileRecommendations: (
   input: GetProfileRecommendationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetProfileRecommendationsResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9459,7 +10164,7 @@ export const getProfileRecommendations: (
  */
 export const putIntegration: (
   input: PutIntegrationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutIntegrationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9489,7 +10194,7 @@ export const putIntegration: (
  */
 export const createCalculatedAttributeDefinition: (
   input: CreateCalculatedAttributeDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCalculatedAttributeDefinitionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9514,7 +10219,7 @@ export const createCalculatedAttributeDefinition: (
  */
 export const createSegmentDefinition: (
   input: CreateSegmentDefinitionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSegmentDefinitionResponse,
   | AccessDeniedException
   | BadRequestException

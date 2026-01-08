@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -89,7 +89,7 @@ export type LexiconName = string;
 export type NextToken = string;
 export type TaskId = string;
 export type MaxResults = number;
-export type LexiconContent = string | Redacted.Redacted<string>;
+export type LexiconContent = string | redacted.Redacted<string>;
 export type OutputS3BucketName = string;
 export type OutputS3KeyPrefix = string;
 export type SampleRate = string;
@@ -108,10 +108,326 @@ export type TaskStatusReason = string;
 export type OutputUri = string;
 
 //# Schemas
+export type Engine = "standard" | "neural" | "long-form" | "generative";
+export const Engine = S.Literal(
+  "standard",
+  "neural",
+  "long-form",
+  "generative",
+);
+export type LanguageCode =
+  | "arb"
+  | "cmn-CN"
+  | "cy-GB"
+  | "da-DK"
+  | "de-DE"
+  | "en-AU"
+  | "en-GB"
+  | "en-GB-WLS"
+  | "en-IN"
+  | "en-US"
+  | "es-ES"
+  | "es-MX"
+  | "es-US"
+  | "fr-CA"
+  | "fr-FR"
+  | "is-IS"
+  | "it-IT"
+  | "ja-JP"
+  | "hi-IN"
+  | "ko-KR"
+  | "nb-NO"
+  | "nl-NL"
+  | "pl-PL"
+  | "pt-BR"
+  | "pt-PT"
+  | "ro-RO"
+  | "ru-RU"
+  | "sv-SE"
+  | "tr-TR"
+  | "en-NZ"
+  | "en-ZA"
+  | "ca-ES"
+  | "de-AT"
+  | "yue-CN"
+  | "ar-AE"
+  | "fi-FI"
+  | "en-IE"
+  | "nl-BE"
+  | "fr-BE"
+  | "cs-CZ"
+  | "de-CH"
+  | "en-SG";
+export const LanguageCode = S.Literal(
+  "arb",
+  "cmn-CN",
+  "cy-GB",
+  "da-DK",
+  "de-DE",
+  "en-AU",
+  "en-GB",
+  "en-GB-WLS",
+  "en-IN",
+  "en-US",
+  "es-ES",
+  "es-MX",
+  "es-US",
+  "fr-CA",
+  "fr-FR",
+  "is-IS",
+  "it-IT",
+  "ja-JP",
+  "hi-IN",
+  "ko-KR",
+  "nb-NO",
+  "nl-NL",
+  "pl-PL",
+  "pt-BR",
+  "pt-PT",
+  "ro-RO",
+  "ru-RU",
+  "sv-SE",
+  "tr-TR",
+  "en-NZ",
+  "en-ZA",
+  "ca-ES",
+  "de-AT",
+  "yue-CN",
+  "ar-AE",
+  "fi-FI",
+  "en-IE",
+  "nl-BE",
+  "fr-BE",
+  "cs-CZ",
+  "de-CH",
+  "en-SG",
+);
+export type TaskStatus = "scheduled" | "inProgress" | "completed" | "failed";
+export const TaskStatus = S.Literal(
+  "scheduled",
+  "inProgress",
+  "completed",
+  "failed",
+);
 export type LexiconNameList = string[];
 export const LexiconNameList = S.Array(S.String);
-export type SpeechMarkTypeList = string[];
-export const SpeechMarkTypeList = S.Array(S.String);
+export type OutputFormat = "json" | "mp3" | "ogg_opus" | "ogg_vorbis" | "pcm";
+export const OutputFormat = S.Literal(
+  "json",
+  "mp3",
+  "ogg_opus",
+  "ogg_vorbis",
+  "pcm",
+);
+export type SpeechMarkType = "sentence" | "ssml" | "viseme" | "word";
+export const SpeechMarkType = S.Literal("sentence", "ssml", "viseme", "word");
+export type SpeechMarkTypeList = SpeechMarkType[];
+export const SpeechMarkTypeList = S.Array(SpeechMarkType);
+export type TextType = "ssml" | "text";
+export const TextType = S.Literal("ssml", "text");
+export type VoiceId =
+  | "Aditi"
+  | "Amy"
+  | "Astrid"
+  | "Bianca"
+  | "Brian"
+  | "Camila"
+  | "Carla"
+  | "Carmen"
+  | "Celine"
+  | "Chantal"
+  | "Conchita"
+  | "Cristiano"
+  | "Dora"
+  | "Emma"
+  | "Enrique"
+  | "Ewa"
+  | "Filiz"
+  | "Gabrielle"
+  | "Geraint"
+  | "Giorgio"
+  | "Gwyneth"
+  | "Hans"
+  | "Ines"
+  | "Ivy"
+  | "Jacek"
+  | "Jan"
+  | "Joanna"
+  | "Joey"
+  | "Justin"
+  | "Karl"
+  | "Kendra"
+  | "Kevin"
+  | "Kimberly"
+  | "Lea"
+  | "Liv"
+  | "Lotte"
+  | "Lucia"
+  | "Lupe"
+  | "Mads"
+  | "Maja"
+  | "Marlene"
+  | "Mathieu"
+  | "Matthew"
+  | "Maxim"
+  | "Mia"
+  | "Miguel"
+  | "Mizuki"
+  | "Naja"
+  | "Nicole"
+  | "Olivia"
+  | "Penelope"
+  | "Raveena"
+  | "Ricardo"
+  | "Ruben"
+  | "Russell"
+  | "Salli"
+  | "Seoyeon"
+  | "Takumi"
+  | "Tatyana"
+  | "Vicki"
+  | "Vitoria"
+  | "Zeina"
+  | "Zhiyu"
+  | "Aria"
+  | "Ayanda"
+  | "Arlet"
+  | "Hannah"
+  | "Arthur"
+  | "Daniel"
+  | "Liam"
+  | "Pedro"
+  | "Kajal"
+  | "Hiujin"
+  | "Laura"
+  | "Elin"
+  | "Ida"
+  | "Suvi"
+  | "Ola"
+  | "Hala"
+  | "Andres"
+  | "Sergio"
+  | "Remi"
+  | "Adriano"
+  | "Thiago"
+  | "Ruth"
+  | "Stephen"
+  | "Kazuha"
+  | "Tomoko"
+  | "Niamh"
+  | "Sofie"
+  | "Lisa"
+  | "Isabelle"
+  | "Zayd"
+  | "Danielle"
+  | "Gregory"
+  | "Burcu"
+  | "Jitka"
+  | "Sabrina"
+  | "Jasmine"
+  | "Jihye";
+export const VoiceId = S.Literal(
+  "Aditi",
+  "Amy",
+  "Astrid",
+  "Bianca",
+  "Brian",
+  "Camila",
+  "Carla",
+  "Carmen",
+  "Celine",
+  "Chantal",
+  "Conchita",
+  "Cristiano",
+  "Dora",
+  "Emma",
+  "Enrique",
+  "Ewa",
+  "Filiz",
+  "Gabrielle",
+  "Geraint",
+  "Giorgio",
+  "Gwyneth",
+  "Hans",
+  "Ines",
+  "Ivy",
+  "Jacek",
+  "Jan",
+  "Joanna",
+  "Joey",
+  "Justin",
+  "Karl",
+  "Kendra",
+  "Kevin",
+  "Kimberly",
+  "Lea",
+  "Liv",
+  "Lotte",
+  "Lucia",
+  "Lupe",
+  "Mads",
+  "Maja",
+  "Marlene",
+  "Mathieu",
+  "Matthew",
+  "Maxim",
+  "Mia",
+  "Miguel",
+  "Mizuki",
+  "Naja",
+  "Nicole",
+  "Olivia",
+  "Penelope",
+  "Raveena",
+  "Ricardo",
+  "Ruben",
+  "Russell",
+  "Salli",
+  "Seoyeon",
+  "Takumi",
+  "Tatyana",
+  "Vicki",
+  "Vitoria",
+  "Zeina",
+  "Zhiyu",
+  "Aria",
+  "Ayanda",
+  "Arlet",
+  "Hannah",
+  "Arthur",
+  "Daniel",
+  "Liam",
+  "Pedro",
+  "Kajal",
+  "Hiujin",
+  "Laura",
+  "Elin",
+  "Ida",
+  "Suvi",
+  "Ola",
+  "Hala",
+  "Andres",
+  "Sergio",
+  "Remi",
+  "Adriano",
+  "Thiago",
+  "Ruth",
+  "Stephen",
+  "Kazuha",
+  "Tomoko",
+  "Niamh",
+  "Sofie",
+  "Lisa",
+  "Isabelle",
+  "Zayd",
+  "Danielle",
+  "Gregory",
+  "Burcu",
+  "Jitka",
+  "Sabrina",
+  "Jasmine",
+  "Jihye",
+);
 export interface DeleteLexiconInput {
   Name: string;
 }
@@ -137,15 +453,15 @@ export const DeleteLexiconOutput = S.suspend(() =>
   identifier: "DeleteLexiconOutput",
 }) as any as S.Schema<DeleteLexiconOutput>;
 export interface DescribeVoicesInput {
-  Engine?: string;
-  LanguageCode?: string;
+  Engine?: Engine;
+  LanguageCode?: LanguageCode;
   IncludeAdditionalLanguageCodes?: boolean;
   NextToken?: string;
 }
 export const DescribeVoicesInput = S.suspend(() =>
   S.Struct({
-    Engine: S.optional(S.String).pipe(T.HttpQuery("Engine")),
-    LanguageCode: S.optional(S.String).pipe(T.HttpQuery("LanguageCode")),
+    Engine: S.optional(Engine).pipe(T.HttpQuery("Engine")),
+    LanguageCode: S.optional(LanguageCode).pipe(T.HttpQuery("LanguageCode")),
     IncludeAdditionalLanguageCodes: S.optional(S.Boolean).pipe(
       T.HttpQuery("IncludeAdditionalLanguageCodes"),
     ),
@@ -223,13 +539,13 @@ export const ListLexiconsInput = S.suspend(() =>
 export interface ListSpeechSynthesisTasksInput {
   MaxResults?: number;
   NextToken?: string;
-  Status?: string;
+  Status?: TaskStatus;
 }
 export const ListSpeechSynthesisTasksInput = S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-    Status: S.optional(S.String).pipe(T.HttpQuery("Status")),
+    Status: S.optional(TaskStatus).pipe(T.HttpQuery("Status")),
   }).pipe(
     T.all(
       ns,
@@ -246,7 +562,7 @@ export const ListSpeechSynthesisTasksInput = S.suspend(() =>
 }) as any as S.Schema<ListSpeechSynthesisTasksInput>;
 export interface PutLexiconInput {
   Name: string;
-  Content: string | Redacted.Redacted<string>;
+  Content: string | redacted.Redacted<string>;
 }
 export const PutLexiconInput = S.suspend(() =>
   S.Struct({
@@ -273,33 +589,33 @@ export const PutLexiconOutput = S.suspend(() =>
   identifier: "PutLexiconOutput",
 }) as any as S.Schema<PutLexiconOutput>;
 export interface StartSpeechSynthesisTaskInput {
-  Engine?: string;
-  LanguageCode?: string;
-  LexiconNames?: LexiconNameList;
-  OutputFormat: string;
+  Engine?: Engine;
+  LanguageCode?: LanguageCode;
+  LexiconNames?: string[];
+  OutputFormat: OutputFormat;
   OutputS3BucketName: string;
   OutputS3KeyPrefix?: string;
   SampleRate?: string;
   SnsTopicArn?: string;
-  SpeechMarkTypes?: SpeechMarkTypeList;
+  SpeechMarkTypes?: SpeechMarkType[];
   Text: string;
-  TextType?: string;
-  VoiceId: string;
+  TextType?: TextType;
+  VoiceId: VoiceId;
 }
 export const StartSpeechSynthesisTaskInput = S.suspend(() =>
   S.Struct({
-    Engine: S.optional(S.String),
-    LanguageCode: S.optional(S.String),
+    Engine: S.optional(Engine),
+    LanguageCode: S.optional(LanguageCode),
     LexiconNames: S.optional(LexiconNameList),
-    OutputFormat: S.String,
+    OutputFormat: OutputFormat,
     OutputS3BucketName: S.String,
     OutputS3KeyPrefix: S.optional(S.String),
     SampleRate: S.optional(S.String),
     SnsTopicArn: S.optional(S.String),
     SpeechMarkTypes: S.optional(SpeechMarkTypeList),
     Text: S.String,
-    TextType: S.optional(S.String),
-    VoiceId: S.String,
+    TextType: S.optional(TextType),
+    VoiceId: VoiceId,
   }).pipe(
     T.all(
       ns,
@@ -315,27 +631,27 @@ export const StartSpeechSynthesisTaskInput = S.suspend(() =>
   identifier: "StartSpeechSynthesisTaskInput",
 }) as any as S.Schema<StartSpeechSynthesisTaskInput>;
 export interface SynthesizeSpeechInput {
-  Engine?: string;
-  LanguageCode?: string;
-  LexiconNames?: LexiconNameList;
-  OutputFormat: string;
+  Engine?: Engine;
+  LanguageCode?: LanguageCode;
+  LexiconNames?: string[];
+  OutputFormat: OutputFormat;
   SampleRate?: string;
-  SpeechMarkTypes?: SpeechMarkTypeList;
+  SpeechMarkTypes?: SpeechMarkType[];
   Text: string;
-  TextType?: string;
-  VoiceId: string;
+  TextType?: TextType;
+  VoiceId: VoiceId;
 }
 export const SynthesizeSpeechInput = S.suspend(() =>
   S.Struct({
-    Engine: S.optional(S.String),
-    LanguageCode: S.optional(S.String),
+    Engine: S.optional(Engine),
+    LanguageCode: S.optional(LanguageCode),
     LexiconNames: S.optional(LexiconNameList),
-    OutputFormat: S.String,
+    OutputFormat: OutputFormat,
     SampleRate: S.optional(S.String),
     SpeechMarkTypes: S.optional(SpeechMarkTypeList),
     Text: S.String,
-    TextType: S.optional(S.String),
-    VoiceId: S.String,
+    TextType: S.optional(TextType),
+    VoiceId: VoiceId,
   }).pipe(
     T.all(
       ns,
@@ -351,39 +667,39 @@ export const SynthesizeSpeechInput = S.suspend(() =>
   identifier: "SynthesizeSpeechInput",
 }) as any as S.Schema<SynthesizeSpeechInput>;
 export interface SynthesisTask {
-  Engine?: string;
+  Engine?: Engine;
   TaskId?: string;
-  TaskStatus?: string;
+  TaskStatus?: TaskStatus;
   TaskStatusReason?: string;
   OutputUri?: string;
   CreationTime?: Date;
   RequestCharacters?: number;
   SnsTopicArn?: string;
-  LexiconNames?: LexiconNameList;
-  OutputFormat?: string;
+  LexiconNames?: string[];
+  OutputFormat?: OutputFormat;
   SampleRate?: string;
-  SpeechMarkTypes?: SpeechMarkTypeList;
-  TextType?: string;
-  VoiceId?: string;
-  LanguageCode?: string;
+  SpeechMarkTypes?: SpeechMarkType[];
+  TextType?: TextType;
+  VoiceId?: VoiceId;
+  LanguageCode?: LanguageCode;
 }
 export const SynthesisTask = S.suspend(() =>
   S.Struct({
-    Engine: S.optional(S.String),
+    Engine: S.optional(Engine),
     TaskId: S.optional(S.String),
-    TaskStatus: S.optional(S.String),
+    TaskStatus: S.optional(TaskStatus),
     TaskStatusReason: S.optional(S.String),
     OutputUri: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     RequestCharacters: S.optional(S.Number),
     SnsTopicArn: S.optional(S.String),
     LexiconNames: S.optional(LexiconNameList),
-    OutputFormat: S.optional(S.String),
+    OutputFormat: S.optional(OutputFormat),
     SampleRate: S.optional(S.String),
     SpeechMarkTypes: S.optional(SpeechMarkTypeList),
-    TextType: S.optional(S.String),
-    VoiceId: S.optional(S.String),
-    LanguageCode: S.optional(S.String),
+    TextType: S.optional(TextType),
+    VoiceId: S.optional(VoiceId),
+    LanguageCode: S.optional(LanguageCode),
   }),
 ).annotations({
   identifier: "SynthesisTask",
@@ -392,7 +708,7 @@ export type SynthesisTasks = SynthesisTask[];
 export const SynthesisTasks = S.Array(SynthesisTask);
 export interface ListSpeechSynthesisTasksOutput {
   NextToken?: string;
-  SynthesisTasks?: SynthesisTasks;
+  SynthesisTasks?: SynthesisTask[];
 }
 export const ListSpeechSynthesisTasksOutput = S.suspend(() =>
   S.Struct({
@@ -426,24 +742,26 @@ export const SynthesizeSpeechOutput = S.suspend(() =>
 ).annotations({
   identifier: "SynthesizeSpeechOutput",
 }) as any as S.Schema<SynthesizeSpeechOutput>;
-export type LanguageCodeList = string[];
-export const LanguageCodeList = S.Array(S.String);
-export type EngineList = string[];
-export const EngineList = S.Array(S.String);
+export type Gender = "Female" | "Male";
+export const Gender = S.Literal("Female", "Male");
+export type LanguageCodeList = LanguageCode[];
+export const LanguageCodeList = S.Array(LanguageCode);
+export type EngineList = Engine[];
+export const EngineList = S.Array(Engine);
 export interface Voice {
-  Gender?: string;
-  Id?: string;
-  LanguageCode?: string;
+  Gender?: Gender;
+  Id?: VoiceId;
+  LanguageCode?: LanguageCode;
   LanguageName?: string;
   Name?: string;
-  AdditionalLanguageCodes?: LanguageCodeList;
-  SupportedEngines?: EngineList;
+  AdditionalLanguageCodes?: LanguageCode[];
+  SupportedEngines?: Engine[];
 }
 export const Voice = S.suspend(() =>
   S.Struct({
-    Gender: S.optional(S.String),
-    Id: S.optional(S.String),
-    LanguageCode: S.optional(S.String),
+    Gender: S.optional(Gender),
+    Id: S.optional(VoiceId),
+    LanguageCode: S.optional(LanguageCode),
     LanguageName: S.optional(S.String),
     Name: S.optional(S.String),
     AdditionalLanguageCodes: S.optional(LanguageCodeList),
@@ -453,7 +771,7 @@ export const Voice = S.suspend(() =>
 export type VoiceList = Voice[];
 export const VoiceList = S.Array(Voice);
 export interface Lexicon {
-  Content?: string | Redacted.Redacted<string>;
+  Content?: string | redacted.Redacted<string>;
   Name?: string;
 }
 export const Lexicon = S.suspend(() =>
@@ -464,7 +782,7 @@ export const Lexicon = S.suspend(() =>
 ).annotations({ identifier: "Lexicon" }) as any as S.Schema<Lexicon>;
 export interface LexiconAttributes {
   Alphabet?: string;
-  LanguageCode?: string;
+  LanguageCode?: LanguageCode;
   LastModified?: Date;
   LexiconArn?: string;
   LexemesCount?: number;
@@ -473,7 +791,7 @@ export interface LexiconAttributes {
 export const LexiconAttributes = S.suspend(() =>
   S.Struct({
     Alphabet: S.optional(S.String),
-    LanguageCode: S.optional(S.String),
+    LanguageCode: S.optional(LanguageCode),
     LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LexiconArn: S.optional(S.String),
     LexemesCount: S.optional(S.Number),
@@ -497,7 +815,7 @@ export const LexiconDescription = S.suspend(() =>
 export type LexiconDescriptionList = LexiconDescription[];
 export const LexiconDescriptionList = S.Array(LexiconDescription);
 export interface DescribeVoicesOutput {
-  Voices?: VoiceList;
+  Voices?: Voice[];
   NextToken?: string;
 }
 export const DescribeVoicesOutput = S.suspend(() =>
@@ -529,7 +847,7 @@ export const GetSpeechSynthesisTaskOutput = S.suspend(() =>
   identifier: "GetSpeechSynthesisTaskOutput",
 }) as any as S.Schema<GetSpeechSynthesisTaskOutput>;
 export interface ListLexiconsOutput {
-  Lexicons?: LexiconDescriptionList;
+  Lexicons?: LexiconDescription[];
   NextToken?: string;
 }
 export const ListLexiconsOutput = S.suspend(() =>
@@ -637,7 +955,7 @@ export class TextLengthExceededException extends S.TaggedError<TextLengthExceede
  */
 export const deleteLexicon: (
   input: DeleteLexiconInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLexiconOutput,
   LexiconNotFoundException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -652,7 +970,7 @@ export const deleteLexicon: (
  */
 export const getLexicon: (
   input: GetLexiconInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetLexiconOutput,
   LexiconNotFoundException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -669,21 +987,21 @@ export const getLexicon: (
 export const listSpeechSynthesisTasks: {
   (
     input: ListSpeechSynthesisTasksInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSpeechSynthesisTasksOutput,
     InvalidNextTokenException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSpeechSynthesisTasksInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSpeechSynthesisTasksOutput,
     InvalidNextTokenException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSpeechSynthesisTasksInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidNextTokenException | ServiceFailureException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -722,7 +1040,7 @@ export const listSpeechSynthesisTasks: {
  */
 export const describeVoices: (
   input: DescribeVoicesInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeVoicesOutput,
   InvalidNextTokenException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -736,7 +1054,7 @@ export const describeVoices: (
  */
 export const listLexicons: (
   input: ListLexiconsInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListLexiconsOutput,
   InvalidNextTokenException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -753,7 +1071,7 @@ export const listLexicons: (
  */
 export const getSpeechSynthesisTask: (
   input: GetSpeechSynthesisTaskInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSpeechSynthesisTaskOutput,
   | InvalidTaskIdException
   | ServiceFailureException
@@ -780,7 +1098,7 @@ export const getSpeechSynthesisTask: (
  */
 export const putLexicon: (
   input: PutLexiconInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutLexiconOutput,
   | InvalidLexiconException
   | LexiconSizeExceededException
@@ -813,7 +1131,7 @@ export const putLexicon: (
  */
 export const synthesizeSpeech: (
   input: SynthesizeSpeechInput,
-) => Effect.Effect<
+) => effect.Effect<
   SynthesizeSpeechOutput,
   | EngineNotSupportedException
   | InvalidSampleRateException
@@ -855,7 +1173,7 @@ export const synthesizeSpeech: (
  */
 export const startSpeechSynthesisTask: (
   input: StartSpeechSynthesisTaskInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartSpeechSynthesisTaskOutput,
   | EngineNotSupportedException
   | InvalidS3BucketException

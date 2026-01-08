@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -145,7 +145,7 @@ const rules = T.EndpointResolver((p, _) => {
 export type KvsARN = string;
 export type Key = string;
 export type Etag = string;
-export type Value = string | Redacted.Redacted<string>;
+export type Value = string | redacted.Redacted<string>;
 
 //# Schemas
 export interface DeleteKeyRequest {
@@ -239,7 +239,7 @@ export const ListKeysRequest = S.suspend(() =>
 }) as any as S.Schema<ListKeysRequest>;
 export interface PutKeyRequest {
   Key: string;
-  Value: string | Redacted.Redacted<string>;
+  Value: string | redacted.Redacted<string>;
   KvsARN: string;
   IfMatch: string;
 }
@@ -264,7 +264,7 @@ export const PutKeyRequest = S.suspend(() =>
 }) as any as S.Schema<PutKeyRequest>;
 export interface PutKeyRequestListItem {
   Key: string;
-  Value: string | Redacted.Redacted<string>;
+  Value: string | redacted.Redacted<string>;
 }
 export const PutKeyRequestListItem = S.suspend(() =>
   S.Struct({ Key: S.String, Value: SensitiveString }),
@@ -323,7 +323,7 @@ export const DescribeKeyValueStoreResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeKeyValueStoreResponse>;
 export interface GetKeyResponse {
   Key: string;
-  Value: string | Redacted.Redacted<string>;
+  Value: string | redacted.Redacted<string>;
   ItemCount: number;
   TotalSizeInBytes: number;
 }
@@ -354,8 +354,8 @@ export const PutKeyResponse = S.suspend(() =>
 export interface UpdateKeysRequest {
   KvsARN: string;
   IfMatch: string;
-  Puts?: PutKeyRequestsList;
-  Deletes?: DeleteKeyRequestsList;
+  Puts?: PutKeyRequestListItem[];
+  Deletes?: DeleteKeyRequestListItem[];
 }
 export const UpdateKeysRequest = S.suspend(() =>
   S.Struct({
@@ -378,7 +378,7 @@ export const UpdateKeysRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateKeysRequest>;
 export interface ListKeysResponseListItem {
   Key: string;
-  Value: string | Redacted.Redacted<string>;
+  Value: string | redacted.Redacted<string>;
 }
 export const ListKeysResponseListItem = S.suspend(() =>
   S.Struct({ Key: S.String, Value: SensitiveString }),
@@ -389,7 +389,7 @@ export type ListKeysResponseList = ListKeysResponseListItem[];
 export const ListKeysResponseList = S.Array(ListKeysResponseListItem);
 export interface ListKeysResponse {
   NextToken?: string;
-  Items?: ListKeysResponseList;
+  Items?: ListKeysResponseListItem[];
 }
 export const ListKeysResponse = S.suspend(() =>
   S.Struct({
@@ -446,7 +446,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const describeKeyValueStore: (
   input: DescribeKeyValueStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeKeyValueStoreResponse,
   | AccessDeniedException
   | ConflictException
@@ -469,7 +469,7 @@ export const describeKeyValueStore: (
  */
 export const getKey: (
   input: GetKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetKeyResponse,
   | AccessDeniedException
   | ConflictException
@@ -493,7 +493,7 @@ export const getKey: (
 export const listKeys: {
   (
     input: ListKeysRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListKeysResponse,
     | AccessDeniedException
     | ConflictException
@@ -505,7 +505,7 @@ export const listKeys: {
   >;
   pages: (
     input: ListKeysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListKeysResponse,
     | AccessDeniedException
     | ConflictException
@@ -517,7 +517,7 @@ export const listKeys: {
   >;
   items: (
     input: ListKeysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListKeysResponseListItem,
     | AccessDeniedException
     | ConflictException
@@ -549,7 +549,7 @@ export const listKeys: {
  */
 export const updateKeys: (
   input: UpdateKeysRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateKeysResponse,
   | AccessDeniedException
   | ConflictException
@@ -576,7 +576,7 @@ export const updateKeys: (
  */
 export const putKey: (
   input: PutKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutKeyResponse,
   | AccessDeniedException
   | ConflictException
@@ -603,7 +603,7 @@ export const putKey: (
  */
 export const deleteKey: (
   input: DeleteKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteKeyResponse,
   | AccessDeniedException
   | ConflictException

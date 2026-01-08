@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -101,9 +101,7 @@ export type ListStatementsLimit = number;
 export type StatusString = string;
 export type ParameterName = string;
 export type ParameterValue = string;
-export type Long = number;
 export type StatementStatusString = string;
-export type Integer = number;
 export type BoxedLong = number;
 export type BoxedDouble = number;
 
@@ -111,7 +109,7 @@ export type BoxedDouble = number;
 export type SqlList = string[];
 export const SqlList = S.Array(S.String);
 export interface BatchExecuteStatementInput {
-  Sqls: SqlList;
+  Sqls: string[];
   ClusterIdentifier?: string;
   SecretArn?: string;
   DbUser?: string;
@@ -380,7 +378,7 @@ export interface BatchExecuteStatementOutput {
   CreatedAt?: Date;
   ClusterIdentifier?: string;
   DbUser?: string;
-  DbGroups?: DbGroupList;
+  DbGroups?: string[];
   Database?: string;
   SecretArn?: string;
   WorkgroupName?: string;
@@ -417,7 +415,7 @@ export interface ExecuteStatementInput {
   Database?: string;
   WithEvent?: boolean;
   StatementName?: string;
-  Parameters?: SqlParametersList;
+  Parameters?: SqlParameter[];
   WorkgroupName?: string;
   ClientToken?: string;
   ResultFormat?: string;
@@ -446,7 +444,7 @@ export const ExecuteStatementInput = S.suspend(() =>
   identifier: "ExecuteStatementInput",
 }) as any as S.Schema<ExecuteStatementInput>;
 export interface ListDatabasesResponse {
-  Databases?: DatabaseList;
+  Databases?: string[];
   NextToken?: string;
 }
 export const ListDatabasesResponse = S.suspend(() =>
@@ -458,7 +456,7 @@ export const ListDatabasesResponse = S.suspend(() =>
   identifier: "ListDatabasesResponse",
 }) as any as S.Schema<ListDatabasesResponse>;
 export interface ListSchemasResponse {
-  Schemas?: SchemaList;
+  Schemas?: string[];
   NextToken?: string;
 }
 export const ListSchemasResponse = S.suspend(() =>
@@ -520,24 +518,24 @@ export const Field = S.Union(
   S.Struct({ stringValue: S.String }),
   S.Struct({ blobValue: T.Blob }),
 );
-export type FieldList = (typeof Field)["Type"][];
+export type FieldList = Field[];
 export const FieldList = S.Array(Field);
-export type SqlRecords = FieldList[];
+export type SqlRecords = Field[][];
 export const SqlRecords = S.Array(FieldList);
 export type QueryRecords = { CSVRecords: string };
 export const QueryRecords = S.Union(S.Struct({ CSVRecords: S.String }));
-export type FormattedSqlRecords = (typeof QueryRecords)["Type"][];
+export type FormattedSqlRecords = QueryRecords[];
 export const FormattedSqlRecords = S.Array(QueryRecords);
 export interface StatementData {
   Id: string;
   QueryString?: string;
-  QueryStrings?: StatementStringList;
+  QueryStrings?: string[];
   SecretArn?: string;
   Status?: string;
   StatementName?: string;
   CreatedAt?: Date;
   UpdatedAt?: Date;
-  QueryParameters?: SqlParametersList;
+  QueryParameters?: SqlParameter[];
   IsBatchStatement?: boolean;
   ResultFormat?: string;
   SessionId?: string;
@@ -593,8 +591,8 @@ export interface DescribeStatementResponse {
   ResultRows?: number;
   ResultSize?: number;
   RedshiftQueryId?: number;
-  QueryParameters?: SqlParametersList;
-  SubStatements?: SubStatementList;
+  QueryParameters?: SqlParameter[];
+  SubStatements?: SubStatementData[];
   WorkgroupName?: string;
   ResultFormat?: string;
   SessionId?: string;
@@ -628,7 +626,7 @@ export const DescribeStatementResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeStatementResponse>;
 export interface DescribeTableResponse {
   TableName?: string;
-  ColumnList?: ColumnList;
+  ColumnList?: ColumnMetadata[];
   NextToken?: string;
 }
 export const DescribeTableResponse = S.suspend(() =>
@@ -645,7 +643,7 @@ export interface ExecuteStatementOutput {
   CreatedAt?: Date;
   ClusterIdentifier?: string;
   DbUser?: string;
-  DbGroups?: DbGroupList;
+  DbGroups?: string[];
   Database?: string;
   SecretArn?: string;
   WorkgroupName?: string;
@@ -667,8 +665,8 @@ export const ExecuteStatementOutput = S.suspend(() =>
   identifier: "ExecuteStatementOutput",
 }) as any as S.Schema<ExecuteStatementOutput>;
 export interface GetStatementResultResponse {
-  Records: SqlRecords;
-  ColumnMetadata?: ColumnMetadataList;
+  Records: Field[][];
+  ColumnMetadata?: ColumnMetadata[];
   TotalNumRows?: number;
   NextToken?: string;
 }
@@ -683,8 +681,8 @@ export const GetStatementResultResponse = S.suspend(() =>
   identifier: "GetStatementResultResponse",
 }) as any as S.Schema<GetStatementResultResponse>;
 export interface GetStatementResultV2Response {
-  Records: FormattedSqlRecords;
-  ColumnMetadata?: ColumnMetadataList;
+  Records: QueryRecords[];
+  ColumnMetadata?: ColumnMetadata[];
   TotalNumRows?: number;
   ResultFormat?: string;
   NextToken?: string;
@@ -701,7 +699,7 @@ export const GetStatementResultV2Response = S.suspend(() =>
   identifier: "GetStatementResultV2Response",
 }) as any as S.Schema<GetStatementResultV2Response>;
 export interface ListStatementsResponse {
-  Statements: StatementList;
+  Statements: StatementData[];
   NextToken?: string;
 }
 export const ListStatementsResponse = S.suspend(() =>
@@ -710,7 +708,7 @@ export const ListStatementsResponse = S.suspend(() =>
   identifier: "ListStatementsResponse",
 }) as any as S.Schema<ListStatementsResponse>;
 export interface ListTablesResponse {
-  Tables?: TableList;
+  Tables?: TableMember[];
   NextToken?: string;
 }
 export const ListTablesResponse = S.suspend(() =>
@@ -765,7 +763,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const describeStatement: (
   input: DescribeStatementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeStatementResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -799,7 +797,7 @@ export const describeStatement: (
 export const describeTable: {
   (
     input: DescribeTableRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeTableResponse,
     | DatabaseConnectionException
     | InternalServerException
@@ -811,7 +809,7 @@ export const describeTable: {
   >;
   pages: (
     input: DescribeTableRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeTableResponse,
     | DatabaseConnectionException
     | InternalServerException
@@ -823,7 +821,7 @@ export const describeTable: {
   >;
   items: (
     input: DescribeTableRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ColumnMetadata,
     | DatabaseConnectionException
     | InternalServerException
@@ -868,7 +866,7 @@ export const describeTable: {
 export const listTables: {
   (
     input: ListTablesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTablesResponse,
     | DatabaseConnectionException
     | InternalServerException
@@ -880,7 +878,7 @@ export const listTables: {
   >;
   pages: (
     input: ListTablesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTablesResponse,
     | DatabaseConnectionException
     | InternalServerException
@@ -892,7 +890,7 @@ export const listTables: {
   >;
   items: (
     input: ListTablesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TableMember,
     | DatabaseConnectionException
     | InternalServerException
@@ -937,7 +935,7 @@ export const listTables: {
 export const listDatabases: {
   (
     input: ListDatabasesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDatabasesResponse,
     | DatabaseConnectionException
     | InternalServerException
@@ -949,7 +947,7 @@ export const listDatabases: {
   >;
   pages: (
     input: ListDatabasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDatabasesResponse,
     | DatabaseConnectionException
     | InternalServerException
@@ -961,7 +959,7 @@ export const listDatabases: {
   >;
   items: (
     input: ListDatabasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     String,
     | DatabaseConnectionException
     | InternalServerException
@@ -1006,7 +1004,7 @@ export const listDatabases: {
 export const listSchemas: {
   (
     input: ListSchemasRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSchemasResponse,
     | DatabaseConnectionException
     | InternalServerException
@@ -1018,7 +1016,7 @@ export const listSchemas: {
   >;
   pages: (
     input: ListSchemasRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSchemasResponse,
     | DatabaseConnectionException
     | InternalServerException
@@ -1030,7 +1028,7 @@ export const listSchemas: {
   >;
   items: (
     input: ListSchemasRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     String,
     | DatabaseConnectionException
     | InternalServerException
@@ -1065,7 +1063,7 @@ export const listSchemas: {
 export const getStatementResult: {
   (
     input: GetStatementResultRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetStatementResultResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1075,7 +1073,7 @@ export const getStatementResult: {
   >;
   pages: (
     input: GetStatementResultRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetStatementResultResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1085,8 +1083,8 @@ export const getStatementResult: {
   >;
   items: (
     input: GetStatementResultRequest,
-  ) => Stream.Stream<
-    S.Schema.Type<typeof FieldList>,
+  ) => stream.Stream<
+    Field[],
     | InternalServerException
     | ResourceNotFoundException
     | ValidationException
@@ -1115,7 +1113,7 @@ export const getStatementResult: {
 export const getStatementResultV2: {
   (
     input: GetStatementResultV2Request,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetStatementResultV2Response,
     | InternalServerException
     | ResourceNotFoundException
@@ -1125,7 +1123,7 @@ export const getStatementResultV2: {
   >;
   pages: (
     input: GetStatementResultV2Request,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetStatementResultV2Response,
     | InternalServerException
     | ResourceNotFoundException
@@ -1135,7 +1133,7 @@ export const getStatementResultV2: {
   >;
   items: (
     input: GetStatementResultV2Request,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     QueryRecords,
     | InternalServerException
     | ResourceNotFoundException
@@ -1167,7 +1165,7 @@ export const getStatementResultV2: {
 export const listStatements: {
   (
     input: ListStatementsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStatementsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1177,7 +1175,7 @@ export const listStatements: {
   >;
   pages: (
     input: ListStatementsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStatementsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -1187,7 +1185,7 @@ export const listStatements: {
   >;
   items: (
     input: ListStatementsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     StatementData,
     | InternalServerException
     | ResourceNotFoundException
@@ -1227,7 +1225,7 @@ export const listStatements: {
  */
 export const batchExecuteStatement: (
   input: BatchExecuteStatementInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchExecuteStatementOutput,
   | ActiveSessionsExceededException
   | ActiveStatementsExceededException
@@ -1256,7 +1254,7 @@ export const batchExecuteStatement: (
  */
 export const cancelStatement: (
   input: CancelStatementRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelStatementResponse,
   | DatabaseConnectionException
   | InternalServerException
@@ -1293,7 +1291,7 @@ export const cancelStatement: (
  */
 export const executeStatement: (
   input: ExecuteStatementInput,
-) => Effect.Effect<
+) => effect.Effect<
   ExecuteStatementOutput,
   | ActiveSessionsExceededException
   | ActiveStatementsExceededException

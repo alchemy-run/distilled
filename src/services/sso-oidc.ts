@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -91,24 +91,24 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type ClientId = string;
-export type ClientSecret = string | Redacted.Redacted<string>;
+export type ClientSecret = string | redacted.Redacted<string>;
 export type GrantType = string;
 export type DeviceCode = string;
 export type AuthCode = string;
-export type RefreshToken = string | Redacted.Redacted<string>;
+export type RefreshToken = string | redacted.Redacted<string>;
 export type Scope = string;
 export type URI = string;
-export type CodeVerifier = string | Redacted.Redacted<string>;
-export type Assertion = string | Redacted.Redacted<string>;
-export type SubjectToken = string | Redacted.Redacted<string>;
+export type CodeVerifier = string | redacted.Redacted<string>;
+export type Assertion = string | redacted.Redacted<string>;
+export type SubjectToken = string | redacted.Redacted<string>;
 export type TokenTypeURI = string;
 export type ClientName = string;
 export type ClientType = string;
 export type ArnType = string;
-export type AccessToken = string | Redacted.Redacted<string>;
+export type AccessToken = string | redacted.Redacted<string>;
 export type TokenType = string;
 export type ExpirationInSeconds = number;
-export type IdToken = string | Redacted.Redacted<string>;
+export type IdToken = string | redacted.Redacted<string>;
 export type LongTimeStampType = number;
 export type UserCode = string;
 export type IntervalInSeconds = number;
@@ -126,14 +126,14 @@ export type GrantTypes = string[];
 export const GrantTypes = S.Array(S.String);
 export interface CreateTokenRequest {
   clientId: string;
-  clientSecret: string | Redacted.Redacted<string>;
+  clientSecret: string | redacted.Redacted<string>;
   grantType: string;
   deviceCode?: string;
   code?: string;
-  refreshToken?: string | Redacted.Redacted<string>;
-  scope?: Scopes;
+  refreshToken?: string | redacted.Redacted<string>;
+  scope?: string[];
   redirectUri?: string;
-  codeVerifier?: string | Redacted.Redacted<string>;
+  codeVerifier?: string | redacted.Redacted<string>;
 }
 export const CreateTokenRequest = S.suspend(() =>
   S.Struct({
@@ -163,14 +163,14 @@ export interface CreateTokenWithIAMRequest {
   clientId: string;
   grantType: string;
   code?: string;
-  refreshToken?: string | Redacted.Redacted<string>;
-  assertion?: string | Redacted.Redacted<string>;
-  scope?: Scopes;
+  refreshToken?: string | redacted.Redacted<string>;
+  assertion?: string | redacted.Redacted<string>;
+  scope?: string[];
   redirectUri?: string;
-  subjectToken?: string | Redacted.Redacted<string>;
+  subjectToken?: string | redacted.Redacted<string>;
   subjectTokenType?: string;
   requestedTokenType?: string;
-  codeVerifier?: string | Redacted.Redacted<string>;
+  codeVerifier?: string | redacted.Redacted<string>;
 }
 export const CreateTokenWithIAMRequest = S.suspend(() =>
   S.Struct({
@@ -201,9 +201,9 @@ export const CreateTokenWithIAMRequest = S.suspend(() =>
 export interface RegisterClientRequest {
   clientName: string;
   clientType: string;
-  scopes?: Scopes;
-  redirectUris?: RedirectUris;
-  grantTypes?: GrantTypes;
+  scopes?: string[];
+  redirectUris?: string[];
+  grantTypes?: string[];
   issuerUrl?: string;
   entitledApplicationArn?: string;
 }
@@ -231,7 +231,7 @@ export const RegisterClientRequest = S.suspend(() =>
 }) as any as S.Schema<RegisterClientRequest>;
 export interface StartDeviceAuthorizationRequest {
   clientId: string;
-  clientSecret: string | Redacted.Redacted<string>;
+  clientSecret: string | redacted.Redacted<string>;
   startUrl: string;
 }
 export const StartDeviceAuthorizationRequest = S.suspend(() =>
@@ -253,11 +253,11 @@ export const StartDeviceAuthorizationRequest = S.suspend(() =>
   identifier: "StartDeviceAuthorizationRequest",
 }) as any as S.Schema<StartDeviceAuthorizationRequest>;
 export interface CreateTokenResponse {
-  accessToken?: string | Redacted.Redacted<string>;
+  accessToken?: string | redacted.Redacted<string>;
   tokenType?: string;
   expiresIn?: number;
-  refreshToken?: string | Redacted.Redacted<string>;
-  idToken?: string | Redacted.Redacted<string>;
+  refreshToken?: string | redacted.Redacted<string>;
+  idToken?: string | redacted.Redacted<string>;
 }
 export const CreateTokenResponse = S.suspend(() =>
   S.Struct({
@@ -272,7 +272,7 @@ export const CreateTokenResponse = S.suspend(() =>
 }) as any as S.Schema<CreateTokenResponse>;
 export interface RegisterClientResponse {
   clientId?: string;
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | redacted.Redacted<string>;
   clientIdIssuedAt?: number;
   clientSecretExpiresAt?: number;
   authorizationEndpoint?: string;
@@ -310,6 +310,10 @@ export const StartDeviceAuthorizationResponse = S.suspend(() =>
 ).annotations({
   identifier: "StartDeviceAuthorizationResponse",
 }) as any as S.Schema<StartDeviceAuthorizationResponse>;
+export type AccessDeniedExceptionReason = "KMS_AccessDeniedException";
+export const AccessDeniedExceptionReason = S.Literal(
+  "KMS_AccessDeniedException",
+);
 export interface AwsAdditionalDetails {
   identityContext?: string;
 }
@@ -319,13 +323,13 @@ export const AwsAdditionalDetails = S.suspend(() =>
   identifier: "AwsAdditionalDetails",
 }) as any as S.Schema<AwsAdditionalDetails>;
 export interface CreateTokenWithIAMResponse {
-  accessToken?: string | Redacted.Redacted<string>;
+  accessToken?: string | redacted.Redacted<string>;
   tokenType?: string;
   expiresIn?: number;
-  refreshToken?: string | Redacted.Redacted<string>;
-  idToken?: string | Redacted.Redacted<string>;
+  refreshToken?: string | redacted.Redacted<string>;
+  idToken?: string | redacted.Redacted<string>;
   issuedTokenType?: string;
-  scope?: Scopes;
+  scope?: string[];
   awsAdditionalDetails?: AwsAdditionalDetails;
 }
 export const CreateTokenWithIAMResponse = S.suspend(() =>
@@ -342,13 +346,24 @@ export const CreateTokenWithIAMResponse = S.suspend(() =>
 ).annotations({
   identifier: "CreateTokenWithIAMResponse",
 }) as any as S.Schema<CreateTokenWithIAMResponse>;
+export type InvalidRequestExceptionReason =
+  | "KMS_NotFoundException"
+  | "KMS_InvalidKeyUsageException"
+  | "KMS_InvalidStateException"
+  | "KMS_DisabledException";
+export const InvalidRequestExceptionReason = S.Literal(
+  "KMS_NotFoundException",
+  "KMS_InvalidKeyUsageException",
+  "KMS_InvalidStateException",
+  "KMS_DisabledException",
+);
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   {
     error: S.optional(S.String),
-    reason: S.optional(S.String),
+    reason: S.optional(AccessDeniedExceptionReason),
     error_description: S.optional(S.String),
   },
 ).pipe(C.withBadRequestError) {}
@@ -380,7 +395,7 @@ export class InvalidRequestException extends S.TaggedError<InvalidRequestExcepti
   "InvalidRequestException",
   {
     error: S.optional(S.String),
-    reason: S.optional(S.String),
+    reason: S.optional(InvalidRequestExceptionReason),
     error_description: S.optional(S.String),
   },
 ).pipe(C.withBadRequestError) {}
@@ -421,7 +436,7 @@ export class UnsupportedGrantTypeException extends S.TaggedError<UnsupportedGran
  */
 export const startDeviceAuthorization: (
   input: StartDeviceAuthorizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartDeviceAuthorizationResponse,
   | InternalServerException
   | InvalidClientException
@@ -448,7 +463,7 @@ export const startDeviceAuthorization: (
  */
 export const registerClient: (
   input: RegisterClientRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterClientResponse,
   | InternalServerException
   | InvalidClientMetadataException
@@ -479,7 +494,7 @@ export const registerClient: (
  */
 export const createToken: (
   input: CreateTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTokenResponse,
   | AccessDeniedException
   | AuthorizationPendingException
@@ -522,7 +537,7 @@ export const createToken: (
  */
 export const createTokenWithIAM: (
   input: CreateTokenWithIAMRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTokenWithIAMResponse,
   | AccessDeniedException
   | AuthorizationPendingException

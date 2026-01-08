@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -116,7 +116,6 @@ export type PricingMode = string;
 export type BundleName = string;
 export type TagValue = string;
 export type SceneMetadataValue = string;
-export type Long = number;
 export type UpdateReason = string;
 export type InterpolationType = string;
 export type IntervalInSeconds = number;
@@ -136,8 +135,6 @@ export type S3SourceLocation = string;
 export type S3DestinationLocation = string;
 export type PricingTier = string;
 export type Order = string;
-export type Double = number;
-export type Integer = number;
 export type Expression = string;
 export type ComponentUpdateType = string;
 export type ColumnName = string;
@@ -207,7 +204,7 @@ export interface CreateSyncJobRequest {
   workspaceId: string;
   syncSource: string;
   syncRole: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateSyncJobRequest = S.suspend(() =>
   S.Struct({
@@ -236,7 +233,7 @@ export interface CreateWorkspaceRequest {
   description?: string;
   s3Location?: string;
   role?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateWorkspaceRequest = S.suspend(() =>
   S.Struct({
@@ -691,7 +688,7 @@ export const ListWorkspacesRequest = S.suspend(() =>
 }) as any as S.Schema<ListWorkspacesRequest>;
 export interface TagResourceRequest {
   resourceARN: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceARN: S.String, tags: TagMap }).pipe(
@@ -713,7 +710,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceARN: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -749,7 +746,7 @@ export const Relationship = S.suspend(() =>
 export interface DataType {
   type: string;
   nestedType?: DataType;
-  allowedValues?: DataValueList;
+  allowedValues?: DataValue[];
   unitOfMeasure?: string;
   relationship?: Relationship;
 }
@@ -788,8 +785,8 @@ export interface DataValue {
   integerValue?: number;
   longValue?: number;
   stringValue?: string;
-  listValue?: DataValueList;
-  mapValue?: DataValueMap;
+  listValue?: DataValue[];
+  mapValue?: { [key: string]: DataValue };
   relationshipValue?: RelationshipValue;
   expression?: string;
 }
@@ -821,7 +818,7 @@ export interface PropertyDefinitionRequest {
   isStoredExternally?: boolean;
   isTimeSeries?: boolean;
   defaultValue?: DataValue;
-  configuration?: Configuration;
+  configuration?: { [key: string]: string };
   displayName?: string;
 }
 export const PropertyDefinitionRequest = S.suspend(() =>
@@ -868,7 +865,7 @@ export const DataConnector = S.suspend(() =>
   identifier: "DataConnector",
 }) as any as S.Schema<DataConnector>;
 export interface FunctionRequest {
-  requiredProperties?: RequiredProperties;
+  requiredProperties?: string[];
   scope?: string;
   implementedBy?: DataConnector;
 }
@@ -890,7 +887,7 @@ export type PropertyNames = string[];
 export const PropertyNames = S.Array(S.String);
 export interface PropertyGroupRequest {
   groupType?: string;
-  propertyNames?: PropertyNames;
+  propertyNames?: string[];
 }
 export const PropertyGroupRequest = S.suspend(() =>
   S.Struct({
@@ -925,12 +922,12 @@ export interface UpdateComponentTypeRequest {
   isSingleton?: boolean;
   componentTypeId: string;
   description?: string;
-  propertyDefinitions?: PropertyDefinitionsRequest;
-  extendsFrom?: ExtendsFrom;
-  functions?: FunctionsRequest;
-  propertyGroups?: PropertyGroupsRequest;
+  propertyDefinitions?: { [key: string]: PropertyDefinitionRequest };
+  extendsFrom?: string[];
+  functions?: { [key: string]: FunctionRequest };
+  propertyGroups?: { [key: string]: PropertyGroupRequest };
   componentTypeName?: string;
-  compositeComponentTypes?: CompositeComponentTypesRequest;
+  compositeComponentTypes?: { [key: string]: CompositeComponentTypeRequest };
 }
 export const UpdateComponentTypeRequest = S.suspend(() =>
   S.Struct({
@@ -962,7 +959,7 @@ export const UpdateComponentTypeRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateComponentTypeRequest>;
 export interface UpdatePricingPlanRequest {
   pricingMode: string;
-  bundleNames?: PricingBundles;
+  bundleNames?: string[];
 }
 export const UpdatePricingPlanRequest = S.suspend(() =>
   S.Struct({
@@ -988,8 +985,8 @@ export interface UpdateSceneRequest {
   sceneId: string;
   contentLocation?: string;
   description?: string;
-  capabilities?: SceneCapabilities;
-  sceneMetadata?: SceneMetadataMap;
+  capabilities?: string[];
+  sceneMetadata?: { [key: string]: string };
 }
 export const UpdateSceneRequest = S.suspend(() =>
   S.Struct({
@@ -1063,8 +1060,7 @@ export const ListComponentTypesFilter = S.Union(
   S.Struct({ namespace: S.String }),
   S.Struct({ isAbstract: S.Boolean }),
 );
-export type ListComponentTypesFilters =
-  (typeof ListComponentTypesFilter)["Type"][];
+export type ListComponentTypesFilters = ListComponentTypesFilter[];
 export const ListComponentTypesFilters = S.Array(ListComponentTypesFilter);
 export type ListEntitiesFilter =
   | { parentEntityId: string }
@@ -1075,7 +1071,7 @@ export const ListEntitiesFilter = S.Union(
   S.Struct({ componentTypeId: S.String }),
   S.Struct({ externalId: S.String }),
 );
-export type ListEntitiesFilters = (typeof ListEntitiesFilter)["Type"][];
+export type ListEntitiesFilters = ListEntitiesFilter[];
 export const ListEntitiesFilters = S.Array(ListEntitiesFilter);
 export type ListMetadataTransferJobsFilter =
   | { workspaceId: string }
@@ -1084,8 +1080,7 @@ export const ListMetadataTransferJobsFilter = S.Union(
   S.Struct({ workspaceId: S.String }),
   S.Struct({ state: S.String }),
 );
-export type ListMetadataTransferJobsFilters =
-  (typeof ListMetadataTransferJobsFilter)["Type"][];
+export type ListMetadataTransferJobsFilters = ListMetadataTransferJobsFilter[];
 export const ListMetadataTransferJobsFilters = S.Array(
   ListMetadataTransferJobsFilter,
 );
@@ -1100,7 +1095,7 @@ export const SyncResourceFilter = S.Union(
   S.Struct({ resourceId: S.String }),
   S.Struct({ externalId: S.String }),
 );
-export type SyncResourceFilters = (typeof SyncResourceFilter)["Type"][];
+export type SyncResourceFilters = SyncResourceFilter[];
 export const SyncResourceFilters = S.Array(SyncResourceFilter);
 export interface ParentEntityUpdateRequest {
   updateType: string;
@@ -1122,9 +1117,9 @@ export interface CreateSceneRequest {
   sceneId: string;
   contentLocation: string;
   description?: string;
-  capabilities?: SceneCapabilities;
-  tags?: TagMap;
-  sceneMetadata?: SceneMetadataMap;
+  capabilities?: string[];
+  tags?: { [key: string]: string };
+  sceneMetadata?: { [key: string]: string };
 }
 export const CreateSceneRequest = S.suspend(() =>
   S.Struct({
@@ -1254,12 +1249,12 @@ export const IotSiteWiseSourceConfigurationFilter = S.Union(
   S.Struct({ filterByAsset: FilterByAsset }),
 );
 export type IotSiteWiseSourceConfigurationFilters =
-  (typeof IotSiteWiseSourceConfigurationFilter)["Type"][];
+  IotSiteWiseSourceConfigurationFilter[];
 export const IotSiteWiseSourceConfigurationFilters = S.Array(
   IotSiteWiseSourceConfigurationFilter,
 );
 export interface IotSiteWiseSourceConfiguration {
-  filters?: IotSiteWiseSourceConfigurationFilters;
+  filters?: IotSiteWiseSourceConfigurationFilter[];
 }
 export const IotSiteWiseSourceConfiguration = S.suspend(() =>
   S.Struct({ filters: S.optional(IotSiteWiseSourceConfigurationFilters) }),
@@ -1290,13 +1285,13 @@ export const IotTwinMakerSourceConfigurationFilter = S.Union(
   S.Struct({ filterByEntity: FilterByEntity }),
 );
 export type IotTwinMakerSourceConfigurationFilters =
-  (typeof IotTwinMakerSourceConfigurationFilter)["Type"][];
+  IotTwinMakerSourceConfigurationFilter[];
 export const IotTwinMakerSourceConfigurationFilters = S.Array(
   IotTwinMakerSourceConfigurationFilter,
 );
 export interface IotTwinMakerSourceConfiguration {
   workspace: string;
-  filters?: IotTwinMakerSourceConfigurationFilters;
+  filters?: IotTwinMakerSourceConfigurationFilter[];
 }
 export const IotTwinMakerSourceConfiguration = S.suspend(() =>
   S.Struct({
@@ -1395,7 +1390,7 @@ export interface GetMetadataTransferJobResponse {
   metadataTransferJobId: string;
   arn: string;
   description?: string;
-  sources: SourceConfigurations;
+  sources: SourceConfiguration[];
   destination: DestinationConfiguration;
   metadataTransferJobRole: string;
   reportUrl?: string;
@@ -1425,7 +1420,7 @@ export interface GetWorkspaceResponse {
   workspaceId: string;
   arn: string;
   description?: string;
-  linkedServices?: LinkedServices;
+  linkedServices?: string[];
   s3Location?: string;
   role?: string;
   creationDateTime: Date;
@@ -1447,7 +1442,7 @@ export const GetWorkspaceResponse = S.suspend(() =>
 }) as any as S.Schema<GetWorkspaceResponse>;
 export interface ListComponentTypesRequest {
   workspaceId: string;
-  filters?: ListComponentTypesFilters;
+  filters?: ListComponentTypesFilter[];
   nextToken?: string;
   maxResults?: number;
 }
@@ -1475,7 +1470,7 @@ export const ListComponentTypesRequest = S.suspend(() =>
 }) as any as S.Schema<ListComponentTypesRequest>;
 export interface ListEntitiesRequest {
   workspaceId: string;
-  filters?: ListEntitiesFilters;
+  filters?: ListEntitiesFilter[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -1504,7 +1499,7 @@ export const ListEntitiesRequest = S.suspend(() =>
 export interface ListMetadataTransferJobsRequest {
   sourceType: string;
   destinationType: string;
-  filters?: ListMetadataTransferJobsFilters;
+  filters?: ListMetadataTransferJobsFilter[];
   nextToken?: string;
   maxResults?: number;
 }
@@ -1531,7 +1526,7 @@ export const ListMetadataTransferJobsRequest = S.suspend(() =>
 export interface ListSyncResourcesRequest {
   workspaceId: string;
   syncSource: string;
-  filters?: SyncResourceFilters;
+  filters?: SyncResourceFilter[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -1559,7 +1554,7 @@ export const ListSyncResourcesRequest = S.suspend(() =>
   identifier: "ListSyncResourcesRequest",
 }) as any as S.Schema<ListSyncResourcesRequest>;
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   nextToken?: string;
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
@@ -1584,7 +1579,7 @@ export const UpdateComponentTypeResponse = S.suspend(() =>
   identifier: "UpdateComponentTypeResponse",
 }) as any as S.Schema<UpdateComponentTypeResponse>;
 export interface BundleInformation {
-  bundleNames: PricingBundles;
+  bundleNames: string[];
   pricingTier?: string;
 }
 export const BundleInformation = S.suspend(() =>
@@ -1675,7 +1670,7 @@ export const PropertyRequests = S.Record({
 });
 export interface ComponentPropertyGroupRequest {
   groupType?: string;
-  propertyNames?: PropertyNames;
+  propertyNames?: string[];
   updateType?: string;
 }
 export const ComponentPropertyGroupRequest = S.suspend(() =>
@@ -1696,8 +1691,8 @@ export const ComponentPropertyGroupRequests = S.Record({
 });
 export interface CompositeComponentRequest {
   description?: string;
-  properties?: PropertyRequests;
-  propertyGroups?: ComponentPropertyGroupRequests;
+  properties?: { [key: string]: PropertyRequest };
+  propertyGroups?: { [key: string]: ComponentPropertyGroupRequest };
 }
 export const CompositeComponentRequest = S.suspend(() =>
   S.Struct({
@@ -1723,8 +1718,8 @@ export interface ComponentUpdateRequest {
   updateType?: string;
   description?: string;
   componentTypeId?: string;
-  propertyUpdates?: PropertyRequests;
-  propertyGroupUpdates?: ComponentPropertyGroupRequests;
+  propertyUpdates?: { [key: string]: PropertyRequest };
+  propertyGroupUpdates?: { [key: string]: ComponentPropertyGroupRequest };
 }
 export const ComponentUpdateRequest = S.suspend(() =>
   S.Struct({
@@ -1740,8 +1735,8 @@ export const ComponentUpdateRequest = S.suspend(() =>
 export interface CompositeComponentUpdateRequest {
   updateType?: string;
   description?: string;
-  propertyUpdates?: PropertyRequests;
-  propertyGroupUpdates?: ComponentPropertyGroupRequests;
+  propertyUpdates?: { [key: string]: PropertyRequest };
+  propertyGroupUpdates?: { [key: string]: ComponentPropertyGroupRequest };
 }
 export const CompositeComponentUpdateRequest = S.suspend(() =>
   S.Struct({
@@ -1772,7 +1767,7 @@ export const ColumnDescription = S.suspend(() =>
 export type ColumnDescriptions = ColumnDescription[];
 export const ColumnDescriptions = S.Array(ColumnDescription);
 export interface Row {
-  rowData?: RowData;
+  rowData?: any[];
 }
 export const Row = S.suspend(() =>
   S.Struct({ rowData: S.optional(RowData) }),
@@ -1803,8 +1798,8 @@ export const PropertyFilter = S.suspend(() =>
 export type PropertyFilters = PropertyFilter[];
 export const PropertyFilters = S.Array(PropertyFilter);
 export interface TabularConditions {
-  orderBy?: OrderByList;
-  propertyFilters?: PropertyFilters;
+  orderBy?: OrderBy[];
+  propertyFilters?: PropertyFilter[];
 }
 export const TabularConditions = S.suspend(() =>
   S.Struct({
@@ -1845,7 +1840,7 @@ export interface PropertyDefinitionResponse {
   isFinal: boolean;
   isInherited: boolean;
   defaultValue?: DataValue;
-  configuration?: Configuration;
+  configuration?: { [key: string]: string };
   displayName?: string;
 }
 export const PropertyDefinitionResponse = S.suspend(() =>
@@ -1931,7 +1926,7 @@ export interface WorkspaceSummary {
   workspaceId: string;
   arn: string;
   description?: string;
-  linkedServices?: LinkedServices;
+  linkedServices?: string[];
   creationDateTime: Date;
   updateDateTime: Date;
 }
@@ -1985,8 +1980,8 @@ export const CreateSceneResponse = S.suspend(() =>
   identifier: "CreateSceneResponse",
 }) as any as S.Schema<CreateSceneResponse>;
 export interface ExecuteQueryResponse {
-  columnDescriptions?: ColumnDescriptions;
-  rows?: Rows;
+  columnDescriptions?: ColumnDescription[];
+  rows?: Row[];
   nextToken?: string;
 }
 export const ExecuteQueryResponse = S.suspend(() =>
@@ -2015,7 +2010,7 @@ export interface GetPropertyValueRequest {
   componentPath?: string;
   componentTypeId?: string;
   entityId?: string;
-  selectedProperties: SelectedPropertyList;
+  selectedProperties: string[];
   workspaceId: string;
   maxResults?: number;
   nextToken?: string;
@@ -2058,9 +2053,9 @@ export interface GetSceneResponse {
   creationDateTime: Date;
   updateDateTime: Date;
   description?: string;
-  capabilities?: SceneCapabilities;
-  sceneMetadata?: SceneMetadataMap;
-  generatedSceneMetadata?: GeneratedSceneMetadataMap;
+  capabilities?: string[];
+  sceneMetadata?: { [key: string]: string };
+  generatedSceneMetadata?: { [key: string]: string };
   error?: SceneError;
 }
 export const GetSceneResponse = S.suspend(() =>
@@ -2103,7 +2098,7 @@ export const GetSyncJobResponse = S.suspend(() =>
   identifier: "GetSyncJobResponse",
 }) as any as S.Schema<GetSyncJobResponse>;
 export interface ListPropertiesResponse {
-  propertySummaries: PropertySummaries;
+  propertySummaries: PropertySummary[];
   nextToken?: string;
 }
 export const ListPropertiesResponse = S.suspend(() =>
@@ -2115,7 +2110,7 @@ export const ListPropertiesResponse = S.suspend(() =>
   identifier: "ListPropertiesResponse",
 }) as any as S.Schema<ListPropertiesResponse>;
 export interface ListScenesResponse {
-  sceneSummaries?: SceneSummaries;
+  sceneSummaries?: SceneSummary[];
   nextToken?: string;
 }
 export const ListScenesResponse = S.suspend(() =>
@@ -2127,7 +2122,7 @@ export const ListScenesResponse = S.suspend(() =>
   identifier: "ListScenesResponse",
 }) as any as S.Schema<ListScenesResponse>;
 export interface ListSyncJobsResponse {
-  syncJobSummaries?: SyncJobSummaries;
+  syncJobSummaries?: SyncJobSummary[];
   nextToken?: string;
 }
 export const ListSyncJobsResponse = S.suspend(() =>
@@ -2139,7 +2134,7 @@ export const ListSyncJobsResponse = S.suspend(() =>
   identifier: "ListSyncJobsResponse",
 }) as any as S.Schema<ListSyncJobsResponse>;
 export interface ListWorkspacesResponse {
-  workspaceSummaries?: WorkspaceSummaries;
+  workspaceSummaries?: WorkspaceSummary[];
   nextToken?: string;
 }
 export const ListWorkspacesResponse = S.suspend(() =>
@@ -2155,8 +2150,10 @@ export interface UpdateEntityRequest {
   entityId: string;
   entityName?: string;
   description?: string;
-  componentUpdates?: ComponentUpdatesMapRequest;
-  compositeComponentUpdates?: CompositeComponentUpdatesMapRequest;
+  componentUpdates?: { [key: string]: ComponentUpdateRequest };
+  compositeComponentUpdates?: {
+    [key: string]: CompositeComponentUpdateRequest;
+  };
   parentEntityUpdate?: ParentEntityUpdateRequest;
 }
 export const UpdateEntityRequest = S.suspend(() =>
@@ -2187,7 +2184,7 @@ export const UpdateEntityRequest = S.suspend(() =>
 export interface EntityPropertyReference {
   componentName?: string;
   componentPath?: string;
-  externalIdProperty?: ExternalIdProperty;
+  externalIdProperty?: { [key: string]: string };
   entityId?: string;
   propertyName: string;
 }
@@ -2203,7 +2200,7 @@ export const EntityPropertyReference = S.suspend(() =>
   identifier: "EntityPropertyReference",
 }) as any as S.Schema<EntityPropertyReference>;
 export interface FunctionResponse {
-  requiredProperties?: RequiredProperties;
+  requiredProperties?: string[];
   scope?: string;
   implementedBy?: DataConnector;
   isInherited?: boolean;
@@ -2220,7 +2217,7 @@ export const FunctionResponse = S.suspend(() =>
 }) as any as S.Schema<FunctionResponse>;
 export interface PropertyGroupResponse {
   groupType: string;
-  propertyNames: PropertyNames;
+  propertyNames: string[];
   isInherited: boolean;
 }
 export const PropertyGroupResponse = S.suspend(() =>
@@ -2246,7 +2243,7 @@ export const CompositeComponentTypeResponse = S.suspend(() =>
 }) as any as S.Schema<CompositeComponentTypeResponse>;
 export interface PropertyValueEntry {
   entityPropertyReference: EntityPropertyReference;
-  propertyValues?: PropertyValues;
+  propertyValues?: PropertyValue[];
 }
 export const PropertyValueEntry = S.suspend(() =>
   S.Struct({
@@ -2358,7 +2355,7 @@ export type MetadataTransferJobSummaries = MetadataTransferJobSummary[];
 export const MetadataTransferJobSummaries = S.Array(MetadataTransferJobSummary);
 export interface ComponentPropertyGroupResponse {
   groupType: string;
-  propertyNames: PropertyNames;
+  propertyNames: string[];
   isInherited: boolean;
 }
 export const ComponentPropertyGroupResponse = S.suspend(() =>
@@ -2382,7 +2379,7 @@ export interface ComponentSummary {
   componentTypeId: string;
   definedIn?: string;
   description?: string;
-  propertyGroups?: ComponentPropertyGroupResponses;
+  propertyGroups?: { [key: string]: ComponentPropertyGroupResponse };
   status: Status;
   syncSource?: string;
   componentPath?: string;
@@ -2408,7 +2405,7 @@ export const CompositeComponentResponse = S.Record({
 });
 export interface BatchPutPropertyValuesRequest {
   workspaceId: string;
-  entries: Entries;
+  entries: PropertyValueEntry[];
 }
 export const BatchPutPropertyValuesRequest = S.suspend(() =>
   S.Struct({
@@ -2453,19 +2450,19 @@ export interface GetComponentTypeResponse {
   isSingleton?: boolean;
   componentTypeId: string;
   description?: string;
-  propertyDefinitions?: PropertyDefinitionsResponse;
-  extendsFrom?: ExtendsFrom;
-  functions?: FunctionsResponse;
+  propertyDefinitions?: { [key: string]: PropertyDefinitionResponse };
+  extendsFrom?: string[];
+  functions?: { [key: string]: FunctionResponse };
   creationDateTime: Date;
   updateDateTime: Date;
   arn: string;
   isAbstract?: boolean;
   isSchemaInitialized?: boolean;
   status?: Status;
-  propertyGroups?: PropertyGroupsResponse;
+  propertyGroups?: { [key: string]: PropertyGroupResponse };
   syncSource?: string;
   componentTypeName?: string;
-  compositeComponentTypes?: CompositeComponentTypesResponse;
+  compositeComponentTypes?: { [key: string]: CompositeComponentTypeResponse };
 }
 export const GetComponentTypeResponse = S.suspend(() =>
   S.Struct({
@@ -2496,8 +2493,8 @@ export interface GetPropertyValueHistoryRequest {
   componentName?: string;
   componentPath?: string;
   componentTypeId?: string;
-  selectedProperties: SelectedPropertyList;
-  propertyFilters?: PropertyFilters;
+  selectedProperties: string[];
+  propertyFilters?: PropertyFilter[];
   startDateTime?: Date;
   endDateTime?: Date;
   interpolation?: InterpolationParameters;
@@ -2542,7 +2539,7 @@ export const GetPropertyValueHistoryRequest = S.suspend(() =>
 }) as any as S.Schema<GetPropertyValueHistoryRequest>;
 export interface ListComponentTypesResponse {
   workspaceId: string;
-  componentTypeSummaries: ComponentTypeSummaries;
+  componentTypeSummaries: ComponentTypeSummary[];
   nextToken?: string;
   maxResults?: number;
 }
@@ -2557,7 +2554,7 @@ export const ListComponentTypesResponse = S.suspend(() =>
   identifier: "ListComponentTypesResponse",
 }) as any as S.Schema<ListComponentTypesResponse>;
 export interface ListEntitiesResponse {
-  entitySummaries?: EntitySummaries;
+  entitySummaries?: EntitySummary[];
   nextToken?: string;
 }
 export const ListEntitiesResponse = S.suspend(() =>
@@ -2569,7 +2566,7 @@ export const ListEntitiesResponse = S.suspend(() =>
   identifier: "ListEntitiesResponse",
 }) as any as S.Schema<ListEntitiesResponse>;
 export interface ListMetadataTransferJobsResponse {
-  metadataTransferJobSummaries: MetadataTransferJobSummaries;
+  metadataTransferJobSummaries: MetadataTransferJobSummary[];
   nextToken?: string;
 }
 export const ListMetadataTransferJobsResponse = S.suspend(() =>
@@ -2595,8 +2592,8 @@ export const UpdateEntityResponse = S.suspend(() =>
 export interface ComponentRequest {
   description?: string;
   componentTypeId?: string;
-  properties?: PropertyRequests;
-  propertyGroups?: ComponentPropertyGroupRequests;
+  properties?: { [key: string]: PropertyRequest };
+  propertyGroups?: { [key: string]: ComponentPropertyGroupRequest };
 }
 export const ComponentRequest = S.suspend(() =>
   S.Struct({
@@ -2643,9 +2640,9 @@ export const PropertyTableValue = S.Record({
     identifier: "DataValue",
   }),
 });
-export type TabularPropertyValue = PropertyTableValue[];
+export type TabularPropertyValue = { [key: string]: DataValue }[];
 export const TabularPropertyValue = S.Array(PropertyTableValue);
-export type TabularPropertyValues = TabularPropertyValue[];
+export type TabularPropertyValues = { [key: string]: DataValue }[][];
 export const TabularPropertyValues = S.Array(TabularPropertyValue);
 export type ComponentSummaries = ComponentSummary[];
 export const ComponentSummaries = S.Array(ComponentSummary);
@@ -2679,13 +2676,13 @@ export interface CreateComponentTypeRequest {
   isSingleton?: boolean;
   componentTypeId: string;
   description?: string;
-  propertyDefinitions?: PropertyDefinitionsRequest;
-  extendsFrom?: ExtendsFrom;
-  functions?: FunctionsRequest;
-  tags?: TagMap;
-  propertyGroups?: PropertyGroupsRequest;
+  propertyDefinitions?: { [key: string]: PropertyDefinitionRequest };
+  extendsFrom?: string[];
+  functions?: { [key: string]: FunctionRequest };
+  tags?: { [key: string]: string };
+  propertyGroups?: { [key: string]: PropertyGroupRequest };
   componentTypeName?: string;
-  compositeComponentTypes?: CompositeComponentTypesRequest;
+  compositeComponentTypes?: { [key: string]: CompositeComponentTypeRequest };
 }
 export const CreateComponentTypeRequest = S.suspend(() =>
   S.Struct({
@@ -2721,10 +2718,10 @@ export interface CreateEntityRequest {
   entityId?: string;
   entityName: string;
   description?: string;
-  components?: ComponentsMapRequest;
-  compositeComponents?: CompositeComponentsMapRequest;
+  components?: { [key: string]: ComponentRequest };
+  compositeComponents?: { [key: string]: CompositeComponentRequest };
   parentEntityId?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateEntityRequest = S.suspend(() =>
   S.Struct({
@@ -2752,7 +2749,7 @@ export const CreateEntityRequest = S.suspend(() =>
 export interface CreateMetadataTransferJobRequest {
   metadataTransferJobId?: string;
   description?: string;
-  sources: SourceConfigurations;
+  sources: SourceConfiguration[];
   destination: DestinationConfiguration;
 }
 export const CreateMetadataTransferJobRequest = S.suspend(() =>
@@ -2775,7 +2772,7 @@ export const CreateMetadataTransferJobRequest = S.suspend(() =>
   identifier: "CreateMetadataTransferJobRequest",
 }) as any as S.Schema<CreateMetadataTransferJobRequest>;
 export interface ListComponentsResponse {
-  componentSummaries: ComponentSummaries;
+  componentSummaries: ComponentSummary[];
   nextToken?: string;
 }
 export const ListComponentsResponse = S.suspend(() =>
@@ -2787,7 +2784,7 @@ export const ListComponentsResponse = S.suspend(() =>
   identifier: "ListComponentsResponse",
 }) as any as S.Schema<ListComponentsResponse>;
 export interface ListSyncResourcesResponse {
-  syncResources?: SyncResourceSummaries;
+  syncResources?: SyncResourceSummary[];
   nextToken?: string;
 }
 export const ListSyncResourcesResponse = S.suspend(() =>
@@ -2804,11 +2801,11 @@ export interface ComponentResponse {
   componentTypeId?: string;
   status?: Status;
   definedIn?: string;
-  properties?: PropertyResponses;
-  propertyGroups?: ComponentPropertyGroupResponses;
+  properties?: { [key: string]: PropertyResponse };
+  propertyGroups?: { [key: string]: ComponentPropertyGroupResponse };
   syncSource?: string;
   areAllPropertiesReturned?: boolean;
-  compositeComponents?: CompositeComponentResponse;
+  compositeComponents?: { [key: string]: ComponentSummary };
   areAllCompositeComponentsReturned?: boolean;
 }
 export const ComponentResponse = S.suspend(() =>
@@ -2854,7 +2851,7 @@ export const PropertyLatestValueMap = S.Record({
 });
 export interface PropertyValueHistory {
   entityPropertyReference: EntityPropertyReference;
-  values?: Values;
+  values?: PropertyValue[];
 }
 export const PropertyValueHistory = S.suspend(() =>
   S.Struct({
@@ -2919,7 +2916,7 @@ export interface GetEntityResponse {
   status: Status;
   workspaceId: string;
   description?: string;
-  components?: ComponentsMap;
+  components?: { [key: string]: ComponentResponse };
   parentEntityId: string;
   hasChildEntities: boolean;
   creationDateTime: Date;
@@ -2947,9 +2944,9 @@ export const GetEntityResponse = S.suspend(() =>
   identifier: "GetEntityResponse",
 }) as any as S.Schema<GetEntityResponse>;
 export interface GetPropertyValueResponse {
-  propertyValues?: PropertyLatestValueMap;
+  propertyValues?: { [key: string]: PropertyLatestValue };
   nextToken?: string;
-  tabularPropertyValues?: TabularPropertyValues;
+  tabularPropertyValues?: { [key: string]: DataValue }[][];
 }
 export const GetPropertyValueResponse = S.suspend(() =>
   S.Struct({
@@ -2961,7 +2958,7 @@ export const GetPropertyValueResponse = S.suspend(() =>
   identifier: "GetPropertyValueResponse",
 }) as any as S.Schema<GetPropertyValueResponse>;
 export interface GetPropertyValueHistoryResponse {
-  propertyValues: PropertyValueList;
+  propertyValues: PropertyValueHistory[];
   nextToken?: string;
 }
 export const GetPropertyValueHistoryResponse = S.suspend(() =>
@@ -2989,7 +2986,7 @@ export const BatchPutPropertyError = S.suspend(() =>
 export type Errors = BatchPutPropertyError[];
 export const Errors = S.Array(BatchPutPropertyError);
 export interface BatchPutPropertyErrorEntry {
-  errors: Errors;
+  errors: BatchPutPropertyError[];
 }
 export const BatchPutPropertyErrorEntry = S.suspend(() =>
   S.Struct({ errors: Errors }),
@@ -2999,7 +2996,7 @@ export const BatchPutPropertyErrorEntry = S.suspend(() =>
 export type ErrorEntries = BatchPutPropertyErrorEntry[];
 export const ErrorEntries = S.Array(BatchPutPropertyErrorEntry);
 export interface BatchPutPropertyValuesResponse {
-  errorEntries: ErrorEntries;
+  errorEntries: BatchPutPropertyErrorEntry[];
 }
 export const BatchPutPropertyValuesResponse = S.suspend(() =>
   S.Struct({ errorEntries: ErrorEntries }),
@@ -3060,7 +3057,7 @@ export class ConnectorTimeoutException extends S.TaggedError<ConnectorTimeoutExc
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3074,7 +3071,7 @@ export const listTagsForResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3088,7 +3085,7 @@ export const untagResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3109,7 +3106,7 @@ export const tagResource: (
  */
 export const getPricingPlan: (
   input: GetPricingPlanRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPricingPlanResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3133,7 +3130,7 @@ export const getPricingPlan: (
 export const listComponents: {
   (
     input: ListComponentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListComponentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3145,7 +3142,7 @@ export const listComponents: {
   >;
   pages: (
     input: ListComponentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListComponentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3157,7 +3154,7 @@ export const listComponents: {
   >;
   items: (
     input: ListComponentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3189,7 +3186,7 @@ export const listComponents: {
 export const listSyncResources: {
   (
     input: ListSyncResourcesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSyncResourcesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3201,7 +3198,7 @@ export const listSyncResources: {
   >;
   pages: (
     input: ListSyncResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSyncResourcesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3213,7 +3210,7 @@ export const listSyncResources: {
   >;
   items: (
     input: ListSyncResourcesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3245,7 +3242,7 @@ export const listSyncResources: {
 export const listComponentTypes: {
   (
     input: ListComponentTypesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListComponentTypesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3256,7 +3253,7 @@ export const listComponentTypes: {
   >;
   pages: (
     input: ListComponentTypesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListComponentTypesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3267,7 +3264,7 @@ export const listComponentTypes: {
   >;
   items: (
     input: ListComponentTypesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3297,7 +3294,7 @@ export const listComponentTypes: {
 export const listMetadataTransferJobs: {
   (
     input: ListMetadataTransferJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMetadataTransferJobsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3308,7 +3305,7 @@ export const listMetadataTransferJobs: {
   >;
   pages: (
     input: ListMetadataTransferJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMetadataTransferJobsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3319,7 +3316,7 @@ export const listMetadataTransferJobs: {
   >;
   items: (
     input: ListMetadataTransferJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3349,7 +3346,7 @@ export const listMetadataTransferJobs: {
 export const listSyncJobs: {
   (
     input: ListSyncJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSyncJobsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3361,7 +3358,7 @@ export const listSyncJobs: {
   >;
   pages: (
     input: ListSyncJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSyncJobsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3373,7 +3370,7 @@ export const listSyncJobs: {
   >;
   items: (
     input: ListSyncJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3404,7 +3401,7 @@ export const listSyncJobs: {
  */
 export const updateEntity: (
   input: UpdateEntityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEntityResponse,
   | AccessDeniedException
   | ConflictException
@@ -3434,7 +3431,7 @@ export const updateEntity: (
 export const listScenes: {
   (
     input: ListScenesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListScenesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3445,7 +3442,7 @@ export const listScenes: {
   >;
   pages: (
     input: ListScenesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListScenesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3456,7 +3453,7 @@ export const listScenes: {
   >;
   items: (
     input: ListScenesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3485,7 +3482,7 @@ export const listScenes: {
  */
 export const deleteScene: (
   input: DeleteSceneRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSceneResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3510,7 +3507,7 @@ export const deleteScene: (
  */
 export const deleteWorkspace: (
   input: DeleteWorkspaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkspaceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3535,7 +3532,7 @@ export const deleteWorkspace: (
  */
 export const getMetadataTransferJob: (
   input: GetMetadataTransferJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMetadataTransferJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3560,7 +3557,7 @@ export const getMetadataTransferJob: (
  */
 export const updatePricingPlan: (
   input: UpdatePricingPlanRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePricingPlanResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3583,7 +3580,7 @@ export const updatePricingPlan: (
  */
 export const updateScene: (
   input: UpdateSceneRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSceneResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3608,7 +3605,7 @@ export const updateScene: (
  */
 export const deleteComponentType: (
   input: DeleteComponentTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteComponentTypeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3633,7 +3630,7 @@ export const deleteComponentType: (
  */
 export const getScene: (
   input: GetSceneRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSceneResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3659,7 +3656,7 @@ export const getScene: (
 export const listProperties: {
   (
     input: ListPropertiesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPropertiesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3671,7 +3668,7 @@ export const listProperties: {
   >;
   pages: (
     input: ListPropertiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPropertiesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3683,7 +3680,7 @@ export const listProperties: {
   >;
   items: (
     input: ListPropertiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -3714,7 +3711,7 @@ export const listProperties: {
  */
 export const cancelMetadataTransferJob: (
   input: CancelMetadataTransferJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelMetadataTransferJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -3741,7 +3738,7 @@ export const cancelMetadataTransferJob: (
  */
 export const getComponentType: (
   input: GetComponentTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetComponentTypeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3767,7 +3764,7 @@ export const getComponentType: (
 export const listWorkspaces: {
   (
     input: ListWorkspacesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkspacesResponse,
     | InternalServerException
     | ServiceQuotaExceededException
@@ -3778,7 +3775,7 @@ export const listWorkspaces: {
   >;
   pages: (
     input: ListWorkspacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkspacesResponse,
     | InternalServerException
     | ServiceQuotaExceededException
@@ -3789,7 +3786,7 @@ export const listWorkspaces: {
   >;
   items: (
     input: ListWorkspacesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | ServiceQuotaExceededException
@@ -3818,7 +3815,7 @@ export const listWorkspaces: {
  */
 export const deleteSyncJob: (
   input: DeleteSyncJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSyncJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3845,7 +3842,7 @@ export const deleteSyncJob: (
  */
 export const getWorkspace: (
   input: GetWorkspaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkspaceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3870,7 +3867,7 @@ export const getWorkspace: (
  */
 export const updateComponentType: (
   input: UpdateComponentTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateComponentTypeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3897,7 +3894,7 @@ export const updateComponentType: (
  */
 export const updateWorkspace: (
   input: UpdateWorkspaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkspaceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3924,7 +3921,7 @@ export const updateWorkspace: (
  */
 export const createSyncJob: (
   input: CreateSyncJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSyncJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -3951,7 +3948,7 @@ export const createSyncJob: (
  */
 export const deleteEntity: (
   input: DeleteEntityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEntityResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3976,7 +3973,7 @@ export const deleteEntity: (
  */
 export const getSyncJob: (
   input: GetSyncJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSyncJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4003,7 +4000,7 @@ export const getSyncJob: (
  */
 export const createWorkspace: (
   input: CreateWorkspaceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkspaceResponse,
   | AccessDeniedException
   | ConflictException
@@ -4030,7 +4027,7 @@ export const createWorkspace: (
  */
 export const createScene: (
   input: CreateSceneRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSceneResponse,
   | AccessDeniedException
   | ConflictException
@@ -4062,7 +4059,7 @@ export const createScene: (
 export const executeQuery: {
   (
     input: ExecuteQueryRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ExecuteQueryResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4075,7 +4072,7 @@ export const executeQuery: {
   >;
   pages: (
     input: ExecuteQueryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExecuteQueryResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4088,7 +4085,7 @@ export const executeQuery: {
   >;
   items: (
     input: ExecuteQueryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -4122,7 +4119,7 @@ export const executeQuery: {
 export const listEntities: {
   (
     input: ListEntitiesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEntitiesResponse,
     | InternalServerException
     | ServiceQuotaExceededException
@@ -4133,7 +4130,7 @@ export const listEntities: {
   >;
   pages: (
     input: ListEntitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEntitiesResponse,
     | InternalServerException
     | ServiceQuotaExceededException
@@ -4144,7 +4141,7 @@ export const listEntities: {
   >;
   items: (
     input: ListEntitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServerException
     | ServiceQuotaExceededException
@@ -4173,7 +4170,7 @@ export const listEntities: {
  */
 export const createComponentType: (
   input: CreateComponentTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateComponentTypeResponse,
   | AccessDeniedException
   | ConflictException
@@ -4200,7 +4197,7 @@ export const createComponentType: (
  */
 export const createEntity: (
   input: CreateEntityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEntityResponse,
   | AccessDeniedException
   | ConflictException
@@ -4227,7 +4224,7 @@ export const createEntity: (
  */
 export const createMetadataTransferJob: (
   input: CreateMetadataTransferJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMetadataTransferJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -4256,7 +4253,7 @@ export const createMetadataTransferJob: (
  */
 export const getEntity: (
   input: GetEntityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEntityResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -4281,7 +4278,7 @@ export const getEntity: (
  */
 export const batchPutPropertyValues: (
   input: BatchPutPropertyValuesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchPutPropertyValuesResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -4308,7 +4305,7 @@ export const batchPutPropertyValues: (
 export const getPropertyValue: {
   (
     input: GetPropertyValueRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetPropertyValueResponse,
     | AccessDeniedException
     | ConnectorFailureException
@@ -4322,7 +4319,7 @@ export const getPropertyValue: {
   >;
   pages: (
     input: GetPropertyValueRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetPropertyValueResponse,
     | AccessDeniedException
     | ConnectorFailureException
@@ -4336,7 +4333,7 @@ export const getPropertyValue: {
   >;
   items: (
     input: GetPropertyValueRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | ConnectorFailureException
@@ -4377,7 +4374,7 @@ export const getPropertyValue: {
 export const getPropertyValueHistory: {
   (
     input: GetPropertyValueHistoryRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetPropertyValueHistoryResponse,
     | AccessDeniedException
     | ConnectorFailureException
@@ -4391,7 +4388,7 @@ export const getPropertyValueHistory: {
   >;
   pages: (
     input: GetPropertyValueHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetPropertyValueHistoryResponse,
     | AccessDeniedException
     | ConnectorFailureException
@@ -4405,7 +4402,7 @@ export const getPropertyValueHistory: {
   >;
   items: (
     input: GetPropertyValueHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | ConnectorFailureException

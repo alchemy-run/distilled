@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -99,11 +99,9 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type MigrationProjectIdentifier = string;
 export type IntegerOptional = number;
-export type SecretString = string | Redacted.Redacted<string>;
+export type SecretString = string | redacted.Redacted<string>;
 export type ReplicationInstanceClass = string;
 export type Marker = string;
-export type Integer = number;
-export type Long = number;
 export type ExceptionMessage = string;
 export type LongOptional = number;
 export type DoubleOptional = number;
@@ -142,6 +140,21 @@ export const RunFleetAdvisorLsaAnalysisRequest = S.suspend(() =>
 ).annotations({
   identifier: "RunFleetAdvisorLsaAnalysisRequest",
 }) as any as S.Schema<RunFleetAdvisorLsaAnalysisRequest>;
+export type MigrationTypeValue = "full-load" | "cdc" | "full-load-and-cdc";
+export const MigrationTypeValue = S.Literal(
+  "full-load",
+  "cdc",
+  "full-load-and-cdc",
+);
+export type ReplicationEndpointTypeValue = "source" | "target";
+export const ReplicationEndpointTypeValue = S.Literal("source", "target");
+export type DmsSslModeValue = "none" | "require" | "verify-ca" | "verify-full";
+export const DmsSslModeValue = S.Literal(
+  "none",
+  "require",
+  "verify-ca",
+  "verify-full",
+);
 export type EventCategoriesList = string[];
 export const EventCategoriesList = S.Array(
   S.String.pipe(T.XmlName("EventCategory")),
@@ -158,12 +171,38 @@ export type SubnetIdentifierList = string[];
 export const SubnetIdentifierList = S.Array(
   S.String.pipe(T.XmlName("SubnetIdentifier")),
 );
-export type AssessmentReportTypesList = string[];
-export const AssessmentReportTypesList = S.Array(S.String);
+export type SourceType = "replication-instance";
+export const SourceType = S.Literal("replication-instance");
+export type OriginTypeValue = "SOURCE" | "TARGET";
+export const OriginTypeValue = S.Literal("SOURCE", "TARGET");
+export type AssessmentReportType = "pdf" | "csv";
+export const AssessmentReportType = S.Literal("pdf", "csv");
+export type AssessmentReportTypesList = AssessmentReportType[];
+export const AssessmentReportTypesList = S.Array(AssessmentReportType);
 export type ArnList = string[];
 export const ArnList = S.Array(S.String);
+export type ReloadOptionValue = "data-reload" | "validate-only";
+export const ReloadOptionValue = S.Literal("data-reload", "validate-only");
 export type KeyList = string[];
 export const KeyList = S.Array(S.String);
+export type StartReplicationMigrationTypeValue =
+  | "reload-target"
+  | "resume-processing"
+  | "start-replication";
+export const StartReplicationMigrationTypeValue = S.Literal(
+  "reload-target",
+  "resume-processing",
+  "start-replication",
+);
+export type StartReplicationTaskTypeValue =
+  | "start-replication"
+  | "resume-processing"
+  | "reload-target";
+export const StartReplicationTaskTypeValue = S.Literal(
+  "start-replication",
+  "resume-processing",
+  "reload-target",
+);
 export type IncludeTestList = string[];
 export const IncludeTestList = S.Array(S.String);
 export type ExcludeTestList = string[];
@@ -274,10 +313,10 @@ export interface CreateEventSubscriptionMessage {
   SubscriptionName: string;
   SnsTopicArn: string;
   SourceType?: string;
-  EventCategories?: EventCategoriesList;
-  SourceIds?: SourceIdsList;
+  EventCategories?: string[];
+  SourceIds?: string[];
   Enabled?: boolean;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateEventSubscriptionMessage = S.suspend(() =>
   S.Struct({
@@ -332,12 +371,12 @@ export interface CreateInstanceProfileMessage {
   AvailabilityZone?: string;
   KmsKeyArn?: string;
   PubliclyAccessible?: boolean;
-  Tags?: TagList;
+  Tags?: Tag[];
   NetworkType?: string;
   InstanceProfileName?: string;
   Description?: string;
   SubnetGroupIdentifier?: string;
-  VpcSecurityGroups?: StringList;
+  VpcSecurityGroups?: string[];
 }
 export const CreateInstanceProfileMessage = S.suspend(() =>
   S.Struct({
@@ -367,8 +406,8 @@ export const CreateInstanceProfileMessage = S.suspend(() =>
 export interface CreateReplicationSubnetGroupMessage {
   ReplicationSubnetGroupIdentifier: string;
   ReplicationSubnetGroupDescription: string;
-  SubnetIds: SubnetIdentifierList;
-  Tags?: TagList;
+  SubnetIds: string[];
+  Tags?: Tag[];
 }
 export const CreateReplicationSubnetGroupMessage = S.suspend(() =>
   S.Struct({
@@ -395,13 +434,13 @@ export interface CreateReplicationTaskMessage {
   SourceEndpointArn: string;
   TargetEndpointArn: string;
   ReplicationInstanceArn: string;
-  MigrationType: string;
+  MigrationType: MigrationTypeValue;
   TableMappings: string;
   ReplicationTaskSettings?: string;
   CdcStartTime?: Date;
   CdcStartPosition?: string;
   CdcStopPosition?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   TaskData?: string;
   ResourceIdentifier?: string;
 }
@@ -411,7 +450,7 @@ export const CreateReplicationTaskMessage = S.suspend(() =>
     SourceEndpointArn: S.String,
     TargetEndpointArn: S.String,
     ReplicationInstanceArn: S.String,
-    MigrationType: S.String,
+    MigrationType: MigrationTypeValue,
     TableMappings: S.String,
     ReplicationTaskSettings: S.optional(S.String),
     CdcStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -568,7 +607,7 @@ export const DeleteFleetAdvisorCollectorResponse = S.suspend(() =>
   identifier: "DeleteFleetAdvisorCollectorResponse",
 }) as any as S.Schema<DeleteFleetAdvisorCollectorResponse>;
 export interface DeleteFleetAdvisorDatabasesRequest {
-  DatabaseIds: StringList;
+  DatabaseIds: string[];
 }
 export const DeleteFleetAdvisorDatabasesRequest = S.suspend(() =>
   S.Struct({ DatabaseIds: StringList }).pipe(
@@ -723,7 +762,7 @@ export interface DescribeApplicableIndividualAssessmentsMessage {
   ReplicationConfigArn?: string;
   SourceEngineName?: string;
   TargetEngineName?: string;
-  MigrationType?: string;
+  MigrationType?: MigrationTypeValue;
   MaxRecords?: number;
   Marker?: string;
 }
@@ -734,7 +773,7 @@ export const DescribeApplicableIndividualAssessmentsMessage = S.suspend(() =>
     ReplicationConfigArn: S.optional(S.String),
     SourceEngineName: S.optional(S.String),
     TargetEngineName: S.optional(S.String),
-    MigrationType: S.optional(S.String),
+    MigrationType: S.optional(MigrationTypeValue),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
   }).pipe(
@@ -755,7 +794,7 @@ export type FilterValueList = string[];
 export const FilterValueList = S.Array(S.String.pipe(T.XmlName("Value")));
 export interface Filter {
   Name: string;
-  Values: FilterValueList;
+  Values: string[];
 }
 export const Filter = S.suspend(() =>
   S.Struct({ Name: S.String, Values: FilterValueList }),
@@ -765,7 +804,7 @@ export const FilterList = S.Array(
   Filter.pipe(T.XmlName("Filter")).annotations({ identifier: "Filter" }),
 );
 export interface DescribeConnectionsMessage {
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -807,7 +846,7 @@ export const DescribeConversionConfigurationMessage = S.suspend(() =>
   identifier: "DescribeConversionConfigurationMessage",
 }) as any as S.Schema<DescribeConversionConfigurationMessage>;
 export interface DescribeDataMigrationsMessage {
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
   WithoutSettings?: boolean;
@@ -835,7 +874,7 @@ export const DescribeDataMigrationsMessage = S.suspend(() =>
   identifier: "DescribeDataMigrationsMessage",
 }) as any as S.Schema<DescribeDataMigrationsMessage>;
 export interface DescribeDataProvidersMessage {
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -859,7 +898,7 @@ export const DescribeDataProvidersMessage = S.suspend(() =>
   identifier: "DescribeDataProvidersMessage",
 }) as any as S.Schema<DescribeDataProvidersMessage>;
 export interface DescribeEndpointsMessage {
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -907,7 +946,7 @@ export const DescribeEndpointSettingsMessage = S.suspend(() =>
   identifier: "DescribeEndpointSettingsMessage",
 }) as any as S.Schema<DescribeEndpointSettingsMessage>;
 export interface DescribeEndpointTypesMessage {
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -954,7 +993,7 @@ export const DescribeEngineVersionsMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeEngineVersionsMessage>;
 export interface DescribeEventCategoriesMessage {
   SourceType?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
 }
 export const DescribeEventCategoriesMessage = S.suspend(() =>
   S.Struct({
@@ -976,19 +1015,19 @@ export const DescribeEventCategoriesMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeEventCategoriesMessage>;
 export interface DescribeEventsMessage {
   SourceIdentifier?: string;
-  SourceType?: string;
+  SourceType?: SourceType;
   StartTime?: Date;
   EndTime?: Date;
   Duration?: number;
-  EventCategories?: EventCategoriesList;
-  Filters?: FilterList;
+  EventCategories?: string[];
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
 export const DescribeEventsMessage = S.suspend(() =>
   S.Struct({
     SourceIdentifier: S.optional(S.String),
-    SourceType: S.optional(S.String),
+    SourceType: S.optional(SourceType),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Duration: S.optional(S.Number),
@@ -1012,7 +1051,7 @@ export const DescribeEventsMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeEventsMessage>;
 export interface DescribeEventSubscriptionsMessage {
   SubscriptionName?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -1038,7 +1077,7 @@ export const DescribeEventSubscriptionsMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeEventSubscriptionsMessage>;
 export interface DescribeExtensionPackAssociationsMessage {
   MigrationProjectIdentifier: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   Marker?: string;
   MaxRecords?: number;
 }
@@ -1063,7 +1102,7 @@ export const DescribeExtensionPackAssociationsMessage = S.suspend(() =>
   identifier: "DescribeExtensionPackAssociationsMessage",
 }) as any as S.Schema<DescribeExtensionPackAssociationsMessage>;
 export interface DescribeFleetAdvisorCollectorsRequest {
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   NextToken?: string;
 }
@@ -1087,7 +1126,7 @@ export const DescribeFleetAdvisorCollectorsRequest = S.suspend(() =>
   identifier: "DescribeFleetAdvisorCollectorsRequest",
 }) as any as S.Schema<DescribeFleetAdvisorCollectorsRequest>;
 export interface DescribeFleetAdvisorDatabasesRequest {
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   NextToken?: string;
 }
@@ -1133,7 +1172,7 @@ export const DescribeFleetAdvisorLsaAnalysisRequest = S.suspend(() =>
   identifier: "DescribeFleetAdvisorLsaAnalysisRequest",
 }) as any as S.Schema<DescribeFleetAdvisorLsaAnalysisRequest>;
 export interface DescribeFleetAdvisorSchemaObjectSummaryRequest {
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   NextToken?: string;
 }
@@ -1157,7 +1196,7 @@ export const DescribeFleetAdvisorSchemaObjectSummaryRequest = S.suspend(() =>
   identifier: "DescribeFleetAdvisorSchemaObjectSummaryRequest",
 }) as any as S.Schema<DescribeFleetAdvisorSchemaObjectSummaryRequest>;
 export interface DescribeFleetAdvisorSchemasRequest {
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   NextToken?: string;
 }
@@ -1181,7 +1220,7 @@ export const DescribeFleetAdvisorSchemasRequest = S.suspend(() =>
   identifier: "DescribeFleetAdvisorSchemasRequest",
 }) as any as S.Schema<DescribeFleetAdvisorSchemasRequest>;
 export interface DescribeInstanceProfilesMessage {
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -1207,13 +1246,13 @@ export const DescribeInstanceProfilesMessage = S.suspend(() =>
 export interface DescribeMetadataModelMessage {
   SelectionRules: string;
   MigrationProjectIdentifier: string;
-  Origin: string;
+  Origin: OriginTypeValue;
 }
 export const DescribeMetadataModelMessage = S.suspend(() =>
   S.Struct({
     SelectionRules: S.String,
     MigrationProjectIdentifier: S.String,
-    Origin: S.String,
+    Origin: OriginTypeValue,
   }).pipe(
     T.all(
       ns,
@@ -1230,7 +1269,7 @@ export const DescribeMetadataModelMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeMetadataModelMessage>;
 export interface DescribeMetadataModelAssessmentsMessage {
   MigrationProjectIdentifier: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   Marker?: string;
   MaxRecords?: number;
 }
@@ -1257,7 +1296,7 @@ export const DescribeMetadataModelAssessmentsMessage = S.suspend(() =>
 export interface DescribeMetadataModelChildrenMessage {
   SelectionRules: string;
   MigrationProjectIdentifier: string;
-  Origin: string;
+  Origin: OriginTypeValue;
   Marker?: string;
   MaxRecords?: number;
 }
@@ -1265,7 +1304,7 @@ export const DescribeMetadataModelChildrenMessage = S.suspend(() =>
   S.Struct({
     SelectionRules: S.String,
     MigrationProjectIdentifier: S.String,
-    Origin: S.String,
+    Origin: OriginTypeValue,
     Marker: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
   }).pipe(
@@ -1284,7 +1323,7 @@ export const DescribeMetadataModelChildrenMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeMetadataModelChildrenMessage>;
 export interface DescribeMetadataModelConversionsMessage {
   MigrationProjectIdentifier: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   Marker?: string;
   MaxRecords?: number;
 }
@@ -1309,7 +1348,7 @@ export const DescribeMetadataModelConversionsMessage = S.suspend(() =>
   identifier: "DescribeMetadataModelConversionsMessage",
 }) as any as S.Schema<DescribeMetadataModelConversionsMessage>;
 export interface DescribeMetadataModelCreationsMessage {
-  Filters?: FilterList;
+  Filters?: Filter[];
   Marker?: string;
   MaxRecords?: number;
   MigrationProjectIdentifier: string;
@@ -1336,7 +1375,7 @@ export const DescribeMetadataModelCreationsMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeMetadataModelCreationsMessage>;
 export interface DescribeMetadataModelExportsAsScriptMessage {
   MigrationProjectIdentifier: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   Marker?: string;
   MaxRecords?: number;
 }
@@ -1362,7 +1401,7 @@ export const DescribeMetadataModelExportsAsScriptMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeMetadataModelExportsAsScriptMessage>;
 export interface DescribeMetadataModelExportsToTargetMessage {
   MigrationProjectIdentifier: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   Marker?: string;
   MaxRecords?: number;
 }
@@ -1388,7 +1427,7 @@ export const DescribeMetadataModelExportsToTargetMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeMetadataModelExportsToTargetMessage>;
 export interface DescribeMetadataModelImportsMessage {
   MigrationProjectIdentifier: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   Marker?: string;
   MaxRecords?: number;
 }
@@ -1413,7 +1452,7 @@ export const DescribeMetadataModelImportsMessage = S.suspend(() =>
   identifier: "DescribeMetadataModelImportsMessage",
 }) as any as S.Schema<DescribeMetadataModelImportsMessage>;
 export interface DescribeMigrationProjectsMessage {
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -1460,7 +1499,7 @@ export const DescribeOrderableReplicationInstancesMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeOrderableReplicationInstancesMessage>;
 export interface DescribePendingMaintenanceActionsMessage {
   ReplicationInstanceArn?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   Marker?: string;
   MaxRecords?: number;
 }
@@ -1485,7 +1524,7 @@ export const DescribePendingMaintenanceActionsMessage = S.suspend(() =>
   identifier: "DescribePendingMaintenanceActionsMessage",
 }) as any as S.Schema<DescribePendingMaintenanceActionsMessage>;
 export interface DescribeRecommendationLimitationsRequest {
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   NextToken?: string;
 }
@@ -1509,7 +1548,7 @@ export const DescribeRecommendationLimitationsRequest = S.suspend(() =>
   identifier: "DescribeRecommendationLimitationsRequest",
 }) as any as S.Schema<DescribeRecommendationLimitationsRequest>;
 export interface DescribeRecommendationsRequest {
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   NextToken?: string;
 }
@@ -1551,7 +1590,7 @@ export const DescribeRefreshSchemasStatusMessage = S.suspend(() =>
   identifier: "DescribeRefreshSchemasStatusMessage",
 }) as any as S.Schema<DescribeRefreshSchemasStatusMessage>;
 export interface DescribeReplicationConfigsMessage {
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -1575,7 +1614,7 @@ export const DescribeReplicationConfigsMessage = S.suspend(() =>
   identifier: "DescribeReplicationConfigsMessage",
 }) as any as S.Schema<DescribeReplicationConfigsMessage>;
 export interface DescribeReplicationInstancesMessage {
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -1623,7 +1662,7 @@ export const DescribeReplicationInstanceTaskLogsMessage = S.suspend(() =>
   identifier: "DescribeReplicationInstanceTaskLogsMessage",
 }) as any as S.Schema<DescribeReplicationInstanceTaskLogsMessage>;
 export interface DescribeReplicationsMessage {
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -1647,7 +1686,7 @@ export const DescribeReplicationsMessage = S.suspend(() =>
   identifier: "DescribeReplicationsMessage",
 }) as any as S.Schema<DescribeReplicationsMessage>;
 export interface DescribeReplicationSubnetGroupsMessage {
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -1674,7 +1713,7 @@ export interface DescribeReplicationTableStatisticsMessage {
   ReplicationConfigArn: string;
   MaxRecords?: number;
   Marker?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
 }
 export const DescribeReplicationTableStatisticsMessage = S.suspend(() =>
   S.Struct({
@@ -1721,7 +1760,7 @@ export const DescribeReplicationTaskAssessmentResultsMessage = S.suspend(() =>
   identifier: "DescribeReplicationTaskAssessmentResultsMessage",
 }) as any as S.Schema<DescribeReplicationTaskAssessmentResultsMessage>;
 export interface DescribeReplicationTaskAssessmentRunsMessage {
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -1745,7 +1784,7 @@ export const DescribeReplicationTaskAssessmentRunsMessage = S.suspend(() =>
   identifier: "DescribeReplicationTaskAssessmentRunsMessage",
 }) as any as S.Schema<DescribeReplicationTaskAssessmentRunsMessage>;
 export interface DescribeReplicationTaskIndividualAssessmentsMessage {
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -1770,7 +1809,7 @@ export const DescribeReplicationTaskIndividualAssessmentsMessage = S.suspend(
   identifier: "DescribeReplicationTaskIndividualAssessmentsMessage",
 }) as any as S.Schema<DescribeReplicationTaskIndividualAssessmentsMessage>;
 export interface DescribeReplicationTasksMessage {
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
   WithoutSettings?: boolean;
@@ -1823,7 +1862,7 @@ export interface DescribeTableStatisticsMessage {
   ReplicationTaskArn: string;
   MaxRecords?: number;
   Marker?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
 }
 export const DescribeTableStatisticsMessage = S.suspend(() =>
   S.Struct({
@@ -1849,7 +1888,7 @@ export interface ExportMetadataModelAssessmentMessage {
   MigrationProjectIdentifier: string;
   SelectionRules: string;
   FileName?: string;
-  AssessmentReportTypes?: AssessmentReportTypesList;
+  AssessmentReportTypes?: AssessmentReportType[];
 }
 export const ExportMetadataModelAssessmentMessage = S.suspend(() =>
   S.Struct({
@@ -1895,9 +1934,9 @@ export const GetTargetSelectionRulesMessage = S.suspend(() =>
 }) as any as S.Schema<GetTargetSelectionRulesMessage>;
 export interface ImportCertificateMessage {
   CertificateIdentifier: string;
-  CertificatePem?: string | Redacted.Redacted<string>;
+  CertificatePem?: string | redacted.Redacted<string>;
   CertificateWallet?: Uint8Array;
-  Tags?: TagList;
+  Tags?: Tag[];
   KmsKeyId?: string;
 }
 export const ImportCertificateMessage = S.suspend(() =>
@@ -1923,7 +1962,7 @@ export const ImportCertificateMessage = S.suspend(() =>
 }) as any as S.Schema<ImportCertificateMessage>;
 export interface ListTagsForResourceMessage {
   ResourceArn?: string;
-  ResourceArnList?: ArnList;
+  ResourceArnList?: string[];
 }
 export const ListTagsForResourceMessage = S.suspend(() =>
   S.Struct({
@@ -1983,11 +2022,20 @@ export const SourceDataSetting = S.suspend(() =>
 }) as any as S.Schema<SourceDataSetting>;
 export type SourceDataSettings = SourceDataSetting[];
 export const SourceDataSettings = S.Array(SourceDataSetting);
+export type TablePreparationMode =
+  | "do-nothing"
+  | "truncate"
+  | "drop-tables-on-target";
+export const TablePreparationMode = S.Literal(
+  "do-nothing",
+  "truncate",
+  "drop-tables-on-target",
+);
 export interface TargetDataSetting {
-  TablePreparationMode?: string;
+  TablePreparationMode?: TablePreparationMode;
 }
 export const TargetDataSetting = S.suspend(() =>
-  S.Struct({ TablePreparationMode: S.optional(S.String) }),
+  S.Struct({ TablePreparationMode: S.optional(TablePreparationMode) }),
 ).annotations({
   identifier: "TargetDataSetting",
 }) as any as S.Schema<TargetDataSetting>;
@@ -1998,11 +2046,11 @@ export interface ModifyDataMigrationMessage {
   DataMigrationName?: string;
   EnableCloudwatchLogs?: boolean;
   ServiceAccessRoleArn?: string;
-  DataMigrationType?: string;
-  SourceDataSettings?: SourceDataSettings;
-  TargetDataSettings?: TargetDataSettings;
+  DataMigrationType?: MigrationTypeValue;
+  SourceDataSettings?: SourceDataSetting[];
+  TargetDataSettings?: TargetDataSetting[];
   NumberOfJobs?: number;
-  SelectionRules?: string | Redacted.Redacted<string>;
+  SelectionRules?: string | redacted.Redacted<string>;
 }
 export const ModifyDataMigrationMessage = S.suspend(() =>
   S.Struct({
@@ -2010,7 +2058,7 @@ export const ModifyDataMigrationMessage = S.suspend(() =>
     DataMigrationName: S.optional(S.String),
     EnableCloudwatchLogs: S.optional(S.Boolean),
     ServiceAccessRoleArn: S.optional(S.String),
-    DataMigrationType: S.optional(S.String),
+    DataMigrationType: S.optional(MigrationTypeValue),
     SourceDataSettings: S.optional(SourceDataSettings),
     TargetDataSettings: S.optional(TargetDataSettings),
     NumberOfJobs: S.optional(S.Number),
@@ -2051,7 +2099,7 @@ export interface PostgreSqlDataProviderSettings {
   ServerName?: string;
   Port?: number;
   DatabaseName?: string;
-  SslMode?: string;
+  SslMode?: DmsSslModeValue;
   CertificateArn?: string;
   S3Path?: string;
   S3AccessRoleArn?: string;
@@ -2061,7 +2109,7 @@ export const PostgreSqlDataProviderSettings = S.suspend(() =>
     ServerName: S.optional(S.String),
     Port: S.optional(S.Number),
     DatabaseName: S.optional(S.String),
-    SslMode: S.optional(S.String),
+    SslMode: S.optional(DmsSslModeValue),
     CertificateArn: S.optional(S.String),
     S3Path: S.optional(S.String),
     S3AccessRoleArn: S.optional(S.String),
@@ -2072,7 +2120,7 @@ export const PostgreSqlDataProviderSettings = S.suspend(() =>
 export interface MySqlDataProviderSettings {
   ServerName?: string;
   Port?: number;
-  SslMode?: string;
+  SslMode?: DmsSslModeValue;
   CertificateArn?: string;
   S3Path?: string;
   S3AccessRoleArn?: string;
@@ -2081,7 +2129,7 @@ export const MySqlDataProviderSettings = S.suspend(() =>
   S.Struct({
     ServerName: S.optional(S.String),
     Port: S.optional(S.Number),
-    SslMode: S.optional(S.String),
+    SslMode: S.optional(DmsSslModeValue),
     CertificateArn: S.optional(S.String),
     S3Path: S.optional(S.String),
     S3AccessRoleArn: S.optional(S.String),
@@ -2093,7 +2141,7 @@ export interface OracleDataProviderSettings {
   ServerName?: string;
   Port?: number;
   DatabaseName?: string;
-  SslMode?: string;
+  SslMode?: DmsSslModeValue;
   CertificateArn?: string;
   AsmServer?: string;
   SecretsManagerOracleAsmSecretId?: string;
@@ -2108,7 +2156,7 @@ export const OracleDataProviderSettings = S.suspend(() =>
     ServerName: S.optional(S.String),
     Port: S.optional(S.Number),
     DatabaseName: S.optional(S.String),
-    SslMode: S.optional(S.String),
+    SslMode: S.optional(DmsSslModeValue),
     CertificateArn: S.optional(S.String),
     AsmServer: S.optional(S.String),
     SecretsManagerOracleAsmSecretId: S.optional(S.String),
@@ -2125,7 +2173,7 @@ export interface SybaseAseDataProviderSettings {
   ServerName?: string;
   Port?: number;
   DatabaseName?: string;
-  SslMode?: string;
+  SslMode?: DmsSslModeValue;
   EncryptPassword?: boolean;
   CertificateArn?: string;
 }
@@ -2134,7 +2182,7 @@ export const SybaseAseDataProviderSettings = S.suspend(() =>
     ServerName: S.optional(S.String),
     Port: S.optional(S.Number),
     DatabaseName: S.optional(S.String),
-    SslMode: S.optional(S.String),
+    SslMode: S.optional(DmsSslModeValue),
     EncryptPassword: S.optional(S.Boolean),
     CertificateArn: S.optional(S.String),
   }),
@@ -2145,7 +2193,7 @@ export interface MicrosoftSqlServerDataProviderSettings {
   ServerName?: string;
   Port?: number;
   DatabaseName?: string;
-  SslMode?: string;
+  SslMode?: DmsSslModeValue;
   CertificateArn?: string;
   S3Path?: string;
   S3AccessRoleArn?: string;
@@ -2155,7 +2203,7 @@ export const MicrosoftSqlServerDataProviderSettings = S.suspend(() =>
     ServerName: S.optional(S.String),
     Port: S.optional(S.Number),
     DatabaseName: S.optional(S.String),
-    SslMode: S.optional(S.String),
+    SslMode: S.optional(DmsSslModeValue),
     CertificateArn: S.optional(S.String),
     S3Path: S.optional(S.String),
     S3AccessRoleArn: S.optional(S.String),
@@ -2167,7 +2215,7 @@ export interface DocDbDataProviderSettings {
   ServerName?: string;
   Port?: number;
   DatabaseName?: string;
-  SslMode?: string;
+  SslMode?: DmsSslModeValue;
   CertificateArn?: string;
 }
 export const DocDbDataProviderSettings = S.suspend(() =>
@@ -2175,7 +2223,7 @@ export const DocDbDataProviderSettings = S.suspend(() =>
     ServerName: S.optional(S.String),
     Port: S.optional(S.Number),
     DatabaseName: S.optional(S.String),
-    SslMode: S.optional(S.String),
+    SslMode: S.optional(DmsSslModeValue),
     CertificateArn: S.optional(S.String),
   }),
 ).annotations({
@@ -2184,7 +2232,7 @@ export const DocDbDataProviderSettings = S.suspend(() =>
 export interface MariaDbDataProviderSettings {
   ServerName?: string;
   Port?: number;
-  SslMode?: string;
+  SslMode?: DmsSslModeValue;
   CertificateArn?: string;
   S3Path?: string;
   S3AccessRoleArn?: string;
@@ -2193,7 +2241,7 @@ export const MariaDbDataProviderSettings = S.suspend(() =>
   S.Struct({
     ServerName: S.optional(S.String),
     Port: S.optional(S.Number),
-    SslMode: S.optional(S.String),
+    SslMode: S.optional(DmsSslModeValue),
     CertificateArn: S.optional(S.String),
     S3Path: S.optional(S.String),
     S3AccessRoleArn: S.optional(S.String),
@@ -2205,7 +2253,7 @@ export interface IbmDb2LuwDataProviderSettings {
   ServerName?: string;
   Port?: number;
   DatabaseName?: string;
-  SslMode?: string;
+  SslMode?: DmsSslModeValue;
   CertificateArn?: string;
   S3Path?: string;
   S3AccessRoleArn?: string;
@@ -2215,7 +2263,7 @@ export const IbmDb2LuwDataProviderSettings = S.suspend(() =>
     ServerName: S.optional(S.String),
     Port: S.optional(S.Number),
     DatabaseName: S.optional(S.String),
-    SslMode: S.optional(S.String),
+    SslMode: S.optional(DmsSslModeValue),
     CertificateArn: S.optional(S.String),
     S3Path: S.optional(S.String),
     S3AccessRoleArn: S.optional(S.String),
@@ -2227,7 +2275,7 @@ export interface IbmDb2zOsDataProviderSettings {
   ServerName?: string;
   Port?: number;
   DatabaseName?: string;
-  SslMode?: string;
+  SslMode?: DmsSslModeValue;
   CertificateArn?: string;
   S3Path?: string;
   S3AccessRoleArn?: string;
@@ -2237,7 +2285,7 @@ export const IbmDb2zOsDataProviderSettings = S.suspend(() =>
     ServerName: S.optional(S.String),
     Port: S.optional(S.Number),
     DatabaseName: S.optional(S.String),
-    SslMode: S.optional(S.String),
+    SslMode: S.optional(DmsSslModeValue),
     CertificateArn: S.optional(S.String),
     S3Path: S.optional(S.String),
     S3AccessRoleArn: S.optional(S.String),
@@ -2245,26 +2293,34 @@ export const IbmDb2zOsDataProviderSettings = S.suspend(() =>
 ).annotations({
   identifier: "IbmDb2zOsDataProviderSettings",
 }) as any as S.Schema<IbmDb2zOsDataProviderSettings>;
+export type AuthTypeValue = "no" | "password";
+export const AuthTypeValue = S.Literal("no", "password");
+export type AuthMechanismValue = "default" | "mongodb_cr" | "scram_sha_1";
+export const AuthMechanismValue = S.Literal(
+  "default",
+  "mongodb_cr",
+  "scram_sha_1",
+);
 export interface MongoDbDataProviderSettings {
   ServerName?: string;
   Port?: number;
   DatabaseName?: string;
-  SslMode?: string;
+  SslMode?: DmsSslModeValue;
   CertificateArn?: string;
-  AuthType?: string;
+  AuthType?: AuthTypeValue;
   AuthSource?: string;
-  AuthMechanism?: string;
+  AuthMechanism?: AuthMechanismValue;
 }
 export const MongoDbDataProviderSettings = S.suspend(() =>
   S.Struct({
     ServerName: S.optional(S.String),
     Port: S.optional(S.Number),
     DatabaseName: S.optional(S.String),
-    SslMode: S.optional(S.String),
+    SslMode: S.optional(DmsSslModeValue),
     CertificateArn: S.optional(S.String),
-    AuthType: S.optional(S.String),
+    AuthType: S.optional(AuthTypeValue),
     AuthSource: S.optional(S.String),
-    AuthMechanism: S.optional(S.String),
+    AuthMechanism: S.optional(AuthMechanismValue),
   }),
 ).annotations({
   identifier: "MongoDbDataProviderSettings",
@@ -2303,7 +2359,7 @@ export interface ModifyDataProviderMessage {
   Engine?: string;
   Virtual?: boolean;
   ExactSettings?: boolean;
-  Settings?: (typeof DataProviderSettings)["Type"];
+  Settings?: DataProviderSettings;
 }
 export const ModifyDataProviderMessage = S.suspend(() =>
   S.Struct({
@@ -2336,6 +2392,63 @@ export const DynamoDbSettings = S.suspend(() =>
 ).annotations({
   identifier: "DynamoDbSettings",
 }) as any as S.Schema<DynamoDbSettings>;
+export type CompressionTypeValue = "none" | "gzip";
+export const CompressionTypeValue = S.Literal("none", "gzip");
+export type EncryptionModeValue = "sse-s3" | "sse-kms";
+export const EncryptionModeValue = S.Literal("sse-s3", "sse-kms");
+export type DataFormatValue = "csv" | "parquet";
+export const DataFormatValue = S.Literal("csv", "parquet");
+export type EncodingTypeValue = "plain" | "plain-dictionary" | "rle-dictionary";
+export const EncodingTypeValue = S.Literal(
+  "plain",
+  "plain-dictionary",
+  "rle-dictionary",
+);
+export type ParquetVersionValue = "parquet-1-0" | "parquet-2-0";
+export const ParquetVersionValue = S.Literal("parquet-1-0", "parquet-2-0");
+export type DatePartitionSequenceValue =
+  | "YYYYMMDD"
+  | "YYYYMMDDHH"
+  | "YYYYMM"
+  | "MMYYYYDD"
+  | "DDMMYYYY";
+export const DatePartitionSequenceValue = S.Literal(
+  "YYYYMMDD",
+  "YYYYMMDDHH",
+  "YYYYMM",
+  "MMYYYYDD",
+  "DDMMYYYY",
+);
+export type DatePartitionDelimiterValue =
+  | "SLASH"
+  | "UNDERSCORE"
+  | "DASH"
+  | "NONE";
+export const DatePartitionDelimiterValue = S.Literal(
+  "SLASH",
+  "UNDERSCORE",
+  "DASH",
+  "NONE",
+);
+export type CannedAclForObjectsValue =
+  | "none"
+  | "private"
+  | "public-read"
+  | "public-read-write"
+  | "authenticated-read"
+  | "aws-exec-read"
+  | "bucket-owner-read"
+  | "bucket-owner-full-control";
+export const CannedAclForObjectsValue = S.Literal(
+  "none",
+  "private",
+  "public-read",
+  "public-read-write",
+  "authenticated-read",
+  "aws-exec-read",
+  "bucket-owner-read",
+  "bucket-owner-full-control",
+);
 export interface S3Settings {
   ServiceAccessRoleArn?: string;
   ExternalTableDefinition?: string;
@@ -2343,15 +2456,15 @@ export interface S3Settings {
   CsvDelimiter?: string;
   BucketFolder?: string;
   BucketName?: string;
-  CompressionType?: string;
-  EncryptionMode?: string;
+  CompressionType?: CompressionTypeValue;
+  EncryptionMode?: EncryptionModeValue;
   ServerSideEncryptionKmsKeyId?: string;
-  DataFormat?: string;
-  EncodingType?: string;
+  DataFormat?: DataFormatValue;
+  EncodingType?: EncodingTypeValue;
   DictPageSizeLimit?: number;
   RowGroupLength?: number;
   DataPageSize?: number;
-  ParquetVersion?: string;
+  ParquetVersion?: ParquetVersionValue;
   EnableStatistics?: boolean;
   IncludeOpForFullLoad?: boolean;
   CdcInsertsOnly?: boolean;
@@ -2359,14 +2472,14 @@ export interface S3Settings {
   ParquetTimestampInMillisecond?: boolean;
   CdcInsertsAndUpdates?: boolean;
   DatePartitionEnabled?: boolean;
-  DatePartitionSequence?: string;
-  DatePartitionDelimiter?: string;
+  DatePartitionSequence?: DatePartitionSequenceValue;
+  DatePartitionDelimiter?: DatePartitionDelimiterValue;
   UseCsvNoSupValue?: boolean;
   CsvNoSupValue?: string;
   PreserveTransactions?: boolean;
   CdcPath?: string;
   UseTaskStartTimeForFullLoadTimestamp?: boolean;
-  CannedAclForObjects?: string;
+  CannedAclForObjects?: CannedAclForObjectsValue;
   AddColumnName?: boolean;
   CdcMaxBatchInterval?: number;
   CdcMinFileSize?: number;
@@ -2387,15 +2500,15 @@ export const S3Settings = S.suspend(() =>
     CsvDelimiter: S.optional(S.String),
     BucketFolder: S.optional(S.String),
     BucketName: S.optional(S.String),
-    CompressionType: S.optional(S.String),
-    EncryptionMode: S.optional(S.String),
+    CompressionType: S.optional(CompressionTypeValue),
+    EncryptionMode: S.optional(EncryptionModeValue),
     ServerSideEncryptionKmsKeyId: S.optional(S.String),
-    DataFormat: S.optional(S.String),
-    EncodingType: S.optional(S.String),
+    DataFormat: S.optional(DataFormatValue),
+    EncodingType: S.optional(EncodingTypeValue),
     DictPageSizeLimit: S.optional(S.Number),
     RowGroupLength: S.optional(S.Number),
     DataPageSize: S.optional(S.Number),
-    ParquetVersion: S.optional(S.String),
+    ParquetVersion: S.optional(ParquetVersionValue),
     EnableStatistics: S.optional(S.Boolean),
     IncludeOpForFullLoad: S.optional(S.Boolean),
     CdcInsertsOnly: S.optional(S.Boolean),
@@ -2403,14 +2516,14 @@ export const S3Settings = S.suspend(() =>
     ParquetTimestampInMillisecond: S.optional(S.Boolean),
     CdcInsertsAndUpdates: S.optional(S.Boolean),
     DatePartitionEnabled: S.optional(S.Boolean),
-    DatePartitionSequence: S.optional(S.String),
-    DatePartitionDelimiter: S.optional(S.String),
+    DatePartitionSequence: S.optional(DatePartitionSequenceValue),
+    DatePartitionDelimiter: S.optional(DatePartitionDelimiterValue),
     UseCsvNoSupValue: S.optional(S.Boolean),
     CsvNoSupValue: S.optional(S.String),
     PreserveTransactions: S.optional(S.Boolean),
     CdcPath: S.optional(S.String),
     UseTaskStartTimeForFullLoadTimestamp: S.optional(S.Boolean),
-    CannedAclForObjects: S.optional(S.String),
+    CannedAclForObjects: S.optional(CannedAclForObjectsValue),
     AddColumnName: S.optional(S.Boolean),
     CdcMaxBatchInterval: S.optional(S.Number),
     CdcMinFileSize: S.optional(S.Number),
@@ -2436,15 +2549,17 @@ export const DmsTransferSettings = S.suspend(() =>
 ).annotations({
   identifier: "DmsTransferSettings",
 }) as any as S.Schema<DmsTransferSettings>;
+export type NestingLevelValue = "none" | "one";
+export const NestingLevelValue = S.Literal("none", "one");
 export interface MongoDbSettings {
   Username?: string;
-  Password?: string | Redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
   ServerName?: string;
   Port?: number;
   DatabaseName?: string;
-  AuthType?: string;
-  AuthMechanism?: string;
-  NestingLevel?: string;
+  AuthType?: AuthTypeValue;
+  AuthMechanism?: AuthMechanismValue;
+  NestingLevel?: NestingLevelValue;
   ExtractDocId?: string;
   DocsToInvestigate?: string;
   AuthSource?: string;
@@ -2461,9 +2576,9 @@ export const MongoDbSettings = S.suspend(() =>
     ServerName: S.optional(S.String),
     Port: S.optional(S.Number),
     DatabaseName: S.optional(S.String),
-    AuthType: S.optional(S.String),
-    AuthMechanism: S.optional(S.String),
-    NestingLevel: S.optional(S.String),
+    AuthType: S.optional(AuthTypeValue),
+    AuthMechanism: S.optional(AuthMechanismValue),
+    NestingLevel: S.optional(NestingLevelValue),
     ExtractDocId: S.optional(S.String),
     DocsToInvestigate: S.optional(S.String),
     AuthSource: S.optional(S.String),
@@ -2476,9 +2591,11 @@ export const MongoDbSettings = S.suspend(() =>
 ).annotations({
   identifier: "MongoDbSettings",
 }) as any as S.Schema<MongoDbSettings>;
+export type MessageFormatValue = "json" | "json-unformatted";
+export const MessageFormatValue = S.Literal("json", "json-unformatted");
 export interface KinesisSettings {
   StreamArn?: string;
-  MessageFormat?: string;
+  MessageFormat?: MessageFormatValue;
   ServiceAccessRoleArn?: string;
   IncludeTransactionDetails?: boolean;
   IncludePartitionValue?: boolean;
@@ -2492,7 +2609,7 @@ export interface KinesisSettings {
 export const KinesisSettings = S.suspend(() =>
   S.Struct({
     StreamArn: S.optional(S.String),
-    MessageFormat: S.optional(S.String),
+    MessageFormat: S.optional(MessageFormatValue),
     ServiceAccessRoleArn: S.optional(S.String),
     IncludeTransactionDetails: S.optional(S.Boolean),
     IncludePartitionValue: S.optional(S.Boolean),
@@ -2506,10 +2623,28 @@ export const KinesisSettings = S.suspend(() =>
 ).annotations({
   identifier: "KinesisSettings",
 }) as any as S.Schema<KinesisSettings>;
+export type KafkaSecurityProtocol =
+  | "plaintext"
+  | "ssl-authentication"
+  | "ssl-encryption"
+  | "sasl-ssl";
+export const KafkaSecurityProtocol = S.Literal(
+  "plaintext",
+  "ssl-authentication",
+  "ssl-encryption",
+  "sasl-ssl",
+);
+export type KafkaSaslMechanism = "scram-sha-512" | "plain";
+export const KafkaSaslMechanism = S.Literal("scram-sha-512", "plain");
+export type KafkaSslEndpointIdentificationAlgorithm = "none" | "https";
+export const KafkaSslEndpointIdentificationAlgorithm = S.Literal(
+  "none",
+  "https",
+);
 export interface KafkaSettings {
   Broker?: string;
   Topic?: string;
-  MessageFormat?: string;
+  MessageFormat?: MessageFormatValue;
   IncludeTransactionDetails?: boolean;
   IncludePartitionValue?: boolean;
   PartitionIncludeSchemaTable?: boolean;
@@ -2517,23 +2652,23 @@ export interface KafkaSettings {
   IncludeControlDetails?: boolean;
   MessageMaxBytes?: number;
   IncludeNullAndEmpty?: boolean;
-  SecurityProtocol?: string;
+  SecurityProtocol?: KafkaSecurityProtocol;
   SslClientCertificateArn?: string;
   SslClientKeyArn?: string;
-  SslClientKeyPassword?: string | Redacted.Redacted<string>;
+  SslClientKeyPassword?: string | redacted.Redacted<string>;
   SslCaCertificateArn?: string;
   SaslUsername?: string;
-  SaslPassword?: string | Redacted.Redacted<string>;
+  SaslPassword?: string | redacted.Redacted<string>;
   NoHexPrefix?: boolean;
-  SaslMechanism?: string;
-  SslEndpointIdentificationAlgorithm?: string;
+  SaslMechanism?: KafkaSaslMechanism;
+  SslEndpointIdentificationAlgorithm?: KafkaSslEndpointIdentificationAlgorithm;
   UseLargeIntegerValue?: boolean;
 }
 export const KafkaSettings = S.suspend(() =>
   S.Struct({
     Broker: S.optional(S.String),
     Topic: S.optional(S.String),
-    MessageFormat: S.optional(S.String),
+    MessageFormat: S.optional(MessageFormatValue),
     IncludeTransactionDetails: S.optional(S.Boolean),
     IncludePartitionValue: S.optional(S.Boolean),
     PartitionIncludeSchemaTable: S.optional(S.Boolean),
@@ -2541,7 +2676,7 @@ export const KafkaSettings = S.suspend(() =>
     IncludeControlDetails: S.optional(S.Boolean),
     MessageMaxBytes: S.optional(S.Number),
     IncludeNullAndEmpty: S.optional(S.Boolean),
-    SecurityProtocol: S.optional(S.String),
+    SecurityProtocol: S.optional(KafkaSecurityProtocol),
     SslClientCertificateArn: S.optional(S.String),
     SslClientKeyArn: S.optional(S.String),
     SslClientKeyPassword: S.optional(SensitiveString),
@@ -2549,8 +2684,10 @@ export const KafkaSettings = S.suspend(() =>
     SaslUsername: S.optional(S.String),
     SaslPassword: S.optional(SensitiveString),
     NoHexPrefix: S.optional(S.Boolean),
-    SaslMechanism: S.optional(S.String),
-    SslEndpointIdentificationAlgorithm: S.optional(S.String),
+    SaslMechanism: S.optional(KafkaSaslMechanism),
+    SslEndpointIdentificationAlgorithm: S.optional(
+      KafkaSslEndpointIdentificationAlgorithm,
+    ),
     UseLargeIntegerValue: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -2607,12 +2744,12 @@ export interface RedshiftSettings {
   DatabaseName?: string;
   DateFormat?: string;
   EmptyAsNull?: boolean;
-  EncryptionMode?: string;
+  EncryptionMode?: EncryptionModeValue;
   ExplicitIds?: boolean;
   FileTransferUploadStreams?: number;
   LoadTimeout?: number;
   MaxFileSize?: number;
-  Password?: string | Redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
   Port?: number;
   RemoveQuotes?: boolean;
   ReplaceInvalidChars?: string;
@@ -2641,7 +2778,7 @@ export const RedshiftSettings = S.suspend(() =>
     DatabaseName: S.optional(S.String),
     DateFormat: S.optional(S.String),
     EmptyAsNull: S.optional(S.Boolean),
-    EncryptionMode: S.optional(S.String),
+    EncryptionMode: S.optional(EncryptionModeValue),
     ExplicitIds: S.optional(S.Boolean),
     FileTransferUploadStreams: S.optional(S.Number),
     LoadTimeout: S.optional(S.Number),
@@ -2666,6 +2803,18 @@ export const RedshiftSettings = S.suspend(() =>
 ).annotations({
   identifier: "RedshiftSettings",
 }) as any as S.Schema<RedshiftSettings>;
+export type PluginNameValue = "no-preference" | "test-decoding" | "pglogical";
+export const PluginNameValue = S.Literal(
+  "no-preference",
+  "test-decoding",
+  "pglogical",
+);
+export type LongVarcharMappingType = "wstring" | "clob" | "nclob";
+export const LongVarcharMappingType = S.Literal("wstring", "clob", "nclob");
+export type DatabaseMode = "default" | "babelfish";
+export const DatabaseMode = S.Literal("default", "babelfish");
+export type PostgreSQLAuthenticationMethod = "password" | "iam";
+export const PostgreSQLAuthenticationMethod = S.Literal("password", "iam");
 export interface PostgreSQLSettings {
   AfterConnectScript?: string;
   CaptureDdls?: boolean;
@@ -2677,23 +2826,23 @@ export interface PostgreSQLSettings {
   HeartbeatEnable?: boolean;
   HeartbeatSchema?: string;
   HeartbeatFrequency?: number;
-  Password?: string | Redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
   Port?: number;
   ServerName?: string;
   Username?: string;
   SlotName?: string;
-  PluginName?: string;
+  PluginName?: PluginNameValue;
   SecretsManagerAccessRoleArn?: string;
   SecretsManagerSecretId?: string;
   TrimSpaceInChar?: boolean;
   MapBooleanAsBoolean?: boolean;
   MapJsonbAsClob?: boolean;
-  MapLongVarcharAs?: string;
-  DatabaseMode?: string;
+  MapLongVarcharAs?: LongVarcharMappingType;
+  DatabaseMode?: DatabaseMode;
   BabelfishDatabaseName?: string;
   DisableUnicodeSourceFilter?: boolean;
   ServiceAccessRoleArn?: string;
-  AuthenticationMethod?: string;
+  AuthenticationMethod?: PostgreSQLAuthenticationMethod;
 }
 export const PostgreSQLSettings = S.suspend(() =>
   S.Struct({
@@ -2712,31 +2861,38 @@ export const PostgreSQLSettings = S.suspend(() =>
     ServerName: S.optional(S.String),
     Username: S.optional(S.String),
     SlotName: S.optional(S.String),
-    PluginName: S.optional(S.String),
+    PluginName: S.optional(PluginNameValue),
     SecretsManagerAccessRoleArn: S.optional(S.String),
     SecretsManagerSecretId: S.optional(S.String),
     TrimSpaceInChar: S.optional(S.Boolean),
     MapBooleanAsBoolean: S.optional(S.Boolean),
     MapJsonbAsClob: S.optional(S.Boolean),
-    MapLongVarcharAs: S.optional(S.String),
-    DatabaseMode: S.optional(S.String),
+    MapLongVarcharAs: S.optional(LongVarcharMappingType),
+    DatabaseMode: S.optional(DatabaseMode),
     BabelfishDatabaseName: S.optional(S.String),
     DisableUnicodeSourceFilter: S.optional(S.Boolean),
     ServiceAccessRoleArn: S.optional(S.String),
-    AuthenticationMethod: S.optional(S.String),
+    AuthenticationMethod: S.optional(PostgreSQLAuthenticationMethod),
   }),
 ).annotations({
   identifier: "PostgreSQLSettings",
 }) as any as S.Schema<PostgreSQLSettings>;
+export type TargetDbType = "specific-database" | "multiple-databases";
+export const TargetDbType = S.Literal(
+  "specific-database",
+  "multiple-databases",
+);
+export type MySQLAuthenticationMethod = "password" | "iam";
+export const MySQLAuthenticationMethod = S.Literal("password", "iam");
 export interface MySQLSettings {
   AfterConnectScript?: string;
   CleanSourceMetadataOnMismatch?: boolean;
   DatabaseName?: string;
   EventsPollInterval?: number;
-  TargetDbType?: string;
+  TargetDbType?: TargetDbType;
   MaxFileSize?: number;
   ParallelLoadThreads?: number;
-  Password?: string | Redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
   Port?: number;
   ServerName?: string;
   ServerTimezone?: string;
@@ -2745,7 +2901,7 @@ export interface MySQLSettings {
   SecretsManagerSecretId?: string;
   ExecuteTimeout?: number;
   ServiceAccessRoleArn?: string;
-  AuthenticationMethod?: string;
+  AuthenticationMethod?: MySQLAuthenticationMethod;
 }
 export const MySQLSettings = S.suspend(() =>
   S.Struct({
@@ -2753,7 +2909,7 @@ export const MySQLSettings = S.suspend(() =>
     CleanSourceMetadataOnMismatch: S.optional(S.Boolean),
     DatabaseName: S.optional(S.String),
     EventsPollInterval: S.optional(S.Number),
-    TargetDbType: S.optional(S.String),
+    TargetDbType: S.optional(TargetDbType),
     MaxFileSize: S.optional(S.Number),
     ParallelLoadThreads: S.optional(S.Number),
     Password: S.optional(SensitiveString),
@@ -2765,18 +2921,22 @@ export const MySQLSettings = S.suspend(() =>
     SecretsManagerSecretId: S.optional(S.String),
     ExecuteTimeout: S.optional(S.Number),
     ServiceAccessRoleArn: S.optional(S.String),
-    AuthenticationMethod: S.optional(S.String),
+    AuthenticationMethod: S.optional(MySQLAuthenticationMethod),
   }),
 ).annotations({
   identifier: "MySQLSettings",
 }) as any as S.Schema<MySQLSettings>;
 export type IntegerList = number[];
 export const IntegerList = S.Array(S.Number);
+export type CharLengthSemantics = "default" | "char" | "byte";
+export const CharLengthSemantics = S.Literal("default", "char", "byte");
+export type OracleAuthenticationMethod = "password" | "kerberos";
+export const OracleAuthenticationMethod = S.Literal("password", "kerberos");
 export interface OracleSettings {
   AddSupplementalLogging?: boolean;
   ArchivedLogDestId?: number;
   AdditionalArchivedLogDestId?: number;
-  ExtraArchivedLogDestIds?: IntegerList;
+  ExtraArchivedLogDestIds?: number[];
   AllowSelectNestedTables?: boolean;
   ParallelAsmReadThreads?: number;
   ReadAheadBlocks?: number;
@@ -2788,19 +2948,19 @@ export interface OracleSettings {
   EnableHomogenousTablespace?: boolean;
   DirectPathNoLog?: boolean;
   ArchivedLogsOnly?: boolean;
-  AsmPassword?: string | Redacted.Redacted<string>;
+  AsmPassword?: string | redacted.Redacted<string>;
   AsmServer?: string;
   AsmUser?: string;
-  CharLengthSemantics?: string;
+  CharLengthSemantics?: CharLengthSemantics;
   DatabaseName?: string;
   DirectPathParallelLoad?: boolean;
   FailTasksOnLobTruncation?: boolean;
   NumberDatatypeScale?: number;
-  Password?: string | Redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
   Port?: number;
   ReadTableSpaceName?: boolean;
   RetryInterval?: number;
-  SecurityDbEncryption?: string | Redacted.Redacted<string>;
+  SecurityDbEncryption?: string | redacted.Redacted<string>;
   SecurityDbEncryptionName?: string;
   ServerName?: string;
   SpatialDataOptionToGeoJsonFunctionName?: string;
@@ -2816,7 +2976,7 @@ export interface OracleSettings {
   TrimSpaceInChar?: boolean;
   ConvertTimestampWithZoneToUTC?: boolean;
   OpenTransactionWindow?: number;
-  AuthenticationMethod?: string;
+  AuthenticationMethod?: OracleAuthenticationMethod;
 }
 export const OracleSettings = S.suspend(() =>
   S.Struct({
@@ -2838,7 +2998,7 @@ export const OracleSettings = S.suspend(() =>
     AsmPassword: S.optional(SensitiveString),
     AsmServer: S.optional(S.String),
     AsmUser: S.optional(S.String),
-    CharLengthSemantics: S.optional(S.String),
+    CharLengthSemantics: S.optional(CharLengthSemantics),
     DatabaseName: S.optional(S.String),
     DirectPathParallelLoad: S.optional(S.Boolean),
     FailTasksOnLobTruncation: S.optional(S.Boolean),
@@ -2863,14 +3023,14 @@ export const OracleSettings = S.suspend(() =>
     TrimSpaceInChar: S.optional(S.Boolean),
     ConvertTimestampWithZoneToUTC: S.optional(S.Boolean),
     OpenTransactionWindow: S.optional(S.Number),
-    AuthenticationMethod: S.optional(S.String),
+    AuthenticationMethod: S.optional(OracleAuthenticationMethod),
   }),
 ).annotations({
   identifier: "OracleSettings",
 }) as any as S.Schema<OracleSettings>;
 export interface SybaseSettings {
   DatabaseName?: string;
-  Password?: string | Redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
   Port?: number;
   ServerName?: string;
   Username?: string;
@@ -2890,15 +3050,37 @@ export const SybaseSettings = S.suspend(() =>
 ).annotations({
   identifier: "SybaseSettings",
 }) as any as S.Schema<SybaseSettings>;
+export type SafeguardPolicy =
+  | "rely-on-sql-server-replication-agent"
+  | "exclusive-automatic-truncation"
+  | "shared-automatic-truncation";
+export const SafeguardPolicy = S.Literal(
+  "rely-on-sql-server-replication-agent",
+  "exclusive-automatic-truncation",
+  "shared-automatic-truncation",
+);
+export type TlogAccessMode =
+  | "BackupOnly"
+  | "PreferBackup"
+  | "PreferTlog"
+  | "TlogOnly";
+export const TlogAccessMode = S.Literal(
+  "BackupOnly",
+  "PreferBackup",
+  "PreferTlog",
+  "TlogOnly",
+);
+export type SqlServerAuthenticationMethod = "password" | "kerberos";
+export const SqlServerAuthenticationMethod = S.Literal("password", "kerberos");
 export interface MicrosoftSQLServerSettings {
   Port?: number;
   BcpPacketSize?: number;
   DatabaseName?: string;
   ControlTablesFileGroup?: string;
-  Password?: string | Redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
   QuerySingleAlwaysOnNode?: boolean;
   ReadBackupOnly?: boolean;
-  SafeguardPolicy?: string;
+  SafeguardPolicy?: SafeguardPolicy;
   ServerName?: string;
   Username?: string;
   UseBcpFullLoad?: boolean;
@@ -2906,9 +3088,9 @@ export interface MicrosoftSQLServerSettings {
   SecretsManagerAccessRoleArn?: string;
   SecretsManagerSecretId?: string;
   TrimSpaceInChar?: boolean;
-  TlogAccessMode?: string;
+  TlogAccessMode?: TlogAccessMode;
   ForceLobLookup?: boolean;
-  AuthenticationMethod?: string;
+  AuthenticationMethod?: SqlServerAuthenticationMethod;
 }
 export const MicrosoftSQLServerSettings = S.suspend(() =>
   S.Struct({
@@ -2919,7 +3101,7 @@ export const MicrosoftSQLServerSettings = S.suspend(() =>
     Password: S.optional(SensitiveString),
     QuerySingleAlwaysOnNode: S.optional(S.Boolean),
     ReadBackupOnly: S.optional(S.Boolean),
-    SafeguardPolicy: S.optional(S.String),
+    SafeguardPolicy: S.optional(SafeguardPolicy),
     ServerName: S.optional(S.String),
     Username: S.optional(S.String),
     UseBcpFullLoad: S.optional(S.Boolean),
@@ -2927,16 +3109,16 @@ export const MicrosoftSQLServerSettings = S.suspend(() =>
     SecretsManagerAccessRoleArn: S.optional(S.String),
     SecretsManagerSecretId: S.optional(S.String),
     TrimSpaceInChar: S.optional(S.Boolean),
-    TlogAccessMode: S.optional(S.String),
+    TlogAccessMode: S.optional(TlogAccessMode),
     ForceLobLookup: S.optional(S.Boolean),
-    AuthenticationMethod: S.optional(S.String),
+    AuthenticationMethod: S.optional(SqlServerAuthenticationMethod),
   }),
 ).annotations({
   identifier: "MicrosoftSQLServerSettings",
 }) as any as S.Schema<MicrosoftSQLServerSettings>;
 export interface IBMDb2Settings {
   DatabaseName?: string;
-  Password?: string | Redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
   Port?: number;
   ServerName?: string;
   SetDataCaptureChanges?: boolean;
@@ -2972,11 +3154,11 @@ export const IBMDb2Settings = S.suspend(() =>
 }) as any as S.Schema<IBMDb2Settings>;
 export interface DocDbSettings {
   Username?: string;
-  Password?: string | Redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
   ServerName?: string;
   Port?: number;
   DatabaseName?: string;
-  NestingLevel?: string;
+  NestingLevel?: NestingLevelValue;
   ExtractDocId?: boolean;
   DocsToInvestigate?: number;
   KmsKeyId?: string;
@@ -2992,7 +3174,7 @@ export const DocDbSettings = S.suspend(() =>
     ServerName: S.optional(S.String),
     Port: S.optional(S.Number),
     DatabaseName: S.optional(S.String),
-    NestingLevel: S.optional(S.String),
+    NestingLevel: S.optional(NestingLevelValue),
     ExtractDocId: S.optional(S.Boolean),
     DocsToInvestigate: S.optional(S.Number),
     KmsKeyId: S.optional(S.String),
@@ -3004,21 +3186,28 @@ export const DocDbSettings = S.suspend(() =>
 ).annotations({
   identifier: "DocDbSettings",
 }) as any as S.Schema<DocDbSettings>;
+export type SslSecurityProtocolValue = "plaintext" | "ssl-encryption";
+export const SslSecurityProtocolValue = S.Literal(
+  "plaintext",
+  "ssl-encryption",
+);
+export type RedisAuthTypeValue = "none" | "auth-role" | "auth-token";
+export const RedisAuthTypeValue = S.Literal("none", "auth-role", "auth-token");
 export interface RedisSettings {
   ServerName: string;
   Port: number;
-  SslSecurityProtocol?: string;
-  AuthType?: string;
+  SslSecurityProtocol?: SslSecurityProtocolValue;
+  AuthType?: RedisAuthTypeValue;
   AuthUserName?: string;
-  AuthPassword?: string | Redacted.Redacted<string>;
+  AuthPassword?: string | redacted.Redacted<string>;
   SslCaCertificateArn?: string;
 }
 export const RedisSettings = S.suspend(() =>
   S.Struct({
     ServerName: S.String,
     Port: S.Number,
-    SslSecurityProtocol: S.optional(S.String),
-    AuthType: S.optional(S.String),
+    SslSecurityProtocol: S.optional(SslSecurityProtocolValue),
+    AuthType: S.optional(RedisAuthTypeValue),
     AuthUserName: S.optional(S.String),
     AuthPassword: S.optional(SensitiveString),
     SslCaCertificateArn: S.optional(S.String),
@@ -3031,10 +3220,10 @@ export interface GcpMySQLSettings {
   CleanSourceMetadataOnMismatch?: boolean;
   DatabaseName?: string;
   EventsPollInterval?: number;
-  TargetDbType?: string;
+  TargetDbType?: TargetDbType;
   MaxFileSize?: number;
   ParallelLoadThreads?: number;
-  Password?: string | Redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
   Port?: number;
   ServerName?: string;
   ServerTimezone?: string;
@@ -3048,7 +3237,7 @@ export const GcpMySQLSettings = S.suspend(() =>
     CleanSourceMetadataOnMismatch: S.optional(S.Boolean),
     DatabaseName: S.optional(S.String),
     EventsPollInterval: S.optional(S.Number),
-    TargetDbType: S.optional(S.String),
+    TargetDbType: S.optional(TargetDbType),
     MaxFileSize: S.optional(S.Number),
     ParallelLoadThreads: S.optional(S.Number),
     Password: S.optional(SensitiveString),
@@ -3083,16 +3272,16 @@ export const TimestreamSettings = S.suspend(() =>
 export interface ModifyEndpointMessage {
   EndpointArn: string;
   EndpointIdentifier?: string;
-  EndpointType?: string;
+  EndpointType?: ReplicationEndpointTypeValue;
   EngineName?: string;
   Username?: string;
-  Password?: string | Redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
   ServerName?: string;
   Port?: number;
   DatabaseName?: string;
   ExtraConnectionAttributes?: string;
   CertificateArn?: string;
-  SslMode?: string;
+  SslMode?: DmsSslModeValue;
   ServiceAccessRoleArn?: string;
   ExternalTableDefinition?: string;
   DynamoDbSettings?: DynamoDbSettings;
@@ -3120,7 +3309,7 @@ export const ModifyEndpointMessage = S.suspend(() =>
   S.Struct({
     EndpointArn: S.String,
     EndpointIdentifier: S.optional(S.String),
-    EndpointType: S.optional(S.String),
+    EndpointType: S.optional(ReplicationEndpointTypeValue),
     EngineName: S.optional(S.String),
     Username: S.optional(S.String),
     Password: S.optional(SensitiveString),
@@ -3129,7 +3318,7 @@ export const ModifyEndpointMessage = S.suspend(() =>
     DatabaseName: S.optional(S.String),
     ExtraConnectionAttributes: S.optional(S.String),
     CertificateArn: S.optional(S.String),
-    SslMode: S.optional(S.String),
+    SslMode: S.optional(DmsSslModeValue),
     ServiceAccessRoleArn: S.optional(S.String),
     ExternalTableDefinition: S.optional(S.String),
     DynamoDbSettings: S.optional(DynamoDbSettings),
@@ -3170,7 +3359,7 @@ export interface ModifyEventSubscriptionMessage {
   SubscriptionName: string;
   SnsTopicArn?: string;
   SourceType?: string;
-  EventCategories?: EventCategoriesList;
+  EventCategories?: string[];
   Enabled?: boolean;
 }
 export const ModifyEventSubscriptionMessage = S.suspend(() =>
@@ -3203,7 +3392,7 @@ export interface ModifyInstanceProfileMessage {
   InstanceProfileName?: string;
   Description?: string;
   SubnetGroupIdentifier?: string;
-  VpcSecurityGroups?: StringList;
+  VpcSecurityGroups?: string[];
 }
 export const ModifyInstanceProfileMessage = S.suspend(() =>
   S.Struct({
@@ -3264,8 +3453,8 @@ export const SCApplicationAttributes = S.suspend(() =>
 export interface ModifyMigrationProjectMessage {
   MigrationProjectIdentifier: string;
   MigrationProjectName?: string;
-  SourceDataProviderDescriptors?: DataProviderDescriptorDefinitionList;
-  TargetDataProviderDescriptors?: DataProviderDescriptorDefinitionList;
+  SourceDataProviderDescriptors?: DataProviderDescriptorDefinition[];
+  TargetDataProviderDescriptors?: DataProviderDescriptorDefinition[];
   InstanceProfileIdentifier?: string;
   TransformationRules?: string;
   Description?: string;
@@ -3308,7 +3497,7 @@ export interface ComputeConfig {
   MultiAZ?: boolean;
   PreferredMaintenanceWindow?: string;
   ReplicationSubnetGroupId?: string;
-  VpcSecurityGroupIds?: StringList;
+  VpcSecurityGroupIds?: string[];
 }
 export const ComputeConfig = S.suspend(() =>
   S.Struct({
@@ -3328,7 +3517,7 @@ export const ComputeConfig = S.suspend(() =>
 export interface ModifyReplicationConfigMessage {
   ReplicationConfigArn: string;
   ReplicationConfigIdentifier?: string;
-  ReplicationType?: string;
+  ReplicationType?: MigrationTypeValue;
   TableMappings?: string;
   ReplicationSettings?: string;
   SupplementalSettings?: string;
@@ -3340,7 +3529,7 @@ export const ModifyReplicationConfigMessage = S.suspend(() =>
   S.Struct({
     ReplicationConfigArn: S.String,
     ReplicationConfigIdentifier: S.optional(S.String),
-    ReplicationType: S.optional(S.String),
+    ReplicationType: S.optional(MigrationTypeValue),
     TableMappings: S.optional(S.String),
     ReplicationSettings: S.optional(S.String),
     SupplementalSettings: S.optional(S.String),
@@ -3380,7 +3569,7 @@ export interface ModifyReplicationInstanceMessage {
   AllocatedStorage?: number;
   ApplyImmediately?: boolean;
   ReplicationInstanceClass?: string;
-  VpcSecurityGroupIds?: VpcSecurityGroupIdList;
+  VpcSecurityGroupIds?: string[];
   PreferredMaintenanceWindow?: string;
   MultiAZ?: boolean;
   EngineVersion?: string;
@@ -3422,7 +3611,7 @@ export const ModifyReplicationInstanceMessage = S.suspend(() =>
 export interface ModifyReplicationSubnetGroupMessage {
   ReplicationSubnetGroupIdentifier: string;
   ReplicationSubnetGroupDescription?: string;
-  SubnetIds: SubnetIdentifierList;
+  SubnetIds: string[];
 }
 export const ModifyReplicationSubnetGroupMessage = S.suspend(() =>
   S.Struct({
@@ -3446,7 +3635,7 @@ export const ModifyReplicationSubnetGroupMessage = S.suspend(() =>
 export interface ModifyReplicationTaskMessage {
   ReplicationTaskArn: string;
   ReplicationTaskIdentifier?: string;
-  MigrationType?: string;
+  MigrationType?: MigrationTypeValue;
   TableMappings?: string;
   ReplicationTaskSettings?: string;
   CdcStartTime?: Date;
@@ -3458,7 +3647,7 @@ export const ModifyReplicationTaskMessage = S.suspend(() =>
   S.Struct({
     ReplicationTaskArn: S.String,
     ReplicationTaskIdentifier: S.optional(S.String),
-    MigrationType: S.optional(S.String),
+    MigrationType: S.optional(MigrationTypeValue),
     TableMappings: S.optional(S.String),
     ReplicationTaskSettings: S.optional(S.String),
     CdcStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -3557,14 +3746,14 @@ export type TableListToReload = TableToReload[];
 export const TableListToReload = S.Array(TableToReload);
 export interface ReloadTablesMessage {
   ReplicationTaskArn: string;
-  TablesToReload: TableListToReload;
-  ReloadOption?: string;
+  TablesToReload: TableToReload[];
+  ReloadOption?: ReloadOptionValue;
 }
 export const ReloadTablesMessage = S.suspend(() =>
   S.Struct({
     ReplicationTaskArn: S.String,
     TablesToReload: TableListToReload,
-    ReloadOption: S.optional(S.String),
+    ReloadOption: S.optional(ReloadOptionValue),
   }).pipe(
     T.all(
       ns,
@@ -3581,7 +3770,7 @@ export const ReloadTablesMessage = S.suspend(() =>
 }) as any as S.Schema<ReloadTablesMessage>;
 export interface RemoveTagsFromResourceMessage {
   ResourceArn: string;
-  TagKeys: KeyList;
+  TagKeys: string[];
 }
 export const RemoveTagsFromResourceMessage = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: KeyList }).pipe(
@@ -3618,10 +3807,13 @@ export const RunFleetAdvisorLsaAnalysisResponse = S.suspend(() =>
 }) as any as S.Schema<RunFleetAdvisorLsaAnalysisResponse>;
 export interface StartDataMigrationMessage {
   DataMigrationIdentifier: string;
-  StartType: string;
+  StartType: StartReplicationMigrationTypeValue;
 }
 export const StartDataMigrationMessage = S.suspend(() =>
-  S.Struct({ DataMigrationIdentifier: S.String, StartType: S.String }).pipe(
+  S.Struct({
+    DataMigrationIdentifier: S.String,
+    StartType: StartReplicationMigrationTypeValue,
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -3700,14 +3892,14 @@ export const StartMetadataModelConversionMessage = S.suspend(() =>
 export interface StartMetadataModelExportAsScriptMessage {
   MigrationProjectIdentifier: string;
   SelectionRules: string;
-  Origin: string;
+  Origin: OriginTypeValue;
   FileName?: string;
 }
 export const StartMetadataModelExportAsScriptMessage = S.suspend(() =>
   S.Struct({
     MigrationProjectIdentifier: S.String,
     SelectionRules: S.String,
-    Origin: S.String,
+    Origin: OriginTypeValue,
     FileName: S.optional(S.String),
   }).pipe(
     T.all(
@@ -3750,14 +3942,14 @@ export const StartMetadataModelExportToTargetMessage = S.suspend(() =>
 export interface StartMetadataModelImportMessage {
   MigrationProjectIdentifier: string;
   SelectionRules: string;
-  Origin: string;
+  Origin: OriginTypeValue;
   Refresh?: boolean;
 }
 export const StartMetadataModelImportMessage = S.suspend(() =>
   S.Struct({
     MigrationProjectIdentifier: S.String,
     SelectionRules: S.String,
-    Origin: S.String,
+    Origin: OriginTypeValue,
     Refresh: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -3805,7 +3997,7 @@ export const StartReplicationMessage = S.suspend(() =>
 }) as any as S.Schema<StartReplicationMessage>;
 export interface StartReplicationTaskMessage {
   ReplicationTaskArn: string;
-  StartReplicationTaskType: string;
+  StartReplicationTaskType: StartReplicationTaskTypeValue;
   CdcStartTime?: Date;
   CdcStartPosition?: string;
   CdcStopPosition?: string;
@@ -3813,7 +4005,7 @@ export interface StartReplicationTaskMessage {
 export const StartReplicationTaskMessage = S.suspend(() =>
   S.Struct({
     ReplicationTaskArn: S.String,
-    StartReplicationTaskType: S.String,
+    StartReplicationTaskType: StartReplicationTaskTypeValue,
     CdcStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CdcStartPosition: S.optional(S.String),
     CdcStopPosition: S.optional(S.String),
@@ -3857,9 +4049,9 @@ export interface StartReplicationTaskAssessmentRunMessage {
   ResultEncryptionMode?: string;
   ResultKmsKeyArn?: string;
   AssessmentRunName: string;
-  IncludeOnly?: IncludeTestList;
-  Exclude?: ExcludeTestList;
-  Tags?: TagList;
+  IncludeOnly?: string[];
+  Exclude?: string[];
+  Tags?: Tag[];
 }
 export const StartReplicationTaskAssessmentRunMessage = S.suspend(() =>
   S.Struct({
@@ -4048,7 +4240,7 @@ export const ConnectionList = S.Array(
 export interface DataMigrationSettings {
   NumberOfJobs?: number;
   CloudwatchLogsEnabled?: boolean;
-  SelectionRules?: string | Redacted.Redacted<string>;
+  SelectionRules?: string | redacted.Redacted<string>;
 }
 export const DataMigrationSettings = S.suspend(() =>
   S.Struct({
@@ -4097,14 +4289,14 @@ export interface DataMigration {
   DataMigrationEndTime?: Date;
   ServiceAccessRoleArn?: string;
   MigrationProjectArn?: string;
-  DataMigrationType?: string;
+  DataMigrationType?: MigrationTypeValue;
   DataMigrationSettings?: DataMigrationSettings;
-  SourceDataSettings?: SourceDataSettings;
-  TargetDataSettings?: TargetDataSettings;
+  SourceDataSettings?: SourceDataSetting[];
+  TargetDataSettings?: TargetDataSetting[];
   DataMigrationStatistics?: DataMigrationStatistics;
   DataMigrationStatus?: string;
-  PublicIpAddresses?: PublicIpAddressList;
-  DataMigrationCidrBlocks?: DataMigrationCidrBlock;
+  PublicIpAddresses?: string[];
+  DataMigrationCidrBlocks?: string[];
   LastFailureMessage?: string;
   StopReason?: string;
 }
@@ -4123,7 +4315,7 @@ export const DataMigration = S.suspend(() =>
     ),
     ServiceAccessRoleArn: S.optional(S.String),
     MigrationProjectArn: S.optional(S.String),
-    DataMigrationType: S.optional(S.String),
+    DataMigrationType: S.optional(MigrationTypeValue),
     DataMigrationSettings: S.optional(DataMigrationSettings),
     SourceDataSettings: S.optional(SourceDataSettings),
     TargetDataSettings: S.optional(TargetDataSettings),
@@ -4146,7 +4338,7 @@ export interface DataProvider {
   Description?: string;
   Engine?: string;
   Virtual?: boolean;
-  Settings?: (typeof DataProviderSettings)["Type"];
+  Settings?: DataProviderSettings;
 }
 export const DataProvider = S.suspend(() =>
   S.Struct({
@@ -4177,7 +4369,7 @@ export const LakehouseSettings = S.suspend(() =>
 }) as any as S.Schema<LakehouseSettings>;
 export interface Endpoint {
   EndpointIdentifier?: string;
-  EndpointType?: string;
+  EndpointType?: ReplicationEndpointTypeValue;
   EngineName?: string;
   EngineDisplayName?: string;
   Username?: string;
@@ -4189,7 +4381,7 @@ export interface Endpoint {
   KmsKeyId?: string;
   EndpointArn?: string;
   CertificateArn?: string;
-  SslMode?: string;
+  SslMode?: DmsSslModeValue;
   ServiceAccessRoleArn?: string;
   ExternalTableDefinition?: string;
   ExternalId?: string;
@@ -4218,7 +4410,7 @@ export interface Endpoint {
 export const Endpoint = S.suspend(() =>
   S.Struct({
     EndpointIdentifier: S.optional(S.String),
-    EndpointType: S.optional(S.String),
+    EndpointType: S.optional(ReplicationEndpointTypeValue),
     EngineName: S.optional(S.String),
     EngineDisplayName: S.optional(S.String),
     Username: S.optional(S.String),
@@ -4230,7 +4422,7 @@ export const Endpoint = S.suspend(() =>
     KmsKeyId: S.optional(S.String),
     EndpointArn: S.optional(S.String),
     CertificateArn: S.optional(S.String),
-    SslMode: S.optional(S.String),
+    SslMode: S.optional(DmsSslModeValue),
     ServiceAccessRoleArn: S.optional(S.String),
     ExternalTableDefinition: S.optional(S.String),
     ExternalId: S.optional(S.String),
@@ -4268,8 +4460,8 @@ export interface EventSubscription {
   Status?: string;
   SubscriptionCreationTime?: string;
   SourceType?: string;
-  SourceIdsList?: SourceIdsList;
-  EventCategoriesList?: EventCategoriesList;
+  SourceIdsList?: string[];
+  EventCategoriesList?: string[];
   Enabled?: boolean;
 }
 export const EventSubscription = S.suspend(() =>
@@ -4349,7 +4541,7 @@ export interface SchemaConversionRequest {
   Status?: string;
   RequestIdentifier?: string;
   MigrationProjectArn?: string;
-  Error?: (typeof ErrorDetails)["Type"];
+  Error?: ErrorDetails;
   ExportSqlDetails?: ExportSqlDetails;
   Progress?: Progress;
 }
@@ -4377,7 +4569,7 @@ export interface InstanceProfile {
   Description?: string;
   InstanceProfileCreationTime?: Date;
   SubnetGroupIdentifier?: string;
-  VpcSecurityGroups?: StringList;
+  VpcSecurityGroups?: string[];
 }
 export const InstanceProfile = S.suspend(() =>
   S.Struct({
@@ -4425,8 +4617,8 @@ export interface MigrationProject {
   MigrationProjectName?: string;
   MigrationProjectArn?: string;
   MigrationProjectCreationTime?: Date;
-  SourceDataProviderDescriptors?: DataProviderDescriptorList;
-  TargetDataProviderDescriptors?: DataProviderDescriptorList;
+  SourceDataProviderDescriptors?: DataProviderDescriptor[];
+  TargetDataProviderDescriptors?: DataProviderDescriptor[];
   InstanceProfileArn?: string;
   InstanceProfileName?: string;
   TransformationRules?: string;
@@ -4491,7 +4683,7 @@ export const PendingMaintenanceActionDetails = S.Array(
 );
 export interface ResourcePendingMaintenanceActions {
   ResourceIdentifier?: string;
-  PendingMaintenanceActionDetails?: PendingMaintenanceActionDetails;
+  PendingMaintenanceActionDetails?: PendingMaintenanceAction[];
 }
 export const ResourcePendingMaintenanceActions = S.suspend(() =>
   S.Struct({
@@ -4514,7 +4706,7 @@ export interface ReplicationConfig {
   ReplicationConfigArn?: string;
   SourceEndpointArn?: string;
   TargetEndpointArn?: string;
-  ReplicationType?: string;
+  ReplicationType?: MigrationTypeValue;
   ComputeConfig?: ComputeConfig;
   ReplicationSettings?: string;
   SupplementalSettings?: string;
@@ -4529,7 +4721,7 @@ export const ReplicationConfig = S.suspend(() =>
     ReplicationConfigArn: S.optional(S.String),
     SourceEndpointArn: S.optional(S.String),
     TargetEndpointArn: S.optional(S.String),
-    ReplicationType: S.optional(S.String),
+    ReplicationType: S.optional(MigrationTypeValue),
     ComputeConfig: S.optional(ComputeConfig),
     ReplicationSettings: S.optional(S.String),
     SupplementalSettings: S.optional(S.String),
@@ -4598,8 +4790,8 @@ export interface ReplicationSubnetGroup {
   ReplicationSubnetGroupDescription?: string;
   VpcId?: string;
   SubnetGroupStatus?: string;
-  Subnets?: SubnetList;
-  SupportedNetworkTypes?: StringList;
+  Subnets?: Subnet[];
+  SupportedNetworkTypes?: string[];
   IsReadOnly?: boolean;
 }
 export const ReplicationSubnetGroup = S.suspend(() =>
@@ -4645,7 +4837,7 @@ export interface ReplicationInstance {
   ReplicationInstanceStatus?: string;
   AllocatedStorage?: number;
   InstanceCreateTime?: Date;
-  VpcSecurityGroups?: VpcSecurityGroupMembershipList;
+  VpcSecurityGroups?: VpcSecurityGroupMembership[];
   AvailabilityZone?: string;
   ReplicationSubnetGroup?: ReplicationSubnetGroup;
   PreferredMaintenanceWindow?: string;
@@ -4657,9 +4849,9 @@ export interface ReplicationInstance {
   ReplicationInstanceArn?: string;
   ReplicationInstancePublicIpAddress?: string;
   ReplicationInstancePrivateIpAddress?: string;
-  ReplicationInstancePublicIpAddresses?: ReplicationInstancePublicIpAddressList;
-  ReplicationInstancePrivateIpAddresses?: ReplicationInstancePrivateIpAddressList;
-  ReplicationInstanceIpv6Addresses?: ReplicationInstanceIpv6AddressList;
+  ReplicationInstancePublicIpAddresses?: string[];
+  ReplicationInstancePrivateIpAddresses?: string[];
+  ReplicationInstanceIpv6Addresses?: string[];
   PubliclyAccessible?: boolean;
   SecondaryAvailabilityZone?: string;
   FreeUntil?: Date;
@@ -4832,7 +5024,7 @@ export interface ReplicationTask {
   SourceEndpointArn?: string;
   TargetEndpointArn?: string;
   ReplicationInstanceArn?: string;
-  MigrationType?: string;
+  MigrationType?: MigrationTypeValue;
   TableMappings?: string;
   ReplicationTaskSettings?: string;
   Status?: string;
@@ -4854,7 +5046,7 @@ export const ReplicationTask = S.suspend(() =>
     SourceEndpointArn: S.optional(S.String),
     TargetEndpointArn: S.optional(S.String),
     ReplicationInstanceArn: S.optional(S.String),
-    MigrationType: S.optional(S.String),
+    MigrationType: S.optional(MigrationTypeValue),
     TableMappings: S.optional(S.String),
     ReplicationTaskSettings: S.optional(S.String),
     Status: S.optional(S.String),
@@ -4957,7 +5149,7 @@ export type TableStatisticsList = TableStatistics[];
 export const TableStatisticsList = S.Array(TableStatistics);
 export interface AddTagsToResourceMessage {
   ResourceArn: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const AddTagsToResourceMessage = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
@@ -4981,7 +5173,7 @@ export const AddTagsToResourceResponse = S.suspend(() =>
   identifier: "AddTagsToResourceResponse",
 }) as any as S.Schema<AddTagsToResourceResponse>;
 export interface BatchStartRecommendationsRequest {
-  Data?: StartRecommendationsRequestEntryList;
+  Data?: StartRecommendationsRequestEntry[];
 }
 export const BatchStartRecommendationsRequest = S.suspend(() =>
   S.Struct({ Data: S.optional(StartRecommendationsRequestEntryList) }).pipe(
@@ -5009,20 +5201,20 @@ export const CancelMetadataModelCreationResponse = S.suspend(() =>
 export interface CreateDataMigrationMessage {
   DataMigrationName?: string;
   MigrationProjectIdentifier: string;
-  DataMigrationType: string;
+  DataMigrationType: MigrationTypeValue;
   ServiceAccessRoleArn: string;
   EnableCloudwatchLogs?: boolean;
-  SourceDataSettings?: SourceDataSettings;
-  TargetDataSettings?: TargetDataSettings;
+  SourceDataSettings?: SourceDataSetting[];
+  TargetDataSettings?: TargetDataSetting[];
   NumberOfJobs?: number;
-  Tags?: TagList;
-  SelectionRules?: string | Redacted.Redacted<string>;
+  Tags?: Tag[];
+  SelectionRules?: string | redacted.Redacted<string>;
 }
 export const CreateDataMigrationMessage = S.suspend(() =>
   S.Struct({
     DataMigrationName: S.optional(S.String),
     MigrationProjectIdentifier: S.String,
-    DataMigrationType: S.String,
+    DataMigrationType: MigrationTypeValue,
     ServiceAccessRoleArn: S.String,
     EnableCloudwatchLogs: S.optional(S.Boolean),
     SourceDataSettings: S.optional(SourceDataSettings),
@@ -5046,18 +5238,18 @@ export const CreateDataMigrationMessage = S.suspend(() =>
 }) as any as S.Schema<CreateDataMigrationMessage>;
 export interface CreateEndpointMessage {
   EndpointIdentifier: string;
-  EndpointType: string;
+  EndpointType: ReplicationEndpointTypeValue;
   EngineName: string;
   Username?: string;
-  Password?: string | Redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
   ServerName?: string;
   Port?: number;
   DatabaseName?: string;
   ExtraConnectionAttributes?: string;
   KmsKeyId?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   CertificateArn?: string;
-  SslMode?: string;
+  SslMode?: DmsSslModeValue;
   ServiceAccessRoleArn?: string;
   ExternalTableDefinition?: string;
   DynamoDbSettings?: DynamoDbSettings;
@@ -5084,7 +5276,7 @@ export interface CreateEndpointMessage {
 export const CreateEndpointMessage = S.suspend(() =>
   S.Struct({
     EndpointIdentifier: S.String,
-    EndpointType: S.String,
+    EndpointType: ReplicationEndpointTypeValue,
     EngineName: S.String,
     Username: S.optional(S.String),
     Password: S.optional(SensitiveString),
@@ -5095,7 +5287,7 @@ export const CreateEndpointMessage = S.suspend(() =>
     KmsKeyId: S.optional(S.String),
     Tags: S.optional(TagList),
     CertificateArn: S.optional(S.String),
-    SslMode: S.optional(S.String),
+    SslMode: S.optional(DmsSslModeValue),
     ServiceAccessRoleArn: S.optional(S.String),
     ExternalTableDefinition: S.optional(S.String),
     DynamoDbSettings: S.optional(DynamoDbSettings),
@@ -5152,12 +5344,12 @@ export const CreateFleetAdvisorCollectorResponse = S.suspend(() =>
 }) as any as S.Schema<CreateFleetAdvisorCollectorResponse>;
 export interface CreateMigrationProjectMessage {
   MigrationProjectName?: string;
-  SourceDataProviderDescriptors: DataProviderDescriptorDefinitionList;
-  TargetDataProviderDescriptors: DataProviderDescriptorDefinitionList;
+  SourceDataProviderDescriptors: DataProviderDescriptorDefinition[];
+  TargetDataProviderDescriptors: DataProviderDescriptorDefinition[];
   InstanceProfileIdentifier: string;
   TransformationRules?: string;
   Description?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   SchemaConversionApplicationAttributes?: SCApplicationAttributes;
 }
 export const CreateMigrationProjectMessage = S.suspend(() =>
@@ -5189,12 +5381,12 @@ export interface CreateReplicationConfigMessage {
   SourceEndpointArn: string;
   TargetEndpointArn: string;
   ComputeConfig: ComputeConfig;
-  ReplicationType: string;
+  ReplicationType: MigrationTypeValue;
   TableMappings: string;
   ReplicationSettings?: string;
   SupplementalSettings?: string;
   ResourceIdentifier?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateReplicationConfigMessage = S.suspend(() =>
   S.Struct({
@@ -5202,7 +5394,7 @@ export const CreateReplicationConfigMessage = S.suspend(() =>
     SourceEndpointArn: S.String,
     TargetEndpointArn: S.String,
     ComputeConfig: ComputeConfig,
-    ReplicationType: S.String,
+    ReplicationType: MigrationTypeValue,
     TableMappings: S.String,
     ReplicationSettings: S.optional(S.String),
     SupplementalSettings: S.optional(S.String),
@@ -5226,14 +5418,14 @@ export interface CreateReplicationInstanceMessage {
   ReplicationInstanceIdentifier: string;
   AllocatedStorage?: number;
   ReplicationInstanceClass: string;
-  VpcSecurityGroupIds?: VpcSecurityGroupIdList;
+  VpcSecurityGroupIds?: string[];
   AvailabilityZone?: string;
   ReplicationSubnetGroupIdentifier?: string;
   PreferredMaintenanceWindow?: string;
   MultiAZ?: boolean;
   EngineVersion?: string;
   AutoMinorVersionUpgrade?: boolean;
-  Tags?: TagList;
+  Tags?: Tag[];
   KmsKeyId?: string;
   PubliclyAccessible?: boolean;
   DnsNameServers?: string;
@@ -5283,7 +5475,7 @@ export const DeleteEventSubscriptionResponse = S.suspend(() =>
   identifier: "DeleteEventSubscriptionResponse",
 }) as any as S.Schema<DeleteEventSubscriptionResponse>;
 export interface DeleteFleetAdvisorDatabasesResponse {
-  DatabaseIds?: StringList;
+  DatabaseIds?: string[];
 }
 export const DeleteFleetAdvisorDatabasesResponse = S.suspend(() =>
   S.Struct({ DatabaseIds: S.optional(StringList) }).pipe(ns),
@@ -5317,7 +5509,7 @@ export const DeleteReplicationTaskAssessmentRunResponse = S.suspend(() =>
   identifier: "DeleteReplicationTaskAssessmentRunResponse",
 }) as any as S.Schema<DeleteReplicationTaskAssessmentRunResponse>;
 export interface DescribeAccountAttributesResponse {
-  AccountQuotas?: AccountQuotaList;
+  AccountQuotas?: AccountQuota[];
   UniqueAccountIdentifier?: string;
 }
 export const DescribeAccountAttributesResponse = S.suspend(() =>
@@ -5329,7 +5521,7 @@ export const DescribeAccountAttributesResponse = S.suspend(() =>
   identifier: "DescribeAccountAttributesResponse",
 }) as any as S.Schema<DescribeAccountAttributesResponse>;
 export interface DescribeApplicableIndividualAssessmentsResponse {
-  IndividualAssessmentNames?: IndividualAssessmentNameList;
+  IndividualAssessmentNames?: string[];
   Marker?: string;
 }
 export const DescribeApplicableIndividualAssessmentsResponse = S.suspend(() =>
@@ -5341,7 +5533,7 @@ export const DescribeApplicableIndividualAssessmentsResponse = S.suspend(() =>
   identifier: "DescribeApplicableIndividualAssessmentsResponse",
 }) as any as S.Schema<DescribeApplicableIndividualAssessmentsResponse>;
 export interface DescribeCertificatesMessage {
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -5366,7 +5558,7 @@ export const DescribeCertificatesMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeCertificatesMessage>;
 export interface DescribeConnectionsResponse {
   Marker?: string;
-  Connections?: ConnectionList;
+  Connections?: Connection[];
 }
 export const DescribeConnectionsResponse = S.suspend(() =>
   S.Struct({
@@ -5389,7 +5581,7 @@ export const DescribeConversionConfigurationResponse = S.suspend(() =>
   identifier: "DescribeConversionConfigurationResponse",
 }) as any as S.Schema<DescribeConversionConfigurationResponse>;
 export interface DescribeDataMigrationsResponse {
-  DataMigrations?: DataMigrations;
+  DataMigrations?: DataMigration[];
   Marker?: string;
 }
 export const DescribeDataMigrationsResponse = S.suspend(() =>
@@ -5402,7 +5594,7 @@ export const DescribeDataMigrationsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeDataMigrationsResponse>;
 export interface DescribeDataProvidersResponse {
   Marker?: string;
-  DataProviders?: DataProviderList;
+  DataProviders?: DataProvider[];
 }
 export const DescribeDataProvidersResponse = S.suspend(() =>
   S.Struct({
@@ -5414,7 +5606,7 @@ export const DescribeDataProvidersResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeDataProvidersResponse>;
 export interface DescribeEndpointsResponse {
   Marker?: string;
-  Endpoints?: EndpointList;
+  Endpoints?: Endpoint[];
 }
 export const DescribeEndpointsResponse = S.suspend(() =>
   S.Struct({
@@ -5426,7 +5618,7 @@ export const DescribeEndpointsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeEndpointsResponse>;
 export interface DescribeEventSubscriptionsResponse {
   Marker?: string;
-  EventSubscriptionsList?: EventSubscriptionsList;
+  EventSubscriptionsList?: EventSubscription[];
 }
 export const DescribeEventSubscriptionsResponse = S.suspend(() =>
   S.Struct({
@@ -5438,7 +5630,7 @@ export const DescribeEventSubscriptionsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeEventSubscriptionsResponse>;
 export interface DescribeExtensionPackAssociationsResponse {
   Marker?: string;
-  Requests?: SchemaConversionRequestList;
+  Requests?: SchemaConversionRequest[];
 }
 export const DescribeExtensionPackAssociationsResponse = S.suspend(() =>
   S.Struct({
@@ -5450,7 +5642,7 @@ export const DescribeExtensionPackAssociationsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeExtensionPackAssociationsResponse>;
 export interface DescribeInstanceProfilesResponse {
   Marker?: string;
-  InstanceProfiles?: InstanceProfileList;
+  InstanceProfiles?: InstanceProfile[];
 }
 export const DescribeInstanceProfilesResponse = S.suspend(() =>
   S.Struct({
@@ -5462,7 +5654,7 @@ export const DescribeInstanceProfilesResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeInstanceProfilesResponse>;
 export interface DescribeMetadataModelAssessmentsResponse {
   Marker?: string;
-  Requests?: SchemaConversionRequestList;
+  Requests?: SchemaConversionRequest[];
 }
 export const DescribeMetadataModelAssessmentsResponse = S.suspend(() =>
   S.Struct({
@@ -5488,7 +5680,7 @@ export type MetadataModelReferenceList = MetadataModelReference[];
 export const MetadataModelReferenceList = S.Array(MetadataModelReference);
 export interface DescribeMetadataModelChildrenResponse {
   Marker?: string;
-  MetadataModelChildren?: MetadataModelReferenceList;
+  MetadataModelChildren?: MetadataModelReference[];
 }
 export const DescribeMetadataModelChildrenResponse = S.suspend(() =>
   S.Struct({
@@ -5500,7 +5692,7 @@ export const DescribeMetadataModelChildrenResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeMetadataModelChildrenResponse>;
 export interface DescribeMetadataModelConversionsResponse {
   Marker?: string;
-  Requests?: SchemaConversionRequestList;
+  Requests?: SchemaConversionRequest[];
 }
 export const DescribeMetadataModelConversionsResponse = S.suspend(() =>
   S.Struct({
@@ -5512,7 +5704,7 @@ export const DescribeMetadataModelConversionsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeMetadataModelConversionsResponse>;
 export interface DescribeMetadataModelCreationsResponse {
   Marker?: string;
-  Requests?: SchemaConversionRequestList;
+  Requests?: SchemaConversionRequest[];
 }
 export const DescribeMetadataModelCreationsResponse = S.suspend(() =>
   S.Struct({
@@ -5524,7 +5716,7 @@ export const DescribeMetadataModelCreationsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeMetadataModelCreationsResponse>;
 export interface DescribeMetadataModelExportsAsScriptResponse {
   Marker?: string;
-  Requests?: SchemaConversionRequestList;
+  Requests?: SchemaConversionRequest[];
 }
 export const DescribeMetadataModelExportsAsScriptResponse = S.suspend(() =>
   S.Struct({
@@ -5536,7 +5728,7 @@ export const DescribeMetadataModelExportsAsScriptResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeMetadataModelExportsAsScriptResponse>;
 export interface DescribeMetadataModelExportsToTargetResponse {
   Marker?: string;
-  Requests?: SchemaConversionRequestList;
+  Requests?: SchemaConversionRequest[];
 }
 export const DescribeMetadataModelExportsToTargetResponse = S.suspend(() =>
   S.Struct({
@@ -5548,7 +5740,7 @@ export const DescribeMetadataModelExportsToTargetResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeMetadataModelExportsToTargetResponse>;
 export interface DescribeMetadataModelImportsResponse {
   Marker?: string;
-  Requests?: SchemaConversionRequestList;
+  Requests?: SchemaConversionRequest[];
 }
 export const DescribeMetadataModelImportsResponse = S.suspend(() =>
   S.Struct({
@@ -5560,7 +5752,7 @@ export const DescribeMetadataModelImportsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeMetadataModelImportsResponse>;
 export interface DescribeMigrationProjectsResponse {
   Marker?: string;
-  MigrationProjects?: MigrationProjectList;
+  MigrationProjects?: MigrationProject[];
 }
 export const DescribeMigrationProjectsResponse = S.suspend(() =>
   S.Struct({
@@ -5571,7 +5763,7 @@ export const DescribeMigrationProjectsResponse = S.suspend(() =>
   identifier: "DescribeMigrationProjectsResponse",
 }) as any as S.Schema<DescribeMigrationProjectsResponse>;
 export interface DescribePendingMaintenanceActionsResponse {
-  PendingMaintenanceActions?: PendingMaintenanceActions;
+  PendingMaintenanceActions?: ResourcePendingMaintenanceActions[];
   Marker?: string;
 }
 export const DescribePendingMaintenanceActionsResponse = S.suspend(() =>
@@ -5584,7 +5776,7 @@ export const DescribePendingMaintenanceActionsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribePendingMaintenanceActionsResponse>;
 export interface DescribeReplicationConfigsResponse {
   Marker?: string;
-  ReplicationConfigs?: ReplicationConfigList;
+  ReplicationConfigs?: ReplicationConfig[];
 }
 export const DescribeReplicationConfigsResponse = S.suspend(() =>
   S.Struct({
@@ -5596,7 +5788,7 @@ export const DescribeReplicationConfigsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeReplicationConfigsResponse>;
 export interface DescribeReplicationInstancesResponse {
   Marker?: string;
-  ReplicationInstances?: ReplicationInstanceList;
+  ReplicationInstances?: ReplicationInstance[];
 }
 export const DescribeReplicationInstancesResponse = S.suspend(() =>
   S.Struct({
@@ -5608,7 +5800,7 @@ export const DescribeReplicationInstancesResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeReplicationInstancesResponse>;
 export interface DescribeReplicationSubnetGroupsResponse {
   Marker?: string;
-  ReplicationSubnetGroups?: ReplicationSubnetGroups;
+  ReplicationSubnetGroups?: ReplicationSubnetGroup[];
 }
 export const DescribeReplicationSubnetGroupsResponse = S.suspend(() =>
   S.Struct({
@@ -5620,7 +5812,7 @@ export const DescribeReplicationSubnetGroupsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeReplicationSubnetGroupsResponse>;
 export interface DescribeReplicationTaskAssessmentRunsResponse {
   Marker?: string;
-  ReplicationTaskAssessmentRuns?: ReplicationTaskAssessmentRunList;
+  ReplicationTaskAssessmentRuns?: ReplicationTaskAssessmentRun[];
 }
 export const DescribeReplicationTaskAssessmentRunsResponse = S.suspend(() =>
   S.Struct({
@@ -5632,7 +5824,7 @@ export const DescribeReplicationTaskAssessmentRunsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeReplicationTaskAssessmentRunsResponse>;
 export interface DescribeReplicationTasksResponse {
   Marker?: string;
-  ReplicationTasks?: ReplicationTaskList;
+  ReplicationTasks?: ReplicationTask[];
 }
 export const DescribeReplicationTasksResponse = S.suspend(() =>
   S.Struct({
@@ -5644,7 +5836,7 @@ export const DescribeReplicationTasksResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeReplicationTasksResponse>;
 export interface DescribeSchemasResponse {
   Marker?: string;
-  Schemas?: SchemaList;
+  Schemas?: string[];
 }
 export const DescribeSchemasResponse = S.suspend(() =>
   S.Struct({
@@ -5656,7 +5848,7 @@ export const DescribeSchemasResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeSchemasResponse>;
 export interface DescribeTableStatisticsResponse {
   ReplicationTaskArn?: string;
-  TableStatistics?: TableStatisticsList;
+  TableStatistics?: TableStatistics[];
   Marker?: string;
 }
 export const DescribeTableStatisticsResponse = S.suspend(() =>
@@ -5715,7 +5907,7 @@ export const ImportCertificateResponse = S.suspend(() =>
   identifier: "ImportCertificateResponse",
 }) as any as S.Schema<ImportCertificateResponse>;
 export interface ListTagsForResourceResponse {
-  TagList?: TagList;
+  TagList?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ TagList: S.optional(TagList) }).pipe(ns),
@@ -5828,10 +6020,19 @@ export const RebootReplicationInstanceResponse = S.suspend(() =>
 ).annotations({
   identifier: "RebootReplicationInstanceResponse",
 }) as any as S.Schema<RebootReplicationInstanceResponse>;
+export type RefreshSchemasStatusTypeValue =
+  | "successful"
+  | "failed"
+  | "refreshing";
+export const RefreshSchemasStatusTypeValue = S.Literal(
+  "successful",
+  "failed",
+  "refreshing",
+);
 export interface RefreshSchemasStatus {
   EndpointArn?: string;
   ReplicationInstanceArn?: string;
-  Status?: string;
+  Status?: RefreshSchemasStatusTypeValue;
   LastRefreshDate?: Date;
   LastFailureMessage?: string;
 }
@@ -5839,7 +6040,7 @@ export const RefreshSchemasStatus = S.suspend(() =>
   S.Struct({
     EndpointArn: S.optional(S.String),
     ReplicationInstanceArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(RefreshSchemasStatusTypeValue),
     LastRefreshDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -5858,14 +6059,14 @@ export const RefreshSchemasResponse = S.suspend(() =>
 }) as any as S.Schema<RefreshSchemasResponse>;
 export interface ReloadReplicationTablesMessage {
   ReplicationConfigArn: string;
-  TablesToReload: TableListToReload;
-  ReloadOption?: string;
+  TablesToReload: TableToReload[];
+  ReloadOption?: ReloadOptionValue;
 }
 export const ReloadReplicationTablesMessage = S.suspend(() =>
   S.Struct({
     ReplicationConfigArn: S.String,
     TablesToReload: TableListToReload,
-    ReloadOption: S.optional(S.String),
+    ReloadOption: S.optional(ReloadOptionValue),
   }).pipe(
     T.all(
       ns,
@@ -6068,12 +6269,12 @@ export interface Replication {
   ReplicationConfigArn?: string;
   SourceEndpointArn?: string;
   TargetEndpointArn?: string;
-  ReplicationType?: string;
+  ReplicationType?: MigrationTypeValue;
   Status?: string;
   ProvisionData?: ProvisionData;
-  PremigrationAssessmentStatuses?: PremigrationAssessmentStatusList;
+  PremigrationAssessmentStatuses?: PremigrationAssessmentStatus[];
   StopReason?: string;
-  FailureMessages?: StringList;
+  FailureMessages?: string[];
   ReplicationStats?: ReplicationStats;
   StartReplicationType?: string;
   CdcStartTime?: Date;
@@ -6092,7 +6293,7 @@ export const Replication = S.suspend(() =>
     ReplicationConfigArn: S.optional(S.String),
     SourceEndpointArn: S.optional(S.String),
     TargetEndpointArn: S.optional(S.String),
-    ReplicationType: S.optional(S.String),
+    ReplicationType: S.optional(MigrationTypeValue),
     Status: S.optional(S.String),
     ProvisionData: S.optional(ProvisionData),
     PremigrationAssessmentStatuses: S.optional(
@@ -6195,10 +6396,25 @@ export const UpdateSubscriptionsToEventBridgeResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateSubscriptionsToEventBridgeResponse",
 }) as any as S.Schema<UpdateSubscriptionsToEventBridgeResponse>;
+export type EndpointSettingTypeValue =
+  | "string"
+  | "boolean"
+  | "integer"
+  | "enum";
+export const EndpointSettingTypeValue = S.Literal(
+  "string",
+  "boolean",
+  "integer",
+  "enum",
+);
 export type EndpointSettingEnumValues = string[];
 export const EndpointSettingEnumValues = S.Array(S.String);
+export type ReleaseStatusValues = "beta" | "prod";
+export const ReleaseStatusValues = S.Literal("beta", "prod");
 export type AvailableUpgradesList = string[];
 export const AvailableUpgradesList = S.Array(S.String);
+export type VersionStatus = "UP_TO_DATE" | "OUTDATED" | "UNSUPPORTED";
+export const VersionStatus = S.Literal("UP_TO_DATE", "OUTDATED", "UNSUPPORTED");
 export type AvailabilityZonesList = string[];
 export const AvailabilityZonesList = S.Array(S.String);
 export interface StatementProperties {
@@ -6217,8 +6433,8 @@ export const CertificateList = S.Array(
 );
 export interface EndpointSetting {
   Name?: string;
-  Type?: string;
-  EnumValues?: EndpointSettingEnumValues;
+  Type?: EndpointSettingTypeValue;
+  EnumValues?: string[];
   Sensitive?: boolean;
   Units?: string;
   Applicability?: string;
@@ -6229,7 +6445,7 @@ export interface EndpointSetting {
 export const EndpointSetting = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(EndpointSettingTypeValue),
     EnumValues: S.optional(EndpointSettingEnumValues),
     Sensitive: S.optional(S.Boolean),
     Units: S.optional(S.String),
@@ -6246,7 +6462,7 @@ export const EndpointSettingsList = S.Array(EndpointSetting);
 export interface SupportedEndpointType {
   EngineName?: string;
   SupportsCDC?: boolean;
-  EndpointType?: string;
+  EndpointType?: ReplicationEndpointTypeValue;
   ReplicationInstanceEngineMinimumVersion?: string;
   EngineDisplayName?: string;
 }
@@ -6254,7 +6470,7 @@ export const SupportedEndpointType = S.suspend(() =>
   S.Struct({
     EngineName: S.optional(S.String),
     SupportsCDC: S.optional(S.Boolean),
-    EndpointType: S.optional(S.String),
+    EndpointType: S.optional(ReplicationEndpointTypeValue),
     ReplicationInstanceEngineMinimumVersion: S.optional(S.String),
     EngineDisplayName: S.optional(S.String),
   }),
@@ -6270,18 +6486,18 @@ export const SupportedEndpointTypeList = S.Array(
 export interface EngineVersion {
   Version?: string;
   Lifecycle?: string;
-  ReleaseStatus?: string;
+  ReleaseStatus?: ReleaseStatusValues;
   LaunchDate?: Date;
   AutoUpgradeDate?: Date;
   DeprecationDate?: Date;
   ForceUpgradeDate?: Date;
-  AvailableUpgrades?: AvailableUpgradesList;
+  AvailableUpgrades?: string[];
 }
 export const EngineVersion = S.suspend(() =>
   S.Struct({
     Version: S.optional(S.String),
     Lifecycle: S.optional(S.String),
-    ReleaseStatus: S.optional(S.String),
+    ReleaseStatus: S.optional(ReleaseStatusValues),
     LaunchDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     AutoUpgradeDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -6305,7 +6521,7 @@ export const EngineVersionList = S.Array(
 );
 export interface EventCategoryGroup {
   SourceType?: string;
-  EventCategories?: EventCategoriesList;
+  EventCategories?: string[];
 }
 export const EventCategoryGroup = S.suspend(() =>
   S.Struct({
@@ -6323,15 +6539,15 @@ export const EventCategoryGroupList = S.Array(
 );
 export interface Event {
   SourceIdentifier?: string;
-  SourceType?: string;
+  SourceType?: SourceType;
   Message?: string;
-  EventCategories?: EventCategoriesList;
+  EventCategories?: string[];
   Date?: Date;
 }
 export const Event = S.suspend(() =>
   S.Struct({
     SourceIdentifier: S.optional(S.String),
-    SourceType: S.optional(S.String),
+    SourceType: S.optional(SourceType),
     Message: S.optional(S.String),
     EventCategories: S.optional(EventCategoriesList),
     Date: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -6388,8 +6604,8 @@ export interface OrderableReplicationInstance {
   MaxAllocatedStorage?: number;
   DefaultAllocatedStorage?: number;
   IncludedAllocatedStorage?: number;
-  AvailabilityZones?: AvailabilityZonesList;
-  ReleaseStatus?: string;
+  AvailabilityZones?: string[];
+  ReleaseStatus?: ReleaseStatusValues;
 }
 export const OrderableReplicationInstance = S.suspend(() =>
   S.Struct({
@@ -6401,7 +6617,7 @@ export const OrderableReplicationInstance = S.suspend(() =>
     DefaultAllocatedStorage: S.optional(S.Number),
     IncludedAllocatedStorage: S.optional(S.Number),
     AvailabilityZones: S.optional(AvailabilityZonesList),
-    ReleaseStatus: S.optional(S.String),
+    ReleaseStatus: S.optional(ReleaseStatusValues),
   }),
 ).annotations({
   identifier: "OrderableReplicationInstance",
@@ -6459,7 +6675,7 @@ export interface ReplicationTaskAssessmentResult {
   AssessmentStatus?: string;
   AssessmentResultsFile?: string;
   AssessmentResults?: string;
-  S3ObjectUrl?: string | Redacted.Redacted<string>;
+  S3ObjectUrl?: string | redacted.Redacted<string>;
 }
 export const ReplicationTaskAssessmentResult = S.suspend(() =>
   S.Struct({
@@ -6526,6 +6742,8 @@ export type MetadataModelProperties = {
 export const MetadataModelProperties = S.Union(
   S.Struct({ StatementProperties: StatementProperties }),
 );
+export type CollectorStatus = "UNREGISTERED" | "ACTIVE";
+export const CollectorStatus = S.Literal("UNREGISTERED", "ACTIVE");
 export interface CreateDataMigrationResponse {
   DataMigration?: DataMigration;
 }
@@ -6539,8 +6757,8 @@ export interface CreateDataProviderMessage {
   Description?: string;
   Engine: string;
   Virtual?: boolean;
-  Settings: (typeof DataProviderSettings)["Type"];
-  Tags?: TagList;
+  Settings: DataProviderSettings;
+  Tags?: Tag[];
 }
 export const CreateDataProviderMessage = S.suspend(() =>
   S.Struct({
@@ -6646,7 +6864,7 @@ export const DeleteReplicationConfigResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteReplicationConfigResponse>;
 export interface DescribeCertificatesResponse {
   Marker?: string;
-  Certificates?: CertificateList;
+  Certificates?: Certificate[];
 }
 export const DescribeCertificatesResponse = S.suspend(() =>
   S.Struct({
@@ -6658,7 +6876,7 @@ export const DescribeCertificatesResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeCertificatesResponse>;
 export interface DescribeEndpointSettingsResponse {
   Marker?: string;
-  EndpointSettings?: EndpointSettingsList;
+  EndpointSettings?: EndpointSetting[];
 }
 export const DescribeEndpointSettingsResponse = S.suspend(() =>
   S.Struct({
@@ -6670,7 +6888,7 @@ export const DescribeEndpointSettingsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeEndpointSettingsResponse>;
 export interface DescribeEndpointTypesResponse {
   Marker?: string;
-  SupportedEndpointTypes?: SupportedEndpointTypeList;
+  SupportedEndpointTypes?: SupportedEndpointType[];
 }
 export const DescribeEndpointTypesResponse = S.suspend(() =>
   S.Struct({
@@ -6681,7 +6899,7 @@ export const DescribeEndpointTypesResponse = S.suspend(() =>
   identifier: "DescribeEndpointTypesResponse",
 }) as any as S.Schema<DescribeEndpointTypesResponse>;
 export interface DescribeEngineVersionsResponse {
-  EngineVersions?: EngineVersionList;
+  EngineVersions?: EngineVersion[];
   Marker?: string;
 }
 export const DescribeEngineVersionsResponse = S.suspend(() =>
@@ -6693,7 +6911,7 @@ export const DescribeEngineVersionsResponse = S.suspend(() =>
   identifier: "DescribeEngineVersionsResponse",
 }) as any as S.Schema<DescribeEngineVersionsResponse>;
 export interface DescribeEventCategoriesResponse {
-  EventCategoryGroupList?: EventCategoryGroupList;
+  EventCategoryGroupList?: EventCategoryGroup[];
 }
 export const DescribeEventCategoriesResponse = S.suspend(() =>
   S.Struct({ EventCategoryGroupList: S.optional(EventCategoryGroupList) }).pipe(
@@ -6704,7 +6922,7 @@ export const DescribeEventCategoriesResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeEventCategoriesResponse>;
 export interface DescribeEventsResponse {
   Marker?: string;
-  Events?: EventList;
+  Events?: Event[];
 }
 export const DescribeEventsResponse = S.suspend(() =>
   S.Struct({
@@ -6715,7 +6933,7 @@ export const DescribeEventsResponse = S.suspend(() =>
   identifier: "DescribeEventsResponse",
 }) as any as S.Schema<DescribeEventsResponse>;
 export interface DescribeFleetAdvisorLsaAnalysisResponse {
-  Analysis?: FleetAdvisorLsaAnalysisResponseList;
+  Analysis?: FleetAdvisorLsaAnalysisResponse[];
   NextToken?: string;
 }
 export const DescribeFleetAdvisorLsaAnalysisResponse = S.suspend(() =>
@@ -6727,7 +6945,7 @@ export const DescribeFleetAdvisorLsaAnalysisResponse = S.suspend(() =>
   identifier: "DescribeFleetAdvisorLsaAnalysisResponse",
 }) as any as S.Schema<DescribeFleetAdvisorLsaAnalysisResponse>;
 export interface DescribeFleetAdvisorSchemaObjectSummaryResponse {
-  FleetAdvisorSchemaObjects?: FleetAdvisorSchemaObjectList;
+  FleetAdvisorSchemaObjects?: FleetAdvisorSchemaObjectResponse[];
   NextToken?: string;
 }
 export const DescribeFleetAdvisorSchemaObjectSummaryResponse = S.suspend(() =>
@@ -6741,7 +6959,7 @@ export const DescribeFleetAdvisorSchemaObjectSummaryResponse = S.suspend(() =>
 export interface DescribeMetadataModelResponse {
   MetadataModelName?: string;
   MetadataModelType?: string;
-  TargetMetadataModels?: MetadataModelReferenceList;
+  TargetMetadataModels?: MetadataModelReference[];
   Definition?: string;
 }
 export const DescribeMetadataModelResponse = S.suspend(() =>
@@ -6755,7 +6973,7 @@ export const DescribeMetadataModelResponse = S.suspend(() =>
   identifier: "DescribeMetadataModelResponse",
 }) as any as S.Schema<DescribeMetadataModelResponse>;
 export interface DescribeOrderableReplicationInstancesResponse {
-  OrderableReplicationInstances?: OrderableReplicationInstanceList;
+  OrderableReplicationInstances?: OrderableReplicationInstance[];
   Marker?: string;
 }
 export const DescribeOrderableReplicationInstancesResponse = S.suspend(() =>
@@ -6768,7 +6986,7 @@ export const DescribeOrderableReplicationInstancesResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeOrderableReplicationInstancesResponse>;
 export interface DescribeRecommendationLimitationsResponse {
   NextToken?: string;
-  Limitations?: LimitationList;
+  Limitations?: Limitation[];
 }
 export const DescribeRecommendationLimitationsResponse = S.suspend(() =>
   S.Struct({
@@ -6788,7 +7006,7 @@ export const DescribeRefreshSchemasStatusResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeRefreshSchemasStatusResponse>;
 export interface DescribeReplicationInstanceTaskLogsResponse {
   ReplicationInstanceArn?: string;
-  ReplicationInstanceTaskLogs?: ReplicationInstanceTaskLogsList;
+  ReplicationInstanceTaskLogs?: ReplicationInstanceTaskLog[];
   Marker?: string;
 }
 export const DescribeReplicationInstanceTaskLogsResponse = S.suspend(() =>
@@ -6803,7 +7021,7 @@ export const DescribeReplicationInstanceTaskLogsResponse = S.suspend(() =>
 export interface DescribeReplicationTableStatisticsResponse {
   ReplicationConfigArn?: string;
   Marker?: string;
-  ReplicationTableStatistics?: ReplicationTableStatisticsList;
+  ReplicationTableStatistics?: TableStatistics[];
 }
 export const DescribeReplicationTableStatisticsResponse = S.suspend(() =>
   S.Struct({
@@ -6817,7 +7035,7 @@ export const DescribeReplicationTableStatisticsResponse = S.suspend(() =>
 export interface DescribeReplicationTaskAssessmentResultsResponse {
   Marker?: string;
   BucketName?: string;
-  ReplicationTaskAssessmentResults?: ReplicationTaskAssessmentResultList;
+  ReplicationTaskAssessmentResults?: ReplicationTaskAssessmentResult[];
 }
 export const DescribeReplicationTaskAssessmentResultsResponse = S.suspend(() =>
   S.Struct({
@@ -6832,7 +7050,7 @@ export const DescribeReplicationTaskAssessmentResultsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeReplicationTaskAssessmentResultsResponse>;
 export interface DescribeReplicationTaskIndividualAssessmentsResponse {
   Marker?: string;
-  ReplicationTaskIndividualAssessments?: ReplicationTaskIndividualAssessmentList;
+  ReplicationTaskIndividualAssessments?: ReplicationTaskIndividualAssessment[];
 }
 export const DescribeReplicationTaskIndividualAssessmentsResponse = S.suspend(
   () =>
@@ -6869,7 +7087,7 @@ export interface StartMetadataModelCreationMessage {
   MigrationProjectIdentifier: string;
   SelectionRules: string;
   MetadataModelName: string;
-  Properties: (typeof MetadataModelProperties)["Type"];
+  Properties: MetadataModelProperties;
 }
 export const StartMetadataModelCreationMessage = S.suspend(() =>
   S.Struct({
@@ -6892,14 +7110,14 @@ export const StartMetadataModelCreationMessage = S.suspend(() =>
   identifier: "StartMetadataModelCreationMessage",
 }) as any as S.Schema<StartMetadataModelCreationMessage>;
 export interface CollectorHealthCheck {
-  CollectorStatus?: string;
+  CollectorStatus?: CollectorStatus;
   LocalCollectorS3Access?: boolean;
   WebCollectorS3Access?: boolean;
   WebCollectorGrantedRoleBasedAccess?: boolean;
 }
 export const CollectorHealthCheck = S.suspend(() =>
   S.Struct({
-    CollectorStatus: S.optional(S.String),
+    CollectorStatus: S.optional(CollectorStatus),
     LocalCollectorS3Access: S.optional(S.Boolean),
     WebCollectorS3Access: S.optional(S.Boolean),
     WebCollectorGrantedRoleBasedAccess: S.optional(S.Boolean),
@@ -7026,7 +7244,7 @@ export interface CollectorResponse {
   CollectorReferencedId?: string;
   CollectorName?: string;
   CollectorVersion?: string;
-  VersionStatus?: string;
+  VersionStatus?: VersionStatus;
   Description?: string;
   S3BucketName?: string;
   ServiceAccessRoleArn?: string;
@@ -7042,7 +7260,7 @@ export const CollectorResponse = S.suspend(() =>
     CollectorReferencedId: S.optional(S.String),
     CollectorName: S.optional(S.String),
     CollectorVersion: S.optional(S.String),
-    VersionStatus: S.optional(S.String),
+    VersionStatus: S.optional(VersionStatus),
     Description: S.optional(S.String),
     S3BucketName: S.optional(S.String),
     ServiceAccessRoleArn: S.optional(S.String),
@@ -7065,7 +7283,7 @@ export interface DatabaseResponse {
   NumberOfSchemas?: number;
   Server?: ServerShortInfoResponse;
   SoftwareDetails?: DatabaseInstanceSoftwareDetailsResponse;
-  Collectors?: CollectorsList;
+  Collectors?: CollectorShortInfoResponse[];
 }
 export const DatabaseResponse = S.suspend(() =>
   S.Struct({
@@ -7129,7 +7347,7 @@ export const ApplyPendingMaintenanceActionResponse = S.suspend(() =>
   identifier: "ApplyPendingMaintenanceActionResponse",
 }) as any as S.Schema<ApplyPendingMaintenanceActionResponse>;
 export interface BatchStartRecommendationsResponse {
-  ErrorEntries?: BatchStartRecommendationsErrorEntryList;
+  ErrorEntries?: BatchStartRecommendationsErrorEntry[];
 }
 export const BatchStartRecommendationsResponse = S.suspend(() =>
   S.Struct({
@@ -7197,7 +7415,7 @@ export const DeleteReplicationInstanceResponse = S.suspend(() =>
   identifier: "DeleteReplicationInstanceResponse",
 }) as any as S.Schema<DeleteReplicationInstanceResponse>;
 export interface DescribeFleetAdvisorCollectorsResponse {
-  Collectors?: CollectorResponses;
+  Collectors?: CollectorResponse[];
   NextToken?: string;
 }
 export const DescribeFleetAdvisorCollectorsResponse = S.suspend(() =>
@@ -7209,7 +7427,7 @@ export const DescribeFleetAdvisorCollectorsResponse = S.suspend(() =>
   identifier: "DescribeFleetAdvisorCollectorsResponse",
 }) as any as S.Schema<DescribeFleetAdvisorCollectorsResponse>;
 export interface DescribeFleetAdvisorDatabasesResponse {
-  Databases?: DatabaseList;
+  Databases?: DatabaseResponse[];
   NextToken?: string;
 }
 export const DescribeFleetAdvisorDatabasesResponse = S.suspend(() =>
@@ -7221,7 +7439,7 @@ export const DescribeFleetAdvisorDatabasesResponse = S.suspend(() =>
   identifier: "DescribeFleetAdvisorDatabasesResponse",
 }) as any as S.Schema<DescribeFleetAdvisorDatabasesResponse>;
 export interface DescribeFleetAdvisorSchemasResponse {
-  FleetAdvisorSchemas?: FleetAdvisorSchemaList;
+  FleetAdvisorSchemas?: SchemaResponse[];
   NextToken?: string;
 }
 export const DescribeFleetAdvisorSchemasResponse = S.suspend(() =>
@@ -7234,7 +7452,7 @@ export const DescribeFleetAdvisorSchemasResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeFleetAdvisorSchemasResponse>;
 export interface DescribeReplicationsResponse {
   Marker?: string;
-  Replications?: ReplicationList;
+  Replications?: Replication[];
 }
 export const DescribeReplicationsResponse = S.suspend(() =>
   S.Struct({
@@ -7364,7 +7582,7 @@ export type RecommendationList = Recommendation[];
 export const RecommendationList = S.Array(Recommendation);
 export interface DescribeRecommendationsResponse {
   NextToken?: string;
-  Recommendations?: RecommendationList;
+  Recommendations?: Recommendation[];
 }
 export const DescribeRecommendationsResponse = S.suspend(() =>
   S.Struct({
@@ -7493,7 +7711,7 @@ export class SNSNoAuthorizationFault extends S.TaggedError<SNSNoAuthorizationFau
  */
 export const describeAccountAttributes: (
   input: DescribeAccountAttributesMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAccountAttributesResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7510,21 +7728,21 @@ export const describeAccountAttributes: (
 export const describeExtensionPackAssociations: {
   (
     input: DescribeExtensionPackAssociationsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeExtensionPackAssociationsResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeExtensionPackAssociationsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeExtensionPackAssociationsResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeExtensionPackAssociationsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -7555,7 +7773,7 @@ export const describeExtensionPackAssociations: {
  */
 export const updateSubscriptionsToEventBridge: (
   input: UpdateSubscriptionsToEventBridgeMessage,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSubscriptionsToEventBridgeResponse,
   AccessDeniedFault | InvalidResourceStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7571,7 +7789,7 @@ export const updateSubscriptionsToEventBridge: (
  */
 export const deleteFleetAdvisorCollector: (
   input: DeleteCollectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFleetAdvisorCollectorResponse,
   | AccessDeniedFault
   | CollectorNotFoundFault
@@ -7594,21 +7812,21 @@ export const deleteFleetAdvisorCollector: (
 export const describeConnections: {
   (
     input: DescribeConnectionsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeConnectionsResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeConnectionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeConnectionsResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeConnectionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -7630,21 +7848,21 @@ export const describeConnections: {
 export const describeEndpointSettings: {
   (
     input: DescribeEndpointSettingsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeEndpointSettingsResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeEndpointSettingsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeEndpointSettingsResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEndpointSettingsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -7665,21 +7883,21 @@ export const describeEndpointSettings: {
 export const describeEndpointTypes: {
   (
     input: DescribeEndpointTypesMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeEndpointTypesResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeEndpointTypesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeEndpointTypesResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEndpointTypesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -7700,21 +7918,21 @@ export const describeEndpointTypes: {
 export const describeEngineVersions: {
   (
     input: DescribeEngineVersionsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeEngineVersionsResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeEngineVersionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeEngineVersionsResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEngineVersionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -7736,7 +7954,7 @@ export const describeEngineVersions: {
  */
 export const describeEventCategories: (
   input: DescribeEventCategoriesMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEventCategoriesResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7753,21 +7971,21 @@ export const describeEventCategories: (
 export const describeEvents: {
   (
     input: DescribeEventsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeEventsResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeEventsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeEventsResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEventsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -7791,21 +8009,21 @@ export const describeEvents: {
 export const describeFleetAdvisorLsaAnalysis: {
   (
     input: DescribeFleetAdvisorLsaAnalysisRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeFleetAdvisorLsaAnalysisResponse,
     InvalidResourceStateFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeFleetAdvisorLsaAnalysisRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeFleetAdvisorLsaAnalysisResponse,
     InvalidResourceStateFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeFleetAdvisorLsaAnalysisRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidResourceStateFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -7829,21 +8047,21 @@ export const describeFleetAdvisorLsaAnalysis: {
 export const describeFleetAdvisorSchemaObjectSummary: {
   (
     input: DescribeFleetAdvisorSchemaObjectSummaryRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeFleetAdvisorSchemaObjectSummaryResponse,
     InvalidResourceStateFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeFleetAdvisorSchemaObjectSummaryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeFleetAdvisorSchemaObjectSummaryResponse,
     InvalidResourceStateFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeFleetAdvisorSchemaObjectSummaryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidResourceStateFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -7863,7 +8081,7 @@ export const describeFleetAdvisorSchemaObjectSummary: {
  */
 export const describeMetadataModel: (
   input: DescribeMetadataModelMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeMetadataModelResponse,
   AccessDeniedFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7879,21 +8097,21 @@ export const describeMetadataModel: (
 export const describeOrderableReplicationInstances: {
   (
     input: DescribeOrderableReplicationInstancesMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeOrderableReplicationInstancesResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeOrderableReplicationInstancesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeOrderableReplicationInstancesResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeOrderableReplicationInstancesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -7917,21 +8135,21 @@ export const describeOrderableReplicationInstances: {
 export const describeRecommendationLimitations: {
   (
     input: DescribeRecommendationLimitationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeRecommendationLimitationsResponse,
     AccessDeniedFault | InvalidResourceStateFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeRecommendationLimitationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeRecommendationLimitationsResponse,
     AccessDeniedFault | InvalidResourceStateFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeRecommendationLimitationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     AccessDeniedFault | InvalidResourceStateFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -7951,7 +8169,7 @@ export const describeRecommendationLimitations: {
  */
 export const describeRefreshSchemasStatus: (
   input: DescribeRefreshSchemasStatusMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRefreshSchemasStatusResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7966,21 +8184,21 @@ export const describeRefreshSchemasStatus: (
 export const describeReplicationInstanceTaskLogs: {
   (
     input: DescribeReplicationInstanceTaskLogsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeReplicationInstanceTaskLogsResponse,
     InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeReplicationInstanceTaskLogsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeReplicationInstanceTaskLogsResponse,
     InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReplicationInstanceTaskLogsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8002,21 +8220,21 @@ export const describeReplicationInstanceTaskLogs: {
 export const describeReplicationTableStatistics: {
   (
     input: DescribeReplicationTableStatisticsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeReplicationTableStatisticsResponse,
     InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeReplicationTableStatisticsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeReplicationTableStatisticsResponse,
     InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReplicationTableStatisticsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8041,21 +8259,21 @@ export const describeReplicationTableStatistics: {
 export const describeReplicationTaskAssessmentResults: {
   (
     input: DescribeReplicationTaskAssessmentResultsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeReplicationTaskAssessmentResultsResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeReplicationTaskAssessmentResultsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeReplicationTaskAssessmentResultsResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReplicationTaskAssessmentResultsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8079,21 +8297,21 @@ export const describeReplicationTaskAssessmentResults: {
 export const describeReplicationTaskIndividualAssessments: {
   (
     input: DescribeReplicationTaskIndividualAssessmentsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeReplicationTaskIndividualAssessmentsResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeReplicationTaskIndividualAssessmentsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeReplicationTaskIndividualAssessmentsResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReplicationTaskIndividualAssessmentsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8114,7 +8332,7 @@ export const describeReplicationTaskIndividualAssessments: {
  */
 export const exportMetadataModelAssessment: (
   input: ExportMetadataModelAssessmentMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ExportMetadataModelAssessmentResponse,
   ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8132,7 +8350,7 @@ export const exportMetadataModelAssessment: (
  */
 export const reloadReplicationTables: (
   input: ReloadReplicationTablesMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ReloadReplicationTablesResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8147,7 +8365,7 @@ export const reloadReplicationTables: (
 export const describeDataMigrations: {
   (
     input: DescribeDataMigrationsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeDataMigrationsResponse,
     | FailedDependencyFault
     | InvalidResourceStateFault
@@ -8157,7 +8375,7 @@ export const describeDataMigrations: {
   >;
   pages: (
     input: DescribeDataMigrationsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeDataMigrationsResponse,
     | FailedDependencyFault
     | InvalidResourceStateFault
@@ -8167,7 +8385,7 @@ export const describeDataMigrations: {
   >;
   items: (
     input: DescribeDataMigrationsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataMigration,
     | FailedDependencyFault
     | InvalidResourceStateFault
@@ -8197,7 +8415,7 @@ export const describeDataMigrations: {
 export const describeDataProviders: {
   (
     input: DescribeDataProvidersMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeDataProvidersResponse,
     | AccessDeniedFault
     | FailedDependencyFault
@@ -8207,7 +8425,7 @@ export const describeDataProviders: {
   >;
   pages: (
     input: DescribeDataProvidersMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeDataProvidersResponse,
     | AccessDeniedFault
     | FailedDependencyFault
@@ -8217,7 +8435,7 @@ export const describeDataProviders: {
   >;
   items: (
     input: DescribeDataProvidersMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedFault
     | FailedDependencyFault
@@ -8242,7 +8460,7 @@ export const describeDataProviders: {
 export const describeInstanceProfiles: {
   (
     input: DescribeInstanceProfilesMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeInstanceProfilesResponse,
     | AccessDeniedFault
     | FailedDependencyFault
@@ -8252,7 +8470,7 @@ export const describeInstanceProfiles: {
   >;
   pages: (
     input: DescribeInstanceProfilesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeInstanceProfilesResponse,
     | AccessDeniedFault
     | FailedDependencyFault
@@ -8262,7 +8480,7 @@ export const describeInstanceProfiles: {
   >;
   items: (
     input: DescribeInstanceProfilesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedFault
     | FailedDependencyFault
@@ -8287,7 +8505,7 @@ export const describeInstanceProfiles: {
 export const describeMigrationProjects: {
   (
     input: DescribeMigrationProjectsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeMigrationProjectsResponse,
     | AccessDeniedFault
     | FailedDependencyFault
@@ -8297,7 +8515,7 @@ export const describeMigrationProjects: {
   >;
   pages: (
     input: DescribeMigrationProjectsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeMigrationProjectsResponse,
     | AccessDeniedFault
     | FailedDependencyFault
@@ -8307,7 +8525,7 @@ export const describeMigrationProjects: {
   >;
   items: (
     input: DescribeMigrationProjectsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedFault
     | FailedDependencyFault
@@ -8330,7 +8548,7 @@ export const describeMigrationProjects: {
  */
 export const modifyDataMigration: (
   input: ModifyDataMigrationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyDataMigrationResponse,
   | FailedDependencyFault
   | InvalidResourceStateFault
@@ -8354,7 +8572,7 @@ export const modifyDataMigration: (
  */
 export const modifyDataProvider: (
   input: ModifyDataProviderMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyDataProviderResponse,
   | AccessDeniedFault
   | FailedDependencyFault
@@ -8377,7 +8595,7 @@ export const modifyDataProvider: (
  */
 export const startDataMigration: (
   input: StartDataMigrationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   StartDataMigrationResponse,
   | FailedDependencyFault
   | InvalidOperationFault
@@ -8402,7 +8620,7 @@ export const startDataMigration: (
  */
 export const stopDataMigration: (
   input: StopDataMigrationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   StopDataMigrationResponse,
   | FailedDependencyFault
   | InvalidResourceStateFault
@@ -8426,7 +8644,7 @@ export const stopDataMigration: (
  */
 export const deleteDataProvider: (
   input: DeleteDataProviderMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDataProviderResponse,
   | AccessDeniedFault
   | FailedDependencyFault
@@ -8449,7 +8667,7 @@ export const deleteDataProvider: (
  */
 export const describeConversionConfiguration: (
   input: DescribeConversionConfigurationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeConversionConfigurationResponse,
   ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8464,21 +8682,21 @@ export const describeConversionConfiguration: (
 export const describeEndpoints: {
   (
     input: DescribeEndpointsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeEndpointsResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeEndpointsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeEndpointsResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEndpointsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8505,21 +8723,21 @@ export const describeEndpoints: {
 export const describeEventSubscriptions: {
   (
     input: DescribeEventSubscriptionsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeEventSubscriptionsResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeEventSubscriptionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeEventSubscriptionsResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEventSubscriptionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8541,21 +8759,21 @@ export const describeEventSubscriptions: {
 export const describeMetadataModelAssessments: {
   (
     input: DescribeMetadataModelAssessmentsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeMetadataModelAssessmentsResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeMetadataModelAssessmentsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeMetadataModelAssessmentsResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMetadataModelAssessmentsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8576,21 +8794,21 @@ export const describeMetadataModelAssessments: {
 export const describeMetadataModelChildren: {
   (
     input: DescribeMetadataModelChildrenMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeMetadataModelChildrenResponse,
     AccessDeniedFault | ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeMetadataModelChildrenMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeMetadataModelChildrenResponse,
     AccessDeniedFault | ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMetadataModelChildrenMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MetadataModelReference,
     AccessDeniedFault | ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8612,21 +8830,21 @@ export const describeMetadataModelChildren: {
 export const describeMetadataModelConversions: {
   (
     input: DescribeMetadataModelConversionsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeMetadataModelConversionsResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeMetadataModelConversionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeMetadataModelConversionsResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMetadataModelConversionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8647,21 +8865,21 @@ export const describeMetadataModelConversions: {
 export const describeMetadataModelCreations: {
   (
     input: DescribeMetadataModelCreationsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeMetadataModelCreationsResponse,
     AccessDeniedFault | ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeMetadataModelCreationsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeMetadataModelCreationsResponse,
     AccessDeniedFault | ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMetadataModelCreationsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SchemaConversionRequest,
     AccessDeniedFault | ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8683,21 +8901,21 @@ export const describeMetadataModelCreations: {
 export const describeMetadataModelExportsAsScript: {
   (
     input: DescribeMetadataModelExportsAsScriptMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeMetadataModelExportsAsScriptResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeMetadataModelExportsAsScriptMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeMetadataModelExportsAsScriptResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMetadataModelExportsAsScriptMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8718,21 +8936,21 @@ export const describeMetadataModelExportsAsScript: {
 export const describeMetadataModelExportsToTarget: {
   (
     input: DescribeMetadataModelExportsToTargetMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeMetadataModelExportsToTargetResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeMetadataModelExportsToTargetMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeMetadataModelExportsToTargetResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMetadataModelExportsToTargetMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8753,21 +8971,21 @@ export const describeMetadataModelExportsToTarget: {
 export const describeMetadataModelImports: {
   (
     input: DescribeMetadataModelImportsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeMetadataModelImportsResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeMetadataModelImportsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeMetadataModelImportsResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMetadataModelImportsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8789,21 +9007,21 @@ export const describeMetadataModelImports: {
 export const describePendingMaintenanceActions: {
   (
     input: DescribePendingMaintenanceActionsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribePendingMaintenanceActionsResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribePendingMaintenanceActionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribePendingMaintenanceActionsResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribePendingMaintenanceActionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8825,21 +9043,21 @@ export const describePendingMaintenanceActions: {
 export const describeReplicationConfigs: {
   (
     input: DescribeReplicationConfigsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeReplicationConfigsResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeReplicationConfigsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeReplicationConfigsResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReplicationConfigsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8861,21 +9079,21 @@ export const describeReplicationConfigs: {
 export const describeReplicationInstances: {
   (
     input: DescribeReplicationInstancesMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeReplicationInstancesResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeReplicationInstancesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeReplicationInstancesResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReplicationInstancesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8896,21 +9114,21 @@ export const describeReplicationInstances: {
 export const describeReplicationSubnetGroups: {
   (
     input: DescribeReplicationSubnetGroupsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeReplicationSubnetGroupsResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeReplicationSubnetGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeReplicationSubnetGroupsResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReplicationSubnetGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8939,21 +9157,21 @@ export const describeReplicationSubnetGroups: {
 export const describeReplicationTaskAssessmentRuns: {
   (
     input: DescribeReplicationTaskAssessmentRunsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeReplicationTaskAssessmentRunsResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeReplicationTaskAssessmentRunsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeReplicationTaskAssessmentRunsResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReplicationTaskAssessmentRunsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8975,21 +9193,21 @@ export const describeReplicationTaskAssessmentRuns: {
 export const describeReplicationTasks: {
   (
     input: DescribeReplicationTasksMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeReplicationTasksResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeReplicationTasksMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeReplicationTasksResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReplicationTasksMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -9013,7 +9231,7 @@ export const describeReplicationTasks: {
  */
 export const removeTagsFromResource: (
   input: RemoveTagsFromResourceMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveTagsFromResourceResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9032,7 +9250,7 @@ export const removeTagsFromResource: (
  */
 export const startRecommendations: (
   input: StartRecommendationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartRecommendationsResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -9053,7 +9271,7 @@ export const startRecommendations: (
  */
 export const startReplication: (
   input: StartReplicationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   StartReplicationResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -9073,7 +9291,7 @@ export const startReplication: (
  */
 export const startReplicationTask: (
   input: StartReplicationTaskMessage,
-) => Effect.Effect<
+) => effect.Effect<
   StartReplicationTaskResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -9103,7 +9321,7 @@ export const startReplicationTask: (
  */
 export const startReplicationTaskAssessment: (
   input: StartReplicationTaskAssessmentMessage,
-) => Effect.Effect<
+) => effect.Effect<
   StartReplicationTaskAssessmentResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9119,7 +9337,7 @@ export const startReplicationTaskAssessment: (
  */
 export const stopReplication: (
   input: StopReplicationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   StopReplicationResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -9136,7 +9354,7 @@ export const stopReplication: (
  */
 export const stopReplicationTask: (
   input: StopReplicationTaskMessage,
-) => Effect.Effect<
+) => effect.Effect<
   StopReplicationTaskResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9150,7 +9368,7 @@ export const stopReplicationTask: (
  */
 export const deleteReplicationSubnetGroup: (
   input: DeleteReplicationSubnetGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteReplicationSubnetGroupResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -9167,7 +9385,7 @@ export const deleteReplicationSubnetGroup: (
  */
 export const cancelMetadataModelCreation: (
   input: CancelMetadataModelCreationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CancelMetadataModelCreationResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -9184,7 +9402,7 @@ export const cancelMetadataModelCreation: (
  */
 export const deleteEventSubscription: (
   input: DeleteEventSubscriptionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEventSubscriptionResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -9203,7 +9421,7 @@ export const deleteEventSubscription: (
  */
 export const runFleetAdvisorLsaAnalysis: (
   input: RunFleetAdvisorLsaAnalysisRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RunFleetAdvisorLsaAnalysisResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9223,7 +9441,7 @@ export const runFleetAdvisorLsaAnalysis: (
  */
 export const addTagsToResource: (
   input: AddTagsToResourceMessage,
-) => Effect.Effect<
+) => effect.Effect<
   AddTagsToResourceResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9237,7 +9455,7 @@ export const addTagsToResource: (
  */
 export const deleteReplicationTask: (
   input: DeleteReplicationTaskMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteReplicationTaskResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9255,7 +9473,7 @@ export const deleteReplicationTask: (
  */
 export const deleteReplicationTaskAssessmentRun: (
   input: DeleteReplicationTaskAssessmentRunMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteReplicationTaskAssessmentRunResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -9291,7 +9509,7 @@ export const deleteReplicationTaskAssessmentRun: (
 export const describeApplicableIndividualAssessments: {
   (
     input: DescribeApplicableIndividualAssessmentsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeApplicableIndividualAssessmentsResponse,
     | AccessDeniedFault
     | InvalidResourceStateFault
@@ -9301,7 +9519,7 @@ export const describeApplicableIndividualAssessments: {
   >;
   pages: (
     input: DescribeApplicableIndividualAssessmentsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeApplicableIndividualAssessmentsResponse,
     | AccessDeniedFault
     | InvalidResourceStateFault
@@ -9311,7 +9529,7 @@ export const describeApplicableIndividualAssessments: {
   >;
   items: (
     input: DescribeApplicableIndividualAssessmentsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedFault
     | InvalidResourceStateFault
@@ -9335,21 +9553,21 @@ export const describeApplicableIndividualAssessments: {
 export const describeSchemas: {
   (
     input: DescribeSchemasMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeSchemasResponse,
     InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeSchemasMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeSchemasResponse,
     InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeSchemasMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -9375,7 +9593,7 @@ export const describeSchemas: {
 export const describeTableStatistics: {
   (
     input: DescribeTableStatisticsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeTableStatisticsResponse,
     | AccessDeniedFault
     | InvalidResourceStateFault
@@ -9385,7 +9603,7 @@ export const describeTableStatistics: {
   >;
   pages: (
     input: DescribeTableStatisticsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeTableStatisticsResponse,
     | AccessDeniedFault
     | InvalidResourceStateFault
@@ -9395,7 +9613,7 @@ export const describeTableStatistics: {
   >;
   items: (
     input: DescribeTableStatisticsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedFault
     | InvalidResourceStateFault
@@ -9418,7 +9636,7 @@ export const describeTableStatistics: {
  */
 export const getTargetSelectionRules: (
   input: GetTargetSelectionRulesMessage,
-) => Effect.Effect<
+) => effect.Effect<
   GetTargetSelectionRulesResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -9439,7 +9657,7 @@ export const getTargetSelectionRules: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9453,7 +9671,7 @@ export const listTagsForResource: (
  */
 export const modifyConversionConfiguration: (
   input: ModifyConversionConfigurationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyConversionConfigurationResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9468,7 +9686,7 @@ export const modifyConversionConfiguration: (
  */
 export const rebootReplicationInstance: (
   input: RebootReplicationInstanceMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RebootReplicationInstanceResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9485,7 +9703,7 @@ export const rebootReplicationInstance: (
  */
 export const reloadTables: (
   input: ReloadTablesMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ReloadTablesResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9499,7 +9717,7 @@ export const reloadTables: (
  */
 export const deleteCertificate: (
   input: DeleteCertificateMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCertificateResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9513,7 +9731,7 @@ export const deleteCertificate: (
  */
 export const deleteConnection: (
   input: DeleteConnectionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConnectionResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -9532,7 +9750,7 @@ export const deleteConnection: (
  */
 export const deleteFleetAdvisorDatabases: (
   input: DeleteFleetAdvisorDatabasesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFleetAdvisorDatabasesResponse,
   | AccessDeniedFault
   | InvalidOperationFault
@@ -9552,7 +9770,7 @@ export const deleteFleetAdvisorDatabases: (
  */
 export const deleteInstanceProfile: (
   input: DeleteInstanceProfileMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteInstanceProfileResponse,
   | AccessDeniedFault
   | FailedDependencyFault
@@ -9578,7 +9796,7 @@ export const deleteInstanceProfile: (
  */
 export const deleteReplicationConfig: (
   input: DeleteReplicationConfigMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteReplicationConfigResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -9596,21 +9814,21 @@ export const deleteReplicationConfig: (
 export const describeCertificates: {
   (
     input: DescribeCertificatesMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeCertificatesResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeCertificatesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeCertificatesResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeCertificatesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -9630,7 +9848,7 @@ export const describeCertificates: {
  */
 export const testConnection: (
   input: TestConnectionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   TestConnectionResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -9657,7 +9875,7 @@ export const testConnection: (
  */
 export const moveReplicationTask: (
   input: MoveReplicationTaskMessage,
-) => Effect.Effect<
+) => effect.Effect<
   MoveReplicationTaskResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -9684,7 +9902,7 @@ export const moveReplicationTask: (
  */
 export const refreshSchemas: (
   input: RefreshSchemasMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RefreshSchemasResponse,
   | InvalidResourceStateFault
   | KMSKeyNotAccessibleFault
@@ -9708,7 +9926,7 @@ export const refreshSchemas: (
  */
 export const applyPendingMaintenanceAction: (
   input: ApplyPendingMaintenanceActionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ApplyPendingMaintenanceActionResponse,
   ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9730,7 +9948,7 @@ export const applyPendingMaintenanceAction: (
  */
 export const batchStartRecommendations: (
   input: BatchStartRecommendationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchStartRecommendationsResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -9751,7 +9969,7 @@ export const batchStartRecommendations: (
  */
 export const cancelReplicationTaskAssessmentRun: (
   input: CancelReplicationTaskAssessmentRunMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CancelReplicationTaskAssessmentRunResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -9768,7 +9986,7 @@ export const cancelReplicationTaskAssessmentRun: (
  */
 export const deleteDataMigration: (
   input: DeleteDataMigrationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDataMigrationResponse,
   | FailedDependencyFault
   | InvalidResourceStateFault
@@ -9792,7 +10010,7 @@ export const deleteDataMigration: (
  */
 export const deleteEndpoint: (
   input: DeleteEndpointMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEndpointResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9808,7 +10026,7 @@ export const deleteEndpoint: (
  */
 export const deleteMigrationProject: (
   input: DeleteMigrationProjectMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMigrationProjectResponse,
   | AccessDeniedFault
   | FailedDependencyFault
@@ -9834,7 +10052,7 @@ export const deleteMigrationProject: (
  */
 export const deleteReplicationInstance: (
   input: DeleteReplicationInstanceMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteReplicationInstanceResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9851,21 +10069,21 @@ export const deleteReplicationInstance: (
 export const describeFleetAdvisorCollectors: {
   (
     input: DescribeFleetAdvisorCollectorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeFleetAdvisorCollectorsResponse,
     InvalidResourceStateFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeFleetAdvisorCollectorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeFleetAdvisorCollectorsResponse,
     InvalidResourceStateFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeFleetAdvisorCollectorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidResourceStateFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -9888,21 +10106,21 @@ export const describeFleetAdvisorCollectors: {
 export const describeFleetAdvisorDatabases: {
   (
     input: DescribeFleetAdvisorDatabasesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeFleetAdvisorDatabasesResponse,
     InvalidResourceStateFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeFleetAdvisorDatabasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeFleetAdvisorDatabasesResponse,
     InvalidResourceStateFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeFleetAdvisorDatabasesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidResourceStateFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -9925,21 +10143,21 @@ export const describeFleetAdvisorDatabases: {
 export const describeFleetAdvisorSchemas: {
   (
     input: DescribeFleetAdvisorSchemasRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeFleetAdvisorSchemasResponse,
     InvalidResourceStateFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeFleetAdvisorSchemasRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeFleetAdvisorSchemasResponse,
     InvalidResourceStateFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeFleetAdvisorSchemasRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidResourceStateFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -9961,21 +10179,21 @@ export const describeFleetAdvisorSchemas: {
 export const describeReplications: {
   (
     input: DescribeReplicationsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeReplicationsResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeReplicationsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeReplicationsResponse,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReplicationsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -9997,7 +10215,7 @@ export const describeReplications: {
  */
 export const startMetadataModelCreation: (
   input: StartMetadataModelCreationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   StartMetadataModelCreationResponse,
   | AccessDeniedFault
   | ResourceAlreadyExistsFault
@@ -10020,7 +10238,7 @@ export const startMetadataModelCreation: (
  */
 export const createDataMigration: (
   input: CreateDataMigrationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataMigrationResponse,
   | FailedDependencyFault
   | InvalidOperationFault
@@ -10052,7 +10270,7 @@ export const createDataMigration: (
  */
 export const modifyEndpoint: (
   input: ModifyEndpointMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyEndpointResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -10082,7 +10300,7 @@ export const modifyEndpoint: (
  */
 export const modifyReplicationTask: (
   input: ModifyReplicationTaskMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyReplicationTaskResponse,
   | InvalidResourceStateFault
   | KMSKeyNotAccessibleFault
@@ -10112,7 +10330,7 @@ export const modifyReplicationTask: (
  */
 export const createEndpoint: (
   input: CreateEndpointMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEndpointResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -10141,7 +10359,7 @@ export const createEndpoint: (
  */
 export const importCertificate: (
   input: ImportCertificateMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ImportCertificateResponse,
   | InvalidCertificateFault
   | KMSKeyNotAccessibleFault
@@ -10165,7 +10383,7 @@ export const importCertificate: (
  */
 export const createDataProvider: (
   input: CreateDataProviderMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataProviderResponse,
   | AccessDeniedFault
   | FailedDependencyFault
@@ -10188,7 +10406,7 @@ export const createDataProvider: (
  */
 export const createReplicationTask: (
   input: CreateReplicationTaskMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateReplicationTaskResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -10223,7 +10441,7 @@ export const createReplicationTask: (
  */
 export const modifyReplicationConfig: (
   input: ModifyReplicationConfigMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyReplicationConfigResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -10252,7 +10470,7 @@ export const modifyReplicationConfig: (
  */
 export const createReplicationConfig: (
   input: CreateReplicationConfigMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateReplicationConfigResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -10283,7 +10501,7 @@ export const createReplicationConfig: (
  */
 export const cancelMetadataModelConversion: (
   input: CancelMetadataModelConversionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CancelMetadataModelConversionResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -10310,7 +10528,7 @@ export const cancelMetadataModelConversion: (
  */
 export const createReplicationSubnetGroup: (
   input: CreateReplicationSubnetGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateReplicationSubnetGroupResponse,
   | AccessDeniedFault
   | InvalidSubnet
@@ -10337,7 +10555,7 @@ export const createReplicationSubnetGroup: (
  */
 export const modifyReplicationSubnetGroup: (
   input: ModifyReplicationSubnetGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyReplicationSubnetGroupResponse,
   | AccessDeniedFault
   | InvalidSubnet
@@ -10366,7 +10584,7 @@ export const modifyReplicationSubnetGroup: (
  */
 export const createFleetAdvisorCollector: (
   input: CreateFleetAdvisorCollectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFleetAdvisorCollectorResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -10400,7 +10618,7 @@ export const createFleetAdvisorCollector: (
  */
 export const createReplicationInstance: (
   input: CreateReplicationInstanceMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateReplicationInstanceResponse,
   | AccessDeniedFault
   | InsufficientResourceCapacityFault
@@ -10437,7 +10655,7 @@ export const createReplicationInstance: (
  */
 export const startExtensionPackAssociation: (
   input: StartExtensionPackAssociationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   StartExtensionPackAssociationResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -10468,7 +10686,7 @@ export const startExtensionPackAssociation: (
  */
 export const createInstanceProfile: (
   input: CreateInstanceProfileMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateInstanceProfileResponse,
   | AccessDeniedFault
   | FailedDependencyFault
@@ -10504,7 +10722,7 @@ export const createInstanceProfile: (
  */
 export const createMigrationProject: (
   input: CreateMigrationProjectMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMigrationProjectResponse,
   | AccessDeniedFault
   | FailedDependencyFault
@@ -10536,7 +10754,7 @@ export const createMigrationProject: (
  */
 export const startMetadataModelAssessment: (
   input: StartMetadataModelAssessmentMessage,
-) => Effect.Effect<
+) => effect.Effect<
   StartMetadataModelAssessmentResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -10567,7 +10785,7 @@ export const startMetadataModelAssessment: (
  */
 export const startMetadataModelConversion: (
   input: StartMetadataModelConversionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   StartMetadataModelConversionResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -10599,7 +10817,7 @@ export const startMetadataModelConversion: (
  */
 export const startMetadataModelExportAsScript: (
   input: StartMetadataModelExportAsScriptMessage,
-) => Effect.Effect<
+) => effect.Effect<
   StartMetadataModelExportAsScriptResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -10630,7 +10848,7 @@ export const startMetadataModelExportAsScript: (
  */
 export const startMetadataModelExportToTarget: (
   input: StartMetadataModelExportToTargetMessage,
-) => Effect.Effect<
+) => effect.Effect<
   StartMetadataModelExportToTargetResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -10664,7 +10882,7 @@ export const startMetadataModelExportToTarget: (
  */
 export const startMetadataModelImport: (
   input: StartMetadataModelImportMessage,
-) => Effect.Effect<
+) => effect.Effect<
   StartMetadataModelImportResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -10698,7 +10916,7 @@ export const startMetadataModelImport: (
  */
 export const modifyInstanceProfile: (
   input: ModifyInstanceProfileMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyInstanceProfileResponse,
   | AccessDeniedFault
   | FailedDependencyFault
@@ -10729,7 +10947,7 @@ export const modifyInstanceProfile: (
  */
 export const modifyMigrationProject: (
   input: ModifyMigrationProjectMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyMigrationProjectResponse,
   | AccessDeniedFault
   | FailedDependencyFault
@@ -10760,21 +10978,21 @@ export const modifyMigrationProject: (
 export const describeRecommendations: {
   (
     input: DescribeRecommendationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeRecommendationsResponse,
     AccessDeniedFault | InvalidResourceStateFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeRecommendationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeRecommendationsResponse,
     AccessDeniedFault | InvalidResourceStateFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeRecommendationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     AccessDeniedFault | InvalidResourceStateFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -10797,7 +11015,7 @@ export const describeRecommendations: {
  */
 export const modifyReplicationInstance: (
   input: ModifyReplicationInstanceMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyReplicationInstanceResponse,
   | AccessDeniedFault
   | InsufficientResourceCapacityFault
@@ -10833,7 +11051,7 @@ export const modifyReplicationInstance: (
  */
 export const startReplicationTaskAssessmentRun: (
   input: StartReplicationTaskAssessmentRunMessage,
-) => Effect.Effect<
+) => effect.Effect<
   StartReplicationTaskAssessmentRunResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -10872,7 +11090,7 @@ export const startReplicationTaskAssessmentRun: (
  */
 export const modifyEventSubscription: (
   input: ModifyEventSubscriptionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyEventSubscriptionResponse,
   | AccessDeniedFault
   | KMSAccessDeniedFault
@@ -10922,7 +11140,7 @@ export const modifyEventSubscription: (
  */
 export const createEventSubscription: (
   input: CreateEventSubscriptionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEventSubscriptionResponse,
   | KMSAccessDeniedFault
   | KMSDisabledFault

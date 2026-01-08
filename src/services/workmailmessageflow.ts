@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -191,7 +191,7 @@ export class MessageRejected extends S.TaggedError<MessageRejected>()(
  */
 export const getRawMessageContent: (
   input: GetRawMessageContentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRawMessageContentResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -215,7 +215,7 @@ export const getRawMessageContent: (
  */
 export const putRawMessageContent: (
   input: PutRawMessageContentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutRawMessageContentResponse,
   | InvalidContentLocation
   | MessageFrozen

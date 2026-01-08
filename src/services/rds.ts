@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -88,7 +88,7 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Newtypes
-export type SensitiveString = string | Redacted.Redacted<string>;
+export type SensitiveString = string | redacted.Redacted<string>;
 export type BlueGreenDeploymentName = string;
 export type DatabaseArn = string;
 export type TargetEngineVersion = string;
@@ -119,11 +119,9 @@ export type DBShardGroupIdentifier = string;
 export type IntegrationIdentifier = string;
 export type DBProxyTargetGroupName = string;
 export type MaxRecords = number;
-export type Long = number;
 export type Engine = string;
 export type MajorEngineVersion = string;
 export type Marker = string;
-export type Integer = number;
 export type DBClusterIdentifier = string;
 export type AwsBackupRecoveryPointArn = string;
 export type SwitchoverTimeout = number;
@@ -133,10 +131,9 @@ export type ExceptionMessage = string;
 export type IntegrationArn = string;
 export type PotentiallySensitiveOptionSettingValue =
   | string
-  | Redacted.Redacted<string>;
+  | redacted.Redacted<string>;
 export type BlueGreenDeploymentStatus = string;
 export type BlueGreenDeploymentStatusDetails = string;
-export type Double = number;
 export type SwitchoverDetailStatus = string;
 export type BlueGreenDeploymentTaskName = string;
 export type BlueGreenDeploymentTaskStatus = string;
@@ -170,10 +167,31 @@ export const VpcSecurityGroupIdList = S.Array(
 );
 export type LogTypeList = string[];
 export const LogTypeList = S.Array(S.String);
+export type DatabaseInsightsMode = "standard" | "advanced";
+export const DatabaseInsightsMode = S.Literal("standard", "advanced");
+export type ClusterScalabilityType = "standard" | "limitless";
+export const ClusterScalabilityType = S.Literal("standard", "limitless");
+export type MasterUserAuthenticationType = "password" | "iam-db-auth";
+export const MasterUserAuthenticationType = S.Literal(
+  "password",
+  "iam-db-auth",
+);
 export type DBSecurityGroupNameList = string[];
 export const DBSecurityGroupNameList = S.Array(
   S.String.pipe(T.XmlName("DBSecurityGroupName")),
 );
+export type ReplicaMode = "open-read-only" | "mounted";
+export const ReplicaMode = S.Literal("open-read-only", "mounted");
+export type EngineFamily = "MYSQL" | "POSTGRESQL" | "SQLSERVER";
+export const EngineFamily = S.Literal("MYSQL", "POSTGRESQL", "SQLSERVER");
+export type DefaultAuthScheme = "IAM_AUTH" | "NONE";
+export const DefaultAuthScheme = S.Literal("IAM_AUTH", "NONE");
+export type EndpointNetworkType = "IPV4" | "IPV6" | "DUAL";
+export const EndpointNetworkType = S.Literal("IPV4", "IPV6", "DUAL");
+export type TargetConnectionNetworkType = "IPV4" | "IPV6";
+export const TargetConnectionNetworkType = S.Literal("IPV4", "IPV6");
+export type DBProxyEndpointTargetRole = "READ_WRITE" | "READ_ONLY";
+export const DBProxyEndpointTargetRole = S.Literal("READ_WRITE", "READ_ONLY");
 export type SubnetIdentifierList = string[];
 export const SubnetIdentifierList = S.Array(
   S.String.pipe(T.XmlName("SubnetIdentifier")),
@@ -184,23 +202,65 @@ export const EventCategoriesList = S.Array(
 );
 export type SourceIdsList = string[];
 export const SourceIdsList = S.Array(S.String.pipe(T.XmlName("SourceId")));
+export type SourceType =
+  | "db-instance"
+  | "db-parameter-group"
+  | "db-security-group"
+  | "db-snapshot"
+  | "db-cluster"
+  | "db-cluster-snapshot"
+  | "custom-engine-version"
+  | "db-proxy"
+  | "blue-green-deployment"
+  | "db-shard-group"
+  | "zero-etl";
+export const SourceType = S.Literal(
+  "db-instance",
+  "db-parameter-group",
+  "db-security-group",
+  "db-snapshot",
+  "db-cluster",
+  "db-cluster-snapshot",
+  "custom-engine-version",
+  "db-proxy",
+  "blue-green-deployment",
+  "db-shard-group",
+  "zero-etl",
+);
+export type ExportSourceType = "SNAPSHOT" | "CLUSTER";
+export const ExportSourceType = S.Literal("SNAPSHOT", "CLUSTER");
+export type AuditPolicyState = "locked" | "unlocked";
+export const AuditPolicyState = S.Literal("locked", "unlocked");
+export type CustomEngineVersionStatus =
+  | "available"
+  | "inactive"
+  | "inactive-except-restore";
+export const CustomEngineVersionStatus = S.Literal(
+  "available",
+  "inactive",
+  "inactive-except-restore",
+);
 export type AttributeValueList = string[];
 export const AttributeValueList = S.Array(
   S.String.pipe(T.XmlName("AttributeValue")),
 );
+export type AutomationMode = "full" | "all-paused";
+export const AutomationMode = S.Literal("full", "all-paused");
 export type OptionNamesList = string[];
 export const OptionNamesList = S.Array(S.String);
 export type KeyList = string[];
 export const KeyList = S.Array(S.String);
+export type ActivityStreamMode = "sync" | "async";
+export const ActivityStreamMode = S.Literal("sync", "async");
 export interface AddRoleToDBClusterMessage {
-  DBClusterIdentifier: string;
-  RoleArn: string;
+  DBClusterIdentifier?: string;
+  RoleArn?: string;
   FeatureName?: string;
 }
 export const AddRoleToDBClusterMessage = S.suspend(() =>
   S.Struct({
-    DBClusterIdentifier: S.String,
-    RoleArn: S.String,
+    DBClusterIdentifier: S.optional(S.String),
+    RoleArn: S.optional(S.String),
     FeatureName: S.optional(S.String),
   }).pipe(
     T.all(
@@ -223,15 +283,15 @@ export const AddRoleToDBClusterResponse = S.suspend(() =>
   identifier: "AddRoleToDBClusterResponse",
 }) as any as S.Schema<AddRoleToDBClusterResponse>;
 export interface AddRoleToDBInstanceMessage {
-  DBInstanceIdentifier: string;
-  RoleArn: string;
-  FeatureName: string;
+  DBInstanceIdentifier?: string;
+  RoleArn?: string;
+  FeatureName?: string;
 }
 export const AddRoleToDBInstanceMessage = S.suspend(() =>
   S.Struct({
-    DBInstanceIdentifier: S.String,
-    RoleArn: S.String,
-    FeatureName: S.String,
+    DBInstanceIdentifier: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    FeatureName: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -253,11 +313,14 @@ export const AddRoleToDBInstanceResponse = S.suspend(() =>
   identifier: "AddRoleToDBInstanceResponse",
 }) as any as S.Schema<AddRoleToDBInstanceResponse>;
 export interface AddSourceIdentifierToSubscriptionMessage {
-  SubscriptionName: string;
-  SourceIdentifier: string;
+  SubscriptionName?: string;
+  SourceIdentifier?: string;
 }
 export const AddSourceIdentifierToSubscriptionMessage = S.suspend(() =>
-  S.Struct({ SubscriptionName: S.String, SourceIdentifier: S.String }).pipe(
+  S.Struct({
+    SubscriptionName: S.optional(S.String),
+    SourceIdentifier: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -272,15 +335,15 @@ export const AddSourceIdentifierToSubscriptionMessage = S.suspend(() =>
   identifier: "AddSourceIdentifierToSubscriptionMessage",
 }) as any as S.Schema<AddSourceIdentifierToSubscriptionMessage>;
 export interface ApplyPendingMaintenanceActionMessage {
-  ResourceIdentifier: string;
-  ApplyAction: string;
-  OptInType: string;
+  ResourceIdentifier?: string;
+  ApplyAction?: string;
+  OptInType?: string;
 }
 export const ApplyPendingMaintenanceActionMessage = S.suspend(() =>
   S.Struct({
-    ResourceIdentifier: S.String,
-    ApplyAction: S.String,
-    OptInType: S.String,
+    ResourceIdentifier: S.optional(S.String),
+    ApplyAction: S.optional(S.String),
+    OptInType: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -296,7 +359,7 @@ export const ApplyPendingMaintenanceActionMessage = S.suspend(() =>
   identifier: "ApplyPendingMaintenanceActionMessage",
 }) as any as S.Schema<ApplyPendingMaintenanceActionMessage>;
 export interface AuthorizeDBSecurityGroupIngressMessage {
-  DBSecurityGroupName: string;
+  DBSecurityGroupName?: string;
   CIDRIP?: string;
   EC2SecurityGroupName?: string;
   EC2SecurityGroupId?: string;
@@ -304,7 +367,7 @@ export interface AuthorizeDBSecurityGroupIngressMessage {
 }
 export const AuthorizeDBSecurityGroupIngressMessage = S.suspend(() =>
   S.Struct({
-    DBSecurityGroupName: S.String,
+    DBSecurityGroupName: S.optional(S.String),
     CIDRIP: S.optional(S.String),
     EC2SecurityGroupName: S.optional(S.String),
     EC2SecurityGroupId: S.optional(S.String),
@@ -324,15 +387,15 @@ export const AuthorizeDBSecurityGroupIngressMessage = S.suspend(() =>
   identifier: "AuthorizeDBSecurityGroupIngressMessage",
 }) as any as S.Schema<AuthorizeDBSecurityGroupIngressMessage>;
 export interface BacktrackDBClusterMessage {
-  DBClusterIdentifier: string;
-  BacktrackTo: Date;
+  DBClusterIdentifier?: string;
+  BacktrackTo?: Date;
   Force?: boolean;
   UseEarliestTimeOnPointInTimeUnavailable?: boolean;
 }
 export const BacktrackDBClusterMessage = S.suspend(() =>
   S.Struct({
-    DBClusterIdentifier: S.String,
-    BacktrackTo: S.Date.pipe(T.TimestampFormat("date-time")),
+    DBClusterIdentifier: S.optional(S.String),
+    BacktrackTo: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     Force: S.optional(S.Boolean),
     UseEarliestTimeOnPointInTimeUnavailable: S.optional(S.Boolean),
   }).pipe(
@@ -350,10 +413,10 @@ export const BacktrackDBClusterMessage = S.suspend(() =>
   identifier: "BacktrackDBClusterMessage",
 }) as any as S.Schema<BacktrackDBClusterMessage>;
 export interface CancelExportTaskMessage {
-  ExportTaskIdentifier: string;
+  ExportTaskIdentifier?: string;
 }
 export const CancelExportTaskMessage = S.suspend(() =>
-  S.Struct({ ExportTaskIdentifier: S.String }).pipe(
+  S.Struct({ ExportTaskIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -379,16 +442,16 @@ export const TagList = S.Array(
   Tag.pipe(T.XmlName("Tag")).annotations({ identifier: "Tag" }),
 );
 export interface CopyDBClusterParameterGroupMessage {
-  SourceDBClusterParameterGroupIdentifier: string;
-  TargetDBClusterParameterGroupIdentifier: string;
-  TargetDBClusterParameterGroupDescription: string;
-  Tags?: TagList;
+  SourceDBClusterParameterGroupIdentifier?: string;
+  TargetDBClusterParameterGroupIdentifier?: string;
+  TargetDBClusterParameterGroupDescription?: string;
+  Tags?: Tag[];
 }
 export const CopyDBClusterParameterGroupMessage = S.suspend(() =>
   S.Struct({
-    SourceDBClusterParameterGroupIdentifier: S.String,
-    TargetDBClusterParameterGroupIdentifier: S.String,
-    TargetDBClusterParameterGroupDescription: S.String,
+    SourceDBClusterParameterGroupIdentifier: S.optional(S.String),
+    TargetDBClusterParameterGroupIdentifier: S.optional(S.String),
+    TargetDBClusterParameterGroupDescription: S.optional(S.String),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -405,17 +468,17 @@ export const CopyDBClusterParameterGroupMessage = S.suspend(() =>
   identifier: "CopyDBClusterParameterGroupMessage",
 }) as any as S.Schema<CopyDBClusterParameterGroupMessage>;
 export interface CopyDBClusterSnapshotMessage {
-  SourceDBClusterSnapshotIdentifier: string;
-  TargetDBClusterSnapshotIdentifier: string;
+  SourceDBClusterSnapshotIdentifier?: string;
+  TargetDBClusterSnapshotIdentifier?: string;
   KmsKeyId?: string;
-  PreSignedUrl?: string | Redacted.Redacted<string>;
+  PreSignedUrl?: string | redacted.Redacted<string>;
   CopyTags?: boolean;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CopyDBClusterSnapshotMessage = S.suspend(() =>
   S.Struct({
-    SourceDBClusterSnapshotIdentifier: S.String,
-    TargetDBClusterSnapshotIdentifier: S.String,
+    SourceDBClusterSnapshotIdentifier: S.optional(S.String),
+    TargetDBClusterSnapshotIdentifier: S.optional(S.String),
     KmsKeyId: S.optional(S.String),
     PreSignedUrl: S.optional(SensitiveString),
     CopyTags: S.optional(S.Boolean),
@@ -435,16 +498,16 @@ export const CopyDBClusterSnapshotMessage = S.suspend(() =>
   identifier: "CopyDBClusterSnapshotMessage",
 }) as any as S.Schema<CopyDBClusterSnapshotMessage>;
 export interface CopyDBParameterGroupMessage {
-  SourceDBParameterGroupIdentifier: string;
-  TargetDBParameterGroupIdentifier: string;
-  TargetDBParameterGroupDescription: string;
-  Tags?: TagList;
+  SourceDBParameterGroupIdentifier?: string;
+  TargetDBParameterGroupIdentifier?: string;
+  TargetDBParameterGroupDescription?: string;
+  Tags?: Tag[];
 }
 export const CopyDBParameterGroupMessage = S.suspend(() =>
   S.Struct({
-    SourceDBParameterGroupIdentifier: S.String,
-    TargetDBParameterGroupIdentifier: S.String,
-    TargetDBParameterGroupDescription: S.String,
+    SourceDBParameterGroupIdentifier: S.optional(S.String),
+    TargetDBParameterGroupIdentifier: S.optional(S.String),
+    TargetDBParameterGroupDescription: S.optional(S.String),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -461,12 +524,12 @@ export const CopyDBParameterGroupMessage = S.suspend(() =>
   identifier: "CopyDBParameterGroupMessage",
 }) as any as S.Schema<CopyDBParameterGroupMessage>;
 export interface CopyDBSnapshotMessage {
-  SourceDBSnapshotIdentifier: string;
-  TargetDBSnapshotIdentifier: string;
+  SourceDBSnapshotIdentifier?: string;
+  TargetDBSnapshotIdentifier?: string;
   KmsKeyId?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   CopyTags?: boolean;
-  PreSignedUrl?: string | Redacted.Redacted<string>;
+  PreSignedUrl?: string | redacted.Redacted<string>;
   OptionGroupName?: string;
   TargetCustomAvailabilityZone?: string;
   SnapshotTarget?: string;
@@ -475,8 +538,8 @@ export interface CopyDBSnapshotMessage {
 }
 export const CopyDBSnapshotMessage = S.suspend(() =>
   S.Struct({
-    SourceDBSnapshotIdentifier: S.String,
-    TargetDBSnapshotIdentifier: S.String,
+    SourceDBSnapshotIdentifier: S.optional(S.String),
+    TargetDBSnapshotIdentifier: S.optional(S.String),
     KmsKeyId: S.optional(S.String),
     Tags: S.optional(TagList),
     CopyTags: S.optional(S.Boolean),
@@ -501,16 +564,16 @@ export const CopyDBSnapshotMessage = S.suspend(() =>
   identifier: "CopyDBSnapshotMessage",
 }) as any as S.Schema<CopyDBSnapshotMessage>;
 export interface CopyOptionGroupMessage {
-  SourceOptionGroupIdentifier: string;
-  TargetOptionGroupIdentifier: string;
-  TargetOptionGroupDescription: string;
-  Tags?: TagList;
+  SourceOptionGroupIdentifier?: string;
+  TargetOptionGroupIdentifier?: string;
+  TargetOptionGroupDescription?: string;
+  Tags?: Tag[];
 }
 export const CopyOptionGroupMessage = S.suspend(() =>
   S.Struct({
-    SourceOptionGroupIdentifier: S.String,
-    TargetOptionGroupIdentifier: S.String,
-    TargetOptionGroupDescription: S.String,
+    SourceOptionGroupIdentifier: S.optional(S.String),
+    TargetOptionGroupIdentifier: S.optional(S.String),
+    TargetOptionGroupDescription: S.optional(S.String),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -527,12 +590,12 @@ export const CopyOptionGroupMessage = S.suspend(() =>
   identifier: "CopyOptionGroupMessage",
 }) as any as S.Schema<CopyOptionGroupMessage>;
 export interface CreateBlueGreenDeploymentRequest {
-  BlueGreenDeploymentName: string;
-  Source: string;
+  BlueGreenDeploymentName?: string;
+  Source?: string;
   TargetEngineVersion?: string;
   TargetDBParameterGroupName?: string;
   TargetDBClusterParameterGroupName?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   TargetDBInstanceClass?: string;
   UpgradeTargetStorageConfig?: boolean;
   TargetIops?: number;
@@ -542,8 +605,8 @@ export interface CreateBlueGreenDeploymentRequest {
 }
 export const CreateBlueGreenDeploymentRequest = S.suspend(() =>
   S.Struct({
-    BlueGreenDeploymentName: S.String,
-    Source: S.String,
+    BlueGreenDeploymentName: S.optional(S.String),
+    Source: S.optional(S.String),
     TargetEngineVersion: S.optional(S.String),
     TargetDBParameterGroupName: S.optional(S.String),
     TargetDBClusterParameterGroupName: S.optional(S.String),
@@ -569,8 +632,8 @@ export const CreateBlueGreenDeploymentRequest = S.suspend(() =>
   identifier: "CreateBlueGreenDeploymentRequest",
 }) as any as S.Schema<CreateBlueGreenDeploymentRequest>;
 export interface CreateCustomDBEngineVersionMessage {
-  Engine: string;
-  EngineVersion: string;
+  Engine?: string;
+  EngineVersion?: string;
   DatabaseInstallationFilesS3BucketName?: string;
   DatabaseInstallationFilesS3Prefix?: string;
   ImageId?: string;
@@ -579,13 +642,13 @@ export interface CreateCustomDBEngineVersionMessage {
   UseAwsProvidedLatestImage?: boolean;
   Description?: string;
   Manifest?: string;
-  Tags?: TagList;
-  DatabaseInstallationFiles?: StringList;
+  Tags?: Tag[];
+  DatabaseInstallationFiles?: string[];
 }
 export const CreateCustomDBEngineVersionMessage = S.suspend(() =>
   S.Struct({
-    Engine: S.String,
-    EngineVersion: S.String,
+    Engine: S.optional(S.String),
+    EngineVersion: S.optional(S.String),
     DatabaseInstallationFilesS3BucketName: S.optional(S.String),
     DatabaseInstallationFilesS3Prefix: S.optional(S.String),
     ImageId: S.optional(S.String),
@@ -611,18 +674,18 @@ export const CreateCustomDBEngineVersionMessage = S.suspend(() =>
   identifier: "CreateCustomDBEngineVersionMessage",
 }) as any as S.Schema<CreateCustomDBEngineVersionMessage>;
 export interface CreateDBClusterEndpointMessage {
-  DBClusterIdentifier: string;
-  DBClusterEndpointIdentifier: string;
-  EndpointType: string;
-  StaticMembers?: StringList;
-  ExcludedMembers?: StringList;
-  Tags?: TagList;
+  DBClusterIdentifier?: string;
+  DBClusterEndpointIdentifier?: string;
+  EndpointType?: string;
+  StaticMembers?: string[];
+  ExcludedMembers?: string[];
+  Tags?: Tag[];
 }
 export const CreateDBClusterEndpointMessage = S.suspend(() =>
   S.Struct({
-    DBClusterIdentifier: S.String,
-    DBClusterEndpointIdentifier: S.String,
-    EndpointType: S.String,
+    DBClusterIdentifier: S.optional(S.String),
+    DBClusterEndpointIdentifier: S.optional(S.String),
+    EndpointType: S.optional(S.String),
     StaticMembers: S.optional(StringList),
     ExcludedMembers: S.optional(StringList),
     Tags: S.optional(TagList),
@@ -641,16 +704,16 @@ export const CreateDBClusterEndpointMessage = S.suspend(() =>
   identifier: "CreateDBClusterEndpointMessage",
 }) as any as S.Schema<CreateDBClusterEndpointMessage>;
 export interface CreateDBClusterParameterGroupMessage {
-  DBClusterParameterGroupName: string;
-  DBParameterGroupFamily: string;
-  Description: string;
-  Tags?: TagList;
+  DBClusterParameterGroupName?: string;
+  DBParameterGroupFamily?: string;
+  Description?: string;
+  Tags?: Tag[];
 }
 export const CreateDBClusterParameterGroupMessage = S.suspend(() =>
   S.Struct({
-    DBClusterParameterGroupName: S.String,
-    DBParameterGroupFamily: S.String,
-    Description: S.String,
+    DBClusterParameterGroupName: S.optional(S.String),
+    DBParameterGroupFamily: S.optional(S.String),
+    Description: S.optional(S.String),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -667,14 +730,14 @@ export const CreateDBClusterParameterGroupMessage = S.suspend(() =>
   identifier: "CreateDBClusterParameterGroupMessage",
 }) as any as S.Schema<CreateDBClusterParameterGroupMessage>;
 export interface CreateDBClusterSnapshotMessage {
-  DBClusterSnapshotIdentifier: string;
-  DBClusterIdentifier: string;
-  Tags?: TagList;
+  DBClusterSnapshotIdentifier?: string;
+  DBClusterIdentifier?: string;
+  Tags?: Tag[];
 }
 export const CreateDBClusterSnapshotMessage = S.suspend(() =>
   S.Struct({
-    DBClusterSnapshotIdentifier: S.String,
-    DBClusterIdentifier: S.String,
+    DBClusterSnapshotIdentifier: S.optional(S.String),
+    DBClusterIdentifier: S.optional(S.String),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -707,7 +770,7 @@ export const ProcessorFeatureList = S.Array(
 );
 export interface TagSpecification {
   ResourceType?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const TagSpecification = S.suspend(() =>
   S.Struct({ ResourceType: S.optional(S.String), Tags: S.optional(TagList) }),
@@ -721,7 +784,7 @@ export const TagSpecificationList = S.Array(
   }),
 );
 export interface AdditionalStorageVolume {
-  VolumeName: string;
+  VolumeName?: string;
   AllocatedStorage?: number;
   IOPS?: number;
   MaxAllocatedStorage?: number;
@@ -730,7 +793,7 @@ export interface AdditionalStorageVolume {
 }
 export const AdditionalStorageVolume = S.suspend(() =>
   S.Struct({
-    VolumeName: S.String,
+    VolumeName: S.optional(S.String),
     AllocatedStorage: S.optional(S.Number),
     IOPS: S.optional(S.Number),
     MaxAllocatedStorage: S.optional(S.Number),
@@ -743,7 +806,7 @@ export const AdditionalStorageVolume = S.suspend(() =>
 export type AdditionalStorageVolumesList = AdditionalStorageVolume[];
 export const AdditionalStorageVolumesList = S.Array(AdditionalStorageVolume);
 export interface CreateDBInstanceReadReplicaMessage {
-  DBInstanceIdentifier: string;
+  DBInstanceIdentifier?: string;
   SourceDBInstanceIdentifier?: string;
   DBInstanceClass?: string;
   AvailabilityZone?: string;
@@ -755,22 +818,22 @@ export interface CreateDBInstanceReadReplicaMessage {
   OptionGroupName?: string;
   DBParameterGroupName?: string;
   PubliclyAccessible?: boolean;
-  Tags?: TagList;
+  Tags?: Tag[];
   DBSubnetGroupName?: string;
-  VpcSecurityGroupIds?: VpcSecurityGroupIdList;
+  VpcSecurityGroupIds?: string[];
   StorageType?: string;
   CopyTagsToSnapshot?: boolean;
   MonitoringInterval?: number;
   MonitoringRoleArn?: string;
   KmsKeyId?: string;
-  PreSignedUrl?: string | Redacted.Redacted<string>;
+  PreSignedUrl?: string | redacted.Redacted<string>;
   EnableIAMDatabaseAuthentication?: boolean;
-  DatabaseInsightsMode?: string;
+  DatabaseInsightsMode?: DatabaseInsightsMode;
   EnablePerformanceInsights?: boolean;
   PerformanceInsightsKMSKeyId?: string;
   PerformanceInsightsRetentionPeriod?: number;
-  EnableCloudwatchLogsExports?: LogTypeList;
-  ProcessorFeatures?: ProcessorFeatureList;
+  EnableCloudwatchLogsExports?: string[];
+  ProcessorFeatures?: ProcessorFeature[];
   UseDefaultProcessorFeatures?: boolean;
   DeletionProtection?: boolean;
   Domain?: string;
@@ -778,8 +841,8 @@ export interface CreateDBInstanceReadReplicaMessage {
   DomainFqdn?: string;
   DomainOu?: string;
   DomainAuthSecretArn?: string;
-  DomainDnsIps?: StringList;
-  ReplicaMode?: string;
+  DomainDnsIps?: string[];
+  ReplicaMode?: ReplicaMode;
   EnableCustomerOwnedIp?: boolean;
   NetworkType?: string;
   MaxAllocatedStorage?: number;
@@ -790,12 +853,12 @@ export interface CreateDBInstanceReadReplicaMessage {
   DedicatedLogVolume?: boolean;
   UpgradeStorageConfig?: boolean;
   CACertificateIdentifier?: string;
-  TagSpecifications?: TagSpecificationList;
-  AdditionalStorageVolumes?: AdditionalStorageVolumesList;
+  TagSpecifications?: TagSpecification[];
+  AdditionalStorageVolumes?: AdditionalStorageVolume[];
 }
 export const CreateDBInstanceReadReplicaMessage = S.suspend(() =>
   S.Struct({
-    DBInstanceIdentifier: S.String,
+    DBInstanceIdentifier: S.optional(S.String),
     SourceDBInstanceIdentifier: S.optional(S.String),
     DBInstanceClass: S.optional(S.String),
     AvailabilityZone: S.optional(S.String),
@@ -817,7 +880,7 @@ export const CreateDBInstanceReadReplicaMessage = S.suspend(() =>
     KmsKeyId: S.optional(S.String),
     PreSignedUrl: S.optional(SensitiveString),
     EnableIAMDatabaseAuthentication: S.optional(S.Boolean),
-    DatabaseInsightsMode: S.optional(S.String),
+    DatabaseInsightsMode: S.optional(DatabaseInsightsMode),
     EnablePerformanceInsights: S.optional(S.Boolean),
     PerformanceInsightsKMSKeyId: S.optional(S.String),
     PerformanceInsightsRetentionPeriod: S.optional(S.Number),
@@ -831,7 +894,7 @@ export const CreateDBInstanceReadReplicaMessage = S.suspend(() =>
     DomainOu: S.optional(S.String),
     DomainAuthSecretArn: S.optional(S.String),
     DomainDnsIps: S.optional(StringList),
-    ReplicaMode: S.optional(S.String),
+    ReplicaMode: S.optional(ReplicaMode),
     EnableCustomerOwnedIp: S.optional(S.Boolean),
     NetworkType: S.optional(S.String),
     MaxAllocatedStorage: S.optional(S.Number),
@@ -859,16 +922,16 @@ export const CreateDBInstanceReadReplicaMessage = S.suspend(() =>
   identifier: "CreateDBInstanceReadReplicaMessage",
 }) as any as S.Schema<CreateDBInstanceReadReplicaMessage>;
 export interface CreateDBParameterGroupMessage {
-  DBParameterGroupName: string;
-  DBParameterGroupFamily: string;
-  Description: string;
-  Tags?: TagList;
+  DBParameterGroupName?: string;
+  DBParameterGroupFamily?: string;
+  Description?: string;
+  Tags?: Tag[];
 }
 export const CreateDBParameterGroupMessage = S.suspend(() =>
   S.Struct({
-    DBParameterGroupName: S.String,
-    DBParameterGroupFamily: S.String,
-    Description: S.String,
+    DBParameterGroupName: S.optional(S.String),
+    DBParameterGroupFamily: S.optional(S.String),
+    Description: S.optional(S.String),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -885,23 +948,23 @@ export const CreateDBParameterGroupMessage = S.suspend(() =>
   identifier: "CreateDBParameterGroupMessage",
 }) as any as S.Schema<CreateDBParameterGroupMessage>;
 export interface CreateDBProxyEndpointRequest {
-  DBProxyName: string;
-  DBProxyEndpointName: string;
-  VpcSubnetIds: StringList;
-  VpcSecurityGroupIds?: StringList;
-  TargetRole?: string;
-  Tags?: TagList;
-  EndpointNetworkType?: string;
+  DBProxyName?: string;
+  DBProxyEndpointName?: string;
+  VpcSubnetIds?: string[];
+  VpcSecurityGroupIds?: string[];
+  TargetRole?: DBProxyEndpointTargetRole;
+  Tags?: Tag[];
+  EndpointNetworkType?: EndpointNetworkType;
 }
 export const CreateDBProxyEndpointRequest = S.suspend(() =>
   S.Struct({
-    DBProxyName: S.String,
-    DBProxyEndpointName: S.String,
-    VpcSubnetIds: StringList,
+    DBProxyName: S.optional(S.String),
+    DBProxyEndpointName: S.optional(S.String),
+    VpcSubnetIds: S.optional(StringList),
     VpcSecurityGroupIds: S.optional(StringList),
-    TargetRole: S.optional(S.String),
+    TargetRole: S.optional(DBProxyEndpointTargetRole),
     Tags: S.optional(TagList),
-    EndpointNetworkType: S.optional(S.String),
+    EndpointNetworkType: S.optional(EndpointNetworkType),
   }).pipe(
     T.all(
       ns,
@@ -917,14 +980,14 @@ export const CreateDBProxyEndpointRequest = S.suspend(() =>
   identifier: "CreateDBProxyEndpointRequest",
 }) as any as S.Schema<CreateDBProxyEndpointRequest>;
 export interface CreateDBSecurityGroupMessage {
-  DBSecurityGroupName: string;
-  DBSecurityGroupDescription: string;
-  Tags?: TagList;
+  DBSecurityGroupName?: string;
+  DBSecurityGroupDescription?: string;
+  Tags?: Tag[];
 }
 export const CreateDBSecurityGroupMessage = S.suspend(() =>
   S.Struct({
-    DBSecurityGroupName: S.String,
-    DBSecurityGroupDescription: S.String,
+    DBSecurityGroupName: S.optional(S.String),
+    DBSecurityGroupDescription: S.optional(S.String),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -941,20 +1004,20 @@ export const CreateDBSecurityGroupMessage = S.suspend(() =>
   identifier: "CreateDBSecurityGroupMessage",
 }) as any as S.Schema<CreateDBSecurityGroupMessage>;
 export interface CreateDBShardGroupMessage {
-  DBShardGroupIdentifier: string;
-  DBClusterIdentifier: string;
+  DBShardGroupIdentifier?: string;
+  DBClusterIdentifier?: string;
   ComputeRedundancy?: number;
-  MaxACU: number;
+  MaxACU?: number;
   MinACU?: number;
   PubliclyAccessible?: boolean;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateDBShardGroupMessage = S.suspend(() =>
   S.Struct({
-    DBShardGroupIdentifier: S.String,
-    DBClusterIdentifier: S.String,
+    DBShardGroupIdentifier: S.optional(S.String),
+    DBClusterIdentifier: S.optional(S.String),
     ComputeRedundancy: S.optional(S.Number),
-    MaxACU: S.Number,
+    MaxACU: S.optional(S.Number),
     MinACU: S.optional(S.Number),
     PubliclyAccessible: S.optional(S.Boolean),
     Tags: S.optional(TagList),
@@ -973,14 +1036,14 @@ export const CreateDBShardGroupMessage = S.suspend(() =>
   identifier: "CreateDBShardGroupMessage",
 }) as any as S.Schema<CreateDBShardGroupMessage>;
 export interface CreateDBSnapshotMessage {
-  DBSnapshotIdentifier: string;
-  DBInstanceIdentifier: string;
-  Tags?: TagList;
+  DBSnapshotIdentifier?: string;
+  DBInstanceIdentifier?: string;
+  Tags?: Tag[];
 }
 export const CreateDBSnapshotMessage = S.suspend(() =>
   S.Struct({
-    DBSnapshotIdentifier: S.String,
-    DBInstanceIdentifier: S.String,
+    DBSnapshotIdentifier: S.optional(S.String),
+    DBInstanceIdentifier: S.optional(S.String),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -997,16 +1060,16 @@ export const CreateDBSnapshotMessage = S.suspend(() =>
   identifier: "CreateDBSnapshotMessage",
 }) as any as S.Schema<CreateDBSnapshotMessage>;
 export interface CreateDBSubnetGroupMessage {
-  DBSubnetGroupName: string;
-  DBSubnetGroupDescription: string;
-  SubnetIds: SubnetIdentifierList;
-  Tags?: TagList;
+  DBSubnetGroupName?: string;
+  DBSubnetGroupDescription?: string;
+  SubnetIds?: string[];
+  Tags?: Tag[];
 }
 export const CreateDBSubnetGroupMessage = S.suspend(() =>
   S.Struct({
-    DBSubnetGroupName: S.String,
-    DBSubnetGroupDescription: S.String,
-    SubnetIds: SubnetIdentifierList,
+    DBSubnetGroupName: S.optional(S.String),
+    DBSubnetGroupDescription: S.optional(S.String),
+    SubnetIds: S.optional(SubnetIdentifierList),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -1023,18 +1086,18 @@ export const CreateDBSubnetGroupMessage = S.suspend(() =>
   identifier: "CreateDBSubnetGroupMessage",
 }) as any as S.Schema<CreateDBSubnetGroupMessage>;
 export interface CreateEventSubscriptionMessage {
-  SubscriptionName: string;
-  SnsTopicArn: string;
+  SubscriptionName?: string;
+  SnsTopicArn?: string;
   SourceType?: string;
-  EventCategories?: EventCategoriesList;
-  SourceIds?: SourceIdsList;
+  EventCategories?: string[];
+  SourceIds?: string[];
   Enabled?: boolean;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateEventSubscriptionMessage = S.suspend(() =>
   S.Struct({
-    SubscriptionName: S.String,
-    SnsTopicArn: S.String,
+    SubscriptionName: S.optional(S.String),
+    SnsTopicArn: S.optional(S.String),
     SourceType: S.optional(S.String),
     EventCategories: S.optional(EventCategoriesList),
     SourceIds: S.optional(SourceIdsList),
@@ -1055,7 +1118,7 @@ export const CreateEventSubscriptionMessage = S.suspend(() =>
   identifier: "CreateEventSubscriptionMessage",
 }) as any as S.Schema<CreateEventSubscriptionMessage>;
 export interface CreateGlobalClusterMessage {
-  GlobalClusterIdentifier: string;
+  GlobalClusterIdentifier?: string;
   SourceDBClusterIdentifier?: string;
   Engine?: string;
   EngineVersion?: string;
@@ -1063,11 +1126,11 @@ export interface CreateGlobalClusterMessage {
   DeletionProtection?: boolean;
   DatabaseName?: string;
   StorageEncrypted?: boolean;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateGlobalClusterMessage = S.suspend(() =>
   S.Struct({
-    GlobalClusterIdentifier: S.String,
+    GlobalClusterIdentifier: S.optional(S.String),
     SourceDBClusterIdentifier: S.optional(S.String),
     Engine: S.optional(S.String),
     EngineVersion: S.optional(S.String),
@@ -1091,18 +1154,18 @@ export const CreateGlobalClusterMessage = S.suspend(() =>
   identifier: "CreateGlobalClusterMessage",
 }) as any as S.Schema<CreateGlobalClusterMessage>;
 export interface CreateOptionGroupMessage {
-  OptionGroupName: string;
-  EngineName: string;
-  MajorEngineVersion: string;
-  OptionGroupDescription: string;
-  Tags?: TagList;
+  OptionGroupName?: string;
+  EngineName?: string;
+  MajorEngineVersion?: string;
+  OptionGroupDescription?: string;
+  Tags?: Tag[];
 }
 export const CreateOptionGroupMessage = S.suspend(() =>
   S.Struct({
-    OptionGroupName: S.String,
-    EngineName: S.String,
-    MajorEngineVersion: S.String,
-    OptionGroupDescription: S.String,
+    OptionGroupName: S.optional(S.String),
+    EngineName: S.optional(S.String),
+    MajorEngineVersion: S.optional(S.String),
+    OptionGroupDescription: S.optional(S.String),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -1119,21 +1182,21 @@ export const CreateOptionGroupMessage = S.suspend(() =>
   identifier: "CreateOptionGroupMessage",
 }) as any as S.Schema<CreateOptionGroupMessage>;
 export interface CreateTenantDatabaseMessage {
-  DBInstanceIdentifier: string;
-  TenantDBName: string;
-  MasterUsername: string;
-  MasterUserPassword?: string | Redacted.Redacted<string>;
+  DBInstanceIdentifier?: string;
+  TenantDBName?: string;
+  MasterUsername?: string;
+  MasterUserPassword?: string | redacted.Redacted<string>;
   CharacterSetName?: string;
   NcharCharacterSetName?: string;
   ManageMasterUserPassword?: boolean;
   MasterUserSecretKmsKeyId?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateTenantDatabaseMessage = S.suspend(() =>
   S.Struct({
-    DBInstanceIdentifier: S.String,
-    TenantDBName: S.String,
-    MasterUsername: S.String,
+    DBInstanceIdentifier: S.optional(S.String),
+    TenantDBName: S.optional(S.String),
+    MasterUsername: S.optional(S.String),
     MasterUserPassword: S.optional(SensitiveString),
     CharacterSetName: S.optional(S.String),
     NcharCharacterSetName: S.optional(S.String),
@@ -1155,12 +1218,12 @@ export const CreateTenantDatabaseMessage = S.suspend(() =>
   identifier: "CreateTenantDatabaseMessage",
 }) as any as S.Schema<CreateTenantDatabaseMessage>;
 export interface DeleteBlueGreenDeploymentRequest {
-  BlueGreenDeploymentIdentifier: string;
+  BlueGreenDeploymentIdentifier?: string;
   DeleteTarget?: boolean;
 }
 export const DeleteBlueGreenDeploymentRequest = S.suspend(() =>
   S.Struct({
-    BlueGreenDeploymentIdentifier: S.String,
+    BlueGreenDeploymentIdentifier: S.optional(S.String),
     DeleteTarget: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -1177,11 +1240,14 @@ export const DeleteBlueGreenDeploymentRequest = S.suspend(() =>
   identifier: "DeleteBlueGreenDeploymentRequest",
 }) as any as S.Schema<DeleteBlueGreenDeploymentRequest>;
 export interface DeleteCustomDBEngineVersionMessage {
-  Engine: string;
-  EngineVersion: string;
+  Engine?: string;
+  EngineVersion?: string;
 }
 export const DeleteCustomDBEngineVersionMessage = S.suspend(() =>
-  S.Struct({ Engine: S.String, EngineVersion: S.String }).pipe(
+  S.Struct({
+    Engine: S.optional(S.String),
+    EngineVersion: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1196,14 +1262,14 @@ export const DeleteCustomDBEngineVersionMessage = S.suspend(() =>
   identifier: "DeleteCustomDBEngineVersionMessage",
 }) as any as S.Schema<DeleteCustomDBEngineVersionMessage>;
 export interface DeleteDBClusterMessage {
-  DBClusterIdentifier: string;
+  DBClusterIdentifier?: string;
   SkipFinalSnapshot?: boolean;
   FinalDBSnapshotIdentifier?: string;
   DeleteAutomatedBackups?: boolean;
 }
 export const DeleteDBClusterMessage = S.suspend(() =>
   S.Struct({
-    DBClusterIdentifier: S.String,
+    DBClusterIdentifier: S.optional(S.String),
     SkipFinalSnapshot: S.optional(S.Boolean),
     FinalDBSnapshotIdentifier: S.optional(S.String),
     DeleteAutomatedBackups: S.optional(S.Boolean),
@@ -1222,10 +1288,10 @@ export const DeleteDBClusterMessage = S.suspend(() =>
   identifier: "DeleteDBClusterMessage",
 }) as any as S.Schema<DeleteDBClusterMessage>;
 export interface DeleteDBClusterAutomatedBackupMessage {
-  DbClusterResourceId: string;
+  DbClusterResourceId?: string;
 }
 export const DeleteDBClusterAutomatedBackupMessage = S.suspend(() =>
-  S.Struct({ DbClusterResourceId: S.String }).pipe(
+  S.Struct({ DbClusterResourceId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1240,10 +1306,10 @@ export const DeleteDBClusterAutomatedBackupMessage = S.suspend(() =>
   identifier: "DeleteDBClusterAutomatedBackupMessage",
 }) as any as S.Schema<DeleteDBClusterAutomatedBackupMessage>;
 export interface DeleteDBClusterEndpointMessage {
-  DBClusterEndpointIdentifier: string;
+  DBClusterEndpointIdentifier?: string;
 }
 export const DeleteDBClusterEndpointMessage = S.suspend(() =>
-  S.Struct({ DBClusterEndpointIdentifier: S.String }).pipe(
+  S.Struct({ DBClusterEndpointIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1258,10 +1324,10 @@ export const DeleteDBClusterEndpointMessage = S.suspend(() =>
   identifier: "DeleteDBClusterEndpointMessage",
 }) as any as S.Schema<DeleteDBClusterEndpointMessage>;
 export interface DeleteDBClusterParameterGroupMessage {
-  DBClusterParameterGroupName: string;
+  DBClusterParameterGroupName?: string;
 }
 export const DeleteDBClusterParameterGroupMessage = S.suspend(() =>
-  S.Struct({ DBClusterParameterGroupName: S.String }).pipe(
+  S.Struct({ DBClusterParameterGroupName: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1282,10 +1348,10 @@ export const DeleteDBClusterParameterGroupResponse = S.suspend(() =>
   identifier: "DeleteDBClusterParameterGroupResponse",
 }) as any as S.Schema<DeleteDBClusterParameterGroupResponse>;
 export interface DeleteDBClusterSnapshotMessage {
-  DBClusterSnapshotIdentifier: string;
+  DBClusterSnapshotIdentifier?: string;
 }
 export const DeleteDBClusterSnapshotMessage = S.suspend(() =>
-  S.Struct({ DBClusterSnapshotIdentifier: S.String }).pipe(
+  S.Struct({ DBClusterSnapshotIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1300,14 +1366,14 @@ export const DeleteDBClusterSnapshotMessage = S.suspend(() =>
   identifier: "DeleteDBClusterSnapshotMessage",
 }) as any as S.Schema<DeleteDBClusterSnapshotMessage>;
 export interface DeleteDBInstanceMessage {
-  DBInstanceIdentifier: string;
+  DBInstanceIdentifier?: string;
   SkipFinalSnapshot?: boolean;
   FinalDBSnapshotIdentifier?: string;
   DeleteAutomatedBackups?: boolean;
 }
 export const DeleteDBInstanceMessage = S.suspend(() =>
   S.Struct({
-    DBInstanceIdentifier: S.String,
+    DBInstanceIdentifier: S.optional(S.String),
     SkipFinalSnapshot: S.optional(S.Boolean),
     FinalDBSnapshotIdentifier: S.optional(S.String),
     DeleteAutomatedBackups: S.optional(S.Boolean),
@@ -1348,10 +1414,10 @@ export const DeleteDBInstanceAutomatedBackupMessage = S.suspend(() =>
   identifier: "DeleteDBInstanceAutomatedBackupMessage",
 }) as any as S.Schema<DeleteDBInstanceAutomatedBackupMessage>;
 export interface DeleteDBParameterGroupMessage {
-  DBParameterGroupName: string;
+  DBParameterGroupName?: string;
 }
 export const DeleteDBParameterGroupMessage = S.suspend(() =>
-  S.Struct({ DBParameterGroupName: S.String }).pipe(
+  S.Struct({ DBParameterGroupName: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1372,10 +1438,10 @@ export const DeleteDBParameterGroupResponse = S.suspend(() =>
   identifier: "DeleteDBParameterGroupResponse",
 }) as any as S.Schema<DeleteDBParameterGroupResponse>;
 export interface DeleteDBProxyRequest {
-  DBProxyName: string;
+  DBProxyName?: string;
 }
 export const DeleteDBProxyRequest = S.suspend(() =>
-  S.Struct({ DBProxyName: S.String }).pipe(
+  S.Struct({ DBProxyName: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1390,10 +1456,10 @@ export const DeleteDBProxyRequest = S.suspend(() =>
   identifier: "DeleteDBProxyRequest",
 }) as any as S.Schema<DeleteDBProxyRequest>;
 export interface DeleteDBProxyEndpointRequest {
-  DBProxyEndpointName: string;
+  DBProxyEndpointName?: string;
 }
 export const DeleteDBProxyEndpointRequest = S.suspend(() =>
-  S.Struct({ DBProxyEndpointName: S.String }).pipe(
+  S.Struct({ DBProxyEndpointName: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1408,10 +1474,10 @@ export const DeleteDBProxyEndpointRequest = S.suspend(() =>
   identifier: "DeleteDBProxyEndpointRequest",
 }) as any as S.Schema<DeleteDBProxyEndpointRequest>;
 export interface DeleteDBSecurityGroupMessage {
-  DBSecurityGroupName: string;
+  DBSecurityGroupName?: string;
 }
 export const DeleteDBSecurityGroupMessage = S.suspend(() =>
-  S.Struct({ DBSecurityGroupName: S.String }).pipe(
+  S.Struct({ DBSecurityGroupName: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1432,10 +1498,10 @@ export const DeleteDBSecurityGroupResponse = S.suspend(() =>
   identifier: "DeleteDBSecurityGroupResponse",
 }) as any as S.Schema<DeleteDBSecurityGroupResponse>;
 export interface DeleteDBShardGroupMessage {
-  DBShardGroupIdentifier: string;
+  DBShardGroupIdentifier?: string;
 }
 export const DeleteDBShardGroupMessage = S.suspend(() =>
-  S.Struct({ DBShardGroupIdentifier: S.String }).pipe(
+  S.Struct({ DBShardGroupIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1450,10 +1516,10 @@ export const DeleteDBShardGroupMessage = S.suspend(() =>
   identifier: "DeleteDBShardGroupMessage",
 }) as any as S.Schema<DeleteDBShardGroupMessage>;
 export interface DeleteDBSnapshotMessage {
-  DBSnapshotIdentifier: string;
+  DBSnapshotIdentifier?: string;
 }
 export const DeleteDBSnapshotMessage = S.suspend(() =>
-  S.Struct({ DBSnapshotIdentifier: S.String }).pipe(
+  S.Struct({ DBSnapshotIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1468,10 +1534,10 @@ export const DeleteDBSnapshotMessage = S.suspend(() =>
   identifier: "DeleteDBSnapshotMessage",
 }) as any as S.Schema<DeleteDBSnapshotMessage>;
 export interface DeleteDBSubnetGroupMessage {
-  DBSubnetGroupName: string;
+  DBSubnetGroupName?: string;
 }
 export const DeleteDBSubnetGroupMessage = S.suspend(() =>
-  S.Struct({ DBSubnetGroupName: S.String }).pipe(
+  S.Struct({ DBSubnetGroupName: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1492,10 +1558,10 @@ export const DeleteDBSubnetGroupResponse = S.suspend(() =>
   identifier: "DeleteDBSubnetGroupResponse",
 }) as any as S.Schema<DeleteDBSubnetGroupResponse>;
 export interface DeleteEventSubscriptionMessage {
-  SubscriptionName: string;
+  SubscriptionName?: string;
 }
 export const DeleteEventSubscriptionMessage = S.suspend(() =>
-  S.Struct({ SubscriptionName: S.String }).pipe(
+  S.Struct({ SubscriptionName: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1510,10 +1576,10 @@ export const DeleteEventSubscriptionMessage = S.suspend(() =>
   identifier: "DeleteEventSubscriptionMessage",
 }) as any as S.Schema<DeleteEventSubscriptionMessage>;
 export interface DeleteGlobalClusterMessage {
-  GlobalClusterIdentifier: string;
+  GlobalClusterIdentifier?: string;
 }
 export const DeleteGlobalClusterMessage = S.suspend(() =>
-  S.Struct({ GlobalClusterIdentifier: S.String }).pipe(
+  S.Struct({ GlobalClusterIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1528,10 +1594,10 @@ export const DeleteGlobalClusterMessage = S.suspend(() =>
   identifier: "DeleteGlobalClusterMessage",
 }) as any as S.Schema<DeleteGlobalClusterMessage>;
 export interface DeleteIntegrationMessage {
-  IntegrationIdentifier: string;
+  IntegrationIdentifier?: string;
 }
 export const DeleteIntegrationMessage = S.suspend(() =>
-  S.Struct({ IntegrationIdentifier: S.String }).pipe(
+  S.Struct({ IntegrationIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1546,10 +1612,10 @@ export const DeleteIntegrationMessage = S.suspend(() =>
   identifier: "DeleteIntegrationMessage",
 }) as any as S.Schema<DeleteIntegrationMessage>;
 export interface DeleteOptionGroupMessage {
-  OptionGroupName: string;
+  OptionGroupName?: string;
 }
 export const DeleteOptionGroupMessage = S.suspend(() =>
-  S.Struct({ OptionGroupName: S.String }).pipe(
+  S.Struct({ OptionGroupName: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1570,15 +1636,15 @@ export const DeleteOptionGroupResponse = S.suspend(() =>
   identifier: "DeleteOptionGroupResponse",
 }) as any as S.Schema<DeleteOptionGroupResponse>;
 export interface DeleteTenantDatabaseMessage {
-  DBInstanceIdentifier: string;
-  TenantDBName: string;
+  DBInstanceIdentifier?: string;
+  TenantDBName?: string;
   SkipFinalSnapshot?: boolean;
   FinalDBSnapshotIdentifier?: string;
 }
 export const DeleteTenantDatabaseMessage = S.suspend(() =>
   S.Struct({
-    DBInstanceIdentifier: S.String,
-    TenantDBName: S.String,
+    DBInstanceIdentifier: S.optional(S.String),
+    TenantDBName: S.optional(S.String),
     SkipFinalSnapshot: S.optional(S.Boolean),
     FinalDBSnapshotIdentifier: S.optional(S.String),
   }).pipe(
@@ -1596,14 +1662,14 @@ export const DeleteTenantDatabaseMessage = S.suspend(() =>
   identifier: "DeleteTenantDatabaseMessage",
 }) as any as S.Schema<DeleteTenantDatabaseMessage>;
 export interface DeregisterDBProxyTargetsRequest {
-  DBProxyName: string;
+  DBProxyName?: string;
   TargetGroupName?: string;
-  DBInstanceIdentifiers?: StringList;
-  DBClusterIdentifiers?: StringList;
+  DBInstanceIdentifiers?: string[];
+  DBClusterIdentifiers?: string[];
 }
 export const DeregisterDBProxyTargetsRequest = S.suspend(() =>
   S.Struct({
-    DBProxyName: S.String,
+    DBProxyName: S.optional(S.String),
     TargetGroupName: S.optional(S.String),
     DBInstanceIdentifiers: S.optional(StringList),
     DBClusterIdentifiers: S.optional(StringList),
@@ -1630,11 +1696,11 @@ export const DeregisterDBProxyTargetsResponse = S.suspend(() =>
 export type FilterValueList = string[];
 export const FilterValueList = S.Array(S.String.pipe(T.XmlName("Value")));
 export interface Filter {
-  Name: string;
-  Values: FilterValueList;
+  Name?: string;
+  Values?: string[];
 }
 export const Filter = S.suspend(() =>
-  S.Struct({ Name: S.String, Values: FilterValueList }),
+  S.Struct({ Name: S.optional(S.String), Values: S.optional(FilterValueList) }),
 ).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type FilterList = Filter[];
 export const FilterList = S.Array(
@@ -1642,7 +1708,7 @@ export const FilterList = S.Array(
 );
 export interface DescribeCertificatesMessage {
   CertificateIdentifier?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -1669,7 +1735,7 @@ export const DescribeCertificatesMessage = S.suspend(() =>
 export interface DescribeDBClusterAutomatedBackupsMessage {
   DbClusterResourceId?: string;
   DBClusterIdentifier?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -1695,15 +1761,15 @@ export const DescribeDBClusterAutomatedBackupsMessage = S.suspend(() =>
   identifier: "DescribeDBClusterAutomatedBackupsMessage",
 }) as any as S.Schema<DescribeDBClusterAutomatedBackupsMessage>;
 export interface DescribeDBClusterBacktracksMessage {
-  DBClusterIdentifier: string;
+  DBClusterIdentifier?: string;
   BacktrackIdentifier?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
 export const DescribeDBClusterBacktracksMessage = S.suspend(() =>
   S.Struct({
-    DBClusterIdentifier: S.String,
+    DBClusterIdentifier: S.optional(S.String),
     BacktrackIdentifier: S.optional(S.String),
     Filters: S.optional(FilterList),
     MaxRecords: S.optional(S.Number),
@@ -1725,7 +1791,7 @@ export const DescribeDBClusterBacktracksMessage = S.suspend(() =>
 export interface DescribeDBClusterEndpointsMessage {
   DBClusterIdentifier?: string;
   DBClusterEndpointIdentifier?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -1752,7 +1818,7 @@ export const DescribeDBClusterEndpointsMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeDBClusterEndpointsMessage>;
 export interface DescribeDBClusterParameterGroupsMessage {
   DBClusterParameterGroupName?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -1777,15 +1843,15 @@ export const DescribeDBClusterParameterGroupsMessage = S.suspend(() =>
   identifier: "DescribeDBClusterParameterGroupsMessage",
 }) as any as S.Schema<DescribeDBClusterParameterGroupsMessage>;
 export interface DescribeDBClusterParametersMessage {
-  DBClusterParameterGroupName: string;
+  DBClusterParameterGroupName?: string;
   Source?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
 export const DescribeDBClusterParametersMessage = S.suspend(() =>
   S.Struct({
-    DBClusterParameterGroupName: S.String,
+    DBClusterParameterGroupName: S.optional(S.String),
     Source: S.optional(S.String),
     Filters: S.optional(FilterList),
     MaxRecords: S.optional(S.Number),
@@ -1806,7 +1872,7 @@ export const DescribeDBClusterParametersMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeDBClusterParametersMessage>;
 export interface DescribeDBClustersMessage {
   DBClusterIdentifier?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
   IncludeShared?: boolean;
@@ -1833,10 +1899,10 @@ export const DescribeDBClustersMessage = S.suspend(() =>
   identifier: "DescribeDBClustersMessage",
 }) as any as S.Schema<DescribeDBClustersMessage>;
 export interface DescribeDBClusterSnapshotAttributesMessage {
-  DBClusterSnapshotIdentifier: string;
+  DBClusterSnapshotIdentifier?: string;
 }
 export const DescribeDBClusterSnapshotAttributesMessage = S.suspend(() =>
-  S.Struct({ DBClusterSnapshotIdentifier: S.String }).pipe(
+  S.Struct({ DBClusterSnapshotIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1854,7 +1920,7 @@ export interface DescribeDBClusterSnapshotsMessage {
   DBClusterIdentifier?: string;
   DBClusterSnapshotIdentifier?: string;
   SnapshotType?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
   IncludeShared?: boolean;
@@ -1890,7 +1956,7 @@ export interface DescribeDBEngineVersionsMessage {
   Engine?: string;
   EngineVersion?: string;
   DBParameterGroupFamily?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
   DefaultOnly?: boolean;
@@ -1927,7 +1993,7 @@ export const DescribeDBEngineVersionsMessage = S.suspend(() =>
 export interface DescribeDBInstanceAutomatedBackupsMessage {
   DbiResourceId?: string;
   DBInstanceIdentifier?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
   DBInstanceAutomatedBackupsArn?: string;
@@ -1956,7 +2022,7 @@ export const DescribeDBInstanceAutomatedBackupsMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeDBInstanceAutomatedBackupsMessage>;
 export interface DescribeDBInstancesMessage {
   DBInstanceIdentifier?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -1981,17 +2047,17 @@ export const DescribeDBInstancesMessage = S.suspend(() =>
   identifier: "DescribeDBInstancesMessage",
 }) as any as S.Schema<DescribeDBInstancesMessage>;
 export interface DescribeDBLogFilesMessage {
-  DBInstanceIdentifier: string;
+  DBInstanceIdentifier?: string;
   FilenameContains?: string;
   FileLastWritten?: number;
   FileSize?: number;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
 export const DescribeDBLogFilesMessage = S.suspend(() =>
   S.Struct({
-    DBInstanceIdentifier: S.String,
+    DBInstanceIdentifier: S.optional(S.String),
     FilenameContains: S.optional(S.String),
     FileLastWritten: S.optional(S.Number),
     FileSize: S.optional(S.Number),
@@ -2040,7 +2106,7 @@ export const DescribeDBMajorEngineVersionsRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeDBMajorEngineVersionsRequest>;
 export interface DescribeDBParameterGroupsMessage {
   DBParameterGroupName?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -2065,15 +2131,15 @@ export const DescribeDBParameterGroupsMessage = S.suspend(() =>
   identifier: "DescribeDBParameterGroupsMessage",
 }) as any as S.Schema<DescribeDBParameterGroupsMessage>;
 export interface DescribeDBParametersMessage {
-  DBParameterGroupName: string;
+  DBParameterGroupName?: string;
   Source?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
 export const DescribeDBParametersMessage = S.suspend(() =>
   S.Struct({
-    DBParameterGroupName: S.String,
+    DBParameterGroupName: S.optional(S.String),
     Source: S.optional(S.String),
     Filters: S.optional(FilterList),
     MaxRecords: S.optional(S.Number),
@@ -2094,7 +2160,7 @@ export const DescribeDBParametersMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeDBParametersMessage>;
 export interface DescribeDBProxiesRequest {
   DBProxyName?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   Marker?: string;
   MaxRecords?: number;
 }
@@ -2121,7 +2187,7 @@ export const DescribeDBProxiesRequest = S.suspend(() =>
 export interface DescribeDBProxyEndpointsRequest {
   DBProxyName?: string;
   DBProxyEndpointName?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   Marker?: string;
   MaxRecords?: number;
 }
@@ -2147,15 +2213,15 @@ export const DescribeDBProxyEndpointsRequest = S.suspend(() =>
   identifier: "DescribeDBProxyEndpointsRequest",
 }) as any as S.Schema<DescribeDBProxyEndpointsRequest>;
 export interface DescribeDBProxyTargetGroupsRequest {
-  DBProxyName: string;
+  DBProxyName?: string;
   TargetGroupName?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   Marker?: string;
   MaxRecords?: number;
 }
 export const DescribeDBProxyTargetGroupsRequest = S.suspend(() =>
   S.Struct({
-    DBProxyName: S.String,
+    DBProxyName: S.optional(S.String),
     TargetGroupName: S.optional(S.String),
     Filters: S.optional(FilterList),
     Marker: S.optional(S.String),
@@ -2175,15 +2241,15 @@ export const DescribeDBProxyTargetGroupsRequest = S.suspend(() =>
   identifier: "DescribeDBProxyTargetGroupsRequest",
 }) as any as S.Schema<DescribeDBProxyTargetGroupsRequest>;
 export interface DescribeDBProxyTargetsRequest {
-  DBProxyName: string;
+  DBProxyName?: string;
   TargetGroupName?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   Marker?: string;
   MaxRecords?: number;
 }
 export const DescribeDBProxyTargetsRequest = S.suspend(() =>
   S.Struct({
-    DBProxyName: S.String,
+    DBProxyName: S.optional(S.String),
     TargetGroupName: S.optional(S.String),
     Filters: S.optional(FilterList),
     Marker: S.optional(S.String),
@@ -2206,7 +2272,7 @@ export interface DescribeDBRecommendationsMessage {
   LastUpdatedAfter?: Date;
   LastUpdatedBefore?: Date;
   Locale?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -2234,7 +2300,7 @@ export const DescribeDBRecommendationsMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeDBRecommendationsMessage>;
 export interface DescribeDBSecurityGroupsMessage {
   DBSecurityGroupName?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -2260,7 +2326,7 @@ export const DescribeDBSecurityGroupsMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeDBSecurityGroupsMessage>;
 export interface DescribeDBShardGroupsMessage {
   DBShardGroupIdentifier?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   Marker?: string;
   MaxRecords?: number;
 }
@@ -2285,10 +2351,10 @@ export const DescribeDBShardGroupsMessage = S.suspend(() =>
   identifier: "DescribeDBShardGroupsMessage",
 }) as any as S.Schema<DescribeDBShardGroupsMessage>;
 export interface DescribeDBSnapshotAttributesMessage {
-  DBSnapshotIdentifier: string;
+  DBSnapshotIdentifier?: string;
 }
 export const DescribeDBSnapshotAttributesMessage = S.suspend(() =>
-  S.Struct({ DBSnapshotIdentifier: S.String }).pipe(
+  S.Struct({ DBSnapshotIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2306,7 +2372,7 @@ export interface DescribeDBSnapshotsMessage {
   DBInstanceIdentifier?: string;
   DBSnapshotIdentifier?: string;
   SnapshotType?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
   IncludeShared?: boolean;
@@ -2342,7 +2408,7 @@ export interface DescribeDBSnapshotTenantDatabasesMessage {
   DBInstanceIdentifier?: string;
   DBSnapshotIdentifier?: string;
   SnapshotType?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
   DbiResourceId?: string;
@@ -2372,7 +2438,7 @@ export const DescribeDBSnapshotTenantDatabasesMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeDBSnapshotTenantDatabasesMessage>;
 export interface DescribeDBSubnetGroupsMessage {
   DBSubnetGroupName?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -2397,14 +2463,14 @@ export const DescribeDBSubnetGroupsMessage = S.suspend(() =>
   identifier: "DescribeDBSubnetGroupsMessage",
 }) as any as S.Schema<DescribeDBSubnetGroupsMessage>;
 export interface DescribeEngineDefaultClusterParametersMessage {
-  DBParameterGroupFamily: string;
-  Filters?: FilterList;
+  DBParameterGroupFamily?: string;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
 export const DescribeEngineDefaultClusterParametersMessage = S.suspend(() =>
   S.Struct({
-    DBParameterGroupFamily: S.String,
+    DBParameterGroupFamily: S.optional(S.String),
     Filters: S.optional(FilterList),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
@@ -2423,14 +2489,14 @@ export const DescribeEngineDefaultClusterParametersMessage = S.suspend(() =>
   identifier: "DescribeEngineDefaultClusterParametersMessage",
 }) as any as S.Schema<DescribeEngineDefaultClusterParametersMessage>;
 export interface DescribeEngineDefaultParametersMessage {
-  DBParameterGroupFamily: string;
-  Filters?: FilterList;
+  DBParameterGroupFamily?: string;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
 export const DescribeEngineDefaultParametersMessage = S.suspend(() =>
   S.Struct({
-    DBParameterGroupFamily: S.String,
+    DBParameterGroupFamily: S.optional(S.String),
     Filters: S.optional(FilterList),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
@@ -2450,7 +2516,7 @@ export const DescribeEngineDefaultParametersMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeEngineDefaultParametersMessage>;
 export interface DescribeEventCategoriesMessage {
   SourceType?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
 }
 export const DescribeEventCategoriesMessage = S.suspend(() =>
   S.Struct({
@@ -2472,19 +2538,19 @@ export const DescribeEventCategoriesMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeEventCategoriesMessage>;
 export interface DescribeEventsMessage {
   SourceIdentifier?: string;
-  SourceType?: string;
+  SourceType?: SourceType;
   StartTime?: Date;
   EndTime?: Date;
   Duration?: number;
-  EventCategories?: EventCategoriesList;
-  Filters?: FilterList;
+  EventCategories?: string[];
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
 export const DescribeEventsMessage = S.suspend(() =>
   S.Struct({
     SourceIdentifier: S.optional(S.String),
-    SourceType: S.optional(S.String),
+    SourceType: S.optional(SourceType),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     Duration: S.optional(S.Number),
@@ -2508,7 +2574,7 @@ export const DescribeEventsMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeEventsMessage>;
 export interface DescribeEventSubscriptionsMessage {
   SubscriptionName?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -2535,10 +2601,10 @@ export const DescribeEventSubscriptionsMessage = S.suspend(() =>
 export interface DescribeExportTasksMessage {
   ExportTaskIdentifier?: string;
   SourceArn?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   Marker?: string;
   MaxRecords?: number;
-  SourceType?: string;
+  SourceType?: ExportSourceType;
 }
 export const DescribeExportTasksMessage = S.suspend(() =>
   S.Struct({
@@ -2547,7 +2613,7 @@ export const DescribeExportTasksMessage = S.suspend(() =>
     Filters: S.optional(FilterList),
     Marker: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
-    SourceType: S.optional(S.String),
+    SourceType: S.optional(ExportSourceType),
   }).pipe(
     T.all(
       ns,
@@ -2564,7 +2630,7 @@ export const DescribeExportTasksMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeExportTasksMessage>;
 export interface DescribeGlobalClustersMessage {
   GlobalClusterIdentifier?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -2590,7 +2656,7 @@ export const DescribeGlobalClustersMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeGlobalClustersMessage>;
 export interface DescribeIntegrationsMessage {
   IntegrationIdentifier?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -2615,15 +2681,15 @@ export const DescribeIntegrationsMessage = S.suspend(() =>
   identifier: "DescribeIntegrationsMessage",
 }) as any as S.Schema<DescribeIntegrationsMessage>;
 export interface DescribeOptionGroupOptionsMessage {
-  EngineName: string;
+  EngineName?: string;
   MajorEngineVersion?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
 export const DescribeOptionGroupOptionsMessage = S.suspend(() =>
   S.Struct({
-    EngineName: S.String,
+    EngineName: S.optional(S.String),
     MajorEngineVersion: S.optional(S.String),
     Filters: S.optional(FilterList),
     MaxRecords: S.optional(S.Number),
@@ -2644,7 +2710,7 @@ export const DescribeOptionGroupOptionsMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeOptionGroupOptionsMessage>;
 export interface DescribeOptionGroupsMessage {
   OptionGroupName?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   Marker?: string;
   MaxRecords?: number;
   EngineName?: string;
@@ -2673,19 +2739,19 @@ export const DescribeOptionGroupsMessage = S.suspend(() =>
   identifier: "DescribeOptionGroupsMessage",
 }) as any as S.Schema<DescribeOptionGroupsMessage>;
 export interface DescribeOrderableDBInstanceOptionsMessage {
-  Engine: string;
+  Engine?: string;
   EngineVersion?: string;
   DBInstanceClass?: string;
   LicenseModel?: string;
   AvailabilityZoneGroup?: string;
   Vpc?: boolean;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
 export const DescribeOrderableDBInstanceOptionsMessage = S.suspend(() =>
   S.Struct({
-    Engine: S.String,
+    Engine: S.optional(S.String),
     EngineVersion: S.optional(S.String),
     DBInstanceClass: S.optional(S.String),
     LicenseModel: S.optional(S.String),
@@ -2710,7 +2776,7 @@ export const DescribeOrderableDBInstanceOptionsMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeOrderableDBInstanceOptionsMessage>;
 export interface DescribePendingMaintenanceActionsMessage {
   ResourceIdentifier?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   Marker?: string;
   MaxRecords?: number;
 }
@@ -2743,7 +2809,7 @@ export interface DescribeReservedDBInstancesMessage {
   OfferingType?: string;
   MultiAZ?: boolean;
   LeaseId?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -2781,7 +2847,7 @@ export interface DescribeReservedDBInstancesOfferingsMessage {
   ProductDescription?: string;
   OfferingType?: string;
   MultiAZ?: boolean;
-  Filters?: FilterList;
+  Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
@@ -2814,7 +2880,7 @@ export interface DescribeSourceRegionsMessage {
   RegionName?: string;
   MaxRecords?: number;
   Marker?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
 }
 export const DescribeSourceRegionsMessage = S.suspend(() =>
   S.Struct({
@@ -2839,7 +2905,7 @@ export const DescribeSourceRegionsMessage = S.suspend(() =>
 export interface DescribeTenantDatabasesMessage {
   DBInstanceIdentifier?: string;
   TenantDBName?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   Marker?: string;
   MaxRecords?: number;
 }
@@ -2865,10 +2931,10 @@ export const DescribeTenantDatabasesMessage = S.suspend(() =>
   identifier: "DescribeTenantDatabasesMessage",
 }) as any as S.Schema<DescribeTenantDatabasesMessage>;
 export interface DescribeValidDBInstanceModificationsMessage {
-  DBInstanceIdentifier: string;
+  DBInstanceIdentifier?: string;
 }
 export const DescribeValidDBInstanceModificationsMessage = S.suspend(() =>
-  S.Struct({ DBInstanceIdentifier: S.String }).pipe(
+  S.Struct({ DBInstanceIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2883,10 +2949,10 @@ export const DescribeValidDBInstanceModificationsMessage = S.suspend(() =>
   identifier: "DescribeValidDBInstanceModificationsMessage",
 }) as any as S.Schema<DescribeValidDBInstanceModificationsMessage>;
 export interface DisableHttpEndpointRequest {
-  ResourceArn: string;
+  ResourceArn?: string;
 }
 export const DisableHttpEndpointRequest = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
+  S.Struct({ ResourceArn: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2901,15 +2967,15 @@ export const DisableHttpEndpointRequest = S.suspend(() =>
   identifier: "DisableHttpEndpointRequest",
 }) as any as S.Schema<DisableHttpEndpointRequest>;
 export interface DownloadDBLogFilePortionMessage {
-  DBInstanceIdentifier: string;
-  LogFileName: string;
+  DBInstanceIdentifier?: string;
+  LogFileName?: string;
   Marker?: string;
   NumberOfLines?: number;
 }
 export const DownloadDBLogFilePortionMessage = S.suspend(() =>
   S.Struct({
-    DBInstanceIdentifier: S.String,
-    LogFileName: S.String,
+    DBInstanceIdentifier: S.optional(S.String),
+    LogFileName: S.optional(S.String),
     Marker: S.optional(S.String),
     NumberOfLines: S.optional(S.Number),
   }).pipe(
@@ -2927,10 +2993,10 @@ export const DownloadDBLogFilePortionMessage = S.suspend(() =>
   identifier: "DownloadDBLogFilePortionMessage",
 }) as any as S.Schema<DownloadDBLogFilePortionMessage>;
 export interface EnableHttpEndpointRequest {
-  ResourceArn: string;
+  ResourceArn?: string;
 }
 export const EnableHttpEndpointRequest = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
+  S.Struct({ ResourceArn: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2945,12 +3011,12 @@ export const EnableHttpEndpointRequest = S.suspend(() =>
   identifier: "EnableHttpEndpointRequest",
 }) as any as S.Schema<EnableHttpEndpointRequest>;
 export interface FailoverDBClusterMessage {
-  DBClusterIdentifier: string;
+  DBClusterIdentifier?: string;
   TargetDBInstanceIdentifier?: string;
 }
 export const FailoverDBClusterMessage = S.suspend(() =>
   S.Struct({
-    DBClusterIdentifier: S.String,
+    DBClusterIdentifier: S.optional(S.String),
     TargetDBInstanceIdentifier: S.optional(S.String),
   }).pipe(
     T.all(
@@ -2967,15 +3033,15 @@ export const FailoverDBClusterMessage = S.suspend(() =>
   identifier: "FailoverDBClusterMessage",
 }) as any as S.Schema<FailoverDBClusterMessage>;
 export interface FailoverGlobalClusterMessage {
-  GlobalClusterIdentifier: string;
-  TargetDbClusterIdentifier: string;
+  GlobalClusterIdentifier?: string;
+  TargetDbClusterIdentifier?: string;
   AllowDataLoss?: boolean;
   Switchover?: boolean;
 }
 export const FailoverGlobalClusterMessage = S.suspend(() =>
   S.Struct({
-    GlobalClusterIdentifier: S.String,
-    TargetDbClusterIdentifier: S.String,
+    GlobalClusterIdentifier: S.optional(S.String),
+    TargetDbClusterIdentifier: S.optional(S.String),
     AllowDataLoss: S.optional(S.Boolean),
     Switchover: S.optional(S.Boolean),
   }).pipe(
@@ -2993,11 +3059,14 @@ export const FailoverGlobalClusterMessage = S.suspend(() =>
   identifier: "FailoverGlobalClusterMessage",
 }) as any as S.Schema<FailoverGlobalClusterMessage>;
 export interface ListTagsForResourceMessage {
-  ResourceName: string;
-  Filters?: FilterList;
+  ResourceName?: string;
+  Filters?: Filter[];
 }
 export const ListTagsForResourceMessage = S.suspend(() =>
-  S.Struct({ ResourceName: S.String, Filters: S.optional(FilterList) }).pipe(
+  S.Struct({
+    ResourceName: S.optional(S.String),
+    Filters: S.optional(FilterList),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -3013,12 +3082,12 @@ export const ListTagsForResourceMessage = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceMessage>;
 export interface ModifyActivityStreamRequest {
   ResourceArn?: string;
-  AuditPolicyState?: string;
+  AuditPolicyState?: AuditPolicyState;
 }
 export const ModifyActivityStreamRequest = S.suspend(() =>
   S.Struct({
     ResourceArn: S.optional(S.String),
-    AuditPolicyState: S.optional(S.String),
+    AuditPolicyState: S.optional(AuditPolicyState),
   }).pipe(
     T.all(
       ns,
@@ -3056,14 +3125,14 @@ export const ModifyCertificatesMessage = S.suspend(() =>
   identifier: "ModifyCertificatesMessage",
 }) as any as S.Schema<ModifyCertificatesMessage>;
 export interface ModifyCurrentDBClusterCapacityMessage {
-  DBClusterIdentifier: string;
+  DBClusterIdentifier?: string;
   Capacity?: number;
   SecondsBeforeTimeout?: number;
   TimeoutAction?: string;
 }
 export const ModifyCurrentDBClusterCapacityMessage = S.suspend(() =>
   S.Struct({
-    DBClusterIdentifier: S.String,
+    DBClusterIdentifier: S.optional(S.String),
     Capacity: S.optional(S.Number),
     SecondsBeforeTimeout: S.optional(S.Number),
     TimeoutAction: S.optional(S.String),
@@ -3082,17 +3151,17 @@ export const ModifyCurrentDBClusterCapacityMessage = S.suspend(() =>
   identifier: "ModifyCurrentDBClusterCapacityMessage",
 }) as any as S.Schema<ModifyCurrentDBClusterCapacityMessage>;
 export interface ModifyCustomDBEngineVersionMessage {
-  Engine: string;
-  EngineVersion: string;
+  Engine?: string;
+  EngineVersion?: string;
   Description?: string;
-  Status?: string;
+  Status?: CustomEngineVersionStatus;
 }
 export const ModifyCustomDBEngineVersionMessage = S.suspend(() =>
   S.Struct({
-    Engine: S.String,
-    EngineVersion: S.String,
+    Engine: S.optional(S.String),
+    EngineVersion: S.optional(S.String),
     Description: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(CustomEngineVersionStatus),
   }).pipe(
     T.all(
       ns,
@@ -3108,14 +3177,14 @@ export const ModifyCustomDBEngineVersionMessage = S.suspend(() =>
   identifier: "ModifyCustomDBEngineVersionMessage",
 }) as any as S.Schema<ModifyCustomDBEngineVersionMessage>;
 export interface ModifyDBClusterEndpointMessage {
-  DBClusterEndpointIdentifier: string;
+  DBClusterEndpointIdentifier?: string;
   EndpointType?: string;
-  StaticMembers?: StringList;
-  ExcludedMembers?: StringList;
+  StaticMembers?: string[];
+  ExcludedMembers?: string[];
 }
 export const ModifyDBClusterEndpointMessage = S.suspend(() =>
   S.Struct({
-    DBClusterEndpointIdentifier: S.String,
+    DBClusterEndpointIdentifier: S.optional(S.String),
     EndpointType: S.optional(S.String),
     StaticMembers: S.optional(StringList),
     ExcludedMembers: S.optional(StringList),
@@ -3134,15 +3203,15 @@ export const ModifyDBClusterEndpointMessage = S.suspend(() =>
   identifier: "ModifyDBClusterEndpointMessage",
 }) as any as S.Schema<ModifyDBClusterEndpointMessage>;
 export interface ModifyDBClusterSnapshotAttributeMessage {
-  DBClusterSnapshotIdentifier: string;
-  AttributeName: string;
-  ValuesToAdd?: AttributeValueList;
-  ValuesToRemove?: AttributeValueList;
+  DBClusterSnapshotIdentifier?: string;
+  AttributeName?: string;
+  ValuesToAdd?: string[];
+  ValuesToRemove?: string[];
 }
 export const ModifyDBClusterSnapshotAttributeMessage = S.suspend(() =>
   S.Struct({
-    DBClusterSnapshotIdentifier: S.String,
-    AttributeName: S.String,
+    DBClusterSnapshotIdentifier: S.optional(S.String),
+    AttributeName: S.optional(S.String),
     ValuesToAdd: S.optional(AttributeValueList),
     ValuesToRemove: S.optional(AttributeValueList),
   }).pipe(
@@ -3159,6 +3228,8 @@ export const ModifyDBClusterSnapshotAttributeMessage = S.suspend(() =>
 ).annotations({
   identifier: "ModifyDBClusterSnapshotAttributeMessage",
 }) as any as S.Schema<ModifyDBClusterSnapshotAttributeMessage>;
+export type ApplyMethod = "immediate" | "pending-reboot";
+export const ApplyMethod = S.Literal("immediate", "pending-reboot");
 export type EngineModeList = string[];
 export const EngineModeList = S.Array(S.String);
 export interface Parameter {
@@ -3171,8 +3242,8 @@ export interface Parameter {
   AllowedValues?: string;
   IsModifiable?: boolean;
   MinimumEngineVersion?: string;
-  ApplyMethod?: string;
-  SupportedEngineModes?: EngineModeList;
+  ApplyMethod?: ApplyMethod;
+  SupportedEngineModes?: string[];
 }
 export const Parameter = S.suspend(() =>
   S.Struct({
@@ -3185,7 +3256,7 @@ export const Parameter = S.suspend(() =>
     AllowedValues: S.optional(S.String),
     IsModifiable: S.optional(S.Boolean),
     MinimumEngineVersion: S.optional(S.String),
-    ApplyMethod: S.optional(S.String),
+    ApplyMethod: S.optional(ApplyMethod),
     SupportedEngineModes: S.optional(EngineModeList),
   }),
 ).annotations({ identifier: "Parameter" }) as any as S.Schema<Parameter>;
@@ -3196,11 +3267,14 @@ export const ParametersList = S.Array(
   }),
 );
 export interface ModifyDBParameterGroupMessage {
-  DBParameterGroupName: string;
-  Parameters: ParametersList;
+  DBParameterGroupName?: string;
+  Parameters?: Parameter[];
 }
 export const ModifyDBParameterGroupMessage = S.suspend(() =>
-  S.Struct({ DBParameterGroupName: S.String, Parameters: ParametersList }).pipe(
+  S.Struct({
+    DBParameterGroupName: S.optional(S.String),
+    Parameters: S.optional(ParametersList),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -3214,22 +3288,39 @@ export const ModifyDBParameterGroupMessage = S.suspend(() =>
 ).annotations({
   identifier: "ModifyDBParameterGroupMessage",
 }) as any as S.Schema<ModifyDBParameterGroupMessage>;
+export type AuthScheme = "SECRETS";
+export const AuthScheme = S.Literal("SECRETS");
+export type IAMAuthMode = "DISABLED" | "REQUIRED" | "ENABLED";
+export const IAMAuthMode = S.Literal("DISABLED", "REQUIRED", "ENABLED");
+export type ClientPasswordAuthType =
+  | "MYSQL_NATIVE_PASSWORD"
+  | "MYSQL_CACHING_SHA2_PASSWORD"
+  | "POSTGRES_SCRAM_SHA_256"
+  | "POSTGRES_MD5"
+  | "SQL_SERVER_AUTHENTICATION";
+export const ClientPasswordAuthType = S.Literal(
+  "MYSQL_NATIVE_PASSWORD",
+  "MYSQL_CACHING_SHA2_PASSWORD",
+  "POSTGRES_SCRAM_SHA_256",
+  "POSTGRES_MD5",
+  "SQL_SERVER_AUTHENTICATION",
+);
 export interface UserAuthConfig {
   Description?: string;
   UserName?: string;
-  AuthScheme?: string;
+  AuthScheme?: AuthScheme;
   SecretArn?: string;
-  IAMAuth?: string;
-  ClientPasswordAuthType?: string;
+  IAMAuth?: IAMAuthMode;
+  ClientPasswordAuthType?: ClientPasswordAuthType;
 }
 export const UserAuthConfig = S.suspend(() =>
   S.Struct({
     Description: S.optional(S.String),
     UserName: S.optional(S.String),
-    AuthScheme: S.optional(S.String),
+    AuthScheme: S.optional(AuthScheme),
     SecretArn: S.optional(S.String),
-    IAMAuth: S.optional(S.String),
-    ClientPasswordAuthType: S.optional(S.String),
+    IAMAuth: S.optional(IAMAuthMode),
+    ClientPasswordAuthType: S.optional(ClientPasswordAuthType),
   }),
 ).annotations({
   identifier: "UserAuthConfig",
@@ -3237,21 +3328,21 @@ export const UserAuthConfig = S.suspend(() =>
 export type UserAuthConfigList = UserAuthConfig[];
 export const UserAuthConfigList = S.Array(UserAuthConfig);
 export interface ModifyDBProxyRequest {
-  DBProxyName: string;
+  DBProxyName?: string;
   NewDBProxyName?: string;
-  DefaultAuthScheme?: string;
-  Auth?: UserAuthConfigList;
+  DefaultAuthScheme?: DefaultAuthScheme;
+  Auth?: UserAuthConfig[];
   RequireTLS?: boolean;
   IdleClientTimeout?: number;
   DebugLogging?: boolean;
   RoleArn?: string;
-  SecurityGroups?: StringList;
+  SecurityGroups?: string[];
 }
 export const ModifyDBProxyRequest = S.suspend(() =>
   S.Struct({
-    DBProxyName: S.String,
+    DBProxyName: S.optional(S.String),
     NewDBProxyName: S.optional(S.String),
-    DefaultAuthScheme: S.optional(S.String),
+    DefaultAuthScheme: S.optional(DefaultAuthScheme),
     Auth: S.optional(UserAuthConfigList),
     RequireTLS: S.optional(S.Boolean),
     IdleClientTimeout: S.optional(S.Number),
@@ -3273,13 +3364,13 @@ export const ModifyDBProxyRequest = S.suspend(() =>
   identifier: "ModifyDBProxyRequest",
 }) as any as S.Schema<ModifyDBProxyRequest>;
 export interface ModifyDBProxyEndpointRequest {
-  DBProxyEndpointName: string;
+  DBProxyEndpointName?: string;
   NewDBProxyEndpointName?: string;
-  VpcSecurityGroupIds?: StringList;
+  VpcSecurityGroupIds?: string[];
 }
 export const ModifyDBProxyEndpointRequest = S.suspend(() =>
   S.Struct({
-    DBProxyEndpointName: S.String,
+    DBProxyEndpointName: S.optional(S.String),
     NewDBProxyEndpointName: S.optional(S.String),
     VpcSecurityGroupIds: S.optional(StringList),
   }).pipe(
@@ -3297,14 +3388,14 @@ export const ModifyDBProxyEndpointRequest = S.suspend(() =>
   identifier: "ModifyDBProxyEndpointRequest",
 }) as any as S.Schema<ModifyDBProxyEndpointRequest>;
 export interface ModifyDBShardGroupMessage {
-  DBShardGroupIdentifier: string;
+  DBShardGroupIdentifier?: string;
   MaxACU?: number;
   MinACU?: number;
   ComputeRedundancy?: number;
 }
 export const ModifyDBShardGroupMessage = S.suspend(() =>
   S.Struct({
-    DBShardGroupIdentifier: S.String,
+    DBShardGroupIdentifier: S.optional(S.String),
     MaxACU: S.optional(S.Number),
     MinACU: S.optional(S.Number),
     ComputeRedundancy: S.optional(S.Number),
@@ -3323,13 +3414,13 @@ export const ModifyDBShardGroupMessage = S.suspend(() =>
   identifier: "ModifyDBShardGroupMessage",
 }) as any as S.Schema<ModifyDBShardGroupMessage>;
 export interface ModifyDBSnapshotMessage {
-  DBSnapshotIdentifier: string;
+  DBSnapshotIdentifier?: string;
   EngineVersion?: string;
   OptionGroupName?: string;
 }
 export const ModifyDBSnapshotMessage = S.suspend(() =>
   S.Struct({
-    DBSnapshotIdentifier: S.String,
+    DBSnapshotIdentifier: S.optional(S.String),
     EngineVersion: S.optional(S.String),
     OptionGroupName: S.optional(S.String),
   }).pipe(
@@ -3347,15 +3438,15 @@ export const ModifyDBSnapshotMessage = S.suspend(() =>
   identifier: "ModifyDBSnapshotMessage",
 }) as any as S.Schema<ModifyDBSnapshotMessage>;
 export interface ModifyDBSnapshotAttributeMessage {
-  DBSnapshotIdentifier: string;
-  AttributeName: string;
-  ValuesToAdd?: AttributeValueList;
-  ValuesToRemove?: AttributeValueList;
+  DBSnapshotIdentifier?: string;
+  AttributeName?: string;
+  ValuesToAdd?: string[];
+  ValuesToRemove?: string[];
 }
 export const ModifyDBSnapshotAttributeMessage = S.suspend(() =>
   S.Struct({
-    DBSnapshotIdentifier: S.String,
-    AttributeName: S.String,
+    DBSnapshotIdentifier: S.optional(S.String),
+    AttributeName: S.optional(S.String),
     ValuesToAdd: S.optional(AttributeValueList),
     ValuesToRemove: S.optional(AttributeValueList),
   }).pipe(
@@ -3373,15 +3464,15 @@ export const ModifyDBSnapshotAttributeMessage = S.suspend(() =>
   identifier: "ModifyDBSnapshotAttributeMessage",
 }) as any as S.Schema<ModifyDBSnapshotAttributeMessage>;
 export interface ModifyDBSubnetGroupMessage {
-  DBSubnetGroupName: string;
+  DBSubnetGroupName?: string;
   DBSubnetGroupDescription?: string;
-  SubnetIds: SubnetIdentifierList;
+  SubnetIds?: string[];
 }
 export const ModifyDBSubnetGroupMessage = S.suspend(() =>
   S.Struct({
-    DBSubnetGroupName: S.String,
+    DBSubnetGroupName: S.optional(S.String),
     DBSubnetGroupDescription: S.optional(S.String),
-    SubnetIds: SubnetIdentifierList,
+    SubnetIds: S.optional(SubnetIdentifierList),
   }).pipe(
     T.all(
       ns,
@@ -3397,15 +3488,15 @@ export const ModifyDBSubnetGroupMessage = S.suspend(() =>
   identifier: "ModifyDBSubnetGroupMessage",
 }) as any as S.Schema<ModifyDBSubnetGroupMessage>;
 export interface ModifyEventSubscriptionMessage {
-  SubscriptionName: string;
+  SubscriptionName?: string;
   SnsTopicArn?: string;
   SourceType?: string;
-  EventCategories?: EventCategoriesList;
+  EventCategories?: string[];
   Enabled?: boolean;
 }
 export const ModifyEventSubscriptionMessage = S.suspend(() =>
   S.Struct({
-    SubscriptionName: S.String,
+    SubscriptionName: S.optional(S.String),
     SnsTopicArn: S.optional(S.String),
     SourceType: S.optional(S.String),
     EventCategories: S.optional(EventCategoriesList),
@@ -3425,7 +3516,7 @@ export const ModifyEventSubscriptionMessage = S.suspend(() =>
   identifier: "ModifyEventSubscriptionMessage",
 }) as any as S.Schema<ModifyEventSubscriptionMessage>;
 export interface ModifyGlobalClusterMessage {
-  GlobalClusterIdentifier: string;
+  GlobalClusterIdentifier?: string;
   NewGlobalClusterIdentifier?: string;
   DeletionProtection?: boolean;
   EngineVersion?: string;
@@ -3433,7 +3524,7 @@ export interface ModifyGlobalClusterMessage {
 }
 export const ModifyGlobalClusterMessage = S.suspend(() =>
   S.Struct({
-    GlobalClusterIdentifier: S.String,
+    GlobalClusterIdentifier: S.optional(S.String),
     NewGlobalClusterIdentifier: S.optional(S.String),
     DeletionProtection: S.optional(S.Boolean),
     EngineVersion: S.optional(S.String),
@@ -3453,14 +3544,14 @@ export const ModifyGlobalClusterMessage = S.suspend(() =>
   identifier: "ModifyGlobalClusterMessage",
 }) as any as S.Schema<ModifyGlobalClusterMessage>;
 export interface ModifyIntegrationMessage {
-  IntegrationIdentifier: string;
+  IntegrationIdentifier?: string;
   IntegrationName?: string;
   DataFilter?: string;
   Description?: string;
 }
 export const ModifyIntegrationMessage = S.suspend(() =>
   S.Struct({
-    IntegrationIdentifier: S.String,
+    IntegrationIdentifier: S.optional(S.String),
     IntegrationName: S.optional(S.String),
     DataFilter: S.optional(S.String),
     Description: S.optional(S.String),
@@ -3479,9 +3570,9 @@ export const ModifyIntegrationMessage = S.suspend(() =>
   identifier: "ModifyIntegrationMessage",
 }) as any as S.Schema<ModifyIntegrationMessage>;
 export interface ModifyTenantDatabaseMessage {
-  DBInstanceIdentifier: string;
-  TenantDBName: string;
-  MasterUserPassword?: string | Redacted.Redacted<string>;
+  DBInstanceIdentifier?: string;
+  TenantDBName?: string;
+  MasterUserPassword?: string | redacted.Redacted<string>;
   NewTenantDBName?: string;
   ManageMasterUserPassword?: boolean;
   RotateMasterUserPassword?: boolean;
@@ -3489,8 +3580,8 @@ export interface ModifyTenantDatabaseMessage {
 }
 export const ModifyTenantDatabaseMessage = S.suspend(() =>
   S.Struct({
-    DBInstanceIdentifier: S.String,
-    TenantDBName: S.String,
+    DBInstanceIdentifier: S.optional(S.String),
+    TenantDBName: S.optional(S.String),
     MasterUserPassword: S.optional(SensitiveString),
     NewTenantDBName: S.optional(S.String),
     ManageMasterUserPassword: S.optional(S.Boolean),
@@ -3511,14 +3602,14 @@ export const ModifyTenantDatabaseMessage = S.suspend(() =>
   identifier: "ModifyTenantDatabaseMessage",
 }) as any as S.Schema<ModifyTenantDatabaseMessage>;
 export interface PromoteReadReplicaMessage {
-  DBInstanceIdentifier: string;
+  DBInstanceIdentifier?: string;
   BackupRetentionPeriod?: number;
   PreferredBackupWindow?: string;
-  TagSpecifications?: TagSpecificationList;
+  TagSpecifications?: TagSpecification[];
 }
 export const PromoteReadReplicaMessage = S.suspend(() =>
   S.Struct({
-    DBInstanceIdentifier: S.String,
+    DBInstanceIdentifier: S.optional(S.String),
     BackupRetentionPeriod: S.optional(S.Number),
     PreferredBackupWindow: S.optional(S.String),
     TagSpecifications: S.optional(TagSpecificationList),
@@ -3537,10 +3628,10 @@ export const PromoteReadReplicaMessage = S.suspend(() =>
   identifier: "PromoteReadReplicaMessage",
 }) as any as S.Schema<PromoteReadReplicaMessage>;
 export interface PromoteReadReplicaDBClusterMessage {
-  DBClusterIdentifier: string;
+  DBClusterIdentifier?: string;
 }
 export const PromoteReadReplicaDBClusterMessage = S.suspend(() =>
-  S.Struct({ DBClusterIdentifier: S.String }).pipe(
+  S.Struct({ DBClusterIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -3555,14 +3646,14 @@ export const PromoteReadReplicaDBClusterMessage = S.suspend(() =>
   identifier: "PromoteReadReplicaDBClusterMessage",
 }) as any as S.Schema<PromoteReadReplicaDBClusterMessage>;
 export interface PurchaseReservedDBInstancesOfferingMessage {
-  ReservedDBInstancesOfferingId: string;
+  ReservedDBInstancesOfferingId?: string;
   ReservedDBInstanceId?: string;
   DBInstanceCount?: number;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const PurchaseReservedDBInstancesOfferingMessage = S.suspend(() =>
   S.Struct({
-    ReservedDBInstancesOfferingId: S.String,
+    ReservedDBInstancesOfferingId: S.optional(S.String),
     ReservedDBInstanceId: S.optional(S.String),
     DBInstanceCount: S.optional(S.Number),
     Tags: S.optional(TagList),
@@ -3581,10 +3672,10 @@ export const PurchaseReservedDBInstancesOfferingMessage = S.suspend(() =>
   identifier: "PurchaseReservedDBInstancesOfferingMessage",
 }) as any as S.Schema<PurchaseReservedDBInstancesOfferingMessage>;
 export interface RebootDBClusterMessage {
-  DBClusterIdentifier: string;
+  DBClusterIdentifier?: string;
 }
 export const RebootDBClusterMessage = S.suspend(() =>
-  S.Struct({ DBClusterIdentifier: S.String }).pipe(
+  S.Struct({ DBClusterIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -3599,12 +3690,12 @@ export const RebootDBClusterMessage = S.suspend(() =>
   identifier: "RebootDBClusterMessage",
 }) as any as S.Schema<RebootDBClusterMessage>;
 export interface RebootDBInstanceMessage {
-  DBInstanceIdentifier: string;
+  DBInstanceIdentifier?: string;
   ForceFailover?: boolean;
 }
 export const RebootDBInstanceMessage = S.suspend(() =>
   S.Struct({
-    DBInstanceIdentifier: S.String,
+    DBInstanceIdentifier: S.optional(S.String),
     ForceFailover: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -3621,10 +3712,10 @@ export const RebootDBInstanceMessage = S.suspend(() =>
   identifier: "RebootDBInstanceMessage",
 }) as any as S.Schema<RebootDBInstanceMessage>;
 export interface RebootDBShardGroupMessage {
-  DBShardGroupIdentifier: string;
+  DBShardGroupIdentifier?: string;
 }
 export const RebootDBShardGroupMessage = S.suspend(() =>
-  S.Struct({ DBShardGroupIdentifier: S.String }).pipe(
+  S.Struct({ DBShardGroupIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -3639,14 +3730,14 @@ export const RebootDBShardGroupMessage = S.suspend(() =>
   identifier: "RebootDBShardGroupMessage",
 }) as any as S.Schema<RebootDBShardGroupMessage>;
 export interface RegisterDBProxyTargetsRequest {
-  DBProxyName: string;
+  DBProxyName?: string;
   TargetGroupName?: string;
-  DBInstanceIdentifiers?: StringList;
-  DBClusterIdentifiers?: StringList;
+  DBInstanceIdentifiers?: string[];
+  DBClusterIdentifiers?: string[];
 }
 export const RegisterDBProxyTargetsRequest = S.suspend(() =>
   S.Struct({
-    DBProxyName: S.String,
+    DBProxyName: S.optional(S.String),
     TargetGroupName: S.optional(S.String),
     DBInstanceIdentifiers: S.optional(StringList),
     DBClusterIdentifiers: S.optional(StringList),
@@ -3665,13 +3756,13 @@ export const RegisterDBProxyTargetsRequest = S.suspend(() =>
   identifier: "RegisterDBProxyTargetsRequest",
 }) as any as S.Schema<RegisterDBProxyTargetsRequest>;
 export interface RemoveFromGlobalClusterMessage {
-  GlobalClusterIdentifier: string;
-  DbClusterIdentifier: string;
+  GlobalClusterIdentifier?: string;
+  DbClusterIdentifier?: string;
 }
 export const RemoveFromGlobalClusterMessage = S.suspend(() =>
   S.Struct({
-    GlobalClusterIdentifier: S.String,
-    DbClusterIdentifier: S.String,
+    GlobalClusterIdentifier: S.optional(S.String),
+    DbClusterIdentifier: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -3687,14 +3778,14 @@ export const RemoveFromGlobalClusterMessage = S.suspend(() =>
   identifier: "RemoveFromGlobalClusterMessage",
 }) as any as S.Schema<RemoveFromGlobalClusterMessage>;
 export interface RemoveRoleFromDBClusterMessage {
-  DBClusterIdentifier: string;
-  RoleArn: string;
+  DBClusterIdentifier?: string;
+  RoleArn?: string;
   FeatureName?: string;
 }
 export const RemoveRoleFromDBClusterMessage = S.suspend(() =>
   S.Struct({
-    DBClusterIdentifier: S.String,
-    RoleArn: S.String,
+    DBClusterIdentifier: S.optional(S.String),
+    RoleArn: S.optional(S.String),
     FeatureName: S.optional(S.String),
   }).pipe(
     T.all(
@@ -3717,15 +3808,15 @@ export const RemoveRoleFromDBClusterResponse = S.suspend(() =>
   identifier: "RemoveRoleFromDBClusterResponse",
 }) as any as S.Schema<RemoveRoleFromDBClusterResponse>;
 export interface RemoveRoleFromDBInstanceMessage {
-  DBInstanceIdentifier: string;
-  RoleArn: string;
-  FeatureName: string;
+  DBInstanceIdentifier?: string;
+  RoleArn?: string;
+  FeatureName?: string;
 }
 export const RemoveRoleFromDBInstanceMessage = S.suspend(() =>
   S.Struct({
-    DBInstanceIdentifier: S.String,
-    RoleArn: S.String,
-    FeatureName: S.String,
+    DBInstanceIdentifier: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    FeatureName: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -3747,11 +3838,14 @@ export const RemoveRoleFromDBInstanceResponse = S.suspend(() =>
   identifier: "RemoveRoleFromDBInstanceResponse",
 }) as any as S.Schema<RemoveRoleFromDBInstanceResponse>;
 export interface RemoveSourceIdentifierFromSubscriptionMessage {
-  SubscriptionName: string;
-  SourceIdentifier: string;
+  SubscriptionName?: string;
+  SourceIdentifier?: string;
 }
 export const RemoveSourceIdentifierFromSubscriptionMessage = S.suspend(() =>
-  S.Struct({ SubscriptionName: S.String, SourceIdentifier: S.String }).pipe(
+  S.Struct({
+    SubscriptionName: S.optional(S.String),
+    SourceIdentifier: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -3766,11 +3860,14 @@ export const RemoveSourceIdentifierFromSubscriptionMessage = S.suspend(() =>
   identifier: "RemoveSourceIdentifierFromSubscriptionMessage",
 }) as any as S.Schema<RemoveSourceIdentifierFromSubscriptionMessage>;
 export interface RemoveTagsFromResourceMessage {
-  ResourceName: string;
-  TagKeys: KeyList;
+  ResourceName?: string;
+  TagKeys?: string[];
 }
 export const RemoveTagsFromResourceMessage = S.suspend(() =>
-  S.Struct({ ResourceName: S.String, TagKeys: KeyList }).pipe(
+  S.Struct({
+    ResourceName: S.optional(S.String),
+    TagKeys: S.optional(KeyList),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -3791,13 +3888,13 @@ export const RemoveTagsFromResourceResponse = S.suspend(() =>
   identifier: "RemoveTagsFromResourceResponse",
 }) as any as S.Schema<RemoveTagsFromResourceResponse>;
 export interface ResetDBClusterParameterGroupMessage {
-  DBClusterParameterGroupName: string;
+  DBClusterParameterGroupName?: string;
   ResetAllParameters?: boolean;
-  Parameters?: ParametersList;
+  Parameters?: Parameter[];
 }
 export const ResetDBClusterParameterGroupMessage = S.suspend(() =>
   S.Struct({
-    DBClusterParameterGroupName: S.String,
+    DBClusterParameterGroupName: S.optional(S.String),
     ResetAllParameters: S.optional(S.Boolean),
     Parameters: S.optional(ParametersList),
   }).pipe(
@@ -3815,13 +3912,13 @@ export const ResetDBClusterParameterGroupMessage = S.suspend(() =>
   identifier: "ResetDBClusterParameterGroupMessage",
 }) as any as S.Schema<ResetDBClusterParameterGroupMessage>;
 export interface ResetDBParameterGroupMessage {
-  DBParameterGroupName: string;
+  DBParameterGroupName?: string;
   ResetAllParameters?: boolean;
-  Parameters?: ParametersList;
+  Parameters?: Parameter[];
 }
 export const ResetDBParameterGroupMessage = S.suspend(() =>
   S.Struct({
-    DBParameterGroupName: S.String,
+    DBParameterGroupName: S.optional(S.String),
     ResetAllParameters: S.optional(S.Boolean),
     Parameters: S.optional(ParametersList),
   }).pipe(
@@ -3853,33 +3950,33 @@ export const ServerlessV2ScalingConfiguration = S.suspend(() =>
   identifier: "ServerlessV2ScalingConfiguration",
 }) as any as S.Schema<ServerlessV2ScalingConfiguration>;
 export interface RestoreDBClusterFromS3Message {
-  AvailabilityZones?: AvailabilityZones;
+  AvailabilityZones?: string[];
   BackupRetentionPeriod?: number;
   CharacterSetName?: string;
   DatabaseName?: string;
-  DBClusterIdentifier: string;
+  DBClusterIdentifier?: string;
   DBClusterParameterGroupName?: string;
-  VpcSecurityGroupIds?: VpcSecurityGroupIdList;
+  VpcSecurityGroupIds?: string[];
   DBSubnetGroupName?: string;
-  Engine: string;
+  Engine?: string;
   EngineVersion?: string;
   Port?: number;
-  MasterUsername: string;
-  MasterUserPassword?: string | Redacted.Redacted<string>;
+  MasterUsername?: string;
+  MasterUserPassword?: string | redacted.Redacted<string>;
   OptionGroupName?: string;
   PreferredBackupWindow?: string;
   PreferredMaintenanceWindow?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   StorageEncrypted?: boolean;
   KmsKeyId?: string;
   EnableIAMDatabaseAuthentication?: boolean;
-  SourceEngine: string;
-  SourceEngineVersion: string;
-  S3BucketName: string;
+  SourceEngine?: string;
+  SourceEngineVersion?: string;
+  S3BucketName?: string;
   S3Prefix?: string;
-  S3IngestionRoleArn: string;
+  S3IngestionRoleArn?: string;
   BacktrackWindow?: number;
-  EnableCloudwatchLogsExports?: LogTypeList;
+  EnableCloudwatchLogsExports?: string[];
   DeletionProtection?: boolean;
   CopyTagsToSnapshot?: boolean;
   Domain?: string;
@@ -3890,7 +3987,7 @@ export interface RestoreDBClusterFromS3Message {
   ManageMasterUserPassword?: boolean;
   MasterUserSecretKmsKeyId?: string;
   EngineLifecycleSupport?: string;
-  TagSpecifications?: TagSpecificationList;
+  TagSpecifications?: TagSpecification[];
 }
 export const RestoreDBClusterFromS3Message = S.suspend(() =>
   S.Struct({
@@ -3898,14 +3995,14 @@ export const RestoreDBClusterFromS3Message = S.suspend(() =>
     BackupRetentionPeriod: S.optional(S.Number),
     CharacterSetName: S.optional(S.String),
     DatabaseName: S.optional(S.String),
-    DBClusterIdentifier: S.String,
+    DBClusterIdentifier: S.optional(S.String),
     DBClusterParameterGroupName: S.optional(S.String),
     VpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
     DBSubnetGroupName: S.optional(S.String),
-    Engine: S.String,
+    Engine: S.optional(S.String),
     EngineVersion: S.optional(S.String),
     Port: S.optional(S.Number),
-    MasterUsername: S.String,
+    MasterUsername: S.optional(S.String),
     MasterUserPassword: S.optional(SensitiveString),
     OptionGroupName: S.optional(S.String),
     PreferredBackupWindow: S.optional(S.String),
@@ -3914,11 +4011,11 @@ export const RestoreDBClusterFromS3Message = S.suspend(() =>
     StorageEncrypted: S.optional(S.Boolean),
     KmsKeyId: S.optional(S.String),
     EnableIAMDatabaseAuthentication: S.optional(S.Boolean),
-    SourceEngine: S.String,
-    SourceEngineVersion: S.String,
-    S3BucketName: S.String,
+    SourceEngine: S.optional(S.String),
+    SourceEngineVersion: S.optional(S.String),
+    S3BucketName: S.optional(S.String),
     S3Prefix: S.optional(S.String),
-    S3IngestionRoleArn: S.String,
+    S3IngestionRoleArn: S.optional(S.String),
     BacktrackWindow: S.optional(S.Number),
     EnableCloudwatchLogsExports: S.optional(LogTypeList),
     DeletionProtection: S.optional(S.Boolean),
@@ -3971,33 +4068,33 @@ export const ScalingConfiguration = S.suspend(() =>
 export interface RdsCustomClusterConfiguration {
   InterconnectSubnetId?: string;
   TransitGatewayMulticastDomainId?: string;
-  ReplicaMode?: string;
+  ReplicaMode?: ReplicaMode;
 }
 export const RdsCustomClusterConfiguration = S.suspend(() =>
   S.Struct({
     InterconnectSubnetId: S.optional(S.String),
     TransitGatewayMulticastDomainId: S.optional(S.String),
-    ReplicaMode: S.optional(S.String),
+    ReplicaMode: S.optional(ReplicaMode),
   }),
 ).annotations({
   identifier: "RdsCustomClusterConfiguration",
 }) as any as S.Schema<RdsCustomClusterConfiguration>;
 export interface RestoreDBClusterFromSnapshotMessage {
-  AvailabilityZones?: AvailabilityZones;
-  DBClusterIdentifier: string;
-  SnapshotIdentifier: string;
-  Engine: string;
+  AvailabilityZones?: string[];
+  DBClusterIdentifier?: string;
+  SnapshotIdentifier?: string;
+  Engine?: string;
   EngineVersion?: string;
   Port?: number;
   DBSubnetGroupName?: string;
   DatabaseName?: string;
   OptionGroupName?: string;
-  VpcSecurityGroupIds?: VpcSecurityGroupIdList;
-  Tags?: TagList;
+  VpcSecurityGroupIds?: string[];
+  Tags?: Tag[];
   KmsKeyId?: string;
   EnableIAMDatabaseAuthentication?: boolean;
   BacktrackWindow?: number;
-  EnableCloudwatchLogsExports?: LogTypeList;
+  EnableCloudwatchLogsExports?: string[];
   EngineMode?: string;
   ScalingConfiguration?: ScalingConfiguration;
   DBClusterParameterGroupName?: string;
@@ -4018,14 +4115,14 @@ export interface RestoreDBClusterFromSnapshotMessage {
   PerformanceInsightsKMSKeyId?: string;
   PerformanceInsightsRetentionPeriod?: number;
   EngineLifecycleSupport?: string;
-  TagSpecifications?: TagSpecificationList;
+  TagSpecifications?: TagSpecification[];
 }
 export const RestoreDBClusterFromSnapshotMessage = S.suspend(() =>
   S.Struct({
     AvailabilityZones: S.optional(AvailabilityZones),
-    DBClusterIdentifier: S.String,
-    SnapshotIdentifier: S.String,
-    Engine: S.String,
+    DBClusterIdentifier: S.optional(S.String),
+    SnapshotIdentifier: S.optional(S.String),
+    Engine: S.optional(S.String),
     EngineVersion: S.optional(S.String),
     Port: S.optional(S.Number),
     DBSubnetGroupName: S.optional(S.String),
@@ -4075,7 +4172,7 @@ export const RestoreDBClusterFromSnapshotMessage = S.suspend(() =>
   identifier: "RestoreDBClusterFromSnapshotMessage",
 }) as any as S.Schema<RestoreDBClusterFromSnapshotMessage>;
 export interface RestoreDBClusterToPointInTimeMessage {
-  DBClusterIdentifier: string;
+  DBClusterIdentifier?: string;
   RestoreType?: string;
   SourceDBClusterIdentifier?: string;
   RestoreToTime?: Date;
@@ -4083,12 +4180,12 @@ export interface RestoreDBClusterToPointInTimeMessage {
   Port?: number;
   DBSubnetGroupName?: string;
   OptionGroupName?: string;
-  VpcSecurityGroupIds?: VpcSecurityGroupIdList;
-  Tags?: TagList;
+  VpcSecurityGroupIds?: string[];
+  Tags?: Tag[];
   KmsKeyId?: string;
   EnableIAMDatabaseAuthentication?: boolean;
   BacktrackWindow?: number;
-  EnableCloudwatchLogsExports?: LogTypeList;
+  EnableCloudwatchLogsExports?: string[];
   DBClusterParameterGroupName?: string;
   DeletionProtection?: boolean;
   CopyTagsToSnapshot?: boolean;
@@ -4110,11 +4207,11 @@ export interface RestoreDBClusterToPointInTimeMessage {
   PerformanceInsightsKMSKeyId?: string;
   PerformanceInsightsRetentionPeriod?: number;
   EngineLifecycleSupport?: string;
-  TagSpecifications?: TagSpecificationList;
+  TagSpecifications?: TagSpecification[];
 }
 export const RestoreDBClusterToPointInTimeMessage = S.suspend(() =>
   S.Struct({
-    DBClusterIdentifier: S.String,
+    DBClusterIdentifier: S.optional(S.String),
     RestoreType: S.optional(S.String),
     SourceDBClusterIdentifier: S.optional(S.String),
     RestoreToTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -4167,7 +4264,7 @@ export const RestoreDBClusterToPointInTimeMessage = S.suspend(() =>
   identifier: "RestoreDBClusterToPointInTimeMessage",
 }) as any as S.Schema<RestoreDBClusterToPointInTimeMessage>;
 export interface RestoreDBInstanceFromDBSnapshotMessage {
-  DBInstanceIdentifier: string;
+  DBInstanceIdentifier?: string;
   DBSnapshotIdentifier?: string;
   DBInstanceClass?: string;
   Port?: number;
@@ -4182,21 +4279,21 @@ export interface RestoreDBInstanceFromDBSnapshotMessage {
   Iops?: number;
   StorageThroughput?: number;
   OptionGroupName?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   StorageType?: string;
   TdeCredentialArn?: string;
-  TdeCredentialPassword?: string | Redacted.Redacted<string>;
-  VpcSecurityGroupIds?: VpcSecurityGroupIdList;
+  TdeCredentialPassword?: string | redacted.Redacted<string>;
+  VpcSecurityGroupIds?: string[];
   Domain?: string;
   DomainFqdn?: string;
   DomainOu?: string;
   DomainAuthSecretArn?: string;
-  DomainDnsIps?: StringList;
+  DomainDnsIps?: string[];
   CopyTagsToSnapshot?: boolean;
   DomainIAMRoleName?: string;
   EnableIAMDatabaseAuthentication?: boolean;
-  EnableCloudwatchLogsExports?: LogTypeList;
-  ProcessorFeatures?: ProcessorFeatureList;
+  EnableCloudwatchLogsExports?: string[];
+  ProcessorFeatures?: ProcessorFeature[];
   UseDefaultProcessorFeatures?: boolean;
   DBParameterGroupName?: string;
   DeletionProtection?: boolean;
@@ -4209,14 +4306,14 @@ export interface RestoreDBInstanceFromDBSnapshotMessage {
   DedicatedLogVolume?: boolean;
   CACertificateIdentifier?: string;
   EngineLifecycleSupport?: string;
-  TagSpecifications?: TagSpecificationList;
+  TagSpecifications?: TagSpecification[];
   ManageMasterUserPassword?: boolean;
   MasterUserSecretKmsKeyId?: string;
-  AdditionalStorageVolumes?: AdditionalStorageVolumesList;
+  AdditionalStorageVolumes?: AdditionalStorageVolume[];
 }
 export const RestoreDBInstanceFromDBSnapshotMessage = S.suspend(() =>
   S.Struct({
-    DBInstanceIdentifier: S.String,
+    DBInstanceIdentifier: S.optional(S.String),
     DBSnapshotIdentifier: S.optional(S.String),
     DBInstanceClass: S.optional(S.String),
     Port: S.optional(S.Number),
@@ -4278,14 +4375,14 @@ export const RestoreDBInstanceFromDBSnapshotMessage = S.suspend(() =>
 }) as any as S.Schema<RestoreDBInstanceFromDBSnapshotMessage>;
 export interface RestoreDBInstanceFromS3Message {
   DBName?: string;
-  DBInstanceIdentifier: string;
+  DBInstanceIdentifier?: string;
   AllocatedStorage?: number;
-  DBInstanceClass: string;
-  Engine: string;
+  DBInstanceClass?: string;
+  Engine?: string;
   MasterUsername?: string;
-  MasterUserPassword?: string | Redacted.Redacted<string>;
-  DBSecurityGroups?: DBSecurityGroupNameList;
-  VpcSecurityGroupIds?: VpcSecurityGroupIdList;
+  MasterUserPassword?: string | redacted.Redacted<string>;
+  DBSecurityGroups?: string[];
+  VpcSecurityGroupIds?: string[];
   AvailabilityZone?: string;
   DBSubnetGroupName?: string;
   PreferredMaintenanceWindow?: string;
@@ -4301,7 +4398,7 @@ export interface RestoreDBInstanceFromS3Message {
   StorageThroughput?: number;
   OptionGroupName?: string;
   PubliclyAccessible?: boolean;
-  Tags?: TagList;
+  Tags?: Tag[];
   StorageType?: string;
   StorageEncrypted?: boolean;
   KmsKeyId?: string;
@@ -4309,17 +4406,17 @@ export interface RestoreDBInstanceFromS3Message {
   MonitoringInterval?: number;
   MonitoringRoleArn?: string;
   EnableIAMDatabaseAuthentication?: boolean;
-  SourceEngine: string;
-  SourceEngineVersion: string;
-  S3BucketName: string;
+  SourceEngine?: string;
+  SourceEngineVersion?: string;
+  S3BucketName?: string;
   S3Prefix?: string;
-  S3IngestionRoleArn: string;
-  DatabaseInsightsMode?: string;
+  S3IngestionRoleArn?: string;
+  DatabaseInsightsMode?: DatabaseInsightsMode;
   EnablePerformanceInsights?: boolean;
   PerformanceInsightsKMSKeyId?: string;
   PerformanceInsightsRetentionPeriod?: number;
-  EnableCloudwatchLogsExports?: LogTypeList;
-  ProcessorFeatures?: ProcessorFeatureList;
+  EnableCloudwatchLogsExports?: string[];
+  ProcessorFeatures?: ProcessorFeature[];
   UseDefaultProcessorFeatures?: boolean;
   DeletionProtection?: boolean;
   MaxAllocatedStorage?: number;
@@ -4329,16 +4426,16 @@ export interface RestoreDBInstanceFromS3Message {
   DedicatedLogVolume?: boolean;
   CACertificateIdentifier?: string;
   EngineLifecycleSupport?: string;
-  TagSpecifications?: TagSpecificationList;
-  AdditionalStorageVolumes?: AdditionalStorageVolumesList;
+  TagSpecifications?: TagSpecification[];
+  AdditionalStorageVolumes?: AdditionalStorageVolume[];
 }
 export const RestoreDBInstanceFromS3Message = S.suspend(() =>
   S.Struct({
     DBName: S.optional(S.String),
-    DBInstanceIdentifier: S.String,
+    DBInstanceIdentifier: S.optional(S.String),
     AllocatedStorage: S.optional(S.Number),
-    DBInstanceClass: S.String,
-    Engine: S.String,
+    DBInstanceClass: S.optional(S.String),
+    Engine: S.optional(S.String),
     MasterUsername: S.optional(S.String),
     MasterUserPassword: S.optional(SensitiveString),
     DBSecurityGroups: S.optional(DBSecurityGroupNameList),
@@ -4366,12 +4463,12 @@ export const RestoreDBInstanceFromS3Message = S.suspend(() =>
     MonitoringInterval: S.optional(S.Number),
     MonitoringRoleArn: S.optional(S.String),
     EnableIAMDatabaseAuthentication: S.optional(S.Boolean),
-    SourceEngine: S.String,
-    SourceEngineVersion: S.String,
-    S3BucketName: S.String,
+    SourceEngine: S.optional(S.String),
+    SourceEngineVersion: S.optional(S.String),
+    S3BucketName: S.optional(S.String),
     S3Prefix: S.optional(S.String),
-    S3IngestionRoleArn: S.String,
-    DatabaseInsightsMode: S.optional(S.String),
+    S3IngestionRoleArn: S.optional(S.String),
+    DatabaseInsightsMode: S.optional(DatabaseInsightsMode),
     EnablePerformanceInsights: S.optional(S.Boolean),
     PerformanceInsightsKMSKeyId: S.optional(S.String),
     PerformanceInsightsRetentionPeriod: S.optional(S.Number),
@@ -4404,7 +4501,7 @@ export const RestoreDBInstanceFromS3Message = S.suspend(() =>
 }) as any as S.Schema<RestoreDBInstanceFromS3Message>;
 export interface RestoreDBInstanceToPointInTimeMessage {
   SourceDBInstanceIdentifier?: string;
-  TargetDBInstanceIdentifier: string;
+  TargetDBInstanceIdentifier?: string;
   RestoreTime?: Date;
   UseLatestRestorableTime?: boolean;
   DBInstanceClass?: string;
@@ -4421,20 +4518,20 @@ export interface RestoreDBInstanceToPointInTimeMessage {
   StorageThroughput?: number;
   OptionGroupName?: string;
   CopyTagsToSnapshot?: boolean;
-  Tags?: TagList;
+  Tags?: Tag[];
   StorageType?: string;
   TdeCredentialArn?: string;
-  TdeCredentialPassword?: string | Redacted.Redacted<string>;
-  VpcSecurityGroupIds?: VpcSecurityGroupIdList;
+  TdeCredentialPassword?: string | redacted.Redacted<string>;
+  VpcSecurityGroupIds?: string[];
   Domain?: string;
   DomainIAMRoleName?: string;
   DomainFqdn?: string;
   DomainOu?: string;
   DomainAuthSecretArn?: string;
-  DomainDnsIps?: StringList;
+  DomainDnsIps?: string[];
   EnableIAMDatabaseAuthentication?: boolean;
-  EnableCloudwatchLogsExports?: LogTypeList;
-  ProcessorFeatures?: ProcessorFeatureList;
+  EnableCloudwatchLogsExports?: string[];
+  ProcessorFeatures?: ProcessorFeature[];
   UseDefaultProcessorFeatures?: boolean;
   DBParameterGroupName?: string;
   DeletionProtection?: boolean;
@@ -4449,15 +4546,15 @@ export interface RestoreDBInstanceToPointInTimeMessage {
   DedicatedLogVolume?: boolean;
   CACertificateIdentifier?: string;
   EngineLifecycleSupport?: string;
-  TagSpecifications?: TagSpecificationList;
+  TagSpecifications?: TagSpecification[];
   ManageMasterUserPassword?: boolean;
   MasterUserSecretKmsKeyId?: string;
-  AdditionalStorageVolumes?: AdditionalStorageVolumesList;
+  AdditionalStorageVolumes?: AdditionalStorageVolume[];
 }
 export const RestoreDBInstanceToPointInTimeMessage = S.suspend(() =>
   S.Struct({
     SourceDBInstanceIdentifier: S.optional(S.String),
-    TargetDBInstanceIdentifier: S.String,
+    TargetDBInstanceIdentifier: S.optional(S.String),
     RestoreTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     UseLatestRestorableTime: S.optional(S.Boolean),
     DBInstanceClass: S.optional(S.String),
@@ -4521,7 +4618,7 @@ export const RestoreDBInstanceToPointInTimeMessage = S.suspend(() =>
   identifier: "RestoreDBInstanceToPointInTimeMessage",
 }) as any as S.Schema<RestoreDBInstanceToPointInTimeMessage>;
 export interface RevokeDBSecurityGroupIngressMessage {
-  DBSecurityGroupName: string;
+  DBSecurityGroupName?: string;
   CIDRIP?: string;
   EC2SecurityGroupName?: string;
   EC2SecurityGroupId?: string;
@@ -4529,7 +4626,7 @@ export interface RevokeDBSecurityGroupIngressMessage {
 }
 export const RevokeDBSecurityGroupIngressMessage = S.suspend(() =>
   S.Struct({
-    DBSecurityGroupName: S.String,
+    DBSecurityGroupName: S.optional(S.String),
     CIDRIP: S.optional(S.String),
     EC2SecurityGroupName: S.optional(S.String),
     EC2SecurityGroupId: S.optional(S.String),
@@ -4549,17 +4646,17 @@ export const RevokeDBSecurityGroupIngressMessage = S.suspend(() =>
   identifier: "RevokeDBSecurityGroupIngressMessage",
 }) as any as S.Schema<RevokeDBSecurityGroupIngressMessage>;
 export interface StartActivityStreamRequest {
-  ResourceArn: string;
-  Mode: string;
-  KmsKeyId: string;
+  ResourceArn?: string;
+  Mode?: ActivityStreamMode;
+  KmsKeyId?: string;
   ApplyImmediately?: boolean;
   EngineNativeAuditFieldsIncluded?: boolean;
 }
 export const StartActivityStreamRequest = S.suspend(() =>
   S.Struct({
-    ResourceArn: S.String,
-    Mode: S.String,
-    KmsKeyId: S.String,
+    ResourceArn: S.optional(S.String),
+    Mode: S.optional(ActivityStreamMode),
+    KmsKeyId: S.optional(S.String),
     ApplyImmediately: S.optional(S.Boolean),
     EngineNativeAuditFieldsIncluded: S.optional(S.Boolean),
   }).pipe(
@@ -4577,10 +4674,10 @@ export const StartActivityStreamRequest = S.suspend(() =>
   identifier: "StartActivityStreamRequest",
 }) as any as S.Schema<StartActivityStreamRequest>;
 export interface StartDBClusterMessage {
-  DBClusterIdentifier: string;
+  DBClusterIdentifier?: string;
 }
 export const StartDBClusterMessage = S.suspend(() =>
-  S.Struct({ DBClusterIdentifier: S.String }).pipe(
+  S.Struct({ DBClusterIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -4595,10 +4692,10 @@ export const StartDBClusterMessage = S.suspend(() =>
   identifier: "StartDBClusterMessage",
 }) as any as S.Schema<StartDBClusterMessage>;
 export interface StartDBInstanceMessage {
-  DBInstanceIdentifier: string;
+  DBInstanceIdentifier?: string;
 }
 export const StartDBInstanceMessage = S.suspend(() =>
-  S.Struct({ DBInstanceIdentifier: S.String }).pipe(
+  S.Struct({ DBInstanceIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -4613,15 +4710,15 @@ export const StartDBInstanceMessage = S.suspend(() =>
   identifier: "StartDBInstanceMessage",
 }) as any as S.Schema<StartDBInstanceMessage>;
 export interface StartDBInstanceAutomatedBackupsReplicationMessage {
-  SourceDBInstanceArn: string;
+  SourceDBInstanceArn?: string;
   BackupRetentionPeriod?: number;
   KmsKeyId?: string;
-  PreSignedUrl?: string | Redacted.Redacted<string>;
-  Tags?: TagList;
+  PreSignedUrl?: string | redacted.Redacted<string>;
+  Tags?: Tag[];
 }
 export const StartDBInstanceAutomatedBackupsReplicationMessage = S.suspend(() =>
   S.Struct({
-    SourceDBInstanceArn: S.String,
+    SourceDBInstanceArn: S.optional(S.String),
     BackupRetentionPeriod: S.optional(S.Number),
     KmsKeyId: S.optional(S.String),
     PreSignedUrl: S.optional(SensitiveString),
@@ -4641,21 +4738,21 @@ export const StartDBInstanceAutomatedBackupsReplicationMessage = S.suspend(() =>
   identifier: "StartDBInstanceAutomatedBackupsReplicationMessage",
 }) as any as S.Schema<StartDBInstanceAutomatedBackupsReplicationMessage>;
 export interface StartExportTaskMessage {
-  ExportTaskIdentifier: string;
-  SourceArn: string;
-  S3BucketName: string;
-  IamRoleArn: string;
-  KmsKeyId: string;
+  ExportTaskIdentifier?: string;
+  SourceArn?: string;
+  S3BucketName?: string;
+  IamRoleArn?: string;
+  KmsKeyId?: string;
   S3Prefix?: string;
-  ExportOnly?: StringList;
+  ExportOnly?: string[];
 }
 export const StartExportTaskMessage = S.suspend(() =>
   S.Struct({
-    ExportTaskIdentifier: S.String,
-    SourceArn: S.String,
-    S3BucketName: S.String,
-    IamRoleArn: S.String,
-    KmsKeyId: S.String,
+    ExportTaskIdentifier: S.optional(S.String),
+    SourceArn: S.optional(S.String),
+    S3BucketName: S.optional(S.String),
+    IamRoleArn: S.optional(S.String),
+    KmsKeyId: S.optional(S.String),
     S3Prefix: S.optional(S.String),
     ExportOnly: S.optional(StringList),
   }).pipe(
@@ -4673,12 +4770,12 @@ export const StartExportTaskMessage = S.suspend(() =>
   identifier: "StartExportTaskMessage",
 }) as any as S.Schema<StartExportTaskMessage>;
 export interface StopActivityStreamRequest {
-  ResourceArn: string;
+  ResourceArn?: string;
   ApplyImmediately?: boolean;
 }
 export const StopActivityStreamRequest = S.suspend(() =>
   S.Struct({
-    ResourceArn: S.String,
+    ResourceArn: S.optional(S.String),
     ApplyImmediately: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -4695,10 +4792,10 @@ export const StopActivityStreamRequest = S.suspend(() =>
   identifier: "StopActivityStreamRequest",
 }) as any as S.Schema<StopActivityStreamRequest>;
 export interface StopDBClusterMessage {
-  DBClusterIdentifier: string;
+  DBClusterIdentifier?: string;
 }
 export const StopDBClusterMessage = S.suspend(() =>
-  S.Struct({ DBClusterIdentifier: S.String }).pipe(
+  S.Struct({ DBClusterIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -4713,12 +4810,12 @@ export const StopDBClusterMessage = S.suspend(() =>
   identifier: "StopDBClusterMessage",
 }) as any as S.Schema<StopDBClusterMessage>;
 export interface StopDBInstanceMessage {
-  DBInstanceIdentifier: string;
+  DBInstanceIdentifier?: string;
   DBSnapshotIdentifier?: string;
 }
 export const StopDBInstanceMessage = S.suspend(() =>
   S.Struct({
-    DBInstanceIdentifier: S.String,
+    DBInstanceIdentifier: S.optional(S.String),
     DBSnapshotIdentifier: S.optional(S.String),
   }).pipe(
     T.all(
@@ -4735,10 +4832,10 @@ export const StopDBInstanceMessage = S.suspend(() =>
   identifier: "StopDBInstanceMessage",
 }) as any as S.Schema<StopDBInstanceMessage>;
 export interface StopDBInstanceAutomatedBackupsReplicationMessage {
-  SourceDBInstanceArn: string;
+  SourceDBInstanceArn?: string;
 }
 export const StopDBInstanceAutomatedBackupsReplicationMessage = S.suspend(() =>
-  S.Struct({ SourceDBInstanceArn: S.String }).pipe(
+  S.Struct({ SourceDBInstanceArn: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -4753,12 +4850,12 @@ export const StopDBInstanceAutomatedBackupsReplicationMessage = S.suspend(() =>
   identifier: "StopDBInstanceAutomatedBackupsReplicationMessage",
 }) as any as S.Schema<StopDBInstanceAutomatedBackupsReplicationMessage>;
 export interface SwitchoverBlueGreenDeploymentRequest {
-  BlueGreenDeploymentIdentifier: string;
+  BlueGreenDeploymentIdentifier?: string;
   SwitchoverTimeout?: number;
 }
 export const SwitchoverBlueGreenDeploymentRequest = S.suspend(() =>
   S.Struct({
-    BlueGreenDeploymentIdentifier: S.String,
+    BlueGreenDeploymentIdentifier: S.optional(S.String),
     SwitchoverTimeout: S.optional(S.Number),
   }).pipe(
     T.all(
@@ -4775,13 +4872,13 @@ export const SwitchoverBlueGreenDeploymentRequest = S.suspend(() =>
   identifier: "SwitchoverBlueGreenDeploymentRequest",
 }) as any as S.Schema<SwitchoverBlueGreenDeploymentRequest>;
 export interface SwitchoverGlobalClusterMessage {
-  GlobalClusterIdentifier: string;
-  TargetDbClusterIdentifier: string;
+  GlobalClusterIdentifier?: string;
+  TargetDbClusterIdentifier?: string;
 }
 export const SwitchoverGlobalClusterMessage = S.suspend(() =>
   S.Struct({
-    GlobalClusterIdentifier: S.String,
-    TargetDbClusterIdentifier: S.String,
+    GlobalClusterIdentifier: S.optional(S.String),
+    TargetDbClusterIdentifier: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -4797,10 +4894,10 @@ export const SwitchoverGlobalClusterMessage = S.suspend(() =>
   identifier: "SwitchoverGlobalClusterMessage",
 }) as any as S.Schema<SwitchoverGlobalClusterMessage>;
 export interface SwitchoverReadReplicaMessage {
-  DBInstanceIdentifier: string;
+  DBInstanceIdentifier?: string;
 }
 export const SwitchoverReadReplicaMessage = S.suspend(() =>
-  S.Struct({ DBInstanceIdentifier: S.String }).pipe(
+  S.Struct({ DBInstanceIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -4839,6 +4936,23 @@ export const EncryptionContextMap = S.Record({
   key: S.String,
   value: S.String,
 });
+export type IntegrationStatus =
+  | "creating"
+  | "active"
+  | "modifying"
+  | "failed"
+  | "deleting"
+  | "syncing"
+  | "needs_attention";
+export const IntegrationStatus = S.Literal(
+  "creating",
+  "active",
+  "modifying",
+  "failed",
+  "deleting",
+  "syncing",
+  "needs_attention",
+);
 export interface AccountQuota {
   AccountQuotaName?: string;
   Used?: number;
@@ -4888,14 +5002,14 @@ export interface DBClusterAutomatedBackup {
   DBClusterArn?: string;
   BackupRetentionPeriod?: number;
   EngineMode?: string;
-  AvailabilityZones?: AvailabilityZones;
+  AvailabilityZones?: string[];
   Port?: number;
   KmsKeyId?: string;
   StorageType?: string;
   Iops?: number;
   StorageThroughput?: number;
   AwsBackupRecoveryPointArn?: string;
-  TagList?: TagList;
+  TagList?: Tag[];
 }
 export const DBClusterAutomatedBackup = S.suspend(() =>
   S.Struct({
@@ -4971,8 +5085,8 @@ export interface DBClusterEndpoint {
   Status?: string;
   EndpointType?: string;
   CustomEndpointType?: string;
-  StaticMembers?: StringList;
-  ExcludedMembers?: StringList;
+  StaticMembers?: string[];
+  ExcludedMembers?: string[];
   DBClusterEndpointArn?: string;
 }
 export const DBClusterEndpoint = S.suspend(() =>
@@ -5037,6 +5151,8 @@ export const DBClusterOptionGroupMemberships = S.Array(
     T.XmlName("DBClusterOptionGroup"),
   ).annotations({ identifier: "DBClusterOptionGroupStatus" }),
 );
+export type UpgradeRolloutOrder = "first" | "second" | "last";
+export const UpgradeRolloutOrder = S.Literal("first", "second", "last");
 export type ReadReplicaIdentifierList = string[];
 export const ReadReplicaIdentifierList = S.Array(
   S.String.pipe(T.XmlName("ReadReplicaIdentifier")),
@@ -5124,8 +5240,8 @@ export const DBClusterRoles = S.Array(
   }),
 );
 export interface PendingCloudwatchLogsExports {
-  LogTypesToEnable?: LogTypeList;
-  LogTypesToDisable?: LogTypeList;
+  LogTypesToEnable?: string[];
+  LogTypesToDisable?: string[];
 }
 export const PendingCloudwatchLogsExports = S.suspend(() =>
   S.Struct({
@@ -5150,7 +5266,7 @@ export const CertificateDetails = S.suspend(() =>
 export interface ClusterPendingModifiedValues {
   PendingCloudwatchLogsExports?: PendingCloudwatchLogsExports;
   DBClusterIdentifier?: string;
-  MasterUserPassword?: string | Redacted.Redacted<string>;
+  MasterUserPassword?: string | redacted.Redacted<string>;
   IAMDatabaseAuthenticationEnabled?: boolean;
   EngineVersion?: string;
   BackupRetentionPeriod?: number;
@@ -5197,6 +5313,17 @@ export const ScalingConfigurationInfo = S.suspend(() =>
 ).annotations({
   identifier: "ScalingConfigurationInfo",
 }) as any as S.Schema<ScalingConfigurationInfo>;
+export type ActivityStreamStatus =
+  | "stopped"
+  | "starting"
+  | "started"
+  | "stopping";
+export const ActivityStreamStatus = S.Literal(
+  "stopped",
+  "starting",
+  "started",
+  "stopping",
+);
 export interface DomainMembership {
   Domain?: string;
   Status?: string;
@@ -5204,7 +5331,7 @@ export interface DomainMembership {
   IAMRoleName?: string;
   OU?: string;
   AuthSecretArn?: string;
-  DnsIps?: StringList;
+  DnsIps?: string[];
 }
 export const DomainMembership = S.suspend(() =>
   S.Struct({
@@ -5224,6 +5351,19 @@ export const DomainMembershipList = S.Array(
   DomainMembership.pipe(T.XmlName("DomainMembership")).annotations({
     identifier: "DomainMembership",
   }),
+);
+export type WriteForwardingStatus =
+  | "enabled"
+  | "disabled"
+  | "enabling"
+  | "disabling"
+  | "unknown";
+export const WriteForwardingStatus = S.Literal(
+  "enabled",
+  "disabled",
+  "enabling",
+  "disabling",
+  "unknown",
 );
 export interface ServerlessV2ScalingConfigurationInfo {
   MinCapacity?: number;
@@ -5253,13 +5393,45 @@ export const MasterUserSecret = S.suspend(() =>
 ).annotations({
   identifier: "MasterUserSecret",
 }) as any as S.Schema<MasterUserSecret>;
+export type LocalWriteForwardingStatus =
+  | "enabled"
+  | "disabled"
+  | "enabling"
+  | "disabling"
+  | "requested";
+export const LocalWriteForwardingStatus = S.Literal(
+  "enabled",
+  "disabled",
+  "enabling",
+  "disabling",
+  "requested",
+);
+export type LimitlessDatabaseStatus =
+  | "active"
+  | "not-in-use"
+  | "enabled"
+  | "disabled"
+  | "enabling"
+  | "disabling"
+  | "modifying-max-capacity"
+  | "error";
+export const LimitlessDatabaseStatus = S.Literal(
+  "active",
+  "not-in-use",
+  "enabled",
+  "disabled",
+  "enabling",
+  "disabling",
+  "modifying-max-capacity",
+  "error",
+);
 export interface LimitlessDatabase {
-  Status?: string;
+  Status?: LimitlessDatabaseStatus;
   MinRequiredACU?: number;
 }
 export const LimitlessDatabase = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(LimitlessDatabaseStatus),
     MinRequiredACU: S.optional(S.Number),
   }),
 ).annotations({
@@ -5267,7 +5439,7 @@ export const LimitlessDatabase = S.suspend(() =>
 }) as any as S.Schema<LimitlessDatabase>;
 export interface DBCluster {
   AllocatedStorage?: number;
-  AvailabilityZones?: AvailabilityZones;
+  AvailabilityZones?: string[];
   BackupRetentionPeriod?: number;
   CharacterSetName?: string;
   DatabaseName?: string;
@@ -5279,35 +5451,35 @@ export interface DBCluster {
   EarliestRestorableTime?: Date;
   Endpoint?: string;
   ReaderEndpoint?: string;
-  CustomEndpoints?: StringList;
+  CustomEndpoints?: string[];
   MultiAZ?: boolean;
   Engine?: string;
   EngineVersion?: string;
   LatestRestorableTime?: Date;
   Port?: number;
   MasterUsername?: string;
-  DBClusterOptionGroupMemberships?: DBClusterOptionGroupMemberships;
+  DBClusterOptionGroupMemberships?: DBClusterOptionGroupStatus[];
   PreferredBackupWindow?: string;
   PreferredMaintenanceWindow?: string;
-  UpgradeRolloutOrder?: string;
+  UpgradeRolloutOrder?: UpgradeRolloutOrder;
   ReplicationSourceIdentifier?: string;
-  ReadReplicaIdentifiers?: ReadReplicaIdentifierList;
-  StatusInfos?: DBClusterStatusInfoList;
-  DBClusterMembers?: DBClusterMemberList;
-  VpcSecurityGroups?: VpcSecurityGroupMembershipList;
+  ReadReplicaIdentifiers?: string[];
+  StatusInfos?: DBClusterStatusInfo[];
+  DBClusterMembers?: DBClusterMember[];
+  VpcSecurityGroups?: VpcSecurityGroupMembership[];
   HostedZoneId?: string;
   StorageEncrypted?: boolean;
   KmsKeyId?: string;
   DbClusterResourceId?: string;
   DBClusterArn?: string;
-  AssociatedRoles?: DBClusterRoles;
+  AssociatedRoles?: DBClusterRole[];
   IAMDatabaseAuthenticationEnabled?: boolean;
   CloneGroupId?: string;
   ClusterCreateTime?: Date;
   EarliestBacktrackTime?: Date;
   BacktrackWindow?: number;
   BacktrackConsumedChangeRecords?: number;
-  EnabledCloudwatchLogsExports?: LogTypeList;
+  EnabledCloudwatchLogsExports?: string[];
   Capacity?: number;
   PendingModifiedValues?: ClusterPendingModifiedValues;
   EngineMode?: string;
@@ -5322,16 +5494,16 @@ export interface DBCluster {
   AutoMinorVersionUpgrade?: boolean;
   DeletionProtection?: boolean;
   HttpEndpointEnabled?: boolean;
-  ActivityStreamMode?: string;
-  ActivityStreamStatus?: string;
+  ActivityStreamMode?: ActivityStreamMode;
+  ActivityStreamStatus?: ActivityStreamStatus;
   ActivityStreamKmsKeyId?: string;
   ActivityStreamKinesisStreamName?: string;
   CopyTagsToSnapshot?: boolean;
   CrossAccountClone?: boolean;
-  DomainMemberships?: DomainMembershipList;
-  TagList?: TagList;
+  DomainMemberships?: DomainMembership[];
+  TagList?: Tag[];
   GlobalClusterIdentifier?: string;
-  GlobalWriteForwardingStatus?: string;
+  GlobalWriteForwardingStatus?: WriteForwardingStatus;
   GlobalWriteForwardingRequested?: boolean;
   NetworkType?: string;
   AutomaticRestartTime?: Date;
@@ -5339,16 +5511,16 @@ export interface DBCluster {
   ServerlessV2PlatformVersion?: string;
   MonitoringInterval?: number;
   MonitoringRoleArn?: string;
-  DatabaseInsightsMode?: string;
+  DatabaseInsightsMode?: DatabaseInsightsMode;
   PerformanceInsightsEnabled?: boolean;
   PerformanceInsightsKMSKeyId?: string;
   PerformanceInsightsRetentionPeriod?: number;
   DBSystemId?: string;
   MasterUserSecret?: MasterUserSecret;
-  LocalWriteForwardingStatus?: string;
+  LocalWriteForwardingStatus?: LocalWriteForwardingStatus;
   AwsBackupRecoveryPointArn?: string;
   LimitlessDatabase?: LimitlessDatabase;
-  ClusterScalabilityType?: string;
+  ClusterScalabilityType?: ClusterScalabilityType;
   CertificateDetails?: CertificateDetails;
   EngineLifecycleSupport?: string;
 }
@@ -5383,7 +5555,7 @@ export const DBCluster = S.suspend(() =>
     ),
     PreferredBackupWindow: S.optional(S.String),
     PreferredMaintenanceWindow: S.optional(S.String),
-    UpgradeRolloutOrder: S.optional(S.String),
+    UpgradeRolloutOrder: S.optional(UpgradeRolloutOrder),
     ReplicationSourceIdentifier: S.optional(S.String),
     ReadReplicaIdentifiers: S.optional(ReadReplicaIdentifierList),
     StatusInfos: S.optional(DBClusterStatusInfoList),
@@ -5420,8 +5592,8 @@ export const DBCluster = S.suspend(() =>
     AutoMinorVersionUpgrade: S.optional(S.Boolean),
     DeletionProtection: S.optional(S.Boolean),
     HttpEndpointEnabled: S.optional(S.Boolean),
-    ActivityStreamMode: S.optional(S.String),
-    ActivityStreamStatus: S.optional(S.String),
+    ActivityStreamMode: S.optional(ActivityStreamMode),
+    ActivityStreamStatus: S.optional(ActivityStreamStatus),
     ActivityStreamKmsKeyId: S.optional(S.String),
     ActivityStreamKinesisStreamName: S.optional(S.String),
     CopyTagsToSnapshot: S.optional(S.Boolean),
@@ -5429,7 +5601,7 @@ export const DBCluster = S.suspend(() =>
     DomainMemberships: S.optional(DomainMembershipList),
     TagList: S.optional(TagList),
     GlobalClusterIdentifier: S.optional(S.String),
-    GlobalWriteForwardingStatus: S.optional(S.String),
+    GlobalWriteForwardingStatus: S.optional(WriteForwardingStatus),
     GlobalWriteForwardingRequested: S.optional(S.Boolean),
     NetworkType: S.optional(S.String),
     AutomaticRestartTime: S.optional(
@@ -5441,16 +5613,16 @@ export const DBCluster = S.suspend(() =>
     ServerlessV2PlatformVersion: S.optional(S.String),
     MonitoringInterval: S.optional(S.Number),
     MonitoringRoleArn: S.optional(S.String),
-    DatabaseInsightsMode: S.optional(S.String),
+    DatabaseInsightsMode: S.optional(DatabaseInsightsMode),
     PerformanceInsightsEnabled: S.optional(S.Boolean),
     PerformanceInsightsKMSKeyId: S.optional(S.String),
     PerformanceInsightsRetentionPeriod: S.optional(S.Number),
     DBSystemId: S.optional(S.String),
     MasterUserSecret: S.optional(MasterUserSecret),
-    LocalWriteForwardingStatus: S.optional(S.String),
+    LocalWriteForwardingStatus: S.optional(LocalWriteForwardingStatus),
     AwsBackupRecoveryPointArn: S.optional(S.String),
     LimitlessDatabase: S.optional(LimitlessDatabase),
-    ClusterScalabilityType: S.optional(S.String),
+    ClusterScalabilityType: S.optional(ClusterScalabilityType),
     CertificateDetails: S.optional(CertificateDetails),
     EngineLifecycleSupport: S.optional(S.String),
   }),
@@ -5462,7 +5634,7 @@ export const DBClusterList = S.Array(
   }),
 );
 export interface DBClusterSnapshot {
-  AvailabilityZones?: AvailabilityZones;
+  AvailabilityZones?: string[];
   DBClusterSnapshotIdentifier?: string;
   DBClusterIdentifier?: string;
   SnapshotCreateTime?: Date;
@@ -5483,7 +5655,7 @@ export interface DBClusterSnapshot {
   DBClusterSnapshotArn?: string;
   SourceDBClusterSnapshotArn?: string;
   IAMDatabaseAuthenticationEnabled?: boolean;
-  TagList?: TagList;
+  TagList?: Tag[];
   StorageType?: string;
   StorageThroughput?: number;
   DbClusterResourceId?: string;
@@ -5542,7 +5714,7 @@ export interface UpgradeTarget {
   Description?: string;
   AutoUpgrade?: boolean;
   IsMajorVersionUpgrade?: boolean;
-  SupportedEngineModes?: EngineModeList;
+  SupportedEngineModes?: string[];
   SupportsParallelQuery?: boolean;
   SupportsGlobalDatabases?: boolean;
   SupportsBabelfish?: boolean;
@@ -5612,27 +5784,27 @@ export interface DBEngineVersion {
   DBEngineMediaType?: string;
   KMSKeyId?: string;
   CreateTime?: Date;
-  SupportedCharacterSets?: SupportedCharacterSetsList;
-  SupportedNcharCharacterSets?: SupportedCharacterSetsList;
-  ValidUpgradeTarget?: ValidUpgradeTargetList;
-  SupportedTimezones?: SupportedTimezonesList;
-  ExportableLogTypes?: LogTypeList;
+  SupportedCharacterSets?: CharacterSet[];
+  SupportedNcharCharacterSets?: CharacterSet[];
+  ValidUpgradeTarget?: UpgradeTarget[];
+  SupportedTimezones?: Timezone[];
+  ExportableLogTypes?: string[];
   SupportsLogExportsToCloudwatchLogs?: boolean;
   SupportsReadReplica?: boolean;
-  SupportedEngineModes?: EngineModeList;
-  SupportedFeatureNames?: FeatureNameList;
+  SupportedEngineModes?: string[];
+  SupportedFeatureNames?: string[];
   Status?: string;
   SupportsParallelQuery?: boolean;
   SupportsGlobalDatabases?: boolean;
-  TagList?: TagList;
+  TagList?: Tag[];
   SupportsBabelfish?: boolean;
   SupportsLimitlessDatabase?: boolean;
   SupportsCertificateRotationWithoutRestart?: boolean;
-  SupportedCACertificateIdentifiers?: CACertificateIdentifiersList;
+  SupportedCACertificateIdentifiers?: string[];
   SupportsLocalWriteForwarding?: boolean;
   SupportsIntegrations?: boolean;
   ServerlessV2FeaturesSupport?: ServerlessV2FeaturesSupport;
-  DatabaseInstallationFiles?: StringList;
+  DatabaseInstallationFiles?: string[];
   FailureReason?: string;
 }
 export const DBEngineVersion = S.suspend(() =>
@@ -5726,13 +5898,13 @@ export interface DBInstanceAutomatedBackup {
   IAMDatabaseAuthenticationEnabled?: boolean;
   BackupRetentionPeriod?: number;
   DBInstanceAutomatedBackupsArn?: string;
-  DBInstanceAutomatedBackupsReplications?: DBInstanceAutomatedBackupsReplicationList;
+  DBInstanceAutomatedBackupsReplications?: DBInstanceAutomatedBackupsReplication[];
   BackupTarget?: string;
   MultiTenant?: boolean;
   AwsBackupRecoveryPointArn?: string;
-  TagList?: TagList;
+  TagList?: Tag[];
   DedicatedLogVolume?: boolean;
-  AdditionalStorageVolumes?: AdditionalStorageVolumesList;
+  AdditionalStorageVolumes?: AdditionalStorageVolume[];
 }
 export const DBInstanceAutomatedBackup = S.suspend(() =>
   S.Struct({
@@ -5866,9 +6038,9 @@ export interface DBSubnetGroup {
   DBSubnetGroupDescription?: string;
   VpcId?: string;
   SubnetGroupStatus?: string;
-  Subnets?: SubnetList;
+  Subnets?: Subnet[];
   DBSubnetGroupArn?: string;
-  SupportedNetworkTypes?: StringList;
+  SupportedNetworkTypes?: string[];
 }
 export const DBSubnetGroup = S.suspend(() =>
   S.Struct({
@@ -5886,7 +6058,7 @@ export const DBSubnetGroup = S.suspend(() =>
 export interface PendingModifiedValues {
   DBInstanceClass?: string;
   AllocatedStorage?: number;
-  MasterUserPassword?: string | Redacted.Redacted<string>;
+  MasterUserPassword?: string | redacted.Redacted<string>;
   Port?: number;
   BackupRetentionPeriod?: number;
   MultiAZ?: boolean;
@@ -5899,14 +6071,14 @@ export interface PendingModifiedValues {
   CACertificateIdentifier?: string;
   DBSubnetGroupName?: string;
   PendingCloudwatchLogsExports?: PendingCloudwatchLogsExports;
-  ProcessorFeatures?: ProcessorFeatureList;
-  AutomationMode?: string;
+  ProcessorFeatures?: ProcessorFeature[];
+  AutomationMode?: AutomationMode;
   ResumeFullAutomationModeTime?: Date;
   MultiTenant?: boolean;
   IAMDatabaseAuthenticationEnabled?: boolean;
   DedicatedLogVolume?: boolean;
   Engine?: string;
-  AdditionalStorageVolumes?: AdditionalStorageVolumesList;
+  AdditionalStorageVolumes?: AdditionalStorageVolume[];
 }
 export const PendingModifiedValues = S.suspend(() =>
   S.Struct({
@@ -5926,7 +6098,7 @@ export const PendingModifiedValues = S.suspend(() =>
     DBSubnetGroupName: S.optional(S.String),
     PendingCloudwatchLogsExports: S.optional(PendingCloudwatchLogsExports),
     ProcessorFeatures: S.optional(ProcessorFeatureList),
-    AutomationMode: S.optional(S.String),
+    AutomationMode: S.optional(AutomationMode),
     ResumeFullAutomationModeTime: S.optional(
       S.Date.pipe(T.TimestampFormat("date-time")),
     ),
@@ -6007,6 +6179,17 @@ export const DBInstanceRoles = S.Array(
     identifier: "DBInstanceRole",
   }),
 );
+export type ActivityStreamPolicyStatus =
+  | "locked"
+  | "unlocked"
+  | "locking-policy"
+  | "unlocking-policy";
+export const ActivityStreamPolicyStatus = S.Literal(
+  "locked",
+  "unlocked",
+  "locking-policy",
+  "unlocking-policy",
+);
 export interface AdditionalStorageVolumeOutput {
   VolumeName?: string;
   StorageVolumeStatus?: string;
@@ -6046,31 +6229,31 @@ export interface DBInstance {
   InstanceCreateTime?: Date;
   PreferredBackupWindow?: string;
   BackupRetentionPeriod?: number;
-  DBSecurityGroups?: DBSecurityGroupMembershipList;
-  VpcSecurityGroups?: VpcSecurityGroupMembershipList;
-  DBParameterGroups?: DBParameterGroupStatusList;
+  DBSecurityGroups?: DBSecurityGroupMembership[];
+  VpcSecurityGroups?: VpcSecurityGroupMembership[];
+  DBParameterGroups?: DBParameterGroupStatus[];
   AvailabilityZone?: string;
   DBSubnetGroup?: DBSubnetGroup;
   PreferredMaintenanceWindow?: string;
-  UpgradeRolloutOrder?: string;
+  UpgradeRolloutOrder?: UpgradeRolloutOrder;
   PendingModifiedValues?: PendingModifiedValues;
   LatestRestorableTime?: Date;
   MultiAZ?: boolean;
   EngineVersion?: string;
   AutoMinorVersionUpgrade?: boolean;
   ReadReplicaSourceDBInstanceIdentifier?: string;
-  ReadReplicaDBInstanceIdentifiers?: ReadReplicaDBInstanceIdentifierList;
-  ReadReplicaDBClusterIdentifiers?: ReadReplicaDBClusterIdentifierList;
-  ReplicaMode?: string;
+  ReadReplicaDBInstanceIdentifiers?: string[];
+  ReadReplicaDBClusterIdentifiers?: string[];
+  ReplicaMode?: ReplicaMode;
   LicenseModel?: string;
   Iops?: number;
   StorageThroughput?: number;
-  OptionGroupMemberships?: OptionGroupMembershipList;
+  OptionGroupMemberships?: OptionGroupMembership[];
   CharacterSetName?: string;
   NcharCharacterSetName?: string;
   SecondaryAvailabilityZone?: string;
   PubliclyAccessible?: boolean;
-  StatusInfos?: DBInstanceStatusInfoList;
+  StatusInfos?: DBInstanceStatusInfo[];
   StorageType?: string;
   TdeCredentialArn?: string;
   DbInstancePort?: number;
@@ -6079,7 +6262,7 @@ export interface DBInstance {
   KmsKeyId?: string;
   DbiResourceId?: string;
   CACertificateIdentifier?: string;
-  DomainMemberships?: DomainMembershipList;
+  DomainMemberships?: DomainMembership[];
   CopyTagsToSnapshot?: boolean;
   MonitoringInterval?: number;
   EnhancedMonitoringResourceArn?: string;
@@ -6088,32 +6271,32 @@ export interface DBInstance {
   DBInstanceArn?: string;
   Timezone?: string;
   IAMDatabaseAuthenticationEnabled?: boolean;
-  DatabaseInsightsMode?: string;
+  DatabaseInsightsMode?: DatabaseInsightsMode;
   PerformanceInsightsEnabled?: boolean;
   PerformanceInsightsKMSKeyId?: string;
   PerformanceInsightsRetentionPeriod?: number;
-  EnabledCloudwatchLogsExports?: LogTypeList;
-  ProcessorFeatures?: ProcessorFeatureList;
+  EnabledCloudwatchLogsExports?: string[];
+  ProcessorFeatures?: ProcessorFeature[];
   DeletionProtection?: boolean;
-  AssociatedRoles?: DBInstanceRoles;
+  AssociatedRoles?: DBInstanceRole[];
   ListenerEndpoint?: Endpoint;
   MaxAllocatedStorage?: number;
-  TagList?: TagList;
-  AutomationMode?: string;
+  TagList?: Tag[];
+  AutomationMode?: AutomationMode;
   ResumeFullAutomationModeTime?: Date;
   CustomerOwnedIpEnabled?: boolean;
   NetworkType?: string;
-  ActivityStreamStatus?: string;
+  ActivityStreamStatus?: ActivityStreamStatus;
   ActivityStreamKmsKeyId?: string;
   ActivityStreamKinesisStreamName?: string;
-  ActivityStreamMode?: string;
+  ActivityStreamMode?: ActivityStreamMode;
   ActivityStreamEngineNativeAuditFieldsIncluded?: boolean;
   AwsBackupRecoveryPointArn?: string;
-  DBInstanceAutomatedBackupsReplications?: DBInstanceAutomatedBackupsReplicationList;
+  DBInstanceAutomatedBackupsReplications?: DBInstanceAutomatedBackupsReplication[];
   BackupTarget?: string;
   AutomaticRestartTime?: Date;
   CustomIamInstanceProfile?: string;
-  ActivityStreamPolicyStatus?: string;
+  ActivityStreamPolicyStatus?: ActivityStreamPolicyStatus;
   CertificateDetails?: CertificateDetails;
   DBSystemId?: string;
   MasterUserSecret?: MasterUserSecret;
@@ -6123,7 +6306,7 @@ export interface DBInstance {
   DedicatedLogVolume?: boolean;
   IsStorageConfigUpgradeAvailable?: boolean;
   EngineLifecycleSupport?: string;
-  AdditionalStorageVolumes?: AdditionalStorageVolumesOutputList;
+  AdditionalStorageVolumes?: AdditionalStorageVolumeOutput[];
   StorageVolumeStatus?: string;
 }
 export const DBInstance = S.suspend(() =>
@@ -6145,7 +6328,7 @@ export const DBInstance = S.suspend(() =>
     AvailabilityZone: S.optional(S.String),
     DBSubnetGroup: S.optional(DBSubnetGroup),
     PreferredMaintenanceWindow: S.optional(S.String),
-    UpgradeRolloutOrder: S.optional(S.String),
+    UpgradeRolloutOrder: S.optional(UpgradeRolloutOrder),
     PendingModifiedValues: S.optional(PendingModifiedValues),
     LatestRestorableTime: S.optional(
       S.Date.pipe(T.TimestampFormat("date-time")),
@@ -6160,7 +6343,7 @@ export const DBInstance = S.suspend(() =>
     ReadReplicaDBClusterIdentifiers: S.optional(
       ReadReplicaDBClusterIdentifierList,
     ),
-    ReplicaMode: S.optional(S.String),
+    ReplicaMode: S.optional(ReplicaMode),
     LicenseModel: S.optional(S.String),
     Iops: S.optional(S.Number),
     StorageThroughput: S.optional(S.Number),
@@ -6187,7 +6370,7 @@ export const DBInstance = S.suspend(() =>
     DBInstanceArn: S.optional(S.String),
     Timezone: S.optional(S.String),
     IAMDatabaseAuthenticationEnabled: S.optional(S.Boolean),
-    DatabaseInsightsMode: S.optional(S.String),
+    DatabaseInsightsMode: S.optional(DatabaseInsightsMode),
     PerformanceInsightsEnabled: S.optional(S.Boolean),
     PerformanceInsightsKMSKeyId: S.optional(S.String),
     PerformanceInsightsRetentionPeriod: S.optional(S.Number),
@@ -6198,16 +6381,16 @@ export const DBInstance = S.suspend(() =>
     ListenerEndpoint: S.optional(Endpoint),
     MaxAllocatedStorage: S.optional(S.Number),
     TagList: S.optional(TagList),
-    AutomationMode: S.optional(S.String),
+    AutomationMode: S.optional(AutomationMode),
     ResumeFullAutomationModeTime: S.optional(
       S.Date.pipe(T.TimestampFormat("date-time")),
     ),
     CustomerOwnedIpEnabled: S.optional(S.Boolean),
     NetworkType: S.optional(S.String),
-    ActivityStreamStatus: S.optional(S.String),
+    ActivityStreamStatus: S.optional(ActivityStreamStatus),
     ActivityStreamKmsKeyId: S.optional(S.String),
     ActivityStreamKinesisStreamName: S.optional(S.String),
-    ActivityStreamMode: S.optional(S.String),
+    ActivityStreamMode: S.optional(ActivityStreamMode),
     ActivityStreamEngineNativeAuditFieldsIncluded: S.optional(S.Boolean),
     AwsBackupRecoveryPointArn: S.optional(S.String),
     DBInstanceAutomatedBackupsReplications: S.optional(
@@ -6218,7 +6401,7 @@ export const DBInstance = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("date-time")),
     ),
     CustomIamInstanceProfile: S.optional(S.String),
-    ActivityStreamPolicyStatus: S.optional(S.String),
+    ActivityStreamPolicyStatus: S.optional(ActivityStreamPolicyStatus),
     CertificateDetails: S.optional(CertificateDetails),
     DBSystemId: S.optional(S.String),
     MasterUserSecret: S.optional(MasterUserSecret),
@@ -6260,22 +6443,43 @@ export const DBParameterGroupList = S.Array(
     identifier: "DBParameterGroup",
   }),
 );
+export type DBProxyStatus =
+  | "available"
+  | "modifying"
+  | "incompatible-network"
+  | "insufficient-resource-limits"
+  | "creating"
+  | "deleting"
+  | "suspended"
+  | "suspending"
+  | "reactivating";
+export const DBProxyStatus = S.Literal(
+  "available",
+  "modifying",
+  "incompatible-network",
+  "insufficient-resource-limits",
+  "creating",
+  "deleting",
+  "suspended",
+  "suspending",
+  "reactivating",
+);
 export interface UserAuthConfigInfo {
   Description?: string;
   UserName?: string;
-  AuthScheme?: string;
+  AuthScheme?: AuthScheme;
   SecretArn?: string;
-  IAMAuth?: string;
-  ClientPasswordAuthType?: string;
+  IAMAuth?: IAMAuthMode;
+  ClientPasswordAuthType?: ClientPasswordAuthType;
 }
 export const UserAuthConfigInfo = S.suspend(() =>
   S.Struct({
     Description: S.optional(S.String),
     UserName: S.optional(S.String),
-    AuthScheme: S.optional(S.String),
+    AuthScheme: S.optional(AuthScheme),
     SecretArn: S.optional(S.String),
-    IAMAuth: S.optional(S.String),
-    ClientPasswordAuthType: S.optional(S.String),
+    IAMAuth: S.optional(IAMAuthMode),
+    ClientPasswordAuthType: S.optional(ClientPasswordAuthType),
   }),
 ).annotations({
   identifier: "UserAuthConfigInfo",
@@ -6285,13 +6489,13 @@ export const UserAuthConfigInfoList = S.Array(UserAuthConfigInfo);
 export interface DBProxy {
   DBProxyName?: string;
   DBProxyArn?: string;
-  Status?: string;
+  Status?: DBProxyStatus;
   EngineFamily?: string;
   VpcId?: string;
-  VpcSecurityGroupIds?: StringList;
-  VpcSubnetIds?: StringList;
+  VpcSecurityGroupIds?: string[];
+  VpcSubnetIds?: string[];
   DefaultAuthScheme?: string;
-  Auth?: UserAuthConfigInfoList;
+  Auth?: UserAuthConfigInfo[];
   RoleArn?: string;
   Endpoint?: string;
   RequireTLS?: boolean;
@@ -6299,14 +6503,14 @@ export interface DBProxy {
   DebugLogging?: boolean;
   CreatedDate?: Date;
   UpdatedDate?: Date;
-  EndpointNetworkType?: string;
-  TargetConnectionNetworkType?: string;
+  EndpointNetworkType?: EndpointNetworkType;
+  TargetConnectionNetworkType?: TargetConnectionNetworkType;
 }
 export const DBProxy = S.suspend(() =>
   S.Struct({
     DBProxyName: S.optional(S.String),
     DBProxyArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(DBProxyStatus),
     EngineFamily: S.optional(S.String),
     VpcId: S.optional(S.String),
     VpcSecurityGroupIds: S.optional(StringList),
@@ -6320,40 +6524,55 @@ export const DBProxy = S.suspend(() =>
     DebugLogging: S.optional(S.Boolean),
     CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     UpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndpointNetworkType: S.optional(S.String),
-    TargetConnectionNetworkType: S.optional(S.String),
+    EndpointNetworkType: S.optional(EndpointNetworkType),
+    TargetConnectionNetworkType: S.optional(TargetConnectionNetworkType),
   }),
 ).annotations({ identifier: "DBProxy" }) as any as S.Schema<DBProxy>;
 export type DBProxyList = DBProxy[];
 export const DBProxyList = S.Array(DBProxy);
+export type DBProxyEndpointStatus =
+  | "available"
+  | "modifying"
+  | "incompatible-network"
+  | "insufficient-resource-limits"
+  | "creating"
+  | "deleting";
+export const DBProxyEndpointStatus = S.Literal(
+  "available",
+  "modifying",
+  "incompatible-network",
+  "insufficient-resource-limits",
+  "creating",
+  "deleting",
+);
 export interface DBProxyEndpoint {
   DBProxyEndpointName?: string;
   DBProxyEndpointArn?: string;
   DBProxyName?: string;
-  Status?: string;
+  Status?: DBProxyEndpointStatus;
   VpcId?: string;
-  VpcSecurityGroupIds?: StringList;
-  VpcSubnetIds?: StringList;
+  VpcSecurityGroupIds?: string[];
+  VpcSubnetIds?: string[];
   Endpoint?: string;
   CreatedDate?: Date;
-  TargetRole?: string;
+  TargetRole?: DBProxyEndpointTargetRole;
   IsDefault?: boolean;
-  EndpointNetworkType?: string;
+  EndpointNetworkType?: EndpointNetworkType;
 }
 export const DBProxyEndpoint = S.suspend(() =>
   S.Struct({
     DBProxyEndpointName: S.optional(S.String),
     DBProxyEndpointArn: S.optional(S.String),
     DBProxyName: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(DBProxyEndpointStatus),
     VpcId: S.optional(S.String),
     VpcSecurityGroupIds: S.optional(StringList),
     VpcSubnetIds: S.optional(StringList),
     Endpoint: S.optional(S.String),
     CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    TargetRole: S.optional(S.String),
+    TargetRole: S.optional(DBProxyEndpointTargetRole),
     IsDefault: S.optional(S.Boolean),
-    EndpointNetworkType: S.optional(S.String),
+    EndpointNetworkType: S.optional(EndpointNetworkType),
   }),
 ).annotations({
   identifier: "DBProxyEndpoint",
@@ -6398,8 +6617,8 @@ export interface DBSecurityGroup {
   DBSecurityGroupName?: string;
   DBSecurityGroupDescription?: string;
   VpcId?: string;
-  EC2SecurityGroups?: EC2SecurityGroupList;
-  IPRanges?: IPRangeList;
+  EC2SecurityGroups?: EC2SecurityGroup[];
+  IPRanges?: IPRange[];
   DBSecurityGroupArn?: string;
 }
 export const DBSecurityGroup = S.suspend(() =>
@@ -6432,7 +6651,7 @@ export interface DBShardGroup {
   PubliclyAccessible?: boolean;
   Endpoint?: string;
   DBShardGroupArn?: string;
-  TagList?: TagList;
+  TagList?: Tag[];
 }
 export const DBShardGroup = S.suspend(() =>
   S.Struct({
@@ -6483,9 +6702,9 @@ export interface DBSnapshot {
   DBSnapshotArn?: string;
   Timezone?: string;
   IAMDatabaseAuthenticationEnabled?: boolean;
-  ProcessorFeatures?: ProcessorFeatureList;
+  ProcessorFeatures?: ProcessorFeature[];
   DbiResourceId?: string;
-  TagList?: TagList;
+  TagList?: Tag[];
   SnapshotTarget?: string;
   OriginalSnapshotCreateTime?: Date;
   SnapshotDatabaseTime?: Date;
@@ -6493,7 +6712,7 @@ export interface DBSnapshot {
   MultiTenant?: boolean;
   DedicatedLogVolume?: boolean;
   SnapshotAvailabilityZone?: string;
-  AdditionalStorageVolumes?: AdditionalStorageVolumesList;
+  AdditionalStorageVolumes?: AdditionalStorageVolume[];
 }
 export const DBSnapshot = S.suspend(() =>
   S.Struct({
@@ -6560,8 +6779,8 @@ export interface EventSubscription {
   Status?: string;
   SubscriptionCreationTime?: string;
   SourceType?: string;
-  SourceIdsList?: SourceIdsList;
-  EventCategoriesList?: EventCategoriesList;
+  SourceIdsList?: string[];
+  EventCategoriesList?: string[];
   Enabled?: boolean;
   EventSubscriptionArn?: string;
 }
@@ -6590,7 +6809,7 @@ export const EventSubscriptionsList = S.Array(
 export interface ExportTask {
   ExportTaskIdentifier?: string;
   SourceArn?: string;
-  ExportOnly?: StringList;
+  ExportOnly?: string[];
   SnapshotTime?: Date;
   TaskStartTime?: Date;
   TaskEndTime?: Date;
@@ -6603,7 +6822,7 @@ export interface ExportTask {
   TotalExtractedDataInGB?: number;
   FailureCause?: string;
   WarningMessage?: string;
-  SourceType?: string;
+  SourceType?: ExportSourceType;
 }
 export const ExportTask = S.suspend(() =>
   S.Struct({
@@ -6622,7 +6841,7 @@ export const ExportTask = S.suspend(() =>
     TotalExtractedDataInGB: S.optional(S.Number),
     FailureCause: S.optional(S.String),
     WarningMessage: S.optional(S.String),
-    SourceType: S.optional(S.String),
+    SourceType: S.optional(ExportSourceType),
   }).pipe(ns),
 ).annotations({ identifier: "ExportTask" }) as any as S.Schema<ExportTask>;
 export type ExportTasksList = ExportTask[];
@@ -6633,20 +6852,27 @@ export const ExportTasksList = S.Array(
 );
 export type ReadersArnList = string[];
 export const ReadersArnList = S.Array(S.String);
+export type GlobalClusterMemberSynchronizationStatus =
+  | "connected"
+  | "pending-resync";
+export const GlobalClusterMemberSynchronizationStatus = S.Literal(
+  "connected",
+  "pending-resync",
+);
 export interface GlobalClusterMember {
   DBClusterArn?: string;
-  Readers?: ReadersArnList;
+  Readers?: string[];
   IsWriter?: boolean;
-  GlobalWriteForwardingStatus?: string;
-  SynchronizationStatus?: string;
+  GlobalWriteForwardingStatus?: WriteForwardingStatus;
+  SynchronizationStatus?: GlobalClusterMemberSynchronizationStatus;
 }
 export const GlobalClusterMember = S.suspend(() =>
   S.Struct({
     DBClusterArn: S.optional(S.String),
     Readers: S.optional(ReadersArnList),
     IsWriter: S.optional(S.Boolean),
-    GlobalWriteForwardingStatus: S.optional(S.String),
-    SynchronizationStatus: S.optional(S.String),
+    GlobalWriteForwardingStatus: S.optional(WriteForwardingStatus),
+    SynchronizationStatus: S.optional(GlobalClusterMemberSynchronizationStatus),
   }),
 ).annotations({
   identifier: "GlobalClusterMember",
@@ -6657,15 +6883,21 @@ export const GlobalClusterMemberList = S.Array(
     identifier: "GlobalClusterMember",
   }),
 );
+export type FailoverStatus = "pending" | "failing-over" | "cancelling";
+export const FailoverStatus = S.Literal(
+  "pending",
+  "failing-over",
+  "cancelling",
+);
 export interface FailoverState {
-  Status?: string;
+  Status?: FailoverStatus;
   FromDbClusterArn?: string;
   ToDbClusterArn?: string;
   IsDataLossAllowed?: boolean;
 }
 export const FailoverState = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(FailoverStatus),
     FromDbClusterArn: S.optional(S.String),
     ToDbClusterArn: S.optional(S.String),
     IsDataLossAllowed: S.optional(S.Boolean),
@@ -6684,10 +6916,10 @@ export interface GlobalCluster {
   DatabaseName?: string;
   StorageEncrypted?: boolean;
   DeletionProtection?: boolean;
-  GlobalClusterMembers?: GlobalClusterMemberList;
+  GlobalClusterMembers?: GlobalClusterMember[];
   Endpoint?: string;
   FailoverState?: FailoverState;
-  TagList?: TagList;
+  TagList?: Tag[];
 }
 export const GlobalCluster = S.suspend(() =>
   S.Struct({
@@ -6716,11 +6948,14 @@ export const GlobalClusterList = S.Array(
   }),
 );
 export interface IntegrationError {
-  ErrorCode: string;
+  ErrorCode?: string;
   ErrorMessage?: string;
 }
 export const IntegrationError = S.suspend(() =>
-  S.Struct({ ErrorCode: S.String, ErrorMessage: S.optional(S.String) }),
+  S.Struct({
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "IntegrationError",
 }) as any as S.Schema<IntegrationError>;
@@ -6736,13 +6971,13 @@ export interface Integration {
   IntegrationName?: string;
   IntegrationArn?: string;
   KMSKeyId?: string;
-  AdditionalEncryptionContext?: EncryptionContextMap;
-  Status?: string;
-  Tags?: TagList;
+  AdditionalEncryptionContext?: { [key: string]: string };
+  Status?: IntegrationStatus;
+  Tags?: Tag[];
   DataFilter?: string;
   Description?: string;
   CreateTime?: Date;
-  Errors?: IntegrationErrorList;
+  Errors?: IntegrationError[];
 }
 export const Integration = S.suspend(() =>
   S.Struct({
@@ -6752,7 +6987,7 @@ export const Integration = S.suspend(() =>
     IntegrationArn: S.optional(S.String),
     KMSKeyId: S.optional(S.String),
     AdditionalEncryptionContext: S.optional(EncryptionContextMap),
-    Status: S.optional(S.String),
+    Status: S.optional(IntegrationStatus),
     Tags: S.optional(TagList),
     DataFilter: S.optional(S.String),
     Description: S.optional(S.String),
@@ -6768,7 +7003,7 @@ export const IntegrationList = S.Array(
 );
 export interface OptionSetting {
   Name?: string;
-  Value?: string | Redacted.Redacted<string>;
+  Value?: string | redacted.Redacted<string>;
   DefaultValue?: string;
   Description?: string;
   ApplyType?: string;
@@ -6805,9 +7040,9 @@ export interface Option {
   Permanent?: boolean;
   Port?: number;
   OptionVersion?: string;
-  OptionSettings?: OptionSettingConfigurationList;
-  DBSecurityGroupMemberships?: DBSecurityGroupMembershipList;
-  VpcSecurityGroupMemberships?: VpcSecurityGroupMembershipList;
+  OptionSettings?: OptionSetting[];
+  DBSecurityGroupMemberships?: DBSecurityGroupMembership[];
+  VpcSecurityGroupMemberships?: VpcSecurityGroupMembership[];
 }
 export const Option = S.suspend(() =>
   S.Struct({
@@ -6831,7 +7066,7 @@ export interface OptionGroup {
   OptionGroupDescription?: string;
   EngineName?: string;
   MajorEngineVersion?: string;
-  Options?: OptionsList;
+  Options?: Option[];
   AllowsVpcAndNonVpcInstanceMemberships?: boolean;
   VpcId?: string;
   OptionGroupArn?: string;
@@ -6890,7 +7125,7 @@ export const PendingMaintenanceActionDetails = S.Array(
 );
 export interface ResourcePendingMaintenanceActions {
   ResourceIdentifier?: string;
-  PendingMaintenanceActionDetails?: PendingMaintenanceActionDetails;
+  PendingMaintenanceActionDetails?: PendingMaintenanceAction[];
 }
 export const ResourcePendingMaintenanceActions = S.suspend(() =>
   S.Struct({
@@ -6909,7 +7144,7 @@ export const PendingMaintenanceActions = S.Array(
   ).annotations({ identifier: "ResourcePendingMaintenanceActions" }),
 );
 export interface TenantDatabasePendingModifiedValues {
-  MasterUserPassword?: string | Redacted.Redacted<string>;
+  MasterUserPassword?: string | redacted.Redacted<string>;
   TenantDBName?: string;
 }
 export const TenantDatabasePendingModifiedValues = S.suspend(() =>
@@ -6934,7 +7169,7 @@ export interface TenantDatabase {
   DeletionProtection?: boolean;
   PendingModifiedValues?: TenantDatabasePendingModifiedValues;
   MasterUserSecret?: MasterUserSecret;
-  TagList?: TagList;
+  TagList?: Tag[];
 }
 export const TenantDatabase = S.suspend(() =>
   S.Struct({
@@ -6965,8 +7200,8 @@ export const TenantDatabasesList = S.Array(
   }),
 );
 export interface CloudwatchLogsExportConfiguration {
-  EnableLogTypes?: LogTypeList;
-  DisableLogTypes?: LogTypeList;
+  EnableLogTypes?: string[];
+  DisableLogTypes?: string[];
 }
 export const CloudwatchLogsExportConfiguration = S.suspend(() =>
   S.Struct({
@@ -6977,7 +7212,7 @@ export const CloudwatchLogsExportConfiguration = S.suspend(() =>
   identifier: "CloudwatchLogsExportConfiguration",
 }) as any as S.Schema<CloudwatchLogsExportConfiguration>;
 export interface ModifyAdditionalStorageVolume {
-  VolumeName: string;
+  VolumeName?: string;
   AllocatedStorage?: number;
   IOPS?: number;
   MaxAllocatedStorage?: number;
@@ -6987,7 +7222,7 @@ export interface ModifyAdditionalStorageVolume {
 }
 export const ModifyAdditionalStorageVolume = S.suspend(() =>
   S.Struct({
-    VolumeName: S.String,
+    VolumeName: S.optional(S.String),
     AllocatedStorage: S.optional(S.Number),
     IOPS: S.optional(S.Number),
     MaxAllocatedStorage: S.optional(S.Number),
@@ -7007,7 +7242,7 @@ export interface ConnectionPoolConfiguration {
   MaxConnectionsPercent?: number;
   MaxIdleConnectionsPercent?: number;
   ConnectionBorrowTimeout?: number;
-  SessionPinningFilters?: StringList;
+  SessionPinningFilters?: string[];
   InitQuery?: string;
 }
 export const ConnectionPoolConfiguration = S.suspend(() =>
@@ -7022,22 +7257,25 @@ export const ConnectionPoolConfiguration = S.suspend(() =>
   identifier: "ConnectionPoolConfiguration",
 }) as any as S.Schema<ConnectionPoolConfiguration>;
 export interface RecommendedActionUpdate {
-  ActionId: string;
-  Status: string;
+  ActionId?: string;
+  Status?: string;
 }
 export const RecommendedActionUpdate = S.suspend(() =>
-  S.Struct({ ActionId: S.String, Status: S.String }),
+  S.Struct({ ActionId: S.optional(S.String), Status: S.optional(S.String) }),
 ).annotations({
   identifier: "RecommendedActionUpdate",
 }) as any as S.Schema<RecommendedActionUpdate>;
 export type RecommendedActionUpdateList = RecommendedActionUpdate[];
 export const RecommendedActionUpdateList = S.Array(RecommendedActionUpdate);
 export interface AddTagsToResourceMessage {
-  ResourceName: string;
-  Tags: TagList;
+  ResourceName?: string;
+  Tags?: Tag[];
 }
 export const AddTagsToResourceMessage = S.suspend(() =>
-  S.Struct({ ResourceName: S.String, Tags: TagList }).pipe(
+  S.Struct({
+    ResourceName: S.optional(S.String),
+    Tags: S.optional(TagList),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -7058,30 +7296,30 @@ export const AddTagsToResourceResponse = S.suspend(() =>
   identifier: "AddTagsToResourceResponse",
 }) as any as S.Schema<AddTagsToResourceResponse>;
 export interface CreateDBClusterMessage {
-  AvailabilityZones?: AvailabilityZones;
+  AvailabilityZones?: string[];
   BackupRetentionPeriod?: number;
   CharacterSetName?: string;
   DatabaseName?: string;
-  DBClusterIdentifier: string;
+  DBClusterIdentifier?: string;
   DBClusterParameterGroupName?: string;
-  VpcSecurityGroupIds?: VpcSecurityGroupIdList;
+  VpcSecurityGroupIds?: string[];
   DBSubnetGroupName?: string;
-  Engine: string;
+  Engine?: string;
   EngineVersion?: string;
   Port?: number;
   MasterUsername?: string;
-  MasterUserPassword?: string | Redacted.Redacted<string>;
+  MasterUserPassword?: string | redacted.Redacted<string>;
   OptionGroupName?: string;
   PreferredBackupWindow?: string;
   PreferredMaintenanceWindow?: string;
   ReplicationSourceIdentifier?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   StorageEncrypted?: boolean;
   KmsKeyId?: string;
-  PreSignedUrl?: string | Redacted.Redacted<string>;
+  PreSignedUrl?: string | redacted.Redacted<string>;
   EnableIAMDatabaseAuthentication?: boolean;
   BacktrackWindow?: number;
-  EnableCloudwatchLogsExports?: LogTypeList;
+  EnableCloudwatchLogsExports?: string[];
   EngineMode?: string;
   ScalingConfiguration?: ScalingConfiguration;
   RdsCustomClusterConfiguration?: RdsCustomClusterConfiguration;
@@ -7102,20 +7340,20 @@ export interface CreateDBClusterMessage {
   ServerlessV2ScalingConfiguration?: ServerlessV2ScalingConfiguration;
   MonitoringInterval?: number;
   MonitoringRoleArn?: string;
-  DatabaseInsightsMode?: string;
+  DatabaseInsightsMode?: DatabaseInsightsMode;
   EnablePerformanceInsights?: boolean;
   PerformanceInsightsKMSKeyId?: string;
   PerformanceInsightsRetentionPeriod?: number;
   EnableLimitlessDatabase?: boolean;
-  ClusterScalabilityType?: string;
+  ClusterScalabilityType?: ClusterScalabilityType;
   DBSystemId?: string;
   ManageMasterUserPassword?: boolean;
   EnableLocalWriteForwarding?: boolean;
   MasterUserSecretKmsKeyId?: string;
   CACertificateIdentifier?: string;
   EngineLifecycleSupport?: string;
-  TagSpecifications?: TagSpecificationList;
-  MasterUserAuthenticationType?: string;
+  TagSpecifications?: TagSpecification[];
+  MasterUserAuthenticationType?: MasterUserAuthenticationType;
 }
 export const CreateDBClusterMessage = S.suspend(() =>
   S.Struct({
@@ -7123,11 +7361,11 @@ export const CreateDBClusterMessage = S.suspend(() =>
     BackupRetentionPeriod: S.optional(S.Number),
     CharacterSetName: S.optional(S.String),
     DatabaseName: S.optional(S.String),
-    DBClusterIdentifier: S.String,
+    DBClusterIdentifier: S.optional(S.String),
     DBClusterParameterGroupName: S.optional(S.String),
     VpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
     DBSubnetGroupName: S.optional(S.String),
-    Engine: S.String,
+    Engine: S.optional(S.String),
     EngineVersion: S.optional(S.String),
     Port: S.optional(S.Number),
     MasterUsername: S.optional(S.String),
@@ -7165,12 +7403,12 @@ export const CreateDBClusterMessage = S.suspend(() =>
     ),
     MonitoringInterval: S.optional(S.Number),
     MonitoringRoleArn: S.optional(S.String),
-    DatabaseInsightsMode: S.optional(S.String),
+    DatabaseInsightsMode: S.optional(DatabaseInsightsMode),
     EnablePerformanceInsights: S.optional(S.Boolean),
     PerformanceInsightsKMSKeyId: S.optional(S.String),
     PerformanceInsightsRetentionPeriod: S.optional(S.Number),
     EnableLimitlessDatabase: S.optional(S.Boolean),
-    ClusterScalabilityType: S.optional(S.String),
+    ClusterScalabilityType: S.optional(ClusterScalabilityType),
     DBSystemId: S.optional(S.String),
     ManageMasterUserPassword: S.optional(S.Boolean),
     EnableLocalWriteForwarding: S.optional(S.Boolean),
@@ -7178,7 +7416,7 @@ export const CreateDBClusterMessage = S.suspend(() =>
     CACertificateIdentifier: S.optional(S.String),
     EngineLifecycleSupport: S.optional(S.String),
     TagSpecifications: S.optional(TagSpecificationList),
-    MasterUserAuthenticationType: S.optional(S.String),
+    MasterUserAuthenticationType: S.optional(MasterUserAuthenticationType),
   }).pipe(
     T.all(
       ns,
@@ -7213,14 +7451,14 @@ export const CreateDBClusterSnapshotResult = S.suspend(() =>
 }) as any as S.Schema<CreateDBClusterSnapshotResult>;
 export interface CreateDBInstanceMessage {
   DBName?: string;
-  DBInstanceIdentifier: string;
+  DBInstanceIdentifier?: string;
   AllocatedStorage?: number;
-  DBInstanceClass: string;
-  Engine: string;
+  DBInstanceClass?: string;
+  Engine?: string;
   MasterUsername?: string;
-  MasterUserPassword?: string | Redacted.Redacted<string>;
-  DBSecurityGroups?: DBSecurityGroupNameList;
-  VpcSecurityGroupIds?: VpcSecurityGroupIdList;
+  MasterUserPassword?: string | redacted.Redacted<string>;
+  DBSecurityGroups?: string[];
+  VpcSecurityGroupIds?: string[];
   AvailabilityZone?: string;
   DBSubnetGroupName?: string;
   PreferredMaintenanceWindow?: string;
@@ -7238,18 +7476,18 @@ export interface CreateDBInstanceMessage {
   CharacterSetName?: string;
   NcharCharacterSetName?: string;
   PubliclyAccessible?: boolean;
-  Tags?: TagList;
+  Tags?: Tag[];
   DBClusterIdentifier?: string;
   StorageType?: string;
   TdeCredentialArn?: string;
-  TdeCredentialPassword?: string | Redacted.Redacted<string>;
+  TdeCredentialPassword?: string | redacted.Redacted<string>;
   StorageEncrypted?: boolean;
   KmsKeyId?: string;
   Domain?: string;
   DomainFqdn?: string;
   DomainOu?: string;
   DomainAuthSecretArn?: string;
-  DomainDnsIps?: StringList;
+  DomainDnsIps?: string[];
   CopyTagsToSnapshot?: boolean;
   MonitoringInterval?: number;
   MonitoringRoleArn?: string;
@@ -7257,12 +7495,12 @@ export interface CreateDBInstanceMessage {
   PromotionTier?: number;
   Timezone?: string;
   EnableIAMDatabaseAuthentication?: boolean;
-  DatabaseInsightsMode?: string;
+  DatabaseInsightsMode?: DatabaseInsightsMode;
   EnablePerformanceInsights?: boolean;
   PerformanceInsightsKMSKeyId?: string;
   PerformanceInsightsRetentionPeriod?: number;
-  EnableCloudwatchLogsExports?: LogTypeList;
-  ProcessorFeatures?: ProcessorFeatureList;
+  EnableCloudwatchLogsExports?: string[];
+  ProcessorFeatures?: ProcessorFeature[];
   DeletionProtection?: boolean;
   MaxAllocatedStorage?: number;
   EnableCustomerOwnedIp?: boolean;
@@ -7276,17 +7514,17 @@ export interface CreateDBInstanceMessage {
   MultiTenant?: boolean;
   DedicatedLogVolume?: boolean;
   EngineLifecycleSupport?: string;
-  TagSpecifications?: TagSpecificationList;
-  MasterUserAuthenticationType?: string;
-  AdditionalStorageVolumes?: AdditionalStorageVolumesList;
+  TagSpecifications?: TagSpecification[];
+  MasterUserAuthenticationType?: MasterUserAuthenticationType;
+  AdditionalStorageVolumes?: AdditionalStorageVolume[];
 }
 export const CreateDBInstanceMessage = S.suspend(() =>
   S.Struct({
     DBName: S.optional(S.String),
-    DBInstanceIdentifier: S.String,
+    DBInstanceIdentifier: S.optional(S.String),
     AllocatedStorage: S.optional(S.Number),
-    DBInstanceClass: S.String,
-    Engine: S.String,
+    DBInstanceClass: S.optional(S.String),
+    Engine: S.optional(S.String),
     MasterUsername: S.optional(S.String),
     MasterUserPassword: S.optional(SensitiveString),
     DBSecurityGroups: S.optional(DBSecurityGroupNameList),
@@ -7327,7 +7565,7 @@ export const CreateDBInstanceMessage = S.suspend(() =>
     PromotionTier: S.optional(S.Number),
     Timezone: S.optional(S.String),
     EnableIAMDatabaseAuthentication: S.optional(S.Boolean),
-    DatabaseInsightsMode: S.optional(S.String),
+    DatabaseInsightsMode: S.optional(DatabaseInsightsMode),
     EnablePerformanceInsights: S.optional(S.Boolean),
     PerformanceInsightsKMSKeyId: S.optional(S.String),
     PerformanceInsightsRetentionPeriod: S.optional(S.Number),
@@ -7347,7 +7585,7 @@ export const CreateDBInstanceMessage = S.suspend(() =>
     DedicatedLogVolume: S.optional(S.Boolean),
     EngineLifecycleSupport: S.optional(S.String),
     TagSpecifications: S.optional(TagSpecificationList),
-    MasterUserAuthenticationType: S.optional(S.String),
+    MasterUserAuthenticationType: S.optional(MasterUserAuthenticationType),
     AdditionalStorageVolumes: S.optional(AdditionalStorageVolumesList),
   }).pipe(
     T.all(
@@ -7372,35 +7610,35 @@ export const CreateDBParameterGroupResult = S.suspend(() =>
   identifier: "CreateDBParameterGroupResult",
 }) as any as S.Schema<CreateDBParameterGroupResult>;
 export interface CreateDBProxyRequest {
-  DBProxyName: string;
-  EngineFamily: string;
-  DefaultAuthScheme?: string;
-  Auth?: UserAuthConfigList;
-  RoleArn: string;
-  VpcSubnetIds: StringList;
-  VpcSecurityGroupIds?: StringList;
+  DBProxyName?: string;
+  EngineFamily?: EngineFamily;
+  DefaultAuthScheme?: DefaultAuthScheme;
+  Auth?: UserAuthConfig[];
+  RoleArn?: string;
+  VpcSubnetIds?: string[];
+  VpcSecurityGroupIds?: string[];
   RequireTLS?: boolean;
   IdleClientTimeout?: number;
   DebugLogging?: boolean;
-  Tags?: TagList;
-  EndpointNetworkType?: string;
-  TargetConnectionNetworkType?: string;
+  Tags?: Tag[];
+  EndpointNetworkType?: EndpointNetworkType;
+  TargetConnectionNetworkType?: TargetConnectionNetworkType;
 }
 export const CreateDBProxyRequest = S.suspend(() =>
   S.Struct({
-    DBProxyName: S.String,
-    EngineFamily: S.String,
-    DefaultAuthScheme: S.optional(S.String),
+    DBProxyName: S.optional(S.String),
+    EngineFamily: S.optional(EngineFamily),
+    DefaultAuthScheme: S.optional(DefaultAuthScheme),
     Auth: S.optional(UserAuthConfigList),
-    RoleArn: S.String,
-    VpcSubnetIds: StringList,
+    RoleArn: S.optional(S.String),
+    VpcSubnetIds: S.optional(StringList),
     VpcSecurityGroupIds: S.optional(StringList),
     RequireTLS: S.optional(S.Boolean),
     IdleClientTimeout: S.optional(S.Number),
     DebugLogging: S.optional(S.Boolean),
     Tags: S.optional(TagList),
-    EndpointNetworkType: S.optional(S.String),
-    TargetConnectionNetworkType: S.optional(S.String),
+    EndpointNetworkType: S.optional(EndpointNetworkType),
+    TargetConnectionNetworkType: S.optional(TargetConnectionNetworkType),
   }).pipe(
     T.all(
       ns,
@@ -7440,20 +7678,20 @@ export const CreateEventSubscriptionResult = S.suspend(() =>
   identifier: "CreateEventSubscriptionResult",
 }) as any as S.Schema<CreateEventSubscriptionResult>;
 export interface CreateIntegrationMessage {
-  SourceArn: string;
-  TargetArn: string;
-  IntegrationName: string;
+  SourceArn?: string;
+  TargetArn?: string;
+  IntegrationName?: string;
   KMSKeyId?: string;
-  AdditionalEncryptionContext?: EncryptionContextMap;
-  Tags?: TagList;
+  AdditionalEncryptionContext?: { [key: string]: string };
+  Tags?: Tag[];
   DataFilter?: string;
   Description?: string;
 }
 export const CreateIntegrationMessage = S.suspend(() =>
   S.Struct({
-    SourceArn: S.String,
-    TargetArn: S.String,
-    IntegrationName: S.String,
+    SourceArn: S.optional(S.String),
+    TargetArn: S.optional(S.String),
+    IntegrationName: S.optional(S.String),
     KMSKeyId: S.optional(S.String),
     AdditionalEncryptionContext: S.optional(EncryptionContextMap),
     Tags: S.optional(TagList),
@@ -7513,13 +7751,13 @@ export interface BlueGreenDeployment {
   BlueGreenDeploymentName?: string;
   Source?: string;
   Target?: string;
-  SwitchoverDetails?: SwitchoverDetailList;
-  Tasks?: BlueGreenDeploymentTaskList;
+  SwitchoverDetails?: SwitchoverDetail[];
+  Tasks?: BlueGreenDeploymentTask[];
   Status?: string;
   StatusDetails?: string;
   CreateTime?: Date;
   DeleteTime?: Date;
-  TagList?: TagList;
+  TagList?: Tag[];
 }
 export const BlueGreenDeployment = S.suspend(() =>
   S.Struct({
@@ -7603,7 +7841,7 @@ export const DeleteTenantDatabaseResult = S.suspend(() =>
   identifier: "DeleteTenantDatabaseResult",
 }) as any as S.Schema<DeleteTenantDatabaseResult>;
 export interface AccountAttributesMessage {
-  AccountQuotas?: AccountQuotaList;
+  AccountQuotas?: AccountQuota[];
 }
 export const AccountAttributesMessage = S.suspend(() =>
   S.Struct({ AccountQuotas: S.optional(AccountQuotaList) }).pipe(ns),
@@ -7612,7 +7850,7 @@ export const AccountAttributesMessage = S.suspend(() =>
 }) as any as S.Schema<AccountAttributesMessage>;
 export interface DescribeBlueGreenDeploymentsRequest {
   BlueGreenDeploymentIdentifier?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
   Marker?: string;
   MaxRecords?: number;
 }
@@ -7638,7 +7876,7 @@ export const DescribeBlueGreenDeploymentsRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeBlueGreenDeploymentsRequest>;
 export interface DBClusterAutomatedBackupMessage {
   Marker?: string;
-  DBClusterAutomatedBackups?: DBClusterAutomatedBackupList;
+  DBClusterAutomatedBackups?: DBClusterAutomatedBackup[];
 }
 export const DBClusterAutomatedBackupMessage = S.suspend(() =>
   S.Struct({
@@ -7650,7 +7888,7 @@ export const DBClusterAutomatedBackupMessage = S.suspend(() =>
 }) as any as S.Schema<DBClusterAutomatedBackupMessage>;
 export interface DBClusterBacktrackMessage {
   Marker?: string;
-  DBClusterBacktracks?: DBClusterBacktrackList;
+  DBClusterBacktracks?: DBClusterBacktrack[];
 }
 export const DBClusterBacktrackMessage = S.suspend(() =>
   S.Struct({
@@ -7662,7 +7900,7 @@ export const DBClusterBacktrackMessage = S.suspend(() =>
 }) as any as S.Schema<DBClusterBacktrackMessage>;
 export interface DBClusterEndpointMessage {
   Marker?: string;
-  DBClusterEndpoints?: DBClusterEndpointList;
+  DBClusterEndpoints?: DBClusterEndpoint[];
 }
 export const DBClusterEndpointMessage = S.suspend(() =>
   S.Struct({
@@ -7674,7 +7912,7 @@ export const DBClusterEndpointMessage = S.suspend(() =>
 }) as any as S.Schema<DBClusterEndpointMessage>;
 export interface DBClusterParameterGroupsMessage {
   Marker?: string;
-  DBClusterParameterGroups?: DBClusterParameterGroupList;
+  DBClusterParameterGroups?: DBClusterParameterGroup[];
 }
 export const DBClusterParameterGroupsMessage = S.suspend(() =>
   S.Struct({
@@ -7685,7 +7923,7 @@ export const DBClusterParameterGroupsMessage = S.suspend(() =>
   identifier: "DBClusterParameterGroupsMessage",
 }) as any as S.Schema<DBClusterParameterGroupsMessage>;
 export interface DBClusterParameterGroupDetails {
-  Parameters?: ParametersList;
+  Parameters?: Parameter[];
   Marker?: string;
 }
 export const DBClusterParameterGroupDetails = S.suspend(() =>
@@ -7698,7 +7936,7 @@ export const DBClusterParameterGroupDetails = S.suspend(() =>
 }) as any as S.Schema<DBClusterParameterGroupDetails>;
 export interface DBClusterMessage {
   Marker?: string;
-  DBClusters?: DBClusterList;
+  DBClusters?: DBCluster[];
 }
 export const DBClusterMessage = S.suspend(() =>
   S.Struct({
@@ -7710,7 +7948,7 @@ export const DBClusterMessage = S.suspend(() =>
 }) as any as S.Schema<DBClusterMessage>;
 export interface DBClusterSnapshotMessage {
   Marker?: string;
-  DBClusterSnapshots?: DBClusterSnapshotList;
+  DBClusterSnapshots?: DBClusterSnapshot[];
 }
 export const DBClusterSnapshotMessage = S.suspend(() =>
   S.Struct({
@@ -7722,7 +7960,7 @@ export const DBClusterSnapshotMessage = S.suspend(() =>
 }) as any as S.Schema<DBClusterSnapshotMessage>;
 export interface DBEngineVersionMessage {
   Marker?: string;
-  DBEngineVersions?: DBEngineVersionList;
+  DBEngineVersions?: DBEngineVersion[];
 }
 export const DBEngineVersionMessage = S.suspend(() =>
   S.Struct({
@@ -7734,7 +7972,7 @@ export const DBEngineVersionMessage = S.suspend(() =>
 }) as any as S.Schema<DBEngineVersionMessage>;
 export interface DBInstanceAutomatedBackupMessage {
   Marker?: string;
-  DBInstanceAutomatedBackups?: DBInstanceAutomatedBackupList;
+  DBInstanceAutomatedBackups?: DBInstanceAutomatedBackup[];
 }
 export const DBInstanceAutomatedBackupMessage = S.suspend(() =>
   S.Struct({
@@ -7746,7 +7984,7 @@ export const DBInstanceAutomatedBackupMessage = S.suspend(() =>
 }) as any as S.Schema<DBInstanceAutomatedBackupMessage>;
 export interface DBInstanceMessage {
   Marker?: string;
-  DBInstances?: DBInstanceList;
+  DBInstances?: DBInstance[];
 }
 export const DBInstanceMessage = S.suspend(() =>
   S.Struct({
@@ -7758,7 +7996,7 @@ export const DBInstanceMessage = S.suspend(() =>
 }) as any as S.Schema<DBInstanceMessage>;
 export interface DBParameterGroupsMessage {
   Marker?: string;
-  DBParameterGroups?: DBParameterGroupList;
+  DBParameterGroups?: DBParameterGroup[];
 }
 export const DBParameterGroupsMessage = S.suspend(() =>
   S.Struct({
@@ -7769,7 +8007,7 @@ export const DBParameterGroupsMessage = S.suspend(() =>
   identifier: "DBParameterGroupsMessage",
 }) as any as S.Schema<DBParameterGroupsMessage>;
 export interface DBParameterGroupDetails {
-  Parameters?: ParametersList;
+  Parameters?: Parameter[];
   Marker?: string;
 }
 export const DBParameterGroupDetails = S.suspend(() =>
@@ -7781,7 +8019,7 @@ export const DBParameterGroupDetails = S.suspend(() =>
   identifier: "DBParameterGroupDetails",
 }) as any as S.Schema<DBParameterGroupDetails>;
 export interface DescribeDBProxiesResponse {
-  DBProxies?: DBProxyList;
+  DBProxies?: DBProxy[];
   Marker?: string;
 }
 export const DescribeDBProxiesResponse = S.suspend(() =>
@@ -7793,7 +8031,7 @@ export const DescribeDBProxiesResponse = S.suspend(() =>
   identifier: "DescribeDBProxiesResponse",
 }) as any as S.Schema<DescribeDBProxiesResponse>;
 export interface DescribeDBProxyEndpointsResponse {
-  DBProxyEndpoints?: DBProxyEndpointList;
+  DBProxyEndpoints?: DBProxyEndpoint[];
   Marker?: string;
 }
 export const DescribeDBProxyEndpointsResponse = S.suspend(() =>
@@ -7806,7 +8044,7 @@ export const DescribeDBProxyEndpointsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeDBProxyEndpointsResponse>;
 export interface DBSecurityGroupMessage {
   Marker?: string;
-  DBSecurityGroups?: DBSecurityGroups;
+  DBSecurityGroups?: DBSecurityGroup[];
 }
 export const DBSecurityGroupMessage = S.suspend(() =>
   S.Struct({
@@ -7817,7 +8055,7 @@ export const DBSecurityGroupMessage = S.suspend(() =>
   identifier: "DBSecurityGroupMessage",
 }) as any as S.Schema<DBSecurityGroupMessage>;
 export interface DescribeDBShardGroupsResponse {
-  DBShardGroups?: DBShardGroupsList;
+  DBShardGroups?: DBShardGroup[];
   Marker?: string;
 }
 export const DescribeDBShardGroupsResponse = S.suspend(() =>
@@ -7830,7 +8068,7 @@ export const DescribeDBShardGroupsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeDBShardGroupsResponse>;
 export interface DBSnapshotMessage {
   Marker?: string;
-  DBSnapshots?: DBSnapshotList;
+  DBSnapshots?: DBSnapshot[];
 }
 export const DBSnapshotMessage = S.suspend(() =>
   S.Struct({
@@ -7842,7 +8080,7 @@ export const DBSnapshotMessage = S.suspend(() =>
 }) as any as S.Schema<DBSnapshotMessage>;
 export interface DBSubnetGroupMessage {
   Marker?: string;
-  DBSubnetGroups?: DBSubnetGroups;
+  DBSubnetGroups?: DBSubnetGroup[];
 }
 export const DBSubnetGroupMessage = S.suspend(() =>
   S.Struct({
@@ -7855,7 +8093,7 @@ export const DBSubnetGroupMessage = S.suspend(() =>
 export interface EngineDefaults {
   DBParameterGroupFamily?: string;
   Marker?: string;
-  Parameters?: ParametersList;
+  Parameters?: Parameter[];
 }
 export const EngineDefaults = S.suspend(() =>
   S.Struct({
@@ -7876,7 +8114,7 @@ export const DescribeEngineDefaultParametersResult = S.suspend(() =>
 }) as any as S.Schema<DescribeEngineDefaultParametersResult>;
 export interface EventSubscriptionsMessage {
   Marker?: string;
-  EventSubscriptionsList?: EventSubscriptionsList;
+  EventSubscriptionsList?: EventSubscription[];
 }
 export const EventSubscriptionsMessage = S.suspend(() =>
   S.Struct({
@@ -7888,7 +8126,7 @@ export const EventSubscriptionsMessage = S.suspend(() =>
 }) as any as S.Schema<EventSubscriptionsMessage>;
 export interface ExportTasksMessage {
   Marker?: string;
-  ExportTasks?: ExportTasksList;
+  ExportTasks?: ExportTask[];
 }
 export const ExportTasksMessage = S.suspend(() =>
   S.Struct({
@@ -7900,7 +8138,7 @@ export const ExportTasksMessage = S.suspend(() =>
 }) as any as S.Schema<ExportTasksMessage>;
 export interface GlobalClustersMessage {
   Marker?: string;
-  GlobalClusters?: GlobalClusterList;
+  GlobalClusters?: GlobalCluster[];
 }
 export const GlobalClustersMessage = S.suspend(() =>
   S.Struct({
@@ -7912,7 +8150,7 @@ export const GlobalClustersMessage = S.suspend(() =>
 }) as any as S.Schema<GlobalClustersMessage>;
 export interface DescribeIntegrationsResponse {
   Marker?: string;
-  Integrations?: IntegrationList;
+  Integrations?: Integration[];
 }
 export const DescribeIntegrationsResponse = S.suspend(() =>
   S.Struct({
@@ -7923,7 +8161,7 @@ export const DescribeIntegrationsResponse = S.suspend(() =>
   identifier: "DescribeIntegrationsResponse",
 }) as any as S.Schema<DescribeIntegrationsResponse>;
 export interface OptionGroups {
-  OptionGroupsList?: OptionGroupsList;
+  OptionGroupsList?: OptionGroup[];
   Marker?: string;
 }
 export const OptionGroups = S.suspend(() =>
@@ -7933,7 +8171,7 @@ export const OptionGroups = S.suspend(() =>
   }).pipe(ns),
 ).annotations({ identifier: "OptionGroups" }) as any as S.Schema<OptionGroups>;
 export interface PendingMaintenanceActionsMessage {
-  PendingMaintenanceActions?: PendingMaintenanceActions;
+  PendingMaintenanceActions?: ResourcePendingMaintenanceActions[];
   Marker?: string;
 }
 export const PendingMaintenanceActionsMessage = S.suspend(() =>
@@ -7946,7 +8184,7 @@ export const PendingMaintenanceActionsMessage = S.suspend(() =>
 }) as any as S.Schema<PendingMaintenanceActionsMessage>;
 export interface TenantDatabasesMessage {
   Marker?: string;
-  TenantDatabases?: TenantDatabasesList;
+  TenantDatabases?: TenantDatabase[];
 }
 export const TenantDatabasesMessage = S.suspend(() =>
   S.Struct({
@@ -7969,7 +8207,7 @@ export const DisableHttpEndpointResponse = S.suspend(() =>
   identifier: "DisableHttpEndpointResponse",
 }) as any as S.Schema<DisableHttpEndpointResponse>;
 export interface DownloadDBLogFilePortionDetails {
-  LogFileData?: string | Redacted.Redacted<string>;
+  LogFileData?: string | redacted.Redacted<string>;
   Marker?: string;
   AdditionalDataPending?: boolean;
 }
@@ -8011,7 +8249,7 @@ export const FailoverGlobalClusterResult = S.suspend(() =>
   identifier: "FailoverGlobalClusterResult",
 }) as any as S.Schema<FailoverGlobalClusterResult>;
 export interface TagListMessage {
-  TagList?: TagList;
+  TagList?: Tag[];
 }
 export const TagListMessage = S.suspend(() =>
   S.Struct({ TagList: S.optional(TagList) }).pipe(ns),
@@ -8021,19 +8259,19 @@ export const TagListMessage = S.suspend(() =>
 export interface ModifyActivityStreamResponse {
   KmsKeyId?: string;
   KinesisStreamName?: string;
-  Status?: string;
-  Mode?: string;
+  Status?: ActivityStreamStatus;
+  Mode?: ActivityStreamMode;
   EngineNativeAuditFieldsIncluded?: boolean;
-  PolicyStatus?: string;
+  PolicyStatus?: ActivityStreamPolicyStatus;
 }
 export const ModifyActivityStreamResponse = S.suspend(() =>
   S.Struct({
     KmsKeyId: S.optional(S.String),
     KinesisStreamName: S.optional(S.String),
-    Status: S.optional(S.String),
-    Mode: S.optional(S.String),
+    Status: S.optional(ActivityStreamStatus),
+    Mode: S.optional(ActivityStreamMode),
     EngineNativeAuditFieldsIncluded: S.optional(S.Boolean),
-    PolicyStatus: S.optional(S.String),
+    PolicyStatus: S.optional(ActivityStreamPolicyStatus),
   }).pipe(ns),
 ).annotations({
   identifier: "ModifyActivityStreamResponse",
@@ -8089,14 +8327,14 @@ export const DBClusterCapacityInfo = S.suspend(() =>
   identifier: "DBClusterCapacityInfo",
 }) as any as S.Schema<DBClusterCapacityInfo>;
 export interface ModifyDBClusterMessage {
-  DBClusterIdentifier: string;
+  DBClusterIdentifier?: string;
   NewDBClusterIdentifier?: string;
   ApplyImmediately?: boolean;
   BackupRetentionPeriod?: number;
   DBClusterParameterGroupName?: string;
-  VpcSecurityGroupIds?: VpcSecurityGroupIdList;
+  VpcSecurityGroupIds?: string[];
   Port?: number;
-  MasterUserPassword?: string | Redacted.Redacted<string>;
+  MasterUserPassword?: string | redacted.Redacted<string>;
   OptionGroupName?: string;
   PreferredBackupWindow?: string;
   PreferredMaintenanceWindow?: string;
@@ -8122,7 +8360,7 @@ export interface ModifyDBClusterMessage {
   ServerlessV2ScalingConfiguration?: ServerlessV2ScalingConfiguration;
   MonitoringInterval?: number;
   MonitoringRoleArn?: string;
-  DatabaseInsightsMode?: string;
+  DatabaseInsightsMode?: DatabaseInsightsMode;
   EnablePerformanceInsights?: boolean;
   PerformanceInsightsKMSKeyId?: string;
   PerformanceInsightsRetentionPeriod?: number;
@@ -8135,11 +8373,11 @@ export interface ModifyDBClusterMessage {
   AwsBackupRecoveryPointArn?: string;
   EnableLimitlessDatabase?: boolean;
   CACertificateIdentifier?: string;
-  MasterUserAuthenticationType?: string;
+  MasterUserAuthenticationType?: MasterUserAuthenticationType;
 }
 export const ModifyDBClusterMessage = S.suspend(() =>
   S.Struct({
-    DBClusterIdentifier: S.String,
+    DBClusterIdentifier: S.optional(S.String),
     NewDBClusterIdentifier: S.optional(S.String),
     ApplyImmediately: S.optional(S.Boolean),
     BackupRetentionPeriod: S.optional(S.Number),
@@ -8176,7 +8414,7 @@ export const ModifyDBClusterMessage = S.suspend(() =>
     ),
     MonitoringInterval: S.optional(S.Number),
     MonitoringRoleArn: S.optional(S.String),
-    DatabaseInsightsMode: S.optional(S.String),
+    DatabaseInsightsMode: S.optional(DatabaseInsightsMode),
     EnablePerformanceInsights: S.optional(S.Boolean),
     PerformanceInsightsKMSKeyId: S.optional(S.String),
     PerformanceInsightsRetentionPeriod: S.optional(S.Number),
@@ -8189,7 +8427,7 @@ export const ModifyDBClusterMessage = S.suspend(() =>
     AwsBackupRecoveryPointArn: S.optional(S.String),
     EnableLimitlessDatabase: S.optional(S.Boolean),
     CACertificateIdentifier: S.optional(S.String),
-    MasterUserAuthenticationType: S.optional(S.String),
+    MasterUserAuthenticationType: S.optional(MasterUserAuthenticationType),
   }).pipe(
     T.all(
       ns,
@@ -8205,13 +8443,13 @@ export const ModifyDBClusterMessage = S.suspend(() =>
   identifier: "ModifyDBClusterMessage",
 }) as any as S.Schema<ModifyDBClusterMessage>;
 export interface ModifyDBClusterParameterGroupMessage {
-  DBClusterParameterGroupName: string;
-  Parameters: ParametersList;
+  DBClusterParameterGroupName?: string;
+  Parameters?: Parameter[];
 }
 export const ModifyDBClusterParameterGroupMessage = S.suspend(() =>
   S.Struct({
-    DBClusterParameterGroupName: S.String,
-    Parameters: ParametersList,
+    DBClusterParameterGroupName: S.optional(S.String),
+    Parameters: S.optional(ParametersList),
   }).pipe(
     T.all(
       ns,
@@ -8228,7 +8466,7 @@ export const ModifyDBClusterParameterGroupMessage = S.suspend(() =>
 }) as any as S.Schema<ModifyDBClusterParameterGroupMessage>;
 export interface DBClusterSnapshotAttribute {
   AttributeName?: string;
-  AttributeValues?: AttributeValueList;
+  AttributeValues?: string[];
 }
 export const DBClusterSnapshotAttribute = S.suspend(() =>
   S.Struct({
@@ -8246,7 +8484,7 @@ export const DBClusterSnapshotAttributeList = S.Array(
 );
 export interface DBClusterSnapshotAttributesResult {
   DBClusterSnapshotIdentifier?: string;
-  DBClusterSnapshotAttributes?: DBClusterSnapshotAttributeList;
+  DBClusterSnapshotAttributes?: DBClusterSnapshotAttribute[];
 }
 export const DBClusterSnapshotAttributesResult = S.suspend(() =>
   S.Struct({
@@ -8269,14 +8507,14 @@ export const ModifyDBClusterSnapshotAttributeResult = S.suspend(() =>
   identifier: "ModifyDBClusterSnapshotAttributeResult",
 }) as any as S.Schema<ModifyDBClusterSnapshotAttributeResult>;
 export interface ModifyDBInstanceMessage {
-  DBInstanceIdentifier: string;
+  DBInstanceIdentifier?: string;
   AllocatedStorage?: number;
   DBInstanceClass?: string;
   DBSubnetGroupName?: string;
-  DBSecurityGroups?: DBSecurityGroupNameList;
-  VpcSecurityGroupIds?: VpcSecurityGroupIdList;
+  DBSecurityGroups?: string[];
+  VpcSecurityGroupIds?: string[];
   ApplyImmediately?: boolean;
-  MasterUserPassword?: string | Redacted.Redacted<string>;
+  MasterUserPassword?: string | redacted.Redacted<string>;
   DBParameterGroupName?: string;
   BackupRetentionPeriod?: number;
   PreferredBackupWindow?: string;
@@ -8292,13 +8530,13 @@ export interface ModifyDBInstanceMessage {
   NewDBInstanceIdentifier?: string;
   StorageType?: string;
   TdeCredentialArn?: string;
-  TdeCredentialPassword?: string | Redacted.Redacted<string>;
+  TdeCredentialPassword?: string | redacted.Redacted<string>;
   CACertificateIdentifier?: string;
   Domain?: string;
   DomainFqdn?: string;
   DomainOu?: string;
   DomainAuthSecretArn?: string;
-  DomainDnsIps?: StringList;
+  DomainDnsIps?: string[];
   DisableDomain?: boolean;
   CopyTagsToSnapshot?: boolean;
   MonitoringInterval?: number;
@@ -8308,18 +8546,18 @@ export interface ModifyDBInstanceMessage {
   DomainIAMRoleName?: string;
   PromotionTier?: number;
   EnableIAMDatabaseAuthentication?: boolean;
-  DatabaseInsightsMode?: string;
+  DatabaseInsightsMode?: DatabaseInsightsMode;
   EnablePerformanceInsights?: boolean;
   PerformanceInsightsKMSKeyId?: string;
   PerformanceInsightsRetentionPeriod?: number;
   CloudwatchLogsExportConfiguration?: CloudwatchLogsExportConfiguration;
-  ProcessorFeatures?: ProcessorFeatureList;
+  ProcessorFeatures?: ProcessorFeature[];
   UseDefaultProcessorFeatures?: boolean;
   DeletionProtection?: boolean;
   MaxAllocatedStorage?: number;
   CertificateRotationRestart?: boolean;
-  ReplicaMode?: string;
-  AutomationMode?: string;
+  ReplicaMode?: ReplicaMode;
+  AutomationMode?: AutomationMode;
   ResumeFullAutomationModeMinutes?: number;
   EnableCustomerOwnedIp?: boolean;
   NetworkType?: string;
@@ -8330,13 +8568,13 @@ export interface ModifyDBInstanceMessage {
   MultiTenant?: boolean;
   DedicatedLogVolume?: boolean;
   Engine?: string;
-  TagSpecifications?: TagSpecificationList;
-  MasterUserAuthenticationType?: string;
-  AdditionalStorageVolumes?: ModifyAdditionalStorageVolumesList;
+  TagSpecifications?: TagSpecification[];
+  MasterUserAuthenticationType?: MasterUserAuthenticationType;
+  AdditionalStorageVolumes?: ModifyAdditionalStorageVolume[];
 }
 export const ModifyDBInstanceMessage = S.suspend(() =>
   S.Struct({
-    DBInstanceIdentifier: S.String,
+    DBInstanceIdentifier: S.optional(S.String),
     AllocatedStorage: S.optional(S.Number),
     DBInstanceClass: S.optional(S.String),
     DBSubnetGroupName: S.optional(S.String),
@@ -8375,7 +8613,7 @@ export const ModifyDBInstanceMessage = S.suspend(() =>
     DomainIAMRoleName: S.optional(S.String),
     PromotionTier: S.optional(S.Number),
     EnableIAMDatabaseAuthentication: S.optional(S.Boolean),
-    DatabaseInsightsMode: S.optional(S.String),
+    DatabaseInsightsMode: S.optional(DatabaseInsightsMode),
     EnablePerformanceInsights: S.optional(S.Boolean),
     PerformanceInsightsKMSKeyId: S.optional(S.String),
     PerformanceInsightsRetentionPeriod: S.optional(S.Number),
@@ -8387,8 +8625,8 @@ export const ModifyDBInstanceMessage = S.suspend(() =>
     DeletionProtection: S.optional(S.Boolean),
     MaxAllocatedStorage: S.optional(S.Number),
     CertificateRotationRestart: S.optional(S.Boolean),
-    ReplicaMode: S.optional(S.String),
-    AutomationMode: S.optional(S.String),
+    ReplicaMode: S.optional(ReplicaMode),
+    AutomationMode: S.optional(AutomationMode),
     ResumeFullAutomationModeMinutes: S.optional(S.Number),
     EnableCustomerOwnedIp: S.optional(S.Boolean),
     NetworkType: S.optional(S.String),
@@ -8400,7 +8638,7 @@ export const ModifyDBInstanceMessage = S.suspend(() =>
     DedicatedLogVolume: S.optional(S.Boolean),
     Engine: S.optional(S.String),
     TagSpecifications: S.optional(TagSpecificationList),
-    MasterUserAuthenticationType: S.optional(S.String),
+    MasterUserAuthenticationType: S.optional(MasterUserAuthenticationType),
     AdditionalStorageVolumes: S.optional(ModifyAdditionalStorageVolumesList),
   }).pipe(
     T.all(
@@ -8441,15 +8679,15 @@ export const ModifyDBProxyEndpointResponse = S.suspend(() =>
   identifier: "ModifyDBProxyEndpointResponse",
 }) as any as S.Schema<ModifyDBProxyEndpointResponse>;
 export interface ModifyDBProxyTargetGroupRequest {
-  TargetGroupName: string;
-  DBProxyName: string;
+  TargetGroupName?: string;
+  DBProxyName?: string;
   ConnectionPoolConfig?: ConnectionPoolConfiguration;
   NewName?: string;
 }
 export const ModifyDBProxyTargetGroupRequest = S.suspend(() =>
   S.Struct({
-    TargetGroupName: S.String,
-    DBProxyName: S.String,
+    TargetGroupName: S.optional(S.String),
+    DBProxyName: S.optional(S.String),
     ConnectionPoolConfig: S.optional(ConnectionPoolConfiguration),
     NewName: S.optional(S.String),
   }).pipe(
@@ -8467,14 +8705,14 @@ export const ModifyDBProxyTargetGroupRequest = S.suspend(() =>
   identifier: "ModifyDBProxyTargetGroupRequest",
 }) as any as S.Schema<ModifyDBProxyTargetGroupRequest>;
 export interface ModifyDBRecommendationMessage {
-  RecommendationId: string;
+  RecommendationId?: string;
   Locale?: string;
   Status?: string;
-  RecommendedActionUpdates?: RecommendedActionUpdateList;
+  RecommendedActionUpdates?: RecommendedActionUpdate[];
 }
 export const ModifyDBRecommendationMessage = S.suspend(() =>
   S.Struct({
-    RecommendationId: S.String,
+    RecommendationId: S.optional(S.String),
     Locale: S.optional(S.String),
     Status: S.optional(S.String),
     RecommendedActionUpdates: S.optional(RecommendedActionUpdateList),
@@ -8502,7 +8740,7 @@ export const ModifyDBSnapshotResult = S.suspend(() =>
 }) as any as S.Schema<ModifyDBSnapshotResult>;
 export interface DBSnapshotAttribute {
   AttributeName?: string;
-  AttributeValues?: AttributeValueList;
+  AttributeValues?: string[];
 }
 export const DBSnapshotAttribute = S.suspend(() =>
   S.Struct({
@@ -8520,7 +8758,7 @@ export const DBSnapshotAttributeList = S.Array(
 );
 export interface DBSnapshotAttributesResult {
   DBSnapshotIdentifier?: string;
-  DBSnapshotAttributes?: DBSnapshotAttributeList;
+  DBSnapshotAttributes?: DBSnapshotAttribute[];
 }
 export const DBSnapshotAttributesResult = S.suspend(() =>
   S.Struct({
@@ -8620,7 +8858,7 @@ export interface ReservedDBInstance {
   OfferingType?: string;
   MultiAZ?: boolean;
   State?: string;
-  RecurringCharges?: RecurringChargeList;
+  RecurringCharges?: RecurringCharge[];
   ReservedDBInstanceArn?: string;
   LeaseId?: string;
 }
@@ -8670,15 +8908,52 @@ export const RebootDBInstanceResult = S.suspend(() =>
 ).annotations({
   identifier: "RebootDBInstanceResult",
 }) as any as S.Schema<RebootDBInstanceResult>;
+export type TargetType =
+  | "RDS_INSTANCE"
+  | "RDS_SERVERLESS_ENDPOINT"
+  | "TRACKED_CLUSTER";
+export const TargetType = S.Literal(
+  "RDS_INSTANCE",
+  "RDS_SERVERLESS_ENDPOINT",
+  "TRACKED_CLUSTER",
+);
+export type TargetRole = "READ_WRITE" | "READ_ONLY" | "UNKNOWN";
+export const TargetRole = S.Literal("READ_WRITE", "READ_ONLY", "UNKNOWN");
+export type TargetState =
+  | "REGISTERING"
+  | "AVAILABLE"
+  | "UNAVAILABLE"
+  | "UNUSED";
+export const TargetState = S.Literal(
+  "REGISTERING",
+  "AVAILABLE",
+  "UNAVAILABLE",
+  "UNUSED",
+);
+export type TargetHealthReason =
+  | "UNREACHABLE"
+  | "CONNECTION_FAILED"
+  | "AUTH_FAILURE"
+  | "PENDING_PROXY_CAPACITY"
+  | "INVALID_REPLICATION_STATE"
+  | "PROMOTED";
+export const TargetHealthReason = S.Literal(
+  "UNREACHABLE",
+  "CONNECTION_FAILED",
+  "AUTH_FAILURE",
+  "PENDING_PROXY_CAPACITY",
+  "INVALID_REPLICATION_STATE",
+  "PROMOTED",
+);
 export interface TargetHealth {
-  State?: string;
-  Reason?: string;
+  State?: TargetState;
+  Reason?: TargetHealthReason;
   Description?: string;
 }
 export const TargetHealth = S.suspend(() =>
   S.Struct({
-    State: S.optional(S.String),
-    Reason: S.optional(S.String),
+    State: S.optional(TargetState),
+    Reason: S.optional(TargetHealthReason),
     Description: S.optional(S.String),
   }),
 ).annotations({ identifier: "TargetHealth" }) as any as S.Schema<TargetHealth>;
@@ -8688,8 +8963,8 @@ export interface DBProxyTarget {
   TrackedClusterId?: string;
   RdsResourceId?: string;
   Port?: number;
-  Type?: string;
-  Role?: string;
+  Type?: TargetType;
+  Role?: TargetRole;
   TargetHealth?: TargetHealth;
 }
 export const DBProxyTarget = S.suspend(() =>
@@ -8699,8 +8974,8 @@ export const DBProxyTarget = S.suspend(() =>
     TrackedClusterId: S.optional(S.String),
     RdsResourceId: S.optional(S.String),
     Port: S.optional(S.Number),
-    Type: S.optional(S.String),
-    Role: S.optional(S.String),
+    Type: S.optional(TargetType),
+    Role: S.optional(TargetRole),
     TargetHealth: S.optional(TargetHealth),
   }),
 ).annotations({
@@ -8709,7 +8984,7 @@ export const DBProxyTarget = S.suspend(() =>
 export type TargetList = DBProxyTarget[];
 export const TargetList = S.Array(DBProxyTarget);
 export interface RegisterDBProxyTargetsResponse {
-  DBProxyTargets?: TargetList;
+  DBProxyTargets?: DBProxyTarget[];
 }
 export const RegisterDBProxyTargetsResponse = S.suspend(() =>
   S.Struct({ DBProxyTargets: S.optional(TargetList) }).pipe(ns),
@@ -8799,8 +9074,8 @@ export const RevokeDBSecurityGroupIngressResult = S.suspend(() =>
 export interface StartActivityStreamResponse {
   KmsKeyId?: string;
   KinesisStreamName?: string;
-  Status?: string;
-  Mode?: string;
+  Status?: ActivityStreamStatus;
+  Mode?: ActivityStreamMode;
   EngineNativeAuditFieldsIncluded?: boolean;
   ApplyImmediately?: boolean;
 }
@@ -8808,8 +9083,8 @@ export const StartActivityStreamResponse = S.suspend(() =>
   S.Struct({
     KmsKeyId: S.optional(S.String),
     KinesisStreamName: S.optional(S.String),
-    Status: S.optional(S.String),
-    Mode: S.optional(S.String),
+    Status: S.optional(ActivityStreamStatus),
+    Mode: S.optional(ActivityStreamMode),
     EngineNativeAuditFieldsIncluded: S.optional(S.Boolean),
     ApplyImmediately: S.optional(S.Boolean),
   }).pipe(ns),
@@ -8845,13 +9120,13 @@ export const StartDBInstanceAutomatedBackupsReplicationResult = S.suspend(() =>
 export interface StopActivityStreamResponse {
   KmsKeyId?: string;
   KinesisStreamName?: string;
-  Status?: string;
+  Status?: ActivityStreamStatus;
 }
 export const StopActivityStreamResponse = S.suspend(() =>
   S.Struct({
     KmsKeyId: S.optional(S.String),
     KinesisStreamName: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ActivityStreamStatus),
   }).pipe(ns),
 ).annotations({
   identifier: "StopActivityStreamResponse",
@@ -8963,7 +9238,7 @@ export interface DBSnapshotTenantDatabase {
   CharacterSetName?: string;
   DBSnapshotTenantDatabaseARN?: string;
   NcharCharacterSetName?: string;
-  TagList?: TagList;
+  TagList?: Tag[];
 }
 export const DBSnapshotTenantDatabase = S.suspend(() =>
   S.Struct({
@@ -8994,7 +9269,7 @@ export const DBSnapshotTenantDatabasesList = S.Array(
 );
 export interface EventCategoriesMap {
   SourceType?: string;
-  EventCategories?: EventCategoriesList;
+  EventCategories?: string[];
 }
 export const EventCategoriesMap = S.suspend(() =>
   S.Struct({
@@ -9012,16 +9287,16 @@ export const EventCategoriesMapList = S.Array(
 );
 export interface Event {
   SourceIdentifier?: string;
-  SourceType?: string;
+  SourceType?: SourceType;
   Message?: string;
-  EventCategories?: EventCategoriesList;
+  EventCategories?: string[];
   Date?: Date;
   SourceArn?: string;
 }
 export const Event = S.suspend(() =>
   S.Struct({
     SourceIdentifier: S.optional(S.String),
-    SourceType: S.optional(S.String),
+    SourceType: S.optional(SourceType),
     Message: S.optional(S.String),
     EventCategories: S.optional(EventCategoriesList),
     Date: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -9042,7 +9317,7 @@ export interface ReservedDBInstancesOffering {
   ProductDescription?: string;
   OfferingType?: string;
   MultiAZ?: boolean;
-  RecurringCharges?: RecurringChargeList;
+  RecurringCharges?: RecurringCharge[];
 }
 export const ReservedDBInstancesOffering = S.suspend(() =>
   S.Struct({
@@ -9087,16 +9362,16 @@ export const SourceRegionList = S.Array(
   }),
 );
 export interface OptionConfiguration {
-  OptionName: string;
+  OptionName?: string;
   Port?: number;
   OptionVersion?: string;
-  DBSecurityGroupMemberships?: DBSecurityGroupNameList;
-  VpcSecurityGroupMemberships?: VpcSecurityGroupIdList;
-  OptionSettings?: OptionSettingsList;
+  DBSecurityGroupMemberships?: string[];
+  VpcSecurityGroupMemberships?: string[];
+  OptionSettings?: OptionSetting[];
 }
 export const OptionConfiguration = S.suspend(() =>
   S.Struct({
-    OptionName: S.String,
+    OptionName: S.optional(S.String),
     Port: S.optional(S.Number),
     OptionVersion: S.optional(S.String),
     DBSecurityGroupMemberships: S.optional(DBSecurityGroupNameList),
@@ -9111,6 +9386,13 @@ export const OptionConfigurationList = S.Array(
   OptionConfiguration.pipe(T.XmlName("OptionConfiguration")).annotations({
     identifier: "OptionConfiguration",
   }),
+);
+export type LifecycleSupportName =
+  | "open-source-rds-standard-support"
+  | "open-source-rds-extended-support";
+export const LifecycleSupportName = S.Literal(
+  "open-source-rds-standard-support",
+  "open-source-rds-extended-support",
 );
 export interface AddSourceIdentifierToSubscriptionResult {
   EventSubscription?: EventSubscription;
@@ -9197,7 +9479,7 @@ export const DeleteDBInstanceAutomatedBackupResult = S.suspend(() =>
   identifier: "DeleteDBInstanceAutomatedBackupResult",
 }) as any as S.Schema<DeleteDBInstanceAutomatedBackupResult>;
 export interface DescribeBlueGreenDeploymentsResponse {
-  BlueGreenDeployments?: BlueGreenDeploymentList;
+  BlueGreenDeployments?: BlueGreenDeployment[];
   Marker?: string;
 }
 export const DescribeBlueGreenDeploymentsResponse = S.suspend(() =>
@@ -9210,7 +9492,7 @@ export const DescribeBlueGreenDeploymentsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeBlueGreenDeploymentsResponse>;
 export interface CertificateMessage {
   DefaultCertificateForNewLaunches?: string;
-  Certificates?: CertificateList;
+  Certificates?: Certificate[];
   Marker?: string;
 }
 export const CertificateMessage = S.suspend(() =>
@@ -9223,7 +9505,7 @@ export const CertificateMessage = S.suspend(() =>
   identifier: "CertificateMessage",
 }) as any as S.Schema<CertificateMessage>;
 export interface DescribeDBLogFilesResponse {
-  DescribeDBLogFiles?: DescribeDBLogFilesList;
+  DescribeDBLogFiles?: DescribeDBLogFilesDetails[];
   Marker?: string;
 }
 export const DescribeDBLogFilesResponse = S.suspend(() =>
@@ -9236,7 +9518,7 @@ export const DescribeDBLogFilesResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeDBLogFilesResponse>;
 export interface DBSnapshotTenantDatabasesMessage {
   Marker?: string;
-  DBSnapshotTenantDatabases?: DBSnapshotTenantDatabasesList;
+  DBSnapshotTenantDatabases?: DBSnapshotTenantDatabase[];
 }
 export const DBSnapshotTenantDatabasesMessage = S.suspend(() =>
   S.Struct({
@@ -9255,7 +9537,7 @@ export const DescribeEngineDefaultClusterParametersResult = S.suspend(() =>
   identifier: "DescribeEngineDefaultClusterParametersResult",
 }) as any as S.Schema<DescribeEngineDefaultClusterParametersResult>;
 export interface EventCategoriesMessage {
-  EventCategoriesMapList?: EventCategoriesMapList;
+  EventCategoriesMapList?: EventCategoriesMap[];
 }
 export const EventCategoriesMessage = S.suspend(() =>
   S.Struct({ EventCategoriesMapList: S.optional(EventCategoriesMapList) }).pipe(
@@ -9266,7 +9548,7 @@ export const EventCategoriesMessage = S.suspend(() =>
 }) as any as S.Schema<EventCategoriesMessage>;
 export interface EventsMessage {
   Marker?: string;
-  Events?: EventList;
+  Events?: Event[];
 }
 export const EventsMessage = S.suspend(() =>
   S.Struct({
@@ -9278,7 +9560,7 @@ export const EventsMessage = S.suspend(() =>
 }) as any as S.Schema<EventsMessage>;
 export interface ReservedDBInstancesOfferingMessage {
   Marker?: string;
-  ReservedDBInstancesOfferings?: ReservedDBInstancesOfferingList;
+  ReservedDBInstancesOfferings?: ReservedDBInstancesOffering[];
 }
 export const ReservedDBInstancesOfferingMessage = S.suspend(() =>
   S.Struct({
@@ -9290,7 +9572,7 @@ export const ReservedDBInstancesOfferingMessage = S.suspend(() =>
 }) as any as S.Schema<ReservedDBInstancesOfferingMessage>;
 export interface SourceRegionMessage {
   Marker?: string;
-  SourceRegions?: SourceRegionList;
+  SourceRegions?: SourceRegion[];
 }
 export const SourceRegionMessage = S.suspend(() =>
   S.Struct({
@@ -9320,7 +9602,7 @@ export interface ConnectionPoolConfigurationInfo {
   MaxConnectionsPercent?: number;
   MaxIdleConnectionsPercent?: number;
   ConnectionBorrowTimeout?: number;
-  SessionPinningFilters?: StringList;
+  SessionPinningFilters?: string[];
   InitQuery?: string;
 }
 export const ConnectionPoolConfigurationInfo = S.suspend(() =>
@@ -9410,7 +9692,7 @@ export const MetricReference = S.suspend(() =>
 export type MetricReferenceList = MetricReference[];
 export const MetricReferenceList = S.Array(MetricReference);
 export interface PerformanceInsightsMetricDimensionGroup {
-  Dimensions?: StringList;
+  Dimensions?: string[];
   Group?: string;
   Limit?: number;
 }
@@ -9445,7 +9727,7 @@ export const MetricQuery = S.suspend(() =>
 ).annotations({ identifier: "MetricQuery" }) as any as S.Schema<MetricQuery>;
 export interface Metric {
   Name?: string;
-  References?: MetricReferenceList;
+  References?: MetricReference[];
   StatisticsDetails?: string;
   MetricQuery?: MetricQuery;
 }
@@ -9462,7 +9744,7 @@ export const MetricList = S.Array(Metric);
 export interface PerformanceIssueDetails {
   StartTime?: Date;
   EndTime?: Date;
-  Metrics?: MetricList;
+  Metrics?: Metric[];
   Analysis?: string;
 }
 export const PerformanceIssueDetails = S.suspend(() =>
@@ -9497,11 +9779,11 @@ export interface RecommendedAction {
   Title?: string;
   Description?: string;
   Operation?: string;
-  Parameters?: RecommendedActionParameterList;
-  ApplyModes?: StringList;
+  Parameters?: RecommendedActionParameter[];
+  ApplyModes?: string[];
   Status?: string;
   IssueDetails?: IssueDetails;
-  ContextAttributes?: ContextAttributeList;
+  ContextAttributes?: ContextAttribute[];
 }
 export const RecommendedAction = S.suspend(() =>
   S.Struct({
@@ -9541,14 +9823,14 @@ export interface DBRecommendation {
   Recommendation?: string;
   Description?: string;
   Reason?: string;
-  RecommendedActions?: RecommendedActionList;
+  RecommendedActions?: RecommendedAction[];
   Category?: string;
   Source?: string;
   TypeDetection?: string;
   TypeRecommendation?: string;
   Impact?: string;
   AdditionalInfo?: string;
-  Links?: DocLinkList;
+  Links?: DocLink[];
   IssueDetails?: IssueDetails;
 }
 export const DBRecommendation = S.suspend(() =>
@@ -9586,14 +9868,14 @@ export const DBRecommendationMessage = S.suspend(() =>
   identifier: "DBRecommendationMessage",
 }) as any as S.Schema<DBRecommendationMessage>;
 export interface ModifyOptionGroupMessage {
-  OptionGroupName: string;
-  OptionsToInclude?: OptionConfigurationList;
-  OptionsToRemove?: OptionNamesList;
+  OptionGroupName?: string;
+  OptionsToInclude?: OptionConfiguration[];
+  OptionsToRemove?: string[];
   ApplyImmediately?: boolean;
 }
 export const ModifyOptionGroupMessage = S.suspend(() =>
   S.Struct({
-    OptionGroupName: S.String,
+    OptionGroupName: S.optional(S.String),
     OptionsToInclude: S.optional(OptionConfigurationList),
     OptionsToRemove: S.optional(OptionNamesList),
     ApplyImmediately: S.optional(S.Boolean),
@@ -9612,15 +9894,19 @@ export const ModifyOptionGroupMessage = S.suspend(() =>
   identifier: "ModifyOptionGroupMessage",
 }) as any as S.Schema<ModifyOptionGroupMessage>;
 export interface SupportedEngineLifecycle {
-  LifecycleSupportName: string;
-  LifecycleSupportStartDate: Date;
-  LifecycleSupportEndDate: Date;
+  LifecycleSupportName?: LifecycleSupportName;
+  LifecycleSupportStartDate?: Date;
+  LifecycleSupportEndDate?: Date;
 }
 export const SupportedEngineLifecycle = S.suspend(() =>
   S.Struct({
-    LifecycleSupportName: S.String,
-    LifecycleSupportStartDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    LifecycleSupportEndDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    LifecycleSupportName: S.optional(LifecycleSupportName),
+    LifecycleSupportStartDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ),
+    LifecycleSupportEndDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotations({
   identifier: "SupportedEngineLifecycle",
@@ -9714,7 +10000,7 @@ export const AvailableAdditionalStorageVolumesOptionList = S.Array(
 export interface DBMajorEngineVersion {
   Engine?: string;
   MajorEngineVersion?: string;
-  SupportedEngineLifecycles?: SupportedEngineLifecycleList;
+  SupportedEngineLifecycles?: SupportedEngineLifecycle[];
 }
 export const DBMajorEngineVersion = S.suspend(() =>
   S.Struct({
@@ -9739,7 +10025,7 @@ export interface OrderableDBInstanceOption {
   DBInstanceClass?: string;
   LicenseModel?: string;
   AvailabilityZoneGroup?: string;
-  AvailabilityZones?: AvailabilityZoneList;
+  AvailabilityZones?: AvailabilityZone[];
   MultiAZCapable?: boolean;
   ReadReplicaCapable?: boolean;
   Vpc?: boolean;
@@ -9760,19 +10046,19 @@ export interface OrderableDBInstanceOption {
   MaxStorageThroughputPerDbInstance?: number;
   MinStorageThroughputPerIops?: number;
   MaxStorageThroughputPerIops?: number;
-  AvailableProcessorFeatures?: AvailableProcessorFeatureList;
-  SupportedEngineModes?: EngineModeList;
+  AvailableProcessorFeatures?: AvailableProcessorFeature[];
+  SupportedEngineModes?: string[];
   SupportsStorageAutoscaling?: boolean;
   SupportsKerberosAuthentication?: boolean;
   OutpostCapable?: boolean;
-  SupportedActivityStreamModes?: ActivityStreamModeList;
+  SupportedActivityStreamModes?: string[];
   SupportsGlobalDatabases?: boolean;
-  SupportedNetworkTypes?: StringList;
+  SupportedNetworkTypes?: string[];
   SupportsClusters?: boolean;
   SupportsDedicatedLogVolume?: boolean;
   SupportsHttpEndpoint?: boolean;
   SupportsAdditionalStorageVolumes?: boolean;
-  AvailableAdditionalStorageVolumesOptions?: AvailableAdditionalStorageVolumesOptionList;
+  AvailableAdditionalStorageVolumesOptions?: AvailableAdditionalStorageVolumesOption[];
 }
 export const OrderableDBInstanceOption = S.suspend(() =>
   S.Struct({
@@ -9883,11 +10169,11 @@ export const DoubleRangeList = S.Array(
 );
 export interface ValidStorageOptions {
   StorageType?: string;
-  StorageSize?: RangeList;
-  ProvisionedIops?: RangeList;
-  IopsToStorageRatio?: DoubleRangeList;
-  ProvisionedStorageThroughput?: RangeList;
-  StorageThroughputToIopsRatio?: DoubleRangeList;
+  StorageSize?: Range[];
+  ProvisionedIops?: Range[];
+  IopsToStorageRatio?: DoubleRange[];
+  ProvisionedStorageThroughput?: Range[];
+  StorageThroughputToIopsRatio?: DoubleRange[];
   SupportsStorageAutoscaling?: boolean;
 }
 export const ValidStorageOptions = S.suspend(() =>
@@ -9911,7 +10197,7 @@ export const ValidStorageOptionsList = S.Array(
 );
 export interface ValidVolumeOptions {
   VolumeName?: string;
-  Storage?: ValidStorageOptionsList;
+  Storage?: ValidStorageOptions[];
 }
 export const ValidVolumeOptions = S.suspend(() =>
   S.Struct({
@@ -10014,7 +10300,7 @@ export const DescribeDBClusterSnapshotAttributesResult = S.suspend(() =>
   identifier: "DescribeDBClusterSnapshotAttributesResult",
 }) as any as S.Schema<DescribeDBClusterSnapshotAttributesResult>;
 export interface DescribeDBMajorEngineVersionsResponse {
-  DBMajorEngineVersions?: DBMajorEngineVersionsList;
+  DBMajorEngineVersions?: DBMajorEngineVersion[];
   Marker?: string;
 }
 export const DescribeDBMajorEngineVersionsResponse = S.suspend(() =>
@@ -10026,7 +10312,7 @@ export const DescribeDBMajorEngineVersionsResponse = S.suspend(() =>
   identifier: "DescribeDBMajorEngineVersionsResponse",
 }) as any as S.Schema<DescribeDBMajorEngineVersionsResponse>;
 export interface DescribeDBProxyTargetGroupsResponse {
-  TargetGroups?: TargetGroupList;
+  TargetGroups?: DBProxyTargetGroup[];
   Marker?: string;
 }
 export const DescribeDBProxyTargetGroupsResponse = S.suspend(() =>
@@ -10038,7 +10324,7 @@ export const DescribeDBProxyTargetGroupsResponse = S.suspend(() =>
   identifier: "DescribeDBProxyTargetGroupsResponse",
 }) as any as S.Schema<DescribeDBProxyTargetGroupsResponse>;
 export interface DescribeDBProxyTargetsResponse {
-  Targets?: TargetList;
+  Targets?: DBProxyTarget[];
   Marker?: string;
 }
 export const DescribeDBProxyTargetsResponse = S.suspend(() =>
@@ -10060,7 +10346,7 @@ export const DescribeDBSnapshotAttributesResult = S.suspend(() =>
   identifier: "DescribeDBSnapshotAttributesResult",
 }) as any as S.Schema<DescribeDBSnapshotAttributesResult>;
 export interface OrderableDBInstanceOptionsMessage {
-  OrderableDBInstanceOptions?: OrderableDBInstanceOptionsList;
+  OrderableDBInstanceOptions?: OrderableDBInstanceOption[];
   Marker?: string;
 }
 export const OrderableDBInstanceOptionsMessage = S.suspend(() =>
@@ -10073,7 +10359,7 @@ export const OrderableDBInstanceOptionsMessage = S.suspend(() =>
 }) as any as S.Schema<OrderableDBInstanceOptionsMessage>;
 export interface ReservedDBInstanceMessage {
   Marker?: string;
-  ReservedDBInstances?: ReservedDBInstanceList;
+  ReservedDBInstances?: ReservedDBInstance[];
 }
 export const ReservedDBInstanceMessage = S.suspend(() =>
   S.Struct({
@@ -10099,7 +10385,7 @@ export interface OptionGroupOptionSetting {
   AllowedValues?: string;
   IsModifiable?: boolean;
   IsRequired?: boolean;
-  MinimumEngineVersionPerAllowedValue?: MinimumEngineVersionPerAllowedValueList;
+  MinimumEngineVersionPerAllowedValue?: MinimumEngineVersionPerAllowedValue[];
 }
 export const OptionGroupOptionSetting = S.suspend(() =>
   S.Struct({
@@ -10125,7 +10411,7 @@ export const OptionGroupOptionSettingsList = S.Array(
 );
 export interface ValidAdditionalStorageOptions {
   SupportsAdditionalStorageVolumes?: boolean;
-  Volumes?: ValidVolumeOptionsList;
+  Volumes?: ValidVolumeOptions[];
 }
 export const ValidAdditionalStorageOptions = S.suspend(() =>
   S.Struct({
@@ -10143,15 +10429,15 @@ export interface OptionGroupOption {
   MinimumRequiredMinorEngineVersion?: string;
   PortRequired?: boolean;
   DefaultPort?: number;
-  OptionsDependedOn?: OptionsDependedOn;
-  OptionsConflictsWith?: OptionsConflictsWith;
+  OptionsDependedOn?: string[];
+  OptionsConflictsWith?: string[];
   Persistent?: boolean;
   Permanent?: boolean;
   RequiresAutoMinorEngineVersionUpgrade?: boolean;
   VpcOnly?: boolean;
   SupportsOptionVersionDowngrade?: boolean;
-  OptionGroupOptionSettings?: OptionGroupOptionSettingsList;
-  OptionGroupOptionVersions?: OptionGroupOptionVersionsList;
+  OptionGroupOptionSettings?: OptionGroupOptionSetting[];
+  OptionGroupOptionVersions?: OptionVersion[];
   CopyableCrossAccount?: boolean;
 }
 export const OptionGroupOption = S.suspend(() =>
@@ -10184,8 +10470,8 @@ export const OptionGroupOptionsList = S.Array(
   }),
 );
 export interface ValidDBInstanceModificationsMessage {
-  Storage?: ValidStorageOptionsList;
-  ValidProcessorFeatures?: AvailableProcessorFeatureList;
+  Storage?: ValidStorageOptions[];
+  ValidProcessorFeatures?: AvailableProcessorFeature[];
   SupportsDedicatedLogVolume?: boolean;
   AdditionalStorage?: ValidAdditionalStorageOptions;
 }
@@ -10216,7 +10502,7 @@ export const CreateDBSubnetGroupResult = S.suspend(() =>
   identifier: "CreateDBSubnetGroupResult",
 }) as any as S.Schema<CreateDBSubnetGroupResult>;
 export interface OptionGroupOptionsMessage {
-  OptionGroupOptions?: OptionGroupOptionsList;
+  OptionGroupOptions?: OptionGroupOption[];
   Marker?: string;
 }
 export const OptionGroupOptionsMessage = S.suspend(() =>
@@ -10242,7 +10528,7 @@ export const DescribeValidDBInstanceModificationsResult = S.suspend(() =>
 export type DBRecommendationList = DBRecommendation[];
 export const DBRecommendationList = S.Array(DBRecommendation);
 export interface DBRecommendationsMessage {
-  DBRecommendations?: DBRecommendationList;
+  DBRecommendations?: DBRecommendation[];
   Marker?: string;
 }
 export const DBRecommendationsMessage = S.suspend(() =>
@@ -11273,7 +11559,7 @@ export class PointInTimeRestoreNotEnabledFault extends S.TaggedError<PointInTime
  */
 export const describeAccountAttributes: (
   input: DescribeAccountAttributesMessage,
-) => Effect.Effect<
+) => effect.Effect<
   AccountAttributesMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11290,21 +11576,21 @@ export const describeAccountAttributes: (
 export const describeDBClusterEndpoints: {
   (
     input: DescribeDBClusterEndpointsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DBClusterEndpointMessage,
     DBClusterNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDBClusterEndpointsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBClusterEndpointMessage,
     DBClusterNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBClusterEndpointsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBClusterEndpoint,
     DBClusterNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11336,21 +11622,21 @@ export const describeDBClusterEndpoints: {
 export const describeDBClusterParameterGroups: {
   (
     input: DescribeDBClusterParameterGroupsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DBClusterParameterGroupsMessage,
     DBParameterGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDBClusterParameterGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBClusterParameterGroupsMessage,
     DBParameterGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBClusterParameterGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBClusterParameterGroup,
     DBParameterGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11380,21 +11666,21 @@ export const describeDBClusterParameterGroups: {
 export const describeDBClusterParameters: {
   (
     input: DescribeDBClusterParametersMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DBClusterParameterGroupDetails,
     DBParameterGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDBClusterParametersMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBClusterParameterGroupDetails,
     DBParameterGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBClusterParametersMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Parameter,
     DBParameterGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11426,21 +11712,21 @@ export const describeDBClusterParameters: {
 export const describeDBClusters: {
   (
     input: DescribeDBClustersMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DBClusterMessage,
     DBClusterNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDBClustersMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBClusterMessage,
     DBClusterNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBClustersMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBCluster,
     DBClusterNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11462,21 +11748,21 @@ export const describeDBClusters: {
 export const describeDBEngineVersions: {
   (
     input: DescribeDBEngineVersionsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DBEngineVersionMessage,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDBEngineVersionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBEngineVersionMessage,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBEngineVersionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBEngineVersion,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11500,21 +11786,21 @@ export const describeDBEngineVersions: {
 export const describeDBInstances: {
   (
     input: DescribeDBInstancesMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DBInstanceMessage,
     DBInstanceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDBInstancesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBInstanceMessage,
     DBInstanceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBInstancesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBInstance,
     DBInstanceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11537,21 +11823,21 @@ export const describeDBInstances: {
 export const describeDBParameterGroups: {
   (
     input: DescribeDBParameterGroupsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DBParameterGroupsMessage,
     DBParameterGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDBParameterGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBParameterGroupsMessage,
     DBParameterGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBParameterGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBParameterGroup,
     DBParameterGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11573,21 +11859,21 @@ export const describeDBParameterGroups: {
 export const describeDBParameters: {
   (
     input: DescribeDBParametersMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DBParameterGroupDetails,
     DBParameterGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDBParametersMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBParameterGroupDetails,
     DBParameterGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBParametersMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Parameter,
     DBParameterGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11609,21 +11895,21 @@ export const describeDBParameters: {
 export const describeDBProxies: {
   (
     input: DescribeDBProxiesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeDBProxiesResponse,
     DBProxyNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDBProxiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeDBProxiesResponse,
     DBProxyNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBProxiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBProxy,
     DBProxyNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11652,21 +11938,21 @@ export const describeDBProxies: {
 export const describeDBSecurityGroups: {
   (
     input: DescribeDBSecurityGroupsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DBSecurityGroupMessage,
     DBSecurityGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDBSecurityGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBSecurityGroupMessage,
     DBSecurityGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBSecurityGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBSecurityGroup,
     DBSecurityGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11687,7 +11973,7 @@ export const describeDBSecurityGroups: {
  */
 export const describeDBShardGroups: (
   input: DescribeDBShardGroupsMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDBShardGroupsResponse,
   DBClusterNotFoundFault | DBShardGroupNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11705,21 +11991,21 @@ export const describeDBShardGroups: (
 export const describeDBSubnetGroups: {
   (
     input: DescribeDBSubnetGroupsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DBSubnetGroupMessage,
     DBSubnetGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDBSubnetGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBSubnetGroupMessage,
     DBSubnetGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBSubnetGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBSubnetGroup,
     DBSubnetGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11741,21 +12027,21 @@ export const describeDBSubnetGroups: {
 export const describeEngineDefaultParameters: {
   (
     input: DescribeEngineDefaultParametersMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeEngineDefaultParametersResult,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeEngineDefaultParametersMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeEngineDefaultParametersResult,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEngineDefaultParametersMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11778,21 +12064,21 @@ export const describeEngineDefaultParameters: {
 export const describeTenantDatabases: {
   (
     input: DescribeTenantDatabasesMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     TenantDatabasesMessage,
     DBInstanceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeTenantDatabasesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TenantDatabasesMessage,
     DBInstanceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeTenantDatabasesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TenantDatabase,
     DBInstanceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11820,7 +12106,7 @@ export const describeTenantDatabases: {
  */
 export const backtrackDBCluster: (
   input: BacktrackDBClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DBClusterBacktrack,
   DBClusterNotFoundFault | InvalidDBClusterStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11851,7 +12137,7 @@ export const backtrackDBCluster: (
  */
 export const deleteCustomDBEngineVersion: (
   input: DeleteCustomDBEngineVersionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DBEngineVersion,
   | CustomDBEngineVersionNotFoundFault
   | InvalidCustomDBEngineVersionStateFault
@@ -11872,7 +12158,7 @@ export const deleteCustomDBEngineVersion: (
  */
 export const deleteDBClusterEndpoint: (
   input: DeleteDBClusterEndpointMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DBClusterEndpoint,
   | DBClusterEndpointNotFoundFault
   | InvalidDBClusterEndpointStateFault
@@ -11901,7 +12187,7 @@ export const deleteDBClusterEndpoint: (
  */
 export const deleteDBClusterParameterGroup: (
   input: DeleteDBClusterParameterGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDBClusterParameterGroupResponse,
   | DBParameterGroupNotFoundFault
   | InvalidDBParameterGroupStateFault
@@ -11925,7 +12211,7 @@ export const deleteDBClusterParameterGroup: (
  */
 export const deleteDBSecurityGroup: (
   input: DeleteDBSecurityGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDBSecurityGroupResponse,
   | DBSecurityGroupNotFoundFault
   | InvalidDBSecurityGroupStateFault
@@ -11941,7 +12227,7 @@ export const deleteDBSecurityGroup: (
  */
 export const deleteOptionGroup: (
   input: DeleteOptionGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteOptionGroupResponse,
   InvalidOptionGroupStateFault | OptionGroupNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11962,21 +12248,21 @@ export const deleteOptionGroup: (
 export const describeBlueGreenDeployments: {
   (
     input: DescribeBlueGreenDeploymentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeBlueGreenDeploymentsResponse,
     BlueGreenDeploymentNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeBlueGreenDeploymentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeBlueGreenDeploymentsResponse,
     BlueGreenDeploymentNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeBlueGreenDeploymentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BlueGreenDeployment,
     BlueGreenDeploymentNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -12002,21 +12288,21 @@ export const describeBlueGreenDeployments: {
 export const describeDBClusterAutomatedBackups: {
   (
     input: DescribeDBClusterAutomatedBackupsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DBClusterAutomatedBackupMessage,
     DBClusterAutomatedBackupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDBClusterAutomatedBackupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBClusterAutomatedBackupMessage,
     DBClusterAutomatedBackupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBClusterAutomatedBackupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBClusterAutomatedBackup,
     DBClusterAutomatedBackupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -12044,21 +12330,21 @@ export const describeDBClusterAutomatedBackups: {
 export const describeDBClusterBacktracks: {
   (
     input: DescribeDBClusterBacktracksMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DBClusterBacktrackMessage,
     DBClusterBacktrackNotFoundFault | DBClusterNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDBClusterBacktracksMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBClusterBacktrackMessage,
     DBClusterBacktrackNotFoundFault | DBClusterNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBClusterBacktracksMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBClusterBacktrack,
     DBClusterBacktrackNotFoundFault | DBClusterNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -12087,21 +12373,21 @@ export const describeDBClusterBacktracks: {
 export const describeDBInstanceAutomatedBackups: {
   (
     input: DescribeDBInstanceAutomatedBackupsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DBInstanceAutomatedBackupMessage,
     DBInstanceAutomatedBackupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDBInstanceAutomatedBackupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBInstanceAutomatedBackupMessage,
     DBInstanceAutomatedBackupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBInstanceAutomatedBackupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBInstanceAutomatedBackup,
     DBInstanceAutomatedBackupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -12129,21 +12415,21 @@ export const describeDBInstanceAutomatedBackups: {
 export const describeDBSnapshotTenantDatabases: {
   (
     input: DescribeDBSnapshotTenantDatabasesMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DBSnapshotTenantDatabasesMessage,
     DBSnapshotNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDBSnapshotTenantDatabasesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBSnapshotTenantDatabasesMessage,
     DBSnapshotNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBSnapshotTenantDatabasesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBSnapshotTenantDatabase,
     DBSnapshotNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -12168,7 +12454,7 @@ export const describeDBSnapshotTenantDatabases: {
  */
 export const describeEngineDefaultClusterParameters: (
   input: DescribeEngineDefaultClusterParametersMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEngineDefaultClusterParametersResult,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12188,7 +12474,7 @@ export const describeEngineDefaultClusterParameters: (
  */
 export const describeEventCategories: (
   input: DescribeEventCategoriesMessage,
-) => Effect.Effect<
+) => effect.Effect<
   EventCategoriesMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12210,21 +12496,21 @@ export const describeEventCategories: (
 export const describeEvents: {
   (
     input: DescribeEventsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     EventsMessage,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeEventsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EventsMessage,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEventsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Event,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -12249,21 +12535,21 @@ export const describeEvents: {
 export const describeEventSubscriptions: {
   (
     input: DescribeEventSubscriptionsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     EventSubscriptionsMessage,
     SubscriptionNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeEventSubscriptionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EventSubscriptionsMessage,
     SubscriptionNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEventSubscriptionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EventSubscription,
     SubscriptionNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -12285,21 +12571,21 @@ export const describeEventSubscriptions: {
 export const describeIntegrations: {
   (
     input: DescribeIntegrationsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeIntegrationsResponse,
     IntegrationNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeIntegrationsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeIntegrationsResponse,
     IntegrationNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeIntegrationsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Integration,
     IntegrationNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -12327,21 +12613,21 @@ export const describeIntegrations: {
 export const describePendingMaintenanceActions: {
   (
     input: DescribePendingMaintenanceActionsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     PendingMaintenanceActionsMessage,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribePendingMaintenanceActionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PendingMaintenanceActionsMessage,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribePendingMaintenanceActionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResourcePendingMaintenanceActions,
     ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -12372,21 +12658,21 @@ export const describePendingMaintenanceActions: {
 export const describeSourceRegions: {
   (
     input: DescribeSourceRegionsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     SourceRegionMessage,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeSourceRegionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SourceRegionMessage,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeSourceRegionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SourceRegion,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -12413,7 +12699,7 @@ export const describeSourceRegions: {
  */
 export const disableHttpEndpoint: (
   input: DisableHttpEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisableHttpEndpointResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12432,7 +12718,7 @@ export const disableHttpEndpoint: (
  */
 export const modifyActivityStream: (
   input: ModifyActivityStreamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyActivityStreamResponse,
   | DBInstanceNotFoundFault
   | InvalidDBInstanceStateFault
@@ -12477,7 +12763,7 @@ export const modifyActivityStream: (
  */
 export const modifyCertificates: (
   input: ModifyCertificatesMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyCertificatesResult,
   CertificateNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12509,7 +12795,7 @@ export const modifyCertificates: (
  */
 export const modifyCurrentDBClusterCapacity: (
   input: ModifyCurrentDBClusterCapacityMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DBClusterCapacityInfo,
   | DBClusterNotFoundFault
   | InvalidDBClusterCapacityFault
@@ -12530,7 +12816,7 @@ export const modifyCurrentDBClusterCapacity: (
  */
 export const modifyDBRecommendation: (
   input: ModifyDBRecommendationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DBRecommendationMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12544,7 +12830,7 @@ export const modifyDBRecommendation: (
  */
 export const removeSourceIdentifierFromSubscription: (
   input: RemoveSourceIdentifierFromSubscriptionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveSourceIdentifierFromSubscriptionResult,
   SourceNotFoundFault | SubscriptionNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12567,7 +12853,7 @@ export const removeSourceIdentifierFromSubscription: (
  */
 export const switchoverBlueGreenDeployment: (
   input: SwitchoverBlueGreenDeploymentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SwitchoverBlueGreenDeploymentResponse,
   | BlueGreenDeploymentNotFoundFault
   | InvalidBlueGreenDeploymentStateFault
@@ -12595,7 +12881,7 @@ export const switchoverBlueGreenDeployment: (
  */
 export const removeRoleFromDBCluster: (
   input: RemoveRoleFromDBClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveRoleFromDBClusterResponse,
   | DBClusterNotFoundFault
   | DBClusterRoleNotFoundFault
@@ -12616,7 +12902,7 @@ export const removeRoleFromDBCluster: (
  */
 export const removeRoleFromDBInstance: (
   input: RemoveRoleFromDBInstanceMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveRoleFromDBInstanceResponse,
   | DBInstanceNotFoundFault
   | DBInstanceRoleNotFoundFault
@@ -12661,7 +12947,7 @@ export const removeRoleFromDBInstance: (
  */
 export const failoverDBCluster: (
   input: FailoverDBClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   FailoverDBClusterResult,
   | DBClusterNotFoundFault
   | InvalidDBClusterStateFault
@@ -12683,7 +12969,7 @@ export const failoverDBCluster: (
  */
 export const modifyDBShardGroup: (
   input: ModifyDBShardGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DBShardGroup,
   | DBShardGroupAlreadyExistsFault
   | DBShardGroupNotFoundFault
@@ -12704,7 +12990,7 @@ export const modifyDBShardGroup: (
  */
 export const promoteReadReplicaDBCluster: (
   input: PromoteReadReplicaDBClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   PromoteReadReplicaDBClusterResult,
   DBClusterNotFoundFault | InvalidDBClusterStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12730,7 +13016,7 @@ export const promoteReadReplicaDBCluster: (
  */
 export const rebootDBCluster: (
   input: RebootDBClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RebootDBClusterResult,
   | DBClusterNotFoundFault
   | InvalidDBClusterStateFault
@@ -12760,7 +13046,7 @@ export const rebootDBCluster: (
  */
 export const stopActivityStream: (
   input: StopActivityStreamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopActivityStreamResponse,
   | DBClusterNotFoundFault
   | DBInstanceNotFoundFault
@@ -12787,21 +13073,21 @@ export const stopActivityStream: (
 export const describeExportTasks: {
   (
     input: DescribeExportTasksMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     ExportTasksMessage,
     ExportTaskNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeExportTasksMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExportTasksMessage,
     ExportTaskNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeExportTasksMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExportTask,
     ExportTaskNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -12832,7 +13118,7 @@ export const describeExportTasks: {
  */
 export const modifyCustomDBEngineVersion: (
   input: ModifyCustomDBEngineVersionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DBEngineVersion,
   | CustomDBEngineVersionNotFoundFault
   | InvalidCustomDBEngineVersionStateFault
@@ -12853,7 +13139,7 @@ export const modifyCustomDBEngineVersion: (
  */
 export const modifyDBClusterEndpoint: (
   input: ModifyDBClusterEndpointMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DBClusterEndpoint,
   | DBClusterEndpointNotFoundFault
   | DBInstanceNotFoundFault
@@ -12895,7 +13181,7 @@ export const modifyDBClusterEndpoint: (
  */
 export const modifyDBClusterParameterGroup: (
   input: ModifyDBClusterParameterGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DBClusterParameterGroupNameMessage,
   | DBParameterGroupNotFoundFault
   | InvalidDBParameterGroupStateFault
@@ -12923,7 +13209,7 @@ export const modifyDBClusterParameterGroup: (
  */
 export const modifyDBParameterGroup: (
   input: ModifyDBParameterGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DBParameterGroupNameMessage,
   | DBParameterGroupNotFoundFault
   | InvalidDBParameterGroupStateFault
@@ -12956,7 +13242,7 @@ export const modifyDBParameterGroup: (
  */
 export const resetDBClusterParameterGroup: (
   input: ResetDBClusterParameterGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DBClusterParameterGroupNameMessage,
   | DBParameterGroupNotFoundFault
   | InvalidDBParameterGroupStateFault
@@ -12972,7 +13258,7 @@ export const resetDBClusterParameterGroup: (
  */
 export const deleteDBParameterGroup: (
   input: DeleteDBParameterGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDBParameterGroupResponse,
   | DBParameterGroupNotFoundFault
   | InvalidDBParameterGroupStateFault
@@ -12995,7 +13281,7 @@ export const deleteDBParameterGroup: (
  */
 export const resetDBParameterGroup: (
   input: ResetDBParameterGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DBParameterGroupNameMessage,
   | DBParameterGroupNotFoundFault
   | InvalidDBParameterGroupStateFault
@@ -13020,21 +13306,21 @@ export const resetDBParameterGroup: (
 export const describeDBClusterSnapshots: {
   (
     input: DescribeDBClusterSnapshotsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DBClusterSnapshotMessage,
     DBClusterSnapshotNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDBClusterSnapshotsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBClusterSnapshotMessage,
     DBClusterSnapshotNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBClusterSnapshotsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBClusterSnapshot,
     DBClusterSnapshotNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -13056,21 +13342,21 @@ export const describeDBClusterSnapshots: {
 export const describeDBProxyEndpoints: {
   (
     input: DescribeDBProxyEndpointsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeDBProxyEndpointsResponse,
     DBProxyEndpointNotFoundFault | DBProxyNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDBProxyEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeDBProxyEndpointsResponse,
     DBProxyEndpointNotFoundFault | DBProxyNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBProxyEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBProxyEndpoint,
     DBProxyEndpointNotFoundFault | DBProxyNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -13094,7 +13380,7 @@ export const describeDBProxyEndpoints: {
  */
 export const rebootDBShardGroup: (
   input: RebootDBShardGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DBShardGroup,
   DBShardGroupNotFoundFault | InvalidDBShardGroupStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13109,21 +13395,21 @@ export const rebootDBShardGroup: (
 export const describeDBSnapshots: {
   (
     input: DescribeDBSnapshotsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DBSnapshotMessage,
     DBSnapshotNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDBSnapshotsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBSnapshotMessage,
     DBSnapshotNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBSnapshotsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBSnapshot,
     DBSnapshotNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -13150,21 +13436,21 @@ export const describeDBSnapshots: {
 export const describeGlobalClusters: {
   (
     input: DescribeGlobalClustersMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     GlobalClustersMessage,
     GlobalClusterNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeGlobalClustersMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GlobalClustersMessage,
     GlobalClusterNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeGlobalClustersMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GlobalCluster,
     GlobalClusterNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -13186,21 +13472,21 @@ export const describeGlobalClusters: {
 export const describeOptionGroups: {
   (
     input: DescribeOptionGroupsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     OptionGroups,
     OptionGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeOptionGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OptionGroups,
     OptionGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeOptionGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OptionGroup,
     OptionGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -13221,7 +13507,7 @@ export const describeOptionGroups: {
  */
 export const deleteEventSubscription: (
   input: DeleteEventSubscriptionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEventSubscriptionResult,
   InvalidEventSubscriptionStateFault | SubscriptionNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13246,7 +13532,7 @@ export const deleteEventSubscription: (
  */
 export const enableHttpEndpoint: (
   input: EnableHttpEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableHttpEndpointResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13263,21 +13549,21 @@ export const enableHttpEndpoint: (
 export const describeDBLogFiles: {
   (
     input: DescribeDBLogFilesMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeDBLogFilesResponse,
     DBInstanceNotFoundFault | DBInstanceNotReadyFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDBLogFilesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeDBLogFilesResponse,
     DBInstanceNotFoundFault | DBInstanceNotReadyFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBLogFilesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeDBLogFilesDetails,
     DBInstanceNotFoundFault | DBInstanceNotReadyFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -13309,7 +13595,7 @@ export const describeDBLogFiles: {
  */
 export const promoteReadReplica: (
   input: PromoteReadReplicaMessage,
-) => Effect.Effect<
+) => effect.Effect<
   PromoteReadReplicaResult,
   DBInstanceNotFoundFault | InvalidDBInstanceStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13328,7 +13614,7 @@ export const promoteReadReplica: (
  */
 export const stopDBInstanceAutomatedBackupsReplication: (
   input: StopDBInstanceAutomatedBackupsReplicationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   StopDBInstanceAutomatedBackupsReplicationResult,
   DBInstanceNotFoundFault | InvalidDBInstanceStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13343,7 +13629,7 @@ export const stopDBInstanceAutomatedBackupsReplication: (
  */
 export const switchoverReadReplica: (
   input: SwitchoverReadReplicaMessage,
-) => Effect.Effect<
+) => effect.Effect<
   SwitchoverReadReplicaResult,
   DBInstanceNotFoundFault | InvalidDBInstanceStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13364,21 +13650,21 @@ export const switchoverReadReplica: (
 export const describeCertificates: {
   (
     input: DescribeCertificatesMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     CertificateMessage,
     CertificateNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeCertificatesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CertificateMessage,
     CertificateNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeCertificatesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Certificate,
     CertificateNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -13399,7 +13685,7 @@ export const describeCertificates: {
  */
 export const addSourceIdentifierToSubscription: (
   input: AddSourceIdentifierToSubscriptionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   AddSourceIdentifierToSubscriptionResult,
   SourceNotFoundFault | SubscriptionNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13421,7 +13707,7 @@ export const addSourceIdentifierToSubscription: (
  */
 export const revokeDBSecurityGroupIngress: (
   input: RevokeDBSecurityGroupIngressMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RevokeDBSecurityGroupIngressResult,
   | AuthorizationNotFoundFault
   | DBSecurityGroupNotFoundFault
@@ -13448,7 +13734,7 @@ export const revokeDBSecurityGroupIngress: (
  */
 export const deleteBlueGreenDeployment: (
   input: DeleteBlueGreenDeploymentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBlueGreenDeploymentResponse,
   | BlueGreenDeploymentNotFoundFault
   | InvalidBlueGreenDeploymentStateFault
@@ -13467,7 +13753,7 @@ export const deleteBlueGreenDeployment: (
  */
 export const deleteDBShardGroup: (
   input: DeleteDBShardGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DBShardGroup,
   | DBShardGroupNotFoundFault
   | InvalidDBClusterStateFault
@@ -13496,7 +13782,7 @@ export const deleteDBShardGroup: (
  */
 export const stopDBCluster: (
   input: StopDBClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   StopDBClusterResult,
   | DBClusterNotFoundFault
   | InvalidDBClusterStateFault
@@ -13519,7 +13805,7 @@ export const stopDBCluster: (
  */
 export const addRoleToDBCluster: (
   input: AddRoleToDBClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   AddRoleToDBClusterResponse,
   | DBClusterNotFoundFault
   | DBClusterRoleAlreadyExistsFault
@@ -13546,7 +13832,7 @@ export const addRoleToDBCluster: (
  */
 export const addRoleToDBInstance: (
   input: AddRoleToDBInstanceMessage,
-) => Effect.Effect<
+) => effect.Effect<
   AddRoleToDBInstanceResponse,
   | DBInstanceNotFoundFault
   | DBInstanceRoleAlreadyExistsFault
@@ -13569,7 +13855,7 @@ export const addRoleToDBInstance: (
  */
 export const applyPendingMaintenanceAction: (
   input: ApplyPendingMaintenanceActionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ApplyPendingMaintenanceActionResult,
   | InvalidDBClusterStateFault
   | InvalidDBInstanceStateFault
@@ -13591,7 +13877,7 @@ export const applyPendingMaintenanceAction: (
  */
 export const cancelExportTask: (
   input: CancelExportTaskMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ExportTask,
   ExportTaskNotFoundFault | InvalidExportTaskStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13607,7 +13893,7 @@ export const cancelExportTask: (
  */
 export const createDBClusterEndpoint: (
   input: CreateDBClusterEndpointMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DBClusterEndpoint,
   | DBClusterEndpointAlreadyExistsFault
   | DBClusterEndpointQuotaExceededFault
@@ -13668,7 +13954,7 @@ export const createDBClusterEndpoint: (
  */
 export const createDBClusterParameterGroup: (
   input: CreateDBClusterParameterGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDBClusterParameterGroupResult,
   | DBParameterGroupAlreadyExistsFault
   | DBParameterGroupQuotaExceededFault
@@ -13689,7 +13975,7 @@ export const createDBClusterParameterGroup: (
  */
 export const createOptionGroup: (
   input: CreateOptionGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateOptionGroupResult,
   OptionGroupAlreadyExistsFault | OptionGroupQuotaExceededFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13705,7 +13991,7 @@ export const createOptionGroup: (
  */
 export const deleteDBProxyEndpoint: (
   input: DeleteDBProxyEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDBProxyEndpointResponse,
   | DBProxyEndpointNotFoundFault
   | InvalidDBProxyEndpointStateFault
@@ -13724,7 +14010,7 @@ export const deleteDBProxyEndpoint: (
  */
 export const deleteDBSnapshot: (
   input: DeleteDBSnapshotMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDBSnapshotResult,
   DBSnapshotNotFoundFault | InvalidDBSnapshotStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13740,7 +14026,7 @@ export const deleteDBSnapshot: (
  */
 export const deleteDBSubnetGroup: (
   input: DeleteDBSubnetGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDBSubnetGroupResponse,
   | DBSubnetGroupNotFoundFault
   | InvalidDBSubnetGroupStateFault
@@ -13764,7 +14050,7 @@ export const deleteDBSubnetGroup: (
  */
 export const deleteGlobalCluster: (
   input: DeleteGlobalClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteGlobalClusterResult,
   GlobalClusterNotFoundFault | InvalidGlobalClusterStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13787,7 +14073,7 @@ export const deleteGlobalCluster: (
  */
 export const describeDBClusterSnapshotAttributes: (
   input: DescribeDBClusterSnapshotAttributesMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDBClusterSnapshotAttributesResult,
   DBClusterSnapshotNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13802,21 +14088,21 @@ export const describeDBClusterSnapshotAttributes: (
 export const describeDBMajorEngineVersions: {
   (
     input: DescribeDBMajorEngineVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeDBMajorEngineVersionsResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDBMajorEngineVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeDBMajorEngineVersionsResponse,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBMajorEngineVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBMajorEngineVersion,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -13846,7 +14132,7 @@ export const describeDBMajorEngineVersions: {
  */
 export const describeDBSnapshotAttributes: (
   input: DescribeDBSnapshotAttributesMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDBSnapshotAttributesResult,
   DBSnapshotNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13861,21 +14147,21 @@ export const describeDBSnapshotAttributes: (
 export const describeOrderableDBInstanceOptions: {
   (
     input: DescribeOrderableDBInstanceOptionsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     OrderableDBInstanceOptionsMessage,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeOrderableDBInstanceOptionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OrderableDBInstanceOptionsMessage,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeOrderableDBInstanceOptionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OrderableDBInstanceOption,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -13897,21 +14183,21 @@ export const describeOrderableDBInstanceOptions: {
 export const describeReservedDBInstancesOfferings: {
   (
     input: DescribeReservedDBInstancesOfferingsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     ReservedDBInstancesOfferingMessage,
     ReservedDBInstancesOfferingNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeReservedDBInstancesOfferingsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReservedDBInstancesOfferingMessage,
     ReservedDBInstancesOfferingNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReservedDBInstancesOfferingsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReservedDBInstancesOffering,
     ReservedDBInstancesOfferingNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -13939,7 +14225,7 @@ export const describeReservedDBInstancesOfferings: {
 export const downloadDBLogFilePortion: {
   (
     input: DownloadDBLogFilePortionMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DownloadDBLogFilePortionDetails,
     | DBInstanceNotFoundFault
     | DBInstanceNotReadyFault
@@ -13949,7 +14235,7 @@ export const downloadDBLogFilePortion: {
   >;
   pages: (
     input: DownloadDBLogFilePortionMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DownloadDBLogFilePortionDetails,
     | DBInstanceNotFoundFault
     | DBInstanceNotReadyFault
@@ -13959,7 +14245,7 @@ export const downloadDBLogFilePortion: {
   >;
   items: (
     input: DownloadDBLogFilePortionMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | DBInstanceNotFoundFault
     | DBInstanceNotReadyFault
@@ -13986,7 +14272,7 @@ export const downloadDBLogFilePortion: {
  */
 export const modifyDBProxy: (
   input: ModifyDBProxyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyDBProxyResponse,
   | DBProxyAlreadyExistsFault
   | DBProxyNotFoundFault
@@ -14007,7 +14293,7 @@ export const modifyDBProxy: (
  */
 export const modifyOptionGroup: (
   input: ModifyOptionGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyOptionGroupResult,
   InvalidOptionGroupStateFault | OptionGroupNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -14021,7 +14307,7 @@ export const modifyOptionGroup: (
  */
 export const purchaseReservedDBInstancesOffering: (
   input: PurchaseReservedDBInstancesOfferingMessage,
-) => Effect.Effect<
+) => effect.Effect<
   PurchaseReservedDBInstancesOfferingResult,
   | ReservedDBInstanceAlreadyExistsFault
   | ReservedDBInstanceQuotaExceededFault
@@ -14042,7 +14328,7 @@ export const purchaseReservedDBInstancesOffering: (
  */
 export const registerDBProxyTargets: (
   input: RegisterDBProxyTargetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterDBProxyTargetsResponse,
   | DBClusterNotFoundFault
   | DBInstanceNotFoundFault
@@ -14082,7 +14368,7 @@ export const registerDBProxyTargets: (
  */
 export const startActivityStream: (
   input: StartActivityStreamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartActivityStreamResponse,
   | DBClusterNotFoundFault
   | DBInstanceNotFoundFault
@@ -14119,7 +14405,7 @@ export const startActivityStream: (
  */
 export const createDBParameterGroup: (
   input: CreateDBParameterGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDBParameterGroupResult,
   | DBParameterGroupAlreadyExistsFault
   | DBParameterGroupQuotaExceededFault
@@ -14141,7 +14427,7 @@ export const createDBParameterGroup: (
  */
 export const copyDBClusterParameterGroup: (
   input: CopyDBClusterParameterGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CopyDBClusterParameterGroupResult,
   | DBParameterGroupAlreadyExistsFault
   | DBParameterGroupNotFoundFault
@@ -14165,7 +14451,7 @@ export const copyDBClusterParameterGroup: (
  */
 export const copyDBParameterGroup: (
   input: CopyDBParameterGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CopyDBParameterGroupResult,
   | DBParameterGroupAlreadyExistsFault
   | DBParameterGroupNotFoundFault
@@ -14197,7 +14483,7 @@ export const copyDBParameterGroup: (
  */
 export const deleteDBClusterSnapshot: (
   input: DeleteDBClusterSnapshotMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDBClusterSnapshotResult,
   | DBClusterSnapshotNotFoundFault
   | InvalidDBClusterSnapshotStateFault
@@ -14217,7 +14503,7 @@ export const deleteDBClusterSnapshot: (
  */
 export const deleteTenantDatabase: (
   input: DeleteTenantDatabaseMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTenantDatabaseResult,
   | DBInstanceNotFoundFault
   | DBSnapshotAlreadyExistsFault
@@ -14251,7 +14537,7 @@ export const deleteTenantDatabase: (
  */
 export const stopDBInstance: (
   input: StopDBInstanceMessage,
-) => Effect.Effect<
+) => effect.Effect<
   StopDBInstanceResult,
   | DBInstanceNotFoundFault
   | DBSnapshotAlreadyExistsFault
@@ -14276,7 +14562,7 @@ export const stopDBInstance: (
  */
 export const copyOptionGroup: (
   input: CopyOptionGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CopyOptionGroupResult,
   | OptionGroupAlreadyExistsFault
   | OptionGroupNotFoundFault
@@ -14301,7 +14587,7 @@ export const copyOptionGroup: (
  */
 export const removeTagsFromResource: (
   input: RemoveTagsFromResourceMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveTagsFromResourceResponse,
   | BlueGreenDeploymentNotFoundFault
   | DBClusterNotFoundFault
@@ -14344,7 +14630,7 @@ export const removeTagsFromResource: (
  */
 export const modifyDBProxyEndpoint: (
   input: ModifyDBProxyEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyDBProxyEndpointResponse,
   | DBProxyEndpointAlreadyExistsFault
   | DBProxyEndpointNotFoundFault
@@ -14371,7 +14657,7 @@ export const modifyDBProxyEndpoint: (
  */
 export const modifyDBSnapshot: (
   input: ModifyDBSnapshotMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyDBSnapshotResult,
   | DBSnapshotNotFoundFault
   | InvalidDBSnapshotStateFault
@@ -14401,7 +14687,7 @@ export const modifyDBSnapshot: (
  */
 export const copyDBSnapshot: (
   input: CopyDBSnapshotMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CopyDBSnapshotResult,
   | CustomAvailabilityZoneNotFoundFault
   | DBSnapshotAlreadyExistsFault
@@ -14433,7 +14719,7 @@ export const copyDBSnapshot: (
  */
 export const modifyGlobalCluster: (
   input: ModifyGlobalClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyGlobalClusterResult,
   | GlobalClusterAlreadyExistsFault
   | GlobalClusterNotFoundFault
@@ -14485,7 +14771,7 @@ export const modifyGlobalCluster: (
  */
 export const failoverGlobalCluster: (
   input: FailoverGlobalClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   FailoverGlobalClusterResult,
   | DBClusterNotFoundFault
   | GlobalClusterNotFoundFault
@@ -14512,7 +14798,7 @@ export const failoverGlobalCluster: (
  */
 export const removeFromGlobalCluster: (
   input: RemoveFromGlobalClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveFromGlobalClusterResult,
   | DBClusterNotFoundFault
   | GlobalClusterNotFoundFault
@@ -14545,7 +14831,7 @@ export const removeFromGlobalCluster: (
  */
 export const switchoverGlobalCluster: (
   input: SwitchoverGlobalClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   SwitchoverGlobalClusterResult,
   | DBClusterNotFoundFault
   | GlobalClusterNotFoundFault
@@ -14568,7 +14854,7 @@ export const switchoverGlobalCluster: (
  */
 export const modifyIntegration: (
   input: ModifyIntegrationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   Integration,
   | IntegrationConflictOperationFault
   | IntegrationNotFoundFault
@@ -14589,7 +14875,7 @@ export const modifyIntegration: (
  */
 export const modifyDBProxyTargetGroup: (
   input: ModifyDBProxyTargetGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyDBProxyTargetGroupResponse,
   | DBProxyNotFoundFault
   | DBProxyTargetGroupNotFoundFault
@@ -14610,7 +14896,7 @@ export const modifyDBProxyTargetGroup: (
  */
 export const deleteDBProxy: (
   input: DeleteDBProxyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDBProxyResponse,
   DBProxyNotFoundFault | InvalidDBProxyStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -14624,7 +14910,7 @@ export const deleteDBProxy: (
  */
 export const deregisterDBProxyTargets: (
   input: DeregisterDBProxyTargetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterDBProxyTargetsResponse,
   | DBProxyNotFoundFault
   | DBProxyTargetGroupNotFoundFault
@@ -14648,7 +14934,7 @@ export const deregisterDBProxyTargets: (
 export const describeDBProxyTargetGroups: {
   (
     input: DescribeDBProxyTargetGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeDBProxyTargetGroupsResponse,
     | DBProxyNotFoundFault
     | DBProxyTargetGroupNotFoundFault
@@ -14658,7 +14944,7 @@ export const describeDBProxyTargetGroups: {
   >;
   pages: (
     input: DescribeDBProxyTargetGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeDBProxyTargetGroupsResponse,
     | DBProxyNotFoundFault
     | DBProxyTargetGroupNotFoundFault
@@ -14668,7 +14954,7 @@ export const describeDBProxyTargetGroups: {
   >;
   items: (
     input: DescribeDBProxyTargetGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBProxyTargetGroup,
     | DBProxyNotFoundFault
     | DBProxyTargetGroupNotFoundFault
@@ -14697,7 +14983,7 @@ export const describeDBProxyTargetGroups: {
 export const describeDBProxyTargets: {
   (
     input: DescribeDBProxyTargetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeDBProxyTargetsResponse,
     | DBProxyNotFoundFault
     | DBProxyTargetGroupNotFoundFault
@@ -14708,7 +14994,7 @@ export const describeDBProxyTargets: {
   >;
   pages: (
     input: DescribeDBProxyTargetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeDBProxyTargetsResponse,
     | DBProxyNotFoundFault
     | DBProxyTargetGroupNotFoundFault
@@ -14719,7 +15005,7 @@ export const describeDBProxyTargets: {
   >;
   items: (
     input: DescribeDBProxyTargetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBProxyTarget,
     | DBProxyNotFoundFault
     | DBProxyTargetGroupNotFoundFault
@@ -14761,7 +15047,7 @@ export const describeDBProxyTargets: {
  */
 export const rebootDBInstance: (
   input: RebootDBInstanceMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RebootDBInstanceResult,
   | DBInstanceNotFoundFault
   | InvalidDBInstanceStateFault
@@ -14803,7 +15089,7 @@ export const rebootDBInstance: (
  */
 export const deleteDBInstance: (
   input: DeleteDBInstanceMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDBInstanceResult,
   | DBInstanceAutomatedBackupQuotaExceededFault
   | DBInstanceNotFoundFault
@@ -14832,7 +15118,7 @@ export const deleteDBInstance: (
  */
 export const createIntegration: (
   input: CreateIntegrationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   Integration,
   | DBClusterNotFoundFault
   | DBInstanceNotFoundFault
@@ -14860,7 +15146,7 @@ export const createIntegration: (
  */
 export const createDBSnapshot: (
   input: CreateDBSnapshotMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDBSnapshotResult,
   | DBInstanceNotFoundFault
   | DBSnapshotAlreadyExistsFault
@@ -14890,7 +15176,7 @@ export const createDBSnapshot: (
  */
 export const createDBClusterSnapshot: (
   input: CreateDBClusterSnapshotMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDBClusterSnapshotResult,
   | DBClusterNotFoundFault
   | DBClusterSnapshotAlreadyExistsFault
@@ -14949,7 +15235,7 @@ export const createDBClusterSnapshot: (
  */
 export const copyDBClusterSnapshot: (
   input: CopyDBClusterSnapshotMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CopyDBClusterSnapshotResult,
   | DBClusterSnapshotAlreadyExistsFault
   | DBClusterSnapshotNotFoundFault
@@ -14976,7 +15262,7 @@ export const copyDBClusterSnapshot: (
  */
 export const deleteDBInstanceAutomatedBackup: (
   input: DeleteDBInstanceAutomatedBackupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDBInstanceAutomatedBackupResult,
   | DBInstanceAutomatedBackupNotFoundFault
   | InvalidDBInstanceAutomatedBackupStateFault
@@ -14999,7 +15285,7 @@ export const deleteDBInstanceAutomatedBackup: (
  */
 export const addTagsToResource: (
   input: AddTagsToResourceMessage,
-) => Effect.Effect<
+) => effect.Effect<
   AddTagsToResourceResponse,
   | BlueGreenDeploymentNotFoundFault
   | DBClusterNotFoundFault
@@ -15046,7 +15332,7 @@ export const addTagsToResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceMessage,
-) => Effect.Effect<
+) => effect.Effect<
   TagListMessage,
   | BlueGreenDeploymentNotFoundFault
   | DBClusterNotFoundFault
@@ -15083,7 +15369,7 @@ export const listTagsForResource: (
  */
 export const deleteIntegration: (
   input: DeleteIntegrationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   Integration,
   | IntegrationConflictOperationFault
   | IntegrationNotFoundFault
@@ -15112,7 +15398,7 @@ export const deleteIntegration: (
  */
 export const createDBSecurityGroup: (
   input: CreateDBSecurityGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDBSecurityGroupResult,
   | DBSecurityGroupAlreadyExistsFault
   | DBSecurityGroupNotSupportedFault
@@ -15145,7 +15431,7 @@ export const createDBSecurityGroup: (
  */
 export const createGlobalCluster: (
   input: CreateGlobalClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGlobalClusterResult,
   | DBClusterNotFoundFault
   | GlobalClusterAlreadyExistsFault
@@ -15185,7 +15471,7 @@ export const createGlobalCluster: (
  */
 export const deleteDBCluster: (
   input: DeleteDBClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDBClusterResult,
   | DBClusterAutomatedBackupQuotaExceededFault
   | DBClusterNotFoundFault
@@ -15217,7 +15503,7 @@ export const deleteDBCluster: (
  */
 export const deleteDBClusterAutomatedBackup: (
   input: DeleteDBClusterAutomatedBackupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDBClusterAutomatedBackupResult,
   | DBClusterAutomatedBackupNotFoundFault
   | InvalidDBClusterAutomatedBackupStateFault
@@ -15237,21 +15523,21 @@ export const deleteDBClusterAutomatedBackup: (
 export const describeOptionGroupOptions: {
   (
     input: DescribeOptionGroupOptionsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     OptionGroupOptionsMessage,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeOptionGroupOptionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OptionGroupOptionsMessage,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeOptionGroupOptionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OptionGroupOption,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -15273,21 +15559,21 @@ export const describeOptionGroupOptions: {
 export const describeReservedDBInstances: {
   (
     input: DescribeReservedDBInstancesMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     ReservedDBInstanceMessage,
     ReservedDBInstanceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeReservedDBInstancesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReservedDBInstanceMessage,
     ReservedDBInstanceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReservedDBInstancesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReservedDBInstance,
     ReservedDBInstanceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -15311,7 +15597,7 @@ export const describeReservedDBInstances: {
  */
 export const describeValidDBInstanceModifications: (
   input: DescribeValidDBInstanceModificationsMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeValidDBInstanceModificationsResult,
   DBInstanceNotFoundFault | InvalidDBInstanceStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -15345,7 +15631,7 @@ export const describeValidDBInstanceModifications: (
  */
 export const modifyDBClusterSnapshotAttribute: (
   input: ModifyDBClusterSnapshotAttributeMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyDBClusterSnapshotAttributeResult,
   | DBClusterSnapshotNotFoundFault
   | InvalidDBClusterSnapshotStateFault
@@ -15371,7 +15657,7 @@ export const modifyDBClusterSnapshotAttribute: (
  */
 export const startDBInstanceAutomatedBackupsReplication: (
   input: StartDBInstanceAutomatedBackupsReplicationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   StartDBInstanceAutomatedBackupsReplicationResult,
   | DBInstanceAutomatedBackupQuotaExceededFault
   | DBInstanceNotFoundFault
@@ -15398,7 +15684,7 @@ export const startDBInstanceAutomatedBackupsReplication: (
  */
 export const createDBProxy: (
   input: CreateDBProxyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDBProxyResponse,
   | DBProxyAlreadyExistsFault
   | DBProxyQuotaExceededFault
@@ -15417,7 +15703,7 @@ export const createDBProxy: (
  */
 export const createDBProxyEndpoint: (
   input: CreateDBProxyEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDBProxyEndpointResponse,
   | DBProxyEndpointAlreadyExistsFault
   | DBProxyEndpointQuotaExceededFault
@@ -15444,7 +15730,7 @@ export const createDBProxyEndpoint: (
  */
 export const modifyTenantDatabase: (
   input: ModifyTenantDatabaseMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyTenantDatabaseResult,
   | DBInstanceNotFoundFault
   | InvalidDBInstanceStateFault
@@ -15476,7 +15762,7 @@ export const modifyTenantDatabase: (
  */
 export const startDBCluster: (
   input: StartDBClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   StartDBClusterResult,
   | DBClusterNotFoundFault
   | InvalidDBClusterStateFault
@@ -15521,7 +15807,7 @@ export const startDBCluster: (
  */
 export const modifyDBSnapshotAttribute: (
   input: ModifyDBSnapshotAttributeMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyDBSnapshotAttributeResult,
   | DBSnapshotNotFoundFault
   | InvalidDBSnapshotStateFault
@@ -15550,7 +15836,7 @@ export const modifyDBSnapshotAttribute: (
  */
 export const startDBInstance: (
   input: StartDBInstanceMessage,
-) => Effect.Effect<
+) => effect.Effect<
   StartDBInstanceResult,
   | AuthorizationNotFoundFault
   | DBClusterNotFoundFault
@@ -15605,7 +15891,7 @@ export const startDBInstance: (
  */
 export const authorizeDBSecurityGroupIngress: (
   input: AuthorizeDBSecurityGroupIngressMessage,
-) => Effect.Effect<
+) => effect.Effect<
   AuthorizeDBSecurityGroupIngressResult,
   | AuthorizationAlreadyExistsFault
   | AuthorizationQuotaExceededFault
@@ -15628,7 +15914,7 @@ export const authorizeDBSecurityGroupIngress: (
  */
 export const modifyDBSubnetGroup: (
   input: ModifyDBSubnetGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyDBSubnetGroupResult,
   | DBSubnetGroupDoesNotCoverEnoughAZs
   | DBSubnetGroupNotFoundFault
@@ -15656,7 +15942,7 @@ export const modifyDBSubnetGroup: (
  */
 export const createTenantDatabase: (
   input: CreateTenantDatabaseMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTenantDatabaseResult,
   | DBInstanceNotFoundFault
   | InvalidDBInstanceStateFault
@@ -15681,7 +15967,7 @@ export const createTenantDatabase: (
  */
 export const createCustomDBEngineVersion: (
   input: CreateCustomDBEngineVersionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DBEngineVersion,
   | CreateCustomDBEngineVersionFault
   | CustomDBEngineVersionAlreadyExistsFault
@@ -15710,7 +15996,7 @@ export const createCustomDBEngineVersion: (
  */
 export const createDBSubnetGroup: (
   input: CreateDBSubnetGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDBSubnetGroupResult,
   | DBSubnetGroupAlreadyExistsFault
   | DBSubnetGroupDoesNotCoverEnoughAZs
@@ -15737,7 +16023,7 @@ export const createDBSubnetGroup: (
  */
 export const createDBShardGroup: (
   input: CreateDBShardGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DBShardGroup,
   | DBClusterNotFoundFault
   | DBShardGroupAlreadyExistsFault
@@ -15771,7 +16057,7 @@ export const createDBShardGroup: (
  */
 export const modifyEventSubscription: (
   input: ModifyEventSubscriptionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyEventSubscriptionResult,
   | EventSubscriptionQuotaExceededFault
   | SNSInvalidTopicFault
@@ -15809,7 +16095,7 @@ export const modifyEventSubscription: (
  */
 export const createDBInstance: (
   input: CreateDBInstanceMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDBInstanceResult,
   | AuthorizationNotFoundFault
   | BackupPolicyNotFoundFault
@@ -15884,7 +16170,7 @@ export const createDBInstance: (
  */
 export const createDBInstanceReadReplica: (
   input: CreateDBInstanceReadReplicaMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDBInstanceReadReplicaResult,
   | CertificateNotFoundFault
   | DBClusterNotFoundFault
@@ -15976,7 +16262,7 @@ export const createDBInstanceReadReplica: (
  */
 export const createEventSubscription: (
   input: CreateEventSubscriptionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEventSubscriptionResult,
   | EventSubscriptionQuotaExceededFault
   | SNSInvalidTopicFault
@@ -16013,7 +16299,7 @@ export const createEventSubscription: (
  */
 export const restoreDBInstanceFromS3: (
   input: RestoreDBInstanceFromS3Message,
-) => Effect.Effect<
+) => effect.Effect<
   RestoreDBInstanceFromS3Result,
   | AuthorizationNotFoundFault
   | BackupPolicyNotFoundFault
@@ -16090,7 +16376,7 @@ export const restoreDBInstanceFromS3: (
  */
 export const restoreDBClusterToPointInTime: (
   input: RestoreDBClusterToPointInTimeMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RestoreDBClusterToPointInTimeResult,
   | DBClusterAlreadyExistsFault
   | DBClusterAutomatedBackupNotFoundFault
@@ -16170,7 +16456,7 @@ export const restoreDBClusterToPointInTime: (
  */
 export const restoreDBClusterFromSnapshot: (
   input: RestoreDBClusterFromSnapshotMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RestoreDBClusterFromSnapshotResult,
   | DBClusterAlreadyExistsFault
   | DBClusterParameterGroupNotFoundFault
@@ -16235,7 +16521,7 @@ export const restoreDBClusterFromSnapshot: (
  */
 export const modifyDBInstance: (
   input: ModifyDBInstanceMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyDBInstanceResult,
   | AuthorizationNotFoundFault
   | BackupPolicyNotFoundFault
@@ -16312,7 +16598,7 @@ export const modifyDBInstance: (
  */
 export const restoreDBInstanceFromDBSnapshot: (
   input: RestoreDBInstanceFromDBSnapshotMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RestoreDBInstanceFromDBSnapshotResult,
   | AuthorizationNotFoundFault
   | BackupPolicyNotFoundFault
@@ -16393,7 +16679,7 @@ export const restoreDBInstanceFromDBSnapshot: (
  */
 export const createDBCluster: (
   input: CreateDBClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDBClusterResult,
   | DBClusterAlreadyExistsFault
   | DBClusterNotFoundFault
@@ -16472,7 +16758,7 @@ export const createDBCluster: (
  */
 export const restoreDBClusterFromS3: (
   input: RestoreDBClusterFromS3Message,
-) => Effect.Effect<
+) => effect.Effect<
   RestoreDBClusterFromS3Result,
   | DBClusterAlreadyExistsFault
   | DBClusterNotFoundFault
@@ -16534,7 +16820,7 @@ export const restoreDBClusterFromS3: (
  */
 export const startExportTask: (
   input: StartExportTaskMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ExportTask,
   | DBClusterNotFoundFault
   | DBClusterSnapshotNotFoundFault
@@ -16586,7 +16872,7 @@ export const startExportTask: (
  */
 export const createBlueGreenDeployment: (
   input: CreateBlueGreenDeploymentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBlueGreenDeploymentResponse,
   | BlueGreenDeploymentAlreadyExistsFault
   | DBClusterNotFoundFault
@@ -16635,7 +16921,7 @@ export const createBlueGreenDeployment: (
  */
 export const modifyDBCluster: (
   input: ModifyDBClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyDBClusterResult,
   | DBClusterAlreadyExistsFault
   | DBClusterNotFoundFault
@@ -16701,7 +16987,7 @@ export const modifyDBCluster: (
  */
 export const restoreDBInstanceToPointInTime: (
   input: RestoreDBInstanceToPointInTimeMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RestoreDBInstanceToPointInTimeResult,
   | AuthorizationNotFoundFault
   | BackupPolicyNotFoundFault
@@ -16769,21 +17055,21 @@ export const restoreDBInstanceToPointInTime: (
 export const describeDBRecommendations: {
   (
     input: DescribeDBRecommendationsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DBRecommendationsMessage,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDBRecommendationsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBRecommendationsMessage,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDBRecommendationsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DBRecommendation,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient

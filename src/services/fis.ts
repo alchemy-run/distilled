@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -577,7 +577,7 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -602,7 +602,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys?: TagKeyList;
+  tagKeys?: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -653,6 +653,14 @@ export const UpdateTargetAccountConfigurationRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateTargetAccountConfigurationRequest",
 }) as any as S.Schema<UpdateTargetAccountConfigurationRequest>;
+export type AccountTargeting = "single-account" | "multi-account";
+export const AccountTargeting = S.Literal("single-account", "multi-account");
+export type EmptyTargetResolutionMode = "fail" | "skip";
+export const EmptyTargetResolutionMode = S.Literal("fail", "skip");
+export type ActionsMode = "skip-all" | "run-all";
+export const ActionsMode = S.Literal("skip-all", "run-all");
+export type SafetyLeverStatusInput = "disengaged" | "engaged";
+export const SafetyLeverStatusInput = S.Literal("disengaged", "engaged");
 export interface CreateExperimentTemplateStopConditionInput {
   source: string;
   value?: string;
@@ -668,22 +676,22 @@ export const CreateExperimentTemplateStopConditionInputList = S.Array(
   CreateExperimentTemplateStopConditionInput,
 );
 export interface CreateExperimentTemplateExperimentOptionsInput {
-  accountTargeting?: string;
-  emptyTargetResolutionMode?: string;
+  accountTargeting?: AccountTargeting;
+  emptyTargetResolutionMode?: EmptyTargetResolutionMode;
 }
 export const CreateExperimentTemplateExperimentOptionsInput = S.suspend(() =>
   S.Struct({
-    accountTargeting: S.optional(S.String),
-    emptyTargetResolutionMode: S.optional(S.String),
+    accountTargeting: S.optional(AccountTargeting),
+    emptyTargetResolutionMode: S.optional(EmptyTargetResolutionMode),
   }),
 ).annotations({
   identifier: "CreateExperimentTemplateExperimentOptionsInput",
 }) as any as S.Schema<CreateExperimentTemplateExperimentOptionsInput>;
 export interface StartExperimentExperimentOptionsInput {
-  actionsMode?: string;
+  actionsMode?: ActionsMode;
 }
 export const StartExperimentExperimentOptionsInput = S.suspend(() =>
-  S.Struct({ actionsMode: S.optional(S.String) }),
+  S.Struct({ actionsMode: S.optional(ActionsMode) }),
 ).annotations({
   identifier: "StartExperimentExperimentOptionsInput",
 }) as any as S.Schema<StartExperimentExperimentOptionsInput>;
@@ -735,10 +743,12 @@ export const UpdateExperimentTemplateLogConfigurationInput = S.suspend(() =>
   identifier: "UpdateExperimentTemplateLogConfigurationInput",
 }) as any as S.Schema<UpdateExperimentTemplateLogConfigurationInput>;
 export interface UpdateExperimentTemplateExperimentOptionsInput {
-  emptyTargetResolutionMode?: string;
+  emptyTargetResolutionMode?: EmptyTargetResolutionMode;
 }
 export const UpdateExperimentTemplateExperimentOptionsInput = S.suspend(() =>
-  S.Struct({ emptyTargetResolutionMode: S.optional(S.String) }),
+  S.Struct({
+    emptyTargetResolutionMode: S.optional(EmptyTargetResolutionMode),
+  }),
 ).annotations({
   identifier: "UpdateExperimentTemplateExperimentOptionsInput",
 }) as any as S.Schema<UpdateExperimentTemplateExperimentOptionsInput>;
@@ -773,7 +783,7 @@ export const ReportConfigurationCloudWatchDashboardInputList = S.Array(
   ReportConfigurationCloudWatchDashboardInput,
 );
 export interface ExperimentTemplateReportConfigurationDataSourcesInput {
-  cloudWatchDashboards?: ReportConfigurationCloudWatchDashboardInputList;
+  cloudWatchDashboards?: ReportConfigurationCloudWatchDashboardInput[];
 }
 export const ExperimentTemplateReportConfigurationDataSourcesInput = S.suspend(
   () =>
@@ -804,11 +814,11 @@ export const UpdateExperimentTemplateReportConfigurationInput = S.suspend(() =>
   identifier: "UpdateExperimentTemplateReportConfigurationInput",
 }) as any as S.Schema<UpdateExperimentTemplateReportConfigurationInput>;
 export interface UpdateSafetyLeverStateInput {
-  status: string;
+  status: SafetyLeverStatusInput;
   reason: string;
 }
 export const UpdateSafetyLeverStateInput = S.suspend(() =>
-  S.Struct({ status: S.String, reason: S.String }),
+  S.Struct({ status: SafetyLeverStatusInput, reason: S.String }),
 ).annotations({
   identifier: "UpdateSafetyLeverStateInput",
 }) as any as S.Schema<UpdateSafetyLeverStateInput>;
@@ -844,7 +854,7 @@ export type ExperimentTemplateTargetFilterValues = string[];
 export const ExperimentTemplateTargetFilterValues = S.Array(S.String);
 export interface ExperimentTemplateTargetFilter {
   path?: string;
-  values?: ExperimentTemplateTargetFilterValues;
+  values?: string[];
 }
 export const ExperimentTemplateTargetFilter = S.suspend(() =>
   S.Struct({
@@ -866,11 +876,11 @@ export const ExperimentTemplateTargetParameterMap = S.Record({
 });
 export interface ExperimentTemplateTarget {
   resourceType?: string;
-  resourceArns?: ResourceArnList;
-  resourceTags?: TagMap;
-  filters?: ExperimentTemplateTargetFilterList;
+  resourceArns?: string[];
+  resourceTags?: { [key: string]: string };
+  filters?: ExperimentTemplateTargetFilter[];
   selectionMode?: string;
-  parameters?: ExperimentTemplateTargetParameterMap;
+  parameters?: { [key: string]: string };
 }
 export const ExperimentTemplateTarget = S.suspend(() =>
   S.Struct({
@@ -904,9 +914,9 @@ export const ExperimentTemplateActionTargetMap = S.Record({
 export interface ExperimentTemplateAction {
   actionId?: string;
   description?: string;
-  parameters?: ExperimentTemplateActionParameterMap;
-  targets?: ExperimentTemplateActionTargetMap;
-  startAfter?: ExperimentTemplateActionStartAfterList;
+  parameters?: { [key: string]: string };
+  targets?: { [key: string]: string };
+  startAfter?: string[];
 }
 export const ExperimentTemplateAction = S.suspend(() =>
   S.Struct({
@@ -974,13 +984,13 @@ export const ExperimentTemplateLogConfiguration = S.suspend(() =>
   identifier: "ExperimentTemplateLogConfiguration",
 }) as any as S.Schema<ExperimentTemplateLogConfiguration>;
 export interface ExperimentTemplateExperimentOptions {
-  accountTargeting?: string;
-  emptyTargetResolutionMode?: string;
+  accountTargeting?: AccountTargeting;
+  emptyTargetResolutionMode?: EmptyTargetResolutionMode;
 }
 export const ExperimentTemplateExperimentOptions = S.suspend(() =>
   S.Struct({
-    accountTargeting: S.optional(S.String),
-    emptyTargetResolutionMode: S.optional(S.String),
+    accountTargeting: S.optional(AccountTargeting),
+    emptyTargetResolutionMode: S.optional(EmptyTargetResolutionMode),
   }),
 ).annotations({
   identifier: "ExperimentTemplateExperimentOptions",
@@ -1016,7 +1026,7 @@ export type ExperimentTemplateReportConfigurationCloudWatchDashboardList =
 export const ExperimentTemplateReportConfigurationCloudWatchDashboardList =
   S.Array(ExperimentTemplateReportConfigurationCloudWatchDashboard);
 export interface ExperimentTemplateReportConfigurationDataSources {
-  cloudWatchDashboards?: ExperimentTemplateReportConfigurationCloudWatchDashboardList;
+  cloudWatchDashboards?: ExperimentTemplateReportConfigurationCloudWatchDashboard[];
 }
 export const ExperimentTemplateReportConfigurationDataSources = S.suspend(() =>
   S.Struct({
@@ -1047,13 +1057,13 @@ export interface ExperimentTemplate {
   id?: string;
   arn?: string;
   description?: string;
-  targets?: ExperimentTemplateTargetMap;
-  actions?: ExperimentTemplateActionMap;
-  stopConditions?: ExperimentTemplateStopConditionList;
+  targets?: { [key: string]: ExperimentTemplateTarget };
+  actions?: { [key: string]: ExperimentTemplateAction };
+  stopConditions?: ExperimentTemplateStopCondition[];
   creationTime?: Date;
   lastUpdateTime?: Date;
   roleArn?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   logConfiguration?: ExperimentTemplateLogConfiguration;
   experimentOptions?: ExperimentTemplateExperimentOptions;
   targetAccountConfigurationsCount?: number;
@@ -1100,7 +1110,7 @@ export const GetTargetAccountConfigurationResponse = S.suspend(() =>
   identifier: "GetTargetAccountConfigurationResponse",
 }) as any as S.Schema<GetTargetAccountConfigurationResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -1111,7 +1121,7 @@ export interface StartExperimentRequest {
   clientToken: string;
   experimentTemplateId: string;
   experimentOptions?: StartExperimentExperimentOptionsInput;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const StartExperimentRequest = S.suspend(() =>
   S.Struct({
@@ -1132,6 +1142,25 @@ export const StartExperimentRequest = S.suspend(() =>
 ).annotations({
   identifier: "StartExperimentRequest",
 }) as any as S.Schema<StartExperimentRequest>;
+export type ExperimentStatus =
+  | "pending"
+  | "initiating"
+  | "running"
+  | "completed"
+  | "stopping"
+  | "stopped"
+  | "failed"
+  | "cancelled";
+export const ExperimentStatus = S.Literal(
+  "pending",
+  "initiating",
+  "running",
+  "completed",
+  "stopping",
+  "stopped",
+  "failed",
+  "cancelled",
+);
 export interface ExperimentError {
   accountId?: string;
   code?: string;
@@ -1147,13 +1176,13 @@ export const ExperimentError = S.suspend(() =>
   identifier: "ExperimentError",
 }) as any as S.Schema<ExperimentError>;
 export interface ExperimentState {
-  status?: string;
+  status?: ExperimentStatus;
   reason?: string;
   error?: ExperimentError;
 }
 export const ExperimentState = S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String),
+    status: S.optional(ExperimentStatus),
     reason: S.optional(S.String),
     error: S.optional(ExperimentError),
   }),
@@ -1164,7 +1193,7 @@ export type ExperimentTargetFilterValues = string[];
 export const ExperimentTargetFilterValues = S.Array(S.String);
 export interface ExperimentTargetFilter {
   path?: string;
-  values?: ExperimentTargetFilterValues;
+  values?: string[];
 }
 export const ExperimentTargetFilter = S.suspend(() =>
   S.Struct({
@@ -1183,11 +1212,11 @@ export const ExperimentTargetParameterMap = S.Record({
 });
 export interface ExperimentTarget {
   resourceType?: string;
-  resourceArns?: ResourceArnList;
-  resourceTags?: TagMap;
-  filters?: ExperimentTargetFilterList;
+  resourceArns?: string[];
+  resourceTags?: { [key: string]: string };
+  filters?: ExperimentTargetFilter[];
   selectionMode?: string;
-  parameters?: ExperimentTargetParameterMap;
+  parameters?: { [key: string]: string };
 }
 export const ExperimentTarget = S.suspend(() =>
   S.Struct({
@@ -1218,21 +1247,45 @@ export const ExperimentActionTargetMap = S.Record({
 });
 export type ExperimentActionStartAfterList = string[];
 export const ExperimentActionStartAfterList = S.Array(S.String);
+export type ExperimentActionStatus =
+  | "pending"
+  | "initiating"
+  | "running"
+  | "completed"
+  | "cancelled"
+  | "stopping"
+  | "stopped"
+  | "failed"
+  | "skipped";
+export const ExperimentActionStatus = S.Literal(
+  "pending",
+  "initiating",
+  "running",
+  "completed",
+  "cancelled",
+  "stopping",
+  "stopped",
+  "failed",
+  "skipped",
+);
 export interface ExperimentActionState {
-  status?: string;
+  status?: ExperimentActionStatus;
   reason?: string;
 }
 export const ExperimentActionState = S.suspend(() =>
-  S.Struct({ status: S.optional(S.String), reason: S.optional(S.String) }),
+  S.Struct({
+    status: S.optional(ExperimentActionStatus),
+    reason: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "ExperimentActionState",
 }) as any as S.Schema<ExperimentActionState>;
 export interface ExperimentAction {
   actionId?: string;
   description?: string;
-  parameters?: ExperimentActionParameterMap;
-  targets?: ExperimentActionTargetMap;
-  startAfter?: ExperimentActionStartAfterList;
+  parameters?: { [key: string]: string };
+  targets?: { [key: string]: string };
+  startAfter?: string[];
   state?: ExperimentActionState;
   startTime?: Date;
   endTime?: Date;
@@ -1301,15 +1354,15 @@ export const ExperimentLogConfiguration = S.suspend(() =>
   identifier: "ExperimentLogConfiguration",
 }) as any as S.Schema<ExperimentLogConfiguration>;
 export interface ExperimentOptions {
-  accountTargeting?: string;
-  emptyTargetResolutionMode?: string;
-  actionsMode?: string;
+  accountTargeting?: AccountTargeting;
+  emptyTargetResolutionMode?: EmptyTargetResolutionMode;
+  actionsMode?: ActionsMode;
 }
 export const ExperimentOptions = S.suspend(() =>
   S.Struct({
-    accountTargeting: S.optional(S.String),
-    emptyTargetResolutionMode: S.optional(S.String),
-    actionsMode: S.optional(S.String),
+    accountTargeting: S.optional(AccountTargeting),
+    emptyTargetResolutionMode: S.optional(EmptyTargetResolutionMode),
+    actionsMode: S.optional(ActionsMode),
   }),
 ).annotations({
   identifier: "ExperimentOptions",
@@ -1353,7 +1406,7 @@ export const ExperimentReportConfigurationCloudWatchDashboardList = S.Array(
   ExperimentReportConfigurationCloudWatchDashboard,
 );
 export interface ExperimentReportConfigurationDataSources {
-  cloudWatchDashboards?: ExperimentReportConfigurationCloudWatchDashboardList;
+  cloudWatchDashboards?: ExperimentReportConfigurationCloudWatchDashboard[];
 }
 export const ExperimentReportConfigurationDataSources = S.suspend(() =>
   S.Struct({
@@ -1380,6 +1433,19 @@ export const ExperimentReportConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ExperimentReportConfiguration",
 }) as any as S.Schema<ExperimentReportConfiguration>;
+export type ExperimentReportStatus =
+  | "pending"
+  | "running"
+  | "completed"
+  | "cancelled"
+  | "failed";
+export const ExperimentReportStatus = S.Literal(
+  "pending",
+  "running",
+  "completed",
+  "cancelled",
+  "failed",
+);
 export interface ExperimentReportError {
   code?: string;
 }
@@ -1389,13 +1455,13 @@ export const ExperimentReportError = S.suspend(() =>
   identifier: "ExperimentReportError",
 }) as any as S.Schema<ExperimentReportError>;
 export interface ExperimentReportState {
-  status?: string;
+  status?: ExperimentReportStatus;
   reason?: string;
   error?: ExperimentReportError;
 }
 export const ExperimentReportState = S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String),
+    status: S.optional(ExperimentReportStatus),
     reason: S.optional(S.String),
     error: S.optional(ExperimentReportError),
   }),
@@ -1415,7 +1481,7 @@ export type ExperimentReportS3ReportList = ExperimentReportS3Report[];
 export const ExperimentReportS3ReportList = S.Array(ExperimentReportS3Report);
 export interface ExperimentReport {
   state?: ExperimentReportState;
-  s3Reports?: ExperimentReportS3ReportList;
+  s3Reports?: ExperimentReportS3Report[];
 }
 export const ExperimentReport = S.suspend(() =>
   S.Struct({
@@ -1431,13 +1497,13 @@ export interface Experiment {
   experimentTemplateId?: string;
   roleArn?: string;
   state?: ExperimentState;
-  targets?: ExperimentTargetMap;
-  actions?: ExperimentActionMap;
-  stopConditions?: ExperimentStopConditionList;
+  targets?: { [key: string]: ExperimentTarget };
+  actions?: { [key: string]: ExperimentAction };
+  stopConditions?: ExperimentStopCondition[];
   creationTime?: Date;
   startTime?: Date;
   endTime?: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   logConfiguration?: ExperimentLogConfiguration;
   experimentOptions?: ExperimentOptions;
   targetAccountConfigurationsCount?: number;
@@ -1506,7 +1572,7 @@ export const UpdateTargetAccountConfigurationResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateTargetAccountConfigurationResponse>;
 export interface ExperimentTemplateTargetInputFilter {
   path: string;
-  values: ExperimentTemplateTargetFilterValues;
+  values: string[];
 }
 export const ExperimentTemplateTargetInputFilter = S.suspend(() =>
   S.Struct({ path: S.String, values: ExperimentTemplateTargetFilterValues }),
@@ -1520,11 +1586,11 @@ export const ExperimentTemplateTargetFilterInputList = S.Array(
 );
 export interface UpdateExperimentTemplateTargetInput {
   resourceType: string;
-  resourceArns?: ResourceArnList;
-  resourceTags?: TagMap;
-  filters?: ExperimentTemplateTargetFilterInputList;
+  resourceArns?: string[];
+  resourceTags?: { [key: string]: string };
+  filters?: ExperimentTemplateTargetInputFilter[];
   selectionMode: string;
-  parameters?: ExperimentTemplateTargetParameterMap;
+  parameters?: { [key: string]: string };
 }
 export const UpdateExperimentTemplateTargetInput = S.suspend(() =>
   S.Struct({
@@ -1541,9 +1607,9 @@ export const UpdateExperimentTemplateTargetInput = S.suspend(() =>
 export interface UpdateExperimentTemplateActionInputItem {
   actionId?: string;
   description?: string;
-  parameters?: ExperimentTemplateActionParameterMap;
-  targets?: ExperimentTemplateActionTargetMap;
-  startAfter?: ExperimentTemplateActionStartAfterList;
+  parameters?: { [key: string]: string };
+  targets?: { [key: string]: string };
+  startAfter?: string[];
 }
 export const UpdateExperimentTemplateActionInputItem = S.suspend(() =>
   S.Struct({
@@ -1598,8 +1664,8 @@ export interface ActionSummary {
   id?: string;
   arn?: string;
   description?: string;
-  targets?: ActionTargetMap;
-  tags?: TagMap;
+  targets?: { [key: string]: ActionTarget };
+  tags?: { [key: string]: string };
 }
 export const ActionSummary = S.suspend(() =>
   S.Struct({
@@ -1620,7 +1686,7 @@ export interface ExperimentSummary {
   experimentTemplateId?: string;
   state?: ExperimentState;
   creationTime?: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   experimentOptions?: ExperimentOptions;
 }
 export const ExperimentSummary = S.suspend(() =>
@@ -1663,7 +1729,7 @@ export interface ExperimentTemplateSummary {
   description?: string;
   creationTime?: Date;
   lastUpdateTime?: Date;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ExperimentTemplateSummary = S.suspend(() =>
   S.Struct({
@@ -1726,6 +1792,8 @@ export const UpdateExperimentTemplateActionInputMap = S.Record({
   key: S.String,
   value: UpdateExperimentTemplateActionInputItem,
 });
+export type SafetyLeverStatus = "disengaged" | "engaged" | "engaging";
+export const SafetyLeverStatus = S.Literal("disengaged", "engaged", "engaging");
 export interface CreateTargetAccountConfigurationResponse {
   targetAccountConfiguration?: TargetAccountConfiguration;
 }
@@ -1749,7 +1817,7 @@ export const GetExperimentTargetAccountConfigurationResponse = S.suspend(() =>
   identifier: "GetExperimentTargetAccountConfigurationResponse",
 }) as any as S.Schema<GetExperimentTargetAccountConfigurationResponse>;
 export interface ListActionsResponse {
-  actions?: ActionSummaryList;
+  actions?: ActionSummary[];
   nextToken?: string;
 }
 export const ListActionsResponse = S.suspend(() =>
@@ -1761,7 +1829,7 @@ export const ListActionsResponse = S.suspend(() =>
   identifier: "ListActionsResponse",
 }) as any as S.Schema<ListActionsResponse>;
 export interface ListExperimentsResponse {
-  experiments?: ExperimentSummaryList;
+  experiments?: ExperimentSummary[];
   nextToken?: string;
 }
 export const ListExperimentsResponse = S.suspend(() =>
@@ -1773,7 +1841,7 @@ export const ListExperimentsResponse = S.suspend(() =>
   identifier: "ListExperimentsResponse",
 }) as any as S.Schema<ListExperimentsResponse>;
 export interface ListExperimentTargetAccountConfigurationsResponse {
-  targetAccountConfigurations?: ExperimentTargetAccountConfigurationList;
+  targetAccountConfigurations?: ExperimentTargetAccountConfigurationSummary[];
   nextToken?: string;
 }
 export const ListExperimentTargetAccountConfigurationsResponse = S.suspend(() =>
@@ -1787,7 +1855,7 @@ export const ListExperimentTargetAccountConfigurationsResponse = S.suspend(() =>
   identifier: "ListExperimentTargetAccountConfigurationsResponse",
 }) as any as S.Schema<ListExperimentTargetAccountConfigurationsResponse>;
 export interface ListExperimentTemplatesResponse {
-  experimentTemplates?: ExperimentTemplateSummaryList;
+  experimentTemplates?: ExperimentTemplateSummary[];
   nextToken?: string;
 }
 export const ListExperimentTemplatesResponse = S.suspend(() =>
@@ -1799,7 +1867,7 @@ export const ListExperimentTemplatesResponse = S.suspend(() =>
   identifier: "ListExperimentTemplatesResponse",
 }) as any as S.Schema<ListExperimentTemplatesResponse>;
 export interface ListTargetAccountConfigurationsResponse {
-  targetAccountConfigurations?: TargetAccountConfigurationList;
+  targetAccountConfigurations?: TargetAccountConfigurationSummary[];
   nextToken?: string;
 }
 export const ListTargetAccountConfigurationsResponse = S.suspend(() =>
@@ -1811,7 +1879,7 @@ export const ListTargetAccountConfigurationsResponse = S.suspend(() =>
   identifier: "ListTargetAccountConfigurationsResponse",
 }) as any as S.Schema<ListTargetAccountConfigurationsResponse>;
 export interface ListTargetResourceTypesResponse {
-  targetResourceTypes?: TargetResourceTypeSummaryList;
+  targetResourceTypes?: TargetResourceTypeSummary[];
   nextToken?: string;
 }
 export const ListTargetResourceTypesResponse = S.suspend(() =>
@@ -1833,9 +1901,9 @@ export const StartExperimentResponse = S.suspend(() =>
 export interface UpdateExperimentTemplateRequest {
   id: string;
   description?: string;
-  stopConditions?: UpdateExperimentTemplateStopConditionInputList;
-  targets?: UpdateExperimentTemplateTargetInputMap;
-  actions?: UpdateExperimentTemplateActionInputMap;
+  stopConditions?: UpdateExperimentTemplateStopConditionInput[];
+  targets?: { [key: string]: UpdateExperimentTemplateTargetInput };
+  actions?: { [key: string]: UpdateExperimentTemplateActionInputItem };
   roleArn?: string;
   logConfiguration?: UpdateExperimentTemplateLogConfigurationInput;
   experimentOptions?: UpdateExperimentTemplateExperimentOptionsInput;
@@ -1870,11 +1938,14 @@ export const UpdateExperimentTemplateRequest = S.suspend(() =>
   identifier: "UpdateExperimentTemplateRequest",
 }) as any as S.Schema<UpdateExperimentTemplateRequest>;
 export interface SafetyLeverState {
-  status?: string;
+  status?: SafetyLeverStatus;
   reason?: string;
 }
 export const SafetyLeverState = S.suspend(() =>
-  S.Struct({ status: S.optional(S.String), reason: S.optional(S.String) }),
+  S.Struct({
+    status: S.optional(SafetyLeverStatus),
+    reason: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "SafetyLeverState",
 }) as any as S.Schema<SafetyLeverState>;
@@ -1900,11 +1971,11 @@ export const UpdateSafetyLeverStateResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateSafetyLeverStateResponse>;
 export interface CreateExperimentTemplateTargetInput {
   resourceType: string;
-  resourceArns?: ResourceArnList;
-  resourceTags?: TagMap;
-  filters?: ExperimentTemplateTargetFilterInputList;
+  resourceArns?: string[];
+  resourceTags?: { [key: string]: string };
+  filters?: ExperimentTemplateTargetInputFilter[];
   selectionMode: string;
-  parameters?: ExperimentTemplateTargetParameterMap;
+  parameters?: { [key: string]: string };
 }
 export const CreateExperimentTemplateTargetInput = S.suspend(() =>
   S.Struct({
@@ -1921,9 +1992,9 @@ export const CreateExperimentTemplateTargetInput = S.suspend(() =>
 export interface CreateExperimentTemplateActionInput {
   actionId: string;
   description?: string;
-  parameters?: ExperimentTemplateActionParameterMap;
-  targets?: ExperimentTemplateActionTargetMap;
-  startAfter?: ExperimentTemplateActionStartAfterList;
+  parameters?: { [key: string]: string };
+  targets?: { [key: string]: string };
+  startAfter?: string[];
 }
 export const CreateExperimentTemplateActionInput = S.suspend(() =>
   S.Struct({
@@ -1976,7 +2047,7 @@ export const CreateExperimentTemplateReportConfigurationInput = S.suspend(() =>
 export interface ResolvedTarget {
   resourceType?: string;
   targetName?: string;
-  targetInformation?: TargetInformationMap;
+  targetInformation?: { [key: string]: string };
 }
 export const ResolvedTarget = S.suspend(() =>
   S.Struct({
@@ -2016,11 +2087,11 @@ export const TargetResourceTypeParameter = S.suspend(() =>
 export interface CreateExperimentTemplateRequest {
   clientToken: string;
   description: string;
-  stopConditions: CreateExperimentTemplateStopConditionInputList;
-  targets?: CreateExperimentTemplateTargetInputMap;
-  actions: CreateExperimentTemplateActionInputMap;
+  stopConditions: CreateExperimentTemplateStopConditionInput[];
+  targets?: { [key: string]: CreateExperimentTemplateTargetInput };
+  actions: { [key: string]: CreateExperimentTemplateActionInput };
   roleArn: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   logConfiguration?: CreateExperimentTemplateLogConfigurationInput;
   experimentOptions?: CreateExperimentTemplateExperimentOptionsInput;
   experimentReportConfiguration?: CreateExperimentTemplateReportConfigurationInput;
@@ -2063,7 +2134,7 @@ export const GetSafetyLeverResponse = S.suspend(() =>
   identifier: "GetSafetyLeverResponse",
 }) as any as S.Schema<GetSafetyLeverResponse>;
 export interface ListExperimentResolvedTargetsResponse {
-  resolvedTargets?: ResolvedTargetList;
+  resolvedTargets?: ResolvedTarget[];
   nextToken?: string;
 }
 export const ListExperimentResolvedTargetsResponse = S.suspend(() =>
@@ -2098,9 +2169,9 @@ export interface Action {
   id?: string;
   arn?: string;
   description?: string;
-  parameters?: ActionParameterMap;
-  targets?: ActionTargetMap;
-  tags?: TagMap;
+  parameters?: { [key: string]: ActionParameter };
+  targets?: { [key: string]: ActionTarget };
+  tags?: { [key: string]: string };
 }
 export const Action = S.suspend(() =>
   S.Struct({
@@ -2115,7 +2186,7 @@ export const Action = S.suspend(() =>
 export interface TargetResourceType {
   resourceType?: string;
   description?: string;
-  parameters?: TargetResourceTypeParameterMap;
+  parameters?: { [key: string]: TargetResourceTypeParameter };
 }
 export const TargetResourceType = S.suspend(() =>
   S.Struct({
@@ -2198,7 +2269,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2212,7 +2283,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2226,7 +2297,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2240,7 +2311,7 @@ export const listTagsForResource: (
  */
 export const deleteTargetAccountConfiguration: (
   input: DeleteTargetAccountConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTargetAccountConfigurationResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2254,7 +2325,7 @@ export const deleteTargetAccountConfiguration: (
  */
 export const getSafetyLever: (
   input: GetSafetyLeverRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSafetyLeverResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2269,21 +2340,21 @@ export const getSafetyLever: (
 export const listExperimentResolvedTargets: {
   (
     input: ListExperimentResolvedTargetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListExperimentResolvedTargetsResponse,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListExperimentResolvedTargetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListExperimentResolvedTargetsResponse,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListExperimentResolvedTargetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResolvedTarget,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2304,7 +2375,7 @@ export const listExperimentResolvedTargets: {
  */
 export const updateSafetyLeverState: (
   input: UpdateSafetyLeverStateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSafetyLeverStateResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2321,7 +2392,7 @@ export const updateSafetyLeverState: (
  */
 export const getExperimentTargetAccountConfiguration: (
   input: GetExperimentTargetAccountConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetExperimentTargetAccountConfigurationResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2336,21 +2407,21 @@ export const getExperimentTargetAccountConfiguration: (
 export const listActions: {
   (
     input: ListActionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListActionsResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListActionsResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ActionSummary,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2372,21 +2443,21 @@ export const listActions: {
 export const listExperiments: {
   (
     input: ListExperimentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListExperimentsResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListExperimentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListExperimentsResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListExperimentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExperimentSummary,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2407,7 +2478,7 @@ export const listExperiments: {
  */
 export const listExperimentTargetAccountConfigurations: (
   input: ListExperimentTargetAccountConfigurationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListExperimentTargetAccountConfigurationsResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2422,21 +2493,21 @@ export const listExperimentTargetAccountConfigurations: (
 export const listExperimentTemplates: {
   (
     input: ListExperimentTemplatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListExperimentTemplatesResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListExperimentTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListExperimentTemplatesResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListExperimentTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExperimentTemplateSummary,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2458,21 +2529,21 @@ export const listExperimentTemplates: {
 export const listTargetAccountConfigurations: {
   (
     input: ListTargetAccountConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTargetAccountConfigurationsResponse,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListTargetAccountConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTargetAccountConfigurationsResponse,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTargetAccountConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TargetAccountConfigurationSummary,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2494,21 +2565,21 @@ export const listTargetAccountConfigurations: {
 export const listTargetResourceTypes: {
   (
     input: ListTargetResourceTypesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTargetResourceTypesResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListTargetResourceTypesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTargetResourceTypesResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTargetResourceTypesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TargetResourceTypeSummary,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2529,7 +2600,7 @@ export const listTargetResourceTypes: {
  */
 export const getExperimentTemplate: (
   input: GetExperimentTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetExperimentTemplateResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2543,7 +2614,7 @@ export const getExperimentTemplate: (
  */
 export const getTargetAccountConfiguration: (
   input: GetTargetAccountConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTargetAccountConfigurationResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2557,7 +2628,7 @@ export const getTargetAccountConfiguration: (
  */
 export const stopExperiment: (
   input: StopExperimentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopExperimentResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2571,7 +2642,7 @@ export const stopExperiment: (
  */
 export const updateTargetAccountConfiguration: (
   input: UpdateTargetAccountConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTargetAccountConfigurationResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2588,7 +2659,7 @@ export const updateTargetAccountConfiguration: (
  */
 export const createTargetAccountConfiguration: (
   input: CreateTargetAccountConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTargetAccountConfigurationResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2611,7 +2682,7 @@ export const createTargetAccountConfiguration: (
  */
 export const getAction: (
   input: GetActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetActionResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2625,7 +2696,7 @@ export const getAction: (
  */
 export const getTargetResourceType: (
   input: GetTargetResourceTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTargetResourceTypeResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2639,7 +2710,7 @@ export const getTargetResourceType: (
  */
 export const updateExperimentTemplate: (
   input: UpdateExperimentTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateExperimentTemplateResponse,
   | ResourceNotFoundException
   | ServiceQuotaExceededException
@@ -2660,7 +2731,7 @@ export const updateExperimentTemplate: (
  */
 export const startExperiment: (
   input: StartExperimentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartExperimentResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2699,7 +2770,7 @@ export const startExperiment: (
  */
 export const createExperimentTemplate: (
   input: CreateExperimentTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateExperimentTemplateResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2722,7 +2793,7 @@ export const createExperimentTemplate: (
  */
 export const deleteExperimentTemplate: (
   input: DeleteExperimentTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteExperimentTemplateResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2736,7 +2807,7 @@ export const deleteExperimentTemplate: (
  */
 export const getExperiment: (
   input: GetExperimentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetExperimentResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -110,15 +110,18 @@ export type UserId = string;
 export type DocumentAttributeKey = string;
 export type DocumentAttributeStringValue = string;
 export type PlatoString = string;
-export type Long = number;
 
 //# Schemas
 export type DeleteCategoryInputList = string[];
 export const DeleteCategoryInputList = S.Array(S.String);
 export type CategoryIdList = string[];
 export const CategoryIdList = S.Array(S.String);
+export type DocumentScope = "APPLICATION" | "SESSION";
+export const DocumentScope = S.Literal("APPLICATION", "SESSION");
 export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
+export type LibraryItemStatus = "PUBLISHED" | "DISABLED";
+export const LibraryItemStatus = S.Literal("PUBLISHED", "DISABLED");
 export interface AssociateLibraryItemReviewInput {
   instanceId: string;
   libraryItemId: string;
@@ -175,7 +178,7 @@ export const AssociateQAppWithUserResponse = S.suspend(() =>
 }) as any as S.Schema<AssociateQAppWithUserResponse>;
 export interface BatchDeleteCategoryInput {
   instanceId: string;
-  categories: DeleteCategoryInputList;
+  categories: string[];
 }
 export const BatchDeleteCategoryInput = S.suspend(() =>
   S.Struct({
@@ -204,7 +207,7 @@ export interface CreateLibraryItemInput {
   instanceId: string;
   appId: string;
   appVersion: number;
-  categories: CategoryIdList;
+  categories: string[];
 }
 export const CreateLibraryItemInput = S.suspend(() =>
   S.Struct({
@@ -231,7 +234,7 @@ export interface CreatePresignedUrlInput {
   appId: string;
   fileContentsSha256: string;
   fileName: string;
-  scope: string;
+  scope: DocumentScope;
   sessionId?: string;
 }
 export const CreatePresignedUrlInput = S.suspend(() =>
@@ -241,7 +244,7 @@ export const CreatePresignedUrlInput = S.suspend(() =>
     appId: S.String,
     fileContentsSha256: S.String,
     fileName: S.String,
-    scope: S.String,
+    scope: DocumentScope,
     sessionId: S.optional(S.String),
   }).pipe(
     T.all(
@@ -496,7 +499,7 @@ export interface ImportDocumentInput {
   appId: string;
   fileContentsBase64: string;
   fileName: string;
-  scope: string;
+  scope: DocumentScope;
   sessionId?: string;
 }
 export const ImportDocumentInput = S.suspend(() =>
@@ -506,7 +509,7 @@ export const ImportDocumentInput = S.suspend(() =>
     appId: S.String,
     fileContentsBase64: S.String,
     fileName: S.String,
-    scope: S.String,
+    scope: DocumentScope,
     sessionId: S.optional(S.String),
   }).pipe(
     T.all(
@@ -653,7 +656,7 @@ export const StopQAppSessionResponse = S.suspend(() =>
 }) as any as S.Schema<StopQAppSessionResponse>;
 export interface UntagResourceRequest {
   resourceARN: string;
-  tagKeys: TagKeys;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -679,14 +682,14 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 export interface UpdateLibraryItemInput {
   instanceId: string;
   libraryItemId: string;
-  status?: string;
-  categories?: CategoryIdList;
+  status?: LibraryItemStatus;
+  categories?: string[];
 }
 export const UpdateLibraryItemInput = S.suspend(() =>
   S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     libraryItemId: S.String,
-    status: S.optional(S.String),
+    status: S.optional(LibraryItemStatus),
     categories: S.optional(CategoryIdList),
   }).pipe(
     T.all(
@@ -730,10 +733,23 @@ export const UpdateLibraryItemMetadataResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateLibraryItemMetadataResponse",
 }) as any as S.Schema<UpdateLibraryItemMetadataResponse>;
+export type CardType =
+  | "text-input"
+  | "q-query"
+  | "file-upload"
+  | "q-plugin"
+  | "form-input";
+export const CardType = S.Literal(
+  "text-input",
+  "q-query",
+  "file-upload",
+  "q-plugin",
+  "form-input",
+);
 export interface TextInputCardInput {
   title: string;
   id: string;
-  type: string;
+  type: CardType;
   placeholder?: string;
   defaultValue?: string;
 }
@@ -741,18 +757,20 @@ export const TextInputCardInput = S.suspend(() =>
   S.Struct({
     title: S.String,
     id: S.String,
-    type: S.String,
+    type: CardType,
     placeholder: S.optional(S.String),
     defaultValue: S.optional(S.String),
   }),
 ).annotations({
   identifier: "TextInputCardInput",
 }) as any as S.Schema<TextInputCardInput>;
+export type CardOutputSource = "approved-sources" | "llm";
+export const CardOutputSource = S.Literal("approved-sources", "llm");
 export type DocumentAttributeStringListValue = string[];
 export const DocumentAttributeStringListValue = S.Array(S.String);
 export type DocumentAttributeValue =
   | { stringValue: string }
-  | { stringListValue: DocumentAttributeStringListValue }
+  | { stringListValue: string[] }
   | { longValue: number }
   | { dateValue: Date };
 export const DocumentAttributeValue = S.Union(
@@ -763,7 +781,7 @@ export const DocumentAttributeValue = S.Union(
 );
 export interface DocumentAttribute {
   name: string;
-  value: (typeof DocumentAttributeValue)["Type"];
+  value: DocumentAttributeValue;
 }
 export const DocumentAttribute = S.suspend(() =>
   S.Struct({ name: S.String, value: DocumentAttributeValue }),
@@ -771,8 +789,8 @@ export const DocumentAttribute = S.suspend(() =>
   identifier: "DocumentAttribute",
 }) as any as S.Schema<DocumentAttribute>;
 export interface AttributeFilter {
-  andAllFilters?: AttributeFilters;
-  orAllFilters?: AttributeFilters;
+  andAllFilters?: AttributeFilter[];
+  orAllFilters?: AttributeFilter[];
   notFilter?: AttributeFilter;
   equalsTo?: DocumentAttribute;
   containsAll?: DocumentAttribute;
@@ -813,18 +831,18 @@ export const AttributeFilter = S.suspend(() =>
 export interface QQueryCardInput {
   title: string;
   id: string;
-  type: string;
+  type: CardType;
   prompt: string;
-  outputSource?: string;
+  outputSource?: CardOutputSource;
   attributeFilter?: AttributeFilter;
 }
 export const QQueryCardInput = S.suspend(() =>
   S.Struct({
     title: S.String,
     id: S.String,
-    type: S.String,
+    type: CardType,
     prompt: S.String,
-    outputSource: S.optional(S.String),
+    outputSource: S.optional(CardOutputSource),
     attributeFilter: S.optional(AttributeFilter),
   }),
 ).annotations({
@@ -833,7 +851,7 @@ export const QQueryCardInput = S.suspend(() =>
 export interface QPluginCardInput {
   title: string;
   id: string;
-  type: string;
+  type: CardType;
   prompt: string;
   pluginId: string;
   actionIdentifier?: string;
@@ -842,7 +860,7 @@ export const QPluginCardInput = S.suspend(() =>
   S.Struct({
     title: S.String,
     id: S.String,
-    type: S.String,
+    type: CardType,
     prompt: S.String,
     pluginId: S.String,
     actionIdentifier: S.optional(S.String),
@@ -853,7 +871,7 @@ export const QPluginCardInput = S.suspend(() =>
 export interface FileUploadCardInput {
   title: string;
   id: string;
-  type: string;
+  type: CardType;
   filename?: string;
   fileId?: string;
   allowOverride?: boolean;
@@ -862,7 +880,7 @@ export const FileUploadCardInput = S.suspend(() =>
   S.Struct({
     title: S.String,
     id: S.String,
-    type: S.String,
+    type: CardType,
     filename: S.optional(S.String),
     fileId: S.optional(S.String),
     allowOverride: S.optional(S.Boolean),
@@ -878,20 +896,22 @@ export const FormInputCardMetadata = S.suspend(() =>
 ).annotations({
   identifier: "FormInputCardMetadata",
 }) as any as S.Schema<FormInputCardMetadata>;
+export type InputCardComputeMode = "append" | "replace";
+export const InputCardComputeMode = S.Literal("append", "replace");
 export interface FormInputCardInput {
   title: string;
   id: string;
-  type: string;
+  type: CardType;
   metadata: FormInputCardMetadata;
-  computeMode?: string;
+  computeMode?: InputCardComputeMode;
 }
 export const FormInputCardInput = S.suspend(() =>
   S.Struct({
     title: S.String,
     id: S.String,
-    type: S.String,
+    type: CardType,
     metadata: FormInputCardMetadata,
-    computeMode: S.optional(S.String),
+    computeMode: S.optional(InputCardComputeMode),
   }),
 ).annotations({
   identifier: "FormInputCardInput",
@@ -909,10 +929,10 @@ export const CardInput = S.Union(
   S.Struct({ fileUpload: FileUploadCardInput }),
   S.Struct({ formInput: FormInputCardInput }),
 );
-export type CardList = (typeof CardInput)["Type"][];
+export type CardList = CardInput[];
 export const CardList = S.Array(CardInput);
 export interface AppDefinitionInput {
-  cards: CardList;
+  cards: CardInput[];
   initialPrompt?: string;
 }
 export const AppDefinitionInput = S.suspend(() =>
@@ -947,12 +967,14 @@ export const UpdateQAppInput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateQAppInput",
 }) as any as S.Schema<UpdateQAppInput>;
+export type SubmissionMutationKind = "edit" | "delete" | "add";
+export const SubmissionMutationKind = S.Literal("edit", "delete", "add");
 export interface SubmissionMutation {
   submissionId: string;
-  mutationType: string;
+  mutationType: SubmissionMutationKind;
 }
 export const SubmissionMutation = S.suspend(() =>
-  S.Struct({ submissionId: S.String, mutationType: S.String }),
+  S.Struct({ submissionId: S.String, mutationType: SubmissionMutationKind }),
 ).annotations({
   identifier: "SubmissionMutation",
 }) as any as S.Schema<SubmissionMutation>;
@@ -973,7 +995,7 @@ export const CardValueList = S.Array(CardValue);
 export interface UpdateQAppSessionInput {
   instanceId: string;
   sessionId: string;
-  values?: CardValueList;
+  values?: CardValue[];
 }
 export const UpdateQAppSessionInput = S.suspend(() =>
   S.Struct({
@@ -993,6 +1015,8 @@ export const UpdateQAppSessionInput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateQAppSessionInput",
 }) as any as S.Schema<UpdateQAppSessionInput>;
+export type Action = "read" | "write";
+export const Action = S.Literal("read", "write");
 export interface BatchCreateCategoryInputCategory {
   id?: string;
   title: string;
@@ -1026,8 +1050,28 @@ export type CategoryListInput = CategoryInput[];
 export const CategoryListInput = S.Array(CategoryInput);
 export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export type AppRequiredCapabilities = string[];
-export const AppRequiredCapabilities = S.Array(S.String);
+export type AppStatus = "PUBLISHED" | "DRAFT" | "DELETED";
+export const AppStatus = S.Literal("PUBLISHED", "DRAFT", "DELETED");
+export type AppRequiredCapability =
+  | "FileUpload"
+  | "CreatorMode"
+  | "RetrievalMode"
+  | "PluginMode";
+export const AppRequiredCapability = S.Literal(
+  "FileUpload",
+  "CreatorMode",
+  "RetrievalMode",
+  "PluginMode",
+);
+export type AppRequiredCapabilities = AppRequiredCapability[];
+export const AppRequiredCapabilities = S.Array(AppRequiredCapability);
+export type ExecutionStatus = "IN_PROGRESS" | "WAITING" | "COMPLETED" | "ERROR";
+export const ExecutionStatus = S.Literal(
+  "IN_PROGRESS",
+  "WAITING",
+  "COMPLETED",
+  "ERROR",
+);
 export interface Category {
   id: string;
   title: string;
@@ -1047,11 +1091,11 @@ export const CategoriesList = S.Array(Category);
 export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
 export interface PermissionInput {
-  action: string;
+  action: Action;
   principal: string;
 }
 export const PermissionInput = S.suspend(() =>
-  S.Struct({ action: S.String, principal: S.String }),
+  S.Struct({ action: Action, principal: S.String }),
 ).annotations({
   identifier: "PermissionInput",
 }) as any as S.Schema<PermissionInput>;
@@ -1071,9 +1115,11 @@ export const SessionSharingConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "SessionSharingConfiguration",
 }) as any as S.Schema<SessionSharingConfiguration>;
+export type Sender = "USER" | "SYSTEM";
+export const Sender = S.Literal("USER", "SYSTEM");
 export interface BatchCreateCategoryInput {
   instanceId: string;
-  categories: BatchCreateCategoryInputCategoryList;
+  categories: BatchCreateCategoryInputCategory[];
 }
 export const BatchCreateCategoryInput = S.suspend(() =>
   S.Struct({
@@ -1100,7 +1146,7 @@ export const BatchCreateCategoryResponse = S.suspend(() =>
 }) as any as S.Schema<BatchCreateCategoryResponse>;
 export interface BatchUpdateCategoryInput {
   instanceId: string;
-  categories: CategoryListInput;
+  categories: CategoryInput[];
 }
 export const BatchUpdateCategoryInput = S.suspend(() =>
   S.Struct({
@@ -1190,7 +1236,7 @@ export const ImportDocumentOutput = S.suspend(() =>
   identifier: "ImportDocumentOutput",
 }) as any as S.Schema<ImportDocumentOutput>;
 export interface ListCategoriesOutput {
-  categories?: CategoriesList;
+  categories?: Category[];
 }
 export const ListCategoriesOutput = S.suspend(() =>
   S.Struct({ categories: S.optional(CategoriesList) }),
@@ -1198,7 +1244,7 @@ export const ListCategoriesOutput = S.suspend(() =>
   identifier: "ListCategoriesOutput",
 }) as any as S.Schema<ListCategoriesOutput>;
 export interface ListTagsForResourceResponse {
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -1207,7 +1253,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceARN: string;
-  tags: Tags;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1236,7 +1282,7 @@ export interface UpdateLibraryItemOutput {
   libraryItemId: string;
   appId: string;
   appVersion: number;
-  categories: CategoryList;
+  categories: Category[];
   status: string;
   createdAt: Date;
   createdBy: string;
@@ -1273,12 +1319,12 @@ export interface UpdateQAppOutput {
   description?: string;
   initialPrompt?: string;
   appVersion: number;
-  status: string;
+  status: AppStatus;
   createdAt: Date;
   createdBy: string;
   updatedAt: Date;
   updatedBy: string;
-  requiredCapabilities?: AppRequiredCapabilities;
+  requiredCapabilities?: AppRequiredCapability[];
 }
 export const UpdateQAppOutput = S.suspend(() =>
   S.Struct({
@@ -1288,7 +1334,7 @@ export const UpdateQAppOutput = S.suspend(() =>
     description: S.optional(S.String),
     initialPrompt: S.optional(S.String),
     appVersion: S.Number,
-    status: S.String,
+    status: AppStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -1301,8 +1347,8 @@ export const UpdateQAppOutput = S.suspend(() =>
 export interface UpdateQAppPermissionsInput {
   instanceId: string;
   appId: string;
-  grantPermissions?: PermissionsInputList;
-  revokePermissions?: PermissionsInputList;
+  grantPermissions?: PermissionInput[];
+  revokePermissions?: PermissionInput[];
 }
 export const UpdateQAppPermissionsInput = S.suspend(() =>
   S.Struct({
@@ -1359,10 +1405,10 @@ export const UpdateQAppSessionMetadataInput = S.suspend(() =>
 }) as any as S.Schema<UpdateQAppSessionMetadataInput>;
 export interface ConversationMessage {
   body: string;
-  type: string;
+  type: Sender;
 }
 export const ConversationMessage = S.suspend(() =>
-  S.Struct({ body: S.String, type: S.String }),
+  S.Struct({ body: S.String, type: Sender }),
 ).annotations({
   identifier: "ConversationMessage",
 }) as any as S.Schema<ConversationMessage>;
@@ -1374,7 +1420,7 @@ export interface LibraryItemMember {
   libraryItemId: string;
   appId: string;
   appVersion: number;
-  categories: CategoryList;
+  categories: Category[];
   status: string;
   createdAt: Date;
   createdBy: string;
@@ -1431,16 +1477,18 @@ export const UserAppItem = S.suspend(() =>
 export type UserAppsList = UserAppItem[];
 export const UserAppsList = S.Array(UserAppItem);
 export type PredictQAppInputOptions =
-  | { conversation: MessageList }
+  | { conversation: ConversationMessage[] }
   | { problemStatement: string };
 export const PredictQAppInputOptions = S.Union(
   S.Struct({ conversation: MessageList }),
   S.Struct({ problemStatement: S.String }),
 );
+export type UserType = "owner" | "user";
+export const UserType = S.Literal("owner", "user");
 export interface CreatePresignedUrlOutput {
   fileId: string;
   presignedUrl: string;
-  presignedUrlFields: PresignedUrlFields;
+  presignedUrlFields: { [key: string]: string };
   presignedUrlExpiration: Date;
 }
 export const CreatePresignedUrlOutput = S.suspend(() =>
@@ -1463,7 +1511,7 @@ export interface GetLibraryItemOutput {
   libraryItemId: string;
   appId: string;
   appVersion: number;
-  categories: CategoryList;
+  categories: Category[];
   status: string;
   createdAt: Date;
   createdBy: string;
@@ -1494,7 +1542,7 @@ export const GetLibraryItemOutput = S.suspend(() =>
   identifier: "GetLibraryItemOutput",
 }) as any as S.Schema<GetLibraryItemOutput>;
 export interface ListLibraryItemsOutput {
-  libraryItems?: LibraryItemList;
+  libraryItems?: LibraryItemMember[];
   nextToken?: string;
 }
 export const ListLibraryItemsOutput = S.suspend(() =>
@@ -1506,7 +1554,7 @@ export const ListLibraryItemsOutput = S.suspend(() =>
   identifier: "ListLibraryItemsOutput",
 }) as any as S.Schema<ListLibraryItemsOutput>;
 export interface ListQAppsOutput {
-  apps: UserAppsList;
+  apps: UserAppItem[];
   nextToken?: string;
 }
 export const ListQAppsOutput = S.suspend(() =>
@@ -1516,7 +1564,7 @@ export const ListQAppsOutput = S.suspend(() =>
 }) as any as S.Schema<ListQAppsOutput>;
 export interface PredictQAppInput {
   instanceId: string;
-  options?: (typeof PredictQAppInputOptions)["Type"];
+  options?: PredictQAppInputOptions;
 }
 export const PredictQAppInput = S.suspend(() =>
   S.Struct({
@@ -1539,9 +1587,9 @@ export interface StartQAppSessionInput {
   instanceId: string;
   appId: string;
   appVersion: number;
-  initialValues?: CardValueList;
+  initialValues?: CardValue[];
   sessionId?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const StartQAppSessionInput = S.suspend(() =>
   S.Struct({
@@ -1566,24 +1614,24 @@ export const StartQAppSessionInput = S.suspend(() =>
 }) as any as S.Schema<StartQAppSessionInput>;
 export interface PrincipalOutput {
   userId?: string;
-  userType?: string;
+  userType?: UserType;
   email?: string;
 }
 export const PrincipalOutput = S.suspend(() =>
   S.Struct({
     userId: S.optional(S.String),
-    userType: S.optional(S.String),
+    userType: S.optional(UserType),
     email: S.optional(S.String),
   }),
 ).annotations({
   identifier: "PrincipalOutput",
 }) as any as S.Schema<PrincipalOutput>;
 export interface PermissionOutput {
-  action: string;
+  action: Action;
   principal: PrincipalOutput;
 }
 export const PermissionOutput = S.suspend(() =>
-  S.Struct({ action: S.String, principal: PrincipalOutput }),
+  S.Struct({ action: Action, principal: PrincipalOutput }),
 ).annotations({
   identifier: "PermissionOutput",
 }) as any as S.Schema<PermissionOutput>;
@@ -1592,7 +1640,7 @@ export const PermissionsOutputList = S.Array(PermissionOutput);
 export interface UpdateQAppPermissionsOutput {
   resourceArn?: string;
   appId?: string;
-  permissions?: PermissionsOutputList;
+  permissions?: PermissionOutput[];
 }
 export const UpdateQAppPermissionsOutput = S.suspend(() =>
   S.Struct({
@@ -1629,6 +1677,41 @@ export type DependencyList = string[];
 export const DependencyList = S.Array(S.String);
 export type MemoryReferenceList = string[];
 export const MemoryReferenceList = S.Array(S.String);
+export type PluginType =
+  | "SERVICE_NOW"
+  | "SALESFORCE"
+  | "JIRA"
+  | "ZENDESK"
+  | "CUSTOM"
+  | "ASANA"
+  | "ATLASSIAN_CONFLUENCE"
+  | "GOOGLE_CALENDAR"
+  | "JIRA_CLOUD"
+  | "MICROSOFT_EXCHANGE"
+  | "MICROSOFT_TEAMS"
+  | "PAGERDUTY_ADVANCE"
+  | "SALESFORCE_CRM"
+  | "SERVICENOW_NOW_PLATFORM"
+  | "SMARTSHEET"
+  | "ZENDESK_SUITE";
+export const PluginType = S.Literal(
+  "SERVICE_NOW",
+  "SALESFORCE",
+  "JIRA",
+  "ZENDESK",
+  "CUSTOM",
+  "ASANA",
+  "ATLASSIAN_CONFLUENCE",
+  "GOOGLE_CALENDAR",
+  "JIRA_CLOUD",
+  "MICROSOFT_EXCHANGE",
+  "MICROSOFT_TEAMS",
+  "PAGERDUTY_ADVANCE",
+  "SALESFORCE_CRM",
+  "SERVICENOW_NOW_PLATFORM",
+  "SMARTSHEET",
+  "ZENDESK_SUITE",
+);
 export interface QAppSessionData {
   cardId: string;
   value?: any;
@@ -1652,8 +1735,8 @@ export const QAppSessionDataList = S.Array(QAppSessionData);
 export interface TextInputCard {
   id: string;
   title: string;
-  dependencies: DependencyList;
-  type: string;
+  dependencies: string[];
+  type: CardType;
   placeholder?: string;
   defaultValue?: string;
 }
@@ -1662,7 +1745,7 @@ export const TextInputCard = S.suspend(() =>
     id: S.String,
     title: S.String,
     dependencies: DependencyList,
-    type: S.String,
+    type: CardType,
     placeholder: S.optional(S.String),
     defaultValue: S.optional(S.String),
   }),
@@ -1672,21 +1755,21 @@ export const TextInputCard = S.suspend(() =>
 export interface QQueryCard {
   id: string;
   title: string;
-  dependencies: DependencyList;
-  type: string;
+  dependencies: string[];
+  type: CardType;
   prompt: string;
-  outputSource: string;
+  outputSource: CardOutputSource;
   attributeFilter?: AttributeFilter;
-  memoryReferences?: MemoryReferenceList;
+  memoryReferences?: string[];
 }
 export const QQueryCard = S.suspend(() =>
   S.Struct({
     id: S.String,
     title: S.String,
     dependencies: DependencyList,
-    type: S.String,
+    type: CardType,
     prompt: S.String,
-    outputSource: S.String,
+    outputSource: CardOutputSource,
     attributeFilter: S.optional(AttributeFilter),
     memoryReferences: S.optional(MemoryReferenceList),
   }),
@@ -1694,10 +1777,10 @@ export const QQueryCard = S.suspend(() =>
 export interface QPluginCard {
   id: string;
   title: string;
-  dependencies: DependencyList;
-  type: string;
+  dependencies: string[];
+  type: CardType;
   prompt: string;
-  pluginType: string;
+  pluginType: PluginType;
   pluginId: string;
   actionIdentifier?: string;
 }
@@ -1706,9 +1789,9 @@ export const QPluginCard = S.suspend(() =>
     id: S.String,
     title: S.String,
     dependencies: DependencyList,
-    type: S.String,
+    type: CardType,
     prompt: S.String,
-    pluginType: S.String,
+    pluginType: PluginType,
     pluginId: S.String,
     actionIdentifier: S.optional(S.String),
   }),
@@ -1716,8 +1799,8 @@ export const QPluginCard = S.suspend(() =>
 export interface FileUploadCard {
   id: string;
   title: string;
-  dependencies: DependencyList;
-  type: string;
+  dependencies: string[];
+  type: CardType;
   filename?: string;
   fileId?: string;
   allowOverride?: boolean;
@@ -1727,7 +1810,7 @@ export const FileUploadCard = S.suspend(() =>
     id: S.String,
     title: S.String,
     dependencies: DependencyList,
-    type: S.String,
+    type: CardType,
     filename: S.optional(S.String),
     fileId: S.optional(S.String),
     allowOverride: S.optional(S.Boolean),
@@ -1738,19 +1821,19 @@ export const FileUploadCard = S.suspend(() =>
 export interface FormInputCard {
   id: string;
   title: string;
-  dependencies: DependencyList;
-  type: string;
+  dependencies: string[];
+  type: CardType;
   metadata: FormInputCardMetadata;
-  computeMode?: string;
+  computeMode?: InputCardComputeMode;
 }
 export const FormInputCard = S.suspend(() =>
   S.Struct({
     id: S.String,
     title: S.String,
     dependencies: DependencyList,
-    type: S.String,
+    type: CardType,
     metadata: FormInputCardMetadata,
-    computeMode: S.optional(S.String),
+    computeMode: S.optional(InputCardComputeMode),
   }),
 ).annotations({
   identifier: "FormInputCard",
@@ -1772,7 +1855,7 @@ export const SubmissionList = S.Array(Submission);
 export interface DescribeQAppPermissionsOutput {
   resourceArn?: string;
   appId?: string;
-  permissions?: PermissionsOutputList;
+  permissions?: PermissionOutput[];
 }
 export const DescribeQAppPermissionsOutput = S.suspend(() =>
   S.Struct({
@@ -1786,7 +1869,7 @@ export const DescribeQAppPermissionsOutput = S.suspend(() =>
 export interface ListQAppSessionDataOutput {
   sessionId: string;
   sessionArn: string;
-  sessionData?: QAppSessionDataList;
+  sessionData?: QAppSessionData[];
   nextToken?: string;
 }
 export const ListQAppSessionDataOutput = S.suspend(() =>
@@ -1821,23 +1904,23 @@ export const Card = S.Union(
   S.Struct({ fileUpload: FileUploadCard }),
   S.Struct({ formInput: FormInputCard }),
 );
-export type CardModelList = (typeof Card)["Type"][];
+export type CardModelList = Card[];
 export const CardModelList = S.Array(Card);
 export interface CardStatus {
-  currentState: string;
+  currentState: ExecutionStatus;
   currentValue: string;
-  submissions?: SubmissionList;
+  submissions?: Submission[];
 }
 export const CardStatus = S.suspend(() =>
   S.Struct({
-    currentState: S.String,
+    currentState: ExecutionStatus,
     currentValue: S.String,
     submissions: S.optional(SubmissionList),
   }),
 ).annotations({ identifier: "CardStatus" }) as any as S.Schema<CardStatus>;
 export interface AppDefinition {
   appDefinitionVersion: string;
-  cards: CardModelList;
+  cards: Card[];
   canEdit?: boolean;
 }
 export const AppDefinition = S.suspend(() =>
@@ -1872,12 +1955,12 @@ export interface GetQAppOutput {
   description?: string;
   initialPrompt?: string;
   appVersion: number;
-  status: string;
+  status: AppStatus;
   createdAt: Date;
   createdBy: string;
   updatedAt: Date;
   updatedBy: string;
-  requiredCapabilities?: AppRequiredCapabilities;
+  requiredCapabilities?: AppRequiredCapability[];
   appDefinition: AppDefinition;
 }
 export const GetQAppOutput = S.suspend(() =>
@@ -1888,7 +1971,7 @@ export const GetQAppOutput = S.suspend(() =>
     description: S.optional(S.String),
     initialPrompt: S.optional(S.String),
     appVersion: S.Number,
-    status: S.String,
+    status: AppStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -1905,8 +1988,8 @@ export interface GetQAppSessionOutput {
   sessionName?: string;
   appVersion?: number;
   latestPublishedAppVersion?: number;
-  status: string;
-  cardStatus: CardStatusMap;
+  status: ExecutionStatus;
+  cardStatus: { [key: string]: CardStatus };
   userIsHost?: boolean;
 }
 export const GetQAppSessionOutput = S.suspend(() =>
@@ -1916,7 +1999,7 @@ export const GetQAppSessionOutput = S.suspend(() =>
     sessionName: S.optional(S.String),
     appVersion: S.optional(S.Number),
     latestPublishedAppVersion: S.optional(S.Number),
-    status: S.String,
+    status: ExecutionStatus,
     cardStatus: CardStatusMap,
     userIsHost: S.optional(S.Boolean),
   }),
@@ -1937,7 +2020,7 @@ export interface CreateQAppInput {
   title: string;
   description?: string;
   appDefinition: AppDefinitionInput;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateQAppInput = S.suspend(() =>
   S.Struct({
@@ -1966,12 +2049,12 @@ export interface CreateQAppOutput {
   description?: string;
   initialPrompt?: string;
   appVersion: number;
-  status: string;
+  status: AppStatus;
   createdAt: Date;
   createdBy: string;
   updatedAt: Date;
   updatedBy: string;
-  requiredCapabilities?: AppRequiredCapabilities;
+  requiredCapabilities?: AppRequiredCapability[];
 }
 export const CreateQAppOutput = S.suspend(() =>
   S.Struct({
@@ -1981,7 +2064,7 @@ export const CreateQAppOutput = S.suspend(() =>
     description: S.optional(S.String),
     initialPrompt: S.optional(S.String),
     appVersion: S.Number,
-    status: S.String,
+    status: AppStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -2052,7 +2135,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2079,7 +2162,7 @@ export const tagResource: (
  */
 export const listQAppSessionData: (
   input: ListQAppSessionDataInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListQAppSessionDataOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2110,7 +2193,7 @@ export const listQAppSessionData: (
  */
 export const startQAppSession: (
   input: StartQAppSessionInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartQAppSessionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2139,7 +2222,7 @@ export const startQAppSession: (
  */
 export const importDocument: (
   input: ImportDocumentInput,
-) => Effect.Effect<
+) => effect.Effect<
   ImportDocumentOutput,
   | AccessDeniedException
   | ContentTooLargeException
@@ -2170,7 +2253,7 @@ export const importDocument: (
  */
 export const updateQAppSessionMetadata: (
   input: UpdateQAppSessionMetadataInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateQAppSessionMetadataOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2199,7 +2282,7 @@ export const updateQAppSessionMetadata: (
  */
 export const exportQAppSessionData: (
   input: ExportQAppSessionDataInput,
-) => Effect.Effect<
+) => effect.Effect<
   ExportQAppSessionDataOutput,
   | AccessDeniedException
   | ConflictException
@@ -2230,7 +2313,7 @@ export const exportQAppSessionData: (
  */
 export const disassociateLibraryItemReview: (
   input: DisassociateLibraryItemReviewInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateLibraryItemReviewResponse,
   | AccessDeniedException
   | ConflictException
@@ -2261,7 +2344,7 @@ export const disassociateLibraryItemReview: (
  */
 export const getQAppSessionMetadata: (
   input: GetQAppSessionMetadataInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetQAppSessionMetadataOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2290,7 +2373,7 @@ export const getQAppSessionMetadata: (
  */
 export const updateQAppSession: (
   input: UpdateQAppSessionInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateQAppSessionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2319,7 +2402,7 @@ export const updateQAppSession: (
  */
 export const associateQAppWithUser: (
   input: AssociateQAppWithUserInput,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateQAppWithUserResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2348,7 +2431,7 @@ export const associateQAppWithUser: (
  */
 export const deleteLibraryItem: (
   input: DeleteLibraryItemInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLibraryItemResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2377,7 +2460,7 @@ export const deleteLibraryItem: (
  */
 export const stopQAppSession: (
   input: StopQAppSessionInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopQAppSessionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2406,7 +2489,7 @@ export const stopQAppSession: (
  */
 export const associateLibraryItemReview: (
   input: AssociateLibraryItemReviewInput,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateLibraryItemReviewResponse,
   | AccessDeniedException
   | ConflictException
@@ -2437,7 +2520,7 @@ export const associateLibraryItemReview: (
  */
 export const describeQAppPermissions: (
   input: DescribeQAppPermissionsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeQAppPermissionsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2464,7 +2547,7 @@ export const describeQAppPermissions: (
  */
 export const getLibraryItem: (
   input: GetLibraryItemInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetLibraryItemOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2492,7 +2575,7 @@ export const getLibraryItem: (
 export const listLibraryItems: {
   (
     input: ListLibraryItemsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLibraryItemsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2505,7 +2588,7 @@ export const listLibraryItems: {
   >;
   pages: (
     input: ListLibraryItemsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLibraryItemsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2518,7 +2601,7 @@ export const listLibraryItems: {
   >;
   items: (
     input: ListLibraryItemsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LibraryItemMember,
     | AccessDeniedException
     | InternalServerException
@@ -2552,7 +2635,7 @@ export const listLibraryItems: {
  */
 export const updateQAppPermissions: (
   input: UpdateQAppPermissionsInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateQAppPermissionsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2579,7 +2662,7 @@ export const updateQAppPermissions: (
  */
 export const batchCreateCategory: (
   input: BatchCreateCategoryInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchCreateCategoryResponse,
   | AccessDeniedException
   | ConflictException
@@ -2608,7 +2691,7 @@ export const batchCreateCategory: (
  */
 export const batchUpdateCategory: (
   input: BatchUpdateCategoryInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchUpdateCategoryResponse,
   | AccessDeniedException
   | ConflictException
@@ -2637,7 +2720,7 @@ export const batchUpdateCategory: (
  */
 export const updateLibraryItem: (
   input: UpdateLibraryItemInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLibraryItemOutput,
   | AccessDeniedException
   | ConflictException
@@ -2666,7 +2749,7 @@ export const updateLibraryItem: (
  */
 export const batchDeleteCategory: (
   input: BatchDeleteCategoryInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDeleteCategoryResponse,
   | AccessDeniedException
   | ConflictException
@@ -2695,7 +2778,7 @@ export const batchDeleteCategory: (
  */
 export const updateLibraryItemMetadata: (
   input: UpdateLibraryItemMetadataInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLibraryItemMetadataResponse,
   | AccessDeniedException
   | ConflictException
@@ -2724,7 +2807,7 @@ export const updateLibraryItemMetadata: (
  */
 export const listCategories: (
   input: ListCategoriesInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListCategoriesOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2751,7 +2834,7 @@ export const listCategories: (
  */
 export const deleteQApp: (
   input: DeleteQAppInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteQAppResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2778,7 +2861,7 @@ export const deleteQApp: (
  */
 export const disassociateQAppFromUser: (
   input: DisassociateQAppFromUserInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateQAppFromUserResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2805,7 +2888,7 @@ export const disassociateQAppFromUser: (
  */
 export const updateQApp: (
   input: UpdateQAppInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateQAppOutput,
   | AccessDeniedException
   | ContentTooLargeException
@@ -2835,7 +2918,7 @@ export const updateQApp: (
 export const listQApps: {
   (
     input: ListQAppsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListQAppsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2847,7 +2930,7 @@ export const listQApps: {
   >;
   pages: (
     input: ListQAppsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListQAppsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2859,7 +2942,7 @@ export const listQApps: {
   >;
   items: (
     input: ListQAppsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     UserAppItem,
     | AccessDeniedException
     | InternalServerException
@@ -2891,7 +2974,7 @@ export const listQApps: {
  */
 export const createLibraryItem: (
   input: CreateLibraryItemInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLibraryItemOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2920,7 +3003,7 @@ export const createLibraryItem: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2945,7 +3028,7 @@ export const listTagsForResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2972,7 +3055,7 @@ export const untagResource: (
  */
 export const createPresignedUrl: (
   input: CreatePresignedUrlInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePresignedUrlOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2997,7 +3080,7 @@ export const createPresignedUrl: (
  */
 export const getQApp: (
   input: GetQAppInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetQAppOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3024,7 +3107,7 @@ export const getQApp: (
  */
 export const getQAppSession: (
   input: GetQAppSessionInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetQAppSessionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3053,7 +3136,7 @@ export const getQAppSession: (
  */
 export const predictQApp: (
   input: PredictQAppInput,
-) => Effect.Effect<
+) => effect.Effect<
   PredictQAppOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3078,7 +3161,7 @@ export const predictQApp: (
  */
 export const createQApp: (
   input: CreateQAppInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateQAppOutput,
   | AccessDeniedException
   | ConflictException

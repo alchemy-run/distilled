@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -87,12 +87,12 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Newtypes
-export type NotificationRuleName = string | Redacted.Redacted<string>;
+export type NotificationRuleName = string | redacted.Redacted<string>;
 export type EventTypeId = string;
 export type NotificationRuleResource = string;
 export type ClientRequestToken = string;
 export type NotificationRuleArn = string;
-export type TargetAddress = string | Redacted.Redacted<string>;
+export type TargetAddress = string | redacted.Redacted<string>;
 export type NextToken = string;
 export type MaxResults = number;
 export type TagKey = string;
@@ -111,6 +111,10 @@ export type NotificationRuleId = string;
 //# Schemas
 export type EventTypeIds = string[];
 export const EventTypeIds = S.Array(S.String);
+export type DetailType = "BASIC" | "FULL";
+export const DetailType = S.Literal("BASIC", "FULL");
+export type NotificationRuleStatus = "ENABLED" | "DISABLED";
+export const NotificationRuleStatus = S.Literal("ENABLED", "DISABLED");
 export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
 export interface DeleteNotificationRuleRequest {
@@ -131,7 +135,7 @@ export const DeleteNotificationRuleRequest = S.suspend(() =>
   identifier: "DeleteNotificationRuleRequest",
 }) as any as S.Schema<DeleteNotificationRuleRequest>;
 export interface DeleteTargetRequest {
-  TargetAddress: string | Redacted.Redacted<string>;
+  TargetAddress: string | redacted.Redacted<string>;
   ForceUnsubscribeAll?: boolean;
 }
 export const DeleteTargetRequest = S.suspend(() =>
@@ -191,7 +195,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface Target {
   TargetType?: string;
-  TargetAddress?: string | Redacted.Redacted<string>;
+  TargetAddress?: string | redacted.Redacted<string>;
 }
 export const Target = S.suspend(() =>
   S.Struct({
@@ -226,7 +230,7 @@ export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
 export interface TagResourceRequest {
   Arn: string;
-  Tags: Tags;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ Arn: S.String, Tags: Tags }).pipe(
@@ -244,7 +248,7 @@ export const TagResourceRequest = S.suspend(() =>
 }) as any as S.Schema<TagResourceRequest>;
 export interface UnsubscribeRequest {
   Arn: string;
-  TargetAddress: string | Redacted.Redacted<string>;
+  TargetAddress: string | redacted.Redacted<string>;
 }
 export const UnsubscribeRequest = S.suspend(() =>
   S.Struct({ Arn: S.String, TargetAddress: SensitiveString }).pipe(
@@ -262,7 +266,7 @@ export const UnsubscribeRequest = S.suspend(() =>
 }) as any as S.Schema<UnsubscribeRequest>;
 export interface UntagResourceRequest {
   Arn: string;
-  TagKeys: TagKeys;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -289,20 +293,20 @@ export type Targets = Target[];
 export const Targets = S.Array(Target);
 export interface UpdateNotificationRuleRequest {
   Arn: string;
-  Name?: string | Redacted.Redacted<string>;
-  Status?: string;
-  EventTypeIds?: EventTypeIds;
-  Targets?: Targets;
-  DetailType?: string;
+  Name?: string | redacted.Redacted<string>;
+  Status?: NotificationRuleStatus;
+  EventTypeIds?: string[];
+  Targets?: Target[];
+  DetailType?: DetailType;
 }
 export const UpdateNotificationRuleRequest = S.suspend(() =>
   S.Struct({
     Arn: S.String,
     Name: S.optional(SensitiveString),
-    Status: S.optional(S.String),
+    Status: S.optional(NotificationRuleStatus),
     EventTypeIds: S.optional(EventTypeIds),
     Targets: S.optional(Targets),
-    DetailType: S.optional(S.String),
+    DetailType: S.optional(DetailType),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/updateNotificationRule" }),
@@ -322,23 +326,48 @@ export const UpdateNotificationRuleResult = S.suspend(() =>
 ).annotations({
   identifier: "UpdateNotificationRuleResult",
 }) as any as S.Schema<UpdateNotificationRuleResult>;
+export type ListEventTypesFilterName = "RESOURCE_TYPE" | "SERVICE_NAME";
+export const ListEventTypesFilterName = S.Literal(
+  "RESOURCE_TYPE",
+  "SERVICE_NAME",
+);
+export type ListNotificationRulesFilterName =
+  | "EVENT_TYPE_ID"
+  | "CREATED_BY"
+  | "RESOURCE"
+  | "TARGET_ADDRESS";
+export const ListNotificationRulesFilterName = S.Literal(
+  "EVENT_TYPE_ID",
+  "CREATED_BY",
+  "RESOURCE",
+  "TARGET_ADDRESS",
+);
+export type ListTargetsFilterName =
+  | "TARGET_TYPE"
+  | "TARGET_ADDRESS"
+  | "TARGET_STATUS";
+export const ListTargetsFilterName = S.Literal(
+  "TARGET_TYPE",
+  "TARGET_ADDRESS",
+  "TARGET_STATUS",
+);
 export interface ListEventTypesFilter {
-  Name: string;
+  Name: ListEventTypesFilterName;
   Value: string;
 }
 export const ListEventTypesFilter = S.suspend(() =>
-  S.Struct({ Name: S.String, Value: S.String }),
+  S.Struct({ Name: ListEventTypesFilterName, Value: S.String }),
 ).annotations({
   identifier: "ListEventTypesFilter",
 }) as any as S.Schema<ListEventTypesFilter>;
 export type ListEventTypesFilters = ListEventTypesFilter[];
 export const ListEventTypesFilters = S.Array(ListEventTypesFilter);
 export interface ListNotificationRulesFilter {
-  Name: string;
+  Name: ListNotificationRulesFilterName;
   Value: string;
 }
 export const ListNotificationRulesFilter = S.suspend(() =>
-  S.Struct({ Name: S.String, Value: S.String }),
+  S.Struct({ Name: ListNotificationRulesFilterName, Value: S.String }),
 ).annotations({
   identifier: "ListNotificationRulesFilter",
 }) as any as S.Schema<ListNotificationRulesFilter>;
@@ -347,25 +376,25 @@ export const ListNotificationRulesFilters = S.Array(
   ListNotificationRulesFilter,
 );
 export interface ListTargetsFilter {
-  Name: string;
+  Name: ListTargetsFilterName;
   Value: string;
 }
 export const ListTargetsFilter = S.suspend(() =>
-  S.Struct({ Name: S.String, Value: S.String }),
+  S.Struct({ Name: ListTargetsFilterName, Value: S.String }),
 ).annotations({
   identifier: "ListTargetsFilter",
 }) as any as S.Schema<ListTargetsFilter>;
 export type ListTargetsFilters = ListTargetsFilter[];
 export const ListTargetsFilters = S.Array(ListTargetsFilter);
 export interface CreateNotificationRuleRequest {
-  Name: string | Redacted.Redacted<string>;
-  EventTypeIds: EventTypeIds;
+  Name: string | redacted.Redacted<string>;
+  EventTypeIds: string[];
   Resource: string;
-  Targets: Targets;
-  DetailType: string;
+  Targets: Target[];
+  DetailType: DetailType;
   ClientRequestToken?: string;
-  Tags?: Tags;
-  Status?: string;
+  Tags?: { [key: string]: string };
+  Status?: NotificationRuleStatus;
 }
 export const CreateNotificationRuleRequest = S.suspend(() =>
   S.Struct({
@@ -373,10 +402,10 @@ export const CreateNotificationRuleRequest = S.suspend(() =>
     EventTypeIds: EventTypeIds,
     Resource: S.String,
     Targets: Targets,
-    DetailType: S.String,
+    DetailType: DetailType,
     ClientRequestToken: S.optional(S.String),
     Tags: S.optional(Tags),
-    Status: S.optional(S.String),
+    Status: S.optional(NotificationRuleStatus),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/createNotificationRule" }),
@@ -399,7 +428,7 @@ export const DeleteNotificationRuleResult = S.suspend(() =>
   identifier: "DeleteNotificationRuleResult",
 }) as any as S.Schema<DeleteNotificationRuleResult>;
 export interface ListEventTypesRequest {
-  Filters?: ListEventTypesFilters;
+  Filters?: ListEventTypesFilter[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -422,7 +451,7 @@ export const ListEventTypesRequest = S.suspend(() =>
   identifier: "ListEventTypesRequest",
 }) as any as S.Schema<ListEventTypesRequest>;
 export interface ListNotificationRulesRequest {
-  Filters?: ListNotificationRulesFilters;
+  Filters?: ListNotificationRulesFilter[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -445,7 +474,7 @@ export const ListNotificationRulesRequest = S.suspend(() =>
   identifier: "ListNotificationRulesRequest",
 }) as any as S.Schema<ListNotificationRulesRequest>;
 export interface ListTagsForResourceResult {
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResult = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }),
@@ -453,7 +482,7 @@ export const ListTagsForResourceResult = S.suspend(() =>
   identifier: "ListTagsForResourceResult",
 }) as any as S.Schema<ListTagsForResourceResult>;
 export interface ListTargetsRequest {
-  Filters?: ListTargetsFilters;
+  Filters?: ListTargetsFilter[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -484,7 +513,7 @@ export const SubscribeResult = S.suspend(() =>
   identifier: "SubscribeResult",
 }) as any as S.Schema<SubscribeResult>;
 export interface TagResourceResult {
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const TagResourceResult = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }),
@@ -499,6 +528,19 @@ export const UnsubscribeResult = S.suspend(() =>
 ).annotations({
   identifier: "UnsubscribeResult",
 }) as any as S.Schema<UnsubscribeResult>;
+export type TargetStatus =
+  | "PENDING"
+  | "ACTIVE"
+  | "UNREACHABLE"
+  | "INACTIVE"
+  | "DEACTIVATED";
+export const TargetStatus = S.Literal(
+  "PENDING",
+  "ACTIVE",
+  "UNREACHABLE",
+  "INACTIVE",
+  "DEACTIVATED",
+);
 export interface EventTypeSummary {
   EventTypeId?: string;
   ServiceName?: string;
@@ -518,15 +560,15 @@ export const EventTypeSummary = S.suspend(() =>
 export type EventTypeBatch = EventTypeSummary[];
 export const EventTypeBatch = S.Array(EventTypeSummary);
 export interface TargetSummary {
-  TargetAddress?: string | Redacted.Redacted<string>;
+  TargetAddress?: string | redacted.Redacted<string>;
   TargetType?: string;
-  TargetStatus?: string;
+  TargetStatus?: TargetStatus;
 }
 export const TargetSummary = S.suspend(() =>
   S.Struct({
     TargetAddress: S.optional(SensitiveString),
     TargetType: S.optional(S.String),
-    TargetStatus: S.optional(S.String),
+    TargetStatus: S.optional(TargetStatus),
   }),
 ).annotations({
   identifier: "TargetSummary",
@@ -543,16 +585,16 @@ export const CreateNotificationRuleResult = S.suspend(() =>
 }) as any as S.Schema<CreateNotificationRuleResult>;
 export interface DescribeNotificationRuleResult {
   Arn: string;
-  Name?: string | Redacted.Redacted<string>;
-  EventTypes?: EventTypeBatch;
+  Name?: string | redacted.Redacted<string>;
+  EventTypes?: EventTypeSummary[];
   Resource?: string;
-  Targets?: TargetsBatch;
-  DetailType?: string;
+  Targets?: TargetSummary[];
+  DetailType?: DetailType;
   CreatedBy?: string;
-  Status?: string;
+  Status?: NotificationRuleStatus;
   CreatedTimestamp?: Date;
   LastModifiedTimestamp?: Date;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const DescribeNotificationRuleResult = S.suspend(() =>
   S.Struct({
@@ -561,9 +603,9 @@ export const DescribeNotificationRuleResult = S.suspend(() =>
     EventTypes: S.optional(EventTypeBatch),
     Resource: S.optional(S.String),
     Targets: S.optional(TargetsBatch),
-    DetailType: S.optional(S.String),
+    DetailType: S.optional(DetailType),
     CreatedBy: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(NotificationRuleStatus),
     CreatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -576,7 +618,7 @@ export const DescribeNotificationRuleResult = S.suspend(() =>
   identifier: "DescribeNotificationRuleResult",
 }) as any as S.Schema<DescribeNotificationRuleResult>;
 export interface ListEventTypesResult {
-  EventTypes?: EventTypeBatch;
+  EventTypes?: EventTypeSummary[];
   NextToken?: string;
 }
 export const ListEventTypesResult = S.suspend(() =>
@@ -588,7 +630,7 @@ export const ListEventTypesResult = S.suspend(() =>
   identifier: "ListEventTypesResult",
 }) as any as S.Schema<ListEventTypesResult>;
 export interface ListTargetsResult {
-  Targets?: TargetsBatch;
+  Targets?: TargetSummary[];
   NextToken?: string;
 }
 export const ListTargetsResult = S.suspend(() =>
@@ -612,7 +654,7 @@ export type NotificationRuleBatch = NotificationRuleSummary[];
 export const NotificationRuleBatch = S.Array(NotificationRuleSummary);
 export interface ListNotificationRulesResult {
   NextToken?: string;
-  NotificationRules?: NotificationRuleBatch;
+  NotificationRules?: NotificationRuleSummary[];
 }
 export const ListNotificationRulesResult = S.suspend(() =>
   S.Struct({
@@ -663,7 +705,7 @@ export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlread
  */
 export const deleteTarget: (
   input: DeleteTargetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTargetResult,
   ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -679,7 +721,7 @@ export const deleteTarget: (
  */
 export const unsubscribe: (
   input: UnsubscribeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UnsubscribeResult,
   ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -693,7 +735,7 @@ export const unsubscribe: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResult,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -708,7 +750,7 @@ export const listTagsForResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResult,
   | ConcurrentModificationException
   | LimitExceededException
@@ -735,7 +777,7 @@ export const untagResource: (
  */
 export const updateNotificationRule: (
   input: UpdateNotificationRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateNotificationRuleResult,
   | ConfigurationException
   | ResourceNotFoundException
@@ -758,7 +800,7 @@ export const updateNotificationRule: (
  */
 export const subscribe: (
   input: SubscribeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SubscribeResult,
   | ConfigurationException
   | ResourceNotFoundException
@@ -779,7 +821,7 @@ export const subscribe: (
  */
 export const describeNotificationRule: (
   input: DescribeNotificationRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeNotificationRuleResult,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -793,7 +835,7 @@ export const describeNotificationRule: (
  */
 export const deleteNotificationRule: (
   input: DeleteNotificationRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteNotificationRuleResult,
   | ConcurrentModificationException
   | LimitExceededException
@@ -814,7 +856,7 @@ export const deleteNotificationRule: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResult,
   | ConcurrentModificationException
   | LimitExceededException
@@ -838,21 +880,21 @@ export const tagResource: (
 export const listEventTypes: {
   (
     input: ListEventTypesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEventTypesResult,
     InvalidNextTokenException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListEventTypesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEventTypesResult,
     InvalidNextTokenException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEventTypesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EventTypeSummary,
     InvalidNextTokenException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -874,21 +916,21 @@ export const listEventTypes: {
 export const listNotificationRules: {
   (
     input: ListNotificationRulesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListNotificationRulesResult,
     InvalidNextTokenException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListNotificationRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListNotificationRulesResult,
     InvalidNextTokenException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListNotificationRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NotificationRuleSummary,
     InvalidNextTokenException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -910,21 +952,21 @@ export const listNotificationRules: {
 export const listTargets: {
   (
     input: ListTargetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTargetsResult,
     InvalidNextTokenException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListTargetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTargetsResult,
     InvalidNextTokenException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTargetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TargetSummary,
     InvalidNextTokenException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -947,7 +989,7 @@ export const listTargets: {
  */
 export const createNotificationRule: (
   input: CreateNotificationRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateNotificationRuleResult,
   | AccessDeniedException
   | ConcurrentModificationException

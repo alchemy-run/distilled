@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -96,14 +96,13 @@ export type NextToken = string;
 export type MaxResult = number;
 export type SortOrder = string;
 export type ApplicationComponentCriteria = string;
-export type Integer = number;
 export type ServerCriteria = string;
 export type AssessmentDataSourceType = string;
 export type importS3Bucket = string;
 export type DataSourceType = string;
 export type OutputFormat = string;
 export type InclusionStatus = string;
-export type SecretsManagerKey = string | Redacted.Redacted<string>;
+export type SecretsManagerKey = string | redacted.Redacted<string>;
 export type AppType = string;
 export type DatabaseManagementPreference = string;
 export type AntipatternReportStatus = string;
@@ -432,7 +431,7 @@ export interface ListServersRequest {
   serverCriteria?: string;
   filterValue?: string;
   sort?: string;
-  groupIdFilter?: GroupIds;
+  groupIdFilter?: Group[];
   nextToken?: string;
   maxResults?: number;
 }
@@ -484,7 +483,7 @@ export const PrioritizeBusinessGoals = S.suspend(() =>
 export type AwsManagedTargetDestinations = string[];
 export const AwsManagedTargetDestinations = S.Array(S.String);
 export interface AwsManagedResources {
-  targetDestination: AwsManagedTargetDestinations;
+  targetDestination: string[];
 }
 export const AwsManagedResources = S.suspend(() =>
   S.Struct({ targetDestination: AwsManagedTargetDestinations }),
@@ -494,7 +493,7 @@ export const AwsManagedResources = S.suspend(() =>
 export type SelfManageTargetDestinations = string[];
 export const SelfManageTargetDestinations = S.Array(S.String);
 export interface SelfManageResources {
-  targetDestination: SelfManageTargetDestinations;
+  targetDestination: string[];
 }
 export const SelfManageResources = S.suspend(() =>
   S.Struct({ targetDestination: SelfManageTargetDestinations }),
@@ -504,7 +503,7 @@ export const SelfManageResources = S.suspend(() =>
 export type NoPreferenceTargetDestinations = string[];
 export const NoPreferenceTargetDestinations = S.Array(S.String);
 export interface NoManagementPreference {
-  targetDestination: NoPreferenceTargetDestinations;
+  targetDestination: string[];
 }
 export const NoManagementPreference = S.suspend(() =>
   S.Struct({ targetDestination: NoPreferenceTargetDestinations }),
@@ -521,7 +520,7 @@ export const ManagementPreference = S.Union(
   S.Struct({ noPreference: NoManagementPreference }),
 );
 export interface ApplicationPreferences {
-  managementPreference?: (typeof ManagementPreference)["Type"];
+  managementPreference?: ManagementPreference;
 }
 export const ApplicationPreferences = S.suspend(() =>
   S.Struct({ managementPreference: S.optional(ManagementPreference) }),
@@ -531,7 +530,7 @@ export const ApplicationPreferences = S.suspend(() =>
 export type HeterogeneousTargetDatabaseEngines = string[];
 export const HeterogeneousTargetDatabaseEngines = S.Array(S.String);
 export interface Heterogeneous {
-  targetDatabaseEngine: HeterogeneousTargetDatabaseEngines;
+  targetDatabaseEngine: string[];
 }
 export const Heterogeneous = S.suspend(() =>
   S.Struct({ targetDatabaseEngine: HeterogeneousTargetDatabaseEngines }),
@@ -541,7 +540,7 @@ export const Heterogeneous = S.suspend(() =>
 export type HomogeneousTargetDatabaseEngines = string[];
 export const HomogeneousTargetDatabaseEngines = S.Array(S.String);
 export interface Homogeneous {
-  targetDatabaseEngine?: HomogeneousTargetDatabaseEngines;
+  targetDatabaseEngine?: string[];
 }
 export const Homogeneous = S.suspend(() =>
   S.Struct({
@@ -551,7 +550,7 @@ export const Homogeneous = S.suspend(() =>
 export type TargetDatabaseEngines = string[];
 export const TargetDatabaseEngines = S.Array(S.String);
 export interface NoDatabaseMigrationPreference {
-  targetDatabaseEngine: TargetDatabaseEngines;
+  targetDatabaseEngine: string[];
 }
 export const NoDatabaseMigrationPreference = S.suspend(() =>
   S.Struct({ targetDatabaseEngine: TargetDatabaseEngines }),
@@ -569,7 +568,7 @@ export const DatabaseMigrationPreference = S.Union(
 );
 export interface DatabasePreferences {
   databaseManagementPreference?: string;
-  databaseMigrationPreference?: (typeof DatabaseMigrationPreference)["Type"];
+  databaseMigrationPreference?: DatabaseMigrationPreference;
 }
 export const DatabasePreferences = S.suspend(() =>
   S.Struct({
@@ -615,7 +614,7 @@ export interface StartImportFileTaskRequest {
   S3Bucket: string;
   s3key: string;
   dataSourceType?: string;
-  groupId?: GroupIds;
+  groupId?: Group[];
   s3bucketForReportData?: string;
 }
 export const StartImportFileTaskRequest = S.suspend(() =>
@@ -641,7 +640,7 @@ export const StartImportFileTaskRequest = S.suspend(() =>
 }) as any as S.Schema<StartImportFileTaskRequest>;
 export interface StartRecommendationReportGenerationRequest {
   outputFormat?: string;
-  groupIdFilter?: GroupIds;
+  groupIdFilter?: Group[];
 }
 export const StartRecommendationReportGenerationRequest = S.suspend(() =>
   S.Struct({
@@ -798,7 +797,7 @@ export const NetworkInfoList = S.Array(NetworkInfo);
 export interface SystemInfo {
   osInfo?: OSInfo;
   fileSystemType?: string;
-  networkInfoList?: NetworkInfoList;
+  networkInfoList?: NetworkInfo[];
   cpuArchitecture?: string;
 }
 export const SystemInfo = S.suspend(() =>
@@ -839,9 +838,9 @@ export interface ServerDetail {
   recommendationSet?: RecommendationSet;
   dataCollectionStatus?: string;
   statusMessage?: string;
-  listAntipatternSeveritySummary?: ListAntipatternSeveritySummary;
+  listAntipatternSeveritySummary?: AntipatternSeveritySummary[];
   systemInfo?: SystemInfo;
-  applicationComponentStrategySummary?: ListStrategySummary;
+  applicationComponentStrategySummary?: StrategySummary[];
   antipatternReportS3Object?: S3Object;
   antipatternReportStatus?: string;
   antipatternReportStatusMessage?: string;
@@ -874,7 +873,7 @@ export const ServerDetails = S.Array(ServerDetail);
 export interface AssessmentTarget {
   condition: string;
   name: string;
-  values: AssessmentTargetValues;
+  values: string[];
 }
 export const AssessmentTarget = S.suspend(() =>
   S.Struct({
@@ -937,7 +936,7 @@ export interface ListApplicationComponentsRequest {
   applicationComponentCriteria?: string;
   filterValue?: string;
   sort?: string;
-  groupIdFilter?: GroupIds;
+  groupIdFilter?: Group[];
   nextToken?: string;
   maxResults?: number;
 }
@@ -963,7 +962,7 @@ export const ListApplicationComponentsRequest = S.suspend(() =>
   identifier: "ListApplicationComponentsRequest",
 }) as any as S.Schema<ListApplicationComponentsRequest>;
 export interface ListServersResponse {
-  serverInfos?: ServerDetails;
+  serverInfos?: ServerDetail[];
   nextToken?: string;
 }
 export const ListServersResponse = S.suspend(() =>
@@ -977,7 +976,7 @@ export const ListServersResponse = S.suspend(() =>
 export interface StartAssessmentRequest {
   s3bucketForAnalysisData?: string;
   s3bucketForReportData?: string;
-  assessmentTargets?: AssessmentTargets;
+  assessmentTargets?: AssessmentTarget[];
   assessmentDataSourceType?: string;
 }
 export const StartAssessmentRequest = S.suspend(() =>
@@ -1019,8 +1018,8 @@ export interface UpdateApplicationComponentConfigRequest {
   applicationComponentId: string;
   inclusionStatus?: string;
   strategyOption?: StrategyOption;
-  sourceCodeList?: SourceCodeList;
-  secretsManagerKey?: string | Redacted.Redacted<string>;
+  sourceCodeList?: SourceCode[];
+  secretsManagerKey?: string | redacted.Redacted<string>;
   configureOnly?: boolean;
   appType?: string;
 }
@@ -1163,17 +1162,17 @@ export const DataCollectionDetails = S.suspend(() =>
   identifier: "DataCollectionDetails",
 }) as any as S.Schema<DataCollectionDetails>;
 export interface AssessmentSummary {
-  listServerStrategySummary?: ListStrategySummary;
-  listApplicationComponentStrategySummary?: ListStrategySummary;
-  listAntipatternSeveritySummary?: ListAntipatternSeveritySummary;
-  listApplicationComponentSummary?: ListApplicationComponentSummary;
-  listServerSummary?: ListServerSummary;
+  listServerStrategySummary?: StrategySummary[];
+  listApplicationComponentStrategySummary?: StrategySummary[];
+  listAntipatternSeveritySummary?: AntipatternSeveritySummary[];
+  listApplicationComponentSummary?: ApplicationComponentSummary[];
+  listServerSummary?: ServerSummary[];
   antipatternReportS3Object?: S3Object;
   antipatternReportStatus?: string;
   antipatternReportStatusMessage?: string;
   lastAnalyzedTimestamp?: Date;
-  listApplicationComponentStatusSummary?: ListApplicationComponentStatusSummary;
-  listServerStatusSummary?: ListServerStatusSummary;
+  listApplicationComponentStatusSummary?: ApplicationComponentStatusSummary[];
+  listServerStatusSummary?: ServerStatusSummary[];
 }
 export const AssessmentSummary = S.suspend(() =>
   S.Struct({
@@ -1204,7 +1203,7 @@ export interface RecommendationReportDetails {
   startTime?: Date;
   completionTime?: Date;
   s3Bucket?: string;
-  s3Keys?: S3Keys;
+  s3Keys?: string[];
 }
 export const RecommendationReportDetails = S.suspend(() =>
   S.Struct({
@@ -1303,7 +1302,7 @@ export const AnalyzerNameUnion = S.Union(
   S.Struct({ sourceCodeAnalyzerName: S.String }),
 );
 export interface AntipatternReportResult {
-  analyzerName?: (typeof AnalyzerNameUnion)["Type"];
+  analyzerName?: AnalyzerNameUnion;
   antiPatternReportS3Object?: S3Object;
   antipatternReportStatus?: string;
   antipatternReportStatusMessage?: string;
@@ -1322,9 +1321,9 @@ export type AntipatternReportResultList = AntipatternReportResult[];
 export const AntipatternReportResultList = S.Array(AntipatternReportResult);
 export interface Result {
   analysisType?: string;
-  analysisStatus?: (typeof AnalysisStatusUnion)["Type"];
+  analysisStatus?: AnalysisStatusUnion;
   statusMessage?: string;
-  antipatternReportResultList?: AntipatternReportResultList;
+  antipatternReportResultList?: AntipatternReportResult[];
 }
 export const Result = S.suspend(() =>
   S.Struct({
@@ -1342,9 +1341,9 @@ export interface ApplicationComponentDetail {
   recommendationSet?: RecommendationSet;
   analysisStatus?: string;
   statusMessage?: string;
-  listAntipatternSeveritySummary?: ListAntipatternSeveritySummary;
+  listAntipatternSeveritySummary?: AntipatternSeveritySummary[];
   databaseConfigDetail?: DatabaseConfigDetail;
-  sourceCodeRepositories?: SourceCodeRepositories;
+  sourceCodeRepositories?: SourceCodeRepository[];
   appType?: string;
   resourceSubType?: string;
   inclusionStatus?: string;
@@ -1359,7 +1358,7 @@ export interface ApplicationComponentDetail {
   runtimeStatus?: string;
   runtimeStatusMessage?: string;
   appUnitError?: AppUnitError;
-  resultList?: ResultList;
+  resultList?: Result[];
 }
 export const ApplicationComponentDetail = S.suspend(() =>
   S.Struct({
@@ -1427,7 +1426,7 @@ export const ImportFileTaskInformation = S.suspend(() =>
 export type ListImportFileTaskInformation = ImportFileTaskInformation[];
 export const ListImportFileTaskInformation = S.Array(ImportFileTaskInformation);
 export interface GetApplicationComponentStrategiesResponse {
-  applicationComponentStrategies?: ApplicationComponentStrategies;
+  applicationComponentStrategies?: ApplicationComponentStrategy[];
 }
 export const GetApplicationComponentStrategiesResponse = S.suspend(() =>
   S.Struct({
@@ -1439,7 +1438,7 @@ export const GetApplicationComponentStrategiesResponse = S.suspend(() =>
 export interface GetAssessmentResponse {
   id?: string;
   dataCollectionDetails?: DataCollectionDetails;
-  assessmentTargets?: AssessmentTargets;
+  assessmentTargets?: AssessmentTarget[];
 }
 export const GetAssessmentResponse = S.suspend(() =>
   S.Struct({
@@ -1471,7 +1470,7 @@ export const GetRecommendationReportDetailsResponse = S.suspend(() =>
   identifier: "GetRecommendationReportDetailsResponse",
 }) as any as S.Schema<GetRecommendationReportDetailsResponse>;
 export interface GetServerStrategiesResponse {
-  serverStrategies?: ServerStrategies;
+  serverStrategies?: ServerStrategy[];
 }
 export const GetServerStrategiesResponse = S.suspend(() =>
   S.Struct({ serverStrategies: S.optional(ServerStrategies) }),
@@ -1479,7 +1478,7 @@ export const GetServerStrategiesResponse = S.suspend(() =>
   identifier: "GetServerStrategiesResponse",
 }) as any as S.Schema<GetServerStrategiesResponse>;
 export interface ListAnalyzableServersResponse {
-  analyzableServers?: AnalyzableServerSummaryList;
+  analyzableServers?: AnalyzableServerSummary[];
   nextToken?: string;
 }
 export const ListAnalyzableServersResponse = S.suspend(() =>
@@ -1491,7 +1490,7 @@ export const ListAnalyzableServersResponse = S.suspend(() =>
   identifier: "ListAnalyzableServersResponse",
 }) as any as S.Schema<ListAnalyzableServersResponse>;
 export interface ListApplicationComponentsResponse {
-  applicationComponentInfos?: ApplicationComponentDetails;
+  applicationComponentInfos?: ApplicationComponentDetail[];
   nextToken?: string;
 }
 export const ListApplicationComponentsResponse = S.suspend(() =>
@@ -1503,7 +1502,7 @@ export const ListApplicationComponentsResponse = S.suspend(() =>
   identifier: "ListApplicationComponentsResponse",
 }) as any as S.Schema<ListApplicationComponentsResponse>;
 export interface ListImportFileTaskResponse {
-  taskInfos?: ListImportFileTaskInformation;
+  taskInfos?: ImportFileTaskInformation[];
   nextToken?: string;
 }
 export const ListImportFileTaskResponse = S.suspend(() =>
@@ -1605,10 +1604,10 @@ export const GetPortfolioPreferencesResponse = S.suspend(() =>
   identifier: "GetPortfolioPreferencesResponse",
 }) as any as S.Schema<GetPortfolioPreferencesResponse>;
 export interface ConfigurationSummary {
-  vcenterBasedRemoteInfoList?: VcenterBasedRemoteInfoList;
-  ipAddressBasedRemoteInfoList?: IPAddressBasedRemoteInfoList;
-  versionControlInfoList?: VersionControlInfoList;
-  pipelineInfoList?: PipelineInfoList;
+  vcenterBasedRemoteInfoList?: VcenterBasedRemoteInfo[];
+  ipAddressBasedRemoteInfoList?: IPAddressBasedRemoteInfo[];
+  versionControlInfoList?: VersionControlInfo[];
+  pipelineInfoList?: PipelineInfo[];
   remoteSourceCodeAnalysisServerInfo?: RemoteSourceCodeAnalysisServerInfo;
 }
 export const ConfigurationSummary = S.suspend(() =>
@@ -1651,7 +1650,7 @@ export const Collectors = S.Array(Collector);
 export interface GetServerDetailsResponse {
   nextToken?: string;
   serverDetail?: ServerDetail;
-  associatedApplications?: AssociatedApplications;
+  associatedApplications?: AssociatedApplication[];
 }
 export const GetServerDetailsResponse = S.suspend(() =>
   S.Struct({
@@ -1663,7 +1662,7 @@ export const GetServerDetailsResponse = S.suspend(() =>
   identifier: "GetServerDetailsResponse",
 }) as any as S.Schema<GetServerDetailsResponse>;
 export interface ListCollectorsResponse {
-  Collectors?: Collectors;
+  Collectors?: Collector[];
   nextToken?: string;
 }
 export const ListCollectorsResponse = S.suspend(() =>
@@ -1676,9 +1675,9 @@ export const ListCollectorsResponse = S.suspend(() =>
 }) as any as S.Schema<ListCollectorsResponse>;
 export interface GetApplicationComponentDetailsResponse {
   applicationComponentDetail?: ApplicationComponentDetail;
-  associatedApplications?: AssociatedApplications;
+  associatedApplications?: AssociatedApplication[];
   moreApplicationResource?: boolean;
-  associatedServerIds?: AssociatedServerIDs;
+  associatedServerIds?: string[];
 }
 export const GetApplicationComponentDetailsResponse = S.suspend(() =>
   S.Struct({
@@ -1736,7 +1735,7 @@ export class ServiceLinkedRoleLockClientException extends S.TaggedError<ServiceL
  */
 export const getApplicationComponentStrategies: (
   input: GetApplicationComponentStrategiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetApplicationComponentStrategiesResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1757,7 +1756,7 @@ export const getApplicationComponentStrategies: (
  */
 export const getAssessment: (
   input: GetAssessmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAssessmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1781,7 +1780,7 @@ export const getAssessment: (
  */
 export const getPortfolioSummary: (
   input: GetPortfolioSummaryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPortfolioSummaryResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1798,7 +1797,7 @@ export const getPortfolioSummary: (
  */
 export const startAssessment: (
   input: StartAssessmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartAssessmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1821,7 +1820,7 @@ export const startAssessment: (
  */
 export const getLatestAssessmentId: (
   input: GetLatestAssessmentIdRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLatestAssessmentIdResponse,
   | AccessDeniedException
   | DependencyException
@@ -1844,7 +1843,7 @@ export const getLatestAssessmentId: (
  */
 export const getPortfolioPreferences: (
   input: GetPortfolioPreferencesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPortfolioPreferencesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1868,7 +1867,7 @@ export const getPortfolioPreferences: (
 export const listApplicationComponents: {
   (
     input: ListApplicationComponentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationComponentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1879,7 +1878,7 @@ export const listApplicationComponents: {
   >;
   pages: (
     input: ListApplicationComponentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationComponentsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1890,7 +1889,7 @@ export const listApplicationComponents: {
   >;
   items: (
     input: ListApplicationComponentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ApplicationComponentDetail,
     | AccessDeniedException
     | InternalServerException
@@ -1920,7 +1919,7 @@ export const listApplicationComponents: {
  */
 export const stopAssessment: (
   input: StopAssessmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopAssessmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1943,7 +1942,7 @@ export const stopAssessment: (
  */
 export const putPortfolioPreferences: (
   input: PutPortfolioPreferencesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutPortfolioPreferencesResponse,
   | AccessDeniedException
   | ConflictException
@@ -1968,7 +1967,7 @@ export const putPortfolioPreferences: (
  */
 export const startImportFileTask: (
   input: StartImportFileTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartImportFileTaskResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1993,7 +1992,7 @@ export const startImportFileTask: (
  */
 export const getImportFileTask: (
   input: GetImportFileTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetImportFileTaskResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2018,7 +2017,7 @@ export const getImportFileTask: (
  */
 export const updateApplicationComponentConfig: (
   input: UpdateApplicationComponentConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateApplicationComponentConfigResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2041,7 +2040,7 @@ export const updateApplicationComponentConfig: (
  */
 export const getRecommendationReportDetails: (
   input: GetRecommendationReportDetailsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRecommendationReportDetailsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2066,7 +2065,7 @@ export const getRecommendationReportDetails: (
  */
 export const getServerStrategies: (
   input: GetServerStrategiesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetServerStrategiesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2092,7 +2091,7 @@ export const getServerStrategies: (
 export const listServers: {
   (
     input: ListServersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListServersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2103,7 +2102,7 @@ export const listServers: {
   >;
   pages: (
     input: ListServersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListServersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2114,7 +2113,7 @@ export const listServers: {
   >;
   items: (
     input: ListServersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ServerDetail,
     | AccessDeniedException
     | InternalServerException
@@ -2145,7 +2144,7 @@ export const listServers: {
 export const listAnalyzableServers: {
   (
     input: ListAnalyzableServersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAnalyzableServersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2156,7 +2155,7 @@ export const listAnalyzableServers: {
   >;
   pages: (
     input: ListAnalyzableServersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAnalyzableServersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2167,7 +2166,7 @@ export const listAnalyzableServers: {
   >;
   items: (
     input: ListAnalyzableServersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AnalyzableServerSummary,
     | AccessDeniedException
     | InternalServerException
@@ -2198,7 +2197,7 @@ export const listAnalyzableServers: {
 export const listImportFileTask: {
   (
     input: ListImportFileTaskRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListImportFileTaskResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2209,7 +2208,7 @@ export const listImportFileTask: {
   >;
   pages: (
     input: ListImportFileTaskRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListImportFileTaskResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2220,7 +2219,7 @@ export const listImportFileTask: {
   >;
   items: (
     input: ListImportFileTaskRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ImportFileTaskInformation,
     | AccessDeniedException
     | InternalServerException
@@ -2250,7 +2249,7 @@ export const listImportFileTask: {
  */
 export const startRecommendationReportGeneration: (
   input: StartRecommendationReportGenerationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartRecommendationReportGenerationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2275,7 +2274,7 @@ export const startRecommendationReportGeneration: (
  */
 export const updateServerConfig: (
   input: UpdateServerConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateServerConfigResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2299,7 +2298,7 @@ export const updateServerConfig: (
 export const getServerDetails: {
   (
     input: GetServerDetailsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetServerDetailsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2311,7 +2310,7 @@ export const getServerDetails: {
   >;
   pages: (
     input: GetServerDetailsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetServerDetailsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2323,7 +2322,7 @@ export const getServerDetails: {
   >;
   items: (
     input: GetServerDetailsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AssociatedApplication,
     | AccessDeniedException
     | InternalServerException
@@ -2356,7 +2355,7 @@ export const getServerDetails: {
 export const listCollectors: {
   (
     input: ListCollectorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCollectorsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2367,7 +2366,7 @@ export const listCollectors: {
   >;
   pages: (
     input: ListCollectorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCollectorsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2378,7 +2377,7 @@ export const listCollectors: {
   >;
   items: (
     input: ListCollectorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Collector,
     | AccessDeniedException
     | InternalServerException
@@ -2408,7 +2407,7 @@ export const listCollectors: {
  */
 export const getApplicationComponentDetails: (
   input: GetApplicationComponentDetailsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetApplicationComponentDetailsResponse,
   | InternalServerException
   | ResourceNotFoundException

@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -87,25 +87,92 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Newtypes
-export type NullableInteger = number;
 export type Token = string;
 export type BoxedInteger = number;
 export type MessageAttributeName = string;
 export type TagKey = string;
 export type TagValue = string;
 export type ExceptionMessage = string;
-export type Long = number;
-export type NullableLong = number;
 
 //# Schemas
 export type AWSAccountIdList = string[];
 export const AWSAccountIdList = S.Array(S.String);
 export type ActionNameList = string[];
 export const ActionNameList = S.Array(S.String);
-export type AttributeNameList = string[];
-export const AttributeNameList = S.Array(S.String);
-export type MessageSystemAttributeList = string[];
-export const MessageSystemAttributeList = S.Array(S.String);
+export type QueueAttributeName =
+  | "All"
+  | "Policy"
+  | "VisibilityTimeout"
+  | "MaximumMessageSize"
+  | "MessageRetentionPeriod"
+  | "ApproximateNumberOfMessages"
+  | "ApproximateNumberOfMessagesNotVisible"
+  | "CreatedTimestamp"
+  | "LastModifiedTimestamp"
+  | "QueueArn"
+  | "ApproximateNumberOfMessagesDelayed"
+  | "DelaySeconds"
+  | "ReceiveMessageWaitTimeSeconds"
+  | "RedrivePolicy"
+  | "FifoQueue"
+  | "ContentBasedDeduplication"
+  | "KmsMasterKeyId"
+  | "KmsDataKeyReusePeriodSeconds"
+  | "DeduplicationScope"
+  | "FifoThroughputLimit"
+  | "RedriveAllowPolicy"
+  | "SqsManagedSseEnabled";
+export const QueueAttributeName = S.Literal(
+  "All",
+  "Policy",
+  "VisibilityTimeout",
+  "MaximumMessageSize",
+  "MessageRetentionPeriod",
+  "ApproximateNumberOfMessages",
+  "ApproximateNumberOfMessagesNotVisible",
+  "CreatedTimestamp",
+  "LastModifiedTimestamp",
+  "QueueArn",
+  "ApproximateNumberOfMessagesDelayed",
+  "DelaySeconds",
+  "ReceiveMessageWaitTimeSeconds",
+  "RedrivePolicy",
+  "FifoQueue",
+  "ContentBasedDeduplication",
+  "KmsMasterKeyId",
+  "KmsDataKeyReusePeriodSeconds",
+  "DeduplicationScope",
+  "FifoThroughputLimit",
+  "RedriveAllowPolicy",
+  "SqsManagedSseEnabled",
+);
+export type AttributeNameList = QueueAttributeName[];
+export const AttributeNameList = S.Array(QueueAttributeName);
+export type MessageSystemAttributeName =
+  | "All"
+  | "SenderId"
+  | "SentTimestamp"
+  | "ApproximateReceiveCount"
+  | "ApproximateFirstReceiveTimestamp"
+  | "SequenceNumber"
+  | "MessageDeduplicationId"
+  | "MessageGroupId"
+  | "AWSTraceHeader"
+  | "DeadLetterQueueSourceArn";
+export const MessageSystemAttributeName = S.Literal(
+  "All",
+  "SenderId",
+  "SentTimestamp",
+  "ApproximateReceiveCount",
+  "ApproximateFirstReceiveTimestamp",
+  "SequenceNumber",
+  "MessageDeduplicationId",
+  "MessageGroupId",
+  "AWSTraceHeader",
+  "DeadLetterQueueSourceArn",
+);
+export type MessageSystemAttributeList = MessageSystemAttributeName[];
+export const MessageSystemAttributeList = S.Array(MessageSystemAttributeName);
 export type MessageAttributeNameList = string[];
 export const MessageAttributeNameList = S.Array(S.String);
 export type TagKeyList = string[];
@@ -113,8 +180,8 @@ export const TagKeyList = S.Array(S.String);
 export interface AddPermissionRequest {
   QueueUrl: string;
   Label: string;
-  AWSAccountIds: AWSAccountIdList;
-  Actions: ActionNameList;
+  AWSAccountIds: string[];
+  Actions: string[];
 }
 export const AddPermissionRequest = S.suspend(() =>
   S.Struct({
@@ -198,7 +265,7 @@ export const DeleteQueueResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<DeleteQueueResponse>;
 export interface GetQueueAttributesRequest {
   QueueUrl: string;
-  AttributeNames?: AttributeNameList;
+  AttributeNames?: QueueAttributeName[];
 }
 export const GetQueueAttributesRequest = S.suspend(() =>
   S.Struct({
@@ -296,9 +363,9 @@ export const PurgeQueueResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<PurgeQueueResponse>;
 export interface ReceiveMessageRequest {
   QueueUrl: string;
-  AttributeNames?: AttributeNameList;
-  MessageSystemAttributeNames?: MessageSystemAttributeList;
-  MessageAttributeNames?: MessageAttributeNameList;
+  AttributeNames?: QueueAttributeName[];
+  MessageSystemAttributeNames?: MessageSystemAttributeName[];
+  MessageAttributeNames?: string[];
   MaxNumberOfMessages?: number;
   VisibilityTimeout?: number;
   WaitTimeSeconds?: number;
@@ -346,14 +413,16 @@ export const RemovePermissionResponse = S.suspend(() =>
 ).annotations({
   identifier: "RemovePermissionResponse",
 }) as any as S.Schema<RemovePermissionResponse>;
-export type QueueAttributeMap = { [key: string]: string };
-export const QueueAttributeMap = S.Record({
-  key: S.String.pipe(T.XmlName("Name")),
-  value: S.String.pipe(T.XmlName("Value")),
-});
+export type QueueAttributeMap = { [key in QueueAttributeName]?: string };
+export const QueueAttributeMap = S.partial(
+  S.Record({
+    key: QueueAttributeName.pipe(T.XmlName("Name")),
+    value: S.String.pipe(T.XmlName("Value")),
+  }),
+);
 export interface SetQueueAttributesRequest {
   QueueUrl: string;
-  Attributes: QueueAttributeMap;
+  Attributes: { [key: string]: string };
 }
 export const SetQueueAttributesRequest = S.suspend(() =>
   S.Struct({
@@ -397,7 +466,7 @@ export const TagMap = S.Record({
 });
 export interface TagQueueRequest {
   QueueUrl: string;
-  Tags: TagMap;
+  Tags: { [key: string]: string };
 }
 export const TagQueueRequest = S.suspend(() =>
   S.Struct({
@@ -415,7 +484,7 @@ export const TagQueueResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagQueueResponse>;
 export interface UntagQueueRequest {
   QueueUrl: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagQueueRequest = S.suspend(() =>
   S.Struct({
@@ -431,6 +500,8 @@ export interface UntagQueueResponse {}
 export const UntagQueueResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagQueueResponse",
 }) as any as S.Schema<UntagQueueResponse>;
+export type MessageSystemAttributeNameForSends = "AWSTraceHeader";
+export const MessageSystemAttributeNameForSends = S.Literal("AWSTraceHeader");
 export interface ChangeMessageVisibilityBatchRequestEntry {
   Id: string;
   ReceiptHandle: string;
@@ -473,8 +544,8 @@ export const BinaryList = S.Array(T.Blob.pipe(T.XmlName("BinaryListValue")));
 export interface MessageAttributeValue {
   StringValue?: string;
   BinaryValue?: Uint8Array;
-  StringListValues?: StringList;
-  BinaryListValues?: BinaryList;
+  StringListValues?: string[];
+  BinaryListValues?: Uint8Array[];
   DataType: string;
 }
 export const MessageAttributeValue = S.suspend(() =>
@@ -504,8 +575,8 @@ export const MessageBodyAttributeMap = S.Record({
 export interface MessageSystemAttributeValue {
   StringValue?: string;
   BinaryValue?: Uint8Array;
-  StringListValues?: StringList;
-  BinaryListValues?: BinaryList;
+  StringListValues?: string[];
+  BinaryListValues?: Uint8Array[];
   DataType: string;
 }
 export const MessageSystemAttributeValue = S.suspend(() =>
@@ -526,20 +597,22 @@ export const MessageSystemAttributeValue = S.suspend(() =>
   identifier: "MessageSystemAttributeValue",
 }) as any as S.Schema<MessageSystemAttributeValue>;
 export type MessageBodySystemAttributeMap = {
-  [key: string]: MessageSystemAttributeValue;
+  [key in MessageSystemAttributeNameForSends]?: MessageSystemAttributeValue;
 };
-export const MessageBodySystemAttributeMap = S.Record({
-  key: S.String.pipe(T.XmlName("Name")),
-  value: MessageSystemAttributeValue.pipe(T.XmlName("Value")).annotations({
-    identifier: "MessageSystemAttributeValue",
+export const MessageBodySystemAttributeMap = S.partial(
+  S.Record({
+    key: MessageSystemAttributeNameForSends.pipe(T.XmlName("Name")),
+    value: MessageSystemAttributeValue.pipe(T.XmlName("Value")).annotations({
+      identifier: "MessageSystemAttributeValue",
+    }),
   }),
-});
+);
 export interface SendMessageBatchRequestEntry {
   Id: string;
   MessageBody: string;
   DelaySeconds?: number;
-  MessageAttributes?: MessageBodyAttributeMap;
-  MessageSystemAttributes?: MessageBodySystemAttributeMap;
+  MessageAttributes?: { [key: string]: MessageAttributeValue };
+  MessageSystemAttributes?: { [key: string]: MessageSystemAttributeValue };
   MessageDeduplicationId?: string;
   MessageGroupId?: string;
 }
@@ -576,7 +649,7 @@ export const CancelMessageMoveTaskResult = S.suspend(() =>
 }) as any as S.Schema<CancelMessageMoveTaskResult>;
 export interface ChangeMessageVisibilityBatchRequest {
   QueueUrl: string;
-  Entries: ChangeMessageVisibilityBatchRequestEntryList;
+  Entries: ChangeMessageVisibilityBatchRequestEntry[];
 }
 export const ChangeMessageVisibilityBatchRequest = S.suspend(() =>
   S.Struct({
@@ -593,8 +666,8 @@ export const ChangeMessageVisibilityBatchRequest = S.suspend(() =>
 }) as any as S.Schema<ChangeMessageVisibilityBatchRequest>;
 export interface CreateQueueRequest {
   QueueName: string;
-  Attributes?: QueueAttributeMap;
-  tags?: TagMap;
+  Attributes?: { [key: string]: string };
+  tags?: { [key: string]: string };
 }
 export const CreateQueueRequest = S.suspend(() =>
   S.Struct({
@@ -612,7 +685,7 @@ export const CreateQueueRequest = S.suspend(() =>
 }) as any as S.Schema<CreateQueueRequest>;
 export interface DeleteMessageBatchRequest {
   QueueUrl: string;
-  Entries: DeleteMessageBatchRequestEntryList;
+  Entries: DeleteMessageBatchRequestEntry[];
 }
 export const DeleteMessageBatchRequest = S.suspend(() =>
   S.Struct({
@@ -628,7 +701,7 @@ export const DeleteMessageBatchRequest = S.suspend(() =>
   identifier: "DeleteMessageBatchRequest",
 }) as any as S.Schema<DeleteMessageBatchRequest>;
 export interface GetQueueAttributesResult {
-  Attributes?: QueueAttributeMap;
+  Attributes?: { [key: string]: string };
 }
 export const GetQueueAttributesResult = S.suspend(() =>
   S.Struct({
@@ -649,7 +722,7 @@ export const GetQueueUrlResult = S.suspend(() =>
   identifier: "GetQueueUrlResult",
 }) as any as S.Schema<GetQueueUrlResult>;
 export interface ListDeadLetterSourceQueuesResult {
-  queueUrls: QueueUrlList;
+  queueUrls: string[];
   NextToken?: string;
 }
 export const ListDeadLetterSourceQueuesResult = S.suspend(() =>
@@ -661,7 +734,7 @@ export const ListDeadLetterSourceQueuesResult = S.suspend(() =>
   identifier: "ListDeadLetterSourceQueuesResult",
 }) as any as S.Schema<ListDeadLetterSourceQueuesResult>;
 export interface ListQueuesResult {
-  QueueUrls?: QueueUrlList;
+  QueueUrls?: string[];
   NextToken?: string;
 }
 export const ListQueuesResult = S.suspend(() =>
@@ -676,7 +749,7 @@ export const ListQueuesResult = S.suspend(() =>
   identifier: "ListQueuesResult",
 }) as any as S.Schema<ListQueuesResult>;
 export interface ListQueueTagsResult {
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const ListQueueTagsResult = S.suspend(() =>
   S.Struct({
@@ -687,7 +760,7 @@ export const ListQueueTagsResult = S.suspend(() =>
 }) as any as S.Schema<ListQueueTagsResult>;
 export interface SendMessageBatchRequest {
   QueueUrl: string;
-  Entries: SendMessageBatchRequestEntryList;
+  Entries: SendMessageBatchRequestEntry[];
 }
 export const SendMessageBatchRequest = S.suspend(() =>
   S.Struct({
@@ -750,7 +823,7 @@ export const CreateQueueResult = S.suspend(() =>
   identifier: "CreateQueueResult",
 }) as any as S.Schema<CreateQueueResult>;
 export interface ListMessageMoveTasksResult {
-  Results?: ListMessageMoveTasksResultEntryList;
+  Results?: ListMessageMoveTasksResultEntry[];
 }
 export const ListMessageMoveTasksResult = S.suspend(() =>
   S.Struct({
@@ -766,8 +839,8 @@ export interface SendMessageRequest {
   QueueUrl: string;
   MessageBody: string;
   DelaySeconds?: number;
-  MessageAttributes?: MessageBodyAttributeMap;
-  MessageSystemAttributes?: MessageBodySystemAttributeMap;
+  MessageAttributes?: { [key: string]: MessageAttributeValue };
+  MessageSystemAttributes?: { [key: string]: MessageSystemAttributeValue };
   MessageDeduplicationId?: string;
   MessageGroupId?: string;
 }
@@ -792,11 +865,15 @@ export const SendMessageRequest = S.suspend(() =>
 ).annotations({
   identifier: "SendMessageRequest",
 }) as any as S.Schema<SendMessageRequest>;
-export type MessageSystemAttributeMap = { [key: string]: string };
-export const MessageSystemAttributeMap = S.Record({
-  key: S.String.pipe(T.XmlName("Name")),
-  value: S.String.pipe(T.XmlName("Value")),
-});
+export type MessageSystemAttributeMap = {
+  [key in MessageSystemAttributeName]?: string;
+};
+export const MessageSystemAttributeMap = S.partial(
+  S.Record({
+    key: MessageSystemAttributeName.pipe(T.XmlName("Name")),
+    value: S.String.pipe(T.XmlName("Value")),
+  }),
+);
 export interface ChangeMessageVisibilityBatchResultEntry {
   Id: string;
 }
@@ -845,9 +922,9 @@ export interface Message {
   ReceiptHandle?: string;
   MD5OfBody?: string;
   Body?: string;
-  Attributes?: MessageSystemAttributeMap;
+  Attributes?: { [key: string]: string };
   MD5OfMessageAttributes?: string;
-  MessageAttributes?: MessageBodyAttributeMap;
+  MessageAttributes?: { [key: string]: MessageAttributeValue };
 }
 export const Message = S.suspend(() =>
   S.Struct({
@@ -893,8 +970,8 @@ export const SendMessageBatchResultEntryList = S.Array(
   SendMessageBatchResultEntry,
 );
 export interface ChangeMessageVisibilityBatchResult {
-  Successful: ChangeMessageVisibilityBatchResultEntryList;
-  Failed: BatchResultErrorEntryList;
+  Successful: ChangeMessageVisibilityBatchResultEntry[];
+  Failed: BatchResultErrorEntry[];
 }
 export const ChangeMessageVisibilityBatchResult = S.suspend(() =>
   S.Struct({
@@ -911,8 +988,8 @@ export const ChangeMessageVisibilityBatchResult = S.suspend(() =>
   identifier: "ChangeMessageVisibilityBatchResult",
 }) as any as S.Schema<ChangeMessageVisibilityBatchResult>;
 export interface DeleteMessageBatchResult {
-  Successful: DeleteMessageBatchResultEntryList;
-  Failed: BatchResultErrorEntryList;
+  Successful: DeleteMessageBatchResultEntry[];
+  Failed: BatchResultErrorEntry[];
 }
 export const DeleteMessageBatchResult = S.suspend(() =>
   S.Struct({
@@ -929,7 +1006,7 @@ export const DeleteMessageBatchResult = S.suspend(() =>
   identifier: "DeleteMessageBatchResult",
 }) as any as S.Schema<DeleteMessageBatchResult>;
 export interface ReceiveMessageResult {
-  Messages?: MessageList;
+  Messages?: Message[];
 }
 export const ReceiveMessageResult = S.suspend(() =>
   S.Struct({
@@ -960,8 +1037,8 @@ export const SendMessageResult = S.suspend(() =>
   identifier: "SendMessageResult",
 }) as any as S.Schema<SendMessageResult>;
 export interface SendMessageBatchResult {
-  Successful: SendMessageBatchResultEntryList;
-  Failed: BatchResultErrorEntryList;
+  Successful: SendMessageBatchResultEntry[];
+  Failed: BatchResultErrorEntry[];
 }
 export const SendMessageBatchResult = S.suspend(() =>
   S.Struct({
@@ -1182,7 +1259,7 @@ export class MissingRequiredParameterException extends S.TaggedError<MissingRequ
  */
 export const purgeQueue: (
   input: PurgeQueueRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PurgeQueueResponse,
   | InvalidAddress
   | InvalidSecurity
@@ -1251,7 +1328,7 @@ export const purgeQueue: (
  */
 export const changeMessageVisibility: (
   input: ChangeMessageVisibilityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ChangeMessageVisibilityResponse,
   | InvalidAddress
   | InvalidSecurity
@@ -1291,7 +1368,7 @@ export const changeMessageVisibility: (
  */
 export const cancelMessageMoveTask: (
   input: CancelMessageMoveTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelMessageMoveTaskResult,
   | InvalidAddress
   | InvalidSecurity
@@ -1332,7 +1409,7 @@ export const cancelMessageMoveTask: (
  */
 export const startMessageMoveTask: (
   input: StartMessageMoveTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartMessageMoveTaskResult,
   | InvalidAddress
   | InvalidSecurity
@@ -1373,7 +1450,7 @@ export const startMessageMoveTask: (
  */
 export const setQueueAttributes: (
   input: SetQueueAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetQueueAttributesResponse,
   | InvalidAddress
   | InvalidAttributeName
@@ -1417,7 +1494,7 @@ export const setQueueAttributes: (
  */
 export const getQueueUrl: (
   input: GetQueueUrlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetQueueUrlResult,
   | InvalidAddress
   | InvalidSecurity
@@ -1455,7 +1532,7 @@ export const getQueueUrl: (
 export const listDeadLetterSourceQueues: {
   (
     input: ListDeadLetterSourceQueuesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDeadLetterSourceQueuesResult,
     | InvalidAddress
     | InvalidSecurity
@@ -1467,7 +1544,7 @@ export const listDeadLetterSourceQueues: {
   >;
   pages: (
     input: ListDeadLetterSourceQueuesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDeadLetterSourceQueuesResult,
     | InvalidAddress
     | InvalidSecurity
@@ -1479,7 +1556,7 @@ export const listDeadLetterSourceQueues: {
   >;
   items: (
     input: ListDeadLetterSourceQueuesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     String,
     | InvalidAddress
     | InvalidSecurity
@@ -1517,7 +1594,7 @@ export const listDeadLetterSourceQueues: {
  */
 export const listQueueTags: (
   input: ListQueueTagsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListQueueTagsResult,
   | InvalidAddress
   | InvalidSecurity
@@ -1562,7 +1639,7 @@ export const listQueueTags: (
  */
 export const deleteQueue: (
   input: DeleteQueueRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteQueueResponse,
   | InvalidAddress
   | InvalidSecurity
@@ -1596,7 +1673,7 @@ export const deleteQueue: (
  */
 export const removePermission: (
   input: RemovePermissionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemovePermissionResponse,
   | InvalidAddress
   | InvalidSecurity
@@ -1640,7 +1717,7 @@ export const removePermission: (
  */
 export const tagQueue: (
   input: TagQueueRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagQueueResponse,
   | InvalidAddress
   | InvalidSecurity
@@ -1670,7 +1747,7 @@ export const tagQueue: (
  */
 export const untagQueue: (
   input: UntagQueueRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagQueueResponse,
   | InvalidAddress
   | InvalidSecurity
@@ -1719,7 +1796,7 @@ export const untagQueue: (
  */
 export const addPermission: (
   input: AddPermissionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AddPermissionResponse,
   | InvalidAddress
   | InvalidSecurity
@@ -1762,7 +1839,7 @@ export const addPermission: (
 export const listQueues: {
   (
     input: ListQueuesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListQueuesResult,
     | InvalidAddress
     | InvalidSecurity
@@ -1773,7 +1850,7 @@ export const listQueues: {
   >;
   pages: (
     input: ListQueuesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListQueuesResult,
     | InvalidAddress
     | InvalidSecurity
@@ -1784,7 +1861,7 @@ export const listQueues: {
   >;
   items: (
     input: ListQueuesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     String,
     | InvalidAddress
     | InvalidSecurity
@@ -1816,7 +1893,7 @@ export const listQueues: {
  */
 export const getQueueAttributes: (
   input: GetQueueAttributesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetQueueAttributesResult,
   | InvalidAddress
   | InvalidAttributeName
@@ -1852,7 +1929,7 @@ export const getQueueAttributes: (
  */
 export const listMessageMoveTasks: (
   input: ListMessageMoveTasksRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListMessageMoveTasksResult,
   | InvalidAddress
   | InvalidSecurity
@@ -1899,7 +1976,7 @@ export const listMessageMoveTasks: (
  */
 export const deleteMessage: (
   input: DeleteMessageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMessageResponse,
   | InvalidAddress
   | InvalidIdFormat
@@ -1973,7 +2050,7 @@ export const deleteMessage: (
  */
 export const createQueue: (
   input: CreateQueueRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateQueueResult,
   | InvalidAddress
   | InvalidAttributeName
@@ -2015,7 +2092,7 @@ export const createQueue: (
  */
 export const changeMessageVisibilityBatch: (
   input: ChangeMessageVisibilityBatchRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ChangeMessageVisibilityBatchResult,
   | BatchEntryIdsNotDistinct
   | EmptyBatchRequest
@@ -2053,7 +2130,7 @@ export const changeMessageVisibilityBatch: (
  */
 export const deleteMessageBatch: (
   input: DeleteMessageBatchRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMessageBatchResult,
   | BatchEntryIdsNotDistinct
   | EmptyBatchRequest
@@ -2123,7 +2200,7 @@ export const deleteMessageBatch: (
  */
 export const receiveMessage: (
   input: ReceiveMessageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ReceiveMessageResult,
   | InvalidAddress
   | InvalidSecurity
@@ -2186,7 +2263,7 @@ export const receiveMessage: (
  */
 export const sendMessageBatch: (
   input: SendMessageBatchRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendMessageBatchResult,
   | BatchEntryIdsNotDistinct
   | BatchRequestTooLong
@@ -2245,7 +2322,7 @@ export const sendMessageBatch: (
  */
 export const sendMessage: (
   input: SendMessageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendMessageResult,
   | InvalidAddress
   | InvalidMessageContents

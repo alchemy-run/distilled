@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -88,10 +88,10 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type NonEmptyString = string;
-export type E164PhoneNumber = string | Redacted.Redacted<string>;
-export type PhoneNumberName = string | Redacted.Redacted<string>;
+export type E164PhoneNumber = string | redacted.Redacted<string>;
+export type PhoneNumberName = string | redacted.Redacted<string>;
 export type NonEmptyString128 = string;
-export type ProxySessionNameString = string | Redacted.Redacted<string>;
+export type ProxySessionNameString = string | redacted.Redacted<string>;
 export type PositiveInteger = number;
 export type SipMediaApplicationName = string;
 export type SipRuleName = string;
@@ -101,25 +101,24 @@ export type NonEmptyString256 = string;
 export type VoiceProfileDomainName = string;
 export type VoiceProfileDomainDescription = string;
 export type ClientRequestId = string;
-export type SensitiveNonEmptyString = string | Redacted.Redacted<string>;
-export type SensitiveString = string | Redacted.Redacted<string>;
+export type SensitiveNonEmptyString = string | redacted.Redacted<string>;
+export type SensitiveString = string | redacted.Redacted<string>;
 export type GuidString = string;
-export type CallingName = string | Redacted.Redacted<string>;
+export type CallingName = string | redacted.Redacted<string>;
 export type ResultMax = number;
 export type NextTokenString = string;
-export type Arn = string | Redacted.Redacted<string>;
-export type Integer = number;
+export type Arn = string | redacted.Redacted<string>;
 export type Country = string;
 export type Alpha2CountryCode = string;
 export type TollFreePrefix = string;
 export type PhoneNumberMaxResults = number;
-export type TagKey = string | Redacted.Redacted<string>;
+export type TagKey = string | redacted.Redacted<string>;
 export type AreaCode = string;
-export type FunctionArn = string | Redacted.Redacted<string>;
-export type TagValue = string | Redacted.Redacted<string>;
+export type FunctionArn = string | redacted.Redacted<string>;
+export type TagValue = string | redacted.Redacted<string>;
 export type SipApplicationPriority = number;
 export type VoiceConnectorItemPriority = number;
-export type AlexaSkillId = string | Redacted.Redacted<string>;
+export type AlexaSkillId = string | redacted.Redacted<string>;
 export type DataRetentionInHours = number;
 export type CpsLimit = number;
 export type CallingRegion = string;
@@ -155,29 +154,122 @@ export const ListAvailableVoiceConnectorRegionsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListAvailableVoiceConnectorRegionsRequest",
 }) as any as S.Schema<ListAvailableVoiceConnectorRegionsRequest>;
-export type E164PhoneNumberList = string | Redacted.Redacted<string>[];
+export type E164PhoneNumberList = string | redacted.Redacted<string>[];
 export const E164PhoneNumberList = S.Array(SensitiveString);
 export type NonEmptyStringList = string[];
 export const NonEmptyStringList = S.Array(S.String);
-export type ParticipantPhoneNumberList = string | Redacted.Redacted<string>[];
+export type PhoneNumberProductType =
+  | "VoiceConnector"
+  | "SipMediaApplicationDialIn";
+export const PhoneNumberProductType = S.Literal(
+  "VoiceConnector",
+  "SipMediaApplicationDialIn",
+);
+export type ParticipantPhoneNumberList = string | redacted.Redacted<string>[];
 export const ParticipantPhoneNumberList = S.Array(SensitiveString);
-export type CapabilityList = string[];
-export const CapabilityList = S.Array(S.String);
-export type SensitiveStringList = string | Redacted.Redacted<string>[];
+export type Capability = "Voice" | "SMS";
+export const Capability = S.Literal("Voice", "SMS");
+export type CapabilityList = Capability[];
+export const CapabilityList = S.Array(Capability);
+export type NumberSelectionBehavior = "PreferSticky" | "AvoidSticky";
+export const NumberSelectionBehavior = S.Literal("PreferSticky", "AvoidSticky");
+export type GeoMatchLevel = "Country" | "AreaCode";
+export const GeoMatchLevel = S.Literal("Country", "AreaCode");
+export type SipRuleTriggerType = "ToPhoneNumber" | "RequestUriHostname";
+export const SipRuleTriggerType = S.Literal(
+  "ToPhoneNumber",
+  "RequestUriHostname",
+);
+export type VoiceConnectorAwsRegion =
+  | "us-east-1"
+  | "us-west-2"
+  | "ca-central-1"
+  | "eu-central-1"
+  | "eu-west-1"
+  | "eu-west-2"
+  | "ap-northeast-2"
+  | "ap-northeast-1"
+  | "ap-southeast-1"
+  | "ap-southeast-2";
+export const VoiceConnectorAwsRegion = S.Literal(
+  "us-east-1",
+  "us-west-2",
+  "ca-central-1",
+  "eu-central-1",
+  "eu-west-1",
+  "eu-west-2",
+  "ap-northeast-2",
+  "ap-northeast-1",
+  "ap-southeast-1",
+  "ap-southeast-2",
+);
+export type VoiceConnectorIntegrationType =
+  | "CONNECT_CALL_TRANSFER_CONNECTOR"
+  | "CONNECT_ANALYTICS_CONNECTOR";
+export const VoiceConnectorIntegrationType = S.Literal(
+  "CONNECT_CALL_TRANSFER_CONNECTOR",
+  "CONNECT_ANALYTICS_CONNECTOR",
+);
+export type NetworkType = "IPV4_ONLY" | "DUAL_STACK";
+export const NetworkType = S.Literal("IPV4_ONLY", "DUAL_STACK");
+export type SensitiveStringList = string | redacted.Redacted<string>[];
 export const SensitiveStringList = S.Array(SensitiveString);
-export type VoiceConnectorAwsRegionList = string[];
-export const VoiceConnectorAwsRegionList = S.Array(S.String);
-export type SessionBorderControllerTypeList = string[];
-export const SessionBorderControllerTypeList = S.Array(S.String);
-export type ContactCenterSystemTypeList = string[];
-export const ContactCenterSystemTypeList = S.Array(S.String);
+export type VoiceConnectorAwsRegionList = VoiceConnectorAwsRegion[];
+export const VoiceConnectorAwsRegionList = S.Array(VoiceConnectorAwsRegion);
+export type PhoneNumberAssociationName =
+  | "VoiceConnectorId"
+  | "VoiceConnectorGroupId"
+  | "SipRuleId";
+export const PhoneNumberAssociationName = S.Literal(
+  "VoiceConnectorId",
+  "VoiceConnectorGroupId",
+  "SipRuleId",
+);
+export type ProxySessionStatus = "Open" | "InProgress" | "Closed";
+export const ProxySessionStatus = S.Literal("Open", "InProgress", "Closed");
+export type SessionBorderControllerType =
+  | "RIBBON_SBC"
+  | "ORACLE_ACME_PACKET_SBC"
+  | "AVAYA_SBCE"
+  | "CISCO_UNIFIED_BORDER_ELEMENT"
+  | "AUDIOCODES_MEDIANT_SBC";
+export const SessionBorderControllerType = S.Literal(
+  "RIBBON_SBC",
+  "ORACLE_ACME_PACKET_SBC",
+  "AVAYA_SBCE",
+  "CISCO_UNIFIED_BORDER_ELEMENT",
+  "AUDIOCODES_MEDIANT_SBC",
+);
+export type SessionBorderControllerTypeList = SessionBorderControllerType[];
+export const SessionBorderControllerTypeList = S.Array(
+  SessionBorderControllerType,
+);
+export type ContactCenterSystemType =
+  | "GENESYS_ENGAGE_ON_PREMISES"
+  | "AVAYA_AURA_CALL_CENTER_ELITE"
+  | "AVAYA_AURA_CONTACT_CENTER"
+  | "CISCO_UNIFIED_CONTACT_CENTER_ENTERPRISE";
+export const ContactCenterSystemType = S.Literal(
+  "GENESYS_ENGAGE_ON_PREMISES",
+  "AVAYA_AURA_CALL_CENTER_ELITE",
+  "AVAYA_AURA_CONTACT_CENTER",
+  "CISCO_UNIFIED_CONTACT_CENTER_ENTERPRISE",
+);
+export type ContactCenterSystemTypeList = ContactCenterSystemType[];
+export const ContactCenterSystemTypeList = S.Array(ContactCenterSystemType);
 export type CountryList = string[];
 export const CountryList = S.Array(S.String);
-export type TagKeyList = string | Redacted.Redacted<string>[];
+export type PhoneNumberType = "Local" | "TollFree";
+export const PhoneNumberType = S.Literal("Local", "TollFree");
+export type CallLegType = "Caller" | "Callee";
+export const CallLegType = S.Literal("Caller", "Callee");
+export type LanguageCode = "en-US";
+export const LanguageCode = S.Literal("en-US");
+export type TagKeyList = string | redacted.Redacted<string>[];
 export const TagKeyList = S.Array(SensitiveString);
 export interface AssociatePhoneNumbersWithVoiceConnectorRequest {
   VoiceConnectorId: string;
-  E164PhoneNumbers: E164PhoneNumberList;
+  E164PhoneNumbers: string | redacted.Redacted<string>[];
   ForceAssociate?: boolean;
 }
 export const AssociatePhoneNumbersWithVoiceConnectorRequest = S.suspend(() =>
@@ -203,7 +295,7 @@ export const AssociatePhoneNumbersWithVoiceConnectorRequest = S.suspend(() =>
 }) as any as S.Schema<AssociatePhoneNumbersWithVoiceConnectorRequest>;
 export interface AssociatePhoneNumbersWithVoiceConnectorGroupRequest {
   VoiceConnectorGroupId: string;
-  E164PhoneNumbers: E164PhoneNumberList;
+  E164PhoneNumbers: string | redacted.Redacted<string>[];
   ForceAssociate?: boolean;
 }
 export const AssociatePhoneNumbersWithVoiceConnectorGroupRequest = S.suspend(
@@ -231,7 +323,7 @@ export const AssociatePhoneNumbersWithVoiceConnectorGroupRequest = S.suspend(
   identifier: "AssociatePhoneNumbersWithVoiceConnectorGroupRequest",
 }) as any as S.Schema<AssociatePhoneNumbersWithVoiceConnectorGroupRequest>;
 export interface BatchDeletePhoneNumberRequest {
-  PhoneNumberIds: NonEmptyStringList;
+  PhoneNumberIds: string[];
 }
 export const BatchDeletePhoneNumberRequest = S.suspend(() =>
   S.Struct({ PhoneNumberIds: NonEmptyStringList }).pipe(
@@ -248,13 +340,13 @@ export const BatchDeletePhoneNumberRequest = S.suspend(() =>
   identifier: "BatchDeletePhoneNumberRequest",
 }) as any as S.Schema<BatchDeletePhoneNumberRequest>;
 export interface CreatePhoneNumberOrderRequest {
-  ProductType: string;
-  E164PhoneNumbers: E164PhoneNumberList;
-  Name?: string | Redacted.Redacted<string>;
+  ProductType: PhoneNumberProductType;
+  E164PhoneNumbers: string | redacted.Redacted<string>[];
+  Name?: string | redacted.Redacted<string>;
 }
 export const CreatePhoneNumberOrderRequest = S.suspend(() =>
   S.Struct({
-    ProductType: S.String,
+    ProductType: PhoneNumberProductType,
     E164PhoneNumbers: E164PhoneNumberList,
     Name: S.optional(SensitiveString),
   }).pipe(
@@ -271,8 +363,8 @@ export const CreatePhoneNumberOrderRequest = S.suspend(() =>
   identifier: "CreatePhoneNumberOrderRequest",
 }) as any as S.Schema<CreatePhoneNumberOrderRequest>;
 export interface Tag {
-  Key: string | Redacted.Redacted<string>;
-  Value: string | Redacted.Redacted<string>;
+  Key: string | redacted.Redacted<string>;
+  Value: string | redacted.Redacted<string>;
 }
 export const Tag = S.suspend(() =>
   S.Struct({ Key: SensitiveString, Value: SensitiveString }),
@@ -281,20 +373,20 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface CreateVoiceConnectorRequest {
   Name: string;
-  AwsRegion?: string;
+  AwsRegion?: VoiceConnectorAwsRegion;
   RequireEncryption: boolean;
-  Tags?: TagList;
-  IntegrationType?: string;
-  NetworkType?: string;
+  Tags?: Tag[];
+  IntegrationType?: VoiceConnectorIntegrationType;
+  NetworkType?: NetworkType;
 }
 export const CreateVoiceConnectorRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    AwsRegion: S.optional(S.String),
+    AwsRegion: S.optional(VoiceConnectorAwsRegion),
     RequireEncryption: S.Boolean,
     Tags: S.optional(TagList),
-    IntegrationType: S.optional(S.String),
-    NetworkType: S.optional(S.String),
+    IntegrationType: S.optional(VoiceConnectorIntegrationType),
+    NetworkType: S.optional(NetworkType),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/voice-connectors" }),
@@ -326,7 +418,7 @@ export const CreateVoiceProfileRequest = S.suspend(() =>
   identifier: "CreateVoiceProfileRequest",
 }) as any as S.Schema<CreateVoiceProfileRequest>;
 export interface DeletePhoneNumberRequest {
-  PhoneNumberId: string | Redacted.Redacted<string>;
+  PhoneNumberId: string | redacted.Redacted<string>;
 }
 export const DeletePhoneNumberRequest = S.suspend(() =>
   S.Struct({
@@ -652,7 +744,7 @@ export const DeleteVoiceConnectorTerminationResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteVoiceConnectorTerminationResponse>;
 export interface DeleteVoiceConnectorTerminationCredentialsRequest {
   VoiceConnectorId: string;
-  Usernames: SensitiveStringList;
+  Usernames: string | redacted.Redacted<string>[];
 }
 export const DeleteVoiceConnectorTerminationCredentialsRequest = S.suspend(() =>
   S.Struct({
@@ -735,7 +827,7 @@ export const DeleteVoiceProfileDomainResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteVoiceProfileDomainResponse>;
 export interface DisassociatePhoneNumbersFromVoiceConnectorRequest {
   VoiceConnectorId: string;
-  E164PhoneNumbers: E164PhoneNumberList;
+  E164PhoneNumbers: string | redacted.Redacted<string>[];
 }
 export const DisassociatePhoneNumbersFromVoiceConnectorRequest = S.suspend(() =>
   S.Struct({
@@ -759,7 +851,7 @@ export const DisassociatePhoneNumbersFromVoiceConnectorRequest = S.suspend(() =>
 }) as any as S.Schema<DisassociatePhoneNumbersFromVoiceConnectorRequest>;
 export interface DisassociatePhoneNumbersFromVoiceConnectorGroupRequest {
   VoiceConnectorGroupId: string;
-  E164PhoneNumbers: E164PhoneNumberList;
+  E164PhoneNumbers: string | redacted.Redacted<string>[];
 }
 export const DisassociatePhoneNumbersFromVoiceConnectorGroupRequest = S.suspend(
   () =>
@@ -785,7 +877,7 @@ export const DisassociatePhoneNumbersFromVoiceConnectorGroupRequest = S.suspend(
   identifier: "DisassociatePhoneNumbersFromVoiceConnectorGroupRequest",
 }) as any as S.Schema<DisassociatePhoneNumbersFromVoiceConnectorGroupRequest>;
 export interface GetPhoneNumberRequest {
-  PhoneNumberId: string | Redacted.Redacted<string>;
+  PhoneNumberId: string | redacted.Redacted<string>;
 }
 export const GetPhoneNumberRequest = S.suspend(() =>
   S.Struct({
@@ -826,7 +918,7 @@ export const GetPhoneNumberOrderRequest = S.suspend(() =>
   identifier: "GetPhoneNumberOrderRequest",
 }) as any as S.Schema<GetPhoneNumberOrderRequest>;
 export interface GetPhoneNumberSettingsResponse {
-  CallingName?: string | Redacted.Redacted<string>;
+  CallingName?: string | redacted.Redacted<string>;
   CallingNameUpdatedTimestamp?: Date;
 }
 export const GetPhoneNumberSettingsResponse = S.suspend(() =>
@@ -1262,7 +1354,7 @@ export const GetVoiceToneAnalysisTaskRequest = S.suspend(() =>
   identifier: "GetVoiceToneAnalysisTaskRequest",
 }) as any as S.Schema<GetVoiceToneAnalysisTaskRequest>;
 export interface ListAvailableVoiceConnectorRegionsResponse {
-  VoiceConnectorRegions?: VoiceConnectorAwsRegionList;
+  VoiceConnectorRegions?: VoiceConnectorAwsRegion[];
 }
 export const ListAvailableVoiceConnectorRegionsResponse = S.suspend(() =>
   S.Struct({ VoiceConnectorRegions: S.optional(VoiceConnectorAwsRegionList) }),
@@ -1292,8 +1384,8 @@ export const ListPhoneNumberOrdersRequest = S.suspend(() =>
 }) as any as S.Schema<ListPhoneNumberOrdersRequest>;
 export interface ListPhoneNumbersRequest {
   Status?: string;
-  ProductType?: string;
-  FilterName?: string;
+  ProductType?: PhoneNumberProductType;
+  FilterName?: PhoneNumberAssociationName;
   FilterValue?: string;
   MaxResults?: number;
   NextToken?: string;
@@ -1301,8 +1393,12 @@ export interface ListPhoneNumbersRequest {
 export const ListPhoneNumbersRequest = S.suspend(() =>
   S.Struct({
     Status: S.optional(S.String).pipe(T.HttpQuery("status")),
-    ProductType: S.optional(S.String).pipe(T.HttpQuery("product-type")),
-    FilterName: S.optional(S.String).pipe(T.HttpQuery("filter-name")),
+    ProductType: S.optional(PhoneNumberProductType).pipe(
+      T.HttpQuery("product-type"),
+    ),
+    FilterName: S.optional(PhoneNumberAssociationName).pipe(
+      T.HttpQuery("filter-name"),
+    ),
     FilterValue: S.optional(S.String).pipe(T.HttpQuery("filter-value")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
@@ -1321,14 +1417,14 @@ export const ListPhoneNumbersRequest = S.suspend(() =>
 }) as any as S.Schema<ListPhoneNumbersRequest>;
 export interface ListProxySessionsRequest {
   VoiceConnectorId: string;
-  Status?: string;
+  Status?: ProxySessionStatus;
   NextToken?: string;
   MaxResults?: number;
 }
 export const ListProxySessionsRequest = S.suspend(() =>
   S.Struct({
     VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
-    Status: S.optional(S.String).pipe(T.HttpQuery("status")),
+    Status: S.optional(ProxySessionStatus).pipe(T.HttpQuery("status")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
   }).pipe(
@@ -1394,10 +1490,12 @@ export const ListSipRulesRequest = S.suspend(() =>
   identifier: "ListSipRulesRequest",
 }) as any as S.Schema<ListSipRulesRequest>;
 export interface ListSupportedPhoneNumberCountriesRequest {
-  ProductType: string;
+  ProductType: PhoneNumberProductType;
 }
 export const ListSupportedPhoneNumberCountriesRequest = S.suspend(() =>
-  S.Struct({ ProductType: S.String.pipe(T.HttpQuery("product-type")) }).pipe(
+  S.Struct({
+    ProductType: PhoneNumberProductType.pipe(T.HttpQuery("product-type")),
+  }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/phone-number-countries" }),
       svc,
@@ -1411,7 +1509,7 @@ export const ListSupportedPhoneNumberCountriesRequest = S.suspend(() =>
   identifier: "ListSupportedPhoneNumberCountriesRequest",
 }) as any as S.Schema<ListSupportedPhoneNumberCountriesRequest>;
 export interface ListTagsForResourceRequest {
-  ResourceARN: string | Redacted.Redacted<string>;
+  ResourceARN: string | redacted.Redacted<string>;
 }
 export const ListTagsForResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: SensitiveString.pipe(T.HttpQuery("arn")) }).pipe(
@@ -1537,8 +1635,8 @@ export const ListVoiceProfilesRequest = S.suspend(() =>
 }) as any as S.Schema<ListVoiceProfilesRequest>;
 export interface PutVoiceConnectorExternalSystemsConfigurationRequest {
   VoiceConnectorId: string;
-  SessionBorderControllerTypes?: SessionBorderControllerTypeList;
-  ContactCenterSystemTypes?: ContactCenterSystemTypeList;
+  SessionBorderControllerTypes?: SessionBorderControllerType[];
+  ContactCenterSystemTypes?: ContactCenterSystemType[];
 }
 export const PutVoiceConnectorExternalSystemsConfigurationRequest = S.suspend(
   () =>
@@ -1565,8 +1663,8 @@ export const PutVoiceConnectorExternalSystemsConfigurationRequest = S.suspend(
 export interface PutVoiceConnectorProxyRequest {
   VoiceConnectorId: string;
   DefaultSessionExpiryMinutes: number;
-  PhoneNumberPoolCountries: CountryList;
-  FallBackPhoneNumber?: string | Redacted.Redacted<string>;
+  PhoneNumberPoolCountries: string[];
+  FallBackPhoneNumber?: string | redacted.Redacted<string>;
   Disabled?: boolean;
 }
 export const PutVoiceConnectorProxyRequest = S.suspend(() =>
@@ -1593,7 +1691,7 @@ export const PutVoiceConnectorProxyRequest = S.suspend(() =>
   identifier: "PutVoiceConnectorProxyRequest",
 }) as any as S.Schema<PutVoiceConnectorProxyRequest>;
 export interface RestorePhoneNumberRequest {
-  PhoneNumberId: string | Redacted.Redacted<string>;
+  PhoneNumberId: string | redacted.Redacted<string>;
 }
 export const RestorePhoneNumberRequest = S.suspend(() =>
   S.Struct({
@@ -1620,7 +1718,7 @@ export interface SearchAvailablePhoneNumbersRequest {
   Country?: string;
   State?: string;
   TollFreePrefix?: string;
-  PhoneNumberType?: string;
+  PhoneNumberType?: PhoneNumberType;
   MaxResults?: number;
   NextToken?: string;
 }
@@ -1631,7 +1729,7 @@ export const SearchAvailablePhoneNumbersRequest = S.suspend(() =>
     Country: S.optional(S.String).pipe(T.HttpQuery("country")),
     State: S.optional(S.String).pipe(T.HttpQuery("state")),
     TollFreePrefix: S.optional(S.String).pipe(T.HttpQuery("toll-free-prefix")),
-    PhoneNumberType: S.optional(S.String).pipe(
+    PhoneNumberType: S.optional(PhoneNumberType).pipe(
       T.HttpQuery("phone-number-type"),
     ),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
@@ -1654,7 +1752,7 @@ export interface StartSpeakerSearchTaskRequest {
   TransactionId: string;
   VoiceProfileDomainId: string;
   ClientRequestToken?: string;
-  CallLeg?: string;
+  CallLeg?: CallLegType;
 }
 export const StartSpeakerSearchTaskRequest = S.suspend(() =>
   S.Struct({
@@ -1662,7 +1760,7 @@ export const StartSpeakerSearchTaskRequest = S.suspend(() =>
     TransactionId: S.String,
     VoiceProfileDomainId: S.String,
     ClientRequestToken: S.optional(S.String),
-    CallLeg: S.optional(S.String),
+    CallLeg: S.optional(CallLegType),
   }).pipe(
     T.all(
       T.Http({
@@ -1682,14 +1780,14 @@ export const StartSpeakerSearchTaskRequest = S.suspend(() =>
 export interface StartVoiceToneAnalysisTaskRequest {
   VoiceConnectorId: string;
   TransactionId: string;
-  LanguageCode: string;
+  LanguageCode: LanguageCode;
   ClientRequestToken?: string;
 }
 export const StartVoiceToneAnalysisTaskRequest = S.suspend(() =>
   S.Struct({
     VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
     TransactionId: S.String,
-    LanguageCode: S.String,
+    LanguageCode: LanguageCode,
     ClientRequestToken: S.optional(S.String),
   }).pipe(
     T.all(
@@ -1770,8 +1868,8 @@ export const StopVoiceToneAnalysisTaskResponse = S.suspend(() =>
   identifier: "StopVoiceToneAnalysisTaskResponse",
 }) as any as S.Schema<StopVoiceToneAnalysisTaskResponse>;
 export interface TagResourceRequest {
-  ResourceARN: string | Redacted.Redacted<string>;
-  Tags: TagList;
+  ResourceARN: string | redacted.Redacted<string>;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: SensitiveString, Tags: TagList }).pipe(
@@ -1792,8 +1890,8 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
-  ResourceARN: string | Redacted.Redacted<string>;
-  TagKeys: TagKeyList;
+  ResourceARN: string | redacted.Redacted<string>;
+  TagKeys: string | redacted.Redacted<string>[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: SensitiveString, TagKeys: TagKeyList }).pipe(
@@ -1845,15 +1943,15 @@ export const UpdateGlobalSettingsResponse = S.suspend(() =>
   identifier: "UpdateGlobalSettingsResponse",
 }) as any as S.Schema<UpdateGlobalSettingsResponse>;
 export interface UpdatePhoneNumberRequest {
-  PhoneNumberId: string | Redacted.Redacted<string>;
-  ProductType?: string;
-  CallingName?: string | Redacted.Redacted<string>;
-  Name?: string | Redacted.Redacted<string>;
+  PhoneNumberId: string | redacted.Redacted<string>;
+  ProductType?: PhoneNumberProductType;
+  CallingName?: string | redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
 }
 export const UpdatePhoneNumberRequest = S.suspend(() =>
   S.Struct({
     PhoneNumberId: SensitiveString.pipe(T.HttpLabel("PhoneNumberId")),
-    ProductType: S.optional(S.String),
+    ProductType: S.optional(PhoneNumberProductType),
     CallingName: S.optional(SensitiveString),
     Name: S.optional(SensitiveString),
   }).pipe(
@@ -1870,7 +1968,7 @@ export const UpdatePhoneNumberRequest = S.suspend(() =>
   identifier: "UpdatePhoneNumberRequest",
 }) as any as S.Schema<UpdatePhoneNumberRequest>;
 export interface UpdatePhoneNumberSettingsRequest {
-  CallingName: string | Redacted.Redacted<string>;
+  CallingName: string | redacted.Redacted<string>;
 }
 export const UpdatePhoneNumberSettingsRequest = S.suspend(() =>
   S.Struct({ CallingName: SensitiveString }).pipe(
@@ -1895,7 +1993,7 @@ export const UpdatePhoneNumberSettingsResponse = S.suspend(() =>
 export interface UpdateProxySessionRequest {
   VoiceConnectorId: string;
   ProxySessionId: string;
-  Capabilities: CapabilityList;
+  Capabilities: Capability[];
   ExpiryMinutes?: number;
 }
 export const UpdateProxySessionRequest = S.suspend(() =>
@@ -1921,7 +2019,7 @@ export const UpdateProxySessionRequest = S.suspend(() =>
   identifier: "UpdateProxySessionRequest",
 }) as any as S.Schema<UpdateProxySessionRequest>;
 export interface SipMediaApplicationEndpoint {
-  LambdaArn?: string | Redacted.Redacted<string>;
+  LambdaArn?: string | redacted.Redacted<string>;
 }
 export const SipMediaApplicationEndpoint = S.suspend(() =>
   S.Struct({ LambdaArn: S.optional(SensitiveString) }),
@@ -1935,7 +2033,7 @@ export const SipMediaApplicationEndpointList = S.Array(
 export interface UpdateSipMediaApplicationRequest {
   SipMediaApplicationId: string;
   Name?: string;
-  Endpoints?: SipMediaApplicationEndpointList;
+  Endpoints?: SipMediaApplicationEndpoint[];
 }
 export const UpdateSipMediaApplicationRequest = S.suspend(() =>
   S.Struct({
@@ -1978,7 +2076,7 @@ export interface UpdateSipRuleRequest {
   SipRuleId: string;
   Name: string;
   Disabled?: boolean;
-  TargetApplications?: SipRuleTargetApplicationList;
+  TargetApplications?: SipRuleTargetApplication[];
 }
 export const UpdateSipRuleRequest = S.suspend(() =>
   S.Struct({
@@ -2036,7 +2134,7 @@ export const VoiceConnectorItemList = S.Array(VoiceConnectorItem);
 export interface UpdateVoiceConnectorGroupRequest {
   VoiceConnectorGroupId: string;
   Name: string;
-  VoiceConnectorItems: VoiceConnectorItemList;
+  VoiceConnectorItems: VoiceConnectorItem[];
 }
 export const UpdateVoiceConnectorGroupRequest = S.suspend(() =>
   S.Struct({
@@ -2108,12 +2206,12 @@ export const UpdateVoiceProfileDomainRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateVoiceProfileDomainRequest>;
 export interface ValidateE911AddressRequest {
   AwsAccountId: string;
-  StreetNumber: string | Redacted.Redacted<string>;
-  StreetInfo: string | Redacted.Redacted<string>;
-  City: string | Redacted.Redacted<string>;
-  State: string | Redacted.Redacted<string>;
-  Country: string | Redacted.Redacted<string>;
-  PostalCode: string | Redacted.Redacted<string>;
+  StreetNumber: string | redacted.Redacted<string>;
+  StreetInfo: string | redacted.Redacted<string>;
+  City: string | redacted.Redacted<string>;
+  State: string | redacted.Redacted<string>;
+  Country: string | redacted.Redacted<string>;
+  PostalCode: string | redacted.Redacted<string>;
 }
 export const ValidateE911AddressRequest = S.suspend(() =>
   S.Struct({
@@ -2137,22 +2235,24 @@ export const ValidateE911AddressRequest = S.suspend(() =>
 ).annotations({
   identifier: "ValidateE911AddressRequest",
 }) as any as S.Schema<ValidateE911AddressRequest>;
-export type AlexaSkillIdList = string | Redacted.Redacted<string>[];
+export type AlexaSkillStatus = "ACTIVE" | "INACTIVE";
+export const AlexaSkillStatus = S.Literal("ACTIVE", "INACTIVE");
+export type AlexaSkillIdList = string | redacted.Redacted<string>[];
 export const AlexaSkillIdList = S.Array(SensitiveString);
 export type CallingRegionList = string[];
 export const CallingRegionList = S.Array(S.String);
 export type StringList = string[];
 export const StringList = S.Array(S.String);
 export interface UpdatePhoneNumberRequestItem {
-  PhoneNumberId: string | Redacted.Redacted<string>;
-  ProductType?: string;
-  CallingName?: string | Redacted.Redacted<string>;
-  Name?: string | Redacted.Redacted<string>;
+  PhoneNumberId: string | redacted.Redacted<string>;
+  ProductType?: PhoneNumberProductType;
+  CallingName?: string | redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
 }
 export const UpdatePhoneNumberRequestItem = S.suspend(() =>
   S.Struct({
     PhoneNumberId: SensitiveString,
-    ProductType: S.optional(S.String),
+    ProductType: S.optional(PhoneNumberProductType),
     CallingName: S.optional(SensitiveString),
     Name: S.optional(SensitiveString),
   }),
@@ -2173,35 +2273,103 @@ export const GeoMatchParams = S.suspend(() =>
   identifier: "GeoMatchParams",
 }) as any as S.Schema<GeoMatchParams>;
 export type SipHeadersMap = {
-  [key: string]: string | Redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string>;
 };
 export const SipHeadersMap = S.Record({
   key: S.String,
   value: SensitiveString,
 });
 export type SMACreateCallArgumentsMap = {
-  [key: string]: string | Redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string>;
 };
 export const SMACreateCallArgumentsMap = S.Record({
   key: S.String,
   value: SensitiveString,
 });
 export interface ServerSideEncryptionConfiguration {
-  KmsKeyArn: string | Redacted.Redacted<string>;
+  KmsKeyArn: string | redacted.Redacted<string>;
 }
 export const ServerSideEncryptionConfiguration = S.suspend(() =>
   S.Struct({ KmsKeyArn: SensitiveString }),
 ).annotations({
   identifier: "ServerSideEncryptionConfiguration",
 }) as any as S.Schema<ServerSideEncryptionConfiguration>;
+export type ErrorCode =
+  | "BadRequest"
+  | "Conflict"
+  | "Forbidden"
+  | "NotFound"
+  | "PreconditionFailed"
+  | "ResourceLimitExceeded"
+  | "ServiceFailure"
+  | "AccessDenied"
+  | "ServiceUnavailable"
+  | "Throttled"
+  | "Throttling"
+  | "Unauthorized"
+  | "Unprocessable"
+  | "VoiceConnectorGroupAssociationsExist"
+  | "PhoneNumberAssociationsExist"
+  | "Gone";
+export const ErrorCode = S.Literal(
+  "BadRequest",
+  "Conflict",
+  "Forbidden",
+  "NotFound",
+  "PreconditionFailed",
+  "ResourceLimitExceeded",
+  "ServiceFailure",
+  "AccessDenied",
+  "ServiceUnavailable",
+  "Throttled",
+  "Throttling",
+  "Unauthorized",
+  "Unprocessable",
+  "VoiceConnectorGroupAssociationsExist",
+  "PhoneNumberAssociationsExist",
+  "Gone",
+);
+export type PhoneNumberOrderStatus =
+  | "Processing"
+  | "Successful"
+  | "Failed"
+  | "Partial"
+  | "PendingDocuments"
+  | "Submitted"
+  | "FOC"
+  | "ChangeRequested"
+  | "Exception"
+  | "CancelRequested"
+  | "Cancelled";
+export const PhoneNumberOrderStatus = S.Literal(
+  "Processing",
+  "Successful",
+  "Failed",
+  "Partial",
+  "PendingDocuments",
+  "Submitted",
+  "FOC",
+  "ChangeRequested",
+  "Exception",
+  "CancelRequested",
+  "Cancelled",
+);
+export type PhoneNumberOrderType = "New" | "Porting";
+export const PhoneNumberOrderType = S.Literal("New", "Porting");
+export type OrderedPhoneNumberStatus = "Processing" | "Acquired" | "Failed";
+export const OrderedPhoneNumberStatus = S.Literal(
+  "Processing",
+  "Acquired",
+  "Failed",
+);
 export interface OrderedPhoneNumber {
-  E164PhoneNumber?: string | Redacted.Redacted<string>;
-  Status?: string;
+  E164PhoneNumber?: string | redacted.Redacted<string>;
+  Status?: OrderedPhoneNumberStatus;
 }
 export const OrderedPhoneNumber = S.suspend(() =>
   S.Struct({
     E164PhoneNumber: S.optional(SensitiveString),
-    Status: S.optional(S.String),
+    Status: S.optional(OrderedPhoneNumberStatus),
   }),
 ).annotations({
   identifier: "OrderedPhoneNumber",
@@ -2210,10 +2378,10 @@ export type OrderedPhoneNumberList = OrderedPhoneNumber[];
 export const OrderedPhoneNumberList = S.Array(OrderedPhoneNumber);
 export interface PhoneNumberOrder {
   PhoneNumberOrderId?: string;
-  ProductType?: string;
-  Status?: string;
-  OrderType?: string;
-  OrderedPhoneNumbers?: OrderedPhoneNumberList;
+  ProductType?: PhoneNumberProductType;
+  Status?: PhoneNumberOrderStatus;
+  OrderType?: PhoneNumberOrderType;
+  OrderedPhoneNumbers?: OrderedPhoneNumber[];
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
   FocDate?: Date;
@@ -2221,9 +2389,9 @@ export interface PhoneNumberOrder {
 export const PhoneNumberOrder = S.suspend(() =>
   S.Struct({
     PhoneNumberOrderId: S.optional(S.String),
-    ProductType: S.optional(S.String),
-    Status: S.optional(S.String),
-    OrderType: S.optional(S.String),
+    ProductType: S.optional(PhoneNumberProductType),
+    Status: S.optional(PhoneNumberOrderStatus),
+    OrderType: S.optional(PhoneNumberOrderType),
     OrderedPhoneNumbers: S.optional(OrderedPhoneNumberList),
     CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -2234,6 +2402,31 @@ export const PhoneNumberOrder = S.suspend(() =>
 }) as any as S.Schema<PhoneNumberOrder>;
 export type PhoneNumberOrderList = PhoneNumberOrder[];
 export const PhoneNumberOrderList = S.Array(PhoneNumberOrder);
+export type PhoneNumberStatus =
+  | "Cancelled"
+  | "PortinCancelRequested"
+  | "PortinInProgress"
+  | "AcquireInProgress"
+  | "AcquireFailed"
+  | "Unassigned"
+  | "Assigned"
+  | "ReleaseInProgress"
+  | "DeleteInProgress"
+  | "ReleaseFailed"
+  | "DeleteFailed";
+export const PhoneNumberStatus = S.Literal(
+  "Cancelled",
+  "PortinCancelRequested",
+  "PortinInProgress",
+  "AcquireInProgress",
+  "AcquireFailed",
+  "Unassigned",
+  "Assigned",
+  "ReleaseInProgress",
+  "DeleteInProgress",
+  "ReleaseFailed",
+  "DeleteFailed",
+);
 export interface PhoneNumberCapabilities {
   InboundCall?: boolean;
   OutboundCall?: boolean;
@@ -2256,13 +2449,13 @@ export const PhoneNumberCapabilities = S.suspend(() =>
 }) as any as S.Schema<PhoneNumberCapabilities>;
 export interface PhoneNumberAssociation {
   Value?: string;
-  Name?: string;
+  Name?: PhoneNumberAssociationName;
   AssociatedTimestamp?: Date;
 }
 export const PhoneNumberAssociation = S.suspend(() =>
   S.Struct({
     Value: S.optional(S.String),
-    Name: S.optional(S.String),
+    Name: S.optional(PhoneNumberAssociationName),
     AssociatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("date-time")),
     ),
@@ -2272,35 +2465,46 @@ export const PhoneNumberAssociation = S.suspend(() =>
 }) as any as S.Schema<PhoneNumberAssociation>;
 export type PhoneNumberAssociationList = PhoneNumberAssociation[];
 export const PhoneNumberAssociationList = S.Array(PhoneNumberAssociation);
+export type CallingNameStatus =
+  | "Unassigned"
+  | "UpdateInProgress"
+  | "UpdateSucceeded"
+  | "UpdateFailed";
+export const CallingNameStatus = S.Literal(
+  "Unassigned",
+  "UpdateInProgress",
+  "UpdateSucceeded",
+  "UpdateFailed",
+);
 export interface PhoneNumber {
-  PhoneNumberId?: string | Redacted.Redacted<string>;
-  E164PhoneNumber?: string | Redacted.Redacted<string>;
+  PhoneNumberId?: string | redacted.Redacted<string>;
+  E164PhoneNumber?: string | redacted.Redacted<string>;
   Country?: string;
-  Type?: string;
-  ProductType?: string;
-  Status?: string;
+  Type?: PhoneNumberType;
+  ProductType?: PhoneNumberProductType;
+  Status?: PhoneNumberStatus;
   Capabilities?: PhoneNumberCapabilities;
-  Associations?: PhoneNumberAssociationList;
-  CallingName?: string | Redacted.Redacted<string>;
-  CallingNameStatus?: string;
+  Associations?: PhoneNumberAssociation[];
+  CallingName?: string | redacted.Redacted<string>;
+  CallingNameStatus?: CallingNameStatus;
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
   DeletionTimestamp?: Date;
   OrderId?: string;
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
 }
 export const PhoneNumber = S.suspend(() =>
   S.Struct({
     PhoneNumberId: S.optional(SensitiveString),
     E164PhoneNumber: S.optional(SensitiveString),
     Country: S.optional(S.String),
-    Type: S.optional(S.String),
-    ProductType: S.optional(S.String),
-    Status: S.optional(S.String),
+    Type: S.optional(PhoneNumberType),
+    ProductType: S.optional(PhoneNumberProductType),
+    Status: S.optional(PhoneNumberStatus),
     Capabilities: S.optional(PhoneNumberCapabilities),
     Associations: S.optional(PhoneNumberAssociationList),
     CallingName: S.optional(SensitiveString),
-    CallingNameStatus: S.optional(S.String),
+    CallingNameStatus: S.optional(CallingNameStatus),
     CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     DeletionTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -2311,8 +2515,8 @@ export const PhoneNumber = S.suspend(() =>
 export type PhoneNumberList = PhoneNumber[];
 export const PhoneNumberList = S.Array(PhoneNumber);
 export interface Participant {
-  PhoneNumber?: string | Redacted.Redacted<string>;
-  ProxyPhoneNumber?: string | Redacted.Redacted<string>;
+  PhoneNumber?: string | redacted.Redacted<string>;
+  ProxyPhoneNumber?: string | redacted.Redacted<string>;
 }
 export const Participant = S.suspend(() =>
   S.Struct({
@@ -2326,15 +2530,15 @@ export interface ProxySession {
   VoiceConnectorId?: string;
   ProxySessionId?: string;
   Name?: string;
-  Status?: string;
+  Status?: ProxySessionStatus;
   ExpiryMinutes?: number;
-  Capabilities?: CapabilityList;
+  Capabilities?: Capability[];
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
   EndedTimestamp?: Date;
-  Participants?: Participants;
-  NumberSelectionBehavior?: string;
-  GeoMatchLevel?: string;
+  Participants?: Participant[];
+  NumberSelectionBehavior?: NumberSelectionBehavior;
+  GeoMatchLevel?: GeoMatchLevel;
   GeoMatchParams?: GeoMatchParams;
 }
 export const ProxySession = S.suspend(() =>
@@ -2342,15 +2546,15 @@ export const ProxySession = S.suspend(() =>
     VoiceConnectorId: S.optional(S.String),
     ProxySessionId: S.optional(S.String),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ProxySessionStatus),
     ExpiryMinutes: S.optional(S.Number),
     Capabilities: S.optional(CapabilityList),
     CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     EndedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     Participants: S.optional(Participants),
-    NumberSelectionBehavior: S.optional(S.String),
-    GeoMatchLevel: S.optional(S.String),
+    NumberSelectionBehavior: S.optional(NumberSelectionBehavior),
+    GeoMatchLevel: S.optional(GeoMatchLevel),
     GeoMatchParams: S.optional(GeoMatchParams),
   }),
 ).annotations({ identifier: "ProxySession" }) as any as S.Schema<ProxySession>;
@@ -2360,7 +2564,7 @@ export interface SipMediaApplication {
   SipMediaApplicationId?: string;
   AwsRegion?: string;
   Name?: string;
-  Endpoints?: SipMediaApplicationEndpointList;
+  Endpoints?: SipMediaApplicationEndpoint[];
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
   SipMediaApplicationArn?: string;
@@ -2384,9 +2588,9 @@ export interface SipRule {
   SipRuleId?: string;
   Name?: string;
   Disabled?: boolean;
-  TriggerType?: string;
+  TriggerType?: SipRuleTriggerType;
   TriggerValue?: string;
-  TargetApplications?: SipRuleTargetApplicationList;
+  TargetApplications?: SipRuleTargetApplication[];
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
 }
@@ -2395,7 +2599,7 @@ export const SipRule = S.suspend(() =>
     SipRuleId: S.optional(S.String),
     Name: S.optional(S.String),
     Disabled: S.optional(S.Boolean),
-    TriggerType: S.optional(S.String),
+    TriggerType: S.optional(SipRuleTriggerType),
     TriggerValue: S.optional(S.String),
     TargetApplications: S.optional(SipRuleTargetApplicationList),
     CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -2407,7 +2611,7 @@ export const SipRuleList = S.Array(SipRule);
 export interface VoiceConnectorGroup {
   VoiceConnectorGroupId?: string;
   Name?: string;
-  VoiceConnectorItems?: VoiceConnectorItemList;
+  VoiceConnectorItems?: VoiceConnectorItem[];
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
   VoiceConnectorGroupArn?: string;
@@ -2428,28 +2632,28 @@ export type VoiceConnectorGroupList = VoiceConnectorGroup[];
 export const VoiceConnectorGroupList = S.Array(VoiceConnectorGroup);
 export interface VoiceConnector {
   VoiceConnectorId?: string;
-  AwsRegion?: string;
+  AwsRegion?: VoiceConnectorAwsRegion;
   Name?: string;
   OutboundHostName?: string;
   RequireEncryption?: boolean;
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
   VoiceConnectorArn?: string;
-  IntegrationType?: string;
-  NetworkType?: string;
+  IntegrationType?: VoiceConnectorIntegrationType;
+  NetworkType?: NetworkType;
 }
 export const VoiceConnector = S.suspend(() =>
   S.Struct({
     VoiceConnectorId: S.optional(S.String),
-    AwsRegion: S.optional(S.String),
+    AwsRegion: S.optional(VoiceConnectorAwsRegion),
     Name: S.optional(S.String),
     OutboundHostName: S.optional(S.String),
     RequireEncryption: S.optional(S.Boolean),
     CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     VoiceConnectorArn: S.optional(S.String),
-    IntegrationType: S.optional(S.String),
-    NetworkType: S.optional(S.String),
+    IntegrationType: S.optional(VoiceConnectorIntegrationType),
+    NetworkType: S.optional(NetworkType),
   }),
 ).annotations({
   identifier: "VoiceConnector",
@@ -2457,11 +2661,14 @@ export const VoiceConnector = S.suspend(() =>
 export type VoiceConnectorList = VoiceConnector[];
 export const VoiceConnectorList = S.Array(VoiceConnector);
 export interface SipMediaApplicationAlexaSkillConfiguration {
-  AlexaSkillStatus: string;
-  AlexaSkillIds: AlexaSkillIdList;
+  AlexaSkillStatus: AlexaSkillStatus;
+  AlexaSkillIds: string | redacted.Redacted<string>[];
 }
 export const SipMediaApplicationAlexaSkillConfiguration = S.suspend(() =>
-  S.Struct({ AlexaSkillStatus: S.String, AlexaSkillIds: AlexaSkillIdList }),
+  S.Struct({
+    AlexaSkillStatus: AlexaSkillStatus,
+    AlexaSkillIds: AlexaSkillIdList,
+  }),
 ).annotations({
   identifier: "SipMediaApplicationAlexaSkillConfiguration",
 }) as any as S.Schema<SipMediaApplicationAlexaSkillConfiguration>;
@@ -2487,9 +2694,9 @@ export const LoggingConfiguration = S.suspend(() =>
 }) as any as S.Schema<LoggingConfiguration>;
 export interface Termination {
   CpsLimit?: number;
-  DefaultPhoneNumber?: string | Redacted.Redacted<string>;
-  CallingRegions?: CallingRegionList;
-  CidrAllowedList?: StringList;
+  DefaultPhoneNumber?: string | redacted.Redacted<string>;
+  CallingRegions?: string[];
+  CidrAllowedList?: string[];
   Disabled?: boolean;
 }
 export const Termination = S.suspend(() =>
@@ -2502,8 +2709,8 @@ export const Termination = S.suspend(() =>
   }),
 ).annotations({ identifier: "Termination" }) as any as S.Schema<Termination>;
 export interface Credential {
-  Username?: string | Redacted.Redacted<string>;
-  Password?: string | Redacted.Redacted<string>;
+  Username?: string | redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
 }
 export const Credential = S.suspend(() =>
   S.Struct({
@@ -2514,21 +2721,25 @@ export const Credential = S.suspend(() =>
 export type CredentialList = Credential[];
 export const CredentialList = S.Array(Credential);
 export type SMAUpdateCallArgumentsMap = {
-  [key: string]: string | Redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string>;
 };
 export const SMAUpdateCallArgumentsMap = S.Record({
   key: S.String,
   value: SensitiveString,
 });
+export type OriginationRouteProtocol = "TCP" | "UDP";
+export const OriginationRouteProtocol = S.Literal("TCP", "UDP");
+export type NotificationTarget = "EventBridge" | "SNS" | "SQS";
+export const NotificationTarget = S.Literal("EventBridge", "SNS", "SQS");
 export interface PhoneNumberError {
-  PhoneNumberId?: string | Redacted.Redacted<string>;
-  ErrorCode?: string;
+  PhoneNumberId?: string | redacted.Redacted<string>;
+  ErrorCode?: ErrorCode;
   ErrorMessage?: string;
 }
 export const PhoneNumberError = S.suspend(() =>
   S.Struct({
     PhoneNumberId: S.optional(SensitiveString),
-    ErrorCode: S.optional(S.String),
+    ErrorCode: S.optional(ErrorCode),
     ErrorMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -2537,7 +2748,7 @@ export const PhoneNumberError = S.suspend(() =>
 export type PhoneNumberErrorList = PhoneNumberError[];
 export const PhoneNumberErrorList = S.Array(PhoneNumberError);
 export interface AssociatePhoneNumbersWithVoiceConnectorGroupResponse {
-  PhoneNumberErrors?: PhoneNumberErrorList;
+  PhoneNumberErrors?: PhoneNumberError[];
 }
 export const AssociatePhoneNumbersWithVoiceConnectorGroupResponse = S.suspend(
   () => S.Struct({ PhoneNumberErrors: S.optional(PhoneNumberErrorList) }),
@@ -2545,7 +2756,7 @@ export const AssociatePhoneNumbersWithVoiceConnectorGroupResponse = S.suspend(
   identifier: "AssociatePhoneNumbersWithVoiceConnectorGroupResponse",
 }) as any as S.Schema<AssociatePhoneNumbersWithVoiceConnectorGroupResponse>;
 export interface BatchDeletePhoneNumberResponse {
-  PhoneNumberErrors?: PhoneNumberErrorList;
+  PhoneNumberErrors?: PhoneNumberError[];
 }
 export const BatchDeletePhoneNumberResponse = S.suspend(() =>
   S.Struct({ PhoneNumberErrors: S.optional(PhoneNumberErrorList) }),
@@ -2553,7 +2764,7 @@ export const BatchDeletePhoneNumberResponse = S.suspend(() =>
   identifier: "BatchDeletePhoneNumberResponse",
 }) as any as S.Schema<BatchDeletePhoneNumberResponse>;
 export interface BatchUpdatePhoneNumberRequest {
-  UpdatePhoneNumberRequestItems: UpdatePhoneNumberRequestItemList;
+  UpdatePhoneNumberRequestItems: UpdatePhoneNumberRequestItem[];
 }
 export const BatchUpdatePhoneNumberRequest = S.suspend(() =>
   S.Struct({
@@ -2573,12 +2784,12 @@ export const BatchUpdatePhoneNumberRequest = S.suspend(() =>
 }) as any as S.Schema<BatchUpdatePhoneNumberRequest>;
 export interface CreateProxySessionRequest {
   VoiceConnectorId: string;
-  ParticipantPhoneNumbers: ParticipantPhoneNumberList;
-  Name?: string | Redacted.Redacted<string>;
+  ParticipantPhoneNumbers: string | redacted.Redacted<string>[];
+  Name?: string | redacted.Redacted<string>;
   ExpiryMinutes?: number;
-  Capabilities: CapabilityList;
-  NumberSelectionBehavior?: string;
-  GeoMatchLevel?: string;
+  Capabilities: Capability[];
+  NumberSelectionBehavior?: NumberSelectionBehavior;
+  GeoMatchLevel?: GeoMatchLevel;
   GeoMatchParams?: GeoMatchParams;
 }
 export const CreateProxySessionRequest = S.suspend(() =>
@@ -2588,8 +2799,8 @@ export const CreateProxySessionRequest = S.suspend(() =>
     Name: S.optional(SensitiveString),
     ExpiryMinutes: S.optional(S.Number),
     Capabilities: CapabilityList,
-    NumberSelectionBehavior: S.optional(S.String),
-    GeoMatchLevel: S.optional(S.String),
+    NumberSelectionBehavior: S.optional(NumberSelectionBehavior),
+    GeoMatchLevel: S.optional(GeoMatchLevel),
     GeoMatchParams: S.optional(GeoMatchParams),
   }).pipe(
     T.all(
@@ -2610,8 +2821,8 @@ export const CreateProxySessionRequest = S.suspend(() =>
 export interface CreateSipMediaApplicationRequest {
   AwsRegion: string;
   Name: string;
-  Endpoints: SipMediaApplicationEndpointList;
-  Tags?: TagList;
+  Endpoints: SipMediaApplicationEndpoint[];
+  Tags?: Tag[];
 }
 export const CreateSipMediaApplicationRequest = S.suspend(() =>
   S.Struct({
@@ -2633,11 +2844,11 @@ export const CreateSipMediaApplicationRequest = S.suspend(() =>
   identifier: "CreateSipMediaApplicationRequest",
 }) as any as S.Schema<CreateSipMediaApplicationRequest>;
 export interface CreateSipMediaApplicationCallRequest {
-  FromPhoneNumber: string | Redacted.Redacted<string>;
-  ToPhoneNumber: string | Redacted.Redacted<string>;
+  FromPhoneNumber: string | redacted.Redacted<string>;
+  ToPhoneNumber: string | redacted.Redacted<string>;
   SipMediaApplicationId: string;
-  SipHeaders?: SipHeadersMap;
-  ArgumentsMap?: SMACreateCallArgumentsMap;
+  SipHeaders?: { [key: string]: string | redacted.Redacted<string> };
+  ArgumentsMap?: { [key: string]: string | redacted.Redacted<string> };
 }
 export const CreateSipMediaApplicationCallRequest = S.suspend(() =>
   S.Struct({
@@ -2664,15 +2875,15 @@ export const CreateSipMediaApplicationCallRequest = S.suspend(() =>
 }) as any as S.Schema<CreateSipMediaApplicationCallRequest>;
 export interface CreateSipRuleRequest {
   Name: string;
-  TriggerType: string;
+  TriggerType: SipRuleTriggerType;
   TriggerValue: string;
   Disabled?: boolean;
-  TargetApplications?: SipRuleTargetApplicationList;
+  TargetApplications?: SipRuleTargetApplication[];
 }
 export const CreateSipRuleRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    TriggerType: S.String,
+    TriggerType: SipRuleTriggerType,
     TriggerValue: S.String,
     Disabled: S.optional(S.Boolean),
     TargetApplications: S.optional(SipRuleTargetApplicationList),
@@ -2691,7 +2902,7 @@ export const CreateSipRuleRequest = S.suspend(() =>
 }) as any as S.Schema<CreateSipRuleRequest>;
 export interface CreateVoiceConnectorGroupRequest {
   Name: string;
-  VoiceConnectorItems?: VoiceConnectorItemList;
+  VoiceConnectorItems?: VoiceConnectorItem[];
 }
 export const CreateVoiceConnectorGroupRequest = S.suspend(() =>
   S.Struct({
@@ -2715,7 +2926,7 @@ export interface CreateVoiceProfileDomainRequest {
   Description?: string;
   ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration;
   ClientRequestToken?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateVoiceProfileDomainRequest = S.suspend(() =>
   S.Struct({
@@ -2738,7 +2949,7 @@ export const CreateVoiceProfileDomainRequest = S.suspend(() =>
   identifier: "CreateVoiceProfileDomainRequest",
 }) as any as S.Schema<CreateVoiceProfileDomainRequest>;
 export interface DisassociatePhoneNumbersFromVoiceConnectorResponse {
-  PhoneNumberErrors?: PhoneNumberErrorList;
+  PhoneNumberErrors?: PhoneNumberError[];
 }
 export const DisassociatePhoneNumbersFromVoiceConnectorResponse = S.suspend(
   () => S.Struct({ PhoneNumberErrors: S.optional(PhoneNumberErrorList) }),
@@ -2746,7 +2957,7 @@ export const DisassociatePhoneNumbersFromVoiceConnectorResponse = S.suspend(
   identifier: "DisassociatePhoneNumbersFromVoiceConnectorResponse",
 }) as any as S.Schema<DisassociatePhoneNumbersFromVoiceConnectorResponse>;
 export interface DisassociatePhoneNumbersFromVoiceConnectorGroupResponse {
-  PhoneNumberErrors?: PhoneNumberErrorList;
+  PhoneNumberErrors?: PhoneNumberError[];
 }
 export const DisassociatePhoneNumbersFromVoiceConnectorGroupResponse =
   S.suspend(() =>
@@ -2805,8 +3016,8 @@ export const GetVoiceConnectorResponse = S.suspend(() =>
   identifier: "GetVoiceConnectorResponse",
 }) as any as S.Schema<GetVoiceConnectorResponse>;
 export interface DNISEmergencyCallingConfiguration {
-  EmergencyPhoneNumber: string | Redacted.Redacted<string>;
-  TestPhoneNumber?: string | Redacted.Redacted<string>;
+  EmergencyPhoneNumber: string | redacted.Redacted<string>;
+  TestPhoneNumber?: string | redacted.Redacted<string>;
   CallingCountry: string;
 }
 export const DNISEmergencyCallingConfiguration = S.suspend(() =>
@@ -2824,7 +3035,7 @@ export const DNISEmergencyCallingConfigurationList = S.Array(
   DNISEmergencyCallingConfiguration,
 );
 export interface EmergencyCallingConfiguration {
-  DNIS?: DNISEmergencyCallingConfigurationList;
+  DNIS?: DNISEmergencyCallingConfiguration[];
 }
 export const EmergencyCallingConfiguration = S.suspend(() =>
   S.Struct({ DNIS: S.optional(DNISEmergencyCallingConfigurationList) }),
@@ -2853,7 +3064,7 @@ export const GetVoiceConnectorLoggingConfigurationResponse = S.suspend(() =>
 export interface OriginationRoute {
   Host?: string;
   Port?: number;
-  Protocol?: string;
+  Protocol?: OriginationRouteProtocol;
   Priority?: number;
   Weight?: number;
 }
@@ -2861,7 +3072,7 @@ export const OriginationRoute = S.suspend(() =>
   S.Struct({
     Host: S.optional(S.String),
     Port: S.optional(S.Number),
-    Protocol: S.optional(S.String),
+    Protocol: S.optional(OriginationRouteProtocol),
     Priority: S.optional(S.Number),
     Weight: S.optional(S.Number),
   }),
@@ -2871,7 +3082,7 @@ export const OriginationRoute = S.suspend(() =>
 export type OriginationRouteList = OriginationRoute[];
 export const OriginationRouteList = S.Array(OriginationRoute);
 export interface Origination {
-  Routes?: OriginationRouteList;
+  Routes?: OriginationRoute[];
   Disabled?: boolean;
 }
 export const Origination = S.suspend(() =>
@@ -2889,10 +3100,10 @@ export const GetVoiceConnectorOriginationResponse = S.suspend(() =>
   identifier: "GetVoiceConnectorOriginationResponse",
 }) as any as S.Schema<GetVoiceConnectorOriginationResponse>;
 export interface StreamingNotificationTarget {
-  NotificationTarget?: string;
+  NotificationTarget?: NotificationTarget;
 }
 export const StreamingNotificationTarget = S.suspend(() =>
-  S.Struct({ NotificationTarget: S.optional(S.String) }),
+  S.Struct({ NotificationTarget: S.optional(NotificationTarget) }),
 ).annotations({
   identifier: "StreamingNotificationTarget",
 }) as any as S.Schema<StreamingNotificationTarget>;
@@ -2902,7 +3113,7 @@ export const StreamingNotificationTargetList = S.Array(
 );
 export interface MediaInsightsConfiguration {
   Disabled?: boolean;
-  ConfigurationArn?: string | Redacted.Redacted<string>;
+  ConfigurationArn?: string | redacted.Redacted<string>;
 }
 export const MediaInsightsConfiguration = S.suspend(() =>
   S.Struct({
@@ -2915,7 +3126,7 @@ export const MediaInsightsConfiguration = S.suspend(() =>
 export interface StreamingConfiguration {
   DataRetentionInHours: number;
   Disabled: boolean;
-  StreamingNotificationTargets?: StreamingNotificationTargetList;
+  StreamingNotificationTargets?: StreamingNotificationTarget[];
   MediaInsightsConfiguration?: MediaInsightsConfiguration;
 }
 export const StreamingConfiguration = S.suspend(() =>
@@ -2946,7 +3157,7 @@ export const GetVoiceConnectorTerminationResponse = S.suspend(() =>
 }) as any as S.Schema<GetVoiceConnectorTerminationResponse>;
 export interface VoiceProfile {
   VoiceProfileId?: string;
-  VoiceProfileArn?: string | Redacted.Redacted<string>;
+  VoiceProfileArn?: string | redacted.Redacted<string>;
   VoiceProfileDomainId?: string;
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
@@ -2973,7 +3184,7 @@ export const GetVoiceProfileResponse = S.suspend(() =>
   identifier: "GetVoiceProfileResponse",
 }) as any as S.Schema<GetVoiceProfileResponse>;
 export interface ListPhoneNumberOrdersResponse {
-  PhoneNumberOrders?: PhoneNumberOrderList;
+  PhoneNumberOrders?: PhoneNumberOrder[];
   NextToken?: string;
 }
 export const ListPhoneNumberOrdersResponse = S.suspend(() =>
@@ -2985,7 +3196,7 @@ export const ListPhoneNumberOrdersResponse = S.suspend(() =>
   identifier: "ListPhoneNumberOrdersResponse",
 }) as any as S.Schema<ListPhoneNumberOrdersResponse>;
 export interface ListPhoneNumbersResponse {
-  PhoneNumbers?: PhoneNumberList;
+  PhoneNumbers?: PhoneNumber[];
   NextToken?: string;
 }
 export const ListPhoneNumbersResponse = S.suspend(() =>
@@ -2997,7 +3208,7 @@ export const ListPhoneNumbersResponse = S.suspend(() =>
   identifier: "ListPhoneNumbersResponse",
 }) as any as S.Schema<ListPhoneNumbersResponse>;
 export interface ListProxySessionsResponse {
-  ProxySessions?: ProxySessions;
+  ProxySessions?: ProxySession[];
   NextToken?: string;
 }
 export const ListProxySessionsResponse = S.suspend(() =>
@@ -3009,7 +3220,7 @@ export const ListProxySessionsResponse = S.suspend(() =>
   identifier: "ListProxySessionsResponse",
 }) as any as S.Schema<ListProxySessionsResponse>;
 export interface ListSipMediaApplicationsResponse {
-  SipMediaApplications?: SipMediaApplicationList;
+  SipMediaApplications?: SipMediaApplication[];
   NextToken?: string;
 }
 export const ListSipMediaApplicationsResponse = S.suspend(() =>
@@ -3021,7 +3232,7 @@ export const ListSipMediaApplicationsResponse = S.suspend(() =>
   identifier: "ListSipMediaApplicationsResponse",
 }) as any as S.Schema<ListSipMediaApplicationsResponse>;
 export interface ListSipRulesResponse {
-  SipRules?: SipRuleList;
+  SipRules?: SipRule[];
   NextToken?: string;
 }
 export const ListSipRulesResponse = S.suspend(() =>
@@ -3033,7 +3244,7 @@ export const ListSipRulesResponse = S.suspend(() =>
   identifier: "ListSipRulesResponse",
 }) as any as S.Schema<ListSipRulesResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }),
@@ -3041,7 +3252,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListVoiceConnectorGroupsResponse {
-  VoiceConnectorGroups?: VoiceConnectorGroupList;
+  VoiceConnectorGroups?: VoiceConnectorGroup[];
   NextToken?: string;
 }
 export const ListVoiceConnectorGroupsResponse = S.suspend(() =>
@@ -3053,7 +3264,7 @@ export const ListVoiceConnectorGroupsResponse = S.suspend(() =>
   identifier: "ListVoiceConnectorGroupsResponse",
 }) as any as S.Schema<ListVoiceConnectorGroupsResponse>;
 export interface ListVoiceConnectorsResponse {
-  VoiceConnectors?: VoiceConnectorList;
+  VoiceConnectors?: VoiceConnector[];
   NextToken?: string;
 }
 export const ListVoiceConnectorsResponse = S.suspend(() =>
@@ -3065,7 +3276,7 @@ export const ListVoiceConnectorsResponse = S.suspend(() =>
   identifier: "ListVoiceConnectorsResponse",
 }) as any as S.Schema<ListVoiceConnectorsResponse>;
 export interface ListVoiceConnectorTerminationCredentialsResponse {
-  Usernames?: SensitiveStringList;
+  Usernames?: string | redacted.Redacted<string>[];
 }
 export const ListVoiceConnectorTerminationCredentialsResponse = S.suspend(() =>
   S.Struct({ Usernames: S.optional(SensitiveStringList) }),
@@ -3128,8 +3339,8 @@ export const PutSipMediaApplicationLoggingConfigurationRequest = S.suspend(() =>
   identifier: "PutSipMediaApplicationLoggingConfigurationRequest",
 }) as any as S.Schema<PutSipMediaApplicationLoggingConfigurationRequest>;
 export interface ExternalSystemsConfiguration {
-  SessionBorderControllerTypes?: SessionBorderControllerTypeList;
-  ContactCenterSystemTypes?: ContactCenterSystemTypeList;
+  SessionBorderControllerTypes?: SessionBorderControllerType[];
+  ContactCenterSystemTypes?: ContactCenterSystemType[];
 }
 export const ExternalSystemsConfiguration = S.suspend(() =>
   S.Struct({
@@ -3177,8 +3388,8 @@ export const PutVoiceConnectorLoggingConfigurationRequest = S.suspend(() =>
 export interface Proxy {
   DefaultSessionExpiryMinutes?: number;
   Disabled?: boolean;
-  FallBackPhoneNumber?: string | Redacted.Redacted<string>;
-  PhoneNumberCountries?: StringList;
+  FallBackPhoneNumber?: string | redacted.Redacted<string>;
+  PhoneNumberCountries?: string[];
 }
 export const Proxy = S.suspend(() =>
   S.Struct({
@@ -3222,7 +3433,7 @@ export const PutVoiceConnectorTerminationRequest = S.suspend(() =>
 }) as any as S.Schema<PutVoiceConnectorTerminationRequest>;
 export interface PutVoiceConnectorTerminationCredentialsRequest {
   VoiceConnectorId: string;
-  Credentials?: CredentialList;
+  Credentials?: Credential[];
 }
 export const PutVoiceConnectorTerminationCredentialsRequest = S.suspend(() =>
   S.Struct({
@@ -3259,7 +3470,7 @@ export const RestorePhoneNumberResponse = S.suspend(() =>
   identifier: "RestorePhoneNumberResponse",
 }) as any as S.Schema<RestorePhoneNumberResponse>;
 export interface SearchAvailablePhoneNumbersResponse {
-  E164PhoneNumbers?: E164PhoneNumberList;
+  E164PhoneNumbers?: string | redacted.Redacted<string>[];
   NextToken?: string;
 }
 export const SearchAvailablePhoneNumbersResponse = S.suspend(() =>
@@ -3297,7 +3508,7 @@ export const SpeakerSearchResult = S.suspend(() =>
 export type SpeakerSearchResultList = SpeakerSearchResult[];
 export const SpeakerSearchResultList = S.Array(SpeakerSearchResult);
 export interface SpeakerSearchDetails {
-  Results?: SpeakerSearchResultList;
+  Results?: SpeakerSearchResult[];
   VoiceprintGenerationStatus?: string;
 }
 export const SpeakerSearchDetails = S.suspend(() =>
@@ -3397,7 +3608,7 @@ export const UpdateSipMediaApplicationResponse = S.suspend(() =>
 export interface UpdateSipMediaApplicationCallRequest {
   SipMediaApplicationId: string;
   TransactionId: string;
-  Arguments: SMAUpdateCallArgumentsMap;
+  Arguments: { [key: string]: string | redacted.Redacted<string> };
 }
 export const UpdateSipMediaApplicationCallRequest = S.suspend(() =>
   S.Struct({
@@ -3454,7 +3665,7 @@ export const UpdateVoiceProfileResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateVoiceProfileResponse>;
 export interface VoiceProfileDomain {
   VoiceProfileDomainId?: string;
-  VoiceProfileDomainArn?: string | Redacted.Redacted<string>;
+  VoiceProfileDomainArn?: string | redacted.Redacted<string>;
   Name?: string;
   Description?: string;
   ServerSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
@@ -3484,8 +3695,8 @@ export const UpdateVoiceProfileDomainResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateVoiceProfileDomainResponse",
 }) as any as S.Schema<UpdateVoiceProfileDomainResponse>;
-export type PhoneNumberTypeList = string[];
-export const PhoneNumberTypeList = S.Array(S.String);
+export type PhoneNumberTypeList = PhoneNumberType[];
+export const PhoneNumberTypeList = S.Array(PhoneNumberType);
 export interface TerminationHealth {
   Timestamp?: Date;
   Source?: string;
@@ -3500,7 +3711,7 @@ export const TerminationHealth = S.suspend(() =>
 }) as any as S.Schema<TerminationHealth>;
 export interface PhoneNumberCountry {
   CountryCode?: string;
-  SupportedPhoneNumberTypes?: PhoneNumberTypeList;
+  SupportedPhoneNumberTypes?: PhoneNumberType[];
 }
 export const PhoneNumberCountry = S.suspend(() =>
   S.Struct({
@@ -3514,7 +3725,7 @@ export type PhoneNumberCountriesList = PhoneNumberCountry[];
 export const PhoneNumberCountriesList = S.Array(PhoneNumberCountry);
 export interface VoiceProfileDomainSummary {
   VoiceProfileDomainId?: string;
-  VoiceProfileDomainArn?: string | Redacted.Redacted<string>;
+  VoiceProfileDomainArn?: string | redacted.Redacted<string>;
   Name?: string;
   Description?: string;
   CreatedTimestamp?: Date;
@@ -3536,7 +3747,7 @@ export type VoiceProfileDomainSummaryList = VoiceProfileDomainSummary[];
 export const VoiceProfileDomainSummaryList = S.Array(VoiceProfileDomainSummary);
 export interface VoiceProfileSummary {
   VoiceProfileId?: string;
-  VoiceProfileArn?: string | Redacted.Redacted<string>;
+  VoiceProfileArn?: string | redacted.Redacted<string>;
   VoiceProfileDomainId?: string;
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
@@ -3559,16 +3770,16 @@ export const VoiceProfileSummary = S.suspend(() =>
 export type VoiceProfileSummaryList = VoiceProfileSummary[];
 export const VoiceProfileSummaryList = S.Array(VoiceProfileSummary);
 export interface Address {
-  streetName?: string | Redacted.Redacted<string>;
-  streetSuffix?: string | Redacted.Redacted<string>;
-  postDirectional?: string | Redacted.Redacted<string>;
-  preDirectional?: string | Redacted.Redacted<string>;
-  streetNumber?: string | Redacted.Redacted<string>;
-  city?: string | Redacted.Redacted<string>;
-  state?: string | Redacted.Redacted<string>;
-  postalCode?: string | Redacted.Redacted<string>;
-  postalCodePlus4?: string | Redacted.Redacted<string>;
-  country?: string | Redacted.Redacted<string>;
+  streetName?: string | redacted.Redacted<string>;
+  streetSuffix?: string | redacted.Redacted<string>;
+  postDirectional?: string | redacted.Redacted<string>;
+  preDirectional?: string | redacted.Redacted<string>;
+  streetNumber?: string | redacted.Redacted<string>;
+  city?: string | redacted.Redacted<string>;
+  state?: string | redacted.Redacted<string>;
+  postalCode?: string | redacted.Redacted<string>;
+  postalCodePlus4?: string | redacted.Redacted<string>;
+  country?: string | redacted.Redacted<string>;
 }
 export const Address = S.suspend(() =>
   S.Struct({
@@ -3585,13 +3796,13 @@ export const Address = S.suspend(() =>
   }),
 ).annotations({ identifier: "Address" }) as any as S.Schema<Address>;
 export interface CandidateAddress {
-  streetInfo?: string | Redacted.Redacted<string>;
-  streetNumber?: string | Redacted.Redacted<string>;
-  city?: string | Redacted.Redacted<string>;
-  state?: string | Redacted.Redacted<string>;
-  postalCode?: string | Redacted.Redacted<string>;
-  postalCodePlus4?: string | Redacted.Redacted<string>;
-  country?: string | Redacted.Redacted<string>;
+  streetInfo?: string | redacted.Redacted<string>;
+  streetNumber?: string | redacted.Redacted<string>;
+  city?: string | redacted.Redacted<string>;
+  state?: string | redacted.Redacted<string>;
+  postalCode?: string | redacted.Redacted<string>;
+  postalCodePlus4?: string | redacted.Redacted<string>;
+  country?: string | redacted.Redacted<string>;
 }
 export const CandidateAddress = S.suspend(() =>
   S.Struct({
@@ -3613,7 +3824,7 @@ export const CandidateAddressList = S.Array(
   }),
 );
 export interface AssociatePhoneNumbersWithVoiceConnectorResponse {
-  PhoneNumberErrors?: PhoneNumberErrorList;
+  PhoneNumberErrors?: PhoneNumberError[];
 }
 export const AssociatePhoneNumbersWithVoiceConnectorResponse = S.suspend(() =>
   S.Struct({ PhoneNumberErrors: S.optional(PhoneNumberErrorList) }),
@@ -3621,7 +3832,7 @@ export const AssociatePhoneNumbersWithVoiceConnectorResponse = S.suspend(() =>
   identifier: "AssociatePhoneNumbersWithVoiceConnectorResponse",
 }) as any as S.Schema<AssociatePhoneNumbersWithVoiceConnectorResponse>;
 export interface BatchUpdatePhoneNumberResponse {
-  PhoneNumberErrors?: PhoneNumberErrorList;
+  PhoneNumberErrors?: PhoneNumberError[];
 }
 export const BatchUpdatePhoneNumberResponse = S.suspend(() =>
   S.Struct({ PhoneNumberErrors: S.optional(PhoneNumberErrorList) }),
@@ -3752,7 +3963,7 @@ export const GetVoiceToneAnalysisTaskResponse = S.suspend(() =>
   identifier: "GetVoiceToneAnalysisTaskResponse",
 }) as any as S.Schema<GetVoiceToneAnalysisTaskResponse>;
 export interface ListSupportedPhoneNumberCountriesResponse {
-  PhoneNumberCountries?: PhoneNumberCountriesList;
+  PhoneNumberCountries?: PhoneNumberCountry[];
 }
 export const ListSupportedPhoneNumberCountriesResponse = S.suspend(() =>
   S.Struct({ PhoneNumberCountries: S.optional(PhoneNumberCountriesList) }),
@@ -3760,7 +3971,7 @@ export const ListSupportedPhoneNumberCountriesResponse = S.suspend(() =>
   identifier: "ListSupportedPhoneNumberCountriesResponse",
 }) as any as S.Schema<ListSupportedPhoneNumberCountriesResponse>;
 export interface ListVoiceProfileDomainsResponse {
-  VoiceProfileDomains?: VoiceProfileDomainSummaryList;
+  VoiceProfileDomains?: VoiceProfileDomainSummary[];
   NextToken?: string;
 }
 export const ListVoiceProfileDomainsResponse = S.suspend(() =>
@@ -3772,7 +3983,7 @@ export const ListVoiceProfileDomainsResponse = S.suspend(() =>
   identifier: "ListVoiceProfileDomainsResponse",
 }) as any as S.Schema<ListVoiceProfileDomainsResponse>;
 export interface ListVoiceProfilesResponse {
-  VoiceProfiles?: VoiceProfileSummaryList;
+  VoiceProfiles?: VoiceProfileSummary[];
   NextToken?: string;
 }
 export const ListVoiceProfilesResponse = S.suspend(() =>
@@ -3918,7 +4129,7 @@ export interface ValidateE911AddressResponse {
   ValidationResult?: number;
   AddressExternalId?: string;
   Address?: Address;
-  CandidateAddressList?: CandidateAddressList;
+  CandidateAddressList?: CandidateAddress[];
 }
 export const ValidateE911AddressResponse = S.suspend(() =>
   S.Struct({
@@ -4001,51 +4212,51 @@ export const GetSpeakerSearchTaskResponse = S.suspend(() =>
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
 export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
   "ForbiddenException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withConflictError) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class ServiceFailureException extends S.TaggedError<ServiceFailureException>()(
   "ServiceFailureException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
 export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitExceededException>()(
   "ResourceLimitExceededException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class GoneException extends S.TaggedError<GoneException>()(
   "GoneException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
 export class ThrottledClientException extends S.TaggedError<ThrottledClientException>()(
   "ThrottledClientException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withThrottlingError) {}
 export class UnauthorizedClientException extends S.TaggedError<UnauthorizedClientException>()(
   "UnauthorizedClientException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
 export class UnprocessableEntityException extends S.TaggedError<UnprocessableEntityException>()(
   "UnprocessableEntityException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  { Code: S.optional(ErrorCode), Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
@@ -4054,7 +4265,7 @@ export class UnprocessableEntityException extends S.TaggedError<UnprocessableEnt
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -4081,7 +4292,7 @@ export const listTagsForResource: (
  */
 export const putVoiceConnectorEmergencyCallingConfiguration: (
   input: PutVoiceConnectorEmergencyCallingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutVoiceConnectorEmergencyCallingConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -4110,7 +4321,7 @@ export const putVoiceConnectorEmergencyCallingConfiguration: (
  */
 export const putVoiceConnectorOrigination: (
   input: PutVoiceConnectorOriginationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutVoiceConnectorOriginationResponse,
   | BadRequestException
   | ForbiddenException
@@ -4139,7 +4350,7 @@ export const putVoiceConnectorOrigination: (
  */
 export const putVoiceConnectorStreamingConfiguration: (
   input: PutVoiceConnectorStreamingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutVoiceConnectorStreamingConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -4171,7 +4382,7 @@ export const putVoiceConnectorStreamingConfiguration: (
  */
 export const createVoiceConnector: (
   input: CreateVoiceConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVoiceConnectorResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4202,7 +4413,7 @@ export const createVoiceConnector: (
  */
 export const deleteVoiceProfile: (
   input: DeleteVoiceProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVoiceProfileResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4236,7 +4447,7 @@ export const deleteVoiceProfile: (
  */
 export const getSipMediaApplication: (
   input: GetSipMediaApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSipMediaApplicationResponse,
   | BadRequestException
   | ForbiddenException
@@ -4266,7 +4477,7 @@ export const getSipMediaApplication: (
  */
 export const getSipRule: (
   input: GetSipRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSipRuleResponse,
   | BadRequestException
   | ForbiddenException
@@ -4296,7 +4507,7 @@ export const getSipRule: (
  */
 export const getVoiceConnectorExternalSystemsConfiguration: (
   input: GetVoiceConnectorExternalSystemsConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetVoiceConnectorExternalSystemsConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -4326,7 +4537,7 @@ export const getVoiceConnectorExternalSystemsConfiguration: (
  */
 export const getVoiceConnectorGroup: (
   input: GetVoiceConnectorGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetVoiceConnectorGroupResponse,
   | BadRequestException
   | ForbiddenException
@@ -4356,7 +4567,7 @@ export const getVoiceConnectorGroup: (
  */
 export const getVoiceConnectorProxy: (
   input: GetVoiceConnectorProxyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetVoiceConnectorProxyResponse,
   | BadRequestException
   | ForbiddenException
@@ -4387,7 +4598,7 @@ export const getVoiceConnectorProxy: (
  */
 export const getVoiceConnectorTerminationHealth: (
   input: GetVoiceConnectorTerminationHealthRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetVoiceConnectorTerminationHealthResponse,
   | BadRequestException
   | ForbiddenException
@@ -4416,7 +4627,7 @@ export const getVoiceConnectorTerminationHealth: (
  */
 export const getVoiceProfileDomain: (
   input: GetVoiceProfileDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetVoiceProfileDomainResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4447,7 +4658,7 @@ export const getVoiceProfileDomain: (
  */
 export const getVoiceToneAnalysisTask: (
   input: GetVoiceToneAnalysisTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetVoiceToneAnalysisTaskResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4481,7 +4692,7 @@ export const getVoiceToneAnalysisTask: (
 export const listVoiceProfileDomains: {
   (
     input: ListVoiceProfileDomainsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVoiceProfileDomainsResponse,
     | BadRequestException
     | ForbiddenException
@@ -4495,7 +4706,7 @@ export const listVoiceProfileDomains: {
   >;
   pages: (
     input: ListVoiceProfileDomainsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVoiceProfileDomainsResponse,
     | BadRequestException
     | ForbiddenException
@@ -4509,7 +4720,7 @@ export const listVoiceProfileDomains: {
   >;
   items: (
     input: ListVoiceProfileDomainsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -4545,7 +4756,7 @@ export const listVoiceProfileDomains: {
 export const listVoiceProfiles: {
   (
     input: ListVoiceProfilesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVoiceProfilesResponse,
     | BadRequestException
     | ForbiddenException
@@ -4559,7 +4770,7 @@ export const listVoiceProfiles: {
   >;
   pages: (
     input: ListVoiceProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVoiceProfilesResponse,
     | BadRequestException
     | ForbiddenException
@@ -4573,7 +4784,7 @@ export const listVoiceProfiles: {
   >;
   items: (
     input: ListVoiceProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -4611,7 +4822,7 @@ export const listVoiceProfiles: {
  */
 export const putSipMediaApplicationAlexaSkillConfiguration: (
   input: PutSipMediaApplicationAlexaSkillConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutSipMediaApplicationAlexaSkillConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -4640,7 +4851,7 @@ export const putSipMediaApplicationAlexaSkillConfiguration: (
  */
 export const putSipMediaApplicationLoggingConfiguration: (
   input: PutSipMediaApplicationLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutSipMediaApplicationLoggingConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -4669,7 +4880,7 @@ export const putSipMediaApplicationLoggingConfiguration: (
  */
 export const putVoiceConnectorLoggingConfiguration: (
   input: PutVoiceConnectorLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutVoiceConnectorLoggingConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -4698,7 +4909,7 @@ export const putVoiceConnectorLoggingConfiguration: (
  */
 export const putVoiceConnectorTermination: (
   input: PutVoiceConnectorTerminationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutVoiceConnectorTerminationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4731,7 +4942,7 @@ export const putVoiceConnectorTermination: (
  */
 export const updateSipMediaApplicationCall: (
   input: UpdateSipMediaApplicationCallRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSipMediaApplicationCallResponse,
   | BadRequestException
   | ForbiddenException
@@ -4765,7 +4976,7 @@ export const updateSipMediaApplicationCall: (
  */
 export const validateE911Address: (
   input: ValidateE911AddressRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ValidateE911AddressResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4797,7 +5008,7 @@ export const validateE911Address: (
  */
 export const disassociatePhoneNumbersFromVoiceConnector: (
   input: DisassociatePhoneNumbersFromVoiceConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociatePhoneNumbersFromVoiceConnectorResponse,
   | BadRequestException
   | ForbiddenException
@@ -4827,7 +5038,7 @@ export const disassociatePhoneNumbersFromVoiceConnector: (
  */
 export const disassociatePhoneNumbersFromVoiceConnectorGroup: (
   input: DisassociatePhoneNumbersFromVoiceConnectorGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociatePhoneNumbersFromVoiceConnectorGroupResponse,
   | BadRequestException
   | ForbiddenException
@@ -4858,7 +5069,7 @@ export const disassociatePhoneNumbersFromVoiceConnectorGroup: (
  */
 export const getPhoneNumberOrder: (
   input: GetPhoneNumberOrderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPhoneNumberOrderResponse,
   | BadRequestException
   | ForbiddenException
@@ -4890,7 +5101,7 @@ export const getPhoneNumberOrder: (
  */
 export const getSipMediaApplicationAlexaSkillConfiguration: (
   input: GetSipMediaApplicationAlexaSkillConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSipMediaApplicationAlexaSkillConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -4919,7 +5130,7 @@ export const getSipMediaApplicationAlexaSkillConfiguration: (
  */
 export const getSipMediaApplicationLoggingConfiguration: (
   input: GetSipMediaApplicationLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSipMediaApplicationLoggingConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -4949,7 +5160,7 @@ export const getSipMediaApplicationLoggingConfiguration: (
  */
 export const getVoiceConnector: (
   input: GetVoiceConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetVoiceConnectorResponse,
   | BadRequestException
   | ForbiddenException
@@ -4978,7 +5189,7 @@ export const getVoiceConnector: (
  */
 export const getVoiceConnectorEmergencyCallingConfiguration: (
   input: GetVoiceConnectorEmergencyCallingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetVoiceConnectorEmergencyCallingConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -5008,7 +5219,7 @@ export const getVoiceConnectorEmergencyCallingConfiguration: (
  */
 export const getVoiceConnectorLoggingConfiguration: (
   input: GetVoiceConnectorLoggingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetVoiceConnectorLoggingConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -5037,7 +5248,7 @@ export const getVoiceConnectorLoggingConfiguration: (
  */
 export const getVoiceConnectorOrigination: (
   input: GetVoiceConnectorOriginationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetVoiceConnectorOriginationResponse,
   | BadRequestException
   | ForbiddenException
@@ -5068,7 +5279,7 @@ export const getVoiceConnectorOrigination: (
  */
 export const getVoiceConnectorStreamingConfiguration: (
   input: GetVoiceConnectorStreamingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetVoiceConnectorStreamingConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -5097,7 +5308,7 @@ export const getVoiceConnectorStreamingConfiguration: (
  */
 export const getVoiceConnectorTermination: (
   input: GetVoiceConnectorTerminationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetVoiceConnectorTerminationResponse,
   | BadRequestException
   | ForbiddenException
@@ -5126,7 +5337,7 @@ export const getVoiceConnectorTermination: (
  */
 export const getVoiceProfile: (
   input: GetVoiceProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetVoiceProfileResponse,
   | AccessDeniedException
   | BadRequestException
@@ -5160,7 +5371,7 @@ export const getVoiceProfile: (
 export const listPhoneNumbers: {
   (
     input: ListPhoneNumbersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPhoneNumbersResponse,
     | BadRequestException
     | ForbiddenException
@@ -5174,7 +5385,7 @@ export const listPhoneNumbers: {
   >;
   pages: (
     input: ListPhoneNumbersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPhoneNumbersResponse,
     | BadRequestException
     | ForbiddenException
@@ -5188,7 +5399,7 @@ export const listPhoneNumbers: {
   >;
   items: (
     input: ListPhoneNumbersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -5224,7 +5435,7 @@ export const listPhoneNumbers: {
 export const listProxySessions: {
   (
     input: ListProxySessionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProxySessionsResponse,
     | BadRequestException
     | ForbiddenException
@@ -5238,7 +5449,7 @@ export const listProxySessions: {
   >;
   pages: (
     input: ListProxySessionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProxySessionsResponse,
     | BadRequestException
     | ForbiddenException
@@ -5252,7 +5463,7 @@ export const listProxySessions: {
   >;
   items: (
     input: ListProxySessionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -5287,7 +5498,7 @@ export const listProxySessions: {
  */
 export const listVoiceConnectorTerminationCredentials: (
   input: ListVoiceConnectorTerminationCredentialsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListVoiceConnectorTerminationCredentialsResponse,
   | BadRequestException
   | ForbiddenException
@@ -5316,7 +5527,7 @@ export const listVoiceConnectorTerminationCredentials: (
  */
 export const putVoiceConnectorProxy: (
   input: PutVoiceConnectorProxyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutVoiceConnectorProxyResponse,
   | AccessDeniedException
   | BadRequestException
@@ -5347,7 +5558,7 @@ export const putVoiceConnectorProxy: (
  */
 export const putVoiceConnectorTerminationCredentials: (
   input: PutVoiceConnectorTerminationCredentialsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutVoiceConnectorTerminationCredentialsResponse,
   | BadRequestException
   | ForbiddenException
@@ -5376,7 +5587,7 @@ export const putVoiceConnectorTerminationCredentials: (
  */
 export const restorePhoneNumber: (
   input: RestorePhoneNumberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RestorePhoneNumberResponse,
   | BadRequestException
   | ForbiddenException
@@ -5407,7 +5618,7 @@ export const restorePhoneNumber: (
  */
 export const updateProxySession: (
   input: UpdateProxySessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProxySessionResponse,
   | BadRequestException
   | ForbiddenException
@@ -5436,7 +5647,7 @@ export const updateProxySession: (
  */
 export const updateVoiceConnector: (
   input: UpdateVoiceConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateVoiceConnectorResponse,
   | BadRequestException
   | ForbiddenException
@@ -5465,7 +5676,7 @@ export const updateVoiceConnector: (
  */
 export const updateVoiceProfileDomain: (
   input: UpdateVoiceProfileDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateVoiceProfileDomainResponse,
   | AccessDeniedException
   | BadRequestException
@@ -5497,7 +5708,7 @@ export const updateVoiceProfileDomain: (
  */
 export const deleteProxySession: (
   input: DeleteProxySessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProxySessionResponse,
   | BadRequestException
   | ForbiddenException
@@ -5527,7 +5738,7 @@ export const deleteProxySession: (
  */
 export const deleteVoiceConnectorEmergencyCallingConfiguration: (
   input: DeleteVoiceConnectorEmergencyCallingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVoiceConnectorEmergencyCallingConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -5556,7 +5767,7 @@ export const deleteVoiceConnectorEmergencyCallingConfiguration: (
  */
 export const deleteVoiceConnectorExternalSystemsConfiguration: (
   input: DeleteVoiceConnectorExternalSystemsConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVoiceConnectorExternalSystemsConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -5588,7 +5799,7 @@ export const deleteVoiceConnectorExternalSystemsConfiguration: (
  */
 export const deleteVoiceConnectorOrigination: (
   input: DeleteVoiceConnectorOriginationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVoiceConnectorOriginationResponse,
   | BadRequestException
   | ForbiddenException
@@ -5617,7 +5828,7 @@ export const deleteVoiceConnectorOrigination: (
  */
 export const deleteVoiceConnectorProxy: (
   input: DeleteVoiceConnectorProxyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVoiceConnectorProxyResponse,
   | BadRequestException
   | ForbiddenException
@@ -5646,7 +5857,7 @@ export const deleteVoiceConnectorProxy: (
  */
 export const deleteVoiceConnectorStreamingConfiguration: (
   input: DeleteVoiceConnectorStreamingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVoiceConnectorStreamingConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -5678,7 +5889,7 @@ export const deleteVoiceConnectorStreamingConfiguration: (
  */
 export const deleteVoiceConnectorTermination: (
   input: DeleteVoiceConnectorTerminationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVoiceConnectorTerminationResponse,
   | BadRequestException
   | ForbiddenException
@@ -5708,7 +5919,7 @@ export const deleteVoiceConnectorTermination: (
  */
 export const deleteVoiceConnectorTerminationCredentials: (
   input: DeleteVoiceConnectorTerminationCredentialsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVoiceConnectorTerminationCredentialsResponse,
   | BadRequestException
   | ForbiddenException
@@ -5741,7 +5952,7 @@ export const deleteVoiceConnectorTerminationCredentials: (
  */
 export const batchDeletePhoneNumber: (
   input: BatchDeletePhoneNumberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDeletePhoneNumberResponse,
   | BadRequestException
   | ForbiddenException
@@ -5770,7 +5981,7 @@ export const batchDeletePhoneNumber: (
  */
 export const associatePhoneNumbersWithVoiceConnectorGroup: (
   input: AssociatePhoneNumbersWithVoiceConnectorGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociatePhoneNumbersWithVoiceConnectorGroupResponse,
   | AccessDeniedException
   | BadRequestException
@@ -5801,7 +6012,7 @@ export const associatePhoneNumbersWithVoiceConnectorGroup: (
  */
 export const associatePhoneNumbersWithVoiceConnector: (
   input: AssociatePhoneNumbersWithVoiceConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociatePhoneNumbersWithVoiceConnectorResponse,
   | AccessDeniedException
   | BadRequestException
@@ -5835,7 +6046,7 @@ export const associatePhoneNumbersWithVoiceConnector: (
  */
 export const batchUpdatePhoneNumber: (
   input: BatchUpdatePhoneNumberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchUpdatePhoneNumberResponse,
   | BadRequestException
   | ForbiddenException
@@ -5865,7 +6076,7 @@ export const batchUpdatePhoneNumber: (
  */
 export const createProxySession: (
   input: CreateProxySessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProxySessionResponse,
   | BadRequestException
   | ForbiddenException
@@ -5894,7 +6105,7 @@ export const createProxySession: (
  */
 export const putVoiceConnectorExternalSystemsConfiguration: (
   input: PutVoiceConnectorExternalSystemsConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutVoiceConnectorExternalSystemsConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -5934,7 +6145,7 @@ export const putVoiceConnectorExternalSystemsConfiguration: (
  */
 export const updatePhoneNumber: (
   input: UpdatePhoneNumberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePhoneNumberResponse,
   | BadRequestException
   | ConflictException
@@ -5965,7 +6176,7 @@ export const updatePhoneNumber: (
  */
 export const updateSipMediaApplication: (
   input: UpdateSipMediaApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSipMediaApplicationResponse,
   | BadRequestException
   | ConflictException
@@ -5996,7 +6207,7 @@ export const updateSipMediaApplication: (
  */
 export const updateSipRule: (
   input: UpdateSipRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSipRuleResponse,
   | BadRequestException
   | ConflictException
@@ -6029,7 +6240,7 @@ export const updateSipRule: (
  */
 export const updateVoiceConnectorGroup: (
   input: UpdateVoiceConnectorGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateVoiceConnectorGroupResponse,
   | BadRequestException
   | ConflictException
@@ -6060,7 +6271,7 @@ export const updateVoiceConnectorGroup: (
  */
 export const deleteSipMediaApplication: (
   input: DeleteSipMediaApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSipMediaApplicationResponse,
   | BadRequestException
   | ConflictException
@@ -6091,7 +6302,7 @@ export const deleteSipMediaApplication: (
  */
 export const deleteSipRule: (
   input: DeleteSipRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSipRuleResponse,
   | BadRequestException
   | ConflictException
@@ -6124,7 +6335,7 @@ export const deleteSipRule: (
  */
 export const deleteVoiceConnector: (
   input: DeleteVoiceConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVoiceConnectorResponse,
   | BadRequestException
   | ConflictException
@@ -6157,7 +6368,7 @@ export const deleteVoiceConnector: (
  */
 export const deleteVoiceConnectorGroup: (
   input: DeleteVoiceConnectorGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVoiceConnectorGroupResponse,
   | BadRequestException
   | ConflictException
@@ -6188,7 +6399,7 @@ export const deleteVoiceConnectorGroup: (
  */
 export const deleteVoiceProfileDomain: (
   input: DeleteVoiceProfileDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVoiceProfileDomainResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6221,7 +6432,7 @@ export const deleteVoiceProfileDomain: (
  */
 export const getGlobalSettings: (
   input: GetGlobalSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetGlobalSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -6249,7 +6460,7 @@ export const getGlobalSettings: (
 export const listPhoneNumberOrders: {
   (
     input: ListPhoneNumberOrdersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPhoneNumberOrdersResponse,
     | BadRequestException
     | ForbiddenException
@@ -6262,7 +6473,7 @@ export const listPhoneNumberOrders: {
   >;
   pages: (
     input: ListPhoneNumberOrdersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPhoneNumberOrdersResponse,
     | BadRequestException
     | ForbiddenException
@@ -6275,7 +6486,7 @@ export const listPhoneNumberOrders: {
   >;
   items: (
     input: ListPhoneNumberOrdersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -6309,7 +6520,7 @@ export const listPhoneNumberOrders: {
 export const listSipMediaApplications: {
   (
     input: ListSipMediaApplicationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSipMediaApplicationsResponse,
     | BadRequestException
     | ForbiddenException
@@ -6322,7 +6533,7 @@ export const listSipMediaApplications: {
   >;
   pages: (
     input: ListSipMediaApplicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSipMediaApplicationsResponse,
     | BadRequestException
     | ForbiddenException
@@ -6335,7 +6546,7 @@ export const listSipMediaApplications: {
   >;
   items: (
     input: ListSipMediaApplicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SipMediaApplication,
     | BadRequestException
     | ForbiddenException
@@ -6370,7 +6581,7 @@ export const listSipMediaApplications: {
 export const listSipRules: {
   (
     input: ListSipRulesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSipRulesResponse,
     | BadRequestException
     | ForbiddenException
@@ -6383,7 +6594,7 @@ export const listSipRules: {
   >;
   pages: (
     input: ListSipRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSipRulesResponse,
     | BadRequestException
     | ForbiddenException
@@ -6396,7 +6607,7 @@ export const listSipRules: {
   >;
   items: (
     input: ListSipRulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SipRule,
     | BadRequestException
     | ForbiddenException
@@ -6432,7 +6643,7 @@ export const listSipRules: {
 export const listVoiceConnectorGroups: {
   (
     input: ListVoiceConnectorGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVoiceConnectorGroupsResponse,
     | BadRequestException
     | ForbiddenException
@@ -6445,7 +6656,7 @@ export const listVoiceConnectorGroups: {
   >;
   pages: (
     input: ListVoiceConnectorGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVoiceConnectorGroupsResponse,
     | BadRequestException
     | ForbiddenException
@@ -6458,7 +6669,7 @@ export const listVoiceConnectorGroups: {
   >;
   items: (
     input: ListVoiceConnectorGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -6493,7 +6704,7 @@ export const listVoiceConnectorGroups: {
 export const listVoiceConnectors: {
   (
     input: ListVoiceConnectorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVoiceConnectorsResponse,
     | BadRequestException
     | ForbiddenException
@@ -6506,7 +6717,7 @@ export const listVoiceConnectors: {
   >;
   pages: (
     input: ListVoiceConnectorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVoiceConnectorsResponse,
     | BadRequestException
     | ForbiddenException
@@ -6519,7 +6730,7 @@ export const listVoiceConnectors: {
   >;
   items: (
     input: ListVoiceConnectorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -6553,7 +6764,7 @@ export const listVoiceConnectors: {
 export const searchAvailablePhoneNumbers: {
   (
     input: SearchAvailablePhoneNumbersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     SearchAvailablePhoneNumbersResponse,
     | AccessDeniedException
     | BadRequestException
@@ -6567,7 +6778,7 @@ export const searchAvailablePhoneNumbers: {
   >;
   pages: (
     input: SearchAvailablePhoneNumbersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SearchAvailablePhoneNumbersResponse,
     | AccessDeniedException
     | BadRequestException
@@ -6581,7 +6792,7 @@ export const searchAvailablePhoneNumbers: {
   >;
   items: (
     input: SearchAvailablePhoneNumbersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | BadRequestException
@@ -6617,7 +6828,7 @@ export const searchAvailablePhoneNumbers: {
  */
 export const getPhoneNumberSettings: (
   input: GetPhoneNumberSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPhoneNumberSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -6644,7 +6855,7 @@ export const getPhoneNumberSettings: (
  */
 export const listAvailableVoiceConnectorRegions: (
   input: ListAvailableVoiceConnectorRegionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListAvailableVoiceConnectorRegionsResponse,
   | BadRequestException
   | ForbiddenException
@@ -6671,7 +6882,7 @@ export const listAvailableVoiceConnectorRegions: (
  */
 export const updateGlobalSettings: (
   input: UpdateGlobalSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGlobalSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -6701,7 +6912,7 @@ export const updateGlobalSettings: (
  */
 export const updatePhoneNumberSettings: (
   input: UpdatePhoneNumberSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePhoneNumberSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -6735,7 +6946,7 @@ export const updatePhoneNumberSettings: (
  */
 export const deletePhoneNumber: (
   input: DeletePhoneNumberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePhoneNumberResponse,
   | BadRequestException
   | ForbiddenException
@@ -6765,7 +6976,7 @@ export const deletePhoneNumber: (
  */
 export const getPhoneNumber: (
   input: GetPhoneNumberRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPhoneNumberResponse,
   | BadRequestException
   | ForbiddenException
@@ -6794,7 +7005,7 @@ export const getPhoneNumber: (
  */
 export const getProxySession: (
   input: GetProxySessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetProxySessionResponse,
   | BadRequestException
   | ForbiddenException
@@ -6829,7 +7040,7 @@ export const getProxySession: (
  */
 export const createVoiceConnectorGroup: (
   input: CreateVoiceConnectorGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVoiceConnectorGroupResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6861,7 +7072,7 @@ export const createVoiceConnectorGroup: (
  */
 export const createSipMediaApplication: (
   input: CreateSipMediaApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSipMediaApplicationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6895,7 +7106,7 @@ export const createSipMediaApplication: (
  */
 export const createSipRule: (
   input: CreateSipRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSipRuleResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6934,7 +7145,7 @@ export const createSipRule: (
  */
 export const createVoiceProfileDomain: (
   input: CreateVoiceProfileDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVoiceProfileDomainResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6967,7 +7178,7 @@ export const createVoiceProfileDomain: (
  */
 export const createPhoneNumberOrder: (
   input: CreatePhoneNumberOrderRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePhoneNumberOrderResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7000,7 +7211,7 @@ export const createPhoneNumberOrder: (
  */
 export const createSipMediaApplicationCall: (
   input: CreateSipMediaApplicationCallRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSipMediaApplicationCallResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7040,7 +7251,7 @@ export const createSipMediaApplicationCall: (
  */
 export const updateVoiceProfile: (
   input: UpdateVoiceProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateVoiceProfileResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7081,7 +7292,7 @@ export const updateVoiceProfile: (
  */
 export const createVoiceProfile: (
   input: CreateVoiceProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVoiceProfileResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7118,7 +7329,7 @@ export const createVoiceProfile: (
  */
 export const getSpeakerSearchTask: (
   input: GetSpeakerSearchTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSpeakerSearchTaskResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7151,7 +7362,7 @@ export const getSpeakerSearchTask: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -7180,7 +7391,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -7207,7 +7418,7 @@ export const untagResource: (
  */
 export const listSupportedPhoneNumberCountries: (
   input: ListSupportedPhoneNumberCountriesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListSupportedPhoneNumberCountriesResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7236,7 +7447,7 @@ export const listSupportedPhoneNumberCountries: (
  */
 export const stopSpeakerSearchTask: (
   input: StopSpeakerSearchTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopSpeakerSearchTaskResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7271,7 +7482,7 @@ export const stopSpeakerSearchTask: (
  */
 export const stopVoiceToneAnalysisTask: (
   input: StopVoiceToneAnalysisTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopVoiceToneAnalysisTaskResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7309,7 +7520,7 @@ export const stopVoiceToneAnalysisTask: (
  */
 export const startSpeakerSearchTask: (
   input: StartSpeakerSearchTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartSpeakerSearchTaskResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7353,7 +7564,7 @@ export const startSpeakerSearchTask: (
  */
 export const startVoiceToneAnalysisTask: (
   input: StartVoiceToneAnalysisTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartVoiceToneAnalysisTaskResponse,
   | AccessDeniedException
   | BadRequestException

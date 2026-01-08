@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -90,7 +90,7 @@ const rules = T.EndpointResolver((p, _) => {
 export type InputString = string;
 export type OptInType = string;
 export type Auth = string;
-export type Password = string | Redacted.Redacted<string>;
+export type Password = string | redacted.Redacted<string>;
 export type PaginationToken = string;
 export type Arn = string;
 export type TagKey = string;
@@ -135,15 +135,15 @@ export interface CreateClusterInput {
   clusterName: string;
   authType: string;
   adminUserName: string;
-  adminUserPassword: string | Redacted.Redacted<string>;
+  adminUserPassword: string | redacted.Redacted<string>;
   shardCapacity: number;
   shardCount: number;
-  vpcSecurityGroupIds?: StringList;
-  subnetIds?: StringList;
+  vpcSecurityGroupIds?: string[];
+  subnetIds?: string[];
   kmsKeyId?: string;
   clientToken?: string;
   preferredMaintenanceWindow?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   backupRetentionPeriod?: number;
   preferredBackupWindow?: string;
   shardInstanceCount?: number;
@@ -181,7 +181,7 @@ export const CreateClusterInput = S.suspend(() =>
 export interface CreateClusterSnapshotInput {
   clusterArn: string;
   snapshotName: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateClusterSnapshotInput = S.suspend(() =>
   S.Struct({
@@ -373,10 +373,10 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 export interface RestoreClusterFromSnapshotInput {
   clusterName: string;
   snapshotArn: string;
-  vpcSecurityGroupIds?: StringList;
-  subnetIds?: StringList;
+  vpcSecurityGroupIds?: string[];
+  subnetIds?: string[];
   kmsKeyId?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   shardCapacity?: number;
   shardInstanceCount?: number;
 }
@@ -442,7 +442,7 @@ export const StopClusterInput = S.suspend(() =>
 }) as any as S.Schema<StopClusterInput>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -467,7 +467,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -495,9 +495,9 @@ export interface UpdateClusterInput {
   authType?: string;
   shardCapacity?: number;
   shardCount?: number;
-  vpcSecurityGroupIds?: StringList;
-  subnetIds?: StringList;
-  adminUserPassword?: string | Redacted.Redacted<string>;
+  vpcSecurityGroupIds?: string[];
+  subnetIds?: string[];
+  adminUserPassword?: string | redacted.Redacted<string>;
   clientToken?: string;
   preferredMaintenanceWindow?: string;
   backupRetentionPeriod?: number;
@@ -558,7 +558,7 @@ export const PendingMaintenanceActionDetailsList = S.Array(
 );
 export interface ResourcePendingMaintenanceAction {
   resourceArn?: string;
-  pendingMaintenanceActionDetails?: PendingMaintenanceActionDetailsList;
+  pendingMaintenanceActionDetails?: PendingMaintenanceActionDetails[];
 }
 export const ResourcePendingMaintenanceAction = S.suspend(() =>
   S.Struct({
@@ -580,7 +580,7 @@ export interface CopyClusterSnapshotInput {
   targetSnapshotName: string;
   kmsKeyId?: string;
   copyTags?: boolean;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CopyClusterSnapshotInput = S.suspend(() =>
   S.Struct({
@@ -622,11 +622,11 @@ export interface Cluster {
   authType: string;
   shardCapacity: number;
   shardCount: number;
-  vpcSecurityGroupIds: StringList;
-  subnetIds: StringList;
+  vpcSecurityGroupIds: string[];
+  subnetIds: string[];
   preferredMaintenanceWindow: string;
   kmsKeyId: string;
-  shards?: ShardList;
+  shards?: Shard[];
   backupRetentionPeriod?: number;
   preferredBackupWindow?: string;
   shardInstanceCount?: number;
@@ -661,14 +661,14 @@ export const DeleteClusterOutput = S.suspend(() =>
   identifier: "DeleteClusterOutput",
 }) as any as S.Schema<DeleteClusterOutput>;
 export interface ClusterSnapshot {
-  subnetIds: StringList;
+  subnetIds: string[];
   snapshotName: string;
   snapshotArn: string;
   snapshotCreationTime: string;
   clusterArn: string;
   clusterCreationTime: string;
   status: string;
-  vpcSecurityGroupIds: StringList;
+  vpcSecurityGroupIds: string[];
   adminUserName: string;
   kmsKeyId: string;
   snapshotType?: string;
@@ -725,7 +725,7 @@ export const GetPendingMaintenanceActionOutput = S.suspend(() =>
   identifier: "GetPendingMaintenanceActionOutput",
 }) as any as S.Schema<GetPendingMaintenanceActionOutput>;
 export interface ListPendingMaintenanceActionsOutput {
-  resourcePendingMaintenanceActions: ResourcePendingMaintenanceActionList;
+  resourcePendingMaintenanceActions: ResourcePendingMaintenanceAction[];
   nextToken?: string;
 }
 export const ListPendingMaintenanceActionsOutput = S.suspend(() =>
@@ -737,7 +737,7 @@ export const ListPendingMaintenanceActionsOutput = S.suspend(() =>
   identifier: "ListPendingMaintenanceActionsOutput",
 }) as any as S.Schema<ListPendingMaintenanceActionsOutput>;
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -825,7 +825,7 @@ export const CreateClusterSnapshotOutput = S.suspend(() =>
   identifier: "CreateClusterSnapshotOutput",
 }) as any as S.Schema<CreateClusterSnapshotOutput>;
 export interface ListClustersOutput {
-  clusters?: ClusterList;
+  clusters?: ClusterInList[];
   nextToken?: string;
 }
 export const ListClustersOutput = S.suspend(() =>
@@ -837,7 +837,7 @@ export const ListClustersOutput = S.suspend(() =>
   identifier: "ListClustersOutput",
 }) as any as S.Schema<ListClustersOutput>;
 export interface ListClusterSnapshotsOutput {
-  snapshots?: ClusterSnapshotList;
+  snapshots?: ClusterSnapshotInList[];
   nextToken?: string;
 }
 export const ListClusterSnapshotsOutput = S.suspend(() =>
@@ -924,7 +924,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listClusters: {
   (
     input: ListClustersInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListClustersOutput,
     | AccessDeniedException
     | InternalServerException
@@ -935,7 +935,7 @@ export const listClusters: {
   >;
   pages: (
     input: ListClustersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListClustersOutput,
     | AccessDeniedException
     | InternalServerException
@@ -946,7 +946,7 @@ export const listClusters: {
   >;
   items: (
     input: ListClustersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ClusterInList,
     | AccessDeniedException
     | InternalServerException
@@ -976,7 +976,7 @@ export const listClusters: {
  */
 export const deleteClusterSnapshot: (
   input: DeleteClusterSnapshotInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteClusterSnapshotOutput,
   | AccessDeniedException
   | ConflictException
@@ -1003,7 +1003,7 @@ export const deleteClusterSnapshot: (
  */
 export const getPendingMaintenanceAction: (
   input: GetPendingMaintenanceActionInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetPendingMaintenanceActionOutput,
   | AccessDeniedException
   | ConflictException
@@ -1031,7 +1031,7 @@ export const getPendingMaintenanceAction: (
  */
 export const updateCluster: (
   input: UpdateClusterInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateClusterOutput,
   | AccessDeniedException
   | ConflictException
@@ -1058,7 +1058,7 @@ export const updateCluster: (
  */
 export const applyPendingMaintenanceAction: (
   input: ApplyPendingMaintenanceActionInput,
-) => Effect.Effect<
+) => effect.Effect<
   ApplyPendingMaintenanceActionOutput,
   | AccessDeniedException
   | ConflictException
@@ -1086,7 +1086,7 @@ export const applyPendingMaintenanceAction: (
 export const listClusterSnapshots: {
   (
     input: ListClusterSnapshotsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListClusterSnapshotsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1097,7 +1097,7 @@ export const listClusterSnapshots: {
   >;
   pages: (
     input: ListClusterSnapshotsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListClusterSnapshotsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1108,7 +1108,7 @@ export const listClusterSnapshots: {
   >;
   items: (
     input: ListClusterSnapshotsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ClusterSnapshotInList,
     | AccessDeniedException
     | InternalServerException
@@ -1138,7 +1138,7 @@ export const listClusterSnapshots: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1161,7 +1161,7 @@ export const tagResource: (
  */
 export const getCluster: (
   input: GetClusterInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetClusterOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1186,7 +1186,7 @@ export const getCluster: (
  */
 export const getClusterSnapshot: (
   input: GetClusterSnapshotInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetClusterSnapshotOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1212,7 +1212,7 @@ export const getClusterSnapshot: (
 export const listPendingMaintenanceActions: {
   (
     input: ListPendingMaintenanceActionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPendingMaintenanceActionsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1223,7 +1223,7 @@ export const listPendingMaintenanceActions: {
   >;
   pages: (
     input: ListPendingMaintenanceActionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPendingMaintenanceActionsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -1234,7 +1234,7 @@ export const listPendingMaintenanceActions: {
   >;
   items: (
     input: ListPendingMaintenanceActionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResourcePendingMaintenanceAction,
     | AccessDeniedException
     | InternalServerException
@@ -1264,7 +1264,7 @@ export const listPendingMaintenanceActions: {
  */
 export const startCluster: (
   input: StartClusterInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartClusterOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1290,7 +1290,7 @@ export const startCluster: (
  */
 export const stopCluster: (
   input: StopClusterInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopClusterOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1315,7 +1315,7 @@ export const stopCluster: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1338,7 +1338,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1361,7 +1361,7 @@ export const listTagsForResource: (
  */
 export const deleteCluster: (
   input: DeleteClusterInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteClusterOutput,
   | AccessDeniedException
   | ConflictException
@@ -1388,7 +1388,7 @@ export const deleteCluster: (
  */
 export const restoreClusterFromSnapshot: (
   input: RestoreClusterFromSnapshotInput,
-) => Effect.Effect<
+) => effect.Effect<
   RestoreClusterFromSnapshotOutput,
   | AccessDeniedException
   | ConflictException
@@ -1417,7 +1417,7 @@ export const restoreClusterFromSnapshot: (
  */
 export const copyClusterSnapshot: (
   input: CopyClusterSnapshotInput,
-) => Effect.Effect<
+) => effect.Effect<
   CopyClusterSnapshotOutput,
   | AccessDeniedException
   | ConflictException
@@ -1446,7 +1446,7 @@ export const copyClusterSnapshot: (
  */
 export const createClusterSnapshot: (
   input: CreateClusterSnapshotInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateClusterSnapshotOutput,
   | AccessDeniedException
   | ConflictException
@@ -1475,7 +1475,7 @@ export const createClusterSnapshot: (
  */
 export const createCluster: (
   input: CreateClusterInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateClusterOutput,
   | AccessDeniedException
   | ConflictException

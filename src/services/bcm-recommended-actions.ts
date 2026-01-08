@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -73,20 +73,24 @@ export type AccountId = string;
 export type NextStep = string;
 
 //# Schemas
+export type FilterName = "FEATURE" | "SEVERITY" | "TYPE";
+export const FilterName = S.Literal("FEATURE", "SEVERITY", "TYPE");
+export type MatchOption = "EQUALS" | "NOT_EQUALS";
+export const MatchOption = S.Literal("EQUALS", "NOT_EQUALS");
 export type FilterValues = string[];
 export const FilterValues = S.Array(S.String);
 export interface ActionFilter {
-  key: string;
-  matchOption: string;
-  values: FilterValues;
+  key: FilterName;
+  matchOption: MatchOption;
+  values: string[];
 }
 export const ActionFilter = S.suspend(() =>
-  S.Struct({ key: S.String, matchOption: S.String, values: FilterValues }),
+  S.Struct({ key: FilterName, matchOption: MatchOption, values: FilterValues }),
 ).annotations({ identifier: "ActionFilter" }) as any as S.Schema<ActionFilter>;
 export type ActionFilterList = ActionFilter[];
 export const ActionFilterList = S.Array(ActionFilter);
 export interface RequestFilter {
-  actions?: ActionFilterList;
+  actions?: ActionFilter[];
 }
 export const RequestFilter = S.suspend(() =>
   S.Struct({ actions: S.optional(ActionFilterList) }),
@@ -109,27 +113,95 @@ export const ListRecommendedActionsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListRecommendedActionsRequest",
 }) as any as S.Schema<ListRecommendedActionsRequest>;
+export type ActionType =
+  | "ADD_ALTERNATE_BILLING_CONTACT"
+  | "CREATE_ANOMALY_MONITOR"
+  | "CREATE_BUDGET"
+  | "ENABLE_COST_OPTIMIZATION_HUB"
+  | "MIGRATE_TO_GRANULAR_PERMISSIONS"
+  | "PAYMENTS_DUE"
+  | "PAYMENTS_PAST_DUE"
+  | "REVIEW_ANOMALIES"
+  | "REVIEW_BUDGET_ALERTS"
+  | "REVIEW_BUDGETS_EXCEEDED"
+  | "REVIEW_EXPIRING_RI"
+  | "REVIEW_EXPIRING_SP"
+  | "REVIEW_FREETIER_USAGE_ALERTS"
+  | "REVIEW_FREETIER_CREDITS_REMAINING"
+  | "REVIEW_FREETIER_DAYS_REMAINING"
+  | "REVIEW_SAVINGS_OPPORTUNITY_RECOMMENDATIONS"
+  | "UPDATE_EXPIRED_PAYMENT_METHOD"
+  | "UPDATE_INVALID_PAYMENT_METHOD"
+  | "UPDATE_TAX_EXEMPTION_CERTIFICATE"
+  | "UPDATE_TAX_REGISTRATION_NUMBER";
+export const ActionType = S.Literal(
+  "ADD_ALTERNATE_BILLING_CONTACT",
+  "CREATE_ANOMALY_MONITOR",
+  "CREATE_BUDGET",
+  "ENABLE_COST_OPTIMIZATION_HUB",
+  "MIGRATE_TO_GRANULAR_PERMISSIONS",
+  "PAYMENTS_DUE",
+  "PAYMENTS_PAST_DUE",
+  "REVIEW_ANOMALIES",
+  "REVIEW_BUDGET_ALERTS",
+  "REVIEW_BUDGETS_EXCEEDED",
+  "REVIEW_EXPIRING_RI",
+  "REVIEW_EXPIRING_SP",
+  "REVIEW_FREETIER_USAGE_ALERTS",
+  "REVIEW_FREETIER_CREDITS_REMAINING",
+  "REVIEW_FREETIER_DAYS_REMAINING",
+  "REVIEW_SAVINGS_OPPORTUNITY_RECOMMENDATIONS",
+  "UPDATE_EXPIRED_PAYMENT_METHOD",
+  "UPDATE_INVALID_PAYMENT_METHOD",
+  "UPDATE_TAX_EXEMPTION_CERTIFICATE",
+  "UPDATE_TAX_REGISTRATION_NUMBER",
+);
+export type Severity = "INFO" | "WARNING" | "CRITICAL";
+export const Severity = S.Literal("INFO", "WARNING", "CRITICAL");
+export type Feature =
+  | "ACCOUNT"
+  | "BUDGETS"
+  | "COST_ANOMALY_DETECTION"
+  | "COST_OPTIMIZATION_HUB"
+  | "FREE_TIER"
+  | "IAM"
+  | "PAYMENTS"
+  | "RESERVATIONS"
+  | "SAVINGS_PLANS"
+  | "TAX_SETTINGS";
+export const Feature = S.Literal(
+  "ACCOUNT",
+  "BUDGETS",
+  "COST_ANOMALY_DETECTION",
+  "COST_OPTIMIZATION_HUB",
+  "FREE_TIER",
+  "IAM",
+  "PAYMENTS",
+  "RESERVATIONS",
+  "SAVINGS_PLANS",
+  "TAX_SETTINGS",
+);
 export type NextSteps = string[];
 export const NextSteps = S.Array(S.String);
 export type Context = { [key: string]: string };
 export const Context = S.Record({ key: S.String, value: S.String });
 export interface RecommendedAction {
   id?: string;
-  type?: string;
+  type?: ActionType;
   accountId?: string;
-  severity?: string;
-  feature?: string;
-  context?: Context;
-  nextSteps?: NextSteps;
+  severity?: Severity;
+  feature?: Feature;
+  context?: { [key: string]: string };
+  nextSteps?: string[];
   lastUpdatedTimeStamp?: string;
 }
 export const RecommendedAction = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(ActionType),
     accountId: S.optional(S.String),
-    severity: S.optional(S.String),
-    feature: S.optional(S.String),
+    severity: S.optional(Severity),
+    feature: S.optional(Feature),
     context: S.optional(Context),
     nextSteps: S.optional(NextSteps),
     lastUpdatedTimeStamp: S.optional(S.String),
@@ -140,7 +212,7 @@ export const RecommendedAction = S.suspend(() =>
 export type RecommendedActions = RecommendedAction[];
 export const RecommendedActions = S.Array(RecommendedAction);
 export interface ListRecommendedActionsResponse {
-  recommendedActions: RecommendedActions;
+  recommendedActions: RecommendedAction[];
   nextToken?: string;
 }
 export const ListRecommendedActionsResponse = S.suspend(() =>
@@ -151,6 +223,17 @@ export const ListRecommendedActionsResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListRecommendedActionsResponse",
 }) as any as S.Schema<ListRecommendedActionsResponse>;
+export type ValidationExceptionReason =
+  | "unknownOperation"
+  | "cannotParse"
+  | "fieldValidationFailed"
+  | "other";
+export const ValidationExceptionReason = S.Literal(
+  "unknownOperation",
+  "cannotParse",
+  "fieldValidationFailed",
+  "other",
+);
 export interface ValidationExceptionField {
   name: string;
   message: string;
@@ -192,7 +275,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     message: S.String,
-    reason: S.String,
+    reason: ValidationExceptionReason,
     fieldList: S.optional(ValidationExceptionFieldList),
   },
   T.AwsQueryError({
@@ -208,7 +291,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listRecommendedActions: {
   (
     input: ListRecommendedActionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRecommendedActionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -219,7 +302,7 @@ export const listRecommendedActions: {
   >;
   pages: (
     input: ListRecommendedActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRecommendedActionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -230,7 +313,7 @@ export const listRecommendedActions: {
   >;
   items: (
     input: ListRecommendedActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RecommendedAction,
     | AccessDeniedException
     | InternalServerException

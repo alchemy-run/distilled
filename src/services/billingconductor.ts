@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -114,22 +114,22 @@ export type MaxBillingGroupResults = number;
 export type Arn = string;
 export type TagKey = string;
 export type ClientToken = string;
-export type BillingGroupName = string | Redacted.Redacted<string>;
+export type BillingGroupName = string | redacted.Redacted<string>;
 export type AccountId = string;
-export type BillingGroupDescription = string | Redacted.Redacted<string>;
-export type CustomLineItemName = string | Redacted.Redacted<string>;
-export type CustomLineItemDescription = string | Redacted.Redacted<string>;
+export type BillingGroupDescription = string | redacted.Redacted<string>;
+export type CustomLineItemName = string | redacted.Redacted<string>;
+export type CustomLineItemDescription = string | redacted.Redacted<string>;
 export type CustomLineItemArn = string;
 export type MaxCustomLineItemResults = number;
 export type CustomLineItemAssociationElement = string;
-export type PricingPlanName = string | Redacted.Redacted<string>;
-export type PricingPlanDescription = string | Redacted.Redacted<string>;
+export type PricingPlanName = string | redacted.Redacted<string>;
+export type PricingPlanDescription = string | redacted.Redacted<string>;
 export type PricingRuleArn = string;
 export type PricingPlanArn = string;
 export type MaxPricingPlanResults = number;
 export type MaxPricingRuleResults = number;
-export type PricingRuleName = string | Redacted.Redacted<string>;
-export type PricingRuleDescription = string | Redacted.Redacted<string>;
+export type PricingRuleName = string | redacted.Redacted<string>;
+export type PricingRuleDescription = string | redacted.Redacted<string>;
 export type ModifierPercentage = number;
 export type Service = string;
 export type BillingEntity = string;
@@ -153,20 +153,33 @@ export type ProformaCost = string;
 export type Margin = string;
 export type MarginPercentage = string;
 export type Currency = string;
-export type AccountName = string | Redacted.Redacted<string>;
-export type AccountEmail = string | Redacted.Redacted<string>;
+export type AccountName = string | redacted.Redacted<string>;
+export type AccountEmail = string | redacted.Redacted<string>;
 export type CustomLineItemProductCode = string;
 export type NumberOfAssociations = number;
 export type NumberOfPricingPlansAssociatedWith = number;
 export type BillingGroupFullArn = string;
 
 //# Schemas
-export type GroupByAttributesList = string[];
-export const GroupByAttributesList = S.Array(S.String);
+export type GroupByAttributeName = "PRODUCT_NAME" | "BILLING_PERIOD";
+export const GroupByAttributeName = S.Literal("PRODUCT_NAME", "BILLING_PERIOD");
+export type GroupByAttributesList = GroupByAttributeName[];
+export const GroupByAttributesList = S.Array(GroupByAttributeName);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type BillingGroupStatus =
+  | "ACTIVE"
+  | "PRIMARY_ACCOUNT_MISSING"
+  | "PENDING";
+export const BillingGroupStatus = S.Literal(
+  "ACTIVE",
+  "PRIMARY_ACCOUNT_MISSING",
+  "PENDING",
+);
 export type AccountIdList = string[];
 export const AccountIdList = S.Array(S.String);
+export type ComputationRuleEnum = "ITEMIZED" | "CONSOLIDATED";
+export const ComputationRuleEnum = S.Literal("ITEMIZED", "CONSOLIDATED");
 export type CustomLineItemBatchAssociationsList = string[];
 export const CustomLineItemBatchAssociationsList = S.Array(S.String);
 export type CustomLineItemBatchDisassociationsList = string[];
@@ -175,6 +188,15 @@ export type PricingRuleArnsInput = string[];
 export const PricingRuleArnsInput = S.Array(S.String);
 export type PricingRuleArnsNonEmptyInput = string[];
 export const PricingRuleArnsNonEmptyInput = S.Array(S.String);
+export type PricingRuleScope = "GLOBAL" | "SERVICE" | "BILLING_ENTITY" | "SKU";
+export const PricingRuleScope = S.Literal(
+  "GLOBAL",
+  "SERVICE",
+  "BILLING_ENTITY",
+  "SKU",
+);
+export type PricingRuleType = "MARKUP" | "DISCOUNT" | "TIERING";
+export const PricingRuleType = S.Literal("MARKUP", "DISCOUNT", "TIERING");
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
@@ -194,7 +216,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -236,7 +258,7 @@ export const DeleteBillingGroupInput = S.suspend(() =>
 }) as any as S.Schema<DeleteBillingGroupInput>;
 export interface AssociateAccountsInput {
   Arn: string;
-  AccountIds: AccountIdList;
+  AccountIds: string[];
 }
 export const AssociateAccountsInput = S.suspend(() =>
   S.Struct({ Arn: S.String, AccountIds: AccountIdList }).pipe(
@@ -254,7 +276,7 @@ export const AssociateAccountsInput = S.suspend(() =>
 }) as any as S.Schema<AssociateAccountsInput>;
 export interface DisassociateAccountsInput {
   Arn: string;
-  AccountIds: AccountIdList;
+  AccountIds: string[];
 }
 export const DisassociateAccountsInput = S.suspend(() =>
   S.Struct({ Arn: S.String, AccountIds: AccountIdList }).pipe(
@@ -305,7 +327,7 @@ export const DeleteCustomLineItemInput = S.suspend(() =>
 }) as any as S.Schema<DeleteCustomLineItemInput>;
 export interface BatchAssociateResourcesToCustomLineItemInput {
   TargetArn: string;
-  ResourceArns: CustomLineItemBatchAssociationsList;
+  ResourceArns: string[];
   BillingPeriodRange?: CustomLineItemBillingPeriodRange;
 }
 export const BatchAssociateResourcesToCustomLineItemInput = S.suspend(() =>
@@ -331,7 +353,7 @@ export const BatchAssociateResourcesToCustomLineItemInput = S.suspend(() =>
 }) as any as S.Schema<BatchAssociateResourcesToCustomLineItemInput>;
 export interface BatchDisassociateResourcesFromCustomLineItemInput {
   TargetArn: string;
-  ResourceArns: CustomLineItemBatchDisassociationsList;
+  ResourceArns: string[];
   BillingPeriodRange?: CustomLineItemBillingPeriodRange;
 }
 export const BatchDisassociateResourcesFromCustomLineItemInput = S.suspend(() =>
@@ -359,10 +381,10 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface CreatePricingPlanInput {
   ClientToken?: string;
-  Name: string | Redacted.Redacted<string>;
-  Description?: string | Redacted.Redacted<string>;
-  PricingRuleArns?: PricingRuleArnsInput;
-  Tags?: TagMap;
+  Name: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
+  PricingRuleArns?: string[];
+  Tags?: { [key: string]: string };
 }
 export const CreatePricingPlanInput = S.suspend(() =>
   S.Struct({
@@ -386,8 +408,8 @@ export const CreatePricingPlanInput = S.suspend(() =>
 }) as any as S.Schema<CreatePricingPlanInput>;
 export interface UpdatePricingPlanInput {
   Arn: string;
-  Name?: string | Redacted.Redacted<string>;
-  Description?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
 }
 export const UpdatePricingPlanInput = S.suspend(() =>
   S.Struct({
@@ -426,7 +448,7 @@ export const DeletePricingPlanInput = S.suspend(() =>
 }) as any as S.Schema<DeletePricingPlanInput>;
 export interface AssociatePricingRulesInput {
   Arn: string;
-  PricingRuleArns: PricingRuleArnsNonEmptyInput;
+  PricingRuleArns: string[];
 }
 export const AssociatePricingRulesInput = S.suspend(() =>
   S.Struct({
@@ -447,7 +469,7 @@ export const AssociatePricingRulesInput = S.suspend(() =>
 }) as any as S.Schema<AssociatePricingRulesInput>;
 export interface DisassociatePricingRulesInput {
   Arn: string;
-  PricingRuleArns: PricingRuleArnsNonEmptyInput;
+  PricingRuleArns: string[];
 }
 export const DisassociatePricingRulesInput = S.suspend(() =>
   S.Struct({
@@ -543,18 +565,24 @@ export type AccountIdFilterList = string[];
 export const AccountIdFilterList = S.Array(S.String);
 export type BillingGroupArnList = string[];
 export const BillingGroupArnList = S.Array(S.String);
-export type BillingGroupStatusList = string[];
-export const BillingGroupStatusList = S.Array(S.String);
+export type BillingGroupStatusList = BillingGroupStatus[];
+export const BillingGroupStatusList = S.Array(BillingGroupStatus);
 export type PrimaryAccountIdList = string[];
 export const PrimaryAccountIdList = S.Array(S.String);
-export type BillingGroupTypeList = string[];
-export const BillingGroupTypeList = S.Array(S.String);
+export type BillingGroupType = "STANDARD" | "TRANSFER_BILLING";
+export const BillingGroupType = S.Literal("STANDARD", "TRANSFER_BILLING");
+export type BillingGroupTypeList = BillingGroupType[];
+export const BillingGroupTypeList = S.Array(BillingGroupType);
 export type ResponsibilityTransferArnsList = string[];
 export const ResponsibilityTransferArnsList = S.Array(S.String);
-export type CustomLineItemNameList = string | Redacted.Redacted<string>[];
+export type CustomLineItemType = "CREDIT" | "FEE";
+export const CustomLineItemType = S.Literal("CREDIT", "FEE");
+export type CustomLineItemNameList = string | redacted.Redacted<string>[];
 export const CustomLineItemNameList = S.Array(SensitiveString);
 export type CustomLineItemArns = string[];
 export const CustomLineItemArns = S.Array(S.String);
+export type CustomLineItemRelationship = "PARENT" | "CHILD";
+export const CustomLineItemRelationship = S.Literal("PARENT", "CHILD");
 export type PricingPlanArns = string[];
 export const PricingPlanArns = S.Array(S.String);
 export type PricingRuleArns = string[];
@@ -574,7 +602,7 @@ export const BillingPeriodRange = S.suspend(() =>
 export interface ListAccountAssociationsFilter {
   Association?: string;
   AccountId?: string;
-  AccountIds?: AccountIdFilterList;
+  AccountIds?: string[];
 }
 export const ListAccountAssociationsFilter = S.suspend(() =>
   S.Struct({
@@ -586,7 +614,7 @@ export const ListAccountAssociationsFilter = S.suspend(() =>
   identifier: "ListAccountAssociationsFilter",
 }) as any as S.Schema<ListAccountAssociationsFilter>;
 export interface ListBillingGroupCostReportsFilter {
-  BillingGroupArns?: BillingGroupArnList;
+  BillingGroupArns?: string[];
 }
 export const ListBillingGroupCostReportsFilter = S.suspend(() =>
   S.Struct({ BillingGroupArns: S.optional(BillingGroupArnList) }),
@@ -594,7 +622,7 @@ export const ListBillingGroupCostReportsFilter = S.suspend(() =>
   identifier: "ListBillingGroupCostReportsFilter",
 }) as any as S.Schema<ListBillingGroupCostReportsFilter>;
 export interface AccountGrouping {
-  LinkedAccountIds?: AccountIdList;
+  LinkedAccountIds?: string[];
   AutoAssociate?: boolean;
   ResponsibilityTransferArn?: string;
 }
@@ -636,10 +664,10 @@ export const PresentationObject = S.suspend(() =>
   identifier: "PresentationObject",
 }) as any as S.Schema<PresentationObject>;
 export interface ListCustomLineItemsFilter {
-  Names?: CustomLineItemNameList;
-  BillingGroups?: BillingGroupArnList;
-  Arns?: CustomLineItemArns;
-  AccountIds?: AccountIdList;
+  Names?: string | redacted.Redacted<string>[];
+  BillingGroups?: string[];
+  Arns?: string[];
+  AccountIds?: string[];
 }
 export const ListCustomLineItemsFilter = S.suspend(() =>
   S.Struct({
@@ -652,15 +680,15 @@ export const ListCustomLineItemsFilter = S.suspend(() =>
   identifier: "ListCustomLineItemsFilter",
 }) as any as S.Schema<ListCustomLineItemsFilter>;
 export interface ListResourcesAssociatedToCustomLineItemFilter {
-  Relationship?: string;
+  Relationship?: CustomLineItemRelationship;
 }
 export const ListResourcesAssociatedToCustomLineItemFilter = S.suspend(() =>
-  S.Struct({ Relationship: S.optional(S.String) }),
+  S.Struct({ Relationship: S.optional(CustomLineItemRelationship) }),
 ).annotations({
   identifier: "ListResourcesAssociatedToCustomLineItemFilter",
 }) as any as S.Schema<ListResourcesAssociatedToCustomLineItemFilter>;
 export interface ListPricingPlansFilter {
-  Arns?: PricingPlanArns;
+  Arns?: string[];
 }
 export const ListPricingPlansFilter = S.suspend(() =>
   S.Struct({ Arns: S.optional(PricingPlanArns) }),
@@ -668,23 +696,34 @@ export const ListPricingPlansFilter = S.suspend(() =>
   identifier: "ListPricingPlansFilter",
 }) as any as S.Schema<ListPricingPlansFilter>;
 export interface ListPricingRulesFilter {
-  Arns?: PricingRuleArns;
+  Arns?: string[];
 }
 export const ListPricingRulesFilter = S.suspend(() =>
   S.Struct({ Arns: S.optional(PricingRuleArns) }),
 ).annotations({
   identifier: "ListPricingRulesFilter",
 }) as any as S.Schema<ListPricingRulesFilter>;
+export type SearchOption = "STARTS_WITH";
+export const SearchOption = S.Literal("STARTS_WITH");
 export type CustomLineItemAssociationsList = string[];
 export const CustomLineItemAssociationsList = S.Array(S.String);
-export type LineItemFilterValuesList = string[];
-export const LineItemFilterValuesList = S.Array(S.String);
+export type LineItemFilterAttributeName = "LINE_ITEM_TYPE" | "SERVICE";
+export const LineItemFilterAttributeName = S.Literal(
+  "LINE_ITEM_TYPE",
+  "SERVICE",
+);
+export type MatchOption = "NOT_EQUAL" | "EQUAL";
+export const MatchOption = S.Literal("NOT_EQUAL", "EQUAL");
+export type LineItemFilterValue = "SAVINGS_PLAN_NEGATION";
+export const LineItemFilterValue = S.Literal("SAVINGS_PLAN_NEGATION");
+export type LineItemFilterValuesList = LineItemFilterValue[];
+export const LineItemFilterValuesList = S.Array(LineItemFilterValue);
 export type AttributeValueList = string[];
 export const AttributeValueList = S.Array(S.String);
 export interface GetBillingGroupCostReportInput {
   Arn: string;
   BillingPeriodRange?: BillingPeriodRange;
-  GroupBy?: GroupByAttributesList;
+  GroupBy?: GroupByAttributeName[];
   MaxResults?: number;
   NextToken?: string;
 }
@@ -757,7 +796,7 @@ export const ListBillingGroupCostReportsInput = S.suspend(() =>
   identifier: "ListBillingGroupCostReportsInput",
 }) as any as S.Schema<ListBillingGroupCostReportsInput>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -766,7 +805,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagMap;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -791,12 +830,12 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface CreateBillingGroupInput {
   ClientToken?: string;
-  Name: string | Redacted.Redacted<string>;
+  Name: string | redacted.Redacted<string>;
   AccountGrouping: AccountGrouping;
   ComputationPreference: ComputationPreference;
   PrimaryAccountId?: string;
-  Description?: string | Redacted.Redacted<string>;
-  Tags?: TagMap;
+  Description?: string | redacted.Redacted<string>;
+  Tags?: { [key: string]: string };
 }
 export const CreateBillingGroupInput = S.suspend(() =>
   S.Struct({
@@ -822,17 +861,17 @@ export const CreateBillingGroupInput = S.suspend(() =>
 }) as any as S.Schema<CreateBillingGroupInput>;
 export interface UpdateBillingGroupInput {
   Arn: string;
-  Name?: string | Redacted.Redacted<string>;
-  Status?: string;
+  Name?: string | redacted.Redacted<string>;
+  Status?: BillingGroupStatus;
   ComputationPreference?: ComputationPreference;
-  Description?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   AccountGrouping?: UpdateBillingGroupAccountGrouping;
 }
 export const UpdateBillingGroupInput = S.suspend(() =>
   S.Struct({
     Arn: S.String,
     Name: S.optional(SensitiveString),
-    Status: S.optional(S.String),
+    Status: S.optional(BillingGroupStatus),
     ComputationPreference: S.optional(ComputationPreference),
     Description: S.optional(SensitiveString),
     AccountGrouping: S.optional(UpdateBillingGroupAccountGrouping),
@@ -946,8 +985,8 @@ export const CreatePricingPlanOutput = S.suspend(() =>
 }) as any as S.Schema<CreatePricingPlanOutput>;
 export interface UpdatePricingPlanOutput {
   Arn?: string;
-  Name?: string | Redacted.Redacted<string>;
-  Description?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   Size?: number;
   LastModifiedTime?: number;
 }
@@ -1014,7 +1053,7 @@ export const DisassociatePricingRulesOutput = S.suspend(() =>
 export interface ListPricingPlansAssociatedWithPricingRuleOutput {
   BillingPeriod?: string;
   PricingRuleArn?: string;
-  PricingPlanArns?: PricingPlanArns;
+  PricingPlanArns?: string[];
   NextToken?: string;
 }
 export const ListPricingPlansAssociatedWithPricingRuleOutput = S.suspend(() =>
@@ -1063,7 +1102,7 @@ export const ListPricingRulesInput = S.suspend(() =>
 export interface ListPricingRulesAssociatedToPricingPlanOutput {
   BillingPeriod?: string;
   PricingPlanArn?: string;
-  PricingRuleArns?: PricingRuleArns;
+  PricingRuleArns?: string[];
   NextToken?: string;
 }
 export const ListPricingRulesAssociatedToPricingPlanOutput = S.suspend(() =>
@@ -1077,11 +1116,11 @@ export const ListPricingRulesAssociatedToPricingPlanOutput = S.suspend(() =>
   identifier: "ListPricingRulesAssociatedToPricingPlanOutput",
 }) as any as S.Schema<ListPricingRulesAssociatedToPricingPlanOutput>;
 export interface StringSearch {
-  SearchOption: string;
+  SearchOption: SearchOption;
   SearchValue: string;
 }
 export const StringSearch = S.suspend(() =>
-  S.Struct({ SearchOption: S.String, SearchValue: S.String }),
+  S.Struct({ SearchOption: SearchOption, SearchValue: S.String }),
 ).annotations({ identifier: "StringSearch" }) as any as S.Schema<StringSearch>;
 export type StringSearches = StringSearch[];
 export const StringSearches = S.Array(StringSearch);
@@ -1095,7 +1134,7 @@ export const CustomLineItemFlatChargeDetails = S.suspend(() =>
 }) as any as S.Schema<CustomLineItemFlatChargeDetails>;
 export interface CustomLineItemPercentageChargeDetails {
   PercentageValue: number;
-  AssociatedValues?: CustomLineItemAssociationsList;
+  AssociatedValues?: string[];
 }
 export const CustomLineItemPercentageChargeDetails = S.suspend(() =>
   S.Struct({
@@ -1106,15 +1145,15 @@ export const CustomLineItemPercentageChargeDetails = S.suspend(() =>
   identifier: "CustomLineItemPercentageChargeDetails",
 }) as any as S.Schema<CustomLineItemPercentageChargeDetails>;
 export interface LineItemFilter {
-  Attribute: string;
-  MatchOption: string;
-  Values?: LineItemFilterValuesList;
-  AttributeValues?: AttributeValueList;
+  Attribute: LineItemFilterAttributeName;
+  MatchOption: MatchOption;
+  Values?: LineItemFilterValue[];
+  AttributeValues?: string[];
 }
 export const LineItemFilter = S.suspend(() =>
   S.Struct({
-    Attribute: S.String,
-    MatchOption: S.String,
+    Attribute: LineItemFilterAttributeName,
+    MatchOption: MatchOption,
     Values: S.optional(LineItemFilterValuesList),
     AttributeValues: S.optional(AttributeValueList),
   }),
@@ -1169,14 +1208,14 @@ export const UpdateFreeTierConfig = S.suspend(() =>
   identifier: "UpdateFreeTierConfig",
 }) as any as S.Schema<UpdateFreeTierConfig>;
 export interface ListBillingGroupsFilter {
-  Arns?: BillingGroupArnList;
+  Arns?: string[];
   PricingPlan?: string;
-  Statuses?: BillingGroupStatusList;
+  Statuses?: BillingGroupStatus[];
   AutoAssociate?: boolean;
-  PrimaryAccountIds?: PrimaryAccountIdList;
-  BillingGroupTypes?: BillingGroupTypeList;
-  Names?: StringSearches;
-  ResponsibilityTransferArns?: ResponsibilityTransferArnsList;
+  PrimaryAccountIds?: string[];
+  BillingGroupTypes?: BillingGroupType[];
+  Names?: StringSearch[];
+  ResponsibilityTransferArns?: string[];
 }
 export const ListBillingGroupsFilter = S.suspend(() =>
   S.Struct({
@@ -1192,17 +1231,30 @@ export const ListBillingGroupsFilter = S.suspend(() =>
 ).annotations({
   identifier: "ListBillingGroupsFilter",
 }) as any as S.Schema<ListBillingGroupsFilter>;
+export type ConflictExceptionReason =
+  | "RESOURCE_NAME_CONFLICT"
+  | "PRICING_RULE_IN_PRICING_PLAN_CONFLICT"
+  | "PRICING_PLAN_ATTACHED_TO_BILLING_GROUP_DELETE_CONFLICT"
+  | "PRICING_RULE_ATTACHED_TO_PRICING_PLAN_DELETE_CONFLICT"
+  | "WRITE_CONFLICT_RETRY";
+export const ConflictExceptionReason = S.Literal(
+  "RESOURCE_NAME_CONFLICT",
+  "PRICING_RULE_IN_PRICING_PLAN_CONFLICT",
+  "PRICING_PLAN_ATTACHED_TO_BILLING_GROUP_DELETE_CONFLICT",
+  "PRICING_RULE_ATTACHED_TO_PRICING_PLAN_DELETE_CONFLICT",
+  "WRITE_CONFLICT_RETRY",
+);
 export interface CustomLineItemChargeDetails {
   Flat?: CustomLineItemFlatChargeDetails;
   Percentage?: CustomLineItemPercentageChargeDetails;
-  Type: string;
-  LineItemFilters?: LineItemFiltersList;
+  Type: CustomLineItemType;
+  LineItemFilters?: LineItemFilter[];
 }
 export const CustomLineItemChargeDetails = S.suspend(() =>
   S.Struct({
     Flat: S.optional(CustomLineItemFlatChargeDetails),
     Percentage: S.optional(CustomLineItemPercentageChargeDetails),
-    Type: S.String,
+    Type: CustomLineItemType,
     LineItemFilters: S.optional(LineItemFiltersList),
   }),
 ).annotations({
@@ -1211,7 +1263,7 @@ export const CustomLineItemChargeDetails = S.suspend(() =>
 export interface UpdateCustomLineItemChargeDetails {
   Flat?: UpdateCustomLineItemFlatChargeDetails;
   Percentage?: UpdateCustomLineItemPercentageChargeDetails;
-  LineItemFilters?: LineItemFiltersList;
+  LineItemFilters?: LineItemFilter[];
 }
 export const UpdateCustomLineItemChargeDetails = S.suspend(() =>
   S.Struct({
@@ -1222,12 +1274,28 @@ export const UpdateCustomLineItemChargeDetails = S.suspend(() =>
 ).annotations({
   identifier: "UpdateCustomLineItemChargeDetails",
 }) as any as S.Schema<UpdateCustomLineItemChargeDetails>;
+export type AssociateResourceErrorReason =
+  | "INVALID_ARN"
+  | "SERVICE_LIMIT_EXCEEDED"
+  | "ILLEGAL_CUSTOMLINEITEM"
+  | "INTERNAL_SERVER_EXCEPTION"
+  | "INVALID_BILLING_PERIOD_RANGE";
+export const AssociateResourceErrorReason = S.Literal(
+  "INVALID_ARN",
+  "SERVICE_LIMIT_EXCEEDED",
+  "ILLEGAL_CUSTOMLINEITEM",
+  "INTERNAL_SERVER_EXCEPTION",
+  "INVALID_BILLING_PERIOD_RANGE",
+);
 export interface AssociateResourceError {
   Message?: string;
-  Reason?: string;
+  Reason?: AssociateResourceErrorReason;
 }
 export const AssociateResourceError = S.suspend(() =>
-  S.Struct({ Message: S.optional(S.String), Reason: S.optional(S.String) }),
+  S.Struct({
+    Message: S.optional(S.String),
+    Reason: S.optional(AssociateResourceErrorReason),
+  }),
 ).annotations({
   identifier: "AssociateResourceError",
 }) as any as S.Schema<AssociateResourceError>;
@@ -1286,13 +1354,13 @@ export const CreateBillingGroupOutput = S.suspend(() =>
 }) as any as S.Schema<CreateBillingGroupOutput>;
 export interface UpdateBillingGroupOutput {
   Arn?: string;
-  Name?: string | Redacted.Redacted<string>;
-  Description?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   PrimaryAccountId?: string;
   PricingPlanArn?: string;
   Size?: number;
   LastModifiedTime?: number;
-  Status?: string;
+  Status?: BillingGroupStatus;
   StatusReason?: string;
   AccountGrouping?: UpdateBillingGroupAccountGrouping;
 }
@@ -1305,7 +1373,7 @@ export const UpdateBillingGroupOutput = S.suspend(() =>
     PricingPlanArn: S.optional(S.String),
     Size: S.optional(S.Number),
     LastModifiedTime: S.optional(S.Number),
-    Status: S.optional(S.String),
+    Status: S.optional(BillingGroupStatus),
     StatusReason: S.optional(S.String),
     AccountGrouping: S.optional(UpdateBillingGroupAccountGrouping),
   }),
@@ -1339,14 +1407,14 @@ export const ListBillingGroupsInput = S.suspend(() =>
 }) as any as S.Schema<ListBillingGroupsInput>;
 export interface CreateCustomLineItemInput {
   ClientToken?: string;
-  Name: string | Redacted.Redacted<string>;
-  Description: string | Redacted.Redacted<string>;
+  Name: string | redacted.Redacted<string>;
+  Description: string | redacted.Redacted<string>;
   BillingGroupArn: string;
   BillingPeriodRange?: CustomLineItemBillingPeriodRange;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   ChargeDetails: CustomLineItemChargeDetails;
   AccountId?: string;
-  ComputationRule?: string;
+  ComputationRule?: ComputationRuleEnum;
   PresentationDetails?: PresentationObject;
 }
 export const CreateCustomLineItemInput = S.suspend(() =>
@@ -1359,7 +1427,7 @@ export const CreateCustomLineItemInput = S.suspend(() =>
     Tags: S.optional(TagMap),
     ChargeDetails: CustomLineItemChargeDetails,
     AccountId: S.optional(S.String),
-    ComputationRule: S.optional(S.String),
+    ComputationRule: S.optional(ComputationRuleEnum),
     PresentationDetails: S.optional(PresentationObject),
   }).pipe(
     T.all(
@@ -1376,8 +1444,8 @@ export const CreateCustomLineItemInput = S.suspend(() =>
 }) as any as S.Schema<CreateCustomLineItemInput>;
 export interface UpdateCustomLineItemInput {
   Arn: string;
-  Name?: string | Redacted.Redacted<string>;
-  Description?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   ChargeDetails?: UpdateCustomLineItemChargeDetails;
   BillingPeriodRange?: CustomLineItemBillingPeriodRange;
 }
@@ -1402,8 +1470,8 @@ export const UpdateCustomLineItemInput = S.suspend(() =>
   identifier: "UpdateCustomLineItemInput",
 }) as any as S.Schema<UpdateCustomLineItemInput>;
 export interface BatchDisassociateResourcesFromCustomLineItemOutput {
-  SuccessfullyDisassociatedResources?: DisassociateResourcesResponseList;
-  FailedDisassociatedResources?: DisassociateResourcesResponseList;
+  SuccessfullyDisassociatedResources?: DisassociateResourceResponseElement[];
+  FailedDisassociatedResources?: DisassociateResourceResponseElement[];
 }
 export const BatchDisassociateResourcesFromCustomLineItemOutput = S.suspend(
   () =>
@@ -1445,13 +1513,13 @@ export const ListCustomLineItemVersionsInput = S.suspend(() =>
 }) as any as S.Schema<ListCustomLineItemVersionsInput>;
 export interface CreatePricingRuleInput {
   ClientToken?: string;
-  Name: string | Redacted.Redacted<string>;
-  Description?: string | Redacted.Redacted<string>;
-  Scope: string;
-  Type: string;
+  Name: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
+  Scope: PricingRuleScope;
+  Type: PricingRuleType;
   ModifierPercentage?: number;
   Service?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   BillingEntity?: string;
   Tiering?: CreateTieringInput;
   UsageType?: string;
@@ -1462,8 +1530,8 @@ export const CreatePricingRuleInput = S.suspend(() =>
     ClientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Client-Token")),
     Name: SensitiveString,
     Description: S.optional(SensitiveString),
-    Scope: S.String,
-    Type: S.String,
+    Scope: PricingRuleScope,
+    Type: PricingRuleType,
     ModifierPercentage: S.optional(S.Number),
     Service: S.optional(S.String),
     Tags: S.optional(TagMap),
@@ -1486,9 +1554,9 @@ export const CreatePricingRuleInput = S.suspend(() =>
 }) as any as S.Schema<CreatePricingRuleInput>;
 export interface UpdatePricingRuleInput {
   Arn: string;
-  Name?: string | Redacted.Redacted<string>;
-  Description?: string | Redacted.Redacted<string>;
-  Type?: string;
+  Name?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
+  Type?: PricingRuleType;
   ModifierPercentage?: number;
   Tiering?: UpdateTieringInput;
 }
@@ -1497,7 +1565,7 @@ export const UpdatePricingRuleInput = S.suspend(() =>
     Arn: S.String,
     Name: S.optional(SensitiveString),
     Description: S.optional(SensitiveString),
-    Type: S.optional(S.String),
+    Type: S.optional(PricingRuleType),
     ModifierPercentage: S.optional(S.Number),
     Tiering: S.optional(UpdateTieringInput),
   }).pipe(
@@ -1513,11 +1581,13 @@ export const UpdatePricingRuleInput = S.suspend(() =>
 ).annotations({
   identifier: "UpdatePricingRuleInput",
 }) as any as S.Schema<UpdatePricingRuleInput>;
+export type CurrencyCode = "USD" | "CNY";
+export const CurrencyCode = S.Literal("USD", "CNY");
 export interface AccountAssociationsListElement {
   AccountId?: string;
   BillingGroupArn?: string;
-  AccountName?: string | Redacted.Redacted<string>;
-  AccountEmail?: string | Redacted.Redacted<string>;
+  AccountName?: string | redacted.Redacted<string>;
+  AccountEmail?: string | redacted.Redacted<string>;
 }
 export const AccountAssociationsListElement = S.suspend(() =>
   S.Struct({
@@ -1573,14 +1643,14 @@ export const AssociateResourcesResponseList = S.Array(
 );
 export interface ListResourcesAssociatedToCustomLineItemResponseElement {
   Arn?: string;
-  Relationship?: string;
+  Relationship?: CustomLineItemRelationship;
   EndBillingPeriod?: string;
 }
 export const ListResourcesAssociatedToCustomLineItemResponseElement = S.suspend(
   () =>
     S.Struct({
       Arn: S.optional(S.String),
-      Relationship: S.optional(S.String),
+      Relationship: S.optional(CustomLineItemRelationship),
       EndBillingPeriod: S.optional(S.String),
     }),
 ).annotations({
@@ -1592,9 +1662,9 @@ export const ListResourcesAssociatedToCustomLineItemResponseList = S.Array(
   ListResourcesAssociatedToCustomLineItemResponseElement,
 );
 export interface PricingPlanListElement {
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
   Arn?: string;
-  Description?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   Size?: number;
   CreationTime?: number;
   LastModifiedTime?: number;
@@ -1614,7 +1684,7 @@ export const PricingPlanListElement = S.suspend(() =>
 export type PricingPlanList = PricingPlanListElement[];
 export const PricingPlanList = S.Array(PricingPlanListElement);
 export interface ListAccountAssociationsOutput {
-  LinkedAccounts?: AccountAssociationsList;
+  LinkedAccounts?: AccountAssociationsListElement[];
   NextToken?: string;
 }
 export const ListAccountAssociationsOutput = S.suspend(() =>
@@ -1626,7 +1696,7 @@ export const ListAccountAssociationsOutput = S.suspend(() =>
   identifier: "ListAccountAssociationsOutput",
 }) as any as S.Schema<ListAccountAssociationsOutput>;
 export interface ListBillingGroupCostReportsOutput {
-  BillingGroupCostReports?: BillingGroupCostReportList;
+  BillingGroupCostReports?: BillingGroupCostReportElement[];
   NextToken?: string;
 }
 export const ListBillingGroupCostReportsOutput = S.suspend(() =>
@@ -1664,14 +1734,14 @@ export const ListCustomLineItemPercentageChargeDetails = S.suspend(() =>
 export interface ListCustomLineItemChargeDetails {
   Flat?: ListCustomLineItemFlatChargeDetails;
   Percentage?: ListCustomLineItemPercentageChargeDetails;
-  Type: string;
-  LineItemFilters?: LineItemFiltersList;
+  Type: CustomLineItemType;
+  LineItemFilters?: LineItemFilter[];
 }
 export const ListCustomLineItemChargeDetails = S.suspend(() =>
   S.Struct({
     Flat: S.optional(ListCustomLineItemFlatChargeDetails),
     Percentage: S.optional(ListCustomLineItemPercentageChargeDetails),
-    Type: S.String,
+    Type: CustomLineItemType,
     LineItemFilters: S.optional(LineItemFiltersList),
   }),
 ).annotations({
@@ -1680,8 +1750,8 @@ export const ListCustomLineItemChargeDetails = S.suspend(() =>
 export interface UpdateCustomLineItemOutput {
   Arn?: string;
   BillingGroupArn?: string;
-  Name?: string | Redacted.Redacted<string>;
-  Description?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   ChargeDetails?: ListCustomLineItemChargeDetails;
   LastModifiedTime?: number;
   AssociationSize?: number;
@@ -1700,8 +1770,8 @@ export const UpdateCustomLineItemOutput = S.suspend(() =>
   identifier: "UpdateCustomLineItemOutput",
 }) as any as S.Schema<UpdateCustomLineItemOutput>;
 export interface BatchAssociateResourcesToCustomLineItemOutput {
-  SuccessfullyAssociatedResources?: AssociateResourcesResponseList;
-  FailedAssociatedResources?: AssociateResourcesResponseList;
+  SuccessfullyAssociatedResources?: AssociateResourceResponseElement[];
+  FailedAssociatedResources?: AssociateResourceResponseElement[];
 }
 export const BatchAssociateResourcesToCustomLineItemOutput = S.suspend(() =>
   S.Struct({
@@ -1713,7 +1783,7 @@ export const BatchAssociateResourcesToCustomLineItemOutput = S.suspend(() =>
 }) as any as S.Schema<BatchAssociateResourcesToCustomLineItemOutput>;
 export interface ListResourcesAssociatedToCustomLineItemOutput {
   Arn?: string;
-  AssociatedResources?: ListResourcesAssociatedToCustomLineItemResponseList;
+  AssociatedResources?: ListResourcesAssociatedToCustomLineItemResponseElement[];
   NextToken?: string;
 }
 export const ListResourcesAssociatedToCustomLineItemOutput = S.suspend(() =>
@@ -1729,7 +1799,7 @@ export const ListResourcesAssociatedToCustomLineItemOutput = S.suspend(() =>
 }) as any as S.Schema<ListResourcesAssociatedToCustomLineItemOutput>;
 export interface ListPricingPlansOutput {
   BillingPeriod?: string;
-  PricingPlans?: PricingPlanList;
+  PricingPlans?: PricingPlanListElement[];
   NextToken?: string;
 }
 export const ListPricingPlansOutput = S.suspend(() =>
@@ -1751,10 +1821,10 @@ export const CreatePricingRuleOutput = S.suspend(() =>
 }) as any as S.Schema<CreatePricingRuleOutput>;
 export interface UpdatePricingRuleOutput {
   Arn?: string;
-  Name?: string | Redacted.Redacted<string>;
-  Description?: string | Redacted.Redacted<string>;
-  Scope?: string;
-  Type?: string;
+  Name?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
+  Scope?: PricingRuleScope;
+  Type?: PricingRuleType;
   ModifierPercentage?: number;
   Service?: string;
   AssociatedPricingPlanCount?: number;
@@ -1769,8 +1839,8 @@ export const UpdatePricingRuleOutput = S.suspend(() =>
     Arn: S.optional(S.String),
     Name: S.optional(SensitiveString),
     Description: S.optional(SensitiveString),
-    Scope: S.optional(S.String),
-    Type: S.optional(S.String),
+    Scope: S.optional(PricingRuleScope),
+    Type: S.optional(PricingRuleType),
     ModifierPercentage: S.optional(S.Number),
     Service: S.optional(S.String),
     AssociatedPricingPlanCount: S.optional(S.Number),
@@ -1799,7 +1869,7 @@ export interface BillingGroupCostReportResultElement {
   Margin?: string;
   MarginPercentage?: string;
   Currency?: string;
-  Attributes?: AttributesList;
+  Attributes?: Attribute[];
 }
 export const BillingGroupCostReportResultElement = S.suspend(() =>
   S.Struct({
@@ -1820,10 +1890,10 @@ export const BillingGroupCostReportResultsList = S.Array(
   BillingGroupCostReportResultElement,
 );
 export interface CustomLineItemVersionListElement {
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
   ChargeDetails?: ListCustomLineItemChargeDetails;
-  CurrencyCode?: string;
-  Description?: string | Redacted.Redacted<string>;
+  CurrencyCode?: CurrencyCode;
+  Description?: string | redacted.Redacted<string>;
   ProductCode?: string;
   BillingGroupArn?: string;
   CreationTime?: number;
@@ -1834,14 +1904,14 @@ export interface CustomLineItemVersionListElement {
   Arn?: string;
   StartTime?: number;
   AccountId?: string;
-  ComputationRule?: string;
+  ComputationRule?: ComputationRuleEnum;
   PresentationDetails?: PresentationObject;
 }
 export const CustomLineItemVersionListElement = S.suspend(() =>
   S.Struct({
     Name: S.optional(SensitiveString),
     ChargeDetails: S.optional(ListCustomLineItemChargeDetails),
-    CurrencyCode: S.optional(S.String),
+    CurrencyCode: S.optional(CurrencyCode),
     Description: S.optional(SensitiveString),
     ProductCode: S.optional(S.String),
     BillingGroupArn: S.optional(S.String),
@@ -1853,7 +1923,7 @@ export const CustomLineItemVersionListElement = S.suspend(() =>
     Arn: S.optional(S.String),
     StartTime: S.optional(S.Number),
     AccountId: S.optional(S.String),
-    ComputationRule: S.optional(S.String),
+    ComputationRule: S.optional(ComputationRuleEnum),
     PresentationDetails: S.optional(PresentationObject),
   }),
 ).annotations({
@@ -1862,6 +1932,141 @@ export const CustomLineItemVersionListElement = S.suspend(() =>
 export type CustomLineItemVersionList = CustomLineItemVersionListElement[];
 export const CustomLineItemVersionList = S.Array(
   CustomLineItemVersionListElement,
+);
+export type ValidationExceptionReason =
+  | "UNKNOWN_OPERATION"
+  | "CANNOT_PARSE"
+  | "FIELD_VALIDATION_FAILED"
+  | "OTHER"
+  | "PRIMARY_NOT_ASSOCIATED"
+  | "PRIMARY_CANNOT_DISASSOCIATE"
+  | "ACCOUNTS_NOT_ASSOCIATED"
+  | "ACCOUNTS_ALREADY_ASSOCIATED"
+  | "ILLEGAL_PRIMARY_ACCOUNT"
+  | "ILLEGAL_ACCOUNTS"
+  | "MISMATCHED_BILLINGGROUP_ARN"
+  | "MISSING_BILLINGGROUP"
+  | "MISMATCHED_CUSTOMLINEITEM_ARN"
+  | "ILLEGAL_BILLING_PERIOD"
+  | "ILLEGAL_BILLING_PERIOD_RANGE"
+  | "TOO_MANY_ACCOUNTS_IN_REQUEST"
+  | "DUPLICATE_ACCOUNT"
+  | "INVALID_BILLING_GROUP_STATUS"
+  | "MISMATCHED_PRICINGPLAN_ARN"
+  | "MISSING_PRICINGPLAN"
+  | "MISMATCHED_PRICINGRULE_ARN"
+  | "DUPLICATE_PRICINGRULE_ARNS"
+  | "MISSING_COSTCATEGORY"
+  | "ILLEGAL_EXPRESSION"
+  | "ILLEGAL_SCOPE"
+  | "ILLEGAL_SERVICE"
+  | "PRICINGRULES_NOT_EXIST"
+  | "PRICINGRULES_ALREADY_ASSOCIATED"
+  | "PRICINGRULES_NOT_ASSOCIATED"
+  | "INVALID_TIME_RANGE"
+  | "INVALID_BILLINGVIEW_ARN"
+  | "MISMATCHED_BILLINGVIEW_ARN"
+  | "ILLEGAL_CUSTOMLINEITEM"
+  | "MISSING_CUSTOMLINEITEM"
+  | "ILLEGAL_CUSTOMLINEITEM_UPDATE"
+  | "TOO_MANY_CUSTOMLINEITEMS_IN_REQUEST"
+  | "ILLEGAL_CHARGE_DETAILS"
+  | "ILLEGAL_UPDATE_CHARGE_DETAILS"
+  | "INVALID_ARN"
+  | "ILLEGAL_RESOURCE_ARNS"
+  | "ILLEGAL_CUSTOMLINEITEM_MODIFICATION"
+  | "MISSING_LINKED_ACCOUNT_IDS"
+  | "MULTIPLE_LINKED_ACCOUNT_IDS"
+  | "MISSING_PRICING_PLAN_ARN"
+  | "MULTIPLE_PRICING_PLAN_ARN"
+  | "ILLEGAL_CHILD_ASSOCIATE_RESOURCE"
+  | "CUSTOM_LINE_ITEM_ASSOCIATION_EXISTS"
+  | "INVALID_BILLING_GROUP"
+  | "INVALID_BILLING_PERIOD_FOR_OPERATION"
+  | "ILLEGAL_BILLING_ENTITY"
+  | "ILLEGAL_MODIFIER_PERCENTAGE"
+  | "ILLEGAL_TYPE"
+  | "ILLEGAL_BILLING_GROUP_TYPE"
+  | "ILLEGAL_BILLING_GROUP_PRICING_PLAN"
+  | "ILLEGAL_ENDED_BILLINGGROUP"
+  | "ILLEGAL_TIERING_INPUT"
+  | "ILLEGAL_OPERATION"
+  | "ILLEGAL_USAGE_TYPE"
+  | "INVALID_SKU_COMBO"
+  | "INVALID_FILTER"
+  | "TOO_MANY_AUTO_ASSOCIATE_BILLING_GROUPS"
+  | "CANNOT_DELETE_AUTO_ASSOCIATE_BILLING_GROUP"
+  | "ILLEGAL_ACCOUNT_ID"
+  | "BILLING_GROUP_ALREADY_EXIST_IN_CURRENT_BILLING_PERIOD"
+  | "ILLEGAL_COMPUTATION_RULE"
+  | "ILLEGAL_LINE_ITEM_FILTER";
+export const ValidationExceptionReason = S.Literal(
+  "UNKNOWN_OPERATION",
+  "CANNOT_PARSE",
+  "FIELD_VALIDATION_FAILED",
+  "OTHER",
+  "PRIMARY_NOT_ASSOCIATED",
+  "PRIMARY_CANNOT_DISASSOCIATE",
+  "ACCOUNTS_NOT_ASSOCIATED",
+  "ACCOUNTS_ALREADY_ASSOCIATED",
+  "ILLEGAL_PRIMARY_ACCOUNT",
+  "ILLEGAL_ACCOUNTS",
+  "MISMATCHED_BILLINGGROUP_ARN",
+  "MISSING_BILLINGGROUP",
+  "MISMATCHED_CUSTOMLINEITEM_ARN",
+  "ILLEGAL_BILLING_PERIOD",
+  "ILLEGAL_BILLING_PERIOD_RANGE",
+  "TOO_MANY_ACCOUNTS_IN_REQUEST",
+  "DUPLICATE_ACCOUNT",
+  "INVALID_BILLING_GROUP_STATUS",
+  "MISMATCHED_PRICINGPLAN_ARN",
+  "MISSING_PRICINGPLAN",
+  "MISMATCHED_PRICINGRULE_ARN",
+  "DUPLICATE_PRICINGRULE_ARNS",
+  "MISSING_COSTCATEGORY",
+  "ILLEGAL_EXPRESSION",
+  "ILLEGAL_SCOPE",
+  "ILLEGAL_SERVICE",
+  "PRICINGRULES_NOT_EXIST",
+  "PRICINGRULES_ALREADY_ASSOCIATED",
+  "PRICINGRULES_NOT_ASSOCIATED",
+  "INVALID_TIME_RANGE",
+  "INVALID_BILLINGVIEW_ARN",
+  "MISMATCHED_BILLINGVIEW_ARN",
+  "ILLEGAL_CUSTOMLINEITEM",
+  "MISSING_CUSTOMLINEITEM",
+  "ILLEGAL_CUSTOMLINEITEM_UPDATE",
+  "TOO_MANY_CUSTOMLINEITEMS_IN_REQUEST",
+  "ILLEGAL_CHARGE_DETAILS",
+  "ILLEGAL_UPDATE_CHARGE_DETAILS",
+  "INVALID_ARN",
+  "ILLEGAL_RESOURCE_ARNS",
+  "ILLEGAL_CUSTOMLINEITEM_MODIFICATION",
+  "MISSING_LINKED_ACCOUNT_IDS",
+  "MULTIPLE_LINKED_ACCOUNT_IDS",
+  "MISSING_PRICING_PLAN_ARN",
+  "MULTIPLE_PRICING_PLAN_ARN",
+  "ILLEGAL_CHILD_ASSOCIATE_RESOURCE",
+  "CUSTOM_LINE_ITEM_ASSOCIATION_EXISTS",
+  "INVALID_BILLING_GROUP",
+  "INVALID_BILLING_PERIOD_FOR_OPERATION",
+  "ILLEGAL_BILLING_ENTITY",
+  "ILLEGAL_MODIFIER_PERCENTAGE",
+  "ILLEGAL_TYPE",
+  "ILLEGAL_BILLING_GROUP_TYPE",
+  "ILLEGAL_BILLING_GROUP_PRICING_PLAN",
+  "ILLEGAL_ENDED_BILLINGGROUP",
+  "ILLEGAL_TIERING_INPUT",
+  "ILLEGAL_OPERATION",
+  "ILLEGAL_USAGE_TYPE",
+  "INVALID_SKU_COMBO",
+  "INVALID_FILTER",
+  "TOO_MANY_AUTO_ASSOCIATE_BILLING_GROUPS",
+  "CANNOT_DELETE_AUTO_ASSOCIATE_BILLING_GROUP",
+  "ILLEGAL_ACCOUNT_ID",
+  "BILLING_GROUP_ALREADY_EXIST_IN_CURRENT_BILLING_PERIOD",
+  "ILLEGAL_COMPUTATION_RULE",
+  "ILLEGAL_LINE_ITEM_FILTER",
 );
 export interface FreeTierConfig {
   Activated: boolean;
@@ -1872,7 +2077,7 @@ export const FreeTierConfig = S.suspend(() =>
   identifier: "FreeTierConfig",
 }) as any as S.Schema<FreeTierConfig>;
 export interface GetBillingGroupCostReportOutput {
-  BillingGroupCostReportResults?: BillingGroupCostReportResultsList;
+  BillingGroupCostReportResults?: BillingGroupCostReportResultElement[];
   NextToken?: string;
 }
 export const GetBillingGroupCostReportOutput = S.suspend(() =>
@@ -1886,7 +2091,7 @@ export const GetBillingGroupCostReportOutput = S.suspend(() =>
   identifier: "GetBillingGroupCostReportOutput",
 }) as any as S.Schema<GetBillingGroupCostReportOutput>;
 export interface ListCustomLineItemVersionsOutput {
-  CustomLineItemVersions?: CustomLineItemVersionList;
+  CustomLineItemVersions?: CustomLineItemVersionListElement[];
   NextToken?: string;
 }
 export const ListCustomLineItemVersionsOutput = S.suspend(() =>
@@ -1916,18 +2121,18 @@ export const Tiering = S.suspend(() =>
   S.Struct({ FreeTier: FreeTierConfig }),
 ).annotations({ identifier: "Tiering" }) as any as S.Schema<Tiering>;
 export interface BillingGroupListElement {
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
   Arn?: string;
-  Description?: string | Redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
   PrimaryAccountId?: string;
   ComputationPreference?: ComputationPreference;
   Size?: number;
   CreationTime?: number;
   LastModifiedTime?: number;
-  Status?: string;
+  Status?: BillingGroupStatus;
   StatusReason?: string;
   AccountGrouping?: ListBillingGroupAccountGrouping;
-  BillingGroupType?: string;
+  BillingGroupType?: BillingGroupType;
 }
 export const BillingGroupListElement = S.suspend(() =>
   S.Struct({
@@ -1939,10 +2144,10 @@ export const BillingGroupListElement = S.suspend(() =>
     Size: S.optional(S.Number),
     CreationTime: S.optional(S.Number),
     LastModifiedTime: S.optional(S.Number),
-    Status: S.optional(S.String),
+    Status: S.optional(BillingGroupStatus),
     StatusReason: S.optional(S.String),
     AccountGrouping: S.optional(ListBillingGroupAccountGrouping),
-    BillingGroupType: S.optional(S.String),
+    BillingGroupType: S.optional(BillingGroupType),
   }),
 ).annotations({
   identifier: "BillingGroupListElement",
@@ -1951,17 +2156,17 @@ export type BillingGroupList = BillingGroupListElement[];
 export const BillingGroupList = S.Array(BillingGroupListElement);
 export interface CustomLineItemListElement {
   Arn?: string;
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
   ChargeDetails?: ListCustomLineItemChargeDetails;
-  CurrencyCode?: string;
-  Description?: string | Redacted.Redacted<string>;
+  CurrencyCode?: CurrencyCode;
+  Description?: string | redacted.Redacted<string>;
   ProductCode?: string;
   BillingGroupArn?: string;
   CreationTime?: number;
   LastModifiedTime?: number;
   AssociationSize?: number;
   AccountId?: string;
-  ComputationRule?: string;
+  ComputationRule?: ComputationRuleEnum;
   PresentationDetails?: PresentationObject;
 }
 export const CustomLineItemListElement = S.suspend(() =>
@@ -1969,7 +2174,7 @@ export const CustomLineItemListElement = S.suspend(() =>
     Arn: S.optional(S.String),
     Name: S.optional(SensitiveString),
     ChargeDetails: S.optional(ListCustomLineItemChargeDetails),
-    CurrencyCode: S.optional(S.String),
+    CurrencyCode: S.optional(CurrencyCode),
     Description: S.optional(SensitiveString),
     ProductCode: S.optional(S.String),
     BillingGroupArn: S.optional(S.String),
@@ -1977,7 +2182,7 @@ export const CustomLineItemListElement = S.suspend(() =>
     LastModifiedTime: S.optional(S.Number),
     AssociationSize: S.optional(S.Number),
     AccountId: S.optional(S.String),
-    ComputationRule: S.optional(S.String),
+    ComputationRule: S.optional(ComputationRuleEnum),
     PresentationDetails: S.optional(PresentationObject),
   }),
 ).annotations({
@@ -1986,11 +2191,11 @@ export const CustomLineItemListElement = S.suspend(() =>
 export type CustomLineItemList = CustomLineItemListElement[];
 export const CustomLineItemList = S.Array(CustomLineItemListElement);
 export interface PricingRuleListElement {
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
   Arn?: string;
-  Description?: string | Redacted.Redacted<string>;
-  Scope?: string;
-  Type?: string;
+  Description?: string | redacted.Redacted<string>;
+  Scope?: PricingRuleScope;
+  Type?: PricingRuleType;
   ModifierPercentage?: number;
   Service?: string;
   AssociatedPricingPlanCount?: number;
@@ -2006,8 +2211,8 @@ export const PricingRuleListElement = S.suspend(() =>
     Name: S.optional(SensitiveString),
     Arn: S.optional(S.String),
     Description: S.optional(SensitiveString),
-    Scope: S.optional(S.String),
-    Type: S.optional(S.String),
+    Scope: S.optional(PricingRuleScope),
+    Type: S.optional(PricingRuleType),
     ModifierPercentage: S.optional(S.Number),
     Service: S.optional(S.String),
     AssociatedPricingPlanCount: S.optional(S.Number),
@@ -2035,7 +2240,7 @@ export const ValidationExceptionField = S.suspend(() =>
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export interface ListBillingGroupsOutput {
-  BillingGroups?: BillingGroupList;
+  BillingGroups?: BillingGroupListElement[];
   NextToken?: string;
 }
 export const ListBillingGroupsOutput = S.suspend(() =>
@@ -2047,7 +2252,7 @@ export const ListBillingGroupsOutput = S.suspend(() =>
   identifier: "ListBillingGroupsOutput",
 }) as any as S.Schema<ListBillingGroupsOutput>;
 export interface ListCustomLineItemsOutput {
-  CustomLineItems?: CustomLineItemList;
+  CustomLineItems?: CustomLineItemListElement[];
   NextToken?: string;
 }
 export const ListCustomLineItemsOutput = S.suspend(() =>
@@ -2060,7 +2265,7 @@ export const ListCustomLineItemsOutput = S.suspend(() =>
 }) as any as S.Schema<ListCustomLineItemsOutput>;
 export interface ListPricingRulesOutput {
   BillingPeriod?: string;
-  PricingRules?: PricingRuleList;
+  PricingRules?: PricingRuleListElement[];
   NextToken?: string;
 }
 export const ListPricingRulesOutput = S.suspend(() =>
@@ -2091,7 +2296,7 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
     Message: S.String,
     ResourceId: S.String,
     ResourceType: S.String,
-    Reason: S.optional(S.String),
+    Reason: S.optional(ConflictExceptionReason),
   },
 ).pipe(C.withConflictError) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
@@ -2119,7 +2324,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     Message: S.String,
-    Reason: S.optional(S.String),
+    Reason: S.optional(ValidationExceptionReason),
     Fields: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
@@ -2130,7 +2335,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const deleteBillingGroup: (
   input: DeleteBillingGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBillingGroupOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2153,7 +2358,7 @@ export const deleteBillingGroup: (
  */
 export const batchDisassociateResourcesFromCustomLineItem: (
   input: BatchDisassociateResourcesFromCustomLineItemInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDisassociateResourcesFromCustomLineItemOutput,
   | AccessDeniedException
   | ConflictException
@@ -2181,7 +2386,7 @@ export const batchDisassociateResourcesFromCustomLineItem: (
 export const listPricingPlansAssociatedWithPricingRule: {
   (
     input: ListPricingPlansAssociatedWithPricingRuleInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPricingPlansAssociatedWithPricingRuleOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2193,7 +2398,7 @@ export const listPricingPlansAssociatedWithPricingRule: {
   >;
   pages: (
     input: ListPricingPlansAssociatedWithPricingRuleInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPricingPlansAssociatedWithPricingRuleOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2205,7 +2410,7 @@ export const listPricingPlansAssociatedWithPricingRule: {
   >;
   items: (
     input: ListPricingPlansAssociatedWithPricingRuleInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PricingPlanArn,
     | AccessDeniedException
     | InternalServerException
@@ -2238,7 +2443,7 @@ export const listPricingPlansAssociatedWithPricingRule: {
 export const listPricingRulesAssociatedToPricingPlan: {
   (
     input: ListPricingRulesAssociatedToPricingPlanInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPricingRulesAssociatedToPricingPlanOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2250,7 +2455,7 @@ export const listPricingRulesAssociatedToPricingPlan: {
   >;
   pages: (
     input: ListPricingRulesAssociatedToPricingPlanInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPricingRulesAssociatedToPricingPlanOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2262,7 +2467,7 @@ export const listPricingRulesAssociatedToPricingPlan: {
   >;
   items: (
     input: ListPricingRulesAssociatedToPricingPlanInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PricingRuleArn,
     | AccessDeniedException
     | InternalServerException
@@ -2294,7 +2499,7 @@ export const listPricingRulesAssociatedToPricingPlan: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2319,7 +2524,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2344,7 +2549,7 @@ export const tagResource: (
  */
 export const disassociateAccounts: (
   input: DisassociateAccountsInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateAccountsOutput,
   | AccessDeniedException
   | ConflictException
@@ -2371,7 +2576,7 @@ export const disassociateAccounts: (
  */
 export const updatePricingPlan: (
   input: UpdatePricingPlanInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePricingPlanOutput,
   | AccessDeniedException
   | ConflictException
@@ -2398,7 +2603,7 @@ export const updatePricingPlan: (
  */
 export const disassociatePricingRules: (
   input: DisassociatePricingRulesInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociatePricingRulesOutput,
   | AccessDeniedException
   | ConflictException
@@ -2425,7 +2630,7 @@ export const disassociatePricingRules: (
  */
 export const updateBillingGroup: (
   input: UpdateBillingGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateBillingGroupOutput,
   | AccessDeniedException
   | ConflictException
@@ -2453,7 +2658,7 @@ export const updateBillingGroup: (
 export const listAccountAssociations: {
   (
     input: ListAccountAssociationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccountAssociationsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2465,7 +2670,7 @@ export const listAccountAssociations: {
   >;
   pages: (
     input: ListAccountAssociationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccountAssociationsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2477,7 +2682,7 @@ export const listAccountAssociations: {
   >;
   items: (
     input: ListAccountAssociationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AccountAssociationsListElement,
     | AccessDeniedException
     | InternalServerException
@@ -2509,7 +2714,7 @@ export const listAccountAssociations: {
 export const listBillingGroupCostReports: {
   (
     input: ListBillingGroupCostReportsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBillingGroupCostReportsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2521,7 +2726,7 @@ export const listBillingGroupCostReports: {
   >;
   pages: (
     input: ListBillingGroupCostReportsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBillingGroupCostReportsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2533,7 +2738,7 @@ export const listBillingGroupCostReports: {
   >;
   items: (
     input: ListBillingGroupCostReportsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BillingGroupCostReportElement,
     | AccessDeniedException
     | InternalServerException
@@ -2565,7 +2770,7 @@ export const listBillingGroupCostReports: {
  */
 export const createBillingGroup: (
   input: CreateBillingGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBillingGroupOutput,
   | AccessDeniedException
   | ConflictException
@@ -2592,7 +2797,7 @@ export const createBillingGroup: (
  */
 export const deleteCustomLineItem: (
   input: DeleteCustomLineItemInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCustomLineItemOutput,
   | AccessDeniedException
   | ConflictException
@@ -2617,7 +2822,7 @@ export const deleteCustomLineItem: (
  */
 export const deletePricingPlan: (
   input: DeletePricingPlanInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePricingPlanOutput,
   | AccessDeniedException
   | ConflictException
@@ -2642,7 +2847,7 @@ export const deletePricingPlan: (
  */
 export const deletePricingRule: (
   input: DeletePricingRuleInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePricingRuleOutput,
   | AccessDeniedException
   | ConflictException
@@ -2667,7 +2872,7 @@ export const deletePricingRule: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2692,7 +2897,7 @@ export const untagResource: (
  */
 export const updateCustomLineItem: (
   input: UpdateCustomLineItemInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCustomLineItemOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2718,7 +2923,7 @@ export const updateCustomLineItem: (
 export const listResourcesAssociatedToCustomLineItem: {
   (
     input: ListResourcesAssociatedToCustomLineItemInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResourcesAssociatedToCustomLineItemOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2730,7 +2935,7 @@ export const listResourcesAssociatedToCustomLineItem: {
   >;
   pages: (
     input: ListResourcesAssociatedToCustomLineItemInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResourcesAssociatedToCustomLineItemOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2742,7 +2947,7 @@ export const listResourcesAssociatedToCustomLineItem: {
   >;
   items: (
     input: ListResourcesAssociatedToCustomLineItemInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResourcesAssociatedToCustomLineItemResponseElement,
     | AccessDeniedException
     | InternalServerException
@@ -2775,7 +2980,7 @@ export const listResourcesAssociatedToCustomLineItem: {
 export const listPricingPlans: {
   (
     input: ListPricingPlansInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPricingPlansOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2786,7 +2991,7 @@ export const listPricingPlans: {
   >;
   pages: (
     input: ListPricingPlansInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPricingPlansOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2797,7 +3002,7 @@ export const listPricingPlans: {
   >;
   items: (
     input: ListPricingPlansInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PricingPlanListElement,
     | AccessDeniedException
     | InternalServerException
@@ -2827,7 +3032,7 @@ export const listPricingPlans: {
  */
 export const updatePricingRule: (
   input: UpdatePricingRuleInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePricingRuleOutput,
   | AccessDeniedException
   | ConflictException
@@ -2854,7 +3059,7 @@ export const updatePricingRule: (
  */
 export const createCustomLineItem: (
   input: CreateCustomLineItemInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCustomLineItemOutput,
   | AccessDeniedException
   | ConflictException
@@ -2881,7 +3086,7 @@ export const createCustomLineItem: (
  */
 export const batchAssociateResourcesToCustomLineItem: (
   input: BatchAssociateResourcesToCustomLineItemInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchAssociateResourcesToCustomLineItemOutput,
   | AccessDeniedException
   | ConflictException
@@ -2910,7 +3115,7 @@ export const batchAssociateResourcesToCustomLineItem: (
  */
 export const createPricingRule: (
   input: CreatePricingRuleInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePricingRuleOutput,
   | AccessDeniedException
   | ConflictException
@@ -2937,7 +3142,7 @@ export const createPricingRule: (
  */
 export const associateAccounts: (
   input: AssociateAccountsInput,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateAccountsOutput,
   | AccessDeniedException
   | ConflictException
@@ -2966,7 +3171,7 @@ export const associateAccounts: (
  */
 export const createPricingPlan: (
   input: CreatePricingPlanInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePricingPlanOutput,
   | AccessDeniedException
   | ConflictException
@@ -2995,7 +3200,7 @@ export const createPricingPlan: (
  */
 export const associatePricingRules: (
   input: AssociatePricingRulesInput,
-) => Effect.Effect<
+) => effect.Effect<
   AssociatePricingRulesOutput,
   | AccessDeniedException
   | ConflictException
@@ -3025,7 +3230,7 @@ export const associatePricingRules: (
 export const getBillingGroupCostReport: {
   (
     input: GetBillingGroupCostReportInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetBillingGroupCostReportOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3037,7 +3242,7 @@ export const getBillingGroupCostReport: {
   >;
   pages: (
     input: GetBillingGroupCostReportInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetBillingGroupCostReportOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3049,7 +3254,7 @@ export const getBillingGroupCostReport: {
   >;
   items: (
     input: GetBillingGroupCostReportInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BillingGroupCostReportResultElement,
     | AccessDeniedException
     | InternalServerException
@@ -3082,7 +3287,7 @@ export const getBillingGroupCostReport: {
 export const listCustomLineItemVersions: {
   (
     input: ListCustomLineItemVersionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCustomLineItemVersionsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3093,7 +3298,7 @@ export const listCustomLineItemVersions: {
   >;
   pages: (
     input: ListCustomLineItemVersionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCustomLineItemVersionsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3104,7 +3309,7 @@ export const listCustomLineItemVersions: {
   >;
   items: (
     input: ListCustomLineItemVersionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CustomLineItemVersionListElement,
     | AccessDeniedException
     | InternalServerException
@@ -3135,7 +3340,7 @@ export const listCustomLineItemVersions: {
 export const listBillingGroups: {
   (
     input: ListBillingGroupsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBillingGroupsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3147,7 +3352,7 @@ export const listBillingGroups: {
   >;
   pages: (
     input: ListBillingGroupsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBillingGroupsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3159,7 +3364,7 @@ export const listBillingGroups: {
   >;
   items: (
     input: ListBillingGroupsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BillingGroupListElement,
     | AccessDeniedException
     | InternalServerException
@@ -3192,7 +3397,7 @@ export const listBillingGroups: {
 export const listCustomLineItems: {
   (
     input: ListCustomLineItemsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCustomLineItemsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3204,7 +3409,7 @@ export const listCustomLineItems: {
   >;
   pages: (
     input: ListCustomLineItemsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCustomLineItemsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3216,7 +3421,7 @@ export const listCustomLineItems: {
   >;
   items: (
     input: ListCustomLineItemsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CustomLineItemListElement,
     | AccessDeniedException
     | InternalServerException
@@ -3249,7 +3454,7 @@ export const listCustomLineItems: {
 export const listPricingRules: {
   (
     input: ListPricingRulesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPricingRulesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3260,7 +3465,7 @@ export const listPricingRules: {
   >;
   pages: (
     input: ListPricingRulesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPricingRulesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -3271,7 +3476,7 @@ export const listPricingRules: {
   >;
   items: (
     input: ListPricingRulesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PricingRuleListElement,
     | AccessDeniedException
     | InternalServerException

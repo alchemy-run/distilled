@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -89,7 +89,7 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type SimSpaceWeaverArn = string;
 export type TagKey = string;
-export type ClientToken = string | Redacted.Redacted<string>;
+export type ClientToken = string | redacted.Redacted<string>;
 export type SimSpaceWeaverResourceName = string;
 export type Description = string;
 export type RoleArn = string;
@@ -135,7 +135,7 @@ export const ListTagsForResourceInput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceInput>;
 export interface UntagResourceInput {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({
@@ -397,7 +397,7 @@ export const S3Destination = S.suspend(() =>
   identifier: "S3Destination",
 }) as any as S.Schema<S3Destination>;
 export interface LaunchOverrides {
-  LaunchCommands?: LaunchCommandList;
+  LaunchCommands?: string[];
 }
 export const LaunchOverrides = S.suspend(() =>
   S.Struct({ LaunchCommands: S.optional(LaunchCommandList) }),
@@ -405,7 +405,7 @@ export const LaunchOverrides = S.suspend(() =>
   identifier: "LaunchOverrides",
 }) as any as S.Schema<LaunchOverrides>;
 export interface ListTagsForResourceOutput {
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -414,7 +414,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   ResourceArn: string;
-  Tags: TagMap;
+  Tags: { [key: string]: string };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -438,13 +438,13 @@ export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
   identifier: "TagResourceOutput",
 }) as any as S.Schema<TagResourceOutput>;
 export interface StartSimulationInput {
-  ClientToken?: string | Redacted.Redacted<string>;
+  ClientToken?: string | redacted.Redacted<string>;
   Name: string;
   Description?: string;
   RoleArn: string;
   SchemaS3Location?: S3Location;
   MaximumDuration?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   SnapshotS3Location?: S3Location;
 }
 export const StartSimulationInput = S.suspend(() =>
@@ -493,7 +493,7 @@ export const CreateSnapshotOutput = S.suspend(() => S.Struct({})).annotations({
   identifier: "CreateSnapshotOutput",
 }) as any as S.Schema<CreateSnapshotOutput>;
 export interface StartAppInput {
-  ClientToken?: string | Redacted.Redacted<string>;
+  ClientToken?: string | redacted.Redacted<string>;
   Simulation: string;
   Domain: string;
   Name: string;
@@ -576,7 +576,7 @@ export const StartSimulationOutput = S.suspend(() =>
   identifier: "StartSimulationOutput",
 }) as any as S.Schema<StartSimulationOutput>;
 export interface ListSimulationsOutput {
-  Simulations?: SimulationList;
+  Simulations?: SimulationMetadata[];
   NextToken?: string;
 }
 export const ListSimulationsOutput = S.suspend(() =>
@@ -588,7 +588,7 @@ export const ListSimulationsOutput = S.suspend(() =>
   identifier: "ListSimulationsOutput",
 }) as any as S.Schema<ListSimulationsOutput>;
 export interface ListAppsOutput {
-  Apps?: SimulationAppList;
+  Apps?: SimulationAppMetadata[];
   NextToken?: string;
 }
 export const ListAppsOutput = S.suspend(() =>
@@ -648,8 +648,8 @@ export const SimulationAppPortMapping = S.suspend(() =>
 export type AppPortMappings = SimulationAppPortMapping[];
 export const AppPortMappings = S.Array(SimulationAppPortMapping);
 export interface LiveSimulationState {
-  Domains?: DomainList;
-  Clocks?: SimulationClockList;
+  Domains?: Domain[];
+  Clocks?: SimulationClock[];
 }
 export const LiveSimulationState = S.suspend(() =>
   S.Struct({
@@ -661,7 +661,7 @@ export const LiveSimulationState = S.suspend(() =>
 }) as any as S.Schema<LiveSimulationState>;
 export interface SimulationAppEndpointInfo {
   Address?: string;
-  IngressPortMappings?: AppPortMappings;
+  IngressPortMappings?: SimulationAppPortMapping[];
 }
 export const SimulationAppEndpointInfo = S.suspend(() =>
   S.Struct({
@@ -714,7 +714,7 @@ export const LogDestination = S.suspend(() =>
 export type LogDestinations = LogDestination[];
 export const LogDestinations = S.Array(LogDestination);
 export interface LoggingConfiguration {
-  Destinations?: LogDestinations;
+  Destinations?: LogDestination[];
 }
 export const LoggingConfiguration = S.suspend(() =>
   S.Struct({ Destinations: S.optional(LogDestinations) }),
@@ -797,7 +797,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -812,7 +812,7 @@ export const untagResource: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   | ResourceNotFoundException
   | TooManyTagsException
@@ -833,7 +833,7 @@ export const tagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -850,7 +850,7 @@ export const listTagsForResource: (
  */
 export const stopSimulation: (
   input: StopSimulationInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopSimulationOutput,
   | AccessDeniedException
   | ConflictException
@@ -875,7 +875,7 @@ export const stopSimulation: (
  */
 export const describeApp: (
   input: DescribeAppInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAppOutput,
   | AccessDeniedException
   | InternalServerException
@@ -899,7 +899,7 @@ export const describeApp: (
 export const listSimulations: {
   (
     input: ListSimulationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSimulationsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -909,7 +909,7 @@ export const listSimulations: {
   >;
   pages: (
     input: ListSimulationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSimulationsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -919,7 +919,7 @@ export const listSimulations: {
   >;
   items: (
     input: ListSimulationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -943,7 +943,7 @@ export const listSimulations: {
 export const listApps: {
   (
     input: ListAppsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAppsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -954,7 +954,7 @@ export const listApps: {
   >;
   pages: (
     input: ListAppsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAppsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -965,7 +965,7 @@ export const listApps: {
   >;
   items: (
     input: ListAppsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -1035,7 +1035,7 @@ export const listApps: {
  */
 export const createSnapshot: (
   input: CreateSnapshotInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSnapshotOutput,
   | AccessDeniedException
   | ConflictException
@@ -1063,7 +1063,7 @@ export const createSnapshot: (
  */
 export const deleteSimulation: (
   input: DeleteSimulationInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSimulationOutput,
   | AccessDeniedException
   | ConflictException
@@ -1088,7 +1088,7 @@ export const deleteSimulation: (
  */
 export const deleteApp: (
   input: DeleteAppInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAppOutput,
   | AccessDeniedException
   | ConflictException
@@ -1113,7 +1113,7 @@ export const deleteApp: (
  */
 export const startClock: (
   input: StartClockInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartClockOutput,
   | AccessDeniedException
   | ConflictException
@@ -1138,7 +1138,7 @@ export const startClock: (
  */
 export const stopApp: (
   input: StopAppInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopAppOutput,
   | AccessDeniedException
   | ConflictException
@@ -1163,7 +1163,7 @@ export const stopApp: (
  */
 export const stopClock: (
   input: StopClockInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopClockOutput,
   | AccessDeniedException
   | ConflictException
@@ -1188,7 +1188,7 @@ export const stopClock: (
  */
 export const describeSimulation: (
   input: DescribeSimulationInput,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeSimulationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1211,7 +1211,7 @@ export const describeSimulation: (
  */
 export const startApp: (
   input: StartAppInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartAppOutput,
   | AccessDeniedException
   | ConflictException
@@ -1241,7 +1241,7 @@ export const startApp: (
  */
 export const startSimulation: (
   input: StartSimulationInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartSimulationOutput,
   | AccessDeniedException
   | ConflictException

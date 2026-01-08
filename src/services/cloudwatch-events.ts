@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -139,15 +139,13 @@ export type ReplayStateReason = string;
 export type ApiDestinationArn = string;
 export type ArchiveArn = string;
 export type ArchiveStateReason = string;
-export type Long = number;
 export type ConnectionStateReason = string;
 export type SecretsManagerSecretArn = string;
 export type RuleArn = string;
 export type ManagedBy = string;
 export type CreatedBy = string;
-export type Integer = number;
 export type AuthHeaderParameters = string;
-export type AuthHeaderParametersSensitive = string | Redacted.Redacted<string>;
+export type AuthHeaderParametersSensitive = string | redacted.Redacted<string>;
 export type TransformerInput = string;
 export type TargetPartitionKeyPath = string;
 export type LimitMin1 = number;
@@ -164,10 +162,10 @@ export type MaximumRetryAttempts = number;
 export type MaximumEventAgeInSeconds = number;
 export type ErrorCode = string;
 export type HeaderKey = string;
-export type HeaderValueSensitive = string | Redacted.Redacted<string>;
+export type HeaderValueSensitive = string | redacted.Redacted<string>;
 export type QueryStringKey = string;
-export type QueryStringValueSensitive = string | Redacted.Redacted<string>;
-export type SensitiveString = string | Redacted.Redacted<string>;
+export type QueryStringValueSensitive = string | redacted.Redacted<string>;
+export type SensitiveString = string | redacted.Redacted<string>;
 export type InputTransformerPathKey = string;
 export type RunCommandTargetKey = string;
 export type RunCommandTargetValue = string;
@@ -183,6 +181,81 @@ export type SageMakerPipelineParameterValue = string;
 export type EventId = string;
 
 //# Schemas
+export type ApiDestinationHttpMethod =
+  | "POST"
+  | "GET"
+  | "HEAD"
+  | "OPTIONS"
+  | "PUT"
+  | "PATCH"
+  | "DELETE";
+export const ApiDestinationHttpMethod = S.Literal(
+  "POST",
+  "GET",
+  "HEAD",
+  "OPTIONS",
+  "PUT",
+  "PATCH",
+  "DELETE",
+);
+export type ConnectionAuthorizationType =
+  | "BASIC"
+  | "OAUTH_CLIENT_CREDENTIALS"
+  | "API_KEY";
+export const ConnectionAuthorizationType = S.Literal(
+  "BASIC",
+  "OAUTH_CLIENT_CREDENTIALS",
+  "API_KEY",
+);
+export type ArchiveState =
+  | "ENABLED"
+  | "DISABLED"
+  | "CREATING"
+  | "UPDATING"
+  | "CREATE_FAILED"
+  | "UPDATE_FAILED";
+export const ArchiveState = S.Literal(
+  "ENABLED",
+  "DISABLED",
+  "CREATING",
+  "UPDATING",
+  "CREATE_FAILED",
+  "UPDATE_FAILED",
+);
+export type ConnectionState =
+  | "CREATING"
+  | "UPDATING"
+  | "DELETING"
+  | "AUTHORIZED"
+  | "DEAUTHORIZED"
+  | "AUTHORIZING"
+  | "DEAUTHORIZING";
+export const ConnectionState = S.Literal(
+  "CREATING",
+  "UPDATING",
+  "DELETING",
+  "AUTHORIZED",
+  "DEAUTHORIZED",
+  "AUTHORIZING",
+  "DEAUTHORIZING",
+);
+export type ReplayState =
+  | "STARTING"
+  | "RUNNING"
+  | "CANCELLING"
+  | "COMPLETED"
+  | "CANCELLED"
+  | "FAILED";
+export const ReplayState = S.Literal(
+  "STARTING",
+  "RUNNING",
+  "CANCELLING",
+  "COMPLETED",
+  "CANCELLED",
+  "FAILED",
+);
+export type RuleState = "ENABLED" | "DISABLED";
+export const RuleState = S.Literal("ENABLED", "DISABLED");
 export type TargetIdList = string[];
 export const TargetIdList = S.Array(S.String);
 export type TagKeyList = string[];
@@ -234,7 +307,7 @@ export interface CreateApiDestinationRequest {
   Description?: string;
   ConnectionArn: string;
   InvocationEndpoint: string;
-  HttpMethod: string;
+  HttpMethod: ApiDestinationHttpMethod;
   InvocationRateLimitPerSecond?: number;
 }
 export const CreateApiDestinationRequest = S.suspend(() =>
@@ -243,7 +316,7 @@ export const CreateApiDestinationRequest = S.suspend(() =>
     Description: S.optional(S.String),
     ConnectionArn: S.String,
     InvocationEndpoint: S.String,
-    HttpMethod: S.String,
+    HttpMethod: ApiDestinationHttpMethod,
     InvocationRateLimitPerSecond: S.optional(S.Number),
   }).pipe(
     T.all(
@@ -717,7 +790,7 @@ export const ListApiDestinationsRequest = S.suspend(() =>
 export interface ListArchivesRequest {
   NamePrefix?: string;
   EventSourceArn?: string;
-  State?: string;
+  State?: ArchiveState;
   NextToken?: string;
   Limit?: number;
 }
@@ -725,7 +798,7 @@ export const ListArchivesRequest = S.suspend(() =>
   S.Struct({
     NamePrefix: S.optional(S.String),
     EventSourceArn: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(ArchiveState),
     NextToken: S.optional(S.String),
     Limit: S.optional(S.Number),
   }).pipe(
@@ -744,14 +817,14 @@ export const ListArchivesRequest = S.suspend(() =>
 }) as any as S.Schema<ListArchivesRequest>;
 export interface ListConnectionsRequest {
   NamePrefix?: string;
-  ConnectionState?: string;
+  ConnectionState?: ConnectionState;
   NextToken?: string;
   Limit?: number;
 }
 export const ListConnectionsRequest = S.suspend(() =>
   S.Struct({
     NamePrefix: S.optional(S.String),
-    ConnectionState: S.optional(S.String),
+    ConnectionState: S.optional(ConnectionState),
     NextToken: S.optional(S.String),
     Limit: S.optional(S.Number),
   }).pipe(
@@ -866,7 +939,7 @@ export const ListPartnerEventSourcesRequest = S.suspend(() =>
 }) as any as S.Schema<ListPartnerEventSourcesRequest>;
 export interface ListReplaysRequest {
   NamePrefix?: string;
-  State?: string;
+  State?: ReplayState;
   EventSourceArn?: string;
   NextToken?: string;
   Limit?: number;
@@ -874,7 +947,7 @@ export interface ListReplaysRequest {
 export const ListReplaysRequest = S.suspend(() =>
   S.Struct({
     NamePrefix: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(ReplayState),
     EventSourceArn: S.optional(S.String),
     NextToken: S.optional(S.String),
     Limit: S.optional(S.Number),
@@ -1001,10 +1074,10 @@ export interface PutRuleRequest {
   Name: string;
   ScheduleExpression?: string;
   EventPattern?: string;
-  State?: string;
+  State?: RuleState;
   Description?: string;
   RoleArn?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   EventBusName?: string;
 }
 export const PutRuleRequest = S.suspend(() =>
@@ -1012,7 +1085,7 @@ export const PutRuleRequest = S.suspend(() =>
     Name: S.String,
     ScheduleExpression: S.optional(S.String),
     EventPattern: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(RuleState),
     Description: S.optional(S.String),
     RoleArn: S.optional(S.String),
     Tags: S.optional(TagList),
@@ -1064,7 +1137,7 @@ export const RemovePermissionResponse = S.suspend(() =>
 export interface RemoveTargetsRequest {
   Rule: string;
   EventBusName?: string;
-  Ids: TargetIdList;
+  Ids: string[];
   Force?: boolean;
 }
 export const RemoveTargetsRequest = S.suspend(() =>
@@ -1089,7 +1162,7 @@ export const RemoveTargetsRequest = S.suspend(() =>
 }) as any as S.Schema<RemoveTargetsRequest>;
 export interface TagResourceRequest {
   ResourceARN: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
@@ -1133,7 +1206,7 @@ export const TestEventPatternRequest = S.suspend(() =>
 }) as any as S.Schema<TestEventPatternRequest>;
 export interface UntagResourceRequest {
   ResourceARN: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
@@ -1161,7 +1234,7 @@ export interface UpdateApiDestinationRequest {
   Description?: string;
   ConnectionArn?: string;
   InvocationEndpoint?: string;
-  HttpMethod?: string;
+  HttpMethod?: ApiDestinationHttpMethod;
   InvocationRateLimitPerSecond?: number;
 }
 export const UpdateApiDestinationRequest = S.suspend(() =>
@@ -1170,7 +1243,7 @@ export const UpdateApiDestinationRequest = S.suspend(() =>
     Description: S.optional(S.String),
     ConnectionArn: S.optional(S.String),
     InvocationEndpoint: S.optional(S.String),
-    HttpMethod: S.optional(S.String),
+    HttpMethod: S.optional(ApiDestinationHttpMethod),
     InvocationRateLimitPerSecond: S.optional(S.Number),
   }).pipe(
     T.all(
@@ -1216,12 +1289,16 @@ export type EventResourceList = string[];
 export const EventResourceList = S.Array(S.String);
 export type ReplayDestinationFilters = string[];
 export const ReplayDestinationFilters = S.Array(S.String);
+export type ApiDestinationState = "ACTIVE" | "INACTIVE";
+export const ApiDestinationState = S.Literal("ACTIVE", "INACTIVE");
+export type EventSourceState = "PENDING" | "ACTIVE" | "DELETED";
+export const EventSourceState = S.Literal("PENDING", "ACTIVE", "DELETED");
 export type RuleNameList = string[];
 export const RuleNameList = S.Array(S.String);
 export interface PutEventsRequestEntry {
   Time?: Date;
   Source?: string;
-  Resources?: EventResourceList;
+  Resources?: string[];
   DetailType?: string;
   Detail?: string;
   EventBusName?: string;
@@ -1245,7 +1322,7 @@ export const PutEventsRequestEntryList = S.Array(PutEventsRequestEntry);
 export interface PutPartnerEventsRequestEntry {
   Time?: Date;
   Source?: string;
-  Resources?: EventResourceList;
+  Resources?: string[];
   DetailType?: string;
   Detail?: string;
 }
@@ -1274,24 +1351,30 @@ export const Condition = S.suspend(() =>
 ).annotations({ identifier: "Condition" }) as any as S.Schema<Condition>;
 export interface ReplayDestination {
   Arn: string;
-  FilterArns?: ReplayDestinationFilters;
+  FilterArns?: string[];
 }
 export const ReplayDestination = S.suspend(() =>
   S.Struct({ Arn: S.String, FilterArns: S.optional(ReplayDestinationFilters) }),
 ).annotations({
   identifier: "ReplayDestination",
 }) as any as S.Schema<ReplayDestination>;
+export type ConnectionOAuthHttpMethod = "GET" | "POST" | "PUT";
+export const ConnectionOAuthHttpMethod = S.Literal("GET", "POST", "PUT");
+export type LaunchType = "EC2" | "FARGATE" | "EXTERNAL";
+export const LaunchType = S.Literal("EC2", "FARGATE", "EXTERNAL");
+export type PropagateTags = "TASK_DEFINITION";
+export const PropagateTags = S.Literal("TASK_DEFINITION");
 export type PathParameterList = string[];
 export const PathParameterList = S.Array(S.String);
 export interface CancelReplayResponse {
   ReplayArn?: string;
-  State?: string;
+  State?: ReplayState;
   StateReason?: string;
 }
 export const CancelReplayResponse = S.suspend(() =>
   S.Struct({
     ReplayArn: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(ReplayState),
     StateReason: S.optional(S.String),
   }).pipe(ns),
 ).annotations({
@@ -1299,14 +1382,14 @@ export const CancelReplayResponse = S.suspend(() =>
 }) as any as S.Schema<CancelReplayResponse>;
 export interface CreateApiDestinationResponse {
   ApiDestinationArn?: string;
-  ApiDestinationState?: string;
+  ApiDestinationState?: ApiDestinationState;
   CreationTime?: Date;
   LastModifiedTime?: Date;
 }
 export const CreateApiDestinationResponse = S.suspend(() =>
   S.Struct({
     ApiDestinationArn: S.optional(S.String),
-    ApiDestinationState: S.optional(S.String),
+    ApiDestinationState: S.optional(ApiDestinationState),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1317,14 +1400,14 @@ export const CreateApiDestinationResponse = S.suspend(() =>
 }) as any as S.Schema<CreateApiDestinationResponse>;
 export interface CreateArchiveResponse {
   ArchiveArn?: string;
-  State?: string;
+  State?: ArchiveState;
   StateReason?: string;
   CreationTime?: Date;
 }
 export const CreateArchiveResponse = S.suspend(() =>
   S.Struct({
     ArchiveArn: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(ArchiveState),
     StateReason: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }).pipe(ns),
@@ -1334,7 +1417,7 @@ export const CreateArchiveResponse = S.suspend(() =>
 export interface CreateEventBusRequest {
   Name: string;
   EventSourceName?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateEventBusRequest = S.suspend(() =>
   S.Struct({
@@ -1365,7 +1448,7 @@ export const CreatePartnerEventSourceResponse = S.suspend(() =>
 }) as any as S.Schema<CreatePartnerEventSourceResponse>;
 export interface DeauthorizeConnectionResponse {
   ConnectionArn?: string;
-  ConnectionState?: string;
+  ConnectionState?: ConnectionState;
   CreationTime?: Date;
   LastModifiedTime?: Date;
   LastAuthorizedTime?: Date;
@@ -1373,7 +1456,7 @@ export interface DeauthorizeConnectionResponse {
 export const DeauthorizeConnectionResponse = S.suspend(() =>
   S.Struct({
     ConnectionArn: S.optional(S.String),
-    ConnectionState: S.optional(S.String),
+    ConnectionState: S.optional(ConnectionState),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1387,7 +1470,7 @@ export const DeauthorizeConnectionResponse = S.suspend(() =>
 }) as any as S.Schema<DeauthorizeConnectionResponse>;
 export interface DeleteConnectionResponse {
   ConnectionArn?: string;
-  ConnectionState?: string;
+  ConnectionState?: ConnectionState;
   CreationTime?: Date;
   LastModifiedTime?: Date;
   LastAuthorizedTime?: Date;
@@ -1395,7 +1478,7 @@ export interface DeleteConnectionResponse {
 export const DeleteConnectionResponse = S.suspend(() =>
   S.Struct({
     ConnectionArn: S.optional(S.String),
-    ConnectionState: S.optional(S.String),
+    ConnectionState: S.optional(ConnectionState),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1411,10 +1494,10 @@ export interface DescribeApiDestinationResponse {
   ApiDestinationArn?: string;
   Name?: string;
   Description?: string;
-  ApiDestinationState?: string;
+  ApiDestinationState?: ApiDestinationState;
   ConnectionArn?: string;
   InvocationEndpoint?: string;
-  HttpMethod?: string;
+  HttpMethod?: ApiDestinationHttpMethod;
   InvocationRateLimitPerSecond?: number;
   CreationTime?: Date;
   LastModifiedTime?: Date;
@@ -1424,10 +1507,10 @@ export const DescribeApiDestinationResponse = S.suspend(() =>
     ApiDestinationArn: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    ApiDestinationState: S.optional(S.String),
+    ApiDestinationState: S.optional(ApiDestinationState),
     ConnectionArn: S.optional(S.String),
     InvocationEndpoint: S.optional(S.String),
-    HttpMethod: S.optional(S.String),
+    HttpMethod: S.optional(ApiDestinationHttpMethod),
     InvocationRateLimitPerSecond: S.optional(S.Number),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedTime: S.optional(
@@ -1443,7 +1526,7 @@ export interface DescribeArchiveResponse {
   EventSourceArn?: string;
   Description?: string;
   EventPattern?: string;
-  State?: string;
+  State?: ArchiveState;
   StateReason?: string;
   RetentionDays?: number;
   SizeBytes?: number;
@@ -1457,7 +1540,7 @@ export const DescribeArchiveResponse = S.suspend(() =>
     EventSourceArn: S.optional(S.String),
     Description: S.optional(S.String),
     EventPattern: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(ArchiveState),
     StateReason: S.optional(S.String),
     RetentionDays: S.optional(S.Number),
     SizeBytes: S.optional(S.Number),
@@ -1487,7 +1570,7 @@ export interface DescribeEventSourceResponse {
   CreationTime?: Date;
   ExpirationTime?: Date;
   Name?: string;
-  State?: string;
+  State?: EventSourceState;
 }
 export const DescribeEventSourceResponse = S.suspend(() =>
   S.Struct({
@@ -1496,7 +1579,7 @@ export const DescribeEventSourceResponse = S.suspend(() =>
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Name: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(EventSourceState),
   }).pipe(ns),
 ).annotations({
   identifier: "DescribeEventSourceResponse",
@@ -1514,7 +1597,7 @@ export interface DescribeReplayResponse {
   ReplayName?: string;
   ReplayArn?: string;
   Description?: string;
-  State?: string;
+  State?: ReplayState;
   StateReason?: string;
   EventSourceArn?: string;
   Destination?: ReplayDestination;
@@ -1529,7 +1612,7 @@ export const DescribeReplayResponse = S.suspend(() =>
     ReplayName: S.optional(S.String),
     ReplayArn: S.optional(S.String),
     Description: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(ReplayState),
     StateReason: S.optional(S.String),
     EventSourceArn: S.optional(S.String),
     Destination: S.optional(ReplayDestination),
@@ -1551,7 +1634,7 @@ export interface DescribeRuleResponse {
   Arn?: string;
   EventPattern?: string;
   ScheduleExpression?: string;
-  State?: string;
+  State?: RuleState;
   Description?: string;
   RoleArn?: string;
   ManagedBy?: string;
@@ -1564,7 +1647,7 @@ export const DescribeRuleResponse = S.suspend(() =>
     Arn: S.optional(S.String),
     EventPattern: S.optional(S.String),
     ScheduleExpression: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(RuleState),
     Description: S.optional(S.String),
     RoleArn: S.optional(S.String),
     ManagedBy: S.optional(S.String),
@@ -1575,7 +1658,7 @@ export const DescribeRuleResponse = S.suspend(() =>
   identifier: "DescribeRuleResponse",
 }) as any as S.Schema<DescribeRuleResponse>;
 export interface ListRuleNamesByTargetResponse {
-  RuleNames?: RuleNameList;
+  RuleNames?: string[];
   NextToken?: string;
 }
 export const ListRuleNamesByTargetResponse = S.suspend(() =>
@@ -1587,7 +1670,7 @@ export const ListRuleNamesByTargetResponse = S.suspend(() =>
   identifier: "ListRuleNamesByTargetResponse",
 }) as any as S.Schema<ListRuleNamesByTargetResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
@@ -1597,7 +1680,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 export type TransformerPaths = { [key: string]: string };
 export const TransformerPaths = S.Record({ key: S.String, value: S.String });
 export interface InputTransformer {
-  InputPathsMap?: TransformerPaths;
+  InputPathsMap?: { [key: string]: string };
   InputTemplate: string;
 }
 export const InputTransformer = S.suspend(() =>
@@ -1620,7 +1703,7 @@ export type RunCommandTargetValues = string[];
 export const RunCommandTargetValues = S.Array(S.String);
 export interface RunCommandTarget {
   Key: string;
-  Values: RunCommandTargetValues;
+  Values: string[];
 }
 export const RunCommandTarget = S.suspend(() =>
   S.Struct({ Key: S.String, Values: RunCommandTargetValues }),
@@ -1630,7 +1713,7 @@ export const RunCommandTarget = S.suspend(() =>
 export type RunCommandTargets = RunCommandTarget[];
 export const RunCommandTargets = S.Array(RunCommandTarget);
 export interface RunCommandParameters {
-  RunCommandTargets: RunCommandTargets;
+  RunCommandTargets: RunCommandTarget[];
 }
 export const RunCommandParameters = S.suspend(() =>
   S.Struct({ RunCommandTargets: RunCommandTargets }),
@@ -1639,16 +1722,18 @@ export const RunCommandParameters = S.suspend(() =>
 }) as any as S.Schema<RunCommandParameters>;
 export type StringList = string[];
 export const StringList = S.Array(S.String);
+export type AssignPublicIp = "ENABLED" | "DISABLED";
+export const AssignPublicIp = S.Literal("ENABLED", "DISABLED");
 export interface AwsVpcConfiguration {
-  Subnets: StringList;
-  SecurityGroups?: StringList;
-  AssignPublicIp?: string;
+  Subnets: string[];
+  SecurityGroups?: string[];
+  AssignPublicIp?: AssignPublicIp;
 }
 export const AwsVpcConfiguration = S.suspend(() =>
   S.Struct({
     Subnets: StringList,
     SecurityGroups: S.optional(StringList),
-    AssignPublicIp: S.optional(S.String),
+    AssignPublicIp: S.optional(AssignPublicIp),
   }),
 ).annotations({
   identifier: "AwsVpcConfiguration",
@@ -1677,23 +1762,36 @@ export const CapacityProviderStrategyItem = S.suspend(() =>
 }) as any as S.Schema<CapacityProviderStrategyItem>;
 export type CapacityProviderStrategy = CapacityProviderStrategyItem[];
 export const CapacityProviderStrategy = S.Array(CapacityProviderStrategyItem);
+export type PlacementConstraintType = "distinctInstance" | "memberOf";
+export const PlacementConstraintType = S.Literal(
+  "distinctInstance",
+  "memberOf",
+);
 export interface PlacementConstraint {
-  type?: string;
+  type?: PlacementConstraintType;
   expression?: string;
 }
 export const PlacementConstraint = S.suspend(() =>
-  S.Struct({ type: S.optional(S.String), expression: S.optional(S.String) }),
+  S.Struct({
+    type: S.optional(PlacementConstraintType),
+    expression: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "PlacementConstraint",
 }) as any as S.Schema<PlacementConstraint>;
 export type PlacementConstraints = PlacementConstraint[];
 export const PlacementConstraints = S.Array(PlacementConstraint);
+export type PlacementStrategyType = "random" | "spread" | "binpack";
+export const PlacementStrategyType = S.Literal("random", "spread", "binpack");
 export interface PlacementStrategy {
-  type?: string;
+  type?: PlacementStrategyType;
   field?: string;
 }
 export const PlacementStrategy = S.suspend(() =>
-  S.Struct({ type: S.optional(S.String), field: S.optional(S.String) }),
+  S.Struct({
+    type: S.optional(PlacementStrategyType),
+    field: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "PlacementStrategy",
 }) as any as S.Schema<PlacementStrategy>;
@@ -1702,24 +1800,24 @@ export const PlacementStrategies = S.Array(PlacementStrategy);
 export interface EcsParameters {
   TaskDefinitionArn: string;
   TaskCount?: number;
-  LaunchType?: string;
+  LaunchType?: LaunchType;
   NetworkConfiguration?: NetworkConfiguration;
   PlatformVersion?: string;
   Group?: string;
-  CapacityProviderStrategy?: CapacityProviderStrategy;
+  CapacityProviderStrategy?: CapacityProviderStrategyItem[];
   EnableECSManagedTags?: boolean;
   EnableExecuteCommand?: boolean;
-  PlacementConstraints?: PlacementConstraints;
-  PlacementStrategy?: PlacementStrategies;
-  PropagateTags?: string;
+  PlacementConstraints?: PlacementConstraint[];
+  PlacementStrategy?: PlacementStrategy[];
+  PropagateTags?: PropagateTags;
   ReferenceId?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const EcsParameters = S.suspend(() =>
   S.Struct({
     TaskDefinitionArn: S.String,
     TaskCount: S.optional(S.Number),
-    LaunchType: S.optional(S.String),
+    LaunchType: S.optional(LaunchType),
     NetworkConfiguration: S.optional(NetworkConfiguration),
     PlatformVersion: S.optional(S.String),
     Group: S.optional(S.String),
@@ -1728,7 +1826,7 @@ export const EcsParameters = S.suspend(() =>
     EnableExecuteCommand: S.optional(S.Boolean),
     PlacementConstraints: S.optional(PlacementConstraints),
     PlacementStrategy: S.optional(PlacementStrategies),
-    PropagateTags: S.optional(S.String),
+    PropagateTags: S.optional(PropagateTags),
     ReferenceId: S.optional(S.String),
     Tags: S.optional(TagList),
   }),
@@ -1783,9 +1881,9 @@ export const QueryStringParametersMap = S.Record({
   value: S.String,
 });
 export interface HttpParameters {
-  PathParameterValues?: PathParameterList;
-  HeaderParameters?: HeaderParametersMap;
-  QueryStringParameters?: QueryStringParametersMap;
+  PathParameterValues?: string[];
+  HeaderParameters?: { [key: string]: string };
+  QueryStringParameters?: { [key: string]: string };
 }
 export const HttpParameters = S.suspend(() =>
   S.Struct({
@@ -1830,7 +1928,7 @@ export const SageMakerPipelineParameterList = S.Array(
   SageMakerPipelineParameter,
 );
 export interface SageMakerPipelineParameters {
-  PipelineParameterList?: SageMakerPipelineParameterList;
+  PipelineParameterList?: SageMakerPipelineParameter[];
 }
 export const SageMakerPipelineParameters = S.suspend(() =>
   S.Struct({
@@ -1898,7 +1996,7 @@ export const Target = S.suspend(() =>
 export type TargetList = Target[];
 export const TargetList = S.Array(Target);
 export interface ListTargetsByRuleResponse {
-  Targets?: TargetList;
+  Targets?: Target[];
   NextToken?: string;
 }
 export const ListTargetsByRuleResponse = S.suspend(() =>
@@ -1910,7 +2008,7 @@ export const ListTargetsByRuleResponse = S.suspend(() =>
   identifier: "ListTargetsByRuleResponse",
 }) as any as S.Schema<ListTargetsByRuleResponse>;
 export interface PutEventsRequest {
-  Entries: PutEventsRequestEntryList;
+  Entries: PutEventsRequestEntry[];
 }
 export const PutEventsRequest = S.suspend(() =>
   S.Struct({ Entries: PutEventsRequestEntryList }).pipe(
@@ -1928,7 +2026,7 @@ export const PutEventsRequest = S.suspend(() =>
   identifier: "PutEventsRequest",
 }) as any as S.Schema<PutEventsRequest>;
 export interface PutPartnerEventsRequest {
-  Entries: PutPartnerEventsRequestEntryList;
+  Entries: PutPartnerEventsRequestEntry[];
 }
 export const PutPartnerEventsRequest = S.suspend(() =>
   S.Struct({ Entries: PutPartnerEventsRequestEntryList }).pipe(
@@ -2029,14 +2127,14 @@ export const TestEventPatternResponse = S.suspend(() =>
 }) as any as S.Schema<TestEventPatternResponse>;
 export interface UpdateApiDestinationResponse {
   ApiDestinationArn?: string;
-  ApiDestinationState?: string;
+  ApiDestinationState?: ApiDestinationState;
   CreationTime?: Date;
   LastModifiedTime?: Date;
 }
 export const UpdateApiDestinationResponse = S.suspend(() =>
   S.Struct({
     ApiDestinationArn: S.optional(S.String),
-    ApiDestinationState: S.optional(S.String),
+    ApiDestinationState: S.optional(ApiDestinationState),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -2047,14 +2145,14 @@ export const UpdateApiDestinationResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateApiDestinationResponse>;
 export interface UpdateArchiveResponse {
   ArchiveArn?: string;
-  State?: string;
+  State?: ArchiveState;
   StateReason?: string;
   CreationTime?: Date;
 }
 export const UpdateArchiveResponse = S.suspend(() =>
   S.Struct({
     ArchiveArn: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(ArchiveState),
     StateReason: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }).pipe(ns),
@@ -2063,7 +2161,7 @@ export const UpdateArchiveResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateArchiveResponse>;
 export interface CreateConnectionBasicAuthRequestParameters {
   Username: string;
-  Password: string | Redacted.Redacted<string>;
+  Password: string | redacted.Redacted<string>;
 }
 export const CreateConnectionBasicAuthRequestParameters = S.suspend(() =>
   S.Struct({ Username: S.String, Password: SensitiveString }),
@@ -2072,7 +2170,7 @@ export const CreateConnectionBasicAuthRequestParameters = S.suspend(() =>
 }) as any as S.Schema<CreateConnectionBasicAuthRequestParameters>;
 export interface CreateConnectionApiKeyAuthRequestParameters {
   ApiKeyName: string;
-  ApiKeyValue: string | Redacted.Redacted<string>;
+  ApiKeyValue: string | redacted.Redacted<string>;
 }
 export const CreateConnectionApiKeyAuthRequestParameters = S.suspend(() =>
   S.Struct({ ApiKeyName: S.String, ApiKeyValue: SensitiveString }),
@@ -2081,7 +2179,7 @@ export const CreateConnectionApiKeyAuthRequestParameters = S.suspend(() =>
 }) as any as S.Schema<CreateConnectionApiKeyAuthRequestParameters>;
 export interface UpdateConnectionBasicAuthRequestParameters {
   Username?: string;
-  Password?: string | Redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string>;
 }
 export const UpdateConnectionBasicAuthRequestParameters = S.suspend(() =>
   S.Struct({
@@ -2093,7 +2191,7 @@ export const UpdateConnectionBasicAuthRequestParameters = S.suspend(() =>
 }) as any as S.Schema<UpdateConnectionBasicAuthRequestParameters>;
 export interface UpdateConnectionApiKeyAuthRequestParameters {
   ApiKeyName?: string;
-  ApiKeyValue?: string | Redacted.Redacted<string>;
+  ApiKeyValue?: string | redacted.Redacted<string>;
 }
 export const UpdateConnectionApiKeyAuthRequestParameters = S.suspend(() =>
   S.Struct({
@@ -2106,10 +2204,10 @@ export const UpdateConnectionApiKeyAuthRequestParameters = S.suspend(() =>
 export interface ApiDestination {
   ApiDestinationArn?: string;
   Name?: string;
-  ApiDestinationState?: string;
+  ApiDestinationState?: ApiDestinationState;
   ConnectionArn?: string;
   InvocationEndpoint?: string;
-  HttpMethod?: string;
+  HttpMethod?: ApiDestinationHttpMethod;
   InvocationRateLimitPerSecond?: number;
   CreationTime?: Date;
   LastModifiedTime?: Date;
@@ -2118,10 +2216,10 @@ export const ApiDestination = S.suspend(() =>
   S.Struct({
     ApiDestinationArn: S.optional(S.String),
     Name: S.optional(S.String),
-    ApiDestinationState: S.optional(S.String),
+    ApiDestinationState: S.optional(ApiDestinationState),
     ConnectionArn: S.optional(S.String),
     InvocationEndpoint: S.optional(S.String),
-    HttpMethod: S.optional(S.String),
+    HttpMethod: S.optional(ApiDestinationHttpMethod),
     InvocationRateLimitPerSecond: S.optional(S.Number),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedTime: S.optional(
@@ -2136,7 +2234,7 @@ export const ApiDestinationResponseList = S.Array(ApiDestination);
 export interface Archive {
   ArchiveName?: string;
   EventSourceArn?: string;
-  State?: string;
+  State?: ArchiveState;
   StateReason?: string;
   RetentionDays?: number;
   SizeBytes?: number;
@@ -2147,7 +2245,7 @@ export const Archive = S.suspend(() =>
   S.Struct({
     ArchiveName: S.optional(S.String),
     EventSourceArn: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(ArchiveState),
     StateReason: S.optional(S.String),
     RetentionDays: S.optional(S.Number),
     SizeBytes: S.optional(S.Number),
@@ -2160,9 +2258,9 @@ export const ArchiveResponseList = S.Array(Archive);
 export interface Connection {
   ConnectionArn?: string;
   Name?: string;
-  ConnectionState?: string;
+  ConnectionState?: ConnectionState;
   StateReason?: string;
-  AuthorizationType?: string;
+  AuthorizationType?: ConnectionAuthorizationType;
   CreationTime?: Date;
   LastModifiedTime?: Date;
   LastAuthorizedTime?: Date;
@@ -2171,9 +2269,9 @@ export const Connection = S.suspend(() =>
   S.Struct({
     ConnectionArn: S.optional(S.String),
     Name: S.optional(S.String),
-    ConnectionState: S.optional(S.String),
+    ConnectionState: S.optional(ConnectionState),
     StateReason: S.optional(S.String),
-    AuthorizationType: S.optional(S.String),
+    AuthorizationType: S.optional(ConnectionAuthorizationType),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -2205,7 +2303,7 @@ export interface EventSource {
   CreationTime?: Date;
   ExpirationTime?: Date;
   Name?: string;
-  State?: string;
+  State?: EventSourceState;
 }
 export const EventSource = S.suspend(() =>
   S.Struct({
@@ -2214,7 +2312,7 @@ export const EventSource = S.suspend(() =>
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Name: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(EventSourceState),
   }),
 ).annotations({ identifier: "EventSource" }) as any as S.Schema<EventSource>;
 export type EventSourceList = EventSource[];
@@ -2223,14 +2321,14 @@ export interface PartnerEventSourceAccount {
   Account?: string;
   CreationTime?: Date;
   ExpirationTime?: Date;
-  State?: string;
+  State?: EventSourceState;
 }
 export const PartnerEventSourceAccount = S.suspend(() =>
   S.Struct({
     Account: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    State: S.optional(S.String),
+    State: S.optional(EventSourceState),
   }),
 ).annotations({
   identifier: "PartnerEventSourceAccount",
@@ -2251,7 +2349,7 @@ export const PartnerEventSourceList = S.Array(PartnerEventSource);
 export interface Replay {
   ReplayName?: string;
   EventSourceArn?: string;
-  State?: string;
+  State?: ReplayState;
   StateReason?: string;
   EventStartTime?: Date;
   EventEndTime?: Date;
@@ -2263,7 +2361,7 @@ export const Replay = S.suspend(() =>
   S.Struct({
     ReplayName: S.optional(S.String),
     EventSourceArn: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(ReplayState),
     StateReason: S.optional(S.String),
     EventStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EventEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2282,7 +2380,7 @@ export interface Rule {
   Name?: string;
   Arn?: string;
   EventPattern?: string;
-  State?: string;
+  State?: RuleState;
   Description?: string;
   ScheduleExpression?: string;
   RoleArn?: string;
@@ -2294,7 +2392,7 @@ export const Rule = S.suspend(() =>
     Name: S.optional(S.String),
     Arn: S.optional(S.String),
     EventPattern: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(RuleState),
     Description: S.optional(S.String),
     ScheduleExpression: S.optional(S.String),
     RoleArn: S.optional(S.String),
@@ -2322,7 +2420,7 @@ export type RemoveTargetsResultEntryList = RemoveTargetsResultEntry[];
 export const RemoveTargetsResultEntryList = S.Array(RemoveTargetsResultEntry);
 export interface CreateConnectionOAuthClientRequestParameters {
   ClientID: string;
-  ClientSecret: string | Redacted.Redacted<string>;
+  ClientSecret: string | redacted.Redacted<string>;
 }
 export const CreateConnectionOAuthClientRequestParameters = S.suspend(() =>
   S.Struct({ ClientID: S.String, ClientSecret: SensitiveString }),
@@ -2331,7 +2429,7 @@ export const CreateConnectionOAuthClientRequestParameters = S.suspend(() =>
 }) as any as S.Schema<CreateConnectionOAuthClientRequestParameters>;
 export interface ConnectionHeaderParameter {
   Key?: string;
-  Value?: string | Redacted.Redacted<string>;
+  Value?: string | redacted.Redacted<string>;
   IsValueSecret?: boolean;
 }
 export const ConnectionHeaderParameter = S.suspend(() =>
@@ -2349,7 +2447,7 @@ export const ConnectionHeaderParametersList = S.Array(
 );
 export interface ConnectionQueryStringParameter {
   Key?: string;
-  Value?: string | Redacted.Redacted<string>;
+  Value?: string | redacted.Redacted<string>;
   IsValueSecret?: boolean;
 }
 export const ConnectionQueryStringParameter = S.suspend(() =>
@@ -2368,7 +2466,7 @@ export const ConnectionQueryStringParametersList = S.Array(
 );
 export interface ConnectionBodyParameter {
   Key?: string;
-  Value?: string | Redacted.Redacted<string>;
+  Value?: string | redacted.Redacted<string>;
   IsValueSecret?: boolean;
 }
 export const ConnectionBodyParameter = S.suspend(() =>
@@ -2384,7 +2482,7 @@ export type ConnectionBodyParametersList = ConnectionBodyParameter[];
 export const ConnectionBodyParametersList = S.Array(ConnectionBodyParameter);
 export interface UpdateConnectionOAuthClientRequestParameters {
   ClientID?: string;
-  ClientSecret?: string | Redacted.Redacted<string>;
+  ClientSecret?: string | redacted.Redacted<string>;
 }
 export const UpdateConnectionOAuthClientRequestParameters = S.suspend(() =>
   S.Struct({
@@ -2403,7 +2501,7 @@ export const CreateEventBusResponse = S.suspend(() =>
   identifier: "CreateEventBusResponse",
 }) as any as S.Schema<CreateEventBusResponse>;
 export interface ListApiDestinationsResponse {
-  ApiDestinations?: ApiDestinationResponseList;
+  ApiDestinations?: ApiDestination[];
   NextToken?: string;
 }
 export const ListApiDestinationsResponse = S.suspend(() =>
@@ -2415,7 +2513,7 @@ export const ListApiDestinationsResponse = S.suspend(() =>
   identifier: "ListApiDestinationsResponse",
 }) as any as S.Schema<ListApiDestinationsResponse>;
 export interface ListArchivesResponse {
-  Archives?: ArchiveResponseList;
+  Archives?: Archive[];
   NextToken?: string;
 }
 export const ListArchivesResponse = S.suspend(() =>
@@ -2427,7 +2525,7 @@ export const ListArchivesResponse = S.suspend(() =>
   identifier: "ListArchivesResponse",
 }) as any as S.Schema<ListArchivesResponse>;
 export interface ListConnectionsResponse {
-  Connections?: ConnectionResponseList;
+  Connections?: Connection[];
   NextToken?: string;
 }
 export const ListConnectionsResponse = S.suspend(() =>
@@ -2439,7 +2537,7 @@ export const ListConnectionsResponse = S.suspend(() =>
   identifier: "ListConnectionsResponse",
 }) as any as S.Schema<ListConnectionsResponse>;
 export interface ListEventBusesResponse {
-  EventBuses?: EventBusList;
+  EventBuses?: EventBus[];
   NextToken?: string;
 }
 export const ListEventBusesResponse = S.suspend(() =>
@@ -2451,7 +2549,7 @@ export const ListEventBusesResponse = S.suspend(() =>
   identifier: "ListEventBusesResponse",
 }) as any as S.Schema<ListEventBusesResponse>;
 export interface ListEventSourcesResponse {
-  EventSources?: EventSourceList;
+  EventSources?: EventSource[];
   NextToken?: string;
 }
 export const ListEventSourcesResponse = S.suspend(() =>
@@ -2463,7 +2561,7 @@ export const ListEventSourcesResponse = S.suspend(() =>
   identifier: "ListEventSourcesResponse",
 }) as any as S.Schema<ListEventSourcesResponse>;
 export interface ListPartnerEventSourceAccountsResponse {
-  PartnerEventSourceAccounts?: PartnerEventSourceAccountList;
+  PartnerEventSourceAccounts?: PartnerEventSourceAccount[];
   NextToken?: string;
 }
 export const ListPartnerEventSourceAccountsResponse = S.suspend(() =>
@@ -2475,7 +2573,7 @@ export const ListPartnerEventSourceAccountsResponse = S.suspend(() =>
   identifier: "ListPartnerEventSourceAccountsResponse",
 }) as any as S.Schema<ListPartnerEventSourceAccountsResponse>;
 export interface ListPartnerEventSourcesResponse {
-  PartnerEventSources?: PartnerEventSourceList;
+  PartnerEventSources?: PartnerEventSource[];
   NextToken?: string;
 }
 export const ListPartnerEventSourcesResponse = S.suspend(() =>
@@ -2487,7 +2585,7 @@ export const ListPartnerEventSourcesResponse = S.suspend(() =>
   identifier: "ListPartnerEventSourcesResponse",
 }) as any as S.Schema<ListPartnerEventSourcesResponse>;
 export interface ListReplaysResponse {
-  Replays?: ReplayList;
+  Replays?: Replay[];
   NextToken?: string;
 }
 export const ListReplaysResponse = S.suspend(() =>
@@ -2499,7 +2597,7 @@ export const ListReplaysResponse = S.suspend(() =>
   identifier: "ListReplaysResponse",
 }) as any as S.Schema<ListReplaysResponse>;
 export interface ListRulesResponse {
-  Rules?: RuleResponseList;
+  Rules?: Rule[];
   NextToken?: string;
 }
 export const ListRulesResponse = S.suspend(() =>
@@ -2512,7 +2610,7 @@ export const ListRulesResponse = S.suspend(() =>
 }) as any as S.Schema<ListRulesResponse>;
 export interface RemoveTargetsResponse {
   FailedEntryCount?: number;
-  FailedEntries?: RemoveTargetsResultEntryList;
+  FailedEntries?: RemoveTargetsResultEntry[];
 }
 export const RemoveTargetsResponse = S.suspend(() =>
   S.Struct({
@@ -2524,14 +2622,14 @@ export const RemoveTargetsResponse = S.suspend(() =>
 }) as any as S.Schema<RemoveTargetsResponse>;
 export interface StartReplayResponse {
   ReplayArn?: string;
-  State?: string;
+  State?: ReplayState;
   StateReason?: string;
   ReplayStartTime?: Date;
 }
 export const StartReplayResponse = S.suspend(() =>
   S.Struct({
     ReplayArn: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(ReplayState),
     StateReason: S.optional(S.String),
     ReplayStartTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -2541,9 +2639,9 @@ export const StartReplayResponse = S.suspend(() =>
   identifier: "StartReplayResponse",
 }) as any as S.Schema<StartReplayResponse>;
 export interface ConnectionHttpParameters {
-  HeaderParameters?: ConnectionHeaderParametersList;
-  QueryStringParameters?: ConnectionQueryStringParametersList;
-  BodyParameters?: ConnectionBodyParametersList;
+  HeaderParameters?: ConnectionHeaderParameter[];
+  QueryStringParameters?: ConnectionQueryStringParameter[];
+  BodyParameters?: ConnectionBodyParameter[];
 }
 export const ConnectionHttpParameters = S.suspend(() =>
   S.Struct({
@@ -2557,14 +2655,14 @@ export const ConnectionHttpParameters = S.suspend(() =>
 export interface CreateConnectionOAuthRequestParameters {
   ClientParameters: CreateConnectionOAuthClientRequestParameters;
   AuthorizationEndpoint: string;
-  HttpMethod: string;
+  HttpMethod: ConnectionOAuthHttpMethod;
   OAuthHttpParameters?: ConnectionHttpParameters;
 }
 export const CreateConnectionOAuthRequestParameters = S.suspend(() =>
   S.Struct({
     ClientParameters: CreateConnectionOAuthClientRequestParameters,
     AuthorizationEndpoint: S.String,
-    HttpMethod: S.String,
+    HttpMethod: ConnectionOAuthHttpMethod,
     OAuthHttpParameters: S.optional(ConnectionHttpParameters),
   }),
 ).annotations({
@@ -2589,14 +2687,14 @@ export const ConnectionApiKeyAuthResponseParameters = S.suspend(() =>
 export interface UpdateConnectionOAuthRequestParameters {
   ClientParameters?: UpdateConnectionOAuthClientRequestParameters;
   AuthorizationEndpoint?: string;
-  HttpMethod?: string;
+  HttpMethod?: ConnectionOAuthHttpMethod;
   OAuthHttpParameters?: ConnectionHttpParameters;
 }
 export const UpdateConnectionOAuthRequestParameters = S.suspend(() =>
   S.Struct({
     ClientParameters: S.optional(UpdateConnectionOAuthClientRequestParameters),
     AuthorizationEndpoint: S.optional(S.String),
-    HttpMethod: S.optional(S.String),
+    HttpMethod: S.optional(ConnectionOAuthHttpMethod),
     OAuthHttpParameters: S.optional(ConnectionHttpParameters),
   }),
 ).annotations({
@@ -2683,14 +2781,14 @@ export const ConnectionOAuthClientResponseParameters = S.suspend(() =>
 export interface CreateConnectionRequest {
   Name: string;
   Description?: string;
-  AuthorizationType: string;
+  AuthorizationType: ConnectionAuthorizationType;
   AuthParameters: CreateConnectionAuthRequestParameters;
 }
 export const CreateConnectionRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
     Description: S.optional(S.String),
-    AuthorizationType: S.String,
+    AuthorizationType: ConnectionAuthorizationType,
     AuthParameters: CreateConnectionAuthRequestParameters,
   }).pipe(
     T.all(
@@ -2708,7 +2806,7 @@ export const CreateConnectionRequest = S.suspend(() =>
 }) as any as S.Schema<CreateConnectionRequest>;
 export interface PutEventsResponse {
   FailedEntryCount?: number;
-  Entries?: PutEventsResultEntryList;
+  Entries?: PutEventsResultEntry[];
 }
 export const PutEventsResponse = S.suspend(() =>
   S.Struct({
@@ -2720,7 +2818,7 @@ export const PutEventsResponse = S.suspend(() =>
 }) as any as S.Schema<PutEventsResponse>;
 export interface PutPartnerEventsResponse {
   FailedEntryCount?: number;
-  Entries?: PutPartnerEventsResultEntryList;
+  Entries?: PutPartnerEventsResultEntry[];
 }
 export const PutPartnerEventsResponse = S.suspend(() =>
   S.Struct({
@@ -2733,14 +2831,14 @@ export const PutPartnerEventsResponse = S.suspend(() =>
 export interface UpdateConnectionRequest {
   Name: string;
   Description?: string;
-  AuthorizationType?: string;
+  AuthorizationType?: ConnectionAuthorizationType;
   AuthParameters?: UpdateConnectionAuthRequestParameters;
 }
 export const UpdateConnectionRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
     Description: S.optional(S.String),
-    AuthorizationType: S.optional(S.String),
+    AuthorizationType: S.optional(ConnectionAuthorizationType),
     AuthParameters: S.optional(UpdateConnectionAuthRequestParameters),
   }).pipe(
     T.all(
@@ -2759,14 +2857,14 @@ export const UpdateConnectionRequest = S.suspend(() =>
 export interface ConnectionOAuthResponseParameters {
   ClientParameters?: ConnectionOAuthClientResponseParameters;
   AuthorizationEndpoint?: string;
-  HttpMethod?: string;
+  HttpMethod?: ConnectionOAuthHttpMethod;
   OAuthHttpParameters?: ConnectionHttpParameters;
 }
 export const ConnectionOAuthResponseParameters = S.suspend(() =>
   S.Struct({
     ClientParameters: S.optional(ConnectionOAuthClientResponseParameters),
     AuthorizationEndpoint: S.optional(S.String),
-    HttpMethod: S.optional(S.String),
+    HttpMethod: S.optional(ConnectionOAuthHttpMethod),
     OAuthHttpParameters: S.optional(ConnectionHttpParameters),
   }),
 ).annotations({
@@ -2790,14 +2888,14 @@ export const ConnectionAuthResponseParameters = S.suspend(() =>
 }) as any as S.Schema<ConnectionAuthResponseParameters>;
 export interface CreateConnectionResponse {
   ConnectionArn?: string;
-  ConnectionState?: string;
+  ConnectionState?: ConnectionState;
   CreationTime?: Date;
   LastModifiedTime?: Date;
 }
 export const CreateConnectionResponse = S.suspend(() =>
   S.Struct({
     ConnectionArn: S.optional(S.String),
-    ConnectionState: S.optional(S.String),
+    ConnectionState: S.optional(ConnectionState),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -2810,9 +2908,9 @@ export interface DescribeConnectionResponse {
   ConnectionArn?: string;
   Name?: string;
   Description?: string;
-  ConnectionState?: string;
+  ConnectionState?: ConnectionState;
   StateReason?: string;
-  AuthorizationType?: string;
+  AuthorizationType?: ConnectionAuthorizationType;
   SecretArn?: string;
   AuthParameters?: ConnectionAuthResponseParameters;
   CreationTime?: Date;
@@ -2824,9 +2922,9 @@ export const DescribeConnectionResponse = S.suspend(() =>
     ConnectionArn: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    ConnectionState: S.optional(S.String),
+    ConnectionState: S.optional(ConnectionState),
     StateReason: S.optional(S.String),
-    AuthorizationType: S.optional(S.String),
+    AuthorizationType: S.optional(ConnectionAuthorizationType),
     SecretArn: S.optional(S.String),
     AuthParameters: S.optional(ConnectionAuthResponseParameters),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2843,7 +2941,7 @@ export const DescribeConnectionResponse = S.suspend(() =>
 export interface PutTargetsRequest {
   Rule: string;
   EventBusName?: string;
-  Targets: TargetList;
+  Targets: Target[];
 }
 export const PutTargetsRequest = S.suspend(() =>
   S.Struct({
@@ -2866,7 +2964,7 @@ export const PutTargetsRequest = S.suspend(() =>
 }) as any as S.Schema<PutTargetsRequest>;
 export interface UpdateConnectionResponse {
   ConnectionArn?: string;
-  ConnectionState?: string;
+  ConnectionState?: ConnectionState;
   CreationTime?: Date;
   LastModifiedTime?: Date;
   LastAuthorizedTime?: Date;
@@ -2874,7 +2972,7 @@ export interface UpdateConnectionResponse {
 export const UpdateConnectionResponse = S.suspend(() =>
   S.Struct({
     ConnectionArn: S.optional(S.String),
-    ConnectionState: S.optional(S.String),
+    ConnectionState: S.optional(ConnectionState),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -2904,7 +3002,7 @@ export type PutTargetsResultEntryList = PutTargetsResultEntry[];
 export const PutTargetsResultEntryList = S.Array(PutTargetsResultEntry);
 export interface PutTargetsResponse {
   FailedEntryCount?: number;
-  FailedEntries?: PutTargetsResultEntryList;
+  FailedEntries?: PutTargetsResultEntry[];
 }
 export const PutTargetsResponse = S.suspend(() =>
   S.Struct({
@@ -2967,7 +3065,7 @@ export class PolicyLengthExceededException extends S.TaggedError<PolicyLengthExc
  */
 export const listApiDestinations: (
   input: ListApiDestinationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListApiDestinationsResponse,
   InternalException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2981,7 +3079,7 @@ export const listApiDestinations: (
  */
 export const listConnections: (
   input: ListConnectionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListConnectionsResponse,
   InternalException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2996,7 +3094,7 @@ export const listConnections: (
  */
 export const listEventBuses: (
   input: ListEventBusesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListEventBusesResponse,
   InternalException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3011,7 +3109,7 @@ export const listEventBuses: (
  */
 export const listReplays: (
   input: ListReplaysRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListReplaysResponse,
   InternalException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3026,7 +3124,7 @@ export const listReplays: (
  */
 export const deleteEventBus: (
   input: DeleteEventBusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEventBusResponse,
   ConcurrentModificationException | InternalException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3040,7 +3138,7 @@ export const deleteEventBus: (
  */
 export const cancelReplay: (
   input: CancelReplayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelReplayResponse,
   | ConcurrentModificationException
   | IllegalStatusException
@@ -3064,7 +3162,7 @@ export const cancelReplay: (
  */
 export const listEventSources: (
   input: ListEventSourcesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListEventSourcesResponse,
   InternalException | OperationDisabledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3078,7 +3176,7 @@ export const listEventSources: (
  */
 export const putEvents: (
   input: PutEventsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutEventsResponse,
   InternalException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3093,7 +3191,7 @@ export const putEvents: (
  */
 export const putPartnerEvents: (
   input: PutPartnerEventsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutPartnerEventsResponse,
   InternalException | OperationDisabledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3115,7 +3213,7 @@ export const putPartnerEvents: (
  */
 export const removeTargets: (
   input: RemoveTargetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveTargetsResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3138,7 +3236,7 @@ export const removeTargets: (
  */
 export const describeArchive: (
   input: DescribeArchiveRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeArchiveResponse,
   | InternalException
   | ResourceAlreadyExistsException
@@ -3161,7 +3259,7 @@ export const describeArchive: (
  */
 export const createEventBus: (
   input: CreateEventBusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEventBusResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3196,7 +3294,7 @@ export const createEventBus: (
  */
 export const deactivateEventSource: (
   input: DeactivateEventSourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeactivateEventSourceResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3222,7 +3320,7 @@ export const deactivateEventSource: (
  */
 export const listArchives: (
   input: ListArchivesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListArchivesResponse,
   InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3240,7 +3338,7 @@ export const listArchives: (
  */
 export const listRules: (
   input: ListRulesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListRulesResponse,
   InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3255,7 +3353,7 @@ export const listRules: (
  */
 export const deauthorizeConnection: (
   input: DeauthorizeConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeauthorizeConnectionResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3276,7 +3374,7 @@ export const deauthorizeConnection: (
  */
 export const deleteConnection: (
   input: DeleteConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConnectionResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3297,7 +3395,7 @@ export const deleteConnection: (
  */
 export const describeApiDestination: (
   input: DescribeApiDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeApiDestinationResponse,
   InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3319,7 +3417,7 @@ export const describeApiDestination: (
  */
 export const describeEventBus: (
   input: DescribeEventBusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEventBusResponse,
   InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3341,7 +3439,7 @@ export const describeEventBus: (
  */
 export const describeReplay: (
   input: DescribeReplayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeReplayResponse,
   InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3358,7 +3456,7 @@ export const describeReplay: (
  */
 export const describeRule: (
   input: DescribeRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRuleResponse,
   InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3373,7 +3471,7 @@ export const describeRule: (
  */
 export const listRuleNamesByTarget: (
   input: ListRuleNamesByTargetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListRuleNamesByTargetResponse,
   InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3388,7 +3486,7 @@ export const listRuleNamesByTarget: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3402,7 +3500,7 @@ export const listTagsForResource: (
  */
 export const listTargetsByRule: (
   input: ListTargetsByRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTargetsByRuleResponse,
   InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3416,7 +3514,7 @@ export const listTargetsByRule: (
  */
 export const deleteApiDestination: (
   input: DeleteApiDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApiDestinationResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3437,7 +3535,7 @@ export const deleteApiDestination: (
  */
 export const deleteArchive: (
   input: DeleteArchiveRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteArchiveResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3460,7 +3558,7 @@ export const deleteArchive: (
  */
 export const listPartnerEventSourceAccounts: (
   input: ListPartnerEventSourceAccountsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListPartnerEventSourceAccountsResponse,
   | InternalException
   | OperationDisabledException
@@ -3482,7 +3580,7 @@ export const listPartnerEventSourceAccounts: (
  */
 export const listPartnerEventSources: (
   input: ListPartnerEventSourcesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListPartnerEventSourcesResponse,
   InternalException | OperationDisabledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3497,7 +3595,7 @@ export const listPartnerEventSources: (
  */
 export const describeEventSource: (
   input: DescribeEventSourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEventSourceResponse,
   | InternalException
   | OperationDisabledException
@@ -3521,7 +3619,7 @@ export const describeEventSource: (
  */
 export const describePartnerEventSource: (
   input: DescribePartnerEventSourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePartnerEventSourceResponse,
   | InternalException
   | OperationDisabledException
@@ -3546,7 +3644,7 @@ export const describePartnerEventSource: (
  */
 export const deletePartnerEventSource: (
   input: DeletePartnerEventSourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePartnerEventSourceResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3570,7 +3668,7 @@ export const deletePartnerEventSource: (
  */
 export const removePermission: (
   input: RemovePermissionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemovePermissionResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3594,7 +3692,7 @@ export const removePermission: (
  */
 export const activateEventSource: (
   input: ActivateEventSourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ActivateEventSourceResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3633,7 +3731,7 @@ export const activateEventSource: (
  */
 export const deleteRule: (
   input: DeleteRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRuleResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3660,7 +3758,7 @@ export const deleteRule: (
  */
 export const disableRule: (
   input: DisableRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisableRuleResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3686,7 +3784,7 @@ export const disableRule: (
  */
 export const enableRule: (
   input: EnableRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableRuleResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3722,7 +3820,7 @@ export const enableRule: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3746,7 +3844,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3773,7 +3871,7 @@ export const untagResource: (
  */
 export const createArchive: (
   input: CreateArchiveRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateArchiveResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3849,7 +3947,7 @@ export const createArchive: (
  */
 export const putRule: (
   input: PutRuleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutRuleResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3881,7 +3979,7 @@ export const putRule: (
  */
 export const testEventPattern: (
   input: TestEventPatternRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TestEventPatternResponse,
   InternalException | InvalidEventPatternException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3895,7 +3993,7 @@ export const testEventPattern: (
  */
 export const updateArchive: (
   input: UpdateArchiveRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateArchiveResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3944,7 +4042,7 @@ export const updateArchive: (
  */
 export const createPartnerEventSource: (
   input: CreatePartnerEventSourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePartnerEventSourceResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3969,7 +4067,7 @@ export const createPartnerEventSource: (
  */
 export const updateApiDestination: (
   input: UpdateApiDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateApiDestinationResponse,
   | ConcurrentModificationException
   | InternalException
@@ -4000,7 +4098,7 @@ export const updateApiDestination: (
  */
 export const startReplay: (
   input: StartReplayRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartReplayResponse,
   | InternalException
   | InvalidEventPatternException
@@ -4026,7 +4124,7 @@ export const startReplay: (
  */
 export const createApiDestination: (
   input: CreateApiDestinationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateApiDestinationResponse,
   | InternalException
   | LimitExceededException
@@ -4050,7 +4148,7 @@ export const createApiDestination: (
  */
 export const createConnection: (
   input: CreateConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConnectionResponse,
   | InternalException
   | LimitExceededException
@@ -4071,7 +4169,7 @@ export const createConnection: (
  */
 export const describeConnection: (
   input: DescribeConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeConnectionResponse,
   InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4085,7 +4183,7 @@ export const describeConnection: (
  */
 export const updateConnection: (
   input: UpdateConnectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConnectionResponse,
   | ConcurrentModificationException
   | InternalException
@@ -4128,7 +4226,7 @@ export const updateConnection: (
  */
 export const putPermission: (
   input: PutPermissionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutPermissionResponse,
   | ConcurrentModificationException
   | InternalException
@@ -4281,7 +4379,7 @@ export const putPermission: (
  */
 export const putTargets: (
   input: PutTargetsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutTargetsResponse,
   | ConcurrentModificationException
   | InternalException

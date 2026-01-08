@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -125,21 +125,29 @@ export type ProductCode = string;
 export type NonEmptyString = string;
 export type PageSizeInteger = number;
 export type FilterValue = string;
-export type Integer = number;
-export type Double = number;
 export type ErrorMessage = string;
 
 //# Schemas
+export type GetEntitlementFilterName =
+  | "CUSTOMER_IDENTIFIER"
+  | "DIMENSION"
+  | "CUSTOMER_AWS_ACCOUNT_ID";
+export const GetEntitlementFilterName = S.Literal(
+  "CUSTOMER_IDENTIFIER",
+  "DIMENSION",
+  "CUSTOMER_AWS_ACCOUNT_ID",
+);
 export type FilterValueList = string[];
 export const FilterValueList = S.Array(S.String);
-export type GetEntitlementFilters = { [key: string]: FilterValueList };
-export const GetEntitlementFilters = S.Record({
-  key: S.String,
-  value: FilterValueList,
-});
+export type GetEntitlementFilters = {
+  [key in GetEntitlementFilterName]?: string[];
+};
+export const GetEntitlementFilters = S.partial(
+  S.Record({ key: GetEntitlementFilterName, value: FilterValueList }),
+);
 export interface GetEntitlementsRequest {
   ProductCode: string;
-  Filter?: GetEntitlementFilters;
+  Filter?: { [key: string]: string[] };
   NextToken?: string;
   MaxResults?: number;
 }
@@ -192,7 +200,7 @@ export const Entitlement = S.suspend(() =>
 export type EntitlementList = Entitlement[];
 export const EntitlementList = S.Array(Entitlement);
 export interface GetEntitlementsResult {
-  Entitlements?: EntitlementList;
+  Entitlements?: Entitlement[];
   NextToken?: string;
 }
 export const GetEntitlementsResult = S.suspend(() =>
@@ -230,7 +238,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
 export const getEntitlements: {
   (
     input: GetEntitlementsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetEntitlementsResult,
     | InternalServiceErrorException
     | InvalidParameterException
@@ -240,7 +248,7 @@ export const getEntitlements: {
   >;
   pages: (
     input: GetEntitlementsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetEntitlementsResult,
     | InternalServiceErrorException
     | InvalidParameterException
@@ -250,7 +258,7 @@ export const getEntitlements: {
   >;
   items: (
     input: GetEntitlementsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InternalServiceErrorException
     | InvalidParameterException

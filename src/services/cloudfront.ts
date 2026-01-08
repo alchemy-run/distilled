@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -157,14 +157,14 @@ export type distributionIdString = string;
 export type aliasString = string;
 export type listConflictingAliasesMaxItemsInteger = number;
 export type ResourceARN = string;
-export type CommentType = string | Redacted.Redacted<string>;
+export type CommentType = string | redacted.Redacted<string>;
 export type ParameterName = string;
 export type ParameterValue = string;
 export type TagKey = string;
 export type TagValue = string;
 export type ServerCertificateId = string;
 export type SamplingRate = number;
-export type sensitiveStringType = string | Redacted.Redacted<string>;
+export type sensitiveStringType = string | redacted.Redacted<string>;
 export type KeyValueStoreARN = string;
 export type float = number;
 export type OriginShieldRegion = string;
@@ -172,8 +172,20 @@ export type LambdaFunctionARN = string;
 export type FunctionARN = string;
 
 //# Schemas
+export type IpAddressType = "ipv4" | "ipv6" | "dualstack";
+export const IpAddressType = S.Literal("ipv4", "ipv6", "dualstack");
 export type FieldList = string[];
 export const FieldList = S.Array(S.String.pipe(T.XmlName("Field")));
+export type FunctionStage = "DEVELOPMENT" | "LIVE";
+export const FunctionStage = S.Literal("DEVELOPMENT", "LIVE");
+export type CachePolicyType = "managed" | "custom";
+export const CachePolicyType = S.Literal("managed", "custom");
+export type ConnectionMode = "direct" | "tenant-only";
+export const ConnectionMode = S.Literal("direct", "tenant-only");
+export type OriginRequestPolicyType = "managed" | "custom";
+export const OriginRequestPolicyType = S.Literal("managed", "custom");
+export type ResponseHeadersPolicyType = "managed" | "custom";
+export const ResponseHeadersPolicyType = S.Literal("managed", "custom");
 export interface AssociateAliasRequest {
   TargetDistributionId: string;
   Alias: string;
@@ -302,7 +314,7 @@ export const TagList = S.Array(
   Tag.pipe(T.XmlName("Tag")).annotations({ identifier: "Tag" }),
 );
 export interface Tags {
-  Items?: TagList;
+  Items?: Tag[];
 }
 export const Tags = S.suspend(() =>
   S.Struct({ Items: S.optional(TagList) }),
@@ -335,6 +347,11 @@ export const CreateConnectionGroupRequest = S.suspend(() =>
 ).annotations({
   identifier: "CreateConnectionGroupRequest",
 }) as any as S.Schema<CreateConnectionGroupRequest>;
+export type FunctionRuntime = "cloudfront-js-1.0" | "cloudfront-js-2.0";
+export const FunctionRuntime = S.Literal(
+  "cloudfront-js-1.0",
+  "cloudfront-js-2.0",
+);
 export interface KeyValueStoreAssociation {
   KeyValueStoreARN: string;
 }
@@ -351,7 +368,7 @@ export const KeyValueStoreAssociationList = S.Array(
 );
 export interface KeyValueStoreAssociations {
   Quantity: number;
-  Items?: KeyValueStoreAssociationList;
+  Items?: KeyValueStoreAssociation[];
 }
 export const KeyValueStoreAssociations = S.suspend(() =>
   S.Struct({
@@ -363,13 +380,13 @@ export const KeyValueStoreAssociations = S.suspend(() =>
 }) as any as S.Schema<KeyValueStoreAssociations>;
 export interface FunctionConfig {
   Comment: string;
-  Runtime: string;
+  Runtime: FunctionRuntime;
   KeyValueStoreAssociations?: KeyValueStoreAssociations;
 }
 export const FunctionConfig = S.suspend(() =>
   S.Struct({
     Comment: S.String,
-    Runtime: S.String,
+    Runtime: FunctionRuntime,
     KeyValueStoreAssociations: S.optional(KeyValueStoreAssociations),
   }),
 ).annotations({
@@ -378,7 +395,7 @@ export const FunctionConfig = S.suspend(() =>
 export interface CreateFunctionRequest {
   Name: string;
   FunctionConfig: FunctionConfig;
-  FunctionCode: Uint8Array | Redacted.Redacted<Uint8Array>;
+  FunctionCode: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export const CreateFunctionRequest = S.suspend(() =>
   S.Struct({
@@ -403,7 +420,7 @@ export type PathList = string[];
 export const PathList = S.Array(S.String.pipe(T.XmlName("Path")));
 export interface Paths {
   Quantity: number;
-  Items?: PathList;
+  Items?: string[];
 }
 export const Paths = S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: S.optional(PathList) }),
@@ -1103,12 +1120,12 @@ export const DeleteVpcOriginRequest = S.suspend(() =>
 }) as any as S.Schema<DeleteVpcOriginRequest>;
 export interface DescribeConnectionFunctionRequest {
   Identifier: string;
-  Stage?: string;
+  Stage?: FunctionStage;
 }
 export const DescribeConnectionFunctionRequest = S.suspend(() =>
   S.Struct({
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
-    Stage: S.optional(S.String).pipe(T.HttpQuery("Stage")),
+    Stage: S.optional(FunctionStage).pipe(T.HttpQuery("Stage")),
   }).pipe(
     T.all(
       ns,
@@ -1128,12 +1145,12 @@ export const DescribeConnectionFunctionRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeConnectionFunctionRequest>;
 export interface DescribeFunctionRequest {
   Name: string;
-  Stage?: string;
+  Stage?: FunctionStage;
 }
 export const DescribeFunctionRequest = S.suspend(() =>
   S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
-    Stage: S.optional(S.String).pipe(T.HttpQuery("Stage")),
+    Stage: S.optional(FunctionStage).pipe(T.HttpQuery("Stage")),
   }).pipe(
     T.all(
       ns,
@@ -1314,12 +1331,12 @@ export const GetCloudFrontOriginAccessIdentityConfigRequest = S.suspend(() =>
 }) as any as S.Schema<GetCloudFrontOriginAccessIdentityConfigRequest>;
 export interface GetConnectionFunctionRequest {
   Identifier: string;
-  Stage?: string;
+  Stage?: FunctionStage;
 }
 export const GetConnectionFunctionRequest = S.suspend(() =>
   S.Struct({
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
-    Stage: S.optional(S.String).pipe(T.HttpQuery("Stage")),
+    Stage: S.optional(FunctionStage).pipe(T.HttpQuery("Stage")),
   }).pipe(
     T.all(
       ns,
@@ -1578,12 +1595,12 @@ export const GetFieldLevelEncryptionProfileConfigRequest = S.suspend(() =>
 }) as any as S.Schema<GetFieldLevelEncryptionProfileConfigRequest>;
 export interface GetFunctionRequest {
   Name: string;
-  Stage?: string;
+  Stage?: FunctionStage;
 }
 export const GetFunctionRequest = S.suspend(() =>
   S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
-    Stage: S.optional(S.String).pipe(T.HttpQuery("Stage")),
+    Stage: S.optional(FunctionStage).pipe(T.HttpQuery("Stage")),
   }).pipe(
     T.all(
       ns,
@@ -2019,13 +2036,13 @@ export const ListAnycastIpListsRequest = S.suspend(() =>
   identifier: "ListAnycastIpListsRequest",
 }) as any as S.Schema<ListAnycastIpListsRequest>;
 export interface ListCachePoliciesRequest {
-  Type?: string;
+  Type?: CachePolicyType;
   Marker?: string;
   MaxItems?: number;
 }
 export const ListCachePoliciesRequest = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String).pipe(T.HttpQuery("Type")),
+    Type: S.optional(CachePolicyType).pipe(T.HttpQuery("Type")),
     Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
   }).pipe(
@@ -2096,13 +2113,13 @@ export const ListConflictingAliasesRequest = S.suspend(() =>
 export interface ListConnectionFunctionsRequest {
   Marker?: string;
   MaxItems?: number;
-  Stage?: string;
+  Stage?: FunctionStage;
 }
 export const ListConnectionFunctionsRequest = S.suspend(() =>
   S.Struct({
     Marker: S.optional(S.String),
     MaxItems: S.optional(S.Number),
-    Stage: S.optional(S.String),
+    Stage: S.optional(FunctionStage),
   }).pipe(
     T.all(
       ns,
@@ -2250,13 +2267,13 @@ export const ListDistributionsByConnectionFunctionRequest = S.suspend(() =>
 export interface ListDistributionsByConnectionModeRequest {
   Marker?: string;
   MaxItems?: number;
-  ConnectionMode: string;
+  ConnectionMode: ConnectionMode;
 }
 export const ListDistributionsByConnectionModeRequest = S.suspend(() =>
   S.Struct({
     Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-    ConnectionMode: S.String.pipe(T.HttpLabel("ConnectionMode")),
+    ConnectionMode: ConnectionMode.pipe(T.HttpLabel("ConnectionMode")),
   }).pipe(
     T.all(
       ns,
@@ -2570,13 +2587,13 @@ export const ListFieldLevelEncryptionProfilesRequest = S.suspend(() =>
 export interface ListFunctionsRequest {
   Marker?: string;
   MaxItems?: number;
-  Stage?: string;
+  Stage?: FunctionStage;
 }
 export const ListFunctionsRequest = S.suspend(() =>
   S.Struct({
     Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-    Stage: S.optional(S.String).pipe(T.HttpQuery("Stage")),
+    Stage: S.optional(FunctionStage).pipe(T.HttpQuery("Stage")),
   }).pipe(
     T.all(
       ns,
@@ -2714,13 +2731,13 @@ export const ListOriginAccessControlsRequest = S.suspend(() =>
   identifier: "ListOriginAccessControlsRequest",
 }) as any as S.Schema<ListOriginAccessControlsRequest>;
 export interface ListOriginRequestPoliciesRequest {
-  Type?: string;
+  Type?: OriginRequestPolicyType;
   Marker?: string;
   MaxItems?: number;
 }
 export const ListOriginRequestPoliciesRequest = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String).pipe(T.HttpQuery("Type")),
+    Type: S.optional(OriginRequestPolicyType).pipe(T.HttpQuery("Type")),
     Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
   }).pipe(
@@ -2782,13 +2799,13 @@ export const ListRealtimeLogConfigsRequest = S.suspend(() =>
   identifier: "ListRealtimeLogConfigsRequest",
 }) as any as S.Schema<ListRealtimeLogConfigsRequest>;
 export interface ListResponseHeadersPoliciesRequest {
-  Type?: string;
+  Type?: ResponseHeadersPolicyType;
   Marker?: string;
   MaxItems?: number;
 }
 export const ListResponseHeadersPoliciesRequest = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String).pipe(T.HttpQuery("Type")),
+    Type: S.optional(ResponseHeadersPolicyType).pipe(T.HttpQuery("Type")),
     Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
   }).pipe(
@@ -2988,14 +3005,14 @@ export const TagResourceResponse = S.suspend(() =>
 export interface TestConnectionFunctionRequest {
   Id: string;
   IfMatch: string;
-  Stage?: string;
-  ConnectionObject: Uint8Array | Redacted.Redacted<Uint8Array>;
+  Stage?: FunctionStage;
+  ConnectionObject: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export const TestConnectionFunctionRequest = S.suspend(() =>
   S.Struct({
     Id: S.String.pipe(T.HttpLabel("Id")),
     IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-    Stage: S.optional(S.String),
+    Stage: S.optional(FunctionStage),
     ConnectionObject: SensitiveBlob,
   }).pipe(
     T.all(
@@ -3017,14 +3034,14 @@ export const TestConnectionFunctionRequest = S.suspend(() =>
 export interface TestFunctionRequest {
   Name: string;
   IfMatch: string;
-  Stage?: string;
-  EventObject: Uint8Array | Redacted.Redacted<Uint8Array>;
+  Stage?: FunctionStage;
+  EventObject: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export const TestFunctionRequest = S.suspend(() =>
   S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
     IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-    Stage: S.optional(S.String),
+    Stage: S.optional(FunctionStage),
     EventObject: SensitiveBlob,
   }).pipe(
     T.all(
@@ -3042,13 +3059,13 @@ export const TestFunctionRequest = S.suspend(() =>
 }) as any as S.Schema<TestFunctionRequest>;
 export interface UpdateAnycastIpListRequest {
   Id: string;
-  IpAddressType?: string;
+  IpAddressType?: IpAddressType;
   IfMatch: string;
 }
 export const UpdateAnycastIpListRequest = S.suspend(() =>
   S.Struct({
     Id: S.String.pipe(T.HttpLabel("Id")),
-    IpAddressType: S.optional(S.String),
+    IpAddressType: S.optional(IpAddressType),
     IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
   }).pipe(
     T.all(
@@ -3064,47 +3081,77 @@ export const UpdateAnycastIpListRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateAnycastIpListRequest",
 }) as any as S.Schema<UpdateAnycastIpListRequest>;
+export type CachePolicyHeaderBehavior = "none" | "whitelist";
+export const CachePolicyHeaderBehavior = S.Literal("none", "whitelist");
 export type HeaderList = string[];
 export const HeaderList = S.Array(S.String.pipe(T.XmlName("Name")));
 export interface Headers {
   Quantity: number;
-  Items?: HeaderList;
+  Items?: string[];
 }
 export const Headers = S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: S.optional(HeaderList) }),
 ).annotations({ identifier: "Headers" }) as any as S.Schema<Headers>;
 export interface CachePolicyHeadersConfig {
-  HeaderBehavior: string;
+  HeaderBehavior: CachePolicyHeaderBehavior;
   Headers?: Headers;
 }
 export const CachePolicyHeadersConfig = S.suspend(() =>
-  S.Struct({ HeaderBehavior: S.String, Headers: S.optional(Headers) }),
+  S.Struct({
+    HeaderBehavior: CachePolicyHeaderBehavior,
+    Headers: S.optional(Headers),
+  }),
 ).annotations({
   identifier: "CachePolicyHeadersConfig",
 }) as any as S.Schema<CachePolicyHeadersConfig>;
+export type CachePolicyCookieBehavior =
+  | "none"
+  | "whitelist"
+  | "allExcept"
+  | "all";
+export const CachePolicyCookieBehavior = S.Literal(
+  "none",
+  "whitelist",
+  "allExcept",
+  "all",
+);
 export type CookieNameList = string[];
 export const CookieNameList = S.Array(S.String.pipe(T.XmlName("Name")));
 export interface CookieNames {
   Quantity: number;
-  Items?: CookieNameList;
+  Items?: string[];
 }
 export const CookieNames = S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: S.optional(CookieNameList) }),
 ).annotations({ identifier: "CookieNames" }) as any as S.Schema<CookieNames>;
 export interface CachePolicyCookiesConfig {
-  CookieBehavior: string;
+  CookieBehavior: CachePolicyCookieBehavior;
   Cookies?: CookieNames;
 }
 export const CachePolicyCookiesConfig = S.suspend(() =>
-  S.Struct({ CookieBehavior: S.String, Cookies: S.optional(CookieNames) }),
+  S.Struct({
+    CookieBehavior: CachePolicyCookieBehavior,
+    Cookies: S.optional(CookieNames),
+  }),
 ).annotations({
   identifier: "CachePolicyCookiesConfig",
 }) as any as S.Schema<CachePolicyCookiesConfig>;
+export type CachePolicyQueryStringBehavior =
+  | "none"
+  | "whitelist"
+  | "allExcept"
+  | "all";
+export const CachePolicyQueryStringBehavior = S.Literal(
+  "none",
+  "whitelist",
+  "allExcept",
+  "all",
+);
 export type QueryStringNamesList = string[];
 export const QueryStringNamesList = S.Array(S.String.pipe(T.XmlName("Name")));
 export interface QueryStringNames {
   Quantity: number;
-  Items?: QueryStringNamesList;
+  Items?: string[];
 }
 export const QueryStringNames = S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: S.optional(QueryStringNamesList) }),
@@ -3112,12 +3159,12 @@ export const QueryStringNames = S.suspend(() =>
   identifier: "QueryStringNames",
 }) as any as S.Schema<QueryStringNames>;
 export interface CachePolicyQueryStringsConfig {
-  QueryStringBehavior: string;
+  QueryStringBehavior: CachePolicyQueryStringBehavior;
   QueryStrings?: QueryStringNames;
 }
 export const CachePolicyQueryStringsConfig = S.suspend(() =>
   S.Struct({
-    QueryStringBehavior: S.String,
+    QueryStringBehavior: CachePolicyQueryStringBehavior,
     QueryStrings: S.optional(QueryStringNames),
   }),
 ).annotations({
@@ -3234,7 +3281,7 @@ export interface UpdateConnectionFunctionRequest {
   Id: string;
   IfMatch: string;
   ConnectionFunctionConfig: FunctionConfig;
-  ConnectionFunctionCode: Uint8Array | Redacted.Redacted<Uint8Array>;
+  ConnectionFunctionCode: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export const UpdateConnectionFunctionRequest = S.suspend(() =>
   S.Struct({
@@ -3290,7 +3337,7 @@ export const StagingDistributionDnsNameList = S.Array(
 );
 export interface StagingDistributionDnsNames {
   Quantity: number;
-  Items?: StagingDistributionDnsNameList;
+  Items?: string[];
 }
 export const StagingDistributionDnsNames = S.suspend(() =>
   S.Struct({
@@ -3330,16 +3377,21 @@ export const ContinuousDeploymentSingleHeaderConfig = S.suspend(() =>
 ).annotations({
   identifier: "ContinuousDeploymentSingleHeaderConfig",
 }) as any as S.Schema<ContinuousDeploymentSingleHeaderConfig>;
+export type ContinuousDeploymentPolicyType = "SingleWeight" | "SingleHeader";
+export const ContinuousDeploymentPolicyType = S.Literal(
+  "SingleWeight",
+  "SingleHeader",
+);
 export interface TrafficConfig {
   SingleWeightConfig?: ContinuousDeploymentSingleWeightConfig;
   SingleHeaderConfig?: ContinuousDeploymentSingleHeaderConfig;
-  Type: string;
+  Type: ContinuousDeploymentPolicyType;
 }
 export const TrafficConfig = S.suspend(() =>
   S.Struct({
     SingleWeightConfig: S.optional(ContinuousDeploymentSingleWeightConfig),
     SingleHeaderConfig: S.optional(ContinuousDeploymentSingleHeaderConfig),
-    Type: S.String,
+    Type: ContinuousDeploymentPolicyType,
   }),
 ).annotations({
   identifier: "TrafficConfig",
@@ -3392,14 +3444,14 @@ export type AliasList = string[];
 export const AliasList = S.Array(S.String.pipe(T.XmlName("CNAME")));
 export interface Aliases {
   Quantity: number;
-  Items?: AliasList;
+  Items?: string[];
 }
 export const Aliases = S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: S.optional(AliasList) }),
 ).annotations({ identifier: "Aliases" }) as any as S.Schema<Aliases>;
 export interface OriginCustomHeader {
   HeaderName: string;
-  HeaderValue: string | Redacted.Redacted<string>;
+  HeaderValue: string | redacted.Redacted<string>;
 }
 export const OriginCustomHeader = S.suspend(() =>
   S.Struct({ HeaderName: S.String, HeaderValue: SensitiveString }),
@@ -3414,7 +3466,7 @@ export const OriginCustomHeadersList = S.Array(
 );
 export interface CustomHeaders {
   Quantity: number;
-  Items?: OriginCustomHeadersList;
+  Items?: OriginCustomHeader[];
 }
 export const CustomHeaders = S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: S.optional(OriginCustomHeadersList) }),
@@ -3433,13 +3485,21 @@ export const S3OriginConfig = S.suspend(() =>
 ).annotations({
   identifier: "S3OriginConfig",
 }) as any as S.Schema<S3OriginConfig>;
-export type SslProtocolsList = string[];
+export type OriginProtocolPolicy = "http-only" | "match-viewer" | "https-only";
+export const OriginProtocolPolicy = S.Literal(
+  "http-only",
+  "match-viewer",
+  "https-only",
+);
+export type SslProtocol = "SSLv3" | "TLSv1" | "TLSv1.1" | "TLSv1.2";
+export const SslProtocol = S.Literal("SSLv3", "TLSv1", "TLSv1.1", "TLSv1.2");
+export type SslProtocolsList = SslProtocol[];
 export const SslProtocolsList = S.Array(
-  S.String.pipe(T.XmlName("SslProtocol")),
+  SslProtocol.pipe(T.XmlName("SslProtocol")),
 );
 export interface OriginSslProtocols {
   Quantity: number;
-  Items: SslProtocolsList;
+  Items: SslProtocol[];
 }
 export const OriginSslProtocols = S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: SslProtocolsList }),
@@ -3449,21 +3509,21 @@ export const OriginSslProtocols = S.suspend(() =>
 export interface CustomOriginConfig {
   HTTPPort: number;
   HTTPSPort: number;
-  OriginProtocolPolicy: string;
+  OriginProtocolPolicy: OriginProtocolPolicy;
   OriginSslProtocols?: OriginSslProtocols;
   OriginReadTimeout?: number;
   OriginKeepaliveTimeout?: number;
-  IpAddressType?: string;
+  IpAddressType?: IpAddressType;
 }
 export const CustomOriginConfig = S.suspend(() =>
   S.Struct({
     HTTPPort: S.Number,
     HTTPSPort: S.Number,
-    OriginProtocolPolicy: S.String,
+    OriginProtocolPolicy: OriginProtocolPolicy,
     OriginSslProtocols: S.optional(OriginSslProtocols),
     OriginReadTimeout: S.optional(S.Number),
     OriginKeepaliveTimeout: S.optional(S.Number),
-    IpAddressType: S.optional(S.String),
+    IpAddressType: S.optional(IpAddressType),
   }),
 ).annotations({
   identifier: "CustomOriginConfig",
@@ -3527,7 +3587,7 @@ export const OriginList = S.Array(
 );
 export interface Origins {
   Quantity: number;
-  Items: OriginList;
+  Items: Origin[];
 }
 export const Origins = S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: OriginList }),
@@ -3536,7 +3596,7 @@ export type StatusCodeList = number[];
 export const StatusCodeList = S.Array(S.Number.pipe(T.XmlName("StatusCode")));
 export interface StatusCodes {
   Quantity: number;
-  Items: StatusCodeList;
+  Items: number[];
 }
 export const StatusCodes = S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: StatusCodeList }),
@@ -3565,25 +3625,30 @@ export const OriginGroupMemberList = S.Array(
 );
 export interface OriginGroupMembers {
   Quantity: number;
-  Items: OriginGroupMemberList;
+  Items: OriginGroupMember[];
 }
 export const OriginGroupMembers = S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: OriginGroupMemberList }),
 ).annotations({
   identifier: "OriginGroupMembers",
 }) as any as S.Schema<OriginGroupMembers>;
+export type OriginGroupSelectionCriteria = "default" | "media-quality-based";
+export const OriginGroupSelectionCriteria = S.Literal(
+  "default",
+  "media-quality-based",
+);
 export interface OriginGroup {
   Id: string;
   FailoverCriteria: OriginGroupFailoverCriteria;
   Members: OriginGroupMembers;
-  SelectionCriteria?: string;
+  SelectionCriteria?: OriginGroupSelectionCriteria;
 }
 export const OriginGroup = S.suspend(() =>
   S.Struct({
     Id: S.String,
     FailoverCriteria: OriginGroupFailoverCriteria,
     Members: OriginGroupMembers,
-    SelectionCriteria: S.optional(S.String),
+    SelectionCriteria: S.optional(OriginGroupSelectionCriteria),
   }),
 ).annotations({ identifier: "OriginGroup" }) as any as S.Schema<OriginGroup>;
 export type OriginGroupList = OriginGroup[];
@@ -3594,7 +3659,7 @@ export const OriginGroupList = S.Array(
 );
 export interface OriginGroups {
   Quantity: number;
-  Items?: OriginGroupList;
+  Items?: OriginGroup[];
 }
 export const OriginGroups = S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: S.optional(OriginGroupList) }),
@@ -3606,7 +3671,7 @@ export const AwsAccountNumberList = S.Array(
 export interface TrustedSigners {
   Enabled: boolean;
   Quantity: number;
-  Items?: AwsAccountNumberList;
+  Items?: string[];
 }
 export const TrustedSigners = S.suspend(() =>
   S.Struct({
@@ -3624,7 +3689,7 @@ export const TrustedKeyGroupIdList = S.Array(
 export interface TrustedKeyGroups {
   Enabled: boolean;
   Quantity: number;
-  Items?: TrustedKeyGroupIdList;
+  Items?: string[];
 }
 export const TrustedKeyGroups = S.suspend(() =>
   S.Struct({
@@ -3635,11 +3700,37 @@ export const TrustedKeyGroups = S.suspend(() =>
 ).annotations({
   identifier: "TrustedKeyGroups",
 }) as any as S.Schema<TrustedKeyGroups>;
-export type MethodsList = string[];
-export const MethodsList = S.Array(S.String.pipe(T.XmlName("Method")));
+export type ViewerProtocolPolicy =
+  | "allow-all"
+  | "https-only"
+  | "redirect-to-https";
+export const ViewerProtocolPolicy = S.Literal(
+  "allow-all",
+  "https-only",
+  "redirect-to-https",
+);
+export type Method =
+  | "GET"
+  | "HEAD"
+  | "POST"
+  | "PUT"
+  | "PATCH"
+  | "OPTIONS"
+  | "DELETE";
+export const Method = S.Literal(
+  "GET",
+  "HEAD",
+  "POST",
+  "PUT",
+  "PATCH",
+  "OPTIONS",
+  "DELETE",
+);
+export type MethodsList = Method[];
+export const MethodsList = S.Array(Method.pipe(T.XmlName("Method")));
 export interface CachedMethods {
   Quantity: number;
-  Items: MethodsList;
+  Items: Method[];
 }
 export const CachedMethods = S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: MethodsList }),
@@ -3648,7 +3739,7 @@ export const CachedMethods = S.suspend(() =>
 }) as any as S.Schema<CachedMethods>;
 export interface AllowedMethods {
   Quantity: number;
-  Items: MethodsList;
+  Items: Method[];
   CachedMethods?: CachedMethods;
 }
 export const AllowedMethods = S.suspend(() =>
@@ -3660,15 +3751,26 @@ export const AllowedMethods = S.suspend(() =>
 ).annotations({
   identifier: "AllowedMethods",
 }) as any as S.Schema<AllowedMethods>;
+export type EventType =
+  | "viewer-request"
+  | "viewer-response"
+  | "origin-request"
+  | "origin-response";
+export const EventType = S.Literal(
+  "viewer-request",
+  "viewer-response",
+  "origin-request",
+  "origin-response",
+);
 export interface LambdaFunctionAssociation {
   LambdaFunctionARN: string;
-  EventType: string;
+  EventType: EventType;
   IncludeBody?: boolean;
 }
 export const LambdaFunctionAssociation = S.suspend(() =>
   S.Struct({
     LambdaFunctionARN: S.String,
-    EventType: S.String,
+    EventType: EventType,
     IncludeBody: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -3682,7 +3784,7 @@ export const LambdaFunctionAssociationList = S.Array(
 );
 export interface LambdaFunctionAssociations {
   Quantity: number;
-  Items?: LambdaFunctionAssociationList;
+  Items?: LambdaFunctionAssociation[];
 }
 export const LambdaFunctionAssociations = S.suspend(() =>
   S.Struct({
@@ -3694,10 +3796,10 @@ export const LambdaFunctionAssociations = S.suspend(() =>
 }) as any as S.Schema<LambdaFunctionAssociations>;
 export interface FunctionAssociation {
   FunctionARN: string;
-  EventType: string;
+  EventType: EventType;
 }
 export const FunctionAssociation = S.suspend(() =>
-  S.Struct({ FunctionARN: S.String, EventType: S.String }),
+  S.Struct({ FunctionARN: S.String, EventType: EventType }),
 ).annotations({
   identifier: "FunctionAssociation",
 }) as any as S.Schema<FunctionAssociation>;
@@ -3709,7 +3811,7 @@ export const FunctionAssociationList = S.Array(
 );
 export interface FunctionAssociations {
   Quantity: number;
-  Items?: FunctionAssociationList;
+  Items?: FunctionAssociation[];
 }
 export const FunctionAssociations = S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: S.optional(FunctionAssociationList) }),
@@ -3722,12 +3824,17 @@ export interface GrpcConfig {
 export const GrpcConfig = S.suspend(() =>
   S.Struct({ Enabled: S.Boolean }),
 ).annotations({ identifier: "GrpcConfig" }) as any as S.Schema<GrpcConfig>;
+export type ItemSelection = "none" | "whitelist" | "all";
+export const ItemSelection = S.Literal("none", "whitelist", "all");
 export interface CookiePreference {
-  Forward: string;
+  Forward: ItemSelection;
   WhitelistedNames?: CookieNames;
 }
 export const CookiePreference = S.suspend(() =>
-  S.Struct({ Forward: S.String, WhitelistedNames: S.optional(CookieNames) }),
+  S.Struct({
+    Forward: ItemSelection,
+    WhitelistedNames: S.optional(CookieNames),
+  }),
 ).annotations({
   identifier: "CookiePreference",
 }) as any as S.Schema<CookiePreference>;
@@ -3737,7 +3844,7 @@ export const QueryStringCacheKeysList = S.Array(
 );
 export interface QueryStringCacheKeys {
   Quantity: number;
-  Items?: QueryStringCacheKeysList;
+  Items?: string[];
 }
 export const QueryStringCacheKeys = S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: S.optional(QueryStringCacheKeysList) }),
@@ -3764,7 +3871,7 @@ export interface DefaultCacheBehavior {
   TargetOriginId: string;
   TrustedSigners?: TrustedSigners;
   TrustedKeyGroups?: TrustedKeyGroups;
-  ViewerProtocolPolicy: string;
+  ViewerProtocolPolicy: ViewerProtocolPolicy;
   AllowedMethods?: AllowedMethods;
   SmoothStreaming?: boolean;
   Compress?: boolean;
@@ -3786,7 +3893,7 @@ export const DefaultCacheBehavior = S.suspend(() =>
     TargetOriginId: S.String,
     TrustedSigners: S.optional(TrustedSigners),
     TrustedKeyGroups: S.optional(TrustedKeyGroups),
-    ViewerProtocolPolicy: S.String,
+    ViewerProtocolPolicy: ViewerProtocolPolicy,
     AllowedMethods: S.optional(AllowedMethods),
     SmoothStreaming: S.optional(S.Boolean),
     Compress: S.optional(S.Boolean),
@@ -3811,7 +3918,7 @@ export interface CacheBehavior {
   TargetOriginId: string;
   TrustedSigners?: TrustedSigners;
   TrustedKeyGroups?: TrustedKeyGroups;
-  ViewerProtocolPolicy: string;
+  ViewerProtocolPolicy: ViewerProtocolPolicy;
   AllowedMethods?: AllowedMethods;
   SmoothStreaming?: boolean;
   Compress?: boolean;
@@ -3834,7 +3941,7 @@ export const CacheBehavior = S.suspend(() =>
     TargetOriginId: S.String,
     TrustedSigners: S.optional(TrustedSigners),
     TrustedKeyGroups: S.optional(TrustedKeyGroups),
-    ViewerProtocolPolicy: S.String,
+    ViewerProtocolPolicy: ViewerProtocolPolicy,
     AllowedMethods: S.optional(AllowedMethods),
     SmoothStreaming: S.optional(S.Boolean),
     Compress: S.optional(S.Boolean),
@@ -3862,7 +3969,7 @@ export const CacheBehaviorList = S.Array(
 );
 export interface CacheBehaviors {
   Quantity: number;
-  Items?: CacheBehaviorList;
+  Items?: CacheBehavior[];
 }
 export const CacheBehaviors = S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: S.optional(CacheBehaviorList) }),
@@ -3893,7 +4000,7 @@ export const CustomErrorResponseList = S.Array(
 );
 export interface CustomErrorResponses {
   Quantity: number;
-  Items?: CustomErrorResponseList;
+  Items?: CustomErrorResponse[];
 }
 export const CustomErrorResponses = S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: S.optional(CustomErrorResponseList) }),
@@ -3916,38 +4023,76 @@ export const LoggingConfig = S.suspend(() =>
 ).annotations({
   identifier: "LoggingConfig",
 }) as any as S.Schema<LoggingConfig>;
+export type PriceClass =
+  | "PriceClass_100"
+  | "PriceClass_200"
+  | "PriceClass_All"
+  | "None";
+export const PriceClass = S.Literal(
+  "PriceClass_100",
+  "PriceClass_200",
+  "PriceClass_All",
+  "None",
+);
+export type SSLSupportMethod = "sni-only" | "vip" | "static-ip";
+export const SSLSupportMethod = S.Literal("sni-only", "vip", "static-ip");
+export type MinimumProtocolVersion =
+  | "SSLv3"
+  | "TLSv1"
+  | "TLSv1_2016"
+  | "TLSv1.1_2016"
+  | "TLSv1.2_2018"
+  | "TLSv1.2_2019"
+  | "TLSv1.2_2021"
+  | "TLSv1.3_2025"
+  | "TLSv1.2_2025";
+export const MinimumProtocolVersion = S.Literal(
+  "SSLv3",
+  "TLSv1",
+  "TLSv1_2016",
+  "TLSv1.1_2016",
+  "TLSv1.2_2018",
+  "TLSv1.2_2019",
+  "TLSv1.2_2021",
+  "TLSv1.3_2025",
+  "TLSv1.2_2025",
+);
+export type CertificateSource = "cloudfront" | "iam" | "acm";
+export const CertificateSource = S.Literal("cloudfront", "iam", "acm");
 export interface ViewerCertificate {
   CloudFrontDefaultCertificate?: boolean;
   IAMCertificateId?: string;
   ACMCertificateArn?: string;
-  SSLSupportMethod?: string;
-  MinimumProtocolVersion?: string;
+  SSLSupportMethod?: SSLSupportMethod;
+  MinimumProtocolVersion?: MinimumProtocolVersion;
   Certificate?: string;
-  CertificateSource?: string;
+  CertificateSource?: CertificateSource;
 }
 export const ViewerCertificate = S.suspend(() =>
   S.Struct({
     CloudFrontDefaultCertificate: S.optional(S.Boolean),
     IAMCertificateId: S.optional(S.String),
     ACMCertificateArn: S.optional(S.String),
-    SSLSupportMethod: S.optional(S.String),
-    MinimumProtocolVersion: S.optional(S.String),
+    SSLSupportMethod: S.optional(SSLSupportMethod),
+    MinimumProtocolVersion: S.optional(MinimumProtocolVersion),
     Certificate: S.optional(S.String),
-    CertificateSource: S.optional(S.String),
+    CertificateSource: S.optional(CertificateSource),
   }),
 ).annotations({
   identifier: "ViewerCertificate",
 }) as any as S.Schema<ViewerCertificate>;
+export type GeoRestrictionType = "blacklist" | "whitelist" | "none";
+export const GeoRestrictionType = S.Literal("blacklist", "whitelist", "none");
 export type LocationList = string[];
 export const LocationList = S.Array(S.String.pipe(T.XmlName("Location")));
 export interface GeoRestriction {
-  RestrictionType: string;
+  RestrictionType: GeoRestrictionType;
   Quantity: number;
-  Items?: LocationList;
+  Items?: string[];
 }
 export const GeoRestriction = S.suspend(() =>
   S.Struct({
-    RestrictionType: S.String,
+    RestrictionType: GeoRestrictionType,
     Quantity: S.Number,
     Items: S.optional(LocationList),
   }),
@@ -3960,8 +4105,27 @@ export interface Restrictions {
 export const Restrictions = S.suspend(() =>
   S.Struct({ GeoRestriction: GeoRestriction }),
 ).annotations({ identifier: "Restrictions" }) as any as S.Schema<Restrictions>;
+export type HttpVersion =
+  | "http1.1"
+  | "http2"
+  | "http3"
+  | "http2and3"
+  | "HTTP1.1"
+  | "HTTP2"
+  | "HTTP3"
+  | "HTTP2AND3";
+export const HttpVersion = S.Literal(
+  "http1.1",
+  "http2",
+  "http3",
+  "http2and3",
+  "HTTP1.1",
+  "HTTP2",
+  "HTTP3",
+  "HTTP2AND3",
+);
 export interface StringSchemaConfig {
-  Comment?: string | Redacted.Redacted<string>;
+  Comment?: string | redacted.Redacted<string>;
   DefaultValue?: string;
   Required: boolean;
 }
@@ -3994,11 +4158,13 @@ export const ParameterDefinition = S.suspend(() =>
 export type ParameterDefinitions = ParameterDefinition[];
 export const ParameterDefinitions = S.Array(ParameterDefinition);
 export interface TenantConfig {
-  ParameterDefinitions?: ParameterDefinitions;
+  ParameterDefinitions?: ParameterDefinition[];
 }
 export const TenantConfig = S.suspend(() =>
   S.Struct({ ParameterDefinitions: S.optional(ParameterDefinitions) }),
 ).annotations({ identifier: "TenantConfig" }) as any as S.Schema<TenantConfig>;
+export type ViewerMtlsMode = "required" | "optional";
+export const ViewerMtlsMode = S.Literal("required", "optional");
 export interface TrustStoreConfig {
   TrustStoreId: string;
   AdvertiseTrustStoreCaNames?: boolean;
@@ -4014,12 +4180,12 @@ export const TrustStoreConfig = S.suspend(() =>
   identifier: "TrustStoreConfig",
 }) as any as S.Schema<TrustStoreConfig>;
 export interface ViewerMtlsConfig {
-  Mode?: string;
+  Mode?: ViewerMtlsMode;
   TrustStoreConfig?: TrustStoreConfig;
 }
 export const ViewerMtlsConfig = S.suspend(() =>
   S.Struct({
-    Mode: S.optional(S.String),
+    Mode: S.optional(ViewerMtlsMode),
     TrustStoreConfig: S.optional(TrustStoreConfig),
   }),
 ).annotations({
@@ -4042,20 +4208,20 @@ export interface DistributionConfig {
   DefaultCacheBehavior: DefaultCacheBehavior;
   CacheBehaviors?: CacheBehaviors;
   CustomErrorResponses?: CustomErrorResponses;
-  Comment: string | Redacted.Redacted<string>;
+  Comment: string | redacted.Redacted<string>;
   Logging?: LoggingConfig;
-  PriceClass?: string;
+  PriceClass?: PriceClass;
   Enabled: boolean;
   ViewerCertificate?: ViewerCertificate;
   Restrictions?: Restrictions;
   WebACLId?: string;
-  HttpVersion?: string;
+  HttpVersion?: HttpVersion;
   IsIPV6Enabled?: boolean;
   ContinuousDeploymentPolicyId?: string;
   Staging?: boolean;
   AnycastIpListId?: string;
   TenantConfig?: TenantConfig;
-  ConnectionMode?: string;
+  ConnectionMode?: ConnectionMode;
   ViewerMtlsConfig?: ViewerMtlsConfig;
   ConnectionFunctionAssociation?: ConnectionFunctionAssociation;
 }
@@ -4071,18 +4237,18 @@ export const DistributionConfig = S.suspend(() =>
     CustomErrorResponses: S.optional(CustomErrorResponses),
     Comment: SensitiveString,
     Logging: S.optional(LoggingConfig),
-    PriceClass: S.optional(S.String),
+    PriceClass: S.optional(PriceClass),
     Enabled: S.Boolean,
     ViewerCertificate: S.optional(ViewerCertificate),
     Restrictions: S.optional(Restrictions),
     WebACLId: S.optional(S.String),
-    HttpVersion: S.optional(S.String),
+    HttpVersion: S.optional(HttpVersion),
     IsIPV6Enabled: S.optional(S.Boolean),
     ContinuousDeploymentPolicyId: S.optional(S.String),
     Staging: S.optional(S.Boolean),
     AnycastIpListId: S.optional(S.String),
     TenantConfig: S.optional(TenantConfig),
-    ConnectionMode: S.optional(S.String),
+    ConnectionMode: S.optional(ConnectionMode),
     ViewerMtlsConfig: S.optional(ViewerMtlsConfig),
     ConnectionFunctionAssociation: S.optional(ConnectionFunctionAssociation),
   }),
@@ -4124,12 +4290,14 @@ export const DomainItem = S.suspend(() =>
 ).annotations({ identifier: "DomainItem" }) as any as S.Schema<DomainItem>;
 export type DomainList = DomainItem[];
 export const DomainList = S.Array(DomainItem);
+export type CustomizationActionType = "override" | "disable";
+export const CustomizationActionType = S.Literal("override", "disable");
 export interface WebAclCustomization {
-  Action: string;
+  Action: CustomizationActionType;
   Arn?: string;
 }
 export const WebAclCustomization = S.suspend(() =>
-  S.Struct({ Action: S.String, Arn: S.optional(S.String) }),
+  S.Struct({ Action: CustomizationActionType, Arn: S.optional(S.String) }),
 ).annotations({
   identifier: "WebAclCustomization",
 }) as any as S.Schema<WebAclCustomization>;
@@ -4140,11 +4308,14 @@ export const Certificate = S.suspend(() =>
   S.Struct({ Arn: S.String }),
 ).annotations({ identifier: "Certificate" }) as any as S.Schema<Certificate>;
 export interface GeoRestrictionCustomization {
-  RestrictionType: string;
-  Locations?: LocationList;
+  RestrictionType: GeoRestrictionType;
+  Locations?: string[];
 }
 export const GeoRestrictionCustomization = S.suspend(() =>
-  S.Struct({ RestrictionType: S.String, Locations: S.optional(LocationList) }),
+  S.Struct({
+    RestrictionType: GeoRestrictionType,
+    Locations: S.optional(LocationList),
+  }),
 ).annotations({
   identifier: "GeoRestrictionCustomization",
 }) as any as S.Schema<GeoRestrictionCustomization>;
@@ -4171,16 +4342,25 @@ export const Parameter = S.suspend(() =>
 ).annotations({ identifier: "Parameter" }) as any as S.Schema<Parameter>;
 export type Parameters = Parameter[];
 export const Parameters = S.Array(Parameter);
+export type ValidationTokenHost = "cloudfront" | "self-hosted";
+export const ValidationTokenHost = S.Literal("cloudfront", "self-hosted");
+export type CertificateTransparencyLoggingPreference = "enabled" | "disabled";
+export const CertificateTransparencyLoggingPreference = S.Literal(
+  "enabled",
+  "disabled",
+);
 export interface ManagedCertificateRequest {
-  ValidationTokenHost: string;
+  ValidationTokenHost: ValidationTokenHost;
   PrimaryDomainName?: string;
-  CertificateTransparencyLoggingPreference?: string;
+  CertificateTransparencyLoggingPreference?: CertificateTransparencyLoggingPreference;
 }
 export const ManagedCertificateRequest = S.suspend(() =>
   S.Struct({
-    ValidationTokenHost: S.String,
+    ValidationTokenHost: ValidationTokenHost,
     PrimaryDomainName: S.optional(S.String),
-    CertificateTransparencyLoggingPreference: S.optional(S.String),
+    CertificateTransparencyLoggingPreference: S.optional(
+      CertificateTransparencyLoggingPreference,
+    ),
   }),
 ).annotations({
   identifier: "ManagedCertificateRequest",
@@ -4188,9 +4368,9 @@ export const ManagedCertificateRequest = S.suspend(() =>
 export interface UpdateDistributionTenantRequest {
   Id: string;
   DistributionId?: string;
-  Domains?: DomainList;
+  Domains?: DomainItem[];
   Customizations?: Customizations;
-  Parameters?: Parameters;
+  Parameters?: Parameter[];
   ConnectionGroupId?: string;
   IfMatch: string;
   ManagedCertificateRequest?: ManagedCertificateRequest;
@@ -4303,7 +4483,7 @@ export const QueryArgProfileList = S.Array(
 );
 export interface QueryArgProfiles {
   Quantity: number;
-  Items?: QueryArgProfileList;
+  Items?: QueryArgProfile[];
 }
 export const QueryArgProfiles = S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: S.optional(QueryArgProfileList) }),
@@ -4322,14 +4502,16 @@ export const QueryArgProfileConfig = S.suspend(() =>
 ).annotations({
   identifier: "QueryArgProfileConfig",
 }) as any as S.Schema<QueryArgProfileConfig>;
+export type Format = "URLEncoded";
+export const Format = S.Literal("URLEncoded");
 export interface ContentTypeProfile {
-  Format: string;
+  Format: Format;
   ProfileId?: string;
   ContentType: string;
 }
 export const ContentTypeProfile = S.suspend(() =>
   S.Struct({
-    Format: S.String,
+    Format: Format,
     ProfileId: S.optional(S.String),
     ContentType: S.String,
   }),
@@ -4344,7 +4526,7 @@ export const ContentTypeProfileList = S.Array(
 );
 export interface ContentTypeProfiles {
   Quantity: number;
-  Items?: ContentTypeProfileList;
+  Items?: ContentTypeProfile[];
 }
 export const ContentTypeProfiles = S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: S.optional(ContentTypeProfileList) }),
@@ -4415,7 +4597,7 @@ export const FieldPatternList = S.Array(
 );
 export interface FieldPatterns {
   Quantity: number;
-  Items?: FieldPatternList;
+  Items?: string[];
 }
 export const FieldPatterns = S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: S.optional(FieldPatternList) }),
@@ -4444,7 +4626,7 @@ export const EncryptionEntityList = S.Array(
 );
 export interface EncryptionEntities {
   Quantity: number;
-  Items?: EncryptionEntityList;
+  Items?: EncryptionEntity[];
 }
 export const EncryptionEntities = S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: S.optional(EncryptionEntityList) }),
@@ -4501,7 +4683,7 @@ export interface UpdateFunctionRequest {
   Name: string;
   IfMatch: string;
   FunctionConfig: FunctionConfig;
-  FunctionCode: Uint8Array | Redacted.Redacted<Uint8Array>;
+  FunctionCode: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export const UpdateFunctionRequest = S.suspend(() =>
   S.Struct({
@@ -4527,7 +4709,7 @@ export type PublicKeyIdList = string[];
 export const PublicKeyIdList = S.Array(S.String.pipe(T.XmlName("PublicKey")));
 export interface KeyGroupConfig {
   Name: string;
-  Items: PublicKeyIdList;
+  Items: string[];
   Comment?: string;
 }
 export const KeyGroupConfig = S.suspend(() =>
@@ -4590,20 +4772,42 @@ export const UpdateKeyValueStoreRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateKeyValueStoreRequest",
 }) as any as S.Schema<UpdateKeyValueStoreRequest>;
+export type OriginAccessControlSigningProtocols = "sigv4";
+export const OriginAccessControlSigningProtocols = S.Literal("sigv4");
+export type OriginAccessControlSigningBehaviors =
+  | "never"
+  | "always"
+  | "no-override";
+export const OriginAccessControlSigningBehaviors = S.Literal(
+  "never",
+  "always",
+  "no-override",
+);
+export type OriginAccessControlOriginTypes =
+  | "s3"
+  | "mediastore"
+  | "mediapackagev2"
+  | "lambda";
+export const OriginAccessControlOriginTypes = S.Literal(
+  "s3",
+  "mediastore",
+  "mediapackagev2",
+  "lambda",
+);
 export interface OriginAccessControlConfig {
   Name: string;
   Description?: string;
-  SigningProtocol: string;
-  SigningBehavior: string;
-  OriginAccessControlOriginType: string;
+  SigningProtocol: OriginAccessControlSigningProtocols;
+  SigningBehavior: OriginAccessControlSigningBehaviors;
+  OriginAccessControlOriginType: OriginAccessControlOriginTypes;
 }
 export const OriginAccessControlConfig = S.suspend(() =>
   S.Struct({
     Name: S.String,
     Description: S.optional(S.String),
-    SigningProtocol: S.String,
-    SigningBehavior: S.String,
-    OriginAccessControlOriginType: S.String,
+    SigningProtocol: OriginAccessControlSigningProtocols,
+    SigningBehavior: OriginAccessControlSigningBehaviors,
+    OriginAccessControlOriginType: OriginAccessControlOriginTypes,
   }),
 ).annotations({
   identifier: "OriginAccessControlConfig",
@@ -4638,31 +4842,72 @@ export const UpdateOriginAccessControlRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateOriginAccessControlRequest",
 }) as any as S.Schema<UpdateOriginAccessControlRequest>;
+export type OriginRequestPolicyHeaderBehavior =
+  | "none"
+  | "whitelist"
+  | "allViewer"
+  | "allViewerAndWhitelistCloudFront"
+  | "allExcept";
+export const OriginRequestPolicyHeaderBehavior = S.Literal(
+  "none",
+  "whitelist",
+  "allViewer",
+  "allViewerAndWhitelistCloudFront",
+  "allExcept",
+);
 export interface OriginRequestPolicyHeadersConfig {
-  HeaderBehavior: string;
+  HeaderBehavior: OriginRequestPolicyHeaderBehavior;
   Headers?: Headers;
 }
 export const OriginRequestPolicyHeadersConfig = S.suspend(() =>
-  S.Struct({ HeaderBehavior: S.String, Headers: S.optional(Headers) }),
+  S.Struct({
+    HeaderBehavior: OriginRequestPolicyHeaderBehavior,
+    Headers: S.optional(Headers),
+  }),
 ).annotations({
   identifier: "OriginRequestPolicyHeadersConfig",
 }) as any as S.Schema<OriginRequestPolicyHeadersConfig>;
+export type OriginRequestPolicyCookieBehavior =
+  | "none"
+  | "whitelist"
+  | "all"
+  | "allExcept";
+export const OriginRequestPolicyCookieBehavior = S.Literal(
+  "none",
+  "whitelist",
+  "all",
+  "allExcept",
+);
 export interface OriginRequestPolicyCookiesConfig {
-  CookieBehavior: string;
+  CookieBehavior: OriginRequestPolicyCookieBehavior;
   Cookies?: CookieNames;
 }
 export const OriginRequestPolicyCookiesConfig = S.suspend(() =>
-  S.Struct({ CookieBehavior: S.String, Cookies: S.optional(CookieNames) }),
+  S.Struct({
+    CookieBehavior: OriginRequestPolicyCookieBehavior,
+    Cookies: S.optional(CookieNames),
+  }),
 ).annotations({
   identifier: "OriginRequestPolicyCookiesConfig",
 }) as any as S.Schema<OriginRequestPolicyCookiesConfig>;
+export type OriginRequestPolicyQueryStringBehavior =
+  | "none"
+  | "whitelist"
+  | "all"
+  | "allExcept";
+export const OriginRequestPolicyQueryStringBehavior = S.Literal(
+  "none",
+  "whitelist",
+  "all",
+  "allExcept",
+);
 export interface OriginRequestPolicyQueryStringsConfig {
-  QueryStringBehavior: string;
+  QueryStringBehavior: OriginRequestPolicyQueryStringBehavior;
   QueryStrings?: QueryStringNames;
 }
 export const OriginRequestPolicyQueryStringsConfig = S.suspend(() =>
   S.Struct({
-    QueryStringBehavior: S.String,
+    QueryStringBehavior: OriginRequestPolicyQueryStringBehavior,
     QueryStrings: S.optional(QueryStringNames),
   }),
 ).annotations({
@@ -4778,8 +5023,8 @@ export const EndPoint = S.suspend(() =>
 export type EndPointList = EndPoint[];
 export const EndPointList = S.Array(EndPoint);
 export interface UpdateRealtimeLogConfigRequest {
-  EndPoints?: EndPointList;
-  Fields?: FieldList;
+  EndPoints?: EndPoint[];
+  Fields?: string[];
   Name?: string;
   ARN?: string;
   SamplingRate?: number;
@@ -4811,7 +5056,7 @@ export const AccessControlAllowOriginsList = S.Array(
 );
 export interface ResponseHeadersPolicyAccessControlAllowOrigins {
   Quantity: number;
-  Items: AccessControlAllowOriginsList;
+  Items: string[];
 }
 export const ResponseHeadersPolicyAccessControlAllowOrigins = S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: AccessControlAllowOriginsList }),
@@ -4824,20 +5069,42 @@ export const AccessControlAllowHeadersList = S.Array(
 );
 export interface ResponseHeadersPolicyAccessControlAllowHeaders {
   Quantity: number;
-  Items: AccessControlAllowHeadersList;
+  Items: string[];
 }
 export const ResponseHeadersPolicyAccessControlAllowHeaders = S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: AccessControlAllowHeadersList }),
 ).annotations({
   identifier: "ResponseHeadersPolicyAccessControlAllowHeaders",
 }) as any as S.Schema<ResponseHeadersPolicyAccessControlAllowHeaders>;
-export type AccessControlAllowMethodsList = string[];
+export type ResponseHeadersPolicyAccessControlAllowMethodsValues =
+  | "GET"
+  | "POST"
+  | "OPTIONS"
+  | "PUT"
+  | "DELETE"
+  | "PATCH"
+  | "HEAD"
+  | "ALL";
+export const ResponseHeadersPolicyAccessControlAllowMethodsValues = S.Literal(
+  "GET",
+  "POST",
+  "OPTIONS",
+  "PUT",
+  "DELETE",
+  "PATCH",
+  "HEAD",
+  "ALL",
+);
+export type AccessControlAllowMethodsList =
+  ResponseHeadersPolicyAccessControlAllowMethodsValues[];
 export const AccessControlAllowMethodsList = S.Array(
-  S.String.pipe(T.XmlName("Method")),
+  ResponseHeadersPolicyAccessControlAllowMethodsValues.pipe(
+    T.XmlName("Method"),
+  ),
 );
 export interface ResponseHeadersPolicyAccessControlAllowMethods {
   Quantity: number;
-  Items: AccessControlAllowMethodsList;
+  Items: ResponseHeadersPolicyAccessControlAllowMethodsValues[];
 }
 export const ResponseHeadersPolicyAccessControlAllowMethods = S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: AccessControlAllowMethodsList }),
@@ -4850,7 +5117,7 @@ export const AccessControlExposeHeadersList = S.Array(
 );
 export interface ResponseHeadersPolicyAccessControlExposeHeaders {
   Quantity: number;
-  Items?: AccessControlExposeHeadersList;
+  Items?: string[];
 }
 export const ResponseHeadersPolicyAccessControlExposeHeaders = S.suspend(() =>
   S.Struct({
@@ -4900,21 +5167,42 @@ export const ResponseHeadersPolicyXSSProtection = S.suspend(() =>
 ).annotations({
   identifier: "ResponseHeadersPolicyXSSProtection",
 }) as any as S.Schema<ResponseHeadersPolicyXSSProtection>;
+export type FrameOptionsList = "DENY" | "SAMEORIGIN";
+export const FrameOptionsList = S.Literal("DENY", "SAMEORIGIN");
 export interface ResponseHeadersPolicyFrameOptions {
   Override: boolean;
-  FrameOption: string;
+  FrameOption: FrameOptionsList;
 }
 export const ResponseHeadersPolicyFrameOptions = S.suspend(() =>
-  S.Struct({ Override: S.Boolean, FrameOption: S.String }),
+  S.Struct({ Override: S.Boolean, FrameOption: FrameOptionsList }),
 ).annotations({
   identifier: "ResponseHeadersPolicyFrameOptions",
 }) as any as S.Schema<ResponseHeadersPolicyFrameOptions>;
+export type ReferrerPolicyList =
+  | "no-referrer"
+  | "no-referrer-when-downgrade"
+  | "origin"
+  | "origin-when-cross-origin"
+  | "same-origin"
+  | "strict-origin"
+  | "strict-origin-when-cross-origin"
+  | "unsafe-url";
+export const ReferrerPolicyList = S.Literal(
+  "no-referrer",
+  "no-referrer-when-downgrade",
+  "origin",
+  "origin-when-cross-origin",
+  "same-origin",
+  "strict-origin",
+  "strict-origin-when-cross-origin",
+  "unsafe-url",
+);
 export interface ResponseHeadersPolicyReferrerPolicy {
   Override: boolean;
-  ReferrerPolicy: string;
+  ReferrerPolicy: ReferrerPolicyList;
 }
 export const ResponseHeadersPolicyReferrerPolicy = S.suspend(() =>
-  S.Struct({ Override: S.Boolean, ReferrerPolicy: S.String }),
+  S.Struct({ Override: S.Boolean, ReferrerPolicy: ReferrerPolicyList }),
 ).annotations({
   identifier: "ResponseHeadersPolicyReferrerPolicy",
 }) as any as S.Schema<ResponseHeadersPolicyReferrerPolicy>;
@@ -5003,7 +5291,7 @@ export const ResponseHeadersPolicyCustomHeaderList = S.Array(
 );
 export interface ResponseHeadersPolicyCustomHeadersConfig {
   Quantity: number;
-  Items?: ResponseHeadersPolicyCustomHeaderList;
+  Items?: ResponseHeadersPolicyCustomHeader[];
 }
 export const ResponseHeadersPolicyCustomHeadersConfig = S.suspend(() =>
   S.Struct({
@@ -5030,7 +5318,7 @@ export const ResponseHeadersPolicyRemoveHeaderList = S.Array(
 );
 export interface ResponseHeadersPolicyRemoveHeadersConfig {
   Quantity: number;
-  Items?: ResponseHeadersPolicyRemoveHeaderList;
+  Items?: ResponseHeadersPolicyRemoveHeader[];
 }
 export const ResponseHeadersPolicyRemoveHeadersConfig = S.suspend(() =>
   S.Struct({
@@ -5120,7 +5408,7 @@ export interface StreamingDistributionConfig {
   Comment: string;
   Logging?: StreamingLoggingConfig;
   TrustedSigners: TrustedSigners;
-  PriceClass?: string;
+  PriceClass?: PriceClass;
   Enabled: boolean;
 }
 export const StreamingDistributionConfig = S.suspend(() =>
@@ -5131,7 +5419,7 @@ export const StreamingDistributionConfig = S.suspend(() =>
     Comment: S.String,
     Logging: S.optional(StreamingLoggingConfig),
     TrustedSigners: TrustedSigners,
-    PriceClass: S.optional(S.String),
+    PriceClass: S.optional(PriceClass),
     Enabled: S.Boolean,
   }),
 ).annotations({
@@ -5191,7 +5479,7 @@ export const CaCertificatesBundleSource = S.Union(
 );
 export interface UpdateTrustStoreRequest {
   Id: string;
-  CaCertificatesBundleSource: (typeof CaCertificatesBundleSource)["Type"];
+  CaCertificatesBundleSource: CaCertificatesBundleSource;
   IfMatch: string;
 }
 export const UpdateTrustStoreRequest = S.suspend(() =>
@@ -5220,7 +5508,7 @@ export interface VpcOriginEndpointConfig {
   Arn: string;
   HTTPPort: number;
   HTTPSPort: number;
-  OriginProtocolPolicy: string;
+  OriginProtocolPolicy: OriginProtocolPolicy;
   OriginSslProtocols?: OriginSslProtocols;
 }
 export const VpcOriginEndpointConfig = S.suspend(() =>
@@ -5229,7 +5517,7 @@ export const VpcOriginEndpointConfig = S.suspend(() =>
     Arn: S.String,
     HTTPPort: S.Number,
     HTTPSPort: S.Number,
-    OriginProtocolPolicy: S.String,
+    OriginProtocolPolicy: OriginProtocolPolicy,
     OriginSslProtocols: S.optional(OriginSslProtocols),
   }),
 ).annotations({
@@ -5281,20 +5569,49 @@ export const VerifyDnsConfigurationRequest = S.suspend(() =>
 ).annotations({
   identifier: "VerifyDnsConfigurationRequest",
 }) as any as S.Schema<VerifyDnsConfigurationRequest>;
+export type IpamCidrStatus =
+  | "provisioned"
+  | "failed-provision"
+  | "provisioning"
+  | "deprovisioned"
+  | "failed-deprovision"
+  | "deprovisioning"
+  | "advertised"
+  | "failed-advertise"
+  | "advertising"
+  | "withdrawn"
+  | "failed-withdraw"
+  | "withdrawing";
+export const IpamCidrStatus = S.Literal(
+  "provisioned",
+  "failed-provision",
+  "provisioning",
+  "deprovisioned",
+  "failed-deprovision",
+  "deprovisioning",
+  "advertised",
+  "failed-advertise",
+  "advertising",
+  "withdrawn",
+  "failed-withdraw",
+  "withdrawing",
+);
+export type ImportSourceType = "S3";
+export const ImportSourceType = S.Literal("S3");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String.pipe(T.XmlName("Key")));
 export interface IpamCidrConfig {
   Cidr: string;
   IpamPoolArn: string;
   AnycastIp?: string;
-  Status?: string;
+  Status?: IpamCidrStatus;
 }
 export const IpamCidrConfig = S.suspend(() =>
   S.Struct({
     Cidr: S.String,
     IpamPoolArn: S.String,
     AnycastIp: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(IpamCidrStatus),
   }),
 ).annotations({
   identifier: "IpamCidrConfig",
@@ -5315,11 +5632,11 @@ export const DistributionConfigWithTags = S.suspend(() =>
   identifier: "DistributionConfigWithTags",
 }) as any as S.Schema<DistributionConfigWithTags>;
 export interface ImportSource {
-  SourceType: string;
+  SourceType: ImportSourceType;
   SourceARN: string;
 }
 export const ImportSource = S.suspend(() =>
-  S.Struct({ SourceType: S.String, SourceARN: S.String }),
+  S.Struct({ SourceType: ImportSourceType, SourceARN: S.String }),
 ).annotations({ identifier: "ImportSource" }) as any as S.Schema<ImportSource>;
 export interface StreamingDistributionConfigWithTags {
   StreamingDistributionConfig: StreamingDistributionConfig;
@@ -5339,7 +5656,7 @@ export interface ConnectionFunctionSummary {
   ConnectionFunctionConfig: FunctionConfig;
   ConnectionFunctionArn: string;
   Status: string;
-  Stage: string;
+  Stage: FunctionStage;
   CreatedTime: Date;
   LastModifiedTime: Date;
 }
@@ -5350,7 +5667,7 @@ export const ConnectionFunctionSummary = S.suspend(() =>
     ConnectionFunctionConfig: FunctionConfig,
     ConnectionFunctionArn: S.String,
     Status: S.String,
-    Stage: S.String,
+    Stage: FunctionStage,
     CreatedTime: S.Date,
     LastModifiedTime: S.Date,
   }),
@@ -5384,11 +5701,16 @@ export const DistributionTenantAssociationFilter = S.suspend(() =>
   identifier: "DistributionTenantAssociationFilter",
 }) as any as S.Schema<DistributionTenantAssociationFilter>;
 export interface TagKeys {
-  Items?: TagKeyList;
+  Items?: string[];
 }
 export const TagKeys = S.suspend(() =>
   S.Struct({ Items: S.optional(TagKeyList) }),
 ).annotations({ identifier: "TagKeys" }) as any as S.Schema<TagKeys>;
+export type RealtimeMetricsSubscriptionStatus = "Enabled" | "Disabled";
+export const RealtimeMetricsSubscriptionStatus = S.Literal(
+  "Enabled",
+  "Disabled",
+);
 export interface AssociateDistributionTenantWebACLResult {
   Id?: string;
   WebACLArn?: string;
@@ -5589,14 +5911,14 @@ export const CreateStreamingDistributionWithTagsRequest = S.suspend(() =>
 }) as any as S.Schema<CreateStreamingDistributionWithTagsRequest>;
 export interface FunctionMetadata {
   FunctionARN: string;
-  Stage?: string;
+  Stage?: FunctionStage;
   CreatedTime?: Date;
   LastModifiedTime: Date;
 }
 export const FunctionMetadata = S.suspend(() =>
   S.Struct({
     FunctionARN: S.String,
-    Stage: S.optional(S.String),
+    Stage: S.optional(FunctionStage),
     CreatedTime: S.optional(S.Date),
     LastModifiedTime: S.Date,
   }),
@@ -5781,7 +6103,7 @@ export type KeyPairIdList = string[];
 export const KeyPairIdList = S.Array(S.String.pipe(T.XmlName("KeyPairId")));
 export interface KeyPairIds {
   Quantity: number;
-  Items?: KeyPairIdList;
+  Items?: string[];
 }
 export const KeyPairIds = S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: S.optional(KeyPairIdList) }),
@@ -5803,7 +6125,7 @@ export const SignerList = S.Array(
 export interface ActiveTrustedSigners {
   Enabled: boolean;
   Quantity: number;
-  Items?: SignerList;
+  Items?: Signer[];
 }
 export const ActiveTrustedSigners = S.suspend(() =>
   S.Struct({
@@ -5833,7 +6155,7 @@ export const KGKeyPairIdsList = S.Array(
 export interface ActiveTrustedKeyGroups {
   Enabled: boolean;
   Quantity: number;
-  Items?: KGKeyPairIdsList;
+  Items?: KGKeyPairIds[];
 }
 export const ActiveTrustedKeyGroups = S.suspend(() =>
   S.Struct({
@@ -5844,14 +6166,16 @@ export const ActiveTrustedKeyGroups = S.suspend(() =>
 ).annotations({
   identifier: "ActiveTrustedKeyGroups",
 }) as any as S.Schema<ActiveTrustedKeyGroups>;
+export type ICPRecordalStatus = "APPROVED" | "SUSPENDED" | "PENDING";
+export const ICPRecordalStatus = S.Literal("APPROVED", "SUSPENDED", "PENDING");
 export interface AliasICPRecordal {
   CNAME?: string;
-  ICPRecordalStatus?: string;
+  ICPRecordalStatus?: ICPRecordalStatus;
 }
 export const AliasICPRecordal = S.suspend(() =>
   S.Struct({
     CNAME: S.optional(S.String),
-    ICPRecordalStatus: S.optional(S.String),
+    ICPRecordalStatus: S.optional(ICPRecordalStatus),
   }),
 ).annotations({
   identifier: "AliasICPRecordal",
@@ -5872,7 +6196,7 @@ export interface Distribution {
   ActiveTrustedSigners?: ActiveTrustedSigners;
   ActiveTrustedKeyGroups?: ActiveTrustedKeyGroups;
   DistributionConfig: DistributionConfig;
-  AliasICPRecordals?: AliasICPRecordals;
+  AliasICPRecordals?: AliasICPRecordal[];
 }
 export const Distribution = S.suspend(() =>
   S.Struct({
@@ -5916,12 +6240,14 @@ export const GetDistributionConfigResult = S.suspend(() =>
 ).annotations({
   identifier: "GetDistributionConfigResult",
 }) as any as S.Schema<GetDistributionConfigResult>;
+export type DomainStatus = "active" | "inactive";
+export const DomainStatus = S.Literal("active", "inactive");
 export interface DomainResult {
   Domain: string;
-  Status?: string;
+  Status?: DomainStatus;
 }
 export const DomainResult = S.suspend(() =>
-  S.Struct({ Domain: S.String, Status: S.optional(S.String) }),
+  S.Struct({ Domain: S.String, Status: S.optional(DomainStatus) }),
 ).annotations({ identifier: "DomainResult" }) as any as S.Schema<DomainResult>;
 export type DomainResultList = DomainResult[];
 export const DomainResultList = S.Array(DomainResult);
@@ -5930,10 +6256,10 @@ export interface DistributionTenant {
   DistributionId?: string;
   Name?: string;
   Arn?: string;
-  Domains?: DomainResultList;
+  Domains?: DomainResult[];
   Tags?: Tags;
   Customizations?: Customizations;
-  Parameters?: Parameters;
+  Parameters?: Parameter[];
   ConnectionGroupId?: string;
   CreatedTime?: Date;
   LastModifiedTime?: Date;
@@ -6070,10 +6396,12 @@ export const GetKeyGroupConfigResult = S.suspend(() =>
   identifier: "GetKeyGroupConfigResult",
 }) as any as S.Schema<GetKeyGroupConfigResult>;
 export interface RealtimeMetricsSubscriptionConfig {
-  RealtimeMetricsSubscriptionStatus: string;
+  RealtimeMetricsSubscriptionStatus: RealtimeMetricsSubscriptionStatus;
 }
 export const RealtimeMetricsSubscriptionConfig = S.suspend(() =>
-  S.Struct({ RealtimeMetricsSubscriptionStatus: S.String }),
+  S.Struct({
+    RealtimeMetricsSubscriptionStatus: RealtimeMetricsSubscriptionStatus,
+  }),
 ).annotations({
   identifier: "RealtimeMetricsSubscriptionConfig",
 }) as any as S.Schema<RealtimeMetricsSubscriptionConfig>;
@@ -6219,7 +6547,7 @@ export const GetVpcOriginResult = S.suspend(() =>
 }) as any as S.Schema<GetVpcOriginResult>;
 export interface ListConnectionFunctionsResult {
   NextMarker?: string;
-  ConnectionFunctions?: ConnectionFunctionSummaryList;
+  ConnectionFunctions?: ConnectionFunctionSummary[];
 }
 export const ListConnectionFunctionsResult = S.suspend(() =>
   S.Struct({
@@ -6266,17 +6594,17 @@ export interface DistributionSummary {
   DefaultCacheBehavior: DefaultCacheBehavior;
   CacheBehaviors: CacheBehaviors;
   CustomErrorResponses: CustomErrorResponses;
-  Comment: string | Redacted.Redacted<string>;
-  PriceClass: string;
+  Comment: string | redacted.Redacted<string>;
+  PriceClass: PriceClass;
   Enabled: boolean;
   ViewerCertificate: ViewerCertificate;
   Restrictions: Restrictions;
   WebACLId?: string;
-  HttpVersion: string;
+  HttpVersion: HttpVersion;
   IsIPV6Enabled: boolean;
-  AliasICPRecordals?: AliasICPRecordals;
+  AliasICPRecordals?: AliasICPRecordal[];
   Staging: boolean;
-  ConnectionMode?: string;
+  ConnectionMode?: ConnectionMode;
   AnycastIpListId?: string;
   ViewerMtlsConfig?: ViewerMtlsConfig;
   ConnectionFunctionAssociation?: ConnectionFunctionAssociation;
@@ -6296,16 +6624,16 @@ export const DistributionSummary = S.suspend(() =>
     CacheBehaviors: CacheBehaviors,
     CustomErrorResponses: CustomErrorResponses,
     Comment: SensitiveString,
-    PriceClass: S.String,
+    PriceClass: PriceClass,
     Enabled: S.Boolean,
     ViewerCertificate: ViewerCertificate,
     Restrictions: Restrictions,
     WebACLId: S.optional(S.String),
-    HttpVersion: S.String,
+    HttpVersion: HttpVersion,
     IsIPV6Enabled: S.Boolean,
     AliasICPRecordals: S.optional(AliasICPRecordals),
     Staging: S.Boolean,
-    ConnectionMode: S.optional(S.String),
+    ConnectionMode: S.optional(ConnectionMode),
     AnycastIpListId: S.optional(S.String),
     ViewerMtlsConfig: S.optional(ViewerMtlsConfig),
     ConnectionFunctionAssociation: S.optional(ConnectionFunctionAssociation),
@@ -6325,7 +6653,7 @@ export interface DistributionList {
   MaxItems: number;
   IsTruncated: boolean;
   Quantity: number;
-  Items?: DistributionSummaryList;
+  Items?: DistributionSummary[];
 }
 export const DistributionList = S.suspend(() =>
   S.Struct({
@@ -6385,7 +6713,7 @@ export interface DistributionIdList {
   MaxItems: number;
   IsTruncated: boolean;
   Quantity: number;
-  Items?: DistributionIdListSummary;
+  Items?: string[];
 }
 export const DistributionIdList = S.suspend(() =>
   S.Struct({
@@ -6555,7 +6883,7 @@ export interface InvalidationList {
   MaxItems: number;
   IsTruncated: boolean;
   Quantity: number;
-  Items?: InvalidationSummaryList;
+  Items?: InvalidationSummary[];
 }
 export const InvalidationList = S.suspend(() =>
   S.Struct({
@@ -6655,7 +6983,7 @@ export const UntagResourceResponse = S.suspend(() =>
 }) as any as S.Schema<UntagResourceResponse>;
 export interface IpamConfig {
   Quantity: number;
-  IpamCidrConfigs: IpamCidrConfigList;
+  IpamCidrConfigs: IpamCidrConfig[];
 }
 export const IpamConfig = S.suspend(() =>
   S.Struct({ Quantity: S.Number, IpamCidrConfigs: IpamCidrConfigList }),
@@ -6667,9 +6995,9 @@ export interface AnycastIpList {
   Name: string;
   Status: string;
   Arn: string;
-  IpAddressType?: string;
+  IpAddressType?: IpAddressType;
   IpamConfig?: IpamConfig;
-  AnycastIps: AnycastIps;
+  AnycastIps: string[];
   IpCount: number;
   LastModifiedTime: Date;
 }
@@ -6679,7 +7007,7 @@ export const AnycastIpList = S.suspend(() =>
     Name: S.String,
     Status: S.String,
     Arn: S.String,
-    IpAddressType: S.optional(S.String),
+    IpAddressType: S.optional(IpAddressType),
     IpamConfig: S.optional(IpamConfig),
     AnycastIps: AnycastIps,
     IpCount: S.Number,
@@ -7084,8 +7412,8 @@ export interface RealtimeLogConfig {
   ARN: string;
   Name: string;
   SamplingRate: number;
-  EndPoints: EndPointList;
-  Fields: FieldList;
+  EndPoints: EndPoint[];
+  Fields: string[];
 }
 export const RealtimeLogConfig = S.suspend(() =>
   S.Struct({
@@ -7170,11 +7498,13 @@ export const UpdateStreamingDistributionResult = S.suspend(() =>
 ).annotations({
   identifier: "UpdateStreamingDistributionResult",
 }) as any as S.Schema<UpdateStreamingDistributionResult>;
+export type TrustStoreStatus = "pending" | "active" | "failed";
+export const TrustStoreStatus = S.Literal("pending", "active", "failed");
 export interface TrustStore {
   Id?: string;
   Arn?: string;
   Name?: string;
-  Status?: string;
+  Status?: TrustStoreStatus;
   NumberOfCaCertificates?: number;
   LastModifiedTime?: Date;
   Reason?: string;
@@ -7184,7 +7514,7 @@ export const TrustStore = S.suspend(() =>
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
     Name: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(TrustStoreStatus),
     NumberOfCaCertificates: S.optional(S.Number),
     LastModifiedTime: S.optional(S.Date),
     Reason: S.optional(S.String),
@@ -7218,6 +7548,23 @@ export const UpdateVpcOriginResult = S.suspend(() =>
 ).annotations({
   identifier: "UpdateVpcOriginResult",
 }) as any as S.Schema<UpdateVpcOriginResult>;
+export type ManagedCertificateStatus =
+  | "pending-validation"
+  | "issued"
+  | "inactive"
+  | "expired"
+  | "validation-timed-out"
+  | "revoked"
+  | "failed";
+export const ManagedCertificateStatus = S.Literal(
+  "pending-validation",
+  "issued",
+  "inactive",
+  "expired",
+  "validation-timed-out",
+  "revoked",
+  "failed",
+);
 export type FunctionSummaryList = FunctionSummary[];
 export const FunctionSummaryList = S.Array(
   FunctionSummary.pipe(T.XmlName("FunctionSummary")).annotations({
@@ -7234,12 +7581,21 @@ export type RealtimeLogConfigList = RealtimeLogConfig[];
 export const RealtimeLogConfigList = S.Array(RealtimeLogConfig);
 export type FunctionExecutionLogList = string[];
 export const FunctionExecutionLogList = S.Array(S.String);
+export type DnsConfigurationStatus =
+  | "valid-configuration"
+  | "invalid-configuration"
+  | "unknown-configuration";
+export const DnsConfigurationStatus = S.Literal(
+  "valid-configuration",
+  "invalid-configuration",
+  "unknown-configuration",
+);
 export interface DistributionTenantSummary {
   Id: string;
   DistributionId: string;
   Name: string;
   Arn: string;
-  Domains: DomainResultList;
+  Domains: DomainResult[];
   ConnectionGroupId?: string;
   Customizations?: Customizations;
   CreatedTime: Date;
@@ -7276,7 +7632,7 @@ export interface FunctionList {
   NextMarker?: string;
   MaxItems: number;
   Quantity: number;
-  Items?: FunctionSummaryList;
+  Items?: FunctionSummary[];
 }
 export const FunctionList = S.suspend(() =>
   S.Struct({
@@ -7290,7 +7646,7 @@ export interface KeyValueStoreList {
   NextMarker?: string;
   MaxItems: number;
   Quantity: number;
-  Items?: KeyValueStoreSummaryList;
+  Items?: KeyValueStore[];
 }
 export const KeyValueStoreList = S.suspend(() =>
   S.Struct({
@@ -7304,7 +7660,7 @@ export const KeyValueStoreList = S.suspend(() =>
 }) as any as S.Schema<KeyValueStoreList>;
 export interface RealtimeLogConfigs {
   MaxItems: number;
-  Items?: RealtimeLogConfigList;
+  Items?: RealtimeLogConfig[];
   IsTruncated: boolean;
   Marker?: string;
   NextMarker?: string;
@@ -7324,7 +7680,7 @@ export interface TrustStoreSummary {
   Id: string;
   Arn: string;
   Name: string;
-  Status: string;
+  Status: TrustStoreStatus;
   NumberOfCaCertificates: number;
   LastModifiedTime: Date;
   Reason?: string;
@@ -7335,7 +7691,7 @@ export const TrustStoreSummary = S.suspend(() =>
     Id: S.String,
     Arn: S.String,
     Name: S.String,
-    Status: S.String,
+    Status: TrustStoreStatus,
     NumberOfCaCertificates: S.Number,
     LastModifiedTime: S.Date,
     Reason: S.optional(S.String),
@@ -7353,9 +7709,9 @@ export const TrustStoreList = S.Array(
 export interface ConnectionFunctionTestResult {
   ConnectionFunctionSummary?: ConnectionFunctionSummary;
   ComputeUtilization?: string;
-  ConnectionFunctionExecutionLogs?: FunctionExecutionLogList;
-  ConnectionFunctionErrorMessage?: string | Redacted.Redacted<string>;
-  ConnectionFunctionOutput?: string | Redacted.Redacted<string>;
+  ConnectionFunctionExecutionLogs?: string[];
+  ConnectionFunctionErrorMessage?: string | redacted.Redacted<string>;
+  ConnectionFunctionOutput?: string | redacted.Redacted<string>;
 }
 export const ConnectionFunctionTestResult = S.suspend(() =>
   S.Struct({
@@ -7371,9 +7727,9 @@ export const ConnectionFunctionTestResult = S.suspend(() =>
 export interface TestResult {
   FunctionSummary?: FunctionSummary;
   ComputeUtilization?: string;
-  FunctionExecutionLogs?: FunctionExecutionLogList;
-  FunctionErrorMessage?: string | Redacted.Redacted<string>;
-  FunctionOutput?: string | Redacted.Redacted<string>;
+  FunctionExecutionLogs?: string[];
+  FunctionErrorMessage?: string | redacted.Redacted<string>;
+  FunctionOutput?: string | redacted.Redacted<string>;
 }
 export const TestResult = S.suspend(() =>
   S.Struct({
@@ -7386,13 +7742,13 @@ export const TestResult = S.suspend(() =>
 ).annotations({ identifier: "TestResult" }) as any as S.Schema<TestResult>;
 export interface DnsConfiguration {
   Domain: string;
-  Status: string;
+  Status: DnsConfigurationStatus;
   Reason?: string;
 }
 export const DnsConfiguration = S.suspend(() =>
   S.Struct({
     Domain: S.String,
-    Status: S.String,
+    Status: DnsConfigurationStatus,
     Reason: S.optional(S.String),
   }),
 ).annotations({
@@ -7408,15 +7764,15 @@ export interface CreateAnycastIpListRequest {
   Name: string;
   IpCount: number;
   Tags?: Tags;
-  IpAddressType?: string;
-  IpamCidrConfigs?: IpamCidrConfigList;
+  IpAddressType?: IpAddressType;
+  IpamCidrConfigs?: IpamCidrConfig[];
 }
 export const CreateAnycastIpListRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
     IpCount: S.Number,
     Tags: S.optional(Tags),
-    IpAddressType: S.optional(S.String),
+    IpAddressType: S.optional(IpAddressType),
     IpamCidrConfigs: S.optional(IpamCidrConfigList),
   }).pipe(
     T.all(
@@ -7465,10 +7821,10 @@ export const CreateConnectionGroupResult = S.suspend(() =>
 export interface CreateDistributionTenantRequest {
   DistributionId: string;
   Name: string;
-  Domains: DomainList;
+  Domains: DomainItem[];
   Tags?: Tags;
   Customizations?: Customizations;
-  Parameters?: Parameters;
+  Parameters?: Parameter[];
   ConnectionGroupId?: string;
   ManagedCertificateRequest?: ManagedCertificateRequest;
   Enabled?: boolean;
@@ -7649,8 +8005,8 @@ export const CreatePublicKeyResult = S.suspend(() =>
   identifier: "CreatePublicKeyResult",
 }) as any as S.Schema<CreatePublicKeyResult>;
 export interface CreateRealtimeLogConfigRequest {
-  EndPoints: EndPointList;
-  Fields: FieldList;
+  EndPoints: EndPoint[];
+  Fields: string[];
   Name: string;
   SamplingRate: number;
 }
@@ -7715,7 +8071,7 @@ export const CreateStreamingDistributionWithTagsResult = S.suspend(() =>
 }) as any as S.Schema<CreateStreamingDistributionWithTagsResult>;
 export interface CreateTrustStoreRequest {
   Name: string;
-  CaCertificatesBundleSource: (typeof CaCertificatesBundleSource)["Type"];
+  CaCertificatesBundleSource: CaCertificatesBundleSource;
   Tags?: Tags;
 }
 export const CreateTrustStoreRequest = S.suspend(() =>
@@ -7991,7 +8347,7 @@ export const ListDistributionsByCachePolicyIdResult = S.suspend(() =>
 }) as any as S.Schema<ListDistributionsByCachePolicyIdResult>;
 export interface ListDistributionTenantsResult {
   NextMarker?: string;
-  DistributionTenantList?: DistributionTenantList;
+  DistributionTenantList?: DistributionTenantSummary[];
 }
 export const ListDistributionTenantsResult = S.suspend(() =>
   S.Struct({
@@ -8003,7 +8359,7 @@ export const ListDistributionTenantsResult = S.suspend(() =>
 }) as any as S.Schema<ListDistributionTenantsResult>;
 export interface ListDistributionTenantsByCustomizationResult {
   NextMarker?: string;
-  DistributionTenantList?: DistributionTenantList;
+  DistributionTenantList?: DistributionTenantSummary[];
 }
 export const ListDistributionTenantsByCustomizationResult = S.suspend(() =>
   S.Struct({
@@ -8051,7 +8407,7 @@ export const ListRealtimeLogConfigsResult = S.suspend(() =>
 }) as any as S.Schema<ListRealtimeLogConfigsResult>;
 export interface ListTrustStoresResult {
   NextMarker?: string;
-  TrustStoreList?: TrustStoreList;
+  TrustStoreList?: TrustStoreSummary[];
 }
 export const ListTrustStoresResult = S.suspend(() =>
   S.Struct({
@@ -8086,7 +8442,7 @@ export const TestFunctionResult = S.suspend(() =>
   identifier: "TestFunctionResult",
 }) as any as S.Schema<TestFunctionResult>;
 export interface VerifyDnsConfigurationResult {
-  DnsConfigurationList?: DnsConfigurationList;
+  DnsConfigurationList?: DnsConfiguration[];
 }
 export const VerifyDnsConfigurationResult = S.suspend(() =>
   S.Struct({ DnsConfigurationList: S.optional(DnsConfigurationList) }).pipe(ns),
@@ -8116,7 +8472,7 @@ export interface AnycastIpListSummary {
   Arn: string;
   IpCount: number;
   LastModifiedTime: Date;
-  IpAddressType?: string;
+  IpAddressType?: IpAddressType;
   ETag?: string;
   IpamConfig?: IpamConfig;
 }
@@ -8128,7 +8484,7 @@ export const AnycastIpListSummary = S.suspend(() =>
     Arn: S.String,
     IpCount: S.Number,
     LastModifiedTime: S.Date,
-    IpAddressType: S.optional(S.String),
+    IpAddressType: S.optional(IpAddressType),
     ETag: S.optional(S.String),
     IpamConfig: S.optional(IpamConfig),
   }),
@@ -8142,11 +8498,11 @@ export const AnycastIpListSummaries = S.Array(
   }),
 );
 export interface CachePolicySummary {
-  Type: string;
+  Type: CachePolicyType;
   CachePolicy: CachePolicy;
 }
 export const CachePolicySummary = S.suspend(() =>
-  S.Struct({ Type: S.String, CachePolicy: CachePolicy }),
+  S.Struct({ Type: CachePolicyType, CachePolicy: CachePolicy }),
 ).annotations({
   identifier: "CachePolicySummary",
 }) as any as S.Schema<CachePolicySummary>;
@@ -8223,6 +8579,11 @@ export const DistributionIdOwnerItemList = S.Array(
     identifier: "DistributionIdOwner",
   }),
 );
+export type DistributionResourceType = "distribution" | "distribution-tenant";
+export const DistributionResourceType = S.Literal(
+  "distribution",
+  "distribution-tenant",
+);
 export interface FieldLevelEncryptionSummary {
   Id: string;
   LastModifiedTime: Date;
@@ -8290,18 +8651,18 @@ export interface OriginAccessControlSummary {
   Id: string;
   Description: string;
   Name: string;
-  SigningProtocol: string;
-  SigningBehavior: string;
-  OriginAccessControlOriginType: string;
+  SigningProtocol: OriginAccessControlSigningProtocols;
+  SigningBehavior: OriginAccessControlSigningBehaviors;
+  OriginAccessControlOriginType: OriginAccessControlOriginTypes;
 }
 export const OriginAccessControlSummary = S.suspend(() =>
   S.Struct({
     Id: S.String,
     Description: S.String,
     Name: S.String,
-    SigningProtocol: S.String,
-    SigningBehavior: S.String,
-    OriginAccessControlOriginType: S.String,
+    SigningProtocol: OriginAccessControlSigningProtocols,
+    SigningBehavior: OriginAccessControlSigningBehaviors,
+    OriginAccessControlOriginType: OriginAccessControlOriginTypes,
   }),
 ).annotations({
   identifier: "OriginAccessControlSummary",
@@ -8313,11 +8674,14 @@ export const OriginAccessControlSummaryList = S.Array(
   ).annotations({ identifier: "OriginAccessControlSummary" }),
 );
 export interface OriginRequestPolicySummary {
-  Type: string;
+  Type: OriginRequestPolicyType;
   OriginRequestPolicy: OriginRequestPolicy;
 }
 export const OriginRequestPolicySummary = S.suspend(() =>
-  S.Struct({ Type: S.String, OriginRequestPolicy: OriginRequestPolicy }),
+  S.Struct({
+    Type: OriginRequestPolicyType,
+    OriginRequestPolicy: OriginRequestPolicy,
+  }),
 ).annotations({
   identifier: "OriginRequestPolicySummary",
 }) as any as S.Schema<OriginRequestPolicySummary>;
@@ -8352,11 +8716,14 @@ export const PublicKeySummaryList = S.Array(
   }),
 );
 export interface ResponseHeadersPolicySummary {
-  Type: string;
+  Type: ResponseHeadersPolicyType;
   ResponseHeadersPolicy: ResponseHeadersPolicy;
 }
 export const ResponseHeadersPolicySummary = S.suspend(() =>
-  S.Struct({ Type: S.String, ResponseHeadersPolicy: ResponseHeadersPolicy }),
+  S.Struct({
+    Type: ResponseHeadersPolicyType,
+    ResponseHeadersPolicy: ResponseHeadersPolicy,
+  }),
 ).annotations({
   identifier: "ResponseHeadersPolicySummary",
 }) as any as S.Schema<ResponseHeadersPolicySummary>;
@@ -8376,7 +8743,7 @@ export interface StreamingDistributionSummary {
   Aliases: Aliases;
   TrustedSigners: TrustedSigners;
   Comment: string;
-  PriceClass: string;
+  PriceClass: PriceClass;
   Enabled: boolean;
 }
 export const StreamingDistributionSummary = S.suspend(() =>
@@ -8390,7 +8757,7 @@ export const StreamingDistributionSummary = S.suspend(() =>
     Aliases: Aliases,
     TrustedSigners: TrustedSigners,
     Comment: S.String,
-    PriceClass: S.String,
+    PriceClass: PriceClass,
     Enabled: S.Boolean,
   }),
 ).annotations({
@@ -8434,22 +8801,22 @@ export const VpcOriginSummaryList = S.Array(
 );
 export interface ManagedCertificateDetails {
   CertificateArn?: string;
-  CertificateStatus?: string;
-  ValidationTokenHost?: string;
-  ValidationTokenDetails?: ValidationTokenDetailList;
+  CertificateStatus?: ManagedCertificateStatus;
+  ValidationTokenHost?: ValidationTokenHost;
+  ValidationTokenDetails?: ValidationTokenDetail[];
 }
 export const ManagedCertificateDetails = S.suspend(() =>
   S.Struct({
     CertificateArn: S.optional(S.String),
-    CertificateStatus: S.optional(S.String),
-    ValidationTokenHost: S.optional(S.String),
+    CertificateStatus: S.optional(ManagedCertificateStatus),
+    ValidationTokenHost: S.optional(ValidationTokenHost),
     ValidationTokenDetails: S.optional(ValidationTokenDetailList),
   }),
 ).annotations({
   identifier: "ManagedCertificateDetails",
 }) as any as S.Schema<ManagedCertificateDetails>;
 export interface AnycastIpListCollection {
-  Items?: AnycastIpListSummaries;
+  Items?: AnycastIpListSummary[];
   Marker?: string;
   NextMarker?: string;
   MaxItems: number;
@@ -8472,7 +8839,7 @@ export interface CachePolicyList {
   NextMarker?: string;
   MaxItems: number;
   Quantity: number;
-  Items?: CachePolicySummaryList;
+  Items?: CachePolicySummary[];
 }
 export const CachePolicyList = S.suspend(() =>
   S.Struct({
@@ -8490,7 +8857,7 @@ export interface CloudFrontOriginAccessIdentityList {
   MaxItems: number;
   IsTruncated: boolean;
   Quantity: number;
-  Items?: CloudFrontOriginAccessIdentitySummaryList;
+  Items?: CloudFrontOriginAccessIdentitySummary[];
 }
 export const CloudFrontOriginAccessIdentityList = S.suspend(() =>
   S.Struct({
@@ -8508,7 +8875,7 @@ export interface ConflictingAliasesList {
   NextMarker?: string;
   MaxItems?: number;
   Quantity?: number;
-  Items?: ConflictingAliases;
+  Items?: ConflictingAlias[];
 }
 export const ConflictingAliasesList = S.suspend(() =>
   S.Struct({
@@ -8560,7 +8927,7 @@ export interface ContinuousDeploymentPolicyList {
   NextMarker?: string;
   MaxItems: number;
   Quantity: number;
-  Items?: ContinuousDeploymentPolicySummaryList;
+  Items?: ContinuousDeploymentPolicySummary[];
 }
 export const ContinuousDeploymentPolicyList = S.suspend(() =>
   S.Struct({
@@ -8578,7 +8945,7 @@ export interface DistributionIdOwnerList {
   MaxItems: number;
   IsTruncated: boolean;
   Quantity: number;
-  Items?: DistributionIdOwnerItemList;
+  Items?: DistributionIdOwner[];
 }
 export const DistributionIdOwnerList = S.suspend(() =>
   S.Struct({
@@ -8594,14 +8961,14 @@ export const DistributionIdOwnerList = S.suspend(() =>
 }) as any as S.Schema<DistributionIdOwnerList>;
 export interface DomainConflict {
   Domain: string;
-  ResourceType: string;
+  ResourceType: DistributionResourceType;
   ResourceId: string;
   AccountId: string;
 }
 export const DomainConflict = S.suspend(() =>
   S.Struct({
     Domain: S.String,
-    ResourceType: S.String,
+    ResourceType: DistributionResourceType,
     ResourceId: S.String,
     AccountId: S.String,
   }),
@@ -8618,7 +8985,7 @@ export interface FieldLevelEncryptionList {
   NextMarker?: string;
   MaxItems: number;
   Quantity: number;
-  Items?: FieldLevelEncryptionSummaryList;
+  Items?: FieldLevelEncryptionSummary[];
 }
 export const FieldLevelEncryptionList = S.suspend(() =>
   S.Struct({
@@ -8634,7 +9001,7 @@ export interface FieldLevelEncryptionProfileList {
   NextMarker?: string;
   MaxItems: number;
   Quantity: number;
-  Items?: FieldLevelEncryptionProfileSummaryList;
+  Items?: FieldLevelEncryptionProfileSummary[];
 }
 export const FieldLevelEncryptionProfileList = S.suspend(() =>
   S.Struct({
@@ -8650,7 +9017,7 @@ export interface KeyGroupList {
   NextMarker?: string;
   MaxItems: number;
   Quantity: number;
-  Items?: KeyGroupSummaryList;
+  Items?: KeyGroupSummary[];
 }
 export const KeyGroupList = S.suspend(() =>
   S.Struct({
@@ -8666,7 +9033,7 @@ export interface OriginAccessControlList {
   MaxItems: number;
   IsTruncated: boolean;
   Quantity: number;
-  Items?: OriginAccessControlSummaryList;
+  Items?: OriginAccessControlSummary[];
 }
 export const OriginAccessControlList = S.suspend(() =>
   S.Struct({
@@ -8684,7 +9051,7 @@ export interface OriginRequestPolicyList {
   NextMarker?: string;
   MaxItems: number;
   Quantity: number;
-  Items?: OriginRequestPolicySummaryList;
+  Items?: OriginRequestPolicySummary[];
 }
 export const OriginRequestPolicyList = S.suspend(() =>
   S.Struct({
@@ -8700,7 +9067,7 @@ export interface PublicKeyList {
   NextMarker?: string;
   MaxItems: number;
   Quantity: number;
-  Items?: PublicKeySummaryList;
+  Items?: PublicKeySummary[];
 }
 export const PublicKeyList = S.suspend(() =>
   S.Struct({
@@ -8716,7 +9083,7 @@ export interface ResponseHeadersPolicyList {
   NextMarker?: string;
   MaxItems: number;
   Quantity: number;
-  Items?: ResponseHeadersPolicySummaryList;
+  Items?: ResponseHeadersPolicySummary[];
 }
 export const ResponseHeadersPolicyList = S.suspend(() =>
   S.Struct({
@@ -8734,7 +9101,7 @@ export interface StreamingDistributionList {
   MaxItems: number;
   IsTruncated: boolean;
   Quantity: number;
-  Items?: StreamingDistributionSummaryList;
+  Items?: StreamingDistributionSummary[];
 }
 export const StreamingDistributionList = S.suspend(() =>
   S.Struct({
@@ -8754,7 +9121,7 @@ export interface VpcOriginList {
   MaxItems: number;
   IsTruncated: boolean;
   Quantity: number;
-  Items?: VpcOriginSummaryList;
+  Items?: VpcOriginSummary[];
 }
 export const VpcOriginList = S.suspend(() =>
   S.Struct({
@@ -8808,7 +9175,7 @@ export const CreateCachePolicyRequest = S.suspend(() =>
 export interface CreateConnectionFunctionRequest {
   Name: string;
   ConnectionFunctionConfig: FunctionConfig;
-  ConnectionFunctionCode: Uint8Array | Redacted.Redacted<Uint8Array>;
+  ConnectionFunctionCode: Uint8Array | redacted.Redacted<Uint8Array>;
   Tags?: Tags;
 }
 export const CreateConnectionFunctionRequest = S.suspend(() =>
@@ -9079,7 +9446,7 @@ export const ListConflictingAliasesResult = S.suspend(() =>
 }) as any as S.Schema<ListConflictingAliasesResult>;
 export interface ListConnectionGroupsResult {
   NextMarker?: string;
-  ConnectionGroups?: ConnectionGroupSummaryList;
+  ConnectionGroups?: ConnectionGroupSummary[];
 }
 export const ListConnectionGroupsResult = S.suspend(() =>
   S.Struct({
@@ -9126,7 +9493,7 @@ export const ListDistributionsByOwnedResourceResult = S.suspend(() =>
   identifier: "ListDistributionsByOwnedResourceResult",
 }) as any as S.Schema<ListDistributionsByOwnedResourceResult>;
 export interface ListDomainConflictsResult {
-  DomainConflicts?: DomainConflictsList;
+  DomainConflicts?: DomainConflict[];
   NextMarker?: string;
 }
 export const ListDomainConflictsResult = S.suspend(() =>
@@ -10117,7 +10484,7 @@ export class TrustedKeyGroupDoesNotExist extends S.TaggedError<TrustedKeyGroupDo
  */
 export const getCachePolicyConfig: (
   input: GetCachePolicyConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCachePolicyConfigResult,
   AccessDenied | NoSuchCachePolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10131,7 +10498,7 @@ export const getCachePolicyConfig: (
  */
 export const getCloudFrontOriginAccessIdentityConfig: (
   input: GetCloudFrontOriginAccessIdentityConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCloudFrontOriginAccessIdentityConfigResult,
   AccessDenied | NoSuchCloudFrontOriginAccessIdentity | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10145,7 +10512,7 @@ export const getCloudFrontOriginAccessIdentityConfig: (
  */
 export const getContinuousDeploymentPolicyConfig: (
   input: GetContinuousDeploymentPolicyConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContinuousDeploymentPolicyConfigResult,
   AccessDenied | NoSuchContinuousDeploymentPolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10159,7 +10526,7 @@ export const getContinuousDeploymentPolicyConfig: (
  */
 export const getDistribution: (
   input: GetDistributionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDistributionResult,
   AccessDenied | NoSuchDistribution | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10173,7 +10540,7 @@ export const getDistribution: (
  */
 export const getFieldLevelEncryptionConfig: (
   input: GetFieldLevelEncryptionConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFieldLevelEncryptionConfigResult,
   AccessDenied | NoSuchFieldLevelEncryptionConfig | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10187,7 +10554,7 @@ export const getFieldLevelEncryptionConfig: (
  */
 export const getFieldLevelEncryptionProfileConfig: (
   input: GetFieldLevelEncryptionProfileConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFieldLevelEncryptionProfileConfigResult,
   AccessDenied | NoSuchFieldLevelEncryptionProfile | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10203,7 +10570,7 @@ export const getFieldLevelEncryptionProfileConfig: (
  */
 export const getKeyGroup: (
   input: GetKeyGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetKeyGroupResult,
   NoSuchResource | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10217,7 +10584,7 @@ export const getKeyGroup: (
  */
 export const getOriginAccessControlConfig: (
   input: GetOriginAccessControlConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetOriginAccessControlConfigResult,
   AccessDenied | NoSuchOriginAccessControl | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10233,7 +10600,7 @@ export const getOriginAccessControlConfig: (
  */
 export const getOriginRequestPolicyConfig: (
   input: GetOriginRequestPolicyConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetOriginRequestPolicyConfigResult,
   AccessDenied | NoSuchOriginRequestPolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10247,7 +10614,7 @@ export const getOriginRequestPolicyConfig: (
  */
 export const getPublicKeyConfig: (
   input: GetPublicKeyConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPublicKeyConfigResult,
   AccessDenied | NoSuchPublicKey | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10263,7 +10630,7 @@ export const getPublicKeyConfig: (
  */
 export const getResponseHeadersPolicyConfig: (
   input: GetResponseHeadersPolicyConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResponseHeadersPolicyConfigResult,
   AccessDenied | NoSuchResponseHeadersPolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10277,7 +10644,7 @@ export const getResponseHeadersPolicyConfig: (
  */
 export const getStreamingDistributionConfig: (
   input: GetStreamingDistributionConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetStreamingDistributionConfigResult,
   AccessDenied | NoSuchStreamingDistribution | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10293,7 +10660,7 @@ export const getStreamingDistributionConfig: (
  */
 export const listDistributionsByCachePolicyId: (
   input: ListDistributionsByCachePolicyIdRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDistributionsByCachePolicyIdResult,
   AccessDenied | InvalidArgument | NoSuchCachePolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10308,21 +10675,21 @@ export const listDistributionsByCachePolicyId: (
 export const listDistributionTenants: {
   (
     input: ListDistributionTenantsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDistributionTenantsResult,
     AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListDistributionTenantsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDistributionTenantsResult,
     AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDistributionTenantsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DistributionTenantSummary,
     AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -10346,21 +10713,21 @@ export const listDistributionTenants: {
 export const listDistributionTenantsByCustomization: {
   (
     input: ListDistributionTenantsByCustomizationRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDistributionTenantsByCustomizationResult,
     AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListDistributionTenantsByCustomizationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDistributionTenantsByCustomizationResult,
     AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDistributionTenantsByCustomizationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DistributionTenantSummary,
     AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -10382,21 +10749,21 @@ export const listDistributionTenantsByCustomization: {
 export const listTrustStores: {
   (
     input: ListTrustStoresRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTrustStoresResult,
     AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListTrustStoresRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTrustStoresResult,
     AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTrustStoresRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TrustStoreSummary,
     AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -10417,7 +10784,7 @@ export const listTrustStores: {
  */
 export const verifyDnsConfiguration: (
   input: VerifyDnsConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   VerifyDnsConfigurationResult,
   AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10431,7 +10798,7 @@ export const verifyDnsConfiguration: (
  */
 export const getConnectionGroup: (
   input: GetConnectionGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConnectionGroupResult,
   AccessDenied | EntityNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10445,7 +10812,7 @@ export const getConnectionGroup: (
  */
 export const getConnectionGroupByRoutingEndpoint: (
   input: GetConnectionGroupByRoutingEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConnectionGroupByRoutingEndpointResult,
   AccessDenied | EntityNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10459,7 +10826,7 @@ export const getConnectionGroupByRoutingEndpoint: (
  */
 export const getDistributionTenantByDomain: (
   input: GetDistributionTenantByDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDistributionTenantByDomainResult,
   AccessDenied | EntityNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10474,21 +10841,21 @@ export const getDistributionTenantByDomain: (
 export const listDistributionsByConnectionFunction: {
   (
     input: ListDistributionsByConnectionFunctionRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDistributionsByConnectionFunctionResult,
     AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListDistributionsByConnectionFunctionRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDistributionsByConnectionFunctionResult,
     AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDistributionsByConnectionFunctionRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -10510,21 +10877,21 @@ export const listDistributionsByConnectionFunction: {
 export const listDistributionsByTrustStore: {
   (
     input: ListDistributionsByTrustStoreRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDistributionsByTrustStoreResult,
     AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListDistributionsByTrustStoreRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDistributionsByTrustStoreResult,
     AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDistributionsByTrustStoreRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -10546,21 +10913,21 @@ export const listDistributionsByTrustStore: {
 export const listInvalidationsForDistributionTenant: {
   (
     input: ListInvalidationsForDistributionTenantRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInvalidationsForDistributionTenantResult,
     AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListInvalidationsForDistributionTenantRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInvalidationsForDistributionTenantResult,
     AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInvalidationsForDistributionTenantRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -10583,7 +10950,7 @@ export const listInvalidationsForDistributionTenant: {
  */
 export const getKeyGroupConfig: (
   input: GetKeyGroupConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetKeyGroupConfigResult,
   NoSuchResource | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10603,7 +10970,7 @@ export const getKeyGroupConfig: (
  */
 export const getCachePolicy: (
   input: GetCachePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCachePolicyResult,
   AccessDenied | NoSuchCachePolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10617,7 +10984,7 @@ export const getCachePolicy: (
  */
 export const getCloudFrontOriginAccessIdentity: (
   input: GetCloudFrontOriginAccessIdentityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCloudFrontOriginAccessIdentityResult,
   AccessDenied | NoSuchCloudFrontOriginAccessIdentity | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10631,7 +10998,7 @@ export const getCloudFrontOriginAccessIdentity: (
  */
 export const getContinuousDeploymentPolicy: (
   input: GetContinuousDeploymentPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContinuousDeploymentPolicyResult,
   AccessDenied | NoSuchContinuousDeploymentPolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10645,7 +11012,7 @@ export const getContinuousDeploymentPolicy: (
  */
 export const getDistributionConfig: (
   input: GetDistributionConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDistributionConfigResult,
   AccessDenied | NoSuchDistribution | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10659,7 +11026,7 @@ export const getDistributionConfig: (
  */
 export const getFieldLevelEncryption: (
   input: GetFieldLevelEncryptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFieldLevelEncryptionResult,
   AccessDenied | NoSuchFieldLevelEncryptionConfig | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10673,7 +11040,7 @@ export const getFieldLevelEncryption: (
  */
 export const getFieldLevelEncryptionProfile: (
   input: GetFieldLevelEncryptionProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFieldLevelEncryptionProfileResult,
   AccessDenied | NoSuchFieldLevelEncryptionProfile | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10687,7 +11054,7 @@ export const getFieldLevelEncryptionProfile: (
  */
 export const getOriginAccessControl: (
   input: GetOriginAccessControlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetOriginAccessControlResult,
   AccessDenied | NoSuchOriginAccessControl | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10707,7 +11074,7 @@ export const getOriginAccessControl: (
  */
 export const getOriginRequestPolicy: (
   input: GetOriginRequestPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetOriginRequestPolicyResult,
   AccessDenied | NoSuchOriginRequestPolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10721,7 +11088,7 @@ export const getOriginRequestPolicy: (
  */
 export const getPublicKey: (
   input: GetPublicKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPublicKeyResult,
   AccessDenied | NoSuchPublicKey | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10737,7 +11104,7 @@ export const getPublicKey: (
  */
 export const getResponseHeadersPolicy: (
   input: GetResponseHeadersPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResponseHeadersPolicyResult,
   AccessDenied | NoSuchResponseHeadersPolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10751,7 +11118,7 @@ export const getResponseHeadersPolicy: (
  */
 export const getStreamingDistribution: (
   input: GetStreamingDistributionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetStreamingDistributionResult,
   AccessDenied | NoSuchStreamingDistribution | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10766,21 +11133,21 @@ export const getStreamingDistribution: (
 export const listDistributionsByConnectionMode: {
   (
     input: ListDistributionsByConnectionModeRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDistributionsByConnectionModeResult,
     AccessDenied | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListDistributionsByConnectionModeRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDistributionsByConnectionModeResult,
     AccessDenied | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDistributionsByConnectionModeRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     AccessDenied | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -10803,7 +11170,7 @@ export const listDistributionsByConnectionMode: {
  */
 export const listDistributionsByKeyGroup: (
   input: ListDistributionsByKeyGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDistributionsByKeyGroupResult,
   InvalidArgument | NoSuchResource | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10819,7 +11186,7 @@ export const listDistributionsByKeyGroup: (
  */
 export const listDistributionsByOriginRequestPolicyId: (
   input: ListDistributionsByOriginRequestPolicyIdRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDistributionsByOriginRequestPolicyIdResult,
   AccessDenied | InvalidArgument | NoSuchOriginRequestPolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10837,7 +11204,7 @@ export const listDistributionsByOriginRequestPolicyId: (
  */
 export const listDistributionsByRealtimeLogConfig: (
   input: ListDistributionsByRealtimeLogConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDistributionsByRealtimeLogConfigResult,
   InvalidArgument | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10853,7 +11220,7 @@ export const listDistributionsByRealtimeLogConfig: (
  */
 export const listDistributionsByResponseHeadersPolicyId: (
   input: ListDistributionsByResponseHeadersPolicyIdRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDistributionsByResponseHeadersPolicyIdResult,
   AccessDenied | InvalidArgument | NoSuchResponseHeadersPolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10867,7 +11234,7 @@ export const listDistributionsByResponseHeadersPolicyId: (
  */
 export const getTrustStore: (
   input: GetTrustStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTrustStoreResult,
   AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10883,7 +11250,7 @@ export const getTrustStore: (
  */
 export const describeFunction: (
   input: DescribeFunctionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeFunctionResult,
   NoSuchFunctionExists | UnsupportedOperation | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10897,7 +11264,7 @@ export const describeFunction: (
  */
 export const getAnycastIpList: (
   input: GetAnycastIpListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAnycastIpListResult,
   | AccessDenied
   | EntityNotFound
@@ -10915,7 +11282,7 @@ export const getAnycastIpList: (
  */
 export const getDistributionTenant: (
   input: GetDistributionTenantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDistributionTenantResult,
   AccessDenied | EntityNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10929,7 +11296,7 @@ export const getDistributionTenant: (
  */
 export const getManagedCertificateDetails: (
   input: GetManagedCertificateDetailsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetManagedCertificateDetailsResult,
   AccessDenied | EntityNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10943,7 +11310,7 @@ export const getManagedCertificateDetails: (
  */
 export const listAnycastIpLists: (
   input: ListAnycastIpListsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListAnycastIpListsResult,
   | AccessDenied
   | EntityNotFound
@@ -10965,7 +11332,7 @@ export const listAnycastIpLists: (
  */
 export const listCachePolicies: (
   input: ListCachePoliciesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListCachePoliciesResult,
   AccessDenied | InvalidArgument | NoSuchCachePolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10980,21 +11347,21 @@ export const listCachePolicies: (
 export const listCloudFrontOriginAccessIdentities: {
   (
     input: ListCloudFrontOriginAccessIdentitiesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCloudFrontOriginAccessIdentitiesResult,
     InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListCloudFrontOriginAccessIdentitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCloudFrontOriginAccessIdentitiesResult,
     InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCloudFrontOriginAccessIdentitiesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11025,7 +11392,7 @@ export const listCloudFrontOriginAccessIdentities: {
  */
 export const listConflictingAliases: (
   input: ListConflictingAliasesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListConflictingAliasesResult,
   InvalidArgument | NoSuchDistribution | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11040,21 +11407,21 @@ export const listConflictingAliases: (
 export const listConnectionGroups: {
   (
     input: ListConnectionGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConnectionGroupsResult,
     AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListConnectionGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConnectionGroupsResult,
     AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConnectionGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConnectionGroupSummary,
     AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11077,7 +11444,7 @@ export const listConnectionGroups: {
  */
 export const listContinuousDeploymentPolicies: (
   input: ListContinuousDeploymentPoliciesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListContinuousDeploymentPoliciesResult,
   | AccessDenied
   | InvalidArgument
@@ -11095,21 +11462,21 @@ export const listContinuousDeploymentPolicies: (
 export const listDistributions: {
   (
     input: ListDistributionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDistributionsResult,
     InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListDistributionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDistributionsResult,
     InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDistributionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11130,7 +11497,7 @@ export const listDistributions: {
  */
 export const listDistributionsByOwnedResource: (
   input: ListDistributionsByOwnedResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDistributionsByOwnedResourceResult,
   | AccessDenied
   | EntityNotFound
@@ -11165,21 +11532,21 @@ export const listDistributionsByOwnedResource: (
 export const listDomainConflicts: {
   (
     input: ListDomainConflictsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDomainConflictsResult,
     AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListDomainConflictsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDomainConflictsResult,
     AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDomainConflictsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DomainConflict,
     AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11200,7 +11567,7 @@ export const listDomainConflicts: {
  */
 export const listFieldLevelEncryptionConfigs: (
   input: ListFieldLevelEncryptionConfigsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListFieldLevelEncryptionConfigsResult,
   InvalidArgument | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11214,7 +11581,7 @@ export const listFieldLevelEncryptionConfigs: (
  */
 export const listFieldLevelEncryptionProfiles: (
   input: ListFieldLevelEncryptionProfilesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListFieldLevelEncryptionProfilesResult,
   InvalidArgument | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11229,21 +11596,21 @@ export const listFieldLevelEncryptionProfiles: (
 export const listInvalidations: {
   (
     input: ListInvalidationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListInvalidationsResult,
     AccessDenied | InvalidArgument | NoSuchDistribution | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListInvalidationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListInvalidationsResult,
     AccessDenied | InvalidArgument | NoSuchDistribution | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListInvalidationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     AccessDenied | InvalidArgument | NoSuchDistribution | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11266,7 +11633,7 @@ export const listInvalidations: {
  */
 export const listKeyGroups: (
   input: ListKeyGroupsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListKeyGroupsResult,
   InvalidArgument | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11285,21 +11652,21 @@ export const listKeyGroups: (
 export const listOriginAccessControls: {
   (
     input: ListOriginAccessControlsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOriginAccessControlsResult,
     InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListOriginAccessControlsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOriginAccessControlsResult,
     InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOriginAccessControlsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11324,7 +11691,7 @@ export const listOriginAccessControls: {
  */
 export const listOriginRequestPolicies: (
   input: ListOriginRequestPoliciesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListOriginRequestPoliciesResult,
   AccessDenied | InvalidArgument | NoSuchOriginRequestPolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11339,21 +11706,21 @@ export const listOriginRequestPolicies: (
 export const listPublicKeys: {
   (
     input: ListPublicKeysRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPublicKeysResult,
     InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListPublicKeysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPublicKeysResult,
     InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPublicKeysRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11376,7 +11743,7 @@ export const listPublicKeys: {
  */
 export const listRealtimeLogConfigs: (
   input: ListRealtimeLogConfigsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListRealtimeLogConfigsResult,
   AccessDenied | InvalidArgument | NoSuchRealtimeLogConfig | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11394,7 +11761,7 @@ export const listRealtimeLogConfigs: (
  */
 export const listResponseHeadersPolicies: (
   input: ListResponseHeadersPoliciesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListResponseHeadersPoliciesResult,
   AccessDenied | InvalidArgument | NoSuchResponseHeadersPolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11409,21 +11776,21 @@ export const listResponseHeadersPolicies: (
 export const listStreamingDistributions: {
   (
     input: ListStreamingDistributionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStreamingDistributionsResult,
     InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListStreamingDistributionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStreamingDistributionsResult,
     InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStreamingDistributionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InvalidArgument | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11444,7 +11811,7 @@ export const listStreamingDistributions: {
  */
 export const listVpcOrigins: (
   input: ListVpcOriginsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListVpcOriginsResult,
   | AccessDenied
   | EntityNotFound
@@ -11466,7 +11833,7 @@ export const listVpcOrigins: (
  */
 export const testFunction: (
   input: TestFunctionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TestFunctionResult,
   | InvalidArgument
   | InvalidIfMatchVersion
@@ -11495,7 +11862,7 @@ export const testFunction: (
  */
 export const deleteOriginRequestPolicy: (
   input: DeleteOriginRequestPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteOriginRequestPolicyResponse,
   | AccessDenied
   | IllegalDelete
@@ -11522,7 +11889,7 @@ export const deleteOriginRequestPolicy: (
  */
 export const updateCloudFrontOriginAccessIdentity: (
   input: UpdateCloudFrontOriginAccessIdentityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCloudFrontOriginAccessIdentityResult,
   | AccessDenied
   | IllegalUpdate
@@ -11553,7 +11920,7 @@ export const updateCloudFrontOriginAccessIdentity: (
  */
 export const updateOriginAccessControl: (
   input: UpdateOriginAccessControlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateOriginAccessControlResult,
   | AccessDenied
   | IllegalUpdate
@@ -11582,7 +11949,7 @@ export const updateOriginAccessControl: (
  */
 export const getInvalidationForDistributionTenant: (
   input: GetInvalidationForDistributionTenantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInvalidationForDistributionTenantResult,
   AccessDenied | EntityNotFound | NoSuchInvalidation | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11596,7 +11963,7 @@ export const getInvalidationForDistributionTenant: (
  */
 export const updateConnectionFunction: (
   input: UpdateConnectionFunctionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConnectionFunctionResult,
   | AccessDenied
   | EntityNotFound
@@ -11625,7 +11992,7 @@ export const updateConnectionFunction: (
  */
 export const testConnectionFunction: (
   input: TestConnectionFunctionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TestConnectionFunctionResult,
   | EntityNotFound
   | InvalidArgument
@@ -11656,7 +12023,7 @@ export const testConnectionFunction: (
  */
 export const updateFunction: (
   input: UpdateFunctionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFunctionResult,
   | FunctionSizeLimitExceeded
   | InvalidArgument
@@ -11683,7 +12050,7 @@ export const updateFunction: (
  */
 export const updatePublicKey: (
   input: UpdatePublicKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePublicKeyResult,
   | AccessDenied
   | CannotChangeImmutablePublicKeyFields
@@ -11712,7 +12079,7 @@ export const updatePublicKey: (
  */
 export const deleteCloudFrontOriginAccessIdentity: (
   input: DeleteCloudFrontOriginAccessIdentityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCloudFrontOriginAccessIdentityResponse,
   | AccessDenied
   | CloudFrontOriginAccessIdentityInUse
@@ -11739,7 +12106,7 @@ export const deleteCloudFrontOriginAccessIdentity: (
  */
 export const deleteContinuousDeploymentPolicy: (
   input: DeleteContinuousDeploymentPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteContinuousDeploymentPolicyResponse,
   | AccessDenied
   | ContinuousDeploymentPolicyInUse
@@ -11766,7 +12133,7 @@ export const deleteContinuousDeploymentPolicy: (
  */
 export const deleteFieldLevelEncryptionConfig: (
   input: DeleteFieldLevelEncryptionConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFieldLevelEncryptionConfigResponse,
   | AccessDenied
   | FieldLevelEncryptionConfigInUse
@@ -11791,7 +12158,7 @@ export const deleteFieldLevelEncryptionConfig: (
  */
 export const deleteFieldLevelEncryptionProfile: (
   input: DeleteFieldLevelEncryptionProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFieldLevelEncryptionProfileResponse,
   | AccessDenied
   | FieldLevelEncryptionProfileInUse
@@ -11816,7 +12183,7 @@ export const deleteFieldLevelEncryptionProfile: (
  */
 export const associateDistributionWebACL: (
   input: AssociateDistributionWebACLRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateDistributionWebACLResult,
   | AccessDenied
   | EntityNotFound
@@ -11841,7 +12208,7 @@ export const associateDistributionWebACL: (
  */
 export const disassociateDistributionTenantWebACL: (
   input: DisassociateDistributionTenantWebACLRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateDistributionTenantWebACLResult,
   | AccessDenied
   | EntityNotFound
@@ -11866,7 +12233,7 @@ export const disassociateDistributionTenantWebACL: (
  */
 export const disassociateDistributionWebACL: (
   input: DisassociateDistributionWebACLRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateDistributionWebACLResult,
   | AccessDenied
   | EntityNotFound
@@ -11891,7 +12258,7 @@ export const disassociateDistributionWebACL: (
  */
 export const publishConnectionFunction: (
   input: PublishConnectionFunctionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PublishConnectionFunctionResult,
   | AccessDenied
   | EntityNotFound
@@ -11918,7 +12285,7 @@ export const publishConnectionFunction: (
  */
 export const putResourcePolicy: (
   input: PutResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourcePolicyResult,
   | AccessDenied
   | EntityNotFound
@@ -11945,7 +12312,7 @@ export const putResourcePolicy: (
  */
 export const updateAnycastIpList: (
   input: UpdateAnycastIpListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAnycastIpListResult,
   | AccessDenied
   | EntityNotFound
@@ -11978,7 +12345,7 @@ export const updateAnycastIpList: (
  */
 export const updateDomainAssociation: (
   input: UpdateDomainAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDomainAssociationResult,
   | AccessDenied
   | EntityNotFound
@@ -12005,7 +12372,7 @@ export const updateDomainAssociation: (
  */
 export const updateKeyValueStore: (
   input: UpdateKeyValueStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateKeyValueStoreResult,
   | AccessDenied
   | EntityNotFound
@@ -12032,7 +12399,7 @@ export const updateKeyValueStore: (
  */
 export const updateTrustStore: (
   input: UpdateTrustStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTrustStoreResult,
   | AccessDenied
   | EntityNotFound
@@ -12057,7 +12424,7 @@ export const updateTrustStore: (
  */
 export const deleteResourcePolicy: (
   input: DeleteResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourcePolicyResponse,
   | AccessDenied
   | EntityNotFound
@@ -12088,7 +12455,7 @@ export const deleteResourcePolicy: (
  */
 export const deleteFunction: (
   input: DeleteFunctionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFunctionResponse,
   | FunctionInUse
   | InvalidIfMatchVersion
@@ -12117,7 +12484,7 @@ export const deleteFunction: (
  */
 export const publishFunction: (
   input: PublishFunctionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PublishFunctionResult,
   | InvalidArgument
   | InvalidIfMatchVersion
@@ -12142,7 +12509,7 @@ export const publishFunction: (
  */
 export const associateDistributionTenantWebACL: (
   input: AssociateDistributionTenantWebACLRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateDistributionTenantWebACLResult,
   | AccessDenied
   | EntityNotFound
@@ -12167,7 +12534,7 @@ export const associateDistributionTenantWebACL: (
  */
 export const deleteConnectionFunction: (
   input: DeleteConnectionFunctionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConnectionFunctionResponse,
   | AccessDenied
   | CannotDeleteEntityWhileInUse
@@ -12196,7 +12563,7 @@ export const deleteConnectionFunction: (
  */
 export const deleteKeyValueStore: (
   input: DeleteKeyValueStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteKeyValueStoreResponse,
   | AccessDenied
   | CannotDeleteEntityWhileInUse
@@ -12223,7 +12590,7 @@ export const deleteKeyValueStore: (
  */
 export const deleteTrustStore: (
   input: DeleteTrustStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTrustStoreResponse,
   | AccessDenied
   | CannotDeleteEntityWhileInUse
@@ -12250,7 +12617,7 @@ export const deleteTrustStore: (
  */
 export const deleteVpcOrigin: (
   input: DeleteVpcOriginRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVpcOriginResult,
   | AccessDenied
   | CannotDeleteEntityWhileInUse
@@ -12281,7 +12648,7 @@ export const deleteVpcOrigin: (
  */
 export const deleteAnycastIpList: (
   input: DeleteAnycastIpListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAnycastIpListResponse,
   | AccessDenied
   | CannotDeleteEntityWhileInUse
@@ -12316,7 +12683,7 @@ export const deleteAnycastIpList: (
  */
 export const deleteCachePolicy: (
   input: DeleteCachePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCachePolicyResponse,
   | AccessDenied
   | CachePolicyInUse
@@ -12344,21 +12711,21 @@ export const deleteCachePolicy: (
 export const listConnectionFunctions: {
   (
     input: ListConnectionFunctionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConnectionFunctionsResult,
     AccessDenied | InvalidArgument | UnsupportedOperation | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListConnectionFunctionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConnectionFunctionsResult,
     AccessDenied | InvalidArgument | UnsupportedOperation | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConnectionFunctionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConnectionFunctionSummary,
     AccessDenied | InvalidArgument | UnsupportedOperation | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -12383,7 +12750,7 @@ export const listConnectionFunctions: {
  */
 export const listFunctions: (
   input: ListFunctionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListFunctionsResult,
   InvalidArgument | UnsupportedOperation | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12398,21 +12765,21 @@ export const listFunctions: (
 export const listKeyValueStores: {
   (
     input: ListKeyValueStoresRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListKeyValueStoresResult,
     AccessDenied | InvalidArgument | UnsupportedOperation | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListKeyValueStoresRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListKeyValueStoresResult,
     AccessDenied | InvalidArgument | UnsupportedOperation | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListKeyValueStoresRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     AccessDenied | InvalidArgument | UnsupportedOperation | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -12433,7 +12800,7 @@ export const listKeyValueStores: {
  */
 export const getConnectionFunction: (
   input: GetConnectionFunctionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConnectionFunctionResult,
   AccessDenied | EntityNotFound | UnsupportedOperation | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12447,7 +12814,7 @@ export const getConnectionFunction: (
  */
 export const getResourcePolicy: (
   input: GetResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourcePolicyResult,
   | AccessDenied
   | EntityNotFound
@@ -12465,7 +12832,7 @@ export const getResourcePolicy: (
  */
 export const getVpcOrigin: (
   input: GetVpcOriginRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetVpcOriginResult,
   | AccessDenied
   | EntityNotFound
@@ -12483,7 +12850,7 @@ export const getVpcOrigin: (
  */
 export const listDistributionsByAnycastIpListId: (
   input: ListDistributionsByAnycastIpListIdRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDistributionsByAnycastIpListIdResult,
   | AccessDenied
   | EntityNotFound
@@ -12501,7 +12868,7 @@ export const listDistributionsByAnycastIpListId: (
  */
 export const listDistributionsByVpcOriginId: (
   input: ListDistributionsByVpcOriginIdRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDistributionsByVpcOriginIdResult,
   | AccessDenied
   | EntityNotFound
@@ -12521,7 +12888,7 @@ export const listDistributionsByVpcOriginId: (
  */
 export const getFunction: (
   input: GetFunctionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFunctionResult,
   NoSuchFunctionExists | UnsupportedOperation | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12535,7 +12902,7 @@ export const getFunction: (
  */
 export const describeConnectionFunction: (
   input: DescribeConnectionFunctionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeConnectionFunctionResult,
   | AccessDenied
   | EntityNotFound
@@ -12553,7 +12920,7 @@ export const describeConnectionFunction: (
  */
 export const describeKeyValueStore: (
   input: DescribeKeyValueStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeKeyValueStoreResult,
   | AccessDenied
   | EntityNotFound
@@ -12571,7 +12938,7 @@ export const describeKeyValueStore: (
  */
 export const getMonitoringSubscription: (
   input: GetMonitoringSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMonitoringSubscriptionResult,
   | AccessDenied
   | NoSuchDistribution
@@ -12596,7 +12963,7 @@ export const getMonitoringSubscription: (
  */
 export const deleteOriginAccessControl: (
   input: DeleteOriginAccessControlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteOriginAccessControlResponse,
   | AccessDenied
   | InvalidIfMatchVersion
@@ -12621,7 +12988,7 @@ export const deleteOriginAccessControl: (
  */
 export const listDistributionsByWebACLId: (
   input: ListDistributionsByWebACLIdRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListDistributionsByWebACLIdResult,
   InvalidArgument | InvalidWebACLId | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12635,7 +13002,7 @@ export const listDistributionsByWebACLId: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResult,
   | AccessDenied
   | InvalidArgument
@@ -12661,7 +13028,7 @@ export const listTagsForResource: (
  */
 export const associateAlias: (
   input: AssociateAliasRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateAliasResponse,
   | AccessDenied
   | IllegalUpdate
@@ -12696,7 +13063,7 @@ export const associateAlias: (
  */
 export const updateRealtimeLogConfig: (
   input: UpdateRealtimeLogConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRealtimeLogConfigResult,
   AccessDenied | InvalidArgument | NoSuchRealtimeLogConfig | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12712,7 +13079,7 @@ export const updateRealtimeLogConfig: (
  */
 export const getRealtimeLogConfig: (
   input: GetRealtimeLogConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRealtimeLogConfigResult,
   AccessDenied | InvalidArgument | NoSuchRealtimeLogConfig | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12726,7 +13093,7 @@ export const getRealtimeLogConfig: (
  */
 export const updateVpcOrigin: (
   input: UpdateVpcOriginRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateVpcOriginResult,
   | AccessDenied
   | CannotUpdateEntityWhileInUse
@@ -12763,7 +13130,7 @@ export const updateVpcOrigin: (
  */
 export const createConnectionGroup: (
   input: CreateConnectionGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConnectionGroupResult,
   | AccessDenied
   | EntityAlreadyExists
@@ -12790,7 +13157,7 @@ export const createConnectionGroup: (
  */
 export const createKeyValueStore: (
   input: CreateKeyValueStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateKeyValueStoreResult,
   | AccessDenied
   | EntityAlreadyExists
@@ -12817,7 +13184,7 @@ export const createKeyValueStore: (
  */
 export const createAnycastIpList: (
   input: CreateAnycastIpListRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAnycastIpListResult,
   | AccessDenied
   | EntityAlreadyExists
@@ -12844,7 +13211,7 @@ export const createAnycastIpList: (
  */
 export const createTrustStore: (
   input: CreateTrustStoreRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTrustStoreResult,
   | AccessDenied
   | EntityAlreadyExists
@@ -12871,7 +13238,7 @@ export const createTrustStore: (
  */
 export const createVpcOrigin: (
   input: CreateVpcOriginRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVpcOriginResult,
   | AccessDenied
   | EntityAlreadyExists
@@ -12900,7 +13267,7 @@ export const createVpcOrigin: (
  */
 export const getInvalidation: (
   input: GetInvalidationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInvalidationResult,
   AccessDenied | NoSuchDistribution | NoSuchInvalidation | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12914,7 +13281,7 @@ export const getInvalidation: (
  */
 export const deleteMonitoringSubscription: (
   input: DeleteMonitoringSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMonitoringSubscriptionResult,
   | AccessDenied
   | NoSuchDistribution
@@ -12937,7 +13304,7 @@ export const deleteMonitoringSubscription: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDenied
   | InvalidArgument
@@ -12955,7 +13322,7 @@ export const untagResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDenied
   | InvalidArgument
@@ -12973,7 +13340,7 @@ export const tagResource: (
  */
 export const createConnectionFunction: (
   input: CreateConnectionFunctionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConnectionFunctionResult,
   | AccessDenied
   | EntityAlreadyExists
@@ -13004,7 +13371,7 @@ export const createConnectionFunction: (
  */
 export const createMonitoringSubscription: (
   input: CreateMonitoringSubscriptionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMonitoringSubscriptionResult,
   | AccessDenied
   | MonitoringSubscriptionAlreadyExists
@@ -13031,7 +13398,7 @@ export const createMonitoringSubscription: (
  */
 export const deleteKeyGroup: (
   input: DeleteKeyGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteKeyGroupResponse,
   | InvalidIfMatchVersion
   | NoSuchResource
@@ -13054,7 +13421,7 @@ export const deleteKeyGroup: (
  */
 export const createInvalidation: (
   input: CreateInvalidationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateInvalidationResult,
   | AccessDenied
   | BatchTooLarge
@@ -13091,7 +13458,7 @@ export const createInvalidation: (
  */
 export const updateContinuousDeploymentPolicy: (
   input: UpdateContinuousDeploymentPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateContinuousDeploymentPolicyResult,
   | AccessDenied
   | InconsistentQuantities
@@ -13122,7 +13489,7 @@ export const updateContinuousDeploymentPolicy: (
  */
 export const deleteDistributionTenant: (
   input: DeleteDistributionTenantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDistributionTenantResponse,
   | AccessDenied
   | EntityNotFound
@@ -13147,7 +13514,7 @@ export const deleteDistributionTenant: (
  */
 export const deletePublicKey: (
   input: DeletePublicKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePublicKeyResponse,
   | AccessDenied
   | InvalidIfMatchVersion
@@ -13192,7 +13559,7 @@ export const deletePublicKey: (
  */
 export const deleteStreamingDistribution: (
   input: DeleteStreamingDistributionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteStreamingDistributionResponse,
   | AccessDenied
   | InvalidIfMatchVersion
@@ -13221,7 +13588,7 @@ export const deleteStreamingDistribution: (
  */
 export const deleteResponseHeadersPolicy: (
   input: DeleteResponseHeadersPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResponseHeadersPolicyResponse,
   | AccessDenied
   | IllegalDelete
@@ -13248,7 +13615,7 @@ export const deleteResponseHeadersPolicy: (
  */
 export const updateConnectionGroup: (
   input: UpdateConnectionGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConnectionGroupResult,
   | AccessDenied
   | EntityAlreadyExists
@@ -13281,7 +13648,7 @@ export const updateConnectionGroup: (
  */
 export const deleteDistribution: (
   input: DeleteDistributionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDistributionResponse,
   | AccessDenied
   | DistributionNotDisabled
@@ -13316,7 +13683,7 @@ export const deleteDistribution: (
  */
 export const updateKeyGroup: (
   input: UpdateKeyGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateKeyGroupResult,
   | InvalidArgument
   | InvalidIfMatchVersion
@@ -13343,7 +13710,7 @@ export const updateKeyGroup: (
  */
 export const createPublicKey: (
   input: CreatePublicKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePublicKeyResult,
   InvalidArgument | PublicKeyAlreadyExists | TooManyPublicKeys | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13361,7 +13728,7 @@ export const createPublicKey: (
  */
 export const deleteRealtimeLogConfig: (
   input: DeleteRealtimeLogConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRealtimeLogConfigResponse,
   | AccessDenied
   | InvalidArgument
@@ -13384,7 +13751,7 @@ export const deleteRealtimeLogConfig: (
  */
 export const updateDistributionTenant: (
   input: UpdateDistributionTenantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDistributionTenantResult,
   | AccessDenied
   | CNAMEAlreadyExists
@@ -13417,7 +13784,7 @@ export const updateDistributionTenant: (
  */
 export const createCloudFrontOriginAccessIdentity: (
   input: CreateCloudFrontOriginAccessIdentityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCloudFrontOriginAccessIdentityResult,
   | CloudFrontOriginAccessIdentityAlreadyExists
   | InconsistentQuantities
@@ -13446,7 +13813,7 @@ export const createCloudFrontOriginAccessIdentity: (
  */
 export const createOriginAccessControl: (
   input: CreateOriginAccessControlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateOriginAccessControlResult,
   | InvalidArgument
   | OriginAccessControlAlreadyExists
@@ -13467,7 +13834,7 @@ export const createOriginAccessControl: (
  */
 export const createInvalidationForDistributionTenant: (
   input: CreateInvalidationForDistributionTenantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateInvalidationForDistributionTenantResult,
   | AccessDenied
   | BatchTooLarge
@@ -13496,7 +13863,7 @@ export const createInvalidationForDistributionTenant: (
  */
 export const deleteConnectionGroup: (
   input: DeleteConnectionGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConnectionGroupResponse,
   | AccessDenied
   | CannotDeleteEntityWhileInUse
@@ -13525,7 +13892,7 @@ export const deleteConnectionGroup: (
  */
 export const createKeyGroup: (
   input: CreateKeyGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateKeyGroupResult,
   | InvalidArgument
   | KeyGroupAlreadyExists
@@ -13548,7 +13915,7 @@ export const createKeyGroup: (
  */
 export const createDistributionTenant: (
   input: CreateDistributionTenantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDistributionTenantResult,
   | AccessDenied
   | CNAMEAlreadyExists
@@ -13585,7 +13952,7 @@ export const createDistributionTenant: (
  */
 export const createFunction: (
   input: CreateFunctionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFunctionResult,
   | FunctionAlreadyExists
   | FunctionSizeLimitExceeded
@@ -13614,7 +13981,7 @@ export const createFunction: (
  */
 export const createRealtimeLogConfig: (
   input: CreateRealtimeLogConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRealtimeLogConfigResult,
   | AccessDenied
   | InvalidArgument
@@ -13637,7 +14004,7 @@ export const createRealtimeLogConfig: (
  */
 export const updateFieldLevelEncryptionProfile: (
   input: UpdateFieldLevelEncryptionProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFieldLevelEncryptionProfileResult,
   | AccessDenied
   | FieldLevelEncryptionProfileAlreadyExists
@@ -13684,7 +14051,7 @@ export const updateFieldLevelEncryptionProfile: (
  */
 export const updateOriginRequestPolicy: (
   input: UpdateOriginRequestPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateOriginRequestPolicyResult,
   | AccessDenied
   | IllegalUpdate
@@ -13721,7 +14088,7 @@ export const updateOriginRequestPolicy: (
  */
 export const updateFieldLevelEncryptionConfig: (
   input: UpdateFieldLevelEncryptionConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFieldLevelEncryptionConfigResult,
   | AccessDenied
   | IllegalUpdate
@@ -13768,7 +14135,7 @@ export const updateFieldLevelEncryptionConfig: (
  */
 export const updateCachePolicy: (
   input: UpdateCachePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCachePolicyResult,
   | AccessDenied
   | CachePolicyAlreadyExists
@@ -13805,7 +14172,7 @@ export const updateCachePolicy: (
  */
 export const createFieldLevelEncryptionProfile: (
   input: CreateFieldLevelEncryptionProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFieldLevelEncryptionProfileResult,
   | FieldLevelEncryptionProfileAlreadyExists
   | FieldLevelEncryptionProfileSizeExceeded
@@ -13848,7 +14215,7 @@ export const createFieldLevelEncryptionProfile: (
  */
 export const createOriginRequestPolicy: (
   input: CreateOriginRequestPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateOriginRequestPolicyResult,
   | AccessDenied
   | InconsistentQuantities
@@ -13891,7 +14258,7 @@ export const createOriginRequestPolicy: (
  */
 export const createCachePolicy: (
   input: CreateCachePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCachePolicyResult,
   | AccessDenied
   | CachePolicyAlreadyExists
@@ -13926,7 +14293,7 @@ export const createCachePolicy: (
  */
 export const createContinuousDeploymentPolicy: (
   input: CreateContinuousDeploymentPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateContinuousDeploymentPolicyResult,
   | AccessDenied
   | ContinuousDeploymentPolicyAlreadyExists
@@ -13953,7 +14320,7 @@ export const createContinuousDeploymentPolicy: (
  */
 export const createFieldLevelEncryptionConfig: (
   input: CreateFieldLevelEncryptionConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFieldLevelEncryptionConfigResult,
   | FieldLevelEncryptionConfigAlreadyExists
   | InconsistentQuantities
@@ -13992,7 +14359,7 @@ export const createFieldLevelEncryptionConfig: (
  */
 export const updateResponseHeadersPolicy: (
   input: UpdateResponseHeadersPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateResponseHeadersPolicyResult,
   | AccessDenied
   | IllegalUpdate
@@ -14029,7 +14396,7 @@ export const updateResponseHeadersPolicy: (
  */
 export const updateStreamingDistribution: (
   input: UpdateStreamingDistributionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateStreamingDistributionResult,
   | AccessDenied
   | CNAMEAlreadyExists
@@ -14072,7 +14439,7 @@ export const updateStreamingDistribution: (
  */
 export const createStreamingDistributionWithTags: (
   input: CreateStreamingDistributionWithTagsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateStreamingDistributionWithTagsResult,
   | AccessDenied
   | CNAMEAlreadyExists
@@ -14115,7 +14482,7 @@ export const createStreamingDistributionWithTags: (
  */
 export const createStreamingDistribution: (
   input: CreateStreamingDistributionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateStreamingDistributionResult,
   | AccessDenied
   | CNAMEAlreadyExists
@@ -14162,7 +14529,7 @@ export const createStreamingDistribution: (
  */
 export const createResponseHeadersPolicy: (
   input: CreateResponseHeadersPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateResponseHeadersPolicyResult,
   | AccessDenied
   | InconsistentQuantities
@@ -14201,7 +14568,7 @@ export const createResponseHeadersPolicy: (
  */
 export const updateDistributionWithStagingConfig: (
   input: UpdateDistributionWithStagingConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDistributionWithStagingConfigResult,
   | AccessDenied
   | CNAMEAlreadyExists
@@ -14344,7 +14711,7 @@ export const updateDistributionWithStagingConfig: (
  */
 export const createDistributionWithTags: (
   input: CreateDistributionWithTagsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDistributionWithTagsResult,
   | AccessDenied
   | CNAMEAlreadyExists
@@ -14507,7 +14874,7 @@ export const createDistributionWithTags: (
  */
 export const updateDistribution: (
   input: UpdateDistributionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDistributionResult,
   | AccessDenied
   | CNAMEAlreadyExists
@@ -14666,7 +15033,7 @@ export const updateDistribution: (
  */
 export const copyDistribution: (
   input: CopyDistributionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CopyDistributionResult,
   | AccessDenied
   | CNAMEAlreadyExists
@@ -14809,7 +15176,7 @@ export const copyDistribution: (
  */
 export const createDistribution: (
   input: CreateDistributionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDistributionResult,
   | AccessDenied
   | CNAMEAlreadyExists

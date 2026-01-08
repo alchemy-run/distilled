@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -135,10 +135,48 @@ export type CustomDataIdentifier = string;
 //# Schemas
 export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
-export type MetricsList = string[];
-export const MetricsList = S.Array(S.String);
+export type SharedAudienceMetrics = "ALL" | "NONE";
+export const SharedAudienceMetrics = S.Literal("ALL", "NONE");
+export type MetricsList = SharedAudienceMetrics[];
+export const MetricsList = S.Array(SharedAudienceMetrics);
+export type TagOnCreatePolicy = "FROM_PARENT_RESOURCE" | "NONE";
+export const TagOnCreatePolicy = S.Literal("FROM_PARENT_RESOURCE", "NONE");
+export type PolicyExistenceCondition =
+  | "POLICY_MUST_EXIST"
+  | "POLICY_MUST_NOT_EXIST";
+export const PolicyExistenceCondition = S.Literal(
+  "POLICY_MUST_EXIST",
+  "POLICY_MUST_NOT_EXIST",
+);
 export type ConfiguredModelAlgorithmAssociationArnList = string[];
 export const ConfiguredModelAlgorithmAssociationArnList = S.Array(S.String);
+export type TrainingInputMode = "File" | "FastFile" | "Pipe";
+export const TrainingInputMode = S.Literal("File", "FastFile", "Pipe");
+export type TrainedModelStatus =
+  | "CREATE_PENDING"
+  | "CREATE_IN_PROGRESS"
+  | "CREATE_FAILED"
+  | "ACTIVE"
+  | "DELETE_PENDING"
+  | "DELETE_IN_PROGRESS"
+  | "DELETE_FAILED"
+  | "INACTIVE"
+  | "CANCEL_PENDING"
+  | "CANCEL_IN_PROGRESS"
+  | "CANCEL_FAILED";
+export const TrainedModelStatus = S.Literal(
+  "CREATE_PENDING",
+  "CREATE_IN_PROGRESS",
+  "CREATE_FAILED",
+  "ACTIVE",
+  "DELETE_PENDING",
+  "DELETE_IN_PROGRESS",
+  "DELETE_FAILED",
+  "INACTIVE",
+  "CANCEL_PENDING",
+  "CANCEL_IN_PROGRESS",
+  "CANCEL_FAILED",
+);
 export interface ListCollaborationConfiguredModelAlgorithmAssociationsRequest {
   nextToken?: string;
   maxResults?: number;
@@ -311,7 +349,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeys;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -448,7 +486,7 @@ export interface CreateAudienceModelRequest {
   name: string;
   trainingDatasetArn: string;
   kmsKeyArn?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   description?: string;
 }
 export const CreateAudienceModelRequest = S.suspend(() =>
@@ -589,14 +627,19 @@ export const ConfiguredAudienceModelOutputConfig = S.suspend(() =>
 ).annotations({
   identifier: "ConfiguredAudienceModelOutputConfig",
 }) as any as S.Schema<ConfiguredAudienceModelOutputConfig>;
+export type AudienceSizeType = "ABSOLUTE" | "PERCENTAGE";
+export const AudienceSizeType = S.Literal("ABSOLUTE", "PERCENTAGE");
 export type AudienceSizeBins = number[];
 export const AudienceSizeBins = S.Array(S.Number);
 export interface AudienceSizeConfig {
-  audienceSizeType: string;
-  audienceSizeBins: AudienceSizeBins;
+  audienceSizeType: AudienceSizeType;
+  audienceSizeBins: number[];
 }
 export const AudienceSizeConfig = S.suspend(() =>
-  S.Struct({ audienceSizeType: S.String, audienceSizeBins: AudienceSizeBins }),
+  S.Struct({
+    audienceSizeType: AudienceSizeType,
+    audienceSizeBins: AudienceSizeBins,
+  }),
 ).annotations({
   identifier: "AudienceSizeConfig",
 }) as any as S.Schema<AudienceSizeConfig>;
@@ -604,7 +647,7 @@ export interface UpdateConfiguredAudienceModelRequest {
   configuredAudienceModelArn: string;
   outputConfig?: ConfiguredAudienceModelOutputConfig;
   audienceModelArn?: string;
-  sharedAudienceMetrics?: MetricsList;
+  sharedAudienceMetrics?: SharedAudienceMetrics[];
   minMatchingSeedSize?: number;
   audienceSizeConfig?: AudienceSizeConfig;
   description?: string;
@@ -691,7 +734,7 @@ export interface PutConfiguredAudienceModelPolicyRequest {
   configuredAudienceModelArn: string;
   configuredAudienceModelPolicy: string;
   previousPolicyHash?: string;
-  policyExistenceCondition?: string;
+  policyExistenceCondition?: PolicyExistenceCondition;
 }
 export const PutConfiguredAudienceModelPolicyRequest = S.suspend(() =>
   S.Struct({
@@ -700,7 +743,7 @@ export const PutConfiguredAudienceModelPolicyRequest = S.suspend(() =>
     ),
     configuredAudienceModelPolicy: S.String,
     previousPolicyHash: S.optional(S.String),
-    policyExistenceCondition: S.optional(S.String),
+    policyExistenceCondition: S.optional(PolicyExistenceCondition),
   }).pipe(
     T.all(
       T.Http({
@@ -1272,7 +1315,7 @@ export interface ListTrainedModelVersionsRequest {
   maxResults?: number;
   membershipIdentifier: string;
   trainedModelArn: string;
-  status?: string;
+  status?: TrainedModelStatus;
 }
 export const ListTrainedModelVersionsRequest = S.suspend(() =>
   S.Struct({
@@ -1280,7 +1323,7 @@ export const ListTrainedModelVersionsRequest = S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     trainedModelArn: S.String.pipe(T.HttpLabel("trainedModelArn")),
-    status: S.optional(S.String).pipe(T.HttpQuery("status")),
+    status: S.optional(TrainedModelStatus).pipe(T.HttpQuery("status")),
   }).pipe(
     T.all(
       T.Http({
@@ -1459,13 +1502,516 @@ export type ContainerEntrypoint = string[];
 export const ContainerEntrypoint = S.Array(S.String);
 export type ContainerArguments = string[];
 export const ContainerArguments = S.Array(S.String);
+export type InstanceType =
+  | "ml.m4.xlarge"
+  | "ml.m4.2xlarge"
+  | "ml.m4.4xlarge"
+  | "ml.m4.10xlarge"
+  | "ml.m4.16xlarge"
+  | "ml.g4dn.xlarge"
+  | "ml.g4dn.2xlarge"
+  | "ml.g4dn.4xlarge"
+  | "ml.g4dn.8xlarge"
+  | "ml.g4dn.12xlarge"
+  | "ml.g4dn.16xlarge"
+  | "ml.m5.large"
+  | "ml.m5.xlarge"
+  | "ml.m5.2xlarge"
+  | "ml.m5.4xlarge"
+  | "ml.m5.12xlarge"
+  | "ml.m5.24xlarge"
+  | "ml.c4.xlarge"
+  | "ml.c4.2xlarge"
+  | "ml.c4.4xlarge"
+  | "ml.c4.8xlarge"
+  | "ml.p2.xlarge"
+  | "ml.p2.8xlarge"
+  | "ml.p2.16xlarge"
+  | "ml.p4d.24xlarge"
+  | "ml.p4de.24xlarge"
+  | "ml.p5.48xlarge"
+  | "ml.c5.xlarge"
+  | "ml.c5.2xlarge"
+  | "ml.c5.4xlarge"
+  | "ml.c5.9xlarge"
+  | "ml.c5.18xlarge"
+  | "ml.c5n.xlarge"
+  | "ml.c5n.2xlarge"
+  | "ml.c5n.4xlarge"
+  | "ml.c5n.9xlarge"
+  | "ml.c5n.18xlarge"
+  | "ml.g5.xlarge"
+  | "ml.g5.2xlarge"
+  | "ml.g5.4xlarge"
+  | "ml.g5.8xlarge"
+  | "ml.g5.16xlarge"
+  | "ml.g5.12xlarge"
+  | "ml.g5.24xlarge"
+  | "ml.g5.48xlarge"
+  | "ml.trn1.2xlarge"
+  | "ml.trn1.32xlarge"
+  | "ml.trn1n.32xlarge"
+  | "ml.m6i.large"
+  | "ml.m6i.xlarge"
+  | "ml.m6i.2xlarge"
+  | "ml.m6i.4xlarge"
+  | "ml.m6i.8xlarge"
+  | "ml.m6i.12xlarge"
+  | "ml.m6i.16xlarge"
+  | "ml.m6i.24xlarge"
+  | "ml.m6i.32xlarge"
+  | "ml.c6i.xlarge"
+  | "ml.c6i.2xlarge"
+  | "ml.c6i.8xlarge"
+  | "ml.c6i.4xlarge"
+  | "ml.c6i.12xlarge"
+  | "ml.c6i.16xlarge"
+  | "ml.c6i.24xlarge"
+  | "ml.c6i.32xlarge"
+  | "ml.r5d.large"
+  | "ml.r5d.xlarge"
+  | "ml.r5d.2xlarge"
+  | "ml.r5d.4xlarge"
+  | "ml.r5d.8xlarge"
+  | "ml.r5d.12xlarge"
+  | "ml.r5d.16xlarge"
+  | "ml.r5d.24xlarge"
+  | "ml.t3.medium"
+  | "ml.t3.large"
+  | "ml.t3.xlarge"
+  | "ml.t3.2xlarge"
+  | "ml.r5.large"
+  | "ml.r5.xlarge"
+  | "ml.r5.2xlarge"
+  | "ml.r5.4xlarge"
+  | "ml.r5.8xlarge"
+  | "ml.r5.12xlarge"
+  | "ml.r5.16xlarge"
+  | "ml.r5.24xlarge"
+  | "ml.c7i.large"
+  | "ml.c7i.xlarge"
+  | "ml.c7i.2xlarge"
+  | "ml.c7i.4xlarge"
+  | "ml.c7i.8xlarge"
+  | "ml.c7i.12xlarge"
+  | "ml.c7i.16xlarge"
+  | "ml.c7i.24xlarge"
+  | "ml.c7i.48xlarge"
+  | "ml.m7i.large"
+  | "ml.m7i.xlarge"
+  | "ml.m7i.2xlarge"
+  | "ml.m7i.4xlarge"
+  | "ml.m7i.8xlarge"
+  | "ml.m7i.12xlarge"
+  | "ml.m7i.16xlarge"
+  | "ml.m7i.24xlarge"
+  | "ml.m7i.48xlarge"
+  | "ml.r7i.large"
+  | "ml.r7i.xlarge"
+  | "ml.r7i.2xlarge"
+  | "ml.r7i.4xlarge"
+  | "ml.r7i.8xlarge"
+  | "ml.r7i.12xlarge"
+  | "ml.r7i.16xlarge"
+  | "ml.r7i.24xlarge"
+  | "ml.r7i.48xlarge"
+  | "ml.g6.xlarge"
+  | "ml.g6.2xlarge"
+  | "ml.g6.4xlarge"
+  | "ml.g6.8xlarge"
+  | "ml.g6.12xlarge"
+  | "ml.g6.16xlarge"
+  | "ml.g6.24xlarge"
+  | "ml.g6.48xlarge"
+  | "ml.g6e.xlarge"
+  | "ml.g6e.2xlarge"
+  | "ml.g6e.4xlarge"
+  | "ml.g6e.8xlarge"
+  | "ml.g6e.12xlarge"
+  | "ml.g6e.16xlarge"
+  | "ml.g6e.24xlarge"
+  | "ml.g6e.48xlarge"
+  | "ml.p5en.48xlarge"
+  | "ml.p3.2xlarge"
+  | "ml.p3.8xlarge"
+  | "ml.p3.16xlarge"
+  | "ml.p3dn.24xlarge";
+export const InstanceType = S.Literal(
+  "ml.m4.xlarge",
+  "ml.m4.2xlarge",
+  "ml.m4.4xlarge",
+  "ml.m4.10xlarge",
+  "ml.m4.16xlarge",
+  "ml.g4dn.xlarge",
+  "ml.g4dn.2xlarge",
+  "ml.g4dn.4xlarge",
+  "ml.g4dn.8xlarge",
+  "ml.g4dn.12xlarge",
+  "ml.g4dn.16xlarge",
+  "ml.m5.large",
+  "ml.m5.xlarge",
+  "ml.m5.2xlarge",
+  "ml.m5.4xlarge",
+  "ml.m5.12xlarge",
+  "ml.m5.24xlarge",
+  "ml.c4.xlarge",
+  "ml.c4.2xlarge",
+  "ml.c4.4xlarge",
+  "ml.c4.8xlarge",
+  "ml.p2.xlarge",
+  "ml.p2.8xlarge",
+  "ml.p2.16xlarge",
+  "ml.p4d.24xlarge",
+  "ml.p4de.24xlarge",
+  "ml.p5.48xlarge",
+  "ml.c5.xlarge",
+  "ml.c5.2xlarge",
+  "ml.c5.4xlarge",
+  "ml.c5.9xlarge",
+  "ml.c5.18xlarge",
+  "ml.c5n.xlarge",
+  "ml.c5n.2xlarge",
+  "ml.c5n.4xlarge",
+  "ml.c5n.9xlarge",
+  "ml.c5n.18xlarge",
+  "ml.g5.xlarge",
+  "ml.g5.2xlarge",
+  "ml.g5.4xlarge",
+  "ml.g5.8xlarge",
+  "ml.g5.16xlarge",
+  "ml.g5.12xlarge",
+  "ml.g5.24xlarge",
+  "ml.g5.48xlarge",
+  "ml.trn1.2xlarge",
+  "ml.trn1.32xlarge",
+  "ml.trn1n.32xlarge",
+  "ml.m6i.large",
+  "ml.m6i.xlarge",
+  "ml.m6i.2xlarge",
+  "ml.m6i.4xlarge",
+  "ml.m6i.8xlarge",
+  "ml.m6i.12xlarge",
+  "ml.m6i.16xlarge",
+  "ml.m6i.24xlarge",
+  "ml.m6i.32xlarge",
+  "ml.c6i.xlarge",
+  "ml.c6i.2xlarge",
+  "ml.c6i.8xlarge",
+  "ml.c6i.4xlarge",
+  "ml.c6i.12xlarge",
+  "ml.c6i.16xlarge",
+  "ml.c6i.24xlarge",
+  "ml.c6i.32xlarge",
+  "ml.r5d.large",
+  "ml.r5d.xlarge",
+  "ml.r5d.2xlarge",
+  "ml.r5d.4xlarge",
+  "ml.r5d.8xlarge",
+  "ml.r5d.12xlarge",
+  "ml.r5d.16xlarge",
+  "ml.r5d.24xlarge",
+  "ml.t3.medium",
+  "ml.t3.large",
+  "ml.t3.xlarge",
+  "ml.t3.2xlarge",
+  "ml.r5.large",
+  "ml.r5.xlarge",
+  "ml.r5.2xlarge",
+  "ml.r5.4xlarge",
+  "ml.r5.8xlarge",
+  "ml.r5.12xlarge",
+  "ml.r5.16xlarge",
+  "ml.r5.24xlarge",
+  "ml.c7i.large",
+  "ml.c7i.xlarge",
+  "ml.c7i.2xlarge",
+  "ml.c7i.4xlarge",
+  "ml.c7i.8xlarge",
+  "ml.c7i.12xlarge",
+  "ml.c7i.16xlarge",
+  "ml.c7i.24xlarge",
+  "ml.c7i.48xlarge",
+  "ml.m7i.large",
+  "ml.m7i.xlarge",
+  "ml.m7i.2xlarge",
+  "ml.m7i.4xlarge",
+  "ml.m7i.8xlarge",
+  "ml.m7i.12xlarge",
+  "ml.m7i.16xlarge",
+  "ml.m7i.24xlarge",
+  "ml.m7i.48xlarge",
+  "ml.r7i.large",
+  "ml.r7i.xlarge",
+  "ml.r7i.2xlarge",
+  "ml.r7i.4xlarge",
+  "ml.r7i.8xlarge",
+  "ml.r7i.12xlarge",
+  "ml.r7i.16xlarge",
+  "ml.r7i.24xlarge",
+  "ml.r7i.48xlarge",
+  "ml.g6.xlarge",
+  "ml.g6.2xlarge",
+  "ml.g6.4xlarge",
+  "ml.g6.8xlarge",
+  "ml.g6.12xlarge",
+  "ml.g6.16xlarge",
+  "ml.g6.24xlarge",
+  "ml.g6.48xlarge",
+  "ml.g6e.xlarge",
+  "ml.g6e.2xlarge",
+  "ml.g6e.4xlarge",
+  "ml.g6e.8xlarge",
+  "ml.g6e.12xlarge",
+  "ml.g6e.16xlarge",
+  "ml.g6e.24xlarge",
+  "ml.g6e.48xlarge",
+  "ml.p5en.48xlarge",
+  "ml.p3.2xlarge",
+  "ml.p3.8xlarge",
+  "ml.p3.16xlarge",
+  "ml.p3dn.24xlarge",
+);
+export type S3DataDistributionType = "FullyReplicated" | "ShardedByS3Key";
+export const S3DataDistributionType = S.Literal(
+  "FullyReplicated",
+  "ShardedByS3Key",
+);
+export type InferenceInstanceType =
+  | "ml.r7i.48xlarge"
+  | "ml.r6i.16xlarge"
+  | "ml.m6i.xlarge"
+  | "ml.m5.4xlarge"
+  | "ml.p2.xlarge"
+  | "ml.m4.16xlarge"
+  | "ml.r7i.16xlarge"
+  | "ml.m7i.xlarge"
+  | "ml.m6i.12xlarge"
+  | "ml.r7i.8xlarge"
+  | "ml.r7i.large"
+  | "ml.m7i.12xlarge"
+  | "ml.m6i.24xlarge"
+  | "ml.m7i.24xlarge"
+  | "ml.r6i.8xlarge"
+  | "ml.r6i.large"
+  | "ml.g5.2xlarge"
+  | "ml.m5.large"
+  | "ml.m7i.48xlarge"
+  | "ml.m6i.16xlarge"
+  | "ml.p2.16xlarge"
+  | "ml.g5.4xlarge"
+  | "ml.m7i.16xlarge"
+  | "ml.c4.2xlarge"
+  | "ml.c5.2xlarge"
+  | "ml.c6i.32xlarge"
+  | "ml.c4.4xlarge"
+  | "ml.g5.8xlarge"
+  | "ml.c6i.xlarge"
+  | "ml.c5.4xlarge"
+  | "ml.g4dn.xlarge"
+  | "ml.c7i.xlarge"
+  | "ml.c6i.12xlarge"
+  | "ml.g4dn.12xlarge"
+  | "ml.c7i.12xlarge"
+  | "ml.c6i.24xlarge"
+  | "ml.g4dn.2xlarge"
+  | "ml.c7i.24xlarge"
+  | "ml.c7i.2xlarge"
+  | "ml.c4.8xlarge"
+  | "ml.c6i.2xlarge"
+  | "ml.g4dn.4xlarge"
+  | "ml.c7i.48xlarge"
+  | "ml.c7i.4xlarge"
+  | "ml.c6i.16xlarge"
+  | "ml.c5.9xlarge"
+  | "ml.g4dn.16xlarge"
+  | "ml.c7i.16xlarge"
+  | "ml.c6i.4xlarge"
+  | "ml.c5.xlarge"
+  | "ml.c4.xlarge"
+  | "ml.g4dn.8xlarge"
+  | "ml.c7i.8xlarge"
+  | "ml.c7i.large"
+  | "ml.g5.xlarge"
+  | "ml.c6i.8xlarge"
+  | "ml.c6i.large"
+  | "ml.g5.12xlarge"
+  | "ml.g5.24xlarge"
+  | "ml.m7i.2xlarge"
+  | "ml.c5.18xlarge"
+  | "ml.g5.48xlarge"
+  | "ml.m6i.2xlarge"
+  | "ml.g5.16xlarge"
+  | "ml.m7i.4xlarge"
+  | "ml.r6i.32xlarge"
+  | "ml.m6i.4xlarge"
+  | "ml.m5.xlarge"
+  | "ml.m4.10xlarge"
+  | "ml.r6i.xlarge"
+  | "ml.m5.12xlarge"
+  | "ml.m4.xlarge"
+  | "ml.r7i.2xlarge"
+  | "ml.r7i.xlarge"
+  | "ml.r6i.12xlarge"
+  | "ml.m5.24xlarge"
+  | "ml.r7i.12xlarge"
+  | "ml.m7i.8xlarge"
+  | "ml.m7i.large"
+  | "ml.r6i.24xlarge"
+  | "ml.r6i.2xlarge"
+  | "ml.m4.2xlarge"
+  | "ml.r7i.24xlarge"
+  | "ml.r7i.4xlarge"
+  | "ml.m6i.8xlarge"
+  | "ml.m6i.large"
+  | "ml.m5.2xlarge"
+  | "ml.p2.8xlarge"
+  | "ml.r6i.4xlarge"
+  | "ml.m6i.32xlarge"
+  | "ml.m4.4xlarge"
+  | "ml.p3.16xlarge"
+  | "ml.p3.2xlarge"
+  | "ml.p3.8xlarge";
+export const InferenceInstanceType = S.Literal(
+  "ml.r7i.48xlarge",
+  "ml.r6i.16xlarge",
+  "ml.m6i.xlarge",
+  "ml.m5.4xlarge",
+  "ml.p2.xlarge",
+  "ml.m4.16xlarge",
+  "ml.r7i.16xlarge",
+  "ml.m7i.xlarge",
+  "ml.m6i.12xlarge",
+  "ml.r7i.8xlarge",
+  "ml.r7i.large",
+  "ml.m7i.12xlarge",
+  "ml.m6i.24xlarge",
+  "ml.m7i.24xlarge",
+  "ml.r6i.8xlarge",
+  "ml.r6i.large",
+  "ml.g5.2xlarge",
+  "ml.m5.large",
+  "ml.m7i.48xlarge",
+  "ml.m6i.16xlarge",
+  "ml.p2.16xlarge",
+  "ml.g5.4xlarge",
+  "ml.m7i.16xlarge",
+  "ml.c4.2xlarge",
+  "ml.c5.2xlarge",
+  "ml.c6i.32xlarge",
+  "ml.c4.4xlarge",
+  "ml.g5.8xlarge",
+  "ml.c6i.xlarge",
+  "ml.c5.4xlarge",
+  "ml.g4dn.xlarge",
+  "ml.c7i.xlarge",
+  "ml.c6i.12xlarge",
+  "ml.g4dn.12xlarge",
+  "ml.c7i.12xlarge",
+  "ml.c6i.24xlarge",
+  "ml.g4dn.2xlarge",
+  "ml.c7i.24xlarge",
+  "ml.c7i.2xlarge",
+  "ml.c4.8xlarge",
+  "ml.c6i.2xlarge",
+  "ml.g4dn.4xlarge",
+  "ml.c7i.48xlarge",
+  "ml.c7i.4xlarge",
+  "ml.c6i.16xlarge",
+  "ml.c5.9xlarge",
+  "ml.g4dn.16xlarge",
+  "ml.c7i.16xlarge",
+  "ml.c6i.4xlarge",
+  "ml.c5.xlarge",
+  "ml.c4.xlarge",
+  "ml.g4dn.8xlarge",
+  "ml.c7i.8xlarge",
+  "ml.c7i.large",
+  "ml.g5.xlarge",
+  "ml.c6i.8xlarge",
+  "ml.c6i.large",
+  "ml.g5.12xlarge",
+  "ml.g5.24xlarge",
+  "ml.m7i.2xlarge",
+  "ml.c5.18xlarge",
+  "ml.g5.48xlarge",
+  "ml.m6i.2xlarge",
+  "ml.g5.16xlarge",
+  "ml.m7i.4xlarge",
+  "ml.r6i.32xlarge",
+  "ml.m6i.4xlarge",
+  "ml.m5.xlarge",
+  "ml.m4.10xlarge",
+  "ml.r6i.xlarge",
+  "ml.m5.12xlarge",
+  "ml.m4.xlarge",
+  "ml.r7i.2xlarge",
+  "ml.r7i.xlarge",
+  "ml.r6i.12xlarge",
+  "ml.m5.24xlarge",
+  "ml.r7i.12xlarge",
+  "ml.m7i.8xlarge",
+  "ml.m7i.large",
+  "ml.r6i.24xlarge",
+  "ml.r6i.2xlarge",
+  "ml.m4.2xlarge",
+  "ml.r7i.24xlarge",
+  "ml.r7i.4xlarge",
+  "ml.m6i.8xlarge",
+  "ml.m6i.large",
+  "ml.m5.2xlarge",
+  "ml.p2.8xlarge",
+  "ml.r6i.4xlarge",
+  "ml.m6i.32xlarge",
+  "ml.m4.4xlarge",
+  "ml.p3.16xlarge",
+  "ml.p3.2xlarge",
+  "ml.p3.8xlarge",
+);
+export type DatasetType = "INTERACTIONS";
+export const DatasetType = S.Literal("INTERACTIONS");
 export interface AudienceSize {
-  type: string;
+  type: AudienceSizeType;
   value: number;
 }
 export const AudienceSize = S.suspend(() =>
-  S.Struct({ type: S.String, value: S.Number }),
+  S.Struct({ type: AudienceSizeType, value: S.Number }),
 ).annotations({ identifier: "AudienceSize" }) as any as S.Schema<AudienceSize>;
+export type AudienceGenerationJobStatus =
+  | "CREATE_PENDING"
+  | "CREATE_IN_PROGRESS"
+  | "CREATE_FAILED"
+  | "ACTIVE"
+  | "DELETE_PENDING"
+  | "DELETE_IN_PROGRESS"
+  | "DELETE_FAILED";
+export const AudienceGenerationJobStatus = S.Literal(
+  "CREATE_PENDING",
+  "CREATE_IN_PROGRESS",
+  "CREATE_FAILED",
+  "ACTIVE",
+  "DELETE_PENDING",
+  "DELETE_IN_PROGRESS",
+  "DELETE_FAILED",
+);
+export type AudienceModelStatus =
+  | "CREATE_PENDING"
+  | "CREATE_IN_PROGRESS"
+  | "CREATE_FAILED"
+  | "ACTIVE"
+  | "DELETE_PENDING"
+  | "DELETE_IN_PROGRESS"
+  | "DELETE_FAILED";
+export const AudienceModelStatus = S.Literal(
+  "CREATE_PENDING",
+  "CREATE_IN_PROGRESS",
+  "CREATE_FAILED",
+  "ACTIVE",
+  "DELETE_PENDING",
+  "DELETE_IN_PROGRESS",
+  "DELETE_FAILED",
+);
+export type ConfiguredAudienceModelStatus = "ACTIVE";
+export const ConfiguredAudienceModelStatus = S.Literal("ACTIVE");
 export interface InferenceContainerConfig {
   imageUri: string;
 }
@@ -1474,19 +2020,38 @@ export const InferenceContainerConfig = S.suspend(() =>
 ).annotations({
   identifier: "InferenceContainerConfig",
 }) as any as S.Schema<InferenceContainerConfig>;
+export type MLInputChannelStatus =
+  | "CREATE_PENDING"
+  | "CREATE_IN_PROGRESS"
+  | "CREATE_FAILED"
+  | "ACTIVE"
+  | "DELETE_PENDING"
+  | "DELETE_IN_PROGRESS"
+  | "DELETE_FAILED"
+  | "INACTIVE";
+export const MLInputChannelStatus = S.Literal(
+  "CREATE_PENDING",
+  "CREATE_IN_PROGRESS",
+  "CREATE_FAILED",
+  "ACTIVE",
+  "DELETE_PENDING",
+  "DELETE_IN_PROGRESS",
+  "DELETE_FAILED",
+  "INACTIVE",
+);
 export type HyperParameters = { [key: string]: string };
 export const HyperParameters = S.Record({ key: S.String, value: S.String });
 export type Environment = { [key: string]: string };
 export const Environment = S.Record({ key: S.String, value: S.String });
 export interface ResourceConfig {
   instanceCount?: number;
-  instanceType: string;
+  instanceType: InstanceType;
   volumeSizeInGB: number;
 }
 export const ResourceConfig = S.suspend(() =>
   S.Struct({
     instanceCount: S.optional(S.Number),
-    instanceType: S.String,
+    instanceType: InstanceType,
     volumeSizeInGB: S.Number,
   }),
 ).annotations({
@@ -1521,25 +2086,32 @@ export const IncrementalTrainingDataChannels = S.Array(
 export interface ModelTrainingDataChannel {
   mlInputChannelArn: string;
   channelName: string;
-  s3DataDistributionType?: string;
+  s3DataDistributionType?: S3DataDistributionType;
 }
 export const ModelTrainingDataChannel = S.suspend(() =>
   S.Struct({
     mlInputChannelArn: S.String,
     channelName: S.String,
-    s3DataDistributionType: S.optional(S.String),
+    s3DataDistributionType: S.optional(S3DataDistributionType),
   }),
 ).annotations({
   identifier: "ModelTrainingDataChannel",
 }) as any as S.Schema<ModelTrainingDataChannel>;
 export type ModelTrainingDataChannels = ModelTrainingDataChannel[];
 export const ModelTrainingDataChannels = S.Array(ModelTrainingDataChannel);
+export type MetricsStatus = "PUBLISH_SUCCEEDED" | "PUBLISH_FAILED";
+export const MetricsStatus = S.Literal("PUBLISH_SUCCEEDED", "PUBLISH_FAILED");
+export type LogsStatus = "PUBLISH_SUCCEEDED" | "PUBLISH_FAILED";
+export const LogsStatus = S.Literal("PUBLISH_SUCCEEDED", "PUBLISH_FAILED");
 export interface InferenceResourceConfig {
-  instanceType: string;
+  instanceType: InferenceInstanceType;
   instanceCount?: number;
 }
 export const InferenceResourceConfig = S.suspend(() =>
-  S.Struct({ instanceType: S.String, instanceCount: S.optional(S.Number) }),
+  S.Struct({
+    instanceType: InferenceInstanceType,
+    instanceCount: S.optional(S.Number),
+  }),
 ).annotations({
   identifier: "InferenceResourceConfig",
 }) as any as S.Schema<InferenceResourceConfig>;
@@ -1564,8 +2136,29 @@ export const InferenceEnvironmentMap = S.Record({
   key: S.String,
   value: S.String,
 });
+export type TrainedModelInferenceJobStatus =
+  | "CREATE_PENDING"
+  | "CREATE_IN_PROGRESS"
+  | "CREATE_FAILED"
+  | "ACTIVE"
+  | "CANCEL_PENDING"
+  | "CANCEL_IN_PROGRESS"
+  | "CANCEL_FAILED"
+  | "INACTIVE";
+export const TrainedModelInferenceJobStatus = S.Literal(
+  "CREATE_PENDING",
+  "CREATE_IN_PROGRESS",
+  "CREATE_FAILED",
+  "ACTIVE",
+  "CANCEL_PENDING",
+  "CANCEL_IN_PROGRESS",
+  "CANCEL_FAILED",
+  "INACTIVE",
+);
+export type TrainingDatasetStatus = "ACTIVE";
+export const TrainingDatasetStatus = S.Literal("ACTIVE");
 export interface ListTagsForResourceResponse {
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: TagMap }),
@@ -1574,7 +2167,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1653,10 +2246,10 @@ export interface GetAudienceModelResponse {
   audienceModelArn: string;
   name: string;
   trainingDatasetArn: string;
-  status: string;
+  status: AudienceModelStatus;
   statusDetails?: StatusDetails;
   kmsKeyArn?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   description?: string;
 }
 export const GetAudienceModelResponse = S.suspend(() =>
@@ -1672,7 +2265,7 @@ export const GetAudienceModelResponse = S.suspend(() =>
     audienceModelArn: S.String,
     name: S.String,
     trainingDatasetArn: S.String,
-    status: S.String,
+    status: AudienceModelStatus,
     statusDetails: S.optional(StatusDetails),
     kmsKeyArn: S.optional(S.String),
     tags: S.optional(TagMap),
@@ -1689,12 +2282,12 @@ export interface GetConfiguredAudienceModelResponse {
   audienceModelArn: string;
   outputConfig: ConfiguredAudienceModelOutputConfig;
   description?: string;
-  status: string;
-  sharedAudienceMetrics: MetricsList;
+  status: ConfiguredAudienceModelStatus;
+  sharedAudienceMetrics: SharedAudienceMetrics[];
   minMatchingSeedSize?: number;
   audienceSizeConfig?: AudienceSizeConfig;
-  tags?: TagMap;
-  childResourceTagOnCreatePolicy?: string;
+  tags?: { [key: string]: string };
+  childResourceTagOnCreatePolicy?: TagOnCreatePolicy;
 }
 export const GetConfiguredAudienceModelResponse = S.suspend(() =>
   S.Struct({
@@ -1705,12 +2298,12 @@ export const GetConfiguredAudienceModelResponse = S.suspend(() =>
     audienceModelArn: S.String,
     outputConfig: ConfiguredAudienceModelOutputConfig,
     description: S.optional(S.String),
-    status: S.String,
+    status: ConfiguredAudienceModelStatus,
     sharedAudienceMetrics: MetricsList,
     minMatchingSeedSize: S.optional(S.Number),
     audienceSizeConfig: S.optional(AudienceSizeConfig),
     tags: S.optional(TagMap),
-    childResourceTagOnCreatePolicy: S.optional(S.String),
+    childResourceTagOnCreatePolicy: S.optional(TagOnCreatePolicy),
   }),
 ).annotations({
   identifier: "GetConfiguredAudienceModelResponse",
@@ -1759,9 +2352,9 @@ export type MetricDefinitionList = MetricDefinition[];
 export const MetricDefinitionList = S.Array(MetricDefinition);
 export interface ContainerConfig {
   imageUri: string;
-  entrypoint?: ContainerEntrypoint;
-  arguments?: ContainerArguments;
-  metricDefinitions?: MetricDefinitionList;
+  entrypoint?: string[];
+  arguments?: string[];
+  metricDefinitions?: MetricDefinition[];
 }
 export const ContainerConfig = S.suspend(() =>
   S.Struct({
@@ -1782,7 +2375,7 @@ export interface GetConfiguredModelAlgorithmResponse {
   inferenceContainerConfig?: InferenceContainerConfig;
   roleArn: string;
   description?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   kmsKeyArn?: string;
 }
 export const GetConfiguredModelAlgorithmResponse = S.suspend(() =>
@@ -1803,12 +2396,23 @@ export const GetConfiguredModelAlgorithmResponse = S.suspend(() =>
 }) as any as S.Schema<GetConfiguredModelAlgorithmResponse>;
 export type AccountIdList = string[];
 export const AccountIdList = S.Array(S.String);
-export type EntityTypeList = string[];
-export const EntityTypeList = S.Array(S.String);
+export type LogType = "ALL" | "ERROR_SUMMARY";
+export const LogType = S.Literal("ALL", "ERROR_SUMMARY");
+export type EntityType =
+  | "ALL_PERSONALLY_IDENTIFIABLE_INFORMATION"
+  | "NUMBERS"
+  | "CUSTOM";
+export const EntityType = S.Literal(
+  "ALL_PERSONALLY_IDENTIFIABLE_INFORMATION",
+  "NUMBERS",
+  "CUSTOM",
+);
+export type EntityTypeList = EntityType[];
+export const EntityTypeList = S.Array(EntityType);
 export type CustomDataIdentifierList = string[];
 export const CustomDataIdentifierList = S.Array(S.String);
 export interface CustomEntityConfig {
-  customDataIdentifiers: CustomDataIdentifierList;
+  customDataIdentifiers: string[];
 }
 export const CustomEntityConfig = S.suspend(() =>
   S.Struct({ customDataIdentifiers: CustomDataIdentifierList }),
@@ -1816,7 +2420,7 @@ export const CustomEntityConfig = S.suspend(() =>
   identifier: "CustomEntityConfig",
 }) as any as S.Schema<CustomEntityConfig>;
 export interface LogRedactionConfiguration {
-  entitiesToRedact: EntityTypeList;
+  entitiesToRedact: EntityType[];
   customEntityConfig?: CustomEntityConfig;
 }
 export const LogRedactionConfiguration = S.suspend(() =>
@@ -1828,16 +2432,16 @@ export const LogRedactionConfiguration = S.suspend(() =>
   identifier: "LogRedactionConfiguration",
 }) as any as S.Schema<LogRedactionConfiguration>;
 export interface LogsConfigurationPolicy {
-  allowedAccountIds: AccountIdList;
+  allowedAccountIds: string[];
   filterPattern?: string;
-  logType?: string;
+  logType?: LogType;
   logRedactionConfiguration?: LogRedactionConfiguration;
 }
 export const LogsConfigurationPolicy = S.suspend(() =>
   S.Struct({
     allowedAccountIds: AccountIdList,
     filterPattern: S.optional(S.String),
-    logType: S.optional(S.String),
+    logType: S.optional(LogType),
     logRedactionConfiguration: S.optional(LogRedactionConfiguration),
   }),
 ).annotations({
@@ -1845,25 +2449,29 @@ export const LogsConfigurationPolicy = S.suspend(() =>
 }) as any as S.Schema<LogsConfigurationPolicy>;
 export type LogsConfigurationPolicyList = LogsConfigurationPolicy[];
 export const LogsConfigurationPolicyList = S.Array(LogsConfigurationPolicy);
+export type NoiseLevelType = "HIGH" | "MEDIUM" | "LOW" | "NONE";
+export const NoiseLevelType = S.Literal("HIGH", "MEDIUM", "LOW", "NONE");
 export interface MetricsConfigurationPolicy {
-  noiseLevel: string;
+  noiseLevel: NoiseLevelType;
 }
 export const MetricsConfigurationPolicy = S.suspend(() =>
-  S.Struct({ noiseLevel: S.String }),
+  S.Struct({ noiseLevel: NoiseLevelType }),
 ).annotations({
   identifier: "MetricsConfigurationPolicy",
 }) as any as S.Schema<MetricsConfigurationPolicy>;
+export type TrainedModelArtifactMaxSizeUnitType = "GB";
+export const TrainedModelArtifactMaxSizeUnitType = S.Literal("GB");
 export interface TrainedModelArtifactMaxSize {
-  unit: string;
+  unit: TrainedModelArtifactMaxSizeUnitType;
   value: number;
 }
 export const TrainedModelArtifactMaxSize = S.suspend(() =>
-  S.Struct({ unit: S.String, value: S.Number }),
+  S.Struct({ unit: TrainedModelArtifactMaxSizeUnitType, value: S.Number }),
 ).annotations({
   identifier: "TrainedModelArtifactMaxSize",
 }) as any as S.Schema<TrainedModelArtifactMaxSize>;
 export interface TrainedModelsConfigurationPolicy {
-  containerLogs?: LogsConfigurationPolicyList;
+  containerLogs?: LogsConfigurationPolicy[];
   containerMetrics?: MetricsConfigurationPolicy;
   maxArtifactSize?: TrainedModelArtifactMaxSize;
 }
@@ -1876,20 +2484,26 @@ export const TrainedModelsConfigurationPolicy = S.suspend(() =>
 ).annotations({
   identifier: "TrainedModelsConfigurationPolicy",
 }) as any as S.Schema<TrainedModelsConfigurationPolicy>;
+export type TrainedModelExportsMaxSizeUnitType = "GB";
+export const TrainedModelExportsMaxSizeUnitType = S.Literal("GB");
 export interface TrainedModelExportsMaxSize {
-  unit: string;
+  unit: TrainedModelExportsMaxSizeUnitType;
   value: number;
 }
 export const TrainedModelExportsMaxSize = S.suspend(() =>
-  S.Struct({ unit: S.String, value: S.Number }),
+  S.Struct({ unit: TrainedModelExportsMaxSizeUnitType, value: S.Number }),
 ).annotations({
   identifier: "TrainedModelExportsMaxSize",
 }) as any as S.Schema<TrainedModelExportsMaxSize>;
-export type TrainedModelExportFileTypeList = string[];
-export const TrainedModelExportFileTypeList = S.Array(S.String);
+export type TrainedModelExportFileType = "MODEL" | "OUTPUT";
+export const TrainedModelExportFileType = S.Literal("MODEL", "OUTPUT");
+export type TrainedModelExportFileTypeList = TrainedModelExportFileType[];
+export const TrainedModelExportFileTypeList = S.Array(
+  TrainedModelExportFileType,
+);
 export interface TrainedModelExportsConfigurationPolicy {
   maxSize: TrainedModelExportsMaxSize;
-  filesToExport: TrainedModelExportFileTypeList;
+  filesToExport: TrainedModelExportFileType[];
 }
 export const TrainedModelExportsConfigurationPolicy = S.suspend(() =>
   S.Struct({
@@ -1899,17 +2513,22 @@ export const TrainedModelExportsConfigurationPolicy = S.suspend(() =>
 ).annotations({
   identifier: "TrainedModelExportsConfigurationPolicy",
 }) as any as S.Schema<TrainedModelExportsConfigurationPolicy>;
+export type TrainedModelInferenceMaxOutputSizeUnitType = "GB";
+export const TrainedModelInferenceMaxOutputSizeUnitType = S.Literal("GB");
 export interface TrainedModelInferenceMaxOutputSize {
-  unit: string;
+  unit: TrainedModelInferenceMaxOutputSizeUnitType;
   value: number;
 }
 export const TrainedModelInferenceMaxOutputSize = S.suspend(() =>
-  S.Struct({ unit: S.String, value: S.Number }),
+  S.Struct({
+    unit: TrainedModelInferenceMaxOutputSizeUnitType,
+    value: S.Number,
+  }),
 ).annotations({
   identifier: "TrainedModelInferenceMaxOutputSize",
 }) as any as S.Schema<TrainedModelInferenceMaxOutputSize>;
 export interface TrainedModelInferenceJobsConfigurationPolicy {
-  containerLogs?: LogsConfigurationPolicyList;
+  containerLogs?: LogsConfigurationPolicy[];
   maxOutputSize?: TrainedModelInferenceMaxOutputSize;
 }
 export const TrainedModelInferenceJobsConfigurationPolicy = S.suspend(() =>
@@ -1954,7 +2573,7 @@ export interface GetConfiguredModelAlgorithmAssociationResponse {
   name: string;
   privacyConfiguration?: PrivacyConfiguration;
   description?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const GetConfiguredModelAlgorithmAssociationResponse = S.suspend(() =>
   S.Struct({
@@ -2032,13 +2651,26 @@ export const GetMLConfigurationResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetMLConfigurationResponse",
 }) as any as S.Schema<GetMLConfigurationResponse>;
+export type AccessBudgetType =
+  | "CALENDAR_DAY"
+  | "CALENDAR_MONTH"
+  | "CALENDAR_WEEK"
+  | "LIFETIME";
+export const AccessBudgetType = S.Literal(
+  "CALENDAR_DAY",
+  "CALENDAR_MONTH",
+  "CALENDAR_WEEK",
+  "LIFETIME",
+);
+export type AutoRefreshMode = "ENABLED" | "DISABLED";
+export const AutoRefreshMode = S.Literal("ENABLED", "DISABLED");
 export interface AccessBudgetDetails {
   startTime: Date;
   endTime?: Date;
   remainingBudget: number;
   budget: number;
-  budgetType: string;
-  autoRefresh?: string;
+  budgetType: AccessBudgetType;
+  autoRefresh?: AutoRefreshMode;
 }
 export const AccessBudgetDetails = S.suspend(() =>
   S.Struct({
@@ -2046,8 +2678,8 @@ export const AccessBudgetDetails = S.suspend(() =>
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     remainingBudget: S.Number,
     budget: S.Number,
-    budgetType: S.String,
-    autoRefresh: S.optional(S.String),
+    budgetType: AccessBudgetType,
+    autoRefresh: S.optional(AutoRefreshMode),
   }),
 ).annotations({
   identifier: "AccessBudgetDetails",
@@ -2056,7 +2688,7 @@ export type AccessBudgetDetailsList = AccessBudgetDetails[];
 export const AccessBudgetDetailsList = S.Array(AccessBudgetDetails);
 export interface AccessBudget {
   resourceArn: string;
-  details: AccessBudgetDetailsList;
+  details: AccessBudgetDetails[];
   aggregateRemainingBudget: number;
 }
 export const AccessBudget = S.suspend(() =>
@@ -2068,19 +2700,21 @@ export const AccessBudget = S.suspend(() =>
 ).annotations({ identifier: "AccessBudget" }) as any as S.Schema<AccessBudget>;
 export type AccessBudgets = AccessBudget[];
 export const AccessBudgets = S.Array(AccessBudget);
-export type PrivacyBudgets = { accessBudgets: AccessBudgets };
+export type PrivacyBudgets = { accessBudgets: AccessBudget[] };
 export const PrivacyBudgets = S.Union(
   S.Struct({ accessBudgets: AccessBudgets }),
 );
+export type SyntheticDataColumnType = "CATEGORICAL" | "NUMERICAL";
+export const SyntheticDataColumnType = S.Literal("CATEGORICAL", "NUMERICAL");
 export interface SyntheticDataColumnProperties {
   columnName: string;
-  columnType: string;
+  columnType: SyntheticDataColumnType;
   isPredictiveValue: boolean;
 }
 export const SyntheticDataColumnProperties = S.suspend(() =>
   S.Struct({
     columnName: S.String,
-    columnType: S.String,
+    columnType: SyntheticDataColumnType,
     isPredictiveValue: S.Boolean,
   }),
 ).annotations({
@@ -2089,7 +2723,7 @@ export const SyntheticDataColumnProperties = S.suspend(() =>
 export type ColumnMappingList = SyntheticDataColumnProperties[];
 export const ColumnMappingList = S.Array(SyntheticDataColumnProperties);
 export interface ColumnClassificationDetails {
-  columnMapping: ColumnMappingList;
+  columnMapping: SyntheticDataColumnProperties[];
 }
 export const ColumnClassificationDetails = S.suspend(() =>
   S.Struct({ columnMapping: ColumnMappingList }),
@@ -2110,12 +2744,19 @@ export const MLSyntheticDataParameters = S.suspend(() =>
 ).annotations({
   identifier: "MLSyntheticDataParameters",
 }) as any as S.Schema<MLSyntheticDataParameters>;
+export type MembershipInferenceAttackVersion = "DISTANCE_TO_CLOSEST_RECORD_V1";
+export const MembershipInferenceAttackVersion = S.Literal(
+  "DISTANCE_TO_CLOSEST_RECORD_V1",
+);
 export interface MembershipInferenceAttackScore {
-  attackVersion: string;
+  attackVersion: MembershipInferenceAttackVersion;
   score: number;
 }
 export const MembershipInferenceAttackScore = S.suspend(() =>
-  S.Struct({ attackVersion: S.String, score: S.Number }),
+  S.Struct({
+    attackVersion: MembershipInferenceAttackVersion,
+    score: S.Number,
+  }),
 ).annotations({
   identifier: "MembershipInferenceAttackScore",
 }) as any as S.Schema<MembershipInferenceAttackScore>;
@@ -2125,7 +2766,7 @@ export const MembershipInferenceAttackScoreList = S.Array(
   MembershipInferenceAttackScore,
 );
 export interface DataPrivacyScores {
-  membershipInferenceAttackScores: MembershipInferenceAttackScoreList;
+  membershipInferenceAttackScores: MembershipInferenceAttackScore[];
 }
 export const DataPrivacyScores = S.suspend(() =>
   S.Struct({
@@ -2159,12 +2800,12 @@ export interface GetCollaborationMLInputChannelResponse {
   collaborationIdentifier: string;
   mlInputChannelArn: string;
   name: string;
-  configuredModelAlgorithmAssociations: ConfiguredModelAlgorithmAssociationArnList;
-  status: string;
+  configuredModelAlgorithmAssociations: string[];
+  status: MLInputChannelStatus;
   statusDetails?: StatusDetails;
   retentionInDays: number;
   numberOfRecords?: number;
-  privacyBudgets?: (typeof PrivacyBudgets)["Type"];
+  privacyBudgets?: PrivacyBudgets;
   description?: string;
   syntheticDataConfiguration?: SyntheticDataConfiguration;
   createTime: Date;
@@ -2179,7 +2820,7 @@ export const GetCollaborationMLInputChannelResponse = S.suspend(() =>
     name: S.String,
     configuredModelAlgorithmAssociations:
       ConfiguredModelAlgorithmAssociationArnList,
-    status: S.String,
+    status: MLInputChannelStatus,
     statusDetails: S.optional(StatusDetails),
     retentionInDays: S.Number,
     numberOfRecords: S.optional(S.Number),
@@ -2197,16 +2838,16 @@ export interface CreateTrainedModelRequest {
   membershipIdentifier: string;
   name: string;
   configuredModelAlgorithmAssociationArn: string;
-  hyperparameters?: HyperParameters;
-  environment?: Environment;
+  hyperparameters?: { [key: string]: string };
+  environment?: { [key: string]: string };
   resourceConfig: ResourceConfig;
   stoppingCondition?: StoppingCondition;
-  incrementalTrainingDataChannels?: IncrementalTrainingDataChannels;
-  dataChannels: ModelTrainingDataChannels;
-  trainingInputMode?: string;
+  incrementalTrainingDataChannels?: IncrementalTrainingDataChannel[];
+  dataChannels: ModelTrainingDataChannel[];
+  trainingInputMode?: TrainingInputMode;
   description?: string;
   kmsKeyArn?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateTrainedModelRequest = S.suspend(() =>
   S.Struct({
@@ -2221,7 +2862,7 @@ export const CreateTrainedModelRequest = S.suspend(() =>
       IncrementalTrainingDataChannels,
     ),
     dataChannels: ModelTrainingDataChannels,
-    trainingInputMode: S.optional(S.String),
+    trainingInputMode: S.optional(TrainingInputMode),
     description: S.optional(S.String),
     kmsKeyArn: S.optional(S.String),
     tags: S.optional(TagMap),
@@ -2265,18 +2906,18 @@ export interface GetCollaborationTrainedModelResponse {
   collaborationIdentifier: string;
   trainedModelArn: string;
   versionIdentifier?: string;
-  incrementalTrainingDataChannels?: IncrementalTrainingDataChannelsOutput;
+  incrementalTrainingDataChannels?: IncrementalTrainingDataChannelOutput[];
   name: string;
   description?: string;
-  status: string;
+  status: TrainedModelStatus;
   statusDetails?: StatusDetails;
   configuredModelAlgorithmAssociationArn: string;
   resourceConfig?: ResourceConfig;
-  trainingInputMode?: string;
+  trainingInputMode?: TrainingInputMode;
   stoppingCondition?: StoppingCondition;
-  metricsStatus?: string;
+  metricsStatus?: MetricsStatus;
   metricsStatusDetails?: string;
-  logsStatus?: string;
+  logsStatus?: LogsStatus;
   logsStatusDetails?: string;
   trainingContainerImageDigest?: string;
   createTime: Date;
@@ -2294,15 +2935,15 @@ export const GetCollaborationTrainedModelResponse = S.suspend(() =>
     ),
     name: S.String,
     description: S.optional(S.String),
-    status: S.String,
+    status: TrainedModelStatus,
     statusDetails: S.optional(StatusDetails),
     configuredModelAlgorithmAssociationArn: S.String,
     resourceConfig: S.optional(ResourceConfig),
-    trainingInputMode: S.optional(S.String),
+    trainingInputMode: S.optional(TrainingInputMode),
     stoppingCondition: S.optional(StoppingCondition),
-    metricsStatus: S.optional(S.String),
+    metricsStatus: S.optional(MetricsStatus),
     metricsStatusDetails: S.optional(S.String),
-    logsStatus: S.optional(S.String),
+    logsStatus: S.optional(LogsStatus),
     logsStatusDetails: S.optional(S.String),
     trainingContainerImageDigest: S.optional(S.String),
     createTime: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -2317,12 +2958,12 @@ export interface TrainedModelSummary {
   updateTime: Date;
   trainedModelArn: string;
   versionIdentifier?: string;
-  incrementalTrainingDataChannels?: IncrementalTrainingDataChannelsOutput;
+  incrementalTrainingDataChannels?: IncrementalTrainingDataChannelOutput[];
   name: string;
   description?: string;
   membershipIdentifier: string;
   collaborationIdentifier: string;
-  status: string;
+  status: TrainedModelStatus;
   configuredModelAlgorithmAssociationArn: string;
 }
 export const TrainedModelSummary = S.suspend(() =>
@@ -2338,7 +2979,7 @@ export const TrainedModelSummary = S.suspend(() =>
     description: S.optional(S.String),
     membershipIdentifier: S.String,
     collaborationIdentifier: S.String,
-    status: S.String,
+    status: TrainedModelStatus,
     configuredModelAlgorithmAssociationArn: S.String,
   }),
 ).annotations({
@@ -2348,7 +2989,7 @@ export type TrainedModelList = TrainedModelSummary[];
 export const TrainedModelList = S.Array(TrainedModelSummary);
 export interface ListTrainedModelVersionsResponse {
   nextToken?: string;
-  trainedModels: TrainedModelList;
+  trainedModels: TrainedModelSummary[];
 }
 export const ListTrainedModelVersionsResponse = S.suspend(() =>
   S.Struct({
@@ -2370,7 +3011,7 @@ export type InferenceReceiverMembers = InferenceReceiverMember[];
 export const InferenceReceiverMembers = S.Array(InferenceReceiverMember);
 export interface InferenceOutputConfiguration {
   accept?: string;
-  members: InferenceReceiverMembers;
+  members: InferenceReceiverMember[];
 }
 export const InferenceOutputConfiguration = S.suspend(() =>
   S.Struct({ accept: S.optional(S.String), members: InferenceReceiverMembers }),
@@ -2383,7 +3024,7 @@ export interface GetTrainedModelInferenceJobResponse {
   trainedModelInferenceJobArn: string;
   configuredModelAlgorithmAssociationArn?: string;
   name: string;
-  status: string;
+  status: TrainedModelInferenceJobStatus;
   trainedModelArn: string;
   trainedModelVersionIdentifier?: string;
   resourceConfig: InferenceResourceConfig;
@@ -2394,13 +3035,13 @@ export interface GetTrainedModelInferenceJobResponse {
   statusDetails?: StatusDetails;
   description?: string;
   inferenceContainerImageDigest?: string;
-  environment?: InferenceEnvironmentMap;
+  environment?: { [key: string]: string };
   kmsKeyArn?: string;
-  metricsStatus?: string;
+  metricsStatus?: MetricsStatus;
   metricsStatusDetails?: string;
-  logsStatus?: string;
+  logsStatus?: LogsStatus;
   logsStatusDetails?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const GetTrainedModelInferenceJobResponse = S.suspend(() =>
   S.Struct({
@@ -2409,7 +3050,7 @@ export const GetTrainedModelInferenceJobResponse = S.suspend(() =>
     trainedModelInferenceJobArn: S.String,
     configuredModelAlgorithmAssociationArn: S.optional(S.String),
     name: S.String,
-    status: S.String,
+    status: TrainedModelInferenceJobStatus,
     trainedModelArn: S.String,
     trainedModelVersionIdentifier: S.optional(S.String),
     resourceConfig: InferenceResourceConfig,
@@ -2424,20 +3065,33 @@ export const GetTrainedModelInferenceJobResponse = S.suspend(() =>
     inferenceContainerImageDigest: S.optional(S.String),
     environment: S.optional(InferenceEnvironmentMap),
     kmsKeyArn: S.optional(S.String),
-    metricsStatus: S.optional(S.String),
+    metricsStatus: S.optional(MetricsStatus),
     metricsStatusDetails: S.optional(S.String),
-    logsStatus: S.optional(S.String),
+    logsStatus: S.optional(LogsStatus),
     logsStatusDetails: S.optional(S.String),
     tags: S.optional(TagMap),
   }),
 ).annotations({
   identifier: "GetTrainedModelInferenceJobResponse",
 }) as any as S.Schema<GetTrainedModelInferenceJobResponse>;
-export type ColumnTypeList = string[];
-export const ColumnTypeList = S.Array(S.String);
+export type ColumnType =
+  | "USER_ID"
+  | "ITEM_ID"
+  | "TIMESTAMP"
+  | "CATEGORICAL_FEATURE"
+  | "NUMERICAL_FEATURE";
+export const ColumnType = S.Literal(
+  "USER_ID",
+  "ITEM_ID",
+  "TIMESTAMP",
+  "CATEGORICAL_FEATURE",
+  "NUMERICAL_FEATURE",
+);
+export type ColumnTypeList = ColumnType[];
+export const ColumnTypeList = S.Array(ColumnType);
 export interface ColumnSchema {
   columnName: string;
-  columnTypes: ColumnTypeList;
+  columnTypes: ColumnType[];
 }
 export const ColumnSchema = S.suspend(() =>
   S.Struct({ columnName: S.String, columnTypes: ColumnTypeList }),
@@ -2465,7 +3119,7 @@ export const DataSource = S.suspend(() =>
   S.Struct({ glueDataSource: GlueDataSource }),
 ).annotations({ identifier: "DataSource" }) as any as S.Schema<DataSource>;
 export interface DatasetInputConfig {
-  schema: DatasetSchemaList;
+  schema: ColumnSchema[];
   dataSource: DataSource;
 }
 export const DatasetInputConfig = S.suspend(() =>
@@ -2474,11 +3128,11 @@ export const DatasetInputConfig = S.suspend(() =>
   identifier: "DatasetInputConfig",
 }) as any as S.Schema<DatasetInputConfig>;
 export interface Dataset {
-  type: string;
+  type: DatasetType;
   inputConfig: DatasetInputConfig;
 }
 export const Dataset = S.suspend(() =>
-  S.Struct({ type: S.String, inputConfig: DatasetInputConfig }),
+  S.Struct({ type: DatasetType, inputConfig: DatasetInputConfig }),
 ).annotations({ identifier: "Dataset" }) as any as S.Schema<Dataset>;
 export type DatasetList = Dataset[];
 export const DatasetList = S.Array(Dataset);
@@ -2487,10 +3141,10 @@ export interface GetTrainingDatasetResponse {
   updateTime: Date;
   trainingDatasetArn: string;
   name: string;
-  trainingData: DatasetList;
-  status: string;
+  trainingData: Dataset[];
+  status: TrainingDatasetStatus;
   roleArn: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   description?: string;
 }
 export const GetTrainingDatasetResponse = S.suspend(() =>
@@ -2500,7 +3154,7 @@ export const GetTrainingDatasetResponse = S.suspend(() =>
     trainingDatasetArn: S.String,
     name: S.String,
     trainingData: DatasetList,
-    status: S.String,
+    status: TrainingDatasetStatus,
     roleArn: S.String,
     tags: S.optional(TagMap),
     description: S.optional(S.String),
@@ -2508,6 +3162,28 @@ export const GetTrainingDatasetResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetTrainingDatasetResponse",
 }) as any as S.Schema<GetTrainingDatasetResponse>;
+export type TrainedModelExportJobStatus =
+  | "CREATE_PENDING"
+  | "CREATE_IN_PROGRESS"
+  | "CREATE_FAILED"
+  | "ACTIVE";
+export const TrainedModelExportJobStatus = S.Literal(
+  "CREATE_PENDING",
+  "CREATE_IN_PROGRESS",
+  "CREATE_FAILED",
+  "ACTIVE",
+);
+export type AudienceExportJobStatus =
+  | "CREATE_PENDING"
+  | "CREATE_IN_PROGRESS"
+  | "CREATE_FAILED"
+  | "ACTIVE";
+export const AudienceExportJobStatus = S.Literal(
+  "CREATE_PENDING",
+  "CREATE_IN_PROGRESS",
+  "CREATE_FAILED",
+  "ACTIVE",
+);
 export interface TrainedModelExportReceiverMember {
   accountId: string;
 }
@@ -2521,6 +3197,10 @@ export type TrainedModelExportReceiverMembers =
 export const TrainedModelExportReceiverMembers = S.Array(
   TrainedModelExportReceiverMember,
 );
+export type WorkerComputeType = "CR.1X" | "CR.4X";
+export const WorkerComputeType = S.Literal("CR.1X", "CR.4X");
+export type ResultFormat = "CSV" | "PARQUET";
+export const ResultFormat = S.Literal("CSV", "PARQUET");
 export interface CollaborationConfiguredModelAlgorithmAssociationSummary {
   createTime: Date;
   updateTime: Date;
@@ -2559,9 +3239,9 @@ export interface CollaborationMLInputChannelSummary {
   membershipIdentifier: string;
   collaborationIdentifier: string;
   name: string;
-  configuredModelAlgorithmAssociations: ConfiguredModelAlgorithmAssociationArnList;
+  configuredModelAlgorithmAssociations: string[];
   mlInputChannelArn: string;
-  status: string;
+  status: MLInputChannelStatus;
   creatorAccountId: string;
   description?: string;
 }
@@ -2575,7 +3255,7 @@ export const CollaborationMLInputChannelSummary = S.suspend(() =>
     configuredModelAlgorithmAssociations:
       ConfiguredModelAlgorithmAssociationArnList,
     mlInputChannelArn: S.String,
-    status: S.String,
+    status: MLInputChannelStatus,
     creatorAccountId: S.String,
     description: S.optional(S.String),
   }),
@@ -2588,7 +3268,7 @@ export const CollaborationMLInputChannelsList = S.Array(
   CollaborationMLInputChannelSummary,
 );
 export interface TrainedModelExportOutputConfiguration {
-  members: TrainedModelExportReceiverMembers;
+  members: TrainedModelExportReceiverMember[];
 }
 export const TrainedModelExportOutputConfiguration = S.suspend(() =>
   S.Struct({ members: TrainedModelExportReceiverMembers }),
@@ -2600,7 +3280,7 @@ export interface CollaborationTrainedModelExportJobSummary {
   updateTime: Date;
   name: string;
   outputConfiguration: TrainedModelExportOutputConfiguration;
-  status: string;
+  status: TrainedModelExportJobStatus;
   statusDetails?: StatusDetails;
   description?: string;
   creatorAccountId: string;
@@ -2615,7 +3295,7 @@ export const CollaborationTrainedModelExportJobSummary = S.suspend(() =>
     updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
     name: S.String,
     outputConfiguration: TrainedModelExportOutputConfiguration,
-    status: S.String,
+    status: TrainedModelExportJobStatus,
     statusDetails: S.optional(StatusDetails),
     description: S.optional(S.String),
     creatorAccountId: S.String,
@@ -2639,13 +3319,13 @@ export interface CollaborationTrainedModelInferenceJobSummary {
   trainedModelArn: string;
   trainedModelVersionIdentifier?: string;
   collaborationIdentifier: string;
-  status: string;
+  status: TrainedModelInferenceJobStatus;
   outputConfiguration: InferenceOutputConfiguration;
   name: string;
   description?: string;
-  metricsStatus?: string;
+  metricsStatus?: MetricsStatus;
   metricsStatusDetails?: string;
-  logsStatus?: string;
+  logsStatus?: LogsStatus;
   logsStatusDetails?: string;
   createTime: Date;
   updateTime: Date;
@@ -2659,13 +3339,13 @@ export const CollaborationTrainedModelInferenceJobSummary = S.suspend(() =>
     trainedModelArn: S.String,
     trainedModelVersionIdentifier: S.optional(S.String),
     collaborationIdentifier: S.String,
-    status: S.String,
+    status: TrainedModelInferenceJobStatus,
     outputConfiguration: InferenceOutputConfiguration,
     name: S.String,
     description: S.optional(S.String),
-    metricsStatus: S.optional(S.String),
+    metricsStatus: S.optional(MetricsStatus),
     metricsStatusDetails: S.optional(S.String),
-    logsStatus: S.optional(S.String),
+    logsStatus: S.optional(LogsStatus),
     logsStatusDetails: S.optional(S.String),
     createTime: S.Date.pipe(T.TimestampFormat("date-time")),
     updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -2685,11 +3365,11 @@ export interface CollaborationTrainedModelSummary {
   trainedModelArn: string;
   name: string;
   versionIdentifier?: string;
-  incrementalTrainingDataChannels?: IncrementalTrainingDataChannelsOutput;
+  incrementalTrainingDataChannels?: IncrementalTrainingDataChannelOutput[];
   description?: string;
   membershipIdentifier: string;
   collaborationIdentifier: string;
-  status: string;
+  status: TrainedModelStatus;
   configuredModelAlgorithmAssociationArn: string;
   creatorAccountId: string;
 }
@@ -2706,7 +3386,7 @@ export const CollaborationTrainedModelSummary = S.suspend(() =>
     description: S.optional(S.String),
     membershipIdentifier: S.String,
     collaborationIdentifier: S.String,
-    status: S.String,
+    status: TrainedModelStatus,
     configuredModelAlgorithmAssociationArn: S.String,
     creatorAccountId: S.String,
   }),
@@ -2724,7 +3404,7 @@ export interface AudienceExportJobSummary {
   audienceGenerationJobArn: string;
   audienceSize: AudienceSize;
   description?: string;
-  status: string;
+  status: AudienceExportJobStatus;
   statusDetails?: StatusDetails;
   outputLocation?: string;
 }
@@ -2736,7 +3416,7 @@ export const AudienceExportJobSummary = S.suspend(() =>
     audienceGenerationJobArn: S.String,
     audienceSize: AudienceSize,
     description: S.optional(S.String),
-    status: S.String,
+    status: AudienceExportJobStatus,
     statusDetails: S.optional(StatusDetails),
     outputLocation: S.optional(S.String),
   }),
@@ -2751,7 +3431,7 @@ export interface AudienceGenerationJobSummary {
   audienceGenerationJobArn: string;
   name: string;
   description?: string;
-  status: string;
+  status: AudienceGenerationJobStatus;
   configuredAudienceModelArn: string;
   collaborationId?: string;
   startedBy?: string;
@@ -2763,7 +3443,7 @@ export const AudienceGenerationJobSummary = S.suspend(() =>
     audienceGenerationJobArn: S.String,
     name: S.String,
     description: S.optional(S.String),
-    status: S.String,
+    status: AudienceGenerationJobStatus,
     configuredAudienceModelArn: S.String,
     collaborationId: S.optional(S.String),
     startedBy: S.optional(S.String),
@@ -2779,7 +3459,7 @@ export interface AudienceModelSummary {
   audienceModelArn: string;
   name: string;
   trainingDatasetArn: string;
-  status: string;
+  status: AudienceModelStatus;
   description?: string;
 }
 export const AudienceModelSummary = S.suspend(() =>
@@ -2789,7 +3469,7 @@ export const AudienceModelSummary = S.suspend(() =>
     audienceModelArn: S.String,
     name: S.String,
     trainingDatasetArn: S.String,
-    status: S.String,
+    status: AudienceModelStatus,
     description: S.optional(S.String),
   }),
 ).annotations({
@@ -2805,7 +3485,7 @@ export interface ConfiguredAudienceModelSummary {
   outputConfig: ConfiguredAudienceModelOutputConfig;
   description?: string;
   configuredAudienceModelArn: string;
-  status: string;
+  status: ConfiguredAudienceModelStatus;
 }
 export const ConfiguredAudienceModelSummary = S.suspend(() =>
   S.Struct({
@@ -2816,7 +3496,7 @@ export const ConfiguredAudienceModelSummary = S.suspend(() =>
     outputConfig: ConfiguredAudienceModelOutputConfig,
     description: S.optional(S.String),
     configuredAudienceModelArn: S.String,
-    status: S.String,
+    status: ConfiguredAudienceModelStatus,
   }),
 ).annotations({
   identifier: "ConfiguredAudienceModelSummary",
@@ -2882,10 +3562,10 @@ export interface MLInputChannelSummary {
   membershipIdentifier: string;
   collaborationIdentifier: string;
   name: string;
-  configuredModelAlgorithmAssociations: ConfiguredModelAlgorithmAssociationArnList;
+  configuredModelAlgorithmAssociations: string[];
   protectedQueryIdentifier?: string;
   mlInputChannelArn: string;
-  status: string;
+  status: MLInputChannelStatus;
   description?: string;
 }
 export const MLInputChannelSummary = S.suspend(() =>
@@ -2899,7 +3579,7 @@ export const MLInputChannelSummary = S.suspend(() =>
       ConfiguredModelAlgorithmAssociationArnList,
     protectedQueryIdentifier: S.optional(S.String),
     mlInputChannelArn: S.String,
-    status: S.String,
+    status: MLInputChannelStatus,
     description: S.optional(S.String),
   }),
 ).annotations({
@@ -2914,13 +3594,13 @@ export interface TrainedModelInferenceJobSummary {
   trainedModelArn: string;
   trainedModelVersionIdentifier?: string;
   collaborationIdentifier: string;
-  status: string;
+  status: TrainedModelInferenceJobStatus;
   outputConfiguration: InferenceOutputConfiguration;
   name: string;
   description?: string;
-  metricsStatus?: string;
+  metricsStatus?: MetricsStatus;
   metricsStatusDetails?: string;
-  logsStatus?: string;
+  logsStatus?: LogsStatus;
   logsStatusDetails?: string;
   createTime: Date;
   updateTime: Date;
@@ -2933,13 +3613,13 @@ export const TrainedModelInferenceJobSummary = S.suspend(() =>
     trainedModelArn: S.String,
     trainedModelVersionIdentifier: S.optional(S.String),
     collaborationIdentifier: S.String,
-    status: S.String,
+    status: TrainedModelInferenceJobStatus,
     outputConfiguration: InferenceOutputConfiguration,
     name: S.String,
     description: S.optional(S.String),
-    metricsStatus: S.optional(S.String),
+    metricsStatus: S.optional(MetricsStatus),
     metricsStatusDetails: S.optional(S.String),
-    logsStatus: S.optional(S.String),
+    logsStatus: S.optional(LogsStatus),
     logsStatusDetails: S.optional(S.String),
     createTime: S.Date.pipe(T.TimestampFormat("date-time")),
     updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -2956,7 +3636,7 @@ export interface TrainingDatasetSummary {
   updateTime: Date;
   trainingDatasetArn: string;
   name: string;
-  status: string;
+  status: TrainingDatasetStatus;
   description?: string;
 }
 export const TrainingDatasetSummary = S.suspend(() =>
@@ -2965,7 +3645,7 @@ export const TrainingDatasetSummary = S.suspend(() =>
     updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
     trainingDatasetArn: S.String,
     name: S.String,
-    status: S.String,
+    status: TrainingDatasetStatus,
     description: S.optional(S.String),
   }),
 ).annotations({
@@ -2976,18 +3656,21 @@ export const TrainingDatasetList = S.Array(TrainingDatasetSummary);
 export type ParameterMap = { [key: string]: string };
 export const ParameterMap = S.Record({ key: S.String, value: S.String });
 export interface WorkerComputeConfiguration {
-  type?: string;
+  type?: WorkerComputeType;
   number?: number;
 }
 export const WorkerComputeConfiguration = S.suspend(() =>
-  S.Struct({ type: S.optional(S.String), number: S.optional(S.Number) }),
+  S.Struct({
+    type: S.optional(WorkerComputeType),
+    number: S.optional(S.Number),
+  }),
 ).annotations({
   identifier: "WorkerComputeConfiguration",
 }) as any as S.Schema<WorkerComputeConfiguration>;
 export interface ProtectedQuerySQLParameters {
   queryString?: string;
   analysisTemplateArn?: string;
-  parameters?: ParameterMap;
+  parameters?: { [key: string]: string };
 }
 export const ProtectedQuerySQLParameters = S.suspend(() =>
   S.Struct({
@@ -3004,21 +3687,21 @@ export const ComputeConfiguration = S.Union(
 );
 export interface ProtectedQueryInputParameters {
   sqlParameters: ProtectedQuerySQLParameters;
-  computeConfiguration?: (typeof ComputeConfiguration)["Type"];
-  resultFormat?: string;
+  computeConfiguration?: ComputeConfiguration;
+  resultFormat?: ResultFormat;
 }
 export const ProtectedQueryInputParameters = S.suspend(() =>
   S.Struct({
     sqlParameters: ProtectedQuerySQLParameters,
     computeConfiguration: S.optional(ComputeConfiguration),
-    resultFormat: S.optional(S.String),
+    resultFormat: S.optional(ResultFormat),
   }),
 ).annotations({
   identifier: "ProtectedQueryInputParameters",
 }) as any as S.Schema<ProtectedQueryInputParameters>;
 export interface ListCollaborationConfiguredModelAlgorithmAssociationsResponse {
   nextToken?: string;
-  collaborationConfiguredModelAlgorithmAssociations: CollaborationConfiguredModelAlgorithmAssociationList;
+  collaborationConfiguredModelAlgorithmAssociations: CollaborationConfiguredModelAlgorithmAssociationSummary[];
 }
 export const ListCollaborationConfiguredModelAlgorithmAssociationsResponse =
   S.suspend(() =>
@@ -3032,7 +3715,7 @@ export const ListCollaborationConfiguredModelAlgorithmAssociationsResponse =
   }) as any as S.Schema<ListCollaborationConfiguredModelAlgorithmAssociationsResponse>;
 export interface ListCollaborationMLInputChannelsResponse {
   nextToken?: string;
-  collaborationMLInputChannelsList: CollaborationMLInputChannelsList;
+  collaborationMLInputChannelsList: CollaborationMLInputChannelSummary[];
 }
 export const ListCollaborationMLInputChannelsResponse = S.suspend(() =>
   S.Struct({
@@ -3044,7 +3727,7 @@ export const ListCollaborationMLInputChannelsResponse = S.suspend(() =>
 }) as any as S.Schema<ListCollaborationMLInputChannelsResponse>;
 export interface ListCollaborationTrainedModelExportJobsResponse {
   nextToken?: string;
-  collaborationTrainedModelExportJobs: CollaborationTrainedModelExportJobList;
+  collaborationTrainedModelExportJobs: CollaborationTrainedModelExportJobSummary[];
 }
 export const ListCollaborationTrainedModelExportJobsResponse = S.suspend(() =>
   S.Struct({
@@ -3056,7 +3739,7 @@ export const ListCollaborationTrainedModelExportJobsResponse = S.suspend(() =>
 }) as any as S.Schema<ListCollaborationTrainedModelExportJobsResponse>;
 export interface ListCollaborationTrainedModelInferenceJobsResponse {
   nextToken?: string;
-  collaborationTrainedModelInferenceJobs: CollaborationTrainedModelInferenceJobList;
+  collaborationTrainedModelInferenceJobs: CollaborationTrainedModelInferenceJobSummary[];
 }
 export const ListCollaborationTrainedModelInferenceJobsResponse = S.suspend(
   () =>
@@ -3070,7 +3753,7 @@ export const ListCollaborationTrainedModelInferenceJobsResponse = S.suspend(
 }) as any as S.Schema<ListCollaborationTrainedModelInferenceJobsResponse>;
 export interface ListCollaborationTrainedModelsResponse {
   nextToken?: string;
-  collaborationTrainedModels: CollaborationTrainedModelList;
+  collaborationTrainedModels: CollaborationTrainedModelSummary[];
 }
 export const ListCollaborationTrainedModelsResponse = S.suspend(() =>
   S.Struct({
@@ -3082,7 +3765,7 @@ export const ListCollaborationTrainedModelsResponse = S.suspend(() =>
 }) as any as S.Schema<ListCollaborationTrainedModelsResponse>;
 export interface ListAudienceExportJobsResponse {
   nextToken?: string;
-  audienceExportJobs: AudienceExportJobList;
+  audienceExportJobs: AudienceExportJobSummary[];
 }
 export const ListAudienceExportJobsResponse = S.suspend(() =>
   S.Struct({
@@ -3094,7 +3777,7 @@ export const ListAudienceExportJobsResponse = S.suspend(() =>
 }) as any as S.Schema<ListAudienceExportJobsResponse>;
 export interface ListAudienceGenerationJobsResponse {
   nextToken?: string;
-  audienceGenerationJobs: AudienceGenerationJobList;
+  audienceGenerationJobs: AudienceGenerationJobSummary[];
 }
 export const ListAudienceGenerationJobsResponse = S.suspend(() =>
   S.Struct({
@@ -3106,7 +3789,7 @@ export const ListAudienceGenerationJobsResponse = S.suspend(() =>
 }) as any as S.Schema<ListAudienceGenerationJobsResponse>;
 export interface ListAudienceModelsResponse {
   nextToken?: string;
-  audienceModels: AudienceModelList;
+  audienceModels: AudienceModelSummary[];
 }
 export const ListAudienceModelsResponse = S.suspend(() =>
   S.Struct({
@@ -3121,11 +3804,11 @@ export interface CreateConfiguredAudienceModelRequest {
   audienceModelArn: string;
   outputConfig: ConfiguredAudienceModelOutputConfig;
   description?: string;
-  sharedAudienceMetrics: MetricsList;
+  sharedAudienceMetrics: SharedAudienceMetrics[];
   minMatchingSeedSize?: number;
   audienceSizeConfig?: AudienceSizeConfig;
-  tags?: TagMap;
-  childResourceTagOnCreatePolicy?: string;
+  tags?: { [key: string]: string };
+  childResourceTagOnCreatePolicy?: TagOnCreatePolicy;
 }
 export const CreateConfiguredAudienceModelRequest = S.suspend(() =>
   S.Struct({
@@ -3137,7 +3820,7 @@ export const CreateConfiguredAudienceModelRequest = S.suspend(() =>
     minMatchingSeedSize: S.optional(S.Number),
     audienceSizeConfig: S.optional(AudienceSizeConfig),
     tags: S.optional(TagMap),
-    childResourceTagOnCreatePolicy: S.optional(S.String),
+    childResourceTagOnCreatePolicy: S.optional(TagOnCreatePolicy),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/configured-audience-model" }),
@@ -3153,7 +3836,7 @@ export const CreateConfiguredAudienceModelRequest = S.suspend(() =>
 }) as any as S.Schema<CreateConfiguredAudienceModelRequest>;
 export interface ListConfiguredAudienceModelsResponse {
   nextToken?: string;
-  configuredAudienceModels: ConfiguredAudienceModelList;
+  configuredAudienceModels: ConfiguredAudienceModelSummary[];
 }
 export const ListConfiguredAudienceModelsResponse = S.suspend(() =>
   S.Struct({
@@ -3169,7 +3852,7 @@ export interface CreateConfiguredModelAlgorithmRequest {
   roleArn: string;
   trainingContainerConfig?: ContainerConfig;
   inferenceContainerConfig?: InferenceContainerConfig;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   kmsKeyArn?: string;
 }
 export const CreateConfiguredModelAlgorithmRequest = S.suspend(() =>
@@ -3196,7 +3879,7 @@ export const CreateConfiguredModelAlgorithmRequest = S.suspend(() =>
 }) as any as S.Schema<CreateConfiguredModelAlgorithmRequest>;
 export interface ListConfiguredModelAlgorithmsResponse {
   nextToken?: string;
-  configuredModelAlgorithms: ConfiguredModelAlgorithmList;
+  configuredModelAlgorithms: ConfiguredModelAlgorithmSummary[];
 }
 export const ListConfiguredModelAlgorithmsResponse = S.suspend(() =>
   S.Struct({
@@ -3208,7 +3891,7 @@ export const ListConfiguredModelAlgorithmsResponse = S.suspend(() =>
 }) as any as S.Schema<ListConfiguredModelAlgorithmsResponse>;
 export interface ListConfiguredModelAlgorithmAssociationsResponse {
   nextToken?: string;
-  configuredModelAlgorithmAssociations: ConfiguredModelAlgorithmAssociationList;
+  configuredModelAlgorithmAssociations: ConfiguredModelAlgorithmAssociationSummary[];
 }
 export const ListConfiguredModelAlgorithmAssociationsResponse = S.suspend(() =>
   S.Struct({
@@ -3251,7 +3934,7 @@ export const PutMLConfigurationResponse = S.suspend(() =>
 }) as any as S.Schema<PutMLConfigurationResponse>;
 export interface ListMLInputChannelsResponse {
   nextToken?: string;
-  mlInputChannelsList: MLInputChannelsList;
+  mlInputChannelsList: MLInputChannelSummary[];
 }
 export const ListMLInputChannelsResponse = S.suspend(() =>
   S.Struct({
@@ -3278,27 +3961,27 @@ export interface GetTrainedModelResponse {
   collaborationIdentifier: string;
   trainedModelArn: string;
   versionIdentifier?: string;
-  incrementalTrainingDataChannels?: IncrementalTrainingDataChannelsOutput;
+  incrementalTrainingDataChannels?: IncrementalTrainingDataChannelOutput[];
   name: string;
   description?: string;
-  status: string;
+  status: TrainedModelStatus;
   statusDetails?: StatusDetails;
   configuredModelAlgorithmAssociationArn: string;
   resourceConfig?: ResourceConfig;
-  trainingInputMode?: string;
+  trainingInputMode?: TrainingInputMode;
   stoppingCondition?: StoppingCondition;
-  metricsStatus?: string;
+  metricsStatus?: MetricsStatus;
   metricsStatusDetails?: string;
-  logsStatus?: string;
+  logsStatus?: LogsStatus;
   logsStatusDetails?: string;
   trainingContainerImageDigest?: string;
   createTime: Date;
   updateTime: Date;
-  hyperparameters?: HyperParameters;
-  environment?: Environment;
+  hyperparameters?: { [key: string]: string };
+  environment?: { [key: string]: string };
   kmsKeyArn?: string;
-  tags?: TagMap;
-  dataChannels: ModelTrainingDataChannels;
+  tags?: { [key: string]: string };
+  dataChannels: ModelTrainingDataChannel[];
 }
 export const GetTrainedModelResponse = S.suspend(() =>
   S.Struct({
@@ -3311,15 +3994,15 @@ export const GetTrainedModelResponse = S.suspend(() =>
     ),
     name: S.String,
     description: S.optional(S.String),
-    status: S.String,
+    status: TrainedModelStatus,
     statusDetails: S.optional(StatusDetails),
     configuredModelAlgorithmAssociationArn: S.String,
     resourceConfig: S.optional(ResourceConfig),
-    trainingInputMode: S.optional(S.String),
+    trainingInputMode: S.optional(TrainingInputMode),
     stoppingCondition: S.optional(StoppingCondition),
-    metricsStatus: S.optional(S.String),
+    metricsStatus: S.optional(MetricsStatus),
     metricsStatusDetails: S.optional(S.String),
-    logsStatus: S.optional(S.String),
+    logsStatus: S.optional(LogsStatus),
     logsStatusDetails: S.optional(S.String),
     trainingContainerImageDigest: S.optional(S.String),
     createTime: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -3335,7 +4018,7 @@ export const GetTrainedModelResponse = S.suspend(() =>
 }) as any as S.Schema<GetTrainedModelResponse>;
 export interface ListTrainedModelsResponse {
   nextToken?: string;
-  trainedModels: TrainedModelList;
+  trainedModels: TrainedModelSummary[];
 }
 export const ListTrainedModelsResponse = S.suspend(() =>
   S.Struct({
@@ -3394,9 +4077,9 @@ export interface StartTrainedModelInferenceJobRequest {
   dataSource: ModelInferenceDataSource;
   description?: string;
   containerExecutionParameters?: InferenceContainerExecutionParameters;
-  environment?: InferenceEnvironmentMap;
+  environment?: { [key: string]: string };
   kmsKeyArn?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const StartTrainedModelInferenceJobRequest = S.suspend(() =>
   S.Struct({
@@ -3433,7 +4116,7 @@ export const StartTrainedModelInferenceJobRequest = S.suspend(() =>
 }) as any as S.Schema<StartTrainedModelInferenceJobRequest>;
 export interface ListTrainedModelInferenceJobsResponse {
   nextToken?: string;
-  trainedModelInferenceJobs: TrainedModelInferenceJobList;
+  trainedModelInferenceJobs: TrainedModelInferenceJobSummary[];
 }
 export const ListTrainedModelInferenceJobsResponse = S.suspend(() =>
   S.Struct({
@@ -3445,7 +4128,7 @@ export const ListTrainedModelInferenceJobsResponse = S.suspend(() =>
 }) as any as S.Schema<ListTrainedModelInferenceJobsResponse>;
 export interface ListTrainingDatasetsResponse {
   nextToken?: string;
-  trainingDatasets: TrainingDatasetList;
+  trainingDatasets: TrainingDatasetSummary[];
 }
 export const ListTrainingDatasetsResponse = S.suspend(() =>
   S.Struct({
@@ -3476,7 +4159,7 @@ export interface AudienceGenerationJobDataSource {
   dataSource?: S3ConfigMap;
   roleArn: string;
   sqlParameters?: ProtectedQuerySQLParameters;
-  sqlComputeConfiguration?: (typeof ComputeConfiguration)["Type"];
+  sqlComputeConfiguration?: ComputeConfiguration;
 }
 export const AudienceGenerationJobDataSource = S.suspend(() =>
   S.Struct({
@@ -3489,7 +4172,7 @@ export const AudienceGenerationJobDataSource = S.suspend(() =>
   identifier: "AudienceGenerationJobDataSource",
 }) as any as S.Schema<AudienceGenerationJobDataSource>;
 export interface AudienceQualityMetrics {
-  relevanceMetrics: RelevanceMetrics;
+  relevanceMetrics: RelevanceMetric[];
   recallMetric?: number;
 }
 export const AudienceQualityMetrics = S.suspend(() =>
@@ -3501,7 +4184,7 @@ export const AudienceQualityMetrics = S.suspend(() =>
   identifier: "AudienceQualityMetrics",
 }) as any as S.Schema<AudienceQualityMetrics>;
 export interface InputChannel {
-  dataSource: (typeof InputChannelDataSource)["Type"];
+  dataSource: InputChannelDataSource;
   roleArn: string;
 }
 export const InputChannel = S.suspend(() =>
@@ -3514,7 +4197,7 @@ export interface StartAudienceGenerationJobRequest {
   includeSeedInOutput?: boolean;
   collaborationId?: string;
   description?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const StartAudienceGenerationJobRequest = S.suspend(() =>
   S.Struct({
@@ -3544,7 +4227,7 @@ export interface GetAudienceGenerationJobResponse {
   audienceGenerationJobArn: string;
   name: string;
   description?: string;
-  status: string;
+  status: AudienceGenerationJobStatus;
   statusDetails?: StatusDetails;
   configuredAudienceModelArn: string;
   seedAudience?: AudienceGenerationJobDataSource;
@@ -3552,7 +4235,7 @@ export interface GetAudienceGenerationJobResponse {
   collaborationId?: string;
   metrics?: AudienceQualityMetrics;
   startedBy?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
   protectedQueryIdentifier?: string;
 }
 export const GetAudienceGenerationJobResponse = S.suspend(() =>
@@ -3562,7 +4245,7 @@ export const GetAudienceGenerationJobResponse = S.suspend(() =>
     audienceGenerationJobArn: S.String,
     name: S.String,
     description: S.optional(S.String),
-    status: S.String,
+    status: AudienceGenerationJobStatus,
     statusDetails: S.optional(StatusDetails),
     configuredAudienceModelArn: S.String,
     seedAudience: S.optional(AudienceGenerationJobDataSource),
@@ -3594,13 +4277,13 @@ export const CreateConfiguredModelAlgorithmResponse = S.suspend(() =>
 }) as any as S.Schema<CreateConfiguredModelAlgorithmResponse>;
 export interface CreateMLInputChannelRequest {
   membershipIdentifier: string;
-  configuredModelAlgorithmAssociations: ConfiguredModelAlgorithmAssociationArnList;
+  configuredModelAlgorithmAssociations: string[];
   inputChannel: InputChannel;
   name: string;
   retentionInDays: number;
   description?: string;
   kmsKeyArn?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateMLInputChannelRequest = S.suspend(() =>
   S.Struct({
@@ -3656,8 +4339,8 @@ export const CreateMLInputChannelResponse = S.suspend(() =>
 export interface CreateTrainingDatasetRequest {
   name: string;
   roleArn: string;
-  trainingData: DatasetList;
-  tags?: TagMap;
+  trainingData: Dataset[];
+  tags?: { [key: string]: string };
   description?: string;
 }
 export const CreateTrainingDatasetRequest = S.suspend(() =>
@@ -3685,12 +4368,12 @@ export interface GetMLInputChannelResponse {
   collaborationIdentifier: string;
   mlInputChannelArn: string;
   name: string;
-  configuredModelAlgorithmAssociations: ConfiguredModelAlgorithmAssociationArnList;
-  status: string;
+  configuredModelAlgorithmAssociations: string[];
+  status: MLInputChannelStatus;
   statusDetails?: StatusDetails;
   retentionInDays: number;
   numberOfRecords?: number;
-  privacyBudgets?: (typeof PrivacyBudgets)["Type"];
+  privacyBudgets?: PrivacyBudgets;
   description?: string;
   syntheticDataConfiguration?: SyntheticDataConfiguration;
   createTime: Date;
@@ -3700,7 +4383,7 @@ export interface GetMLInputChannelResponse {
   numberOfFiles?: number;
   sizeInGb?: number;
   kmsKeyArn?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const GetMLInputChannelResponse = S.suspend(() =>
   S.Struct({
@@ -3710,7 +4393,7 @@ export const GetMLInputChannelResponse = S.suspend(() =>
     name: S.String,
     configuredModelAlgorithmAssociations:
       ConfiguredModelAlgorithmAssociationArnList,
-    status: S.String,
+    status: MLInputChannelStatus,
     statusDetails: S.optional(StatusDetails),
     retentionInDays: S.Number,
     numberOfRecords: S.optional(S.Number),
@@ -3743,7 +4426,7 @@ export interface CreateConfiguredModelAlgorithmAssociationRequest {
   name: string;
   description?: string;
   privacyConfiguration?: PrivacyConfiguration;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateConfiguredModelAlgorithmAssociationRequest = S.suspend(() =>
   S.Struct({
@@ -3818,7 +4501,7 @@ export class InternalServiceException extends S.TaggedError<InternalServiceExcep
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3839,7 +4522,7 @@ export const untagResource: (
  */
 export const startAudienceExportJob: (
   input: StartAudienceExportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartAudienceExportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -3864,7 +4547,7 @@ export const startAudienceExportJob: (
  */
 export const getAudienceGenerationJob: (
   input: GetAudienceGenerationJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAudienceGenerationJobResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3885,7 +4568,7 @@ export const getAudienceGenerationJob: (
  */
 export const createConfiguredAudienceModel: (
   input: CreateConfiguredAudienceModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConfiguredAudienceModelResponse,
   | AccessDeniedException
   | ConflictException
@@ -3910,7 +4593,7 @@ export const createConfiguredAudienceModel: (
  */
 export const createConfiguredModelAlgorithm: (
   input: CreateConfiguredModelAlgorithmRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConfiguredModelAlgorithmResponse,
   | AccessDeniedException
   | ConflictException
@@ -3933,7 +4616,7 @@ export const createConfiguredModelAlgorithm: (
  */
 export const createTrainedModel: (
   input: CreateTrainedModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTrainedModelResponse,
   | AccessDeniedException
   | ConflictException
@@ -3962,7 +4645,7 @@ export const createTrainedModel: (
  */
 export const startTrainedModelInferenceJob: (
   input: StartTrainedModelInferenceJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartTrainedModelInferenceJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -3990,7 +4673,7 @@ export const startTrainedModelInferenceJob: (
 export const listCollaborationMLInputChannels: {
   (
     input: ListCollaborationMLInputChannelsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCollaborationMLInputChannelsResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -4000,7 +4683,7 @@ export const listCollaborationMLInputChannels: {
   >;
   pages: (
     input: ListCollaborationMLInputChannelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCollaborationMLInputChannelsResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -4010,7 +4693,7 @@ export const listCollaborationMLInputChannels: {
   >;
   items: (
     input: ListCollaborationMLInputChannelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CollaborationMLInputChannelSummary,
     | AccessDeniedException
     | ThrottlingException
@@ -4035,7 +4718,7 @@ export const listCollaborationMLInputChannels: {
 export const listCollaborationTrainedModelExportJobs: {
   (
     input: ListCollaborationTrainedModelExportJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCollaborationTrainedModelExportJobsResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -4045,7 +4728,7 @@ export const listCollaborationTrainedModelExportJobs: {
   >;
   pages: (
     input: ListCollaborationTrainedModelExportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCollaborationTrainedModelExportJobsResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -4055,7 +4738,7 @@ export const listCollaborationTrainedModelExportJobs: {
   >;
   items: (
     input: ListCollaborationTrainedModelExportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CollaborationTrainedModelExportJobSummary,
     | AccessDeniedException
     | ThrottlingException
@@ -4080,7 +4763,7 @@ export const listCollaborationTrainedModelExportJobs: {
 export const listCollaborationTrainedModelInferenceJobs: {
   (
     input: ListCollaborationTrainedModelInferenceJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCollaborationTrainedModelInferenceJobsResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -4090,7 +4773,7 @@ export const listCollaborationTrainedModelInferenceJobs: {
   >;
   pages: (
     input: ListCollaborationTrainedModelInferenceJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCollaborationTrainedModelInferenceJobsResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -4100,7 +4783,7 @@ export const listCollaborationTrainedModelInferenceJobs: {
   >;
   items: (
     input: ListCollaborationTrainedModelInferenceJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CollaborationTrainedModelInferenceJobSummary,
     | AccessDeniedException
     | ThrottlingException
@@ -4125,7 +4808,7 @@ export const listCollaborationTrainedModelInferenceJobs: {
 export const listCollaborationTrainedModels: {
   (
     input: ListCollaborationTrainedModelsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCollaborationTrainedModelsResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -4135,7 +4818,7 @@ export const listCollaborationTrainedModels: {
   >;
   pages: (
     input: ListCollaborationTrainedModelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCollaborationTrainedModelsResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -4145,7 +4828,7 @@ export const listCollaborationTrainedModels: {
   >;
   items: (
     input: ListCollaborationTrainedModelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CollaborationTrainedModelSummary,
     | AccessDeniedException
     | ThrottlingException
@@ -4170,7 +4853,7 @@ export const listCollaborationTrainedModels: {
 export const listConfiguredModelAlgorithmAssociations: {
   (
     input: ListConfiguredModelAlgorithmAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConfiguredModelAlgorithmAssociationsResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -4180,7 +4863,7 @@ export const listConfiguredModelAlgorithmAssociations: {
   >;
   pages: (
     input: ListConfiguredModelAlgorithmAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConfiguredModelAlgorithmAssociationsResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -4190,7 +4873,7 @@ export const listConfiguredModelAlgorithmAssociations: {
   >;
   items: (
     input: ListConfiguredModelAlgorithmAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConfiguredModelAlgorithmAssociationSummary,
     | AccessDeniedException
     | ThrottlingException
@@ -4214,7 +4897,7 @@ export const listConfiguredModelAlgorithmAssociations: {
  */
 export const putMLConfiguration: (
   input: PutMLConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutMLConfigurationResponse,
   | AccessDeniedException
   | ThrottlingException
@@ -4232,7 +4915,7 @@ export const putMLConfiguration: (
 export const listMLInputChannels: {
   (
     input: ListMLInputChannelsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMLInputChannelsResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -4242,7 +4925,7 @@ export const listMLInputChannels: {
   >;
   pages: (
     input: ListMLInputChannelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMLInputChannelsResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -4252,7 +4935,7 @@ export const listMLInputChannels: {
   >;
   items: (
     input: ListMLInputChannelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MLInputChannelSummary,
     | AccessDeniedException
     | ThrottlingException
@@ -4276,7 +4959,7 @@ export const listMLInputChannels: {
  */
 export const getTrainedModel: (
   input: GetTrainedModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTrainedModelResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4300,7 +4983,7 @@ export const getTrainedModel: (
 export const listTrainedModels: {
   (
     input: ListTrainedModelsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTrainedModelsResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -4310,7 +4993,7 @@ export const listTrainedModels: {
   >;
   pages: (
     input: ListTrainedModelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTrainedModelsResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -4320,7 +5003,7 @@ export const listTrainedModels: {
   >;
   items: (
     input: ListTrainedModelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TrainedModelSummary,
     | AccessDeniedException
     | ThrottlingException
@@ -4344,7 +5027,7 @@ export const listTrainedModels: {
  */
 export const startTrainedModelExportJob: (
   input: StartTrainedModelExportJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartTrainedModelExportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -4370,7 +5053,7 @@ export const startTrainedModelExportJob: (
 export const listTrainedModelInferenceJobs: {
   (
     input: ListTrainedModelInferenceJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTrainedModelInferenceJobsResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -4380,7 +5063,7 @@ export const listTrainedModelInferenceJobs: {
   >;
   pages: (
     input: ListTrainedModelInferenceJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTrainedModelInferenceJobsResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -4390,7 +5073,7 @@ export const listTrainedModelInferenceJobs: {
   >;
   items: (
     input: ListTrainedModelInferenceJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TrainedModelInferenceJobSummary,
     | AccessDeniedException
     | ThrottlingException
@@ -4414,7 +5097,7 @@ export const listTrainedModelInferenceJobs: {
  */
 export const getConfiguredModelAlgorithmAssociation: (
   input: GetConfiguredModelAlgorithmAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConfiguredModelAlgorithmAssociationResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4437,7 +5120,7 @@ export const getConfiguredModelAlgorithmAssociation: (
  */
 export const getCollaborationConfiguredModelAlgorithmAssociation: (
   input: GetCollaborationConfiguredModelAlgorithmAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCollaborationConfiguredModelAlgorithmAssociationResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4460,7 +5143,7 @@ export const getCollaborationConfiguredModelAlgorithmAssociation: (
  */
 export const getMLConfiguration: (
   input: GetMLConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMLConfigurationResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4483,7 +5166,7 @@ export const getMLConfiguration: (
  */
 export const getCollaborationMLInputChannel: (
   input: GetCollaborationMLInputChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCollaborationMLInputChannelResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4506,7 +5189,7 @@ export const getCollaborationMLInputChannel: (
  */
 export const getCollaborationTrainedModel: (
   input: GetCollaborationTrainedModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCollaborationTrainedModelResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4530,7 +5213,7 @@ export const getCollaborationTrainedModel: (
 export const listTrainedModelVersions: {
   (
     input: ListTrainedModelVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTrainedModelVersionsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -4541,7 +5224,7 @@ export const listTrainedModelVersions: {
   >;
   pages: (
     input: ListTrainedModelVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTrainedModelVersionsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -4552,7 +5235,7 @@ export const listTrainedModelVersions: {
   >;
   items: (
     input: ListTrainedModelVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TrainedModelSummary,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -4582,7 +5265,7 @@ export const listTrainedModelVersions: {
  */
 export const getTrainedModelInferenceJob: (
   input: GetTrainedModelInferenceJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTrainedModelInferenceJobResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4605,7 +5288,7 @@ export const getTrainedModelInferenceJob: (
  */
 export const deleteMLConfiguration: (
   input: DeleteMLConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMLConfigurationResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4628,7 +5311,7 @@ export const deleteMLConfiguration: (
  */
 export const deleteConfiguredModelAlgorithmAssociation: (
   input: DeleteConfiguredModelAlgorithmAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConfiguredModelAlgorithmAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4653,7 +5336,7 @@ export const deleteConfiguredModelAlgorithmAssociation: (
  */
 export const deleteMLInputChannelData: (
   input: DeleteMLInputChannelDataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMLInputChannelDataResponse,
   | AccessDeniedException
   | ConflictException
@@ -4678,7 +5361,7 @@ export const deleteMLInputChannelData: (
  */
 export const deleteTrainedModelOutput: (
   input: DeleteTrainedModelOutputRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTrainedModelOutputResponse,
   | AccessDeniedException
   | ConflictException
@@ -4703,7 +5386,7 @@ export const deleteTrainedModelOutput: (
  */
 export const cancelTrainedModel: (
   input: CancelTrainedModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelTrainedModelResponse,
   | AccessDeniedException
   | ConflictException
@@ -4728,7 +5411,7 @@ export const cancelTrainedModel: (
  */
 export const cancelTrainedModelInferenceJob: (
   input: CancelTrainedModelInferenceJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelTrainedModelInferenceJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -4754,21 +5437,21 @@ export const cancelTrainedModelInferenceJob: (
 export const listAudienceExportJobs: {
   (
     input: ListAudienceExportJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAudienceExportJobsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListAudienceExportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAudienceExportJobsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAudienceExportJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AudienceExportJobSummary,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -4790,21 +5473,21 @@ export const listAudienceExportJobs: {
 export const listAudienceGenerationJobs: {
   (
     input: ListAudienceGenerationJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAudienceGenerationJobsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListAudienceGenerationJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAudienceGenerationJobsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAudienceGenerationJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AudienceGenerationJobSummary,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -4826,21 +5509,21 @@ export const listAudienceGenerationJobs: {
 export const listAudienceModels: {
   (
     input: ListAudienceModelsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAudienceModelsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListAudienceModelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAudienceModelsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAudienceModelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AudienceModelSummary,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -4862,21 +5545,21 @@ export const listAudienceModels: {
 export const listConfiguredAudienceModels: {
   (
     input: ListConfiguredAudienceModelsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConfiguredAudienceModelsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListConfiguredAudienceModelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConfiguredAudienceModelsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConfiguredAudienceModelsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConfiguredAudienceModelSummary,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -4898,21 +5581,21 @@ export const listConfiguredAudienceModels: {
 export const listConfiguredModelAlgorithms: {
   (
     input: ListConfiguredModelAlgorithmsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConfiguredModelAlgorithmsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListConfiguredModelAlgorithmsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConfiguredModelAlgorithmsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConfiguredModelAlgorithmsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConfiguredModelAlgorithmSummary,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -4934,21 +5617,21 @@ export const listConfiguredModelAlgorithms: {
 export const listTrainingDatasets: {
   (
     input: ListTrainingDatasetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTrainingDatasetsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListTrainingDatasetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTrainingDatasetsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTrainingDatasetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TrainingDatasetSummary,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -4969,7 +5652,7 @@ export const listTrainingDatasets: {
  */
 export const getAudienceModel: (
   input: GetAudienceModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAudienceModelResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4990,7 +5673,7 @@ export const getAudienceModel: (
  */
 export const getConfiguredAudienceModel: (
   input: GetConfiguredAudienceModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConfiguredAudienceModelResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -5011,7 +5694,7 @@ export const getConfiguredAudienceModel: (
  */
 export const putConfiguredAudienceModelPolicy: (
   input: PutConfiguredAudienceModelPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutConfiguredAudienceModelPolicyResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -5032,7 +5715,7 @@ export const putConfiguredAudienceModelPolicy: (
  */
 export const getConfiguredAudienceModelPolicy: (
   input: GetConfiguredAudienceModelPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConfiguredAudienceModelPolicyResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -5053,7 +5736,7 @@ export const getConfiguredAudienceModelPolicy: (
  */
 export const getConfiguredModelAlgorithm: (
   input: GetConfiguredModelAlgorithmRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetConfiguredModelAlgorithmResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -5074,7 +5757,7 @@ export const getConfiguredModelAlgorithm: (
  */
 export const getTrainingDataset: (
   input: GetTrainingDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTrainingDatasetResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -5095,7 +5778,7 @@ export const getTrainingDataset: (
  */
 export const deleteConfiguredAudienceModelPolicy: (
   input: DeleteConfiguredAudienceModelPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConfiguredAudienceModelPolicyResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -5116,7 +5799,7 @@ export const deleteConfiguredAudienceModelPolicy: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -5137,7 +5820,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -5158,7 +5841,7 @@ export const tagResource: (
  */
 export const updateConfiguredAudienceModel: (
   input: UpdateConfiguredAudienceModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateConfiguredAudienceModelResponse,
   | AccessDeniedException
   | ConflictException
@@ -5181,7 +5864,7 @@ export const updateConfiguredAudienceModel: (
  */
 export const deleteAudienceGenerationJob: (
   input: DeleteAudienceGenerationJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAudienceGenerationJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -5204,7 +5887,7 @@ export const deleteAudienceGenerationJob: (
  */
 export const deleteAudienceModel: (
   input: DeleteAudienceModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAudienceModelResponse,
   | AccessDeniedException
   | ConflictException
@@ -5227,7 +5910,7 @@ export const deleteAudienceModel: (
  */
 export const deleteConfiguredAudienceModel: (
   input: DeleteConfiguredAudienceModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConfiguredAudienceModelResponse,
   | AccessDeniedException
   | ConflictException
@@ -5250,7 +5933,7 @@ export const deleteConfiguredAudienceModel: (
  */
 export const deleteConfiguredModelAlgorithm: (
   input: DeleteConfiguredModelAlgorithmRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConfiguredModelAlgorithmResponse,
   | AccessDeniedException
   | ConflictException
@@ -5273,7 +5956,7 @@ export const deleteConfiguredModelAlgorithm: (
  */
 export const deleteTrainingDataset: (
   input: DeleteTrainingDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTrainingDatasetResponse,
   | AccessDeniedException
   | ConflictException
@@ -5297,7 +5980,7 @@ export const deleteTrainingDataset: (
 export const listCollaborationConfiguredModelAlgorithmAssociations: {
   (
     input: ListCollaborationConfiguredModelAlgorithmAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCollaborationConfiguredModelAlgorithmAssociationsResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -5307,7 +5990,7 @@ export const listCollaborationConfiguredModelAlgorithmAssociations: {
   >;
   pages: (
     input: ListCollaborationConfiguredModelAlgorithmAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCollaborationConfiguredModelAlgorithmAssociationsResponse,
     | AccessDeniedException
     | ThrottlingException
@@ -5317,7 +6000,7 @@ export const listCollaborationConfiguredModelAlgorithmAssociations: {
   >;
   items: (
     input: ListCollaborationConfiguredModelAlgorithmAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CollaborationConfiguredModelAlgorithmAssociationSummary,
     | AccessDeniedException
     | ThrottlingException
@@ -5341,7 +6024,7 @@ export const listCollaborationConfiguredModelAlgorithmAssociations: {
  */
 export const createAudienceModel: (
   input: CreateAudienceModelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAudienceModelResponse,
   | AccessDeniedException
   | ConflictException
@@ -5366,7 +6049,7 @@ export const createAudienceModel: (
  */
 export const startAudienceGenerationJob: (
   input: StartAudienceGenerationJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartAudienceGenerationJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -5393,7 +6076,7 @@ export const startAudienceGenerationJob: (
  */
 export const createMLInputChannel: (
   input: CreateMLInputChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMLInputChannelResponse,
   | AccessDeniedException
   | ConflictException
@@ -5420,7 +6103,7 @@ export const createMLInputChannel: (
  */
 export const getMLInputChannel: (
   input: GetMLInputChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMLInputChannelResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -5443,7 +6126,7 @@ export const getMLInputChannel: (
  */
 export const createTrainingDataset: (
   input: CreateTrainingDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTrainingDatasetResponse,
   | AccessDeniedException
   | ConflictException
@@ -5460,7 +6143,7 @@ export const createTrainingDataset: (
  */
 export const createConfiguredModelAlgorithmAssociation: (
   input: CreateConfiguredModelAlgorithmAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateConfiguredModelAlgorithmAssociationResponse,
   | AccessDeniedException
   | ConflictException

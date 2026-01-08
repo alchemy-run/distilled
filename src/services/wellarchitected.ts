@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -206,6 +206,8 @@ export type ProfileArns = string[];
 export const ProfileArns = S.Array(S.String);
 export type ReviewTemplateLenses = string[];
 export const ReviewTemplateLenses = S.Array(S.String);
+export type WorkloadEnvironment = "PRODUCTION" | "PREPRODUCTION";
+export const WorkloadEnvironment = S.Literal("PRODUCTION", "PREPRODUCTION");
 export type WorkloadAccountIds = string[];
 export const WorkloadAccountIds = S.Array(S.String);
 export type WorkloadAwsRegions = string[];
@@ -222,20 +224,96 @@ export type WorkloadProfileArns = string[];
 export const WorkloadProfileArns = S.Array(S.String);
 export type ReviewTemplateArns = string[];
 export const ReviewTemplateArns = S.Array(S.String);
+export type PermissionType = "READONLY" | "CONTRIBUTOR";
+export const PermissionType = S.Literal("READONLY", "CONTRIBUTOR");
+export type LensStatusType = "ALL" | "DRAFT" | "PUBLISHED";
+export const LensStatusType = S.Literal("ALL", "DRAFT", "PUBLISHED");
+export type ReportFormat = "PDF" | "JSON";
+export const ReportFormat = S.Literal("PDF", "JSON");
+export type OrganizationSharingStatus = "ENABLED" | "DISABLED";
+export const OrganizationSharingStatus = S.Literal("ENABLED", "DISABLED");
+export type DiscoveryIntegrationStatus = "ENABLED" | "DISABLED";
+export const DiscoveryIntegrationStatus = S.Literal("ENABLED", "DISABLED");
+export type QuestionPriority = "PRIORITIZED" | "NONE";
+export const QuestionPriority = S.Literal("PRIORITIZED", "NONE");
+export type LensType = "AWS_OFFICIAL" | "CUSTOM_SHARED" | "CUSTOM_SELF";
+export const LensType = S.Literal(
+  "AWS_OFFICIAL",
+  "CUSTOM_SHARED",
+  "CUSTOM_SELF",
+);
+export type ShareStatus =
+  | "ACCEPTED"
+  | "REJECTED"
+  | "PENDING"
+  | "REVOKED"
+  | "EXPIRED"
+  | "ASSOCIATING"
+  | "ASSOCIATED"
+  | "FAILED";
+export const ShareStatus = S.Literal(
+  "ACCEPTED",
+  "REJECTED",
+  "PENDING",
+  "REVOKED",
+  "EXPIRED",
+  "ASSOCIATING",
+  "ASSOCIATED",
+  "FAILED",
+);
+export type ProfileOwnerType = "SELF" | "SHARED";
+export const ProfileOwnerType = S.Literal("SELF", "SHARED");
+export type ShareResourceType = "WORKLOAD" | "LENS" | "PROFILE" | "TEMPLATE";
+export const ShareResourceType = S.Literal(
+  "WORKLOAD",
+  "LENS",
+  "PROFILE",
+  "TEMPLATE",
+);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export type SelectedChoices = string[];
 export const SelectedChoices = S.Array(S.String);
+export type AnswerReason =
+  | "OUT_OF_SCOPE"
+  | "BUSINESS_PRIORITIES"
+  | "ARCHITECTURE_CONSTRAINTS"
+  | "OTHER"
+  | "NONE";
+export const AnswerReason = S.Literal(
+  "OUT_OF_SCOPE",
+  "BUSINESS_PRIORITIES",
+  "ARCHITECTURE_CONSTRAINTS",
+  "OTHER",
+  "NONE",
+);
+export type IntegratingService = "JIRA";
+export const IntegratingService = S.Literal("JIRA");
 export type ReviewTemplateLensAliases = string[];
 export const ReviewTemplateLensAliases = S.Array(S.String);
+export type ShareInvitationAction = "ACCEPT" | "REJECT";
+export const ShareInvitationAction = S.Literal("ACCEPT", "REJECT");
+export type WorkloadImprovementStatus =
+  | "NOT_APPLICABLE"
+  | "NOT_STARTED"
+  | "IN_PROGRESS"
+  | "COMPLETE"
+  | "RISK_ACKNOWLEDGED";
+export const WorkloadImprovementStatus = S.Literal(
+  "NOT_APPLICABLE",
+  "NOT_STARTED",
+  "IN_PROGRESS",
+  "COMPLETE",
+  "RISK_ACKNOWLEDGED",
+);
 export interface AssociateLensesInput {
   WorkloadId: string;
-  LensAliases: LensAliases;
+  LensAliases?: string[];
 }
 export const AssociateLensesInput = S.suspend(() =>
   S.Struct({
     WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
-    LensAliases: LensAliases,
+    LensAliases: S.optional(LensAliases),
   }).pipe(
     T.all(
       T.Http({
@@ -260,12 +338,12 @@ export const AssociateLensesResponse = S.suspend(() =>
 }) as any as S.Schema<AssociateLensesResponse>;
 export interface AssociateProfilesInput {
   WorkloadId: string;
-  ProfileArns: ProfileArns;
+  ProfileArns?: string[];
 }
 export const AssociateProfilesInput = S.suspend(() =>
   S.Struct({
     WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
-    ProfileArns: ProfileArns,
+    ProfileArns: S.optional(ProfileArns),
   }).pipe(
     T.all(
       T.Http({
@@ -290,14 +368,14 @@ export const AssociateProfilesResponse = S.suspend(() =>
 }) as any as S.Schema<AssociateProfilesResponse>;
 export interface CreateLensShareInput {
   LensAlias: string;
-  SharedWith: string;
-  ClientRequestToken: string;
+  SharedWith?: string;
+  ClientRequestToken?: string;
 }
 export const CreateLensShareInput = S.suspend(() =>
   S.Struct({
     LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
-    SharedWith: S.String,
-    ClientRequestToken: S.String,
+    SharedWith: S.optional(S.String),
+    ClientRequestToken: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/lenses/{LensAlias}/shares" }),
@@ -313,16 +391,16 @@ export const CreateLensShareInput = S.suspend(() =>
 }) as any as S.Schema<CreateLensShareInput>;
 export interface CreateLensVersionInput {
   LensAlias: string;
-  LensVersion: string;
+  LensVersion?: string;
   IsMajorVersion?: boolean;
-  ClientRequestToken: string;
+  ClientRequestToken?: string;
 }
 export const CreateLensVersionInput = S.suspend(() =>
   S.Struct({
     LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
-    LensVersion: S.String,
+    LensVersion: S.optional(S.String),
     IsMajorVersion: S.optional(S.Boolean),
-    ClientRequestToken: S.String,
+    ClientRequestToken: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/lenses/{LensAlias}/versions" }),
@@ -338,14 +416,14 @@ export const CreateLensVersionInput = S.suspend(() =>
 }) as any as S.Schema<CreateLensVersionInput>;
 export interface CreateMilestoneInput {
   WorkloadId: string;
-  MilestoneName: string;
-  ClientRequestToken: string;
+  MilestoneName?: string;
+  ClientRequestToken?: string;
 }
 export const CreateMilestoneInput = S.suspend(() =>
   S.Struct({
     WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
-    MilestoneName: S.String,
-    ClientRequestToken: S.String,
+    MilestoneName: S.optional(S.String),
+    ClientRequestToken: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/workloads/{WorkloadId}/milestones" }),
@@ -361,14 +439,14 @@ export const CreateMilestoneInput = S.suspend(() =>
 }) as any as S.Schema<CreateMilestoneInput>;
 export interface CreateProfileShareInput {
   ProfileArn: string;
-  SharedWith: string;
-  ClientRequestToken: string;
+  SharedWith?: string;
+  ClientRequestToken?: string;
 }
 export const CreateProfileShareInput = S.suspend(() =>
   S.Struct({
     ProfileArn: S.String.pipe(T.HttpLabel("ProfileArn")),
-    SharedWith: S.String,
-    ClientRequestToken: S.String,
+    SharedWith: S.optional(S.String),
+    ClientRequestToken: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/profiles/{ProfileArn}/shares" }),
@@ -385,21 +463,21 @@ export const CreateProfileShareInput = S.suspend(() =>
 export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface CreateReviewTemplateInput {
-  TemplateName: string;
-  Description: string;
-  Lenses: ReviewTemplateLenses;
+  TemplateName?: string;
+  Description?: string;
+  Lenses?: string[];
   Notes?: string;
-  Tags?: TagMap;
-  ClientRequestToken: string;
+  Tags?: { [key: string]: string };
+  ClientRequestToken?: string;
 }
 export const CreateReviewTemplateInput = S.suspend(() =>
   S.Struct({
-    TemplateName: S.String,
-    Description: S.String,
-    Lenses: ReviewTemplateLenses,
+    TemplateName: S.optional(S.String),
+    Description: S.optional(S.String),
+    Lenses: S.optional(ReviewTemplateLenses),
     Notes: S.optional(S.String),
     Tags: S.optional(TagMap),
-    ClientRequestToken: S.String,
+    ClientRequestToken: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/reviewTemplates" }),
@@ -415,14 +493,14 @@ export const CreateReviewTemplateInput = S.suspend(() =>
 }) as any as S.Schema<CreateReviewTemplateInput>;
 export interface CreateTemplateShareInput {
   TemplateArn: string;
-  SharedWith: string;
-  ClientRequestToken: string;
+  SharedWith?: string;
+  ClientRequestToken?: string;
 }
 export const CreateTemplateShareInput = S.suspend(() =>
   S.Struct({
     TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
-    SharedWith: S.String,
-    ClientRequestToken: S.String,
+    SharedWith: S.optional(S.String),
+    ClientRequestToken: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/templates/shares/{TemplateArn}" }),
@@ -438,16 +516,16 @@ export const CreateTemplateShareInput = S.suspend(() =>
 }) as any as S.Schema<CreateTemplateShareInput>;
 export interface CreateWorkloadShareInput {
   WorkloadId: string;
-  SharedWith: string;
-  PermissionType: string;
-  ClientRequestToken: string;
+  SharedWith?: string;
+  PermissionType?: PermissionType;
+  ClientRequestToken?: string;
 }
 export const CreateWorkloadShareInput = S.suspend(() =>
   S.Struct({
     WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
-    SharedWith: S.String,
-    PermissionType: S.String,
-    ClientRequestToken: S.String,
+    SharedWith: S.optional(S.String),
+    PermissionType: S.optional(PermissionType),
+    ClientRequestToken: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/workloads/{WorkloadId}/shares" }),
@@ -463,14 +541,16 @@ export const CreateWorkloadShareInput = S.suspend(() =>
 }) as any as S.Schema<CreateWorkloadShareInput>;
 export interface DeleteLensInput {
   LensAlias: string;
-  ClientRequestToken: string;
-  LensStatus: string;
+  ClientRequestToken?: string;
+  LensStatus?: LensStatusType;
 }
 export const DeleteLensInput = S.suspend(() =>
   S.Struct({
     LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
-    ClientRequestToken: S.String.pipe(T.HttpQuery("ClientRequestToken")),
-    LensStatus: S.String.pipe(T.HttpQuery("LensStatus")),
+    ClientRequestToken: S.optional(S.String).pipe(
+      T.HttpQuery("ClientRequestToken"),
+    ),
+    LensStatus: S.optional(LensStatusType).pipe(T.HttpQuery("LensStatus")),
   }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/lenses/{LensAlias}" }),
@@ -491,13 +571,15 @@ export const DeleteLensResponse = S.suspend(() => S.Struct({})).annotations({
 export interface DeleteLensShareInput {
   ShareId: string;
   LensAlias: string;
-  ClientRequestToken: string;
+  ClientRequestToken?: string;
 }
 export const DeleteLensShareInput = S.suspend(() =>
   S.Struct({
     ShareId: S.String.pipe(T.HttpLabel("ShareId")),
     LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
-    ClientRequestToken: S.String.pipe(T.HttpQuery("ClientRequestToken")),
+    ClientRequestToken: S.optional(S.String).pipe(
+      T.HttpQuery("ClientRequestToken"),
+    ),
   }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/lenses/{LensAlias}/shares/{ShareId}" }),
@@ -519,12 +601,14 @@ export const DeleteLensShareResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteLensShareResponse>;
 export interface DeleteProfileInput {
   ProfileArn: string;
-  ClientRequestToken: string;
+  ClientRequestToken?: string;
 }
 export const DeleteProfileInput = S.suspend(() =>
   S.Struct({
     ProfileArn: S.String.pipe(T.HttpLabel("ProfileArn")),
-    ClientRequestToken: S.String.pipe(T.HttpQuery("ClientRequestToken")),
+    ClientRequestToken: S.optional(S.String).pipe(
+      T.HttpQuery("ClientRequestToken"),
+    ),
   }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/profiles/{ProfileArn}" }),
@@ -545,13 +629,15 @@ export const DeleteProfileResponse = S.suspend(() => S.Struct({})).annotations({
 export interface DeleteProfileShareInput {
   ShareId: string;
   ProfileArn: string;
-  ClientRequestToken: string;
+  ClientRequestToken?: string;
 }
 export const DeleteProfileShareInput = S.suspend(() =>
   S.Struct({
     ShareId: S.String.pipe(T.HttpLabel("ShareId")),
     ProfileArn: S.String.pipe(T.HttpLabel("ProfileArn")),
-    ClientRequestToken: S.String.pipe(T.HttpQuery("ClientRequestToken")),
+    ClientRequestToken: S.optional(S.String).pipe(
+      T.HttpQuery("ClientRequestToken"),
+    ),
   }).pipe(
     T.all(
       T.Http({
@@ -576,12 +662,14 @@ export const DeleteProfileShareResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteProfileShareResponse>;
 export interface DeleteReviewTemplateInput {
   TemplateArn: string;
-  ClientRequestToken: string;
+  ClientRequestToken?: string;
 }
 export const DeleteReviewTemplateInput = S.suspend(() =>
   S.Struct({
     TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
-    ClientRequestToken: S.String.pipe(T.HttpQuery("ClientRequestToken")),
+    ClientRequestToken: S.optional(S.String).pipe(
+      T.HttpQuery("ClientRequestToken"),
+    ),
   }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/reviewTemplates/{TemplateArn}" }),
@@ -604,13 +692,15 @@ export const DeleteReviewTemplateResponse = S.suspend(() =>
 export interface DeleteTemplateShareInput {
   ShareId: string;
   TemplateArn: string;
-  ClientRequestToken: string;
+  ClientRequestToken?: string;
 }
 export const DeleteTemplateShareInput = S.suspend(() =>
   S.Struct({
     ShareId: S.String.pipe(T.HttpLabel("ShareId")),
     TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
-    ClientRequestToken: S.String.pipe(T.HttpQuery("ClientRequestToken")),
+    ClientRequestToken: S.optional(S.String).pipe(
+      T.HttpQuery("ClientRequestToken"),
+    ),
   }).pipe(
     T.all(
       T.Http({
@@ -635,12 +725,14 @@ export const DeleteTemplateShareResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteTemplateShareResponse>;
 export interface DeleteWorkloadInput {
   WorkloadId: string;
-  ClientRequestToken: string;
+  ClientRequestToken?: string;
 }
 export const DeleteWorkloadInput = S.suspend(() =>
   S.Struct({
     WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
-    ClientRequestToken: S.String.pipe(T.HttpQuery("ClientRequestToken")),
+    ClientRequestToken: S.optional(S.String).pipe(
+      T.HttpQuery("ClientRequestToken"),
+    ),
   }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/workloads/{WorkloadId}" }),
@@ -661,13 +753,15 @@ export const DeleteWorkloadResponse = S.suspend(() => S.Struct({})).annotations(
 export interface DeleteWorkloadShareInput {
   ShareId: string;
   WorkloadId: string;
-  ClientRequestToken: string;
+  ClientRequestToken?: string;
 }
 export const DeleteWorkloadShareInput = S.suspend(() =>
   S.Struct({
     ShareId: S.String.pipe(T.HttpLabel("ShareId")),
     WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
-    ClientRequestToken: S.String.pipe(T.HttpQuery("ClientRequestToken")),
+    ClientRequestToken: S.optional(S.String).pipe(
+      T.HttpQuery("ClientRequestToken"),
+    ),
   }).pipe(
     T.all(
       T.Http({
@@ -692,12 +786,12 @@ export const DeleteWorkloadShareResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteWorkloadShareResponse>;
 export interface DisassociateLensesInput {
   WorkloadId: string;
-  LensAliases: LensAliases;
+  LensAliases?: string[];
 }
 export const DisassociateLensesInput = S.suspend(() =>
   S.Struct({
     WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
-    LensAliases: LensAliases,
+    LensAliases: S.optional(LensAliases),
   }).pipe(
     T.all(
       T.Http({
@@ -722,12 +816,12 @@ export const DisassociateLensesResponse = S.suspend(() =>
 }) as any as S.Schema<DisassociateLensesResponse>;
 export interface DisassociateProfilesInput {
   WorkloadId: string;
-  ProfileArns: ProfileArns;
+  ProfileArns?: string[];
 }
 export const DisassociateProfilesInput = S.suspend(() =>
   S.Struct({
     WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
-    ProfileArns: ProfileArns,
+    ProfileArns: S.optional(ProfileArns),
   }).pipe(
     T.all(
       T.Http({
@@ -800,14 +894,14 @@ export const GetAnswerInput = S.suspend(() =>
   identifier: "GetAnswerInput",
 }) as any as S.Schema<GetAnswerInput>;
 export interface GetConsolidatedReportInput {
-  Format: string;
+  Format?: ReportFormat;
   IncludeSharedResources?: boolean;
   NextToken?: string;
   MaxResults?: number;
 }
 export const GetConsolidatedReportInput = S.suspend(() =>
   S.Struct({
-    Format: S.String.pipe(T.HttpQuery("Format")),
+    Format: S.optional(ReportFormat).pipe(T.HttpQuery("Format")),
     IncludeSharedResources: S.optional(S.Boolean).pipe(
       T.HttpQuery("IncludeSharedResources"),
     ),
@@ -1053,15 +1147,15 @@ export const GetWorkloadInput = S.suspend(() =>
 }) as any as S.Schema<GetWorkloadInput>;
 export interface ImportLensInput {
   LensAlias?: string;
-  JSONString: string;
-  ClientRequestToken: string;
-  Tags?: TagMap;
+  JSONString?: string;
+  ClientRequestToken?: string;
+  Tags?: { [key: string]: string };
 }
 export const ImportLensInput = S.suspend(() =>
   S.Struct({
     LensAlias: S.optional(S.String),
-    JSONString: S.String,
-    ClientRequestToken: S.String,
+    JSONString: S.optional(S.String),
+    ClientRequestToken: S.optional(S.String),
     Tags: S.optional(TagMap),
   }).pipe(
     T.all(
@@ -1083,7 +1177,7 @@ export interface ListAnswersInput {
   MilestoneNumber?: number;
   NextToken?: string;
   MaxResults?: number;
-  QuestionPriority?: string;
+  QuestionPriority?: QuestionPriority;
 }
 export const ListAnswersInput = S.suspend(() =>
   S.Struct({
@@ -1093,7 +1187,7 @@ export const ListAnswersInput = S.suspend(() =>
     MilestoneNumber: S.optional(S.Number).pipe(T.HttpQuery("MilestoneNumber")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    QuestionPriority: S.optional(S.String).pipe(
+    QuestionPriority: S.optional(QuestionPriority).pipe(
       T.HttpQuery("QuestionPriority"),
     ),
   }).pipe(
@@ -1116,20 +1210,20 @@ export interface ListCheckDetailsInput {
   WorkloadId: string;
   NextToken?: string;
   MaxResults?: number;
-  LensArn: string;
-  PillarId: string;
-  QuestionId: string;
-  ChoiceId: string;
+  LensArn?: string;
+  PillarId?: string;
+  QuestionId?: string;
+  ChoiceId?: string;
 }
 export const ListCheckDetailsInput = S.suspend(() =>
   S.Struct({
     WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-    LensArn: S.String,
-    PillarId: S.String,
-    QuestionId: S.String,
-    ChoiceId: S.String,
+    LensArn: S.optional(S.String),
+    PillarId: S.optional(S.String),
+    QuestionId: S.optional(S.String),
+    ChoiceId: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/workloads/{WorkloadId}/checks" }),
@@ -1147,20 +1241,20 @@ export interface ListCheckSummariesInput {
   WorkloadId: string;
   NextToken?: string;
   MaxResults?: number;
-  LensArn: string;
-  PillarId: string;
-  QuestionId: string;
-  ChoiceId: string;
+  LensArn?: string;
+  PillarId?: string;
+  QuestionId?: string;
+  ChoiceId?: string;
 }
 export const ListCheckSummariesInput = S.suspend(() =>
   S.Struct({
     WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-    LensArn: S.String,
-    PillarId: S.String,
-    QuestionId: S.String,
-    ChoiceId: S.String,
+    LensArn: S.optional(S.String),
+    PillarId: S.optional(S.String),
+    QuestionId: S.optional(S.String),
+    ChoiceId: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/workloads/{WorkloadId}/checkSummaries" }),
@@ -1177,16 +1271,16 @@ export const ListCheckSummariesInput = S.suspend(() =>
 export interface ListLensesInput {
   NextToken?: string;
   MaxResults?: number;
-  LensType?: string;
-  LensStatus?: string;
+  LensType?: LensType;
+  LensStatus?: LensStatusType;
   LensName?: string;
 }
 export const ListLensesInput = S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    LensType: S.optional(S.String).pipe(T.HttpQuery("LensType")),
-    LensStatus: S.optional(S.String).pipe(T.HttpQuery("LensStatus")),
+    LensType: S.optional(LensType).pipe(T.HttpQuery("LensType")),
+    LensStatus: S.optional(LensStatusType).pipe(T.HttpQuery("LensStatus")),
     LensName: S.optional(S.String).pipe(T.HttpQuery("LensName")),
   }).pipe(
     T.all(
@@ -1208,7 +1302,7 @@ export interface ListLensReviewImprovementsInput {
   MilestoneNumber?: number;
   NextToken?: string;
   MaxResults?: number;
-  QuestionPriority?: string;
+  QuestionPriority?: QuestionPriority;
 }
 export const ListLensReviewImprovementsInput = S.suspend(() =>
   S.Struct({
@@ -1218,7 +1312,7 @@ export const ListLensReviewImprovementsInput = S.suspend(() =>
     MilestoneNumber: S.optional(S.Number).pipe(T.HttpQuery("MilestoneNumber")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    QuestionPriority: S.optional(S.String).pipe(
+    QuestionPriority: S.optional(QuestionPriority).pipe(
       T.HttpQuery("QuestionPriority"),
     ),
   }).pipe(
@@ -1267,7 +1361,7 @@ export interface ListLensSharesInput {
   SharedWithPrefix?: string;
   NextToken?: string;
   MaxResults?: number;
-  Status?: string;
+  Status?: ShareStatus;
 }
 export const ListLensSharesInput = S.suspend(() =>
   S.Struct({
@@ -1277,7 +1371,7 @@ export const ListLensSharesInput = S.suspend(() =>
     ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    Status: S.optional(S.String).pipe(T.HttpQuery("Status")),
+    Status: S.optional(ShareStatus).pipe(T.HttpQuery("Status")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/lenses/{LensAlias}/shares" }),
@@ -1367,7 +1461,7 @@ export const ListProfileNotificationsInput = S.suspend(() =>
 }) as any as S.Schema<ListProfileNotificationsInput>;
 export interface ListProfilesInput {
   ProfileNamePrefix?: string;
-  ProfileOwnerType?: string;
+  ProfileOwnerType?: ProfileOwnerType;
   NextToken?: string;
   MaxResults?: number;
 }
@@ -1376,7 +1470,7 @@ export const ListProfilesInput = S.suspend(() =>
     ProfileNamePrefix: S.optional(S.String).pipe(
       T.HttpQuery("ProfileNamePrefix"),
     ),
-    ProfileOwnerType: S.optional(S.String).pipe(
+    ProfileOwnerType: S.optional(ProfileOwnerType).pipe(
       T.HttpQuery("ProfileOwnerType"),
     ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
@@ -1399,7 +1493,7 @@ export interface ListProfileSharesInput {
   SharedWithPrefix?: string;
   NextToken?: string;
   MaxResults?: number;
-  Status?: string;
+  Status?: ShareStatus;
 }
 export const ListProfileSharesInput = S.suspend(() =>
   S.Struct({
@@ -1409,7 +1503,7 @@ export const ListProfileSharesInput = S.suspend(() =>
     ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    Status: S.optional(S.String).pipe(T.HttpQuery("Status")),
+    Status: S.optional(ShareStatus).pipe(T.HttpQuery("Status")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/profiles/{ProfileArn}/shares" }),
@@ -1477,7 +1571,7 @@ export const ListReviewTemplatesInput = S.suspend(() =>
 export interface ListShareInvitationsInput {
   WorkloadNamePrefix?: string;
   LensNamePrefix?: string;
-  ShareResourceType?: string;
+  ShareResourceType?: ShareResourceType;
   NextToken?: string;
   MaxResults?: number;
   ProfileNamePrefix?: string;
@@ -1489,7 +1583,7 @@ export const ListShareInvitationsInput = S.suspend(() =>
       T.HttpQuery("WorkloadNamePrefix"),
     ),
     LensNamePrefix: S.optional(S.String).pipe(T.HttpQuery("LensNamePrefix")),
-    ShareResourceType: S.optional(S.String).pipe(
+    ShareResourceType: S.optional(ShareResourceType).pipe(
       T.HttpQuery("ShareResourceType"),
     ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
@@ -1535,7 +1629,7 @@ export interface ListTemplateSharesInput {
   SharedWithPrefix?: string;
   NextToken?: string;
   MaxResults?: number;
-  Status?: string;
+  Status?: ShareStatus;
 }
 export const ListTemplateSharesInput = S.suspend(() =>
   S.Struct({
@@ -1545,7 +1639,7 @@ export const ListTemplateSharesInput = S.suspend(() =>
     ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    Status: S.optional(S.String).pipe(T.HttpQuery("Status")),
+    Status: S.optional(ShareStatus).pipe(T.HttpQuery("Status")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/templates/shares/{TemplateArn}" }),
@@ -1587,7 +1681,7 @@ export interface ListWorkloadSharesInput {
   SharedWithPrefix?: string;
   NextToken?: string;
   MaxResults?: number;
-  Status?: string;
+  Status?: ShareStatus;
 }
 export const ListWorkloadSharesInput = S.suspend(() =>
   S.Struct({
@@ -1597,7 +1691,7 @@ export const ListWorkloadSharesInput = S.suspend(() =>
     ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    Status: S.optional(S.String).pipe(T.HttpQuery("Status")),
+    Status: S.optional(ShareStatus).pipe(T.HttpQuery("Status")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/workloads/{WorkloadId}/shares" }),
@@ -1613,12 +1707,12 @@ export const ListWorkloadSharesInput = S.suspend(() =>
 }) as any as S.Schema<ListWorkloadSharesInput>;
 export interface TagResourceInput {
   WorkloadArn: string;
-  Tags: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
     WorkloadArn: S.String.pipe(T.HttpLabel("WorkloadArn")),
-    Tags: TagMap,
+    Tags: S.optional(TagMap),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/tags/{WorkloadArn}" }),
@@ -1638,12 +1732,12 @@ export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceOutput>;
 export interface UntagResourceInput {
   WorkloadArn: string;
-  TagKeys: TagKeyList;
+  TagKeys?: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({
     WorkloadArn: S.String.pipe(T.HttpLabel("WorkloadArn")),
-    TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
+    TagKeys: S.optional(TagKeyList).pipe(T.HttpQuery("tagKeys")),
   }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/tags/{WorkloadArn}" }),
@@ -1663,14 +1757,14 @@ export const UntagResourceOutput = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceOutput>;
 export interface UpdateIntegrationInput {
   WorkloadId: string;
-  ClientRequestToken: string;
-  IntegratingService: string;
+  ClientRequestToken?: string;
+  IntegratingService?: IntegratingService;
 }
 export const UpdateIntegrationInput = S.suspend(() =>
   S.Struct({
     WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
-    ClientRequestToken: S.String,
-    IntegratingService: S.String,
+    ClientRequestToken: S.optional(S.String),
+    IntegratingService: S.optional(IntegratingService),
   }).pipe(
     T.all(
       T.Http({
@@ -1697,7 +1791,7 @@ export type SelectedProfileChoiceIds = string[];
 export const SelectedProfileChoiceIds = S.Array(S.String);
 export interface ProfileQuestionUpdate {
   QuestionId?: string;
-  SelectedChoiceIds?: SelectedProfileChoiceIds;
+  SelectedChoiceIds?: string[];
 }
 export const ProfileQuestionUpdate = S.suspend(() =>
   S.Struct({
@@ -1712,7 +1806,7 @@ export const ProfileQuestionUpdates = S.Array(ProfileQuestionUpdate);
 export interface UpdateProfileInput {
   ProfileArn: string;
   ProfileDescription?: string;
-  ProfileQuestions?: ProfileQuestionUpdates;
+  ProfileQuestions?: ProfileQuestionUpdate[];
 }
 export const UpdateProfileInput = S.suspend(() =>
   S.Struct({
@@ -1737,8 +1831,8 @@ export interface UpdateReviewTemplateInput {
   TemplateName?: string;
   Description?: string;
   Notes?: string;
-  LensesToAssociate?: ReviewTemplateLensAliases;
-  LensesToDisassociate?: ReviewTemplateLensAliases;
+  LensesToAssociate?: string[];
+  LensesToDisassociate?: string[];
 }
 export const UpdateReviewTemplateInput = S.suspend(() =>
   S.Struct({
@@ -1761,15 +1855,34 @@ export const UpdateReviewTemplateInput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateReviewTemplateInput",
 }) as any as S.Schema<UpdateReviewTemplateInput>;
+export type ChoiceStatus = "SELECTED" | "NOT_APPLICABLE" | "UNSELECTED";
+export const ChoiceStatus = S.Literal(
+  "SELECTED",
+  "NOT_APPLICABLE",
+  "UNSELECTED",
+);
+export type ChoiceReason =
+  | "OUT_OF_SCOPE"
+  | "BUSINESS_PRIORITIES"
+  | "ARCHITECTURE_CONSTRAINTS"
+  | "OTHER"
+  | "NONE";
+export const ChoiceReason = S.Literal(
+  "OUT_OF_SCOPE",
+  "BUSINESS_PRIORITIES",
+  "ARCHITECTURE_CONSTRAINTS",
+  "OTHER",
+  "NONE",
+);
 export interface ChoiceUpdate {
-  Status: string;
-  Reason?: string;
+  Status?: ChoiceStatus;
+  Reason?: ChoiceReason;
   Notes?: string;
 }
 export const ChoiceUpdate = S.suspend(() =>
   S.Struct({
-    Status: S.String,
-    Reason: S.optional(S.String),
+    Status: S.optional(ChoiceStatus),
+    Reason: S.optional(ChoiceReason),
     Notes: S.optional(S.String),
   }),
 ).annotations({ identifier: "ChoiceUpdate" }) as any as S.Schema<ChoiceUpdate>;
@@ -1779,11 +1892,11 @@ export interface UpdateReviewTemplateAnswerInput {
   TemplateArn: string;
   LensAlias: string;
   QuestionId: string;
-  SelectedChoices?: SelectedChoices;
-  ChoiceUpdates?: ChoiceUpdates;
+  SelectedChoices?: string[];
+  ChoiceUpdates?: { [key: string]: ChoiceUpdate };
   Notes?: string;
   IsApplicable?: boolean;
-  Reason?: string;
+  Reason?: AnswerReason;
 }
 export const UpdateReviewTemplateAnswerInput = S.suspend(() =>
   S.Struct({
@@ -1794,7 +1907,7 @@ export const UpdateReviewTemplateAnswerInput = S.suspend(() =>
     ChoiceUpdates: S.optional(ChoiceUpdates),
     Notes: S.optional(S.String),
     IsApplicable: S.optional(S.Boolean),
-    Reason: S.optional(S.String),
+    Reason: S.optional(AnswerReason),
   }).pipe(
     T.all(
       T.Http({
@@ -1817,7 +1930,7 @@ export interface UpdateReviewTemplateLensReviewInput {
   TemplateArn: string;
   LensAlias: string;
   LensNotes?: string;
-  PillarNotes?: PillarNotes;
+  PillarNotes?: { [key: string]: string };
 }
 export const UpdateReviewTemplateLensReviewInput = S.suspend(() =>
   S.Struct({
@@ -1843,12 +1956,12 @@ export const UpdateReviewTemplateLensReviewInput = S.suspend(() =>
 }) as any as S.Schema<UpdateReviewTemplateLensReviewInput>;
 export interface UpdateShareInvitationInput {
   ShareInvitationId: string;
-  ShareInvitationAction: string;
+  ShareInvitationAction?: ShareInvitationAction;
 }
 export const UpdateShareInvitationInput = S.suspend(() =>
   S.Struct({
     ShareInvitationId: S.String.pipe(T.HttpLabel("ShareInvitationId")),
-    ShareInvitationAction: S.String,
+    ShareInvitationAction: S.optional(ShareInvitationAction),
   }).pipe(
     T.all(
       T.Http({ method: "PATCH", uri: "/shareInvitations/{ShareInvitationId}" }),
@@ -1862,29 +1975,43 @@ export const UpdateShareInvitationInput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateShareInvitationInput",
 }) as any as S.Schema<UpdateShareInvitationInput>;
-export type WorkloadResourceDefinition = string[];
-export const WorkloadResourceDefinition = S.Array(S.String);
+export type TrustedAdvisorIntegrationStatus = "ENABLED" | "DISABLED";
+export const TrustedAdvisorIntegrationStatus = S.Literal("ENABLED", "DISABLED");
+export type DefinitionType = "WORKLOAD_METADATA" | "APP_REGISTRY";
+export const DefinitionType = S.Literal("WORKLOAD_METADATA", "APP_REGISTRY");
+export type WorkloadResourceDefinition = DefinitionType[];
+export const WorkloadResourceDefinition = S.Array(DefinitionType);
 export interface WorkloadDiscoveryConfig {
-  TrustedAdvisorIntegrationStatus?: string;
-  WorkloadResourceDefinition?: WorkloadResourceDefinition;
+  TrustedAdvisorIntegrationStatus?: TrustedAdvisorIntegrationStatus;
+  WorkloadResourceDefinition?: DefinitionType[];
 }
 export const WorkloadDiscoveryConfig = S.suspend(() =>
   S.Struct({
-    TrustedAdvisorIntegrationStatus: S.optional(S.String),
+    TrustedAdvisorIntegrationStatus: S.optional(
+      TrustedAdvisorIntegrationStatus,
+    ),
     WorkloadResourceDefinition: S.optional(WorkloadResourceDefinition),
   }),
 ).annotations({
   identifier: "WorkloadDiscoveryConfig",
 }) as any as S.Schema<WorkloadDiscoveryConfig>;
+export type WorkloadIssueManagementStatus = "ENABLED" | "DISABLED" | "INHERIT";
+export const WorkloadIssueManagementStatus = S.Literal(
+  "ENABLED",
+  "DISABLED",
+  "INHERIT",
+);
+export type IssueManagementType = "AUTO" | "MANUAL";
+export const IssueManagementType = S.Literal("AUTO", "MANUAL");
 export interface WorkloadJiraConfigurationInput {
-  IssueManagementStatus?: string;
-  IssueManagementType?: string;
+  IssueManagementStatus?: WorkloadIssueManagementStatus;
+  IssueManagementType?: IssueManagementType;
   JiraProjectKey?: string;
 }
 export const WorkloadJiraConfigurationInput = S.suspend(() =>
   S.Struct({
-    IssueManagementStatus: S.optional(S.String),
-    IssueManagementType: S.optional(S.String),
+    IssueManagementStatus: S.optional(WorkloadIssueManagementStatus),
+    IssueManagementType: S.optional(IssueManagementType),
     JiraProjectKey: S.optional(S.String),
   }),
 ).annotations({
@@ -1894,20 +2021,20 @@ export interface UpdateWorkloadInput {
   WorkloadId: string;
   WorkloadName?: string;
   Description?: string;
-  Environment?: string;
-  AccountIds?: WorkloadAccountIds;
-  AwsRegions?: WorkloadAwsRegions;
-  NonAwsRegions?: WorkloadNonAwsRegions;
-  PillarPriorities?: WorkloadPillarPriorities;
+  Environment?: WorkloadEnvironment;
+  AccountIds?: string[];
+  AwsRegions?: string[];
+  NonAwsRegions?: string[];
+  PillarPriorities?: string[];
   ArchitecturalDesign?: string;
   ReviewOwner?: string;
   IsReviewOwnerUpdateAcknowledged?: boolean;
   IndustryType?: string;
   Industry?: string;
   Notes?: string;
-  ImprovementStatus?: string;
+  ImprovementStatus?: WorkloadImprovementStatus;
   DiscoveryConfig?: WorkloadDiscoveryConfig;
-  Applications?: WorkloadApplications;
+  Applications?: string[];
   JiraConfiguration?: WorkloadJiraConfigurationInput;
 }
 export const UpdateWorkloadInput = S.suspend(() =>
@@ -1915,7 +2042,7 @@ export const UpdateWorkloadInput = S.suspend(() =>
     WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
     WorkloadName: S.optional(S.String),
     Description: S.optional(S.String),
-    Environment: S.optional(S.String),
+    Environment: S.optional(WorkloadEnvironment),
     AccountIds: S.optional(WorkloadAccountIds),
     AwsRegions: S.optional(WorkloadAwsRegions),
     NonAwsRegions: S.optional(WorkloadNonAwsRegions),
@@ -1926,7 +2053,7 @@ export const UpdateWorkloadInput = S.suspend(() =>
     IndustryType: S.optional(S.String),
     Industry: S.optional(S.String),
     Notes: S.optional(S.String),
-    ImprovementStatus: S.optional(S.String),
+    ImprovementStatus: S.optional(WorkloadImprovementStatus),
     DiscoveryConfig: S.optional(WorkloadDiscoveryConfig),
     Applications: S.optional(WorkloadApplications),
     JiraConfiguration: S.optional(WorkloadJiraConfigurationInput),
@@ -1946,13 +2073,13 @@ export const UpdateWorkloadInput = S.suspend(() =>
 export interface UpdateWorkloadShareInput {
   ShareId: string;
   WorkloadId: string;
-  PermissionType: string;
+  PermissionType?: PermissionType;
 }
 export const UpdateWorkloadShareInput = S.suspend(() =>
   S.Struct({
     ShareId: S.String.pipe(T.HttpLabel("ShareId")),
     WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
-    PermissionType: S.String,
+    PermissionType: S.optional(PermissionType),
   }).pipe(
     T.all(
       T.Http({
@@ -1972,14 +2099,14 @@ export const UpdateWorkloadShareInput = S.suspend(() =>
 export interface UpgradeLensReviewInput {
   WorkloadId: string;
   LensAlias: string;
-  MilestoneName: string;
+  MilestoneName?: string;
   ClientRequestToken?: string;
 }
 export const UpgradeLensReviewInput = S.suspend(() =>
   S.Struct({
     WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
     LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
-    MilestoneName: S.String,
+    MilestoneName: S.optional(S.String),
     ClientRequestToken: S.optional(S.String),
   }).pipe(
     T.all(
@@ -2069,19 +2196,28 @@ export const UpgradeReviewTemplateLensReviewResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpgradeReviewTemplateLensReviewResponse",
 }) as any as S.Schema<UpgradeReviewTemplateLensReviewResponse>;
+export type IntegrationStatus = "CONFIGURED" | "NOT_CONFIGURED";
+export const IntegrationStatus = S.Literal("CONFIGURED", "NOT_CONFIGURED");
+export type AccountJiraIssueManagementStatus = "ENABLED" | "DISABLED";
+export const AccountJiraIssueManagementStatus = S.Literal(
+  "ENABLED",
+  "DISABLED",
+);
+export type IntegrationStatusInput = "NOT_CONFIGURED";
+export const IntegrationStatusInput = S.Literal("NOT_CONFIGURED");
 export interface AccountJiraConfigurationOutput {
-  IntegrationStatus?: string;
-  IssueManagementStatus?: string;
-  IssueManagementType?: string;
+  IntegrationStatus?: IntegrationStatus;
+  IssueManagementStatus?: AccountJiraIssueManagementStatus;
+  IssueManagementType?: IssueManagementType;
   Subdomain?: string;
   JiraProjectKey?: string;
   StatusMessage?: string;
 }
 export const AccountJiraConfigurationOutput = S.suspend(() =>
   S.Struct({
-    IntegrationStatus: S.optional(S.String),
-    IssueManagementStatus: S.optional(S.String),
-    IssueManagementType: S.optional(S.String),
+    IntegrationStatus: S.optional(IntegrationStatus),
+    IssueManagementStatus: S.optional(AccountJiraIssueManagementStatus),
+    IssueManagementType: S.optional(IssueManagementType),
     Subdomain: S.optional(S.String),
     JiraProjectKey: S.optional(S.String),
     StatusMessage: S.optional(S.String),
@@ -2089,18 +2225,20 @@ export const AccountJiraConfigurationOutput = S.suspend(() =>
 ).annotations({
   identifier: "AccountJiraConfigurationOutput",
 }) as any as S.Schema<AccountJiraConfigurationOutput>;
+export type ImportLensStatus = "IN_PROGRESS" | "COMPLETE" | "ERROR";
+export const ImportLensStatus = S.Literal("IN_PROGRESS", "COMPLETE", "ERROR");
 export interface AccountJiraConfigurationInput {
-  IssueManagementStatus?: string;
-  IssueManagementType?: string;
+  IssueManagementStatus?: AccountJiraIssueManagementStatus;
+  IssueManagementType?: IssueManagementType;
   JiraProjectKey?: string;
-  IntegrationStatus?: string;
+  IntegrationStatus?: IntegrationStatusInput;
 }
 export const AccountJiraConfigurationInput = S.suspend(() =>
   S.Struct({
-    IssueManagementStatus: S.optional(S.String),
-    IssueManagementType: S.optional(S.String),
+    IssueManagementStatus: S.optional(AccountJiraIssueManagementStatus),
+    IssueManagementType: S.optional(IssueManagementType),
     JiraProjectKey: S.optional(S.String),
-    IntegrationStatus: S.optional(S.String),
+    IntegrationStatus: S.optional(IntegrationStatusInput),
   }),
 ).annotations({
   identifier: "AccountJiraConfigurationInput",
@@ -2140,18 +2278,18 @@ export const CreateMilestoneOutput = S.suspend(() =>
   identifier: "CreateMilestoneOutput",
 }) as any as S.Schema<CreateMilestoneOutput>;
 export interface CreateProfileInput {
-  ProfileName: string;
-  ProfileDescription: string;
-  ProfileQuestions: ProfileQuestionUpdates;
-  ClientRequestToken: string;
-  Tags?: TagMap;
+  ProfileName?: string;
+  ProfileDescription?: string;
+  ProfileQuestions?: ProfileQuestionUpdate[];
+  ClientRequestToken?: string;
+  Tags?: { [key: string]: string };
 }
 export const CreateProfileInput = S.suspend(() =>
   S.Struct({
-    ProfileName: S.String,
-    ProfileDescription: S.String,
-    ProfileQuestions: ProfileQuestionUpdates,
-    ClientRequestToken: S.String,
+    ProfileName: S.optional(S.String),
+    ProfileDescription: S.optional(S.String),
+    ProfileQuestions: S.optional(ProfileQuestionUpdates),
+    ClientRequestToken: S.optional(S.String),
     Tags: S.optional(TagMap),
   }).pipe(
     T.all(
@@ -2196,32 +2334,32 @@ export const CreateTemplateShareOutput = S.suspend(() =>
   identifier: "CreateTemplateShareOutput",
 }) as any as S.Schema<CreateTemplateShareOutput>;
 export interface CreateWorkloadInput {
-  WorkloadName: string;
-  Description: string;
-  Environment: string;
-  AccountIds?: WorkloadAccountIds;
-  AwsRegions?: WorkloadAwsRegions;
-  NonAwsRegions?: WorkloadNonAwsRegions;
-  PillarPriorities?: WorkloadPillarPriorities;
+  WorkloadName?: string;
+  Description?: string;
+  Environment?: WorkloadEnvironment;
+  AccountIds?: string[];
+  AwsRegions?: string[];
+  NonAwsRegions?: string[];
+  PillarPriorities?: string[];
   ArchitecturalDesign?: string;
   ReviewOwner?: string;
   IndustryType?: string;
   Industry?: string;
-  Lenses: WorkloadLenses;
+  Lenses?: string[];
   Notes?: string;
-  ClientRequestToken: string;
-  Tags?: TagMap;
+  ClientRequestToken?: string;
+  Tags?: { [key: string]: string };
   DiscoveryConfig?: WorkloadDiscoveryConfig;
-  Applications?: WorkloadApplications;
-  ProfileArns?: WorkloadProfileArns;
-  ReviewTemplateArns?: ReviewTemplateArns;
+  Applications?: string[];
+  ProfileArns?: string[];
+  ReviewTemplateArns?: string[];
   JiraConfiguration?: WorkloadJiraConfigurationInput;
 }
 export const CreateWorkloadInput = S.suspend(() =>
   S.Struct({
-    WorkloadName: S.String,
-    Description: S.String,
-    Environment: S.String,
+    WorkloadName: S.optional(S.String),
+    Description: S.optional(S.String),
+    Environment: S.optional(WorkloadEnvironment),
     AccountIds: S.optional(WorkloadAccountIds),
     AwsRegions: S.optional(WorkloadAwsRegions),
     NonAwsRegions: S.optional(WorkloadNonAwsRegions),
@@ -2230,9 +2368,9 @@ export const CreateWorkloadInput = S.suspend(() =>
     ReviewOwner: S.optional(S.String),
     IndustryType: S.optional(S.String),
     Industry: S.optional(S.String),
-    Lenses: WorkloadLenses,
+    Lenses: S.optional(WorkloadLenses),
     Notes: S.optional(S.String),
-    ClientRequestToken: S.String,
+    ClientRequestToken: S.optional(S.String),
     Tags: S.optional(TagMap),
     DiscoveryConfig: S.optional(WorkloadDiscoveryConfig),
     Applications: S.optional(WorkloadApplications),
@@ -2270,14 +2408,14 @@ export const ExportLensOutput = S.suspend(() =>
   identifier: "ExportLensOutput",
 }) as any as S.Schema<ExportLensOutput>;
 export interface GetGlobalSettingsOutput {
-  OrganizationSharingStatus?: string;
-  DiscoveryIntegrationStatus?: string;
+  OrganizationSharingStatus?: OrganizationSharingStatus;
+  DiscoveryIntegrationStatus?: DiscoveryIntegrationStatus;
   JiraConfiguration?: AccountJiraConfigurationOutput;
 }
 export const GetGlobalSettingsOutput = S.suspend(() =>
   S.Struct({
-    OrganizationSharingStatus: S.optional(S.String),
-    DiscoveryIntegrationStatus: S.optional(S.String),
+    OrganizationSharingStatus: S.optional(OrganizationSharingStatus),
+    DiscoveryIntegrationStatus: S.optional(DiscoveryIntegrationStatus),
     JiraConfiguration: S.optional(AccountJiraConfigurationOutput),
   }),
 ).annotations({
@@ -2285,15 +2423,18 @@ export const GetGlobalSettingsOutput = S.suspend(() =>
 }) as any as S.Schema<GetGlobalSettingsOutput>;
 export interface ImportLensOutput {
   LensArn?: string;
-  Status?: string;
+  Status?: ImportLensStatus;
 }
 export const ImportLensOutput = S.suspend(() =>
-  S.Struct({ LensArn: S.optional(S.String), Status: S.optional(S.String) }),
+  S.Struct({
+    LensArn: S.optional(S.String),
+    Status: S.optional(ImportLensStatus),
+  }),
 ).annotations({
   identifier: "ImportLensOutput",
 }) as any as S.Schema<ImportLensOutput>;
 export interface ListTagsForResourceOutput {
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -2301,14 +2442,14 @@ export const ListTagsForResourceOutput = S.suspend(() =>
   identifier: "ListTagsForResourceOutput",
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface UpdateGlobalSettingsInput {
-  OrganizationSharingStatus?: string;
-  DiscoveryIntegrationStatus?: string;
+  OrganizationSharingStatus?: OrganizationSharingStatus;
+  DiscoveryIntegrationStatus?: DiscoveryIntegrationStatus;
   JiraConfiguration?: AccountJiraConfigurationInput;
 }
 export const UpdateGlobalSettingsInput = S.suspend(() =>
   S.Struct({
-    OrganizationSharingStatus: S.optional(S.String),
-    DiscoveryIntegrationStatus: S.optional(S.String),
+    OrganizationSharingStatus: S.optional(OrganizationSharingStatus),
+    DiscoveryIntegrationStatus: S.optional(DiscoveryIntegrationStatus),
     JiraConfiguration: S.optional(AccountJiraConfigurationInput),
   }).pipe(
     T.all(
@@ -2351,8 +2492,8 @@ export interface ProfileQuestion {
   QuestionId?: string;
   QuestionTitle?: string;
   QuestionDescription?: string;
-  QuestionChoices?: ProfileQuestionChoices;
-  SelectedChoiceIds?: SelectedChoiceIds;
+  QuestionChoices?: ProfileChoice[];
+  SelectedChoiceIds?: string[];
   MinSelectedChoices?: number;
   MaxSelectedChoices?: number;
 }
@@ -2376,12 +2517,12 @@ export interface Profile {
   ProfileVersion?: string;
   ProfileName?: string;
   ProfileDescription?: string;
-  ProfileQuestions?: ProfileQuestions;
+  ProfileQuestions?: ProfileQuestion[];
   Owner?: string;
   CreatedAt?: Date;
   UpdatedAt?: Date;
   ShareInvitationId?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const Profile = S.suspend(() =>
   S.Struct({
@@ -2405,19 +2546,28 @@ export const UpdateProfileOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateProfileOutput",
 }) as any as S.Schema<UpdateProfileOutput>;
-export type QuestionCounts = { [key: string]: number };
-export const QuestionCounts = S.Record({ key: S.String, value: S.Number });
+export type Question = "UNANSWERED" | "ANSWERED";
+export const Question = S.Literal("UNANSWERED", "ANSWERED");
+export type QuestionCounts = { [key in Question]?: number };
+export const QuestionCounts = S.partial(
+  S.Record({ key: Question, value: S.Number }),
+);
+export type ReviewTemplateUpdateStatus = "CURRENT" | "LENS_NOT_CURRENT";
+export const ReviewTemplateUpdateStatus = S.Literal(
+  "CURRENT",
+  "LENS_NOT_CURRENT",
+);
 export interface ReviewTemplate {
   Description?: string;
-  Lenses?: ReviewTemplateLenses;
+  Lenses?: string[];
   Notes?: string;
-  QuestionCounts?: QuestionCounts;
+  QuestionCounts?: { [key: string]: number };
   Owner?: string;
   UpdatedAt?: Date;
   TemplateArn?: string;
   TemplateName?: string;
-  Tags?: TagMap;
-  UpdateStatus?: string;
+  Tags?: { [key: string]: string };
+  UpdateStatus?: ReviewTemplateUpdateStatus;
   ShareInvitationId?: string;
 }
 export const ReviewTemplate = S.suspend(() =>
@@ -2431,7 +2581,7 @@ export const ReviewTemplate = S.suspend(() =>
     TemplateArn: S.optional(S.String),
     TemplateName: S.optional(S.String),
     Tags: S.optional(TagMap),
-    UpdateStatus: S.optional(S.String),
+    UpdateStatus: S.optional(ReviewTemplateUpdateStatus),
     ShareInvitationId: S.optional(S.String),
   }),
 ).annotations({
@@ -2454,14 +2604,22 @@ export const ChoiceContent = S.suspend(() =>
 ).annotations({
   identifier: "ChoiceContent",
 }) as any as S.Schema<ChoiceContent>;
+export type AdditionalResourceType = "HELPFUL_RESOURCE" | "IMPROVEMENT_PLAN";
+export const AdditionalResourceType = S.Literal(
+  "HELPFUL_RESOURCE",
+  "IMPROVEMENT_PLAN",
+);
 export type Urls = ChoiceContent[];
 export const Urls = S.Array(ChoiceContent);
 export interface AdditionalResources {
-  Type?: string;
-  Content?: Urls;
+  Type?: AdditionalResourceType;
+  Content?: ChoiceContent[];
 }
 export const AdditionalResources = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String), Content: S.optional(Urls) }),
+  S.Struct({
+    Type: S.optional(AdditionalResourceType),
+    Content: S.optional(Urls),
+  }),
 ).annotations({
   identifier: "AdditionalResources",
 }) as any as S.Schema<AdditionalResources>;
@@ -2473,7 +2631,7 @@ export interface Choice {
   Description?: string;
   HelpfulResource?: ChoiceContent;
   ImprovementPlan?: ChoiceContent;
-  AdditionalResources?: AdditionalResourcesList;
+  AdditionalResources?: AdditionalResources[];
 }
 export const Choice = S.suspend(() =>
   S.Struct({
@@ -2489,20 +2647,22 @@ export type Choices = Choice[];
 export const Choices = S.Array(Choice);
 export interface ChoiceAnswer {
   ChoiceId?: string;
-  Status?: string;
-  Reason?: string;
+  Status?: ChoiceStatus;
+  Reason?: ChoiceReason;
   Notes?: string;
 }
 export const ChoiceAnswer = S.suspend(() =>
   S.Struct({
     ChoiceId: S.optional(S.String),
-    Status: S.optional(S.String),
-    Reason: S.optional(S.String),
+    Status: S.optional(ChoiceStatus),
+    Reason: S.optional(ChoiceReason),
     Notes: S.optional(S.String),
   }),
 ).annotations({ identifier: "ChoiceAnswer" }) as any as S.Schema<ChoiceAnswer>;
 export type ChoiceAnswers = ChoiceAnswer[];
 export const ChoiceAnswers = S.Array(ChoiceAnswer);
+export type ReviewTemplateAnswerStatus = "UNANSWERED" | "ANSWERED";
+export const ReviewTemplateAnswerStatus = S.Literal("UNANSWERED", "ANSWERED");
 export interface ReviewTemplateAnswer {
   QuestionId?: string;
   PillarId?: string;
@@ -2511,13 +2671,13 @@ export interface ReviewTemplateAnswer {
   ImprovementPlanUrl?: string;
   HelpfulResourceUrl?: string;
   HelpfulResourceDisplayText?: string;
-  Choices?: Choices;
-  SelectedChoices?: SelectedChoices;
-  ChoiceAnswers?: ChoiceAnswers;
+  Choices?: Choice[];
+  SelectedChoices?: string[];
+  ChoiceAnswers?: ChoiceAnswer[];
   IsApplicable?: boolean;
-  AnswerStatus?: string;
+  AnswerStatus?: ReviewTemplateAnswerStatus;
   Notes?: string;
-  Reason?: string;
+  Reason?: AnswerReason;
 }
 export const ReviewTemplateAnswer = S.suspend(() =>
   S.Struct({
@@ -2532,9 +2692,9 @@ export const ReviewTemplateAnswer = S.suspend(() =>
     SelectedChoices: S.optional(SelectedChoices),
     ChoiceAnswers: S.optional(ChoiceAnswers),
     IsApplicable: S.optional(S.Boolean),
-    AnswerStatus: S.optional(S.String),
+    AnswerStatus: S.optional(ReviewTemplateAnswerStatus),
     Notes: S.optional(S.String),
-    Reason: S.optional(S.String),
+    Reason: S.optional(AnswerReason),
   }),
 ).annotations({
   identifier: "ReviewTemplateAnswer",
@@ -2553,11 +2713,24 @@ export const UpdateReviewTemplateAnswerOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateReviewTemplateAnswerOutput",
 }) as any as S.Schema<UpdateReviewTemplateAnswerOutput>;
+export type LensStatus =
+  | "CURRENT"
+  | "NOT_CURRENT"
+  | "DEPRECATED"
+  | "DELETED"
+  | "UNSHARED";
+export const LensStatus = S.Literal(
+  "CURRENT",
+  "NOT_CURRENT",
+  "DEPRECATED",
+  "DELETED",
+  "UNSHARED",
+);
 export interface ReviewTemplatePillarReviewSummary {
   PillarId?: string;
   PillarName?: string;
   Notes?: string;
-  QuestionCounts?: QuestionCounts;
+  QuestionCounts?: { [key: string]: number };
 }
 export const ReviewTemplatePillarReviewSummary = S.suspend(() =>
   S.Struct({
@@ -2579,11 +2752,11 @@ export interface ReviewTemplateLensReview {
   LensArn?: string;
   LensVersion?: string;
   LensName?: string;
-  LensStatus?: string;
-  PillarReviewSummaries?: ReviewTemplatePillarReviewSummaries;
+  LensStatus?: LensStatus;
+  PillarReviewSummaries?: ReviewTemplatePillarReviewSummary[];
   UpdatedAt?: Date;
   Notes?: string;
-  QuestionCounts?: QuestionCounts;
+  QuestionCounts?: { [key: string]: number };
   NextToken?: string;
 }
 export const ReviewTemplateLensReview = S.suspend(() =>
@@ -2592,7 +2765,7 @@ export const ReviewTemplateLensReview = S.suspend(() =>
     LensArn: S.optional(S.String),
     LensVersion: S.optional(S.String),
     LensName: S.optional(S.String),
-    LensStatus: S.optional(S.String),
+    LensStatus: S.optional(LensStatus),
     PillarReviewSummaries: S.optional(ReviewTemplatePillarReviewSummaries),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Notes: S.optional(S.String),
@@ -2614,8 +2787,16 @@ export const UpdateReviewTemplateLensReviewOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateReviewTemplateLensReviewOutput",
 }) as any as S.Schema<UpdateReviewTemplateLensReviewOutput>;
-export type RiskCounts = { [key: string]: number };
-export const RiskCounts = S.Record({ key: S.String, value: S.Number });
+export type Risk = "UNANSWERED" | "HIGH" | "MEDIUM" | "NONE" | "NOT_APPLICABLE";
+export const Risk = S.Literal(
+  "UNANSWERED",
+  "HIGH",
+  "MEDIUM",
+  "NONE",
+  "NOT_APPLICABLE",
+);
+export type RiskCounts = { [key in Risk]?: number };
+export const RiskCounts = S.partial(S.Record({ key: Risk, value: S.Number }));
 export interface WorkloadProfile {
   ProfileArn?: string;
   ProfileVersion?: string;
@@ -2631,15 +2812,15 @@ export const WorkloadProfile = S.suspend(() =>
 export type WorkloadProfiles = WorkloadProfile[];
 export const WorkloadProfiles = S.Array(WorkloadProfile);
 export interface WorkloadJiraConfigurationOutput {
-  IssueManagementStatus?: string;
-  IssueManagementType?: string;
+  IssueManagementStatus?: WorkloadIssueManagementStatus;
+  IssueManagementType?: IssueManagementType;
   JiraProjectKey?: string;
   StatusMessage?: string;
 }
 export const WorkloadJiraConfigurationOutput = S.suspend(() =>
   S.Struct({
-    IssueManagementStatus: S.optional(S.String),
-    IssueManagementType: S.optional(S.String),
+    IssueManagementStatus: S.optional(WorkloadIssueManagementStatus),
+    IssueManagementType: S.optional(IssueManagementType),
     JiraProjectKey: S.optional(S.String),
     StatusMessage: S.optional(S.String),
   }),
@@ -2651,11 +2832,11 @@ export interface Workload {
   WorkloadArn?: string;
   WorkloadName?: string;
   Description?: string;
-  Environment?: string;
+  Environment?: WorkloadEnvironment;
   UpdatedAt?: Date;
-  AccountIds?: WorkloadAccountIds;
-  AwsRegions?: WorkloadAwsRegions;
-  NonAwsRegions?: WorkloadNonAwsRegions;
+  AccountIds?: string[];
+  AwsRegions?: string[];
+  NonAwsRegions?: string[];
   ArchitecturalDesign?: string;
   ReviewOwner?: string;
   ReviewRestrictionDate?: Date;
@@ -2663,17 +2844,17 @@ export interface Workload {
   IndustryType?: string;
   Industry?: string;
   Notes?: string;
-  ImprovementStatus?: string;
-  RiskCounts?: RiskCounts;
-  PillarPriorities?: WorkloadPillarPriorities;
-  Lenses?: WorkloadLenses;
+  ImprovementStatus?: WorkloadImprovementStatus;
+  RiskCounts?: { [key: string]: number };
+  PillarPriorities?: string[];
+  Lenses?: string[];
   Owner?: string;
   ShareInvitationId?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   DiscoveryConfig?: WorkloadDiscoveryConfig;
-  Applications?: WorkloadApplications;
-  Profiles?: WorkloadProfiles;
-  PrioritizedRiskCounts?: RiskCounts;
+  Applications?: string[];
+  Profiles?: WorkloadProfile[];
+  PrioritizedRiskCounts?: { [key: string]: number };
   JiraConfiguration?: WorkloadJiraConfigurationOutput;
 }
 export const Workload = S.suspend(() =>
@@ -2682,7 +2863,7 @@ export const Workload = S.suspend(() =>
     WorkloadArn: S.optional(S.String),
     WorkloadName: S.optional(S.String),
     Description: S.optional(S.String),
-    Environment: S.optional(S.String),
+    Environment: S.optional(WorkloadEnvironment),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     AccountIds: S.optional(WorkloadAccountIds),
     AwsRegions: S.optional(WorkloadAwsRegions),
@@ -2696,7 +2877,7 @@ export const Workload = S.suspend(() =>
     IndustryType: S.optional(S.String),
     Industry: S.optional(S.String),
     Notes: S.optional(S.String),
-    ImprovementStatus: S.optional(S.String),
+    ImprovementStatus: S.optional(WorkloadImprovementStatus),
     RiskCounts: S.optional(RiskCounts),
     PillarPriorities: S.optional(WorkloadPillarPriorities),
     Lenses: S.optional(WorkloadLenses),
@@ -2718,9 +2899,53 @@ export const UpdateWorkloadOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateWorkloadOutput",
 }) as any as S.Schema<UpdateWorkloadOutput>;
+export type MetricType = "WORKLOAD";
+export const MetricType = S.Literal("WORKLOAD");
+export type QuestionType = "PRIORITIZED" | "NON_PRIORITIZED";
+export const QuestionType = S.Literal("PRIORITIZED", "NON_PRIORITIZED");
+export type CheckProvider = "TRUSTED_ADVISOR";
+export const CheckProvider = S.Literal("TRUSTED_ADVISOR");
+export type CheckStatus =
+  | "OKAY"
+  | "WARNING"
+  | "ERROR"
+  | "NOT_AVAILABLE"
+  | "FETCH_FAILED";
+export const CheckStatus = S.Literal(
+  "OKAY",
+  "WARNING",
+  "ERROR",
+  "NOT_AVAILABLE",
+  "FETCH_FAILED",
+);
+export type CheckFailureReason =
+  | "ASSUME_ROLE_ERROR"
+  | "ACCESS_DENIED"
+  | "UNKNOWN_ERROR"
+  | "PREMIUM_SUPPORT_REQUIRED";
+export const CheckFailureReason = S.Literal(
+  "ASSUME_ROLE_ERROR",
+  "ACCESS_DENIED",
+  "UNKNOWN_ERROR",
+  "PREMIUM_SUPPORT_REQUIRED",
+);
+export type NotificationType =
+  | "LENS_VERSION_UPGRADED"
+  | "LENS_VERSION_DEPRECATED";
+export const NotificationType = S.Literal(
+  "LENS_VERSION_UPGRADED",
+  "LENS_VERSION_DEPRECATED",
+);
+export type ProfileNotificationType =
+  | "PROFILE_ANSWERS_UPDATED"
+  | "PROFILE_DELETED";
+export const ProfileNotificationType = S.Literal(
+  "PROFILE_ANSWERS_UPDATED",
+  "PROFILE_DELETED",
+);
 export interface SelectedPillar {
   PillarId?: string;
-  SelectedQuestionIds?: SelectedQuestionIds;
+  SelectedQuestionIds?: string[];
 }
 export const SelectedPillar = S.suspend(() =>
   S.Struct({
@@ -2739,7 +2964,7 @@ export interface Lens {
   Description?: string;
   Owner?: string;
   ShareInvitationId?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const Lens = S.suspend(() =>
   S.Struct({
@@ -2784,15 +3009,15 @@ export interface CheckDetail {
   Id?: string;
   Name?: string;
   Description?: string;
-  Provider?: string;
+  Provider?: CheckProvider;
   LensArn?: string;
   PillarId?: string;
   QuestionId?: string;
   ChoiceId?: string;
-  Status?: string;
+  Status?: CheckStatus;
   AccountId?: string;
   FlaggedResources?: number;
-  Reason?: string;
+  Reason?: CheckFailureReason;
   UpdatedAt?: Date;
 }
 export const CheckDetail = S.suspend(() =>
@@ -2800,15 +3025,15 @@ export const CheckDetail = S.suspend(() =>
     Id: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    Provider: S.optional(S.String),
+    Provider: S.optional(CheckProvider),
     LensArn: S.optional(S.String),
     PillarId: S.optional(S.String),
     QuestionId: S.optional(S.String),
     ChoiceId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(CheckStatus),
     AccountId: S.optional(S.String),
     FlaggedResources: S.optional(S.Number),
-    Reason: S.optional(S.String),
+    Reason: S.optional(CheckFailureReason),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({ identifier: "CheckDetail" }) as any as S.Schema<CheckDetail>;
@@ -2818,26 +3043,26 @@ export interface LensSummary {
   LensArn?: string;
   LensAlias?: string;
   LensName?: string;
-  LensType?: string;
+  LensType?: LensType;
   Description?: string;
   CreatedAt?: Date;
   UpdatedAt?: Date;
   LensVersion?: string;
   Owner?: string;
-  LensStatus?: string;
+  LensStatus?: LensStatus;
 }
 export const LensSummary = S.suspend(() =>
   S.Struct({
     LensArn: S.optional(S.String),
     LensAlias: S.optional(S.String),
     LensName: S.optional(S.String),
-    LensType: S.optional(S.String),
+    LensType: S.optional(LensType),
     Description: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LensVersion: S.optional(S.String),
     Owner: S.optional(S.String),
-    LensStatus: S.optional(S.String),
+    LensStatus: S.optional(LensStatus),
   }),
 ).annotations({ identifier: "LensSummary" }) as any as S.Schema<LensSummary>;
 export type LensSummaries = LensSummary[];
@@ -2847,11 +3072,11 @@ export interface LensReviewSummary {
   LensArn?: string;
   LensVersion?: string;
   LensName?: string;
-  LensStatus?: string;
+  LensStatus?: LensStatus;
   UpdatedAt?: Date;
-  RiskCounts?: RiskCounts;
-  Profiles?: WorkloadProfiles;
-  PrioritizedRiskCounts?: RiskCounts;
+  RiskCounts?: { [key: string]: number };
+  Profiles?: WorkloadProfile[];
+  PrioritizedRiskCounts?: { [key: string]: number };
 }
 export const LensReviewSummary = S.suspend(() =>
   S.Struct({
@@ -2859,7 +3084,7 @@ export const LensReviewSummary = S.suspend(() =>
     LensArn: S.optional(S.String),
     LensVersion: S.optional(S.String),
     LensName: S.optional(S.String),
-    LensStatus: S.optional(S.String),
+    LensStatus: S.optional(LensStatus),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     RiskCounts: S.optional(RiskCounts),
     Profiles: S.optional(WorkloadProfiles),
@@ -2873,14 +3098,14 @@ export const LensReviewSummaries = S.Array(LensReviewSummary);
 export interface LensShareSummary {
   ShareId?: string;
   SharedWith?: string;
-  Status?: string;
+  Status?: ShareStatus;
   StatusMessage?: string;
 }
 export const LensShareSummary = S.suspend(() =>
   S.Struct({
     ShareId: S.optional(S.String),
     SharedWith: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ShareStatus),
     StatusMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -2894,11 +3119,11 @@ export interface WorkloadSummary {
   WorkloadName?: string;
   Owner?: string;
   UpdatedAt?: Date;
-  Lenses?: WorkloadLenses;
-  RiskCounts?: RiskCounts;
-  ImprovementStatus?: string;
-  Profiles?: WorkloadProfiles;
-  PrioritizedRiskCounts?: RiskCounts;
+  Lenses?: string[];
+  RiskCounts?: { [key: string]: number };
+  ImprovementStatus?: WorkloadImprovementStatus;
+  Profiles?: WorkloadProfile[];
+  PrioritizedRiskCounts?: { [key: string]: number };
 }
 export const WorkloadSummary = S.suspend(() =>
   S.Struct({
@@ -2909,7 +3134,7 @@ export const WorkloadSummary = S.suspend(() =>
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Lenses: S.optional(WorkloadLenses),
     RiskCounts: S.optional(RiskCounts),
-    ImprovementStatus: S.optional(S.String),
+    ImprovementStatus: S.optional(WorkloadImprovementStatus),
     Profiles: S.optional(WorkloadProfiles),
     PrioritizedRiskCounts: S.optional(RiskCounts),
   }),
@@ -2937,7 +3162,7 @@ export const MilestoneSummaries = S.Array(MilestoneSummary);
 export interface ProfileNotificationSummary {
   CurrentProfileVersion?: string;
   LatestProfileVersion?: string;
-  Type?: string;
+  Type?: ProfileNotificationType;
   ProfileArn?: string;
   ProfileName?: string;
   WorkloadId?: string;
@@ -2947,7 +3172,7 @@ export const ProfileNotificationSummary = S.suspend(() =>
   S.Struct({
     CurrentProfileVersion: S.optional(S.String),
     LatestProfileVersion: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(ProfileNotificationType),
     ProfileArn: S.optional(S.String),
     ProfileName: S.optional(S.String),
     WorkloadId: S.optional(S.String),
@@ -2985,14 +3210,14 @@ export const ProfileSummaries = S.Array(ProfileSummary);
 export interface ProfileShareSummary {
   ShareId?: string;
   SharedWith?: string;
-  Status?: string;
+  Status?: ShareStatus;
   StatusMessage?: string;
 }
 export const ProfileShareSummary = S.suspend(() =>
   S.Struct({
     ShareId: S.optional(S.String),
     SharedWith: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ShareStatus),
     StatusMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -3002,14 +3227,14 @@ export type ProfileShareSummaries = ProfileShareSummary[];
 export const ProfileShareSummaries = S.Array(ProfileShareSummary);
 export interface ChoiceAnswerSummary {
   ChoiceId?: string;
-  Status?: string;
-  Reason?: string;
+  Status?: ChoiceStatus;
+  Reason?: ChoiceReason;
 }
 export const ChoiceAnswerSummary = S.suspend(() =>
   S.Struct({
     ChoiceId: S.optional(S.String),
-    Status: S.optional(S.String),
-    Reason: S.optional(S.String),
+    Status: S.optional(ChoiceStatus),
+    Reason: S.optional(ChoiceReason),
   }),
 ).annotations({
   identifier: "ChoiceAnswerSummary",
@@ -3020,13 +3245,13 @@ export interface ReviewTemplateAnswerSummary {
   QuestionId?: string;
   PillarId?: string;
   QuestionTitle?: string;
-  Choices?: Choices;
-  SelectedChoices?: SelectedChoices;
-  ChoiceAnswerSummaries?: ChoiceAnswerSummaries;
+  Choices?: Choice[];
+  SelectedChoices?: string[];
+  ChoiceAnswerSummaries?: ChoiceAnswerSummary[];
   IsApplicable?: boolean;
-  AnswerStatus?: string;
-  Reason?: string;
-  QuestionType?: string;
+  AnswerStatus?: ReviewTemplateAnswerStatus;
+  Reason?: AnswerReason;
+  QuestionType?: QuestionType;
 }
 export const ReviewTemplateAnswerSummary = S.suspend(() =>
   S.Struct({
@@ -3037,9 +3262,9 @@ export const ReviewTemplateAnswerSummary = S.suspend(() =>
     SelectedChoices: S.optional(SelectedChoices),
     ChoiceAnswerSummaries: S.optional(ChoiceAnswerSummaries),
     IsApplicable: S.optional(S.Boolean),
-    AnswerStatus: S.optional(S.String),
-    Reason: S.optional(S.String),
-    QuestionType: S.optional(S.String),
+    AnswerStatus: S.optional(ReviewTemplateAnswerStatus),
+    Reason: S.optional(AnswerReason),
+    QuestionType: S.optional(QuestionType),
   }),
 ).annotations({
   identifier: "ReviewTemplateAnswerSummary",
@@ -3050,12 +3275,12 @@ export const ReviewTemplateAnswerSummaries = S.Array(
 );
 export interface ReviewTemplateSummary {
   Description?: string;
-  Lenses?: ReviewTemplateLenses;
+  Lenses?: string[];
   Owner?: string;
   UpdatedAt?: Date;
   TemplateArn?: string;
   TemplateName?: string;
-  UpdateStatus?: string;
+  UpdateStatus?: ReviewTemplateUpdateStatus;
 }
 export const ReviewTemplateSummary = S.suspend(() =>
   S.Struct({
@@ -3065,7 +3290,7 @@ export const ReviewTemplateSummary = S.suspend(() =>
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     TemplateArn: S.optional(S.String),
     TemplateName: S.optional(S.String),
-    UpdateStatus: S.optional(S.String),
+    UpdateStatus: S.optional(ReviewTemplateUpdateStatus),
   }),
 ).annotations({
   identifier: "ReviewTemplateSummary",
@@ -3076,8 +3301,8 @@ export interface ShareInvitationSummary {
   ShareInvitationId?: string;
   SharedBy?: string;
   SharedWith?: string;
-  PermissionType?: string;
-  ShareResourceType?: string;
+  PermissionType?: PermissionType;
+  ShareResourceType?: ShareResourceType;
   WorkloadName?: string;
   WorkloadId?: string;
   LensName?: string;
@@ -3092,8 +3317,8 @@ export const ShareInvitationSummary = S.suspend(() =>
     ShareInvitationId: S.optional(S.String),
     SharedBy: S.optional(S.String),
     SharedWith: S.optional(S.String),
-    PermissionType: S.optional(S.String),
-    ShareResourceType: S.optional(S.String),
+    PermissionType: S.optional(PermissionType),
+    ShareResourceType: S.optional(ShareResourceType),
     WorkloadName: S.optional(S.String),
     WorkloadId: S.optional(S.String),
     LensName: S.optional(S.String),
@@ -3111,14 +3336,14 @@ export const ShareInvitationSummaries = S.Array(ShareInvitationSummary);
 export interface TemplateShareSummary {
   ShareId?: string;
   SharedWith?: string;
-  Status?: string;
+  Status?: ShareStatus;
   StatusMessage?: string;
 }
 export const TemplateShareSummary = S.suspend(() =>
   S.Struct({
     ShareId: S.optional(S.String),
     SharedWith: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ShareStatus),
     StatusMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -3131,16 +3356,16 @@ export const WorkloadSummaries = S.Array(WorkloadSummary);
 export interface WorkloadShareSummary {
   ShareId?: string;
   SharedWith?: string;
-  PermissionType?: string;
-  Status?: string;
+  PermissionType?: PermissionType;
+  Status?: ShareStatus;
   StatusMessage?: string;
 }
 export const WorkloadShareSummary = S.suspend(() =>
   S.Struct({
     ShareId: S.optional(S.String),
     SharedWith: S.optional(S.String),
-    PermissionType: S.optional(S.String),
-    Status: S.optional(S.String),
+    PermissionType: S.optional(PermissionType),
+    Status: S.optional(ShareStatus),
     StatusMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -3149,7 +3374,7 @@ export const WorkloadShareSummary = S.suspend(() =>
 export type WorkloadShareSummaries = WorkloadShareSummary[];
 export const WorkloadShareSummaries = S.Array(WorkloadShareSummary);
 export interface JiraSelectedQuestionConfiguration {
-  SelectedPillars?: SelectedPillars;
+  SelectedPillars?: SelectedPillar[];
 }
 export const JiraSelectedQuestionConfiguration = S.suspend(() =>
   S.Struct({ SelectedPillars: S.optional(SelectedPillars) }),
@@ -3158,7 +3383,7 @@ export const JiraSelectedQuestionConfiguration = S.suspend(() =>
 }) as any as S.Schema<JiraSelectedQuestionConfiguration>;
 export interface ShareInvitation {
   ShareInvitationId?: string;
-  ShareResourceType?: string;
+  ShareResourceType?: ShareResourceType;
   WorkloadId?: string;
   LensAlias?: string;
   LensArn?: string;
@@ -3168,7 +3393,7 @@ export interface ShareInvitation {
 export const ShareInvitation = S.suspend(() =>
   S.Struct({
     ShareInvitationId: S.optional(S.String),
-    ShareResourceType: S.optional(S.String),
+    ShareResourceType: S.optional(ShareResourceType),
     WorkloadId: S.optional(S.String),
     LensAlias: S.optional(S.String),
     LensArn: S.optional(S.String),
@@ -3182,8 +3407,8 @@ export interface WorkloadShare {
   ShareId?: string;
   SharedBy?: string;
   SharedWith?: string;
-  PermissionType?: string;
-  Status?: string;
+  PermissionType?: PermissionType;
+  Status?: ShareStatus;
   WorkloadName?: string;
   WorkloadId?: string;
 }
@@ -3192,14 +3417,16 @@ export const WorkloadShare = S.suspend(() =>
     ShareId: S.optional(S.String),
     SharedBy: S.optional(S.String),
     SharedWith: S.optional(S.String),
-    PermissionType: S.optional(S.String),
-    Status: S.optional(S.String),
+    PermissionType: S.optional(PermissionType),
+    Status: S.optional(ShareStatus),
     WorkloadName: S.optional(S.String),
     WorkloadId: S.optional(S.String),
   }),
 ).annotations({
   identifier: "WorkloadShare",
 }) as any as S.Schema<WorkloadShare>;
+export type DifferenceStatus = "UPDATED" | "NEW" | "DELETED";
+export const DifferenceStatus = S.Literal("UPDATED", "NEW", "DELETED");
 export interface ProfileTemplateChoice {
   ChoiceId?: string;
   ChoiceTitle?: string;
@@ -3289,7 +3516,7 @@ export const GetReviewTemplateAnswerOutput = S.suspend(() =>
   identifier: "GetReviewTemplateAnswerOutput",
 }) as any as S.Schema<GetReviewTemplateAnswerOutput>;
 export interface ListCheckDetailsOutput {
-  CheckDetails?: CheckDetails;
+  CheckDetails?: CheckDetail[];
   NextToken?: string;
 }
 export const ListCheckDetailsOutput = S.suspend(() =>
@@ -3301,7 +3528,7 @@ export const ListCheckDetailsOutput = S.suspend(() =>
   identifier: "ListCheckDetailsOutput",
 }) as any as S.Schema<ListCheckDetailsOutput>;
 export interface ListLensesOutput {
-  LensSummaries?: LensSummaries;
+  LensSummaries?: LensSummary[];
   NextToken?: string;
 }
 export const ListLensesOutput = S.suspend(() =>
@@ -3315,7 +3542,7 @@ export const ListLensesOutput = S.suspend(() =>
 export interface ListLensReviewsOutput {
   WorkloadId?: string;
   MilestoneNumber?: number;
-  LensReviewSummaries?: LensReviewSummaries;
+  LensReviewSummaries?: LensReviewSummary[];
   NextToken?: string;
 }
 export const ListLensReviewsOutput = S.suspend(() =>
@@ -3329,7 +3556,7 @@ export const ListLensReviewsOutput = S.suspend(() =>
   identifier: "ListLensReviewsOutput",
 }) as any as S.Schema<ListLensReviewsOutput>;
 export interface ListLensSharesOutput {
-  LensShareSummaries?: LensShareSummaries;
+  LensShareSummaries?: LensShareSummary[];
   NextToken?: string;
 }
 export const ListLensSharesOutput = S.suspend(() =>
@@ -3342,7 +3569,7 @@ export const ListLensSharesOutput = S.suspend(() =>
 }) as any as S.Schema<ListLensSharesOutput>;
 export interface ListMilestonesOutput {
   WorkloadId?: string;
-  MilestoneSummaries?: MilestoneSummaries;
+  MilestoneSummaries?: MilestoneSummary[];
   NextToken?: string;
 }
 export const ListMilestonesOutput = S.suspend(() =>
@@ -3355,7 +3582,7 @@ export const ListMilestonesOutput = S.suspend(() =>
   identifier: "ListMilestonesOutput",
 }) as any as S.Schema<ListMilestonesOutput>;
 export interface ListProfileNotificationsOutput {
-  NotificationSummaries?: ProfileNotificationSummaries;
+  NotificationSummaries?: ProfileNotificationSummary[];
   NextToken?: string;
 }
 export const ListProfileNotificationsOutput = S.suspend(() =>
@@ -3367,7 +3594,7 @@ export const ListProfileNotificationsOutput = S.suspend(() =>
   identifier: "ListProfileNotificationsOutput",
 }) as any as S.Schema<ListProfileNotificationsOutput>;
 export interface ListProfilesOutput {
-  ProfileSummaries?: ProfileSummaries;
+  ProfileSummaries?: ProfileSummary[];
   NextToken?: string;
 }
 export const ListProfilesOutput = S.suspend(() =>
@@ -3379,7 +3606,7 @@ export const ListProfilesOutput = S.suspend(() =>
   identifier: "ListProfilesOutput",
 }) as any as S.Schema<ListProfilesOutput>;
 export interface ListProfileSharesOutput {
-  ProfileShareSummaries?: ProfileShareSummaries;
+  ProfileShareSummaries?: ProfileShareSummary[];
   NextToken?: string;
 }
 export const ListProfileSharesOutput = S.suspend(() =>
@@ -3393,7 +3620,7 @@ export const ListProfileSharesOutput = S.suspend(() =>
 export interface ListReviewTemplateAnswersOutput {
   TemplateArn?: string;
   LensAlias?: string;
-  AnswerSummaries?: ReviewTemplateAnswerSummaries;
+  AnswerSummaries?: ReviewTemplateAnswerSummary[];
   NextToken?: string;
 }
 export const ListReviewTemplateAnswersOutput = S.suspend(() =>
@@ -3407,7 +3634,7 @@ export const ListReviewTemplateAnswersOutput = S.suspend(() =>
   identifier: "ListReviewTemplateAnswersOutput",
 }) as any as S.Schema<ListReviewTemplateAnswersOutput>;
 export interface ListReviewTemplatesOutput {
-  ReviewTemplates?: ReviewTemplates;
+  ReviewTemplates?: ReviewTemplateSummary[];
   NextToken?: string;
 }
 export const ListReviewTemplatesOutput = S.suspend(() =>
@@ -3419,7 +3646,7 @@ export const ListReviewTemplatesOutput = S.suspend(() =>
   identifier: "ListReviewTemplatesOutput",
 }) as any as S.Schema<ListReviewTemplatesOutput>;
 export interface ListShareInvitationsOutput {
-  ShareInvitationSummaries?: ShareInvitationSummaries;
+  ShareInvitationSummaries?: ShareInvitationSummary[];
   NextToken?: string;
 }
 export const ListShareInvitationsOutput = S.suspend(() =>
@@ -3432,7 +3659,7 @@ export const ListShareInvitationsOutput = S.suspend(() =>
 }) as any as S.Schema<ListShareInvitationsOutput>;
 export interface ListTemplateSharesOutput {
   TemplateArn?: string;
-  TemplateShareSummaries?: TemplateShareSummaries;
+  TemplateShareSummaries?: TemplateShareSummary[];
   NextToken?: string;
 }
 export const ListTemplateSharesOutput = S.suspend(() =>
@@ -3445,7 +3672,7 @@ export const ListTemplateSharesOutput = S.suspend(() =>
   identifier: "ListTemplateSharesOutput",
 }) as any as S.Schema<ListTemplateSharesOutput>;
 export interface ListWorkloadsOutput {
-  WorkloadSummaries?: WorkloadSummaries;
+  WorkloadSummaries?: WorkloadSummary[];
   NextToken?: string;
 }
 export const ListWorkloadsOutput = S.suspend(() =>
@@ -3458,7 +3685,7 @@ export const ListWorkloadsOutput = S.suspend(() =>
 }) as any as S.Schema<ListWorkloadsOutput>;
 export interface ListWorkloadSharesOutput {
   WorkloadId?: string;
-  WorkloadShareSummaries?: WorkloadShareSummaries;
+  WorkloadShareSummaries?: WorkloadShareSummary[];
   NextToken?: string;
 }
 export const ListWorkloadSharesOutput = S.suspend(() =>
@@ -3474,11 +3701,11 @@ export interface UpdateAnswerInput {
   WorkloadId: string;
   LensAlias: string;
   QuestionId: string;
-  SelectedChoices?: SelectedChoices;
-  ChoiceUpdates?: ChoiceUpdates;
+  SelectedChoices?: string[];
+  ChoiceUpdates?: { [key: string]: ChoiceUpdate };
   Notes?: string;
   IsApplicable?: boolean;
-  Reason?: string;
+  Reason?: AnswerReason;
 }
 export const UpdateAnswerInput = S.suspend(() =>
   S.Struct({
@@ -3489,7 +3716,7 @@ export const UpdateAnswerInput = S.suspend(() =>
     ChoiceUpdates: S.optional(ChoiceUpdates),
     Notes: S.optional(S.String),
     IsApplicable: S.optional(S.Boolean),
-    Reason: S.optional(S.String),
+    Reason: S.optional(AnswerReason),
   }).pipe(
     T.all(
       T.Http({
@@ -3510,7 +3737,7 @@ export interface UpdateLensReviewInput {
   WorkloadId: string;
   LensAlias: string;
   LensNotes?: string;
-  PillarNotes?: PillarNotes;
+  PillarNotes?: { [key: string]: string };
   JiraConfiguration?: JiraSelectedQuestionConfiguration;
 }
 export const UpdateLensReviewInput = S.suspend(() =>
@@ -3572,8 +3799,8 @@ export interface PillarReviewSummary {
   PillarId?: string;
   PillarName?: string;
   Notes?: string;
-  RiskCounts?: RiskCounts;
-  PrioritizedRiskCounts?: RiskCounts;
+  RiskCounts?: { [key: string]: number };
+  PrioritizedRiskCounts?: { [key: string]: number };
 }
 export const PillarReviewSummary = S.suspend(() =>
   S.Struct({
@@ -3592,7 +3819,7 @@ export interface ProfileTemplateQuestion {
   QuestionId?: string;
   QuestionTitle?: string;
   QuestionDescription?: string;
-  QuestionChoices?: ProfileTemplateQuestionChoices;
+  QuestionChoices?: ProfileTemplateChoice[];
   MinSelectedChoices?: number;
   MaxSelectedChoices?: number;
 }
@@ -3610,8 +3837,10 @@ export const ProfileTemplateQuestion = S.suspend(() =>
 }) as any as S.Schema<ProfileTemplateQuestion>;
 export type TemplateQuestions = ProfileTemplateQuestion[];
 export const TemplateQuestions = S.Array(ProfileTemplateQuestion);
-export type AccountSummary = { [key: string]: number };
-export const AccountSummary = S.Record({ key: S.String, value: S.Number });
+export type AccountSummary = { [key in CheckStatus]?: number };
+export const AccountSummary = S.partial(
+  S.Record({ key: CheckStatus, value: S.Number }),
+);
 export interface ChoiceImprovementPlan {
   ChoiceId?: string;
   DisplayText?: string;
@@ -3657,15 +3886,15 @@ export interface LensReview {
   LensArn?: string;
   LensVersion?: string;
   LensName?: string;
-  LensStatus?: string;
-  PillarReviewSummaries?: PillarReviewSummaries;
+  LensStatus?: LensStatus;
+  PillarReviewSummaries?: PillarReviewSummary[];
   JiraConfiguration?: JiraSelectedQuestionConfiguration;
   UpdatedAt?: Date;
   Notes?: string;
-  RiskCounts?: RiskCounts;
+  RiskCounts?: { [key: string]: number };
   NextToken?: string;
-  Profiles?: WorkloadProfiles;
-  PrioritizedRiskCounts?: RiskCounts;
+  Profiles?: WorkloadProfile[];
+  PrioritizedRiskCounts?: { [key: string]: number };
 }
 export const LensReview = S.suspend(() =>
   S.Struct({
@@ -3673,7 +3902,7 @@ export const LensReview = S.suspend(() =>
     LensArn: S.optional(S.String),
     LensVersion: S.optional(S.String),
     LensName: S.optional(S.String),
-    LensStatus: S.optional(S.String),
+    LensStatus: S.optional(LensStatus),
     PillarReviewSummaries: S.optional(PillarReviewSummaries),
     JiraConfiguration: S.optional(JiraSelectedQuestionConfiguration),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -3686,7 +3915,7 @@ export const LensReview = S.suspend(() =>
 ).annotations({ identifier: "LensReview" }) as any as S.Schema<LensReview>;
 export interface ProfileTemplate {
   TemplateName?: string;
-  TemplateQuestions?: TemplateQuestions;
+  TemplateQuestions?: ProfileTemplateQuestion[];
   CreatedAt?: Date;
   UpdatedAt?: Date;
 }
@@ -3704,13 +3933,13 @@ export interface AnswerSummary {
   QuestionId?: string;
   PillarId?: string;
   QuestionTitle?: string;
-  Choices?: Choices;
-  SelectedChoices?: SelectedChoices;
-  ChoiceAnswerSummaries?: ChoiceAnswerSummaries;
+  Choices?: Choice[];
+  SelectedChoices?: string[];
+  ChoiceAnswerSummaries?: ChoiceAnswerSummary[];
   IsApplicable?: boolean;
-  Risk?: string;
-  Reason?: string;
-  QuestionType?: string;
+  Risk?: Risk;
+  Reason?: AnswerReason;
+  QuestionType?: QuestionType;
   JiraConfiguration?: JiraConfiguration;
 }
 export const AnswerSummary = S.suspend(() =>
@@ -3722,9 +3951,9 @@ export const AnswerSummary = S.suspend(() =>
     SelectedChoices: S.optional(SelectedChoices),
     ChoiceAnswerSummaries: S.optional(ChoiceAnswerSummaries),
     IsApplicable: S.optional(S.Boolean),
-    Risk: S.optional(S.String),
-    Reason: S.optional(S.String),
-    QuestionType: S.optional(S.String),
+    Risk: S.optional(Risk),
+    Reason: S.optional(AnswerReason),
+    QuestionType: S.optional(QuestionType),
     JiraConfiguration: S.optional(JiraConfiguration),
   }),
 ).annotations({
@@ -3735,28 +3964,28 @@ export const AnswerSummaries = S.Array(AnswerSummary);
 export interface CheckSummary {
   Id?: string;
   Name?: string;
-  Provider?: string;
+  Provider?: CheckProvider;
   Description?: string;
   UpdatedAt?: Date;
   LensArn?: string;
   PillarId?: string;
   QuestionId?: string;
   ChoiceId?: string;
-  Status?: string;
-  AccountSummary?: AccountSummary;
+  Status?: CheckStatus;
+  AccountSummary?: { [key: string]: number };
 }
 export const CheckSummary = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Name: S.optional(S.String),
-    Provider: S.optional(S.String),
+    Provider: S.optional(CheckProvider),
     Description: S.optional(S.String),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LensArn: S.optional(S.String),
     PillarId: S.optional(S.String),
     QuestionId: S.optional(S.String),
     ChoiceId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(CheckStatus),
     AccountSummary: S.optional(AccountSummary),
   }),
 ).annotations({ identifier: "CheckSummary" }) as any as S.Schema<CheckSummary>;
@@ -3766,9 +3995,9 @@ export interface ImprovementSummary {
   QuestionId?: string;
   PillarId?: string;
   QuestionTitle?: string;
-  Risk?: string;
+  Risk?: Risk;
   ImprovementPlanUrl?: string;
-  ImprovementPlans?: ChoiceImprovementPlans;
+  ImprovementPlans?: ChoiceImprovementPlan[];
   JiraConfiguration?: JiraConfiguration;
 }
 export const ImprovementSummary = S.suspend(() =>
@@ -3776,7 +4005,7 @@ export const ImprovementSummary = S.suspend(() =>
     QuestionId: S.optional(S.String),
     PillarId: S.optional(S.String),
     QuestionTitle: S.optional(S.String),
-    Risk: S.optional(S.String),
+    Risk: S.optional(Risk),
     ImprovementPlanUrl: S.optional(S.String),
     ImprovementPlans: S.optional(ChoiceImprovementPlans),
     JiraConfiguration: S.optional(JiraConfiguration),
@@ -3787,12 +4016,12 @@ export const ImprovementSummary = S.suspend(() =>
 export type ImprovementSummaries = ImprovementSummary[];
 export const ImprovementSummaries = S.Array(ImprovementSummary);
 export interface NotificationSummary {
-  Type?: string;
+  Type?: NotificationType;
   LensUpgradeSummary?: LensUpgradeSummary;
 }
 export const NotificationSummary = S.suspend(() =>
   S.Struct({
-    Type: S.optional(S.String),
+    Type: S.optional(NotificationType),
     LensUpgradeSummary: S.optional(LensUpgradeSummary),
   }),
 ).annotations({
@@ -3803,19 +4032,30 @@ export const NotificationSummaries = S.Array(NotificationSummary);
 export interface QuestionDifference {
   QuestionId?: string;
   QuestionTitle?: string;
-  DifferenceStatus?: string;
+  DifferenceStatus?: DifferenceStatus;
 }
 export const QuestionDifference = S.suspend(() =>
   S.Struct({
     QuestionId: S.optional(S.String),
     QuestionTitle: S.optional(S.String),
-    DifferenceStatus: S.optional(S.String),
+    DifferenceStatus: S.optional(DifferenceStatus),
   }),
 ).annotations({
   identifier: "QuestionDifference",
 }) as any as S.Schema<QuestionDifference>;
 export type QuestionDifferences = QuestionDifference[];
 export const QuestionDifferences = S.Array(QuestionDifference);
+export type ValidationExceptionReason =
+  | "UNKNOWN_OPERATION"
+  | "CANNOT_PARSE"
+  | "FIELD_VALIDATION_FAILED"
+  | "OTHER";
+export const ValidationExceptionReason = S.Literal(
+  "UNKNOWN_OPERATION",
+  "CANNOT_PARSE",
+  "FIELD_VALIDATION_FAILED",
+  "OTHER",
+);
 export interface GetLensReviewOutput {
   WorkloadId?: string;
   MilestoneNumber?: number;
@@ -3871,7 +4111,7 @@ export interface ListAnswersOutput {
   MilestoneNumber?: number;
   LensAlias?: string;
   LensArn?: string;
-  AnswerSummaries?: AnswerSummaries;
+  AnswerSummaries?: AnswerSummary[];
   NextToken?: string;
 }
 export const ListAnswersOutput = S.suspend(() =>
@@ -3887,7 +4127,7 @@ export const ListAnswersOutput = S.suspend(() =>
   identifier: "ListAnswersOutput",
 }) as any as S.Schema<ListAnswersOutput>;
 export interface ListCheckSummariesOutput {
-  CheckSummaries?: CheckSummaries;
+  CheckSummaries?: CheckSummary[];
   NextToken?: string;
 }
 export const ListCheckSummariesOutput = S.suspend(() =>
@@ -3903,7 +4143,7 @@ export interface ListLensReviewImprovementsOutput {
   MilestoneNumber?: number;
   LensAlias?: string;
   LensArn?: string;
-  ImprovementSummaries?: ImprovementSummaries;
+  ImprovementSummaries?: ImprovementSummary[];
   NextToken?: string;
 }
 export const ListLensReviewImprovementsOutput = S.suspend(() =>
@@ -3919,7 +4159,7 @@ export const ListLensReviewImprovementsOutput = S.suspend(() =>
   identifier: "ListLensReviewImprovementsOutput",
 }) as any as S.Schema<ListLensReviewImprovementsOutput>;
 export interface ListNotificationsOutput {
-  NotificationSummaries?: NotificationSummaries;
+  NotificationSummaries?: NotificationSummary[];
   NextToken?: string;
 }
 export const ListNotificationsOutput = S.suspend(() =>
@@ -3938,13 +4178,13 @@ export interface Answer {
   ImprovementPlanUrl?: string;
   HelpfulResourceUrl?: string;
   HelpfulResourceDisplayText?: string;
-  Choices?: Choices;
-  SelectedChoices?: SelectedChoices;
-  ChoiceAnswers?: ChoiceAnswers;
+  Choices?: Choice[];
+  SelectedChoices?: string[];
+  ChoiceAnswers?: ChoiceAnswer[];
   IsApplicable?: boolean;
-  Risk?: string;
+  Risk?: Risk;
   Notes?: string;
-  Reason?: string;
+  Reason?: AnswerReason;
   JiraConfiguration?: JiraConfiguration;
 }
 export const Answer = S.suspend(() =>
@@ -3960,9 +4200,9 @@ export const Answer = S.suspend(() =>
     SelectedChoices: S.optional(SelectedChoices),
     ChoiceAnswers: S.optional(ChoiceAnswers),
     IsApplicable: S.optional(S.Boolean),
-    Risk: S.optional(S.String),
+    Risk: S.optional(Risk),
     Notes: S.optional(S.String),
-    Reason: S.optional(S.String),
+    Reason: S.optional(AnswerReason),
     JiraConfiguration: S.optional(JiraConfiguration),
   }),
 ).annotations({ identifier: "Answer" }) as any as S.Schema<Answer>;
@@ -3997,14 +4237,14 @@ export const UpdateLensReviewOutput = S.suspend(() =>
 export interface PillarDifference {
   PillarId?: string;
   PillarName?: string;
-  DifferenceStatus?: string;
-  QuestionDifferences?: QuestionDifferences;
+  DifferenceStatus?: DifferenceStatus;
+  QuestionDifferences?: QuestionDifference[];
 }
 export const PillarDifference = S.suspend(() =>
   S.Struct({
     PillarId: S.optional(S.String),
     PillarName: S.optional(S.String),
-    DifferenceStatus: S.optional(S.String),
+    DifferenceStatus: S.optional(DifferenceStatus),
     QuestionDifferences: S.optional(QuestionDifferences),
   }),
 ).annotations({
@@ -4013,7 +4253,7 @@ export const PillarDifference = S.suspend(() =>
 export type PillarDifferences = PillarDifference[];
 export const PillarDifferences = S.Array(PillarDifference);
 export interface VersionDifferences {
-  PillarDifferences?: PillarDifferences;
+  PillarDifferences?: PillarDifference[];
 }
 export const VersionDifferences = S.suspend(() =>
   S.Struct({ PillarDifferences: S.optional(PillarDifferences) }),
@@ -4021,11 +4261,11 @@ export const VersionDifferences = S.suspend(() =>
   identifier: "VersionDifferences",
 }) as any as S.Schema<VersionDifferences>;
 export interface ValidationExceptionField {
-  Name: string;
-  Message: string;
+  Name?: string;
+  Message?: string;
 }
 export const ValidationExceptionField = S.suspend(() =>
-  S.Struct({ Name: S.String, Message: S.String }),
+  S.Struct({ Name: S.optional(S.String), Message: S.optional(S.String) }),
 ).annotations({
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
@@ -4091,13 +4331,13 @@ export const GetProfileOutput = S.suspend(() =>
 }) as any as S.Schema<GetProfileOutput>;
 export interface QuestionMetric {
   QuestionId?: string;
-  Risk?: string;
-  BestPractices?: BestPractices;
+  Risk?: Risk;
+  BestPractices?: BestPractice[];
 }
 export const QuestionMetric = S.suspend(() =>
   S.Struct({
     QuestionId: S.optional(S.String),
-    Risk: S.optional(S.String),
+    Risk: S.optional(Risk),
     BestPractices: S.optional(BestPractices),
   }),
 ).annotations({
@@ -4107,8 +4347,8 @@ export type QuestionMetrics = QuestionMetric[];
 export const QuestionMetrics = S.Array(QuestionMetric);
 export interface PillarMetric {
   PillarId?: string;
-  RiskCounts?: RiskCounts;
-  Questions?: QuestionMetrics;
+  RiskCounts?: { [key: string]: number };
+  Questions?: QuestionMetric[];
 }
 export const PillarMetric = S.suspend(() =>
   S.Struct({
@@ -4121,8 +4361,8 @@ export type PillarMetrics = PillarMetric[];
 export const PillarMetrics = S.Array(PillarMetric);
 export interface LensMetric {
   LensArn?: string;
-  Pillars?: PillarMetrics;
-  RiskCounts?: RiskCounts;
+  Pillars?: PillarMetric[];
+  RiskCounts?: { [key: string]: number };
 }
 export const LensMetric = S.suspend(() =>
   S.Struct({
@@ -4134,18 +4374,18 @@ export const LensMetric = S.suspend(() =>
 export type LensMetrics = LensMetric[];
 export const LensMetrics = S.Array(LensMetric);
 export interface ConsolidatedReportMetric {
-  MetricType?: string;
-  RiskCounts?: RiskCounts;
+  MetricType?: MetricType;
+  RiskCounts?: { [key: string]: number };
   WorkloadId?: string;
   WorkloadName?: string;
   WorkloadArn?: string;
   UpdatedAt?: Date;
-  Lenses?: LensMetrics;
+  Lenses?: LensMetric[];
   LensesAppliedCount?: number;
 }
 export const ConsolidatedReportMetric = S.suspend(() =>
   S.Struct({
-    MetricType: S.optional(S.String),
+    MetricType: S.optional(MetricType),
     RiskCounts: S.optional(RiskCounts),
     WorkloadId: S.optional(S.String),
     WorkloadName: S.optional(S.String),
@@ -4160,7 +4400,7 @@ export const ConsolidatedReportMetric = S.suspend(() =>
 export type ConsolidatedReportMetrics = ConsolidatedReportMetric[];
 export const ConsolidatedReportMetrics = S.Array(ConsolidatedReportMetric);
 export interface GetConsolidatedReportOutput {
-  Metrics?: ConsolidatedReportMetrics;
+  Metrics?: ConsolidatedReportMetric[];
   NextToken?: string;
   Base64String?: string;
 }
@@ -4177,24 +4417,32 @@ export const GetConsolidatedReportOutput = S.suspend(() =>
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  { Message: S.String },
+  { Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  { Message: S.String },
+  { Message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  { Message: S.String, ResourceId: S.String, ResourceType: S.String },
+  {
+    Message: S.optional(S.String),
+    ResourceId: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+  },
 ).pipe(C.withConflictError) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  { Message: S.String, ResourceId: S.String, ResourceType: S.String },
+  {
+    Message: S.optional(S.String),
+    ResourceId: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+  },
 ).pipe(C.withBadRequestError) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   {
-    Message: S.String,
+    Message: S.optional(S.String),
     QuotaCode: S.optional(S.String),
     ServiceCode: S.optional(S.String),
   },
@@ -4202,18 +4450,18 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
-    Message: S.String,
+    Message: S.optional(S.String),
     ResourceId: S.optional(S.String),
     ResourceType: S.optional(S.String),
-    QuotaCode: S.String,
-    ServiceCode: S.String,
+    QuotaCode: S.optional(S.String),
+    ServiceCode: S.optional(S.String),
   },
 ).pipe(C.withQuotaError) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
-    Message: S.String,
-    Reason: S.optional(S.String),
+    Message: S.optional(S.String),
+    Reason: S.optional(ValidationExceptionReason),
     Fields: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
@@ -4226,7 +4474,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   InternalServerException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4246,7 +4494,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   InternalServerException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4262,7 +4510,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   InternalServerException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4276,7 +4524,7 @@ export const listTagsForResource: (
  */
 export const getGlobalSettings: (
   input: GetGlobalSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetGlobalSettingsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4314,7 +4562,7 @@ export const getGlobalSettings: (
  */
 export const exportLens: (
   input: ExportLensInput,
-) => Effect.Effect<
+) => effect.Effect<
   ExportLensOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4348,7 +4596,7 @@ export const exportLens: (
  */
 export const associateLenses: (
   input: AssociateLensesInput,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateLensesResponse,
   | AccessDeniedException
   | ConflictException
@@ -4375,7 +4623,7 @@ export const associateLenses: (
  */
 export const getLens: (
   input: GetLensInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetLensOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4400,7 +4648,7 @@ export const getLens: (
  */
 export const getLensReviewReport: (
   input: GetLensReviewReportInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetLensReviewReportOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4425,7 +4673,7 @@ export const getLensReviewReport: (
  */
 export const getMilestone: (
   input: GetMilestoneInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetMilestoneOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4450,7 +4698,7 @@ export const getMilestone: (
  */
 export const getReviewTemplateAnswer: (
   input: GetReviewTemplateAnswerInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetReviewTemplateAnswerOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4476,7 +4724,7 @@ export const getReviewTemplateAnswer: (
 export const listCheckDetails: {
   (
     input: ListCheckDetailsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCheckDetailsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -4488,7 +4736,7 @@ export const listCheckDetails: {
   >;
   pages: (
     input: ListCheckDetailsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCheckDetailsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -4500,7 +4748,7 @@ export const listCheckDetails: {
   >;
   items: (
     input: ListCheckDetailsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -4532,7 +4780,7 @@ export const listCheckDetails: {
 export const listLensReviews: {
   (
     input: ListLensReviewsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLensReviewsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -4544,7 +4792,7 @@ export const listLensReviews: {
   >;
   pages: (
     input: ListLensReviewsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLensReviewsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -4556,7 +4804,7 @@ export const listLensReviews: {
   >;
   items: (
     input: ListLensReviewsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -4588,7 +4836,7 @@ export const listLensReviews: {
 export const listLensShares: {
   (
     input: ListLensSharesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLensSharesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -4600,7 +4848,7 @@ export const listLensShares: {
   >;
   pages: (
     input: ListLensSharesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLensSharesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -4612,7 +4860,7 @@ export const listLensShares: {
   >;
   items: (
     input: ListLensSharesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -4644,7 +4892,7 @@ export const listLensShares: {
 export const listMilestones: {
   (
     input: ListMilestonesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMilestonesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -4656,7 +4904,7 @@ export const listMilestones: {
   >;
   pages: (
     input: ListMilestonesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMilestonesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -4668,7 +4916,7 @@ export const listMilestones: {
   >;
   items: (
     input: ListMilestonesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -4700,7 +4948,7 @@ export const listMilestones: {
 export const listProfileShares: {
   (
     input: ListProfileSharesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProfileSharesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -4712,7 +4960,7 @@ export const listProfileShares: {
   >;
   pages: (
     input: ListProfileSharesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProfileSharesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -4724,7 +4972,7 @@ export const listProfileShares: {
   >;
   items: (
     input: ListProfileSharesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -4756,7 +5004,7 @@ export const listProfileShares: {
 export const listReviewTemplateAnswers: {
   (
     input: ListReviewTemplateAnswersInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReviewTemplateAnswersOutput,
     | AccessDeniedException
     | InternalServerException
@@ -4768,7 +5016,7 @@ export const listReviewTemplateAnswers: {
   >;
   pages: (
     input: ListReviewTemplateAnswersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReviewTemplateAnswersOutput,
     | AccessDeniedException
     | InternalServerException
@@ -4780,7 +5028,7 @@ export const listReviewTemplateAnswers: {
   >;
   items: (
     input: ListReviewTemplateAnswersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -4812,7 +5060,7 @@ export const listReviewTemplateAnswers: {
 export const listTemplateShares: {
   (
     input: ListTemplateSharesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTemplateSharesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -4824,7 +5072,7 @@ export const listTemplateShares: {
   >;
   pages: (
     input: ListTemplateSharesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTemplateSharesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -4836,7 +5084,7 @@ export const listTemplateShares: {
   >;
   items: (
     input: ListTemplateSharesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -4868,7 +5116,7 @@ export const listTemplateShares: {
 export const listWorkloadShares: {
   (
     input: ListWorkloadSharesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkloadSharesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -4880,7 +5128,7 @@ export const listWorkloadShares: {
   >;
   pages: (
     input: ListWorkloadSharesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkloadSharesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -4892,7 +5140,7 @@ export const listWorkloadShares: {
   >;
   items: (
     input: ListWorkloadSharesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -4924,7 +5172,7 @@ export const listWorkloadShares: {
 export const listLenses: {
   (
     input: ListLensesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLensesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -4935,7 +5183,7 @@ export const listLenses: {
   >;
   pages: (
     input: ListLensesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLensesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -4946,7 +5194,7 @@ export const listLenses: {
   >;
   items: (
     input: ListLensesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -4976,7 +5224,7 @@ export const listLenses: {
 export const listProfileNotifications: {
   (
     input: ListProfileNotificationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProfileNotificationsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -4987,7 +5235,7 @@ export const listProfileNotifications: {
   >;
   pages: (
     input: ListProfileNotificationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProfileNotificationsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -4998,7 +5246,7 @@ export const listProfileNotifications: {
   >;
   items: (
     input: ListProfileNotificationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5028,7 +5276,7 @@ export const listProfileNotifications: {
 export const listProfiles: {
   (
     input: ListProfilesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProfilesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -5039,7 +5287,7 @@ export const listProfiles: {
   >;
   pages: (
     input: ListProfilesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProfilesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -5050,7 +5298,7 @@ export const listProfiles: {
   >;
   items: (
     input: ListProfilesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5080,7 +5328,7 @@ export const listProfiles: {
 export const listReviewTemplates: {
   (
     input: ListReviewTemplatesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReviewTemplatesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -5091,7 +5339,7 @@ export const listReviewTemplates: {
   >;
   pages: (
     input: ListReviewTemplatesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReviewTemplatesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -5102,7 +5350,7 @@ export const listReviewTemplates: {
   >;
   items: (
     input: ListReviewTemplatesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5136,7 +5384,7 @@ export const listReviewTemplates: {
 export const listShareInvitations: {
   (
     input: ListShareInvitationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListShareInvitationsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -5147,7 +5395,7 @@ export const listShareInvitations: {
   >;
   pages: (
     input: ListShareInvitationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListShareInvitationsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -5158,7 +5406,7 @@ export const listShareInvitations: {
   >;
   items: (
     input: ListShareInvitationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5188,7 +5436,7 @@ export const listShareInvitations: {
 export const listWorkloads: {
   (
     input: ListWorkloadsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkloadsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -5199,7 +5447,7 @@ export const listWorkloads: {
   >;
   pages: (
     input: ListWorkloadsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkloadsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -5210,7 +5458,7 @@ export const listWorkloads: {
   >;
   items: (
     input: ListWorkloadsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -5241,7 +5489,7 @@ export const listWorkloads: {
  */
 export const updateShareInvitation: (
   input: UpdateShareInvitationInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateShareInvitationOutput,
   | AccessDeniedException
   | ConflictException
@@ -5268,7 +5516,7 @@ export const updateShareInvitation: (
  */
 export const updateWorkloadShare: (
   input: UpdateWorkloadShareInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkloadShareOutput,
   | AccessDeniedException
   | ConflictException
@@ -5295,7 +5543,7 @@ export const updateWorkloadShare: (
  */
 export const updateGlobalSettings: (
   input: UpdateGlobalSettingsInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateGlobalSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -5320,7 +5568,7 @@ export const updateGlobalSettings: (
  */
 export const updateProfile: (
   input: UpdateProfileInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProfileOutput,
   | AccessDeniedException
   | ConflictException
@@ -5347,7 +5595,7 @@ export const updateProfile: (
  */
 export const updateReviewTemplate: (
   input: UpdateReviewTemplateInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateReviewTemplateOutput,
   | AccessDeniedException
   | ConflictException
@@ -5374,7 +5622,7 @@ export const updateReviewTemplate: (
  */
 export const updateReviewTemplateAnswer: (
   input: UpdateReviewTemplateAnswerInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateReviewTemplateAnswerOutput,
   | AccessDeniedException
   | ConflictException
@@ -5401,7 +5649,7 @@ export const updateReviewTemplateAnswer: (
  */
 export const updateReviewTemplateLensReview: (
   input: UpdateReviewTemplateLensReviewInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateReviewTemplateLensReviewOutput,
   | AccessDeniedException
   | ConflictException
@@ -5428,7 +5676,7 @@ export const updateReviewTemplateLensReview: (
  */
 export const updateWorkload: (
   input: UpdateWorkloadInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkloadOutput,
   | AccessDeniedException
   | ConflictException
@@ -5455,7 +5703,7 @@ export const updateWorkload: (
  */
 export const associateProfiles: (
   input: AssociateProfilesInput,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateProfilesResponse,
   | AccessDeniedException
   | ConflictException
@@ -5494,7 +5742,7 @@ export const associateProfiles: (
  */
 export const deleteLens: (
   input: DeleteLensInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLensResponse,
   | AccessDeniedException
   | ConflictException
@@ -5534,7 +5782,7 @@ export const deleteLens: (
  */
 export const deleteLensShare: (
   input: DeleteLensShareInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLensShareResponse,
   | AccessDeniedException
   | ConflictException
@@ -5570,7 +5818,7 @@ export const deleteLensShare: (
  */
 export const deleteProfile: (
   input: DeleteProfileInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProfileResponse,
   | AccessDeniedException
   | ConflictException
@@ -5597,7 +5845,7 @@ export const deleteProfile: (
  */
 export const deleteProfileShare: (
   input: DeleteProfileShareInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProfileShareResponse,
   | AccessDeniedException
   | ConflictException
@@ -5630,7 +5878,7 @@ export const deleteProfileShare: (
  */
 export const deleteReviewTemplate: (
   input: DeleteReviewTemplateInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteReviewTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -5661,7 +5909,7 @@ export const deleteReviewTemplate: (
  */
 export const deleteTemplateShare: (
   input: DeleteTemplateShareInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTemplateShareResponse,
   | AccessDeniedException
   | ConflictException
@@ -5688,7 +5936,7 @@ export const deleteTemplateShare: (
  */
 export const deleteWorkload: (
   input: DeleteWorkloadInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkloadResponse,
   | AccessDeniedException
   | ConflictException
@@ -5715,7 +5963,7 @@ export const deleteWorkload: (
  */
 export const deleteWorkloadShare: (
   input: DeleteWorkloadShareInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkloadShareResponse,
   | AccessDeniedException
   | ConflictException
@@ -5747,7 +5995,7 @@ export const deleteWorkloadShare: (
  */
 export const disassociateLenses: (
   input: DisassociateLensesInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateLensesResponse,
   | AccessDeniedException
   | ConflictException
@@ -5774,7 +6022,7 @@ export const disassociateLenses: (
  */
 export const disassociateProfiles: (
   input: DisassociateProfilesInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateProfilesResponse,
   | AccessDeniedException
   | ConflictException
@@ -5801,7 +6049,7 @@ export const disassociateProfiles: (
  */
 export const updateIntegration: (
   input: UpdateIntegrationInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateIntegrationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5828,7 +6076,7 @@ export const updateIntegration: (
  */
 export const upgradeReviewTemplateLensReview: (
   input: UpgradeReviewTemplateLensReviewInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpgradeReviewTemplateLensReviewResponse,
   | AccessDeniedException
   | ConflictException
@@ -5855,7 +6103,7 @@ export const upgradeReviewTemplateLensReview: (
  */
 export const createProfile: (
   input: CreateProfileInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProfileOutput,
   | AccessDeniedException
   | ConflictException
@@ -5882,7 +6130,7 @@ export const createProfile: (
  */
 export const getLensReview: (
   input: GetLensReviewInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetLensReviewOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5907,7 +6155,7 @@ export const getLensReview: (
  */
 export const getProfileTemplate: (
   input: GetProfileTemplateInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetProfileTemplateOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5932,7 +6180,7 @@ export const getProfileTemplate: (
  */
 export const getReviewTemplate: (
   input: GetReviewTemplateInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetReviewTemplateOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5957,7 +6205,7 @@ export const getReviewTemplate: (
  */
 export const getReviewTemplateLensReview: (
   input: GetReviewTemplateLensReviewInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetReviewTemplateLensReviewOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5982,7 +6230,7 @@ export const getReviewTemplateLensReview: (
  */
 export const getWorkload: (
   input: GetWorkloadInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkloadOutput,
   | AccessDeniedException
   | InternalServerException
@@ -6008,7 +6256,7 @@ export const getWorkload: (
 export const listAnswers: {
   (
     input: ListAnswersInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAnswersOutput,
     | AccessDeniedException
     | InternalServerException
@@ -6020,7 +6268,7 @@ export const listAnswers: {
   >;
   pages: (
     input: ListAnswersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAnswersOutput,
     | AccessDeniedException
     | InternalServerException
@@ -6032,7 +6280,7 @@ export const listAnswers: {
   >;
   items: (
     input: ListAnswersInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -6064,7 +6312,7 @@ export const listAnswers: {
 export const listCheckSummaries: {
   (
     input: ListCheckSummariesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCheckSummariesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -6076,7 +6324,7 @@ export const listCheckSummaries: {
   >;
   pages: (
     input: ListCheckSummariesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCheckSummariesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -6088,7 +6336,7 @@ export const listCheckSummaries: {
   >;
   items: (
     input: ListCheckSummariesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -6120,7 +6368,7 @@ export const listCheckSummaries: {
 export const listLensReviewImprovements: {
   (
     input: ListLensReviewImprovementsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLensReviewImprovementsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -6132,7 +6380,7 @@ export const listLensReviewImprovements: {
   >;
   pages: (
     input: ListLensReviewImprovementsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLensReviewImprovementsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -6144,7 +6392,7 @@ export const listLensReviewImprovements: {
   >;
   items: (
     input: ListLensReviewImprovementsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -6176,7 +6424,7 @@ export const listLensReviewImprovements: {
 export const listNotifications: {
   (
     input: ListNotificationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListNotificationsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -6187,7 +6435,7 @@ export const listNotifications: {
   >;
   pages: (
     input: ListNotificationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListNotificationsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -6198,7 +6446,7 @@ export const listNotifications: {
   >;
   items: (
     input: ListNotificationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -6227,7 +6475,7 @@ export const listNotifications: {
  */
 export const updateAnswer: (
   input: UpdateAnswerInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAnswerOutput,
   | AccessDeniedException
   | ConflictException
@@ -6254,7 +6502,7 @@ export const updateAnswer: (
  */
 export const updateLensReview: (
   input: UpdateLensReviewInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLensReviewOutput,
   | AccessDeniedException
   | ConflictException
@@ -6302,7 +6550,7 @@ export const updateLensReview: (
  */
 export const createLensShare: (
   input: CreateLensShareInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLensShareOutput,
   | AccessDeniedException
   | ConflictException
@@ -6338,7 +6586,7 @@ export const createLensShare: (
  */
 export const createLensVersion: (
   input: CreateLensVersionInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLensVersionOutput,
   | AccessDeniedException
   | ConflictException
@@ -6367,7 +6615,7 @@ export const createLensVersion: (
  */
 export const createMilestone: (
   input: CreateMilestoneInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMilestoneOutput,
   | AccessDeniedException
   | ConflictException
@@ -6396,7 +6644,7 @@ export const createMilestone: (
  */
 export const createProfileShare: (
   input: CreateProfileShareInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProfileShareOutput,
   | AccessDeniedException
   | ConflictException
@@ -6434,7 +6682,7 @@ export const createProfileShare: (
  */
 export const createReviewTemplate: (
   input: CreateReviewTemplateInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateReviewTemplateOutput,
   | AccessDeniedException
   | ConflictException
@@ -6478,7 +6726,7 @@ export const createReviewTemplate: (
  */
 export const createTemplateShare: (
   input: CreateTemplateShareInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTemplateShareOutput,
   | AccessDeniedException
   | ConflictException
@@ -6517,7 +6765,7 @@ export const createTemplateShare: (
  */
 export const createWorkloadShare: (
   input: CreateWorkloadShareInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkloadShareOutput,
   | AccessDeniedException
   | ConflictException
@@ -6567,7 +6815,7 @@ export const createWorkloadShare: (
  */
 export const importLens: (
   input: ImportLensInput,
-) => Effect.Effect<
+) => effect.Effect<
   ImportLensOutput,
   | AccessDeniedException
   | ConflictException
@@ -6596,7 +6844,7 @@ export const importLens: (
  */
 export const upgradeLensReview: (
   input: UpgradeLensReviewInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpgradeLensReviewResponse,
   | AccessDeniedException
   | ConflictException
@@ -6625,7 +6873,7 @@ export const upgradeLensReview: (
  */
 export const upgradeProfileVersion: (
   input: UpgradeProfileVersionInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpgradeProfileVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -6677,7 +6925,7 @@ export const upgradeProfileVersion: (
  */
 export const createWorkload: (
   input: CreateWorkloadInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkloadOutput,
   | AccessDeniedException
   | ConflictException
@@ -6706,7 +6954,7 @@ export const createWorkload: (
  */
 export const getAnswer: (
   input: GetAnswerInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetAnswerOutput,
   | AccessDeniedException
   | InternalServerException
@@ -6731,7 +6979,7 @@ export const getAnswer: (
  */
 export const getLensVersionDifference: (
   input: GetLensVersionDifferenceInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetLensVersionDifferenceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -6756,7 +7004,7 @@ export const getLensVersionDifference: (
  */
 export const getProfile: (
   input: GetProfileInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetProfileOutput,
   | AccessDeniedException
   | InternalServerException
@@ -6784,7 +7032,7 @@ export const getProfile: (
 export const getConsolidatedReport: {
   (
     input: GetConsolidatedReportInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetConsolidatedReportOutput,
     | AccessDeniedException
     | ConflictException
@@ -6796,7 +7044,7 @@ export const getConsolidatedReport: {
   >;
   pages: (
     input: GetConsolidatedReportInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetConsolidatedReportOutput,
     | AccessDeniedException
     | ConflictException
@@ -6808,7 +7056,7 @@ export const getConsolidatedReport: {
   >;
   items: (
     input: GetConsolidatedReportInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | ConflictException

@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -109,7 +109,7 @@ export type JobRunId = string;
 export type MaxResults100 = number;
 export type NextToken = string;
 export type StepIndex = number;
-export type ClientSessionId = string | Redacted.Redacted<string>;
+export type ClientSessionId = string | redacted.Redacted<string>;
 export type TagKey = string;
 export type TagValue = string;
 export type Bucket = string;
@@ -169,13 +169,19 @@ export type LocaleCode = string;
 //# Schemas
 export type RecipeVersionList = string[];
 export const RecipeVersionList = S.Array(S.String);
+export type InputFormat = "CSV" | "JSON" | "PARQUET" | "EXCEL" | "ORC";
+export const InputFormat = S.Literal("CSV", "JSON", "PARQUET", "EXCEL", "ORC");
+export type EncryptionMode = "SSE-KMS" | "SSE-S3";
+export const EncryptionMode = S.Literal("SSE-KMS", "SSE-S3");
+export type LogSubscription = "ENABLE" | "DISABLE";
+export const LogSubscription = S.Literal("ENABLE", "DISABLE");
 export type JobNameList = string[];
 export const JobNameList = S.Array(S.String);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface BatchDeleteRecipeVersionRequest {
   Name: string;
-  RecipeVersions: RecipeVersionList;
+  RecipeVersions: string[];
 }
 export const BatchDeleteRecipeVersionRequest = S.suspend(() =>
   S.Struct({
@@ -200,9 +206,9 @@ export const BatchDeleteRecipeVersionRequest = S.suspend(() =>
 export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface CreateScheduleRequest {
-  JobNames?: JobNameList;
+  JobNames?: string[];
   CronExpression: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   Name: string;
 }
 export const CreateScheduleRequest = S.suspend(() =>
@@ -741,7 +747,7 @@ export const StopJobRunRequest = S.suspend(() =>
 }) as any as S.Schema<StopJobRunRequest>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: TagMap;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -766,7 +772,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -800,8 +806,8 @@ export const SheetNameList = S.Array(S.String);
 export type SheetIndexList = number[];
 export const SheetIndexList = S.Array(S.Number);
 export interface ExcelOptions {
-  SheetNames?: SheetNameList;
-  SheetIndexes?: SheetIndexList;
+  SheetNames?: string[];
+  SheetIndexes?: number[];
   HeaderRow?: boolean;
 }
 export const ExcelOptions = S.suspend(() =>
@@ -903,25 +909,31 @@ export type ValuesMap = { [key: string]: string };
 export const ValuesMap = S.Record({ key: S.String, value: S.String });
 export interface FilterExpression {
   Expression: string;
-  ValuesMap: ValuesMap;
+  ValuesMap: { [key: string]: string };
 }
 export const FilterExpression = S.suspend(() =>
   S.Struct({ Expression: S.String, ValuesMap: ValuesMap }),
 ).annotations({
   identifier: "FilterExpression",
 }) as any as S.Schema<FilterExpression>;
+export type OrderedBy = "LAST_MODIFIED_DATE";
+export const OrderedBy = S.Literal("LAST_MODIFIED_DATE");
+export type Order = "DESCENDING" | "ASCENDING";
+export const Order = S.Literal("DESCENDING", "ASCENDING");
 export interface FilesLimit {
   MaxFiles: number;
-  OrderedBy?: string;
-  Order?: string;
+  OrderedBy?: OrderedBy;
+  Order?: Order;
 }
 export const FilesLimit = S.suspend(() =>
   S.Struct({
     MaxFiles: S.Number,
-    OrderedBy: S.optional(S.String),
-    Order: S.optional(S.String),
+    OrderedBy: S.optional(OrderedBy),
+    Order: S.optional(Order),
   }),
 ).annotations({ identifier: "FilesLimit" }) as any as S.Schema<FilesLimit>;
+export type ParameterType = "Datetime" | "Number" | "String";
+export const ParameterType = S.Literal("Datetime", "Number", "String");
 export interface DatetimeOptions {
   Format: string;
   TimezoneOffset?: string;
@@ -938,7 +950,7 @@ export const DatetimeOptions = S.suspend(() =>
 }) as any as S.Schema<DatetimeOptions>;
 export interface DatasetParameter {
   Name: string;
-  Type: string;
+  Type: ParameterType;
   DatetimeOptions?: DatetimeOptions;
   CreateColumn?: boolean;
   Filter?: FilterExpression;
@@ -946,7 +958,7 @@ export interface DatasetParameter {
 export const DatasetParameter = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Type: S.String,
+    Type: ParameterType,
     DatetimeOptions: S.optional(DatetimeOptions),
     CreateColumn: S.optional(S.Boolean),
     Filter: S.optional(FilterExpression),
@@ -962,7 +974,7 @@ export const PathParametersMap = S.Record({
 export interface PathOptions {
   LastModifiedDateCondition?: FilterExpression;
   FilesLimit?: FilesLimit;
-  Parameters?: PathParametersMap;
+  Parameters?: { [key: string]: DatasetParameter };
 }
 export const PathOptions = S.suspend(() =>
   S.Struct({
@@ -973,7 +985,7 @@ export const PathOptions = S.suspend(() =>
 ).annotations({ identifier: "PathOptions" }) as any as S.Schema<PathOptions>;
 export interface UpdateDatasetRequest {
   Name: string;
-  Format?: string;
+  Format?: InputFormat;
   FormatOptions?: FormatOptions;
   Input: Input;
   PathOptions?: PathOptions;
@@ -981,7 +993,7 @@ export interface UpdateDatasetRequest {
 export const UpdateDatasetRequest = S.suspend(() =>
   S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
-    Format: S.optional(S.String),
+    Format: S.optional(InputFormat),
     FormatOptions: S.optional(FormatOptions),
     Input: Input,
     PathOptions: S.optional(PathOptions),
@@ -1004,7 +1016,7 @@ export type ParameterMap = { [key: string]: string };
 export const ParameterMap = S.Record({ key: S.String, value: S.String });
 export interface StatisticOverride {
   Statistic: string;
-  Parameters: ParameterMap;
+  Parameters: { [key: string]: string };
 }
 export const StatisticOverride = S.suspend(() =>
   S.Struct({ Statistic: S.String, Parameters: ParameterMap }),
@@ -1014,8 +1026,8 @@ export const StatisticOverride = S.suspend(() =>
 export type StatisticOverrideList = StatisticOverride[];
 export const StatisticOverrideList = S.Array(StatisticOverride);
 export interface StatisticsConfiguration {
-  IncludedStatistics?: StatisticList;
-  Overrides?: StatisticOverrideList;
+  IncludedStatistics?: string[];
+  Overrides?: StatisticOverride[];
 }
 export const StatisticsConfiguration = S.suspend(() =>
   S.Struct({
@@ -1037,7 +1049,7 @@ export const ColumnSelector = S.suspend(() =>
 export type ColumnSelectorList = ColumnSelector[];
 export const ColumnSelectorList = S.Array(ColumnSelector);
 export interface ColumnStatisticsConfiguration {
-  Selectors?: ColumnSelectorList;
+  Selectors?: ColumnSelector[];
   Statistics: StatisticsConfiguration;
 }
 export const ColumnStatisticsConfiguration = S.suspend(() =>
@@ -1055,7 +1067,7 @@ export const ColumnStatisticsConfigurationList = S.Array(
 export type EntityTypeList = string[];
 export const EntityTypeList = S.Array(S.String);
 export interface AllowedStatistics {
-  Statistics: StatisticList;
+  Statistics: string[];
 }
 export const AllowedStatistics = S.suspend(() =>
   S.Struct({ Statistics: StatisticList }),
@@ -1065,8 +1077,8 @@ export const AllowedStatistics = S.suspend(() =>
 export type AllowedStatisticList = AllowedStatistics[];
 export const AllowedStatisticList = S.Array(AllowedStatistics);
 export interface EntityDetectorConfiguration {
-  EntityTypes: EntityTypeList;
-  AllowedStatistics?: AllowedStatisticList;
+  EntityTypes: string[];
+  AllowedStatistics?: AllowedStatistics[];
 }
 export const EntityDetectorConfiguration = S.suspend(() =>
   S.Struct({
@@ -1078,8 +1090,8 @@ export const EntityDetectorConfiguration = S.suspend(() =>
 }) as any as S.Schema<EntityDetectorConfiguration>;
 export interface ProfileConfiguration {
   DatasetStatisticsConfiguration?: StatisticsConfiguration;
-  ProfileColumns?: ColumnSelectorList;
-  ColumnStatisticsConfigurations?: ColumnStatisticsConfigurationList;
+  ProfileColumns?: ColumnSelector[];
+  ColumnStatisticsConfigurations?: ColumnStatisticsConfiguration[];
   EntityDetectorConfiguration?: EntityDetectorConfiguration;
 }
 export const ProfileConfiguration = S.suspend(() =>
@@ -1094,34 +1106,41 @@ export const ProfileConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ProfileConfiguration",
 }) as any as S.Schema<ProfileConfiguration>;
+export type ValidationMode = "CHECK_ALL";
+export const ValidationMode = S.Literal("CHECK_ALL");
 export interface ValidationConfiguration {
   RulesetArn: string;
-  ValidationMode?: string;
+  ValidationMode?: ValidationMode;
 }
 export const ValidationConfiguration = S.suspend(() =>
-  S.Struct({ RulesetArn: S.String, ValidationMode: S.optional(S.String) }),
+  S.Struct({
+    RulesetArn: S.String,
+    ValidationMode: S.optional(ValidationMode),
+  }),
 ).annotations({
   identifier: "ValidationConfiguration",
 }) as any as S.Schema<ValidationConfiguration>;
 export type ValidationConfigurationList = ValidationConfiguration[];
 export const ValidationConfigurationList = S.Array(ValidationConfiguration);
+export type SampleMode = "FULL_DATASET" | "CUSTOM_ROWS";
+export const SampleMode = S.Literal("FULL_DATASET", "CUSTOM_ROWS");
 export interface JobSample {
-  Mode?: string;
+  Mode?: SampleMode;
   Size?: number;
 }
 export const JobSample = S.suspend(() =>
-  S.Struct({ Mode: S.optional(S.String), Size: S.optional(S.Number) }),
+  S.Struct({ Mode: S.optional(SampleMode), Size: S.optional(S.Number) }),
 ).annotations({ identifier: "JobSample" }) as any as S.Schema<JobSample>;
 export interface UpdateProfileJobRequest {
   Configuration?: ProfileConfiguration;
   EncryptionKeyArn?: string;
-  EncryptionMode?: string;
+  EncryptionMode?: EncryptionMode;
   Name: string;
-  LogSubscription?: string;
+  LogSubscription?: LogSubscription;
   MaxCapacity?: number;
   MaxRetries?: number;
   OutputLocation: S3Location;
-  ValidationConfigurations?: ValidationConfigurationList;
+  ValidationConfigurations?: ValidationConfiguration[];
   RoleArn: string;
   Timeout?: number;
   JobSample?: JobSample;
@@ -1130,9 +1149,9 @@ export const UpdateProfileJobRequest = S.suspend(() =>
   S.Struct({
     Configuration: S.optional(ProfileConfiguration),
     EncryptionKeyArn: S.optional(S.String),
-    EncryptionMode: S.optional(S.String),
+    EncryptionMode: S.optional(EncryptionMode),
     Name: S.String.pipe(T.HttpLabel("Name")),
-    LogSubscription: S.optional(S.String),
+    LogSubscription: S.optional(LogSubscription),
     MaxCapacity: S.optional(S.Number),
     MaxRetries: S.optional(S.Number),
     OutputLocation: S3Location,
@@ -1153,12 +1172,14 @@ export const UpdateProfileJobRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateProfileJobRequest",
 }) as any as S.Schema<UpdateProfileJobRequest>;
+export type SampleType = "FIRST_N" | "LAST_N" | "RANDOM";
+export const SampleType = S.Literal("FIRST_N", "LAST_N", "RANDOM");
 export interface Sample {
   Size?: number;
-  Type: string;
+  Type: SampleType;
 }
 export const Sample = S.suspend(() =>
-  S.Struct({ Size: S.optional(S.Number), Type: S.String }),
+  S.Struct({ Size: S.optional(S.Number), Type: SampleType }),
 ).annotations({ identifier: "Sample" }) as any as S.Schema<Sample>;
 export interface UpdateProjectRequest {
   Sample?: Sample;
@@ -1185,7 +1206,7 @@ export const UpdateProjectRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateProjectRequest>;
 export interface RecipeAction {
   Operation: string;
-  Parameters?: ParameterMap;
+  Parameters?: { [key: string]: string };
 }
 export const RecipeAction = S.suspend(() =>
   S.Struct({ Operation: S.String, Parameters: S.optional(ParameterMap) }),
@@ -1208,7 +1229,7 @@ export type ConditionExpressionList = ConditionExpression[];
 export const ConditionExpressionList = S.Array(ConditionExpression);
 export interface RecipeStep {
   Action: RecipeAction;
-  ConditionExpressions?: ConditionExpressionList;
+  ConditionExpressions?: ConditionExpression[];
 }
 export const RecipeStep = S.suspend(() =>
   S.Struct({
@@ -1221,7 +1242,7 @@ export const RecipeStepList = S.Array(RecipeStep);
 export interface UpdateRecipeRequest {
   Description?: string;
   Name: string;
-  Steps?: RecipeStepList;
+  Steps?: RecipeStep[];
 }
 export const UpdateRecipeRequest = S.suspend(() =>
   S.Struct({
@@ -1241,6 +1262,46 @@ export const UpdateRecipeRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateRecipeRequest",
 }) as any as S.Schema<UpdateRecipeRequest>;
+export type CompressionFormat =
+  | "GZIP"
+  | "LZ4"
+  | "SNAPPY"
+  | "BZIP2"
+  | "DEFLATE"
+  | "LZO"
+  | "BROTLI"
+  | "ZSTD"
+  | "ZLIB";
+export const CompressionFormat = S.Literal(
+  "GZIP",
+  "LZ4",
+  "SNAPPY",
+  "BZIP2",
+  "DEFLATE",
+  "LZO",
+  "BROTLI",
+  "ZSTD",
+  "ZLIB",
+);
+export type OutputFormat =
+  | "CSV"
+  | "JSON"
+  | "PARQUET"
+  | "GLUEPARQUET"
+  | "AVRO"
+  | "ORC"
+  | "XML"
+  | "TABLEAUHYPER";
+export const OutputFormat = S.Literal(
+  "CSV",
+  "JSON",
+  "PARQUET",
+  "GLUEPARQUET",
+  "AVRO",
+  "ORC",
+  "XML",
+  "TABLEAUHYPER",
+);
 export type ColumnNameList = string[];
 export const ColumnNameList = S.Array(S.String);
 export interface CsvOutputOptions {
@@ -1260,9 +1321,9 @@ export const OutputFormatOptions = S.suspend(() =>
   identifier: "OutputFormatOptions",
 }) as any as S.Schema<OutputFormatOptions>;
 export interface Output {
-  CompressionFormat?: string;
-  Format?: string;
-  PartitionColumns?: ColumnNameList;
+  CompressionFormat?: CompressionFormat;
+  Format?: OutputFormat;
+  PartitionColumns?: string[];
   Location: S3Location;
   Overwrite?: boolean;
   FormatOptions?: OutputFormatOptions;
@@ -1270,8 +1331,8 @@ export interface Output {
 }
 export const Output = S.suspend(() =>
   S.Struct({
-    CompressionFormat: S.optional(S.String),
-    Format: S.optional(S.String),
+    CompressionFormat: S.optional(CompressionFormat),
+    Format: S.optional(OutputFormat),
     PartitionColumns: S.optional(ColumnNameList),
     Location: S3Location,
     Overwrite: S.optional(S.Boolean),
@@ -1320,16 +1381,18 @@ export const DataCatalogOutput = S.suspend(() =>
 }) as any as S.Schema<DataCatalogOutput>;
 export type DataCatalogOutputList = DataCatalogOutput[];
 export const DataCatalogOutputList = S.Array(DataCatalogOutput);
+export type DatabaseOutputMode = "NEW_TABLE";
+export const DatabaseOutputMode = S.Literal("NEW_TABLE");
 export interface DatabaseOutput {
   GlueConnectionName: string;
   DatabaseOptions: DatabaseTableOutputOptions;
-  DatabaseOutputMode?: string;
+  DatabaseOutputMode?: DatabaseOutputMode;
 }
 export const DatabaseOutput = S.suspend(() =>
   S.Struct({
     GlueConnectionName: S.String,
     DatabaseOptions: DatabaseTableOutputOptions,
-    DatabaseOutputMode: S.optional(S.String),
+    DatabaseOutputMode: S.optional(DatabaseOutputMode),
   }),
 ).annotations({
   identifier: "DatabaseOutput",
@@ -1338,23 +1401,23 @@ export type DatabaseOutputList = DatabaseOutput[];
 export const DatabaseOutputList = S.Array(DatabaseOutput);
 export interface UpdateRecipeJobRequest {
   EncryptionKeyArn?: string;
-  EncryptionMode?: string;
+  EncryptionMode?: EncryptionMode;
   Name: string;
-  LogSubscription?: string;
+  LogSubscription?: LogSubscription;
   MaxCapacity?: number;
   MaxRetries?: number;
-  Outputs?: OutputList;
-  DataCatalogOutputs?: DataCatalogOutputList;
-  DatabaseOutputs?: DatabaseOutputList;
+  Outputs?: Output[];
+  DataCatalogOutputs?: DataCatalogOutput[];
+  DatabaseOutputs?: DatabaseOutput[];
   RoleArn: string;
   Timeout?: number;
 }
 export const UpdateRecipeJobRequest = S.suspend(() =>
   S.Struct({
     EncryptionKeyArn: S.optional(S.String),
-    EncryptionMode: S.optional(S.String),
+    EncryptionMode: S.optional(EncryptionMode),
     Name: S.String.pipe(T.HttpLabel("Name")),
-    LogSubscription: S.optional(S.String),
+    LogSubscription: S.optional(LogSubscription),
     MaxCapacity: S.optional(S.Number),
     MaxRetries: S.optional(S.Number),
     Outputs: S.optional(OutputList),
@@ -1375,25 +1438,38 @@ export const UpdateRecipeJobRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateRecipeJobRequest",
 }) as any as S.Schema<UpdateRecipeJobRequest>;
+export type ThresholdType =
+  | "GREATER_THAN_OR_EQUAL"
+  | "LESS_THAN_OR_EQUAL"
+  | "GREATER_THAN"
+  | "LESS_THAN";
+export const ThresholdType = S.Literal(
+  "GREATER_THAN_OR_EQUAL",
+  "LESS_THAN_OR_EQUAL",
+  "GREATER_THAN",
+  "LESS_THAN",
+);
+export type ThresholdUnit = "COUNT" | "PERCENTAGE";
+export const ThresholdUnit = S.Literal("COUNT", "PERCENTAGE");
 export interface Threshold {
   Value: number;
-  Type?: string;
-  Unit?: string;
+  Type?: ThresholdType;
+  Unit?: ThresholdUnit;
 }
 export const Threshold = S.suspend(() =>
   S.Struct({
     Value: S.Number,
-    Type: S.optional(S.String),
-    Unit: S.optional(S.String),
+    Type: S.optional(ThresholdType),
+    Unit: S.optional(ThresholdUnit),
   }),
 ).annotations({ identifier: "Threshold" }) as any as S.Schema<Threshold>;
 export interface Rule {
   Name: string;
   Disabled?: boolean;
   CheckExpression: string;
-  SubstitutionMap?: ValuesMap;
+  SubstitutionMap?: { [key: string]: string };
   Threshold?: Threshold;
-  ColumnSelectors?: ColumnSelectorList;
+  ColumnSelectors?: ColumnSelector[];
 }
 export const Rule = S.suspend(() =>
   S.Struct({
@@ -1410,7 +1486,7 @@ export const RuleList = S.Array(Rule);
 export interface UpdateRulesetRequest {
   Name: string;
   Description?: string;
-  Rules: RuleList;
+  Rules: Rule[];
 }
 export const UpdateRulesetRequest = S.suspend(() =>
   S.Struct({
@@ -1431,7 +1507,7 @@ export const UpdateRulesetRequest = S.suspend(() =>
   identifier: "UpdateRulesetRequest",
 }) as any as S.Schema<UpdateRulesetRequest>;
 export interface UpdateScheduleRequest {
-  JobNames?: JobNameList;
+  JobNames?: string[];
   CronExpression: string;
   Name: string;
 }
@@ -1455,6 +1531,8 @@ export const UpdateScheduleRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateScheduleRequest>;
 export type HiddenColumnList = string[];
 export const HiddenColumnList = S.Array(S.String);
+export type AnalyticsMode = "ENABLE" | "DISABLE";
+export const AnalyticsMode = S.Literal("ENABLE", "DISABLE");
 export interface RecipeReference {
   Name: string;
   RecipeVersion?: string;
@@ -1464,13 +1542,57 @@ export const RecipeReference = S.suspend(() =>
 ).annotations({
   identifier: "RecipeReference",
 }) as any as S.Schema<RecipeReference>;
+export type Source = "S3" | "DATA-CATALOG" | "DATABASE";
+export const Source = S.Literal("S3", "DATA-CATALOG", "DATABASE");
+export type JobType = "PROFILE" | "RECIPE";
+export const JobType = S.Literal("PROFILE", "RECIPE");
+export type JobRunState =
+  | "STARTING"
+  | "RUNNING"
+  | "STOPPING"
+  | "STOPPED"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "TIMEOUT";
+export const JobRunState = S.Literal(
+  "STARTING",
+  "RUNNING",
+  "STOPPING",
+  "STOPPED",
+  "SUCCEEDED",
+  "FAILED",
+  "TIMEOUT",
+);
+export type SessionStatus =
+  | "ASSIGNED"
+  | "FAILED"
+  | "INITIALIZING"
+  | "PROVISIONING"
+  | "READY"
+  | "RECYCLING"
+  | "ROTATING"
+  | "TERMINATED"
+  | "TERMINATING"
+  | "UPDATING";
+export const SessionStatus = S.Literal(
+  "ASSIGNED",
+  "FAILED",
+  "INITIALIZING",
+  "PROVISIONING",
+  "READY",
+  "RECYCLING",
+  "ROTATING",
+  "TERMINATED",
+  "TERMINATING",
+  "UPDATING",
+);
 export interface ViewFrame {
   StartColumnIndex: number;
   ColumnRange?: number;
-  HiddenColumns?: HiddenColumnList;
+  HiddenColumns?: string[];
   StartRowIndex?: number;
   RowRange?: number;
-  Analytics?: string;
+  Analytics?: AnalyticsMode;
 }
 export const ViewFrame = S.suspend(() =>
   S.Struct({
@@ -1479,7 +1601,7 @@ export const ViewFrame = S.suspend(() =>
     HiddenColumns: S.optional(HiddenColumnList),
     StartRowIndex: S.optional(S.Number),
     RowRange: S.optional(S.Number),
-    Analytics: S.optional(S.String),
+    Analytics: S.optional(AnalyticsMode),
   }),
 ).annotations({ identifier: "ViewFrame" }) as any as S.Schema<ViewFrame>;
 export interface CreateProjectRequest {
@@ -1488,7 +1610,7 @@ export interface CreateProjectRequest {
   RecipeName: string;
   Sample?: Sample;
   RoleArn: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateProjectRequest = S.suspend(() =>
   S.Struct({
@@ -1572,14 +1694,14 @@ export interface DescribeDatasetResponse {
   CreatedBy?: string;
   CreateDate?: Date;
   Name: string;
-  Format?: string;
+  Format?: InputFormat;
   FormatOptions?: FormatOptions;
   Input: Input;
   LastModifiedDate?: Date;
   LastModifiedBy?: string;
-  Source?: string;
+  Source?: Source;
   PathOptions?: PathOptions;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   ResourceArn?: string;
 }
 export const DescribeDatasetResponse = S.suspend(() =>
@@ -1587,14 +1709,14 @@ export const DescribeDatasetResponse = S.suspend(() =>
     CreatedBy: S.optional(S.String),
     CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Name: S.String,
-    Format: S.optional(S.String),
+    Format: S.optional(InputFormat),
     FormatOptions: S.optional(FormatOptions),
     Input: Input,
     LastModifiedDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     LastModifiedBy: S.optional(S.String),
-    Source: S.optional(S.String),
+    Source: S.optional(Source),
     PathOptions: S.optional(PathOptions),
     Tags: S.optional(TagMap),
     ResourceArn: S.optional(S.String),
@@ -1607,24 +1729,24 @@ export interface DescribeJobResponse {
   CreatedBy?: string;
   DatasetName?: string;
   EncryptionKeyArn?: string;
-  EncryptionMode?: string;
+  EncryptionMode?: EncryptionMode;
   Name: string;
-  Type?: string;
+  Type?: JobType;
   LastModifiedBy?: string;
   LastModifiedDate?: Date;
-  LogSubscription?: string;
+  LogSubscription?: LogSubscription;
   MaxCapacity?: number;
   MaxRetries?: number;
-  Outputs?: OutputList;
-  DataCatalogOutputs?: DataCatalogOutputList;
-  DatabaseOutputs?: DatabaseOutputList;
+  Outputs?: Output[];
+  DataCatalogOutputs?: DataCatalogOutput[];
+  DatabaseOutputs?: DatabaseOutput[];
   ProjectName?: string;
   ProfileConfiguration?: ProfileConfiguration;
-  ValidationConfigurations?: ValidationConfigurationList;
+  ValidationConfigurations?: ValidationConfiguration[];
   RecipeReference?: RecipeReference;
   ResourceArn?: string;
   RoleArn?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   Timeout?: number;
   JobSample?: JobSample;
 }
@@ -1634,14 +1756,14 @@ export const DescribeJobResponse = S.suspend(() =>
     CreatedBy: S.optional(S.String),
     DatasetName: S.optional(S.String),
     EncryptionKeyArn: S.optional(S.String),
-    EncryptionMode: S.optional(S.String),
+    EncryptionMode: S.optional(EncryptionMode),
     Name: S.String,
-    Type: S.optional(S.String),
+    Type: S.optional(JobType),
     LastModifiedBy: S.optional(S.String),
     LastModifiedDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    LogSubscription: S.optional(S.String),
+    LogSubscription: S.optional(LogSubscription),
     MaxCapacity: S.optional(S.Number),
     MaxRetries: S.optional(S.Number),
     Outputs: S.optional(OutputList),
@@ -1668,14 +1790,14 @@ export interface DescribeJobRunResponse {
   ExecutionTime?: number;
   JobName: string;
   ProfileConfiguration?: ProfileConfiguration;
-  ValidationConfigurations?: ValidationConfigurationList;
+  ValidationConfigurations?: ValidationConfiguration[];
   RunId?: string;
-  State?: string;
-  LogSubscription?: string;
+  State?: JobRunState;
+  LogSubscription?: LogSubscription;
   LogGroupName?: string;
-  Outputs?: OutputList;
-  DataCatalogOutputs?: DataCatalogOutputList;
-  DatabaseOutputs?: DatabaseOutputList;
+  Outputs?: Output[];
+  DataCatalogOutputs?: DataCatalogOutput[];
+  DatabaseOutputs?: DatabaseOutput[];
   RecipeReference?: RecipeReference;
   StartedBy?: string;
   StartedOn?: Date;
@@ -1692,8 +1814,8 @@ export const DescribeJobRunResponse = S.suspend(() =>
     ProfileConfiguration: S.optional(ProfileConfiguration),
     ValidationConfigurations: S.optional(ValidationConfigurationList),
     RunId: S.optional(S.String),
-    State: S.optional(S.String),
-    LogSubscription: S.optional(S.String),
+    State: S.optional(JobRunState),
+    LogSubscription: S.optional(LogSubscription),
     LogGroupName: S.optional(S.String),
     Outputs: S.optional(OutputList),
     DataCatalogOutputs: S.optional(DataCatalogOutputList),
@@ -1717,8 +1839,8 @@ export interface DescribeProjectResponse {
   ResourceArn?: string;
   Sample?: Sample;
   RoleArn?: string;
-  Tags?: TagMap;
-  SessionStatus?: string;
+  Tags?: { [key: string]: string };
+  SessionStatus?: SessionStatus;
   OpenedBy?: string;
   OpenDate?: Date;
 }
@@ -1737,7 +1859,7 @@ export const DescribeProjectResponse = S.suspend(() =>
     Sample: S.optional(Sample),
     RoleArn: S.optional(S.String),
     Tags: S.optional(TagMap),
-    SessionStatus: S.optional(S.String),
+    SessionStatus: S.optional(SessionStatus),
     OpenedBy: S.optional(S.String),
     OpenDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -1754,8 +1876,8 @@ export interface DescribeRecipeResponse {
   PublishedDate?: Date;
   Description?: string;
   Name: string;
-  Steps?: RecipeStepList;
-  Tags?: TagMap;
+  Steps?: RecipeStep[];
+  Tags?: { [key: string]: string };
   ResourceArn?: string;
   RecipeVersion?: string;
 }
@@ -1784,13 +1906,13 @@ export interface DescribeRulesetResponse {
   Name: string;
   Description?: string;
   TargetArn?: string;
-  Rules?: RuleList;
+  Rules?: Rule[];
   CreateDate?: Date;
   CreatedBy?: string;
   LastModifiedBy?: string;
   LastModifiedDate?: Date;
   ResourceArn?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const DescribeRulesetResponse = S.suspend(() =>
   S.Struct({
@@ -1813,12 +1935,12 @@ export const DescribeRulesetResponse = S.suspend(() =>
 export interface DescribeScheduleResponse {
   CreateDate?: Date;
   CreatedBy?: string;
-  JobNames?: JobNameList;
+  JobNames?: string[];
   LastModifiedBy?: string;
   LastModifiedDate?: Date;
   ResourceArn?: string;
   CronExpression?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   Name: string;
 }
 export const DescribeScheduleResponse = S.suspend(() =>
@@ -1849,8 +1971,8 @@ export interface Recipe {
   Description?: string;
   Name: string;
   ResourceArn?: string;
-  Steps?: RecipeStepList;
-  Tags?: TagMap;
+  Steps?: RecipeStep[];
+  Tags?: { [key: string]: string };
   RecipeVersion?: string;
 }
 export const Recipe = S.suspend(() =>
@@ -1876,7 +1998,7 @@ export type RecipeList = Recipe[];
 export const RecipeList = S.Array(Recipe);
 export interface ListRecipeVersionsResponse {
   NextToken?: string;
-  Recipes: RecipeList;
+  Recipes: Recipe[];
 }
 export const ListRecipeVersionsResponse = S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), Recipes: RecipeList }),
@@ -1884,7 +2006,7 @@ export const ListRecipeVersionsResponse = S.suspend(() =>
   identifier: "ListRecipeVersionsResponse",
 }) as any as S.Schema<ListRecipeVersionsResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -1904,7 +2026,7 @@ export interface SendProjectSessionActionRequest {
   Name: string;
   RecipeStep?: RecipeStep;
   StepIndex?: number;
-  ClientSessionId?: string | Redacted.Redacted<string>;
+  ClientSessionId?: string | redacted.Redacted<string>;
   ViewFrame?: ViewFrame;
 }
 export const SendProjectSessionActionRequest = S.suspend(() =>
@@ -1941,7 +2063,7 @@ export const StartJobRunResponse = S.suspend(() =>
 }) as any as S.Schema<StartJobRunResponse>;
 export interface StartProjectSessionResponse {
   Name: string;
-  ClientSessionId?: string | Redacted.Redacted<string>;
+  ClientSessionId?: string | redacted.Redacted<string>;
 }
 export const StartProjectSessionResponse = S.suspend(() =>
   S.Struct({ Name: S.String, ClientSessionId: S.optional(SensitiveString) }),
@@ -2039,14 +2161,14 @@ export interface Dataset {
   CreatedBy?: string;
   CreateDate?: Date;
   Name: string;
-  Format?: string;
+  Format?: InputFormat;
   FormatOptions?: FormatOptions;
   Input: Input;
   LastModifiedDate?: Date;
   LastModifiedBy?: string;
-  Source?: string;
+  Source?: Source;
   PathOptions?: PathOptions;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   ResourceArn?: string;
 }
 export const Dataset = S.suspend(() =>
@@ -2055,14 +2177,14 @@ export const Dataset = S.suspend(() =>
     CreatedBy: S.optional(S.String),
     CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Name: S.String,
-    Format: S.optional(S.String),
+    Format: S.optional(InputFormat),
     FormatOptions: S.optional(FormatOptions),
     Input: Input,
     LastModifiedDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     LastModifiedBy: S.optional(S.String),
-    Source: S.optional(S.String),
+    Source: S.optional(Source),
     PathOptions: S.optional(PathOptions),
     Tags: S.optional(TagMap),
     ResourceArn: S.optional(S.String),
@@ -2078,17 +2200,17 @@ export interface JobRun {
   ExecutionTime?: number;
   JobName?: string;
   RunId?: string;
-  State?: string;
-  LogSubscription?: string;
+  State?: JobRunState;
+  LogSubscription?: LogSubscription;
   LogGroupName?: string;
-  Outputs?: OutputList;
-  DataCatalogOutputs?: DataCatalogOutputList;
-  DatabaseOutputs?: DatabaseOutputList;
+  Outputs?: Output[];
+  DataCatalogOutputs?: DataCatalogOutput[];
+  DatabaseOutputs?: DatabaseOutput[];
   RecipeReference?: RecipeReference;
   StartedBy?: string;
   StartedOn?: Date;
   JobSample?: JobSample;
-  ValidationConfigurations?: ValidationConfigurationList;
+  ValidationConfigurations?: ValidationConfiguration[];
 }
 export const JobRun = S.suspend(() =>
   S.Struct({
@@ -2099,8 +2221,8 @@ export const JobRun = S.suspend(() =>
     ExecutionTime: S.optional(S.Number),
     JobName: S.optional(S.String),
     RunId: S.optional(S.String),
-    State: S.optional(S.String),
-    LogSubscription: S.optional(S.String),
+    State: S.optional(JobRunState),
+    LogSubscription: S.optional(LogSubscription),
     LogGroupName: S.optional(S.String),
     Outputs: S.optional(OutputList),
     DataCatalogOutputs: S.optional(DataCatalogOutputList),
@@ -2120,25 +2242,25 @@ export interface Job {
   CreateDate?: Date;
   DatasetName?: string;
   EncryptionKeyArn?: string;
-  EncryptionMode?: string;
+  EncryptionMode?: EncryptionMode;
   Name: string;
-  Type?: string;
+  Type?: JobType;
   LastModifiedBy?: string;
   LastModifiedDate?: Date;
-  LogSubscription?: string;
+  LogSubscription?: LogSubscription;
   MaxCapacity?: number;
   MaxRetries?: number;
-  Outputs?: OutputList;
-  DataCatalogOutputs?: DataCatalogOutputList;
-  DatabaseOutputs?: DatabaseOutputList;
+  Outputs?: Output[];
+  DataCatalogOutputs?: DataCatalogOutput[];
+  DatabaseOutputs?: DatabaseOutput[];
   ProjectName?: string;
   RecipeReference?: RecipeReference;
   ResourceArn?: string;
   RoleArn?: string;
   Timeout?: number;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   JobSample?: JobSample;
-  ValidationConfigurations?: ValidationConfigurationList;
+  ValidationConfigurations?: ValidationConfiguration[];
 }
 export const Job = S.suspend(() =>
   S.Struct({
@@ -2147,14 +2269,14 @@ export const Job = S.suspend(() =>
     CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DatasetName: S.optional(S.String),
     EncryptionKeyArn: S.optional(S.String),
-    EncryptionMode: S.optional(S.String),
+    EncryptionMode: S.optional(EncryptionMode),
     Name: S.String,
-    Type: S.optional(S.String),
+    Type: S.optional(JobType),
     LastModifiedBy: S.optional(S.String),
     LastModifiedDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    LogSubscription: S.optional(S.String),
+    LogSubscription: S.optional(LogSubscription),
     MaxCapacity: S.optional(S.Number),
     MaxRetries: S.optional(S.Number),
     Outputs: S.optional(OutputList),
@@ -2183,7 +2305,7 @@ export interface Project {
   RecipeName: string;
   ResourceArn?: string;
   Sample?: Sample;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   RoleArn?: string;
   OpenedBy?: string;
   OpenDate?: Date;
@@ -2220,7 +2342,7 @@ export interface RulesetItem {
   Name: string;
   ResourceArn?: string;
   RuleCount?: number;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   TargetArn: string;
 }
 export const RulesetItem = S.suspend(() =>
@@ -2246,12 +2368,12 @@ export interface Schedule {
   AccountId?: string;
   CreatedBy?: string;
   CreateDate?: Date;
-  JobNames?: JobNameList;
+  JobNames?: string[];
   LastModifiedBy?: string;
   LastModifiedDate?: Date;
   ResourceArn?: string;
   CronExpression?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   Name: string;
 }
 export const Schedule = S.suspend(() =>
@@ -2274,7 +2396,7 @@ export type ScheduleList = Schedule[];
 export const ScheduleList = S.Array(Schedule);
 export interface BatchDeleteRecipeVersionResponse {
   Name: string;
-  Errors?: RecipeErrorList;
+  Errors?: RecipeVersionErrorDetail[];
 }
 export const BatchDeleteRecipeVersionResponse = S.suspend(() =>
   S.Struct({ Name: S.String, Errors: S.optional(RecipeErrorList) }),
@@ -2293,8 +2415,8 @@ export interface CreateRulesetRequest {
   Name: string;
   Description?: string;
   TargetArn: string;
-  Rules: RuleList;
-  Tags?: TagMap;
+  Rules: Rule[];
+  Tags?: { [key: string]: string };
 }
 export const CreateRulesetRequest = S.suspend(() =>
   S.Struct({
@@ -2317,7 +2439,7 @@ export const CreateRulesetRequest = S.suspend(() =>
   identifier: "CreateRulesetRequest",
 }) as any as S.Schema<CreateRulesetRequest>;
 export interface ListDatasetsResponse {
-  Datasets: DatasetList;
+  Datasets: Dataset[];
   NextToken?: string;
 }
 export const ListDatasetsResponse = S.suspend(() =>
@@ -2326,7 +2448,7 @@ export const ListDatasetsResponse = S.suspend(() =>
   identifier: "ListDatasetsResponse",
 }) as any as S.Schema<ListDatasetsResponse>;
 export interface ListJobRunsResponse {
-  JobRuns: JobRunList;
+  JobRuns: JobRun[];
   NextToken?: string;
 }
 export const ListJobRunsResponse = S.suspend(() =>
@@ -2335,7 +2457,7 @@ export const ListJobRunsResponse = S.suspend(() =>
   identifier: "ListJobRunsResponse",
 }) as any as S.Schema<ListJobRunsResponse>;
 export interface ListJobsResponse {
-  Jobs: JobList;
+  Jobs: Job[];
   NextToken?: string;
 }
 export const ListJobsResponse = S.suspend(() =>
@@ -2344,7 +2466,7 @@ export const ListJobsResponse = S.suspend(() =>
   identifier: "ListJobsResponse",
 }) as any as S.Schema<ListJobsResponse>;
 export interface ListProjectsResponse {
-  Projects: ProjectList;
+  Projects: Project[];
   NextToken?: string;
 }
 export const ListProjectsResponse = S.suspend(() =>
@@ -2353,7 +2475,7 @@ export const ListProjectsResponse = S.suspend(() =>
   identifier: "ListProjectsResponse",
 }) as any as S.Schema<ListProjectsResponse>;
 export interface ListRecipesResponse {
-  Recipes: RecipeList;
+  Recipes: Recipe[];
   NextToken?: string;
 }
 export const ListRecipesResponse = S.suspend(() =>
@@ -2362,7 +2484,7 @@ export const ListRecipesResponse = S.suspend(() =>
   identifier: "ListRecipesResponse",
 }) as any as S.Schema<ListRecipesResponse>;
 export interface ListRulesetsResponse {
-  Rulesets: RulesetItemList;
+  Rulesets: RulesetItem[];
   NextToken?: string;
 }
 export const ListRulesetsResponse = S.suspend(() =>
@@ -2371,7 +2493,7 @@ export const ListRulesetsResponse = S.suspend(() =>
   identifier: "ListRulesetsResponse",
 }) as any as S.Schema<ListRulesetsResponse>;
 export interface ListSchedulesResponse {
-  Schedules: ScheduleList;
+  Schedules: Schedule[];
   NextToken?: string;
 }
 export const ListSchedulesResponse = S.suspend(() =>
@@ -2396,16 +2518,16 @@ export const SendProjectSessionActionResponse = S.suspend(() =>
 export interface CreateProfileJobRequest {
   DatasetName: string;
   EncryptionKeyArn?: string;
-  EncryptionMode?: string;
+  EncryptionMode?: EncryptionMode;
   Name: string;
-  LogSubscription?: string;
+  LogSubscription?: LogSubscription;
   MaxCapacity?: number;
   MaxRetries?: number;
   OutputLocation: S3Location;
   Configuration?: ProfileConfiguration;
-  ValidationConfigurations?: ValidationConfigurationList;
+  ValidationConfigurations?: ValidationConfiguration[];
   RoleArn: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   Timeout?: number;
   JobSample?: JobSample;
 }
@@ -2413,9 +2535,9 @@ export const CreateProfileJobRequest = S.suspend(() =>
   S.Struct({
     DatasetName: S.String,
     EncryptionKeyArn: S.optional(S.String),
-    EncryptionMode: S.optional(S.String),
+    EncryptionMode: S.optional(EncryptionMode),
     Name: S.String,
-    LogSubscription: S.optional(S.String),
+    LogSubscription: S.optional(LogSubscription),
     MaxCapacity: S.optional(S.Number),
     MaxRetries: S.optional(S.Number),
     OutputLocation: S3Location,
@@ -2441,8 +2563,8 @@ export const CreateProfileJobRequest = S.suspend(() =>
 export interface CreateRecipeRequest {
   Description?: string;
   Name: string;
-  Steps: RecipeStepList;
-  Tags?: TagMap;
+  Steps: RecipeStep[];
+  Tags?: { [key: string]: string };
 }
 export const CreateRecipeRequest = S.suspend(() =>
   S.Struct({
@@ -2466,27 +2588,27 @@ export const CreateRecipeRequest = S.suspend(() =>
 export interface CreateRecipeJobRequest {
   DatasetName?: string;
   EncryptionKeyArn?: string;
-  EncryptionMode?: string;
+  EncryptionMode?: EncryptionMode;
   Name: string;
-  LogSubscription?: string;
+  LogSubscription?: LogSubscription;
   MaxCapacity?: number;
   MaxRetries?: number;
-  Outputs?: OutputList;
-  DataCatalogOutputs?: DataCatalogOutputList;
-  DatabaseOutputs?: DatabaseOutputList;
+  Outputs?: Output[];
+  DataCatalogOutputs?: DataCatalogOutput[];
+  DatabaseOutputs?: DatabaseOutput[];
   ProjectName?: string;
   RecipeReference?: RecipeReference;
   RoleArn: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   Timeout?: number;
 }
 export const CreateRecipeJobRequest = S.suspend(() =>
   S.Struct({
     DatasetName: S.optional(S.String),
     EncryptionKeyArn: S.optional(S.String),
-    EncryptionMode: S.optional(S.String),
+    EncryptionMode: S.optional(EncryptionMode),
     Name: S.String,
-    LogSubscription: S.optional(S.String),
+    LogSubscription: S.optional(LogSubscription),
     MaxCapacity: S.optional(S.Number),
     MaxRetries: S.optional(S.Number),
     Outputs: S.optional(OutputList),
@@ -2520,16 +2642,16 @@ export const CreateRulesetResponse = S.suspend(() =>
 }) as any as S.Schema<CreateRulesetResponse>;
 export interface CreateDatasetRequest {
   Name: string;
-  Format?: string;
+  Format?: InputFormat;
   FormatOptions?: FormatOptions;
   Input: Input;
   PathOptions?: PathOptions;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const CreateDatasetRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Format: S.optional(S.String),
+    Format: S.optional(InputFormat),
     FormatOptions: S.optional(FormatOptions),
     Input: Input,
     PathOptions: S.optional(PathOptions),
@@ -2614,21 +2736,21 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export const listRecipeVersions: {
   (
     input: ListRecipeVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRecipeVersionsResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListRecipeVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRecipeVersionsResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRecipeVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Recipe,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2651,21 +2773,21 @@ export const listRecipeVersions: {
 export const listRulesets: {
   (
     input: ListRulesetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRulesetsResponse,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListRulesetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRulesetsResponse,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRulesetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RulesetItem,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2687,21 +2809,21 @@ export const listRulesets: {
 export const listSchedules: {
   (
     input: ListSchedulesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSchedulesResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSchedulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSchedulesResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSchedulesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Schedule,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2723,7 +2845,7 @@ export const listSchedules: {
  */
 export const sendProjectSessionAction: (
   input: SendProjectSessionActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendProjectSessionActionResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2740,7 +2862,7 @@ export const sendProjectSessionAction: (
  */
 export const updateDataset: (
   input: UpdateDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDatasetResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2761,7 +2883,7 @@ export const updateDataset: (
  */
 export const deleteDataset: (
   input: DeleteDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDatasetResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2778,7 +2900,7 @@ export const deleteDataset: (
  */
 export const deleteJob: (
   input: DeleteJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteJobResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2795,7 +2917,7 @@ export const deleteJob: (
  */
 export const deleteProject: (
   input: DeleteProjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteProjectResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2812,7 +2934,7 @@ export const deleteProject: (
  */
 export const deleteRecipeVersion: (
   input: DeleteRecipeVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRecipeVersionResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2829,7 +2951,7 @@ export const deleteRecipeVersion: (
  */
 export const deleteRuleset: (
   input: DeleteRulesetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRulesetResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2874,7 +2996,7 @@ export const deleteRuleset: (
  */
 export const batchDeleteRecipeVersion: (
   input: BatchDeleteRecipeVersionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDeleteRecipeVersionResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2891,7 +3013,7 @@ export const batchDeleteRecipeVersion: (
  */
 export const describeDataset: (
   input: DescribeDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeDatasetResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2905,7 +3027,7 @@ export const describeDataset: (
  */
 export const describeJob: (
   input: DescribeJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeJobResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2919,7 +3041,7 @@ export const describeJob: (
  */
 export const describeJobRun: (
   input: DescribeJobRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeJobRunResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2933,7 +3055,7 @@ export const describeJobRun: (
  */
 export const describeProject: (
   input: DescribeProjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeProjectResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2948,7 +3070,7 @@ export const describeProject: (
  */
 export const describeRecipe: (
   input: DescribeRecipeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRecipeResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2962,7 +3084,7 @@ export const describeRecipe: (
  */
 export const describeRuleset: (
   input: DescribeRulesetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeRulesetResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2976,7 +3098,7 @@ export const describeRuleset: (
  */
 export const describeSchedule: (
   input: DescribeScheduleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeScheduleResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2990,7 +3112,7 @@ export const describeSchedule: (
  */
 export const stopJobRun: (
   input: StopJobRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopJobRunResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3005,7 +3127,7 @@ export const stopJobRun: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3026,7 +3148,7 @@ export const tagResource: (
  */
 export const updateProject: (
   input: UpdateProjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProjectResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3041,7 +3163,7 @@ export const updateProject: (
  */
 export const updateRecipe: (
   input: UpdateRecipeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRecipeResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3055,7 +3177,7 @@ export const updateRecipe: (
  */
 export const updateRuleset: (
   input: UpdateRulesetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRulesetResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3069,7 +3191,7 @@ export const updateRuleset: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3090,7 +3212,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3111,7 +3233,7 @@ export const listTagsForResource: (
  */
 export const deleteSchedule: (
   input: DeleteScheduleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteScheduleResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3126,21 +3248,21 @@ export const deleteSchedule: (
 export const listDatasets: {
   (
     input: ListDatasetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDatasetsResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListDatasetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDatasetsResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListDatasetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Dataset,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3162,21 +3284,21 @@ export const listDatasets: {
 export const listJobRuns: {
   (
     input: ListJobRunsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListJobRunsResponse,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListJobRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListJobRunsResponse,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     JobRun,
     ResourceNotFoundException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3198,21 +3320,21 @@ export const listJobRuns: {
 export const listJobs: {
   (
     input: ListJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListJobsResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListJobsResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Job,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3234,21 +3356,21 @@ export const listJobs: {
 export const listProjects: {
   (
     input: ListProjectsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListProjectsResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListProjectsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListProjectsResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListProjectsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Project,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3270,21 +3392,21 @@ export const listProjects: {
 export const listRecipes: {
   (
     input: ListRecipesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRecipesResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListRecipesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRecipesResponse,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRecipesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Recipe,
     ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3305,7 +3427,7 @@ export const listRecipes: {
  */
 export const updateProfileJob: (
   input: UpdateProfileJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateProfileJobResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3326,7 +3448,7 @@ export const updateProfileJob: (
  */
 export const updateRecipeJob: (
   input: UpdateRecipeJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRecipeJobResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3348,7 +3470,7 @@ export const updateRecipeJob: (
  */
 export const createSchedule: (
   input: CreateScheduleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateScheduleResponse,
   | ConflictException
   | ServiceQuotaExceededException
@@ -3369,7 +3491,7 @@ export const createSchedule: (
  */
 export const startJobRun: (
   input: StartJobRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartJobRunResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -3393,7 +3515,7 @@ export const startJobRun: (
  */
 export const startProjectSession: (
   input: StartProjectSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartProjectSessionResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -3416,7 +3538,7 @@ export const startProjectSession: (
  */
 export const createProject: (
   input: CreateProjectRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProjectResponse,
   | ConflictException
   | InternalServerException
@@ -3439,7 +3561,7 @@ export const createProject: (
  */
 export const publishRecipe: (
   input: PublishRecipeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PublishRecipeResponse,
   | ResourceNotFoundException
   | ServiceQuotaExceededException
@@ -3460,7 +3582,7 @@ export const publishRecipe: (
  */
 export const updateSchedule: (
   input: UpdateScheduleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateScheduleResponse,
   | ResourceNotFoundException
   | ServiceQuotaExceededException
@@ -3482,7 +3604,7 @@ export const updateSchedule: (
  */
 export const createRuleset: (
   input: CreateRulesetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRulesetResponse,
   | ConflictException
   | ServiceQuotaExceededException
@@ -3503,7 +3625,7 @@ export const createRuleset: (
  */
 export const createProfileJob: (
   input: CreateProfileJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateProfileJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -3528,7 +3650,7 @@ export const createProfileJob: (
  */
 export const createRecipe: (
   input: CreateRecipeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRecipeResponse,
   | ConflictException
   | ServiceQuotaExceededException
@@ -3549,7 +3671,7 @@ export const createRecipe: (
  */
 export const createRecipeJob: (
   input: CreateRecipeJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRecipeJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -3574,7 +3696,7 @@ export const createRecipeJob: (
  */
 export const createDataset: (
   input: CreateDatasetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDatasetResponse,
   | AccessDeniedException
   | ConflictException

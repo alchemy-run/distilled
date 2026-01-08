@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -104,8 +104,21 @@ export type ErrorCause = string;
 export type ErrorDetails = string;
 
 //# Schemas
+export type PackageContentType = "application/zip";
+export const PackageContentType = S.Literal("application/zip");
+export type DescriptorContentType = "text/plain";
+export const DescriptorContentType = S.Literal("text/plain");
 export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
+export type OperationalState = "ENABLED" | "DISABLED";
+export const OperationalState = S.Literal("ENABLED", "DISABLED");
+export type UpdateSolNetworkType = "MODIFY_VNF_INFORMATION" | "UPDATE_NS";
+export const UpdateSolNetworkType = S.Literal(
+  "MODIFY_VNF_INFORMATION",
+  "UPDATE_NS",
+);
+export type NsdOperationalState = "ENABLED" | "DISABLED";
+export const NsdOperationalState = S.Literal("ENABLED", "DISABLED");
 export interface CancelSolNetworkOperationInput {
   nsLcmOpOccId: string;
 }
@@ -138,7 +151,7 @@ export interface CreateSolNetworkInstanceInput {
   nsdInfoId: string;
   nsName: string;
   nsDescription?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateSolNetworkInstanceInput = S.suspend(() =>
   S.Struct({
@@ -160,7 +173,7 @@ export const CreateSolNetworkInstanceInput = S.suspend(() =>
   identifier: "CreateSolNetworkInstanceInput",
 }) as any as S.Schema<CreateSolNetworkInstanceInput>;
 export interface CreateSolNetworkPackageInput {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateSolNetworkPackageInput = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }).pipe(
@@ -293,12 +306,12 @@ export const GetSolFunctionPackageInput = S.suspend(() =>
 }) as any as S.Schema<GetSolFunctionPackageInput>;
 export interface GetSolFunctionPackageContentInput {
   vnfPkgId: string;
-  accept: string;
+  accept: PackageContentType;
 }
 export const GetSolFunctionPackageContentInput = S.suspend(() =>
   S.Struct({
     vnfPkgId: S.String.pipe(T.HttpLabel("vnfPkgId")),
-    accept: S.String.pipe(T.HttpHeader("Accept")),
+    accept: PackageContentType.pipe(T.HttpHeader("Accept")),
   }).pipe(
     T.all(
       T.Http({
@@ -317,12 +330,12 @@ export const GetSolFunctionPackageContentInput = S.suspend(() =>
 }) as any as S.Schema<GetSolFunctionPackageContentInput>;
 export interface GetSolFunctionPackageDescriptorInput {
   vnfPkgId: string;
-  accept: string;
+  accept: DescriptorContentType;
 }
 export const GetSolFunctionPackageDescriptorInput = S.suspend(() =>
   S.Struct({
     vnfPkgId: S.String.pipe(T.HttpLabel("vnfPkgId")),
-    accept: S.String.pipe(T.HttpHeader("Accept")),
+    accept: DescriptorContentType.pipe(T.HttpHeader("Accept")),
   }).pipe(
     T.all(
       T.Http({
@@ -398,12 +411,12 @@ export const GetSolNetworkPackageInput = S.suspend(() =>
 }) as any as S.Schema<GetSolNetworkPackageInput>;
 export interface GetSolNetworkPackageContentInput {
   nsdInfoId: string;
-  accept: string;
+  accept: PackageContentType;
 }
 export const GetSolNetworkPackageContentInput = S.suspend(() =>
   S.Struct({
     nsdInfoId: S.String.pipe(T.HttpLabel("nsdInfoId")),
-    accept: S.String.pipe(T.HttpHeader("Accept")),
+    accept: PackageContentType.pipe(T.HttpHeader("Accept")),
   }).pipe(
     T.all(
       T.Http({
@@ -444,7 +457,7 @@ export interface InstantiateSolNetworkInstanceInput {
   nsInstanceId: string;
   dryRun?: boolean;
   additionalParamsForNs?: any;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const InstantiateSolNetworkInstanceInput = S.suspend(() =>
   S.Struct({
@@ -594,13 +607,15 @@ export const ListTagsForResourceInput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceInput>;
 export interface PutSolFunctionPackageContentInput {
   vnfPkgId: string;
-  contentType?: string;
+  contentType?: PackageContentType;
   file: T.StreamingInputBody;
 }
 export const PutSolFunctionPackageContentInput = S.suspend(() =>
   S.Struct({
     vnfPkgId: S.String.pipe(T.HttpLabel("vnfPkgId")),
-    contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    contentType: S.optional(PackageContentType).pipe(
+      T.HttpHeader("Content-Type"),
+    ),
     file: T.StreamingInput.pipe(T.HttpPayload()),
   }).pipe(
     T.all(
@@ -620,13 +635,15 @@ export const PutSolFunctionPackageContentInput = S.suspend(() =>
 }) as any as S.Schema<PutSolFunctionPackageContentInput>;
 export interface PutSolNetworkPackageContentInput {
   nsdInfoId: string;
-  contentType?: string;
+  contentType?: PackageContentType;
   file: T.StreamingInputBody;
 }
 export const PutSolNetworkPackageContentInput = S.suspend(() =>
   S.Struct({
     nsdInfoId: S.String.pipe(T.HttpLabel("nsdInfoId")),
-    contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    contentType: S.optional(PackageContentType).pipe(
+      T.HttpHeader("Content-Type"),
+    ),
     file: T.StreamingInput.pipe(T.HttpPayload()),
   }).pipe(
     T.all(
@@ -646,7 +663,7 @@ export const PutSolNetworkPackageContentInput = S.suspend(() =>
 }) as any as S.Schema<PutSolNetworkPackageContentInput>;
 export interface TagResourceInput {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -671,7 +688,7 @@ export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceOutput>;
 export interface TerminateSolNetworkInstanceInput {
   nsInstanceId: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const TerminateSolNetworkInstanceInput = S.suspend(() =>
   S.Struct({
@@ -695,7 +712,7 @@ export const TerminateSolNetworkInstanceInput = S.suspend(() =>
 }) as any as S.Schema<TerminateSolNetworkInstanceInput>;
 export interface UntagResourceInput {
   resourceArn: string;
-  tagKeys: TagKeys;
+  tagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({
@@ -720,12 +737,12 @@ export const UntagResourceOutput = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceOutput>;
 export interface UpdateSolFunctionPackageInput {
   vnfPkgId: string;
-  operationalState: string;
+  operationalState: OperationalState;
 }
 export const UpdateSolFunctionPackageInput = S.suspend(() =>
   S.Struct({
     vnfPkgId: S.String.pipe(T.HttpLabel("vnfPkgId")),
-    operationalState: S.String,
+    operationalState: OperationalState,
   }).pipe(
     T.all(
       T.Http({
@@ -744,12 +761,12 @@ export const UpdateSolFunctionPackageInput = S.suspend(() =>
 }) as any as S.Schema<UpdateSolFunctionPackageInput>;
 export interface UpdateSolNetworkPackageInput {
   nsdInfoId: string;
-  nsdOperationalState: string;
+  nsdOperationalState: NsdOperationalState;
 }
 export const UpdateSolNetworkPackageInput = S.suspend(() =>
   S.Struct({
     nsdInfoId: S.String.pipe(T.HttpLabel("nsdInfoId")),
-    nsdOperationalState: S.String,
+    nsdOperationalState: NsdOperationalState,
   }).pipe(
     T.all(
       T.Http({
@@ -768,13 +785,15 @@ export const UpdateSolNetworkPackageInput = S.suspend(() =>
 }) as any as S.Schema<UpdateSolNetworkPackageInput>;
 export interface ValidateSolFunctionPackageContentInput {
   vnfPkgId: string;
-  contentType?: string;
+  contentType?: PackageContentType;
   file: T.StreamingInputBody;
 }
 export const ValidateSolFunctionPackageContentInput = S.suspend(() =>
   S.Struct({
     vnfPkgId: S.String.pipe(T.HttpLabel("vnfPkgId")),
-    contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    contentType: S.optional(PackageContentType).pipe(
+      T.HttpHeader("Content-Type"),
+    ),
     file: T.StreamingInput.pipe(T.HttpPayload()),
   }).pipe(
     T.all(
@@ -794,13 +813,15 @@ export const ValidateSolFunctionPackageContentInput = S.suspend(() =>
 }) as any as S.Schema<ValidateSolFunctionPackageContentInput>;
 export interface ValidateSolNetworkPackageContentInput {
   nsdInfoId: string;
-  contentType?: string;
+  contentType?: PackageContentType;
   file: T.StreamingInputBody;
 }
 export const ValidateSolNetworkPackageContentInput = S.suspend(() =>
   S.Struct({
     nsdInfoId: S.String.pipe(T.HttpLabel("nsdInfoId")),
-    contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    contentType: S.optional(PackageContentType).pipe(
+      T.HttpHeader("Content-Type"),
+    ),
     file: T.StreamingInput.pipe(T.HttpPayload()),
   }).pipe(
     T.all(
@@ -818,6 +839,59 @@ export const ValidateSolNetworkPackageContentInput = S.suspend(() =>
 ).annotations({
   identifier: "ValidateSolNetworkPackageContentInput",
 }) as any as S.Schema<ValidateSolNetworkPackageContentInput>;
+export type NsdOnboardingState = "CREATED" | "ONBOARDED" | "ERROR";
+export const NsdOnboardingState = S.Literal("CREATED", "ONBOARDED", "ERROR");
+export type NsdUsageState = "IN_USE" | "NOT_IN_USE";
+export const NsdUsageState = S.Literal("IN_USE", "NOT_IN_USE");
+export type VnfInstantiationState = "INSTANTIATED" | "NOT_INSTANTIATED";
+export const VnfInstantiationState = S.Literal(
+  "INSTANTIATED",
+  "NOT_INSTANTIATED",
+);
+export type OnboardingState = "CREATED" | "ONBOARDED" | "ERROR";
+export const OnboardingState = S.Literal("CREATED", "ONBOARDED", "ERROR");
+export type UsageState = "IN_USE" | "NOT_IN_USE";
+export const UsageState = S.Literal("IN_USE", "NOT_IN_USE");
+export type NsState =
+  | "INSTANTIATED"
+  | "NOT_INSTANTIATED"
+  | "UPDATED"
+  | "IMPAIRED"
+  | "UPDATE_FAILED"
+  | "STOPPED"
+  | "DELETED"
+  | "INSTANTIATE_IN_PROGRESS"
+  | "INTENT_TO_UPDATE_IN_PROGRESS"
+  | "UPDATE_IN_PROGRESS"
+  | "TERMINATE_IN_PROGRESS";
+export const NsState = S.Literal(
+  "INSTANTIATED",
+  "NOT_INSTANTIATED",
+  "UPDATED",
+  "IMPAIRED",
+  "UPDATE_FAILED",
+  "STOPPED",
+  "DELETED",
+  "INSTANTIATE_IN_PROGRESS",
+  "INTENT_TO_UPDATE_IN_PROGRESS",
+  "UPDATE_IN_PROGRESS",
+  "TERMINATE_IN_PROGRESS",
+);
+export type NsLcmOperationState =
+  | "PROCESSING"
+  | "COMPLETED"
+  | "FAILED"
+  | "CANCELLING"
+  | "CANCELLED";
+export const NsLcmOperationState = S.Literal(
+  "PROCESSING",
+  "COMPLETED",
+  "FAILED",
+  "CANCELLING",
+  "CANCELLED",
+);
+export type LcmOperationType = "INSTANTIATE" | "UPDATE" | "TERMINATE";
+export const LcmOperationType = S.Literal("INSTANTIATE", "UPDATE", "TERMINATE");
 export type VnfPkgIdList = string[];
 export const VnfPkgIdList = S.Array(S.String);
 export interface UpdateSolNetworkModify {
@@ -839,7 +913,7 @@ export const UpdateSolNetworkServiceData = S.suspend(() =>
   identifier: "UpdateSolNetworkServiceData",
 }) as any as S.Schema<UpdateSolNetworkServiceData>;
 export interface CreateSolFunctionPackageInput {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateSolFunctionPackageInput = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }).pipe(
@@ -860,7 +934,7 @@ export interface CreateSolNetworkInstanceOutput {
   arn: string;
   nsdInfoId: string;
   nsInstanceName: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const CreateSolNetworkInstanceOutput = S.suspend(() =>
   S.Struct({
@@ -876,66 +950,74 @@ export const CreateSolNetworkInstanceOutput = S.suspend(() =>
 export interface CreateSolNetworkPackageOutput {
   id: string;
   arn: string;
-  nsdOnboardingState: string;
-  nsdOperationalState: string;
-  nsdUsageState: string;
-  tags?: TagMap;
+  nsdOnboardingState: NsdOnboardingState;
+  nsdOperationalState: NsdOperationalState;
+  nsdUsageState: NsdUsageState;
+  tags?: { [key: string]: string };
 }
 export const CreateSolNetworkPackageOutput = S.suspend(() =>
   S.Struct({
     id: S.String,
     arn: S.String,
-    nsdOnboardingState: S.String,
-    nsdOperationalState: S.String,
-    nsdUsageState: S.String,
+    nsdOnboardingState: NsdOnboardingState,
+    nsdOperationalState: NsdOperationalState,
+    nsdUsageState: NsdUsageState,
     tags: S.optional(TagMap),
   }),
 ).annotations({
   identifier: "CreateSolNetworkPackageOutput",
 }) as any as S.Schema<CreateSolNetworkPackageOutput>;
 export interface GetSolFunctionPackageContentOutput {
-  contentType?: string;
+  contentType?: PackageContentType;
   packageContent?: Uint8Array;
 }
 export const GetSolFunctionPackageContentOutput = S.suspend(() =>
   S.Struct({
-    contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    contentType: S.optional(PackageContentType).pipe(
+      T.HttpHeader("Content-Type"),
+    ),
     packageContent: S.optional(T.Blob).pipe(T.HttpPayload()),
   }),
 ).annotations({
   identifier: "GetSolFunctionPackageContentOutput",
 }) as any as S.Schema<GetSolFunctionPackageContentOutput>;
 export interface GetSolFunctionPackageDescriptorOutput {
-  contentType?: string;
+  contentType?: DescriptorContentType;
   vnfd?: Uint8Array;
 }
 export const GetSolFunctionPackageDescriptorOutput = S.suspend(() =>
   S.Struct({
-    contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    contentType: S.optional(DescriptorContentType).pipe(
+      T.HttpHeader("Content-Type"),
+    ),
     vnfd: S.optional(T.Blob).pipe(T.HttpPayload()),
   }),
 ).annotations({
   identifier: "GetSolFunctionPackageDescriptorOutput",
 }) as any as S.Schema<GetSolFunctionPackageDescriptorOutput>;
 export interface GetSolNetworkPackageContentOutput {
-  contentType?: string;
+  contentType?: PackageContentType;
   nsdContent?: Uint8Array;
 }
 export const GetSolNetworkPackageContentOutput = S.suspend(() =>
   S.Struct({
-    contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    contentType: S.optional(PackageContentType).pipe(
+      T.HttpHeader("Content-Type"),
+    ),
     nsdContent: S.optional(T.Blob).pipe(T.HttpPayload()),
   }),
 ).annotations({
   identifier: "GetSolNetworkPackageContentOutput",
 }) as any as S.Schema<GetSolNetworkPackageContentOutput>;
 export interface GetSolNetworkPackageDescriptorOutput {
-  contentType?: string;
+  contentType?: DescriptorContentType;
   nsd?: Uint8Array;
 }
 export const GetSolNetworkPackageDescriptorOutput = S.suspend(() =>
   S.Struct({
-    contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    contentType: S.optional(DescriptorContentType).pipe(
+      T.HttpHeader("Content-Type"),
+    ),
     nsd: S.optional(T.Blob).pipe(T.HttpPayload()),
   }),
 ).annotations({
@@ -943,7 +1025,7 @@ export const GetSolNetworkPackageDescriptorOutput = S.suspend(() =>
 }) as any as S.Schema<GetSolNetworkPackageDescriptorOutput>;
 export interface InstantiateSolNetworkInstanceOutput {
   nsLcmOpOccId: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const InstantiateSolNetworkInstanceOutput = S.suspend(() =>
   S.Struct({ nsLcmOpOccId: S.String, tags: S.optional(TagMap) }),
@@ -951,7 +1033,7 @@ export const InstantiateSolNetworkInstanceOutput = S.suspend(() =>
   identifier: "InstantiateSolNetworkInstanceOutput",
 }) as any as S.Schema<InstantiateSolNetworkInstanceOutput>;
 export interface ListTagsForResourceOutput {
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: TagMap }),
@@ -960,7 +1042,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TerminateSolNetworkInstanceOutput {
   nsLcmOpOccId?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const TerminateSolNetworkInstanceOutput = S.suspend(() =>
   S.Struct({ nsLcmOpOccId: S.optional(S.String), tags: S.optional(TagMap) }),
@@ -968,24 +1050,24 @@ export const TerminateSolNetworkInstanceOutput = S.suspend(() =>
   identifier: "TerminateSolNetworkInstanceOutput",
 }) as any as S.Schema<TerminateSolNetworkInstanceOutput>;
 export interface UpdateSolFunctionPackageOutput {
-  operationalState: string;
+  operationalState: OperationalState;
 }
 export const UpdateSolFunctionPackageOutput = S.suspend(() =>
-  S.Struct({ operationalState: S.String }),
+  S.Struct({ operationalState: OperationalState }),
 ).annotations({
   identifier: "UpdateSolFunctionPackageOutput",
 }) as any as S.Schema<UpdateSolFunctionPackageOutput>;
 export interface UpdateSolNetworkInstanceInput {
   nsInstanceId: string;
-  updateType: string;
+  updateType: UpdateSolNetworkType;
   modifyVnfInfoData?: UpdateSolNetworkModify;
   updateNs?: UpdateSolNetworkServiceData;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const UpdateSolNetworkInstanceInput = S.suspend(() =>
   S.Struct({
     nsInstanceId: S.String.pipe(T.HttpLabel("nsInstanceId")),
-    updateType: S.String,
+    updateType: UpdateSolNetworkType,
     modifyVnfInfoData: S.optional(UpdateSolNetworkModify),
     updateNs: S.optional(UpdateSolNetworkServiceData),
     tags: S.optional(TagMap),
@@ -1006,13 +1088,32 @@ export const UpdateSolNetworkInstanceInput = S.suspend(() =>
   identifier: "UpdateSolNetworkInstanceInput",
 }) as any as S.Schema<UpdateSolNetworkInstanceInput>;
 export interface UpdateSolNetworkPackageOutput {
-  nsdOperationalState: string;
+  nsdOperationalState: NsdOperationalState;
 }
 export const UpdateSolNetworkPackageOutput = S.suspend(() =>
-  S.Struct({ nsdOperationalState: S.String }),
+  S.Struct({ nsdOperationalState: NsdOperationalState }),
 ).annotations({
   identifier: "UpdateSolNetworkPackageOutput",
 }) as any as S.Schema<UpdateSolNetworkPackageOutput>;
+export type VnfOperationalState = "STARTED" | "STOPPED";
+export const VnfOperationalState = S.Literal("STARTED", "STOPPED");
+export type TaskStatus =
+  | "SCHEDULED"
+  | "STARTED"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "ERROR"
+  | "SKIPPED"
+  | "CANCELLED";
+export const TaskStatus = S.Literal(
+  "SCHEDULED",
+  "STARTED",
+  "IN_PROGRESS",
+  "COMPLETED",
+  "ERROR",
+  "SKIPPED",
+  "CANCELLED",
+);
 export interface GetSolFunctionInstanceMetadata {
   createdAt: Date;
   lastModified: Date;
@@ -1066,7 +1167,7 @@ export const ToscaOverride = S.suspend(() =>
 export type OverrideList = ToscaOverride[];
 export const OverrideList = S.Array(ToscaOverride);
 export interface FunctionArtifactMeta {
-  overrides?: OverrideList;
+  overrides?: ToscaOverride[];
 }
 export const FunctionArtifactMeta = S.suspend(() =>
   S.Struct({ overrides: S.optional(OverrideList) }),
@@ -1082,7 +1183,7 @@ export const PutSolFunctionPackageContentMetadata = S.suspend(() =>
   identifier: "PutSolFunctionPackageContentMetadata",
 }) as any as S.Schema<PutSolFunctionPackageContentMetadata>;
 export interface NetworkArtifactMeta {
-  overrides?: OverrideList;
+  overrides?: ToscaOverride[];
 }
 export const NetworkArtifactMeta = S.suspend(() =>
   S.Struct({ overrides: S.optional(OverrideList) }),
@@ -1116,18 +1217,18 @@ export const ValidateSolNetworkPackageContentMetadata = S.suspend(() =>
 export interface CreateSolFunctionPackageOutput {
   id: string;
   arn: string;
-  onboardingState: string;
-  operationalState: string;
-  usageState: string;
-  tags?: TagMap;
+  onboardingState: OnboardingState;
+  operationalState: OperationalState;
+  usageState: UsageState;
+  tags?: { [key: string]: string };
 }
 export const CreateSolFunctionPackageOutput = S.suspend(() =>
   S.Struct({
     id: S.String,
     arn: S.String,
-    onboardingState: S.String,
-    operationalState: S.String,
-    usageState: S.String,
+    onboardingState: OnboardingState,
+    operationalState: OperationalState,
+    usageState: UsageState,
     tags: S.optional(TagMap),
   }),
 ).annotations({
@@ -1140,10 +1241,10 @@ export interface GetSolNetworkInstanceOutput {
   nsInstanceDescription: string;
   nsdId: string;
   nsdInfoId: string;
-  nsState?: string;
+  nsState?: NsState;
   lcmOpInfo?: LcmOperationInfo;
   metadata: GetSolNetworkInstanceMetadata;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const GetSolNetworkInstanceOutput = S.suspend(() =>
   S.Struct({
@@ -1153,7 +1254,7 @@ export const GetSolNetworkInstanceOutput = S.suspend(() =>
     nsInstanceDescription: S.String,
     nsdId: S.String,
     nsdInfoId: S.String,
-    nsState: S.optional(S.String),
+    nsState: S.optional(NsState),
     lcmOpInfo: S.optional(LcmOperationInfo),
     metadata: GetSolNetworkInstanceMetadata,
     tags: S.optional(TagMap),
@@ -1187,7 +1288,7 @@ export interface PutSolNetworkPackageContentOutput {
   nsdId: string;
   nsdName: string;
   nsdVersion: string;
-  vnfPkgIds: VnfPkgIdList;
+  vnfPkgIds: string[];
   metadata: PutSolNetworkPackageContentMetadata;
 }
 export const PutSolNetworkPackageContentOutput = S.suspend(() =>
@@ -1205,7 +1306,7 @@ export const PutSolNetworkPackageContentOutput = S.suspend(() =>
 }) as any as S.Schema<PutSolNetworkPackageContentOutput>;
 export interface UpdateSolNetworkInstanceOutput {
   nsLcmOpOccId?: string;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const UpdateSolNetworkInstanceOutput = S.suspend(() =>
   S.Struct({ nsLcmOpOccId: S.optional(S.String), tags: S.optional(TagMap) }),
@@ -1238,7 +1339,7 @@ export interface ValidateSolNetworkPackageContentOutput {
   nsdId: string;
   nsdName: string;
   nsdVersion: string;
-  vnfPkgIds: VnfPkgIdList;
+  vnfPkgIds: string[];
   metadata: ValidateSolNetworkPackageContentMetadata;
 }
 export const ValidateSolNetworkPackageContentOutput = S.suspend(() =>
@@ -1291,10 +1392,10 @@ export const ErrorInfo = S.suspend(() =>
   S.Struct({ cause: S.optional(S.String), details: S.optional(S.String) }),
 ).annotations({ identifier: "ErrorInfo" }) as any as S.Schema<ErrorInfo>;
 export interface GetSolInstantiatedVnfInfo {
-  vnfState?: string;
+  vnfState?: VnfOperationalState;
 }
 export const GetSolInstantiatedVnfInfo = S.suspend(() =>
-  S.Struct({ vnfState: S.optional(S.String) }),
+  S.Struct({ vnfState: S.optional(VnfOperationalState) }),
 ).annotations({
   identifier: "GetSolInstantiatedVnfInfo",
 }) as any as S.Schema<GetSolInstantiatedVnfInfo>;
@@ -1382,9 +1483,9 @@ export const GetSolNetworkOperationMetadata = S.suspend(() =>
 }) as any as S.Schema<GetSolNetworkOperationMetadata>;
 export interface GetSolNetworkOperationTaskDetails {
   taskName?: string;
-  taskContext?: StringMap;
+  taskContext?: { [key: string]: string };
   taskErrorDetails?: ErrorInfo;
-  taskStatus?: string;
+  taskStatus?: TaskStatus;
   taskStartTime?: Date;
   taskEndTime?: Date;
 }
@@ -1393,7 +1494,7 @@ export const GetSolNetworkOperationTaskDetails = S.suspend(() =>
     taskName: S.optional(S.String),
     taskContext: S.optional(StringMap),
     taskErrorDetails: S.optional(ErrorInfo),
-    taskStatus: S.optional(S.String),
+    taskStatus: S.optional(TaskStatus),
     taskStartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     taskEndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
@@ -1425,7 +1526,7 @@ export interface ListSolFunctionInstanceInfo {
   nsInstanceId: string;
   vnfPkgId: string;
   vnfPkgName?: string;
-  instantiationState: string;
+  instantiationState: VnfInstantiationState;
   instantiatedVnfInfo?: GetSolInstantiatedVnfInfo;
   metadata: ListSolFunctionInstanceMetadata;
 }
@@ -1436,7 +1537,7 @@ export const ListSolFunctionInstanceInfo = S.suspend(() =>
     nsInstanceId: S.String,
     vnfPkgId: S.String,
     vnfPkgName: S.optional(S.String),
-    instantiationState: S.String,
+    instantiationState: VnfInstantiationState,
     instantiatedVnfInfo: S.optional(GetSolInstantiatedVnfInfo),
     metadata: ListSolFunctionInstanceMetadata,
   }),
@@ -1450,9 +1551,9 @@ export const ListSolFunctionInstanceResources = S.Array(
 export interface ListSolFunctionPackageInfo {
   id: string;
   arn: string;
-  onboardingState: string;
-  operationalState: string;
-  usageState: string;
+  onboardingState: OnboardingState;
+  operationalState: OperationalState;
+  usageState: UsageState;
   vnfdId?: string;
   vnfProvider?: string;
   vnfProductName?: string;
@@ -1463,9 +1564,9 @@ export const ListSolFunctionPackageInfo = S.suspend(() =>
   S.Struct({
     id: S.String,
     arn: S.String,
-    onboardingState: S.String,
-    operationalState: S.String,
-    usageState: S.String,
+    onboardingState: OnboardingState,
+    operationalState: OperationalState,
+    usageState: UsageState,
     vnfdId: S.optional(S.String),
     vnfProvider: S.optional(S.String),
     vnfProductName: S.optional(S.String),
@@ -1486,7 +1587,7 @@ export interface ListSolNetworkInstanceInfo {
   nsInstanceDescription: string;
   nsdId: string;
   nsdInfoId: string;
-  nsState: string;
+  nsState: NsState;
   metadata: ListSolNetworkInstanceMetadata;
 }
 export const ListSolNetworkInstanceInfo = S.suspend(() =>
@@ -1497,7 +1598,7 @@ export const ListSolNetworkInstanceInfo = S.suspend(() =>
     nsInstanceDescription: S.String,
     nsdId: S.String,
     nsdInfoId: S.String,
-    nsState: S.String,
+    nsState: NsState,
     metadata: ListSolNetworkInstanceMetadata,
   }),
 ).annotations({
@@ -1510,10 +1611,10 @@ export const ListSolNetworkInstanceResources = S.Array(
 export interface ListSolNetworkOperationsInfo {
   id: string;
   arn: string;
-  operationState: string;
+  operationState: NsLcmOperationState;
   nsInstanceId: string;
-  lcmOperationType: string;
-  updateType?: string;
+  lcmOperationType: LcmOperationType;
+  updateType?: UpdateSolNetworkType;
   error?: ProblemDetails;
   metadata?: ListSolNetworkOperationsMetadata;
 }
@@ -1521,10 +1622,10 @@ export const ListSolNetworkOperationsInfo = S.suspend(() =>
   S.Struct({
     id: S.String,
     arn: S.String,
-    operationState: S.String,
+    operationState: NsLcmOperationState,
     nsInstanceId: S.String,
-    lcmOperationType: S.String,
-    updateType: S.optional(S.String),
+    lcmOperationType: LcmOperationType,
+    updateType: S.optional(UpdateSolNetworkType),
     error: S.optional(ProblemDetails),
     metadata: S.optional(ListSolNetworkOperationsMetadata),
   }),
@@ -1538,24 +1639,24 @@ export const ListSolNetworkOperationsResources = S.Array(
 export interface ListSolNetworkPackageInfo {
   id: string;
   arn: string;
-  nsdOnboardingState: string;
-  nsdOperationalState: string;
-  nsdUsageState: string;
+  nsdOnboardingState: NsdOnboardingState;
+  nsdOperationalState: NsdOperationalState;
+  nsdUsageState: NsdUsageState;
   nsdId?: string;
   nsdName?: string;
   nsdVersion?: string;
   nsdDesigner?: string;
   nsdInvariantId?: string;
-  vnfPkgIds?: VnfPkgIdList;
+  vnfPkgIds?: string[];
   metadata: ListSolNetworkPackageMetadata;
 }
 export const ListSolNetworkPackageInfo = S.suspend(() =>
   S.Struct({
     id: S.String,
     arn: S.String,
-    nsdOnboardingState: S.String,
-    nsdOperationalState: S.String,
-    nsdUsageState: S.String,
+    nsdOnboardingState: NsdOnboardingState,
+    nsdOperationalState: NsdOperationalState,
+    nsdUsageState: NsdUsageState,
     nsdId: S.optional(S.String),
     nsdName: S.optional(S.String),
     nsdVersion: S.optional(S.String),
@@ -1588,23 +1689,23 @@ export const GetSolVnfcResourceInfoMetadata = S.suspend(() =>
 export interface GetSolNetworkOperationOutput {
   id?: string;
   arn: string;
-  operationState?: string;
+  operationState?: NsLcmOperationState;
   nsInstanceId?: string;
-  lcmOperationType?: string;
-  updateType?: string;
+  lcmOperationType?: LcmOperationType;
+  updateType?: UpdateSolNetworkType;
   error?: ProblemDetails;
   metadata?: GetSolNetworkOperationMetadata;
-  tasks?: GetSolNetworkOperationTasksList;
-  tags?: TagMap;
+  tasks?: GetSolNetworkOperationTaskDetails[];
+  tags?: { [key: string]: string };
 }
 export const GetSolNetworkOperationOutput = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     arn: S.String,
-    operationState: S.optional(S.String),
+    operationState: S.optional(NsLcmOperationState),
     nsInstanceId: S.optional(S.String),
-    lcmOperationType: S.optional(S.String),
-    updateType: S.optional(S.String),
+    lcmOperationType: S.optional(LcmOperationType),
+    updateType: S.optional(UpdateSolNetworkType),
     error: S.optional(ProblemDetails),
     metadata: S.optional(GetSolNetworkOperationMetadata),
     tasks: S.optional(GetSolNetworkOperationTasksList),
@@ -1616,23 +1717,23 @@ export const GetSolNetworkOperationOutput = S.suspend(() =>
 export interface GetSolNetworkPackageOutput {
   id: string;
   arn: string;
-  nsdOnboardingState: string;
-  nsdOperationalState: string;
-  nsdUsageState: string;
+  nsdOnboardingState: NsdOnboardingState;
+  nsdOperationalState: NsdOperationalState;
+  nsdUsageState: NsdUsageState;
   nsdId: string;
   nsdName: string;
   nsdVersion: string;
-  vnfPkgIds: VnfPkgIdList;
+  vnfPkgIds: string[];
   metadata: GetSolNetworkPackageMetadata;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const GetSolNetworkPackageOutput = S.suspend(() =>
   S.Struct({
     id: S.String,
     arn: S.String,
-    nsdOnboardingState: S.String,
-    nsdOperationalState: S.String,
-    nsdUsageState: S.String,
+    nsdOnboardingState: NsdOnboardingState,
+    nsdOperationalState: NsdOperationalState,
+    nsdUsageState: NsdUsageState,
     nsdId: S.String,
     nsdName: S.String,
     nsdVersion: S.String,
@@ -1645,7 +1746,7 @@ export const GetSolNetworkPackageOutput = S.suspend(() =>
 }) as any as S.Schema<GetSolNetworkPackageOutput>;
 export interface ListSolFunctionInstancesOutput {
   nextToken?: string;
-  functionInstances?: ListSolFunctionInstanceResources;
+  functionInstances?: ListSolFunctionInstanceInfo[];
 }
 export const ListSolFunctionInstancesOutput = S.suspend(() =>
   S.Struct({
@@ -1657,7 +1758,7 @@ export const ListSolFunctionInstancesOutput = S.suspend(() =>
 }) as any as S.Schema<ListSolFunctionInstancesOutput>;
 export interface ListSolFunctionPackagesOutput {
   nextToken?: string;
-  functionPackages: ListSolFunctionPackageResources;
+  functionPackages: ListSolFunctionPackageInfo[];
 }
 export const ListSolFunctionPackagesOutput = S.suspend(() =>
   S.Struct({
@@ -1669,7 +1770,7 @@ export const ListSolFunctionPackagesOutput = S.suspend(() =>
 }) as any as S.Schema<ListSolFunctionPackagesOutput>;
 export interface ListSolNetworkInstancesOutput {
   nextToken?: string;
-  networkInstances?: ListSolNetworkInstanceResources;
+  networkInstances?: ListSolNetworkInstanceInfo[];
 }
 export const ListSolNetworkInstancesOutput = S.suspend(() =>
   S.Struct({
@@ -1681,7 +1782,7 @@ export const ListSolNetworkInstancesOutput = S.suspend(() =>
 }) as any as S.Schema<ListSolNetworkInstancesOutput>;
 export interface ListSolNetworkOperationsOutput {
   nextToken?: string;
-  networkOperations?: ListSolNetworkOperationsResources;
+  networkOperations?: ListSolNetworkOperationsInfo[];
 }
 export const ListSolNetworkOperationsOutput = S.suspend(() =>
   S.Struct({
@@ -1693,7 +1794,7 @@ export const ListSolNetworkOperationsOutput = S.suspend(() =>
 }) as any as S.Schema<ListSolNetworkOperationsOutput>;
 export interface ListSolNetworkPackagesOutput {
   nextToken?: string;
-  networkPackages: ListSolNetworkPackageResources;
+  networkPackages: ListSolNetworkPackageInfo[];
 }
 export const ListSolNetworkPackagesOutput = S.suspend(() =>
   S.Struct({
@@ -1714,12 +1815,12 @@ export const GetSolVnfcResourceInfo = S.suspend(() =>
 export type GetSolVnfcResourceInfoList = GetSolVnfcResourceInfo[];
 export const GetSolVnfcResourceInfoList = S.Array(GetSolVnfcResourceInfo);
 export interface GetSolVnfInfo {
-  vnfState?: string;
-  vnfcResourceInfo?: GetSolVnfcResourceInfoList;
+  vnfState?: VnfOperationalState;
+  vnfcResourceInfo?: GetSolVnfcResourceInfo[];
 }
 export const GetSolVnfInfo = S.suspend(() =>
   S.Struct({
-    vnfState: S.optional(S.String),
+    vnfState: S.optional(VnfOperationalState),
     vnfcResourceInfo: S.optional(GetSolVnfcResourceInfoList),
   }),
 ).annotations({
@@ -1748,10 +1849,10 @@ export interface GetSolFunctionInstanceOutput {
   vnfProvider?: string;
   vnfProductName?: string;
   vnfdVersion?: string;
-  instantiationState: string;
+  instantiationState: VnfInstantiationState;
   instantiatedVnfInfo?: GetSolVnfInfo;
   metadata: GetSolFunctionInstanceMetadata;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const GetSolFunctionInstanceOutput = S.suspend(() =>
   S.Struct({
@@ -1763,7 +1864,7 @@ export const GetSolFunctionInstanceOutput = S.suspend(() =>
     vnfProvider: S.optional(S.String),
     vnfProductName: S.optional(S.String),
     vnfdVersion: S.optional(S.String),
-    instantiationState: S.String,
+    instantiationState: VnfInstantiationState,
     instantiatedVnfInfo: S.optional(GetSolVnfInfo),
     metadata: GetSolFunctionInstanceMetadata,
     tags: S.optional(TagMap),
@@ -1774,23 +1875,23 @@ export const GetSolFunctionInstanceOutput = S.suspend(() =>
 export interface GetSolFunctionPackageOutput {
   id: string;
   arn: string;
-  onboardingState: string;
-  operationalState: string;
-  usageState: string;
+  onboardingState: OnboardingState;
+  operationalState: OperationalState;
+  usageState: UsageState;
   vnfdId?: string;
   vnfProvider?: string;
   vnfProductName?: string;
   vnfdVersion?: string;
   metadata?: GetSolFunctionPackageMetadata;
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const GetSolFunctionPackageOutput = S.suspend(() =>
   S.Struct({
     id: S.String,
     arn: S.String,
-    onboardingState: S.String,
-    operationalState: S.String,
-    usageState: S.String,
+    onboardingState: OnboardingState,
+    operationalState: OperationalState,
+    usageState: UsageState,
     vnfdId: S.optional(S.String),
     vnfProvider: S.optional(S.String),
     vnfProductName: S.optional(S.String),
@@ -1836,7 +1937,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const cancelSolNetworkOperation: (
   input: CancelSolNetworkOperationInput,
-) => Effect.Effect<
+) => effect.Effect<
   CancelSolNetworkOperationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1864,7 +1965,7 @@ export const cancelSolNetworkOperation: (
  */
 export const getSolFunctionInstance: (
   input: GetSolFunctionInstanceInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSolFunctionInstanceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1892,7 +1993,7 @@ export const getSolFunctionInstance: (
  */
 export const getSolFunctionPackage: (
   input: GetSolFunctionPackageInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSolFunctionPackageOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1924,7 +2025,7 @@ export const getSolFunctionPackage: (
  */
 export const createSolFunctionPackage: (
   input: CreateSolFunctionPackageInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSolFunctionPackageOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1952,7 +2053,7 @@ export const createSolFunctionPackage: (
  */
 export const getSolNetworkOperation: (
   input: GetSolNetworkOperationInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSolNetworkOperationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1979,7 +2080,7 @@ export const getSolNetworkOperation: (
  */
 export const getSolNetworkPackage: (
   input: GetSolNetworkPackageInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSolNetworkPackageOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2007,7 +2108,7 @@ export const getSolNetworkPackage: (
 export const listSolFunctionInstances: {
   (
     input: ListSolFunctionInstancesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSolFunctionInstancesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2018,7 +2119,7 @@ export const listSolFunctionInstances: {
   >;
   pages: (
     input: ListSolFunctionInstancesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSolFunctionInstancesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2029,7 +2130,7 @@ export const listSolFunctionInstances: {
   >;
   items: (
     input: ListSolFunctionInstancesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSolFunctionInstanceInfo,
     | AccessDeniedException
     | InternalServerException
@@ -2062,7 +2163,7 @@ export const listSolFunctionInstances: {
 export const listSolFunctionPackages: {
   (
     input: ListSolFunctionPackagesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSolFunctionPackagesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2073,7 +2174,7 @@ export const listSolFunctionPackages: {
   >;
   pages: (
     input: ListSolFunctionPackagesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSolFunctionPackagesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2084,7 +2185,7 @@ export const listSolFunctionPackages: {
   >;
   items: (
     input: ListSolFunctionPackagesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSolFunctionPackageInfo,
     | AccessDeniedException
     | InternalServerException
@@ -2117,7 +2218,7 @@ export const listSolFunctionPackages: {
 export const listSolNetworkInstances: {
   (
     input: ListSolNetworkInstancesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSolNetworkInstancesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2128,7 +2229,7 @@ export const listSolNetworkInstances: {
   >;
   pages: (
     input: ListSolNetworkInstancesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSolNetworkInstancesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2139,7 +2240,7 @@ export const listSolNetworkInstances: {
   >;
   items: (
     input: ListSolNetworkInstancesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSolNetworkInstanceInfo,
     | AccessDeniedException
     | InternalServerException
@@ -2173,7 +2274,7 @@ export const listSolNetworkInstances: {
 export const listSolNetworkOperations: {
   (
     input: ListSolNetworkOperationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSolNetworkOperationsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2184,7 +2285,7 @@ export const listSolNetworkOperations: {
   >;
   pages: (
     input: ListSolNetworkOperationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSolNetworkOperationsOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2195,7 +2296,7 @@ export const listSolNetworkOperations: {
   >;
   items: (
     input: ListSolNetworkOperationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSolNetworkOperationsInfo,
     | AccessDeniedException
     | InternalServerException
@@ -2228,7 +2329,7 @@ export const listSolNetworkOperations: {
 export const listSolNetworkPackages: {
   (
     input: ListSolNetworkPackagesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSolNetworkPackagesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2239,7 +2340,7 @@ export const listSolNetworkPackages: {
   >;
   pages: (
     input: ListSolNetworkPackagesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSolNetworkPackagesOutput,
     | AccessDeniedException
     | InternalServerException
@@ -2250,7 +2351,7 @@ export const listSolNetworkPackages: {
   >;
   items: (
     input: ListSolNetworkPackagesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSolNetworkPackageInfo,
     | AccessDeniedException
     | InternalServerException
@@ -2282,7 +2383,7 @@ export const listSolNetworkPackages: {
  */
 export const getSolNetworkInstance: (
   input: GetSolNetworkInstanceInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSolNetworkInstanceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2309,7 +2410,7 @@ export const getSolNetworkInstance: (
  */
 export const putSolFunctionPackageContent: (
   input: PutSolFunctionPackageContentInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutSolFunctionPackageContentOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2336,7 +2437,7 @@ export const putSolFunctionPackageContent: (
  */
 export const putSolNetworkPackageContent: (
   input: PutSolNetworkPackageContentInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutSolNetworkPackageContentOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2365,7 +2466,7 @@ export const putSolNetworkPackageContent: (
  */
 export const updateSolNetworkInstance: (
   input: UpdateSolNetworkInstanceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSolNetworkInstanceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2395,7 +2496,7 @@ export const updateSolNetworkInstance: (
  */
 export const validateSolFunctionPackageContent: (
   input: ValidateSolFunctionPackageContentInput,
-) => Effect.Effect<
+) => effect.Effect<
   ValidateSolFunctionPackageContentOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2423,7 +2524,7 @@ export const validateSolFunctionPackageContent: (
  */
 export const validateSolNetworkPackageContent: (
   input: ValidateSolNetworkPackageContentInput,
-) => Effect.Effect<
+) => effect.Effect<
   ValidateSolNetworkPackageContentOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2455,7 +2556,7 @@ export const validateSolNetworkPackageContent: (
  */
 export const createSolNetworkInstance: (
   input: CreateSolNetworkInstanceInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSolNetworkInstanceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2484,7 +2585,7 @@ export const createSolNetworkInstance: (
  */
 export const getSolFunctionPackageContent: (
   input: GetSolFunctionPackageContentInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSolFunctionPackageContentOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2513,7 +2614,7 @@ export const getSolFunctionPackageContent: (
  */
 export const getSolFunctionPackageDescriptor: (
   input: GetSolFunctionPackageDescriptorInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSolFunctionPackageDescriptorOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2540,7 +2641,7 @@ export const getSolFunctionPackageDescriptor: (
  */
 export const getSolNetworkPackageContent: (
   input: GetSolNetworkPackageContentInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSolNetworkPackageContentOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2567,7 +2668,7 @@ export const getSolNetworkPackageContent: (
  */
 export const getSolNetworkPackageDescriptor: (
   input: GetSolNetworkPackageDescriptorInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetSolNetworkPackageDescriptorOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2597,7 +2698,7 @@ export const getSolNetworkPackageDescriptor: (
  */
 export const instantiateSolNetworkInstance: (
   input: InstantiateSolNetworkInstanceInput,
-) => Effect.Effect<
+) => effect.Effect<
   InstantiateSolNetworkInstanceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2624,7 +2725,7 @@ export const instantiateSolNetworkInstance: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2653,7 +2754,7 @@ export const listTagsForResource: (
  */
 export const terminateSolNetworkInstance: (
   input: TerminateSolNetworkInstanceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TerminateSolNetworkInstanceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2682,7 +2783,7 @@ export const terminateSolNetworkInstance: (
  */
 export const updateSolFunctionPackage: (
   input: UpdateSolFunctionPackageInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSolFunctionPackageOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2711,7 +2812,7 @@ export const updateSolFunctionPackage: (
  */
 export const updateSolNetworkPackage: (
   input: UpdateSolNetworkPackageInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSolNetworkPackageOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2741,7 +2842,7 @@ export const updateSolNetworkPackage: (
  */
 export const deleteSolFunctionPackage: (
   input: DeleteSolFunctionPackageInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSolFunctionPackageResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2771,7 +2872,7 @@ export const deleteSolFunctionPackage: (
  */
 export const deleteSolNetworkInstance: (
   input: DeleteSolNetworkInstanceInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSolNetworkInstanceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2801,7 +2902,7 @@ export const deleteSolNetworkInstance: (
  */
 export const deleteSolNetworkPackage: (
   input: DeleteSolNetworkPackageInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSolNetworkPackageResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2828,7 +2929,7 @@ export const deleteSolNetworkPackage: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2855,7 +2956,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2891,7 +2992,7 @@ export const untagResource: (
  */
 export const createSolNetworkPackage: (
   input: CreateSolNetworkPackageInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSolNetworkPackageOutput,
   | AccessDeniedException
   | InternalServerException

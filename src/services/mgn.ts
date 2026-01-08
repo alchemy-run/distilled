@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -264,7 +264,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeys;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -292,7 +292,7 @@ export const TagsMap = S.Record({ key: S.String, value: S.String });
 export interface CreateApplicationRequest {
   name: string;
   description?: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   accountID?: string;
 }
 export const CreateApplicationRequest = S.suspend(() =>
@@ -358,7 +358,7 @@ export const ArchiveApplicationRequest = S.suspend(() =>
 }) as any as S.Schema<ArchiveApplicationRequest>;
 export interface AssociateSourceServersRequest {
   applicationID: string;
-  sourceServerIDs: AssociateSourceServersRequestSourceServerIDs;
+  sourceServerIDs: string[];
   accountID?: string;
 }
 export const AssociateSourceServersRequest = S.suspend(() =>
@@ -387,7 +387,7 @@ export const AssociateSourceServersResponse = S.suspend(() =>
 }) as any as S.Schema<AssociateSourceServersResponse>;
 export interface DisassociateSourceServersRequest {
   applicationID: string;
-  sourceServerIDs: DisassociateSourceServersRequestSourceServerIDs;
+  sourceServerIDs: string[];
   accountID?: string;
 }
 export const DisassociateSourceServersRequest = S.suspend(() =>
@@ -523,7 +523,7 @@ export interface StartExportRequest {
   s3Bucket: string;
   s3Key: string;
   s3BucketOwner?: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const StartExportRequest = S.suspend(() =>
   S.Struct({
@@ -649,7 +649,7 @@ export const SsmParameterStoreParameter = S.suspend(() =>
 export type SsmParameterStoreParameters = SsmParameterStoreParameter[];
 export const SsmParameterStoreParameters = S.Array(SsmParameterStoreParameter);
 export type SsmDocumentParameters = {
-  [key: string]: SsmParameterStoreParameters;
+  [key: string]: SsmParameterStoreParameter[];
 };
 export const SsmDocumentParameters = S.Record({
   key: S.String,
@@ -660,7 +660,7 @@ export const SsmExternalParameter = S.Union(
   S.Struct({ dynamicPath: S.String }),
 );
 export type SsmDocumentExternalParameters = {
-  [key: string]: (typeof SsmExternalParameter)["Type"];
+  [key: string]: SsmExternalParameter;
 };
 export const SsmDocumentExternalParameters = S.Record({
   key: S.String,
@@ -671,8 +671,8 @@ export interface SsmDocument {
   ssmDocumentName: string;
   timeoutSeconds?: number;
   mustSucceedForCutover?: boolean;
-  parameters?: SsmDocumentParameters;
-  externalParameters?: SsmDocumentExternalParameters;
+  parameters?: { [key: string]: SsmParameterStoreParameter[] };
+  externalParameters?: { [key: string]: SsmExternalParameter };
 }
 export const SsmDocument = S.suspend(() =>
   S.Struct({
@@ -691,7 +691,7 @@ export interface PostLaunchActions {
   s3LogBucket?: string;
   s3OutputKeyPrefix?: string;
   cloudWatchLogGroupName?: string;
-  ssmDocuments?: SsmDocuments;
+  ssmDocuments?: SsmDocument[];
 }
 export const PostLaunchActions = S.suspend(() =>
   S.Struct({
@@ -797,7 +797,7 @@ export const DeleteLaunchConfigurationTemplateResponse = S.suspend(() =>
   identifier: "DeleteLaunchConfigurationTemplateResponse",
 }) as any as S.Schema<DeleteLaunchConfigurationTemplateResponse>;
 export interface DescribeLaunchConfigurationTemplatesRequest {
-  launchConfigurationTemplateIDs?: LaunchConfigurationTemplateIDs;
+  launchConfigurationTemplateIDs?: string[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -849,7 +849,7 @@ export const RemoveTemplateActionResponse = S.suspend(() =>
 export interface CreateReplicationConfigurationTemplateRequest {
   stagingAreaSubnetId: string;
   associateDefaultSecurityGroup: boolean;
-  replicationServersSecurityGroupsIDs: ReplicationServersSecurityGroupsIDs;
+  replicationServersSecurityGroupsIDs: string[];
   replicationServerInstanceType: string;
   useDedicatedReplicationServer: boolean;
   defaultLargeStagingDiskType: string;
@@ -858,9 +858,9 @@ export interface CreateReplicationConfigurationTemplateRequest {
   bandwidthThrottling: number;
   dataPlaneRouting: string;
   createPublicIP: boolean;
-  stagingAreaTags: TagsMap;
+  stagingAreaTags: { [key: string]: string };
   useFipsEndpoint?: boolean;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   internetProtocol?: string;
 }
 export const CreateReplicationConfigurationTemplateRequest = S.suspend(() =>
@@ -901,7 +901,7 @@ export interface UpdateReplicationConfigurationTemplateRequest {
   arn?: string;
   stagingAreaSubnetId?: string;
   associateDefaultSecurityGroup?: boolean;
-  replicationServersSecurityGroupsIDs?: ReplicationServersSecurityGroupsIDs;
+  replicationServersSecurityGroupsIDs?: string[];
   replicationServerInstanceType?: string;
   useDedicatedReplicationServer?: boolean;
   defaultLargeStagingDiskType?: string;
@@ -910,7 +910,7 @@ export interface UpdateReplicationConfigurationTemplateRequest {
   bandwidthThrottling?: number;
   dataPlaneRouting?: string;
   createPublicIP?: boolean;
-  stagingAreaTags?: TagsMap;
+  stagingAreaTags?: { [key: string]: string };
   useFipsEndpoint?: boolean;
   internetProtocol?: string;
 }
@@ -977,7 +977,7 @@ export const DeleteReplicationConfigurationTemplateResponse = S.suspend(() =>
   identifier: "DeleteReplicationConfigurationTemplateResponse",
 }) as any as S.Schema<DeleteReplicationConfigurationTemplateResponse>;
 export interface DescribeReplicationConfigurationTemplatesRequest {
-  replicationConfigurationTemplateIDs?: ReplicationConfigurationTemplateIDs;
+  replicationConfigurationTemplateIDs?: string[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -1146,8 +1146,8 @@ export interface PutSourceServerActionRequest {
   active?: boolean;
   timeoutSeconds?: number;
   mustSucceedForCutover?: boolean;
-  parameters?: SsmDocumentParameters;
-  externalParameters?: SsmDocumentExternalParameters;
+  parameters?: { [key: string]: SsmParameterStoreParameter[] };
+  externalParameters?: { [key: string]: SsmExternalParameter };
   description?: string;
   category?: string;
   accountID?: string;
@@ -1347,8 +1347,8 @@ export const UpdateSourceServerReplicationTypeRequest = S.suspend(() =>
   identifier: "UpdateSourceServerReplicationTypeRequest",
 }) as any as S.Schema<UpdateSourceServerReplicationTypeRequest>;
 export interface StartCutoverRequest {
-  sourceServerIDs: StartCutoverRequestSourceServerIDs;
-  tags?: TagsMap;
+  sourceServerIDs: string[];
+  tags?: { [key: string]: string };
   accountID?: string;
 }
 export const StartCutoverRequest = S.suspend(() =>
@@ -1370,8 +1370,8 @@ export const StartCutoverRequest = S.suspend(() =>
   identifier: "StartCutoverRequest",
 }) as any as S.Schema<StartCutoverRequest>;
 export interface StartTestRequest {
-  sourceServerIDs: StartTestRequestSourceServerIDs;
-  tags?: TagsMap;
+  sourceServerIDs: string[];
+  tags?: { [key: string]: string };
   accountID?: string;
 }
 export const StartTestRequest = S.suspend(() =>
@@ -1393,8 +1393,8 @@ export const StartTestRequest = S.suspend(() =>
   identifier: "StartTestRequest",
 }) as any as S.Schema<StartTestRequest>;
 export interface TerminateTargetInstancesRequest {
-  sourceServerIDs: TerminateTargetInstancesRequestSourceServerIDs;
-  tags?: TagsMap;
+  sourceServerIDs: string[];
+  tags?: { [key: string]: string };
   accountID?: string;
 }
 export const TerminateTargetInstancesRequest = S.suspend(() =>
@@ -1462,7 +1462,7 @@ export const DescribeVcenterClientsRequest = S.suspend(() =>
 export interface CreateWaveRequest {
   name: string;
   description?: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   accountID?: string;
 }
 export const CreateWaveRequest = S.suspend(() =>
@@ -1526,7 +1526,7 @@ export const ArchiveWaveRequest = S.suspend(() =>
 }) as any as S.Schema<ArchiveWaveRequest>;
 export interface AssociateApplicationsRequest {
   waveID: string;
-  applicationIDs: ApplicationIDs;
+  applicationIDs: string[];
   accountID?: string;
 }
 export const AssociateApplicationsRequest = S.suspend(() =>
@@ -1555,7 +1555,7 @@ export const AssociateApplicationsResponse = S.suspend(() =>
 }) as any as S.Schema<AssociateApplicationsResponse>;
 export interface DisassociateApplicationsRequest {
   waveID: string;
-  applicationIDs: ApplicationIDs;
+  applicationIDs: string[];
   accountID?: string;
 }
 export const DisassociateApplicationsRequest = S.suspend(() =>
@@ -1648,9 +1648,9 @@ export const LifeCycleStates = S.Array(S.String);
 export type DescribeSourceServersRequestApplicationIDs = string[];
 export const DescribeSourceServersRequestApplicationIDs = S.Array(S.String);
 export interface ListApplicationsRequestFilters {
-  applicationIDs?: ApplicationIDsFilter;
+  applicationIDs?: string[];
   isArchived?: boolean;
-  waveIDs?: WaveIDsFilter;
+  waveIDs?: string[];
 }
 export const ListApplicationsRequestFilters = S.suspend(() =>
   S.Struct({
@@ -1662,7 +1662,7 @@ export const ListApplicationsRequestFilters = S.suspend(() =>
   identifier: "ListApplicationsRequestFilters",
 }) as any as S.Schema<ListApplicationsRequestFilters>;
 export interface ListConnectorsRequestFilters {
-  connectorIDs?: ConnectorIDsFilter;
+  connectorIDs?: string[];
 }
 export const ListConnectorsRequestFilters = S.suspend(() =>
   S.Struct({ connectorIDs: S.optional(ConnectorIDsFilter) }),
@@ -1670,7 +1670,7 @@ export const ListConnectorsRequestFilters = S.suspend(() =>
   identifier: "ListConnectorsRequestFilters",
 }) as any as S.Schema<ListConnectorsRequestFilters>;
 export interface ListExportsRequestFilters {
-  exportIDs?: ListExportsRequestFiltersExportIDs;
+  exportIDs?: string[];
 }
 export const ListExportsRequestFilters = S.suspend(() =>
   S.Struct({ exportIDs: S.optional(ListExportsRequestFiltersExportIDs) }),
@@ -1692,7 +1692,7 @@ export const S3BucketSource = S.suspend(() =>
   identifier: "S3BucketSource",
 }) as any as S.Schema<S3BucketSource>;
 export interface ListImportsRequestFilters {
-  importIDs?: ImportIDsFilter;
+  importIDs?: string[];
 }
 export const ListImportsRequestFilters = S.suspend(() =>
   S.Struct({ importIDs: S.optional(ImportIDsFilter) }),
@@ -1700,7 +1700,7 @@ export const ListImportsRequestFilters = S.suspend(() =>
   identifier: "ListImportsRequestFilters",
 }) as any as S.Schema<ListImportsRequestFilters>;
 export interface DescribeJobsRequestFilters {
-  jobIDs?: DescribeJobsRequestFiltersJobIDs;
+  jobIDs?: string[];
   fromDate?: string;
   toDate?: string;
 }
@@ -1719,7 +1719,7 @@ export interface LaunchConfigurationTemplate {
   postLaunchActions?: PostLaunchActions;
   enableMapAutoTagging?: boolean;
   mapAutoTaggingMpeID?: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   ec2LaunchTemplateID?: string;
   launchDisposition?: string;
   targetInstanceTypeRightSizingMethod?: string;
@@ -1764,7 +1764,7 @@ export const LaunchConfigurationTemplates = S.Array(
   LaunchConfigurationTemplate,
 );
 export interface TemplateActionsRequestFilters {
-  actionIDs?: ActionIDs;
+  actionIDs?: string[];
 }
 export const TemplateActionsRequestFilters = S.suspend(() =>
   S.Struct({ actionIDs: S.optional(ActionIDs) }),
@@ -1776,7 +1776,7 @@ export interface ReplicationConfigurationTemplate {
   arn?: string;
   stagingAreaSubnetId?: string;
   associateDefaultSecurityGroup?: boolean;
-  replicationServersSecurityGroupsIDs?: ReplicationServersSecurityGroupsIDs;
+  replicationServersSecurityGroupsIDs?: string[];
   replicationServerInstanceType?: string;
   useDedicatedReplicationServer?: boolean;
   defaultLargeStagingDiskType?: string;
@@ -1785,9 +1785,9 @@ export interface ReplicationConfigurationTemplate {
   bandwidthThrottling?: number;
   dataPlaneRouting?: string;
   createPublicIP?: boolean;
-  stagingAreaTags?: TagsMap;
+  stagingAreaTags?: { [key: string]: string };
   useFipsEndpoint?: boolean;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   internetProtocol?: string;
 }
 export const ReplicationConfigurationTemplate = S.suspend(() =>
@@ -1833,11 +1833,11 @@ export const SourceServerConnectorAction = S.suspend(() =>
   identifier: "SourceServerConnectorAction",
 }) as any as S.Schema<SourceServerConnectorAction>;
 export interface DescribeSourceServersRequestFilters {
-  sourceServerIDs?: DescribeSourceServersRequestFiltersIDs;
+  sourceServerIDs?: string[];
   isArchived?: boolean;
-  replicationTypes?: ReplicationTypes;
-  lifeCycleStates?: LifeCycleStates;
-  applicationIDs?: DescribeSourceServersRequestApplicationIDs;
+  replicationTypes?: string[];
+  lifeCycleStates?: string[];
+  applicationIDs?: string[];
 }
 export const DescribeSourceServersRequestFilters = S.suspend(() =>
   S.Struct({
@@ -1859,7 +1859,7 @@ export const ChangeServerLifeCycleStateSourceServerLifecycle = S.suspend(() =>
   identifier: "ChangeServerLifeCycleStateSourceServerLifecycle",
 }) as any as S.Schema<ChangeServerLifeCycleStateSourceServerLifecycle>;
 export interface SourceServerActionsRequestFilters {
-  actionIDs?: ActionIDs;
+  actionIDs?: string[];
 }
 export const SourceServerActionsRequestFilters = S.suspend(() =>
   S.Struct({ actionIDs: S.optional(ActionIDs) }),
@@ -1890,7 +1890,7 @@ export const ReplicationConfigurationReplicatedDisks = S.Array(
   ReplicationConfigurationReplicatedDisk,
 );
 export interface ListWavesRequestFilters {
-  waveIDs?: WaveIDsFilter;
+  waveIDs?: string[];
   isArchived?: boolean;
 }
 export const ListWavesRequestFilters = S.suspend(() =>
@@ -1902,7 +1902,7 @@ export const ListWavesRequestFilters = S.suspend(() =>
   identifier: "ListWavesRequestFilters",
 }) as any as S.Schema<ListWavesRequestFilters>;
 export interface ListTagsForResourceResponse {
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagsMap) }),
@@ -1911,7 +1911,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagsMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1962,7 +1962,7 @@ export const ListApplicationsRequest = S.suspend(() =>
 export interface CreateConnectorRequest {
   name: string;
   ssmInstanceID: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   ssmCommandConfig?: ConnectorSsmCommandConfig;
 }
 export const CreateConnectorRequest = S.suspend(() =>
@@ -1989,7 +1989,7 @@ export interface Connector {
   name?: string;
   ssmInstanceID?: string;
   arn?: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   ssmCommandConfig?: ConnectorSsmCommandConfig;
 }
 export const Connector = S.suspend(() =>
@@ -2051,7 +2051,7 @@ export const ListExportsRequest = S.suspend(() =>
 export interface StartImportRequest {
   clientToken?: string;
   s3BucketSource: S3BucketSource;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const StartImportRequest = S.suspend(() =>
   S.Struct({
@@ -2120,7 +2120,7 @@ export const DescribeJobsRequest = S.suspend(() =>
   identifier: "DescribeJobsRequest",
 }) as any as S.Schema<DescribeJobsRequest>;
 export interface DescribeLaunchConfigurationTemplatesResponse {
-  items?: LaunchConfigurationTemplates;
+  items?: LaunchConfigurationTemplate[];
   nextToken?: string;
 }
 export const DescribeLaunchConfigurationTemplatesResponse = S.suspend(() =>
@@ -2157,7 +2157,7 @@ export const ListTemplateActionsRequest = S.suspend(() =>
   identifier: "ListTemplateActionsRequest",
 }) as any as S.Schema<ListTemplateActionsRequest>;
 export interface DescribeReplicationConfigurationTemplatesResponse {
-  items?: ReplicationConfigurationTemplates;
+  items?: ReplicationConfigurationTemplate[];
   nextToken?: string;
 }
 export const DescribeReplicationConfigurationTemplatesResponse = S.suspend(() =>
@@ -2276,17 +2276,17 @@ export interface ReplicationConfiguration {
   name?: string;
   stagingAreaSubnetId?: string;
   associateDefaultSecurityGroup?: boolean;
-  replicationServersSecurityGroupsIDs?: ReplicationServersSecurityGroupsIDs;
+  replicationServersSecurityGroupsIDs?: string[];
   replicationServerInstanceType?: string;
   useDedicatedReplicationServer?: boolean;
   defaultLargeStagingDiskType?: string;
-  replicatedDisks?: ReplicationConfigurationReplicatedDisks;
+  replicatedDisks?: ReplicationConfigurationReplicatedDisk[];
   ebsEncryption?: string;
   ebsEncryptionKeyArn?: string;
   bandwidthThrottling?: number;
   dataPlaneRouting?: string;
   createPublicIP?: boolean;
-  stagingAreaTags?: TagsMap;
+  stagingAreaTags?: { [key: string]: string };
   useFipsEndpoint?: boolean;
   internetProtocol?: string;
 }
@@ -2351,8 +2351,8 @@ export interface SourceServerActionDocument {
   active?: boolean;
   timeoutSeconds?: number;
   mustSucceedForCutover?: boolean;
-  parameters?: SsmDocumentParameters;
-  externalParameters?: SsmDocumentExternalParameters;
+  parameters?: { [key: string]: SsmParameterStoreParameter[] };
+  externalParameters?: { [key: string]: SsmExternalParameter };
   description?: string;
   category?: string;
 }
@@ -2379,17 +2379,17 @@ export interface UpdateReplicationConfigurationRequest {
   name?: string;
   stagingAreaSubnetId?: string;
   associateDefaultSecurityGroup?: boolean;
-  replicationServersSecurityGroupsIDs?: ReplicationServersSecurityGroupsIDs;
+  replicationServersSecurityGroupsIDs?: string[];
   replicationServerInstanceType?: string;
   useDedicatedReplicationServer?: boolean;
   defaultLargeStagingDiskType?: string;
-  replicatedDisks?: ReplicationConfigurationReplicatedDisks;
+  replicatedDisks?: ReplicationConfigurationReplicatedDisk[];
   ebsEncryption?: string;
   ebsEncryptionKeyArn?: string;
   bandwidthThrottling?: number;
   dataPlaneRouting?: string;
   createPublicIP?: boolean;
-  stagingAreaTags?: TagsMap;
+  stagingAreaTags?: { [key: string]: string };
   useFipsEndpoint?: boolean;
   accountID?: string;
   internetProtocol?: string;
@@ -2454,7 +2454,7 @@ export const PostLaunchActionsLaunchStatusList = S.Array(
 );
 export interface PostLaunchActionsStatus {
   ssmAgentDiscoveryDatetime?: string;
-  postLaunchActionsLaunchStatusList?: PostLaunchActionsLaunchStatusList;
+  postLaunchActionsLaunchStatusList?: JobPostLaunchActionsLaunchStatus[];
 }
 export const PostLaunchActionsStatus = S.suspend(() =>
   S.Struct({
@@ -2492,8 +2492,8 @@ export interface Job {
   creationDateTime?: string;
   endDateTime?: string;
   status?: string;
-  participatingServers?: ParticipatingServers;
-  tags?: TagsMap;
+  participatingServers?: ParticipatingServer[];
+  tags?: { [key: string]: string };
 }
 export const Job = S.suspend(() =>
   S.Struct({
@@ -2611,7 +2611,7 @@ export interface Application {
   applicationAggregatedStatus?: ApplicationAggregatedStatus;
   creationDateTime?: string;
   lastModifiedDateTime?: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   waveID?: string;
 }
 export const Application = S.suspend(() =>
@@ -2657,7 +2657,7 @@ export interface ExportTask {
   status?: string;
   progressPercentage?: number;
   summary?: ExportTaskSummary;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const ExportTask = S.suspend(() =>
   S.Struct({
@@ -2735,7 +2735,7 @@ export interface ImportTask {
   status?: string;
   progressPercentage?: number;
   summary?: ImportTaskSummary;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const ImportTask = S.suspend(() =>
   S.Struct({
@@ -2807,7 +2807,7 @@ export const DataReplicationInitiationSteps = S.Array(
 export interface DataReplicationInitiation {
   startDateTime?: string;
   nextAttemptDateTime?: string;
-  steps?: DataReplicationInitiationSteps;
+  steps?: DataReplicationInitiationStep[];
 }
 export const DataReplicationInitiation = S.suspend(() =>
   S.Struct({
@@ -2830,7 +2830,7 @@ export const DataReplicationError = S.suspend(() =>
 export interface DataReplicationInfo {
   lagDuration?: string;
   etaDateTime?: string;
-  replicatedDisks?: DataReplicationInfoReplicatedDisks;
+  replicatedDisks?: DataReplicationInfoReplicatedDisk[];
   dataReplicationState?: string;
   dataReplicationInitiation?: DataReplicationInitiation;
   dataReplicationError?: DataReplicationError;
@@ -2977,7 +2977,7 @@ export type IPsList = string[];
 export const IPsList = S.Array(S.String);
 export interface NetworkInterface {
   macAddress?: string;
-  ips?: IPsList;
+  ips?: string[];
   isPrimary?: boolean;
 }
 export const NetworkInterface = S.suspend(() =>
@@ -3019,9 +3019,9 @@ export interface SourceProperties {
   lastUpdatedDateTime?: string;
   recommendedInstanceType?: string;
   identificationHints?: IdentificationHints;
-  networkInterfaces?: NetworkInterfaces;
-  disks?: Disks;
-  cpus?: Cpus;
+  networkInterfaces?: NetworkInterface[];
+  disks?: Disk[];
+  cpus?: CPU[];
   ramBytes?: number;
   os?: OS;
 }
@@ -3043,7 +3043,7 @@ export interface SourceServer {
   sourceServerID?: string;
   arn?: string;
   isArchived?: boolean;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   launchedInstance?: LaunchedInstance;
   dataReplicationInfo?: DataReplicationInfo;
   lifeCycle?: LifeCycle;
@@ -3084,8 +3084,8 @@ export interface VcenterClient {
   vcenterUUID?: string;
   datacenterName?: string;
   lastSeenDatetime?: string;
-  sourceServerTags?: TagsMap;
-  tags?: TagsMap;
+  sourceServerTags?: { [key: string]: string };
+  tags?: { [key: string]: string };
 }
 export const VcenterClient = S.suspend(() =>
   S.Struct({
@@ -3130,7 +3130,7 @@ export interface Wave {
   waveAggregatedStatus?: WaveAggregatedStatus;
   creationDateTime?: string;
   lastModifiedDateTime?: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const Wave = S.suspend(() =>
   S.Struct({
@@ -3148,7 +3148,7 @@ export const Wave = S.suspend(() =>
 export type WavesList = Wave[];
 export const WavesList = S.Array(Wave);
 export interface ListManagedAccountsResponse {
-  items: ManagedAccounts;
+  items: ManagedAccount[];
   nextToken?: string;
 }
 export const ListManagedAccountsResponse = S.suspend(() =>
@@ -3157,7 +3157,7 @@ export const ListManagedAccountsResponse = S.suspend(() =>
   identifier: "ListManagedAccountsResponse",
 }) as any as S.Schema<ListManagedAccountsResponse>;
 export interface ListApplicationsResponse {
-  items?: ApplicationsList;
+  items?: Application[];
   nextToken?: string;
 }
 export const ListApplicationsResponse = S.suspend(() =>
@@ -3169,7 +3169,7 @@ export const ListApplicationsResponse = S.suspend(() =>
   identifier: "ListApplicationsResponse",
 }) as any as S.Schema<ListApplicationsResponse>;
 export interface ListConnectorsResponse {
-  items?: ConnectorsList;
+  items?: Connector[];
   nextToken?: string;
 }
 export const ListConnectorsResponse = S.suspend(() =>
@@ -3181,7 +3181,7 @@ export const ListConnectorsResponse = S.suspend(() =>
   identifier: "ListConnectorsResponse",
 }) as any as S.Schema<ListConnectorsResponse>;
 export interface ListExportsResponse {
-  items?: ExportsList;
+  items?: ExportTask[];
   nextToken?: string;
 }
 export const ListExportsResponse = S.suspend(() =>
@@ -3190,7 +3190,7 @@ export const ListExportsResponse = S.suspend(() =>
   identifier: "ListExportsResponse",
 }) as any as S.Schema<ListExportsResponse>;
 export interface ListImportsResponse {
-  items?: ImportList;
+  items?: ImportTask[];
   nextToken?: string;
 }
 export const ListImportsResponse = S.suspend(() =>
@@ -3199,7 +3199,7 @@ export const ListImportsResponse = S.suspend(() =>
   identifier: "ListImportsResponse",
 }) as any as S.Schema<ListImportsResponse>;
 export interface DescribeJobsResponse {
-  items?: JobsList;
+  items?: Job[];
   nextToken?: string;
 }
 export const DescribeJobsResponse = S.suspend(() =>
@@ -3211,7 +3211,7 @@ export interface CreateLaunchConfigurationTemplateRequest {
   postLaunchActions?: PostLaunchActions;
   enableMapAutoTagging?: boolean;
   mapAutoTaggingMpeID?: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   launchDisposition?: string;
   targetInstanceTypeRightSizingMethod?: string;
   copyPrivateIp?: boolean;
@@ -3266,9 +3266,9 @@ export interface PutTemplateActionRequest {
   active?: boolean;
   timeoutSeconds?: number;
   mustSucceedForCutover?: boolean;
-  parameters?: SsmDocumentParameters;
+  parameters?: { [key: string]: SsmParameterStoreParameter[] };
   operatingSystem?: string;
-  externalParameters?: SsmDocumentExternalParameters;
+  externalParameters?: { [key: string]: SsmExternalParameter };
   description?: string;
   category?: string;
 }
@@ -3302,7 +3302,7 @@ export const PutTemplateActionRequest = S.suspend(() =>
   identifier: "PutTemplateActionRequest",
 }) as any as S.Schema<PutTemplateActionRequest>;
 export interface DescribeSourceServersResponse {
-  items?: SourceServersList;
+  items?: SourceServer[];
   nextToken?: string;
 }
 export const DescribeSourceServersResponse = S.suspend(() =>
@@ -3314,7 +3314,7 @@ export const DescribeSourceServersResponse = S.suspend(() =>
   identifier: "DescribeSourceServersResponse",
 }) as any as S.Schema<DescribeSourceServersResponse>;
 export interface ListSourceServerActionsResponse {
-  items?: SourceServerActionDocuments;
+  items?: SourceServerActionDocument[];
   nextToken?: string;
 }
 export const ListSourceServerActionsResponse = S.suspend(() =>
@@ -3326,7 +3326,7 @@ export const ListSourceServerActionsResponse = S.suspend(() =>
   identifier: "ListSourceServerActionsResponse",
 }) as any as S.Schema<ListSourceServerActionsResponse>;
 export interface DescribeVcenterClientsResponse {
-  items?: VcenterClientList;
+  items?: VcenterClient[];
   nextToken?: string;
 }
 export const DescribeVcenterClientsResponse = S.suspend(() =>
@@ -3338,7 +3338,7 @@ export const DescribeVcenterClientsResponse = S.suspend(() =>
   identifier: "DescribeVcenterClientsResponse",
 }) as any as S.Schema<DescribeVcenterClientsResponse>;
 export interface ListWavesResponse {
-  items?: WavesList;
+  items?: Wave[];
   nextToken?: string;
 }
 export const ListWavesResponse = S.suspend(() =>
@@ -3449,9 +3449,9 @@ export interface TemplateActionDocument {
   active?: boolean;
   timeoutSeconds?: number;
   mustSucceedForCutover?: boolean;
-  parameters?: SsmDocumentParameters;
+  parameters?: { [key: string]: SsmParameterStoreParameter[] };
   operatingSystem?: string;
-  externalParameters?: SsmDocumentExternalParameters;
+  externalParameters?: { [key: string]: SsmExternalParameter };
   description?: string;
   category?: string;
 }
@@ -3485,7 +3485,7 @@ export const StartExportResponse = S.suspend(() =>
   identifier: "StartExportResponse",
 }) as any as S.Schema<StartExportResponse>;
 export interface ListExportErrorsResponse {
-  items?: ExportErrors;
+  items?: ExportTaskError[];
   nextToken?: string;
 }
 export const ListExportErrorsResponse = S.suspend(() =>
@@ -3497,7 +3497,7 @@ export const ListExportErrorsResponse = S.suspend(() =>
   identifier: "ListExportErrorsResponse",
 }) as any as S.Schema<ListExportErrorsResponse>;
 export interface ListImportErrorsResponse {
-  items?: ImportErrors;
+  items?: ImportTaskError[];
   nextToken?: string;
 }
 export const ListImportErrorsResponse = S.suspend(() =>
@@ -3509,7 +3509,7 @@ export const ListImportErrorsResponse = S.suspend(() =>
   identifier: "ListImportErrorsResponse",
 }) as any as S.Schema<ListImportErrorsResponse>;
 export interface DescribeJobLogItemsResponse {
-  items?: JobLogs;
+  items?: JobLog[];
   nextToken?: string;
 }
 export const DescribeJobLogItemsResponse = S.suspend(() =>
@@ -3518,7 +3518,7 @@ export const DescribeJobLogItemsResponse = S.suspend(() =>
   identifier: "DescribeJobLogItemsResponse",
 }) as any as S.Schema<DescribeJobLogItemsResponse>;
 export interface ListTemplateActionsResponse {
-  items?: TemplateActionDocuments;
+  items?: TemplateActionDocument[];
   nextToken?: string;
 }
 export const ListTemplateActionsResponse = S.suspend(() =>
@@ -3618,7 +3618,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
  */
 export const initializeService: (
   input: InitializeServiceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   InitializeServiceResponse,
   AccessDeniedException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3632,7 +3632,7 @@ export const initializeService: (
  */
 export const createConnector: (
   input: CreateConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Connector,
   UninitializedAccountException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3647,21 +3647,21 @@ export const createConnector: (
 export const listConnectors: {
   (
     input: ListConnectorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConnectorsResponse,
     UninitializedAccountException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListConnectorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConnectorsResponse,
     UninitializedAccountException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConnectorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Connector,
     UninitializedAccountException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3683,21 +3683,21 @@ export const listConnectors: {
 export const listExports: {
   (
     input: ListExportsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListExportsResponse,
     UninitializedAccountException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListExportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListExportsResponse,
     UninitializedAccountException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListExportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExportTask,
     UninitializedAccountException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3719,21 +3719,21 @@ export const listExports: {
 export const listImports: {
   (
     input: ListImportsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListImportsResponse,
     UninitializedAccountException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListImportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListImportsResponse,
     UninitializedAccountException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListImportsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ImportTask,
     UninitializedAccountException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3755,21 +3755,21 @@ export const listImports: {
 export const describeJobs: {
   (
     input: DescribeJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeJobsResponse,
     UninitializedAccountException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeJobsResponse,
     UninitializedAccountException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Job,
     UninitializedAccountException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3790,7 +3790,7 @@ export const describeJobs: {
  */
 export const createLaunchConfigurationTemplate: (
   input: CreateLaunchConfigurationTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   LaunchConfigurationTemplate,
   | AccessDeniedException
   | UninitializedAccountException
@@ -3811,7 +3811,7 @@ export const createLaunchConfigurationTemplate: (
  */
 export const putTemplateAction: (
   input: PutTemplateActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TemplateActionDocument,
   | ConflictException
   | ResourceNotFoundException
@@ -3835,21 +3835,21 @@ export const putTemplateAction: (
 export const describeSourceServers: {
   (
     input: DescribeSourceServersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeSourceServersResponse,
     UninitializedAccountException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeSourceServersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeSourceServersResponse,
     UninitializedAccountException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeSourceServersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SourceServer,
     UninitializedAccountException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3871,21 +3871,21 @@ export const describeSourceServers: {
 export const listSourceServerActions: {
   (
     input: ListSourceServerActionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSourceServerActionsResponse,
     ResourceNotFoundException | UninitializedAccountException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSourceServerActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSourceServerActionsResponse,
     ResourceNotFoundException | UninitializedAccountException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSourceServerActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SourceServerActionDocument,
     ResourceNotFoundException | UninitializedAccountException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -3907,7 +3907,7 @@ export const listSourceServerActions: {
 export const describeVcenterClients: {
   (
     input: DescribeVcenterClientsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeVcenterClientsResponse,
     | ResourceNotFoundException
     | UninitializedAccountException
@@ -3917,7 +3917,7 @@ export const describeVcenterClients: {
   >;
   pages: (
     input: DescribeVcenterClientsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeVcenterClientsResponse,
     | ResourceNotFoundException
     | UninitializedAccountException
@@ -3927,7 +3927,7 @@ export const describeVcenterClients: {
   >;
   items: (
     input: DescribeVcenterClientsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     VcenterClient,
     | ResourceNotFoundException
     | UninitializedAccountException
@@ -3955,7 +3955,7 @@ export const describeVcenterClients: {
  */
 export const createWave: (
   input: CreateWaveRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Wave,
   | ConflictException
   | ServiceQuotaExceededException
@@ -3977,21 +3977,21 @@ export const createWave: (
 export const listWaves: {
   (
     input: ListWavesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWavesResponse,
     UninitializedAccountException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListWavesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWavesResponse,
     UninitializedAccountException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListWavesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Wave,
     UninitializedAccountException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -4012,7 +4012,7 @@ export const listWaves: {
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4037,7 +4037,7 @@ export const listTagsForResource: (
  */
 export const archiveApplication: (
   input: ArchiveApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Application,
   | ConflictException
   | ResourceNotFoundException
@@ -4060,7 +4060,7 @@ export const archiveApplication: (
  */
 export const associateSourceServers: (
   input: AssociateSourceServersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateSourceServersResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -4083,7 +4083,7 @@ export const associateSourceServers: (
  */
 export const disassociateSourceServers: (
   input: DisassociateSourceServersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateSourceServersResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -4104,7 +4104,7 @@ export const disassociateSourceServers: (
  */
 export const updateApplication: (
   input: UpdateApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Application,
   | ConflictException
   | ResourceNotFoundException
@@ -4125,7 +4125,7 @@ export const updateApplication: (
  */
 export const deleteJob: (
   input: DeleteJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteJobResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -4146,7 +4146,7 @@ export const deleteJob: (
  */
 export const deleteLaunchConfigurationTemplate: (
   input: DeleteLaunchConfigurationTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLaunchConfigurationTemplateResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -4167,7 +4167,7 @@ export const deleteLaunchConfigurationTemplate: (
  */
 export const deleteReplicationConfigurationTemplate: (
   input: DeleteReplicationConfigurationTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteReplicationConfigurationTemplateResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -4188,7 +4188,7 @@ export const deleteReplicationConfigurationTemplate: (
  */
 export const deleteSourceServer: (
   input: DeleteSourceServerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSourceServerResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -4209,7 +4209,7 @@ export const deleteSourceServer: (
  */
 export const finalizeCutover: (
   input: FinalizeCutoverRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SourceServer,
   | ConflictException
   | ResourceNotFoundException
@@ -4232,7 +4232,7 @@ export const finalizeCutover: (
  */
 export const markAsArchived: (
   input: MarkAsArchivedRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SourceServer,
   | ConflictException
   | ResourceNotFoundException
@@ -4253,7 +4253,7 @@ export const markAsArchived: (
  */
 export const pauseReplication: (
   input: PauseReplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SourceServer,
   | ConflictException
   | ResourceNotFoundException
@@ -4278,7 +4278,7 @@ export const pauseReplication: (
  */
 export const resumeReplication: (
   input: ResumeReplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SourceServer,
   | ConflictException
   | ResourceNotFoundException
@@ -4303,7 +4303,7 @@ export const resumeReplication: (
  */
 export const startReplication: (
   input: StartReplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SourceServer,
   | ConflictException
   | ResourceNotFoundException
@@ -4328,7 +4328,7 @@ export const startReplication: (
  */
 export const stopReplication: (
   input: StopReplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SourceServer,
   | ConflictException
   | ResourceNotFoundException
@@ -4355,7 +4355,7 @@ export const stopReplication: (
  */
 export const updateLaunchConfiguration: (
   input: UpdateLaunchConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   LaunchConfiguration,
   | ConflictException
   | ResourceNotFoundException
@@ -4380,7 +4380,7 @@ export const updateLaunchConfiguration: (
  */
 export const updateSourceServerReplicationType: (
   input: UpdateSourceServerReplicationTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SourceServer,
   | ConflictException
   | ResourceNotFoundException
@@ -4403,7 +4403,7 @@ export const updateSourceServerReplicationType: (
  */
 export const deleteWave: (
   input: DeleteWaveRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWaveResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -4424,7 +4424,7 @@ export const deleteWave: (
  */
 export const archiveWave: (
   input: ArchiveWaveRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Wave,
   | ConflictException
   | ResourceNotFoundException
@@ -4447,7 +4447,7 @@ export const archiveWave: (
  */
 export const associateApplications: (
   input: AssociateApplicationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateApplicationsResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -4470,7 +4470,7 @@ export const associateApplications: (
  */
 export const disassociateApplications: (
   input: DisassociateApplicationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateApplicationsResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -4491,7 +4491,7 @@ export const disassociateApplications: (
  */
 export const updateWave: (
   input: UpdateWaveRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Wave,
   | ConflictException
   | ResourceNotFoundException
@@ -4512,7 +4512,7 @@ export const updateWave: (
  */
 export const updateSourceServer: (
   input: UpdateSourceServerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SourceServer,
   | ConflictException
   | ResourceNotFoundException
@@ -4533,7 +4533,7 @@ export const updateSourceServer: (
  */
 export const changeServerLifeCycleState: (
   input: ChangeServerLifeCycleStateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SourceServer,
   | ConflictException
   | ResourceNotFoundException
@@ -4556,7 +4556,7 @@ export const changeServerLifeCycleState: (
  */
 export const putSourceServerAction: (
   input: PutSourceServerActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SourceServerActionDocument,
   | ConflictException
   | ResourceNotFoundException
@@ -4579,7 +4579,7 @@ export const putSourceServerAction: (
  */
 export const updateReplicationConfiguration: (
   input: UpdateReplicationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ReplicationConfiguration,
   | AccessDeniedException
   | ConflictException
@@ -4604,7 +4604,7 @@ export const updateReplicationConfiguration: (
  */
 export const startTest: (
   input: StartTestRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartTestResponse,
   | ConflictException
   | UninitializedAccountException
@@ -4625,7 +4625,7 @@ export const startTest: (
  */
 export const terminateTargetInstances: (
   input: TerminateTargetInstancesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TerminateTargetInstancesResponse,
   | ConflictException
   | UninitializedAccountException
@@ -4646,7 +4646,7 @@ export const terminateTargetInstances: (
  */
 export const createApplication: (
   input: CreateApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Application,
   | ConflictException
   | ServiceQuotaExceededException
@@ -4667,7 +4667,7 @@ export const createApplication: (
  */
 export const unarchiveWave: (
   input: UnarchiveWaveRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Wave,
   | ResourceNotFoundException
   | ServiceQuotaExceededException
@@ -4688,7 +4688,7 @@ export const unarchiveWave: (
  */
 export const updateConnector: (
   input: UpdateConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Connector,
   | ResourceNotFoundException
   | UninitializedAccountException
@@ -4709,7 +4709,7 @@ export const updateConnector: (
  */
 export const updateLaunchConfigurationTemplate: (
   input: UpdateLaunchConfigurationTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   LaunchConfigurationTemplate,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4733,7 +4733,7 @@ export const updateLaunchConfigurationTemplate: (
 export const describeLaunchConfigurationTemplates: {
   (
     input: DescribeLaunchConfigurationTemplatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeLaunchConfigurationTemplatesResponse,
     | ResourceNotFoundException
     | UninitializedAccountException
@@ -4743,7 +4743,7 @@ export const describeLaunchConfigurationTemplates: {
   >;
   pages: (
     input: DescribeLaunchConfigurationTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeLaunchConfigurationTemplatesResponse,
     | ResourceNotFoundException
     | UninitializedAccountException
@@ -4753,7 +4753,7 @@ export const describeLaunchConfigurationTemplates: {
   >;
   items: (
     input: DescribeLaunchConfigurationTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LaunchConfigurationTemplate,
     | ResourceNotFoundException
     | UninitializedAccountException
@@ -4781,7 +4781,7 @@ export const describeLaunchConfigurationTemplates: {
  */
 export const createReplicationConfigurationTemplate: (
   input: CreateReplicationConfigurationTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ReplicationConfigurationTemplate,
   | AccessDeniedException
   | UninitializedAccountException
@@ -4803,7 +4803,7 @@ export const createReplicationConfigurationTemplate: (
 export const describeReplicationConfigurationTemplates: {
   (
     input: DescribeReplicationConfigurationTemplatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeReplicationConfigurationTemplatesResponse,
     | ResourceNotFoundException
     | UninitializedAccountException
@@ -4813,7 +4813,7 @@ export const describeReplicationConfigurationTemplates: {
   >;
   pages: (
     input: DescribeReplicationConfigurationTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeReplicationConfigurationTemplatesResponse,
     | ResourceNotFoundException
     | UninitializedAccountException
@@ -4823,7 +4823,7 @@ export const describeReplicationConfigurationTemplates: {
   >;
   items: (
     input: DescribeReplicationConfigurationTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReplicationConfigurationTemplate,
     | ResourceNotFoundException
     | UninitializedAccountException
@@ -4851,7 +4851,7 @@ export const describeReplicationConfigurationTemplates: {
  */
 export const getLaunchConfiguration: (
   input: GetLaunchConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   LaunchConfiguration,
   ResourceNotFoundException | UninitializedAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4865,7 +4865,7 @@ export const getLaunchConfiguration: (
  */
 export const getReplicationConfiguration: (
   input: GetReplicationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ReplicationConfiguration,
   ResourceNotFoundException | UninitializedAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4879,7 +4879,7 @@ export const getReplicationConfiguration: (
  */
 export const deleteConnector: (
   input: DeleteConnectorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteConnectorResponse,
   | ResourceNotFoundException
   | UninitializedAccountException
@@ -4900,7 +4900,7 @@ export const deleteConnector: (
  */
 export const removeTemplateAction: (
   input: RemoveTemplateActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveTemplateActionResponse,
   | ResourceNotFoundException
   | UninitializedAccountException
@@ -4921,7 +4921,7 @@ export const removeTemplateAction: (
  */
 export const updateReplicationConfigurationTemplate: (
   input: UpdateReplicationConfigurationTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ReplicationConfigurationTemplate,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4944,7 +4944,7 @@ export const updateReplicationConfigurationTemplate: (
  */
 export const removeSourceServerAction: (
   input: RemoveSourceServerActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveSourceServerActionResponse,
   | ResourceNotFoundException
   | UninitializedAccountException
@@ -4965,7 +4965,7 @@ export const removeSourceServerAction: (
  */
 export const retryDataReplication: (
   input: RetryDataReplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SourceServer,
   | ResourceNotFoundException
   | UninitializedAccountException
@@ -4986,7 +4986,7 @@ export const retryDataReplication: (
  */
 export const deleteVcenterClient: (
   input: DeleteVcenterClientRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVcenterClientResponse,
   | ResourceNotFoundException
   | UninitializedAccountException
@@ -5008,21 +5008,21 @@ export const deleteVcenterClient: (
 export const listManagedAccounts: {
   (
     input: ListManagedAccountsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListManagedAccountsResponse,
     UninitializedAccountException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListManagedAccountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListManagedAccountsResponse,
     UninitializedAccountException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListManagedAccountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ManagedAccount,
     UninitializedAccountException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -5043,7 +5043,7 @@ export const listManagedAccounts: {
  */
 export const deleteApplication: (
   input: DeleteApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApplicationResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -5065,21 +5065,21 @@ export const deleteApplication: (
 export const listApplications: {
   (
     input: ListApplicationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationsResponse,
     UninitializedAccountException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListApplicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationsResponse,
     UninitializedAccountException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListApplicationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Application,
     UninitializedAccountException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -5100,7 +5100,7 @@ export const listApplications: {
  */
 export const unarchiveApplication: (
   input: UnarchiveApplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   Application,
   | ResourceNotFoundException
   | ServiceQuotaExceededException
@@ -5121,7 +5121,7 @@ export const unarchiveApplication: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5146,7 +5146,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5171,7 +5171,7 @@ export const untagResource: (
  */
 export const startExport: (
   input: StartExportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartExportResponse,
   | ServiceQuotaExceededException
   | UninitializedAccountException
@@ -5193,21 +5193,21 @@ export const startExport: (
 export const listExportErrors: {
   (
     input: ListExportErrorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListExportErrorsResponse,
     UninitializedAccountException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListExportErrorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListExportErrorsResponse,
     UninitializedAccountException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListExportErrorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ExportTaskError,
     UninitializedAccountException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -5229,21 +5229,21 @@ export const listExportErrors: {
 export const listImportErrors: {
   (
     input: ListImportErrorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListImportErrorsResponse,
     UninitializedAccountException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListImportErrorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListImportErrorsResponse,
     UninitializedAccountException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListImportErrorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ImportTaskError,
     UninitializedAccountException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -5265,21 +5265,21 @@ export const listImportErrors: {
 export const describeJobLogItems: {
   (
     input: DescribeJobLogItemsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeJobLogItemsResponse,
     UninitializedAccountException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeJobLogItemsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeJobLogItemsResponse,
     UninitializedAccountException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeJobLogItemsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     JobLog,
     UninitializedAccountException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -5301,21 +5301,21 @@ export const describeJobLogItems: {
 export const listTemplateActions: {
   (
     input: ListTemplateActionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTemplateActionsResponse,
     ResourceNotFoundException | UninitializedAccountException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListTemplateActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTemplateActionsResponse,
     ResourceNotFoundException | UninitializedAccountException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListTemplateActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TemplateActionDocument,
     ResourceNotFoundException | UninitializedAccountException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -5336,7 +5336,7 @@ export const listTemplateActions: {
  */
 export const disconnectFromService: (
   input: DisconnectFromServiceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SourceServer,
   | ConflictException
   | ResourceNotFoundException
@@ -5357,7 +5357,7 @@ export const disconnectFromService: (
  */
 export const startImport: (
   input: StartImportRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartImportResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -5382,7 +5382,7 @@ export const startImport: (
  */
 export const startCutover: (
   input: StartCutoverRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartCutoverResponse,
   | ConflictException
   | UninitializedAccountException

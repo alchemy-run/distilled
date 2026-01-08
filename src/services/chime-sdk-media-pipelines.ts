@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -87,8 +87,8 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Newtypes
-export type Arn = string | Redacted.Redacted<string>;
-export type ClientRequestToken = string | Redacted.Redacted<string>;
+export type Arn = string | redacted.Redacted<string>;
+export type ClientRequestToken = string | redacted.Redacted<string>;
 export type MediaInsightsPipelineConfigurationNameString = string;
 export type KinesisVideoStreamPoolName = string;
 export type GuidString = string;
@@ -113,11 +113,11 @@ export type CategoryName = string;
 export type LanguageOptions = string;
 export type VocabularyNames = string;
 export type VocabularyFilterNames = string;
-export type SensitiveString = string | Redacted.Redacted<string>;
+export type SensitiveString = string | redacted.Redacted<string>;
 export type AudioSampleRateOption = string;
 export type KinesisVideoStreamPoolId = string;
 export type KinesisVideoStreamPoolSize = number;
-export type ExternalUserIdType = string | Redacted.Redacted<string>;
+export type ExternalUserIdType = string | redacted.Redacted<string>;
 export type NumberOfChannels = number;
 export type RuleName = string;
 export type Keyword = string;
@@ -128,8 +128,16 @@ export type CornerRadius = number;
 export type BorderThickness = number;
 
 //# Schemas
+export type MediaPipelineSourceType = "ChimeSdkMeeting";
+export const MediaPipelineSourceType = S.Literal("ChimeSdkMeeting");
+export type MediaPipelineSinkType = "S3Bucket";
+export const MediaPipelineSinkType = S.Literal("S3Bucket");
+export type VoiceAnalyticsLanguageCode = "en-US";
+export const VoiceAnalyticsLanguageCode = S.Literal("en-US");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type MediaPipelineStatusUpdate = "Pause" | "Resume";
+export const MediaPipelineStatusUpdate = S.Literal("Pause", "Resume");
 export interface DeleteMediaCapturePipelineRequest {
   MediaPipelineId: string;
 }
@@ -489,14 +497,14 @@ export const KinesisVideoStreamSourceTaskConfiguration = S.suspend(() =>
 }) as any as S.Schema<KinesisVideoStreamSourceTaskConfiguration>;
 export interface StartVoiceToneAnalysisTaskRequest {
   Identifier: string;
-  LanguageCode: string;
+  LanguageCode: VoiceAnalyticsLanguageCode;
   KinesisVideoStreamSourceTaskConfiguration?: KinesisVideoStreamSourceTaskConfiguration;
-  ClientRequestToken?: string | Redacted.Redacted<string>;
+  ClientRequestToken?: string | redacted.Redacted<string>;
 }
 export const StartVoiceToneAnalysisTaskRequest = S.suspend(() =>
   S.Struct({
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
-    LanguageCode: S.String,
+    LanguageCode: VoiceAnalyticsLanguageCode,
     KinesisVideoStreamSourceTaskConfiguration: S.optional(
       KinesisVideoStreamSourceTaskConfiguration,
     ),
@@ -590,7 +598,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface TagResourceRequest {
   ResourceARN: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
@@ -612,7 +620,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceARN: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
@@ -632,11 +640,20 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
+export type RealTimeAlertRuleType =
+  | "KeywordMatch"
+  | "Sentiment"
+  | "IssueDetection";
+export const RealTimeAlertRuleType = S.Literal(
+  "KeywordMatch",
+  "Sentiment",
+  "IssueDetection",
+);
 export type KeywordMatchWordList = string[];
 export const KeywordMatchWordList = S.Array(S.String);
 export interface KeywordMatchConfiguration {
   RuleName: string;
-  Keywords: KeywordMatchWordList;
+  Keywords: string[];
   Negate?: boolean;
 }
 export const KeywordMatchConfiguration = S.suspend(() =>
@@ -648,15 +665,17 @@ export const KeywordMatchConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "KeywordMatchConfiguration",
 }) as any as S.Schema<KeywordMatchConfiguration>;
+export type SentimentType = "NEGATIVE";
+export const SentimentType = S.Literal("NEGATIVE");
 export interface SentimentConfiguration {
   RuleName: string;
-  SentimentType: string;
+  SentimentType: SentimentType;
   TimePeriod: number;
 }
 export const SentimentConfiguration = S.suspend(() =>
   S.Struct({
     RuleName: S.String,
-    SentimentType: S.String,
+    SentimentType: SentimentType,
     TimePeriod: S.Number,
   }),
 ).annotations({
@@ -671,14 +690,14 @@ export const IssueDetectionConfiguration = S.suspend(() =>
   identifier: "IssueDetectionConfiguration",
 }) as any as S.Schema<IssueDetectionConfiguration>;
 export interface RealTimeAlertRule {
-  Type: string;
+  Type: RealTimeAlertRuleType;
   KeywordMatchConfiguration?: KeywordMatchConfiguration;
   SentimentConfiguration?: SentimentConfiguration;
   IssueDetectionConfiguration?: IssueDetectionConfiguration;
 }
 export const RealTimeAlertRule = S.suspend(() =>
   S.Struct({
-    Type: S.String,
+    Type: RealTimeAlertRuleType,
     KeywordMatchConfiguration: S.optional(KeywordMatchConfiguration),
     SentimentConfiguration: S.optional(SentimentConfiguration),
     IssueDetectionConfiguration: S.optional(IssueDetectionConfiguration),
@@ -690,7 +709,7 @@ export type RealTimeAlertRuleList = RealTimeAlertRule[];
 export const RealTimeAlertRuleList = S.Array(RealTimeAlertRule);
 export interface RealTimeAlertConfiguration {
   Disabled?: boolean;
-  Rules?: RealTimeAlertRuleList;
+  Rules?: RealTimeAlertRule[];
 }
 export const RealTimeAlertConfiguration = S.suspend(() =>
   S.Struct({
@@ -700,17 +719,70 @@ export const RealTimeAlertConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "RealTimeAlertConfiguration",
 }) as any as S.Schema<RealTimeAlertConfiguration>;
+export type MediaInsightsPipelineConfigurationElementType =
+  | "AmazonTranscribeCallAnalyticsProcessor"
+  | "VoiceAnalyticsProcessor"
+  | "AmazonTranscribeProcessor"
+  | "KinesisDataStreamSink"
+  | "LambdaFunctionSink"
+  | "SqsQueueSink"
+  | "SnsTopicSink"
+  | "S3RecordingSink"
+  | "VoiceEnhancementSink";
+export const MediaInsightsPipelineConfigurationElementType = S.Literal(
+  "AmazonTranscribeCallAnalyticsProcessor",
+  "VoiceAnalyticsProcessor",
+  "AmazonTranscribeProcessor",
+  "KinesisDataStreamSink",
+  "LambdaFunctionSink",
+  "SqsQueueSink",
+  "SnsTopicSink",
+  "S3RecordingSink",
+  "VoiceEnhancementSink",
+);
+export type CallAnalyticsLanguageCode =
+  | "en-US"
+  | "en-GB"
+  | "es-US"
+  | "fr-CA"
+  | "fr-FR"
+  | "en-AU"
+  | "it-IT"
+  | "de-DE"
+  | "pt-BR";
+export const CallAnalyticsLanguageCode = S.Literal(
+  "en-US",
+  "en-GB",
+  "es-US",
+  "fr-CA",
+  "fr-FR",
+  "en-AU",
+  "it-IT",
+  "de-DE",
+  "pt-BR",
+);
+export type VocabularyFilterMethod = "remove" | "mask" | "tag";
+export const VocabularyFilterMethod = S.Literal("remove", "mask", "tag");
+export type PartialResultsStability = "high" | "medium" | "low";
+export const PartialResultsStability = S.Literal("high", "medium", "low");
+export type ContentType = "PII";
+export const ContentType = S.Literal("PII");
+export type ContentRedactionOutput = "redacted" | "redacted_and_unredacted";
+export const ContentRedactionOutput = S.Literal(
+  "redacted",
+  "redacted_and_unredacted",
+);
 export interface PostCallAnalyticsSettings {
   OutputLocation: string;
   DataAccessRoleArn: string;
-  ContentRedactionOutput?: string;
+  ContentRedactionOutput?: ContentRedactionOutput;
   OutputEncryptionKMSKeyId?: string;
 }
 export const PostCallAnalyticsSettings = S.suspend(() =>
   S.Struct({
     OutputLocation: S.String,
     DataAccessRoleArn: S.String,
-    ContentRedactionOutput: S.optional(S.String),
+    ContentRedactionOutput: S.optional(ContentRedactionOutput),
     OutputEncryptionKMSKeyId: S.optional(S.String),
   }),
 ).annotations({
@@ -719,32 +791,32 @@ export const PostCallAnalyticsSettings = S.suspend(() =>
 export type CategoryNameList = string[];
 export const CategoryNameList = S.Array(S.String);
 export interface AmazonTranscribeCallAnalyticsProcessorConfiguration {
-  LanguageCode: string;
+  LanguageCode: CallAnalyticsLanguageCode;
   VocabularyName?: string;
   VocabularyFilterName?: string;
-  VocabularyFilterMethod?: string;
+  VocabularyFilterMethod?: VocabularyFilterMethod;
   LanguageModelName?: string;
   EnablePartialResultsStabilization?: boolean;
-  PartialResultsStability?: string;
-  ContentIdentificationType?: string;
-  ContentRedactionType?: string;
+  PartialResultsStability?: PartialResultsStability;
+  ContentIdentificationType?: ContentType;
+  ContentRedactionType?: ContentType;
   PiiEntityTypes?: string;
   FilterPartialResults?: boolean;
   PostCallAnalyticsSettings?: PostCallAnalyticsSettings;
-  CallAnalyticsStreamCategories?: CategoryNameList;
+  CallAnalyticsStreamCategories?: string[];
 }
 export const AmazonTranscribeCallAnalyticsProcessorConfiguration = S.suspend(
   () =>
     S.Struct({
-      LanguageCode: S.String,
+      LanguageCode: CallAnalyticsLanguageCode,
       VocabularyName: S.optional(S.String),
       VocabularyFilterName: S.optional(S.String),
-      VocabularyFilterMethod: S.optional(S.String),
+      VocabularyFilterMethod: S.optional(VocabularyFilterMethod),
       LanguageModelName: S.optional(S.String),
       EnablePartialResultsStabilization: S.optional(S.Boolean),
-      PartialResultsStability: S.optional(S.String),
-      ContentIdentificationType: S.optional(S.String),
-      ContentRedactionType: S.optional(S.String),
+      PartialResultsStability: S.optional(PartialResultsStability),
+      ContentIdentificationType: S.optional(ContentType),
+      ContentRedactionType: S.optional(ContentType),
       PiiEntityTypes: S.optional(S.String),
       FilterPartialResults: S.optional(S.Boolean),
       PostCallAnalyticsSettings: S.optional(PostCallAnalyticsSettings),
@@ -754,43 +826,43 @@ export const AmazonTranscribeCallAnalyticsProcessorConfiguration = S.suspend(
   identifier: "AmazonTranscribeCallAnalyticsProcessorConfiguration",
 }) as any as S.Schema<AmazonTranscribeCallAnalyticsProcessorConfiguration>;
 export interface AmazonTranscribeProcessorConfiguration {
-  LanguageCode?: string;
+  LanguageCode?: CallAnalyticsLanguageCode;
   VocabularyName?: string;
   VocabularyFilterName?: string;
-  VocabularyFilterMethod?: string;
+  VocabularyFilterMethod?: VocabularyFilterMethod;
   ShowSpeakerLabel?: boolean;
   EnablePartialResultsStabilization?: boolean;
-  PartialResultsStability?: string;
-  ContentIdentificationType?: string;
-  ContentRedactionType?: string;
+  PartialResultsStability?: PartialResultsStability;
+  ContentIdentificationType?: ContentType;
+  ContentRedactionType?: ContentType;
   PiiEntityTypes?: string;
   LanguageModelName?: string;
   FilterPartialResults?: boolean;
   IdentifyLanguage?: boolean;
   IdentifyMultipleLanguages?: boolean;
   LanguageOptions?: string;
-  PreferredLanguage?: string;
+  PreferredLanguage?: CallAnalyticsLanguageCode;
   VocabularyNames?: string;
   VocabularyFilterNames?: string;
 }
 export const AmazonTranscribeProcessorConfiguration = S.suspend(() =>
   S.Struct({
-    LanguageCode: S.optional(S.String),
+    LanguageCode: S.optional(CallAnalyticsLanguageCode),
     VocabularyName: S.optional(S.String),
     VocabularyFilterName: S.optional(S.String),
-    VocabularyFilterMethod: S.optional(S.String),
+    VocabularyFilterMethod: S.optional(VocabularyFilterMethod),
     ShowSpeakerLabel: S.optional(S.Boolean),
     EnablePartialResultsStabilization: S.optional(S.Boolean),
-    PartialResultsStability: S.optional(S.String),
-    ContentIdentificationType: S.optional(S.String),
-    ContentRedactionType: S.optional(S.String),
+    PartialResultsStability: S.optional(PartialResultsStability),
+    ContentIdentificationType: S.optional(ContentType),
+    ContentRedactionType: S.optional(ContentType),
     PiiEntityTypes: S.optional(S.String),
     LanguageModelName: S.optional(S.String),
     FilterPartialResults: S.optional(S.Boolean),
     IdentifyLanguage: S.optional(S.Boolean),
     IdentifyMultipleLanguages: S.optional(S.Boolean),
     LanguageOptions: S.optional(S.String),
-    PreferredLanguage: S.optional(S.String),
+    PreferredLanguage: S.optional(CallAnalyticsLanguageCode),
     VocabularyNames: S.optional(S.String),
     VocabularyFilterNames: S.optional(S.String),
   }),
@@ -798,39 +870,46 @@ export const AmazonTranscribeProcessorConfiguration = S.suspend(() =>
   identifier: "AmazonTranscribeProcessorConfiguration",
 }) as any as S.Schema<AmazonTranscribeProcessorConfiguration>;
 export interface KinesisDataStreamSinkConfiguration {
-  InsightsTarget?: string | Redacted.Redacted<string>;
+  InsightsTarget?: string | redacted.Redacted<string>;
 }
 export const KinesisDataStreamSinkConfiguration = S.suspend(() =>
   S.Struct({ InsightsTarget: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "KinesisDataStreamSinkConfiguration",
 }) as any as S.Schema<KinesisDataStreamSinkConfiguration>;
+export type RecordingFileFormat = "Wav" | "Opus";
+export const RecordingFileFormat = S.Literal("Wav", "Opus");
 export interface S3RecordingSinkConfiguration {
-  Destination?: string | Redacted.Redacted<string>;
-  RecordingFileFormat?: string;
+  Destination?: string | redacted.Redacted<string>;
+  RecordingFileFormat?: RecordingFileFormat;
 }
 export const S3RecordingSinkConfiguration = S.suspend(() =>
   S.Struct({
     Destination: S.optional(SensitiveString),
-    RecordingFileFormat: S.optional(S.String),
+    RecordingFileFormat: S.optional(RecordingFileFormat),
   }),
 ).annotations({
   identifier: "S3RecordingSinkConfiguration",
 }) as any as S.Schema<S3RecordingSinkConfiguration>;
+export type VoiceAnalyticsConfigurationStatus = "Enabled" | "Disabled";
+export const VoiceAnalyticsConfigurationStatus = S.Literal(
+  "Enabled",
+  "Disabled",
+);
 export interface VoiceAnalyticsProcessorConfiguration {
-  SpeakerSearchStatus?: string;
-  VoiceToneAnalysisStatus?: string;
+  SpeakerSearchStatus?: VoiceAnalyticsConfigurationStatus;
+  VoiceToneAnalysisStatus?: VoiceAnalyticsConfigurationStatus;
 }
 export const VoiceAnalyticsProcessorConfiguration = S.suspend(() =>
   S.Struct({
-    SpeakerSearchStatus: S.optional(S.String),
-    VoiceToneAnalysisStatus: S.optional(S.String),
+    SpeakerSearchStatus: S.optional(VoiceAnalyticsConfigurationStatus),
+    VoiceToneAnalysisStatus: S.optional(VoiceAnalyticsConfigurationStatus),
   }),
 ).annotations({
   identifier: "VoiceAnalyticsProcessorConfiguration",
 }) as any as S.Schema<VoiceAnalyticsProcessorConfiguration>;
 export interface LambdaFunctionSinkConfiguration {
-  InsightsTarget?: string | Redacted.Redacted<string>;
+  InsightsTarget?: string | redacted.Redacted<string>;
 }
 export const LambdaFunctionSinkConfiguration = S.suspend(() =>
   S.Struct({ InsightsTarget: S.optional(SensitiveString) }),
@@ -838,7 +917,7 @@ export const LambdaFunctionSinkConfiguration = S.suspend(() =>
   identifier: "LambdaFunctionSinkConfiguration",
 }) as any as S.Schema<LambdaFunctionSinkConfiguration>;
 export interface SqsQueueSinkConfiguration {
-  InsightsTarget?: string | Redacted.Redacted<string>;
+  InsightsTarget?: string | redacted.Redacted<string>;
 }
 export const SqsQueueSinkConfiguration = S.suspend(() =>
   S.Struct({ InsightsTarget: S.optional(SensitiveString) }),
@@ -846,7 +925,7 @@ export const SqsQueueSinkConfiguration = S.suspend(() =>
   identifier: "SqsQueueSinkConfiguration",
 }) as any as S.Schema<SqsQueueSinkConfiguration>;
 export interface SnsTopicSinkConfiguration {
-  InsightsTarget?: string | Redacted.Redacted<string>;
+  InsightsTarget?: string | redacted.Redacted<string>;
 }
 export const SnsTopicSinkConfiguration = S.suspend(() =>
   S.Struct({ InsightsTarget: S.optional(SensitiveString) }),
@@ -862,7 +941,7 @@ export const VoiceEnhancementSinkConfiguration = S.suspend(() =>
   identifier: "VoiceEnhancementSinkConfiguration",
 }) as any as S.Schema<VoiceEnhancementSinkConfiguration>;
 export interface MediaInsightsPipelineConfigurationElement {
-  Type: string;
+  Type: MediaInsightsPipelineConfigurationElementType;
   AmazonTranscribeCallAnalyticsProcessorConfiguration?: AmazonTranscribeCallAnalyticsProcessorConfiguration;
   AmazonTranscribeProcessorConfiguration?: AmazonTranscribeProcessorConfiguration;
   KinesisDataStreamSinkConfiguration?: KinesisDataStreamSinkConfiguration;
@@ -875,7 +954,7 @@ export interface MediaInsightsPipelineConfigurationElement {
 }
 export const MediaInsightsPipelineConfigurationElement = S.suspend(() =>
   S.Struct({
-    Type: S.String,
+    Type: MediaInsightsPipelineConfigurationElementType,
     AmazonTranscribeCallAnalyticsProcessorConfiguration: S.optional(
       AmazonTranscribeCallAnalyticsProcessorConfiguration,
     ),
@@ -908,9 +987,9 @@ export const MediaInsightsPipelineConfigurationElements = S.Array(
 );
 export interface UpdateMediaInsightsPipelineConfigurationRequest {
   Identifier: string;
-  ResourceAccessRoleArn: string | Redacted.Redacted<string>;
+  ResourceAccessRoleArn: string | redacted.Redacted<string>;
   RealTimeAlertConfiguration?: RealTimeAlertConfiguration;
-  Elements: MediaInsightsPipelineConfigurationElements;
+  Elements: MediaInsightsPipelineConfigurationElement[];
 }
 export const UpdateMediaInsightsPipelineConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -936,12 +1015,12 @@ export const UpdateMediaInsightsPipelineConfigurationRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateMediaInsightsPipelineConfigurationRequest>;
 export interface UpdateMediaInsightsPipelineStatusRequest {
   Identifier: string;
-  UpdateStatus: string;
+  UpdateStatus: MediaPipelineStatusUpdate;
 }
 export const UpdateMediaInsightsPipelineStatusRequest = S.suspend(() =>
   S.Struct({
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
-    UpdateStatus: S.String,
+    UpdateStatus: MediaPipelineStatusUpdate,
   }).pipe(
     T.all(
       T.Http({
@@ -964,6 +1043,20 @@ export const UpdateMediaInsightsPipelineStatusResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateMediaInsightsPipelineStatusResponse",
 }) as any as S.Schema<UpdateMediaInsightsPipelineStatusResponse>;
+export type ConcatenationSourceType = "MediaCapturePipeline";
+export const ConcatenationSourceType = S.Literal("MediaCapturePipeline");
+export type ConcatenationSinkType = "S3Bucket";
+export const ConcatenationSinkType = S.Literal("S3Bucket");
+export type MediaEncoding = "pcm";
+export const MediaEncoding = S.Literal("pcm");
+export type LiveConnectorSourceType = "ChimeSdkMeeting";
+export const LiveConnectorSourceType = S.Literal("ChimeSdkMeeting");
+export type LiveConnectorSinkType = "RTMP";
+export const LiveConnectorSinkType = S.Literal("RTMP");
+export type MediaStreamPipelineSinkType = "KinesisVideoStreamPool";
+export const MediaStreamPipelineSinkType = S.Literal("KinesisVideoStreamPool");
+export type MediaStreamType = "MixedAudio" | "IndividualAudio";
+export const MediaStreamType = S.Literal("MixedAudio", "IndividualAudio");
 export interface SseAwsKeyManagementParams {
   AwsKmsKeyId: string;
   AwsKmsEncryptionContext?: string;
@@ -982,11 +1075,14 @@ export const MediaInsightsRuntimeMetadata = S.Record({
   value: S.String,
 });
 export interface S3RecordingSinkRuntimeConfiguration {
-  Destination: string | Redacted.Redacted<string>;
-  RecordingFileFormat: string;
+  Destination: string | redacted.Redacted<string>;
+  RecordingFileFormat: RecordingFileFormat;
 }
 export const S3RecordingSinkRuntimeConfiguration = S.suspend(() =>
-  S.Struct({ Destination: SensitiveString, RecordingFileFormat: S.String }),
+  S.Struct({
+    Destination: SensitiveString,
+    RecordingFileFormat: RecordingFileFormat,
+  }),
 ).annotations({
   identifier: "S3RecordingSinkRuntimeConfiguration",
 }) as any as S.Schema<S3RecordingSinkRuntimeConfiguration>;
@@ -1000,34 +1096,51 @@ export const KinesisVideoStreamConfiguration = S.suspend(() =>
   identifier: "KinesisVideoStreamConfiguration",
 }) as any as S.Schema<KinesisVideoStreamConfiguration>;
 export interface MediaStreamSource {
-  SourceType: string;
-  SourceArn: string | Redacted.Redacted<string>;
+  SourceType: MediaPipelineSourceType;
+  SourceArn: string | redacted.Redacted<string>;
 }
 export const MediaStreamSource = S.suspend(() =>
-  S.Struct({ SourceType: S.String, SourceArn: SensitiveString }),
+  S.Struct({ SourceType: MediaPipelineSourceType, SourceArn: SensitiveString }),
 ).annotations({
   identifier: "MediaStreamSource",
 }) as any as S.Schema<MediaStreamSource>;
 export type MediaStreamSourceList = MediaStreamSource[];
 export const MediaStreamSourceList = S.Array(MediaStreamSource);
 export interface MediaStreamSink {
-  SinkArn: string | Redacted.Redacted<string>;
-  SinkType: string;
+  SinkArn: string | redacted.Redacted<string>;
+  SinkType: MediaStreamPipelineSinkType;
   ReservedStreamCapacity: number;
-  MediaStreamType: string;
+  MediaStreamType: MediaStreamType;
 }
 export const MediaStreamSink = S.suspend(() =>
   S.Struct({
     SinkArn: SensitiveString,
-    SinkType: S.String,
+    SinkType: MediaStreamPipelineSinkType,
     ReservedStreamCapacity: S.Number,
-    MediaStreamType: S.String,
+    MediaStreamType: MediaStreamType,
   }),
 ).annotations({
   identifier: "MediaStreamSink",
 }) as any as S.Schema<MediaStreamSink>;
 export type MediaStreamSinkList = MediaStreamSink[];
 export const MediaStreamSinkList = S.Array(MediaStreamSink);
+export type ErrorCode =
+  | "BadRequest"
+  | "Forbidden"
+  | "NotFound"
+  | "ResourceLimitExceeded"
+  | "ServiceFailure"
+  | "ServiceUnavailable"
+  | "Throttling";
+export const ErrorCode = S.Literal(
+  "BadRequest",
+  "Forbidden",
+  "NotFound",
+  "ResourceLimitExceeded",
+  "ServiceFailure",
+  "ServiceUnavailable",
+  "Throttling",
+);
 export interface KinesisVideoStreamConfigurationUpdate {
   DataRetentionInHours?: number;
 }
@@ -1036,11 +1149,25 @@ export const KinesisVideoStreamConfigurationUpdate = S.suspend(() =>
 ).annotations({
   identifier: "KinesisVideoStreamConfigurationUpdate",
 }) as any as S.Schema<KinesisVideoStreamConfigurationUpdate>;
+export type FragmentSelectorType = "ProducerTimestamp" | "ServerTimestamp";
+export const FragmentSelectorType = S.Literal(
+  "ProducerTimestamp",
+  "ServerTimestamp",
+);
+export type LiveConnectorMuxType =
+  | "AudioWithCompositedVideo"
+  | "AudioWithActiveSpeakerVideo";
+export const LiveConnectorMuxType = S.Literal(
+  "AudioWithCompositedVideo",
+  "AudioWithActiveSpeakerVideo",
+);
+export type AudioChannelsOption = "Stereo" | "Mono";
+export const AudioChannelsOption = S.Literal("Stereo", "Mono");
 export interface CreateMediaPipelineKinesisVideoStreamPoolRequest {
   StreamConfiguration: KinesisVideoStreamConfiguration;
   PoolName: string;
-  ClientRequestToken?: string | Redacted.Redacted<string>;
-  Tags?: TagList;
+  ClientRequestToken?: string | redacted.Redacted<string>;
+  Tags?: Tag[];
 }
 export const CreateMediaPipelineKinesisVideoStreamPoolRequest = S.suspend(() =>
   S.Struct({
@@ -1065,10 +1192,10 @@ export const CreateMediaPipelineKinesisVideoStreamPoolRequest = S.suspend(() =>
   identifier: "CreateMediaPipelineKinesisVideoStreamPoolRequest",
 }) as any as S.Schema<CreateMediaPipelineKinesisVideoStreamPoolRequest>;
 export interface CreateMediaStreamPipelineRequest {
-  Sources: MediaStreamSourceList;
-  Sinks: MediaStreamSinkList;
-  ClientRequestToken?: string | Redacted.Redacted<string>;
-  Tags?: TagList;
+  Sources: MediaStreamSource[];
+  Sinks: MediaStreamSink[];
+  ClientRequestToken?: string | redacted.Redacted<string>;
+  Tags?: Tag[];
 }
 export const CreateMediaStreamPipelineRequest = S.suspend(() =>
   S.Struct({
@@ -1090,7 +1217,7 @@ export const CreateMediaStreamPipelineRequest = S.suspend(() =>
   identifier: "CreateMediaStreamPipelineRequest",
 }) as any as S.Schema<CreateMediaStreamPipelineRequest>;
 export interface ListTagsForResourceResponse {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }),
@@ -1099,9 +1226,9 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface StartSpeakerSearchTaskRequest {
   Identifier: string;
-  VoiceProfileDomainArn: string | Redacted.Redacted<string>;
+  VoiceProfileDomainArn: string | redacted.Redacted<string>;
   KinesisVideoStreamSourceTaskConfiguration?: KinesisVideoStreamSourceTaskConfiguration;
-  ClientRequestToken?: string | Redacted.Redacted<string>;
+  ClientRequestToken?: string | redacted.Redacted<string>;
 }
 export const StartSpeakerSearchTaskRequest = S.suspend(() =>
   S.Struct({
@@ -1127,16 +1254,31 @@ export const StartSpeakerSearchTaskRequest = S.suspend(() =>
 ).annotations({
   identifier: "StartSpeakerSearchTaskRequest",
 }) as any as S.Schema<StartSpeakerSearchTaskRequest>;
+export type MediaPipelineTaskStatus =
+  | "NotStarted"
+  | "Initializing"
+  | "InProgress"
+  | "Failed"
+  | "Stopping"
+  | "Stopped";
+export const MediaPipelineTaskStatus = S.Literal(
+  "NotStarted",
+  "Initializing",
+  "InProgress",
+  "Failed",
+  "Stopping",
+  "Stopped",
+);
 export interface VoiceToneAnalysisTask {
   VoiceToneAnalysisTaskId?: string;
-  VoiceToneAnalysisTaskStatus?: string;
+  VoiceToneAnalysisTaskStatus?: MediaPipelineTaskStatus;
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
 }
 export const VoiceToneAnalysisTask = S.suspend(() =>
   S.Struct({
     VoiceToneAnalysisTaskId: S.optional(S.String),
-    VoiceToneAnalysisTaskStatus: S.optional(S.String),
+    VoiceToneAnalysisTaskStatus: S.optional(MediaPipelineTaskStatus),
     CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
@@ -1153,10 +1295,10 @@ export const StartVoiceToneAnalysisTaskResponse = S.suspend(() =>
 }) as any as S.Schema<StartVoiceToneAnalysisTaskResponse>;
 export interface MediaInsightsPipelineConfiguration {
   MediaInsightsPipelineConfigurationName?: string;
-  MediaInsightsPipelineConfigurationArn?: string | Redacted.Redacted<string>;
-  ResourceAccessRoleArn?: string | Redacted.Redacted<string>;
+  MediaInsightsPipelineConfigurationArn?: string | redacted.Redacted<string>;
+  ResourceAccessRoleArn?: string | redacted.Redacted<string>;
   RealTimeAlertConfiguration?: RealTimeAlertConfiguration;
-  Elements?: MediaInsightsPipelineConfigurationElements;
+  Elements?: MediaInsightsPipelineConfigurationElement[];
   MediaInsightsPipelineConfigurationId?: string;
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
@@ -1212,7 +1354,7 @@ export const UpdateMediaPipelineKinesisVideoStreamPoolRequest = S.suspend(() =>
   identifier: "UpdateMediaPipelineKinesisVideoStreamPoolRequest",
 }) as any as S.Schema<UpdateMediaPipelineKinesisVideoStreamPoolRequest>;
 export interface S3BucketSinkConfiguration {
-  Destination: string | Redacted.Redacted<string>;
+  Destination: string | redacted.Redacted<string>;
 }
 export const S3BucketSinkConfiguration = S.suspend(() =>
   S.Struct({ Destination: SensitiveString }),
@@ -1229,101 +1371,176 @@ export const RecordingStreamConfiguration = S.suspend(() =>
 }) as any as S.Schema<RecordingStreamConfiguration>;
 export type RecordingStreamList = RecordingStreamConfiguration[];
 export const RecordingStreamList = S.Array(RecordingStreamConfiguration);
+export type LayoutOption = "GridView";
+export const LayoutOption = S.Literal("GridView");
+export type ResolutionOption = "HD" | "FHD";
+export const ResolutionOption = S.Literal("HD", "FHD");
+export type ContentShareLayoutOption =
+  | "PresenterOnly"
+  | "Horizontal"
+  | "Vertical"
+  | "ActiveSpeakerOnly";
+export const ContentShareLayoutOption = S.Literal(
+  "PresenterOnly",
+  "Horizontal",
+  "Vertical",
+  "ActiveSpeakerOnly",
+);
+export type PresenterPosition =
+  | "TopLeft"
+  | "TopRight"
+  | "BottomLeft"
+  | "BottomRight";
+export const PresenterPosition = S.Literal(
+  "TopLeft",
+  "TopRight",
+  "BottomLeft",
+  "BottomRight",
+);
 export interface PresenterOnlyConfiguration {
-  PresenterPosition?: string;
+  PresenterPosition?: PresenterPosition;
 }
 export const PresenterOnlyConfiguration = S.suspend(() =>
-  S.Struct({ PresenterPosition: S.optional(S.String) }),
+  S.Struct({ PresenterPosition: S.optional(PresenterPosition) }),
 ).annotations({
   identifier: "PresenterOnlyConfiguration",
 }) as any as S.Schema<PresenterOnlyConfiguration>;
+export type ActiveSpeakerPosition =
+  | "TopLeft"
+  | "TopRight"
+  | "BottomLeft"
+  | "BottomRight";
+export const ActiveSpeakerPosition = S.Literal(
+  "TopLeft",
+  "TopRight",
+  "BottomLeft",
+  "BottomRight",
+);
 export interface ActiveSpeakerOnlyConfiguration {
-  ActiveSpeakerPosition?: string;
+  ActiveSpeakerPosition?: ActiveSpeakerPosition;
 }
 export const ActiveSpeakerOnlyConfiguration = S.suspend(() =>
-  S.Struct({ ActiveSpeakerPosition: S.optional(S.String) }),
+  S.Struct({ ActiveSpeakerPosition: S.optional(ActiveSpeakerPosition) }),
 ).annotations({
   identifier: "ActiveSpeakerOnlyConfiguration",
 }) as any as S.Schema<ActiveSpeakerOnlyConfiguration>;
+export type TileOrder = "JoinSequence" | "SpeakerSequence";
+export const TileOrder = S.Literal("JoinSequence", "SpeakerSequence");
+export type HorizontalTilePosition = "Top" | "Bottom";
+export const HorizontalTilePosition = S.Literal("Top", "Bottom");
 export interface HorizontalLayoutConfiguration {
-  TileOrder?: string;
-  TilePosition?: string;
+  TileOrder?: TileOrder;
+  TilePosition?: HorizontalTilePosition;
   TileCount?: number;
   TileAspectRatio?: string;
 }
 export const HorizontalLayoutConfiguration = S.suspend(() =>
   S.Struct({
-    TileOrder: S.optional(S.String),
-    TilePosition: S.optional(S.String),
+    TileOrder: S.optional(TileOrder),
+    TilePosition: S.optional(HorizontalTilePosition),
     TileCount: S.optional(S.Number),
     TileAspectRatio: S.optional(S.String),
   }),
 ).annotations({
   identifier: "HorizontalLayoutConfiguration",
 }) as any as S.Schema<HorizontalLayoutConfiguration>;
+export type VerticalTilePosition = "Left" | "Right";
+export const VerticalTilePosition = S.Literal("Left", "Right");
 export interface VerticalLayoutConfiguration {
-  TileOrder?: string;
-  TilePosition?: string;
+  TileOrder?: TileOrder;
+  TilePosition?: VerticalTilePosition;
   TileCount?: number;
   TileAspectRatio?: string;
 }
 export const VerticalLayoutConfiguration = S.suspend(() =>
   S.Struct({
-    TileOrder: S.optional(S.String),
-    TilePosition: S.optional(S.String),
+    TileOrder: S.optional(TileOrder),
+    TilePosition: S.optional(VerticalTilePosition),
     TileCount: S.optional(S.Number),
     TileAspectRatio: S.optional(S.String),
   }),
 ).annotations({
   identifier: "VerticalLayoutConfiguration",
 }) as any as S.Schema<VerticalLayoutConfiguration>;
+export type BorderColor =
+  | "Black"
+  | "Blue"
+  | "Red"
+  | "Green"
+  | "White"
+  | "Yellow";
+export const BorderColor = S.Literal(
+  "Black",
+  "Blue",
+  "Red",
+  "Green",
+  "White",
+  "Yellow",
+);
+export type HighlightColor =
+  | "Black"
+  | "Blue"
+  | "Red"
+  | "Green"
+  | "White"
+  | "Yellow";
+export const HighlightColor = S.Literal(
+  "Black",
+  "Blue",
+  "Red",
+  "Green",
+  "White",
+  "Yellow",
+);
 export interface VideoAttribute {
   CornerRadius?: number;
-  BorderColor?: string;
-  HighlightColor?: string;
+  BorderColor?: BorderColor;
+  HighlightColor?: HighlightColor;
   BorderThickness?: number;
 }
 export const VideoAttribute = S.suspend(() =>
   S.Struct({
     CornerRadius: S.optional(S.Number),
-    BorderColor: S.optional(S.String),
-    HighlightColor: S.optional(S.String),
+    BorderColor: S.optional(BorderColor),
+    HighlightColor: S.optional(HighlightColor),
     BorderThickness: S.optional(S.Number),
   }),
 ).annotations({
   identifier: "VideoAttribute",
 }) as any as S.Schema<VideoAttribute>;
+export type CanvasOrientation = "Landscape" | "Portrait";
+export const CanvasOrientation = S.Literal("Landscape", "Portrait");
 export interface GridViewConfiguration {
-  ContentShareLayout: string;
+  ContentShareLayout: ContentShareLayoutOption;
   PresenterOnlyConfiguration?: PresenterOnlyConfiguration;
   ActiveSpeakerOnlyConfiguration?: ActiveSpeakerOnlyConfiguration;
   HorizontalLayoutConfiguration?: HorizontalLayoutConfiguration;
   VerticalLayoutConfiguration?: VerticalLayoutConfiguration;
   VideoAttribute?: VideoAttribute;
-  CanvasOrientation?: string;
+  CanvasOrientation?: CanvasOrientation;
 }
 export const GridViewConfiguration = S.suspend(() =>
   S.Struct({
-    ContentShareLayout: S.String,
+    ContentShareLayout: ContentShareLayoutOption,
     PresenterOnlyConfiguration: S.optional(PresenterOnlyConfiguration),
     ActiveSpeakerOnlyConfiguration: S.optional(ActiveSpeakerOnlyConfiguration),
     HorizontalLayoutConfiguration: S.optional(HorizontalLayoutConfiguration),
     VerticalLayoutConfiguration: S.optional(VerticalLayoutConfiguration),
     VideoAttribute: S.optional(VideoAttribute),
-    CanvasOrientation: S.optional(S.String),
+    CanvasOrientation: S.optional(CanvasOrientation),
   }),
 ).annotations({
   identifier: "GridViewConfiguration",
 }) as any as S.Schema<GridViewConfiguration>;
 export interface CompositedVideoArtifactsConfiguration {
-  Layout?: string;
-  Resolution?: string;
+  Layout?: LayoutOption;
+  Resolution?: ResolutionOption;
   GridViewConfiguration: GridViewConfiguration;
 }
 export const CompositedVideoArtifactsConfiguration = S.suspend(() =>
   S.Struct({
-    Layout: S.optional(S.String),
-    Resolution: S.optional(S.String),
+    Layout: S.optional(LayoutOption),
+    Resolution: S.optional(ResolutionOption),
     GridViewConfiguration: GridViewConfiguration,
   }),
 ).annotations({
@@ -1331,11 +1548,11 @@ export const CompositedVideoArtifactsConfiguration = S.suspend(() =>
 }) as any as S.Schema<CompositedVideoArtifactsConfiguration>;
 export type AttendeeIdList = string[];
 export const AttendeeIdList = S.Array(S.String);
-export type ExternalUserIdList = string | Redacted.Redacted<string>[];
+export type ExternalUserIdList = string | redacted.Redacted<string>[];
 export const ExternalUserIdList = S.Array(SensitiveString);
 export interface SelectedVideoStreams {
-  AttendeeIds?: AttendeeIdList;
-  ExternalUserIds?: ExternalUserIdList;
+  AttendeeIds?: string[];
+  ExternalUserIds?: string | redacted.Redacted<string>[];
 }
 export const SelectedVideoStreams = S.suspend(() =>
   S.Struct({
@@ -1354,15 +1571,15 @@ export const SourceConfiguration = S.suspend(() =>
   identifier: "SourceConfiguration",
 }) as any as S.Schema<SourceConfiguration>;
 export interface ChimeSdkMeetingLiveConnectorConfiguration {
-  Arn: string | Redacted.Redacted<string>;
-  MuxType: string;
+  Arn: string | redacted.Redacted<string>;
+  MuxType: LiveConnectorMuxType;
   CompositedVideo?: CompositedVideoArtifactsConfiguration;
   SourceConfiguration?: SourceConfiguration;
 }
 export const ChimeSdkMeetingLiveConnectorConfiguration = S.suspend(() =>
   S.Struct({
     Arn: SensitiveString,
-    MuxType: S.String,
+    MuxType: LiveConnectorMuxType,
     CompositedVideo: S.optional(CompositedVideoArtifactsConfiguration),
     SourceConfiguration: S.optional(SourceConfiguration),
   }),
@@ -1370,26 +1587,71 @@ export const ChimeSdkMeetingLiveConnectorConfiguration = S.suspend(() =>
   identifier: "ChimeSdkMeetingLiveConnectorConfiguration",
 }) as any as S.Schema<ChimeSdkMeetingLiveConnectorConfiguration>;
 export interface LiveConnectorRTMPConfiguration {
-  Url: string | Redacted.Redacted<string>;
-  AudioChannels?: string;
+  Url: string | redacted.Redacted<string>;
+  AudioChannels?: AudioChannelsOption;
   AudioSampleRate?: string;
 }
 export const LiveConnectorRTMPConfiguration = S.suspend(() =>
   S.Struct({
     Url: SensitiveString,
-    AudioChannels: S.optional(S.String),
+    AudioChannels: S.optional(AudioChannelsOption),
     AudioSampleRate: S.optional(S.String),
   }),
 ).annotations({
   identifier: "LiveConnectorRTMPConfiguration",
 }) as any as S.Schema<LiveConnectorRTMPConfiguration>;
+export type MediaPipelineStatus =
+  | "Initializing"
+  | "InProgress"
+  | "Failed"
+  | "Stopping"
+  | "Stopped"
+  | "Paused"
+  | "NotStarted";
+export const MediaPipelineStatus = S.Literal(
+  "Initializing",
+  "InProgress",
+  "Failed",
+  "Stopping",
+  "Stopped",
+  "Paused",
+  "NotStarted",
+);
+export type KinesisVideoStreamPoolStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "UPDATING"
+  | "DELETING"
+  | "FAILED";
+export const KinesisVideoStreamPoolStatus = S.Literal(
+  "CREATING",
+  "ACTIVE",
+  "UPDATING",
+  "DELETING",
+  "FAILED",
+);
+export type AudioMuxType =
+  | "AudioOnly"
+  | "AudioWithActiveSpeakerVideo"
+  | "AudioWithCompositedVideo";
+export const AudioMuxType = S.Literal(
+  "AudioOnly",
+  "AudioWithActiveSpeakerVideo",
+  "AudioWithCompositedVideo",
+);
+export type ArtifactsState = "Enabled" | "Disabled";
+export const ArtifactsState = S.Literal("Enabled", "Disabled");
+export type VideoMuxType = "VideoOnly";
+export const VideoMuxType = S.Literal("VideoOnly");
+export type ContentMuxType = "ContentOnly";
+export const ContentMuxType = S.Literal("ContentOnly");
 export interface ConcatenationSink {
-  Type: string;
+  Type: ConcatenationSinkType;
   S3BucketSinkConfiguration: S3BucketSinkConfiguration;
 }
 export const ConcatenationSink = S.suspend(() =>
   S.Struct({
-    Type: S.String,
+    Type: ConcatenationSinkType,
     S3BucketSinkConfiguration: S3BucketSinkConfiguration,
   }),
 ).annotations({
@@ -1398,12 +1660,12 @@ export const ConcatenationSink = S.suspend(() =>
 export type ConcatenationSinkList = ConcatenationSink[];
 export const ConcatenationSinkList = S.Array(ConcatenationSink);
 export interface LiveConnectorSourceConfiguration {
-  SourceType: string;
+  SourceType: LiveConnectorSourceType;
   ChimeSdkMeetingLiveConnectorConfiguration: ChimeSdkMeetingLiveConnectorConfiguration;
 }
 export const LiveConnectorSourceConfiguration = S.suspend(() =>
   S.Struct({
-    SourceType: S.String,
+    SourceType: LiveConnectorSourceType,
     ChimeSdkMeetingLiveConnectorConfiguration:
       ChimeSdkMeetingLiveConnectorConfiguration,
   }),
@@ -1415,12 +1677,12 @@ export const LiveConnectorSourceList = S.Array(
   LiveConnectorSourceConfiguration,
 );
 export interface LiveConnectorSinkConfiguration {
-  SinkType: string;
+  SinkType: LiveConnectorSinkType;
   RTMPConfiguration: LiveConnectorRTMPConfiguration;
 }
 export const LiveConnectorSinkConfiguration = S.suspend(() =>
   S.Struct({
-    SinkType: S.String,
+    SinkType: LiveConnectorSinkType,
     RTMPConfiguration: LiveConnectorRTMPConfiguration,
   }),
 ).annotations({
@@ -1429,28 +1691,28 @@ export const LiveConnectorSinkConfiguration = S.suspend(() =>
 export type LiveConnectorSinkList = LiveConnectorSinkConfiguration[];
 export const LiveConnectorSinkList = S.Array(LiveConnectorSinkConfiguration);
 export interface AudioArtifactsConfiguration {
-  MuxType: string;
+  MuxType: AudioMuxType;
 }
 export const AudioArtifactsConfiguration = S.suspend(() =>
-  S.Struct({ MuxType: S.String }),
+  S.Struct({ MuxType: AudioMuxType }),
 ).annotations({
   identifier: "AudioArtifactsConfiguration",
 }) as any as S.Schema<AudioArtifactsConfiguration>;
 export interface VideoArtifactsConfiguration {
-  State: string;
-  MuxType?: string;
+  State: ArtifactsState;
+  MuxType?: VideoMuxType;
 }
 export const VideoArtifactsConfiguration = S.suspend(() =>
-  S.Struct({ State: S.String, MuxType: S.optional(S.String) }),
+  S.Struct({ State: ArtifactsState, MuxType: S.optional(VideoMuxType) }),
 ).annotations({
   identifier: "VideoArtifactsConfiguration",
 }) as any as S.Schema<VideoArtifactsConfiguration>;
 export interface ContentArtifactsConfiguration {
-  State: string;
-  MuxType?: string;
+  State: ArtifactsState;
+  MuxType?: ContentMuxType;
 }
 export const ContentArtifactsConfiguration = S.suspend(() =>
-  S.Struct({ State: S.String, MuxType: S.optional(S.String) }),
+  S.Struct({ State: ArtifactsState, MuxType: S.optional(ContentMuxType) }),
 ).annotations({
   identifier: "ContentArtifactsConfiguration",
 }) as any as S.Schema<ContentArtifactsConfiguration>;
@@ -1485,25 +1747,25 @@ export const ChimeSdkMeetingConfiguration = S.suspend(() =>
 export interface MediaCapturePipeline {
   MediaPipelineId?: string;
   MediaPipelineArn?: string;
-  SourceType?: string;
-  SourceArn?: string | Redacted.Redacted<string>;
-  Status?: string;
-  SinkType?: string;
-  SinkArn?: string | Redacted.Redacted<string>;
+  SourceType?: MediaPipelineSourceType;
+  SourceArn?: string | redacted.Redacted<string>;
+  Status?: MediaPipelineStatus;
+  SinkType?: MediaPipelineSinkType;
+  SinkArn?: string | redacted.Redacted<string>;
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
   ChimeSdkMeetingConfiguration?: ChimeSdkMeetingConfiguration;
   SseAwsKeyManagementParams?: SseAwsKeyManagementParams;
-  SinkIamRoleArn?: string | Redacted.Redacted<string>;
+  SinkIamRoleArn?: string | redacted.Redacted<string>;
 }
 export const MediaCapturePipeline = S.suspend(() =>
   S.Struct({
     MediaPipelineId: S.optional(S.String),
     MediaPipelineArn: S.optional(S.String),
-    SourceType: S.optional(S.String),
+    SourceType: S.optional(MediaPipelineSourceType),
     SourceArn: S.optional(SensitiveString),
-    Status: S.optional(S.String),
-    SinkType: S.optional(S.String),
+    Status: S.optional(MediaPipelineStatus),
+    SinkType: S.optional(MediaPipelineSinkType),
     SinkArn: S.optional(SensitiveString),
     CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -1515,10 +1777,10 @@ export const MediaCapturePipeline = S.suspend(() =>
   identifier: "MediaCapturePipeline",
 }) as any as S.Schema<MediaCapturePipeline>;
 export interface KinesisVideoStreamPoolConfiguration {
-  PoolArn?: string | Redacted.Redacted<string>;
+  PoolArn?: string | redacted.Redacted<string>;
   PoolName?: string;
   PoolId?: string;
-  PoolStatus?: string;
+  PoolStatus?: KinesisVideoStreamPoolStatus;
   PoolSize?: number;
   StreamConfiguration?: KinesisVideoStreamConfiguration;
   CreatedTimestamp?: Date;
@@ -1529,7 +1791,7 @@ export const KinesisVideoStreamPoolConfiguration = S.suspend(() =>
     PoolArn: S.optional(SensitiveString),
     PoolName: S.optional(S.String),
     PoolId: S.optional(S.String),
-    PoolStatus: S.optional(S.String),
+    PoolStatus: S.optional(KinesisVideoStreamPoolStatus),
     PoolSize: S.optional(S.Number),
     StreamConfiguration: S.optional(KinesisVideoStreamConfiguration),
     CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -1540,14 +1802,14 @@ export const KinesisVideoStreamPoolConfiguration = S.suspend(() =>
 }) as any as S.Schema<KinesisVideoStreamPoolConfiguration>;
 export interface SpeakerSearchTask {
   SpeakerSearchTaskId?: string;
-  SpeakerSearchTaskStatus?: string;
+  SpeakerSearchTaskStatus?: MediaPipelineTaskStatus;
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
 }
 export const SpeakerSearchTask = S.suspend(() =>
   S.Struct({
     SpeakerSearchTaskId: S.optional(S.String),
-    SpeakerSearchTaskStatus: S.optional(S.String),
+    SpeakerSearchTaskStatus: S.optional(MediaPipelineTaskStatus),
     CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
@@ -1573,7 +1835,7 @@ export const MediaCapturePipelineSummaryList = S.Array(
 export interface MediaInsightsPipelineConfigurationSummary {
   MediaInsightsPipelineConfigurationName?: string;
   MediaInsightsPipelineConfigurationId?: string;
-  MediaInsightsPipelineConfigurationArn?: string | Redacted.Redacted<string>;
+  MediaInsightsPipelineConfigurationArn?: string | redacted.Redacted<string>;
 }
 export const MediaInsightsPipelineConfigurationSummary = S.suspend(() =>
   S.Struct({
@@ -1592,7 +1854,7 @@ export const MediaInsightsPipelineConfigurationSummaryList = S.Array(
 export interface KinesisVideoStreamPoolSummary {
   PoolName?: string;
   PoolId?: string;
-  PoolArn?: string | Redacted.Redacted<string>;
+  PoolArn?: string | redacted.Redacted<string>;
 }
 export const KinesisVideoStreamPoolSummary = S.suspend(() =>
   S.Struct({
@@ -1633,11 +1895,13 @@ export const TimestampRange = S.suspend(() =>
 ).annotations({
   identifier: "TimestampRange",
 }) as any as S.Schema<TimestampRange>;
+export type ParticipantRole = "AGENT" | "CUSTOMER";
+export const ParticipantRole = S.Literal("AGENT", "CUSTOMER");
 export interface CreateMediaLiveConnectorPipelineRequest {
-  Sources: LiveConnectorSourceList;
-  Sinks: LiveConnectorSinkList;
-  ClientRequestToken?: string | Redacted.Redacted<string>;
-  Tags?: TagList;
+  Sources: LiveConnectorSourceConfiguration[];
+  Sinks: LiveConnectorSinkConfiguration[];
+  ClientRequestToken?: string | redacted.Redacted<string>;
+  Tags?: Tag[];
 }
 export const CreateMediaLiveConnectorPipelineRequest = S.suspend(() =>
   S.Struct({
@@ -1675,9 +1939,9 @@ export interface MediaStreamPipeline {
   MediaPipelineArn?: string;
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
-  Status?: string;
-  Sources?: MediaStreamSourceList;
-  Sinks?: MediaStreamSinkList;
+  Status?: MediaPipelineStatus;
+  Sources?: MediaStreamSource[];
+  Sinks?: MediaStreamSink[];
 }
 export const MediaStreamPipeline = S.suspend(() =>
   S.Struct({
@@ -1685,7 +1949,7 @@ export const MediaStreamPipeline = S.suspend(() =>
     MediaPipelineArn: S.optional(S.String),
     CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    Status: S.optional(S.String),
+    Status: S.optional(MediaPipelineStatus),
     Sources: S.optional(MediaStreamSourceList),
     Sinks: S.optional(MediaStreamSinkList),
   }),
@@ -1749,7 +2013,7 @@ export const GetVoiceToneAnalysisTaskResponse = S.suspend(() =>
   identifier: "GetVoiceToneAnalysisTaskResponse",
 }) as any as S.Schema<GetVoiceToneAnalysisTaskResponse>;
 export interface ListMediaCapturePipelinesResponse {
-  MediaCapturePipelines?: MediaCapturePipelineSummaryList;
+  MediaCapturePipelines?: MediaCapturePipelineSummary[];
   NextToken?: string;
 }
 export const ListMediaCapturePipelinesResponse = S.suspend(() =>
@@ -1761,7 +2025,7 @@ export const ListMediaCapturePipelinesResponse = S.suspend(() =>
   identifier: "ListMediaCapturePipelinesResponse",
 }) as any as S.Schema<ListMediaCapturePipelinesResponse>;
 export interface ListMediaInsightsPipelineConfigurationsResponse {
-  MediaInsightsPipelineConfigurations?: MediaInsightsPipelineConfigurationSummaryList;
+  MediaInsightsPipelineConfigurations?: MediaInsightsPipelineConfigurationSummary[];
   NextToken?: string;
 }
 export const ListMediaInsightsPipelineConfigurationsResponse = S.suspend(() =>
@@ -1775,7 +2039,7 @@ export const ListMediaInsightsPipelineConfigurationsResponse = S.suspend(() =>
   identifier: "ListMediaInsightsPipelineConfigurationsResponse",
 }) as any as S.Schema<ListMediaInsightsPipelineConfigurationsResponse>;
 export interface ListMediaPipelineKinesisVideoStreamPoolsResponse {
-  KinesisVideoStreamPools?: KinesisVideoStreamPoolSummaryList;
+  KinesisVideoStreamPools?: KinesisVideoStreamPoolSummary[];
   NextToken?: string;
 }
 export const ListMediaPipelineKinesisVideoStreamPoolsResponse = S.suspend(() =>
@@ -1787,7 +2051,7 @@ export const ListMediaPipelineKinesisVideoStreamPoolsResponse = S.suspend(() =>
   identifier: "ListMediaPipelineKinesisVideoStreamPoolsResponse",
 }) as any as S.Schema<ListMediaPipelineKinesisVideoStreamPoolsResponse>;
 export interface ListMediaPipelinesResponse {
-  MediaPipelines?: MediaPipelineList;
+  MediaPipelines?: MediaPipelineSummary[];
   NextToken?: string;
 }
 export const ListMediaPipelinesResponse = S.suspend(() =>
@@ -1819,20 +2083,23 @@ export const UpdateMediaPipelineKinesisVideoStreamPoolResponse = S.suspend(() =>
   identifier: "UpdateMediaPipelineKinesisVideoStreamPoolResponse",
 }) as any as S.Schema<UpdateMediaPipelineKinesisVideoStreamPoolResponse>;
 export interface FragmentSelector {
-  FragmentSelectorType: string;
+  FragmentSelectorType: FragmentSelectorType;
   TimestampRange: TimestampRange;
 }
 export const FragmentSelector = S.suspend(() =>
-  S.Struct({ FragmentSelectorType: S.String, TimestampRange: TimestampRange }),
+  S.Struct({
+    FragmentSelectorType: FragmentSelectorType,
+    TimestampRange: TimestampRange,
+  }),
 ).annotations({
   identifier: "FragmentSelector",
 }) as any as S.Schema<FragmentSelector>;
 export interface MediaLiveConnectorPipeline {
-  Sources?: LiveConnectorSourceList;
-  Sinks?: LiveConnectorSinkList;
+  Sources?: LiveConnectorSourceConfiguration[];
+  Sinks?: LiveConnectorSinkConfiguration[];
   MediaPipelineId?: string;
   MediaPipelineArn?: string;
-  Status?: string;
+  Status?: MediaPipelineStatus;
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
 }
@@ -1842,66 +2109,70 @@ export const MediaLiveConnectorPipeline = S.suspend(() =>
     Sinks: S.optional(LiveConnectorSinkList),
     MediaPipelineId: S.optional(S.String),
     MediaPipelineArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(MediaPipelineStatus),
     CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotations({
   identifier: "MediaLiveConnectorPipeline",
 }) as any as S.Schema<MediaLiveConnectorPipeline>;
+export type AudioArtifactsConcatenationState = "Enabled";
+export const AudioArtifactsConcatenationState = S.Literal("Enabled");
 export interface AudioConcatenationConfiguration {
-  State: string;
+  State: AudioArtifactsConcatenationState;
 }
 export const AudioConcatenationConfiguration = S.suspend(() =>
-  S.Struct({ State: S.String }),
+  S.Struct({ State: AudioArtifactsConcatenationState }),
 ).annotations({
   identifier: "AudioConcatenationConfiguration",
 }) as any as S.Schema<AudioConcatenationConfiguration>;
+export type ArtifactsConcatenationState = "Enabled" | "Disabled";
+export const ArtifactsConcatenationState = S.Literal("Enabled", "Disabled");
 export interface VideoConcatenationConfiguration {
-  State: string;
+  State: ArtifactsConcatenationState;
 }
 export const VideoConcatenationConfiguration = S.suspend(() =>
-  S.Struct({ State: S.String }),
+  S.Struct({ State: ArtifactsConcatenationState }),
 ).annotations({
   identifier: "VideoConcatenationConfiguration",
 }) as any as S.Schema<VideoConcatenationConfiguration>;
 export interface ContentConcatenationConfiguration {
-  State: string;
+  State: ArtifactsConcatenationState;
 }
 export const ContentConcatenationConfiguration = S.suspend(() =>
-  S.Struct({ State: S.String }),
+  S.Struct({ State: ArtifactsConcatenationState }),
 ).annotations({
   identifier: "ContentConcatenationConfiguration",
 }) as any as S.Schema<ContentConcatenationConfiguration>;
 export interface DataChannelConcatenationConfiguration {
-  State: string;
+  State: ArtifactsConcatenationState;
 }
 export const DataChannelConcatenationConfiguration = S.suspend(() =>
-  S.Struct({ State: S.String }),
+  S.Struct({ State: ArtifactsConcatenationState }),
 ).annotations({
   identifier: "DataChannelConcatenationConfiguration",
 }) as any as S.Schema<DataChannelConcatenationConfiguration>;
 export interface TranscriptionMessagesConcatenationConfiguration {
-  State: string;
+  State: ArtifactsConcatenationState;
 }
 export const TranscriptionMessagesConcatenationConfiguration = S.suspend(() =>
-  S.Struct({ State: S.String }),
+  S.Struct({ State: ArtifactsConcatenationState }),
 ).annotations({
   identifier: "TranscriptionMessagesConcatenationConfiguration",
 }) as any as S.Schema<TranscriptionMessagesConcatenationConfiguration>;
 export interface MeetingEventsConcatenationConfiguration {
-  State: string;
+  State: ArtifactsConcatenationState;
 }
 export const MeetingEventsConcatenationConfiguration = S.suspend(() =>
-  S.Struct({ State: S.String }),
+  S.Struct({ State: ArtifactsConcatenationState }),
 ).annotations({
   identifier: "MeetingEventsConcatenationConfiguration",
 }) as any as S.Schema<MeetingEventsConcatenationConfiguration>;
 export interface CompositedVideoConcatenationConfiguration {
-  State: string;
+  State: ArtifactsConcatenationState;
 }
 export const CompositedVideoConcatenationConfiguration = S.suspend(() =>
-  S.Struct({ State: S.String }),
+  S.Struct({ State: ArtifactsConcatenationState }),
 ).annotations({
   identifier: "CompositedVideoConcatenationConfiguration",
 }) as any as S.Schema<CompositedVideoConcatenationConfiguration>;
@@ -1936,7 +2207,7 @@ export const ChimeSdkMeetingConcatenationConfiguration = S.suspend(() =>
   identifier: "ChimeSdkMeetingConcatenationConfiguration",
 }) as any as S.Schema<ChimeSdkMeetingConcatenationConfiguration>;
 export interface MediaCapturePipelineSourceConfiguration {
-  MediaPipelineArn: string | Redacted.Redacted<string>;
+  MediaPipelineArn: string | redacted.Redacted<string>;
   ChimeSdkMeetingConfiguration: ChimeSdkMeetingConcatenationConfiguration;
 }
 export const MediaCapturePipelineSourceConfiguration = S.suspend(() =>
@@ -1948,12 +2219,12 @@ export const MediaCapturePipelineSourceConfiguration = S.suspend(() =>
   identifier: "MediaCapturePipelineSourceConfiguration",
 }) as any as S.Schema<MediaCapturePipelineSourceConfiguration>;
 export interface ConcatenationSource {
-  Type: string;
+  Type: ConcatenationSourceType;
   MediaCapturePipelineSourceConfiguration: MediaCapturePipelineSourceConfiguration;
 }
 export const ConcatenationSource = S.suspend(() =>
   S.Struct({
-    Type: S.String,
+    Type: ConcatenationSourceType,
     MediaCapturePipelineSourceConfiguration:
       MediaCapturePipelineSourceConfiguration,
   }),
@@ -1965,9 +2236,9 @@ export const ConcatenationSourceList = S.Array(ConcatenationSource);
 export interface MediaConcatenationPipeline {
   MediaPipelineId?: string;
   MediaPipelineArn?: string;
-  Sources?: ConcatenationSourceList;
-  Sinks?: ConcatenationSinkList;
-  Status?: string;
+  Sources?: ConcatenationSource[];
+  Sinks?: ConcatenationSink[];
+  Status?: MediaPipelineStatus;
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
 }
@@ -1977,7 +2248,7 @@ export const MediaConcatenationPipeline = S.suspend(() =>
     MediaPipelineArn: S.optional(S.String),
     Sources: S.optional(ConcatenationSourceList),
     Sinks: S.optional(ConcatenationSinkList),
-    Status: S.optional(S.String),
+    Status: S.optional(MediaPipelineStatus),
     CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
@@ -1986,17 +2257,39 @@ export const MediaConcatenationPipeline = S.suspend(() =>
 }) as any as S.Schema<MediaConcatenationPipeline>;
 export interface ChannelDefinition {
   ChannelId: number;
-  ParticipantRole?: string;
+  ParticipantRole?: ParticipantRole;
 }
 export const ChannelDefinition = S.suspend(() =>
-  S.Struct({ ChannelId: S.Number, ParticipantRole: S.optional(S.String) }),
+  S.Struct({
+    ChannelId: S.Number,
+    ParticipantRole: S.optional(ParticipantRole),
+  }),
 ).annotations({
   identifier: "ChannelDefinition",
 }) as any as S.Schema<ChannelDefinition>;
 export type ChannelDefinitions = ChannelDefinition[];
 export const ChannelDefinitions = S.Array(ChannelDefinition);
+export type MediaPipelineElementStatus =
+  | "NotStarted"
+  | "NotSupported"
+  | "Initializing"
+  | "InProgress"
+  | "Failed"
+  | "Stopping"
+  | "Stopped"
+  | "Paused";
+export const MediaPipelineElementStatus = S.Literal(
+  "NotStarted",
+  "NotSupported",
+  "Initializing",
+  "InProgress",
+  "Failed",
+  "Stopping",
+  "Stopped",
+  "Paused",
+);
 export interface KinesisVideoStreamRecordingSourceRuntimeConfiguration {
-  Streams: RecordingStreamList;
+  Streams: RecordingStreamConfiguration[];
   FragmentSelector: FragmentSelector;
 }
 export const KinesisVideoStreamRecordingSourceRuntimeConfiguration = S.suspend(
@@ -2010,7 +2303,7 @@ export const KinesisVideoStreamRecordingSourceRuntimeConfiguration = S.suspend(
 }) as any as S.Schema<KinesisVideoStreamRecordingSourceRuntimeConfiguration>;
 export interface StreamChannelDefinition {
   NumberOfChannels: number;
-  ChannelDefinitions?: ChannelDefinitions;
+  ChannelDefinitions?: ChannelDefinition[];
 }
 export const StreamChannelDefinition = S.suspend(() =>
   S.Struct({
@@ -2021,11 +2314,14 @@ export const StreamChannelDefinition = S.suspend(() =>
   identifier: "StreamChannelDefinition",
 }) as any as S.Schema<StreamChannelDefinition>;
 export interface MediaInsightsPipelineElementStatus {
-  Type?: string;
-  Status?: string;
+  Type?: MediaInsightsPipelineConfigurationElementType;
+  Status?: MediaPipelineElementStatus;
 }
 export const MediaInsightsPipelineElementStatus = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String), Status: S.optional(S.String) }),
+  S.Struct({
+    Type: S.optional(MediaInsightsPipelineConfigurationElementType),
+    Status: S.optional(MediaPipelineElementStatus),
+  }),
 ).annotations({
   identifier: "MediaInsightsPipelineElementStatus",
 }) as any as S.Schema<MediaInsightsPipelineElementStatus>;
@@ -2036,11 +2332,11 @@ export const MediaInsightsPipelineElementStatuses = S.Array(
 );
 export interface CreateMediaInsightsPipelineConfigurationRequest {
   MediaInsightsPipelineConfigurationName: string;
-  ResourceAccessRoleArn: string | Redacted.Redacted<string>;
+  ResourceAccessRoleArn: string | redacted.Redacted<string>;
   RealTimeAlertConfiguration?: RealTimeAlertConfiguration;
-  Elements: MediaInsightsPipelineConfigurationElements;
-  Tags?: TagList;
-  ClientRequestToken?: string | Redacted.Redacted<string>;
+  Elements: MediaInsightsPipelineConfigurationElement[];
+  Tags?: Tag[];
+  ClientRequestToken?: string | redacted.Redacted<string>;
 }
 export const CreateMediaInsightsPipelineConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -2093,14 +2389,14 @@ export const StreamConfiguration = S.suspend(() =>
 export type Streams = StreamConfiguration[];
 export const Streams = S.Array(StreamConfiguration);
 export interface KinesisVideoStreamSourceRuntimeConfiguration {
-  Streams: Streams;
-  MediaEncoding: string;
+  Streams: StreamConfiguration[];
+  MediaEncoding: MediaEncoding;
   MediaSampleRate: number;
 }
 export const KinesisVideoStreamSourceRuntimeConfiguration = S.suspend(() =>
   S.Struct({
     Streams: Streams,
-    MediaEncoding: S.String,
+    MediaEncoding: MediaEncoding,
     MediaSampleRate: S.Number,
   }),
 ).annotations({
@@ -2108,22 +2404,22 @@ export const KinesisVideoStreamSourceRuntimeConfiguration = S.suspend(() =>
 }) as any as S.Schema<KinesisVideoStreamSourceRuntimeConfiguration>;
 export interface MediaInsightsPipeline {
   MediaPipelineId?: string;
-  MediaPipelineArn?: string | Redacted.Redacted<string>;
-  MediaInsightsPipelineConfigurationArn?: string | Redacted.Redacted<string>;
-  Status?: string;
+  MediaPipelineArn?: string | redacted.Redacted<string>;
+  MediaInsightsPipelineConfigurationArn?: string | redacted.Redacted<string>;
+  Status?: MediaPipelineStatus;
   KinesisVideoStreamSourceRuntimeConfiguration?: KinesisVideoStreamSourceRuntimeConfiguration;
-  MediaInsightsRuntimeMetadata?: MediaInsightsRuntimeMetadata;
+  MediaInsightsRuntimeMetadata?: { [key: string]: string };
   KinesisVideoStreamRecordingSourceRuntimeConfiguration?: KinesisVideoStreamRecordingSourceRuntimeConfiguration;
   S3RecordingSinkRuntimeConfiguration?: S3RecordingSinkRuntimeConfiguration;
   CreatedTimestamp?: Date;
-  ElementStatuses?: MediaInsightsPipelineElementStatuses;
+  ElementStatuses?: MediaInsightsPipelineElementStatus[];
 }
 export const MediaInsightsPipeline = S.suspend(() =>
   S.Struct({
     MediaPipelineId: S.optional(S.String),
     MediaPipelineArn: S.optional(SensitiveString),
     MediaInsightsPipelineConfigurationArn: S.optional(SensitiveString),
-    Status: S.optional(S.String),
+    Status: S.optional(MediaPipelineStatus),
     KinesisVideoStreamSourceRuntimeConfiguration: S.optional(
       KinesisVideoStreamSourceRuntimeConfiguration,
     ),
@@ -2159,13 +2455,13 @@ export const MediaPipeline = S.suspend(() =>
   identifier: "MediaPipeline",
 }) as any as S.Schema<MediaPipeline>;
 export interface CreateMediaInsightsPipelineRequest {
-  MediaInsightsPipelineConfigurationArn: string | Redacted.Redacted<string>;
+  MediaInsightsPipelineConfigurationArn: string | redacted.Redacted<string>;
   KinesisVideoStreamSourceRuntimeConfiguration?: KinesisVideoStreamSourceRuntimeConfiguration;
-  MediaInsightsRuntimeMetadata?: MediaInsightsRuntimeMetadata;
+  MediaInsightsRuntimeMetadata?: { [key: string]: string };
   KinesisVideoStreamRecordingSourceRuntimeConfiguration?: KinesisVideoStreamRecordingSourceRuntimeConfiguration;
   S3RecordingSinkRuntimeConfiguration?: S3RecordingSinkRuntimeConfiguration;
-  Tags?: TagList;
-  ClientRequestToken?: string | Redacted.Redacted<string>;
+  Tags?: Tag[];
+  ClientRequestToken?: string | redacted.Redacted<string>;
 }
 export const CreateMediaInsightsPipelineRequest = S.suspend(() =>
   S.Struct({
@@ -2216,21 +2512,21 @@ export const GetMediaPipelineResponse = S.suspend(() =>
   identifier: "GetMediaPipelineResponse",
 }) as any as S.Schema<GetMediaPipelineResponse>;
 export interface CreateMediaCapturePipelineRequest {
-  SourceType: string;
-  SourceArn: string | Redacted.Redacted<string>;
-  SinkType: string;
-  SinkArn: string | Redacted.Redacted<string>;
-  ClientRequestToken?: string | Redacted.Redacted<string>;
+  SourceType: MediaPipelineSourceType;
+  SourceArn: string | redacted.Redacted<string>;
+  SinkType: MediaPipelineSinkType;
+  SinkArn: string | redacted.Redacted<string>;
+  ClientRequestToken?: string | redacted.Redacted<string>;
   ChimeSdkMeetingConfiguration?: ChimeSdkMeetingConfiguration;
   SseAwsKeyManagementParams?: SseAwsKeyManagementParams;
-  SinkIamRoleArn?: string | Redacted.Redacted<string>;
-  Tags?: TagList;
+  SinkIamRoleArn?: string | redacted.Redacted<string>;
+  Tags?: Tag[];
 }
 export const CreateMediaCapturePipelineRequest = S.suspend(() =>
   S.Struct({
-    SourceType: S.String,
+    SourceType: MediaPipelineSourceType,
     SourceArn: SensitiveString,
-    SinkType: S.String,
+    SinkType: MediaPipelineSinkType,
     SinkArn: SensitiveString,
     ClientRequestToken: S.optional(SensitiveString),
     ChimeSdkMeetingConfiguration: S.optional(ChimeSdkMeetingConfiguration),
@@ -2251,10 +2547,10 @@ export const CreateMediaCapturePipelineRequest = S.suspend(() =>
   identifier: "CreateMediaCapturePipelineRequest",
 }) as any as S.Schema<CreateMediaCapturePipelineRequest>;
 export interface CreateMediaConcatenationPipelineRequest {
-  Sources: ConcatenationSourceList;
-  Sinks: ConcatenationSinkList;
-  ClientRequestToken?: string | Redacted.Redacted<string>;
-  Tags?: TagList;
+  Sources: ConcatenationSource[];
+  Sinks: ConcatenationSink[];
+  ClientRequestToken?: string | redacted.Redacted<string>;
+  Tags?: Tag[];
 }
 export const CreateMediaConcatenationPipelineRequest = S.suspend(() =>
   S.Struct({
@@ -2306,7 +2602,7 @@ export const CreateMediaConcatenationPipelineResponse = S.suspend(() =>
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
   {
-    Code: S.optional(S.String),
+    Code: S.optional(ErrorCode),
     Message: S.optional(S.String),
     RequestId: S.optional(S.String),
   },
@@ -2314,7 +2610,7 @@ export class BadRequestException extends S.TaggedError<BadRequestException>()(
 export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
   "ForbiddenException",
   {
-    Code: S.optional(S.String),
+    Code: S.optional(ErrorCode),
     Message: S.optional(S.String),
     RequestId: S.optional(S.String),
   },
@@ -2322,7 +2618,7 @@ export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   {
-    Code: S.optional(S.String),
+    Code: S.optional(ErrorCode),
     Message: S.optional(S.String),
     RequestId: S.optional(S.String),
   },
@@ -2330,7 +2626,7 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   {
-    Code: S.optional(S.String),
+    Code: S.optional(ErrorCode),
     Message: S.optional(S.String),
     RequestId: S.optional(S.String),
   },
@@ -2338,7 +2634,7 @@ export class NotFoundException extends S.TaggedError<NotFoundException>()(
 export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitExceededException>()(
   "ResourceLimitExceededException",
   {
-    Code: S.optional(S.String),
+    Code: S.optional(ErrorCode),
     Message: S.optional(S.String),
     RequestId: S.optional(S.String),
   },
@@ -2346,7 +2642,7 @@ export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitE
 export class ServiceFailureException extends S.TaggedError<ServiceFailureException>()(
   "ServiceFailureException",
   {
-    Code: S.optional(S.String),
+    Code: S.optional(ErrorCode),
     Message: S.optional(S.String),
     RequestId: S.optional(S.String),
   },
@@ -2354,7 +2650,7 @@ export class ServiceFailureException extends S.TaggedError<ServiceFailureExcepti
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   {
-    Code: S.optional(S.String),
+    Code: S.optional(ErrorCode),
     Message: S.optional(S.String),
     RequestId: S.optional(S.String),
   },
@@ -2362,7 +2658,7 @@ export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailabl
 export class ThrottledClientException extends S.TaggedError<ThrottledClientException>()(
   "ThrottledClientException",
   {
-    Code: S.optional(S.String),
+    Code: S.optional(ErrorCode),
     Message: S.optional(S.String),
     RequestId: S.optional(S.String),
   },
@@ -2370,7 +2666,7 @@ export class ThrottledClientException extends S.TaggedError<ThrottledClientExcep
 export class UnauthorizedClientException extends S.TaggedError<UnauthorizedClientException>()(
   "UnauthorizedClientException",
   {
-    Code: S.optional(S.String),
+    Code: S.optional(ErrorCode),
     Message: S.optional(S.String),
     RequestId: S.optional(S.String),
   },
@@ -2382,7 +2678,7 @@ export class UnauthorizedClientException extends S.TaggedError<UnauthorizedClien
  */
 export const deleteMediaCapturePipeline: (
   input: DeleteMediaCapturePipelineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMediaCapturePipelineResponse,
   | BadRequestException
   | ForbiddenException
@@ -2411,7 +2707,7 @@ export const deleteMediaCapturePipeline: (
  */
 export const getMediaPipeline: (
   input: GetMediaPipelineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMediaPipelineResponse,
   | BadRequestException
   | ForbiddenException
@@ -2441,7 +2737,7 @@ export const getMediaPipeline: (
 export const listMediaCapturePipelines: {
   (
     input: ListMediaCapturePipelinesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMediaCapturePipelinesResponse,
     | BadRequestException
     | ForbiddenException
@@ -2455,7 +2751,7 @@ export const listMediaCapturePipelines: {
   >;
   pages: (
     input: ListMediaCapturePipelinesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMediaCapturePipelinesResponse,
     | BadRequestException
     | ForbiddenException
@@ -2469,7 +2765,7 @@ export const listMediaCapturePipelines: {
   >;
   items: (
     input: ListMediaCapturePipelinesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -2504,7 +2800,7 @@ export const listMediaCapturePipelines: {
  */
 export const getMediaCapturePipeline: (
   input: GetMediaCapturePipelineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMediaCapturePipelineResponse,
   | BadRequestException
   | ForbiddenException
@@ -2533,7 +2829,7 @@ export const getMediaCapturePipeline: (
  */
 export const getMediaInsightsPipelineConfiguration: (
   input: GetMediaInsightsPipelineConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMediaInsightsPipelineConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -2562,7 +2858,7 @@ export const getMediaInsightsPipelineConfiguration: (
  */
 export const getMediaPipelineKinesisVideoStreamPool: (
   input: GetMediaPipelineKinesisVideoStreamPoolRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMediaPipelineKinesisVideoStreamPoolResponse,
   | BadRequestException
   | ForbiddenException
@@ -2591,7 +2887,7 @@ export const getMediaPipelineKinesisVideoStreamPool: (
  */
 export const getSpeakerSearchTask: (
   input: GetSpeakerSearchTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSpeakerSearchTaskResponse,
   | BadRequestException
   | ForbiddenException
@@ -2620,7 +2916,7 @@ export const getSpeakerSearchTask: (
  */
 export const getVoiceToneAnalysisTask: (
   input: GetVoiceToneAnalysisTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetVoiceToneAnalysisTaskResponse,
   | BadRequestException
   | ForbiddenException
@@ -2654,7 +2950,7 @@ export const getVoiceToneAnalysisTask: (
  */
 export const startVoiceToneAnalysisTask: (
   input: StartVoiceToneAnalysisTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartVoiceToneAnalysisTaskResponse,
   | BadRequestException
   | ConflictException
@@ -2685,7 +2981,7 @@ export const startVoiceToneAnalysisTask: (
  */
 export const updateMediaPipelineKinesisVideoStreamPool: (
   input: UpdateMediaPipelineKinesisVideoStreamPoolRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMediaPipelineKinesisVideoStreamPoolResponse,
   | BadRequestException
   | ConflictException
@@ -2716,7 +3012,7 @@ export const updateMediaPipelineKinesisVideoStreamPool: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -2745,7 +3041,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -2774,7 +3070,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -2803,7 +3099,7 @@ export const untagResource: (
  */
 export const createMediaStreamPipeline: (
   input: CreateMediaStreamPipelineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMediaStreamPipelineResponse,
   | BadRequestException
   | ForbiddenException
@@ -2834,7 +3130,7 @@ export const createMediaStreamPipeline: (
  */
 export const updateMediaInsightsPipelineConfiguration: (
   input: UpdateMediaInsightsPipelineConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMediaInsightsPipelineConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -2865,7 +3161,7 @@ export const updateMediaInsightsPipelineConfiguration: (
  */
 export const deleteMediaInsightsPipelineConfiguration: (
   input: DeleteMediaInsightsPipelineConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMediaInsightsPipelineConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -2896,7 +3192,7 @@ export const deleteMediaInsightsPipelineConfiguration: (
  */
 export const deleteMediaPipeline: (
   input: DeleteMediaPipelineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMediaPipelineResponse,
   | BadRequestException
   | ConflictException
@@ -2927,7 +3223,7 @@ export const deleteMediaPipeline: (
  */
 export const deleteMediaPipelineKinesisVideoStreamPool: (
   input: DeleteMediaPipelineKinesisVideoStreamPoolRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMediaPipelineKinesisVideoStreamPoolResponse,
   | BadRequestException
   | ConflictException
@@ -2958,7 +3254,7 @@ export const deleteMediaPipelineKinesisVideoStreamPool: (
  */
 export const stopSpeakerSearchTask: (
   input: StopSpeakerSearchTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopSpeakerSearchTaskResponse,
   | BadRequestException
   | ConflictException
@@ -2989,7 +3285,7 @@ export const stopSpeakerSearchTask: (
  */
 export const stopVoiceToneAnalysisTask: (
   input: StopVoiceToneAnalysisTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopVoiceToneAnalysisTaskResponse,
   | BadRequestException
   | ConflictException
@@ -3020,7 +3316,7 @@ export const stopVoiceToneAnalysisTask: (
  */
 export const updateMediaInsightsPipelineStatus: (
   input: UpdateMediaInsightsPipelineStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMediaInsightsPipelineStatusResponse,
   | BadRequestException
   | ConflictException
@@ -3054,7 +3350,7 @@ export const updateMediaInsightsPipelineStatus: (
  */
 export const startSpeakerSearchTask: (
   input: StartSpeakerSearchTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartSpeakerSearchTaskResponse,
   | BadRequestException
   | ConflictException
@@ -3086,7 +3382,7 @@ export const startSpeakerSearchTask: (
 export const listMediaInsightsPipelineConfigurations: {
   (
     input: ListMediaInsightsPipelineConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMediaInsightsPipelineConfigurationsResponse,
     | BadRequestException
     | ForbiddenException
@@ -3100,7 +3396,7 @@ export const listMediaInsightsPipelineConfigurations: {
   >;
   pages: (
     input: ListMediaInsightsPipelineConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMediaInsightsPipelineConfigurationsResponse,
     | BadRequestException
     | ForbiddenException
@@ -3114,7 +3410,7 @@ export const listMediaInsightsPipelineConfigurations: {
   >;
   items: (
     input: ListMediaInsightsPipelineConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -3150,7 +3446,7 @@ export const listMediaInsightsPipelineConfigurations: {
 export const listMediaPipelineKinesisVideoStreamPools: {
   (
     input: ListMediaPipelineKinesisVideoStreamPoolsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMediaPipelineKinesisVideoStreamPoolsResponse,
     | BadRequestException
     | ForbiddenException
@@ -3164,7 +3460,7 @@ export const listMediaPipelineKinesisVideoStreamPools: {
   >;
   pages: (
     input: ListMediaPipelineKinesisVideoStreamPoolsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMediaPipelineKinesisVideoStreamPoolsResponse,
     | BadRequestException
     | ForbiddenException
@@ -3178,7 +3474,7 @@ export const listMediaPipelineKinesisVideoStreamPools: {
   >;
   items: (
     input: ListMediaPipelineKinesisVideoStreamPoolsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -3214,7 +3510,7 @@ export const listMediaPipelineKinesisVideoStreamPools: {
 export const listMediaPipelines: {
   (
     input: ListMediaPipelinesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMediaPipelinesResponse,
     | BadRequestException
     | ForbiddenException
@@ -3228,7 +3524,7 @@ export const listMediaPipelines: {
   >;
   pages: (
     input: ListMediaPipelinesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMediaPipelinesResponse,
     | BadRequestException
     | ForbiddenException
@@ -3242,7 +3538,7 @@ export const listMediaPipelines: {
   >;
   items: (
     input: ListMediaPipelinesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | BadRequestException
     | ForbiddenException
@@ -3293,7 +3589,7 @@ export const listMediaPipelines: {
  */
 export const createMediaPipelineKinesisVideoStreamPool: (
   input: CreateMediaPipelineKinesisVideoStreamPoolRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMediaPipelineKinesisVideoStreamPoolResponse,
   | BadRequestException
   | ConflictException
@@ -3324,7 +3620,7 @@ export const createMediaPipelineKinesisVideoStreamPool: (
  */
 export const createMediaLiveConnectorPipeline: (
   input: CreateMediaLiveConnectorPipelineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMediaLiveConnectorPipelineResponse,
   | BadRequestException
   | ForbiddenException
@@ -3354,7 +3650,7 @@ export const createMediaLiveConnectorPipeline: (
  */
 export const createMediaInsightsPipelineConfiguration: (
   input: CreateMediaInsightsPipelineConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMediaInsightsPipelineConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -3385,7 +3681,7 @@ export const createMediaInsightsPipelineConfiguration: (
  */
 export const createMediaInsightsPipeline: (
   input: CreateMediaInsightsPipelineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMediaInsightsPipelineResponse,
   | BadRequestException
   | ForbiddenException
@@ -3416,7 +3712,7 @@ export const createMediaInsightsPipeline: (
  */
 export const createMediaCapturePipeline: (
   input: CreateMediaCapturePipelineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMediaCapturePipelineResponse,
   | BadRequestException
   | ForbiddenException
@@ -3445,7 +3741,7 @@ export const createMediaCapturePipeline: (
  */
 export const createMediaConcatenationPipeline: (
   input: CreateMediaConcatenationPipelineRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMediaConcatenationPipelineResponse,
   | BadRequestException
   | ForbiddenException

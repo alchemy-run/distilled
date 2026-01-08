@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -97,14 +97,14 @@ export type ContainerServiceName = string;
 export type ContainerServiceScale = number;
 export type integer = number;
 export type Port = number;
-export type SensitiveString = string | Redacted.Redacted<string>;
+export type SensitiveString = string | redacted.Redacted<string>;
 export type AutoSnapshotDate = string;
 export type Base64 = string;
 export type MetricPeriod = number;
 export type SetupHistoryPageToken = string;
 export type double = number;
 export type ContainerLabel = string;
-export type EmailAddress = string | Redacted.Redacted<string>;
+export type EmailAddress = string | redacted.Redacted<string>;
 export type SetupDomainName = string;
 export type ResourceArn = string;
 export type TagKey = string;
@@ -118,8 +118,8 @@ export type TimeOfDay = string;
 export type DomainEntryOptionsKeys = string;
 export type BucketCorsRuleId = string;
 export type BucketCorsAllowedMethod = string;
-export type IAMAccessKeyId = string | Redacted.Redacted<string>;
-export type SensitiveNonEmptyString = string | Redacted.Redacted<string>;
+export type IAMAccessKeyId = string | redacted.Redacted<string>;
+export type SensitiveNonEmptyString = string | redacted.Redacted<string>;
 export type IpAddress = string;
 export type Ipv6Address = string;
 export type SerialNumber = string;
@@ -269,33 +269,364 @@ export const UnpeerVpcRequest = S.suspend(() =>
 }) as any as S.Schema<UnpeerVpcRequest>;
 export type ResourceNameList = string[];
 export const ResourceNameList = S.Array(S.String);
+export type RegionName =
+  | "us-east-1"
+  | "us-east-2"
+  | "us-west-1"
+  | "us-west-2"
+  | "eu-west-1"
+  | "eu-west-2"
+  | "eu-west-3"
+  | "eu-central-1"
+  | "ca-central-1"
+  | "ap-south-1"
+  | "ap-southeast-1"
+  | "ap-southeast-2"
+  | "ap-northeast-1"
+  | "ap-northeast-2"
+  | "eu-north-1"
+  | "ap-southeast-3";
+export const RegionName = S.Literal(
+  "us-east-1",
+  "us-east-2",
+  "us-west-1",
+  "us-west-2",
+  "eu-west-1",
+  "eu-west-2",
+  "eu-west-3",
+  "eu-central-1",
+  "ca-central-1",
+  "ap-south-1",
+  "ap-southeast-1",
+  "ap-southeast-2",
+  "ap-northeast-1",
+  "ap-northeast-2",
+  "eu-north-1",
+  "ap-southeast-3",
+);
 export type SubjectAlternativeNameList = string[];
 export const SubjectAlternativeNameList = S.Array(S.String);
+export type ContactProtocol = "Email" | "SMS";
+export const ContactProtocol = S.Literal("Email", "SMS");
+export type ContainerServicePowerName =
+  | "nano"
+  | "micro"
+  | "small"
+  | "medium"
+  | "large"
+  | "xlarge";
+export const ContainerServicePowerName = S.Literal(
+  "nano",
+  "micro",
+  "small",
+  "medium",
+  "large",
+  "xlarge",
+);
+export type IpAddressType = "dualstack" | "ipv4" | "ipv6";
+export const IpAddressType = S.Literal("dualstack", "ipv4", "ipv6");
+export type ViewerMinimumTlsProtocolVersionEnum =
+  | "TLSv1.1_2016"
+  | "TLSv1.2_2018"
+  | "TLSv1.2_2019"
+  | "TLSv1.2_2021";
+export const ViewerMinimumTlsProtocolVersionEnum = S.Literal(
+  "TLSv1.1_2016",
+  "TLSv1.2_2018",
+  "TLSv1.2_2019",
+  "TLSv1.2_2021",
+);
 export type StringList = string[];
 export const StringList = S.Array(S.String);
 export type DomainNameList = string[];
 export const DomainNameList = S.Array(S.String);
-export type MetricStatisticList = string[];
-export const MetricStatisticList = S.Array(S.String);
-export type CertificateStatusList = string[];
-export const CertificateStatusList = S.Array(S.String);
-export type ContactProtocolsList = string[];
-export const ContactProtocolsList = S.Array(S.String);
-export type NotificationTriggerList = string[];
-export const NotificationTriggerList = S.Array(S.String);
+export type AddOnType = "AutoSnapshot" | "StopInstanceOnIdle";
+export const AddOnType = S.Literal("AutoSnapshot", "StopInstanceOnIdle");
+export type AppCategory = "LfR";
+export const AppCategory = S.Literal("LfR");
+export type BucketMetricName = "BucketSizeBytes" | "NumberOfObjects";
+export const BucketMetricName = S.Literal("BucketSizeBytes", "NumberOfObjects");
+export type MetricStatistic =
+  | "Minimum"
+  | "Maximum"
+  | "Sum"
+  | "Average"
+  | "SampleCount";
+export const MetricStatistic = S.Literal(
+  "Minimum",
+  "Maximum",
+  "Sum",
+  "Average",
+  "SampleCount",
+);
+export type MetricStatisticList = MetricStatistic[];
+export const MetricStatisticList = S.Array(MetricStatistic);
+export type MetricUnit =
+  | "Seconds"
+  | "Microseconds"
+  | "Milliseconds"
+  | "Bytes"
+  | "Kilobytes"
+  | "Megabytes"
+  | "Gigabytes"
+  | "Terabytes"
+  | "Bits"
+  | "Kilobits"
+  | "Megabits"
+  | "Gigabits"
+  | "Terabits"
+  | "Percent"
+  | "Count"
+  | "Bytes/Second"
+  | "Kilobytes/Second"
+  | "Megabytes/Second"
+  | "Gigabytes/Second"
+  | "Terabytes/Second"
+  | "Bits/Second"
+  | "Kilobits/Second"
+  | "Megabits/Second"
+  | "Gigabits/Second"
+  | "Terabits/Second"
+  | "Count/Second"
+  | "None";
+export const MetricUnit = S.Literal(
+  "Seconds",
+  "Microseconds",
+  "Milliseconds",
+  "Bytes",
+  "Kilobytes",
+  "Megabytes",
+  "Gigabytes",
+  "Terabytes",
+  "Bits",
+  "Kilobits",
+  "Megabits",
+  "Gigabits",
+  "Terabits",
+  "Percent",
+  "Count",
+  "Bytes/Second",
+  "Kilobytes/Second",
+  "Megabytes/Second",
+  "Gigabytes/Second",
+  "Terabytes/Second",
+  "Bits/Second",
+  "Kilobits/Second",
+  "Megabits/Second",
+  "Gigabits/Second",
+  "Terabits/Second",
+  "Count/Second",
+  "None",
+);
+export type CertificateStatus =
+  | "PENDING_VALIDATION"
+  | "ISSUED"
+  | "INACTIVE"
+  | "EXPIRED"
+  | "VALIDATION_TIMED_OUT"
+  | "REVOKED"
+  | "FAILED";
+export const CertificateStatus = S.Literal(
+  "PENDING_VALIDATION",
+  "ISSUED",
+  "INACTIVE",
+  "EXPIRED",
+  "VALIDATION_TIMED_OUT",
+  "REVOKED",
+  "FAILED",
+);
+export type CertificateStatusList = CertificateStatus[];
+export const CertificateStatusList = S.Array(CertificateStatus);
+export type ContactProtocolsList = ContactProtocol[];
+export const ContactProtocolsList = S.Array(ContactProtocol);
+export type ContainerServiceMetricName = "CPUUtilization" | "MemoryUtilization";
+export const ContainerServiceMetricName = S.Literal(
+  "CPUUtilization",
+  "MemoryUtilization",
+);
+export type DistributionMetricName =
+  | "Requests"
+  | "BytesDownloaded"
+  | "BytesUploaded"
+  | "TotalErrorRate"
+  | "Http4xxErrorRate"
+  | "Http5xxErrorRate";
+export const DistributionMetricName = S.Literal(
+  "Requests",
+  "BytesDownloaded",
+  "BytesUploaded",
+  "TotalErrorRate",
+  "Http4xxErrorRate",
+  "Http5xxErrorRate",
+);
+export type InstanceAccessProtocol = "ssh" | "rdp";
+export const InstanceAccessProtocol = S.Literal("ssh", "rdp");
+export type InstanceMetricName =
+  | "CPUUtilization"
+  | "NetworkIn"
+  | "NetworkOut"
+  | "StatusCheckFailed"
+  | "StatusCheckFailed_Instance"
+  | "StatusCheckFailed_System"
+  | "BurstCapacityTime"
+  | "BurstCapacityPercentage"
+  | "MetadataNoToken";
+export const InstanceMetricName = S.Literal(
+  "CPUUtilization",
+  "NetworkIn",
+  "NetworkOut",
+  "StatusCheckFailed",
+  "StatusCheckFailed_Instance",
+  "StatusCheckFailed_System",
+  "BurstCapacityTime",
+  "BurstCapacityPercentage",
+  "MetadataNoToken",
+);
+export type LoadBalancerMetricName =
+  | "ClientTLSNegotiationErrorCount"
+  | "HealthyHostCount"
+  | "UnhealthyHostCount"
+  | "HTTPCode_LB_4XX_Count"
+  | "HTTPCode_LB_5XX_Count"
+  | "HTTPCode_Instance_2XX_Count"
+  | "HTTPCode_Instance_3XX_Count"
+  | "HTTPCode_Instance_4XX_Count"
+  | "HTTPCode_Instance_5XX_Count"
+  | "InstanceResponseTime"
+  | "RejectedConnectionCount"
+  | "RequestCount";
+export const LoadBalancerMetricName = S.Literal(
+  "ClientTLSNegotiationErrorCount",
+  "HealthyHostCount",
+  "UnhealthyHostCount",
+  "HTTPCode_LB_4XX_Count",
+  "HTTPCode_LB_5XX_Count",
+  "HTTPCode_Instance_2XX_Count",
+  "HTTPCode_Instance_3XX_Count",
+  "HTTPCode_Instance_4XX_Count",
+  "HTTPCode_Instance_5XX_Count",
+  "InstanceResponseTime",
+  "RejectedConnectionCount",
+  "RequestCount",
+);
+export type RelationalDatabasePasswordVersion =
+  | "CURRENT"
+  | "PREVIOUS"
+  | "PENDING";
+export const RelationalDatabasePasswordVersion = S.Literal(
+  "CURRENT",
+  "PREVIOUS",
+  "PENDING",
+);
+export type RelationalDatabaseMetricName =
+  | "CPUUtilization"
+  | "DatabaseConnections"
+  | "DiskQueueDepth"
+  | "FreeStorageSpace"
+  | "NetworkReceiveThroughput"
+  | "NetworkTransmitThroughput";
+export const RelationalDatabaseMetricName = S.Literal(
+  "CPUUtilization",
+  "DatabaseConnections",
+  "DiskQueueDepth",
+  "FreeStorageSpace",
+  "NetworkReceiveThroughput",
+  "NetworkTransmitThroughput",
+);
+export type MetricName =
+  | "CPUUtilization"
+  | "NetworkIn"
+  | "NetworkOut"
+  | "StatusCheckFailed"
+  | "StatusCheckFailed_Instance"
+  | "StatusCheckFailed_System"
+  | "ClientTLSNegotiationErrorCount"
+  | "HealthyHostCount"
+  | "UnhealthyHostCount"
+  | "HTTPCode_LB_4XX_Count"
+  | "HTTPCode_LB_5XX_Count"
+  | "HTTPCode_Instance_2XX_Count"
+  | "HTTPCode_Instance_3XX_Count"
+  | "HTTPCode_Instance_4XX_Count"
+  | "HTTPCode_Instance_5XX_Count"
+  | "InstanceResponseTime"
+  | "RejectedConnectionCount"
+  | "RequestCount"
+  | "DatabaseConnections"
+  | "DiskQueueDepth"
+  | "FreeStorageSpace"
+  | "NetworkReceiveThroughput"
+  | "NetworkTransmitThroughput"
+  | "BurstCapacityTime"
+  | "BurstCapacityPercentage";
+export const MetricName = S.Literal(
+  "CPUUtilization",
+  "NetworkIn",
+  "NetworkOut",
+  "StatusCheckFailed",
+  "StatusCheckFailed_Instance",
+  "StatusCheckFailed_System",
+  "ClientTLSNegotiationErrorCount",
+  "HealthyHostCount",
+  "UnhealthyHostCount",
+  "HTTPCode_LB_4XX_Count",
+  "HTTPCode_LB_5XX_Count",
+  "HTTPCode_Instance_2XX_Count",
+  "HTTPCode_Instance_3XX_Count",
+  "HTTPCode_Instance_4XX_Count",
+  "HTTPCode_Instance_5XX_Count",
+  "InstanceResponseTime",
+  "RejectedConnectionCount",
+  "RequestCount",
+  "DatabaseConnections",
+  "DiskQueueDepth",
+  "FreeStorageSpace",
+  "NetworkReceiveThroughput",
+  "NetworkTransmitThroughput",
+  "BurstCapacityTime",
+  "BurstCapacityPercentage",
+);
+export type ComparisonOperator =
+  | "GreaterThanOrEqualToThreshold"
+  | "GreaterThanThreshold"
+  | "LessThanThreshold"
+  | "LessThanOrEqualToThreshold";
+export const ComparisonOperator = S.Literal(
+  "GreaterThanOrEqualToThreshold",
+  "GreaterThanThreshold",
+  "LessThanThreshold",
+  "LessThanOrEqualToThreshold",
+);
+export type TreatMissingData =
+  | "breaching"
+  | "notBreaching"
+  | "ignore"
+  | "missing";
+export const TreatMissingData = S.Literal(
+  "breaching",
+  "notBreaching",
+  "ignore",
+  "missing",
+);
+export type AlarmState = "OK" | "ALARM" | "INSUFFICIENT_DATA";
+export const AlarmState = S.Literal("OK", "ALARM", "INSUFFICIENT_DATA");
+export type NotificationTriggerList = AlarmState[];
+export const NotificationTriggerList = S.Array(AlarmState);
+export type NetworkProtocol = "tcp" | "all" | "udp" | "icmp" | "icmpv6";
+export const NetworkProtocol = S.Literal("tcp", "all", "udp", "icmp", "icmpv6");
 export interface PortInfo {
   fromPort?: number;
   toPort?: number;
-  protocol?: string;
-  cidrs?: StringList;
-  ipv6Cidrs?: StringList;
-  cidrListAliases?: StringList;
+  protocol?: NetworkProtocol;
+  cidrs?: string[];
+  ipv6Cidrs?: string[];
+  cidrListAliases?: string[];
 }
 export const PortInfo = S.suspend(() =>
   S.Struct({
     fromPort: S.optional(S.Number),
     toPort: S.optional(S.Number),
-    protocol: S.optional(S.String),
+    protocol: S.optional(NetworkProtocol),
     cidrs: S.optional(StringList),
     ipv6Cidrs: S.optional(StringList),
     cidrListAliases: S.optional(StringList),
@@ -303,12 +634,80 @@ export const PortInfo = S.suspend(() =>
 ).annotations({ identifier: "PortInfo" }) as any as S.Schema<PortInfo>;
 export type PortInfoList = PortInfo[];
 export const PortInfoList = S.Array(PortInfo);
+export type ContactMethodVerificationProtocol = "Email";
+export const ContactMethodVerificationProtocol = S.Literal("Email");
+export type ResourceType =
+  | "ContainerService"
+  | "Instance"
+  | "StaticIp"
+  | "KeyPair"
+  | "InstanceSnapshot"
+  | "Domain"
+  | "PeeredVpc"
+  | "LoadBalancer"
+  | "LoadBalancerTlsCertificate"
+  | "Disk"
+  | "DiskSnapshot"
+  | "RelationalDatabase"
+  | "RelationalDatabaseSnapshot"
+  | "ExportSnapshotRecord"
+  | "CloudFormationStackRecord"
+  | "Alarm"
+  | "ContactMethod"
+  | "Distribution"
+  | "Certificate"
+  | "Bucket";
+export const ResourceType = S.Literal(
+  "ContainerService",
+  "Instance",
+  "StaticIp",
+  "KeyPair",
+  "InstanceSnapshot",
+  "Domain",
+  "PeeredVpc",
+  "LoadBalancer",
+  "LoadBalancerTlsCertificate",
+  "Disk",
+  "DiskSnapshot",
+  "RelationalDatabase",
+  "RelationalDatabaseSnapshot",
+  "ExportSnapshotRecord",
+  "CloudFormationStackRecord",
+  "Alarm",
+  "ContactMethod",
+  "Distribution",
+  "Certificate",
+  "Bucket",
+);
+export type ResourceBucketAccess = "allow" | "deny";
+export const ResourceBucketAccess = S.Literal("allow", "deny");
 export type SetupDomainNameList = string[];
 export const SetupDomainNameList = S.Array(S.String);
+export type CertificateProvider = "LetsEncrypt";
+export const CertificateProvider = S.Literal("LetsEncrypt");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export type PartnerIdList = string[];
 export const PartnerIdList = S.Array(S.String);
+export type HttpTokens = "optional" | "required";
+export const HttpTokens = S.Literal("optional", "required");
+export type HttpEndpoint = "disabled" | "enabled";
+export const HttpEndpoint = S.Literal("disabled", "enabled");
+export type HttpProtocolIpv6 = "disabled" | "enabled";
+export const HttpProtocolIpv6 = S.Literal("disabled", "enabled");
+export type LoadBalancerAttributeName =
+  | "HealthCheckPath"
+  | "SessionStickinessEnabled"
+  | "SessionStickiness_LB_CookieDurationSeconds"
+  | "HttpsRedirectionEnabled"
+  | "TlsPolicyName";
+export const LoadBalancerAttributeName = S.Literal(
+  "HealthCheckPath",
+  "SessionStickinessEnabled",
+  "SessionStickiness_LB_CookieDurationSeconds",
+  "HttpsRedirectionEnabled",
+  "TlsPolicyName",
+);
 export interface AllocateStaticIpRequest {
   staticIpName: string;
 }
@@ -374,7 +773,7 @@ export const AttachDiskRequest = S.suspend(() =>
 }) as any as S.Schema<AttachDiskRequest>;
 export interface AttachInstancesToLoadBalancerRequest {
   loadBalancerName: string;
-  instanceNames: ResourceNameList;
+  instanceNames: string[];
 }
 export const AttachInstancesToLoadBalancerRequest = S.suspend(() =>
   S.Struct({
@@ -441,7 +840,7 @@ export interface CopySnapshotRequest {
   restoreDate?: string;
   useLatestRestorableAutoSnapshot?: boolean;
   targetSnapshotName: string;
-  sourceRegion: string;
+  sourceRegion: RegionName;
 }
 export const CopySnapshotRequest = S.suspend(() =>
   S.Struct({
@@ -450,7 +849,7 @@ export const CopySnapshotRequest = S.suspend(() =>
     restoreDate: S.optional(S.String),
     useLatestRestorableAutoSnapshot: S.optional(S.Boolean),
     targetSnapshotName: S.String,
-    sourceRegion: S.String,
+    sourceRegion: RegionName,
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CopySnapshot" }),
@@ -496,8 +895,8 @@ export const TagList = S.Array(Tag);
 export interface CreateCertificateRequest {
   certificateName: string;
   domainName: string;
-  subjectAlternativeNames?: SubjectAlternativeNameList;
-  tags?: TagList;
+  subjectAlternativeNames?: string[];
+  tags?: Tag[];
 }
 export const CreateCertificateRequest = S.suspend(() =>
   S.Struct({
@@ -519,11 +918,11 @@ export const CreateCertificateRequest = S.suspend(() =>
   identifier: "CreateCertificateRequest",
 }) as any as S.Schema<CreateCertificateRequest>;
 export interface CreateContactMethodRequest {
-  protocol: string;
+  protocol: ContactProtocol;
   contactEndpoint: string;
 }
 export const CreateContactMethodRequest = S.suspend(() =>
-  S.Struct({ protocol: S.String, contactEndpoint: S.String }).pipe(
+  S.Struct({ protocol: ContactProtocol, contactEndpoint: S.String }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateContactMethod" }),
       svc,
@@ -554,13 +953,13 @@ export const StopInstanceOnIdleRequest = S.suspend(() =>
   identifier: "StopInstanceOnIdleRequest",
 }) as any as S.Schema<StopInstanceOnIdleRequest>;
 export interface AddOnRequest {
-  addOnType: string;
+  addOnType: AddOnType;
   autoSnapshotAddOnRequest?: AutoSnapshotAddOnRequest;
   stopInstanceOnIdleRequest?: StopInstanceOnIdleRequest;
 }
 export const AddOnRequest = S.suspend(() =>
   S.Struct({
-    addOnType: S.String,
+    addOnType: AddOnType,
     autoSnapshotAddOnRequest: S.optional(AutoSnapshotAddOnRequest),
     stopInstanceOnIdleRequest: S.optional(StopInstanceOnIdleRequest),
   }),
@@ -572,8 +971,8 @@ export interface CreateDiskFromSnapshotRequest {
   diskSnapshotName?: string;
   availabilityZone: string;
   sizeInGb: number;
-  tags?: TagList;
-  addOns?: AddOnRequestList;
+  tags?: Tag[];
+  addOns?: AddOnRequest[];
   sourceDiskName?: string;
   restoreDate?: string;
   useLatestRestorableAutoSnapshot?: boolean;
@@ -609,7 +1008,7 @@ export interface CreateDiskSnapshotRequest {
   diskName?: string;
   diskSnapshotName: string;
   instanceName?: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateDiskSnapshotRequest = S.suspend(() =>
   S.Struct({
@@ -632,7 +1031,7 @@ export const CreateDiskSnapshotRequest = S.suspend(() =>
 }) as any as S.Schema<CreateDiskSnapshotRequest>;
 export interface CreateDomainRequest {
   domainName: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateDomainRequest = S.suspend(() =>
   S.Struct({ domainName: S.String, tags: S.optional(TagList) }).pipe(
@@ -669,16 +1068,16 @@ export const CreateGUISessionAccessDetailsRequest = S.suspend(() =>
   identifier: "CreateGUISessionAccessDetailsRequest",
 }) as any as S.Schema<CreateGUISessionAccessDetailsRequest>;
 export interface CreateInstancesRequest {
-  instanceNames: StringList;
+  instanceNames: string[];
   availabilityZone: string;
   customImageName?: string;
   blueprintId: string;
   bundleId: string;
   userData?: string;
   keyPairName?: string;
-  tags?: TagList;
-  addOns?: AddOnRequestList;
-  ipAddressType?: string;
+  tags?: Tag[];
+  addOns?: AddOnRequest[];
+  ipAddressType?: IpAddressType;
 }
 export const CreateInstancesRequest = S.suspend(() =>
   S.Struct({
@@ -691,7 +1090,7 @@ export const CreateInstancesRequest = S.suspend(() =>
     keyPairName: S.optional(S.String),
     tags: S.optional(TagList),
     addOns: S.optional(AddOnRequestList),
-    ipAddressType: S.optional(S.String),
+    ipAddressType: S.optional(IpAddressType),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateInstances" }),
@@ -708,7 +1107,7 @@ export const CreateInstancesRequest = S.suspend(() =>
 export interface CreateInstanceSnapshotRequest {
   instanceSnapshotName: string;
   instanceName: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateInstanceSnapshotRequest = S.suspend(() =>
   S.Struct({
@@ -733,7 +1132,7 @@ export const CreateInstanceSnapshotRequest = S.suspend(() =>
 }) as any as S.Schema<CreateInstanceSnapshotRequest>;
 export interface CreateKeyPairRequest {
   keyPairName: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateKeyPairRequest = S.suspend(() =>
   S.Struct({ keyPairName: S.String, tags: S.optional(TagList) }).pipe(
@@ -755,9 +1154,9 @@ export interface CreateLoadBalancerRequest {
   healthCheckPath?: string;
   certificateName?: string;
   certificateDomainName?: string;
-  certificateAlternativeNames?: DomainNameList;
-  tags?: TagList;
-  ipAddressType?: string;
+  certificateAlternativeNames?: string[];
+  tags?: Tag[];
+  ipAddressType?: IpAddressType;
   tlsPolicyName?: string;
 }
 export const CreateLoadBalancerRequest = S.suspend(() =>
@@ -769,7 +1168,7 @@ export const CreateLoadBalancerRequest = S.suspend(() =>
     certificateDomainName: S.optional(S.String),
     certificateAlternativeNames: S.optional(DomainNameList),
     tags: S.optional(TagList),
-    ipAddressType: S.optional(S.String),
+    ipAddressType: S.optional(IpAddressType),
     tlsPolicyName: S.optional(S.String),
   }).pipe(
     T.all(
@@ -788,8 +1187,8 @@ export interface CreateLoadBalancerTlsCertificateRequest {
   loadBalancerName: string;
   certificateName: string;
   certificateDomainName: string;
-  certificateAlternativeNames?: DomainNameList;
-  tags?: TagList;
+  certificateAlternativeNames?: string[];
+  tags?: Tag[];
 }
 export const CreateLoadBalancerTlsCertificateRequest = S.suspend(() =>
   S.Struct({
@@ -821,11 +1220,11 @@ export interface CreateRelationalDatabaseRequest {
   relationalDatabaseBundleId: string;
   masterDatabaseName: string;
   masterUsername: string;
-  masterUserPassword?: string | Redacted.Redacted<string>;
+  masterUserPassword?: string | redacted.Redacted<string>;
   preferredBackupWindow?: string;
   preferredMaintenanceWindow?: string;
   publiclyAccessible?: boolean;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateRelationalDatabaseRequest = S.suspend(() =>
   S.Struct({
@@ -865,7 +1264,7 @@ export interface CreateRelationalDatabaseFromSnapshotRequest {
   sourceRelationalDatabaseName?: string;
   restoreTime?: Date;
   useLatestRestorableTime?: boolean;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateRelationalDatabaseFromSnapshotRequest = S.suspend(() =>
   S.Struct({
@@ -897,7 +1296,7 @@ export const CreateRelationalDatabaseFromSnapshotRequest = S.suspend(() =>
 export interface CreateRelationalDatabaseSnapshotRequest {
   relationalDatabaseName: string;
   relationalDatabaseSnapshotName: string;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CreateRelationalDatabaseSnapshotRequest = S.suspend(() =>
   S.Struct({
@@ -1015,10 +1414,10 @@ export const DeleteCertificateRequest = S.suspend(() =>
   identifier: "DeleteCertificateRequest",
 }) as any as S.Schema<DeleteCertificateRequest>;
 export interface DeleteContactMethodRequest {
-  protocol: string;
+  protocol: ContactProtocol;
 }
 export const DeleteContactMethodRequest = S.suspend(() =>
-  S.Struct({ protocol: S.String }).pipe(
+  S.Struct({ protocol: ContactProtocol }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteContactMethod" }),
       svc,
@@ -1167,7 +1566,7 @@ export interface DomainEntry {
   target?: string;
   isAlias?: boolean;
   type?: string;
-  options?: DomainEntryOptions;
+  options?: { [key: string]: string };
 }
 export const DomainEntry = S.suspend(() =>
   S.Struct({
@@ -1404,7 +1803,7 @@ export const DetachDiskRequest = S.suspend(() =>
 }) as any as S.Schema<DetachDiskRequest>;
 export interface DetachInstancesFromLoadBalancerRequest {
   loadBalancerName: string;
-  instanceNames: ResourceNameList;
+  instanceNames: string[];
 }
 export const DetachInstancesFromLoadBalancerRequest = S.suspend(() =>
   S.Struct({
@@ -1444,11 +1843,11 @@ export const DetachStaticIpRequest = S.suspend(() =>
   identifier: "DetachStaticIpRequest",
 }) as any as S.Schema<DetachStaticIpRequest>;
 export interface DisableAddOnRequest {
-  addOnType: string;
+  addOnType: AddOnType;
   resourceName: string;
 }
 export const DisableAddOnRequest = S.suspend(() =>
-  S.Struct({ addOnType: S.String, resourceName: S.String }).pipe(
+  S.Struct({ addOnType: AddOnType, resourceName: S.String }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DisableAddOn" }),
       svc,
@@ -1572,13 +1971,13 @@ export const GetAutoSnapshotsRequest = S.suspend(() =>
 export interface GetBlueprintsRequest {
   includeInactive?: boolean;
   pageToken?: string;
-  appCategory?: string;
+  appCategory?: AppCategory;
 }
 export const GetBlueprintsRequest = S.suspend(() =>
   S.Struct({
     includeInactive: S.optional(S.Boolean),
     pageToken: S.optional(S.String),
-    appCategory: S.optional(S.String),
+    appCategory: S.optional(AppCategory),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetBlueprints" }),
@@ -1628,22 +2027,22 @@ export const GetBucketBundlesRequest = S.suspend(() =>
 }) as any as S.Schema<GetBucketBundlesRequest>;
 export interface GetBucketMetricDataRequest {
   bucketName: string;
-  metricName: string;
+  metricName: BucketMetricName;
   startTime: Date;
   endTime: Date;
   period: number;
-  statistics: MetricStatisticList;
-  unit: string;
+  statistics: MetricStatistic[];
+  unit: MetricUnit;
 }
 export const GetBucketMetricDataRequest = S.suspend(() =>
   S.Struct({
     bucketName: S.String,
-    metricName: S.String,
+    metricName: BucketMetricName,
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     period: S.Number,
     statistics: MetricStatisticList,
-    unit: S.String,
+    unit: MetricUnit,
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetBucketMetricData" }),
@@ -1685,13 +2084,13 @@ export const GetBucketsRequest = S.suspend(() =>
 export interface GetBundlesRequest {
   includeInactive?: boolean;
   pageToken?: string;
-  appCategory?: string;
+  appCategory?: AppCategory;
 }
 export const GetBundlesRequest = S.suspend(() =>
   S.Struct({
     includeInactive: S.optional(S.Boolean),
     pageToken: S.optional(S.String),
-    appCategory: S.optional(S.String),
+    appCategory: S.optional(AppCategory),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetBundles" }),
@@ -1706,7 +2105,7 @@ export const GetBundlesRequest = S.suspend(() =>
   identifier: "GetBundlesRequest",
 }) as any as S.Schema<GetBundlesRequest>;
 export interface GetCertificatesRequest {
-  certificateStatuses?: CertificateStatusList;
+  certificateStatuses?: CertificateStatus[];
   includeCertificateDetails?: boolean;
   certificateName?: string;
   pageToken?: string;
@@ -1751,7 +2150,7 @@ export const GetCloudFormationStackRecordsRequest = S.suspend(() =>
   identifier: "GetCloudFormationStackRecordsRequest",
 }) as any as S.Schema<GetCloudFormationStackRecordsRequest>;
 export interface GetContactMethodsRequest {
-  protocols?: ContactProtocolsList;
+  protocols?: ContactProtocol[];
 }
 export const GetContactMethodsRequest = S.suspend(() =>
   S.Struct({
@@ -1847,16 +2246,16 @@ export const GetContainerServiceDeploymentsRequest = S.suspend(() =>
 }) as any as S.Schema<GetContainerServiceDeploymentsRequest>;
 export interface GetContainerServiceMetricDataRequest {
   serviceName: string;
-  metricName: string;
+  metricName: ContainerServiceMetricName;
   startTime: Date;
   endTime: Date;
   period: number;
-  statistics: MetricStatisticList;
+  statistics: MetricStatistic[];
 }
 export const GetContainerServiceMetricDataRequest = S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.HttpLabel("serviceName")),
-    metricName: S.String.pipe(T.HttpQuery("metricName")),
+    metricName: ContainerServiceMetricName.pipe(T.HttpQuery("metricName")),
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
       T.HttpQuery("startTime"),
     ),
@@ -2013,21 +2412,21 @@ export const GetDistributionLatestCacheResetRequest = S.suspend(() =>
 }) as any as S.Schema<GetDistributionLatestCacheResetRequest>;
 export interface GetDistributionMetricDataRequest {
   distributionName: string;
-  metricName: string;
+  metricName: DistributionMetricName;
   startTime: Date;
   endTime: Date;
   period: number;
-  unit: string;
-  statistics: MetricStatisticList;
+  unit: MetricUnit;
+  statistics: MetricStatistic[];
 }
 export const GetDistributionMetricDataRequest = S.suspend(() =>
   S.Struct({
     distributionName: S.String,
-    metricName: S.String,
+    metricName: DistributionMetricName,
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     period: S.Number,
-    unit: S.String,
+    unit: MetricUnit,
     statistics: MetricStatisticList,
   }).pipe(
     T.all(
@@ -2139,10 +2538,13 @@ export const GetInstanceRequest = S.suspend(() =>
 }) as any as S.Schema<GetInstanceRequest>;
 export interface GetInstanceAccessDetailsRequest {
   instanceName: string;
-  protocol?: string;
+  protocol?: InstanceAccessProtocol;
 }
 export const GetInstanceAccessDetailsRequest = S.suspend(() =>
-  S.Struct({ instanceName: S.String, protocol: S.optional(S.String) }).pipe(
+  S.Struct({
+    instanceName: S.String,
+    protocol: S.optional(InstanceAccessProtocol),
+  }).pipe(
     T.all(
       T.Http({
         method: "POST",
@@ -2160,21 +2562,21 @@ export const GetInstanceAccessDetailsRequest = S.suspend(() =>
 }) as any as S.Schema<GetInstanceAccessDetailsRequest>;
 export interface GetInstanceMetricDataRequest {
   instanceName: string;
-  metricName: string;
+  metricName: InstanceMetricName;
   period: number;
   startTime: Date;
   endTime: Date;
-  unit: string;
-  statistics: MetricStatisticList;
+  unit: MetricUnit;
+  statistics: MetricStatistic[];
 }
 export const GetInstanceMetricDataRequest = S.suspend(() =>
   S.Struct({
     instanceName: S.String,
-    metricName: S.String,
+    metricName: InstanceMetricName,
     period: S.Number,
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    unit: S.String,
+    unit: MetricUnit,
     statistics: MetricStatisticList,
   }).pipe(
     T.all(
@@ -2340,21 +2742,21 @@ export const GetLoadBalancerRequest = S.suspend(() =>
 }) as any as S.Schema<GetLoadBalancerRequest>;
 export interface GetLoadBalancerMetricDataRequest {
   loadBalancerName: string;
-  metricName: string;
+  metricName: LoadBalancerMetricName;
   period: number;
   startTime: Date;
   endTime: Date;
-  unit: string;
-  statistics: MetricStatisticList;
+  unit: MetricUnit;
+  statistics: MetricStatistic[];
 }
 export const GetLoadBalancerMetricDataRequest = S.suspend(() =>
   S.Struct({
     loadBalancerName: S.String,
-    metricName: S.String,
+    metricName: LoadBalancerMetricName,
     period: S.Number,
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    unit: S.String,
+    unit: MetricUnit,
     statistics: MetricStatisticList,
   }).pipe(
     T.all(
@@ -2649,12 +3051,12 @@ export const GetRelationalDatabaseLogStreamsRequest = S.suspend(() =>
 }) as any as S.Schema<GetRelationalDatabaseLogStreamsRequest>;
 export interface GetRelationalDatabaseMasterUserPasswordRequest {
   relationalDatabaseName: string;
-  passwordVersion?: string;
+  passwordVersion?: RelationalDatabasePasswordVersion;
 }
 export const GetRelationalDatabaseMasterUserPasswordRequest = S.suspend(() =>
   S.Struct({
     relationalDatabaseName: S.String,
-    passwordVersion: S.optional(S.String),
+    passwordVersion: S.optional(RelationalDatabasePasswordVersion),
   }).pipe(
     T.all(
       T.Http({
@@ -2673,21 +3075,21 @@ export const GetRelationalDatabaseMasterUserPasswordRequest = S.suspend(() =>
 }) as any as S.Schema<GetRelationalDatabaseMasterUserPasswordRequest>;
 export interface GetRelationalDatabaseMetricDataRequest {
   relationalDatabaseName: string;
-  metricName: string;
+  metricName: RelationalDatabaseMetricName;
   period: number;
   startTime: Date;
   endTime: Date;
-  unit: string;
-  statistics: MetricStatisticList;
+  unit: MetricUnit;
+  statistics: MetricStatistic[];
 }
 export const GetRelationalDatabaseMetricDataRequest = S.suspend(() =>
   S.Struct({
     relationalDatabaseName: S.String,
-    metricName: S.String,
+    metricName: RelationalDatabaseMetricName,
     period: S.Number,
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    unit: S.String,
+    unit: MetricUnit,
     statistics: MetricStatisticList,
   }).pipe(
     T.all(
@@ -2890,27 +3292,27 @@ export const OpenInstancePublicPortsRequest = S.suspend(() =>
 }) as any as S.Schema<OpenInstancePublicPortsRequest>;
 export interface PutAlarmRequest {
   alarmName: string;
-  metricName: string;
+  metricName: MetricName;
   monitoredResourceName: string;
-  comparisonOperator: string;
+  comparisonOperator: ComparisonOperator;
   threshold: number;
   evaluationPeriods: number;
   datapointsToAlarm?: number;
-  treatMissingData?: string;
-  contactProtocols?: ContactProtocolsList;
-  notificationTriggers?: NotificationTriggerList;
+  treatMissingData?: TreatMissingData;
+  contactProtocols?: ContactProtocol[];
+  notificationTriggers?: AlarmState[];
   notificationEnabled?: boolean;
 }
 export const PutAlarmRequest = S.suspend(() =>
   S.Struct({
     alarmName: S.String,
-    metricName: S.String,
+    metricName: MetricName,
     monitoredResourceName: S.String,
-    comparisonOperator: S.String,
+    comparisonOperator: ComparisonOperator,
     threshold: S.Number,
     evaluationPeriods: S.Number,
     datapointsToAlarm: S.optional(S.Number),
-    treatMissingData: S.optional(S.String),
+    treatMissingData: S.optional(TreatMissingData),
     contactProtocols: S.optional(ContactProtocolsList),
     notificationTriggers: S.optional(NotificationTriggerList),
     notificationEnabled: S.optional(S.Boolean),
@@ -2928,7 +3330,7 @@ export const PutAlarmRequest = S.suspend(() =>
   identifier: "PutAlarmRequest",
 }) as any as S.Schema<PutAlarmRequest>;
 export interface PutInstancePublicPortsRequest {
-  portInfos: PortInfoList;
+  portInfos: PortInfo[];
   instanceName: string;
 }
 export const PutInstancePublicPortsRequest = S.suspend(() =>
@@ -3049,10 +3451,10 @@ export const ResetDistributionCacheRequest = S.suspend(() =>
   identifier: "ResetDistributionCacheRequest",
 }) as any as S.Schema<ResetDistributionCacheRequest>;
 export interface SendContactMethodVerificationRequest {
-  protocol: string;
+  protocol: ContactMethodVerificationProtocol;
 }
 export const SendContactMethodVerificationRequest = S.suspend(() =>
-  S.Struct({ protocol: S.String }).pipe(
+  S.Struct({ protocol: ContactMethodVerificationProtocol }).pipe(
     T.all(
       T.Http({
         method: "POST",
@@ -3069,16 +3471,16 @@ export const SendContactMethodVerificationRequest = S.suspend(() =>
   identifier: "SendContactMethodVerificationRequest",
 }) as any as S.Schema<SendContactMethodVerificationRequest>;
 export interface SetIpAddressTypeRequest {
-  resourceType: string;
+  resourceType: ResourceType;
   resourceName: string;
-  ipAddressType: string;
+  ipAddressType: IpAddressType;
   acceptBundleUpdate?: boolean;
 }
 export const SetIpAddressTypeRequest = S.suspend(() =>
   S.Struct({
-    resourceType: S.String,
+    resourceType: ResourceType,
     resourceName: S.String,
-    ipAddressType: S.String,
+    ipAddressType: IpAddressType,
     acceptBundleUpdate: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -3096,13 +3498,13 @@ export const SetIpAddressTypeRequest = S.suspend(() =>
 export interface SetResourceAccessForBucketRequest {
   resourceName: string;
   bucketName: string;
-  access: string;
+  access: ResourceBucketAccess;
 }
 export const SetResourceAccessForBucketRequest = S.suspend(() =>
   S.Struct({
     resourceName: S.String,
     bucketName: S.String,
-    access: S.String,
+    access: ResourceBucketAccess,
   }).pipe(
     T.all(
       T.Http({
@@ -3121,16 +3523,16 @@ export const SetResourceAccessForBucketRequest = S.suspend(() =>
 }) as any as S.Schema<SetResourceAccessForBucketRequest>;
 export interface SetupInstanceHttpsRequest {
   instanceName: string;
-  emailAddress: string | Redacted.Redacted<string>;
-  domainNames: SetupDomainNameList;
-  certificateProvider: string;
+  emailAddress: string | redacted.Redacted<string>;
+  domainNames: string[];
+  certificateProvider: CertificateProvider;
 }
 export const SetupInstanceHttpsRequest = S.suspend(() =>
   S.Struct({
     instanceName: S.String,
     emailAddress: SensitiveString,
     domainNames: SetupDomainNameList,
-    certificateProvider: S.String,
+    certificateProvider: CertificateProvider,
   }).pipe(
     T.all(
       T.Http({
@@ -3263,7 +3665,7 @@ export const StopRelationalDatabaseRequest = S.suspend(() =>
 export interface TagResourceRequest {
   resourceName: string;
   resourceArn?: string;
-  tags: TagList;
+  tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -3285,12 +3687,12 @@ export const TagResourceRequest = S.suspend(() =>
 }) as any as S.Schema<TagResourceRequest>;
 export interface TestAlarmRequest {
   alarmName: string;
-  state: string;
+  state: AlarmState;
 }
 export const TestAlarmRequest = S.suspend(() =>
   S.Struct({
     alarmName: S.String.pipe(T.HttpLabel("alarmName")),
-    state: S.String.pipe(T.HttpQuery("state")),
+    state: AlarmState.pipe(T.HttpQuery("state")),
   }).pipe(
     T.all(
       T.Http({
@@ -3309,26 +3711,208 @@ export const TestAlarmRequest = S.suspend(() =>
 }) as any as S.Schema<TestAlarmRequest>;
 export interface ResourceLocation {
   availabilityZone?: string;
-  regionName?: string;
+  regionName?: RegionName;
 }
 export const ResourceLocation = S.suspend(() =>
   S.Struct({
     availabilityZone: S.optional(S.String),
-    regionName: S.optional(S.String),
+    regionName: S.optional(RegionName),
   }),
 ).annotations({
   identifier: "ResourceLocation",
 }) as any as S.Schema<ResourceLocation>;
+export type OperationType =
+  | "DeleteKnownHostKeys"
+  | "DeleteInstance"
+  | "CreateInstance"
+  | "StopInstance"
+  | "StartInstance"
+  | "RebootInstance"
+  | "OpenInstancePublicPorts"
+  | "PutInstancePublicPorts"
+  | "CloseInstancePublicPorts"
+  | "AllocateStaticIp"
+  | "ReleaseStaticIp"
+  | "AttachStaticIp"
+  | "DetachStaticIp"
+  | "UpdateDomainEntry"
+  | "DeleteDomainEntry"
+  | "CreateDomain"
+  | "DeleteDomain"
+  | "CreateInstanceSnapshot"
+  | "DeleteInstanceSnapshot"
+  | "CreateInstancesFromSnapshot"
+  | "CreateLoadBalancer"
+  | "DeleteLoadBalancer"
+  | "AttachInstancesToLoadBalancer"
+  | "DetachInstancesFromLoadBalancer"
+  | "UpdateLoadBalancerAttribute"
+  | "CreateLoadBalancerTlsCertificate"
+  | "DeleteLoadBalancerTlsCertificate"
+  | "AttachLoadBalancerTlsCertificate"
+  | "CreateDisk"
+  | "DeleteDisk"
+  | "AttachDisk"
+  | "DetachDisk"
+  | "CreateDiskSnapshot"
+  | "DeleteDiskSnapshot"
+  | "CreateDiskFromSnapshot"
+  | "CreateRelationalDatabase"
+  | "UpdateRelationalDatabase"
+  | "DeleteRelationalDatabase"
+  | "CreateRelationalDatabaseFromSnapshot"
+  | "CreateRelationalDatabaseSnapshot"
+  | "DeleteRelationalDatabaseSnapshot"
+  | "UpdateRelationalDatabaseParameters"
+  | "StartRelationalDatabase"
+  | "RebootRelationalDatabase"
+  | "StopRelationalDatabase"
+  | "EnableAddOn"
+  | "DisableAddOn"
+  | "PutAlarm"
+  | "GetAlarms"
+  | "DeleteAlarm"
+  | "TestAlarm"
+  | "CreateContactMethod"
+  | "GetContactMethods"
+  | "SendContactMethodVerification"
+  | "DeleteContactMethod"
+  | "CreateDistribution"
+  | "UpdateDistribution"
+  | "DeleteDistribution"
+  | "ResetDistributionCache"
+  | "AttachCertificateToDistribution"
+  | "DetachCertificateFromDistribution"
+  | "UpdateDistributionBundle"
+  | "SetIpAddressType"
+  | "CreateCertificate"
+  | "DeleteCertificate"
+  | "CreateContainerService"
+  | "UpdateContainerService"
+  | "DeleteContainerService"
+  | "CreateContainerServiceDeployment"
+  | "CreateContainerServiceRegistryLogin"
+  | "RegisterContainerImage"
+  | "DeleteContainerImage"
+  | "CreateBucket"
+  | "DeleteBucket"
+  | "CreateBucketAccessKey"
+  | "DeleteBucketAccessKey"
+  | "UpdateBucketBundle"
+  | "UpdateBucket"
+  | "SetResourceAccessForBucket"
+  | "UpdateInstanceMetadataOptions"
+  | "StartGUISession"
+  | "StopGUISession"
+  | "SetupInstanceHttps";
+export const OperationType = S.Literal(
+  "DeleteKnownHostKeys",
+  "DeleteInstance",
+  "CreateInstance",
+  "StopInstance",
+  "StartInstance",
+  "RebootInstance",
+  "OpenInstancePublicPorts",
+  "PutInstancePublicPorts",
+  "CloseInstancePublicPorts",
+  "AllocateStaticIp",
+  "ReleaseStaticIp",
+  "AttachStaticIp",
+  "DetachStaticIp",
+  "UpdateDomainEntry",
+  "DeleteDomainEntry",
+  "CreateDomain",
+  "DeleteDomain",
+  "CreateInstanceSnapshot",
+  "DeleteInstanceSnapshot",
+  "CreateInstancesFromSnapshot",
+  "CreateLoadBalancer",
+  "DeleteLoadBalancer",
+  "AttachInstancesToLoadBalancer",
+  "DetachInstancesFromLoadBalancer",
+  "UpdateLoadBalancerAttribute",
+  "CreateLoadBalancerTlsCertificate",
+  "DeleteLoadBalancerTlsCertificate",
+  "AttachLoadBalancerTlsCertificate",
+  "CreateDisk",
+  "DeleteDisk",
+  "AttachDisk",
+  "DetachDisk",
+  "CreateDiskSnapshot",
+  "DeleteDiskSnapshot",
+  "CreateDiskFromSnapshot",
+  "CreateRelationalDatabase",
+  "UpdateRelationalDatabase",
+  "DeleteRelationalDatabase",
+  "CreateRelationalDatabaseFromSnapshot",
+  "CreateRelationalDatabaseSnapshot",
+  "DeleteRelationalDatabaseSnapshot",
+  "UpdateRelationalDatabaseParameters",
+  "StartRelationalDatabase",
+  "RebootRelationalDatabase",
+  "StopRelationalDatabase",
+  "EnableAddOn",
+  "DisableAddOn",
+  "PutAlarm",
+  "GetAlarms",
+  "DeleteAlarm",
+  "TestAlarm",
+  "CreateContactMethod",
+  "GetContactMethods",
+  "SendContactMethodVerification",
+  "DeleteContactMethod",
+  "CreateDistribution",
+  "UpdateDistribution",
+  "DeleteDistribution",
+  "ResetDistributionCache",
+  "AttachCertificateToDistribution",
+  "DetachCertificateFromDistribution",
+  "UpdateDistributionBundle",
+  "SetIpAddressType",
+  "CreateCertificate",
+  "DeleteCertificate",
+  "CreateContainerService",
+  "UpdateContainerService",
+  "DeleteContainerService",
+  "CreateContainerServiceDeployment",
+  "CreateContainerServiceRegistryLogin",
+  "RegisterContainerImage",
+  "DeleteContainerImage",
+  "CreateBucket",
+  "DeleteBucket",
+  "CreateBucketAccessKey",
+  "DeleteBucketAccessKey",
+  "UpdateBucketBundle",
+  "UpdateBucket",
+  "SetResourceAccessForBucket",
+  "UpdateInstanceMetadataOptions",
+  "StartGUISession",
+  "StopGUISession",
+  "SetupInstanceHttps",
+);
+export type OperationStatus =
+  | "NotStarted"
+  | "Started"
+  | "Failed"
+  | "Completed"
+  | "Succeeded";
+export const OperationStatus = S.Literal(
+  "NotStarted",
+  "Started",
+  "Failed",
+  "Completed",
+  "Succeeded",
+);
 export interface Operation {
   id?: string;
   resourceName?: string;
-  resourceType?: string;
+  resourceType?: ResourceType;
   createdAt?: Date;
   location?: ResourceLocation;
   isTerminal?: boolean;
   operationDetails?: string;
-  operationType?: string;
-  status?: string;
+  operationType?: OperationType;
+  status?: OperationStatus;
   statusChangedAt?: Date;
   errorCode?: string;
   errorDetails?: string;
@@ -3337,13 +3921,13 @@ export const Operation = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     resourceName: S.optional(S.String),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     location: S.optional(ResourceLocation),
     isTerminal: S.optional(S.Boolean),
     operationDetails: S.optional(S.String),
-    operationType: S.optional(S.String),
-    status: S.optional(S.String),
+    operationType: S.optional(OperationType),
+    status: S.optional(OperationStatus),
     statusChangedAt: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -3362,7 +3946,7 @@ export const UnpeerVpcResult = S.suspend(() =>
 export interface UntagResourceRequest {
   resourceName: string;
   resourceArn?: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -3402,9 +3986,7 @@ export const UpdateBucketBundleRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateBucketBundleRequest>;
 export type ContainerServicePublicDomainsList = string[];
 export const ContainerServicePublicDomainsList = S.Array(S.String);
-export type ContainerServicePublicDomains = {
-  [key: string]: ContainerServicePublicDomainsList;
-};
+export type ContainerServicePublicDomains = { [key: string]: string[] };
 export const ContainerServicePublicDomains = S.Record({
   key: S.String,
   value: ContainerServicePublicDomainsList,
@@ -3429,16 +4011,16 @@ export const PrivateRegistryAccessRequest = S.suspend(() =>
 }) as any as S.Schema<PrivateRegistryAccessRequest>;
 export interface UpdateContainerServiceRequest {
   serviceName: string;
-  power?: string;
+  power?: ContainerServicePowerName;
   scale?: number;
   isDisabled?: boolean;
-  publicDomainNames?: ContainerServicePublicDomains;
+  publicDomainNames?: { [key: string]: string[] };
   privateRegistryAccess?: PrivateRegistryAccessRequest;
 }
 export const UpdateContainerServiceRequest = S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.HttpLabel("serviceName")),
-    power: S.optional(S.String),
+    power: S.optional(ContainerServicePowerName),
     scale: S.optional(S.Number),
     isDisabled: S.optional(S.Boolean),
     publicDomainNames: S.optional(ContainerServicePublicDomains),
@@ -3459,53 +4041,92 @@ export const UpdateContainerServiceRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateContainerServiceRequest",
 }) as any as S.Schema<UpdateContainerServiceRequest>;
+export type OriginProtocolPolicyEnum = "http-only" | "https-only";
+export const OriginProtocolPolicyEnum = S.Literal("http-only", "https-only");
 export interface InputOrigin {
   name?: string;
-  regionName?: string;
-  protocolPolicy?: string;
+  regionName?: RegionName;
+  protocolPolicy?: OriginProtocolPolicyEnum;
   responseTimeout?: number;
 }
 export const InputOrigin = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    regionName: S.optional(S.String),
-    protocolPolicy: S.optional(S.String),
+    regionName: S.optional(RegionName),
+    protocolPolicy: S.optional(OriginProtocolPolicyEnum),
     responseTimeout: S.optional(S.Number),
   }),
 ).annotations({ identifier: "InputOrigin" }) as any as S.Schema<InputOrigin>;
+export type BehaviorEnum = "dont-cache" | "cache";
+export const BehaviorEnum = S.Literal("dont-cache", "cache");
 export interface CacheBehavior {
-  behavior?: string;
+  behavior?: BehaviorEnum;
 }
 export const CacheBehavior = S.suspend(() =>
-  S.Struct({ behavior: S.optional(S.String) }),
+  S.Struct({ behavior: S.optional(BehaviorEnum) }),
 ).annotations({
   identifier: "CacheBehavior",
 }) as any as S.Schema<CacheBehavior>;
+export type ForwardValues = "none" | "allow-list" | "all";
+export const ForwardValues = S.Literal("none", "allow-list", "all");
 export interface CookieObject {
-  option?: string;
-  cookiesAllowList?: StringList;
+  option?: ForwardValues;
+  cookiesAllowList?: string[];
 }
 export const CookieObject = S.suspend(() =>
   S.Struct({
-    option: S.optional(S.String),
+    option: S.optional(ForwardValues),
     cookiesAllowList: S.optional(StringList),
   }),
 ).annotations({ identifier: "CookieObject" }) as any as S.Schema<CookieObject>;
-export type HeaderForwardList = string[];
-export const HeaderForwardList = S.Array(S.String);
+export type HeaderEnum =
+  | "Accept"
+  | "Accept-Charset"
+  | "Accept-Datetime"
+  | "Accept-Encoding"
+  | "Accept-Language"
+  | "Authorization"
+  | "CloudFront-Forwarded-Proto"
+  | "CloudFront-Is-Desktop-Viewer"
+  | "CloudFront-Is-Mobile-Viewer"
+  | "CloudFront-Is-SmartTV-Viewer"
+  | "CloudFront-Is-Tablet-Viewer"
+  | "CloudFront-Viewer-Country"
+  | "Host"
+  | "Origin"
+  | "Referer";
+export const HeaderEnum = S.Literal(
+  "Accept",
+  "Accept-Charset",
+  "Accept-Datetime",
+  "Accept-Encoding",
+  "Accept-Language",
+  "Authorization",
+  "CloudFront-Forwarded-Proto",
+  "CloudFront-Is-Desktop-Viewer",
+  "CloudFront-Is-Mobile-Viewer",
+  "CloudFront-Is-SmartTV-Viewer",
+  "CloudFront-Is-Tablet-Viewer",
+  "CloudFront-Viewer-Country",
+  "Host",
+  "Origin",
+  "Referer",
+);
+export type HeaderForwardList = HeaderEnum[];
+export const HeaderForwardList = S.Array(HeaderEnum);
 export interface HeaderObject {
-  option?: string;
-  headersAllowList?: HeaderForwardList;
+  option?: ForwardValues;
+  headersAllowList?: HeaderEnum[];
 }
 export const HeaderObject = S.suspend(() =>
   S.Struct({
-    option: S.optional(S.String),
+    option: S.optional(ForwardValues),
     headersAllowList: S.optional(HeaderForwardList),
   }),
 ).annotations({ identifier: "HeaderObject" }) as any as S.Schema<HeaderObject>;
 export interface QueryStringObject {
   option?: boolean;
-  queryStringsAllowList?: StringList;
+  queryStringsAllowList?: string[];
 }
 export const QueryStringObject = S.suspend(() =>
   S.Struct({
@@ -3541,10 +4162,10 @@ export const CacheSettings = S.suspend(() =>
 }) as any as S.Schema<CacheSettings>;
 export interface CacheBehaviorPerPath {
   path?: string;
-  behavior?: string;
+  behavior?: BehaviorEnum;
 }
 export const CacheBehaviorPerPath = S.suspend(() =>
-  S.Struct({ path: S.optional(S.String), behavior: S.optional(S.String) }),
+  S.Struct({ path: S.optional(S.String), behavior: S.optional(BehaviorEnum) }),
 ).annotations({
   identifier: "CacheBehaviorPerPath",
 }) as any as S.Schema<CacheBehaviorPerPath>;
@@ -3555,9 +4176,9 @@ export interface UpdateDistributionRequest {
   origin?: InputOrigin;
   defaultCacheBehavior?: CacheBehavior;
   cacheBehaviorSettings?: CacheSettings;
-  cacheBehaviors?: CacheBehaviorList;
+  cacheBehaviors?: CacheBehaviorPerPath[];
   isEnabled?: boolean;
-  viewerMinimumTlsProtocolVersion?: string;
+  viewerMinimumTlsProtocolVersion?: ViewerMinimumTlsProtocolVersionEnum;
   certificateName?: string;
   useDefaultCertificate?: boolean;
 }
@@ -3569,7 +4190,9 @@ export const UpdateDistributionRequest = S.suspend(() =>
     cacheBehaviorSettings: S.optional(CacheSettings),
     cacheBehaviors: S.optional(CacheBehaviorList),
     isEnabled: S.optional(S.Boolean),
-    viewerMinimumTlsProtocolVersion: S.optional(S.String),
+    viewerMinimumTlsProtocolVersion: S.optional(
+      ViewerMinimumTlsProtocolVersionEnum,
+    ),
     certificateName: S.optional(S.String),
     useDefaultCertificate: S.optional(S.Boolean),
   }).pipe(
@@ -3629,18 +4252,18 @@ export const UpdateDomainEntryRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateDomainEntryRequest>;
 export interface UpdateInstanceMetadataOptionsRequest {
   instanceName: string;
-  httpTokens?: string;
-  httpEndpoint?: string;
+  httpTokens?: HttpTokens;
+  httpEndpoint?: HttpEndpoint;
   httpPutResponseHopLimit?: number;
-  httpProtocolIpv6?: string;
+  httpProtocolIpv6?: HttpProtocolIpv6;
 }
 export const UpdateInstanceMetadataOptionsRequest = S.suspend(() =>
   S.Struct({
     instanceName: S.String,
-    httpTokens: S.optional(S.String),
-    httpEndpoint: S.optional(S.String),
+    httpTokens: S.optional(HttpTokens),
+    httpEndpoint: S.optional(HttpEndpoint),
     httpPutResponseHopLimit: S.optional(S.Number),
-    httpProtocolIpv6: S.optional(S.String),
+    httpProtocolIpv6: S.optional(HttpProtocolIpv6),
   }).pipe(
     T.all(
       T.Http({
@@ -3659,13 +4282,13 @@ export const UpdateInstanceMetadataOptionsRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateInstanceMetadataOptionsRequest>;
 export interface UpdateLoadBalancerAttributeRequest {
   loadBalancerName: string;
-  attributeName: string;
+  attributeName: LoadBalancerAttributeName;
   attributeValue: string;
 }
 export const UpdateLoadBalancerAttributeRequest = S.suspend(() =>
   S.Struct({
     loadBalancerName: S.String,
-    attributeName: S.String,
+    attributeName: LoadBalancerAttributeName,
     attributeValue: S.String,
   }).pipe(
     T.all(
@@ -3685,7 +4308,7 @@ export const UpdateLoadBalancerAttributeRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateLoadBalancerAttributeRequest>;
 export interface UpdateRelationalDatabaseRequest {
   relationalDatabaseName: string;
-  masterUserPassword?: string | Redacted.Redacted<string>;
+  masterUserPassword?: string | redacted.Redacted<string>;
   rotateMasterUserPassword?: boolean;
   preferredBackupWindow?: string;
   preferredMaintenanceWindow?: string;
@@ -3725,12 +4348,21 @@ export const UpdateRelationalDatabaseRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateRelationalDatabaseRequest",
 }) as any as S.Schema<UpdateRelationalDatabaseRequest>;
+export type PortInfoSourceType = "DEFAULT" | "INSTANCE" | "NONE" | "CLOSED";
+export const PortInfoSourceType = S.Literal(
+  "DEFAULT",
+  "INSTANCE",
+  "NONE",
+  "CLOSED",
+);
+export type AccessType = "public" | "private";
+export const AccessType = S.Literal("public", "private");
 export type OperationList = Operation[];
 export const OperationList = S.Array(Operation);
 export interface InstanceEntry {
   sourceName: string;
   instanceType: string;
-  portInfoSource: string;
+  portInfoSource: PortInfoSourceType;
   userData?: string;
   availabilityZone: string;
 }
@@ -3738,7 +4370,7 @@ export const InstanceEntry = S.suspend(() =>
   S.Struct({
     sourceName: S.String,
     instanceType: S.String,
-    portInfoSource: S.String,
+    portInfoSource: PortInfoSourceType,
     userData: S.optional(S.String),
     availabilityZone: S.String,
   }),
@@ -3749,13 +4381,23 @@ export type InstanceEntryList = InstanceEntry[];
 export const InstanceEntryList = S.Array(InstanceEntry);
 export type Environment = { [key: string]: string };
 export const Environment = S.Record({ key: S.String, value: S.String });
-export type PortMap = { [key: string]: string };
-export const PortMap = S.Record({ key: S.String, value: S.String });
+export type ContainerServiceProtocol = "HTTP" | "HTTPS" | "TCP" | "UDP";
+export const ContainerServiceProtocol = S.Literal(
+  "HTTP",
+  "HTTPS",
+  "TCP",
+  "UDP",
+);
+export type PortMap = { [key: string]: ContainerServiceProtocol };
+export const PortMap = S.Record({
+  key: S.String,
+  value: ContainerServiceProtocol,
+});
 export interface Container {
   image?: string;
-  command?: StringList;
-  environment?: Environment;
-  ports?: PortMap;
+  command?: string[];
+  environment?: { [key: string]: string };
+  ports?: { [key: string]: ContainerServiceProtocol };
 }
 export const Container = S.suspend(() =>
   S.Struct({
@@ -3802,7 +4444,7 @@ export const EndpointRequest = S.suspend(() =>
   identifier: "EndpointRequest",
 }) as any as S.Schema<EndpointRequest>;
 export interface ContainerServiceDeploymentRequest {
-  containers?: ContainerMap;
+  containers?: { [key: string]: Container };
   publicEndpoint?: EndpointRequest;
 }
 export const ContainerServiceDeploymentRequest = S.suspend(() =>
@@ -3829,6 +4471,31 @@ export const ContainerServiceRegistryLogin = S.suspend(() =>
 ).annotations({
   identifier: "ContainerServiceRegistryLogin",
 }) as any as S.Schema<ContainerServiceRegistryLogin>;
+export type Status =
+  | "startExpired"
+  | "notStarted"
+  | "started"
+  | "starting"
+  | "stopped"
+  | "stopping"
+  | "settingUpInstance"
+  | "failedInstanceCreation"
+  | "failedStartingGUISession"
+  | "failedStoppingGUISession";
+export const Status = S.Literal(
+  "startExpired",
+  "notStarted",
+  "started",
+  "starting",
+  "stopped",
+  "stopping",
+  "settingUpInstance",
+  "failedInstanceCreation",
+  "failedStartingGUISession",
+  "failedStoppingGUISession",
+);
+export type StatusType = "Active" | "Inactive";
+export const StatusType = S.Literal("Active", "Inactive");
 export interface AccessKeyLastUsed {
   lastUsedDate?: Date;
   region?: string;
@@ -3844,9 +4511,9 @@ export const AccessKeyLastUsed = S.suspend(() =>
   identifier: "AccessKeyLastUsed",
 }) as any as S.Schema<AccessKeyLastUsed>;
 export interface AccessKey {
-  accessKeyId?: string | Redacted.Redacted<string>;
+  accessKeyId?: string | redacted.Redacted<string>;
   secretAccessKey?: string;
-  status?: string;
+  status?: StatusType;
   createdAt?: Date;
   lastUsed?: AccessKeyLastUsed;
 }
@@ -3854,7 +4521,7 @@ export const AccessKey = S.suspend(() =>
   S.Struct({
     accessKeyId: S.optional(SensitiveString),
     secretAccessKey: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(StatusType),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUsed: S.optional(AccessKeyLastUsed),
   }),
@@ -3875,43 +4542,72 @@ export const ResourceRecord = S.suspend(() =>
 ).annotations({
   identifier: "ResourceRecord",
 }) as any as S.Schema<ResourceRecord>;
+export type DnsRecordCreationStateCode = "SUCCEEDED" | "STARTED" | "FAILED";
+export const DnsRecordCreationStateCode = S.Literal(
+  "SUCCEEDED",
+  "STARTED",
+  "FAILED",
+);
 export interface DnsRecordCreationState {
-  code?: string;
+  code?: DnsRecordCreationStateCode;
   message?: string;
 }
 export const DnsRecordCreationState = S.suspend(() =>
-  S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
+  S.Struct({
+    code: S.optional(DnsRecordCreationStateCode),
+    message: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "DnsRecordCreationState",
 }) as any as S.Schema<DnsRecordCreationState>;
+export type CertificateDomainValidationStatus =
+  | "PENDING_VALIDATION"
+  | "FAILED"
+  | "SUCCESS";
+export const CertificateDomainValidationStatus = S.Literal(
+  "PENDING_VALIDATION",
+  "FAILED",
+  "SUCCESS",
+);
 export interface DomainValidationRecord {
   domainName?: string;
   resourceRecord?: ResourceRecord;
   dnsRecordCreationState?: DnsRecordCreationState;
-  validationStatus?: string;
+  validationStatus?: CertificateDomainValidationStatus;
 }
 export const DomainValidationRecord = S.suspend(() =>
   S.Struct({
     domainName: S.optional(S.String),
     resourceRecord: S.optional(ResourceRecord),
     dnsRecordCreationState: S.optional(DnsRecordCreationState),
-    validationStatus: S.optional(S.String),
+    validationStatus: S.optional(CertificateDomainValidationStatus),
   }),
 ).annotations({
   identifier: "DomainValidationRecord",
 }) as any as S.Schema<DomainValidationRecord>;
 export type DomainValidationRecordList = DomainValidationRecord[];
 export const DomainValidationRecordList = S.Array(DomainValidationRecord);
+export type RenewalStatus =
+  | "PendingAutoRenewal"
+  | "PendingValidation"
+  | "Success"
+  | "Failed";
+export const RenewalStatus = S.Literal(
+  "PendingAutoRenewal",
+  "PendingValidation",
+  "Success",
+  "Failed",
+);
 export interface RenewalSummary {
-  domainValidationRecords?: DomainValidationRecordList;
-  renewalStatus?: string;
+  domainValidationRecords?: DomainValidationRecord[];
+  renewalStatus?: RenewalStatus;
   renewalStatusReason?: string;
   updatedAt?: Date;
 }
 export const RenewalSummary = S.suspend(() =>
   S.Struct({
     domainValidationRecords: S.optional(DomainValidationRecordList),
-    renewalStatus: S.optional(S.String),
+    renewalStatus: S.optional(RenewalStatus),
     renewalStatusReason: S.optional(S.String),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -3922,10 +4618,10 @@ export interface Certificate {
   arn?: string;
   name?: string;
   domainName?: string;
-  status?: string;
+  status?: CertificateStatus;
   serialNumber?: string;
-  subjectAlternativeNames?: SubjectAlternativeNameList;
-  domainValidationRecords?: DomainValidationRecordList;
+  subjectAlternativeNames?: string[];
+  domainValidationRecords?: DomainValidationRecord[];
   requestFailureReason?: string;
   inUseResourceCount?: number;
   keyAlgorithm?: string;
@@ -3938,7 +4634,7 @@ export interface Certificate {
   renewalSummary?: RenewalSummary;
   revokedAt?: Date;
   revocationReason?: string;
-  tags?: TagList;
+  tags?: Tag[];
   supportCode?: string;
 }
 export const Certificate = S.suspend(() =>
@@ -3946,7 +4642,7 @@ export const Certificate = S.suspend(() =>
     arn: S.optional(S.String),
     name: S.optional(S.String),
     domainName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(CertificateStatus),
     serialNumber: S.optional(S.String),
     subjectAlternativeNames: S.optional(SubjectAlternativeNameList),
     domainValidationRecords: S.optional(DomainValidationRecordList),
@@ -3971,7 +4667,7 @@ export interface CertificateSummary {
   certificateName?: string;
   domainName?: string;
   certificateDetail?: Certificate;
-  tags?: TagList;
+  tags?: Tag[];
 }
 export const CertificateSummary = S.suspend(() =>
   S.Struct({
@@ -3991,7 +4687,7 @@ export const ContainerServiceMetadataEntry = S.Record({
   key: S.String,
   value: S.String,
 });
-export type ContainerServiceMetadataEntryList = ContainerServiceMetadataEntry[];
+export type ContainerServiceMetadataEntryList = { [key: string]: string }[];
 export const ContainerServiceMetadataEntryList = S.Array(
   ContainerServiceMetadataEntry,
 );
@@ -4037,25 +4733,45 @@ export const AddOn = S.suspend(() =>
 ).annotations({ identifier: "AddOn" }) as any as S.Schema<AddOn>;
 export type AddOnList = AddOn[];
 export const AddOnList = S.Array(AddOn);
+export type DiskState =
+  | "pending"
+  | "error"
+  | "available"
+  | "in-use"
+  | "unknown";
+export const DiskState = S.Literal(
+  "pending",
+  "error",
+  "available",
+  "in-use",
+  "unknown",
+);
+export type AutoMountStatus = "Failed" | "Pending" | "Mounted" | "NotMounted";
+export const AutoMountStatus = S.Literal(
+  "Failed",
+  "Pending",
+  "Mounted",
+  "NotMounted",
+);
 export interface Disk {
   name?: string;
   arn?: string;
   supportCode?: string;
   createdAt?: Date;
   location?: ResourceLocation;
-  resourceType?: string;
-  tags?: TagList;
-  addOns?: AddOnList;
+  resourceType?: ResourceType;
+  tags?: Tag[];
+  addOns?: AddOn[];
   sizeInGb?: number;
   isSystemDisk?: boolean;
   iops?: number;
   path?: string;
-  state?: string;
+  state?: DiskState;
   attachedTo?: string;
   isAttached?: boolean;
   attachmentState?: string;
   gbInUse?: number;
-  autoMountStatus?: string;
+  autoMountStatus?: AutoMountStatus;
 }
 export const Disk = S.suspend(() =>
   S.Struct({
@@ -4064,33 +4780,40 @@ export const Disk = S.suspend(() =>
     supportCode: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     location: S.optional(ResourceLocation),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     tags: S.optional(TagList),
     addOns: S.optional(AddOnList),
     sizeInGb: S.optional(S.Number),
     isSystemDisk: S.optional(S.Boolean),
     iops: S.optional(S.Number),
     path: S.optional(S.String),
-    state: S.optional(S.String),
+    state: S.optional(DiskState),
     attachedTo: S.optional(S.String),
     isAttached: S.optional(S.Boolean),
     attachmentState: S.optional(S.String),
     gbInUse: S.optional(S.Number),
-    autoMountStatus: S.optional(S.String),
+    autoMountStatus: S.optional(AutoMountStatus),
   }),
 ).annotations({ identifier: "Disk" }) as any as S.Schema<Disk>;
 export type DiskList = Disk[];
 export const DiskList = S.Array(Disk);
+export type DiskSnapshotState = "pending" | "completed" | "error" | "unknown";
+export const DiskSnapshotState = S.Literal(
+  "pending",
+  "completed",
+  "error",
+  "unknown",
+);
 export interface DiskSnapshot {
   name?: string;
   arn?: string;
   supportCode?: string;
   createdAt?: Date;
   location?: ResourceLocation;
-  resourceType?: string;
-  tags?: TagList;
+  resourceType?: ResourceType;
+  tags?: Tag[];
   sizeInGb?: number;
-  state?: string;
+  state?: DiskSnapshotState;
   progress?: string;
   fromDiskName?: string;
   fromDiskArn?: string;
@@ -4105,10 +4828,10 @@ export const DiskSnapshot = S.suspend(() =>
     supportCode: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     location: S.optional(ResourceLocation),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     tags: S.optional(TagList),
     sizeInGb: S.optional(S.Number),
-    state: S.optional(S.String),
+    state: S.optional(DiskSnapshotState),
     progress: S.optional(S.String),
     fromDiskName: S.optional(S.String),
     fromDiskArn: S.optional(S.String),
@@ -4141,21 +4864,49 @@ export type DistributionBundleList = DistributionBundle[];
 export const DistributionBundleList = S.Array(DistributionBundle);
 export type DomainEntryList = DomainEntry[];
 export const DomainEntryList = S.Array(DomainEntry);
+export type NameServersUpdateStateCode =
+  | "SUCCEEDED"
+  | "PENDING"
+  | "FAILED"
+  | "STARTED";
+export const NameServersUpdateStateCode = S.Literal(
+  "SUCCEEDED",
+  "PENDING",
+  "FAILED",
+  "STARTED",
+);
 export interface NameServersUpdateState {
-  code?: string;
+  code?: NameServersUpdateStateCode;
   message?: string;
 }
 export const NameServersUpdateState = S.suspend(() =>
-  S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
+  S.Struct({
+    code: S.optional(NameServersUpdateStateCode),
+    message: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "NameServersUpdateState",
 }) as any as S.Schema<NameServersUpdateState>;
+export type R53HostedZoneDeletionStateCode =
+  | "SUCCEEDED"
+  | "PENDING"
+  | "FAILED"
+  | "STARTED";
+export const R53HostedZoneDeletionStateCode = S.Literal(
+  "SUCCEEDED",
+  "PENDING",
+  "FAILED",
+  "STARTED",
+);
 export interface R53HostedZoneDeletionState {
-  code?: string;
+  code?: R53HostedZoneDeletionStateCode;
   message?: string;
 }
 export const R53HostedZoneDeletionState = S.suspend(() =>
-  S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
+  S.Struct({
+    code: S.optional(R53HostedZoneDeletionStateCode),
+    message: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "R53HostedZoneDeletionState",
 }) as any as S.Schema<R53HostedZoneDeletionState>;
@@ -4177,9 +4928,9 @@ export interface Domain {
   supportCode?: string;
   createdAt?: Date;
   location?: ResourceLocation;
-  resourceType?: string;
-  tags?: TagList;
-  domainEntries?: DomainEntryList;
+  resourceType?: ResourceType;
+  tags?: Tag[];
+  domainEntries?: DomainEntry[];
   registeredDomainDelegationInfo?: RegisteredDomainDelegationInfo;
 }
 export const Domain = S.suspend(() =>
@@ -4189,7 +4940,7 @@ export const Domain = S.suspend(() =>
     supportCode: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     location: S.optional(ResourceLocation),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     tags: S.optional(TagList),
     domainEntries: S.optional(DomainEntryList),
     registeredDomainDelegationInfo: S.optional(RegisteredDomainDelegationInfo),
@@ -4201,7 +4952,7 @@ export type Ipv6AddressList = string[];
 export const Ipv6AddressList = S.Array(S.String);
 export interface InstanceHardware {
   cpuCount?: number;
-  disks?: DiskList;
+  disks?: Disk[];
   ramSizeInGb?: number;
 }
 export const InstanceHardware = S.suspend(() =>
@@ -4221,27 +4972,31 @@ export const MonthlyTransfer = S.suspend(() =>
 ).annotations({
   identifier: "MonthlyTransfer",
 }) as any as S.Schema<MonthlyTransfer>;
+export type PortAccessType = "Public" | "Private";
+export const PortAccessType = S.Literal("Public", "Private");
+export type AccessDirection = "inbound" | "outbound";
+export const AccessDirection = S.Literal("inbound", "outbound");
 export interface InstancePortInfo {
   fromPort?: number;
   toPort?: number;
-  protocol?: string;
+  protocol?: NetworkProtocol;
   accessFrom?: string;
-  accessType?: string;
+  accessType?: PortAccessType;
   commonName?: string;
-  accessDirection?: string;
-  cidrs?: StringList;
-  ipv6Cidrs?: StringList;
-  cidrListAliases?: StringList;
+  accessDirection?: AccessDirection;
+  cidrs?: string[];
+  ipv6Cidrs?: string[];
+  cidrListAliases?: string[];
 }
 export const InstancePortInfo = S.suspend(() =>
   S.Struct({
     fromPort: S.optional(S.Number),
     toPort: S.optional(S.Number),
-    protocol: S.optional(S.String),
+    protocol: S.optional(NetworkProtocol),
     accessFrom: S.optional(S.String),
-    accessType: S.optional(S.String),
+    accessType: S.optional(PortAccessType),
     commonName: S.optional(S.String),
-    accessDirection: S.optional(S.String),
+    accessDirection: S.optional(AccessDirection),
     cidrs: S.optional(StringList),
     ipv6Cidrs: S.optional(StringList),
     cidrListAliases: S.optional(StringList),
@@ -4253,7 +5008,7 @@ export type InstancePortInfoList = InstancePortInfo[];
 export const InstancePortInfoList = S.Array(InstancePortInfo);
 export interface InstanceNetworking {
   monthlyTransfer?: MonthlyTransfer;
-  ports?: InstancePortInfoList;
+  ports?: InstancePortInfo[];
 }
 export const InstanceNetworking = S.suspend(() =>
   S.Struct({
@@ -4272,20 +5027,22 @@ export const InstanceState = S.suspend(() =>
 ).annotations({
   identifier: "InstanceState",
 }) as any as S.Schema<InstanceState>;
+export type InstanceMetadataState = "pending" | "applied";
+export const InstanceMetadataState = S.Literal("pending", "applied");
 export interface InstanceMetadataOptions {
-  state?: string;
-  httpTokens?: string;
-  httpEndpoint?: string;
+  state?: InstanceMetadataState;
+  httpTokens?: HttpTokens;
+  httpEndpoint?: HttpEndpoint;
   httpPutResponseHopLimit?: number;
-  httpProtocolIpv6?: string;
+  httpProtocolIpv6?: HttpProtocolIpv6;
 }
 export const InstanceMetadataOptions = S.suspend(() =>
   S.Struct({
-    state: S.optional(S.String),
-    httpTokens: S.optional(S.String),
-    httpEndpoint: S.optional(S.String),
+    state: S.optional(InstanceMetadataState),
+    httpTokens: S.optional(HttpTokens),
+    httpEndpoint: S.optional(HttpEndpoint),
     httpPutResponseHopLimit: S.optional(S.Number),
-    httpProtocolIpv6: S.optional(S.String),
+    httpProtocolIpv6: S.optional(HttpProtocolIpv6),
   }),
 ).annotations({
   identifier: "InstanceMetadataOptions",
@@ -4296,17 +5053,17 @@ export interface Instance {
   supportCode?: string;
   createdAt?: Date;
   location?: ResourceLocation;
-  resourceType?: string;
-  tags?: TagList;
+  resourceType?: ResourceType;
+  tags?: Tag[];
   blueprintId?: string;
   blueprintName?: string;
   bundleId?: string;
-  addOns?: AddOnList;
+  addOns?: AddOn[];
   isStaticIp?: boolean;
   privateIpAddress?: string;
   publicIpAddress?: string;
-  ipv6Addresses?: Ipv6AddressList;
-  ipAddressType?: string;
+  ipv6Addresses?: string[];
+  ipAddressType?: IpAddressType;
   hardware?: InstanceHardware;
   networking?: InstanceNetworking;
   state?: InstanceState;
@@ -4321,7 +5078,7 @@ export const Instance = S.suspend(() =>
     supportCode: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     location: S.optional(ResourceLocation),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     tags: S.optional(TagList),
     blueprintId: S.optional(S.String),
     blueprintName: S.optional(S.String),
@@ -4331,7 +5088,7 @@ export const Instance = S.suspend(() =>
     privateIpAddress: S.optional(S.String),
     publicIpAddress: S.optional(S.String),
     ipv6Addresses: S.optional(Ipv6AddressList),
-    ipAddressType: S.optional(S.String),
+    ipAddressType: S.optional(IpAddressType),
     hardware: S.optional(InstanceHardware),
     networking: S.optional(InstanceNetworking),
     state: S.optional(InstanceState),
@@ -4342,17 +5099,19 @@ export const Instance = S.suspend(() =>
 ).annotations({ identifier: "Instance" }) as any as S.Schema<Instance>;
 export type InstanceList = Instance[];
 export const InstanceList = S.Array(Instance);
+export type InstanceSnapshotState = "pending" | "error" | "available";
+export const InstanceSnapshotState = S.Literal("pending", "error", "available");
 export interface InstanceSnapshot {
   name?: string;
   arn?: string;
   supportCode?: string;
   createdAt?: Date;
   location?: ResourceLocation;
-  resourceType?: string;
-  tags?: TagList;
-  state?: string;
+  resourceType?: ResourceType;
+  tags?: Tag[];
+  state?: InstanceSnapshotState;
   progress?: string;
-  fromAttachedDisks?: DiskList;
+  fromAttachedDisks?: Disk[];
   fromInstanceName?: string;
   fromInstanceArn?: string;
   fromBlueprintId?: string;
@@ -4367,9 +5126,9 @@ export const InstanceSnapshot = S.suspend(() =>
     supportCode: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     location: S.optional(ResourceLocation),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     tags: S.optional(TagList),
-    state: S.optional(S.String),
+    state: S.optional(InstanceSnapshotState),
     progress: S.optional(S.String),
     fromAttachedDisks: S.optional(DiskList),
     fromInstanceName: S.optional(S.String),
@@ -4390,8 +5149,8 @@ export interface KeyPair {
   supportCode?: string;
   createdAt?: Date;
   location?: ResourceLocation;
-  resourceType?: string;
-  tags?: TagList;
+  resourceType?: ResourceType;
+  tags?: Tag[];
   fingerprint?: string;
 }
 export const KeyPair = S.suspend(() =>
@@ -4401,25 +5160,80 @@ export const KeyPair = S.suspend(() =>
     supportCode: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     location: S.optional(ResourceLocation),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     tags: S.optional(TagList),
     fingerprint: S.optional(S.String),
   }),
 ).annotations({ identifier: "KeyPair" }) as any as S.Schema<KeyPair>;
 export type KeyPairList = KeyPair[];
 export const KeyPairList = S.Array(KeyPair);
+export type LoadBalancerState =
+  | "active"
+  | "provisioning"
+  | "active_impaired"
+  | "failed"
+  | "unknown";
+export const LoadBalancerState = S.Literal(
+  "active",
+  "provisioning",
+  "active_impaired",
+  "failed",
+  "unknown",
+);
+export type LoadBalancerProtocol = "HTTP_HTTPS" | "HTTP";
+export const LoadBalancerProtocol = S.Literal("HTTP_HTTPS", "HTTP");
 export type PortList = number[];
 export const PortList = S.Array(S.Number);
+export type InstanceHealthState =
+  | "initial"
+  | "healthy"
+  | "unhealthy"
+  | "unused"
+  | "draining"
+  | "unavailable";
+export const InstanceHealthState = S.Literal(
+  "initial",
+  "healthy",
+  "unhealthy",
+  "unused",
+  "draining",
+  "unavailable",
+);
+export type InstanceHealthReason =
+  | "Lb.RegistrationInProgress"
+  | "Lb.InitialHealthChecking"
+  | "Lb.InternalError"
+  | "Instance.ResponseCodeMismatch"
+  | "Instance.Timeout"
+  | "Instance.FailedHealthChecks"
+  | "Instance.NotRegistered"
+  | "Instance.NotInUse"
+  | "Instance.DeregistrationInProgress"
+  | "Instance.InvalidState"
+  | "Instance.IpUnusable";
+export const InstanceHealthReason = S.Literal(
+  "Lb.RegistrationInProgress",
+  "Lb.InitialHealthChecking",
+  "Lb.InternalError",
+  "Instance.ResponseCodeMismatch",
+  "Instance.Timeout",
+  "Instance.FailedHealthChecks",
+  "Instance.NotRegistered",
+  "Instance.NotInUse",
+  "Instance.DeregistrationInProgress",
+  "Instance.InvalidState",
+  "Instance.IpUnusable",
+);
 export interface InstanceHealthSummary {
   instanceName?: string;
-  instanceHealth?: string;
-  instanceHealthReason?: string;
+  instanceHealth?: InstanceHealthState;
+  instanceHealthReason?: InstanceHealthReason;
 }
 export const InstanceHealthSummary = S.suspend(() =>
   S.Struct({
     instanceName: S.optional(S.String),
-    instanceHealth: S.optional(S.String),
-    instanceHealthReason: S.optional(S.String),
+    instanceHealth: S.optional(InstanceHealthState),
+    instanceHealthReason: S.optional(InstanceHealthReason),
   }),
 ).annotations({
   identifier: "InstanceHealthSummary",
@@ -4440,29 +5254,30 @@ export type LoadBalancerTlsCertificateSummaryList =
 export const LoadBalancerTlsCertificateSummaryList = S.Array(
   LoadBalancerTlsCertificateSummary,
 );
-export type LoadBalancerConfigurationOptions = { [key: string]: string };
-export const LoadBalancerConfigurationOptions = S.Record({
-  key: S.String,
-  value: S.String,
-});
+export type LoadBalancerConfigurationOptions = {
+  [key in LoadBalancerAttributeName]?: string;
+};
+export const LoadBalancerConfigurationOptions = S.partial(
+  S.Record({ key: LoadBalancerAttributeName, value: S.String }),
+);
 export interface LoadBalancer {
   name?: string;
   arn?: string;
   supportCode?: string;
   createdAt?: Date;
   location?: ResourceLocation;
-  resourceType?: string;
-  tags?: TagList;
+  resourceType?: ResourceType;
+  tags?: Tag[];
   dnsName?: string;
-  state?: string;
-  protocol?: string;
-  publicPorts?: PortList;
+  state?: LoadBalancerState;
+  protocol?: LoadBalancerProtocol;
+  publicPorts?: number[];
   healthCheckPath?: string;
   instancePort?: number;
-  instanceHealthSummary?: InstanceHealthSummaryList;
-  tlsCertificateSummaries?: LoadBalancerTlsCertificateSummaryList;
-  configurationOptions?: LoadBalancerConfigurationOptions;
-  ipAddressType?: string;
+  instanceHealthSummary?: InstanceHealthSummary[];
+  tlsCertificateSummaries?: LoadBalancerTlsCertificateSummary[];
+  configurationOptions?: { [key: string]: string };
+  ipAddressType?: IpAddressType;
   httpsRedirectionEnabled?: boolean;
   tlsPolicyName?: string;
 }
@@ -4473,18 +5288,18 @@ export const LoadBalancer = S.suspend(() =>
     supportCode: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     location: S.optional(ResourceLocation),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     tags: S.optional(TagList),
     dnsName: S.optional(S.String),
-    state: S.optional(S.String),
-    protocol: S.optional(S.String),
+    state: S.optional(LoadBalancerState),
+    protocol: S.optional(LoadBalancerProtocol),
     publicPorts: S.optional(PortList),
     healthCheckPath: S.optional(S.String),
     instancePort: S.optional(S.Number),
     instanceHealthSummary: S.optional(InstanceHealthSummaryList),
     tlsCertificateSummaries: S.optional(LoadBalancerTlsCertificateSummaryList),
     configurationOptions: S.optional(LoadBalancerConfigurationOptions),
-    ipAddressType: S.optional(S.String),
+    ipAddressType: S.optional(IpAddressType),
     httpsRedirectionEnabled: S.optional(S.Boolean),
     tlsPolicyName: S.optional(S.String),
   }),
@@ -4552,8 +5367,8 @@ export interface RelationalDatabase {
   supportCode?: string;
   createdAt?: Date;
   location?: ResourceLocation;
-  resourceType?: string;
-  tags?: TagList;
+  resourceType?: ResourceType;
+  tags?: Tag[];
   relationalDatabaseBlueprintId?: string;
   relationalDatabaseBundleId?: string;
   masterDatabaseName?: string;
@@ -4571,7 +5386,7 @@ export interface RelationalDatabase {
   preferredMaintenanceWindow?: string;
   publiclyAccessible?: boolean;
   masterEndpoint?: RelationalDatabaseEndpoint;
-  pendingMaintenanceActions?: PendingMaintenanceActionList;
+  pendingMaintenanceActions?: PendingMaintenanceAction[];
   caCertificateIdentifier?: string;
 }
 export const RelationalDatabase = S.suspend(() =>
@@ -4581,7 +5396,7 @@ export const RelationalDatabase = S.suspend(() =>
     supportCode: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     location: S.optional(ResourceLocation),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     tags: S.optional(TagList),
     relationalDatabaseBlueprintId: S.optional(S.String),
     relationalDatabaseBundleId: S.optional(S.String),
@@ -4616,8 +5431,8 @@ export interface RelationalDatabaseSnapshot {
   supportCode?: string;
   createdAt?: Date;
   location?: ResourceLocation;
-  resourceType?: string;
-  tags?: TagList;
+  resourceType?: ResourceType;
+  tags?: Tag[];
   engine?: string;
   engineVersion?: string;
   sizeInGb?: number;
@@ -4634,7 +5449,7 @@ export const RelationalDatabaseSnapshot = S.suspend(() =>
     supportCode: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     location: S.optional(ResourceLocation),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     tags: S.optional(TagList),
     engine: S.optional(S.String),
     engineVersion: S.optional(S.String),
@@ -4658,7 +5473,7 @@ export interface StaticIp {
   supportCode?: string;
   createdAt?: Date;
   location?: ResourceLocation;
-  resourceType?: string;
+  resourceType?: ResourceType;
   ipAddress?: string;
   attachedTo?: string;
   isAttached?: boolean;
@@ -4670,7 +5485,7 @@ export const StaticIp = S.suspend(() =>
     supportCode: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     location: S.optional(ResourceLocation),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     ipAddress: S.optional(S.String),
     attachedTo: S.optional(S.String),
     isAttached: S.optional(S.Boolean),
@@ -4679,12 +5494,12 @@ export const StaticIp = S.suspend(() =>
 export type StaticIpList = StaticIp[];
 export const StaticIpList = S.Array(StaticIp);
 export interface AccessRules {
-  getObject?: string;
+  getObject?: AccessType;
   allowPublicOverrides?: boolean;
 }
 export const AccessRules = S.suspend(() =>
   S.Struct({
-    getObject: S.optional(S.String),
+    getObject: S.optional(AccessType),
     allowPublicOverrides: S.optional(S.Boolean),
   }),
 ).annotations({ identifier: "AccessRules" }) as any as S.Schema<AccessRules>;
@@ -4739,7 +5554,7 @@ export const BucketCorsAllowedHeaders = S.Array(S.String);
 export type BucketCorsExposeHeaders = string[];
 export const BucketCorsExposeHeaders = S.Array(S.String);
 export interface AllocateStaticIpResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const AllocateStaticIpResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -4755,7 +5570,7 @@ export const AttachCertificateToDistributionResult = S.suspend(() =>
   identifier: "AttachCertificateToDistributionResult",
 }) as any as S.Schema<AttachCertificateToDistributionResult>;
 export interface AttachDiskResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const AttachDiskResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -4763,7 +5578,7 @@ export const AttachDiskResult = S.suspend(() =>
   identifier: "AttachDiskResult",
 }) as any as S.Schema<AttachDiskResult>;
 export interface AttachInstancesToLoadBalancerResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const AttachInstancesToLoadBalancerResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -4771,7 +5586,7 @@ export const AttachInstancesToLoadBalancerResult = S.suspend(() =>
   identifier: "AttachInstancesToLoadBalancerResult",
 }) as any as S.Schema<AttachInstancesToLoadBalancerResult>;
 export interface AttachLoadBalancerTlsCertificateResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const AttachLoadBalancerTlsCertificateResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -4779,7 +5594,7 @@ export const AttachLoadBalancerTlsCertificateResult = S.suspend(() =>
   identifier: "AttachLoadBalancerTlsCertificateResult",
 }) as any as S.Schema<AttachLoadBalancerTlsCertificateResult>;
 export interface AttachStaticIpResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const AttachStaticIpResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -4808,7 +5623,7 @@ export const CloseInstancePublicPortsRequest = S.suspend(() =>
   identifier: "CloseInstancePublicPortsRequest",
 }) as any as S.Schema<CloseInstancePublicPortsRequest>;
 export interface CopySnapshotResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const CopySnapshotResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -4818,7 +5633,7 @@ export const CopySnapshotResult = S.suspend(() =>
 export interface CreateBucketRequest {
   bucketName: string;
   bundleId: string;
-  tags?: TagList;
+  tags?: Tag[];
   enableObjectVersioning?: boolean;
 }
 export const CreateBucketRequest = S.suspend(() =>
@@ -4841,7 +5656,7 @@ export const CreateBucketRequest = S.suspend(() =>
   identifier: "CreateBucketRequest",
 }) as any as S.Schema<CreateBucketRequest>;
 export interface CreateCloudFormationStackRequest {
-  instances: InstanceEntryList;
+  instances: InstanceEntry[];
 }
 export const CreateCloudFormationStackRequest = S.suspend(() =>
   S.Struct({ instances: InstanceEntryList }).pipe(
@@ -4861,7 +5676,7 @@ export const CreateCloudFormationStackRequest = S.suspend(() =>
   identifier: "CreateCloudFormationStackRequest",
 }) as any as S.Schema<CreateCloudFormationStackRequest>;
 export interface CreateContactMethodResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const CreateContactMethodResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -4877,7 +5692,7 @@ export const CreateContainerServiceRegistryLoginResult = S.suspend(() =>
   identifier: "CreateContainerServiceRegistryLoginResult",
 }) as any as S.Schema<CreateContainerServiceRegistryLoginResult>;
 export interface CreateDiskFromSnapshotResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const CreateDiskFromSnapshotResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -4885,7 +5700,7 @@ export const CreateDiskFromSnapshotResult = S.suspend(() =>
   identifier: "CreateDiskFromSnapshotResult",
 }) as any as S.Schema<CreateDiskFromSnapshotResult>;
 export interface CreateDiskSnapshotResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const CreateDiskSnapshotResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -4901,7 +5716,7 @@ export const CreateDomainResult = S.suspend(() =>
   identifier: "CreateDomainResult",
 }) as any as S.Schema<CreateDomainResult>;
 export interface CreateInstancesResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const CreateInstancesResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -4909,7 +5724,7 @@ export const CreateInstancesResult = S.suspend(() =>
   identifier: "CreateInstancesResult",
 }) as any as S.Schema<CreateInstancesResult>;
 export interface CreateInstanceSnapshotResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const CreateInstanceSnapshotResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -4917,7 +5732,7 @@ export const CreateInstanceSnapshotResult = S.suspend(() =>
   identifier: "CreateInstanceSnapshotResult",
 }) as any as S.Schema<CreateInstanceSnapshotResult>;
 export interface CreateLoadBalancerResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const CreateLoadBalancerResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -4925,7 +5740,7 @@ export const CreateLoadBalancerResult = S.suspend(() =>
   identifier: "CreateLoadBalancerResult",
 }) as any as S.Schema<CreateLoadBalancerResult>;
 export interface CreateLoadBalancerTlsCertificateResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const CreateLoadBalancerTlsCertificateResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -4933,7 +5748,7 @@ export const CreateLoadBalancerTlsCertificateResult = S.suspend(() =>
   identifier: "CreateLoadBalancerTlsCertificateResult",
 }) as any as S.Schema<CreateLoadBalancerTlsCertificateResult>;
 export interface CreateRelationalDatabaseResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const CreateRelationalDatabaseResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -4941,7 +5756,7 @@ export const CreateRelationalDatabaseResult = S.suspend(() =>
   identifier: "CreateRelationalDatabaseResult",
 }) as any as S.Schema<CreateRelationalDatabaseResult>;
 export interface CreateRelationalDatabaseFromSnapshotResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const CreateRelationalDatabaseFromSnapshotResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -4949,7 +5764,7 @@ export const CreateRelationalDatabaseFromSnapshotResult = S.suspend(() =>
   identifier: "CreateRelationalDatabaseFromSnapshotResult",
 }) as any as S.Schema<CreateRelationalDatabaseFromSnapshotResult>;
 export interface CreateRelationalDatabaseSnapshotResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const CreateRelationalDatabaseSnapshotResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -4957,7 +5772,7 @@ export const CreateRelationalDatabaseSnapshotResult = S.suspend(() =>
   identifier: "CreateRelationalDatabaseSnapshotResult",
 }) as any as S.Schema<CreateRelationalDatabaseSnapshotResult>;
 export interface DeleteAlarmResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const DeleteAlarmResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -4965,7 +5780,7 @@ export const DeleteAlarmResult = S.suspend(() =>
   identifier: "DeleteAlarmResult",
 }) as any as S.Schema<DeleteAlarmResult>;
 export interface DeleteAutoSnapshotResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const DeleteAutoSnapshotResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -4973,7 +5788,7 @@ export const DeleteAutoSnapshotResult = S.suspend(() =>
   identifier: "DeleteAutoSnapshotResult",
 }) as any as S.Schema<DeleteAutoSnapshotResult>;
 export interface DeleteBucketResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const DeleteBucketResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -4981,7 +5796,7 @@ export const DeleteBucketResult = S.suspend(() =>
   identifier: "DeleteBucketResult",
 }) as any as S.Schema<DeleteBucketResult>;
 export interface DeleteBucketAccessKeyResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const DeleteBucketAccessKeyResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -4989,7 +5804,7 @@ export const DeleteBucketAccessKeyResult = S.suspend(() =>
   identifier: "DeleteBucketAccessKeyResult",
 }) as any as S.Schema<DeleteBucketAccessKeyResult>;
 export interface DeleteCertificateResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const DeleteCertificateResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -4997,7 +5812,7 @@ export const DeleteCertificateResult = S.suspend(() =>
   identifier: "DeleteCertificateResult",
 }) as any as S.Schema<DeleteCertificateResult>;
 export interface DeleteContactMethodResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const DeleteContactMethodResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5005,7 +5820,7 @@ export const DeleteContactMethodResult = S.suspend(() =>
   identifier: "DeleteContactMethodResult",
 }) as any as S.Schema<DeleteContactMethodResult>;
 export interface DeleteDiskResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const DeleteDiskResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5013,7 +5828,7 @@ export const DeleteDiskResult = S.suspend(() =>
   identifier: "DeleteDiskResult",
 }) as any as S.Schema<DeleteDiskResult>;
 export interface DeleteDiskSnapshotResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const DeleteDiskSnapshotResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5045,7 +5860,7 @@ export const DeleteDomainEntryResult = S.suspend(() =>
   identifier: "DeleteDomainEntryResult",
 }) as any as S.Schema<DeleteDomainEntryResult>;
 export interface DeleteInstanceResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const DeleteInstanceResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5053,7 +5868,7 @@ export const DeleteInstanceResult = S.suspend(() =>
   identifier: "DeleteInstanceResult",
 }) as any as S.Schema<DeleteInstanceResult>;
 export interface DeleteInstanceSnapshotResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const DeleteInstanceSnapshotResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5069,7 +5884,7 @@ export const DeleteKeyPairResult = S.suspend(() =>
   identifier: "DeleteKeyPairResult",
 }) as any as S.Schema<DeleteKeyPairResult>;
 export interface DeleteKnownHostKeysResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const DeleteKnownHostKeysResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5077,7 +5892,7 @@ export const DeleteKnownHostKeysResult = S.suspend(() =>
   identifier: "DeleteKnownHostKeysResult",
 }) as any as S.Schema<DeleteKnownHostKeysResult>;
 export interface DeleteLoadBalancerResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const DeleteLoadBalancerResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5085,7 +5900,7 @@ export const DeleteLoadBalancerResult = S.suspend(() =>
   identifier: "DeleteLoadBalancerResult",
 }) as any as S.Schema<DeleteLoadBalancerResult>;
 export interface DeleteLoadBalancerTlsCertificateResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const DeleteLoadBalancerTlsCertificateResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5093,7 +5908,7 @@ export const DeleteLoadBalancerTlsCertificateResult = S.suspend(() =>
   identifier: "DeleteLoadBalancerTlsCertificateResult",
 }) as any as S.Schema<DeleteLoadBalancerTlsCertificateResult>;
 export interface DeleteRelationalDatabaseResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const DeleteRelationalDatabaseResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5101,7 +5916,7 @@ export const DeleteRelationalDatabaseResult = S.suspend(() =>
   identifier: "DeleteRelationalDatabaseResult",
 }) as any as S.Schema<DeleteRelationalDatabaseResult>;
 export interface DeleteRelationalDatabaseSnapshotResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const DeleteRelationalDatabaseSnapshotResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5117,7 +5932,7 @@ export const DetachCertificateFromDistributionResult = S.suspend(() =>
   identifier: "DetachCertificateFromDistributionResult",
 }) as any as S.Schema<DetachCertificateFromDistributionResult>;
 export interface DetachDiskResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const DetachDiskResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5125,7 +5940,7 @@ export const DetachDiskResult = S.suspend(() =>
   identifier: "DetachDiskResult",
 }) as any as S.Schema<DetachDiskResult>;
 export interface DetachInstancesFromLoadBalancerResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const DetachInstancesFromLoadBalancerResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5133,7 +5948,7 @@ export const DetachInstancesFromLoadBalancerResult = S.suspend(() =>
   identifier: "DetachInstancesFromLoadBalancerResult",
 }) as any as S.Schema<DetachInstancesFromLoadBalancerResult>;
 export interface DetachStaticIpResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const DetachStaticIpResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5141,7 +5956,7 @@ export const DetachStaticIpResult = S.suspend(() =>
   identifier: "DetachStaticIpResult",
 }) as any as S.Schema<DetachStaticIpResult>;
 export interface DisableAddOnResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const DisableAddOnResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5149,7 +5964,7 @@ export const DisableAddOnResult = S.suspend(() =>
   identifier: "DisableAddOnResult",
 }) as any as S.Schema<DisableAddOnResult>;
 export interface EnableAddOnResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const EnableAddOnResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5157,7 +5972,7 @@ export const EnableAddOnResult = S.suspend(() =>
   identifier: "EnableAddOnResult",
 }) as any as S.Schema<EnableAddOnResult>;
 export interface ExportSnapshotResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const ExportSnapshotResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5165,7 +5980,7 @@ export const ExportSnapshotResult = S.suspend(() =>
   identifier: "ExportSnapshotResult",
 }) as any as S.Schema<ExportSnapshotResult>;
 export interface GetActiveNamesResult {
-  activeNames?: StringList;
+  activeNames?: string[];
   nextPageToken?: string;
 }
 export const GetActiveNamesResult = S.suspend(() =>
@@ -5177,7 +5992,7 @@ export const GetActiveNamesResult = S.suspend(() =>
   identifier: "GetActiveNamesResult",
 }) as any as S.Schema<GetActiveNamesResult>;
 export interface GetBucketAccessKeysResult {
-  accessKeys?: AccessKeyList;
+  accessKeys?: AccessKey[];
 }
 export const GetBucketAccessKeysResult = S.suspend(() =>
   S.Struct({ accessKeys: S.optional(AccessKeyList) }),
@@ -5185,7 +6000,7 @@ export const GetBucketAccessKeysResult = S.suspend(() =>
   identifier: "GetBucketAccessKeysResult",
 }) as any as S.Schema<GetBucketAccessKeysResult>;
 export interface GetCertificatesResult {
-  certificates?: CertificateSummaryList;
+  certificates?: CertificateSummary[];
   nextPageToken?: string;
 }
 export const GetCertificatesResult = S.suspend(() =>
@@ -5197,7 +6012,7 @@ export const GetCertificatesResult = S.suspend(() =>
   identifier: "GetCertificatesResult",
 }) as any as S.Schema<GetCertificatesResult>;
 export interface GetContainerAPIMetadataResult {
-  metadata?: ContainerServiceMetadataEntryList;
+  metadata?: { [key: string]: string }[];
 }
 export const GetContainerAPIMetadataResult = S.suspend(() =>
   S.Struct({ metadata: S.optional(ContainerServiceMetadataEntryList) }),
@@ -5211,7 +6026,7 @@ export interface MetricDatapoint {
   sampleCount?: number;
   sum?: number;
   timestamp?: Date;
-  unit?: string;
+  unit?: MetricUnit;
 }
 export const MetricDatapoint = S.suspend(() =>
   S.Struct({
@@ -5221,7 +6036,7 @@ export const MetricDatapoint = S.suspend(() =>
     sampleCount: S.optional(S.Number),
     sum: S.optional(S.Number),
     timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    unit: S.optional(S.String),
+    unit: S.optional(MetricUnit),
   }),
 ).annotations({
   identifier: "MetricDatapoint",
@@ -5229,19 +6044,19 @@ export const MetricDatapoint = S.suspend(() =>
 export type MetricDatapointList = MetricDatapoint[];
 export const MetricDatapointList = S.Array(MetricDatapoint);
 export interface GetContainerServiceMetricDataResult {
-  metricName?: string;
-  metricData?: MetricDatapointList;
+  metricName?: ContainerServiceMetricName;
+  metricData?: MetricDatapoint[];
 }
 export const GetContainerServiceMetricDataResult = S.suspend(() =>
   S.Struct({
-    metricName: S.optional(S.String),
+    metricName: S.optional(ContainerServiceMetricName),
     metricData: S.optional(MetricDatapointList),
   }),
 ).annotations({
   identifier: "GetContainerServiceMetricDataResult",
 }) as any as S.Schema<GetContainerServiceMetricDataResult>;
 export interface GetContainerServicePowersResult {
-  powers?: ContainerServicePowerList;
+  powers?: ContainerServicePower[];
 }
 export const GetContainerServicePowersResult = S.suspend(() =>
   S.Struct({ powers: S.optional(ContainerServicePowerList) }),
@@ -5249,7 +6064,7 @@ export const GetContainerServicePowersResult = S.suspend(() =>
   identifier: "GetContainerServicePowersResult",
 }) as any as S.Schema<GetContainerServicePowersResult>;
 export interface GetDisksResult {
-  disks?: DiskList;
+  disks?: Disk[];
   nextPageToken?: string;
 }
 export const GetDisksResult = S.suspend(() =>
@@ -5261,7 +6076,7 @@ export const GetDisksResult = S.suspend(() =>
   identifier: "GetDisksResult",
 }) as any as S.Schema<GetDisksResult>;
 export interface GetDiskSnapshotsResult {
-  diskSnapshots?: DiskSnapshotList;
+  diskSnapshots?: DiskSnapshot[];
   nextPageToken?: string;
 }
 export const GetDiskSnapshotsResult = S.suspend(() =>
@@ -5273,7 +6088,7 @@ export const GetDiskSnapshotsResult = S.suspend(() =>
   identifier: "GetDiskSnapshotsResult",
 }) as any as S.Schema<GetDiskSnapshotsResult>;
 export interface GetDistributionBundlesResult {
-  bundles?: DistributionBundleList;
+  bundles?: DistributionBundle[];
 }
 export const GetDistributionBundlesResult = S.suspend(() =>
   S.Struct({ bundles: S.optional(DistributionBundleList) }),
@@ -5293,19 +6108,19 @@ export const GetDistributionLatestCacheResetResult = S.suspend(() =>
   identifier: "GetDistributionLatestCacheResetResult",
 }) as any as S.Schema<GetDistributionLatestCacheResetResult>;
 export interface GetDistributionMetricDataResult {
-  metricName?: string;
-  metricData?: MetricDatapointList;
+  metricName?: DistributionMetricName;
+  metricData?: MetricDatapoint[];
 }
 export const GetDistributionMetricDataResult = S.suspend(() =>
   S.Struct({
-    metricName: S.optional(S.String),
+    metricName: S.optional(DistributionMetricName),
     metricData: S.optional(MetricDatapointList),
   }),
 ).annotations({
   identifier: "GetDistributionMetricDataResult",
 }) as any as S.Schema<GetDistributionMetricDataResult>;
 export interface GetDomainsResult {
-  domains?: DomainList;
+  domains?: Domain[];
   nextPageToken?: string;
 }
 export const GetDomainsResult = S.suspend(() =>
@@ -5317,19 +6132,19 @@ export const GetDomainsResult = S.suspend(() =>
   identifier: "GetDomainsResult",
 }) as any as S.Schema<GetDomainsResult>;
 export interface GetInstanceMetricDataResult {
-  metricName?: string;
-  metricData?: MetricDatapointList;
+  metricName?: InstanceMetricName;
+  metricData?: MetricDatapoint[];
 }
 export const GetInstanceMetricDataResult = S.suspend(() =>
   S.Struct({
-    metricName: S.optional(S.String),
+    metricName: S.optional(InstanceMetricName),
     metricData: S.optional(MetricDatapointList),
   }),
 ).annotations({
   identifier: "GetInstanceMetricDataResult",
 }) as any as S.Schema<GetInstanceMetricDataResult>;
 export interface GetInstancesResult {
-  instances?: InstanceList;
+  instances?: Instance[];
   nextPageToken?: string;
 }
 export const GetInstancesResult = S.suspend(() =>
@@ -5341,7 +6156,7 @@ export const GetInstancesResult = S.suspend(() =>
   identifier: "GetInstancesResult",
 }) as any as S.Schema<GetInstancesResult>;
 export interface GetInstanceSnapshotsResult {
-  instanceSnapshots?: InstanceSnapshotList;
+  instanceSnapshots?: InstanceSnapshot[];
   nextPageToken?: string;
 }
 export const GetInstanceSnapshotsResult = S.suspend(() =>
@@ -5361,7 +6176,7 @@ export const GetKeyPairResult = S.suspend(() =>
   identifier: "GetKeyPairResult",
 }) as any as S.Schema<GetKeyPairResult>;
 export interface GetKeyPairsResult {
-  keyPairs?: KeyPairList;
+  keyPairs?: KeyPair[];
   nextPageToken?: string;
 }
 export const GetKeyPairsResult = S.suspend(() =>
@@ -5373,19 +6188,19 @@ export const GetKeyPairsResult = S.suspend(() =>
   identifier: "GetKeyPairsResult",
 }) as any as S.Schema<GetKeyPairsResult>;
 export interface GetLoadBalancerMetricDataResult {
-  metricName?: string;
-  metricData?: MetricDatapointList;
+  metricName?: LoadBalancerMetricName;
+  metricData?: MetricDatapoint[];
 }
 export const GetLoadBalancerMetricDataResult = S.suspend(() =>
   S.Struct({
-    metricName: S.optional(S.String),
+    metricName: S.optional(LoadBalancerMetricName),
     metricData: S.optional(MetricDatapointList),
   }),
 ).annotations({
   identifier: "GetLoadBalancerMetricDataResult",
 }) as any as S.Schema<GetLoadBalancerMetricDataResult>;
 export interface GetLoadBalancersResult {
-  loadBalancers?: LoadBalancerList;
+  loadBalancers?: LoadBalancer[];
   nextPageToken?: string;
 }
 export const GetLoadBalancersResult = S.suspend(() =>
@@ -5405,7 +6220,7 @@ export const GetOperationResult = S.suspend(() =>
   identifier: "GetOperationResult",
 }) as any as S.Schema<GetOperationResult>;
 export interface GetOperationsResult {
-  operations?: OperationList;
+  operations?: Operation[];
   nextPageToken?: string;
 }
 export const GetOperationsResult = S.suspend(() =>
@@ -5417,7 +6232,7 @@ export const GetOperationsResult = S.suspend(() =>
   identifier: "GetOperationsResult",
 }) as any as S.Schema<GetOperationsResult>;
 export interface GetOperationsForResourceResult {
-  operations?: OperationList;
+  operations?: Operation[];
   nextPageCount?: string;
   nextPageToken?: string;
 }
@@ -5431,7 +6246,7 @@ export const GetOperationsForResourceResult = S.suspend(() =>
   identifier: "GetOperationsForResourceResult",
 }) as any as S.Schema<GetOperationsForResourceResult>;
 export interface GetRelationalDatabaseLogStreamsResult {
-  logStreams?: StringList;
+  logStreams?: string[];
 }
 export const GetRelationalDatabaseLogStreamsResult = S.suspend(() =>
   S.Struct({ logStreams: S.optional(StringList) }),
@@ -5439,7 +6254,7 @@ export const GetRelationalDatabaseLogStreamsResult = S.suspend(() =>
   identifier: "GetRelationalDatabaseLogStreamsResult",
 }) as any as S.Schema<GetRelationalDatabaseLogStreamsResult>;
 export interface GetRelationalDatabaseMasterUserPasswordResult {
-  masterUserPassword?: string | Redacted.Redacted<string>;
+  masterUserPassword?: string | redacted.Redacted<string>;
   createdAt?: Date;
 }
 export const GetRelationalDatabaseMasterUserPasswordResult = S.suspend(() =>
@@ -5451,19 +6266,19 @@ export const GetRelationalDatabaseMasterUserPasswordResult = S.suspend(() =>
   identifier: "GetRelationalDatabaseMasterUserPasswordResult",
 }) as any as S.Schema<GetRelationalDatabaseMasterUserPasswordResult>;
 export interface GetRelationalDatabaseMetricDataResult {
-  metricName?: string;
-  metricData?: MetricDatapointList;
+  metricName?: RelationalDatabaseMetricName;
+  metricData?: MetricDatapoint[];
 }
 export const GetRelationalDatabaseMetricDataResult = S.suspend(() =>
   S.Struct({
-    metricName: S.optional(S.String),
+    metricName: S.optional(RelationalDatabaseMetricName),
     metricData: S.optional(MetricDatapointList),
   }),
 ).annotations({
   identifier: "GetRelationalDatabaseMetricDataResult",
 }) as any as S.Schema<GetRelationalDatabaseMetricDataResult>;
 export interface GetRelationalDatabaseParametersResult {
-  parameters?: RelationalDatabaseParameterList;
+  parameters?: RelationalDatabaseParameter[];
   nextPageToken?: string;
 }
 export const GetRelationalDatabaseParametersResult = S.suspend(() =>
@@ -5475,7 +6290,7 @@ export const GetRelationalDatabaseParametersResult = S.suspend(() =>
   identifier: "GetRelationalDatabaseParametersResult",
 }) as any as S.Schema<GetRelationalDatabaseParametersResult>;
 export interface GetRelationalDatabasesResult {
-  relationalDatabases?: RelationalDatabaseList;
+  relationalDatabases?: RelationalDatabase[];
   nextPageToken?: string;
 }
 export const GetRelationalDatabasesResult = S.suspend(() =>
@@ -5487,7 +6302,7 @@ export const GetRelationalDatabasesResult = S.suspend(() =>
   identifier: "GetRelationalDatabasesResult",
 }) as any as S.Schema<GetRelationalDatabasesResult>;
 export interface GetRelationalDatabaseSnapshotsResult {
-  relationalDatabaseSnapshots?: RelationalDatabaseSnapshotList;
+  relationalDatabaseSnapshots?: RelationalDatabaseSnapshot[];
   nextPageToken?: string;
 }
 export const GetRelationalDatabaseSnapshotsResult = S.suspend(() =>
@@ -5499,7 +6314,7 @@ export const GetRelationalDatabaseSnapshotsResult = S.suspend(() =>
   identifier: "GetRelationalDatabaseSnapshotsResult",
 }) as any as S.Schema<GetRelationalDatabaseSnapshotsResult>;
 export interface GetStaticIpsResult {
-  staticIps?: StaticIpList;
+  staticIps?: StaticIp[];
   nextPageToken?: string;
 }
 export const GetStaticIpsResult = S.suspend(() =>
@@ -5527,7 +6342,7 @@ export const OpenInstancePublicPortsResult = S.suspend(() =>
   identifier: "OpenInstancePublicPortsResult",
 }) as any as S.Schema<OpenInstancePublicPortsResult>;
 export interface PutAlarmResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const PutAlarmResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5543,7 +6358,7 @@ export const PutInstancePublicPortsResult = S.suspend(() =>
   identifier: "PutInstancePublicPortsResult",
 }) as any as S.Schema<PutInstancePublicPortsResult>;
 export interface RebootInstanceResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const RebootInstanceResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5551,7 +6366,7 @@ export const RebootInstanceResult = S.suspend(() =>
   identifier: "RebootInstanceResult",
 }) as any as S.Schema<RebootInstanceResult>;
 export interface RebootRelationalDatabaseResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const RebootRelationalDatabaseResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5581,7 +6396,7 @@ export const RegisterContainerImageResult = S.suspend(() =>
   identifier: "RegisterContainerImageResult",
 }) as any as S.Schema<RegisterContainerImageResult>;
 export interface ReleaseStaticIpResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const ReleaseStaticIpResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5603,7 +6418,7 @@ export const ResetDistributionCacheResult = S.suspend(() =>
   identifier: "ResetDistributionCacheResult",
 }) as any as S.Schema<ResetDistributionCacheResult>;
 export interface SendContactMethodVerificationResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const SendContactMethodVerificationResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5611,7 +6426,7 @@ export const SendContactMethodVerificationResult = S.suspend(() =>
   identifier: "SendContactMethodVerificationResult",
 }) as any as S.Schema<SendContactMethodVerificationResult>;
 export interface SetIpAddressTypeResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const SetIpAddressTypeResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5619,7 +6434,7 @@ export const SetIpAddressTypeResult = S.suspend(() =>
   identifier: "SetIpAddressTypeResult",
 }) as any as S.Schema<SetIpAddressTypeResult>;
 export interface SetResourceAccessForBucketResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const SetResourceAccessForBucketResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5627,7 +6442,7 @@ export const SetResourceAccessForBucketResult = S.suspend(() =>
   identifier: "SetResourceAccessForBucketResult",
 }) as any as S.Schema<SetResourceAccessForBucketResult>;
 export interface SetupInstanceHttpsResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const SetupInstanceHttpsResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5635,7 +6450,7 @@ export const SetupInstanceHttpsResult = S.suspend(() =>
   identifier: "SetupInstanceHttpsResult",
 }) as any as S.Schema<SetupInstanceHttpsResult>;
 export interface StartGUISessionResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const StartGUISessionResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5643,7 +6458,7 @@ export const StartGUISessionResult = S.suspend(() =>
   identifier: "StartGUISessionResult",
 }) as any as S.Schema<StartGUISessionResult>;
 export interface StartInstanceResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const StartInstanceResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5651,7 +6466,7 @@ export const StartInstanceResult = S.suspend(() =>
   identifier: "StartInstanceResult",
 }) as any as S.Schema<StartInstanceResult>;
 export interface StartRelationalDatabaseResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const StartRelationalDatabaseResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5659,7 +6474,7 @@ export const StartRelationalDatabaseResult = S.suspend(() =>
   identifier: "StartRelationalDatabaseResult",
 }) as any as S.Schema<StartRelationalDatabaseResult>;
 export interface StopGUISessionResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const StopGUISessionResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5667,7 +6482,7 @@ export const StopGUISessionResult = S.suspend(() =>
   identifier: "StopGUISessionResult",
 }) as any as S.Schema<StopGUISessionResult>;
 export interface StopInstanceResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const StopInstanceResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5675,7 +6490,7 @@ export const StopInstanceResult = S.suspend(() =>
   identifier: "StopInstanceResult",
 }) as any as S.Schema<StopInstanceResult>;
 export interface StopRelationalDatabaseResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const StopRelationalDatabaseResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5683,7 +6498,7 @@ export const StopRelationalDatabaseResult = S.suspend(() =>
   identifier: "StopRelationalDatabaseResult",
 }) as any as S.Schema<StopRelationalDatabaseResult>;
 export interface TagResourceResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const TagResourceResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5691,7 +6506,7 @@ export const TagResourceResult = S.suspend(() =>
   identifier: "TagResourceResult",
 }) as any as S.Schema<TagResourceResult>;
 export interface TestAlarmResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const TestAlarmResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5699,7 +6514,7 @@ export const TestAlarmResult = S.suspend(() =>
   identifier: "TestAlarmResult",
 }) as any as S.Schema<TestAlarmResult>;
 export interface UntagResourceResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const UntagResourceResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5707,22 +6522,74 @@ export const UntagResourceResult = S.suspend(() =>
   identifier: "UntagResourceResult",
 }) as any as S.Schema<UntagResourceResult>;
 export interface UpdateBucketBundleResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const UpdateBucketBundleResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
 ).annotations({
   identifier: "UpdateBucketBundleResult",
 }) as any as S.Schema<UpdateBucketBundleResult>;
+export type ContainerServiceState =
+  | "PENDING"
+  | "READY"
+  | "RUNNING"
+  | "UPDATING"
+  | "DELETING"
+  | "DISABLED"
+  | "DEPLOYING";
+export const ContainerServiceState = S.Literal(
+  "PENDING",
+  "READY",
+  "RUNNING",
+  "UPDATING",
+  "DELETING",
+  "DISABLED",
+  "DEPLOYING",
+);
+export type ContainerServiceStateDetailCode =
+  | "CREATING_SYSTEM_RESOURCES"
+  | "CREATING_NETWORK_INFRASTRUCTURE"
+  | "PROVISIONING_CERTIFICATE"
+  | "PROVISIONING_SERVICE"
+  | "CREATING_DEPLOYMENT"
+  | "EVALUATING_HEALTH_CHECK"
+  | "ACTIVATING_DEPLOYMENT"
+  | "CERTIFICATE_LIMIT_EXCEEDED"
+  | "UNKNOWN_ERROR";
+export const ContainerServiceStateDetailCode = S.Literal(
+  "CREATING_SYSTEM_RESOURCES",
+  "CREATING_NETWORK_INFRASTRUCTURE",
+  "PROVISIONING_CERTIFICATE",
+  "PROVISIONING_SERVICE",
+  "CREATING_DEPLOYMENT",
+  "EVALUATING_HEALTH_CHECK",
+  "ACTIVATING_DEPLOYMENT",
+  "CERTIFICATE_LIMIT_EXCEEDED",
+  "UNKNOWN_ERROR",
+);
 export interface ContainerServiceStateDetail {
-  code?: string;
+  code?: ContainerServiceStateDetailCode;
   message?: string;
 }
 export const ContainerServiceStateDetail = S.suspend(() =>
-  S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
+  S.Struct({
+    code: S.optional(ContainerServiceStateDetailCode),
+    message: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "ContainerServiceStateDetail",
 }) as any as S.Schema<ContainerServiceStateDetail>;
+export type ContainerServiceDeploymentState =
+  | "ACTIVATING"
+  | "ACTIVE"
+  | "INACTIVE"
+  | "FAILED";
+export const ContainerServiceDeploymentState = S.Literal(
+  "ACTIVATING",
+  "ACTIVE",
+  "INACTIVE",
+  "FAILED",
+);
 export interface ContainerServiceEndpoint {
   containerName?: string;
   containerPort?: number;
@@ -5739,15 +6606,15 @@ export const ContainerServiceEndpoint = S.suspend(() =>
 }) as any as S.Schema<ContainerServiceEndpoint>;
 export interface ContainerServiceDeployment {
   version?: number;
-  state?: string;
-  containers?: ContainerMap;
+  state?: ContainerServiceDeploymentState;
+  containers?: { [key: string]: Container };
   publicEndpoint?: ContainerServiceEndpoint;
   createdAt?: Date;
 }
 export const ContainerServiceDeployment = S.suspend(() =>
   S.Struct({
     version: S.optional(S.Number),
-    state: S.optional(S.String),
+    state: S.optional(ContainerServiceDeploymentState),
     containers: S.optional(ContainerMap),
     publicEndpoint: S.optional(ContainerServiceEndpoint),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -5782,11 +6649,11 @@ export interface ContainerService {
   arn?: string;
   createdAt?: Date;
   location?: ResourceLocation;
-  resourceType?: string;
-  tags?: TagList;
-  power?: string;
+  resourceType?: ResourceType;
+  tags?: Tag[];
+  power?: ContainerServicePowerName;
   powerId?: string;
-  state?: string;
+  state?: ContainerServiceState;
   stateDetail?: ContainerServiceStateDetail;
   scale?: number;
   currentDeployment?: ContainerServiceDeployment;
@@ -5794,7 +6661,7 @@ export interface ContainerService {
   isDisabled?: boolean;
   principalArn?: string;
   privateDomainName?: string;
-  publicDomainNames?: ContainerServicePublicDomains;
+  publicDomainNames?: { [key: string]: string[] };
   url?: string;
   privateRegistryAccess?: PrivateRegistryAccess;
 }
@@ -5804,11 +6671,11 @@ export const ContainerService = S.suspend(() =>
     arn: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     location: S.optional(ResourceLocation),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     tags: S.optional(TagList),
-    power: S.optional(S.String),
+    power: S.optional(ContainerServicePowerName),
     powerId: S.optional(S.String),
-    state: S.optional(S.String),
+    state: S.optional(ContainerServiceState),
     stateDetail: S.optional(ContainerServiceStateDetail),
     scale: S.optional(S.Number),
     currentDeployment: S.optional(ContainerServiceDeployment),
@@ -5848,7 +6715,7 @@ export const UpdateDistributionBundleResult = S.suspend(() =>
   identifier: "UpdateDistributionBundleResult",
 }) as any as S.Schema<UpdateDistributionBundleResult>;
 export interface UpdateDomainEntryResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const UpdateDomainEntryResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5864,7 +6731,7 @@ export const UpdateInstanceMetadataOptionsResult = S.suspend(() =>
   identifier: "UpdateInstanceMetadataOptionsResult",
 }) as any as S.Schema<UpdateInstanceMetadataOptionsResult>;
 export interface UpdateLoadBalancerAttributeResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const UpdateLoadBalancerAttributeResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5872,7 +6739,7 @@ export const UpdateLoadBalancerAttributeResult = S.suspend(() =>
   identifier: "UpdateLoadBalancerAttributeResult",
 }) as any as S.Schema<UpdateLoadBalancerAttributeResult>;
 export interface UpdateRelationalDatabaseResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const UpdateRelationalDatabaseResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -5881,7 +6748,7 @@ export const UpdateRelationalDatabaseResult = S.suspend(() =>
 }) as any as S.Schema<UpdateRelationalDatabaseResult>;
 export interface UpdateRelationalDatabaseParametersRequest {
   relationalDatabaseName: string;
-  parameters: RelationalDatabaseParameterList;
+  parameters: RelationalDatabaseParameter[];
 }
 export const UpdateRelationalDatabaseParametersRequest = S.suspend(() =>
   S.Struct({
@@ -5915,16 +6782,122 @@ export const DiskMap = S.suspend(() =>
 ).annotations({ identifier: "DiskMap" }) as any as S.Schema<DiskMap>;
 export type DiskMapList = DiskMap[];
 export const DiskMapList = S.Array(DiskMap);
-export type InstancePlatformList = string[];
-export const InstancePlatformList = S.Array(S.String);
-export type AppCategoryList = string[];
-export const AppCategoryList = S.Array(S.String);
+export type AutoSnapshotStatus =
+  | "Success"
+  | "Failed"
+  | "InProgress"
+  | "NotFound";
+export const AutoSnapshotStatus = S.Literal(
+  "Success",
+  "Failed",
+  "InProgress",
+  "NotFound",
+);
+export type BlueprintType = "os" | "app";
+export const BlueprintType = S.Literal("os", "app");
+export type InstancePlatform = "LINUX_UNIX" | "WINDOWS";
+export const InstancePlatform = S.Literal("LINUX_UNIX", "WINDOWS");
+export type AccountLevelBpaSyncStatus =
+  | "InSync"
+  | "Failed"
+  | "NeverSynced"
+  | "Defaulted";
+export const AccountLevelBpaSyncStatus = S.Literal(
+  "InSync",
+  "Failed",
+  "NeverSynced",
+  "Defaulted",
+);
+export type BPAStatusMessage =
+  | "DEFAULTED_FOR_SLR_MISSING"
+  | "SYNC_ON_HOLD"
+  | "DEFAULTED_FOR_SLR_MISSING_ON_HOLD"
+  | "Unknown";
+export const BPAStatusMessage = S.Literal(
+  "DEFAULTED_FOR_SLR_MISSING",
+  "SYNC_ON_HOLD",
+  "DEFAULTED_FOR_SLR_MISSING_ON_HOLD",
+  "Unknown",
+);
+export type InstancePlatformList = InstancePlatform[];
+export const InstancePlatformList = S.Array(InstancePlatform);
+export type AppCategoryList = AppCategory[];
+export const AppCategoryList = S.Array(AppCategory);
+export type RecordState = "Started" | "Succeeded" | "Failed";
+export const RecordState = S.Literal("Started", "Succeeded", "Failed");
+export type ContactMethodStatus = "PendingVerification" | "Valid" | "Invalid";
+export const ContactMethodStatus = S.Literal(
+  "PendingVerification",
+  "Valid",
+  "Invalid",
+);
+export type PortState = "open" | "closed";
+export const PortState = S.Literal("open", "closed");
+export type LoadBalancerTlsCertificateStatus =
+  | "PENDING_VALIDATION"
+  | "ISSUED"
+  | "INACTIVE"
+  | "EXPIRED"
+  | "VALIDATION_TIMED_OUT"
+  | "REVOKED"
+  | "FAILED"
+  | "UNKNOWN";
+export const LoadBalancerTlsCertificateStatus = S.Literal(
+  "PENDING_VALIDATION",
+  "ISSUED",
+  "INACTIVE",
+  "EXPIRED",
+  "VALIDATION_TIMED_OUT",
+  "REVOKED",
+  "FAILED",
+  "UNKNOWN",
+);
+export type LoadBalancerTlsCertificateFailureReason =
+  | "NO_AVAILABLE_CONTACTS"
+  | "ADDITIONAL_VERIFICATION_REQUIRED"
+  | "DOMAIN_NOT_ALLOWED"
+  | "INVALID_PUBLIC_DOMAIN"
+  | "OTHER";
+export const LoadBalancerTlsCertificateFailureReason = S.Literal(
+  "NO_AVAILABLE_CONTACTS",
+  "ADDITIONAL_VERIFICATION_REQUIRED",
+  "DOMAIN_NOT_ALLOWED",
+  "INVALID_PUBLIC_DOMAIN",
+  "OTHER",
+);
+export type LoadBalancerTlsCertificateRevocationReason =
+  | "UNSPECIFIED"
+  | "KEY_COMPROMISE"
+  | "CA_COMPROMISE"
+  | "AFFILIATION_CHANGED"
+  | "SUPERCEDED"
+  | "CESSATION_OF_OPERATION"
+  | "CERTIFICATE_HOLD"
+  | "REMOVE_FROM_CRL"
+  | "PRIVILEGE_WITHDRAWN"
+  | "A_A_COMPROMISE";
+export const LoadBalancerTlsCertificateRevocationReason = S.Literal(
+  "UNSPECIFIED",
+  "KEY_COMPROMISE",
+  "CA_COMPROMISE",
+  "AFFILIATION_CHANGED",
+  "SUPERCEDED",
+  "CESSATION_OF_OPERATION",
+  "CERTIFICATE_HOLD",
+  "REMOVE_FROM_CRL",
+  "PRIVILEGE_WITHDRAWN",
+  "A_A_COMPROMISE",
+);
+export type RelationalDatabaseEngine = "mysql";
+export const RelationalDatabaseEngine = S.Literal("mysql");
+export type SetupStatus = "succeeded" | "failed" | "inProgress";
+export const SetupStatus = S.Literal("succeeded", "failed", "inProgress");
 export interface BucketCorsRule {
   id?: string;
-  allowedMethods: BucketCorsAllowedMethods;
-  allowedOrigins: BucketCorsAllowedOrigins;
-  allowedHeaders?: BucketCorsAllowedHeaders;
-  exposeHeaders?: BucketCorsExposeHeaders;
+  allowedMethods: string[];
+  allowedOrigins: string[];
+  allowedHeaders?: string[];
+  exposeHeaders?: string[];
   maxAgeSeconds?: number;
 }
 export const BucketCorsRule = S.suspend(() =>
@@ -5943,7 +6916,7 @@ export type BucketCorsRules = BucketCorsRule[];
 export const BucketCorsRules = S.Array(BucketCorsRule);
 export interface Session {
   name?: string;
-  url?: string | Redacted.Redacted<string>;
+  url?: string | redacted.Redacted<string>;
   isPrimary?: boolean;
 }
 export const Session = S.suspend(() =>
@@ -5955,13 +6928,13 @@ export const Session = S.suspend(() =>
 ).annotations({ identifier: "Session" }) as any as S.Schema<Session>;
 export type Sessions = Session[];
 export const Sessions = S.Array(Session);
-export type AttachedDiskMap = { [key: string]: DiskMapList };
+export type AttachedDiskMap = { [key: string]: DiskMap[] };
 export const AttachedDiskMap = S.Record({ key: S.String, value: DiskMapList });
 export interface Blueprint {
   blueprintId?: string;
   name?: string;
   group?: string;
-  type?: string;
+  type?: BlueprintType;
   description?: string;
   isActive?: boolean;
   minPower?: number;
@@ -5969,15 +6942,15 @@ export interface Blueprint {
   versionCode?: string;
   productUrl?: string;
   licenseUrl?: string;
-  platform?: string;
-  appCategory?: string;
+  platform?: InstancePlatform;
+  appCategory?: AppCategory;
 }
 export const Blueprint = S.suspend(() =>
   S.Struct({
     blueprintId: S.optional(S.String),
     name: S.optional(S.String),
     group: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(BlueprintType),
     description: S.optional(S.String),
     isActive: S.optional(S.Boolean),
     minPower: S.optional(S.Number),
@@ -5985,8 +6958,8 @@ export const Blueprint = S.suspend(() =>
     versionCode: S.optional(S.String),
     productUrl: S.optional(S.String),
     licenseUrl: S.optional(S.String),
-    platform: S.optional(S.String),
-    appCategory: S.optional(S.String),
+    platform: S.optional(InstancePlatform),
+    appCategory: S.optional(AppCategory),
   }),
 ).annotations({ identifier: "Blueprint" }) as any as S.Schema<Blueprint>;
 export type BlueprintList = Blueprint[];
@@ -6012,16 +6985,16 @@ export const BucketBundle = S.suspend(() =>
 export type BucketBundleList = BucketBundle[];
 export const BucketBundleList = S.Array(BucketBundle);
 export interface AccountLevelBpaSync {
-  status?: string;
+  status?: AccountLevelBpaSyncStatus;
   lastSyncedAt?: Date;
-  message?: string;
+  message?: BPAStatusMessage;
   bpaImpactsLightsail?: boolean;
 }
 export const AccountLevelBpaSync = S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String),
+    status: S.optional(AccountLevelBpaSyncStatus),
     lastSyncedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    message: S.optional(S.String),
+    message: S.optional(BPAStatusMessage),
     bpaImpactsLightsail: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -6038,8 +7011,8 @@ export interface Bundle {
   power?: number;
   ramSizeInGb?: number;
   transferPerMonthInGb?: number;
-  supportedPlatforms?: InstancePlatformList;
-  supportedAppCategories?: AppCategoryList;
+  supportedPlatforms?: InstancePlatform[];
+  supportedAppCategories?: AppCategory[];
   publicIpv4AddressCount?: number;
 }
 export const Bundle = S.suspend(() =>
@@ -6063,25 +7036,25 @@ export type BundleList = Bundle[];
 export const BundleList = S.Array(Bundle);
 export interface ContactMethod {
   contactEndpoint?: string;
-  status?: string;
-  protocol?: string;
+  status?: ContactMethodStatus;
+  protocol?: ContactProtocol;
   name?: string;
   arn?: string;
   createdAt?: Date;
   location?: ResourceLocation;
-  resourceType?: string;
+  resourceType?: ResourceType;
   supportCode?: string;
 }
 export const ContactMethod = S.suspend(() =>
   S.Struct({
     contactEndpoint: S.optional(S.String),
-    status: S.optional(S.String),
-    protocol: S.optional(S.String),
+    status: S.optional(ContactMethodStatus),
+    protocol: S.optional(ContactProtocol),
     name: S.optional(S.String),
     arn: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     location: S.optional(ResourceLocation),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     supportCode: S.optional(S.String),
   }),
 ).annotations({
@@ -6108,18 +7081,18 @@ export const ContainerServiceLogEventList = S.Array(ContainerServiceLogEvent);
 export interface InstancePortState {
   fromPort?: number;
   toPort?: number;
-  protocol?: string;
-  state?: string;
-  cidrs?: StringList;
-  ipv6Cidrs?: StringList;
-  cidrListAliases?: StringList;
+  protocol?: NetworkProtocol;
+  state?: PortState;
+  cidrs?: string[];
+  ipv6Cidrs?: string[];
+  cidrListAliases?: string[];
 }
 export const InstancePortState = S.suspend(() =>
   S.Struct({
     fromPort: S.optional(S.Number),
     toPort: S.optional(S.Number),
-    protocol: S.optional(S.String),
-    state: S.optional(S.String),
+    protocol: S.optional(NetworkProtocol),
+    state: S.optional(PortState),
     cidrs: S.optional(StringList),
     ipv6Cidrs: S.optional(StringList),
     cidrListAliases: S.optional(StringList),
@@ -6133,8 +7106,8 @@ export interface LoadBalancerTlsPolicy {
   name?: string;
   isDefault?: boolean;
   description?: string;
-  protocols?: StringList;
-  ciphers?: StringList;
+  protocols?: string[];
+  ciphers?: string[];
 }
 export const LoadBalancerTlsPolicy = S.suspend(() =>
   S.Struct({
@@ -6151,7 +7124,7 @@ export type LoadBalancerTlsPolicyList = LoadBalancerTlsPolicy[];
 export const LoadBalancerTlsPolicyList = S.Array(LoadBalancerTlsPolicy);
 export interface RelationalDatabaseBlueprint {
   blueprintId?: string;
-  engine?: string;
+  engine?: RelationalDatabaseEngine;
   engineVersion?: string;
   engineDescription?: string;
   engineVersionDescription?: string;
@@ -6160,7 +7133,7 @@ export interface RelationalDatabaseBlueprint {
 export const RelationalDatabaseBlueprint = S.suspend(() =>
   S.Struct({
     blueprintId: S.optional(S.String),
-    engine: S.optional(S.String),
+    engine: S.optional(RelationalDatabaseEngine),
     engineVersion: S.optional(S.String),
     engineDescription: S.optional(S.String),
     engineVersionDescription: S.optional(S.String),
@@ -6205,7 +7178,7 @@ export interface RelationalDatabaseEvent {
   resource?: string;
   createdAt?: Date;
   message?: string;
-  eventCategories?: StringList;
+  eventCategories?: string[];
 }
 export const RelationalDatabaseEvent = S.suspend(() =>
   S.Struct({
@@ -6232,13 +7205,44 @@ export const LogEvent = S.suspend(() =>
 export type LogEventList = LogEvent[];
 export const LogEventList = S.Array(LogEvent);
 export interface BucketCorsConfig {
-  rules?: BucketCorsRules;
+  rules?: BucketCorsRule[];
 }
 export const BucketCorsConfig = S.suspend(() =>
   S.Struct({ rules: S.optional(BucketCorsRules) }),
 ).annotations({
   identifier: "BucketCorsConfig",
 }) as any as S.Schema<BucketCorsConfig>;
+export type CloudFormationStackRecordSourceType = "ExportSnapshotRecord";
+export const CloudFormationStackRecordSourceType = S.Literal(
+  "ExportSnapshotRecord",
+);
+export type ExportSnapshotRecordSourceType =
+  | "InstanceSnapshot"
+  | "DiskSnapshot";
+export const ExportSnapshotRecordSourceType = S.Literal(
+  "InstanceSnapshot",
+  "DiskSnapshot",
+);
+export type LoadBalancerTlsCertificateDomainStatus =
+  | "PENDING_VALIDATION"
+  | "FAILED"
+  | "SUCCESS";
+export const LoadBalancerTlsCertificateDomainStatus = S.Literal(
+  "PENDING_VALIDATION",
+  "FAILED",
+  "SUCCESS",
+);
+export type LoadBalancerTlsCertificateRenewalStatus =
+  | "PENDING_AUTO_RENEWAL"
+  | "PENDING_VALIDATION"
+  | "SUCCESS"
+  | "FAILED";
+export const LoadBalancerTlsCertificateRenewalStatus = S.Literal(
+  "PENDING_AUTO_RENEWAL",
+  "PENDING_VALIDATION",
+  "SUCCESS",
+  "FAILED",
+);
 export interface CloseInstancePublicPortsResult {
   operation?: Operation;
 }
@@ -6275,11 +7279,11 @@ export interface Bucket {
   location?: ResourceLocation;
   name?: string;
   supportCode?: string;
-  tags?: TagList;
+  tags?: Tag[];
   objectVersioning?: string;
   ableToUpdateBundle?: boolean;
-  readonlyAccessAccounts?: PartnerIdList;
-  resourcesReceivingAccess?: AccessReceiverList;
+  readonlyAccessAccounts?: string[];
+  resourcesReceivingAccess?: ResourceReceivingAccess[];
   state?: BucketState;
   accessLogConfig?: BucketAccessLogConfig;
   cors?: BucketCorsConfig;
@@ -6307,7 +7311,7 @@ export const Bucket = S.suspend(() =>
 ).annotations({ identifier: "Bucket" }) as any as S.Schema<Bucket>;
 export interface CreateBucketResult {
   bucket?: Bucket;
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const CreateBucketResult = S.suspend(() =>
   S.Struct({
@@ -6318,7 +7322,7 @@ export const CreateBucketResult = S.suspend(() =>
   identifier: "CreateBucketResult",
 }) as any as S.Schema<CreateBucketResult>;
 export interface CreateCloudFormationStackResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const CreateCloudFormationStackResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -6327,17 +7331,17 @@ export const CreateCloudFormationStackResult = S.suspend(() =>
 }) as any as S.Schema<CreateCloudFormationStackResult>;
 export interface CreateContainerServiceRequest {
   serviceName: string;
-  power: string;
+  power: ContainerServicePowerName;
   scale: number;
-  tags?: TagList;
-  publicDomainNames?: ContainerServicePublicDomains;
+  tags?: Tag[];
+  publicDomainNames?: { [key: string]: string[] };
   deployment?: ContainerServiceDeploymentRequest;
   privateRegistryAccess?: PrivateRegistryAccessRequest;
 }
 export const CreateContainerServiceRequest = S.suspend(() =>
   S.Struct({
     serviceName: S.String,
-    power: S.String,
+    power: ContainerServicePowerName,
     scale: S.Number,
     tags: S.optional(TagList),
     publicDomainNames: S.optional(ContainerServicePublicDomains),
@@ -6360,8 +7364,8 @@ export interface CreateDiskRequest {
   diskName: string;
   availabilityZone: string;
   sizeInGb: number;
-  tags?: TagList;
-  addOns?: AddOnRequestList;
+  tags?: Tag[];
+  addOns?: AddOnRequest[];
 }
 export const CreateDiskRequest = S.suspend(() =>
   S.Struct({
@@ -6388,12 +7392,12 @@ export interface CreateDistributionRequest {
   origin: InputOrigin;
   defaultCacheBehavior: CacheBehavior;
   cacheBehaviorSettings?: CacheSettings;
-  cacheBehaviors?: CacheBehaviorList;
+  cacheBehaviors?: CacheBehaviorPerPath[];
   bundleId: string;
-  ipAddressType?: string;
-  tags?: TagList;
+  ipAddressType?: IpAddressType;
+  tags?: Tag[];
   certificateName?: string;
-  viewerMinimumTlsProtocolVersion?: string;
+  viewerMinimumTlsProtocolVersion?: ViewerMinimumTlsProtocolVersionEnum;
 }
 export const CreateDistributionRequest = S.suspend(() =>
   S.Struct({
@@ -6403,10 +7407,12 @@ export const CreateDistributionRequest = S.suspend(() =>
     cacheBehaviorSettings: S.optional(CacheSettings),
     cacheBehaviors: S.optional(CacheBehaviorList),
     bundleId: S.String,
-    ipAddressType: S.optional(S.String),
+    ipAddressType: S.optional(IpAddressType),
     tags: S.optional(TagList),
     certificateName: S.optional(S.String),
-    viewerMinimumTlsProtocolVersion: S.optional(S.String),
+    viewerMinimumTlsProtocolVersion: S.optional(
+      ViewerMinimumTlsProtocolVersionEnum,
+    ),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateDistribution" }),
@@ -6440,15 +7446,15 @@ export const CreateDomainEntryRequest = S.suspend(() =>
 }) as any as S.Schema<CreateDomainEntryRequest>;
 export interface CreateGUISessionAccessDetailsResult {
   resourceName?: string;
-  status?: string;
+  status?: Status;
   percentageComplete?: number;
   failureReason?: string;
-  sessions?: Sessions;
+  sessions?: Session[];
 }
 export const CreateGUISessionAccessDetailsResult = S.suspend(() =>
   S.Struct({
     resourceName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(Status),
     percentageComplete: S.optional(S.Number),
     failureReason: S.optional(S.String),
     sessions: S.optional(Sessions),
@@ -6457,16 +7463,16 @@ export const CreateGUISessionAccessDetailsResult = S.suspend(() =>
   identifier: "CreateGUISessionAccessDetailsResult",
 }) as any as S.Schema<CreateGUISessionAccessDetailsResult>;
 export interface CreateInstancesFromSnapshotRequest {
-  instanceNames: StringList;
-  attachedDiskMapping?: AttachedDiskMap;
+  instanceNames: string[];
+  attachedDiskMapping?: { [key: string]: DiskMap[] };
   availabilityZone: string;
   instanceSnapshotName?: string;
   bundleId: string;
   userData?: string;
   keyPairName?: string;
-  tags?: TagList;
-  addOns?: AddOnRequestList;
-  ipAddressType?: string;
+  tags?: Tag[];
+  addOns?: AddOnRequest[];
+  ipAddressType?: IpAddressType;
   sourceInstanceName?: string;
   restoreDate?: string;
   useLatestRestorableAutoSnapshot?: boolean;
@@ -6482,7 +7488,7 @@ export const CreateInstancesFromSnapshotRequest = S.suspend(() =>
     keyPairName: S.optional(S.String),
     tags: S.optional(TagList),
     addOns: S.optional(AddOnRequestList),
-    ipAddressType: S.optional(S.String),
+    ipAddressType: S.optional(IpAddressType),
     sourceInstanceName: S.optional(S.String),
     restoreDate: S.optional(S.String),
     useLatestRestorableAutoSnapshot: S.optional(S.Boolean),
@@ -6519,7 +7525,7 @@ export const CreateKeyPairResult = S.suspend(() =>
   identifier: "CreateKeyPairResult",
 }) as any as S.Schema<CreateKeyPairResult>;
 export interface GetBlueprintsResult {
-  blueprints?: BlueprintList;
+  blueprints?: Blueprint[];
   nextPageToken?: string;
 }
 export const GetBlueprintsResult = S.suspend(() =>
@@ -6531,7 +7537,7 @@ export const GetBlueprintsResult = S.suspend(() =>
   identifier: "GetBlueprintsResult",
 }) as any as S.Schema<GetBlueprintsResult>;
 export interface GetBucketBundlesResult {
-  bundles?: BucketBundleList;
+  bundles?: BucketBundle[];
 }
 export const GetBucketBundlesResult = S.suspend(() =>
   S.Struct({ bundles: S.optional(BucketBundleList) }),
@@ -6539,19 +7545,19 @@ export const GetBucketBundlesResult = S.suspend(() =>
   identifier: "GetBucketBundlesResult",
 }) as any as S.Schema<GetBucketBundlesResult>;
 export interface GetBucketMetricDataResult {
-  metricName?: string;
-  metricData?: MetricDatapointList;
+  metricName?: BucketMetricName;
+  metricData?: MetricDatapoint[];
 }
 export const GetBucketMetricDataResult = S.suspend(() =>
   S.Struct({
-    metricName: S.optional(S.String),
+    metricName: S.optional(BucketMetricName),
     metricData: S.optional(MetricDatapointList),
   }),
 ).annotations({
   identifier: "GetBucketMetricDataResult",
 }) as any as S.Schema<GetBucketMetricDataResult>;
 export interface GetBundlesResult {
-  bundles?: BundleList;
+  bundles?: Bundle[];
   nextPageToken?: string;
 }
 export const GetBundlesResult = S.suspend(() =>
@@ -6563,7 +7569,7 @@ export const GetBundlesResult = S.suspend(() =>
   identifier: "GetBundlesResult",
 }) as any as S.Schema<GetBundlesResult>;
 export interface GetContactMethodsResult {
-  contactMethods?: ContactMethodsList;
+  contactMethods?: ContactMethod[];
 }
 export const GetContactMethodsResult = S.suspend(() =>
   S.Struct({ contactMethods: S.optional(ContactMethodsList) }),
@@ -6571,7 +7577,7 @@ export const GetContactMethodsResult = S.suspend(() =>
   identifier: "GetContactMethodsResult",
 }) as any as S.Schema<GetContactMethodsResult>;
 export interface GetContainerImagesResult {
-  containerImages?: ContainerImageList;
+  containerImages?: ContainerImage[];
 }
 export const GetContainerImagesResult = S.suspend(() =>
   S.Struct({ containerImages: S.optional(ContainerImageList) }),
@@ -6579,7 +7585,7 @@ export const GetContainerImagesResult = S.suspend(() =>
   identifier: "GetContainerImagesResult",
 }) as any as S.Schema<GetContainerImagesResult>;
 export interface GetContainerLogResult {
-  logEvents?: ContainerServiceLogEventList;
+  logEvents?: ContainerServiceLogEvent[];
   nextPageToken?: string;
 }
 export const GetContainerLogResult = S.suspend(() =>
@@ -6599,7 +7605,7 @@ export const GetDiskSnapshotResult = S.suspend(() =>
   identifier: "GetDiskSnapshotResult",
 }) as any as S.Schema<GetDiskSnapshotResult>;
 export interface GetInstancePortStatesResult {
-  portStates?: InstancePortStateList;
+  portStates?: InstancePortState[];
 }
 export const GetInstancePortStatesResult = S.suspend(() =>
   S.Struct({ portStates: S.optional(InstancePortStateList) }),
@@ -6623,7 +7629,7 @@ export const GetInstanceStateResult = S.suspend(() =>
   identifier: "GetInstanceStateResult",
 }) as any as S.Schema<GetInstanceStateResult>;
 export interface GetLoadBalancerTlsPoliciesResult {
-  tlsPolicies?: LoadBalancerTlsPolicyList;
+  tlsPolicies?: LoadBalancerTlsPolicy[];
   nextPageToken?: string;
 }
 export const GetLoadBalancerTlsPoliciesResult = S.suspend(() =>
@@ -6635,7 +7641,7 @@ export const GetLoadBalancerTlsPoliciesResult = S.suspend(() =>
   identifier: "GetLoadBalancerTlsPoliciesResult",
 }) as any as S.Schema<GetLoadBalancerTlsPoliciesResult>;
 export interface GetRelationalDatabaseBlueprintsResult {
-  blueprints?: RelationalDatabaseBlueprintList;
+  blueprints?: RelationalDatabaseBlueprint[];
   nextPageToken?: string;
 }
 export const GetRelationalDatabaseBlueprintsResult = S.suspend(() =>
@@ -6647,7 +7653,7 @@ export const GetRelationalDatabaseBlueprintsResult = S.suspend(() =>
   identifier: "GetRelationalDatabaseBlueprintsResult",
 }) as any as S.Schema<GetRelationalDatabaseBlueprintsResult>;
 export interface GetRelationalDatabaseBundlesResult {
-  bundles?: RelationalDatabaseBundleList;
+  bundles?: RelationalDatabaseBundle[];
   nextPageToken?: string;
 }
 export const GetRelationalDatabaseBundlesResult = S.suspend(() =>
@@ -6659,7 +7665,7 @@ export const GetRelationalDatabaseBundlesResult = S.suspend(() =>
   identifier: "GetRelationalDatabaseBundlesResult",
 }) as any as S.Schema<GetRelationalDatabaseBundlesResult>;
 export interface GetRelationalDatabaseEventsResult {
-  relationalDatabaseEvents?: RelationalDatabaseEventList;
+  relationalDatabaseEvents?: RelationalDatabaseEvent[];
   nextPageToken?: string;
 }
 export const GetRelationalDatabaseEventsResult = S.suspend(() =>
@@ -6671,7 +7677,7 @@ export const GetRelationalDatabaseEventsResult = S.suspend(() =>
   identifier: "GetRelationalDatabaseEventsResult",
 }) as any as S.Schema<GetRelationalDatabaseEventsResult>;
 export interface GetRelationalDatabaseLogEventsResult {
-  resourceLogEvents?: LogEventList;
+  resourceLogEvents?: LogEvent[];
   nextBackwardToken?: string;
   nextForwardToken?: string;
 }
@@ -6714,7 +7720,7 @@ export interface UpdateBucketRequest {
   bucketName: string;
   accessRules?: AccessRules;
   versioning?: string;
-  readonlyAccessAccounts?: PartnerIdList;
+  readonlyAccessAccounts?: string[];
   accessLogConfig?: BucketAccessLogConfig;
   cors?: BucketCorsConfig;
 }
@@ -6740,7 +7746,7 @@ export const UpdateBucketRequest = S.suspend(() =>
   identifier: "UpdateBucketRequest",
 }) as any as S.Schema<UpdateBucketRequest>;
 export interface UpdateRelationalDatabaseParametersResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const UpdateRelationalDatabaseParametersResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -6750,13 +7756,13 @@ export const UpdateRelationalDatabaseParametersResult = S.suspend(() =>
 export interface MonitoredResourceInfo {
   arn?: string;
   name?: string;
-  resourceType?: string;
+  resourceType?: ResourceType;
 }
 export const MonitoredResourceInfo = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     name: S.optional(S.String),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
   }),
 ).annotations({
   identifier: "MonitoredResourceInfo",
@@ -6771,13 +7777,13 @@ export const AttachedDisk = S.suspend(() =>
 export type AttachedDiskList = AttachedDisk[];
 export const AttachedDiskList = S.Array(AttachedDisk);
 export interface CloudFormationStackRecordSourceInfo {
-  resourceType?: string;
+  resourceType?: CloudFormationStackRecordSourceType;
   name?: string;
   arn?: string;
 }
 export const CloudFormationStackRecordSourceInfo = S.suspend(() =>
   S.Struct({
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(CloudFormationStackRecordSourceType),
     name: S.optional(S.String),
     arn: S.optional(S.String),
   }),
@@ -6800,17 +7806,17 @@ export const DestinationInfo = S.suspend(() =>
 }) as any as S.Schema<DestinationInfo>;
 export interface Origin {
   name?: string;
-  resourceType?: string;
-  regionName?: string;
-  protocolPolicy?: string;
+  resourceType?: ResourceType;
+  regionName?: RegionName;
+  protocolPolicy?: OriginProtocolPolicyEnum;
   responseTimeout?: number;
 }
 export const Origin = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    resourceType: S.optional(S.String),
-    regionName: S.optional(S.String),
-    protocolPolicy: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
+    regionName: S.optional(RegionName),
+    protocolPolicy: S.optional(OriginProtocolPolicyEnum),
     responseTimeout: S.optional(S.Number),
   }),
 ).annotations({ identifier: "Origin" }) as any as S.Schema<Origin>;
@@ -6861,14 +7867,14 @@ export type AvailabilityZoneList = AvailabilityZone[];
 export const AvailabilityZoneList = S.Array(AvailabilityZone);
 export interface SetupRequest {
   instanceName?: string;
-  domainNames?: SetupDomainNameList;
-  certificateProvider?: string;
+  domainNames?: string[];
+  certificateProvider?: CertificateProvider;
 }
 export const SetupRequest = S.suspend(() =>
   S.Struct({
     instanceName: S.optional(S.String),
     domainNames: S.optional(SetupDomainNameList),
-    certificateProvider: S.optional(S.String),
+    certificateProvider: S.optional(CertificateProvider),
   }),
 ).annotations({ identifier: "SetupRequest" }) as any as S.Schema<SetupRequest>;
 export interface SetupHistoryResource {
@@ -6876,7 +7882,7 @@ export interface SetupHistoryResource {
   arn?: string;
   createdAt?: Date;
   location?: ResourceLocation;
-  resourceType?: string;
+  resourceType?: ResourceType;
 }
 export const SetupHistoryResource = S.suspend(() =>
   S.Struct({
@@ -6884,7 +7890,7 @@ export const SetupHistoryResource = S.suspend(() =>
     arn: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     location: S.optional(ResourceLocation),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
   }),
 ).annotations({
   identifier: "SetupHistoryResource",
@@ -6893,7 +7899,7 @@ export interface SetupExecutionDetails {
   command?: string;
   dateTime?: Date;
   name?: string;
-  status?: string;
+  status?: SetupStatus;
   standardError?: string;
   standardOutput?: string;
   version?: string;
@@ -6903,7 +7909,7 @@ export const SetupExecutionDetails = S.suspend(() =>
     command: S.optional(S.String),
     dateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     name: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(SetupStatus),
     standardError: S.optional(S.String),
     standardOutput: S.optional(S.String),
     version: S.optional(S.String),
@@ -6913,26 +7919,45 @@ export const SetupExecutionDetails = S.suspend(() =>
 }) as any as S.Schema<SetupExecutionDetails>;
 export type SetupExecutionDetailsList = SetupExecutionDetails[];
 export const SetupExecutionDetailsList = S.Array(SetupExecutionDetails);
+export type PricingUnit = "GB" | "Hrs" | "GB-Mo" | "Bundles" | "Queries";
+export const PricingUnit = S.Literal(
+  "GB",
+  "Hrs",
+  "GB-Mo",
+  "Bundles",
+  "Queries",
+);
+export type Currency = "USD";
+export const Currency = S.Literal("USD");
+export type LoadBalancerTlsCertificateDnsRecordCreationStateCode =
+  | "SUCCEEDED"
+  | "STARTED"
+  | "FAILED";
+export const LoadBalancerTlsCertificateDnsRecordCreationStateCode = S.Literal(
+  "SUCCEEDED",
+  "STARTED",
+  "FAILED",
+);
 export interface Alarm {
   name?: string;
   arn?: string;
   createdAt?: Date;
   location?: ResourceLocation;
-  resourceType?: string;
+  resourceType?: ResourceType;
   supportCode?: string;
   monitoredResourceInfo?: MonitoredResourceInfo;
-  comparisonOperator?: string;
+  comparisonOperator?: ComparisonOperator;
   evaluationPeriods?: number;
   period?: number;
   threshold?: number;
   datapointsToAlarm?: number;
-  treatMissingData?: string;
-  statistic?: string;
-  metricName?: string;
-  state?: string;
-  unit?: string;
-  contactProtocols?: ContactProtocolsList;
-  notificationTriggers?: NotificationTriggerList;
+  treatMissingData?: TreatMissingData;
+  statistic?: MetricStatistic;
+  metricName?: MetricName;
+  state?: AlarmState;
+  unit?: MetricUnit;
+  contactProtocols?: ContactProtocol[];
+  notificationTriggers?: AlarmState[];
   notificationEnabled?: boolean;
 }
 export const Alarm = S.suspend(() =>
@@ -6941,19 +7966,19 @@ export const Alarm = S.suspend(() =>
     arn: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     location: S.optional(ResourceLocation),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     supportCode: S.optional(S.String),
     monitoredResourceInfo: S.optional(MonitoredResourceInfo),
-    comparisonOperator: S.optional(S.String),
+    comparisonOperator: S.optional(ComparisonOperator),
     evaluationPeriods: S.optional(S.Number),
     period: S.optional(S.Number),
     threshold: S.optional(S.Number),
     datapointsToAlarm: S.optional(S.Number),
-    treatMissingData: S.optional(S.String),
-    statistic: S.optional(S.String),
-    metricName: S.optional(S.String),
-    state: S.optional(S.String),
-    unit: S.optional(S.String),
+    treatMissingData: S.optional(TreatMissingData),
+    statistic: S.optional(MetricStatistic),
+    metricName: S.optional(MetricName),
+    state: S.optional(AlarmState),
+    unit: S.optional(MetricUnit),
     contactProtocols: S.optional(ContactProtocolsList),
     notificationTriggers: S.optional(NotificationTriggerList),
     notificationEnabled: S.optional(S.Boolean),
@@ -6964,14 +7989,14 @@ export const AlarmsList = S.Array(Alarm);
 export interface AutoSnapshotDetails {
   date?: string;
   createdAt?: Date;
-  status?: string;
-  fromAttachedDisks?: AttachedDiskList;
+  status?: AutoSnapshotStatus;
+  fromAttachedDisks?: AttachedDisk[];
 }
 export const AutoSnapshotDetails = S.suspend(() =>
   S.Struct({
     date: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(S.String),
+    status: S.optional(AutoSnapshotStatus),
     fromAttachedDisks: S.optional(AttachedDiskList),
   }),
 ).annotations({
@@ -6986,9 +8011,9 @@ export interface CloudFormationStackRecord {
   arn?: string;
   createdAt?: Date;
   location?: ResourceLocation;
-  resourceType?: string;
-  state?: string;
-  sourceInfo?: CloudFormationStackRecordSourceInfoList;
+  resourceType?: ResourceType;
+  state?: RecordState;
+  sourceInfo?: CloudFormationStackRecordSourceInfo[];
   destinationInfo?: DestinationInfo;
 }
 export const CloudFormationStackRecord = S.suspend(() =>
@@ -6997,8 +8022,8 @@ export const CloudFormationStackRecord = S.suspend(() =>
     arn: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     location: S.optional(ResourceLocation),
-    resourceType: S.optional(S.String),
-    state: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
+    state: S.optional(RecordState),
     sourceInfo: S.optional(CloudFormationStackRecordSourceInfoList),
     destinationInfo: S.optional(DestinationInfo),
   }),
@@ -7017,8 +8042,8 @@ export interface LightsailDistribution {
   supportCode?: string;
   createdAt?: Date;
   location?: ResourceLocation;
-  resourceType?: string;
-  alternativeDomainNames?: StringList;
+  resourceType?: ResourceType;
+  alternativeDomainNames?: string[];
   status?: string;
   isEnabled?: boolean;
   domainName?: string;
@@ -7028,10 +8053,10 @@ export interface LightsailDistribution {
   originPublicDNS?: string;
   defaultCacheBehavior?: CacheBehavior;
   cacheBehaviorSettings?: CacheSettings;
-  cacheBehaviors?: CacheBehaviorList;
+  cacheBehaviors?: CacheBehaviorPerPath[];
   ableToUpdateBundle?: boolean;
-  ipAddressType?: string;
-  tags?: TagList;
+  ipAddressType?: IpAddressType;
+  tags?: Tag[];
   viewerMinimumTlsProtocolVersion?: string;
 }
 export const LightsailDistribution = S.suspend(() =>
@@ -7041,7 +8066,7 @@ export const LightsailDistribution = S.suspend(() =>
     supportCode: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     location: S.optional(ResourceLocation),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     alternativeDomainNames: S.optional(StringList),
     status: S.optional(S.String),
     isEnabled: S.optional(S.Boolean),
@@ -7054,7 +8079,7 @@ export const LightsailDistribution = S.suspend(() =>
     cacheBehaviorSettings: S.optional(CacheSettings),
     cacheBehaviors: S.optional(CacheBehaviorList),
     ableToUpdateBundle: S.optional(S.Boolean),
-    ipAddressType: S.optional(S.String),
+    ipAddressType: S.optional(IpAddressType),
     tags: S.optional(TagList),
     viewerMinimumTlsProtocolVersion: S.optional(S.String),
   }),
@@ -7067,14 +8092,14 @@ export interface InstanceAccessDetails {
   certKey?: string;
   expiresAt?: Date;
   ipAddress?: string;
-  ipv6Addresses?: Ipv6AddressList;
+  ipv6Addresses?: string[];
   password?: string;
   passwordData?: PasswordData;
   privateKey?: string;
-  protocol?: string;
+  protocol?: InstanceAccessProtocol;
   instanceName?: string;
   username?: string;
-  hostKeys?: HostKeysList;
+  hostKeys?: HostKeyAttributes[];
 }
 export const InstanceAccessDetails = S.suspend(() =>
   S.Struct({
@@ -7085,7 +8110,7 @@ export const InstanceAccessDetails = S.suspend(() =>
     password: S.optional(S.String),
     passwordData: S.optional(PasswordData),
     privateKey: S.optional(S.String),
-    protocol: S.optional(S.String),
+    protocol: S.optional(InstanceAccessProtocol),
     instanceName: S.optional(S.String),
     username: S.optional(S.String),
     hostKeys: S.optional(HostKeysList),
@@ -7097,16 +8122,16 @@ export interface Region {
   continentCode?: string;
   description?: string;
   displayName?: string;
-  name?: string;
-  availabilityZones?: AvailabilityZoneList;
-  relationalDatabaseAvailabilityZones?: AvailabilityZoneList;
+  name?: RegionName;
+  availabilityZones?: AvailabilityZone[];
+  relationalDatabaseAvailabilityZones?: AvailabilityZone[];
 }
 export const Region = S.suspend(() =>
   S.Struct({
     continentCode: S.optional(S.String),
     description: S.optional(S.String),
     displayName: S.optional(S.String),
-    name: S.optional(S.String),
+    name: S.optional(RegionName),
     availabilityZones: S.optional(AvailabilityZoneList),
     relationalDatabaseAvailabilityZones: S.optional(AvailabilityZoneList),
   }),
@@ -7117,8 +8142,8 @@ export interface SetupHistory {
   operationId?: string;
   request?: SetupRequest;
   resource?: SetupHistoryResource;
-  executionDetails?: SetupExecutionDetailsList;
-  status?: string;
+  executionDetails?: SetupExecutionDetails[];
+  status?: SetupStatus;
 }
 export const SetupHistory = S.suspend(() =>
   S.Struct({
@@ -7126,7 +8151,7 @@ export const SetupHistory = S.suspend(() =>
     request: S.optional(SetupRequest),
     resource: S.optional(SetupHistoryResource),
     executionDetails: S.optional(SetupExecutionDetailsList),
-    status: S.optional(S.String),
+    status: S.optional(SetupStatus),
   }),
 ).annotations({ identifier: "SetupHistory" }) as any as S.Schema<SetupHistory>;
 export type setupHistoryList = SetupHistory[];
@@ -7140,22 +8165,25 @@ export const DiskSnapshotInfo = S.suspend(() =>
   identifier: "DiskSnapshotInfo",
 }) as any as S.Schema<DiskSnapshotInfo>;
 export interface LoadBalancerTlsCertificateDnsRecordCreationState {
-  code?: string;
+  code?: LoadBalancerTlsCertificateDnsRecordCreationStateCode;
   message?: string;
 }
 export const LoadBalancerTlsCertificateDnsRecordCreationState = S.suspend(() =>
-  S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
+  S.Struct({
+    code: S.optional(LoadBalancerTlsCertificateDnsRecordCreationStateCode),
+    message: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "LoadBalancerTlsCertificateDnsRecordCreationState",
 }) as any as S.Schema<LoadBalancerTlsCertificateDnsRecordCreationState>;
 export interface LoadBalancerTlsCertificateDomainValidationOption {
   domainName?: string;
-  validationStatus?: string;
+  validationStatus?: LoadBalancerTlsCertificateDomainStatus;
 }
 export const LoadBalancerTlsCertificateDomainValidationOption = S.suspend(() =>
   S.Struct({
     domainName: S.optional(S.String),
-    validationStatus: S.optional(S.String),
+    validationStatus: S.optional(LoadBalancerTlsCertificateDomainStatus),
   }),
 ).annotations({
   identifier: "LoadBalancerTlsCertificateDomainValidationOption",
@@ -7167,7 +8195,7 @@ export const LoadBalancerTlsCertificateDomainValidationOptionList = S.Array(
 );
 export interface CreateBucketAccessKeyResult {
   accessKey?: AccessKey;
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const CreateBucketAccessKeyResult = S.suspend(() =>
   S.Struct({
@@ -7187,7 +8215,7 @@ export const CreateContainerServiceResult = S.suspend(() =>
 }) as any as S.Schema<CreateContainerServiceResult>;
 export interface CreateContainerServiceDeploymentRequest {
   serviceName: string;
-  containers?: ContainerMap;
+  containers?: { [key: string]: Container };
   publicEndpoint?: EndpointRequest;
 }
 export const CreateContainerServiceDeploymentRequest = S.suspend(() =>
@@ -7212,7 +8240,7 @@ export const CreateContainerServiceDeploymentRequest = S.suspend(() =>
   identifier: "CreateContainerServiceDeploymentRequest",
 }) as any as S.Schema<CreateContainerServiceDeploymentRequest>;
 export interface CreateDiskResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const CreateDiskResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -7240,7 +8268,7 @@ export const CreateDomainEntryResult = S.suspend(() =>
   identifier: "CreateDomainEntryResult",
 }) as any as S.Schema<CreateDomainEntryResult>;
 export interface CreateInstancesFromSnapshotResult {
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const CreateInstancesFromSnapshotResult = S.suspend(() =>
   S.Struct({ operations: S.optional(OperationList) }),
@@ -7248,7 +8276,7 @@ export const CreateInstancesFromSnapshotResult = S.suspend(() =>
   identifier: "CreateInstancesFromSnapshotResult",
 }) as any as S.Schema<CreateInstancesFromSnapshotResult>;
 export interface GetAlarmsResult {
-  alarms?: AlarmsList;
+  alarms?: Alarm[];
   nextPageToken?: string;
 }
 export const GetAlarmsResult = S.suspend(() =>
@@ -7261,20 +8289,20 @@ export const GetAlarmsResult = S.suspend(() =>
 }) as any as S.Schema<GetAlarmsResult>;
 export interface GetAutoSnapshotsResult {
   resourceName?: string;
-  resourceType?: string;
-  autoSnapshots?: AutoSnapshotDetailsList;
+  resourceType?: ResourceType;
+  autoSnapshots?: AutoSnapshotDetails[];
 }
 export const GetAutoSnapshotsResult = S.suspend(() =>
   S.Struct({
     resourceName: S.optional(S.String),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     autoSnapshots: S.optional(AutoSnapshotDetailsList),
   }),
 ).annotations({
   identifier: "GetAutoSnapshotsResult",
 }) as any as S.Schema<GetAutoSnapshotsResult>;
 export interface GetBucketsResult {
-  buckets?: BucketList;
+  buckets?: Bucket[];
   nextPageToken?: string;
   accountLevelBpaSync?: AccountLevelBpaSync;
 }
@@ -7288,7 +8316,7 @@ export const GetBucketsResult = S.suspend(() =>
   identifier: "GetBucketsResult",
 }) as any as S.Schema<GetBucketsResult>;
 export interface GetCloudFormationStackRecordsResult {
-  cloudFormationStackRecords?: CloudFormationStackRecordList;
+  cloudFormationStackRecords?: CloudFormationStackRecord[];
   nextPageToken?: string;
 }
 export const GetCloudFormationStackRecordsResult = S.suspend(() =>
@@ -7300,7 +8328,7 @@ export const GetCloudFormationStackRecordsResult = S.suspend(() =>
   identifier: "GetCloudFormationStackRecordsResult",
 }) as any as S.Schema<GetCloudFormationStackRecordsResult>;
 export interface GetContainerServiceDeploymentsResult {
-  deployments?: ContainerServiceDeploymentList;
+  deployments?: ContainerServiceDeployment[];
 }
 export const GetContainerServiceDeploymentsResult = S.suspend(() =>
   S.Struct({ deployments: S.optional(ContainerServiceDeploymentList) }),
@@ -7316,7 +8344,7 @@ export const GetDiskResult = S.suspend(() =>
   identifier: "GetDiskResult",
 }) as any as S.Schema<GetDiskResult>;
 export interface GetDistributionsResult {
-  distributions?: DistributionList;
+  distributions?: LightsailDistribution[];
   nextPageToken?: string;
 }
 export const GetDistributionsResult = S.suspend(() =>
@@ -7344,7 +8372,7 @@ export const GetLoadBalancerResult = S.suspend(() =>
   identifier: "GetLoadBalancerResult",
 }) as any as S.Schema<GetLoadBalancerResult>;
 export interface GetRegionsResult {
-  regions?: RegionList;
+  regions?: Region[];
 }
 export const GetRegionsResult = S.suspend(() =>
   S.Struct({ regions: S.optional(RegionList) }),
@@ -7360,7 +8388,7 @@ export const GetRelationalDatabaseResult = S.suspend(() =>
   identifier: "GetRelationalDatabaseResult",
 }) as any as S.Schema<GetRelationalDatabaseResult>;
 export interface GetSetupHistoryResult {
-  setupHistory?: setupHistoryList;
+  setupHistory?: SetupHistory[];
   nextPageToken?: string;
 }
 export const GetSetupHistoryResult = S.suspend(() =>
@@ -7373,7 +8401,7 @@ export const GetSetupHistoryResult = S.suspend(() =>
 }) as any as S.Schema<GetSetupHistoryResult>;
 export interface UpdateBucketResult {
   bucket?: Bucket;
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const UpdateBucketResult = S.suspend(() =>
   S.Struct({
@@ -7387,7 +8415,7 @@ export interface LoadBalancerTlsCertificateDomainValidationRecord {
   name?: string;
   type?: string;
   value?: string;
-  validationStatus?: string;
+  validationStatus?: LoadBalancerTlsCertificateDomainStatus;
   domainName?: string;
   dnsRecordCreationState?: LoadBalancerTlsCertificateDnsRecordCreationState;
 }
@@ -7396,7 +8424,7 @@ export const LoadBalancerTlsCertificateDomainValidationRecord = S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     value: S.optional(S.String),
-    validationStatus: S.optional(S.String),
+    validationStatus: S.optional(LoadBalancerTlsCertificateDomainStatus),
     domainName: S.optional(S.String),
     dnsRecordCreationState: S.optional(
       LoadBalancerTlsCertificateDnsRecordCreationState,
@@ -7411,12 +8439,12 @@ export const LoadBalancerTlsCertificateDomainValidationRecordList = S.Array(
   LoadBalancerTlsCertificateDomainValidationRecord,
 );
 export interface LoadBalancerTlsCertificateRenewalSummary {
-  renewalStatus?: string;
-  domainValidationOptions?: LoadBalancerTlsCertificateDomainValidationOptionList;
+  renewalStatus?: LoadBalancerTlsCertificateRenewalStatus;
+  domainValidationOptions?: LoadBalancerTlsCertificateDomainValidationOption[];
 }
 export const LoadBalancerTlsCertificateRenewalSummary = S.suspend(() =>
   S.Struct({
-    renewalStatus: S.optional(S.String),
+    renewalStatus: S.optional(LoadBalancerTlsCertificateRenewalStatus),
     domainValidationOptions: S.optional(
       LoadBalancerTlsCertificateDomainValidationOptionList,
     ),
@@ -7458,26 +8486,26 @@ export interface LoadBalancerTlsCertificate {
   supportCode?: string;
   createdAt?: Date;
   location?: ResourceLocation;
-  resourceType?: string;
-  tags?: TagList;
+  resourceType?: ResourceType;
+  tags?: Tag[];
   loadBalancerName?: string;
   isAttached?: boolean;
-  status?: string;
+  status?: LoadBalancerTlsCertificateStatus;
   domainName?: string;
-  domainValidationRecords?: LoadBalancerTlsCertificateDomainValidationRecordList;
-  failureReason?: string;
+  domainValidationRecords?: LoadBalancerTlsCertificateDomainValidationRecord[];
+  failureReason?: LoadBalancerTlsCertificateFailureReason;
   issuedAt?: Date;
   issuer?: string;
   keyAlgorithm?: string;
   notAfter?: Date;
   notBefore?: Date;
   renewalSummary?: LoadBalancerTlsCertificateRenewalSummary;
-  revocationReason?: string;
+  revocationReason?: LoadBalancerTlsCertificateRevocationReason;
   revokedAt?: Date;
   serial?: string;
   signatureAlgorithm?: string;
   subject?: string;
-  subjectAlternativeNames?: StringList;
+  subjectAlternativeNames?: string[];
 }
 export const LoadBalancerTlsCertificate = S.suspend(() =>
   S.Struct({
@@ -7486,23 +8514,23 @@ export const LoadBalancerTlsCertificate = S.suspend(() =>
     supportCode: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     location: S.optional(ResourceLocation),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     tags: S.optional(TagList),
     loadBalancerName: S.optional(S.String),
     isAttached: S.optional(S.Boolean),
-    status: S.optional(S.String),
+    status: S.optional(LoadBalancerTlsCertificateStatus),
     domainName: S.optional(S.String),
     domainValidationRecords: S.optional(
       LoadBalancerTlsCertificateDomainValidationRecordList,
     ),
-    failureReason: S.optional(S.String),
+    failureReason: S.optional(LoadBalancerTlsCertificateFailureReason),
     issuedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     issuer: S.optional(S.String),
     keyAlgorithm: S.optional(S.String),
     notAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     notBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     renewalSummary: S.optional(LoadBalancerTlsCertificateRenewalSummary),
-    revocationReason: S.optional(S.String),
+    revocationReason: S.optional(LoadBalancerTlsCertificateRevocationReason),
     revokedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     serial: S.optional(S.String),
     signatureAlgorithm: S.optional(S.String),
@@ -7518,17 +8546,17 @@ export const LoadBalancerTlsCertificateList = S.Array(
 );
 export interface EstimateByTime {
   usageCost?: number;
-  pricingUnit?: string;
+  pricingUnit?: PricingUnit;
   unit?: number;
-  currency?: string;
+  currency?: Currency;
   timePeriod?: TimePeriod;
 }
 export const EstimateByTime = S.suspend(() =>
   S.Struct({
     usageCost: S.optional(S.Number),
-    pricingUnit: S.optional(S.String),
+    pricingUnit: S.optional(PricingUnit),
     unit: S.optional(S.Number),
-    currency: S.optional(S.String),
+    currency: S.optional(Currency),
     timePeriod: S.optional(TimePeriod),
   }),
 ).annotations({
@@ -7539,7 +8567,7 @@ export const EstimatesByTime = S.Array(EstimateByTime);
 export interface InstanceSnapshotInfo {
   fromBundleId?: string;
   fromBlueprintId?: string;
-  fromDiskInfo?: DiskInfoList;
+  fromDiskInfo?: DiskInfo[];
 }
 export const InstanceSnapshotInfo = S.suspend(() =>
   S.Struct({
@@ -7559,7 +8587,7 @@ export const CreateContainerServiceDeploymentResult = S.suspend(() =>
   identifier: "CreateContainerServiceDeploymentResult",
 }) as any as S.Schema<CreateContainerServiceDeploymentResult>;
 export interface ContainerServicesListResult {
-  containerServices?: ContainerServiceList;
+  containerServices?: ContainerService[];
 }
 export const ContainerServicesListResult = S.suspend(() =>
   S.Struct({ containerServices: S.optional(ContainerServiceList) }),
@@ -7583,7 +8611,7 @@ export const GetInstanceResult = S.suspend(() =>
   identifier: "GetInstanceResult",
 }) as any as S.Schema<GetInstanceResult>;
 export interface GetLoadBalancerTlsCertificatesResult {
-  tlsCertificates?: LoadBalancerTlsCertificateList;
+  tlsCertificates?: LoadBalancerTlsCertificate[];
 }
 export const GetLoadBalancerTlsCertificatesResult = S.suspend(() =>
   S.Struct({ tlsCertificates: S.optional(LoadBalancerTlsCertificateList) }),
@@ -7592,7 +8620,7 @@ export const GetLoadBalancerTlsCertificatesResult = S.suspend(() =>
 }) as any as S.Schema<GetLoadBalancerTlsCertificatesResult>;
 export interface CostEstimate {
   usageType?: string;
-  resultsByTime?: EstimatesByTime;
+  resultsByTime?: EstimateByTime[];
 }
 export const CostEstimate = S.suspend(() =>
   S.Struct({
@@ -7603,7 +8631,7 @@ export const CostEstimate = S.suspend(() =>
 export type CostEstimates = CostEstimate[];
 export const CostEstimates = S.Array(CostEstimate);
 export interface ExportSnapshotRecordSourceInfo {
-  resourceType?: string;
+  resourceType?: ExportSnapshotRecordSourceType;
   createdAt?: Date;
   name?: string;
   arn?: string;
@@ -7614,7 +8642,7 @@ export interface ExportSnapshotRecordSourceInfo {
 }
 export const ExportSnapshotRecordSourceInfo = S.suspend(() =>
   S.Struct({
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ExportSnapshotRecordSourceType),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     name: S.optional(S.String),
     arn: S.optional(S.String),
@@ -7628,15 +8656,15 @@ export const ExportSnapshotRecordSourceInfo = S.suspend(() =>
 }) as any as S.Schema<ExportSnapshotRecordSourceInfo>;
 export interface ResourceBudgetEstimate {
   resourceName?: string;
-  resourceType?: string;
-  costEstimates?: CostEstimates;
+  resourceType?: ResourceType;
+  costEstimates?: CostEstimate[];
   startTime?: Date;
   endTime?: Date;
 }
 export const ResourceBudgetEstimate = S.suspend(() =>
   S.Struct({
     resourceName: S.optional(S.String),
-    resourceType: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
     costEstimates: S.optional(CostEstimates),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -7651,8 +8679,8 @@ export interface ExportSnapshotRecord {
   arn?: string;
   createdAt?: Date;
   location?: ResourceLocation;
-  resourceType?: string;
-  state?: string;
+  resourceType?: ResourceType;
+  state?: RecordState;
   sourceInfo?: ExportSnapshotRecordSourceInfo;
   destinationInfo?: DestinationInfo;
 }
@@ -7662,8 +8690,8 @@ export const ExportSnapshotRecord = S.suspend(() =>
     arn: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     location: S.optional(ResourceLocation),
-    resourceType: S.optional(S.String),
-    state: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
+    state: S.optional(RecordState),
     sourceInfo: S.optional(ExportSnapshotRecordSourceInfo),
     destinationInfo: S.optional(DestinationInfo),
   }),
@@ -7674,7 +8702,7 @@ export type ExportSnapshotRecordList = ExportSnapshotRecord[];
 export const ExportSnapshotRecordList = S.Array(ExportSnapshotRecord);
 export interface CreateCertificateResult {
   certificate?: CertificateSummary;
-  operations?: OperationList;
+  operations?: Operation[];
 }
 export const CreateCertificateResult = S.suspend(() =>
   S.Struct({
@@ -7685,7 +8713,7 @@ export const CreateCertificateResult = S.suspend(() =>
   identifier: "CreateCertificateResult",
 }) as any as S.Schema<CreateCertificateResult>;
 export interface GetCostEstimateResult {
-  resourcesBudgetEstimate?: ResourcesBudgetEstimate;
+  resourcesBudgetEstimate?: ResourceBudgetEstimate[];
 }
 export const GetCostEstimateResult = S.suspend(() =>
   S.Struct({ resourcesBudgetEstimate: S.optional(ResourcesBudgetEstimate) }),
@@ -7693,7 +8721,7 @@ export const GetCostEstimateResult = S.suspend(() =>
   identifier: "GetCostEstimateResult",
 }) as any as S.Schema<GetCostEstimateResult>;
 export interface GetExportSnapshotRecordsResult {
-  exportSnapshotRecords?: ExportSnapshotRecordList;
+  exportSnapshotRecords?: ExportSnapshotRecord[];
   nextPageToken?: string;
 }
 export const GetExportSnapshotRecordsResult = S.suspend(() =>
@@ -7786,7 +8814,7 @@ export class UnauthenticatedException extends S.TaggedError<UnauthenticatedExcep
  */
 export const getContainerAPIMetadata: (
   input: GetContainerAPIMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContainerAPIMetadataResult,
   | AccessDeniedException
   | RegionSetupInProgressException
@@ -7809,7 +8837,7 @@ export const getContainerAPIMetadata: (
  */
 export const getContainerServices: (
   input: GetContainerServicesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ContainerServicesListResult,
   | AccessDeniedException
   | InvalidInputException
@@ -7836,7 +8864,7 @@ export const getContainerServices: (
  */
 export const getDomain: (
   input: GetDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDomainResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -7868,7 +8896,7 @@ export const getDomain: (
  */
 export const getInstance: (
   input: GetInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInstanceResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -7905,7 +8933,7 @@ export const getInstance: (
  */
 export const getLoadBalancerTlsCertificates: (
   input: GetLoadBalancerTlsCertificatesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLoadBalancerTlsCertificatesResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -7937,7 +8965,7 @@ export const getLoadBalancerTlsCertificates: (
  */
 export const getAutoSnapshots: (
   input: GetAutoSnapshotsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAutoSnapshotsResult,
   | AccessDeniedException
   | InvalidInputException
@@ -7970,7 +8998,7 @@ export const getAutoSnapshots: (
  */
 export const getCloudFormationStackRecords: (
   input: GetCloudFormationStackRecordsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCloudFormationStackRecordsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8001,7 +9029,7 @@ export const getCloudFormationStackRecords: (
  */
 export const getDisk: (
   input: GetDiskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDiskResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8033,7 +9061,7 @@ export const getDisk: (
  */
 export const getDistributions: (
   input: GetDistributionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDistributionsResult,
   | AccessDeniedException
   | InvalidInputException
@@ -8065,7 +9093,7 @@ export const getDistributions: (
  */
 export const getInstanceAccessDetails: (
   input: GetInstanceAccessDetailsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInstanceAccessDetailsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8096,7 +9124,7 @@ export const getInstanceAccessDetails: (
  */
 export const getLoadBalancer: (
   input: GetLoadBalancerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLoadBalancerResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8129,7 +9157,7 @@ export const getLoadBalancer: (
  */
 export const getRegions: (
   input: GetRegionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRegionsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8160,7 +9188,7 @@ export const getRegions: (
  */
 export const getRelationalDatabase: (
   input: GetRelationalDatabaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRelationalDatabaseResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8198,7 +9226,7 @@ export const getRelationalDatabase: (
  */
 export const deleteDisk: (
   input: DeleteDiskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDiskResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8237,7 +9265,7 @@ export const deleteDisk: (
  */
 export const getBlueprints: (
   input: GetBlueprintsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBlueprintsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8276,7 +9304,7 @@ export const getBlueprints: (
  */
 export const getBundles: (
   input: GetBundlesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBundlesResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8313,7 +9341,7 @@ export const getBundles: (
  */
 export const getContactMethods: (
   input: GetContactMethodsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContactMethodsResult,
   | AccessDeniedException
   | InvalidInputException
@@ -8342,7 +9370,7 @@ export const getContactMethods: (
  */
 export const getDiskSnapshot: (
   input: GetDiskSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDiskSnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8374,7 +9402,7 @@ export const getDiskSnapshot: (
  */
 export const getInstancePortStates: (
   input: GetInstancePortStatesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInstancePortStatesResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8405,7 +9433,7 @@ export const getInstancePortStates: (
  */
 export const getInstanceSnapshot: (
   input: GetInstanceSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInstanceSnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8436,7 +9464,7 @@ export const getInstanceSnapshot: (
  */
 export const getInstanceState: (
   input: GetInstanceStateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInstanceStateResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8471,7 +9499,7 @@ export const getInstanceState: (
  */
 export const getRelationalDatabaseBlueprints: (
   input: GetRelationalDatabaseBlueprintsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRelationalDatabaseBlueprintsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8506,7 +9534,7 @@ export const getRelationalDatabaseBlueprints: (
  */
 export const getRelationalDatabaseBundles: (
   input: GetRelationalDatabaseBundlesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRelationalDatabaseBundlesResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8537,7 +9565,7 @@ export const getRelationalDatabaseBundles: (
  */
 export const getRelationalDatabaseEvents: (
   input: GetRelationalDatabaseEventsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRelationalDatabaseEventsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8568,7 +9596,7 @@ export const getRelationalDatabaseEvents: (
  */
 export const getRelationalDatabaseLogEvents: (
   input: GetRelationalDatabaseLogEventsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRelationalDatabaseLogEventsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8599,7 +9627,7 @@ export const getRelationalDatabaseLogEvents: (
  */
 export const getRelationalDatabaseSnapshot: (
   input: GetRelationalDatabaseSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRelationalDatabaseSnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8630,7 +9658,7 @@ export const getRelationalDatabaseSnapshot: (
  */
 export const getStaticIp: (
   input: GetStaticIpRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetStaticIpResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8661,7 +9689,7 @@ export const getStaticIp: (
  */
 export const peerVpc: (
   input: PeerVpcRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PeerVpcResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8703,7 +9731,7 @@ export const peerVpc: (
  */
 export const updateRelationalDatabaseParameters: (
   input: UpdateRelationalDatabaseParametersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRelationalDatabaseParametersResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8734,7 +9762,7 @@ export const updateRelationalDatabaseParameters: (
  */
 export const deleteDistribution: (
   input: DeleteDistributionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDistributionResult,
   | AccessDeniedException
   | InvalidInputException
@@ -8765,7 +9793,7 @@ export const deleteDistribution: (
  */
 export const detachCertificateFromDistribution: (
   input: DetachCertificateFromDistributionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetachCertificateFromDistributionResult,
   | AccessDeniedException
   | InvalidInputException
@@ -8792,7 +9820,7 @@ export const detachCertificateFromDistribution: (
  */
 export const disableAddOn: (
   input: DisableAddOnRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisableAddOnResult,
   | AccessDeniedException
   | InvalidInputException
@@ -8822,7 +9850,7 @@ export const disableAddOn: (
  */
 export const enableAddOn: (
   input: EnableAddOnRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableAddOnResult,
   | AccessDeniedException
   | InvalidInputException
@@ -8855,7 +9883,7 @@ export const enableAddOn: (
  */
 export const getDistributionBundles: (
   input: GetDistributionBundlesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDistributionBundlesResult,
   | AccessDeniedException
   | InvalidInputException
@@ -8883,7 +9911,7 @@ export const getDistributionBundles: (
  */
 export const getDistributionLatestCacheReset: (
   input: GetDistributionLatestCacheResetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDistributionLatestCacheResetResult,
   | AccessDeniedException
   | InvalidInputException
@@ -8915,7 +9943,7 @@ export const getDistributionLatestCacheReset: (
  */
 export const getDistributionMetricData: (
   input: GetDistributionMetricDataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDistributionMetricDataResult,
   | AccessDeniedException
   | InvalidInputException
@@ -8955,7 +9983,7 @@ export const getDistributionMetricData: (
  */
 export const putAlarm: (
   input: PutAlarmRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutAlarmResult,
   | AccessDeniedException
   | InvalidInputException
@@ -8988,7 +10016,7 @@ export const putAlarm: (
  */
 export const resetDistributionCache: (
   input: ResetDistributionCacheRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ResetDistributionCacheResult,
   | AccessDeniedException
   | InvalidInputException
@@ -9028,7 +10056,7 @@ export const resetDistributionCache: (
  */
 export const sendContactMethodVerification: (
   input: SendContactMethodVerificationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendContactMethodVerificationResult,
   | AccessDeniedException
   | InvalidInputException
@@ -9065,7 +10093,7 @@ export const sendContactMethodVerification: (
  */
 export const testAlarm: (
   input: TestAlarmRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TestAlarmResult,
   | AccessDeniedException
   | InvalidInputException
@@ -9096,7 +10124,7 @@ export const testAlarm: (
  */
 export const updateDistribution: (
   input: UpdateDistributionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDistributionResult,
   | AccessDeniedException
   | InvalidInputException
@@ -9134,7 +10162,7 @@ export const updateDistribution: (
  */
 export const updateDistributionBundle: (
   input: UpdateDistributionBundleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDistributionBundleResult,
   | AccessDeniedException
   | InvalidInputException
@@ -9174,7 +10202,7 @@ export const updateDistributionBundle: (
  */
 export const attachCertificateToDistribution: (
   input: AttachCertificateToDistributionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AttachCertificateToDistributionResult,
   | AccessDeniedException
   | InvalidInputException
@@ -9206,7 +10234,7 @@ export const attachCertificateToDistribution: (
  */
 export const createContactMethod: (
   input: CreateContactMethodRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateContactMethodResult,
   | AccessDeniedException
   | InvalidInputException
@@ -9240,7 +10268,7 @@ export const createContactMethod: (
  */
 export const deleteAlarm: (
   input: DeleteAlarmRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAlarmResult,
   | AccessDeniedException
   | InvalidInputException
@@ -9269,7 +10297,7 @@ export const deleteAlarm: (
  */
 export const deleteAutoSnapshot: (
   input: DeleteAutoSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAutoSnapshotResult,
   | AccessDeniedException
   | InvalidInputException
@@ -9303,7 +10331,7 @@ export const deleteAutoSnapshot: (
  */
 export const deleteContactMethod: (
   input: DeleteContactMethodRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteContactMethodResult,
   | AccessDeniedException
   | InvalidInputException
@@ -9342,7 +10370,7 @@ export const deleteContactMethod: (
  */
 export const deleteDiskSnapshot: (
   input: DeleteDiskSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDiskSnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9377,7 +10405,7 @@ export const deleteDiskSnapshot: (
  */
 export const deleteDomain: (
   input: DeleteDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDomainResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9412,7 +10440,7 @@ export const deleteDomain: (
  */
 export const deleteDomainEntry: (
   input: DeleteDomainEntryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDomainEntryResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9447,7 +10475,7 @@ export const deleteDomainEntry: (
  */
 export const deleteInstance: (
   input: DeleteInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteInstanceResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9483,7 +10511,7 @@ export const deleteInstance: (
  */
 export const deleteInstanceSnapshot: (
   input: DeleteInstanceSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteInstanceSnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9523,7 +10551,7 @@ export const deleteInstanceSnapshot: (
  */
 export const deleteKeyPair: (
   input: DeleteKeyPairRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteKeyPairResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9561,7 +10589,7 @@ export const deleteKeyPair: (
  */
 export const deleteKnownHostKeys: (
   input: DeleteKnownHostKeysRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteKnownHostKeysResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9598,7 +10626,7 @@ export const deleteKnownHostKeys: (
  */
 export const deleteLoadBalancer: (
   input: DeleteLoadBalancerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLoadBalancerResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9633,7 +10661,7 @@ export const deleteLoadBalancer: (
  */
 export const deleteLoadBalancerTlsCertificate: (
   input: DeleteLoadBalancerTlsCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLoadBalancerTlsCertificateResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9668,7 +10696,7 @@ export const deleteLoadBalancerTlsCertificate: (
  */
 export const deleteRelationalDatabase: (
   input: DeleteRelationalDatabaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRelationalDatabaseResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9703,7 +10731,7 @@ export const deleteRelationalDatabase: (
  */
 export const deleteRelationalDatabaseSnapshot: (
   input: DeleteRelationalDatabaseSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRelationalDatabaseSnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9740,7 +10768,7 @@ export const deleteRelationalDatabaseSnapshot: (
  */
 export const detachDisk: (
   input: DetachDiskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetachDiskResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9778,7 +10806,7 @@ export const detachDisk: (
  */
 export const detachInstancesFromLoadBalancer: (
   input: DetachInstancesFromLoadBalancerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetachInstancesFromLoadBalancerResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9809,7 +10837,7 @@ export const detachInstancesFromLoadBalancer: (
  */
 export const detachStaticIp: (
   input: DetachStaticIpRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetachStaticIpResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9854,7 +10882,7 @@ export const detachStaticIp: (
  */
 export const exportSnapshot: (
   input: ExportSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ExportSnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9885,7 +10913,7 @@ export const exportSnapshot: (
  */
 export const getActiveNames: (
   input: GetActiveNamesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetActiveNamesResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9916,7 +10944,7 @@ export const getActiveNames: (
  */
 export const getDisks: (
   input: GetDisksRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDisksResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9948,7 +10976,7 @@ export const getDisks: (
  */
 export const getDiskSnapshots: (
   input: GetDiskSnapshotsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDiskSnapshotsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9979,7 +11007,7 @@ export const getDiskSnapshots: (
  */
 export const getDomains: (
   input: GetDomainsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDomainsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10015,7 +11043,7 @@ export const getDomains: (
  */
 export const getInstanceMetricData: (
   input: GetInstanceMetricDataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInstanceMetricDataResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10047,7 +11075,7 @@ export const getInstanceMetricData: (
  */
 export const getInstances: (
   input: GetInstancesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInstancesResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10078,7 +11106,7 @@ export const getInstances: (
  */
 export const getInstanceSnapshots: (
   input: GetInstanceSnapshotsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetInstanceSnapshotsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10109,7 +11137,7 @@ export const getInstanceSnapshots: (
  */
 export const getKeyPair: (
   input: GetKeyPairRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetKeyPairResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10140,7 +11168,7 @@ export const getKeyPair: (
  */
 export const getKeyPairs: (
   input: GetKeyPairsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetKeyPairsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10175,7 +11203,7 @@ export const getKeyPairs: (
  */
 export const getLoadBalancerMetricData: (
   input: GetLoadBalancerMetricDataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLoadBalancerMetricDataResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10206,7 +11234,7 @@ export const getLoadBalancerMetricData: (
  */
 export const getLoadBalancers: (
   input: GetLoadBalancersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLoadBalancersResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10238,7 +11266,7 @@ export const getLoadBalancers: (
  */
 export const getOperation: (
   input: GetOperationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetOperationResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10273,7 +11301,7 @@ export const getOperation: (
  */
 export const getOperations: (
   input: GetOperationsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetOperationsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10304,7 +11332,7 @@ export const getOperations: (
  */
 export const getOperationsForResource: (
   input: GetOperationsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetOperationsForResourceResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10335,7 +11363,7 @@ export const getOperationsForResource: (
  */
 export const getRelationalDatabaseLogStreams: (
   input: GetRelationalDatabaseLogStreamsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRelationalDatabaseLogStreamsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10371,7 +11399,7 @@ export const getRelationalDatabaseLogStreams: (
  */
 export const getRelationalDatabaseMasterUserPassword: (
   input: GetRelationalDatabaseMasterUserPasswordRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRelationalDatabaseMasterUserPasswordResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10406,7 +11434,7 @@ export const getRelationalDatabaseMasterUserPassword: (
  */
 export const getRelationalDatabaseMetricData: (
   input: GetRelationalDatabaseMetricDataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRelationalDatabaseMetricDataResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10442,7 +11470,7 @@ export const getRelationalDatabaseMetricData: (
  */
 export const getRelationalDatabaseParameters: (
   input: GetRelationalDatabaseParametersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRelationalDatabaseParametersResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10473,7 +11501,7 @@ export const getRelationalDatabaseParameters: (
  */
 export const getRelationalDatabases: (
   input: GetRelationalDatabasesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRelationalDatabasesResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10504,7 +11532,7 @@ export const getRelationalDatabases: (
  */
 export const getRelationalDatabaseSnapshots: (
   input: GetRelationalDatabaseSnapshotsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRelationalDatabaseSnapshotsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10535,7 +11563,7 @@ export const getRelationalDatabaseSnapshots: (
  */
 export const getStaticIps: (
   input: GetStaticIpsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetStaticIpsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10566,7 +11594,7 @@ export const getStaticIps: (
  */
 export const importKeyPair: (
   input: ImportKeyPairRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ImportKeyPairResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10602,7 +11630,7 @@ export const importKeyPair: (
  */
 export const openInstancePublicPorts: (
   input: OpenInstancePublicPortsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   OpenInstancePublicPortsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10642,7 +11670,7 @@ export const openInstancePublicPorts: (
  */
 export const putInstancePublicPorts: (
   input: PutInstancePublicPortsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutInstancePublicPortsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10677,7 +11705,7 @@ export const putInstancePublicPorts: (
  */
 export const rebootInstance: (
   input: RebootInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RebootInstanceResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10712,7 +11740,7 @@ export const rebootInstance: (
  */
 export const rebootRelationalDatabase: (
   input: RebootRelationalDatabaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RebootRelationalDatabaseResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10743,7 +11771,7 @@ export const rebootRelationalDatabase: (
  */
 export const releaseStaticIp: (
   input: ReleaseStaticIpRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ReleaseStaticIpResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10778,7 +11806,7 @@ export const releaseStaticIp: (
  */
 export const setIpAddressType: (
   input: SetIpAddressTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetIpAddressTypeResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10818,7 +11846,7 @@ export const setIpAddressType: (
  */
 export const startInstance: (
   input: StartInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartInstanceResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10854,7 +11882,7 @@ export const startInstance: (
  */
 export const startRelationalDatabase: (
   input: StartRelationalDatabaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartRelationalDatabaseResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10893,7 +11921,7 @@ export const startRelationalDatabase: (
  */
 export const stopInstance: (
   input: StopInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopInstanceResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10932,7 +11960,7 @@ export const stopInstance: (
  */
 export const stopRelationalDatabase: (
   input: StopRelationalDatabaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopRelationalDatabaseResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10969,7 +11997,7 @@ export const stopRelationalDatabase: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11005,7 +12033,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11040,7 +12068,7 @@ export const untagResource: (
  */
 export const updateDomainEntry: (
   input: UpdateDomainEntryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDomainEntryResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11076,7 +12104,7 @@ export const updateDomainEntry: (
  */
 export const updateInstanceMetadataOptions: (
   input: UpdateInstanceMetadataOptionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateInstanceMetadataOptionsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11112,7 +12140,7 @@ export const updateInstanceMetadataOptions: (
  */
 export const updateLoadBalancerAttribute: (
   input: UpdateLoadBalancerAttributeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLoadBalancerAttributeResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11150,7 +12178,7 @@ export const updateLoadBalancerAttribute: (
  */
 export const updateRelationalDatabase: (
   input: UpdateRelationalDatabaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRelationalDatabaseResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11184,7 +12212,7 @@ export const updateRelationalDatabase: (
  */
 export const downloadDefaultKeyPair: (
   input: DownloadDefaultKeyPairRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DownloadDefaultKeyPairResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11215,7 +12243,7 @@ export const downloadDefaultKeyPair: (
  */
 export const isVpcPeered: (
   input: IsVpcPeeredRequest,
-) => Effect.Effect<
+) => effect.Effect<
   IsVpcPeeredResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11246,7 +12274,7 @@ export const isVpcPeered: (
  */
 export const unpeerVpc: (
   input: UnpeerVpcRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UnpeerVpcResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11277,7 +12305,7 @@ export const unpeerVpc: (
  */
 export const allocateStaticIp: (
   input: AllocateStaticIpRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AllocateStaticIpResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11313,7 +12341,7 @@ export const allocateStaticIp: (
  */
 export const attachDisk: (
   input: AttachDiskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AttachDiskResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11351,7 +12379,7 @@ export const attachDisk: (
  */
 export const attachInstancesToLoadBalancer: (
   input: AttachInstancesToLoadBalancerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AttachInstancesToLoadBalancerResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11392,7 +12420,7 @@ export const attachInstancesToLoadBalancer: (
  */
 export const attachLoadBalancerTlsCertificate: (
   input: AttachLoadBalancerTlsCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AttachLoadBalancerTlsCertificateResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11423,7 +12451,7 @@ export const attachLoadBalancerTlsCertificate: (
  */
 export const attachStaticIp: (
   input: AttachStaticIpRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AttachStaticIpResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11465,7 +12493,7 @@ export const attachStaticIp: (
  */
 export const copySnapshot: (
   input: CopySnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CopySnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11502,7 +12530,7 @@ export const copySnapshot: (
  */
 export const createDiskFromSnapshot: (
   input: CreateDiskFromSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDiskFromSnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11554,7 +12582,7 @@ export const createDiskFromSnapshot: (
  */
 export const createDiskSnapshot: (
   input: CreateDiskSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDiskSnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11588,7 +12616,7 @@ export const createDiskSnapshot: (
  */
 export const createDomain: (
   input: CreateDomainRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDomainResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11622,7 +12650,7 @@ export const createDomain: (
  */
 export const createInstances: (
   input: CreateInstancesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateInstancesResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11657,7 +12685,7 @@ export const createInstances: (
  */
 export const createInstanceSnapshot: (
   input: CreateInstanceSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateInstanceSnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11697,7 +12725,7 @@ export const createInstanceSnapshot: (
  */
 export const createLoadBalancer: (
   input: CreateLoadBalancerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLoadBalancerResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11734,7 +12762,7 @@ export const createLoadBalancer: (
  */
 export const createLoadBalancerTlsCertificate: (
   input: CreateLoadBalancerTlsCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLoadBalancerTlsCertificateResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11768,7 +12796,7 @@ export const createLoadBalancerTlsCertificate: (
  */
 export const createRelationalDatabase: (
   input: CreateRelationalDatabaseRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRelationalDatabaseResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11807,7 +12835,7 @@ export const createRelationalDatabase: (
  */
 export const createRelationalDatabaseFromSnapshot: (
   input: CreateRelationalDatabaseFromSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRelationalDatabaseFromSnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11842,7 +12870,7 @@ export const createRelationalDatabaseFromSnapshot: (
  */
 export const createRelationalDatabaseSnapshot: (
   input: CreateRelationalDatabaseSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRelationalDatabaseSnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11877,7 +12905,7 @@ export const createRelationalDatabaseSnapshot: (
  */
 export const closeInstancePublicPorts: (
   input: CloseInstancePublicPortsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CloseInstancePublicPortsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11914,7 +12942,7 @@ export const closeInstancePublicPorts: (
  */
 export const createCloudFormationStack: (
   input: CreateCloudFormationStackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCloudFormationStackResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11953,7 +12981,7 @@ export const createCloudFormationStack: (
  */
 export const createKeyPair: (
   input: CreateKeyPairRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateKeyPairResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11988,7 +13016,7 @@ export const createKeyPair: (
  */
 export const createDisk: (
   input: CreateDiskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDiskResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12023,7 +13051,7 @@ export const createDisk: (
  */
 export const createDistribution: (
   input: CreateDistributionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDistributionResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12056,7 +13084,7 @@ export const createDistribution: (
  */
 export const createDomainEntry: (
   input: CreateDomainEntryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDomainEntryResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12092,7 +13120,7 @@ export const createDomainEntry: (
  */
 export const createInstancesFromSnapshot: (
   input: CreateInstancesFromSnapshotRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateInstancesFromSnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12134,7 +13162,7 @@ export const createInstancesFromSnapshot: (
  */
 export const getContainerServiceDeployments: (
   input: GetContainerServiceDeploymentsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContainerServiceDeploymentsResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12162,7 +13190,7 @@ export const getContainerServiceDeployments: (
  */
 export const getSetupHistory: (
   input: GetSetupHistoryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSetupHistoryResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12192,7 +13220,7 @@ export const getSetupHistory: (
  */
 export const updateBucket: (
   input: UpdateBucketRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateBucketResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12223,7 +13251,7 @@ export const updateBucket: (
  */
 export const getBucketMetricData: (
   input: GetBucketMetricDataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketMetricDataResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12255,7 +13283,7 @@ export const getBucketMetricData: (
  */
 export const getContainerImages: (
   input: GetContainerImagesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContainerImagesResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12291,7 +13319,7 @@ export const getContainerImages: (
  */
 export const getContainerLog: (
   input: GetContainerLogRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContainerLogResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12322,7 +13350,7 @@ export const getContainerLog: (
  */
 export const getBucketAccessKeys: (
   input: GetBucketAccessKeysRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketAccessKeysResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12353,7 +13381,7 @@ export const getBucketAccessKeys: (
  */
 export const getCertificates: (
   input: GetCertificatesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCertificatesResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12384,7 +13412,7 @@ export const getCertificates: (
  */
 export const getContainerServiceMetricData: (
   input: GetContainerServiceMetricDataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContainerServiceMetricDataResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12415,7 +13443,7 @@ export const getContainerServiceMetricData: (
  */
 export const getContainerServicePowers: (
   input: GetContainerServicePowersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetContainerServicePowersResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12447,7 +13475,7 @@ export const getContainerServicePowers: (
  */
 export const registerContainerImage: (
   input: RegisterContainerImageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterContainerImageResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12478,7 +13506,7 @@ export const registerContainerImage: (
  */
 export const setResourceAccessForBucket: (
   input: SetResourceAccessForBucketRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetResourceAccessForBucketResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12509,7 +13537,7 @@ export const setResourceAccessForBucket: (
  */
 export const setupInstanceHttps: (
   input: SetupInstanceHttpsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SetupInstanceHttpsResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12538,7 +13566,7 @@ export const setupInstanceHttps: (
  */
 export const startGUISession: (
   input: StartGUISessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartGUISessionResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12567,7 +13595,7 @@ export const startGUISession: (
  */
 export const stopGUISession: (
   input: StopGUISessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopGUISessionResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12608,7 +13636,7 @@ export const stopGUISession: (
  */
 export const updateBucketBundle: (
   input: UpdateBucketBundleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateBucketBundleResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12636,7 +13664,7 @@ export const updateBucketBundle: (
  */
 export const updateContainerService: (
   input: UpdateContainerServiceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateContainerServiceResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12663,7 +13691,7 @@ export const updateContainerService: (
  */
 export const deleteContainerService: (
   input: DeleteContainerServiceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteContainerServiceResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12708,7 +13736,7 @@ export const deleteContainerService: (
  */
 export const createContainerServiceRegistryLogin: (
   input: CreateContainerServiceRegistryLoginRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateContainerServiceRegistryLoginResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12738,7 +13766,7 @@ export const createContainerServiceRegistryLogin: (
  */
 export const deleteBucket: (
   input: DeleteBucketRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBucketResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12770,7 +13798,7 @@ export const deleteBucket: (
  */
 export const deleteBucketAccessKey: (
   input: DeleteBucketAccessKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBucketAccessKeyResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12802,7 +13830,7 @@ export const deleteBucketAccessKey: (
  */
 export const deleteCertificate: (
   input: DeleteCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCertificateResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12834,7 +13862,7 @@ export const deleteCertificate: (
  */
 export const createGUISessionAccessDetails: (
   input: CreateGUISessionAccessDetailsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGUISessionAccessDetailsResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12872,7 +13900,7 @@ export const createGUISessionAccessDetails: (
  */
 export const createBucketAccessKey: (
   input: CreateBucketAccessKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBucketAccessKeyResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12903,7 +13931,7 @@ export const createBucketAccessKey: (
  */
 export const createContainerService: (
   input: CreateContainerServiceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateContainerServiceResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12934,7 +13962,7 @@ export const createContainerService: (
  */
 export const getLoadBalancerTlsPolicies: (
   input: GetLoadBalancerTlsPoliciesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLoadBalancerTlsPoliciesResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12966,7 +13994,7 @@ export const getLoadBalancerTlsPolicies: (
  */
 export const createBucket: (
   input: CreateBucketRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBucketResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12997,7 +14025,7 @@ export const createBucket: (
  */
 export const getBucketBundles: (
   input: GetBucketBundlesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketBundlesResult,
   | AccessDeniedException
   | InvalidInputException
@@ -13023,7 +14051,7 @@ export const getBucketBundles: (
  */
 export const deleteContainerImage: (
   input: DeleteContainerImageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteContainerImageResult,
   | AccessDeniedException
   | InvalidInputException
@@ -13055,7 +14083,7 @@ export const deleteContainerImage: (
  */
 export const getBuckets: (
   input: GetBucketsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBucketsResult,
   | AccessDeniedException
   | InvalidInputException
@@ -13093,7 +14121,7 @@ export const getBuckets: (
  */
 export const createContainerServiceDeployment: (
   input: CreateContainerServiceDeploymentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateContainerServiceDeploymentResult,
   | AccessDeniedException
   | InvalidInputException
@@ -13127,7 +14155,7 @@ export const createContainerServiceDeployment: (
  */
 export const getAlarms: (
   input: GetAlarmsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAlarmsResult,
   | AccessDeniedException
   | InvalidInputException
@@ -13168,7 +14196,7 @@ export const getAlarms: (
  */
 export const createCertificate: (
   input: CreateCertificateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCertificateResult,
   | AccessDeniedException
   | InvalidInputException
@@ -13196,7 +14224,7 @@ export const createCertificate: (
  */
 export const getCostEstimate: (
   input: GetCostEstimateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetCostEstimateResult,
   | AccessDeniedException
   | InvalidInputException
@@ -13228,7 +14256,7 @@ export const getCostEstimate: (
  */
 export const getExportSnapshotRecords: (
   input: GetExportSnapshotRecordsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetExportSnapshotRecordsResult,
   | AccessDeniedException
   | AccountSetupInProgressException

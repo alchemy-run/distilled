@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -160,7 +160,7 @@ export const ListTagsForResourceInput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceInput>;
 export interface UntagResourceInput {
   ResourceArn: string;
-  TagKeys: TagKeyList;
+  TagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({
@@ -227,8 +227,8 @@ export const Subnets = S.Array(S.String);
 export type SecurityGroups = string[];
 export const SecurityGroups = S.Array(S.String);
 export interface AwsVpcConfiguration {
-  Subnets: Subnets;
-  SecurityGroups?: SecurityGroups;
+  Subnets: string[];
+  SecurityGroups?: string[];
   AssignPublicIp?: string;
 }
 export const AwsVpcConfiguration = S.suspend(() =>
@@ -288,7 +288,7 @@ export type PlacementStrategies = PlacementStrategy[];
 export const PlacementStrategies = S.Array(PlacementStrategy);
 export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export type Tags = TagMap[];
+export type Tags = { [key: string]: string }[];
 export const Tags = S.Array(TagMap);
 export interface EcsParameters {
   TaskDefinitionArn: string;
@@ -297,14 +297,14 @@ export interface EcsParameters {
   NetworkConfiguration?: NetworkConfiguration;
   PlatformVersion?: string;
   Group?: string;
-  CapacityProviderStrategy?: CapacityProviderStrategy;
+  CapacityProviderStrategy?: CapacityProviderStrategyItem[];
   EnableECSManagedTags?: boolean;
   EnableExecuteCommand?: boolean;
-  PlacementConstraints?: PlacementConstraints;
-  PlacementStrategy?: PlacementStrategies;
+  PlacementConstraints?: PlacementConstraint[];
+  PlacementStrategy?: PlacementStrategy[];
   PropagateTags?: string;
   ReferenceId?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string }[];
 }
 export const EcsParameters = S.suspend(() =>
   S.Struct({
@@ -357,7 +357,7 @@ export const SageMakerPipelineParameterList = S.Array(
   SageMakerPipelineParameter,
 );
 export interface SageMakerPipelineParameters {
-  PipelineParameterList?: SageMakerPipelineParameterList;
+  PipelineParameterList?: SageMakerPipelineParameter[];
 }
 export const SageMakerPipelineParameters = S.suspend(() =>
   S.Struct({
@@ -517,7 +517,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface CreateScheduleGroupInput {
   Name: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   ClientToken?: string;
 }
 export const CreateScheduleGroupInput = S.suspend(() =>
@@ -606,7 +606,7 @@ export const ListScheduleGroupsInput = S.suspend(() =>
   identifier: "ListScheduleGroupsInput",
 }) as any as S.Schema<ListScheduleGroupsInput>;
 export interface ListTagsForResourceOutput {
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }),
@@ -615,7 +615,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   ResourceArn: string;
-  Tags: TagList;
+  Tags: Tag[];
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -738,7 +738,7 @@ export type ScheduleGroupList = ScheduleGroupSummary[];
 export const ScheduleGroupList = S.Array(ScheduleGroupSummary);
 export interface ListScheduleGroupsOutput {
   NextToken?: string;
-  ScheduleGroups: ScheduleGroupList;
+  ScheduleGroups: ScheduleGroupSummary[];
 }
 export const ListScheduleGroupsOutput = S.suspend(() =>
   S.Struct({
@@ -784,7 +784,7 @@ export type ScheduleList = ScheduleSummary[];
 export const ScheduleList = S.Array(ScheduleSummary);
 export interface ListSchedulesOutput {
   NextToken?: string;
-  Schedules: ScheduleList;
+  Schedules: ScheduleSummary[];
 }
 export const ListSchedulesOutput = S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), Schedules: ScheduleList }),
@@ -876,7 +876,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listScheduleGroups: {
   (
     input: ListScheduleGroupsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListScheduleGroupsOutput,
     | InternalServerException
     | ThrottlingException
@@ -886,7 +886,7 @@ export const listScheduleGroups: {
   >;
   pages: (
     input: ListScheduleGroupsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListScheduleGroupsOutput,
     | InternalServerException
     | ThrottlingException
@@ -896,7 +896,7 @@ export const listScheduleGroups: {
   >;
   items: (
     input: ListScheduleGroupsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ScheduleGroupSummary,
     | InternalServerException
     | ThrottlingException
@@ -920,7 +920,7 @@ export const listScheduleGroups: {
  */
 export const createScheduleGroup: (
   input: CreateScheduleGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateScheduleGroupOutput,
   | ConflictException
   | InternalServerException
@@ -945,7 +945,7 @@ export const createScheduleGroup: (
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   | ConflictException
   | InternalServerException
@@ -970,7 +970,7 @@ export const untagResource: (
  */
 export const getSchedule: (
   input: GetScheduleInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetScheduleOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -998,7 +998,7 @@ export const getSchedule: (
  */
 export const updateSchedule: (
   input: UpdateScheduleInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateScheduleOutput,
   | ConflictException
   | InternalServerException
@@ -1023,7 +1023,7 @@ export const updateSchedule: (
  */
 export const getScheduleGroup: (
   input: GetScheduleGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetScheduleGroupOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -1046,7 +1046,7 @@ export const getScheduleGroup: (
  */
 export const deleteSchedule: (
   input: DeleteScheduleInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteScheduleOutput,
   | ConflictException
   | InternalServerException
@@ -1076,7 +1076,7 @@ export const deleteSchedule: (
  */
 export const deleteScheduleGroup: (
   input: DeleteScheduleGroupInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteScheduleGroupOutput,
   | ConflictException
   | InternalServerException
@@ -1101,7 +1101,7 @@ export const deleteScheduleGroup: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   | ConflictException
   | InternalServerException
@@ -1126,7 +1126,7 @@ export const tagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -1150,7 +1150,7 @@ export const listTagsForResource: (
 export const listSchedules: {
   (
     input: ListSchedulesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSchedulesOutput,
     | InternalServerException
     | ResourceNotFoundException
@@ -1161,7 +1161,7 @@ export const listSchedules: {
   >;
   pages: (
     input: ListSchedulesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSchedulesOutput,
     | InternalServerException
     | ResourceNotFoundException
@@ -1172,7 +1172,7 @@ export const listSchedules: {
   >;
   items: (
     input: ListSchedulesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ScheduleSummary,
     | InternalServerException
     | ResourceNotFoundException
@@ -1202,7 +1202,7 @@ export const listSchedules: {
  */
 export const createSchedule: (
   input: CreateScheduleInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateScheduleOutput,
   | ConflictException
   | InternalServerException

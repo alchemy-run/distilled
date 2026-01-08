@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -184,7 +184,7 @@ export interface CreateDataSetRequest {
   AssetType: string;
   Description: string;
   Name: string;
-  Tags?: MapOf__string;
+  Tags?: { [key: string]: string };
 }
 export const CreateDataSetRequest = S.suspend(() =>
   S.Struct({
@@ -208,7 +208,7 @@ export const CreateDataSetRequest = S.suspend(() =>
 export interface CreateRevisionRequest {
   Comment?: string;
   DataSetId: string;
-  Tags?: MapOf__string;
+  Tags?: { [key: string]: string };
 }
 export const CreateRevisionRequest = S.suspend(() =>
   S.Struct({
@@ -606,7 +606,7 @@ export const ListJobsRequest = S.suspend(() =>
 export interface ListReceivedDataGrantsRequest {
   MaxResults?: number;
   NextToken?: string;
-  AcceptanceState?: AcceptanceStateFilterValues;
+  AcceptanceState?: string[];
 }
 export const ListReceivedDataGrantsRequest = S.suspend(() =>
   S.Struct({
@@ -701,10 +701,10 @@ export const RevokeRevisionRequest = S.suspend(() =>
 }) as any as S.Schema<RevokeRevisionRequest>;
 export interface SendApiAssetRequest {
   Body?: string;
-  QueryStringParameters?: MapOf__string;
+  QueryStringParameters?: { [key: string]: string };
   AssetId: string;
   DataSetId: string;
-  RequestHeaders?: MapOf__string;
+  RequestHeaders?: { [key: string]: string };
   Method?: string;
   Path?: string;
   RevisionId: string;
@@ -752,7 +752,7 @@ export const StartJobResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<StartJobResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: MapOf__string;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -777,7 +777,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: ListOf__string;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -979,7 +979,7 @@ export interface CreateDataGrantRequest {
   SourceDataSetId: string;
   EndsAt?: Date;
   Description?: string;
-  Tags?: MapOf__string;
+  Tags?: { [key: string]: string };
 }
 export const CreateDataGrantRequest = S.suspend(() =>
   S.Struct({
@@ -1011,7 +1011,7 @@ export interface CreateRevisionResponse {
   Finalized?: boolean;
   Id?: string;
   SourceId?: string;
-  Tags?: MapOf__string;
+  Tags?: { [key: string]: string };
   UpdatedAt?: Date;
   RevocationComment?: string;
   Revoked?: boolean;
@@ -1050,7 +1050,7 @@ export interface GetDataGrantResponse {
   Arn: string;
   CreatedAt: Date;
   UpdatedAt: Date;
-  Tags?: MapOf__string;
+  Tags?: { [key: string]: string };
 }
 export const GetDataGrantResponse = S.suspend(() =>
   S.Struct({
@@ -1095,7 +1095,7 @@ export interface GetDataSetResponse {
   Origin?: string;
   OriginDetails?: OriginDetails;
   SourceId?: string;
-  Tags?: MapOf__string;
+  Tags?: { [key: string]: string };
   UpdatedAt?: Date;
 }
 export const GetDataSetResponse = S.suspend(() =>
@@ -1135,7 +1135,7 @@ export interface GetEventActionResponse {
   CreatedAt?: Date;
   Event?: Event;
   Id?: string;
-  Tags?: MapOf__string;
+  Tags?: { [key: string]: string };
   UpdatedAt?: Date;
 }
 export const GetEventActionResponse = S.suspend(() =>
@@ -1193,7 +1193,7 @@ export interface GetRevisionResponse {
   Finalized?: boolean;
   Id?: string;
   SourceId?: string;
-  Tags?: MapOf__string;
+  Tags?: { [key: string]: string };
   UpdatedAt?: Date;
   RevocationComment?: string;
   Revoked?: boolean;
@@ -1218,7 +1218,7 @@ export const GetRevisionResponse = S.suspend(() =>
   identifier: "GetRevisionResponse",
 }) as any as S.Schema<GetRevisionResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: MapOf__string;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(MapOf__string).pipe(T.JsonName("tags")) }),
@@ -1257,7 +1257,7 @@ export const RevokeRevisionResponse = S.suspend(() =>
 }) as any as S.Schema<RevokeRevisionResponse>;
 export interface SendApiAssetResponse {
   Body?: string;
-  ResponseHeaders?: MapOf__string;
+  ResponseHeaders?: { [key: string]: string };
 }
 export const SendApiAssetResponse = S.suspend(() =>
   S.Struct({
@@ -1323,11 +1323,11 @@ export type ListOfKmsKeysToGrant = KmsKeyToGrant[];
 export const ListOfKmsKeysToGrant = S.Array(KmsKeyToGrant);
 export interface S3DataAccessAsset {
   Bucket: string;
-  KeyPrefixes?: ListOf__string;
-  Keys?: ListOf__string;
+  KeyPrefixes?: string[];
+  Keys?: string[];
   S3AccessPointAlias?: string;
   S3AccessPointArn?: string;
-  KmsKeysToGrant?: ListOfKmsKeysToGrant;
+  KmsKeysToGrant?: KmsKeyToGrant[];
 }
 export const S3DataAccessAsset = S.suspend(() =>
   S.Struct({
@@ -1345,7 +1345,7 @@ export type ListOfLFTagValues = string[];
 export const ListOfLFTagValues = S.Array(S.String);
 export interface LFTag {
   TagKey: string;
-  TagValues: ListOfLFTagValues;
+  TagValues: string[];
 }
 export const LFTag = S.suspend(() =>
   S.Struct({ TagKey: S.String, TagValues: ListOfLFTagValues }),
@@ -1353,7 +1353,7 @@ export const LFTag = S.suspend(() =>
 export type ListOfLFTags = LFTag[];
 export const ListOfLFTags = S.Array(LFTag);
 export interface DatabaseLFTagPolicy {
-  Expression: ListOfLFTags;
+  Expression: LFTag[];
 }
 export const DatabaseLFTagPolicy = S.suspend(() =>
   S.Struct({ Expression: ListOfLFTags }),
@@ -1361,7 +1361,7 @@ export const DatabaseLFTagPolicy = S.suspend(() =>
   identifier: "DatabaseLFTagPolicy",
 }) as any as S.Schema<DatabaseLFTagPolicy>;
 export interface TableLFTagPolicy {
-  Expression: ListOfLFTags;
+  Expression: LFTag[];
 }
 export const TableLFTagPolicy = S.suspend(() =>
   S.Struct({ Expression: ListOfLFTags }),
@@ -1407,7 +1407,7 @@ export const ListOfLFPermissions = S.Array(S.String);
 export interface LakeFormationDataPermissionAsset {
   LakeFormationDataPermissionDetails: LakeFormationDataPermissionDetails;
   LakeFormationDataPermissionType: string;
-  Permissions: ListOfLFPermissions;
+  Permissions: string[];
   RoleArn?: string;
 }
 export const LakeFormationDataPermissionAsset = S.suspend(() =>
@@ -1632,8 +1632,8 @@ export const RedshiftDataShareDetails = S.suspend(() =>
 export type ListOfRedshiftDataShares = RedshiftDataShareDetails[];
 export const ListOfRedshiftDataShares = S.Array(RedshiftDataShareDetails);
 export interface S3DataAccessDetails {
-  KeyPrefixes?: ListOf__string;
-  Keys?: ListOf__string;
+  KeyPrefixes?: string[];
+  Keys?: string[];
 }
 export const S3DataAccessDetails = S.suspend(() =>
   S.Struct({
@@ -1814,7 +1814,7 @@ export const AssetDestinationEntry = S.suspend(() =>
 export type ListOfAssetDestinationEntry = AssetDestinationEntry[];
 export const ListOfAssetDestinationEntry = S.Array(AssetDestinationEntry);
 export interface ExportAssetsToS3ResponseDetails {
-  AssetDestinations: ListOfAssetDestinationEntry;
+  AssetDestinations: AssetDestinationEntry[];
   DataSetId: string;
   Encryption?: ExportServerSideEncryption;
   RevisionId: string;
@@ -1848,7 +1848,7 @@ export const ListOfRevisionDestinationEntry = S.Array(RevisionDestinationEntry);
 export interface ExportRevisionsToS3ResponseDetails {
   DataSetId: string;
   Encryption?: ExportServerSideEncryption;
-  RevisionDestinations: ListOfRevisionDestinationEntry;
+  RevisionDestinations: RevisionDestinationEntry[];
   EventActionArn?: string;
 }
 export const ExportRevisionsToS3ResponseDetails = S.suspend(() =>
@@ -1893,7 +1893,7 @@ export const AssetSourceEntry = S.suspend(() =>
 export type ListOfAssetSourceEntry = AssetSourceEntry[];
 export const ListOfAssetSourceEntry = S.Array(AssetSourceEntry);
 export interface ImportAssetsFromS3ResponseDetails {
-  AssetSources: ListOfAssetSourceEntry;
+  AssetSources: AssetSourceEntry[];
   DataSetId: string;
   RevisionId: string;
 }
@@ -1920,7 +1920,7 @@ export const ListOfRedshiftDataShareAssetSourceEntry = S.Array(
   RedshiftDataShareAssetSourceEntry,
 );
 export interface ImportAssetsFromRedshiftDataSharesResponseDetails {
-  AssetSources: ListOfRedshiftDataShareAssetSourceEntry;
+  AssetSources: RedshiftDataShareAssetSourceEntry[];
   DataSetId: string;
   RevisionId: string;
 }
@@ -1967,9 +1967,9 @@ export const ImportAssetFromApiGatewayApiResponseDetails = S.suspend(() =>
 }) as any as S.Schema<ImportAssetFromApiGatewayApiResponseDetails>;
 export interface S3DataAccessAssetSourceEntry {
   Bucket: string;
-  KeyPrefixes?: ListOf__string;
-  Keys?: ListOf__string;
-  KmsKeysToGrant?: ListOfKmsKeysToGrant;
+  KeyPrefixes?: string[];
+  Keys?: string[];
+  KmsKeysToGrant?: KmsKeyToGrant[];
 }
 export const S3DataAccessAssetSourceEntry = S.suspend(() =>
   S.Struct({
@@ -1996,8 +1996,8 @@ export const CreateS3DataAccessFromS3BucketResponseDetails = S.suspend(() =>
   identifier: "CreateS3DataAccessFromS3BucketResponseDetails",
 }) as any as S.Schema<CreateS3DataAccessFromS3BucketResponseDetails>;
 export interface DatabaseLFTagPolicyAndPermissions {
-  Expression: ListOfLFTags;
-  Permissions: ListOfDatabaseLFTagPolicyPermissions;
+  Expression: LFTag[];
+  Permissions: string[];
 }
 export const DatabaseLFTagPolicyAndPermissions = S.suspend(() =>
   S.Struct({
@@ -2008,8 +2008,8 @@ export const DatabaseLFTagPolicyAndPermissions = S.suspend(() =>
   identifier: "DatabaseLFTagPolicyAndPermissions",
 }) as any as S.Schema<DatabaseLFTagPolicyAndPermissions>;
 export interface TableLFTagPolicyAndPermissions {
-  Expression: ListOfLFTags;
-  Permissions: ListOfTableTagPolicyLFPermissions;
+  Expression: LFTag[];
+  Permissions: string[];
 }
 export const TableLFTagPolicyAndPermissions = S.suspend(() =>
   S.Struct({
@@ -2086,7 +2086,7 @@ export const ImportAssetFromSignedUrlJobErrorDetails = S.suspend(() =>
 }) as any as S.Schema<ImportAssetFromSignedUrlJobErrorDetails>;
 export interface Details {
   ImportAssetFromSignedUrlJobErrorDetails?: ImportAssetFromSignedUrlJobErrorDetails;
-  ImportAssetsFromS3JobErrorDetails?: ListOfAssetSourceEntry;
+  ImportAssetsFromS3JobErrorDetails?: AssetSourceEntry[];
 }
 export const Details = S.suspend(() =>
   S.Struct({
@@ -2122,7 +2122,7 @@ export interface JobEntry {
   Arn: string;
   CreatedAt: Date;
   Details: ResponseDetails;
-  Errors?: ListOfJobError;
+  Errors?: JobError[];
   Id: string;
   State: string;
   Type: string;
@@ -2206,9 +2206,9 @@ export const AssetEntry = S.suspend(() =>
 export type ListOfAssetEntry = AssetEntry[];
 export const ListOfAssetEntry = S.Array(AssetEntry);
 export interface ScopeDetails {
-  LakeFormationTagPolicies?: ListOfLakeFormationTagPolicies;
-  RedshiftDataShares?: ListOfRedshiftDataShares;
-  S3DataAccesses?: ListOfS3DataAccesses;
+  LakeFormationTagPolicies?: LakeFormationTagPolicyDetails[];
+  RedshiftDataShares?: RedshiftDataShareDetails[];
+  S3DataAccesses?: S3DataAccessDetails[];
 }
 export const ScopeDetails = S.suspend(() =>
   S.Struct({
@@ -2248,7 +2248,7 @@ export interface CreateDataGrantResponse {
   Arn: string;
   CreatedAt: Date;
   UpdatedAt: Date;
-  Tags?: MapOf__string;
+  Tags?: { [key: string]: string };
 }
 export const CreateDataGrantResponse = S.suspend(() =>
   S.Struct({
@@ -2281,7 +2281,7 @@ export interface CreateDataSetResponse {
   Origin?: string;
   OriginDetails?: OriginDetails;
   SourceId?: string;
-  Tags?: MapOf__string;
+  Tags?: { [key: string]: string };
   UpdatedAt?: Date;
 }
 export const CreateDataSetResponse = S.suspend(() =>
@@ -2302,7 +2302,7 @@ export const CreateDataSetResponse = S.suspend(() =>
   identifier: "CreateDataSetResponse",
 }) as any as S.Schema<CreateDataSetResponse>;
 export interface ListDataGrantsResponse {
-  DataGrantSummaries?: ListOfDataGrantSummaryEntry;
+  DataGrantSummaries?: DataGrantSummaryEntry[];
   NextToken?: string;
 }
 export const ListDataGrantsResponse = S.suspend(() =>
@@ -2315,7 +2315,7 @@ export const ListDataGrantsResponse = S.suspend(() =>
 }) as any as S.Schema<ListDataGrantsResponse>;
 export interface ListDataSetRevisionsResponse {
   NextToken?: string;
-  Revisions?: ListOfRevisionEntry;
+  Revisions?: RevisionEntry[];
 }
 export const ListDataSetRevisionsResponse = S.suspend(() =>
   S.Struct({
@@ -2326,7 +2326,7 @@ export const ListDataSetRevisionsResponse = S.suspend(() =>
   identifier: "ListDataSetRevisionsResponse",
 }) as any as S.Schema<ListDataSetRevisionsResponse>;
 export interface ListDataSetsResponse {
-  DataSets?: ListOfDataSetEntry;
+  DataSets?: DataSetEntry[];
   NextToken?: string;
 }
 export const ListDataSetsResponse = S.suspend(() =>
@@ -2338,7 +2338,7 @@ export const ListDataSetsResponse = S.suspend(() =>
   identifier: "ListDataSetsResponse",
 }) as any as S.Schema<ListDataSetsResponse>;
 export interface ListEventActionsResponse {
-  EventActions?: ListOfEventActionEntry;
+  EventActions?: EventActionEntry[];
   NextToken?: string;
 }
 export const ListEventActionsResponse = S.suspend(() =>
@@ -2350,7 +2350,7 @@ export const ListEventActionsResponse = S.suspend(() =>
   identifier: "ListEventActionsResponse",
 }) as any as S.Schema<ListEventActionsResponse>;
 export interface ListJobsResponse {
-  Jobs?: ListOfJobEntry;
+  Jobs?: JobEntry[];
   NextToken?: string;
 }
 export const ListJobsResponse = S.suspend(() =>
@@ -2362,7 +2362,7 @@ export const ListJobsResponse = S.suspend(() =>
   identifier: "ListJobsResponse",
 }) as any as S.Schema<ListJobsResponse>;
 export interface ListReceivedDataGrantsResponse {
-  DataGrantSummaries?: ListOfReceivedDataGrantSummariesEntry;
+  DataGrantSummaries?: ReceivedDataGrantSummariesEntry[];
   NextToken?: string;
 }
 export const ListReceivedDataGrantsResponse = S.suspend(() =>
@@ -2374,7 +2374,7 @@ export const ListReceivedDataGrantsResponse = S.suspend(() =>
   identifier: "ListReceivedDataGrantsResponse",
 }) as any as S.Schema<ListReceivedDataGrantsResponse>;
 export interface ListRevisionAssetsResponse {
-  Assets?: ListOfAssetEntry;
+  Assets?: AssetEntry[];
   NextToken?: string;
 }
 export const ListRevisionAssetsResponse = S.suspend(() =>
@@ -2386,7 +2386,7 @@ export const ListRevisionAssetsResponse = S.suspend(() =>
   identifier: "ListRevisionAssetsResponse",
 }) as any as S.Schema<ListRevisionAssetsResponse>;
 export interface ExportAssetsToS3RequestDetails {
-  AssetDestinations: ListOfAssetDestinationEntry;
+  AssetDestinations: AssetDestinationEntry[];
   DataSetId: string;
   Encryption?: ExportServerSideEncryption;
   RevisionId: string;
@@ -2404,7 +2404,7 @@ export const ExportAssetsToS3RequestDetails = S.suspend(() =>
 export interface ExportRevisionsToS3RequestDetails {
   DataSetId: string;
   Encryption?: ExportServerSideEncryption;
-  RevisionDestinations: ListOfRevisionDestinationEntry;
+  RevisionDestinations: RevisionDestinationEntry[];
 }
 export const ExportRevisionsToS3RequestDetails = S.suspend(() =>
   S.Struct({
@@ -2416,7 +2416,7 @@ export const ExportRevisionsToS3RequestDetails = S.suspend(() =>
   identifier: "ExportRevisionsToS3RequestDetails",
 }) as any as S.Schema<ExportRevisionsToS3RequestDetails>;
 export interface ImportAssetsFromS3RequestDetails {
-  AssetSources: ListOfAssetSourceEntry;
+  AssetSources: AssetSourceEntry[];
   DataSetId: string;
   RevisionId: string;
 }
@@ -2430,7 +2430,7 @@ export const ImportAssetsFromS3RequestDetails = S.suspend(() =>
   identifier: "ImportAssetsFromS3RequestDetails",
 }) as any as S.Schema<ImportAssetsFromS3RequestDetails>;
 export interface ImportAssetsFromRedshiftDataSharesRequestDetails {
-  AssetSources: ListOfRedshiftDataShareAssetSourceEntry;
+  AssetSources: RedshiftDataShareAssetSourceEntry[];
   DataSetId: string;
   RevisionId: string;
 }
@@ -2444,7 +2444,7 @@ export const ImportAssetsFromRedshiftDataSharesRequestDetails = S.suspend(() =>
   identifier: "ImportAssetsFromRedshiftDataSharesRequestDetails",
 }) as any as S.Schema<ImportAssetsFromRedshiftDataSharesRequestDetails>;
 export interface SchemaChangeRequestDetails {
-  Changes?: ListOfSchemaChangeDetails;
+  Changes?: SchemaChangeDetails[];
   SchemaChangeAt: Date;
 }
 export const SchemaChangeRequestDetails = S.suspend(() =>
@@ -2472,7 +2472,7 @@ export const NotificationDetails = S.suspend(() =>
 export interface CreateEventActionRequest {
   Action: Action;
   Event: Event;
-  Tags?: MapOf__string;
+  Tags?: { [key: string]: string };
 }
 export const CreateEventActionRequest = S.suspend(() =>
   S.Struct({
@@ -2604,7 +2604,7 @@ export interface CreateEventActionResponse {
   CreatedAt?: Date;
   Event?: Event;
   Id?: string;
-  Tags?: MapOf__string;
+  Tags?: { [key: string]: string };
   UpdatedAt?: Date;
 }
 export const CreateEventActionResponse = S.suspend(() =>
@@ -2642,7 +2642,7 @@ export interface GetJobResponse {
   Arn?: string;
   CreatedAt?: Date;
   Details?: ResponseDetails;
-  Errors?: ListOfJobError;
+  Errors?: JobError[];
   Id?: string;
   State?: string;
   Type?: string;
@@ -2666,7 +2666,7 @@ export interface CreateJobResponse {
   Arn?: string;
   CreatedAt?: Date;
   Details?: ResponseDetails;
-  Errors?: ListOfJobError;
+  Errors?: JobError[];
   Id?: string;
   State?: string;
   Type?: string;
@@ -2763,7 +2763,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2777,7 +2777,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2791,7 +2791,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2805,7 +2805,7 @@ export const listTagsForResource: (
  */
 export const deleteEventAction: (
   input: DeleteEventActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEventActionResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2828,7 +2828,7 @@ export const deleteEventAction: (
  */
 export const getJob: (
   input: GetJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetJobResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2851,7 +2851,7 @@ export const getJob: (
  */
 export const sendDataSetNotification: (
   input: SendDataSetNotificationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendDataSetNotificationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2878,7 +2878,7 @@ export const sendDataSetNotification: (
  */
 export const createDataGrant: (
   input: CreateDataGrantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataGrantResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2906,7 +2906,7 @@ export const createDataGrant: (
 export const listDataGrants: {
   (
     input: ListDataGrantsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataGrantsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2918,7 +2918,7 @@ export const listDataGrants: {
   >;
   pages: (
     input: ListDataGrantsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataGrantsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2930,7 +2930,7 @@ export const listDataGrants: {
   >;
   items: (
     input: ListDataGrantsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataGrantSummaryEntry,
     | AccessDeniedException
     | InternalServerException
@@ -2964,7 +2964,7 @@ export const listDataGrants: {
 export const listDataSetRevisions: {
   (
     input: ListDataSetRevisionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataSetRevisionsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -2975,7 +2975,7 @@ export const listDataSetRevisions: {
   >;
   pages: (
     input: ListDataSetRevisionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataSetRevisionsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -2986,7 +2986,7 @@ export const listDataSetRevisions: {
   >;
   items: (
     input: ListDataSetRevisionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RevisionEntry,
     | InternalServerException
     | ResourceNotFoundException
@@ -3018,7 +3018,7 @@ export const listDataSetRevisions: {
 export const listDataSets: {
   (
     input: ListDataSetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDataSetsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -3029,7 +3029,7 @@ export const listDataSets: {
   >;
   pages: (
     input: ListDataSetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDataSetsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -3040,7 +3040,7 @@ export const listDataSets: {
   >;
   items: (
     input: ListDataSetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataSetEntry,
     | InternalServerException
     | ResourceNotFoundException
@@ -3071,7 +3071,7 @@ export const listDataSets: {
 export const listEventActions: {
   (
     input: ListEventActionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEventActionsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -3082,7 +3082,7 @@ export const listEventActions: {
   >;
   pages: (
     input: ListEventActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEventActionsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -3093,7 +3093,7 @@ export const listEventActions: {
   >;
   items: (
     input: ListEventActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EventActionEntry,
     | InternalServerException
     | ResourceNotFoundException
@@ -3124,7 +3124,7 @@ export const listEventActions: {
 export const listJobs: {
   (
     input: ListJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListJobsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -3135,7 +3135,7 @@ export const listJobs: {
   >;
   pages: (
     input: ListJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListJobsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -3146,7 +3146,7 @@ export const listJobs: {
   >;
   items: (
     input: ListJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     JobEntry,
     | InternalServerException
     | ResourceNotFoundException
@@ -3177,7 +3177,7 @@ export const listJobs: {
 export const listReceivedDataGrants: {
   (
     input: ListReceivedDataGrantsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListReceivedDataGrantsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3189,7 +3189,7 @@ export const listReceivedDataGrants: {
   >;
   pages: (
     input: ListReceivedDataGrantsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListReceivedDataGrantsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -3201,7 +3201,7 @@ export const listReceivedDataGrants: {
   >;
   items: (
     input: ListReceivedDataGrantsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReceivedDataGrantSummariesEntry,
     | AccessDeniedException
     | InternalServerException
@@ -3235,7 +3235,7 @@ export const listReceivedDataGrants: {
 export const listRevisionAssets: {
   (
     input: ListRevisionAssetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRevisionAssetsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -3246,7 +3246,7 @@ export const listRevisionAssets: {
   >;
   pages: (
     input: ListRevisionAssetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRevisionAssetsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -3257,7 +3257,7 @@ export const listRevisionAssets: {
   >;
   items: (
     input: ListRevisionAssetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AssetEntry,
     | InternalServerException
     | ResourceNotFoundException
@@ -3287,7 +3287,7 @@ export const listRevisionAssets: {
  */
 export const getDataGrant: (
   input: GetDataGrantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataGrantResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3312,7 +3312,7 @@ export const getDataGrant: (
  */
 export const getDataSet: (
   input: GetDataSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDataSetResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3335,7 +3335,7 @@ export const getDataSet: (
  */
 export const getEventAction: (
   input: GetEventActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetEventActionResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3358,7 +3358,7 @@ export const getEventAction: (
  */
 export const getReceivedDataGrant: (
   input: GetReceivedDataGrantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetReceivedDataGrantResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3383,7 +3383,7 @@ export const getReceivedDataGrant: (
  */
 export const getRevision: (
   input: GetRevisionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRevisionResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3406,7 +3406,7 @@ export const getRevision: (
  */
 export const revokeRevision: (
   input: RevokeRevisionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RevokeRevisionResponse,
   | AccessDeniedException
   | ConflictException
@@ -3434,7 +3434,7 @@ export const revokeRevision: (
  */
 export const sendApiAsset: (
   input: SendApiAssetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SendApiAssetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3459,7 +3459,7 @@ export const sendApiAsset: (
  */
 export const updateAsset: (
   input: UpdateAssetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAssetResponse,
   | AccessDeniedException
   | ConflictException
@@ -3486,7 +3486,7 @@ export const updateAsset: (
  */
 export const updateDataSet: (
   input: UpdateDataSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDataSetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3511,7 +3511,7 @@ export const updateDataSet: (
  */
 export const updateEventAction: (
   input: UpdateEventActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEventActionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3536,7 +3536,7 @@ export const updateEventAction: (
  */
 export const updateRevision: (
   input: UpdateRevisionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRevisionResponse,
   | AccessDeniedException
   | ConflictException
@@ -3563,7 +3563,7 @@ export const updateRevision: (
  */
 export const deleteDataGrant: (
   input: DeleteDataGrantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDataGrantResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3588,7 +3588,7 @@ export const deleteDataGrant: (
  */
 export const deleteDataSet: (
   input: DeleteDataSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDataSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -3615,7 +3615,7 @@ export const deleteDataSet: (
  */
 export const deleteRevision: (
   input: DeleteRevisionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRevisionResponse,
   | AccessDeniedException
   | ConflictException
@@ -3642,7 +3642,7 @@ export const deleteRevision: (
  */
 export const startJob: (
   input: StartJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -3669,7 +3669,7 @@ export const startJob: (
  */
 export const acceptDataGrant: (
   input: AcceptDataGrantRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AcceptDataGrantResponse,
   | AccessDeniedException
   | ConflictException
@@ -3696,7 +3696,7 @@ export const acceptDataGrant: (
  */
 export const createRevision: (
   input: CreateRevisionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRevisionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3722,7 +3722,7 @@ export const createRevision: (
  */
 export const cancelJob: (
   input: CancelJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelJobResponse,
   | ConflictException
   | InternalServerException
@@ -3747,7 +3747,7 @@ export const cancelJob: (
  */
 export const deleteAsset: (
   input: DeleteAssetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAssetResponse,
   | AccessDeniedException
   | ConflictException
@@ -3774,7 +3774,7 @@ export const deleteAsset: (
  */
 export const createDataSet: (
   input: CreateDataSetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDataSetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3799,7 +3799,7 @@ export const createDataSet: (
  */
 export const createEventAction: (
   input: CreateEventActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEventActionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3824,7 +3824,7 @@ export const createEventAction: (
  */
 export const createJob: (
   input: CreateJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -3851,7 +3851,7 @@ export const createJob: (
  */
 export const getAsset: (
   input: GetAssetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAssetResponse,
   | InternalServerException
   | ResourceNotFoundException

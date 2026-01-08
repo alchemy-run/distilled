@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -226,8 +226,8 @@ export type HandshakeId = string;
 export type PolicyId = string;
 export type PolicyTargetId = string;
 export type AccountId = string;
-export type Email = string | Redacted.Redacted<string>;
-export type CreateAccountName = string | Redacted.Redacted<string>;
+export type Email = string | redacted.Redacted<string>;
+export type CreateAccountName = string | redacted.Redacted<string>;
 export type RoleName = string;
 export type ParentId = string;
 export type OrganizationalUnitName = string;
@@ -240,8 +240,8 @@ export type ServicePrincipal = string;
 export type CreateAccountRequestId = string;
 export type ResponsibilityTransferId = string;
 export type RootId = string;
-export type HandshakeNotes = string | Redacted.Redacted<string>;
-export type ResponsibilityTransferName = string | Redacted.Redacted<string>;
+export type HandshakeNotes = string | redacted.Redacted<string>;
+export type ResponsibilityTransferName = string | redacted.Redacted<string>;
 export type NextToken = string;
 export type MaxResults = number;
 export type ChildId = string;
@@ -253,13 +253,13 @@ export type OrganizationId = string;
 export type OrganizationArn = string;
 export type AccountArn = string;
 export type HandshakeArn = string;
-export type HandshakePartyId = string | Redacted.Redacted<string>;
+export type HandshakePartyId = string | redacted.Redacted<string>;
 export type Path = string;
 export type ResourcePolicyId = string;
 export type ResourcePolicyArn = string;
-export type HandshakeResourceValue = string | Redacted.Redacted<string>;
+export type HandshakeResourceValue = string | redacted.Redacted<string>;
 export type OrganizationalUnitArn = string;
-export type AccountName = string | Redacted.Redacted<string>;
+export type AccountName = string | redacted.Redacted<string>;
 export type ResponsibilityTransferArn = string;
 export type RootArn = string;
 export type RootName = string;
@@ -386,8 +386,76 @@ export const LeaveOrganizationResponse = S.suspend(() =>
 ).annotations({
   identifier: "LeaveOrganizationResponse",
 }) as any as S.Schema<LeaveOrganizationResponse>;
-export type CreateAccountStates = string[];
-export const CreateAccountStates = S.Array(S.String);
+export type IAMUserAccessToBilling = "ALLOW" | "DENY";
+export const IAMUserAccessToBilling = S.Literal("ALLOW", "DENY");
+export type OrganizationFeatureSet = "ALL" | "CONSOLIDATED_BILLING";
+export const OrganizationFeatureSet = S.Literal("ALL", "CONSOLIDATED_BILLING");
+export type PolicyType =
+  | "SERVICE_CONTROL_POLICY"
+  | "RESOURCE_CONTROL_POLICY"
+  | "TAG_POLICY"
+  | "BACKUP_POLICY"
+  | "AISERVICES_OPT_OUT_POLICY"
+  | "CHATBOT_POLICY"
+  | "DECLARATIVE_POLICY_EC2"
+  | "SECURITYHUB_POLICY"
+  | "INSPECTOR_POLICY"
+  | "UPGRADE_ROLLOUT_POLICY"
+  | "BEDROCK_POLICY"
+  | "S3_POLICY"
+  | "NETWORK_SECURITY_DIRECTOR_POLICY";
+export const PolicyType = S.Literal(
+  "SERVICE_CONTROL_POLICY",
+  "RESOURCE_CONTROL_POLICY",
+  "TAG_POLICY",
+  "BACKUP_POLICY",
+  "AISERVICES_OPT_OUT_POLICY",
+  "CHATBOT_POLICY",
+  "DECLARATIVE_POLICY_EC2",
+  "SECURITYHUB_POLICY",
+  "INSPECTOR_POLICY",
+  "UPGRADE_ROLLOUT_POLICY",
+  "BEDROCK_POLICY",
+  "S3_POLICY",
+  "NETWORK_SECURITY_DIRECTOR_POLICY",
+);
+export type EffectivePolicyType =
+  | "TAG_POLICY"
+  | "BACKUP_POLICY"
+  | "AISERVICES_OPT_OUT_POLICY"
+  | "CHATBOT_POLICY"
+  | "DECLARATIVE_POLICY_EC2"
+  | "SECURITYHUB_POLICY"
+  | "INSPECTOR_POLICY"
+  | "UPGRADE_ROLLOUT_POLICY"
+  | "BEDROCK_POLICY"
+  | "S3_POLICY"
+  | "NETWORK_SECURITY_DIRECTOR_POLICY";
+export const EffectivePolicyType = S.Literal(
+  "TAG_POLICY",
+  "BACKUP_POLICY",
+  "AISERVICES_OPT_OUT_POLICY",
+  "CHATBOT_POLICY",
+  "DECLARATIVE_POLICY_EC2",
+  "SECURITYHUB_POLICY",
+  "INSPECTOR_POLICY",
+  "UPGRADE_ROLLOUT_POLICY",
+  "BEDROCK_POLICY",
+  "S3_POLICY",
+  "NETWORK_SECURITY_DIRECTOR_POLICY",
+);
+export type ResponsibilityTransferType = "BILLING";
+export const ResponsibilityTransferType = S.Literal("BILLING");
+export type ChildType = "ACCOUNT" | "ORGANIZATIONAL_UNIT";
+export const ChildType = S.Literal("ACCOUNT", "ORGANIZATIONAL_UNIT");
+export type CreateAccountState = "IN_PROGRESS" | "SUCCEEDED" | "FAILED";
+export const CreateAccountState = S.Literal(
+  "IN_PROGRESS",
+  "SUCCEEDED",
+  "FAILED",
+);
+export type CreateAccountStates = CreateAccountState[];
+export const CreateAccountStates = S.Array(CreateAccountState);
 export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
 export interface AcceptHandshakeRequest {
@@ -485,18 +553,18 @@ export const Tag = S.suspend(() =>
 export type Tags = Tag[];
 export const Tags = S.Array(Tag);
 export interface CreateGovCloudAccountRequest {
-  Email: string | Redacted.Redacted<string>;
-  AccountName: string | Redacted.Redacted<string>;
+  Email: string | redacted.Redacted<string>;
+  AccountName: string | redacted.Redacted<string>;
   RoleName?: string;
-  IamUserAccessToBilling?: string;
-  Tags?: Tags;
+  IamUserAccessToBilling?: IAMUserAccessToBilling;
+  Tags?: Tag[];
 }
 export const CreateGovCloudAccountRequest = S.suspend(() =>
   S.Struct({
     Email: SensitiveString,
     AccountName: SensitiveString,
     RoleName: S.optional(S.String),
-    IamUserAccessToBilling: S.optional(S.String),
+    IamUserAccessToBilling: S.optional(IAMUserAccessToBilling),
     Tags: S.optional(Tags),
   }).pipe(
     T.all(
@@ -513,10 +581,10 @@ export const CreateGovCloudAccountRequest = S.suspend(() =>
   identifier: "CreateGovCloudAccountRequest",
 }) as any as S.Schema<CreateGovCloudAccountRequest>;
 export interface CreateOrganizationRequest {
-  FeatureSet?: string;
+  FeatureSet?: OrganizationFeatureSet;
 }
 export const CreateOrganizationRequest = S.suspend(() =>
-  S.Struct({ FeatureSet: S.optional(S.String) }).pipe(
+  S.Struct({ FeatureSet: S.optional(OrganizationFeatureSet) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -533,7 +601,7 @@ export const CreateOrganizationRequest = S.suspend(() =>
 export interface CreateOrganizationalUnitRequest {
   ParentId: string;
   Name: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const CreateOrganizationalUnitRequest = S.suspend(() =>
   S.Struct({ ParentId: S.String, Name: S.String, Tags: S.optional(Tags) }).pipe(
@@ -554,15 +622,15 @@ export interface CreatePolicyRequest {
   Content: string;
   Description: string;
   Name: string;
-  Type: string;
-  Tags?: Tags;
+  Type: PolicyType;
+  Tags?: Tag[];
 }
 export const CreatePolicyRequest = S.suspend(() =>
   S.Struct({
     Content: S.String,
     Description: S.String,
     Name: S.String,
-    Type: S.String,
+    Type: PolicyType,
     Tags: S.optional(Tags),
   }).pipe(
     T.all(
@@ -706,11 +774,14 @@ export const DescribeCreateAccountStatusRequest = S.suspend(() =>
   identifier: "DescribeCreateAccountStatusRequest",
 }) as any as S.Schema<DescribeCreateAccountStatusRequest>;
 export interface DescribeEffectivePolicyRequest {
-  PolicyType: string;
+  PolicyType: EffectivePolicyType;
   TargetId?: string;
 }
 export const DescribeEffectivePolicyRequest = S.suspend(() =>
-  S.Struct({ PolicyType: S.String, TargetId: S.optional(S.String) }).pipe(
+  S.Struct({
+    PolicyType: EffectivePolicyType,
+    TargetId: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -847,10 +918,10 @@ export const DisableAWSServiceAccessResponse = S.suspend(() =>
 }) as any as S.Schema<DisableAWSServiceAccessResponse>;
 export interface DisablePolicyTypeRequest {
   RootId: string;
-  PolicyType: string;
+  PolicyType: PolicyType;
 }
 export const DisablePolicyTypeRequest = S.suspend(() =>
-  S.Struct({ RootId: S.String, PolicyType: S.String }).pipe(
+  S.Struct({ RootId: S.String, PolicyType: PolicyType }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -890,10 +961,10 @@ export const EnableAWSServiceAccessResponse = S.suspend(() =>
 }) as any as S.Schema<EnableAWSServiceAccessResponse>;
 export interface EnablePolicyTypeRequest {
   RootId: string;
-  PolicyType: string;
+  PolicyType: PolicyType;
 }
 export const EnablePolicyTypeRequest = S.suspend(() =>
-  S.Struct({ RootId: S.String, PolicyType: S.String }).pipe(
+  S.Struct({ RootId: S.String, PolicyType: PolicyType }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -907,26 +978,28 @@ export const EnablePolicyTypeRequest = S.suspend(() =>
 ).annotations({
   identifier: "EnablePolicyTypeRequest",
 }) as any as S.Schema<EnablePolicyTypeRequest>;
+export type HandshakePartyType = "ACCOUNT" | "ORGANIZATION" | "EMAIL";
+export const HandshakePartyType = S.Literal("ACCOUNT", "ORGANIZATION", "EMAIL");
 export interface HandshakeParty {
-  Id: string | Redacted.Redacted<string>;
-  Type: string;
+  Id: string | redacted.Redacted<string>;
+  Type: HandshakePartyType;
 }
 export const HandshakeParty = S.suspend(() =>
-  S.Struct({ Id: SensitiveString, Type: S.String }),
+  S.Struct({ Id: SensitiveString, Type: HandshakePartyType }),
 ).annotations({
   identifier: "HandshakeParty",
 }) as any as S.Schema<HandshakeParty>;
 export interface InviteOrganizationToTransferResponsibilityRequest {
-  Type: string;
+  Type: ResponsibilityTransferType;
   Target: HandshakeParty;
-  Notes?: string | Redacted.Redacted<string>;
+  Notes?: string | redacted.Redacted<string>;
   StartTimestamp: Date;
-  SourceName: string | Redacted.Redacted<string>;
-  Tags?: Tags;
+  SourceName: string | redacted.Redacted<string>;
+  Tags?: Tag[];
 }
 export const InviteOrganizationToTransferResponsibilityRequest = S.suspend(() =>
   S.Struct({
-    Type: S.String,
+    Type: ResponsibilityTransferType,
     Target: HandshakeParty,
     Notes: S.optional(SensitiveString),
     StartTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -993,13 +1066,13 @@ export const ListAccountsForParentRequest = S.suspend(() =>
   identifier: "ListAccountsForParentRequest",
 }) as any as S.Schema<ListAccountsForParentRequest>;
 export interface ListAccountsWithInvalidEffectivePolicyRequest {
-  PolicyType: string;
+  PolicyType: EffectivePolicyType;
   NextToken?: string;
   MaxResults?: number;
 }
 export const ListAccountsWithInvalidEffectivePolicyRequest = S.suspend(() =>
   S.Struct({
-    PolicyType: S.String,
+    PolicyType: EffectivePolicyType,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
@@ -1040,14 +1113,14 @@ export const ListAWSServiceAccessForOrganizationRequest = S.suspend(() =>
 }) as any as S.Schema<ListAWSServiceAccessForOrganizationRequest>;
 export interface ListChildrenRequest {
   ParentId: string;
-  ChildType: string;
+  ChildType: ChildType;
   NextToken?: string;
   MaxResults?: number;
 }
 export const ListChildrenRequest = S.suspend(() =>
   S.Struct({
     ParentId: S.String,
-    ChildType: S.String,
+    ChildType: ChildType,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
@@ -1065,7 +1138,7 @@ export const ListChildrenRequest = S.suspend(() =>
   identifier: "ListChildrenRequest",
 }) as any as S.Schema<ListChildrenRequest>;
 export interface ListCreateAccountStatusRequest {
-  States?: CreateAccountStates;
+  States?: CreateAccountState[];
   NextToken?: string;
   MaxResults?: number;
 }
@@ -1138,14 +1211,14 @@ export const ListDelegatedServicesForAccountRequest = S.suspend(() =>
 }) as any as S.Schema<ListDelegatedServicesForAccountRequest>;
 export interface ListEffectivePolicyValidationErrorsRequest {
   AccountId: string;
-  PolicyType: string;
+  PolicyType: EffectivePolicyType;
   NextToken?: string;
   MaxResults?: number;
 }
 export const ListEffectivePolicyValidationErrorsRequest = S.suspend(() =>
   S.Struct({
     AccountId: S.String,
-    PolicyType: S.String,
+    PolicyType: EffectivePolicyType,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
@@ -1162,13 +1235,26 @@ export const ListEffectivePolicyValidationErrorsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListEffectivePolicyValidationErrorsRequest",
 }) as any as S.Schema<ListEffectivePolicyValidationErrorsRequest>;
+export type ActionType =
+  | "INVITE"
+  | "ENABLE_ALL_FEATURES"
+  | "APPROVE_ALL_FEATURES"
+  | "ADD_ORGANIZATIONS_SERVICE_LINKED_ROLE"
+  | "TRANSFER_RESPONSIBILITY";
+export const ActionType = S.Literal(
+  "INVITE",
+  "ENABLE_ALL_FEATURES",
+  "APPROVE_ALL_FEATURES",
+  "ADD_ORGANIZATIONS_SERVICE_LINKED_ROLE",
+  "TRANSFER_RESPONSIBILITY",
+);
 export interface HandshakeFilter {
-  ActionType?: string;
+  ActionType?: ActionType;
   ParentHandshakeId?: string;
 }
 export const HandshakeFilter = S.suspend(() =>
   S.Struct({
-    ActionType: S.optional(S.String),
+    ActionType: S.optional(ActionType),
     ParentHandshakeId: S.optional(S.String),
   }),
 ).annotations({
@@ -1199,14 +1285,14 @@ export const ListHandshakesForOrganizationRequest = S.suspend(() =>
   identifier: "ListHandshakesForOrganizationRequest",
 }) as any as S.Schema<ListHandshakesForOrganizationRequest>;
 export interface ListInboundResponsibilityTransfersRequest {
-  Type: string;
+  Type: ResponsibilityTransferType;
   Id?: string;
   NextToken?: string;
   MaxResults?: number;
 }
 export const ListInboundResponsibilityTransfersRequest = S.suspend(() =>
   S.Struct({
-    Type: S.String,
+    Type: ResponsibilityTransferType,
     Id: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
@@ -1249,13 +1335,13 @@ export const ListOrganizationalUnitsForParentRequest = S.suspend(() =>
   identifier: "ListOrganizationalUnitsForParentRequest",
 }) as any as S.Schema<ListOrganizationalUnitsForParentRequest>;
 export interface ListOutboundResponsibilityTransfersRequest {
-  Type: string;
+  Type: ResponsibilityTransferType;
   NextToken?: string;
   MaxResults?: number;
 }
 export const ListOutboundResponsibilityTransfersRequest = S.suspend(() =>
   S.Struct({
-    Type: S.String,
+    Type: ResponsibilityTransferType,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
@@ -1297,13 +1383,13 @@ export const ListParentsRequest = S.suspend(() =>
   identifier: "ListParentsRequest",
 }) as any as S.Schema<ListParentsRequest>;
 export interface ListPoliciesRequest {
-  Filter: string;
+  Filter: PolicyType;
   NextToken?: string;
   MaxResults?: number;
 }
 export const ListPoliciesRequest = S.suspend(() =>
   S.Struct({
-    Filter: S.String,
+    Filter: PolicyType,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
@@ -1322,14 +1408,14 @@ export const ListPoliciesRequest = S.suspend(() =>
 }) as any as S.Schema<ListPoliciesRequest>;
 export interface ListPoliciesForTargetRequest {
   TargetId: string;
-  Filter: string;
+  Filter: PolicyType;
   NextToken?: string;
   MaxResults?: number;
 }
 export const ListPoliciesForTargetRequest = S.suspend(() =>
   S.Struct({
     TargetId: S.String,
-    Filter: S.String,
+    Filter: PolicyType,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
@@ -1443,7 +1529,7 @@ export const MoveAccountResponse = S.suspend(() =>
 }) as any as S.Schema<MoveAccountResponse>;
 export interface PutResourcePolicyRequest {
   Content: string;
-  Tags?: Tags;
+  Tags?: Tag[];
 }
 export const PutResourcePolicyRequest = S.suspend(() =>
   S.Struct({ Content: S.String, Tags: S.optional(Tags) }).pipe(
@@ -1511,7 +1597,7 @@ export const RemoveAccountFromOrganizationResponse = S.suspend(() =>
 }) as any as S.Schema<RemoveAccountFromOrganizationResponse>;
 export interface TagResourceRequest {
   ResourceId: string;
-  Tags: Tags;
+  Tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceId: S.String, Tags: Tags }).pipe(
@@ -1558,7 +1644,7 @@ export const TerminateResponsibilityTransferRequest = S.suspend(() =>
 }) as any as S.Schema<TerminateResponsibilityTransferRequest>;
 export interface UntagResourceRequest {
   ResourceId: string;
-  TagKeys: TagKeys;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceId: S.String, TagKeys: TagKeys }).pipe(
@@ -1628,7 +1714,7 @@ export const UpdatePolicyRequest = S.suspend(() =>
 }) as any as S.Schema<UpdatePolicyRequest>;
 export interface UpdateResponsibilityTransferRequest {
   Id: string;
-  Name: string | Redacted.Redacted<string>;
+  Name: string | redacted.Redacted<string>;
 }
 export const UpdateResponsibilityTransferRequest = S.suspend(() =>
   S.Struct({ Id: S.String, Name: SensitiveString }).pipe(
@@ -1647,14 +1733,50 @@ export const UpdateResponsibilityTransferRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateResponsibilityTransferRequest>;
 export type HandshakeParties = HandshakeParty[];
 export const HandshakeParties = S.Array(HandshakeParty);
+export type HandshakeState =
+  | "REQUESTED"
+  | "OPEN"
+  | "CANCELED"
+  | "ACCEPTED"
+  | "DECLINED"
+  | "EXPIRED";
+export const HandshakeState = S.Literal(
+  "REQUESTED",
+  "OPEN",
+  "CANCELED",
+  "ACCEPTED",
+  "DECLINED",
+  "EXPIRED",
+);
+export type AccountStatus = "ACTIVE" | "SUSPENDED" | "PENDING_CLOSURE";
+export const AccountStatus = S.Literal(
+  "ACTIVE",
+  "SUSPENDED",
+  "PENDING_CLOSURE",
+);
+export type AccountState =
+  | "PENDING_ACTIVATION"
+  | "ACTIVE"
+  | "SUSPENDED"
+  | "PENDING_CLOSURE"
+  | "CLOSED";
+export const AccountState = S.Literal(
+  "PENDING_ACTIVATION",
+  "ACTIVE",
+  "SUSPENDED",
+  "PENDING_CLOSURE",
+  "CLOSED",
+);
+export type AccountJoinedMethod = "INVITED" | "CREATED";
+export const AccountJoinedMethod = S.Literal("INVITED", "CREATED");
 export interface Account {
   Id?: string;
   Arn?: string;
-  Email?: string | Redacted.Redacted<string>;
-  Name?: string | Redacted.Redacted<string>;
-  Status?: string;
-  State?: string;
-  JoinedMethod?: string;
+  Email?: string | redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
+  Status?: AccountStatus;
+  State?: AccountState;
+  JoinedMethod?: AccountJoinedMethod;
   JoinedTimestamp?: Date;
 }
 export const Account = S.suspend(() =>
@@ -1663,9 +1785,9 @@ export const Account = S.suspend(() =>
     Arn: S.optional(S.String),
     Email: S.optional(SensitiveString),
     Name: S.optional(SensitiveString),
-    Status: S.optional(S.String),
-    State: S.optional(S.String),
-    JoinedMethod: S.optional(S.String),
+    Status: S.optional(AccountStatus),
+    State: S.optional(AccountState),
+    JoinedMethod: S.optional(AccountJoinedMethod),
     JoinedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1673,21 +1795,54 @@ export const Account = S.suspend(() =>
 ).annotations({ identifier: "Account" }) as any as S.Schema<Account>;
 export type Accounts = Account[];
 export const Accounts = S.Array(Account);
+export type CreateAccountFailureReason =
+  | "ACCOUNT_LIMIT_EXCEEDED"
+  | "EMAIL_ALREADY_EXISTS"
+  | "INVALID_ADDRESS"
+  | "INVALID_EMAIL"
+  | "CONCURRENT_ACCOUNT_MODIFICATION"
+  | "INTERNAL_FAILURE"
+  | "GOVCLOUD_ACCOUNT_ALREADY_EXISTS"
+  | "MISSING_BUSINESS_VALIDATION"
+  | "FAILED_BUSINESS_VALIDATION"
+  | "PENDING_BUSINESS_VALIDATION"
+  | "INVALID_IDENTITY_FOR_BUSINESS_VALIDATION"
+  | "UNKNOWN_BUSINESS_VALIDATION"
+  | "MISSING_PAYMENT_INSTRUMENT"
+  | "INVALID_PAYMENT_INSTRUMENT"
+  | "UPDATE_EXISTING_RESOURCE_POLICY_WITH_TAGS_NOT_SUPPORTED";
+export const CreateAccountFailureReason = S.Literal(
+  "ACCOUNT_LIMIT_EXCEEDED",
+  "EMAIL_ALREADY_EXISTS",
+  "INVALID_ADDRESS",
+  "INVALID_EMAIL",
+  "CONCURRENT_ACCOUNT_MODIFICATION",
+  "INTERNAL_FAILURE",
+  "GOVCLOUD_ACCOUNT_ALREADY_EXISTS",
+  "MISSING_BUSINESS_VALIDATION",
+  "FAILED_BUSINESS_VALIDATION",
+  "PENDING_BUSINESS_VALIDATION",
+  "INVALID_IDENTITY_FOR_BUSINESS_VALIDATION",
+  "UNKNOWN_BUSINESS_VALIDATION",
+  "MISSING_PAYMENT_INSTRUMENT",
+  "INVALID_PAYMENT_INSTRUMENT",
+  "UPDATE_EXISTING_RESOURCE_POLICY_WITH_TAGS_NOT_SUPPORTED",
+);
 export interface CreateAccountStatus {
   Id?: string;
-  AccountName?: string | Redacted.Redacted<string>;
-  State?: string;
+  AccountName?: string | redacted.Redacted<string>;
+  State?: CreateAccountState;
   RequestedTimestamp?: Date;
   CompletedTimestamp?: Date;
   AccountId?: string;
   GovCloudAccountId?: string;
-  FailureReason?: string;
+  FailureReason?: CreateAccountFailureReason;
 }
 export const CreateAccountStatus = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     AccountName: S.optional(SensitiveString),
-    State: S.optional(S.String),
+    State: S.optional(CreateAccountState),
     RequestedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1696,7 +1851,7 @@ export const CreateAccountStatus = S.suspend(() =>
     ),
     AccountId: S.optional(S.String),
     GovCloudAccountId: S.optional(S.String),
-    FailureReason: S.optional(S.String),
+    FailureReason: S.optional(CreateAccountFailureReason),
   }),
 ).annotations({
   identifier: "CreateAccountStatus",
@@ -1712,34 +1867,49 @@ export const HandshakeResources = S.Array(
 export interface Handshake {
   Id?: string;
   Arn?: string;
-  Parties?: HandshakeParties;
-  State?: string;
+  Parties?: HandshakeParty[];
+  State?: HandshakeState;
   RequestedTimestamp?: Date;
   ExpirationTimestamp?: Date;
-  Action?: string;
-  Resources?: HandshakeResources;
+  Action?: ActionType;
+  Resources?: HandshakeResource[];
 }
 export const Handshake = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
     Parties: S.optional(HandshakeParties),
-    State: S.optional(S.String),
+    State: S.optional(HandshakeState),
     RequestedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     ExpirationTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    Action: S.optional(S.String),
+    Action: S.optional(ActionType),
     Resources: S.optional(HandshakeResources),
   }),
 ).annotations({ identifier: "Handshake" }) as any as S.Schema<Handshake>;
 export type Handshakes = Handshake[];
 export const Handshakes = S.Array(Handshake);
+export type ResponsibilityTransferStatus =
+  | "REQUESTED"
+  | "DECLINED"
+  | "CANCELED"
+  | "EXPIRED"
+  | "ACCEPTED"
+  | "WITHDRAWN";
+export const ResponsibilityTransferStatus = S.Literal(
+  "REQUESTED",
+  "DECLINED",
+  "CANCELED",
+  "EXPIRED",
+  "ACCEPTED",
+  "WITHDRAWN",
+);
 export interface TransferParticipant {
   ManagementAccountId?: string;
-  ManagementAccountEmail?: string | Redacted.Redacted<string>;
+  ManagementAccountEmail?: string | redacted.Redacted<string>;
 }
 export const TransferParticipant = S.suspend(() =>
   S.Struct({
@@ -1751,10 +1921,10 @@ export const TransferParticipant = S.suspend(() =>
 }) as any as S.Schema<TransferParticipant>;
 export interface ResponsibilityTransfer {
   Arn?: string;
-  Name?: string | Redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
   Id?: string;
-  Type?: string;
-  Status?: string;
+  Type?: ResponsibilityTransferType;
+  Status?: ResponsibilityTransferStatus;
   Source?: TransferParticipant;
   Target?: TransferParticipant;
   StartTimestamp?: Date;
@@ -1766,8 +1936,8 @@ export const ResponsibilityTransfer = S.suspend(() =>
     Arn: S.optional(S.String),
     Name: S.optional(SensitiveString),
     Id: S.optional(S.String),
-    Type: S.optional(S.String),
-    Status: S.optional(S.String),
+    Type: S.optional(ResponsibilityTransferType),
+    Status: S.optional(ResponsibilityTransferStatus),
     Source: S.optional(TransferParticipant),
     Target: S.optional(TransferParticipant),
     StartTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1795,12 +1965,21 @@ export const OrganizationalUnit = S.suspend(() =>
 }) as any as S.Schema<OrganizationalUnit>;
 export type OrganizationalUnits = OrganizationalUnit[];
 export const OrganizationalUnits = S.Array(OrganizationalUnit);
+export type PolicyTypeStatus = "ENABLED" | "PENDING_ENABLE" | "PENDING_DISABLE";
+export const PolicyTypeStatus = S.Literal(
+  "ENABLED",
+  "PENDING_ENABLE",
+  "PENDING_DISABLE",
+);
 export interface PolicyTypeSummary {
-  Type?: string;
-  Status?: string;
+  Type?: PolicyType;
+  Status?: PolicyTypeStatus;
 }
 export const PolicyTypeSummary = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String), Status: S.optional(S.String) }),
+  S.Struct({
+    Type: S.optional(PolicyType),
+    Status: S.optional(PolicyTypeStatus),
+  }),
 ).annotations({
   identifier: "PolicyTypeSummary",
 }) as any as S.Schema<PolicyTypeSummary>;
@@ -1810,7 +1989,7 @@ export interface Root {
   Id?: string;
   Arn?: string;
   Name?: string;
-  PolicyTypes?: PolicyTypes;
+  PolicyTypes?: PolicyTypeSummary[];
 }
 export const Root = S.suspend(() =>
   S.Struct({
@@ -1822,6 +2001,37 @@ export const Root = S.suspend(() =>
 ).annotations({ identifier: "Root" }) as any as S.Schema<Root>;
 export type Roots = Root[];
 export const Roots = S.Array(Root);
+export type HandshakeResourceType =
+  | "ACCOUNT"
+  | "ORGANIZATION"
+  | "ORGANIZATION_FEATURE_SET"
+  | "EMAIL"
+  | "MASTER_EMAIL"
+  | "MASTER_NAME"
+  | "NOTES"
+  | "PARENT_HANDSHAKE"
+  | "RESPONSIBILITY_TRANSFER"
+  | "TRANSFER_START_TIMESTAMP"
+  | "TRANSFER_TYPE"
+  | "MANAGEMENT_ACCOUNT"
+  | "MANAGEMENT_EMAIL"
+  | "MANAGEMENT_NAME";
+export const HandshakeResourceType = S.Literal(
+  "ACCOUNT",
+  "ORGANIZATION",
+  "ORGANIZATION_FEATURE_SET",
+  "EMAIL",
+  "MASTER_EMAIL",
+  "MASTER_NAME",
+  "NOTES",
+  "PARENT_HANDSHAKE",
+  "RESPONSIBILITY_TRANSFER",
+  "TRANSFER_START_TIMESTAMP",
+  "TRANSFER_TYPE",
+  "MANAGEMENT_ACCOUNT",
+  "MANAGEMENT_EMAIL",
+  "MANAGEMENT_NAME",
+);
 export interface AcceptHandshakeResponse {
   Handshake?: Handshake;
 }
@@ -1839,18 +2049,18 @@ export const CancelHandshakeResponse = S.suspend(() =>
   identifier: "CancelHandshakeResponse",
 }) as any as S.Schema<CancelHandshakeResponse>;
 export interface CreateAccountRequest {
-  Email: string | Redacted.Redacted<string>;
-  AccountName: string | Redacted.Redacted<string>;
+  Email: string | redacted.Redacted<string>;
+  AccountName: string | redacted.Redacted<string>;
   RoleName?: string;
-  IamUserAccessToBilling?: string;
-  Tags?: Tags;
+  IamUserAccessToBilling?: IAMUserAccessToBilling;
+  Tags?: Tag[];
 }
 export const CreateAccountRequest = S.suspend(() =>
   S.Struct({
     Email: SensitiveString,
     AccountName: SensitiveString,
     RoleName: S.optional(S.String),
-    IamUserAccessToBilling: S.optional(S.String),
+    IamUserAccessToBilling: S.optional(IAMUserAccessToBilling),
     Tags: S.optional(Tags),
   }).pipe(
     T.all(
@@ -1869,17 +2079,17 @@ export const CreateAccountRequest = S.suspend(() =>
 export interface Organization {
   Id?: string;
   Arn?: string;
-  FeatureSet?: string;
+  FeatureSet?: OrganizationFeatureSet;
   MasterAccountArn?: string;
   MasterAccountId?: string;
-  MasterAccountEmail?: string | Redacted.Redacted<string>;
-  AvailablePolicyTypes?: PolicyTypes;
+  MasterAccountEmail?: string | redacted.Redacted<string>;
+  AvailablePolicyTypes?: PolicyTypeSummary[];
 }
 export const Organization = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
-    FeatureSet: S.optional(S.String),
+    FeatureSet: S.optional(OrganizationFeatureSet),
     MasterAccountArn: S.optional(S.String),
     MasterAccountId: S.optional(S.String),
     MasterAccountEmail: S.optional(SensitiveString),
@@ -1931,7 +2141,7 @@ export interface PolicySummary {
   Arn?: string;
   Name?: string;
   Description?: string;
-  Type?: string;
+  Type?: PolicyType;
   AwsManaged?: boolean;
 }
 export const PolicySummary = S.suspend(() =>
@@ -1940,7 +2150,7 @@ export const PolicySummary = S.suspend(() =>
     Arn: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(PolicyType),
     AwsManaged: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -1974,8 +2184,8 @@ export const EnablePolicyTypeResponse = S.suspend(() =>
 }) as any as S.Schema<EnablePolicyTypeResponse>;
 export interface InviteAccountToOrganizationRequest {
   Target: HandshakeParty;
-  Notes?: string | Redacted.Redacted<string>;
-  Tags?: Tags;
+  Notes?: string | redacted.Redacted<string>;
+  Tags?: Tag[];
 }
 export const InviteAccountToOrganizationRequest = S.suspend(() =>
   S.Struct({
@@ -2005,7 +2215,7 @@ export const InviteOrganizationToTransferResponsibilityResponse = S.suspend(
   identifier: "InviteOrganizationToTransferResponsibilityResponse",
 }) as any as S.Schema<InviteOrganizationToTransferResponsibilityResponse>;
 export interface ListAccountsResponse {
-  Accounts?: Accounts;
+  Accounts?: Account[];
   NextToken?: string;
 }
 export const ListAccountsResponse = S.suspend(() =>
@@ -2017,7 +2227,7 @@ export const ListAccountsResponse = S.suspend(() =>
   identifier: "ListAccountsResponse",
 }) as any as S.Schema<ListAccountsResponse>;
 export interface ListAccountsForParentResponse {
-  Accounts?: Accounts;
+  Accounts?: Account[];
   NextToken?: string;
 }
 export const ListAccountsForParentResponse = S.suspend(() =>
@@ -2029,21 +2239,21 @@ export const ListAccountsForParentResponse = S.suspend(() =>
   identifier: "ListAccountsForParentResponse",
 }) as any as S.Schema<ListAccountsForParentResponse>;
 export interface ListAccountsWithInvalidEffectivePolicyResponse {
-  Accounts?: Accounts;
-  PolicyType?: string;
+  Accounts?: Account[];
+  PolicyType?: EffectivePolicyType;
   NextToken?: string;
 }
 export const ListAccountsWithInvalidEffectivePolicyResponse = S.suspend(() =>
   S.Struct({
     Accounts: S.optional(Accounts),
-    PolicyType: S.optional(S.String),
+    PolicyType: S.optional(EffectivePolicyType),
     NextToken: S.optional(S.String),
   }).pipe(ns),
 ).annotations({
   identifier: "ListAccountsWithInvalidEffectivePolicyResponse",
 }) as any as S.Schema<ListAccountsWithInvalidEffectivePolicyResponse>;
 export interface ListCreateAccountStatusResponse {
-  CreateAccountStatuses?: CreateAccountStatuses;
+  CreateAccountStatuses?: CreateAccountStatus[];
   NextToken?: string;
 }
 export const ListCreateAccountStatusResponse = S.suspend(() =>
@@ -2079,7 +2289,7 @@ export const ListHandshakesForAccountRequest = S.suspend(() =>
   identifier: "ListHandshakesForAccountRequest",
 }) as any as S.Schema<ListHandshakesForAccountRequest>;
 export interface ListHandshakesForOrganizationResponse {
-  Handshakes?: Handshakes;
+  Handshakes?: Handshake[];
   NextToken?: string;
 }
 export const ListHandshakesForOrganizationResponse = S.suspend(() =>
@@ -2091,7 +2301,7 @@ export const ListHandshakesForOrganizationResponse = S.suspend(() =>
   identifier: "ListHandshakesForOrganizationResponse",
 }) as any as S.Schema<ListHandshakesForOrganizationResponse>;
 export interface ListInboundResponsibilityTransfersResponse {
-  ResponsibilityTransfers?: ResponsibilityTransfers;
+  ResponsibilityTransfers?: ResponsibilityTransfer[];
   NextToken?: string;
 }
 export const ListInboundResponsibilityTransfersResponse = S.suspend(() =>
@@ -2103,7 +2313,7 @@ export const ListInboundResponsibilityTransfersResponse = S.suspend(() =>
   identifier: "ListInboundResponsibilityTransfersResponse",
 }) as any as S.Schema<ListInboundResponsibilityTransfersResponse>;
 export interface ListOrganizationalUnitsForParentResponse {
-  OrganizationalUnits?: OrganizationalUnits;
+  OrganizationalUnits?: OrganizationalUnit[];
   NextToken?: string;
 }
 export const ListOrganizationalUnitsForParentResponse = S.suspend(() =>
@@ -2115,7 +2325,7 @@ export const ListOrganizationalUnitsForParentResponse = S.suspend(() =>
   identifier: "ListOrganizationalUnitsForParentResponse",
 }) as any as S.Schema<ListOrganizationalUnitsForParentResponse>;
 export interface ListOutboundResponsibilityTransfersResponse {
-  ResponsibilityTransfers?: ResponsibilityTransfers;
+  ResponsibilityTransfers?: ResponsibilityTransfer[];
   NextToken?: string;
 }
 export const ListOutboundResponsibilityTransfersResponse = S.suspend(() =>
@@ -2129,7 +2339,7 @@ export const ListOutboundResponsibilityTransfersResponse = S.suspend(() =>
 export type Policies = PolicySummary[];
 export const Policies = S.Array(PolicySummary);
 export interface ListPoliciesForTargetResponse {
-  Policies?: Policies;
+  Policies?: PolicySummary[];
   NextToken?: string;
 }
 export const ListPoliciesForTargetResponse = S.suspend(() =>
@@ -2141,7 +2351,7 @@ export const ListPoliciesForTargetResponse = S.suspend(() =>
   identifier: "ListPoliciesForTargetResponse",
 }) as any as S.Schema<ListPoliciesForTargetResponse>;
 export interface ListRootsResponse {
-  Roots?: Roots;
+  Roots?: Root[];
   NextToken?: string;
 }
 export const ListRootsResponse = S.suspend(() =>
@@ -2152,7 +2362,7 @@ export const ListRootsResponse = S.suspend(() =>
   identifier: "ListRootsResponse",
 }) as any as S.Schema<ListRootsResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: Tags;
+  Tags?: Tag[];
   NextToken?: string;
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
@@ -2228,14 +2438,14 @@ export const UpdateResponsibilityTransferResponse = S.suspend(() =>
   identifier: "UpdateResponsibilityTransferResponse",
 }) as any as S.Schema<UpdateResponsibilityTransferResponse>;
 export interface HandshakeResource {
-  Value?: string | Redacted.Redacted<string>;
-  Type?: string;
-  Resources?: HandshakeResources;
+  Value?: string | redacted.Redacted<string>;
+  Type?: HandshakeResourceType;
+  Resources?: HandshakeResource[];
 }
 export const HandshakeResource = S.suspend(() =>
   S.Struct({
     Value: S.optional(SensitiveString),
-    Type: S.optional(S.String),
+    Type: S.optional(HandshakeResourceType),
     Resources: S.optional(
       S.suspend(() => HandshakeResources).annotations({
         identifier: "HandshakeResources",
@@ -2247,11 +2457,20 @@ export const HandshakeResource = S.suspend(() =>
 }) as any as S.Schema<HandshakeResource>;
 export type PolicyIds = string[];
 export const PolicyIds = S.Array(S.String);
+export type ParentType = "ROOT" | "ORGANIZATIONAL_UNIT";
+export const ParentType = S.Literal("ROOT", "ORGANIZATIONAL_UNIT");
+export type TargetType = "ACCOUNT" | "ORGANIZATIONAL_UNIT" | "ROOT";
+export const TargetType = S.Literal("ACCOUNT", "ORGANIZATIONAL_UNIT", "ROOT");
+export type AccessDeniedForDependencyExceptionReason =
+  "ACCESS_DENIED_DURING_CREATE_SERVICE_LINKED_ROLE";
+export const AccessDeniedForDependencyExceptionReason = S.Literal(
+  "ACCESS_DENIED_DURING_CREATE_SERVICE_LINKED_ROLE",
+);
 export interface EffectivePolicy {
   PolicyContent?: string;
   LastUpdatedTimestamp?: Date;
   TargetId?: string;
-  PolicyType?: string;
+  PolicyType?: EffectivePolicyType;
 }
 export const EffectivePolicy = S.suspend(() =>
   S.Struct({
@@ -2260,11 +2479,187 @@ export const EffectivePolicy = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     TargetId: S.optional(S.String),
-    PolicyType: S.optional(S.String),
+    PolicyType: S.optional(EffectivePolicyType),
   }),
 ).annotations({
   identifier: "EffectivePolicy",
 }) as any as S.Schema<EffectivePolicy>;
+export type InvalidInputExceptionReason =
+  | "INVALID_PARTY_TYPE_TARGET"
+  | "INVALID_SYNTAX_ORGANIZATION_ARN"
+  | "INVALID_SYNTAX_POLICY_ID"
+  | "INVALID_ENUM"
+  | "INVALID_ENUM_POLICY_TYPE"
+  | "INVALID_LIST_MEMBER"
+  | "MAX_LENGTH_EXCEEDED"
+  | "MAX_VALUE_EXCEEDED"
+  | "MIN_LENGTH_EXCEEDED"
+  | "MIN_VALUE_EXCEEDED"
+  | "IMMUTABLE_POLICY"
+  | "INVALID_PATTERN"
+  | "INVALID_PATTERN_TARGET_ID"
+  | "INPUT_REQUIRED"
+  | "INVALID_NEXT_TOKEN"
+  | "MAX_LIMIT_EXCEEDED_FILTER"
+  | "MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS"
+  | "INVALID_FULL_NAME_TARGET"
+  | "UNRECOGNIZED_SERVICE_PRINCIPAL"
+  | "INVALID_ROLE_NAME"
+  | "INVALID_SYSTEM_TAGS_PARAMETER"
+  | "DUPLICATE_TAG_KEY"
+  | "TARGET_NOT_SUPPORTED"
+  | "INVALID_EMAIL_ADDRESS_TARGET"
+  | "INVALID_RESOURCE_POLICY_JSON"
+  | "INVALID_PRINCIPAL"
+  | "UNSUPPORTED_ACTION_IN_RESOURCE_POLICY"
+  | "UNSUPPORTED_POLICY_TYPE_IN_RESOURCE_POLICY"
+  | "UNSUPPORTED_RESOURCE_IN_RESOURCE_POLICY"
+  | "NON_DETACHABLE_POLICY"
+  | "CALLER_REQUIRED_FIELD_MISSING"
+  | "UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER"
+  | "START_DATE_NOT_BEGINNING_OF_MONTH"
+  | "START_DATE_NOT_BEGINNING_OF_DAY"
+  | "START_DATE_TOO_EARLY"
+  | "START_DATE_TOO_LATE"
+  | "INVALID_START_DATE"
+  | "END_DATE_NOT_END_OF_MONTH"
+  | "END_DATE_TOO_EARLY"
+  | "INVALID_END_DATE";
+export const InvalidInputExceptionReason = S.Literal(
+  "INVALID_PARTY_TYPE_TARGET",
+  "INVALID_SYNTAX_ORGANIZATION_ARN",
+  "INVALID_SYNTAX_POLICY_ID",
+  "INVALID_ENUM",
+  "INVALID_ENUM_POLICY_TYPE",
+  "INVALID_LIST_MEMBER",
+  "MAX_LENGTH_EXCEEDED",
+  "MAX_VALUE_EXCEEDED",
+  "MIN_LENGTH_EXCEEDED",
+  "MIN_VALUE_EXCEEDED",
+  "IMMUTABLE_POLICY",
+  "INVALID_PATTERN",
+  "INVALID_PATTERN_TARGET_ID",
+  "INPUT_REQUIRED",
+  "INVALID_NEXT_TOKEN",
+  "MAX_LIMIT_EXCEEDED_FILTER",
+  "MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS",
+  "INVALID_FULL_NAME_TARGET",
+  "UNRECOGNIZED_SERVICE_PRINCIPAL",
+  "INVALID_ROLE_NAME",
+  "INVALID_SYSTEM_TAGS_PARAMETER",
+  "DUPLICATE_TAG_KEY",
+  "TARGET_NOT_SUPPORTED",
+  "INVALID_EMAIL_ADDRESS_TARGET",
+  "INVALID_RESOURCE_POLICY_JSON",
+  "INVALID_PRINCIPAL",
+  "UNSUPPORTED_ACTION_IN_RESOURCE_POLICY",
+  "UNSUPPORTED_POLICY_TYPE_IN_RESOURCE_POLICY",
+  "UNSUPPORTED_RESOURCE_IN_RESOURCE_POLICY",
+  "NON_DETACHABLE_POLICY",
+  "CALLER_REQUIRED_FIELD_MISSING",
+  "UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER",
+  "START_DATE_NOT_BEGINNING_OF_MONTH",
+  "START_DATE_NOT_BEGINNING_OF_DAY",
+  "START_DATE_TOO_EARLY",
+  "START_DATE_TOO_LATE",
+  "INVALID_START_DATE",
+  "END_DATE_NOT_END_OF_MONTH",
+  "END_DATE_TOO_EARLY",
+  "INVALID_END_DATE",
+);
+export type ConstraintViolationExceptionReason =
+  | "ACCOUNT_NUMBER_LIMIT_EXCEEDED"
+  | "HANDSHAKE_RATE_LIMIT_EXCEEDED"
+  | "OU_NUMBER_LIMIT_EXCEEDED"
+  | "OU_DEPTH_LIMIT_EXCEEDED"
+  | "POLICY_NUMBER_LIMIT_EXCEEDED"
+  | "POLICY_CONTENT_LIMIT_EXCEEDED"
+  | "MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED"
+  | "MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED"
+  | "ACCOUNT_CANNOT_LEAVE_ORGANIZATION"
+  | "ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA"
+  | "ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION"
+  | "MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED"
+  | "MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED"
+  | "ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED"
+  | "MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE"
+  | "MASTER_ACCOUNT_MISSING_CONTACT_INFO"
+  | "MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED"
+  | "ORGANIZATION_NOT_IN_ALL_FEATURES_MODE"
+  | "CREATE_ORGANIZATION_IN_BILLING_MODE_UNSUPPORTED_REGION"
+  | "EMAIL_VERIFICATION_CODE_EXPIRED"
+  | "WAIT_PERIOD_ACTIVE"
+  | "MAX_TAG_LIMIT_EXCEEDED"
+  | "TAG_POLICY_VIOLATION"
+  | "MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED"
+  | "CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR"
+  | "CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG"
+  | "DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE"
+  | "POLICY_TYPE_ENABLED_FOR_THIS_SERVICE"
+  | "MASTER_ACCOUNT_MISSING_BUSINESS_LICENSE"
+  | "CANNOT_CLOSE_MANAGEMENT_ACCOUNT"
+  | "CLOSE_ACCOUNT_QUOTA_EXCEEDED"
+  | "CLOSE_ACCOUNT_REQUESTS_LIMIT_EXCEEDED"
+  | "SERVICE_ACCESS_NOT_ENABLED"
+  | "INVALID_PAYMENT_INSTRUMENT"
+  | "ACCOUNT_CREATION_NOT_COMPLETE"
+  | "CANNOT_REGISTER_SUSPENDED_ACCOUNT_AS_DELEGATED_ADMINISTRATOR"
+  | "ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED"
+  | "RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION"
+  | "RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION"
+  | "RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION"
+  | "RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION"
+  | "ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS"
+  | "TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS"
+  | "TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS"
+  | "UNSUPPORTED_PRICING";
+export const ConstraintViolationExceptionReason = S.Literal(
+  "ACCOUNT_NUMBER_LIMIT_EXCEEDED",
+  "HANDSHAKE_RATE_LIMIT_EXCEEDED",
+  "OU_NUMBER_LIMIT_EXCEEDED",
+  "OU_DEPTH_LIMIT_EXCEEDED",
+  "POLICY_NUMBER_LIMIT_EXCEEDED",
+  "POLICY_CONTENT_LIMIT_EXCEEDED",
+  "MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED",
+  "MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED",
+  "ACCOUNT_CANNOT_LEAVE_ORGANIZATION",
+  "ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA",
+  "ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION",
+  "MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED",
+  "MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED",
+  "ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED",
+  "MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE",
+  "MASTER_ACCOUNT_MISSING_CONTACT_INFO",
+  "MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED",
+  "ORGANIZATION_NOT_IN_ALL_FEATURES_MODE",
+  "CREATE_ORGANIZATION_IN_BILLING_MODE_UNSUPPORTED_REGION",
+  "EMAIL_VERIFICATION_CODE_EXPIRED",
+  "WAIT_PERIOD_ACTIVE",
+  "MAX_TAG_LIMIT_EXCEEDED",
+  "TAG_POLICY_VIOLATION",
+  "MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED",
+  "CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR",
+  "CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG",
+  "DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE",
+  "POLICY_TYPE_ENABLED_FOR_THIS_SERVICE",
+  "MASTER_ACCOUNT_MISSING_BUSINESS_LICENSE",
+  "CANNOT_CLOSE_MANAGEMENT_ACCOUNT",
+  "CLOSE_ACCOUNT_QUOTA_EXCEEDED",
+  "CLOSE_ACCOUNT_REQUESTS_LIMIT_EXCEEDED",
+  "SERVICE_ACCESS_NOT_ENABLED",
+  "INVALID_PAYMENT_INSTRUMENT",
+  "ACCOUNT_CREATION_NOT_COMPLETE",
+  "CANNOT_REGISTER_SUSPENDED_ACCOUNT_AS_DELEGATED_ADMINISTRATOR",
+  "ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED",
+  "RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION",
+  "RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION",
+  "RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION",
+  "RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION",
+  "ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS",
+  "TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS",
+  "TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS",
+  "UNSUPPORTED_PRICING",
+);
 export interface EnabledServicePrincipal {
   ServicePrincipal?: string;
   DateEnabled?: Date;
@@ -2281,21 +2676,21 @@ export type EnabledServicePrincipals = EnabledServicePrincipal[];
 export const EnabledServicePrincipals = S.Array(EnabledServicePrincipal);
 export interface Child {
   Id?: string;
-  Type?: string;
+  Type?: ChildType;
 }
 export const Child = S.suspend(() =>
-  S.Struct({ Id: S.optional(S.String), Type: S.optional(S.String) }),
+  S.Struct({ Id: S.optional(S.String), Type: S.optional(ChildType) }),
 ).annotations({ identifier: "Child" }) as any as S.Schema<Child>;
 export type Children = Child[];
 export const Children = S.Array(Child);
 export interface DelegatedAdministrator {
   Id?: string;
   Arn?: string;
-  Email?: string | Redacted.Redacted<string>;
-  Name?: string | Redacted.Redacted<string>;
-  Status?: string;
-  State?: string;
-  JoinedMethod?: string;
+  Email?: string | redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string>;
+  Status?: AccountStatus;
+  State?: AccountState;
+  JoinedMethod?: AccountJoinedMethod;
   JoinedTimestamp?: Date;
   DelegationEnabledDate?: Date;
 }
@@ -2305,9 +2700,9 @@ export const DelegatedAdministrator = S.suspend(() =>
     Arn: S.optional(S.String),
     Email: S.optional(SensitiveString),
     Name: S.optional(SensitiveString),
-    Status: S.optional(S.String),
-    State: S.optional(S.String),
-    JoinedMethod: S.optional(S.String),
+    Status: S.optional(AccountStatus),
+    State: S.optional(AccountState),
+    JoinedMethod: S.optional(AccountJoinedMethod),
     JoinedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -2340,7 +2735,7 @@ export interface EffectivePolicyValidationError {
   ErrorCode?: string;
   ErrorMessage?: string;
   PathToError?: string;
-  ContributingPolicies?: PolicyIds;
+  ContributingPolicies?: string[];
 }
 export const EffectivePolicyValidationError = S.suspend(() =>
   S.Struct({
@@ -2358,10 +2753,10 @@ export const EffectivePolicyValidationErrors = S.Array(
 );
 export interface Parent {
   Id?: string;
-  Type?: string;
+  Type?: ParentType;
 }
 export const Parent = S.suspend(() =>
-  S.Struct({ Id: S.optional(S.String), Type: S.optional(S.String) }),
+  S.Struct({ Id: S.optional(S.String), Type: S.optional(ParentType) }),
 ).annotations({ identifier: "Parent" }) as any as S.Schema<Parent>;
 export type Parents = Parent[];
 export const Parents = S.Array(Parent);
@@ -2369,14 +2764,14 @@ export interface PolicyTargetSummary {
   TargetId?: string;
   Arn?: string;
   Name?: string;
-  Type?: string;
+  Type?: TargetType;
 }
 export const PolicyTargetSummary = S.suspend(() =>
   S.Struct({
     TargetId: S.optional(S.String),
     Arn: S.optional(S.String),
     Name: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(TargetType),
   }),
 ).annotations({
   identifier: "PolicyTargetSummary",
@@ -2472,7 +2867,7 @@ export const InviteAccountToOrganizationResponse = S.suspend(() =>
   identifier: "InviteAccountToOrganizationResponse",
 }) as any as S.Schema<InviteAccountToOrganizationResponse>;
 export interface ListAWSServiceAccessForOrganizationResponse {
-  EnabledServicePrincipals?: EnabledServicePrincipals;
+  EnabledServicePrincipals?: EnabledServicePrincipal[];
   NextToken?: string;
 }
 export const ListAWSServiceAccessForOrganizationResponse = S.suspend(() =>
@@ -2484,7 +2879,7 @@ export const ListAWSServiceAccessForOrganizationResponse = S.suspend(() =>
   identifier: "ListAWSServiceAccessForOrganizationResponse",
 }) as any as S.Schema<ListAWSServiceAccessForOrganizationResponse>;
 export interface ListChildrenResponse {
-  Children?: Children;
+  Children?: Child[];
   NextToken?: string;
 }
 export const ListChildrenResponse = S.suspend(() =>
@@ -2496,7 +2891,7 @@ export const ListChildrenResponse = S.suspend(() =>
   identifier: "ListChildrenResponse",
 }) as any as S.Schema<ListChildrenResponse>;
 export interface ListDelegatedAdministratorsResponse {
-  DelegatedAdministrators?: DelegatedAdministrators;
+  DelegatedAdministrators?: DelegatedAdministrator[];
   NextToken?: string;
 }
 export const ListDelegatedAdministratorsResponse = S.suspend(() =>
@@ -2508,7 +2903,7 @@ export const ListDelegatedAdministratorsResponse = S.suspend(() =>
   identifier: "ListDelegatedAdministratorsResponse",
 }) as any as S.Schema<ListDelegatedAdministratorsResponse>;
 export interface ListDelegatedServicesForAccountResponse {
-  DelegatedServices?: DelegatedServices;
+  DelegatedServices?: DelegatedService[];
   NextToken?: string;
 }
 export const ListDelegatedServicesForAccountResponse = S.suspend(() =>
@@ -2521,16 +2916,16 @@ export const ListDelegatedServicesForAccountResponse = S.suspend(() =>
 }) as any as S.Schema<ListDelegatedServicesForAccountResponse>;
 export interface ListEffectivePolicyValidationErrorsResponse {
   AccountId?: string;
-  PolicyType?: string;
+  PolicyType?: EffectivePolicyType;
   Path?: string;
   EvaluationTimestamp?: Date;
   NextToken?: string;
-  EffectivePolicyValidationErrors?: EffectivePolicyValidationErrors;
+  EffectivePolicyValidationErrors?: EffectivePolicyValidationError[];
 }
 export const ListEffectivePolicyValidationErrorsResponse = S.suspend(() =>
   S.Struct({
     AccountId: S.optional(S.String),
-    PolicyType: S.optional(S.String),
+    PolicyType: S.optional(EffectivePolicyType),
     Path: S.optional(S.String),
     EvaluationTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -2544,7 +2939,7 @@ export const ListEffectivePolicyValidationErrorsResponse = S.suspend(() =>
   identifier: "ListEffectivePolicyValidationErrorsResponse",
 }) as any as S.Schema<ListEffectivePolicyValidationErrorsResponse>;
 export interface ListHandshakesForAccountResponse {
-  Handshakes?: Handshakes;
+  Handshakes?: Handshake[];
   NextToken?: string;
 }
 export const ListHandshakesForAccountResponse = S.suspend(() =>
@@ -2556,7 +2951,7 @@ export const ListHandshakesForAccountResponse = S.suspend(() =>
   identifier: "ListHandshakesForAccountResponse",
 }) as any as S.Schema<ListHandshakesForAccountResponse>;
 export interface ListParentsResponse {
-  Parents?: Parents;
+  Parents?: Parent[];
   NextToken?: string;
 }
 export const ListParentsResponse = S.suspend(() =>
@@ -2568,7 +2963,7 @@ export const ListParentsResponse = S.suspend(() =>
   identifier: "ListParentsResponse",
 }) as any as S.Schema<ListParentsResponse>;
 export interface ListPoliciesResponse {
-  Policies?: Policies;
+  Policies?: PolicySummary[];
   NextToken?: string;
 }
 export const ListPoliciesResponse = S.suspend(() =>
@@ -2580,7 +2975,7 @@ export const ListPoliciesResponse = S.suspend(() =>
   identifier: "ListPoliciesResponse",
 }) as any as S.Schema<ListPoliciesResponse>;
 export interface ListTargetsForPolicyResponse {
-  Targets?: PolicyTargets;
+  Targets?: PolicyTargetSummary[];
   NextToken?: string;
 }
 export const ListTargetsForPolicyResponse = S.suspend(() =>
@@ -2591,6 +2986,37 @@ export const ListTargetsForPolicyResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListTargetsForPolicyResponse",
 }) as any as S.Schema<ListTargetsForPolicyResponse>;
+export type HandshakeConstraintViolationExceptionReason =
+  | "ACCOUNT_NUMBER_LIMIT_EXCEEDED"
+  | "HANDSHAKE_RATE_LIMIT_EXCEEDED"
+  | "ALREADY_IN_AN_ORGANIZATION"
+  | "ORGANIZATION_ALREADY_HAS_ALL_FEATURES"
+  | "ORGANIZATION_IS_ALREADY_PENDING_ALL_FEATURES_MIGRATION"
+  | "INVITE_DISABLED_DURING_ENABLE_ALL_FEATURES"
+  | "PAYMENT_INSTRUMENT_REQUIRED"
+  | "ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD"
+  | "ORGANIZATION_MEMBERSHIP_CHANGE_RATE_LIMIT_EXCEEDED"
+  | "MANAGEMENT_ACCOUNT_EMAIL_NOT_VERIFIED"
+  | "RESPONSIBILITY_TRANSFER_ALREADY_EXISTS"
+  | "SOURCE_AND_TARGET_CANNOT_MATCH"
+  | "UNUSED_PREPAYMENT_BALANCE"
+  | "LEGACY_PERMISSIONS_STILL_IN_USE";
+export const HandshakeConstraintViolationExceptionReason = S.Literal(
+  "ACCOUNT_NUMBER_LIMIT_EXCEEDED",
+  "HANDSHAKE_RATE_LIMIT_EXCEEDED",
+  "ALREADY_IN_AN_ORGANIZATION",
+  "ORGANIZATION_ALREADY_HAS_ALL_FEATURES",
+  "ORGANIZATION_IS_ALREADY_PENDING_ALL_FEATURES_MIGRATION",
+  "INVITE_DISABLED_DURING_ENABLE_ALL_FEATURES",
+  "PAYMENT_INSTRUMENT_REQUIRED",
+  "ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD",
+  "ORGANIZATION_MEMBERSHIP_CHANGE_RATE_LIMIT_EXCEEDED",
+  "MANAGEMENT_ACCOUNT_EMAIL_NOT_VERIFIED",
+  "RESPONSIBILITY_TRANSFER_ALREADY_EXISTS",
+  "SOURCE_AND_TARGET_CANNOT_MATCH",
+  "UNUSED_PREPAYMENT_BALANCE",
+  "LEGACY_PERMISSIONS_STILL_IN_USE",
+);
 export interface DescribeResponsibilityTransferResponse {
   ResponsibilityTransfer?: ResponsibilityTransfer;
 }
@@ -2625,7 +3051,10 @@ export class AccountAlreadyClosedException extends S.TaggedError<AccountAlreadyC
 ).pipe(C.withConflictError) {}
 export class AccessDeniedForDependencyException extends S.TaggedError<AccessDeniedForDependencyException>()(
   "AccessDeniedForDependencyException",
-  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+  {
+    Message: S.optional(S.String),
+    Reason: S.optional(AccessDeniedForDependencyExceptionReason),
+  },
 ).pipe(C.withAuthError) {}
 export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
   "ConcurrentModificationException",
@@ -2641,11 +3070,17 @@ export class CreateAccountStatusNotFoundException extends S.TaggedError<CreateAc
 ).pipe(C.withBadRequestError) {}
 export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
   "InvalidInputException",
-  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+  {
+    Message: S.optional(S.String),
+    Reason: S.optional(InvalidInputExceptionReason),
+  },
 ).pipe(C.withBadRequestError) {}
 export class ConstraintViolationException extends S.TaggedError<ConstraintViolationException>()(
   "ConstraintViolationException",
-  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+  {
+    Message: S.optional(S.String),
+    Reason: S.optional(ConstraintViolationExceptionReason),
+  },
 ).pipe(C.withConflictError) {}
 export class HandshakeAlreadyInStateException extends S.TaggedError<HandshakeAlreadyInStateException>()(
   "HandshakeAlreadyInStateException",
@@ -2749,7 +3184,10 @@ export class FinalizingOrganizationException extends S.TaggedError<FinalizingOrg
 ).pipe(C.withConflictError) {}
 export class HandshakeConstraintViolationException extends S.TaggedError<HandshakeConstraintViolationException>()(
   "HandshakeConstraintViolationException",
-  { Message: S.optional(S.String), Reason: S.optional(S.String) },
+  {
+    Message: S.optional(S.String),
+    Reason: S.optional(HandshakeConstraintViolationExceptionReason),
+  },
 ).pipe(C.withConflictError) {}
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
@@ -2817,7 +3255,7 @@ export class RootNotFoundException extends S.TaggedError<RootNotFoundException>(
  */
 export const describeOrganization: (
   input: DescribeOrganizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeOrganizationResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -2848,7 +3286,7 @@ export const describeOrganization: (
  */
 export const declineHandshake: (
   input: DeclineHandshakeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeclineHandshakeResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -2891,7 +3329,7 @@ export const declineHandshake: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -2924,7 +3362,7 @@ export const tagResource: (
  */
 export const describeOrganizationalUnit: (
   input: DescribeOrganizationalUnitRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeOrganizationalUnitResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -2960,7 +3398,7 @@ export const describeOrganizationalUnit: (
 export const listChildren: {
   (
     input: ListChildrenRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListChildrenResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -2973,7 +3411,7 @@ export const listChildren: {
   >;
   pages: (
     input: ListChildrenRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListChildrenResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -2986,7 +3424,7 @@ export const listChildren: {
   >;
   items: (
     input: ListChildrenRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -3030,7 +3468,7 @@ export const listChildren: {
 export const listParents: {
   (
     input: ListParentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListParentsResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -3043,7 +3481,7 @@ export const listParents: {
   >;
   pages: (
     input: ListParentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListParentsResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -3056,7 +3494,7 @@ export const listParents: {
   >;
   items: (
     input: ListParentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -3101,7 +3539,7 @@ export const listParents: {
  */
 export const createOrganization: (
   input: CreateOrganizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateOrganizationResponse,
   | AccessDeniedException
   | AccessDeniedForDependencyException
@@ -3133,7 +3571,7 @@ export const createOrganization: (
  */
 export const deleteOrganization: (
   input: DeleteOrganizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteOrganizationResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -3170,7 +3608,7 @@ export const deleteOrganization: (
  */
 export const describeHandshake: (
   input: DescribeHandshakeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeHandshakeResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -3201,7 +3639,7 @@ export const describeHandshake: (
  */
 export const updateOrganizationalUnit: (
   input: UpdateOrganizationalUnitRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateOrganizationalUnitResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -3235,7 +3673,7 @@ export const updateOrganizationalUnit: (
  */
 export const deleteOrganizationalUnit: (
   input: DeleteOrganizationalUnitRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteOrganizationalUnitResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -3291,7 +3729,7 @@ export const deleteOrganizationalUnit: (
  */
 export const removeAccountFromOrganization: (
   input: RemoveAccountFromOrganizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RemoveAccountFromOrganizationResponse,
   | AccessDeniedException
   | AccountNotFoundException
@@ -3335,7 +3773,7 @@ export const removeAccountFromOrganization: (
 export const listHandshakesForAccount: {
   (
     input: ListHandshakesForAccountRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListHandshakesForAccountResponse,
     | AccessDeniedException
     | ConcurrentModificationException
@@ -3347,7 +3785,7 @@ export const listHandshakesForAccount: {
   >;
   pages: (
     input: ListHandshakesForAccountRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListHandshakesForAccountResponse,
     | AccessDeniedException
     | ConcurrentModificationException
@@ -3359,7 +3797,7 @@ export const listHandshakesForAccount: {
   >;
   items: (
     input: ListHandshakesForAccountRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | ConcurrentModificationException
@@ -3401,7 +3839,7 @@ export const listHandshakesForAccount: {
 export const listHandshakesForOrganization: {
   (
     input: ListHandshakesForOrganizationRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListHandshakesForOrganizationResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -3414,7 +3852,7 @@ export const listHandshakesForOrganization: {
   >;
   pages: (
     input: ListHandshakesForOrganizationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListHandshakesForOrganizationResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -3427,7 +3865,7 @@ export const listHandshakesForOrganization: {
   >;
   items: (
     input: ListHandshakesForOrganizationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -3468,7 +3906,7 @@ export const listHandshakesForOrganization: {
 export const listAccounts: {
   (
     input: ListAccountsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccountsResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -3480,7 +3918,7 @@ export const listAccounts: {
   >;
   pages: (
     input: ListAccountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccountsResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -3492,7 +3930,7 @@ export const listAccounts: {
   >;
   items: (
     input: ListAccountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -3536,7 +3974,7 @@ export const listAccounts: {
 export const listRoots: {
   (
     input: ListRootsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRootsResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -3548,7 +3986,7 @@ export const listRoots: {
   >;
   pages: (
     input: ListRootsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRootsResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -3560,7 +3998,7 @@ export const listRoots: {
   >;
   items: (
     input: ListRootsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -3593,7 +4031,7 @@ export const listRoots: {
  */
 export const describeAccount: (
   input: DescribeAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAccountResponse,
   | AccessDeniedException
   | AccountNotFoundException
@@ -3647,7 +4085,7 @@ export const describeAccount: (
  */
 export const enableAllFeatures: (
   input: EnableAllFeaturesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableAllFeaturesResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -3689,7 +4127,7 @@ export const enableAllFeatures: (
 export const listAccountsForParent: {
   (
     input: ListAccountsForParentRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccountsForParentResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -3702,7 +4140,7 @@ export const listAccountsForParent: {
   >;
   pages: (
     input: ListAccountsForParentRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccountsForParentResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -3715,7 +4153,7 @@ export const listAccountsForParent: {
   >;
   items: (
     input: ListAccountsForParentRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -3755,7 +4193,7 @@ export const listAccountsForParent: {
 export const listOrganizationalUnitsForParent: {
   (
     input: ListOrganizationalUnitsForParentRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOrganizationalUnitsForParentResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -3768,7 +4206,7 @@ export const listOrganizationalUnitsForParent: {
   >;
   pages: (
     input: ListOrganizationalUnitsForParentRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOrganizationalUnitsForParentResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -3781,7 +4219,7 @@ export const listOrganizationalUnitsForParent: {
   >;
   items: (
     input: ListOrganizationalUnitsForParentRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -3828,7 +4266,7 @@ export const listOrganizationalUnitsForParent: {
  */
 export const inviteAccountToOrganization: (
   input: InviteAccountToOrganizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   InviteAccountToOrganizationResponse,
   | AccessDeniedException
   | AccountOwnerNotVerifiedException
@@ -3877,7 +4315,7 @@ export const inviteAccountToOrganization: (
  */
 export const createOrganizationalUnit: (
   input: CreateOrganizationalUnitRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateOrganizationalUnitResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -3958,7 +4396,7 @@ export const createOrganizationalUnit: (
  */
 export const leaveOrganization: (
   input: LeaveOrganizationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   LeaveOrganizationResponse,
   | AccessDeniedException
   | AccountNotFoundException
@@ -3997,7 +4435,7 @@ export const leaveOrganization: (
  */
 export const cancelHandshake: (
   input: CancelHandshakeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CancelHandshakeResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -4050,7 +4488,7 @@ export const cancelHandshake: (
  */
 export const acceptHandshake: (
   input: AcceptHandshakeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AcceptHandshakeResponse,
   | AccessDeniedException
   | AccessDeniedForDependencyException
@@ -4103,7 +4541,7 @@ export const acceptHandshake: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -4147,7 +4585,7 @@ export const untagResource: (
 export const listTagsForResource: {
   (
     input: ListTagsForResourceRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTagsForResourceResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -4160,7 +4598,7 @@ export const listTagsForResource: {
   >;
   pages: (
     input: ListTagsForResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTagsForResourceResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -4173,7 +4611,7 @@ export const listTagsForResource: {
   >;
   items: (
     input: ListTagsForResourceRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Tag,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -4208,7 +4646,7 @@ export const listTagsForResource: {
  */
 export const terminateResponsibilityTransfer: (
   input: TerminateResponsibilityTransferRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TerminateResponsibilityTransferResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -4248,7 +4686,7 @@ export const terminateResponsibilityTransfer: (
  */
 export const moveAccount: (
   input: MoveAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   MoveAccountResponse,
   | AccessDeniedException
   | AccountNotFoundException
@@ -4292,7 +4730,7 @@ export const moveAccount: (
  */
 export const createPolicy: (
   input: CreatePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePolicyResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -4333,7 +4771,7 @@ export const createPolicy: (
  */
 export const updatePolicy: (
   input: UpdatePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePolicyResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -4378,7 +4816,7 @@ export const updatePolicy: (
 export const listAccountsWithInvalidEffectivePolicy: {
   (
     input: ListAccountsWithInvalidEffectivePolicyRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccountsWithInvalidEffectivePolicyResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -4393,7 +4831,7 @@ export const listAccountsWithInvalidEffectivePolicy: {
   >;
   pages: (
     input: ListAccountsWithInvalidEffectivePolicyRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccountsWithInvalidEffectivePolicyResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -4408,7 +4846,7 @@ export const listAccountsWithInvalidEffectivePolicy: {
   >;
   items: (
     input: ListAccountsWithInvalidEffectivePolicyRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Account,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -4454,7 +4892,7 @@ export const listAccountsWithInvalidEffectivePolicy: {
 export const listTargetsForPolicy: {
   (
     input: ListTargetsForPolicyRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTargetsForPolicyResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -4468,7 +4906,7 @@ export const listTargetsForPolicy: {
   >;
   pages: (
     input: ListTargetsForPolicyRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTargetsForPolicyResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -4482,7 +4920,7 @@ export const listTargetsForPolicy: {
   >;
   items: (
     input: ListTargetsForPolicyRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -4553,7 +4991,7 @@ export const listTargetsForPolicy: {
  */
 export const closeAccount: (
   input: CloseAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CloseAccountResponse,
   | AccessDeniedException
   | AccountAlreadyClosedException
@@ -4594,7 +5032,7 @@ export const closeAccount: (
  */
 export const deletePolicy: (
   input: DeletePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePolicyResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -4629,7 +5067,7 @@ export const deletePolicy: (
  */
 export const deleteResourcePolicy: (
   input: DeleteResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourcePolicyResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -4669,7 +5107,7 @@ export const deleteResourcePolicy: (
 export const listAWSServiceAccessForOrganization: {
   (
     input: ListAWSServiceAccessForOrganizationRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAWSServiceAccessForOrganizationResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -4683,7 +5121,7 @@ export const listAWSServiceAccessForOrganization: {
   >;
   pages: (
     input: ListAWSServiceAccessForOrganizationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAWSServiceAccessForOrganizationResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -4697,7 +5135,7 @@ export const listAWSServiceAccessForOrganization: {
   >;
   items: (
     input: ListAWSServiceAccessForOrganizationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -4736,7 +5174,7 @@ export const listAWSServiceAccessForOrganization: {
 export const listDelegatedAdministrators: {
   (
     input: ListDelegatedAdministratorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDelegatedAdministratorsResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -4750,7 +5188,7 @@ export const listDelegatedAdministrators: {
   >;
   pages: (
     input: ListDelegatedAdministratorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDelegatedAdministratorsResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -4764,7 +5202,7 @@ export const listDelegatedAdministrators: {
   >;
   items: (
     input: ListDelegatedAdministratorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DelegatedAdministrator,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -4804,7 +5242,7 @@ export const listDelegatedAdministrators: {
 export const listDelegatedServicesForAccount: {
   (
     input: ListDelegatedServicesForAccountRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDelegatedServicesForAccountResponse,
     | AccessDeniedException
     | AccountNotFoundException
@@ -4820,7 +5258,7 @@ export const listDelegatedServicesForAccount: {
   >;
   pages: (
     input: ListDelegatedServicesForAccountRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDelegatedServicesForAccountResponse,
     | AccessDeniedException
     | AccountNotFoundException
@@ -4836,7 +5274,7 @@ export const listDelegatedServicesForAccount: {
   >;
   items: (
     input: ListDelegatedServicesForAccountRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DelegatedService,
     | AccessDeniedException
     | AccountNotFoundException
@@ -4883,7 +5321,7 @@ export const listDelegatedServicesForAccount: {
 export const listPolicies: {
   (
     input: ListPoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPoliciesResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -4896,7 +5334,7 @@ export const listPolicies: {
   >;
   pages: (
     input: ListPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPoliciesResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -4909,7 +5347,7 @@ export const listPolicies: {
   >;
   items: (
     input: ListPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -4944,7 +5382,7 @@ export const listPolicies: {
  */
 export const putResourcePolicy: (
   input: PutResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourcePolicyResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -4984,7 +5422,7 @@ export const putResourcePolicy: (
  */
 export const registerDelegatedAdministrator: (
   input: RegisterDelegatedAdministratorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterDelegatedAdministratorResponse,
   | AccessDeniedException
   | AccountAlreadyRegisteredException
@@ -5073,7 +5511,7 @@ export const registerDelegatedAdministrator: (
  */
 export const disableAWSServiceAccess: (
   input: DisableAWSServiceAccessRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisableAWSServiceAccessResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -5122,7 +5560,7 @@ export const disableAWSServiceAccess: (
  */
 export const enableAWSServiceAccess: (
   input: EnableAWSServiceAccessRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnableAWSServiceAccessResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -5161,7 +5599,7 @@ export const enableAWSServiceAccess: (
 export const listCreateAccountStatus: {
   (
     input: ListCreateAccountStatusRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCreateAccountStatusResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -5174,7 +5612,7 @@ export const listCreateAccountStatus: {
   >;
   pages: (
     input: ListCreateAccountStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCreateAccountStatusResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -5187,7 +5625,7 @@ export const listCreateAccountStatus: {
   >;
   items: (
     input: ListCreateAccountStatusRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -5222,7 +5660,7 @@ export const listCreateAccountStatus: {
  */
 export const describeCreateAccountStatus: (
   input: DescribeCreateAccountStatusRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeCreateAccountStatusResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -5257,7 +5695,7 @@ export const describeCreateAccountStatus: (
  */
 export const listOutboundResponsibilityTransfers: (
   input: ListOutboundResponsibilityTransfersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListOutboundResponsibilityTransfersResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -5299,7 +5737,7 @@ export const listOutboundResponsibilityTransfers: (
  */
 export const deregisterDelegatedAdministrator: (
   input: DeregisterDelegatedAdministratorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterDelegatedAdministratorResponse,
   | AccessDeniedException
   | AccountNotFoundException
@@ -5339,7 +5777,7 @@ export const deregisterDelegatedAdministrator: (
  */
 export const listInboundResponsibilityTransfers: (
   input: ListInboundResponsibilityTransfersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListInboundResponsibilityTransfersResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -5434,7 +5872,7 @@ export const listInboundResponsibilityTransfers: (
  */
 export const createAccount: (
   input: CreateAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAccountResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -5471,7 +5909,7 @@ export const createAccount: (
 export const listEffectivePolicyValidationErrors: {
   (
     input: ListEffectivePolicyValidationErrorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEffectivePolicyValidationErrorsResponse,
     | AccessDeniedException
     | AccountNotFoundException
@@ -5487,7 +5925,7 @@ export const listEffectivePolicyValidationErrors: {
   >;
   pages: (
     input: ListEffectivePolicyValidationErrorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEffectivePolicyValidationErrorsResponse,
     | AccessDeniedException
     | AccountNotFoundException
@@ -5503,7 +5941,7 @@ export const listEffectivePolicyValidationErrors: {
   >;
   items: (
     input: ListEffectivePolicyValidationErrorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EffectivePolicyValidationError,
     | AccessDeniedException
     | AccountNotFoundException
@@ -5545,7 +5983,7 @@ export const listEffectivePolicyValidationErrors: {
  */
 export const describePolicy: (
   input: DescribePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePolicyResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -5576,7 +6014,7 @@ export const describePolicy: (
  */
 export const describeResourcePolicy: (
   input: DescribeResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeResourcePolicyResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -5609,7 +6047,7 @@ export const describeResourcePolicy: (
  */
 export const updateResponsibilityTransfer: (
   input: UpdateResponsibilityTransferRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateResponsibilityTransferResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -5642,7 +6080,7 @@ export const updateResponsibilityTransfer: (
  */
 export const describeResponsibilityTransfer: (
   input: DescribeResponsibilityTransferRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeResponsibilityTransferResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -5778,7 +6216,7 @@ export const describeResponsibilityTransfer: (
  */
 export const createGovCloudAccount: (
   input: CreateGovCloudAccountRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateGovCloudAccountResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -5815,7 +6253,7 @@ export const createGovCloudAccount: (
  */
 export const inviteOrganizationToTransferResponsibility: (
   input: InviteOrganizationToTransferResponsibilityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   InviteOrganizationToTransferResponsibilityResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -5865,7 +6303,7 @@ export const inviteOrganizationToTransferResponsibility: (
  */
 export const detachPolicy: (
   input: DetachPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DetachPolicyResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -5913,7 +6351,7 @@ export const detachPolicy: (
 export const listPoliciesForTarget: {
   (
     input: ListPoliciesForTargetRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPoliciesForTargetResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -5927,7 +6365,7 @@ export const listPoliciesForTarget: {
   >;
   pages: (
     input: ListPoliciesForTargetRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPoliciesForTargetResponse,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -5941,7 +6379,7 @@ export const listPoliciesForTarget: {
   >;
   items: (
     input: ListPoliciesForTargetRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | AWSOrganizationsNotInUseException
@@ -5988,7 +6426,7 @@ export const listPoliciesForTarget: {
  */
 export const describeEffectivePolicy: (
   input: DescribeEffectivePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeEffectivePolicyResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -6051,7 +6489,7 @@ export const describeEffectivePolicy: (
  */
 export const attachPolicy: (
   input: AttachPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AttachPolicyResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -6105,7 +6543,7 @@ export const attachPolicy: (
  */
 export const disablePolicyType: (
   input: DisablePolicyTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisablePolicyTypeResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -6155,7 +6593,7 @@ export const disablePolicyType: (
  */
 export const enablePolicyType: (
   input: EnablePolicyTypeRequest,
-) => Effect.Effect<
+) => effect.Effect<
   EnablePolicyTypeResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException

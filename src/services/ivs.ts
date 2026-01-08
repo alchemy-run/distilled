@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Strm from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -113,7 +113,7 @@ export type MaxRecordingConfigurationResults = number;
 export type MaxStreamKeyResults = number;
 export type MaxStreamResults = number;
 export type ResourceArn = string;
-export type StreamMetadata = string | Redacted.Redacted<string>;
+export type StreamMetadata = string | redacted.Redacted<string>;
 export type ViewerId = string;
 export type ViewerSessionVersion = number;
 export type TagKey = string;
@@ -128,20 +128,33 @@ export type S3DestinationBucketName = string;
 export type IngestEndpoint = string;
 export type PlaybackURL = string;
 export type errorCode = string;
-export type StreamKeyValue = string | Redacted.Redacted<string>;
+export type StreamKeyValue = string | redacted.Redacted<string>;
 export type PlaybackKeyPairFingerprint = string;
 export type RecordingConfigurationState = string;
 export type StreamState = string;
 export type StreamViewerCount = number;
 export type SrtEndpoint = string;
-export type SrtPassphrase = string | Redacted.Redacted<string>;
-export type Integer = number;
+export type SrtPassphrase = string | redacted.Redacted<string>;
 
 //# Schemas
 export type ChannelArnList = string[];
 export const ChannelArnList = S.Array(S.String);
 export type StreamKeyArnList = string[];
 export const StreamKeyArnList = S.Array(S.String);
+export type ChannelType = "BASIC" | "STANDARD" | "ADVANCED_SD" | "ADVANCED_HD";
+export const ChannelType = S.Literal(
+  "BASIC",
+  "STANDARD",
+  "ADVANCED_SD",
+  "ADVANCED_HD",
+);
+export type TranscodePreset =
+  | "HIGHER_BANDWIDTH_DELIVERY"
+  | "CONSTRAINED_BANDWIDTH_DELIVERY";
+export const TranscodePreset = S.Literal(
+  "HIGHER_BANDWIDTH_DELIVERY",
+  "CONSTRAINED_BANDWIDTH_DELIVERY",
+);
 export type PlaybackRestrictionPolicyAllowedCountryList = string[];
 export const PlaybackRestrictionPolicyAllowedCountryList = S.Array(S.String);
 export type PlaybackRestrictionPolicyAllowedOriginList = string[];
@@ -149,7 +162,7 @@ export const PlaybackRestrictionPolicyAllowedOriginList = S.Array(S.String);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface BatchGetChannelRequest {
-  arns: ChannelArnList;
+  arns: string[];
 }
 export const BatchGetChannelRequest = S.suspend(() =>
   S.Struct({ arns: ChannelArnList }).pipe(
@@ -166,7 +179,7 @@ export const BatchGetChannelRequest = S.suspend(() =>
   identifier: "BatchGetChannelRequest",
 }) as any as S.Schema<BatchGetChannelRequest>;
 export interface BatchGetStreamKeyRequest {
-  arns: StreamKeyArnList;
+  arns: string[];
 }
 export const BatchGetStreamKeyRequest = S.suspend(() =>
   S.Struct({ arns: StreamKeyArnList }).pipe(
@@ -185,11 +198,11 @@ export const BatchGetStreamKeyRequest = S.suspend(() =>
 export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
 export interface CreatePlaybackRestrictionPolicyRequest {
-  allowedCountries?: PlaybackRestrictionPolicyAllowedCountryList;
-  allowedOrigins?: PlaybackRestrictionPolicyAllowedOriginList;
+  allowedCountries?: string[];
+  allowedOrigins?: string[];
   enableStrictOriginEnforcement?: boolean;
   name?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreatePlaybackRestrictionPolicyRequest = S.suspend(() =>
   S.Struct({
@@ -213,7 +226,7 @@ export const CreatePlaybackRestrictionPolicyRequest = S.suspend(() =>
 }) as any as S.Schema<CreatePlaybackRestrictionPolicyRequest>;
 export interface CreateStreamKeyRequest {
   channelArn: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateStreamKeyRequest = S.suspend(() =>
   S.Struct({ channelArn: S.String, tags: S.optional(Tags) }).pipe(
@@ -465,7 +478,7 @@ export const GetStreamSessionRequest = S.suspend(() =>
 export interface ImportPlaybackKeyPairRequest {
   publicKeyMaterial: string;
   name?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const ImportPlaybackKeyPairRequest = S.suspend(() =>
   S.Struct({
@@ -640,7 +653,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface PutMetadataRequest {
   channelArn: string;
-  metadata: string | Redacted.Redacted<string>;
+  metadata: string | redacted.Redacted<string>;
 }
 export const PutMetadataRequest = S.suspend(() =>
   S.Struct({ channelArn: S.String, metadata: SensitiveString }).pipe(
@@ -712,7 +725,7 @@ export const StopStreamResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<StopStreamResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: Tags;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -737,7 +750,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -760,16 +773,20 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
+export type MultitrackPolicy = "ALLOW" | "REQUIRE";
+export const MultitrackPolicy = S.Literal("ALLOW", "REQUIRE");
+export type MultitrackMaximumResolution = "SD" | "HD" | "FULL_HD";
+export const MultitrackMaximumResolution = S.Literal("SD", "HD", "FULL_HD");
 export interface MultitrackInputConfiguration {
   enabled?: boolean;
-  policy?: string;
-  maximumResolution?: string;
+  policy?: MultitrackPolicy;
+  maximumResolution?: MultitrackMaximumResolution;
 }
 export const MultitrackInputConfiguration = S.suspend(() =>
   S.Struct({
     enabled: S.optional(S.Boolean),
-    policy: S.optional(S.String),
-    maximumResolution: S.optional(S.String),
+    policy: S.optional(MultitrackPolicy),
+    maximumResolution: S.optional(MultitrackMaximumResolution),
   }),
 ).annotations({
   identifier: "MultitrackInputConfiguration",
@@ -778,11 +795,11 @@ export interface UpdateChannelRequest {
   arn: string;
   name?: string;
   latencyMode?: string;
-  type?: string;
+  type?: ChannelType;
   authorized?: boolean;
   recordingConfigurationArn?: string;
   insecureIngest?: boolean;
-  preset?: string;
+  preset?: TranscodePreset;
   playbackRestrictionPolicyArn?: string;
   multitrackInputConfiguration?: MultitrackInputConfiguration;
   containerFormat?: string;
@@ -792,11 +809,11 @@ export const UpdateChannelRequest = S.suspend(() =>
     arn: S.String,
     name: S.optional(S.String),
     latencyMode: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(ChannelType),
     authorized: S.optional(S.Boolean),
     recordingConfigurationArn: S.optional(S.String),
     insecureIngest: S.optional(S.Boolean),
-    preset: S.optional(S.String),
+    preset: S.optional(TranscodePreset),
     playbackRestrictionPolicyArn: S.optional(S.String),
     multitrackInputConfiguration: S.optional(MultitrackInputConfiguration),
     containerFormat: S.optional(S.String),
@@ -815,8 +832,8 @@ export const UpdateChannelRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateChannelRequest>;
 export interface UpdatePlaybackRestrictionPolicyRequest {
   arn: string;
-  allowedCountries?: PlaybackRestrictionPolicyAllowedCountryList;
-  allowedOrigins?: PlaybackRestrictionPolicyAllowedOriginList;
+  allowedCountries?: string[];
+  allowedOrigins?: string[];
   enableStrictOriginEnforcement?: boolean;
   name?: string;
 }
@@ -840,10 +857,35 @@ export const UpdatePlaybackRestrictionPolicyRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdatePlaybackRestrictionPolicyRequest",
 }) as any as S.Schema<UpdatePlaybackRestrictionPolicyRequest>;
+export type ThumbnailConfigurationResolution =
+  | "SD"
+  | "HD"
+  | "FULL_HD"
+  | "LOWEST_RESOLUTION";
+export const ThumbnailConfigurationResolution = S.Literal(
+  "SD",
+  "HD",
+  "FULL_HD",
+  "LOWEST_RESOLUTION",
+);
 export type ThumbnailConfigurationStorageList = string[];
 export const ThumbnailConfigurationStorageList = S.Array(S.String);
-export type RenditionConfigurationRenditionList = string[];
-export const RenditionConfigurationRenditionList = S.Array(S.String);
+export type RenditionConfigurationRendition =
+  | "SD"
+  | "HD"
+  | "FULL_HD"
+  | "LOWEST_RESOLUTION";
+export const RenditionConfigurationRendition = S.Literal(
+  "SD",
+  "HD",
+  "FULL_HD",
+  "LOWEST_RESOLUTION",
+);
+export type RenditionConfigurationRenditionList =
+  RenditionConfigurationRendition[];
+export const RenditionConfigurationRenditionList = S.Array(
+  RenditionConfigurationRendition,
+);
 export interface BatchStartViewerSessionRevocationViewerSession {
   channelArn: string;
   viewerId: string;
@@ -866,14 +908,14 @@ export const BatchStartViewerSessionRevocationViewerSessionList = S.Array(
 export interface ThumbnailConfiguration {
   recordingMode?: string;
   targetIntervalSeconds?: number;
-  resolution?: string;
-  storage?: ThumbnailConfigurationStorageList;
+  resolution?: ThumbnailConfigurationResolution;
+  storage?: string[];
 }
 export const ThumbnailConfiguration = S.suspend(() =>
   S.Struct({
     recordingMode: S.optional(S.String),
     targetIntervalSeconds: S.optional(S.Number),
-    resolution: S.optional(S.String),
+    resolution: S.optional(ThumbnailConfigurationResolution),
     storage: S.optional(ThumbnailConfigurationStorageList),
   }),
 ).annotations({
@@ -881,7 +923,7 @@ export const ThumbnailConfiguration = S.suspend(() =>
 }) as any as S.Schema<ThumbnailConfiguration>;
 export interface RenditionConfiguration {
   renditionSelection?: string;
-  renditions?: RenditionConfigurationRenditionList;
+  renditions?: RenditionConfigurationRendition[];
 }
 export const RenditionConfiguration = S.suspend(() =>
   S.Struct({
@@ -900,7 +942,7 @@ export const StreamFilters = S.suspend(() =>
   identifier: "StreamFilters",
 }) as any as S.Schema<StreamFilters>;
 export interface BatchStartViewerSessionRevocationRequest {
-  viewerSessions: BatchStartViewerSessionRevocationViewerSessionList;
+  viewerSessions: BatchStartViewerSessionRevocationViewerSession[];
 }
 export const BatchStartViewerSessionRevocationRequest = S.suspend(() =>
   S.Struct({
@@ -921,12 +963,12 @@ export const BatchStartViewerSessionRevocationRequest = S.suspend(() =>
 export interface CreateChannelRequest {
   name?: string;
   latencyMode?: string;
-  type?: string;
+  type?: ChannelType;
   authorized?: boolean;
   recordingConfigurationArn?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   insecureIngest?: boolean;
-  preset?: string;
+  preset?: TranscodePreset;
   playbackRestrictionPolicyArn?: string;
   multitrackInputConfiguration?: MultitrackInputConfiguration;
   containerFormat?: string;
@@ -935,12 +977,12 @@ export const CreateChannelRequest = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     latencyMode: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(ChannelType),
     authorized: S.optional(S.Boolean),
     recordingConfigurationArn: S.optional(S.String),
     tags: S.optional(Tags),
     insecureIngest: S.optional(S.Boolean),
-    preset: S.optional(S.String),
+    preset: S.optional(TranscodePreset),
     playbackRestrictionPolicyArn: S.optional(S.String),
     multitrackInputConfiguration: S.optional(MultitrackInputConfiguration),
     containerFormat: S.optional(S.String),
@@ -959,9 +1001,9 @@ export const CreateChannelRequest = S.suspend(() =>
 }) as any as S.Schema<CreateChannelRequest>;
 export interface StreamKey {
   arn?: string;
-  value?: string | Redacted.Redacted<string>;
+  value?: string | redacted.Redacted<string>;
   channelArn?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const StreamKey = S.suspend(() =>
   S.Struct({
@@ -981,7 +1023,7 @@ export const CreateStreamKeyResponse = S.suspend(() =>
 }) as any as S.Schema<CreateStreamKeyResponse>;
 export interface Srt {
   endpoint?: string;
-  passphrase?: string | Redacted.Redacted<string>;
+  passphrase?: string | redacted.Redacted<string>;
 }
 export const Srt = S.suspend(() =>
   S.Struct({
@@ -993,14 +1035,14 @@ export interface Channel {
   arn?: string;
   name?: string;
   latencyMode?: string;
-  type?: string;
+  type?: ChannelType;
   recordingConfigurationArn?: string;
   ingestEndpoint?: string;
   playbackUrl?: string;
   authorized?: boolean;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   insecureIngest?: boolean;
-  preset?: string;
+  preset?: TranscodePreset;
   srt?: Srt;
   playbackRestrictionPolicyArn?: string;
   multitrackInputConfiguration?: MultitrackInputConfiguration;
@@ -1011,14 +1053,14 @@ export const Channel = S.suspend(() =>
     arn: S.optional(S.String),
     name: S.optional(S.String),
     latencyMode: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(ChannelType),
     recordingConfigurationArn: S.optional(S.String),
     ingestEndpoint: S.optional(S.String),
     playbackUrl: S.optional(S.String),
     authorized: S.optional(S.Boolean),
     tags: S.optional(Tags),
     insecureIngest: S.optional(S.Boolean),
-    preset: S.optional(S.String),
+    preset: S.optional(TranscodePreset),
     srt: S.optional(Srt),
     playbackRestrictionPolicyArn: S.optional(S.String),
     multitrackInputConfiguration: S.optional(MultitrackInputConfiguration),
@@ -1035,11 +1077,11 @@ export const GetChannelResponse = S.suspend(() =>
 }) as any as S.Schema<GetChannelResponse>;
 export interface PlaybackRestrictionPolicy {
   arn: string;
-  allowedCountries: PlaybackRestrictionPolicyAllowedCountryList;
-  allowedOrigins: PlaybackRestrictionPolicyAllowedOriginList;
+  allowedCountries: string[];
+  allowedOrigins: string[];
   enableStrictOriginEnforcement?: boolean;
   name?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const PlaybackRestrictionPolicy = S.suspend(() =>
   S.Struct({
@@ -1075,7 +1117,7 @@ export interface PlaybackKeyPair {
   arn?: string;
   name?: string;
   fingerprint?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const PlaybackKeyPair = S.suspend(() =>
   S.Struct({
@@ -1119,7 +1161,7 @@ export const ListStreamsRequest = S.suspend(() =>
   identifier: "ListStreamsRequest",
 }) as any as S.Schema<ListStreamsRequest>;
 export interface ListTagsForResourceResponse {
-  tags: Tags;
+  tags: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: Tags }),
@@ -1181,7 +1223,7 @@ export interface RecordingConfiguration {
   name?: string;
   destinationConfiguration: DestinationConfiguration;
   state: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   thumbnailConfiguration?: ThumbnailConfiguration;
   recordingReconnectWindowSeconds?: number;
   renditionConfiguration?: RenditionConfiguration;
@@ -1226,10 +1268,10 @@ export interface ChannelSummary {
   latencyMode?: string;
   authorized?: boolean;
   recordingConfigurationArn?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   insecureIngest?: boolean;
-  type?: string;
-  preset?: string;
+  type?: ChannelType;
+  preset?: TranscodePreset;
   playbackRestrictionPolicyArn?: string;
 }
 export const ChannelSummary = S.suspend(() =>
@@ -1241,8 +1283,8 @@ export const ChannelSummary = S.suspend(() =>
     recordingConfigurationArn: S.optional(S.String),
     tags: S.optional(Tags),
     insecureIngest: S.optional(S.Boolean),
-    type: S.optional(S.String),
-    preset: S.optional(S.String),
+    type: S.optional(ChannelType),
+    preset: S.optional(TranscodePreset),
     playbackRestrictionPolicyArn: S.optional(S.String),
   }),
 ).annotations({
@@ -1253,7 +1295,7 @@ export const ChannelList = S.Array(ChannelSummary);
 export interface PlaybackKeyPairSummary {
   arn?: string;
   name?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const PlaybackKeyPairSummary = S.suspend(() =>
   S.Struct({
@@ -1268,11 +1310,11 @@ export type PlaybackKeyPairList = PlaybackKeyPairSummary[];
 export const PlaybackKeyPairList = S.Array(PlaybackKeyPairSummary);
 export interface PlaybackRestrictionPolicySummary {
   arn: string;
-  allowedCountries: PlaybackRestrictionPolicyAllowedCountryList;
-  allowedOrigins: PlaybackRestrictionPolicyAllowedOriginList;
+  allowedCountries: string[];
+  allowedOrigins: string[];
   enableStrictOriginEnforcement?: boolean;
   name?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const PlaybackRestrictionPolicySummary = S.suspend(() =>
   S.Struct({
@@ -1295,7 +1337,7 @@ export interface RecordingConfigurationSummary {
   name?: string;
   destinationConfiguration: DestinationConfiguration;
   state: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const RecordingConfigurationSummary = S.suspend(() =>
   S.Struct({
@@ -1315,7 +1357,7 @@ export const RecordingConfigurationList = S.Array(
 export interface StreamKeySummary {
   arn?: string;
   channelArn?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const StreamKeySummary = S.suspend(() =>
   S.Struct({
@@ -1399,8 +1441,8 @@ export const AudioConfiguration = S.suspend(() =>
 export type AudioConfigurationList = AudioConfiguration[];
 export const AudioConfigurationList = S.Array(AudioConfiguration);
 export interface BatchGetStreamKeyResponse {
-  streamKeys?: StreamKeys;
-  errors?: BatchErrors;
+  streamKeys?: StreamKey[];
+  errors?: BatchError[];
 }
 export const BatchGetStreamKeyResponse = S.suspend(() =>
   S.Struct({
@@ -1432,7 +1474,7 @@ export const CreatePlaybackRestrictionPolicyResponse = S.suspend(() =>
 export interface CreateRecordingConfigurationRequest {
   name?: string;
   destinationConfiguration: DestinationConfiguration;
-  tags?: Tags;
+  tags?: { [key: string]: string };
   thumbnailConfiguration?: ThumbnailConfiguration;
   recordingReconnectWindowSeconds?: number;
   renditionConfiguration?: RenditionConfiguration;
@@ -1483,7 +1525,7 @@ export const GetStreamResponse = S.suspend(() =>
   identifier: "GetStreamResponse",
 }) as any as S.Schema<GetStreamResponse>;
 export interface ListChannelsResponse {
-  channels: ChannelList;
+  channels: ChannelSummary[];
   nextToken?: string;
 }
 export const ListChannelsResponse = S.suspend(() =>
@@ -1492,7 +1534,7 @@ export const ListChannelsResponse = S.suspend(() =>
   identifier: "ListChannelsResponse",
 }) as any as S.Schema<ListChannelsResponse>;
 export interface ListPlaybackKeyPairsResponse {
-  keyPairs: PlaybackKeyPairList;
+  keyPairs: PlaybackKeyPairSummary[];
   nextToken?: string;
 }
 export const ListPlaybackKeyPairsResponse = S.suspend(() =>
@@ -1501,7 +1543,7 @@ export const ListPlaybackKeyPairsResponse = S.suspend(() =>
   identifier: "ListPlaybackKeyPairsResponse",
 }) as any as S.Schema<ListPlaybackKeyPairsResponse>;
 export interface ListPlaybackRestrictionPoliciesResponse {
-  playbackRestrictionPolicies: PlaybackRestrictionPolicyList;
+  playbackRestrictionPolicies: PlaybackRestrictionPolicySummary[];
   nextToken?: string;
 }
 export const ListPlaybackRestrictionPoliciesResponse = S.suspend(() =>
@@ -1513,7 +1555,7 @@ export const ListPlaybackRestrictionPoliciesResponse = S.suspend(() =>
   identifier: "ListPlaybackRestrictionPoliciesResponse",
 }) as any as S.Schema<ListPlaybackRestrictionPoliciesResponse>;
 export interface ListRecordingConfigurationsResponse {
-  recordingConfigurations: RecordingConfigurationList;
+  recordingConfigurations: RecordingConfigurationSummary[];
   nextToken?: string;
 }
 export const ListRecordingConfigurationsResponse = S.suspend(() =>
@@ -1525,7 +1567,7 @@ export const ListRecordingConfigurationsResponse = S.suspend(() =>
   identifier: "ListRecordingConfigurationsResponse",
 }) as any as S.Schema<ListRecordingConfigurationsResponse>;
 export interface ListStreamKeysResponse {
-  streamKeys: StreamKeyList;
+  streamKeys: StreamKeySummary[];
   nextToken?: string;
 }
 export const ListStreamKeysResponse = S.suspend(() =>
@@ -1534,7 +1576,7 @@ export const ListStreamKeysResponse = S.suspend(() =>
   identifier: "ListStreamKeysResponse",
 }) as any as S.Schema<ListStreamKeysResponse>;
 export interface ListStreamSessionsResponse {
-  streamSessions: StreamSessionList;
+  streamSessions: StreamSessionSummary[];
   nextToken?: string;
 }
 export const ListStreamSessionsResponse = S.suspend(() =>
@@ -1546,8 +1588,8 @@ export const ListStreamSessionsResponse = S.suspend(() =>
   identifier: "ListStreamSessionsResponse",
 }) as any as S.Schema<ListStreamSessionsResponse>;
 export interface IngestConfigurations {
-  videoConfigurations: VideoConfigurationList;
-  audioConfigurations: AudioConfigurationList;
+  videoConfigurations: VideoConfiguration[];
+  audioConfigurations: AudioConfiguration[];
 }
 export const IngestConfigurations = S.suspend(() =>
   S.Struct({
@@ -1619,8 +1661,8 @@ export const StreamSummary = S.suspend(() =>
 export type StreamList = StreamSummary[];
 export const StreamList = S.Array(StreamSummary);
 export interface BatchGetChannelResponse {
-  channels?: Channels;
-  errors?: BatchErrors;
+  channels?: Channel[];
+  errors?: BatchError[];
 }
 export const BatchGetChannelResponse = S.suspend(() =>
   S.Struct({ channels: S.optional(Channels), errors: S.optional(BatchErrors) }),
@@ -1628,7 +1670,7 @@ export const BatchGetChannelResponse = S.suspend(() =>
   identifier: "BatchGetChannelResponse",
 }) as any as S.Schema<BatchGetChannelResponse>;
 export interface BatchStartViewerSessionRevocationResponse {
-  errors?: BatchStartViewerSessionRevocationErrors;
+  errors?: BatchStartViewerSessionRevocationError[];
 }
 export const BatchStartViewerSessionRevocationResponse = S.suspend(() =>
   S.Struct({ errors: S.optional(BatchStartViewerSessionRevocationErrors) }),
@@ -1644,7 +1686,7 @@ export const CreateRecordingConfigurationResponse = S.suspend(() =>
   identifier: "CreateRecordingConfigurationResponse",
 }) as any as S.Schema<CreateRecordingConfigurationResponse>;
 export interface ListStreamsResponse {
-  streams: StreamList;
+  streams: StreamSummary[];
   nextToken?: string;
 }
 export const ListStreamsResponse = S.suspend(() =>
@@ -1672,7 +1714,7 @@ export interface StreamSession {
   ingestConfiguration?: IngestConfiguration;
   ingestConfigurations?: IngestConfigurations;
   recordingConfiguration?: RecordingConfiguration;
-  truncatedEvents?: StreamEvents;
+  truncatedEvents?: StreamEvent[];
 }
 export const StreamSession = S.suspend(() =>
   S.Struct({
@@ -1745,7 +1787,7 @@ export class StreamUnavailable extends S.TaggedError<StreamUnavailable>()(
  */
 export const batchGetStreamKey: (
   input: BatchGetStreamKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetStreamKeyResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1759,7 +1801,7 @@ export const batchGetStreamKey: (
  */
 export const batchGetChannel: (
   input: BatchGetChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetChannelResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1773,7 +1815,7 @@ export const batchGetChannel: (
  */
 export const getChannel: (
   input: GetChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetChannelResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1796,21 +1838,21 @@ export const getChannel: (
 export const listStreams: {
   (
     input: ListStreamsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStreamsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListStreamsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListStreamsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListStreamsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     unknown,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1834,7 +1876,7 @@ export const listStreams: {
  */
 export const putMetadata: (
   input: PutMetadataRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutMetadataResponse,
   | AccessDeniedException
   | ChannelNotBroadcasting
@@ -1863,7 +1905,7 @@ export const putMetadata: (
  */
 export const importPlaybackKeyPair: (
   input: ImportPlaybackKeyPairRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ImportPlaybackKeyPairResponse,
   | AccessDeniedException
   | ConflictException
@@ -1892,7 +1934,7 @@ export const importPlaybackKeyPair: (
  */
 export const getPlaybackKeyPair: (
   input: GetPlaybackKeyPairRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPlaybackKeyPairResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1913,7 +1955,7 @@ export const getPlaybackKeyPair: (
  */
 export const getPlaybackRestrictionPolicy: (
   input: GetPlaybackRestrictionPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPlaybackRestrictionPolicyResponse,
   | AccessDeniedException
   | PendingVerification
@@ -1936,7 +1978,7 @@ export const getPlaybackRestrictionPolicy: (
  */
 export const getRecordingConfiguration: (
   input: GetRecordingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetRecordingConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1963,7 +2005,7 @@ export const getRecordingConfiguration: (
 export const listChannels: {
   (
     input: ListChannelsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListChannelsResponse,
     | AccessDeniedException
     | ConflictException
@@ -1973,7 +2015,7 @@ export const listChannels: {
   >;
   pages: (
     input: ListChannelsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListChannelsResponse,
     | AccessDeniedException
     | ConflictException
@@ -1983,7 +2025,7 @@ export const listChannels: {
   >;
   items: (
     input: ListChannelsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | ConflictException
@@ -2008,21 +2050,21 @@ export const listChannels: {
 export const listPlaybackKeyPairs: {
   (
     input: ListPlaybackKeyPairsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPlaybackKeyPairsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListPlaybackKeyPairsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListPlaybackKeyPairsResponse,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListPlaybackKeyPairsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     unknown,
     AccessDeniedException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2043,7 +2085,7 @@ export const listPlaybackKeyPairs: {
 export const listPlaybackRestrictionPolicies: {
   (
     input: ListPlaybackRestrictionPoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPlaybackRestrictionPoliciesResponse,
     | AccessDeniedException
     | ConflictException
@@ -2054,7 +2096,7 @@ export const listPlaybackRestrictionPolicies: {
   >;
   pages: (
     input: ListPlaybackRestrictionPoliciesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListPlaybackRestrictionPoliciesResponse,
     | AccessDeniedException
     | ConflictException
@@ -2065,7 +2107,7 @@ export const listPlaybackRestrictionPolicies: {
   >;
   items: (
     input: ListPlaybackRestrictionPoliciesRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | ConflictException
@@ -2096,7 +2138,7 @@ export const listPlaybackRestrictionPolicies: {
 export const listRecordingConfigurations: {
   (
     input: ListRecordingConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRecordingConfigurationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2106,7 +2148,7 @@ export const listRecordingConfigurations: {
   >;
   pages: (
     input: ListRecordingConfigurationsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListRecordingConfigurationsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -2116,7 +2158,7 @@ export const listRecordingConfigurations: {
   >;
   items: (
     input: ListRecordingConfigurationsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerException
@@ -2140,7 +2182,7 @@ export const listRecordingConfigurations: {
 export const listStreamKeys: {
   (
     input: ListStreamKeysRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStreamKeysResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2150,7 +2192,7 @@ export const listStreamKeys: {
   >;
   pages: (
     input: ListStreamKeysRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListStreamKeysResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2160,7 +2202,7 @@ export const listStreamKeys: {
   >;
   items: (
     input: ListStreamKeysRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2189,7 +2231,7 @@ export const listStreamKeys: {
 export const listStreamSessions: {
   (
     input: ListStreamSessionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStreamSessionsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2199,7 +2241,7 @@ export const listStreamSessions: {
   >;
   pages: (
     input: ListStreamSessionsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     ListStreamSessionsResponse,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2209,7 +2251,7 @@ export const listStreamSessions: {
   >;
   items: (
     input: ListStreamSessionsRequest,
-  ) => Strm.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | ResourceNotFoundException
@@ -2238,7 +2280,7 @@ export const listStreamSessions: {
  */
 export const updateChannel: (
   input: UpdateChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateChannelResponse,
   | AccessDeniedException
   | ConflictException
@@ -2263,7 +2305,7 @@ export const updateChannel: (
  */
 export const updatePlaybackRestrictionPolicy: (
   input: UpdatePlaybackRestrictionPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePlaybackRestrictionPolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -2288,7 +2330,7 @@ export const updatePlaybackRestrictionPolicy: (
  */
 export const deletePlaybackRestrictionPolicy: (
   input: DeletePlaybackRestrictionPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePlaybackRestrictionPolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -2319,7 +2361,7 @@ export const deletePlaybackRestrictionPolicy: (
  */
 export const deleteRecordingConfiguration: (
   input: DeleteRecordingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRecordingConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2344,7 +2386,7 @@ export const deleteRecordingConfiguration: (
  */
 export const getStreamKey: (
   input: GetStreamKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetStreamKeyResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2365,7 +2407,7 @@ export const getStreamKey: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2386,7 +2428,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2407,7 +2449,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2430,7 +2472,7 @@ export const listTagsForResource: (
  */
 export const deletePlaybackKeyPair: (
   input: DeletePlaybackKeyPairRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePlaybackKeyPairResponse,
   | AccessDeniedException
   | PendingVerification
@@ -2454,7 +2496,7 @@ export const deletePlaybackKeyPair: (
  */
 export const deleteStreamKey: (
   input: DeleteStreamKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteStreamKeyResponse,
   | AccessDeniedException
   | PendingVerification
@@ -2482,7 +2524,7 @@ export const deleteStreamKey: (
  */
 export const deleteChannel: (
   input: DeleteChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteChannelResponse,
   | AccessDeniedException
   | ConflictException
@@ -2507,7 +2549,7 @@ export const deleteChannel: (
  */
 export const getStream: (
   input: GetStreamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetStreamResponse,
   | AccessDeniedException
   | ChannelNotBroadcasting
@@ -2536,7 +2578,7 @@ export const getStream: (
  */
 export const stopStream: (
   input: StopStreamRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopStreamResponse,
   | AccessDeniedException
   | ChannelNotBroadcasting
@@ -2565,7 +2607,7 @@ export const stopStream: (
  */
 export const startViewerSessionRevocation: (
   input: StartViewerSessionRevocationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartViewerSessionRevocationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2593,7 +2635,7 @@ export const startViewerSessionRevocation: (
  */
 export const batchStartViewerSessionRevocation: (
   input: BatchStartViewerSessionRevocationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchStartViewerSessionRevocationResponse,
   | AccessDeniedException
   | PendingVerification
@@ -2620,7 +2662,7 @@ export const batchStartViewerSessionRevocation: (
  */
 export const createStreamKey: (
   input: CreateStreamKeyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateStreamKeyResponse,
   | AccessDeniedException
   | PendingVerification
@@ -2645,7 +2687,7 @@ export const createStreamKey: (
  */
 export const createChannel: (
   input: CreateChannelRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateChannelResponse,
   | AccessDeniedException
   | PendingVerification
@@ -2671,7 +2713,7 @@ export const createChannel: (
  */
 export const createPlaybackRestrictionPolicy: (
   input: CreatePlaybackRestrictionPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePlaybackRestrictionPolicyResponse,
   | AccessDeniedException
   | PendingVerification
@@ -2707,7 +2749,7 @@ export const createPlaybackRestrictionPolicy: (
  */
 export const createRecordingConfiguration: (
   input: CreateRecordingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRecordingConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2734,7 +2776,7 @@ export const createRecordingConfiguration: (
  */
 export const getStreamSession: (
   input: GetStreamSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetStreamSessionResponse,
   | AccessDeniedException
   | ResourceNotFoundException

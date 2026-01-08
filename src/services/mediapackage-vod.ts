@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -302,12 +302,12 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: __listOf__string;
+  TagKeys?: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    TagKeys: __listOf__string.pipe(T.HttpQuery("tagKeys")),
+    TagKeys: S.optional(__listOf__string).pipe(T.HttpQuery("tagKeys")),
   }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
@@ -326,13 +326,15 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface Authorization {
-  CdnIdentifierSecret: string;
-  SecretsRoleArn: string;
+  CdnIdentifierSecret?: string;
+  SecretsRoleArn?: string;
 }
 export const Authorization = S.suspend(() =>
   S.Struct({
-    CdnIdentifierSecret: S.String.pipe(T.JsonName("cdnIdentifierSecret")),
-    SecretsRoleArn: S.String.pipe(T.JsonName("secretsRoleArn")),
+    CdnIdentifierSecret: S.optional(S.String).pipe(
+      T.JsonName("cdnIdentifierSecret"),
+    ),
+    SecretsRoleArn: S.optional(S.String).pipe(T.JsonName("secretsRoleArn")),
   }),
 ).annotations({
   identifier: "Authorization",
@@ -360,8 +362,19 @@ export const UpdatePackagingGroupRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdatePackagingGroupRequest",
 }) as any as S.Schema<UpdatePackagingGroupRequest>;
-export type __listOf__PeriodTriggersElement = string[];
-export const __listOf__PeriodTriggersElement = S.Array(S.String);
+export type __PeriodTriggersElement = "ADS";
+export const __PeriodTriggersElement = S.Literal("ADS");
+export type __listOf__PeriodTriggersElement = __PeriodTriggersElement[];
+export const __listOf__PeriodTriggersElement = S.Array(__PeriodTriggersElement);
+export type SegmentTemplateFormat =
+  | "NUMBER_WITH_TIMELINE"
+  | "TIME_WITH_TIMELINE"
+  | "NUMBER_WITH_DURATION";
+export const SegmentTemplateFormat = S.Literal(
+  "NUMBER_WITH_TIMELINE",
+  "TIME_WITH_TIMELINE",
+  "NUMBER_WITH_DURATION",
+);
 export interface EgressAccessLogs {
   LogGroupName?: string;
 }
@@ -376,6 +389,16 @@ export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
 export type __mapOf__string = { [key: string]: string };
 export const __mapOf__string = S.Record({ key: S.String, value: S.String });
+export type AdMarkers = "NONE" | "SCTE35_ENHANCED" | "PASSTHROUGH";
+export const AdMarkers = S.Literal("NONE", "SCTE35_ENHANCED", "PASSTHROUGH");
+export type ManifestLayout = "FULL" | "COMPACT";
+export const ManifestLayout = S.Literal("FULL", "COMPACT");
+export type Profile = "NONE" | "HBBTV_1_5";
+export const Profile = S.Literal("NONE", "HBBTV_1_5");
+export type ScteMarkersSource = "SEGMENTS" | "MANIFEST";
+export const ScteMarkersSource = S.Literal("SEGMENTS", "MANIFEST");
+export type EncryptionMethod = "AES_128" | "SAMPLE_AES";
+export const EncryptionMethod = S.Literal("AES_128", "SAMPLE_AES");
 export interface ConfigureLogsRequest {
   EgressAccessLogs?: EgressAccessLogs;
   Id: string;
@@ -400,20 +423,20 @@ export const ConfigureLogsRequest = S.suspend(() =>
   identifier: "ConfigureLogsRequest",
 }) as any as S.Schema<ConfigureLogsRequest>;
 export interface CreateAssetRequest {
-  Id: string;
-  PackagingGroupId: string;
+  Id?: string;
+  PackagingGroupId?: string;
   ResourceId?: string;
-  SourceArn: string;
-  SourceRoleArn: string;
-  Tags?: Tags;
+  SourceArn?: string;
+  SourceRoleArn?: string;
+  Tags?: { [key: string]: string };
 }
 export const CreateAssetRequest = S.suspend(() =>
   S.Struct({
-    Id: S.String.pipe(T.JsonName("id")),
-    PackagingGroupId: S.String.pipe(T.JsonName("packagingGroupId")),
+    Id: S.optional(S.String).pipe(T.JsonName("id")),
+    PackagingGroupId: S.optional(S.String).pipe(T.JsonName("packagingGroupId")),
     ResourceId: S.optional(S.String).pipe(T.JsonName("resourceId")),
-    SourceArn: S.String.pipe(T.JsonName("sourceArn")),
-    SourceRoleArn: S.String.pipe(T.JsonName("sourceRoleArn")),
+    SourceArn: S.optional(S.String).pipe(T.JsonName("sourceArn")),
+    SourceRoleArn: S.optional(S.String).pipe(T.JsonName("sourceRoleArn")),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
   }).pipe(
     T.all(
@@ -431,8 +454,8 @@ export const CreateAssetRequest = S.suspend(() =>
 export interface CreatePackagingGroupRequest {
   Authorization?: Authorization;
   EgressAccessLogs?: EgressAccessLogs;
-  Id: string;
-  Tags?: Tags;
+  Id?: string;
+  Tags?: { [key: string]: string };
 }
 export const CreatePackagingGroupRequest = S.suspend(() =>
   S.Struct({
@@ -442,7 +465,7 @@ export const CreatePackagingGroupRequest = S.suspend(() =>
     EgressAccessLogs: S.optional(EgressAccessLogs)
       .pipe(T.JsonName("egressAccessLogs"))
       .annotations({ identifier: "EgressAccessLogs" }),
-    Id: S.String.pipe(T.JsonName("id")),
+    Id: S.optional(S.String).pipe(T.JsonName("id")),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
   }).pipe(
     T.all(
@@ -457,56 +480,105 @@ export const CreatePackagingGroupRequest = S.suspend(() =>
 ).annotations({
   identifier: "CreatePackagingGroupRequest",
 }) as any as S.Schema<CreatePackagingGroupRequest>;
+export type PresetSpeke20Audio =
+  | "PRESET-AUDIO-1"
+  | "PRESET-AUDIO-2"
+  | "PRESET-AUDIO-3"
+  | "SHARED"
+  | "UNENCRYPTED";
+export const PresetSpeke20Audio = S.Literal(
+  "PRESET-AUDIO-1",
+  "PRESET-AUDIO-2",
+  "PRESET-AUDIO-3",
+  "SHARED",
+  "UNENCRYPTED",
+);
+export type PresetSpeke20Video =
+  | "PRESET-VIDEO-1"
+  | "PRESET-VIDEO-2"
+  | "PRESET-VIDEO-3"
+  | "PRESET-VIDEO-4"
+  | "PRESET-VIDEO-5"
+  | "PRESET-VIDEO-6"
+  | "PRESET-VIDEO-7"
+  | "PRESET-VIDEO-8"
+  | "SHARED"
+  | "UNENCRYPTED";
+export const PresetSpeke20Video = S.Literal(
+  "PRESET-VIDEO-1",
+  "PRESET-VIDEO-2",
+  "PRESET-VIDEO-3",
+  "PRESET-VIDEO-4",
+  "PRESET-VIDEO-5",
+  "PRESET-VIDEO-6",
+  "PRESET-VIDEO-7",
+  "PRESET-VIDEO-8",
+  "SHARED",
+  "UNENCRYPTED",
+);
 export interface EncryptionContractConfiguration {
-  PresetSpeke20Audio: string;
-  PresetSpeke20Video: string;
+  PresetSpeke20Audio?: PresetSpeke20Audio;
+  PresetSpeke20Video?: PresetSpeke20Video;
 }
 export const EncryptionContractConfiguration = S.suspend(() =>
   S.Struct({
-    PresetSpeke20Audio: S.String.pipe(T.JsonName("presetSpeke20Audio")),
-    PresetSpeke20Video: S.String.pipe(T.JsonName("presetSpeke20Video")),
+    PresetSpeke20Audio: S.optional(PresetSpeke20Audio).pipe(
+      T.JsonName("presetSpeke20Audio"),
+    ),
+    PresetSpeke20Video: S.optional(PresetSpeke20Video).pipe(
+      T.JsonName("presetSpeke20Video"),
+    ),
   }),
 ).annotations({
   identifier: "EncryptionContractConfiguration",
 }) as any as S.Schema<EncryptionContractConfiguration>;
 export interface SpekeKeyProvider {
   EncryptionContractConfiguration?: EncryptionContractConfiguration;
-  RoleArn: string;
-  SystemIds: __listOf__string;
-  Url: string;
+  RoleArn?: string;
+  SystemIds?: string[];
+  Url?: string;
 }
 export const SpekeKeyProvider = S.suspend(() =>
   S.Struct({
     EncryptionContractConfiguration: S.optional(EncryptionContractConfiguration)
       .pipe(T.JsonName("encryptionContractConfiguration"))
       .annotations({ identifier: "EncryptionContractConfiguration" }),
-    RoleArn: S.String.pipe(T.JsonName("roleArn")),
-    SystemIds: __listOf__string.pipe(T.JsonName("systemIds")),
-    Url: S.String.pipe(T.JsonName("url")),
+    RoleArn: S.optional(S.String).pipe(T.JsonName("roleArn")),
+    SystemIds: S.optional(__listOf__string).pipe(T.JsonName("systemIds")),
+    Url: S.optional(S.String).pipe(T.JsonName("url")),
   }),
 ).annotations({
   identifier: "SpekeKeyProvider",
 }) as any as S.Schema<SpekeKeyProvider>;
 export interface CmafEncryption {
   ConstantInitializationVector?: string;
-  SpekeKeyProvider: SpekeKeyProvider;
+  SpekeKeyProvider?: SpekeKeyProvider;
 }
 export const CmafEncryption = S.suspend(() =>
   S.Struct({
     ConstantInitializationVector: S.optional(S.String).pipe(
       T.JsonName("constantInitializationVector"),
     ),
-    SpekeKeyProvider: SpekeKeyProvider.pipe(
-      T.JsonName("spekeKeyProvider"),
-    ).annotations({ identifier: "SpekeKeyProvider" }),
+    SpekeKeyProvider: S.optional(SpekeKeyProvider)
+      .pipe(T.JsonName("spekeKeyProvider"))
+      .annotations({ identifier: "SpekeKeyProvider" }),
   }),
 ).annotations({
   identifier: "CmafEncryption",
 }) as any as S.Schema<CmafEncryption>;
+export type StreamOrder =
+  | "ORIGINAL"
+  | "VIDEO_BITRATE_ASCENDING"
+  | "VIDEO_BITRATE_DESCENDING";
+export const StreamOrder = S.Literal(
+  "ORIGINAL",
+  "VIDEO_BITRATE_ASCENDING",
+  "VIDEO_BITRATE_DESCENDING",
+);
 export interface StreamSelection {
   MaxVideoBitsPerSecond?: number;
   MinVideoBitsPerSecond?: number;
-  StreamOrder?: string;
+  StreamOrder?: StreamOrder;
 }
 export const StreamSelection = S.suspend(() =>
   S.Struct({
@@ -516,13 +588,13 @@ export const StreamSelection = S.suspend(() =>
     MinVideoBitsPerSecond: S.optional(S.Number).pipe(
       T.JsonName("minVideoBitsPerSecond"),
     ),
-    StreamOrder: S.optional(S.String).pipe(T.JsonName("streamOrder")),
+    StreamOrder: S.optional(StreamOrder).pipe(T.JsonName("streamOrder")),
   }),
 ).annotations({
   identifier: "StreamSelection",
 }) as any as S.Schema<StreamSelection>;
 export interface HlsManifest {
-  AdMarkers?: string;
+  AdMarkers?: AdMarkers;
   IncludeIframeOnlyStream?: boolean;
   ManifestName?: string;
   ProgramDateTimeIntervalSeconds?: number;
@@ -531,7 +603,7 @@ export interface HlsManifest {
 }
 export const HlsManifest = S.suspend(() =>
   S.Struct({
-    AdMarkers: S.optional(S.String).pipe(T.JsonName("adMarkers")),
+    AdMarkers: S.optional(AdMarkers).pipe(T.JsonName("adMarkers")),
     IncludeIframeOnlyStream: S.optional(S.Boolean).pipe(
       T.JsonName("includeIframeOnlyStream"),
     ),
@@ -549,7 +621,7 @@ export type __listOfHlsManifest = HlsManifest[];
 export const __listOfHlsManifest = S.Array(HlsManifest);
 export interface CmafPackage {
   Encryption?: CmafEncryption;
-  HlsManifests: __listOfHlsManifest;
+  HlsManifests?: HlsManifest[];
   IncludeEncoderConfigurationInSegments?: boolean;
   SegmentDurationSeconds?: number;
 }
@@ -558,7 +630,9 @@ export const CmafPackage = S.suspend(() =>
     Encryption: S.optional(CmafEncryption)
       .pipe(T.JsonName("encryption"))
       .annotations({ identifier: "CmafEncryption" }),
-    HlsManifests: __listOfHlsManifest.pipe(T.JsonName("hlsManifests")),
+    HlsManifests: S.optional(__listOfHlsManifest).pipe(
+      T.JsonName("hlsManifests"),
+    ),
     IncludeEncoderConfigurationInSegments: S.optional(S.Boolean).pipe(
       T.JsonName("includeEncoderConfigurationInSegments"),
     ),
@@ -568,22 +642,24 @@ export const CmafPackage = S.suspend(() =>
   }),
 ).annotations({ identifier: "CmafPackage" }) as any as S.Schema<CmafPackage>;
 export interface DashManifest {
-  ManifestLayout?: string;
+  ManifestLayout?: ManifestLayout;
   ManifestName?: string;
   MinBufferTimeSeconds?: number;
-  Profile?: string;
-  ScteMarkersSource?: string;
+  Profile?: Profile;
+  ScteMarkersSource?: ScteMarkersSource;
   StreamSelection?: StreamSelection;
 }
 export const DashManifest = S.suspend(() =>
   S.Struct({
-    ManifestLayout: S.optional(S.String).pipe(T.JsonName("manifestLayout")),
+    ManifestLayout: S.optional(ManifestLayout).pipe(
+      T.JsonName("manifestLayout"),
+    ),
     ManifestName: S.optional(S.String).pipe(T.JsonName("manifestName")),
     MinBufferTimeSeconds: S.optional(S.Number).pipe(
       T.JsonName("minBufferTimeSeconds"),
     ),
-    Profile: S.optional(S.String).pipe(T.JsonName("profile")),
-    ScteMarkersSource: S.optional(S.String).pipe(
+    Profile: S.optional(Profile).pipe(T.JsonName("profile")),
+    ScteMarkersSource: S.optional(ScteMarkersSource).pipe(
       T.JsonName("scteMarkersSource"),
     ),
     StreamSelection: S.optional(StreamSelection)
@@ -594,29 +670,31 @@ export const DashManifest = S.suspend(() =>
 export type __listOfDashManifest = DashManifest[];
 export const __listOfDashManifest = S.Array(DashManifest);
 export interface DashEncryption {
-  SpekeKeyProvider: SpekeKeyProvider;
+  SpekeKeyProvider?: SpekeKeyProvider;
 }
 export const DashEncryption = S.suspend(() =>
   S.Struct({
-    SpekeKeyProvider: SpekeKeyProvider.pipe(
-      T.JsonName("spekeKeyProvider"),
-    ).annotations({ identifier: "SpekeKeyProvider" }),
+    SpekeKeyProvider: S.optional(SpekeKeyProvider)
+      .pipe(T.JsonName("spekeKeyProvider"))
+      .annotations({ identifier: "SpekeKeyProvider" }),
   }),
 ).annotations({
   identifier: "DashEncryption",
 }) as any as S.Schema<DashEncryption>;
 export interface DashPackage {
-  DashManifests: __listOfDashManifest;
+  DashManifests?: DashManifest[];
   Encryption?: DashEncryption;
   IncludeEncoderConfigurationInSegments?: boolean;
   IncludeIframeOnlyStream?: boolean;
-  PeriodTriggers?: __listOf__PeriodTriggersElement;
+  PeriodTriggers?: __PeriodTriggersElement[];
   SegmentDurationSeconds?: number;
-  SegmentTemplateFormat?: string;
+  SegmentTemplateFormat?: SegmentTemplateFormat;
 }
 export const DashPackage = S.suspend(() =>
   S.Struct({
-    DashManifests: __listOfDashManifest.pipe(T.JsonName("dashManifests")),
+    DashManifests: S.optional(__listOfDashManifest).pipe(
+      T.JsonName("dashManifests"),
+    ),
     Encryption: S.optional(DashEncryption)
       .pipe(T.JsonName("encryption"))
       .annotations({ identifier: "DashEncryption" }),
@@ -632,32 +710,34 @@ export const DashPackage = S.suspend(() =>
     SegmentDurationSeconds: S.optional(S.Number).pipe(
       T.JsonName("segmentDurationSeconds"),
     ),
-    SegmentTemplateFormat: S.optional(S.String).pipe(
+    SegmentTemplateFormat: S.optional(SegmentTemplateFormat).pipe(
       T.JsonName("segmentTemplateFormat"),
     ),
   }),
 ).annotations({ identifier: "DashPackage" }) as any as S.Schema<DashPackage>;
 export interface HlsEncryption {
   ConstantInitializationVector?: string;
-  EncryptionMethod?: string;
-  SpekeKeyProvider: SpekeKeyProvider;
+  EncryptionMethod?: EncryptionMethod;
+  SpekeKeyProvider?: SpekeKeyProvider;
 }
 export const HlsEncryption = S.suspend(() =>
   S.Struct({
     ConstantInitializationVector: S.optional(S.String).pipe(
       T.JsonName("constantInitializationVector"),
     ),
-    EncryptionMethod: S.optional(S.String).pipe(T.JsonName("encryptionMethod")),
-    SpekeKeyProvider: SpekeKeyProvider.pipe(
-      T.JsonName("spekeKeyProvider"),
-    ).annotations({ identifier: "SpekeKeyProvider" }),
+    EncryptionMethod: S.optional(EncryptionMethod).pipe(
+      T.JsonName("encryptionMethod"),
+    ),
+    SpekeKeyProvider: S.optional(SpekeKeyProvider)
+      .pipe(T.JsonName("spekeKeyProvider"))
+      .annotations({ identifier: "SpekeKeyProvider" }),
   }),
 ).annotations({
   identifier: "HlsEncryption",
 }) as any as S.Schema<HlsEncryption>;
 export interface HlsPackage {
   Encryption?: HlsEncryption;
-  HlsManifests: __listOfHlsManifest;
+  HlsManifests?: HlsManifest[];
   IncludeDvbSubtitles?: boolean;
   SegmentDurationSeconds?: number;
   UseAudioRenditionGroup?: boolean;
@@ -667,7 +747,9 @@ export const HlsPackage = S.suspend(() =>
     Encryption: S.optional(HlsEncryption)
       .pipe(T.JsonName("encryption"))
       .annotations({ identifier: "HlsEncryption" }),
-    HlsManifests: __listOfHlsManifest.pipe(T.JsonName("hlsManifests")),
+    HlsManifests: S.optional(__listOfHlsManifest).pipe(
+      T.JsonName("hlsManifests"),
+    ),
     IncludeDvbSubtitles: S.optional(S.Boolean).pipe(
       T.JsonName("includeDvbSubtitles"),
     ),
@@ -680,13 +762,13 @@ export const HlsPackage = S.suspend(() =>
   }),
 ).annotations({ identifier: "HlsPackage" }) as any as S.Schema<HlsPackage>;
 export interface MssEncryption {
-  SpekeKeyProvider: SpekeKeyProvider;
+  SpekeKeyProvider?: SpekeKeyProvider;
 }
 export const MssEncryption = S.suspend(() =>
   S.Struct({
-    SpekeKeyProvider: SpekeKeyProvider.pipe(
-      T.JsonName("spekeKeyProvider"),
-    ).annotations({ identifier: "SpekeKeyProvider" }),
+    SpekeKeyProvider: S.optional(SpekeKeyProvider)
+      .pipe(T.JsonName("spekeKeyProvider"))
+      .annotations({ identifier: "SpekeKeyProvider" }),
   }),
 ).annotations({
   identifier: "MssEncryption",
@@ -707,7 +789,7 @@ export type __listOfMssManifest = MssManifest[];
 export const __listOfMssManifest = S.Array(MssManifest);
 export interface MssPackage {
   Encryption?: MssEncryption;
-  MssManifests: __listOfMssManifest;
+  MssManifests?: MssManifest[];
   SegmentDurationSeconds?: number;
 }
 export const MssPackage = S.suspend(() =>
@@ -715,7 +797,9 @@ export const MssPackage = S.suspend(() =>
     Encryption: S.optional(MssEncryption)
       .pipe(T.JsonName("encryption"))
       .annotations({ identifier: "MssEncryption" }),
-    MssManifests: __listOfMssManifest.pipe(T.JsonName("mssManifests")),
+    MssManifests: S.optional(__listOfMssManifest).pipe(
+      T.JsonName("mssManifests"),
+    ),
     SegmentDurationSeconds: S.optional(S.Number).pipe(
       T.JsonName("segmentDurationSeconds"),
     ),
@@ -730,7 +814,7 @@ export interface DescribePackagingConfigurationResponse {
   Id?: string;
   MssPackage?: MssPackage;
   PackagingGroupId?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const DescribePackagingConfigurationResponse = S.suspend(() =>
   S.Struct({
@@ -763,7 +847,7 @@ export interface DescribePackagingGroupResponse {
   DomainName?: string;
   EgressAccessLogs?: EgressAccessLogs;
   Id?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const DescribePackagingGroupResponse = S.suspend(() =>
   S.Struct({
@@ -786,7 +870,7 @@ export const DescribePackagingGroupResponse = S.suspend(() =>
   identifier: "DescribePackagingGroupResponse",
 }) as any as S.Schema<DescribePackagingGroupResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: __mapOf__string;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")) }),
@@ -795,12 +879,12 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: __mapOf__string;
+  Tags?: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: __mapOf__string.pipe(T.JsonName("tags")),
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
@@ -826,7 +910,7 @@ export interface UpdatePackagingGroupResponse {
   DomainName?: string;
   EgressAccessLogs?: EgressAccessLogs;
   Id?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const UpdatePackagingGroupResponse = S.suspend(() =>
   S.Struct({
@@ -874,7 +958,7 @@ export interface AssetShallow {
   ResourceId?: string;
   SourceArn?: string;
   SourceRoleArn?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const AssetShallow = S.suspend(() =>
   S.Struct({
@@ -899,7 +983,7 @@ export interface PackagingConfiguration {
   Id?: string;
   MssPackage?: MssPackage;
   PackagingGroupId?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const PackagingConfiguration = S.suspend(() =>
   S.Struct({
@@ -934,7 +1018,7 @@ export interface PackagingGroup {
   DomainName?: string;
   EgressAccessLogs?: EgressAccessLogs;
   Id?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const PackagingGroup = S.suspend(() =>
   S.Struct({
@@ -965,7 +1049,7 @@ export interface ConfigureLogsResponse {
   DomainName?: string;
   EgressAccessLogs?: EgressAccessLogs;
   Id?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const ConfigureLogsResponse = S.suspend(() =>
   S.Struct({
@@ -987,13 +1071,13 @@ export const ConfigureLogsResponse = S.suspend(() =>
 export interface CreateAssetResponse {
   Arn?: string;
   CreatedAt?: string;
-  EgressEndpoints?: __listOfEgressEndpoint;
+  EgressEndpoints?: EgressEndpoint[];
   Id?: string;
   PackagingGroupId?: string;
   ResourceId?: string;
   SourceArn?: string;
   SourceRoleArn?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const CreateAssetResponse = S.suspend(() =>
   S.Struct({
@@ -1019,7 +1103,7 @@ export interface CreatePackagingGroupResponse {
   DomainName?: string;
   EgressAccessLogs?: EgressAccessLogs;
   Id?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const CreatePackagingGroupResponse = S.suspend(() =>
   S.Struct({
@@ -1041,13 +1125,13 @@ export const CreatePackagingGroupResponse = S.suspend(() =>
 export interface DescribeAssetResponse {
   Arn?: string;
   CreatedAt?: string;
-  EgressEndpoints?: __listOfEgressEndpoint;
+  EgressEndpoints?: EgressEndpoint[];
   Id?: string;
   PackagingGroupId?: string;
   ResourceId?: string;
   SourceArn?: string;
   SourceRoleArn?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const DescribeAssetResponse = S.suspend(() =>
   S.Struct({
@@ -1067,7 +1151,7 @@ export const DescribeAssetResponse = S.suspend(() =>
   identifier: "DescribeAssetResponse",
 }) as any as S.Schema<DescribeAssetResponse>;
 export interface ListAssetsResponse {
-  Assets?: __listOfAssetShallow;
+  Assets?: AssetShallow[];
   NextToken?: string;
 }
 export const ListAssetsResponse = S.suspend(() =>
@@ -1080,7 +1164,7 @@ export const ListAssetsResponse = S.suspend(() =>
 }) as any as S.Schema<ListAssetsResponse>;
 export interface ListPackagingConfigurationsResponse {
   NextToken?: string;
-  PackagingConfigurations?: __listOfPackagingConfiguration;
+  PackagingConfigurations?: PackagingConfiguration[];
 }
 export const ListPackagingConfigurationsResponse = S.suspend(() =>
   S.Struct({
@@ -1094,7 +1178,7 @@ export const ListPackagingConfigurationsResponse = S.suspend(() =>
 }) as any as S.Schema<ListPackagingConfigurationsResponse>;
 export interface ListPackagingGroupsResponse {
   NextToken?: string;
-  PackagingGroups?: __listOfPackagingGroup;
+  PackagingGroups?: PackagingGroup[];
 }
 export const ListPackagingGroupsResponse = S.suspend(() =>
   S.Struct({
@@ -1110,10 +1194,10 @@ export interface CreatePackagingConfigurationRequest {
   CmafPackage?: CmafPackage;
   DashPackage?: DashPackage;
   HlsPackage?: HlsPackage;
-  Id: string;
+  Id?: string;
   MssPackage?: MssPackage;
-  PackagingGroupId: string;
-  Tags?: Tags;
+  PackagingGroupId?: string;
+  Tags?: { [key: string]: string };
 }
 export const CreatePackagingConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -1126,11 +1210,11 @@ export const CreatePackagingConfigurationRequest = S.suspend(() =>
     HlsPackage: S.optional(HlsPackage)
       .pipe(T.JsonName("hlsPackage"))
       .annotations({ identifier: "HlsPackage" }),
-    Id: S.String.pipe(T.JsonName("id")),
+    Id: S.optional(S.String).pipe(T.JsonName("id")),
     MssPackage: S.optional(MssPackage)
       .pipe(T.JsonName("mssPackage"))
       .annotations({ identifier: "MssPackage" }),
-    PackagingGroupId: S.String.pipe(T.JsonName("packagingGroupId")),
+    PackagingGroupId: S.optional(S.String).pipe(T.JsonName("packagingGroupId")),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
   }).pipe(
     T.all(
@@ -1154,7 +1238,7 @@ export interface CreatePackagingConfigurationResponse {
   Id?: string;
   MssPackage?: MssPackage;
   PackagingGroupId?: string;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const CreatePackagingConfigurationResponse = S.suspend(() =>
   S.Struct({
@@ -1212,7 +1296,7 @@ export class UnprocessableEntityException extends S.TaggedError<UnprocessableEnt
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1226,7 +1310,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1240,7 +1324,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1254,7 +1338,7 @@ export const tagResource: (
  */
 export const deleteAsset: (
   input: DeleteAssetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAssetResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -1281,7 +1365,7 @@ export const deleteAsset: (
  */
 export const describeAsset: (
   input: DescribeAssetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAssetResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -1309,7 +1393,7 @@ export const describeAsset: (
 export const listAssets: {
   (
     input: ListAssetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAssetsResponse,
     | ForbiddenException
     | InternalServerErrorException
@@ -1322,7 +1406,7 @@ export const listAssets: {
   >;
   pages: (
     input: ListAssetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAssetsResponse,
     | ForbiddenException
     | InternalServerErrorException
@@ -1335,7 +1419,7 @@ export const listAssets: {
   >;
   items: (
     input: ListAssetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     AssetShallow,
     | ForbiddenException
     | InternalServerErrorException
@@ -1370,7 +1454,7 @@ export const listAssets: {
 export const listPackagingConfigurations: {
   (
     input: ListPackagingConfigurationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPackagingConfigurationsResponse,
     | ForbiddenException
     | InternalServerErrorException
@@ -1383,7 +1467,7 @@ export const listPackagingConfigurations: {
   >;
   pages: (
     input: ListPackagingConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPackagingConfigurationsResponse,
     | ForbiddenException
     | InternalServerErrorException
@@ -1396,7 +1480,7 @@ export const listPackagingConfigurations: {
   >;
   items: (
     input: ListPackagingConfigurationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PackagingConfiguration,
     | ForbiddenException
     | InternalServerErrorException
@@ -1431,7 +1515,7 @@ export const listPackagingConfigurations: {
 export const listPackagingGroups: {
   (
     input: ListPackagingGroupsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPackagingGroupsResponse,
     | ForbiddenException
     | InternalServerErrorException
@@ -1444,7 +1528,7 @@ export const listPackagingGroups: {
   >;
   pages: (
     input: ListPackagingGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPackagingGroupsResponse,
     | ForbiddenException
     | InternalServerErrorException
@@ -1457,7 +1541,7 @@ export const listPackagingGroups: {
   >;
   items: (
     input: ListPackagingGroupsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     PackagingGroup,
     | ForbiddenException
     | InternalServerErrorException
@@ -1491,7 +1575,7 @@ export const listPackagingGroups: {
  */
 export const describePackagingConfiguration: (
   input: DescribePackagingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePackagingConfigurationResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -1518,7 +1602,7 @@ export const describePackagingConfiguration: (
  */
 export const describePackagingGroup: (
   input: DescribePackagingGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePackagingGroupResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -1545,7 +1629,7 @@ export const describePackagingGroup: (
  */
 export const updatePackagingGroup: (
   input: UpdatePackagingGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePackagingGroupResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -1572,7 +1656,7 @@ export const updatePackagingGroup: (
  */
 export const deletePackagingConfiguration: (
   input: DeletePackagingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePackagingConfigurationResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -1599,7 +1683,7 @@ export const deletePackagingConfiguration: (
  */
 export const deletePackagingGroup: (
   input: DeletePackagingGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePackagingGroupResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -1626,7 +1710,7 @@ export const deletePackagingGroup: (
  */
 export const configureLogs: (
   input: ConfigureLogsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ConfigureLogsResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -1653,7 +1737,7 @@ export const configureLogs: (
  */
 export const createAsset: (
   input: CreateAssetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAssetResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -1680,7 +1764,7 @@ export const createAsset: (
  */
 export const createPackagingGroup: (
   input: CreatePackagingGroupRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePackagingGroupResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -1707,7 +1791,7 @@ export const createPackagingGroup: (
  */
 export const createPackagingConfiguration: (
   input: CreatePackagingConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePackagingConfigurationResponse,
   | ForbiddenException
   | InternalServerErrorException

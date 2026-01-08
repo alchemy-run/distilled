@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -166,8 +166,8 @@ export const ResourceFilter = S.Array(S.String);
 export type LifecycleResourceFilter = string[];
 export const LifecycleResourceFilter = S.Array(S.String);
 export interface BatchGetCollectionRequest {
-  ids?: CollectionIds;
-  names?: CollectionNames;
+  ids?: string[];
+  names?: string[];
 }
 export const BatchGetCollectionRequest = S.suspend(() =>
   S.Struct({
@@ -180,7 +180,7 @@ export const BatchGetCollectionRequest = S.suspend(() =>
   identifier: "BatchGetCollectionRequest",
 }) as any as S.Schema<BatchGetCollectionRequest>;
 export interface BatchGetVpcEndpointRequest {
-  ids: VpcEndpointIds;
+  ids: string[];
 }
 export const BatchGetVpcEndpointRequest = S.suspend(() =>
   S.Struct({ ids: VpcEndpointIds }).pipe(
@@ -241,7 +241,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeys;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeys }).pipe(
@@ -256,10 +256,10 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateVpcEndpointRequest {
   id: string;
-  addSubnetIds?: SubnetIds;
-  removeSubnetIds?: SubnetIds;
-  addSecurityGroupIds?: SecurityGroupIds;
-  removeSecurityGroupIds?: SecurityGroupIds;
+  addSubnetIds?: string[];
+  removeSubnetIds?: string[];
+  addSecurityGroupIds?: string[];
+  removeSecurityGroupIds?: string[];
   clientToken?: string;
 }
 export const UpdateVpcEndpointRequest = S.suspend(() =>
@@ -353,7 +353,7 @@ export const DeleteAccessPolicyResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteAccessPolicyResponse>;
 export interface ListAccessPoliciesRequest {
   type: string;
-  resource?: ResourceFilter;
+  resource?: string[];
   nextToken?: string;
   maxResults?: number;
 }
@@ -508,7 +508,7 @@ export const DeleteLifecyclePolicyResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteLifecyclePolicyResponse>;
 export interface ListLifecyclePoliciesRequest {
   type: string;
-  resources?: LifecycleResourceFilter;
+  resources?: string[];
   nextToken?: string;
   maxResults?: number;
 }
@@ -624,7 +624,7 @@ export const DeleteSecurityPolicyResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteSecurityPolicyResponse>;
 export interface ListSecurityPoliciesRequest {
   type: string;
-  resource?: ResourceFilter;
+  resource?: string[];
   nextToken?: string;
   maxResults?: number;
 }
@@ -643,8 +643,8 @@ export const ListSecurityPoliciesRequest = S.suspend(() =>
 export interface CreateVpcEndpointRequest {
   name: string;
   vpcId: string;
-  subnetIds: SubnetIds;
-  securityGroupIds?: SecurityGroupIds;
+  subnetIds: string[];
+  securityGroupIds?: string[];
   clientToken?: string;
 }
 export const CreateVpcEndpointRequest = S.suspend(() =>
@@ -843,7 +843,7 @@ export const VpcEndpointFilters = S.suspend(() =>
   identifier: "VpcEndpointFilters",
 }) as any as S.Schema<VpcEndpointFilters>;
 export interface BatchGetEffectiveLifecyclePolicyRequest {
-  resourceIdentifiers: LifecyclePolicyResourceIdentifiers;
+  resourceIdentifiers: LifecyclePolicyResourceIdentifier[];
 }
 export const BatchGetEffectiveLifecyclePolicyRequest = S.suspend(() =>
   S.Struct({ resourceIdentifiers: LifecyclePolicyResourceIdentifiers }).pipe(
@@ -853,7 +853,7 @@ export const BatchGetEffectiveLifecyclePolicyRequest = S.suspend(() =>
   identifier: "BatchGetEffectiveLifecyclePolicyRequest",
 }) as any as S.Schema<BatchGetEffectiveLifecyclePolicyRequest>;
 export interface BatchGetLifecyclePolicyRequest {
-  identifiers: LifecyclePolicyIdentifiers;
+  identifiers: LifecyclePolicyIdentifier[];
 }
 export const BatchGetLifecyclePolicyRequest = S.suspend(() =>
   S.Struct({ identifiers: LifecyclePolicyIdentifiers }).pipe(
@@ -889,7 +889,7 @@ export const GetPoliciesStatsResponse = S.suspend(() =>
   identifier: "GetPoliciesStatsResponse",
 }) as any as S.Schema<GetPoliciesStatsResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: Tags;
+  tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -898,7 +898,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: Tags;
+  tags: Tag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: Tags }).pipe(
@@ -963,7 +963,7 @@ export interface CreateCollectionRequest {
   name: string;
   type?: string;
   description?: string;
-  tags?: Tags;
+  tags?: Tag[];
   standbyReplicas?: string;
   vectorOptions?: VectorOptions;
   clientToken?: string;
@@ -1165,8 +1165,8 @@ export interface VpcEndpointDetail {
   id?: string;
   name?: string;
   vpcId?: string;
-  subnetIds?: SubnetIds;
-  securityGroupIds?: SecurityGroupIds;
+  subnetIds?: string[];
+  securityGroupIds?: string[];
   status?: string;
   createdDate?: number;
   failureCode?: string;
@@ -1209,8 +1209,8 @@ export interface UpdateVpcEndpointDetail {
   id?: string;
   name?: string;
   status?: string;
-  subnetIds?: SubnetIds;
-  securityGroupIds?: SecurityGroupIds;
+  subnetIds?: string[];
+  securityGroupIds?: string[];
   lastModifiedDate?: number;
 }
 export const UpdateVpcEndpointDetail = S.suspend(() =>
@@ -1380,8 +1380,8 @@ export const DeleteVpcEndpointDetail = S.suspend(() =>
   identifier: "DeleteVpcEndpointDetail",
 }) as any as S.Schema<DeleteVpcEndpointDetail>;
 export interface BatchGetVpcEndpointResponse {
-  vpcEndpointDetails?: VpcEndpointDetails;
-  vpcEndpointErrorDetails?: VpcEndpointErrorDetails;
+  vpcEndpointDetails?: VpcEndpointDetail[];
+  vpcEndpointErrorDetails?: VpcEndpointErrorDetail[];
 }
 export const BatchGetVpcEndpointResponse = S.suspend(() =>
   S.Struct({
@@ -1432,7 +1432,7 @@ export const CreateAccessPolicyResponse = S.suspend(() =>
   identifier: "CreateAccessPolicyResponse",
 }) as any as S.Schema<CreateAccessPolicyResponse>;
 export interface ListAccessPoliciesResponse {
-  accessPolicySummaries?: AccessPolicySummaries;
+  accessPolicySummaries?: AccessPolicySummary[];
   nextToken?: string;
 }
 export const ListAccessPoliciesResponse = S.suspend(() =>
@@ -1460,7 +1460,7 @@ export const DeleteCollectionResponse = S.suspend(() =>
   identifier: "DeleteCollectionResponse",
 }) as any as S.Schema<DeleteCollectionResponse>;
 export interface ListLifecyclePoliciesResponse {
-  lifecyclePolicySummaries?: LifecyclePolicySummaries;
+  lifecyclePolicySummaries?: LifecyclePolicySummary[];
   nextToken?: string;
 }
 export const ListLifecyclePoliciesResponse = S.suspend(() =>
@@ -1534,7 +1534,7 @@ export const UpdateSecurityConfigResponse = S.suspend(() =>
   identifier: "UpdateSecurityConfigResponse",
 }) as any as S.Schema<UpdateSecurityConfigResponse>;
 export interface ListSecurityConfigsResponse {
-  securityConfigSummaries?: SecurityConfigSummaries;
+  securityConfigSummaries?: SecurityConfigSummary[];
   nextToken?: string;
 }
 export const ListSecurityConfigsResponse = S.suspend(() =>
@@ -1546,7 +1546,7 @@ export const ListSecurityConfigsResponse = S.suspend(() =>
   identifier: "ListSecurityConfigsResponse",
 }) as any as S.Schema<ListSecurityConfigsResponse>;
 export interface ListSecurityPoliciesResponse {
-  securityPolicySummaries?: SecurityPolicySummaries;
+  securityPolicySummaries?: SecurityPolicySummary[];
   nextToken?: string;
 }
 export const ListSecurityPoliciesResponse = S.suspend(() =>
@@ -1755,8 +1755,8 @@ export const VpcEndpointSummary = S.suspend(() =>
 export type VpcEndpointSummaries = VpcEndpointSummary[];
 export const VpcEndpointSummaries = S.Array(VpcEndpointSummary);
 export interface BatchGetCollectionResponse {
-  collectionDetails?: CollectionDetails;
-  collectionErrorDetails?: CollectionErrorDetails;
+  collectionDetails?: CollectionDetail[];
+  collectionErrorDetails?: CollectionErrorDetail[];
 }
 export const BatchGetCollectionResponse = S.suspend(() =>
   S.Struct({
@@ -1767,8 +1767,8 @@ export const BatchGetCollectionResponse = S.suspend(() =>
   identifier: "BatchGetCollectionResponse",
 }) as any as S.Schema<BatchGetCollectionResponse>;
 export interface BatchGetEffectiveLifecyclePolicyResponse {
-  effectiveLifecyclePolicyDetails?: EffectiveLifecyclePolicyDetails;
-  effectiveLifecyclePolicyErrorDetails?: EffectiveLifecyclePolicyErrorDetails;
+  effectiveLifecyclePolicyDetails?: EffectiveLifecyclePolicyDetail[];
+  effectiveLifecyclePolicyErrorDetails?: EffectiveLifecyclePolicyErrorDetail[];
 }
 export const BatchGetEffectiveLifecyclePolicyResponse = S.suspend(() =>
   S.Struct({
@@ -1783,8 +1783,8 @@ export const BatchGetEffectiveLifecyclePolicyResponse = S.suspend(() =>
   identifier: "BatchGetEffectiveLifecyclePolicyResponse",
 }) as any as S.Schema<BatchGetEffectiveLifecyclePolicyResponse>;
 export interface BatchGetLifecyclePolicyResponse {
-  lifecyclePolicyDetails?: LifecyclePolicyDetails;
-  lifecyclePolicyErrorDetails?: LifecyclePolicyErrorDetails;
+  lifecyclePolicyDetails?: LifecyclePolicyDetail[];
+  lifecyclePolicyErrorDetails?: LifecyclePolicyErrorDetail[];
 }
 export const BatchGetLifecyclePolicyResponse = S.suspend(() =>
   S.Struct({
@@ -1803,7 +1803,7 @@ export const CreateCollectionResponse = S.suspend(() =>
   identifier: "CreateCollectionResponse",
 }) as any as S.Schema<CreateCollectionResponse>;
 export interface ListCollectionsResponse {
-  collectionSummaries?: CollectionSummaries;
+  collectionSummaries?: CollectionSummary[];
   nextToken?: string;
 }
 export const ListCollectionsResponse = S.suspend(() =>
@@ -1823,7 +1823,7 @@ export const GetSecurityConfigResponse = S.suspend(() =>
   identifier: "GetSecurityConfigResponse",
 }) as any as S.Schema<GetSecurityConfigResponse>;
 export interface ListVpcEndpointsResponse {
-  vpcEndpointSummaries?: VpcEndpointSummaries;
+  vpcEndpointSummaries?: VpcEndpointSummary[];
   nextToken?: string;
 }
 export const ListVpcEndpointsResponse = S.suspend(() =>
@@ -1873,7 +1873,7 @@ export class OcuLimitExceededException extends S.TaggedError<OcuLimitExceededExc
  */
 export const getPoliciesStats: (
   input: GetPoliciesStatsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPoliciesStatsResponse,
   InternalServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1887,7 +1887,7 @@ export const getPoliciesStats: (
  */
 export const getAccountSettings: (
   input: GetAccountSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccountSettingsResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1901,7 +1901,7 @@ export const getAccountSettings: (
  */
 export const getSecurityPolicy: (
   input: GetSecurityPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSecurityPolicyResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1922,7 +1922,7 @@ export const getSecurityPolicy: (
  */
 export const deleteAccessPolicy: (
   input: DeleteAccessPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAccessPolicyResponse,
   | ConflictException
   | InternalServerException
@@ -1945,7 +1945,7 @@ export const deleteAccessPolicy: (
  */
 export const createIndex: (
   input: CreateIndexRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateIndexResponse,
   | ConflictException
   | InternalServerException
@@ -1968,7 +1968,7 @@ export const createIndex: (
  */
 export const deleteLifecyclePolicy: (
   input: DeleteLifecyclePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLifecyclePolicyResponse,
   | ConflictException
   | InternalServerException
@@ -1991,7 +1991,7 @@ export const deleteLifecyclePolicy: (
  */
 export const deleteSecurityConfig: (
   input: DeleteSecurityConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSecurityConfigResponse,
   | ConflictException
   | InternalServerException
@@ -2014,7 +2014,7 @@ export const deleteSecurityConfig: (
  */
 export const deleteSecurityPolicy: (
   input: DeleteSecurityPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSecurityPolicyResponse,
   | ConflictException
   | InternalServerException
@@ -2037,7 +2037,7 @@ export const deleteSecurityPolicy: (
  */
 export const deleteIndex: (
   input: DeleteIndexRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIndexResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2058,7 +2058,7 @@ export const deleteIndex: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2079,7 +2079,7 @@ export const listTagsForResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | ConflictException
   | InternalServerException
@@ -2102,7 +2102,7 @@ export const untagResource: (
  */
 export const getAccessPolicy: (
   input: GetAccessPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetAccessPolicyResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2123,7 +2123,7 @@ export const getAccessPolicy: (
  */
 export const updateAccessPolicy: (
   input: UpdateAccessPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAccessPolicyResponse,
   | ConflictException
   | InternalServerException
@@ -2146,7 +2146,7 @@ export const updateAccessPolicy: (
  */
 export const getIndex: (
   input: GetIndexRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIndexResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2167,7 +2167,7 @@ export const getIndex: (
  */
 export const deleteCollection: (
   input: DeleteCollectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCollectionResponse,
   | ConflictException
   | InternalServerException
@@ -2190,7 +2190,7 @@ export const deleteCollection: (
  */
 export const batchGetVpcEndpoint: (
   input: BatchGetVpcEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetVpcEndpointResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2204,7 +2204,7 @@ export const batchGetVpcEndpoint: (
  */
 export const updateVpcEndpoint: (
   input: UpdateVpcEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateVpcEndpointResponse,
   | ConflictException
   | InternalServerException
@@ -2222,21 +2222,21 @@ export const updateVpcEndpoint: (
 export const listAccessPolicies: {
   (
     input: ListAccessPoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAccessPoliciesResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListAccessPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAccessPoliciesResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAccessPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2252,7 +2252,7 @@ export const listAccessPolicies: {
  */
 export const updateCollection: (
   input: UpdateCollectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCollectionResponse,
   | ConflictException
   | InternalServerException
@@ -2269,7 +2269,7 @@ export const updateCollection: (
  */
 export const updateIndex: (
   input: UpdateIndexRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateIndexResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2291,21 +2291,21 @@ export const updateIndex: (
 export const listLifecyclePolicies: {
   (
     input: ListLifecyclePoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLifecyclePoliciesResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListLifecyclePoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLifecyclePoliciesResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListLifecyclePoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2321,7 +2321,7 @@ export const listLifecyclePolicies: {
  */
 export const updateSecurityConfig: (
   input: UpdateSecurityConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSecurityConfigResponse,
   | ConflictException
   | InternalServerException
@@ -2345,21 +2345,21 @@ export const updateSecurityConfig: (
 export const listSecurityConfigs: {
   (
     input: ListSecurityConfigsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSecurityConfigsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSecurityConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSecurityConfigsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSecurityConfigsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2376,21 +2376,21 @@ export const listSecurityConfigs: {
 export const listSecurityPolicies: {
   (
     input: ListSecurityPoliciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSecurityPoliciesResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSecurityPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSecurityPoliciesResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSecurityPoliciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2406,7 +2406,7 @@ export const listSecurityPolicies: {
  */
 export const deleteVpcEndpoint: (
   input: DeleteVpcEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteVpcEndpointResponse,
   | ConflictException
   | InternalServerException
@@ -2429,7 +2429,7 @@ export const deleteVpcEndpoint: (
  */
 export const batchGetCollection: (
   input: BatchGetCollectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetCollectionResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2443,7 +2443,7 @@ export const batchGetCollection: (
  */
 export const batchGetEffectiveLifecyclePolicy: (
   input: BatchGetEffectiveLifecyclePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetEffectiveLifecyclePolicyResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2457,7 +2457,7 @@ export const batchGetEffectiveLifecyclePolicy: (
  */
 export const batchGetLifecyclePolicy: (
   input: BatchGetLifecyclePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetLifecyclePolicyResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2471,7 +2471,7 @@ export const batchGetLifecyclePolicy: (
  */
 export const createLifecyclePolicy: (
   input: CreateLifecyclePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLifecyclePolicyResponse,
   | ConflictException
   | InternalServerException
@@ -2497,21 +2497,21 @@ export const createLifecyclePolicy: (
 export const listCollections: {
   (
     input: ListCollectionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListCollectionsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListCollectionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListCollectionsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListCollectionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2527,7 +2527,7 @@ export const listCollections: {
  */
 export const getSecurityConfig: (
   input: GetSecurityConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSecurityConfigResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2549,21 +2549,21 @@ export const getSecurityConfig: (
 export const listVpcEndpoints: {
   (
     input: ListVpcEndpointsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListVpcEndpointsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListVpcEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListVpcEndpointsResponse,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListVpcEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2579,7 +2579,7 @@ export const listVpcEndpoints: {
  */
 export const createSecurityPolicy: (
   input: CreateSecurityPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSecurityPolicyResponse,
   | ConflictException
   | InternalServerException
@@ -2602,7 +2602,7 @@ export const createSecurityPolicy: (
  */
 export const updateAccountSettings: (
   input: UpdateAccountSettingsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateAccountSettingsResponse,
   | InternalServerException
   | ServiceQuotaExceededException
@@ -2623,7 +2623,7 @@ export const updateAccountSettings: (
  */
 export const createAccessPolicy: (
   input: CreateAccessPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAccessPolicyResponse,
   | ConflictException
   | InternalServerException
@@ -2646,7 +2646,7 @@ export const createAccessPolicy: (
  */
 export const createSecurityConfig: (
   input: CreateSecurityConfigRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSecurityConfigResponse,
   | ConflictException
   | InternalServerException
@@ -2669,7 +2669,7 @@ export const createSecurityConfig: (
  */
 export const createVpcEndpoint: (
   input: CreateVpcEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateVpcEndpointResponse,
   | ConflictException
   | InternalServerException
@@ -2692,7 +2692,7 @@ export const createVpcEndpoint: (
  */
 export const updateLifecyclePolicy: (
   input: UpdateLifecyclePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLifecyclePolicyResponse,
   | ConflictException
   | InternalServerException
@@ -2717,7 +2717,7 @@ export const updateLifecyclePolicy: (
  */
 export const updateSecurityPolicy: (
   input: UpdateSecurityPolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSecurityPolicyResponse,
   | ConflictException
   | InternalServerException
@@ -2742,7 +2742,7 @@ export const updateSecurityPolicy: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | ConflictException
   | InternalServerException
@@ -2767,7 +2767,7 @@ export const tagResource: (
  */
 export const createCollection: (
   input: CreateCollectionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCollectionResponse,
   | ConflictException
   | InternalServerException

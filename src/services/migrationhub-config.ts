@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -120,12 +120,14 @@ export const DeleteHomeRegionControlResult = S.suspend(() =>
 ).annotations({
   identifier: "DeleteHomeRegionControlResult",
 }) as any as S.Schema<DeleteHomeRegionControlResult>;
+export type TargetType = "ACCOUNT";
+export const TargetType = S.Literal("ACCOUNT");
 export interface Target {
-  Type: string;
+  Type: TargetType;
   Id?: string;
 }
 export const Target = S.suspend(() =>
-  S.Struct({ Type: S.String, Id: S.optional(S.String) }),
+  S.Struct({ Type: TargetType, Id: S.optional(S.String) }),
 ).annotations({ identifier: "Target" }) as any as S.Schema<Target>;
 export interface DescribeHomeRegionControlsRequest {
   ControlId?: string;
@@ -198,7 +200,7 @@ export const CreateHomeRegionControlResult = S.suspend(() =>
   identifier: "CreateHomeRegionControlResult",
 }) as any as S.Schema<CreateHomeRegionControlResult>;
 export interface DescribeHomeRegionControlsResult {
-  HomeRegionControls?: HomeRegionControls;
+  HomeRegionControls?: HomeRegionControl[];
   NextToken?: string;
 }
 export const DescribeHomeRegionControlsResult = S.suspend(() =>
@@ -245,7 +247,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
  */
 export const deleteHomeRegionControl: (
   input: DeleteHomeRegionControlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteHomeRegionControlResult,
   | AccessDeniedException
   | InternalServerError
@@ -272,7 +274,7 @@ export const deleteHomeRegionControl: (
 export const describeHomeRegionControls: {
   (
     input: DescribeHomeRegionControlsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeHomeRegionControlsResult,
     | AccessDeniedException
     | InternalServerError
@@ -284,7 +286,7 @@ export const describeHomeRegionControls: {
   >;
   pages: (
     input: DescribeHomeRegionControlsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeHomeRegionControlsResult,
     | AccessDeniedException
     | InternalServerError
@@ -296,7 +298,7 @@ export const describeHomeRegionControls: {
   >;
   items: (
     input: DescribeHomeRegionControlsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerError
@@ -331,7 +333,7 @@ export const describeHomeRegionControls: {
  */
 export const getHomeRegion: (
   input: GetHomeRegionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetHomeRegionResult,
   | AccessDeniedException
   | InternalServerError
@@ -356,7 +358,7 @@ export const getHomeRegion: (
  */
 export const createHomeRegionControl: (
   input: CreateHomeRegionControlRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateHomeRegionControlResult,
   | AccessDeniedException
   | DryRunOperation

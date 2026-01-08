@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -97,7 +97,7 @@ export type PartnerIntegrationDatabaseName = string;
 export type PartnerIntegrationPartnerName = string;
 export type IntegerOptional = number;
 export type AuthenticationProfileNameString = string;
-export type SensitiveString = string | Redacted.Redacted<string>;
+export type SensitiveString = string | redacted.Redacted<string>;
 export type CatalogNameString = string;
 export type CustomDomainNameString = string;
 export type CustomDomainCertificateArnString = string;
@@ -108,12 +108,9 @@ export type IntegrationDescription = string;
 export type RedshiftIdcApplicationName = string;
 export type IdentityNamespaceString = string;
 export type IdcDisplayNameString = string;
-export type Long = number;
 export type IntegrationArn = string;
 export type InboundIntegrationArn = string;
-export type Double = number;
 export type S3KeyPrefixValue = string;
-export type Integer = number;
 export type LongOptional = number;
 export type PartnerIntegrationStatusMessage = string;
 export type ExceptionMessage = string;
@@ -142,12 +139,12 @@ export const VpcIdentifierList = S.Array(
   S.String.pipe(T.XmlName("VpcIdentifier")),
 );
 export interface DeleteClusterSnapshotMessage {
-  SnapshotIdentifier: string;
+  SnapshotIdentifier?: string;
   SnapshotClusterIdentifier?: string;
 }
 export const DeleteClusterSnapshotMessage = S.suspend(() =>
   S.Struct({
-    SnapshotIdentifier: S.String,
+    SnapshotIdentifier: S.optional(S.String),
     SnapshotClusterIdentifier: S.optional(S.String),
   }).pipe(
     T.all(
@@ -183,6 +180,8 @@ export const VpcSecurityGroupIdList = S.Array(
 );
 export type IamRoleArnList = string[];
 export const IamRoleArnList = S.Array(S.String.pipe(T.XmlName("IamRoleArn")));
+export type AquaConfigurationStatus = "enabled" | "disabled" | "auto";
+export const AquaConfigurationStatus = S.Literal("enabled", "disabled", "auto");
 export type SubnetIdentifierList = string[];
 export const SubnetIdentifierList = S.Array(
   S.String.pipe(T.XmlName("SubnetIdentifier")),
@@ -193,11 +192,32 @@ export type EventCategoriesList = string[];
 export const EventCategoriesList = S.Array(
   S.String.pipe(T.XmlName("EventCategory")),
 );
+export type ApplicationType = "None" | "Lakehouse";
+export const ApplicationType = S.Literal("None", "Lakehouse");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String.pipe(T.XmlName("TagKey")));
 export type ScheduleDefinitionList = string[];
 export const ScheduleDefinitionList = S.Array(
   S.String.pipe(T.XmlName("ScheduleDefinition")),
+);
+export type UsageLimitFeatureType =
+  | "spectrum"
+  | "concurrency-scaling"
+  | "cross-region-datasharing";
+export const UsageLimitFeatureType = S.Literal(
+  "spectrum",
+  "concurrency-scaling",
+  "cross-region-datasharing",
+);
+export type UsageLimitLimitType = "time" | "data-scanned";
+export const UsageLimitLimitType = S.Literal("time", "data-scanned");
+export type UsageLimitPeriod = "daily" | "weekly" | "monthly";
+export const UsageLimitPeriod = S.Literal("daily", "weekly", "monthly");
+export type UsageLimitBreachAction = "log" | "emit-metric" | "disable";
+export const UsageLimitBreachAction = S.Literal(
+  "log",
+  "emit-metric",
+  "disable",
 );
 export type ConsumerIdentifierList = string[];
 export const ConsumerIdentifierList = S.Array(S.String);
@@ -207,6 +227,54 @@ export const AttributeNameList = S.Array(
 );
 export type TagValueList = string[];
 export const TagValueList = S.Array(S.String.pipe(T.XmlName("TagValue")));
+export type DataShareStatusForConsumer = "ACTIVE" | "AVAILABLE";
+export const DataShareStatusForConsumer = S.Literal("ACTIVE", "AVAILABLE");
+export type DataShareStatusForProducer =
+  | "ACTIVE"
+  | "AUTHORIZED"
+  | "PENDING_AUTHORIZATION"
+  | "DEAUTHORIZED"
+  | "REJECTED";
+export const DataShareStatusForProducer = S.Literal(
+  "ACTIVE",
+  "AUTHORIZED",
+  "PENDING_AUTHORIZATION",
+  "DEAUTHORIZED",
+  "REJECTED",
+);
+export type SourceType =
+  | "cluster"
+  | "cluster-parameter-group"
+  | "cluster-security-group"
+  | "cluster-snapshot"
+  | "scheduled-action";
+export const SourceType = S.Literal(
+  "cluster",
+  "cluster-parameter-group",
+  "cluster-security-group",
+  "cluster-snapshot",
+  "scheduled-action",
+);
+export type ActionType =
+  | "restore-cluster"
+  | "recommend-node-config"
+  | "resize-cluster";
+export const ActionType = S.Literal(
+  "restore-cluster",
+  "recommend-node-config",
+  "resize-cluster",
+);
+export type ScheduledActionTypeValues =
+  | "ResizeCluster"
+  | "PauseCluster"
+  | "ResumeCluster";
+export const ScheduledActionTypeValues = S.Literal(
+  "ResizeCluster",
+  "PauseCluster",
+  "ResumeCluster",
+);
+export type LogDestinationType = "s3" | "cloudwatch";
+export const LogDestinationType = S.Literal("s3", "cloudwatch");
 export type LogTypeList = string[];
 export const LogTypeList = S.Array(S.String);
 export type DbGroupList = string[];
@@ -215,14 +283,36 @@ export type ClusterIdentifierList = string[];
 export const ClusterIdentifierList = S.Array(
   S.String.pipe(T.XmlName("ClusterIdentifier")),
 );
+export type ReservedNodeExchangeActionType =
+  | "restore-cluster"
+  | "resize-cluster";
+export const ReservedNodeExchangeActionType = S.Literal(
+  "restore-cluster",
+  "resize-cluster",
+);
+export type LakehouseRegistration = "Register" | "Deregister";
+export const LakehouseRegistration = S.Literal("Register", "Deregister");
+export type LakehouseIdcRegistration = "Associate" | "Disassociate";
+export const LakehouseIdcRegistration = S.Literal("Associate", "Disassociate");
+export type PartnerIntegrationStatus =
+  | "Active"
+  | "Inactive"
+  | "RuntimeFailure"
+  | "ConnectionFailure";
+export const PartnerIntegrationStatus = S.Literal(
+  "Active",
+  "Inactive",
+  "RuntimeFailure",
+  "ConnectionFailure",
+);
 export interface AcceptReservedNodeExchangeInputMessage {
-  ReservedNodeId: string;
-  TargetReservedNodeOfferingId: string;
+  ReservedNodeId?: string;
+  TargetReservedNodeOfferingId?: string;
 }
 export const AcceptReservedNodeExchangeInputMessage = S.suspend(() =>
   S.Struct({
-    ReservedNodeId: S.String,
-    TargetReservedNodeOfferingId: S.String,
+    ReservedNodeId: S.optional(S.String),
+    TargetReservedNodeOfferingId: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -238,17 +328,17 @@ export const AcceptReservedNodeExchangeInputMessage = S.suspend(() =>
   identifier: "AcceptReservedNodeExchangeInputMessage",
 }) as any as S.Schema<AcceptReservedNodeExchangeInputMessage>;
 export interface PartnerIntegrationInputMessage {
-  AccountId: string;
-  ClusterIdentifier: string;
-  DatabaseName: string;
-  PartnerName: string;
+  AccountId?: string;
+  ClusterIdentifier?: string;
+  DatabaseName?: string;
+  PartnerName?: string;
 }
 export const PartnerIntegrationInputMessage = S.suspend(() =>
   S.Struct({
-    AccountId: S.String,
-    ClusterIdentifier: S.String,
-    DatabaseName: S.String,
-    PartnerName: S.String,
+    AccountId: S.optional(S.String),
+    ClusterIdentifier: S.optional(S.String),
+    DatabaseName: S.optional(S.String),
+    PartnerName: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -264,7 +354,7 @@ export const PartnerIntegrationInputMessage = S.suspend(() =>
   identifier: "PartnerIntegrationInputMessage",
 }) as any as S.Schema<PartnerIntegrationInputMessage>;
 export interface AssociateDataShareConsumerMessage {
-  DataShareArn: string;
+  DataShareArn?: string;
   AssociateEntireAccount?: boolean;
   ConsumerArn?: string;
   ConsumerRegion?: string;
@@ -272,7 +362,7 @@ export interface AssociateDataShareConsumerMessage {
 }
 export const AssociateDataShareConsumerMessage = S.suspend(() =>
   S.Struct({
-    DataShareArn: S.String,
+    DataShareArn: S.optional(S.String),
     AssociateEntireAccount: S.optional(S.Boolean),
     ConsumerArn: S.optional(S.String),
     ConsumerRegion: S.optional(S.String),
@@ -292,14 +382,14 @@ export const AssociateDataShareConsumerMessage = S.suspend(() =>
   identifier: "AssociateDataShareConsumerMessage",
 }) as any as S.Schema<AssociateDataShareConsumerMessage>;
 export interface AuthorizeClusterSecurityGroupIngressMessage {
-  ClusterSecurityGroupName: string;
+  ClusterSecurityGroupName?: string;
   CIDRIP?: string;
   EC2SecurityGroupName?: string;
   EC2SecurityGroupOwnerId?: string;
 }
 export const AuthorizeClusterSecurityGroupIngressMessage = S.suspend(() =>
   S.Struct({
-    ClusterSecurityGroupName: S.String,
+    ClusterSecurityGroupName: S.optional(S.String),
     CIDRIP: S.optional(S.String),
     EC2SecurityGroupName: S.optional(S.String),
     EC2SecurityGroupOwnerId: S.optional(S.String),
@@ -318,14 +408,14 @@ export const AuthorizeClusterSecurityGroupIngressMessage = S.suspend(() =>
   identifier: "AuthorizeClusterSecurityGroupIngressMessage",
 }) as any as S.Schema<AuthorizeClusterSecurityGroupIngressMessage>;
 export interface AuthorizeDataShareMessage {
-  DataShareArn: string;
-  ConsumerIdentifier: string;
+  DataShareArn?: string;
+  ConsumerIdentifier?: string;
   AllowWrites?: boolean;
 }
 export const AuthorizeDataShareMessage = S.suspend(() =>
   S.Struct({
-    DataShareArn: S.String,
-    ConsumerIdentifier: S.String,
+    DataShareArn: S.optional(S.String),
+    ConsumerIdentifier: S.optional(S.String),
     AllowWrites: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -343,13 +433,13 @@ export const AuthorizeDataShareMessage = S.suspend(() =>
 }) as any as S.Schema<AuthorizeDataShareMessage>;
 export interface AuthorizeEndpointAccessMessage {
   ClusterIdentifier?: string;
-  Account: string;
-  VpcIds?: VpcIdentifierList;
+  Account?: string;
+  VpcIds?: string[];
 }
 export const AuthorizeEndpointAccessMessage = S.suspend(() =>
   S.Struct({
     ClusterIdentifier: S.optional(S.String),
-    Account: S.String,
+    Account: S.optional(S.String),
     VpcIds: S.optional(VpcIdentifierList),
   }).pipe(
     T.all(
@@ -369,14 +459,14 @@ export interface AuthorizeSnapshotAccessMessage {
   SnapshotIdentifier?: string;
   SnapshotArn?: string;
   SnapshotClusterIdentifier?: string;
-  AccountWithRestoreAccess: string;
+  AccountWithRestoreAccess?: string;
 }
 export const AuthorizeSnapshotAccessMessage = S.suspend(() =>
   S.Struct({
     SnapshotIdentifier: S.optional(S.String),
     SnapshotArn: S.optional(S.String),
     SnapshotClusterIdentifier: S.optional(S.String),
-    AccountWithRestoreAccess: S.String,
+    AccountWithRestoreAccess: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -392,10 +482,10 @@ export const AuthorizeSnapshotAccessMessage = S.suspend(() =>
   identifier: "AuthorizeSnapshotAccessMessage",
 }) as any as S.Schema<AuthorizeSnapshotAccessMessage>;
 export interface BatchDeleteClusterSnapshotsRequest {
-  Identifiers: DeleteClusterSnapshotMessageList;
+  Identifiers?: DeleteClusterSnapshotMessage[];
 }
 export const BatchDeleteClusterSnapshotsRequest = S.suspend(() =>
-  S.Struct({ Identifiers: DeleteClusterSnapshotMessageList }).pipe(
+  S.Struct({ Identifiers: S.optional(DeleteClusterSnapshotMessageList) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -410,13 +500,13 @@ export const BatchDeleteClusterSnapshotsRequest = S.suspend(() =>
   identifier: "BatchDeleteClusterSnapshotsRequest",
 }) as any as S.Schema<BatchDeleteClusterSnapshotsRequest>;
 export interface BatchModifyClusterSnapshotsMessage {
-  SnapshotIdentifierList: SnapshotIdentifierList;
+  SnapshotIdentifierList?: string[];
   ManualSnapshotRetentionPeriod?: number;
   Force?: boolean;
 }
 export const BatchModifyClusterSnapshotsMessage = S.suspend(() =>
   S.Struct({
-    SnapshotIdentifierList: SnapshotIdentifierList,
+    SnapshotIdentifierList: S.optional(SnapshotIdentifierList),
     ManualSnapshotRetentionPeriod: S.optional(S.Number),
     Force: S.optional(S.Boolean),
   }).pipe(
@@ -434,10 +524,10 @@ export const BatchModifyClusterSnapshotsMessage = S.suspend(() =>
   identifier: "BatchModifyClusterSnapshotsMessage",
 }) as any as S.Schema<BatchModifyClusterSnapshotsMessage>;
 export interface CancelResizeMessage {
-  ClusterIdentifier: string;
+  ClusterIdentifier?: string;
 }
 export const CancelResizeMessage = S.suspend(() =>
-  S.Struct({ ClusterIdentifier: S.String }).pipe(
+  S.Struct({ ClusterIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -452,16 +542,16 @@ export const CancelResizeMessage = S.suspend(() =>
   identifier: "CancelResizeMessage",
 }) as any as S.Schema<CancelResizeMessage>;
 export interface CopyClusterSnapshotMessage {
-  SourceSnapshotIdentifier: string;
+  SourceSnapshotIdentifier?: string;
   SourceSnapshotClusterIdentifier?: string;
-  TargetSnapshotIdentifier: string;
+  TargetSnapshotIdentifier?: string;
   ManualSnapshotRetentionPeriod?: number;
 }
 export const CopyClusterSnapshotMessage = S.suspend(() =>
   S.Struct({
-    SourceSnapshotIdentifier: S.String,
+    SourceSnapshotIdentifier: S.optional(S.String),
     SourceSnapshotClusterIdentifier: S.optional(S.String),
-    TargetSnapshotIdentifier: S.String,
+    TargetSnapshotIdentifier: S.optional(S.String),
     ManualSnapshotRetentionPeriod: S.optional(S.Number),
   }).pipe(
     T.all(
@@ -478,13 +568,13 @@ export const CopyClusterSnapshotMessage = S.suspend(() =>
   identifier: "CopyClusterSnapshotMessage",
 }) as any as S.Schema<CopyClusterSnapshotMessage>;
 export interface CreateAuthenticationProfileMessage {
-  AuthenticationProfileName: string;
-  AuthenticationProfileContent: string;
+  AuthenticationProfileName?: string;
+  AuthenticationProfileContent?: string;
 }
 export const CreateAuthenticationProfileMessage = S.suspend(() =>
   S.Struct({
-    AuthenticationProfileName: S.String,
-    AuthenticationProfileContent: S.String,
+    AuthenticationProfileName: S.optional(S.String),
+    AuthenticationProfileContent: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -511,16 +601,16 @@ export const TagList = S.Array(
   Tag.pipe(T.XmlName("Tag")).annotations({ identifier: "Tag" }),
 );
 export interface CreateClusterParameterGroupMessage {
-  ParameterGroupName: string;
-  ParameterGroupFamily: string;
-  Description: string;
-  Tags?: TagList;
+  ParameterGroupName?: string;
+  ParameterGroupFamily?: string;
+  Description?: string;
+  Tags?: Tag[];
 }
 export const CreateClusterParameterGroupMessage = S.suspend(() =>
   S.Struct({
-    ParameterGroupName: S.String,
-    ParameterGroupFamily: S.String,
-    Description: S.String,
+    ParameterGroupName: S.optional(S.String),
+    ParameterGroupFamily: S.optional(S.String),
+    Description: S.optional(S.String),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -537,14 +627,14 @@ export const CreateClusterParameterGroupMessage = S.suspend(() =>
   identifier: "CreateClusterParameterGroupMessage",
 }) as any as S.Schema<CreateClusterParameterGroupMessage>;
 export interface CreateClusterSecurityGroupMessage {
-  ClusterSecurityGroupName: string;
-  Description: string;
-  Tags?: TagList;
+  ClusterSecurityGroupName?: string;
+  Description?: string;
+  Tags?: Tag[];
 }
 export const CreateClusterSecurityGroupMessage = S.suspend(() =>
   S.Struct({
-    ClusterSecurityGroupName: S.String,
-    Description: S.String,
+    ClusterSecurityGroupName: S.optional(S.String),
+    Description: S.optional(S.String),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -561,15 +651,15 @@ export const CreateClusterSecurityGroupMessage = S.suspend(() =>
   identifier: "CreateClusterSecurityGroupMessage",
 }) as any as S.Schema<CreateClusterSecurityGroupMessage>;
 export interface CreateClusterSnapshotMessage {
-  SnapshotIdentifier: string;
-  ClusterIdentifier: string;
+  SnapshotIdentifier?: string;
+  ClusterIdentifier?: string;
   ManualSnapshotRetentionPeriod?: number;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateClusterSnapshotMessage = S.suspend(() =>
   S.Struct({
-    SnapshotIdentifier: S.String,
-    ClusterIdentifier: S.String,
+    SnapshotIdentifier: S.optional(S.String),
+    ClusterIdentifier: S.optional(S.String),
     ManualSnapshotRetentionPeriod: S.optional(S.Number),
     Tags: S.optional(TagList),
   }).pipe(
@@ -587,16 +677,16 @@ export const CreateClusterSnapshotMessage = S.suspend(() =>
   identifier: "CreateClusterSnapshotMessage",
 }) as any as S.Schema<CreateClusterSnapshotMessage>;
 export interface CreateClusterSubnetGroupMessage {
-  ClusterSubnetGroupName: string;
-  Description: string;
-  SubnetIds: SubnetIdentifierList;
-  Tags?: TagList;
+  ClusterSubnetGroupName?: string;
+  Description?: string;
+  SubnetIds?: string[];
+  Tags?: Tag[];
 }
 export const CreateClusterSubnetGroupMessage = S.suspend(() =>
   S.Struct({
-    ClusterSubnetGroupName: S.String,
-    Description: S.String,
-    SubnetIds: SubnetIdentifierList,
+    ClusterSubnetGroupName: S.optional(S.String),
+    Description: S.optional(S.String),
+    SubnetIds: S.optional(SubnetIdentifierList),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -613,15 +703,15 @@ export const CreateClusterSubnetGroupMessage = S.suspend(() =>
   identifier: "CreateClusterSubnetGroupMessage",
 }) as any as S.Schema<CreateClusterSubnetGroupMessage>;
 export interface CreateCustomDomainAssociationMessage {
-  CustomDomainName: string;
-  CustomDomainCertificateArn: string;
-  ClusterIdentifier: string;
+  CustomDomainName?: string;
+  CustomDomainCertificateArn?: string;
+  ClusterIdentifier?: string;
 }
 export const CreateCustomDomainAssociationMessage = S.suspend(() =>
   S.Struct({
-    CustomDomainName: S.String,
-    CustomDomainCertificateArn: S.String,
-    ClusterIdentifier: S.String,
+    CustomDomainName: S.optional(S.String),
+    CustomDomainCertificateArn: S.optional(S.String),
+    ClusterIdentifier: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -639,16 +729,16 @@ export const CreateCustomDomainAssociationMessage = S.suspend(() =>
 export interface CreateEndpointAccessMessage {
   ClusterIdentifier?: string;
   ResourceOwner?: string;
-  EndpointName: string;
-  SubnetGroupName: string;
-  VpcSecurityGroupIds?: VpcSecurityGroupIdList;
+  EndpointName?: string;
+  SubnetGroupName?: string;
+  VpcSecurityGroupIds?: string[];
 }
 export const CreateEndpointAccessMessage = S.suspend(() =>
   S.Struct({
     ClusterIdentifier: S.optional(S.String),
     ResourceOwner: S.optional(S.String),
-    EndpointName: S.String,
-    SubnetGroupName: S.String,
+    EndpointName: S.optional(S.String),
+    SubnetGroupName: S.optional(S.String),
     VpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
   }).pipe(
     T.all(
@@ -665,19 +755,19 @@ export const CreateEndpointAccessMessage = S.suspend(() =>
   identifier: "CreateEndpointAccessMessage",
 }) as any as S.Schema<CreateEndpointAccessMessage>;
 export interface CreateEventSubscriptionMessage {
-  SubscriptionName: string;
-  SnsTopicArn: string;
+  SubscriptionName?: string;
+  SnsTopicArn?: string;
   SourceType?: string;
-  SourceIds?: SourceIdsList;
-  EventCategories?: EventCategoriesList;
+  SourceIds?: string[];
+  EventCategories?: string[];
   Severity?: string;
   Enabled?: boolean;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateEventSubscriptionMessage = S.suspend(() =>
   S.Struct({
-    SubscriptionName: S.String,
-    SnsTopicArn: S.String,
+    SubscriptionName: S.optional(S.String),
+    SnsTopicArn: S.optional(S.String),
     SourceType: S.optional(S.String),
     SourceIds: S.optional(SourceIdsList),
     EventCategories: S.optional(EventCategoriesList),
@@ -699,12 +789,12 @@ export const CreateEventSubscriptionMessage = S.suspend(() =>
   identifier: "CreateEventSubscriptionMessage",
 }) as any as S.Schema<CreateEventSubscriptionMessage>;
 export interface CreateHsmClientCertificateMessage {
-  HsmClientCertificateIdentifier: string;
-  Tags?: TagList;
+  HsmClientCertificateIdentifier?: string;
+  Tags?: Tag[];
 }
 export const CreateHsmClientCertificateMessage = S.suspend(() =>
   S.Struct({
-    HsmClientCertificateIdentifier: S.String,
+    HsmClientCertificateIdentifier: S.optional(S.String),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -721,22 +811,22 @@ export const CreateHsmClientCertificateMessage = S.suspend(() =>
   identifier: "CreateHsmClientCertificateMessage",
 }) as any as S.Schema<CreateHsmClientCertificateMessage>;
 export interface CreateHsmConfigurationMessage {
-  HsmConfigurationIdentifier: string;
-  Description: string;
-  HsmIpAddress: string;
-  HsmPartitionName: string;
-  HsmPartitionPassword: string;
-  HsmServerPublicCertificate: string;
-  Tags?: TagList;
+  HsmConfigurationIdentifier?: string;
+  Description?: string;
+  HsmIpAddress?: string;
+  HsmPartitionName?: string;
+  HsmPartitionPassword?: string;
+  HsmServerPublicCertificate?: string;
+  Tags?: Tag[];
 }
 export const CreateHsmConfigurationMessage = S.suspend(() =>
   S.Struct({
-    HsmConfigurationIdentifier: S.String,
-    Description: S.String,
-    HsmIpAddress: S.String,
-    HsmPartitionName: S.String,
-    HsmPartitionPassword: S.String,
-    HsmServerPublicCertificate: S.String,
+    HsmConfigurationIdentifier: S.optional(S.String),
+    Description: S.optional(S.String),
+    HsmIpAddress: S.optional(S.String),
+    HsmPartitionName: S.optional(S.String),
+    HsmPartitionPassword: S.optional(S.String),
+    HsmServerPublicCertificate: S.optional(S.String),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -753,13 +843,13 @@ export const CreateHsmConfigurationMessage = S.suspend(() =>
   identifier: "CreateHsmConfigurationMessage",
 }) as any as S.Schema<CreateHsmConfigurationMessage>;
 export interface CreateSnapshotCopyGrantMessage {
-  SnapshotCopyGrantName: string;
+  SnapshotCopyGrantName?: string;
   KmsKeyId?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const CreateSnapshotCopyGrantMessage = S.suspend(() =>
   S.Struct({
-    SnapshotCopyGrantName: S.String,
+    SnapshotCopyGrantName: S.optional(S.String),
     KmsKeyId: S.optional(S.String),
     Tags: S.optional(TagList),
   }).pipe(
@@ -777,10 +867,10 @@ export const CreateSnapshotCopyGrantMessage = S.suspend(() =>
   identifier: "CreateSnapshotCopyGrantMessage",
 }) as any as S.Schema<CreateSnapshotCopyGrantMessage>;
 export interface CreateSnapshotScheduleMessage {
-  ScheduleDefinitions?: ScheduleDefinitionList;
+  ScheduleDefinitions?: string[];
   ScheduleIdentifier?: string;
   ScheduleDescription?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   DryRun?: boolean;
   NextInvocations?: number;
 }
@@ -807,11 +897,14 @@ export const CreateSnapshotScheduleMessage = S.suspend(() =>
   identifier: "CreateSnapshotScheduleMessage",
 }) as any as S.Schema<CreateSnapshotScheduleMessage>;
 export interface CreateTagsMessage {
-  ResourceName: string;
-  Tags: TagList;
+  ResourceName?: string;
+  Tags?: Tag[];
 }
 export const CreateTagsMessage = S.suspend(() =>
-  S.Struct({ ResourceName: S.String, Tags: TagList }).pipe(
+  S.Struct({
+    ResourceName: S.optional(S.String),
+    Tags: S.optional(TagList),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -832,22 +925,22 @@ export const CreateTagsResponse = S.suspend(() =>
   identifier: "CreateTagsResponse",
 }) as any as S.Schema<CreateTagsResponse>;
 export interface CreateUsageLimitMessage {
-  ClusterIdentifier: string;
-  FeatureType: string;
-  LimitType: string;
-  Amount: number;
-  Period?: string;
-  BreachAction?: string;
-  Tags?: TagList;
+  ClusterIdentifier?: string;
+  FeatureType?: UsageLimitFeatureType;
+  LimitType?: UsageLimitLimitType;
+  Amount?: number;
+  Period?: UsageLimitPeriod;
+  BreachAction?: UsageLimitBreachAction;
+  Tags?: Tag[];
 }
 export const CreateUsageLimitMessage = S.suspend(() =>
   S.Struct({
-    ClusterIdentifier: S.String,
-    FeatureType: S.String,
-    LimitType: S.String,
-    Amount: S.Number,
-    Period: S.optional(S.String),
-    BreachAction: S.optional(S.String),
+    ClusterIdentifier: S.optional(S.String),
+    FeatureType: S.optional(UsageLimitFeatureType),
+    LimitType: S.optional(UsageLimitLimitType),
+    Amount: S.optional(S.Number),
+    Period: S.optional(UsageLimitPeriod),
+    BreachAction: S.optional(UsageLimitBreachAction),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -864,11 +957,14 @@ export const CreateUsageLimitMessage = S.suspend(() =>
   identifier: "CreateUsageLimitMessage",
 }) as any as S.Schema<CreateUsageLimitMessage>;
 export interface DeauthorizeDataShareMessage {
-  DataShareArn: string;
-  ConsumerIdentifier: string;
+  DataShareArn?: string;
+  ConsumerIdentifier?: string;
 }
 export const DeauthorizeDataShareMessage = S.suspend(() =>
-  S.Struct({ DataShareArn: S.String, ConsumerIdentifier: S.String }).pipe(
+  S.Struct({
+    DataShareArn: S.optional(S.String),
+    ConsumerIdentifier: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -883,10 +979,10 @@ export const DeauthorizeDataShareMessage = S.suspend(() =>
   identifier: "DeauthorizeDataShareMessage",
 }) as any as S.Schema<DeauthorizeDataShareMessage>;
 export interface DeleteAuthenticationProfileMessage {
-  AuthenticationProfileName: string;
+  AuthenticationProfileName?: string;
 }
 export const DeleteAuthenticationProfileMessage = S.suspend(() =>
-  S.Struct({ AuthenticationProfileName: S.String }).pipe(
+  S.Struct({ AuthenticationProfileName: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -901,14 +997,14 @@ export const DeleteAuthenticationProfileMessage = S.suspend(() =>
   identifier: "DeleteAuthenticationProfileMessage",
 }) as any as S.Schema<DeleteAuthenticationProfileMessage>;
 export interface DeleteClusterMessage {
-  ClusterIdentifier: string;
+  ClusterIdentifier?: string;
   SkipFinalClusterSnapshot?: boolean;
   FinalClusterSnapshotIdentifier?: string;
   FinalClusterSnapshotRetentionPeriod?: number;
 }
 export const DeleteClusterMessage = S.suspend(() =>
   S.Struct({
-    ClusterIdentifier: S.String,
+    ClusterIdentifier: S.optional(S.String),
     SkipFinalClusterSnapshot: S.optional(S.Boolean),
     FinalClusterSnapshotIdentifier: S.optional(S.String),
     FinalClusterSnapshotRetentionPeriod: S.optional(S.Number),
@@ -927,10 +1023,10 @@ export const DeleteClusterMessage = S.suspend(() =>
   identifier: "DeleteClusterMessage",
 }) as any as S.Schema<DeleteClusterMessage>;
 export interface DeleteClusterParameterGroupMessage {
-  ParameterGroupName: string;
+  ParameterGroupName?: string;
 }
 export const DeleteClusterParameterGroupMessage = S.suspend(() =>
-  S.Struct({ ParameterGroupName: S.String }).pipe(
+  S.Struct({ ParameterGroupName: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -951,10 +1047,10 @@ export const DeleteClusterParameterGroupResponse = S.suspend(() =>
   identifier: "DeleteClusterParameterGroupResponse",
 }) as any as S.Schema<DeleteClusterParameterGroupResponse>;
 export interface DeleteClusterSecurityGroupMessage {
-  ClusterSecurityGroupName: string;
+  ClusterSecurityGroupName?: string;
 }
 export const DeleteClusterSecurityGroupMessage = S.suspend(() =>
-  S.Struct({ ClusterSecurityGroupName: S.String }).pipe(
+  S.Struct({ ClusterSecurityGroupName: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -975,10 +1071,10 @@ export const DeleteClusterSecurityGroupResponse = S.suspend(() =>
   identifier: "DeleteClusterSecurityGroupResponse",
 }) as any as S.Schema<DeleteClusterSecurityGroupResponse>;
 export interface DeleteClusterSubnetGroupMessage {
-  ClusterSubnetGroupName: string;
+  ClusterSubnetGroupName?: string;
 }
 export const DeleteClusterSubnetGroupMessage = S.suspend(() =>
-  S.Struct({ ClusterSubnetGroupName: S.String }).pipe(
+  S.Struct({ ClusterSubnetGroupName: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -999,11 +1095,14 @@ export const DeleteClusterSubnetGroupResponse = S.suspend(() =>
   identifier: "DeleteClusterSubnetGroupResponse",
 }) as any as S.Schema<DeleteClusterSubnetGroupResponse>;
 export interface DeleteCustomDomainAssociationMessage {
-  ClusterIdentifier: string;
-  CustomDomainName: string;
+  ClusterIdentifier?: string;
+  CustomDomainName?: string;
 }
 export const DeleteCustomDomainAssociationMessage = S.suspend(() =>
-  S.Struct({ ClusterIdentifier: S.String, CustomDomainName: S.String }).pipe(
+  S.Struct({
+    ClusterIdentifier: S.optional(S.String),
+    CustomDomainName: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1024,10 +1123,10 @@ export const DeleteCustomDomainAssociationResponse = S.suspend(() =>
   identifier: "DeleteCustomDomainAssociationResponse",
 }) as any as S.Schema<DeleteCustomDomainAssociationResponse>;
 export interface DeleteEndpointAccessMessage {
-  EndpointName: string;
+  EndpointName?: string;
 }
 export const DeleteEndpointAccessMessage = S.suspend(() =>
-  S.Struct({ EndpointName: S.String }).pipe(
+  S.Struct({ EndpointName: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1042,10 +1141,10 @@ export const DeleteEndpointAccessMessage = S.suspend(() =>
   identifier: "DeleteEndpointAccessMessage",
 }) as any as S.Schema<DeleteEndpointAccessMessage>;
 export interface DeleteEventSubscriptionMessage {
-  SubscriptionName: string;
+  SubscriptionName?: string;
 }
 export const DeleteEventSubscriptionMessage = S.suspend(() =>
-  S.Struct({ SubscriptionName: S.String }).pipe(
+  S.Struct({ SubscriptionName: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1066,10 +1165,10 @@ export const DeleteEventSubscriptionResponse = S.suspend(() =>
   identifier: "DeleteEventSubscriptionResponse",
 }) as any as S.Schema<DeleteEventSubscriptionResponse>;
 export interface DeleteHsmClientCertificateMessage {
-  HsmClientCertificateIdentifier: string;
+  HsmClientCertificateIdentifier?: string;
 }
 export const DeleteHsmClientCertificateMessage = S.suspend(() =>
-  S.Struct({ HsmClientCertificateIdentifier: S.String }).pipe(
+  S.Struct({ HsmClientCertificateIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1090,10 +1189,10 @@ export const DeleteHsmClientCertificateResponse = S.suspend(() =>
   identifier: "DeleteHsmClientCertificateResponse",
 }) as any as S.Schema<DeleteHsmClientCertificateResponse>;
 export interface DeleteHsmConfigurationMessage {
-  HsmConfigurationIdentifier: string;
+  HsmConfigurationIdentifier?: string;
 }
 export const DeleteHsmConfigurationMessage = S.suspend(() =>
-  S.Struct({ HsmConfigurationIdentifier: S.String }).pipe(
+  S.Struct({ HsmConfigurationIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1114,10 +1213,10 @@ export const DeleteHsmConfigurationResponse = S.suspend(() =>
   identifier: "DeleteHsmConfigurationResponse",
 }) as any as S.Schema<DeleteHsmConfigurationResponse>;
 export interface DeleteIntegrationMessage {
-  IntegrationArn: string;
+  IntegrationArn?: string;
 }
 export const DeleteIntegrationMessage = S.suspend(() =>
-  S.Struct({ IntegrationArn: S.String }).pipe(
+  S.Struct({ IntegrationArn: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1144,10 +1243,10 @@ export const PartnerIntegrationOutputMessage = S.suspend(() =>
   identifier: "PartnerIntegrationOutputMessage",
 }) as any as S.Schema<PartnerIntegrationOutputMessage>;
 export interface DeleteRedshiftIdcApplicationMessage {
-  RedshiftIdcApplicationArn: string;
+  RedshiftIdcApplicationArn?: string;
 }
 export const DeleteRedshiftIdcApplicationMessage = S.suspend(() =>
-  S.Struct({ RedshiftIdcApplicationArn: S.String }).pipe(
+  S.Struct({ RedshiftIdcApplicationArn: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1168,10 +1267,10 @@ export const DeleteRedshiftIdcApplicationResponse = S.suspend(() =>
   identifier: "DeleteRedshiftIdcApplicationResponse",
 }) as any as S.Schema<DeleteRedshiftIdcApplicationResponse>;
 export interface DeleteResourcePolicyMessage {
-  ResourceArn: string;
+  ResourceArn?: string;
 }
 export const DeleteResourcePolicyMessage = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
+  S.Struct({ ResourceArn: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1192,10 +1291,10 @@ export const DeleteResourcePolicyResponse = S.suspend(() =>
   identifier: "DeleteResourcePolicyResponse",
 }) as any as S.Schema<DeleteResourcePolicyResponse>;
 export interface DeleteScheduledActionMessage {
-  ScheduledActionName: string;
+  ScheduledActionName?: string;
 }
 export const DeleteScheduledActionMessage = S.suspend(() =>
-  S.Struct({ ScheduledActionName: S.String }).pipe(
+  S.Struct({ ScheduledActionName: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1216,10 +1315,10 @@ export const DeleteScheduledActionResponse = S.suspend(() =>
   identifier: "DeleteScheduledActionResponse",
 }) as any as S.Schema<DeleteScheduledActionResponse>;
 export interface DeleteSnapshotCopyGrantMessage {
-  SnapshotCopyGrantName: string;
+  SnapshotCopyGrantName?: string;
 }
 export const DeleteSnapshotCopyGrantMessage = S.suspend(() =>
-  S.Struct({ SnapshotCopyGrantName: S.String }).pipe(
+  S.Struct({ SnapshotCopyGrantName: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1240,10 +1339,10 @@ export const DeleteSnapshotCopyGrantResponse = S.suspend(() =>
   identifier: "DeleteSnapshotCopyGrantResponse",
 }) as any as S.Schema<DeleteSnapshotCopyGrantResponse>;
 export interface DeleteSnapshotScheduleMessage {
-  ScheduleIdentifier: string;
+  ScheduleIdentifier?: string;
 }
 export const DeleteSnapshotScheduleMessage = S.suspend(() =>
-  S.Struct({ ScheduleIdentifier: S.String }).pipe(
+  S.Struct({ ScheduleIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1264,11 +1363,14 @@ export const DeleteSnapshotScheduleResponse = S.suspend(() =>
   identifier: "DeleteSnapshotScheduleResponse",
 }) as any as S.Schema<DeleteSnapshotScheduleResponse>;
 export interface DeleteTagsMessage {
-  ResourceName: string;
-  TagKeys: TagKeyList;
+  ResourceName?: string;
+  TagKeys?: string[];
 }
 export const DeleteTagsMessage = S.suspend(() =>
-  S.Struct({ ResourceName: S.String, TagKeys: TagKeyList }).pipe(
+  S.Struct({
+    ResourceName: S.optional(S.String),
+    TagKeys: S.optional(TagKeyList),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1289,10 +1391,10 @@ export const DeleteTagsResponse = S.suspend(() =>
   identifier: "DeleteTagsResponse",
 }) as any as S.Schema<DeleteTagsResponse>;
 export interface DeleteUsageLimitMessage {
-  UsageLimitId: string;
+  UsageLimitId?: string;
 }
 export const DeleteUsageLimitMessage = S.suspend(() =>
-  S.Struct({ UsageLimitId: S.String }).pipe(
+  S.Struct({ UsageLimitId: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1313,7 +1415,7 @@ export const DeleteUsageLimitResponse = S.suspend(() =>
   identifier: "DeleteUsageLimitResponse",
 }) as any as S.Schema<DeleteUsageLimitResponse>;
 export interface DescribeAccountAttributesMessage {
-  AttributeNames?: AttributeNameList;
+  AttributeNames?: string[];
 }
 export const DescribeAccountAttributesMessage = S.suspend(() =>
   S.Struct({ AttributeNames: S.optional(AttributeNameList) }).pipe(
@@ -1376,8 +1478,8 @@ export interface DescribeClusterParameterGroupsMessage {
   ParameterGroupName?: string;
   MaxRecords?: number;
   Marker?: string;
-  TagKeys?: TagKeyList;
-  TagValues?: TagValueList;
+  TagKeys?: string[];
+  TagValues?: string[];
 }
 export const DescribeClusterParameterGroupsMessage = S.suspend(() =>
   S.Struct({
@@ -1401,14 +1503,14 @@ export const DescribeClusterParameterGroupsMessage = S.suspend(() =>
   identifier: "DescribeClusterParameterGroupsMessage",
 }) as any as S.Schema<DescribeClusterParameterGroupsMessage>;
 export interface DescribeClusterParametersMessage {
-  ParameterGroupName: string;
+  ParameterGroupName?: string;
   Source?: string;
   MaxRecords?: number;
   Marker?: string;
 }
 export const DescribeClusterParametersMessage = S.suspend(() =>
   S.Struct({
-    ParameterGroupName: S.String,
+    ParameterGroupName: S.optional(S.String),
     Source: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
@@ -1430,8 +1532,8 @@ export interface DescribeClustersMessage {
   ClusterIdentifier?: string;
   MaxRecords?: number;
   Marker?: string;
-  TagKeys?: TagKeyList;
-  TagValues?: TagValueList;
+  TagKeys?: string[];
+  TagValues?: string[];
 }
 export const DescribeClustersMessage = S.suspend(() =>
   S.Struct({
@@ -1458,8 +1560,8 @@ export interface DescribeClusterSecurityGroupsMessage {
   ClusterSecurityGroupName?: string;
   MaxRecords?: number;
   Marker?: string;
-  TagKeys?: TagKeyList;
-  TagValues?: TagValueList;
+  TagKeys?: string[];
+  TagValues?: string[];
 }
 export const DescribeClusterSecurityGroupsMessage = S.suspend(() =>
   S.Struct({
@@ -1486,8 +1588,8 @@ export interface DescribeClusterSubnetGroupsMessage {
   ClusterSubnetGroupName?: string;
   MaxRecords?: number;
   Marker?: string;
-  TagKeys?: TagKeyList;
-  TagValues?: TagValueList;
+  TagKeys?: string[];
+  TagValues?: string[];
 }
 export const DescribeClusterSubnetGroupsMessage = S.suspend(() =>
   S.Struct({
@@ -1612,14 +1714,14 @@ export const DescribeDataSharesMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeDataSharesMessage>;
 export interface DescribeDataSharesForConsumerMessage {
   ConsumerArn?: string;
-  Status?: string;
+  Status?: DataShareStatusForConsumer;
   MaxRecords?: number;
   Marker?: string;
 }
 export const DescribeDataSharesForConsumerMessage = S.suspend(() =>
   S.Struct({
     ConsumerArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(DataShareStatusForConsumer),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
   }).pipe(
@@ -1638,14 +1740,14 @@ export const DescribeDataSharesForConsumerMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeDataSharesForConsumerMessage>;
 export interface DescribeDataSharesForProducerMessage {
   ProducerArn?: string;
-  Status?: string;
+  Status?: DataShareStatusForProducer;
   MaxRecords?: number;
   Marker?: string;
 }
 export const DescribeDataSharesForProducerMessage = S.suspend(() =>
   S.Struct({
     ProducerArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(DataShareStatusForProducer),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
   }).pipe(
@@ -1663,13 +1765,13 @@ export const DescribeDataSharesForProducerMessage = S.suspend(() =>
   identifier: "DescribeDataSharesForProducerMessage",
 }) as any as S.Schema<DescribeDataSharesForProducerMessage>;
 export interface DescribeDefaultClusterParametersMessage {
-  ParameterGroupFamily: string;
+  ParameterGroupFamily?: string;
   MaxRecords?: number;
   Marker?: string;
 }
 export const DescribeDefaultClusterParametersMessage = S.suspend(() =>
   S.Struct({
-    ParameterGroupFamily: S.String,
+    ParameterGroupFamily: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
   }).pipe(
@@ -1764,7 +1866,7 @@ export const DescribeEventCategoriesMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeEventCategoriesMessage>;
 export interface DescribeEventsMessage {
   SourceIdentifier?: string;
-  SourceType?: string;
+  SourceType?: SourceType;
   StartTime?: Date;
   EndTime?: Date;
   Duration?: number;
@@ -1774,7 +1876,7 @@ export interface DescribeEventsMessage {
 export const DescribeEventsMessage = S.suspend(() =>
   S.Struct({
     SourceIdentifier: S.optional(S.String),
-    SourceType: S.optional(S.String),
+    SourceType: S.optional(SourceType),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     Duration: S.optional(S.Number),
@@ -1798,8 +1900,8 @@ export interface DescribeEventSubscriptionsMessage {
   SubscriptionName?: string;
   MaxRecords?: number;
   Marker?: string;
-  TagKeys?: TagKeyList;
-  TagValues?: TagValueList;
+  TagKeys?: string[];
+  TagValues?: string[];
 }
 export const DescribeEventSubscriptionsMessage = S.suspend(() =>
   S.Struct({
@@ -1826,8 +1928,8 @@ export interface DescribeHsmClientCertificatesMessage {
   HsmClientCertificateIdentifier?: string;
   MaxRecords?: number;
   Marker?: string;
-  TagKeys?: TagKeyList;
-  TagValues?: TagValueList;
+  TagKeys?: string[];
+  TagValues?: string[];
 }
 export const DescribeHsmClientCertificatesMessage = S.suspend(() =>
   S.Struct({
@@ -1854,8 +1956,8 @@ export interface DescribeHsmConfigurationsMessage {
   HsmConfigurationIdentifier?: string;
   MaxRecords?: number;
   Marker?: string;
-  TagKeys?: TagKeyList;
-  TagValues?: TagValueList;
+  TagKeys?: string[];
+  TagValues?: string[];
 }
 export const DescribeHsmConfigurationsMessage = S.suspend(() =>
   S.Struct({
@@ -1905,10 +2007,10 @@ export const DescribeInboundIntegrationsMessage = S.suspend(() =>
   identifier: "DescribeInboundIntegrationsMessage",
 }) as any as S.Schema<DescribeInboundIntegrationsMessage>;
 export interface DescribeLoggingStatusMessage {
-  ClusterIdentifier: string;
+  ClusterIdentifier?: string;
 }
 export const DescribeLoggingStatusMessage = S.suspend(() =>
-  S.Struct({ ClusterIdentifier: S.String }).pipe(
+  S.Struct({ ClusterIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1949,15 +2051,15 @@ export const DescribeOrderableClusterOptionsMessage = S.suspend(() =>
   identifier: "DescribeOrderableClusterOptionsMessage",
 }) as any as S.Schema<DescribeOrderableClusterOptionsMessage>;
 export interface DescribePartnersInputMessage {
-  AccountId: string;
-  ClusterIdentifier: string;
+  AccountId?: string;
+  ClusterIdentifier?: string;
   DatabaseName?: string;
   PartnerName?: string;
 }
 export const DescribePartnersInputMessage = S.suspend(() =>
   S.Struct({
-    AccountId: S.String,
-    ClusterIdentifier: S.String,
+    AccountId: S.optional(S.String),
+    ClusterIdentifier: S.optional(S.String),
     DatabaseName: S.optional(S.String),
     PartnerName: S.optional(S.String),
   }).pipe(
@@ -2073,10 +2175,10 @@ export const DescribeReservedNodesMessage = S.suspend(() =>
   identifier: "DescribeReservedNodesMessage",
 }) as any as S.Schema<DescribeReservedNodesMessage>;
 export interface DescribeResizeMessage {
-  ClusterIdentifier: string;
+  ClusterIdentifier?: string;
 }
 export const DescribeResizeMessage = S.suspend(() =>
-  S.Struct({ ClusterIdentifier: S.String }).pipe(
+  S.Struct({ ClusterIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2094,8 +2196,8 @@ export interface DescribeSnapshotCopyGrantsMessage {
   SnapshotCopyGrantName?: string;
   MaxRecords?: number;
   Marker?: string;
-  TagKeys?: TagKeyList;
-  TagValues?: TagValueList;
+  TagKeys?: string[];
+  TagValues?: string[];
 }
 export const DescribeSnapshotCopyGrantsMessage = S.suspend(() =>
   S.Struct({
@@ -2121,8 +2223,8 @@ export const DescribeSnapshotCopyGrantsMessage = S.suspend(() =>
 export interface DescribeSnapshotSchedulesMessage {
   ClusterIdentifier?: string;
   ScheduleIdentifier?: string;
-  TagKeys?: TagKeyList;
-  TagValues?: TagValueList;
+  TagKeys?: string[];
+  TagValues?: string[];
   Marker?: string;
   MaxRecords?: number;
 }
@@ -2191,8 +2293,8 @@ export interface DescribeTagsMessage {
   ResourceType?: string;
   MaxRecords?: number;
   Marker?: string;
-  TagKeys?: TagKeyList;
-  TagValues?: TagValueList;
+  TagKeys?: string[];
+  TagValues?: string[];
 }
 export const DescribeTagsMessage = S.suspend(() =>
   S.Struct({
@@ -2219,17 +2321,17 @@ export const DescribeTagsMessage = S.suspend(() =>
 export interface DescribeUsageLimitsMessage {
   UsageLimitId?: string;
   ClusterIdentifier?: string;
-  FeatureType?: string;
+  FeatureType?: UsageLimitFeatureType;
   MaxRecords?: number;
   Marker?: string;
-  TagKeys?: TagKeyList;
-  TagValues?: TagValueList;
+  TagKeys?: string[];
+  TagValues?: string[];
 }
 export const DescribeUsageLimitsMessage = S.suspend(() =>
   S.Struct({
     UsageLimitId: S.optional(S.String),
     ClusterIdentifier: S.optional(S.String),
-    FeatureType: S.optional(S.String),
+    FeatureType: S.optional(UsageLimitFeatureType),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
     TagKeys: S.optional(TagKeyList),
@@ -2249,10 +2351,10 @@ export const DescribeUsageLimitsMessage = S.suspend(() =>
   identifier: "DescribeUsageLimitsMessage",
 }) as any as S.Schema<DescribeUsageLimitsMessage>;
 export interface DisableLoggingMessage {
-  ClusterIdentifier: string;
+  ClusterIdentifier?: string;
 }
 export const DisableLoggingMessage = S.suspend(() =>
-  S.Struct({ ClusterIdentifier: S.String }).pipe(
+  S.Struct({ ClusterIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2267,10 +2369,10 @@ export const DisableLoggingMessage = S.suspend(() =>
   identifier: "DisableLoggingMessage",
 }) as any as S.Schema<DisableLoggingMessage>;
 export interface DisableSnapshotCopyMessage {
-  ClusterIdentifier: string;
+  ClusterIdentifier?: string;
 }
 export const DisableSnapshotCopyMessage = S.suspend(() =>
-  S.Struct({ ClusterIdentifier: S.String }).pipe(
+  S.Struct({ ClusterIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2285,14 +2387,14 @@ export const DisableSnapshotCopyMessage = S.suspend(() =>
   identifier: "DisableSnapshotCopyMessage",
 }) as any as S.Schema<DisableSnapshotCopyMessage>;
 export interface DisassociateDataShareConsumerMessage {
-  DataShareArn: string;
+  DataShareArn?: string;
   DisassociateEntireAccount?: boolean;
   ConsumerArn?: string;
   ConsumerRegion?: string;
 }
 export const DisassociateDataShareConsumerMessage = S.suspend(() =>
   S.Struct({
-    DataShareArn: S.String,
+    DataShareArn: S.optional(S.String),
     DisassociateEntireAccount: S.optional(S.Boolean),
     ConsumerArn: S.optional(S.String),
     ConsumerRegion: S.optional(S.String),
@@ -2311,18 +2413,18 @@ export const DisassociateDataShareConsumerMessage = S.suspend(() =>
   identifier: "DisassociateDataShareConsumerMessage",
 }) as any as S.Schema<DisassociateDataShareConsumerMessage>;
 export interface EnableLoggingMessage {
-  ClusterIdentifier: string;
+  ClusterIdentifier?: string;
   BucketName?: string;
   S3KeyPrefix?: string;
-  LogDestinationType?: string;
-  LogExports?: LogTypeList;
+  LogDestinationType?: LogDestinationType;
+  LogExports?: string[];
 }
 export const EnableLoggingMessage = S.suspend(() =>
   S.Struct({
-    ClusterIdentifier: S.String,
+    ClusterIdentifier: S.optional(S.String),
     BucketName: S.optional(S.String),
     S3KeyPrefix: S.optional(S.String),
-    LogDestinationType: S.optional(S.String),
+    LogDestinationType: S.optional(LogDestinationType),
     LogExports: S.optional(LogTypeList),
   }).pipe(
     T.all(
@@ -2339,16 +2441,16 @@ export const EnableLoggingMessage = S.suspend(() =>
   identifier: "EnableLoggingMessage",
 }) as any as S.Schema<EnableLoggingMessage>;
 export interface EnableSnapshotCopyMessage {
-  ClusterIdentifier: string;
-  DestinationRegion: string;
+  ClusterIdentifier?: string;
+  DestinationRegion?: string;
   RetentionPeriod?: number;
   SnapshotCopyGrantName?: string;
   ManualSnapshotRetentionPeriod?: number;
 }
 export const EnableSnapshotCopyMessage = S.suspend(() =>
   S.Struct({
-    ClusterIdentifier: S.String,
-    DestinationRegion: S.String,
+    ClusterIdentifier: S.optional(S.String),
+    DestinationRegion: S.optional(S.String),
     RetentionPeriod: S.optional(S.Number),
     SnapshotCopyGrantName: S.optional(S.String),
     ManualSnapshotRetentionPeriod: S.optional(S.Number),
@@ -2367,10 +2469,10 @@ export const EnableSnapshotCopyMessage = S.suspend(() =>
   identifier: "EnableSnapshotCopyMessage",
 }) as any as S.Schema<EnableSnapshotCopyMessage>;
 export interface FailoverPrimaryComputeInputMessage {
-  ClusterIdentifier: string;
+  ClusterIdentifier?: string;
 }
 export const FailoverPrimaryComputeInputMessage = S.suspend(() =>
-  S.Struct({ ClusterIdentifier: S.String }).pipe(
+  S.Struct({ ClusterIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2385,17 +2487,17 @@ export const FailoverPrimaryComputeInputMessage = S.suspend(() =>
   identifier: "FailoverPrimaryComputeInputMessage",
 }) as any as S.Schema<FailoverPrimaryComputeInputMessage>;
 export interface GetClusterCredentialsMessage {
-  DbUser: string;
+  DbUser?: string;
   DbName?: string;
   ClusterIdentifier?: string;
   DurationSeconds?: number;
   AutoCreate?: boolean;
-  DbGroups?: DbGroupList;
+  DbGroups?: string[];
   CustomDomainName?: string;
 }
 export const GetClusterCredentialsMessage = S.suspend(() =>
   S.Struct({
-    DbUser: S.String,
+    DbUser: S.optional(S.String),
     DbName: S.optional(S.String),
     ClusterIdentifier: S.optional(S.String),
     DurationSeconds: S.optional(S.Number),
@@ -2443,10 +2545,10 @@ export const GetClusterCredentialsWithIAMMessage = S.suspend(() =>
   identifier: "GetClusterCredentialsWithIAMMessage",
 }) as any as S.Schema<GetClusterCredentialsWithIAMMessage>;
 export interface GetIdentityCenterAuthTokenRequest {
-  ClusterIds: ClusterIdentifierList;
+  ClusterIds?: string[];
 }
 export const GetIdentityCenterAuthTokenRequest = S.suspend(() =>
-  S.Struct({ ClusterIds: ClusterIdentifierList }).pipe(
+  S.Struct({ ClusterIds: S.optional(ClusterIdentifierList) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2461,7 +2563,7 @@ export const GetIdentityCenterAuthTokenRequest = S.suspend(() =>
   identifier: "GetIdentityCenterAuthTokenRequest",
 }) as any as S.Schema<GetIdentityCenterAuthTokenRequest>;
 export interface GetReservedNodeExchangeConfigurationOptionsInputMessage {
-  ActionType: string;
+  ActionType?: ReservedNodeExchangeActionType;
   ClusterIdentifier?: string;
   SnapshotIdentifier?: string;
   MaxRecords?: number;
@@ -2470,7 +2572,7 @@ export interface GetReservedNodeExchangeConfigurationOptionsInputMessage {
 export const GetReservedNodeExchangeConfigurationOptionsInputMessage =
   S.suspend(() =>
     S.Struct({
-      ActionType: S.String,
+      ActionType: S.optional(ReservedNodeExchangeActionType),
       ClusterIdentifier: S.optional(S.String),
       SnapshotIdentifier: S.optional(S.String),
       MaxRecords: S.optional(S.Number),
@@ -2490,13 +2592,13 @@ export const GetReservedNodeExchangeConfigurationOptionsInputMessage =
     identifier: "GetReservedNodeExchangeConfigurationOptionsInputMessage",
   }) as any as S.Schema<GetReservedNodeExchangeConfigurationOptionsInputMessage>;
 export interface GetReservedNodeExchangeOfferingsInputMessage {
-  ReservedNodeId: string;
+  ReservedNodeId?: string;
   MaxRecords?: number;
   Marker?: string;
 }
 export const GetReservedNodeExchangeOfferingsInputMessage = S.suspend(() =>
   S.Struct({
-    ReservedNodeId: S.String,
+    ReservedNodeId: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
   }).pipe(
@@ -2514,10 +2616,10 @@ export const GetReservedNodeExchangeOfferingsInputMessage = S.suspend(() =>
   identifier: "GetReservedNodeExchangeOfferingsInputMessage",
 }) as any as S.Schema<GetReservedNodeExchangeOfferingsInputMessage>;
 export interface GetResourcePolicyMessage {
-  ResourceArn: string;
+  ResourceArn?: string;
 }
 export const GetResourcePolicyMessage = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
+  S.Struct({ ResourceArn: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2558,13 +2660,13 @@ export const ListRecommendationsMessage = S.suspend(() =>
   identifier: "ListRecommendationsMessage",
 }) as any as S.Schema<ListRecommendationsMessage>;
 export interface ModifyAquaInputMessage {
-  ClusterIdentifier: string;
-  AquaConfigurationStatus?: string;
+  ClusterIdentifier?: string;
+  AquaConfigurationStatus?: AquaConfigurationStatus;
 }
 export const ModifyAquaInputMessage = S.suspend(() =>
   S.Struct({
-    ClusterIdentifier: S.String,
-    AquaConfigurationStatus: S.optional(S.String),
+    ClusterIdentifier: S.optional(S.String),
+    AquaConfigurationStatus: S.optional(AquaConfigurationStatus),
   }).pipe(
     T.all(
       ns,
@@ -2580,13 +2682,13 @@ export const ModifyAquaInputMessage = S.suspend(() =>
   identifier: "ModifyAquaInputMessage",
 }) as any as S.Schema<ModifyAquaInputMessage>;
 export interface ModifyAuthenticationProfileMessage {
-  AuthenticationProfileName: string;
-  AuthenticationProfileContent: string;
+  AuthenticationProfileName?: string;
+  AuthenticationProfileContent?: string;
 }
 export const ModifyAuthenticationProfileMessage = S.suspend(() =>
   S.Struct({
-    AuthenticationProfileName: S.String,
-    AuthenticationProfileContent: S.String,
+    AuthenticationProfileName: S.optional(S.String),
+    AuthenticationProfileContent: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -2602,13 +2704,13 @@ export const ModifyAuthenticationProfileMessage = S.suspend(() =>
   identifier: "ModifyAuthenticationProfileMessage",
 }) as any as S.Schema<ModifyAuthenticationProfileMessage>;
 export interface ModifyClusterMessage {
-  ClusterIdentifier: string;
+  ClusterIdentifier?: string;
   ClusterType?: string;
   NodeType?: string;
   NumberOfNodes?: number;
-  ClusterSecurityGroups?: ClusterSecurityGroupNameList;
-  VpcSecurityGroupIds?: VpcSecurityGroupIdList;
-  MasterUserPassword?: string | Redacted.Redacted<string>;
+  ClusterSecurityGroups?: string[];
+  VpcSecurityGroupIds?: string[];
+  MasterUserPassword?: string | redacted.Redacted<string>;
   ClusterParameterGroupName?: string;
   AutomatedSnapshotRetentionPeriod?: number;
   ManualSnapshotRetentionPeriod?: number;
@@ -2634,7 +2736,7 @@ export interface ModifyClusterMessage {
 }
 export const ModifyClusterMessage = S.suspend(() =>
   S.Struct({
-    ClusterIdentifier: S.String,
+    ClusterIdentifier: S.optional(S.String),
     ClusterType: S.optional(S.String),
     NodeType: S.optional(S.String),
     NumberOfNodes: S.optional(S.Number),
@@ -2678,11 +2780,14 @@ export const ModifyClusterMessage = S.suspend(() =>
   identifier: "ModifyClusterMessage",
 }) as any as S.Schema<ModifyClusterMessage>;
 export interface ModifyClusterDbRevisionMessage {
-  ClusterIdentifier: string;
-  RevisionTarget: string;
+  ClusterIdentifier?: string;
+  RevisionTarget?: string;
 }
 export const ModifyClusterDbRevisionMessage = S.suspend(() =>
-  S.Struct({ ClusterIdentifier: S.String, RevisionTarget: S.String }).pipe(
+  S.Struct({
+    ClusterIdentifier: S.optional(S.String),
+    RevisionTarget: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2697,14 +2802,14 @@ export const ModifyClusterDbRevisionMessage = S.suspend(() =>
   identifier: "ModifyClusterDbRevisionMessage",
 }) as any as S.Schema<ModifyClusterDbRevisionMessage>;
 export interface ModifyClusterIamRolesMessage {
-  ClusterIdentifier: string;
-  AddIamRoles?: IamRoleArnList;
-  RemoveIamRoles?: IamRoleArnList;
+  ClusterIdentifier?: string;
+  AddIamRoles?: string[];
+  RemoveIamRoles?: string[];
   DefaultIamRoleArn?: string;
 }
 export const ModifyClusterIamRolesMessage = S.suspend(() =>
   S.Struct({
-    ClusterIdentifier: S.String,
+    ClusterIdentifier: S.optional(S.String),
     AddIamRoles: S.optional(IamRoleArnList),
     RemoveIamRoles: S.optional(IamRoleArnList),
     DefaultIamRoleArn: S.optional(S.String),
@@ -2723,7 +2828,7 @@ export const ModifyClusterIamRolesMessage = S.suspend(() =>
   identifier: "ModifyClusterIamRolesMessage",
 }) as any as S.Schema<ModifyClusterIamRolesMessage>;
 export interface ModifyClusterMaintenanceMessage {
-  ClusterIdentifier: string;
+  ClusterIdentifier?: string;
   DeferMaintenance?: boolean;
   DeferMaintenanceIdentifier?: string;
   DeferMaintenanceStartTime?: Date;
@@ -2732,7 +2837,7 @@ export interface ModifyClusterMaintenanceMessage {
 }
 export const ModifyClusterMaintenanceMessage = S.suspend(() =>
   S.Struct({
-    ClusterIdentifier: S.String,
+    ClusterIdentifier: S.optional(S.String),
     DeferMaintenance: S.optional(S.Boolean),
     DeferMaintenanceIdentifier: S.optional(S.String),
     DeferMaintenanceStartTime: S.optional(
@@ -2757,13 +2862,13 @@ export const ModifyClusterMaintenanceMessage = S.suspend(() =>
   identifier: "ModifyClusterMaintenanceMessage",
 }) as any as S.Schema<ModifyClusterMaintenanceMessage>;
 export interface ModifyClusterSnapshotMessage {
-  SnapshotIdentifier: string;
+  SnapshotIdentifier?: string;
   ManualSnapshotRetentionPeriod?: number;
   Force?: boolean;
 }
 export const ModifyClusterSnapshotMessage = S.suspend(() =>
   S.Struct({
-    SnapshotIdentifier: S.String,
+    SnapshotIdentifier: S.optional(S.String),
     ManualSnapshotRetentionPeriod: S.optional(S.Number),
     Force: S.optional(S.Boolean),
   }).pipe(
@@ -2781,13 +2886,13 @@ export const ModifyClusterSnapshotMessage = S.suspend(() =>
   identifier: "ModifyClusterSnapshotMessage",
 }) as any as S.Schema<ModifyClusterSnapshotMessage>;
 export interface ModifyClusterSnapshotScheduleMessage {
-  ClusterIdentifier: string;
+  ClusterIdentifier?: string;
   ScheduleIdentifier?: string;
   DisassociateSchedule?: boolean;
 }
 export const ModifyClusterSnapshotScheduleMessage = S.suspend(() =>
   S.Struct({
-    ClusterIdentifier: S.String,
+    ClusterIdentifier: S.optional(S.String),
     ScheduleIdentifier: S.optional(S.String),
     DisassociateSchedule: S.optional(S.Boolean),
   }).pipe(
@@ -2811,15 +2916,15 @@ export const ModifyClusterSnapshotScheduleResponse = S.suspend(() =>
   identifier: "ModifyClusterSnapshotScheduleResponse",
 }) as any as S.Schema<ModifyClusterSnapshotScheduleResponse>;
 export interface ModifyClusterSubnetGroupMessage {
-  ClusterSubnetGroupName: string;
+  ClusterSubnetGroupName?: string;
   Description?: string;
-  SubnetIds: SubnetIdentifierList;
+  SubnetIds?: string[];
 }
 export const ModifyClusterSubnetGroupMessage = S.suspend(() =>
   S.Struct({
-    ClusterSubnetGroupName: S.String,
+    ClusterSubnetGroupName: S.optional(S.String),
     Description: S.optional(S.String),
-    SubnetIds: SubnetIdentifierList,
+    SubnetIds: S.optional(SubnetIdentifierList),
   }).pipe(
     T.all(
       ns,
@@ -2835,15 +2940,15 @@ export const ModifyClusterSubnetGroupMessage = S.suspend(() =>
   identifier: "ModifyClusterSubnetGroupMessage",
 }) as any as S.Schema<ModifyClusterSubnetGroupMessage>;
 export interface ModifyCustomDomainAssociationMessage {
-  CustomDomainName: string;
-  CustomDomainCertificateArn: string;
-  ClusterIdentifier: string;
+  CustomDomainName?: string;
+  CustomDomainCertificateArn?: string;
+  ClusterIdentifier?: string;
 }
 export const ModifyCustomDomainAssociationMessage = S.suspend(() =>
   S.Struct({
-    CustomDomainName: S.String,
-    CustomDomainCertificateArn: S.String,
-    ClusterIdentifier: S.String,
+    CustomDomainName: S.optional(S.String),
+    CustomDomainCertificateArn: S.optional(S.String),
+    ClusterIdentifier: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -2859,12 +2964,12 @@ export const ModifyCustomDomainAssociationMessage = S.suspend(() =>
   identifier: "ModifyCustomDomainAssociationMessage",
 }) as any as S.Schema<ModifyCustomDomainAssociationMessage>;
 export interface ModifyEndpointAccessMessage {
-  EndpointName: string;
-  VpcSecurityGroupIds?: VpcSecurityGroupIdList;
+  EndpointName?: string;
+  VpcSecurityGroupIds?: string[];
 }
 export const ModifyEndpointAccessMessage = S.suspend(() =>
   S.Struct({
-    EndpointName: S.String,
+    EndpointName: S.optional(S.String),
     VpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
   }).pipe(
     T.all(
@@ -2881,17 +2986,17 @@ export const ModifyEndpointAccessMessage = S.suspend(() =>
   identifier: "ModifyEndpointAccessMessage",
 }) as any as S.Schema<ModifyEndpointAccessMessage>;
 export interface ModifyEventSubscriptionMessage {
-  SubscriptionName: string;
+  SubscriptionName?: string;
   SnsTopicArn?: string;
   SourceType?: string;
-  SourceIds?: SourceIdsList;
-  EventCategories?: EventCategoriesList;
+  SourceIds?: string[];
+  EventCategories?: string[];
   Severity?: string;
   Enabled?: boolean;
 }
 export const ModifyEventSubscriptionMessage = S.suspend(() =>
   S.Struct({
-    SubscriptionName: S.String,
+    SubscriptionName: S.optional(S.String),
     SnsTopicArn: S.optional(S.String),
     SourceType: S.optional(S.String),
     SourceIds: S.optional(SourceIdsList),
@@ -2913,13 +3018,13 @@ export const ModifyEventSubscriptionMessage = S.suspend(() =>
   identifier: "ModifyEventSubscriptionMessage",
 }) as any as S.Schema<ModifyEventSubscriptionMessage>;
 export interface ModifyIntegrationMessage {
-  IntegrationArn: string;
+  IntegrationArn?: string;
   Description?: string;
   IntegrationName?: string;
 }
 export const ModifyIntegrationMessage = S.suspend(() =>
   S.Struct({
-    IntegrationArn: S.String,
+    IntegrationArn: S.optional(S.String),
     Description: S.optional(S.String),
     IntegrationName: S.optional(S.String),
   }).pipe(
@@ -2937,19 +3042,19 @@ export const ModifyIntegrationMessage = S.suspend(() =>
   identifier: "ModifyIntegrationMessage",
 }) as any as S.Schema<ModifyIntegrationMessage>;
 export interface ModifyLakehouseConfigurationMessage {
-  ClusterIdentifier: string;
-  LakehouseRegistration?: string;
+  ClusterIdentifier?: string;
+  LakehouseRegistration?: LakehouseRegistration;
   CatalogName?: string;
-  LakehouseIdcRegistration?: string;
+  LakehouseIdcRegistration?: LakehouseIdcRegistration;
   LakehouseIdcApplicationArn?: string;
   DryRun?: boolean;
 }
 export const ModifyLakehouseConfigurationMessage = S.suspend(() =>
   S.Struct({
-    ClusterIdentifier: S.String,
-    LakehouseRegistration: S.optional(S.String),
+    ClusterIdentifier: S.optional(S.String),
+    LakehouseRegistration: S.optional(LakehouseRegistration),
     CatalogName: S.optional(S.String),
-    LakehouseIdcRegistration: S.optional(S.String),
+    LakehouseIdcRegistration: S.optional(LakehouseIdcRegistration),
     LakehouseIdcApplicationArn: S.optional(S.String),
     DryRun: S.optional(S.Boolean),
   }).pipe(
@@ -2970,7 +3075,7 @@ export type AuthorizedAudienceList = string[];
 export const AuthorizedAudienceList = S.Array(S.String);
 export interface AuthorizedTokenIssuer {
   TrustedTokenIssuerArn?: string;
-  AuthorizedAudiencesList?: AuthorizedAudienceList;
+  AuthorizedAudiencesList?: string[];
 }
 export const AuthorizedTokenIssuer = S.suspend(() =>
   S.Struct({
@@ -2982,11 +3087,13 @@ export const AuthorizedTokenIssuer = S.suspend(() =>
 }) as any as S.Schema<AuthorizedTokenIssuer>;
 export type AuthorizedTokenIssuerList = AuthorizedTokenIssuer[];
 export const AuthorizedTokenIssuerList = S.Array(AuthorizedTokenIssuer);
+export type ServiceAuthorization = "Enabled" | "Disabled";
+export const ServiceAuthorization = S.Literal("Enabled", "Disabled");
 export interface LakeFormationQuery {
-  Authorization: string;
+  Authorization?: ServiceAuthorization;
 }
 export const LakeFormationQuery = S.suspend(() =>
-  S.Struct({ Authorization: S.String }),
+  S.Struct({ Authorization: S.optional(ServiceAuthorization) }),
 ).annotations({
   identifier: "LakeFormationQuery",
 }) as any as S.Schema<LakeFormationQuery>;
@@ -2996,16 +3103,15 @@ export type LakeFormationScopeUnion = {
 export const LakeFormationScopeUnion = S.Union(
   S.Struct({ LakeFormationQuery: LakeFormationQuery }),
 );
-export type LakeFormationServiceIntegrations =
-  (typeof LakeFormationScopeUnion)["Type"][];
+export type LakeFormationServiceIntegrations = LakeFormationScopeUnion[];
 export const LakeFormationServiceIntegrations = S.Array(
   LakeFormationScopeUnion,
 );
 export interface ReadWriteAccess {
-  Authorization: string;
+  Authorization?: ServiceAuthorization;
 }
 export const ReadWriteAccess = S.suspend(() =>
-  S.Struct({ Authorization: S.String }),
+  S.Struct({ Authorization: S.optional(ServiceAuthorization) }),
 ).annotations({
   identifier: "ReadWriteAccess",
 }) as any as S.Schema<ReadWriteAccess>;
@@ -3013,44 +3119,42 @@ export type S3AccessGrantsScopeUnion = { ReadWriteAccess: ReadWriteAccess };
 export const S3AccessGrantsScopeUnion = S.Union(
   S.Struct({ ReadWriteAccess: ReadWriteAccess }),
 );
-export type S3AccessGrantsServiceIntegrations =
-  (typeof S3AccessGrantsScopeUnion)["Type"][];
+export type S3AccessGrantsServiceIntegrations = S3AccessGrantsScopeUnion[];
 export const S3AccessGrantsServiceIntegrations = S.Array(
   S3AccessGrantsScopeUnion,
 );
 export interface Connect {
-  Authorization: string;
+  Authorization?: ServiceAuthorization;
 }
 export const Connect = S.suspend(() =>
-  S.Struct({ Authorization: S.String }),
+  S.Struct({ Authorization: S.optional(ServiceAuthorization) }),
 ).annotations({ identifier: "Connect" }) as any as S.Schema<Connect>;
 export type RedshiftScopeUnion = { Connect: Connect };
 export const RedshiftScopeUnion = S.Union(S.Struct({ Connect: Connect }));
-export type RedshiftServiceIntegrations = (typeof RedshiftScopeUnion)["Type"][];
+export type RedshiftServiceIntegrations = RedshiftScopeUnion[];
 export const RedshiftServiceIntegrations = S.Array(RedshiftScopeUnion);
 export type ServiceIntegrationsUnion =
-  | { LakeFormation: LakeFormationServiceIntegrations }
-  | { S3AccessGrants: S3AccessGrantsServiceIntegrations }
-  | { Redshift: RedshiftServiceIntegrations };
+  | { LakeFormation: LakeFormationScopeUnion[] }
+  | { S3AccessGrants: S3AccessGrantsScopeUnion[] }
+  | { Redshift: RedshiftScopeUnion[] };
 export const ServiceIntegrationsUnion = S.Union(
   S.Struct({ LakeFormation: LakeFormationServiceIntegrations }),
   S.Struct({ S3AccessGrants: S3AccessGrantsServiceIntegrations }),
   S.Struct({ Redshift: RedshiftServiceIntegrations }),
 );
-export type ServiceIntegrationList =
-  (typeof ServiceIntegrationsUnion)["Type"][];
+export type ServiceIntegrationList = ServiceIntegrationsUnion[];
 export const ServiceIntegrationList = S.Array(ServiceIntegrationsUnion);
 export interface ModifyRedshiftIdcApplicationMessage {
-  RedshiftIdcApplicationArn: string;
+  RedshiftIdcApplicationArn?: string;
   IdentityNamespace?: string;
   IamRoleArn?: string;
   IdcDisplayName?: string;
-  AuthorizedTokenIssuerList?: AuthorizedTokenIssuerList;
-  ServiceIntegrations?: ServiceIntegrationList;
+  AuthorizedTokenIssuerList?: AuthorizedTokenIssuer[];
+  ServiceIntegrations?: ServiceIntegrationsUnion[];
 }
 export const ModifyRedshiftIdcApplicationMessage = S.suspend(() =>
   S.Struct({
-    RedshiftIdcApplicationArn: S.String,
+    RedshiftIdcApplicationArn: S.optional(S.String),
     IdentityNamespace: S.optional(S.String),
     IamRoleArn: S.optional(S.String),
     IdcDisplayName: S.optional(S.String),
@@ -3071,7 +3175,7 @@ export const ModifyRedshiftIdcApplicationMessage = S.suspend(() =>
   identifier: "ModifyRedshiftIdcApplicationMessage",
 }) as any as S.Schema<ModifyRedshiftIdcApplicationMessage>;
 export interface ResizeClusterMessage {
-  ClusterIdentifier: string;
+  ClusterIdentifier?: string;
   ClusterType?: string;
   NodeType?: string;
   NumberOfNodes?: number;
@@ -3081,7 +3185,7 @@ export interface ResizeClusterMessage {
 }
 export const ResizeClusterMessage = S.suspend(() =>
   S.Struct({
-    ClusterIdentifier: S.String,
+    ClusterIdentifier: S.optional(S.String),
     ClusterType: S.optional(S.String),
     NodeType: S.optional(S.String),
     NumberOfNodes: S.optional(S.Number),
@@ -3103,10 +3207,10 @@ export const ResizeClusterMessage = S.suspend(() =>
   identifier: "ResizeClusterMessage",
 }) as any as S.Schema<ResizeClusterMessage>;
 export interface PauseClusterMessage {
-  ClusterIdentifier: string;
+  ClusterIdentifier?: string;
 }
 export const PauseClusterMessage = S.suspend(() =>
-  S.Struct({ ClusterIdentifier: S.String }).pipe(
+  S.Struct({ ClusterIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -3121,10 +3225,10 @@ export const PauseClusterMessage = S.suspend(() =>
   identifier: "PauseClusterMessage",
 }) as any as S.Schema<PauseClusterMessage>;
 export interface ResumeClusterMessage {
-  ClusterIdentifier: string;
+  ClusterIdentifier?: string;
 }
 export const ResumeClusterMessage = S.suspend(() =>
-  S.Struct({ ClusterIdentifier: S.String }).pipe(
+  S.Struct({ ClusterIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -3153,7 +3257,7 @@ export const ScheduledActionType = S.suspend(() =>
   identifier: "ScheduledActionType",
 }) as any as S.Schema<ScheduledActionType>;
 export interface ModifyScheduledActionMessage {
-  ScheduledActionName: string;
+  ScheduledActionName?: string;
   TargetAction?: ScheduledActionType;
   Schedule?: string;
   IamRole?: string;
@@ -3164,7 +3268,7 @@ export interface ModifyScheduledActionMessage {
 }
 export const ModifyScheduledActionMessage = S.suspend(() =>
   S.Struct({
-    ScheduledActionName: S.String,
+    ScheduledActionName: S.optional(S.String),
     TargetAction: S.optional(ScheduledActionType),
     Schedule: S.optional(S.String),
     IamRole: S.optional(S.String),
@@ -3187,14 +3291,14 @@ export const ModifyScheduledActionMessage = S.suspend(() =>
   identifier: "ModifyScheduledActionMessage",
 }) as any as S.Schema<ModifyScheduledActionMessage>;
 export interface ModifySnapshotCopyRetentionPeriodMessage {
-  ClusterIdentifier: string;
-  RetentionPeriod: number;
+  ClusterIdentifier?: string;
+  RetentionPeriod?: number;
   Manual?: boolean;
 }
 export const ModifySnapshotCopyRetentionPeriodMessage = S.suspend(() =>
   S.Struct({
-    ClusterIdentifier: S.String,
-    RetentionPeriod: S.Number,
+    ClusterIdentifier: S.optional(S.String),
+    RetentionPeriod: S.optional(S.Number),
     Manual: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -3211,13 +3315,13 @@ export const ModifySnapshotCopyRetentionPeriodMessage = S.suspend(() =>
   identifier: "ModifySnapshotCopyRetentionPeriodMessage",
 }) as any as S.Schema<ModifySnapshotCopyRetentionPeriodMessage>;
 export interface ModifySnapshotScheduleMessage {
-  ScheduleIdentifier: string;
-  ScheduleDefinitions: ScheduleDefinitionList;
+  ScheduleIdentifier?: string;
+  ScheduleDefinitions?: string[];
 }
 export const ModifySnapshotScheduleMessage = S.suspend(() =>
   S.Struct({
-    ScheduleIdentifier: S.String,
-    ScheduleDefinitions: ScheduleDefinitionList,
+    ScheduleIdentifier: S.optional(S.String),
+    ScheduleDefinitions: S.optional(ScheduleDefinitionList),
   }).pipe(
     T.all(
       ns,
@@ -3233,15 +3337,15 @@ export const ModifySnapshotScheduleMessage = S.suspend(() =>
   identifier: "ModifySnapshotScheduleMessage",
 }) as any as S.Schema<ModifySnapshotScheduleMessage>;
 export interface ModifyUsageLimitMessage {
-  UsageLimitId: string;
+  UsageLimitId?: string;
   Amount?: number;
-  BreachAction?: string;
+  BreachAction?: UsageLimitBreachAction;
 }
 export const ModifyUsageLimitMessage = S.suspend(() =>
   S.Struct({
-    UsageLimitId: S.String,
+    UsageLimitId: S.optional(S.String),
     Amount: S.optional(S.Number),
-    BreachAction: S.optional(S.String),
+    BreachAction: S.optional(UsageLimitBreachAction),
   }).pipe(
     T.all(
       ns,
@@ -3257,12 +3361,12 @@ export const ModifyUsageLimitMessage = S.suspend(() =>
   identifier: "ModifyUsageLimitMessage",
 }) as any as S.Schema<ModifyUsageLimitMessage>;
 export interface PurchaseReservedNodeOfferingMessage {
-  ReservedNodeOfferingId: string;
+  ReservedNodeOfferingId?: string;
   NodeCount?: number;
 }
 export const PurchaseReservedNodeOfferingMessage = S.suspend(() =>
   S.Struct({
-    ReservedNodeOfferingId: S.String,
+    ReservedNodeOfferingId: S.optional(S.String),
     NodeCount: S.optional(S.Number),
   }).pipe(
     T.all(
@@ -3279,11 +3383,14 @@ export const PurchaseReservedNodeOfferingMessage = S.suspend(() =>
   identifier: "PurchaseReservedNodeOfferingMessage",
 }) as any as S.Schema<PurchaseReservedNodeOfferingMessage>;
 export interface PutResourcePolicyMessage {
-  ResourceArn: string;
-  Policy: string;
+  ResourceArn?: string;
+  Policy?: string;
 }
 export const PutResourcePolicyMessage = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, Policy: S.String }).pipe(
+  S.Struct({
+    ResourceArn: S.optional(S.String),
+    Policy: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -3298,10 +3405,10 @@ export const PutResourcePolicyMessage = S.suspend(() =>
   identifier: "PutResourcePolicyMessage",
 }) as any as S.Schema<PutResourcePolicyMessage>;
 export interface RebootClusterMessage {
-  ClusterIdentifier: string;
+  ClusterIdentifier?: string;
 }
 export const RebootClusterMessage = S.suspend(() =>
-  S.Struct({ ClusterIdentifier: S.String }).pipe(
+  S.Struct({ ClusterIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -3316,19 +3423,22 @@ export const RebootClusterMessage = S.suspend(() =>
   identifier: "RebootClusterMessage",
 }) as any as S.Schema<RebootClusterMessage>;
 export interface ServerlessIdentifier {
-  NamespaceIdentifier: string;
-  WorkgroupIdentifier: string;
+  NamespaceIdentifier?: string;
+  WorkgroupIdentifier?: string;
 }
 export const ServerlessIdentifier = S.suspend(() =>
-  S.Struct({ NamespaceIdentifier: S.String, WorkgroupIdentifier: S.String }),
+  S.Struct({
+    NamespaceIdentifier: S.optional(S.String),
+    WorkgroupIdentifier: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "ServerlessIdentifier",
 }) as any as S.Schema<ServerlessIdentifier>;
 export interface ProvisionedIdentifier {
-  ClusterIdentifier: string;
+  ClusterIdentifier?: string;
 }
 export const ProvisionedIdentifier = S.suspend(() =>
-  S.Struct({ ClusterIdentifier: S.String }),
+  S.Struct({ ClusterIdentifier: S.optional(S.String) }),
 ).annotations({
   identifier: "ProvisionedIdentifier",
 }) as any as S.Schema<ProvisionedIdentifier>;
@@ -3340,13 +3450,13 @@ export const NamespaceIdentifierUnion = S.Union(
   S.Struct({ ProvisionedIdentifier: ProvisionedIdentifier }),
 );
 export interface RegisterNamespaceInputMessage {
-  NamespaceIdentifier: (typeof NamespaceIdentifierUnion)["Type"];
-  ConsumerIdentifiers: ConsumerIdentifierList;
+  NamespaceIdentifier?: NamespaceIdentifierUnion;
+  ConsumerIdentifiers?: string[];
 }
 export const RegisterNamespaceInputMessage = S.suspend(() =>
   S.Struct({
-    NamespaceIdentifier: NamespaceIdentifierUnion,
-    ConsumerIdentifiers: ConsumerIdentifierList,
+    NamespaceIdentifier: S.optional(NamespaceIdentifierUnion),
+    ConsumerIdentifiers: S.optional(ConsumerIdentifierList),
   }).pipe(
     T.all(
       ns,
@@ -3362,10 +3472,10 @@ export const RegisterNamespaceInputMessage = S.suspend(() =>
   identifier: "RegisterNamespaceInputMessage",
 }) as any as S.Schema<RegisterNamespaceInputMessage>;
 export interface RejectDataShareMessage {
-  DataShareArn: string;
+  DataShareArn?: string;
 }
 export const RejectDataShareMessage = S.suspend(() =>
-  S.Struct({ DataShareArn: S.String }).pipe(
+  S.Struct({ DataShareArn: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -3379,6 +3489,8 @@ export const RejectDataShareMessage = S.suspend(() =>
 ).annotations({
   identifier: "RejectDataShareMessage",
 }) as any as S.Schema<RejectDataShareMessage>;
+export type ParameterApplyType = "static" | "dynamic";
+export const ParameterApplyType = S.Literal("static", "dynamic");
 export interface Parameter {
   ParameterName?: string;
   ParameterValue?: string;
@@ -3386,7 +3498,7 @@ export interface Parameter {
   Source?: string;
   DataType?: string;
   AllowedValues?: string;
-  ApplyType?: string;
+  ApplyType?: ParameterApplyType;
   IsModifiable?: boolean;
   MinimumEngineVersion?: string;
 }
@@ -3398,7 +3510,7 @@ export const Parameter = S.suspend(() =>
     Source: S.optional(S.String),
     DataType: S.optional(S.String),
     AllowedValues: S.optional(S.String),
-    ApplyType: S.optional(S.String),
+    ApplyType: S.optional(ParameterApplyType),
     IsModifiable: S.optional(S.Boolean),
     MinimumEngineVersion: S.optional(S.String),
   }),
@@ -3410,13 +3522,13 @@ export const ParametersList = S.Array(
   }),
 );
 export interface ResetClusterParameterGroupMessage {
-  ParameterGroupName: string;
+  ParameterGroupName?: string;
   ResetAllParameters?: boolean;
-  Parameters?: ParametersList;
+  Parameters?: Parameter[];
 }
 export const ResetClusterParameterGroupMessage = S.suspend(() =>
   S.Struct({
-    ParameterGroupName: S.String,
+    ParameterGroupName: S.optional(S.String),
     ResetAllParameters: S.optional(S.Boolean),
     Parameters: S.optional(ParametersList),
   }).pipe(
@@ -3434,7 +3546,7 @@ export const ResetClusterParameterGroupMessage = S.suspend(() =>
   identifier: "ResetClusterParameterGroupMessage",
 }) as any as S.Schema<ResetClusterParameterGroupMessage>;
 export interface RestoreFromClusterSnapshotMessage {
-  ClusterIdentifier: string;
+  ClusterIdentifier?: string;
   SnapshotIdentifier?: string;
   SnapshotArn?: string;
   SnapshotClusterIdentifier?: string;
@@ -3448,8 +3560,8 @@ export interface RestoreFromClusterSnapshotMessage {
   HsmConfigurationIdentifier?: string;
   ElasticIp?: string;
   ClusterParameterGroupName?: string;
-  ClusterSecurityGroups?: ClusterSecurityGroupNameList;
-  VpcSecurityGroupIds?: VpcSecurityGroupIdList;
+  ClusterSecurityGroups?: string[];
+  VpcSecurityGroupIds?: string[];
   PreferredMaintenanceWindow?: string;
   AutomatedSnapshotRetentionPeriod?: number;
   ManualSnapshotRetentionPeriod?: number;
@@ -3457,12 +3569,12 @@ export interface RestoreFromClusterSnapshotMessage {
   NodeType?: string;
   EnhancedVpcRouting?: boolean;
   AdditionalInfo?: string;
-  IamRoles?: IamRoleArnList;
+  IamRoles?: string[];
   MaintenanceTrackName?: string;
   SnapshotScheduleIdentifier?: string;
   NumberOfNodes?: number;
   AvailabilityZoneRelocation?: boolean;
-  AquaConfigurationStatus?: string;
+  AquaConfigurationStatus?: AquaConfigurationStatus;
   DefaultIamRoleArn?: string;
   ReservedNodeId?: string;
   TargetReservedNodeOfferingId?: string;
@@ -3476,7 +3588,7 @@ export interface RestoreFromClusterSnapshotMessage {
 }
 export const RestoreFromClusterSnapshotMessage = S.suspend(() =>
   S.Struct({
-    ClusterIdentifier: S.String,
+    ClusterIdentifier: S.optional(S.String),
     SnapshotIdentifier: S.optional(S.String),
     SnapshotArn: S.optional(S.String),
     SnapshotClusterIdentifier: S.optional(S.String),
@@ -3504,7 +3616,7 @@ export const RestoreFromClusterSnapshotMessage = S.suspend(() =>
     SnapshotScheduleIdentifier: S.optional(S.String),
     NumberOfNodes: S.optional(S.Number),
     AvailabilityZoneRelocation: S.optional(S.Boolean),
-    AquaConfigurationStatus: S.optional(S.String),
+    AquaConfigurationStatus: S.optional(AquaConfigurationStatus),
     DefaultIamRoleArn: S.optional(S.String),
     ReservedNodeId: S.optional(S.String),
     TargetReservedNodeOfferingId: S.optional(S.String),
@@ -3530,26 +3642,26 @@ export const RestoreFromClusterSnapshotMessage = S.suspend(() =>
   identifier: "RestoreFromClusterSnapshotMessage",
 }) as any as S.Schema<RestoreFromClusterSnapshotMessage>;
 export interface RestoreTableFromClusterSnapshotMessage {
-  ClusterIdentifier: string;
-  SnapshotIdentifier: string;
-  SourceDatabaseName: string;
+  ClusterIdentifier?: string;
+  SnapshotIdentifier?: string;
+  SourceDatabaseName?: string;
   SourceSchemaName?: string;
-  SourceTableName: string;
+  SourceTableName?: string;
   TargetDatabaseName?: string;
   TargetSchemaName?: string;
-  NewTableName: string;
+  NewTableName?: string;
   EnableCaseSensitiveIdentifier?: boolean;
 }
 export const RestoreTableFromClusterSnapshotMessage = S.suspend(() =>
   S.Struct({
-    ClusterIdentifier: S.String,
-    SnapshotIdentifier: S.String,
-    SourceDatabaseName: S.String,
+    ClusterIdentifier: S.optional(S.String),
+    SnapshotIdentifier: S.optional(S.String),
+    SourceDatabaseName: S.optional(S.String),
     SourceSchemaName: S.optional(S.String),
-    SourceTableName: S.String,
+    SourceTableName: S.optional(S.String),
     TargetDatabaseName: S.optional(S.String),
     TargetSchemaName: S.optional(S.String),
-    NewTableName: S.String,
+    NewTableName: S.optional(S.String),
     EnableCaseSensitiveIdentifier: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -3566,14 +3678,14 @@ export const RestoreTableFromClusterSnapshotMessage = S.suspend(() =>
   identifier: "RestoreTableFromClusterSnapshotMessage",
 }) as any as S.Schema<RestoreTableFromClusterSnapshotMessage>;
 export interface RevokeClusterSecurityGroupIngressMessage {
-  ClusterSecurityGroupName: string;
+  ClusterSecurityGroupName?: string;
   CIDRIP?: string;
   EC2SecurityGroupName?: string;
   EC2SecurityGroupOwnerId?: string;
 }
 export const RevokeClusterSecurityGroupIngressMessage = S.suspend(() =>
   S.Struct({
-    ClusterSecurityGroupName: S.String,
+    ClusterSecurityGroupName: S.optional(S.String),
     CIDRIP: S.optional(S.String),
     EC2SecurityGroupName: S.optional(S.String),
     EC2SecurityGroupOwnerId: S.optional(S.String),
@@ -3594,7 +3706,7 @@ export const RevokeClusterSecurityGroupIngressMessage = S.suspend(() =>
 export interface RevokeEndpointAccessMessage {
   ClusterIdentifier?: string;
   Account?: string;
-  VpcIds?: VpcIdentifierList;
+  VpcIds?: string[];
   Force?: boolean;
 }
 export const RevokeEndpointAccessMessage = S.suspend(() =>
@@ -3621,14 +3733,14 @@ export interface RevokeSnapshotAccessMessage {
   SnapshotIdentifier?: string;
   SnapshotArn?: string;
   SnapshotClusterIdentifier?: string;
-  AccountWithRestoreAccess: string;
+  AccountWithRestoreAccess?: string;
 }
 export const RevokeSnapshotAccessMessage = S.suspend(() =>
   S.Struct({
     SnapshotIdentifier: S.optional(S.String),
     SnapshotArn: S.optional(S.String),
     SnapshotClusterIdentifier: S.optional(S.String),
-    AccountWithRestoreAccess: S.String,
+    AccountWithRestoreAccess: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -3644,10 +3756,10 @@ export const RevokeSnapshotAccessMessage = S.suspend(() =>
   identifier: "RevokeSnapshotAccessMessage",
 }) as any as S.Schema<RevokeSnapshotAccessMessage>;
 export interface RotateEncryptionKeyMessage {
-  ClusterIdentifier: string;
+  ClusterIdentifier?: string;
 }
 export const RotateEncryptionKeyMessage = S.suspend(() =>
-  S.Struct({ ClusterIdentifier: S.String }).pipe(
+  S.Struct({ ClusterIdentifier: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -3662,20 +3774,20 @@ export const RotateEncryptionKeyMessage = S.suspend(() =>
   identifier: "RotateEncryptionKeyMessage",
 }) as any as S.Schema<RotateEncryptionKeyMessage>;
 export interface UpdatePartnerStatusInputMessage {
-  AccountId: string;
-  ClusterIdentifier: string;
-  DatabaseName: string;
-  PartnerName: string;
-  Status: string;
+  AccountId?: string;
+  ClusterIdentifier?: string;
+  DatabaseName?: string;
+  PartnerName?: string;
+  Status?: PartnerIntegrationStatus;
   StatusMessage?: string;
 }
 export const UpdatePartnerStatusInputMessage = S.suspend(() =>
   S.Struct({
-    AccountId: S.String,
-    ClusterIdentifier: S.String,
-    DatabaseName: S.String,
-    PartnerName: S.String,
-    Status: S.String,
+    AccountId: S.optional(S.String),
+    ClusterIdentifier: S.optional(S.String),
+    DatabaseName: S.optional(S.String),
+    PartnerName: S.optional(S.String),
+    Status: S.optional(PartnerIntegrationStatus),
     StatusMessage: S.optional(S.String),
   }).pipe(
     T.all(
@@ -3691,12 +3803,64 @@ export const UpdatePartnerStatusInputMessage = S.suspend(() =>
 ).annotations({
   identifier: "UpdatePartnerStatusInputMessage",
 }) as any as S.Schema<UpdatePartnerStatusInputMessage>;
+export type SnapshotAttributeToSortBy =
+  | "SOURCE_TYPE"
+  | "TOTAL_SIZE"
+  | "CREATE_TIME";
+export const SnapshotAttributeToSortBy = S.Literal(
+  "SOURCE_TYPE",
+  "TOTAL_SIZE",
+  "CREATE_TIME",
+);
+export type SortByOrder = "ASC" | "DESC";
+export const SortByOrder = S.Literal("ASC", "DESC");
+export type DescribeIntegrationsFilterName =
+  | "integration-arn"
+  | "source-arn"
+  | "source-types"
+  | "status";
+export const DescribeIntegrationsFilterName = S.Literal(
+  "integration-arn",
+  "source-arn",
+  "source-types",
+  "status",
+);
 export type DescribeIntegrationsFilterValueList = string[];
 export const DescribeIntegrationsFilterValueList = S.Array(
   S.String.pipe(T.XmlName("Value")),
 );
+export type NodeConfigurationOptionsFilterName =
+  | "NodeType"
+  | "NumberOfNodes"
+  | "EstimatedDiskUtilizationPercent"
+  | "Mode";
+export const NodeConfigurationOptionsFilterName = S.Literal(
+  "NodeType",
+  "NumberOfNodes",
+  "EstimatedDiskUtilizationPercent",
+  "Mode",
+);
+export type OperatorType = "eq" | "lt" | "gt" | "le" | "ge" | "in" | "between";
+export const OperatorType = S.Literal(
+  "eq",
+  "lt",
+  "gt",
+  "le",
+  "ge",
+  "in",
+  "between",
+);
 export type ValueStringList = string[];
 export const ValueStringList = S.Array(S.String.pipe(T.XmlName("item")));
+export type ScheduledActionFilterName = "cluster-identifier" | "iam-role";
+export const ScheduledActionFilterName = S.Literal(
+  "cluster-identifier",
+  "iam-role",
+);
+export type DataShareType = "INTERNAL";
+export const DataShareType = S.Literal("INTERNAL");
+export type AuthorizationStatus = "Authorized" | "Revoking";
+export const AuthorizationStatus = S.Literal("Authorized", "Revoking");
 export interface SnapshotErrorMessage {
   SnapshotIdentifier?: string;
   SnapshotClusterIdentifier?: string;
@@ -3734,11 +3898,28 @@ export type ScheduledSnapshotTimeList = Date[];
 export const ScheduledSnapshotTimeList = S.Array(
   S.Date.pipe(T.TimestampFormat("date-time")).pipe(T.XmlName("SnapshotTime")),
 );
+export type ZeroETLIntegrationStatus =
+  | "creating"
+  | "active"
+  | "modifying"
+  | "failed"
+  | "deleting"
+  | "syncing"
+  | "needs_attention";
+export const ZeroETLIntegrationStatus = S.Literal(
+  "creating",
+  "active",
+  "modifying",
+  "failed",
+  "deleting",
+  "syncing",
+  "needs_attention",
+);
 export interface ClusterParameterGroup {
   ParameterGroupName?: string;
   ParameterGroupFamily?: string;
   Description?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const ClusterParameterGroup = S.suspend(() =>
   S.Struct({
@@ -3783,7 +3964,7 @@ export const NetworkInterfaceList = S.Array(
 export interface VpcEndpoint {
   VpcEndpointId?: string;
   VpcId?: string;
-  NetworkInterfaces?: NetworkInterfaceList;
+  NetworkInterfaces?: NetworkInterface[];
 }
 export const VpcEndpoint = S.suspend(() =>
   S.Struct({
@@ -3801,7 +3982,7 @@ export const VpcEndpointsList = S.Array(
 export interface Endpoint {
   Address?: string;
   Port?: number;
-  VpcEndpoints?: VpcEndpointsList;
+  VpcEndpoints?: VpcEndpoint[];
 }
 export const Endpoint = S.suspend(() =>
   S.Struct({
@@ -3866,7 +4047,7 @@ export const ClusterParameterStatusList = S.Array(ClusterParameterStatus);
 export interface ClusterParameterGroupStatus {
   ParameterGroupName?: string;
   ParameterApplyStatus?: string;
-  ClusterParameterStatusList?: ClusterParameterStatusList;
+  ClusterParameterStatusList?: ClusterParameterStatus[];
 }
 export const ClusterParameterGroupStatus = S.suspend(() =>
   S.Struct({
@@ -3884,7 +4065,7 @@ export const ClusterParameterGroupStatusList = S.Array(
   ).annotations({ identifier: "ClusterParameterGroupStatus" }),
 );
 export interface PendingModifiedValues {
-  MasterUserPassword?: string | Redacted.Redacted<string>;
+  MasterUserPassword?: string | redacted.Redacted<string>;
   NodeType?: string;
   NumberOfNodes?: number;
   ClusterType?: string;
@@ -4048,6 +4229,8 @@ export const DeferredMaintenanceWindowsList = S.Array(
     T.XmlName("DeferredMaintenanceWindow"),
   ).annotations({ identifier: "DeferredMaintenanceWindow" }),
 );
+export type ScheduleState = "MODIFYING" | "ACTIVE" | "FAILED";
+export const ScheduleState = S.Literal("MODIFYING", "ACTIVE", "FAILED");
 export interface ResizeInfo {
   ResizeType?: string;
   AllowCancelResize?: boolean;
@@ -4058,21 +4241,38 @@ export const ResizeInfo = S.suspend(() =>
     AllowCancelResize: S.optional(S.Boolean),
   }),
 ).annotations({ identifier: "ResizeInfo" }) as any as S.Schema<ResizeInfo>;
+export type AquaStatus = "enabled" | "disabled" | "applying";
+export const AquaStatus = S.Literal("enabled", "disabled", "applying");
 export interface AquaConfiguration {
-  AquaStatus?: string;
-  AquaConfigurationStatus?: string;
+  AquaStatus?: AquaStatus;
+  AquaConfigurationStatus?: AquaConfigurationStatus;
 }
 export const AquaConfiguration = S.suspend(() =>
   S.Struct({
-    AquaStatus: S.optional(S.String),
-    AquaConfigurationStatus: S.optional(S.String),
+    AquaStatus: S.optional(AquaStatus),
+    AquaConfigurationStatus: S.optional(AquaConfigurationStatus),
   }),
 ).annotations({
   identifier: "AquaConfiguration",
 }) as any as S.Schema<AquaConfiguration>;
+export type ReservedNodeExchangeStatusType =
+  | "REQUESTED"
+  | "PENDING"
+  | "IN_PROGRESS"
+  | "RETRYING"
+  | "SUCCEEDED"
+  | "FAILED";
+export const ReservedNodeExchangeStatusType = S.Literal(
+  "REQUESTED",
+  "PENDING",
+  "IN_PROGRESS",
+  "RETRYING",
+  "SUCCEEDED",
+  "FAILED",
+);
 export interface ReservedNodeExchangeStatus {
   ReservedNodeExchangeRequestId?: string;
-  Status?: string;
+  Status?: ReservedNodeExchangeStatusType;
   RequestTime?: Date;
   SourceReservedNodeId?: string;
   SourceReservedNodeType?: string;
@@ -4084,7 +4284,7 @@ export interface ReservedNodeExchangeStatus {
 export const ReservedNodeExchangeStatus = S.suspend(() =>
   S.Struct({
     ReservedNodeExchangeRequestId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ReservedNodeExchangeStatusType),
     RequestTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     SourceReservedNodeId: S.optional(S.String),
     SourceReservedNodeType: S.optional(S.String),
@@ -4098,7 +4298,7 @@ export const ReservedNodeExchangeStatus = S.suspend(() =>
 }) as any as S.Schema<ReservedNodeExchangeStatus>;
 export interface SecondaryClusterInfo {
   AvailabilityZone?: string;
-  ClusterNodes?: ClusterNodesList;
+  ClusterNodes?: ClusterNode[];
 }
 export const SecondaryClusterInfo = S.suspend(() =>
   S.Struct({
@@ -4120,9 +4320,9 @@ export interface Cluster {
   ClusterCreateTime?: Date;
   AutomatedSnapshotRetentionPeriod?: number;
   ManualSnapshotRetentionPeriod?: number;
-  ClusterSecurityGroups?: ClusterSecurityGroupMembershipList;
-  VpcSecurityGroups?: VpcSecurityGroupMembershipList;
-  ClusterParameterGroups?: ClusterParameterGroupStatusList;
+  ClusterSecurityGroups?: ClusterSecurityGroupMembership[];
+  VpcSecurityGroups?: VpcSecurityGroupMembership[];
+  ClusterParameterGroups?: ClusterParameterGroupStatus[];
   ClusterSubnetGroupName?: string;
   VpcId?: string;
   AvailabilityZone?: string;
@@ -4138,19 +4338,19 @@ export interface Cluster {
   HsmStatus?: HsmStatus;
   ClusterSnapshotCopyStatus?: ClusterSnapshotCopyStatus;
   ClusterPublicKey?: string;
-  ClusterNodes?: ClusterNodesList;
+  ClusterNodes?: ClusterNode[];
   ElasticIpStatus?: ElasticIpStatus;
   ClusterRevisionNumber?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   KmsKeyId?: string;
   EnhancedVpcRouting?: boolean;
-  IamRoles?: ClusterIamRoleList;
-  PendingActions?: PendingActionsList;
+  IamRoles?: ClusterIamRole[];
+  PendingActions?: string[];
   MaintenanceTrackName?: string;
   ElasticResizeNumberOfNodeOptions?: string;
-  DeferredMaintenanceWindows?: DeferredMaintenanceWindowsList;
+  DeferredMaintenanceWindows?: DeferredMaintenanceWindow[];
   SnapshotScheduleIdentifier?: string;
-  SnapshotScheduleState?: string;
+  SnapshotScheduleState?: ScheduleState;
   ExpectedNextSnapshotScheduleTime?: Date;
   ExpectedNextSnapshotScheduleTimeStatus?: string;
   NextMaintenanceWindowStartTime?: Date;
@@ -4215,7 +4415,7 @@ export const Cluster = S.suspend(() =>
     ElasticResizeNumberOfNodeOptions: S.optional(S.String),
     DeferredMaintenanceWindows: S.optional(DeferredMaintenanceWindowsList),
     SnapshotScheduleIdentifier: S.optional(S.String),
-    SnapshotScheduleState: S.optional(S.String),
+    SnapshotScheduleState: S.optional(ScheduleState),
     ExpectedNextSnapshotScheduleTime: S.optional(
       S.Date.pipe(T.TimestampFormat("date-time")),
     ),
@@ -4252,7 +4452,7 @@ export interface EC2SecurityGroup {
   Status?: string;
   EC2SecurityGroupName?: string;
   EC2SecurityGroupOwnerId?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const EC2SecurityGroup = S.suspend(() =>
   S.Struct({
@@ -4273,7 +4473,7 @@ export const EC2SecurityGroupList = S.Array(
 export interface IPRange {
   Status?: string;
   CIDRIP?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const IPRange = S.suspend(() =>
   S.Struct({
@@ -4289,9 +4489,9 @@ export const IPRangeList = S.Array(
 export interface ClusterSecurityGroup {
   ClusterSecurityGroupName?: string;
   Description?: string;
-  EC2SecurityGroups?: EC2SecurityGroupList;
-  IPRanges?: IPRangeList;
-  Tags?: TagList;
+  EC2SecurityGroups?: EC2SecurityGroup[];
+  IPRanges?: IPRange[];
+  Tags?: Tag[];
 }
 export const ClusterSecurityGroup = S.suspend(() =>
   S.Struct({
@@ -4311,11 +4511,14 @@ export const ClusterSecurityGroups = S.Array(
   }),
 );
 export interface SnapshotSortingEntity {
-  Attribute: string;
-  SortOrder?: string;
+  Attribute?: SnapshotAttributeToSortBy;
+  SortOrder?: SortByOrder;
 }
 export const SnapshotSortingEntity = S.suspend(() =>
-  S.Struct({ Attribute: S.String, SortOrder: S.optional(S.String) }),
+  S.Struct({
+    Attribute: S.optional(SnapshotAttributeToSortBy),
+    SortOrder: S.optional(SortByOrder),
+  }),
 ).annotations({
   identifier: "SnapshotSortingEntity",
 }) as any as S.Schema<SnapshotSortingEntity>;
@@ -4341,7 +4544,7 @@ export const SupportedPlatformsList = S.Array(
 );
 export interface AvailabilityZone {
   Name?: string;
-  SupportedPlatforms?: SupportedPlatformsList;
+  SupportedPlatforms?: SupportedPlatform[];
 }
 export const AvailabilityZone = S.suspend(() =>
   S.Struct({
@@ -4372,9 +4575,9 @@ export interface ClusterSubnetGroup {
   Description?: string;
   VpcId?: string;
   SubnetGroupStatus?: string;
-  Subnets?: SubnetList;
-  Tags?: TagList;
-  SupportedClusterIpAddressTypes?: ValueStringList;
+  Subnets?: Subnet[];
+  Tags?: Tag[];
+  SupportedClusterIpAddressTypes?: string[];
 }
 export const ClusterSubnetGroup = S.suspend(() =>
   S.Struct({
@@ -4395,9 +4598,24 @@ export const ClusterSubnetGroups = S.Array(
     identifier: "ClusterSubnetGroup",
   }),
 );
+export type DataShareStatus =
+  | "ACTIVE"
+  | "PENDING_AUTHORIZATION"
+  | "AUTHORIZED"
+  | "DEAUTHORIZED"
+  | "REJECTED"
+  | "AVAILABLE";
+export const DataShareStatus = S.Literal(
+  "ACTIVE",
+  "PENDING_AUTHORIZATION",
+  "AUTHORIZED",
+  "DEAUTHORIZED",
+  "REJECTED",
+  "AVAILABLE",
+);
 export interface DataShareAssociation {
   ConsumerIdentifier?: string;
-  Status?: string;
+  Status?: DataShareStatus;
   ConsumerRegion?: string;
   CreatedDate?: Date;
   StatusChangeDate?: Date;
@@ -4407,7 +4625,7 @@ export interface DataShareAssociation {
 export const DataShareAssociation = S.suspend(() =>
   S.Struct({
     ConsumerIdentifier: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(DataShareStatus),
     ConsumerRegion: S.optional(S.String),
     CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     StatusChangeDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -4423,9 +4641,9 @@ export interface DataShare {
   DataShareArn?: string;
   ProducerArn?: string;
   AllowPubliclyAccessibleConsumers?: boolean;
-  DataShareAssociations?: DataShareAssociationList;
+  DataShareAssociations?: DataShareAssociation[];
   ManagedBy?: string;
-  DataShareType?: string;
+  DataShareType?: DataShareType;
 }
 export const DataShare = S.suspend(() =>
   S.Struct({
@@ -4434,7 +4652,7 @@ export const DataShare = S.suspend(() =>
     AllowPubliclyAccessibleConsumers: S.optional(S.Boolean),
     DataShareAssociations: S.optional(DataShareAssociationList),
     ManagedBy: S.optional(S.String),
-    DataShareType: S.optional(S.String),
+    DataShareType: S.optional(DataShareType),
   }).pipe(ns),
 ).annotations({ identifier: "DataShare" }) as any as S.Schema<DataShare>;
 export type DataShareList = DataShare[];
@@ -4448,7 +4666,7 @@ export interface EndpointAccess {
   EndpointCreateTime?: Date;
   Port?: number;
   Address?: string;
-  VpcSecurityGroups?: VpcSecurityGroupMembershipList;
+  VpcSecurityGroups?: VpcSecurityGroupMembership[];
   VpcEndpoint?: VpcEndpoint;
 }
 export const EndpointAccess = S.suspend(() =>
@@ -4475,9 +4693,9 @@ export interface EndpointAuthorization {
   ClusterIdentifier?: string;
   AuthorizeTime?: Date;
   ClusterStatus?: string;
-  Status?: string;
+  Status?: AuthorizationStatus;
   AllowedAllVPCs?: boolean;
-  AllowedVPCs?: VpcIdentifierList;
+  AllowedVPCs?: string[];
   EndpointCount?: number;
 }
 export const EndpointAuthorization = S.suspend(() =>
@@ -4487,7 +4705,7 @@ export const EndpointAuthorization = S.suspend(() =>
     ClusterIdentifier: S.optional(S.String),
     AuthorizeTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     ClusterStatus: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(AuthorizationStatus),
     AllowedAllVPCs: S.optional(S.Boolean),
     AllowedVPCs: S.optional(VpcIdentifierList),
     EndpointCount: S.optional(S.Number),
@@ -4504,11 +4722,11 @@ export interface EventSubscription {
   Status?: string;
   SubscriptionCreationTime?: Date;
   SourceType?: string;
-  SourceIdsList?: SourceIdsList;
-  EventCategoriesList?: EventCategoriesList;
+  SourceIdsList?: string[];
+  EventCategoriesList?: string[];
   Severity?: string;
   Enabled?: boolean;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const EventSubscription = S.suspend(() =>
   S.Struct({
@@ -4538,7 +4756,7 @@ export const EventSubscriptionsList = S.Array(
 export interface HsmClientCertificate {
   HsmClientCertificateIdentifier?: string;
   HsmClientCertificatePublicKey?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const HsmClientCertificate = S.suspend(() =>
   S.Struct({
@@ -4560,7 +4778,7 @@ export interface HsmConfiguration {
   Description?: string;
   HsmIpAddress?: string;
   HsmPartitionName?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const HsmConfiguration = S.suspend(() =>
   S.Struct({
@@ -4580,11 +4798,14 @@ export const HsmConfigurationList = S.Array(
   }),
 );
 export interface DescribeIntegrationsFilter {
-  Name: string;
-  Values: DescribeIntegrationsFilterValueList;
+  Name?: DescribeIntegrationsFilterName;
+  Values?: string[];
 }
 export const DescribeIntegrationsFilter = S.suspend(() =>
-  S.Struct({ Name: S.String, Values: DescribeIntegrationsFilterValueList }),
+  S.Struct({
+    Name: S.optional(DescribeIntegrationsFilterName),
+    Values: S.optional(DescribeIntegrationsFilterValueList),
+  }),
 ).annotations({
   identifier: "DescribeIntegrationsFilter",
 }) as any as S.Schema<DescribeIntegrationsFilter>;
@@ -4595,14 +4816,14 @@ export const DescribeIntegrationsFilterList = S.Array(
   ).annotations({ identifier: "DescribeIntegrationsFilter" }),
 );
 export interface NodeConfigurationOptionsFilter {
-  Name?: string;
-  Operator?: string;
-  Values?: ValueStringList;
+  Name?: NodeConfigurationOptionsFilterName;
+  Operator?: OperatorType;
+  Values?: string[];
 }
 export const NodeConfigurationOptionsFilter = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String),
-    Operator: S.optional(S.String),
+    Name: S.optional(NodeConfigurationOptionsFilterName),
+    Operator: S.optional(OperatorType),
     Values: S.optional(ValueStringList).pipe(T.XmlName("Value")),
   }),
 ).annotations({
@@ -4633,6 +4854,8 @@ export const RecurringChargeList = S.Array(
     identifier: "RecurringCharge",
   }),
 );
+export type ReservedNodeOfferingType = "Regular" | "Upgradable";
+export const ReservedNodeOfferingType = S.Literal("Regular", "Upgradable");
 export interface ReservedNode {
   ReservedNodeId?: string;
   ReservedNodeOfferingId?: string;
@@ -4645,8 +4868,8 @@ export interface ReservedNode {
   NodeCount?: number;
   State?: string;
   OfferingType?: string;
-  RecurringCharges?: RecurringChargeList;
-  ReservedNodeOfferingType?: string;
+  RecurringCharges?: RecurringCharge[];
+  ReservedNodeOfferingType?: ReservedNodeOfferingType;
 }
 export const ReservedNode = S.suspend(() =>
   S.Struct({
@@ -4662,7 +4885,7 @@ export const ReservedNode = S.suspend(() =>
     State: S.optional(S.String),
     OfferingType: S.optional(S.String),
     RecurringCharges: S.optional(RecurringChargeList),
-    ReservedNodeOfferingType: S.optional(S.String),
+    ReservedNodeOfferingType: S.optional(ReservedNodeOfferingType),
   }),
 ).annotations({ identifier: "ReservedNode" }) as any as S.Schema<ReservedNode>;
 export type ReservedNodeList = ReservedNode[];
@@ -4672,11 +4895,14 @@ export const ReservedNodeList = S.Array(
   }),
 );
 export interface ScheduledActionFilter {
-  Name: string;
-  Values: ValueStringList;
+  Name?: ScheduledActionFilterName;
+  Values?: string[];
 }
 export const ScheduledActionFilter = S.suspend(() =>
-  S.Struct({ Name: S.String, Values: ValueStringList }),
+  S.Struct({
+    Name: S.optional(ScheduledActionFilterName),
+    Values: S.optional(ValueStringList),
+  }),
 ).annotations({
   identifier: "ScheduledActionFilter",
 }) as any as S.Schema<ScheduledActionFilter>;
@@ -4689,7 +4915,7 @@ export const ScheduledActionFilterList = S.Array(
 export interface SnapshotCopyGrant {
   SnapshotCopyGrantName?: string;
   KmsKeyId?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
 }
 export const SnapshotCopyGrant = S.suspend(() =>
   S.Struct({
@@ -4708,12 +4934,12 @@ export const SnapshotCopyGrantList = S.Array(
 );
 export interface ClusterAssociatedToSchedule {
   ClusterIdentifier?: string;
-  ScheduleAssociationState?: string;
+  ScheduleAssociationState?: ScheduleState;
 }
 export const ClusterAssociatedToSchedule = S.suspend(() =>
   S.Struct({
     ClusterIdentifier: S.optional(S.String),
-    ScheduleAssociationState: S.optional(S.String),
+    ScheduleAssociationState: S.optional(ScheduleState),
   }),
 ).annotations({
   identifier: "ClusterAssociatedToSchedule",
@@ -4725,13 +4951,13 @@ export const AssociatedClusterList = S.Array(
   ).annotations({ identifier: "ClusterAssociatedToSchedule" }),
 );
 export interface SnapshotSchedule {
-  ScheduleDefinitions?: ScheduleDefinitionList;
+  ScheduleDefinitions?: string[];
   ScheduleIdentifier?: string;
   ScheduleDescription?: string;
-  Tags?: TagList;
-  NextInvocations?: ScheduledSnapshotTimeList;
+  Tags?: Tag[];
+  NextInvocations?: Date[];
   AssociatedClusterCount?: number;
-  AssociatedClusters?: AssociatedClusterList;
+  AssociatedClusters?: ClusterAssociatedToSchedule[];
 }
 export const SnapshotSchedule = S.suspend(() =>
   S.Struct({
@@ -4755,36 +4981,43 @@ export const SnapshotScheduleList = S.Array(
 export interface UsageLimit {
   UsageLimitId?: string;
   ClusterIdentifier?: string;
-  FeatureType?: string;
-  LimitType?: string;
+  FeatureType?: UsageLimitFeatureType;
+  LimitType?: UsageLimitLimitType;
   Amount?: number;
-  Period?: string;
-  BreachAction?: string;
-  Tags?: TagList;
+  Period?: UsageLimitPeriod;
+  BreachAction?: UsageLimitBreachAction;
+  Tags?: Tag[];
 }
 export const UsageLimit = S.suspend(() =>
   S.Struct({
     UsageLimitId: S.optional(S.String),
     ClusterIdentifier: S.optional(S.String),
-    FeatureType: S.optional(S.String),
-    LimitType: S.optional(S.String),
+    FeatureType: S.optional(UsageLimitFeatureType),
+    LimitType: S.optional(UsageLimitLimitType),
     Amount: S.optional(S.Number),
-    Period: S.optional(S.String),
-    BreachAction: S.optional(S.String),
+    Period: S.optional(UsageLimitPeriod),
+    BreachAction: S.optional(UsageLimitBreachAction),
     Tags: S.optional(TagList),
   }).pipe(ns),
 ).annotations({ identifier: "UsageLimit" }) as any as S.Schema<UsageLimit>;
 export type UsageLimits = UsageLimit[];
 export const UsageLimits = S.Array(UsageLimit);
+export type ScheduledActionState = "ACTIVE" | "DISABLED";
+export const ScheduledActionState = S.Literal("ACTIVE", "DISABLED");
 export type ScheduledActionTimeList = Date[];
 export const ScheduledActionTimeList = S.Array(
   S.Date.pipe(T.TimestampFormat("date-time")).pipe(
     T.XmlName("ScheduledActionTime"),
   ),
 );
+export type NamespaceRegistrationStatus = "Registering" | "Deregistering";
+export const NamespaceRegistrationStatus = S.Literal(
+  "Registering",
+  "Deregistering",
+);
 export interface BatchModifyClusterSnapshotsOutputMessage {
-  Resources?: SnapshotIdentifierList;
-  Errors?: BatchSnapshotOperationErrors;
+  Resources?: string[];
+  Errors?: SnapshotErrorMessage[];
 }
 export const BatchModifyClusterSnapshotsOutputMessage = S.suspend(() =>
   S.Struct({
@@ -4799,9 +5032,9 @@ export interface ResizeProgressMessage {
   TargetNumberOfNodes?: number;
   TargetClusterType?: string;
   Status?: string;
-  ImportTablesCompleted?: ImportTablesCompleted;
-  ImportTablesInProgress?: ImportTablesInProgress;
-  ImportTablesNotStarted?: ImportTablesNotStarted;
+  ImportTablesCompleted?: string[];
+  ImportTablesInProgress?: string[];
+  ImportTablesNotStarted?: string[];
   AvgResizeRateInMegaBytesPerSecond?: number;
   TotalResizeDataInMegaBytes?: number;
   ProgressInMegaBytes?: number;
@@ -4875,7 +5108,7 @@ export interface Snapshot {
   Encrypted?: boolean;
   KmsKeyId?: string;
   EncryptedWithHSM?: boolean;
-  AccountsWithRestoreAccess?: AccountsWithRestoreAccessList;
+  AccountsWithRestoreAccess?: AccountWithRestoreAccess[];
   OwnerAccount?: string;
   TotalBackupSizeInMegaBytes?: number;
   ActualIncrementalBackupSizeInMegaBytes?: number;
@@ -4884,8 +5117,8 @@ export interface Snapshot {
   EstimatedSecondsToCompletion?: number;
   ElapsedTimeInSeconds?: number;
   SourceRegion?: string;
-  Tags?: TagList;
-  RestorableNodeTypes?: RestorableNodeTypeList;
+  Tags?: Tag[];
+  RestorableNodeTypes?: string[];
   EnhancedVpcRouting?: boolean;
   MaintenanceTrackName?: string;
   ManualSnapshotRetentionPeriod?: number;
@@ -4960,13 +5193,13 @@ export const CreateAuthenticationProfileResult = S.suspend(() =>
 }) as any as S.Schema<CreateAuthenticationProfileResult>;
 export interface CreateClusterMessage {
   DBName?: string;
-  ClusterIdentifier: string;
+  ClusterIdentifier?: string;
   ClusterType?: string;
-  NodeType: string;
-  MasterUsername: string;
-  MasterUserPassword?: string | Redacted.Redacted<string>;
-  ClusterSecurityGroups?: ClusterSecurityGroupNameList;
-  VpcSecurityGroupIds?: VpcSecurityGroupIdList;
+  NodeType?: string;
+  MasterUsername?: string;
+  MasterUserPassword?: string | redacted.Redacted<string>;
+  ClusterSecurityGroups?: string[];
+  VpcSecurityGroupIds?: string[];
   ClusterSubnetGroupName?: string;
   AvailabilityZone?: string;
   PreferredMaintenanceWindow?: string;
@@ -4982,15 +5215,15 @@ export interface CreateClusterMessage {
   HsmClientCertificateIdentifier?: string;
   HsmConfigurationIdentifier?: string;
   ElasticIp?: string;
-  Tags?: TagList;
+  Tags?: Tag[];
   KmsKeyId?: string;
   EnhancedVpcRouting?: boolean;
   AdditionalInfo?: string;
-  IamRoles?: IamRoleArnList;
+  IamRoles?: string[];
   MaintenanceTrackName?: string;
   SnapshotScheduleIdentifier?: string;
   AvailabilityZoneRelocation?: boolean;
-  AquaConfigurationStatus?: string;
+  AquaConfigurationStatus?: AquaConfigurationStatus;
   DefaultIamRoleArn?: string;
   LoadSampleData?: string;
   ManageMasterPassword?: boolean;
@@ -5003,10 +5236,10 @@ export interface CreateClusterMessage {
 export const CreateClusterMessage = S.suspend(() =>
   S.Struct({
     DBName: S.optional(S.String),
-    ClusterIdentifier: S.String,
+    ClusterIdentifier: S.optional(S.String),
     ClusterType: S.optional(S.String),
-    NodeType: S.String,
-    MasterUsername: S.String,
+    NodeType: S.optional(S.String),
+    MasterUsername: S.optional(S.String),
     MasterUserPassword: S.optional(SensitiveString),
     ClusterSecurityGroups: S.optional(ClusterSecurityGroupNameList),
     VpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
@@ -5033,7 +5266,7 @@ export const CreateClusterMessage = S.suspend(() =>
     MaintenanceTrackName: S.optional(S.String),
     SnapshotScheduleIdentifier: S.optional(S.String),
     AvailabilityZoneRelocation: S.optional(S.Boolean),
-    AquaConfigurationStatus: S.optional(S.String),
+    AquaConfigurationStatus: S.optional(AquaConfigurationStatus),
     DefaultIamRoleArn: S.optional(S.String),
     LoadSampleData: S.optional(S.String),
     ManageMasterPassword: S.optional(S.Boolean),
@@ -5089,19 +5322,19 @@ export const CreateCustomDomainAssociationResult = S.suspend(() =>
   identifier: "CreateCustomDomainAssociationResult",
 }) as any as S.Schema<CreateCustomDomainAssociationResult>;
 export interface CreateIntegrationMessage {
-  SourceArn: string;
-  TargetArn: string;
-  IntegrationName: string;
+  SourceArn?: string;
+  TargetArn?: string;
+  IntegrationName?: string;
   KMSKeyId?: string;
-  TagList?: TagList;
-  AdditionalEncryptionContext?: EncryptionContextMap;
+  TagList?: Tag[];
+  AdditionalEncryptionContext?: { [key: string]: string };
   Description?: string;
 }
 export const CreateIntegrationMessage = S.suspend(() =>
   S.Struct({
-    SourceArn: S.String,
-    TargetArn: S.String,
-    IntegrationName: S.String,
+    SourceArn: S.optional(S.String),
+    TargetArn: S.optional(S.String),
+    IntegrationName: S.optional(S.String),
     KMSKeyId: S.optional(S.String),
     TagList: S.optional(TagList),
     AdditionalEncryptionContext: S.optional(EncryptionContextMap),
@@ -5121,10 +5354,10 @@ export const CreateIntegrationMessage = S.suspend(() =>
   identifier: "CreateIntegrationMessage",
 }) as any as S.Schema<CreateIntegrationMessage>;
 export interface CreateScheduledActionMessage {
-  ScheduledActionName: string;
-  TargetAction: ScheduledActionType;
-  Schedule: string;
-  IamRole: string;
+  ScheduledActionName?: string;
+  TargetAction?: ScheduledActionType;
+  Schedule?: string;
+  IamRole?: string;
   ScheduledActionDescription?: string;
   StartTime?: Date;
   EndTime?: Date;
@@ -5132,10 +5365,10 @@ export interface CreateScheduledActionMessage {
 }
 export const CreateScheduledActionMessage = S.suspend(() =>
   S.Struct({
-    ScheduledActionName: S.String,
-    TargetAction: ScheduledActionType,
-    Schedule: S.String,
-    IamRole: S.String,
+    ScheduledActionName: S.optional(S.String),
+    TargetAction: S.optional(ScheduledActionType),
+    Schedule: S.optional(S.String),
+    IamRole: S.optional(S.String),
     ScheduledActionDescription: S.optional(S.String),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -5172,7 +5405,7 @@ export const DeleteClusterSnapshotResult = S.suspend(() =>
 }) as any as S.Schema<DeleteClusterSnapshotResult>;
 export interface ClusterParameterGroupsMessage {
   Marker?: string;
-  ParameterGroups?: ParameterGroupList;
+  ParameterGroups?: ClusterParameterGroup[];
 }
 export const ClusterParameterGroupsMessage = S.suspend(() =>
   S.Struct({
@@ -5183,7 +5416,7 @@ export const ClusterParameterGroupsMessage = S.suspend(() =>
   identifier: "ClusterParameterGroupsMessage",
 }) as any as S.Schema<ClusterParameterGroupsMessage>;
 export interface ClusterParameterGroupDetails {
-  Parameters?: ParametersList;
+  Parameters?: Parameter[];
   Marker?: string;
 }
 export const ClusterParameterGroupDetails = S.suspend(() =>
@@ -5196,7 +5429,7 @@ export const ClusterParameterGroupDetails = S.suspend(() =>
 }) as any as S.Schema<ClusterParameterGroupDetails>;
 export interface ClustersMessage {
   Marker?: string;
-  Clusters?: ClusterList;
+  Clusters?: Cluster[];
 }
 export const ClustersMessage = S.suspend(() =>
   S.Struct({
@@ -5208,7 +5441,7 @@ export const ClustersMessage = S.suspend(() =>
 }) as any as S.Schema<ClustersMessage>;
 export interface ClusterSecurityGroupMessage {
   Marker?: string;
-  ClusterSecurityGroups?: ClusterSecurityGroups;
+  ClusterSecurityGroups?: ClusterSecurityGroup[];
 }
 export const ClusterSecurityGroupMessage = S.suspend(() =>
   S.Struct({
@@ -5228,10 +5461,10 @@ export interface DescribeClusterSnapshotsMessage {
   MaxRecords?: number;
   Marker?: string;
   OwnerAccount?: string;
-  TagKeys?: TagKeyList;
-  TagValues?: TagValueList;
+  TagKeys?: string[];
+  TagValues?: string[];
   ClusterExists?: boolean;
-  SortingEntities?: SnapshotSortingEntityList;
+  SortingEntities?: SnapshotSortingEntity[];
 }
 export const DescribeClusterSnapshotsMessage = S.suspend(() =>
   S.Struct({
@@ -5264,7 +5497,7 @@ export const DescribeClusterSnapshotsMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeClusterSnapshotsMessage>;
 export interface ClusterSubnetGroupMessage {
   Marker?: string;
-  ClusterSubnetGroups?: ClusterSubnetGroups;
+  ClusterSubnetGroups?: ClusterSubnetGroup[];
 }
 export const ClusterSubnetGroupMessage = S.suspend(() =>
   S.Struct({
@@ -5275,7 +5508,7 @@ export const ClusterSubnetGroupMessage = S.suspend(() =>
   identifier: "ClusterSubnetGroupMessage",
 }) as any as S.Schema<ClusterSubnetGroupMessage>;
 export interface DescribeDataSharesResult {
-  DataShares?: DataShareList;
+  DataShares?: DataShare[];
   Marker?: string;
 }
 export const DescribeDataSharesResult = S.suspend(() =>
@@ -5287,7 +5520,7 @@ export const DescribeDataSharesResult = S.suspend(() =>
   identifier: "DescribeDataSharesResult",
 }) as any as S.Schema<DescribeDataSharesResult>;
 export interface DescribeDataSharesForConsumerResult {
-  DataShares?: DataShareList;
+  DataShares?: DataShare[];
   Marker?: string;
 }
 export const DescribeDataSharesForConsumerResult = S.suspend(() =>
@@ -5299,7 +5532,7 @@ export const DescribeDataSharesForConsumerResult = S.suspend(() =>
   identifier: "DescribeDataSharesForConsumerResult",
 }) as any as S.Schema<DescribeDataSharesForConsumerResult>;
 export interface DescribeDataSharesForProducerResult {
-  DataShares?: DataShareList;
+  DataShares?: DataShare[];
   Marker?: string;
 }
 export const DescribeDataSharesForProducerResult = S.suspend(() =>
@@ -5311,7 +5544,7 @@ export const DescribeDataSharesForProducerResult = S.suspend(() =>
   identifier: "DescribeDataSharesForProducerResult",
 }) as any as S.Schema<DescribeDataSharesForProducerResult>;
 export interface EndpointAccessList {
-  EndpointAccessList?: EndpointAccesses;
+  EndpointAccessList?: EndpointAccess[];
   Marker?: string;
 }
 export const EndpointAccessList = S.suspend(() =>
@@ -5323,7 +5556,7 @@ export const EndpointAccessList = S.suspend(() =>
   identifier: "EndpointAccessList",
 }) as any as S.Schema<EndpointAccessList>;
 export interface EndpointAuthorizationList {
-  EndpointAuthorizationList?: EndpointAuthorizations;
+  EndpointAuthorizationList?: EndpointAuthorization[];
   Marker?: string;
 }
 export const EndpointAuthorizationList = S.suspend(() =>
@@ -5336,7 +5569,7 @@ export const EndpointAuthorizationList = S.suspend(() =>
 }) as any as S.Schema<EndpointAuthorizationList>;
 export interface EventSubscriptionsMessage {
   Marker?: string;
-  EventSubscriptionsList?: EventSubscriptionsList;
+  EventSubscriptionsList?: EventSubscription[];
 }
 export const EventSubscriptionsMessage = S.suspend(() =>
   S.Struct({
@@ -5348,7 +5581,7 @@ export const EventSubscriptionsMessage = S.suspend(() =>
 }) as any as S.Schema<EventSubscriptionsMessage>;
 export interface HsmClientCertificateMessage {
   Marker?: string;
-  HsmClientCertificates?: HsmClientCertificateList;
+  HsmClientCertificates?: HsmClientCertificate[];
 }
 export const HsmClientCertificateMessage = S.suspend(() =>
   S.Struct({
@@ -5360,7 +5593,7 @@ export const HsmClientCertificateMessage = S.suspend(() =>
 }) as any as S.Schema<HsmClientCertificateMessage>;
 export interface HsmConfigurationMessage {
   Marker?: string;
-  HsmConfigurations?: HsmConfigurationList;
+  HsmConfigurations?: HsmConfiguration[];
 }
 export const HsmConfigurationMessage = S.suspend(() =>
   S.Struct({
@@ -5374,7 +5607,7 @@ export interface DescribeIntegrationsMessage {
   IntegrationArn?: string;
   MaxRecords?: number;
   Marker?: string;
-  Filters?: DescribeIntegrationsFilterList;
+  Filters?: DescribeIntegrationsFilter[];
 }
 export const DescribeIntegrationsMessage = S.suspend(() =>
   S.Struct({
@@ -5403,8 +5636,8 @@ export interface LoggingStatus {
   LastSuccessfulDeliveryTime?: Date;
   LastFailureTime?: Date;
   LastFailureMessage?: string;
-  LogDestinationType?: string;
-  LogExports?: LogTypeList;
+  LogDestinationType?: LogDestinationType;
+  LogExports?: string[];
 }
 export const LoggingStatus = S.suspend(() =>
   S.Struct({
@@ -5416,25 +5649,25 @@ export const LoggingStatus = S.suspend(() =>
     ),
     LastFailureTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     LastFailureMessage: S.optional(S.String),
-    LogDestinationType: S.optional(S.String),
+    LogDestinationType: S.optional(LogDestinationType),
     LogExports: S.optional(LogTypeList),
   }).pipe(ns),
 ).annotations({
   identifier: "LoggingStatus",
 }) as any as S.Schema<LoggingStatus>;
 export interface DescribeNodeConfigurationOptionsMessage {
-  ActionType: string;
+  ActionType?: ActionType;
   ClusterIdentifier?: string;
   SnapshotIdentifier?: string;
   SnapshotArn?: string;
   OwnerAccount?: string;
-  Filters?: NodeConfigurationOptionsFilterList;
+  Filters?: NodeConfigurationOptionsFilter[];
   Marker?: string;
   MaxRecords?: number;
 }
 export const DescribeNodeConfigurationOptionsMessage = S.suspend(() =>
   S.Struct({
-    ActionType: S.String,
+    ActionType: S.optional(ActionType),
     ClusterIdentifier: S.optional(S.String),
     SnapshotIdentifier: S.optional(S.String),
     SnapshotArn: S.optional(S.String),
@@ -5460,7 +5693,7 @@ export const DescribeNodeConfigurationOptionsMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeNodeConfigurationOptionsMessage>;
 export interface ReservedNodesMessage {
   Marker?: string;
-  ReservedNodes?: ReservedNodeList;
+  ReservedNodes?: ReservedNode[];
 }
 export const ReservedNodesMessage = S.suspend(() =>
   S.Struct({
@@ -5472,18 +5705,18 @@ export const ReservedNodesMessage = S.suspend(() =>
 }) as any as S.Schema<ReservedNodesMessage>;
 export interface DescribeScheduledActionsMessage {
   ScheduledActionName?: string;
-  TargetActionType?: string;
+  TargetActionType?: ScheduledActionTypeValues;
   StartTime?: Date;
   EndTime?: Date;
   Active?: boolean;
-  Filters?: ScheduledActionFilterList;
+  Filters?: ScheduledActionFilter[];
   Marker?: string;
   MaxRecords?: number;
 }
 export const DescribeScheduledActionsMessage = S.suspend(() =>
   S.Struct({
     ScheduledActionName: S.optional(S.String),
-    TargetActionType: S.optional(S.String),
+    TargetActionType: S.optional(ScheduledActionTypeValues),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     Active: S.optional(S.Boolean),
@@ -5506,7 +5739,7 @@ export const DescribeScheduledActionsMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeScheduledActionsMessage>;
 export interface SnapshotCopyGrantMessage {
   Marker?: string;
-  SnapshotCopyGrants?: SnapshotCopyGrantList;
+  SnapshotCopyGrants?: SnapshotCopyGrant[];
 }
 export const SnapshotCopyGrantMessage = S.suspend(() =>
   S.Struct({
@@ -5517,7 +5750,7 @@ export const SnapshotCopyGrantMessage = S.suspend(() =>
   identifier: "SnapshotCopyGrantMessage",
 }) as any as S.Schema<SnapshotCopyGrantMessage>;
 export interface DescribeSnapshotSchedulesOutputMessage {
-  SnapshotSchedules?: SnapshotScheduleList;
+  SnapshotSchedules?: SnapshotSchedule[];
   Marker?: string;
 }
 export const DescribeSnapshotSchedulesOutputMessage = S.suspend(() =>
@@ -5529,7 +5762,7 @@ export const DescribeSnapshotSchedulesOutputMessage = S.suspend(() =>
   identifier: "DescribeSnapshotSchedulesOutputMessage",
 }) as any as S.Schema<DescribeSnapshotSchedulesOutputMessage>;
 export interface UsageLimitList {
-  UsageLimits?: UsageLimits;
+  UsageLimits?: UsageLimit[];
   Marker?: string;
 }
 export const UsageLimitList = S.suspend(() =>
@@ -5566,7 +5799,7 @@ export const FailoverPrimaryComputeResult = S.suspend(() =>
 }) as any as S.Schema<FailoverPrimaryComputeResult>;
 export interface ClusterCredentials {
   DbUser?: string;
-  DbPassword?: string | Redacted.Redacted<string>;
+  DbPassword?: string | redacted.Redacted<string>;
   Expiration?: Date;
 }
 export const ClusterCredentials = S.suspend(() =>
@@ -5580,7 +5813,7 @@ export const ClusterCredentials = S.suspend(() =>
 }) as any as S.Schema<ClusterCredentials>;
 export interface ClusterExtendedCredentials {
   DbUser?: string;
-  DbPassword?: string | Redacted.Redacted<string>;
+  DbPassword?: string | redacted.Redacted<string>;
   Expiration?: Date;
   NextRefreshTime?: Date;
 }
@@ -5595,7 +5828,7 @@ export const ClusterExtendedCredentials = S.suspend(() =>
   identifier: "ClusterExtendedCredentials",
 }) as any as S.Schema<ClusterExtendedCredentials>;
 export interface GetIdentityCenterAuthTokenResponse {
-  Token?: string | Redacted.Redacted<string>;
+  Token?: string | redacted.Redacted<string>;
   ExpirationTime?: Date;
 }
 export const GetIdentityCenterAuthTokenResponse = S.suspend(() =>
@@ -5614,8 +5847,8 @@ export interface ReservedNodeOffering {
   UsagePrice?: number;
   CurrencyCode?: string;
   OfferingType?: string;
-  RecurringCharges?: RecurringChargeList;
-  ReservedNodeOfferingType?: string;
+  RecurringCharges?: RecurringCharge[];
+  ReservedNodeOfferingType?: ReservedNodeOfferingType;
 }
 export const ReservedNodeOffering = S.suspend(() =>
   S.Struct({
@@ -5627,7 +5860,7 @@ export const ReservedNodeOffering = S.suspend(() =>
     CurrencyCode: S.optional(S.String),
     OfferingType: S.optional(S.String),
     RecurringCharges: S.optional(RecurringChargeList),
-    ReservedNodeOfferingType: S.optional(S.String),
+    ReservedNodeOfferingType: S.optional(ReservedNodeOfferingType),
   }),
 ).annotations({
   identifier: "ReservedNodeOffering",
@@ -5640,7 +5873,7 @@ export const ReservedNodeOfferingList = S.Array(
 );
 export interface GetReservedNodeExchangeOfferingsOutputMessage {
   Marker?: string;
-  ReservedNodeOfferings?: ReservedNodeOfferingList;
+  ReservedNodeOfferings?: ReservedNodeOffering[];
 }
 export const GetReservedNodeExchangeOfferingsOutputMessage = S.suspend(() =>
   S.Struct({
@@ -5695,11 +5928,14 @@ export const ModifyClusterMaintenanceResult = S.suspend(() =>
   identifier: "ModifyClusterMaintenanceResult",
 }) as any as S.Schema<ModifyClusterMaintenanceResult>;
 export interface ModifyClusterParameterGroupMessage {
-  ParameterGroupName: string;
-  Parameters: ParametersList;
+  ParameterGroupName?: string;
+  Parameters?: Parameter[];
 }
 export const ModifyClusterParameterGroupMessage = S.suspend(() =>
-  S.Struct({ ParameterGroupName: S.String, Parameters: ParametersList }).pipe(
+  S.Struct({
+    ParameterGroupName: S.optional(S.String),
+    Parameters: S.optional(ParametersList),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -5778,11 +6014,11 @@ export interface RedshiftIdcApplication {
   IamRoleArn?: string;
   IdcManagedApplicationArn?: string;
   IdcOnboardStatus?: string;
-  AuthorizedTokenIssuerList?: AuthorizedTokenIssuerList;
-  ServiceIntegrations?: ServiceIntegrationList;
-  ApplicationType?: string;
-  Tags?: TagList;
-  SsoTagKeys?: TagKeyList;
+  AuthorizedTokenIssuerList?: AuthorizedTokenIssuer[];
+  ServiceIntegrations?: ServiceIntegrationsUnion[];
+  ApplicationType?: ApplicationType;
+  Tags?: Tag[];
+  SsoTagKeys?: string[];
 }
 export const RedshiftIdcApplication = S.suspend(() =>
   S.Struct({
@@ -5796,7 +6032,7 @@ export const RedshiftIdcApplication = S.suspend(() =>
     IdcOnboardStatus: S.optional(S.String),
     AuthorizedTokenIssuerList: S.optional(AuthorizedTokenIssuerList),
     ServiceIntegrations: S.optional(ServiceIntegrationList),
-    ApplicationType: S.optional(S.String),
+    ApplicationType: S.optional(ApplicationType),
     Tags: S.optional(TagList),
     SsoTagKeys: S.optional(TagKeyList),
   }),
@@ -5819,8 +6055,8 @@ export interface ScheduledAction {
   Schedule?: string;
   IamRole?: string;
   ScheduledActionDescription?: string;
-  State?: string;
-  NextInvocations?: ScheduledActionTimeList;
+  State?: ScheduledActionState;
+  NextInvocations?: Date[];
   StartTime?: Date;
   EndTime?: Date;
 }
@@ -5831,7 +6067,7 @@ export const ScheduledAction = S.suspend(() =>
     Schedule: S.optional(S.String),
     IamRole: S.optional(S.String),
     ScheduledActionDescription: S.optional(S.String),
-    State: S.optional(S.String),
+    State: S.optional(ScheduledActionState),
     NextInvocations: S.optional(ScheduledActionTimeList),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -5889,10 +6125,10 @@ export const RebootClusterResult = S.suspend(() =>
   identifier: "RebootClusterResult",
 }) as any as S.Schema<RebootClusterResult>;
 export interface RegisterNamespaceOutputMessage {
-  Status?: string;
+  Status?: NamespaceRegistrationStatus;
 }
 export const RegisterNamespaceOutputMessage = S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String) }).pipe(ns),
+  S.Struct({ Status: S.optional(NamespaceRegistrationStatus) }).pipe(ns),
 ).annotations({
   identifier: "RegisterNamespaceOutputMessage",
 }) as any as S.Schema<RegisterNamespaceOutputMessage>;
@@ -5924,9 +6160,22 @@ export const RestoreFromClusterSnapshotResult = S.suspend(() =>
 ).annotations({
   identifier: "RestoreFromClusterSnapshotResult",
 }) as any as S.Schema<RestoreFromClusterSnapshotResult>;
+export type TableRestoreStatusType =
+  | "PENDING"
+  | "IN_PROGRESS"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "CANCELED";
+export const TableRestoreStatusType = S.Literal(
+  "PENDING",
+  "IN_PROGRESS",
+  "SUCCEEDED",
+  "FAILED",
+  "CANCELED",
+);
 export interface TableRestoreStatus {
   TableRestoreRequestId?: string;
-  Status?: string;
+  Status?: TableRestoreStatusType;
   Message?: string;
   RequestTime?: Date;
   ProgressInMegaBytes?: number;
@@ -5943,7 +6192,7 @@ export interface TableRestoreStatus {
 export const TableRestoreStatus = S.suspend(() =>
   S.Struct({
     TableRestoreRequestId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(TableRestoreStatusType),
     Message: S.optional(S.String),
     RequestTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     ProgressInMegaBytes: S.optional(S.Number),
@@ -6000,6 +6249,8 @@ export const RotateEncryptionKeyResult = S.suspend(() =>
 ).annotations({
   identifier: "RotateEncryptionKeyResult",
 }) as any as S.Schema<RotateEncryptionKeyResult>;
+export type ImpactRankingType = "HIGH" | "MEDIUM" | "LOW";
+export const ImpactRankingType = S.Literal("HIGH", "MEDIUM", "LOW");
 export type BatchSnapshotOperationErrorList = SnapshotErrorMessage[];
 export const BatchSnapshotOperationErrorList = S.Array(
   SnapshotErrorMessage.pipe(T.XmlName("SnapshotErrorMessage")).annotations({
@@ -6007,11 +6258,14 @@ export const BatchSnapshotOperationErrorList = S.Array(
   }),
 );
 export interface IntegrationError {
-  ErrorCode: string;
+  ErrorCode?: string;
   ErrorMessage?: string;
 }
 export const IntegrationError = S.suspend(() =>
-  S.Struct({ ErrorCode: S.String, ErrorMessage: S.optional(S.String) }),
+  S.Struct({
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "IntegrationError",
 }) as any as S.Schema<IntegrationError>;
@@ -6062,7 +6316,7 @@ export const ClusterVersionList = S.Array(
 export interface DefaultClusterParameters {
   ParameterGroupFamily?: string;
   Marker?: string;
-  Parameters?: ParametersList;
+  Parameters?: Parameter[];
 }
 export const DefaultClusterParameters = S.suspend(() =>
   S.Struct({
@@ -6075,9 +6329,9 @@ export const DefaultClusterParameters = S.suspend(() =>
 }) as any as S.Schema<DefaultClusterParameters>;
 export interface Event {
   SourceIdentifier?: string;
-  SourceType?: string;
+  SourceType?: SourceType;
   Message?: string;
-  EventCategories?: EventCategoriesList;
+  EventCategories?: string[];
   Severity?: string;
   Date?: Date;
   EventId?: string;
@@ -6085,7 +6339,7 @@ export interface Event {
 export const Event = S.suspend(() =>
   S.Struct({
     SourceIdentifier: S.optional(S.String),
-    SourceType: S.optional(S.String),
+    SourceType: S.optional(SourceType),
     Message: S.optional(S.String),
     EventCategories: S.optional(EventCategoriesList),
     Severity: S.optional(S.String),
@@ -6101,8 +6355,8 @@ export interface InboundIntegration {
   IntegrationArn?: string;
   SourceArn?: string;
   TargetArn?: string;
-  Status?: string;
-  Errors?: IntegrationErrorList;
+  Status?: ZeroETLIntegrationStatus;
+  Errors?: IntegrationError[];
   CreateTime?: Date;
 }
 export const InboundIntegration = S.suspend(() =>
@@ -6110,7 +6364,7 @@ export const InboundIntegration = S.suspend(() =>
     IntegrationArn: S.optional(S.String),
     SourceArn: S.optional(S.String),
     TargetArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ZeroETLIntegrationStatus),
     Errors: S.optional(IntegrationErrorList),
     CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
@@ -6128,13 +6382,13 @@ export interface Integration {
   IntegrationName?: string;
   SourceArn?: string;
   TargetArn?: string;
-  Status?: string;
-  Errors?: IntegrationErrorList;
+  Status?: ZeroETLIntegrationStatus;
+  Errors?: IntegrationError[];
   CreateTime?: Date;
   Description?: string;
   KMSKeyId?: string;
-  AdditionalEncryptionContext?: EncryptionContextMap;
-  Tags?: TagList;
+  AdditionalEncryptionContext?: { [key: string]: string };
+  Tags?: Tag[];
 }
 export const Integration = S.suspend(() =>
   S.Struct({
@@ -6142,7 +6396,7 @@ export const Integration = S.suspend(() =>
     IntegrationName: S.optional(S.String),
     SourceArn: S.optional(S.String),
     TargetArn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(ZeroETLIntegrationStatus),
     Errors: S.optional(IntegrationErrorList),
     CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     Description: S.optional(S.String),
@@ -6160,7 +6414,7 @@ export const IntegrationList = S.Array(
 export interface PartnerIntegrationInfo {
   DatabaseName?: string;
   PartnerName?: string;
-  Status?: string;
+  Status?: PartnerIntegrationStatus;
   StatusMessage?: string;
   CreatedAt?: Date;
   UpdatedAt?: Date;
@@ -6169,7 +6423,7 @@ export const PartnerIntegrationInfo = S.suspend(() =>
   S.Struct({
     DatabaseName: S.optional(S.String),
     PartnerName: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(PartnerIntegrationStatus),
     StatusMessage: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -6244,9 +6498,11 @@ export const ReservedNodeConfigurationOptionList = S.Array(
     T.XmlName("ReservedNodeConfigurationOption"),
   ).annotations({ identifier: "ReservedNodeConfigurationOption" }),
 );
+export type RecommendedActionType = "SQL" | "CLI";
+export const RecommendedActionType = S.Literal("SQL", "CLI");
 export interface BatchDeleteClusterSnapshotsResult {
-  Resources?: SnapshotIdentifierList;
-  Errors?: BatchSnapshotOperationErrorList;
+  Resources?: string[];
+  Errors?: SnapshotErrorMessage[];
 }
 export const BatchDeleteClusterSnapshotsResult = S.suspend(() =>
   S.Struct({
@@ -6307,13 +6563,13 @@ export const CreateSnapshotCopyGrantResult = S.suspend(() =>
   identifier: "CreateSnapshotCopyGrantResult",
 }) as any as S.Schema<CreateSnapshotCopyGrantResult>;
 export interface DeregisterNamespaceInputMessage {
-  NamespaceIdentifier: (typeof NamespaceIdentifierUnion)["Type"];
-  ConsumerIdentifiers: ConsumerIdentifierList;
+  NamespaceIdentifier?: NamespaceIdentifierUnion;
+  ConsumerIdentifiers?: string[];
 }
 export const DeregisterNamespaceInputMessage = S.suspend(() =>
   S.Struct({
-    NamespaceIdentifier: NamespaceIdentifierUnion,
-    ConsumerIdentifiers: ConsumerIdentifierList,
+    NamespaceIdentifier: S.optional(NamespaceIdentifierUnion),
+    ConsumerIdentifiers: S.optional(ConsumerIdentifierList),
   }).pipe(
     T.all(
       ns,
@@ -6329,7 +6585,7 @@ export const DeregisterNamespaceInputMessage = S.suspend(() =>
   identifier: "DeregisterNamespaceInputMessage",
 }) as any as S.Schema<DeregisterNamespaceInputMessage>;
 export interface DescribeAuthenticationProfilesResult {
-  AuthenticationProfiles?: AuthenticationProfileList;
+  AuthenticationProfiles?: AuthenticationProfile[];
 }
 export const DescribeAuthenticationProfilesResult = S.suspend(() =>
   S.Struct({
@@ -6340,7 +6596,7 @@ export const DescribeAuthenticationProfilesResult = S.suspend(() =>
 }) as any as S.Schema<DescribeAuthenticationProfilesResult>;
 export interface SnapshotMessage {
   Marker?: string;
-  Snapshots?: SnapshotList;
+  Snapshots?: Snapshot[];
 }
 export const SnapshotMessage = S.suspend(() =>
   S.Struct({
@@ -6352,7 +6608,7 @@ export const SnapshotMessage = S.suspend(() =>
 }) as any as S.Schema<SnapshotMessage>;
 export interface ClusterVersionsMessage {
   Marker?: string;
-  ClusterVersions?: ClusterVersionList;
+  ClusterVersions?: ClusterVersion[];
 }
 export const ClusterVersionsMessage = S.suspend(() =>
   S.Struct({
@@ -6374,7 +6630,7 @@ export const DescribeDefaultClusterParametersResult = S.suspend(() =>
 }) as any as S.Schema<DescribeDefaultClusterParametersResult>;
 export interface EventsMessage {
   Marker?: string;
-  Events?: EventList;
+  Events?: Event[];
 }
 export const EventsMessage = S.suspend(() =>
   S.Struct({
@@ -6386,7 +6642,7 @@ export const EventsMessage = S.suspend(() =>
 }) as any as S.Schema<EventsMessage>;
 export interface InboundIntegrationsMessage {
   Marker?: string;
-  InboundIntegrations?: InboundIntegrationList;
+  InboundIntegrations?: InboundIntegration[];
 }
 export const InboundIntegrationsMessage = S.suspend(() =>
   S.Struct({
@@ -6398,7 +6654,7 @@ export const InboundIntegrationsMessage = S.suspend(() =>
 }) as any as S.Schema<InboundIntegrationsMessage>;
 export interface IntegrationsMessage {
   Marker?: string;
-  Integrations?: IntegrationList;
+  Integrations?: Integration[];
 }
 export const IntegrationsMessage = S.suspend(() =>
   S.Struct({
@@ -6409,7 +6665,7 @@ export const IntegrationsMessage = S.suspend(() =>
   identifier: "IntegrationsMessage",
 }) as any as S.Schema<IntegrationsMessage>;
 export interface DescribePartnersOutputMessage {
-  PartnerIntegrationInfoList?: PartnerIntegrationInfoList;
+  PartnerIntegrationInfoList?: PartnerIntegrationInfo[];
 }
 export const DescribePartnersOutputMessage = S.suspend(() =>
   S.Struct({
@@ -6419,7 +6675,7 @@ export const DescribePartnersOutputMessage = S.suspend(() =>
   identifier: "DescribePartnersOutputMessage",
 }) as any as S.Schema<DescribePartnersOutputMessage>;
 export interface DescribeRedshiftIdcApplicationsResult {
-  RedshiftIdcApplications?: RedshiftIdcApplicationList;
+  RedshiftIdcApplications?: RedshiftIdcApplication[];
   Marker?: string;
 }
 export const DescribeRedshiftIdcApplicationsResult = S.suspend(() =>
@@ -6431,7 +6687,7 @@ export const DescribeRedshiftIdcApplicationsResult = S.suspend(() =>
   identifier: "DescribeRedshiftIdcApplicationsResult",
 }) as any as S.Schema<DescribeRedshiftIdcApplicationsResult>;
 export interface DescribeReservedNodeExchangeStatusOutputMessage {
-  ReservedNodeExchangeStatusDetails?: ReservedNodeExchangeStatusList;
+  ReservedNodeExchangeStatusDetails?: ReservedNodeExchangeStatus[];
   Marker?: string;
 }
 export const DescribeReservedNodeExchangeStatusOutputMessage = S.suspend(() =>
@@ -6446,7 +6702,7 @@ export const DescribeReservedNodeExchangeStatusOutputMessage = S.suspend(() =>
 }) as any as S.Schema<DescribeReservedNodeExchangeStatusOutputMessage>;
 export interface ReservedNodeOfferingsMessage {
   Marker?: string;
-  ReservedNodeOfferings?: ReservedNodeOfferingList;
+  ReservedNodeOfferings?: ReservedNodeOffering[];
 }
 export const ReservedNodeOfferingsMessage = S.suspend(() =>
   S.Struct({
@@ -6458,7 +6714,7 @@ export const ReservedNodeOfferingsMessage = S.suspend(() =>
 }) as any as S.Schema<ReservedNodeOfferingsMessage>;
 export interface ScheduledActionsMessage {
   Marker?: string;
-  ScheduledActions?: ScheduledActionList;
+  ScheduledActions?: ScheduledAction[];
 }
 export const ScheduledActionsMessage = S.suspend(() =>
   S.Struct({
@@ -6469,7 +6725,7 @@ export const ScheduledActionsMessage = S.suspend(() =>
   identifier: "ScheduledActionsMessage",
 }) as any as S.Schema<ScheduledActionsMessage>;
 export interface TableRestoreStatusMessage {
-  TableRestoreStatusDetails?: TableRestoreStatusList;
+  TableRestoreStatusDetails?: TableRestoreStatus[];
   Marker?: string;
 }
 export const TableRestoreStatusMessage = S.suspend(() =>
@@ -6481,7 +6737,7 @@ export const TableRestoreStatusMessage = S.suspend(() =>
   identifier: "TableRestoreStatusMessage",
 }) as any as S.Schema<TableRestoreStatusMessage>;
 export interface TaggedResourceListMessage {
-  TaggedResources?: TaggedResourceList;
+  TaggedResources?: TaggedResource[];
   Marker?: string;
 }
 export const TaggedResourceListMessage = S.suspend(() =>
@@ -6494,7 +6750,7 @@ export const TaggedResourceListMessage = S.suspend(() =>
 }) as any as S.Schema<TaggedResourceListMessage>;
 export interface GetReservedNodeExchangeConfigurationOptionsOutputMessage {
   Marker?: string;
-  ReservedNodeConfigurationOptionList?: ReservedNodeConfigurationOptionList;
+  ReservedNodeConfigurationOptionList?: ReservedNodeConfigurationOption[];
 }
 export const GetReservedNodeExchangeConfigurationOptionsOutputMessage =
   S.suspend(() =>
@@ -6579,7 +6835,7 @@ export const CertificateAssociationList = S.Array(
 );
 export interface EventInfoMap {
   EventId?: string;
-  EventCategories?: EventCategoriesList;
+  EventCategories?: string[];
   EventDescription?: string;
   Severity?: string;
 }
@@ -6597,18 +6853,20 @@ export const EventInfoMapList = S.Array(
     identifier: "EventInfoMap",
   }),
 );
+export type Mode = "standard" | "high-performance";
+export const Mode = S.Literal("standard", "high-performance");
 export interface RecommendedAction {
   Text?: string;
   Database?: string;
   Command?: string;
-  Type?: string;
+  Type?: RecommendedActionType;
 }
 export const RecommendedAction = S.suspend(() =>
   S.Struct({
     Text: S.optional(S.String),
     Database: S.optional(S.String),
     Command: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(RecommendedActionType),
   }),
 ).annotations({
   identifier: "RecommendedAction",
@@ -6636,7 +6894,7 @@ export const ReferenceLinkList = S.Array(
 );
 export interface AccountAttribute {
   AttributeName?: string;
-  AttributeValues?: AttributeValueList;
+  AttributeValues?: AttributeValueTarget[];
 }
 export const AccountAttribute = S.suspend(() =>
   S.Struct({
@@ -6656,7 +6914,7 @@ export interface ClusterDbRevision {
   ClusterIdentifier?: string;
   CurrentDatabaseRevision?: string;
   DatabaseRevisionReleaseDate?: Date;
-  RevisionTargets?: RevisionTargetsList;
+  RevisionTargets?: RevisionTarget[];
 }
 export const ClusterDbRevision = S.suspend(() =>
   S.Struct({
@@ -6679,7 +6937,7 @@ export const ClusterDbRevisionsList = S.Array(
 export interface Association {
   CustomDomainCertificateArn?: string;
   CustomDomainCertificateExpiryDate?: Date;
-  CertificateAssociations?: CertificateAssociationList;
+  CertificateAssociations?: CertificateAssociation[];
 }
 export const Association = S.suspend(() =>
   S.Struct({
@@ -6698,7 +6956,7 @@ export const AssociationList = S.Array(
 );
 export interface EventCategoriesMap {
   SourceType?: string;
-  Events?: EventInfoMapList;
+  Events?: EventInfoMap[];
 }
 export const EventCategoriesMap = S.suspend(() =>
   S.Struct({
@@ -6718,14 +6976,14 @@ export interface NodeConfigurationOption {
   NodeType?: string;
   NumberOfNodes?: number;
   EstimatedDiskUtilizationPercent?: number;
-  Mode?: string;
+  Mode?: Mode;
 }
 export const NodeConfigurationOption = S.suspend(() =>
   S.Struct({
     NodeType: S.optional(S.String),
     NumberOfNodes: S.optional(S.Number),
     EstimatedDiskUtilizationPercent: S.optional(S.Number),
-    Mode: S.optional(S.String),
+    Mode: S.optional(Mode),
   }),
 ).annotations({
   identifier: "NodeConfigurationOption",
@@ -6745,10 +7003,10 @@ export interface Recommendation {
   Title?: string;
   Description?: string;
   Observation?: string;
-  ImpactRanking?: string;
+  ImpactRanking?: ImpactRankingType;
   RecommendationText?: string;
-  RecommendedActions?: RecommendedActionList;
-  ReferenceLinks?: ReferenceLinkList;
+  RecommendedActions?: RecommendedAction[];
+  ReferenceLinks?: ReferenceLink[];
 }
 export const Recommendation = S.suspend(() =>
   S.Struct({
@@ -6760,7 +7018,7 @@ export const Recommendation = S.suspend(() =>
     Title: S.optional(S.String),
     Description: S.optional(S.String),
     Observation: S.optional(S.String),
-    ImpactRanking: S.optional(S.String),
+    ImpactRanking: S.optional(ImpactRankingType),
     RecommendationText: S.optional(S.String),
     RecommendedActions: S.optional(RecommendedActionList),
     ReferenceLinks: S.optional(ReferenceLinkList),
@@ -6821,27 +7079,27 @@ export const CreateClusterSubnetGroupResult = S.suspend(() =>
   identifier: "CreateClusterSubnetGroupResult",
 }) as any as S.Schema<CreateClusterSubnetGroupResult>;
 export interface CreateRedshiftIdcApplicationMessage {
-  IdcInstanceArn: string;
-  RedshiftIdcApplicationName: string;
+  IdcInstanceArn?: string;
+  RedshiftIdcApplicationName?: string;
   IdentityNamespace?: string;
-  IdcDisplayName: string;
-  IamRoleArn: string;
-  AuthorizedTokenIssuerList?: AuthorizedTokenIssuerList;
-  ServiceIntegrations?: ServiceIntegrationList;
-  ApplicationType?: string;
-  Tags?: TagList;
-  SsoTagKeys?: TagKeyList;
+  IdcDisplayName?: string;
+  IamRoleArn?: string;
+  AuthorizedTokenIssuerList?: AuthorizedTokenIssuer[];
+  ServiceIntegrations?: ServiceIntegrationsUnion[];
+  ApplicationType?: ApplicationType;
+  Tags?: Tag[];
+  SsoTagKeys?: string[];
 }
 export const CreateRedshiftIdcApplicationMessage = S.suspend(() =>
   S.Struct({
-    IdcInstanceArn: S.String,
-    RedshiftIdcApplicationName: S.String,
+    IdcInstanceArn: S.optional(S.String),
+    RedshiftIdcApplicationName: S.optional(S.String),
     IdentityNamespace: S.optional(S.String),
-    IdcDisplayName: S.String,
-    IamRoleArn: S.String,
+    IdcDisplayName: S.optional(S.String),
+    IamRoleArn: S.optional(S.String),
     AuthorizedTokenIssuerList: S.optional(AuthorizedTokenIssuerList),
     ServiceIntegrations: S.optional(ServiceIntegrationList),
-    ApplicationType: S.optional(S.String),
+    ApplicationType: S.optional(ApplicationType),
     Tags: S.optional(TagList),
     SsoTagKeys: S.optional(TagKeyList),
   }).pipe(
@@ -6859,15 +7117,15 @@ export const CreateRedshiftIdcApplicationMessage = S.suspend(() =>
   identifier: "CreateRedshiftIdcApplicationMessage",
 }) as any as S.Schema<CreateRedshiftIdcApplicationMessage>;
 export interface DeregisterNamespaceOutputMessage {
-  Status?: string;
+  Status?: NamespaceRegistrationStatus;
 }
 export const DeregisterNamespaceOutputMessage = S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String) }).pipe(ns),
+  S.Struct({ Status: S.optional(NamespaceRegistrationStatus) }).pipe(ns),
 ).annotations({
   identifier: "DeregisterNamespaceOutputMessage",
 }) as any as S.Schema<DeregisterNamespaceOutputMessage>;
 export interface AccountAttributeList {
-  AccountAttributes?: AttributeList;
+  AccountAttributes?: AccountAttribute[];
 }
 export const AccountAttributeList = S.suspend(() =>
   S.Struct({ AccountAttributes: S.optional(AttributeList) }).pipe(ns),
@@ -6876,7 +7134,7 @@ export const AccountAttributeList = S.suspend(() =>
 }) as any as S.Schema<AccountAttributeList>;
 export interface ClusterDbRevisionsMessage {
   Marker?: string;
-  ClusterDbRevisions?: ClusterDbRevisionsList;
+  ClusterDbRevisions?: ClusterDbRevision[];
 }
 export const ClusterDbRevisionsMessage = S.suspend(() =>
   S.Struct({
@@ -6888,7 +7146,7 @@ export const ClusterDbRevisionsMessage = S.suspend(() =>
 }) as any as S.Schema<ClusterDbRevisionsMessage>;
 export interface CustomDomainAssociationsMessage {
   Marker?: string;
-  Associations?: AssociationList;
+  Associations?: Association[];
 }
 export const CustomDomainAssociationsMessage = S.suspend(() =>
   S.Struct({
@@ -6899,7 +7157,7 @@ export const CustomDomainAssociationsMessage = S.suspend(() =>
   identifier: "CustomDomainAssociationsMessage",
 }) as any as S.Schema<CustomDomainAssociationsMessage>;
 export interface EventCategoriesMessage {
-  EventCategoriesMapList?: EventCategoriesMapList;
+  EventCategoriesMapList?: EventCategoriesMap[];
 }
 export const EventCategoriesMessage = S.suspend(() =>
   S.Struct({ EventCategoriesMapList: S.optional(EventCategoriesMapList) }).pipe(
@@ -6909,7 +7167,7 @@ export const EventCategoriesMessage = S.suspend(() =>
   identifier: "EventCategoriesMessage",
 }) as any as S.Schema<EventCategoriesMessage>;
 export interface NodeConfigurationOptionsMessage {
-  NodeConfigurationOptionList?: NodeConfigurationOptionList;
+  NodeConfigurationOptionList?: NodeConfigurationOption[];
   Marker?: string;
 }
 export const NodeConfigurationOptionsMessage = S.suspend(() =>
@@ -6921,7 +7179,7 @@ export const NodeConfigurationOptionsMessage = S.suspend(() =>
   identifier: "NodeConfigurationOptionsMessage",
 }) as any as S.Schema<NodeConfigurationOptionsMessage>;
 export interface ListRecommendationsResult {
-  Recommendations?: RecommendationList;
+  Recommendations?: Recommendation[];
   Marker?: string;
 }
 export const ListRecommendationsResult = S.suspend(() =>
@@ -6935,7 +7193,7 @@ export const ListRecommendationsResult = S.suspend(() =>
 export interface UpdateTarget {
   MaintenanceTrackName?: string;
   DatabaseVersion?: string;
-  SupportedOperations?: SupportedOperationList;
+  SupportedOperations?: SupportedOperation[];
 }
 export const UpdateTarget = S.suspend(() =>
   S.Struct({
@@ -6959,7 +7217,7 @@ export const AvailabilityZoneList = S.Array(
 export interface MaintenanceTrack {
   MaintenanceTrackName?: string;
   DatabaseVersion?: string;
-  UpdateTargets?: EligibleTracksToUpdateList;
+  UpdateTargets?: UpdateTarget[];
 }
 export const MaintenanceTrack = S.suspend(() =>
   S.Struct({
@@ -6980,7 +7238,7 @@ export interface OrderableClusterOption {
   ClusterVersion?: string;
   ClusterType?: string;
   NodeType?: string;
-  AvailabilityZones?: AvailabilityZoneList;
+  AvailabilityZones?: AvailabilityZone[];
 }
 export const OrderableClusterOption = S.suspend(() =>
   S.Struct({
@@ -7017,7 +7275,7 @@ export const DeleteClusterResult = S.suspend(() =>
   identifier: "DeleteClusterResult",
 }) as any as S.Schema<DeleteClusterResult>;
 export interface TrackListMessage {
-  MaintenanceTracks?: TrackList;
+  MaintenanceTracks?: MaintenanceTrack[];
   Marker?: string;
 }
 export const TrackListMessage = S.suspend(() =>
@@ -7029,7 +7287,7 @@ export const TrackListMessage = S.suspend(() =>
   identifier: "TrackListMessage",
 }) as any as S.Schema<TrackListMessage>;
 export interface OrderableClusterOptionsMessage {
-  OrderableClusterOptions?: OrderableClusterOptionsList;
+  OrderableClusterOptions?: OrderableClusterOption[];
   Marker?: string;
 }
 export const OrderableClusterOptionsMessage = S.suspend(() =>
@@ -8022,7 +8280,7 @@ export class SubscriptionSeverityNotFoundFault extends S.TaggedError<Subscriptio
  */
 export const describeStorage: (
   input: DescribeStorageRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CustomerStorageMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8038,7 +8296,7 @@ export const describeStorage: (
  */
 export const authorizeDataShare: (
   input: AuthorizeDataShareMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DataShare,
   InvalidDataShareFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8053,7 +8311,7 @@ export const authorizeDataShare: (
  */
 export const deleteTags: (
   input: DeleteTagsMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteTagsResponse,
   InvalidTagFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8086,21 +8344,21 @@ export const deleteTags: (
 export const describeClusterParameterGroups: {
   (
     input: DescribeClusterParameterGroupsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     ClusterParameterGroupsMessage,
     ClusterParameterGroupNotFoundFault | InvalidTagFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeClusterParameterGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ClusterParameterGroupsMessage,
     ClusterParameterGroupNotFoundFault | InvalidTagFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeClusterParameterGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ClusterParameterGroup,
     ClusterParameterGroupNotFoundFault | InvalidTagFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8134,21 +8392,21 @@ export const describeClusterParameterGroups: {
 export const describeClusterParameters: {
   (
     input: DescribeClusterParametersMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     ClusterParameterGroupDetails,
     ClusterParameterGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeClusterParametersMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ClusterParameterGroupDetails,
     ClusterParameterGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeClusterParametersMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Parameter,
     ClusterParameterGroupNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8184,21 +8442,21 @@ export const describeClusterParameters: {
 export const describeClusters: {
   (
     input: DescribeClustersMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     ClustersMessage,
     ClusterNotFoundFault | InvalidTagFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeClustersMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ClustersMessage,
     ClusterNotFoundFault | InvalidTagFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeClustersMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Cluster,
     ClusterNotFoundFault | InvalidTagFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8236,21 +8494,21 @@ export const describeClusters: {
 export const describeClusterSecurityGroups: {
   (
     input: DescribeClusterSecurityGroupsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     ClusterSecurityGroupMessage,
     ClusterSecurityGroupNotFoundFault | InvalidTagFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeClusterSecurityGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ClusterSecurityGroupMessage,
     ClusterSecurityGroupNotFoundFault | InvalidTagFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeClusterSecurityGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ClusterSecurityGroup,
     ClusterSecurityGroupNotFoundFault | InvalidTagFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8284,21 +8542,21 @@ export const describeClusterSecurityGroups: {
 export const describeClusterSubnetGroups: {
   (
     input: DescribeClusterSubnetGroupsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     ClusterSubnetGroupMessage,
     ClusterSubnetGroupNotFoundFault | InvalidTagFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeClusterSubnetGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ClusterSubnetGroupMessage,
     ClusterSubnetGroupNotFoundFault | InvalidTagFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeClusterSubnetGroupsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ClusterSubnetGroup,
     ClusterSubnetGroupNotFoundFault | InvalidTagFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8321,21 +8579,21 @@ export const describeClusterSubnetGroups: {
 export const describeDataShares: {
   (
     input: DescribeDataSharesMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeDataSharesResult,
     InvalidDataShareFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDataSharesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeDataSharesResult,
     InvalidDataShareFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDataSharesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataShare,
     InvalidDataShareFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8357,21 +8615,21 @@ export const describeDataShares: {
 export const describeEndpointAuthorization: {
   (
     input: DescribeEndpointAuthorizationMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     EndpointAuthorizationList,
     ClusterNotFoundFault | UnsupportedOperationFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeEndpointAuthorizationMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EndpointAuthorizationList,
     ClusterNotFoundFault | UnsupportedOperationFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEndpointAuthorizationMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EndpointAuthorization,
     ClusterNotFoundFault | UnsupportedOperationFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8404,21 +8662,21 @@ export const describeEndpointAuthorization: {
 export const describeHsmClientCertificates: {
   (
     input: DescribeHsmClientCertificatesMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     HsmClientCertificateMessage,
     HsmClientCertificateNotFoundFault | InvalidTagFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeHsmClientCertificatesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     HsmClientCertificateMessage,
     HsmClientCertificateNotFoundFault | InvalidTagFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeHsmClientCertificatesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     HsmClientCertificate,
     HsmClientCertificateNotFoundFault | InvalidTagFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8452,21 +8710,21 @@ export const describeHsmClientCertificates: {
 export const describeHsmConfigurations: {
   (
     input: DescribeHsmConfigurationsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     HsmConfigurationMessage,
     HsmConfigurationNotFoundFault | InvalidTagFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeHsmConfigurationsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     HsmConfigurationMessage,
     HsmConfigurationNotFoundFault | InvalidTagFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeHsmConfigurationsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     HsmConfiguration,
     HsmConfigurationNotFoundFault | InvalidTagFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8488,7 +8746,7 @@ export const describeHsmConfigurations: {
  */
 export const describeLoggingStatus: (
   input: DescribeLoggingStatusMessage,
-) => Effect.Effect<
+) => effect.Effect<
   LoggingStatus,
   ClusterNotFoundFault | UnsupportedOperationFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8503,21 +8761,21 @@ export const describeLoggingStatus: (
 export const describeSnapshotSchedules: {
   (
     input: DescribeSnapshotSchedulesMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeSnapshotSchedulesOutputMessage,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeSnapshotSchedulesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeSnapshotSchedulesOutputMessage,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeSnapshotSchedulesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SnapshotSchedule,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8552,21 +8810,21 @@ export const describeSnapshotSchedules: {
 export const describeUsageLimits: {
   (
     input: DescribeUsageLimitsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     UsageLimitList,
     ClusterNotFoundFault | UnsupportedOperationFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeUsageLimitsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     UsageLimitList,
     ClusterNotFoundFault | UnsupportedOperationFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeUsageLimitsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     UsageLimit,
     ClusterNotFoundFault | UnsupportedOperationFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -8611,7 +8869,7 @@ export const describeUsageLimits: {
  */
 export const getClusterCredentials: (
   input: GetClusterCredentialsMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ClusterCredentials,
   ClusterNotFoundFault | UnsupportedOperationFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8635,7 +8893,7 @@ export const getClusterCredentials: (
  */
 export const getClusterCredentialsWithIAM: (
   input: GetClusterCredentialsWithIAMMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ClusterExtendedCredentials,
   ClusterNotFoundFault | UnsupportedOperationFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8654,7 +8912,7 @@ export const getClusterCredentialsWithIAM: (
  */
 export const modifyClusterIamRoles: (
   input: ModifyClusterIamRolesMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyClusterIamRolesResult,
   ClusterNotFoundFault | InvalidClusterStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8668,7 +8926,7 @@ export const modifyClusterIamRoles: (
  */
 export const modifyClusterMaintenance: (
   input: ModifyClusterMaintenanceMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyClusterMaintenanceResult,
   ClusterNotFoundFault | InvalidClusterStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8682,7 +8940,7 @@ export const modifyClusterMaintenance: (
  */
 export const pauseCluster: (
   input: PauseClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   PauseClusterResult,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -8710,7 +8968,7 @@ export const pauseCluster: (
  */
 export const rebootCluster: (
   input: RebootClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RebootClusterResult,
   ClusterNotFoundFault | InvalidClusterStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8725,7 +8983,7 @@ export const rebootCluster: (
  */
 export const disableLogging: (
   input: DisableLoggingMessage,
-) => Effect.Effect<
+) => effect.Effect<
   LoggingStatus,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -8746,7 +9004,7 @@ export const disableLogging: (
  */
 export const deauthorizeDataShare: (
   input: DeauthorizeDataShareMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DataShare,
   InvalidDataShareFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8760,7 +9018,7 @@ export const deauthorizeDataShare: (
  */
 export const rejectDataShare: (
   input: RejectDataShareMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DataShare,
   InvalidDataShareFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8774,7 +9032,7 @@ export const rejectDataShare: (
  */
 export const deleteResourcePolicy: (
   input: DeleteResourcePolicyMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourcePolicyResponse,
   ResourceNotFoundFault | UnsupportedOperationFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8789,7 +9047,7 @@ export const deleteResourcePolicy: (
  */
 export const createCustomDomainAssociation: (
   input: CreateCustomDomainAssociationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCustomDomainAssociationResult,
   | ClusterNotFoundFault
   | CustomCnameAssociationFault
@@ -8813,7 +9071,7 @@ export const createCustomDomainAssociation: (
  */
 export const deleteClusterParameterGroup: (
   input: DeleteClusterParameterGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteClusterParameterGroupResponse,
   | ClusterParameterGroupNotFoundFault
   | InvalidClusterParameterGroupStateFault
@@ -8839,7 +9097,7 @@ export const deleteClusterParameterGroup: (
  */
 export const deleteClusterSecurityGroup: (
   input: DeleteClusterSecurityGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteClusterSecurityGroupResponse,
   | ClusterSecurityGroupNotFoundFault
   | InvalidClusterSecurityGroupStateFault
@@ -8858,7 +9116,7 @@ export const deleteClusterSecurityGroup: (
  */
 export const deleteEventSubscription: (
   input: DeleteEventSubscriptionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEventSubscriptionResponse,
   InvalidSubscriptionStateFault | SubscriptionNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8872,7 +9130,7 @@ export const deleteEventSubscription: (
  */
 export const deleteHsmClientCertificate: (
   input: DeleteHsmClientCertificateMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteHsmClientCertificateResponse,
   | HsmClientCertificateNotFoundFault
   | InvalidHsmClientCertificateStateFault
@@ -8891,7 +9149,7 @@ export const deleteHsmClientCertificate: (
  */
 export const deleteHsmConfiguration: (
   input: DeleteHsmConfigurationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteHsmConfigurationResponse,
   | HsmConfigurationNotFoundFault
   | InvalidHsmConfigurationStateFault
@@ -8907,7 +9165,7 @@ export const deleteHsmConfiguration: (
  */
 export const deleteScheduledAction: (
   input: DeleteScheduledActionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteScheduledActionResponse,
   ScheduledActionNotFoundFault | UnauthorizedOperation | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8921,7 +9179,7 @@ export const deleteScheduledAction: (
  */
 export const deleteSnapshotCopyGrant: (
   input: DeleteSnapshotCopyGrantMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSnapshotCopyGrantResponse,
   | InvalidSnapshotCopyGrantStateFault
   | SnapshotCopyGrantNotFoundFault
@@ -8937,7 +9195,7 @@ export const deleteSnapshotCopyGrant: (
  */
 export const deleteSnapshotSchedule: (
   input: DeleteSnapshotScheduleMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSnapshotScheduleResponse,
   | InvalidClusterSnapshotScheduleStateFault
   | SnapshotScheduleNotFoundFault
@@ -8956,7 +9214,7 @@ export const deleteSnapshotSchedule: (
  */
 export const deleteUsageLimit: (
   input: DeleteUsageLimitMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteUsageLimitResponse,
   UnsupportedOperationFault | UsageLimitNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8985,7 +9243,7 @@ export const deleteUsageLimit: (
 export const describeClusterSnapshots: {
   (
     input: DescribeClusterSnapshotsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     SnapshotMessage,
     | ClusterNotFoundFault
     | ClusterSnapshotNotFoundFault
@@ -8996,7 +9254,7 @@ export const describeClusterSnapshots: {
   >;
   pages: (
     input: DescribeClusterSnapshotsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SnapshotMessage,
     | ClusterNotFoundFault
     | ClusterSnapshotNotFoundFault
@@ -9007,7 +9265,7 @@ export const describeClusterSnapshots: {
   >;
   items: (
     input: DescribeClusterSnapshotsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Snapshot,
     | ClusterNotFoundFault
     | ClusterSnapshotNotFoundFault
@@ -9043,21 +9301,21 @@ export const describeClusterSnapshots: {
 export const describeClusterVersions: {
   (
     input: DescribeClusterVersionsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     ClusterVersionsMessage,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeClusterVersionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ClusterVersionsMessage,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeClusterVersionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ClusterVersion,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -9079,21 +9337,21 @@ export const describeClusterVersions: {
 export const describeDataSharesForConsumer: {
   (
     input: DescribeDataSharesForConsumerMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeDataSharesForConsumerResult,
     InvalidNamespaceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDataSharesForConsumerMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeDataSharesForConsumerResult,
     InvalidNamespaceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDataSharesForConsumerMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataShare,
     InvalidNamespaceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -9120,21 +9378,21 @@ export const describeDataSharesForConsumer: {
 export const describeDefaultClusterParameters: {
   (
     input: DescribeDefaultClusterParametersMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeDefaultClusterParametersResult,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDefaultClusterParametersMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeDefaultClusterParametersResult,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDefaultClusterParametersMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -9156,7 +9414,7 @@ export const describeDefaultClusterParameters: {
 export const describeEndpointAccess: {
   (
     input: DescribeEndpointAccessMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     EndpointAccessList,
     | ClusterNotFoundFault
     | EndpointNotFoundFault
@@ -9166,7 +9424,7 @@ export const describeEndpointAccess: {
   >;
   pages: (
     input: DescribeEndpointAccessMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EndpointAccessList,
     | ClusterNotFoundFault
     | EndpointNotFoundFault
@@ -9176,7 +9434,7 @@ export const describeEndpointAccess: {
   >;
   items: (
     input: DescribeEndpointAccessMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EndpointAccess,
     | ClusterNotFoundFault
     | EndpointNotFoundFault
@@ -9208,21 +9466,21 @@ export const describeEndpointAccess: {
 export const describeEvents: {
   (
     input: DescribeEventsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     EventsMessage,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeEventsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EventsMessage,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEventsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Event,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -9244,21 +9502,21 @@ export const describeEvents: {
 export const describeScheduledActions: {
   (
     input: DescribeScheduledActionsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     ScheduledActionsMessage,
     ScheduledActionNotFoundFault | UnauthorizedOperation | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeScheduledActionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ScheduledActionsMessage,
     ScheduledActionNotFoundFault | UnauthorizedOperation | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeScheduledActionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ScheduledAction,
     ScheduledActionNotFoundFault | UnauthorizedOperation | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -9302,21 +9560,21 @@ export const describeScheduledActions: {
 export const describeTags: {
   (
     input: DescribeTagsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     TaggedResourceListMessage,
     InvalidTagFault | ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeTagsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TaggedResourceListMessage,
     InvalidTagFault | ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeTagsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TaggedResource,
     InvalidTagFault | ResourceNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -9342,7 +9600,7 @@ export const describeTags: {
  */
 export const disableSnapshotCopy: (
   input: DisableSnapshotCopyMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DisableSnapshotCopyResult,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -9378,7 +9636,7 @@ export const disableSnapshotCopy: (
  */
 export const getIdentityCenterAuthToken: (
   input: GetIdentityCenterAuthTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetIdentityCenterAuthTokenResponse,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -9401,7 +9659,7 @@ export const getIdentityCenterAuthToken: (
  */
 export const modifyAquaConfiguration: (
   input: ModifyAquaInputMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyAquaOutputMessage,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -9423,7 +9681,7 @@ export const modifyAquaConfiguration: (
  */
 export const modifyClusterDbRevision: (
   input: ModifyClusterDbRevisionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyClusterDbRevisionResult,
   | ClusterNotFoundFault
   | ClusterOnLatestRevisionFault
@@ -9446,7 +9704,7 @@ export const modifyClusterDbRevision: (
  */
 export const resumeCluster: (
   input: ResumeClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ResumeClusterResult,
   | ClusterNotFoundFault
   | InsufficientClusterCapacityFault
@@ -9473,7 +9731,7 @@ export const resumeCluster: (
  */
 export const revokeClusterSecurityGroupIngress: (
   input: RevokeClusterSecurityGroupIngressMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RevokeClusterSecurityGroupIngressResult,
   | AuthorizationNotFoundFault
   | ClusterSecurityGroupNotFoundFault
@@ -9494,7 +9752,7 @@ export const revokeClusterSecurityGroupIngress: (
  */
 export const rotateEncryptionKey: (
   input: RotateEncryptionKeyMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RotateEncryptionKeyResult,
   | ClusterNotFoundFault
   | DependentServiceRequestThrottlingFault
@@ -9523,7 +9781,7 @@ export const rotateEncryptionKey: (
  */
 export const describeResize: (
   input: DescribeResizeMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ResizeProgressMessage,
   | ClusterNotFoundFault
   | ResizeNotFoundFault
@@ -9548,7 +9806,7 @@ export const describeResize: (
  */
 export const modifyClusterParameterGroup: (
   input: ModifyClusterParameterGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ClusterParameterGroupNameMessage,
   | ClusterParameterGroupNotFoundFault
   | InvalidClusterParameterGroupStateFault
@@ -9570,7 +9828,7 @@ export const modifyClusterParameterGroup: (
  */
 export const resetClusterParameterGroup: (
   input: ResetClusterParameterGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ClusterParameterGroupNameMessage,
   | ClusterParameterGroupNotFoundFault
   | InvalidClusterParameterGroupStateFault
@@ -9602,21 +9860,21 @@ export const resetClusterParameterGroup: (
 export const describeEventSubscriptions: {
   (
     input: DescribeEventSubscriptionsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     EventSubscriptionsMessage,
     InvalidTagFault | SubscriptionNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeEventSubscriptionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EventSubscriptionsMessage,
     InvalidTagFault | SubscriptionNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEventSubscriptionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EventSubscription,
     InvalidTagFault | SubscriptionNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -9637,7 +9895,7 @@ export const describeEventSubscriptions: {
  */
 export const failoverPrimaryCompute: (
   input: FailoverPrimaryComputeInputMessage,
-) => Effect.Effect<
+) => effect.Effect<
   FailoverPrimaryComputeResult,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -9666,21 +9924,21 @@ export const failoverPrimaryCompute: (
 export const describeSnapshotCopyGrants: {
   (
     input: DescribeSnapshotCopyGrantsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     SnapshotCopyGrantMessage,
     InvalidTagFault | SnapshotCopyGrantNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeSnapshotCopyGrantsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SnapshotCopyGrantMessage,
     InvalidTagFault | SnapshotCopyGrantNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeSnapshotCopyGrantsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SnapshotCopyGrant,
     InvalidTagFault | SnapshotCopyGrantNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -9701,7 +9959,7 @@ export const describeSnapshotCopyGrants: {
  */
 export const modifyClusterSnapshotSchedule: (
   input: ModifyClusterSnapshotScheduleMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyClusterSnapshotScheduleResponse,
   | ClusterNotFoundFault
   | InvalidClusterSnapshotScheduleStateFault
@@ -9728,7 +9986,7 @@ export const modifyClusterSnapshotSchedule: (
  */
 export const createTags: (
   input: CreateTagsMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateTagsResponse,
   | InvalidClusterStateFault
   | InvalidTagFault
@@ -9752,7 +10010,7 @@ export const createTags: (
  */
 export const modifyUsageLimit: (
   input: ModifyUsageLimitMessage,
-) => Effect.Effect<
+) => effect.Effect<
   UsageLimit,
   | InvalidUsageLimitFault
   | UnsupportedOperationFault
@@ -9774,21 +10032,21 @@ export const modifyUsageLimit: (
 export const describeDataSharesForProducer: {
   (
     input: DescribeDataSharesForProducerMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeDataSharesForProducerResult,
     InvalidNamespaceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeDataSharesForProducerMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeDataSharesForProducerResult,
     InvalidNamespaceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeDataSharesForProducerMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DataShare,
     InvalidNamespaceFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -9809,7 +10067,7 @@ export const describeDataSharesForProducer: {
  */
 export const registerNamespace: (
   input: RegisterNamespaceInputMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterNamespaceOutputMessage,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -9830,7 +10088,7 @@ export const registerNamespace: (
  */
 export const disassociateDataShareConsumer: (
   input: DisassociateDataShareConsumerMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DataShare,
   InvalidDataShareFault | InvalidNamespaceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9846,7 +10104,7 @@ export const disassociateDataShareConsumer: (
  */
 export const associateDataShareConsumer: (
   input: AssociateDataShareConsumerMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DataShare,
   InvalidDataShareFault | InvalidNamespaceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9860,7 +10118,7 @@ export const associateDataShareConsumer: (
  */
 export const batchModifyClusterSnapshots: (
   input: BatchModifyClusterSnapshotsMessage,
-) => Effect.Effect<
+) => effect.Effect<
   BatchModifyClusterSnapshotsOutputMessage,
   | BatchModifyClusterSnapshotsLimitExceededFault
   | InvalidRetentionPeriodFault
@@ -9885,7 +10143,7 @@ export const batchModifyClusterSnapshots: (
  */
 export const revokeSnapshotAccess: (
   input: RevokeSnapshotAccessMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RevokeSnapshotAccessResult,
   | AccessToSnapshotDeniedFault
   | AuthorizationNotFoundFault
@@ -9908,7 +10166,7 @@ export const revokeSnapshotAccess: (
  */
 export const cancelResize: (
   input: CancelResizeMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ResizeProgressMessage,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -9933,7 +10191,7 @@ export const cancelResize: (
  */
 export const addPartner: (
   input: PartnerIntegrationInputMessage,
-) => Effect.Effect<
+) => effect.Effect<
   PartnerIntegrationOutputMessage,
   | ClusterNotFoundFault
   | PartnerNotFoundFault
@@ -9956,7 +10214,7 @@ export const addPartner: (
  */
 export const batchDeleteClusterSnapshots: (
   input: BatchDeleteClusterSnapshotsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDeleteClusterSnapshotsResult,
   BatchDeleteRequestSizeExceededFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9975,7 +10233,7 @@ export const batchDeleteClusterSnapshots: (
  */
 export const createClusterSecurityGroup: (
   input: CreateClusterSecurityGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateClusterSecurityGroupResult,
   | ClusterSecurityGroupAlreadyExistsFault
   | ClusterSecurityGroupQuotaExceededFault
@@ -9998,7 +10256,7 @@ export const createClusterSecurityGroup: (
  */
 export const deleteAuthenticationProfile: (
   input: DeleteAuthenticationProfileMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteAuthenticationProfileResult,
   | AuthenticationProfileNotFoundFault
   | InvalidAuthenticationProfileRequestFault
@@ -10024,7 +10282,7 @@ export const deleteAuthenticationProfile: (
  */
 export const deleteClusterSnapshot: (
   input: DeleteClusterSnapshotMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteClusterSnapshotResult,
   | ClusterSnapshotNotFoundFault
   | InvalidClusterSnapshotStateFault
@@ -10040,7 +10298,7 @@ export const deleteClusterSnapshot: (
  */
 export const deleteClusterSubnetGroup: (
   input: DeleteClusterSubnetGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteClusterSubnetGroupResponse,
   | ClusterSubnetGroupNotFoundFault
   | InvalidClusterSubnetGroupStateFault
@@ -10061,7 +10319,7 @@ export const deleteClusterSubnetGroup: (
  */
 export const deleteRedshiftIdcApplication: (
   input: DeleteRedshiftIdcApplicationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRedshiftIdcApplicationResponse,
   | DependentServiceAccessDeniedFault
   | DependentServiceUnavailableFault
@@ -10084,7 +10342,7 @@ export const deleteRedshiftIdcApplication: (
  */
 export const deregisterNamespace: (
   input: DeregisterNamespaceInputMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterNamespaceOutputMessage,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -10105,7 +10363,7 @@ export const deregisterNamespace: (
  */
 export const describeAccountAttributes: (
   input: DescribeAccountAttributesMessage,
-) => Effect.Effect<
+) => effect.Effect<
   AccountAttributeList,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10120,21 +10378,21 @@ export const describeAccountAttributes: (
 export const describeClusterDbRevisions: {
   (
     input: DescribeClusterDbRevisionsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     ClusterDbRevisionsMessage,
     ClusterNotFoundFault | InvalidClusterStateFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeClusterDbRevisionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ClusterDbRevisionsMessage,
     ClusterNotFoundFault | InvalidClusterStateFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeClusterDbRevisionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ClusterDbRevision,
     ClusterNotFoundFault | InvalidClusterStateFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -10157,7 +10415,7 @@ export const describeClusterDbRevisions: {
  */
 export const describeEventCategories: (
   input: DescribeEventCategoriesMessage,
-) => Effect.Effect<
+) => effect.Effect<
   EventCategoriesMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10172,7 +10430,7 @@ export const describeEventCategories: (
 export const describeInboundIntegrations: {
   (
     input: DescribeInboundIntegrationsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     InboundIntegrationsMessage,
     | IntegrationNotFoundFault
     | InvalidNamespaceFault
@@ -10182,7 +10440,7 @@ export const describeInboundIntegrations: {
   >;
   pages: (
     input: DescribeInboundIntegrationsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     InboundIntegrationsMessage,
     | IntegrationNotFoundFault
     | InvalidNamespaceFault
@@ -10192,7 +10450,7 @@ export const describeInboundIntegrations: {
   >;
   items: (
     input: DescribeInboundIntegrationsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     InboundIntegration,
     | IntegrationNotFoundFault
     | InvalidNamespaceFault
@@ -10222,7 +10480,7 @@ export const describeInboundIntegrations: {
 export const describeNodeConfigurationOptions: {
   (
     input: DescribeNodeConfigurationOptionsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     NodeConfigurationOptionsMessage,
     | AccessToSnapshotDeniedFault
     | ClusterNotFoundFault
@@ -10234,7 +10492,7 @@ export const describeNodeConfigurationOptions: {
   >;
   pages: (
     input: DescribeNodeConfigurationOptionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NodeConfigurationOptionsMessage,
     | AccessToSnapshotDeniedFault
     | ClusterNotFoundFault
@@ -10246,7 +10504,7 @@ export const describeNodeConfigurationOptions: {
   >;
   items: (
     input: DescribeNodeConfigurationOptionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     NodeConfigurationOption,
     | AccessToSnapshotDeniedFault
     | ClusterNotFoundFault
@@ -10288,7 +10546,7 @@ export const describeNodeConfigurationOptions: {
 export const describeReservedNodeOfferings: {
   (
     input: DescribeReservedNodeOfferingsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     ReservedNodeOfferingsMessage,
     | DependentServiceUnavailableFault
     | ReservedNodeOfferingNotFoundFault
@@ -10298,7 +10556,7 @@ export const describeReservedNodeOfferings: {
   >;
   pages: (
     input: DescribeReservedNodeOfferingsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReservedNodeOfferingsMessage,
     | DependentServiceUnavailableFault
     | ReservedNodeOfferingNotFoundFault
@@ -10308,7 +10566,7 @@ export const describeReservedNodeOfferings: {
   >;
   items: (
     input: DescribeReservedNodeOfferingsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReservedNodeOffering,
     | DependentServiceUnavailableFault
     | ReservedNodeOfferingNotFoundFault
@@ -10342,21 +10600,21 @@ export const describeReservedNodeOfferings: {
 export const describeTableRestoreStatus: {
   (
     input: DescribeTableRestoreStatusMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     TableRestoreStatusMessage,
     ClusterNotFoundFault | TableRestoreNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeTableRestoreStatusMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TableRestoreStatusMessage,
     ClusterNotFoundFault | TableRestoreNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeTableRestoreStatusMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TableRestoreStatus,
     ClusterNotFoundFault | TableRestoreNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -10377,7 +10635,7 @@ export const describeTableRestoreStatus: {
  */
 export const getResourcePolicy: (
   input: GetResourcePolicyMessage,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourcePolicyResult,
   | InvalidPolicyFault
   | ResourceNotFoundFault
@@ -10399,21 +10657,21 @@ export const getResourcePolicy: (
 export const listRecommendations: {
   (
     input: ListRecommendationsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRecommendationsResult,
     ClusterNotFoundFault | UnsupportedOperationFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListRecommendationsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRecommendationsResult,
     ClusterNotFoundFault | UnsupportedOperationFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListRecommendationsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Recommendation,
     ClusterNotFoundFault | UnsupportedOperationFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -10434,7 +10692,7 @@ export const listRecommendations: {
  */
 export const modifyIntegration: (
   input: ModifyIntegrationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   Integration,
   | IntegrationAlreadyExistsFault
   | IntegrationConflictOperationFault
@@ -10465,7 +10723,7 @@ export const modifyIntegration: (
  */
 export const modifySnapshotCopyRetentionPeriod: (
   input: ModifySnapshotCopyRetentionPeriodMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifySnapshotCopyRetentionPeriodResult,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -10490,7 +10748,7 @@ export const modifySnapshotCopyRetentionPeriod: (
  */
 export const describePartners: (
   input: DescribePartnersInputMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DescribePartnersOutputMessage,
   | ClusterNotFoundFault
   | UnauthorizedPartnerIntegrationFault
@@ -10511,7 +10769,7 @@ export const describePartners: (
  */
 export const deletePartner: (
   input: PartnerIntegrationInputMessage,
-) => Effect.Effect<
+) => effect.Effect<
   PartnerIntegrationOutputMessage,
   | ClusterNotFoundFault
   | PartnerNotFoundFault
@@ -10534,7 +10792,7 @@ export const deletePartner: (
  */
 export const updatePartnerStatus: (
   input: UpdatePartnerStatusInputMessage,
-) => Effect.Effect<
+) => effect.Effect<
   PartnerIntegrationOutputMessage,
   | ClusterNotFoundFault
   | PartnerNotFoundFault
@@ -10562,7 +10820,7 @@ export const updatePartnerStatus: (
  */
 export const createClusterSnapshot: (
   input: CreateClusterSnapshotMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateClusterSnapshotResult,
   | ClusterNotFoundFault
   | ClusterSnapshotAlreadyExistsFault
@@ -10591,7 +10849,7 @@ export const createClusterSnapshot: (
  */
 export const modifyAuthenticationProfile: (
   input: ModifyAuthenticationProfileMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyAuthenticationProfileResult,
   | AuthenticationProfileNotFoundFault
   | AuthenticationProfileQuotaExceededFault
@@ -10612,7 +10870,7 @@ export const modifyAuthenticationProfile: (
  */
 export const modifyCustomDomainAssociation: (
   input: ModifyCustomDomainAssociationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyCustomDomainAssociationResult,
   | ClusterNotFoundFault
   | CustomCnameAssociationFault
@@ -10635,7 +10893,7 @@ export const modifyCustomDomainAssociation: (
  */
 export const modifyScheduledAction: (
   input: ModifyScheduledActionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ScheduledAction,
   | ClusterNotFoundFault
   | InvalidScheduledActionFault
@@ -10664,7 +10922,7 @@ export const modifyScheduledAction: (
  */
 export const describeAuthenticationProfiles: (
   input: DescribeAuthenticationProfilesMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeAuthenticationProfilesResult,
   | AuthenticationProfileNotFoundFault
   | InvalidAuthenticationProfileRequestFault
@@ -10683,7 +10941,7 @@ export const describeAuthenticationProfiles: (
  */
 export const createAuthenticationProfile: (
   input: CreateAuthenticationProfileMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateAuthenticationProfileResult,
   | AuthenticationProfileAlreadyExistsFault
   | AuthenticationProfileQuotaExceededFault
@@ -10706,7 +10964,7 @@ export const createAuthenticationProfile: (
  */
 export const modifyClusterSnapshot: (
   input: ModifyClusterSnapshotMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyClusterSnapshotResult,
   | ClusterSnapshotNotFoundFault
   | InvalidClusterSnapshotStateFault
@@ -10728,21 +10986,21 @@ export const modifyClusterSnapshot: (
 export const describeReservedNodes: {
   (
     input: DescribeReservedNodesMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     ReservedNodesMessage,
     DependentServiceUnavailableFault | ReservedNodeNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeReservedNodesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReservedNodesMessage,
     DependentServiceUnavailableFault | ReservedNodeNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeReservedNodesMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReservedNode,
     DependentServiceUnavailableFault | ReservedNodeNotFoundFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -10764,7 +11022,7 @@ export const describeReservedNodes: {
 export const describeRedshiftIdcApplications: {
   (
     input: DescribeRedshiftIdcApplicationsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeRedshiftIdcApplicationsResult,
     | DependentServiceAccessDeniedFault
     | DependentServiceUnavailableFault
@@ -10775,7 +11033,7 @@ export const describeRedshiftIdcApplications: {
   >;
   pages: (
     input: DescribeRedshiftIdcApplicationsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeRedshiftIdcApplicationsResult,
     | DependentServiceAccessDeniedFault
     | DependentServiceUnavailableFault
@@ -10786,7 +11044,7 @@ export const describeRedshiftIdcApplications: {
   >;
   items: (
     input: DescribeRedshiftIdcApplicationsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RedshiftIdcApplication,
     | DependentServiceAccessDeniedFault
     | DependentServiceUnavailableFault
@@ -10816,7 +11074,7 @@ export const describeRedshiftIdcApplications: {
  */
 export const modifyLakehouseConfiguration: (
   input: ModifyLakehouseConfigurationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   LakehouseConfiguration,
   | ClusterNotFoundFault
   | DependentServiceAccessDeniedFault
@@ -10845,7 +11103,7 @@ export const modifyLakehouseConfiguration: (
  */
 export const modifyRedshiftIdcApplication: (
   input: ModifyRedshiftIdcApplicationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyRedshiftIdcApplicationResult,
   | DependentServiceAccessDeniedFault
   | DependentServiceUnavailableFault
@@ -10869,7 +11127,7 @@ export const modifyRedshiftIdcApplication: (
  */
 export const modifySnapshotSchedule: (
   input: ModifySnapshotScheduleMessage,
-) => Effect.Effect<
+) => effect.Effect<
   SnapshotSchedule,
   | InvalidScheduleFault
   | SnapshotScheduleNotFoundFault
@@ -10890,7 +11148,7 @@ export const modifySnapshotSchedule: (
  */
 export const deleteEndpointAccess: (
   input: DeleteEndpointAccessMessage,
-) => Effect.Effect<
+) => effect.Effect<
   EndpointAccess,
   | ClusterNotFoundFault
   | EndpointNotFoundFault
@@ -10916,21 +11174,21 @@ export const deleteEndpointAccess: (
 export const describeIntegrations: {
   (
     input: DescribeIntegrationsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     IntegrationsMessage,
     IntegrationNotFoundFault | UnsupportedOperationFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeIntegrationsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     IntegrationsMessage,
     IntegrationNotFoundFault | UnsupportedOperationFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeIntegrationsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Integration,
     IntegrationNotFoundFault | UnsupportedOperationFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -10951,7 +11209,7 @@ export const describeIntegrations: {
  */
 export const putResourcePolicy: (
   input: PutResourcePolicyMessage,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourcePolicyResult,
   | ConflictPolicyUpdateFault
   | InvalidPolicyFault
@@ -10974,7 +11232,7 @@ export const putResourcePolicy: (
  */
 export const deleteIntegration: (
   input: DeleteIntegrationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   Integration,
   | IntegrationConflictOperationFault
   | IntegrationConflictStateFault
@@ -10998,7 +11256,7 @@ export const deleteIntegration: (
  */
 export const createUsageLimit: (
   input: CreateUsageLimitMessage,
-) => Effect.Effect<
+) => effect.Effect<
   UsageLimit,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -11027,7 +11285,7 @@ export const createUsageLimit: (
  */
 export const authorizeEndpointAccess: (
   input: AuthorizeEndpointAccessMessage,
-) => Effect.Effect<
+) => effect.Effect<
   EndpointAuthorization,
   | ClusterNotFoundFault
   | EndpointAuthorizationAlreadyExistsFault
@@ -11066,7 +11324,7 @@ export const authorizeEndpointAccess: (
  */
 export const copyClusterSnapshot: (
   input: CopyClusterSnapshotMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CopyClusterSnapshotResult,
   | ClusterNotFoundFault
   | ClusterSnapshotAlreadyExistsFault
@@ -11093,7 +11351,7 @@ export const copyClusterSnapshot: (
  */
 export const deleteCustomDomainAssociation: (
   input: DeleteCustomDomainAssociationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCustomDomainAssociationResponse,
   | ClusterNotFoundFault
   | CustomCnameAssociationFault
@@ -11117,7 +11375,7 @@ export const deleteCustomDomainAssociation: (
 export const describeCustomDomainAssociations: {
   (
     input: DescribeCustomDomainAssociationsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     CustomDomainAssociationsMessage,
     | CustomDomainAssociationNotFoundFault
     | UnsupportedOperationFault
@@ -11126,7 +11384,7 @@ export const describeCustomDomainAssociations: {
   >;
   pages: (
     input: DescribeCustomDomainAssociationsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     CustomDomainAssociationsMessage,
     | CustomDomainAssociationNotFoundFault
     | UnsupportedOperationFault
@@ -11135,7 +11393,7 @@ export const describeCustomDomainAssociations: {
   >;
   items: (
     input: DescribeCustomDomainAssociationsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Association,
     | CustomDomainAssociationNotFoundFault
     | UnsupportedOperationFault
@@ -11160,7 +11418,7 @@ export const describeCustomDomainAssociations: {
 export const describeReservedNodeExchangeStatus: {
   (
     input: DescribeReservedNodeExchangeStatusInputMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeReservedNodeExchangeStatusOutputMessage,
     | ReservedNodeExchangeNotFoundFault
     | ReservedNodeNotFoundFault
@@ -11170,7 +11428,7 @@ export const describeReservedNodeExchangeStatus: {
   >;
   pages: (
     input: DescribeReservedNodeExchangeStatusInputMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeReservedNodeExchangeStatusOutputMessage,
     | ReservedNodeExchangeNotFoundFault
     | ReservedNodeNotFoundFault
@@ -11180,7 +11438,7 @@ export const describeReservedNodeExchangeStatus: {
   >;
   items: (
     input: DescribeReservedNodeExchangeStatusInputMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReservedNodeExchangeStatus,
     | ReservedNodeExchangeNotFoundFault
     | ReservedNodeNotFoundFault
@@ -11208,7 +11466,7 @@ export const describeReservedNodeExchangeStatus: {
  */
 export const modifyEndpointAccess: (
   input: ModifyEndpointAccessMessage,
-) => Effect.Effect<
+) => effect.Effect<
   EndpointAccess,
   | ClusterNotFoundFault
   | EndpointNotFoundFault
@@ -11235,7 +11493,7 @@ export const modifyEndpointAccess: (
  */
 export const revokeEndpointAccess: (
   input: RevokeEndpointAccessMessage,
-) => Effect.Effect<
+) => effect.Effect<
   EndpointAuthorization,
   | ClusterNotFoundFault
   | EndpointAuthorizationNotFoundFault
@@ -11274,7 +11532,7 @@ export const revokeEndpointAccess: (
  */
 export const createClusterParameterGroup: (
   input: CreateClusterParameterGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateClusterParameterGroupResult,
   | ClusterParameterGroupAlreadyExistsFault
   | ClusterParameterGroupQuotaExceededFault
@@ -11305,7 +11563,7 @@ export const createClusterParameterGroup: (
  */
 export const createHsmClientCertificate: (
   input: CreateHsmClientCertificateMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateHsmClientCertificateResult,
   | HsmClientCertificateAlreadyExistsFault
   | HsmClientCertificateQuotaExceededFault
@@ -11335,7 +11593,7 @@ export const createHsmClientCertificate: (
  */
 export const createHsmConfiguration: (
   input: CreateHsmConfigurationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateHsmConfigurationResult,
   | HsmConfigurationAlreadyExistsFault
   | HsmConfigurationQuotaExceededFault
@@ -11359,7 +11617,7 @@ export const createHsmConfiguration: (
  */
 export const createScheduledAction: (
   input: CreateScheduledActionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ScheduledAction,
   | ClusterNotFoundFault
   | InvalidScheduledActionFault
@@ -11406,7 +11664,7 @@ export const createScheduledAction: (
  */
 export const deleteCluster: (
   input: DeleteClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteClusterResult,
   | ClusterNotFoundFault
   | ClusterSnapshotAlreadyExistsFault
@@ -11432,21 +11690,21 @@ export const deleteCluster: (
 export const describeClusterTracks: {
   (
     input: DescribeClusterTracksMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     TrackListMessage,
     InvalidClusterTrackFault | UnauthorizedOperation | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeClusterTracksMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TrackListMessage,
     InvalidClusterTrackFault | UnauthorizedOperation | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeClusterTracksMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MaintenanceTrack,
     InvalidClusterTrackFault | UnauthorizedOperation | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11476,21 +11734,21 @@ export const describeClusterTracks: {
 export const describeOrderableClusterOptions: {
   (
     input: DescribeOrderableClusterOptionsMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     OrderableClusterOptionsMessage,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeOrderableClusterOptionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OrderableClusterOptionsMessage,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: DescribeOrderableClusterOptionsMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OrderableClusterOption,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -11512,7 +11770,7 @@ export const describeOrderableClusterOptions: {
  */
 export const enableLogging: (
   input: EnableLoggingMessage,
-) => Effect.Effect<
+) => effect.Effect<
   LoggingStatus,
   | BucketNotFoundFault
   | ClusterNotFoundFault
@@ -11544,7 +11802,7 @@ export const enableLogging: (
 export const getReservedNodeExchangeConfigurationOptions: {
   (
     input: GetReservedNodeExchangeConfigurationOptionsInputMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetReservedNodeExchangeConfigurationOptionsOutputMessage,
     | ClusterNotFoundFault
     | ClusterSnapshotNotFoundFault
@@ -11559,7 +11817,7 @@ export const getReservedNodeExchangeConfigurationOptions: {
   >;
   pages: (
     input: GetReservedNodeExchangeConfigurationOptionsInputMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetReservedNodeExchangeConfigurationOptionsOutputMessage,
     | ClusterNotFoundFault
     | ClusterSnapshotNotFoundFault
@@ -11574,7 +11832,7 @@ export const getReservedNodeExchangeConfigurationOptions: {
   >;
   items: (
     input: GetReservedNodeExchangeConfigurationOptionsInputMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReservedNodeConfigurationOption,
     | ClusterNotFoundFault
     | ClusterSnapshotNotFoundFault
@@ -11627,7 +11885,7 @@ export const getReservedNodeExchangeConfigurationOptions: {
  */
 export const restoreTableFromClusterSnapshot: (
   input: RestoreTableFromClusterSnapshotMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RestoreTableFromClusterSnapshotResult,
   | ClusterNotFoundFault
   | ClusterSnapshotNotFoundFault
@@ -11664,7 +11922,7 @@ export const restoreTableFromClusterSnapshot: (
  */
 export const purchaseReservedNodeOffering: (
   input: PurchaseReservedNodeOfferingMessage,
-) => Effect.Effect<
+) => effect.Effect<
   PurchaseReservedNodeOfferingResult,
   | ReservedNodeAlreadyExistsFault
   | ReservedNodeOfferingNotFoundFault
@@ -11689,7 +11947,7 @@ export const purchaseReservedNodeOffering: (
 export const getReservedNodeExchangeOfferings: {
   (
     input: GetReservedNodeExchangeOfferingsInputMessage,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetReservedNodeExchangeOfferingsOutputMessage,
     | DependentServiceUnavailableFault
     | InvalidReservedNodeStateFault
@@ -11702,7 +11960,7 @@ export const getReservedNodeExchangeOfferings: {
   >;
   pages: (
     input: GetReservedNodeExchangeOfferingsInputMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetReservedNodeExchangeOfferingsOutputMessage,
     | DependentServiceUnavailableFault
     | InvalidReservedNodeStateFault
@@ -11715,7 +11973,7 @@ export const getReservedNodeExchangeOfferings: {
   >;
   items: (
     input: GetReservedNodeExchangeOfferingsInputMessage,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReservedNodeOffering,
     | DependentServiceUnavailableFault
     | InvalidReservedNodeStateFault
@@ -11750,7 +12008,7 @@ export const getReservedNodeExchangeOfferings: {
  */
 export const acceptReservedNodeExchange: (
   input: AcceptReservedNodeExchangeInputMessage,
-) => Effect.Effect<
+) => effect.Effect<
   AcceptReservedNodeExchangeOutputMessage,
   | DependentServiceUnavailableFault
   | InvalidReservedNodeStateFault
@@ -11785,7 +12043,7 @@ export const acceptReservedNodeExchange: (
  */
 export const createSnapshotCopyGrant: (
   input: CreateSnapshotCopyGrantMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSnapshotCopyGrantResult,
   | DependentServiceRequestThrottlingFault
   | InvalidTagFault
@@ -11831,7 +12089,7 @@ export const createSnapshotCopyGrant: (
  */
 export const modifyClusterSubnetGroup: (
   input: ModifyClusterSubnetGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyClusterSubnetGroupResult,
   | ClusterSubnetGroupNotFoundFault
   | ClusterSubnetQuotaExceededFault
@@ -11876,7 +12134,7 @@ export const modifyClusterSubnetGroup: (
  */
 export const authorizeClusterSecurityGroupIngress: (
   input: AuthorizeClusterSecurityGroupIngressMessage,
-) => Effect.Effect<
+) => effect.Effect<
   AuthorizeClusterSecurityGroupIngressResult,
   | AuthorizationAlreadyExistsFault
   | AuthorizationQuotaExceededFault
@@ -11905,7 +12163,7 @@ export const authorizeClusterSecurityGroupIngress: (
  */
 export const createClusterSubnetGroup: (
   input: CreateClusterSubnetGroupMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateClusterSubnetGroupResult,
   | ClusterSubnetGroupAlreadyExistsFault
   | ClusterSubnetGroupQuotaExceededFault
@@ -11936,7 +12194,7 @@ export const createClusterSubnetGroup: (
  */
 export const createSnapshotSchedule: (
   input: CreateSnapshotScheduleMessage,
-) => Effect.Effect<
+) => effect.Effect<
   SnapshotSchedule,
   | InvalidScheduleFault
   | InvalidTagFault
@@ -11968,7 +12226,7 @@ export const createSnapshotSchedule: (
  */
 export const authorizeSnapshotAccess: (
   input: AuthorizeSnapshotAccessMessage,
-) => Effect.Effect<
+) => effect.Effect<
   AuthorizeSnapshotAccessResult,
   | AuthorizationAlreadyExistsFault
   | AuthorizationQuotaExceededFault
@@ -11997,7 +12255,7 @@ export const authorizeSnapshotAccess: (
  */
 export const createIntegration: (
   input: CreateIntegrationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   Integration,
   | IntegrationAlreadyExistsFault
   | IntegrationConflictOperationFault
@@ -12031,7 +12289,7 @@ export const createIntegration: (
  */
 export const enableSnapshotCopy: (
   input: EnableSnapshotCopyMessage,
-) => Effect.Effect<
+) => effect.Effect<
   EnableSnapshotCopyResult,
   | ClusterNotFoundFault
   | CopyToRegionDisabledFault
@@ -12093,7 +12351,7 @@ export const enableSnapshotCopy: (
  */
 export const createCluster: (
   input: CreateClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateClusterResult,
   | ClusterAlreadyExistsFault
   | ClusterParameterGroupNotFoundFault
@@ -12192,7 +12450,7 @@ export const createCluster: (
  */
 export const restoreFromClusterSnapshot: (
   input: RestoreFromClusterSnapshotMessage,
-) => Effect.Effect<
+) => effect.Effect<
   RestoreFromClusterSnapshotResult,
   | AccessToSnapshotDeniedFault
   | ClusterAlreadyExistsFault
@@ -12277,7 +12535,7 @@ export const restoreFromClusterSnapshot: (
  */
 export const createRedshiftIdcApplication: (
   input: CreateRedshiftIdcApplicationMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRedshiftIdcApplicationResult,
   | DependentServiceAccessDeniedFault
   | DependentServiceUnavailableFault
@@ -12328,7 +12586,7 @@ export const createRedshiftIdcApplication: (
  */
 export const resizeCluster: (
   input: ResizeClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ResizeClusterResult,
   | ClusterNotFoundFault
   | DependentServiceUnavailableFault
@@ -12401,7 +12659,7 @@ export const resizeCluster: (
  */
 export const modifyCluster: (
   input: ModifyClusterMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyClusterResult,
   | ClusterAlreadyExistsFault
   | ClusterNotFoundFault
@@ -12460,7 +12718,7 @@ export const modifyCluster: (
  */
 export const createEndpointAccess: (
   input: CreateEndpointAccessMessage,
-) => Effect.Effect<
+) => effect.Effect<
   EndpointAccess,
   | AccessToClusterDeniedFault
   | ClusterNotFoundFault
@@ -12495,7 +12753,7 @@ export const createEndpointAccess: (
  */
 export const modifyEventSubscription: (
   input: ModifyEventSubscriptionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   ModifyEventSubscriptionResult,
   | InvalidSubscriptionStateFault
   | SNSInvalidTopicFault
@@ -12546,7 +12804,7 @@ export const modifyEventSubscription: (
  */
 export const createEventSubscription: (
   input: CreateEventSubscriptionMessage,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEventSubscriptionResult,
   | EventSubscriptionQuotaExceededFault
   | InvalidTagFault

@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -109,10 +109,10 @@ export type WorkerReplacementStrategy = string;
 export type SubnetId = string;
 export type SecurityGroupId = string;
 export type ConfigKey = string;
-export type ConfigValue = string | Redacted.Redacted<string>;
+export type ConfigValue = string | redacted.Redacted<string>;
 export type TagValue = string;
 export type Unit = string;
-export type Token = string | Redacted.Redacted<string>;
+export type Token = string | redacted.Redacted<string>;
 export type Hostname = string;
 export type IamIdentity = string;
 export type AirflowIdentity = string;
@@ -273,7 +273,7 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface TagResourceInput {
   ResourceArn: string;
-  Tags: TagMap;
+  Tags: { [key: string]: string };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -298,7 +298,7 @@ export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceOutput>;
 export interface UntagResourceInput {
   ResourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({
@@ -326,8 +326,8 @@ export const SubnetList = S.Array(S.String);
 export type SecurityGroupList = string[];
 export const SecurityGroupList = S.Array(S.String);
 export interface NetworkConfiguration {
-  SubnetIds?: SubnetList;
-  SecurityGroupIds?: SecurityGroupList;
+  SubnetIds?: string[];
+  SecurityGroupIds?: string[];
 }
 export const NetworkConfiguration = S.suspend(() =>
   S.Struct({
@@ -338,7 +338,7 @@ export const NetworkConfiguration = S.suspend(() =>
   identifier: "NetworkConfiguration",
 }) as any as S.Schema<NetworkConfiguration>;
 export type AirflowConfigurationOptions = {
-  [key: string]: string | Redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string>;
 };
 export const AirflowConfigurationOptions = S.Record({
   key: S.String,
@@ -347,7 +347,7 @@ export const AirflowConfigurationOptions = S.Record({
 export type EnvironmentList = string[];
 export const EnvironmentList = S.Array(S.String);
 export interface UpdateNetworkConfigurationInput {
-  SecurityGroupIds: SecurityGroupList;
+  SecurityGroupIds: string[];
 }
 export const UpdateNetworkConfigurationInput = S.suspend(() =>
   S.Struct({ SecurityGroupIds: SecurityGroupList }),
@@ -355,7 +355,7 @@ export const UpdateNetworkConfigurationInput = S.suspend(() =>
   identifier: "UpdateNetworkConfigurationInput",
 }) as any as S.Schema<UpdateNetworkConfigurationInput>;
 export interface CreateCliTokenResponse {
-  CliToken?: string | Redacted.Redacted<string>;
+  CliToken?: string | redacted.Redacted<string>;
   WebServerHostname?: string;
 }
 export const CreateCliTokenResponse = S.suspend(() =>
@@ -367,7 +367,7 @@ export const CreateCliTokenResponse = S.suspend(() =>
   identifier: "CreateCliTokenResponse",
 }) as any as S.Schema<CreateCliTokenResponse>;
 export interface CreateWebLoginTokenResponse {
-  WebToken?: string | Redacted.Redacted<string>;
+  WebToken?: string | redacted.Redacted<string>;
   WebServerHostname?: string;
   IamIdentity?: string;
   AirflowIdentity?: string;
@@ -395,7 +395,7 @@ export const InvokeRestApiResponse = S.suspend(() =>
   identifier: "InvokeRestApiResponse",
 }) as any as S.Schema<InvokeRestApiResponse>;
 export interface ListEnvironmentsOutput {
-  Environments: EnvironmentList;
+  Environments: string[];
   NextToken?: string;
 }
 export const ListEnvironmentsOutput = S.suspend(() =>
@@ -404,7 +404,7 @@ export const ListEnvironmentsOutput = S.suspend(() =>
   identifier: "ListEnvironmentsOutput",
 }) as any as S.Schema<ListEnvironmentsOutput>;
 export interface ListTagsForResourceOutput {
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -441,7 +441,9 @@ export const LoggingConfigurationInput = S.suspend(() =>
 export interface UpdateEnvironmentInput {
   Name: string;
   ExecutionRoleArn?: string;
-  AirflowConfigurationOptions?: AirflowConfigurationOptions;
+  AirflowConfigurationOptions?: {
+    [key: string]: string | redacted.Redacted<string>;
+  };
   AirflowVersion?: string;
   DagS3Path?: string;
   EnvironmentClass?: string;
@@ -527,7 +529,7 @@ export const StatisticSet = S.suspend(() =>
 export interface MetricDatum {
   MetricName: string;
   Timestamp: Date;
-  Dimensions?: Dimensions;
+  Dimensions?: Dimension[];
   Value?: number;
   Unit?: string;
   StatisticValues?: StatisticSet;
@@ -556,14 +558,16 @@ export interface CreateEnvironmentInput {
   RequirementsS3ObjectVersion?: string;
   StartupScriptS3Path?: string;
   StartupScriptS3ObjectVersion?: string;
-  AirflowConfigurationOptions?: AirflowConfigurationOptions;
+  AirflowConfigurationOptions?: {
+    [key: string]: string | redacted.Redacted<string>;
+  };
   EnvironmentClass?: string;
   MaxWorkers?: number;
   KmsKey?: string;
   AirflowVersion?: string;
   LoggingConfiguration?: LoggingConfigurationInput;
   WeeklyMaintenanceWindowStart?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   WebserverAccessMode?: string;
   MinWorkers?: number;
   Schedulers?: number;
@@ -613,7 +617,7 @@ export const CreateEnvironmentInput = S.suspend(() =>
 }) as any as S.Schema<CreateEnvironmentInput>;
 export interface PublishMetricsInput {
   EnvironmentName: string;
-  MetricData: MetricData;
+  MetricData: MetricDatum[];
 }
 export const PublishMetricsInput = S.suspend(() =>
   S.Struct({
@@ -731,14 +735,16 @@ export interface Environment {
   RequirementsS3ObjectVersion?: string;
   StartupScriptS3Path?: string;
   StartupScriptS3ObjectVersion?: string;
-  AirflowConfigurationOptions?: AirflowConfigurationOptions;
+  AirflowConfigurationOptions?: {
+    [key: string]: string | redacted.Redacted<string>;
+  };
   EnvironmentClass?: string;
   MaxWorkers?: number;
   NetworkConfiguration?: NetworkConfiguration;
   LoggingConfiguration?: LoggingConfiguration;
   LastUpdate?: LastUpdate;
   WeeklyMaintenanceWindowStart?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
   WebserverAccessMode?: string;
   MinWorkers?: number;
   Schedulers?: number;
@@ -834,7 +840,7 @@ export class RestApiServerException extends S.TaggedError<RestApiServerException
  */
 export const createCliToken: (
   input: CreateCliTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCliTokenResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -849,21 +855,21 @@ export const createCliToken: (
 export const listEnvironments: {
   (
     input: ListEnvironmentsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListEnvironmentsOutput,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListEnvironmentsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListEnvironmentsOutput,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListEnvironmentsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     EnvironmentName,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -884,7 +890,7 @@ export const listEnvironments: {
  */
 export const publishMetrics: (
   input: PublishMetricsInput,
-) => Effect.Effect<
+) => effect.Effect<
   PublishMetricsOutput,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -898,7 +904,7 @@ export const publishMetrics: (
  */
 export const updateEnvironment: (
   input: UpdateEnvironmentInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateEnvironmentOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -919,7 +925,7 @@ export const updateEnvironment: (
  */
 export const deleteEnvironment: (
   input: DeleteEnvironmentInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteEnvironmentOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -940,7 +946,7 @@ export const deleteEnvironment: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -961,7 +967,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -982,7 +988,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -1003,7 +1009,7 @@ export const untagResource: (
  */
 export const createWebLoginToken: (
   input: CreateWebLoginTokenRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWebLoginTokenResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1026,7 +1032,7 @@ export const createWebLoginToken: (
  */
 export const createEnvironment: (
   input: CreateEnvironmentInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateEnvironmentOutput,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1040,7 +1046,7 @@ export const createEnvironment: (
  */
 export const getEnvironment: (
   input: GetEnvironmentInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetEnvironmentOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -1062,7 +1068,7 @@ export const getEnvironment: (
  */
 export const invokeRestApi: (
   input: InvokeRestApiRequest,
-) => Effect.Effect<
+) => effect.Effect<
   InvokeRestApiResponse,
   | AccessDeniedException
   | InternalServerException

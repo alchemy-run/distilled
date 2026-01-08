@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -93,12 +93,11 @@ export type FleetId = string;
 export type LimitId = string;
 export type AggregationId = string;
 export type MaxResults = number;
-export type Integer = number;
 export type JobId = string;
 export type Timezone = string;
 export type ClientToken = string;
 export type ResourceName = string;
-export type Description = string | Redacted.Redacted<string>;
+export type Description = string | redacted.Redacted<string>;
 export type KmsKeyArn = string;
 export type IdentityCenterPrincipalId = string;
 export type IdentityStoreId = string;
@@ -112,9 +111,9 @@ export type MinZeroMaxInteger = number;
 export type WorkerId = string;
 export type FileSystemLocationName = string;
 export type Priority = number;
-export type EnvironmentTemplate = string | Redacted.Redacted<string>;
+export type EnvironmentTemplate = string | redacted.Redacted<string>;
 export type QueueEnvironmentId = string;
-export type JobTemplate = string | Redacted.Redacted<string>;
+export type JobTemplate = string | redacted.Redacted<string>;
 export type JobPriority = number;
 export type MaxFailedTasksCount = number;
 export type MaxRetriesPerTask = number;
@@ -133,7 +132,7 @@ export type Subdomain = string;
 export type MonitorId = string;
 export type PathString = string;
 export type ThresholdPercentage = number;
-export type HostConfigurationScript = string | Redacted.Redacted<string>;
+export type HostConfigurationScript = string | redacted.Redacted<string>;
 export type HostConfigurationScriptTimeoutSeconds = number;
 export type HostName = string;
 export type S3BucketName = string;
@@ -146,12 +145,12 @@ export type TotalResults = number;
 export type EnvironmentName = string;
 export type JobName = string;
 export type TaskFailureRetryCount = number;
-export type JobDescription = string | Redacted.Redacted<string>;
+export type JobDescription = string | redacted.Redacted<string>;
 export type SessionActionProgressPercent = number;
 export type ProcessExitCode = number;
-export type SessionActionProgressMessage = string | Redacted.Redacted<string>;
+export type SessionActionProgressMessage = string | redacted.Redacted<string>;
 export type StepName = string;
-export type StepDescription = string | Redacted.Redacted<string>;
+export type StepDescription = string | redacted.Redacted<string>;
 export type TaskRetryCount = number;
 export type StatusMessage = string;
 export type DnsName = string;
@@ -171,9 +170,9 @@ export type LicenseProduct = string;
 export type InstanceType = string;
 export type BoundedString = string;
 export type PortNumber = number;
-export type AccessKeyId = string | Redacted.Redacted<string>;
-export type SecretAccessKey = string | Redacted.Redacted<string>;
-export type SessionToken = string | Redacted.Redacted<string>;
+export type AccessKeyId = string | redacted.Redacted<string>;
+export type SecretAccessKey = string | redacted.Redacted<string>;
+export type SessionToken = string | redacted.Redacted<string>;
 export type LogDriver = string;
 export type LogError = string;
 export type MinOneMaxInteger = number;
@@ -182,7 +181,6 @@ export type ParameterValue = string;
 export type SearchTerm = string;
 export type StringFilter = string;
 export type VpcResourceConfigurationArn = string;
-export type Double = number;
 export type StepParameterName = string;
 export type MinOneMaxTenThousand = number;
 export type MemoryAmountMiB = number;
@@ -196,16 +194,159 @@ export type QueueIds = string[];
 export const QueueIds = S.Array(S.String);
 export type FleetIds = string[];
 export const FleetIds = S.Array(S.String);
-export type UsageGroupBy = string[];
-export const UsageGroupBy = S.Array(S.String);
-export type UsageStatistics = string[];
-export const UsageStatistics = S.Array(S.String);
+export type Period = "HOURLY" | "DAILY" | "WEEKLY" | "MONTHLY";
+export const Period = S.Literal("HOURLY", "DAILY", "WEEKLY", "MONTHLY");
+export type UsageGroupByField =
+  | "QUEUE_ID"
+  | "FLEET_ID"
+  | "JOB_ID"
+  | "USER_ID"
+  | "USAGE_TYPE"
+  | "INSTANCE_TYPE"
+  | "LICENSE_PRODUCT";
+export const UsageGroupByField = S.Literal(
+  "QUEUE_ID",
+  "FLEET_ID",
+  "JOB_ID",
+  "USER_ID",
+  "USAGE_TYPE",
+  "INSTANCE_TYPE",
+  "LICENSE_PRODUCT",
+);
+export type UsageGroupBy = UsageGroupByField[];
+export const UsageGroupBy = S.Array(UsageGroupByField);
+export type UsageStatistic = "SUM" | "MIN" | "MAX" | "AVG";
+export const UsageStatistic = S.Literal("SUM", "MIN", "MAX", "AVG");
+export type UsageStatistics = UsageStatistic[];
+export const UsageStatistics = S.Array(UsageStatistic);
 export type StringList = string[];
 export const StringList = S.Array(S.String);
+export type UpdateQueueFleetAssociationStatus =
+  | "ACTIVE"
+  | "STOP_SCHEDULING_AND_COMPLETE_TASKS"
+  | "STOP_SCHEDULING_AND_CANCEL_TASKS";
+export const UpdateQueueFleetAssociationStatus = S.Literal(
+  "ACTIVE",
+  "STOP_SCHEDULING_AND_COMPLETE_TASKS",
+  "STOP_SCHEDULING_AND_CANCEL_TASKS",
+);
+export type UpdateQueueLimitAssociationStatus =
+  | "ACTIVE"
+  | "STOP_LIMIT_USAGE_AND_COMPLETE_TASKS"
+  | "STOP_LIMIT_USAGE_AND_CANCEL_TASKS";
+export const UpdateQueueLimitAssociationStatus = S.Literal(
+  "ACTIVE",
+  "STOP_LIMIT_USAGE_AND_COMPLETE_TASKS",
+  "STOP_LIMIT_USAGE_AND_CANCEL_TASKS",
+);
+export type DeadlinePrincipalType = "USER" | "GROUP";
+export const DeadlinePrincipalType = S.Literal("USER", "GROUP");
+export type MembershipLevel = "VIEWER" | "CONTRIBUTOR" | "OWNER" | "MANAGER";
+export const MembershipLevel = S.Literal(
+  "VIEWER",
+  "CONTRIBUTOR",
+  "OWNER",
+  "MANAGER",
+);
+export type StorageProfileOperatingSystemFamily = "WINDOWS" | "LINUX" | "MACOS";
+export const StorageProfileOperatingSystemFamily = S.Literal(
+  "WINDOWS",
+  "LINUX",
+  "MACOS",
+);
+export type BudgetStatus = "ACTIVE" | "INACTIVE";
+export const BudgetStatus = S.Literal("ACTIVE", "INACTIVE");
+export type FleetStatus =
+  | "ACTIVE"
+  | "CREATE_IN_PROGRESS"
+  | "UPDATE_IN_PROGRESS"
+  | "CREATE_FAILED"
+  | "UPDATE_FAILED"
+  | "SUSPENDED";
+export const FleetStatus = S.Literal(
+  "ACTIVE",
+  "CREATE_IN_PROGRESS",
+  "UPDATE_IN_PROGRESS",
+  "CREATE_FAILED",
+  "UPDATE_FAILED",
+  "SUSPENDED",
+);
+export type UpdatedWorkerStatus = "STARTED" | "STOPPING" | "STOPPED";
+export const UpdatedWorkerStatus = S.Literal("STARTED", "STOPPING", "STOPPED");
+export type DefaultQueueBudgetAction =
+  | "NONE"
+  | "STOP_SCHEDULING_AND_COMPLETE_TASKS"
+  | "STOP_SCHEDULING_AND_CANCEL_TASKS";
+export const DefaultQueueBudgetAction = S.Literal(
+  "NONE",
+  "STOP_SCHEDULING_AND_COMPLETE_TASKS",
+  "STOP_SCHEDULING_AND_CANCEL_TASKS",
+);
 export type RequiredFileSystemLocationNames = string[];
 export const RequiredFileSystemLocationNames = S.Array(S.String);
 export type AllowedStorageProfileIds = string[];
 export const AllowedStorageProfileIds = S.Array(S.String);
+export type QueueStatus = "IDLE" | "SCHEDULING" | "SCHEDULING_BLOCKED";
+export const QueueStatus = S.Literal(
+  "IDLE",
+  "SCHEDULING",
+  "SCHEDULING_BLOCKED",
+);
+export type EnvironmentTemplateType = "JSON" | "YAML";
+export const EnvironmentTemplateType = S.Literal("JSON", "YAML");
+export type JobTemplateType = "JSON" | "YAML";
+export const JobTemplateType = S.Literal("JSON", "YAML");
+export type CreateJobTargetTaskRunStatus = "READY" | "SUSPENDED";
+export const CreateJobTargetTaskRunStatus = S.Literal("READY", "SUSPENDED");
+export type JobTargetTaskRunStatus =
+  | "READY"
+  | "FAILED"
+  | "SUCCEEDED"
+  | "CANCELED"
+  | "SUSPENDED"
+  | "PENDING";
+export const JobTargetTaskRunStatus = S.Literal(
+  "READY",
+  "FAILED",
+  "SUCCEEDED",
+  "CANCELED",
+  "SUSPENDED",
+  "PENDING",
+);
+export type UpdateJobLifecycleStatus = "ARCHIVED";
+export const UpdateJobLifecycleStatus = S.Literal("ARCHIVED");
+export type SessionLifecycleTargetStatus = "ENDED";
+export const SessionLifecycleTargetStatus = S.Literal("ENDED");
+export type StepTargetTaskRunStatus =
+  | "READY"
+  | "FAILED"
+  | "SUCCEEDED"
+  | "CANCELED"
+  | "SUSPENDED"
+  | "PENDING";
+export const StepTargetTaskRunStatus = S.Literal(
+  "READY",
+  "FAILED",
+  "SUCCEEDED",
+  "CANCELED",
+  "SUSPENDED",
+  "PENDING",
+);
+export type TaskTargetRunStatus =
+  | "READY"
+  | "FAILED"
+  | "SUCCEEDED"
+  | "CANCELED"
+  | "SUSPENDED"
+  | "PENDING";
+export const TaskTargetRunStatus = S.Literal(
+  "READY",
+  "FAILED",
+  "SUCCEEDED",
+  "CANCELED",
+  "SUSPENDED",
+  "PENDING",
+);
 export type SubnetIdList = string[];
 export const SubnetIdList = S.Array(S.String);
 export type SecurityGroupIdList = string[];
@@ -516,16 +657,18 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
+export type LogicalOperator = "AND" | "OR";
+export const LogicalOperator = S.Literal("AND", "OR");
 export interface SearchGroupedFilterExpressions {
-  filters: SearchFilterExpressions;
-  operator: string;
+  filters: SearchFilterExpression[];
+  operator: LogicalOperator;
 }
 export const SearchGroupedFilterExpressions = S.suspend(() =>
   S.Struct({
     filters: S.suspend(() => SearchFilterExpressions).annotations({
       identifier: "SearchFilterExpressions",
     }),
-    operator: S.String,
+    operator: LogicalOperator,
   }),
 ).annotations({
   identifier: "SearchGroupedFilterExpressions",
@@ -538,21 +681,23 @@ export const UserJobsFirst = S.suspend(() =>
 ).annotations({
   identifier: "UserJobsFirst",
 }) as any as S.Schema<UserJobsFirst>;
+export type SortOrder = "ASCENDING" | "DESCENDING";
+export const SortOrder = S.Literal("ASCENDING", "DESCENDING");
 export interface FieldSortExpression {
-  sortOrder: string;
+  sortOrder: SortOrder;
   name: string;
 }
 export const FieldSortExpression = S.suspend(() =>
-  S.Struct({ sortOrder: S.String, name: S.String }),
+  S.Struct({ sortOrder: SortOrder, name: S.String }),
 ).annotations({
   identifier: "FieldSortExpression",
 }) as any as S.Schema<FieldSortExpression>;
 export interface ParameterSortExpression {
-  sortOrder: string;
+  sortOrder: SortOrder;
   name: string;
 }
 export const ParameterSortExpression = S.suspend(() =>
-  S.Struct({ sortOrder: S.String, name: S.String }),
+  S.Struct({ sortOrder: SortOrder, name: S.String }),
 ).annotations({
   identifier: "ParameterSortExpression",
 }) as any as S.Schema<ParameterSortExpression>;
@@ -565,14 +710,14 @@ export const SearchSortExpression = S.Union(
   S.Struct({ fieldSort: FieldSortExpression }),
   S.Struct({ parameterSort: ParameterSortExpression }),
 );
-export type SearchSortExpressions = (typeof SearchSortExpression)["Type"][];
+export type SearchSortExpressions = SearchSortExpression[];
 export const SearchSortExpressions = S.Array(SearchSortExpression);
 export interface SearchStepsRequest {
   farmId: string;
-  queueIds: QueueIds;
+  queueIds: string[];
   jobId?: string;
   filterExpressions?: SearchGroupedFilterExpressions;
-  sortExpressions?: SearchSortExpressions;
+  sortExpressions?: SearchSortExpression[];
   itemOffset: number;
   pageSize?: number;
 }
@@ -603,10 +748,10 @@ export const SearchStepsRequest = S.suspend(() =>
 }) as any as S.Schema<SearchStepsRequest>;
 export interface SearchTasksRequest {
   farmId: string;
-  queueIds: QueueIds;
+  queueIds: string[];
   jobId?: string;
   filterExpressions?: SearchGroupedFilterExpressions;
-  sortExpressions?: SearchSortExpressions;
+  sortExpressions?: SearchSortExpression[];
   itemOffset: number;
   pageSize?: number;
 }
@@ -637,9 +782,9 @@ export const SearchTasksRequest = S.suspend(() =>
 }) as any as S.Schema<SearchTasksRequest>;
 export interface SearchWorkersRequest {
   farmId: string;
-  fleetIds: FleetIds;
+  fleetIds: string[];
   filterExpressions?: SearchGroupedFilterExpressions;
-  sortExpressions?: SearchSortExpressions;
+  sortExpressions?: SearchSortExpression[];
   itemOffset: number;
   pageSize?: number;
 }
@@ -669,7 +814,7 @@ export const SearchWorkersRequest = S.suspend(() =>
 }) as any as S.Schema<SearchWorkersRequest>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: StringList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -696,14 +841,14 @@ export interface UpdateQueueFleetAssociationRequest {
   farmId: string;
   queueId: string;
   fleetId: string;
-  status: string;
+  status: UpdateQueueFleetAssociationStatus;
 }
 export const UpdateQueueFleetAssociationRequest = S.suspend(() =>
   S.Struct({
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     queueId: S.String.pipe(T.HttpLabel("queueId")),
     fleetId: S.String.pipe(T.HttpLabel("fleetId")),
-    status: S.String,
+    status: UpdateQueueFleetAssociationStatus,
   }).pipe(
     T.all(
       T.Http({
@@ -730,14 +875,14 @@ export interface UpdateQueueLimitAssociationRequest {
   farmId: string;
   queueId: string;
   limitId: string;
-  status: string;
+  status: UpdateQueueLimitAssociationStatus;
 }
 export const UpdateQueueLimitAssociationRequest = S.suspend(() =>
   S.Struct({
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     queueId: S.String.pipe(T.HttpLabel("queueId")),
     limitId: S.String.pipe(T.HttpLabel("limitId")),
-    status: S.String,
+    status: UpdateQueueLimitAssociationStatus,
   }).pipe(
     T.all(
       T.Http({
@@ -765,9 +910,9 @@ export const Tags = S.Record({ key: S.String, value: S.String });
 export interface CreateFarmRequest {
   clientToken?: string;
   displayName: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   kmsKeyArn?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateFarmRequest = S.suspend(() =>
   S.Struct({
@@ -809,7 +954,7 @@ export const GetFarmRequest = S.suspend(() =>
 export interface UpdateFarmRequest {
   farmId: string;
   displayName?: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
 }
 export const UpdateFarmRequest = S.suspend(() =>
   S.Struct({
@@ -880,17 +1025,17 @@ export const ListFarmsRequest = S.suspend(() =>
 export interface AssociateMemberToFarmRequest {
   farmId: string;
   principalId: string;
-  principalType: string;
+  principalType: DeadlinePrincipalType;
   identityStoreId: string;
-  membershipLevel: string;
+  membershipLevel: MembershipLevel;
 }
 export const AssociateMemberToFarmRequest = S.suspend(() =>
   S.Struct({
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     principalId: S.String.pipe(T.HttpLabel("principalId")),
-    principalType: S.String,
+    principalType: DeadlinePrincipalType,
     identityStoreId: S.String,
-    membershipLevel: S.String,
+    membershipLevel: MembershipLevel,
   }).pipe(
     T.all(
       T.Http({
@@ -919,7 +1064,7 @@ export interface CreateLimitRequest {
   amountRequirementName: string;
   maxCount: number;
   farmId: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
 }
 export const CreateLimitRequest = S.suspend(() =>
   S.Struct({
@@ -1154,7 +1299,7 @@ export interface UpdateLimitRequest {
   farmId: string;
   limitId: string;
   displayName?: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   maxCount?: number;
 }
 export const UpdateLimitRequest = S.suspend(() =>
@@ -1184,13 +1329,15 @@ export interface UpdateLimitResponse {}
 export const UpdateLimitResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UpdateLimitResponse",
 }) as any as S.Schema<UpdateLimitResponse>;
+export type FileSystemLocationType = "SHARED" | "LOCAL";
+export const FileSystemLocationType = S.Literal("SHARED", "LOCAL");
 export interface FileSystemLocation {
   name: string;
   path: string;
-  type: string;
+  type: FileSystemLocationType;
 }
 export const FileSystemLocation = S.suspend(() =>
-  S.Struct({ name: S.String, path: S.String, type: S.String }),
+  S.Struct({ name: S.String, path: S.String, type: FileSystemLocationType }),
 ).annotations({
   identifier: "FileSystemLocation",
 }) as any as S.Schema<FileSystemLocation>;
@@ -1201,9 +1348,9 @@ export interface UpdateStorageProfileRequest {
   farmId: string;
   storageProfileId: string;
   displayName?: string;
-  osFamily?: string;
-  fileSystemLocationsToAdd?: FileSystemLocationsList;
-  fileSystemLocationsToRemove?: FileSystemLocationsList;
+  osFamily?: StorageProfileOperatingSystemFamily;
+  fileSystemLocationsToAdd?: FileSystemLocation[];
+  fileSystemLocationsToRemove?: FileSystemLocation[];
 }
 export const UpdateStorageProfileRequest = S.suspend(() =>
   S.Struct({
@@ -1211,7 +1358,7 @@ export const UpdateStorageProfileRequest = S.suspend(() =>
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     storageProfileId: S.String.pipe(T.HttpLabel("storageProfileId")),
     displayName: S.optional(S.String),
-    osFamily: S.optional(S.String),
+    osFamily: S.optional(StorageProfileOperatingSystemFamily),
     fileSystemLocationsToAdd: S.optional(FileSystemLocationsList),
     fileSystemLocationsToRemove: S.optional(FileSystemLocationsList),
   }).pipe(
@@ -1292,14 +1439,14 @@ export interface ListBudgetsRequest {
   nextToken?: string;
   farmId: string;
   maxResults?: number;
-  status?: string;
+  status?: BudgetStatus;
 }
 export const ListBudgetsRequest = S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    status: S.optional(S.String).pipe(T.HttpQuery("status")),
+    status: S.optional(BudgetStatus).pipe(T.HttpQuery("status")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}/budgets" }),
@@ -1337,6 +1484,11 @@ export const GetFleetRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetFleetRequest",
 }) as any as S.Schema<GetFleetRequest>;
+export type AutoScalingMode = "NO_SCALING" | "EVENT_BASED_AUTO_SCALING";
+export const AutoScalingMode = S.Literal(
+  "NO_SCALING",
+  "EVENT_BASED_AUTO_SCALING",
+);
 export interface VCpuCountRange {
   min: number;
   max?: number;
@@ -1355,8 +1507,10 @@ export const MemoryMiBRange = S.suspend(() =>
 ).annotations({
   identifier: "MemoryMiBRange",
 }) as any as S.Schema<MemoryMiBRange>;
-export type AcceleratorTypes = string[];
-export const AcceleratorTypes = S.Array(S.String);
+export type AcceleratorType = "gpu";
+export const AcceleratorType = S.Literal("gpu");
+export type AcceleratorTypes = AcceleratorType[];
+export const AcceleratorTypes = S.Array(AcceleratorType);
 export interface AcceleratorCountRange {
   min: number;
   max?: number;
@@ -1375,6 +1529,17 @@ export const AcceleratorTotalMemoryMiBRange = S.suspend(() =>
 ).annotations({
   identifier: "AcceleratorTotalMemoryMiBRange",
 }) as any as S.Schema<AcceleratorTotalMemoryMiBRange>;
+export type CustomerManagedFleetOperatingSystemFamily =
+  | "WINDOWS"
+  | "LINUX"
+  | "MACOS";
+export const CustomerManagedFleetOperatingSystemFamily = S.Literal(
+  "WINDOWS",
+  "LINUX",
+  "MACOS",
+);
+export type CpuArchitectureType = "x86_64" | "arm64";
+export const CpuArchitectureType = S.Literal("x86_64", "arm64");
 export interface FleetAmountCapability {
   name: string;
   min: number;
@@ -1391,7 +1556,7 @@ export type AttributeCapabilityValuesList = string[];
 export const AttributeCapabilityValuesList = S.Array(S.String);
 export interface FleetAttributeCapability {
   name: string;
-  values: AttributeCapabilityValuesList;
+  values: string[];
 }
 export const FleetAttributeCapability = S.suspend(() =>
   S.Struct({ name: S.String, values: AttributeCapabilityValuesList }),
@@ -1405,13 +1570,13 @@ export const CustomFleetAttributeCapabilities = S.Array(
 export interface CustomerManagedWorkerCapabilities {
   vCpuCount: VCpuCountRange;
   memoryMiB: MemoryMiBRange;
-  acceleratorTypes?: AcceleratorTypes;
+  acceleratorTypes?: AcceleratorType[];
   acceleratorCount?: AcceleratorCountRange;
   acceleratorTotalMemoryMiB?: AcceleratorTotalMemoryMiBRange;
-  osFamily: string;
-  cpuArchitectureType: string;
-  customAmounts?: CustomFleetAmountCapabilities;
-  customAttributes?: CustomFleetAttributeCapabilities;
+  osFamily: CustomerManagedFleetOperatingSystemFamily;
+  cpuArchitectureType: CpuArchitectureType;
+  customAmounts?: FleetAmountCapability[];
+  customAttributes?: FleetAttributeCapability[];
 }
 export const CustomerManagedWorkerCapabilities = S.suspend(() =>
   S.Struct({
@@ -1420,30 +1585,42 @@ export const CustomerManagedWorkerCapabilities = S.suspend(() =>
     acceleratorTypes: S.optional(AcceleratorTypes),
     acceleratorCount: S.optional(AcceleratorCountRange),
     acceleratorTotalMemoryMiB: S.optional(AcceleratorTotalMemoryMiBRange),
-    osFamily: S.String,
-    cpuArchitectureType: S.String,
+    osFamily: CustomerManagedFleetOperatingSystemFamily,
+    cpuArchitectureType: CpuArchitectureType,
     customAmounts: S.optional(CustomFleetAmountCapabilities),
     customAttributes: S.optional(CustomFleetAttributeCapabilities),
   }),
 ).annotations({
   identifier: "CustomerManagedWorkerCapabilities",
 }) as any as S.Schema<CustomerManagedWorkerCapabilities>;
+export type TagPropagationMode =
+  | "NO_PROPAGATION"
+  | "PROPAGATE_TAGS_TO_WORKERS_AT_LAUNCH";
+export const TagPropagationMode = S.Literal(
+  "NO_PROPAGATION",
+  "PROPAGATE_TAGS_TO_WORKERS_AT_LAUNCH",
+);
 export interface CustomerManagedFleetConfiguration {
-  mode: string;
+  mode: AutoScalingMode;
   workerCapabilities: CustomerManagedWorkerCapabilities;
   storageProfileId?: string;
-  tagPropagationMode?: string;
+  tagPropagationMode?: TagPropagationMode;
 }
 export const CustomerManagedFleetConfiguration = S.suspend(() =>
   S.Struct({
-    mode: S.String,
+    mode: AutoScalingMode,
     workerCapabilities: CustomerManagedWorkerCapabilities,
     storageProfileId: S.optional(S.String),
-    tagPropagationMode: S.optional(S.String),
+    tagPropagationMode: S.optional(TagPropagationMode),
   }),
 ).annotations({
   identifier: "CustomerManagedFleetConfiguration",
 }) as any as S.Schema<CustomerManagedFleetConfiguration>;
+export type ServiceManagedFleetOperatingSystemFamily = "WINDOWS" | "LINUX";
+export const ServiceManagedFleetOperatingSystemFamily = S.Literal(
+  "WINDOWS",
+  "LINUX",
+);
 export interface Ec2EbsVolume {
   sizeGiB?: number;
   iops?: number;
@@ -1456,19 +1633,21 @@ export const Ec2EbsVolume = S.suspend(() =>
     throughputMiB: S.optional(S.Number),
   }),
 ).annotations({ identifier: "Ec2EbsVolume" }) as any as S.Schema<Ec2EbsVolume>;
+export type AcceleratorName = "t4" | "a10g" | "l4" | "l40s";
+export const AcceleratorName = S.Literal("t4", "a10g", "l4", "l40s");
 export interface AcceleratorSelection {
-  name: string;
+  name: AcceleratorName;
   runtime?: string;
 }
 export const AcceleratorSelection = S.suspend(() =>
-  S.Struct({ name: S.String, runtime: S.optional(S.String) }),
+  S.Struct({ name: AcceleratorName, runtime: S.optional(S.String) }),
 ).annotations({
   identifier: "AcceleratorSelection",
 }) as any as S.Schema<AcceleratorSelection>;
 export type AcceleratorSelections = AcceleratorSelection[];
 export const AcceleratorSelections = S.Array(AcceleratorSelection);
 export interface AcceleratorCapabilities {
-  selections: AcceleratorSelections;
+  selections: AcceleratorSelection[];
   count?: AcceleratorCountRange;
 }
 export const AcceleratorCapabilities = S.suspend(() =>
@@ -1484,21 +1663,21 @@ export const InstanceTypes = S.Array(S.String);
 export interface ServiceManagedEc2InstanceCapabilities {
   vCpuCount: VCpuCountRange;
   memoryMiB: MemoryMiBRange;
-  osFamily: string;
-  cpuArchitectureType: string;
+  osFamily: ServiceManagedFleetOperatingSystemFamily;
+  cpuArchitectureType: CpuArchitectureType;
   rootEbsVolume?: Ec2EbsVolume;
   acceleratorCapabilities?: AcceleratorCapabilities;
-  allowedInstanceTypes?: InstanceTypes;
-  excludedInstanceTypes?: InstanceTypes;
-  customAmounts?: CustomFleetAmountCapabilities;
-  customAttributes?: CustomFleetAttributeCapabilities;
+  allowedInstanceTypes?: string[];
+  excludedInstanceTypes?: string[];
+  customAmounts?: FleetAmountCapability[];
+  customAttributes?: FleetAttributeCapability[];
 }
 export const ServiceManagedEc2InstanceCapabilities = S.suspend(() =>
   S.Struct({
     vCpuCount: VCpuCountRange,
     memoryMiB: MemoryMiBRange,
-    osFamily: S.String,
-    cpuArchitectureType: S.String,
+    osFamily: ServiceManagedFleetOperatingSystemFamily,
+    cpuArchitectureType: CpuArchitectureType,
     rootEbsVolume: S.optional(Ec2EbsVolume),
     acceleratorCapabilities: S.optional(AcceleratorCapabilities),
     allowedInstanceTypes: S.optional(InstanceTypes),
@@ -1509,18 +1688,20 @@ export const ServiceManagedEc2InstanceCapabilities = S.suspend(() =>
 ).annotations({
   identifier: "ServiceManagedEc2InstanceCapabilities",
 }) as any as S.Schema<ServiceManagedEc2InstanceCapabilities>;
+export type Ec2MarketType = "on-demand" | "spot" | "wait-and-save";
+export const Ec2MarketType = S.Literal("on-demand", "spot", "wait-and-save");
 export interface ServiceManagedEc2InstanceMarketOptions {
-  type: string;
+  type: Ec2MarketType;
 }
 export const ServiceManagedEc2InstanceMarketOptions = S.suspend(() =>
-  S.Struct({ type: S.String }),
+  S.Struct({ type: Ec2MarketType }),
 ).annotations({
   identifier: "ServiceManagedEc2InstanceMarketOptions",
 }) as any as S.Schema<ServiceManagedEc2InstanceMarketOptions>;
 export type VpcResourceConfigurationArns = string[];
 export const VpcResourceConfigurationArns = S.Array(S.String);
 export interface VpcConfiguration {
-  resourceConfigurationArns?: VpcResourceConfigurationArns;
+  resourceConfigurationArns?: string[];
 }
 export const VpcConfiguration = S.suspend(() =>
   S.Struct({
@@ -1553,7 +1734,7 @@ export const FleetConfiguration = S.Union(
   S.Struct({ serviceManagedEc2: ServiceManagedEc2FleetConfiguration }),
 );
 export interface HostConfiguration {
-  scriptBody: string | Redacted.Redacted<string>;
+  scriptBody: string | redacted.Redacted<string>;
   scriptTimeoutSeconds?: number;
 }
 export const HostConfiguration = S.suspend(() =>
@@ -1569,11 +1750,11 @@ export interface UpdateFleetRequest {
   farmId: string;
   fleetId: string;
   displayName?: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   roleArn?: string;
   minWorkerCount?: number;
   maxWorkerCount?: number;
-  configuration?: (typeof FleetConfiguration)["Type"];
+  configuration?: FleetConfiguration;
   hostConfiguration?: HostConfiguration;
 }
 export const UpdateFleetRequest = S.suspend(() =>
@@ -1642,7 +1823,7 @@ export interface ListFleetsRequest {
   farmId: string;
   principalId?: string;
   displayName?: string;
-  status?: string;
+  status?: FleetStatus;
   nextToken?: string;
   maxResults?: number;
 }
@@ -1651,7 +1832,7 @@ export const ListFleetsRequest = S.suspend(() =>
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     principalId: S.optional(S.String).pipe(T.HttpQuery("principalId")),
     displayName: S.optional(S.String).pipe(T.HttpQuery("displayName")),
-    status: S.optional(S.String).pipe(T.HttpQuery("status")),
+    status: S.optional(FleetStatus).pipe(T.HttpQuery("status")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
@@ -1671,18 +1852,18 @@ export interface AssociateMemberToFleetRequest {
   farmId: string;
   fleetId: string;
   principalId: string;
-  principalType: string;
+  principalType: DeadlinePrincipalType;
   identityStoreId: string;
-  membershipLevel: string;
+  membershipLevel: MembershipLevel;
 }
 export const AssociateMemberToFleetRequest = S.suspend(() =>
   S.Struct({
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     fleetId: S.String.pipe(T.HttpLabel("fleetId")),
     principalId: S.String.pipe(T.HttpLabel("principalId")),
-    principalType: S.String,
+    principalType: DeadlinePrincipalType,
     identityStoreId: S.String,
-    membershipLevel: S.String,
+    membershipLevel: MembershipLevel,
   }).pipe(
     T.all(
       T.Http({
@@ -2004,16 +2185,18 @@ export interface WindowsUser {
 export const WindowsUser = S.suspend(() =>
   S.Struct({ user: S.String, passwordArn: S.String }),
 ).annotations({ identifier: "WindowsUser" }) as any as S.Schema<WindowsUser>;
+export type RunAs = "QUEUE_CONFIGURED_USER" | "WORKER_AGENT_USER";
+export const RunAs = S.Literal("QUEUE_CONFIGURED_USER", "WORKER_AGENT_USER");
 export interface JobRunAsUser {
   posix?: PosixUser;
   windows?: WindowsUser;
-  runAs: string;
+  runAs: RunAs;
 }
 export const JobRunAsUser = S.suspend(() =>
   S.Struct({
     posix: S.optional(PosixUser),
     windows: S.optional(WindowsUser),
-    runAs: S.String,
+    runAs: RunAs,
   }),
 ).annotations({ identifier: "JobRunAsUser" }) as any as S.Schema<JobRunAsUser>;
 export interface UpdateQueueRequest {
@@ -2021,15 +2204,15 @@ export interface UpdateQueueRequest {
   farmId: string;
   queueId: string;
   displayName?: string;
-  description?: string | Redacted.Redacted<string>;
-  defaultBudgetAction?: string;
+  description?: string | redacted.Redacted<string>;
+  defaultBudgetAction?: DefaultQueueBudgetAction;
   jobAttachmentSettings?: JobAttachmentSettings;
   roleArn?: string;
   jobRunAsUser?: JobRunAsUser;
-  requiredFileSystemLocationNamesToAdd?: RequiredFileSystemLocationNames;
-  requiredFileSystemLocationNamesToRemove?: RequiredFileSystemLocationNames;
-  allowedStorageProfileIdsToAdd?: AllowedStorageProfileIds;
-  allowedStorageProfileIdsToRemove?: AllowedStorageProfileIds;
+  requiredFileSystemLocationNamesToAdd?: string[];
+  requiredFileSystemLocationNamesToRemove?: string[];
+  allowedStorageProfileIdsToAdd?: string[];
+  allowedStorageProfileIdsToRemove?: string[];
 }
 export const UpdateQueueRequest = S.suspend(() =>
   S.Struct({
@@ -2038,7 +2221,7 @@ export const UpdateQueueRequest = S.suspend(() =>
     queueId: S.String.pipe(T.HttpLabel("queueId")),
     displayName: S.optional(S.String),
     description: S.optional(SensitiveString),
-    defaultBudgetAction: S.optional(S.String),
+    defaultBudgetAction: S.optional(DefaultQueueBudgetAction),
     jobAttachmentSettings: S.optional(JobAttachmentSettings),
     roleArn: S.optional(S.String),
     jobRunAsUser: S.optional(JobRunAsUser),
@@ -2101,7 +2284,7 @@ export const DeleteQueueResponse = S.suspend(() => S.Struct({})).annotations({
 export interface ListQueuesRequest {
   farmId: string;
   principalId?: string;
-  status?: string;
+  status?: QueueStatus;
   nextToken?: string;
   maxResults?: number;
 }
@@ -2109,7 +2292,7 @@ export const ListQueuesRequest = S.suspend(() =>
   S.Struct({
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     principalId: S.optional(S.String).pipe(T.HttpQuery("principalId")),
-    status: S.optional(S.String).pipe(T.HttpQuery("status")),
+    status: S.optional(QueueStatus).pipe(T.HttpQuery("status")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
@@ -2129,18 +2312,18 @@ export interface AssociateMemberToQueueRequest {
   farmId: string;
   queueId: string;
   principalId: string;
-  principalType: string;
+  principalType: DeadlinePrincipalType;
   identityStoreId: string;
-  membershipLevel: string;
+  membershipLevel: MembershipLevel;
 }
 export const AssociateMemberToQueueRequest = S.suspend(() =>
   S.Struct({
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     queueId: S.String.pipe(T.HttpLabel("queueId")),
     principalId: S.String.pipe(T.HttpLabel("principalId")),
-    principalType: S.String,
+    principalType: DeadlinePrincipalType,
     identityStoreId: S.String,
-    membershipLevel: S.String,
+    membershipLevel: MembershipLevel,
   }).pipe(
     T.all(
       T.Http({
@@ -2216,8 +2399,8 @@ export interface CreateQueueEnvironmentRequest {
   farmId: string;
   queueId: string;
   priority: number;
-  templateType: string;
-  template: string | Redacted.Redacted<string>;
+  templateType: EnvironmentTemplateType;
+  template: string | redacted.Redacted<string>;
 }
 export const CreateQueueEnvironmentRequest = S.suspend(() =>
   S.Struct({
@@ -2225,7 +2408,7 @@ export const CreateQueueEnvironmentRequest = S.suspend(() =>
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     queueId: S.String.pipe(T.HttpLabel("queueId")),
     priority: S.Number,
-    templateType: S.String,
+    templateType: EnvironmentTemplateType,
     template: SensitiveString,
   }).pipe(
     T.all(
@@ -2449,8 +2632,8 @@ export interface UpdateQueueEnvironmentRequest {
   queueId: string;
   queueEnvironmentId: string;
   priority?: number;
-  templateType?: string;
-  template?: string | Redacted.Redacted<string>;
+  templateType?: EnvironmentTemplateType;
+  template?: string | redacted.Redacted<string>;
 }
 export const UpdateQueueEnvironmentRequest = S.suspend(() =>
   S.Struct({
@@ -2459,7 +2642,7 @@ export const UpdateQueueEnvironmentRequest = S.suspend(() =>
     queueId: S.String.pipe(T.HttpLabel("queueId")),
     queueEnvironmentId: S.String.pipe(T.HttpLabel("queueEnvironmentId")),
     priority: S.optional(S.Number),
-    templateType: S.optional(S.String),
+    templateType: S.optional(EnvironmentTemplateType),
     template: S.optional(SensitiveString),
   }).pipe(
     T.all(
@@ -2511,11 +2694,11 @@ export const GetJobRequest = S.suspend(() =>
 }) as any as S.Schema<GetJobRequest>;
 export interface UpdateJobRequest {
   clientToken?: string;
-  targetTaskRunStatus?: string;
+  targetTaskRunStatus?: JobTargetTaskRunStatus;
   priority?: number;
   maxFailedTasksCount?: number;
   maxRetriesPerTask?: number;
-  lifecycleStatus?: string;
+  lifecycleStatus?: UpdateJobLifecycleStatus;
   maxWorkerCount?: number;
   farmId: string;
   queueId: string;
@@ -2524,11 +2707,11 @@ export interface UpdateJobRequest {
 export const UpdateJobRequest = S.suspend(() =>
   S.Struct({
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Client-Token")),
-    targetTaskRunStatus: S.optional(S.String),
+    targetTaskRunStatus: S.optional(JobTargetTaskRunStatus),
     priority: S.optional(S.Number),
     maxFailedTasksCount: S.optional(S.Number),
     maxRetriesPerTask: S.optional(S.Number),
-    lifecycleStatus: S.optional(S.String),
+    lifecycleStatus: S.optional(UpdateJobLifecycleStatus),
     maxWorkerCount: S.optional(S.Number),
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     queueId: S.String.pipe(T.HttpLabel("queueId")),
@@ -2588,9 +2771,9 @@ export interface AssociateMemberToJobRequest {
   queueId: string;
   jobId: string;
   principalId: string;
-  principalType: string;
+  principalType: DeadlinePrincipalType;
   identityStoreId: string;
-  membershipLevel: string;
+  membershipLevel: MembershipLevel;
 }
 export const AssociateMemberToJobRequest = S.suspend(() =>
   S.Struct({
@@ -2598,9 +2781,9 @@ export const AssociateMemberToJobRequest = S.suspend(() =>
     queueId: S.String.pipe(T.HttpLabel("queueId")),
     jobId: S.String.pipe(T.HttpLabel("jobId")),
     principalId: S.String.pipe(T.HttpLabel("principalId")),
-    principalType: S.String,
+    principalType: DeadlinePrincipalType,
     identityStoreId: S.String,
-    membershipLevel: S.String,
+    membershipLevel: MembershipLevel,
   }).pipe(
     T.all(
       T.Http({
@@ -3023,7 +3206,7 @@ export const ListTasksRequest = S.suspend(() =>
 }) as any as S.Schema<ListTasksRequest>;
 export interface UpdateSessionRequest {
   clientToken?: string;
-  targetLifecycleStatus: string;
+  targetLifecycleStatus: SessionLifecycleTargetStatus;
   farmId: string;
   queueId: string;
   jobId: string;
@@ -3032,7 +3215,7 @@ export interface UpdateSessionRequest {
 export const UpdateSessionRequest = S.suspend(() =>
   S.Struct({
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Client-Token")),
-    targetLifecycleStatus: S.String,
+    targetLifecycleStatus: SessionLifecycleTargetStatus,
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     queueId: S.String.pipe(T.HttpLabel("queueId")),
     jobId: S.String.pipe(T.HttpLabel("jobId")),
@@ -3058,7 +3241,7 @@ export const UpdateSessionResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UpdateSessionResponse",
 }) as any as S.Schema<UpdateSessionResponse>;
 export interface UpdateStepRequest {
-  targetTaskRunStatus: string;
+  targetTaskRunStatus: StepTargetTaskRunStatus;
   clientToken?: string;
   farmId: string;
   queueId: string;
@@ -3067,7 +3250,7 @@ export interface UpdateStepRequest {
 }
 export const UpdateStepRequest = S.suspend(() =>
   S.Struct({
-    targetTaskRunStatus: S.String,
+    targetTaskRunStatus: StepTargetTaskRunStatus,
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Client-Token")),
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     queueId: S.String.pipe(T.HttpLabel("queueId")),
@@ -3095,7 +3278,7 @@ export const UpdateStepResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UpdateStepResponse>;
 export interface UpdateTaskRequest {
   clientToken?: string;
-  targetRunStatus: string;
+  targetRunStatus: TaskTargetRunStatus;
   farmId: string;
   queueId: string;
   jobId: string;
@@ -3105,7 +3288,7 @@ export interface UpdateTaskRequest {
 export const UpdateTaskRequest = S.suspend(() =>
   S.Struct({
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Client-Token")),
-    targetRunStatus: S.String,
+    targetRunStatus: TaskTargetRunStatus,
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     queueId: S.String.pipe(T.HttpLabel("queueId")),
     jobId: S.String.pipe(T.HttpLabel("jobId")),
@@ -3134,9 +3317,9 @@ export const UpdateTaskResponse = S.suspend(() => S.Struct({})).annotations({
 export interface CreateLicenseEndpointRequest {
   clientToken?: string;
   vpcId: string;
-  subnetIds: SubnetIdList;
-  securityGroupIds: SecurityGroupIdList;
-  tags?: Tags;
+  subnetIds: string[];
+  securityGroupIds: string[];
+  tags?: { [key: string]: string };
 }
 export const CreateLicenseEndpointRequest = S.suspend(() =>
   S.Struct({
@@ -3321,7 +3504,7 @@ export interface CreateMonitorRequest {
   identityCenterInstanceArn: string;
   subdomain: string;
   roleArn: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateMonitorRequest = S.suspend(() =>
   S.Struct({
@@ -3432,9 +3615,51 @@ export const ListMonitorsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListMonitorsRequest",
 }) as any as S.Schema<ListMonitorsRequest>;
+export type BudgetActionType =
+  | "STOP_SCHEDULING_AND_COMPLETE_TASKS"
+  | "STOP_SCHEDULING_AND_CANCEL_TASKS";
+export const BudgetActionType = S.Literal(
+  "STOP_SCHEDULING_AND_COMPLETE_TASKS",
+  "STOP_SCHEDULING_AND_CANCEL_TASKS",
+);
+export type JobAttachmentsFileSystem = "COPIED" | "VIRTUAL";
+export const JobAttachmentsFileSystem = S.Literal("COPIED", "VIRTUAL");
+export type QueueFleetAssociationStatus =
+  | "ACTIVE"
+  | "STOP_SCHEDULING_AND_COMPLETE_TASKS"
+  | "STOP_SCHEDULING_AND_CANCEL_TASKS"
+  | "STOPPED";
+export const QueueFleetAssociationStatus = S.Literal(
+  "ACTIVE",
+  "STOP_SCHEDULING_AND_COMPLETE_TASKS",
+  "STOP_SCHEDULING_AND_CANCEL_TASKS",
+  "STOPPED",
+);
+export type QueueLimitAssociationStatus =
+  | "ACTIVE"
+  | "STOP_LIMIT_USAGE_AND_COMPLETE_TASKS"
+  | "STOP_LIMIT_USAGE_AND_CANCEL_TASKS"
+  | "STOPPED";
+export const QueueLimitAssociationStatus = S.Literal(
+  "ACTIVE",
+  "STOP_LIMIT_USAGE_AND_COMPLETE_TASKS",
+  "STOP_LIMIT_USAGE_AND_CANCEL_TASKS",
+  "STOPPED",
+);
+export type SessionsStatisticsAggregationStatus =
+  | "IN_PROGRESS"
+  | "TIMEOUT"
+  | "FAILED"
+  | "COMPLETED";
+export const SessionsStatisticsAggregationStatus = S.Literal(
+  "IN_PROGRESS",
+  "TIMEOUT",
+  "FAILED",
+  "COMPLETED",
+);
 export type SessionsStatisticsResources =
-  | { queueIds: QueueIds }
-  | { fleetIds: FleetIds };
+  | { queueIds: string[] }
+  | { fleetIds: string[] };
 export const SessionsStatisticsResources = S.Union(
   S.Struct({ queueIds: QueueIds }),
   S.Struct({ fleetIds: FleetIds }),
@@ -3442,13 +3667,13 @@ export const SessionsStatisticsResources = S.Union(
 export type UsageTrackingResource = { queueId: string };
 export const UsageTrackingResource = S.Union(S.Struct({ queueId: S.String }));
 export interface BudgetActionToAdd {
-  type: string;
+  type: BudgetActionType;
   thresholdPercentage: number;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
 }
 export const BudgetActionToAdd = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: BudgetActionType,
     thresholdPercentage: S.Number,
     description: S.optional(SensitiveString),
   }),
@@ -3458,16 +3683,92 @@ export const BudgetActionToAdd = S.suspend(() =>
 export type BudgetActionsToAdd = BudgetActionToAdd[];
 export const BudgetActionsToAdd = S.Array(BudgetActionToAdd);
 export interface BudgetActionToRemove {
-  type: string;
+  type: BudgetActionType;
   thresholdPercentage: number;
 }
 export const BudgetActionToRemove = S.suspend(() =>
-  S.Struct({ type: S.String, thresholdPercentage: S.Number }),
+  S.Struct({ type: BudgetActionType, thresholdPercentage: S.Number }),
 ).annotations({
   identifier: "BudgetActionToRemove",
 }) as any as S.Schema<BudgetActionToRemove>;
 export type BudgetActionsToRemove = BudgetActionToRemove[];
 export const BudgetActionsToRemove = S.Array(BudgetActionToRemove);
+export type AutoScalingStatus = "GROWING" | "STEADY" | "SHRINKING";
+export const AutoScalingStatus = S.Literal("GROWING", "STEADY", "SHRINKING");
+export type WorkerStatus =
+  | "CREATED"
+  | "STARTED"
+  | "STOPPING"
+  | "STOPPED"
+  | "NOT_RESPONDING"
+  | "NOT_COMPATIBLE"
+  | "RUNNING"
+  | "IDLE";
+export const WorkerStatus = S.Literal(
+  "CREATED",
+  "STARTED",
+  "STOPPING",
+  "STOPPED",
+  "NOT_RESPONDING",
+  "NOT_COMPATIBLE",
+  "RUNNING",
+  "IDLE",
+);
+export type QueueBlockedReason =
+  | "NO_BUDGET_CONFIGURED"
+  | "BUDGET_THRESHOLD_REACHED";
+export const QueueBlockedReason = S.Literal(
+  "NO_BUDGET_CONFIGURED",
+  "BUDGET_THRESHOLD_REACHED",
+);
+export type JobLifecycleStatus =
+  | "CREATE_IN_PROGRESS"
+  | "CREATE_FAILED"
+  | "CREATE_COMPLETE"
+  | "UPLOAD_IN_PROGRESS"
+  | "UPLOAD_FAILED"
+  | "UPDATE_IN_PROGRESS"
+  | "UPDATE_FAILED"
+  | "UPDATE_SUCCEEDED"
+  | "ARCHIVED";
+export const JobLifecycleStatus = S.Literal(
+  "CREATE_IN_PROGRESS",
+  "CREATE_FAILED",
+  "CREATE_COMPLETE",
+  "UPLOAD_IN_PROGRESS",
+  "UPLOAD_FAILED",
+  "UPDATE_IN_PROGRESS",
+  "UPDATE_FAILED",
+  "UPDATE_SUCCEEDED",
+  "ARCHIVED",
+);
+export type TaskRunStatus =
+  | "PENDING"
+  | "READY"
+  | "ASSIGNED"
+  | "STARTING"
+  | "SCHEDULED"
+  | "INTERRUPTING"
+  | "RUNNING"
+  | "SUSPENDED"
+  | "CANCELED"
+  | "FAILED"
+  | "SUCCEEDED"
+  | "NOT_COMPATIBLE";
+export const TaskRunStatus = S.Literal(
+  "PENDING",
+  "READY",
+  "ASSIGNED",
+  "STARTING",
+  "SCHEDULED",
+  "INTERRUPTING",
+  "RUNNING",
+  "SUSPENDED",
+  "CANCELED",
+  "FAILED",
+  "SUCCEEDED",
+  "NOT_COMPATIBLE",
+);
 export interface S3Location {
   bucketName: string;
   key: string;
@@ -3475,18 +3776,93 @@ export interface S3Location {
 export const S3Location = S.suspend(() =>
   S.Struct({ bucketName: S.String, key: S.String }),
 ).annotations({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
+export type SessionLifecycleStatus =
+  | "STARTED"
+  | "UPDATE_IN_PROGRESS"
+  | "UPDATE_SUCCEEDED"
+  | "UPDATE_FAILED"
+  | "ENDED";
+export const SessionLifecycleStatus = S.Literal(
+  "STARTED",
+  "UPDATE_IN_PROGRESS",
+  "UPDATE_SUCCEEDED",
+  "UPDATE_FAILED",
+  "ENDED",
+);
+export type SessionActionStatus =
+  | "ASSIGNED"
+  | "RUNNING"
+  | "CANCELING"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "INTERRUPTED"
+  | "CANCELED"
+  | "NEVER_ATTEMPTED"
+  | "SCHEDULED"
+  | "RECLAIMING"
+  | "RECLAIMED";
+export const SessionActionStatus = S.Literal(
+  "ASSIGNED",
+  "RUNNING",
+  "CANCELING",
+  "SUCCEEDED",
+  "FAILED",
+  "INTERRUPTED",
+  "CANCELED",
+  "NEVER_ATTEMPTED",
+  "SCHEDULED",
+  "RECLAIMING",
+  "RECLAIMED",
+);
+export type StepLifecycleStatus =
+  | "CREATE_COMPLETE"
+  | "UPDATE_IN_PROGRESS"
+  | "UPDATE_FAILED"
+  | "UPDATE_SUCCEEDED";
+export const StepLifecycleStatus = S.Literal(
+  "CREATE_COMPLETE",
+  "UPDATE_IN_PROGRESS",
+  "UPDATE_FAILED",
+  "UPDATE_SUCCEEDED",
+);
 export type JobParameterDefinitions = any[];
 export const JobParameterDefinitions = S.Array(S.Any);
+export type LicenseEndpointStatus =
+  | "CREATE_IN_PROGRESS"
+  | "DELETE_IN_PROGRESS"
+  | "READY"
+  | "NOT_READY";
+export const LicenseEndpointStatus = S.Literal(
+  "CREATE_IN_PROGRESS",
+  "DELETE_IN_PROGRESS",
+  "READY",
+  "NOT_READY",
+);
 export type IpV4Addresses = string[];
 export const IpV4Addresses = S.Array(S.String);
 export type IpV6Addresses = string[];
 export const IpV6Addresses = S.Array(S.String);
+export type CompletedStatus =
+  | "SUCCEEDED"
+  | "FAILED"
+  | "INTERRUPTED"
+  | "CANCELED"
+  | "NEVER_ATTEMPTED";
+export const CompletedStatus = S.Literal(
+  "SUCCEEDED",
+  "FAILED",
+  "INTERRUPTED",
+  "CANCELED",
+  "NEVER_ATTEMPTED",
+);
+export type PathFormat = "windows" | "posix";
+export const PathFormat = S.Literal("windows", "posix");
 export type OutputRelativeDirectoriesList = string[];
 export const OutputRelativeDirectoriesList = S.Array(S.String);
 export interface GetQueueFleetAssociationResponse {
   queueId: string;
   fleetId: string;
-  status: string;
+  status: QueueFleetAssociationStatus;
   createdAt: Date;
   createdBy: string;
   updatedAt?: Date;
@@ -3496,7 +3872,7 @@ export const GetQueueFleetAssociationResponse = S.suspend(() =>
   S.Struct({
     queueId: S.String,
     fleetId: S.String,
-    status: S.String,
+    status: QueueFleetAssociationStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -3512,7 +3888,7 @@ export interface GetQueueLimitAssociationResponse {
   updatedBy?: string;
   queueId: string;
   limitId: string;
-  status: string;
+  status: QueueLimitAssociationStatus;
 }
 export const GetQueueLimitAssociationResponse = S.suspend(() =>
   S.Struct({
@@ -3522,13 +3898,13 @@ export const GetQueueLimitAssociationResponse = S.suspend(() =>
     updatedBy: S.optional(S.String),
     queueId: S.String,
     limitId: S.String,
-    status: S.String,
+    status: QueueLimitAssociationStatus,
   }),
 ).annotations({
   identifier: "GetQueueLimitAssociationResponse",
 }) as any as S.Schema<GetQueueLimitAssociationResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -3537,13 +3913,13 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface StartSessionsStatisticsAggregationRequest {
   farmId: string;
-  resourceIds: (typeof SessionsStatisticsResources)["Type"];
+  resourceIds: SessionsStatisticsResources;
   startTime: Date;
   endTime: Date;
   timezone?: string;
-  period?: string;
-  groupBy: UsageGroupBy;
-  statistics: UsageStatistics;
+  period?: Period;
+  groupBy: UsageGroupByField[];
+  statistics: UsageStatistic[];
 }
 export const StartSessionsStatisticsAggregationRequest = S.suspend(() =>
   S.Struct({
@@ -3552,7 +3928,7 @@ export const StartSessionsStatisticsAggregationRequest = S.suspend(() =>
     startTime: S.Date.pipe(T.TimestampFormat("date-time")),
     endTime: S.Date.pipe(T.TimestampFormat("date-time")),
     timezone: S.optional(S.String),
-    period: S.optional(S.String),
+    period: S.optional(Period),
     groupBy: UsageGroupBy,
     statistics: UsageStatistics,
   }).pipe(
@@ -3573,7 +3949,7 @@ export const StartSessionsStatisticsAggregationRequest = S.suspend(() =>
 }) as any as S.Schema<StartSessionsStatisticsAggregationRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -3607,7 +3983,7 @@ export const CreateFarmResponse = S.suspend(() =>
 export interface GetFarmResponse {
   farmId: string;
   displayName: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   kmsKeyArn: string;
   createdAt: Date;
   createdBy: string;
@@ -3640,15 +4016,15 @@ export interface CreateStorageProfileRequest {
   clientToken?: string;
   farmId: string;
   displayName: string;
-  osFamily: string;
-  fileSystemLocations?: FileSystemLocationsList;
+  osFamily: StorageProfileOperatingSystemFamily;
+  fileSystemLocations?: FileSystemLocation[];
 }
 export const CreateStorageProfileRequest = S.suspend(() =>
   S.Struct({
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Client-Token")),
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     displayName: S.String,
-    osFamily: S.String,
+    osFamily: StorageProfileOperatingSystemFamily,
     fileSystemLocations: S.optional(FileSystemLocationsList),
   }).pipe(
     T.all(
@@ -3677,7 +4053,7 @@ export interface GetLimitResponse {
   farmId: string;
   limitId: string;
   currentCount: number;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
 }
 export const GetLimitResponse = S.suspend(() =>
   S.Struct({
@@ -3699,18 +4075,18 @@ export const GetLimitResponse = S.suspend(() =>
 export interface GetStorageProfileResponse {
   storageProfileId: string;
   displayName: string;
-  osFamily: string;
+  osFamily: StorageProfileOperatingSystemFamily;
   createdAt: Date;
   createdBy: string;
   updatedAt?: Date;
   updatedBy?: string;
-  fileSystemLocations?: FileSystemLocationsList;
+  fileSystemLocations?: FileSystemLocation[];
 }
 export const GetStorageProfileResponse = S.suspend(() =>
   S.Struct({
     storageProfileId: S.String,
     displayName: S.String,
-    osFamily: S.String,
+    osFamily: StorageProfileOperatingSystemFamily,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -3739,12 +4115,12 @@ export interface UpdateBudgetRequest {
   farmId: string;
   budgetId: string;
   displayName?: string;
-  description?: string | Redacted.Redacted<string>;
-  status?: string;
+  description?: string | redacted.Redacted<string>;
+  status?: BudgetStatus;
   approximateDollarLimit?: number;
-  actionsToAdd?: BudgetActionsToAdd;
-  actionsToRemove?: BudgetActionsToRemove;
-  schedule?: (typeof BudgetSchedule)["Type"];
+  actionsToAdd?: BudgetActionToAdd[];
+  actionsToRemove?: BudgetActionToRemove[];
+  schedule?: BudgetSchedule;
 }
 export const UpdateBudgetRequest = S.suspend(() =>
   S.Struct({
@@ -3753,7 +4129,7 @@ export const UpdateBudgetRequest = S.suspend(() =>
     budgetId: S.String.pipe(T.HttpLabel("budgetId")),
     displayName: S.optional(S.String),
     description: S.optional(SensitiveString),
-    status: S.optional(S.String),
+    status: S.optional(BudgetStatus),
     approximateDollarLimit: S.optional(S.Number),
     actionsToAdd: S.optional(BudgetActionsToAdd),
     actionsToRemove: S.optional(BudgetActionsToRemove),
@@ -3779,9 +4155,9 @@ export const UpdateBudgetResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UpdateBudgetResponse",
 }) as any as S.Schema<UpdateBudgetResponse>;
 export interface AwsCredentials {
-  accessKeyId: string | Redacted.Redacted<string>;
-  secretAccessKey: string | Redacted.Redacted<string>;
-  sessionToken: string | Redacted.Redacted<string>;
+  accessKeyId: string | redacted.Redacted<string>;
+  secretAccessKey: string | redacted.Redacted<string>;
+  sessionToken: string | redacted.Redacted<string>;
   expiration: Date;
 }
 export const AwsCredentials = S.suspend(() =>
@@ -3813,15 +4189,15 @@ export const AssumeQueueRoleForWorkerResponse = S.suspend(() =>
 export interface GetQueueResponse {
   queueId: string;
   displayName: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   farmId: string;
-  status: string;
-  defaultBudgetAction: string;
-  blockedReason?: string;
+  status: QueueStatus;
+  defaultBudgetAction: DefaultQueueBudgetAction;
+  blockedReason?: QueueBlockedReason;
   jobAttachmentSettings?: JobAttachmentSettings;
   roleArn?: string;
-  requiredFileSystemLocationNames?: RequiredFileSystemLocationNames;
-  allowedStorageProfileIds?: AllowedStorageProfileIds;
+  requiredFileSystemLocationNames?: string[];
+  allowedStorageProfileIds?: string[];
   jobRunAsUser?: JobRunAsUser;
   createdAt: Date;
   createdBy: string;
@@ -3834,9 +4210,9 @@ export const GetQueueResponse = S.suspend(() =>
     displayName: S.String,
     description: S.optional(SensitiveString),
     farmId: S.String,
-    status: S.String,
-    defaultBudgetAction: S.String,
-    blockedReason: S.optional(S.String),
+    status: QueueStatus,
+    defaultBudgetAction: DefaultQueueBudgetAction,
+    blockedReason: S.optional(QueueBlockedReason),
     jobAttachmentSettings: S.optional(JobAttachmentSettings),
     roleArn: S.optional(S.String),
     requiredFileSystemLocationNames: S.optional(
@@ -3880,8 +4256,8 @@ export interface GetQueueEnvironmentResponse {
   queueEnvironmentId: string;
   name: string;
   priority: number;
-  templateType: string;
-  template: string | Redacted.Redacted<string>;
+  templateType: EnvironmentTemplateType;
+  template: string | redacted.Redacted<string>;
   createdAt: Date;
   createdBy: string;
   updatedAt?: Date;
@@ -3892,7 +4268,7 @@ export const GetQueueEnvironmentResponse = S.suspend(() =>
     queueEnvironmentId: S.String,
     name: S.String,
     priority: S.Number,
-    templateType: S.String,
+    templateType: EnvironmentTemplateType,
     template: SensitiveString,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
@@ -3905,14 +4281,14 @@ export const GetQueueEnvironmentResponse = S.suspend(() =>
 export interface GetStorageProfileForQueueResponse {
   storageProfileId: string;
   displayName: string;
-  osFamily: string;
-  fileSystemLocations?: FileSystemLocationsList;
+  osFamily: StorageProfileOperatingSystemFamily;
+  fileSystemLocations?: FileSystemLocation[];
 }
 export const GetStorageProfileForQueueResponse = S.suspend(() =>
   S.Struct({
     storageProfileId: S.String,
     displayName: S.String,
-    osFamily: S.String,
+    osFamily: StorageProfileOperatingSystemFamily,
     fileSystemLocations: S.optional(FileSystemLocationsList),
   }),
 ).annotations({
@@ -3921,13 +4297,13 @@ export const GetStorageProfileForQueueResponse = S.suspend(() =>
 export interface StorageProfileSummary {
   storageProfileId: string;
   displayName: string;
-  osFamily: string;
+  osFamily: StorageProfileOperatingSystemFamily;
 }
 export const StorageProfileSummary = S.suspend(() =>
   S.Struct({
     storageProfileId: S.String,
     displayName: S.String,
-    osFamily: S.String,
+    osFamily: StorageProfileOperatingSystemFamily,
   }),
 ).annotations({
   identifier: "StorageProfileSummary",
@@ -3935,7 +4311,7 @@ export const StorageProfileSummary = S.suspend(() =>
 export type StorageProfileSummaries = StorageProfileSummary[];
 export const StorageProfileSummaries = S.Array(StorageProfileSummary);
 export interface ListStorageProfilesForQueueResponse {
-  storageProfiles: StorageProfileSummaries;
+  storageProfiles: StorageProfileSummary[];
   nextToken?: string;
 }
 export const ListStorageProfilesForQueueResponse = S.suspend(() =>
@@ -3980,8 +4356,8 @@ export type LogParameters = { [key: string]: string };
 export const LogParameters = S.Record({ key: S.String, value: S.String });
 export interface LogConfiguration {
   logDriver: string;
-  options?: LogOptions;
-  parameters?: LogParameters;
+  options?: { [key: string]: string };
+  parameters?: { [key: string]: string };
   error?: string;
 }
 export const LogConfiguration = S.suspend(() =>
@@ -3995,8 +4371,8 @@ export const LogConfiguration = S.suspend(() =>
   identifier: "LogConfiguration",
 }) as any as S.Schema<LogConfiguration>;
 export interface IpAddresses {
-  ipV4Addresses?: IpV4Addresses;
-  ipV6Addresses?: IpV6Addresses;
+  ipV4Addresses?: string[];
+  ipV6Addresses?: string[];
 }
 export const IpAddresses = S.suspend(() =>
   S.Struct({
@@ -4026,11 +4402,11 @@ export interface GetSessionResponse {
   workerId: string;
   startedAt: Date;
   log: LogConfiguration;
-  lifecycleStatus: string;
+  lifecycleStatus: SessionLifecycleStatus;
   endedAt?: Date;
   updatedAt?: Date;
   updatedBy?: string;
-  targetLifecycleStatus?: string;
+  targetLifecycleStatus?: SessionLifecycleTargetStatus;
   hostProperties?: HostPropertiesResponse;
   workerLog?: LogConfiguration;
 }
@@ -4041,11 +4417,11 @@ export const GetSessionResponse = S.suspend(() =>
     workerId: S.String,
     startedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     log: LogConfiguration,
-    lifecycleStatus: S.String,
+    lifecycleStatus: SessionLifecycleStatus,
     endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
-    targetLifecycleStatus: S.optional(S.String),
+    targetLifecycleStatus: S.optional(SessionLifecycleTargetStatus),
     hostProperties: S.optional(HostPropertiesResponse),
     workerLog: S.optional(LogConfiguration),
   }),
@@ -4053,7 +4429,7 @@ export const GetSessionResponse = S.suspend(() =>
   identifier: "GetSessionResponse",
 }) as any as S.Schema<GetSessionResponse>;
 export interface ListJobParameterDefinitionsResponse {
-  jobParameterDefinitions: JobParameterDefinitions;
+  jobParameterDefinitions: any[];
   nextToken?: string;
 }
 export const ListJobParameterDefinitionsResponse = S.suspend(() =>
@@ -4074,17 +4450,17 @@ export const CreateLicenseEndpointResponse = S.suspend(() =>
 }) as any as S.Schema<CreateLicenseEndpointResponse>;
 export interface GetLicenseEndpointResponse {
   licenseEndpointId: string;
-  status: string;
+  status: LicenseEndpointStatus;
   statusMessage: string;
   vpcId?: string;
   dnsName?: string;
-  subnetIds?: SubnetIdList;
-  securityGroupIds?: SecurityGroupIdList;
+  subnetIds?: string[];
+  securityGroupIds?: string[];
 }
 export const GetLicenseEndpointResponse = S.suspend(() =>
   S.Struct({
     licenseEndpointId: S.String,
-    status: S.String,
+    status: LicenseEndpointStatus,
     statusMessage: S.String,
     vpcId: S.optional(S.String),
     dnsName: S.optional(S.String),
@@ -4113,7 +4489,7 @@ export const MeteredProductSummary = S.suspend(() =>
 export type MeteredProductSummaryList = MeteredProductSummary[];
 export const MeteredProductSummaryList = S.Array(MeteredProductSummary);
 export interface ListMeteredProductsResponse {
-  meteredProducts: MeteredProductSummaryList;
+  meteredProducts: MeteredProductSummary[];
   nextToken?: string;
 }
 export const ListMeteredProductsResponse = S.suspend(() =>
@@ -4163,6 +4539,8 @@ export const GetMonitorResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetMonitorResponse",
 }) as any as S.Schema<GetMonitorResponse>;
+export type UsageType = "COMPUTE" | "LICENSE";
+export const UsageType = S.Literal("COMPUTE", "LICENSE");
 export interface WorkerAmountCapability {
   name: string;
   value: number;
@@ -4176,7 +4554,7 @@ export type WorkerAmountCapabilityList = WorkerAmountCapability[];
 export const WorkerAmountCapabilityList = S.Array(WorkerAmountCapability);
 export interface WorkerAttributeCapability {
   name: string;
-  values: AttributeCapabilityValuesList;
+  values: string[];
 }
 export const WorkerAttributeCapability = S.suspend(() =>
   S.Struct({ name: S.String, values: AttributeCapabilityValuesList }),
@@ -4233,8 +4611,8 @@ export const JobParameter = S.Union(
 export interface ManifestProperties {
   fileSystemLocationName?: string;
   rootPath: string;
-  rootPathFormat: string;
-  outputRelativeDirectories?: OutputRelativeDirectoriesList;
+  rootPathFormat: PathFormat;
+  outputRelativeDirectories?: string[];
   inputManifestPath?: string;
   inputManifestHash?: string;
 }
@@ -4242,7 +4620,7 @@ export const ManifestProperties = S.suspend(() =>
   S.Struct({
     fileSystemLocationName: S.optional(S.String),
     rootPath: S.String,
-    rootPathFormat: S.String,
+    rootPathFormat: PathFormat,
     outputRelativeDirectories: S.optional(OutputRelativeDirectoriesList),
     inputManifestPath: S.optional(S.String),
     inputManifestHash: S.optional(S.String),
@@ -4252,12 +4630,34 @@ export const ManifestProperties = S.suspend(() =>
 }) as any as S.Schema<ManifestProperties>;
 export type ManifestPropertiesList = ManifestProperties[];
 export const ManifestPropertiesList = S.Array(ManifestProperties);
+export type DependencyConsumerResolutionStatus = "RESOLVED" | "UNRESOLVED";
+export const DependencyConsumerResolutionStatus = S.Literal(
+  "RESOLVED",
+  "UNRESOLVED",
+);
+export type ComparisonOperator =
+  | "EQUAL"
+  | "NOT_EQUAL"
+  | "GREATER_THAN_EQUAL_TO"
+  | "GREATER_THAN"
+  | "LESS_THAN_EQUAL_TO"
+  | "LESS_THAN";
+export const ComparisonOperator = S.Literal(
+  "EQUAL",
+  "NOT_EQUAL",
+  "GREATER_THAN_EQUAL_TO",
+  "GREATER_THAN",
+  "LESS_THAN_EQUAL_TO",
+  "LESS_THAN",
+);
+export type SearchTermMatchingType = "FUZZY_MATCH" | "CONTAINS";
+export const SearchTermMatchingType = S.Literal("FUZZY_MATCH", "CONTAINS");
 export type ExceptionContext = { [key: string]: string };
 export const ExceptionContext = S.Record({ key: S.String, value: S.String });
 export interface QueueFleetAssociationSummary {
   queueId: string;
   fleetId: string;
-  status: string;
+  status: QueueFleetAssociationStatus;
   createdAt: Date;
   createdBy: string;
   updatedAt?: Date;
@@ -4267,7 +4667,7 @@ export const QueueFleetAssociationSummary = S.suspend(() =>
   S.Struct({
     queueId: S.String,
     fleetId: S.String,
-    status: S.String,
+    status: QueueFleetAssociationStatus,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -4287,7 +4687,7 @@ export interface QueueLimitAssociationSummary {
   updatedBy?: string;
   queueId: string;
   limitId: string;
-  status: string;
+  status: QueueLimitAssociationStatus;
 }
 export const QueueLimitAssociationSummary = S.suspend(() =>
   S.Struct({
@@ -4297,7 +4697,7 @@ export const QueueLimitAssociationSummary = S.suspend(() =>
     updatedBy: S.optional(S.String),
     queueId: S.String,
     limitId: S.String,
-    status: S.String,
+    status: QueueLimitAssociationStatus,
   }),
 ).annotations({
   identifier: "QueueLimitAssociationSummary",
@@ -4306,21 +4706,36 @@ export type QueueLimitAssociationSummaries = QueueLimitAssociationSummary[];
 export const QueueLimitAssociationSummaries = S.Array(
   QueueLimitAssociationSummary,
 );
-export type TaskRunStatusCounts = { [key: string]: number };
-export const TaskRunStatusCounts = S.Record({ key: S.String, value: S.Number });
+export type TaskRunStatusCounts = { [key in TaskRunStatus]?: number };
+export const TaskRunStatusCounts = S.partial(
+  S.Record({ key: TaskRunStatus, value: S.Number }),
+);
+export type StepParameterType =
+  | "INT"
+  | "FLOAT"
+  | "STRING"
+  | "PATH"
+  | "CHUNK_INT";
+export const StepParameterType = S.Literal(
+  "INT",
+  "FLOAT",
+  "STRING",
+  "PATH",
+  "CHUNK_INT",
+);
 export interface StepParameter {
   name: string;
-  type: string;
+  type: StepParameterType;
 }
 export const StepParameter = S.suspend(() =>
-  S.Struct({ name: S.String, type: S.String }),
+  S.Struct({ name: S.String, type: StepParameterType }),
 ).annotations({
   identifier: "StepParameter",
 }) as any as S.Schema<StepParameter>;
 export type StepParameterList = StepParameter[];
 export const StepParameterList = S.Array(StepParameter);
 export interface ParameterSpace {
-  parameters: StepParameterList;
+  parameters: StepParameter[];
   combination?: string;
 }
 export const ParameterSpace = S.suspend(() =>
@@ -4336,11 +4751,11 @@ export interface StepSearchSummary {
   jobId?: string;
   queueId?: string;
   name?: string;
-  lifecycleStatus?: string;
+  lifecycleStatus?: StepLifecycleStatus;
   lifecycleStatusMessage?: string;
-  taskRunStatus?: string;
-  targetTaskRunStatus?: string;
-  taskRunStatusCounts?: TaskRunStatusCounts;
+  taskRunStatus?: TaskRunStatus;
+  targetTaskRunStatus?: StepTargetTaskRunStatus;
+  taskRunStatusCounts?: { [key: string]: number };
   taskFailureRetryCount?: number;
   createdAt?: Date;
   createdBy?: string;
@@ -4356,10 +4771,10 @@ export const StepSearchSummary = S.suspend(() =>
     jobId: S.optional(S.String),
     queueId: S.optional(S.String),
     name: S.optional(S.String),
-    lifecycleStatus: S.optional(S.String),
+    lifecycleStatus: S.optional(StepLifecycleStatus),
     lifecycleStatusMessage: S.optional(S.String),
-    taskRunStatus: S.optional(S.String),
-    targetTaskRunStatus: S.optional(S.String),
+    taskRunStatus: S.optional(TaskRunStatus),
+    targetTaskRunStatus: S.optional(StepTargetTaskRunStatus),
     taskRunStatusCounts: S.optional(TaskRunStatusCounts),
     taskFailureRetryCount: S.optional(S.Number),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -4388,9 +4803,7 @@ export const TaskParameterValue = S.Union(
   S.Struct({ path: S.String }),
   S.Struct({ chunkInt: S.String }),
 );
-export type TaskParameters = {
-  [key: string]: (typeof TaskParameterValue)["Type"];
-};
+export type TaskParameters = { [key: string]: TaskParameterValue };
 export const TaskParameters = S.Record({
   key: S.String,
   value: TaskParameterValue,
@@ -4400,9 +4813,9 @@ export interface TaskSearchSummary {
   stepId?: string;
   jobId?: string;
   queueId?: string;
-  runStatus?: string;
-  targetRunStatus?: string;
-  parameters?: TaskParameters;
+  runStatus?: TaskRunStatus;
+  targetRunStatus?: TaskTargetRunStatus;
+  parameters?: { [key: string]: TaskParameterValue };
   failureRetryCount?: number;
   startedAt?: Date;
   endedAt?: Date;
@@ -4415,8 +4828,8 @@ export const TaskSearchSummary = S.suspend(() =>
     stepId: S.optional(S.String),
     jobId: S.optional(S.String),
     queueId: S.optional(S.String),
-    runStatus: S.optional(S.String),
-    targetRunStatus: S.optional(S.String),
+    runStatus: S.optional(TaskRunStatus),
+    targetRunStatus: S.optional(TaskTargetRunStatus),
     parameters: S.optional(TaskParameters),
     failureRetryCount: S.optional(S.Number),
     startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -4432,7 +4845,7 @@ export const TaskSearchSummaries = S.Array(TaskSearchSummary);
 export interface WorkerSearchSummary {
   fleetId?: string;
   workerId?: string;
-  status?: string;
+  status?: WorkerStatus;
   hostProperties?: HostPropertiesResponse;
   createdBy?: string;
   createdAt?: Date;
@@ -4443,7 +4856,7 @@ export const WorkerSearchSummary = S.suspend(() =>
   S.Struct({
     fleetId: S.optional(S.String),
     workerId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(WorkerStatus),
     hostProperties: S.optional(HostPropertiesResponse),
     createdBy: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -4480,17 +4893,17 @@ export const FarmSummaries = S.Array(FarmSummary);
 export interface FarmMember {
   farmId: string;
   principalId: string;
-  principalType: string;
+  principalType: DeadlinePrincipalType;
   identityStoreId: string;
-  membershipLevel: string;
+  membershipLevel: MembershipLevel;
 }
 export const FarmMember = S.suspend(() =>
   S.Struct({
     farmId: S.String,
     principalId: S.String,
-    principalType: S.String,
+    principalType: DeadlinePrincipalType,
     identityStoreId: S.String,
-    membershipLevel: S.String,
+    membershipLevel: MembershipLevel,
   }),
 ).annotations({ identifier: "FarmMember" }) as any as S.Schema<FarmMember>;
 export type FarmMembers = FarmMember[];
@@ -4532,13 +4945,13 @@ export const ConsumedUsages = S.suspend(() =>
   identifier: "ConsumedUsages",
 }) as any as S.Schema<ConsumedUsages>;
 export interface ResponseBudgetAction {
-  type: string;
+  type: BudgetActionType;
   thresholdPercentage: number;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
 }
 export const ResponseBudgetAction = S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: BudgetActionType,
     thresholdPercentage: S.Number,
     description: S.optional(SensitiveString),
   }),
@@ -4549,10 +4962,10 @@ export type ResponseBudgetActionList = ResponseBudgetAction[];
 export const ResponseBudgetActionList = S.Array(ResponseBudgetAction);
 export interface BudgetSummary {
   budgetId: string;
-  usageTrackingResource: (typeof UsageTrackingResource)["Type"];
-  status: string;
+  usageTrackingResource: UsageTrackingResource;
+  status: BudgetStatus;
   displayName: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   approximateDollarLimit: number;
   usages: ConsumedUsages;
   createdBy: string;
@@ -4564,7 +4977,7 @@ export const BudgetSummary = S.suspend(() =>
   S.Struct({
     budgetId: S.String,
     usageTrackingResource: UsageTrackingResource,
-    status: S.String,
+    status: BudgetStatus,
     displayName: S.String,
     description: S.optional(SensitiveString),
     approximateDollarLimit: S.Number,
@@ -4583,14 +4996,14 @@ export interface FleetSummary {
   fleetId: string;
   farmId: string;
   displayName: string;
-  status: string;
+  status: FleetStatus;
   statusMessage?: string;
-  autoScalingStatus?: string;
+  autoScalingStatus?: AutoScalingStatus;
   targetWorkerCount?: number;
   workerCount: number;
   minWorkerCount: number;
   maxWorkerCount: number;
-  configuration: (typeof FleetConfiguration)["Type"];
+  configuration: FleetConfiguration;
   createdAt: Date;
   createdBy: string;
   updatedAt?: Date;
@@ -4601,9 +5014,9 @@ export const FleetSummary = S.suspend(() =>
     fleetId: S.String,
     farmId: S.String,
     displayName: S.String,
-    status: S.String,
+    status: FleetStatus,
     statusMessage: S.optional(S.String),
-    autoScalingStatus: S.optional(S.String),
+    autoScalingStatus: S.optional(AutoScalingStatus),
     targetWorkerCount: S.optional(S.Number),
     workerCount: S.Number,
     minWorkerCount: S.Number,
@@ -4621,18 +5034,18 @@ export interface FleetMember {
   farmId: string;
   fleetId: string;
   principalId: string;
-  principalType: string;
+  principalType: DeadlinePrincipalType;
   identityStoreId: string;
-  membershipLevel: string;
+  membershipLevel: MembershipLevel;
 }
 export const FleetMember = S.suspend(() =>
   S.Struct({
     farmId: S.String,
     fleetId: S.String,
     principalId: S.String,
-    principalType: S.String,
+    principalType: DeadlinePrincipalType,
     identityStoreId: S.String,
-    membershipLevel: S.String,
+    membershipLevel: MembershipLevel,
   }),
 ).annotations({ identifier: "FleetMember" }) as any as S.Schema<FleetMember>;
 export type FleetMembers = FleetMember[];
@@ -4650,8 +5063,8 @@ export const HostPropertiesRequest = S.suspend(() =>
   identifier: "HostPropertiesRequest",
 }) as any as S.Schema<HostPropertiesRequest>;
 export interface WorkerCapabilities {
-  amounts: WorkerAmountCapabilityList;
-  attributes: WorkerAttributeCapabilityList;
+  amounts: WorkerAmountCapability[];
+  attributes: WorkerAttributeCapability[];
 }
 export const WorkerCapabilities = S.suspend(() =>
   S.Struct({
@@ -4665,7 +5078,7 @@ export interface WorkerSummary {
   workerId: string;
   farmId: string;
   fleetId: string;
-  status: string;
+  status: WorkerStatus;
   hostProperties?: HostPropertiesResponse;
   log?: LogConfiguration;
   createdAt: Date;
@@ -4678,7 +5091,7 @@ export const WorkerSummary = S.suspend(() =>
     workerId: S.String,
     farmId: S.String,
     fleetId: S.String,
-    status: S.String,
+    status: WorkerStatus,
     hostProperties: S.optional(HostPropertiesResponse),
     log: S.optional(LogConfiguration),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -4702,16 +5115,16 @@ export const JobEntityIdentifiersUnion = S.Union(
   S.Struct({ stepDetails: StepDetailsIdentifiers }),
   S.Struct({ environmentDetails: EnvironmentDetailsIdentifiers }),
 );
-export type JobEntityIdentifiers = (typeof JobEntityIdentifiersUnion)["Type"][];
+export type JobEntityIdentifiers = JobEntityIdentifiersUnion[];
 export const JobEntityIdentifiers = S.Array(JobEntityIdentifiersUnion);
 export interface WorkerSessionSummary {
   sessionId: string;
   queueId: string;
   jobId: string;
   startedAt: Date;
-  lifecycleStatus: string;
+  lifecycleStatus: SessionLifecycleStatus;
   endedAt?: Date;
-  targetLifecycleStatus?: string;
+  targetLifecycleStatus?: SessionLifecycleTargetStatus;
 }
 export const WorkerSessionSummary = S.suspend(() =>
   S.Struct({
@@ -4719,9 +5132,9 @@ export const WorkerSessionSummary = S.suspend(() =>
     queueId: S.String,
     jobId: S.String,
     startedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    lifecycleStatus: S.String,
+    lifecycleStatus: SessionLifecycleStatus,
     endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    targetLifecycleStatus: S.optional(S.String),
+    targetLifecycleStatus: S.optional(SessionLifecycleTargetStatus),
   }),
 ).annotations({
   identifier: "WorkerSessionSummary",
@@ -4732,9 +5145,9 @@ export interface QueueSummary {
   farmId: string;
   queueId: string;
   displayName: string;
-  status: string;
-  defaultBudgetAction: string;
-  blockedReason?: string;
+  status: QueueStatus;
+  defaultBudgetAction: DefaultQueueBudgetAction;
+  blockedReason?: QueueBlockedReason;
   createdAt: Date;
   createdBy: string;
   updatedAt?: Date;
@@ -4745,9 +5158,9 @@ export const QueueSummary = S.suspend(() =>
     farmId: S.String,
     queueId: S.String,
     displayName: S.String,
-    status: S.String,
-    defaultBudgetAction: S.String,
-    blockedReason: S.optional(S.String),
+    status: QueueStatus,
+    defaultBudgetAction: DefaultQueueBudgetAction,
+    blockedReason: S.optional(QueueBlockedReason),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -4776,38 +5189,38 @@ export interface QueueMember {
   farmId: string;
   queueId: string;
   principalId: string;
-  principalType: string;
+  principalType: DeadlinePrincipalType;
   identityStoreId: string;
-  membershipLevel: string;
+  membershipLevel: MembershipLevel;
 }
 export const QueueMember = S.suspend(() =>
   S.Struct({
     farmId: S.String,
     queueId: S.String,
     principalId: S.String,
-    principalType: S.String,
+    principalType: DeadlinePrincipalType,
     identityStoreId: S.String,
-    membershipLevel: S.String,
+    membershipLevel: MembershipLevel,
   }),
 ).annotations({ identifier: "QueueMember" }) as any as S.Schema<QueueMember>;
 export type QueueMemberList = QueueMember[];
 export const QueueMemberList = S.Array(QueueMember);
-export type JobParameters = { [key: string]: (typeof JobParameter)["Type"] };
+export type JobParameters = { [key: string]: JobParameter };
 export const JobParameters = S.Record({ key: S.String, value: JobParameter });
 export interface Attachments {
-  manifests: ManifestPropertiesList;
-  fileSystem?: string;
+  manifests: ManifestProperties[];
+  fileSystem?: JobAttachmentsFileSystem;
 }
 export const Attachments = S.suspend(() =>
   S.Struct({
     manifests: ManifestPropertiesList,
-    fileSystem: S.optional(S.String),
+    fileSystem: S.optional(JobAttachmentsFileSystem),
   }),
 ).annotations({ identifier: "Attachments" }) as any as S.Schema<Attachments>;
 export interface JobSummary {
   jobId: string;
   name: string;
-  lifecycleStatus: string;
+  lifecycleStatus: JobLifecycleStatus;
   lifecycleStatusMessage: string;
   priority: number;
   createdAt: Date;
@@ -4816,9 +5229,9 @@ export interface JobSummary {
   updatedBy?: string;
   startedAt?: Date;
   endedAt?: Date;
-  taskRunStatus?: string;
-  targetTaskRunStatus?: string;
-  taskRunStatusCounts?: TaskRunStatusCounts;
+  taskRunStatus?: TaskRunStatus;
+  targetTaskRunStatus?: JobTargetTaskRunStatus;
+  taskRunStatusCounts?: { [key: string]: number };
   taskFailureRetryCount?: number;
   maxFailedTasksCount?: number;
   maxRetriesPerTask?: number;
@@ -4829,7 +5242,7 @@ export const JobSummary = S.suspend(() =>
   S.Struct({
     jobId: S.String,
     name: S.String,
-    lifecycleStatus: S.String,
+    lifecycleStatus: JobLifecycleStatus,
     lifecycleStatusMessage: S.String,
     priority: S.Number,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -4838,8 +5251,8 @@ export const JobSummary = S.suspend(() =>
     updatedBy: S.optional(S.String),
     startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    taskRunStatus: S.optional(S.String),
-    targetTaskRunStatus: S.optional(S.String),
+    taskRunStatus: S.optional(TaskRunStatus),
+    targetTaskRunStatus: S.optional(JobTargetTaskRunStatus),
     taskRunStatusCounts: S.optional(TaskRunStatusCounts),
     taskFailureRetryCount: S.optional(S.Number),
     maxFailedTasksCount: S.optional(S.Number),
@@ -4899,9 +5312,9 @@ export interface JobMember {
   queueId: string;
   jobId: string;
   principalId: string;
-  principalType: string;
+  principalType: DeadlinePrincipalType;
   identityStoreId: string;
-  membershipLevel: string;
+  membershipLevel: MembershipLevel;
 }
 export const JobMember = S.suspend(() =>
   S.Struct({
@@ -4909,9 +5322,9 @@ export const JobMember = S.suspend(() =>
     queueId: S.String,
     jobId: S.String,
     principalId: S.String,
-    principalType: S.String,
+    principalType: DeadlinePrincipalType,
     identityStoreId: S.String,
-    membershipLevel: S.String,
+    membershipLevel: MembershipLevel,
   }),
 ).annotations({ identifier: "JobMember" }) as any as S.Schema<JobMember>;
 export type JobMembers = JobMember[];
@@ -4921,11 +5334,11 @@ export interface SessionSummary {
   fleetId: string;
   workerId: string;
   startedAt: Date;
-  lifecycleStatus: string;
+  lifecycleStatus: SessionLifecycleStatus;
   endedAt?: Date;
   updatedAt?: Date;
   updatedBy?: string;
-  targetLifecycleStatus?: string;
+  targetLifecycleStatus?: SessionLifecycleTargetStatus;
 }
 export const SessionSummary = S.suspend(() =>
   S.Struct({
@@ -4933,11 +5346,11 @@ export const SessionSummary = S.suspend(() =>
     fleetId: S.String,
     workerId: S.String,
     startedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    lifecycleStatus: S.String,
+    lifecycleStatus: SessionLifecycleStatus,
     endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
-    targetLifecycleStatus: S.optional(S.String),
+    targetLifecycleStatus: S.optional(SessionLifecycleTargetStatus),
   }),
 ).annotations({
   identifier: "SessionSummary",
@@ -4946,19 +5359,19 @@ export type SessionSummaries = SessionSummary[];
 export const SessionSummaries = S.Array(SessionSummary);
 export interface StepConsumer {
   stepId: string;
-  status: string;
+  status: DependencyConsumerResolutionStatus;
 }
 export const StepConsumer = S.suspend(() =>
-  S.Struct({ stepId: S.String, status: S.String }),
+  S.Struct({ stepId: S.String, status: DependencyConsumerResolutionStatus }),
 ).annotations({ identifier: "StepConsumer" }) as any as S.Schema<StepConsumer>;
 export type StepConsumers = StepConsumer[];
 export const StepConsumers = S.Array(StepConsumer);
 export interface StepDependency {
   stepId: string;
-  status: string;
+  status: DependencyConsumerResolutionStatus;
 }
 export const StepDependency = S.suspend(() =>
-  S.Struct({ stepId: S.String, status: S.String }),
+  S.Struct({ stepId: S.String, status: DependencyConsumerResolutionStatus }),
 ).annotations({
   identifier: "StepDependency",
 }) as any as S.Schema<StepDependency>;
@@ -4967,12 +5380,12 @@ export const StepDependencies = S.Array(StepDependency);
 export interface StepSummary {
   stepId: string;
   name: string;
-  lifecycleStatus: string;
+  lifecycleStatus: StepLifecycleStatus;
   lifecycleStatusMessage?: string;
-  taskRunStatus: string;
-  taskRunStatusCounts: TaskRunStatusCounts;
+  taskRunStatus: TaskRunStatus;
+  taskRunStatusCounts: { [key: string]: number };
   taskFailureRetryCount?: number;
-  targetTaskRunStatus?: string;
+  targetTaskRunStatus?: StepTargetTaskRunStatus;
   createdAt: Date;
   createdBy: string;
   updatedAt?: Date;
@@ -4985,12 +5398,12 @@ export const StepSummary = S.suspend(() =>
   S.Struct({
     stepId: S.String,
     name: S.String,
-    lifecycleStatus: S.String,
+    lifecycleStatus: StepLifecycleStatus,
     lifecycleStatusMessage: S.optional(S.String),
-    taskRunStatus: S.String,
+    taskRunStatus: TaskRunStatus,
     taskRunStatusCounts: TaskRunStatusCounts,
     taskFailureRetryCount: S.optional(S.Number),
-    targetTaskRunStatus: S.optional(S.String),
+    targetTaskRunStatus: S.optional(StepTargetTaskRunStatus),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -5006,10 +5419,10 @@ export interface TaskSummary {
   taskId: string;
   createdAt: Date;
   createdBy: string;
-  runStatus: string;
-  targetRunStatus?: string;
+  runStatus: TaskRunStatus;
+  targetRunStatus?: TaskTargetRunStatus;
   failureRetryCount?: number;
-  parameters?: TaskParameters;
+  parameters?: { [key: string]: TaskParameterValue };
   startedAt?: Date;
   endedAt?: Date;
   updatedAt?: Date;
@@ -5021,8 +5434,8 @@ export const TaskSummary = S.suspend(() =>
     taskId: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    runStatus: S.String,
-    targetRunStatus: S.optional(S.String),
+    runStatus: TaskRunStatus,
+    targetRunStatus: S.optional(TaskTargetRunStatus),
     failureRetryCount: S.optional(S.Number),
     parameters: S.optional(TaskParameters),
     startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -5036,14 +5449,14 @@ export type TaskSummaries = TaskSummary[];
 export const TaskSummaries = S.Array(TaskSummary);
 export interface LicenseEndpointSummary {
   licenseEndpointId?: string;
-  status?: string;
+  status?: LicenseEndpointStatus;
   statusMessage?: string;
   vpcId?: string;
 }
 export const LicenseEndpointSummary = S.suspend(() =>
   S.Struct({
     licenseEndpointId: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(LicenseEndpointStatus),
     statusMessage: S.optional(S.String),
     vpcId: S.optional(S.String),
   }),
@@ -5086,13 +5499,13 @@ export type MonitorSummaries = MonitorSummary[];
 export const MonitorSummaries = S.Array(MonitorSummary);
 export interface DateTimeFilterExpression {
   name: string;
-  operator: string;
+  operator: ComparisonOperator;
   dateTime: Date;
 }
 export const DateTimeFilterExpression = S.suspend(() =>
   S.Struct({
     name: S.String,
-    operator: S.String,
+    operator: ComparisonOperator,
     dateTime: S.Date.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotations({
@@ -5100,30 +5513,33 @@ export const DateTimeFilterExpression = S.suspend(() =>
 }) as any as S.Schema<DateTimeFilterExpression>;
 export interface ParameterFilterExpression {
   name: string;
-  operator: string;
+  operator: ComparisonOperator;
   value: string;
 }
 export const ParameterFilterExpression = S.suspend(() =>
-  S.Struct({ name: S.String, operator: S.String, value: S.String }),
+  S.Struct({ name: S.String, operator: ComparisonOperator, value: S.String }),
 ).annotations({
   identifier: "ParameterFilterExpression",
 }) as any as S.Schema<ParameterFilterExpression>;
 export interface SearchTermFilterExpression {
   searchTerm: string;
-  matchType?: string;
+  matchType?: SearchTermMatchingType;
 }
 export const SearchTermFilterExpression = S.suspend(() =>
-  S.Struct({ searchTerm: S.String, matchType: S.optional(S.String) }),
+  S.Struct({
+    searchTerm: S.String,
+    matchType: S.optional(SearchTermMatchingType),
+  }),
 ).annotations({
   identifier: "SearchTermFilterExpression",
 }) as any as S.Schema<SearchTermFilterExpression>;
 export interface StringFilterExpression {
   name: string;
-  operator: string;
+  operator: ComparisonOperator;
   value: string;
 }
 export const StringFilterExpression = S.suspend(() =>
-  S.Struct({ name: S.String, operator: S.String, value: S.String }),
+  S.Struct({ name: S.String, operator: ComparisonOperator, value: S.String }),
 ).annotations({
   identifier: "StringFilterExpression",
 }) as any as S.Schema<StringFilterExpression>;
@@ -5147,7 +5563,7 @@ export const TaskRunManifestPropertiesListRequest = S.Array(
 export type ListAttributeCapabilityValue = string[];
 export const ListAttributeCapabilityValue = S.Array(S.String);
 export interface ListAvailableMeteredProductsResponse {
-  meteredProducts: MeteredProductSummaryList;
+  meteredProducts: MeteredProductSummary[];
   nextToken?: string;
 }
 export const ListAvailableMeteredProductsResponse = S.suspend(() =>
@@ -5159,7 +5575,7 @@ export const ListAvailableMeteredProductsResponse = S.suspend(() =>
   identifier: "ListAvailableMeteredProductsResponse",
 }) as any as S.Schema<ListAvailableMeteredProductsResponse>;
 export interface ListQueueFleetAssociationsResponse {
-  queueFleetAssociations: QueueFleetAssociationSummaries;
+  queueFleetAssociations: QueueFleetAssociationSummary[];
   nextToken?: string;
 }
 export const ListQueueFleetAssociationsResponse = S.suspend(() =>
@@ -5171,7 +5587,7 @@ export const ListQueueFleetAssociationsResponse = S.suspend(() =>
   identifier: "ListQueueFleetAssociationsResponse",
 }) as any as S.Schema<ListQueueFleetAssociationsResponse>;
 export interface ListQueueLimitAssociationsResponse {
-  queueLimitAssociations: QueueLimitAssociationSummaries;
+  queueLimitAssociations: QueueLimitAssociationSummary[];
   nextToken?: string;
 }
 export const ListQueueLimitAssociationsResponse = S.suspend(() =>
@@ -5183,7 +5599,7 @@ export const ListQueueLimitAssociationsResponse = S.suspend(() =>
   identifier: "ListQueueLimitAssociationsResponse",
 }) as any as S.Schema<ListQueueLimitAssociationsResponse>;
 export interface SearchStepsResponse {
-  steps: StepSearchSummaries;
+  steps: StepSearchSummary[];
   nextItemOffset?: number;
   totalResults: number;
 }
@@ -5197,7 +5613,7 @@ export const SearchStepsResponse = S.suspend(() =>
   identifier: "SearchStepsResponse",
 }) as any as S.Schema<SearchStepsResponse>;
 export interface SearchTasksResponse {
-  tasks: TaskSearchSummaries;
+  tasks: TaskSearchSummary[];
   nextItemOffset?: number;
   totalResults: number;
 }
@@ -5211,7 +5627,7 @@ export const SearchTasksResponse = S.suspend(() =>
   identifier: "SearchTasksResponse",
 }) as any as S.Schema<SearchTasksResponse>;
 export interface SearchWorkersResponse {
-  workers: WorkerSearchSummaries;
+  workers: WorkerSearchSummary[];
   nextItemOffset?: number;
   totalResults: number;
 }
@@ -5234,7 +5650,7 @@ export const StartSessionsStatisticsAggregationResponse = S.suspend(() =>
 }) as any as S.Schema<StartSessionsStatisticsAggregationResponse>;
 export interface ListFarmsResponse {
   nextToken?: string;
-  farms: FarmSummaries;
+  farms: FarmSummary[];
 }
 export const ListFarmsResponse = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), farms: FarmSummaries }),
@@ -5250,7 +5666,7 @@ export const CreateStorageProfileResponse = S.suspend(() =>
   identifier: "CreateStorageProfileResponse",
 }) as any as S.Schema<CreateStorageProfileResponse>;
 export interface ListFarmMembersResponse {
-  members: FarmMembers;
+  members: FarmMember[];
   nextToken?: string;
 }
 export const ListFarmMembersResponse = S.suspend(() =>
@@ -5259,7 +5675,7 @@ export const ListFarmMembersResponse = S.suspend(() =>
   identifier: "ListFarmMembersResponse",
 }) as any as S.Schema<ListFarmMembersResponse>;
 export interface ListLimitsResponse {
-  limits: LimitSummaries;
+  limits: LimitSummary[];
   nextToken?: string;
 }
 export const ListLimitsResponse = S.suspend(() =>
@@ -5268,7 +5684,7 @@ export const ListLimitsResponse = S.suspend(() =>
   identifier: "ListLimitsResponse",
 }) as any as S.Schema<ListLimitsResponse>;
 export interface ListStorageProfilesResponse {
-  storageProfiles: StorageProfileSummaries;
+  storageProfiles: StorageProfileSummary[];
   nextToken?: string;
 }
 export const ListStorageProfilesResponse = S.suspend(() =>
@@ -5282,12 +5698,12 @@ export const ListStorageProfilesResponse = S.suspend(() =>
 export interface CreateBudgetRequest {
   clientToken?: string;
   farmId: string;
-  usageTrackingResource: (typeof UsageTrackingResource)["Type"];
+  usageTrackingResource: UsageTrackingResource;
   displayName: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   approximateDollarLimit: number;
-  actions: BudgetActionsToAdd;
-  schedule: (typeof BudgetSchedule)["Type"];
+  actions: BudgetActionToAdd[];
+  schedule: BudgetSchedule;
 }
 export const CreateBudgetRequest = S.suspend(() =>
   S.Struct({
@@ -5314,14 +5730,14 @@ export const CreateBudgetRequest = S.suspend(() =>
 }) as any as S.Schema<CreateBudgetRequest>;
 export interface GetBudgetResponse {
   budgetId: string;
-  usageTrackingResource: (typeof UsageTrackingResource)["Type"];
-  status: string;
+  usageTrackingResource: UsageTrackingResource;
+  status: BudgetStatus;
   displayName: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   approximateDollarLimit: number;
   usages: ConsumedUsages;
-  actions: ResponseBudgetActionList;
-  schedule: (typeof BudgetSchedule)["Type"];
+  actions: ResponseBudgetAction[];
+  schedule: BudgetSchedule;
   createdBy: string;
   createdAt: Date;
   updatedBy?: string;
@@ -5332,7 +5748,7 @@ export const GetBudgetResponse = S.suspend(() =>
   S.Struct({
     budgetId: S.String,
     usageTrackingResource: UsageTrackingResource,
-    status: S.String,
+    status: BudgetStatus,
     displayName: S.String,
     description: S.optional(SensitiveString),
     approximateDollarLimit: S.Number,
@@ -5350,7 +5766,7 @@ export const GetBudgetResponse = S.suspend(() =>
 }) as any as S.Schema<GetBudgetResponse>;
 export interface ListBudgetsResponse {
   nextToken?: string;
-  budgets: BudgetSummaries;
+  budgets: BudgetSummary[];
 }
 export const ListBudgetsResponse = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), budgets: BudgetSummaries }),
@@ -5358,7 +5774,7 @@ export const ListBudgetsResponse = S.suspend(() =>
   identifier: "ListBudgetsResponse",
 }) as any as S.Schema<ListBudgetsResponse>;
 export interface ListFleetsResponse {
-  fleets: FleetSummaries;
+  fleets: FleetSummary[];
   nextToken?: string;
 }
 export const ListFleetsResponse = S.suspend(() =>
@@ -5375,7 +5791,7 @@ export const AssumeFleetRoleForReadResponse = S.suspend(() =>
   identifier: "AssumeFleetRoleForReadResponse",
 }) as any as S.Schema<AssumeFleetRoleForReadResponse>;
 export interface ListFleetMembersResponse {
-  members: FleetMembers;
+  members: FleetMember[];
   nextToken?: string;
 }
 export const ListFleetMembersResponse = S.suspend(() =>
@@ -5388,7 +5804,7 @@ export interface CreateWorkerRequest {
   fleetId: string;
   hostProperties?: HostPropertiesRequest;
   clientToken?: string;
-  tags?: Tags;
+  tags?: { [key: string]: string };
 }
 export const CreateWorkerRequest = S.suspend(() =>
   S.Struct({
@@ -5417,7 +5833,7 @@ export interface UpdateWorkerRequest {
   farmId: string;
   fleetId: string;
   workerId: string;
-  status?: string;
+  status?: UpdatedWorkerStatus;
   capabilities?: WorkerCapabilities;
   hostProperties?: HostPropertiesRequest;
 }
@@ -5426,7 +5842,7 @@ export const UpdateWorkerRequest = S.suspend(() =>
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     fleetId: S.String.pipe(T.HttpLabel("fleetId")),
     workerId: S.String.pipe(T.HttpLabel("workerId")),
-    status: S.optional(S.String),
+    status: S.optional(UpdatedWorkerStatus),
     capabilities: S.optional(WorkerCapabilities),
     hostProperties: S.optional(HostPropertiesRequest),
   }).pipe(
@@ -5447,7 +5863,7 @@ export const UpdateWorkerRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateWorkerRequest>;
 export interface ListWorkersResponse {
   nextToken?: string;
-  workers: WorkerSummaries;
+  workers: WorkerSummary[];
 }
 export const ListWorkersResponse = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), workers: WorkerSummaries }),
@@ -5458,7 +5874,7 @@ export interface BatchGetJobEntityRequest {
   farmId: string;
   fleetId: string;
   workerId: string;
-  identifiers: JobEntityIdentifiers;
+  identifiers: JobEntityIdentifiersUnion[];
 }
 export const BatchGetJobEntityRequest = S.suspend(() =>
   S.Struct({
@@ -5483,7 +5899,7 @@ export const BatchGetJobEntityRequest = S.suspend(() =>
   identifier: "BatchGetJobEntityRequest",
 }) as any as S.Schema<BatchGetJobEntityRequest>;
 export interface ListSessionsForWorkerResponse {
-  sessions: ListSessionsForWorkerSummaries;
+  sessions: WorkerSessionSummary[];
   nextToken?: string;
 }
 export const ListSessionsForWorkerResponse = S.suspend(() =>
@@ -5498,14 +5914,14 @@ export interface CreateQueueRequest {
   clientToken?: string;
   farmId: string;
   displayName: string;
-  description?: string | Redacted.Redacted<string>;
-  defaultBudgetAction?: string;
+  description?: string | redacted.Redacted<string>;
+  defaultBudgetAction?: DefaultQueueBudgetAction;
   jobAttachmentSettings?: JobAttachmentSettings;
   roleArn?: string;
   jobRunAsUser?: JobRunAsUser;
-  requiredFileSystemLocationNames?: RequiredFileSystemLocationNames;
-  allowedStorageProfileIds?: AllowedStorageProfileIds;
-  tags?: Tags;
+  requiredFileSystemLocationNames?: string[];
+  allowedStorageProfileIds?: string[];
+  tags?: { [key: string]: string };
 }
 export const CreateQueueRequest = S.suspend(() =>
   S.Struct({
@@ -5513,7 +5929,7 @@ export const CreateQueueRequest = S.suspend(() =>
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     displayName: S.String,
     description: S.optional(SensitiveString),
-    defaultBudgetAction: S.optional(S.String),
+    defaultBudgetAction: S.optional(DefaultQueueBudgetAction),
     jobAttachmentSettings: S.optional(JobAttachmentSettings),
     roleArn: S.optional(S.String),
     jobRunAsUser: S.optional(JobRunAsUser),
@@ -5536,7 +5952,7 @@ export const CreateQueueRequest = S.suspend(() =>
   identifier: "CreateQueueRequest",
 }) as any as S.Schema<CreateQueueRequest>;
 export interface ListQueuesResponse {
-  queues: QueueSummaries;
+  queues: QueueSummary[];
   nextToken?: string;
 }
 export const ListQueuesResponse = S.suspend(() =>
@@ -5545,7 +5961,7 @@ export const ListQueuesResponse = S.suspend(() =>
   identifier: "ListQueuesResponse",
 }) as any as S.Schema<ListQueuesResponse>;
 export interface ListQueueEnvironmentsResponse {
-  environments: QueueEnvironmentSummaries;
+  environments: QueueEnvironmentSummary[];
   nextToken?: string;
 }
 export const ListQueueEnvironmentsResponse = S.suspend(() =>
@@ -5557,7 +5973,7 @@ export const ListQueueEnvironmentsResponse = S.suspend(() =>
   identifier: "ListQueueEnvironmentsResponse",
 }) as any as S.Schema<ListQueueEnvironmentsResponse>;
 export interface ListQueueMembersResponse {
-  members: QueueMemberList;
+  members: QueueMember[];
   nextToken?: string;
 }
 export const ListQueueMembersResponse = S.suspend(() =>
@@ -5569,13 +5985,13 @@ export interface CreateJobRequest {
   farmId: string;
   queueId: string;
   clientToken?: string;
-  template?: string | Redacted.Redacted<string>;
-  templateType?: string;
+  template?: string | redacted.Redacted<string>;
+  templateType?: JobTemplateType;
   priority: number;
-  parameters?: JobParameters;
+  parameters?: { [key: string]: JobParameter };
   attachments?: Attachments;
   storageProfileId?: string;
-  targetTaskRunStatus?: string;
+  targetTaskRunStatus?: CreateJobTargetTaskRunStatus;
   maxFailedTasksCount?: number;
   maxRetriesPerTask?: number;
   maxWorkerCount?: number;
@@ -5587,12 +6003,12 @@ export const CreateJobRequest = S.suspend(() =>
     queueId: S.String.pipe(T.HttpLabel("queueId")),
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Client-Token")),
     template: S.optional(SensitiveString),
-    templateType: S.optional(S.String),
+    templateType: S.optional(JobTemplateType),
     priority: S.Number,
     parameters: S.optional(JobParameters),
     attachments: S.optional(Attachments),
     storageProfileId: S.optional(S.String),
-    targetTaskRunStatus: S.optional(S.String),
+    targetTaskRunStatus: S.optional(CreateJobTargetTaskRunStatus),
     maxFailedTasksCount: S.optional(S.Number),
     maxRetriesPerTask: S.optional(S.Number),
     maxWorkerCount: S.optional(S.Number),
@@ -5616,7 +6032,7 @@ export const CreateJobRequest = S.suspend(() =>
 export interface GetJobResponse {
   jobId: string;
   name: string;
-  lifecycleStatus: string;
+  lifecycleStatus: JobLifecycleStatus;
   lifecycleStatusMessage: string;
   priority: number;
   createdAt: Date;
@@ -5625,16 +6041,16 @@ export interface GetJobResponse {
   updatedBy?: string;
   startedAt?: Date;
   endedAt?: Date;
-  taskRunStatus?: string;
-  targetTaskRunStatus?: string;
-  taskRunStatusCounts?: TaskRunStatusCounts;
+  taskRunStatus?: TaskRunStatus;
+  targetTaskRunStatus?: JobTargetTaskRunStatus;
+  taskRunStatusCounts?: { [key: string]: number };
   taskFailureRetryCount?: number;
   storageProfileId?: string;
   maxFailedTasksCount?: number;
   maxRetriesPerTask?: number;
-  parameters?: JobParameters;
+  parameters?: { [key: string]: JobParameter };
   attachments?: Attachments;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   maxWorkerCount?: number;
   sourceJobId?: string;
 }
@@ -5642,7 +6058,7 @@ export const GetJobResponse = S.suspend(() =>
   S.Struct({
     jobId: S.String,
     name: S.String,
-    lifecycleStatus: S.String,
+    lifecycleStatus: JobLifecycleStatus,
     lifecycleStatusMessage: S.String,
     priority: S.Number,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -5651,8 +6067,8 @@ export const GetJobResponse = S.suspend(() =>
     updatedBy: S.optional(S.String),
     startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    taskRunStatus: S.optional(S.String),
-    targetTaskRunStatus: S.optional(S.String),
+    taskRunStatus: S.optional(TaskRunStatus),
+    targetTaskRunStatus: S.optional(JobTargetTaskRunStatus),
     taskRunStatusCounts: S.optional(TaskRunStatusCounts),
     taskFailureRetryCount: S.optional(S.Number),
     storageProfileId: S.optional(S.String),
@@ -5668,7 +6084,7 @@ export const GetJobResponse = S.suspend(() =>
   identifier: "GetJobResponse",
 }) as any as S.Schema<GetJobResponse>;
 export interface ListJobsResponse {
-  jobs: JobSummaries;
+  jobs: JobSummary[];
   nextToken?: string;
 }
 export const ListJobsResponse = S.suspend(() =>
@@ -5677,15 +6093,15 @@ export const ListJobsResponse = S.suspend(() =>
   identifier: "ListJobsResponse",
 }) as any as S.Schema<ListJobsResponse>;
 export interface CopyJobTemplateResponse {
-  templateType: string;
+  templateType: JobTemplateType;
 }
 export const CopyJobTemplateResponse = S.suspend(() =>
-  S.Struct({ templateType: S.String }),
+  S.Struct({ templateType: JobTemplateType }),
 ).annotations({
   identifier: "CopyJobTemplateResponse",
 }) as any as S.Schema<CopyJobTemplateResponse>;
 export interface ListJobMembersResponse {
-  members: JobMembers;
+  members: JobMember[];
   nextToken?: string;
 }
 export const ListJobMembersResponse = S.suspend(() =>
@@ -5694,7 +6110,7 @@ export const ListJobMembersResponse = S.suspend(() =>
   identifier: "ListJobMembersResponse",
 }) as any as S.Schema<ListJobMembersResponse>;
 export interface ListSessionsResponse {
-  sessions: SessionSummaries;
+  sessions: SessionSummary[];
   nextToken?: string;
 }
 export const ListSessionsResponse = S.suspend(() =>
@@ -5703,7 +6119,7 @@ export const ListSessionsResponse = S.suspend(() =>
   identifier: "ListSessionsResponse",
 }) as any as S.Schema<ListSessionsResponse>;
 export interface ListStepConsumersResponse {
-  consumers: StepConsumers;
+  consumers: StepConsumer[];
   nextToken?: string;
 }
 export const ListStepConsumersResponse = S.suspend(() =>
@@ -5712,7 +6128,7 @@ export const ListStepConsumersResponse = S.suspend(() =>
   identifier: "ListStepConsumersResponse",
 }) as any as S.Schema<ListStepConsumersResponse>;
 export interface ListStepDependenciesResponse {
-  dependencies: StepDependencies;
+  dependencies: StepDependency[];
   nextToken?: string;
 }
 export const ListStepDependenciesResponse = S.suspend(() =>
@@ -5721,7 +6137,7 @@ export const ListStepDependenciesResponse = S.suspend(() =>
   identifier: "ListStepDependenciesResponse",
 }) as any as S.Schema<ListStepDependenciesResponse>;
 export interface ListStepsResponse {
-  steps: StepSummaries;
+  steps: StepSummary[];
   nextToken?: string;
 }
 export const ListStepsResponse = S.suspend(() =>
@@ -5730,7 +6146,7 @@ export const ListStepsResponse = S.suspend(() =>
   identifier: "ListStepsResponse",
 }) as any as S.Schema<ListStepsResponse>;
 export interface ListTasksResponse {
-  tasks: TaskSummaries;
+  tasks: TaskSummary[];
   nextToken?: string;
 }
 export const ListTasksResponse = S.suspend(() =>
@@ -5739,7 +6155,7 @@ export const ListTasksResponse = S.suspend(() =>
   identifier: "ListTasksResponse",
 }) as any as S.Schema<ListTasksResponse>;
 export interface ListLicenseEndpointsResponse {
-  licenseEndpoints: LicenseEndpointSummaries;
+  licenseEndpoints: LicenseEndpointSummary[];
   nextToken?: string;
 }
 export const ListLicenseEndpointsResponse = S.suspend(() =>
@@ -5752,7 +6168,7 @@ export const ListLicenseEndpointsResponse = S.suspend(() =>
 }) as any as S.Schema<ListLicenseEndpointsResponse>;
 export interface ListMonitorsResponse {
   nextToken?: string;
-  monitors: MonitorSummaries;
+  monitors: MonitorSummary[];
 }
 export const ListMonitorsResponse = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), monitors: MonitorSummaries }),
@@ -5802,18 +6218,18 @@ export const FleetAmountCapabilities = S.Array(FleetAmountCapability);
 export type FleetAttributeCapabilities = FleetAttributeCapability[];
 export const FleetAttributeCapabilities = S.Array(FleetAttributeCapability);
 export interface UpdatedSessionActionInfo {
-  completedStatus?: string;
+  completedStatus?: CompletedStatus;
   processExitCode?: number;
-  progressMessage?: string | Redacted.Redacted<string>;
+  progressMessage?: string | redacted.Redacted<string>;
   startedAt?: Date;
   endedAt?: Date;
   updatedAt?: Date;
   progressPercent?: number;
-  manifests?: TaskRunManifestPropertiesListRequest;
+  manifests?: TaskRunManifestPropertiesRequest[];
 }
 export const UpdatedSessionActionInfo = S.suspend(() =>
   S.Struct({
-    completedStatus: S.optional(S.String),
+    completedStatus: S.optional(CompletedStatus),
     processExitCode: S.optional(S.Number),
     progressMessage: S.optional(SensitiveString),
     startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -5844,7 +6260,7 @@ export const EnvironmentExitSessionActionDefinition = S.suspend(() =>
 export interface TaskRunSessionActionDefinition {
   taskId?: string;
   stepId: string;
-  parameters: TaskParameters;
+  parameters: { [key: string]: TaskParameterValue };
 }
 export const TaskRunSessionActionDefinition = S.suspend(() =>
   S.Struct({
@@ -5865,8 +6281,8 @@ export const SyncInputJobAttachmentsSessionActionDefinition = S.suspend(() =>
 }) as any as S.Schema<SyncInputJobAttachmentsSessionActionDefinition>;
 export interface StepAttributeCapability {
   name: string;
-  anyOf?: ListAttributeCapabilityValue;
-  allOf?: ListAttributeCapabilityValue;
+  anyOf?: string[];
+  allOf?: string[];
 }
 export const StepAttributeCapability = S.suspend(() =>
   S.Struct({
@@ -5903,7 +6319,7 @@ export interface Statistics {
   jobId?: string;
   jobName?: string;
   userId?: string;
-  usageType?: string;
+  usageType?: UsageType;
   licenseProduct?: string;
   instanceType?: string;
   count: number;
@@ -5919,7 +6335,7 @@ export const Statistics = S.suspend(() =>
     jobId: S.optional(S.String),
     jobName: S.optional(S.String),
     userId: S.optional(S.String),
-    usageType: S.optional(S.String),
+    usageType: S.optional(UsageType),
     licenseProduct: S.optional(S.String),
     instanceType: S.optional(S.String),
     count: S.Number,
@@ -5934,8 +6350,8 @@ export const Statistics = S.suspend(() =>
 export type StatisticsList = Statistics[];
 export const StatisticsList = S.Array(Statistics);
 export interface FleetCapabilities {
-  amounts?: FleetAmountCapabilities;
-  attributes?: FleetAttributeCapabilities;
+  amounts?: FleetAmountCapability[];
+  attributes?: FleetAttributeCapability[];
 }
 export const FleetCapabilities = S.suspend(() =>
   S.Struct({
@@ -5964,8 +6380,8 @@ export const SessionActionDefinition = S.Union(
   }),
 );
 export interface StepRequiredCapabilities {
-  attributes: StepAttributeCapabilities;
-  amounts: StepAmountCapabilities;
+  attributes: StepAttributeCapability[];
+  amounts: StepAmountCapability[];
 }
 export const StepRequiredCapabilities = S.suspend(() =>
   S.Struct({
@@ -5975,6 +6391,19 @@ export const StepRequiredCapabilities = S.suspend(() =>
 ).annotations({
   identifier: "StepRequiredCapabilities",
 }) as any as S.Schema<StepRequiredCapabilities>;
+export type ConflictExceptionReason =
+  | "CONFLICT_EXCEPTION"
+  | "CONCURRENT_MODIFICATION"
+  | "RESOURCE_ALREADY_EXISTS"
+  | "RESOURCE_IN_USE"
+  | "STATUS_CONFLICT";
+export const ConflictExceptionReason = S.Literal(
+  "CONFLICT_EXCEPTION",
+  "CONCURRENT_MODIFICATION",
+  "RESOURCE_ALREADY_EXISTS",
+  "RESOURCE_IN_USE",
+  "STATUS_CONFLICT",
+);
 export interface EnvironmentEnterSessionActionDefinitionSummary {
   environmentId: string;
 }
@@ -5994,7 +6423,7 @@ export const EnvironmentExitSessionActionDefinitionSummary = S.suspend(() =>
 export interface TaskRunSessionActionDefinitionSummary {
   taskId?: string;
   stepId: string;
-  parameters?: TaskParameters;
+  parameters?: { [key: string]: TaskParameterValue };
 }
 export const TaskRunSessionActionDefinitionSummary = S.suspend(() =>
   S.Struct({
@@ -6014,16 +6443,16 @@ export const SyncInputJobAttachmentsSessionActionDefinitionSummary = S.suspend(
   identifier: "SyncInputJobAttachmentsSessionActionDefinitionSummary",
 }) as any as S.Schema<SyncInputJobAttachmentsSessionActionDefinitionSummary>;
 export interface GetSessionsStatisticsAggregationResponse {
-  statistics?: StatisticsList;
+  statistics?: Statistics[];
   nextToken?: string;
-  status: string;
+  status: SessionsStatisticsAggregationStatus;
   statusMessage?: string;
 }
 export const GetSessionsStatisticsAggregationResponse = S.suspend(() =>
   S.Struct({
     statistics: S.optional(StatisticsList),
     nextToken: S.optional(S.String),
-    status: S.String,
+    status: SessionsStatisticsAggregationStatus,
     statusMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -6031,9 +6460,9 @@ export const GetSessionsStatisticsAggregationResponse = S.suspend(() =>
 }) as any as S.Schema<GetSessionsStatisticsAggregationResponse>;
 export interface SearchJobsRequest {
   farmId: string;
-  queueIds: QueueIds;
+  queueIds: string[];
   filterExpressions?: SearchGroupedFilterExpressions;
-  sortExpressions?: SearchSortExpressions;
+  sortExpressions?: SearchSortExpression[];
   itemOffset: number;
   pageSize?: number;
 }
@@ -6070,15 +6499,15 @@ export interface GetFleetResponse {
   fleetId: string;
   farmId: string;
   displayName: string;
-  description?: string | Redacted.Redacted<string>;
-  status: string;
+  description?: string | redacted.Redacted<string>;
+  status: FleetStatus;
   statusMessage?: string;
-  autoScalingStatus?: string;
+  autoScalingStatus?: AutoScalingStatus;
   targetWorkerCount?: number;
   workerCount: number;
   minWorkerCount: number;
   maxWorkerCount: number;
-  configuration: (typeof FleetConfiguration)["Type"];
+  configuration: FleetConfiguration;
   hostConfiguration?: HostConfiguration;
   capabilities?: FleetCapabilities;
   roleArn: string;
@@ -6093,9 +6522,9 @@ export const GetFleetResponse = S.suspend(() =>
     farmId: S.String,
     displayName: S.String,
     description: S.optional(SensitiveString),
-    status: S.String,
+    status: FleetStatus,
     statusMessage: S.optional(S.String),
-    autoScalingStatus: S.optional(S.String),
+    autoScalingStatus: S.optional(AutoScalingStatus),
     targetWorkerCount: S.optional(S.Number),
     workerCount: S.Number,
     minWorkerCount: S.Number,
@@ -6125,7 +6554,7 @@ export interface GetWorkerResponse {
   fleetId: string;
   workerId: string;
   hostProperties?: HostPropertiesResponse;
-  status: string;
+  status: WorkerStatus;
   log?: LogConfiguration;
   createdAt: Date;
   createdBy: string;
@@ -6138,7 +6567,7 @@ export const GetWorkerResponse = S.suspend(() =>
     fleetId: S.String,
     workerId: S.String,
     hostProperties: S.optional(HostPropertiesResponse),
-    status: S.String,
+    status: WorkerStatus,
     log: S.optional(LogConfiguration),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
@@ -6164,7 +6593,7 @@ export interface UpdateWorkerScheduleRequest {
   farmId: string;
   fleetId: string;
   workerId: string;
-  updatedSessionActions?: UpdatedSessionActions;
+  updatedSessionActions?: { [key: string]: UpdatedSessionActionInfo };
 }
 export const UpdateWorkerScheduleRequest = S.suspend(() =>
   S.Struct({
@@ -6206,22 +6635,22 @@ export const CreateJobResponse = S.suspend(() =>
 }) as any as S.Schema<CreateJobResponse>;
 export interface GetSessionActionResponse {
   sessionActionId: string;
-  status: string;
+  status: SessionActionStatus;
   startedAt?: Date;
   endedAt?: Date;
   workerUpdatedAt?: Date;
   progressPercent?: number;
   sessionId: string;
   processExitCode?: number;
-  progressMessage?: string | Redacted.Redacted<string>;
-  definition: (typeof SessionActionDefinition)["Type"];
-  acquiredLimits?: AcquiredLimits;
-  manifests?: TaskRunManifestPropertiesListResponse;
+  progressMessage?: string | redacted.Redacted<string>;
+  definition: SessionActionDefinition;
+  acquiredLimits?: AcquiredLimit[];
+  manifests?: TaskRunManifestPropertiesResponse[];
 }
 export const GetSessionActionResponse = S.suspend(() =>
   S.Struct({
     sessionActionId: S.String,
-    status: S.String,
+    status: SessionActionStatus,
     startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     workerUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -6239,12 +6668,12 @@ export const GetSessionActionResponse = S.suspend(() =>
 export interface GetStepResponse {
   stepId: string;
   name: string;
-  lifecycleStatus: string;
+  lifecycleStatus: StepLifecycleStatus;
   lifecycleStatusMessage?: string;
-  taskRunStatus: string;
-  taskRunStatusCounts: TaskRunStatusCounts;
+  taskRunStatus: TaskRunStatus;
+  taskRunStatusCounts: { [key: string]: number };
   taskFailureRetryCount?: number;
-  targetTaskRunStatus?: string;
+  targetTaskRunStatus?: StepTargetTaskRunStatus;
   createdAt: Date;
   createdBy: string;
   updatedAt?: Date;
@@ -6254,18 +6683,18 @@ export interface GetStepResponse {
   dependencyCounts?: DependencyCounts;
   requiredCapabilities?: StepRequiredCapabilities;
   parameterSpace?: ParameterSpace;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
 }
 export const GetStepResponse = S.suspend(() =>
   S.Struct({
     stepId: S.String,
     name: S.String,
-    lifecycleStatus: S.String,
+    lifecycleStatus: StepLifecycleStatus,
     lifecycleStatusMessage: S.optional(S.String),
-    taskRunStatus: S.String,
+    taskRunStatus: TaskRunStatus,
     taskRunStatusCounts: TaskRunStatusCounts,
     taskFailureRetryCount: S.optional(S.Number),
-    targetTaskRunStatus: S.optional(S.String),
+    targetTaskRunStatus: S.optional(StepTargetTaskRunStatus),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -6284,10 +6713,10 @@ export interface GetTaskResponse {
   taskId: string;
   createdAt: Date;
   createdBy: string;
-  runStatus: string;
-  targetRunStatus?: string;
+  runStatus: TaskRunStatus;
+  targetRunStatus?: TaskTargetRunStatus;
   failureRetryCount?: number;
-  parameters?: TaskParameters;
+  parameters?: { [key: string]: TaskParameterValue };
   startedAt?: Date;
   endedAt?: Date;
   updatedAt?: Date;
@@ -6299,8 +6728,8 @@ export const GetTaskResponse = S.suspend(() =>
     taskId: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    runStatus: S.String,
-    targetRunStatus: S.optional(S.String),
+    runStatus: TaskRunStatus,
+    targetRunStatus: S.optional(TaskTargetRunStatus),
     failureRetryCount: S.optional(S.Number),
     parameters: S.optional(TaskParameters),
     startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -6328,20 +6757,22 @@ export const SessionActionDefinitionSummary = S.Union(
       SyncInputJobAttachmentsSessionActionDefinitionSummary,
   }),
 );
+export type DesiredWorkerStatus = "STOPPED";
+export const DesiredWorkerStatus = S.Literal("STOPPED");
 export interface SessionActionSummary {
   sessionActionId: string;
-  status: string;
+  status: SessionActionStatus;
   startedAt?: Date;
   endedAt?: Date;
   workerUpdatedAt?: Date;
   progressPercent?: number;
-  definition: (typeof SessionActionDefinitionSummary)["Type"];
-  manifests?: TaskRunManifestPropertiesListResponse;
+  definition: SessionActionDefinitionSummary;
+  manifests?: TaskRunManifestPropertiesResponse[];
 }
 export const SessionActionSummary = S.suspend(() =>
   S.Struct({
     sessionActionId: S.String,
-    status: S.String,
+    status: SessionActionStatus,
     startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     workerUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -6354,10 +6785,34 @@ export const SessionActionSummary = S.suspend(() =>
 }) as any as S.Schema<SessionActionSummary>;
 export type SessionActionSummaries = SessionActionSummary[];
 export const SessionActionSummaries = S.Array(SessionActionSummary);
+export type ServiceQuotaExceededExceptionReason =
+  | "SERVICE_QUOTA_EXCEEDED_EXCEPTION"
+  | "KMS_KEY_LIMIT_EXCEEDED"
+  | "DEPENDENCY_LIMIT_EXCEEDED";
+export const ServiceQuotaExceededExceptionReason = S.Literal(
+  "SERVICE_QUOTA_EXCEEDED_EXCEPTION",
+  "KMS_KEY_LIMIT_EXCEEDED",
+  "DEPENDENCY_LIMIT_EXCEEDED",
+);
 export type DependenciesList = string[];
 export const DependenciesList = S.Array(S.String);
+export type JobEntityErrorCode =
+  | "AccessDeniedException"
+  | "InternalServerException"
+  | "ValidationException"
+  | "ResourceNotFoundException"
+  | "MaxPayloadSizeExceeded"
+  | "ConflictException";
+export const JobEntityErrorCode = S.Literal(
+  "AccessDeniedException",
+  "InternalServerException",
+  "ValidationException",
+  "ResourceNotFoundException",
+  "MaxPayloadSizeExceeded",
+  "ConflictException",
+);
 export interface ListSessionActionsResponse {
-  sessionActions: SessionActionSummaries;
+  sessionActions: SessionActionSummary[];
   nextToken?: string;
 }
 export const ListSessionActionsResponse = S.suspend(() =>
@@ -6382,7 +6837,7 @@ export interface StepDetailsEntity {
   stepId: string;
   schemaVersion: string;
   template: any;
-  dependencies: DependenciesList;
+  dependencies: string[];
 }
 export const StepDetailsEntity = S.suspend(() =>
   S.Struct({
@@ -6413,35 +6868,35 @@ export const EnvironmentDetailsEntity = S.suspend(() =>
 }) as any as S.Schema<EnvironmentDetailsEntity>;
 export interface JobDetailsError {
   jobId: string;
-  code: string;
+  code: JobEntityErrorCode;
   message: string;
 }
 export const JobDetailsError = S.suspend(() =>
-  S.Struct({ jobId: S.String, code: S.String, message: S.String }),
+  S.Struct({ jobId: S.String, code: JobEntityErrorCode, message: S.String }),
 ).annotations({
   identifier: "JobDetailsError",
 }) as any as S.Schema<JobDetailsError>;
 export interface JobAttachmentDetailsError {
   jobId: string;
-  code: string;
+  code: JobEntityErrorCode;
   message: string;
 }
 export const JobAttachmentDetailsError = S.suspend(() =>
-  S.Struct({ jobId: S.String, code: S.String, message: S.String }),
+  S.Struct({ jobId: S.String, code: JobEntityErrorCode, message: S.String }),
 ).annotations({
   identifier: "JobAttachmentDetailsError",
 }) as any as S.Schema<JobAttachmentDetailsError>;
 export interface StepDetailsError {
   jobId: string;
   stepId: string;
-  code: string;
+  code: JobEntityErrorCode;
   message: string;
 }
 export const StepDetailsError = S.suspend(() =>
   S.Struct({
     jobId: S.String,
     stepId: S.String,
-    code: S.String,
+    code: JobEntityErrorCode,
     message: S.String,
   }),
 ).annotations({
@@ -6450,14 +6905,14 @@ export const StepDetailsError = S.suspend(() =>
 export interface EnvironmentDetailsError {
   jobId: string;
   environmentId: string;
-  code: string;
+  code: JobEntityErrorCode;
   message: string;
 }
 export const EnvironmentDetailsError = S.suspend(() =>
   S.Struct({
     jobId: S.String,
     environmentId: S.String,
-    code: S.String,
+    code: JobEntityErrorCode,
     message: S.String,
   }),
 ).annotations({
@@ -6469,11 +6924,11 @@ export interface JobSearchSummary {
   jobId?: string;
   queueId?: string;
   name?: string;
-  lifecycleStatus?: string;
+  lifecycleStatus?: JobLifecycleStatus;
   lifecycleStatusMessage?: string;
-  taskRunStatus?: string;
-  targetTaskRunStatus?: string;
-  taskRunStatusCounts?: TaskRunStatusCounts;
+  taskRunStatus?: TaskRunStatus;
+  targetTaskRunStatus?: JobTargetTaskRunStatus;
+  taskRunStatusCounts?: { [key: string]: number };
   taskFailureRetryCount?: number;
   priority?: number;
   maxFailedTasksCount?: number;
@@ -6484,7 +6939,7 @@ export interface JobSearchSummary {
   startedAt?: Date;
   updatedAt?: Date;
   updatedBy?: string;
-  jobParameters?: JobParameters;
+  jobParameters?: { [key: string]: JobParameter };
   maxWorkerCount?: number;
   sourceJobId?: string;
 }
@@ -6493,10 +6948,10 @@ export const JobSearchSummary = S.suspend(() =>
     jobId: S.optional(S.String),
     queueId: S.optional(S.String),
     name: S.optional(S.String),
-    lifecycleStatus: S.optional(S.String),
+    lifecycleStatus: S.optional(JobLifecycleStatus),
     lifecycleStatusMessage: S.optional(S.String),
-    taskRunStatus: S.optional(S.String),
-    targetTaskRunStatus: S.optional(S.String),
+    taskRunStatus: S.optional(TaskRunStatus),
+    targetTaskRunStatus: S.optional(JobTargetTaskRunStatus),
     taskRunStatusCounts: S.optional(TaskRunStatusCounts),
     taskFailureRetryCount: S.optional(S.Number),
     priority: S.optional(S.Number),
@@ -6528,21 +6983,32 @@ export const GetJobEntityError = S.Union(
   S.Struct({ stepDetails: StepDetailsError }),
   S.Struct({ environmentDetails: EnvironmentDetailsError }),
 );
-export type BatchGetJobEntityErrors = (typeof GetJobEntityError)["Type"][];
+export type BatchGetJobEntityErrors = GetJobEntityError[];
 export const BatchGetJobEntityErrors = S.Array(GetJobEntityError);
-export type CancelSessionActions = { [key: string]: SessionActionIdList };
+export type CancelSessionActions = { [key: string]: string[] };
 export const CancelSessionActions = S.Record({
   key: S.String,
   value: SessionActionIdList,
 });
+export type ValidationExceptionReason =
+  | "UNKNOWN_OPERATION"
+  | "CANNOT_PARSE"
+  | "FIELD_VALIDATION_FAILED"
+  | "OTHER";
+export const ValidationExceptionReason = S.Literal(
+  "UNKNOWN_OPERATION",
+  "CANNOT_PARSE",
+  "FIELD_VALIDATION_FAILED",
+  "OTHER",
+);
 export interface PathMappingRule {
-  sourcePathFormat: string;
+  sourcePathFormat: PathFormat;
   sourcePath: string;
   destinationPath: string;
 }
 export const PathMappingRule = S.suspend(() =>
   S.Struct({
-    sourcePathFormat: S.String,
+    sourcePathFormat: PathFormat,
     sourcePath: S.String,
     destinationPath: S.String,
   }),
@@ -6552,7 +7018,7 @@ export const PathMappingRule = S.suspend(() =>
 export type PathMappingRules = PathMappingRule[];
 export const PathMappingRules = S.Array(PathMappingRule);
 export interface SearchJobsResponse {
-  jobs: JobSearchSummaries;
+  jobs: JobSearchSummary[];
   nextItemOffset?: number;
   totalResults: number;
 }
@@ -6569,12 +7035,12 @@ export interface CreateFleetRequest {
   clientToken?: string;
   farmId: string;
   displayName: string;
-  description?: string | Redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
   roleArn: string;
   minWorkerCount?: number;
   maxWorkerCount: number;
-  configuration: (typeof FleetConfiguration)["Type"];
-  tags?: Tags;
+  configuration: FleetConfiguration;
+  tags?: { [key: string]: string };
   hostConfiguration?: HostConfiguration;
 }
 export const CreateFleetRequest = S.suspend(() =>
@@ -6608,9 +7074,9 @@ export interface JobDetailsEntity {
   jobRunAsUser?: JobRunAsUser;
   logGroupName: string;
   queueRoleArn?: string;
-  parameters?: JobParameters;
+  parameters?: { [key: string]: JobParameter };
   schemaVersion: string;
-  pathMappingRules?: PathMappingRules;
+  pathMappingRules?: PathMappingRule[];
 }
 export const JobDetailsEntity = S.suspend(() =>
   S.Struct({
@@ -6637,7 +7103,7 @@ export const JobEntity = S.Union(
   S.Struct({ stepDetails: StepDetailsEntity }),
   S.Struct({ environmentDetails: EnvironmentDetailsEntity }),
 );
-export type BatchGetJobEntityList = (typeof JobEntity)["Type"][];
+export type BatchGetJobEntityList = JobEntity[];
 export const BatchGetJobEntityList = S.Array(JobEntity);
 export interface ValidationExceptionField {
   name: string;
@@ -6659,8 +7125,8 @@ export const CreateFleetResponse = S.suspend(() =>
   identifier: "CreateFleetResponse",
 }) as any as S.Schema<CreateFleetResponse>;
 export interface BatchGetJobEntityResponse {
-  entities: BatchGetJobEntityList;
-  errors: BatchGetJobEntityErrors;
+  entities: JobEntity[];
+  errors: GetJobEntityError[];
 }
 export const BatchGetJobEntityResponse = S.suspend(() =>
   S.Struct({
@@ -6689,7 +7155,7 @@ export const AssignedEnvironmentExitSessionActionDefinition = S.suspend(() =>
 export interface AssignedTaskRunSessionActionDefinition {
   taskId?: string;
   stepId: string;
-  parameters: TaskParameters;
+  parameters: { [key: string]: TaskParameterValue };
 }
 export const AssignedTaskRunSessionActionDefinition = S.suspend(() =>
   S.Struct({
@@ -6726,7 +7192,7 @@ export const AssignedSessionActionDefinition = S.Union(
 );
 export interface AssignedSessionAction {
   sessionActionId: string;
-  definition: (typeof AssignedSessionActionDefinition)["Type"];
+  definition: AssignedSessionActionDefinition;
 }
 export const AssignedSessionAction = S.suspend(() =>
   S.Struct({
@@ -6741,7 +7207,7 @@ export const AssignedSessionActions = S.Array(AssignedSessionAction);
 export interface AssignedSession {
   queueId: string;
   jobId: string;
-  sessionActions: AssignedSessionActions;
+  sessionActions: AssignedSessionAction[];
   logConfiguration: LogConfiguration;
 }
 export const AssignedSession = S.suspend(() =>
@@ -6760,16 +7226,16 @@ export const AssignedSessions = S.Record({
   value: AssignedSession,
 });
 export interface UpdateWorkerScheduleResponse {
-  assignedSessions: AssignedSessions;
-  cancelSessionActions: CancelSessionActions;
-  desiredWorkerStatus?: string;
+  assignedSessions: { [key: string]: AssignedSession };
+  cancelSessionActions: { [key: string]: string[] };
+  desiredWorkerStatus?: DesiredWorkerStatus;
   updateIntervalSeconds: number;
 }
 export const UpdateWorkerScheduleResponse = S.suspend(() =>
   S.Struct({
     assignedSessions: AssignedSessions,
     cancelSessionActions: CancelSessionActions,
-    desiredWorkerStatus: S.optional(S.String),
+    desiredWorkerStatus: S.optional(DesiredWorkerStatus),
     updateIntervalSeconds: S.Number,
   }),
 ).annotations({
@@ -6793,7 +7259,7 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   {
     message: S.String,
-    reason: S.String,
+    reason: ConflictExceptionReason,
     resourceId: S.String,
     resourceType: S.String,
     context: S.optional(ExceptionContext),
@@ -6823,7 +7289,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
   "ServiceQuotaExceededException",
   {
     message: S.String,
-    reason: S.String,
+    reason: ServiceQuotaExceededExceptionReason,
     resourceType: S.String,
     serviceCode: S.String,
     quotaCode: S.String,
@@ -6835,7 +7301,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     message: S.String,
-    reason: S.String,
+    reason: ValidationExceptionReason,
     fieldList: S.optional(ValidationExceptionFieldList),
     context: S.optional(ExceptionContext),
   },
@@ -6848,21 +7314,21 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listAvailableMeteredProducts: {
   (
     input: ListAvailableMeteredProductsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAvailableMeteredProductsResponse,
     InternalServerErrorException | ThrottlingException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListAvailableMeteredProductsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAvailableMeteredProductsResponse,
     InternalServerErrorException | ThrottlingException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListAvailableMeteredProductsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MeteredProductSummary,
     InternalServerErrorException | ThrottlingException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -6884,7 +7350,7 @@ export const listAvailableMeteredProducts: {
 export const listQueueFleetAssociations: {
   (
     input: ListQueueFleetAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListQueueFleetAssociationsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -6895,7 +7361,7 @@ export const listQueueFleetAssociations: {
   >;
   pages: (
     input: ListQueueFleetAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListQueueFleetAssociationsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -6906,7 +7372,7 @@ export const listQueueFleetAssociations: {
   >;
   items: (
     input: ListQueueFleetAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     QueueFleetAssociationSummary,
     | AccessDeniedException
     | InternalServerErrorException
@@ -6937,7 +7403,7 @@ export const listQueueFleetAssociations: {
 export const listQueueLimitAssociations: {
   (
     input: ListQueueLimitAssociationsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListQueueLimitAssociationsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -6948,7 +7414,7 @@ export const listQueueLimitAssociations: {
   >;
   pages: (
     input: ListQueueLimitAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListQueueLimitAssociationsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -6959,7 +7425,7 @@ export const listQueueLimitAssociations: {
   >;
   items: (
     input: ListQueueLimitAssociationsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     QueueLimitAssociationSummary,
     | AccessDeniedException
     | InternalServerErrorException
@@ -6991,7 +7457,7 @@ export const listQueueLimitAssociations: {
  */
 export const createMonitor: (
   input: CreateMonitorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateMonitorResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -7020,7 +7486,7 @@ export const createMonitor: (
 export const getSessionsStatisticsAggregation: {
   (
     input: GetSessionsStatisticsAggregationRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetSessionsStatisticsAggregationResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7032,7 +7498,7 @@ export const getSessionsStatisticsAggregation: {
   >;
   pages: (
     input: GetSessionsStatisticsAggregationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetSessionsStatisticsAggregationResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7044,7 +7510,7 @@ export const getSessionsStatisticsAggregation: {
   >;
   items: (
     input: GetSessionsStatisticsAggregationRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Statistics,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7076,7 +7542,7 @@ export const getSessionsStatisticsAggregation: {
  */
 export const createBudget: (
   input: CreateBudgetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBudgetResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -7103,7 +7569,7 @@ export const createBudget: (
  */
 export const getFleet: (
   input: GetFleetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFleetResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -7128,7 +7594,7 @@ export const getFleet: (
  */
 export const getWorker: (
   input: GetWorkerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkerResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -7154,7 +7620,7 @@ export const getWorker: (
  */
 export const createQueue: (
   input: CreateQueueRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateQueueResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -7183,7 +7649,7 @@ export const createQueue: (
  */
 export const createJob: (
   input: CreateJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateJobResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -7210,7 +7676,7 @@ export const createJob: (
  */
 export const getSessionAction: (
   input: GetSessionActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSessionActionResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -7235,7 +7701,7 @@ export const getSessionAction: (
  */
 export const getStep: (
   input: GetStepRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetStepResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -7260,7 +7726,7 @@ export const getStep: (
  */
 export const getTask: (
   input: GetTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTaskResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -7285,7 +7751,7 @@ export const getTask: (
  */
 export const deleteQueueFleetAssociation: (
   input: DeleteQueueFleetAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteQueueFleetAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -7312,7 +7778,7 @@ export const deleteQueueFleetAssociation: (
  */
 export const searchSteps: (
   input: SearchStepsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SearchStepsResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -7337,7 +7803,7 @@ export const searchSteps: (
  */
 export const searchTasks: (
   input: SearchTasksRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SearchTasksResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -7362,7 +7828,7 @@ export const searchTasks: (
  */
 export const searchWorkers: (
   input: SearchWorkersRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SearchWorkersResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -7393,7 +7859,7 @@ export const searchWorkers: (
  */
 export const startSessionsStatisticsAggregation: (
   input: StartSessionsStatisticsAggregationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartSessionsStatisticsAggregationResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -7419,7 +7885,7 @@ export const startSessionsStatisticsAggregation: (
  */
 export const createStorageProfile: (
   input: CreateStorageProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateStorageProfileResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -7447,7 +7913,7 @@ export const createStorageProfile: (
 export const listFarmMembers: {
   (
     input: ListFarmMembersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFarmMembersResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7459,7 +7925,7 @@ export const listFarmMembers: {
   >;
   pages: (
     input: ListFarmMembersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFarmMembersResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7471,7 +7937,7 @@ export const listFarmMembers: {
   >;
   items: (
     input: ListFarmMembersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FarmMember,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7504,7 +7970,7 @@ export const listFarmMembers: {
 export const listLimits: {
   (
     input: ListLimitsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLimitsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7516,7 +7982,7 @@ export const listLimits: {
   >;
   pages: (
     input: ListLimitsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLimitsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7528,7 +7994,7 @@ export const listLimits: {
   >;
   items: (
     input: ListLimitsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LimitSummary,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7561,7 +8027,7 @@ export const listLimits: {
 export const listStorageProfiles: {
   (
     input: ListStorageProfilesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStorageProfilesResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7573,7 +8039,7 @@ export const listStorageProfiles: {
   >;
   pages: (
     input: ListStorageProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStorageProfilesResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7585,7 +8051,7 @@ export const listStorageProfiles: {
   >;
   items: (
     input: ListStorageProfilesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     StorageProfileSummary,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7617,7 +8083,7 @@ export const listStorageProfiles: {
  */
 export const getBudget: (
   input: GetBudgetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetBudgetResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -7643,7 +8109,7 @@ export const getBudget: (
 export const listBudgets: {
   (
     input: ListBudgetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBudgetsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7655,7 +8121,7 @@ export const listBudgets: {
   >;
   pages: (
     input: ListBudgetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBudgetsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7667,7 +8133,7 @@ export const listBudgets: {
   >;
   items: (
     input: ListBudgetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BudgetSummary,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7700,7 +8166,7 @@ export const listBudgets: {
 export const listFleets: {
   (
     input: ListFleetsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFleetsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7712,7 +8178,7 @@ export const listFleets: {
   >;
   pages: (
     input: ListFleetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFleetsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7724,7 +8190,7 @@ export const listFleets: {
   >;
   items: (
     input: ListFleetsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FleetSummary,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7757,7 +8223,7 @@ export const listFleets: {
  */
 export const assumeFleetRoleForRead: (
   input: AssumeFleetRoleForReadRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssumeFleetRoleForReadResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -7783,7 +8249,7 @@ export const assumeFleetRoleForRead: (
 export const listFleetMembers: {
   (
     input: ListFleetMembersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFleetMembersResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7795,7 +8261,7 @@ export const listFleetMembers: {
   >;
   pages: (
     input: ListFleetMembersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFleetMembersResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7807,7 +8273,7 @@ export const listFleetMembers: {
   >;
   items: (
     input: ListFleetMembersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FleetMember,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7840,7 +8306,7 @@ export const listFleetMembers: {
 export const listWorkers: {
   (
     input: ListWorkersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkersResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7852,7 +8318,7 @@ export const listWorkers: {
   >;
   pages: (
     input: ListWorkersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkersResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7864,7 +8330,7 @@ export const listWorkers: {
   >;
   items: (
     input: ListWorkersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkerSummary,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7897,7 +8363,7 @@ export const listWorkers: {
 export const listSessionsForWorker: {
   (
     input: ListSessionsForWorkerRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSessionsForWorkerResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7909,7 +8375,7 @@ export const listSessionsForWorker: {
   >;
   pages: (
     input: ListSessionsForWorkerRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSessionsForWorkerResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7921,7 +8387,7 @@ export const listSessionsForWorker: {
   >;
   items: (
     input: ListSessionsForWorkerRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkerSessionSummary,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7954,7 +8420,7 @@ export const listSessionsForWorker: {
 export const listQueues: {
   (
     input: ListQueuesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListQueuesResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7966,7 +8432,7 @@ export const listQueues: {
   >;
   pages: (
     input: ListQueuesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListQueuesResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -7978,7 +8444,7 @@ export const listQueues: {
   >;
   items: (
     input: ListQueuesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     QueueSummary,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8011,7 +8477,7 @@ export const listQueues: {
 export const listQueueEnvironments: {
   (
     input: ListQueueEnvironmentsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListQueueEnvironmentsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8023,7 +8489,7 @@ export const listQueueEnvironments: {
   >;
   pages: (
     input: ListQueueEnvironmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListQueueEnvironmentsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8035,7 +8501,7 @@ export const listQueueEnvironments: {
   >;
   items: (
     input: ListQueueEnvironmentsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     QueueEnvironmentSummary,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8068,7 +8534,7 @@ export const listQueueEnvironments: {
 export const listQueueMembers: {
   (
     input: ListQueueMembersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListQueueMembersResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8080,7 +8546,7 @@ export const listQueueMembers: {
   >;
   pages: (
     input: ListQueueMembersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListQueueMembersResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8092,7 +8558,7 @@ export const listQueueMembers: {
   >;
   items: (
     input: ListQueueMembersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     QueueMember,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8124,7 +8590,7 @@ export const listQueueMembers: {
  */
 export const getJob: (
   input: GetJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetJobResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8150,7 +8616,7 @@ export const getJob: (
 export const listJobs: {
   (
     input: ListJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListJobsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8162,7 +8628,7 @@ export const listJobs: {
   >;
   pages: (
     input: ListJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListJobsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8174,7 +8640,7 @@ export const listJobs: {
   >;
   items: (
     input: ListJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     JobSummary,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8206,7 +8672,7 @@ export const listJobs: {
  */
 export const copyJobTemplate: (
   input: CopyJobTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CopyJobTemplateResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8232,7 +8698,7 @@ export const copyJobTemplate: (
 export const listJobMembers: {
   (
     input: ListJobMembersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListJobMembersResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8244,7 +8710,7 @@ export const listJobMembers: {
   >;
   pages: (
     input: ListJobMembersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListJobMembersResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8256,7 +8722,7 @@ export const listJobMembers: {
   >;
   items: (
     input: ListJobMembersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     JobMember,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8289,7 +8755,7 @@ export const listJobMembers: {
 export const listSessions: {
   (
     input: ListSessionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSessionsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8301,7 +8767,7 @@ export const listSessions: {
   >;
   pages: (
     input: ListSessionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSessionsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8313,7 +8779,7 @@ export const listSessions: {
   >;
   items: (
     input: ListSessionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SessionSummary,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8346,7 +8812,7 @@ export const listSessions: {
 export const listStepConsumers: {
   (
     input: ListStepConsumersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStepConsumersResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8358,7 +8824,7 @@ export const listStepConsumers: {
   >;
   pages: (
     input: ListStepConsumersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStepConsumersResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8370,7 +8836,7 @@ export const listStepConsumers: {
   >;
   items: (
     input: ListStepConsumersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     StepConsumer,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8403,7 +8869,7 @@ export const listStepConsumers: {
 export const listStepDependencies: {
   (
     input: ListStepDependenciesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStepDependenciesResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8415,7 +8881,7 @@ export const listStepDependencies: {
   >;
   pages: (
     input: ListStepDependenciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStepDependenciesResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8427,7 +8893,7 @@ export const listStepDependencies: {
   >;
   items: (
     input: ListStepDependenciesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     StepDependency,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8460,7 +8926,7 @@ export const listStepDependencies: {
 export const listSteps: {
   (
     input: ListStepsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStepsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8472,7 +8938,7 @@ export const listSteps: {
   >;
   pages: (
     input: ListStepsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStepsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8484,7 +8950,7 @@ export const listSteps: {
   >;
   items: (
     input: ListStepsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     StepSummary,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8517,7 +8983,7 @@ export const listSteps: {
 export const listTasks: {
   (
     input: ListTasksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTasksResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8529,7 +8995,7 @@ export const listTasks: {
   >;
   pages: (
     input: ListTasksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTasksResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8541,7 +9007,7 @@ export const listTasks: {
   >;
   items: (
     input: ListTasksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TaskSummary,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8574,7 +9040,7 @@ export const listTasks: {
 export const listLicenseEndpoints: {
   (
     input: ListLicenseEndpointsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLicenseEndpointsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8586,7 +9052,7 @@ export const listLicenseEndpoints: {
   >;
   pages: (
     input: ListLicenseEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLicenseEndpointsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8598,7 +9064,7 @@ export const listLicenseEndpoints: {
   >;
   items: (
     input: ListLicenseEndpointsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LicenseEndpointSummary,
     | AccessDeniedException
     | InternalServerErrorException
@@ -8633,7 +9099,7 @@ export const listLicenseEndpoints: {
  */
 export const createQueueLimitAssociation: (
   input: CreateQueueLimitAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateQueueLimitAssociationResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8658,7 +9124,7 @@ export const createQueueLimitAssociation: (
  */
 export const updateQueueFleetAssociation: (
   input: UpdateQueueFleetAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateQueueFleetAssociationResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8685,7 +9151,7 @@ export const updateQueueFleetAssociation: (
  */
 export const updateQueueLimitAssociation: (
   input: UpdateQueueLimitAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateQueueLimitAssociationResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8710,7 +9176,7 @@ export const updateQueueLimitAssociation: (
  */
 export const updateFarm: (
   input: UpdateFarmRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFarmResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8735,7 +9201,7 @@ export const updateFarm: (
  */
 export const deleteFarm: (
   input: DeleteFarmRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFarmResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8760,7 +9226,7 @@ export const deleteFarm: (
  */
 export const associateMemberToFarm: (
   input: AssociateMemberToFarmRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateMemberToFarmResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8787,7 +9253,7 @@ export const associateMemberToFarm: (
  */
 export const disassociateMemberFromFarm: (
   input: DisassociateMemberFromFarmRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateMemberFromFarmResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8812,7 +9278,7 @@ export const disassociateMemberFromFarm: (
  */
 export const updateLimit: (
   input: UpdateLimitRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLimitResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8837,7 +9303,7 @@ export const updateLimit: (
  */
 export const updateStorageProfile: (
   input: UpdateStorageProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateStorageProfileResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8862,7 +9328,7 @@ export const updateStorageProfile: (
  */
 export const deleteBudget: (
   input: DeleteBudgetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBudgetResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8887,7 +9353,7 @@ export const deleteBudget: (
  */
 export const updateFleet: (
   input: UpdateFleetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFleetResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8914,7 +9380,7 @@ export const updateFleet: (
  */
 export const associateMemberToFleet: (
   input: AssociateMemberToFleetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateMemberToFleetResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8941,7 +9407,7 @@ export const associateMemberToFleet: (
  */
 export const updateQueue: (
   input: UpdateQueueRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateQueueResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8966,7 +9432,7 @@ export const updateQueue: (
  */
 export const associateMemberToQueue: (
   input: AssociateMemberToQueueRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateMemberToQueueResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8993,7 +9459,7 @@ export const associateMemberToQueue: (
  */
 export const updateQueueEnvironment: (
   input: UpdateQueueEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateQueueEnvironmentResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9018,7 +9484,7 @@ export const updateQueueEnvironment: (
  */
 export const associateMemberToJob: (
   input: AssociateMemberToJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateMemberToJobResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9045,7 +9511,7 @@ export const associateMemberToJob: (
  */
 export const disassociateMemberFromJob: (
   input: DisassociateMemberFromJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateMemberFromJobResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9070,7 +9536,7 @@ export const disassociateMemberFromJob: (
  */
 export const putMeteredProduct: (
   input: PutMeteredProductRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutMeteredProductResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9095,7 +9561,7 @@ export const putMeteredProduct: (
  */
 export const deleteMeteredProduct: (
   input: DeleteMeteredProductRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMeteredProductResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9121,7 +9587,7 @@ export const deleteMeteredProduct: (
  */
 export const updateMonitor: (
   input: UpdateMonitorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateMonitorResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9147,7 +9613,7 @@ export const updateMonitor: (
  */
 export const deleteMonitor: (
   input: DeleteMonitorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteMonitorResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9172,7 +9638,7 @@ export const deleteMonitor: (
  */
 export const getQueueFleetAssociation: (
   input: GetQueueFleetAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetQueueFleetAssociationResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9197,7 +9663,7 @@ export const getQueueFleetAssociation: (
  */
 export const getQueueLimitAssociation: (
   input: GetQueueLimitAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetQueueLimitAssociationResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9222,7 +9688,7 @@ export const getQueueLimitAssociation: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9250,7 +9716,7 @@ export const listTagsForResource: (
  */
 export const createFarm: (
   input: CreateFarmRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFarmResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9277,7 +9743,7 @@ export const createFarm: (
  */
 export const getFarm: (
   input: GetFarmRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFarmResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9307,7 +9773,7 @@ export const getFarm: (
  */
 export const createLimit: (
   input: CreateLimitRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLimitResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9334,7 +9800,7 @@ export const createLimit: (
  */
 export const getLimit: (
   input: GetLimitRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLimitResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9359,7 +9825,7 @@ export const getLimit: (
  */
 export const getStorageProfile: (
   input: GetStorageProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetStorageProfileResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9384,7 +9850,7 @@ export const getStorageProfile: (
  */
 export const updateBudget: (
   input: UpdateBudgetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateBudgetResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9409,7 +9875,7 @@ export const updateBudget: (
  */
 export const getQueue: (
   input: GetQueueRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetQueueResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9435,7 +9901,7 @@ export const getQueue: (
  */
 export const assumeQueueRoleForRead: (
   input: AssumeQueueRoleForReadRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssumeQueueRoleForReadResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9460,7 +9926,7 @@ export const assumeQueueRoleForRead: (
  */
 export const assumeQueueRoleForUser: (
   input: AssumeQueueRoleForUserRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssumeQueueRoleForUserResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9485,7 +9951,7 @@ export const assumeQueueRoleForUser: (
  */
 export const createQueueEnvironment: (
   input: CreateQueueEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateQueueEnvironmentResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9512,7 +9978,7 @@ export const createQueueEnvironment: (
  */
 export const getQueueEnvironment: (
   input: GetQueueEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetQueueEnvironmentResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9537,7 +10003,7 @@ export const getQueueEnvironment: (
  */
 export const getStorageProfileForQueue: (
   input: GetStorageProfileForQueueRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetStorageProfileForQueueResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9563,7 +10029,7 @@ export const getStorageProfileForQueue: (
 export const listStorageProfilesForQueue: {
   (
     input: ListStorageProfilesForQueueRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStorageProfilesForQueueResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -9575,7 +10041,7 @@ export const listStorageProfilesForQueue: {
   >;
   pages: (
     input: ListStorageProfilesForQueueRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStorageProfilesForQueueResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -9587,7 +10053,7 @@ export const listStorageProfilesForQueue: {
   >;
   items: (
     input: ListStorageProfilesForQueueRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     StorageProfileSummary,
     | AccessDeniedException
     | InternalServerErrorException
@@ -9619,7 +10085,7 @@ export const listStorageProfilesForQueue: {
  */
 export const getSession: (
   input: GetSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetSessionResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9645,7 +10111,7 @@ export const getSession: (
 export const listJobParameterDefinitions: {
   (
     input: ListJobParameterDefinitionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListJobParameterDefinitionsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -9657,7 +10123,7 @@ export const listJobParameterDefinitions: {
   >;
   pages: (
     input: ListJobParameterDefinitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListJobParameterDefinitionsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -9669,7 +10135,7 @@ export const listJobParameterDefinitions: {
   >;
   items: (
     input: ListJobParameterDefinitionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AccessDeniedException
     | InternalServerErrorException
@@ -9701,7 +10167,7 @@ export const listJobParameterDefinitions: {
  */
 export const getLicenseEndpoint: (
   input: GetLicenseEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetLicenseEndpointResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9727,7 +10193,7 @@ export const getLicenseEndpoint: (
 export const listMeteredProducts: {
   (
     input: ListMeteredProductsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMeteredProductsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -9739,7 +10205,7 @@ export const listMeteredProducts: {
   >;
   pages: (
     input: ListMeteredProductsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMeteredProductsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -9751,7 +10217,7 @@ export const listMeteredProducts: {
   >;
   items: (
     input: ListMeteredProductsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MeteredProductSummary,
     | AccessDeniedException
     | InternalServerErrorException
@@ -9783,7 +10249,7 @@ export const listMeteredProducts: {
  */
 export const getMonitor: (
   input: GetMonitorRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetMonitorResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9813,7 +10279,7 @@ export const getMonitor: (
  */
 export const deleteQueueLimitAssociation: (
   input: DeleteQueueLimitAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteQueueLimitAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -9840,7 +10306,7 @@ export const deleteQueueLimitAssociation: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -9867,7 +10333,7 @@ export const untagResource: (
  */
 export const deleteFleet: (
   input: DeleteFleetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFleetResponse,
   | AccessDeniedException
   | ConflictException
@@ -9894,7 +10360,7 @@ export const deleteFleet: (
  */
 export const disassociateMemberFromFleet: (
   input: DisassociateMemberFromFleetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateMemberFromFleetResponse,
   | AccessDeniedException
   | ConflictException
@@ -9921,7 +10387,7 @@ export const disassociateMemberFromFleet: (
  */
 export const deleteWorker: (
   input: DeleteWorkerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkerResponse,
   | AccessDeniedException
   | ConflictException
@@ -9951,7 +10417,7 @@ export const deleteWorker: (
  */
 export const deleteQueue: (
   input: DeleteQueueRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteQueueResponse,
   | AccessDeniedException
   | ConflictException
@@ -9978,7 +10444,7 @@ export const deleteQueue: (
  */
 export const disassociateMemberFromQueue: (
   input: DisassociateMemberFromQueueRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateMemberFromQueueResponse,
   | AccessDeniedException
   | ConflictException
@@ -10011,7 +10477,7 @@ export const disassociateMemberFromQueue: (
  */
 export const updateJob: (
   input: UpdateJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -10038,7 +10504,7 @@ export const updateJob: (
  */
 export const updateSession: (
   input: UpdateSessionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -10065,7 +10531,7 @@ export const updateSession: (
  */
 export const updateStep: (
   input: UpdateStepRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateStepResponse,
   | AccessDeniedException
   | ConflictException
@@ -10092,7 +10558,7 @@ export const updateStep: (
  */
 export const updateTask: (
   input: UpdateTaskRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -10119,7 +10585,7 @@ export const updateTask: (
  */
 export const deleteLicenseEndpoint: (
   input: DeleteLicenseEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLicenseEndpointResponse,
   | AccessDeniedException
   | ConflictException
@@ -10146,7 +10612,7 @@ export const deleteLicenseEndpoint: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -10173,7 +10639,7 @@ export const tagResource: (
  */
 export const assumeFleetRoleForWorker: (
   input: AssumeFleetRoleForWorkerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssumeFleetRoleForWorkerResponse,
   | AccessDeniedException
   | ConflictException
@@ -10200,7 +10666,7 @@ export const assumeFleetRoleForWorker: (
  */
 export const assumeQueueRoleForWorker: (
   input: AssumeQueueRoleForWorkerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssumeQueueRoleForWorkerResponse,
   | AccessDeniedException
   | ConflictException
@@ -10238,7 +10704,7 @@ export const assumeQueueRoleForWorker: (
  */
 export const createWorker: (
   input: CreateWorkerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkerResponse,
   | AccessDeniedException
   | ConflictException
@@ -10265,7 +10731,7 @@ export const createWorker: (
  */
 export const updateWorker: (
   input: UpdateWorkerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkerResponse,
   | AccessDeniedException
   | ConflictException
@@ -10293,7 +10759,7 @@ export const updateWorker: (
 export const listFarms: {
   (
     input: ListFarmsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFarmsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -10304,7 +10770,7 @@ export const listFarms: {
   >;
   pages: (
     input: ListFarmsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFarmsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -10315,7 +10781,7 @@ export const listFarms: {
   >;
   items: (
     input: ListFarmsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     FarmSummary,
     | AccessDeniedException
     | InternalServerErrorException
@@ -10346,7 +10812,7 @@ export const listFarms: {
 export const listMonitors: {
   (
     input: ListMonitorsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListMonitorsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -10357,7 +10823,7 @@ export const listMonitors: {
   >;
   pages: (
     input: ListMonitorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListMonitorsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -10368,7 +10834,7 @@ export const listMonitors: {
   >;
   items: (
     input: ListMonitorsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     MonitorSummary,
     | AccessDeniedException
     | InternalServerErrorException
@@ -10400,7 +10866,7 @@ export const listMonitors: {
  */
 export const deleteLimit: (
   input: DeleteLimitRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLimitResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -10423,7 +10889,7 @@ export const deleteLimit: (
  */
 export const deleteStorageProfile: (
   input: DeleteStorageProfileRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteStorageProfileResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -10446,7 +10912,7 @@ export const deleteStorageProfile: (
  */
 export const deleteQueueEnvironment: (
   input: DeleteQueueEnvironmentRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteQueueEnvironmentResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -10469,7 +10935,7 @@ export const deleteQueueEnvironment: (
  */
 export const createQueueFleetAssociation: (
   input: CreateQueueFleetAssociationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateQueueFleetAssociationResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -10495,7 +10961,7 @@ export const createQueueFleetAssociation: (
 export const listSessionActions: {
   (
     input: ListSessionActionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSessionActionsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -10507,7 +10973,7 @@ export const listSessionActions: {
   >;
   pages: (
     input: ListSessionActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSessionActionsResponse,
     | AccessDeniedException
     | InternalServerErrorException
@@ -10519,7 +10985,7 @@ export const listSessionActions: {
   >;
   items: (
     input: ListSessionActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SessionActionSummary,
     | AccessDeniedException
     | InternalServerErrorException
@@ -10552,7 +11018,7 @@ export const listSessionActions: {
  */
 export const createLicenseEndpoint: (
   input: CreateLicenseEndpointRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLicenseEndpointResponse,
   | AccessDeniedException
   | ConflictException
@@ -10579,7 +11045,7 @@ export const createLicenseEndpoint: (
  */
 export const searchJobs: (
   input: SearchJobsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SearchJobsResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -10606,7 +11072,7 @@ export const searchJobs: (
  */
 export const createFleet: (
   input: CreateFleetRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateFleetResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -10633,7 +11099,7 @@ export const createFleet: (
  */
 export const batchGetJobEntity: (
   input: BatchGetJobEntityRequest,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetJobEntityResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -10658,7 +11124,7 @@ export const batchGetJobEntity: (
  */
 export const updateWorkerSchedule: (
   input: UpdateWorkerScheduleRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkerScheduleResponse,
   | AccessDeniedException
   | ConflictException

@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -116,6 +116,25 @@ export type CommandExecutionId = string;
 export type resourceId = string;
 
 //# Schemas
+export type JobExecutionStatus =
+  | "QUEUED"
+  | "IN_PROGRESS"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "TIMED_OUT"
+  | "REJECTED"
+  | "REMOVED"
+  | "CANCELED";
+export const JobExecutionStatus = S.Literal(
+  "QUEUED",
+  "IN_PROGRESS",
+  "SUCCEEDED",
+  "FAILED",
+  "TIMED_OUT",
+  "REJECTED",
+  "REMOVED",
+  "CANCELED",
+);
 export interface DescribeJobExecutionRequest {
   jobId: string;
   thingName: string;
@@ -165,8 +184,8 @@ export const DetailsMap = S.Record({ key: S.String, value: S.String });
 export interface UpdateJobExecutionRequest {
   jobId: string;
   thingName: string;
-  status: string;
-  statusDetails?: DetailsMap;
+  status: JobExecutionStatus;
+  statusDetails?: { [key: string]: string };
   stepTimeoutInMinutes?: number;
   expectedVersion?: number;
   includeJobExecutionState?: boolean;
@@ -177,7 +196,7 @@ export const UpdateJobExecutionRequest = S.suspend(() =>
   S.Struct({
     jobId: S.String.pipe(T.HttpLabel("jobId")),
     thingName: S.String.pipe(T.HttpLabel("thingName")),
-    status: S.String,
+    status: JobExecutionStatus,
     statusDetails: S.optional(DetailsMap),
     stepTimeoutInMinutes: S.optional(S.Number),
     expectedVersion: S.optional(S.Number),
@@ -199,7 +218,7 @@ export const UpdateJobExecutionRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateJobExecutionRequest>;
 export interface StartNextPendingJobExecutionRequest {
   thingName: string;
-  statusDetails?: DetailsMap;
+  statusDetails?: { [key: string]: string };
   stepTimeoutInMinutes?: number;
 }
 export const StartNextPendingJobExecutionRequest = S.suspend(() =>
@@ -245,8 +264,8 @@ export const CommandParameterValue = S.suspend(() =>
 export interface JobExecution {
   jobId?: string;
   thingName?: string;
-  status?: string;
-  statusDetails?: DetailsMap;
+  status?: JobExecutionStatus;
+  statusDetails?: { [key: string]: string };
   queuedAt?: number;
   startedAt?: number;
   lastUpdatedAt?: number;
@@ -259,7 +278,7 @@ export const JobExecution = S.suspend(() =>
   S.Struct({
     jobId: S.optional(S.String),
     thingName: S.optional(S.String),
-    status: S.optional(S.String),
+    status: S.optional(JobExecutionStatus),
     statusDetails: S.optional(DetailsMap),
     queuedAt: S.optional(S.Number),
     startedAt: S.optional(S.Number),
@@ -300,13 +319,13 @@ export const CommandExecutionParameterMap = S.Record({
   value: CommandParameterValue,
 });
 export interface JobExecutionState {
-  status?: string;
-  statusDetails?: DetailsMap;
+  status?: JobExecutionStatus;
+  statusDetails?: { [key: string]: string };
   versionNumber?: number;
 }
 export const JobExecutionState = S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String),
+    status: S.optional(JobExecutionStatus),
     statusDetails: S.optional(DetailsMap),
     versionNumber: S.optional(S.Number),
   }),
@@ -322,8 +341,8 @@ export const DescribeJobExecutionResponse = S.suspend(() =>
   identifier: "DescribeJobExecutionResponse",
 }) as any as S.Schema<DescribeJobExecutionResponse>;
 export interface GetPendingJobExecutionsResponse {
-  inProgressJobs?: JobExecutionSummaryList;
-  queuedJobs?: JobExecutionSummaryList;
+  inProgressJobs?: JobExecutionSummary[];
+  queuedJobs?: JobExecutionSummary[];
 }
 export const GetPendingJobExecutionsResponse = S.suspend(() =>
   S.Struct({
@@ -336,7 +355,7 @@ export const GetPendingJobExecutionsResponse = S.suspend(() =>
 export interface StartCommandExecutionRequest {
   targetArn: string;
   commandArn: string;
-  parameters?: CommandExecutionParameterMap;
+  parameters?: { [key: string]: CommandParameterValue };
   executionTimeoutSeconds?: number;
   clientToken?: string;
 }
@@ -443,7 +462,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const updateJobExecution: (
   input: UpdateJobExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateJobExecutionResponse,
   | CertificateValidationException
   | InvalidRequestException
@@ -472,7 +491,7 @@ export const updateJobExecution: (
  */
 export const getPendingJobExecutions: (
   input: GetPendingJobExecutionsRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetPendingJobExecutionsResponse,
   | CertificateValidationException
   | InvalidRequestException
@@ -500,7 +519,7 @@ export const getPendingJobExecutions: (
  */
 export const startNextPendingJobExecution: (
   input: StartNextPendingJobExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartNextPendingJobExecutionResponse,
   | CertificateValidationException
   | InvalidRequestException
@@ -527,7 +546,7 @@ export const startNextPendingJobExecution: (
  */
 export const describeJobExecution: (
   input: DescribeJobExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DescribeJobExecutionResponse,
   | CertificateValidationException
   | InvalidRequestException
@@ -555,7 +574,7 @@ export const describeJobExecution: (
  */
 export const startCommandExecution: (
   input: StartCommandExecutionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartCommandExecutionResponse,
   | ConflictException
   | InternalServerException

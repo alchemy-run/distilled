@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -121,7 +121,7 @@ export type ReplicationConfigurationTemplateID = string;
 export type VpcID = string;
 export type AwsRegion = string;
 export type SourceNetworkID = string;
-export type CfnStackName = string | Redacted.Redacted<string>;
+export type CfnStackName = string | redacted.Redacted<string>;
 export type SourceServerID = string;
 export type RecoverySnapshotsOrder = string;
 export type SmallBoundedString = string;
@@ -142,7 +142,7 @@ export type JobType = string;
 export type InitiatedBy = string;
 export type JobStatus = string;
 export type ReplicationStatus = string;
-export type SensitiveBoundedString = string | Redacted.Redacted<string>;
+export type SensitiveBoundedString = string | redacted.Redacted<string>;
 export type ISO8601DurationString = string;
 export type DataReplicationState = string;
 export type AwsAvailabilityZone = string;
@@ -296,7 +296,7 @@ export type TagsMap = { [key: string]: string };
 export const TagsMap = S.Record({ key: S.String, value: S.String });
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagsMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -321,7 +321,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeys;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -453,7 +453,7 @@ export const DeleteLaunchConfigurationTemplateResponse = S.suspend(() =>
   identifier: "DeleteLaunchConfigurationTemplateResponse",
 }) as any as S.Schema<DeleteLaunchConfigurationTemplateResponse>;
 export interface DescribeLaunchConfigurationTemplatesRequest {
-  launchConfigurationTemplateIDs?: LaunchConfigurationTemplateIDs;
+  launchConfigurationTemplateIDs?: string[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -611,8 +611,8 @@ export const UpdateFailbackReplicationConfigurationResponse = S.suspend(() =>
   identifier: "UpdateFailbackReplicationConfigurationResponse",
 }) as any as S.Schema<UpdateFailbackReplicationConfigurationResponse>;
 export interface StartFailbackLaunchRequest {
-  recoveryInstanceIDs: StartFailbackRequestRecoveryInstanceIDs;
-  tags?: TagsMap;
+  recoveryInstanceIDs: string[];
+  tags?: { [key: string]: string };
 }
 export const StartFailbackLaunchRequest = S.suspend(() =>
   S.Struct({
@@ -632,7 +632,7 @@ export const StartFailbackLaunchRequest = S.suspend(() =>
   identifier: "StartFailbackLaunchRequest",
 }) as any as S.Schema<StartFailbackLaunchRequest>;
 export interface TerminateRecoveryInstancesRequest {
-  recoveryInstanceIDs: RecoveryInstancesForTerminationRequest;
+  recoveryInstanceIDs: string[];
 }
 export const TerminateRecoveryInstancesRequest = S.suspend(() =>
   S.Struct({
@@ -675,7 +675,7 @@ export interface UpdateReplicationConfigurationTemplateRequest {
   arn?: string;
   stagingAreaSubnetId?: string;
   associateDefaultSecurityGroup?: boolean;
-  replicationServersSecurityGroupsIDs?: ReplicationServersSecurityGroupsIDs;
+  replicationServersSecurityGroupsIDs?: string[];
   replicationServerInstanceType?: string;
   useDedicatedReplicationServer?: boolean;
   defaultLargeStagingDiskType?: string;
@@ -684,8 +684,8 @@ export interface UpdateReplicationConfigurationTemplateRequest {
   bandwidthThrottling?: number;
   dataPlaneRouting?: string;
   createPublicIP?: boolean;
-  stagingAreaTags?: TagsMap;
-  pitPolicy?: PITPolicy;
+  stagingAreaTags?: { [key: string]: string };
+  pitPolicy?: PITPolicyRule[];
   autoReplicateNewDisks?: boolean;
 }
 export const UpdateReplicationConfigurationTemplateRequest = S.suspend(() =>
@@ -751,7 +751,7 @@ export const DeleteReplicationConfigurationTemplateResponse = S.suspend(() =>
   identifier: "DeleteReplicationConfigurationTemplateResponse",
 }) as any as S.Schema<DeleteReplicationConfigurationTemplateResponse>;
 export interface DescribeReplicationConfigurationTemplatesRequest {
-  replicationConfigurationTemplateIDs?: ReplicationConfigurationTemplateIDs;
+  replicationConfigurationTemplateIDs?: string[];
   maxResults?: number;
   nextToken?: string;
 }
@@ -782,7 +782,7 @@ export interface CreateSourceNetworkRequest {
   vpcID: string;
   originAccountID: string;
   originRegion: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const CreateSourceNetworkRequest = S.suspend(() =>
   S.Struct({
@@ -828,7 +828,7 @@ export const DeleteSourceNetworkResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteSourceNetworkResponse>;
 export interface AssociateSourceNetworkStackRequest {
   sourceNetworkID: string;
-  cfnStackName: string | Redacted.Redacted<string>;
+  cfnStackName: string | redacted.Redacted<string>;
 }
 export const AssociateSourceNetworkStackRequest = S.suspend(() =>
   S.Struct({ sourceNetworkID: S.String, cfnStackName: SensitiveString }).pipe(
@@ -1035,7 +1035,7 @@ export const DescribeSourceServersRequestFiltersIDs = S.Array(S.String);
 export type AccountIDs = string[];
 export const AccountIDs = S.Array(S.String);
 export interface LaunchActionsRequestFilters {
-  actionIds?: LaunchActionIds;
+  actionIds?: string[];
 }
 export const LaunchActionsRequestFilters = S.suspend(() =>
   S.Struct({ actionIds: S.optional(LaunchActionIds) }),
@@ -1043,7 +1043,7 @@ export const LaunchActionsRequestFilters = S.suspend(() =>
   identifier: "LaunchActionsRequestFilters",
 }) as any as S.Schema<LaunchActionsRequestFilters>;
 export interface DescribeJobsRequestFilters {
-  jobIDs?: DescribeJobsRequestFiltersJobIDs;
+  jobIDs?: string[];
   fromDate?: string;
   toDate?: string;
 }
@@ -1059,7 +1059,7 @@ export const DescribeJobsRequestFilters = S.suspend(() =>
 export interface LaunchConfigurationTemplate {
   launchConfigurationTemplateID?: string;
   arn?: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   launchDisposition?: string;
   targetInstanceTypeRightSizingMethod?: string;
   copyPrivateIp?: boolean;
@@ -1091,8 +1091,8 @@ export const LaunchConfigurationTemplates = S.Array(
   LaunchConfigurationTemplate,
 );
 export interface DescribeRecoveryInstancesRequestFilters {
-  recoveryInstanceIDs?: RecoveryInstanceIDs;
-  sourceServerIDs?: SourceServerIDs;
+  recoveryInstanceIDs?: string[];
+  sourceServerIDs?: string[];
 }
 export const DescribeRecoveryInstancesRequestFilters = S.suspend(() =>
   S.Struct({
@@ -1107,7 +1107,7 @@ export interface ReplicationConfigurationTemplate {
   arn?: string;
   stagingAreaSubnetId?: string;
   associateDefaultSecurityGroup?: boolean;
-  replicationServersSecurityGroupsIDs?: ReplicationServersSecurityGroupsIDs;
+  replicationServersSecurityGroupsIDs?: string[];
   replicationServerInstanceType?: string;
   useDedicatedReplicationServer?: boolean;
   defaultLargeStagingDiskType?: string;
@@ -1116,9 +1116,9 @@ export interface ReplicationConfigurationTemplate {
   bandwidthThrottling?: number;
   dataPlaneRouting?: string;
   createPublicIP?: boolean;
-  stagingAreaTags?: TagsMap;
-  tags?: TagsMap;
-  pitPolicy?: PITPolicy;
+  stagingAreaTags?: { [key: string]: string };
+  tags?: { [key: string]: string };
+  pitPolicy?: PITPolicyRule[];
   autoReplicateNewDisks?: boolean;
 }
 export const ReplicationConfigurationTemplate = S.suspend(() =>
@@ -1152,7 +1152,7 @@ export const ReplicationConfigurationTemplates = S.Array(
   ReplicationConfigurationTemplate,
 );
 export interface DescribeSourceNetworksRequestFilters {
-  sourceNetworkIDs?: DescribeSourceNetworksRequestFiltersIDs;
+  sourceNetworkIDs?: string[];
   originAccountID?: string;
   originRegion?: string;
 }
@@ -1167,7 +1167,7 @@ export const DescribeSourceNetworksRequestFilters = S.suspend(() =>
 }) as any as S.Schema<DescribeSourceNetworksRequestFilters>;
 export interface StartSourceNetworkRecoveryRequestNetworkEntry {
   sourceNetworkID: string;
-  cfnStackName?: string | Redacted.Redacted<string>;
+  cfnStackName?: string | redacted.Redacted<string>;
 }
 export const StartSourceNetworkRecoveryRequestNetworkEntry = S.suspend(() =>
   S.Struct({
@@ -1183,9 +1183,9 @@ export const StartSourceNetworkRecoveryRequestNetworkEntries = S.Array(
   StartSourceNetworkRecoveryRequestNetworkEntry,
 );
 export interface DescribeSourceServersRequestFilters {
-  sourceServerIDs?: DescribeSourceServersRequestFiltersIDs;
+  sourceServerIDs?: string[];
   hardwareId?: string;
-  stagingAccountIDs?: AccountIDs;
+  stagingAccountIDs?: string[];
 }
 export const DescribeSourceServersRequestFilters = S.suspend(() =>
   S.Struct({
@@ -1260,7 +1260,7 @@ export const StartRecoveryRequestSourceServers = S.Array(
 );
 export interface CreateExtendedSourceServerRequest {
   sourceServerArn: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const CreateExtendedSourceServerRequest = S.suspend(() =>
   S.Struct({ sourceServerArn: S.String, tags: S.optional(TagsMap) }).pipe(
@@ -1302,7 +1302,7 @@ export const ListLaunchActionsRequest = S.suspend(() =>
   identifier: "ListLaunchActionsRequest",
 }) as any as S.Schema<ListLaunchActionsRequest>;
 export interface ListTagsForResourceResponse {
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagsMap) }),
@@ -1333,7 +1333,7 @@ export const DescribeJobsRequest = S.suspend(() =>
   identifier: "DescribeJobsRequest",
 }) as any as S.Schema<DescribeJobsRequest>;
 export interface CreateLaunchConfigurationTemplateRequest {
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   launchDisposition?: string;
   targetInstanceTypeRightSizingMethod?: string;
   copyPrivateIp?: boolean;
@@ -1368,7 +1368,7 @@ export const CreateLaunchConfigurationTemplateRequest = S.suspend(() =>
   identifier: "CreateLaunchConfigurationTemplateRequest",
 }) as any as S.Schema<CreateLaunchConfigurationTemplateRequest>;
 export interface DescribeLaunchConfigurationTemplatesResponse {
-  items?: LaunchConfigurationTemplates;
+  items?: LaunchConfigurationTemplate[];
   nextToken?: string;
 }
 export const DescribeLaunchConfigurationTemplatesResponse = S.suspend(() =>
@@ -1449,7 +1449,7 @@ export interface LaunchAction {
   order?: number;
   actionVersion?: string;
   optional?: boolean;
-  parameters?: LaunchActionParameters;
+  parameters?: { [key: string]: LaunchActionParameter };
   description?: string;
   category?: string;
 }
@@ -1488,7 +1488,7 @@ export type LaunchActionRuns = LaunchActionRun[];
 export const LaunchActionRuns = S.Array(LaunchActionRun);
 export interface LaunchActionsStatus {
   ssmAgentDiscoveryDatetime?: string;
-  runs?: LaunchActionRuns;
+  runs?: LaunchActionRun[];
 }
 export const LaunchActionsStatus = S.suspend(() =>
   S.Struct({
@@ -1521,7 +1521,7 @@ export const ParticipatingResourceID = S.Union(
   S.Struct({ sourceNetworkID: S.String }),
 );
 export interface ParticipatingResource {
-  participatingResourceID?: (typeof ParticipatingResourceID)["Type"];
+  participatingResourceID?: ParticipatingResourceID;
   launchStatus?: string;
 }
 export const ParticipatingResource = S.suspend(() =>
@@ -1542,9 +1542,9 @@ export interface Job {
   creationDateTime?: string;
   endDateTime?: string;
   status?: string;
-  participatingServers?: ParticipatingServers;
-  tags?: TagsMap;
-  participatingResources?: ParticipatingResources;
+  participatingServers?: ParticipatingServer[];
+  tags?: { [key: string]: string };
+  participatingResources?: ParticipatingResource[];
 }
 export const Job = S.suspend(() =>
   S.Struct({
@@ -1571,7 +1571,7 @@ export const TerminateRecoveryInstancesResponse = S.suspend(() =>
 export interface CreateReplicationConfigurationTemplateRequest {
   stagingAreaSubnetId: string;
   associateDefaultSecurityGroup: boolean;
-  replicationServersSecurityGroupsIDs: ReplicationServersSecurityGroupsIDs;
+  replicationServersSecurityGroupsIDs: string[];
   replicationServerInstanceType: string;
   useDedicatedReplicationServer: boolean;
   defaultLargeStagingDiskType: string;
@@ -1580,9 +1580,9 @@ export interface CreateReplicationConfigurationTemplateRequest {
   bandwidthThrottling: number;
   dataPlaneRouting: string;
   createPublicIP: boolean;
-  stagingAreaTags: TagsMap;
-  pitPolicy: PITPolicy;
-  tags?: TagsMap;
+  stagingAreaTags: { [key: string]: string };
+  pitPolicy: PITPolicyRule[];
+  tags?: { [key: string]: string };
   autoReplicateNewDisks?: boolean;
 }
 export const CreateReplicationConfigurationTemplateRequest = S.suspend(() =>
@@ -1619,7 +1619,7 @@ export const CreateReplicationConfigurationTemplateRequest = S.suspend(() =>
   identifier: "CreateReplicationConfigurationTemplateRequest",
 }) as any as S.Schema<CreateReplicationConfigurationTemplateRequest>;
 export interface DescribeReplicationConfigurationTemplatesResponse {
-  items?: ReplicationConfigurationTemplates;
+  items?: ReplicationConfigurationTemplate[];
   nextToken?: string;
 }
 export const DescribeReplicationConfigurationTemplatesResponse = S.suspend(() =>
@@ -1695,10 +1695,10 @@ export interface SourceNetwork {
   sourceNetworkID?: string;
   sourceVpcID?: string;
   arn?: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   replicationStatus?: string;
-  replicationStatusDetails?: string | Redacted.Redacted<string>;
-  cfnStackName?: string | Redacted.Redacted<string>;
+  replicationStatusDetails?: string | redacted.Redacted<string>;
+  cfnStackName?: string | redacted.Redacted<string>;
   sourceRegion?: string;
   sourceAccountID?: string;
   lastRecovery?: RecoveryLifeCycle;
@@ -1730,9 +1730,9 @@ export const StopSourceNetworkReplicationResponse = S.suspend(() =>
   identifier: "StopSourceNetworkReplicationResponse",
 }) as any as S.Schema<StopSourceNetworkReplicationResponse>;
 export interface StartSourceNetworkRecoveryRequest {
-  sourceNetworks: StartSourceNetworkRecoveryRequestNetworkEntries;
+  sourceNetworks: StartSourceNetworkRecoveryRequestNetworkEntry[];
   deployAsNew?: boolean;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const StartSourceNetworkRecoveryRequest = S.suspend(() =>
   S.Struct({
@@ -1835,18 +1835,18 @@ export interface ReplicationConfiguration {
   name?: string;
   stagingAreaSubnetId?: string;
   associateDefaultSecurityGroup?: boolean;
-  replicationServersSecurityGroupsIDs?: ReplicationServersSecurityGroupsIDs;
+  replicationServersSecurityGroupsIDs?: string[];
   replicationServerInstanceType?: string;
   useDedicatedReplicationServer?: boolean;
   defaultLargeStagingDiskType?: string;
-  replicatedDisks?: ReplicationConfigurationReplicatedDisks;
+  replicatedDisks?: ReplicationConfigurationReplicatedDisk[];
   ebsEncryption?: string;
   ebsEncryptionKeyArn?: string;
   bandwidthThrottling?: number;
   dataPlaneRouting?: string;
   createPublicIP?: boolean;
-  stagingAreaTags?: TagsMap;
-  pitPolicy?: PITPolicy;
+  stagingAreaTags?: { [key: string]: string };
+  pitPolicy?: PITPolicyRule[];
   autoReplicateNewDisks?: boolean;
 }
 export const ReplicationConfiguration = S.suspend(() =>
@@ -1915,7 +1915,7 @@ export const DataReplicationInitiationSteps = S.Array(
 export interface DataReplicationInitiation {
   startDateTime?: string;
   nextAttemptDateTime?: string;
-  steps?: DataReplicationInitiationSteps;
+  steps?: DataReplicationInitiationStep[];
 }
 export const DataReplicationInitiation = S.suspend(() =>
   S.Struct({
@@ -1938,7 +1938,7 @@ export const DataReplicationError = S.suspend(() =>
 export interface DataReplicationInfo {
   lagDuration?: string;
   etaDateTime?: string;
-  replicatedDisks?: DataReplicationInfoReplicatedDisks;
+  replicatedDisks?: DataReplicationInfoReplicatedDisk[];
   dataReplicationState?: string;
   dataReplicationInitiation?: DataReplicationInitiation;
   dataReplicationError?: DataReplicationError;
@@ -2021,7 +2021,7 @@ export type IPsList = string[];
 export const IPsList = S.Array(S.String);
 export interface NetworkInterface {
   macAddress?: string;
-  ips?: IPsList;
+  ips?: string[];
   isPrimary?: boolean;
 }
 export const NetworkInterface = S.suspend(() =>
@@ -2063,9 +2063,9 @@ export interface SourceProperties {
   lastUpdatedDateTime?: string;
   recommendedInstanceType?: string;
   identificationHints?: IdentificationHints;
-  networkInterfaces?: NetworkInterfaces;
-  disks?: Disks;
-  cpus?: Cpus;
+  networkInterfaces?: NetworkInterface[];
+  disks?: Disk[];
+  cpus?: CPU[];
   ramBytes?: number;
   os?: OS;
   supportsNitroInstances?: boolean;
@@ -2118,7 +2118,7 @@ export const SourceCloudProperties = S.suspend(() =>
 export interface SourceServer {
   sourceServerID?: string;
   arn?: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   recoveryInstanceId?: string;
   lastLaunchResult?: string;
   dataReplicationInfo?: DataReplicationInfo;
@@ -2205,18 +2205,18 @@ export interface UpdateReplicationConfigurationRequest {
   name?: string;
   stagingAreaSubnetId?: string;
   associateDefaultSecurityGroup?: boolean;
-  replicationServersSecurityGroupsIDs?: ReplicationServersSecurityGroupsIDs;
+  replicationServersSecurityGroupsIDs?: string[];
   replicationServerInstanceType?: string;
   useDedicatedReplicationServer?: boolean;
   defaultLargeStagingDiskType?: string;
-  replicatedDisks?: ReplicationConfigurationReplicatedDisks;
+  replicatedDisks?: ReplicationConfigurationReplicatedDisk[];
   ebsEncryption?: string;
   ebsEncryptionKeyArn?: string;
   bandwidthThrottling?: number;
   dataPlaneRouting?: string;
   createPublicIP?: boolean;
-  stagingAreaTags?: TagsMap;
-  pitPolicy?: PITPolicy;
+  stagingAreaTags?: { [key: string]: string };
+  pitPolicy?: PITPolicyRule[];
   autoReplicateNewDisks?: boolean;
 }
 export const UpdateReplicationConfigurationRequest = S.suspend(() =>
@@ -2254,9 +2254,9 @@ export const UpdateReplicationConfigurationRequest = S.suspend(() =>
   identifier: "UpdateReplicationConfigurationRequest",
 }) as any as S.Schema<UpdateReplicationConfigurationRequest>;
 export interface StartRecoveryRequest {
-  sourceServers: StartRecoveryRequestSourceServers;
+  sourceServers: StartRecoveryRequestSourceServer[];
   isDrill?: boolean;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const StartRecoveryRequest = S.suspend(() =>
   S.Struct({
@@ -2279,7 +2279,7 @@ export const StartRecoveryRequest = S.suspend(() =>
 export interface StagingSourceServer {
   hostname?: string;
   arn?: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
 }
 export const StagingSourceServer = S.suspend(() =>
   S.Struct({
@@ -2315,7 +2315,7 @@ export const CreateExtendedSourceServerResponse = S.suspend(() =>
   identifier: "CreateExtendedSourceServerResponse",
 }) as any as S.Schema<CreateExtendedSourceServerResponse>;
 export interface ListExtensibleSourceServersResponse {
-  items?: StagingSourceServersList;
+  items?: StagingSourceServer[];
   nextToken?: string;
 }
 export const ListExtensibleSourceServersResponse = S.suspend(() =>
@@ -2327,7 +2327,7 @@ export const ListExtensibleSourceServersResponse = S.suspend(() =>
   identifier: "ListExtensibleSourceServersResponse",
 }) as any as S.Schema<ListExtensibleSourceServersResponse>;
 export interface ListStagingAccountsResponse {
-  accounts?: Accounts;
+  accounts?: Account[];
   nextToken?: string;
 }
 export const ListStagingAccountsResponse = S.suspend(() =>
@@ -2345,7 +2345,7 @@ export interface PutLaunchActionRequest {
   name: string;
   actionVersion: string;
   category: string;
-  parameters?: LaunchActionParameters;
+  parameters?: { [key: string]: LaunchActionParameter };
   description: string;
 }
 export const PutLaunchActionRequest = S.suspend(() =>
@@ -2375,7 +2375,7 @@ export const PutLaunchActionRequest = S.suspend(() =>
   identifier: "PutLaunchActionRequest",
 }) as any as S.Schema<PutLaunchActionRequest>;
 export interface DescribeJobsResponse {
-  items?: JobsList;
+  items?: Job[];
   nextToken?: string;
 }
 export const DescribeJobsResponse = S.suspend(() =>
@@ -2404,7 +2404,7 @@ export const UpdateLaunchConfigurationTemplateResponse = S.suspend(() =>
   identifier: "UpdateLaunchConfigurationTemplateResponse",
 }) as any as S.Schema<UpdateLaunchConfigurationTemplateResponse>;
 export interface DescribeSourceNetworksResponse {
-  items?: SourceNetworksList;
+  items?: SourceNetwork[];
   nextToken?: string;
 }
 export const DescribeSourceNetworksResponse = S.suspend(() =>
@@ -2424,7 +2424,7 @@ export const StartSourceNetworkRecoveryResponse = S.suspend(() =>
   identifier: "StartSourceNetworkRecoveryResponse",
 }) as any as S.Schema<StartSourceNetworkRecoveryResponse>;
 export interface DescribeSourceServersResponse {
-  items?: SourceServersList;
+  items?: SourceServer[];
   nextToken?: string;
 }
 export const DescribeSourceServersResponse = S.suspend(() =>
@@ -2452,7 +2452,7 @@ export interface RecoverySnapshot {
   sourceServerID: string;
   expectedTimestamp: string;
   timestamp?: string;
-  ebsSnapshots?: EbsSnapshotsList;
+  ebsSnapshots?: string[];
 }
 export const RecoverySnapshot = S.suspend(() =>
   S.Struct({
@@ -2468,7 +2468,7 @@ export const RecoverySnapshot = S.suspend(() =>
 export type RecoverySnapshotsList = RecoverySnapshot[];
 export const RecoverySnapshotsList = S.Array(RecoverySnapshot);
 export interface ListLaunchActionsResponse {
-  items?: LaunchActions;
+  items?: LaunchAction[];
   nextToken?: string;
 }
 export const ListLaunchActionsResponse = S.suspend(() =>
@@ -2489,7 +2489,7 @@ export interface PutLaunchActionResponse {
   order?: number;
   actionVersion?: string;
   optional?: boolean;
-  parameters?: LaunchActionParameters;
+  parameters?: { [key: string]: LaunchActionParameter };
   description?: string;
   category?: string;
 }
@@ -2520,7 +2520,7 @@ export const StartSourceNetworkReplicationResponse = S.suspend(() =>
   identifier: "StartSourceNetworkReplicationResponse",
 }) as any as S.Schema<StartSourceNetworkReplicationResponse>;
 export interface DescribeRecoverySnapshotsResponse {
-  items?: RecoverySnapshotsList;
+  items?: RecoverySnapshot[];
   nextToken?: string;
 }
 export const DescribeRecoverySnapshotsResponse = S.suspend(() =>
@@ -2657,9 +2657,9 @@ export const ProductCodes = S.Array(ProductCode);
 export interface RecoveryInstanceProperties {
   lastUpdatedDateTime?: string;
   identificationHints?: IdentificationHints;
-  networkInterfaces?: NetworkInterfaces;
-  disks?: RecoveryInstanceDisks;
-  cpus?: Cpus;
+  networkInterfaces?: NetworkInterface[];
+  disks?: RecoveryInstanceDisk[];
+  cpus?: CPU[];
   ramBytes?: number;
   os?: OS;
 }
@@ -2676,12 +2676,14 @@ export const RecoveryInstanceProperties = S.suspend(() =>
 ).annotations({
   identifier: "RecoveryInstanceProperties",
 }) as any as S.Schema<RecoveryInstanceProperties>;
-export type VolumeToConversionMap = { [key: string]: ConversionMap };
+export type VolumeToConversionMap = {
+  [key: string]: { [key: string]: string };
+};
 export const VolumeToConversionMap = S.Record({
   key: S.String,
   value: ConversionMap,
 });
-export type VolumeToProductCodes = { [key: string]: ProductCodes };
+export type VolumeToProductCodes = { [key: string]: ProductCode[] };
 export const VolumeToProductCodes = S.Record({
   key: S.String,
   value: ProductCodes,
@@ -2701,12 +2703,12 @@ export const RecoveryInstanceDataReplicationInitiationSteps = S.Array(
   RecoveryInstanceDataReplicationInitiationStep,
 );
 export interface ConversionProperties {
-  volumeToConversionMap?: VolumeToConversionMap;
+  volumeToConversionMap?: { [key: string]: { [key: string]: string } };
   rootVolumeName?: string;
   forceUefi?: boolean;
   dataTimestamp?: string;
-  volumeToVolumeSize?: VolumeToSizeMap;
-  volumeToProductCodes?: VolumeToProductCodes;
+  volumeToVolumeSize?: { [key: string]: number };
+  volumeToProductCodes?: { [key: string]: ProductCode[] };
 }
 export const ConversionProperties = S.suspend(() =>
   S.Struct({
@@ -2722,7 +2724,7 @@ export const ConversionProperties = S.suspend(() =>
 }) as any as S.Schema<ConversionProperties>;
 export interface RecoveryInstanceDataReplicationInitiation {
   startDateTime?: string;
-  steps?: RecoveryInstanceDataReplicationInitiationSteps;
+  steps?: RecoveryInstanceDataReplicationInitiationStep[];
 }
 export const RecoveryInstanceDataReplicationInitiation = S.suspend(() =>
   S.Struct({
@@ -2746,7 +2748,7 @@ export interface JobLogEventData {
   targetInstanceID?: string;
   rawError?: string;
   conversionProperties?: ConversionProperties;
-  eventResourceData?: (typeof EventResourceData)["Type"];
+  eventResourceData?: EventResourceData;
 }
 export const JobLogEventData = S.suspend(() =>
   S.Struct({
@@ -2763,7 +2765,7 @@ export const JobLogEventData = S.suspend(() =>
 export interface RecoveryInstanceDataReplicationInfo {
   lagDuration?: string;
   etaDateTime?: string;
-  replicatedDisks?: RecoveryInstanceDataReplicationInfoReplicatedDisks;
+  replicatedDisks?: RecoveryInstanceDataReplicationInfoReplicatedDisk[];
   dataReplicationState?: string;
   dataReplicationInitiation?: RecoveryInstanceDataReplicationInitiation;
   dataReplicationError?: RecoveryInstanceDataReplicationError;
@@ -2809,7 +2811,7 @@ export interface RecoveryInstance {
   recoveryInstanceID?: string;
   sourceServerID?: string;
   arn?: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   failback?: RecoveryInstanceFailback;
   dataReplicationInfo?: RecoveryInstanceDataReplicationInfo;
   recoveryInstanceProperties?: RecoveryInstanceProperties;
@@ -2845,7 +2847,7 @@ export const RecoveryInstance = S.suspend(() =>
 export type DescribeRecoveryInstancesItems = RecoveryInstance[];
 export const DescribeRecoveryInstancesItems = S.Array(RecoveryInstance);
 export interface DescribeJobLogItemsResponse {
-  items?: JobLogs;
+  items?: JobLog[];
   nextToken?: string;
 }
 export const DescribeJobLogItemsResponse = S.suspend(() =>
@@ -2855,7 +2857,7 @@ export const DescribeJobLogItemsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeJobLogItemsResponse>;
 export interface DescribeRecoveryInstancesResponse {
   nextToken?: string;
-  items?: DescribeRecoveryInstancesItems;
+  items?: RecoveryInstance[];
 }
 export const DescribeRecoveryInstancesResponse = S.suspend(() =>
   S.Struct({
@@ -2936,7 +2938,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  */
 export const deleteJob: (
   input: DeleteJobRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteJobResponse,
   | ConflictException
   | InternalServerException
@@ -2961,7 +2963,7 @@ export const deleteJob: (
  */
 export const getFailbackReplicationConfiguration: (
   input: GetFailbackReplicationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetFailbackReplicationConfigurationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2984,7 +2986,7 @@ export const getFailbackReplicationConfiguration: (
  */
 export const getLaunchConfiguration: (
   input: GetLaunchConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   LaunchConfiguration,
   | InternalServerException
   | ResourceNotFoundException
@@ -3007,7 +3009,7 @@ export const getLaunchConfiguration: (
  */
 export const getReplicationConfiguration: (
   input: GetReplicationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ReplicationConfiguration,
   | AccessDeniedException
   | InternalServerException
@@ -3032,7 +3034,7 @@ export const getReplicationConfiguration: (
  */
 export const startReplication: (
   input: StartReplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartReplicationResponse,
   | ConflictException
   | InternalServerException
@@ -3057,7 +3059,7 @@ export const startReplication: (
  */
 export const stopReplication: (
   input: StopReplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopReplicationResponse,
   | ConflictException
   | InternalServerException
@@ -3082,7 +3084,7 @@ export const stopReplication: (
  */
 export const stopFailback: (
   input: StopFailbackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopFailbackResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3105,7 +3107,7 @@ export const stopFailback: (
  */
 export const updateFailbackReplicationConfiguration: (
   input: UpdateFailbackReplicationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateFailbackReplicationConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3130,7 +3132,7 @@ export const updateFailbackReplicationConfiguration: (
  */
 export const deleteLaunchConfigurationTemplate: (
   input: DeleteLaunchConfigurationTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLaunchConfigurationTemplateResponse,
   | ConflictException
   | InternalServerException
@@ -3155,7 +3157,7 @@ export const deleteLaunchConfigurationTemplate: (
  */
 export const disconnectRecoveryInstance: (
   input: DisconnectRecoveryInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DisconnectRecoveryInstanceResponse,
   | AccessDeniedException
   | ConflictException
@@ -3182,7 +3184,7 @@ export const disconnectRecoveryInstance: (
  */
 export const deleteReplicationConfigurationTemplate: (
   input: DeleteReplicationConfigurationTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteReplicationConfigurationTemplateResponse,
   | ConflictException
   | InternalServerException
@@ -3207,7 +3209,7 @@ export const deleteReplicationConfigurationTemplate: (
  */
 export const deleteSourceNetwork: (
   input: DeleteSourceNetworkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSourceNetworkResponse,
   | ConflictException
   | InternalServerException
@@ -3232,7 +3234,7 @@ export const deleteSourceNetwork: (
  */
 export const deleteSourceServer: (
   input: DeleteSourceServerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteSourceServerResponse,
   | ConflictException
   | InternalServerException
@@ -3257,7 +3259,7 @@ export const deleteSourceServer: (
  */
 export const deleteRecoveryInstance: (
   input: DeleteRecoveryInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRecoveryInstanceResponse,
   | AccessDeniedException
   | ConflictException
@@ -3282,7 +3284,7 @@ export const deleteRecoveryInstance: (
  */
 export const terminateRecoveryInstances: (
   input: TerminateRecoveryInstancesRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TerminateRecoveryInstancesResponse,
   | ConflictException
   | InternalServerException
@@ -3307,7 +3309,7 @@ export const terminateRecoveryInstances: (
  */
 export const startRecovery: (
   input: StartRecoveryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartRecoveryResponse,
   | ConflictException
   | InternalServerException
@@ -3333,7 +3335,7 @@ export const startRecovery: (
 export const listLaunchActions: {
   (
     input: ListLaunchActionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListLaunchActionsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -3345,7 +3347,7 @@ export const listLaunchActions: {
   >;
   pages: (
     input: ListLaunchActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListLaunchActionsResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -3357,7 +3359,7 @@ export const listLaunchActions: {
   >;
   items: (
     input: ListLaunchActionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LaunchAction,
     | InternalServerException
     | ResourceNotFoundException
@@ -3389,7 +3391,7 @@ export const listLaunchActions: {
  */
 export const startSourceNetworkReplication: (
   input: StartSourceNetworkReplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartSourceNetworkReplicationResponse,
   | ConflictException
   | InternalServerException
@@ -3414,7 +3416,7 @@ export const startSourceNetworkReplication: (
  */
 export const disconnectSourceServer: (
   input: DisconnectSourceServerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SourceServer,
   | ConflictException
   | InternalServerException
@@ -3439,7 +3441,7 @@ export const disconnectSourceServer: (
  */
 export const initializeService: (
   input: InitializeServiceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   InitializeServiceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3462,7 +3464,7 @@ export const initializeService: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3487,7 +3489,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3512,7 +3514,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3538,7 +3540,7 @@ export const untagResource: (
 export const describeLaunchConfigurationTemplates: {
   (
     input: DescribeLaunchConfigurationTemplatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeLaunchConfigurationTemplatesResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -3550,7 +3552,7 @@ export const describeLaunchConfigurationTemplates: {
   >;
   pages: (
     input: DescribeLaunchConfigurationTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeLaunchConfigurationTemplatesResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -3562,7 +3564,7 @@ export const describeLaunchConfigurationTemplates: {
   >;
   items: (
     input: DescribeLaunchConfigurationTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     LaunchConfigurationTemplate,
     | InternalServerException
     | ResourceNotFoundException
@@ -3596,7 +3598,7 @@ export const describeLaunchConfigurationTemplates: {
  */
 export const reverseReplication: (
   input: ReverseReplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ReverseReplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3625,7 +3627,7 @@ export const reverseReplication: (
  */
 export const updateReplicationConfigurationTemplate: (
   input: UpdateReplicationConfigurationTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ReplicationConfigurationTemplate,
   | AccessDeniedException
   | InternalServerException
@@ -3653,7 +3655,7 @@ export const updateReplicationConfigurationTemplate: (
 export const describeReplicationConfigurationTemplates: {
   (
     input: DescribeReplicationConfigurationTemplatesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeReplicationConfigurationTemplatesResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -3665,7 +3667,7 @@ export const describeReplicationConfigurationTemplates: {
   >;
   pages: (
     input: DescribeReplicationConfigurationTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeReplicationConfigurationTemplatesResponse,
     | InternalServerException
     | ResourceNotFoundException
@@ -3677,7 +3679,7 @@ export const describeReplicationConfigurationTemplates: {
   >;
   items: (
     input: DescribeReplicationConfigurationTemplatesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ReplicationConfigurationTemplate,
     | InternalServerException
     | ResourceNotFoundException
@@ -3709,7 +3711,7 @@ export const describeReplicationConfigurationTemplates: {
  */
 export const createSourceNetwork: (
   input: CreateSourceNetworkRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateSourceNetworkResponse,
   | ConflictException
   | InternalServerException
@@ -3738,7 +3740,7 @@ export const createSourceNetwork: (
  */
 export const associateSourceNetworkStack: (
   input: AssociateSourceNetworkStackRequest,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateSourceNetworkStackResponse,
   | ConflictException
   | InternalServerException
@@ -3767,7 +3769,7 @@ export const associateSourceNetworkStack: (
  */
 export const exportSourceNetworkCfnTemplate: (
   input: ExportSourceNetworkCfnTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ExportSourceNetworkCfnTemplateResponse,
   | ConflictException
   | InternalServerException
@@ -3794,7 +3796,7 @@ export const exportSourceNetworkCfnTemplate: (
  */
 export const stopSourceNetworkReplication: (
   input: StopSourceNetworkReplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopSourceNetworkReplicationResponse,
   | ConflictException
   | InternalServerException
@@ -3821,7 +3823,7 @@ export const stopSourceNetworkReplication: (
  */
 export const updateLaunchConfiguration: (
   input: UpdateLaunchConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   LaunchConfiguration,
   | ConflictException
   | InternalServerException
@@ -3848,7 +3850,7 @@ export const updateLaunchConfiguration: (
  */
 export const updateReplicationConfiguration: (
   input: UpdateReplicationConfigurationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ReplicationConfiguration,
   | AccessDeniedException
   | ConflictException
@@ -3878,7 +3880,7 @@ export const updateReplicationConfiguration: (
  */
 export const retryDataReplication: (
   input: RetryDataReplicationRequest,
-) => Effect.Effect<
+) => effect.Effect<
   SourceServer,
   | InternalServerException
   | ResourceNotFoundException
@@ -3903,7 +3905,7 @@ export const retryDataReplication: (
  */
 export const createExtendedSourceServer: (
   input: CreateExtendedSourceServerRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateExtendedSourceServerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3932,7 +3934,7 @@ export const createExtendedSourceServer: (
  */
 export const createReplicationConfigurationTemplate: (
   input: CreateReplicationConfigurationTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ReplicationConfigurationTemplate,
   | AccessDeniedException
   | InternalServerException
@@ -3959,7 +3961,7 @@ export const createReplicationConfigurationTemplate: (
  */
 export const createLaunchConfigurationTemplate: (
   input: CreateLaunchConfigurationTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateLaunchConfigurationTemplateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3986,7 +3988,7 @@ export const createLaunchConfigurationTemplate: (
  */
 export const deleteLaunchAction: (
   input: DeleteLaunchActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteLaunchActionResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -4014,7 +4016,7 @@ export const deleteLaunchAction: (
 export const listExtensibleSourceServers: {
   (
     input: ListExtensibleSourceServersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListExtensibleSourceServersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4026,7 +4028,7 @@ export const listExtensibleSourceServers: {
   >;
   pages: (
     input: ListExtensibleSourceServersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListExtensibleSourceServersResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4038,7 +4040,7 @@ export const listExtensibleSourceServers: {
   >;
   items: (
     input: ListExtensibleSourceServersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     StagingSourceServer,
     | AccessDeniedException
     | InternalServerException
@@ -4071,7 +4073,7 @@ export const listExtensibleSourceServers: {
 export const listStagingAccounts: {
   (
     input: ListStagingAccountsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListStagingAccountsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4083,7 +4085,7 @@ export const listStagingAccounts: {
   >;
   pages: (
     input: ListStagingAccountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListStagingAccountsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4095,7 +4097,7 @@ export const listStagingAccounts: {
   >;
   items: (
     input: ListStagingAccountsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Account,
     | AccessDeniedException
     | InternalServerException
@@ -4128,7 +4130,7 @@ export const listStagingAccounts: {
 export const describeJobs: {
   (
     input: DescribeJobsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeJobsResponse,
     | InternalServerException
     | ThrottlingException
@@ -4139,7 +4141,7 @@ export const describeJobs: {
   >;
   pages: (
     input: DescribeJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeJobsResponse,
     | InternalServerException
     | ThrottlingException
@@ -4150,7 +4152,7 @@ export const describeJobs: {
   >;
   items: (
     input: DescribeJobsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Job,
     | InternalServerException
     | ThrottlingException
@@ -4180,7 +4182,7 @@ export const describeJobs: {
  */
 export const updateLaunchConfigurationTemplate: (
   input: UpdateLaunchConfigurationTemplateRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateLaunchConfigurationTemplateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4208,7 +4210,7 @@ export const updateLaunchConfigurationTemplate: (
 export const describeSourceNetworks: {
   (
     input: DescribeSourceNetworksRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeSourceNetworksResponse,
     | InternalServerException
     | ThrottlingException
@@ -4219,7 +4221,7 @@ export const describeSourceNetworks: {
   >;
   pages: (
     input: DescribeSourceNetworksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeSourceNetworksResponse,
     | InternalServerException
     | ThrottlingException
@@ -4230,7 +4232,7 @@ export const describeSourceNetworks: {
   >;
   items: (
     input: DescribeSourceNetworksRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SourceNetwork,
     | InternalServerException
     | ThrottlingException
@@ -4260,7 +4262,7 @@ export const describeSourceNetworks: {
  */
 export const startSourceNetworkRecovery: (
   input: StartSourceNetworkRecoveryRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartSourceNetworkRecoveryResponse,
   | ConflictException
   | InternalServerException
@@ -4288,7 +4290,7 @@ export const startSourceNetworkRecovery: (
 export const describeSourceServers: {
   (
     input: DescribeSourceServersRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeSourceServersResponse,
     | InternalServerException
     | ThrottlingException
@@ -4299,7 +4301,7 @@ export const describeSourceServers: {
   >;
   pages: (
     input: DescribeSourceServersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeSourceServersResponse,
     | InternalServerException
     | ThrottlingException
@@ -4310,7 +4312,7 @@ export const describeSourceServers: {
   >;
   items: (
     input: DescribeSourceServersRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SourceServer,
     | InternalServerException
     | ThrottlingException
@@ -4340,7 +4342,7 @@ export const describeSourceServers: {
  */
 export const putLaunchAction: (
   input: PutLaunchActionRequest,
-) => Effect.Effect<
+) => effect.Effect<
   PutLaunchActionResponse,
   | ConflictException
   | InternalServerException
@@ -4368,7 +4370,7 @@ export const putLaunchAction: (
 export const describeRecoverySnapshots: {
   (
     input: DescribeRecoverySnapshotsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeRecoverySnapshotsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4380,7 +4382,7 @@ export const describeRecoverySnapshots: {
   >;
   pages: (
     input: DescribeRecoverySnapshotsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeRecoverySnapshotsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4392,7 +4394,7 @@ export const describeRecoverySnapshots: {
   >;
   items: (
     input: DescribeRecoverySnapshotsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RecoverySnapshot,
     | AccessDeniedException
     | InternalServerException
@@ -4424,7 +4426,7 @@ export const describeRecoverySnapshots: {
  */
 export const startFailbackLaunch: (
   input: StartFailbackLaunchRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartFailbackLaunchResponse,
   | ConflictException
   | InternalServerException
@@ -4452,7 +4454,7 @@ export const startFailbackLaunch: (
 export const describeJobLogItems: {
   (
     input: DescribeJobLogItemsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeJobLogItemsResponse,
     | InternalServerException
     | ThrottlingException
@@ -4463,7 +4465,7 @@ export const describeJobLogItems: {
   >;
   pages: (
     input: DescribeJobLogItemsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeJobLogItemsResponse,
     | InternalServerException
     | ThrottlingException
@@ -4474,7 +4476,7 @@ export const describeJobLogItems: {
   >;
   items: (
     input: DescribeJobLogItemsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     JobLog,
     | InternalServerException
     | ThrottlingException
@@ -4505,7 +4507,7 @@ export const describeJobLogItems: {
 export const describeRecoveryInstances: {
   (
     input: DescribeRecoveryInstancesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeRecoveryInstancesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4516,7 +4518,7 @@ export const describeRecoveryInstances: {
   >;
   pages: (
     input: DescribeRecoveryInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeRecoveryInstancesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -4527,7 +4529,7 @@ export const describeRecoveryInstances: {
   >;
   items: (
     input: DescribeRecoveryInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RecoveryInstance,
     | AccessDeniedException
     | InternalServerException

@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -95,7 +95,7 @@ export type EmbeddingDomains = string[];
 export const EmbeddingDomains = S.Array(S.String);
 export interface GetBuyerDashboardInput {
   dashboardIdentifier: string;
-  embeddingDomains: EmbeddingDomains;
+  embeddingDomains: string[];
 }
 export const GetBuyerDashboardInput = S.suspend(() =>
   S.Struct({
@@ -117,7 +117,7 @@ export const GetBuyerDashboardInput = S.suspend(() =>
 export interface GetBuyerDashboardOutput {
   embedUrl: string;
   dashboardIdentifier: string;
-  embeddingDomains: EmbeddingDomains;
+  embeddingDomains: string[];
 }
 export const GetBuyerDashboardOutput = S.suspend(() =>
   S.Struct({
@@ -163,7 +163,7 @@ export class UnauthorizedException extends S.TaggedError<UnauthorizedException>(
  */
 export const getBuyerDashboard: (
   input: GetBuyerDashboardInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetBuyerDashboardOutput,
   | AccessDeniedException
   | BadRequestException

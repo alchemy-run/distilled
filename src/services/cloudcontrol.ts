@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -92,12 +92,12 @@ export type TypeName = string;
 export type TypeVersionId = string;
 export type RoleArn = string;
 export type ClientToken = string;
-export type Properties = string | Redacted.Redacted<string>;
+export type Properties = string | redacted.Redacted<string>;
 export type Identifier = string;
 export type MaxResults = number;
 export type NextToken = string;
 export type HandlerNextToken = string;
-export type PatchDocument = string | Redacted.Redacted<string>;
+export type PatchDocument = string | redacted.Redacted<string>;
 export type Operation = string;
 export type OperationStatus = string;
 export type StatusMessage = string;
@@ -124,7 +124,7 @@ export interface CreateResourceInput {
   TypeVersionId?: string;
   RoleArn?: string;
   ClientToken?: string;
-  DesiredState: string | Redacted.Redacted<string>;
+  DesiredState: string | redacted.Redacted<string>;
 }
 export const CreateResourceInput = S.suspend(() =>
   S.Struct({
@@ -193,7 +193,7 @@ export interface ListResourcesInput {
   RoleArn?: string;
   NextToken?: string;
   MaxResults?: number;
-  ResourceModel?: string | Redacted.Redacted<string>;
+  ResourceModel?: string | redacted.Redacted<string>;
 }
 export const ListResourcesInput = S.suspend(() =>
   S.Struct({
@@ -215,7 +215,7 @@ export interface UpdateResourceInput {
   RoleArn?: string;
   ClientToken?: string;
   Identifier: string;
-  PatchDocument: string | Redacted.Redacted<string>;
+  PatchDocument: string | redacted.Redacted<string>;
 }
 export const UpdateResourceInput = S.suspend(() =>
   S.Struct({
@@ -236,8 +236,8 @@ export const Operations = S.Array(S.String);
 export type OperationStatuses = string[];
 export const OperationStatuses = S.Array(S.String);
 export interface ResourceRequestStatusFilter {
-  Operations?: Operations;
-  OperationStatuses?: OperationStatuses;
+  Operations?: string[];
+  OperationStatuses?: string[];
 }
 export const ResourceRequestStatusFilter = S.suspend(() =>
   S.Struct({
@@ -249,7 +249,7 @@ export const ResourceRequestStatusFilter = S.suspend(() =>
 }) as any as S.Schema<ResourceRequestStatusFilter>;
 export interface ResourceDescription {
   Identifier?: string;
-  Properties?: string | Redacted.Redacted<string>;
+  Properties?: string | redacted.Redacted<string>;
 }
 export const ResourceDescription = S.suspend(() =>
   S.Struct({
@@ -269,7 +269,7 @@ export interface ProgressEvent {
   Operation?: string;
   OperationStatus?: string;
   EventTime?: Date;
-  ResourceModel?: string | Redacted.Redacted<string>;
+  ResourceModel?: string | redacted.Redacted<string>;
   StatusMessage?: string;
   ErrorCode?: string;
   RetryAfter?: Date;
@@ -325,7 +325,7 @@ export const ListResourceRequestsInput = S.suspend(() =>
 }) as any as S.Schema<ListResourceRequestsInput>;
 export interface ListResourcesOutput {
   TypeName?: string;
-  ResourceDescriptions?: ResourceDescriptions;
+  ResourceDescriptions?: ResourceDescription[];
   NextToken?: string;
 }
 export const ListResourcesOutput = S.suspend(() =>
@@ -395,7 +395,7 @@ export const GetResourceOutput = S.suspend(() =>
 }) as any as S.Schema<GetResourceOutput>;
 export interface GetResourceRequestStatusOutput {
   ProgressEvent?: ProgressEvent;
-  HooksProgressEvent?: HooksProgressEvent;
+  HooksProgressEvent?: HookProgressEvent[];
 }
 export const GetResourceRequestStatusOutput = S.suspend(() =>
   S.Struct({
@@ -406,7 +406,7 @@ export const GetResourceRequestStatusOutput = S.suspend(() =>
   identifier: "GetResourceRequestStatusOutput",
 }) as any as S.Schema<GetResourceRequestStatusOutput>;
 export interface ListResourceRequestsOutput {
-  ResourceRequestStatusSummaries?: ResourceRequestStatusSummaries;
+  ResourceRequestStatusSummaries?: ProgressEvent[];
   NextToken?: string;
 }
 export const ListResourceRequestsOutput = S.suspend(() =>
@@ -563,21 +563,21 @@ export class UnsupportedActionException extends S.TaggedError<UnsupportedActionE
 export const listResourceRequests: {
   (
     input: ListResourceRequestsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResourceRequestsOutput,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListResourceRequestsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResourceRequestsOutput,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListResourceRequestsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ProgressEvent,
     CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -600,7 +600,7 @@ export const listResourceRequests: {
  */
 export const getResourceRequestStatus: (
   input: GetResourceRequestStatusInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourceRequestStatusOutput,
   RequestTokenNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -618,7 +618,7 @@ export const getResourceRequestStatus: (
  */
 export const cancelResourceRequest: (
   input: CancelResourceRequestInput,
-) => Effect.Effect<
+) => effect.Effect<
   CancelResourceRequestOutput,
   | ConcurrentModificationException
   | RequestTokenNotFoundException
@@ -638,7 +638,7 @@ export const cancelResourceRequest: (
  */
 export const getResource: (
   input: GetResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourceOutput,
   | AlreadyExistsException
   | GeneralServiceException
@@ -692,7 +692,7 @@ export const getResource: (
  */
 export const deleteResource: (
   input: DeleteResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourceOutput,
   | AlreadyExistsException
   | ClientTokenConflictException
@@ -760,7 +760,7 @@ export const deleteResource: (
  */
 export const updateResource: (
   input: UpdateResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateResourceOutput,
   | AlreadyExistsException
   | ClientTokenConflictException
@@ -817,7 +817,7 @@ export const updateResource: (
 export const listResources: {
   (
     input: ListResourcesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListResourcesOutput,
     | AlreadyExistsException
     | GeneralServiceException
@@ -841,7 +841,7 @@ export const listResources: {
   >;
   pages: (
     input: ListResourcesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListResourcesOutput,
     | AlreadyExistsException
     | GeneralServiceException
@@ -865,7 +865,7 @@ export const listResources: {
   >;
   items: (
     input: ListResourcesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ResourceDescription,
     | AlreadyExistsException
     | GeneralServiceException
@@ -926,7 +926,7 @@ export const listResources: {
  */
 export const createResource: (
   input: CreateResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateResourceOutput,
   | AlreadyExistsException
   | ClientTokenConflictException

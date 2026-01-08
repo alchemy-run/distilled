@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -102,7 +102,7 @@ export type FilterName = string;
 export type FilterValue = string;
 export type TagValue = string;
 export type DatabaseName = string;
-export type SecretId = string | Redacted.Redacted<string>;
+export type SecretId = string | redacted.Redacted<string>;
 export type OperationType = string;
 export type ResourceType = string;
 export type ResourceId = string;
@@ -112,20 +112,42 @@ export type RuleResultMetadataKey = string;
 export type RuleResultMetadataValue = string;
 
 //# Schemas
+export type PermissionActionType = "RESTORE";
+export const PermissionActionType = S.Literal("RESTORE");
+export type ConfigurationCheckOperationListingMode =
+  | "ALL_OPERATIONS"
+  | "LATEST_PER_CHECK";
+export const ConfigurationCheckOperationListingMode = S.Literal(
+  "ALL_OPERATIONS",
+  "LATEST_PER_CHECK",
+);
+export type ApplicationType = "HANA" | "SAP_ABAP";
+export const ApplicationType = S.Literal("HANA", "SAP_ABAP");
 export type InstanceList = string[];
 export const InstanceList = S.Array(S.String);
-export type ConfigurationCheckTypeList = string[];
-export const ConfigurationCheckTypeList = S.Array(S.String);
+export type ConfigurationCheckType =
+  | "SAP_CHECK_01"
+  | "SAP_CHECK_02"
+  | "SAP_CHECK_03";
+export const ConfigurationCheckType = S.Literal(
+  "SAP_CHECK_01",
+  "SAP_CHECK_02",
+  "SAP_CHECK_03",
+);
+export type ConfigurationCheckTypeList = ConfigurationCheckType[];
+export const ConfigurationCheckTypeList = S.Array(ConfigurationCheckType);
+export type ConnectedEntityType = "DBMS";
+export const ConnectedEntityType = S.Literal("DBMS");
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface DeleteResourcePermissionInput {
-  ActionType?: string;
+  ActionType?: PermissionActionType;
   SourceResourceArn?: string;
   ResourceArn: string;
 }
 export const DeleteResourcePermissionInput = S.suspend(() =>
   S.Struct({
-    ActionType: S.optional(S.String),
+    ActionType: S.optional(PermissionActionType),
     SourceResourceArn: S.optional(S.String),
     ResourceArn: S.String,
   }).pipe(
@@ -265,11 +287,14 @@ export const GetOperationInput = S.suspend(() =>
   identifier: "GetOperationInput",
 }) as any as S.Schema<GetOperationInput>;
 export interface GetResourcePermissionInput {
-  ActionType?: string;
+  ActionType?: PermissionActionType;
   ResourceArn: string;
 }
 export const GetResourcePermissionInput = S.suspend(() =>
-  S.Struct({ ActionType: S.optional(S.String), ResourceArn: S.String }).pipe(
+  S.Struct({
+    ActionType: S.optional(PermissionActionType),
+    ResourceArn: S.String,
+  }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/get-resource-permission" }),
       svc,
@@ -326,27 +351,36 @@ export const ListConfigurationCheckDefinitionsInput = S.suspend(() =>
 ).annotations({
   identifier: "ListConfigurationCheckDefinitionsInput",
 }) as any as S.Schema<ListConfigurationCheckDefinitionsInput>;
+export type FilterOperator =
+  | "Equals"
+  | "GreaterThanOrEquals"
+  | "LessThanOrEquals";
+export const FilterOperator = S.Literal(
+  "Equals",
+  "GreaterThanOrEquals",
+  "LessThanOrEquals",
+);
 export interface Filter {
   Name: string;
   Value: string;
-  Operator: string;
+  Operator: FilterOperator;
 }
 export const Filter = S.suspend(() =>
-  S.Struct({ Name: S.String, Value: S.String, Operator: S.String }),
+  S.Struct({ Name: S.String, Value: S.String, Operator: FilterOperator }),
 ).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type FilterList = Filter[];
 export const FilterList = S.Array(Filter);
 export interface ListConfigurationCheckOperationsInput {
   ApplicationId: string;
-  ListMode?: string;
+  ListMode?: ConfigurationCheckOperationListingMode;
   MaxResults?: number;
   NextToken?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
 }
 export const ListConfigurationCheckOperationsInput = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String,
-    ListMode: S.optional(S.String),
+    ListMode: S.optional(ConfigurationCheckOperationListingMode),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     Filters: S.optional(FilterList),
@@ -392,7 +426,7 @@ export interface ListOperationEventsInput {
   OperationId: string;
   MaxResults?: number;
   NextToken?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
 }
 export const ListOperationEventsInput = S.suspend(() =>
   S.Struct({
@@ -417,7 +451,7 @@ export interface ListOperationsInput {
   ApplicationId: string;
   MaxResults?: number;
   NextToken?: string;
-  Filters?: FilterList;
+  Filters?: Filter[];
 }
 export const ListOperationsInput = S.suspend(() =>
   S.Struct({
@@ -502,13 +536,13 @@ export const ListTagsForResourceRequest = S.suspend(() =>
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface PutResourcePermissionInput {
-  ActionType: string;
+  ActionType: PermissionActionType;
   SourceResourceArn: string;
   ResourceArn: string;
 }
 export const PutResourcePermissionInput = S.suspend(() =>
   S.Struct({
-    ActionType: S.String,
+    ActionType: PermissionActionType,
     SourceResourceArn: S.String,
     ResourceArn: S.String,
   }).pipe(
@@ -560,7 +594,7 @@ export const StartApplicationRefreshInput = S.suspend(() =>
 }) as any as S.Schema<StartApplicationRefreshInput>;
 export interface StartConfigurationChecksInput {
   ApplicationId: string;
-  ConfigurationCheckIds?: ConfigurationCheckTypeList;
+  ConfigurationCheckIds?: ConfigurationCheckType[];
 }
 export const StartConfigurationChecksInput = S.suspend(() =>
   S.Struct({
@@ -581,13 +615,13 @@ export const StartConfigurationChecksInput = S.suspend(() =>
 }) as any as S.Schema<StartConfigurationChecksInput>;
 export interface StopApplicationInput {
   ApplicationId: string;
-  StopConnectedEntity?: string;
+  StopConnectedEntity?: ConnectedEntityType;
   IncludeEc2InstanceShutdown?: boolean;
 }
 export const StopApplicationInput = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String,
-    StopConnectedEntity: S.optional(S.String),
+    StopConnectedEntity: S.optional(ConnectedEntityType),
     IncludeEc2InstanceShutdown: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -606,7 +640,7 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: TagMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -631,7 +665,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys: TagKeyList;
+  tagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -654,6 +688,31 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
+export type CredentialType = "ADMIN";
+export const CredentialType = S.Literal("ADMIN");
+export type ComponentType =
+  | "HANA"
+  | "HANA_NODE"
+  | "ABAP"
+  | "ASCS"
+  | "DIALOG"
+  | "WEBDISP"
+  | "WD"
+  | "ERS";
+export const ComponentType = S.Literal(
+  "HANA",
+  "HANA_NODE",
+  "ABAP",
+  "ASCS",
+  "DIALOG",
+  "WEBDISP",
+  "WD",
+  "ERS",
+);
+export type BackintMode = "AWSBackup";
+export const BackintMode = S.Literal("AWSBackup");
+export type OperationStatus = "INPROGRESS" | "SUCCESS" | "ERROR";
+export const OperationStatus = S.Literal("INPROGRESS", "SUCCESS", "ERROR");
 export interface RuleStatusCounts {
   Failed?: number;
   Warning?: number;
@@ -675,9 +734,9 @@ export const RuleStatusCounts = S.suspend(() =>
 export interface ConfigurationCheckOperation {
   Id?: string;
   ApplicationId?: string;
-  Status?: string;
+  Status?: OperationStatus;
   StatusMessage?: string;
-  ConfigurationCheckId?: string;
+  ConfigurationCheckId?: ConfigurationCheckType;
   ConfigurationCheckName?: string;
   ConfigurationCheckDescription?: string;
   StartTime?: Date;
@@ -688,9 +747,9 @@ export const ConfigurationCheckOperation = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     ApplicationId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(OperationStatus),
     StatusMessage: S.optional(S.String),
-    ConfigurationCheckId: S.optional(S.String),
+    ConfigurationCheckId: S.optional(ConfigurationCheckType),
     ConfigurationCheckName: S.optional(S.String),
     ConfigurationCheckDescription: S.optional(S.String),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -712,9 +771,9 @@ export const OperationProperties = S.Record({
 export interface Operation {
   Id?: string;
   Type?: string;
-  Status?: string;
+  Status?: OperationStatus;
   StatusMessage?: string;
-  Properties?: OperationProperties;
+  Properties?: { [key: string]: string };
   ResourceType?: string;
   ResourceId?: string;
   ResourceArn?: string;
@@ -726,7 +785,7 @@ export const Operation = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Type: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(OperationStatus),
     StatusMessage: S.optional(S.String),
     Properties: S.optional(OperationProperties),
     ResourceType: S.optional(S.String),
@@ -743,13 +802,13 @@ export type OperationList = Operation[];
 export const OperationList = S.Array(Operation);
 export interface ApplicationCredential {
   DatabaseName: string;
-  CredentialType: string;
-  SecretId: string | Redacted.Redacted<string>;
+  CredentialType: CredentialType;
+  SecretId: string | redacted.Redacted<string>;
 }
 export const ApplicationCredential = S.suspend(() =>
   S.Struct({
     DatabaseName: S.String,
-    CredentialType: S.String,
+    CredentialType: CredentialType,
     SecretId: SensitiveString,
   }),
 ).annotations({
@@ -758,23 +817,27 @@ export const ApplicationCredential = S.suspend(() =>
 export type ApplicationCredentialList = ApplicationCredential[];
 export const ApplicationCredentialList = S.Array(ApplicationCredential);
 export interface ComponentInfo {
-  ComponentType: string;
+  ComponentType: ComponentType;
   Sid: string;
   Ec2InstanceId: string;
 }
 export const ComponentInfo = S.suspend(() =>
-  S.Struct({ ComponentType: S.String, Sid: S.String, Ec2InstanceId: S.String }),
+  S.Struct({
+    ComponentType: ComponentType,
+    Sid: S.String,
+    Ec2InstanceId: S.String,
+  }),
 ).annotations({
   identifier: "ComponentInfo",
 }) as any as S.Schema<ComponentInfo>;
 export type ComponentInfoList = ComponentInfo[];
 export const ComponentInfoList = S.Array(ComponentInfo);
 export interface BackintConfig {
-  BackintMode: string;
+  BackintMode: BackintMode;
   EnsureNoBackupInProcess: boolean;
 }
 export const BackintConfig = S.suspend(() =>
-  S.Struct({ BackintMode: S.String, EnsureNoBackupInProcess: S.Boolean }),
+  S.Struct({ BackintMode: BackintMode, EnsureNoBackupInProcess: S.Boolean }),
 ).annotations({
   identifier: "BackintConfig",
 }) as any as S.Schema<BackintConfig>;
@@ -797,7 +860,7 @@ export const GetResourcePermissionOutput = S.suspend(() =>
 export interface ListApplicationsInput {
   NextToken?: string;
   MaxResults?: number;
-  Filters?: FilterList;
+  Filters?: Filter[];
 }
 export const ListApplicationsInput = S.suspend(() =>
   S.Struct({
@@ -818,7 +881,7 @@ export const ListApplicationsInput = S.suspend(() =>
   identifier: "ListApplicationsInput",
 }) as any as S.Schema<ListApplicationsInput>;
 export interface ListConfigurationCheckOperationsOutput {
-  ConfigurationCheckOperations?: ConfigurationCheckOperationList;
+  ConfigurationCheckOperations?: ConfigurationCheckOperation[];
   NextToken?: string;
 }
 export const ListConfigurationCheckOperationsOutput = S.suspend(() =>
@@ -830,7 +893,7 @@ export const ListConfigurationCheckOperationsOutput = S.suspend(() =>
   identifier: "ListConfigurationCheckOperationsOutput",
 }) as any as S.Schema<ListConfigurationCheckOperationsOutput>;
 export interface ListOperationsOutput {
-  Operations?: OperationList;
+  Operations?: Operation[];
   NextToken?: string;
 }
 export const ListOperationsOutput = S.suspend(() =>
@@ -842,7 +905,7 @@ export const ListOperationsOutput = S.suspend(() =>
   identifier: "ListOperationsOutput",
 }) as any as S.Schema<ListOperationsOutput>;
 export interface ListTagsForResourceResponse {
-  tags?: TagMap;
+  tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -859,19 +922,19 @@ export const PutResourcePermissionOutput = S.suspend(() =>
 }) as any as S.Schema<PutResourcePermissionOutput>;
 export interface RegisterApplicationInput {
   ApplicationId: string;
-  ApplicationType: string;
-  Instances: InstanceList;
+  ApplicationType: ApplicationType;
+  Instances: string[];
   SapInstanceNumber?: string;
   Sid?: string;
-  Tags?: TagMap;
-  Credentials?: ApplicationCredentialList;
+  Tags?: { [key: string]: string };
+  Credentials?: ApplicationCredential[];
   DatabaseArn?: string;
-  ComponentsInfo?: ComponentInfoList;
+  ComponentsInfo?: ComponentInfo[];
 }
 export const RegisterApplicationInput = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String,
-    ApplicationType: S.String,
+    ApplicationType: ApplicationType,
     Instances: InstanceList,
     SapInstanceNumber: S.optional(S.String),
     Sid: S.optional(S.String),
@@ -909,7 +972,7 @@ export const StartApplicationRefreshOutput = S.suspend(() =>
   identifier: "StartApplicationRefreshOutput",
 }) as any as S.Schema<StartApplicationRefreshOutput>;
 export interface StartConfigurationChecksOutput {
-  ConfigurationCheckOperations?: ConfigurationCheckOperationList;
+  ConfigurationCheckOperations?: ConfigurationCheckOperation[];
 }
 export const StartConfigurationChecksOutput = S.suspend(() =>
   S.Struct({
@@ -928,8 +991,8 @@ export const StopApplicationOutput = S.suspend(() =>
 }) as any as S.Schema<StopApplicationOutput>;
 export interface UpdateApplicationSettingsInput {
   ApplicationId: string;
-  CredentialsToAddOrUpdate?: ApplicationCredentialList;
-  CredentialsToRemove?: ApplicationCredentialList;
+  CredentialsToAddOrUpdate?: ApplicationCredential[];
+  CredentialsToRemove?: ApplicationCredential[];
   Backint?: BackintConfig;
   DatabaseArn?: string;
 }
@@ -953,38 +1016,125 @@ export const UpdateApplicationSettingsInput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateApplicationSettingsInput",
 }) as any as S.Schema<UpdateApplicationSettingsInput>;
+export type ApplicationStatus =
+  | "ACTIVATED"
+  | "STARTING"
+  | "STOPPED"
+  | "STOPPING"
+  | "FAILED"
+  | "REGISTERING"
+  | "DELETING"
+  | "UNKNOWN";
+export const ApplicationStatus = S.Literal(
+  "ACTIVATED",
+  "STARTING",
+  "STOPPED",
+  "STOPPING",
+  "FAILED",
+  "REGISTERING",
+  "DELETING",
+  "UNKNOWN",
+);
+export type ApplicationDiscoveryStatus =
+  | "SUCCESS"
+  | "REGISTRATION_FAILED"
+  | "REFRESH_FAILED"
+  | "REGISTERING"
+  | "DELETING";
+export const ApplicationDiscoveryStatus = S.Literal(
+  "SUCCESS",
+  "REGISTRATION_FAILED",
+  "REFRESH_FAILED",
+  "REGISTERING",
+  "DELETING",
+);
 export type ComponentIdList = string[];
 export const ComponentIdList = S.Array(S.String);
 export type ApplicationArnList = string[];
 export const ApplicationArnList = S.Array(S.String);
+export type ComponentStatus =
+  | "ACTIVATED"
+  | "STARTING"
+  | "STOPPED"
+  | "STOPPING"
+  | "RUNNING"
+  | "RUNNING_WITH_ERROR"
+  | "UNDEFINED";
+export const ComponentStatus = S.Literal(
+  "ACTIVATED",
+  "STARTING",
+  "STOPPED",
+  "STOPPING",
+  "RUNNING",
+  "RUNNING_WITH_ERROR",
+  "UNDEFINED",
+);
 export type DatabaseIdList = string[];
 export const DatabaseIdList = S.Array(S.String);
+export type DatabaseType = "SYSTEM" | "TENANT";
+export const DatabaseType = S.Literal("SYSTEM", "TENANT");
+export type DatabaseStatus =
+  | "RUNNING"
+  | "STARTING"
+  | "STOPPED"
+  | "WARNING"
+  | "UNKNOWN"
+  | "ERROR"
+  | "STOPPING";
+export const DatabaseStatus = S.Literal(
+  "RUNNING",
+  "STARTING",
+  "STOPPED",
+  "WARNING",
+  "UNKNOWN",
+  "ERROR",
+  "STOPPING",
+);
 export type ComponentArnList = string[];
 export const ComponentArnList = S.Array(S.String);
-export type ApplicationTypeList = string[];
-export const ApplicationTypeList = S.Array(S.String);
+export type ApplicationTypeList = ApplicationType[];
+export const ApplicationTypeList = S.Array(ApplicationType);
+export type OperationEventStatus = "IN_PROGRESS" | "COMPLETED" | "FAILED";
+export const OperationEventStatus = S.Literal(
+  "IN_PROGRESS",
+  "COMPLETED",
+  "FAILED",
+);
 export type SubCheckReferencesList = string[];
 export const SubCheckReferencesList = S.Array(S.String);
+export type RuleResultStatus =
+  | "PASSED"
+  | "FAILED"
+  | "WARNING"
+  | "INFO"
+  | "UNKNOWN";
+export const RuleResultStatus = S.Literal(
+  "PASSED",
+  "FAILED",
+  "WARNING",
+  "INFO",
+  "UNKNOWN",
+);
 export interface Application {
   Id?: string;
-  Type?: string;
+  Type?: ApplicationType;
   Arn?: string;
   AppRegistryArn?: string;
-  Status?: string;
-  DiscoveryStatus?: string;
-  Components?: ComponentIdList;
+  Status?: ApplicationStatus;
+  DiscoveryStatus?: ApplicationDiscoveryStatus;
+  Components?: string[];
   LastUpdated?: Date;
   StatusMessage?: string;
-  AssociatedApplicationArns?: ApplicationArnList;
+  AssociatedApplicationArns?: string[];
 }
 export const Application = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
-    Type: S.optional(S.String),
+    Type: S.optional(ApplicationType),
     Arn: S.optional(S.String),
     AppRegistryArn: S.optional(S.String),
-    Status: S.optional(S.String),
-    DiscoveryStatus: S.optional(S.String),
+    Status: S.optional(ApplicationStatus),
+    DiscoveryStatus: S.optional(ApplicationDiscoveryStatus),
     Components: S.optional(ComponentIdList),
     LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     StatusMessage: S.optional(S.String),
@@ -994,16 +1144,16 @@ export const Application = S.suspend(() =>
 export interface Database {
   ApplicationId?: string;
   ComponentId?: string;
-  Credentials?: ApplicationCredentialList;
+  Credentials?: ApplicationCredential[];
   DatabaseId?: string;
   DatabaseName?: string;
-  DatabaseType?: string;
+  DatabaseType?: DatabaseType;
   Arn?: string;
-  Status?: string;
+  Status?: DatabaseStatus;
   PrimaryHost?: string;
   SQLPort?: number;
   LastUpdated?: Date;
-  ConnectedComponentArns?: ComponentArnList;
+  ConnectedComponentArns?: string[];
 }
 export const Database = S.suspend(() =>
   S.Struct({
@@ -1012,9 +1162,9 @@ export const Database = S.suspend(() =>
     Credentials: S.optional(ApplicationCredentialList),
     DatabaseId: S.optional(S.String),
     DatabaseName: S.optional(S.String),
-    DatabaseType: S.optional(S.String),
+    DatabaseType: S.optional(DatabaseType),
     Arn: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(DatabaseStatus),
     PrimaryHost: S.optional(S.String),
     SQLPort: S.optional(S.Number),
     LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1024,15 +1174,15 @@ export const Database = S.suspend(() =>
 export interface ComponentSummary {
   ApplicationId?: string;
   ComponentId?: string;
-  ComponentType?: string;
-  Tags?: TagMap;
+  ComponentType?: ComponentType;
+  Tags?: { [key: string]: string };
   Arn?: string;
 }
 export const ComponentSummary = S.suspend(() =>
   S.Struct({
     ApplicationId: S.optional(S.String),
     ComponentId: S.optional(S.String),
-    ComponentType: S.optional(S.String),
+    ComponentType: S.optional(ComponentType),
     Tags: S.optional(TagMap),
     Arn: S.optional(S.String),
   }),
@@ -1042,14 +1192,14 @@ export const ComponentSummary = S.suspend(() =>
 export type ComponentSummaryList = ComponentSummary[];
 export const ComponentSummaryList = S.Array(ComponentSummary);
 export interface ConfigurationCheckDefinition {
-  Id?: string;
+  Id?: ConfigurationCheckType;
   Name?: string;
   Description?: string;
-  ApplicableApplicationTypes?: ApplicationTypeList;
+  ApplicableApplicationTypes?: ApplicationType[];
 }
 export const ConfigurationCheckDefinition = S.suspend(() =>
   S.Struct({
-    Id: S.optional(S.String),
+    Id: S.optional(ConfigurationCheckType),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     ApplicableApplicationTypes: S.optional(ApplicationTypeList),
@@ -1065,16 +1215,16 @@ export interface DatabaseSummary {
   ApplicationId?: string;
   ComponentId?: string;
   DatabaseId?: string;
-  DatabaseType?: string;
+  DatabaseType?: DatabaseType;
   Arn?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const DatabaseSummary = S.suspend(() =>
   S.Struct({
     ApplicationId: S.optional(S.String),
     ComponentId: S.optional(S.String),
     DatabaseId: S.optional(S.String),
-    DatabaseType: S.optional(S.String),
+    DatabaseType: S.optional(DatabaseType),
     Arn: S.optional(S.String),
     Tags: S.optional(TagMap),
   }),
@@ -1087,7 +1237,7 @@ export interface SubCheckResult {
   Id?: string;
   Name?: string;
   Description?: string;
-  References?: SubCheckReferencesList;
+  References?: string[];
 }
 export const SubCheckResult = S.suspend(() =>
   S.Struct({
@@ -1103,9 +1253,47 @@ export type SubCheckResultList = SubCheckResult[];
 export const SubCheckResultList = S.Array(SubCheckResult);
 export type OperationIdList = string[];
 export const OperationIdList = S.Array(S.String);
+export type ReplicationMode = "PRIMARY" | "NONE" | "SYNC" | "SYNCMEM" | "ASYNC";
+export const ReplicationMode = S.Literal(
+  "PRIMARY",
+  "NONE",
+  "SYNC",
+  "SYNCMEM",
+  "ASYNC",
+);
+export type OperationMode =
+  | "PRIMARY"
+  | "LOGREPLAY"
+  | "DELTA_DATASHIPPING"
+  | "LOGREPLAY_READACCESS"
+  | "NONE";
+export const OperationMode = S.Literal(
+  "PRIMARY",
+  "LOGREPLAY",
+  "DELTA_DATASHIPPING",
+  "LOGREPLAY_READACCESS",
+  "NONE",
+);
+export type ClusterStatus =
+  | "ONLINE"
+  | "STANDBY"
+  | "MAINTENANCE"
+  | "OFFLINE"
+  | "NONE";
+export const ClusterStatus = S.Literal(
+  "ONLINE",
+  "STANDBY",
+  "MAINTENANCE",
+  "OFFLINE",
+  "NONE",
+);
+export type HostRole = "LEADER" | "WORKER" | "STANDBY" | "UNKNOWN";
+export const HostRole = S.Literal("LEADER", "WORKER", "STANDBY", "UNKNOWN");
+export type DatabaseConnectionMethod = "DIRECT" | "OVERLAY";
+export const DatabaseConnectionMethod = S.Literal("DIRECT", "OVERLAY");
 export interface GetApplicationOutput {
   Application?: Application;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const GetApplicationOutput = S.suspend(() =>
   S.Struct({ Application: S.optional(Application), Tags: S.optional(TagMap) }),
@@ -1114,7 +1302,7 @@ export const GetApplicationOutput = S.suspend(() =>
 }) as any as S.Schema<GetApplicationOutput>;
 export interface GetDatabaseOutput {
   Database?: Database;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const GetDatabaseOutput = S.suspend(() =>
   S.Struct({ Database: S.optional(Database), Tags: S.optional(TagMap) }),
@@ -1122,7 +1310,7 @@ export const GetDatabaseOutput = S.suspend(() =>
   identifier: "GetDatabaseOutput",
 }) as any as S.Schema<GetDatabaseOutput>;
 export interface ListComponentsOutput {
-  Components?: ComponentSummaryList;
+  Components?: ComponentSummary[];
   NextToken?: string;
 }
 export const ListComponentsOutput = S.suspend(() =>
@@ -1134,7 +1322,7 @@ export const ListComponentsOutput = S.suspend(() =>
   identifier: "ListComponentsOutput",
 }) as any as S.Schema<ListComponentsOutput>;
 export interface ListConfigurationCheckDefinitionsOutput {
-  ConfigurationChecks?: ConfigurationCheckDefinitionList;
+  ConfigurationChecks?: ConfigurationCheckDefinition[];
   NextToken?: string;
 }
 export const ListConfigurationCheckDefinitionsOutput = S.suspend(() =>
@@ -1146,7 +1334,7 @@ export const ListConfigurationCheckDefinitionsOutput = S.suspend(() =>
   identifier: "ListConfigurationCheckDefinitionsOutput",
 }) as any as S.Schema<ListConfigurationCheckDefinitionsOutput>;
 export interface ListDatabasesOutput {
-  Databases?: DatabaseSummaryList;
+  Databases?: DatabaseSummary[];
   NextToken?: string;
 }
 export const ListDatabasesOutput = S.suspend(() =>
@@ -1158,7 +1346,7 @@ export const ListDatabasesOutput = S.suspend(() =>
   identifier: "ListDatabasesOutput",
 }) as any as S.Schema<ListDatabasesOutput>;
 export interface ListSubCheckResultsOutput {
-  SubCheckResults?: SubCheckResultList;
+  SubCheckResults?: SubCheckResult[];
   NextToken?: string;
 }
 export const ListSubCheckResultsOutput = S.suspend(() =>
@@ -1183,7 +1371,7 @@ export const RegisterApplicationOutput = S.suspend(() =>
 }) as any as S.Schema<RegisterApplicationOutput>;
 export interface UpdateApplicationSettingsOutput {
   Message?: string;
-  OperationIds?: OperationIdList;
+  OperationIds?: string[];
 }
 export const UpdateApplicationSettingsOutput = S.suspend(() =>
   S.Struct({
@@ -1195,17 +1383,17 @@ export const UpdateApplicationSettingsOutput = S.suspend(() =>
 }) as any as S.Schema<UpdateApplicationSettingsOutput>;
 export interface Resilience {
   HsrTier?: string;
-  HsrReplicationMode?: string;
-  HsrOperationMode?: string;
-  ClusterStatus?: string;
+  HsrReplicationMode?: ReplicationMode;
+  HsrOperationMode?: OperationMode;
+  ClusterStatus?: ClusterStatus;
   EnqueueReplication?: boolean;
 }
 export const Resilience = S.suspend(() =>
   S.Struct({
     HsrTier: S.optional(S.String),
-    HsrReplicationMode: S.optional(S.String),
-    HsrOperationMode: S.optional(S.String),
-    ClusterStatus: S.optional(S.String),
+    HsrReplicationMode: S.optional(ReplicationMode),
+    HsrOperationMode: S.optional(OperationMode),
+    ClusterStatus: S.optional(ClusterStatus),
     EnqueueReplication: S.optional(S.Boolean),
   }),
 ).annotations({ identifier: "Resilience" }) as any as S.Schema<Resilience>;
@@ -1214,7 +1402,7 @@ export interface Host {
   HostIp?: string;
   EC2InstanceId?: string;
   InstanceId?: string;
-  HostRole?: string;
+  HostRole?: HostRole;
   OsVersion?: string;
 }
 export const Host = S.suspend(() =>
@@ -1223,20 +1411,20 @@ export const Host = S.suspend(() =>
     HostIp: S.optional(S.String),
     EC2InstanceId: S.optional(S.String),
     InstanceId: S.optional(S.String),
-    HostRole: S.optional(S.String),
+    HostRole: S.optional(HostRole),
     OsVersion: S.optional(S.String),
   }),
 ).annotations({ identifier: "Host" }) as any as S.Schema<Host>;
 export type HostList = Host[];
 export const HostList = S.Array(Host);
 export interface DatabaseConnection {
-  DatabaseConnectionMethod?: string;
+  DatabaseConnectionMethod?: DatabaseConnectionMethod;
   DatabaseArn?: string;
   ConnectionIp?: string;
 }
 export const DatabaseConnection = S.suspend(() =>
   S.Struct({
-    DatabaseConnectionMethod: S.optional(S.String),
+    DatabaseConnectionMethod: S.optional(DatabaseConnectionMethod),
     DatabaseArn: S.optional(S.String),
     ConnectionIp: S.optional(S.String),
   }),
@@ -1255,18 +1443,29 @@ export const Resource = S.suspend(() =>
 ).annotations({ identifier: "Resource" }) as any as S.Schema<Resource>;
 export type RuleResultMetadata = { [key: string]: string };
 export const RuleResultMetadata = S.Record({ key: S.String, value: S.String });
+export type AllocationType =
+  | "VPC_SUBNET"
+  | "ELASTIC_IP"
+  | "OVERLAY"
+  | "UNKNOWN";
+export const AllocationType = S.Literal(
+  "VPC_SUBNET",
+  "ELASTIC_IP",
+  "OVERLAY",
+  "UNKNOWN",
+);
 export interface ApplicationSummary {
   Id?: string;
-  DiscoveryStatus?: string;
-  Type?: string;
+  DiscoveryStatus?: ApplicationDiscoveryStatus;
+  Type?: ApplicationType;
   Arn?: string;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const ApplicationSummary = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
-    DiscoveryStatus: S.optional(S.String),
-    Type: S.optional(S.String),
+    DiscoveryStatus: S.optional(ApplicationDiscoveryStatus),
+    Type: S.optional(ApplicationType),
     Arn: S.optional(S.String),
     Tags: S.optional(TagMap),
   }),
@@ -1278,7 +1477,7 @@ export const ApplicationSummaryList = S.Array(ApplicationSummary);
 export interface OperationEvent {
   Description?: string;
   Resource?: Resource;
-  Status?: string;
+  Status?: OperationEventStatus;
   StatusMessage?: string;
   Timestamp?: Date;
 }
@@ -1286,7 +1485,7 @@ export const OperationEvent = S.suspend(() =>
   S.Struct({
     Description: S.optional(S.String),
     Resource: S.optional(Resource),
-    Status: S.optional(S.String),
+    Status: S.optional(OperationEventStatus),
     StatusMessage: S.optional(S.String),
     Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -1298,15 +1497,15 @@ export const OperationEventList = S.Array(OperationEvent);
 export interface RuleResult {
   Id?: string;
   Description?: string;
-  Status?: string;
+  Status?: RuleResultStatus;
   Message?: string;
-  Metadata?: RuleResultMetadata;
+  Metadata?: { [key: string]: string };
 }
 export const RuleResult = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Description: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(RuleResultStatus),
     Message: S.optional(S.String),
     Metadata: S.optional(RuleResultMetadata),
   }),
@@ -1316,13 +1515,13 @@ export const RuleResultList = S.Array(RuleResult);
 export interface IpAddressMember {
   IpAddress?: string;
   Primary?: boolean;
-  AllocationType?: string;
+  AllocationType?: AllocationType;
 }
 export const IpAddressMember = S.suspend(() =>
   S.Struct({
     IpAddress: S.optional(S.String),
     Primary: S.optional(S.Boolean),
-    AllocationType: S.optional(S.String),
+    AllocationType: S.optional(AllocationType),
   }),
 ).annotations({
   identifier: "IpAddressMember",
@@ -1348,7 +1547,7 @@ export const GetOperationOutput = S.suspend(() =>
   identifier: "GetOperationOutput",
 }) as any as S.Schema<GetOperationOutput>;
 export interface ListApplicationsOutput {
-  Applications?: ApplicationSummaryList;
+  Applications?: ApplicationSummary[];
   NextToken?: string;
 }
 export const ListApplicationsOutput = S.suspend(() =>
@@ -1360,7 +1559,7 @@ export const ListApplicationsOutput = S.suspend(() =>
   identifier: "ListApplicationsOutput",
 }) as any as S.Schema<ListApplicationsOutput>;
 export interface ListOperationEventsOutput {
-  OperationEvents?: OperationEventList;
+  OperationEvents?: OperationEvent[];
   NextToken?: string;
 }
 export const ListOperationEventsOutput = S.suspend(() =>
@@ -1372,7 +1571,7 @@ export const ListOperationEventsOutput = S.suspend(() =>
   identifier: "ListOperationEventsOutput",
 }) as any as S.Schema<ListOperationEventsOutput>;
 export interface ListSubCheckRuleResultsOutput {
-  RuleResults?: RuleResultList;
+  RuleResults?: RuleResult[];
   NextToken?: string;
 }
 export const ListSubCheckRuleResultsOutput = S.suspend(() =>
@@ -1386,7 +1585,7 @@ export const ListSubCheckRuleResultsOutput = S.suspend(() =>
 export interface AssociatedHost {
   Hostname?: string;
   Ec2InstanceId?: string;
-  IpAddresses?: IpAddressList;
+  IpAddresses?: IpAddressMember[];
   OsVersion?: string;
 }
 export const AssociatedHost = S.suspend(() =>
@@ -1404,18 +1603,18 @@ export interface Component {
   Sid?: string;
   SystemNumber?: string;
   ParentComponent?: string;
-  ChildComponents?: ComponentIdList;
+  ChildComponents?: string[];
   ApplicationId?: string;
-  ComponentType?: string;
-  Status?: string;
+  ComponentType?: ComponentType;
+  Status?: ComponentStatus;
   SapHostname?: string;
   SapFeature?: string;
   SapKernelVersion?: string;
   HdbVersion?: string;
   Resilience?: Resilience;
   AssociatedHost?: AssociatedHost;
-  Databases?: DatabaseIdList;
-  Hosts?: HostList;
+  Databases?: string[];
+  Hosts?: Host[];
   PrimaryHost?: string;
   DatabaseConnection?: DatabaseConnection;
   LastUpdated?: Date;
@@ -1429,8 +1628,8 @@ export const Component = S.suspend(() =>
     ParentComponent: S.optional(S.String),
     ChildComponents: S.optional(ComponentIdList),
     ApplicationId: S.optional(S.String),
-    ComponentType: S.optional(S.String),
-    Status: S.optional(S.String),
+    ComponentType: S.optional(ComponentType),
+    Status: S.optional(ComponentStatus),
     SapHostname: S.optional(S.String),
     SapFeature: S.optional(S.String),
     SapKernelVersion: S.optional(S.String),
@@ -1447,7 +1646,7 @@ export const Component = S.suspend(() =>
 ).annotations({ identifier: "Component" }) as any as S.Schema<Component>;
 export interface GetComponentOutput {
   Component?: Component;
-  Tags?: TagMap;
+  Tags?: { [key: string]: string };
 }
 export const GetComponentOutput = S.suspend(() =>
   S.Struct({ Component: S.optional(Component), Tags: S.optional(TagMap) }),
@@ -1484,21 +1683,21 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listOperations: {
   (
     input: ListOperationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOperationsOutput,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListOperationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOperationsOutput,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOperationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     Operation,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1520,21 +1719,21 @@ export const listOperations: {
 export const listSubCheckResults: {
   (
     input: ListSubCheckResultsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSubCheckResultsOutput,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSubCheckResultsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSubCheckResultsOutput,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSubCheckResultsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     SubCheckResult,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -1561,7 +1760,7 @@ export const listSubCheckResults: {
  */
 export const registerApplication: (
   input: RegisterApplicationInput,
-) => Effect.Effect<
+) => effect.Effect<
   RegisterApplicationOutput,
   | ConflictException
   | InternalServerException
@@ -1584,7 +1783,7 @@ export const registerApplication: (
  */
 export const updateApplicationSettings: (
   input: UpdateApplicationSettingsInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateApplicationSettingsOutput,
   | ConflictException
   | InternalServerException
@@ -1610,7 +1809,7 @@ export const updateApplicationSettings: (
 export const listConfigurationCheckOperations: {
   (
     input: ListConfigurationCheckOperationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConfigurationCheckOperationsOutput,
     | InternalServerException
     | ResourceNotFoundException
@@ -1620,7 +1819,7 @@ export const listConfigurationCheckOperations: {
   >;
   pages: (
     input: ListConfigurationCheckOperationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConfigurationCheckOperationsOutput,
     | InternalServerException
     | ResourceNotFoundException
@@ -1630,7 +1829,7 @@ export const listConfigurationCheckOperations: {
   >;
   items: (
     input: ListConfigurationCheckOperationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConfigurationCheckOperation,
     | InternalServerException
     | ResourceNotFoundException
@@ -1658,7 +1857,7 @@ export const listConfigurationCheckOperations: {
  */
 export const putResourcePermission: (
   input: PutResourcePermissionInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutResourcePermissionOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -1679,7 +1878,7 @@ export const putResourcePermission: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -1696,7 +1895,7 @@ export const tagResource: (
  */
 export const deleteResourcePermission: (
   input: DeleteResourcePermissionInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteResourcePermissionOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -1717,7 +1916,7 @@ export const deleteResourcePermission: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -1734,7 +1933,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -1753,7 +1952,7 @@ export const listTagsForResource: (
  */
 export const startApplication: (
   input: StartApplicationInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartApplicationOutput,
   | ConflictException
   | InternalServerException
@@ -1776,7 +1975,7 @@ export const startApplication: (
  */
 export const startApplicationRefresh: (
   input: StartApplicationRefreshInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartApplicationRefreshOutput,
   | ConflictException
   | InternalServerException
@@ -1801,7 +2000,7 @@ export const startApplicationRefresh: (
  */
 export const startConfigurationChecks: (
   input: StartConfigurationChecksInput,
-) => Effect.Effect<
+) => effect.Effect<
   StartConfigurationChecksOutput,
   | ConflictException
   | InternalServerException
@@ -1826,7 +2025,7 @@ export const startConfigurationChecks: (
  */
 export const stopApplication: (
   input: StopApplicationInput,
-) => Effect.Effect<
+) => effect.Effect<
   StopApplicationOutput,
   | ConflictException
   | InternalServerException
@@ -1849,7 +2048,7 @@ export const stopApplication: (
  */
 export const deregisterApplication: (
   input: DeregisterApplicationInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeregisterApplicationOutput,
   | InternalServerException
   | UnauthorizedException
@@ -1866,7 +2065,7 @@ export const deregisterApplication: (
  */
 export const getApplication: (
   input: GetApplicationInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetApplicationOutput,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1880,7 +2079,7 @@ export const getApplication: (
  */
 export const getDatabase: (
   input: GetDatabaseInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetDatabaseOutput,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1894,7 +2093,7 @@ export const getDatabase: (
  */
 export const getResourcePermission: (
   input: GetResourcePermissionInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourcePermissionOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -1916,7 +2115,7 @@ export const getResourcePermission: (
 export const listComponents: {
   (
     input: ListComponentsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListComponentsOutput,
     | InternalServerException
     | ResourceNotFoundException
@@ -1927,7 +2126,7 @@ export const listComponents: {
   >;
   pages: (
     input: ListComponentsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListComponentsOutput,
     | InternalServerException
     | ResourceNotFoundException
@@ -1938,7 +2137,7 @@ export const listComponents: {
   >;
   items: (
     input: ListComponentsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ComponentSummary,
     | InternalServerException
     | ResourceNotFoundException
@@ -1969,21 +2168,21 @@ export const listComponents: {
 export const listConfigurationCheckDefinitions: {
   (
     input: ListConfigurationCheckDefinitionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListConfigurationCheckDefinitionsOutput,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListConfigurationCheckDefinitionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListConfigurationCheckDefinitionsOutput,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListConfigurationCheckDefinitionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ConfigurationCheckDefinition,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2005,7 +2204,7 @@ export const listConfigurationCheckDefinitions: {
 export const listDatabases: {
   (
     input: ListDatabasesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDatabasesOutput,
     | InternalServerException
     | ResourceNotFoundException
@@ -2015,7 +2214,7 @@ export const listDatabases: {
   >;
   pages: (
     input: ListDatabasesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDatabasesOutput,
     | InternalServerException
     | ResourceNotFoundException
@@ -2025,7 +2224,7 @@ export const listDatabases: {
   >;
   items: (
     input: ListDatabasesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DatabaseSummary,
     | InternalServerException
     | ResourceNotFoundException
@@ -2053,7 +2252,7 @@ export const listDatabases: {
  */
 export const getConfigurationCheckOperation: (
   input: GetConfigurationCheckOperationInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetConfigurationCheckOperationOutput,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2067,7 +2266,7 @@ export const getConfigurationCheckOperation: (
  */
 export const getOperation: (
   input: GetOperationInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetOperationOutput,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2082,7 +2281,7 @@ export const getOperation: (
 export const listApplications: {
   (
     input: ListApplicationsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApplicationsOutput,
     | InternalServerException
     | ResourceNotFoundException
@@ -2092,7 +2291,7 @@ export const listApplications: {
   >;
   pages: (
     input: ListApplicationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApplicationsOutput,
     | InternalServerException
     | ResourceNotFoundException
@@ -2102,7 +2301,7 @@ export const listApplications: {
   >;
   items: (
     input: ListApplicationsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ApplicationSummary,
     | InternalServerException
     | ResourceNotFoundException
@@ -2133,21 +2332,21 @@ export const listApplications: {
 export const listOperationEvents: {
   (
     input: ListOperationEventsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListOperationEventsOutput,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListOperationEventsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListOperationEventsOutput,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListOperationEventsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     OperationEvent,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2169,21 +2368,21 @@ export const listOperationEvents: {
 export const listSubCheckRuleResults: {
   (
     input: ListSubCheckRuleResultsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListSubCheckRuleResultsOutput,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
     input: ListSubCheckRuleResultsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListSubCheckRuleResultsOutput,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
     input: ListSubCheckRuleResultsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RuleResult,
     InternalServerException | ValidationException | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
@@ -2204,7 +2403,7 @@ export const listSubCheckRuleResults: {
  */
 export const getComponent: (
   input: GetComponentInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetComponentOutput,
   | InternalServerException
   | UnauthorizedException

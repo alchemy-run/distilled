@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -146,7 +146,7 @@ export type ResourceTagList = ResourceTag[];
 export const ResourceTagList = S.Array(ResourceTag);
 export interface TagResourceRequest {
   resourceArn: string;
-  resourceTags: ResourceTagList;
+  resourceTags: ResourceTag[];
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, resourceTags: ResourceTagList }).pipe(
@@ -161,7 +161,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
-  resourceTagKeys: ResourceTagKeyList;
+  resourceTagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, resourceTagKeys: ResourceTagKeyList }).pipe(
@@ -174,14 +174,41 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type MetricNames = string[];
-export const MetricNames = S.Array(S.String);
+export type MetricName =
+  | "AmortizedCost"
+  | "BlendedCost"
+  | "NetAmortizedCost"
+  | "NetUnblendedCost"
+  | "NormalizedUsageAmount"
+  | "UnblendedCost"
+  | "UsageQuantity"
+  | "SpendCoveredBySavingsPlans"
+  | "Hour"
+  | "Unit"
+  | "Cost";
+export const MetricName = S.Literal(
+  "AmortizedCost",
+  "BlendedCost",
+  "NetAmortizedCost",
+  "NetUnblendedCost",
+  "NormalizedUsageAmount",
+  "UnblendedCost",
+  "UsageQuantity",
+  "SpendCoveredBySavingsPlans",
+  "Hour",
+  "Unit",
+  "Cost",
+);
+export type MetricNames = MetricName[];
+export const MetricNames = S.Array(MetricName);
+export type DateTimeType = "ABSOLUTE" | "RELATIVE";
+export const DateTimeType = S.Literal("ABSOLUTE", "RELATIVE");
 export interface DateTimeValue {
-  type: string;
+  type: DateTimeType;
   value: string;
 }
 export const DateTimeValue = S.suspend(() =>
-  S.Struct({ type: S.String, value: S.String }),
+  S.Struct({ type: DateTimeType, value: S.String }),
 ).annotations({
   identifier: "DateTimeValue",
 }) as any as S.Schema<DateTimeValue>;
@@ -194,29 +221,111 @@ export const DateTimeRange = S.suspend(() =>
 ).annotations({
   identifier: "DateTimeRange",
 }) as any as S.Schema<DateTimeRange>;
+export type Granularity = "HOURLY" | "DAILY" | "MONTHLY";
+export const Granularity = S.Literal("HOURLY", "DAILY", "MONTHLY");
+export type GroupDefinitionType = "DIMENSION" | "TAG" | "COST_CATEGORY";
+export const GroupDefinitionType = S.Literal(
+  "DIMENSION",
+  "TAG",
+  "COST_CATEGORY",
+);
 export interface GroupDefinition {
   key: string;
-  type?: string;
+  type?: GroupDefinitionType;
 }
 export const GroupDefinition = S.suspend(() =>
-  S.Struct({ key: S.String, type: S.optional(S.String) }),
+  S.Struct({ key: S.String, type: S.optional(GroupDefinitionType) }),
 ).annotations({
   identifier: "GroupDefinition",
 }) as any as S.Schema<GroupDefinition>;
 export type GroupDefinitions = GroupDefinition[];
 export const GroupDefinitions = S.Array(GroupDefinition);
+export type Dimension =
+  | "AZ"
+  | "INSTANCE_TYPE"
+  | "LINKED_ACCOUNT"
+  | "OPERATION"
+  | "PURCHASE_TYPE"
+  | "REGION"
+  | "SERVICE"
+  | "USAGE_TYPE"
+  | "USAGE_TYPE_GROUP"
+  | "RECORD_TYPE"
+  | "RESOURCE_ID"
+  | "SUBSCRIPTION_ID"
+  | "TAG_KEY"
+  | "OPERATING_SYSTEM"
+  | "TENANCY"
+  | "BILLING_ENTITY"
+  | "RESERVATION_ID"
+  | "COST_CATEGORY_NAME"
+  | "DATABASE_ENGINE"
+  | "LEGAL_ENTITY_NAME"
+  | "SAVINGS_PLANS_TYPE"
+  | "INSTANCE_TYPE_FAMILY"
+  | "CACHE_ENGINE"
+  | "DEPLOYMENT_OPTION"
+  | "SCOPE"
+  | "PLATFORM";
+export const Dimension = S.Literal(
+  "AZ",
+  "INSTANCE_TYPE",
+  "LINKED_ACCOUNT",
+  "OPERATION",
+  "PURCHASE_TYPE",
+  "REGION",
+  "SERVICE",
+  "USAGE_TYPE",
+  "USAGE_TYPE_GROUP",
+  "RECORD_TYPE",
+  "RESOURCE_ID",
+  "SUBSCRIPTION_ID",
+  "TAG_KEY",
+  "OPERATING_SYSTEM",
+  "TENANCY",
+  "BILLING_ENTITY",
+  "RESERVATION_ID",
+  "COST_CATEGORY_NAME",
+  "DATABASE_ENGINE",
+  "LEGAL_ENTITY_NAME",
+  "SAVINGS_PLANS_TYPE",
+  "INSTANCE_TYPE_FAMILY",
+  "CACHE_ENGINE",
+  "DEPLOYMENT_OPTION",
+  "SCOPE",
+  "PLATFORM",
+);
 export type StringList = string[];
 export const StringList = S.Array(S.String);
-export type MatchOptions = string[];
-export const MatchOptions = S.Array(S.String);
+export type MatchOption =
+  | "EQUALS"
+  | "ABSENT"
+  | "STARTS_WITH"
+  | "ENDS_WITH"
+  | "CONTAINS"
+  | "GREATER_THAN_OR_EQUAL"
+  | "CASE_SENSITIVE"
+  | "CASE_INSENSITIVE";
+export const MatchOption = S.Literal(
+  "EQUALS",
+  "ABSENT",
+  "STARTS_WITH",
+  "ENDS_WITH",
+  "CONTAINS",
+  "GREATER_THAN_OR_EQUAL",
+  "CASE_SENSITIVE",
+  "CASE_INSENSITIVE",
+);
+export type MatchOptions = MatchOption[];
+export const MatchOptions = S.Array(MatchOption);
 export interface DimensionValues {
-  key: string;
-  values: StringList;
-  matchOptions?: MatchOptions;
+  key: Dimension;
+  values: string[];
+  matchOptions?: MatchOption[];
 }
 export const DimensionValues = S.suspend(() =>
   S.Struct({
-    key: S.String,
+    key: Dimension,
     values: StringList,
     matchOptions: S.optional(MatchOptions),
   }),
@@ -225,8 +334,8 @@ export const DimensionValues = S.suspend(() =>
 }) as any as S.Schema<DimensionValues>;
 export interface TagValues {
   key?: string;
-  values?: StringList;
-  matchOptions?: MatchOptions;
+  values?: string[];
+  matchOptions?: MatchOption[];
 }
 export const TagValues = S.suspend(() =>
   S.Struct({
@@ -237,8 +346,8 @@ export const TagValues = S.suspend(() =>
 ).annotations({ identifier: "TagValues" }) as any as S.Schema<TagValues>;
 export interface CostCategoryValues {
   key?: string;
-  values?: StringList;
-  matchOptions?: MatchOptions;
+  values?: string[];
+  matchOptions?: MatchOption[];
 }
 export const CostCategoryValues = S.suspend(() =>
   S.Struct({
@@ -250,8 +359,8 @@ export const CostCategoryValues = S.suspend(() =>
   identifier: "CostCategoryValues",
 }) as any as S.Schema<CostCategoryValues>;
 export interface Expression {
-  or?: Expressions;
-  and?: Expressions;
+  or?: Expression[];
+  and?: Expression[];
   not?: Expression;
   dimensions?: DimensionValues;
   tags?: TagValues;
@@ -276,17 +385,17 @@ export const Expression = S.suspend(() =>
   }),
 ).annotations({ identifier: "Expression" }) as any as S.Schema<Expression>;
 export interface CostAndUsageQuery {
-  metrics: MetricNames;
+  metrics: MetricName[];
   timeRange: DateTimeRange;
-  granularity: string;
-  groupBy?: GroupDefinitions;
+  granularity: Granularity;
+  groupBy?: GroupDefinition[];
   filter?: Expression;
 }
 export const CostAndUsageQuery = S.suspend(() =>
   S.Struct({
     metrics: MetricNames,
     timeRange: DateTimeRange,
-    granularity: S.String,
+    granularity: Granularity,
     groupBy: S.optional(GroupDefinitions),
     filter: S.optional(Expression),
   }),
@@ -295,16 +404,16 @@ export const CostAndUsageQuery = S.suspend(() =>
 }) as any as S.Schema<CostAndUsageQuery>;
 export interface SavingsPlansCoverageQuery {
   timeRange: DateTimeRange;
-  metrics?: MetricNames;
-  granularity?: string;
-  groupBy?: GroupDefinitions;
+  metrics?: MetricName[];
+  granularity?: Granularity;
+  groupBy?: GroupDefinition[];
   filter?: Expression;
 }
 export const SavingsPlansCoverageQuery = S.suspend(() =>
   S.Struct({
     timeRange: DateTimeRange,
     metrics: S.optional(MetricNames),
-    granularity: S.optional(S.String),
+    granularity: S.optional(Granularity),
     groupBy: S.optional(GroupDefinitions),
     filter: S.optional(Expression),
   }),
@@ -313,13 +422,13 @@ export const SavingsPlansCoverageQuery = S.suspend(() =>
 }) as any as S.Schema<SavingsPlansCoverageQuery>;
 export interface SavingsPlansUtilizationQuery {
   timeRange: DateTimeRange;
-  granularity?: string;
+  granularity?: Granularity;
   filter?: Expression;
 }
 export const SavingsPlansUtilizationQuery = S.suspend(() =>
   S.Struct({
     timeRange: DateTimeRange,
-    granularity: S.optional(S.String),
+    granularity: S.optional(Granularity),
     filter: S.optional(Expression),
   }),
 ).annotations({
@@ -327,16 +436,16 @@ export const SavingsPlansUtilizationQuery = S.suspend(() =>
 }) as any as S.Schema<SavingsPlansUtilizationQuery>;
 export interface ReservationCoverageQuery {
   timeRange: DateTimeRange;
-  groupBy?: GroupDefinitions;
-  granularity?: string;
+  groupBy?: GroupDefinition[];
+  granularity?: Granularity;
   filter?: Expression;
-  metrics?: MetricNames;
+  metrics?: MetricName[];
 }
 export const ReservationCoverageQuery = S.suspend(() =>
   S.Struct({
     timeRange: DateTimeRange,
     groupBy: S.optional(GroupDefinitions),
-    granularity: S.optional(S.String),
+    granularity: S.optional(Granularity),
     filter: S.optional(Expression),
     metrics: S.optional(MetricNames),
   }),
@@ -345,15 +454,15 @@ export const ReservationCoverageQuery = S.suspend(() =>
 }) as any as S.Schema<ReservationCoverageQuery>;
 export interface ReservationUtilizationQuery {
   timeRange: DateTimeRange;
-  groupBy?: GroupDefinitions;
-  granularity?: string;
+  groupBy?: GroupDefinition[];
+  granularity?: Granularity;
   filter?: Expression;
 }
 export const ReservationUtilizationQuery = S.suspend(() =>
   S.Struct({
     timeRange: DateTimeRange,
     groupBy: S.optional(GroupDefinitions),
-    granularity: S.optional(S.String),
+    granularity: S.optional(Granularity),
     filter: S.optional(Expression),
   }),
 ).annotations({
@@ -372,11 +481,13 @@ export const QueryParameters = S.Union(
   S.Struct({ reservationCoverage: ReservationCoverageQuery }),
   S.Struct({ reservationUtilization: ReservationUtilizationQuery }),
 );
+export type VisualType = "LINE" | "BAR" | "STACK";
+export const VisualType = S.Literal("LINE", "BAR", "STACK");
 export interface GraphDisplayConfig {
-  visualType: string;
+  visualType: VisualType;
 }
 export const GraphDisplayConfig = S.suspend(() =>
-  S.Struct({ visualType: S.String }),
+  S.Struct({ visualType: VisualType }),
 ).annotations({
   identifier: "GraphDisplayConfig",
 }) as any as S.Schema<GraphDisplayConfig>;
@@ -392,15 +503,15 @@ export const TableDisplayConfigStruct = S.suspend(() =>
   identifier: "TableDisplayConfigStruct",
 }) as any as S.Schema<TableDisplayConfigStruct>;
 export type DisplayConfig =
-  | { graph: GraphDisplayConfigMap }
+  | { graph: { [key: string]: GraphDisplayConfig } }
   | { table: TableDisplayConfigStruct };
 export const DisplayConfig = S.Union(
   S.Struct({ graph: GraphDisplayConfigMap }),
   S.Struct({ table: TableDisplayConfigStruct }),
 );
 export interface WidgetConfig {
-  queryParameters: (typeof QueryParameters)["Type"];
-  displayConfig: (typeof DisplayConfig)["Type"];
+  queryParameters: QueryParameters;
+  displayConfig: DisplayConfig;
 }
 export const WidgetConfig = S.suspend(() =>
   S.Struct({ queryParameters: QueryParameters, displayConfig: DisplayConfig }),
@@ -413,7 +524,7 @@ export interface Widget {
   width?: number;
   height?: number;
   horizontalOffset?: number;
-  configs: WidgetConfigList;
+  configs: WidgetConfig[];
 }
 export const Widget = S.suspend(() =>
   S.Struct({
@@ -431,7 +542,7 @@ export interface UpdateDashboardRequest {
   arn: string;
   name?: string;
   description?: string;
-  widgets?: WidgetList;
+  widgets?: Widget[];
 }
 export const UpdateDashboardRequest = S.suspend(() =>
   S.Struct({
@@ -445,6 +556,8 @@ export const UpdateDashboardRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateDashboardRequest",
 }) as any as S.Schema<UpdateDashboardRequest>;
+export type DashboardType = "CUSTOM";
+export const DashboardType = S.Literal("CUSTOM");
 export interface DeleteDashboardResponse {
   arn: string;
 }
@@ -457,8 +570,8 @@ export interface GetDashboardResponse {
   arn: string;
   name: string;
   description?: string;
-  type: string;
-  widgets: WidgetList;
+  type: DashboardType;
+  widgets: Widget[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -467,7 +580,7 @@ export const GetDashboardResponse = S.suspend(() =>
     arn: S.String,
     name: S.String,
     description: S.optional(S.String),
-    type: S.String,
+    type: DashboardType,
     widgets: WidgetList,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -485,7 +598,7 @@ export const GetResourcePolicyResponse = S.suspend(() =>
   identifier: "GetResourcePolicyResponse",
 }) as any as S.Schema<GetResourcePolicyResponse>;
 export interface ListTagsForResourceResponse {
-  resourceTags?: ResourceTagList;
+  resourceTags?: ResourceTag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ resourceTags: S.optional(ResourceTagList) }),
@@ -504,7 +617,7 @@ export interface DashboardReference {
   arn: string;
   name: string;
   description?: string;
-  type: string;
+  type: DashboardType;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -513,7 +626,7 @@ export const DashboardReference = S.suspend(() =>
     arn: S.String,
     name: S.String,
     description: S.optional(S.String),
-    type: S.String,
+    type: DashboardType,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
@@ -523,7 +636,7 @@ export const DashboardReference = S.suspend(() =>
 export type DashboardReferenceList = DashboardReference[];
 export const DashboardReferenceList = S.Array(DashboardReference);
 export interface ListDashboardsResponse {
-  dashboards: DashboardReferenceList;
+  dashboards: DashboardReference[];
   nextToken?: string;
 }
 export const ListDashboardsResponse = S.suspend(() =>
@@ -543,8 +656,8 @@ export const Expressions = S.Array(
 export interface CreateDashboardRequest {
   name: string;
   description?: string;
-  widgets: WidgetList;
-  resourceTags?: ResourceTagList;
+  widgets: Widget[];
+  resourceTags?: ResourceTag[];
 }
 export const CreateDashboardRequest = S.suspend(() =>
   S.Struct({
@@ -599,7 +712,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  */
 export const deleteDashboard: (
   input: DeleteDashboardRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteDashboardResponse,
   | AccessDeniedException
   | InternalServerException
@@ -623,7 +736,7 @@ export const deleteDashboard: (
 export const listDashboards: {
   (
     input: ListDashboardsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListDashboardsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -634,7 +747,7 @@ export const listDashboards: {
   >;
   pages: (
     input: ListDashboardsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListDashboardsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -645,7 +758,7 @@ export const listDashboards: {
   >;
   items: (
     input: ListDashboardsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DashboardReference,
     | AccessDeniedException
     | InternalServerException
@@ -675,7 +788,7 @@ export const listDashboards: {
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -698,7 +811,7 @@ export const tagResource: (
  */
 export const getDashboard: (
   input: GetDashboardRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetDashboardResponse,
   | AccessDeniedException
   | InternalServerException
@@ -723,7 +836,7 @@ export const getDashboard: (
  */
 export const getResourcePolicy: (
   input: GetResourcePolicyRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -748,7 +861,7 @@ export const getResourcePolicy: (
  */
 export const updateDashboard: (
   input: UpdateDashboardRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDashboardResponse,
   | AccessDeniedException
   | InternalServerException
@@ -773,7 +886,7 @@ export const updateDashboard: (
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -796,7 +909,7 @@ export const untagResource: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -819,7 +932,7 @@ export const listTagsForResource: (
  */
 export const createDashboard: (
   input: CreateDashboardRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateDashboardResponse,
   | AccessDeniedException
   | InternalServerException

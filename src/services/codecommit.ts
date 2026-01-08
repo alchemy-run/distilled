@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -150,12 +150,70 @@ export type Mode = string;
 //# Schemas
 export type RepositoryNameList = string[];
 export const RepositoryNameList = S.Array(S.String);
+export type MergeOptionTypeEnum =
+  | "FAST_FORWARD_MERGE"
+  | "SQUASH_MERGE"
+  | "THREE_WAY_MERGE";
+export const MergeOptionTypeEnum = S.Literal(
+  "FAST_FORWARD_MERGE",
+  "SQUASH_MERGE",
+  "THREE_WAY_MERGE",
+);
 export type FilePaths = string[];
 export const FilePaths = S.Array(S.String);
+export type ConflictDetailLevelTypeEnum = "FILE_LEVEL" | "LINE_LEVEL";
+export const ConflictDetailLevelTypeEnum = S.Literal(
+  "FILE_LEVEL",
+  "LINE_LEVEL",
+);
+export type ConflictResolutionStrategyTypeEnum =
+  | "NONE"
+  | "ACCEPT_SOURCE"
+  | "ACCEPT_DESTINATION"
+  | "AUTOMERGE";
+export const ConflictResolutionStrategyTypeEnum = S.Literal(
+  "NONE",
+  "ACCEPT_SOURCE",
+  "ACCEPT_DESTINATION",
+  "AUTOMERGE",
+);
 export type CommitIdsInputList = string[];
 export const CommitIdsInputList = S.Array(S.String);
+export type PullRequestEventType =
+  | "PULL_REQUEST_CREATED"
+  | "PULL_REQUEST_STATUS_CHANGED"
+  | "PULL_REQUEST_SOURCE_REFERENCE_UPDATED"
+  | "PULL_REQUEST_MERGE_STATE_CHANGED"
+  | "PULL_REQUEST_APPROVAL_RULE_CREATED"
+  | "PULL_REQUEST_APPROVAL_RULE_UPDATED"
+  | "PULL_REQUEST_APPROVAL_RULE_DELETED"
+  | "PULL_REQUEST_APPROVAL_RULE_OVERRIDDEN"
+  | "PULL_REQUEST_APPROVAL_STATE_CHANGED";
+export const PullRequestEventType = S.Literal(
+  "PULL_REQUEST_CREATED",
+  "PULL_REQUEST_STATUS_CHANGED",
+  "PULL_REQUEST_SOURCE_REFERENCE_UPDATED",
+  "PULL_REQUEST_MERGE_STATE_CHANGED",
+  "PULL_REQUEST_APPROVAL_RULE_CREATED",
+  "PULL_REQUEST_APPROVAL_RULE_UPDATED",
+  "PULL_REQUEST_APPROVAL_RULE_DELETED",
+  "PULL_REQUEST_APPROVAL_RULE_OVERRIDDEN",
+  "PULL_REQUEST_APPROVAL_STATE_CHANGED",
+);
+export type PullRequestStatusEnum = "OPEN" | "CLOSED";
+export const PullRequestStatusEnum = S.Literal("OPEN", "CLOSED");
+export type SortByEnum = "repositoryName" | "lastModifiedDate";
+export const SortByEnum = S.Literal("repositoryName", "lastModifiedDate");
+export type OrderEnum = "ascending" | "descending";
+export const OrderEnum = S.Literal("ascending", "descending");
+export type OverrideStatus = "OVERRIDE" | "REVOKE";
+export const OverrideStatus = S.Literal("OVERRIDE", "REVOKE");
+export type FileModeTypeEnum = "EXECUTABLE" | "NORMAL" | "SYMLINK";
+export const FileModeTypeEnum = S.Literal("EXECUTABLE", "NORMAL", "SYMLINK");
 export type TagKeysList = string[];
 export const TagKeysList = S.Array(S.String);
+export type ApprovalState = "APPROVE" | "REVOKE";
+export const ApprovalState = S.Literal("APPROVE", "REVOKE");
 export interface AssociateApprovalRuleTemplateWithRepositoryInput {
   approvalRuleTemplateName: string;
   repositoryName: string;
@@ -186,7 +244,7 @@ export const AssociateApprovalRuleTemplateWithRepositoryResponse = S.suspend(
 }) as any as S.Schema<AssociateApprovalRuleTemplateWithRepositoryResponse>;
 export interface BatchAssociateApprovalRuleTemplateWithRepositoriesInput {
   approvalRuleTemplateName: string;
-  repositoryNames: RepositoryNameList;
+  repositoryNames: string[];
 }
 export const BatchAssociateApprovalRuleTemplateWithRepositoriesInput =
   S.suspend(() =>
@@ -211,12 +269,12 @@ export interface BatchDescribeMergeConflictsInput {
   repositoryName: string;
   destinationCommitSpecifier: string;
   sourceCommitSpecifier: string;
-  mergeOption: string;
+  mergeOption: MergeOptionTypeEnum;
   maxMergeHunks?: number;
   maxConflictFiles?: number;
-  filePaths?: FilePaths;
-  conflictDetailLevel?: string;
-  conflictResolutionStrategy?: string;
+  filePaths?: string[];
+  conflictDetailLevel?: ConflictDetailLevelTypeEnum;
+  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum;
   nextToken?: string;
 }
 export const BatchDescribeMergeConflictsInput = S.suspend(() =>
@@ -224,12 +282,12 @@ export const BatchDescribeMergeConflictsInput = S.suspend(() =>
     repositoryName: S.String,
     destinationCommitSpecifier: S.String,
     sourceCommitSpecifier: S.String,
-    mergeOption: S.String,
+    mergeOption: MergeOptionTypeEnum,
     maxMergeHunks: S.optional(S.Number),
     maxConflictFiles: S.optional(S.Number),
     filePaths: S.optional(FilePaths),
-    conflictDetailLevel: S.optional(S.String),
-    conflictResolutionStrategy: S.optional(S.String),
+    conflictDetailLevel: S.optional(ConflictDetailLevelTypeEnum),
+    conflictResolutionStrategy: S.optional(ConflictResolutionStrategyTypeEnum),
     nextToken: S.optional(S.String),
   }).pipe(
     T.all(
@@ -247,7 +305,7 @@ export const BatchDescribeMergeConflictsInput = S.suspend(() =>
 }) as any as S.Schema<BatchDescribeMergeConflictsInput>;
 export interface BatchDisassociateApprovalRuleTemplateFromRepositoriesInput {
   approvalRuleTemplateName: string;
-  repositoryNames: RepositoryNameList;
+  repositoryNames: string[];
 }
 export const BatchDisassociateApprovalRuleTemplateFromRepositoriesInput =
   S.suspend(() =>
@@ -269,7 +327,7 @@ export const BatchDisassociateApprovalRuleTemplateFromRepositoriesInput =
     identifier: "BatchDisassociateApprovalRuleTemplateFromRepositoriesInput",
   }) as any as S.Schema<BatchDisassociateApprovalRuleTemplateFromRepositoriesInput>;
 export interface BatchGetCommitsInput {
-  commitIds: CommitIdsInputList;
+  commitIds: string[];
   repositoryName: string;
 }
 export const BatchGetCommitsInput = S.suspend(() =>
@@ -288,7 +346,7 @@ export const BatchGetCommitsInput = S.suspend(() =>
   identifier: "BatchGetCommitsInput",
 }) as any as S.Schema<BatchGetCommitsInput>;
 export interface BatchGetRepositoriesInput {
-  repositoryNames: RepositoryNameList;
+  repositoryNames: string[];
 }
 export const BatchGetRepositoriesInput = S.suspend(() =>
   S.Struct({ repositoryNames: RepositoryNameList }).pipe(
@@ -513,11 +571,11 @@ export interface DescribeMergeConflictsInput {
   repositoryName: string;
   destinationCommitSpecifier: string;
   sourceCommitSpecifier: string;
-  mergeOption: string;
+  mergeOption: MergeOptionTypeEnum;
   maxMergeHunks?: number;
   filePath: string;
-  conflictDetailLevel?: string;
-  conflictResolutionStrategy?: string;
+  conflictDetailLevel?: ConflictDetailLevelTypeEnum;
+  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum;
   nextToken?: string;
 }
 export const DescribeMergeConflictsInput = S.suspend(() =>
@@ -525,11 +583,11 @@ export const DescribeMergeConflictsInput = S.suspend(() =>
     repositoryName: S.String,
     destinationCommitSpecifier: S.String,
     sourceCommitSpecifier: S.String,
-    mergeOption: S.String,
+    mergeOption: MergeOptionTypeEnum,
     maxMergeHunks: S.optional(S.Number),
     filePath: S.String,
-    conflictDetailLevel: S.optional(S.String),
-    conflictResolutionStrategy: S.optional(S.String),
+    conflictDetailLevel: S.optional(ConflictDetailLevelTypeEnum),
+    conflictResolutionStrategy: S.optional(ConflictResolutionStrategyTypeEnum),
     nextToken: S.optional(S.String),
   }).pipe(
     T.all(
@@ -547,7 +605,7 @@ export const DescribeMergeConflictsInput = S.suspend(() =>
 }) as any as S.Schema<DescribeMergeConflictsInput>;
 export interface DescribePullRequestEventsInput {
   pullRequestId: string;
-  pullRequestEventType?: string;
+  pullRequestEventType?: PullRequestEventType;
   actorArn?: string;
   nextToken?: string;
   maxResults?: number;
@@ -555,7 +613,7 @@ export interface DescribePullRequestEventsInput {
 export const DescribePullRequestEventsInput = S.suspend(() =>
   S.Struct({
     pullRequestId: S.String,
-    pullRequestEventType: S.optional(S.String),
+    pullRequestEventType: S.optional(PullRequestEventType),
     actorArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
@@ -881,16 +939,16 @@ export interface GetMergeCommitInput {
   repositoryName: string;
   sourceCommitSpecifier: string;
   destinationCommitSpecifier: string;
-  conflictDetailLevel?: string;
-  conflictResolutionStrategy?: string;
+  conflictDetailLevel?: ConflictDetailLevelTypeEnum;
+  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum;
 }
 export const GetMergeCommitInput = S.suspend(() =>
   S.Struct({
     repositoryName: S.String,
     sourceCommitSpecifier: S.String,
     destinationCommitSpecifier: S.String,
-    conflictDetailLevel: S.optional(S.String),
-    conflictResolutionStrategy: S.optional(S.String),
+    conflictDetailLevel: S.optional(ConflictDetailLevelTypeEnum),
+    conflictResolutionStrategy: S.optional(ConflictResolutionStrategyTypeEnum),
   }).pipe(
     T.all(
       ns,
@@ -909,10 +967,10 @@ export interface GetMergeConflictsInput {
   repositoryName: string;
   destinationCommitSpecifier: string;
   sourceCommitSpecifier: string;
-  mergeOption: string;
-  conflictDetailLevel?: string;
+  mergeOption: MergeOptionTypeEnum;
+  conflictDetailLevel?: ConflictDetailLevelTypeEnum;
   maxConflictFiles?: number;
-  conflictResolutionStrategy?: string;
+  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum;
   nextToken?: string;
 }
 export const GetMergeConflictsInput = S.suspend(() =>
@@ -920,10 +978,10 @@ export const GetMergeConflictsInput = S.suspend(() =>
     repositoryName: S.String,
     destinationCommitSpecifier: S.String,
     sourceCommitSpecifier: S.String,
-    mergeOption: S.String,
-    conflictDetailLevel: S.optional(S.String),
+    mergeOption: MergeOptionTypeEnum,
+    conflictDetailLevel: S.optional(ConflictDetailLevelTypeEnum),
     maxConflictFiles: S.optional(S.Number),
-    conflictResolutionStrategy: S.optional(S.String),
+    conflictResolutionStrategy: S.optional(ConflictResolutionStrategyTypeEnum),
     nextToken: S.optional(S.String),
   }).pipe(
     T.all(
@@ -943,16 +1001,16 @@ export interface GetMergeOptionsInput {
   repositoryName: string;
   sourceCommitSpecifier: string;
   destinationCommitSpecifier: string;
-  conflictDetailLevel?: string;
-  conflictResolutionStrategy?: string;
+  conflictDetailLevel?: ConflictDetailLevelTypeEnum;
+  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum;
 }
 export const GetMergeOptionsInput = S.suspend(() =>
   S.Struct({
     repositoryName: S.String,
     sourceCommitSpecifier: S.String,
     destinationCommitSpecifier: S.String,
-    conflictDetailLevel: S.optional(S.String),
-    conflictResolutionStrategy: S.optional(S.String),
+    conflictDetailLevel: S.optional(ConflictDetailLevelTypeEnum),
+    conflictResolutionStrategy: S.optional(ConflictResolutionStrategyTypeEnum),
   }).pipe(
     T.all(
       ns,
@@ -1156,7 +1214,7 @@ export const ListFileCommitHistoryRequest = S.suspend(() =>
 export interface ListPullRequestsInput {
   repositoryName: string;
   authorArn?: string;
-  pullRequestStatus?: string;
+  pullRequestStatus?: PullRequestStatusEnum;
   nextToken?: string;
   maxResults?: number;
 }
@@ -1164,7 +1222,7 @@ export const ListPullRequestsInput = S.suspend(() =>
   S.Struct({
     repositoryName: S.String,
     authorArn: S.optional(S.String),
-    pullRequestStatus: S.optional(S.String),
+    pullRequestStatus: S.optional(PullRequestStatusEnum),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
   }).pipe(
@@ -1183,14 +1241,14 @@ export const ListPullRequestsInput = S.suspend(() =>
 }) as any as S.Schema<ListPullRequestsInput>;
 export interface ListRepositoriesInput {
   nextToken?: string;
-  sortBy?: string;
-  order?: string;
+  sortBy?: SortByEnum;
+  order?: OrderEnum;
 }
 export const ListRepositoriesInput = S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String),
-    sortBy: S.optional(S.String),
-    order: S.optional(S.String),
+    sortBy: S.optional(SortByEnum),
+    order: S.optional(OrderEnum),
   }).pipe(
     T.all(
       ns,
@@ -1274,18 +1332,29 @@ export const MergeBranchesByFastForwardInput = S.suspend(() =>
 ).annotations({
   identifier: "MergeBranchesByFastForwardInput",
 }) as any as S.Schema<MergeBranchesByFastForwardInput>;
+export type ReplacementTypeEnum =
+  | "KEEP_BASE"
+  | "KEEP_SOURCE"
+  | "KEEP_DESTINATION"
+  | "USE_NEW_CONTENT";
+export const ReplacementTypeEnum = S.Literal(
+  "KEEP_BASE",
+  "KEEP_SOURCE",
+  "KEEP_DESTINATION",
+  "USE_NEW_CONTENT",
+);
 export interface ReplaceContentEntry {
   filePath: string;
-  replacementType: string;
+  replacementType: ReplacementTypeEnum;
   content?: Uint8Array;
-  fileMode?: string;
+  fileMode?: FileModeTypeEnum;
 }
 export const ReplaceContentEntry = S.suspend(() =>
   S.Struct({
     filePath: S.String,
-    replacementType: S.String,
+    replacementType: ReplacementTypeEnum,
     content: S.optional(T.Blob),
-    fileMode: S.optional(S.String),
+    fileMode: S.optional(FileModeTypeEnum),
   }),
 ).annotations({
   identifier: "ReplaceContentEntry",
@@ -1304,19 +1373,19 @@ export type DeleteFileEntries = DeleteFileEntry[];
 export const DeleteFileEntries = S.Array(DeleteFileEntry);
 export interface SetFileModeEntry {
   filePath: string;
-  fileMode: string;
+  fileMode: FileModeTypeEnum;
 }
 export const SetFileModeEntry = S.suspend(() =>
-  S.Struct({ filePath: S.String, fileMode: S.String }),
+  S.Struct({ filePath: S.String, fileMode: FileModeTypeEnum }),
 ).annotations({
   identifier: "SetFileModeEntry",
 }) as any as S.Schema<SetFileModeEntry>;
 export type SetFileModeEntries = SetFileModeEntry[];
 export const SetFileModeEntries = S.Array(SetFileModeEntry);
 export interface ConflictResolution {
-  replaceContents?: ReplaceContentEntries;
-  deleteFiles?: DeleteFileEntries;
-  setFileModes?: SetFileModeEntries;
+  replaceContents?: ReplaceContentEntry[];
+  deleteFiles?: DeleteFileEntry[];
+  setFileModes?: SetFileModeEntry[];
 }
 export const ConflictResolution = S.suspend(() =>
   S.Struct({
@@ -1332,8 +1401,8 @@ export interface MergeBranchesBySquashInput {
   sourceCommitSpecifier: string;
   destinationCommitSpecifier: string;
   targetBranch?: string;
-  conflictDetailLevel?: string;
-  conflictResolutionStrategy?: string;
+  conflictDetailLevel?: ConflictDetailLevelTypeEnum;
+  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum;
   authorName?: string;
   email?: string;
   commitMessage?: string;
@@ -1346,8 +1415,8 @@ export const MergeBranchesBySquashInput = S.suspend(() =>
     sourceCommitSpecifier: S.String,
     destinationCommitSpecifier: S.String,
     targetBranch: S.optional(S.String),
-    conflictDetailLevel: S.optional(S.String),
-    conflictResolutionStrategy: S.optional(S.String),
+    conflictDetailLevel: S.optional(ConflictDetailLevelTypeEnum),
+    conflictResolutionStrategy: S.optional(ConflictResolutionStrategyTypeEnum),
     authorName: S.optional(S.String),
     email: S.optional(S.String),
     commitMessage: S.optional(S.String),
@@ -1372,8 +1441,8 @@ export interface MergeBranchesByThreeWayInput {
   sourceCommitSpecifier: string;
   destinationCommitSpecifier: string;
   targetBranch?: string;
-  conflictDetailLevel?: string;
-  conflictResolutionStrategy?: string;
+  conflictDetailLevel?: ConflictDetailLevelTypeEnum;
+  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum;
   authorName?: string;
   email?: string;
   commitMessage?: string;
@@ -1386,8 +1455,8 @@ export const MergeBranchesByThreeWayInput = S.suspend(() =>
     sourceCommitSpecifier: S.String,
     destinationCommitSpecifier: S.String,
     targetBranch: S.optional(S.String),
-    conflictDetailLevel: S.optional(S.String),
-    conflictResolutionStrategy: S.optional(S.String),
+    conflictDetailLevel: S.optional(ConflictDetailLevelTypeEnum),
+    conflictResolutionStrategy: S.optional(ConflictResolutionStrategyTypeEnum),
     authorName: S.optional(S.String),
     email: S.optional(S.String),
     commitMessage: S.optional(S.String),
@@ -1435,8 +1504,8 @@ export interface MergePullRequestBySquashInput {
   pullRequestId: string;
   repositoryName: string;
   sourceCommitId?: string;
-  conflictDetailLevel?: string;
-  conflictResolutionStrategy?: string;
+  conflictDetailLevel?: ConflictDetailLevelTypeEnum;
+  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum;
   commitMessage?: string;
   authorName?: string;
   email?: string;
@@ -1448,8 +1517,8 @@ export const MergePullRequestBySquashInput = S.suspend(() =>
     pullRequestId: S.String,
     repositoryName: S.String,
     sourceCommitId: S.optional(S.String),
-    conflictDetailLevel: S.optional(S.String),
-    conflictResolutionStrategy: S.optional(S.String),
+    conflictDetailLevel: S.optional(ConflictDetailLevelTypeEnum),
+    conflictResolutionStrategy: S.optional(ConflictResolutionStrategyTypeEnum),
     commitMessage: S.optional(S.String),
     authorName: S.optional(S.String),
     email: S.optional(S.String),
@@ -1473,8 +1542,8 @@ export interface MergePullRequestByThreeWayInput {
   pullRequestId: string;
   repositoryName: string;
   sourceCommitId?: string;
-  conflictDetailLevel?: string;
-  conflictResolutionStrategy?: string;
+  conflictDetailLevel?: ConflictDetailLevelTypeEnum;
+  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum;
   commitMessage?: string;
   authorName?: string;
   email?: string;
@@ -1486,8 +1555,8 @@ export const MergePullRequestByThreeWayInput = S.suspend(() =>
     pullRequestId: S.String,
     repositoryName: S.String,
     sourceCommitId: S.optional(S.String),
-    conflictDetailLevel: S.optional(S.String),
-    conflictResolutionStrategy: S.optional(S.String),
+    conflictDetailLevel: S.optional(ConflictDetailLevelTypeEnum),
+    conflictResolutionStrategy: S.optional(ConflictResolutionStrategyTypeEnum),
     commitMessage: S.optional(S.String),
     authorName: S.optional(S.String),
     email: S.optional(S.String),
@@ -1510,13 +1579,13 @@ export const MergePullRequestByThreeWayInput = S.suspend(() =>
 export interface OverridePullRequestApprovalRulesInput {
   pullRequestId: string;
   revisionId: string;
-  overrideStatus: string;
+  overrideStatus: OverrideStatus;
 }
 export const OverridePullRequestApprovalRulesInput = S.suspend(() =>
   S.Struct({
     pullRequestId: S.String,
     revisionId: S.String,
-    overrideStatus: S.String,
+    overrideStatus: OverrideStatus,
   }).pipe(
     T.all(
       ns,
@@ -1537,16 +1606,18 @@ export const OverridePullRequestApprovalRulesResponse = S.suspend(() =>
 ).annotations({
   identifier: "OverridePullRequestApprovalRulesResponse",
 }) as any as S.Schema<OverridePullRequestApprovalRulesResponse>;
+export type RelativeFileVersionEnum = "BEFORE" | "AFTER";
+export const RelativeFileVersionEnum = S.Literal("BEFORE", "AFTER");
 export interface Location {
   filePath?: string;
   filePosition?: number;
-  relativeFileVersion?: string;
+  relativeFileVersion?: RelativeFileVersionEnum;
 }
 export const Location = S.suspend(() =>
   S.Struct({
     filePath: S.optional(S.String),
     filePosition: S.optional(S.Number),
-    relativeFileVersion: S.optional(S.String),
+    relativeFileVersion: S.optional(RelativeFileVersionEnum),
   }),
 ).annotations({ identifier: "Location" }) as any as S.Schema<Location>;
 export interface PostCommentForPullRequestInput {
@@ -1635,7 +1706,7 @@ export interface PutFileInput {
   branchName: string;
   fileContent: Uint8Array;
   filePath: string;
-  fileMode?: string;
+  fileMode?: FileModeTypeEnum;
   parentCommitId?: string;
   commitMessage?: string;
   name?: string;
@@ -1647,7 +1718,7 @@ export const PutFileInput = S.suspend(() =>
     branchName: S.String,
     fileContent: T.Blob,
     filePath: S.String,
-    fileMode: S.optional(S.String),
+    fileMode: S.optional(FileModeTypeEnum),
     parentCommitId: S.optional(S.String),
     commitMessage: S.optional(S.String),
     name: S.optional(S.String),
@@ -1668,7 +1739,7 @@ export type TagsMap = { [key: string]: string };
 export const TagsMap = S.Record({ key: S.String, value: S.String });
 export interface TagResourceInput {
   resourceArn: string;
-  tags: TagsMap;
+  tags: { [key: string]: string };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagsMap }).pipe(
@@ -1693,14 +1764,25 @@ export const TagResourceResponse = S.suspend(() =>
 }) as any as S.Schema<TagResourceResponse>;
 export type BranchNameList = string[];
 export const BranchNameList = S.Array(S.String);
-export type RepositoryTriggerEventList = string[];
-export const RepositoryTriggerEventList = S.Array(S.String);
+export type RepositoryTriggerEventEnum =
+  | "all"
+  | "updateReference"
+  | "createReference"
+  | "deleteReference";
+export const RepositoryTriggerEventEnum = S.Literal(
+  "all",
+  "updateReference",
+  "createReference",
+  "deleteReference",
+);
+export type RepositoryTriggerEventList = RepositoryTriggerEventEnum[];
+export const RepositoryTriggerEventList = S.Array(RepositoryTriggerEventEnum);
 export interface RepositoryTrigger {
   name: string;
   destinationArn: string;
   customData?: string;
-  branches?: BranchNameList;
-  events: RepositoryTriggerEventList;
+  branches?: string[];
+  events: RepositoryTriggerEventEnum[];
 }
 export const RepositoryTrigger = S.suspend(() =>
   S.Struct({
@@ -1717,7 +1799,7 @@ export type RepositoryTriggersList = RepositoryTrigger[];
 export const RepositoryTriggersList = S.Array(RepositoryTrigger);
 export interface TestRepositoryTriggersInput {
   repositoryName: string;
-  triggers: RepositoryTriggersList;
+  triggers: RepositoryTrigger[];
 }
 export const TestRepositoryTriggersInput = S.suspend(() =>
   S.Struct({ repositoryName: S.String, triggers: RepositoryTriggersList }).pipe(
@@ -1736,7 +1818,7 @@ export const TestRepositoryTriggersInput = S.suspend(() =>
 }) as any as S.Schema<TestRepositoryTriggersInput>;
 export interface UntagResourceInput {
   resourceArn: string;
-  tagKeys: TagKeysList;
+  tagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeysList }).pipe(
@@ -1900,13 +1982,13 @@ export const UpdatePullRequestApprovalRuleContentInput = S.suspend(() =>
 export interface UpdatePullRequestApprovalStateInput {
   pullRequestId: string;
   revisionId: string;
-  approvalState: string;
+  approvalState: ApprovalState;
 }
 export const UpdatePullRequestApprovalStateInput = S.suspend(() =>
   S.Struct({
     pullRequestId: S.String,
     revisionId: S.String,
-    approvalState: S.String,
+    approvalState: ApprovalState,
   }).pipe(
     T.all(
       ns,
@@ -1948,10 +2030,13 @@ export const UpdatePullRequestDescriptionInput = S.suspend(() =>
 }) as any as S.Schema<UpdatePullRequestDescriptionInput>;
 export interface UpdatePullRequestStatusInput {
   pullRequestId: string;
-  pullRequestStatus: string;
+  pullRequestStatus: PullRequestStatusEnum;
 }
 export const UpdatePullRequestStatusInput = S.suspend(() =>
-  S.Struct({ pullRequestId: S.String, pullRequestStatus: S.String }).pipe(
+  S.Struct({
+    pullRequestId: S.String,
+    pullRequestStatus: PullRequestStatusEnum,
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2085,27 +2170,38 @@ export const FileSizes = S.suspend(() =>
   }),
 ).annotations({ identifier: "FileSizes" }) as any as S.Schema<FileSizes>;
 export interface FileModes {
-  source?: string;
-  destination?: string;
-  base?: string;
+  source?: FileModeTypeEnum;
+  destination?: FileModeTypeEnum;
+  base?: FileModeTypeEnum;
 }
 export const FileModes = S.suspend(() =>
   S.Struct({
-    source: S.optional(S.String),
-    destination: S.optional(S.String),
-    base: S.optional(S.String),
+    source: S.optional(FileModeTypeEnum),
+    destination: S.optional(FileModeTypeEnum),
+    base: S.optional(FileModeTypeEnum),
   }),
 ).annotations({ identifier: "FileModes" }) as any as S.Schema<FileModes>;
+export type ObjectTypeEnum =
+  | "FILE"
+  | "DIRECTORY"
+  | "GIT_LINK"
+  | "SYMBOLIC_LINK";
+export const ObjectTypeEnum = S.Literal(
+  "FILE",
+  "DIRECTORY",
+  "GIT_LINK",
+  "SYMBOLIC_LINK",
+);
 export interface ObjectTypes {
-  source?: string;
-  destination?: string;
-  base?: string;
+  source?: ObjectTypeEnum;
+  destination?: ObjectTypeEnum;
+  base?: ObjectTypeEnum;
 }
 export const ObjectTypes = S.suspend(() =>
   S.Struct({
-    source: S.optional(S.String),
-    destination: S.optional(S.String),
-    base: S.optional(S.String),
+    source: S.optional(ObjectTypeEnum),
+    destination: S.optional(ObjectTypeEnum),
+    base: S.optional(ObjectTypeEnum),
   }),
 ).annotations({ identifier: "ObjectTypes" }) as any as S.Schema<ObjectTypes>;
 export interface IsBinaryFile {
@@ -2120,12 +2216,17 @@ export const IsBinaryFile = S.suspend(() =>
     base: S.optional(S.Boolean),
   }),
 ).annotations({ identifier: "IsBinaryFile" }) as any as S.Schema<IsBinaryFile>;
+export type ChangeTypeEnum = "A" | "M" | "D";
+export const ChangeTypeEnum = S.Literal("A", "M", "D");
 export interface MergeOperations {
-  source?: string;
-  destination?: string;
+  source?: ChangeTypeEnum;
+  destination?: ChangeTypeEnum;
 }
 export const MergeOperations = S.suspend(() =>
-  S.Struct({ source: S.optional(S.String), destination: S.optional(S.String) }),
+  S.Struct({
+    source: S.optional(ChangeTypeEnum),
+    destination: S.optional(ChangeTypeEnum),
+  }),
 ).annotations({
   identifier: "MergeOperations",
 }) as any as S.Schema<MergeOperations>;
@@ -2159,8 +2260,8 @@ export const ConflictMetadata = S.suspend(() =>
 }) as any as S.Schema<ConflictMetadata>;
 export type ConflictMetadataList = ConflictMetadata[];
 export const ConflictMetadataList = S.Array(ConflictMetadata);
-export type MergeOptions = string[];
-export const MergeOptions = S.Array(S.String);
+export type MergeOptions = MergeOptionTypeEnum[];
+export const MergeOptions = S.Array(MergeOptionTypeEnum);
 export type ApprovalRuleTemplateNameList = string[];
 export const ApprovalRuleTemplateNameList = S.Array(S.String);
 export type PullRequestIdList = string[];
@@ -2170,7 +2271,7 @@ export const RepositoryTriggerNameList = S.Array(S.String);
 export interface CreatePullRequestInput {
   title: string;
   description?: string;
-  targets: TargetList;
+  targets: Target[];
   clientRequestToken?: string;
 }
 export const CreatePullRequestInput = S.suspend(() =>
@@ -2196,7 +2297,7 @@ export const CreatePullRequestInput = S.suspend(() =>
 export interface CreateRepositoryInput {
   repositoryName: string;
   repositoryDescription?: string;
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   kmsKeyId?: string;
 }
 export const CreateRepositoryInput = S.suspend(() =>
@@ -2332,8 +2433,8 @@ export interface Comment {
   authorArn?: string;
   deleted?: boolean;
   clientRequestToken?: string;
-  callerReactions?: CallerReactions;
-  reactionCounts?: ReactionCountsMap;
+  callerReactions?: string[];
+  reactionCounts?: { [key: string]: number };
 }
 export const Comment = S.suspend(() =>
   S.Struct({
@@ -2376,7 +2477,7 @@ export const UserInfo = S.suspend(() =>
 export interface Commit {
   commitId?: string;
   treeId?: string;
-  parents?: ParentList;
+  parents?: string[];
   message?: string;
   author?: UserInfo;
   committer?: UserInfo;
@@ -2405,7 +2506,7 @@ export interface GetFileOutput {
   commitId: string;
   blobId: string;
   filePath: string;
-  fileMode: string;
+  fileMode: FileModeTypeEnum;
   fileSize: number;
   fileContent: Uint8Array;
 }
@@ -2414,7 +2515,7 @@ export const GetFileOutput = S.suspend(() =>
     commitId: S.String,
     blobId: S.String,
     filePath: S.String,
-    fileMode: S.String,
+    fileMode: FileModeTypeEnum,
     fileSize: S.Number,
     fileContent: T.Blob,
   }).pipe(ns),
@@ -2442,7 +2543,7 @@ export interface GetMergeConflictsOutput {
   destinationCommitId: string;
   sourceCommitId: string;
   baseCommitId?: string;
-  conflictMetadataList: ConflictMetadataList;
+  conflictMetadataList: ConflictMetadata[];
   nextToken?: string;
 }
 export const GetMergeConflictsOutput = S.suspend(() =>
@@ -2458,7 +2559,7 @@ export const GetMergeConflictsOutput = S.suspend(() =>
   identifier: "GetMergeConflictsOutput",
 }) as any as S.Schema<GetMergeConflictsOutput>;
 export interface GetMergeOptionsOutput {
-  mergeOptions: MergeOptions;
+  mergeOptions: MergeOptionTypeEnum[];
   sourceCommitId: string;
   destinationCommitId: string;
   baseCommitId: string;
@@ -2527,7 +2628,7 @@ export const GetRepositoryOutput = S.suspend(() =>
 }) as any as S.Schema<GetRepositoryOutput>;
 export interface GetRepositoryTriggersOutput {
   configurationId?: string;
-  triggers?: RepositoryTriggersList;
+  triggers?: RepositoryTrigger[];
 }
 export const GetRepositoryTriggersOutput = S.suspend(() =>
   S.Struct({
@@ -2538,7 +2639,7 @@ export const GetRepositoryTriggersOutput = S.suspend(() =>
   identifier: "GetRepositoryTriggersOutput",
 }) as any as S.Schema<GetRepositoryTriggersOutput>;
 export interface ListApprovalRuleTemplatesOutput {
-  approvalRuleTemplateNames?: ApprovalRuleTemplateNameList;
+  approvalRuleTemplateNames?: string[];
   nextToken?: string;
 }
 export const ListApprovalRuleTemplatesOutput = S.suspend(() =>
@@ -2550,7 +2651,7 @@ export const ListApprovalRuleTemplatesOutput = S.suspend(() =>
   identifier: "ListApprovalRuleTemplatesOutput",
 }) as any as S.Schema<ListApprovalRuleTemplatesOutput>;
 export interface ListAssociatedApprovalRuleTemplatesForRepositoryOutput {
-  approvalRuleTemplateNames?: ApprovalRuleTemplateNameList;
+  approvalRuleTemplateNames?: string[];
   nextToken?: string;
 }
 export const ListAssociatedApprovalRuleTemplatesForRepositoryOutput = S.suspend(
@@ -2563,7 +2664,7 @@ export const ListAssociatedApprovalRuleTemplatesForRepositoryOutput = S.suspend(
   identifier: "ListAssociatedApprovalRuleTemplatesForRepositoryOutput",
 }) as any as S.Schema<ListAssociatedApprovalRuleTemplatesForRepositoryOutput>;
 export interface ListBranchesOutput {
-  branches?: BranchNameList;
+  branches?: string[];
   nextToken?: string;
 }
 export const ListBranchesOutput = S.suspend(() =>
@@ -2575,7 +2676,7 @@ export const ListBranchesOutput = S.suspend(() =>
   identifier: "ListBranchesOutput",
 }) as any as S.Schema<ListBranchesOutput>;
 export interface ListPullRequestsOutput {
-  pullRequestIds: PullRequestIdList;
+  pullRequestIds: string[];
   nextToken?: string;
 }
 export const ListPullRequestsOutput = S.suspend(() =>
@@ -2587,7 +2688,7 @@ export const ListPullRequestsOutput = S.suspend(() =>
   identifier: "ListPullRequestsOutput",
 }) as any as S.Schema<ListPullRequestsOutput>;
 export interface ListRepositoriesForApprovalRuleTemplateOutput {
-  repositoryNames?: RepositoryNameList;
+  repositoryNames?: string[];
   nextToken?: string;
 }
 export const ListRepositoriesForApprovalRuleTemplateOutput = S.suspend(() =>
@@ -2599,7 +2700,7 @@ export const ListRepositoriesForApprovalRuleTemplateOutput = S.suspend(() =>
   identifier: "ListRepositoriesForApprovalRuleTemplateOutput",
 }) as any as S.Schema<ListRepositoriesForApprovalRuleTemplateOutput>;
 export interface ListTagsForResourceOutput {
-  tags?: TagsMap;
+  tags?: { [key: string]: string };
   nextToken?: string;
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
@@ -2649,14 +2750,14 @@ export interface MergeMetadata {
   isMerged?: boolean;
   mergedBy?: string;
   mergeCommitId?: string;
-  mergeOption?: string;
+  mergeOption?: MergeOptionTypeEnum;
 }
 export const MergeMetadata = S.suspend(() =>
   S.Struct({
     isMerged: S.optional(S.Boolean),
     mergedBy: S.optional(S.String),
     mergeCommitId: S.optional(S.String),
-    mergeOption: S.optional(S.String),
+    mergeOption: S.optional(MergeOptionTypeEnum),
   }),
 ).annotations({
   identifier: "MergeMetadata",
@@ -2729,12 +2830,12 @@ export interface PullRequest {
   description?: string;
   lastActivityDate?: Date;
   creationDate?: Date;
-  pullRequestStatus?: string;
+  pullRequestStatus?: PullRequestStatusEnum;
   authorArn?: string;
-  pullRequestTargets?: PullRequestTargetList;
+  pullRequestTargets?: PullRequestTarget[];
   clientRequestToken?: string;
   revisionId?: string;
-  approvalRules?: ApprovalRulesList;
+  approvalRules?: ApprovalRule[];
 }
 export const PullRequest = S.suspend(() =>
   S.Struct({
@@ -2745,7 +2846,7 @@ export const PullRequest = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    pullRequestStatus: S.optional(S.String),
+    pullRequestStatus: S.optional(PullRequestStatusEnum),
     authorArn: S.optional(S.String),
     pullRequestTargets: S.optional(PullRequestTargetList),
     clientRequestToken: S.optional(S.String),
@@ -2851,7 +2952,7 @@ export const PutFileOutput = S.suspend(() =>
 }) as any as S.Schema<PutFileOutput>;
 export interface PutRepositoryTriggersInput {
   repositoryName: string;
-  triggers: RepositoryTriggersList;
+  triggers: RepositoryTrigger[];
 }
 export const PutRepositoryTriggersInput = S.suspend(() =>
   S.Struct({ repositoryName: S.String, triggers: RepositoryTriggersList }).pipe(
@@ -2946,6 +3047,21 @@ export const UpdateRepositoryEncryptionKeyOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateRepositoryEncryptionKeyOutput",
 }) as any as S.Schema<UpdateRepositoryEncryptionKeyOutput>;
+export type BatchGetRepositoriesErrorCodeEnum =
+  | "EncryptionIntegrityChecksFailedException"
+  | "EncryptionKeyAccessDeniedException"
+  | "EncryptionKeyDisabledException"
+  | "EncryptionKeyNotFoundException"
+  | "EncryptionKeyUnavailableException"
+  | "RepositoryDoesNotExistException";
+export const BatchGetRepositoriesErrorCodeEnum = S.Literal(
+  "EncryptionIntegrityChecksFailedException",
+  "EncryptionKeyAccessDeniedException",
+  "EncryptionKeyDisabledException",
+  "EncryptionKeyNotFoundException",
+  "EncryptionKeyUnavailableException",
+  "RepositoryDoesNotExistException",
+);
 export interface SourceFileSpecifier {
   filePath: string;
   isMove?: boolean;
@@ -3016,7 +3132,7 @@ export type MergeHunks = MergeHunk[];
 export const MergeHunks = S.Array(MergeHunk);
 export interface Conflict {
   conflictMetadata?: ConflictMetadata;
-  mergeHunks?: MergeHunks;
+  mergeHunks?: MergeHunk[];
 }
 export const Conflict = S.suspend(() =>
   S.Struct({
@@ -3081,14 +3197,14 @@ export const RepositoryMetadataList = S.Array(RepositoryMetadata);
 export interface BatchGetRepositoriesError {
   repositoryId?: string;
   repositoryName?: string;
-  errorCode?: string;
+  errorCode?: BatchGetRepositoriesErrorCodeEnum;
   errorMessage?: string;
 }
 export const BatchGetRepositoriesError = S.suspend(() =>
   S.Struct({
     repositoryId: S.optional(S.String),
     repositoryName: S.optional(S.String),
-    errorCode: S.optional(S.String),
+    errorCode: S.optional(BatchGetRepositoriesErrorCodeEnum),
     errorMessage: S.optional(S.String),
   }),
 ).annotations({
@@ -3100,14 +3216,14 @@ export const BatchGetRepositoriesErrorsList = S.Array(
 );
 export interface PutFileEntry {
   filePath: string;
-  fileMode?: string;
+  fileMode?: FileModeTypeEnum;
   fileContent?: Uint8Array;
   sourceFile?: SourceFileSpecifier;
 }
 export const PutFileEntry = S.suspend(() =>
   S.Struct({
     filePath: S.String,
-    fileMode: S.optional(S.String),
+    fileMode: S.optional(FileModeTypeEnum),
     fileContent: S.optional(T.Blob),
     sourceFile: S.optional(SourceFileSpecifier),
   }),
@@ -3117,8 +3233,8 @@ export const PutFileEntries = S.Array(PutFileEntry);
 export interface Evaluation {
   approved?: boolean;
   overridden?: boolean;
-  approvalRulesSatisfied?: ApprovalRulesSatisfiedList;
-  approvalRulesNotSatisfied?: ApprovalRulesNotSatisfiedList;
+  approvalRulesSatisfied?: string[];
+  approvalRulesNotSatisfied?: string[];
 }
 export const Evaluation = S.suspend(() =>
   S.Struct({
@@ -3135,7 +3251,7 @@ export interface CommentsForComparedCommit {
   beforeBlobId?: string;
   afterBlobId?: string;
   location?: Location;
-  comments?: Comments;
+  comments?: Comment[];
 }
 export const CommentsForComparedCommit = S.suspend(() =>
   S.Struct({
@@ -3160,7 +3276,7 @@ export interface CommentsForPullRequest {
   beforeBlobId?: string;
   afterBlobId?: string;
   location?: Location;
-  comments?: Comments;
+  comments?: Comment[];
 }
 export const CommentsForPullRequest = S.suspend(() =>
   S.Struct({
@@ -3196,14 +3312,14 @@ export interface File {
   blobId?: string;
   absolutePath?: string;
   relativePath?: string;
-  fileMode?: string;
+  fileMode?: FileModeTypeEnum;
 }
 export const File = S.suspend(() =>
   S.Struct({
     blobId: S.optional(S.String),
     absolutePath: S.optional(S.String),
     relativePath: S.optional(S.String),
-    fileMode: S.optional(S.String),
+    fileMode: S.optional(FileModeTypeEnum),
   }),
 ).annotations({ identifier: "File" }) as any as S.Schema<File>;
 export type FileList = File[];
@@ -3212,14 +3328,14 @@ export interface SymbolicLink {
   blobId?: string;
   absolutePath?: string;
   relativePath?: string;
-  fileMode?: string;
+  fileMode?: FileModeTypeEnum;
 }
 export const SymbolicLink = S.suspend(() =>
   S.Struct({
     blobId: S.optional(S.String),
     absolutePath: S.optional(S.String),
     relativePath: S.optional(S.String),
-    fileMode: S.optional(S.String),
+    fileMode: S.optional(FileModeTypeEnum),
   }),
 ).annotations({ identifier: "SymbolicLink" }) as any as S.Schema<SymbolicLink>;
 export type SymbolicLinkList = SymbolicLink[];
@@ -3240,12 +3356,12 @@ export type SubModuleList = SubModule[];
 export const SubModuleList = S.Array(SubModule);
 export interface Approval {
   userArn?: string;
-  approvalState?: string;
+  approvalState?: ApprovalState;
 }
 export const Approval = S.suspend(() =>
   S.Struct({
     userArn: S.optional(S.String),
-    approvalState: S.optional(S.String),
+    approvalState: S.optional(ApprovalState),
   }),
 ).annotations({ identifier: "Approval" }) as any as S.Schema<Approval>;
 export type ApprovalList = Approval[];
@@ -3254,7 +3370,7 @@ export interface FileVersion {
   commit?: Commit;
   blobId?: string;
   path?: string;
-  revisionChildren?: RevisionChildren;
+  revisionChildren?: string[];
 }
 export const FileVersion = S.suspend(() =>
   S.Struct({
@@ -3298,8 +3414,8 @@ export const RepositoryTriggerExecutionFailureList = S.Array(
   RepositoryTriggerExecutionFailure,
 );
 export interface BatchAssociateApprovalRuleTemplateWithRepositoriesOutput {
-  associatedRepositoryNames: RepositoryNameList;
-  errors: BatchAssociateApprovalRuleTemplateWithRepositoriesErrorsList;
+  associatedRepositoryNames: string[];
+  errors: BatchAssociateApprovalRuleTemplateWithRepositoriesError[];
 }
 export const BatchAssociateApprovalRuleTemplateWithRepositoriesOutput =
   S.suspend(() =>
@@ -3311,9 +3427,9 @@ export const BatchAssociateApprovalRuleTemplateWithRepositoriesOutput =
     identifier: "BatchAssociateApprovalRuleTemplateWithRepositoriesOutput",
   }) as any as S.Schema<BatchAssociateApprovalRuleTemplateWithRepositoriesOutput>;
 export interface BatchDescribeMergeConflictsOutput {
-  conflicts: Conflicts;
+  conflicts: Conflict[];
   nextToken?: string;
-  errors?: BatchDescribeMergeConflictsErrors;
+  errors?: BatchDescribeMergeConflictsError[];
   destinationCommitId: string;
   sourceCommitId: string;
   baseCommitId?: string;
@@ -3331,8 +3447,8 @@ export const BatchDescribeMergeConflictsOutput = S.suspend(() =>
   identifier: "BatchDescribeMergeConflictsOutput",
 }) as any as S.Schema<BatchDescribeMergeConflictsOutput>;
 export interface BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput {
-  disassociatedRepositoryNames: RepositoryNameList;
-  errors: BatchDisassociateApprovalRuleTemplateFromRepositoriesErrorsList;
+  disassociatedRepositoryNames: string[];
+  errors: BatchDisassociateApprovalRuleTemplateFromRepositoriesError[];
 }
 export const BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput =
   S.suspend(() =>
@@ -3344,9 +3460,9 @@ export const BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput =
     identifier: "BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput",
   }) as any as S.Schema<BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput>;
 export interface BatchGetRepositoriesOutput {
-  repositories?: RepositoryMetadataList;
-  repositoriesNotFound?: RepositoryNotFoundList;
-  errors?: BatchGetRepositoriesErrorsList;
+  repositories?: RepositoryMetadata[];
+  repositoriesNotFound?: string[];
+  errors?: BatchGetRepositoriesError[];
 }
 export const BatchGetRepositoriesOutput = S.suspend(() =>
   S.Struct({
@@ -3373,9 +3489,9 @@ export interface CreateCommitInput {
   email?: string;
   commitMessage?: string;
   keepEmptyFolders?: boolean;
-  putFiles?: PutFileEntries;
-  deleteFiles?: DeleteFileEntries;
-  setFileModes?: SetFileModeEntries;
+  putFiles?: PutFileEntry[];
+  deleteFiles?: DeleteFileEntry[];
+  setFileModes?: SetFileModeEntry[];
 }
 export const CreateCommitInput = S.suspend(() =>
   S.Struct({
@@ -3423,9 +3539,9 @@ export interface CreateUnreferencedMergeCommitInput {
   repositoryName: string;
   sourceCommitSpecifier: string;
   destinationCommitSpecifier: string;
-  mergeOption: string;
-  conflictDetailLevel?: string;
-  conflictResolutionStrategy?: string;
+  mergeOption: MergeOptionTypeEnum;
+  conflictDetailLevel?: ConflictDetailLevelTypeEnum;
+  conflictResolutionStrategy?: ConflictResolutionStrategyTypeEnum;
   authorName?: string;
   email?: string;
   commitMessage?: string;
@@ -3437,9 +3553,9 @@ export const CreateUnreferencedMergeCommitInput = S.suspend(() =>
     repositoryName: S.String,
     sourceCommitSpecifier: S.String,
     destinationCommitSpecifier: S.String,
-    mergeOption: S.String,
-    conflictDetailLevel: S.optional(S.String),
-    conflictResolutionStrategy: S.optional(S.String),
+    mergeOption: MergeOptionTypeEnum,
+    conflictDetailLevel: S.optional(ConflictDetailLevelTypeEnum),
+    conflictResolutionStrategy: S.optional(ConflictResolutionStrategyTypeEnum),
     authorName: S.optional(S.String),
     email: S.optional(S.String),
     commitMessage: S.optional(S.String),
@@ -3476,7 +3592,7 @@ export const EvaluatePullRequestApprovalRulesOutput = S.suspend(() =>
   identifier: "EvaluatePullRequestApprovalRulesOutput",
 }) as any as S.Schema<EvaluatePullRequestApprovalRulesOutput>;
 export interface GetCommentsForComparedCommitOutput {
-  commentsForComparedCommitData?: CommentsForComparedCommitData;
+  commentsForComparedCommitData?: CommentsForComparedCommit[];
   nextToken?: string;
 }
 export const GetCommentsForComparedCommitOutput = S.suspend(() =>
@@ -3488,7 +3604,7 @@ export const GetCommentsForComparedCommitOutput = S.suspend(() =>
   identifier: "GetCommentsForComparedCommitOutput",
 }) as any as S.Schema<GetCommentsForComparedCommitOutput>;
 export interface GetCommentsForPullRequestOutput {
-  commentsForPullRequestData?: CommentsForPullRequestData;
+  commentsForPullRequestData?: CommentsForPullRequest[];
   nextToken?: string;
 }
 export const GetCommentsForPullRequestOutput = S.suspend(() =>
@@ -3503,10 +3619,10 @@ export interface GetFolderOutput {
   commitId: string;
   folderPath: string;
   treeId?: string;
-  subFolders?: FolderList;
-  files?: FileList;
-  symbolicLinks?: SymbolicLinkList;
-  subModules?: SubModuleList;
+  subFolders?: Folder[];
+  files?: File[];
+  symbolicLinks?: SymbolicLink[];
+  subModules?: SubModule[];
 }
 export const GetFolderOutput = S.suspend(() =>
   S.Struct({
@@ -3522,7 +3638,7 @@ export const GetFolderOutput = S.suspend(() =>
   identifier: "GetFolderOutput",
 }) as any as S.Schema<GetFolderOutput>;
 export interface GetPullRequestApprovalStatesOutput {
-  approvals?: ApprovalList;
+  approvals?: Approval[];
 }
 export const GetPullRequestApprovalStatesOutput = S.suspend(() =>
   S.Struct({ approvals: S.optional(ApprovalList) }).pipe(ns),
@@ -3530,7 +3646,7 @@ export const GetPullRequestApprovalStatesOutput = S.suspend(() =>
   identifier: "GetPullRequestApprovalStatesOutput",
 }) as any as S.Schema<GetPullRequestApprovalStatesOutput>;
 export interface ListFileCommitHistoryResponse {
-  revisionDag: RevisionDag;
+  revisionDag: FileVersion[];
   nextToken?: string;
 }
 export const ListFileCommitHistoryResponse = S.suspend(() =>
@@ -3541,7 +3657,7 @@ export const ListFileCommitHistoryResponse = S.suspend(() =>
   identifier: "ListFileCommitHistoryResponse",
 }) as any as S.Schema<ListFileCommitHistoryResponse>;
 export interface ListRepositoriesOutput {
-  repositories?: RepositoryNameIdPairList;
+  repositories?: RepositoryNameIdPair[];
   nextToken?: string;
 }
 export const ListRepositoriesOutput = S.suspend(() =>
@@ -3583,8 +3699,8 @@ export const PutRepositoryTriggersOutput = S.suspend(() =>
   identifier: "PutRepositoryTriggersOutput",
 }) as any as S.Schema<PutRepositoryTriggersOutput>;
 export interface TestRepositoryTriggersOutput {
-  successfulExecutions?: RepositoryTriggerNameList;
-  failedExecutions?: RepositoryTriggerExecutionFailureList;
+  successfulExecutions?: string[];
+  failedExecutions?: RepositoryTriggerExecutionFailure[];
 }
 export const TestRepositoryTriggersOutput = S.suspend(() =>
   S.Struct({
@@ -3611,10 +3727,10 @@ export const PullRequestCreatedEventMetadata = S.suspend(() =>
   identifier: "PullRequestCreatedEventMetadata",
 }) as any as S.Schema<PullRequestCreatedEventMetadata>;
 export interface PullRequestStatusChangedEventMetadata {
-  pullRequestStatus?: string;
+  pullRequestStatus?: PullRequestStatusEnum;
 }
 export const PullRequestStatusChangedEventMetadata = S.suspend(() =>
-  S.Struct({ pullRequestStatus: S.optional(S.String) }),
+  S.Struct({ pullRequestStatus: S.optional(PullRequestStatusEnum) }),
 ).annotations({
   identifier: "PullRequestStatusChangedEventMetadata",
 }) as any as S.Schema<PullRequestStatusChangedEventMetadata>;
@@ -3650,24 +3766,24 @@ export const ApprovalRuleEventMetadata = S.suspend(() =>
 }) as any as S.Schema<ApprovalRuleEventMetadata>;
 export interface ApprovalStateChangedEventMetadata {
   revisionId?: string;
-  approvalStatus?: string;
+  approvalStatus?: ApprovalState;
 }
 export const ApprovalStateChangedEventMetadata = S.suspend(() =>
   S.Struct({
     revisionId: S.optional(S.String),
-    approvalStatus: S.optional(S.String),
+    approvalStatus: S.optional(ApprovalState),
   }),
 ).annotations({
   identifier: "ApprovalStateChangedEventMetadata",
 }) as any as S.Schema<ApprovalStateChangedEventMetadata>;
 export interface ApprovalRuleOverriddenEventMetadata {
   revisionId?: string;
-  overrideStatus?: string;
+  overrideStatus?: OverrideStatus;
 }
 export const ApprovalRuleOverriddenEventMetadata = S.suspend(() =>
   S.Struct({
     revisionId: S.optional(S.String),
-    overrideStatus: S.optional(S.String),
+    overrideStatus: S.optional(OverrideStatus),
   }),
 ).annotations({
   identifier: "ApprovalRuleOverriddenEventMetadata",
@@ -3702,7 +3818,7 @@ export type CommitObjectsList = Commit[];
 export const CommitObjectsList = S.Array(Commit);
 export interface ReactionForComment {
   reaction?: ReactionValueFormats;
-  reactionUsers?: ReactionUsersList;
+  reactionUsers?: string[];
   reactionsFromDeletedUsersCount?: number;
 }
 export const ReactionForComment = S.suspend(() =>
@@ -3719,20 +3835,20 @@ export const ReactionsForCommentList = S.Array(ReactionForComment);
 export interface Difference {
   beforeBlob?: BlobMetadata;
   afterBlob?: BlobMetadata;
-  changeType?: string;
+  changeType?: ChangeTypeEnum;
 }
 export const Difference = S.suspend(() =>
   S.Struct({
     beforeBlob: S.optional(BlobMetadata),
     afterBlob: S.optional(BlobMetadata),
-    changeType: S.optional(S.String),
+    changeType: S.optional(ChangeTypeEnum),
   }),
 ).annotations({ identifier: "Difference" }) as any as S.Schema<Difference>;
 export type DifferenceList = Difference[];
 export const DifferenceList = S.Array(Difference);
 export interface BatchGetCommitsOutput {
-  commits?: CommitObjectsList;
-  errors?: BatchGetCommitsErrorsList;
+  commits?: Commit[];
+  errors?: BatchGetCommitsError[];
 }
 export const BatchGetCommitsOutput = S.suspend(() =>
   S.Struct({
@@ -3772,7 +3888,7 @@ export const DeleteCommentContentOutput = S.suspend(() =>
 }) as any as S.Schema<DeleteCommentContentOutput>;
 export interface DescribeMergeConflictsOutput {
   conflictMetadata: ConflictMetadata;
-  mergeHunks: MergeHunks;
+  mergeHunks: MergeHunk[];
   nextToken?: string;
   destinationCommitId: string;
   sourceCommitId: string;
@@ -3791,7 +3907,7 @@ export const DescribeMergeConflictsOutput = S.suspend(() =>
   identifier: "DescribeMergeConflictsOutput",
 }) as any as S.Schema<DescribeMergeConflictsOutput>;
 export interface GetCommentReactionsOutput {
-  reactionsForComment: ReactionsForCommentList;
+  reactionsForComment: ReactionForComment[];
   nextToken?: string;
 }
 export const GetCommentReactionsOutput = S.suspend(() =>
@@ -3803,7 +3919,7 @@ export const GetCommentReactionsOutput = S.suspend(() =>
   identifier: "GetCommentReactionsOutput",
 }) as any as S.Schema<GetCommentReactionsOutput>;
 export interface GetDifferencesOutput {
-  differences?: DifferenceList;
+  differences?: Difference[];
   NextToken?: string;
 }
 export const GetDifferencesOutput = S.suspend(() =>
@@ -3839,13 +3955,13 @@ export const PullRequestMergedStateChangedEventMetadata = S.suspend(() =>
 export interface FileMetadata {
   absolutePath?: string;
   blobId?: string;
-  fileMode?: string;
+  fileMode?: FileModeTypeEnum;
 }
 export const FileMetadata = S.suspend(() =>
   S.Struct({
     absolutePath: S.optional(S.String),
     blobId: S.optional(S.String),
-    fileMode: S.optional(S.String),
+    fileMode: S.optional(FileModeTypeEnum),
   }),
 ).annotations({ identifier: "FileMetadata" }) as any as S.Schema<FileMetadata>;
 export type FilesMetadata = FileMetadata[];
@@ -3853,7 +3969,7 @@ export const FilesMetadata = S.Array(FileMetadata);
 export interface PullRequestEvent {
   pullRequestId?: string;
   eventDate?: Date;
-  pullRequestEventType?: string;
+  pullRequestEventType?: PullRequestEventType;
   actorArn?: string;
   pullRequestCreatedEventMetadata?: PullRequestCreatedEventMetadata;
   pullRequestStatusChangedEventMetadata?: PullRequestStatusChangedEventMetadata;
@@ -3867,7 +3983,7 @@ export const PullRequestEvent = S.suspend(() =>
   S.Struct({
     pullRequestId: S.optional(S.String),
     eventDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    pullRequestEventType: S.optional(S.String),
+    pullRequestEventType: S.optional(PullRequestEventType),
     actorArn: S.optional(S.String),
     pullRequestCreatedEventMetadata: S.optional(
       PullRequestCreatedEventMetadata,
@@ -3897,9 +4013,9 @@ export const PullRequestEventList = S.Array(PullRequestEvent);
 export interface CreateCommitOutput {
   commitId?: string;
   treeId?: string;
-  filesAdded?: FilesMetadata;
-  filesUpdated?: FilesMetadata;
-  filesDeleted?: FilesMetadata;
+  filesAdded?: FileMetadata[];
+  filesUpdated?: FileMetadata[];
+  filesDeleted?: FileMetadata[];
 }
 export const CreateCommitOutput = S.suspend(() =>
   S.Struct({
@@ -3913,7 +4029,7 @@ export const CreateCommitOutput = S.suspend(() =>
   identifier: "CreateCommitOutput",
 }) as any as S.Schema<CreateCommitOutput>;
 export interface DescribePullRequestEventsOutput {
-  pullRequestEvents: PullRequestEventList;
+  pullRequestEvents: PullRequestEvent[];
   nextToken?: string;
 }
 export const DescribePullRequestEventsOutput = S.suspend(() =>
@@ -4689,7 +4805,7 @@ export class RepositoryTriggersListRequiredException extends S.TaggedError<Repos
  */
 export const deleteApprovalRuleTemplate: (
   input: DeleteApprovalRuleTemplateInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteApprovalRuleTemplateOutput,
   | ApprovalRuleTemplateInUseException
   | ApprovalRuleTemplateNameRequiredException
@@ -4712,7 +4828,7 @@ export const deleteApprovalRuleTemplate: (
 export const listApprovalRuleTemplates: {
   (
     input: ListApprovalRuleTemplatesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListApprovalRuleTemplatesOutput,
     | InvalidContinuationTokenException
     | InvalidMaxResultsException
@@ -4721,7 +4837,7 @@ export const listApprovalRuleTemplates: {
   >;
   pages: (
     input: ListApprovalRuleTemplatesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListApprovalRuleTemplatesOutput,
     | InvalidContinuationTokenException
     | InvalidMaxResultsException
@@ -4730,7 +4846,7 @@ export const listApprovalRuleTemplates: {
   >;
   items: (
     input: ListApprovalRuleTemplatesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | InvalidContinuationTokenException
     | InvalidMaxResultsException
@@ -4752,7 +4868,7 @@ export const listApprovalRuleTemplates: {
  */
 export const updateApprovalRuleTemplateDescription: (
   input: UpdateApprovalRuleTemplateDescriptionInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateApprovalRuleTemplateDescriptionOutput,
   | ApprovalRuleTemplateDoesNotExistException
   | ApprovalRuleTemplateNameRequiredException
@@ -4775,7 +4891,7 @@ export const updateApprovalRuleTemplateDescription: (
  */
 export const updateApprovalRuleTemplateName: (
   input: UpdateApprovalRuleTemplateNameInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateApprovalRuleTemplateNameOutput,
   | ApprovalRuleTemplateDoesNotExistException
   | ApprovalRuleTemplateNameAlreadyExistsException
@@ -4798,7 +4914,7 @@ export const updateApprovalRuleTemplateName: (
  */
 export const getApprovalRuleTemplate: (
   input: GetApprovalRuleTemplateInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetApprovalRuleTemplateOutput,
   | ApprovalRuleTemplateDoesNotExistException
   | ApprovalRuleTemplateNameRequiredException
@@ -4820,7 +4936,7 @@ export const getApprovalRuleTemplate: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceOutput,
   | InvalidRepositoryNameException
   | InvalidResourceArnException
@@ -4844,7 +4960,7 @@ export const listTagsForResource: (
 export const listRepositories: {
   (
     input: ListRepositoriesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRepositoriesOutput,
     | InvalidContinuationTokenException
     | InvalidOrderException
@@ -4854,7 +4970,7 @@ export const listRepositories: {
   >;
   pages: (
     input: ListRepositoriesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRepositoriesOutput,
     | InvalidContinuationTokenException
     | InvalidOrderException
@@ -4864,7 +4980,7 @@ export const listRepositories: {
   >;
   items: (
     input: ListRepositoriesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     RepositoryNameIdPair,
     | InvalidContinuationTokenException
     | InvalidOrderException
@@ -4893,7 +5009,7 @@ export const listRepositories: {
  */
 export const updateApprovalRuleTemplateContent: (
   input: UpdateApprovalRuleTemplateContentInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateApprovalRuleTemplateContentOutput,
   | ApprovalRuleTemplateContentRequiredException
   | ApprovalRuleTemplateDoesNotExistException
@@ -4920,7 +5036,7 @@ export const updateApprovalRuleTemplateContent: (
  */
 export const updateComment: (
   input: UpdateCommentInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateCommentOutput,
   | CommentContentRequiredException
   | CommentContentSizeLimitExceededException
@@ -4949,7 +5065,7 @@ export const updateComment: (
  */
 export const deleteCommentContent: (
   input: DeleteCommentContentInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteCommentContentOutput,
   | CommentDeletedException
   | CommentDoesNotExistException
@@ -4976,7 +5092,7 @@ export const deleteCommentContent: (
  */
 export const updateRepositoryName: (
   input: UpdateRepositoryNameInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRepositoryNameResponse,
   | InvalidRepositoryNameException
   | RepositoryDoesNotExistException
@@ -5003,7 +5119,7 @@ export const updateRepositoryName: (
  */
 export const createApprovalRuleTemplate: (
   input: CreateApprovalRuleTemplateInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateApprovalRuleTemplateOutput,
   | ApprovalRuleTemplateContentRequiredException
   | ApprovalRuleTemplateNameAlreadyExistsException
@@ -5033,7 +5149,7 @@ export const createApprovalRuleTemplate: (
 export const listRepositoriesForApprovalRuleTemplate: {
   (
     input: ListRepositoriesForApprovalRuleTemplateInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListRepositoriesForApprovalRuleTemplateOutput,
     | ApprovalRuleTemplateDoesNotExistException
     | ApprovalRuleTemplateNameRequiredException
@@ -5050,7 +5166,7 @@ export const listRepositoriesForApprovalRuleTemplate: {
   >;
   pages: (
     input: ListRepositoriesForApprovalRuleTemplateInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListRepositoriesForApprovalRuleTemplateOutput,
     | ApprovalRuleTemplateDoesNotExistException
     | ApprovalRuleTemplateNameRequiredException
@@ -5067,7 +5183,7 @@ export const listRepositoriesForApprovalRuleTemplate: {
   >;
   items: (
     input: ListRepositoriesForApprovalRuleTemplateInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | ApprovalRuleTemplateDoesNotExistException
     | ApprovalRuleTemplateNameRequiredException
@@ -5111,7 +5227,7 @@ export const listRepositoriesForApprovalRuleTemplate: {
  */
 export const disassociateApprovalRuleTemplateFromRepository: (
   input: DisassociateApprovalRuleTemplateFromRepositoryInput,
-) => Effect.Effect<
+) => effect.Effect<
   DisassociateApprovalRuleTemplateFromRepositoryResponse,
   | ApprovalRuleTemplateDoesNotExistException
   | ApprovalRuleTemplateNameRequiredException
@@ -5152,7 +5268,7 @@ export const disassociateApprovalRuleTemplateFromRepository: (
  */
 export const deleteRepository: (
   input: DeleteRepositoryInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteRepositoryOutput,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -5187,7 +5303,7 @@ export const deleteRepository: (
  */
 export const getRepository: (
   input: GetRepositoryInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetRepositoryOutput,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -5218,7 +5334,7 @@ export const getRepository: (
  */
 export const getRepositoryTriggers: (
   input: GetRepositoryTriggersInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetRepositoryTriggersOutput,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -5250,7 +5366,7 @@ export const getRepositoryTriggers: (
 export const listAssociatedApprovalRuleTemplatesForRepository: {
   (
     input: ListAssociatedApprovalRuleTemplatesForRepositoryInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListAssociatedApprovalRuleTemplatesForRepositoryOutput,
     | EncryptionIntegrityChecksFailedException
     | EncryptionKeyAccessDeniedException
@@ -5267,7 +5383,7 @@ export const listAssociatedApprovalRuleTemplatesForRepository: {
   >;
   pages: (
     input: ListAssociatedApprovalRuleTemplatesForRepositoryInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListAssociatedApprovalRuleTemplatesForRepositoryOutput,
     | EncryptionIntegrityChecksFailedException
     | EncryptionKeyAccessDeniedException
@@ -5284,7 +5400,7 @@ export const listAssociatedApprovalRuleTemplatesForRepository: {
   >;
   items: (
     input: ListAssociatedApprovalRuleTemplatesForRepositoryInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | EncryptionIntegrityChecksFailedException
     | EncryptionKeyAccessDeniedException
@@ -5326,7 +5442,7 @@ export const listAssociatedApprovalRuleTemplatesForRepository: {
 export const listBranches: {
   (
     input: ListBranchesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListBranchesOutput,
     | EncryptionIntegrityChecksFailedException
     | EncryptionKeyAccessDeniedException
@@ -5342,7 +5458,7 @@ export const listBranches: {
   >;
   pages: (
     input: ListBranchesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListBranchesOutput,
     | EncryptionIntegrityChecksFailedException
     | EncryptionKeyAccessDeniedException
@@ -5358,7 +5474,7 @@ export const listBranches: {
   >;
   items: (
     input: ListBranchesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     BranchName,
     | EncryptionIntegrityChecksFailedException
     | EncryptionKeyAccessDeniedException
@@ -5400,7 +5516,7 @@ export const listBranches: {
  */
 export const getComment: (
   input: GetCommentInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetCommentOutput,
   | CommentDeletedException
   | CommentDoesNotExistException
@@ -5433,7 +5549,7 @@ export const getComment: (
  */
 export const batchGetCommits: (
   input: BatchGetCommitsInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetCommitsOutput,
   | CommitIdsLimitExceededException
   | CommitIdsListRequiredException
@@ -5469,7 +5585,7 @@ export const batchGetCommits: (
 export const getCommentReactions: {
   (
     input: GetCommentReactionsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetCommentReactionsOutput,
     | CommentDeletedException
     | CommentDoesNotExistException
@@ -5483,7 +5599,7 @@ export const getCommentReactions: {
   >;
   pages: (
     input: GetCommentReactionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetCommentReactionsOutput,
     | CommentDeletedException
     | CommentDoesNotExistException
@@ -5497,7 +5613,7 @@ export const getCommentReactions: {
   >;
   items: (
     input: GetCommentReactionsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | CommentDeletedException
     | CommentDoesNotExistException
@@ -5532,7 +5648,7 @@ export const getCommentReactions: {
  */
 export const postCommentReply: (
   input: PostCommentReplyInput,
-) => Effect.Effect<
+) => effect.Effect<
   PostCommentReplyOutput,
   | ClientRequestTokenRequiredException
   | CommentContentRequiredException
@@ -5563,7 +5679,7 @@ export const postCommentReply: (
  */
 export const updatePullRequestDescription: (
   input: UpdatePullRequestDescriptionInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePullRequestDescriptionOutput,
   | InvalidDescriptionException
   | InvalidPullRequestIdException
@@ -5588,7 +5704,7 @@ export const updatePullRequestDescription: (
  */
 export const getPullRequest: (
   input: GetPullRequestInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetPullRequestOutput,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -5619,7 +5735,7 @@ export const getPullRequest: (
  */
 export const updateRepositoryEncryptionKey: (
   input: UpdateRepositoryEncryptionKeyInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRepositoryEncryptionKeyOutput,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -5660,7 +5776,7 @@ export const updateRepositoryEncryptionKey: (
 export const getCommentsForComparedCommit: {
   (
     input: GetCommentsForComparedCommitInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetCommentsForComparedCommitOutput,
     | CommitDoesNotExistException
     | CommitIdRequiredException
@@ -5680,7 +5796,7 @@ export const getCommentsForComparedCommit: {
   >;
   pages: (
     input: GetCommentsForComparedCommitInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetCommentsForComparedCommitOutput,
     | CommitDoesNotExistException
     | CommitIdRequiredException
@@ -5700,7 +5816,7 @@ export const getCommentsForComparedCommit: {
   >;
   items: (
     input: GetCommentsForComparedCommitInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | CommitDoesNotExistException
     | CommitIdRequiredException
@@ -5753,7 +5869,7 @@ export const getCommentsForComparedCommit: {
  */
 export const updateRepositoryDescription: (
   input: UpdateRepositoryDescriptionInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateRepositoryDescriptionResponse,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -5792,7 +5908,7 @@ export const updateRepositoryDescription: (
  */
 export const associateApprovalRuleTemplateWithRepository: (
   input: AssociateApprovalRuleTemplateWithRepositoryInput,
-) => Effect.Effect<
+) => effect.Effect<
   AssociateApprovalRuleTemplateWithRepositoryResponse,
   | ApprovalRuleTemplateDoesNotExistException
   | ApprovalRuleTemplateNameRequiredException
@@ -5833,7 +5949,7 @@ export const associateApprovalRuleTemplateWithRepository: (
 export const listPullRequests: {
   (
     input: ListPullRequestsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListPullRequestsOutput,
     | AuthorDoesNotExistException
     | EncryptionIntegrityChecksFailedException
@@ -5853,7 +5969,7 @@ export const listPullRequests: {
   >;
   pages: (
     input: ListPullRequestsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListPullRequestsOutput,
     | AuthorDoesNotExistException
     | EncryptionIntegrityChecksFailedException
@@ -5873,7 +5989,7 @@ export const listPullRequests: {
   >;
   items: (
     input: ListPullRequestsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | AuthorDoesNotExistException
     | EncryptionIntegrityChecksFailedException
@@ -5922,7 +6038,7 @@ export const listPullRequests: {
  */
 export const deletePullRequestApprovalRule: (
   input: DeletePullRequestApprovalRuleInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeletePullRequestApprovalRuleOutput,
   | ApprovalRuleNameRequiredException
   | CannotDeleteApprovalRuleFromTemplateException
@@ -5962,7 +6078,7 @@ export const deletePullRequestApprovalRule: (
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InvalidRepositoryNameException
   | InvalidResourceArnException
@@ -5997,7 +6113,7 @@ export const untagResource: (
  */
 export const updateDefaultBranch: (
   input: UpdateDefaultBranchInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateDefaultBranchResponse,
   | BranchDoesNotExistException
   | BranchNameRequiredException
@@ -6034,7 +6150,7 @@ export const updateDefaultBranch: (
  */
 export const getBranch: (
   input: GetBranchInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetBranchOutput,
   | BranchDoesNotExistException
   | BranchNameRequiredException
@@ -6071,7 +6187,7 @@ export const getBranch: (
  */
 export const deleteBranch: (
   input: DeleteBranchInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteBranchOutput,
   | BranchNameRequiredException
   | DefaultBranchCannotBeDeletedException
@@ -6108,7 +6224,7 @@ export const deleteBranch: (
  */
 export const getCommit: (
   input: GetCommitInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetCommitOutput,
   | CommitIdDoesNotExistException
   | CommitIdRequiredException
@@ -6147,7 +6263,7 @@ export const getCommit: (
  */
 export const createBranch: (
   input: CreateBranchInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateBranchResponse,
   | BranchNameExistsException
   | BranchNameRequiredException
@@ -6191,7 +6307,7 @@ export const createBranch: (
  */
 export const updatePullRequestApprovalRuleContent: (
   input: UpdatePullRequestApprovalRuleContentInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePullRequestApprovalRuleContentOutput,
   | ApprovalRuleContentRequiredException
   | ApprovalRuleDoesNotExistException
@@ -6240,7 +6356,7 @@ export const updatePullRequestApprovalRuleContent: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InvalidRepositoryNameException
   | InvalidResourceArnException
@@ -6273,7 +6389,7 @@ export const tagResource: (
  */
 export const updatePullRequestTitle: (
   input: UpdatePullRequestTitleInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePullRequestTitleOutput,
   | InvalidPullRequestIdException
   | InvalidTitleException
@@ -6301,7 +6417,7 @@ export const updatePullRequestTitle: (
  */
 export const putCommentReaction: (
   input: PutCommentReactionInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutCommentReactionResponse,
   | CommentDeletedException
   | CommentDoesNotExistException
@@ -6331,7 +6447,7 @@ export const putCommentReaction: (
  */
 export const getPullRequestOverrideState: (
   input: GetPullRequestOverrideStateInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetPullRequestOverrideStateOutput,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -6366,7 +6482,7 @@ export const getPullRequestOverrideState: (
  */
 export const batchAssociateApprovalRuleTemplateWithRepositories: (
   input: BatchAssociateApprovalRuleTemplateWithRepositoriesInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchAssociateApprovalRuleTemplateWithRepositoriesOutput,
   | ApprovalRuleTemplateDoesNotExistException
   | ApprovalRuleTemplateNameRequiredException
@@ -6401,7 +6517,7 @@ export const batchAssociateApprovalRuleTemplateWithRepositories: (
  */
 export const getBlob: (
   input: GetBlobInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetBlobOutput,
   | BlobIdDoesNotExistException
   | BlobIdRequiredException
@@ -6441,7 +6557,7 @@ export const getBlob: (
 export const describePullRequestEvents: {
   (
     input: DescribePullRequestEventsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribePullRequestEventsOutput,
     | ActorDoesNotExistException
     | EncryptionIntegrityChecksFailedException
@@ -6461,7 +6577,7 @@ export const describePullRequestEvents: {
   >;
   pages: (
     input: DescribePullRequestEventsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribePullRequestEventsOutput,
     | ActorDoesNotExistException
     | EncryptionIntegrityChecksFailedException
@@ -6481,7 +6597,7 @@ export const describePullRequestEvents: {
   >;
   items: (
     input: DescribePullRequestEventsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | ActorDoesNotExistException
     | EncryptionIntegrityChecksFailedException
@@ -6528,7 +6644,7 @@ export const describePullRequestEvents: {
  */
 export const createPullRequestApprovalRule: (
   input: CreatePullRequestApprovalRuleInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePullRequestApprovalRuleOutput,
   | ApprovalRuleContentRequiredException
   | ApprovalRuleNameAlreadyExistsException
@@ -6577,7 +6693,7 @@ export const createPullRequestApprovalRule: (
 export const getCommentsForPullRequest: {
   (
     input: GetCommentsForPullRequestInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetCommentsForPullRequestOutput,
     | CommitDoesNotExistException
     | CommitIdRequiredException
@@ -6601,7 +6717,7 @@ export const getCommentsForPullRequest: {
   >;
   pages: (
     input: GetCommentsForPullRequestInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetCommentsForPullRequestOutput,
     | CommitDoesNotExistException
     | CommitIdRequiredException
@@ -6625,7 +6741,7 @@ export const getCommentsForPullRequest: {
   >;
   items: (
     input: GetCommentsForPullRequestInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | CommitDoesNotExistException
     | CommitIdRequiredException
@@ -6681,7 +6797,7 @@ export const getCommentsForPullRequest: {
 export const listFileCommitHistory: {
   (
     input: ListFileCommitHistoryRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListFileCommitHistoryResponse,
     | CommitDoesNotExistException
     | CommitRequiredException
@@ -6702,7 +6818,7 @@ export const listFileCommitHistory: {
   >;
   pages: (
     input: ListFileCommitHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListFileCommitHistoryResponse,
     | CommitDoesNotExistException
     | CommitRequiredException
@@ -6723,7 +6839,7 @@ export const listFileCommitHistory: {
   >;
   items: (
     input: ListFileCommitHistoryRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | CommitDoesNotExistException
     | CommitRequiredException
@@ -6773,7 +6889,7 @@ export const listFileCommitHistory: {
  */
 export const getPullRequestApprovalStates: (
   input: GetPullRequestApprovalStatesInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetPullRequestApprovalStatesOutput,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -6808,7 +6924,7 @@ export const getPullRequestApprovalStates: (
  */
 export const batchDisassociateApprovalRuleTemplateFromRepositories: (
   input: BatchDisassociateApprovalRuleTemplateFromRepositoriesInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput,
   | ApprovalRuleTemplateDoesNotExistException
   | ApprovalRuleTemplateNameRequiredException
@@ -6849,7 +6965,7 @@ export const batchDisassociateApprovalRuleTemplateFromRepositories: (
  */
 export const batchGetRepositories: (
   input: BatchGetRepositoriesInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchGetRepositoriesOutput,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -6880,7 +6996,7 @@ export const batchGetRepositories: (
  */
 export const mergeBranchesByFastForward: (
   input: MergeBranchesByFastForwardInput,
-) => Effect.Effect<
+) => effect.Effect<
   MergeBranchesByFastForwardOutput,
   | BranchDoesNotExistException
   | BranchNameIsTagNameException
@@ -6933,7 +7049,7 @@ export const mergeBranchesByFastForward: (
  */
 export const getMergeCommit: (
   input: GetMergeCommitInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetMergeCommitOutput,
   | CommitDoesNotExistException
   | CommitRequiredException
@@ -6974,7 +7090,7 @@ export const getMergeCommit: (
  */
 export const updatePullRequestStatus: (
   input: UpdatePullRequestStatusInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePullRequestStatusOutput,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -7011,7 +7127,7 @@ export const updatePullRequestStatus: (
  */
 export const getFolder: (
   input: GetFolderInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetFolderOutput,
   | CommitDoesNotExistException
   | EncryptionIntegrityChecksFailedException
@@ -7052,7 +7168,7 @@ export const getFolder: (
  */
 export const createRepository: (
   input: CreateRepositoryInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateRepositoryOutput,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -7101,7 +7217,7 @@ export const createRepository: (
  */
 export const evaluatePullRequestApprovalRules: (
   input: EvaluatePullRequestApprovalRulesInput,
-) => Effect.Effect<
+) => effect.Effect<
   EvaluatePullRequestApprovalRulesOutput,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -7141,7 +7257,7 @@ export const evaluatePullRequestApprovalRules: (
 export const getDifferences: {
   (
     input: GetDifferencesInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetDifferencesOutput,
     | CommitDoesNotExistException
     | CommitRequiredException
@@ -7164,7 +7280,7 @@ export const getDifferences: {
   >;
   pages: (
     input: GetDifferencesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetDifferencesOutput,
     | CommitDoesNotExistException
     | CommitRequiredException
@@ -7187,7 +7303,7 @@ export const getDifferences: {
   >;
   items: (
     input: GetDifferencesInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | CommitDoesNotExistException
     | CommitRequiredException
@@ -7240,7 +7356,7 @@ export const getDifferences: {
  */
 export const getFile: (
   input: GetFileInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetFileOutput,
   | CommitDoesNotExistException
   | EncryptionIntegrityChecksFailedException
@@ -7283,7 +7399,7 @@ export const getFile: (
  */
 export const overridePullRequestApprovalRules: (
   input: OverridePullRequestApprovalRulesInput,
-) => Effect.Effect<
+) => effect.Effect<
   OverridePullRequestApprovalRulesResponse,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -7328,7 +7444,7 @@ export const overridePullRequestApprovalRules: (
  */
 export const updatePullRequestApprovalState: (
   input: UpdatePullRequestApprovalStateInput,
-) => Effect.Effect<
+) => effect.Effect<
   UpdatePullRequestApprovalStateResponse,
   | ApprovalStateRequiredException
   | EncryptionIntegrityChecksFailedException
@@ -7375,7 +7491,7 @@ export const updatePullRequestApprovalState: (
  */
 export const postCommentForComparedCommit: (
   input: PostCommentForComparedCommitInput,
-) => Effect.Effect<
+) => effect.Effect<
   PostCommentForComparedCommitOutput,
   | BeforeCommitIdAndAfterCommitIdAreSameException
   | ClientRequestTokenRequiredException
@@ -7436,7 +7552,7 @@ export const postCommentForComparedCommit: (
  */
 export const postCommentForPullRequest: (
   input: PostCommentForPullRequestInput,
-) => Effect.Effect<
+) => effect.Effect<
   PostCommentForPullRequestOutput,
   | BeforeCommitIdAndAfterCommitIdAreSameException
   | ClientRequestTokenRequiredException
@@ -7506,7 +7622,7 @@ export const postCommentForPullRequest: (
  */
 export const mergePullRequestByFastForward: (
   input: MergePullRequestByFastForwardInput,
-) => Effect.Effect<
+) => effect.Effect<
   MergePullRequestByFastForwardOutput,
   | ConcurrentReferenceUpdateException
   | EncryptionIntegrityChecksFailedException
@@ -7561,7 +7677,7 @@ export const mergePullRequestByFastForward: (
  */
 export const getMergeOptions: (
   input: GetMergeOptionsInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetMergeOptionsOutput,
   | CommitDoesNotExistException
   | CommitRequiredException
@@ -7608,7 +7724,7 @@ export const getMergeOptions: (
  */
 export const batchDescribeMergeConflicts: (
   input: BatchDescribeMergeConflictsInput,
-) => Effect.Effect<
+) => effect.Effect<
   BatchDescribeMergeConflictsOutput,
   | CommitDoesNotExistException
   | CommitRequiredException
@@ -7666,7 +7782,7 @@ export const batchDescribeMergeConflicts: (
 export const getMergeConflicts: {
   (
     input: GetMergeConflictsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     GetMergeConflictsOutput,
     | CommitDoesNotExistException
     | CommitRequiredException
@@ -7695,7 +7811,7 @@ export const getMergeConflicts: {
   >;
   pages: (
     input: GetMergeConflictsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     GetMergeConflictsOutput,
     | CommitDoesNotExistException
     | CommitRequiredException
@@ -7724,7 +7840,7 @@ export const getMergeConflicts: {
   >;
   items: (
     input: GetMergeConflictsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | CommitDoesNotExistException
     | CommitRequiredException
@@ -7792,7 +7908,7 @@ export const getMergeConflicts: {
 export const describeMergeConflicts: {
   (
     input: DescribeMergeConflictsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     DescribeMergeConflictsOutput,
     | CommitDoesNotExistException
     | CommitRequiredException
@@ -7822,7 +7938,7 @@ export const describeMergeConflicts: {
   >;
   pages: (
     input: DescribeMergeConflictsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     DescribeMergeConflictsOutput,
     | CommitDoesNotExistException
     | CommitRequiredException
@@ -7852,7 +7968,7 @@ export const describeMergeConflicts: {
   >;
   items: (
     input: DescribeMergeConflictsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     unknown,
     | CommitDoesNotExistException
     | CommitRequiredException
@@ -7921,7 +8037,7 @@ export const describeMergeConflicts: {
  */
 export const deleteFile: (
   input: DeleteFileInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteFileOutput,
   | BranchDoesNotExistException
   | BranchNameIsTagNameException
@@ -7980,7 +8096,7 @@ export const deleteFile: (
  */
 export const putFile: (
   input: PutFileInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutFileOutput,
   | BranchDoesNotExistException
   | BranchNameIsTagNameException
@@ -8056,7 +8172,7 @@ export const putFile: (
  */
 export const mergePullRequestByThreeWay: (
   input: MergePullRequestByThreeWayInput,
-) => Effect.Effect<
+) => effect.Effect<
   MergePullRequestByThreeWayOutput,
   | CommitMessageLengthExceededException
   | ConcurrentReferenceUpdateException
@@ -8147,7 +8263,7 @@ export const mergePullRequestByThreeWay: (
  */
 export const createPullRequest: (
   input: CreatePullRequestInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreatePullRequestOutput,
   | ClientRequestTokenRequiredException
   | EncryptionIntegrityChecksFailedException
@@ -8218,7 +8334,7 @@ export const createPullRequest: (
  */
 export const createUnreferencedMergeCommit: (
   input: CreateUnreferencedMergeCommitInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateUnreferencedMergeCommitOutput,
   | CommitDoesNotExistException
   | CommitMessageLengthExceededException
@@ -8305,7 +8421,7 @@ export const createUnreferencedMergeCommit: (
  */
 export const mergeBranchesByThreeWay: (
   input: MergeBranchesByThreeWayInput,
-) => Effect.Effect<
+) => effect.Effect<
   MergeBranchesByThreeWayOutput,
   | BranchDoesNotExistException
   | BranchNameIsTagNameException
@@ -8399,7 +8515,7 @@ export const mergeBranchesByThreeWay: (
  */
 export const mergePullRequestBySquash: (
   input: MergePullRequestBySquashInput,
-) => Effect.Effect<
+) => effect.Effect<
   MergePullRequestBySquashOutput,
   | CommitMessageLengthExceededException
   | ConcurrentReferenceUpdateException
@@ -8490,7 +8606,7 @@ export const mergePullRequestBySquash: (
  */
 export const mergeBranchesBySquash: (
   input: MergeBranchesBySquashInput,
-) => Effect.Effect<
+) => effect.Effect<
   MergeBranchesBySquashOutput,
   | BranchDoesNotExistException
   | BranchNameIsTagNameException
@@ -8583,7 +8699,7 @@ export const mergeBranchesBySquash: (
  */
 export const createCommit: (
   input: CreateCommitInput,
-) => Effect.Effect<
+) => effect.Effect<
   CreateCommitOutput,
   | BranchDoesNotExistException
   | BranchNameIsTagNameException
@@ -8674,7 +8790,7 @@ export const createCommit: (
  */
 export const putRepositoryTriggers: (
   input: PutRepositoryTriggersInput,
-) => Effect.Effect<
+) => effect.Effect<
   PutRepositoryTriggersOutput,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -8733,7 +8849,7 @@ export const putRepositoryTriggers: (
  */
 export const testRepositoryTriggers: (
   input: TestRepositoryTriggersInput,
-) => Effect.Effect<
+) => effect.Effect<
   TestRepositoryTriggersOutput,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException

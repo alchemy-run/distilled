@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -73,6 +73,8 @@ export type ErrorMessage = string;
 //# Schemas
 export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
+export type EngineVersion = 1;
+export const EngineVersion = S.Literal(1);
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
@@ -92,7 +94,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys: TagKeys;
+  TagKeys: string[];
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -217,8 +219,8 @@ export const SecurityGroupIds = S.Array(S.String);
 export type SubnetIds = string[];
 export const SubnetIds = S.Array(S.String);
 export interface NetworkConfiguration {
-  SecurityGroupIds?: SecurityGroupIds;
-  SubnetIds?: SubnetIds;
+  SecurityGroupIds?: string[];
+  SubnetIds?: string[];
 }
 export const NetworkConfiguration = S.suspend(() =>
   S.Struct({
@@ -234,7 +236,7 @@ export interface UpdateWorkflowRequest {
   RoleArn: string;
   Description?: string;
   LoggingConfiguration?: LoggingConfiguration;
-  EngineVersion?: number;
+  EngineVersion?: EngineVersion;
   NetworkConfiguration?: NetworkConfiguration;
   TriggerMode?: string;
 }
@@ -245,7 +247,7 @@ export const UpdateWorkflowRequest = S.suspend(() =>
     RoleArn: S.String,
     Description: S.optional(S.String),
     LoggingConfiguration: S.optional(LoggingConfiguration),
-    EngineVersion: S.optional(S.Number),
+    EngineVersion: S.optional(EngineVersion),
     NetworkConfiguration: S.optional(NetworkConfiguration),
     TriggerMode: S.optional(S.String),
   }).pipe(
@@ -396,23 +398,82 @@ export const ListWorkflowVersionsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListWorkflowVersionsRequest",
 }) as any as S.Schema<ListWorkflowVersionsRequest>;
+export type EncryptionType = "AWS_MANAGED_KEY" | "CUSTOMER_MANAGED_KEY";
+export const EncryptionType = S.Literal(
+  "AWS_MANAGED_KEY",
+  "CUSTOMER_MANAGED_KEY",
+);
 export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
+export type TaskInstanceStatus =
+  | "QUEUED"
+  | "FAILED"
+  | "SCHEDULED"
+  | "RUNNING"
+  | "SUCCESS"
+  | "UP_FOR_RESCHEDULE"
+  | "UP_FOR_RETRY"
+  | "UPSTREAM_FAILED"
+  | "REMOVED"
+  | "RESTARTING"
+  | "DEFERRED"
+  | "NONE"
+  | "CANCELLED"
+  | "TIMEOUT";
+export const TaskInstanceStatus = S.Literal(
+  "QUEUED",
+  "FAILED",
+  "SCHEDULED",
+  "RUNNING",
+  "SUCCESS",
+  "UP_FOR_RESCHEDULE",
+  "UP_FOR_RETRY",
+  "UPSTREAM_FAILED",
+  "REMOVED",
+  "RESTARTING",
+  "DEFERRED",
+  "NONE",
+  "CANCELLED",
+  "TIMEOUT",
+);
 export interface EncryptionConfiguration {
-  Type: string;
+  Type: EncryptionType;
   KmsKeyId?: string;
 }
 export const EncryptionConfiguration = S.suspend(() =>
-  S.Struct({ Type: S.String, KmsKeyId: S.optional(S.String) }),
+  S.Struct({ Type: EncryptionType, KmsKeyId: S.optional(S.String) }),
 ).annotations({
   identifier: "EncryptionConfiguration",
 }) as any as S.Schema<EncryptionConfiguration>;
+export type WorkflowStatus = "READY" | "DELETING";
+export const WorkflowStatus = S.Literal("READY", "DELETING");
 export type WarningMessages = string[];
 export const WarningMessages = S.Array(S.String);
 export type ObjectMap = { [key: string]: any };
 export const ObjectMap = S.Record({ key: S.String, value: S.Any });
+export type RunType = "ON_DEMAND" | "SCHEDULED";
+export const RunType = S.Literal("ON_DEMAND", "SCHEDULED");
+export type WorkflowRunStatus =
+  | "STARTING"
+  | "QUEUED"
+  | "RUNNING"
+  | "SUCCESS"
+  | "FAILED"
+  | "TIMEOUT"
+  | "STOPPING"
+  | "STOPPED";
+export const WorkflowRunStatus = S.Literal(
+  "STARTING",
+  "QUEUED",
+  "RUNNING",
+  "SUCCESS",
+  "FAILED",
+  "TIMEOUT",
+  "STOPPING",
+  "STOPPED",
+);
 export interface ListTagsForResourceResponse {
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }),
@@ -421,7 +482,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: Tags;
+  Tags: { [key: string]: string };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -452,9 +513,9 @@ export interface CreateWorkflowRequest {
   Description?: string;
   EncryptionConfiguration?: EncryptionConfiguration;
   LoggingConfiguration?: LoggingConfiguration;
-  EngineVersion?: number;
+  EngineVersion?: EngineVersion;
   NetworkConfiguration?: NetworkConfiguration;
-  Tags?: Tags;
+  Tags?: { [key: string]: string };
   TriggerMode?: string;
 }
 export const CreateWorkflowRequest = S.suspend(() =>
@@ -466,7 +527,7 @@ export const CreateWorkflowRequest = S.suspend(() =>
     Description: S.optional(S.String),
     EncryptionConfiguration: S.optional(EncryptionConfiguration),
     LoggingConfiguration: S.optional(LoggingConfiguration),
-    EngineVersion: S.optional(S.Number),
+    EngineVersion: S.optional(EngineVersion),
     NetworkConfiguration: S.optional(NetworkConfiguration),
     Tags: S.optional(Tags),
     TriggerMode: S.optional(S.String),
@@ -487,7 +548,7 @@ export interface UpdateWorkflowResponse {
   WorkflowArn: string;
   ModifiedAt?: Date;
   WorkflowVersion?: string;
-  Warnings?: WarningMessages;
+  Warnings?: string[];
 }
 export const UpdateWorkflowResponse = S.suspend(() =>
   S.Struct({
@@ -511,7 +572,7 @@ export const DeleteWorkflowResponse = S.suspend(() =>
 export interface StartWorkflowRunRequest {
   WorkflowArn: string;
   ClientToken?: string;
-  OverrideParameters?: ObjectMap;
+  OverrideParameters?: { [key: string]: any };
   WorkflowVersion?: string;
 }
 export const StartWorkflowRunRequest = S.suspend(() =>
@@ -537,14 +598,14 @@ export interface StopWorkflowRunResponse {
   WorkflowArn?: string;
   WorkflowVersion?: string;
   RunId?: string;
-  Status?: string;
+  Status?: WorkflowRunStatus;
 }
 export const StopWorkflowRunResponse = S.suspend(() =>
   S.Struct({
     WorkflowArn: S.optional(S.String),
     WorkflowVersion: S.optional(S.String),
     RunId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(WorkflowRunStatus),
   }),
 ).annotations({
   identifier: "StopWorkflowRunResponse",
@@ -558,7 +619,7 @@ export interface TaskInstanceSummary {
   WorkflowVersion?: string;
   RunId?: string;
   TaskInstanceId?: string;
-  Status?: string;
+  Status?: TaskInstanceStatus;
   DurationInSeconds?: number;
   OperatorName?: string;
 }
@@ -568,7 +629,7 @@ export const TaskInstanceSummary = S.suspend(() =>
     WorkflowVersion: S.optional(S.String),
     RunId: S.optional(S.String),
     TaskInstanceId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(TaskInstanceStatus),
     DurationInSeconds: S.optional(S.Number),
     OperatorName: S.optional(S.String),
   }),
@@ -592,7 +653,7 @@ export interface WorkflowSummary {
   Description?: string;
   CreatedAt?: Date;
   ModifiedAt?: Date;
-  WorkflowStatus?: string;
+  WorkflowStatus?: WorkflowStatus;
   TriggerMode?: string;
 }
 export const WorkflowSummary = S.suspend(() =>
@@ -603,7 +664,7 @@ export const WorkflowSummary = S.suspend(() =>
     Description: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    WorkflowStatus: S.optional(S.String),
+    WorkflowStatus: S.optional(WorkflowStatus),
     TriggerMode: S.optional(S.String),
   }),
 ).annotations({
@@ -615,22 +676,22 @@ export interface WorkflowRunDetail {
   WorkflowArn?: string;
   WorkflowVersion?: string;
   RunId?: string;
-  RunType?: string;
+  RunType?: RunType;
   StartedOn?: Date;
   CreatedAt?: Date;
   CompletedOn?: Date;
   ModifiedAt?: Date;
   Duration?: number;
   ErrorMessage?: string;
-  TaskInstances?: TaskInstanceIds;
-  RunState?: string;
+  TaskInstances?: string[];
+  RunState?: WorkflowRunStatus;
 }
 export const WorkflowRunDetail = S.suspend(() =>
   S.Struct({
     WorkflowArn: S.optional(S.String),
     WorkflowVersion: S.optional(S.String),
     RunId: S.optional(S.String),
-    RunType: S.optional(S.String),
+    RunType: S.optional(RunType),
     StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     CompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -638,7 +699,7 @@ export const WorkflowRunDetail = S.suspend(() =>
     Duration: S.optional(S.Number),
     ErrorMessage: S.optional(S.String),
     TaskInstances: S.optional(TaskInstanceIds),
-    RunState: S.optional(S.String),
+    RunState: S.optional(WorkflowRunStatus),
   }),
 ).annotations({
   identifier: "WorkflowRunDetail",
@@ -674,7 +735,7 @@ export interface GetTaskInstanceResponse {
   RunId: string;
   TaskInstanceId: string;
   WorkflowVersion?: string;
-  Status?: string;
+  Status?: TaskInstanceStatus;
   DurationInSeconds?: number;
   OperatorName?: string;
   ModifiedAt?: Date;
@@ -684,7 +745,7 @@ export interface GetTaskInstanceResponse {
   ErrorMessage?: string;
   TaskId?: string;
   LogStream?: string;
-  Xcom?: GenericMap;
+  Xcom?: { [key: string]: string };
 }
 export const GetTaskInstanceResponse = S.suspend(() =>
   S.Struct({
@@ -692,7 +753,7 @@ export const GetTaskInstanceResponse = S.suspend(() =>
     RunId: S.String,
     TaskInstanceId: S.String,
     WorkflowVersion: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(TaskInstanceStatus),
     DurationInSeconds: S.optional(S.Number),
     OperatorName: S.optional(S.String),
     ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -708,7 +769,7 @@ export const GetTaskInstanceResponse = S.suspend(() =>
   identifier: "GetTaskInstanceResponse",
 }) as any as S.Schema<GetTaskInstanceResponse>;
 export interface ListTaskInstancesResponse {
-  TaskInstances?: TaskInstanceSummaries;
+  TaskInstances?: TaskInstanceSummary[];
   NextToken?: string;
 }
 export const ListTaskInstancesResponse = S.suspend(() =>
@@ -723,17 +784,17 @@ export interface CreateWorkflowResponse {
   WorkflowArn: string;
   CreatedAt?: Date;
   RevisionId?: string;
-  WorkflowStatus?: string;
+  WorkflowStatus?: WorkflowStatus;
   WorkflowVersion?: string;
   IsLatestVersion?: boolean;
-  Warnings?: WarningMessages;
+  Warnings?: string[];
 }
 export const CreateWorkflowResponse = S.suspend(() =>
   S.Struct({
     WorkflowArn: S.String,
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     RevisionId: S.optional(S.String),
-    WorkflowStatus: S.optional(S.String),
+    WorkflowStatus: S.optional(WorkflowStatus),
     WorkflowVersion: S.optional(S.String),
     IsLatestVersion: S.optional(S.Boolean),
     Warnings: S.optional(WarningMessages),
@@ -750,8 +811,8 @@ export interface GetWorkflowResponse {
   ModifiedAt?: Date;
   EncryptionConfiguration?: EncryptionConfiguration;
   LoggingConfiguration?: LoggingConfiguration;
-  EngineVersion?: number;
-  WorkflowStatus?: string;
+  EngineVersion?: EngineVersion;
+  WorkflowStatus?: WorkflowStatus;
   DefinitionS3Location?: DefinitionS3Location;
   ScheduleConfiguration?: ScheduleConfiguration;
   RoleArn?: string;
@@ -769,8 +830,8 @@ export const GetWorkflowResponse = S.suspend(() =>
     ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     EncryptionConfiguration: S.optional(EncryptionConfiguration),
     LoggingConfiguration: S.optional(LoggingConfiguration),
-    EngineVersion: S.optional(S.Number),
-    WorkflowStatus: S.optional(S.String),
+    EngineVersion: S.optional(EngineVersion),
+    WorkflowStatus: S.optional(WorkflowStatus),
     DefinitionS3Location: S.optional(DefinitionS3Location),
     ScheduleConfiguration: S.optional(ScheduleConfiguration),
     RoleArn: S.optional(S.String),
@@ -782,7 +843,7 @@ export const GetWorkflowResponse = S.suspend(() =>
   identifier: "GetWorkflowResponse",
 }) as any as S.Schema<GetWorkflowResponse>;
 export interface ListWorkflowsResponse {
-  Workflows: WorkflowSummaries;
+  Workflows: WorkflowSummary[];
   NextToken?: string;
 }
 export const ListWorkflowsResponse = S.suspend(() =>
@@ -792,13 +853,13 @@ export const ListWorkflowsResponse = S.suspend(() =>
 }) as any as S.Schema<ListWorkflowsResponse>;
 export interface StartWorkflowRunResponse {
   RunId?: string;
-  Status?: string;
+  Status?: WorkflowRunStatus;
   StartedAt?: Date;
 }
 export const StartWorkflowRunResponse = S.suspend(() =>
   S.Struct({
     RunId: S.optional(S.String),
-    Status: S.optional(S.String),
+    Status: S.optional(WorkflowRunStatus),
     StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotations({
@@ -808,8 +869,8 @@ export interface GetWorkflowRunResponse {
   WorkflowArn?: string;
   WorkflowVersion?: string;
   RunId?: string;
-  RunType?: string;
-  OverrideParameters?: ObjectMap;
+  RunType?: RunType;
+  OverrideParameters?: { [key: string]: any };
   RunDetail?: WorkflowRunDetail;
 }
 export const GetWorkflowRunResponse = S.suspend(() =>
@@ -817,7 +878,7 @@ export const GetWorkflowRunResponse = S.suspend(() =>
     WorkflowArn: S.optional(S.String),
     WorkflowVersion: S.optional(S.String),
     RunId: S.optional(S.String),
-    RunType: S.optional(S.String),
+    RunType: S.optional(RunType),
     OverrideParameters: S.optional(ObjectMap),
     RunDetail: S.optional(WorkflowRunDetail),
   }),
@@ -825,7 +886,7 @@ export const GetWorkflowRunResponse = S.suspend(() =>
   identifier: "GetWorkflowRunResponse",
 }) as any as S.Schema<GetWorkflowRunResponse>;
 export interface ListWorkflowVersionsResponse {
-  WorkflowVersions?: WorkflowVersionSummaries;
+  WorkflowVersions?: WorkflowVersionSummary[];
   NextToken?: string;
 }
 export const ListWorkflowVersionsResponse = S.suspend(() =>
@@ -837,14 +898,14 @@ export const ListWorkflowVersionsResponse = S.suspend(() =>
   identifier: "ListWorkflowVersionsResponse",
 }) as any as S.Schema<ListWorkflowVersionsResponse>;
 export interface RunDetailSummary {
-  Status?: string;
+  Status?: WorkflowRunStatus;
   CreatedOn?: Date;
   StartedAt?: Date;
   EndedAt?: Date;
 }
 export const RunDetailSummary = S.suspend(() =>
   S.Struct({
-    Status: S.optional(S.String),
+    Status: S.optional(WorkflowRunStatus),
     CreatedOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -856,7 +917,7 @@ export interface WorkflowRunSummary {
   RunId?: string;
   WorkflowArn?: string;
   WorkflowVersion?: string;
-  RunType?: string;
+  RunType?: RunType;
   RunDetailSummary?: RunDetailSummary;
 }
 export const WorkflowRunSummary = S.suspend(() =>
@@ -864,7 +925,7 @@ export const WorkflowRunSummary = S.suspend(() =>
     RunId: S.optional(S.String),
     WorkflowArn: S.optional(S.String),
     WorkflowVersion: S.optional(S.String),
-    RunType: S.optional(S.String),
+    RunType: S.optional(RunType),
     RunDetailSummary: S.optional(RunDetailSummary),
   }),
 ).annotations({
@@ -873,7 +934,7 @@ export const WorkflowRunSummary = S.suspend(() =>
 export type WorkflowRunSummaries = WorkflowRunSummary[];
 export const WorkflowRunSummaries = S.Array(WorkflowRunSummary);
 export interface ListWorkflowRunsResponse {
-  WorkflowRuns?: WorkflowRunSummaries;
+  WorkflowRuns?: WorkflowRunSummary[];
   NextToken?: string;
 }
 export const ListWorkflowRunsResponse = S.suspend(() =>
@@ -884,6 +945,17 @@ export const ListWorkflowRunsResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListWorkflowRunsResponse",
 }) as any as S.Schema<ListWorkflowRunsResponse>;
+export type ValidationExceptionReason =
+  | "unknownOperation"
+  | "cannotParse"
+  | "fieldValidationFailed"
+  | "other";
+export const ValidationExceptionReason = S.Literal(
+  "unknownOperation",
+  "cannotParse",
+  "fieldValidationFailed",
+  "other",
+);
 export interface ValidationExceptionField {
   Name: string;
   Message: string;
@@ -945,7 +1017,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
     Message: S.String,
-    Reason: S.String,
+    Reason: ValidationExceptionReason,
     FieldList: S.optional(ValidationExceptionFields),
   },
 ).pipe(C.withBadRequestError) {}
@@ -957,7 +1029,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export const listWorkflowRuns: {
   (
     input: ListWorkflowRunsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkflowRunsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -969,7 +1041,7 @@ export const listWorkflowRuns: {
   >;
   pages: (
     input: ListWorkflowRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkflowRunsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -981,7 +1053,7 @@ export const listWorkflowRuns: {
   >;
   items: (
     input: ListWorkflowRunsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkflowRunSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1013,7 +1085,7 @@ export const listWorkflowRuns: {
  */
 export const createWorkflow: (
   input: CreateWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   CreateWorkflowResponse,
   | AccessDeniedException
   | ConflictException
@@ -1042,7 +1114,7 @@ export const createWorkflow: (
  */
 export const getTaskInstance: (
   input: GetTaskInstanceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetTaskInstanceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1069,7 +1141,7 @@ export const getTaskInstance: (
  */
 export const getWorkflow: (
   input: GetWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkflowResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1096,7 +1168,7 @@ export const getWorkflow: (
  */
 export const updateWorkflow: (
   input: UpdateWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UpdateWorkflowResponse,
   | AccessDeniedException
   | ConflictException
@@ -1127,7 +1199,7 @@ export const updateWorkflow: (
  */
 export const startWorkflowRun: (
   input: StartWorkflowRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StartWorkflowRunResponse,
   | AccessDeniedException
   | ConflictException
@@ -1158,7 +1230,7 @@ export const startWorkflowRun: (
  */
 export const getWorkflowRun: (
   input: GetWorkflowRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   GetWorkflowRunResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1185,7 +1257,7 @@ export const getWorkflowRun: (
  */
 export const deleteWorkflow: (
   input: DeleteWorkflowRequest,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteWorkflowResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1212,7 +1284,7 @@ export const deleteWorkflow: (
  */
 export const stopWorkflowRun: (
   input: StopWorkflowRunRequest,
-) => Effect.Effect<
+) => effect.Effect<
   StopWorkflowRunResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1239,7 +1311,7 @@ export const stopWorkflowRun: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1266,7 +1338,7 @@ export const listTagsForResource: (
  */
 export const tagResource: (
   input: TagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1294,7 +1366,7 @@ export const tagResource: (
 export const listTaskInstances: {
   (
     input: ListTaskInstancesRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListTaskInstancesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1306,7 +1378,7 @@ export const listTaskInstances: {
   >;
   pages: (
     input: ListTaskInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListTaskInstancesResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1318,7 +1390,7 @@ export const listTaskInstances: {
   >;
   items: (
     input: ListTaskInstancesRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     TaskInstanceSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1351,7 +1423,7 @@ export const listTaskInstances: {
 export const listWorkflows: {
   (
     input: ListWorkflowsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkflowsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1363,7 +1435,7 @@ export const listWorkflows: {
   >;
   pages: (
     input: ListWorkflowsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkflowsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1375,7 +1447,7 @@ export const listWorkflows: {
   >;
   items: (
     input: ListWorkflowsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkflowSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1408,7 +1480,7 @@ export const listWorkflows: {
 export const listWorkflowVersions: {
   (
     input: ListWorkflowVersionsRequest,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListWorkflowVersionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1420,7 +1492,7 @@ export const listWorkflowVersions: {
   >;
   pages: (
     input: ListWorkflowVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListWorkflowVersionsResponse,
     | AccessDeniedException
     | InternalServerException
@@ -1432,7 +1504,7 @@ export const listWorkflowVersions: {
   >;
   items: (
     input: ListWorkflowVersionsRequest,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     WorkflowVersionSummary,
     | AccessDeniedException
     | InternalServerException
@@ -1464,7 +1536,7 @@ export const listWorkflowVersions: {
  */
 export const untagResource: (
   input: UntagResourceRequest,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException

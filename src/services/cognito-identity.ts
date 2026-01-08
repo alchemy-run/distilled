@@ -1,8 +1,8 @@
 import { HttpClient } from "@effect/platform";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import * as effect from "effect/Effect";
+import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
+import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
@@ -121,15 +121,15 @@ export type IdentityProviderId = string;
 export type CognitoIdentityProviderName = string;
 export type CognitoIdentityProviderClientId = string;
 export type TagValueType = string;
-export type IdentityProviderToken = string | Redacted.Redacted<string>;
+export type IdentityProviderToken = string | redacted.Redacted<string>;
 export type PrincipalTagID = string;
 export type PrincipalTagValue = string;
 export type RoleType = string;
-export type OIDCToken = string | Redacted.Redacted<string>;
+export type OIDCToken = string | redacted.Redacted<string>;
 export type ClaimName = string;
 export type ClaimValue = string;
 export type AccessKeyString = string;
-export type SecretKeyString = string | Redacted.Redacted<string>;
+export type SecretKeyString = string | redacted.Redacted<string>;
 export type SessionTokenString = string;
 
 //# Schemas
@@ -144,7 +144,7 @@ export const LoginsList = S.Array(S.String);
 export type IdentityPoolTagsListType = string[];
 export const IdentityPoolTagsListType = S.Array(S.String);
 export interface DeleteIdentitiesInput {
-  IdentityIdsToDelete: IdentityIdList;
+  IdentityIdsToDelete: string[];
 }
 export const DeleteIdentitiesInput = S.suspend(() =>
   S.Struct({ IdentityIdsToDelete: IdentityIdList }).pipe(
@@ -221,12 +221,12 @@ export const DescribeIdentityPoolInput = S.suspend(() =>
 ).annotations({
   identifier: "DescribeIdentityPoolInput",
 }) as any as S.Schema<DescribeIdentityPoolInput>;
-export type LoginsMap = { [key: string]: string | Redacted.Redacted<string> };
+export type LoginsMap = { [key: string]: string | redacted.Redacted<string> };
 export const LoginsMap = S.Record({ key: S.String, value: SensitiveString });
 export interface GetIdInput {
   AccountId?: string;
   IdentityPoolId: string;
-  Logins?: LoginsMap;
+  Logins?: { [key: string]: string | redacted.Redacted<string> };
 }
 export const GetIdInput = S.suspend(() =>
   S.Struct({
@@ -265,7 +265,7 @@ export const GetIdentityPoolRolesInput = S.suspend(() =>
 }) as any as S.Schema<GetIdentityPoolRolesInput>;
 export interface GetOpenIdTokenInput {
   IdentityId: string;
-  Logins?: LoginsMap;
+  Logins?: { [key: string]: string | redacted.Redacted<string> };
 }
 export const GetOpenIdTokenInput = S.suspend(() =>
   S.Struct({ IdentityId: S.String, Logins: S.optional(LoginsMap) }).pipe(
@@ -424,7 +424,7 @@ export interface SetPrincipalTagAttributeMapInput {
   IdentityPoolId: string;
   IdentityProviderName: string;
   UseDefaults?: boolean;
-  PrincipalTags?: PrincipalTags;
+  PrincipalTags?: { [key: string]: string };
 }
 export const SetPrincipalTagAttributeMapInput = S.suspend(() =>
   S.Struct({
@@ -453,7 +453,7 @@ export const IdentityPoolTagsType = S.Record({
 });
 export interface TagResourceInput {
   ResourceArn: string;
-  Tags: IdentityPoolTagsType;
+  Tags: { [key: string]: string };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: IdentityPoolTagsType }).pipe(
@@ -510,8 +510,8 @@ export const UnlinkDeveloperIdentityResponse = S.suspend(() =>
 }) as any as S.Schema<UnlinkDeveloperIdentityResponse>;
 export interface UnlinkIdentityInput {
   IdentityId: string;
-  Logins: LoginsMap;
-  LoginsToRemove: LoginsList;
+  Logins: { [key: string]: string | redacted.Redacted<string> };
+  LoginsToRemove: string[];
 }
 export const UnlinkIdentityInput = S.suspend(() =>
   S.Struct({
@@ -540,7 +540,7 @@ export const UnlinkIdentityResponse = S.suspend(() =>
 }) as any as S.Schema<UnlinkIdentityResponse>;
 export interface UntagResourceInput {
   ResourceArn: string;
-  TagKeys: IdentityPoolTagsListType;
+  TagKeys: string[];
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: IdentityPoolTagsListType }).pipe(
@@ -586,12 +586,12 @@ export interface IdentityPool {
   IdentityPoolName: string;
   AllowUnauthenticatedIdentities: boolean;
   AllowClassicFlow?: boolean;
-  SupportedLoginProviders?: IdentityProviders;
+  SupportedLoginProviders?: { [key: string]: string };
   DeveloperProviderName?: string;
-  OpenIdConnectProviderARNs?: OIDCProviderList;
-  CognitoIdentityProviders?: CognitoIdentityProviderList;
-  SamlProviderARNs?: SAMLProviderList;
-  IdentityPoolTags?: IdentityPoolTagsType;
+  OpenIdConnectProviderARNs?: string[];
+  CognitoIdentityProviders?: CognitoIdentityProvider[];
+  SamlProviderARNs?: string[];
+  IdentityPoolTags?: { [key: string]: string };
 }
 export const IdentityPool = S.suspend(() =>
   S.Struct({
@@ -619,7 +619,7 @@ export const IdentityPool = S.suspend(() =>
 ).annotations({ identifier: "IdentityPool" }) as any as S.Schema<IdentityPool>;
 export interface IdentityDescription {
   IdentityId?: string;
-  Logins?: LoginsList;
+  Logins?: string[];
   CreationDate?: Date;
   LastModifiedDate?: Date;
 }
@@ -641,16 +641,23 @@ export type DeveloperUserIdentifierList = string[];
 export const DeveloperUserIdentifierList = S.Array(S.String);
 export type RolesMap = { [key: string]: string };
 export const RolesMap = S.Record({ key: S.String, value: S.String });
+export type RoleMappingType = "Token" | "Rules";
+export const RoleMappingType = S.Literal("Token", "Rules");
+export type AmbiguousRoleResolutionType = "AuthenticatedRole" | "Deny";
+export const AmbiguousRoleResolutionType = S.Literal(
+  "AuthenticatedRole",
+  "Deny",
+);
 export interface CreateIdentityPoolInput {
   IdentityPoolName: string;
   AllowUnauthenticatedIdentities: boolean;
   AllowClassicFlow?: boolean;
-  SupportedLoginProviders?: IdentityProviders;
+  SupportedLoginProviders?: { [key: string]: string };
   DeveloperProviderName?: string;
-  OpenIdConnectProviderARNs?: OIDCProviderList;
-  CognitoIdentityProviders?: CognitoIdentityProviderList;
-  SamlProviderARNs?: SAMLProviderList;
-  IdentityPoolTags?: IdentityPoolTagsType;
+  OpenIdConnectProviderARNs?: string[];
+  CognitoIdentityProviders?: CognitoIdentityProvider[];
+  SamlProviderARNs?: string[];
+  IdentityPoolTags?: { [key: string]: string };
 }
 export const CreateIdentityPoolInput = S.suspend(() =>
   S.Struct({
@@ -679,7 +686,7 @@ export const CreateIdentityPoolInput = S.suspend(() =>
 }) as any as S.Schema<CreateIdentityPoolInput>;
 export interface GetCredentialsForIdentityInput {
   IdentityId: string;
-  Logins?: LoginsMap;
+  Logins?: { [key: string]: string | redacted.Redacted<string> };
   CustomRoleArn?: string;
 }
 export const GetCredentialsForIdentityInput = S.suspend(() =>
@@ -709,16 +716,27 @@ export const GetIdResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetIdResponse",
 }) as any as S.Schema<GetIdResponse>;
+export type MappingRuleMatchType =
+  | "Equals"
+  | "Contains"
+  | "StartsWith"
+  | "NotEqual";
+export const MappingRuleMatchType = S.Literal(
+  "Equals",
+  "Contains",
+  "StartsWith",
+  "NotEqual",
+);
 export interface MappingRule {
   Claim: string;
-  MatchType: string;
+  MatchType: MappingRuleMatchType;
   Value: string;
   RoleARN: string;
 }
 export const MappingRule = S.suspend(() =>
   S.Struct({
     Claim: S.String,
-    MatchType: S.String,
+    MatchType: MappingRuleMatchType,
     Value: S.String,
     RoleARN: S.String,
   }),
@@ -726,7 +744,7 @@ export const MappingRule = S.suspend(() =>
 export type MappingRulesList = MappingRule[];
 export const MappingRulesList = S.Array(MappingRule);
 export interface RulesConfigurationType {
-  Rules: MappingRulesList;
+  Rules: MappingRule[];
 }
 export const RulesConfigurationType = S.suspend(() =>
   S.Struct({ Rules: MappingRulesList }),
@@ -734,14 +752,14 @@ export const RulesConfigurationType = S.suspend(() =>
   identifier: "RulesConfigurationType",
 }) as any as S.Schema<RulesConfigurationType>;
 export interface RoleMapping {
-  Type: string;
-  AmbiguousRoleResolution?: string;
+  Type: RoleMappingType;
+  AmbiguousRoleResolution?: AmbiguousRoleResolutionType;
   RulesConfiguration?: RulesConfigurationType;
 }
 export const RoleMapping = S.suspend(() =>
   S.Struct({
-    Type: S.String,
-    AmbiguousRoleResolution: S.optional(S.String),
+    Type: RoleMappingType,
+    AmbiguousRoleResolution: S.optional(AmbiguousRoleResolutionType),
     RulesConfiguration: S.optional(RulesConfigurationType),
   }),
 ).annotations({ identifier: "RoleMapping" }) as any as S.Schema<RoleMapping>;
@@ -749,8 +767,8 @@ export type RoleMappingMap = { [key: string]: RoleMapping };
 export const RoleMappingMap = S.Record({ key: S.String, value: RoleMapping });
 export interface GetIdentityPoolRolesResponse {
   IdentityPoolId?: string;
-  Roles?: RolesMap;
-  RoleMappings?: RoleMappingMap;
+  Roles?: { [key: string]: string };
+  RoleMappings?: { [key: string]: RoleMapping };
 }
 export const GetIdentityPoolRolesResponse = S.suspend(() =>
   S.Struct({
@@ -763,7 +781,7 @@ export const GetIdentityPoolRolesResponse = S.suspend(() =>
 }) as any as S.Schema<GetIdentityPoolRolesResponse>;
 export interface GetOpenIdTokenResponse {
   IdentityId?: string;
-  Token?: string | Redacted.Redacted<string>;
+  Token?: string | redacted.Redacted<string>;
 }
 export const GetOpenIdTokenResponse = S.suspend(() =>
   S.Struct({
@@ -776,8 +794,8 @@ export const GetOpenIdTokenResponse = S.suspend(() =>
 export interface GetOpenIdTokenForDeveloperIdentityInput {
   IdentityPoolId: string;
   IdentityId?: string;
-  Logins: LoginsMap;
-  PrincipalTags?: PrincipalTags;
+  Logins: { [key: string]: string | redacted.Redacted<string> };
+  PrincipalTags?: { [key: string]: string };
   TokenDuration?: number;
 }
 export const GetOpenIdTokenForDeveloperIdentityInput = S.suspend(() =>
@@ -805,7 +823,7 @@ export interface GetPrincipalTagAttributeMapResponse {
   IdentityPoolId?: string;
   IdentityProviderName?: string;
   UseDefaults?: boolean;
-  PrincipalTags?: PrincipalTags;
+  PrincipalTags?: { [key: string]: string };
 }
 export const GetPrincipalTagAttributeMapResponse = S.suspend(() =>
   S.Struct({
@@ -819,7 +837,7 @@ export const GetPrincipalTagAttributeMapResponse = S.suspend(() =>
 }) as any as S.Schema<GetPrincipalTagAttributeMapResponse>;
 export interface ListIdentitiesResponse {
   IdentityPoolId?: string;
-  Identities?: IdentitiesList;
+  Identities?: IdentityDescription[];
   NextToken?: string;
 }
 export const ListIdentitiesResponse = S.suspend(() =>
@@ -832,7 +850,7 @@ export const ListIdentitiesResponse = S.suspend(() =>
   identifier: "ListIdentitiesResponse",
 }) as any as S.Schema<ListIdentitiesResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: IdentityPoolTagsType;
+  Tags?: { [key: string]: string };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(IdentityPoolTagsType) }).pipe(ns),
@@ -841,7 +859,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface LookupDeveloperIdentityResponse {
   IdentityId?: string;
-  DeveloperUserIdentifierList?: DeveloperUserIdentifierList;
+  DeveloperUserIdentifierList?: string[];
   NextToken?: string;
 }
 export const LookupDeveloperIdentityResponse = S.suspend(() =>
@@ -865,7 +883,7 @@ export interface SetPrincipalTagAttributeMapResponse {
   IdentityPoolId?: string;
   IdentityProviderName?: string;
   UseDefaults?: boolean;
-  PrincipalTags?: PrincipalTags;
+  PrincipalTags?: { [key: string]: string };
 }
 export const SetPrincipalTagAttributeMapResponse = S.suspend(() =>
   S.Struct({
@@ -877,14 +895,16 @@ export const SetPrincipalTagAttributeMapResponse = S.suspend(() =>
 ).annotations({
   identifier: "SetPrincipalTagAttributeMapResponse",
 }) as any as S.Schema<SetPrincipalTagAttributeMapResponse>;
+export type ErrorCode = "AccessDenied" | "InternalServerError";
+export const ErrorCode = S.Literal("AccessDenied", "InternalServerError");
 export interface UnprocessedIdentityId {
   IdentityId?: string;
-  ErrorCode?: string;
+  ErrorCode?: ErrorCode;
 }
 export const UnprocessedIdentityId = S.suspend(() =>
   S.Struct({
     IdentityId: S.optional(S.String),
-    ErrorCode: S.optional(S.String),
+    ErrorCode: S.optional(ErrorCode),
   }),
 ).annotations({
   identifier: "UnprocessedIdentityId",
@@ -906,7 +926,7 @@ export const IdentityPoolShortDescription = S.suspend(() =>
 export type IdentityPoolsList = IdentityPoolShortDescription[];
 export const IdentityPoolsList = S.Array(IdentityPoolShortDescription);
 export interface DeleteIdentitiesResponse {
-  UnprocessedIdentityIds?: UnprocessedIdentityIdList;
+  UnprocessedIdentityIds?: UnprocessedIdentityId[];
 }
 export const DeleteIdentitiesResponse = S.suspend(() =>
   S.Struct({
@@ -917,7 +937,7 @@ export const DeleteIdentitiesResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteIdentitiesResponse>;
 export interface GetOpenIdTokenForDeveloperIdentityResponse {
   IdentityId?: string;
-  Token?: string | Redacted.Redacted<string>;
+  Token?: string | redacted.Redacted<string>;
 }
 export const GetOpenIdTokenForDeveloperIdentityResponse = S.suspend(() =>
   S.Struct({
@@ -928,7 +948,7 @@ export const GetOpenIdTokenForDeveloperIdentityResponse = S.suspend(() =>
   identifier: "GetOpenIdTokenForDeveloperIdentityResponse",
 }) as any as S.Schema<GetOpenIdTokenForDeveloperIdentityResponse>;
 export interface ListIdentityPoolsResponse {
-  IdentityPools?: IdentityPoolsList;
+  IdentityPools?: IdentityPoolShortDescription[];
   NextToken?: string;
 }
 export const ListIdentityPoolsResponse = S.suspend(() =>
@@ -941,7 +961,7 @@ export const ListIdentityPoolsResponse = S.suspend(() =>
 }) as any as S.Schema<ListIdentityPoolsResponse>;
 export interface Credentials {
   AccessKeyId?: string;
-  SecretKey?: string | Redacted.Redacted<string>;
+  SecretKey?: string | redacted.Redacted<string>;
   SessionToken?: string;
   Expiration?: Date;
 }
@@ -967,8 +987,8 @@ export const GetCredentialsForIdentityResponse = S.suspend(() =>
 }) as any as S.Schema<GetCredentialsForIdentityResponse>;
 export interface SetIdentityPoolRolesInput {
   IdentityPoolId: string;
-  Roles: RolesMap;
-  RoleMappings?: RoleMappingMap;
+  Roles: { [key: string]: string };
+  RoleMappings?: { [key: string]: RoleMapping };
 }
 export const SetIdentityPoolRolesInput = S.suspend(() =>
   S.Struct({
@@ -1052,7 +1072,7 @@ export class ResourceConflictException extends S.TaggedError<ResourceConflictExc
  */
 export const deleteIdentities: (
   input: DeleteIdentitiesInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIdentitiesResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1077,7 +1097,7 @@ export const deleteIdentities: (
  */
 export const deleteIdentityPool: (
   input: DeleteIdentityPoolInput,
-) => Effect.Effect<
+) => effect.Effect<
   DeleteIdentityPoolResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1117,7 +1137,7 @@ export const deleteIdentityPool: (
  */
 export const getOpenIdTokenForDeveloperIdentity: (
   input: GetOpenIdTokenForDeveloperIdentityInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetOpenIdTokenForDeveloperIdentityResponse,
   | DeveloperUserAlreadyRegisteredException
   | InternalErrorException
@@ -1149,7 +1169,7 @@ export const getOpenIdTokenForDeveloperIdentity: (
  */
 export const setIdentityPoolRoles: (
   input: SetIdentityPoolRolesInput,
-) => Effect.Effect<
+) => effect.Effect<
   SetIdentityPoolRolesResponse,
   | ConcurrentModificationException
   | InternalErrorException
@@ -1182,7 +1202,7 @@ export const setIdentityPoolRoles: (
 export const listIdentityPools: {
   (
     input: ListIdentityPoolsInput,
-  ): Effect.Effect<
+  ): effect.Effect<
     ListIdentityPoolsResponse,
     | InternalErrorException
     | InvalidParameterException
@@ -1194,7 +1214,7 @@ export const listIdentityPools: {
   >;
   pages: (
     input: ListIdentityPoolsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     ListIdentityPoolsResponse,
     | InternalErrorException
     | InvalidParameterException
@@ -1206,7 +1226,7 @@ export const listIdentityPools: {
   >;
   items: (
     input: ListIdentityPoolsInput,
-  ) => Stream.Stream<
+  ) => stream.Stream<
     IdentityPoolShortDescription,
     | InternalErrorException
     | InvalidParameterException
@@ -1242,7 +1262,7 @@ export const listIdentityPools: {
  */
 export const describeIdentity: (
   input: DescribeIdentityInput,
-) => Effect.Effect<
+) => effect.Effect<
   IdentityDescription,
   | InternalErrorException
   | InvalidParameterException
@@ -1268,7 +1288,7 @@ export const describeIdentity: (
  */
 export const getPrincipalTagAttributeMap: (
   input: GetPrincipalTagAttributeMapInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetPrincipalTagAttributeMapResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1296,7 +1316,7 @@ export const getPrincipalTagAttributeMap: (
  */
 export const listIdentities: (
   input: ListIdentitiesInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListIdentitiesResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1326,7 +1346,7 @@ export const listIdentities: (
  */
 export const listTagsForResource: (
   input: ListTagsForResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   ListTagsForResourceResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1352,7 +1372,7 @@ export const listTagsForResource: (
  */
 export const setPrincipalTagAttributeMap: (
   input: SetPrincipalTagAttributeMapInput,
-) => Effect.Effect<
+) => effect.Effect<
   SetPrincipalTagAttributeMapResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1381,7 +1401,7 @@ export const setPrincipalTagAttributeMap: (
  */
 export const describeIdentityPool: (
   input: DescribeIdentityPoolInput,
-) => Effect.Effect<
+) => effect.Effect<
   IdentityPool,
   | InternalErrorException
   | InvalidParameterException
@@ -1423,7 +1443,7 @@ export const describeIdentityPool: (
  */
 export const tagResource: (
   input: TagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   TagResourceResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1449,7 +1469,7 @@ export const tagResource: (
  */
 export const untagResource: (
   input: UntagResourceInput,
-) => Effect.Effect<
+) => effect.Effect<
   UntagResourceResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1479,7 +1499,7 @@ export const untagResource: (
  */
 export const updateIdentityPool: (
   input: IdentityPool,
-) => Effect.Effect<
+) => effect.Effect<
   IdentityPool,
   | ConcurrentModificationException
   | InternalErrorException
@@ -1513,7 +1533,7 @@ export const updateIdentityPool: (
  */
 export const getIdentityPoolRoles: (
   input: GetIdentityPoolRolesInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetIdentityPoolRolesResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1558,7 +1578,7 @@ export const getIdentityPoolRoles: (
  */
 export const lookupDeveloperIdentity: (
   input: LookupDeveloperIdentityInput,
-) => Effect.Effect<
+) => effect.Effect<
   LookupDeveloperIdentityResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1600,7 +1620,7 @@ export const lookupDeveloperIdentity: (
  */
 export const mergeDeveloperIdentities: (
   input: MergeDeveloperIdentitiesInput,
-) => Effect.Effect<
+) => effect.Effect<
   MergeDeveloperIdentitiesResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1631,7 +1651,7 @@ export const mergeDeveloperIdentities: (
  */
 export const unlinkIdentity: (
   input: UnlinkIdentityInput,
-) => Effect.Effect<
+) => effect.Effect<
   UnlinkIdentityResponse,
   | ExternalServiceException
   | InternalErrorException
@@ -1666,7 +1686,7 @@ export const unlinkIdentity: (
  */
 export const unlinkDeveloperIdentity: (
   input: UnlinkDeveloperIdentityInput,
-) => Effect.Effect<
+) => effect.Effect<
   UnlinkDeveloperIdentityResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1699,7 +1719,7 @@ export const unlinkDeveloperIdentity: (
  */
 export const getOpenIdToken: (
   input: GetOpenIdTokenInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetOpenIdTokenResponse,
   | ExternalServiceException
   | InternalErrorException
@@ -1747,7 +1767,7 @@ export const getOpenIdToken: (
  */
 export const createIdentityPool: (
   input: CreateIdentityPoolInput,
-) => Effect.Effect<
+) => effect.Effect<
   IdentityPool,
   | InternalErrorException
   | InvalidParameterException
@@ -1777,7 +1797,7 @@ export const createIdentityPool: (
  */
 export const getId: (
   input: GetIdInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetIdResponse,
   | ExternalServiceException
   | InternalErrorException
@@ -1812,7 +1832,7 @@ export const getId: (
  */
 export const getCredentialsForIdentity: (
   input: GetCredentialsForIdentityInput,
-) => Effect.Effect<
+) => effect.Effect<
   GetCredentialsForIdentityResponse,
   | ExternalServiceException
   | InternalErrorException
